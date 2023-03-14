@@ -1256,31 +1256,32 @@ $Project $EPROJ
 		$Lib    videocfg							[$WINDOWS||$OSXALL||($LINUXALL&&!$DEDICATED)]
 		$Lib	vtf
 		$Lib	vgui_controls						[!$DEDICATED]
-		$Lib	"$LIBPUBLIC/steamdatagramlib"		[!$VS2015]
-		$Lib	"$LIBPUBLIC/2015/steamdatagramlib"	[$VS2015]
+		//$Lib	"$LIBPUBLIC/steamdatagramlib"		[!$VS2015]
+		//$Lib	"$LIBPUBLIC/2015/steamdatagramlib"	[$VS2015]
 
-		$Lib	"$SRCDIR\lib\common\vc7\bzip2"		[!$POSIX && !$WIN64 && !$VS2015]
-		$Lib	"$SRCDIR\lib\common\x64\bzip2"		[!$POSIX &&  $WIN64 && !$VS2015]
-		$Lib	"$SRCDIR\lib\common\vc14\bzip2"		[!$POSIX && !$WIN64 && $VS2015]
-		$Lib	"$SRCDIR\lib\common\vc14\x64\bzip2"	[!$POSIX &&  $WIN64 && $VS2015]
+		//$Lib	"$SRCDIR\lib\common\vc7\bzip2"		[!$POSIX && !$WIN64 && !$VS2015]
+		//$Lib	"$SRCDIR\lib\common\x64\bzip2"		[!$POSIX &&  $WIN64 && !$VS2015]
+		//$Lib	"$SRCDIR\lib\common\vc14\bzip2"		[!$POSIX && !$WIN64 && $VS2015]
+		//$Lib	"$SRCDIR\lib\common\vc14\x64\bzip2"	[!$POSIX &&  $WIN64 && $VS2015]
+		//$Lib	"$LIBCOMMON\bzip2"					[$POSIX]
+		$Lib bzip2
 
-		$Lib	"$LIBCOMMON\bzip2"					[$POSIX]
 		$Lib	"$LIBCOMMON\jpeglib" [$WINDOWS || $OSXALL || ($LINUX && !$DEDICATED)]
 
 		$File	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dsound.lib"		[$WINDOWS]
 		$File	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dxguid.lib"		[$WINDOWS]
 
-		$LibExternal	libprotobuf [!$VS2013 && !$VS2015]
-		$LibExternal	$LIBPUBLIC\2013\libprotobuf [$VS2013]
-		$LibExternal	$LIBPUBLIC\2015\libprotobuf [$VS2015]
-		{
-			$Configuration "Debug" { $ExcludedFromBuild "Yes" }
-		}
-
-		$LibExternal	$LIBPUBLIC\2015\debug\libprotobuf [$VS2015]
-		{
-			$Configuration "Release" { $ExcludedFromBuild "Yes" }
-		}
+//		$LibExternal	libprotobuf [!$VS2013 && !$VS2015]
+//		$LibExternal	$LIBPUBLIC\2013\libprotobuf [$VS2013]
+//		$LibExternal	$LIBPUBLIC\2015\libprotobuf [$VS2015]
+//		{
+//			$Configuration "Debug" { $ExcludedFromBuild "Yes" }
+//		}
+//
+//		$LibExternal	$LIBPUBLIC\2015\debug\libprotobuf [$VS2015]
+//		{
+//			$Configuration "Release" { $ExcludedFromBuild "Yes" }
+//		}
 
 		$Libexternal	"$LIBCOMMON/libcurlssl" [$LINUXALL&&!$DEDICATED]
 		$Libexternal	"$LIBCOMMON/libssl" [$LINUXALL&&!$DEDICATED]

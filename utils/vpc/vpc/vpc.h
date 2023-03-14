@@ -335,18 +335,20 @@ public:
     bool        IsPerFileCompileConfigEnabled() { return m_bPerFileCompileConfig; }
     bool		IsLibWithinLibEnabled()			{ return m_bAllowLibWithinLib; }
     
-	bool		Is2005()						{ return !m_bUse2010 && !m_bUse2012 && !m_bUse2013 && !m_bUse2015; }
+	bool		Is2005()						{ return !m_bUse2010 && !m_bUse2012 && !m_bUse2013 && !m_bUse2015 && !m_bUse2022; }
 	// Note that internally to VPC this returns true when Is2012() or Is2013() or Is2015() return true because they use
 	// the VS 2010 file format.
 	bool		Is2010()						{ return m_bUse2010; }
 	bool		Is2012()						{ return m_bUse2012; }
 	bool		Is2013()						{ return m_bUse2013; }
 	bool		Is2015()						{ return m_bUse2015; }
+	bool		Is2022()						{ return m_bUse2022; }
 
 	bool		PrefersVS2010()					{ return m_bPreferVS2010; }
 	bool		PrefersVS2012()					{ return m_bPreferVS2012; }
 	bool		PrefersVS2013()					{ return m_bPreferVS2013; }
 	bool		PrefersVS2015()					{ return m_bPreferVS2015; }
+	bool		PrefersVS2022()					{ return m_bPreferVS2022; }
   
 	bool		IsForceRebuildCache()			{ return m_bForceRebuildCache; }
 	bool		IsDedicatedBuild()				{ return m_bDedicatedBuild; }
@@ -553,6 +555,8 @@ private:
 	bool					m_bPreferVS2013;
 	bool					m_bUse2015;
 	bool					m_bPreferVS2015;
+	bool					m_bUse2022;
+	bool					m_bPreferVS2022;
 	bool					m_bSourceControl;
 	bool					m_bAllowOSMacro;
 	bool					m_bCRCCheckInProject;

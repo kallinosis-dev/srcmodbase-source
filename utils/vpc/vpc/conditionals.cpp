@@ -151,6 +151,9 @@ const char *CVPC::GetTargetCompilerName()
 
 		if ( IsConditionalDefined( "VS2015" ) )
 			return "VS2015";
+
+		if ( IsConditionalDefined( "VS2022" ) )
+			return "VS2022";
 	}
     else if ( VPC_IsPlatformLinux( pPlatformName ) || VPC_IsPlatformAndroid( pPlatformName ) )
     {
@@ -300,6 +303,10 @@ void CVPC::SetConditional( const char *pString, bool bSet, conditionalType_e con
 		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "PREFER_VS2015" ) )
 		{
 			m_bPreferVS2015 = bSet;
+		}
+		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "PREFER_VS2022" ) )
+		{
+			m_bPreferVS2022 = bSet;
 		}
 		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "ALLOW_QT" ) )
 		{

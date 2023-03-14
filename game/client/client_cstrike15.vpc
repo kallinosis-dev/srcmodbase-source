@@ -649,10 +649,6 @@ $Project "Client (CSGO)"
 		$Lib	"$LIBPUBLIC\vgui_controls"
 		$Lib	"$LIBPUBLIC\vtf"	
 		$Lib	"$LIBCOMMON\fileextd"		[$WINDOWS && $CEG]
-		$Lib	"$SRCDIR\lib\common\vc7\bzip2"		[!$POSIX && !$WIN64 && !$VS2015]
-		$Lib	"$SRCDIR\lib\common\x64\bzip2"		[!$POSIX &&  $WIN64 && !$VS2015]
-		$Lib	"$SRCDIR\lib\common\vc14\bzip2"		[!$POSIX && !$WIN64 && $VS2015]
-		$Lib	"$SRCDIR\lib\common\vc14\x64\bzip2"		[!$POSIX &&  $WIN64 && $VS2015]
-		$Lib	"$SRCDIR\lib\common\$PLATFORM\bzip2" [$POSIX]
+		$Lib 	"bzip2"
 	}
 }

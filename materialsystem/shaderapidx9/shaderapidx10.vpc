@@ -146,12 +146,11 @@ $Project "shaderapidx10"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\bitmap.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\common\vc7\bzip2.lib" [!$VS2015]
-		$File	"$SRCDIR\lib\common\vc14\bzip2.lib" [$VS2015]
-		$File	"$SRCDIR\lib\public\videocfg.lib"
+		$File	"tier2.lib"
+		$File	"bitmap.lib"
+		$File	"mathlib.lib"
+		$File 	"bzip2"
+		$File	"videocfg.lib"
 		$File	"$SRCDIR\dx10sdk\lib\x86\d3d9.lib" 
 		$File	"$SRCDIR\dx10sdk\lib\x86\d3d10.lib" 
 		$File	"$SRCDIR\dx10sdk\lib\x86\dxgi.lib" 

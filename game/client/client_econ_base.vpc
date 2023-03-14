@@ -79,8 +79,8 @@ $Project
 
 	$Folder "Link Libraries" [$WINDOWS]
 	{
-		$File		"$SRCDIR\lib\common\libpng$PLATSUBDIR\libpng.lib" [!$VS2015]
-		$File		"$SRCDIR\lib\common\libpng$PLATSUBDIR\2015\libpng.lib" [$VS2015]
+		$File		"$SRCDIR\lib\common\libpng$PLATSUBDIR\libpng.lib" [!($VS2015 || $VS2022)]
+		$File		"$SRCDIR\lib\common\libpng$PLATSUBDIR\2015\libpng.lib" [($VS2015 || $VS2022)]
 	}
 	
 	$Folder	"Link Libraries" [$POSIX]

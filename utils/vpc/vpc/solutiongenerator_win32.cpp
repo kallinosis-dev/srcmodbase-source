@@ -165,7 +165,12 @@ public:
 		if ( !fp )
 			g_pVPC->VPCError( "Can't open %s for writing.", pSolutionFilename );
 
-		if ( g_pVPC->Is2015() )
+		if ( g_pVPC->Is2022() )
+		{
+			fprintf( fp, "\xef\xbb\xbf\nMicrosoft Visual Studio Solution File, Format Version 14.00\n" );
+			fprintf( fp, "# Visual Studio 2022\n" );
+		}
+		else if ( g_pVPC->Is2015() )
 		{
 			fprintf( fp, "\xef\xbb\xbf\nMicrosoft Visual Studio Solution File, Format Version 14.00\n" );
 			fprintf( fp, "# Visual Studio 2015\n" );

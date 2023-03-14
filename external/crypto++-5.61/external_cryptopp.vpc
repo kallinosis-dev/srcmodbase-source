@@ -26,8 +26,8 @@ $Configuration "Debug"
 {
 	$Linker
 	{
-		$AdditionalDependencies					"$BASE $SRCDIR\lib\$PLATFORM\debug\cryptlib.lib" [$WINDOWS && !$VS2015]
-		$AdditionalDependencies					"$BASE $SRCDIR\lib\$PLATFORM\2015\debug\cryptlib.lib" [$WINDOWS && $VS2015]
+		$AdditionalDependencies					"$BASE $SRCDIR\lib\$PLATFORM\debug\cryptlib.lib" [$WINDOWS && !($VS2015 || $VS2022)]
+		$AdditionalDependencies					"$BASE $SRCDIR\lib\$PLATFORM\2015\debug\cryptlib.lib" [$WINDOWS && ($VS2015 || $VS2022)]
 	}
 }
 
@@ -35,7 +35,7 @@ $Configuration "Release"
 {
 	$Linker
 	{
-		$AdditionalDependencies					"$BASE $SRCDIR\lib\$PLATFORM\release\cryptlib.lib" [$WINDOWS && !$VS2015]
-		$AdditionalDependencies					"$BASE $SRCDIR\lib\$PLATFORM\2015\release\cryptlib.lib" [$WINDOWS && $VS2015]
+		$AdditionalDependencies					"$BASE $SRCDIR\lib\$PLATFORM\release\cryptlib.lib" [$WINDOWS && !($VS2015 || $VS2022)]
+		$AdditionalDependencies					"$BASE $SRCDIR\lib\$PLATFORM\2015\release\cryptlib.lib" [$WINDOWS && ($VS2015 || $VS2022)]
 	}
 }

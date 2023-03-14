@@ -17,6 +17,6 @@ $Configuration
 	{
 		$AdditionalIncludeDirectories	"$BASE;$FBXDIR\include"
 		$PreprocessorDefinitions		"$BASE;FBXSDK_NEW_API"
-		$PreprocessorDefinitions		"$BASE;FBXSDK_SHARED"	[$VS2012 || $VS2013 || $VS2015]
+		$PreprocessorDefinitions		"$BASE;FBXSDK_SHARED"	[$VS2012 || $VS2013 || $VS2015 || $VS2022]
 	}
 }
