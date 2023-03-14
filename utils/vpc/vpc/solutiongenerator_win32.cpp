@@ -20,91 +20,11 @@ struct SolutionFolderData_t
 
 class CSolutionGenerator_Win32 : public IBaseSolutionGenerator
 {
+	// Hardcoded in CMake, see cmGlobalVisualStudio7Generator.cxx
+	char const* SolutionGUID = "8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942";
+
 public:
-	void GetVCPROJSolutionGUID( const char *szProjectExtension, char (&szSolutionGUID)[256] )
-	{
-#if defined( PLATFORM_WINDOWS )
-		HKEY hKey;
-		int firstVer = 8;
-		const int lastVer = 14; // Handle up to VS 14, AKA VS 2015
-
-		if ( g_pVPC->Is2010() )
-		{
-			firstVer = 10;
-		}
-
-		// Handle both VisualStudio and VCExpress (used by some SourceSDK customers)
-		const char* productName[] =
-		{
-			"VisualStudio",
-			"VCExpress",
-		};
-
-		for ( int nLocationIter = 0; nLocationIter < 2; ++nLocationIter ) //for some reason I don't care to investigate there are more keys available at HKEY_CURRENT_USER\\Software\\Microsoft\\%s\\%d.0_Config\\Projects (androidproj support)
-		{
-			for ( int vsVer = firstVer; vsVer <= lastVer; ++vsVer )
-			{
-				for ( int productNumber = 0; productNumber < ARRAYSIZE(productName); ++productNumber )
-				{
-					LONG ret;
-					if ( nLocationIter == 0 )
-					{
-#if defined( _WIN64 )
-						#define WOW6432NODESTR	"Software\\Wow6432Node"
-#else
-						#define WOW6432NODESTR	"Software"
-#endif
-						ret = RegOpenKeyEx( HKEY_LOCAL_MACHINE, CFmtStrN<1024>( WOW6432NODESTR "\\Microsoft\\%s\\%d.0\\Projects", productName[ productNumber ], vsVer ).Get(), 0, KEY_READ, &hKey );
-					}
-					else if ( nLocationIter == 1 )
-					{
-						ret = RegOpenKeyEx( HKEY_CURRENT_USER, CFmtStrN<1024>( "Software\\Microsoft\\%s\\%d.0_Config\\Projects", productName[ productNumber ], vsVer ).Get(), 0, KEY_READ, &hKey );
-					}
-					else
-					{
-						UNREACHABLE();
-					}
-
-					if ( ret != ERROR_SUCCESS )
-						continue;
-
-					int nEnumKey = 0;
-					do
-					{
-						char szKeyName[MAX_FIXED_PATH];	
-						DWORD dwKeyNameSize = sizeof( szKeyName );
-						ret = RegEnumKeyEx( hKey, nEnumKey++, szKeyName, &dwKeyNameSize, NULL, NULL, NULL, NULL );
-						if ( ret == ERROR_NO_MORE_ITEMS )
-							break;
-
-						HKEY hSubKey;
-						ret = RegOpenKeyEx( hKey, szKeyName, 0, KEY_READ, &hSubKey );
-						if ( ret == ERROR_SUCCESS )
-						{						
-							DWORD dwType;
-							char ext[MAX_BASE_FILENAME];
-							DWORD dwExtLen = sizeof( ext );
-							ret = RegQueryValueEx( hSubKey, "DefaultProjectExtension", NULL, &dwType, (BYTE*)ext, &dwExtLen );
-							RegCloseKey( hSubKey );
-
-							// VS 2012 and beyond has the DefaultProjectExtension as vcxproj instead of vcproj
-							if ( (ret == ERROR_SUCCESS) && (dwType == REG_SZ) && V_stricmp_fast( ext, szProjectExtension ) == 0 )
-							{
-								V_strncpy( szSolutionGUID, szKeyName, ARRAYSIZE(szSolutionGUID) );
-								RegCloseKey( hKey );
-								return;
-							}
-						}
-					}
-					while( true );
-
-					RegCloseKey( hKey );
-				}
-			}
-		}
-#endif
-		g_pVPC->VPCError( "Unable to find RegKey for .%s files in solutions.", szProjectExtension );
-	}
+	
 
 	const char *UpdateProjectFilename( const char *pProjectFilename, CUtlPathStringHolder *pUpdateBuffer )
 	{
@@ -243,9 +163,6 @@ public:
 			if ( !V_MakeRelativePath( pFullProjectFilename, g_pVPC->GetSourcePath(), szRelativeFilename, sizeof( szRelativeFilename ) ) )
 				g_pVPC->VPCError( "Can't make a relative path (to the base source directory) for %s.", pFullProjectFilename );
 
-			char szSolutionGUID[256];
-			GetVCPROJSolutionGUID( V_GetFileExtension( szRelativeFilename ), szSolutionGUID );
-
 			if ( g_pVPC->Is2010() )
 			{
 				char *pLastDot;
@@ -261,11 +178,11 @@ public:
 					*pLastDot = 0;
 				}
 
-				fprintf( fp, "Project(\"%s\") = \"%s\", \"%s\", \"{%s}\"\n", szSolutionGUID, pProjectName, szRelativeFilename, pCurProject->GetProjectGUIDString() );
+				fprintf( fp, "Project(\"%s\") = \"%s\", \"%s\", \"{%s}\"\n", SolutionGUID, pProjectName, szRelativeFilename, pCurProject->GetProjectGUIDString() );
 			}
 			else
 			{
-				fprintf( fp, "Project(\"%s\") = \"%s\", \"%s\", \"{%s}\"\n", szSolutionGUID, pCurProject->GetName(), szRelativeFilename, pCurProject->GetProjectGUIDString() );
+				fprintf( fp, "Project(\"%s\") = \"%s\", \"%s\", \"{%s}\"\n", SolutionGUID, pCurProject->GetName(), szRelativeFilename, pCurProject->GetProjectGUIDString() );
 			}
 			bool bHasDependencies = false;
 
