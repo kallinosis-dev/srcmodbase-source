@@ -94,11 +94,13 @@ artifacts/
 *.obj
 *.pch
 *.pdb
+!dx9sdk/utilities/*.pdb
 *.pgc
 *.pgd
 *.rsp
 *.sbr
 *.tlb
+!dx9sdk/include/*.tlb
 *.tli
 *.tlh
 *.tmp
