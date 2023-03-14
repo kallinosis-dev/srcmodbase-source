@@ -302,6 +302,6 @@ paket-files/
 *.sln
 
 # VPC stuff
-
 _vpc_/
 *.vpc.vpc_cache
+*.vpc_deps

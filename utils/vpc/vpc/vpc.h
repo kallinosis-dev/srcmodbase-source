@@ -512,9 +512,11 @@ private:
 	const char				*BuildTempGroupScript( const char *pScriptName );
 
 	bool					HandleP4SLN( IBaseSolutionGenerator *pSolutionGenerator );
+	bool					AreSolutionDepenenciesActual(CUtlPathStringHolder dependenciesPath, const CUtlVector<CDependency_Project*>& referencedProjects);
+	void					WriteSolutionDependencies(CUtlPathStringHolder dependenciesPath, const CUtlVector<CDependency_Project*>& referencedProjects);
 	void					HandleMKSLN( IBaseSolutionGenerator *pSolutionGenerator,
-                                         IBaseSolutionGenerator *pSolutionGenerator2,
-                                         CProjectDependencyGraph &dependencyGraph );
+	                                     IBaseSolutionGenerator *pSolutionGenerator2,
+	                                     CProjectDependencyGraph &dependencyGraph );
 
 	void					GenerateBuildSet( CProjectDependencyGraph &dependencyGraph );
 	bool					BuildTargetProjects();

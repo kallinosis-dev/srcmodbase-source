@@ -3004,6 +3004,73 @@ bool CVPC::HandleP4SLN( IBaseSolutionGenerator *pSolutionGenerator )
 #endif
 }
 
+bool CVPC::AreSolutionDepenenciesActual(CUtlPathStringHolder dependenciesPath,
+	const CUtlVector<CDependency_Project*>& referencedProjects)
+{
+	if (!Sys_Exists(dependenciesPath))
+		return false;
+
+	CUtlBuffer dependsFileTemp;
+
+	if (!Sys_LoadFileIntoBuffer(dependenciesPath, dependsFileTemp, true))
+	{
+		g_pVPC->VPCWarning("Error reading dependencies file %s", dependenciesPath.Get());
+		return false;
+	}
+
+	CUtlInplaceBuffer dependsFile(0, 0, CUtlBuffer::TEXT_BUFFER);
+	if (!dependsFileTemp.ConvertCRLF(dependsFile))
+		dependsFile.SwapCopy(dependsFileTemp);
+
+	CUtlDict<bool> dependeciesDict{ k_eDictCompareTypeCaseSensitive, referencedProjects.Count() };
+
+
+	for (auto refproj : referencedProjects)
+		dependeciesDict.Insert(refproj->GetProjectFileName(), false);
+
+
+	char* rawLine;
+	int rawLineLen;
+	char lineBuffer[512];
+
+
+	while (dependsFile.InplaceGetLinePtr(&rawLine, &rawLineLen))
+	{
+		V_strncpy(lineBuffer, rawLine, rawLineLen);
+
+
+		auto i = dependeciesDict.Find(lineBuffer);
+
+		if (!dependeciesDict.IsValidIndex(i)) // This project is not present in current run, but did in previous
+			return false;
+
+		dependeciesDict.Element(i) = true;
+	}
+
+	for (uint i = 0; i < dependeciesDict.Count(); ++i)
+		if (dependeciesDict.IsValidIndex(i))
+			if (dependeciesDict.Element(i) == false) // This project is present in current run, but not in previous
+				return false;
+
+	return true;
+}
+
+void CVPC::WriteSolutionDependencies(CUtlPathStringHolder dependenciesPath,
+	const CUtlVector<CDependency_Project*>& referencedProjects)
+{
+	FILE* file;
+	if (fopen_s(&file, dependenciesPath, "wt") != 0)
+	{
+		g_pVPC->VPCWarning("Error opening solution dependencies file (%s) for write", dependenciesPath.Get());
+		return;
+	}
+
+	for (auto refproj : referencedProjects)
+		fprintf_s(file, "%s\n", refproj->GetProjectFileName());
+
+	fclose(file);
+}
+
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 void CVPC::HandleMKSLN( IBaseSolutionGenerator *pSolutionGenerator,
@@ -3051,6 +3118,17 @@ void CVPC::HandleMKSLN( IBaseSolutionGenerator *pSolutionGenerator,
 
 	//strip off any specified extension and let the generators append their own
 	fullSolutionPath.StripExtension();
+	
+	CUtlPathStringHolder dependenciesPath = fullSolutionPath;
+	dependenciesPath.Append(".vpc_deps");
+
+	if(!m_bForceGenerate && AreSolutionDepenenciesActual(dependenciesPath, referencedProjects))
+	{
+		VPCStatus(true, "Keeping current solution.");
+		return;
+	}
+
+	VPCStatus(true, "(Re)generating solution...");
 
 	pSolutionGenerator->GenerateSolutionFile( fullSolutionPath, referencedProjects );
     
@@ -3058,6 +3136,9 @@ void CVPC::HandleMKSLN( IBaseSolutionGenerator *pSolutionGenerator,
     {
         pSolutionGenerator2->GenerateSolutionFile( fullSolutionPath, referencedProjects );
     }
+
+	VPCStatus(true, "Updating solution dependencies file...");
+	WriteSolutionDependencies(dependenciesPath, referencedProjects);
 }
 
 //-----------------------------------------------------------------------------
