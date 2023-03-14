@@ -1,2 +1,2 @@
-devtools\bin\vpc.exe /csgo +csgo_partner /mksln csgo_partner.sln
+devtools\bin\vpc.exe /csgo +everything /mksln everything.sln
 pause
