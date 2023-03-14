@@ -65,7 +65,7 @@ float Vector3::staticVar = 898.434f;
       // would not be needed. The issue is duplicate compiler matching for const SQChar * and Push():
       // Push(const SQChar * &) and Push(const SQChar *) both match.
       // The typeid() compiler function may not be portable to other compilers.
-#include <typeinfo.h>
+#include <typeinfo>
 template<typename TYPE>
 inline const SQChar * GetTypeName(const TYPE & n)            { return typeid(TYPE).name(); }
 template<typename TYPE>

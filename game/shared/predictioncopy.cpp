@@ -12,7 +12,7 @@
 #include "igamesystem.h"
 #ifndef _PS3
 #ifdef WIN32
-#include <typeinfo.h>
+#include <typeinfo>
 #else
 #include <typeinfo>
 #endif
