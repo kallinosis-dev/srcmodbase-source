@@ -154,9 +154,8 @@ private:
 //-----------------------------------------------------------------------------
 // global instance
 //-----------------------------------------------------------------------------
-CP4 p4Impl;
-IP4* p4 = &p4Impl;
-EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CP4, IP4, P4_INTERFACE_VERSION, p4Impl );
+static CP4 g_p4;
+EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CP4, IP4, P4_INTERFACE_VERSION, g_p4);
 
 
 #ifdef PEFORCE_IMPL
@@ -2477,5 +2476,23 @@ const char *CP4::GetLastError()
 	return g_ErrorHandlerUser.GetErrorString();
 #else
 	return "Peforce support disabled in code";
+#endif
+}
+
+bool CP4::SyncFile(const char* pFullPath, int nRevision)
+{
+#ifdef PEFORCE_IMPL
+#error
+#else
+	return false;
+#endif
+}
+
+void CP4::GetFileListInChangelist(unsigned changeListNumber, CUtlVector<P4File_t>& fileList)
+{
+#ifdef PEFORCE_IMPL
+#error
+#else
+	fileList.RemoveAll();
 #endif
 }
