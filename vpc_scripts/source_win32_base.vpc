@@ -9,7 +9,8 @@ $Configuration
 		$PlatformToolset "v110" [$VS2012 && $ANALYZE] // VS 2012 for /analyze
 		$PlatformToolset "v120_xp" [$VS2013 && !$ANALYZE] // VS 2013 targeting Windows XP - http://msdn.microsoft.com/en-us/library/vstudio/jj851139.aspx
 		$PlatformToolset "v120" [$VS2013 && $ANALYZE] // VS 2013 for /analyze
-		$PlatformToolset "v140" [$VS2015]
+		$PlatformToolset "v140" [$VS2015 && 0]
+		$PlatformToolset "v143" [$VS2022 || 1]
 	}
 
 	$General
@@ -127,8 +128,8 @@ $Configuration
 		$DisableSpecificWarnings	"$BASE;4711" //(1) function 'function' selected for automatic inline expansion
 		$DisableSpecificWarnings	"$BASE;4738" //(3X) storing 32-bit float result in memory, possible loss of performance
 		$DisableSpecificWarnings	"$BASE;4748" //(?) /GS can not protect parameters and local variables from local buffer overrun because optimizations are disabled in function
-		$DisableSpecificWarnings	"$BASE;4774" //(4X) ‘<function>’ : format string expected in argument <position> is not a string literal
-		$DisableSpecificWarnings	"$BASE;4777" //(4X) ‘<function>’ : format string ‘<format-string>’ requires an argument of type ‘<type>’, but variadic argument <position> has type ‘<type>’
+		$DisableSpecificWarnings	"$BASE;4774" //(4X) ï¿½<function>ï¿½ : format string expected in argument <position> is not a string literal
+		$DisableSpecificWarnings	"$BASE;4777" //(4X) ï¿½<function>ï¿½ : format string ï¿½<format-string>ï¿½ requires an argument of type ï¿½<type>ï¿½, but variadic argument <position> has type ï¿½<type>ï¿½
 		$DisableSpecificWarnings	"$BASE;4786" //(?X) long symbol name
 		$DisableSpecificWarnings	"$BASE;4820" //(4X) 'bytes' bytes padding added after construct 'member_name'
 		$DisableSpecificWarnings	"$BASE;4826" //(2X) Conversion from 'type1 ' to 'type_2' is sign-extended. This may cause unexpected runtime behavior.
