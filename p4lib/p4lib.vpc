@@ -11,12 +11,12 @@ $Include "$SRCDIR\vpc_scripts\source_dll_win32_base.vpc"
 
 $Configuration
 {
-	$Compiler
+	$Compiler [0]
 	{
 		$AdditionalIncludeDirectories		"$BASE,$SRCDIR\common\p4api"
 	}
 
-	$Linker
+	$Linker [0]
 	{
 		$AdditionalDependencies				"wsock32.lib"
 	}
@@ -34,7 +34,7 @@ $Project "P4lib"
 		$File	"$SRCDIR\public\p4lib\ip4.h"
 	}
 
-	$Folder "Link Libraries"
+	$Folder "Link Libraries" [0]
 	{
 		$File	"$SRCDIR\lib\common\libclient.lib"
 		$File	"$SRCDIR\lib\common\librpc.lib"

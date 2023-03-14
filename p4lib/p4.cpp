@@ -4,20 +4,22 @@
 //
 //=============================================================================
 
-// prevent Error function from being defined, since it inteferes with the P4 API
-#define Error Warning
+//// prevent Error function from being defined, since it inteferes with the P4 API
+//#define Error Warning
 #include "p4lib/ip4.h"
 #include "tier1/UtlVector.h"
 #include "tier1/UtlSymbol.h"
 #include "tier1/UtlBuffer.h"
 #include "tier1/utlstring.h"
 #include "tier1/utlmap.h"
-#undef Error
+//#undef Error
 
 #include "filesystem.h"
 
-#undef Verify
+//#undef Verify
+#ifdef PEFORCE_IMPL
 #include "clientapi.h"
+#endif
 
 #include <time.h>
 #include <ctype.h>
@@ -28,7 +30,7 @@
 
 #define CLIENTSPEC_BUFFER_SIZE		(8 * 1024)
 
-
+#ifdef PEFORCE_IMPL
 //-----------------------------------------------------------------------------
 // Stores info about the client path
 //-----------------------------------------------------------------------------
@@ -44,7 +46,7 @@ struct CClientPathRecord
 // Global interfaces
 //-----------------------------------------------------------------------------
 static IFileSystem *g_pFileSystem;
-
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Interface to accessing P4 commands
@@ -56,62 +58,68 @@ public:
 	virtual ~CP4();
 
 	// Methods of IAppSystem
-	virtual bool Connect( CreateInterfaceFn factory );
-	virtual InitReturnVal_t Init();
-	virtual void *QueryInterface( const char *pInterfaceName );
-	virtual void Shutdown();
-	virtual void Disconnect();
+	bool Connect( CreateInterfaceFn factory ) override;
+	InitReturnVal_t Init() override;
+	void *QueryInterface( const char *pInterfaceName ) override;
+	void Shutdown() override;
+	void Disconnect() override;
 
 	// Inherited from IP4
-	P4Client_t &GetActiveClient();
- 	virtual void RefreshActiveClient();
-	virtual void SetActiveClient(const char *clientname);
-	virtual void GetDepotFilePath(char *depotFilePath, const char *filespec, int size);
-	virtual void GetClientFilePath(char *clientFilePath, const char *filespec, int size);
-	virtual void GetLocalFilePath(char *localFilePath, const char *filespec, int size);
-	virtual CUtlVector<P4File_t> &GetFileList(const char *path);
-	virtual CUtlVector<P4File_t> &GetFileListUsingClientSpec( const char *pPath, const char *pClientSpec );
-	virtual void GetOpenedFileList( CUtlVector<P4File_t> &fileList );
-	virtual void GetOpenedFileList( const char *pRootDirectory, CUtlVector<P4File_t> &fileList );
-	virtual void GetOpenedFileListInPath( const char *pPathID, CUtlVector<P4File_t> &fileList );
-	virtual CUtlVector<P4Revision_t> &GetRevisionList(const char *path, bool bIsDir);
-	virtual CUtlVector<P4Client_t> &GetClientList();
-	virtual void RemovePathFromActiveClientspec(const char *path);
-	virtual void SetOpenFileChangeList( const char *pChangeListName );
-	virtual bool OpenFileForAdd( const char *fullpath );
-	virtual bool OpenFileForEdit(const char *fullpath);
-	virtual bool OpenFileForDelete(const char *fullpath);
-	virtual bool SubmitFile( const char *pFullPath, const char *pDescription );
-	virtual bool RevertFile( const char *pFullPath );
-	virtual bool OpenFilesForAdd( int nCount, const char **ppFullPathList );
-	virtual bool OpenFilesForEdit( int nCount, const char **ppFullPathList );
-	virtual bool OpenFilesForDelete( int nCount, const char **ppFullPathList );
-	virtual bool SubmitFiles( int nCount, const char **ppFullPathList, const char *pDescription );
-	virtual bool RevertFiles( int nCount, const char **ppFullPathList );
-	virtual bool IsFileInPerforce( const char *fullpath );
-	virtual P4FileState_t GetFileState( const char *pFullPath );
-	virtual bool GetFileInfo( const char *pFullPath, P4File_t *pFileInfo );
+	P4Client_t &GetActiveClient() override;
+	void RefreshActiveClient() override;
+	void SetActiveClient(const char *clientname) override;
+	void GetDepotFilePath(char *depotFilePath, const char *filespec, int size) override;
+	void GetClientFilePath(char *clientFilePath, const char *filespec, int size) override;
+	void GetLocalFilePath(char *localFilePath, const char *filespec, int size) override;
+	CUtlVector<P4File_t> &GetFileList(const char *path) override;
+	CUtlVector<P4File_t> &GetFileListUsingClientSpec( const char *pPath, const char *pClientSpec ) override;
+	void GetOpenedFileList( CUtlVector<P4File_t> &fileList, bool bDefaultChangeOnly) override;
+	void GetOpenedFileList( const char *pRootDirectory, CUtlVector<P4File_t> &fileList ) override;
+	void GetOpenedFileListInPath( const char *pPathID, CUtlVector<P4File_t> &fileList ) override;
+	CUtlVector<P4Revision_t> &GetRevisionList(const char *path, bool bIsDir) override;
+	CUtlVector<P4Client_t> &GetClientList() override;
+	void RemovePathFromActiveClientspec(const char *path) override;
+	void SetOpenFileChangeList( const char *pChangeListName ) override;
+	bool OpenFileForAdd( const char *fullpath ) override;
+	bool OpenFileForEdit(const char *fullpath) override;
+	bool OpenFileForDelete(const char *fullpath) override;
+	bool SubmitFile( const char *pFullPath, const char *pDescription ) override;
+	bool RevertFile( const char *pFullPath ) override;
+	bool OpenFilesForAdd( int nCount, const char **ppFullPathList ) override;
+	bool OpenFilesForEdit( int nCount, const char **ppFullPathList ) override;
+	bool OpenFilesForDelete( int nCount, const char **ppFullPathList ) override;
+	bool SubmitFiles( int nCount, const char **ppFullPathList, const char *pDescription ) override;
+	bool RevertFiles( int nCount, const char **ppFullPathList ) override;
+	bool IsFileInPerforce( const char *fullpath ) override;
+	P4FileState_t GetFileState( const char *pFullPath ) override;
+	bool GetFileInfo( const char *pFullPath, P4File_t *pFileInfo ) override;
 
-	virtual const char *GetDepotRoot();
-	virtual int GetDepotRootLength();
-	virtual const char *GetLocalRoot();
-	virtual int GetLocalRootLength();
-	virtual const char *String( CUtlSymbol s ) const;
-	virtual bool GetClientSpecForFile( const char *pFullPath, char *pClientSpec, int nMaxLen );
-	virtual bool GetClientSpecForDirectory( const char *pFullPathDir, char *pClientSpec, int nMaxLen );
-	virtual bool GetClientSpecForPath( const char *pPathId, char *pClientSpec, int nMaxLen );
-	virtual void OpenFileInP4Win( const char *pFullPath );
-	virtual bool IsConnectedToServer( bool bRetry = true );
-	virtual const char *GetLastError();
+	const char *GetDepotRoot() override;
+	int GetDepotRootLength() override;
+	const char *GetLocalRoot() override;
+	int GetLocalRootLength() override;
+	const char *String( CUtlSymbol s ) const override;
+	bool GetClientSpecForFile( const char *pFullPath, char *pClientSpec, int nMaxLen ) override;
+	bool GetClientSpecForDirectory( const char *pFullPathDir, char *pClientSpec, int nMaxLen ) override;
+	bool GetClientSpecForPath( const char *pPathId, char *pClientSpec, int nMaxLen ) override;
+	void OpenFileInP4Win( const char *pFullPath ) override;
+	bool IsConnectedToServer( bool bRetry = true ) override;
+	const char *GetLastError() override;
+	bool SyncFile(const char* pFullPath, int nRevision) override;
+	void GetFileListInChangelist(unsigned changeListNumber, CUtlVector<P4File_t>& fileList) override;
 	char const * GetOpenFileChangeListNum(); // Returns NULL for default
 
 	// Convert a depot file to a local file user the current client mapping
 	bool DepotFileToLocalFile( const char *pDepotFile, char *pLocalFile, int nBufLen );
+	
 
+#ifdef PEFORCE_IMPL
 	// Accessors
 	ClientApi &GetClientApi() { return m_Client; }
 	ClientUser &GetClientUser() { return m_User; }
+#endif
 
+#ifdef PEFORCE_IMPL
 private:
 	// Helper for operations on multiple files
 	typedef void (*PerforceOp_t)( int nCount, const char **ppFullPathList, const char *pDescription );
@@ -123,7 +131,9 @@ private:
 	bool PerformPerforceOpCurChangeList( const char *pOperation, const char *pFullPath );
 
 	void RefreshClientData();
-
+public:
+	
+private:
 	bool m_bConnectedToServer;
 	P4Client_t m_ActiveClient;
 	CUtlVector< CClientPathRecord >	m_ClientMapping;
@@ -133,20 +143,23 @@ private:
 	int m_iLocalRootLength;
 	CUtlString m_sChangeListName, m_sCachedChangeListNum;
 	int m_nCachedChangeListNumber;
-
+	
 	// internal
 	ClientApi m_Client;
 	ClientUser m_User;
+#endif
 };
 
 
 //-----------------------------------------------------------------------------
 // global instance
 //-----------------------------------------------------------------------------
-CP4 p4;
-EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CP4, IP4, P4_INTERFACE_VERSION, p4 );
+CP4 p4Impl;
+IP4* p4 = &p4Impl;
+EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CP4, IP4, P4_INTERFACE_VERSION, p4Impl );
 
 
+#ifdef PEFORCE_IMPL
 //-----------------------------------------------------------------------------
 // Scoped class to push and pop a particular client spec 
 //-----------------------------------------------------------------------------
@@ -156,9 +169,11 @@ public:
 	CScopedClientSpec( const char *pClientSpec );	
 	~CScopedClientSpec();
 
+#ifdef PEFORCE_IMPL
 private:
 	char m_pOldClientSpec[MAX_PATH];
 	bool m_bClientSpecNeedsRestore;
+#endif
 };
 
 CScopedClientSpec::CScopedClientSpec( const char *pClientSpec )
@@ -1308,18 +1323,20 @@ find_changelists:
 		goto find_changelists;
 	}
 }
-
+#endif
 
 //-----------------------------------------------------------------------------
 // Destructor
 //-----------------------------------------------------------------------------
 CP4::~CP4()
 {
+#ifdef PEFORCE_IMPL
 	// Prevents a hang if Shutdown isn't called before the process exits
 	if ( m_bConnectedToServer )
 	{
 		Shutdown();
 	}
+#endif
 }
 
 
@@ -1328,13 +1345,19 @@ CP4::~CP4()
 //-----------------------------------------------------------------------------
 bool CP4::Connect( CreateInterfaceFn factory )
 {
+#ifdef PEFORCE_IMPL
 	g_pFileSystem = (IFileSystem*)factory( FILESYSTEM_INTERFACE_VERSION, NULL );
 	return ( g_pFileSystem != NULL );
+#else
+	return true;
+#endif
 }
 
 void CP4::Disconnect()
 {
+#ifdef PEFORCE_IMPL
 	g_pFileSystem = NULL;
+#endif
 }
 	
 
@@ -1343,6 +1366,7 @@ void CP4::Disconnect()
 //-----------------------------------------------------------------------------
 InitReturnVal_t CP4::Init()
 {
+#ifdef PEFORCE_IMPL
 	// set the protocol return all data as key/value pairs
 	m_Client.SetProtocol( "tag", "" );
 
@@ -1352,6 +1376,7 @@ InitReturnVal_t CP4::Init()
 	m_bConnectedToServer = e.Test() == 0;
 
 	RefreshClientData();
+#endif
 
 	return INIT_OK;
 }
@@ -1362,12 +1387,14 @@ InitReturnVal_t CP4::Init()
 //-----------------------------------------------------------------------------
 void CP4::Shutdown()
 {
+#ifdef PEFORCE_IMPL
 	Error e;
 	m_Client.Final(&e);
 	m_bConnectedToServer = false;
+#endif
 }
 
-
+#ifdef PEFORCE_IMPL
 //-----------------------------------------------------------------------------
 // Purpose: refreshes client data
 //-----------------------------------------------------------------------------
@@ -1392,6 +1419,7 @@ void CP4::RefreshClientData()
 
 	SetOpenFileChangeList( m_sChangeListName.String() );
 }
+#endif
 
 
 //-----------------------------------------------------------------------------
@@ -1399,6 +1427,7 @@ void CP4::RefreshClientData()
 //-----------------------------------------------------------------------------
 bool CP4::DepotFileToLocalFile( const char *pDepotFile, char *pLocalPath, int nBufLen )
 {
+#ifdef PEFORCE_IMPL
 	// Need to construct valid local paths since opened doesn't do it for us
 	char pClientPattern[MAX_PATH];
 	Q_snprintf( pClientPattern, sizeof(pClientPattern), "//%s/", m_Client.GetClient().Text() );
@@ -1458,6 +1487,9 @@ bool CP4::DepotFileToLocalFile( const char *pDepotFile, char *pLocalPath, int nB
 	}
 
 	return ( nMatchCount > 0 );
+#else
+	return false;
+#endif
 }
 
 
@@ -1466,10 +1498,12 @@ bool CP4::DepotFileToLocalFile( const char *pDepotFile, char *pLocalPath, int nB
 //-----------------------------------------------------------------------------
 void CP4::RefreshActiveClient()
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return;
 
 	RefreshClientData();
+#endif
 }
 
 
@@ -1496,10 +1530,14 @@ const char *CP4::String( CUtlSymbol s ) const
 //-----------------------------------------------------------------------------
 const char *CP4::GetDepotRoot()
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return NULL;
 
 	return m_szDepotRoot;
+#else
+	return nullptr;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1507,26 +1545,38 @@ const char *CP4::GetDepotRoot()
 //-----------------------------------------------------------------------------
 int CP4::GetDepotRootLength()
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return -1;
 
 	return m_iDepotRootLength;
+#else
+	return -1;
+#endif
 }
 
 const char *CP4::GetLocalRoot()
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return NULL;
 
 	return m_szLocalRoot;
+#else
+	return nullptr;
+#endif
 }
 
 int CP4::GetLocalRootLength()
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return -1;
 
 	return m_iLocalRootLength;
+#else
+	return -1;
+#endif
 }
 
 	
@@ -1535,7 +1585,9 @@ int CP4::GetLocalRootLength()
 //-----------------------------------------------------------------------------
 void CP4::GetDepotFilePath(char *depotFilePath, const char *filespec, int size)
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		if ( size > 0 )
 		{
@@ -1543,9 +1595,10 @@ void CP4::GetDepotFilePath(char *depotFilePath, const char *filespec, int size)
 		}
 		return;
 	}
-
+#ifdef PEFORCE_IMPL
 	g_WhereUser.RetrieveWhereabouts(filespec);
 	Q_strncpy(depotFilePath, g_WhereUser.GetData()[0].m_sDepotFile.String(), size);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1553,7 +1606,9 @@ void CP4::GetDepotFilePath(char *depotFilePath, const char *filespec, int size)
 //-----------------------------------------------------------------------------
 void CP4::GetClientFilePath(char *clientFilePath, const char *filespec, int size)
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		if ( size > 0 )
 		{
@@ -1561,9 +1616,10 @@ void CP4::GetClientFilePath(char *clientFilePath, const char *filespec, int size
 		}
 		return;
 	}
-
+#ifdef PEFORCE_IMPL
 	g_WhereUser.RetrieveWhereabouts(filespec);
 	Q_strncpy(clientFilePath, g_WhereUser.GetData()[0].m_sClientFile.String(), size);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1571,7 +1627,9 @@ void CP4::GetClientFilePath(char *clientFilePath, const char *filespec, int size
 //-----------------------------------------------------------------------------
 void CP4::GetLocalFilePath(char *localFilePath, const char *filespec, int size)
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		if ( size > 0 )
 		{
@@ -1579,9 +1637,10 @@ void CP4::GetLocalFilePath(char *localFilePath, const char *filespec, int size)
 		}
 		return;
 	}
-
+#ifdef PEFORCE_IMPL
 	g_WhereUser.RetrieveWhereabouts(filespec);
 	Q_strncpy(localFilePath, g_WhereUser.GetData()[0].m_sLocalFile.String(), size);
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1589,15 +1648,18 @@ void CP4::GetLocalFilePath(char *localFilePath, const char *filespec, int size)
 //-----------------------------------------------------------------------------
 CUtlVector<P4File_t> &CP4::GetFileList( const char *pPath )
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		static CUtlVector< P4File_t > dummy;
 		return dummy;
 	}
-
+#ifdef PEFORCE_IMPL
 	CScopedDirClientSpec spec( pPath );
 	g_FileUser.RetrieveDir( pPath );
 	return g_FileUser.GetData();
+#endif
 }
 
 
@@ -1606,54 +1668,66 @@ CUtlVector<P4File_t> &CP4::GetFileList( const char *pPath )
 //-----------------------------------------------------------------------------
 CUtlVector<P4File_t> &CP4::GetFileListUsingClientSpec( const char *pPath, const char *pClientSpec )
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		static CUtlVector< P4File_t > dummy;
 		return dummy;
 	}
-
+#ifdef PEFORCE_IMPL
 	CScopedClientSpec spec( pClientSpec );
 	g_FileUser.RetrieveDir( pPath );
 	return g_FileUser.GetData();
+#endif
 }
 
 
 //-----------------------------------------------------------------------------
 // Purpose: returns the list of files opened for edit/integrate/delete 
 //-----------------------------------------------------------------------------
-void CP4::GetOpenedFileList( CUtlVector<P4File_t> &fileList )
+void CP4::GetOpenedFileList(CUtlVector<P4File_t>& fileList, bool bDefaultChangeOnly)
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		fileList.RemoveAll();
 		return;
 	}
-
+#ifdef PEFORCE_IMPL
 	g_FileUser.RetrieveOpenedFiles( fileList );
+#endif
 }
 
 void CP4::GetOpenedFileList( const char *pRootDirectory, CUtlVector<P4File_t> &fileList )
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		fileList.RemoveAll();
 		return;
 	}
-
+#ifdef PEFORCE_IMPL
 	CScopedDirClientSpec spec( pRootDirectory );
 	g_FileUser.RetrieveOpenedFiles( fileList );
+#endif
 }
 
 void CP4::GetOpenedFileListInPath( const char *pPathID, CUtlVector<P4File_t> &fileList )
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		fileList.RemoveAll();
 		return;
 	}
-
+#ifdef PEFORCE_IMPL
 	CScopedPathClientSpec spec( pPathID );
 	g_FileUser.RetrieveOpenedFiles( fileList );
+#endif
 }
 
 	
@@ -1662,14 +1736,17 @@ void CP4::GetOpenedFileListInPath( const char *pPathID, CUtlVector<P4File_t> &fi
 //-----------------------------------------------------------------------------
 CUtlVector<P4Revision_t> &CP4::GetRevisionList(const char *path, bool bIsDir)
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		static CUtlVector< P4Revision_t > dummy;
 		return dummy;
 	}
-
+#ifdef PEFORCE_IMPL
 	g_RevisionHistoryUser.RetrieveHistory(path, bIsDir);
 	return g_RevisionHistoryUser.GetData();
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1677,14 +1754,17 @@ CUtlVector<P4Revision_t> &CP4::GetRevisionList(const char *path, bool bIsDir)
 //-----------------------------------------------------------------------------
 CUtlVector<P4Client_t> &CP4::GetClientList()
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		static CUtlVector< P4Client_t > dummy;
 		return dummy;
 	}
-
+#ifdef PEFORCE_IMPL
 	g_ClientspecUser.RetrieveClients();
 	return g_ClientspecUser.GetData();
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1692,11 +1772,13 @@ CUtlVector<P4Client_t> &CP4::GetClientList()
 //-----------------------------------------------------------------------------
 void CP4::SetActiveClient(const char *clientname)
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return;
 
 	m_Client.SetClient(clientname);
 	RefreshClientData();
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1704,7 +1786,12 @@ void CP4::SetActiveClient(const char *clientname)
 //-----------------------------------------------------------------------------
 P4Client_t &CP4::GetActiveClient()
 {
+#ifdef PEFORCE_IMPL
 	return m_ActiveClient;
+#else
+	static P4Client_t dummy;
+	return dummy;
+#endif
 }
 
 
@@ -1713,6 +1800,7 @@ P4Client_t &CP4::GetActiveClient()
 //-----------------------------------------------------------------------------
 void CP4::RemovePathFromActiveClientspec(const char *path)
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return;
 
@@ -1725,6 +1813,7 @@ void CP4::RemovePathFromActiveClientspec(const char *path)
 
 	// refresh the list
 	user.WriteClientspec();
+#endif
 }
 
 
@@ -1737,7 +1826,7 @@ bool CP4::GetClientSpecForDirectory( const char *pFullPathDir, char *pClientSpec
 		return false;
 
 	pClientSpec[ 0 ] = '\0';
-
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return false;
 
@@ -1789,6 +1878,7 @@ bool CP4::GetClientSpecForDirectory( const char *pFullPathDir, char *pClientSpec
 			break;
 
 	} while (true);
+#endif
 
 	return false;
 }
@@ -1814,7 +1904,9 @@ bool CP4::GetClientSpecForFile( const char *pFullPath, char *pClientSpec, int nM
 //-----------------------------------------------------------------------------
 bool CP4::GetClientSpecForPath( const char *pPathId, char *pClientSpec, int nMaxLen )
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 	{
 		if ( nMaxLen > 0 )
 		{
@@ -1822,7 +1914,7 @@ bool CP4::GetClientSpecForPath( const char *pPathId, char *pClientSpec, int nMax
 		}
 		return false;
 	}
-
+#ifdef PEFORCE_IMPL
 	char pPathBuf[2048];
 	if ( g_pFileSystem->GetSearchPath( pPathId, false, pPathBuf, sizeof(pPathBuf) ) == 0 )
 		return false;
@@ -1868,10 +1960,12 @@ bool CP4::GetClientSpecForPath( const char *pPathId, char *pClientSpec, int nMax
 		}
 	}
 	return bFoundClientSpec;
+#endif
 }
 
 void CP4::SetOpenFileChangeList( const char *pChangeListName )
 {
+#ifdef PEFORCE_IMPL
 	if ( !m_sChangeListName.Length() ||
 		 !pChangeListName || !*pChangeListName ||
 		 strcmp( m_sChangeListName.String(), pChangeListName ) ||
@@ -1888,10 +1982,12 @@ void CP4::SetOpenFileChangeList( const char *pChangeListName )
 			g_ErrorHandlerUser.SetFlags( bAdd ? uiSpewFlag : 0, bAdd ? 0 : uiSpewFlag );
 		}
 	}
+#endif
 }
 
 char const * CP4::GetOpenFileChangeListNum()
 {
+#ifdef PEFORCE_IMPL
 	if ( m_sChangeListName.Length() )
 	{
 		if ( !m_nCachedChangeListNumber )
@@ -1904,9 +2000,11 @@ char const * CP4::GetOpenFileChangeListNum()
 		if ( m_nCachedChangeListNumber )
 			return m_sCachedChangeListNum.String();
 	}
+#endif
 	return NULL;
 }
 
+#ifdef PEFORCE_IMPL
 static bool MakeFilesWritable( int nCount, const char **ppFullPathList )
 {
 	bool bResult = true;
@@ -1924,14 +2022,18 @@ static bool MakeFilesWritable( int nCount, const char **ppFullPathList )
 
 	return bResult;
 }
-
+#endif
 	
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
 bool CP4::OpenFileForAdd( const char *fullpath )
 {
+#ifdef PEFORCE_IMPL
 	return PerformPerforceOpCurChangeList( "add", fullpath );
+#else
+	return false;
+#endif
 }
 
 	
@@ -1940,10 +2042,14 @@ bool CP4::OpenFileForAdd( const char *fullpath )
 //-----------------------------------------------------------------------------
 bool CP4::OpenFileForEdit( const char *fullpath )
 {
+#ifdef PEFORCE_IMPL
 	if ( !PerformPerforceOpCurChangeList( "edit", fullpath ) )
 		return false;
 
 	return MakeFilesWritable( 1, &fullpath );
+#else
+	return false;
+#endif
 }
 
 
@@ -1952,7 +2058,11 @@ bool CP4::OpenFileForEdit( const char *fullpath )
 //-----------------------------------------------------------------------------
 bool CP4::OpenFileForDelete( const char *pFullPath )
 {
+#ifdef PEFORCE_IMPL
 	return PerformPerforceOpCurChangeList( "delete", pFullPath );
+#else
+	return false;
+#endif
 }
 
 
@@ -1970,10 +2080,14 @@ bool CP4::SubmitFile( const char *pFullPath, const char *pDescription )
 //-----------------------------------------------------------------------------
 bool CP4::RevertFile( const char *pFullPath )
 {
+#ifdef PEFORCE_IMPL
 	return PerformPerforceOp( "revert", pFullPath );
+#else
+	return false;
+#endif
 }
 
-
+#ifdef PEFORCE_IMPL
 //-----------------------------------------------------------------------------
 // Helper for operations on multiple files
 //-----------------------------------------------------------------------------
@@ -2133,31 +2247,48 @@ bool CP4::PerformPerforceOpCurChangeList( const char *pOperation, const char *pF
 
 	return g_ErrorHandlerUser.GetErrorState() < E_WARN;
 }
+#endif
 
 bool CP4::OpenFilesForAdd( int nCount, const char **ppFullPathList )
 {
+#ifdef PEFORCE_IMPL
 	return PerformPerforceOpCurChangeList( "add", nCount, ppFullPathList );
+#else
+	return false;
+#endif
 }
 
 bool CP4::OpenFilesForEdit( int nCount, const char **ppFullPathList )
 {
+#ifdef PEFORCE_IMPL
 	if ( !PerformPerforceOpCurChangeList( "edit", nCount, ppFullPathList ) )
 		return false;
 
 	return MakeFilesWritable( nCount, ppFullPathList );
+#else
+	return false;
+#endif
 }
 
 bool CP4::OpenFilesForDelete( int nCount, const char **ppFullPathList )
 {
+#ifdef PEFORCE_IMPL
 	return PerformPerforceOpCurChangeList( "delete", nCount, ppFullPathList );
+#else
+	return false;
+#endif
 }
 
 bool CP4::RevertFiles( int nCount, const char **ppFullPathList )
 {
+#ifdef PEFORCE_IMPL
 	return PerformPerforceOp( "revert", nCount, ppFullPathList );
+#else
+	return false;
+#endif
 }
 
-
+#ifdef PEFORCE_IMPL
 void SubmitPerforceOp( int nCount, const char **ppFullPathList, const char *pDescription )
 {
 	Assert( nCount > 0 );
@@ -2184,10 +2315,15 @@ void SubmitPerforceOp( int nCount, const char **ppFullPathList, const char *pDes
 	// Finally, submit that changelist
 	g_SubmitUser.Submit( nChangeList );
 }
+#endif
 
 bool CP4::SubmitFiles( int nCount, const char **ppFullPathList, const char *pDescription )
 {
+#ifdef PEFORCE_IMPL
 	return PerformPerforceOp( SubmitPerforceOp, nCount, ppFullPathList, pDescription );
+#else
+	return false;
+#endif
 }
 
 	
@@ -2196,6 +2332,7 @@ bool CP4::SubmitFiles( int nCount, const char **ppFullPathList, const char *pDes
 //-----------------------------------------------------------------------------
 void CP4::OpenFileInP4Win( const char *pFullPath )
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return;
 
@@ -2228,6 +2365,7 @@ void CP4::OpenFileInP4Win( const char *pFullPath )
 		NULL,             // Use parent's starting directory. 
 		&si,              // Pointer to STARTUPINFO structure.
 		&pi );             // Pointer to PROCESS_INFORMATION structure.
+#endif
 }
 
 
@@ -2236,6 +2374,7 @@ void CP4::OpenFileInP4Win( const char *pFullPath )
 //-----------------------------------------------------------------------------
 bool CP4::IsFileInPerforce( const char *fullpath )
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return false;
 
@@ -2247,6 +2386,9 @@ bool CP4::IsFileInPerforce( const char *fullpath )
 
 	// Return deleted files as not being in perforce
 	return !g_FileUser.GetData()[0].m_bDeleted;
+#else
+	return false;
+#endif
 }
 
 
@@ -2255,15 +2397,19 @@ bool CP4::IsFileInPerforce( const char *fullpath )
 //-----------------------------------------------------------------------------
 P4FileState_t CP4::GetFileState( const char *pFullPath )
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
+#endif
 		return P4FILE_UNOPENED;
 
+#ifdef PEFORCE_IMPL
 	CScopedFileClientSpec spec( pFullPath );
 
 	g_FileUser.RetrieveOpenedFiles( pFullPath );
 	if ( g_FileUser.GetData().Count() == 0 )
 		return P4FILE_UNOPENED;
 	return g_FileUser.GetData()[0].m_eOpenState;
+#endif
 }
 
 
@@ -2272,6 +2418,7 @@ P4FileState_t CP4::GetFileState( const char *pFullPath )
 //-----------------------------------------------------------------------------
 bool CP4::GetFileInfo( const char *pFullPath, P4File_t *pFileInfo )
 {
+#ifdef PEFORCE_IMPL
 	if ( !IsConnectedToServer() )
 		return false;
 
@@ -2283,6 +2430,9 @@ bool CP4::GetFileInfo( const char *pFullPath, P4File_t *pFileInfo )
 
 	memcpy( pFileInfo, &g_FileUser.GetData()[0], sizeof(P4File_t) );
 	return true;
+#else
+	return false;
+#endif
 }
 
 	
@@ -2291,6 +2441,7 @@ bool CP4::GetFileInfo( const char *pFullPath, P4File_t *pFileInfo )
 //-----------------------------------------------------------------------------
 bool CP4::IsConnectedToServer( bool bRetry )
 {
+#ifdef PEFORCE_IMPL
 	if ( bRetry && m_bConnectedToServer )
 	{
 		// don't comment this back in until it's called less often to avoid spamming the server
@@ -2311,6 +2462,9 @@ bool CP4::IsConnectedToServer( bool bRetry )
 	}
 
 	return m_bConnectedToServer;
+#else
+	return false;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -2319,5 +2473,9 @@ bool CP4::IsConnectedToServer( bool bRetry )
 //-----------------------------------------------------------------------------
 const char *CP4::GetLastError()
 {
+#ifdef PEFORCE_IMPL
 	return g_ErrorHandlerUser.GetErrorString();
+#else
+	return "Peforce support disabled in code";
+#endif
 }

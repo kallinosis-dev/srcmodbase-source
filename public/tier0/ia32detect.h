@@ -8,9 +8,8 @@
 #ifndef IA32DETECT_H
 #define IA32DETECT_H
 
-#ifdef COMPILER_MSVC64
-extern "C" void __cpuid(int* CPUInfo, int InfoType);
-#pragma intrinsic (__cpuid)
+#ifdef COMPILER_MSVC
+#include <intrin.h>
 #endif
 /*
     This section from http://iss.cs.cornell.edu/ia32.htm

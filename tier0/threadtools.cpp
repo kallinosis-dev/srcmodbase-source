@@ -63,6 +63,7 @@
 #endif
 
 #include <map>
+#include <memory>
 
 // Must be last header...
 #include "tier0/memdbgon.h"
