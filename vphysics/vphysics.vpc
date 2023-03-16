@@ -124,11 +124,11 @@ $Project "vphysics"
 		
 	$Folder	"Link Libraries" 
 	{
-		$Lib "$LIBCOMMON/havana_constraints"
-		$Lib "$LIBCOMMON/hk_base"
-		$Lib "$LIBCOMMON/hk_math"
-		$Lib "$LIBCOMMON/ivp_compactbuilder"
-		$Lib "$LIBCOMMON/ivp_physics"
+		$Lib hk_physics
+		$Lib hk_base
+		$Lib hk_math
+		$Lib ivp_compactbuilder
+		$Lib ivp_physics
 		$Lib mathlib
 		$Lib tier2
 	}

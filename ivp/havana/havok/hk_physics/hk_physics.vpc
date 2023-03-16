@@ -1,0 +1,68 @@
+$Macro SRCDIR		"..\..\..\.."
+
+$Include "$SRCDIR\vpc_scripts\source_lib_base.vpc"	
+
+$Configuration
+{
+	$Compiler
+	{
+		//$PreprocessorDefinitions		"$BASE;IVP_VERSION_SDK;HAVANA_CONSTRAINTS"
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\ivp\havana\havok;$SRCDIR\ivp\ivp_physics" \
+                                        ";$SRCDIR\ivp\ivp_collision;$SRCDIR\ivp\ivp_controller;$SRCDIR\ivp\ivp_intern" \
+                                        ";$SRCDIR\ivp\ivp_surface_manager"
+		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+		$Create/UsePCHThroughFile		"vecmath.h"
+	}
+}
+
+$Project "hk_physics"
+{
+	$File "core\vm_query_builder\mass_relative_vector3.h"
+	$File "core\vm_query_builder\vm_query_builder.h"
+	$File "constraint\ball_socket\ball_socket_bp.h"
+	$File "constraint\ball_socket\ball_socket_constraint.cpp"
+	$File "constraint\ball_socket\ball_socket_constraint.h"
+	$File "constraint\limited_ball_socket\limited_ball_socket_bp.h"
+	$File "constraint\limited_ball_socket\limited_ball_socket_constraint.cpp"
+	$File "constraint\limited_ball_socket\limited_ball_socket_constraint.h"
+	$File "constraint\ragdoll\ragdoll_constraint.cpp"
+	$File "constraint\ragdoll\ragdoll_constraint.h"
+	$File "constraint\ragdoll\ragdoll_constraint_bp.h"
+	$File "constraint\ragdoll\ragdoll_constraint_bp_builder.cpp"
+	$File "constraint\ragdoll\ragdoll_constraint_bp_builder.h"
+	$File "constraint\local_constraint_system\local_constraint_system.h"
+	$File "constraint\local_constraint_system\local_constraint_system.inl"
+	$File "constraint\local_constraint_system\local_constraint_system_bp.h"
+	$File "constraint\util\constraint_limit_util.h"
+	$File "constraint\hinge\hinge_bp.h"
+	$File "constraint\hinge\hinge_bp_builder.cpp"
+	$File "constraint\hinge\hinge_bp_builder.h"
+	$File "constraint\hinge\hinge_constraint.cpp"
+	$File "constraint\hinge\hinge_constraint.h"
+	$File "constraint\breakable_constraint\breakable_constraint.cpp"
+	$File "constraint\breakable_constraint\breakable_constraint.h"
+	$File "constraint\breakable_constraint\breakable_constraint_bp.h"
+	$File "constraint\fixed\fixed_bp.h"
+	$File "constraint\fixed\fixed_constraint.cpp"
+	$File "constraint\fixed\fixed_constraint.h"
+	$File "constraint\prismatic\prismatic_bp.h"
+	$File "constraint\prismatic\prismatic_constraint.cpp"
+	$File "constraint\prismatic\prismatic_constraint.h"
+	$File "constraint\pulley\pulley_bp.h"
+	$File "constraint\pulley\pulley_constraint.cpp"
+	$File "constraint\pulley\pulley_constraint.h"
+	$File "constraint\stiff_spring\stiff_spring_bp.h"
+	$File "constraint\stiff_spring\stiff_spring_constraint.cpp"
+	$File "constraint\stiff_spring\stiff_spring_constraint.h"
+	$File "constraint\constraint.cpp"
+	$File "constraint\constraint.h"
+	$File "constraint\constraint_bp.h"
+	$File "constraint\constraint_limit.h"
+	$File "$SRCDIR\ivp\ivp_physics\hk_physics\simunit\psi_info.h"
+	$File "$SRCDIR\ivp\ivp_physics\hk_physics\constraint\local_constraint_system\local_constraint_system.cpp"
+	$File "$SRCDIR\ivp\ivp_physics\hk_physics\constraint\local_constraint_system\local_constraint_system.h"
+	$File "$SRCDIR\ivp\ivp_physics\hk_physics\core\rigid_body_core.cpp"
+	$File "$SRCDIR\ivp\ivp_physics\hk_physics\effector\rigid_body_binary_effector.cpp"
+	$File "$SRCDIR\ivp\ivp_physics\hk_physics\physics.h"
+
+}

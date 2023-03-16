@@ -53,11 +53,6 @@ $Project "blobulator"
 	"blobulator/blobulator.vpc" [$WINDOWS || $X360 || $PS3 || $POSIX]
 }
 
-$Project "blobulator_job"
-{
-	"blobulator/blobulator_job.vpc" [$PS3]
-}
-
 $Project "bonesetup"
 {
 	"bonesetup/bonesetup.vpc" [$WINDOWS||$X360||$PS3||$POSIX]
@@ -342,10 +337,6 @@ $Project "hammer_run_map_launcher"
 	"utils/hammer_run_map_launcher/hammer_run_map_launcher.vpc" [$WINDOWS]
 }
 
-$Project "havana_constraints"
-{
-	"ivp/havana/havana_constraints.vpc" [$WINDOWS || $X360 || $DEDICATED || $PS3 || $POSIX ]
-}
 
 $Project "height2normal"
 {
@@ -365,6 +356,11 @@ $Project "hk_base"
 $Project "hk_math"
 {
 	"ivp/havana/havok/hk_math/hk_math.vpc" [$WINDOWS || $X360 || $DEDICATED || $PS3 || $POSIX]
+}
+
+$Project "hk_physics"
+{
+	"ivp/havana/havok/hk_physics/hk_physics.vpc" [$WINDOWS || $X360 || $DEDICATED || $PS3 || $POSIX ]
 }
 
 $Project "hlfaceposer"

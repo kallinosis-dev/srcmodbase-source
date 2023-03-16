@@ -1,0 +1,45 @@
+$Macro SRCDIR		"..\..\..\.."
+
+$Include "$SRCDIR\vpc_scripts\source_lib_base.vpc"	
+
+$Configuration
+{
+	$Compiler
+	{
+		//$PreprocessorDefinitions		"$BASE"
+		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\ivp\havana\havok"
+		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+		$Create/UsePCHThroughFile		"base.h"
+	}
+}
+
+$Project "hk_base"
+{
+	$File ".\memory\memory.cpp"
+	$File ".\memory\memory.h"
+	$File ".\memory\memory.inl"
+	$File ".\memory\memory_managed_virtual_class.h"
+	$File ".\memory\memory_util.cpp"
+	$File ".\memory\memory_util.h"
+	$File ".\array\array.cpp"
+	$File ".\array\array.h"
+	$File ".\array\array.inl"
+	$File ".\array\pre_allocated_array.h"
+	$File ".\hash\hash.cpp"
+	$File ".\hash\hash.h"
+	$File ".\hash\hash.inl"
+    $File ".\stopwatch\stopwatch.cpp"
+	$File ".\stopwatch\stopwatch.h"
+	$File ".\stopwatch\stopwatch_qpt.inl"
+	$File ".\string\string.cpp"
+	$File ".\string\string.h"
+	$File ".\id_server\id_server.cpp"
+	$File ".\id_server\id_server.h"
+	$File ".\id_server\id_server.inl"
+	$File ".\base.h"
+	$File ".\base_types.cpp"
+	$File ".\base_types.h"
+	$File ".\console.cpp"
+	$File ".\console.h"
+
+}
