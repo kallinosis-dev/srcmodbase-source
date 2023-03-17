@@ -14,7 +14,6 @@ $MacroRequired				"PLATSUBDIR"
 $Macro LIBPUBLIC	"$SRCDIR\lib\public$PLATSUBDIR"
 $Macro LIBCOMMON	"$SRCDIR\lib\common$PLATSUBDIR"
 
-$Include "$SRCDIR\vpc_scripts\loadaddress.vpc"
 $Include "$SRCDIR\vpc_scripts\source_exe_win_win32_debug.vpc"
 $Include "$SRCDIR\vpc_scripts\source_exe_win_win32_release.vpc"
 $Include "$SRCDIR\vpc_scripts\source_win32_base.vpc"

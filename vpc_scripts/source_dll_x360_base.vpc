@@ -12,9 +12,6 @@ $MacroRequired				"OUTBINDIR"
 $MacroRequired				"DEVKITBINDIR"	"bin"
 
 // 360 must have a dll load address
-$Include "$SRCDIR\vpc_scripts\loadaddress.vpc"
-$MacroRequired				"LOADADDRESS_DEVELOPMENT"
-$MacroRequired				"LOADADDRESS_RETAIL"
 $MacroRequired				"LOADADDRESSNAME"
 
 $Macro DLLDEMOSUFFIX "_demo\" 			[$DEMO]

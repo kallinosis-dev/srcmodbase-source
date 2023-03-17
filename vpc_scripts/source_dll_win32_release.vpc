@@ -203,8 +203,7 @@ $Configuration "Release"
 		$EntryPoint
 		$NoEntryPoint
 		$SetChecksum
-		$BaseAddress						"$LOADADDRESS_DEVELOPMENT"
-		$BaseAddress						"$LOADADDRESS_RETAIL" [$RETAIL]
+		$BaseAddress
 		$FixedBaseAddress
 		$TurnOffAssemblyGeneration
 		$DelayLoadedDLL

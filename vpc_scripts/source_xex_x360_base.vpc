@@ -6,8 +6,6 @@
 
 $Include "$SRCDIR\vpc_scripts\version.vpc"
 
-// 360 must have a xex load address
-$Include "$SRCDIR\vpc_scripts\loadaddress.vpc"
 $MacroRequired				"LOADADDRESS_DEVELOPMENT"
 $MacroRequired				"LOADADDRESS_RETAIL"
 

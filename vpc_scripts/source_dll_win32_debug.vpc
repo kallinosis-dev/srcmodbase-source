@@ -202,7 +202,7 @@ $Configuration "Debug"
 		$EntryPoint
 		$NoEntryPoint
 		$SetChecksum
-		$BaseAddress						"$LOADADDRESS_DEVELOPMENT"
+		$BaseAddress
 		$FixedBaseAddress
 		$TurnOffAssemblyGeneration
 		$DelayLoadedDLL
