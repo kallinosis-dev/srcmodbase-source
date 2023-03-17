@@ -123,13 +123,7 @@ static ConVar cl_camera_follow_bone_index( "cl_camera_follow_bone_index"  , "-2"
 Vector g_cameraFollowPos;
 
 // UNDONE: Delete this or move to the material system?
-ConVar	gl_clear( "gl_clear", "0",
-#if defined( ALLOW_TEXT_MODE )
-	FCVAR_RELEASE
-#else
-	0
-#endif
-);
+ConVar	gl_clear( "gl_clear", "0", FCVAR_RELEASE);
 ConVar	gl_clear_randomcolor( "gl_clear_randomcolor", "0", FCVAR_CHEAT, "Clear the back buffer to random colors every frame. Helps spot open seams in geometry." );
 
 static ConVar r_farz( "r_farz", "-1", FCVAR_CHEAT, "Override the far clipping plane. -1 means to use the value in env_fog_controller." );

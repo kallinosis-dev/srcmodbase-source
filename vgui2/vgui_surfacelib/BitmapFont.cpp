@@ -142,11 +142,7 @@ bool CBitmapFont::Create( const char *pFontFilename, float scalex, float scaley,
 		{
 			pFontTable->m_pTexture = FontManager().MaterialSystem()->FindTexture( textureName, TEXTURE_GROUP_VGUI );
 
-#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
 			static bool s_bTextMode = CommandLine()->HasParm( "-textmode" );
-#else
-			const bool s_bTextMode = false;
-#endif
 
 #if defined( _DEBUG ) && !defined( POSIX )
 			if ( ( pFontTable->m_pBitmapFont->m_PageWidth != pFontTable->m_pTexture->GetActualWidth() ||

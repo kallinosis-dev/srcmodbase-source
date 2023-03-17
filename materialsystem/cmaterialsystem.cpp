@@ -3058,11 +3058,9 @@ IMaterial* CMaterialSystem::FindMaterial( char const *pMaterialName, const char 
 	if ( pExistingMaterial )
 		return pExistingMaterial->GetQueueFriendlyVersion();
 
-#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
 	static bool s_bTextMode = CommandLine()->HasParm( "-textmode" );
 	if ( s_bTextMode )
 		return g_pErrorMaterial->GetQueueFriendlyVersion();
-#endif
 
 //	if ( !m_MaterialDict.IsMissing(pTemp) )
 	{

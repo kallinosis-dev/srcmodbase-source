@@ -4275,11 +4275,7 @@ void CModelRender::ValidateStaticPropColorData( ModelInstanceHandle_t handle )
 //-----------------------------------------------------------------------------
 void CModelRender::StaticPropColorMeshCallback( void *pContext, const void *pData, int numReadBytes, FSAsyncStatus_t asyncStatus )
 {
-	#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
-		static bool s_bTextMode = CommandLine()->HasParm( "-textmode" );
-	#else
-		static bool s_bTextMode = false;
-	#endif
+	static bool s_bTextMode = CommandLine()->HasParm( "-textmode" );
 
 	// get our preserved data
 	Assert( pContext );

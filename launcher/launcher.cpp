@@ -98,9 +98,7 @@ int MessageBox( HWND hWnd, const char *message, const char *header, unsigned uTy
 #define RELAUNCH_FILE "/tmp/hl2_relaunch"
 #endif
 
-#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
 #define ALLOW_MULTI_CLIENTS_PER_MACHINE 1
-#endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -1756,10 +1754,8 @@ extern "C" DLL_EXPORT int LauncherMain( int argc, char **argv )
  	// Run in text mode? (No graphics or sound).
  	if ( CommandLine()->CheckParm( "-textmode" ) )
  	{
-#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
  		g_bTextMode = true;
  		InitTextMode();
-#endif
  	}
 #ifdef WIN32
 

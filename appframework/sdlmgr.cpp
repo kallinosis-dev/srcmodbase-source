@@ -438,11 +438,7 @@ InitReturnVal_t CSDLMgr::Init()
 	if (m_Window != NULL)
 		return INIT_OK;  // already initialized.
 
-#if ALLOW_TEXT_MODE
 	m_bTextMode = CommandLine()->FindParm( "-textmode" );
-#else
-	m_bTextMode = false;
-#endif
 
 #if defined( WIN32 ) && defined( DX_TO_GL_ABSTRACTION )
 	if ( !m_bTextMode ) 

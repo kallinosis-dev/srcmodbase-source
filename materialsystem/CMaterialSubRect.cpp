@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -385,11 +385,7 @@ CMaterialSubRect::~CMaterialSubRect()
 {
 	Uncache( );
 
-#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
 	static bool s_bTextMode = CommandLine()->HasParm( "-textmode" );
-#else
-	const bool s_bTextMode = false;
-#endif
 
 	if( m_nRefCount != 0 && !s_bTextMode )
 	{

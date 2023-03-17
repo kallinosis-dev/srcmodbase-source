@@ -125,14 +125,7 @@ ConVar r_flashlightvolumetrics( "r_flashlightvolumetrics", "1" );
 
 
 // FIXME: This is not static because we needed to turn it off for TF2 playtests
-ConVar r_DrawDetailProps( "r_DrawDetailProps", "1", 
-#if defined( ALLOW_TEXT_MODE )
-	FCVAR_RELEASE,
-#else
-	FCVAR_DEVELOPMENTONLY, 
-#endif
-	"0=Off, 1=Normal, 2=Wireframe" 
-);
+ConVar r_DrawDetailProps( "r_DrawDetailProps", "1", FCVAR_RELEASE, "0=Off, 1=Normal, 2=Wireframe" );
 
 // don't use worldlistcache on PS3 is using SPU buildview jobs
 ConVar r_worldlistcache( "r_worldlistcache", IsPS3() ? "0" : "1" );

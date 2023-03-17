@@ -29,7 +29,6 @@ $Configuration
 		$PreprocessorDefinitions	"$BASE;$EXTRADEFINES;fopen=dont_use_fopen" [!$POSIX&&!$PS3]
 		$PreprocessorDefinitions	"$BASE;DEDICATED;SWDS;NO_BINK" [$DEDICATED]
 		$PreprocessorDefinitions	"$BASE;INCLUDE_SCALEFORM" [!$DEDICATED]
-		$PreprocessorDefinitions	"$BASE;ALLOW_TEXT_MODE=1" [$CSTRIKE_TRUNK_BUILD||$CSTRIKE_STAGING_BUILD]
 	}
 
 	$Compiler [$WIN32] // This is already enabled for WIN64.

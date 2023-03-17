@@ -66,13 +66,7 @@
 #endif
 
 static ConVar demo_recordcommands( "demo_recordcommands", "1", FCVAR_CHEAT, "Record commands typed at console into .dem files." );
-static ConVar demo_quitafterplayback( "demo_quitafterplayback", "0", 
-#if defined( ALLOW_TEXT_MODE )
-	FCVAR_RELEASE,
-#else
-	0,
-#endif
-	"Quits game after demo playback." 
+static ConVar demo_quitafterplayback( "demo_quitafterplayback", "0", FCVAR_RELEASE, "Quits game after demo playback." 
 );
 extern ConVar demo_debug;
 static ConVar demo_interpolateview( "demo_interpolateview", "1", 0, "Do view interpolation during dem playback." );

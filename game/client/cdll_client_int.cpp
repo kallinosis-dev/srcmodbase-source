@@ -1621,10 +1621,8 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CGlobalVarsBase *pGloba
 		return false;
 	}
 
-#if defined( ALLOW_TEXT_MODE )
  	if ( CommandLine()->FindParm( "-textmode" ) )
  		g_bTextMode = true;
-#endif
 
 	if ( CommandLine()->FindParm( "-makedevshots" ) )
 		g_MakingDevShots = true;

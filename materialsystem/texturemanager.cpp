@@ -1438,13 +1438,11 @@ ITextureInternal *CTextureManager::FindOrLoadTexture( const char *pTextureName, 
 	ITextureInternal *pTexture = FindTexture( pTextureName );
 	if ( !pTexture )
 	{
-#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
 		static bool s_bTextMode = CommandLine()->HasParm( "-textmode" );
 		if ( s_bTextMode )
 		{
 			return m_pErrorTexture;
 		}
-#endif
 			
 		pTexture = LoadTexture( pTextureName, pTextureGroupName, nAdditionalCreationFlags );
 		if ( pTexture )

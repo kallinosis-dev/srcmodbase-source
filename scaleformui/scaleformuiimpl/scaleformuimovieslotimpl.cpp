@@ -48,12 +48,7 @@ static void scaleform_dump_mesh_caching_stats_f( const CCommand &args )
 
 #endif
 
-ConVar r_drawscaleform( "r_drawscaleform", "1", 
-#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
-	FCVAR_RELEASE 
-#else
-	0
-#endif
+ConVar r_drawscaleform( "r_drawscaleform", "1", FCVAR_RELEASE 
 );
 
 void ScaleformUIImpl::InitMovieSlotImpl( void )

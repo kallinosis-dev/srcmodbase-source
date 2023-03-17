@@ -42,7 +42,6 @@ $Configuration
 		$PreprocessorDefinitions		"$BASE;USE_ACTUAL_DX" [ ( $WINDOWS || $X360 ) && !$GL ]
 		$PreprocessorDefinitions		"$BASE;GL_GLEXT_PROTOTYPES;DX_TO_GL_ABSTRACTION" [$GL]
 		$PreprocessorDefinitions		"$BASE;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" [!$POSIX]
-		$PreprocessorDefinitions		"$BASE;ALLOW_TEXT_MODE=1" [$CSTRIKE_TRUNK_BUILD||$CSTRIKE_STAGING_BUILD]
 
 		$EnableC++Exceptions			"Yes (/EHsc)"
 		$Create/UsePCHThroughFile		"pch_materialsystem.h"

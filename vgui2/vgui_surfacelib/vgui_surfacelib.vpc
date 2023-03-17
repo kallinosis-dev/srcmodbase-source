@@ -8,15 +8,6 @@ $macro SRCDIR		"..\.."
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
-
-$Configuration
-{
-	$Compiler
-	{
-		$PreprocessorDefinitions		"$BASE;ALLOW_TEXT_MODE=1" [$CSTRIKE_TRUNK_BUILD||$CSTRIKE_STAGING_BUILD]
-	}
-}
-
 $Project "vgui_surfacelib"
 {
 	$Folder	"Source Files"

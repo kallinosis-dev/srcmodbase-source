@@ -573,11 +573,7 @@ CMaterial::~CMaterial()
 
 	Uncache();
 
-#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
 	static bool s_bTextMode = CommandLine()->HasParm( "-textmode" );
-#else
-	const bool s_bTextMode = false;
-#endif
 
 	if ( m_RefCount != 0 && !s_bTextMode )
 	{

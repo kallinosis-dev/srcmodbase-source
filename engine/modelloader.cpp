@@ -1742,11 +1742,7 @@ void Mod_LoadTexinfo( CMapLoadHelper &lh )
 	s_pMap->texinfo = out;
 	s_pMap->numtexinfo = count;
 
-#if defined( DEVELOPMENT_ONLY ) || defined( ALLOW_TEXT_MODE )
 	static bool s_bTextMode = CommandLine()->HasParm( "-textmode" );
-#else
-	const bool s_bTextMode = false;
-#endif
 
 	bool loadtextures = mat_loadtextures.GetBool() && !s_bTextMode;
 
