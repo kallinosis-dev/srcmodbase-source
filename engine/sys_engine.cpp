@@ -544,49 +544,38 @@ void CEngine::Frame( void )
 
 	{ // profile scope
 
-	VPROF_BUDGET( "CEngine::Frame", VPROF_BUDGETGROUP_OTHER_UNACCOUNTED );
-#ifdef RAD_TELEMETRY_ENABLED
-	TmU64 time0 = tmFastTime();
-#endif
+		VPROF_BUDGET( "CEngine::Frame", VPROF_BUDGETGROUP_OTHER_UNACCOUNTED );
 
-	switch( m_nDLLState )
-	{
-	case DLL_PAUSED:			// paused, in hammer
-	case DLL_INACTIVE:			// no dll
-		break;
-
-	case DLL_ACTIVE:			// engine is focused
-	case DLL_CLOSE:				// closing down dll
-	case DLL_RESTART:			// engine is shutting down but will restart right away
-		// Run the engine frame
-		HostState_Frame( m_flFrameTime );
-		break;
-	}
-
-	// Has the state changed?
-	if ( m_nNextDLLState != m_nDLLState )
-	{
-		m_nDLLState = m_nNextDLLState;
-
-		// Do special things if we change to particular states
 		switch( m_nDLLState )
 		{
-		case DLL_CLOSE:
-			SetQuitting( QUIT_TODESKTOP );
+		case DLL_PAUSED:			// paused, in hammer
+		case DLL_INACTIVE:			// no dll
 			break;
-		case DLL_RESTART:
-			SetQuitting( QUIT_RESTART );
+
+		case DLL_ACTIVE:			// engine is focused
+		case DLL_CLOSE:				// closing down dll
+		case DLL_RESTART:			// engine is shutting down but will restart right away
+			// Run the engine frame
+			HostState_Frame( m_flFrameTime );
 			break;
 		}
-	}
-	
-#ifdef RAD_TELEMETRY_ENABLED
-	float time = ( tmFastTime() - time0 ) * g_Telemetry.flRDTSCToMilliSeconds;
-	if( time > 0.5f )
-	{
-		tmPlot( TELEMETRY_LEVEL0, TMPT_TIME_MS, 0, time, "CEngine::Frame(ms)" );
-	}
-#endif
+
+		// Has the state changed?
+		if ( m_nNextDLLState != m_nDLLState )
+		{
+			m_nDLLState = m_nNextDLLState;
+
+			// Do special things if we change to particular states
+			switch( m_nDLLState )
+			{
+			case DLL_CLOSE:
+				SetQuitting( QUIT_TODESKTOP );
+				break;
+			case DLL_RESTART:
+				SetQuitting( QUIT_RESTART );
+				break;
+			}
+		}
 
 	} // profile scope
 

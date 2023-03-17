@@ -3593,16 +3593,9 @@ private:
 #endif
 	}
 
-	inline void NewTimeSpan( uint64 nStartGPUTime, uint64 nEndGPUTime, const char *pName, uint nTotalDraws )
-	{
-		// LINUXTODO- telemetry define off, so need this ifdef here to build
-#if defined( RAD_TELEMETRY_ENABLED ) 
-
-		// apparently we must use level0 for timespans?
-		tmBeginTimeSpanAt( TELEMETRY_LEVEL0, 1, 0, nStartGPUTime, "%s [C:%u]", pName ? pName : "", nTotalDraws );
-		tmEndTimeSpanAt( TELEMETRY_LEVEL0, 1, 0, nEndGPUTime, "%s [C:%u]", pName ? pName : "", nTotalDraws );
-#endif
-	}
+	//inline void NewTimeSpan( uint64 nStartGPUTime, uint64 nEndGPUTime, const char *pName, uint nTotalDraws )
+	//{
+	//}
 
 	void FlushFinishedZones()
 	{
@@ -3623,10 +3616,10 @@ private:
 
 			if ( bEmit )
 			{
-				uint64 nStartGPUTime = ( ( zone.m_nBeginGPUTime * m_flGPUToS ) + m_flGPUToCPUOffsetInS ) * m_flSToRdtsc;
-				uint64 nEndGPUTime = ( ( zone.m_nEndGPUTime * m_flGPUToS ) + m_flGPUToCPUOffsetInS ) * m_flSToRdtsc;
+				//uint64 nStartGPUTime = ( ( zone.m_nBeginGPUTime * m_flGPUToS ) + m_flGPUToCPUOffsetInS ) * m_flSToRdtsc;
+				//uint64 nEndGPUTime = ( ( zone.m_nEndGPUTime * m_flGPUToS ) + m_flGPUToCPUOffsetInS ) * m_flSToRdtsc;
 
-				NewTimeSpan( nStartGPUTime, nEndGPUTime, zone.m_pName, zone.m_nTotalGPUWorkCount );
+				//NewTimeSpan( nStartGPUTime, nEndGPUTime, zone.m_pName, zone.m_nTotalGPUWorkCount );
 
 				m_nTotalSpanWorkCount += zone.m_nTotalGPUWorkCount;
 			}

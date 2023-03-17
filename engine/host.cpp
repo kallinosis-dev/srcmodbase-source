@@ -494,89 +494,6 @@ static ConVar host_ShowIPCCallCount( "host_ShowIPCCallCount", "0", 0, "Print # o
 ConVar vprof_server_spike_threshold( "vprof_server_spike_threshold", "999.0" );
 ConVar vprof_server_thread( "vprof_server_thread", "0" );
 
-#if defined( RAD_TELEMETRY_ENABLED )
-
-static void OnChangeTelemetryPause ( IConVar *var, const char *pOldValue, float flOldValue )
-{
-	TM_PAUSE( TELEMETRY_LEVEL0, 1 );
-}
-
-static void OnChangeTelemetryResume ( IConVar *var, const char *pOldValue, float flOldValue )
-{
-	TM_PAUSE( TELEMETRY_LEVEL0, 0 );
-}
-
-static void OnChangeTelemetryLevel ( IConVar *var, const char *pOldValue, float flOldValue )
-{
-	char* pIEnd;
-	const char *pLevel = (( ConVar* )var)->GetString();
-
-	TelemetrySetLevel( strtoul( pLevel, &pIEnd, 0 ) );
-}
-
-static void OnChangeTelemetryFrameCount ( IConVar *var, const char *pOldValue, float flOldValue )
-{
-	char* pIEnd;
-	const char *pFrameCount = (( ConVar* )var)->GetString();
-
-	g_Telemetry.FrameCount = strtoul( pFrameCount, &pIEnd, 0 );
-	Msg( " TELEMETRY: Setting Telemetry FrameCount: '%d'\n", g_Telemetry.FrameCount );
-}
-
-static void OnChangeTelemetryServer ( IConVar *var, const char *pOldValue, float flOldValue )
-{
-	const char *pServerAddress = (( ConVar* )var)->GetString();
-
-	Q_strncpy( g_Telemetry.ServerAddress, pServerAddress, ARRAYSIZE( g_Telemetry.ServerAddress ) );
-	Msg( " TELEMETRY: Setting Telemetry server: '%s'\n", pServerAddress );
-}
-
-static void OnChangeTelemetryZoneFilterVal ( IConVar *var, const char *pOldValue, float flOldValue )
-{
-	char* pIEnd;
-	const char *pFilterValue = (( ConVar* )var)->GetString();
-
-	g_Telemetry.ZoneFilterVal = strtoul( pFilterValue, &pIEnd, 0 );
-	Msg( " TELEMETRY: Setting Telemetry ZoneFilterVal: '%d'\n", g_Telemetry.ZoneFilterVal );
-}
-
-static void OnChangeTelemetryDemoStart ( IConVar *var, const char *pOldValue, float flOldValue )
-{
-	char* pIEnd;
-	const char *pVal = (( ConVar* )var)->GetString();
-
-	g_Telemetry.DemoTickStart = strtoul( pVal, &pIEnd, 0 );
-	if( g_Telemetry.DemoTickStart > 2000 )
-	{
-		char cmd[ 256 ]; 
-
-		// If we're far away from the start of the demo file, then jump to ~1000 ticks before.
-		Q_snprintf( cmd, sizeof( cmd ), "demo_gototick %d", g_Telemetry.DemoTickStart - 1000 ); 
-		Cbuf_AddText( Cbuf_GetCurrentPlayer(), cmd, kCommandSrcCode, 100 ); 
-	}
-	Msg( " TELEMETRY: Setting Telemetry DemoTickStart: '%d'\n", g_Telemetry.DemoTickStart );
-}
-
-static void OnChangeTelemetryDemoEnd ( IConVar *var, const char *pOldValue, float flOldValue )
-{
-	char* pIEnd;
-	const char *pVal = (( ConVar* )var)->GetString();
-
-	g_Telemetry.DemoTickEnd = strtoul( pVal, &pIEnd, 0 );
-	Msg( " TELEMETRY: Setting Telemetry DemoTickEnd: '%d'\n", g_Telemetry.DemoTickEnd );
-}
-
-ConVar telemetry_pause( "telemetry_pause", "0", FCVAR_RELEASE, "Pause Telemetry", OnChangeTelemetryPause );
-ConVar telemetry_resume( "telemetry_resume", "0", FCVAR_RELEASE, "Resume Telemetry", OnChangeTelemetryResume );
-ConVar telemetry_filtervalue( "telemetry_filtervalue", "500", FCVAR_RELEASE, "Set Telemetry ZoneFilterVal (MicroSeconds)", OnChangeTelemetryZoneFilterVal );
-ConVar telemetry_framecount( "telemetry_framecount", "0", 0, "Set Telemetry count of frames to capture", OnChangeTelemetryFrameCount );
-ConVar telemetry_level( "telemetry_level", "0", FCVAR_RELEASE, "Set Telemetry profile level: 0 being off. Hight bit set for mask: 0x8#######", OnChangeTelemetryLevel );
-ConVar telemetry_server( "telemetry_server", "localhost", FCVAR_RELEASE, "Set Telemetry server", OnChangeTelemetryServer );
-ConVar telemetry_demostart( "telemetry_demostart", "0", 0, "When playing demo, start telemetry on tick #", OnChangeTelemetryDemoStart );
-ConVar telemetry_demoend( "telemetry_demoend", "0", 0, "When playing demo, stop telemetry on tick #", OnChangeTelemetryDemoEnd );
-
-#endif
-
 static unsigned g_MainThreadId = ThreadGetCurrentId();
 
 extern bool gfBackground;
@@ -3987,18 +3904,6 @@ void _Host_RunFrame (float time)
 	static double host_remainder = 0.0f;
 	double prevremainder;
 	bool shouldrender;
-
-#if defined( RAD_TELEMETRY_ENABLED )
-
-	if( g_Telemetry.DemoTickEnd == ( uint32 )-1 )
-
-	{
-
-		Cbuf_AddText( Cbuf_GetCurrentPlayer(), "quit\n" );
-
-	}
-
-#endif
 
 #ifndef DEDICATED
 	CClientState &cl = GetBaseLocalClient();
