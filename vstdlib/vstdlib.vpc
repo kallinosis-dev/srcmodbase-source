@@ -49,12 +49,6 @@ $Configuration
 		$ImportLibrary				"$LIBPUBLIC\$_IMPLIB_PREFIX$OUTBINNAME$_IMPLIB_EXT"
 		$AdditionalDependencies		"$BASE libl10n_stub.a"                  [$PS3]
 	}
-
-	$PreLinkEvent [!$POSIX]
-	{	
-		$CommandLine	"call $SRCDIR\vpc_scripts\valve_p4_edit.cmd $LIBPUBLIC\$(TargetName).lib $SRCDIR" "\n" \
-						"$BASE"
-	}
 	
 	$PreLinkEvent [$X360]
 	{
