@@ -22,9 +22,6 @@ $Project
 			$File	"$SHADERAPIDX9DIR\vertexdecl.cpp"
 			$File	"$SHADERAPIDX9DIR\vertexshaderdx8.cpp"
 			$File	"$SHADERAPIDX9DIR\wmi.cpp"									[$WINDOWS && !$GL]
-			$File	"$SHADERAPIDX9DIR\textureheap.cpp"							[$X360]
-			$File	"$SRCDIR\common\ps3\vjobutils.cpp"							[$PS3]
-			$File	"$SRCDIR\common\ps3\spu_job_shared.cpp"						[$PS3]
 			$File	"$SHADERAPIDX9DIR\winutils.cpp"							[!$WINDOWS]
 		}
 
@@ -84,10 +81,6 @@ $Project
 			$File	"$SHADERAPIDX9DIR\texturedx8.h"
 			$File	"$SHADERAPIDX9DIR\vertexshaderdx8.h"
 			$File	"$SHADERAPIDX9DIR\wmi.h"							[$WINDOWS && !$GL]
-			$File	"$SHADERAPIDX9DIR\textureheap.h"					[$X360]
-			$File	"$SHADERAPIDX9DIR\hardwareconfig_ps3nonvirt.h"		[$PS3]
-			$File	"$SHADERAPIDX9DIR\hardwareconfig_ps3nonvirt.inl"	[$PS3]
-			$File	"$SHADERAPIDX9DIR\shaderapidx8_ps3nonvirt.inl"		[$PS3]
 		}
 	}
 }

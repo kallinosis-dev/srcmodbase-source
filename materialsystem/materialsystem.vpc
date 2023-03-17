@@ -36,10 +36,9 @@ $Configuration
 	{
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\materialsystem"
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\Include"			[$WINDOWS && !$GL]
-		$AdditionalIncludeDirectories	"$BASE;$(XEDK)\include\xbox"			[$X360]
 		$PreprocessorDefinitions		"$BASE;DEFINE_MATERIALSYSTEM_INTERFACE;MATERIALSYSTEM_EXPORTS;PROTECTED_THINGS_ENABLE;INCLUDE_SCALEFORM"
 		$PreprocessorDefinitions		"$BASE;VERSION_SAFE_STEAM_API_INTERFACES"
-		$PreprocessorDefinitions		"$BASE;USE_ACTUAL_DX" [ ( $WINDOWS || $X360 ) && !$GL ]
+		$PreprocessorDefinitions		"$BASE;USE_ACTUAL_DX" [ $WINDOWS  && !$GL ]
 		$PreprocessorDefinitions		"$BASE;GL_GLEXT_PROTOTYPES;DX_TO_GL_ABSTRACTION" [$GL]
 		$PreprocessorDefinitions		"$BASE;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" [!$POSIX]
 
@@ -53,31 +52,11 @@ $Configuration
 			$AdditionalDependencies			"$BASE winmm.lib Ws2_32.lib imm32.lib oleaut32.lib" [$WINDOWS]
 			$AdditionalDependencies			"$BASE dxguid.lib d3d9.lib" [$WINDOWS && !$GL]
 
-
-			$AdditionalLibraryDirectories   "$BASE;$(XEDK)\lib\xbox" [$X360]
-			$AdditionalDependencies			"$BASE libgfx.lib libjpeg.lib zlib.lib libpng.lib" [$X360]
-	}
-
-	$PreLinkEvent [$PS3]
-	{
-		$CommandLine		"call .\$(IntDir)\xy16icf32.vp.bat" "\n" \
-							"call .\$(IntDir)\cxformgauraud.fp.bat" "\n" \
-							"call .\$(IntDir)\cxformgauraudnoaddalpha.fp.bat" "\n" \
-							"call .\$(IntDir)\cxformgauraudtexture.fp.bat" "\n" \
-							"call .\$(IntDir)\glyph.vp.bat" "\n" \
-							"call .\$(IntDir)\noninteractiveshader.fp.bat" "\n" \
-							"call .\$(IntDir)\noninteractiveshader.vp.bat" "\n" \
-							"call .\$(IntDir)\noninteractiveshaderstartup.fp.bat" "\n" \
-							"call .\$(IntDir)\noninteractiveshaderstartuppass2.fp.bat" "\n" \
-							"call .\$(IntDir)\solidcolor.fp.bat" "\n" \
-							"call .\$(IntDir)\strip.vp.bat" "\n" \
-							"call .\$(IntDir)\texttexturealpha.fp.bat" "\n" \
-							"call .\$(IntDir)\xy16ic32.vp.bat"
 	}
 
 	// Since other shader modules are conglomerated here,
 	// need to set project settings for those modules too:
-	$Compiler [$PS3 || $OSXALL]
+	$Compiler [$OSXALL]
 	{
 		$AdditionalIncludeDirectories	"$BASE;..\"
 		// shaderapidx9
@@ -85,51 +64,18 @@ $Configuration
 		// shaderlib
 		$PreprocessorDefinitions		"$BASE;FAST_MATERIALVAR_ACCESS;"
 		// stdshader
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\materialsystem\stdshaders\fxctmp9_ps3" [$PS3]
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\materialsystem\stdshaders\fxctmp9;$SRCDIR\materialsystem\stdshaders\vshtmp9" [$OSXALL]
 		$PreprocessorDefinitions		"$BASE;STDSHADER_DX9_DLL_EXPORT;FAST_MATERIALVAR_ACCESS"
-		// all internal headers access
-		$PreprocessorDefinitions		"$BASE;MATSYS_INTERNAL" [$PS3]
 		// platform override
 		$PreprocessorDefinitions		"$BASE;PLATFORM_OVERRIDE_MATERIALSYSTEM"
-	}
-
-	$SNCCompiler [$PS3]
-	{
-		$ForceIncludes					"platform_override.h"
-	}
-	
-	$Linker [$PS3]
-	{
-		$AdditionalDependencies			"$BASE libgfx.a libjpeg.a libpng.a libz.a libnet_stub.a libnetctl_stub.a librtc_stub.a"
-		$AdditionalDependencies			"$BASE libfont_stub.a libfontFT_stub.a libfreetypeTT_stub.a"
-		$AdditionalDependencies			"$BASE libgcm_sys_stub.a libgcm_cmdasm.a libsysutil_stub.a libresc_stub.a libspurs_stub.a $SCE_PPU_LIBROOT\libio_stub.a libedgepost.a"
-		$AdditionalDependencies			"$BASE libgem_stub.a"
 	}
 }
 
 $Configuration "Debug"
 {
-	$Compiler [$PS3]
-	{
-//		$PreprocessorDefinitions		"$BASE;CELL_GCM_DEBUG"
-	}
-
 	$Linker [$WINDOWS]
 	{
-		$AdditionalDependencies			"$BASE"
 		$AdditionalDependencies			"$BASE d3dx9d.lib" [!$GL]
-	}
-
-	$Linker [$X360]
-	{
-		$AdditionalDependencies			"$BASE d3dx9d.lib xonlined.lib"
-	}
-
-	$Linker [$PS3]
-	{
-		// use libgcm_cmddbg.a to validate parameters
-		$AdditionalDependencies			"$BASE libgcm_cmd.a" 	
 	}
 }
 
@@ -137,19 +83,8 @@ $Configuration "Release"
 {
 	$Linker [$WINDOWS]
 	{
-		$AdditionalDependencies			"$BASE"
 		$AdditionalDependencies			"$BASE d3dx9.lib"			[!$GL]
 	}
-
-	$Linker [$X360]
-	{
-		$AdditionalDependencies			"$BASE d3dx9.lib xonline.lib"
-	}
-
-	$Linker [$PS3]
-	{
-		$AdditionalDependencies			"$BASE libgcm_cmd.a"
-	}	
 }
 
 $Configuration
@@ -165,9 +100,9 @@ $Configuration
 //
 // PS3 conglomerates all shader modules here
 //
-$include "shaderapidx9/shaderapidx9_inc.vpc" [$PS3 || $OSXALL]
-$include "shaderlib/shaderlib_inc.vpc" [$PS3 || $OSXALL]
-$include "stdshaders/stdshader_dx9_inc.vpc" [$PS3 || $OSXALL]
+$include "shaderapidx9/shaderapidx9_inc.vpc" [$OSXALL]
+$include "shaderlib/shaderlib_inc.vpc" [$OSXALL]
+$include "stdshaders/stdshader_dx9_inc.vpc" [$OSXALL]
 //
 //
 ///////////////////////////////////////////////
@@ -189,16 +124,15 @@ $Project "materialsystem"
 		$File	"mat_stub.cpp"
 		$File	"materialsystem_global.cpp"
 		$File	"morph.cpp"
-		$File	"SubdMgr.cpp"				[ !$X360 && !$PS3 ]
+		$File	"SubdMgr.cpp"
 		$File	"occlusionquerymgr.cpp"
 		$File	"shadersystem.cpp"
 		$File	"texturemanager.cpp"
-		$File	"cmaterialsystem_ps3fonts.cpp" [$PS3]
 		$File	"composite_texture.cpp"
 		$File	"custom_material.cpp"
 		$File	"base_visuals_data_processor.cpp"
 
-		$File	"pch_materialsystem.cpp" [!$PS3]
+		$File	"pch_materialsystem.cpp"
 		{
 			$Configuration
 			{
@@ -253,7 +187,6 @@ $Project "materialsystem"
 		$File	"$SRCDIR\public\mathlib\mathlib.h"
 		$File	"$SRCDIR\public\tier1\mempool.h"
 		$File	"$SRCDIR\public\pixelwriter.h"
-		$File	"$SRCDIR\public\tier0\platform_override.h"	[$PS3]
 		$File	"$SRCDIR\public\renderparm.h"
 		$File	"$SRCDIR\public\tier1\strtools.h"
 		$File	"$SRCDIR\public\tier1\utlbuffer.h"
@@ -294,32 +227,21 @@ $Project "materialsystem"
 		$File	"occlusionquerymgr.h"
 		$File	"shader_dll_verify.h"		[$WINDOWS]
 		$File	"shadersystem.h"
-		$File	"texturemanager.h"
-		$File	"shadersystem_ps3nonvirt.inl"  [$PS3]
-		$File	"shaderutil_ps3nonvirt.h"  [$PS3]
-		$File	"shaderutil_ps3nonvirt.inl"  [$PS3]		
+		$File	"texturemanager.h"	
 		$File	"composite_texture.h"
 		$File	"custom_material.h"
-	}
-
-	$Folder "Noninteractive Shaders" [$PS3]
-	{
-		$File	"$SHADERAPIDX9DIR\..\ps3gcm\noninteractiveshader.fp"
-		$File	"$SHADERAPIDX9DIR\..\ps3gcm\noninteractiveshader.vp"
-		$File	"$SHADERAPIDX9DIR\..\ps3gcm\noninteractiveshaderstartup.fp"
-		$File	"$SHADERAPIDX9DIR\..\ps3gcm\noninteractiveshaderstartuppass2.fp"
 	}
 
 	$Folder	"Link Libraries"
 	{
 		$Lib "bitmap"
 		$Lib "mathlib"
-		$Lib "shaderlib"[!$PS3 && !$OSXALL]
+		$Lib "shaderlib" [!$OSXALL]
 		$Lib "tier2"
 		$Lib "tier3"
 		$Lib "vtf"
 		$Lib "videocfg" [$OSXALL]
-		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX || $PS3 ) && !$NO_STEAM ]
+		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64							[ $WIN64 && !$NO_STEAM ]
 
 		$Implib togl [!$IS_LIB_PROJECT && $GL && !$DEDICATED]

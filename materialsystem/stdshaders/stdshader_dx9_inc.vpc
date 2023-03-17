@@ -6,33 +6,33 @@ $Project
 
 	$Folder	"Source Files"
 	{
-		$File	"$STDSHADERSDIR\aftershock.cpp"								[!$PS3]
-		$File	"$STDSHADERSDIR\aftershock_helper.cpp"							[!$PS3]
-		$File	"$STDSHADERSDIR\AccumBuff4Sample.cpp"							[!$PS3]
-		$File	"$STDSHADERSDIR\accumbuff5sample.cpp"							[!$PS3]
+		$File	"$STDSHADERSDIR\aftershock.cpp"
+		$File	"$STDSHADERSDIR\aftershock_helper.cpp"
+		$File	"$STDSHADERSDIR\AccumBuff4Sample.cpp"
+		$File	"$STDSHADERSDIR\accumbuff5sample.cpp"
 		$File	"$STDSHADERSDIR\BaseVSShader.cpp"
 		$File	"$STDSHADERSDIR\bik_dx90.cpp"
 		$File	"$STDSHADERSDIR\black.cpp"							
 		$File	"$STDSHADERSDIR\Blob_dx9.cpp"									[$WINDOWS]
 		$File	"$STDSHADERSDIR\Blob_helper.cpp"								[$WINDOWS]
-		$File	"$STDSHADERSDIR\Bloom.cpp"										[!$PS3]
+		$File	"$STDSHADERSDIR\Bloom.cpp"
 		$File	"$STDSHADERSDIR\BlurFilterX.cpp"
 		$File	"$STDSHADERSDIR\BlurFilterY.cpp"
 		$File	"$STDSHADERSDIR\BufferClearObeyStencil_dx9.cpp"
-		$File	"$STDSHADERSDIR\cable_dx9.cpp"									[!$PS3]
+		$File	"$STDSHADERSDIR\cable_dx9.cpp"
 		$File	"$STDSHADERSDIR\character_ssao.cpp"
 		$File	"$STDSHADERSDIR\character.cpp"
 		$File	"$STDSHADERSDIR\cloak.cpp"
 		$File	"$STDSHADERSDIR\cloak_blended_pass_helper.cpp"
 		$File	"$STDSHADERSDIR\cloak_dx9_helper.cpp"
-		$File	"$STDSHADERSDIR\colorcorrection.cpp"							[!$PS3]
+		$File	"$STDSHADERSDIR\colorcorrection.cpp"
 		$File	"$STDSHADERSDIR\colorout.cpp"
 		$File	"$STDSHADERSDIR\cs_grass.cpp"
 		$File	"$STDSHADERSDIR\customclothing.cpp"
 		$File	"$STDSHADERSDIR\customweapon_dx9.cpp"
 		$File	"$STDSHADERSDIR\customweapon_dx9_helper.cpp"
 		$File	"$STDSHADERSDIR\customcharacter.cpp"
-		$File	"$STDSHADERSDIR\debugmrttexture.cpp"							[!$PS3]
+		$File	"$STDSHADERSDIR\debugmrttexture.cpp"
 		$File	"$STDSHADERSDIR\debugmorphaccumulator_dx9.cpp"					[$WINDOWS]
 		$File	"$STDSHADERSDIR\DebugTextureView.cpp"
 		$File	"$STDSHADERSDIR\DecalModulate_dx9.cpp"
@@ -50,20 +50,20 @@ $Project
 		$File	"$STDSHADERSDIR\eyeglint_dx9.cpp"
 		$File	"$STDSHADERSDIR\flesh_interior_blended_pass_helper.cpp"
 		$File	"$STDSHADERSDIR\floatcombine.cpp"
-		$File	"$STDSHADERSDIR\floatcombine_autoexpose.cpp"				[!$PS3]
+		$File	"$STDSHADERSDIR\floatcombine_autoexpose.cpp"
 		$File	"$STDSHADERSDIR\floattoscreen.cpp"
-		$File	"$STDSHADERSDIR\floattoscreen_vanilla.cpp"					[!$PS3]
-		$File	"$STDSHADERSDIR\gamecontrols.cpp"							[!$PS3]
-		$File	"$STDSHADERSDIR\HDRCombineTo16Bit.cpp"						[!$PS3]
-		$File	"$STDSHADERSDIR\HDRSelectRange.cpp"						[!$PS3]
+		$File	"$STDSHADERSDIR\floattoscreen_vanilla.cpp"
+		$File	"$STDSHADERSDIR\gamecontrols.cpp"
+		$File	"$STDSHADERSDIR\HDRCombineTo16Bit.cpp"
+		$File	"$STDSHADERSDIR\HDRSelectRange.cpp"
 		$File	"$STDSHADERSDIR\hsl_filmgrain_pass1.cpp"
 		$File	"$STDSHADERSDIR\hsl_filmgrain_pass2.cpp"
 		$File   "$STDSHADERSDIR\filmgrain.cpp"
 		$File   "$STDSHADERSDIR\filmdust.cpp"
-		$File	"$STDSHADERSDIR\hsv.cpp"									[!$PS3]
+		$File	"$STDSHADERSDIR\hsv.cpp"
 		$File	"$STDSHADERSDIR\IceSurface_dx9.cpp"						[$WINDOWS]
 		$File	"$STDSHADERSDIR\IceSurface_helper.cpp"						[$WINDOWS]
-		$File	"$STDSHADERSDIR\introscreenspaceeffect.cpp"				[!$PS3]
+		$File	"$STDSHADERSDIR\introscreenspaceeffect.cpp"
 		$File	"$STDSHADERSDIR\lightmappedgeneric_dx9.cpp"
 		$File	"$STDSHADERSDIR\lightmappedgeneric_dx9_helper.cpp"
 		$File	"$STDSHADERSDIR\lightmappedpaint_dx9_helper.cpp"
@@ -77,7 +77,7 @@ $Project
 		$File	"$STDSHADERSDIR\morphaccumulate_dx9.cpp"					[$WINDOWS]
 		$File	"$STDSHADERSDIR\morphweight_dx9.cpp"						[$WINDOWS]
 		$File	"$STDSHADERSDIR\motion_blur_dx9.cpp"
-		$File	"$STDSHADERSDIR\object_motion_blur_dx9.cpp"				[!$PS3]
+		$File	"$STDSHADERSDIR\object_motion_blur_dx9.cpp"
 		$File	"$STDSHADERSDIR\multiblend.cpp"							[$WINDOWS]
 		$File	"$STDSHADERSDIR\multiblend_dx9_helper.cpp"					[$WINDOWS]
 		$File	"$STDSHADERSDIR\occlusion_dx9.cpp"
@@ -94,10 +94,10 @@ $Project
 		$File	"$STDSHADERSDIR\portal_refract_helper.cpp"
 		$File	"$STDSHADERSDIR\projected.cpp"								[$WINDOWS]
 		$File	"$STDSHADERSDIR\projected_dx9_helper.cpp"					[$WINDOWS]
-		$File	"$STDSHADERSDIR\proto_ice.cpp"								[!$PS3]
-		$File	"$STDSHADERSDIR\proto_ice_helper.cpp"						[!$PS3]
-		$File	"$STDSHADERSDIR\prototype.cpp"								[!$PS3]
-		$File	"$STDSHADERSDIR\prototype_helper.cpp"						[!$PS3]
+		$File	"$STDSHADERSDIR\proto_ice.cpp"
+		$File	"$STDSHADERSDIR\proto_ice_helper.cpp"
+		$File	"$STDSHADERSDIR\prototype.cpp"
+		$File	"$STDSHADERSDIR\prototype_helper.cpp"
 		$File	"$STDSHADERSDIR\refract.cpp"
 		$File	"$STDSHADERSDIR\refract_dx9_helper.cpp"
 		$File	"$STDSHADERSDIR\rendertargetblit_x360.cpp"					[$X360]	
@@ -132,9 +132,9 @@ $Project
 		$File	"$STDSHADERSDIR\vertexlitgeneric_dx9_helper.cpp"
 		$File	"$STDSHADERSDIR\vertexlit_sob_dx9.cpp"						[$WINDOWS && $SOB]
 		$File	"$STDSHADERSDIR\vertexlit_sob_dx9_helper.cpp"				[$WINDOWS && $SOB]
-		$File	"$STDSHADERSDIR\volume_clouds.cpp"							[!$PS3]
-		$File	"$STDSHADERSDIR\volume_clouds_helper.cpp"					[!$PS3]
-		$File	"$STDSHADERSDIR\vortwarp_dx9.cpp"							[!$ps3]
+		$File	"$STDSHADERSDIR\volume_clouds.cpp"
+		$File	"$STDSHADERSDIR\volume_clouds_helper.cpp"
+		$File	"$STDSHADERSDIR\vortwarp_dx9.cpp"
 		$File	"$STDSHADERSDIR\water.cpp"
 		$File	"$STDSHADERSDIR\weapondecal_dx9.cpp"
 		$File	"$STDSHADERSDIR\weapondecal_dx9_helper.cpp"
@@ -143,7 +143,7 @@ $Project
 		$File	"$STDSHADERSDIR\worldimposter.cpp"							
 		$File	"$STDSHADERSDIR\worldtwotextureblend.cpp"
 		$File	"$STDSHADERSDIR\worldvertextransition.cpp"
-		$File	"$STDSHADERSDIR\worldvertextransition_dx8_helper.cpp"		[!$PS3]
+		$File	"$STDSHADERSDIR\worldvertextransition_dx8_helper.cpp"
 		$File	"$STDSHADERSDIR\writez_dx9.cpp"
 		$File	"$STDSHADERSDIR\writestencil_dx9.cpp"
 
@@ -153,20 +153,6 @@ $Project
 			$File	"$SRCDIR\tier1\checksum_md5.cpp"
 			$File	"$STDSHADERSDIR\..\shader_dll_verify.cpp"
 			$File	"$STDSHADERSDIR\..\shader_dll_verify.h"
-		}
-
-		// 360 collapes stdshader_dbg.dll into stdshader_dx9.dll
-		$Folder	"stdshader_dbg Files" [$X360 || $PS3]
-		{
-			$File	"$STDSHADERSDIR\debugdepth.cpp"
-			$File	"$STDSHADERSDIR\DebugDrawEnvmapMask.cpp"
-			$File	"$STDSHADERSDIR\debugluxel.cpp"
-			$File	"$STDSHADERSDIR\debugnormalmap.cpp"
-			$File	"$STDSHADERSDIR\debugtangentspace.cpp"
-			$File	"$STDSHADERSDIR\fillrate.cpp"
-
-			// dead shader, but hl2 models have it
-			$File	"$STDSHADERSDIR\eyeball.cpp"
 		}
 	}
 

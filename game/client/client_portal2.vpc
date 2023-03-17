@@ -28,7 +28,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalDependencies			"$BASE Imm32.lib" [$WIN32]
-		$AdditionalDependencies			"$BASE libspurs_stub.a libspurs_jq_stub.a libsysutil_stub.a libsysutil_game_stub.a libnetctl_stub.a"						[$PS3]
 		$AdditionalDependencies			"$BASE $LIBCOMMON\ceglib.lib"				[ $WIN32 && !$NO_CEG ]
 		//$FunctionOrder				"$(IntDir)\functionorder.txt" 				[ $WIN32 && !$NO_CEG ]
 		//$References					"Eliminate Unreferenced Data (/OPT:REF)"	[ $WIN32 && !$NO_CEG ]
@@ -327,7 +326,7 @@ $Project "Client (Portal 2)"
 						{
 							$Compiler
 							{
-								$Create/UsePrecompiledHeader	"Not Using Precompiled Headers" [!$PS3]
+								$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
 							}
 						}
 					}
@@ -341,7 +340,7 @@ $Project "Client (Portal 2)"
 						{
 							$Compiler
 							{
-								$Create/UsePrecompiledHeader	"Not Using Precompiled Headers" [!$PS3]
+								$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
 							}
 						}
 					}
@@ -566,7 +565,7 @@ $Project "Client (Portal 2)"
 						{
 							$Compiler
 							{
-								$Create/UsePrecompiledHeader	"Not Using Precompiled Headers" [!$PS3]
+								$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
 							}
 						}
 					}
@@ -763,8 +762,6 @@ $Project "Client (Portal 2)"
 				$File	"portal2\c_paint_stream.h"
 				$File	"portal2\c_paint_stream.cpp"
 				$File	"portal2\paint_hud_paint_ammo.cpp"
-
-				$File	"$SRCDIR\common\ps3\vjobutils.cpp"		[$PS3]
 				
 				$Folder	"Additional Public Header Files"
 				{

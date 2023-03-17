@@ -17,18 +17,13 @@ $Configuration
 		$PreprocessorDefinitions		"$BASE;NO_STRING_T;VERSION_SAFE_STEAM_API_INTERFACES;PROTECTED_THINGS_ENABLE" 
 		$PreprocessorDefinitions		"$BASE;INCLUDE_SCALEFORM" [$WIN32]
 	}
-	$Linker [!$PS3]
+	$Linker
 	{
 		$AdditionalDependencies			"$BASE Winmm.lib" [$WINDOWS]
 		$AdditionalDependencies			"$BASE imm32.lib" [$WINDOWS]
 		$SystemLibraries                "iconv" [$OSXALL]
 		$SystemFrameworks 				"Carbon;ForceFeedback;IOKit"
 		$SystemLibraries                "SDL2" [$LINUXALL]
-	}
-
-	$Linker [$PS3]
-	{
-		$AdditionalDependencies			"$BASE $SCE_PPU_LIBROOT\libio_stub.a $SCE_PPU_LIBROOT\libcamera_stub.a $SCE_PPU_LIBROOT\libgem_stub.a $SCE_PPU_LIBROOT\libspurs_stub.a $SCE_PPU_LIBROOT\libgcm_cmd.a $SCE_PPU_LIBROOT\libgcm_sys_stub.a"
 	}
 }
 
@@ -45,8 +40,8 @@ $Project "inputsystem"
 		$File	"steamcontroller.cpp"
 		$File	"key_translation.cpp"
 		$File	"key_translation.h"
-		$File	"movecontroller_ps3.cpp" [$PS3]
-		$File	"movecontroller_ps3.h" [$PS3]
+		$File	"movecontroller_ps3.cpp"
+		$File	"movecontroller_ps3.h"
 		$File	"xcontroller.cpp"		[!$POSIX]
 		$File	"$SRCDIR\common\platforminputdevice.cpp"
 	}
@@ -66,7 +61,7 @@ $Project "inputsystem"
 	{
 		$Lib	"tier2"
 		$Lib	"mathlib"
-		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX || $PS3 ) && !$NO_STEAM ]
+		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64							[ $WIN64 && !$NO_STEAM ]
 	}
 }

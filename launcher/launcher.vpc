@@ -20,7 +20,7 @@ $Configuration
 		$PreprocessorDefinitions	"$BASE;LAUNCHERONLY;INCLUDE_SCALEFORM"
 	}
 
-	$Linker [!$PS3]
+	$Linker
 	{
 		$AdditionalDependencies		"$BASE shlwapi.lib winmm.lib wsock32.lib odbc32.lib odbccp32.lib $SRCDIR\dx9sdk\lib\dinput8.lib" [$WINDOWS]
 		$SystemFrameworks                                "Carbon;AppKit;OpenGL;IOKit"
@@ -33,30 +33,6 @@ $Configuration
 	}
 }
 
-$Configuration "Debug"
-{
-	$Linker
-	{
-		$AdditionalDependencies			"$BASE Xonlined.lib" [$X360]
-	}
-}
-
-$Configuration "Release"
-{
-	$Linker
-	{
-		$AdditionalDependencies			"$BASE Xonline.lib" [$X360]
-	}
-}
-
-$Project
-{
-	$Folder	"Source Files" [$PS3]
-	{
-		-$File	"$SRCDIR\common\ps3\prx.cpp"
-	}
-}
-
 $Project "launcher"
 {
 	$Folder	"Source Files"
@@ -64,7 +40,6 @@ $Project "launcher"
 		$File	"$SRCDIR\public\filesystem_init.cpp"
 		$File	"launcher.cpp"
 		$File	"reslistgenerator.cpp"
-		$File	"prx.cpp"	[$PS3]
 	}
 
 	$Folder	"Header Files"
@@ -98,7 +73,7 @@ $Project "launcher"
 		$Lib			appframework
 		$Lib			tier2
 		$Lib			tier3
-		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX || $PS3 ) && !$NO_STEAM ]
+		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64							[ $WIN64 && !$NO_STEAM ]
 		$ImpLib			togl								[!$IS_LIB_PROJECT && $GL]
 		$ImpLib			SDL2							[$SDL && !$LINUXALL]

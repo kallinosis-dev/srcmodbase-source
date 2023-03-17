@@ -9,7 +9,6 @@ $Macro GAMENAME "dota"
 $Macro GAMESUBDIR "dota"
 
 $Macro OUTBINDIR	"$SRCDIR\..\game\$GAMENAME\bin"
-$Macro DEVKITBINDIR	"$GAMENAME\bin"							[$X360]
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc" 
 $Include "matchmaking_inc.vpc"

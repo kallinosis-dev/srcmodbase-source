@@ -11,18 +11,12 @@ $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
-	$Compiler [!$PS3]
+	$Compiler
 	{
 		$PreprocessorDefinitions		"$BASE;VSCRIPT_DLL_EXPORT;LUA_MOD_CASE_INSENSITIVE" 
-		$PreprocessorDefinitions		"$BASE;MSVC" [$WINDOWS||$X360]
+		$PreprocessorDefinitions		"$BASE;MSVC" [$WINDOWS]
 		$AdditionalIncludeDirectories	"$BASE;.\languages\squirrel\include;.\languages\squirrel\sqplus;.\languages\lua\lua-5.1.4\src" [$OSXALL||$POSIX]
 
-	}
- 
-	$Compiler [$PS3]
-	{
-		$PreprocessorDefinitions		"$BASE;VSCRIPT_DLL_EXPORT;LUA_MOD_CASE_INSENSITIVE" 
-		$C++ExceptionsandRTTIUsage		"Using Exceptions and RTTI"
 	}
 
 	$Linker [$OSXALL]
@@ -34,7 +28,7 @@ $Configuration
 
 $Configuration "Release"
 {
-	$General [!$PS3]
+	$General
 	{
 		$WholeProgramOptimization		"Use Link Time Code Generation"			[!$PROFILE]
 	}
@@ -56,7 +50,7 @@ $Project "vscript"
 				$ExcludedFromBuild					"Yes"
 			}
 		}
-		$File	".\languages\lua\vlua\vlua.cpp" [!$X360 && !$PS3 && !$LINUX]
+		$File	".\languages\lua\vlua\vlua.cpp" [!$LINUX]
 		{
 			$Configuration
 			{
@@ -276,7 +270,7 @@ $Project "vscript"
 				{
 					$Configuration
 					{
-						$Compiler [!$PS3]
+						$Compiler
 						{
 							$WarningLevel						"Level 3 (/W3)"
 //							$Detect64bitPortabilityIssues		"No"	[$WIN32||$LINUX]
@@ -324,7 +318,7 @@ $Project "vscript"
 				{
 					$Configuration
 					{
-						$Compiler [!$PS3]
+						$Compiler
 						{
 							$WarningLevel						"Level 3 (/W3)"
 //							$Detect64bitPortabilityIssues		"No"	[$WIN32||$LINUX]
@@ -343,7 +337,7 @@ $Project "vscript"
 		{
 			$Folder	"Source Files"
 			{
-				$File ".\languages\squirrel\sqplus\SquirrelBindingsUtilsWin32.cpp" [!$PS3&&!$POSIX]
+				$File ".\languages\squirrel\sqplus\SquirrelBindingsUtilsWin32.cpp" [!$POSIX]
 				{
 					$Configuration
 					{
@@ -367,7 +361,7 @@ $Project "vscript"
 				{
 					$Configuration
 					{
-						$Compiler [!$PS3]
+						$Compiler
 						{
 							$WarningLevel						"Level 3 (/W3)"
 //							$Detect64bitPortabilityIssues		"No"	[$WIN32||$LINUX]
@@ -396,7 +390,7 @@ $Project "vscript"
 		}
 	}
 	
-	$Folder "Lua" [ !$X360 && !$PS3  && !$LINUX]
+	$Folder "Lua" [!$LINUX]
 	{
 		$Folder "lua-5.1.4"
 		{
@@ -435,7 +429,7 @@ $Project "vscript"
 				{
 					$Configuration
 					{
-						$Compiler [!$PS3]
+						$Compiler
 						{
 							$WarningLevel						"Level 3 (/W3)"
 							$Detect64bitPortabilityIssues		"No"

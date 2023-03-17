@@ -20,11 +20,8 @@ $Configuration	"Debug"
 {
 	$General
 	{
-		$OutputDirectory			".\Debug_$GAMENAME_DS"			[$WIN32||$POSIX]
-		$IntermediateDirectory		".\Debug_$GAMENAME_DS"			[$WIN32||$POSIX]
-
-		$OutputDirectory			".\Debug_$GAMENAME_DS_360"		[$X360]
-		$IntermediateDirectory		".\Debug_$GAMENAME_DS_360"		[$X360]
+		$OutputDirectory			".\Debug_$GAMENAME_DS"
+		$IntermediateDirectory		".\Debug_$GAMENAME_DS"
 	}
 }
 
@@ -32,11 +29,8 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$OutputDirectory			".\Release_$GAMENAME_DS"		[$WIN32||$POSIX]
-		$IntermediateDirectory		".\Release_$GAMENAME_DS"		[$WIN32||$POSIX]
-
-		$OutputDirectory			".\Release_$GAMENAME_DS_360"	[$X360]
-		$IntermediateDirectory		".\Release_$GAMENAME_DS_360"	[$X360]
+		$OutputDirectory			".\Release_$GAMENAME_DS"
+		$IntermediateDirectory		".\Release_$GAMENAME_DS"
 	}
 }
 

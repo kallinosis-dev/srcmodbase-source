@@ -14,7 +14,6 @@ $Configuration
 	{
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include"			[$WINDOWS]
 		$AdditionalIncludeDirectories	"$BASE;$(XEDK)\include\win32"			[$WINDOWS && $XDKINSTALLED]
-		$AdditionalIncludeDirectories	"$BASE;$(XEDK)\include\xbox"			[$X360]
 	}
 }
 
@@ -23,7 +22,6 @@ $Project "bitmap"
 	$Folder	"Source Files"
 	{
 		$File	"bitmap.cpp"
-		$File	"ImageByteSwap.cpp"					[$X360 || $PS3]
 		$File	"colorconversion.cpp"
 		$File	"floatbitmap.cpp"
 		$File	"floatbitmap2.cpp"

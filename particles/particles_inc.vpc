@@ -9,14 +9,9 @@ $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
 $Configuration
 {
-	$Compiler [$WINDOWS || $PS3]
+	$Compiler [$WINDOWS]
 	{
 		$PreprocessorDefinitions		"$BASE;$EXTRADEFINES"
-	}
-	
-	$Compiler [$X360]
-	{
-		$PreprocessorDefinitions		"$BASE"
 	}
 }
 
@@ -24,26 +19,26 @@ $Project $PROJNAME
 {
 	$Folder	"Source Files"
 	{
-		$File	"../particles/builtin_constraints.cpp"
-		$File	"../particles/builtin_initializers.cpp"
-		$File	"../particles/builtin_particle_emitters.cpp"
-		$File	"../particles/builtin_particle_forces.cpp"
-		$File   "../particles/addbuiltin_ops.cpp"
-		$File	"../particles/builtin_particle_ops.cpp"
-		$File	"../particles/builtin_particle_render_ops.cpp"
-		$File	"../particles/particle_snapshot.cpp"
-		$File	"../particles/particle_sort.cpp"
-		$File	"../particles/particles.cpp"
+		$File	"builtin_constraints.cpp"
+		$File	"builtin_initializers.cpp"
+		$File	"builtin_particle_emitters.cpp"
+		$File	"builtin_particle_forces.cpp"
+		$File   "addbuiltin_ops.cpp"
+		$File	"builtin_particle_ops.cpp"
+		$File	"builtin_particle_render_ops.cpp"
+		$File	"particle_snapshot.cpp"
+		$File	"particle_sort.cpp"
+		$File	"particles.cpp"
 	}
 
 	$Folder	"Header Files"
 	{
 		$File	"$SRCDIR\public\particles\particles.h"
-		$File	"../particles/random_floats.h"
-		$File	"../particles/particles_internal.h"
+		$File	"random_floats.h"
+		$File	"particles_internal.h"
 	}
 
-	$Folder "Link Libraries" [$WINDOWS||$X360]
+	$Folder "Link Libraries" [$WINDOWS]
 	{
 		$Lib "bitmap"
 	}

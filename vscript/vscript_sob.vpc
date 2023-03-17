@@ -9,7 +9,6 @@ $Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 $macro OUTBINNAME "vscript"
 
 $include "$SRCDIR\vpc_scripts\source_dll_win32_base.vpc"	[$WIN32||$LINUX]
-$include "$SRCDIR\vpc_scripts\source_dll_x360_base.vpc"		[$X360]
 
 $Configuration
 {

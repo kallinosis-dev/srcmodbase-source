@@ -28,11 +28,8 @@ $Configuration	"Debug"
 {
 	$General
 	{
-		$OutputDirectory		".\Debug_$GAMENAME$PLATSUBDIR"			[$WINDOWS]
-		$IntermediateDirectory	".\Debug_$GAMENAME$PLATSUBDIR"			[$WINDOWS]
-
-		$OutputDirectory		".\Debug_$GAMENAME_360"		[$X360]
-		$IntermediateDirectory	".\Debug_$GAMENAME_360"		[$X360]
+		$OutputDirectory		".\Debug_$GAMENAME$PLATSUBDIR"
+		$IntermediateDirectory	".\Debug_$GAMENAME$PLATSUBDIR"
 	}
 }
 
@@ -40,11 +37,8 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$OutputDirectory		".\Release_$GAMENAME$PLATSUBDIR"		[$WINDOWS]
-		$IntermediateDirectory	".\Release_$GAMENAME$PLATSUBDIR"		[$WINDOWS]
-
-		$OutputDirectory		".\Release_$GAMENAME_360"	[$X360]
-		$IntermediateDirectory	".\Release_$GAMENAME_360"	[$X360]
+		$OutputDirectory		".\Release_$GAMENAME$PLATSUBDIR"
+		$IntermediateDirectory	".\Release_$GAMENAME$PLATSUBDIR"
 	}
 }
 
@@ -54,9 +48,9 @@ $Configuration
 	{
 		$AdditionalIncludeDirectories	"$BASE;.\;$SRCDIR\game\shared;$SRCDIR\utils\common;$(IntDir)"
 		$PreprocessorDefinitions		"$BASE;GAME_DLL;VECTOR;VERSION_SAFE_STEAM_API_INTERFACES;PROTECTED_THINGS_ENABLE"
-		$PreprocessorDefinitions		"$BASE;sprintf=use_Q_snprintf_instead_of_sprintf;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" [!$POSIX && !$PS3]
-		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)" [!$PS3]
-		$Create/UsePCHThroughFile		"cbase.h" [!$PS3]
+		$PreprocessorDefinitions		"$BASE;sprintf=use_Q_snprintf_instead_of_sprintf;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" [!$POSIX]
+		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+		$Create/UsePCHThroughFile		"cbase.h"
 	}
 
 	$Linker
@@ -773,7 +767,7 @@ $Project
 			{
 				$Compiler
 				{
-					$Create/UsePrecompiledHeader	"Not Using Precompiled Headers" [!$PS3]
+					$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
 				}
 			}
 		}
@@ -798,7 +792,7 @@ $Project
 				{
 					$Compiler
 					{
-						$Create/UsePrecompiledHeader	"Create Precompiled Header (/Yc)" [!$PS3]
+						$Create/UsePrecompiledHeader	"Create Precompiled Header (/Yc)"
 					}
 				}
 			}
@@ -1144,7 +1138,7 @@ $Project
 //			$Configuration "Release" { $ExcludedFromBuild "Yes" }
 //		}
 
-		$ImplibExternal	steam_api					[ ( $WIN32 || $POSIX || $PS3 ) && !$NO_STEAM ]
+		$ImplibExternal	steam_api					[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64					[ $WIN64 && !$NO_STEAM ]
 	}
 }

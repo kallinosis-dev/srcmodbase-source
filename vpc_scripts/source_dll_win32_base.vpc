@@ -36,7 +36,6 @@ $Configuration
 		$PreprocessorDefinitions			"$BASE;COMPILER_MSVC32" [$WIN32]		
 		$PreprocessorDefinitions			"$BASE;COMPILER_MSVC;MEMOVERRIDE_MODULE=$PROJECTNAME;_DLL_EXT=$_DLL_EXT"
 		$PreprocessorDefinitions			"$BASE;DLLNAME=$OUTBINNAME"
-		$PreprocessorDefinitions			"$BASE;PS3SDK_INSTALLED" [$PS3SDKINSTALLED]
 		$PreprocessorDefinitions			"$BASE;XDK_INSTALLED" [$XDKINSTALLED]
 	}
 

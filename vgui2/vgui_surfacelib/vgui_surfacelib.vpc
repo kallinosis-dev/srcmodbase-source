@@ -20,8 +20,6 @@ $Project "vgui_surfacelib"
 		$File	"fonttexturecache.cpp"
 		$File	"texturedictionary.cpp"
 		$File	"Win32Font.cpp"			[$WINDOWS]
-		$File	"Win32Font_x360.cpp"	[$X360]
-		$File	"ps3font.cpp"			[$PS3]
 		$File	"osxfont.cpp"			[$OSXALL]
 		$File	"linuxfont.cpp"			[$LINUXALL]
 	}
@@ -45,7 +43,6 @@ $Project "vgui_surfacelib"
 		$File	"$SRCDIR\public\vstdlib\vstdlib.h"
 		$File	"$SRCDIR\common\vgui_surfacelib\vguifont.h"
 		$File	"$SRCDIR\common\vgui_surfacelib\Win32Font.h" [$WINDOWS]
-		$File	"$SRCDIR\common\vgui_surfacelib\ps3font.h" [$PS3]
 		$File	"$SRCDIR\common\vgui_surfacelib\osxfont.h" [$OSXALL]
 	}
 }

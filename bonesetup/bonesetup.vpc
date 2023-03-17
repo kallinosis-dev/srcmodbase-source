@@ -21,10 +21,6 @@ $Project "bonesetup"
 {
 	$Folder	"Source Files"
 	{
-		$File	"bone_setup_PS3.cpp"	[$PS3]
-		$File	"bone_ik_PS3.cpp"		[$PS3]
-		$File	"bone_utils_PS3.cpp"	[$PS3]
-		$File	"bone_decode_PS3.cpp"	[$PS3]
 		$File	"bone_setup.cpp"
 		$File	"bone_ik.cpp"
 		$File	"bone_utils.cpp"
@@ -35,13 +31,11 @@ $Project "bonesetup"
 	$Folder	"Header Files"
 	{
 		$File	"bone_utils.h"
-		$File	"bone_utils_PS3.h"		[$PS3]
 	}
 
 
 	$Folder	"Public Header Files"
 	{
-		$File	"$SRCDIR\public\bone_setup.h"			[$WINDOWS||$POSIX]		
-		$File	"$SRCDIR\public\bone_setup_PS3.h"		[$PS3]		
+		$File	"$SRCDIR\public\bone_setup.h"
 	}
 }

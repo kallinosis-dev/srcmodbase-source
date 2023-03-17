@@ -21,8 +21,7 @@ $Configuration	"Debug"
 {
 	$General
 	{
-		$IntermediateDirectory		".\Debug_matchmakingbase_ds$PLATSUBDIR"			[$WINDOWS||$POSIX]
-		$IntermediateDirectory		".\Debug_matchmakingbase_ds_360"				[$X360]
+		$IntermediateDirectory		".\Debug_matchmakingbase_ds$PLATSUBDIR"
 	}
 }
 
@@ -30,8 +29,7 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$IntermediateDirectory		".\Release_matchmakingbase_ds$PLATSUBDIR"		[$WINDOWS||$POSIX]
-		$IntermediateDirectory		".\Release_matchmakingbase_ds_360"				[$X360]
+		$IntermediateDirectory		".\Release_matchmakingbase_ds$PLATSUBDIR"
 	}
 }
 

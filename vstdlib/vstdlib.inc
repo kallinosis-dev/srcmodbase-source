@@ -8,13 +8,12 @@ $Project
 {
 	$Folder	"Source Files"
 	{
-		$File	"xbox\___FirstModule.cpp"	[$X360]
 		$File	"concommandhash.h"
-		$File	"coroutine.cpp"				[!$X360]
+		$File	"coroutine.cpp"
 		{
 			$Configuration
 			{
-				$Compiler [!$PS3]
+				$Compiler
 				{
 					$BasicRuntimeChecks						"Default" 
 				}
@@ -40,8 +39,6 @@ $Project
 		$File	"random.cpp"
 		$File	"vcover.cpp"
 		$File	"eventsystem.cpp"
-		$File	"prx.cpp"					[$PS3]
-		$File	"prxexport.cpp"		[$PS3]
 		$File   "vstrtools.cpp"
 		$File   "vstdlib_strtools.cpp"
 	}

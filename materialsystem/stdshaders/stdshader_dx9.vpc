@@ -18,11 +18,8 @@ $Configuration	"Debug"
 {
 	$General
 	{
-		$OutputDirectory		"Debug_dx9$PLATSUBDIR"			[$WINDOWS]
-		$IntermediateDirectory	"Debug_dx9$PLATSUBDIR"			[$WINDOWS]
-		
-		$OutputDirectory		"Debug_dx9_360"					[$X360]
-		$IntermediateDirectory	"Debug_dx9_360"					[$X360]
+		$OutputDirectory		"Debug_dx9$PLATSUBDIR"
+		$IntermediateDirectory	"Debug_dx9$PLATSUBDIR"
 	}
 }
 
@@ -30,11 +27,8 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$OutputDirectory		"Release_dx9$PLATSUBDIR"		[$WINDOWS]
-		$IntermediateDirectory	"Release_dx9$PLATSUBDIR"		[$WINDOWS]
-
-		$OutputDirectory		"Release_dx9_360"				[$X360]
-		$IntermediateDirectory	"Release_dx9_360"				[$X360]
+		$OutputDirectory		"Release_dx9$PLATSUBDIR"
+		$IntermediateDirectory	"Release_dx9$PLATSUBDIR"
 	}
 }
 
@@ -45,17 +39,14 @@ $Configuration
 	{
 		$AdditionalIncludeDirectories	"$BASE;fxctmp9;vshtmp9;"	[$WINDOWS||$POSIX]
 		$AdditionalIncludeDirectories	"$BASE;..\..\dx9sdk\include"	[$WINDOWS]
-		$AdditionalIncludeDirectories	"$BASE;fxctmp9_360;vshtmp9_360"					[$X360]
-		$AdditionalIncludeDirectories	"$BASE;fxctmp9_ps3"								[$PS3]
 		$AdditionalIncludeDirectories	"$BASE;.."
 		$PreprocessorDefinitions		"$BASE;STDSHADER_DX9_DLL_EXPORT;FAST_MATERIALVAR_ACCESS"
-		$PreprocessorDefinitions		"$BASE;USE_ACTUAL_DX" [ ( $WINDOWS||$X360 ) && !$GL ]
+		$PreprocessorDefinitions		"$BASE;USE_ACTUAL_DX" [ $WINDOWS && !$GL ]
 	}
 
-	$Linker [!$PS3]
+	$Linker
 	{
 		$AdditionalDependencies			"$BASE version.lib winmm.lib"	[$WINDOWS]
-		$ModuleDefinitionFile			"xbox\xbox_dx9.def"				[$X360]
 		$SystemLibraries                                                        "iconv" [$OSXALL]
 	}
 }
@@ -64,11 +55,6 @@ $include "stdshader_dx9_inc.vpc"
 
 $Project "stdshader_dx9"
 {
-		
-	$Folder "Xbox"	[$X360]
-	{
-		$File	"xbox\xbox_dx9.def"
-	}
 
 	$Folder	"Link Libraries" 
 	{

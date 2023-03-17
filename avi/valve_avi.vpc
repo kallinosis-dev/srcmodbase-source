@@ -60,7 +60,7 @@ $Project "valve_avi"
 		$File	"$SRCDIR\public\avi\iquicktime.h"
 	}
 
-	$Folder "Link Libraries" [$WINDOWS||$X360||$POSIX]
+	$Folder "Link Libraries"
 	{
 		$Lib tier2
 		$lib tier3

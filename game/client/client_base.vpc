@@ -7,7 +7,6 @@
 $Macro OUTBINNAME	"client"
 $Macro OUTBINDIR	"$SRCDIR\..\game\$GAMENAME\bin"
 $Macro OUTCEGDIR	"$SRCDIR\..\game\$GAMENAME\bin\ceg"				[$WINDOWS && $CEG]
-$Macro DEVKITBINDIR	"$GAMENAME\bin"							[$X360]
 $Macro GENERATED_PROTO_DIR	"$SRCDIR\game\client\generated_proto"
 
 
@@ -31,11 +30,8 @@ $Configuration	"Debug"
 {
 	$General
 	{
-		$OutputDirectory			".\Debug_$GAMENAME$PLATSUBDIR"			[$WINDOWS]
-		$IntermediateDirectory		".\Debug_$GAMENAME$PLATSUBDIR"			[$WINDOWS]
-
-		$OutputDirectory			".\Debug_$GAMENAME_360"					[$X360]
-		$IntermediateDirectory		".\Debug_$GAMENAME_360"					[$X360]
+		$OutputDirectory			".\Debug_$GAMENAME$PLATSUBDIR"
+		$IntermediateDirectory		".\Debug_$GAMENAME$PLATSUBDIR"
 	}
 }
 
@@ -43,11 +39,8 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$OutputDirectory			".\Release_$GAMENAME$PLATSUBDIR"		[$WINDOWS]
-		$IntermediateDirectory		".\Release_$GAMENAME$PLATSUBDIR"		[$WINDOWS]
-
-		$OutputDirectory			".\Release_$GAMENAME_360"				[$X360]
-		$IntermediateDirectory		".\Release_$GAMENAME_360"				[$X360]
+		$OutputDirectory			".\Release_$GAMENAME$PLATSUBDIR"
+		$IntermediateDirectory		".\Release_$GAMENAME$PLATSUBDIR"
 	}
 }
 
@@ -58,16 +51,16 @@ $Configuration
 		$AdditionalIncludeDirectories	".\;$BASE;$SRCDIR\game\shared;.\game_controls;$(IntDir)"
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\thirdparty\SixenseSDK\include" [$WINDOWS]
 		$PreprocessorDefinitions		"$BASE;NO_STRING_T;CLIENT_DLL;VECTOR;VERSION_SAFE_STEAM_API_INTERFACES;PROTECTED_THINGS_ENABLE"
-		$PreprocessorDefinitions		"$BASE;sprintf=use_Q_snprintf_instead_of_sprintf;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" [!$POSIX && !$PS3]
+		$PreprocessorDefinitions		"$BASE;sprintf=use_Q_snprintf_instead_of_sprintf;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" [!$POSIX]
 		$PreprocessorDefinitions		"$BASE;fopen=dont_use_fopen" [$WINDOWS]
 		$PreprocessorDefinitions		"$BASE;ENABLE_CHROMEHTMLWINDOW;ENABLE_STUDIO_SOFTBODY"
-		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"		[!$PS3]
-		$Create/UsePCHThroughFile		"cbase.h"						 	[!$PS3]
-		$PrecompiledHeaderFile			"$(IntDir)/client.pch"				[!$PS3]
+		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+		$Create/UsePCHThroughFile		"cbase.h"
+		$PrecompiledHeaderFile			"$(IntDir)/client.pch"
 		$AdditionalOptions			"/Zm168"
 	}
 
-	$Linker [!$PS3]
+	$Linker
 	{
 		$SystemLibraries				"iconv"     [$OSXALL]
 		$SystemFrameworks				"Carbon"
@@ -121,7 +114,6 @@ $Project
 		$File	"$SRCDIR\public\engine\iblackbox.h"
 		$File	"$SRCDIR\public\bone_accessor.cpp"
 		$File	"$SRCDIR\game\shared\bone_merge_cache.cpp"
-		$File	"buildrenderables_PS3.cpp"			[$PS3]
 		$File	"c_ai_basehumanoid.cpp"
 		$File	"c_ai_basenpc.cpp"
 		$File	"c_baseanimating.cpp"
@@ -184,8 +176,6 @@ $Project
 		$File	"c_keyvalue_saver.h"
 		$File	"c_lightglow.cpp"
 		$File	"C_MaterialModifyControl.cpp"
-		$File	"c_memorylog.cpp"								[$X360||$PS3]
-		$File	"c_memorylog.h"									[$X360||$PS3]
 		$File	"c_mod_lesson_stubs.cpp"
 		$File	"c_movie_display.cpp"
 		$File	"c_particle_system.cpp"
@@ -474,7 +464,6 @@ $Project
 		$File	"vgui_hudvideo.cpp"
 		$File	"vgui_video.cpp"
 		$File	"$SRCDIR\game\shared\mp_shareddefs.cpp"
-		$File	"$SRCDIR\common\ps3\vjobutils.cpp"					[$PS3]
 		$File	"subtitlepanel.cpp"
 		$File	"c_vote_controller.h"
 		$File	"c_vote_controller.cpp"
@@ -669,7 +658,6 @@ $Project
 		$File	"baseclientrendertargets.h"
 		$File	"beamdraw.h"
 		$File	"$SRCDIR\game\shared\bone_merge_cache.h"
-		$File	"buildrenderables_PS3.h"			[$PS3]
 		$File	"c_ai_basenpc.h"
 		$File	"c_baseanimating.h"
 		$File	"c_baseanimatingoverlay.h"
@@ -885,7 +873,6 @@ $Project
 		$File	"$SRCDIR\public\bitvec.h"
 		$File	"$SRCDIR\public\bone_accessor.h"
 		$File	"$SRCDIR\public\bone_setup.h"
-		$File	"$SRCDIR\public\bone_setup_PS3.h"		[$PS3]
 		$File	"$SRCDIR\public\bspfile.h"
 		$File	"$SRCDIR\public\bspflags.h"
 		$File	"$SRCDIR\public\bsptreedata.h"
@@ -1059,7 +1046,6 @@ $Project
 		$File	"$SRCDIR\public\stringregistry.h"
 		$File	"$SRCDIR\public\tier1\strtools.h"
 		$File	"$SRCDIR\public\studio.h"
-		$File	"$SRCDIR\public\studio_PS3.h"		[$PS3]
 		$File	"$SRCDIR\public\surfinfo.h"
 		$File	"$SRCDIR\public\vgui_controls\TextEntry.h"
 		$File	"$SRCDIR\public\vgui_controls\TextImage.h"
@@ -1249,7 +1235,7 @@ $Project
 		$Lib			"matsys_controls"
 		$Lib			"particles"
 		$Lib			"raytrace"
-		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX || $PS3 ) && !$NO_STEAM ]
+		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64							[ $WIN64 && !$NO_STEAM ]
 
 		$Lib			"tier2"

@@ -116,7 +116,7 @@ $Project "Dedicated"
 	{
 		$Lib	appframework
 		$Lib	dmxloader
-		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX || $PS3 ) && !$NO_STEAM ]
+		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64							[ $WIN64 && !$NO_STEAM ]
 		$Lib	mathlib
 		$Lib 	tier2

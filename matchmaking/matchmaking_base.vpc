@@ -21,9 +21,7 @@ $Configuration	"Debug"
 {
 	$General
 	{
-		$IntermediateDirectory		".\Debug_matchmakingbase$PLATSUBDIR"			[$WINDOWS||$POSIX]
-		$IntermediateDirectory		".\Debug_matchmakingbase_360"		[$X360]
-		$IntermediateDirectory		".\Debug_matchmakingbase_PS3"		[$PS3]
+		$IntermediateDirectory		".\Debug_matchmakingbase$PLATSUBDIR"
 	}
 }
 
@@ -31,9 +29,7 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$IntermediateDirectory		".\Release_matchmakingbase$PLATSUBDIR"		[$WINDOWS||$POSIX]
-		$IntermediateDirectory		".\Release_matchmakingbase_360"	[$X360]
-		$IntermediateDirectory		".\Release_matchmakingbase_PS3"	[$PS3]
+		$IntermediateDirectory		".\Release_matchmakingbase$PLATSUBDIR"
 	}
 }
 

@@ -20,7 +20,7 @@ $Configuration
 //		$TreatWchar_tAsBuiltinType		"No"
 	}
 
-	$Linker [!$PS3]
+	$Linker
 	{
 		$AdditionalDependencies			"$BASE Imm32.lib Shlwapi.lib odbc32.lib odbccp32.lib winmm.lib" [$WINDOWS]
 		$SystemLibraries				"iconv" [$OSXALL]
@@ -41,14 +41,14 @@ $Project "vgui2"
 		$File	"$SRCDIR\public\filesystem_helpers.cpp"
 		$File	"$SRCDIR\public\filesystem_init.cpp"
 		$File	"htmlwindow.cpp"				[$WINDOWS]
-		$File	"InputWin32.cpp"				[$WINDOWS||$X360||$PS3||$LINUXALL]
+		$File	"InputWin32.cpp"				[$WINDOWS||$LINUXALL]
 		$File	"inputosx.cpp" 					[$OSXALL]
 		$File	"MemoryBitmap.cpp"
 		$File	"Memorybitmap.h"
 		$File	"MessageListener.cpp"
 		$File	"Scheme.cpp"
 		$File	"Surface.cpp"					[$WINDOWS]
-		$File	"System.cpp"					[$WINDOWS||$X360||$PS3]
+		$File	"System.cpp"					[$WINDOWS]
 		$File	"system_posix.cpp" 				[$POSIX]
 		$File	"$SRCDIR\public\UnicodeFileHelpers.cpp"
 		$File	"vgui.cpp"
@@ -92,7 +92,7 @@ $Project "vgui2"
 		$File	"$SRCDIR\public\mathlib\vector2d.h"
 		$File	"$SRCDIR\public\vgui\vgui.h"
 		$File	"$SRCDIR\public\vstdlib\vstdlib.h"
-		$File	"$SRCDIR\common\vgui_surfacelib\Win32Font.h"	[$WINDOWS||$X360||$PS3||$POSIX]
+		$File	"$SRCDIR\common\vgui_surfacelib\Win32Font.h"	[$WINDOWS||$POSIX]
 		$File	"$SRCDIR\common\vgui_surfacelib\OSXFont.h"		[$OSXALL]		
 		$File	"$SRCDIR\public\vgui\keyrepeat.h"
 	}

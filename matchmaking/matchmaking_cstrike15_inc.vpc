@@ -10,7 +10,6 @@ $Macro GAMESUBDIR "cstrike15"
 $Macro GENERATED_PROTO_DIR	"generated_proto"
 
 $Macro OUTBINDIR	"$SRCDIR\..\game\$GAMENAME\bin"
-$Macro DEVKITBINDIR	"$GAMENAME\bin"							[$X360]
 
 $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 $Include "matchmaking_inc.vpc"

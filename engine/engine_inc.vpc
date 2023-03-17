@@ -22,11 +22,10 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\ps3sdk\mp3declib;$PS3CELPDIR;$SRCDIR\ps3sdk\mp3declib\DirectSpuLinkLibrary\Ppu" [$PS3]
 		$AdditionalIncludeDirectories	"$BASE;$ESRCDIR\;$ESRCDIR\audio;$ESRCDIR\audio\private;$ESRCDIR\audio\private\snd_op_sys;$ESRCDIR\audio\public;$SRCDIR\thirdparty\quickhull"
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\dx9sdk\include" [$WINDOWS]
 		$PreprocessorDefinitions	"$BASE;$EXTRADEFINES;USE_CONVARS;VOICE_OVER_IP;BUMPMAP;__USEA3D;_ADD_EAX_;ENGINE_DLL;VERSION_SAFE_STEAM_API_INTERFACES;PROTECTED_THINGS_ENABLE;USE_BREAKPAD_HANDLER" 
-		$PreprocessorDefinitions	"$BASE;$EXTRADEFINES;fopen=dont_use_fopen" [!$POSIX&&!$PS3]
+		$PreprocessorDefinitions	"$BASE;$EXTRADEFINES;fopen=dont_use_fopen" [!$POSIX]
 		$PreprocessorDefinitions	"$BASE;DEDICATED;SWDS;NO_BINK" [$DEDICATED]
 		$PreprocessorDefinitions	"$BASE;INCLUDE_SCALEFORM" [!$DEDICATED]
 	}
@@ -44,7 +43,6 @@ $Configuration
 
 	$Linker
 	{
-		$AdditionalDependencies			"$BASE libnet_stub.a libnetctl_stub.a libaudio_stub.a libvoice_stub.a libmic_stub.a libspurs_jq_stub.a libsysutil_userinfo_stub.a libsysutil_savedata_stub.a libmsmp3dec_ppu.a ..\ps3sdk\mp3declib\DirectSpuLinkLibrary\Ppu\Mp3DecLibPpu.a" [$PS3]
 		$AdditionalDependencies			"$BASE dinput8.lib winmm.lib wsock32.lib ws2_32.lib wininet.lib vfw32.lib Rpcrt4.lib Iphlpapi.lib imm32.lib" [$WINDOWS]
 		$AdditionalLibraryDirectories	"$BASE;$SRCDIR\lib\common\vc7;$SRCDIR\dx9sdk\lib" [$WINDOWS]
 		$SystemFrameworks				"Carbon;AppKit;OpenAL;CoreAudio;AudioToolbox;SystemConfiguration;Quicktime;AudioUnit" [$OSXALL]
@@ -55,29 +53,11 @@ $Configuration
 	}
 }
 
-$Configuration "Debug"
-{
-	// Debug Libs - DON'T PUT RELEASE LIBS HERE!
-	$Linker [$X360]
-	{
-		$AdditionalDependencies		"$BASE xonlined.lib xaudiod2.lib Xhvd2.lib xmpd.lib xmcored.lib xmahald.lib xpartyd.lib"
-	}
-}
-
-$Configuration "Release"
-{
-	// Release Libs - DON'T PUT DEBUG LIBS HERE!
-	$Linker [$X360]
-	{
-		$AdditionalDependencies		"$BASE xonline.lib xaudio2.lib Xhv2.lib xmp.lib xmcore.lib xmahal.lib xparty.lib"
-	}
-}
-
 $Project $EPROJ
 {
 	$Folder "Client"
 	{
-		$File	"$ESRCDIR\client_pch.cpp" [!($PS3 || $DEDICATED)]
+		$File	"$ESRCDIR\client_pch.cpp" [!$DEDICATED]
 		{
 			$Configuration
 			{
@@ -105,7 +85,6 @@ $Project $EPROJ
 		$File	"$ESRCDIR\tmessage.cpp"
 		$File	"$ESRCDIR\r_efx.cpp" 	[!$DEDICATED]
 		$File	"$ESRCDIR\view.cpp" 	[!$DEDICATED]
-		$File	"$SRCDIR\avi\bink.cpp"	[$X360 || $PS3]
 		$File	"$SRCDIR\game\shared\cstrike15\dlchelper.h"
 
 		$File	"$ESRCDIR\baseclientstate.cpp"			\
@@ -134,20 +113,19 @@ $Project $EPROJ
 				"$ESRCDIR\cl_texturelistpanel.cpp"		[!$DEDICATED]\
 				"$ESRCDIR\client.cpp"					[!$DEDICATED]\
 				"$ESRCDIR\colorcorrectionpanel.cpp"		[!$DEDICATED]\
-				"$ESRCDIR\engine_helper_ps3.cpp"		[$PS3]\
 				"$ESRCDIR\console.cpp"					
   		{
 			$Configuration
 			{
 				$Compiler
 				{
-					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"	[!$PS3]
-					$Create/UsePCHThroughFile		"client_pch.h"					[!$PS3]
-					$PrecompiledHeaderFile			"$(IntDir)/client_pch.pch"		[!$PS3]
+					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+					$Create/UsePCHThroughFile		"client_pch.h"
+					$PrecompiledHeaderFile			"$(IntDir)/client_pch.pch"
 				}
 			}
 		}
-		$File	"$ESRCDIR\render_pch.cpp" [!$PS3]
+		$File	"$ESRCDIR\render_pch.cpp"
 		{
 			$Configuration
 			{
@@ -194,10 +172,10 @@ $Project $EPROJ
 			{
 				$Compiler
 				{
-					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"	[!$PS3]
-					$Create/UsePCHThroughFile		"render_pch.h"					[!$POSIX && !$PS3]
-					$Create/UsePCHThroughFile		$ESRCDIR/render_pch.h			[$POSIX && !$PS3]
-					$PrecompiledHeaderFile			"$(IntDir)/render_pch.pch"		[!$PS3]
+					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+					$Create/UsePCHThroughFile		"render_pch.h"					[!$POSIX]
+					$Create/UsePCHThroughFile		$ESRCDIR/render_pch.h			[$POSIX]
+					$PrecompiledHeaderFile			"$(IntDir)/render_pch.pch"
 				}
 			}
 		}
@@ -205,7 +183,7 @@ $Project $EPROJ
 	
 	$Folder "Server"
 	{
-		$File	"$ESRCDIR\server_pch.cpp"	[!$PS3]
+		$File	"$ESRCDIR\server_pch.cpp"
 		{
 			$Configuration
 			{
@@ -244,10 +222,10 @@ $Project $EPROJ
 			{
 				$Compiler
 				{
-					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"		[!$PS3]
-					$Create/UsePCHThroughFile		server_pch.h						[!$POSIX && !$PS3]
-					$Create/UsePCHThroughFile		$ESRCDIR/server_pch.h				[$POSIX && !$PS3]
-					$PrecompiledHeaderFile			"$(IntDir)/server_pch.pch"			[!$PS3]
+					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+					$Create/UsePCHThroughFile		server_pch.h						[!$POSIX]
+					$Create/UsePCHThroughFile		$ESRCDIR/server_pch.h				[$POSIX]
+					$PrecompiledHeaderFile			"$(IntDir)/server_pch.pch"
 				}
 			}
 		}
@@ -390,15 +368,6 @@ $Project $EPROJ
 		$File	"$ESRCDIR\networkstringtableclient.cpp"
 		$File	"$ESRCDIR\saverestore_filesystem_passthrough.cpp"  [!$DEDICATED]
 		$File	"$ESRCDIR\saverestore_filesystem.cpp"  [!$DEDICATED]
-		$File	"$SRCDIR\common\ps3\saverestore_ps3_api_ui.h" [$PS3]
-		$File	"$ESRCDIR\ps3\ps3_saveutil_v2.h" [$PS3]
-		$File	"$ESRCDIR\ps3\ps3_saveutil_v2_delete.cpp" [$PS3]
-		$File	"$ESRCDIR\ps3\ps3_saveutil_v2_initialize.cpp" [$PS3]
-		$File	"$ESRCDIR\ps3\ps3_saveutil_v2_interface.cpp" [$PS3]
-		$File	"$ESRCDIR\ps3\ps3_saveutil_v2_load.cpp" [$PS3]
-		$File	"$ESRCDIR\ps3\ps3_saveutil_v2_save.cpp" [$PS3]
-		$File	"$ESRCDIR\ps3\ps3_saveutil_v2_save_steam.cpp" [$PS3]
-		$File	"$ESRCDIR\ps3\ps3_saveutil_v2_thread.cpp" [$PS3]
 		$File	"$SRCDIR\public\scratchpad3d.cpp"
 		$File	"$ESRCDIR\servermsghandler.cpp"
 		$File	"$ESRCDIR\sys_getmodes.cpp" [!$DEDICATED]
@@ -409,10 +378,6 @@ $Project $EPROJ
 		$File	"$ESRCDIR\ipc_console.cpp"					[$WINDOWS]
 		$File	"$SRCDIR\engine\paint.cpp"
 		$File	"$SRCDIR\public\phonemeconverter.cpp"
-		$File	"$ESRCDIR\buildindices_PS3.cpp"		[$PS3]
-		$File	"$ESRCDIR\buildworldlists_PS3.cpp"		[$PS3]
-		$File	"$SRCDIR\common\ps3\vjobutils.cpp"							[$PS3]
-		$File	"$SRCDIR\common\ps3\spu_job_shared.cpp"						[$PS3]
 	}
 	
 	$Folder	"Audio"
@@ -422,8 +387,8 @@ $Project $EPROJ
 		$File	"$ESRCDIR\EngineSoundClient.cpp" [!$DEDICATED]
 		$File	"$ESRCDIR\engsoundservice.cpp"	  [!$DEDICATED]
 		$File   "$ESRCDIR\audio\private\voice_wavefile.cpp"
-		$File	"$ESRCDIR\audio\private\MPAFile.cpp"			[!$DEDICATED&&!$X360]
-		$File	"$ESRCDIR\audio\private\MPAHeader.cpp"		[!$DEDICATED&&!$X360]
+		$File	"$ESRCDIR\audio\private\MPAFile.cpp"			[!$DEDICATED]
+		$File	"$ESRCDIR\audio\private\MPAHeader.cpp"		[!$DEDICATED]
 		$File	"$ESRCDIR\audio\private\snd_posix.cpp" [$POSIX]
 		$File   "$ESRCDIR\audio\private\windows_audio.cpp" [$WINDOWS]
 
@@ -438,7 +403,7 @@ $Project $EPROJ
 		}
 
 		
-		$File	"$ESRCDIR\audio\audio_pch.cpp"	[!($PS3 || $DEDICATED)]
+		$File	"$ESRCDIR\audio\audio_pch.cpp"	[!$DEDICATED]
 		{
 			$Configuration
 			{
@@ -502,9 +467,9 @@ $Project $EPROJ
 			{
 				$Compiler
 				{
-					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"	[!$PS3]
-					$Create/UsePCHThroughFile		"audio_pch.h"					[!$PS3]
-					$PrecompiledHeaderFile			"$(IntDir)/audio_pch.pch"		[!$PS3]
+					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+					$Create/UsePCHThroughFile		"audio_pch.h"
+					$PrecompiledHeaderFile			"$(IntDir)/audio_pch.pch"
 				}
 			}
 		}
@@ -513,26 +478,11 @@ $Project $EPROJ
 		$File	"$ESRCDIR\audio\private\snd_dev_direct.cpp"					[$WINDOWS] \
 				"$ESRCDIR\audio\private\snd_mp3_source.cpp"					[$WINDOWS||$OSXALL||($LINUXALL&&!$DEDICATED)] \
 				"$ESRCDIR\audio\private\snd_wave_mixer_mp3.cpp"				[$WINDOWS||$OSXALL||($LINUXALL&&!$DEDICATED)] \
-				"$ESRCDIR\audio\private\VBRHeader.cpp"						[!$DEDICATED&&!$X360] \
-				"$ESRCDIR\audio\private\voice.cpp"							[!$DEDICATED&&!$X360] \
+				"$ESRCDIR\audio\private\VBRHeader.cpp"						[!$DEDICATED] \
+				"$ESRCDIR\audio\private\voice.cpp"							[!$DEDICATED] \
 				"$ESRCDIR\audio\private\voice_mixer_controls.cpp"			[$WINDOWS] \
 				"$ESRCDIR\audio\private\voice_record_dsound.cpp"			[$WINDOWS] \
-				"$ESRCDIR\audio\private\voice_sound_engine_interface.cpp" [!$DEDICATED&&!$X360]
-		{
-			$Configuration
-			{
-				$Compiler
-				{
-					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"	[!$PS3]
-					$Create/UsePCHThroughFile		"audio_pch.h"					[!$PS3]
-					$PrecompiledHeaderFile			"$(IntDir)/audio_pch.pch"		[!$PS3]
-				}
-			}
-		}
-		
-		// X360 only audio files
-		$File	"$ESRCDIR\audio\private\snd_dev_xaudio.cpp"		[$X360] \
-				"$ESRCDIR\audio\private\snd_wave_mixer_xma.cpp"	[$X360]		
+				"$ESRCDIR\audio\private\voice_sound_engine_interface.cpp" [!$DEDICATED]
 		{
 			$Configuration
 			{
@@ -541,21 +491,6 @@ $Project $EPROJ
 					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
 					$Create/UsePCHThroughFile		"audio_pch.h"
 					$PrecompiledHeaderFile			"$(IntDir)/audio_pch.pch"
-				}
-			}
-		}
-		
-		// PS3 only audio files
-		$File	"$ESRCDIR\audio\private\snd_dev_ps3audio.cpp"	[$PS3]  \
-			"$ESRCDIR\audio\private\snd_ps3_mp3dec.cpp"			[$PS3]  \ 
-			"$ESRCDIR\audio\private\snd_wave_mixer_ps3_mp3.cpp"	[$PS3]  \
-			"$SRCDIR\public\vjobs\mp3dec_shared.cpp"			[$PS3]
-		{
-			$Configuration
-			{
-				$Compiler
-				{
-					
 				}
 			}
 		}
@@ -577,7 +512,6 @@ $Project $EPROJ
 			$File	"$ESRCDIR\audio\public\soundservice.h"
 			$File	"$ESRCDIR\audio\public\voice.h"
 			$File	"$ESRCDIR\audio\public\vox.h"
-			$File	"$ESRCDIR\audio\public\vjobs\mp3dec_shared.h"				[$PS3 && !$CSGO]
 			$File	"$ESRCDIR\audio\private\MPAFile.h"							[$WINDOWS]
 			$File	"$ESRCDIR\audio\private\MPAHeader.h"						[$WINDOWS]
 			$File	"$ESRCDIR\audio\private\VBRHeader.h"						[$WINDOWS]
@@ -588,9 +522,6 @@ $Project $EPROJ
 			$File	"$ESRCDIR\audio\private\snd_dev_common.h"
 			$File	"$ESRCDIR\audio\private\snd_dev_direct.h"					[$WINDOWS]
 			$File	"$ESRCDIR\audio\private\snd_dev_wave.h"						[$WINDOWS]
-			$File	"$ESRCDIR\audio\private\snd_dev_xaudio.h"					[$X360]
-			$File	"$ESRCDIR\audio\private\snd_dev_ps3audio.h"					[$PS3]
-			$File	"$ESRCDIR\audio\private\snd_ps3_mp3dec.h"					[$PS3]
 			$File	"$ESRCDIR\audio\private\snd_dma.h"
 			$File	"$ESRCDIR\audio\private\snd_env_fx.h"
 			$File	"$ESRCDIR\audio\private\snd_fixedint.h"
@@ -667,9 +598,9 @@ $Project $EPROJ
 			{
 				$Compiler
 				{
-					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"	[!$PS3]
-					$Create/UsePCHThroughFile		"client_pch.h"					[!$PS3]
-					$PrecompiledHeaderFile			"$(IntDir)/client_pch.pch"		[!$PS3]
+					$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+					$Create/UsePCHThroughFile		"client_pch.h"
+					$PrecompiledHeaderFile			"$(IntDir)/client_pch.pch"
 				}
 			}
 		}
@@ -968,8 +899,6 @@ $Project $EPROJ
 		$File	"$ESRCDIR\cl_foguipanel.h"
 		$File	"$ESRCDIR\cl_txviewpanel.h"
 		$File	"$SRCDIR\engine\paint.h"
-		$File	"$ESRCDIR\buildindices_PS3.h"			[$PS3]
-		$File	"$ESRCDIR\buildworldlists_PS3.h"		[$PS3]
 	}
 
 	$Folder	"Common Headers"
@@ -1121,7 +1050,6 @@ $Project $EPROJ
 		$File	"$SRCDIR\public\ivoiceserver.h"
 		$File	"$SRCDIR\public\ivrenderview.h"
 		$File	"$SRCDIR\public\ivtex.h"
-		$File	"$SRCDIR\public\ixboxsystem.h"			[$X360]
 		$File	"$SRCDIR\public\jpeglib\jconfig.h"
 		$File	"$SRCDIR\public\jpeglib\jmorecfg.h"
 		$File	"$SRCDIR\public\jpeglib\jpeglib.h"
@@ -1241,7 +1169,7 @@ $Project $EPROJ
 	}
 	$Folder	"Link libraries"
 	{
-		$ImplibExternal	steam_api							[!$X360 && !$NO_STEAM && !$WIN64]
+		$ImplibExternal	steam_api							[$NO_STEAM && !$WIN64]
 		$ImplibExternal	steam_api64							[$WIN64]
 
 		$Lib	appframework
@@ -1257,12 +1185,6 @@ $Project $EPROJ
 		$Lib	vgui_controls						[!$DEDICATED]
 		//$Lib	"$LIBPUBLIC/steamdatagramlib"		[!$VS2015]
 		//$Lib	"$LIBPUBLIC/2015/steamdatagramlib"	[$VS2015]
-
-		//$Lib	"$SRCDIR\lib\common\vc7\bzip2"		[!$POSIX && !$WIN64 && !$VS2015]
-		//$Lib	"$SRCDIR\lib\common\x64\bzip2"		[!$POSIX &&  $WIN64 && !$VS2015]
-		//$Lib	"$SRCDIR\lib\common\vc14\bzip2"		[!$POSIX && !$WIN64 && $VS2015]
-		//$Lib	"$SRCDIR\lib\common\vc14\x64\bzip2"	[!$POSIX &&  $WIN64 && $VS2015]
-		//$Lib	"$LIBCOMMON\bzip2"					[$POSIX]
 		$Lib bzip2
 
 		$Lib	"$LIBCOMMON\jpeglib" [$WINDOWS || $OSXALL || ($LINUX && !$DEDICATED)]

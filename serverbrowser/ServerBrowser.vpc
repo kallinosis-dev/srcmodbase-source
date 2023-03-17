@@ -20,7 +20,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalDependencies				"$BASE Advapi32.lib wsock32.lib Ws2_32.lib User32.lib" [$WINDOWS]
-		$AdditionalDependencies				"$BASE Xonline.lib" [$X360]
 		$SystemLibraries                                                        "iconv" [$OSXALL]
 	}
 }
@@ -94,7 +93,7 @@ $Project "ServerBrowser"
 
 	$Folder "Link Libraries"
 	{
-		$ImplibExternal	steam_api						[ ( $WIN32 || $POSIX || $PS3 ) && !$NO_STEAM ]
+		$ImplibExternal	steam_api						[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64						[ $WIN64 && !$NO_STEAM ]
 		$Lib tier2
 		$Lib tier3

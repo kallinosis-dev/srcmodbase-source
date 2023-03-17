@@ -9,20 +9,6 @@ $Macro OUTLIBDIR	"$OUTLIBCOMMONDIR"
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
-$Configuration
-{
-	$Compiler [$PS3]
-	{
-		$PreprocessorDefinitions	"$BASE;_PS3"
-		$ForceIncludes				" "
-	}
-	$Compiler [!$PS3]
-	{
-		$ForceIncludes		" "
-		$CompileAs			"Compile as C Code (/TC)"
-	}
-}
-
 $Project "Bzip2"
 {
 	$Folder	"Source Files"

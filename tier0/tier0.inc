@@ -6,9 +6,9 @@
 
 $Project
 {
-	$Folder	"Source Files" [$WINDOWS||$X360||$PS3||$POSIX]
+	$Folder	"Source Files" [$WINDOWS||$POSIX]
 	{
-		-$File	"$SRCDIR\public\tier0\memoverride.cpp"  [!$PS3]
+		-$File	"$SRCDIR\public\tier0\memoverride.cpp"
 	}
 }
 
@@ -40,17 +40,14 @@ $Project
 		$File	"tier0_strtools.cpp"			
 		$File	"miniprofiler.cpp"			
 		$File	"perfstats.cpp"
-		$File	"platform.cpp" [$WINDOWS||$X360||$PS3]
+		$File	"platform.cpp" [$WINDOWS]
 		$File   "platform_posix.cpp" [$POSIX]
 		$File   "platform_independent.cpp"
 		$File	"platwindow.cpp"
-		$File	"pmc360.cpp"		[$X360]
 		$File	"pme.cpp"			[$WIN32||$WIN64]
-		$File	"pme_posix.cpp"		[$PS3||$POSIX]
-		$File	"PMELib.cpp"		[$WIN32||$WIN64||$PS3]
-		$File	"progressbar.cpp"	
-		$File	"prx.cpp"			[$PS3]
-		$File	"prxexport.cpp"		[$PS3]
+		$File	"pme_posix.cpp"		[$POSIX]
+		$File	"PMELib.cpp"		[$WIN32||$WIN64]
+		$File	"progressbar.cpp"
 		$File	"security.cpp"
 		$File	"stackstats.cpp"
 		$File	"stacktools.cpp"
@@ -64,11 +61,10 @@ $Project
 
 		$Folder	"dlmalloc"
 		{
-			$File	"dlmalloc\malloc.cpp"	[$WINDOWS||$X360||$PS3]
+			$File	"dlmalloc\malloc.cpp"	[$WINDOWS]
 			$File	"dlmalloc\malloc-2.8.3.h"
 		}
 
-		$File "xbox/xbox_system.cpp" [$X360||$PS3]
 		$File	"../tier1/pathmatch.cpp" [$LINUXALL]
 
 	}
@@ -91,7 +87,6 @@ $Project
 		$File	"$SRCDIR\public\tier0\IOCTLCodes.h"
 		$File	"$SRCDIR\public\tier0\K8PerformanceCounters.h"
 		$File	"$SRCDIR\public\tier0\l2cache.h"
-		$File	"$SRCDIR\public\tier0\pmc360.h"		[$X360]
 		$File	"$SRCDIR\public\tier0\logging.h"
 		$File	"$SRCDIR\public\tier0\mem.h"
 		$File	"mem_helpers.h"
@@ -99,7 +94,6 @@ $Project
 		$File	"$SRCDIR\public\tier0\memalloc.h"
 		$File	"$SRCDIR\public\tier0\memdbgoff.h"
 		$File	"$SRCDIR\public\tier0\memdbgon.h"
-		$File	"$SRCDIR\public\tier0\memoverride_ps3.h"	[$PS3]
 		$File	"memstd.h"
 		$File	"$SRCDIR\public\tier0\memvirt.h"
 		$File	"$SRCDIR\public\tier0\minidump.h"
@@ -111,7 +105,6 @@ $Project
 		$File	"tier0_strtools.h"
 		$File	"$SRCDIR\public\tier0\perfstats.h"
 		$File	"$SRCDIR\public\tier0\platform.h"
-		$File	"$SRCDIR\public\tier0\platform_override.h"	[$PS3]
 		$File	"$SRCDIR\public\tier0\platwindow.h"
 		$File	"$SRCDIR\public\tier0\PMELib.h"
 		$File	"$SRCDIR\public\tier0\progressbar.h"
@@ -144,35 +137,6 @@ $Project
 		$File	"DESKey\ALGO32.LIB"
 		$File	"DESKey\DK2WIN32.H"
 		$File	"DESKey\DK2WIN32.LIB"
-	}
-
-	$Folder "Xbox" [$X360]
-	{
-		$folder "Source Files"
-		{
- 			$File	"xbox\xbox_console.cpp"
-			$File	"xbox\xbox_system.cpp"
-			$File	"xbox\xbox_win32stubs.cpp"
-		}
-		$folder "Header Files"
-		{
-			$File	"$SRCDIR\common\xbox\xbox_console.h"
-			$File	"$SRCDIR\common\xbox\xbox_core.h"
-			$File	"$SRCDIR\common\xbox\xbox_win32stubs.h"
-		}
-	}
-
-	$Folder "PS3 debugger" [$PS3]
-	{
-		$folder "Source Files"
-		{
- 			$File	"ps3\ps3_console.cpp"
-		}
-		$folder "Header Files"
-		{
-			$File	"$SRCDIR\common\ps3\ps3_console.h"
-			$File	"$SRCDIR\common\ps3\ps3_win32stubs.h"
-		}
 	}
 
 	$Folder "Manifest Files" [$WINDOWS]

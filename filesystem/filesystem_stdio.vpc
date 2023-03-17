@@ -9,27 +9,6 @@ $Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
-$Configuration	"Debug"
-{
-	$General
-	{
-		$OutputDirectory		"Debug_Stdio$PLATSUBDIR"		[$WINDOWS]
-		$IntermediateDirectory	"Debug_Stdio$PLATSUBDIR"		[$WINDOWS]
-		$OutputDirectory		"Debug_Stdio_360"	[$X360]
-		$IntermediateDirectory	"Debug_Stdio_360"	[$X360]
-	}
-}
-
-$Configuration	"Release"
-{
-	$General
-	{		
-		$OutputDirectory		"Release_Stdio$PLATSUBDIR"		[$WINDOWS]
-		$IntermediateDirectory	"Release_Stdio$PLATSUBDIR"		[$WINDOWS]
-		$OutputDirectory		"Release_Stdio_360"	[$X360]
-		$IntermediateDirectory	"Release_Stdio_360"	[$X360]
-	}
-}
 
 $Configuration
 {
@@ -38,7 +17,7 @@ $Configuration
 		$PreprocessorDefinitions	"$BASE;FILESYSTEM_STDIO_EXPORTS;DONT_PROTECT_FILEIO_FUNCTIONS;PROTECTED_THINGS_ENABLE"
 		$PreprocessorDefinitions	"$BASE;_USE_32BIT_TIME_T" [$WIN32]
 	}
-	$Linker [!$PS3]
+	$Linker
 	{
 			$SystemLibraries                                                        "iconv" [$OSXALL]
 	}
@@ -51,12 +30,11 @@ $Project "filesystem_stdio"
 		$File	"basefilesystem.cpp"
 		$File	"basefilesystemasync.cpp"
 		$File	"filetracker.cpp"
-		$File	"filesystemasync.cpp"		[!$PS3]
+		$File	"filesystemasync.cpp"
 		$File	"filesystem_stdio.cpp"
-		$File	"$SRCDIR\public\kevvaluescompiler.cpp" [!$PS3]
-		$File	"$SRCDIR\public\zip_utils.cpp"	[!$PS3]
-		$File	"QueuedLoader.cpp"			
-		$File	"xboxinstaller.cpp"			[$X360]
+		$File	"$SRCDIR\public\kevvaluescompiler.cpp"
+		$File	"$SRCDIR\public\zip_utils.cpp"
+		$File	"QueuedLoader.cpp"
 		$File	"linux_support.cpp"			[$POSIX]
 	}
 
@@ -91,7 +69,7 @@ $Project "filesystem_stdio"
 	$Folder "Link Libraries"
 	{
 		$lib	tier2
-		$lib	vpklib [!$X360 && !$PS3]
+		$lib	vpklib
 	}
 	
 	

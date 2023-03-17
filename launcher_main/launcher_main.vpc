@@ -46,43 +46,10 @@ $Configuration
 		$PreprocessorDefinitions	"$BASE;RATINGSBUILD"	[$RATINGSBUILD]
 	}
 
-	$Compiler [$PS3 && !$CERT]
-	{
-		$ForcedUsingFiles			"?DbgSaveProj&#x0D;?DbgElfArgs=-dev -game csgo&#x0D;?FileServDir=$(SolutionDir)..&#x0D;?HomeDir=$(SolutionDir).."
-		$AdditionalIncludeDirectories	"$BASE;&quot;$(SN_PS3_PATH)/ppu/include&quot;"
-	}
-
 	$Linker [$WIN32]
 	{
 		$EnableLargeAddresses		"Support Addresses Larger Than 2 Gigabytes (/LARGEADDRESSAWARE)"
 		$FixedBaseAddress			"Generate a relocation section (/FIXED:NO)"
-	}
-	
-	$SNCLinker [$PS3]
-	{
-		// General
-		$AdditionalDependencies		"$BASE  libsysutil_game_stub.a libsysutil_stub.a"
-
-		// Command Line
-		$AdditionalOptions			"$BASE $PS3MEMOVERRIDE"
-	}
-
-	$Compiler [$PS3]
-	{
-		$PreprocessorDefinitions		"$BASE;PS3MEMOVERRIDEWRAP;PS3MAINELF"
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\common;$SRCDIR\public"
-	}
-
-	$Xbox360ImageConversion	[$X360]
-	{
-		// General
-		$AdditionalSections		"5841125A=$SRCDIR\common\xlast_$VPCGAME\$VPCGAME.spa"
-		$ProjectDefaults		"$SRCDIR\common\xlast_$VPCGAME$DEMOSUFFIX\$VPCGAME.xml"
-	}
-
-	$ConsoleDeployment [$X360]
-	{
-		$DeploymentRoot			"xe:\$VPCGAME$DEMOSUFFIX"
 	}
 
 	$PreBuildEvent [$WINDOWS]
@@ -90,20 +57,6 @@ $Configuration
 		$CommandLine		"if EXIST $OUTBINDIR\$OUTBINNAME.exe for /f $QUOTEdelims=$QUOTE %%A in ('attrib $QUOTE$OUTBINDIR\$OUTBINNAME.exe$QUOTE') do set valveTmpIsReadOnly=$QUOTE%%A$QUOTE" "\n" \
 							"set valveTmpIsReadOnlyLetter=%valveTmpIsReadOnly:~6,1%" "\n" \
 							"if $QUOTE%valveTmpIsReadOnlyLetter%$QUOTE==$QUOTER$QUOTE del /q $QUOTE$(TargetDir)$QUOTE$(TargetFileName)" "\n"
-	}
-
-	$PreLinkEvent [$PS3]
-	{
-		$CommandLine		"call .\$(IntDir)\errorshader.vp.bat" "\n" \
-							"call .\$(IntDir)\errorshader.fp.bat" "\n"
-	}
-
-
-	$PostBuildEvent	[$X360]
-	{
-		// inherit and add
-		$CommandLine				"$BASE" \
-									"call $SRCDIR\vpc_scripts\valve_xbcp_wrapper.cmd $(TargetDir)$(TargetName).xex xE:\$VPCGAME$DEMOSUFFIX\default.xex" "\n"
 	}
 
 	$PostBuildEvent	[$WINDOWS]
@@ -123,11 +76,6 @@ $Configuration
 		$Description		"Publishing to $OUTBINDIR"
 		$ExcludedFromBuild	"No"
 	}
-
-	$Linker [$PS3]
-	{
-		$AdditionalDependencies			"$BASE &quot;$(SN_PS3_PATH)/ppu/lib/sn/libsn.a&quot; &quot;$(SN_PS3_PATH)/ppu/lib/sn/libsntuner.a&quot;"
-	}
 }
 
 
@@ -135,7 +83,7 @@ $Project
 {
 	$Folder	"Source Files"
 	{
-		-$File	"$SRCDIR\public\tier0\memoverride.cpp"	[!$PS3]
+		-$File	"$SRCDIR\public\tier0\memoverride.cpp"
 	}
 
 	$Folder	"Link Libraries" 
@@ -147,11 +95,6 @@ $Project
 		-$File "$LIBPUBLIC\$_IMPLIB_PREFIXtier0$_IMPLIB_EXT" [$POSIX]
 		-$File "$LIBPUBLIC\$_IMPLIB_PREFIXvstdlib$_IMPLIB_EXT" [$POSIX]
 		-$File "$LIBPUBLIC\tier1$_IMPLIB_EXT"	[$POSIX]
-
-
-		-$File	"$LIBPUBLIC\tier0_360.lib" 		[$X360]
-		-$File	"$LIBPUBLIC\tier1_360.lib"		[$X360]
-		-$File	"$LIBPUBLIC\vstdlib_360.lib"	[$X360]
 	}
 }
 
@@ -159,13 +102,7 @@ $Project "launcher_main"
 {
 	$Folder	"Source Files"
 	{
-		$File	"$SRCDIR\public\ps3_pathinfo.h"
 		$File	"main.cpp"
-		$File   "errorrenderloop.cpp" [$PS3]
-		$File   "errorrenderloop.h"   [$PS3]
-		$File   "errorshader.vp"      [$PS3]
-		$File   "errorshader.fp"      [$PS3]
-		$File	"ps3_pathinfo.cpp"    [$PS3]
 	}
 
 	$Folder "Resources" [$WINDOWS]

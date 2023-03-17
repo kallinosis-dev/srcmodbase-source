@@ -20,14 +20,8 @@ $Configuration	"Debug"
 {
 	$General
 	{
-		$OutputDirectory			".\Debug_$GAMENAME$PLATSUBDIR"			[$WINDOWS||$POSIX]
-		$IntermediateDirectory		".\Debug_$GAMENAME$PLATSUBDIR"			[$WINDOWS||$POSIX]
-
-		$OutputDirectory			".\Debug_$GAMENAME_360"		[$X360]
-		$IntermediateDirectory		".\Debug_$GAMENAME_360"		[$X360]
-
-		$OutputDirectory			".\Debug_$GAMENAME_PS3"		[$PS3]
-		$IntermediateDirectory		".\Debug_$GAMENAME_PS3"		[$PS3]
+		$OutputDirectory			".\Debug_$GAMENAME$PLATSUBDIR"
+		$IntermediateDirectory		".\Debug_$GAMENAME$PLATSUBDIR"
 	}
 }
 
@@ -35,14 +29,8 @@ $Configuration	"Release"
 {
 	$General
 	{
-		$OutputDirectory			".\Release_$GAMENAME$PLATSUBDIR"		[$WINDOWS||$POSIX]
-		$IntermediateDirectory		".\Release_$GAMENAME$PLATSUBDIR"		[$WINDOWS||$POSIX]
-
-		$OutputDirectory			".\Release_$GAMENAME_360"	[$X360]
-		$IntermediateDirectory		".\Release_$GAMENAME_360"	[$X360]
-
-		$OutputDirectory			".\Release_$GAMENAME_PS3"	[$PS3]
-		$IntermediateDirectory		".\Release_$GAMENAME_PS3"	[$PS3]
+		$OutputDirectory			".\Release_$GAMENAME$PLATSUBDIR"
+		$IntermediateDirectory		".\Release_$GAMENAME$PLATSUBDIR"
 	}
 }
 

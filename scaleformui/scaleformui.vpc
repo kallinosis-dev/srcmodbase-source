@@ -53,7 +53,7 @@ $Configuration
 		$AdditionalIncludeDirectories    "$BASE;$SRCDIR\common\gl" [$GL]
 		$PreprocessorDefinitions		"$BASE;INCLUDE_SCALEFORM;ENABLE_AMP_SERVER=$ENABLE_AMP_SERVER"
 		$PreprocessorDefinitions		"$BASE;VERSION_SAFE_STEAM_API_INTERFACES"
-		$PreprocessorDefinitions		"$BASE;USE_ACTUAL_DX" [( $WINDOWS || $X360 ) && !$GL]
+		$PreprocessorDefinitions		"$BASE;USE_ACTUAL_DX" [$WINDOWS && !$GL]
 		$PreprocessorDefinitions		"$BASE;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" [!$POSIX]
 		$PreprocessorDefinitions		"$BASE;GL_GLEXT_PROTOTYPES;DX_TO_GL_ABSTRACTION" [$GL]
 
@@ -67,7 +67,7 @@ $Configuration
 		$AdditionalDependencies			"$BASE OpenGL32.lib libgfxplatform_GL.lib libgfxrender_GL.lib" [$GL]
 		$AdditionalDependencies			"$BASE legacy_stdio_definitions.lib" [$WINDOWS && $VS2015]
 
-		$AdditionalLibraryDirectories   "$BASE;$GFXLIB" [$PS3 || $OSXALL || $LINUX]
+		$AdditionalLibraryDirectories   "$BASE;$GFXLIB" [$OSXALL || $LINUX]
 		$SystemLibraries                "GL" [$LINUXALL]
 	}
 }
@@ -196,7 +196,7 @@ $Project "ScaleformUI"
 		$LibExternal	"$GFXLIB\libpng"							[($OSXALL || $LINUX) && !$DEDICATED]
 		$LibExternal	"$GFXLIB\libz"								[$LINUX && !$DEDICATED]
 		$Lib			"videocfg"									[$OSXALL]
-		$ImplibExternal	steam_api									[ ( $WIN32 || $POSIX || $PS3 ) && !$NO_STEAM ]
+		$ImplibExternal	steam_api									[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64									[ $WIN64 && !$NO_STEAM ]
 		$ImpLib			togl										[!$IS_LIB_PROJECT && $GL && !$DEDICATED]
 

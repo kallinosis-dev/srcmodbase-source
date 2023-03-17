@@ -20,11 +20,6 @@ $Configuration
 	{
 		$PreprocessorDefinitions	"$BASE;STUDIORENDER_EXPORTS;PROTECTED_THINGS_ENABLE"
 	}
-	
-	$Compiler [$PS3]
-	{
-		$AdditionalOptions		"$BASE --pending_instantiations=256"
-	}
 }
 
 $Project "studiorender"
