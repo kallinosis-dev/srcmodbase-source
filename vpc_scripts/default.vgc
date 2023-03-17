@@ -10,14 +10,14 @@
 
 $Games
 {
-//	"CSTRIKE"
+	"CSTRIKE"
 	"CSGO"
-//	"EPISODIC"
-//	"SDK"
-//	"TF"
-//	"PORTAL2"
-//	"SWARM"
-//	"DOTA"
+	"EPISODIC"
+	"SDK"
+	"TF"
+	"PORTAL2"
+	"SWARM"
+	"DOTA"
 }
 
 $Include "vpc_scripts\projects.vgc"
