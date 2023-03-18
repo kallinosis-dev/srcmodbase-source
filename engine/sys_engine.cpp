@@ -538,7 +538,7 @@ void CEngine::Frame( void )
 	PostUpdateProfile();
 #endif
 
-	TelemetryTick();
+	//TelemetryTick();
 
 	ETWRenderFrameMark( sv.IsDedicated() );
 

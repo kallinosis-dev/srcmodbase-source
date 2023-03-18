@@ -50,11 +50,6 @@
 #include "snd_convars.h"
 #include "snd_dev_common.h"
 #include "snd_dev_direct.h"
-#ifdef _PS3
-#include "snd_dev_ps3audio.h"
-#else
-#include "snd_dev_xaudio.h"
-#endif
 #include "snd_sfx.h"
 #include "snd_stubs.h"
 #include "snd_audio_source.h"

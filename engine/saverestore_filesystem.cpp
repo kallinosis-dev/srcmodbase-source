@@ -16,12 +16,10 @@
 #include "tier1/utlbuffer.h"
 #include "tier1/lzss.h"
 #include "tier1/convar.h"
-#include "ixboxsystem.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-extern IXboxSystem *g_pXboxSystem;
 
 
 #define MOD_DIR "DEFAULT_WRITE_PATH"

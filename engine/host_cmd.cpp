@@ -89,9 +89,6 @@
 #include <fcntl.h>
 #endif
 
-#include "ixboxsystem.h"
-extern IXboxSystem *g_pXboxSystem;
-
 extern IVEngineClient *engineClient;
 
 // memdbgon must be the last include file in a .cpp file!!!

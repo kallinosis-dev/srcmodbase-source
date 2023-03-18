@@ -11,6 +11,7 @@
 #pragma once
 #endif
 
+#include "bspflags.h"
 
 extern ConVar snd_obscured_gain_db;
 extern ConVar snd_showstart;
@@ -37,7 +38,7 @@ inline float dB_To_Radius ( float db )
 
 
 class CScratchPad;
-const int MASK_BLOCK_AUDIO = CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW;
+constexpr int MASK_BLOCK_AUDIO = CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDOW;
 
 #define SNDLVL_TO_DIST_MULT( sndlvl ) ( sndlvl ? ((snd_refdb_dist_mult / FastPow10( (float)sndlvl / 20 )) / snd_refdist.GetFloat()) : 0 )
 #define DIST_MULT_TO_SNDLVL( dist_mult ) (soundlevel_t)(int)( dist_mult ? ( 20 * log10( (float)(snd_refdb_dist_mult / (dist_mult * snd_refdist.GetFloat()) )) ) : 0 )

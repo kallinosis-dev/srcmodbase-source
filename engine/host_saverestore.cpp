@@ -79,9 +79,6 @@
 #include "cl_steamauth.h"
 #endif
 
-#include "ixboxsystem.h"
-extern IXboxSystem *g_pXboxSystem;
-
 extern IVEngineClient *engineClient;
 
 #include "csaverestore.h"
@@ -728,12 +725,6 @@ int CSaveRestore::SaveGameSlot( const char *pSaveName, const char *pSaveComment,
 	// Finish all writes and close the save game container
 	// @TODO: this async finish all writes has to go away, very expensive and will make game hitchy. switch to a wait on the last async op
 	g_AsyncSaveCallQueue.QueueCall( g_pFileSystem, &IFileSystem::AsyncFinishAllWrites );
-	
-	if ( IsXSave() && StorageDeviceValid() )
-	{
-		// Finish all pending I/O to the storage devices
-		g_AsyncSaveCallQueue.QueueCall( g_pXboxSystem, &IXboxSystem::FinishContainerWrites, iX360controller );
-	}
 
 	S_ExtraUpdate();
 	Finish( pSaveData );
@@ -2835,12 +2826,6 @@ void CSaveRestore::AutoSaveDangerousIsSafe()
 	saveParams.m_Comment = pLastAutosaveDangerousComment;
 	g_QueuedAutoSavesToCommit.PushItem( saveParams );
 #endif
-
-	// Finish off all writes
-	if ( IsXSave() )
-	{
-		g_pXboxSystem->FinishContainerWrites( iX360controller );
-	}
 }
 
 static void SaveGame( const CCommand &args )

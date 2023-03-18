@@ -368,7 +368,6 @@ $Project $EPROJ
 		$File	"$ESRCDIR\sys_getmodes.cpp" [!$DEDICATED]
 		$File	"$ESRCDIR\vgui_askconnectpanel.cpp" [!$DEDICATED]
 		$File	"$ESRCDIR\vgui_watermark.cpp" [!$DEDICATED]
-		$File	"$ESRCDIR\xboxsystem.cpp"
 		$File	"$SRCDIR\common\SourceAppInfo.cpp"
 		$File	"$ESRCDIR\ipc_console.cpp"					[$WINDOWS]
 		$File	"$SRCDIR\engine\paint.cpp"
