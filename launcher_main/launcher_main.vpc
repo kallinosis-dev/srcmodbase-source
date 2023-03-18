@@ -88,9 +88,9 @@ $Project
 
 	$Folder	"Link Libraries" 
 	{
-		-$File	"tier0"
-		-$File	"tier1"
-		-$File	"vstdlib"
+		-$Lib	tier0
+		-$Lib	tier1
+		-$Lib	vstdlib
 	}
 }
 

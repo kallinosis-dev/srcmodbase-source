@@ -5,7 +5,7 @@
 //-----------------------------------------------------------------------------
 // ***** AUTO-GENERATED: PLEASE FIXUP MANUALLY BEFORE USING THIS SCRIPT! *****
 
-$Macro SRCDIR		"..\.."=
+$Macro SRCDIR		"..\.."
 
 $Include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 

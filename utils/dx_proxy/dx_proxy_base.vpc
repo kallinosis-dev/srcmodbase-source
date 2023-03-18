@@ -69,8 +69,9 @@ $Project
 
 	$Folder "Link Libraries"
 	{
-		-$File	"$SRCDIR\lib\public\tier0.lib"
-		-$File	"$SRCDIR\lib\public\tier1.lib"
-		-$File	"$SRCDIR\lib\public\vstdlib.lib"
+		-$Lib	tier0
+		-$Lib	tier1
+		-$Lib	vstdlib
+		-$Lib 	interfaces
 	}
 }
