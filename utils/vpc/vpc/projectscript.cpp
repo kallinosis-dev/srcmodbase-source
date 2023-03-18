@@ -10,7 +10,7 @@
 #include "baseprojectdatacollector.h"
 #include "tier1/fmtstr.h"
 
-char const* DefaultLibDir = "$LIBPUBLIC\\";
+char const* DefaultLibDir = "$LIBPROJECT\\";
 
 
 void VPC_Keyword_RemoveFile( void (*pFNNameTranslation)( CUtlStringBuilder *pStrBuf ) = nullptr );
