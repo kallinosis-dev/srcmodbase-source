@@ -21,7 +21,7 @@ struct SolutionFolderData_t
 class CSolutionGenerator_Win32 : public IBaseSolutionGenerator
 {
 	// Hardcoded in CMake, see cmGlobalVisualStudio7Generator.cxx
-	char const* SolutionGUID = "8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942";
+	char const* SolutionGUID = "{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}";
 
 public:
 	

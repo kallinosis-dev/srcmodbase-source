@@ -180,6 +180,10 @@
 #define VPROF_SCOPE_VARIABLE_NAME( prefix, line ) prefix##line
 #define VPROF_SCOPE_VARIABLE_DECL( name, level, group, assertAccounted, budgetFlags, line ) CVProfScope VPROF_SCOPE_VARIABLE_NAME( VProf_,line )(name, level, group, assertAccounted, budgetFlags)
 
+
+// Hack
+#define TM_ZONE(a,b,c,d,e) 
+
 #define	VPROF_0(name,group,assertAccounted,budgetFlags)	TM_ZONE( TELEMETRY_LEVEL2, TMZF_NONE, "(%s)%s", group, name ); VPROF_SCOPE_VARIABLE_DECL(name, 0, group, assertAccounted, budgetFlags, __LINE__ );
 
 #if VPROF_LEVEL > 0 
