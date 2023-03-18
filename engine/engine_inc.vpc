@@ -1187,7 +1187,7 @@ $Project $EPROJ
 		//$Lib	"$LIBPUBLIC/2015/steamdatagramlib"	[$VS2015]
 		$Lib bzip2
 
-		$Lib	"$LIBCOMMON\jpeglib" [$WINDOWS || $OSXALL || ($LINUX && !$DEDICATED)]
+		$Lib	"jpeglib" [$WINDOWS || $OSXALL || ($LINUX && !$DEDICATED)]
 
 		$File	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dsound.lib"		[$WINDOWS]
 		$File	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dxguid.lib"		[$WINDOWS]
@@ -1210,7 +1210,7 @@ $Project $EPROJ
 		$Lib $LIBCOMMON/libcrypto [$LINUXALL&&!$DEDICATED]
 
 		$File	"$SRCDIR\lib\osx32\MacOSX10.6.sdk\libcurl.dylib"	[$OSXALL]
-        	$Lib     "$LIBPUBLIC\quickhull" 
+        $Lib     "quickhull" 
 		$ImpLib	"SDL2" [$SDL && !$LINUXALL]
 
 		$File	"$SRCDIR\lib\common\win32\phonon3d.lib"	[$WIN32]

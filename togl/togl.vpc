@@ -23,11 +23,6 @@ $Configuration
         $PreprocessorDefinitions	"$BASE;TOGL_DLL_EXPORT" [$OSXALL]
 	}
     
-	$Linker
-	{
-		$ImportLibrary			"$LIBPUBLIC\$_IMPLIB_PREFIX$OUTBINNAME$_IMPLIB_EXT"
-	}
-
 	$Linker [$OSXALL]
 	{
 		$SystemFrameworks "Carbon;OpenGL;Quartz;Cocoa;IOKit"
@@ -38,11 +33,6 @@ $Configuration
 	//	$GCC_ExtraLinkerFlags                   "-L$SRCDIR/thirdparty/sdl/build/.libs"
 	//	$SystemLibraries                        "SDL2"
 	//}
-
-	$General [$POSIX]
-	{
-		$GameOutputFile                                 "$OUTBINDIR/$_IMPLIB_PREFIX$OUTBINNAME$_DLL_EXT"
-	}
 }
 
 $Project "togl"

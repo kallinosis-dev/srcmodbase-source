@@ -21,23 +21,10 @@ $Configuration
 	$Linker
 	{
 		$AdditionalDependencies		"$BASE odbc32.lib odbccp32.lib"			[$WINDOWS]
-
-		$ImportLibrary					"$LIBPUBLIC\$_IMPLIB_PREFIX$OUTBINNAME$_IMPLIB_EXT"
 		
 		$SystemFrameworks			"CoreServices"
 		$SystemLibraries			"iconv" [$OSXALL]
 	}
-	
-	$Linker [$POSIX]
-	{
-		$ImportLibrary				"$LIBPUBLIC\$_IMPLIB_PREFIX$OUTBINNAME$_IMPLIB_EXT"
-	}
-	
-	$General [$POSIX]
-	{
-		$GameOutputFile                                 "$OUTBINDIR/$_IMPLIB_DLL_PREFIX$OUTBINNAME$_DLL_EXT"
-	}
-
 }
 
 $Include "vstdlib.inc"
@@ -46,7 +33,7 @@ $Project
 {
 	$folder	"Link Libraries"
 	{
-		-$ImpLib "$LIBPUBLIC\vstdlib"
+		-$ImpLib vstdlib
 	}
 }
 

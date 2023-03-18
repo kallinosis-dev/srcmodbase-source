@@ -16,7 +16,7 @@ $Configuration
 	
 	$Linker
 	{
-		$OutputFile						"$OUTLIBDIR/$OUTLIBNAME$_STATICLIB_EXT"
+		$OutputFile						"$LIBBUILD/$OUTLIBNAME$_STATICLIB_EXT"
 	}
 }
 

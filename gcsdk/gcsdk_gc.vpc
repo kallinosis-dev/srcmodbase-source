@@ -6,10 +6,7 @@
 
 $MacroRequired "PLATSUBDIR"
 
-// The OUTLIBDIR for this library has long used $PLATFORM in the path so
-// appending $PLATSUBDIR is redundant.
 $macro SRCDIR		".."
-$Macro OUTLIBDIR	"$LIBPUBLIC"
 $Macro GENERATED_PROTO_DIR	"$SRCDIR\gcsdk\generated_proto_gc"
 
 $Linux

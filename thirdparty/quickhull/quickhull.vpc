@@ -4,7 +4,6 @@
 //	Project Script
 //-----------------------------------------------------------------------------
 $macro SRCDIR		"..\.."
-//$macro OUTLIBDIR	"$SRCDIR\lib\public"
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 

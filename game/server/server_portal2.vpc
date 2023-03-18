@@ -317,8 +317,8 @@ $Project "Server (Portal 2)"
 
 				$Folder	"Additional Link Libraries"
 				{
-					$Lib	"$LIBPUBLIC\meshutils"
-					$Lib	"$LIBCOMMON\blobulator" [$WIN32||$POSIX]
+					$Lib	"meshutils"
+					$Lib	"blobulator" [$WIN32||$POSIX]
 					$Lib	"$LIBCOMMON\fileextd"	[$WIN32 && !$NO_CEG]
 				}
 			}

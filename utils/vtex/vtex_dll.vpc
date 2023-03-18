@@ -66,11 +66,11 @@ $Project "Vtex_dll"
 		$Lib mathlib
 		$Lib tier2
 		$Lib vtf
-		$Lib	"$LIBPUBLIC\resourcefile"
-		$Lib	"$LIBPUBLIC\tier3"
-		$Lib	"$LIBPUBLIC\datamodel"
-		$Lib	"$LIBPUBLIC\dmserializers"
-		$Lib	"$LIBPUBLIC\materialobjects"
+		$Lib resourcefile
+		$Lib tier3
+		$Lib datamodel
+		$Lib dmserializers
+		$Lib materialobjects
 	}
 	
 

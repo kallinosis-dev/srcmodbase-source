@@ -91,7 +91,7 @@ $Project
 
 	$Folder	"Link Libraries"
 	{
-		$Lib	"$LIBCOMMON\jpeglib"
-		$LibExternal	"$LIBPUBLIC\libz" [!$OSXALL]
+		$Lib	"jpeglib"
+		$LibExternal	"libz" [!$OSXALL]
 	}
 }

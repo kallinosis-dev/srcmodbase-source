@@ -88,13 +88,9 @@ $Project
 
 	$Folder	"Link Libraries" 
 	{
-		-$File	"$LIBPUBLIC\tier0.lib" 			[$WINDOWS||$LINUX]	
-		-$File	"$LIBPUBLIC\tier1.lib"			[$WINDOWS||$LINUX]
-		-$File	"$LIBPUBLIC\vstdlib.lib"		[$WINDOWS||$LINUX]
-
-		-$File "$LIBPUBLIC\$_IMPLIB_PREFIXtier0$_IMPLIB_EXT" [$POSIX]
-		-$File "$LIBPUBLIC\$_IMPLIB_PREFIXvstdlib$_IMPLIB_EXT" [$POSIX]
-		-$File "$LIBPUBLIC\tier1$_IMPLIB_EXT"	[$POSIX]
+		-$File	"tier0"
+		-$File	"tier1"
+		-$File	"vstdlib"
 	}
 }
 

@@ -52,6 +52,6 @@ $Project "bsppack"
 	{
 		$Lib	mathlib
 		$Lib	tier2
-		$Lib	"$LIBCOMMON/lzma"
+		$Lib	"lzma"
 	}
 }

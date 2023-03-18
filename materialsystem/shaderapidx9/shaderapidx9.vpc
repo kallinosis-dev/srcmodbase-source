@@ -48,7 +48,7 @@ $Project "shaderapidx9"
 		$ImpLib togl [!$IS_LIB_PROJECT && $GL]
 
 
-		$Lib	"$LIBCOMMON\bzip2"
+		$Lib	"bzip2"
 
 		$File	"$SRCDIR\dx9sdk\lib$PLATSUBDIR\d3d9.lib" [$WINDOWS && !$GL]
 		$File	"$SRCDIR\dx9sdk\lib$PLATSUBDIR\d3dx9.lib" [$WINDOWS && !$GL]

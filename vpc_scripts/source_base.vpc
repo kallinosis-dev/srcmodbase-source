@@ -5,9 +5,7 @@
 //
 //	Project Script
 //-----------------------------------------------------------------------------
-
-// Set which branch we are building out of.
-// This is one file we expect to be different between branches and so it must be merged carefully
+$Include "$SRCDIR\vpc_scripts\platform_dirs.vpc"
 
 // Rel branch:
 $Conditional CSTRIKE_REL_BUILD		"1"
@@ -16,9 +14,7 @@ $Configuration "Debug"
 {
 	$Compiler
 	{
-		// Pass on appropriate branch define to preprocessor
 		$PreprocessorDefinitions		"VPC"
-		$PreprocessorDefinitions		"$BASE;CSTRIKE_REL_BUILD=1"				[ $CSTRIKE_REL_BUILD ]
 	}
 }
 
@@ -26,10 +22,17 @@ $Configuration "Release"
 {
 	$Compiler
 	{
-		// Pass on appropriate branch define to preprocessor
 		$PreprocessorDefinitions		"VPC"
+	}
+}
+
+$Configuration
+{
+	$Compiler
+	{
 		$PreprocessorDefinitions		"$BASE;CSTRIKE_REL_BUILD=1"				[ $CSTRIKE_REL_BUILD ]
 	}
 }
 
-
+$Macro LIBBUILD "$SRCDIR\build\lib$PLATSUBDIR"
+$Macro LIBPROJECT "$LIBBUILD"

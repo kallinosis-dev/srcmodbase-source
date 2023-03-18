@@ -35,21 +35,10 @@ $Configuration
 	{
 		$AdditionalDependencies			"$BASE;$VTUNE_LIB" [$VTUNE_ENABLED]
 	}
-
-	$Linker
-	{
-		// Everyone but 360 build right to the location.
-		$ImportLibrary					"$LIBPUBLIC\$_IMPLIB_PREFIX$OUTBINNAME$_IMPLIB_EXT"
-	}
 	
 	$Linker
 	{
 		$AdditionalDependencies			"$BASE ws2_32.lib"							[$WINDOWS]
-	}
-
-	$General [$POSIX]
-	{
-		$GameOutputFile                                 "$OUTBINDIR/$_IMPLIB_PREFIX$OUTBINNAME$_DLL_EXT"
 	}
 
 }
@@ -60,10 +49,10 @@ $Project
 {
 	$Folder	"Link Libraries"
 	{
-		-$ImpLib "$LIBPUBLIC\tier0"
-		-$Lib	 "$LIBPUBLIC\tier1"
-		-$implib "$LIBPUBLIC\vstdlib"
-		-$Lib	 "$LIBPUBLIC\interfaces"
+		-$ImpLib "tier0"
+		-$Lib	 "tier1"
+		-$implib "vstdlib"
+		-$Lib	 "interfaces"
 	}
 }
 

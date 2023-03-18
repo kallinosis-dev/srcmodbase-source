@@ -254,7 +254,7 @@ $Project "Scenemanager"
 		$Lib appframework
 		$Lib choreoobjects
 		$Lib mathlib
-		$Lib $LIBCOMMON\mxtoolkitwin32
+		$Lib mxtoolkitwin32
 		$Lib tier2
 		$Lib tier3
 	}

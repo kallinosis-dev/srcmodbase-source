@@ -51,6 +51,6 @@ $Project "Bspzip"
 	{
 		$Lib mathlib
 		$Lib tier2
-		$Lib "$LIBCOMMON/lzma"
+		$Lib "lzma"
 	}
 }

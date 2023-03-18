@@ -16,10 +16,6 @@ $Configuration
 	{
 		$AdditionalIncludeDirectories		"$BASE,$SRCDIR\vgui2\vlocalize,$SRCDIR\vgui2\controls,$SRCDIR\vgui2\include,$SRCDIR\vgui2\controls"
 	}
-	$Linker
-	{
-		$AdditionalLibraryDirectories		"$LIBCOMMON;$LIBPUBLIC"
-	}
 }
 
 $Project "Panel_zoo"

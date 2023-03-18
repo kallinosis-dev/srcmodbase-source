@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTLIBDIR	"$SRCDIR\lib\common\vc8"
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 

@@ -788,15 +788,15 @@ $Project "Client (Portal 2)"
 
 	$Folder	"Additional Link Libraries"
 	{
-		$Lib	"$LIBPUBLIC\meshutils"
-		$Lib	"$LIBPUBLIC\game_controls"			[ $IFDEF_GAMEUI_UISYSTEM2_ENABLED]
-		$Lib 	"$LIBCOMMON\jpeglib"				[ $WIN32 ||  $POSIX  ]
-		$Lib 	"$LIBPUBLIC\vpklib"					[ $WIN32 ||  $POSIX  ]
-		$Lib	"$LIBCOMMON\blobulator"
+		$Lib	"meshutils"
+		$Lib	"game_controls"			[ $IFDEF_GAMEUI_UISYSTEM2_ENABLED]
+		$Lib 	"jpeglib"				[ $WIN32 ||  $POSIX  ]
+		$Lib 	"vpklib"					[ $WIN32 ||  $POSIX  ]
+		$Lib	"blobulator"
 		$Lib	"$LIBCOMMON\fileextd"				[ $WIN32 && !$NO_CEG ]
 
 		// The PuzzleMaker is loaded as a DLL during development (on WIN32), but for public builds it is linked as a static LIB:
-		// $Lib	"$LIBCOMMON\puzzlemaker_dll"		[  $WIN32 ]
-		$Lib	"$LIBCOMMON\puzzlemaker_lib"		[ $WIN32 || $OSXALL ]
+		// $Lib	"puzzlemaker_dll"		[  $WIN32 ]
+		$Lib	"puzzlemaker_lib"		[ $WIN32 || $OSXALL ]
 	}
 }

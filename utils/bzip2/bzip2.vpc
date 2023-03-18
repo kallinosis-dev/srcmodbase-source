@@ -5,7 +5,6 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTLIBDIR	"$OUTLIBCOMMONDIR"
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 

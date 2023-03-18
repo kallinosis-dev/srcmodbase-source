@@ -104,7 +104,7 @@ $Project "studiorender"
 
 	$folder "Link Libraries"
 	{
-		$Implib		"$LIBPUBLIC\vstdlib"
+		$Implib		"vstdlib"
 		$Lib		bitmap
 		$Lib		mathlib
 		$Lib		tier2

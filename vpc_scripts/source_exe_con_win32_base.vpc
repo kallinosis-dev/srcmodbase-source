@@ -4,7 +4,6 @@
 //	Base Settings for all Source(TM) Projects
 //-----------------------------------------------------------------------------
 
-$Include "$SRCDIR\vpc_scripts\platform_dirs.vpc"
 $Include "$SRCDIR\vpc_scripts\source_base.vpc"
 
 $IgnoreRedundancyWarning	"ON"

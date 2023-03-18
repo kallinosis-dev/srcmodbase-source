@@ -1245,7 +1245,7 @@ $Project
 		$Lib			"vtf"
 		$Lib			"resourcefile"
 
-		$Lib "$LIBPUBLIC\panorama_client" 	[$PANORAMA_ENABLE]
+		$Lib "panorama_client" 	[$PANORAMA_ENABLE]
 		$Lib "$LIBCOMMON\win32\video"		[$WIN32 && $PANORAMA_ENABLE]
 		$Lib "$LIBCOMMON\win32\v8"			[$WIN32 && $PANORAMA_ENABLE]
 		$Lib "$LIBCOMMON\win32\pcre" 		[$WIN32 && $PANORAMA_ENABLE && !$VS2015]

@@ -5,9 +5,8 @@
 //-----------------------------------------------------------------------------
 
 $Macro SRCDIR		"..\.."
-$Macro OUTLIBDIR	"$SRCDIR\lib\public"
 
-$Include "$SRCDIR\vpc_scripts\source_lib_win32_base.vpc"
+$Include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
 
 $Project "Toolutils"
 {

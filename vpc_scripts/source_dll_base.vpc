@@ -1,5 +1,4 @@
 $MacroRequired		"OUTDLLEXT" "$_DLL_EXT"
-$Include "$SRCDIR\vpc_scripts\platform_dirs.vpc"
 $Include "$SRCDIR\vpc_scripts\source_base.vpc"
 
 $include "$SRCDIR\vpc_scripts\source_dll_posix_base.vpc"	[$POSIX]
@@ -11,6 +10,11 @@ $Configuration
 	$General
 	{
 		$TargetExtension	"$OUTDLLEXT"
+	}
+
+	$Linker
+	{
+		$ImportLibrary					"$LIBBUILD\$OUTBINNAME$_STATICLIB_EXT"
 	}
 
 	$Compiler

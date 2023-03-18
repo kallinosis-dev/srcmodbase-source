@@ -8,7 +8,6 @@ $IgnoreRedundancyWarning	"ON"
 
 $MacroRequired				"SRCDIR"
 $MacroRequired				"OUTLIBNAME"
-$MacroRequired				"OUTLIBDIR"
 $MacroRequired				"LIBPUBLIC"
 $MacroRequired				"LIBCOMMON"
 $MacroRequired				"PLATSUBDIR"
@@ -18,7 +17,7 @@ $Configuration "Release"
 	$General
 	{
 		// General
-		$OutputDirectory					"$OUTLIBDIR"
+		$OutputDirectory					"$LIBBUILD"
 		$IntermediateDirectory				".\Release$PLATSUBDIR"
 		$ExtensionsToDeleteOnClean
 		$BuildLogFile
@@ -136,7 +135,7 @@ $Configuration "Release"
 	$Librarian
 	{
 		// General
-		$OutputFile							"$OUTLIBDIR\$OUTLIBNAME.lib"
+		$OutputFile							"$LIBBUILD\$OUTLIBNAME.lib"
 		$AdditionalDependencies
 		$AdditionalLibraryDirectories
 		$SuppressStartupBanner				"Yes (/NOLOGO)"

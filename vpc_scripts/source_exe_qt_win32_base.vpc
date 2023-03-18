@@ -21,7 +21,7 @@ $Configuration
 	$Linker
 	{
 		// Link tier0 first because Qt needs our allocators during static object initization!
-		$AdditionalDependencies				"$BASE $LIBPUBLIC\tier0.lib"
+		$AdditionalDependencies				"$BASE $LIBBUILD\tier0.lib"
 		$GenerateManifest					"Yes"
 		$AdditionalOptions					"$BASE $QUOTE/MANIFESTDEPENDENCY:type='win32' name='Microsoft.Windows.Common-Controls' version='6.0.0.0' publicKeyToken='6595b64144ccf1df' language='*' processorArchitecture='*'$QUOTE"
 	}

@@ -35,7 +35,7 @@ $Project "localize"
 
 	$Folder	"Link Libraries"
 	{
-		$Lib	"$LIBPUBLIC\tier2"
+		$Lib	"tier2"
 		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64							[ $WIN64 && !$NO_STEAM ]
 	}

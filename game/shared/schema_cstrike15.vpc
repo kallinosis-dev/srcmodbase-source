@@ -6,10 +6,9 @@
 //-----------------------------------------------------------------------------
 
 $macro SRCDIR		"..\.."
-$Macro OUTLIBDIR	"$SRCDIR\lib\game\cstrike15"
 $macro $_STATICLIB_EXT	".lib"
 
-$include "$SRCDIR\vpc_scripts\source_lib_win32_base.vpc"	[$WINDOWS||$LINUX]
+$include "$SRCDIR\vpc_scripts\source_lib_base.vpc"	[$WINDOWS||$LINUX]
 
 $Project "schema (cstrike15)"
 {
