@@ -7,8 +7,8 @@
 $Macro SRCDIR		".."
 $Macro OUTBINDIR	"$SRCDIR\..\game"
 
-$Macro OUTBINNAME	"srcds"			[$WIN32]
-$Macro OUTBINNAME	"srcds_x64"		[$WIN64]
+$Macro OUTBINNAME	"srcds_win32"			[$WIN32]
+$Macro OUTBINNAME	"srcds_win64"		[$WIN64]
 $Macro OUTBINNAME	"srcds_linux" 	[$LINUX && !$CYGWIN]
 $Macro OUTBINNAME	"srcds_osx" 	[$OSX32 || $OSX64]
 $Macro OUTBINNAME	"srcds_cygwin" 	[$CYGWIN && $DEDICATED]

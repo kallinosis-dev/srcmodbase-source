@@ -9,9 +9,7 @@ $Include "$SRCDIR\vpc_scripts\version.vpc"
 $MacroRequired				"SRCDIR"
 $MacroRequired				"OUTBINNAME"	"$PROJECTNAME"
 $MacroRequired				"OUTBINDIR"
-		
-$Macro PLATSUBDIR	"\."	[$WIN32]
-$Macro PLATSUBDIR	"\x64"	[$WIN64]
+
 $Macro OUTBINDIR	"$OUTBINDIR$PLATSUBDIR"
 $Macro LIBPUBLIC	"$SRCDIR\lib\public$PLATSUBDIR"
 $Macro LIBCOMMON	"$SRCDIR\lib\common$PLATSUBDIR"

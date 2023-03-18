@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2016, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2016, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: VPC
 //
@@ -14,20 +14,8 @@ void IBaseProjectGenerator::SetOutputFileName( void )
 
 	m_OutputFileName = pProjectFileNamePrefix;
 
-	// win32 projects are the most prevalent, so by popular demand they have no decoration
-	// all other platforms use their platform name as a suffix
-	const char *pPlatform = NULL;
-	if ( !g_pVPC->IsPlatformDefined( "win32" ) )
-	{
-		pPlatform = g_pVPC->GetTargetPlatformName();
-	}
-
-	if ( pPlatform && pPlatform[0] )
-	{
-		// non-WIN32 platforms get decorated
-		m_OutputFileName += "_";
-		m_OutputFileName += pPlatform;
-	}
+	m_OutputFileName += "_";
+	m_OutputFileName += g_pVPC->GetTargetPlatformName();
 
 	if ( g_pVPC->OutputName_ShouldAppendSrvToDedicated() )
 	{

@@ -5,7 +5,6 @@
 //
 //	Project Script
 //-----------------------------------------------------------------------------
-$Include "$SRCDIR\vpc_scripts\platform_dirs.vpc"
 
 // Rel branch:
 $Conditional CSTRIKE_REL_BUILD		"1"

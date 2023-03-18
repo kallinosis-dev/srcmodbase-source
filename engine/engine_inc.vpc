@@ -29,12 +29,7 @@ $Configuration
 		$PreprocessorDefinitions	"$BASE;DEDICATED;SWDS;NO_BINK" [$DEDICATED]
 		$PreprocessorDefinitions	"$BASE;INCLUDE_SCALEFORM" [!$DEDICATED]
 	}
-
-	$Compiler [$WIN32] // This is already enabled for WIN64.
-	{
-		$EnableEnhancedInstructionSet	"Streaming SIMD Extensions 2 (/arch:SSE2)"
-	}
-
+	
 	$Compiler [$OSXALL]
 	{
 	//is this still needed?
