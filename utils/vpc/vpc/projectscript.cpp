@@ -10,6 +10,9 @@
 #include "baseprojectdatacollector.h"
 #include "tier1/fmtstr.h"
 
+char const* DefaultLibDir = "$LIBPUBLIC\\";
+
+
 void VPC_Keyword_RemoveFile( void (*pFNNameTranslation)( CUtlStringBuilder *pStrBuf ) = nullptr );
 static void VPC_AddLibraryDependencies( const char *pLibPath );
 
@@ -727,14 +730,14 @@ static const char *VPC_ExpandLibraryName( const char *pName, const char *pDefaul
 static void nameTransformImpLib( CUtlStringBuilder *pStrBuf)
 {
 	CUtlPathStringHolder szFilename1;
-	VPC_ExpandLibraryName( pStrBuf->Get(), "$LIBPUBLIC\\", "$_IMPLIB_PREFIX", "$_IMPLIB_EXT", &szFilename1 );
+	VPC_ExpandLibraryName( pStrBuf->Get(), DefaultLibDir, "$_IMPLIB_PREFIX", "$_IMPLIB_EXT", &szFilename1 );
 	pStrBuf->Set( szFilename1.Get() );
 }
 
 static void nameTransformImpLibExternal( CUtlStringBuilder *pStrBuf)
 {
 	CUtlPathStringHolder szFilename1;
-	VPC_ExpandLibraryName( pStrBuf->Get(), "$LIBPUBLIC\\", "$_IMPLIB_PREFIX", "$_EXTERNAL_IMPLIB_EXT", &szFilename1 );
+	VPC_ExpandLibraryName( pStrBuf->Get(), DefaultLibDir, "$_IMPLIB_PREFIX", "$_EXTERNAL_IMPLIB_EXT", &szFilename1 );
 	pStrBuf->Set( szFilename1.Get() );
 }
 
@@ -755,14 +758,14 @@ static void VPC_Keyword_ImportLibrary( bool bRemove = false, bool bExternal = fa
 static void nameTransformLinkLib( CUtlStringBuilder *pStrBuf )
 {
 	CUtlPathStringHolder szFilename1;
-	VPC_ExpandLibraryName( pStrBuf->Get(), "$LIBPUBLIC\\", NULL, "$_STATICLIB_EXT", &szFilename1 );
+	VPC_ExpandLibraryName( pStrBuf->Get(), DefaultLibDir, NULL, "$_STATICLIB_EXT", &szFilename1 );
 	pStrBuf->Set( szFilename1.Get() );
 }
 
 static void nameTransformLinkLibExternal( CUtlStringBuilder *pStrBuf )
 {
 	CUtlPathStringHolder szFilename1;
-	VPC_ExpandLibraryName( pStrBuf->Get(), "$LIBPUBLIC\\", NULL, "$_EXTERNAL_STATICLIB_EXT", &szFilename1 );
+	VPC_ExpandLibraryName( pStrBuf->Get(), DefaultLibDir, NULL, "$_EXTERNAL_STATICLIB_EXT", &szFilename1 );
 	pStrBuf->Set( szFilename1.Get() );
 }
 
@@ -785,7 +788,7 @@ static void VPC_Keyword_SharedLibrary( bool bRemove = false )
 	auto nameTransformFunction = []( CUtlStringBuilder *pStrBuf ) -> void
 		{
 			CUtlPathStringHolder szFilename1;
-			VPC_ExpandLibraryName( pStrBuf->Get(), "$LIBPUBLIC\\", "$_DLL_PREFIX", "$_DLL_EXT", &szFilename1 );
+			VPC_ExpandLibraryName( pStrBuf->Get(), DefaultLibDir, "$_DLL_PREFIX", "$_DLL_EXT", &szFilename1 );
 			pStrBuf->Set( szFilename1.Get() );
 		};
 
@@ -843,7 +846,7 @@ static void VPC_LibDepends( char const *pDefaultPath, char const *pFileNamePrefi
 
     // The lib is always a static lib.
     CUtlPathStringHolder libName;
-    VPC_ExpandLibraryName( pToken, "$LIBPUBLIC\\", NULL, "$_STATICLIB_EXT", &libName );
+    VPC_ExpandLibraryName( pToken, DefaultLibDir, NULL, "$_STATICLIB_EXT", &libName );
     
     int i = g_pVPC->m_LibraryDependencies.Find( libName );
     if ( i == g_pVPC->m_LibraryDependencies.InvalidIndex() )
@@ -882,12 +885,12 @@ static void VPC_LibDepends( char const *pDefaultPath, char const *pFileNamePrefi
 
 void VPC_Keyword_LibDependsOnLib()
 {
-	VPC_LibDepends( "$LIBPUBLIC\\", NULL, "$_STATICLIB_EXT" );
+	VPC_LibDepends( DefaultLibDir, NULL, "$_STATICLIB_EXT" );
 }
 
 void VPC_Keyword_LibDependsOnImpLib()
 {
-	VPC_LibDepends( "$LIBPUBLIC\\", "$_IMPLIB_PREFIX", "$_IMPLIB_EXT" );
+	VPC_LibDepends(DefaultLibDir, "$_IMPLIB_PREFIX", "$_IMPLIB_EXT" );
 }
 
 //-----------------------------------------------------------------------------
