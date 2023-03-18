@@ -43,11 +43,6 @@ $Project "bitmap"
 	"bitmap/bitmap.vpc" [$WINDOWS || $X360 || $DEDICATED || $POSIX || $PS3]
 }
 
-$Project "bitmap_byteswap"
-{
-	"bitmap/bitmap_byteswap.vpc" [$WINDOWS || $DEDICATED || $WIN64 || $POSIX]
-}
-
 $Project "blobulator"
 {
 	"blobulator/blobulator.vpc" [$WINDOWS || $X360 || $PS3 || $POSIX]

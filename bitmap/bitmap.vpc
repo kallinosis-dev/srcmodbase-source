@@ -54,8 +54,6 @@ $Project "bitmap"
 
 	$Folder "Link Libraries" [$WINDOWS]
 	{
-		$Lib	"$SRCDIR\lib\public\nvtc"			[!$WIN64]
-		$Lib	"$SRCDIR\lib\public\nvtc64"			[$WIN64]
-		$Lib	"bitmap_byteswap"
+		$Lib	"$LIBPUBLIC\nvtc"
 	}
 }
