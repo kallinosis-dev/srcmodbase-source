@@ -38,7 +38,7 @@ $Project "Vtex_launcher"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
+		$File	"tier2"
+		$File	"mathlib"
 	}
 }

@@ -19,8 +19,6 @@ $Configuration
 	$Linker [!$POSIX]
 	{
 		$AdditionalDependencies				"odbc32.lib odbccp32.lib"
-		$ImportLibrary					"$SRCDIR\lib\public\$(TargetName).lib"
-
 	}
 }
 

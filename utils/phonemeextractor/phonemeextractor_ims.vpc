@@ -89,7 +89,7 @@ $Project "Phonemeextractor_ims"
 	
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\mathlib.lib"
+		$File	"mathlib"
 		$File	"..\sapi51\lib\i386\sapi.lib"
 	}
 }

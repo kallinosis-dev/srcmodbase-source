@@ -77,6 +77,6 @@ $Project "FileSystemOpenDialog"
 
 	$Folder "Link Libraries"
 	{
-		$File	"$SRCDIR\lib\common\jpeglib.lib"
+		$File	jpeglib
 	}
 }

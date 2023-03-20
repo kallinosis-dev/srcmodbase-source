@@ -55,7 +55,7 @@ $Project "Vbspinfo"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
+		$File	"mathlib"
+		$File	"tier2"
 	}
 }

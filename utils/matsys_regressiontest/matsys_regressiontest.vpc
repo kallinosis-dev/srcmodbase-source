@@ -16,11 +16,6 @@ $Configuration
 	{
 		$AdditionalIncludeDirectories		"$BASE,..\common"
 	}
-
-	$Linker
-	{
-		$AdditionalDependencies				"$BASE $SRCDIR\lib\public\nvtc.lib"
-	}
 }
 
 $Project "Matsys_regressiontest"
@@ -36,5 +31,6 @@ $Project "Matsys_regressiontest"
 		$Lib bitmap
 		$Lib mathlib
 		$Lib tier2
+		$Lib "$LIBPUBLIC\nvtc.lib"
 	}
 }

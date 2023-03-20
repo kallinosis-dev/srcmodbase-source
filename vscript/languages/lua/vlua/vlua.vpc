@@ -116,7 +116,7 @@ $Project "vlua"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\mathlib.lib"
+		$File	mathlib
 	}
 }
 

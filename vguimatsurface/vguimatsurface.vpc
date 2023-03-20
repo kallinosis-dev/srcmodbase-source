@@ -114,8 +114,7 @@ $Project "vguimatsurface"
 		$Lib vgui_surfacelib
 		$Lib dmxloader
 
-		$Lib "$SRCDIR\lib\public\nvtc"			[$WINDOWS && !$WIN64]
-		$Lib "$SRCDIR\lib\public\nvtc64"		[$WIN64]
+		$Lib "$LIBPBLIC\nvtc"			[$WINDOWS]
 
 		$ImpLib SDL2 [$SDL && !$LINUXALL]
 	}

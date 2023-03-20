@@ -174,13 +174,13 @@ $Project "Vbsp"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\bitmap.lib"
-		$File	"$SRCDIR\lib\public\fgdlib.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\vtf.lib"
-		$File	"$SRCDIR\lib\common\vc8\lzma.lib"
-		$File	"$SRCDIR\lib\common\vc8\libmad.lib"
+		$File	"bitmap.lib"
+		$File	"fgdlib.lib"
+		$File	"mathlib.lib"
+		$File	"tier2.lib"
+		$File	"vtf.lib"
+		$File	"lzma"
+		$File	"libmad"
 	}
 
 	$File	"notes.txt"

@@ -38,7 +38,7 @@ $Project "Hammer_launcher"
 	
 	$Folder	"Link Libraries"
 	{
-		$Lib	"$SRCDIR\lib\public\appframework"
-		$Lib	"$SRCDIR\lib\common\Steam"
+		$Lib	"appframework"
+		$Lib	"$LIBCOMMON\Steam"
 	}
 }

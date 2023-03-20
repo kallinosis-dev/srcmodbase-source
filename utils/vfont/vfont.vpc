@@ -14,7 +14,6 @@ $Configuration
 	$Compiler
 	{
 		$AdditionalIncludeDirectories		"$BASE,..\common"
-//		$PreprocessorDefinitions			"$BASE"
 	}
 
 	$Linker
@@ -38,7 +37,7 @@ $Project "vfont"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\tier3.lib"
+		$File	"tier2"
+		$File	"tier3"
 	}
 }

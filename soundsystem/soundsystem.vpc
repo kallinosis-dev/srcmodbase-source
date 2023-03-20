@@ -59,8 +59,8 @@ $Project "Soundsystem"
 		$Lib	soundsystem_lowlevel	[$WIN32]
 		$File	"$SRCDIR\dx9sdk\lib\dsound.lib"
 		$File	"$SRCDIR\dx9sdk\lib\dxguid.lib"
-		$File	"$SRCDIR\lib\public\mathlib.lib"
-		$File	"$SRCDIR\lib\common\mss32.lib"
-		$File	"$SRCDIR\lib\public\tier2.lib"
+		$File	"mathlib.lib"
+		$File	"$LIBCOMMON\mss32.lib"
+		$File	"tier2.lib"
 	}
 }

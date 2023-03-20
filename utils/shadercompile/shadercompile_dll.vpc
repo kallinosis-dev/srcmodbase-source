@@ -57,8 +57,8 @@ $Project "Shadercompile_dll"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\public\tier2.lib"
-		$File	"$SRCDIR\lib\public\vmpi.lib"
-		$File	"$SRCDIR\lib\common\vc8\lzma.lib"
+		$File	"tier2"
+		$File	"vmpi"
+		$File	"lzma"
 	}
 }
