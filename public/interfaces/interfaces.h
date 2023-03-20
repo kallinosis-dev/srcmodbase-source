@@ -109,7 +109,7 @@ namespace vgui
 //-----------------------------------------------------------------------------
 // Fills out global DLL exported interface pointers
 //-----------------------------------------------------------------------------
-#define CVAR_INTERFACE_VERSION					"VEngineCvar007"
+#define CVAR_INTERFACE_VERSION					"VEngineCvar008"
 DECLARE_TIER1_INTERFACE( ICvar, cvar );
 DECLARE_TIER1_INTERFACE( ICvar, g_pCVar )
 
