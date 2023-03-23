@@ -10,6 +10,8 @@
 #pragma once
 #endif
 
+#ifndef NO_STEAM
+
 const int k_cubAppProofOfPurchaseKeyMax = 240;			// max supported length of a legacy cd key 
 
 
@@ -157,4 +159,7 @@ struct AppProofOfPurchaseKeyResponse_t
 
 
 #pragma pack( pop )
+
+#endif
+
 #endif // ISTEAMAPPS_H

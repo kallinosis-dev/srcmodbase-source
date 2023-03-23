@@ -13,6 +13,8 @@
 #include "isteamclient.h"
 #include "steamhttpenums.h"
 
+#ifndef NO_STEAM
+
 // Handle to a HTTP Request handle
 typedef uint32 HTTPRequestHandle;
 #define INVALID_HTTPREQUEST_HANDLE		0
@@ -206,5 +208,7 @@ struct HTTPRequestDataReceived_t
 
 
 #pragma pack( pop )
+
+#endif
 
 #endif // ISTEAMHTTP_H

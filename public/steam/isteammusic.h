@@ -8,6 +8,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -63,5 +65,6 @@ END_DEFINE_CALLBACK_1()
 
 #pragma pack( pop )
 
+#endif
 
 #endif // #define ISTEAMMUSIC_H

@@ -31,6 +31,7 @@
 #include "isteaminventory.h"
 #include "isteamvideo.h"
 
+#ifndef NO_STEAM
 
 // Steam API export macro
 #if defined( _WIN32 ) && !defined( _X360 )
@@ -387,6 +388,8 @@ S_API HSteamUser GetHSteamUser();
 // backwards compat with older SDKs
 S_API bool S_CALLTYPE SteamAPI_InitSafe();
 #endif
+
+#endif // NO_STEAM
 
 #include "steam_api_internal.h"
 

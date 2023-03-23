@@ -12,6 +12,7 @@
 #ifdef _WIN32
 #pragma once
 #endif
+#ifndef NO_STEAM
 
 typedef uint64 ClientUnifiedMessageHandle;
 
@@ -59,5 +60,7 @@ struct SteamUnifiedMessagesSendMethodResult_t
 };
 
 #pragma pack( pop )
+
+#endif
 
 #endif // ISTEAMUNIFIEDMESSAGES_H

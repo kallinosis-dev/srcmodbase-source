@@ -16,6 +16,8 @@
 #include "isteamclient.h"
 #include "isteamfriends.h"
 
+#ifndef NO_STEAM
+
 // lobby type description
 enum ELobbyType
 {
@@ -747,5 +749,6 @@ struct FavoritesListAccountsUpdated_t
 
 #pragma pack( pop )
 
+#endif
 
 #endif // ISTEAMMATCHMAKING

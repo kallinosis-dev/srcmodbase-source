@@ -7,6 +7,8 @@
 #ifndef STEAM_API_INTERNAL_H
 #define STEAM_API_INTERNAL_H
 
+#ifndef NO_STEAM
+
 S_API HSteamUser SteamAPI_GetHSteamUser();
 S_API bool S_CALLTYPE SteamInternal_Init();
 S_API void * S_CALLTYPE SteamInternal_CreateInterface( const char *ver );
@@ -323,5 +325,6 @@ S_API void S_CALLTYPE SteamAPI_UseBreakpadCrashHandler( char const *pchVersion, 
 S_API void S_CALLTYPE SteamAPI_SetBreakpadAppID( uint32 unAppID );
 #endif
 
+#endif // NO_STEAM
 
 #endif // STEAM_API_INTERNAL_H

@@ -12,6 +12,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 // callbacks
 #if defined( VALVE_CALLBACK_PACK_SMALL )
 #pragma pack( push, 4 )
@@ -350,5 +352,6 @@ struct SteamInventoryDefinitionUpdate_t
 
 #pragma pack( pop )
 
+#endif
 
 #endif // ISTEAMCONTROLLER_H

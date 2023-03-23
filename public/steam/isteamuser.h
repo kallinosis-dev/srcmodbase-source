@@ -12,6 +12,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 // structure that contains client callback data
 // see callbacks documentation for more details
 #if defined( VALVE_CALLBACK_PACK_SMALL )
@@ -345,5 +347,7 @@ struct StoreAuthURLResponse_t
 
 
 #pragma pack( pop )
+
+#endif
 
 #endif // ISTEAMUSER_H

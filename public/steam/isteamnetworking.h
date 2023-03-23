@@ -13,6 +13,7 @@
 #include "steamtypes.h"
 #include "steamclientpublic.h"
 
+#ifndef NO_STEAM
 
 // list of possible errors returned by SendP2PPacket() API
 // these will be posted in the P2PSessionConnectFail_t callback
@@ -302,5 +303,7 @@ struct SocketStatusCallback_t
 };
 
 #pragma pack( pop )
+
+#endif
 
 #endif // ISTEAMNETWORKING

@@ -14,6 +14,8 @@
 #include "steamtypes.h"
 #include "steamclientpublic.h"
 
+#ifndef NO_STEAM
+
 // Define compile time assert macros to let us validate the structure sizes.
 #define VALVE_COMPILE_TIME_ASSERT( pred ) typedef char compile_time_assert_type[(pred) ? 1 : -1];
 
@@ -516,5 +518,7 @@ struct callbackname { \
 	END_CALLBACK_INTERNAL_SWITCH( 12 ) \
 	END_CALLBACK_INTERNAL_SWITCH( 13 ) \
 	END_CALLBACK_INTERNAL_END()
+
+#endif
 
 #endif // ISTEAMCLIENT_H

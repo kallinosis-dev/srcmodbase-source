@@ -9,6 +9,8 @@
 #include "isteamclient.h"
 #include "isteammusic.h"
 
+#ifndef NO_STEAM
+
 #define k_SteamMusicNameMaxLength 255
 #define k_SteamMusicPNGMaxLength 65535
  
@@ -124,6 +126,6 @@ END_DEFINE_CALLBACK_1()
 
 #pragma pack( pop )
 
-
+#endif
 
 #endif // #define ISTEAMMUSICREMOTE_H

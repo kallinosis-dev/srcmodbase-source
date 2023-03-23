@@ -12,6 +12,7 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
 
 // Steam API call failure results
 enum ESteamAPICallFailure
@@ -250,5 +251,7 @@ struct GamepadTextInputDismissed_t
 // k_iSteamUtilsCallbacks + 15 is taken
 
 #pragma pack( pop )
+
+#endif
 
 #endif // ISTEAMUTILS_H

@@ -13,6 +13,7 @@
 #include "isteamclient.h"
 #include "steamclientpublic.h"
 
+#ifndef NO_STEAM
 
 //-----------------------------------------------------------------------------
 // Purpose: set of relationships to other users
@@ -632,5 +633,7 @@ struct SetPersonaNameResponse_t
 
 
 #pragma pack( pop )
+
+#endif
 
 #endif // ISTEAMFRIENDS_H

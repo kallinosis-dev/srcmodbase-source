@@ -13,6 +13,8 @@
 #include "isteamclient.h"
 #include "isteamremotestorage.h"
 
+#ifndef NO_STEAM
+
 // size limit on stat or achievement name (UTF-8 encoded)
 enum { k_cchStatNameMax = 128 };
 
@@ -472,5 +474,6 @@ struct GlobalStatsReceived_t
 
 #pragma pack( pop )
 
+#endif
 
 #endif // ISTEAMUSER_H

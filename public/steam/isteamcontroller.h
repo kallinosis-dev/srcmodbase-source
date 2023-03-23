@@ -12,6 +12,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 #define STEAM_CONTROLLER_MAX_COUNT 16
 
 #define STEAM_CONTROLLER_MAX_ANALOG_ACTIONS 16
@@ -210,5 +212,7 @@ public:
 };
 
 #define STEAMCONTROLLER_INTERFACE_VERSION "SteamController003"
+
+#endif
 
 #endif // ISTEAMCONTROLLER_H

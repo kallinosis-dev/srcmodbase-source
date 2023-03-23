@@ -10,7 +10,6 @@
 #pragma once
 #endif
 
-
 // Steam universes.  Each universe is a self-contained Steam instance.
 enum EUniverse
 {
@@ -22,6 +21,5 @@ enum EUniverse
 	// k_EUniverseRC = 5,				// no such universe anymore
 	k_EUniverseMax
 };
-
 
 #endif // STEAMUNIVERSE_H

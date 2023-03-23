@@ -12,6 +12,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 typedef uint32 HHTMLBrowser;
 const uint32 INVALID_HTMLBROWSER = 0;
 
@@ -449,5 +451,6 @@ END_DEFINE_CALLBACK_1()
 
 #pragma pack( pop )
 
+#endif
 
 #endif // ISTEAMHTMLSURFACE_H

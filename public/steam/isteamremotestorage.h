@@ -12,6 +12,7 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
 
 //-----------------------------------------------------------------------------
 // Purpose: Defines the largest allowed file size. Cloud files cannot be written
@@ -692,5 +693,6 @@ struct RemoteStorageFileReadAsyncComplete_t
 
 #pragma pack( pop )
 
+#endif
 
 #endif // ISTEAMREMOTESTORAGE_H

@@ -12,6 +12,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 const uint32 k_nScreenshotMaxTaggedUsers = 32;
 const uint32 k_nScreenshotMaxTaggedPublishedFiles = 32;
 const int k_cubUFSTagTypeMax = 255;
@@ -92,5 +94,6 @@ struct ScreenshotRequested_t
 
 #pragma pack( pop )
 
+#endif
 
 #endif // ISTEAMSCREENSHOTS_H

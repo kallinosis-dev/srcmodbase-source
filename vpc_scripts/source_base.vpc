@@ -8,6 +8,7 @@
 
 // Rel branch:
 $Conditional CSTRIKE_REL_BUILD		"1"
+$Conditional NO_STEAM "1"
 
 $Configuration "Debug"
 {
@@ -30,6 +31,7 @@ $Configuration
 	$Compiler
 	{
 		$PreprocessorDefinitions		"$BASE;CSTRIKE_REL_BUILD=1"				[ $CSTRIKE_REL_BUILD ]
+		$PreprocessorDefinitions		"$BASE;NO_STEAM=1"						[ $NO_STEAM]
 	}
 }
 

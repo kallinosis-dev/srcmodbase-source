@@ -22,6 +22,7 @@
 #include "steamtypes.h"
 #include "steamuniverse.h"
 
+#ifndef NO_STEAM
 // General result codes
 enum EResult
 {
@@ -208,6 +209,7 @@ enum EUserHasLicenseForAppResult
 	k_EUserHasLicenseResultNoAuth = 2,						// User has not been authenticated
 };
 
+#endif
 
 // Steam account types
 enum EAccountType
@@ -228,7 +230,7 @@ enum EAccountType
 	k_EAccountTypeMax
 };
 
-
+#ifndef NO_STEAM
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -365,6 +367,7 @@ enum EChatRoomEnterResponse
 
 typedef void (*PFNLegacyKeyRegistration)( const char *pchCDKey, const char *pchInstallPath );
 typedef bool (*PFNLegacyKeyInstalled)();
+#endif
 
 const unsigned int k_unSteamAccountIDMask = 0xFFFFFFFF;
 const unsigned int k_unSteamAccountInstanceMask = 0x000FFFFF;
@@ -386,6 +389,8 @@ enum EChatSteamIDInstanceFlags
 	// Max of 8 flags
 };
 
+
+#ifndef NO_STEAM
 
 //-----------------------------------------------------------------------------
 // Purpose: Marketing message flags that change how a client should handle them
@@ -514,7 +519,7 @@ static inline bool BIsViveHMD( EVRHMDType eType )
 {
 	return eType == k_eEVRHMDType_HTC_Dev || eType == k_eEVRHMDType_HTC_VivePre || eType == k_eEVRHMDType_HTC_Vive || eType == k_eEVRHMDType_HTC_Unknown;
 }
-
+#endif
 
 #pragma pack( push, 1 )
 
@@ -961,6 +966,7 @@ CSteamID ClanIDFromChatID( const CSteamID &steamIDChat );
 
 #endif // _STEAM
 
+#ifndef NO_STEAM
 
 //-----------------------------------------------------------------------------
 // Purpose: encapsulates an appID/modID pair
@@ -1225,5 +1231,7 @@ typedef void (*PFNPreMinidumpCallback)(void *context);
 //-----------------------------------------------------------------------------
 typedef void *BREAKPAD_HANDLE;
 #define BREAKPAD_INVALID_HANDLE (BREAKPAD_HANDLE)0 
+
+#endif
 
 #endif // STEAMCLIENTPUBLIC_H

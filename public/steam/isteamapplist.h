@@ -13,6 +13,8 @@
 #include "isteamclient.h"
 #include "steamtypes.h"
 
+#ifndef NO_STEAM
+
 //-----------------------------------------------------------------------------
 // Purpose: This is a restricted interface that can only be used by previously approved apps,
 //	contact your Steam Account Manager if you believe you need access to this API.
@@ -60,4 +62,7 @@ END_DEFINE_CALLBACK_1()
 
 
 #pragma pack( pop )
+
+#endif
+
 #endif // ISTEAMAPPLIST_H

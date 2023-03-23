@@ -12,6 +12,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 // callbacks
 #if defined( VALVE_CALLBACK_PACK_SMALL )
 #pragma pack( push, 4 )
@@ -56,5 +58,6 @@ END_DEFINE_CALLBACK_1()
 
 #pragma pack( pop )
 
+#endif
 
 #endif // ISTEAMVIDEO_H

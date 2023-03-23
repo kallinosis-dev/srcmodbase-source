@@ -12,6 +12,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 // callbacks
 #if defined( VALVE_CALLBACK_PACK_SMALL )
 #pragma pack( push, 4 )
@@ -403,5 +405,7 @@ struct GetUserItemVoteResult_t
 };
 
 #pragma pack( pop )
+
+#endif
 
 #endif // ISTEAMUGC_H
