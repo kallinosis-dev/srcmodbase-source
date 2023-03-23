@@ -124,9 +124,11 @@ CMessageWnd *g_pwndMessage = NULL;
 CMessageQueue<MessageToLPreview> g_HammerToLPreviewMsgQueue;
 CMessageQueue<MessageFromLPreview> g_LPreviewToHammerMsgQueue;
 ThreadHandle_t g_LPreviewThread;
+
+#ifndef NO_STEAM
 CSteamAPIContext g_SteamAPIContext;
 CSteamAPIContext *steamapicontext = &g_SteamAPIContext;
-
+#endif
 
 bool	CHammer::m_bIsNewDocumentVisible = true;
 
@@ -556,9 +558,11 @@ bool CHammer::Connect( CreateInterfaceFn factory )
 	CHammerCmdLine cmdInfo;
 	ParseCommandLine(cmdInfo);
 
+#ifndef NO_STEAM
 	// Set up SteamApp() interface (for checking app ownership)
 	SteamAPI_InitSafe();
 	g_SteamAPIContext.Init();
+#endif
 
 	// Load the options
 	// NOTE: Have to do this now, because we need it before Inits() are called 

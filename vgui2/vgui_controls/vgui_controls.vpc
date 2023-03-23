@@ -49,7 +49,7 @@ $Project "vgui_controls"
 		$File	"FocusNavGroup.cpp"
 		$File	"Frame.cpp"
 		$File	"GraphPanel.cpp"
-		$File	"HTML.cpp"
+		$File	"HTML.cpp"	[!$NO_STEAM]
 		$File	"Image.cpp"
 		$File	"ImageList.cpp"
 		$File	"ImagePanel.cpp"

@@ -19,7 +19,9 @@
 #include "SourceAppInfo.h"
 #include "steam/steam_api.h"
 
+#ifndef NO_STEAM
 extern CSteamAPIContext *steamapicontext;
+#endif
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -577,6 +579,7 @@ bool CGameConfigManager::IsAppSubscribed( int nAppID )
 {
 	bool bIsSubscribed = false;
 
+#ifndef NO_STEAM
 	if ( g_pFullFileSystem != NULL && g_pFullFileSystem->IsSteam() )
 	{
 		if ( steamapicontext->SteamApps() )
@@ -586,6 +589,7 @@ bool CGameConfigManager::IsAppSubscribed( int nAppID )
 		}
 	}
 	else
+#endif
 	{
 		// If we aren't running FileSystem Steam then we must be doing internal development. Give everything.
 		bIsSubscribed = true;

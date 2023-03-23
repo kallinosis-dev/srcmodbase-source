@@ -26,6 +26,8 @@
 
 #include <tier1/utlmap.h>
 
+#ifndef NO_STEAM
+
 namespace vgui
 {
 
@@ -332,5 +334,7 @@ public:
 };
 
 } // namespace vgui
+
+#endif
 
 #endif // HTML_H
