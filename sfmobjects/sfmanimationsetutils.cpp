@@ -62,7 +62,7 @@ static CDmeChannelsClip* CreateChannelsClip( CDmeAnimationSet *pAnimationSet, CD
 // Creates a constant valued log
 //-----------------------------------------------------------------------------
 template < class T >
-CDmeChannel *CreateConstantValuedLog( CDmeChannelsClip *channelsClip, const char *basename, const char *pName, CDmElement *pToElement, const char *pToAttr, const T &value )
+CDmeChannel *CreateConstantValuedLog( CDmeChannelsClip *channelsClip, const char *pName, CDmElement *pToElement, const char *pToAttr, const T &value )
 {
 	char name[ 256 ];
 	Q_snprintf( name, sizeof( name ), "%s_%s channel", basename, pName );

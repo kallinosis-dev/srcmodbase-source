@@ -549,25 +549,6 @@ IFileSystem *filesystem = NULL;
 static CUniformRandomStream g_Random;
 IUniformRandomStream *random = &g_Random;
 
-static bool spewed = false;
-
-SpewRetval_t SpewFunc( SpewType_t type, char const *pMsg )
-{	
-	spewed = true;
-
-	printf( "%s", pMsg );
-	OutputDebugString( pMsg );
-	
-	if ( type == SPEW_ERROR )
-	{
-		printf( "\n" );
-		OutputDebugString( "\n" );
-		exit(-1);
-	}
-
-	return SPEW_CONTINUE;
-}
-
 char *va( const char *fmt, ... )
 {
 	static char string[ 8192 ];
@@ -1605,9 +1586,6 @@ void Correlate( CUtlRBTree< ReferencedFile, int >& referencedfiles, CUtlVector< 
 //-----------------------------------------------------------------------------
 int main( int argc, char* argv[] )
 {
-	SpewOutputFunc( SpewFunc );
-	SpewActivate( "unusedcontent", 2 );
-
 	CommandLine()->CreateCmdLine( argc, argv );
 
 	int i=1;

@@ -288,7 +288,7 @@ void CVP4Dialog::RefreshChangesList()
 	m_pChangesList->RemoveAllSections();
 
 	CUtlVector<P4File_t> files;
-	p4->GetOpenedFileList( files );
+	p4->GetOpenedFileList( files, false );
 	CUtlVector<int> sections;
 
 	// find out all the changelists

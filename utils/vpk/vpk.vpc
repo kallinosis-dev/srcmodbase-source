@@ -57,6 +57,7 @@ $Project "Vpk"
 		$Implib tier0 [$POSIX]
 		$Lib tier1 [$POSIX]
 		$Implib vstdlib [$POSIX]
+		$Lib	vpklib
 	}
 }
 

@@ -12,7 +12,7 @@
 #include "movieobjects/dmetrack.h"
 #include "movieobjects/dmegamemodel.h"
 #include "movieobjects/dmechannel.h"
-#include "movieobjects/dmebalancetostereocalculatoroperator.h"
+//#include "movieobjects/dmebalancetostereocalculatoroperator.h"
 #include "tier1/utlsymbol.h"
 
 
@@ -174,13 +174,13 @@ void CFlexControlBuilder::RemoveChannelFromClips( CDmeChannel *pChannel )
 	}
 
 	// Next, remove the channel from values controls it may be attached to
-	for ( int i = 0; i < CONTROL_CHANNEL_ATTRIBUTE_COUNT; ++i ) 
+	for (auto& s_pChannelControl : s_pChannelControls)
 	{
-		UtlSymId_t symChannelControl = g_pDataModel->GetSymbol( s_pChannelControls[i] );
+		UtlSymId_t symChannelControl = g_pDataModel->GetSymbol(s_pChannelControl);
 		CDmElement *pControl = FindReferringElement< CDmElement >( pChannel, symChannelControl );
 		if ( pControl )
 		{
-			pControl->RemoveAttribute( s_pChannelControls[i] );
+			pControl->RemoveAttribute(s_pChannelControl);
 		}
 	}
 }

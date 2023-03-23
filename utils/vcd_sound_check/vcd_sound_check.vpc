@@ -31,7 +31,6 @@ $Project "Vcd_sound_check"
 				"$SRCDIR\public\filesystem_init.cpp"	\
 				"..\common\filesystem_tools.cpp"		\
 				"$SRCDIR\public\interpolatortypes.cpp"	\
-				"$SRCDIR\game\shared\interval.cpp"		\
 				"..\common\scriplib.cpp"
 				{
 					$Configuration
@@ -84,7 +83,6 @@ $Project "Vcd_sound_check"
 		$File	"$SRCDIR\public\vstdlib\IKeyValuesSystem.h"
 		$File	"$SRCDIR\public\tier1\interface.h"
 		$File	"$SRCDIR\public\interpolatortypes.h"
-		$File	"$SRCDIR\game\shared\interval.h"
 		$File	"$SRCDIR\public\irecipientfilter.h"
 		$File	"$SRCDIR\public\tier1\KeyValues.h"
 		$File	"$SRCDIR\public\mathlib\mathlib.h"

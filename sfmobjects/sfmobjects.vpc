@@ -24,7 +24,6 @@ $Project "sfmobjects"
 
 	$Folder	"Source Files"
 	{
-		$File	"exportfacialanimation.cpp"
 		$File	"flexcontrolbuilder.cpp"
 		$File	"sfmsession.cpp"
 		$File	"sfmanimationsetutils.cpp"
@@ -33,7 +32,6 @@ $Project "sfmobjects"
 
 	$Folder	"Interface"
 	{
-		$File	"$SRCDIR\public\sfmobjects\exportfacialanimation.h"
 		$File	"$SRCDIR\public\sfmobjects\flexcontrolbuilder.h"
 		$File	"$SRCDIR\public\sfmobjects\sfmanimationsetutils.h"
 		$File	"$SRCDIR\public\sfmobjects\sfmphonemeextractor.h"

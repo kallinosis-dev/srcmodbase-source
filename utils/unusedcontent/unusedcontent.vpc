@@ -30,7 +30,6 @@ $Project "Unusedcontent"
 				"$SRCDIR\public\filesystem_helpers.cpp"	\
 				"$SRCDIR\public\filesystem_init.cpp"	\
 				"..\common\filesystem_tools.cpp"		\
-				"$SRCDIR\game\shared\interval.cpp"		\
 				"..\common\scriplib.cpp"
 				{
 					$Configuration
@@ -79,7 +78,6 @@ $Project "Unusedcontent"
 		$File	"$SRCDIR\public\engine\IEngineSound.h"
 		$File	"$SRCDIR\public\vstdlib\IKeyValuesSystem.h"
 		$File	"$SRCDIR\public\tier1\interface.h"
-		$File	"$SRCDIR\game\shared\interval.h"
 		$File	"$SRCDIR\public\irecipientfilter.h"
 		$File	"$SRCDIR\public\tier1\KeyValues.h"
 		$File	"$SRCDIR\public\mathlib\mathlib.h"

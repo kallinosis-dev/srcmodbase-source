@@ -259,8 +259,8 @@ template <> inline bool GetAllOnesNumber<bool>()
 					int k;														\
 					for ( k = j+1; k < 8*sizeof(_type); ++k )					\
 					{															\
-						unsigned int temp = ((unsigned int)pTest[i]) & ( 1 << k ) ;		\
-						if ( temp != 0 )										\
+						unsigned int temp2 = ((unsigned int)pTest[i]) & ( 1 << k ) ;		\
+						if ( temp2 != 0 )										\
 							continue;											\
 						break;													\
 					}															\

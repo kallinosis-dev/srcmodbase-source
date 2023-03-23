@@ -2160,6 +2160,7 @@ int main(int argc, char **argv)
 	}
 	else if ( V_strcmp( pszCommand, "checkhash" ) == 0 )
 	{
+#ifdef VPK_ENABLE_SIGNING
 		if ( argc != 3 )
 		{
 			fprintf( stderr, "Incorrect number of arguments for '%s' command.\n", pszCommand );
@@ -2167,6 +2168,9 @@ int main(int argc, char **argv)
 		}
 
 		CheckHashes( argv[2] );
+#else
+		Error("VPK signing disabled, impossible to check hash!");
+#endif
 	}
 #ifdef VPK_ENABLE_SIGNING
 	else if ( V_strcmp( pszCommand, "generate_keypair" ) == 0 )

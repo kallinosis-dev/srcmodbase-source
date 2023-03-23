@@ -45,7 +45,7 @@ void CSFMSession::Init()
 	//		movie - a clip node whose subclips are the movie sequence
 	//		cameras - an array of cameras used throughout the movie
 	//		clips - an array of clips used throughout the movie
-	CDmElement *pRoot = CreateElement< CDmElement >( "session" );
+	CDmElement *pRoot = CreateElement< CDmElement >( "session", DMFILEID_INVALID );
 	Assert( pRoot );
 	if ( !pRoot )
 		return;
@@ -54,12 +54,12 @@ void CSFMSession::Init()
 	// FIXME!
 	pRoot->SetValue( "editorType", "ifm" );
 
-	CDmeFilmClip *pFilmClip = CreateElement<CDmeFilmClip>( "sequence" );
+	CDmeFilmClip *pFilmClip = CreateElement<CDmeFilmClip>( "sequence", DMFILEID_INVALID);
 	Assert( pFilmClip != NULL );
 	pFilmClip->SetDuration( DmeTime_t( 60.0f ) );
 
 	CDmeTrack *pTrack = pFilmClip->FindOrCreateFilmTrack();
-	CDmeClip *pShot = CreateElement<CDmeFilmClip>( "shot" );
+	CDmeClip *pShot = CreateElement<CDmeFilmClip>( "shot", DMFILEID_INVALID);
 	pTrack->AddClip( pShot );
 	pShot->SetDuration( DmeTime_t( 60.0f ) );
 
@@ -67,13 +67,11 @@ void CSFMSession::Init()
 
 	pRoot->AddAttributeElementArray< CDmElement >( "miscBin" );
 	pRoot->AddAttributeElementArray< CDmeCamera >( "cameraBin" );
-	CDmAttribute *pClipBin = pRoot->AddAttributeElementArray< CDmeClip >( "clipBin" );
-
-	// Don't allow duplicates in the clipBin
-	pClipBin->AddFlag( FATTRIB_NODUPLICATES );
+	pRoot->AddAttributeElementArray< CDmeClip >( "clipBin" );
 
 	CDmrElementArray<> clipBin( pRoot, "clipBin" );
-	clipBin.AddToTail( pFilmClip );
+	if (clipBin.Find(pFilmClip) == clipBin.InvalidIndex())
+		clipBin.AddToTail( pFilmClip );
 
 	CreateSessionSettings();
 }
@@ -133,30 +131,20 @@ void CSFMSession::CreateSessionSettings()
 		colors.AddToTail( Color( 255, 255, 255, 128 ) );
 	}
 
-	float flLegacyFrameRate = 24.0f;
-	if ( pSettings->HasAttribute( "frameRate" ) )
-	{
-		flLegacyFrameRate = pSettings->GetValue<float>( "frameRate" );
-
-		// remove this from the base level settings area since we're going to add it in renderSettings
-		pSettings->RemoveAttribute( "frameRate" );
-	}
-
 	if ( !pSettings->HasAttribute( "proceduralPresets" ) )
 	{
 		CDmeProceduralPresetSettings *ps = CreateElement< CDmeProceduralPresetSettings >( "proceduralPresets", m_hRoot->GetFileId() );
 		pSettings->SetValue( "proceduralPresets", ps );
 	}
 
-	CreateRenderSettings( pSettings, flLegacyFrameRate );
+	CreateRenderSettings( pSettings );
 }
 
 
 //-----------------------------------------------------------------------------
 // Creates session render settings
-// JasonM - remove flLegacyFramerate param eventually (perhaps March 2007)
 //-----------------------------------------------------------------------------
-void CSFMSession::CreateRenderSettings( CDmElement *pSettings, float flLegacyFramerate )
+void CSFMSession::CreateRenderSettings( CDmElement *pSettings )
 {
 	pSettings->AddAttribute( "renderSettings", AT_ELEMENT );
 
@@ -167,8 +155,7 @@ void CSFMSession::CreateRenderSettings( CDmElement *pSettings, float flLegacyFra
 		pSettings->SetValue( "renderSettings", pRenderSettings );
 	}
 	Assert( pRenderSettings );
-
-	pRenderSettings->InitValue( "frameRate", flLegacyFramerate );	// Default framerate
+	
 	pRenderSettings->InitValue( "lightAverage", 0 );				// Don't light average by default
 	pRenderSettings->InitValue( "showFocalPlane", 0 );				// Don't show focal plane by default
 	pRenderSettings->InitValue( "modelLod", 0 );				// Don't do model LOD by default
@@ -278,7 +265,7 @@ CDmeGameModel *CSFMSession::CreateEditorGameModel( studiohdr_t *hdr, const Vecto
 	}
 
 	// create, connect and cache each bone's pos and rot channels
-	pGameModel->AddBones( hdr, pBaseName, 0, hdr->numbones );
+	pGameModel->AddBones( hdr, 0, hdr->numbones );
 	return pGameModel;
 }
   

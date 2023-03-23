@@ -17,6 +17,7 @@
 
 #pragma warning (disable:4100)
 
+#if 0
 SpewRetval_t UnitTestSpew( SpewType_t type, char const *pMsg )
 {
 	switch( type )
@@ -38,6 +39,7 @@ SpewRetval_t UnitTestSpew( SpewType_t type, char const *pMsg )
 		return ( type == SPEW_ASSERT || type == SPEW_ERROR ) ? SPEW_DEBUGGER : SPEW_CONTINUE;
 	return SPEW_CONTINUE;
 }
+#endif
 
 
 //-----------------------------------------------------------------------------
@@ -62,9 +64,13 @@ DEFINE_CONSOLE_STEAM_APPLICATION_OBJECT( CUnitTestApp );
 //-----------------------------------------------------------------------------
 bool CUnitTestApp::Create()
 {
+#if 0
 	// Install a special Spew handler that ignores all assertions and lets us
 	// run for as long as possible
 	SpewOutputFunc( UnitTestSpew );
+#else
+	// TODO: re-implement this
+#endif
 
 	// FIXME: This list of dlls should come from the unittests themselves
 	AppSystemInfo_t appSystems[] = 

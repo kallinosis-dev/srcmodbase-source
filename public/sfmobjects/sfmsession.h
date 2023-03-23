@@ -99,6 +99,9 @@ public:
 	// Creates a camera
 	CDmeCamera *CreateCamera( const DmeCameraParams_t& params );
 
+	// Finds or creates a scene
+	CDmeDag* FindOrCreateScene(CDmeFilmClip* pShot, const char* pSceneName);
+
 private:
 	void CreateRenderSettings( CDmElement *pSettings );
 	void CreateProgressiveRefinementSettings( CDmElement *pRenderSettings );

@@ -241,6 +241,7 @@ struct LoggingContext_t
 class ILoggingListener
 {
 public:
+	virtual ~ILoggingListener() = default;
 	virtual void Log( const LoggingContext_t *pContext, const tchar *pMessage ) = 0;
 };
 

@@ -37,16 +37,6 @@ static void PFMWrite( float *pFloatImage, const char *pFilename, int width, int 
 	fclose( fp );
 }
 
-SpewRetval_t VTF2TGAOutputFunc( SpewType_t spewType, char const *pMsg )
-{
-	printf( "%s", pMsg );
-	fflush( stdout );
-
-	if (spewType == SPEW_ERROR)
-		return SPEW_ABORT;
-	return (spewType == SPEW_ASSERT) ? SPEW_DEBUGGER : SPEW_CONTINUE; 
-}
-
 static void Usage( void )
 {
 	Error( "Usage: vtf2tga -i <input vtf> [-o <output tga>] [-mip]\n" );
@@ -55,7 +45,6 @@ static void Usage( void )
 
 int main( int argc, char **argv )
 {
-	SpewOutputFunc( VTF2TGAOutputFunc );
 	CommandLine()->CreateCmdLine( argc, argv );
 	MathLib_Init( 2.2f, 2.2f, 0.0f, 1.0f, false, false, false, false );
 	InitDefaultFileSystem();
