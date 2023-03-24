@@ -6,7 +6,7 @@
 //
 // ------------------------------------------------------TKBMS v1.0
 
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 #include <hk_math/densematrix.h>
 #include <hk_math/densematrix_util.h>
 #include <hk_math/dense_vector.h>

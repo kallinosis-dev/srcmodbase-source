@@ -94,8 +94,10 @@ CControlCatalog::CControlCatalog(): Frame(NULL, "PanelZoo")
 	m_PanelList.AddToTail(AnimatingImagePanelDemo_Create(this));
 	m_PanelList.AddToTail(WizardPanelDemo_Create(this));
 	m_PanelList.AddToTail(FileOpenDemo_Create(this));
+#ifndef NO_STEAM
 	m_PanelList.AddToTail(HTMLDemo_Create(this));
 	m_PanelList.AddToTail(HTMLDemo2_Create(this));
+#endif
 	m_PanelList.AddToTail(MenuBarDemo_Create(this));
 
 
@@ -110,7 +112,7 @@ CControlCatalog::CControlCatalog(): Frame(NULL, "PanelZoo")
 	CUtlRBTree< char const *, int > sorted( 0, 0, CaselessStringLessThan );
 
 	int i;
-	for ( i = 0; i < m_PanelList.Size(); i++)
+	for ( i = 0; i < m_PanelList.Count(); i++)
 	{
 		sorted.Insert( m_PanelList[i]->GetName() );
 	}
@@ -161,7 +163,7 @@ void CControlCatalog::OnTextChanged()
 
 	m_pPrevPanel->SetVisible(false);
 
-	for (int i = 0; i < m_PanelList.Size(); i++)
+	for (int i = 0; i < m_PanelList.Count(); i++)
 	{
 		if (!strcmp(buf, m_PanelList[i]->GetName()))
 		{

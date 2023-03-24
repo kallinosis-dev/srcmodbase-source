@@ -1,4 +1,4 @@
-#include <hk_base/base.h>
+#include "base.h"
 #include <string.h>
 
 int hk_String::strcmp( const char* a, const char* b )

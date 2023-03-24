@@ -1,4 +1,4 @@
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 #include <hk_math/densematrix.h>
 #include <hk_math/vector_fpu/vector_fpu.h>
 

@@ -79,8 +79,10 @@ Panel* SampleEditFields_Create(Panel *parent);
 Panel* SampleSliders_Create(Panel *parent);
 Panel* DefaultColors_Create(Panel *parent);
 
+#ifndef NO_STEAM
 Panel* HTMLDemo_Create(Panel *parent);
 Panel* HTMLDemo2_Create(Panel *parent);
+#endif
 
 Panel* MenuBarDemo_Create(Panel *parent);
 

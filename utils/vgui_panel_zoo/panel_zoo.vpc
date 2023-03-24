@@ -36,8 +36,8 @@ $Project "Panel_zoo"
 		$File	"EditablePanelDemo.cpp"
 		$File	"FileOpenDialogDemo.cpp"
 		$File	"FrameDemo.cpp"
-		$File	"HTMLDemo.cpp"
-		$File	"HTMLDemo2.cpp"
+		$File	"HTMLDemo.cpp"		[!$NO_STEAM]
+		$File	"HTMLDemo2.cpp"		[!$NO_STEAM]
 		$File	"ImageDemo.cpp"
 		$File	"ImagePanelDemo.cpp"
 		$File	"Label2Demo.cpp"
@@ -92,6 +92,7 @@ $Project "Panel_zoo"
 		$Lib tier3
 		$Lib vgui_controls
 		$Lib mathlib
-		$ImpLibexternal steam_api
+		$Lib dmxloader
+		$ImpLibexternal steam_api	[!$NO_STEAM]
 	}
 }

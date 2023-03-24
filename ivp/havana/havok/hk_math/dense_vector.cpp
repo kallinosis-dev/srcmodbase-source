@@ -1,4 +1,4 @@
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 #include <hk_math/dense_vector.h>
 
 hk_Dynamic_Dense_Vector::hk_Dynamic_Dense_Vector(int n)

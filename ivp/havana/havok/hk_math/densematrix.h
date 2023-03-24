@@ -2,7 +2,7 @@
 #define HK_MATH_DENSEMATRIX_H
 
 #include <hk_math/types.h>
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 
 
 //: Prototype matrix class for high speed computation.

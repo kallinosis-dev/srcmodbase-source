@@ -217,22 +217,6 @@ void CSceneTokenProcessor::Error( const char *fmt, ... )
 
 static CSceneTokenProcessor g_TokenProcessor;
 
-SpewRetval_t SpewFunc( SpewType_t type, char const *pMsg )
-{	
-	spewed = true;
-
-	printf( "%s", pMsg );
-	OutputDebugString( pMsg );
-	
-	if ( type == SPEW_ERROR )
-	{
-		printf( "\n" );
-		OutputDebugString( "\n" );
-	}
-
-	return SPEW_CONTINUE;
-}
-
 void logprint( char const *logfile, const char *fmt, ... )
 {
 	char string[ 8192 ];
@@ -2453,7 +2437,7 @@ void ExtractPhonemesForWave( IPhonemeExtractor *extractor, char const *wavname )
 
 	// Now convert byte offsets to times
 	int i;
-	for ( i = 0; i < outsentence.m_Words.Size(); i++ )
+	for ( i = 0; i < outsentence.m_Words.Count(); i++ )
 	{
 		CWordTag *tag = outsentence.m_Words[ i ];
 		Assert( tag );
@@ -2463,7 +2447,7 @@ void ExtractPhonemesForWave( IPhonemeExtractor *extractor, char const *wavname )
 		tag->m_flStartTime = ( float )(tag->m_uiStartByte ) / bytespersecond;
 		tag->m_flEndTime = ( float )(tag->m_uiEndByte ) / bytespersecond;
 
-		for ( int j = 0; j < tag->m_Phonemes.Size(); j++ )
+		for ( int j = 0; j < tag->m_Phonemes.Count(); j++ )
 		{
 			CPhonemeTag *ptag = tag->m_Phonemes[ j ];
 			Assert( ptag );

@@ -37,11 +37,9 @@ $Project "inputsystem"
 		$File	"joystick.cpp"			[!$POSIX]
 		$File	"joystick_osx.cpp"		[$OSXALL]
 		$File	"joystick_linux.cpp"	[$LINUXALL]
-		$File	"steamcontroller.cpp"
+		$File	"steamcontroller.cpp"	[!$NO_STEAM]
 		$File	"key_translation.cpp"
 		$File	"key_translation.h"
-		$File	"movecontroller_ps3.cpp"
-		$File	"movecontroller_ps3.h"
 		$File	"xcontroller.cpp"		[!$POSIX]
 		$File	"$SRCDIR\common\platforminputdevice.cpp"
 	}

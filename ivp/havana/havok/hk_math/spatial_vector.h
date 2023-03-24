@@ -2,7 +2,7 @@
 #define HK_SPATIAL_VECTOR_H
 
 #ifndef HK_MATH_VECMATH_H
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 #endif // HK_MATH_VECMATH_H
 
 class hk_Spatial_Matrix;

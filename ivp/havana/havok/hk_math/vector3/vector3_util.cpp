@@ -1,4 +1,4 @@
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 #include <hk_math/vector3/vector3_util.h>
 
 hk_Vector3 hk_Vector3_Util::random_vec()

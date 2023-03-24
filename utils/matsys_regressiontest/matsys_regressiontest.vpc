@@ -31,6 +31,6 @@ $Project "Matsys_regressiontest"
 		$Lib bitmap
 		$Lib mathlib
 		$Lib tier2
-		$Lib "$LIBPUBLIC\nvtc.lib"
+		$Lib "$LIBPUBLIC\nvtc"
 	}
 }

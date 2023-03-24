@@ -17,7 +17,7 @@
     Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
 */
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 #include <hk_math/odesolve.h>
 
 

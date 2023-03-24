@@ -97,65 +97,65 @@ public:
 	virtual ~CInputSystem();
 
 	// Inherited from IAppSystem
-	virtual	InitReturnVal_t Init();
-	virtual bool Connect( CreateInterfaceFn factory );
+	InitReturnVal_t Init() override;
+	bool Connect( CreateInterfaceFn factory ) override;
 
-	virtual void Shutdown();
+	void Shutdown() override;
 
 	// Inherited from IInputSystem
-	virtual void AttachToWindow( void* hWnd );
-	virtual void DetachFromWindow( );
-	virtual void EnableInput( bool bEnable );
-	virtual void EnableMessagePump( bool bEnable );
-	virtual int GetPollTick() const;
-	virtual void PollInputState( bool bIsInGame = false );
-	virtual bool IsButtonDown( ButtonCode_t code ) const;
-	virtual int GetButtonPressedTick( ButtonCode_t code ) const;
-	virtual int GetButtonReleasedTick( ButtonCode_t code ) const;
-	virtual int GetAnalogValue( AnalogCode_t code ) const;
-	virtual int GetAnalogDelta( AnalogCode_t code ) const;
-	virtual int GetEventCount() const;
-	virtual bool MotionControllerActive() const;
-	virtual Quaternion GetMotionControllerOrientation() const;
-	virtual float	   GetMotionControllerPosX() const;
-	virtual float	   GetMotionControllerPosY() const;
-	virtual int		   GetMotionControllerDeviceStatus() const;
-	virtual uint64	   GetMotionControllerDeviceStatusFlags() const;
-	virtual void	   SetMotionControllerDeviceStatus( int nStatus );
-	virtual void	   SetMotionControllerCalibrationInvalid( void );
-	virtual void	   StepMotionControllerCalibration( void );
-	virtual void	   ResetMotionControllerScreenCalibration( void );
+	void AttachToWindow( void* hWnd ) override;
+	void DetachFromWindow( ) override;
+	void EnableInput( bool bEnable ) override;
+	void EnableMessagePump( bool bEnable ) override;
+	int GetPollTick() const override;
+	void PollInputState( bool bIsInGame = false ) override;
+	bool IsButtonDown( ButtonCode_t code ) const override;
+	int GetButtonPressedTick( ButtonCode_t code ) const override;
+	int GetButtonReleasedTick( ButtonCode_t code ) const override;
+	int GetAnalogValue( AnalogCode_t code ) const override;
+	int GetAnalogDelta( AnalogCode_t code ) const override;
+	int GetEventCount() const override;
+	bool MotionControllerActive() const override;
+	Quaternion GetMotionControllerOrientation() const override;
+	float	   GetMotionControllerPosX() const override;
+	float	   GetMotionControllerPosY() const override;
+	int		   GetMotionControllerDeviceStatus() const override;
+	uint64	   GetMotionControllerDeviceStatusFlags() const override;
+	void	   SetMotionControllerDeviceStatus( int nStatus ) override;
+	void	   SetMotionControllerCalibrationInvalid( void ) override;
+	void	   StepMotionControllerCalibration( void ) override;
+	void	   ResetMotionControllerScreenCalibration( void ) override;
 
-	virtual const InputEvent_t* GetEventData( ) const;
-	virtual void PostUserEvent( const InputEvent_t &event );
-	virtual int GetJoystickCount() const;
-	virtual void EnableJoystickInput( int nJoystick, bool bEnable );
-	virtual void EnableJoystickDiagonalPOV( int nJoystick, bool bEnable );
-	virtual void SampleDevices( void );
-	virtual void SetRumble( float fLeftMotor, float fRightMotor, int userId );
-	virtual void StopRumble( int userId = INVALID_USER_ID );
-	virtual void ResetInputState( void );
-	virtual const char *ButtonCodeToString( ButtonCode_t code ) const;
-	virtual const char *AnalogCodeToString( AnalogCode_t code ) const;
-	virtual ButtonCode_t StringToButtonCode( const char *pString ) const;
-	virtual AnalogCode_t StringToAnalogCode( const char *pString ) const;
-	virtual ButtonCode_t VirtualKeyToButtonCode( int nVirtualKey ) const;
-	virtual int ButtonCodeToVirtualKey( ButtonCode_t code ) const;
-	virtual ButtonCode_t ScanCodeToButtonCode( int lParam ) const;
-	virtual void SleepUntilInput( int nMaxSleepTimeMS );
-	virtual int GetPollCount() const;
-	virtual void SetCursorPosition( int x, int y );
-	void GetRawMouseAccumulators( int& accumX, int& accumY );
-	virtual void GetCursorPosition( int *pX, int *pY );
-	virtual void SetMouseCursorVisible( bool bVisible );
-	virtual void AddUIEventListener();
-	virtual void RemoveUIEventListener();
-	virtual PlatWindow_t GetAttachedWindow() const;
-	virtual InputCursorHandle_t GetStandardCursor( InputStandardCursor_t id );
-	virtual InputCursorHandle_t LoadCursorFromFile( const char *pFileName, const char *pPathID = NULL );
-	virtual void SetCursorIcon( InputCursorHandle_t hCursor );
-	virtual void EnableMouseCapture( PlatWindow_t hWnd );
-	virtual void DisableMouseCapture();
+	const InputEvent_t* GetEventData( ) const override;
+	void PostUserEvent( const InputEvent_t &event ) override;
+	int GetJoystickCount() const override;
+	void EnableJoystickInput( int nJoystick, bool bEnable ) override;
+	void EnableJoystickDiagonalPOV( int nJoystick, bool bEnable ) override;
+	void SampleDevices( void ) override;
+	void SetRumble( float fLeftMotor, float fRightMotor, int userId ) override;
+	void StopRumble( int userId = INVALID_USER_ID ) override;
+	void ResetInputState( void ) override;
+	const char *ButtonCodeToString( ButtonCode_t code ) const override;
+	const char *AnalogCodeToString( AnalogCode_t code ) const override;
+	ButtonCode_t StringToButtonCode( const char *pString ) const override;
+	AnalogCode_t StringToAnalogCode( const char *pString ) const override;
+	ButtonCode_t VirtualKeyToButtonCode( int nVirtualKey ) const override;
+	int ButtonCodeToVirtualKey( ButtonCode_t code ) const override;
+	ButtonCode_t ScanCodeToButtonCode( int lParam ) const override;
+	void SleepUntilInput( int nMaxSleepTimeMS ) override;
+	int GetPollCount() const override;
+	void SetCursorPosition( int x, int y ) override;
+	void GetRawMouseAccumulators( int& accumX, int& accumY ) override;
+	void GetCursorPosition( int *pX, int *pY ) override;
+	void SetMouseCursorVisible( bool bVisible ) override;
+	void AddUIEventListener() override;
+	void RemoveUIEventListener() override;
+	PlatWindow_t GetAttachedWindow() const override;
+	InputCursorHandle_t GetStandardCursor( InputStandardCursor_t id ) override;
+	InputCursorHandle_t LoadCursorFromFile( const char *pFileName, const char *pPathID = NULL ) override;
+	void SetCursorIcon( InputCursorHandle_t hCursor ) override;
+	void EnableMouseCapture( PlatWindow_t hWnd ) override;
+	void DisableMouseCapture() override;
 
 #ifdef PLATFORM_WINDOWS
 	LRESULT WindowProc( HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
@@ -180,23 +180,23 @@ public:
 	virtual void DisableHardwareCursor( void );
 	virtual void EnableHardwareCursor( void );
 #endif
-	
-	virtual void ResetCursorIcon();
+
+	void ResetCursorIcon() override;
 
 	// handles the connected input devices
-	virtual InputDevice_t GetConnectedInputDevices( void );					// returns the bitfield of all connected devices
-	virtual bool IsInputDeviceConnected( InputDevice_t device );
-	virtual void SetInputDeviceConnected( InputDevice_t device, bool connected = true );
-	virtual InputDevice_t IsOnlySingleDeviceConnected( void );
+	InputDevice_t GetConnectedInputDevices( void ) override;					// returns the bitfield of all connected devices
+	bool IsInputDeviceConnected( InputDevice_t device ) override;
+	void SetInputDeviceConnected( InputDevice_t device, bool connected = true ) override;
+	InputDevice_t IsOnlySingleDeviceConnected( void ) override;
 
 	// handles the selected "current" primary input device
-	virtual bool IsDeviceReadingInput( InputDevice_t device ) const;				// returns whether the passed in device is the current device.  Returns true if no current device is defined
-	virtual InputDevice_t GetCurrentInputDevice( void );					// returns the enum referring to the one currently selected device
-	virtual void SetCurrentInputDevice( InputDevice_t device );
-	virtual void ResetCurrentInputDevice( void );							// sets the input device to the platform default
+	bool IsDeviceReadingInput( InputDevice_t device ) const override;				// returns whether the passed in device is the current device.  Returns true if no current device is defined
+	InputDevice_t GetCurrentInputDevice( void ) override;					// returns the enum referring to the one currently selected device
+	void SetCurrentInputDevice( InputDevice_t device ) override;
+	void ResetCurrentInputDevice( void ) override;							// sets the input device to the platform default
 
-	virtual void SampleInputToFindCurrentDevice( bool );  // looks for the next 'significant' button press to determine and set the current input device
-	virtual bool IsSamplingForCurrentDevice( void );
+	void SampleInputToFindCurrentDevice( bool ) override;  // looks for the next 'significant' button press to determine and set the current input device
+	bool IsSamplingForCurrentDevice( void ) override;
 
 	void InitPlatfromInputDeviceInfo( void );
 
@@ -404,11 +404,13 @@ public:
 	// Dispatches all joystick button events through the game's window procs
 	void ProcessEvent( UINT uMsg, WPARAM wParam, LPARAM lParam );
 
+#ifndef NO_STEAM
 	// Initializes SteamControllers - Returns true if steam is running and finds controllers, otherwise false
 	bool InitializeSteamControllers( void );
 
 	// Samples all Steam Controllers - returns true if active this frame
 	bool PollSteamControllers( void );
+#endif
 
 	// Initializes joysticks
 	void InitializeJoysticks( void );
@@ -425,8 +427,10 @@ public:
 	// Record button state and post the event
 	void JoystickButtonEvent( ButtonCode_t button, int sample );
 
-	bool IsSteamControllerActive() const;
-	void SetSteamControllerMode( const char *pSteamControllerMode, const void *obj );
+#ifndef NO_STEAM
+	bool IsSteamControllerActive() const override;
+	void SetSteamControllerMode( const char *pSteamControllerMode, const void *obj ) override;
+#endif
 
 private:
 

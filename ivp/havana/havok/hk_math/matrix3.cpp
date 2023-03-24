@@ -1,4 +1,4 @@
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 
 void hk_Matrix3::set_rows( const hk_Vector3& r0,
 							const hk_Vector3& r1,

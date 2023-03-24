@@ -10,7 +10,6 @@
 #include "filesystem.h"
 #include "tier0/icommandline.h"
 #include "tier1/keyvalues.h"
-#include "tier2/keyvaluesmacros.h"
 
 
 #include "kvc_paintkit.h"

@@ -206,7 +206,7 @@ void CAudioWaveOutput::RemoveMixerChannelReferences( CAudioMixer *mixer )
 void CAudioWaveOutput::AddToReferencedList( CAudioMixer *mixer, CAudioBuffer *buffer )
 {
 	// Already in list
-	for ( int i = 0; i < buffer->m_Referenced.Size(); i++ )
+	for ( int i = 0; i < buffer->m_Referenced.Count(); i++ )
 	{
 		if ( buffer->m_Referenced[ i ].mixer == mixer )
 		{
@@ -225,7 +225,7 @@ void CAudioWaveOutput::AddToReferencedList( CAudioMixer *mixer, CAudioBuffer *bu
 
 void CAudioWaveOutput::RemoveFromReferencedList( CAudioMixer *mixer, CAudioBuffer *buffer )
 {
-	for ( int i = 0; i < buffer->m_Referenced.Size(); i++ )
+	for ( int i = 0; i < buffer->m_Referenced.Count(); i++ )
 	{
 		if ( buffer->m_Referenced[ i ].mixer == mixer )
 		{
@@ -237,7 +237,7 @@ void CAudioWaveOutput::RemoveFromReferencedList( CAudioMixer *mixer, CAudioBuffe
 
 bool CAudioWaveOutput::IsSoundInReferencedList( CAudioMixer *mixer, CAudioBuffer *buffer )
 {
-	for ( int i = 0; i < buffer->m_Referenced.Size(); i++ )
+	for ( int i = 0; i < buffer->m_Referenced.Count(); i++ )
 	{
 		if ( buffer->m_Referenced[ i ].mixer == mixer )
 		{
@@ -561,35 +561,40 @@ public:
 				CFacePoserSound();
 				~CFacePoserSound( void );
 
-	void		Init( void );
-	void		Shutdown( void );
-	void		Update( float dt );
-	void		Flush( void );
+	void		Init( void ) override;
+	void		Shutdown( void ) override;
+	void		Update( float dt ) override;
+	void		Flush( void ) override;
 
-	CAudioSource *LoadSound( const char *wavfile );
-	void		PlaySound( StudioModel *source, float volume, const char *wavfile, CAudioMixer **ppMixer );
-	void		PlaySound( CAudioSource *source, float volume, CAudioMixer **ppMixer );
-	void		PlayPartialSound( StudioModel *model, float volume, const char *wavfile, CAudioMixer **ppMixer, int startSample, int endSample );
+	CAudioSource *LoadSound( const char *wavfile ) override;
+	void		PlaySound( StudioModel *source, float volume, const char *wavfile, CAudioMixer **ppMixer ) override;
+	void		PlaySound( CAudioSource *source, float volume, CAudioMixer **ppMixer ) override;
+	void		PlayPartialSound( StudioModel *model, float volume, const char *wavfile, CAudioMixer **ppMixer, int startSample, int endSample ) override;
 
-	bool		IsSoundPlaying( CAudioMixer *pMixer );
-	CAudioMixer *FindMixer( CAudioSource *source );
+	bool		IsSoundPlaying( CAudioMixer *pMixer ) override;
+	CAudioMixer *FindMixer( CAudioSource *source ) override;
 
-	void		StopAll( void );
-	void		StopSound( CAudioMixer *mixer );
+	void		StopAll( void ) override;
+	void		StopSound( CAudioMixer *mixer ) override;
 
 	void		RenderWavToDC( HDC dc, RECT& outrect, COLORREF clr, float starttime, float endtime, 
 		CAudioSource *pWave, bool selected = false, int selectionstart = 0, int selectionend = 0 );
 
 	// void		InstallPhonemecallback( IPhonemeTag *pTagInterface );
-	float		GetAmountofTimeAhead( void );
+	float		GetAmountofTimeAhead( void ) override;
 
-	int			GetNumberofSamplesAhead( void );
+	int			GetNumberofSamplesAhead( void ) override;
 
-	CAudioOuput	*GetAudioOutput( void );
+	CAudioOuput	*GetAudioOutput( void ) override;
 
-	virtual void		EnsureNoModelReferences( CAudioSource *source );
+				void		EnsureNoModelReferences( CAudioSource *source ) override;
+	void RenderWavToDC(HDC dc, RECT& outrect, const Color& clr, float starttime, float endtime,
+		CAudioSource* pWave, bool selected, int selectionstart, int selectionend) override
+	{
+		AssertMsg(false, "Unimplemented!");
+	}
 
-private:
+			private:
 	CAudioOutput *m_pAudio;
 
 };

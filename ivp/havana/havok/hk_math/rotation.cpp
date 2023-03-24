@@ -1,4 +1,4 @@
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 #ifdef HK_PS2
 #	include <hk_math/rotationps2.cpp>
 #else

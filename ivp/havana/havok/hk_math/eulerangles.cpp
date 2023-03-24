@@ -1,4 +1,4 @@
-#include <hk_math/vecmath.h>
+#include "vecmath.h"
 #include <hk_math/eulerangles.h>
 
 		enum hk_EULER_ANGLES_ORDER

@@ -18,7 +18,6 @@
 #include "appframework/appframework.h"
 #include "tier0/icommandline.h"
 #include "keyvaluescompiler.h"
-#include "tier2/keyvaluesmacros.h"
 
 #include "kvc_paintkit.h"
 
@@ -40,24 +39,6 @@ static AnalysisData g_Analysis;
 
 IBaseFileSystem *filesystem = NULL;
 //IFileSystem *g_pFullFileSystem = NULL;
-
-static bool spewed = false;
-
-SpewRetval_t SpewFunc( SpewType_t type, char const *pMsg )
-{	
-	spewed = true;
-
-	printf( "%s", pMsg );
-	OutputDebugString( pMsg );
-	
-	if ( type == SPEW_ERROR )
-	{
-		printf( "\n" );
-		OutputDebugString( "\n" );
-	}
-
-	return SPEW_CONTINUE;
-}
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -516,9 +497,6 @@ private:
 
 bool CCompileKeyValuesApp::Create()
 {
-	SpewOutputFunc( SpewFunc );
-	SpewActivate( "kvc", 2 );
-
 	AppSystemInfo_t appSystems[] = 
 	{
 		{ "", "" }	// Required to terminate the list

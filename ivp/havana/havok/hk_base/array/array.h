@@ -2,7 +2,7 @@
 #define HK_BASE_ARRAY_H
 
 #ifndef HK_BASE_BASE_H
-#	error Include <hk_base/base.h> instead.
+#	error Include "base.h" instead.
 #endif
 
 class hk_Array_Base

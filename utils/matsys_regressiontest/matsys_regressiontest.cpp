@@ -100,30 +100,9 @@ class DummyMaterialProxyFactory : public IMaterialProxyFactory
 public:
 	virtual IMaterialProxy *CreateProxy( const char *proxyName )	{return NULL;}
 	virtual void DeleteProxy( IMaterialProxy *pProxy )				{}
+	CreateInterfaceFn GetFactory() override { return nullptr; }
 };
 static DummyMaterialProxyFactory	g_DummyMaterialProxyFactory;
-
-//-----------------------------------------------------------------------------
-// Spew function!
-//-----------------------------------------------------------------------------
-SpewRetval_t SpewFunc( SpewType_t spewType, char const *pMsg )
-{
-	OutputDebugString( pMsg );
-	switch( spewType )
-	{
-	case SPEW_MESSAGE:
-	case SPEW_WARNING:
-	case SPEW_LOG:
-		OutputDebugString( pMsg );
-		return SPEW_CONTINUE;
-
-	case SPEW_ASSERT:
-	case SPEW_ERROR:
-	default:
-		::MessageBox( NULL, pMsg, "Error!", MB_OK );
-		return SPEW_DEBUGGER;
-	}
-}
 
 //-----------------------------------------------------------------------------
 // Error...
@@ -962,7 +941,6 @@ void RenderFrame( void )
 
 INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE hInstance, LPSTR pCommands, INT )
 {
-	SpewOutputFunc( SpewFunc );
 	CommandLine()->CreateCmdLine( ::GetCommandLine() );
 	InitDefaultFileSystem();
 

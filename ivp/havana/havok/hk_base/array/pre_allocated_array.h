@@ -3,7 +3,7 @@
 
 
 #ifndef HK_BASE_BASE_H
-#	error Include <hk_base/base.h> instead.
+#	error Include "base.h" instead.
 #endif
 
 

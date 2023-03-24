@@ -26,35 +26,6 @@
 #include <stdio.h>
 
 //-----------------------------------------------------------------------------
-// Purpose: Warning/Msg call back through this API
-// Input  : type - 
-//			*pMsg - 
-// Output : SpewRetval_t
-//-----------------------------------------------------------------------------
-SpewRetval_t SpewFunc( SpewType_t type, char const *pMsg )
-{	
-	switch ( type )
-	{
-
-	default:
-	case SPEW_MESSAGE:
-	case SPEW_ASSERT:
-	case SPEW_LOG:
-		OutputDebugString( pMsg );
-		break;
-	case SPEW_WARNING:
-		OutputDebugString( pMsg );
-		break;
-	case SPEW_ERROR:
-		OutputDebugString( pMsg );
-		exit( -1 );
-		break;
-	}
-	
-	return SPEW_CONTINUE;
-}
-
-//-----------------------------------------------------------------------------
 // Purpose: Entry point
 //			loads interfaces and initializes dialog
 //-----------------------------------------------------------------------------
@@ -95,9 +66,6 @@ DEFINE_WINDOWED_STEAM_APPLICATION_OBJECT( CPanelZooApp );
 //-----------------------------------------------------------------------------
 bool CPanelZooApp::Create()
 {
-	SpewOutputFunc( SpewFunc );
-	SpewActivate( "panelzoo", 2 );
-
 	AppSystemInfo_t appSystems[] = 
 	{
 		{ "inputsystem.dll",		INPUTSYSTEM_INTERFACE_VERSION },

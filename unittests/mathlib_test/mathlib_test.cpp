@@ -4,7 +4,7 @@
 #include "mathlib/spherical_geometry.h"
 #include "tier2/tier2.h"
 #include "mathlib/halton.h"
-#include "bitmap/float_bm.h"
+#include "bitmap/floatbitmap.h"
 #include "tier0/memdbgon.h"
 
 void main(int argc,char **argv)
