@@ -131,7 +131,7 @@ CFileInfo* CFileTracker::GetFileInfo( const char *pFilename, const char *pPathID
 	
 	CPathIDFileList *pPath = GetPathIDFileList( pPathID, false );
 	if ( !pPath )
-		return NULL;
+		return nullptr;
 
 	return pPath->FindFileInfo( pFilename );
 }
@@ -317,7 +317,7 @@ void CFileTracker::CalculateMissingCRC( const char *pFilename, const char *pPath
 		nOldFlags = pInfo->m_Flags;
 
 	// Force it to make a CRC of disk files.
-	FileHandle_t fh = m_pFileSystem->FindFileInSearchPaths( pFilename, "rb", pPathID, FSOPEN_FORCE_TRACK_CRC, NULL, true );
+	FileHandle_t fh = m_pFileSystem->FindFileInSearchPaths( pFilename, "rb", pPathID, FSOPEN_FORCE_TRACK_CRC, nullptr, true );
 	if ( !fh )
 		return;
 
@@ -419,7 +419,7 @@ CPathIDFileList* CFileTracker::GetPathIDFileList( const char *pPathID, bool bAut
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 	else
@@ -461,7 +461,7 @@ CFileInfo* CPathIDFileList::FindFileInfo( const char *pFilename )
 
 	int i = m_Files.Find( pFilename );
 	if ( i == m_Files.InvalidIndex() )
-		return NULL;
+		return nullptr;
 	else
 		return m_Files[i];
 }
@@ -656,7 +656,7 @@ m_treeTrackedVPKFiles( TrackedVPKFile_t::Less )
 #ifdef SUPPORT_VPK
 	m_cThreadBlocks = 0;
 	m_bThreadShouldRun = true;
-	m_hWorkThread = NULL;
+	m_hWorkThread = nullptr;
 #endif
 }
 
@@ -674,7 +674,7 @@ void CFileTracker2::InitAsyncThread()
 {
 #ifdef SUPPORT_VPK
 	Assert(  m_hWorkThread == NULL );
-	if ( m_hWorkThread == NULL )
+	if ( m_hWorkThread == nullptr)
 		m_hWorkThread = CreateSimpleThread( ThreadStubProcessMD5Requests, this );
 #endif
 }
@@ -690,7 +690,7 @@ void CFileTracker2::ShutdownAsync()
 		// wait for it to die
 		ThreadJoin( m_hWorkThread );
 		ReleaseThreadHandle( m_hWorkThread );
-		m_hWorkThread = NULL;
+		m_hWorkThread = nullptr;
 	}
 #endif
 }
@@ -1094,7 +1094,7 @@ int CFileTracker2::NotePackFileOpened( const char *pRawFileName, const char *pFi
 #if !defined( _GAMECONSOLE )
 	AUTO_LOCK( m_Mutex );
 	TrackedFile_t trackedfileToFind;
-	trackedfileToFind.RebuildFileName( pRawFileName, NULL );
+	trackedfileToFind.RebuildFileName( pRawFileName, nullptr);
 	int idxFile = m_treeAllOpenedFiles.Find( trackedfileToFind );
 	if ( idxFile != m_treeAllOpenedFiles.InvalidIndex() )
 	{

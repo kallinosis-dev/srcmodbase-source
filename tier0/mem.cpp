@@ -25,7 +25,7 @@ enum
 	MAX_STACK_DEPTH = 32
 };
 
-static uint8 *s_pBuf = NULL;
+static uint8 *s_pBuf = nullptr;
 static int s_pBufStackDepth[MAX_STACK_DEPTH];
 static int s_nBufDepth = -1;
 static int s_nBufCurSize = 0;

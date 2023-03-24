@@ -58,7 +58,7 @@ public:
 	explicit CStrAutoEncode( const char *pch )
 	{
 		m_pch = pch;
-		m_pwch = NULL;
+		m_pwch = nullptr;
 #if !defined( WIN32 ) && !defined(_WIN32)
 		m_pucs2 = NULL;
 		m_bCreatedUCS2 = false;
@@ -69,7 +69,7 @@ public:
 	// ctor
 	explicit CStrAutoEncode( const wchar_t *pwch )
 	{
-		m_pch = NULL;
+		m_pch = nullptr;
 		m_pwch = pwch;
 #if !defined( WIN32 ) && !defined(_WIN32)
 		m_pucs2 = NULL;
@@ -164,9 +164,9 @@ private:
 	{
 		if ( !m_bCreatedUTF16 )
 			return;					// no work to do
-		if ( m_pwch == NULL )
+		if ( m_pwch == nullptr)
 			return;					// don't have a UTF-16 string to convert
-		if ( m_pch != NULL )
+		if ( m_pch != nullptr)
 			return;					// already been converted to UTF-8; no work to do
 
 		// each Unicode code point can expand to as many as four bytes in UTF-8; we
@@ -198,9 +198,9 @@ private:
 	{
 		if ( m_bCreatedUTF16 )
 			return;					// no work to do
-		if ( m_pch == NULL )
+		if ( m_pch == nullptr)
 			return;					// no UTF-8 string to convert
-		if ( m_pwch != NULL )
+		if ( m_pwch != nullptr)
 			return;					// already been converted to UTF-16; no work to do
 
 		uint32 cchMax = static_cast<uint32>( V_strlen( m_pch ) ) + 1;

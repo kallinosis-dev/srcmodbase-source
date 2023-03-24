@@ -409,7 +409,7 @@ void VPC_Schema_TrackFile( const char *pName, bool bRemove, VpcFileFlags_t iFile
 //-----------------------------------------------------------------------------
 CProjectFile * VPC_Schema_GetGeneratedFile( CProjectFile *pInputFile, const char *pConfigName, CVCProjGenerator *pDataCollector )
 {
-	CProjectFile *pResult = NULL;
+	CProjectFile *pResult = nullptr;
     CUtlStringBuilder* pStrBuf = g_pVPC->GetTempStringBuffer1();
     pStrBuf->Set( pInputFile->m_Name.Get() );
 	V_FixSlashes( pStrBuf->Access(), '/' );
@@ -501,7 +501,7 @@ void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaCon
 	// SRCDIR
     CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
 	g_pVPC->ResolveMacrosInString( "$SRCDIR", pStrBuf );
-	V_MakeAbsolutePath( pCtx->m_pSrcDirAbsPath, sizeof(pCtx->m_pSrcDirAbsPath), pStrBuf->Get(), NULL, k_bVPCForceLowerCase );
+	V_MakeAbsolutePath( pCtx->m_pSrcDirAbsPath, sizeof(pCtx->m_pSrcDirAbsPath), pStrBuf->Get(), nullptr, k_bVPCForceLowerCase );
 	V_FixSlashes( pCtx->m_pSrcDirAbsPath, '/' );
 
 	// this will be 'projectname' or 'server_gamename'
@@ -608,7 +608,7 @@ void BuildSchemaFileInfo( SchemaFileInfo_t *pOutInfo, const SchemaContext_t &ctx
 	}
 	else
 	{
-		CProjectFile *pProjectFile = NULL;
+		CProjectFile *pProjectFile = nullptr;
 		if ( !pDataCollector->FindFile( pFilename, &pProjectFile ) )
 		{
 			g_pVPC->VPCError( "Internal VPC error trying to look up file info for schema file '%s'\n", pFilename );
@@ -620,7 +620,7 @@ void BuildSchemaFileInfo( SchemaFileInfo_t *pOutInfo, const SchemaContext_t &ctx
 		{
 			CProjectConfiguration *pRootConfig = rootConfigs[i];
 
-			CProjectConfiguration *pFileConfig = NULL;
+			CProjectConfiguration *pFileConfig = nullptr;
 			if ( pProjectFile )
 			{
 				pProjectFile->GetConfiguration( pRootConfig->m_Name.Get(), &pFileConfig );
@@ -725,7 +725,7 @@ void AddUnitySchemaFilesForConfig( const SchemaContext_t &ctx, CUtlVector<Schema
 	{
 		CUtlPathStringHolder unityFilename( g_pVPC->FormatTemp1( "%s%d%s", ctx.m_unityFilenameBase.Get(), nBatchNumber, ctx.m_pUnityFilenameTail ) );
 		SchemaFileInfo_t *pNewUnityFileInfo = &schemaFileInfos[schemaFileInfos.AddToTail()];
-		BuildSchemaFileInfo( pNewUnityFileInfo, ctx, unityFilename, NULL, false );
+		BuildSchemaFileInfo( pNewUnityFileInfo, ctx, unityFilename, nullptr, false );
 
 		SchemaUnityBatch_t &batchInfo = pOutUnityBatches->Element( nBatchNumber );
 		batchInfo.m_BatchFileName = SchemaGeneratedFilePath( *pNewUnityFileInfo, ctx, pConfigName );
@@ -903,7 +903,7 @@ void SetProjectCustomBuild( const char *pConfigName, CProjectConfiguration *pRoo
 void MakeSchemacompilerCommandLine( const SchemaContext_t &ctx, const char *pConfigName, const char *pSentinelName, CUtlString *pOutCmdLine )
 {
 	CUtlString sentinelArg;
-	if ( pSentinelName != NULL )
+	if ( pSentinelName != nullptr)
 	{
 		sentinelArg.Format( " -sentinel %s", pSentinelName );
 	}
@@ -1142,7 +1142,7 @@ void CSchemaVPC::EmitSchproj( bool bStrictOutputs )
 
 				for ( int iFile = 0; iFile < batch.m_BatchFiles.Count(); ++iFile )
 				{
-					pBatch->CreateNewKey()->SetString( NULL, batch.m_BatchFiles[iFile].Get() );
+					pBatch->CreateNewKey()->SetString(nullptr, batch.m_BatchFiles[iFile].Get() );
 				}
 			}
 		}
@@ -1186,7 +1186,7 @@ void CSchemaVPC::EmitSchproj( bool bStrictOutputs )
 KeyValues *ConfigPreprocessorSettingsAsKV( CVCProjGenerator *pDataCollector, CProjectConfiguration *pRootConfig, CUtlVector<SchemaFileInfo_t> &schemaFileInfos )
 {
 	// TODO: schproj files currently ignore per-file configuration overrides:
-	CProjectFile *pFile = NULL;
+	CProjectFile *pFile = nullptr;
 
 	KeyValues *pOutConfig = new KeyValues( pRootConfig->m_Name.Get() );
 	CFmtStr num;

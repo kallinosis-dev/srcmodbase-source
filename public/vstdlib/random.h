@@ -73,10 +73,10 @@ class VSTDLIB_CLASS CGaussianRandomStream
 public:
 	// Passing in NULL will cause the gaussian stream to use the
 	// installed global random number generator
-	CGaussianRandomStream( IUniformRandomStream *pUniformStream = NULL );
+	CGaussianRandomStream( IUniformRandomStream *pUniformStream = nullptr);
 
 	// Attaches to a random uniform stream
-	void	AttachToStream( IUniformRandomStream *pUniformStream = NULL );
+	void	AttachToStream( IUniformRandomStream *pUniformStream = nullptr);
 
 	// Generates random numbers
 	float	RandomFloat( float flMean = 0.0f, float flStdDev = 1.0f );

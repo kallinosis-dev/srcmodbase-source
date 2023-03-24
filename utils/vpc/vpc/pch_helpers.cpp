@@ -26,7 +26,7 @@ void CleanStrings( CUtlVector< CUtlString > &strings )
 //--------------------------------------------------------------------------------------------------
 PropertyState_t *VPC_GetToolProperty( configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, const char *pPropertyName )
 {
-	CProjectTool *pRootTool = NULL, *pFileTool = NULL;
+	CProjectTool *pRootTool = nullptr, *pFileTool = nullptr;
 	switch( tool )
 	{
 	case KEYWORD_GENERAL:
@@ -43,11 +43,11 @@ PropertyState_t *VPC_GetToolProperty( configKeyword_e tool, CProjectConfiguratio
 		if ( pRootConfig ) pRootTool = pRootConfig->GetLinkerTool();
 		if ( pFileConfig ) pFileTool = pFileConfig->GetLinkerTool();
 		break;
-	default: Assert(0); return NULL; // Add more tools as needed
+	default: Assert(0); return nullptr; // Add more tools as needed
 	}
 
 	// If there is a file config (with this property) then use that, otherwise fall back to the root config:
-	PropertyState_t *pResult = NULL;
+	PropertyState_t *pResult = nullptr;
 	if ( tool == KEYWORD_GENERAL )
 	{
 		// In this case, the config directly contains the property, rather than a sub-tool (TODO: refactor)
@@ -240,7 +240,7 @@ bool VPC_GetGlobalPropertyString( configKeyword_e tool, CVCProjGenerator *pDataC
 	for ( int i = 0; i < rootConfigs.Count(); i++ )
 	{
 		CUtlString value;
-		if ( VPC_GetPropertyString( tool, rootConfigs[i], NULL, pPropertyName, &value ) )
+		if ( VPC_GetPropertyString( tool, rootConfigs[i], nullptr, pPropertyName, &value ) )
 			bFound = true;
 		// Validate that this property matches across all configs
 		if ( ( i > 0 ) && ( value != *pResult ) )
@@ -255,7 +255,7 @@ bool VPC_GetGlobalPropertyString( configKeyword_e tool, CVCProjGenerator *pDataC
 //--------------------------------------------------------------------------------------------------
 bool VPC_SetToolProperty( configKeyword_e tool, CProjectConfiguration *pFileConfig, ToolProperty_t *pToolProperty, const char *pPropertyValue )
 {
-	CProjectTool *pFileTool = NULL;
+	CProjectTool *pFileTool = nullptr;
 	switch( tool )
 	{
 	case KEYWORD_GENERAL:
@@ -316,7 +316,7 @@ void VPC_SetProperty_ForFiles(	const CUtlVector< CProjectFile * > &files, const 
 		for ( int j = 0; j < configNames.Count(); j++ )
 		{
 			// Add this config to the file if absent
-			CProjectConfiguration *pFileConfig = NULL;
+			CProjectConfiguration *pFileConfig = nullptr;
 			if ( !files[i]->GetConfiguration( configNames[j].Get(), &pFileConfig ) )
 				files[i]->AddConfiguration( configNames[j].Get(), &pFileConfig );
 			Assert( pFileConfig );
@@ -343,7 +343,7 @@ void VPC_GetPreprocessorDefines( CProjectFile *pFile, CProjectConfiguration *pRo
 {
 	defines.RemoveAll();
 
-	CProjectConfiguration *pFileConfig = NULL;
+	CProjectConfiguration *pFileConfig = nullptr;
 	if ( pFile )
 	{
 		pFile->GetConfiguration( pRootConfig->m_Name.Get(), &pFileConfig );
@@ -387,7 +387,7 @@ void VPC_GetIncludeDirectories( CProjectFile *pFile, CProjectConfiguration *pRoo
 {
 	includes.RemoveAll();
 
-	CProjectConfiguration *pFileConfig = NULL;
+	CProjectConfiguration *pFileConfig = nullptr;
 	if ( pFile )
 	{
 		pFile->GetConfiguration( pRootConfig->m_Name.Get(), &pFileConfig );
@@ -420,7 +420,7 @@ void VPC_GetPCHInclude( CProjectFile *pFile, CProjectConfiguration *pRootConfig,
 	bCreatesPCH = false;
 	bExcludesPCH = false;
 
-	CProjectConfiguration *pFileConfig = NULL;
+	CProjectConfiguration *pFileConfig = nullptr;
 	if ( pFile )
 	{
 		pFile->GetConfiguration( pRootConfig->m_Name.Get(), &pFileConfig );
@@ -441,7 +441,7 @@ void VPC_GetPCHInclude( CProjectFile *pFile, CProjectConfiguration *pRootConfig,
 		if ( pFileConfig )
 		{
 			// If the property came from pFileConfig, then this file is specifically configured to not use PCHs, so flag it as excluded:
-			bExcludesPCH = !!VPC_GetToolProperty( KEYWORD_COMPILER, NULL, pFileConfig, g_pOption_PrecompiledHeader );
+			bExcludesPCH = !!VPC_GetToolProperty( KEYWORD_COMPILER, nullptr, pFileConfig, g_pOption_PrecompiledHeader );
 		}
 		return;
 	}

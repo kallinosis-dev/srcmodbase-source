@@ -965,7 +965,7 @@ bool CUtlBuffer::CheckArbitraryPeekGet( int nOffset, int &nIncrement )
 const void* CUtlBuffer::PeekGet( int nMaxSize, int nOffset )
 {
 	if ( !CheckPeekGet( nOffset, nMaxSize ) )
-		return NULL;
+		return nullptr;
 	return &m_Memory[ m_Get + nOffset - m_nOffset ];
 }
 
@@ -1500,7 +1500,7 @@ void CUtlBuffer::PutString( const char* pString )
 				}
 				else
 				{
-					pEndl = NULL;
+					pEndl = nullptr;
 				}
 			}
 		}
@@ -1881,7 +1881,7 @@ bool CUtlInplaceBuffer::InplaceGetLinePtr( char **ppszInBufferPtr, int *pnLineLe
 
 char * CUtlInplaceBuffer::InplaceGetLinePtr( void )
 {
-	char *pszLine = NULL;
+	char *pszLine = nullptr;
 	int nLineLen = 0;
 	
 	if ( InplaceGetLinePtr( &pszLine, &nLineLen ) )

@@ -158,7 +158,7 @@ private:
 	struct FileInfo_t
 	{
 		FileInfo_t() : 
-			hFile( 0 ),
+			hFile( nullptr ),
 			nFirstIndex( 0 ), 
 			nCount( 0 ) 
 		{

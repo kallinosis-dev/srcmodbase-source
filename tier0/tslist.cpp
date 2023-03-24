@@ -338,7 +338,7 @@ void STPushMTPop( bool bDistribute )
 {
 	Msg( "%s test: single thread push, multithread pop, %s", g_pListType, bDistribute ? "distributed..." : "no affinity..." );
 	TestStart();
-	ThreadHandle_t hPush = CreateSimpleThread( &PushThreadFunc, NULL );
+	ThreadHandle_t hPush = CreateSimpleThread( &PushThreadFunc, nullptr);
 	ThreadHandle_t *arrPops = CreateTestThreads( PopThreadFunc, NUM_THREADS - 1, ( bDistribute ) ? NUM_PROCESSORS : 0 );
 
 	TestWait();
@@ -352,7 +352,7 @@ void MTPushSTPop( bool bDistribute )
 {
 	Msg( "%s test: multithread push, single thread pop, %s", g_pListType, bDistribute ? "distributed..." : "no affinity..." );
 	TestStart();
-	ThreadHandle_t hPop = CreateSimpleThread( &PopThreadFunc, NULL );
+	ThreadHandle_t hPop = CreateSimpleThread( &PopThreadFunc, nullptr);
 	ThreadHandle_t* arrPushes = CreateTestThreads( PushThreadFunc, NUM_THREADS - 1, ( bDistribute ) ? NUM_PROCESSORS : 0 );
 	
 	TestWait();
@@ -373,7 +373,7 @@ void MTPushMTPop( bool bDistribute )
 
 	for ( int i = 0; i < NUM_THREADS / 2 ; i++ )
 	{
-		ThreadHandle_t hThread = CreateSimpleThread( &PopThreadFunc, NULL );
+		ThreadHandle_t hThread = CreateSimpleThread( &PopThreadFunc, nullptr);
 		threadHandles[nHandles++] = hThread;
 		if ( bDistribute )
 		{
@@ -383,7 +383,7 @@ void MTPushMTPop( bool bDistribute )
 	}
 	for ( int i = 0; i < NUM_THREADS / 2 ; i++ )
 	{
-		ThreadHandle_t hThread = CreateSimpleThread( &PushThreadFunc, NULL );
+		ThreadHandle_t hThread = CreateSimpleThread( &PushThreadFunc, nullptr);
 		threadHandles[nHandles++] = hThread;
 		if ( bDistribute )
 		{
@@ -533,7 +533,7 @@ bool RunTSListTests( int nListSize, int nTests )
 #endif
 
 #else
-	int maxSize = ( 1 << (sizeof( ((TSLHead_t *)(0))->value.Depth ) * 8) ) - 1;
+	int maxSize = ( 1 << (sizeof( ((TSLHead_t *)(nullptr))->value.Depth ) * 8) ) - 1;
 #endif
 	if ( NUM_TEST > maxSize )
 	{

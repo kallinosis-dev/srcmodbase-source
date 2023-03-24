@@ -29,7 +29,7 @@ bool KVPacker::WriteAsBinary( KeyValues *pNode, CUtlBuffer &buffer )
 	// Write subkeys:
 
 	// loop through all our peers
-	for ( KeyValues *dat = pNode; dat != NULL; dat = dat->GetNextKey() )
+	for ( KeyValues *dat = pNode; dat != nullptr; dat = dat->GetNextKey() )
 	{
 		// write type
 		switch ( dat->GetDataType() )
@@ -218,12 +218,12 @@ bool KVPacker::ReadAsBinary( KeyValues *pNode, CUtlBuffer &buffer )
 						}
 
 						pTemp[nLength] = 0;
-						dat->SetWString( NULL, pTemp );
+						dat->SetWString(nullptr, pTemp );
 
 						free( pTemp );
 					}
 					else
-						dat->SetWString( NULL, L"" );
+						dat->SetWString(nullptr, L"" );
 
 				}
 				break;
@@ -231,19 +231,19 @@ bool KVPacker::ReadAsBinary( KeyValues *pNode, CUtlBuffer &buffer )
 
 		case PACKTYPE_INT:
 			{
-				dat->SetInt( NULL, buffer.GetInt() );
+				dat->SetInt(nullptr, buffer.GetInt() );
 				break;
 			}
 
 		case PACKTYPE_UINT64:
 			{
-				dat->SetUint64( NULL, (uint64)buffer.GetInt64() );
+				dat->SetUint64(nullptr, (uint64)buffer.GetInt64() );
 				break;
 			}
 
 		case PACKTYPE_FLOAT:
 			{
-				dat->SetFloat( NULL, buffer.GetFloat() );
+				dat->SetFloat(nullptr, buffer.GetFloat() );
 				break;
 			}
 		case PACKTYPE_COLOR:
@@ -253,12 +253,12 @@ bool KVPacker::ReadAsBinary( KeyValues *pNode, CUtlBuffer &buffer )
 					buffer.GetUnsignedChar(),
 					buffer.GetUnsignedChar(),
 					buffer.GetUnsignedChar() );
-				dat->SetColor( NULL, color );
+				dat->SetColor(nullptr, color );
 				break;
 			}
 		case PACKTYPE_PTR:
 			{
-				dat->SetPtr( NULL, buffer.GetPtr() );
+				dat->SetPtr(nullptr, buffer.GetPtr() );
 				break;
 			}
 

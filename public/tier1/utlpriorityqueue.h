@@ -46,8 +46,8 @@ public:
 
 	// constructor: lessfunc is required, but may be set after the constructor with
 	// SetLessFunc
-	CUtlPriorityQueue( int growSize = 0, int initSize = 0, LessFunc_t lessfunc = 0 );
-	CUtlPriorityQueue( T *pMemory, int numElements, LessFunc_t lessfunc = 0 );
+	CUtlPriorityQueue( int growSize = 0, int initSize = 0, LessFunc_t lessfunc = nullptr );
+	CUtlPriorityQueue( T *pMemory, int numElements, LessFunc_t lessfunc = nullptr );
 
 	// gets particular elements
 	inline T const&	ElementAtHead() const { return m_heap.Element(0); }

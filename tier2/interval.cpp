@@ -32,7 +32,7 @@ interval_t ReadInterval( const char *pString )
 	if ( token )
 	{
 		tmp.start = atof( token );
-		token = strtok( NULL, "," );
+		token = strtok(nullptr, "," );
 		if ( token )
 		{
 			tmp.range = atof( token ) - tmp.start;

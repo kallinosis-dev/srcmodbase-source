@@ -129,7 +129,7 @@ inline void CUtlDataEnvelope::Assign( const void *pData, int nBytes )
 	}
 	else
 	{
-		m_pData = NULL;
+		m_pData = nullptr;
 		m_nBytes = 0;
 	}
 }
@@ -172,7 +172,7 @@ inline CUtlDataEnvelope::operator void *()
 {
 	if ( !m_nBytes )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return ( m_nBytes > 4) ? m_pData : m_data;
@@ -182,7 +182,7 @@ inline CUtlDataEnvelope::operator void *() const
 {
 	if ( !m_nBytes )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return ( m_nBytes > 4) ? (void *)m_pData : (void *)m_data;

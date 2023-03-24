@@ -83,13 +83,13 @@ class CHeapDefault : public IMemAlloc
 
 	// Release versions
 	// Alloc, Realloc, and Free must be implemented
-	void *Expand_NoLongerSupported( void *pMem, size_t nSize ) override { return 0; }
+	void *Expand_NoLongerSupported( void *pMem, size_t nSize ) override { return nullptr; }
 
 	// Debug versions
 	void *Alloc( size_t nSize, const char *pFileName, int nLine ) override { return Alloc( nSize ); }
 	void *Realloc( void *pMem, size_t nSize, const char *pFileName, int nLine ) override { return Realloc(pMem, nSize); }
 	void  Free( void *pMem, const char *pFileName, int nLine ) override { Free( pMem ); }
-	void *Expand_NoLongerSupported( void *pMem, size_t nSize, const char *pFileName, int nLine ) override { return 0; }
+	void *Expand_NoLongerSupported( void *pMem, size_t nSize, const char *pFileName, int nLine ) override { return nullptr; }
 
 	// GetSize must be implemented
 
@@ -113,8 +113,8 @@ class CHeapDefault : public IMemAlloc
 	size_t ComputeMemoryUsedBy( char const *pchSubStr ) override { return 0; }
 
 	// FIXME: Remove when we have our own allocator
-	void* CrtSetReportFile( int nRptType, void* hFile ) override { return 0; }
-	void* CrtSetReportHook( void* pfnNewHook ) override { return 0; }
+	void* CrtSetReportFile( int nRptType, void* hFile ) override { return nullptr; }
+	void* CrtSetReportHook( void* pfnNewHook ) override { return nullptr; }
 
 	int CrtDbgReport( int nRptType, const char * szFile,
 	                  int nLine, const char * szModule, const char * pMsg ) override { return 0; }
@@ -130,7 +130,7 @@ class CHeapDefault : public IMemAlloc
 
 	void CompactHeap() override {}
 
-	MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) override { return 0; }
+	MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) override { return nullptr; }
 
 	void DumpBlockStats( void * ) override {}
 
@@ -144,14 +144,14 @@ class CHeapDefault : public IMemAlloc
 	void OutOfMemory( size_t nBytesAttempted = 0 ) override {}
 
 	// Region-based allocations
-	void *RegionAlloc( int region, size_t nSize ) override { return 0; }
-	void *RegionAlloc( int region, size_t nSize, const char *pFileName, int nLine ) override { return 0; }
+	void *RegionAlloc( int region, size_t nSize ) override { return nullptr; }
+	void *RegionAlloc( int region, size_t nSize, const char *pFileName, int nLine ) override { return nullptr; }
 
 	// Replacement for ::GlobalMemoryStatus which accounts for unused memory in our system
 	void GlobalMemoryStatus( size_t *pUsedMemory, size_t *pFreeMemory ) override {}
 
 	// Obtain virtual memory manager interface
-	IVirtualMemorySection * AllocateVirtualMemorySection( size_t numMaxBytes ) override { return 0; }
+	IVirtualMemorySection * AllocateVirtualMemorySection( size_t numMaxBytes ) override { return nullptr; }
 
 	// Request 'generic' memory stats (returns a list of N named values; caller should assume this list will change over time)
 	int GetGenericMemoryStats( GenericMemoryStat_t **ppMemoryStats ) override { return 0; }
@@ -362,7 +362,7 @@ int CHeapMemAlloc::CrtCheckMemory( void )
 	// then HeapValidate is called on that block then this is detected, but the same corruption
 	// is not detected when passing NULL as the pointer. But, better to have this functionality
 	// supported than not.
-	BOOL result = HeapValidate( m_heap, 0, NULL );
+	BOOL result = HeapValidate( m_heap, 0, nullptr);
 
 	return (result != 0) ? 1 : 0;
 #else
@@ -427,7 +427,7 @@ inline void *CHeapMemAlloc::Realloc( void *pMem, size_t nSize )
 	if ( !nSize )
 	{
 		Free( pMem );
-		return NULL;
+		return nullptr;
 	}
 
 #if ( FORCED_ALIGNMENT == 0 )
@@ -562,7 +562,7 @@ static bool IsPageHeapEnabled( bool& bETWHeapEnabled )
 
 	// First we get the application's name so we can look in the registry
 	// for App Verifier settings.
-	HMODULE exeHandle = GetModuleHandle( 0 );
+	HMODULE exeHandle = GetModuleHandle( nullptr );
 	if ( exeHandle )
 	{
 		char appName[ MAX_PATH ];
@@ -599,13 +599,13 @@ static bool IsPageHeapEnabled( bool& bETWHeapEnabled )
 					// for this application. The StackTraceDatabaseSizeInMB is only
 					// set by Valve's enabling batch file so this indicates that
 					// a developer at Valve is using App Verifier.
-					if ( RegQueryValueExA( key, "StackTraceDatabaseSizeInMB", 0, NULL, NULL, NULL ) == ERROR_SUCCESS &&
-								RegQueryValueExA( key, "PageHeapFlags", 0, NULL, NULL, NULL) == ERROR_SUCCESS )
+					if ( RegQueryValueExA( key, "StackTraceDatabaseSizeInMB", nullptr, nullptr, nullptr, nullptr) == ERROR_SUCCESS &&
+								RegQueryValueExA( key, "PageHeapFlags", nullptr, nullptr, nullptr, nullptr) == ERROR_SUCCESS )
 					{
 						result = true;
 					}
 
-					if ( RegQueryValueExA( key, "TracingFlags", 0, NULL, NULL, NULL) == ERROR_SUCCESS )
+					if ( RegQueryValueExA( key, "TracingFlags", nullptr, nullptr, nullptr, nullptr) == ERROR_SUCCESS )
 						bETWHeapEnabled = true;
 
 					RegCloseKey( key );
@@ -650,7 +650,7 @@ bool CheckWindowsAllocSettings( const char* upperCommandLine )
 	// The HeapEnableTerminationOnCorruption requires a recent platform SDK,
 	// so fake it up.
 #if defined(PLATFORM_WINDOWS_PC)
-	HeapSetInformation( NULL, (HEAP_INFORMATION_CLASS)1, NULL, 0 );
+	HeapSetInformation(nullptr, (HEAP_INFORMATION_CLASS)1, nullptr, 0 );
 #endif
 
 	bool bZeroMemory = false;

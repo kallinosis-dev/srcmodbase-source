@@ -244,7 +244,7 @@ void VPC_GroupKeyword_Conditional()
     CUtlStringHolder<50> name( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}

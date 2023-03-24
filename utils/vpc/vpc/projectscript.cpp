@@ -91,7 +91,7 @@ static const char *ResolveCandidate( const char *pszFile, const char *pszPlatfor
 		return pRetBuf->Get();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // No particular order, but must not change without changing the arrPlatformChains matrix
@@ -122,7 +122,7 @@ const char *g_szArrPlatforms[] =
 	"linux",				// 19
 	"posix",				// 20
 	"any",					// 21
-	NULL
+	nullptr
 };
 
 //fallback indices to match the array above
@@ -185,11 +185,11 @@ static const char *ResolveFilename( const char *pszFile, CUtlPathStringHolder *p
 	if ( nPlatformColumn < 0 )
 	{
 		g_pVPC->VPCWarning( "Internal Error: Target Platform: '%s' unrecognized while expanding $os!", szPlatform );
-		return NULL;
+		return nullptr;
 	}
 
 	// Now walk the chain of potential platform matches from strongest to weakest
-	const char *pszResolved = NULL;
+	const char *pszResolved = nullptr;
 	int nPlatformToCheck = -1;
 	int nCurrentPlatformRow = -1;
 	do 
@@ -204,7 +204,7 @@ static const char *ResolveFilename( const char *pszFile, CUtlPathStringHolder *p
 
 	// Now go pickup the any files that exist, but were non-matches
     CUtlPathStringHolder nonMatch;
-	for ( int i = 0; g_szArrPlatforms[i] != NULL; i++ )
+	for ( int i = 0; g_szArrPlatforms[i] != nullptr; i++ )
 	{
 		// Don't pick up the actual found platform
 		if ( i != nPlatformToCheck )
@@ -681,7 +681,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 				g_pVPC->GetScript().PushScript( scriptName.Get(),  g_pVPC->m_CustomAutoScripts[nAutoScriptIndex].Get(), 1, false, false );
 
 				// parse injected steps
-				VPC_HandleProjectCommands( NULL, 1, false );
+				VPC_HandleProjectCommands(nullptr, 1, false );
 
 				// restore parser state
 				g_pVPC->GetScript().PopScript();
@@ -758,14 +758,14 @@ static void VPC_Keyword_ImportLibrary( bool bRemove = false, bool bExternal = fa
 static void nameTransformLinkLib( CUtlStringBuilder *pStrBuf )
 {
 	CUtlPathStringHolder szFilename1;
-	VPC_ExpandLibraryName( pStrBuf->Get(), DefaultLibDir, NULL, "$_STATICLIB_EXT", &szFilename1 );
+	VPC_ExpandLibraryName( pStrBuf->Get(), DefaultLibDir, nullptr, "$_STATICLIB_EXT", &szFilename1 );
 	pStrBuf->Set( szFilename1.Get() );
 }
 
 static void nameTransformLinkLibExternal( CUtlStringBuilder *pStrBuf )
 {
 	CUtlPathStringHolder szFilename1;
-	VPC_ExpandLibraryName( pStrBuf->Get(), DefaultLibDir, NULL, "$_EXTERNAL_STATICLIB_EXT", &szFilename1 );
+	VPC_ExpandLibraryName( pStrBuf->Get(), DefaultLibDir, nullptr, "$_EXTERNAL_STATICLIB_EXT", &szFilename1 );
 	pStrBuf->Set( szFilename1.Get() );
 }
 
@@ -846,7 +846,7 @@ static void VPC_LibDepends( char const *pDefaultPath, char const *pFileNamePrefi
 
     // The lib is always a static lib.
     CUtlPathStringHolder libName;
-    VPC_ExpandLibraryName( pToken, DefaultLibDir, NULL, "$_STATICLIB_EXT", &libName );
+    VPC_ExpandLibraryName( pToken, DefaultLibDir, nullptr, "$_STATICLIB_EXT", &libName );
     
     int i = g_pVPC->m_LibraryDependencies.Find( libName );
     if ( i == g_pVPC->m_LibraryDependencies.InvalidIndex() )
@@ -885,7 +885,7 @@ static void VPC_LibDepends( char const *pDefaultPath, char const *pFileNamePrefi
 
 void VPC_Keyword_LibDependsOnLib()
 {
-	VPC_LibDepends( DefaultLibDir, NULL, "$_STATICLIB_EXT" );
+	VPC_LibDepends( DefaultLibDir, nullptr, "$_STATICLIB_EXT" );
 }
 
 void VPC_Keyword_LibDependsOnImpLib()
@@ -964,7 +964,7 @@ void VPC_Keyword_Shaders( int depth )
 	bool						bIgnoreRedundancyWarning;
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;		
 	}
@@ -1065,7 +1065,7 @@ void VPC_Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 	const char *pToken;
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		g_pVPC->GetScript().SkipBracedSection();
 		return;		
@@ -1224,7 +1224,7 @@ void VPC_Keyword_Macro( MacroType_t eMacroType )
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -1280,7 +1280,7 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 		{
 			// argument is a default macro value
             CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-			if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 			{
 				return;
 			}
@@ -1327,7 +1327,7 @@ void VPC_Keyword_LoadAddressMacro( void )
 	const char	*pToken;
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		g_pVPC->GetScript().SkipBracedSection();
 		return;		
@@ -1359,7 +1359,7 @@ void VPC_Keyword_LoadAddressMacro( void )
 		{
             szProjectName.Set( pToken );
 
-			if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 			{
 				continue;
 			}
@@ -1388,7 +1388,7 @@ void VPC_Keyword_LoadAddressMacroAlias( void )
 	const char	*pToken;
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		g_pVPC->GetScript().SkipBracedSection();
 		return;		
@@ -1447,7 +1447,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
     CUtlStringHolder<MAX_MACRO_NAME> szMacroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		g_pVPC->GetScript().SkipBracedSection();
 		return;		
@@ -1492,7 +1492,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 		else
 		{
 			unsigned int dllLength = 0;
-			if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 			{
 				continue;
 			}
@@ -1605,7 +1605,7 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
     CUtlStringHolder<50> name( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -1638,7 +1638,7 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
 void VPC_Keyword_IgnoreRedundancyWarning( void )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -1681,7 +1681,7 @@ void VPC_PrepareToReadScript( const char *pInputScriptName, int depth, bool bQui
 void VPC_HandleIncludeStatement( int depth, bool bQuiet, void (*CallbackFn)( const char *pScriptName, int depth, bool bQuiet ) )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		// recurse into and run
         CUtlString pScriptName;
@@ -1761,7 +1761,7 @@ const char *GetVPCExecuteableCRC( CRC32_t *pCRC )
 	
 		if ( Sys_GetExecutablePath( vpcExePath, sizeof( vpcExePath ) ) )
 		{
-			char *pBuffer = NULL;
+			char *pBuffer = nullptr;
 			int cbVPCExe = Sys_LoadFile( vpcExePath, (void**)&pBuffer );
 			if ( cbVPCExe != - 1 )
 			{
@@ -1884,7 +1884,7 @@ void VPC_Keyword_Project( int depth, bool bQuiet )
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		g_pVPC->VPCSyntaxError();
 
-	VPC_HandleProjectCommands( NULL, depth, bQuiet );
+	VPC_HandleProjectCommands(nullptr, depth, bQuiet );
 	
 	// the unnamed project does not get written, once it is named it will be written on closing scope
 	if ( V_stricmp_fast( projectName.Get(), "UNNAMED" ) )
@@ -1930,7 +1930,7 @@ void VPC_Keyword_CustomBuildStep( void )
 	bool							bAllowNextLine = false;
 	CUtlVector<CUtlString>			extensions;
 
-	const char *pToken = NULL;
+	const char *pToken = nullptr;
 	while ( 1 )
 	{
 		pToken = g_pVPC->GetScript().GetToken( bAllowNextLine );
@@ -2043,7 +2043,7 @@ void VPC_Keyword_CustomAutoScript()
 {
 	bool bAllowNextLine = false;
 	CUtlVector<CUtlString> extensions;
-	const char *pToken = NULL;
+	const char *pToken = nullptr;
 	while ( 1 )
 	{
 		pToken = g_pVPC->GetScript().GetToken( bAllowNextLine );

@@ -12,7 +12,7 @@
 static PropertyName_t s_AndroidPropertyNames[] =
 {
 	#include "projectgenerator_android.inc"
-	{ -1, NULL, NULL }
+	{ -1, nullptr, nullptr}
 };
 
 //all of the defined properties are relevant

@@ -46,7 +46,7 @@ bool ReadFileIntoUtlBuffer( const char *pFileName, long nSize, CUtlBuffer &buf )
 {
 	Assert( buf.IsText() );
 	FILE *fp = fopen( pFileName, "rt" );
-	if ( fp == NULL )
+	if ( fp == nullptr)
 	{
 		Warning( "vpc [updating autoexp.dat]: Unable to open file %s!\n", pFileName );
 		return false;
@@ -162,7 +162,7 @@ void InjectAutoExpSection( const char *pVPCPath, const char *pToolsPath, const c
 	autoExpDatOutBuf.Put( (char*)autoExpDatBuf.Base() + nResumePoint, autoExpDatBuf.TellMaxPut() - nResumePoint );
 
 	FILE *fp = fopen( pAutoExpPath, "wt" );
-	if ( fp == NULL )
+	if ( fp == nullptr)
 	{
 		Warning( "vpc [updating autoexp.dat]: Unable to open file %s for write!\n", pAutoExpPath );
 		return;

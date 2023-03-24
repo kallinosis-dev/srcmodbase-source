@@ -137,9 +137,9 @@ public:
 	virtual void				AddMapResource( const char *pFilename ) = 0;
 
 	// callback is asynchronous
-	virtual bool				ClaimAnonymousJob( const char *pFilename, QueuedLoaderCallback_t pCallback, void *pContext, void *pContext2 = NULL ) = 0;
+	virtual bool				ClaimAnonymousJob( const char *pFilename, QueuedLoaderCallback_t pCallback, void *pContext, void *pContext2 = nullptr) = 0;
 	// provides data if loaded, caller owns data
-	virtual bool				ClaimAnonymousJob( const char *pFilename, void **pData, int *pDataSize, LoaderError_t *pError = NULL ) = 0;
+	virtual bool				ClaimAnonymousJob( const char *pFilename, void **pData, int *pDataSize, LoaderError_t *pError = nullptr) = 0;
 
 	virtual bool				IsMapLoading() const = 0;
 	virtual bool				IsSameMapLoading() const = 0;
@@ -151,7 +151,7 @@ public:
 	// callers can conditionalize operational spew
 	virtual int					GetSpewDetail() const = 0;
 
-	virtual void				PurgeAll( ResourcePreload_t *pDontPurgeList = NULL, int nPurgeListSize = 0 ) = 0;
+	virtual void				PurgeAll( ResourcePreload_t *pDontPurgeList = nullptr, int nPurgeListSize = 0 ) = 0;
 #ifdef _PS3
 	// hack to prevent PS/3 deadlock on queued loader render mutex when quitting during loading a map
 	virtual uint                UnlockProgressBarMutex() = 0;

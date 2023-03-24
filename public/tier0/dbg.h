@@ -771,7 +771,7 @@ public:
 		}
 
 		m_hBreakPoint = SetHardwareBreakpoint( eType, eSize, pvLocation );
-		m_bActive = m_hBreakPoint != (HardwareBreakpointHandle_t)0;
+		m_bActive = m_hBreakPoint != (HardwareBreakpointHandle_t)nullptr;
 	}
 
 	~CHardwareBreakPointScopeGuard()

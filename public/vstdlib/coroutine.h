@@ -35,7 +35,7 @@ VSTDLIB_INTERFACE HCoroutine Coroutine_Create( CoroutineFunc_t pFunc, void *pvPa
 
 // continues the specified coroutine
 // returns true if the coroutine is still running, false otherwise
-VSTDLIB_INTERFACE bool Coroutine_Continue( HCoroutine hCoroutine, const char *pchName = NULL );
+VSTDLIB_INTERFACE bool Coroutine_Continue( HCoroutine hCoroutine, const char *pchName = nullptr);
 
 // cancels a currently running coroutine
 VSTDLIB_INTERFACE void Coroutine_Cancel( HCoroutine hCoroutine );

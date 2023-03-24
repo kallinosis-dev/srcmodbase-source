@@ -175,7 +175,7 @@ void VPC_Clang_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 			headBuffer.Printf( "\nREM ====PCH files first:====\n\n" );
 			for( int j = 0; j < pchIncludeNames.Count(); j++ )
 			{
-				CProjectFile *pFile = NULL;
+				CProjectFile *pFile = nullptr;
 				bool bFixSlashes = true; // We need to write '/' to the schproj file, but FindFile expects '\'
 				pDataCollector->FindFile( pchCreatorNames[j].Get(), &pFile, bFixSlashes );
 				VPC_GenerateClangProject_GenerateFileOutput( pFile, pRootConfig, pchIncludeNames[j], true, headBuffer, jsonPchBuffer );

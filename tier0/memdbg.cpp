@@ -716,7 +716,7 @@ public:
 	const_pointer address (const_reference value) const { return &value;}
 	size_type max_size() const { return INT_MAX; }
 
-	pointer allocate(size_type num, const void* = 0)  { return (pointer)DebugAlloc(num * sizeof(T)); }
+	pointer allocate(size_type num, const void* = nullptr)  { return (pointer)DebugAlloc(num * sizeof(T)); }
 	void deallocate (pointer p, size_type num) { DebugFree(p); }
 	void construct(pointer p, const T& value) {	new((void*)p)T(value); }
 	void destroy (pointer p) { p->~T(); }
@@ -823,7 +823,7 @@ public:
 	void CompactIncremental() override {}
 	void OutOfMemory( size_t nBytesAttempted = 0 ) override {}
 
-	MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) override { return NULL; } // debug heap doesn't attempt retries
+	MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) override { return nullptr; } // debug heap doesn't attempt retries
 
 	void SetStatsExtraInfo( const char *pMapName, const char *pComment ) override
 	{
@@ -1274,7 +1274,7 @@ void CDbgMemAlloc::Free( void *pMem )
 
 void *CDbgMemAlloc::Expand_NoLongerSupported( void *pMem, size_t nSize )
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1776,7 +1776,7 @@ void *CDbgMemAlloc::Realloc( void *pMem, size_t nSize, const char *pFileName, in
 		return pMem;
 	}
 
-	if ( pMem != 0 )
+	if ( pMem != nullptr )
 	{
 #if defined( USE_STACK_TRACES )
 		RegisterDeallocation( GetAllocationStatIndex_Internal( pMem ), InternalLogicalSize( pMem ), InternalMSize( pMem ), 0 );
@@ -1931,7 +1931,7 @@ void  CDbgMemAlloc::Free( void *pMem, const char * /*pFileName*/, int nLine )
 
 void *CDbgMemAlloc::Expand_NoLongerSupported( void *pMem, size_t nSize, const char *pFileName, int nLine )
 {
-	return NULL;
+	return nullptr;
 }
 
 

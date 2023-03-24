@@ -13,7 +13,7 @@ class CScriptSource
 public:
 	CScriptSource()
 	{
-		Set( "", NULL, 0, false, 0, false );
+		Set( "", nullptr, 0, false, 0, false );
 	}
 
 	CScriptSource( const char *pScriptName, const char *pScriptData, int nScriptLine, bool bFreeScriptAtPop, int nInPrivilegedScript, bool bScriptNameIsAFile )

@@ -178,11 +178,11 @@ bool CSHA1::HashFile(const char *szFileName)
 	uint32 ulFileSize = 0, ulRest = 0, ulBlocks = 0;
 	uint32 i = 0;
 	uint8 uData[MAX_FILE_READ_BUFFER];
-	FILE *fIn = NULL;
+	FILE *fIn = nullptr;
 
-	if(szFileName == NULL) return(false);
+	if(szFileName == nullptr) return(false);
 
-	if((fIn = fopen(szFileName, "rb")) == NULL) return(false);
+	if((fIn = fopen(szFileName, "rb")) == nullptr) return(false);
 
 	fseek(fIn, 0, SEEK_END);
 	ulFileSize = ftell(fIn);
@@ -204,7 +204,7 @@ bool CSHA1::HashFile(const char *szFileName)
 	}
 
 	fclose(fIn);
-	fIn = NULL;
+	fIn = nullptr;
 
 	return(true);
 }
@@ -252,7 +252,7 @@ void CSHA1::ReportHash(char *szReport, uint8 uReportType)
 	uint8 i = 0;
 	char szTemp[12];
 
-	if(szReport == NULL) return;
+	if(szReport == nullptr) return;
 
 	if(uReportType == REPORT_HEX)
 	{

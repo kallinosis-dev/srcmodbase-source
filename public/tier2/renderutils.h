@@ -60,7 +60,7 @@ void DrawScreenSpaceRectangle( IMaterial *pMaterial,
 	float flSrcTextureX0, float flSrcTextureY0,			// which texel you want to appear at destx/y
 	float flSrcTextureX1, float flSrcTextureY1,			// which texel you want to appear at destx+width-1, desty+height-1
 	int nSrcTextureWidth, int nSrcTextureHeight,		// needed for fixup
-	void *pClientRenderable = NULL,						// Used to pass to the bind proxies
+	void *pClientRenderable = nullptr,						// Used to pass to the bind proxies
 	int nXDice = 1,
 	int nYDice = 1,
 	float fDepth = 0.0 );								// what Z value to put in the verts

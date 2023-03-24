@@ -32,7 +32,7 @@ private:
 	bool		WriteFile( CProjectFile *pFile, const char *pFileTypeName, const char *szPlatformName );
 	bool		WriteConfiguration( CProjectConfiguration *pConfig, const char *szPlatformName );
 	bool		WriteTools( CProjectConfiguration *pConfig, const char *szPlatformName );
-	bool		WriteProperty( const PropertyState_t *pPropertyState, const char *szPlatformName, bool bEmitConfiguration = false, const char *pConfigurationName = NULL, const char *pOutputName = NULL, const char *pValue = NULL );
+	bool		WriteProperty( const PropertyState_t *pPropertyState, const char *szPlatformName, bool bEmitConfiguration = false, const char *pConfigurationName = nullptr, const char *pOutputName = nullptr, const char *pValue = nullptr);
 	bool		WriteTool( const char *pToolName, const CProjectTool *pProjectTool, CProjectConfiguration *pConfig, const char *szPlatformName );
 	bool		WriteNULLTool( const char *pToolName, const CProjectConfiguration *pConfig );
 	bool		WritePropertyGroupTool( CProjectTool *pProjectTool, CProjectConfiguration *pConfiguration, const char *szPlatformName );

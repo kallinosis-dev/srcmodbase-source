@@ -113,15 +113,15 @@ abstract_class IProcessUtils : public IAppSystem
 public:
 	// Starts, stops a process.
 	// If pWorkingDir is left at NULL, it'll use this process' working directory.
-	virtual IProcess* StartProcess( const char *pCommandLine, int fFlags, const char *pWorkingDir=NULL )= 0;
-	virtual IProcess* StartProcess( int argc, const char **argv, int fFlags, const char *pWorkingDir=NULL ) = 0;
+	virtual IProcess* StartProcess( const char *pCommandLine, int fFlags, const char *pWorkingDir= nullptr)= 0;
+	virtual IProcess* StartProcess( int argc, const char **argv, int fFlags, const char *pWorkingDir= nullptr) = 0;
 	
 	// Run a process and get its output.
 	// If pStdout is set, then stdout AND stderr are put into pStdout.
 	// If not, then the text output is ignored.
 	//
 	// Returns -1 if it was unable to run the process. Otherwise, returns the exit code from the process.
-	virtual int SimpleRunProcess( const char *pCommandLine, const char *pWorkingDir=NULL, CUtlString *pStdout=NULL ) = 0;
+	virtual int SimpleRunProcess( const char *pCommandLine, const char *pWorkingDir= nullptr, CUtlString *pStdout= nullptr) = 0;
 };
 
 DECLARE_TIER1_INTERFACE( IProcessUtils, g_pProcessUtils );

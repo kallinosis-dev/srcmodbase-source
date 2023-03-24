@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 // constructor, destructor
 //-----------------------------------------------------------------------------
-CMaterialReference::CMaterialReference( char const* pMaterialName, const char *pTextureGroupName, bool bComplain ) : m_pMaterial( 0 )
+CMaterialReference::CMaterialReference( char const* pMaterialName, const char *pTextureGroupName, bool bComplain ) : m_pMaterial( nullptr )
 {
 	if ( pMaterialName )
 	{
@@ -112,7 +112,7 @@ void CMaterialReference::Shutdown( bool bDeleteIfUnreferenced /*=false*/ )
 		{
 			m_pMaterial->DeleteIfUnreferenced();
 		}
-		m_pMaterial = NULL;
+		m_pMaterial = nullptr;
 	}
 }
 
@@ -124,11 +124,11 @@ void CMaterialReference::Shutdown( bool bDeleteIfUnreferenced /*=false*/ )
 //-----------------------------------------------------------------------------
 // constructor, destructor
 //-----------------------------------------------------------------------------
-CTextureReference::CTextureReference( ) : m_pTexture(NULL)
+CTextureReference::CTextureReference( ) : m_pTexture(nullptr)
 {
 }
 
-CTextureReference::CTextureReference( const CTextureReference &ref ) : m_pTexture( NULL )
+CTextureReference::CTextureReference( const CTextureReference &ref ) : m_pTexture(nullptr)
 {
 	Init( ref.m_pTexture );
 }
@@ -215,7 +215,7 @@ void CTextureReference::Shutdown( bool bDeleteIfUnReferenced )
 		{
 			m_pTexture->DeleteIfUnreferenced();
 		}
-		m_pTexture = NULL;
+		m_pTexture = nullptr;
 	}
 }
 

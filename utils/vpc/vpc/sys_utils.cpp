@@ -67,7 +67,7 @@ bool CXMLWriter::Close()
         Sys_CopyToMirror( m_FilenameString.Get() );
     }
 
-	m_FilenameString = NULL;
+	m_FilenameString = nullptr;
 	return !bUpToDate;
 }
 
@@ -342,7 +342,7 @@ int Sys_LoadFile( const char* filename, void** bufferptr, bool bText )
 	long	length;
 	char*	buffer;
 
-	*bufferptr = NULL;
+	*bufferptr = nullptr;
 
 	if ( !Sys_Exists( filename ) )
 		return ( -1 );
@@ -558,7 +558,7 @@ bool Sys_Exists( const char* filename )
 {
    FILE*	test;
 
-   if ( ( test = fopen( filename, "rb" ) ) == NULL )
+   if ( ( test = fopen( filename, "rb" ) ) == nullptr)
       return ( false );
 
    fclose( test );
@@ -575,7 +575,7 @@ bool Sys_Touch( const char* filename )
 {
    FILE*	test;
 
-   if ( ( test = fopen( filename, "wb" ) ) == NULL )
+   if ( ( test = fopen( filename, "wb" ) ) == nullptr)
       return ( false );
 
    fclose( test );
@@ -752,7 +752,7 @@ const char *Sys_EvaluateEnvironmentExpression( const char *pExpression, const ch
 		pEnvVarName = (char*)StringAfterPrefix( pExpression, "$envdefined(" );
 		if ( !pEnvVarName )
 		{
-			return NULL;
+			return nullptr;
 		}
 		bEnvDefinedMacro = true;
 	}
@@ -828,7 +828,7 @@ bool Sys_ExpandFilePattern( const char *pPattern, CUtlVector< CUtlString > &vecR
 bool Sys_GetExecutablePath( char *pBuf, int cbBuf )
 {
 #if defined( _WIN32 )
-	return ( 0 != GetModuleFileNameA( NULL, pBuf, cbBuf ) );
+	return ( 0 != GetModuleFileNameA(nullptr, pBuf, cbBuf ) );
 #elif defined(OSX)
 	uint32_t _nBuff = cbBuf;
 	bool bSuccess = _NSGetExecutablePath(pBuf, &_nBuff) == 0;
@@ -854,7 +854,7 @@ bool Sys_GetExecutablePath( char *pBuf, int cbBuf )
 void Sys_CreatePath( const char *path )
 {
 	char pFullPath[MAX_FIXED_PATH];
-	V_MakeAbsolutePath( pFullPath, sizeof(pFullPath), path, NULL, k_bVPCForceLowerCase );
+	V_MakeAbsolutePath( pFullPath, sizeof(pFullPath), path, nullptr, k_bVPCForceLowerCase );
 
 	// If Sys_CreatePath is called with a filename, all is well.
 	// If it is called with a folder name, it must have a trailing slash:
@@ -880,7 +880,7 @@ void Sys_CreatePath( const char *path )
 			*ptr = '\0';
 
 #if defined( PLATFORM_WINDOWS )
-			CreateDirectory( pFullPath, NULL );
+			CreateDirectory( pFullPath, nullptr);
 #else
 			mkdir( pFullPath, 0777 );
 #endif
@@ -981,7 +981,7 @@ bool Sys_GetActualFilenameCase( const char *pFilename, char *pOutputBuffer, int 
 		// truncate at seperator, windows resolves each component in pieces
 		filenameBuffer[i] = 0;
 				
-		SHFILEINFOA info = {0};
+		SHFILEINFOA info = {nullptr};
 		HRESULT hr = SHGetFileInfoA( filenameBuffer, 0, &info, sizeof( info ), SHGFI_DISPLAYNAME );
 		if ( SUCCEEDED( hr ) )
 		{
@@ -1123,7 +1123,7 @@ int GetNumCFileExtensions()
 const char *GetCFileExtension( int nIndex )
 {
 	if ( nIndex >= GetNumCFileExtensions() )
-		return NULL;
+		return nullptr;
 
 	return CModuleFileTypes[ nIndex ];
 }

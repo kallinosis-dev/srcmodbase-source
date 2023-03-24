@@ -11,7 +11,7 @@
 static PropertyName_t s_Xbox360PropertyNames[] =
 {
 	#include "projectgenerator_xbox360.inc"
-	{ -1, NULL, NULL }
+	{ -1, nullptr, nullptr}
 };
 
 IBaseProjectGenerator* GetXbox360ProjectGenerator()
@@ -101,8 +101,8 @@ bool CProjectGenerator_Xbox360::WriteConfiguration( CProjectConfiguration *pConf
 	
 	if ( !pConfig->m_bIsFileConfig && pConfig->m_PropertyStates.m_Properties.Count() )
 	{
-		WriteProperty( NULL, "UseOfMFC", "-1" );
-		WriteProperty( NULL, "UseOfATL", "0" );
+		WriteProperty(nullptr, "UseOfMFC", "-1" );
+		WriteProperty(nullptr, "UseOfATL", "0" );
 	}
 
 	if ( !WriteTool( "VCPreBuildEventTool", pConfig->GetPreBuildEventTool() ) )
@@ -188,7 +188,7 @@ bool CProjectGenerator_Xbox360::WriteToXML()
 	m_XMLWriter.PushNode( "Configurations" );
 	for ( int i = 0; i < configurationNames.Count(); i++ )
 	{
-		CProjectConfiguration *pConfiguration = NULL;
+		CProjectConfiguration *pConfiguration = nullptr;
 		if ( m_pVCProjGenerator->GetRootConfiguration( configurationNames[i].Get(), &pConfiguration ) )
 		{
 			if ( !WriteConfiguration( pConfiguration ) )

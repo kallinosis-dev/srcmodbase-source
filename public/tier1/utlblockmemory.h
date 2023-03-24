@@ -51,8 +51,8 @@ public:
 	void Init( int nGrowSize = 0, int nInitSize = 0 );
 
 	// here to match CUtlMemory, but only used by ResetDbgInfo, so it can just return NULL
-	T* Base() { return NULL; }
-	const T* Base() const { return NULL; }
+	T* Base() { return nullptr; }
+	const T* Base() const { return nullptr; }
 
 	class Iterator_t
 	{
@@ -117,7 +117,7 @@ protected:
 
 template< class T, class I >
 CUtlBlockMemory<T,I>::CUtlBlockMemory( int nGrowSize, int nInitAllocationCount )
-: m_pMemory( 0 ), m_nBlocks( 0 ), m_nIndexMask( 0 ), m_nIndexShift( 0 )
+: m_pMemory( nullptr ), m_nBlocks( 0 ), m_nIndexMask( 0 ), m_nIndexShift( 0 )
 {
 	Init( nGrowSize, nInitAllocationCount );
 }

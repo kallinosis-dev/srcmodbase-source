@@ -101,7 +101,7 @@ bool CProjectFile::GetConfiguration( const char *pConfigName, CProjectConfigurat
 	if ( ppConfig )
 	{
 		// assume not found
-		*ppConfig = NULL;
+		*ppConfig = nullptr;
 	}
 
 	for ( int i = 0; i < m_Configs.Count(); i++ )
@@ -126,10 +126,10 @@ bool CProjectFile::AddConfiguration( const char *pConfigName, CProjectConfigurat
 	if ( ppConfig )
 	{
 		// assume not found
-		*ppConfig = NULL;
+		*ppConfig = nullptr;
 	}
 
-	if ( GetConfiguration( pConfigName, NULL ) )
+	if ( GetConfiguration( pConfigName, nullptr) )
 	{
 		// found, cannot add duplicate
 		return false;
@@ -206,7 +206,7 @@ bool CProjectFolder::GetFolder( const char *pFolderName, CProjectFolder **pFolde
 	if ( pFolder )
 	{
 		// assume not found
-		*pFolder = NULL;
+		*pFolder = nullptr;
 	}
 
 	if ( !pFolderName || !pFolderName[0] )
@@ -236,7 +236,7 @@ bool CProjectFolder::AddFolder( const char *pFolderName, VpcFolderFlags_t iFlags
 	if ( pFolder )
 	{
 		// assume not added
-		*pFolder = NULL;
+		*pFolder = nullptr;
 	}
 
 	CProjectFolder *pExistingFolder;
@@ -386,7 +386,7 @@ PropertyState_t *CPropertyStates::GetProperty( int nPropertyId )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 PropertyState_t *CPropertyStates::GetProperty( const char *pPropertyName )
@@ -422,13 +422,13 @@ PropertyState_t *CPropertyStates::GetProperty( const char *pPropertyName )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool CPropertyStates::SetStringProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool )
 {
 	// find possible current value
-	const char *pCurrentValue = NULL;
+	const char *pCurrentValue = nullptr;
 	for ( int i = 0; i < m_Properties.Count(); i++ )
 	{
 		if ( m_Properties[i].m_pToolProperty == pToolProperty )
@@ -524,11 +524,11 @@ bool CPropertyStates::SetStringProperty( ToolProperty_t *pToolProperty, CProject
 bool CPropertyStates::SetListProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 		return true;
 
 	// resolve the parsed token to an expected ordinal
-	const char *pNewOrdinalValue = NULL;
+	const char *pNewOrdinalValue = nullptr;
 	for ( int i = 0; i < pToolProperty->m_Ordinals.Count() ;i++ )
 	{
 		if ( !V_stricmp_fast( pToolProperty->m_Ordinals[i].m_ParseString.Get(), pStrBuf->Get() ) )
@@ -551,7 +551,7 @@ bool CPropertyStates::SetListProperty( ToolProperty_t *pToolProperty, CProjectTo
 	}
 
 	// find possible current value
-	const char *pCurrentOrdinalValue = NULL;
+	const char *pCurrentOrdinalValue = nullptr;
 	for ( int i = 0; i < m_Properties.Count(); i++ )
 	{
 		if ( m_Properties[i].m_pToolProperty == pToolProperty )
@@ -609,7 +609,7 @@ bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTo
 	const char *pNewOrdinalValue = bEnabled ? "1" :"0";
 
 	// find possible current value
-	const char *pCurrentOrdinalValue = NULL;
+	const char *pCurrentOrdinalValue = nullptr;
 	for ( int i = 0; i < m_Properties.Count(); i++ )
 	{
 		if ( m_Properties[i].m_pToolProperty == pToolProperty )
@@ -663,7 +663,7 @@ bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTo
 bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 		return true;
 
 	return SetBoolProperty( pToolProperty, pRootTool, Sys_StringToBool( pStrBuf->Get() ) );
@@ -671,13 +671,13 @@ bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTo
 
 bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, bool bEnabled )
 {
-	return SetBoolProperty( pToolProperty, NULL, bEnabled );
+	return SetBoolProperty( pToolProperty, nullptr, bEnabled );
 }
 
 bool CPropertyStates::SetIntegerProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 		return true;
 
 	// ensure the parsed token is a real integer and not just quietly mapped to 0
@@ -708,7 +708,7 @@ bool CPropertyStates::SetIntegerProperty( ToolProperty_t *pToolProperty, CProjec
 	}
 
 	// find possible current value
-	const char *pCurrentOrdinalValue = NULL;
+	const char *pCurrentOrdinalValue = nullptr;
 	for ( int i = 0; i < m_Properties.Count(); i++ )
 	{
 		if ( m_Properties[i].m_pToolProperty == pToolProperty )
@@ -827,7 +827,7 @@ const char *CPropertyStates::GetPropertyValue( ToolProperty_t *pToolProperty, CP
 	}
 
 	// find possible current value
-	const char *pCurrentOrdinalValue = NULL;
+	const char *pCurrentOrdinalValue = nullptr;
 	for ( int i = 0; i < m_Properties.Count(); i++ ) // TODO: optimize
 	{
 		if ( m_Properties[i].m_pToolProperty == pToolProperty )
@@ -882,26 +882,26 @@ static bool FilesSortLessFunc( CProjectFile* const &pLHS, CProjectFile* const &p
 CProjectConfiguration::CProjectConfiguration( CVCProjGenerator *pGenerator, const char *pConfigName, const char *pFilename )
 {
 	m_pGenerator = pGenerator;
-	m_bIsFileConfig = ( pFilename != NULL );
+	m_bIsFileConfig = ( pFilename != nullptr);
 
 	m_Name = pConfigName;
 	m_LowerCaseName = pConfigName;
 	m_LowerCaseName.ToLower();
 
-	m_pDebuggingTool = NULL;
-	m_pCompilerTool = NULL;
-	m_pLibrarianTool = NULL;
-	m_pLinkerTool = NULL; 
-	m_pManifestTool = NULL; 
-	m_pXMLDocGenTool = NULL; 
-	m_pBrowseInfoTool = NULL; 
-	m_pResourcesTool = NULL; 
-	m_pPreBuildEventTool = NULL;
-	m_pPreLinkEventTool = NULL;
-	m_pPostBuildEventTool = NULL;
-	m_pCustomBuildTool = NULL;
-	m_pXboxImageTool = NULL;
-	m_pXboxDeploymentTool = NULL;
+	m_pDebuggingTool = nullptr;
+	m_pCompilerTool = nullptr;
+	m_pLibrarianTool = nullptr;
+	m_pLinkerTool = nullptr; 
+	m_pManifestTool = nullptr; 
+	m_pXMLDocGenTool = nullptr; 
+	m_pBrowseInfoTool = nullptr; 
+	m_pResourcesTool = nullptr; 
+	m_pPreBuildEventTool = nullptr;
+	m_pPreLinkEventTool = nullptr;
+	m_pPostBuildEventTool = nullptr;
+	m_pCustomBuildTool = nullptr;
+	m_pXboxImageTool = nullptr;
+	m_pXboxDeploymentTool = nullptr;
 	m_pIntellisenseTool = nullptr;
 
 	if ( !m_bIsFileConfig )
@@ -1042,26 +1042,26 @@ bool CProjectConfiguration::SetProperty( ToolProperty_t *pToolProperty )
 		{
 			// static library does not get these tools
 			delete m_pResourcesTool;
-			m_pResourcesTool = NULL;
+			m_pResourcesTool = nullptr;
 
 			delete m_pManifestTool;
-			m_pManifestTool = NULL;
+			m_pManifestTool = nullptr;
 
 			delete m_pLinkerTool;
-			m_pLinkerTool = NULL;
+			m_pLinkerTool = nullptr;
 
 			delete m_pXboxImageTool;
-			m_pXboxImageTool = NULL;
+			m_pXboxImageTool = nullptr;
 
 			delete m_pXboxDeploymentTool;
-			m_pXboxDeploymentTool = NULL;
+			m_pXboxDeploymentTool = nullptr;
 		}
 		else if ( !pPropertyState ||
                   V_stricmp_fast( pPropertyState->m_OrdinalString, "Makefile" ) != 0 )
 		{
 			// exe/dlls do not get the librarian
 			delete m_pLibrarianTool;
-			m_pLibrarianTool = NULL;
+			m_pLibrarianTool = nullptr;
 		}
 	}
 
@@ -1195,8 +1195,8 @@ CRelevantPropertyNames g_RelevantSchemaPropertyNames =
 CVCProjGenerator::CVCProjGenerator() : 
 	BaseClass( &g_RelevantSchemaPropertyNames )
 {
-	m_pGeneratorDefinition = NULL;
-	m_pRootFolder = NULL;
+	m_pGeneratorDefinition = nullptr;
+	m_pRootFolder = nullptr;
 	m_FileDictionary.SetLessFunc( FilesSortLessFunc );
 
 	Clear();
@@ -1208,24 +1208,24 @@ void CVCProjGenerator::Clear()
 
 	m_nActivePropertySection = KEYWORD_UNKNOWN;
 
-	m_pProjectFile = NULL;
-	m_pConfig = NULL;
-	m_pFileConfig = NULL;
+	m_pProjectFile = nullptr;
+	m_pConfig = nullptr;
+	m_pFileConfig = nullptr;
 
-	m_pDebuggingTool = NULL;
-	m_pCompilerTool = NULL;
-	m_pLibrarianTool = NULL;
-	m_pLinkerTool = NULL; 
-	m_pManifestTool = NULL; 
-	m_pXMLDocGenTool = NULL; 
-	m_pBrowseInfoTool = NULL; 
-	m_pResourcesTool = NULL; 
-	m_pPreBuildEventTool = NULL;
-	m_pPreLinkEventTool = NULL;
-	m_pPostBuildEventTool = NULL;
-	m_pCustomBuildTool = NULL;
-	m_pXboxImageTool = NULL;
-	m_pXboxDeploymentTool = NULL;
+	m_pDebuggingTool = nullptr;
+	m_pCompilerTool = nullptr;
+	m_pLibrarianTool = nullptr;
+	m_pLinkerTool = nullptr; 
+	m_pManifestTool = nullptr; 
+	m_pXMLDocGenTool = nullptr; 
+	m_pBrowseInfoTool = nullptr; 
+	m_pResourcesTool = nullptr; 
+	m_pPreBuildEventTool = nullptr;
+	m_pPreLinkEventTool = nullptr;
+	m_pPostBuildEventTool = nullptr;
+	m_pCustomBuildTool = nullptr;
+	m_pXboxImageTool = nullptr;
+	m_pXboxDeploymentTool = nullptr;
 	m_pIntellisenseTool = nullptr;
 
 	m_spFolderStack.Purge();
@@ -1247,9 +1247,9 @@ void CVCProjGenerator::Clear()
 	// This was a specific design choice that had group consensus. Otherwise the configuration permutation space
 	// explodes with no studio benefit. All other configurations are supported by minor property changes.
 	m_RootConfigurations.PurgeAndDeleteElements();
-	CProjectConfiguration *pDebugConfig = new CProjectConfiguration( this, "Debug", NULL );
+	CProjectConfiguration *pDebugConfig = new CProjectConfiguration( this, "Debug", nullptr);
 	m_RootConfigurations.AddToTail( pDebugConfig );
-	CProjectConfiguration *pReleaseConfig = new CProjectConfiguration( this, "Release", NULL );
+	CProjectConfiguration *pReleaseConfig = new CProjectConfiguration( this, "Release", nullptr);
 	m_RootConfigurations.AddToTail( pReleaseConfig );
 }
 
@@ -1267,7 +1267,7 @@ void CVCProjGenerator::AddProjectWriter( IVCProjWriter *pVCProjWriter )
 
 const char* CVCProjGenerator::GetProjectFileExtension()
 {
-	const char *pProjectExtension = NULL;
+	const char *pProjectExtension = nullptr;
 	if ( !m_VCProjWriters.IsEmpty() )
 	{
 		// the primary writer can supply it
@@ -1422,12 +1422,12 @@ void CVCProjGenerator::StartFolder( const char *pFolderName, VpcFolderFlags_t iF
 	BaseClass::StartFolder( pFolderName, iFlags );
 
 	bool bValid;
-	CProjectFolder *pFolder = NULL;
+	CProjectFolder *pFolder = nullptr;
 
 	if ( m_spFolderStack.Count() == 0 )
 	{
 		// add to root
-		bValid = AddFolder( pFolderName, NULL, iFlags, &pFolder );
+		bValid = AddFolder( pFolderName, nullptr, iFlags, &pFolder );
 	}
 	else
 	{
@@ -1440,11 +1440,11 @@ void CVCProjGenerator::StartFolder( const char *pFolderName, VpcFolderFlags_t iF
 		// resolve failure
 		// folder already exists, not an error
 		// find the matching object
-		pFolder = NULL;
+		pFolder = nullptr;
 		if ( m_spFolderStack.Count() == 0 )
 		{
 			// at root
-			GetFolder( pFolderName, NULL, &pFolder );
+			GetFolder( pFolderName, nullptr, &pFolder );
 		}
 		else
 		{
@@ -1495,12 +1495,12 @@ bool CVCProjGenerator::StartFile( const char *pFilename, VpcFileFlags_t iFlags, 
 
 	BaseClass::StartFile( pFilename, iFlags, bWarnIfAlreadyExists );
 
-	CProjectFile *pFile = NULL;
+	CProjectFile *pFile = nullptr;
 
 	if ( m_spFolderStack.Count() == 0 )
 	{
 		// add at root
-		AddFileToFolder( pFilename, NULL, bWarnIfAlreadyExists, iFlags, &pFile );
+		AddFileToFolder( pFilename, nullptr, bWarnIfAlreadyExists, iFlags, &pFile );
 	}
 	else
 	{
@@ -1509,7 +1509,7 @@ bool CVCProjGenerator::StartFile( const char *pFilename, VpcFileFlags_t iFlags, 
 	}
 
 	m_pProjectFile = pFile;
-	return ( pFile != NULL );
+	return ( pFile != nullptr);
 }
 
 void CVCProjGenerator::EndFile()
@@ -1523,7 +1523,7 @@ void CVCProjGenerator::EndFile()
 			m_FileDictionary.Reinsert(  nOldIndex );
 		}
 	}
-	m_pProjectFile = NULL;
+	m_pProjectFile = nullptr;
 
 	BaseClass::EndFile();
 }
@@ -1541,7 +1541,7 @@ bool CVCProjGenerator::RemoveFile( const char *pFilename )
 	if ( m_spFolderStack.Count() == 0 )
 	{
 		// remove from root
-		bValid = RemoveFileFromFolder( pFilename, NULL );
+		bValid = RemoveFileFromFolder( pFilename, nullptr);
 	}
 	else
 	{
@@ -1584,7 +1584,7 @@ CUtlString CVCProjGenerator::GetSolutionPlatformAlias( const char *szVPCTargetPl
 
 bool CVCProjGenerator::Config_GetConfigurations( const char *pszConfigName )
 {
-	CProjectConfiguration *pConfig = NULL;
+	CProjectConfiguration *pConfig = nullptr;
 	bool bValid = GetRootConfiguration( pszConfigName, &pConfig );
 	if ( !bValid )
 	{
@@ -1601,7 +1601,7 @@ void CVCProjGenerator::StartConfigurationBlock( const char *pConfigName, bool bF
 
 	if ( bFileSpecific )
 	{
-		CProjectConfiguration *pFileConfig = NULL;
+		CProjectConfiguration *pFileConfig = nullptr;
 		bool bValid = m_pProjectFile->GetConfiguration( pConfigName, &pFileConfig );
 		if ( !bValid )
 		{
@@ -1636,7 +1636,7 @@ void CVCProjGenerator::EndConfigurationBlock()
 		m_pProjectFile->RemoveConfiguration( m_pFileConfig );
 	}
 
-	m_pFileConfig = NULL;
+	m_pFileConfig = nullptr;
 }
 
 void CVCProjGenerator::FileExcludedFromBuild( bool bExcluded )
@@ -2026,8 +2026,8 @@ void CVCProjGenerator::HandleProperty( const char *pPropertyName, const char *pC
 		return;
 	}
 
-	CProjectConfiguration *pConfig = NULL;
-	CProjectTool *pTool = NULL;
+	CProjectConfiguration *pConfig = nullptr;
+	CProjectTool *pTool = nullptr;
 	switch ( m_nActivePropertySection )
 	{
 	case KEYWORD_GENERAL:
@@ -2132,8 +2132,8 @@ const char *CVCProjGenerator::GetPropertyValue( const char *pPropertyName )
 		g_pVPC->VPCSyntaxError( "Unknown property %s", pPropertyName );
 	}
 
-	CProjectConfiguration *pConfig = NULL;
-	CProjectTool *pTool = NULL;
+	CProjectConfiguration *pConfig = nullptr;
+	CProjectTool *pTool = nullptr;
 	switch ( m_nActivePropertySection )
 	{
 	case KEYWORD_GENERAL:
@@ -2278,7 +2278,7 @@ bool CVCProjGenerator::FindFile( const char *pFilename, CProjectFile **ppFile, b
 	// not found
 	if ( ppFile )
 	{
-		*ppFile = NULL;
+		*ppFile = nullptr;
 	}
 
 	return false;
@@ -2368,7 +2368,7 @@ bool CVCProjGenerator::GetRootConfiguration( const char *pConfigName, CProjectCo
 	if ( ppConfig )
 	{
 		// assume not found
-		*ppConfig = NULL;
+		*ppConfig = nullptr;
 	}
 
 	for ( int i = 0; i < m_RootConfigurations.Count(); i++ )
@@ -2389,7 +2389,7 @@ bool CVCProjGenerator::GetRootConfiguration( const char *pConfigName, CProjectCo
 
 bool CVCProjGenerator::IsConfigurationNameValid( const char *pConfigName )
 {
-	return GetRootConfiguration( pConfigName, NULL );
+	return GetRootConfiguration( pConfigName, nullptr);
 }
 
 configKeyword_e CVCProjGenerator::SetPS3VisualStudioIntegrationType( configKeyword_e eKeyword )
@@ -2552,25 +2552,25 @@ void CVCProjGenerator::ApplyInternalPreprocessorDefinitions()
 
 void CVCProjGenerator::LogOutputFiles( const char *pConfigName )
 {
-    const char *configurationTypeString = GetPropertyValueAsString( NULL, pConfigName, KEYWORD_GENERAL, g_pOption_ConfigurationType );
+    const char *configurationTypeString = GetPropertyValueAsString(nullptr, pConfigName, KEYWORD_GENERAL, g_pOption_ConfigurationType );
     const char *importLibraryString = "";
     const char *outputFileString = "";
     const char *gameOutputFileString = "";
     
     if ( V_stristr( configurationTypeString, ".dll" ) )
     {
-        importLibraryString = GetPropertyValueAsString( NULL, pConfigName, KEYWORD_LINKER, g_pOption_ImportLibrary );
-        outputFileString = GetPropertyValueAsString( NULL, pConfigName, KEYWORD_LINKER, g_pOption_OutputFile );
-        gameOutputFileString = GetPropertyValueAsString( NULL, pConfigName, KEYWORD_GENERAL, g_pOption_GameOutputFile );
+        importLibraryString = GetPropertyValueAsString(nullptr, pConfigName, KEYWORD_LINKER, g_pOption_ImportLibrary );
+        outputFileString = GetPropertyValueAsString(nullptr, pConfigName, KEYWORD_LINKER, g_pOption_OutputFile );
+        gameOutputFileString = GetPropertyValueAsString(nullptr, pConfigName, KEYWORD_GENERAL, g_pOption_GameOutputFile );
     }
     else if ( V_stristr( configurationTypeString, ".lib" ) )
     {
-        outputFileString = GetPropertyValueAsString( NULL, pConfigName, KEYWORD_LIBRARIAN, g_pOption_OutputFile );
+        outputFileString = GetPropertyValueAsString(nullptr, pConfigName, KEYWORD_LIBRARIAN, g_pOption_OutputFile );
     }
     else if ( V_stristr( configurationTypeString, ".exe" ) )
     {
-        outputFileString = GetPropertyValueAsString( NULL, pConfigName, KEYWORD_LINKER, g_pOption_OutputFile );
-        gameOutputFileString = GetPropertyValueAsString( NULL, pConfigName, KEYWORD_GENERAL, g_pOption_GameOutputFile );
+        outputFileString = GetPropertyValueAsString(nullptr, pConfigName, KEYWORD_LINKER, g_pOption_OutputFile );
+        gameOutputFileString = GetPropertyValueAsString(nullptr, pConfigName, KEYWORD_GENERAL, g_pOption_GameOutputFile );
     }
 
     const char *outBinDirString = g_pVPC->GetMacroValue( "OUTBINDIR" );
@@ -2579,23 +2579,23 @@ void CVCProjGenerator::LogOutputFiles( const char *pConfigName )
     CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
     if ( importLibraryString[0] )
     {
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( importLibraryString, pVsStr, NULL );
+        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( importLibraryString, pVsStr, nullptr);
         pVsStr->Replace( "$(OutDir)", outBinDirString );
-        V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), NULL, k_bVPCForceLowerCase );
+        V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), nullptr, k_bVPCForceLowerCase );
         g_pVPC->VPCStatus( false, "$ImportLibrary: %s", pathString );
     }
     if ( outputFileString[0] )
     {
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( outputFileString, pVsStr, NULL );
+        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( outputFileString, pVsStr, nullptr);
         pVsStr->Replace( "$(OutDir)", outBinDirString );
-        V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), NULL, k_bVPCForceLowerCase );
+        V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), nullptr, k_bVPCForceLowerCase );
         g_pVPC->VPCStatus( false, "$OutputFile: %s", pathString );
     }
     if ( gameOutputFileString[0] )
     {
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( gameOutputFileString, pVsStr, NULL );
+        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( gameOutputFileString, pVsStr, nullptr);
         pVsStr->Replace( "$(OutDir)", outBinDirString );
-        V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), NULL, k_bVPCForceLowerCase );
+        V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), nullptr, k_bVPCForceLowerCase );
         g_pVPC->VPCStatus( false, "$GameOutputFile: %s", pathString );
     }
 }
@@ -2635,14 +2635,14 @@ bool CVCProjGenerator::HasFilePropertyValue( CProjectFile *pProjectFile, const c
         return false;
 	}
 
-	CProjectConfiguration *pFileConfiguration = NULL;
+	CProjectConfiguration *pFileConfiguration = nullptr;
     pProjectFile->GetConfiguration( pConfigrationName, &pFileConfiguration );
     if ( !pFileConfiguration )
     {
         return false;
     }
 
-	CProjectTool *pFileTool = NULL;
+	CProjectTool *pFileTool = nullptr;
 	switch( configKeyword )
 	{
 	case KEYWORD_COMPILER:
@@ -2676,7 +2676,7 @@ bool CVCProjGenerator::HasFilePropertyValue( CProjectFile *pProjectFile, const c
         return false;
     }
     
-    const char *pProp = pFileTool->m_PropertyStates.GetPropertyValue( pToolProperty, NULL );
+    const char *pProp = pFileTool->m_PropertyStates.GetPropertyValue( pToolProperty, nullptr);
     return pProp && pProp[0];
 }
 
@@ -2692,18 +2692,18 @@ const char *CVCProjGenerator::GetPropertyValueAsString( CProjectFile *pProjectFi
 		g_pVPC->VPCError( "Unknown property %s expected for section %s", pPropertyName, g_pVPC->KeywordToName( configKeyword ) );
 	}
 
-	CProjectConfiguration *pRootConfiguration = NULL; 
+	CProjectConfiguration *pRootConfiguration = nullptr; 
 	GetRootConfiguration( pConfigrationName, &pRootConfiguration );
 
-	CProjectConfiguration *pFileConfiguration = NULL; 
+	CProjectConfiguration *pFileConfiguration = nullptr; 
 	if ( pProjectFile )
 	{
 		// get the file's specified configuration
 		pProjectFile->GetConfiguration( pConfigrationName, &pFileConfiguration );
 	}
 	
-	CProjectTool *pRootTool = NULL;
-	CProjectTool *pFileTool = NULL;
+	CProjectTool *pRootTool = nullptr;
+	CProjectTool *pFileTool = nullptr;
 	switch( configKeyword )
 	{
 	case KEYWORD_GENERAL:
@@ -2711,8 +2711,8 @@ const char *CVCProjGenerator::GetPropertyValueAsString( CProjectFile *pProjectFi
 		break;
 
 	case KEYWORD_COMPILER:
-		pRootTool = pRootConfiguration ? pRootConfiguration->GetCompilerTool() : NULL;
-		pFileTool = pFileConfiguration ? pFileConfiguration->GetCompilerTool() : NULL;
+		pRootTool = pRootConfiguration ? pRootConfiguration->GetCompilerTool() : nullptr;
+		pFileTool = pFileConfiguration ? pFileConfiguration->GetCompilerTool() : nullptr;
 		break;
 
 	case KEYWORD_INTELLISENSE:
@@ -2721,33 +2721,33 @@ const char *CVCProjGenerator::GetPropertyValueAsString( CProjectFile *pProjectFi
 		break;
 
 	case KEYWORD_LIBRARIAN:	
-		pRootTool = pRootConfiguration ? pRootConfiguration->GetLibrarianTool() : NULL;
-		pFileTool = pFileConfiguration ? pFileConfiguration->GetLibrarianTool() : NULL;
+		pRootTool = pRootConfiguration ? pRootConfiguration->GetLibrarianTool() : nullptr;
+		pFileTool = pFileConfiguration ? pFileConfiguration->GetLibrarianTool() : nullptr;
 		break;
 
 	case KEYWORD_LINKER:	
-		pRootTool = pRootConfiguration ? pRootConfiguration->GetLinkerTool() : NULL;
-		pFileTool = pFileConfiguration ? pFileConfiguration->GetLinkerTool() : NULL;
+		pRootTool = pRootConfiguration ? pRootConfiguration->GetLinkerTool() : nullptr;
+		pFileTool = pFileConfiguration ? pFileConfiguration->GetLinkerTool() : nullptr;
 		break;
 
 	case KEYWORD_PREBUILDEVENT:
-		pRootTool = pRootConfiguration ? pRootConfiguration->GetPreBuildEventTool() : NULL;
-		pFileTool = pFileConfiguration ? pFileConfiguration->GetPreBuildEventTool() : NULL;
+		pRootTool = pRootConfiguration ? pRootConfiguration->GetPreBuildEventTool() : nullptr;
+		pFileTool = pFileConfiguration ? pFileConfiguration->GetPreBuildEventTool() : nullptr;
 		break;
 
 	case KEYWORD_PRELINKEVENT:
-		pRootTool = pRootConfiguration ? pRootConfiguration->GetPreLinkEventTool() : NULL;
-		pFileTool = pFileConfiguration ? pFileConfiguration->GetPreLinkEventTool() : NULL;
+		pRootTool = pRootConfiguration ? pRootConfiguration->GetPreLinkEventTool() : nullptr;
+		pFileTool = pFileConfiguration ? pFileConfiguration->GetPreLinkEventTool() : nullptr;
 		break;
 
 	case KEYWORD_POSTBUILDEVENT:
-		pRootTool = pRootConfiguration ? pRootConfiguration->GetPostBuildEventTool() : NULL;
-		pFileTool = pFileConfiguration ? pFileConfiguration->GetPostBuildEventTool() : NULL;
+		pRootTool = pRootConfiguration ? pRootConfiguration->GetPostBuildEventTool() : nullptr;
+		pFileTool = pFileConfiguration ? pFileConfiguration->GetPostBuildEventTool() : nullptr;
 		break;
 
 	case KEYWORD_CUSTOMBUILDSTEP:
-		pRootTool = pRootConfiguration ? pRootConfiguration->GetCustomBuildTool() : NULL;
-		pFileTool = pFileConfiguration ? pFileConfiguration->GetCustomBuildTool() : NULL;
+		pRootTool = pRootConfiguration ? pRootConfiguration->GetCustomBuildTool() : nullptr;
+		pFileTool = pFileConfiguration ? pFileConfiguration->GetCustomBuildTool() : nullptr;
 		break;
 
 	default:
@@ -2924,7 +2924,7 @@ void CVCProjGenerator::EvaluateHackMacro_HACK_DEPENDENCIES_ALLVPCSCRIPTS( void )
 			CProjectConfiguration *pRootConfig = ppRootConfigurations[nConfigIter];
 
 			//grab the file configuration if there is one
-			CProjectConfiguration *pFileConfiguration = NULL;
+			CProjectConfiguration *pFileConfiguration = nullptr;
 			if ( !pProjectFile->GetConfiguration( pRootConfig->m_Name.Get(), &pFileConfiguration ) )
 				continue; //no file config, nothing to update
 
@@ -3032,7 +3032,7 @@ void CVCProjGenerator::AddIndirectCustomBuildDependencies( void )
 			CProjectFile *pProjectFile = projectFiles[nFileIter];			
 
 			//grab the file configuration if there is one
-			CProjectConfiguration *pFileConfiguration = NULL;
+			CProjectConfiguration *pFileConfiguration = nullptr;
 			if ( !pProjectFile->GetConfiguration( pRootConfig->m_Name.Get(), &pFileConfiguration ) )
 				continue; //no file config, nothing to update
 

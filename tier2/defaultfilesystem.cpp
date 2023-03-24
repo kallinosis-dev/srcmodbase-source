@@ -12,7 +12,7 @@
 #include "tier0/memdbgon.h"
 
 
-static CSysModule *g_pFullFileSystemModule = NULL;
+static CSysModule *g_pFullFileSystemModule = nullptr;
 
 void* DefaultCreateInterfaceFn(const char *pName, int *pReturnCode)
 {
@@ -20,7 +20,7 @@ void* DefaultCreateInterfaceFn(const char *pName, int *pReturnCode)
 	{
 		*pReturnCode = 0;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void InitDefaultFileSystem( void )

@@ -109,7 +109,7 @@ void _Error_AlwaysSpewCallStack_Length( int iMaxCallStackLength )
 // Skip forward past the directory
 static const char *SkipToFname( const tchar* pFile )
 {
-	if ( pFile == NULL )
+	if ( pFile == nullptr)
 		return "unknown";
 	const tchar* pSlash = _tcsrchr( pFile, '\\' );
 	const tchar* pSlash2 = _tcsrchr( pFile, '/' );
@@ -355,7 +355,7 @@ void* Plat_SimpleLog( const tchar* file, int line )
 	_ftprintf( f, _T("%s:%i\n"), file, line );
 	fclose( f );
 
-	return NULL;
+	return nullptr;
 }
 
 #if !defined( DBGFLAG_STRINGS_STRIP )
@@ -435,7 +435,7 @@ void COM_TimestampedLog( char const *fmt, ... )
 
 #endif // !DBGFLAG_STRINGS_STRIP
 
-static AssertFailedNotifyFunc_t	s_AssertFailedNotifyFunc = NULL;
+static AssertFailedNotifyFunc_t	s_AssertFailedNotifyFunc = nullptr;
 
 //-----------------------------------------------------------------------------
 // Sets an assert failed notify handler
@@ -471,9 +471,9 @@ public:
 	CHardwareBreakPoint()
 	{
 		m_eOperation = BRK_SET;
-		m_pvAddress = 0;
-		m_hThread = 0;
-		m_hThreadEvent = 0;
+		m_pvAddress = nullptr;
+		m_hThread = nullptr;
+		m_hThreadEvent = nullptr;
 		m_nRegister = 0;
 		m_bSuccess = false;
 	}
@@ -633,12 +633,12 @@ HardwareBreakpointHandle_t SetHardwareBreakpoint( EHardwareBreakpointType eType,
 		h->m_hThread = OpenThread( THREAD_ALL_ACCESS, 0, nThreadId );
 	}
 
-	h->m_hThreadEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
+	h->m_hThreadEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	h->m_eOperation = CHardwareBreakPoint::BRK_SET; // Set Break
-	CreateThread( 0, 0, CHardwareBreakPoint::ThreadProc, (LPVOID)h, 0, 0 );
+	CreateThread( nullptr, 0, CHardwareBreakPoint::ThreadProc, (LPVOID)h, 0, nullptr );
 	WaitForSingleObject( h->m_hThreadEvent,INFINITE );
 	CloseHandle( h->m_hThreadEvent );
-	h->m_hThreadEvent = 0;
+	h->m_hThreadEvent = nullptr;
 	if ( hThread == GetCurrentThread() )
 	{
 		CloseHandle( h->m_hThread );
@@ -647,7 +647,7 @@ HardwareBreakpointHandle_t SetHardwareBreakpoint( EHardwareBreakpointType eType,
 	if ( !h->m_bSuccess )
 	{
 		delete h;
-		return (HardwareBreakpointHandle_t)0;
+		return (HardwareBreakpointHandle_t)nullptr;
 	}
 	return (HardwareBreakpointHandle_t)h;
 }
@@ -668,12 +668,12 @@ bool ClearHardwareBreakpoint( HardwareBreakpointHandle_t handle )
 		bOpened = true;
 	}
 
-	h->m_hThreadEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
+	h->m_hThreadEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	h->m_eOperation = CHardwareBreakPoint::BRK_UNSET; // Remove Break
-	CreateThread( 0,0,CHardwareBreakPoint::ThreadProc, (LPVOID)h, 0,0 );
+	CreateThread( nullptr,0,CHardwareBreakPoint::ThreadProc, (LPVOID)h, 0,nullptr );
 	WaitForSingleObject( h->m_hThreadEvent, INFINITE );
 	CloseHandle( h->m_hThreadEvent );
-	h->m_hThreadEvent = 0;
+	h->m_hThreadEvent = nullptr;
 	if ( bOpened )
 	{
 		CloseHandle( h->m_hThread );

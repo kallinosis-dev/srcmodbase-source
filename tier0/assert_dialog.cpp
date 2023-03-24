@@ -67,13 +67,13 @@ public:
 };
 
 #ifdef _WIN32
-static HINSTANCE g_hTier0Instance = 0;
+static HINSTANCE g_hTier0Instance = nullptr;
 #endif
 
 static bool g_bAssertsEnabled = true;
 static bool g_bAssertDialogEnabled = true;
 
-static CAssertDisable *g_pAssertDisables = NULL;
+static CAssertDisable *g_pAssertDisables = nullptr;
 
 #if ( defined( _WIN32 ) && !defined( _X360 ) )
 static int g_iLastLineRange = 5;
@@ -109,25 +109,25 @@ BOOL WINAPI DllMain(
 
 static bool IsDebugBreakEnabled()
 {
-	static bool bResult = ( _tcsstr( Plat_GetCommandLine(), _T("-debugbreak") ) != NULL );
+	static bool bResult = ( _tcsstr( Plat_GetCommandLine(), _T("-debugbreak") ) != nullptr);
 	return bResult;
 }
 
 static bool AssertStack()
 {
-	static bool bResult = ( _tcsstr( Plat_GetCommandLine(), _T("-assertstack") ) != NULL );
+	static bool bResult = ( _tcsstr( Plat_GetCommandLine(), _T("-assertstack") ) != nullptr);
 	return bResult;
 }
 
 static bool AreAssertsDisabled()
 {
-	static bool bResult = ( _tcsstr( Plat_GetCommandLine(), _T("-noassert") ) != NULL );
+	static bool bResult = ( _tcsstr( Plat_GetCommandLine(), _T("-noassert") ) != nullptr);
 	return bResult || g_bDisableAsserts;
 }
 
 static bool AllAssertOnce()
 {
-	static bool bResult = ( _tcsstr( Plat_GetCommandLine(), _T("-assertonce") ) != NULL );
+	static bool bResult = ( _tcsstr( Plat_GetCommandLine(), _T("-assertonce") ) != nullptr);
 	return bResult;
 }
 
@@ -351,7 +351,7 @@ static BOOL CALLBACK ParentWindowEnumProc(
 static HWND FindLikelyParentWindow()
 {
 	// Enumerate top-level windows and take the first visible one with our processID.
-	g_hBestParentWindow = NULL;
+	g_hBestParentWindow = nullptr;
 	EnumWindows( ParentWindowEnumProc, GetCurrentProcessId() );
 	return g_hBestParentWindow;
 }
@@ -400,7 +400,7 @@ PLATFORM_INTERFACE struct SDL_Window * GetAssertDialogParent()
 
 PLATFORM_INTERFACE bool ShouldUseNewAssertDialog()
 {
-	static bool bMPIWorker = ( _tcsstr( Plat_GetCommandLine(), _T("-mpi_worker") ) != NULL );
+	static bool bMPIWorker = ( _tcsstr( Plat_GetCommandLine(), _T("-mpi_worker") ) != nullptr);
 	if ( bMPIWorker )
 	{
 		return false;
@@ -577,7 +577,7 @@ PLATFORM_INTERFACE bool DoNewAssertDialog( const tchar *pFilename, int line, con
 
 if ( !g_hTier0Instance || !ThreadInMainThread() )
 {
-	int result = MessageBox( NULL,  pExpression, "Assertion Failed", MB_SYSTEMMODAL | MB_CANCELTRYCONTINUE );
+	int result = MessageBox(nullptr,  pExpression, "Assertion Failed", MB_SYSTEMMODAL | MB_CANCELTRYCONTINUE );
 
 	if ( result == IDCANCEL )
 	{

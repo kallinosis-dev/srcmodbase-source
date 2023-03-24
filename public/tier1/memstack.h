@@ -108,7 +108,7 @@ FORCEINLINE void *CMemoryStack::Alloc( unsigned bytes, bool bClear ) RESTRICT
 	{
 		if ( !CommitTo( pNextAlloc ) )
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 

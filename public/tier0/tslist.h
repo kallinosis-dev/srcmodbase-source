@@ -275,7 +275,7 @@ public:
 		{
 			oldHead.value64x128 = m_Head.value64x128;
 			if ( !oldHead.value.Next )
-				return NULL;
+				return nullptr;
 
 			newHead.value.Next = oldHead.value.Next->Next;
 			newHead.value32.DepthAndSequence = oldHead.value32.DepthAndSequence - 1;
@@ -316,9 +316,9 @@ public:
 
 			oldHead.value64x128 = m_Head.value64x128;
 			if ( !oldHead.value.Next )
-				return NULL;
+				return nullptr;
 
-			newHead.value.Next = NULL;
+			newHead.value.Next = nullptr;
 			// <sergiy> the reason for AND'ing it instead of poking a short into memory 
 			//          is probably to avoid store forward issues, but I'm not sure because
 			//          I didn't construct this code. In any case, leaving it as is on big-endian
@@ -390,7 +390,7 @@ public:
 
 	void Purge()
 	{
-		simpleTSPoolStruct_t *pNode = NULL;
+		simpleTSPoolStruct_t *pNode = nullptr;
 		while ( 1 )
 		{
 			pNode = (simpleTSPoolStruct_t *)CTSListBase::Pop();
@@ -658,7 +658,7 @@ private:
 	// These ain't gonna work
 	static void * operator new[]( size_t size ) throw()
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	static void operator delete []( void *p )
@@ -931,7 +931,7 @@ public:
 			if ( head.value.pNode == *pTailNode )
 			{
 				if ( pNext == End() )
-					return NULL;
+					return nullptr;
 
 				// Another thread is trying to push, help it along
 				NodeLink_t &oldTail = head; // just reuse local memory for head to build old tail

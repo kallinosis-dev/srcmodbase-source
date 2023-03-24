@@ -120,9 +120,9 @@ public:
 
 		m_queue.PushItem( NULL );
 
-		CFunctor *pFunctor = NULL;
+		CFunctor *pFunctor = nullptr;
 
-		while ( m_queue.PopItem( &pFunctor ) && pFunctor != NULL )
+		while ( m_queue.PopItem( &pFunctor ) && pFunctor != nullptr)
 		{
 #ifdef _DEBUG
 			if ( pFunctor->m_nUserID == m_nBreakSerialNumber)
@@ -136,7 +136,7 @@ public:
 
 	}
 
-	void ParallelCallQueued( IThreadPool *pPool = NULL )
+	void ParallelCallQueued( IThreadPool *pPool = nullptr)
 	{
 		if ( ! pPool ) 
 		{
@@ -155,7 +155,7 @@ public:
 		}
 		else
 		{
-			int *pDummy = NULL;
+			int *pDummy = nullptr;
 			ParallelProcess( pPool, pDummy, nNumThreads, this, &CCallQueueT<>::ExecuteWrapper );
 		}
 	}
@@ -172,7 +172,7 @@ public:
 
 		CFunctor *pFunctor;
 
-		while ( m_queue.PopItem( &pFunctor ) && pFunctor != NULL )
+		while ( m_queue.PopItem( &pFunctor ) && pFunctor != nullptr)
 		{
 			pFunctor->Release();
 		}

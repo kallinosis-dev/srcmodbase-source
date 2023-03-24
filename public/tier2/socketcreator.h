@@ -36,7 +36,7 @@ public:
 class CSocketCreator 
 {
 public:
-	CSocketCreator( ISocketCreatorListener *pListener = NULL );
+	CSocketCreator( ISocketCreatorListener *pListener = nullptr);
 	~CSocketCreator();
 
 	// Call this once per frame

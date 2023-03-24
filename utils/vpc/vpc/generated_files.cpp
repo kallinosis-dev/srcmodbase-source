@@ -11,10 +11,10 @@
 //-----------------------------------------------------------------------------
 
 CSourceFileInfo::CSourceFileInfo( int folderIndex )
- :	m_pSourceFile( NULL ),
-	m_pDebugCompiledFile( NULL ),
-	m_pReleaseCompiledFile( NULL ),
-	m_pContainingUnityFile( NULL ),
+ :	m_pSourceFile(nullptr),
+	m_pDebugCompiledFile(nullptr),
+	m_pReleaseCompiledFile(nullptr),
+	m_pContainingUnityFile(nullptr),
 	m_ConfigStringCRC( 0 ),
 	m_bCreatesPCH( false ),
 	m_iFolderIndex( folderIndex )
@@ -34,9 +34,9 @@ bool VPC_GeneratedFiles_CreateFileConfigString( CSourceFileInfo &fileInfo, const
 		fileInfo.m_ConfigString += " ";
 
 		// Look for configs with compiler properties
-		CProjectConfiguration *pFileConfig = NULL;
+		CProjectConfiguration *pFileConfig = nullptr;
 		pCompiledFile->GetConfiguration( rootConfigs[i]->m_Name.Get(), &pFileConfig );
-		CCompilerTool *pCompilerTool = pFileConfig ? pFileConfig->GetCompilerTool() : NULL;
+		CCompilerTool *pCompilerTool = pFileConfig ? pFileConfig->GetCompilerTool() : nullptr;
 		if ( !pCompilerTool || pCompilerTool->m_PropertyStates.m_Properties.IsEmpty() )
 			continue;
 
@@ -123,7 +123,7 @@ bool VPC_GeneratedFiles_GetSourceFileInfo(	CSourceFileInfo &fileInfo, CProjectFi
 	}
 
 	// Ignore missing input files (the output files may be missing though, if they're dynamic)
-	if ( !Sys_Exists( pFile->m_Name.AbsPath( NULL /*, k_bVPCForceLowerCase*/ ).Get() ) )
+	if ( !Sys_Exists( pFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ ).Get() ) )
 		return false;
 
 	if ( !fileInfo.m_pDebugCompiledFile || !fileInfo.m_pReleaseCompiledFile )
@@ -133,7 +133,7 @@ bool VPC_GeneratedFiles_GetSourceFileInfo(	CSourceFileInfo &fileInfo, CProjectFi
 	}
 
 	// Determine the containing unity file, if any
-	fileInfo.m_pContainingUnityFile = VPC_Unity_GetContainingUnityFile( pFile, NULL, pDataCollector );
+	fileInfo.m_pContainingUnityFile = VPC_Unity_GetContainingUnityFile( pFile, nullptr, pDataCollector );
 
 	// Determine which PCH this file uses, and whether it is responsible for building the PCH file
 	if ( !VPC_GeneratedFiles_GetPCHInfo( fileInfo, rootConfigs ) )
@@ -161,10 +161,10 @@ void VPC_GeneratedFiles_ProcessFolder( CProjectFolder *pFolder, CVCProjGenerator
 		if ( !VPC_GeneratedFiles_GetSourceFileInfo( fileInfo, pFile, true, pDataCollector, rootConfigs ) )
 			continue;
 
-		CUtlString absSourceFilePath	= fileInfo.m_pSourceFile->m_Name.AbsPath( NULL /*, k_bVPCForceLowerCase*/ );
-		CUtlString absDebugOutputPath	= fileInfo.m_pDebugCompiledFile->m_Name.AbsPath( NULL /*, k_bVPCForceLowerCase*/ );
-		CUtlString absReleaseOutputPath	= fileInfo.m_pReleaseCompiledFile->m_Name.AbsPath( NULL /*, k_bVPCForceLowerCase*/ );
-		CUtlString absUnityFilePath		= fileInfo.m_pContainingUnityFile ? fileInfo.m_pContainingUnityFile->m_Name.AbsPath( NULL /*, k_bVPCForceLowerCase*/ ) : "";
+		CUtlString absSourceFilePath	= fileInfo.m_pSourceFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ );
+		CUtlString absDebugOutputPath	= fileInfo.m_pDebugCompiledFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ );
+		CUtlString absReleaseOutputPath	= fileInfo.m_pReleaseCompiledFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ );
+		CUtlString absUnityFilePath		= fileInfo.m_pContainingUnityFile ? fileInfo.m_pContainingUnityFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ ) : "";
 
 		manifestFile.Printf( "%-24s%s\n", "Source file:",			absSourceFilePath.Get() );
 		manifestFile.Printf( "%-24s%s\n", "Debug output file:",		absDebugOutputPath.Get() );
@@ -218,5 +218,5 @@ void VPC_GeneratedFiles_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 	CProjectFolder *pVPCFolder;
 	if ( !pRootFolder->GetFolder( "VPC Scripts", &pVPCFolder ) )
 		g_pVPC->VPCError( "VPC_GeneratedFiles_OnParseProjectEnd: cannot find 'VPC Scripts' folder!" );
-	pDataCollector->AddFileToFolder( manifestName.Get(), pVPCFolder, true, VPC_FILE_FLAGS_DYNAMIC, NULL );
+	pDataCollector->AddFileToFolder( manifestName.Get(), pVPCFolder, true, VPC_FILE_FLAGS_DYNAMIC, nullptr);
 }

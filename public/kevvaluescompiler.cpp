@@ -42,7 +42,7 @@ void CCompiledKeyValuesWriter::BuildKVData_R( KeyValues *kv, int parent )
 	info.key = m_StringTable.AddString( kv->GetName() );
 	info.value = m_StringTable.AddString( kv->GetString() );
 
-	info.SetSubTree( kv->GetFirstSubKey() != NULL ? true : false );
+	info.SetSubTree( kv->GetFirstSubKey() != nullptr ? true : false );
 	info.SetParent( parent );
 
 	int newParent = m_Data.AddToTail( info );
@@ -178,7 +178,7 @@ void CCompiledKeyValuesWriter::WriteFile( char const *outfile )
 	WriteData( buf );
 	WriteFiles( buf );
 
-	g_pFullFileSystem->WriteFile( outfile, NULL, buf );
+	g_pFullFileSystem->WriteFile( outfile, nullptr, buf );
 }
 
 CCompiledKeyValuesReader::CCompiledKeyValuesReader()
@@ -214,7 +214,7 @@ bool CCompiledKeyValuesReader::LoadFile( char const *filename )
 	int i;
 	m_LoadBuffer.Purge();
 
-	g_pFullFileSystem->ReadFile( filename, NULL, m_LoadBuffer );
+	g_pFullFileSystem->ReadFile( filename, nullptr, m_LoadBuffer );
 
 	KVHeader_t header;
 	m_LoadBuffer.Get( &header, sizeof( header ) );
@@ -285,7 +285,7 @@ KeyValues *CCompiledKeyValuesReader::CreateFromData( const FileInfo_t& info )
 	else
 	{
 		head->deleteThis();
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -294,8 +294,8 @@ bool CCompiledKeyValuesReader::CreateInPlaceFromData( KeyValues& head, const Fil
 	int first = info.nFirstIndex;
 	int num = info.nCount;
 
-	KeyValues *root = NULL;
-	KeyValues *tail = NULL;
+	KeyValues *root = nullptr;
+	KeyValues *tail = nullptr;
 
 	CUtlRBTree< CreateHelper_t, int >	helper( 0, 0, CreateHelper_t::Less );
 
@@ -339,7 +339,7 @@ bool CCompiledKeyValuesReader::CreateInPlaceFromData( KeyValues& head, const Fil
 			CreateHelper_t insert;
 			insert.index = offset;
 			insert.kv = sub;
-			insert.tail = NULL;
+			insert.tail = nullptr;
 			helper.Insert( insert );
 		}
 		else
@@ -353,7 +353,7 @@ bool CCompiledKeyValuesReader::CreateInPlaceFromData( KeyValues& head, const Fil
 				CreateHelper_t insert;
 				insert.index = offset;
 				insert.kv = root;
-				insert.tail = NULL;
+				insert.tail = nullptr;
 				helper.Insert( insert );
 			}
 			else
@@ -361,7 +361,7 @@ bool CCompiledKeyValuesReader::CreateInPlaceFromData( KeyValues& head, const Fil
 				CreateHelper_t insert;
 				insert.index = offset;
 				insert.kv = new KeyValues( m_StringTable.Lookup( info.key ) );
-				insert.tail = NULL;
+				insert.tail = nullptr;
 				helper.Insert( insert );
 
 				tail->SetNextKey( insert.kv );
@@ -405,7 +405,7 @@ KeyValues *CCompiledKeyValuesReader::Instance( char const *kvfilename )
 	int idx = m_Dict.Find( search );
 	if ( idx == m_Dict.InvalidIndex() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	const FileInfo_t& info = m_Dict[ idx ];

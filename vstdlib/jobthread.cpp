@@ -94,7 +94,7 @@ public:
 				return pOverflowJob;
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	int Push( CJob *pJob, int iThread = -1 )
@@ -103,7 +103,7 @@ public:
 
 		CJob *pOverflowJob;
 		int nOverflow = 0;
-		while ( ( pOverflowJob = PrePush() ) != NULL )
+		while ( ( pOverflowJob = PrePush() ) != nullptr)
 		{
 			ServiceJobAndRelease( pJob );
 			nOverflow++;
@@ -127,7 +127,7 @@ public:
 		if ( !m_nItems )
 		{
 			m_mutex.Unlock();
-			*ppJob = NULL;
+			*ppJob = nullptr;
 			return false;
 		}
 		if ( --m_nItems == 0 )
@@ -154,7 +154,7 @@ public:
 		}
 		m_mutex.Unlock();
 
-		*ppJob = NULL;
+		*ppJob = nullptr;
 		return false;
 	}
 
@@ -169,7 +169,7 @@ public:
 		m_mutex.Lock();
 		m_nItems = 0;
 		m_JobAvailableEvent.Reset();
-		CJob *pJob = NULL;
+		CJob *pJob = nullptr;
 		for ( int i = JP_NUM_PRIORITIES - 1; i >= 0; --i )
 		{
 			while ( m_queues[i].PopItem( &pJob ) )
@@ -211,10 +211,10 @@ public:
 	//-----------------------------------------------------
 	// Thread functions
 	//-----------------------------------------------------
-	bool Start( const ThreadPoolStartParams_t &startParams = ThreadPoolStartParams_t() ) override { return Start( startParams, NULL ); }
+	bool Start( const ThreadPoolStartParams_t &startParams = ThreadPoolStartParams_t() ) override { return Start( startParams, nullptr); }
 	bool Start( const ThreadPoolStartParams_t &startParams, const char *pszNameOverride ) override;
 	bool Stop( int timeout = TT_INFINITE ) override;
-	void Distribute( bool bDistribute = true, int *pAffinityTable = NULL ) override;
+	void Distribute( bool bDistribute = true, int *pAffinityTable = nullptr) override;
 
 	//-----------------------------------------------------
 	// Functions for any thread
@@ -247,7 +247,7 @@ public:
 	//-----------------------------------------------------
 	// Add an function object to the queue (master thread)
 	//-----------------------------------------------------
-	void AddFunctorInternal( CFunctor *, CJob ** = NULL, const char *pszDescription = NULL, unsigned flags = 0 ) override;
+	void AddFunctorInternal( CFunctor *, CJob ** = nullptr, const char *pszDescription = nullptr, unsigned flags = 0 ) override;
 
 	//-----------------------------------------------------
 	// Remove a job from the queue (master thread)
@@ -257,7 +257,7 @@ public:
 	//-----------------------------------------------------
 	// Bulk job manipulation (blocking)
 	//-----------------------------------------------------
-	int ExecuteToPriority( JobPriority_t toPriority, JobFilter_t pfnFilter = NULL  ) override;
+	int ExecuteToPriority( JobPriority_t toPriority, JobFilter_t pfnFilter = nullptr) override;
 	int AbortAll() override;
 
 private:
@@ -930,7 +930,7 @@ int CThreadPool::ExecuteToPriority( JobPriority_t iToPriority, JobFilter_t pfnFi
 			handles.AddToTail( &m_Threads[i]->GetIdleEvent() );
 		}
 
-		CJob *pJob = NULL;
+		CJob *pJob = nullptr;
 		do
 		{
 			YieldWait( (CThreadEvent **)handles.Base(), handles.Count(), true, TT_INFINITE );
@@ -1097,7 +1097,7 @@ bool CThreadPool::Start( const ThreadPoolStartParams_t &startParams, const char 
 		ThreadSetPriority( (ThreadHandle_t)m_Threads[iThread]->GetThreadHandle(), priority );
 	}
 
-	Distribute( bDistribute, startParams.bUseAffinityTable ? (int *)startParams.iAffinityTable : NULL );
+	Distribute( bDistribute, startParams.bUseAffinityTable ? (int *)startParams.iAffinityTable : nullptr);
 
 	return true;
 }

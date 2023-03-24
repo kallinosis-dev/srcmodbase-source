@@ -155,11 +155,11 @@ public:
 
 CVPC::CVPC()
 {
-	m_pP4Module = NULL;
-	m_pFilesystemModule = NULL;
+	m_pP4Module = nullptr;
+	m_pFilesystemModule = nullptr;
 
 	m_nArgc = 0;
-	m_ppArgv = NULL;
+	m_ppArgv = nullptr;
 
 	m_bVerbose = false;
 	m_bQuiet = false;
@@ -227,9 +227,9 @@ CVPC::CVPC()
 	m_bAppendSrvToDedicated = false;
 	m_bUseValveBinDir = false;
 
-	m_pProjectGenerator = NULL;
-	m_pSolutionGenerator = NULL;
-	m_pSolutionGenerator2 = NULL;
+	m_pProjectGenerator = nullptr;
+	m_pSolutionGenerator = nullptr;
+	m_pSolutionGenerator2 = nullptr;
 
     m_TempStringBuffer1.EnsureCapacity( 100000 );
     m_TempStringBuffer2.EnsureCapacity( 100000 );
@@ -369,7 +369,7 @@ bool CVPC::LoadPerforceInterface()
 	
 #define DLLSUBDIRPATH	"."
 
-	GetModuleFileName( NULL, szModuleBinPath, sizeof( szModuleBinPath ) );
+	GetModuleFileName(nullptr, szModuleBinPath, sizeof( szModuleBinPath ) );
 	V_ExtractFilePath( szModuleBinPath, dllsPath, sizeof( dllsPath ) );
 	V_strncat( dllsPath, DLLSUBDIRPATH, sizeof( dllsPath ) );
 
@@ -431,7 +431,7 @@ void CVPC::UnloadPerforceInterface()
 bool VPC_Config_IgnoreOption( const char *pPropertyName )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf );
+	g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf );
 	return true;
 }
 
@@ -700,7 +700,7 @@ bool CVPC::CheckBinPath( char *pOutBinPath, int outBinPathSize )
 	// check to ensure that executeable and src directory are in the same tree
 	// executeable needs to be tightly bound to its vpc_scripts
 	char szModuleBinPath[MAX_FIXED_PATH];
-	GetModuleFileName( NULL, szModuleBinPath, sizeof( szModuleBinPath ) );
+	GetModuleFileName(nullptr, szModuleBinPath, sizeof( szModuleBinPath ) );
 
 	// cannot trust output from GetModuleFileName(), occasionally has ./ or ../ screwing up comparisons
 	V_RemoveDotSlashes( szModuleBinPath, '\\' );
@@ -1912,7 +1912,7 @@ bool CVPC::RestartFromCorrectLocation( bool *pIsChild )
 			newArgs[i] = m_ppArgv[i];
 		}
 		newArgs[i++] = "/restart";
-		newArgs[i++] = NULL;
+		newArgs[i++] = nullptr;
 
 		// restart using synchronous semantic, async semantic causes wierd hang
 		int status = _spawnv( _P_WAIT, szBinPath, newArgs );
@@ -2115,7 +2115,7 @@ bool CVPC::BuildTargetProject( IProjectIterator *pIterator, projectIndex_t proje
 
 	// win32 projects are the most prevalent, so by popular demand they have no decoration
 	// all other platforms use their platform name as a suffix
-	const char *pPlatformName = NULL;
+	const char *pPlatformName = nullptr;
 	if ( !IsPlatformDefined( "win32" ) )
 	{
 		pPlatformName = GetTargetPlatformName();
@@ -2198,7 +2198,7 @@ void CVPC::IterateTargetProjects( CUtlVector<projectIndex_t> &projectList, IProj
 			if ( !bHasGameCondition )
 			{
 				// no game condition
-				BuildTargetProject( pIterator, projectList[nProject], pProjectScript, NULL );
+				BuildTargetProject( pIterator, projectList[nProject], pProjectScript, nullptr);
 			}
 			else
 			{
@@ -2399,7 +2399,7 @@ void CVPC::FindProjectFromVCPROJ( const char *pScriptNameVCProj, int nMainArgc, 
 void CVPC::SetMacrosAndConditionals()
 {
 	// Find the target platform.
-	conditional_t *pPlatformConditional = NULL;
+	conditional_t *pPlatformConditional = nullptr;
 	for ( int i = 0; i < m_Conditionals.Count(); i++ )
 	{
 		if ( m_Conditionals[i]->m_Type == CONDITIONAL_PLATFORM && m_Conditionals[i]->m_bDefined )
@@ -3447,8 +3447,8 @@ int CVPC::ProcessCommandLine()
 	bool bScriptIsVPC = false;
 	bool bScriptIsVCProj = false;
 	bool bHasBuildCommand = false;
-	const char *pScriptName = NULL;
-	const char *pScriptNameVCProj = NULL;
+	const char *pScriptName = nullptr;
+	const char *pScriptNameVCProj = nullptr;
 
 	for ( int i = 1; i < m_nArgc; i++ )
 	{
@@ -3617,7 +3617,7 @@ int vpcmain( int argc, char **argv )
 
 	int nRetVal = g_pVPC->ProcessCommandLine();
 	delete g_pVPC;	
-	g_pVPC = NULL;
+	g_pVPC = nullptr;
 
 	return nRetVal;
 }

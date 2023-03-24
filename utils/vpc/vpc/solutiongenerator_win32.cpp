@@ -38,7 +38,7 @@ public:
 		{
 			pProjectExt = "vcxproj";
 		}
-		if ( pExt == NULL ||
+		if ( pExt == nullptr ||
 			V_stricmp_fast( pExt, "mak" ) == 0 )
 		{
 			pUpdateBuffer->Set( pProjectFilename, ".", pProjectExt );
@@ -184,8 +184,8 @@ public:
 			{
 				fprintf( fp, "Project(\"%s\") = \"%s\", \"%s\", \"{%s}\"\n", SolutionGUID, pCurProject->GetName(), szRelativeFilename, pCurProject->GetProjectGUIDString() );
 			}
-			bool bHasDependencies = false;
 
+			bool bHasDependencies = false;
 			for ( int iTestProject=0; iTestProject < projects.Count(); iTestProject++ )
 			{
 				if ( i == iTestProject )
@@ -347,7 +347,7 @@ public:
 
 			fullPath.FixSlashesAndDotSlashes();
 
-			if ( V_strstr( fullPath, "*" ) != NULL )
+			if ( V_strstr( fullPath, "*" ) != nullptr)
 			{
 				// wildcard!
 				CUtlPathStringHolder wildcardPath( fullPath );
@@ -514,13 +514,13 @@ public:
 			if ( solutionFolderNames[x].GetExtension().IsEmpty() )
 			{
 				//No search pattern provided, assume "*.*" (all files)
-				strAbsPath = solutionFolderNames[x].AbsPath( NULL, k_bVPCForceLowerCase );
+				strAbsPath = solutionFolderNames[x].AbsPath(nullptr, k_bVPCForceLowerCase );
 				strSearchPattern = "*.*";
 			}
 			else
 			{
 				//Separate the path and search pattern
-				strAbsPath = solutionFolderNames[x].StripFilename().AbsPath( NULL, k_bVPCForceLowerCase );
+				strAbsPath = solutionFolderNames[x].StripFilename().AbsPath(nullptr, k_bVPCForceLowerCase );
 				strSearchPattern = solutionFolderNames[x].UnqualifiedFilename();
 			}
 

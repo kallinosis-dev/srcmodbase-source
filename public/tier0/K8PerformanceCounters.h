@@ -116,7 +116,7 @@ public:
 
         m_eventMask = 0;
         event_id = 0;
-        name = 0;
+        name = nullptr;
         revRequired = 'A'; 
 
 

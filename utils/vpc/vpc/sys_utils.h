@@ -153,7 +153,7 @@ class CUtlStringHolder
 public:
     CUtlStringHolder()
     {
-        Set( NULL, 0 );
+        Set(nullptr, 0 );
     }
     CUtlStringHolder( const char *pStr, int nChars = -1 )
     {
@@ -439,7 +439,7 @@ public:
         int nFullLen = V_strlen( pFullFilename );
 		if ( !V_ExtractFilePath( pFullFilename, GetBufferForModify( nFullLen ), nFullLen + 1 ) )
         {
-            return NULL;
+            return nullptr;
         }
         return Get();
     }
@@ -526,12 +526,12 @@ public:
 
     bool HasAnySplit() const
     {
-        return strchr( m_pScan, m_splitChar ) != NULL;
+        return strchr( m_pScan, m_splitChar ) != nullptr;
     }
     
     bool HasNext() const
     {
-        return m_pScan != NULL;
+        return m_pScan != nullptr;
     }
     char *GetNext()
     {

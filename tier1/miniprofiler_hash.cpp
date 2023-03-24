@@ -33,6 +33,6 @@ CLinkedMiniProfiler *HashMiniProfilerF( const char *pFormat, ... )
 #else
 CMiniProfiler *HashMiniProfiler( const char *pString )
 {
-	return NULL;
+	return nullptr;
 }
 #endif

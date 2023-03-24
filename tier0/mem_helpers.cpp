@@ -160,7 +160,7 @@ size_t CalcHeapUsed()
 	intp			nTotal;
 
 	nTotal = 0;
-	hinfo._pentry = NULL;
+	hinfo._pentry = nullptr;
 	while( ( heapstatus = _heapwalk( &hinfo ) ) == _HEAPOK )
 	{
 		nTotal += (hinfo._useflag == _USEDENTRY) ? hinfo._size : 0;

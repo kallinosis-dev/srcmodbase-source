@@ -91,13 +91,13 @@ public:
 	inline void PostEvent( EventId_t nEventId )
 	{
 		CFunctorData *pData = CreateFunctorData( );
-		PostEventInternal( nEventId, EVENT_QUEUE_HANDLE_INVALID, NULL, pData );
+		PostEventInternal( nEventId, EVENT_QUEUE_HANDLE_INVALID, nullptr, pData );
 	}
 
 	inline void PostEvent( EventId_t nEventId, EventQueue_t hQueue )
 	{
 		CFunctorData *pData = CreateFunctorData( );
-		PostEventInternal( nEventId, hQueue, NULL, pData );
+		PostEventInternal( nEventId, hQueue, nullptr, pData );
 	}
 
 	inline void PostEventToListener( EventId_t nEventId, const void *pListener )

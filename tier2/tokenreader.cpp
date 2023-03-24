@@ -36,7 +36,7 @@ TokenReader::TokenReader(void)
 //-----------------------------------------------------------------------------
 bool TokenReader::Open(const char *pszFilename)
 {
-	m_file.Open( pszFilename, NULL, CUtlBuffer::READ_ONLY );
+	m_file.Open( pszFilename, nullptr, CUtlBuffer::READ_ONLY );
 	Q_strncpy(m_szFilename, pszFilename, sizeof( m_szFilename ) );
 	m_nLine = 1;
 	m_nErrorCount = 0;
@@ -95,8 +95,8 @@ trtoken_t TokenReader::GetString(char *pszStore, int nSize)
 		//
 		int writePos = 0;
 		
-		const char *pToken = NULL;
-		while ( NULL != (pToken = (const char *)m_file.PeekGet( sizeof(char), 0 ))  )
+		const char *pToken = nullptr;
+		while (nullptr != (pToken = (const char *)m_file.PeekGet( sizeof(char), 0 ))  )
 		{
 			if ( pToken[0] == '\"' )
 				break;

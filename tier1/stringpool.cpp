@@ -60,7 +60,7 @@ const char * CStringPool::Find( const char *pszValue )
 	if ( m_Strings.IsValidIndex(i) )
 		return m_Strings[i];
 
-	return NULL;
+	return nullptr;
 }
 
 const char * CStringPool::Allocate( const char *pszValue )

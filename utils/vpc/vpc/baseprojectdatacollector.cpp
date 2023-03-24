@@ -33,12 +33,12 @@ const char* CSpecificConfig::GetConfigName()
 
 const char* CSpecificConfig::GetOption( const char *pOptionName, const char *pDefaultValue /*= nullptr*/ )
 {
-	const char *pRet = m_pKV->GetString( pOptionName, NULL );
+	const char *pRet = m_pKV->GetString( pOptionName, nullptr);
 	if ( pRet )
 		return pRet;
 
 	if ( m_pParentConfig )
-		return m_pParentConfig->m_pKV->GetString( pOptionName, NULL );
+		return m_pParentConfig->m_pKV->GetString( pOptionName, nullptr);
 
 	return pDefaultValue;
 }
@@ -68,7 +68,7 @@ CSpecificConfig* CFileConfig::GetConfig( const char *pConfigName )
 {
 	int i = m_Configurations.Find( pConfigName );
 	if ( i == m_Configurations.InvalidIndex() )
-		return NULL;
+		return nullptr;
 	else
 		return m_Configurations[i];
 }
@@ -106,7 +106,7 @@ CBaseProjectDataCollector::CBaseProjectDataCollector( CRelevantPropertyNames *pN
 	m_Files( k_eDictCompareTypeFilenames )
 {
 	m_RelevantPropertyNames.m_nNames = 0;
-	m_RelevantPropertyNames.m_pNames = NULL;
+	m_RelevantPropertyNames.m_pNames = nullptr;
 
 	if ( pNames )
 	{
@@ -123,7 +123,7 @@ void CBaseProjectDataCollector::StartProject()
 {
 	m_ProjectName = "UNNAMED";
 	m_CurFileConfig.Push( &m_BaseConfigData );
-	m_CurSpecificConfig.Push( NULL );
+	m_CurSpecificConfig.Push(nullptr);
 
 	// TODO: none of these support non-WIN32 platforms yet (this code emits the appropriate warnings)
 	g_pVPC->ShouldEmitClangProject();
@@ -187,7 +187,7 @@ void CBaseProjectDataCollector::StartConfigurationBlock( const char *pConfigName
 	int index = pFileConfig->m_Configurations.Find( lowerCaseConfigName );
 	if ( index == -1 )
 	{
-		CSpecificConfig *pParent = ( pFileConfig==&m_BaseConfigData ? NULL : m_BaseConfigData.GetOrCreateConfig( lowerCaseConfigName, NULL ) );
+		CSpecificConfig *pParent = ( pFileConfig==&m_BaseConfigData ? nullptr : m_BaseConfigData.GetOrCreateConfig( lowerCaseConfigName, nullptr) );
 
 		CSpecificConfig *pConfig = new CSpecificConfig( pParent );
 		pConfig->m_bFileExcluded = false;
@@ -286,7 +286,7 @@ bool CBaseProjectDataCollector::StartFile( const char *pFilename, VpcFileFlags_t
 	}
 
 	m_CurFileConfig.Push( pFileConfig );
-	m_CurSpecificConfig.Push( NULL );
+	m_CurSpecificConfig.Push(nullptr);
 
 	char szFullPath[MAX_FIXED_PATH];
 

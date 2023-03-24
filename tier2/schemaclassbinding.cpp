@@ -25,7 +25,7 @@ void CSchemaClassBindingBase::Install()
 
 const CResourceStructIntrospection *CSchemaClassBindingBase::GetIntrospection() const
 {
-	if ( m_pIntrospection == NULL )
+	if ( m_pIntrospection == nullptr)
 	{
 		m_pIntrospection = g_pResourceSystem->FindStructIntrospection( m_pClassName );
 	}

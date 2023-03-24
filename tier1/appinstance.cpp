@@ -57,10 +57,10 @@
 CSingleAppInstance::CSingleAppInstance( tchar* InstanceName, bool exitOnNotUnique, bool displayMsgIfNotUnique )
 {
 	// defaults for non-Windows builds
-	m_hMutex = NULL;
+	m_hMutex = nullptr;
 	m_isUniqueInstance = true;
 	
-	if ( InstanceName == NULL || V_strlen( InstanceName ) == 0 || V_strlen( InstanceName ) >= MAX_PATH )
+	if ( InstanceName == nullptr || V_strlen( InstanceName ) == 0 || V_strlen( InstanceName ) >= MAX_PATH )
 	{
 		Assert( false );
 		return;
@@ -71,7 +71,7 @@ CSingleAppInstance::CSingleAppInstance( tchar* InstanceName, bool exitOnNotUniqu
 	if ( IsPlatformWindows() )
 	{
 		// don't allow more than one instance to run
-		m_hMutex = ::CreateMutex( NULL, FALSE, InstanceName );
+		m_hMutex = ::CreateMutex(nullptr, FALSE, InstanceName );
 
 		unsigned int waitResult = ::WaitForSingleObject( m_hMutex, 0 );
 
@@ -84,7 +84,7 @@ CSingleAppInstance::CSingleAppInstance( tchar* InstanceName, bool exitOnNotUniqu
 
 		// couldn't get the mutex, we must be running another instance
 		::CloseHandle( m_hMutex );
-		m_hMutex = NULL;
+		m_hMutex = nullptr;
 		
 
 		// note that we are not unique, i.e. another instance of this app (or one using the same instance name) is running
@@ -136,7 +136,7 @@ CSingleAppInstance::~CSingleAppInstance()
 	{
 		::ReleaseMutex( m_hMutex );
 		::CloseHandle( m_hMutex );
-		m_hMutex = NULL;
+		m_hMutex = nullptr;
 	}
 #elif defined(OSX)
 	if ( m_hMutex != -1 )
@@ -199,7 +199,7 @@ bool CSingleAppInstance::CheckForRunningInstance( tchar* InstanceName )
 	if ( IsPlatformWindows() )
 	{
 		// don't allow more than one instance to run
-		HANDLE hMutex = ::CreateMutex( NULL, FALSE, InstanceName );
+		HANDLE hMutex = ::CreateMutex(nullptr, FALSE, InstanceName );
 
 		unsigned int waitResult = ::WaitForSingleObject( hMutex, 0 );
 

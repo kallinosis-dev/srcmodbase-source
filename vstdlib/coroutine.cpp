@@ -168,14 +168,14 @@ public:
 
 	CCoroutine()
 	{
-		m_pSavedStack = NULL;
-		m_pStackHigh = m_pStackLow = NULL;
+		m_pSavedStack = nullptr;
+		m_pStackHigh = m_pStackLow = nullptr;
 		m_cubSavedStack = 0;
 		m_nStackId = 0;
-		m_pFunc = NULL;
+		m_pFunc = nullptr;
 		m_pchName = "(none)";
 		m_iJumpCode = 0;
-		m_pchDebugMsg = NULL;
+		m_pchDebugMsg = nullptr;
 #ifdef COROUTINE_TRACE
 		m_hCoroutine = -1;
 #endif
@@ -185,7 +185,7 @@ public:
 		memset( &m_Registers, 0, sizeof( m_Registers ) );
 #endif	
 #if defined( VPROF_ENABLED )
-		m_pVProfNodeScope = NULL;
+		m_pVProfNodeScope = nullptr;
 #endif
 	}
 
@@ -271,12 +271,12 @@ public:
 #if !defined( _PS3 ) || !defined( _DEBUG )
 			FreePv( pThis->m_pSavedStack );
 #endif
-			pThis->m_pSavedStack = NULL;
+			pThis->m_pSavedStack = nullptr;
 
 			// If we were the "main thread", reset our stack pos to zero
-			if ( NULL == pThis->m_pFunc )
+			if (nullptr == pThis->m_pFunc )
 			{
-				pThis->m_pStackLow = pThis->m_pStackHigh = 0;
+				pThis->m_pStackLow = pThis->m_pStackHigh = nullptr;
 			}
 
 			// resume accounting against the vprof node we were in when we yielded
@@ -334,7 +334,7 @@ public:
 			pCurNode = g_VProfCurrentProfile.GetCurrentNode();
 		} 
 
-		m_pVProfNodeScope = NULL;
+		m_pVProfNodeScope = nullptr;
 #endif
 
 		RW_MEMORY_BARRIER;
@@ -423,9 +423,9 @@ public:
 
 		m_ListCoroutines[hCoroutine].m_pFunc = pFunc;
 		m_ListCoroutines[hCoroutine].m_pvParam = pvParam;
-		m_ListCoroutines[hCoroutine].m_pSavedStack = NULL;
+		m_ListCoroutines[hCoroutine].m_pSavedStack = nullptr;
 		m_ListCoroutines[hCoroutine].m_cubSavedStack = 0;
-		m_ListCoroutines[hCoroutine].m_pStackHigh = m_ListCoroutines[hCoroutine].m_pStackLow = NULL;
+		m_ListCoroutines[hCoroutine].m_pStackHigh = m_ListCoroutines[hCoroutine].m_pStackLow = nullptr;
 		m_ListCoroutines[hCoroutine].m_pchName = "(no name set)";
 #ifdef COROUTINE_TRACE
 		m_ListCoroutines[hCoroutine].m_hCoroutine = hCoroutine;
@@ -607,7 +607,7 @@ bool Internal_Coroutine_Continue( HCoroutine hCoroutine, const char *pchDebugMsg
 				// save the main stack from where the coroutine stack wishes to start
 				// if the previous coroutine already had a stack save point, just save
 				// the whole thing.
-				if ( NULL == coroutinePrev.m_pStackHigh )
+				if (nullptr == coroutinePrev.m_pStackHigh )
 				{
 					coroutinePrev.m_pStackHigh = coroutine.m_pStackHigh;
 				}
@@ -636,15 +636,15 @@ bool Internal_Coroutine_Continue( HCoroutine hCoroutine, const char *pchDebugMsg
 
 			// This needs to go right here - after we've maybe padded the stack (so that iJumpCode does not
 			// get stepped on) and before the RestoreStack() call (because that might step on pchDebugMsg!).
-			if ( pchDebugMsg == NULL )
+			if ( pchDebugMsg == nullptr)
 			{					
 				coroutine.m_iJumpCode = k_iSetJmpContinue;
-				coroutine.m_pchDebugMsg = NULL;
+				coroutine.m_pchDebugMsg = nullptr;
 			}
 			else if ( pchDebugMsg == k_pchDebugMsg_GenericBreak )
 			{
 				coroutine.m_iJumpCode = k_iSetJmpDbgBreak;
-				coroutine.m_pchDebugMsg = NULL;
+				coroutine.m_pchDebugMsg = nullptr;
 			}
 			else
 			{
@@ -700,7 +700,7 @@ bool Internal_Coroutine_Continue( HCoroutine hCoroutine, const char *pchDebugMsg
 //-----------------------------------------------------------------------------
 bool Coroutine_Continue( HCoroutine hCoroutine, const char *pchName )
 {
-	return Internal_Coroutine_Continue( hCoroutine, NULL, pchName );
+	return Internal_Coroutine_Continue( hCoroutine, nullptr, pchName );
 }
 
 
@@ -769,7 +769,7 @@ void Coroutine_Cancel( HCoroutine hCoroutine )
 //-----------------------------------------------------------------------------
 void Coroutine_DebugBreak( HCoroutine hCoroutine )
 {
-	Internal_Coroutine_Continue( hCoroutine, k_pchDebugMsg_GenericBreak, NULL );
+	Internal_Coroutine_Continue( hCoroutine, k_pchDebugMsg_GenericBreak, nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -779,7 +779,7 @@ void Coroutine_DebugBreak( HCoroutine hCoroutine )
 void Coroutine_DebugAssert( HCoroutine hCoroutine, const char *pchMsg )
 {
 	Assert( pchMsg );
-	Internal_Coroutine_Continue( hCoroutine, pchMsg, NULL );
+	Internal_Coroutine_Continue( hCoroutine, pchMsg, nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -853,7 +853,7 @@ void Coroutine_YieldToMain()
 		}
 
 		// Clear message, regardless
-		coroutine.m_pchDebugMsg = NULL;
+		coroutine.m_pchDebugMsg = nullptr;
 
 		// save our stack - all the way to the top, err bottom err, the end of it ( where esp is )
 		coroutine.SaveStack();

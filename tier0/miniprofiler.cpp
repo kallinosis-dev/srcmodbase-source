@@ -33,7 +33,7 @@ CTHREADLOCALPTR( CMiniProfiler ) s_pLastMiniProfilerTS;
 CMiniProfiler *s_pLastMiniProfilerTS;
 #endif
 
-static CLinkedMiniProfiler *s_pDummyList = NULL;
+static CLinkedMiniProfiler *s_pDummyList = nullptr;
 
 class CRootMiniProfiler : public CLinkedMiniProfiler
 {
@@ -54,8 +54,8 @@ extern "C"
 {
 #endif
 	MINIPROFILER_DLL_LINKAGE CMiniProfiler *g_pRootMiniProfiler = &g_rootMiniProfiler;
-	MINIPROFILER_DLL_LINKAGE CLinkedMiniProfiler *g_pGlobalMiniProfilers = NULL;
-	MINIPROFILER_DLL_LINKAGE CLinkedMiniProfiler *g_pAssertMiniProfilers = NULL;
+	MINIPROFILER_DLL_LINKAGE CLinkedMiniProfiler *g_pGlobalMiniProfilers = nullptr;
+	MINIPROFILER_DLL_LINKAGE CLinkedMiniProfiler *g_pAssertMiniProfilers = nullptr;
 	MINIPROFILER_DLL_LINKAGE CMiniProfiler *g_pLastMiniProfiler = &g_rootMiniProfiler;
 	MINIPROFILER_DLL_LINKAGE uint32 g_nMiniProfilerFrame = 0;
 #if defined( STATIC_LINK ) || defined( _LINUX )

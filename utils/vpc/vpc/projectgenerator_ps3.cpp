@@ -11,7 +11,7 @@
 static PropertyName_t s_PS3PropertyNames[] =
 {
 	#include "projectgenerator_ps3.inc"
-	{ -1, NULL, NULL }
+	{ -1, nullptr, nullptr}
 };
 
 IBaseProjectGenerator* GetPS3ProjectGenerator()
@@ -1184,7 +1184,7 @@ bool CProjectGenerator_PS3::WriteToXML()
 	m_XMLWriter.PushNode( "Configurations" );
 	for ( int i = 0; i < configurationNames.Count(); i++ )
 	{
-		CProjectConfiguration *pConfiguration = NULL;
+		CProjectConfiguration *pConfiguration = nullptr;
 		if ( m_pVCProjGenerator->GetRootConfiguration( configurationNames[i].Get(), &pConfiguration ) )
 		{
 			if ( !WriteConfiguration( pConfiguration ) )

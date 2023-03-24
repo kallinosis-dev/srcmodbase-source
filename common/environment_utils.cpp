@@ -24,13 +24,13 @@
 bool VGetRegistryKeyValue( HKEY baseKey, const char *pSubKey, const char *pValue, char *pOutBuf, int nMaxBuf )
 {
 	DWORD nBufSize = nMaxBuf;
-	HKEY hKey = NULL;
+	HKEY hKey = nullptr;
 	LONG nResult;
 
 	nResult = RegOpenKeyEx( baseKey, pSubKey, NULL, KEY_READ, &hKey );
 	if ( nResult == ERROR_SUCCESS )
 	{
-		nResult = RegQueryValueExA( hKey, pValue, NULL, NULL, (LPBYTE)pOutBuf, &nBufSize);
+		nResult = RegQueryValueExA( hKey, pValue, nullptr, nullptr, (LPBYTE)pOutBuf, &nBufSize);
 		RegCloseKey( hKey );
 		return nResult == ERROR_SUCCESS;
 	}

@@ -28,7 +28,7 @@ const char *GetVCProjTargetPlatformName( const char *szVPCTargetPlatformName )
 static PropertyName_t s_Win32PropertyNames_2010[] =
 {
 	#include "projectgenerator_win32_2010.inc"
-	{ -1, NULL, NULL }
+	{ -1, nullptr, nullptr}
 };
 
 IBaseProjectGenerator* GetWin32ProjectGenerator_2010()
@@ -331,7 +331,7 @@ bool CProjectGenerator_Win32_2010::WritePrimaryXML( const char *pOutputFilename,
 	// write the root configurations
 	for ( int i = 0; i < configurationNames.Count(); i++ )
 	{
-		CProjectConfiguration *pConfiguration = NULL;
+		CProjectConfiguration *pConfiguration = nullptr;
 		if ( m_pVCProjGenerator->GetRootConfiguration( configurationNames[i].Get(), &pConfiguration ) )
 		{
 			if ( !WriteConfiguration( pConfiguration, szPlatformName ) )
@@ -363,7 +363,7 @@ bool CProjectGenerator_Win32_2010::WritePrimaryXML( const char *pOutputFilename,
 	m_XMLWriter.WriteLineNode( "_ProjectFileVersion", "", "10.0.30319.1" );
 	for ( int i = 0; i < configurationNames.Count(); i++ )
 	{
-		CProjectConfiguration *pConfiguration = NULL;
+		CProjectConfiguration *pConfiguration = nullptr;
 		if ( m_pVCProjGenerator->GetRootConfiguration( configurationNames[i].Get(), &pConfiguration ) )
 		{
 			for ( int j = 0; j < pConfiguration->m_PropertyStates.m_PropertiesInOutputOrder.Count(); j++ )
@@ -403,7 +403,7 @@ bool CProjectGenerator_Win32_2010::WritePrimaryXML( const char *pOutputFilename,
 	// write the tool configurations
 	for ( int i = 0; i < configurationNames.Count(); i++ )
 	{
-		CProjectConfiguration *pConfiguration = NULL;
+		CProjectConfiguration *pConfiguration = nullptr;
 		if ( m_pVCProjGenerator->GetRootConfiguration( configurationNames[i].Get(), &pConfiguration ) )
 		{
 			if ( !WriteTools( pConfiguration, szPlatformName ) )
@@ -499,7 +499,7 @@ bool CProjectGenerator_Win32_2010::WriteFolderContentsToSecondaryXML( CProjectFo
 
 	if ( !nDepth )
 	{
-		m_XMLFilterWriter.PushNode( "ItemGroup", NULL );
+		m_XMLFilterWriter.PushNode( "ItemGroup", nullptr);
 	}
 
 	for ( int iIndex = pFolder->m_Files.Head(); iIndex != pFolder->m_Files.InvalidIndex(); iIndex = pFolder->m_Files.Next( iIndex ) )
@@ -530,7 +530,7 @@ bool CProjectGenerator_Win32_2010::WriteSecondaryXML( const char *pOutputFilenam
 	m_XMLFilterWriter.PushNode( "Project", "ToolsVersion=\"4.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\"" );
 
 	// write the root folders
-	m_XMLFilterWriter.PushNode( "ItemGroup", NULL );
+	m_XMLFilterWriter.PushNode( "ItemGroup", nullptr);
 	CProjectFolder *pRootFolder = m_pVCProjGenerator->GetRootFolder();
 	for ( int iIndex = pRootFolder->m_Folders.Head(); iIndex != pRootFolder->m_Folders.InvalidIndex(); iIndex = pRootFolder->m_Folders.Next( iIndex ) )
 	{
@@ -542,7 +542,7 @@ bool CProjectGenerator_Win32_2010::WriteSecondaryXML( const char *pOutputFilenam
 	// write folder contents
 	for ( int i = 0; i < TKN_MAX_COUNT; i++ )
 	{
-		if ( !WriteFolderContentsToSecondaryXML( pRootFolder, NULL, s_TypeKeyNames[i], 0 ) )
+		if ( !WriteFolderContentsToSecondaryXML( pRootFolder, nullptr, s_TypeKeyNames[i], 0 ) )
 			return false;
 	}
 
@@ -563,7 +563,7 @@ bool CProjectGenerator_Win32_2010::WriteTool( const char *pToolName, const CProj
 
 	if ( !pConfig->m_bIsFileConfig )
 	{
-		m_XMLWriter.PushNode( pToolName, NULL );
+		m_XMLWriter.PushNode( pToolName, nullptr);
 	}
 
 	for ( int i = 0; i < pProjectTool->m_PropertyStates.m_PropertiesInOutputOrder.Count(); i++ )
@@ -674,7 +674,7 @@ bool CProjectGenerator_Win32_2010::WriteProperty( const PropertyState_t *pProper
 bool CProjectGenerator_Win32_2010::WriteVisualGDBSettings( const char *pConfiguration )
 {
 	const char *pConfigType = m_pVCProjGenerator->
-        GetPropertyValueAsString( NULL, pConfiguration, KEYWORD_GENERAL, g_pOption_ConfigurationType );
+        GetPropertyValueAsString(nullptr, pConfiguration, KEYWORD_GENERAL, g_pOption_ConfigurationType );
     if ( !V_stristr( pConfigType, ".exe" ) )
     {
         return true;
@@ -701,7 +701,7 @@ bool CProjectGenerator_Win32_2010::WriteVisualGDBSettings( const char *pConfigur
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetTempStringBuffer1();
 	const char *pTargetOutput = m_pVCProjGenerator->
-        GetPropertyValueAsString( NULL, pConfiguration, KEYWORD_LINKER, g_pOption_OutputFile );
+        GetPropertyValueAsString(nullptr, pConfiguration, KEYWORD_LINKER, g_pOption_OutputFile );
     V_MakeAbsolutePath( pStrBuf->Access(), pStrBuf->Capacity(), pTargetOutput, g_pVPC->GetProjectPath() );
 
     pStrBuf->ReplaceFastCaseless( g_pVPC->GetSourcePath(), "$(LinuxDebugRoot)/src" );
@@ -714,17 +714,17 @@ bool CProjectGenerator_Win32_2010::WriteVisualGDBSettings( const char *pConfigur
     const char *pEnv;
 
     pEnv = getenv( "LINUX_DEBUG_HOST_NAME" );
-    if ( pEnv != NULL )
+    if ( pEnv != nullptr)
     {
         strSettings.Replace( "$(LinuxDebugHostName)", pEnv );
     }
     pEnv = getenv( "LINUX_DEBUG_USER_NAME" );
-    if ( pEnv != NULL )
+    if ( pEnv != nullptr)
     {
         strSettings.Replace( "$(LinuxDebugUserName)", pEnv );
     }
     pEnv = getenv( "LINUX_DEBUG_ROOT" );
-    if ( pEnv != NULL )
+    if ( pEnv != nullptr)
     {
         strSettings.Replace( "$(LinuxDebugRoot)", pEnv );
     }

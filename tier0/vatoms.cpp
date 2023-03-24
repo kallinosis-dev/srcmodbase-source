@@ -8,7 +8,7 @@
 
 PLATFORM_INTERFACE void** GetVAtom( int nAtomIndex );
 
-static void* g_atoms[16] = {NULL}; // all pointers must be initialized to NULL
+static void* g_atoms[16] = {nullptr}; // all pointers must be initialized to NULL
 
 void** GetVAtom( int nAtomIndex )
 {
@@ -21,7 +21,7 @@ void** GetVAtom( int nAtomIndex )
 			"VATOM index %d out of range, recompile tier0 with larger atom table\n"
 			"*******************************************************************\n",
 			nAtomIndex );
-		return NULL;
+		return nullptr;
 	}
 	return &g_atoms[nAtomIndex];
 }

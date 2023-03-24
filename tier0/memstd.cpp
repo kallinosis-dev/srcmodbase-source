@@ -179,8 +179,8 @@ void *g_AllocRegions[] =
 {
 #ifndef MEMALLOC_REGIONS
 #ifdef MEMALLOC_SEGMENT_MIXED
-	s_bUsingProcessHeap ? NULL : create_mspace( 0, 1 ), // unified
-	s_bUsingProcessHeap ? NULL : create_mspace( MBH_SIZE_MB * 1024 * 1024, 1 ), 
+	s_bUsingProcessHeap ? nullptr : create_mspace( 0, 1 ), // unified
+	s_bUsingProcessHeap ? nullptr : create_mspace( MBH_SIZE_MB * 1024 * 1024, 1 ), 
 #else
 	s_bUsingProcessHeap ? NULL : create_mspace( 100*1024*1024, 1 ),
 #endif
@@ -215,7 +215,7 @@ FORCEINLINE void *realloc_aligned_internal( void *mem, size_t bytes, size_t alig
 	// realloc broke alignment...
 	byte *fallback = (byte *)malloc_aligned_internal( DEF_REGION, bytes, align );
 	if ( !fallback )
-		return NULL;
+		return nullptr;
 	memcpy( fallback, newMem, bytes );
 	dlfree( newMem );
 	return fallback;

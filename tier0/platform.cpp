@@ -287,7 +287,7 @@ void Plat_GetModuleFilename( char *pOut, int nMaxBytes )
 {
 #ifdef PLATFORM_WINDOWS_PC
 	SetLastError( ERROR_SUCCESS ); // clear the error code
-	GetModuleFileName( NULL, pOut, nMaxBytes );
+	GetModuleFileName(nullptr, pOut, nMaxBytes );
 	if ( GetLastError() != ERROR_SUCCESS )
 		Error( "Plat_GetModuleFilename: The buffer given is too small (%d bytes).", nMaxBytes );
 #elif PLATFORM_X360
@@ -307,7 +307,7 @@ void Plat_ExitProcess( int nCode )
 	const char *pchCmdLineA = Plat_GetCommandLineA();
 	if ( nCode || ( strstr( pchCmdLineA, "gc.exe" ) && strstr( pchCmdLineA, "gc.dll" ) && strstr( pchCmdLineA, "-gc" ) ) )
 	{
-		int *x = NULL; *x = 1; // cause a hard crash, GC is not allowed to exit voluntarily from gc.dll
+		int *x = nullptr; *x = 1; // cause a hard crash, GC is not allowed to exit voluntarily from gc.dll
 	}
 	TerminateProcess( GetCurrentProcess(), nCode );
 #elif defined(_PS3)
@@ -364,7 +364,7 @@ char *Plat_asctime( const struct tm *tm, char *buf, size_t bufsize )
 	return buf;
 #else
 	if ( EINVAL == asctime_s( buf, bufsize, tm ) )
-		return NULL;
+		return nullptr;
 	else
 		return buf;
 #endif
@@ -379,7 +379,7 @@ char *Plat_ctime( const time_t *timep, char *buf, size_t bufsize )
 	return buf;
 #else
 	if ( EINVAL == ctime_s( buf, bufsize, timep ) )
-		return NULL;
+		return nullptr;
 	else
 		return buf;
 #endif
@@ -394,7 +394,7 @@ struct tm *Platform_gmtime( const time_t *timep, struct tm *result )
 	return result;
 #else
 	if ( EINVAL == gmtime_s( result, timep ) )
-		return NULL;
+		return nullptr;
 	else
 		return result;
 #endif
@@ -409,7 +409,7 @@ struct tm *Plat_localtime( const time_t *timep, struct tm *result )
 	return result;
 #else
 	if ( EINVAL == localtime_s( result, timep ) )
-		return NULL;
+		return nullptr;
 	else
 		return result;
 #endif
@@ -419,8 +419,8 @@ bool vtune( bool resume )
 {
 #if IS_WINDOWS_PC
 	static bool bInitialized = false;
-	static void (__cdecl *VTResume)(void) = NULL;
-	static void (__cdecl *VTPause) (void) = NULL;
+	static void (__cdecl *VTResume)(void) = nullptr;
+	static void (__cdecl *VTPause) (void) = nullptr;
 
 	// Grab the Pause and Resume function pointers from the VTune DLL the first time through:
 	if( !bInitialized )
@@ -486,7 +486,7 @@ void Plat_DebugString( const char * psz )
 #if defined( PLATFORM_WINDOWS_PC )
 void Plat_MessageBox( const char *pTitle, const char *pMessage )
 {
-	MessageBox( NULL, pMessage, pTitle, MB_OK );
+	MessageBox(nullptr, pMessage, pTitle, MB_OK );
 }
 #endif
 
@@ -550,7 +550,7 @@ PLATFORM_INTERFACE const char *Plat_GetCommandLineA()
 void *Plat_GetProcAddress( const char *pszModule, const char *pszName )
 {
 	HMODULE hModule = ::LoadLibrary( pszModule );
-	return ( hModule ) ? ::GetProcAddress( hModule, pszName ) : NULL;
+	return ( hModule ) ? ::GetProcAddress( hModule, pszName ) : nullptr;
 }
 
 #endif
@@ -607,7 +607,7 @@ PLATFORM_INTERFACE void* Plat_Alloc( unsigned long size )
 #if !defined(STEAM) && !defined(NO_MALLOC_OVERRIDE)
 		g_AllocError( size );
 #endif
-		return 0;
+		return nullptr;
 	}
 }
 
@@ -630,7 +630,7 @@ PLATFORM_INTERFACE void* Plat_Realloc( void *ptr, unsigned long size )
 #if !defined(STEAM) && !defined(NO_MALLOC_OVERRIDE)
 		g_AllocError( size );
 #endif
-		return 0;
+		return nullptr;
 	}
 }
 
@@ -694,7 +694,7 @@ char const * Plat_GetEnv(char const *pEnvVarName)
 
 bool Plat_GetExecutablePath(char *pBuff, size_t nBuff)
 {
-	return ::GetModuleFileNameA(NULL, pBuff, (DWORD)nBuff) > 0;
+	return ::GetModuleFileNameA(nullptr, pBuff, (DWORD)nBuff) > 0;
 }
 
 int Plat_chmod(const char *filename, int pmode)

@@ -271,7 +271,7 @@ public:
 	uint	m_ThreadID;
 	CThreadHandleToIDMap *m_pNext;
 };
-static CThreadHandleToIDMap *g_pThreadHandleToIDMaps = NULL;
+static CThreadHandleToIDMap *g_pThreadHandleToIDMaps = nullptr;
 static CThreadMutex g_ThreadHandleToIDMapMutex;
 static volatile int g_nThreadHandleToIDMaps = 0;
 
@@ -336,7 +336,7 @@ static void RemoveThreadHandleToIDMap( HANDLE hThread )
 
 static uint LookupThreadIDFromHandle( HANDLE hThread )
 {
-	if ( hThread == NULL || hThread == GetCurrentThread() )
+	if ( hThread == nullptr || hThread == GetCurrentThread() )
 		return GetCurrentThreadId();
 
 	float flStartTime = Plat_FloatTime();
@@ -424,7 +424,7 @@ ThreadHandle_t CreateSimpleThread( ThreadFunc_t pfnThread, void *pParam, unsigne
 {
 #ifdef PLATFORM_WINDOWS
 	DWORD threadID;
-	HANDLE hThread = (HANDLE)CreateThread( NULL, stackSize, ThreadProcConvert, new ThreadProcInfo_t( pfnThread, pParam ), stackSize ? STACK_SIZE_PARAM_IS_A_RESERVATION : 0, &threadID );
+	HANDLE hThread = (HANDLE)CreateThread(nullptr, stackSize, ThreadProcConvert, new ThreadProcInfo_t( pfnThread, pParam ), stackSize ? STACK_SIZE_PARAM_IS_A_RESERVATION : 0, &threadID );
 	AddThreadHandleToIDMap( hThread, threadID );
 	return (ThreadHandle_t)hThread;
 #elif PLATFORM_PS3
@@ -764,7 +764,7 @@ void ThreadSetDebugName( ThreadHandle_t hThread, const char *pszName )
 //-----------------------------------------------------------------------------
 // Used to thread LoadLibrary on the 360
 //-----------------------------------------------------------------------------
-static ThreadedLoadLibraryFunc_t s_ThreadedLoadLibraryFunc = 0;
+static ThreadedLoadLibraryFunc_t s_ThreadedLoadLibraryFunc = nullptr;
 PLATFORM_INTERFACE void SetThreadedLoadLibraryFunc( ThreadedLoadLibraryFunc_t func )
 {
 	s_ThreadedLoadLibraryFunc = func;
@@ -792,7 +792,7 @@ sys_lwmutex_t CThreadSyncObject::m_staticMutex;
 
 CThreadSyncObject::CThreadSyncObject()
 #ifdef _WIN32
-  : m_hSyncObject( NULL ), m_bCreatedHandle(false)
+  : m_hSyncObject(nullptr), m_bCreatedHandle(false)
 #elif defined(POSIX) && !defined(PLATFORM_PS3)
   : m_bInitalized( false )
 #endif
@@ -1086,7 +1086,7 @@ uint32 CThreadEvent::WaitForMultiple( int nObjects, CThreadEvent **ppObjects, bo
 CThreadEvent::CThreadEvent( bool bManualReset )
 {
 #ifdef _WIN32
-    m_hSyncObject = CreateEvent( NULL, bManualReset, FALSE, NULL );
+    m_hSyncObject = CreateEvent(nullptr, bManualReset, FALSE, nullptr);
 	m_bCreatedHandle = true;
     AssertMsg1(m_hSyncObject, "Failed to create event (error 0x%x)", GetLastError() );
 #elif defined( _PS3 )
@@ -1245,7 +1245,7 @@ void CThreadEvent::UnregisterWaitingThread(sys_semaphore_t *pSemaphore)
 #ifdef PLATFORM_WINDOWS
 	CThreadEvent::CThreadEvent( const char *name, bool initialState, bool bManualReset )
 	{
-		m_hSyncObject = CreateEvent( NULL, bManualReset, (BOOL) initialState, name );
+		m_hSyncObject = CreateEvent(nullptr, bManualReset, (BOOL) initialState, name );
 		AssertMsg1( m_hSyncObject, "Failed to create event (error 0x%x)", GetLastError() );
 	}
 
@@ -1254,7 +1254,7 @@ void CThreadEvent::UnregisterWaitingThread(sys_semaphore_t *pSemaphore)
 	{
 		HANDLE eHandle = OpenEvent( SYNCHRONIZE, FALSE, name );
 		
-		if ( eHandle == NULL ) return TT_EventDoesntExist;
+		if ( eHandle == nullptr) return TT_EventDoesntExist;
 		
 		DWORD result = WaitForSingleObject( eHandle, dwTimeout );
 		
@@ -1492,13 +1492,13 @@ CThreadSemaphore::CThreadSemaphore( int32 initialValue, int32 maxValue )
 		AssertMsg( maxValue > 0, "Invalid max value for semaphore" );
 		AssertMsg( initialValue >= 0 && initialValue <= maxValue, "Invalid initial value for semaphore" );
 
-		m_hSyncObject = CreateSemaphore( NULL, initialValue, maxValue, NULL );
+		m_hSyncObject = CreateSemaphore(nullptr, initialValue, maxValue, nullptr);
 
 		AssertMsg1(m_hSyncObject, "Failed to create semaphore (error 0x%x)", GetLastError());
 	}
 	else
 	{
-		m_hSyncObject = NULL;
+		m_hSyncObject = nullptr;
 	}
 #elif defined( _PS3 )
 	if ( maxValue )
@@ -1637,7 +1637,7 @@ bool CThreadSemaphore::Release( int32 releaseCount, int32 *pPreviousCount )
 
 CThreadFullMutex::CThreadFullMutex( bool bEstablishInitialOwnership, const char *pszName )
 {
-   m_hSyncObject = CreateMutex( NULL, bEstablishInitialOwnership, pszName );
+   m_hSyncObject = CreateMutex(nullptr, bEstablishInitialOwnership, pszName );
 
    AssertMsg1( m_hSyncObject, "Failed to create mutex (error 0x%x)", GetLastError() );
 }
@@ -1697,7 +1697,7 @@ void * CThreadLocalBase::Get() const
 	if ( m_index != 0xFFFFFFFF )
 		return TlsGetValue( m_index );
 	AssertMsg( 0, "Bad thread local" );
-	return NULL;
+	return nullptr;
 #elif defined(POSIX)
 	void *value = pthread_getspecific( m_index );
 	return value;
@@ -2853,7 +2853,7 @@ int CWorkerThread::Call(unsigned dwParam, unsigned timeout, bool fBoostPriority,
 //---------------------------------------------------------
 int CWorkerThread::WaitForReply( unsigned timeout )
 {
-	return WaitForReply( timeout, NULL );
+	return WaitForReply( timeout, nullptr);
 }
 
 int CWorkerThread::WaitForReply( unsigned timeout, WaitFunc_t pfnWait )

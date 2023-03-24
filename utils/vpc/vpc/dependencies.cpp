@@ -181,9 +181,9 @@ class CSingleProjectScanner
 {
 public:
 	CSingleProjectScanner()
-	 :	m_pDependencyGraph( NULL ),
-		m_pDependencyProject( NULL ),
-		m_pDataCollector( NULL ),
+	 :	m_pDependencyGraph(nullptr),
+		m_pDependencyProject(nullptr),
+		m_pDataCollector(nullptr),
 		m_nDupeChecks( 0 )
 	{
 		Assert( !s_pSingleton );
@@ -193,7 +193,7 @@ public:
 	~CSingleProjectScanner()
 	{
 		Assert( s_pSingleton == this );
-		s_pSingleton = NULL;
+		s_pSingleton = nullptr;
 	}
 	
 	void ScanProjectFile( CProjectDependencyGraph *pGraph, const char *szScriptName, CDependency_Project *pProject )
@@ -243,7 +243,7 @@ public:
 			{
 				CFileConfig *pFile = pDataCollector->m_Files.Element( nFileIter );
 				char sAbsolutePath[MAX_FIXED_PATH];
-				V_MakeAbsolutePath( sAbsolutePath, sizeof( sAbsolutePath ), pFile->m_Filename.Get(), NULL, k_bVPCForceLowerCase );
+				V_MakeAbsolutePath( sAbsolutePath, sizeof( sAbsolutePath ), pFile->m_Filename.Get(), nullptr, k_bVPCForceLowerCase );
 
 				// Don't bother with source files if we're not building the full dependency set.
 				bool bIsSourceFile = IsSourceFile( sAbsolutePath );
@@ -285,7 +285,7 @@ public:
 				bool bExcluded, bIncluded = false;
 				for ( int iConfig = 0; iConfig < pFile->m_Configs.Count(); iConfig++ )
 				{
-					if ( !VPC_GetPropertyBool( KEYWORD_GENERAL, NULL, pFile->m_Configs[ iConfig ], g_pOption_ExcludedFromBuild, &bExcluded ) || !bExcluded )
+					if ( !VPC_GetPropertyBool( KEYWORD_GENERAL, nullptr, pFile->m_Configs[ iConfig ], g_pOption_ExcludedFromBuild, &bExcluded ) || !bExcluded )
 						bIncluded = true; // Marked as NOT excluded (or not marked at all) -> included
 				}
 				if ( !bIncluded )
@@ -294,7 +294,7 @@ public:
 
 			// Make this an absolute path.
 			char sAbsolutePath[MAX_FIXED_PATH];
-			V_MakeAbsolutePath( sAbsolutePath, sizeof( sAbsolutePath ), pFile->m_Name.Get(), NULL, k_bVPCForceLowerCase );
+			V_MakeAbsolutePath( sAbsolutePath, sizeof( sAbsolutePath ), pFile->m_Name.Get(), nullptr, k_bVPCForceLowerCase );
 
 			if ( !V_stricmp_fast( V_GetFileExtensionSafe( sAbsolutePath ), "vpc" ) )
 			{
@@ -491,7 +491,7 @@ public:
 	{
 		// Get includes from the config:
 		CUtlVector<CUtlString> includeList;
-		VPC_GetIncludeDirectories( NULL, pRootConfig, includeList );
+		VPC_GetIncludeDirectories(nullptr, pRootConfig, includeList );
 
 		// Also add system include paths (last):
 		// TODO: the VS compiler also searches "$(FrameworkSDKDir)\include", which is missing here...
@@ -508,7 +508,7 @@ public:
 		for ( int i=0; i < includeList.Count(); i++ )
 		{
 			char sAbsolute[MAX_FIXED_PATH], sFixed[MAX_FIXED_PATH];
-			V_MakeAbsolutePath( sAbsolute, sizeof( sAbsolute ), includeList[i].Get(), NULL, k_bVPCForceLowerCase );
+			V_MakeAbsolutePath( sAbsolute, sizeof( sAbsolute ), includeList[i].Get(), nullptr, k_bVPCForceLowerCase );
 			V_FixupPathName( sFixed, ARRAYSIZE(sFixed), sAbsolute );
 			m_IncludeDirectories.AddToTail( sFixed );
 		}
@@ -520,7 +520,7 @@ public:
 		CUtlVector<CUtlString> outputsForThisConfig; //collecting locally so we can resolve compiler macros and deduplicate before adding to the member list
 
 		//read $AdditionalOutputFiles property
-		if ( VPC_GetPropertyString( KEYWORD_GENERAL, pRootConfig, NULL, g_pOption_AdditionalOutputFiles, &tempString ) )
+		if ( VPC_GetPropertyString( KEYWORD_GENERAL, pRootConfig, nullptr, g_pOption_AdditionalOutputFiles, &tempString ) )
 		{
 			CSplitString outStrings( tempString.Get(), ";" );
 			for ( int i=0; i < outStrings.Count(); i++ )
@@ -531,26 +531,26 @@ public:
 
 		//linker outputs
 		tempString.Clear();
-		VPC_GetPropertyString( KEYWORD_LINKER, pRootConfig, NULL, g_pOption_ImportLibrary, &tempString );
+		VPC_GetPropertyString( KEYWORD_LINKER, pRootConfig, nullptr, g_pOption_ImportLibrary, &tempString );
 		if ( !tempString.IsEmpty() )
 		{
 			outputsForThisConfig.AddToTail( tempString );
 		}
 		tempString.Clear();
-		VPC_GetPropertyString( KEYWORD_LIBRARIAN, pRootConfig, NULL, g_pOption_OutputFile, &tempString );
+		VPC_GetPropertyString( KEYWORD_LIBRARIAN, pRootConfig, nullptr, g_pOption_OutputFile, &tempString );
 		if ( !tempString.IsEmpty() )
 		{
 			outputsForThisConfig.AddToTail( tempString );
 		}
 		tempString.Clear();
-		VPC_GetPropertyString( KEYWORD_LINKER, pRootConfig, NULL, g_pOption_OutputFile, &tempString );
+		VPC_GetPropertyString( KEYWORD_LINKER, pRootConfig, nullptr, g_pOption_OutputFile, &tempString );
 		if ( !tempString.IsEmpty() )
 		{
 			outputsForThisConfig.AddToTail( tempString );
 		}
 
 		tempString.Clear();
-		VPC_GetPropertyString( KEYWORD_GENERAL, pRootConfig, NULL, "$GameOutputFile", &tempString );
+		VPC_GetPropertyString( KEYWORD_GENERAL, pRootConfig, nullptr, "$GameOutputFile", &tempString );
 		if ( !tempString.IsEmpty() )
 		{
 			outputsForThisConfig.AddToTail( tempString );
@@ -581,7 +581,7 @@ public:
 	void SetupAdditionalProjectDependencies( CProjectConfiguration *pRootConfig )
 	{
 		CUtlString cfgString;
-		if ( VPC_GetPropertyString( KEYWORD_GENERAL, pRootConfig, NULL, g_pOption_AdditionalProjectDependencies, &cfgString ) )
+		if ( VPC_GetPropertyString( KEYWORD_GENERAL, pRootConfig, nullptr, g_pOption_AdditionalProjectDependencies, &cfgString ) )
 		{
 			CSplitString outStrings ( cfgString.Get(), ";" );
 			for ( int i=0; i < outStrings.Count(); i++ )
@@ -687,7 +687,7 @@ public:
 	static CSingleProjectScanner *s_pSingleton;
 };
 
-CSingleProjectScanner *CSingleProjectScanner::s_pSingleton = NULL;
+CSingleProjectScanner *CSingleProjectScanner::s_pSingleton = nullptr;
 void VPC_GenerateProjectDependencies( CBaseProjectDataCollector *pDataCollector )
 {
 	// This hooks into CVCProjGenerator::EndProject for dependency-extraction 
@@ -897,7 +897,7 @@ bool CProjectDependencyGraph::VisitProject( projectIndex_t iProject, const char 
 	CDependency_Project *pProject = new CDependency_Project( this );
 	
 	char szAbsolute[MAX_FIXED_PATH];
-	V_MakeAbsolutePath( szAbsolute, sizeof( szAbsolute ), szProjectName, NULL, k_bVPCForceLowerCase );
+	V_MakeAbsolutePath( szAbsolute, sizeof( szAbsolute ), szProjectName, nullptr, k_bVPCForceLowerCase );
 	pProject->m_Filename = szAbsolute;
 
 	pProject->m_Type = k_eDependencyType_Project;
@@ -979,7 +979,7 @@ CDependency* CProjectDependencyGraph::FindDependency( const char *pFilename, CUt
 	// Normalize paths on entry to m_AllFiles; fix slashes, case and stuff like blah/../blah
 	// (optionally returning the result to the caller, to avoid redundant work)
     CUtlPathStringHolder tmpFixupBuf;
-    if ( pFixedFilename == NULL )
+    if ( pFixedFilename == nullptr)
     {
         pFixedFilename = &tmpFixupBuf;
     }
@@ -988,7 +988,7 @@ CDependency* CProjectDependencyGraph::FindDependency( const char *pFilename, CUt
 
 	int i = m_AllFiles.Find( pFixedFilename->Get() );
 	if ( i == m_AllFiles.InvalidIndex() )
-		return NULL;
+		return nullptr;
 	else
 		return m_AllFiles[i];
 }
@@ -1320,7 +1320,7 @@ public:
 	bool VisitProject( projectIndex_t iProject, const char *szProjectName ) override
 	{
 		char szAbsolute[MAX_FIXED_PATH];
-		V_MakeAbsolutePath( szAbsolute, sizeof( szAbsolute ), szProjectName, NULL, k_bVPCForceLowerCase );
+		V_MakeAbsolutePath( szAbsolute, sizeof( szAbsolute ), szProjectName, nullptr, k_bVPCForceLowerCase );
 		
 		// Ok, we've got an (absolute) project filename. Search the dependency graph for one with that name.
 		bool bAdded = false;

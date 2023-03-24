@@ -171,7 +171,7 @@ void *CDataManagerBase::LockResource( memhandle_t handle )
 		return m_memoryLists[memoryIndex].pStore;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void *CDataManagerBase::LockResourceReturnCount( int *pCount, memhandle_t handle )
@@ -191,7 +191,7 @@ void *CDataManagerBase::LockResourceReturnCount( int *pCount, memhandle_t handle
 	}
 
 	*pCount = 0;
-	return NULL;
+	return nullptr;
 }
 
 int CDataManagerBase::UnlockResource( memhandle_t handle )
@@ -224,7 +224,7 @@ void *CDataManagerBase::GetResource_NoLockNoLRUTouch( memhandle_t handle )
 	{
 		return m_memoryLists[memoryIndex].pStore;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -237,7 +237,7 @@ void *CDataManagerBase::GetResource_NoLock( memhandle_t handle )
 		TouchByIndex( memoryIndex );
 		return m_memoryLists[memoryIndex].pStore;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CDataManagerBase::TouchResource( memhandle_t handle )
@@ -390,7 +390,7 @@ unsigned int CDataManagerBase::EnsureCapacity( unsigned int size )
 // free this resource and move the handle to the free list
 void *CDataManagerBase::GetForFreeByIndex( unsigned short memoryIndex )
 {
-	void *p = NULL;
+	void *p = nullptr;
 	if ( memoryIndex != m_memoryLists.InvalidIndex() )
 	{
 		Assert( m_memoryLists[memoryIndex].lockCount == 0 );
@@ -404,7 +404,7 @@ void *CDataManagerBase::GetForFreeByIndex( unsigned short memoryIndex )
 		}
 		m_memUsed -= size;
 		p = mem.pStore;
-		mem.pStore = NULL;
+		mem.pStore = nullptr;
 		mem.serial++;
 		m_memoryLists.LinkToTail( m_freeList, memoryIndex );
 	}

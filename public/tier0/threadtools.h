@@ -203,9 +203,9 @@ PLATFORM_INTERFACE void ThreadSleep(unsigned duration = 0);
 PLATFORM_INTERFACE void ThreadNanoSleep(unsigned ns);
 PLATFORM_INTERFACE ThreadId_t ThreadGetCurrentId();
 PLATFORM_INTERFACE ThreadHandle_t ThreadGetCurrentHandle();
-PLATFORM_INTERFACE int ThreadGetPriority( ThreadHandle_t hThread = NULL );
+PLATFORM_INTERFACE int ThreadGetPriority( ThreadHandle_t hThread = nullptr);
 PLATFORM_INTERFACE bool ThreadSetPriority( ThreadHandle_t hThread, int priority );
-inline		 bool ThreadSetPriority( int priority ) { return ThreadSetPriority( NULL, priority ); }
+inline		 bool ThreadSetPriority( int priority ) { return ThreadSetPriority(nullptr, priority ); }
 #ifndef _X360
 PLATFORM_INTERFACE bool ThreadInMainThread();
 PLATFORM_INTERFACE void DeclareCurrentThreadIsMainThread();
@@ -253,7 +253,7 @@ inline void ThreadPause()
 PLATFORM_INTERFACE bool ThreadJoin( ThreadHandle_t, unsigned timeout = TT_INFINITE );
 
 PLATFORM_INTERFACE void ThreadSetDebugName( ThreadHandle_t hThread, const char *pszName );
-inline		 void ThreadSetDebugName( const char *pszName ) { ThreadSetDebugName( NULL, pszName ); }
+inline		 void ThreadSetDebugName( const char *pszName ) { ThreadSetDebugName(nullptr, pszName ); }
 
 PLATFORM_INTERFACE void ThreadSetAffinity( ThreadHandle_t hThread, int nAffinityMask );
 
@@ -647,8 +647,8 @@ private:
 		T *			operator=( T *p )							{ Set( p ); return p; }
 
 		bool        operator !() const							{ return (!Get()); }
-		bool        operator!=( int i ) const					{ AssertMsg( i == 0, "Only NULL allowed on integer compare" ); return (Get() != NULL); }
-		bool        operator==( int i ) const					{ AssertMsg( i == 0, "Only NULL allowed on integer compare" ); return (Get() == NULL); }
+		bool        operator!=( int i ) const					{ AssertMsg( i == 0, "Only NULL allowed on integer compare" ); return (Get() != nullptr); }
+		bool        operator==( int i ) const					{ AssertMsg( i == 0, "Only NULL allowed on integer compare" ); return (Get() == nullptr); }
 		bool		operator==( const void *p ) const			{ return (Get() == p); }
 		bool		operator!=( const void *p ) const			{ return (Get() != p); }
 		bool		operator==( const T *p ) const				{ return operator==((const void*)p); }
@@ -858,7 +858,7 @@ template <typename T>
 class CInterlockedPtr
 {
 public:
-	CInterlockedPtr() : m_value( 0 )
+	CInterlockedPtr() : m_value( nullptr )
 	{
 #ifdef PLATFORM_64BITS 
 		COMPILE_TIME_ASSERT( sizeof(T *) == sizeof(int64) );
@@ -873,7 +873,7 @@ public:
 
 	operator T *() const			{ return m_value; }
 
-	bool operator!() const			{ return ( m_value == 0 ); }
+	bool operator!() const			{ return ( m_value == nullptr ); }
 	bool operator==( T *rhs ) const	{ return ( m_value == rhs ); }
 	bool operator!=( T *rhs ) const	{ return ( m_value != rhs ); }
 
@@ -1406,7 +1406,7 @@ public:
 	// Increases the count of the semaphore object by a specified
 	// amount.  Wait() decreases the count by one on return.
 	//-----------------------------------------------------
-	bool Release(int32 releaseCount = 1, int32 * pPreviousCount = NULL );
+	bool Release(int32 releaseCount = 1, int32 * pPreviousCount = nullptr);
 	bool Wait( uint32 dwTimeout = TT_INFINITE );
 
 private:
@@ -1434,7 +1434,7 @@ private:
 class PLATFORM_CLASS CThreadFullMutex : public CThreadSyncObject
 {
 public:
-	CThreadFullMutex( bool bEstablishInitialOwnership = false, const char * pszName = NULL );
+	CThreadFullMutex( bool bEstablishInitialOwnership = false, const char * pszName = nullptr);
 
 	//-----------------------------------------------------
 	// Release ownership of the mutex
@@ -2015,11 +2015,11 @@ public:
 	int CallMaster( unsigned, unsigned timeout = TT_INFINITE );
 
 	// Wait for the next request
-	bool WaitForCall( unsigned dwTimeout, unsigned *pResult = NULL );
-	bool WaitForCall( unsigned *pResult = NULL );
+	bool WaitForCall( unsigned dwTimeout, unsigned *pResult = nullptr);
+	bool WaitForCall( unsigned *pResult = nullptr);
 
 	// Is there a request?
-	bool PeekCall( unsigned *pParam = NULL );
+	bool PeekCall( unsigned *pParam = nullptr);
 
 	// Reply to the request
 	void Reply( unsigned );
@@ -2039,7 +2039,7 @@ public:
 
 protected:
 	typedef uint32 (        *WaitFunc_t)( uint32 nHandles, CThreadEvent** ppHandles, int bWaitAll, uint32 timeout );
-	int Call( unsigned, unsigned timeout, bool fBoost, WaitFunc_t = NULL );
+	int Call( unsigned, unsigned timeout, bool fBoost, WaitFunc_t = nullptr);
 	int WaitForReply( unsigned timeout, WaitFunc_t );
 
 private:
@@ -2081,7 +2081,7 @@ public:
 	// check for a message. not 100% reliable - someone could grab the message first
 	bool MessageWaiting( void ) 
 	{
-		return ( Head != NULL );
+		return ( Head != nullptr);
 	}
 
 	void WaitMessage( T *pMsg )

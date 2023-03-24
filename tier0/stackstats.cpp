@@ -76,9 +76,9 @@ bool _CCallStackStatsGatherer_Internal_DumpSubTree( const CCallStackStatsGathere
 {
 	size_t CapturedCallStackLength = 0;
 	size_t iEntrySizeWithCallStack = 0;
-	void *pEntries = NULL;
+	void *pEntries = nullptr;
 	size_t iEntryCount = 0;
-	CCallStackStatsGatherer_Standardized_t *pSubTrees = NULL;
+	CCallStackStatsGatherer_Standardized_t *pSubTrees = nullptr;
 	size_t iSubTreeCount = 0;
 	const char *szStructName = "";
 	StatsGatherer.pFunctionTable->pfn_GetDumpInfo( StatsGatherer.pGatherer, szStructName, CapturedCallStackLength, iEntrySizeWithCallStack, pEntries, iEntryCount, pSubTrees, iSubTreeCount );
@@ -166,7 +166,7 @@ bool _CCallStackStatsGatherer_Internal_DumpSubTree( const CCallStackStatsGathere
 			for( size_t j = 0; j != CapturedCallStackLength; ++j )
 			{
 				void *pInsertAddress = ((void **)pEntryRead)[j];
-				if( pInsertAddress == NULL )
+				if( pInsertAddress == nullptr)
 					break;
 
 				//binary search
@@ -198,8 +198,8 @@ bool _CCallStackStatsGatherer_Internal_DumpSubTree( const CCallStackStatsGathere
 					{
 						size_t maxSize = sizeof( void * ) * CapturedCallStackLength * iEntryCount;
 						//crap, grew past the temp stack buffer, use real memory...
-						void **pTemp = pHelpers->bAllowMemoryAllocations ? new void * [maxSize] : NULL;
-						if( pTemp == NULL )
+						void **pTemp = pHelpers->bAllowMemoryAllocations ? new void * [maxSize] : nullptr;
+						if( pTemp == nullptr)
 						{
 							//double crap, memory wasn't available, overwrite our stat tracking data and read it back from file later...
 							pTemp = (void **)pEntries;
@@ -219,8 +219,8 @@ bool _CCallStackStatsGatherer_Internal_DumpSubTree( const CCallStackStatsGathere
 					{
 						size_t maxSize = sizeof( void * ) * CapturedCallStackLength * iEntryCount;
 						//crap, grew past the temp stack buffer, use real memory...
-						void **pTemp = pHelpers->bAllowMemoryAllocations ? new void * [maxSize] : NULL;
-						if( pTemp == NULL )
+						void **pTemp = pHelpers->bAllowMemoryAllocations ? new void * [maxSize] : nullptr;
+						if( pTemp == nullptr)
 						{
 							//double crap, memory wasn't available, overwrite our stat tracking data and read it back from file later...
 							pTemp = (void **)pEntries;
@@ -355,7 +355,7 @@ size_t _CCallStackStatsGatherer_Write_FieldDescriptions( CallStackStatStructDesc
 
 	//describe the structure in the file
 	CallStackStatStructDescFuncs *pDesc = pFieldDescriptions;
-	while( pDesc != NULL )
+	while( pDesc != nullptr)
 	{
 		size_t iFieldWrote = pDesc->DescribeField( pWriteBuffer + iWriteMarker, iWriteBufferSize - iWriteMarker );
 		if( iFieldWrote != 0 )

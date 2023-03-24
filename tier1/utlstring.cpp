@@ -20,7 +20,7 @@ static const int64 k_nMillion = 1000000;
 static ptrdiff_t IndexOf(const char *pstrToSearch, const char *pstrTarget)
 {
 	const char *pstrHit = V_strstr(pstrToSearch, pstrTarget);
-	if (pstrHit == NULL)
+	if (pstrHit == nullptr)
 	{
 		return -1;	// Not found.
 	}
@@ -33,7 +33,7 @@ static ptrdiff_t IndexOf(const char *pstrToSearch, const char *pstrTarget)
 //-----------------------------------------------------------------------------
 static size_t RemoveWhitespace(char *pszString)
 {
-	if (pszString == NULL)
+	if (pszString == nullptr)
 		return 0;
 
 	char *pstrDest = pszString;
@@ -768,12 +768,12 @@ char *CUtlStringBuilder::InternalPrepareBuffer(size_t nChars, bool bCopyOld, siz
 	if (nMinCapacity > k_nMaxStringSize)
 	{
 		SetError();
-		return NULL;
+		return nullptr;
 	}
 
 	bool bWasHeap = m_data.IsHeap();
 	// add this to whatever we are going to grow so we don't start out too slow
-	char *pszString = NULL;
+	char *pszString = nullptr;
 	if (nMinCapacity > MAX_STACK_STRLEN)
 	{
 		// Allocate 1.5 times what is requested, plus a small initial ramp
@@ -803,7 +803,7 @@ char *CUtlStringBuilder::InternalPrepareBuffer(size_t nChars, bool bCopyOld, siz
 			if (!pszString)
 			{
 				SetError();
-				return NULL;
+				return nullptr;
 			}
 		}
 		else // Either it's already on the stack; or we don't need to copy
@@ -819,7 +819,7 @@ char *CUtlStringBuilder::InternalPrepareBuffer(size_t nChars, bool bCopyOld, siz
 			if (!pszString)
 			{
 				SetError();
-				return NULL;
+				return nullptr;
 			}
 
 			// still need to do the copy if we are going from small buffer to large
@@ -889,7 +889,7 @@ size_t CUtlStringBuilder::ReplaceInternal(const char *pstrTarget, const char *ps
 	if (HasError())
 		return 0;
 
-	if (pstrReplacement == NULL)
+	if (pstrReplacement == nullptr)
 		pstrReplacement = "";
 
 	size_t nTargetLength = V_strlen(pstrTarget);
@@ -904,7 +904,7 @@ size_t CUtlStringBuilder::ReplaceInternal(const char *pstrTarget, const char *ps
 
 		// walk the string counting hits
 		const char *pstrHit = pszString;
-		for (pstrHit = pfnCompare(pstrHit, pstrTarget); pstrHit != NULL && *pstrHit != 0; /* inside */)
+		for (pstrHit = pfnCompare(pstrHit, pstrTarget); pstrHit != nullptr && *pstrHit != 0; /* inside */)
 		{
 			vecMatches.AddToTail(pstrHit);
 			// look for the next target and keep looping
@@ -1054,7 +1054,7 @@ size_t CUtlStringBuilder::RemoveWhitespace()
 //-----------------------------------------------------------------------------
 bool CUtlStringBuilder::SetLength(size_t nLen)
 {
-	return m_data.SetLength(nLen) != NULL;
+	return m_data.SetLength(nLen) != nullptr;
 }
 
 
@@ -1105,13 +1105,13 @@ char *CUtlStringBuilder::Data::SetLength(size_t nChars)
 	if (IsHeap())
 	{
 		if (!Heap.m_pchString || nChars > Heap.m_nCapacity)
-			return NULL;
+			return nullptr;
 		Heap.m_nLength = (uint32)nChars;
 		Heap.m_pchString[nChars] = '\0';
 		return Heap.m_pchString;
 	}
 	if (nChars > MAX_STACK_STRLEN)
-		return NULL;
+		return nullptr;
 	Stack.m_szString[nChars] = '\0';
 	Stack.SetBytesLeft(MAX_STACK_STRLEN - (uint8)nChars);
 	return Stack.m_szString;
@@ -1201,7 +1201,7 @@ bool CUtlStringBuilder::Data::MoveToHeap()
 		}
 		else
 		{
-			Heap.m_pchString = NULL;
+			Heap.m_pchString = nullptr;
 			Heap.m_nLength = 0;
 			Heap.m_nCapacity = 0;
 			bSuccess = false;

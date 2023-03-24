@@ -72,7 +72,7 @@ void VPC_Config_Macro()
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -141,7 +141,7 @@ void VPC_Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
 
 				// resolve the token that should be a recognized property key
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-				if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+				if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 				{
 					continue;
 				}
@@ -247,7 +247,7 @@ void VPC_Keyword_Configuration()
 			}
 
             CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-			if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 			{
 				g_pVPC->GetScript().SkipBracedSection();
 				continue;
@@ -346,7 +346,7 @@ void VPC_Keyword_FileConfiguration()
 					g_pVPC->VPCSyntaxError();
 
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-				if ( g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+				if ( g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 				{
 					g_pVPC->GetProjectGenerator()->FileExcludedFromBuild( Sys_StringToBool( pStrBuf->Get() ) );
 				}
@@ -364,7 +364,7 @@ void VPC_Keyword_FileConfiguration()
 			}
 
             CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-			if ( !g_pVPC->GetScript().ParsePropertyValue( NULL, pStrBuf ) )
+			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 			{
 				g_pVPC->GetScript().SkipBracedSection();
 				continue;

@@ -345,7 +345,7 @@ FORCEINLINE	void			XBX_SetStorageDeviceId( int, DWORD ) {}
 FORCEINLINE const char		*XBX_GetLanguageString() { return ""; }
 FORCEINLINE bool			XBX_IsLocalized() { return false; }
 FORCEINLINE bool			XBX_IsAudioLocalized() { return false; }
-FORCEINLINE const char		*XBX_GetNextSupportedLanguage( const char *pLanguage, bool *pbHasAudio ) { return NULL; }
+FORCEINLINE const char		*XBX_GetNextSupportedLanguage( const char *pLanguage, bool *pbHasAudio ) { return nullptr; }
 FORCEINLINE bool			XBX_IsRestrictiveLanguage() { return false; }
 FORCEINLINE int				XBX_GetUserId( int nSlot ) { return nSlot; }
 FORCEINLINE int				XBX_GetSlotByUserId( int idx ) { return idx; }

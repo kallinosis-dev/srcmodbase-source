@@ -12,15 +12,15 @@
 //-----------------------------------------------------------------------------
 // Tier 1 libraries
 //-----------------------------------------------------------------------------
-ICvar *cvar = 0;
-ICvar *g_pCVar = 0;
-IProcessUtils *g_pProcessUtils = 0;
+ICvar *cvar = nullptr;
+ICvar *g_pCVar = nullptr;
+IProcessUtils *g_pProcessUtils = nullptr;
 static bool s_bConnected = false;
-IPhysics2 *g_pPhysics2 = 0;
-IPhysics2ActorManager *g_pPhysics2ActorManager = 0;
-IPhysics2ResourceManager *g_pPhysics2ResourceManager = 0;
-IEventSystem *g_pEventSystem = 0;
-ILocalize *g_pLocalize = 0;
+IPhysics2 *g_pPhysics2 = nullptr;
+IPhysics2ActorManager *g_pPhysics2ActorManager = nullptr;
+IPhysics2ResourceManager *g_pPhysics2ResourceManager = nullptr;
+IEventSystem *g_pEventSystem = nullptr;
+ILocalize *g_pLocalize = nullptr;
 
 // for utlsortvector.h
 #ifndef _WIN32
@@ -32,34 +32,34 @@ void *g_pUtlSortVectorQSortContext = NULL;
 //-----------------------------------------------------------------------------
 // Tier 2 libraries
 //-----------------------------------------------------------------------------
-IResourceSystem *g_pResourceSystem = 0;
-IRenderDeviceMgr *g_pRenderDeviceMgr = 0;
-IFileSystem *g_pFullFileSystem = 0;
-IAsyncFileSystem *g_pAsyncFileSystem = 0;
-IMaterialSystem *materials = 0;
-IMaterialSystem *g_pMaterialSystem = 0;
-IMaterialSystem2 *g_pMaterialSystem2 = 0;
-IInputSystem *g_pInputSystem = 0;
-IInputStackSystem *g_pInputStackSystem = 0;
-INetworkSystem *g_pNetworkSystem = 0;
-ISoundSystem *g_pSoundSystem = 0;
-IMaterialSystemHardwareConfig *g_pMaterialSystemHardwareConfig = 0;
-IDebugTextureInfo *g_pMaterialSystemDebugTextureInfo = 0;
-IVBAllocTracker *g_VBAllocTracker = 0;
-IColorCorrectionSystem *colorcorrection = 0;
-IP4 *p4 = 0;
-IMdlLib *mdllib = 0;
-IQueuedLoader *g_pQueuedLoader = 0;
-IResourceAccessControl *g_pResourceAccessControl = 0;
-IPrecacheSystem *g_pPrecacheSystem = 0;
-ISceneSystem *g_pSceneSystem = 0;
+IResourceSystem *g_pResourceSystem = nullptr;
+IRenderDeviceMgr *g_pRenderDeviceMgr = nullptr;
+IFileSystem *g_pFullFileSystem = nullptr;
+IAsyncFileSystem *g_pAsyncFileSystem = nullptr;
+IMaterialSystem *materials = nullptr;
+IMaterialSystem *g_pMaterialSystem = nullptr;
+IMaterialSystem2 *g_pMaterialSystem2 = nullptr;
+IInputSystem *g_pInputSystem = nullptr;
+IInputStackSystem *g_pInputStackSystem = nullptr;
+INetworkSystem *g_pNetworkSystem = nullptr;
+ISoundSystem *g_pSoundSystem = nullptr;
+IMaterialSystemHardwareConfig *g_pMaterialSystemHardwareConfig = nullptr;
+IDebugTextureInfo *g_pMaterialSystemDebugTextureInfo = nullptr;
+IVBAllocTracker *g_VBAllocTracker = nullptr;
+IColorCorrectionSystem *colorcorrection = nullptr;
+IP4 *p4 = nullptr;
+IMdlLib *mdllib = nullptr;
+IQueuedLoader *g_pQueuedLoader = nullptr;
+IResourceAccessControl *g_pResourceAccessControl = nullptr;
+IPrecacheSystem *g_pPrecacheSystem = nullptr;
+ISceneSystem *g_pSceneSystem = nullptr;
 
 #if defined( PLATFORM_X360 )
 IXboxInstaller *g_pXboxInstaller = 0;
 #endif
 
-IMatchFramework *g_pMatchFramework = 0;
-IGameUISystemMgr *g_pGameUISystemMgr = 0;
+IMatchFramework *g_pMatchFramework = nullptr;
+IGameUISystemMgr *g_pGameUISystemMgr = nullptr;
 
 #if defined( INCLUDE_SCALEFORM )
 IScaleformUI *g_pScaleformUI = 0;
@@ -68,34 +68,34 @@ IScaleformUI *g_pScaleformUI = 0;
 //-----------------------------------------------------------------------------
 // Not exactly a global, but we're going to keep track of these here anyways
 //-----------------------------------------------------------------------------
-IRenderDevice *g_pRenderDevice = 0;
-IRenderHardwareConfig *g_pRenderHardwareConfig = 0;
+IRenderDevice *g_pRenderDevice = nullptr;
+IRenderHardwareConfig *g_pRenderHardwareConfig = nullptr;
 
 
 //-----------------------------------------------------------------------------
 // Tier3 libraries
 //-----------------------------------------------------------------------------
-IMeshSystem *g_pMeshSystem = 0;
-IStudioRender *g_pStudioRender = 0;
-IStudioRender *studiorender = 0;
-IMatSystemSurface *g_pMatSystemSurface = 0;
-vgui::IInput *g_pVGuiInput = 0;
-vgui::ISurface *g_pVGuiSurface = 0;
-vgui::IPanel *g_pVGuiPanel = 0;
-vgui::IVGui	*g_pVGui = 0;
-vgui::ILocalize *g_pVGuiLocalize = 0;
-vgui::ISchemeManager *g_pVGuiSchemeManager = 0;
-vgui::ISystem *g_pVGuiSystem = 0;
-IDataCache *g_pDataCache = 0;
-IMDLCache *g_pMDLCache = 0;
-IMDLCache *mdlcache = 0;
-IAvi *g_pAVI = 0;
-IBik *g_pBIK = 0;
-IDmeMakefileUtils *g_pDmeMakefileUtils = 0;
-IPhysicsCollision *g_pPhysicsCollision = 0;
-ISoundEmitterSystemBase *g_pSoundEmitterSystem = 0;
-IWorldRendererMgr *g_pWorldRendererMgr = 0;
-IVGuiRenderSurface *g_pVGuiRenderSurface = 0;
+IMeshSystem *g_pMeshSystem = nullptr;
+IStudioRender *g_pStudioRender = nullptr;
+IStudioRender *studiorender = nullptr;
+IMatSystemSurface *g_pMatSystemSurface = nullptr;
+vgui::IInput *g_pVGuiInput = nullptr;
+vgui::ISurface *g_pVGuiSurface = nullptr;
+vgui::IPanel *g_pVGuiPanel = nullptr;
+vgui::IVGui	*g_pVGui = nullptr;
+vgui::ILocalize *g_pVGuiLocalize = nullptr;
+vgui::ISchemeManager *g_pVGuiSchemeManager = nullptr;
+vgui::ISystem *g_pVGuiSystem = nullptr;
+IDataCache *g_pDataCache = nullptr;
+IMDLCache *g_pMDLCache = nullptr;
+IMDLCache *mdlcache = nullptr;
+IAvi *g_pAVI = nullptr;
+IBik *g_pBIK = nullptr;
+IDmeMakefileUtils *g_pDmeMakefileUtils = nullptr;
+IPhysicsCollision *g_pPhysicsCollision = nullptr;
+ISoundEmitterSystemBase *g_pSoundEmitterSystem = nullptr;
+IWorldRendererMgr *g_pWorldRendererMgr = nullptr;
+IVGuiRenderSurface *g_pVGuiRenderSurface = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -199,7 +199,7 @@ void RegisterInterface( CreateInterfaceFn factory, const char *pInterfaceName, v
 {
 	if ( !(*ppGlobal) )
 	{
-		*ppGlobal = factory( pInterfaceName, NULL );
+		*ppGlobal = factory( pInterfaceName, nullptr);
 		if ( *ppGlobal )
 		{
 			Assert( s_nRegistrationCount < ARRAYSIZE(s_pConnectionRegistration) );
@@ -212,7 +212,7 @@ void RegisterInterface( CreateInterfaceFn factory, const char *pInterfaceName, v
 
 void ReconnectInterface( CreateInterfaceFn factory, const char *pInterfaceName, void **ppGlobal )
 {
-	*ppGlobal = factory( pInterfaceName, NULL );
+	*ppGlobal = factory( pInterfaceName, nullptr);
 
 	bool bFound = false;
 	Assert( s_nRegistrationCount < ARRAYSIZE(s_pConnectionRegistration) );
@@ -283,7 +283,7 @@ void DisconnectInterfaces()
 			continue;
 
 		// Disconnect!
-		*(void**)(s_pConnectionRegistration[i].m_ppGlobalStorage) = 0;
+		*(void**)(s_pConnectionRegistration[i].m_ppGlobalStorage) = nullptr;
 	}
 }
 

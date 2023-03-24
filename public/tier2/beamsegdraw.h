@@ -113,9 +113,9 @@ struct BeamSegRenderInfo_t
 class CBeamSegDraw
 {
 public:
-	CBeamSegDraw() : m_pRenderContext( NULL ) {}
+	CBeamSegDraw() : m_pRenderContext(nullptr) {}
 	// Pass null for pMaterial if you have already set the material you want.
-	void			Start( IMatRenderContext *pRenderContext, int nSegs, IMaterial *pMaterial=0, CMeshBuilder *pMeshBuilder = NULL, int nMeshVertCount = 0 );
+	void			Start( IMatRenderContext *pRenderContext, int nSegs, IMaterial *pMaterial=nullptr, CMeshBuilder *pMeshBuilder = nullptr, int nMeshVertCount = 0 );
 
 	void			ComputeRenderInfo( BeamSegRenderInfo_t *pRenderInfo, const Vector &vecCameraPos, int nSegCount, const BeamSeg_t *pSegs ) RESTRICT;
 	virtual void	NextSeg( BeamSeg_t *pSeg );

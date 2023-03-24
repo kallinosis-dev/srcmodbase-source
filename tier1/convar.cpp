@@ -38,8 +38,8 @@
 // Statically constructed list of ConCommandBases, 
 // used for registering them with the ICVar interface
 //-----------------------------------------------------------------------------
-ConCommandBase			*ConCommandBase::s_pConCommandBases = NULL;
-IConCommandBaseAccessor	*ConCommandBase::s_pAccessor = NULL;
+ConCommandBase			*ConCommandBase::s_pConCommandBases = nullptr;
+IConCommandBaseAccessor	*ConCommandBase::s_pAccessor = nullptr;
 static int s_nCVarFlag = 0;
 static int s_nDLLIdentifier = -1;	// A unique identifier indicating which DLL this convar came from
 static bool s_bRegistered = false;
@@ -85,7 +85,7 @@ void ConVar_Register( int nCVarFlag, IConCommandBaseAccessor *pAccessor )
 	g_pCVar->AddSplitScreenConVars();
 	g_pCVar->ProcessQueuedMaterialThreadConVarSets();
 
-	ConCommandBase::s_pConCommandBases = NULL;
+	ConCommandBase::s_pConCommandBases = nullptr;
 }
 
 void ConVar_Unregister( )
@@ -109,11 +109,11 @@ void ConVar_Unregister( )
 ConCommandBase::ConCommandBase( void )
 {
 	m_bRegistered   = false;
-	m_pszName       = NULL;
-	m_pszHelpString = NULL;
+	m_pszName       = nullptr;
+	m_pszHelpString = nullptr;
 
 	m_nFlags = 0;
-	m_pNext  = NULL;
+	m_pNext  = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -186,7 +186,7 @@ void ConCommandBase::Create( const char *pName, const char *pHelpString /*= 0*/,
 	else
 	{
 		// It's unregistered
-		m_pNext = NULL;
+		m_pNext = nullptr;
 	}
 
 	// If s_pAccessor is already set (this ConVar is not a global variable),
@@ -377,7 +377,7 @@ CCommand::CCommand( int nArgC, const char **ppArgV, cmd_source_t source )
 		}
 		pBuf += nLen+1;
 
-		bool bContainsSpace = strchr( ppArgV[i], ' ' ) != NULL;
+		bool bContainsSpace = strchr( ppArgV[i], ' ' ) != nullptr;
 		if ( bContainsSpace )
 		{
 			*pSBuf++ = '\"';
@@ -503,7 +503,7 @@ const char* CCommand::FindArg( const char *pName ) const
 		if ( !Q_stricmp( Arg(i), pName ) )
 			return (i+1) < nArgC ? Arg( i+1 ) : "";
 	}
-	return 0;
+	return nullptr;
 }
 
 int CCommand::FindArgInt( const char *pName, int nDefaultVal ) const
@@ -540,7 +540,7 @@ ConCommand::ConCommand( const char *pName, FnCommandCallbackV1_t callback, const
 	m_bUsingNewCommandCallback = false;
 	m_bUsingCommandCallbackInterface = false;
 	m_fnCompletionCallback = completionFunc ? completionFunc : DefaultCompletionFunc;
-	m_bHasCompletionCallback = completionFunc != 0 ? true : false;
+	m_bHasCompletionCallback = completionFunc != nullptr ? true : false;
 
 	// Setup the rest
 	BaseClass::Create( pName, pHelpString, flags );
@@ -552,7 +552,7 @@ ConCommand::ConCommand( const char *pName, FnCommandCallback_t callback, const c
 	m_fnCommandCallback = callback;
 	m_bUsingNewCommandCallback = true;
 	m_fnCompletionCallback = completionFunc ? completionFunc : DefaultCompletionFunc;
-	m_bHasCompletionCallback = completionFunc != 0 ? true : false;
+	m_bHasCompletionCallback = completionFunc != nullptr ? true : false;
 	m_bUsingCommandCallbackInterface = false;
 
 	// Setup the rest
@@ -565,7 +565,7 @@ ConCommand::ConCommand( const char *pName, ICommandCallback *pCallback, const ch
 	m_pCommandCallback = pCallback;
 	m_bUsingNewCommandCallback = false;
 	m_pCommandCompletionCallback = pCompletionCallback;
-	m_bHasCompletionCallback = ( pCompletionCallback != 0 );
+	m_bHasCompletionCallback = ( pCompletionCallback != nullptr );
 	m_bUsingCommandCallbackInterface = true;
 
 	// Setup the rest
@@ -704,7 +704,7 @@ ConVar::~ConVar( void )
 	if ( m_Value.m_pszString )
 	{
 		delete[] m_Value.m_pszString;
-		m_Value.m_pszString = NULL;
+		m_Value.m_pszString = nullptr;
 	}
 }
 
@@ -1467,7 +1467,7 @@ void ConVar_PrintDescription( const ConCommandBase *pVar )
 		bMin = var->GetMin( fMin );
 		bMax = var->GetMax( fMax );
 
-		const char *value = NULL;
+		const char *value = nullptr;
 		char tempVal[ 32 ];
 
 		if ( pBounded || var->IsFlagSet( FCVAR_NEVER_AS_STRING ) )

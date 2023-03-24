@@ -611,7 +611,7 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CAsyncFileSystem, IAsyncFileSystem, ASYNCFILE
 
 bool UseOptimalBufferAllocation()
 {
-	static bool bUseOptimalBufferAllocation = ( IsX360() || ( !IsPosix() && Q_stristr( Plat_GetCommandLine(), "-unbuffered_io" ) != NULL ) );
+	static bool bUseOptimalBufferAllocation = ( IsX360() || ( !IsPosix() && Q_stristr( Plat_GetCommandLine(), "-unbuffered_io" ) != nullptr) );
 	return bUseOptimalBufferAllocation;
 }
 ConVar filesystem_unbuffered_io( "filesystem_unbuffered_io", "1", 0, "" );
@@ -796,9 +796,9 @@ void CFileSystem_Stdio::FreeOptimalReadBuffer( void *p )
 FILE *CFileSystem_Stdio::FS_fopen( const char *filename, const char *options, unsigned flags, int64 *size, CFileLoadInfo *pInfo )
 {
 	if( ShouldFailIo() )
-		return NULL;
+		return nullptr;
 
-	CStdFilesystemFile *pFile = NULL;
+	CStdFilesystemFile *pFile = nullptr;
 
 	if ( pInfo )
 		pInfo->m_bLoadedFromSteamCache = false;
@@ -1151,7 +1151,7 @@ CStdioFile *CStdioFile::FS_fopen( const char *filename, const char *options, int
 {
 	MEM_ALLOC_CREDIT();
 
-	FILE *pFile = NULL;
+	FILE *pFile = nullptr;
 
 	// stop newline characters at end of filename
 	Assert(!strchr(filename, '\n') && !strchr(filename, '\r'));
@@ -1241,7 +1241,7 @@ CStdioFile *CStdioFile::FS_fopen( const char *filename, const char *options, int
 		return new CStdioFile( pFile, bWriteable );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1257,11 +1257,11 @@ void CStdioFile::FS_setbufsize( unsigned nBytes )
 #elif defined _WIN32
 	if ( nBytes )
 	{
-		setvbuf( m_pFile, NULL, _IOFBF,  32768 );
+		setvbuf( m_pFile, nullptr, _IOFBF,  32768 );
 	}
 	else
 	{
-		setvbuf( m_pFile, NULL, _IONBF,  0 );
+		setvbuf( m_pFile, nullptr, _IONBF,  0 );
 		// hack to make microsoft stdio not always read one stray byte on odd sized files
 		// hopefully this isn't needed on vs2015??
 #if (defined(_MSC_VER) && (_MSC_VER < 1900))
@@ -1561,7 +1561,7 @@ static HANDLE OpenWin32File( const char *filename, bool bOverlapped, bool bUnbuf
 		createFlags |= FILE_FLAG_NO_BUFFERING;
 	}
 
-	hFile = ::CreateFile( filename, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, createFlags, NULL );
+	hFile = ::CreateFile( filename, GENERIC_READ, FILE_SHARE_READ, nullptr, OPEN_EXISTING, createFlags, nullptr);
 	if ( hFile != INVALID_HANDLE_VALUE && !*pFileSize )
 	{
 		LARGE_INTEGER fileSize;
@@ -1591,7 +1591,7 @@ CWin32ReadOnlyFile *CWin32ReadOnlyFile::FS_fopen( const char *filename, const ch
 		hFileUnbuffered = OpenWin32File( filename, bOverlapped, true, &fileSize );
 		if ( hFileUnbuffered == INVALID_HANDLE_VALUE )
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -1602,7 +1602,7 @@ CWin32ReadOnlyFile *CWin32ReadOnlyFile::FS_fopen( const char *filename, const ch
 		{
 			CloseHandle( hFileUnbuffered );
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	if ( size )
@@ -1686,7 +1686,7 @@ size_t CWin32ReadOnlyFile::FS_fread( void *dest, size_t destSize, size_t size )
 		return 0;
 	}
 
-	CThreadEvent *pEvent = NULL;
+	CThreadEvent *pEvent = nullptr;
 
 	if ( destSize == (size_t)-1 )
 	{
@@ -1842,13 +1842,13 @@ char *CWin32ReadOnlyFile::FS_fgets( char *dest, int destSize )
 {  
 	if ( FS_feof() )
 	{
-		return NULL;
+		return nullptr;
 	}
 	int nStartPos = m_ReadPos;
 	int nBytesRead = FS_fread( dest, destSize, destSize );
 	if ( !nBytesRead )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	dest[min( nBytesRead, destSize - 1)] = 0;

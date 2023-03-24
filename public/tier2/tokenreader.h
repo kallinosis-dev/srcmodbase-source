@@ -51,7 +51,7 @@ public:
 	void Stuff(trtoken_t ttype, const char *pszToken);
 	bool Expecting(trtoken_t ttype, const char *pszToken);
 	const char *Error(char *error, ...);
-	trtoken_t PeekTokenType(char* = NULL, int maxlen = 0);
+	trtoken_t PeekTokenType(char* = nullptr, int maxlen = 0);
 
 	inline int GetErrorCount(void);
 

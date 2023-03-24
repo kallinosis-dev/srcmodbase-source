@@ -159,7 +159,7 @@ public:
 	// submit any queued jobs to the async loader, called by main or async thread to get more work
 	void								SubmitPendingJobs();
 
-	void								PurgeAll( ResourcePreload_t *pDontPurgeList = NULL, int nPurgeListSize = 0 ) override;
+	void								PurgeAll( ResourcePreload_t *pDontPurgeList = nullptr, int nPurgeListSize = 0 ) override;
 #ifdef _PS3
 	// hack to prevent PS/3 deadlock on queued loader render mutex when quitting during loading a map
 	// PLEASE REMOVE THIS (AND THE MUTEX) AFTER WE SHIP
@@ -635,7 +635,7 @@ void FinishAnonymousJob( FileJob_t *pFileJob, QueuedLoaderCallback_t pCallback, 
 	{	
 		// free our data only
 		g_pFullFileSystem->FreeOptimalReadBuffer( pFileJob->m_pTargetData );
-		pFileJob->m_pTargetData = NULL;
+		pFileJob->m_pTargetData = nullptr;
 	}
 
 	pFileJob->m_bClaimed = true;
@@ -728,8 +728,8 @@ bool CQueuedLoader::CResourceNameLessFunc::Less( const FileNameHandle_t &hFilena
 			const char *pNameLHS = g_QueuedLoader.GetFilename( hFilenameLHS, szNameLHS, sizeof( szNameLHS ) );
 			const char *pNameRHS = g_QueuedLoader.GetFilename( hFilenameRHS, szNameRHS, sizeof( szNameRHS ) );
 
-			bool bIsCubemapLHS = V_stristr( pNameLHS, "maps\\" ) != NULL;
-			bool bIsCubemapRHS = V_stristr( pNameRHS, "maps\\" ) != NULL;
+			bool bIsCubemapLHS = V_stristr( pNameLHS, "maps\\" ) != nullptr;
+			bool bIsCubemapRHS = V_stristr( pNameRHS, "maps\\" ) != nullptr;
 			if ( bIsCubemapLHS != bIsCubemapRHS )
 			{
 				return ( bIsCubemapLHS == true && bIsCubemapRHS == false );
@@ -757,9 +757,9 @@ void CQueuedLoader::GetDVDLayout()
 	g_DVDLayout.Purge();
 
 	char searchPaths[32*MAX_PATH];
-	g_pFullFileSystem->GetSearchPath( NULL, true, searchPaths, sizeof( searchPaths ) );
+	g_pFullFileSystem->GetSearchPath(nullptr, true, searchPaths, sizeof( searchPaths ) );
 
-	for ( char *pPath = strtok( searchPaths, ";" ); pPath; pPath = strtok( NULL, ";" ) )
+	for ( char *pPath = strtok( searchPaths, ";" ); pPath; pPath = strtok(nullptr, ";" ) )
 	{
 		if ( V_stristr( pPath, ".zip" ) || V_stristr( pPath, ".bsp" ) )
 		{
@@ -988,7 +988,7 @@ bool CQueuedLoader::AddJob( const LoaderJob_t *pLoaderJob )
 	{
 		// an absolute path is trusted, take as is
 		pFullPath = (char *)pLoaderJob->m_pFilename;
-		bFileIsFromBSP = V_stristr( pFullPath, ".bsp" ) != NULL;
+		bFileIsFromBSP = V_stristr( pFullPath, ".bsp" ) != nullptr;
 		bExists = true;
 	}
 	else
@@ -1198,7 +1198,7 @@ bool CQueuedLoader::ClaimAnonymousJob( const char *pFilename, void **pData, int 
 	}
 	
 	// caller owns the data, regardless of how the job was setup
-	pFileJob->m_pTargetData = NULL;
+	pFileJob->m_pTargetData = nullptr;
 
 	// memory has been consumed
 	g_nAnonymousIOMemory -= pFileJob->m_nActualBytesRead;
@@ -1661,7 +1661,7 @@ void CQueuedLoader::AddResourceToTable( const char *pFilename )
 		return;
 	}
 
-	const char *pTypeDir = NULL;
+	const char *pTypeDir = nullptr;
 	const char *pName = pFilename;
 	ResourcePreload_t type = RESOURCEPRELOAD_UNKNOWN;
 
@@ -2073,7 +2073,7 @@ void CQueuedLoader::EndMapLoading( bool bAbort )
 			if ( pFileJob->m_bFreeTargetAfterIO && pFileJob->m_pTargetData )
 			{
 				g_pFullFileSystem->FreeOptimalReadBuffer( pFileJob->m_pTargetData );
-				pFileJob->m_pTargetData = NULL;
+				pFileJob->m_pTargetData = nullptr;
 			}
 			g_nAnonymousIOMemory -= pFileJob->m_nActualBytesRead;
 			iIndex = m_AnonymousJobs.Next( iIndex );

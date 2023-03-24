@@ -108,7 +108,7 @@ CMacro *CVPC::SetSystemMacro( const char *pMacroName, const char *pMacroValue, b
 	else
 	{
 		// create a system type macro
-		pMacro = new CMacro( pMacroName, pMacroValue, NULL, true, bSetupDefineInProjectFile );
+		pMacro = new CMacro( pMacroName, pMacroValue, nullptr, true, bSetupDefineInProjectFile );
 		m_Macros.InsertWithDupes( pMacroName, pMacro );
 	}
 
@@ -178,7 +178,7 @@ CMacro *CVPC::SetScriptMacro( const char *pMacroName, const char *pMacroValue, b
 	else
 	{
 		// create a script type macro
-		pMacro = new CMacro( pMacroName, pMacroValue, NULL, false, bSetupDefineInProjectFile );
+		pMacro = new CMacro( pMacroName, pMacroValue, nullptr, false, bSetupDefineInProjectFile );
 		m_Macros.InsertWithDupes( pMacroName, pMacro );
 	}
 
@@ -243,7 +243,7 @@ CMacro *CVPC::FindMacro( const char *pMacroName, const char *pConfigurationName 
 		}
 	
 		// not found
-		return NULL;
+		return nullptr;
 	}
 	
 	// direct lookup
@@ -254,7 +254,7 @@ CMacro *CVPC::FindMacro( const char *pMacroName, const char *pConfigurationName 
 	}
 
 	// not found
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -310,7 +310,7 @@ void CVPC::ResolveMacrosInString( char const *pString, CUtlStringBuilder *pOutBu
         char macroToken[MAX_MACRO_NAME];
         int nTokenChars = 0;
 
-        CMacro *pMacro = NULL;
+        CMacro *pMacro = nullptr;
 		for ( int nMacroIndex = m_Macros.FirstInorder(); nMacroIndex != m_Macros.InvalidIndex(); nMacroIndex = m_Macros.NextInorder( nMacroIndex ) )
 		{
 			CMacro *pCheck = m_Macros[nMacroIndex];

@@ -169,7 +169,7 @@ struct VPKContentFileInfo_t
 		m_iOffsetInChunk = 0;
 		m_iPreloadSize = 0;
 		m_crc = 0;
-		m_pPreloadData = NULL;
+		m_pPreloadData = nullptr;
 		//memset( m_md5Source.bits, 0, sizeof( m_md5Source.bits ) );
 	}
 };
@@ -183,7 +183,7 @@ struct CachedVPKRead_t
 	{
 		m_nPackFileNumber = 0;
 		m_nFileFraction = 0;
-		m_pubBuffer = NULL;
+		m_pubBuffer = nullptr;
 		m_cubBuffer = 0;
 		m_idxLRU = -1;
 		m_hMD5RequestHandle= 0;
@@ -286,7 +286,7 @@ public:
 
 	/// Add file, writing file data to the end
 	/// of the current chunk
-	ePackedStoreAddResultCode AddFile( char const *pFile, uint16 nMetaDataSize, const void *pFileData, uint32 nFullFileSize, bool bMultiChunk, uint32 const *pCrcToUse = NULL );
+	ePackedStoreAddResultCode AddFile( char const *pFile, uint16 nMetaDataSize, const void *pFileData, uint32 nFullFileSize, bool bMultiChunk, uint32 const *pCrcToUse = nullptr);
 
 	// write out the file directory
 	void Write( void );
@@ -431,7 +431,7 @@ private:
 
 	struct CFileHeaderFixedData *FindFileEntry( 
 		char const *pDirname, char const *pBaseName, char const *pExtension,
-		uint8 **pExtBaseOut = NULL, uint8 **pNameBaseOut = NULL );
+		uint8 **pExtBaseOut = nullptr, uint8 **pNameBaseOut = nullptr);
 
 	void BuildHashTables( void );
 

@@ -86,8 +86,8 @@ const char *GetCurrentConfigurationName() override;
 	// 
 	// If you pass pCustomScriptData to HandleProperty, it won't touch the global parsing state -
 	// it'll parse the platform filters and property value from pCustomScriptData instead.
-bool StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip = NULL ) override;
-void HandleProperty( const char *pProperty, const char *pCustomScriptData = NULL ) override;
+bool StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip = nullptr) override;
+void HandleProperty( const char *pProperty, const char *pCustomScriptData = nullptr) override;
 const char *GetPropertyValue( const char *pProperty ) override;
 void EndPropertySection( configKeyword_e keyword ) override;
 

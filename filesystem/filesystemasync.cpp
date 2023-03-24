@@ -40,16 +40,16 @@ extern CAsyncFileSystem g_FileSystem_Async;
 //-----------------------------------------------------------------------------
 CAsyncRequestBase::CAsyncRequestBase()
 {
-	m_pOuter = NULL;
+	m_pOuter = nullptr;
 	
-	m_pCallback	= NULL;
-	m_pResultQueue = NULL;
+	m_pCallback	= nullptr;
+	m_pResultQueue = nullptr;
 	
 	m_Operation	= ASYNC_OP_UNDEFINED;
 	m_priority = 0;
 
-	m_pNext	= NULL;
-	m_pPrev	= NULL;
+	m_pNext	= nullptr;
+	m_pPrev	= nullptr;
 	
 	m_RequestState = ASYNC_REQUEST_STATE_COMPOSING;
 	m_RequestStatus	= ASYNC_REQUEST_OK;
@@ -58,12 +58,12 @@ CAsyncRequestBase::CAsyncRequestBase()
 	m_bProcessingCallback = false;
 	m_bDontAutoRelease = false;
 	
-	m_pSyncThreadEvent = NULL;
+	m_pSyncThreadEvent = nullptr;
 	
-	m_pOldAsyncControl = NULL;
+	m_pOldAsyncControl = nullptr;
 	m_pOldAsyncStatus = FSASYNC_OK;
 	
-	m_pGroup = NULL;
+	m_pGroup = nullptr;
 	
 }
 
@@ -74,7 +74,7 @@ CAsyncRequestBase::CAsyncRequestBase()
 //-----------------------------------------------------------------------------
 CAsyncRequestBase::~CAsyncRequestBase()
 {
-	RefreshCallback( NULL );		// Release functor
+	RefreshCallback(nullptr);		// Release functor
 	
 	// We do this in the base class as it will be the last destructor called
 
@@ -88,7 +88,7 @@ CAsyncRequestBase::~CAsyncRequestBase()
 //-----------------------------------------------------------------------------
 IAsyncRequestBase* CAsyncRequestBase::GetInterfaceBase()
 {
-	if ( m_pOuter != NULL )
+	if ( m_pOuter != nullptr)
 	{
 		switch ( m_Operation )
 		{
@@ -114,7 +114,7 @@ IAsyncRequestBase* CAsyncRequestBase::GetInterfaceBase()
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 
@@ -167,12 +167,12 @@ void CAsyncRequestBase::ProcessCallback( bool bRelease )
 	}
 
 	// Callback is a one shot thing	
-	if ( m_pCallback != NULL )
+	if ( m_pCallback != nullptr)
 	{
 		m_bProcessingCallback = true;
 		(*m_pCallback)();
 		m_pCallback->Release();
-		m_pCallback = NULL;
+		m_pCallback = nullptr;
 		m_bProcessingCallback = false;
 	}
 	
@@ -217,7 +217,7 @@ void CAsyncRequestBase::Release()
 //-----------------------------------------------------------------------------
 void CAsyncRequestBase::DeleteOuter()
 {
-	if ( m_pOuter != NULL )
+	if ( m_pOuter != nullptr)
 	{
 		switch ( m_Operation )
 		{
@@ -268,7 +268,7 @@ void CAsyncRequestBase::SetPriority( int32 nPriority )
 void CAsyncRequestBase::RefreshCallback( CFunctor* pCallback )
 {
 	// release existing callback
-	if ( m_pCallback != NULL )
+	if ( m_pCallback != nullptr)
 	{
 		m_pCallback->Release();
 	}
@@ -284,7 +284,7 @@ void CAsyncRequestBase::RefreshCallback( CFunctor* pCallback )
  void CAsyncRequestBase::AbortAfterServicing( CAsyncResultInfo_t& results )
  {
  
-	if ( m_pOuter != NULL )
+	if ( m_pOuter != nullptr)
 	{
 		switch ( m_Operation )
 		{
@@ -323,7 +323,7 @@ void CAsyncRequestBase::RefreshCallback( CFunctor* pCallback )
 void CAsyncRequestBase::UpdateAfterServicing( CAsyncResultInfo_t& results )
  {
  
- 	if ( m_pOuter != NULL )
+ 	if ( m_pOuter != nullptr)
 	{
 		switch ( m_Operation )
 		{
@@ -362,7 +362,7 @@ void CAsyncRequestBase::UpdateAfterServicing( CAsyncResultInfo_t& results )
  AsyncRequestStatus_t CAsyncRequestBase::ValidateSubmittedRequest( bool bPerformSync )
  {
 
- 	if ( m_pOuter != NULL )
+ 	if ( m_pOuter != nullptr)
 	{
 		switch ( m_Operation )
 		{
@@ -466,7 +466,7 @@ IAsyncRequestBase* CAsyncGroupRequest::GetAsyncRequest( int32 nRNum )
 	if ( nRNum < 0 || nRNum >=  m_RequestList.Count() )
 	{
 		Assert( false );
-		return NULL;	
+		return nullptr;	
 	}
 	
 	return m_RequestList[ nRNum ];
@@ -482,7 +482,7 @@ IAsyncFileRequest* CAsyncGroupRequest::GetAsyncFileRequest( int32 nRNum )
 	if ( nRNum < 0 || nRNum >=  m_RequestList.Count() )
 	{
 		Assert( false );
-		return NULL;	
+		return nullptr;	
 	}
 	
 	IAsyncRequestBase* pRequest = m_RequestList[ nRNum ];
@@ -494,7 +494,7 @@ IAsyncFileRequest* CAsyncGroupRequest::GetAsyncFileRequest( int32 nRNum )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 
 }
@@ -509,7 +509,7 @@ IAsyncSearchRequest* CAsyncGroupRequest::GetAsyncSearchRequest( int32 nRNum )
 	if ( nRNum < 0 || nRNum >=  m_RequestList.Count() )
 	{
 		Assert( false );
-		return NULL;	
+		return nullptr;	
 	}
 	
 	IAsyncRequestBase* pRequest = m_RequestList[ nRNum ];
@@ -521,7 +521,7 @@ IAsyncSearchRequest* CAsyncGroupRequest::GetAsyncSearchRequest( int32 nRNum )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -558,15 +558,15 @@ void CAsyncGroupRequest::NotifyOfCompletion(  IAsyncRequestBase* pRequest )
 CAsyncFileRequest::CAsyncFileRequest() 	
 {
 	m_Base.SetOuter( this );
-	m_pFileName	= NULL;
+	m_pFileName	= nullptr;
 	
-	m_pUserProvidedDataBuffer = NULL;
+	m_pUserProvidedDataBuffer = nullptr;
 	m_nUserProvidedBufferSize = 0;
 	
 	m_nFileSeekOffset = 0;
 	m_nMaxIOSizeInBytes = 0;
 	
-	m_pResultsBuffer = NULL;
+	m_pResultsBuffer = nullptr;
 	m_nResultsBufferSize = 0;
 	m_nIOActualSize	= 0;
 	
@@ -584,12 +584,12 @@ CAsyncFileRequest::CAsyncFileRequest()
 CAsyncFileRequest::~CAsyncFileRequest()
 {
 	// Release memory we own...
-	RefreshFileName( NULL );		// Release our copy of filename
+	RefreshFileName(nullptr);		// Release our copy of filename
 	
 	// and the data buffer? 
 	if ( m_bDeleteBufferMemory )
 	{
-		if ( m_pResultsBuffer != NULL )
+		if ( m_pResultsBuffer != nullptr)
 		{
 			g_FileSystem_Async.ReleaseBuffer( m_pResultsBuffer );
 		}
@@ -677,7 +677,7 @@ void CAsyncFileRequest::ProvideDataBuffer()
 {
 	VALIDATE_REQUEST_MODIFICATION;
 	
-	m_pUserProvidedDataBuffer = NULL;
+	m_pUserProvidedDataBuffer = nullptr;
 	m_nUserProvidedBufferSize = 0;
 	m_bDeleteBufferMemory = true;
 }
@@ -715,10 +715,10 @@ void CAsyncFileRequest::AbortAfterServicing( CAsyncResultInfo_t& results )
 {
 
 	// was it a read and did the request allocate a buffer?
-	if ( GetAsyncOperationType()== ASYNC_OP_READFILE && m_pUserProvidedDataBuffer == NULL )
+	if ( GetAsyncOperationType()== ASYNC_OP_READFILE && m_pUserProvidedDataBuffer == nullptr)
 	{
 		// the old async code allocated a buffer that we aren't going to use/return
-		if ( results.m_pAllocatedBuffer != NULL )
+		if ( results.m_pAllocatedBuffer != nullptr)
 		{
 			// this should call our allocation function
 			delete[] results.m_pAllocatedBuffer;
@@ -736,7 +736,7 @@ void CAsyncFileRequest::UpdateAfterServicing( CAsyncResultInfo_t& results )
 
 	// copy our return info from the old results struct
 	m_pResultsBuffer = results.m_pAllocatedBuffer;
-	m_nResultsBufferSize = ( m_pUserProvidedDataBuffer == NULL ) ? results.m_nBytesTransferred : m_nUserProvidedBufferSize;
+	m_nResultsBufferSize = ( m_pUserProvidedDataBuffer == nullptr) ? results.m_nBytesTransferred : m_nUserProvidedBufferSize;
 	m_nIOActualSize = results.m_nBytesTransferred;
 
 }
@@ -750,7 +750,7 @@ AsyncRequestStatus_t CAsyncFileRequest::ValidateSubmittedRequest( bool bPerformS
 {
 
 	// filename must be supplied
-	if ( GetFileName() == NULL )
+	if ( GetFileName() == nullptr)
 	{
 		return ASYNC_REQUEST_ERROR_BADOPER;			
 	}
@@ -761,13 +761,13 @@ AsyncRequestStatus_t CAsyncFileRequest::ValidateSubmittedRequest( bool bPerformS
 	if ( err != ASYNC_REQUEST_OK ) return err;
 #endif	
 	// if the user supplies a buffer, it must have a size
-	if ( GetUserBuffer() != NULL && GetUserBufferSize() == 0 )
+	if ( GetUserBuffer() != nullptr && GetUserBufferSize() == 0 )
 	{
 		return ASYNC_REQUEST_ERROR_BADUSERBUFFER;		// cant supply a zero sized buffer
 	}
 
 	// if we are writing, then a buffer must be specified
-	if ( ( CAsyncFileRequest::GetAsyncOperationType() == ASYNC_OP_WRITEFILE || CAsyncFileRequest::GetAsyncOperationType() == ASYNC_OP_APPENDFILE ) && GetUserBuffer() == NULL )   
+	if ( ( CAsyncFileRequest::GetAsyncOperationType() == ASYNC_OP_WRITEFILE || CAsyncFileRequest::GetAsyncOperationType() == ASYNC_OP_APPENDFILE ) && GetUserBuffer() == nullptr)   
 	{
 		return ASYNC_REQUEST_ERROR_NOBUFFER;
 	}
@@ -786,18 +786,18 @@ AsyncRequestStatus_t CAsyncFileRequest::ValidateSubmittedRequest( bool bPerformS
 void CAsyncFileRequest::RefreshFileName( const char* pNewFileName )
 {
 	// release existing filename
-	if ( m_pFileName != NULL )
+	if ( m_pFileName != nullptr)
 	{
 		delete[] m_pFileName;
 	}
 	// we duplicate the file name, and own its memory
-	if ( pNewFileName != NULL )
+	if ( pNewFileName != nullptr)
 	{
 		m_pFileName	= strdup( pNewFileName );
 	}
 	else
 	{
-		m_pFileName = NULL;
+		m_pFileName = nullptr;
 	}
 }
 
@@ -952,13 +952,13 @@ CDirectoryEntryInfo_t*	CAsyncSearchRequest::GetResult( int rNum )
 	if ( m_Base.GetRequestState() < ASYNC_REQUEST_STATE_AWATING_FINISH || m_Base.GetRequestState() > ASYNC_REQUEST_STATE_COMPLETED )
 	{
 		Assert( false );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( rNum < 0 || rNum >= m_nNumResults )
 	{
 		Assert( false );
-		return NULL;
+		return nullptr;
 	}
 	
 	return &( m_Results[ rNum ] );
@@ -974,13 +974,13 @@ const char*	CAsyncSearchRequest::GetMatchedFile( int rNum )
 	if ( m_Base.GetRequestState() < ASYNC_REQUEST_STATE_AWATING_FINISH || m_Base.GetRequestState() > ASYNC_REQUEST_STATE_COMPLETED )
 	{
 		Assert( false );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( rNum < 0 || rNum >= m_nNumResults )
 	{
 		Assert( false );
-		return NULL;
+		return nullptr;
 	}
 	
 	return m_Results[ rNum ].m_FullFileName ;
@@ -1048,8 +1048,8 @@ bool CAsyncSearchRequest::ValidateRequestModification()
 CAsyncRequestQueue::CAsyncRequestQueue()
 {
 	m_nQueueSize = 0;
-	m_pHead = NULL;
-	m_pTail = NULL;
+	m_pHead = nullptr;
+	m_pTail = nullptr;
 }
 
 
@@ -1062,10 +1062,10 @@ CAsyncRequestQueue::~CAsyncRequestQueue()
 	AUTO_LOCK_FM( m_Mutex );		// wait for any other operations to finish
 	
 	// Delete any requests remaining in the queue
-	if ( m_pHead != NULL )
+	if ( m_pHead != nullptr)
 	{
 		Warning( " CAsyncRequestQueue destructor called while queue was not empty" );
-		while ( m_pHead != NULL )
+		while ( m_pHead != nullptr)
 		{
 			CAsyncRequestBase* pNext = m_pHead->m_pNext;
 			delete m_pHead;
@@ -1083,10 +1083,10 @@ bool CAsyncRequestQueue::IsInQueue( CAsyncRequestBase* pItem )
 {
 	AUTO_LOCK_FM( m_Mutex );		// synchronize since we are scanning the queue?
 	
-	if ( pItem == NULL || m_pHead == NULL ) return false;
+	if ( pItem == nullptr || m_pHead == nullptr) return false;
 	
 	CAsyncRequestBase* pCur = m_pHead;
-	while ( pCur != NULL )
+	while ( pCur != nullptr)
 	{
 		if ( pCur == pItem ) return true;
 		pCur = pCur->m_pNext;
@@ -1104,10 +1104,10 @@ bool CAsyncRequestQueue::IsInQueueIp( const IAsyncRequestBase* pInterfaceBase )
 {
 	AUTO_LOCK_FM( m_Mutex );		// synchronize since we are scanning the queue?
 
-	if ( pInterfaceBase == NULL || m_pHead == NULL ) return false;
+	if ( pInterfaceBase == nullptr || m_pHead == nullptr) return false;
 	
 	CAsyncRequestBase* pCur = m_pHead;
-	while ( pCur != NULL )
+	while ( pCur != nullptr)
 	{
 		if ( ( const IAsyncRequestBase* ) ( pCur->GetOuter() ) == pInterfaceBase ) return true;
 		pCur = pCur->m_pNext;
@@ -1128,19 +1128,19 @@ void CAsyncRequestQueue::AddToHead( CAsyncRequestBase* pItem )
 	AUTO_LOCK_FM( m_Mutex );
 		
 	// Empty queue?
-	if ( m_pHead == NULL )
+	if ( m_pHead == nullptr)
 	{
 		Assert( pItem != NULL );
 		Assert( m_pHead == m_pTail && m_nQueueSize == 0 );
 		
 		m_pHead = m_pTail = pItem;
-		pItem->m_pPrev = NULL;
-		pItem->m_pNext = NULL;
+		pItem->m_pPrev = nullptr;
+		pItem->m_pNext = nullptr;
 		m_nQueueSize = 1;
 	}
 	else
 	{
-		pItem->m_pPrev = NULL;
+		pItem->m_pPrev = nullptr;
 		pItem->m_pNext = m_pHead;
 		m_pHead = pItem;
 		pItem->m_pNext->m_pPrev = pItem;	// Fixup previous head item
@@ -1159,20 +1159,20 @@ void CAsyncRequestQueue::AddToTail( CAsyncRequestBase* pItem )
 	AUTO_LOCK_FM( m_Mutex );
 		
 	// Empty queue?
-	if ( m_pTail == NULL )
+	if ( m_pTail == nullptr)
 	{
 		Assert( pItem != NULL );
 		Assert( m_pHead == m_pTail && m_nQueueSize == 0 );
 		
 		m_pHead = m_pTail = pItem;
-		pItem->m_pPrev = NULL;
-		pItem->m_pNext = NULL;
+		pItem->m_pPrev = nullptr;
+		pItem->m_pNext = nullptr;
 		m_nQueueSize = 1;
 	}
 	else
 	{
 		pItem->m_pPrev = m_pTail;
-		pItem->m_pNext = NULL;
+		pItem->m_pNext = nullptr;
 		m_pTail = pItem;
 		pItem->m_pPrev->m_pNext = pItem;	// Fixup previous tail item
 		m_nQueueSize++;
@@ -1189,7 +1189,7 @@ void CAsyncRequestQueue::InsertBefore( CAsyncRequestBase* pItem, CAsyncRequestBa
 {
 	AUTO_LOCK_FM( m_Mutex );
 	
-	if ( pInsertAt == NULL || m_nQueueSize == 0 || pItem == NULL || !IsInQueue( pInsertAt ) )
+	if ( pInsertAt == nullptr || m_nQueueSize == 0 || pItem == nullptr || !IsInQueue( pInsertAt ) )
 	{
 		return;
 	}
@@ -1220,7 +1220,7 @@ void CAsyncRequestQueue::InsertAfter( CAsyncRequestBase* pItem, CAsyncRequestBas
 {
 	AUTO_LOCK_FM( m_Mutex );
 	
-	if ( pInsertAt == NULL || m_nQueueSize == 0 || pItem == NULL ||  !IsInQueue( pInsertAt ) )
+	if ( pInsertAt == nullptr || m_nQueueSize == 0 || pItem == nullptr ||  !IsInQueue( pInsertAt ) )
 	{
 		return;
 	}
@@ -1250,7 +1250,7 @@ void CAsyncRequestQueue::PriorityInsert( CAsyncRequestBase* pItem )
 {
 	AUTO_LOCK_FM( m_Mutex );
 	
-	if ( pItem == NULL )
+	if ( pItem == nullptr)
 	{	
 		return;
 	}
@@ -1258,7 +1258,7 @@ void CAsyncRequestQueue::PriorityInsert( CAsyncRequestBase* pItem )
 	CAsyncRequestBase* pCur = m_pHead;
 	bool bInserted = false;
 	
-	while ( pCur != NULL )
+	while ( pCur != nullptr)
 	{
 		if ( pCur->GetPriority() < pItem->GetPriority() )
 		{
@@ -1286,19 +1286,19 @@ void CAsyncRequestQueue::Remove( CAsyncRequestBase* pItem )
 {
 	AUTO_LOCK_FM( m_Mutex );
 		
-	if ( pItem == NULL || m_nQueueSize == 0 || !IsInQueue( pItem ) )
+	if ( pItem == nullptr || m_nQueueSize == 0 || !IsInQueue( pItem ) )
 	{
 		return;
 	}
 	
 	if ( m_nQueueSize == 1 )		// emptying queue?
 	{
-		m_pHead = m_pTail = NULL;
+		m_pHead = m_pTail = nullptr;
 	}
 	else
 	{
 		// removing head?
-		if ( pItem->m_pPrev == NULL )
+		if ( pItem->m_pPrev == nullptr)
 		{
 			Assert( pItem == m_pHead );
 			m_pHead = pItem->m_pNext;
@@ -1308,7 +1308,7 @@ void CAsyncRequestQueue::Remove( CAsyncRequestBase* pItem )
 			pItem->m_pPrev->m_pNext = pItem->m_pNext;
 		}
 		// removing tail?
-		if ( pItem->m_pNext == NULL )
+		if ( pItem->m_pNext == nullptr)
 		{
 			Assert( pItem == m_pTail );
 			m_pTail = pItem->m_pPrev;
@@ -1320,8 +1320,8 @@ void CAsyncRequestQueue::Remove( CAsyncRequestBase* pItem )
 	}
 	m_nQueueSize--;
 	
-	pItem->m_pNext = NULL;			// clear links inside removed request
-	pItem->m_pPrev = NULL;
+	pItem->m_pNext = nullptr;			// clear links inside removed request
+	pItem->m_pPrev = nullptr;
 
 }
 
@@ -1335,9 +1335,9 @@ CAsyncRequestBase* CAsyncRequestQueue::RemoveHead()
 {
 	AUTO_LOCK_FM( m_Mutex );
 	
-	if ( m_nQueueSize == 0 || m_pHead == NULL )
+	if ( m_nQueueSize == 0 || m_pHead == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	CAsyncRequestBase* pItem = m_pHead;	
@@ -1394,7 +1394,7 @@ void *CAsyncFileSystem::QueryInterface( const char *pInterfaceName )
 		return ( IAsyncFileSystem* ) this;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1634,11 +1634,11 @@ void CAsyncFileSystem::KickOffFileJobs()
 
 	FileAsyncRequest_t asJobReq;
 	
-	CAsyncFileRequest* pFileRequest = NULL;
-	CAsyncSearchRequest* pSearchRequest = NULL;
+	CAsyncFileRequest* pFileRequest = nullptr;
+	CAsyncSearchRequest* pSearchRequest = nullptr;
 	
 	
-	char* pSearchSpec = NULL;
+	char* pSearchSpec = nullptr;
 	bool bRecurseFolders = false;
 	
 	if ( pRequestBase->GetAsyncOperationType() == ASYNC_OP_READFILE ||
@@ -1652,7 +1652,7 @@ void CAsyncFileSystem::KickOffFileJobs()
 		// IO operation size is smaller of optionally supplied buffer size and optionally supplied IO size	
 		
 		int nIOMax = 0;
-		if ( pFileRequest->GetUserBuffer() != NULL )	
+		if ( pFileRequest->GetUserBuffer() != nullptr)	
 		{
 			nIOMax = pFileRequest->GetUserBufferSize();
 			if ( pFileRequest->m_nMaxIOSizeInBytes > 0 && pFileRequest->m_nMaxIOSizeInBytes > nIOMax )
@@ -1673,8 +1673,8 @@ void CAsyncFileSystem::KickOffFileJobs()
 		asJobReq.pfnCallback = &CAsyncFileSystem::AsyncIOCallbackGateway;
 		asJobReq.pContext = (void*) pRequestBase;
 		asJobReq.priority = 0;
-		asJobReq.flags = ( pFileRequest->GetUserBuffer() == NULL ) ? FSASYNC_FLAGS_ALLOCNOFREE : 0 ;
-		asJobReq.pszPathID = NULL;
+		asJobReq.flags = ( pFileRequest->GetUserBuffer() == nullptr) ? FSASYNC_FLAGS_ALLOCNOFREE : 0 ;
+		asJobReq.pszPathID = nullptr;
 		asJobReq.hSpecificAsyncFile = FS_INVALID_ASYNC_FILE;
 		asJobReq.pfnAlloc = &CAsyncFileSystem::OldAsyncAllocatorCallback;
 	}
@@ -1887,7 +1887,7 @@ void CAsyncFileSystem::AsyncIOCallBackHandler(CAsyncRequestBase* pRequest, CAsyn
 	KickOffFileJobs();
 
 	// Was this a synchronous operation?
-	if ( pRequest->m_pSyncThreadEvent != NULL )
+	if ( pRequest->m_pSyncThreadEvent != nullptr)
 	{
 		// wake up the calling thread...
 		pRequest->m_pSyncThreadEvent->Set();
@@ -1909,7 +1909,7 @@ void CAsyncFileSystem::AsyncIOCallBackHandler(CAsyncRequestBase* pRequest, CAsyn
 void CAsyncFileSystem::NotifyMessageQueueOrCallback( CAsyncRequestBase* pRequest )
 {
 	// ok, do we have an IO completion queue to add this to?
-	if ( pRequest->m_pResultQueue != NULL )	
+	if ( pRequest->m_pResultQueue != nullptr)	
 	{
 		CAsyncIOResult_t result;
 		result.m_pRequest = pRequest->GetInterfaceBase();
@@ -1969,7 +1969,7 @@ AsyncRequestStatus_t CAsyncFileSystem::AbortAsyncFileRequest( const IAsyncReques
 {
 	AUTO_LOCK_FM( m_AsyncStateUpdateMutex );
 	
-	CAsyncRequestBase*	pRequestBase = NULL;
+	CAsyncRequestBase*	pRequestBase = nullptr;
 	AsyncRequestState_t CurrentStage = ASYNC_REQUEST_STATE_UNDEFINED;
 
 	// determine if the pointer is still valid, and get info on it if so
@@ -2053,7 +2053,7 @@ bool CAsyncFileSystem::ResolveAsyncRequest( const IAsyncRequestBase* pRequest, C
 		return true;
 	}
 
-	pRequestBase = NULL;
+	pRequestBase = nullptr;
 	CurrentStage = ASYNC_REQUEST_STATE_UNDEFINED;
 	return false;
 
@@ -2377,7 +2377,7 @@ AsyncRequestStatus_t CAsyncFileSystem::ValidateRequest( CAsyncRequestBase* pRequ
 	if ( bPerformSync )
 	{
 		// No callback is allowable in sync mode
-		if ( pRequest->m_pCallback != NULL || pRequest->m_pResultQueue != NULL )
+		if ( pRequest->m_pCallback != nullptr || pRequest->m_pResultQueue != nullptr)
 		{
 			// return ASYNC_REQUEST_ERROR_NOTVALIDSYNCRONOUS;
 			// just ignore the callbacks and do the type specific validation
@@ -2386,7 +2386,7 @@ AsyncRequestStatus_t CAsyncFileSystem::ValidateRequest( CAsyncRequestBase* pRequ
 	else
 	{
 		// We need a completion queue, a callback or both
-		if ( pRequest->m_pResultQueue == NULL && pRequest->m_pCallback == NULL )
+		if ( pRequest->m_pResultQueue == nullptr && pRequest->m_pCallback == nullptr)
 		{
 			return ASYNC_REQUEST_ERROR_NONOTIFICATION;	// must have a notification or callback
 		}

@@ -27,7 +27,7 @@ abstract_class IFileLoggingListener : public ILoggingListener
 public:
 	void Log( const LoggingContext_t *pContext, const char *pMessage ) override = 0;
 
-	virtual LoggingFileHandle_t BeginLoggingToFile( const char *pFilename, const char *pOptions, const char *pPathID = NULL ) = 0;
+	virtual LoggingFileHandle_t BeginLoggingToFile( const char *pFilename, const char *pOptions, const char *pPathID = nullptr) = 0;
 	virtual void EndLoggingToFile( LoggingFileHandle_t fileHandle ) = 0;
 
 	virtual void AssignLogChannel( LoggingChannelID_t channelID, LoggingFileHandle_t loggingFileHandle ) = 0;
@@ -44,7 +44,7 @@ public:
 
 	void Log( const LoggingContext_t *pContext, const char *pMessage ) override;
 
-	LoggingFileHandle_t BeginLoggingToFile( const char *pFilename, const char *pOptions, const char *pPathID = NULL ) override;
+	LoggingFileHandle_t BeginLoggingToFile( const char *pFilename, const char *pOptions, const char *pPathID = nullptr) override;
 	void EndLoggingToFile( LoggingFileHandle_t fileHandle ) override;
 
 	void AssignLogChannel( LoggingChannelID_t channelID, LoggingFileHandle_t loggingFileHandle ) override;
@@ -59,8 +59,8 @@ private:
 	{
 		FileHandle_t m_FileHandle;
 
-		bool IsOpen() const { return m_FileHandle != 0; }
-		void Reset() { m_FileHandle = 0; }
+		bool IsOpen() const { return m_FileHandle != nullptr; }
+		void Reset() { m_FileHandle = nullptr; }
 	};
 
 	FileInfo_t m_OpenFiles[MAX_SIMULTANEOUS_LOGGING_FILE_COUNT];

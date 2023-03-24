@@ -60,18 +60,18 @@ void CLZSS::BuildHash( unsigned char *pData )
 		if ( pTarget->pPrev )
 		{
 			pList->pEnd = pTarget->pPrev;
-			pTarget->pPrev->pNext = 0;
+			pTarget->pPrev->pNext = nullptr;
 		}
 		else
 		{
-			pList->pEnd = 0;
-			pList->pStart = 0;
+			pList->pEnd = nullptr;
+			pList->pStart = nullptr;
 		}
 	}
 
 	pList = &m_pHashTable[*pData];
 	pTarget->pData = pData;
-	pTarget->pPrev = 0;
+	pTarget->pPrev = nullptr;
 	pTarget->pNext = pList->pStart;
 	if ( pList->pStart )
 	{
@@ -88,7 +88,7 @@ unsigned char *CLZSS::CompressNoAlloc( unsigned char *pInput, int inputLength, u
 {
 	if ( inputLength <= sizeof( lzss_header_t ) + 8 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// create the compression work buffers, small enough (~64K) for stack
@@ -110,8 +110,8 @@ unsigned char *CLZSS::CompressNoAlloc( unsigned char *pInput, int inputLength, u
 	unsigned char *pOutput = pStart + sizeof (lzss_header_t);
 	unsigned char *pLookAhead = pInput; 
 	unsigned char *pWindow = pInput;
-	unsigned char *pEncodedPosition = NULL;
-	unsigned char *pCmdByte = NULL;
+	unsigned char *pEncodedPosition = nullptr;
+	unsigned char *pCmdByte = nullptr;
 	int putCmdByte = 0;
 
 	while ( inputLength > 0 )
@@ -176,7 +176,7 @@ unsigned char *CLZSS::CompressNoAlloc( unsigned char *pInput, int inputLength, u
 		if ( pOutput >= pEnd )
 		{
 			// compression is worse, abandon
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -184,7 +184,7 @@ unsigned char *CLZSS::CompressNoAlloc( unsigned char *pInput, int inputLength, u
 	{
 		// unexpected failure
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( !putCmdByte )
@@ -219,7 +219,7 @@ unsigned char* CLZSS::Compress( unsigned char *pInput, int inputLength, unsigned
 	if ( !pFinal )
 	{
 		free( pStart );
-		return NULL;
+		return nullptr;
 	}
 
 	return pStart;

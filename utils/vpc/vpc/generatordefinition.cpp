@@ -12,7 +12,7 @@ CGeneratorDefinition::CGeneratorDefinition()
 
 void CGeneratorDefinition::Clear()
 {
-	m_pPropertyNames = NULL;
+	m_pPropertyNames = nullptr;
 	m_ScriptName.Clear();
 	m_NameString.Clear();
 	m_VersionString.Clear();
@@ -162,7 +162,7 @@ void CGeneratorDefinition::IterateToolKey( KeyValues *pToolKV )
 	//Msg( "Tool Key name: %s\n", pToolKV->GetName() );
 
 	// find or create
-	GeneratorTool_t *pTool = NULL;
+	GeneratorTool_t *pTool = nullptr;
 	for ( int i = 0; i < m_Tools.Count(); i++ )
 	{
 		if ( !V_stricmp_fast( pToolKV->GetName(), m_Tools[i].m_ParseString.Get() ) )
@@ -350,7 +350,7 @@ ToolProperty_t *CGeneratorDefinition::GetProperty( configKeyword_e keyword, cons
 	}
 
 	// not found
-	return NULL;
+	return nullptr;
 }
 
 

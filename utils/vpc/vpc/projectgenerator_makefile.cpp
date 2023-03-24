@@ -72,7 +72,7 @@ static inline bool CheckExtension( const char *pFilename, const char *pExt )
 //--------------------------------------------------------------------------------------------------
 static bool CheckExtensions( const char *pFilename, const char **ppExtensions )
 {
-	for ( int i=0; ppExtensions[i] != NULL; i++ )
+	for ( int i=0; ppExtensions[i] != nullptr; i++ )
 	{
 		if ( CheckExtension( pFilename, ppExtensions[i] ) )
 			return true;
@@ -85,7 +85,7 @@ static void NeuterPathAscension( char *pPath )
 	// Strip out any '../' and replace with 'up/'. Do this to avoid escaping
 	// the $(OBJDIR) hierarchy.
 	char *p = pPath;
-	while( (p = strstr(p, "../")) != NULL ) {
+	while( (p = strstr(p, "../")) != nullptr) {
 		memcpy( p, "up", 2 );
 		p += 3;
 	}
@@ -283,7 +283,7 @@ void CProjectGenerator_Makefile::WriteCustomDependencies( const char *pDependenc
     }
 
     CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
-    CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pDependencies, pVsStr, NULL );
+    CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pDependencies, pVsStr, nullptr);
 
     CSplitStringInPlace splitDeps( pVsStr->Access(), ';' );
     while ( splitDeps.HasNext() )
@@ -348,7 +348,7 @@ bool CProjectGenerator_Makefile::WriteCustomBuildTool(	CProjectConfiguration *pC
     if ( pFixedProjectFileName &&
          pFixedProjectFileName[0] )
     {
-		V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), pFixedProjectFileName, NULL, k_bVPCForceLowerCase );
+		V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), pFixedProjectFileName, nullptr, k_bVPCForceLowerCase );
         V_FixSlashes( szAbsPath, '/' );
 
 		V_strncpy( szRelativePath, pFixedProjectFileName, ARRAYSIZE( szRelativePath ) );
@@ -526,12 +526,12 @@ void CProjectGenerator_Makefile::WriteDefines( CProjectConfiguration *pConfig,
                                                CProjectFile *pProjectFile )
 {
     const char *preprocessorDefinitionsString = m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_PreprocessorDefinitions );
-    if ( strchr( preprocessorDefinitionsString, ' ' ) != NULL ||
-         strchr( preprocessorDefinitionsString, '\t' ) != NULL )
+    if ( strchr( preprocessorDefinitionsString, ' ' ) != nullptr ||
+         strchr( preprocessorDefinitionsString, '\t' ) != nullptr)
     {
         g_pVPC->VPCError( "$PreprocessorDefinitions contains whitespace: '%s'", preprocessorDefinitionsString );
     }
-    if ( strchr( preprocessorDefinitionsString, ',' ) != NULL )
+    if ( strchr( preprocessorDefinitionsString, ',' ) != nullptr)
     {
         g_pVPC->VPCError( "$PreprocessorDefinitions contains commas, use semicolons as separators: '%s'", preprocessorDefinitionsString );
     }
@@ -596,7 +596,7 @@ bool FormatRPaths( const char *pRawString, CUtlString &output, char cNewPathSepa
 		const char *pEnd = pParse + V_strlen( pParse );
 		while ( pParse < pEnd )
 		{
-			const char *pOrigin = szOriginReplacement ? V_stristr_fast( pParse, "$ORIGIN" ) : NULL;
+			const char *pOrigin = szOriginReplacement ? V_stristr_fast( pParse, "$ORIGIN" ) : nullptr;
 			if ( pOrigin )
 			{
 				bRetVal = true;
@@ -661,7 +661,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
     char szRelPath[MAX_FIXED_PATH];
 
 	CUtlString formattedRPaths;
-	bool bRPathsUseOrigin = FormatRPaths( m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_POSIX_RPaths ), formattedRPaths, ':', "$$ORIGIN" ); //double dollar signs because we're going through make
+	bool bRPathsUseOrigin = FormatRPaths( m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_POSIX_RPaths ), formattedRPaths, ':', "$$ORIGIN" ); //double dollar signs because we're going through make
 	
 	outBuf.Printf(	"\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
 					"################################################################################\n"
@@ -675,11 +675,11 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 	// GCC_ExtraCompilerFlags
 	// Hopefully, they don't ever need to use backslashes because we're turning them into forward slashes here.
 	// If that does become a problem, we can put some token around the pathnames we need to be fixed up and leave the rest alone.
-	outBuf.Printf( "GCC_ExtraCompilerFlags=%s\n", UsePOSIXSlashes( m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_GCC_ExtraCompilerFlags ) ) );
-	outBuf.Printf( "GCC_ExtraCxxCompilerFlags=%s\n", UsePOSIXSlashes( m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_GCC_ExtraCxxCompilerFlags ) ) );
+	outBuf.Printf( "GCC_ExtraCompilerFlags=%s\n", UsePOSIXSlashes( m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_GCC_ExtraCompilerFlags ) ) );
+	outBuf.Printf( "GCC_ExtraCxxCompilerFlags=%s\n", UsePOSIXSlashes( m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_GCC_ExtraCxxCompilerFlags ) ) );
 
 	// GCC_ExtraLinkerFlags
-	outBuf.Printf( "GCC_ExtraLinkerFlags=%s", m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_GCC_ExtraLinkerFlags ) );
+	outBuf.Printf( "GCC_ExtraLinkerFlags=%s", m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_GCC_ExtraLinkerFlags ) );
 	if ( formattedRPaths.Length() )
 	{
 		if ( bRPathsUseOrigin )
@@ -691,35 +691,35 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 	outBuf.Printf( "\n" );
 
     // DisableLinkerDeadCodeElimination
-	outBuf.Printf( "DisableLinkerDeadCodeElimination=%s\n", m_pVCProjGenerator->GetPropertyValueAsBool( NULL, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_DisableLinkerDeadCodeElimination ) ? "1" : "" );
+	outBuf.Printf( "DisableLinkerDeadCodeElimination=%s\n", m_pVCProjGenerator->GetPropertyValueAsBool(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_DisableLinkerDeadCodeElimination ) ? "1" : "" );
 
 	// SymbolVisibility
-	outBuf.Printf( "SymbolVisibility=%s\n", m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_SymbolVisibility, "hidden" ) );
+	outBuf.Printf( "SymbolVisibility=%s\n", m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_SymbolVisibility, "hidden" ) );
 
     // TreatWarningsAsErrors
-    outBuf.Printf( "TreatWarningsAsErrors=%s\n", m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_COMPILER, "$TreatWarningsAsErrors", "false" ) );
+    outBuf.Printf( "TreatWarningsAsErrors=%s\n", m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_COMPILER, "$TreatWarningsAsErrors", "false" ) );
 
 	// OptimizerLevel
-	outBuf.Printf( "OptimizerLevel=%s\n", m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_OptimizerLevel, "$(SAFE_OPTFLAGS_GCC_422)" ) );
+	outBuf.Printf( "OptimizerLevel=%s\n", m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_OptimizerLevel, "$(SAFE_OPTFLAGS_GCC_422)" ) );
 		
 	// Precompiled header.
-    const char *pchOption = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_PrecompiledHeader, "" );
+    const char *pchOption = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_PrecompiledHeader, "" );
     const char *pchInclude = "";
     const char *pchIncludeUnqual = "";
     CUtlString pchIncludeRelative;
 #if defined( WIN32 ) && 1
     // The cross-compiling gcc has a bug with PCH handling so
     // we can't use PCH in that case, default to it being off.
-    bool bDisableMakefilePch = g_pVPC->FindOrCreateConditional( "ENABLE_MAKEFILE_PCH", false, CONDITIONAL_NULL ) == NULL;
+    bool bDisableMakefilePch = g_pVPC->FindOrCreateConditional( "ENABLE_MAKEFILE_PCH", false, CONDITIONAL_NULL ) == nullptr;
 #else
     bool bDisableMakefilePch = true; // g_pVPC->FindOrCreateConditional( "DISABLE_MAKEFILE_PCH", false, CONDITIONAL_NULL ) != NULL;
 #endif
     if ( !bDisableMakefilePch &&
          pchOption &&
          pchOption[0] &&
-         V_stristr_fast( pchOption, "Not Using" ) == NULL )
+         V_stristr_fast( pchOption, "Not Using" ) == nullptr)
     {
-        pchInclude = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_UsePCHThroughFile, "" );
+        pchInclude = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_UsePCHThroughFile, "" );
     }
 	outBuf.Printf( "PrecompiledHeaderInclude=%s\n", pchInclude );
     if ( pchInclude && pchInclude[0] )
@@ -728,11 +728,11 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 
 		// The PCH header file needs to have a path relative to the project
 		// path.
-		const char *additionalIncludeDirectoriesString = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_AdditionalIncludeDirectories );
+		const char *additionalIncludeDirectoriesString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_AdditionalIncludeDirectories );
 		CSplitString incStrings( additionalIncludeDirectoriesString, (const char**)g_IncludeSeparators, V_ARRAYSIZE( g_IncludeSeparators ) );
 		for ( int i = 0; i < incStrings.Count(); i++ )
 		{
-			V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), incStrings[i], NULL, k_bVPCForceLowerCase );
+			V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), incStrings[i], nullptr, k_bVPCForceLowerCase );
 			V_strncat( szAbsPath, "/", ARRAYSIZE( szAbsPath ) );
 			V_strncat( szAbsPath, pchInclude, ARRAYSIZE( szAbsPath ) );
 			V_FixSlashes( szAbsPath );
@@ -750,7 +750,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 		// on assuming it's relative to the current directory.
         if ( pchIncludeRelative.IsEmpty() )
         {
-            V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), pchInclude, NULL, k_bVPCForceLowerCase );
+            V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), pchInclude, nullptr, k_bVPCForceLowerCase );
 			V_FixDoubleSlashes( szAbsPath );
 			V_MakeRelativePath( szAbsPath, g_pVPC->GetProjectPath(), szRelPath, sizeof( szRelPath ) );
 			V_RemoveDotSlashes( szRelPath );
@@ -763,7 +763,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
     {
         outBuf.Printf( "SystemLibraries=" );
         {
-			const char *systemLibrariesString = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_SystemLibraries );
+			const char *systemLibrariesString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_SystemLibraries );
             CSplitString libs( systemLibrariesString, (const char**)g_IncludeSeparators, V_ARRAYSIZE( g_IncludeSeparators ) );
             for ( int i=0; i < libs.Count(); i++ )
             {
@@ -775,14 +775,14 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
         {
             CUtlString rgchFrameworkCompilerFlags;
 
-			const char *systemFrameworksString = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_SystemFrameworks );
+			const char *systemFrameworksString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_SystemFrameworks );
             CSplitString systemFrameworks( systemFrameworksString, (const char**)g_IncludeSeparators, V_ARRAYSIZE( g_IncludeSeparators ) );
             for ( int i = 0; i < systemFrameworks.Count(); i++ )
             {
                 outBuf.Printf( "-framework %s ", systemFrameworks[i] );
             }
 
-			const char *localFrameworksString = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_LocalFrameworks );
+			const char *localFrameworksString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_LocalFrameworks );
             CSplitString localFrameworks( localFrameworksString, (const char**)g_IncludeSeparators, V_ARRAYSIZE( g_IncludeSeparators ) );
             for ( int i = 0; i < localFrameworks.Count(); i++ )
             {
@@ -845,7 +845,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 		
 	// ForceIncludes
 	{
-		const char *forceIncludesString = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_ForceInclude );
+		const char *forceIncludesString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_ForceInclude );
 		CSplitString outStrings( forceIncludesString, (const char**)g_IncludeSeparators, V_ARRAYSIZE( g_IncludeSeparators ) );
 		outBuf.Printf( "FORCEINCLUDES= " );
 		for ( int i=0; i < outStrings.Count(); i++ )
@@ -860,23 +860,23 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 
 	// CFG_DEFINES
     outBuf.Printf( "DEFINES += " );
-    WriteDefines( pConfig, outBuf, NULL );
+    WriteDefines( pConfig, outBuf, nullptr);
     outBuf.Printf( "\n" );
 
 	// CFG_INCLUDEDIRS
     outBuf.Printf( "INCLUDEDIRS += " );
-    WriteIncludes( pConfig, outBuf, NULL );
+    WriteIncludes( pConfig, outBuf, nullptr);
     outBuf.Printf( "\n" );
 
 	// CONFTYPE
 	bool bProjectIsLib = false;
-	const char *configurationTypeString = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_GENERAL, g_pOption_ConfigurationType );
+	const char *configurationTypeString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_GENERAL, g_pOption_ConfigurationType );
 	if ( V_stristr_fast( configurationTypeString, ".dll" ) )
 	{
 		outBuf.Printf( "CONFTYPE=dll\n" );
 
 		// Write ImportLibrary for dll (so) builds.
-		const char *importLibraryString = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_ImportLibrary );
+		const char *importLibraryString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_ImportLibrary );
 		outBuf.Printf( "IMPORTLIBRARY=%s\n", UsePOSIXSlashes( importLibraryString ) );
 	}
 	else if ( V_stristr_fast( configurationTypeString, ".lib" ) )
@@ -899,10 +899,10 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 	// OutputFile is where it builds to.
 	CUtlPathStringHolder outputFile;
    {
-		const char *outputFileString = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), bProjectIsLib ? KEYWORD_LIBRARIAN : KEYWORD_LINKER, g_pOption_OutputFile );
+		const char *outputFileString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), bProjectIsLib ? KEYWORD_LIBRARIAN : KEYWORD_LINKER, g_pOption_OutputFile );
 		const char *fixedOutputFile = UsePOSIXSlashes( outputFileString );
 
-		V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), fixedOutputFile, NULL, k_bVPCForceLowerCase );
+		V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), fixedOutputFile, nullptr, k_bVPCForceLowerCase );
 		CBaseProjectDataCollector::DoStandardVisualStudioReplacements( fixedOutputFile, pVsStr, szAbsPath );
 
 		outBuf.Printf( "OUTPUTFILE=%s\n", pVsStr->String() );
@@ -913,22 +913,22 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 
 	// GameOutputFile is where it copies OutputFile to.
 	{
-		const char *gameOutputFileString = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_GENERAL, g_pOption_GameOutputFile );
+		const char *gameOutputFileString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_GENERAL, g_pOption_GameOutputFile );
 		const char *fixedGameOutputFile = UsePOSIXSlashes( gameOutputFileString );
 
-		V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), fixedGameOutputFile, NULL, k_bVPCForceLowerCase );
+		V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), fixedGameOutputFile, nullptr, k_bVPCForceLowerCase );
 		CBaseProjectDataCollector::DoStandardVisualStudioReplacements( fixedGameOutputFile, pVsStr, szAbsPath );
 
 		outBuf.Printf( "GAMEOUTPUTFILE=%s\n", pVsStr->String() );
 	}
         
     // Write all the filenames.
-	const char *sSourceFileExtensions[] = { "gen_cpp", "cpp", "cxx", "cc", "c", "mm", NULL };
+	const char *sSourceFileExtensions[] = { "gen_cpp", "cpp", "cxx", "cc", "c", "mm", nullptr};
 	outBuf.Printf( "\n" );
 	WriteSourceFilesList( outBuf, "CPPFILES", (const char**)sSourceFileExtensions, pConfig->m_Name.Get() );
 
 	// LIBFILES
-	const char *importLibraryString = bProjectIsLib ? "" : m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_ImportLibrary );
+	const char *importLibraryString = bProjectIsLib ? "" : m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_ImportLibrary );
 	CUtlPathStringHolder importLibraryFile( importLibraryString );
     importLibraryFile.FixSlashesAndDotSlashes( '/' );
 
@@ -1090,10 +1090,10 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 
 	// Global custom build step
 	{
-		const char *szGlobalCustomBuildCommand = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_CommandLine );
+		const char *szGlobalCustomBuildCommand = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_CommandLine );
 		if ( szGlobalCustomBuildCommand && szGlobalCustomBuildCommand[0] )
 		{
-			WriteCustomBuildTool( pConfig, customBuildToolsBuf, scriptType, NULL, "", vpcGeneratedScriptsBasePath.Get(), customBuildToolDependencies, customBuildToolScripts, customBuildToolOutputs );
+			WriteCustomBuildTool( pConfig, customBuildToolsBuf, scriptType, nullptr, "", vpcGeneratedScriptsBasePath.Get(), customBuildToolDependencies, customBuildToolScripts, customBuildToolOutputs );
 		}
 	}
 
@@ -1144,7 +1144,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
             // We assume that if the file has a different PCH setting from the
             // base PCH file that means it's disabling PCH for the file.
             if ( bUsePch &&
-                 ( V_stristr_fast( m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_PrecompiledHeader, "" ), "Not Using" ) != NULL ||
+                 ( V_stristr_fast( m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_PrecompiledHeader, "" ), "Not Using" ) != nullptr ||
                    V_stricmp_fast( pchInclude, m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pConfig->m_Name.Get(), KEYWORD_COMPILER, g_pOption_UsePCHThroughFile, "" ) ) != 0 ) )
             {
                 bUsePch = false;
@@ -1247,7 +1247,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 
 	// Pre-Build event
 	{
-		const char *szPreBuildEvent = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_PREBUILDEVENT, g_pOption_CommandLine );
+		const char *szPreBuildEvent = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_PREBUILDEVENT, g_pOption_CommandLine );
 		if ( szPreBuildEvent && szPreBuildEvent[0] )
 		{
 			CUtlString scriptFileName;
@@ -1269,7 +1269,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 
 	// Pre-Link event
 	{
-		const char *szPreLinkEvent = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_PRELINKEVENT, g_pOption_CommandLine );
+		const char *szPreLinkEvent = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_PRELINKEVENT, g_pOption_CommandLine );
 		if ( szPreLinkEvent && szPreLinkEvent[0] )
 		{
 			outBuf.PutString(	"\n\n"
@@ -1291,7 +1291,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 
 	// Post-Build event
 	{
-		const char *szPostBuildEvent = m_pVCProjGenerator->GetPropertyValueAsString( NULL, pConfig->m_Name.Get(), KEYWORD_POSTBUILDEVENT, g_pOption_CommandLine );
+		const char *szPostBuildEvent = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_POSTBUILDEVENT, g_pOption_CommandLine );
 		if ( szPostBuildEvent && szPostBuildEvent[0] )
 		{
 			outBuf.PutString(	"\n\n"

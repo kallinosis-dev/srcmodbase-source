@@ -124,11 +124,11 @@ public:
 
 	// This is the main function to generate dependencies.
 	// nBuildProjectDepsFlags is a combination of BUILDPROJDEPS_ flags.
-	void BuildProjectDependencies( int nBuildProjectDepsFlags, CUtlVector< projectIndex_t > *pAllowedProjects = NULL, CUtlVector< projectIndex_t > *pOverrideProjects = NULL );
+	void BuildProjectDependencies( int nBuildProjectDepsFlags, CUtlVector< projectIndex_t > *pAllowedProjects = nullptr, CUtlVector< projectIndex_t > *pOverrideProjects = nullptr);
 
 	bool HasGeneratedDependencies() const;
 
-	CDependency* FindDependency( const char *pFilename, CUtlPathStringHolder *pFixedFilename = NULL );
+	CDependency* FindDependency( const char *pFilename, CUtlPathStringHolder *pFixedFilename = nullptr);
 	CDependency* FindOrCreateDependency( const char *pFilename, EDependencyType type );
 
 	// Look for all projects (that we've scanned during BuildProjectDependencies) that depend on the specified project.

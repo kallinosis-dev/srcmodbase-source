@@ -137,8 +137,8 @@ struct CSysCallCacheEntry_FindProc : public CSysCallCacheEntry
 
 CSysCallCacheEntry::CSysCallCacheEntry() :
 	m_eResult( SYSCALL_SUCCESS ),
-	m_pfnSysCall( NULL ),
-	m_hModule( NULL ),
+	m_pfnSysCall(nullptr),
+	m_hModule(nullptr),
 	m_bInitialized( false ),
 	m_bFreeModule( false )
 {
@@ -202,8 +202,8 @@ void CSysCallCacheEntry::Reset()
 		if ( m_bFreeModule && m_hModule )
 			::FreeLibrary( m_hModule );
 		m_eResult = SYSCALL_SUCCESS;
-		m_hModule = NULL;
-		m_pfnSysCall = NULL;
+		m_hModule = nullptr;
+		m_pfnSysCall = nullptr;
 		m_bFreeModule = false;
 		m_bInitialized = false;
 	}

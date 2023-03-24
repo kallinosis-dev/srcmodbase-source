@@ -50,8 +50,8 @@ public:
 
 	// These functions are called when it enters a section like $Compiler, $Linker, etc.
 	// In between the BeginPropertySection/EndPropertySection, it'll call HandleProperty for any properties inside that section.
-	virtual bool StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip = NULL ) = 0;
-	virtual void HandleProperty( const char *pProperty, const char *pCustomScriptData=NULL ) = 0;
+	virtual bool StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip = nullptr) = 0;
+	virtual void HandleProperty( const char *pProperty, const char *pCustomScriptData= nullptr) = 0;
 	virtual const char *GetPropertyValue( const char *pProperty ) = 0;
 	virtual void EndPropertySection( configKeyword_e keyword ) = 0;
 

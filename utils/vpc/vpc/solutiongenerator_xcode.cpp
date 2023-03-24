@@ -215,11 +215,11 @@ public:
     
     const char *GetStringProperty( configKeyword_e configKeyword, const char *pPropertyName )
     {
-        return m_pGenerator->GetPropertyValueAsString( NULL, m_pConfigName, configKeyword, pPropertyName );
+        return m_pGenerator->GetPropertyValueAsString(nullptr, m_pConfigName, configKeyword, pPropertyName );
     }
     const char *GetConfigStringProperty( const char *pConfigName, configKeyword_e configKeyword, const char *pPropertyName )
     {
-        return m_pGenerator->GetPropertyValueAsString( NULL, pConfigName, configKeyword, pPropertyName );
+        return m_pGenerator->GetPropertyValueAsString(nullptr, pConfigName, configKeyword, pPropertyName );
     }
 
     bool DependsOn( CProject_Xcode *pProj )
@@ -247,7 +247,7 @@ public:
     bool IsCustomBuildOutputFileFromBuildRule( const char *pFileName ) const
     {
         CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pFileName, pVsStr, NULL );
+        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pFileName, pVsStr, nullptr);
 		// We aren't given the usual OBJECT_FILE_DIR_normal and it would be specific
 		// to our fake target anway so locate the true project's objdir.
 		CUtlStringHolder<80> sObjDir( "$CONFIGURATION_TEMP_DIR/", GetName(), ".build/Objects-normal" );
@@ -272,12 +272,12 @@ public:
 
     bool ProjectProducesBinary() const
     {
-        return m_pPrimaryOutputFile != NULL;
+        return m_pPrimaryOutputFile != nullptr;
     }
 
     const char *GetAbsolutePath( const char *pCheckFileName,
                                  CUtlPathStringHolder *pAbsPath,
-                                 const char *pMacroCheck = NULL ) const
+                                 const char *pMacroCheck = nullptr) const
     {
         if ( V_IsAbsolutePath( pCheckFileName ) ||
              ( pMacroCheck && pMacroCheck[0] == '$' ) )
@@ -430,8 +430,8 @@ void CSolutionGenerator_Xcode::AddProject( CVCProjGenerator *pGen )
     pProj->m_nOid = nProjIndex;
     pProj->m_pGenerator = pGen;
     // Set later at generate time.
-    pProj->m_pDependencyProj = NULL;
-	V_MakeAbsolutePath( sAbsolutePath, sizeof( sAbsolutePath ), pGen->GetOutputFileName(), NULL, k_bVPCForceLowerCase );
+    pProj->m_pDependencyProj = nullptr;
+	V_MakeAbsolutePath( sAbsolutePath, sizeof( sAbsolutePath ), pGen->GetOutputFileName(), nullptr, k_bVPCForceLowerCase );
     pProj->m_projectOutputFile = sAbsolutePath;
     pProj->m_pConfigName = pPrimaryConfig;
     pProj->m_nShellScriptPhases = 0;
@@ -459,7 +459,7 @@ void CSolutionGenerator_Xcode::AddProject( CVCProjGenerator *pGen )
     }
     else
     {
-        pProj->m_pPrimaryOutputFile = NULL;
+        pProj->m_pPrimaryOutputFile = nullptr;
         pProj->m_pPrimaryOutputFileSafe = "";
     }
 
@@ -521,7 +521,7 @@ void CSolutionGenerator_Xcode::ProcessGenerators()
 
         for ( int iConfig = 0; iConfig < V_ARRAYSIZE( k_rgchConfigNames ); iConfig++ )
         {
-            AddCustomBuildOutputFiles( pProj, NULL, k_rgchConfigNames[iConfig], iConfig );
+            AddCustomBuildOutputFiles( pProj, nullptr, k_rgchConfigNames[iConfig], iConfig );
         }
         for ( int iFile = 0; iFile < pProj->m_projectFiles.Count(); iFile++ )
         {
@@ -675,7 +675,7 @@ bool CSolutionGenerator_Xcode::EmitCustomBuildStep( CProject_Xcode *pProj, CProj
     }
 
     const char *pProjectDir = pProj->m_projectDir;
-    const char *pFileName = NULL;
+    const char *pFileName = nullptr;
     CUtlPathStringHolder sFixedFileName; 
 
     if ( pProjectFile )
@@ -884,7 +884,7 @@ void CSolutionGenerator_Xcode::AddCustomBuildOutputFiles( CProject_Xcode *pProj,
         return;
     }
 
-    const char *pFileName = NULL;
+    const char *pFileName = nullptr;
     CUtlPathStringHolder sFixedFileName; 
     if ( pProjectFile )
     {
@@ -1965,7 +1965,7 @@ void CSolutionGenerator_Xcode::EmitShellScriptBuildPhaseSection()
         // Emit any project-wide (non-file) custom build step.
         for ( int iConfig = 0; iConfig < V_ARRAYSIZE( k_rgchConfigNames ); iConfig++ )
         {
-            EmitCustomBuildStep( pProj, NULL, k_rgchConfigNames[iConfig] );
+            EmitCustomBuildStep( pProj, nullptr, k_rgchConfigNames[iConfig] );
         }
 
         // wander the list of files, looking for custom build steps
@@ -2080,7 +2080,7 @@ void CSolutionGenerator_Xcode::EmitShellScriptBuildPhaseSection()
                 }
 
                 CUtlStringBuilder *pVsStr2 = g_pVPC->GetTempStringBuffer2();
-                CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pProj->GetStringProperty( KEYWORD_POSTBUILDEVENT, g_pOption_CommandLine ), pVsStr2, NULL );
+                CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pProj->GetStringProperty( KEYWORD_POSTBUILDEVENT, g_pOption_CommandLine ), pVsStr2, nullptr);
                 pVsStr2->ReplaceFastCaseless( "$(OBJ_DIR)", "${OBJECT_FILE_DIR_normal}" );
                 CUtlString sCommandLine = UsePOSIXSlashes( pVsStr2->Get() );
 
@@ -2669,7 +2669,7 @@ void CSolutionGenerator_Xcode::EmitBuildConfigurationSection()
             Write( "buildSettings = {\n" );
             ++m_nIndent;
             {
-                EmitBuildSettings( "All", NULL, NULL, bIsDebug );            
+                EmitBuildSettings( "All", nullptr, nullptr, bIsDebug );            
             }
             --m_nIndent;
             Write( "};\n" );
@@ -2687,7 +2687,7 @@ void CSolutionGenerator_Xcode::EmitBuildConfigurationSection()
             Write( "buildSettings = {\n" );
             ++m_nIndent;
             {
-                EmitBuildSettings( "All", NULL, NULL, bIsDebug );            
+                EmitBuildSettings( "All", nullptr, nullptr, bIsDebug );            
             }
             --m_nIndent;
             Write( "};\n" );

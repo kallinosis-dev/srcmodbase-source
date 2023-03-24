@@ -296,7 +296,7 @@ public:
 	void		VPCWarning( PRINTF_FORMAT_STRING const char *pFormat, ... ) FMTFUNCTION( 2, 3 );
 	void		VPCStatus( bool bAlwaysSpew, PRINTF_FORMAT_STRING const char *pFormat, ... ) FMTFUNCTION( 3, 4 );
 	void		VPCStatusWithColor( bool bAlwaysSpew, Color messageColor, PRINTF_FORMAT_STRING const char *pFormat, ... ) FMTFUNCTION( 4, 5 );
-	void		VPCSyntaxError( PRINTF_FORMAT_STRING const char *pFormat = NULL, ... ) FMTFUNCTION( 2, 3 );
+	void		VPCSyntaxError( PRINTF_FORMAT_STRING const char *pFormat = nullptr, ... ) FMTFUNCTION( 2, 3 );
 
 	void		ClearPacifier();
 	void		OutputPacifier();
@@ -357,7 +357,7 @@ public:
 	bool		IsQtEnabled();
 	bool		IsSchemaEnabled();
 	bool		IsUnityEnabled();
-	bool		IsProjectUsingUnity( script_t *pProjectScript = NULL );
+	bool		IsProjectUsingUnity( script_t *pProjectScript = nullptr);
 	bool		IsClangEnabled();
 	bool		ShouldEmitClangProject();
 
@@ -418,7 +418,7 @@ public:
         return m_TempStringBuffer1.Get();
     }
 
-    const char *CreateGeneratedRootFilePath( CUtlPathStringHolder *pBuf, const char *pFile, const char *pSuffix = NULL );
+    const char *CreateGeneratedRootFilePath( CUtlPathStringHolder *pBuf, const char *pFile, const char *pSuffix = nullptr);
     const char *CreateGeneratedSubdirPath( CUtlPathStringHolder *pBuf, const char *pTopLevelName );
     
 	int			ProcessCommandLine();
@@ -443,11 +443,11 @@ public:
 	bool					IsConditionalDefined( const char *pName );
 
 	// Macros
-	void					ResolveMacrosInString( char const *pString, CUtlStringBuilder *pOutBuff, CUtlVector< CUtlString > *pMacrosReplaced = NULL );
+	void					ResolveMacrosInString( char const *pString, CUtlStringBuilder *pOutBuff, CUtlVector< CUtlString > *pMacrosReplaced = nullptr);
 	int						GetMacrosMarkedForCompilerDefines( CUtlVector< CMacro* > &macroDefines );
 	void					RemoveScriptCreatedMacros();
-	const char				*GetMacroValue( const char *pMacroName, const char *pConfigurationName = NULL );
-	CMacro					*FindMacro( const char *pMacroName, const char *pConfigurationName = NULL );
+	const char				*GetMacroValue( const char *pMacroName, const char *pConfigurationName = nullptr);
+	CMacro					*FindMacro( const char *pMacroName, const char *pConfigurationName = nullptr);
 	CMacro					*SetSystemMacro( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile = false );
 	CMacro					*SetDynamicMacro( const char *pMacroName, void (*pFNResolveValue)( CMacro *pThis ) );
 	CMacro					*SetScriptMacro( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile = false );
@@ -829,8 +829,8 @@ extern void					VPC_GetPCHInclude( CProjectFile *pFile, CProjectConfiguration *p
 //  - pFilesExcludingPCH: (optional) receives a list of all files specifically configured to NOT use PCHs
 extern void					VPC_GeneratePCHInfo(	CVCProjGenerator *pDataCollector, CProjectConfiguration *pRootConfig,
 													CUtlVector< CUtlString > &pchIncludeNames, CUtlVector< CUtlString > &pchCreatorNames,
-													CUtlVector< CUtlString > const *pRequiredPCHs = NULL,
-													CUtlVector< CProjectFile * > *pFilesExcludingPCH = NULL );
+													CUtlVector< CUtlString > const *pRequiredPCHs = nullptr,
+													CUtlVector< CProjectFile * > *pFilesExcludingPCH = nullptr);
 
 // ---------------- Clang feature -----------------------
 extern void					VPC_Clang_OnParseProjectEnd( CVCProjGenerator *pDataCollector );

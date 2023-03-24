@@ -562,7 +562,7 @@ void CVProfile::SumTimes( CVProfNode *pNode, int budgetGroupID )
 	}
 		
 	if ( bSetStartNode )
-		g_pStartNode = NULL;
+		g_pStartNode = nullptr;
 }
 
 //-------------------------------------
@@ -571,7 +571,7 @@ CVProfNode *CVProfile::FindNode( CVProfNode *pStartNode, const tchar *pszNode )
 {
 	if ( _tcscmp( pStartNode->GetName(), pszNode ) != 0 )
 	{
-		CVProfNode *pFoundNode = NULL;
+		CVProfNode *pFoundNode = nullptr;
 		if ( pStartNode->GetSibling() )
 		{
 			pFoundNode = FindNode( pStartNode->GetSibling(), pszNode );
@@ -806,14 +806,14 @@ void CVProfile::SumTimes( const tchar *pszStartNode, int budgetGroupID )
 {
 	if ( GetRoot()->GetChild() )
 	{
-		if ( pszStartNode == NULL )
+		if ( pszStartNode == nullptr)
 			g_pStartNode = GetRoot();
 		else
-			g_pStartNode = NULL;
+			g_pStartNode = nullptr;
 
 		g_pszSumNode = pszStartNode;
 		SumTimes( GetRoot(), budgetGroupID );
-		g_pStartNode = NULL;
+		g_pStartNode = nullptr;
 	}
 
 }
@@ -1297,7 +1297,7 @@ void CVProfile::OutputReport( int type, const tchar *pszStartNode, int budgetGro
 			Msg( _T("\n") );
 		}
 
-		if ( pszStartNode == NULL )
+		if ( pszStartNode == nullptr)
 		{
 			pszStartNode = GetRoot()->GetName();
 		}
@@ -1308,8 +1308,8 @@ void CVProfile::OutputReport( int type, const tchar *pszStartNode, int budgetGro
 		if ( type & VPRT_HIERARCHY )
 		{
 			Msg( _T("-- Hierarchical Call Graph --\n"));
-			if ( pszStartNode == NULL )
-				g_pStartNode = NULL;
+			if ( pszStartNode == nullptr)
+				g_pStartNode = nullptr;
 			else
 				g_pStartNode = FindNode( GetRoot(), pszStartNode );
 
@@ -1320,8 +1320,8 @@ void CVProfile::OutputReport( int type, const tchar *pszStartNode, int budgetGro
 		if ( type & VPRT_HIERARCHY_TIME_PER_FRAME_AND_COUNT_ONLY )
 		{
 			Msg( _T("-- Hierarchical Call Graph --\n"));
-			if ( pszStartNode == NULL )
-				g_pStartNode = NULL;
+			if ( pszStartNode == nullptr)
+				g_pStartNode = nullptr;
 			else
 				g_pStartNode = FindNode( GetRoot(), pszStartNode );
 
@@ -1383,7 +1383,7 @@ void CVProfile::OutputReport( int type, const tchar *pszStartNode, int budgetGro
 //=============================================================================
 
 CVProfile::CVProfile() 
- :	m_Root( _T("Root"), 0, NULL, VPROF_BUDGETGROUP_OTHER_UNACCOUNTED, 0 ),
+ :	m_Root( _T("Root"), 0, nullptr, VPROF_BUDGETGROUP_OTHER_UNACCOUNTED, 0 ),
 	m_pCurNode( &m_Root ), 
  	m_nFrames( 0 ),
  	m_enabled( 0 ),  // don't change this. if m_enabled is anything but zero coming out of this constructor, vprof will break.
@@ -1478,7 +1478,7 @@ void CVProfile::FreeNodes_R( CVProfNode *pNode )
 	
 	if ( pNode == GetRoot() )
 	{
-		pNode->m_pChild = NULL;
+		pNode->m_pChild = nullptr;
 	}
 	else
 	{
@@ -1496,13 +1496,13 @@ void CVProfile::Term()
 	}
 	delete m_pBudgetGroups;
 	m_nBudgetGroupNames = m_nBudgetGroupNamesAllocated = 0;
-	m_pBudgetGroups = NULL;
+	m_pBudgetGroups = nullptr;
 
 	int n;
 	for( n = 0; n < m_NumCounters; n++ )
 	{
 		delete [] m_CounterNames[n];
-		m_CounterNames[n] = NULL;
+		m_CounterNames[n] = nullptr;
 	}
 	m_NumCounters = 0;
 

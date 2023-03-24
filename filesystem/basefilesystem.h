@@ -368,7 +368,7 @@ protected:
 class CZipPackFile : public CPackFile
 {
 public:
-	CZipPackFile( CBaseFileSystem* fs, void *pSection = NULL );
+	CZipPackFile( CBaseFileSystem* fs, void *pSection = nullptr);
 	~CZipPackFile() override;
 
 	// Loads the pack file
@@ -502,7 +502,7 @@ public:
 
 	// file handling
 	FileHandle_t		Open( const char *pFileName, const char *pOptions, const char *pathID ) override;
-	FileHandle_t		OpenEx( const char *pFileName, const char *pOptions, unsigned flags = 0, const char *pathID = 0, char **ppszResolvedFilename = NULL ) override;
+	FileHandle_t		OpenEx( const char *pFileName, const char *pOptions, unsigned flags = 0, const char *pathID = nullptr, char **ppszResolvedFilename = nullptr) override;
 	void				Close( FileHandle_t ) override;
 	void				Seek( FileHandle_t file, int pos, FileSystemSeek_t method ) override;
 	unsigned int		Tell( FileHandle_t file ) override;
@@ -522,11 +522,11 @@ public:
 	int					FPrintf( FileHandle_t file, PRINTF_FORMAT_STRING const char *pFormat, ... ) override FMTFUNCTION( 3, 4 );
 
 	// Reads/writes files to utlbuffers
-	bool				ReadFile( const char *pFileName, const char *pPath, CUtlBuffer &buf, int nMaxBytes, int nStartingByte, FSAllocFunc_t pfnAlloc = NULL ) override;
+	bool				ReadFile( const char *pFileName, const char *pPath, CUtlBuffer &buf, int nMaxBytes, int nStartingByte, FSAllocFunc_t pfnAlloc = nullptr) override;
 	bool				WriteFile( const char *pFileName, const char *pPath, CUtlBuffer &buf ) override;
 	bool				UnzipFile( const char *pFileName, const char *pPath, const char *pDestination ) override;
-	int					ReadFileEx( const char *pFileName, const char *pPath, void **ppBuf, bool bNullTerminate, bool bOptimalAlloc, int nMaxBytes = 0, int nStartingByte = 0, FSAllocFunc_t pfnAlloc = NULL ) override;
-	bool				ReadToBuffer( FileHandle_t hFile, CUtlBuffer &buf, int nMaxBytes = 0, FSAllocFunc_t pfnAlloc = NULL ) override;
+	int					ReadFileEx( const char *pFileName, const char *pPath, void **ppBuf, bool bNullTerminate, bool bOptimalAlloc, int nMaxBytes = 0, int nStartingByte = 0, FSAllocFunc_t pfnAlloc = nullptr) override;
+	bool				ReadToBuffer( FileHandle_t hFile, CUtlBuffer &buf, int nMaxBytes = 0, FSAllocFunc_t pfnAlloc = nullptr) override;
 
 	// Optimal buffer
 	bool						GetOptimalIOConstraints( FileHandle_t hFile, unsigned *pOffsetAlign, unsigned *pSizeAlign, unsigned *pBufferAlign ) override;
@@ -564,12 +564,12 @@ public:
 
 	void				MarkPathIDByRequestOnly( const char *pPathID, bool bRequestOnly ) override;
 
-	bool				IsFileInReadOnlySearchPath(const char *pPath, const char *pathID = 0) override;
+	bool				IsFileInReadOnlySearchPath(const char *pPath, const char *pathID = nullptr) override;
 
-	bool				FileExists( const char *pFileName, const char *pPathID = NULL ) override;
-	long				GetFileTime( const char *pFileName, const char *pPathID = NULL ) override;
-	bool				IsFileWritable( char const *pFileName, const char *pPathID = NULL ) override;
-	bool				SetFileWritable( char const *pFileName, bool writable, const char *pPathID = 0 ) override;
+	bool				FileExists( const char *pFileName, const char *pPathID = nullptr) override;
+	long				GetFileTime( const char *pFileName, const char *pPathID = nullptr) override;
+	bool				IsFileWritable( char const *pFileName, const char *pPathID = nullptr) override;
+	bool				SetFileWritable( char const *pFileName, bool writable, const char *pPathID = nullptr ) override;
 	void				FileTimeToString( char *pString, int maxChars, long fileTime ) override;
 
 	const char			*FindFirst( const char *pWildCard, FileFindHandle_t *pHandle ) override;
@@ -624,8 +624,8 @@ public:
 	// asynchronous file loading
 	//--------------------------------------------------------
 	FSAsyncStatus_t		AsyncReadMultiple( const FileAsyncRequest_t *pRequests, int nRequests, FSAsyncControl_t *pControls ) override;
-	FSAsyncStatus_t		AsyncReadMultipleCreditAlloc( const FileAsyncRequest_t *pRequests, int nRequests, const char *pszFile, int line, FSAsyncControl_t *phControls = NULL ) override;
-	FSAsyncStatus_t		AsyncDirectoryScan( const char* pSearchSpec, bool recurseFolders, void* pContext, FSAsyncScanAddFunc_t pfnAdd, FSAsyncScanCompleteFunc_t pfnDone, FSAsyncControl_t *pControl = NULL ) override;
+	FSAsyncStatus_t		AsyncReadMultipleCreditAlloc( const FileAsyncRequest_t *pRequests, int nRequests, const char *pszFile, int line, FSAsyncControl_t *phControls = nullptr) override;
+	FSAsyncStatus_t		AsyncDirectoryScan( const char* pSearchSpec, bool recurseFolders, void* pContext, FSAsyncScanAddFunc_t pfnAdd, FSAsyncScanCompleteFunc_t pfnDone, FSAsyncControl_t *pControl = nullptr) override;
 	FSAsyncStatus_t		AsyncFinish( FSAsyncControl_t hControl, bool wait ) override;
 	FSAsyncStatus_t		AsyncGetResult( FSAsyncControl_t hControl, void **ppData, int *pSize ) override;
 	FSAsyncStatus_t		AsyncAbort( FSAsyncControl_t hControl ) override;
@@ -654,7 +654,7 @@ public:
 
 	// converts a partial path into a full path
 	// can be filtered to restrict path types and can provide info about resolved path
-	const char			*RelativePathToFullPath( const char *pFileName, const char *pPathID, char *pFullPath, int fullPathBufferSize, PathTypeFilter_t pathFilter = FILTER_NONE, PathTypeQuery_t *pPathType = NULL ) override;
+	const char			*RelativePathToFullPath( const char *pFileName, const char *pPathID, char *pFullPath, int fullPathBufferSize, PathTypeFilter_t pathFilter = FILTER_NONE, PathTypeQuery_t *pPathType = nullptr) override;
 #if IsGameConsole()
 	virtual bool				GetPackFileInfoFromRelativePath( const char *pFileName, const char *pPathID, char *pPackPath, int nPackPathBufferSize, int64 &nPosition, int64 &nLength );
 #endif
@@ -689,8 +689,8 @@ public:
 
 	// If the "PreloadedData" hasn't been purged, then this'll try and instance the KeyValues using the fast path of compiled keyvalues loaded during startup.
 	// Otherwise, it'll just fall through to the regular KeyValues loading routines
-	KeyValues			*LoadKeyValues( KeyValuesPreloadType_t type, char const *filename, char const *pPathID = 0 ) override;
-	bool				LoadKeyValues( KeyValues& head, KeyValuesPreloadType_t type, char const *filename, char const *pPathID = 0 ) override;
+	KeyValues			*LoadKeyValues( KeyValuesPreloadType_t type, char const *filename, char const *pPathID = nullptr ) override;
+	bool				LoadKeyValues( KeyValues& head, KeyValuesPreloadType_t type, char const *filename, char const *pPathID = nullptr ) override;
 
 	DVDMode_t			GetDVDMode() override { return m_DVDMode; }
 	bool				IsLaunchedFromXboxHDD() override { return m_bLaunchedFromXboxHDD; }
@@ -713,7 +713,7 @@ public:
 	bool				GetStringFromKVPool( CRC32_t poolKey, unsigned int key, char *pOutBuff, int buflen ) override;
 
 	bool				DiscoverDLC( int iController ) override;
-	int					IsAnyDLCPresent( bool *pbDLCSearchPathMounted = NULL ) override;
+	int					IsAnyDLCPresent( bool *pbDLCSearchPathMounted = nullptr) override;
 	bool				GetAnyDLCInfo( int iDLC, unsigned int *pLicenseMask, wchar_t *pTitleBuff, int nOutTitleSize ) override;
 	int					IsAnyCorruptDLC() override;
 	bool				GetAnyCorruptDLCInfo( int iCorruptDLC, wchar_t *pTitleBuff, int nOutTitleSize ) override;
@@ -1056,7 +1056,7 @@ protected:
 	FileWarningLevel_t			m_fwLevel;
 	void						(*m_pfnWarning)( const char *fmt, ... );
 
-	FILE						*Trace_FOpen( const char *filename, const char *options, unsigned flags, int64 *size, CFileLoadInfo *pInfo=NULL );
+	FILE						*Trace_FOpen( const char *filename, const char *options, unsigned flags, int64 *size, CFileLoadInfo *pInfo= nullptr);
 	void						Trace_FClose( FILE *fp );
 	void						Trace_FRead( int size, FILE* file );
 	void						Trace_FWrite( int size, FILE* file );
@@ -1079,13 +1079,13 @@ protected:
 	bool						PreparePackFile( CPackFile &packfile, int offsetofpackinmetafile, int64 filelen );
 
 	// Goes through all the search paths (or just the one specified) and calls FindFile on them. Returns the first successful result, if any.
-	FileHandle_t				FindFileInSearchPaths( const char *pFileName, const char *pOptions, const char *pathID, unsigned flags, char **ppszResolvedFilename = NULL, bool bTrackCRCs=false );
+	FileHandle_t				FindFileInSearchPaths( const char *pFileName, const char *pOptions, const char *pathID, unsigned flags, char **ppszResolvedFilename = nullptr, bool bTrackCRCs=false );
 
 	bool						HandleOpenFromZipFile( CFileOpenInfo &openInfo );
 	void		 				HandleOpenFromPackFile( CPackFile *pPackFile, CFileOpenInfo &openInfo );
 	void						HandleOpenRegularFile( CFileOpenInfo &openInfo, bool bIsAbsolutePath );
 
-	FileHandle_t				FindFile( const CSearchPath *path, const char *pFileName, const char *pOptions, unsigned flags, char **ppszResolvedFilename = NULL, bool bTrackCRCs=false );
+	FileHandle_t				FindFile( const CSearchPath *path, const char *pFileName, const char *pOptions, unsigned flags, char **ppszResolvedFilename = nullptr, bool bTrackCRCs=false );
 	int							FastFindFile( const CSearchPath *path, const char *pFileName );
 	long						FastFileTime( const CSearchPath *path, const char *pFileName );
 
@@ -1097,7 +1097,7 @@ protected:
 	void						AddSearchPathInternal( const char *pPath, const char *pathID, SearchPathAdd_t addType, bool bAddPackFiles, int iForceInsertIndex = 0 );
 
 	// Opens a file for read or write
-	FileHandle_t OpenForRead( const char *pFileName, const char *pOptions, unsigned flags, const char *pathID, char **ppszResolvedFilename = NULL );
+	FileHandle_t OpenForRead( const char *pFileName, const char *pOptions, unsigned flags, const char *pathID, char **ppszResolvedFilename = nullptr);
 	FileHandle_t OpenForWrite( const char *pFileName, const char *pOptions, const char *pathID );
 	CSearchPath *FindWritePath( const char *pFilename, const char *pathID );
 
@@ -1260,7 +1260,7 @@ inline CPackFileHandle::~CPackFileHandle()
 		if ( m_pOwner->m_hPackFileHandleFS )
 		{
 			m_pOwner->m_fs->Trace_FClose( m_pOwner->m_hPackFileHandleFS );
-			m_pOwner->m_hPackFileHandleFS = NULL;
+			m_pOwner->m_hPackFileHandleFS = nullptr;
 		}
 	}
 	m_pOwner->Release();
@@ -1289,8 +1289,8 @@ inline int64 CPackFileHandle::AbsoluteBaseOffset()
 inline CPackFile::CPackFile()
 {
 	m_FileLength = 0;
-	m_hPackFileHandleFS = NULL;
-	m_fs = NULL;
+	m_hPackFileHandleFS = nullptr;
+	m_fs = nullptr;
 	m_nBaseOffset = 0;
 	m_bIsMapPath = false;
 	m_lPackFileTime = 0L;
@@ -1309,7 +1309,7 @@ inline CPackFile::~CPackFile()
 	if ( m_hPackFileHandleFS )
 	{
 		m_fs->FS_fclose( m_hPackFileHandleFS );
-		m_hPackFileHandleFS = NULL;
+		m_hPackFileHandleFS = nullptr;
 	}
 
 	m_fs->m_ZipFiles.FindAndRemove( this );

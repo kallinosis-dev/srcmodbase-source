@@ -182,7 +182,7 @@ inline void CTimeAdder::End()
 	{
 		m_Timer.End();
 		*m_pTotal += m_Timer.GetDuration();
-		m_pTotal = 0;
+		m_pTotal = nullptr;
 	}
 }
 

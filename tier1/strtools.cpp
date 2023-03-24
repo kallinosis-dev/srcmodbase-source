@@ -178,7 +178,7 @@ char *_V_strrchr(const char *s, char c)
     s += len;
     while (len--)
 	if (*--s == c) return (char *)s;
-    return 0;
+    return nullptr;
 }
 
 int _V_strcmp (const char *s1, const char *s2)
@@ -461,7 +461,7 @@ const char *StringAfterPrefix( const char *str, const char *prefix )
 			return str;
 	}
 	while ( tolower( *str++ ) == tolower( *prefix++ ) );
-	return NULL;
+	return nullptr;
 }
 
 const char *StringAfterPrefixCaseSensitive( const char *str, const char *prefix )
@@ -472,7 +472,7 @@ const char *StringAfterPrefixCaseSensitive( const char *str, const char *prefix 
 			return str;
 	}
 	while ( *str++ == *prefix++ );
-	return NULL;
+	return nullptr;
 }
 
 
@@ -739,7 +739,7 @@ const char* V_stristr( const char* pStr, const char* pSearch )
 	Assert( pStr );
 	Assert( pSearch );
 	if (!pStr || !pSearch) 
-		return 0;
+		return nullptr;
 
 	const char* pLetter = pStr;
 
@@ -756,7 +756,7 @@ const char* V_stristr( const char* pStr, const char* pSearch )
 			{
 				// We've run off the end; don't bother.
 				if (*pMatch == 0)
-					return 0;
+					return nullptr;
 
 				if ( FastASCIIToLower( *pMatch) != FastASCIIToLower( *pTest ) )
 					break;
@@ -773,7 +773,7 @@ const char* V_stristr( const char* pStr, const char* pSearch )
 		++pLetter;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 char* V_stristr( char* pStr, const char* pSearch )
@@ -787,7 +787,7 @@ const wchar_t* V_wcsistr( const wchar_t* pStr, const wchar_t* pSearch )
 	Assert(pSearch);
 
 	if (!pStr || !pSearch) 
-		return 0;
+		return nullptr;
 
 	wchar_t const* pLetter = pStr;
 
@@ -804,7 +804,7 @@ const wchar_t* V_wcsistr( const wchar_t* pStr, const wchar_t* pSearch )
 			{
 				// We've run off the end; don't bother.
 				if (*pMatch == 0)
-					return 0;
+					return nullptr;
 
 				if (towlower((wchar_t)*pMatch) != towlower((wchar_t)*pTest))
 					break;
@@ -821,7 +821,7 @@ const wchar_t* V_wcsistr( const wchar_t* pStr, const wchar_t* pSearch )
 		++pLetter;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 wchar_t* V_wcsistr( wchar_t* pStr, const wchar_t* pSearch )
@@ -837,7 +837,7 @@ const char* V_strnistr( const char* pStr, const char* pSearch, int n )
 	Assert( pStr );
 	Assert( pSearch );
 	if (!pStr || !pSearch) 
-		return 0;
+		return nullptr;
 
 	const char* pLetter = pStr;
 
@@ -845,7 +845,7 @@ const char* V_strnistr( const char* pStr, const char* pSearch, int n )
 	while (*pLetter != 0)
 	{
 		if ( n <= 0 )
-			return 0;
+			return nullptr;
 
 		// Skip over non-matches
 		if (FastASCIIToLower(*pLetter) == FastASCIIToLower(*pSearch))
@@ -858,11 +858,11 @@ const char* V_strnistr( const char* pStr, const char* pSearch, int n )
 			while (*pTest != 0)
 			{
 				if ( n1 <= 0 )
-					return 0;
+					return nullptr;
 
 				// We've run off the end; don't bother.
 				if (*pMatch == 0)
-					return 0;
+					return nullptr;
 
 				if (FastASCIIToLower(*pMatch) != FastASCIIToLower(*pTest))
 					break;
@@ -881,7 +881,7 @@ const char* V_strnistr( const char* pStr, const char* pSearch, int n )
 		--n;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 const char* V_strnchr( const char* pStr, char c, int n )
@@ -896,7 +896,7 @@ const char* V_strnchr( const char* pStr, char c, int n )
 			return pLetter;
 		++pLetter;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1378,7 +1378,7 @@ int _V_UnicodeToUTF8( const wchar_t *pUnicode, char *pUTF8, int cubDestSizeInByt
 	}
 
 #ifdef _WIN32
-	int cchResult = WideCharToMultiByte( CP_UTF8, 0, pUnicode, -1, pUTF8, cubDestSizeInBytes, NULL, NULL );
+	int cchResult = WideCharToMultiByte( CP_UTF8, 0, pUnicode, -1, pUTF8, cubDestSizeInBytes, nullptr, nullptr);
 #elif POSIX
 	int cchResult = 0;
 	if ( pUnicode && pUTF8 )
@@ -1480,7 +1480,7 @@ int _V_UCS2ToUTF8( const ucs2 *pUCS2, char *pUTF8, int cubDestSizeInBytes )
 	pUTF8[0] = 0;
 #ifdef _WIN32
 	// under win32 wchar_t == ucs2, sigh
-	int cchResult = WideCharToMultiByte( CP_UTF8, 0, pUCS2, -1, pUTF8, cubDestSizeInBytes, NULL, NULL );
+	int cchResult = WideCharToMultiByte( CP_UTF8, 0, pUCS2, -1, pUTF8, cubDestSizeInBytes, nullptr, nullptr);
 #elif defined(POSIX)
 	iconv_t conv_t = iconv_open( "UTF-8", "UCS-2LE" );
 	size_t cchResult = -1;
@@ -2087,7 +2087,7 @@ void V_ExtractFileExtension( const char *path, char *dest, int destSize )
 {
 	*dest = 0;
 	const char * extension = V_GetFileExtension( path );
-	if ( NULL != extension )
+	if (nullptr != extension )
 		V_strncpy( dest, extension, destSize );
 }
 
@@ -2101,7 +2101,7 @@ void V_ExtractFileExtension( const char *path, char *dest, int destSize )
 const char *V_GetFileExtensionSafe( const char *path )
 {
 	const char *pExt = V_GetFileExtension( path );
-	if ( pExt == NULL )
+	if ( pExt == nullptr)
 		return "";
 	else
 		return pExt;
@@ -2118,7 +2118,7 @@ const char *V_GetFileExtension( const char *path )
 {
 	int len = V_strlen( path );
 	if ( len <= 1 )
-		return NULL;
+		return nullptr;
 
 	const char *src = path + len - 1;
 
@@ -2131,7 +2131,7 @@ const char *V_GetFileExtension( const char *path )
 	// check to see if the '.' is part of a pathname
 	if (src == path || PATHSEPARATOR( *src ) )
 	{		
-		return NULL;  // no extension
+		return nullptr;  // no extension
 	}
 
 	return src;
@@ -2318,8 +2318,8 @@ bool V_MakeRelativePath( const char *pFullPath, const char *pDirectory, char *pR
 	const char *pDir = pDirectory;
 
 	// Strip out common parts of the path
-	const char *pLastCommonPath = NULL;
-	const char *pLastCommonDir = NULL;
+	const char *pLastCommonPath = nullptr;
+	const char *pLastCommonDir = nullptr;
 	while ( *pPath && ( tolower( *pPath ) == tolower( *pDir ) || 
 						( PATHSEPARATOR( *pPath ) && ( PATHSEPARATOR( *pDir ) || (*pDir == 0) ) ) ) )
 	{
@@ -2440,7 +2440,7 @@ bool V_IsAbsolutePath( const char *pStr )
 
 	if ( IsX360() && !bIsAbsolute )
 	{
-		bIsAbsolute = ( V_stristr( pStr, ":" ) != NULL );
+		bIsAbsolute = ( V_stristr( pStr, ":" ) != nullptr);
 	}
 	
 	return bIsAbsolute;
@@ -2581,7 +2581,7 @@ void V_SplitString2( const char *pString, const char **pSeparators, int nSeparat
 	while ( 1 )
 	{
 		int iFirstSeparator = -1;
-		const char *pFirstSeparator = 0;
+		const char *pFirstSeparator = nullptr;
 		for ( int i=0; i < nSeparators; i++ )
 		{
 			const char *pTest = V_stristr( pCurPos, pSeparators[i] );
@@ -2628,7 +2628,7 @@ void V_SplitString2(const char *pString, const char * const *pSeparators, int nS
 	for (;;)
 	{
 		int iFirstSeparator = -1;
-		const char *pFirstSeparator = 0;
+		const char *pFirstSeparator = nullptr;
 		for (int i = 0; i < nSeparators; i++)
 		{
 			const char *pTest = V_stristr_fast(pCurPos, pSeparators[i]);
@@ -2689,7 +2689,7 @@ void V_SplitWString2( const wchar_t *pString, const wchar_t **pSeparators, int n
 	while ( 1 )
 	{
 		int iFirstSeparator = -1;
-		const wchar_t *pFirstSeparator = 0;
+		const wchar_t *pFirstSeparator = nullptr;
 		for ( int i=0; i < nSeparators; i++ )
 		{
 			const wchar_t *pTest = V_wcsistr( pCurPos, pSeparators[i] );
@@ -2876,7 +2876,7 @@ void V_strtowcs( const char *pString, int nInSize, wchar_t *pWString, int nOutSi
 void V_wcstostr( const wchar_t *pWString, int nInSize, char *pString, int nOutSizeInChars )
 {
 #ifdef _WIN32
-	int result = WideCharToMultiByte( CP_UTF8, 0, pWString, nInSize, pString, nOutSizeInChars, NULL, NULL );
+	int result = WideCharToMultiByte( CP_UTF8, 0, pWString, nInSize, pString, nOutSizeInChars, nullptr, nullptr);
 	// If the string completely fails to fit then MultiByteToWideChar will return 0.
 	// If the string exactly fits but with no room for a null-terminator then MultiByteToWideChar
 	// will happily fill the buffer and omit the null-terminator, returning nOutSizeInChars.
@@ -3149,7 +3149,7 @@ const char *V_ParseToken( const char *pStrIn, char *pToken, int bufsize, bool *p
 	pToken[0] = 0;
 
 	if (!pStrIn)
-		return NULL;
+		return nullptr;
 	if ( maxpos <= 0 )
 		return pStrIn;
 
@@ -3158,7 +3158,7 @@ skipwhite:
 	while ( (c = *pStrIn) <= ' ')
 	{
 		if (c == 0)
-			return NULL; // end of file;
+			return nullptr; // end of file;
 		pStrIn++;
 	}
 
@@ -3255,7 +3255,7 @@ char const *V_ParseLine( char const *pStrIn, char *pToken, int bufsize, bool *pb
 	pToken[0] = 0;
 
 	if (!pStrIn)
-		return NULL;
+		return nullptr;
 	if ( maxpos <= 0 )
 		return pStrIn;
 
@@ -3268,14 +3268,14 @@ char const *V_ParseLine( char const *pStrIn, char *pToken, int bufsize, bool *pb
 			{
 				*pbOverflowed = true;
 			}
-			return NULL;
+			return nullptr;
 		}
 	}
 
 	pToken[len] = 0;
 
 	if ( *pStrIn == 0 )
-		return NULL;
+		return nullptr;
 
 	return pStrIn + 1;	
 }
@@ -3420,7 +3420,7 @@ inline int __cdecl iswascii(wchar_t c) { return ((unsigned)(c) < 0x80); } // not
 // Used to determine if we can break a line between the first two characters passed
 bool AsianWordWrap::CanBreakAfter( const wchar_t* wsz )
 {
-	if( wsz == NULL || wsz[0] == '\0' || wsz[1] == '\0' )
+	if( wsz == nullptr || wsz[0] == '\0' || wsz[1] == '\0' )
 	{
 		return false;
 	}
@@ -3901,10 +3901,10 @@ inline int V_iswspace( int c ) { return ( c <= 0xFFFF ) ? iswspace( (wint_t)c ) 
 //-----------------------------------------------------------------------------
 const char *nexttoken(char *token, const char *str, char sep)
 {
-	if ((str == NULL) || (*str == '\0'))
+	if ((str == nullptr) || (*str == '\0'))
 	{
 		*token = '\0';
-		return(NULL);
+		return(nullptr);
 	}
 
 	//
@@ -3940,26 +3940,26 @@ int V_StrTrim( char *pStr )
 	}
 
 	// copy everything else
-	char *pLastWhiteBlock = NULL;
+	char *pLastWhiteBlock = nullptr;
 	char *pStart = pDest;
 	while ( *pSource != 0 )
 	{
 		*pDest = *pSource++;
 		if ( V_isspace( *pDest ) )
 		{
-			if ( pLastWhiteBlock == NULL )
+			if ( pLastWhiteBlock == nullptr)
 				pLastWhiteBlock = pDest;
 		}
 		else
 		{
-			pLastWhiteBlock = NULL;
+			pLastWhiteBlock = nullptr;
 		}
 		pDest++;
 	}
 	*pDest = 0;
 
 	// did we end in a whitespace block?
-	if ( pLastWhiteBlock != NULL )
+	if ( pLastWhiteBlock != nullptr)
 	{
 		// yep; shorten the string
 		pDest = pLastWhiteBlock;
@@ -3993,13 +3993,13 @@ const static HtmlEntity_t g_BasicHTMLEntities[] = {
 		{ '<', "&lt;", 4 },
 		{ '>', "&gt;", 4 },
 		{ '&', "&amp;", 5 },
-		{ 0, NULL, 0 } // sentinel for end of array
+		{ 0, nullptr, 0 } // sentinel for end of array
 };
 
 const static HtmlEntity_t g_WhitespaceEntities[] = {
 		{ ' ', "&nbsp;", 6 },
 		{ '\n', "<br>", 4 },
-		{ 0, NULL, 0 } // sentinel for end of array
+		{ 0, nullptr, 0 } // sentinel for end of array
 };
 
 
@@ -4120,7 +4120,7 @@ const Tier1FullHTMLEntity_t g_Tier1_FullHTMLEntities[] =
 	{ L'\u00FD', "&yacute;", 8 },
 	{ L'\u00FE', "&thorn;", 7 },
 	{ L'\u00FF', "&yuml;", 6 },
-	{ 0, NULL, 0 } // sentinel for end of array
+	{ 0, nullptr, 0 } // sentinel for end of array
 };
 #pragma warning( pop )
 
@@ -4213,7 +4213,7 @@ bool V_HtmlEntityDecodeToUTF8( char *pDest, const int nDestSize, char const *pIn
 						iOffset = 3;
 					}
 
-					wrgchReplacement[ 0 ] = (uchar32)V_strtoi64( pIn + iInput + iOffset, NULL, iBase );
+					wrgchReplacement[ 0 ] = (uchar32)V_strtoi64( pIn + iInput + iOffset, nullptr, iBase );
 					if ( !Q_UTF32ToUTF8( wrgchReplacement, rgchReplacement, sizeof( rgchReplacement ) ) )
 					{
 						rgchReplacement[ 0 ] = 0;
@@ -4680,7 +4680,7 @@ bool V_ExtractDomainFromURL( const char *pchURL, char *pchDomain, int cchDomain 
 	static const char *k_pchSteamOpenUrlExt = "steam://openurl_external/";
 
 	const char *pchOpenUrlSuffix = StringAfterPrefix( pchURL, k_pchSteamOpenUrl );
-	if ( pchOpenUrlSuffix == NULL )
+	if ( pchOpenUrlSuffix == nullptr)
 		pchOpenUrlSuffix = StringAfterPrefix( pchURL, k_pchSteamOpenUrlExt );
 
 	if ( pchOpenUrlSuffix )

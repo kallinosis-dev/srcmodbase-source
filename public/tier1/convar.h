@@ -192,7 +192,7 @@ class ConCommandBase
 
 public:
 								ConCommandBase( void );
-								ConCommandBase( const char *pName, const char *pHelpString = 0, 
+								ConCommandBase( const char *pName, const char *pHelpString = nullptr, 
 									int flags = 0 );
 
 	virtual						~ConCommandBase( void );
@@ -224,7 +224,7 @@ public:
 	virtual CVarDLLIdentifier_t	GetDLLIdentifier() const;
 
 protected:
-	virtual void				Create( const char *pName, const char *pHelpString = 0, 
+	virtual void				Create( const char *pName, const char *pHelpString = nullptr, 
 									int flags = 0 );
 
 	// Used internally by OneTimeInit to initialize/shutdown
@@ -270,7 +270,7 @@ class CCommand
 public:
 	CCommand();
 	CCommand( int nArgC, const char **ppArgV, cmd_source_t source = kCommandSrcCode );
-	bool Tokenize( const char *pCommand, cmd_source_t source = kCommandSrcCode, characterset_t *pBreakSet = NULL );
+	bool Tokenize( const char *pCommand, cmd_source_t source = kCommandSrcCode, characterset_t *pBreakSet = nullptr);
 	void Reset();
 
 	int ArgC() const;
@@ -315,7 +315,7 @@ inline int CCommand::ArgC() const
 
 inline const char **CCommand::ArgV() const
 {
-	return m_nArgc ? (const char**)m_ppArgv : NULL;
+	return m_nArgc ? (const char**)m_ppArgv : nullptr;
 }
 
 inline const char *CCommand::ArgS() const
@@ -360,11 +360,11 @@ public:
 	typedef ConCommandBase BaseClass;
 
 	ConCommand( const char *pName, FnCommandCallbackV1_t callback, 
-		const char *pHelpString = 0, int flags = 0, FnCommandCompletionCallback completionFunc = 0 );
+		const char *pHelpString = nullptr, int flags = 0, FnCommandCompletionCallback completionFunc = nullptr );
 	ConCommand( const char *pName, FnCommandCallback_t callback, 
-		const char *pHelpString = 0, int flags = 0, FnCommandCompletionCallback completionFunc = 0 );
+		const char *pHelpString = nullptr, int flags = 0, FnCommandCompletionCallback completionFunc = nullptr );
 	ConCommand( const char *pName, ICommandCallback *pCallback, 
-		const char *pHelpString = 0, int flags = 0, ICommandCompletionCallback *pCommandCompletionCallback = 0 );
+		const char *pHelpString = nullptr, int flags = 0, ICommandCompletionCallback *pCommandCompletionCallback = nullptr );
 
 ~ConCommand( void ) override;
 
@@ -520,8 +520,8 @@ private:
 	virtual void				ChangeStringValue( const char *tempVal, float flOldValue );
 
 	virtual void				Create( const char *pName, const char *pDefaultValue, int flags = 0,
-									const char *pHelpString = 0, bool bMin = false, float fMin = 0.0,
-									bool bMax = false, float fMax = false, FnChangeCallback_t callback = 0 );
+									const char *pHelpString = nullptr, bool bMin = false, float fMin = 0.0,
+									bool bMax = false, float fMax = false, FnChangeCallback_t callback = nullptr );
 
 	// Used internally by OneTimeInit to initialize.
 void				Init() override;
@@ -1047,7 +1047,7 @@ private:
 //-----------------------------------------------------------------------------
 // Called by the framework to register ConCommands with the ICVar
 //-----------------------------------------------------------------------------
-void ConVar_Register( int nCVarFlag = 0, IConCommandBaseAccessor *pAccessor = NULL );
+void ConVar_Register( int nCVarFlag = 0, IConCommandBaseAccessor *pAccessor = nullptr);
 void ConVar_Unregister( );
 
 
@@ -1070,9 +1070,9 @@ class CConCommandMemberAccessor : public ConCommand, public ICommandCallback, pu
 	typedef int  ( T::*FnMemberCommandCompletionCallback_t )( const char *pPartial, CUtlVector< CUtlString > &commands );
 
 public:
-	CConCommandMemberAccessor( T* pOwner, const char *pName, FnMemberCommandCallback_t callback, const char *pHelpString = 0,
-		int flags = 0, FnMemberCommandCompletionCallback_t completionFunc = 0 ) :
-		BaseClass( pName, this, pHelpString, flags, ( completionFunc != 0 ) ? this : NULL )
+	CConCommandMemberAccessor( T* pOwner, const char *pName, FnMemberCommandCallback_t callback, const char *pHelpString = nullptr,
+		int flags = 0, FnMemberCommandCompletionCallback_t completionFunc = nullptr ) :
+		BaseClass( pName, this, pHelpString, flags, ( completionFunc != 0 ) ? this : nullptr)
 	{
 		m_pOwner = pOwner;
 		m_Func = callback;

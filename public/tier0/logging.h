@@ -584,7 +584,7 @@ public:
 		bool HasTag( const char *pTag ) const
 		{
 			LoggingTag_t *pCurrentTag = m_pFirstTag;
-			while( pCurrentTag != NULL )
+			while( pCurrentTag != nullptr)
 			{
 				if ( stricmp( pCurrentTag->m_pTagName, pTag ) == 0 )
 				{

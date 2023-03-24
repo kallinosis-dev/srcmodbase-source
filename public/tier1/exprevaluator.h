@@ -42,7 +42,7 @@ class CExpressionEvaluator
 public:
 	CExpressionEvaluator();
 	~CExpressionEvaluator();
-	bool Evaluate( bool &result, const char *pInfixExpression, GetSymbolProc_t pGetSymbolProc = 0, SyntaxErrorProc_t pSyntaxErrorProc = 0 );
+	bool Evaluate( bool &result, const char *pInfixExpression, GetSymbolProc_t pGetSymbolProc = nullptr, SyntaxErrorProc_t pSyntaxErrorProc = nullptr );
 
 private:
 	CExpressionEvaluator( CExpressionEvaluator& );	// prevent copy constructor being used

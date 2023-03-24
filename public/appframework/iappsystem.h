@@ -69,7 +69,7 @@ public:
 	virtual void Shutdown() = 0;
 
 	// Returns all dependent libraries
-	virtual const AppSystemInfo_t* GetDependencies() {return NULL;}
+	virtual const AppSystemInfo_t* GetDependencies() {return nullptr;}
 
 	// Returns the tier
 	virtual AppSystemTier_t GetTier() {return APP_SYSTEM_TIER_OTHER;}
@@ -94,13 +94,13 @@ public:
 
 	// Here's where systems can access other interfaces implemented by this object
 	// Returns NULL if it doesn't implement the requested interface
-	virtual void *QueryInterface( const char *pInterfaceName ) { return NULL; }
+	virtual void *QueryInterface( const char *pInterfaceName ) { return nullptr; }
 
 	// Init, shutdown
 	virtual InitReturnVal_t Init() { return INIT_OK; }
 	virtual void Shutdown() {}
 
-	virtual const AppSystemInfo_t* GetDependencies() { return NULL; }
+	virtual const AppSystemInfo_t* GetDependencies() { return nullptr; }
 	virtual AppSystemTier_t GetTier() { return APP_SYSTEM_TIER_OTHER; }
 
 	virtual void Reconnect( CreateInterfaceFn factory, const char *pInterfaceName )

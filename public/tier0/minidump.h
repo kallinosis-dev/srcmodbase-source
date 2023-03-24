@@ -20,7 +20,7 @@ PLATFORM_INTERFACE void SetMinidumpFilenamePrefix( const char *pszPrefix );
 PLATFORM_INTERFACE void SetMinidumpComment( const char *pszComment );
 
 // writes out a minidump of the current stack trace with a unique filename
-PLATFORM_INTERFACE void WriteMiniDump( const char *pszFilenameSuffix = NULL );
+PLATFORM_INTERFACE void WriteMiniDump( const char *pszFilenameSuffix = nullptr);
 
 typedef void( *FnWMain )(int, tchar *[]);
 typedef void( *FnVoidPtrFn )(void *);
@@ -93,9 +93,9 @@ PLATFORM_INTERFACE bool WriteMiniDumpUsingExceptionInfo(
 	unsigned int uStructuredExceptionCode,
 	_EXCEPTION_POINTERS * pExceptionInfo,
 	int /* MINIDUMP_TYPE */ minidumpType,
-	const char *pszFilenameSuffix = NULL,
-	tchar *ptchMinidumpFileNameBuffer = NULL
-	);
+	const char *pszFilenameSuffix = nullptr,
+	tchar *ptchMinidumpFileNameBuffer = nullptr
+);
 
 // Call this to enable a handler for unhandled exceptions.
 PLATFORM_INTERFACE void MinidumpSetUnhandledExceptionFunction( FnMiniDump pfn );

@@ -78,9 +78,9 @@ class CPropertyStates
 public:
 	CPropertyStates();
 
-	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL );
+	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
 	bool SetBoolProperty( ToolProperty_t *pToolProperty, bool bEnabled );
-	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL );
+	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
 
 	PropertyState_t *GetProperty( int nPropertyId );
 	PropertyState_t *GetProperty( const char *pPropertyName );
@@ -89,11 +89,11 @@ public:
 	CUtlSortVector< int, CPropertyStateLessFunc > m_PropertiesInOutputOrder;
 
 private:
-	bool SetStringProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL );
-	bool SetListProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL );
-	bool SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL );
+	bool SetStringProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
+	bool SetListProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
+	bool SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
 	bool SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool, bool bEnabled );
-	bool SetIntegerProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL );
+	bool SetIntegerProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
 };
 
 class CProjectTool
@@ -108,8 +108,8 @@ public:
 
 	// when the property belongs to the root tool (i.e. linker), no root tool is passed in
 	// when the property is for the file's specific configuration tool, (i.e. compiler/debug), the root tool must be supplied
-	virtual bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL );
-	virtual const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL );
+	virtual bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
+	virtual const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
 
 	CPropertyStates	m_PropertyStates;
 
@@ -132,8 +132,8 @@ public:
 		m_bIsFileConfig = bIsFileConfig;
 	}
 
-	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
-	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
+	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr) override;
+	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr) override;
 
 private:
 	CUtlString	m_ConfigName;
@@ -179,8 +179,8 @@ public:
 		m_bIsFileConfig = bIsFileConfig;
 	}
 
-	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
-	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
+	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr) override;
+	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr) override;
 
 private:
 	CUtlString	m_ConfigName;
@@ -214,8 +214,8 @@ public:
 		m_bIsFileConfig = bIsFileConfig;
 	}
 
-	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
-	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
+	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr) override;
+	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr) override;
 
 private:
 	CUtlString	m_ConfigName;
@@ -294,7 +294,7 @@ class IVCProjWriter
 {
 public:
 	virtual bool Save( const char *pOutputFilename ) = 0;
-	virtual const char *GetProjectFileExtension() { return NULL; }
+	virtual const char *GetProjectFileExtension() { return nullptr; }
 	virtual CVCProjGenerator *GetProjectGenerator() = 0;
 };
 

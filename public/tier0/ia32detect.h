@@ -121,7 +121,7 @@ public:
 	ia32detect ()
 	{
 
-        cache = 0;
+        cache = nullptr;
 		uint32 m = init0();
 
 		uint32 *d = new uint32[m * 4];

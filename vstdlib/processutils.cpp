@@ -144,7 +144,7 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CProcessUtils, IProcessUtils, PROCESS_UTILS_I
 //-----------------------------------------------------------------------------
 char *GetErrorString( char *pBuf, int nBufLen )
 {
-	FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), 0, pBuf, nBufLen, NULL );
+	FormatMessage( FORMAT_MESSAGE_FROM_SYSTEM, nullptr, GetLastError(), 0, pBuf, nBufLen, nullptr);
 	char *p = strchr(pBuf, '\r');	// get rid of \r\n
 	if(p) 
 	{
@@ -327,7 +327,7 @@ int CProcessPipeRead::GetActualProcessOutputSize()
 	}
 
 	DWORD dwCount = 0;
-	if ( !PeekNamedPipe( m_hRead, NULL, NULL, NULL, &dwCount, NULL ) )
+	if ( !PeekNamedPipe( m_hRead, nullptr, NULL, nullptr, &dwCount, nullptr) )
 	{
 		char buf[ 512 ];
 		Warning( "Could not read from pipe associated with command %s\n"
@@ -369,7 +369,7 @@ int CProcessPipeRead::GetActualProcessOutput( void *pBuf, int nBufLen )
 		return 0;
 
 	DWORD nBytesRead = 0;
-	BOOL bSuccess = ReadFile( m_hRead, pBuf, nBufLen, &nBytesRead, NULL );
+	BOOL bSuccess = ReadFile( m_hRead, pBuf, nBufLen, &nBytesRead, nullptr);
 
 	if ( bSuccess )
 	{
@@ -475,7 +475,7 @@ int CProcess::WriteStdin( char *pBuf, int nBufLen )
 	}
 
 	DWORD nBytesWritten = 0;
-	if ( WriteFile( info.m_hChildStdinWr, pBuf, nBufLen, &nBytesWritten, NULL ) )
+	if ( WriteFile( info.m_hChildStdinWr, pBuf, nBufLen, &nBytesWritten, nullptr) )
 		return (int)nBytesWritten;
 	else
 		return 0;
@@ -557,7 +557,7 @@ CProcess *CProcessUtils::CreateProcess( ProcessInfo_t &info, int fFlags, const c
 	}
 
 	PROCESS_INFORMATION pi;
-	if ( ::CreateProcess( NULL, info.m_CommandLine.Get(), NULL, NULL, TRUE, dwCreateProcessFlags, NULL, pWorkingDir, &si, &pi ) )
+	if ( ::CreateProcess(nullptr, info.m_CommandLine.Get(), nullptr, nullptr, TRUE, dwCreateProcessFlags, nullptr, pWorkingDir, &si, &pi ) )
 	{
 		info.m_hProcess = pi.hProcess;
 
@@ -572,7 +572,7 @@ CProcess *CProcessUtils::CreateProcess( ProcessInfo_t &info, int fFlags, const c
 		"Windows gave the error message:\n   \"%s\"\n",
 		info.m_CommandLine.Get(), GetErrorString( buf, sizeof(buf) ) );
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -599,7 +599,7 @@ IProcess* CProcessUtils::StartProcess( const char *pCommandLine, int fFlags, con
     // Set the bInheritHandle flag so pipe handles are inherited.
 	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES); 
     saAttr.bInheritHandle = TRUE; 
-    saAttr.lpSecurityDescriptor = NULL; 
+    saAttr.lpSecurityDescriptor = nullptr; 
 
 
 	DWORD nPipeSize = 0; // default size
@@ -642,7 +642,7 @@ IProcess* CProcessUtils::StartProcess( const char *pCommandLine, int fFlags, con
 		CloseHandle( info.m_hChildStdoutRd );
 		CloseHandle( info.m_hChildStdoutWr );
 	}
-	return NULL;
+	return nullptr;
 }
 
 

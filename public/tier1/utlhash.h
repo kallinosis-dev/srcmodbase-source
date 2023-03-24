@@ -1267,7 +1267,7 @@ template<class Data, class CHashFunction> void CUtlScalarHash<Data, CHashFunctio
 // Retrieval.
 template<class Data, class CHashFunction> UtlHashFastHandle_t CUtlScalarHash<Data, CHashFunction>::Find( unsigned int uiKey, const Data &dataRecord ) const
 {
-	if ( m_pData == NULL ) 
+	if ( m_pData == nullptr) 
 		return InvalidHandle();
 	int index = CHashFunction::HashKey32(uiKey) & m_uiBucketMask;
 	unsigned int endOfList = (unsigned int)InvalidHandle();
@@ -1282,7 +1282,7 @@ template<class Data, class CHashFunction> UtlHashFastHandle_t CUtlScalarHash<Dat
 
 template<class Data, class CHashFunction> UtlHashFastHandle_t CUtlScalarHash<Data, CHashFunction>::FindByUniqueKey( unsigned int uiKey ) const
 {
-	if ( m_pData == NULL ) 
+	if ( m_pData == nullptr) 
 		return InvalidHandle();
 	int index = CHashFunction::HashKey32(uiKey) & m_uiBucketMask;
 	unsigned int endOfList = (unsigned int)InvalidHandle();

@@ -294,7 +294,7 @@ struct CAsyncIOResult_t
 //-----------------------------------------------------------------------------
 inline CAsyncIOResult_t::CAsyncIOResult_t()
 {
-	m_pRequest = NULL;
+	m_pRequest = nullptr;
 	m_Status   = ASYNC_REQUEST_STATUS_UNDEFINED;
 
 }
@@ -304,7 +304,7 @@ inline CAsyncIOResult_t::CAsyncIOResult_t()
 //-----------------------------------------------------------------------------
 inline void CAsyncIOResult_t::ProcessCallback()
 {
-	if ( m_pRequest != NULL )
+	if ( m_pRequest != nullptr)
 	{
 		m_pRequest->ProcessCallback();
 	}
@@ -524,7 +524,7 @@ inline IAsyncFileRequest*  AsyncAppendBufferToFile( const char* pFileName, void*
 inline void AsyncRequestRelease( IAsyncRequestBase* pRequest )
 {
 	g_pAsyncFileSystem->ReleaseAsyncRequest( pRequest );
-	pRequest = NULL;
+	pRequest = nullptr;
 }
 
 

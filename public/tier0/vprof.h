@@ -652,7 +652,7 @@ public:
 	CVProfNode *FindNode( CVProfNode *pStartNode, const tchar *pszNode );
 	CVProfNode *GetCurrentNode();
 
-	void OutputReport( int type = VPRT_FULL, const tchar *pszStartNode = NULL, int budgetGroupID = -1 );
+	void OutputReport( int type = VPRT_FULL, const tchar *pszStartNode = nullptr, int budgetGroupID = -1 );
 
 	const tchar *GetBudgetGroupName( int budgetGroupID );
 	int GetBudgetGroupFlags( int budgetGroupID ) const;	// Returns a combination of BUDGETFLAG_ defines.
@@ -850,7 +850,7 @@ inline void CVProfile::PopGroup( void )
 
 inline CVProfile *GetVProfProfileForCurrentThread()
 {
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -876,8 +876,8 @@ inline CVProfNode::CVProfNode( const tchar * pszName, int detailLevel, CVProfNod
 	m_nPrevFrameCalls( 0 ),
 	m_nRecursions( 0 ),
 	m_pParent( pParent ),
-	m_pChild( NULL ),
-	m_pSibling( NULL ),
+	m_pChild(nullptr),
+	m_pSibling(nullptr),
 	m_iClientData( -1 )
 #ifdef _X360
 	, m_iBitFlags( 0 )
@@ -928,7 +928,7 @@ inline CVProfNode *CVProfNode::GetPrevSibling()
 	CVProfNode* p = GetParent();
 
 	if(!p) 
-		return NULL;
+		return nullptr;
 
 	CVProfNode* s;
 	for( s = p->GetChild(); 

@@ -220,7 +220,7 @@ public:
 	void *Realloc( void *p, size_t nBytes );
 	void Free( void *p );
 	size_t GetSize( void *p );
-	void DumpStats( const char *pszTag, FILE *pFile = NULL, IMemAlloc::DumpStatsFormat_t nFormat = IMemAlloc::FORMAT_TEXT );
+	void DumpStats( const char *pszTag, FILE *pFile = nullptr, IMemAlloc::DumpStatsFormat_t nFormat = IMemAlloc::FORMAT_TEXT );
 	void Usage( size_t &bytesCommitted, size_t &bytesAllocated );
 	size_t Compact( bool bIncremental );
 	bool Validate();
@@ -362,7 +362,7 @@ public:
 		byte *AllocatePoolMemory()
 		{
 #ifdef _WIN32
-			return (byte *)VirtualAlloc( NULL, TOTAL_BYTES, VA_RESERVE_FLAGS, PAGE_NOACCESS );
+			return (byte *)VirtualAlloc(nullptr, TOTAL_BYTES, VA_RESERVE_FLAGS, PAGE_NOACCESS );
 #elif defined( _PS3 )
 			Error( "" );
 			return NULL;
@@ -394,7 +394,7 @@ public:
 		bool Commit( void *pPage )
 		{
 #ifdef _WIN32
-			return ( VirtualAlloc( pPage, BYTES_PAGE, VA_COMMIT_FLAGS, PAGE_READWRITE ) != NULL );
+			return ( VirtualAlloc( pPage, BYTES_PAGE, VA_COMMIT_FLAGS, PAGE_READWRITE ) != nullptr);
 #elif defined( _PS3 )
 			return false;
 #else
@@ -440,7 +440,7 @@ public:
 				extern size_t g_nSBHOverride;
 				numBytesToAllocate = g_nSBHOverride;
 			}
-			return (byte *)VirtualAlloc( NULL, numBytesToAllocate, VA_COMMIT_FLAGS, PAGE_READWRITE );
+			return (byte *)VirtualAlloc(nullptr, numBytesToAllocate, VA_COMMIT_FLAGS, PAGE_READWRITE );
 #elif defined( _PS3 )
 			// TODO: release this section on shutdown (use GetMemorySectionForAddress)
 			extern IVirtualMemorySection * VirtualMemoryManager_AllocateVirtualMemorySection( size_t numMaxBytes );

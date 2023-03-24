@@ -42,7 +42,7 @@ public:
 	void		CreateCmdLine( const char *commandline  ) override;
 	void		CreateCmdLine( int argc, char **argv ) override;
 	const char	*GetCmdLine( void ) const override;
-	const char	*CheckParm( const char *psz, const char **ppszValue = 0 ) const override;
+	const char	*CheckParm( const char *psz, const char **ppszValue = nullptr ) const override;
 	// A bool return of whether param exists, useful for just checking if param that is just a flag is set
 	bool		HasParm( const char *psz ) const override;
 
@@ -53,7 +53,7 @@ public:
 	int			FindParm( const char *psz ) const override;
 	const char* GetParm( int nIndex ) const override;
 
-	const char	*ParmValue( const char *psz, const char *pDefaultVal = NULL ) const override;
+	const char	*ParmValue( const char *psz, const char *pDefaultVal = nullptr) const override;
 	int			ParmValue( const char *psz, int nDefaultVal ) const override;
 	float		ParmValue( const char *psz, float flDefaultVal ) const override;
 	void        SetParm( int nIndex, char const *pParm ) override;
@@ -103,7 +103,7 @@ ICommandLine *CommandLine()
 //-----------------------------------------------------------------------------
 CCommandLine::CCommandLine( void )
 {
-	m_pszCmdLine = NULL;
+	m_pszCmdLine = nullptr;
 	m_nParmCount = 0;
 }
 
@@ -226,7 +226,7 @@ void CCommandLine::CreateCmdLine( const char *commandline )
 	const char *pSrc = commandline;
 
 	bool bInQuotes = false;
-	const char *pInQuotesStart = 0;
+	const char *pInQuotesStart = nullptr;
 	while ( *pSrc )
 	{
 		// Is this an unslashed quote?
@@ -278,7 +278,7 @@ static char * _stristr( char * pStr, const char * pSearch )
 	AssertValidStringPtr(pSearch);
 
 	if (!pStr || !pSearch) 
-		return 0;
+		return nullptr;
 
 	char* pLetter = pStr;
 
@@ -295,7 +295,7 @@ static char * _stristr( char * pStr, const char * pSearch )
 			{
 				// We've run off the end; don't bother.
 				if (*pMatch == 0)
-					return 0;
+					return nullptr;
 
 				if (tolower((unsigned char)*pMatch) != tolower((unsigned char)*pTest))
 					break;
@@ -312,7 +312,7 @@ static char * _stristr( char * pStr, const char * pSearch )
 		++pLetter;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 
@@ -467,17 +467,17 @@ const char *CCommandLine::GetCmdLine( void ) const
 const char *CCommandLine::CheckParm( const char *psz, const char **ppszValue ) const
 {
 	if ( ppszValue )
-		*ppszValue = NULL;
+		*ppszValue = nullptr;
 	
 	int i = FindParm( psz );
 	if ( i == 0 )
-		return NULL;
+		return nullptr;
 	
 	if ( ppszValue )
 	{
 		if ( (i+1) >= m_nParmCount )
 		{
-			*ppszValue = NULL;
+			*ppszValue = nullptr;
 		}
 		else
 		{
@@ -525,7 +525,7 @@ void CCommandLine::ParseCommandLine()
 	}
 
 	bool bInQuotes = false;
-	const char *pFirstLetter = NULL;
+	const char *pFirstLetter = nullptr;
 	for ( ; *pChar; ++pChar )
 	{
 		if ( bInQuotes )
@@ -534,7 +534,7 @@ void CCommandLine::ParseCommandLine()
 				continue;
 
 			AddArgument( pFirstLetter, pChar );
-			pFirstLetter = NULL;
+			pFirstLetter = nullptr;
 			bInQuotes = false;
 			continue;
 		}
@@ -560,7 +560,7 @@ void CCommandLine::ParseCommandLine()
 		if ( V_isspace( *pChar ) )
 		{
 			AddArgument( pFirstLetter, pChar );
-			pFirstLetter = NULL;
+			pFirstLetter = nullptr;
 		}
 	}
 
@@ -579,7 +579,7 @@ void CCommandLine::CleanUpParms()
 	for ( int i = 0; i < m_nParmCount; ++i )
 	{
 		delete [] m_ppParms[i];
-		m_ppParms[i] = NULL;
+		m_ppParms[i] = nullptr;
 	}
 	m_nParmCount = 0;
 }

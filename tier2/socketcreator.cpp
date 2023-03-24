@@ -267,9 +267,9 @@ void CSocketCreator::ProcessAccept()
 	AcceptedSocket_t *pNewEntry = &m_hAcceptedSockets[nIndex];
 	pNewEntry->m_hSocket = newSocket;
 	pNewEntry->m_Address = adr;
-	pNewEntry->m_pData = NULL;
+	pNewEntry->m_pData = nullptr;
 
-	void* pData = NULL;
+	void* pData = nullptr;
 	if ( m_pListener )
 	{
 		m_pListener->OnSocketAccepted( newSocket, adr, &pData );
@@ -332,7 +332,7 @@ int CSocketCreator::ConnectSocket( const netadr_t &netAdr, bool bSingleSocket )
 		tv.tv_sec = 1;
 		FD_ZERO( &writefds );
 		FD_SET( static_cast<u_int>( hSocket ), &writefds );
-		if ( select ( hSocket + 1, NULL, &writefds, NULL, &tv ) < 1 ) // block for at most 1 second
+		if ( select ( hSocket + 1, nullptr, &writefds, nullptr, &tv ) < 1 ) // block for at most 1 second
 		{
 			closesocket( hSocket );		// took too long to connect to, give up
 			return -1;
@@ -346,12 +346,12 @@ int CSocketCreator::ConnectSocket( const netadr_t &netAdr, bool bSingleSocket )
 	}
 
 	// new connection TCP request, put in accepted queue
-	void *pData = NULL;
+	void *pData = nullptr;
 	int nIndex = m_hAcceptedSockets.AddToTail();
 	AcceptedSocket_t *pNewEntry = &m_hAcceptedSockets[nIndex];
 	pNewEntry->m_hSocket = hSocket;
 	pNewEntry->m_Address = netAdr;
-	pNewEntry->m_pData = NULL;
+	pNewEntry->m_pData = nullptr;
 
 	if ( m_pListener )
 	{

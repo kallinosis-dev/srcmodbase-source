@@ -193,7 +193,7 @@ static DWORD WINAPI MeasureThread( LPVOID vThreadNum )
 		s_frequency[ threadNum ] = frequency;
 
 		// Tell the heartbeat thread that one thread has completed.
-		ReleaseSemaphore( g_workCompleteSemaphore, 1, NULL );
+		ReleaseSemaphore( g_workCompleteSemaphore, 1, nullptr);
 	}
 
 	// This will never be hit.
@@ -233,7 +233,7 @@ static DWORD WINAPI HeartbeatThread( LPVOID )
 			// First ask Windows what the processor speed is -- this *might* reflect
 			// some types of thermal throttling, but doesn't seem to.
 			PROCESSOR_POWER_INFORMATION processorInfo[ nMaxCPUs ] = {};
-			CallNtPowerInformation( ProcessorInformation, NULL, 0, &processorInfo, sizeof(processorInfo[0]) * g_numCPUs );
+			CallNtPowerInformation( ProcessorInformation, nullptr, 0, &processorInfo, sizeof(processorInfo[0]) * g_numCPUs );
 
 			ULONG MaxMHz = processorInfo[ 0 ].MaxMhz;
 			ULONG LimitMHz = processorInfo[ 0 ].MhzLimit;
@@ -250,7 +250,7 @@ static DWORD WINAPI HeartbeatThread( LPVOID )
 			// This will wake up all of the worker threads. It is possible that some of the
 			// threads will take a long time to wake up in which case the same thread might
 			// wake up multiple times but this should be harmless.
-			ReleaseSemaphore( g_releaseSemaphore, g_numCPUs, NULL );
+			ReleaseSemaphore( g_releaseSemaphore, g_numCPUs, nullptr);
 
 			// Wait until all of the measurement threads should have run.
 			// This is just to avoid having the heartbeat thread fighting for cycles
@@ -331,10 +331,10 @@ PLATFORM_INTERFACE void SetCPUMonitoringInterval( unsigned nDelayMilliseconds )
 
 		InitializeGetTime();
 
-		g_releaseSemaphore = CreateSemaphore( NULL, 0, 1000, NULL );
+		g_releaseSemaphore = CreateSemaphore(nullptr, 0, 1000, nullptr);
 		if ( !g_releaseSemaphore )
 			return;
-		g_workCompleteSemaphore = CreateSemaphore( NULL, 0, 1000, NULL );
+		g_workCompleteSemaphore = CreateSemaphore(nullptr, 0, 1000, nullptr);
 		if ( !g_workCompleteSemaphore )
 			return;
 
@@ -349,13 +349,13 @@ PLATFORM_INTERFACE void SetCPUMonitoringInterval( unsigned nDelayMilliseconds )
 		// ensure that they will run promptly on a specific CPU.
 		for ( DWORD i = 0; i < g_numCPUs; ++i )
 		{
-			HANDLE thread = CreateThread( NULL, 0x10000, MeasureThread, (void*)i, 0, NULL );
+			HANDLE thread = CreateThread(nullptr, 0x10000, MeasureThread, (void*)i, 0, nullptr);
 			SetThreadAffinityMask( thread, 1u << i );
 			SetThreadPriority( thread, THREAD_PRIORITY_HIGHEST );
 		}
 
 		// Create the thread which tells the measurement threads to wake up periodically
-		CreateThread( NULL, 0x10000, HeartbeatThread, NULL, 0, NULL );
+		CreateThread(nullptr, 0x10000, HeartbeatThread, nullptr, 0, nullptr);
 	}
 
 	AUTO_LOCK( s_lock );

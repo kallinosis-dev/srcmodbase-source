@@ -58,7 +58,7 @@ bool CRCCheck_FileExists( const char *filename )
 {
 	FILE *test;
 
-	if ( ( test = fopen( filename, "rb" ) ) == NULL )
+	if ( ( test = fopen( filename, "rb" ) ) == nullptr)
 		return ( false );
 
 	fclose( test );
@@ -72,7 +72,7 @@ int CRCCheck_LoadFile( const char *filename, void **bufferptr, bool bText )
 	long	length;
 	char*	buffer;
 
-	*bufferptr = NULL;
+	*bufferptr = nullptr;
 
 	if ( !CRCCheck_FileExists( filename ) )
 		return ( -1 );
@@ -153,7 +153,7 @@ int Sys_LoadTextFileWithIncludes( const char* filename, char** bufferptr, bool b
 	FILE *pFileStack[MAX_INCLUDE_STACK_DEPTH];
 	int nSP = MAX_INCLUDE_STACK_DEPTH;
 	
-	StringNode_t *pFileLines = NULL;		// tail ptr for fast adds
+	StringNode_t *pFileLines = nullptr;		// tail ptr for fast adds
 	
 	size_t nTotalFileBytes = 0;
 	FILE *handle = fopen( filename, "r" );
@@ -215,7 +215,7 @@ int Sys_LoadTextFileWithIncludes( const char* filename, char** bufferptr, bool b
 	}
 	
 	// Reverse the pFileLines list so it goes the right way.
-	StringNode_t *pPrev = NULL;
+	StringNode_t *pPrev = nullptr;
 	StringNode_t *pCur;
 	for( pCur = pFileLines; pCur; )
 	{
@@ -346,7 +346,7 @@ bool VPC_CheckProjectDependencyCRCs( const char *szCRCFile, const char *pReferen
 				sscanf( pLine, "%x", &nReferenceCRC );
 
 				// Calculate the CRC from the contents of the file.
-				char *pBuffer = NULL;
+				char *pBuffer = nullptr;
 				int nTotalFileBytes = CRCCheck_LoadFile( fixedVPCFilename, (void**)&pBuffer, !bFileIsBinary );
 				if ( nTotalFileBytes < 0 )
 				{
@@ -454,7 +454,7 @@ int VPC_CommandLineCRCChecks( int argc, char **argv )
 	SafeSnprintf( szCRCFilename, sizeof( szCRCFilename ), "%s.%s", pProjectFilename, VPCCRCCHECK_FILE_EXTENSION );
 
 	char errorString[1024];
-	bool bCRCsValid = VPC_CheckProjectDependencyCRCs( szCRCFilename, NULL, errorString, sizeof( errorString ) );
+	bool bCRCsValid = VPC_CheckProjectDependencyCRCs( szCRCFilename, nullptr, errorString, sizeof( errorString ) );
 
 	if ( bCRCsValid )
 	{

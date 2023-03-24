@@ -57,7 +57,7 @@ char const* CTestCase::GetName()
 CTestSuite::CTestSuite( char const* pName, ITestSuite* pParent )
 {
 	m_TestCount = 0;
-	m_ppTestCases = 0;
+	m_ppTestCases = nullptr;
 
 	m_pName = new char[strlen(pName) + 1];
 	strcpy( m_pName, pName );
@@ -118,7 +118,7 @@ void CTestSuite::RunTest()
 
 static int s_TestCount = 0;
 static int s_TestAllocated = 0;
-static ITestCase** s_ppTestCases = 0;
+static ITestCase** s_ppTestCases = nullptr;
 
 void UnitTestInstallTestCase( ITestCase* pTest )
 {

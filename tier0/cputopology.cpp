@@ -107,7 +107,7 @@ public:
     // Desc: Initializes the internal structures/data with information retrieved
     //       from a call to GetLogicalProcessorInformation.
     //-----------------------------------------------------------------------------
-                            GlpiImpl() : m_pSlpi( NULL ),
+                            GlpiImpl() : m_pSlpi(nullptr),
                                          m_nItems( 0 )
                             {
                                 _ASSERT( IsSupported() );
@@ -116,7 +116,7 @@ public:
                                 _ASSERT( pGlpi );
 
                                 DWORD cbBuffer = 0;
-                                pGlpi( 0, &cbBuffer );
+                                pGlpi( nullptr, &cbBuffer );
 
                                 m_pSlpi = ( SYSTEM_LOGICAL_PROCESSOR_INFORMATION* )malloc( cbBuffer );
                                 pGlpi( m_pSlpi, &cbBuffer );
@@ -129,7 +129,7 @@ public:
                             /*virtual*/ ~GlpiImpl() override
     {
                                 free( m_pSlpi );
-                                m_pSlpi = 0;
+                                m_pSlpi = nullptr;
                                 m_nItems = 0;
                             }
 
@@ -207,7 +207,7 @@ public:
     //-----------------------------------------------------------------------------
     static BOOL             IsSupported()
     {
-        return NULL != GetGlpiFn_();
+        return nullptr != GetGlpiFn_();
     }
 
 private:
@@ -239,7 +239,7 @@ PDWORD
         #else
         VviFnPtr pVvi = ( VviFnPtr )GetProcAddress( hMod, "VerifyVersionInfoA" );
 #endif
-        GlpiFnPtr pGlpi = NULL;
+        GlpiFnPtr pGlpi = nullptr;
 
         if( pVvi )
         {
@@ -918,7 +918,7 @@ const char CpuidImpl::AuthenticAMD[] = "AuthenticAMD";
 // Desc: Initializes this object with the appropriately supported cpu topology
 //       implementation object.
 //-------------------------------------------------------------------------------------
-CpuTopology::CpuTopology( BOOL bForceCpuid ) : m_pImpl( NULL )
+CpuTopology::CpuTopology( BOOL bForceCpuid ) : m_pImpl(nullptr)
 {
     ForceCpuid( bForceCpuid );
 }
@@ -1000,6 +1000,6 @@ void CpuTopology::ForceCpuid( BOOL bForce )
 void CpuTopology::Destroy_()
 {
     delete m_pImpl;
-    m_pImpl = NULL;
+    m_pImpl = nullptr;
 }
 #endif

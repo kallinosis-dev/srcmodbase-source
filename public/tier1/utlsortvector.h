@@ -103,8 +103,8 @@ protected:
 	int AddToTail( const T& src );
 	int InsertBefore( int elem, const T& src );
 	int AddMultipleToHead( int num );
-	int AddMultipleToTail( int num, const T *pToCopy=NULL );	   
-	int InsertMultipleBefore( int elem, int num, const T *pToCopy=NULL );
+	int AddMultipleToTail( int num, const T *pToCopy= nullptr);	   
+	int InsertMultipleBefore( int elem, int num, const T *pToCopy= nullptr);
 	int InsertMultipleAfter( int elem, int num );
 	int AddVectorToTail( CUtlVector<T> const &src );
 
@@ -152,13 +152,13 @@ private:
 //-----------------------------------------------------------------------------
 template <class T, class LessFunc, class BaseVector> 
 CUtlSortVector<T, LessFunc, BaseVector>::CUtlSortVector( int nGrowSize, int initSize ) : 
-	m_pLessContext(NULL), BaseVector( nGrowSize, initSize ), m_bNeedsSort( false )
+	m_pLessContext(nullptr), BaseVector( nGrowSize, initSize ), m_bNeedsSort( false )
 {
 }
 
 template <class T, class LessFunc, class BaseVector> 
 CUtlSortVector<T, LessFunc, BaseVector>::CUtlSortVector( T* pMemory, int numElements ) :
-	m_pLessContext(NULL), BaseVector( pMemory, numElements ), m_bNeedsSort( false )
+	m_pLessContext(nullptr), BaseVector( pMemory, numElements ), m_bNeedsSort( false )
 {
 }
 

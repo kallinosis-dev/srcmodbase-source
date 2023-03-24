@@ -201,7 +201,7 @@ inline ConCommandBase * CConCommandHash::FindPtr( const char *name ) const
 	CCommandHashHandle_t handle = Find(name);
 	if (handle == InvalidHandle())
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{

@@ -52,7 +52,7 @@ public:
 	int		ReadData( void *pOutput, int dataSize );
 	int		PositionGet( void );
 	void	PositionSet( int position );
-	bool	IsValid( void ) { return m_file != 0; }
+	bool	IsValid( void ) { return m_file != nullptr; }
 
 private:
 	const InFileRIFF & operator=( const InFileRIFF & );
@@ -121,7 +121,7 @@ public:
 	bool 	WriteData( void *pOutput, int dataSize );
 	int		PositionGet( void );
 	void	PositionSet( int position );
-	bool	IsValid( void ) { return m_file != 0; }
+	bool	IsValid( void ) { return m_file != nullptr; }
 	
 	void    HasLISETData( int position );
 

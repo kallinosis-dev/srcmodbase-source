@@ -911,7 +911,7 @@ class CCallStackStatsGatherer_StructAccessor_Manual : CCallStackStatsGatherer_St
 {
 public:
 	CCallStackStatsGatherer_StructAccessor_Manual( CCallStackStatsGatherer_StructAccessor_Base<STATSTRUCT> &copyFrom )
-		: CCallStackStatsGatherer_StructAccessor_Base<STATSTRUCT>( copyFrom ), m_pStruct( NULL )
+		: CCallStackStatsGatherer_StructAccessor_Base<STATSTRUCT>( copyFrom ), m_pStruct(nullptr)
 	{ }
 
 	STATSTRUCT *operator->()

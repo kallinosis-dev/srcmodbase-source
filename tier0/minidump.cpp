@@ -78,8 +78,8 @@ bool WriteMiniDumpUsingExceptionInfo(
 			}
 			else
 			{
-				m_pfnBGetMiniDumpLock = NULL;
-				m_pfnMiniDumpUnlock = NULL;
+				m_pfnBGetMiniDumpLock = nullptr;
+				m_pfnMiniDumpUnlock = nullptr;
 			}
 
 			if ( m_pfnBGetMiniDumpLock && m_pfnMiniDumpUnlock )
@@ -160,7 +160,7 @@ bool WriteMiniDumpUsingExceptionInfo(
 	if ( pfnMiniDumpWrite )
 	{
 		// create a unique filename for the minidump based on the current time and module name
-		time_t currTime = ::time( NULL );
+		time_t currTime = ::time(nullptr);
 		struct tm * pTime = ::localtime( &currTime );
 		++g_nMinidumpsWritten;
 
@@ -171,7 +171,7 @@ bool WriteMiniDumpUsingExceptionInfo(
 			#ifdef TCHAR_IS_WCHAR
 				::GetModuleFileNameW( NULL, rgchModuleName, sizeof(rgchModuleName) / sizeof(tchar) );
 			#else
-				::GetModuleFileName( NULL, rgchModuleName, sizeof(rgchModuleName) / sizeof(tchar) );
+				::GetModuleFileName(nullptr, rgchModuleName, sizeof(rgchModuleName) / sizeof(tchar) );
 			#endif
 
 			// strip off the rest of the path from the .exe name
@@ -207,8 +207,8 @@ bool WriteMiniDumpUsingExceptionInfo(
 			pTime->tm_sec,		    /* seconds (0 - 59) */
 			g_nMinidumpsWritten,	// ensures the filename is unique
 			&currTime,				/* address of stack variable to ensure that different threads write to different files and to differentiate game side dumps from Steam dumps */
-			( pszFilenameSuffix != NULL ) ? "_" : "",
-			( pszFilenameSuffix != NULL ) ? pszFilenameSuffix : ""
+			( pszFilenameSuffix != nullptr) ? "_" : "",
+			( pszFilenameSuffix != nullptr) ? pszFilenameSuffix : ""
 			);
 		// Ensure null-termination.
 		rgchFileName[ Q_ARRAYSIZE(rgchFileName) - 1 ] = 0;
@@ -220,7 +220,7 @@ bool WriteMiniDumpUsingExceptionInfo(
 			if ( c == '/' || c == '\\' )
 			{
 				*pSlash = '\0';
-				::CreateDirectory( rgchFileName, NULL );
+				::CreateDirectory( rgchFileName, nullptr);
 				*pSlash = c;
 			}
 		}
@@ -229,7 +229,7 @@ bool WriteMiniDumpUsingExceptionInfo(
 #ifdef TCHAR_IS_WCHAR
 		HANDLE hFile = ::CreateFileW( rgchFileName, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
 #else
-		HANDLE hFile = ::CreateFile( rgchFileName, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
+		HANDLE hFile = ::CreateFile( rgchFileName, GENERIC_WRITE, FILE_SHARE_WRITE, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 #endif
 
 		if ( hFile )
@@ -254,7 +254,7 @@ bool WriteMiniDumpUsingExceptionInfo(
 				pCommentStream->BufferSize = (ULONG)strlen(g_rgchMinidumpComment)+1;
 			}
 
-			bMinidumpResult = (*pfnMiniDumpWrite)( ::GetCurrentProcess(), ::GetCurrentProcessId(), hFile, (MINIDUMP_TYPE)minidumpType, &ExInfo, &StreamInformationHeader, NULL );
+			bMinidumpResult = (*pfnMiniDumpWrite)( ::GetCurrentProcess(), ::GetCurrentProcessId(), hFile, (MINIDUMP_TYPE)minidumpType, &ExInfo, &StreamInformationHeader, nullptr);
 			::CloseHandle( hFile );
 
 			// Clear comment for next time
@@ -365,7 +365,7 @@ static FnMiniDump g_UnhandledExceptionFunction;
 static LONG STDCALL ValveUnhandledExceptionFilter( _EXCEPTION_POINTERS* pExceptionInfo )
 {
 	uint uStructuredExceptionCode = pExceptionInfo->ExceptionRecord->ExceptionCode;
-	g_UnhandledExceptionFunction( uStructuredExceptionCode, pExceptionInfo, 0 );
+	g_UnhandledExceptionFunction( uStructuredExceptionCode, pExceptionInfo, nullptr );
 	return EXCEPTION_CONTINUE_SEARCH;
 }
 
@@ -393,7 +393,7 @@ void SetMinidumpFilenamePrefix( const char *pszPrefix )
 //-----------------------------------------------------------------------------
 void SetMinidumpComment( const char *pszComment )
 {
-	if ( pszComment == NULL )
+	if ( pszComment == nullptr)
 		pszComment = "";
 	strncpy( g_rgchMinidumpComment, pszComment, sizeof(g_rgchMinidumpComment) - 1 );
 }
@@ -411,7 +411,7 @@ void WriteMiniDump( const char *pszFilenameSuffix )
 			EXCEPTION_BREAKPOINT,		// dwExceptionCode
 			EXCEPTION_NONCONTINUABLE,	// dwExceptionFlags
 			0,							// nNumberOfArguments,
-			NULL						// const ULONG_PTR* lpArguments
+			nullptr			// const ULONG_PTR* lpArguments
 			);
 
 		// Never get here (non-continuable exception)
@@ -585,7 +585,7 @@ int CatchAndWriteMiniDump_Impl( CatchAndWriteContext_t &ctx )
 void CatchAndWriteMiniDumpEx( FnWMain pfn, int argc, tchar *argv[], ECatchAndWriteMinidumpAction eAction )
 {
 	CatchAndWriteContext_t ctx;
-	ctx.Set( k_eSCatchAndWriteFunctionTypeWMain, eAction, (void *)pfn, &argc, &argv, NULL );
+	ctx.Set( k_eSCatchAndWriteFunctionTypeWMain, eAction, (void *)pfn, &argc, &argv, nullptr);
 	CatchAndWriteMiniDump_Impl( ctx );
 }
 
@@ -598,7 +598,7 @@ void CatchAndWriteMiniDumpEx( FnWMain pfn, int argc, tchar *argv[], ECatchAndWri
 int CatchAndWriteMiniDumpExReturnsInt( FnWMainIntRet pfn, int argc, tchar *argv[], ECatchAndWriteMinidumpAction eAction )
 {
 	CatchAndWriteContext_t ctx;
-	ctx.Set( k_eSCatchAndWriteFunctionTypeWMainIntReg, eAction, (void *)pfn, &argc, &argv, NULL );
+	ctx.Set( k_eSCatchAndWriteFunctionTypeWMainIntReg, eAction, (void *)pfn, &argc, &argv, nullptr);
 	return CatchAndWriteMiniDump_Impl( ctx );
 }
 
@@ -613,7 +613,7 @@ int CatchAndWriteMiniDumpExReturnsInt( FnWMainIntRet pfn, int argc, tchar *argv[
 void CatchAndWriteMiniDumpExForVoidPtrFn( FnVoidPtrFn pfn, void *pv, ECatchAndWriteMinidumpAction eAction )
 {
 	CatchAndWriteContext_t ctx;
-	ctx.Set( k_eSCatchAndWriteFunctionTypeVoidPtr, eAction, (void *)pfn, NULL, NULL, &pv );
+	ctx.Set( k_eSCatchAndWriteFunctionTypeVoidPtr, eAction, (void *)pfn, nullptr, nullptr, &pv );
 	CatchAndWriteMiniDump_Impl( ctx );
 }
 

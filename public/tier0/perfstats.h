@@ -40,7 +40,7 @@ public:
 
 	void Reset()
 	{
-		m_pszName = NULL;
+		m_pszName = nullptr;
 		m_CurrFrameTime.Init();
 		m_PrevFrameTime.Init();
 		m_AccTotalTime.Init();
@@ -99,7 +99,7 @@ class CPerfStatsScope
 {
 public:
 
-	CPerfStatsScope( const char* pszName, PerfStatsSlot_t slotId ) : m_SlotData( NULL )
+	CPerfStatsScope( const char* pszName, PerfStatsSlot_t slotId ) : m_SlotData(nullptr)
 	{
 		if ( slotId < PERF_STATS_SLOT_MAX )
 		{

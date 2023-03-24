@@ -8,7 +8,7 @@
 #include "resourceprecacher.h"
 #include "datacache/iprecachesystem.h"
 
-CBaseResourcePrecacher *CBaseResourcePrecacher::sm_pFirst[PRECACHE_SYSTEM_COUNT] = { 0 };
+CBaseResourcePrecacher *CBaseResourcePrecacher::sm_pFirst[PRECACHE_SYSTEM_COUNT] = { nullptr };
 
 //-----------------------------------------------------------------------------
 // Registers all resource precachers (created by PRECACHE_ macros) with precache system

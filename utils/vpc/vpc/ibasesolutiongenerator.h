@@ -24,7 +24,7 @@ class IBaseSolutionGenerator
 {
 public:
 	virtual void GenerateSolutionFile( const char *pSolutionFilename, CUtlVector<CDependency_Project*> &projects ) = 0;
-    virtual const char *GetSolutionFileExtension() { return NULL; }
+    virtual const char *GetSolutionFileExtension() { return nullptr; }
     virtual void ProjectEnd( IBaseProjectGenerator *pCurGen ) {}
 	virtual SolutionType_t GetSolutionType( void ) = 0;
 };

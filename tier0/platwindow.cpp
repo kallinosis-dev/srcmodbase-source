@@ -30,7 +30,7 @@ PlatWindow_t Plat_CreateWindow( void *hInstance, const char *pTitle, int nWidth,
 	wc.lpfnWndProc   = DefWindowProc;
 	wc.hInstance     = (HINSTANCE)hInstance;
 	wc.lpszClassName = "Valve001";
-	wc.hIcon		 = NULL; //LoadIcon( s_HInstance, MAKEINTRESOURCE( IDI_LAUNCHER ) );
+	wc.hIcon		 = nullptr; //LoadIcon( s_HInstance, MAKEINTRESOURCE( IDI_LAUNCHER ) );
 	wc.hIconSm		 = wc.hIcon;
 
 	RegisterClassEx( &wc );
@@ -87,7 +87,7 @@ void Plat_SetWindowTitle( PlatWindow_t hWindow, const char *pTitle )
 //-----------------------------------------------------------------------------
 void Plat_SetWindowPos( PlatWindow_t hWindow, int x, int y )
 {
-	SetWindowPos( (HWND)hWindow, NULL, x, y, 0, 0,
+	SetWindowPos( (HWND)hWindow, nullptr, x, y, 0, 0,
 		SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW | SWP_DRAWFRAME );
 }
 

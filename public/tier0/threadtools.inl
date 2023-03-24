@@ -17,7 +17,7 @@ CTHREADLOCALPTR(CThread) g_pCurThread;
 
 INLINE_ON_PS3 CThread::CThread() :	
 #ifdef _WIN32
-m_hThread( NULL ),
+m_hThread(nullptr),
 m_threadId( 0 ),
 #elif defined( _PS3 ) || defined(_POSIX)
 m_threadId( 0 ),
@@ -121,12 +121,12 @@ INLINE_ON_PS3 bool CThread::Start( unsigned nBytesStack, ThreadPriorityEnum_t nP
 #endif
 
 #ifdef PLATFORM_WINDOWS
-	m_hThread = (HANDLE)CreateThread( NULL,
-		nBytesStack,
-		(LPTHREAD_START_ROUTINE)GetThreadProc(),
-		new ThreadInit_t(init),
-		nBytesStack ? STACK_SIZE_PARAM_IS_A_RESERVATION : 0,
-		(LPDWORD)&m_threadId );
+	m_hThread = (HANDLE)CreateThread(nullptr,
+	                                 nBytesStack,
+	                                 (LPTHREAD_START_ROUTINE)GetThreadProc(),
+	                                 new ThreadInit_t(init),
+	                                 nBytesStack ? STACK_SIZE_PARAM_IS_A_RESERVATION : 0,
+	                                 (LPDWORD)&m_threadId );
 
 	if( nPriority != TP_PRIORITY_DEFAULT )
 	{
@@ -187,7 +187,7 @@ INLINE_ON_PS3 bool CThread::Start( unsigned nBytesStack, ThreadPriorityEnum_t nP
 		Msg( "Thread failed to initialize\n" );
 #ifdef _WIN32
 		CloseHandle( m_hThread );
-		m_hThread = NULL;
+		m_hThread = nullptr;
 #elif defined( _PS3 )
 		m_threadEnd.Set();
 		m_threadId = NULL;
@@ -202,7 +202,7 @@ INLINE_ON_PS3 bool CThread::Start( unsigned nBytesStack, ThreadPriorityEnum_t nP
 		Msg( "Thread failed to initialize\n" );
 #ifdef _WIN32
 		CloseHandle( m_hThread );
-		m_hThread = NULL;
+		m_hThread = nullptr;
 #elif defined(POSIX) && !defined( _PS3 )
 		m_threadId = 0;
 		m_threadZombieId = 0;
@@ -304,12 +304,12 @@ INLINE_ON_PS3 void CThread::Stop(int exitCode)
 		if ( !( m_flags & SUPPORT_STOP_PROTOCOL ) )
 		{
 			OnExit();
-			g_pCurThread = NULL;
+			g_pCurThread = nullptr;
 
 #ifdef _WIN32
 			CloseHandle( m_hThread );
 			RemoveThreadHandleToIDMap( m_hThread );
-			m_hThread = NULL;
+			m_hThread = nullptr;
 #else
 			m_threadId = 0;
 			m_threadZombieId = 0;
@@ -401,7 +401,7 @@ INLINE_ON_PS3 bool CThread::Terminate(int exitCode)
 		return false;
 	CloseHandle( m_hThread );
 	RemoveThreadHandleToIDMap( m_hThread );
-	m_hThread = NULL;
+	m_hThread = nullptr;
 #elif defined( _PS3 )
 	m_threadEnd.Set();
 	m_threadId = NULL;
@@ -608,7 +608,7 @@ INLINE_ON_PS3 void* CThread::ThreadProc(LPVOID pv)
 #ifdef _PS3
 	SetCurThreadPS3( NULL );
 #else
-	g_pCurThread = NULL;
+	g_pCurThread = nullptr;
 #endif
 	FreeThreadID();
 
@@ -616,7 +616,7 @@ INLINE_ON_PS3 void* CThread::ThreadProc(LPVOID pv)
 #ifdef _WIN32
 	CloseHandle( pThread->m_hThread );
 	RemoveThreadHandleToIDMap( pThread->m_hThread );
-	pThread->m_hThread = NULL;
+	pThread->m_hThread = nullptr;
 #elif defined( _PS3 )
 	pThread->m_threadZombieId = pThread->m_threadId;
 	pThread->m_threadEnd.Set();

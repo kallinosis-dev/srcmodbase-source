@@ -104,7 +104,7 @@ bool VPC_Unity_UpdateUnityFiles( const char **ppArgs, int nArgs )
 
 	// Load the list of unity files
     CUtlStringBuilder* pStrBuf = g_pVPC->GetTempStringBuffer1();
-	V_MakeAbsolutePath( pStrBuf->Access(), pStrBuf->Capacity(), ppArgs[1], NULL, k_bVPCForceLowerCase );
+	V_MakeAbsolutePath( pStrBuf->Access(), pStrBuf->Capacity(), ppArgs[1], nullptr, k_bVPCForceLowerCase );
 	CUtlVector< CUtlString > absFilePaths;
 	if ( !Sys_LoadFileAsLines( pStrBuf->Get(), absFilePaths ) )
 	{
@@ -231,7 +231,7 @@ void VPC_Unity_BuildUnityfiles( CProjectFolder *pFolder, const CUtlVector< CSour
 		g_pVPC->VPCStatus( UNITY_SPEW, "\n$UnityFolder: emitting '%s' in project: '%s'", unityName.Get(), g_pVPC->GetProjectName() );
 
 		// Add the unity file to the project:
-		CProjectFile *pUnityFile = NULL;
+		CProjectFile *pUnityFile = nullptr;
 		pDataCollector->AddFileToFolder( unityName.Get(), pFolder, true, VPC_FILE_FLAGS_DYNAMIC, &pUnityFile );
 
 		// Make the unity file's Debug/Release compiler settings match those of the files that it includes:
@@ -262,9 +262,9 @@ void VPC_Unity_BuildUnityfiles( CProjectFolder *pFolder, const CUtlVector< CSour
 			{
 				// Include this file, or its generated output file(s), in the current unity file
 				const CSourceFileInfo &fileInfo = *fileGroup[i];
-				CUtlString absSourceFilePath     = fileInfo.m_pSourceFile->m_Name.AbsPath( NULL, k_bVPCForceLowerCase );
-				CUtlString absDebugIncludePath   = fileInfo.m_pDebugCompiledFile->m_Name.AbsPath( NULL, k_bVPCForceLowerCase );
-				CUtlString absReleaseIncludePath = fileInfo.m_pReleaseCompiledFile->m_Name.AbsPath( NULL, k_bVPCForceLowerCase );
+				CUtlString absSourceFilePath     = fileInfo.m_pSourceFile->m_Name.AbsPath(nullptr, k_bVPCForceLowerCase );
+				CUtlString absDebugIncludePath   = fileInfo.m_pDebugCompiledFile->m_Name.AbsPath(nullptr, k_bVPCForceLowerCase );
+				CUtlString absReleaseIncludePath = fileInfo.m_pReleaseCompiledFile->m_Name.AbsPath(nullptr, k_bVPCForceLowerCase );
 
 				// Determine whether the file is read-only
 				int64 nFileSize, nModifyTime;
@@ -407,12 +407,12 @@ CProjectFile *VPC_Unity_GetContainingUnityFile( CProjectFile *pInputFile, const 
 {
 	// This data isn't generated until VPC_Unity_OnParseProjectEnd is run
 	if ( !g_pVPC->m_bDoneOnParseProjectEnd )
-		return NULL;
+		return nullptr;
 
 	// TODO: why not use a (CProjectFile*)->(CProjectFile*) map, rather than going through strings? These lookups are expensive (ditto for qt/schema).
 	CUtlString &generatedFilename = g_pVPC->m_UnityOutputFileMap[ pInputFile->m_Name.Get() ];
 	generatedFilename.FixSlashes();
-	CProjectFile *pGeneratedFile = NULL;
+	CProjectFile *pGeneratedFile = nullptr;
 	pDataCollector->FindFile( generatedFilename.Get(), &pGeneratedFile );
 	// This may return NULL if pInputFile is not in a unity file
 	return pGeneratedFile;

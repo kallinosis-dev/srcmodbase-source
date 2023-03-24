@@ -167,7 +167,7 @@ void VPC_Qt_GetPCHFile( CVCProjGenerator *pDataCollector, const char *pQtHeaderF
 		V_strcat_safe( cppFileName, "." );
 		V_strcat_safe( cppFileName, GetCFileExtension( i ) );
 				
-		CProjectFile *pProjectFile = NULL;
+		CProjectFile *pProjectFile = nullptr;
 		if ( pDataCollector->FindFile( cppFileName, &pProjectFile ) )
 		{					
 			VPC_GeneratedFiles_GetSourceFileInfo( fileInfo, pProjectFile, true, pDataCollector, rootConfigs );
@@ -301,7 +301,7 @@ CProjectFile *VPC_Qt_GetGeneratedFile( CProjectFile *pInputFile, const char * /*
 {
 	CUtlString &generatedFilename = g_pVPC->m_QtOutputFileMap[ pInputFile->m_Name.Get() ];
 	generatedFilename.FixSlashes();
-	CProjectFile *pGeneratedFile = NULL;
+	CProjectFile *pGeneratedFile = nullptr;
 	pDataCollector->FindFile( generatedFilename.Get(), &pGeneratedFile );
 	if ( !pGeneratedFile )
 		g_pVPC->VPCWarning( "VPC_Qt_GetGeneratedFile: could not find generated file for '%s'", pInputFile->m_Name.Get() );

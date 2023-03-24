@@ -11,7 +11,7 @@
 static PropertyName_t s_Xbox360PropertyNames_2010[] =
 {
 	#include "projectgenerator_xbox360_2010.inc"
-	{ -1, NULL, NULL }
+	{ -1, nullptr, nullptr}
 };
 
 IBaseProjectGenerator* GetXbox360ProjectGenerator_2010()
@@ -173,7 +173,7 @@ bool CProjectGenerator_Xbox360_2010::WriteConfiguration( CProjectConfiguration *
 				return false;
 		}
 
-		WriteProperty( NULL, false, NULL, "UseOfAtl", "false" );
+		WriteProperty(nullptr, false, nullptr, "UseOfAtl", "false" );
 
 		m_XMLWriter.PopNode();
 	}
@@ -265,7 +265,7 @@ bool CProjectGenerator_Xbox360_2010::WritePrimaryXML( const char *pOutputFilenam
 	// write the root configurations
 	for ( int i = 0; i < configurationNames.Count(); i++ )
 	{
-		CProjectConfiguration *pConfiguration = NULL;
+		CProjectConfiguration *pConfiguration = nullptr;
 		if ( m_pVCProjGenerator->GetRootConfiguration( configurationNames[i].Get(), &pConfiguration ) )
 		{
 			if ( !WriteConfiguration( pConfiguration ) )
@@ -297,7 +297,7 @@ bool CProjectGenerator_Xbox360_2010::WritePrimaryXML( const char *pOutputFilenam
 	m_XMLWriter.WriteLineNode( "_ProjectFileVersion", "", "10.0.30319.1" );
 	for ( int i = 0; i < configurationNames.Count(); i++ )
 	{
-		CProjectConfiguration *pConfiguration = NULL;
+		CProjectConfiguration *pConfiguration = nullptr;
 		if ( m_pVCProjGenerator->GetRootConfiguration( configurationNames[i].Get(), &pConfiguration ) )
 		{
 			for ( int j = 0; j < pConfiguration->m_PropertyStates.m_PropertiesInOutputOrder.Count(); j++ )
@@ -340,7 +340,7 @@ bool CProjectGenerator_Xbox360_2010::WritePrimaryXML( const char *pOutputFilenam
 	// write the tool configurations
 	for ( int i = 0; i < configurationNames.Count(); i++ )
 	{
-		CProjectConfiguration *pConfiguration = NULL;
+		CProjectConfiguration *pConfiguration = nullptr;
 		if ( m_pVCProjGenerator->GetRootConfiguration( configurationNames[i].Get(), &pConfiguration ) )
 		{
 			if ( !WriteTools( pConfiguration ) )
@@ -436,7 +436,7 @@ bool CProjectGenerator_Xbox360_2010::WriteFolderContentsToSecondaryXML( CProject
 
 	if ( !nDepth )
 	{
-		m_XMLFilterWriter.PushNode( "ItemGroup", NULL );
+		m_XMLFilterWriter.PushNode( "ItemGroup", nullptr);
 	}
 
 	for ( int iIndex = pFolder->m_Files.Head(); iIndex != pFolder->m_Files.InvalidIndex(); iIndex = pFolder->m_Files.Next( iIndex ) )
@@ -467,7 +467,7 @@ bool CProjectGenerator_Xbox360_2010::WriteSecondaryXML( const char *pOutputFilen
 	m_XMLFilterWriter.PushNode( "Project", "ToolsVersion=\"4.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\"" );
 
 	// write the root folders
-	m_XMLFilterWriter.PushNode( "ItemGroup", NULL );
+	m_XMLFilterWriter.PushNode( "ItemGroup", nullptr);
 	CProjectFolder *pRootFolder = m_pVCProjGenerator->GetRootFolder();
 	for ( int iIndex = pRootFolder->m_Folders.Head(); iIndex != pRootFolder->m_Folders.InvalidIndex(); iIndex = pRootFolder->m_Folders.Next( iIndex ) )
 	{
@@ -479,7 +479,7 @@ bool CProjectGenerator_Xbox360_2010::WriteSecondaryXML( const char *pOutputFilen
 	// write folder contents
 	for ( int i = 0; i < TKN_MAX_COUNT; i++ )
 	{
-		if ( !WriteFolderContentsToSecondaryXML( pRootFolder, NULL, s_TypeKeyNames[i], 0 ) )
+		if ( !WriteFolderContentsToSecondaryXML( pRootFolder, nullptr, s_TypeKeyNames[i], 0 ) )
 			return false;
 	}
 
@@ -500,7 +500,7 @@ bool CProjectGenerator_Xbox360_2010::WriteTool( const char *pToolName, const CPr
 
 	if ( !pConfig->m_bIsFileConfig )
 	{
-		m_XMLWriter.PushNode( pToolName, NULL );
+		m_XMLWriter.PushNode( pToolName, nullptr);
 	}
 
 	for ( int i = 0; i < pProjectTool->m_PropertyStates.m_PropertiesInOutputOrder.Count(); i++ )

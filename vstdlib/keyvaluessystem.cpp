@@ -171,7 +171,7 @@ CKeyValuesSystem::CKeyValuesSystem() :
 	for (int i = 0; i < m_HashTable.Count(); i++)
 	{
 		m_HashTable[i].stringIndex = 0;
-		m_HashTable[i].next = NULL;
+		m_HashTable[i].next = nullptr;
 	}
 
 	m_Strings.Init( "CKeyValuesSystem::m_Strings", 4*1024*1024, 64*1024, 0, 4 );
@@ -294,7 +294,7 @@ HKeySymbol CKeyValuesSystem::GetSymbolForString( const char *name, bool bCreate 
 
 		i++;
 
-		if (item->next == NULL)
+		if (item->next == nullptr)
 		{
 			if ( !bCreate )
 			{
@@ -311,7 +311,7 @@ HKeySymbol CKeyValuesSystem::GetSymbolForString( const char *name, bool bCreate 
 			}
 
 			// build up the new item
-			item->next = NULL;
+			item->next = nullptr;
 			int numStringBytes = strlen(name);
 			char *pString = (char *)m_Strings.Alloc( numStringBytes + 1 + 3 );
 			if ( !pString )
@@ -407,7 +407,7 @@ HKeySymbol CKeyValuesSystem::GetSymbolForStringCaseSensitive( HKeySymbol &hCaseI
 
 		i++;
 
-		if (item->next == NULL)
+		if (item->next == nullptr)
 		{
 			if ( !bCreate )
 			{
@@ -424,7 +424,7 @@ HKeySymbol CKeyValuesSystem::GetSymbolForStringCaseSensitive( HKeySymbol &hCaseI
 			}
 
 			// build up the new item
-			item->next = NULL;
+			item->next = nullptr;
 			int numStringBytes = strlen(name);
 			char *pString = (char *)m_Strings.Alloc( numStringBytes + 1 + 3 );
 			if ( !pString )

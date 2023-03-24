@@ -125,7 +125,7 @@ const char *CVPC::GetTargetPlatformName()
 	Assert( 0 );
 	VPCError( "Unspecified platform." );
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -218,7 +218,7 @@ conditional_t *CVPC::FindOrCreateConditional( const char *pName, bool bCreate, c
 
 	if ( !bCreate )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int index = m_Conditionals.AddToTail();

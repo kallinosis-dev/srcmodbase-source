@@ -166,7 +166,7 @@ void CEventQueue::ProcessEvents( )
 		// Build list of callbacks which are stale and need to die
 		CUtlVector< CFunctorCallback * > callbacks( 0, m_QueuedEventDiscards.Count() );
 
-		CFunctorCallback *pCallback = NULL;
+		CFunctorCallback *pCallback = nullptr;
 		while( m_QueuedEventDiscards.PopItem( &pCallback ) )
 		{
 			callbacks.AddToTail( pCallback );

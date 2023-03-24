@@ -35,10 +35,10 @@ void CBeamSegDraw::Start( IMatRenderContext *pRenderContext, int nSegs, IMateria
 	}
 	else
 	{
-		m_pMeshBuilder = NULL;
+		m_pMeshBuilder = nullptr;
 		m_nMeshVertCount = 0;
 
-		IMesh *pMesh = m_pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+		IMesh *pMesh = m_pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 		m_Mesh.Begin( pMesh, MATERIAL_TRIANGLE_STRIP, (nSegs-1) * 2 );
 	}
 }
@@ -281,7 +281,7 @@ void CBeamSegDraw::End()
 {
 	if ( m_pMeshBuilder )
 	{
-		m_pMeshBuilder = NULL;
+		m_pMeshBuilder = nullptr;
 		return;
 	}
 

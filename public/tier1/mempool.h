@@ -42,7 +42,7 @@ public:
 		GROW_SLOW=2			// New blob size is numElements.
 	};
 
-				CUtlMemoryPool( int blockSize, int numElements, int growMode = GROW_FAST, const char *pszAllocOwner = NULL, int nAlignment = 0 );
+				CUtlMemoryPool( int blockSize, int numElements, int growMode = GROW_FAST, const char *pszAllocOwner = nullptr, int nAlignment = 0 );
 				~CUtlMemoryPool();
 
 	void*		Alloc();	// Allocate the element size you specified in the constructor.
@@ -106,7 +106,7 @@ protected:
 class CMemoryPoolMT : public CUtlMemoryPool
 {
 public:
-	CMemoryPoolMT( int blockSize, int numElements, int growMode = GROW_FAST, const char *pszAllocOwner = NULL, int nAlignment = 0) : CUtlMemoryPool( blockSize, numElements, growMode, pszAllocOwner, nAlignment ) {}
+	CMemoryPoolMT( int blockSize, int numElements, int growMode = GROW_FAST, const char *pszAllocOwner = nullptr, int nAlignment = 0) : CUtlMemoryPool( blockSize, numElements, growMode, pszAllocOwner, nAlignment ) {}
 
 
 	void*		Alloc()	{ AUTO_LOCK( m_mutex ); return CUtlMemoryPool::Alloc(); }
@@ -216,7 +216,7 @@ public:
 
 	void Purge()
 	{
-		T *p = NULL;
+		T *p = nullptr;
 		while ( m_AvailableObjects.PopItem( &p ) )
 		{
 			delete p;
@@ -225,10 +225,10 @@ public:
 
 	T *GetObject( bool bCreateNewIfEmpty = bDefCreateNewIfEmpty )
 	{
-		T *p = NULL;
+		T *p = nullptr;
 		if ( !m_AvailableObjects.PopItem( &p )  )
 		{
-			p = ( bCreateNewIfEmpty ) ? new T : NULL;
+			p = ( bCreateNewIfEmpty ) ? new T : nullptr;
 		}
 		return p;
 	}
@@ -251,7 +251,7 @@ class CFixedBudgetMemoryPool
 public:
 	CFixedBudgetMemoryPool()
 	{
-		m_pBase = m_pLimit = 0;
+		m_pBase = m_pLimit = nullptr;
 		COMPILE_TIME_ASSERT( ITEM_SIZE % 4 == 0 );
 	}
 
@@ -389,7 +389,7 @@ inline void CClassMemoryPool<T>::Clear()
 	SetDefLessFunc( freeBlocks );
 
 	void *pCurFree = m_pHeadOfFreeList;
-	while ( pCurFree != NULL )
+	while ( pCurFree != nullptr)
 	{
 		freeBlocks.Insert( pCurFree );
 		pCurFree = *((void**)pCurFree);
@@ -470,7 +470,7 @@ inline void CClassMemoryPool<T>::Clear()
 
 template <int ITEM_SIZE, int ALIGNMENT, int CHUNK_SIZE, class CAllocator, bool GROWMODE, int COMPACT_THRESHOLD >
 inline CAlignedMemPool<ITEM_SIZE, ALIGNMENT, CHUNK_SIZE, CAllocator, GROWMODE, COMPACT_THRESHOLD>::CAlignedMemPool()
-  : m_pFirstFree( 0 ),
+  : m_pFirstFree( nullptr ),
 	m_nFree( 0 ),
 	m_TimeLastCompact( 0 )
 {
@@ -489,7 +489,7 @@ inline void *CAlignedMemPool<ITEM_SIZE, ALIGNMENT, CHUNK_SIZE, CAllocator, GROWM
 	{
 		if ( !GROWMODE && m_Chunks.Count() )
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		FreeBlock_t *pNew = (FreeBlock_t *)m_Allocator.Alloc( CHUNK_SIZE );
@@ -520,7 +520,7 @@ inline void CAlignedMemPool<ITEM_SIZE, ALIGNMENT, CHUNK_SIZE, CAllocator, GROWMO
 	// Insertion sort to encourage allocation clusters in chunks
 	FreeBlock_t *pFree = ((FreeBlock_t *)p);
 	FreeBlock_t *pCur = m_pFirstFree;
-	FreeBlock_t *pPrev = NULL;
+	FreeBlock_t *pPrev = nullptr;
 
 	while ( pCur && pFree > pCur )
 	{
@@ -562,7 +562,7 @@ template <int ITEM_SIZE, int ALIGNMENT, int CHUNK_SIZE, class CAllocator, bool G
 inline void CAlignedMemPool<ITEM_SIZE, ALIGNMENT, CHUNK_SIZE, CAllocator, GROWMODE, COMPACT_THRESHOLD>::Compact()
 {
 	FreeBlock_t *pCur = m_pFirstFree;
-	FreeBlock_t *pPrev = NULL;
+	FreeBlock_t *pPrev = nullptr;
 
 	m_Chunks.Sort( CompareChunk );
 
@@ -640,7 +640,7 @@ inline void CAlignedMemPool<ITEM_SIZE, ALIGNMENT, CHUNK_SIZE, CAllocator, GROWMO
 		{
 			m_Allocator.Free( m_Chunks[i] );
 			m_nFree -= nBlocksPerChunk;
-			m_Chunks[i] = 0;
+			m_Chunks[i] = nullptr;
 		}
 	}
 

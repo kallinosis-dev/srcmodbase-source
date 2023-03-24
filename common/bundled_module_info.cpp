@@ -56,13 +56,13 @@ const char *RemapBundledModuleName( const char *pModuleName )
 
     if ( !s_bCheckedCmd )
     {
-        if ( Plat_GetEnv( "SOURCE2_USE_BUNDLES" ) != NULL )
+        if ( Plat_GetEnv( "SOURCE2_USE_BUNDLES" ) != nullptr)
         {
             s_bNoTier2Bundle = false;
             s_bNoTier3Bundle = false;
         }
 
-        if ( Plat_GetEnv( "SOURCE2_NO_BUNDLES" ) != NULL )
+        if ( Plat_GetEnv( "SOURCE2_NO_BUNDLES" ) != nullptr)
         {
             s_bNoTier2Bundle = true;
             s_bNoTier3Bundle = true;

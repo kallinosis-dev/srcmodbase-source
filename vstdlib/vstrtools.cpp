@@ -88,7 +88,7 @@ int V_UnicodeToUTF8( const wchar_t *pUnicode, char *pUTF8, int cubDestSizeInByte
 	}
 
 #ifdef _WIN32
-	int cchResult = WideCharToMultiByte( CP_UTF8, 0, pUnicode, -1, pUTF8, cubDestSizeInBytes, NULL, NULL );
+	int cchResult = WideCharToMultiByte( CP_UTF8, 0, pUnicode, -1, pUTF8, cubDestSizeInBytes, nullptr, nullptr);
 #elif defined( _PS3 )
 	size_t cchResult = cubDestSizeInBytes, cchSrc = V_wcslen( pUnicode ) + 1;
 	L10nResult result = UCS2stoUTF8s( ( const uint16 *) pUnicode, &cchSrc, ( uint8 * ) pUTF8, &cchResult );
@@ -208,7 +208,7 @@ VSTRTOOLS_INTERFACE int V_UCS2ToUTF8( const ucs2 *pUCS2, char *pUTF8, int cubDes
 	pUTF8[0] = '\0';
 #ifdef _WIN32
 	// under win32 wchar_t == ucs2, sigh
-	int cchResult = WideCharToMultiByte( CP_UTF8, 0, pUCS2, -1, pUTF8, cubDestSizeInBytes, NULL, NULL );
+	int cchResult = WideCharToMultiByte( CP_UTF8, 0, pUCS2, -1, pUTF8, cubDestSizeInBytes, nullptr, nullptr);
 #elif defined( _PS3 )
 	size_t cchResult = cubDestSizeInBytes, cchSrc = V_wcslen( pUCS2 ) + 1;
 	L10nResult result = UCS2stoUTF8s( ( const uint16 *) pUCS2, &cchSrc, ( uint8 * ) pUTF8, &cchResult );

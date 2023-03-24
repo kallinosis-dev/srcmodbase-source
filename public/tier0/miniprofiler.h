@@ -141,7 +141,7 @@ public:
 	//uint32 m_nId;
 #endif
 public:
-	CLinkedMiniProfiler( const char *pName, CLinkedMiniProfiler**ppList = &g_pGlobalMiniProfilers, CMiniProfiler *pDeclaredParent = NULL )
+	CLinkedMiniProfiler( const char *pName, CLinkedMiniProfiler**ppList = &g_pGlobalMiniProfilers, CMiniProfiler *pDeclaredParent = nullptr)
 	{
 #if ENABLE_MINI_PROFILER
 		m_pName = pName;
@@ -174,9 +174,9 @@ public:
 	const char *GetName() const { return m_pName; }
 	const char *GetLocation( )const { return m_pLocation; }
 #else
-	CLinkedMiniProfiler *GetNext() { return NULL; }
+	CLinkedMiniProfiler *GetNext() { return nullptr; }
 	const char *GetName() const { return "DISABLED"; }
-	const char *GetLocation( )const { return NULL; }
+	const char *GetLocation( )const { return nullptr; }
 #endif
 
 	~CLinkedMiniProfiler()

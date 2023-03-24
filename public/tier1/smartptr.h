@@ -65,7 +65,7 @@ template < typename T >
 class CPlainAutoPtr
 {
 public:
-	explicit CPlainAutoPtr( T *p = NULL )		: m_p( p ) {}
+	explicit CPlainAutoPtr( T *p = nullptr)		: m_p( p ) {}
 	~CPlainAutoPtr( void )						{ Delete(); }
 
 public:
@@ -80,7 +80,7 @@ public:
 	T * Detach( void )							{ T * p( m_p ); m_p = NULL; return p; }
 
 public:
-	bool IsValid( void ) const					{ return m_p != NULL; }
+	bool IsValid( void ) const					{ return m_p != nullptr; }
 	T * Get( void ) const						{ return m_p; }
 	T * operator -> ( void ) const				{ return Get(); }
 	T & operator *  ( void ) const				{ return *Get(); }
@@ -107,7 +107,7 @@ template < typename T >
 class CArrayAutoPtr : public CPlainAutoPtr < T > // Warning: no polymorphic destructor (delete on base class will be a mistake)
 {
 public:
-	explicit CArrayAutoPtr( T *p = NULL )		{ this->Attach( p ); }
+	explicit CArrayAutoPtr( T *p = nullptr)		{ this->Attach( p ); }
 	~CArrayAutoPtr( void )						{ Delete(); }
 
 public:
@@ -232,7 +232,7 @@ inline bool CSmartPtr<T,RefCountAccessor>::operator==( const T *pOther ) const
 template< class T, class RefCountAccessor >
 inline bool CSmartPtr<T,RefCountAccessor>::IsValid() const
 {
-	return m_pObj != NULL;
+	return m_pObj != nullptr;
 }
 
 template< class T, class RefCountAccessor >

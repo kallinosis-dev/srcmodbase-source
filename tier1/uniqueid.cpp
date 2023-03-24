@@ -115,7 +115,7 @@ void UniqueIdToString( const UniqueId_t &id, char *pBuf, int nMaxLen )
 #ifdef IS_WINDOWS_PC
 	UUID *self = ( UUID * )&id;
 
-	unsigned char *outstring = NULL;
+	unsigned char *outstring = nullptr;
 
 	UuidToString( self, &outstring );
 	if ( outstring && *outstring )
@@ -139,7 +139,7 @@ bool Serialize( CUtlBuffer &buf, const UniqueId_t &src )
 	{
 		UUID *pId = ( UUID * )&src;
 
-		unsigned char *outstring = NULL;
+		unsigned char *outstring = nullptr;
 
 		UuidToString( pId, &outstring );
 		if ( outstring && *outstring )

@@ -179,13 +179,13 @@ void CSOAContainer::PurgeData( void )
 	if ( m_pConstantDataMemory )
 	{
 		MemAlloc_FreeAligned( m_pConstantDataMemory );
-		m_pConstantDataMemory = NULL;
+		m_pConstantDataMemory = nullptr;
 	}
 
 	if ( m_pDataMemory )
 	{
 		MemAlloc_FreeAligned( m_pDataMemory );
-		m_pDataMemory = NULL;
+		m_pDataMemory = nullptr;
 	}
 
 	for( int i = 0; i < ARRAYSIZE( m_pSeparateDataMemory ); i++ )
@@ -193,7 +193,7 @@ void CSOAContainer::PurgeData( void )
 		if ( m_pSeparateDataMemory[i] )
 		{
 			MemAlloc_FreeAligned( m_pSeparateDataMemory[i] );
-			m_pSeparateDataMemory[i] = NULL;
+			m_pSeparateDataMemory[i] = nullptr;
 		}
 	}
 }
@@ -832,7 +832,7 @@ void KMeansQuantizationWorkUnit::Process( void )
 				samples.m_pInputValues[c] = m_pContainer->RowPtr<fltx4>( m_pFieldIndices[c], nY, nZ );
 			}
 			fltx4 *pIndexOut = m_pContainer->RowPtr<fltx4>( m_nFieldToStoreIndexInto, nY, nZ );
-			fltx4 *pErrOut = NULL;
+			fltx4 *pErrOut = nullptr;
 			if ( m_nErrorChannel != -1 )
 			{
 				pErrOut = m_pContainer->RowPtr<fltx4>( m_nErrorChannel, nY, nZ );

@@ -646,7 +646,7 @@ void VirtualMemoryManager_GetStats( size_t &nReserved, size_t &nReservedMax, siz
 
 IVirtualMemorySection * VirtualMemoryManager_AllocateVirtualMemorySection( size_t numMaxBytes )
 {
-	return NULL;
+	return nullptr;
 }
 
 void VirtualMemoryManager_Shutdown()
@@ -655,7 +655,7 @@ void VirtualMemoryManager_Shutdown()
 
 IVirtualMemorySection *GetMemorySectionForAddress( void *pAddress )
 {
-	return NULL;
+	return nullptr;
 }
 
 #endif

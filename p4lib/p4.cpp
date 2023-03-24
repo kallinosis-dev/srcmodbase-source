@@ -1511,7 +1511,7 @@ void CP4::RefreshActiveClient()
 //-----------------------------------------------------------------------------
 void *CP4::QueryInterface( const char *pInterfaceName )
 {
-	return Sys_GetFactoryThis()( pInterfaceName, NULL );
+	return Sys_GetFactoryThis()( pInterfaceName, nullptr);
 }
 
 
@@ -2000,7 +2000,7 @@ char const * CP4::GetOpenFileChangeListNum()
 			return m_sCachedChangeListNum.String();
 	}
 #endif
-	return NULL;
+	return nullptr;
 }
 
 #ifdef PEFORCE_IMPL

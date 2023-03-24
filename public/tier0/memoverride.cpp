@@ -535,7 +535,7 @@ void _free_base( void *pMem )
 void *__cdecl _expand_base( void *pMem, size_t nNewSize, int nBlockUse )
 {
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 // crt
@@ -607,7 +607,7 @@ void *__cdecl _nh_malloc( size_t nSize, int )
 void *__cdecl _expand( void *pMem, size_t nSize )
 {
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 unsigned int _amblksiz = 16; //BYTES_PER_PARA;
@@ -698,7 +698,7 @@ extern "C"
 #if !defined( _X360 )
 	int __cdecl _heap_init()
 	{
-		return g_pMemAlloc != NULL;
+		return g_pMemAlloc != nullptr;
 	}
 
 	void __cdecl _heap_term()
@@ -867,7 +867,7 @@ void *__cdecl _expand_dbg( void *pMem, size_t nNewSize, int nBlockUse,
 							const char *pFileName, int nLine )
 {
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 void __cdecl _free_dbg( void *pMem, int nBlockUse )
@@ -910,7 +910,7 @@ ALLOC_CALL void *__cdecl _aligned_realloc_base( void *ptr, size_t size, size_t a
 ALLOC_CALL void *__cdecl _aligned_recalloc_base( void *ptr, size_t size, size_t align )
 {
 	Error( "Unsupported function\n" );
-	return NULL;
+	return nullptr;
 }
 
 FREE_CALL void __cdecl _aligned_free_base( void *ptr )
@@ -943,19 +943,19 @@ FREE_CALL void __cdecl _aligned_free( void *memblock )
 ALLOC_CALL void * __cdecl _aligned_offset_malloc_base( size_t size, size_t align, size_t offset )
 {
 	Assert( IsPC() || 0 );
-	return NULL;
+	return nullptr;
 }
 
 ALLOC_CALL void * __cdecl _aligned_offset_realloc_base( void * memblock, size_t size, size_t align, size_t offset)
 {
 	Assert( IsPC() || 0 );
-	return NULL;
+	return nullptr;
 }
 
 ALLOC_CALL void * __cdecl _aligned_offset_recalloc_base( void * memblock, size_t size, size_t align, size_t offset)
 {
 	Assert( IsPC() || 0 );
-	return NULL;
+	return nullptr;
 }
 
 // aligned offset
@@ -996,7 +996,7 @@ int _CrtDumpMemoryLeaks(void)
 
 _CRT_DUMP_CLIENT _CrtSetDumpClient( _CRT_DUMP_CLIENT dumpClient )
 {
-	return NULL;
+	return nullptr;
 }
 
 int _CrtSetDbgFlag( int nNewFlag )
@@ -1032,7 +1032,7 @@ void __cdecl _CrtSetDbgBlockType( void *pMem, int nBlockUse )
 _CRT_ALLOC_HOOK __cdecl _CrtSetAllocHook( _CRT_ALLOC_HOOK pfnNewHook )
 {
 	DebuggerBreak();
-	return NULL;
+	return nullptr;
 }
 
 long __cdecl _CrtSetBreakAlloc( long lNewBreakAlloc )
@@ -1221,7 +1221,7 @@ extern "C" void * __cdecl _recalloc_dbg ( void * memblock, size_t count, size_t 
 
 _CRT_REPORT_HOOK __cdecl _CrtGetReportHook( void )
 {
-	return NULL;
+	return nullptr;
 }
 
 #endif
@@ -1255,7 +1255,7 @@ size_t __crtDebugFillThreshold = 0;
 extern "C" void * __cdecl _heap_alloc_base (size_t size) 
 {
     Assert(0);
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1277,7 +1277,7 @@ static void * __cdecl realloc_help( void * pUserData, size_t nNewSize, int nBloc
                   int nLine, int fRealloc)
 {
 		Assert(0); // Shouldn't be needed
-		return NULL;
+		return nullptr;
 }
 #endif
 
@@ -1295,7 +1295,7 @@ void __cdecl _free_dbg_nolock( void * pUserData, int nBlockUse)
 _CRT_ALLOC_HOOK __cdecl _CrtGetAllocHook ( void)
 {
 		Assert(0); 
-        return NULL;
+        return nullptr;
 }
 
 static int __cdecl CheckBytes( unsigned char * pb, unsigned char bCheck, size_t nSize)
@@ -1308,7 +1308,7 @@ static int __cdecl CheckBytes( unsigned char * pb, unsigned char bCheck, size_t 
 _CRT_DUMP_CLIENT __cdecl _CrtGetDumpClient ( void)
 {
 		Assert(0); 
-        return NULL;
+        return nullptr;
 }
 
 #if _MSC_VER >= 1400

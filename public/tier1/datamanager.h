@@ -109,7 +109,7 @@ protected:
 		{
 			lockCount = 0;
 			serial = 1;
-			pStore = 0;
+			pStore = nullptr;
 		}
 
 		unsigned short lockCount;

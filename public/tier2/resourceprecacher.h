@@ -84,7 +84,7 @@ abstract_class IPrecacheHandler
 {
 public:
 	virtual void CacheResource( PrecacheResourceType_t nType, const char *pName, 
-		bool bPrecache, ResourceList_t hResourceList, int *pIndex = NULL ) = 0;
+		bool bPrecache, ResourceList_t hResourceList, int *pIndex = nullptr) = 0;
 };
 
 //-----------------------------------------------------------------------------

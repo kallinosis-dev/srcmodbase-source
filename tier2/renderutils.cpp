@@ -79,16 +79,16 @@ void ShutdownStandardMaterials()
 	s_bMaterialsInitialized = false;
 
 	s_pWireframe->DecrementReferenceCount();
-	s_pWireframe = NULL;
+	s_pWireframe = nullptr;
 
 	s_pWireframeIgnoreZ->DecrementReferenceCount();
-	s_pWireframeIgnoreZ = NULL;
+	s_pWireframeIgnoreZ = nullptr;
 
 	s_pVertexColor->DecrementReferenceCount();
-	s_pVertexColor = NULL;
+	s_pVertexColor = nullptr;
 
 	s_pVertexColorIgnoreZ->DecrementReferenceCount();
-	s_pVertexColorIgnoreZ = NULL;
+	s_pVertexColorIgnoreZ = nullptr;
 }
 
 
@@ -951,7 +951,7 @@ void RenderQuad( IMaterial *pMaterial, float x, float y, float w, float h,
 	float z, float s0, float t0, float s1, float t1, const Color& clr )
 {
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 
 	CMeshBuilder meshBuilder;
 	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 1 );

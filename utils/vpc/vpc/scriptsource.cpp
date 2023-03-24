@@ -12,7 +12,7 @@ CScript::CScript()
 {
 	m_ScriptName = "(empty)";
 	m_nScriptLine = 0;
-	m_pScriptData = NULL;
+	m_pScriptData = nullptr;
 	m_pScriptLine = &m_nScriptLine;
     m_nInPrivilegedScript = 0;
 	m_bScriptNameIsAFile = false;
@@ -30,7 +30,7 @@ const char *CScript::SkipWhitespace( const char *data, bool *pHasNewLines, int* 
 
 	// Avoid crash hit while trying to VPC @VPC
 	if ( !data )
-		return NULL;
+		return nullptr;
 
 	while ( ( c = *data ) <= ' ' ) 
 	{
@@ -48,7 +48,7 @@ const char *CScript::SkipWhitespace( const char *data, bool *pHasNewLines, int* 
 		}
 		else if ( !c )
 		{
-			return ( NULL );
+			return (nullptr);
 		}
 
 		data++;
@@ -185,7 +185,7 @@ const char* CScript::PeekNextToken( const char *dataptr, bool bAllowLineBreaks )
     CUtlStringBuilder *pOldTokenBuf = SetTokenBuffer( &m_PeekToken );
 
 	const char *pSaved = dataptr;
-	GetToken( &pSaved, bAllowLineBreaks, NULL );
+	GetToken( &pSaved, bAllowLineBreaks, nullptr);
 
 	// restore
     SetTokenBuffer( pOldTokenBuf );
@@ -211,7 +211,7 @@ const char *CScript::GetToken( const char **dataptr, bool allowLineBreaks, int *
 	// make sure incoming data is valid
 	if ( !data )
 	{
-		*dataptr = NULL;
+		*dataptr = nullptr;
 		return pTokenBuf->Get();
 	}
 
@@ -221,7 +221,7 @@ const char *CScript::GetToken( const char **dataptr, bool allowLineBreaks, int *
 		data = SkipWhitespace( data, &hasNewLines, pNumLines );
 		if ( !data )
 		{
-			*dataptr = NULL;
+			*dataptr = nullptr;
 			return pTokenBuf->Get();
 		}
 		
@@ -366,7 +366,7 @@ void CScript::UpdateThisVpc()
     char absFile[MAX_FIXED_PATH];
 	char tempPath[2][MAX_FIXED_PATH];
 
-    V_MakeAbsolutePath( absFile, ARRAYSIZE( absFile ), szScriptName, NULL, k_bVPCForceLowerCase );
+    V_MakeAbsolutePath( absFile, ARRAYSIZE( absFile ), szScriptName, nullptr, k_bVPCForceLowerCase );
 
 	V_strcpy_safe( tempPath[0], absFile );
     V_StripFilename( tempPath[0] );
@@ -568,7 +568,7 @@ void CScript::SkipBracedSection( int nInitialDepth )
 
 void CScript::SkipToValidToken() 
 {
-	m_pScriptData = SkipToValidToken( m_pScriptData, NULL, m_pScriptLine );
+	m_pScriptData = SkipToValidToken( m_pScriptData, nullptr, m_pScriptLine );
 }
 
 //-----------------------------------------------------------------------------
@@ -638,7 +638,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
             CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
             pStrBuf->Set( pToken );
             pStrBuf->ReplaceFastCaseless( "$BASE", pBaseString );
-			g_pVPC->ResolveMacrosInString( NULL, pStrBuf );
+			g_pVPC->ResolveMacrosInString(nullptr, pStrBuf );
 
             pOutBuff->Append( pStrBuf->Get() );
 		}

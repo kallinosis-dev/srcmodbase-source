@@ -286,7 +286,7 @@ inline void *MemAlloc_AllocAlignedUnattributed( size_t size, size_t align )
 #endif
 
 	if (!ValueIsPowerOfTwo(align))
-		return NULL;
+		return nullptr;
 
 #ifdef MEMALLOC_SUPPORTS_ALIGNED_ALLOCATIONS
 
@@ -296,8 +296,8 @@ inline void *MemAlloc_AllocAlignedUnattributed( size_t size, size_t align )
 
 	align = (align > sizeof(void *) ? align : sizeof(void *)) - 1;
 
-	if ( (pAlloc = (unsigned char*)MemAlloc_Alloc( sizeof(void *) + align + size ) ) == (unsigned char*)NULL)
-		return NULL;
+	if ( (pAlloc = (unsigned char*)MemAlloc_Alloc( sizeof(void *) + align + size ) ) == (unsigned char*)nullptr)
+		return nullptr;
 
 	pResult = (unsigned char*)( (size_t)(pAlloc + sizeof(void *) + align ) & ~align );
 	((unsigned char**)(pResult))[-1] = pAlloc;
@@ -316,7 +316,7 @@ inline void *MemAlloc_AllocAlignedFileLine( size_t size, size_t align, const cha
 #endif
 
 	if (!ValueIsPowerOfTwo(align))
-		return NULL;
+		return nullptr;
 
 #ifdef MEMALLOC_SUPPORTS_ALIGNED_ALLOCATIONS
 
@@ -326,8 +326,8 @@ inline void *MemAlloc_AllocAlignedFileLine( size_t size, size_t align, const cha
 
 	align = (align > sizeof(void *) ? align : sizeof(void *)) - 1;
 
-	if ( (pAlloc = (unsigned char*)MemAlloc_Alloc( sizeof(void *) + align + size, pszFile, nLine ) ) == (unsigned char*)NULL)
-		return NULL;
+	if ( (pAlloc = (unsigned char*)MemAlloc_Alloc( sizeof(void *) + align + size, pszFile, nLine ) ) == (unsigned char*)nullptr)
+		return nullptr;
 
 	pResult = (unsigned char*)( (size_t)(pAlloc + sizeof(void *) + align ) & ~align );
 	((unsigned char**)(pResult))[-1] = pAlloc;
@@ -350,11 +350,11 @@ extern const char *g_pszModule;
 inline void *MemAlloc_ReallocAligned( void *ptr, size_t size, size_t align )
 {
 	if ( !ValueIsPowerOfTwo( align ) )
-		return NULL;
+		return nullptr;
 
 	// Don't change alignment between allocation + reallocation.
 	if ( ( (size_t)ptr & ( align - 1 ) ) != 0 )
-		return NULL;
+		return nullptr;
 
 #ifdef MEMALLOC_SUPPORTS_ALIGNED_ALLOCATIONS
 
@@ -396,7 +396,7 @@ inline void MemAlloc_FreeAligned( void *pMemBlock )
 
 	void *pAlloc;
 
-	if ( pMemBlock == NULL )
+	if ( pMemBlock == nullptr)
 		return;
 
 	pAlloc = pMemBlock;
@@ -422,7 +422,7 @@ inline void MemAlloc_FreeAligned( void *pMemBlock, const char *pszFile, int nLin
 
 	void *pAlloc;
 
-	if ( pMemBlock == NULL )
+	if ( pMemBlock == nullptr)
 		return;
 
 	pAlloc = pMemBlock;
@@ -452,7 +452,7 @@ inline size_t MemAlloc_GetSizeAligned( void *pMemBlock )
 
 	void *pAlloc;
 
-	if ( pMemBlock == NULL )
+	if ( pMemBlock == nullptr)
 		return 0;
 
 	pAlloc = pMemBlock;

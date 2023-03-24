@@ -45,11 +45,11 @@ void PrintStatus( void* p )
 }
 
 CMemoryStack::CMemoryStack()
- : 	m_pNextAlloc( NULL )
-	, m_pCommitLimit( NULL )
-	, m_pAllocLimit( NULL )
-	, m_pHighestAllocLimit( NULL )
-	, m_pBase( NULL )
+ : 	m_pNextAlloc(nullptr)
+	, m_pCommitLimit(nullptr)
+	, m_pAllocLimit(nullptr)
+	, m_pHighestAllocLimit(nullptr)
+	, m_pBase(nullptr)
 	, m_bRegisteredAllocation( false )
  	, m_maxSize( 0 )
 	, m_alignment( 16 )
@@ -133,7 +133,7 @@ bool CMemoryStack::Init( const char *pszAllocOwner, unsigned maxSize, unsigned c
 	Assert( m_maxSize % pageSize == 0 && m_commitIncrement % pageSize == 0 && m_commitIncrement <= m_maxSize );
 
 #ifdef _WIN32
-	m_pBase = (unsigned char *)VirtualAlloc( NULL, m_maxSize, VA_RESERVE_FLAGS, PAGE_NOACCESS );
+	m_pBase = (unsigned char *)VirtualAlloc(nullptr, m_maxSize, VA_RESERVE_FLAGS, PAGE_NOACCESS );
 #else
 	m_pVirtualMemorySection = g_pMemAlloc->AllocateVirtualMemorySection( m_maxSize );
 	if ( !m_pVirtualMemorySection )
@@ -189,7 +189,7 @@ bool CMemoryStack::Init( const char *pszAllocOwner, unsigned maxSize, unsigned c
 
 	m_pAllocLimit = m_pBase + m_maxSize;
 
-	return ( m_pBase != NULL );
+	return ( m_pBase != nullptr);
 }
 
 //-------------------------------------
@@ -267,12 +267,12 @@ void CMemoryStack::Term()
 #else
 		MemAlloc_FreeAligned( m_pBase );
 #endif
-		m_pBase = NULL;
+		m_pBase = nullptr;
 		// Zero these variables to avoid getting misleading mem_dump
 		// results when m_pBase is NULL.
-		m_pNextAlloc = NULL;
-		m_pCommitLimit = NULL;
-		m_pHighestAllocLimit = NULL;
+		m_pNextAlloc = nullptr;
+		m_pCommitLimit = nullptr;
+		m_pHighestAllocLimit = nullptr;
 		m_maxSize = 0;
 		RegisterDeallocation(true);
 	}

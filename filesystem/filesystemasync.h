@@ -37,7 +37,7 @@ struct CAsyncResultInfo_t
 		int					m_nBytesTransferred;
 		FSAsyncStatus_t		m_ErrorCode;
 		
-		CAsyncResultInfo_t() : m_pAllocatedBuffer(NULL), m_nBytesTransferred(0) {}
+		CAsyncResultInfo_t() : m_pAllocatedBuffer(nullptr), m_nBytesTransferred(0) {}
 };
 
 

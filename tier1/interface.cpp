@@ -95,7 +95,7 @@ void* CreateInterfaceInternal( const char *pName, int *pReturnCode )
 	{
 		*pReturnCode = IFACE_FAILED;
 	}
-	return NULL;	
+	return nullptr;	
 }
 
 void* CreateInterface( const char *pName, int *pReturnCode )
@@ -185,7 +185,7 @@ struct ThreadedLoadLibaryContext_t
 	const char *m_pLibraryName;
 	HMODULE m_hLibrary;
 	DWORD m_nError;
-	ThreadedLoadLibaryContext_t() : m_pLibraryName(NULL), m_hLibrary(0), m_nError(0) {}
+	ThreadedLoadLibaryContext_t() : m_pLibraryName(nullptr), m_hLibrary(nullptr), m_nError(0) {}
 };
 
 #ifdef _WIN32
@@ -201,7 +201,7 @@ static HMODULE InternalLoadLibrary( const char *pName )
 	}
 	return result;
 #else
-	return LoadLibraryEx( pName, NULL, LOAD_WITH_ALTERED_SEARCH_PATH );
+	return LoadLibraryEx( pName, nullptr, LOAD_WITH_ALTERED_SEARCH_PATH );
 #endif
 }
 uintp ThreadedLoadLibraryFunc( void *pParam )
@@ -284,7 +284,7 @@ static HMODULE Sys_LoadLibraryGuts( const char *pLibraryName )
 
 	ThreadedLoadLibaryContext_t context;
 	context.m_pLibraryName = str;
-	context.m_hLibrary = 0;
+	context.m_hLibrary = nullptr;
 
 	ThreadHandle_t h = CreateSimpleThread( ThreadedLoadLibraryFunc, &context );
 
@@ -336,7 +336,7 @@ static HMODULE Sys_LoadLibraryGuts( const char *pLibraryName )
 static HMODULE Sys_LoadLibrary( const char *pLibraryName )
 {
 	// load a library. If a library suffix is set, look for the library first with that name
-	char *pSuffix = NULL;
+	char *pSuffix = nullptr;
 	
 	if ( CommandLine()->FindParm( "-xlsp" ) )
 	{
@@ -399,7 +399,7 @@ CSysModule *Sys_LoadModule( const char *pModuleName )
 	// If using the Steam filesystem, either the DLL must be a minimum footprint
 	// file in the depot (MFP) or a filesystem GetLocalCopy() call must be made
 	// prior to the call to this routine.
-	HMODULE hDLL = NULL;
+	HMODULE hDLL = nullptr;
 
 	char alteredFilename[ MAX_PATH ];
 	if ( IsPS3() )
@@ -471,13 +471,13 @@ CSysModule *Sys_LoadModule( const char *pModuleName )
 				FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 				FORMAT_MESSAGE_FROM_SYSTEM | 
 				FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL,
+				nullptr,
 				GetLastError(),
 				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 				(LPTSTR) &lpMsgBuf,
 				0,
-				NULL 
-			);
+				nullptr
+);
 
 			LocalFree( (HLOCAL)lpMsgBuf );
 #elif defined( _X360 )
@@ -511,7 +511,7 @@ CSysModule *Sys_LoadModule( const char *pModuleName )
 			char chMemoryName[ MAX_PATH ];
 			DebugKernelMemoryObjectName( chMemoryName );
 			
-			(void) CreateFileMapping( INVALID_HANDLE_VALUE, NULL, PAGE_READWRITE, 0, 1024, chMemoryName );
+			(void) CreateFileMapping( INVALID_HANDLE_VALUE, nullptr, PAGE_READWRITE, 0, 1024, chMemoryName );
 			// Created a shared memory kernel object specific to process id
 			// Existence of this object indicates that we have debug modules loaded
 #endif
@@ -575,7 +575,7 @@ void Sys_UnloadModule( CSysModule *pModule )
 CreateInterfaceFn Sys_GetFactory( CSysModule *pModule )
 {
 	if ( !pModule )
-		return NULL;
+		return nullptr;
 
 	HMODULE	hDLL = reinterpret_cast<HMODULE>(pModule);
 #ifdef _WIN32
@@ -643,7 +643,7 @@ bool Sys_LoadInterface(
 		return false;
 	}
 
-	*pOutInterface = fn( pInterfaceVersionName, NULL );
+	*pOutInterface = fn( pInterfaceVersionName, nullptr);
 	if ( !( *pOutInterface ) )
 	{
 		Sys_UnloadModule( pMod );
@@ -665,7 +665,7 @@ bool Sys_LoadInterface(
 //-----------------------------------------------------------------------------
 CDllDemandLoader::CDllDemandLoader( char const *pchModuleName ) : 
 	m_pchModuleName( pchModuleName ), 
-	m_hModule( 0 ),
+	m_hModule( nullptr ),
 	m_bLoadAttempted( false )
 {
 }
@@ -685,7 +685,7 @@ CreateInterfaceFn CDllDemandLoader::GetFactory()
 
 	if ( !m_hModule )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return Sys_GetFactory( m_hModule );
@@ -696,6 +696,6 @@ void CDllDemandLoader::Unload()
 	if ( m_hModule )
 	{
 		Sys_UnloadModule( m_hModule );
-		m_hModule = 0;
+		m_hModule = nullptr;
 	}
 }

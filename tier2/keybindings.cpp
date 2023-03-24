@@ -128,13 +128,13 @@ const char *CKeyBindings::ButtonNameForBinding( const char *pBinding )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const char *CKeyBindings::GetBindingForButton( ButtonCode_t code )
 {
 	if ( m_KeyInfo[code].IsEmpty() )
-		return NULL;
+		return nullptr;
 
 	return m_KeyInfo[ code ];
 }

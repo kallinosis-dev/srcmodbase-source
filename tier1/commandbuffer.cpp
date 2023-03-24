@@ -74,7 +74,7 @@ void CCommandBuffer::LimitArgumentBufferSize( int nSize )
 bool CCommandBuffer::ParseArgV0( CUtlBuffer &buf, char *pArgV0, int nMaxLen, const char **pArgS )
 {
 	pArgV0[0] = 0;
-	*pArgS = NULL;
+	*pArgS = nullptr;
 
 	if ( !buf.IsValid() )
 		return false;
@@ -84,7 +84,7 @@ bool CCommandBuffer::ParseArgV0( CUtlBuffer &buf, char *pArgV0, int nMaxLen, con
 		return false;
 
 	int nArgSLen = buf.TellMaxPut() - buf.TellGet();
-	*pArgS = (nArgSLen > 0) ? (const char*)buf.PeekGet() : NULL;
+	*pArgS = (nArgSLen > 0) ? (const char*)buf.PeekGet() : nullptr;
 	return true;
 }
 
