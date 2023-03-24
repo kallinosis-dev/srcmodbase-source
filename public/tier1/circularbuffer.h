@@ -28,7 +28,7 @@ public:
 	void				SetSize( int nSize );
 
 protected:
-	inline void			AssertValid()
+	inline void			AssertValid() const
 	{
 #ifdef _DEBUG
 		Assert( this );
@@ -58,16 +58,16 @@ protected:
 public:
 
 	void				Flush();
-	int					GetSize();					// Get the size of the buffer (how much can you write without reading
+	int					GetSize() const;					// Get the size of the buffer (how much can you write without reading
 													// before losing data.
 	
-	int					GetWriteAvailable();		// Get the amount available to write without overflowing.
+	int					GetWriteAvailable() const;		// Get the amount available to write without overflowing.
 													// Note: you can write however much you want, but it may overflow,
 													// in which case the newest data is kept and the oldest is discarded.
 	
-	int					GetReadAvailable();			// Get the amount available to read.
+	int					GetReadAvailable() const;			// Get the amount available to read.
 	
-	int					Peek(char *pchDest, int nCount);
+	int					Peek(char *pchDest, int nCount) const;
 	int					Advance(int nCount);
 	int					Read(void *pchDest, int nCount);
 	int					Write(void *pchData, int nCount);

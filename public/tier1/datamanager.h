@@ -41,9 +41,9 @@ public:
 	// type-safe implementation in derived class
 	//void					*GetResource_NoLock( memhandle_t handle );
 
-	unsigned int			TargetSize();
-	unsigned int			AvailableSize();
-	unsigned int			UsedSize();
+	unsigned int			TargetSize() const;
+	unsigned int			AvailableSize() const;
+	unsigned int			UsedSize() const;
 
 	void					NotifySizeChanged( memhandle_t handle, unsigned int oldSize, unsigned int newSize );
 

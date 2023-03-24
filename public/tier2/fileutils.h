@@ -105,27 +105,27 @@ public:
 		m_FileHandle = g_pFullFileSystem->Open( fname, modes );
 	}
 
-	char *ReadLine( char *pOutput, int maxChars )
+	char *ReadLine( char *pOutput, int maxChars ) const
 	{
 		return g_pFullFileSystem->ReadLine( pOutput, maxChars, m_FileHandle );
 	}
 
 	// read every line of the file into a vector of strings
-	void ReadLines( CUtlStringList &sList, int nMaxLineLength = 2048 );
+	void ReadLines( CUtlStringList &sList, int nMaxLineLength = 2048 ) const;
 
-	int Read( void* pOutput, int size )
+	int Read( void* pOutput, int size ) const
 	{
 		return g_pFullFileSystem->Read( pOutput, size, m_FileHandle );
 	}
 
-	void MustRead( void* pOutput, int size )
+	void MustRead( void* pOutput, int size ) const
 	{
 		int ret=Read( pOutput, size );
 		if (ret != size )
 			Error("failed to read %d bytes\n", size );
 	}
 	
-	int Write( void const* pInput, int size)
+	int Write( void const* pInput, int size) const
 	{
 		return g_pFullFileSystem->Write( pInput, size, m_FileHandle );
 	}
@@ -133,55 +133,55 @@ public:
 
 	// {Get|Put}{Int|Float} read and write ints and floats from a file in x86 order, swapping on
 	// input for big-endian systems.
-	void PutInt( int n )
+	void PutInt( int n ) const
 	{
 		int n1=LittleDWord( n );
 		Write(&n1, sizeof( n1 ) );
 	}
 
-	int GetInt( void )
+	int GetInt( void ) const
 	{
 		int ret;
 		MustRead( &ret, sizeof( ret ));
 		return LittleDWord( ret );
 	}
 
-	float GetFloat( void )
+	float GetFloat( void ) const
 	{
 		float ret;
 		MustRead( &ret, sizeof( ret ));
 		LittleFloat( &ret, &ret );
 		return ret;
 	}
-	void PutFloat( float f )
+	void PutFloat( float f ) const
 	{
 		LittleFloat( &f, &f );
 		Write( &f, sizeof( f ) );
 	}
 
-	bool IsOk( void )
+	bool IsOk( void ) const
 	{
 		return ( m_FileHandle != FILESYSTEM_INVALID_HANDLE) &&
 			( g_pFullFileSystem->IsOk( m_FileHandle ) );
 	}
 
-	void Seek( int pos, FileSystemSeek_t nSeekType = FILESYSTEM_SEEK_HEAD )
+	void Seek( int pos, FileSystemSeek_t nSeekType = FILESYSTEM_SEEK_HEAD ) const
 	{
 		g_pFullFileSystem->Seek( m_FileHandle, pos, nSeekType );
 	}
 
-	unsigned int Tell()
+	unsigned int Tell() const
 	{
 		return g_pFullFileSystem->Tell( m_FileHandle );
 	}
 
-	unsigned int Size( void )
+	unsigned int Size( void ) const
 	{
 		Assert( IsOk() );
 		return g_pFullFileSystem->Size( m_FileHandle );
 	}
 
-	void ReadFile( CUtlBuffer &dataBuf );
+	void ReadFile( CUtlBuffer &dataBuf ) const;
 };
 
 class COutputFile : public CBaseFile

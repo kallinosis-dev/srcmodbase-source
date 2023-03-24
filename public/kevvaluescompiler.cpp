@@ -138,7 +138,7 @@ void CCompiledKeyValuesWriter::WriteFiles( CUtlBuffer &buf )
 	}
 }
 
-void CCompiledKeyValuesWriter::WriteStringTable( CUtlBuffer& buf )
+void CCompiledKeyValuesWriter::WriteStringTable( CUtlBuffer& buf ) const
 {
 	int i;
 	CUtlVector< int >	offsets;

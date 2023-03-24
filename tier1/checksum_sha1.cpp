@@ -93,7 +93,7 @@ void CSHA1::Reset()
 #ifdef	_MINIMUM_BUILD_
 void Minimum_CSHA1::Transform(uint32 state[5], const uint8 buffer[64])
 #else
-void CSHA1::Transform(uint32 state[5], const uint8 buffer[64])
+void CSHA1::Transform(uint32 state[5], const uint8 buffer[64]) const
 #endif
 {
 	uint32 a = 0, b = 0, c = 0, d = 0, e = 0;
@@ -247,7 +247,7 @@ void CSHA1::Final()
 
 #if !defined(_MINIMUM_BUILD_)
 // Get the final hash as a pre-formatted string
-void CSHA1::ReportHash(char *szReport, uint8 uReportType)
+void CSHA1::ReportHash(char *szReport, uint8 uReportType) const
 {
 	uint8 i = 0;
 	char szTemp[12];
@@ -284,7 +284,7 @@ void CSHA1::ReportHash(char *szReport, uint8 uReportType)
 #ifdef	_MINIMUM_BUILD_
 void Minimum_CSHA1::GetHash(uint8 *uDest)
 #else
-void CSHA1::GetHash(uint8 *uDest)
+void CSHA1::GetHash(uint8 *uDest) const
 #endif
 {
 	memcpy(uDest, m_digest, k_cubHash);

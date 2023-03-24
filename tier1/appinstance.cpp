@@ -150,7 +150,7 @@ CSingleAppInstance::~CSingleAppInstance()
 }
 
 
-bool CSingleAppInstance::CheckForOtherRunningInstances( bool exitOnNotUnique, bool displayMsgIfNotUnique )
+bool CSingleAppInstance::CheckForOtherRunningInstances( bool exitOnNotUnique, bool displayMsgIfNotUnique ) const
 {
 
 	if ( IsPlatformWindows() || IsOSX() )

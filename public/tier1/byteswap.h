@@ -92,12 +92,14 @@ public:
 	//
 	// Used to determine when a byteswap needs to take place.
 	//-----------------------------------------------------------------------------
-	inline bool IsSwappingBytes( void )	// Are bytes being swapped?
+	inline bool IsSwappingBytes( void ) const
+	// Are bytes being swapped?
 	{
 		return m_bSwapBytes;
 	}
 
-	inline bool IsTargetBigEndian( void )	// What is the current target endian?
+	inline bool IsTargetBigEndian( void ) const
+	// What is the current target endian?
 	{
 		return m_bBigEndian;
 	}

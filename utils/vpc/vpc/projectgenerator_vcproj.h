@@ -104,7 +104,7 @@ public:
 		m_pGenerator = pGenerator;
 	}
 
-	CVCProjGenerator *GetGenerator() { return m_pGenerator; }
+	CVCProjGenerator *GetGenerator() const { return m_pGenerator; }
 
 	// when the property belongs to the root tool (i.e. linker), no root tool is passed in
 	// when the property is for the file's specific configuration tool, (i.e. compiler/debug), the root tool must be supplied
@@ -240,23 +240,23 @@ public:
 	CProjectConfiguration( CVCProjGenerator *pGenerator, const char *pConfigName, const char *pFilename );
 	~CProjectConfiguration();
 
-	CDebuggingTool *GetDebuggingTool()				{ return m_pDebuggingTool; }
-	CCompilerTool *GetCompilerTool()				{ return m_pCompilerTool; }
-	CLibrarianTool *GetLibrarianTool()				{ return m_pLibrarianTool; }
-	CLinkerTool *GetLinkerTool()					{ return m_pLinkerTool; }
-	CManifestTool *GetManifestTool()				{ return m_pManifestTool; }
-	CXMLDocGenTool *GetXMLDocGenTool()				{ return m_pXMLDocGenTool; }
-	CBrowseInfoTool *GetBrowseInfoTool()			{ return m_pBrowseInfoTool; }
-	CResourcesTool *GetResourcesTool()				{ return m_pResourcesTool; }
-	CPreBuildEventTool *GetPreBuildEventTool()		{ return m_pPreBuildEventTool; }
-	CPreLinkEventTool *GetPreLinkEventTool()		{ return m_pPreLinkEventTool; }
-	CPostBuildEventTool *GetPostBuildEventTool()	{ return m_pPostBuildEventTool; }
-	CCustomBuildTool *GetCustomBuildTool()			{ return m_pCustomBuildTool; }
-	CXboxImageTool *GetXboxImageTool()				{ return m_pXboxImageTool; }
-	CXboxDeploymentTool *GetXboxDeploymentTool()	{ return m_pXboxDeploymentTool; }
-	CProjectTool *GetIntellisenseTool()				{ return m_pIntellisenseTool; }
+	CDebuggingTool *GetDebuggingTool() const { return m_pDebuggingTool; }
+	CCompilerTool *GetCompilerTool() const { return m_pCompilerTool; }
+	CLibrarianTool *GetLibrarianTool() const { return m_pLibrarianTool; }
+	CLinkerTool *GetLinkerTool() const { return m_pLinkerTool; }
+	CManifestTool *GetManifestTool() const { return m_pManifestTool; }
+	CXMLDocGenTool *GetXMLDocGenTool() const { return m_pXMLDocGenTool; }
+	CBrowseInfoTool *GetBrowseInfoTool() const { return m_pBrowseInfoTool; }
+	CResourcesTool *GetResourcesTool() const { return m_pResourcesTool; }
+	CPreBuildEventTool *GetPreBuildEventTool() const { return m_pPreBuildEventTool; }
+	CPreLinkEventTool *GetPreLinkEventTool() const { return m_pPreLinkEventTool; }
+	CPostBuildEventTool *GetPostBuildEventTool() const { return m_pPostBuildEventTool; }
+	CCustomBuildTool *GetCustomBuildTool() const { return m_pCustomBuildTool; }
+	CXboxImageTool *GetXboxImageTool() const { return m_pXboxImageTool; }
+	CXboxDeploymentTool *GetXboxDeploymentTool() const { return m_pXboxDeploymentTool; }
+	CProjectTool *GetIntellisenseTool() const { return m_pIntellisenseTool; }
 
-	bool IsEmpty();
+	bool IsEmpty() const;
 
 	bool SetProperty( ToolProperty_t *pToolProperty );
 	const char *GetPropertyValue( ToolProperty_t *pToolProperty );
@@ -329,18 +329,18 @@ public:
 	bool		DeploysForVPCTargetPlatform( const char *szVPCTargetPlatform ) override;
 	CUtlString	GetSolutionPlatformAlias( const char *szVPCTargetPlatform, IBaseSolutionGenerator *pSolutionGenerator ) override;
 
-	CGeneratorDefinition	*GetGeneratorDefinition()	{ return m_pGeneratorDefinition; }
+	CGeneratorDefinition	*GetGeneratorDefinition() const { return m_pGeneratorDefinition; }
 	void					SetupGeneratorDefinition( const char *pDefinitionName, PropertyName_t *pPropertyNames );
 
 	void				AddProjectWriter( IVCProjWriter *pVCProjWriter );
     void                RemoveLastProjectWriter() { m_VCProjWriters.RemoveMultipleFromTail( 1 ); }
 
-	PS3VSIType_e		GetVSIType() { return m_VSIType; }
+	PS3VSIType_e		GetVSIType() const { return m_VSIType; }
 
 	bool				GetRootConfiguration( const char *pConfigName, CProjectConfiguration **pConfig );
-	void				GetAllRootConfigurations( CUtlVector< CProjectConfiguration * > &rootConfigurations );
+	void				GetAllRootConfigurations( CUtlVector< CProjectConfiguration * > &rootConfigurations ) const;
 
-	CProjectFolder		*GetRootFolder() { return m_pRootFolder; }
+	CProjectFolder		*GetRootFolder() const { return m_pRootFolder; }
 
 	// returns true if found, false otherwise (bFixSlashes fixes up slashes in the search string first)
 	bool				FindFile( const char *pFilename, CProjectFile **pFile, bool bFixSlashes = false );
@@ -350,7 +350,7 @@ public:
 	void				GetAllProjectFiles( CUtlVector< CProjectFile * > &projectFiles );
 
     // See if the file has a file-specific property.
-    bool                HasFilePropertyValue( CProjectFile *pProjectFile, const char *pConfigrationName, configKeyword_e configKeyword, const char *pPropertyName );
+    bool                HasFilePropertyValue( CProjectFile *pProjectFile, const char *pConfigrationName, configKeyword_e configKeyword, const char *pPropertyName ) const;
 	const char			*GetPropertyValueAsString( CProjectFile *pProjectFile, const char *pConfigrationName, configKeyword_e configKeyword, const char *pPropertyName, const char *pDefaultValue = "" );
 	bool				GetPropertyValueAsBool( CProjectFile *pProjectFile, const char *pConfigrationName, configKeyword_e configKeyword, const char *pPropertyName, bool bDefaultValue = false );
 
@@ -359,9 +359,9 @@ private:
 	bool 				Config_GetConfigurations( const char *pszConfigName );
 
 	// returns true if found, false otherwise
-	bool				GetFolder( const char *pFolderName, CProjectFolder *pParentFolder, CProjectFolder **pOutFolder );
+	bool				GetFolder( const char *pFolderName, CProjectFolder *pParentFolder, CProjectFolder **pOutFolder ) const;
 	// returns true if added, false otherwise (duplicate)
-	bool				AddFolder( const char *pFolderName, CProjectFolder *pParentFolder, VpcFolderFlags_t iFlags, CProjectFolder **pOutFolder );
+	bool				AddFolder( const char *pFolderName, CProjectFolder *pParentFolder, VpcFolderFlags_t iFlags, CProjectFolder **pOutFolder ) const;
 
 	// returns true if removed, false otherwise (not found)
 	bool				RemoveFileFromFolder( const char *pFilename, CProjectFolder *pFolder );

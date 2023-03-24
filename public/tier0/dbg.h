@@ -779,7 +779,7 @@ public:
 		Release();
 	}
 
-	void Release()
+	void Release() const
 	{
 		if ( !m_bActive )
 			return;

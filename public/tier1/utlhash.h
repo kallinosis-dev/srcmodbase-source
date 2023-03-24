@@ -869,7 +869,7 @@ public:
 	static UtlHashFixedHandle_t InvalidHandle( void )	{ return ( UtlHashFixedHandle_t )~0; }
 
 	// Size.
-	int Count( void );
+	int Count( void ) const;
 
 	// Insertion.
 	UtlHashFixedHandle_t Insert( unsigned int uiKey, const Data &data );
@@ -934,7 +934,7 @@ template<class Data, int NUM_BUCKETS, class HashFuncs> inline void CUtlHashFixed
 //-----------------------------------------------------------------------------
 // Purpose: Return the number of elements in the hash.
 //-----------------------------------------------------------------------------
-template<class Data, int NUM_BUCKETS, class HashFuncs> inline int CUtlHashFixed<Data,NUM_BUCKETS,HashFuncs>::Count( void )
+template<class Data, int NUM_BUCKETS, class HashFuncs> inline int CUtlHashFixed<Data,NUM_BUCKETS,HashFuncs>::Count( void ) const
 {
 	return m_nElements;
 }

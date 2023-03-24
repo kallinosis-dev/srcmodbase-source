@@ -220,7 +220,7 @@ public:
         pme->WriteMSR(counterPort, value); // clear
     }
 
-    int64 ReadCounter()
+    int64 ReadCounter() const
     {
 
 #if PME_DEBUG

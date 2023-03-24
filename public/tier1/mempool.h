@@ -160,16 +160,22 @@ public:
 	static int __cdecl CompareChunk( void * const *ppLeft, void * const *ppRight );
 	void Compact();
 
-	int NumTotal()			{ AUTO_LOCK( m_mutex ); return m_Chunks.Count() * ( CHUNK_SIZE / BLOCK_SIZE ); }
-	int NumAllocated()		{ AUTO_LOCK( m_mutex ); return NumTotal() - m_nFree; }
-	int NumFree()			{ AUTO_LOCK( m_mutex ); return m_nFree; }
+	int NumTotal() const
+	{ AUTO_LOCK( m_mutex ); return m_Chunks.Count() * ( CHUNK_SIZE / BLOCK_SIZE ); }
+	int NumAllocated() const
+	{ AUTO_LOCK( m_mutex ); return NumTotal() - m_nFree; }
+	int NumFree() const
+	{ AUTO_LOCK( m_mutex ); return m_nFree; }
 
-	int BytesTotal()		{ AUTO_LOCK( m_mutex ); return NumTotal() * BLOCK_SIZE; }
-	int BytesAllocated()	{ AUTO_LOCK( m_mutex ); return NumAllocated() * BLOCK_SIZE; }
-	int BytesFree()			{ AUTO_LOCK( m_mutex ); return NumFree() * BLOCK_SIZE; }
+	int BytesTotal() const
+	{ AUTO_LOCK( m_mutex ); return NumTotal() * BLOCK_SIZE; }
+	int BytesAllocated() const
+	{ AUTO_LOCK( m_mutex ); return NumAllocated() * BLOCK_SIZE; }
+	int BytesFree() const
+	{ AUTO_LOCK( m_mutex ); return NumFree() * BLOCK_SIZE; }
 
 	int ItemSize()			{ return ITEM_SIZE; }
-	int BlockSize()			{ return BLOCK_SIZE; }
+	int BlockSize() const { return BLOCK_SIZE; }
 	int ChunkSize()			{ return CHUNK_SIZE; }
 
 private:
@@ -255,7 +261,7 @@ public:
 		COMPILE_TIME_ASSERT( ITEM_SIZE % 4 == 0 );
 	}
 
-	bool Owns( void *p )
+	bool Owns( void *p ) const
 	{
 		return ( p >= m_pBase && p < m_pLimit );
 	}

@@ -627,7 +627,7 @@ private:
 	LoggingState_t *GetCurrentState();
 	const LoggingState_t *GetCurrentState() const;
 
-	int FindUnusedStateIndex();
+	int FindUnusedStateIndex() const;
 	LoggingTag_t *AllocTag( const char *pTagName );
 
 	int m_nChannelCount;

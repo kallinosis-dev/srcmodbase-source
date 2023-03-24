@@ -182,27 +182,27 @@ public:
 
     uint64 m_nOid;
 
-    uint64 GetProjectRelativeOid( EOIDSpace space, EOIDType type, uint16_t nOrdinal = 0 )
+    uint64 GetProjectRelativeOid( EOIDSpace space, EOIDType type, uint16_t nOrdinal = 0 ) const
     {
         return makeoid( space, m_nOid, type, nOrdinal );
     }
 
-    uint64 GetProjectConfigOid( EOIDType type, int nConfig )
+    uint64 GetProjectConfigOid( EOIDType type, int nConfig ) const
     {
         return GetProjectRelativeOid((EOIDSpace)( EOIDSpaceProjectConfigsFirst + nConfig ), type );
     }
 
-    uint64 GetLocalFrameworkOid( EOIDType type, int nIndex )
+    uint64 GetLocalFrameworkOid( EOIDType type, int nIndex ) const
     {
         // We've checked that no index can be larger than 1,000 already.
         return GetProjectRelativeOid( EOIDSpaceProjectLocalFrameworks, type, (uint16_t)nIndex );
     }
-    uint64 GetSystemFrameworkOid( EOIDType type, int nIndex )
+    uint64 GetSystemFrameworkOid( EOIDType type, int nIndex ) const
     {
         // We've checked that no index can be larger than 1,000 already.
         return GetProjectRelativeOid( EOIDSpaceProjectSystemFrameworks, type, (uint16_t)nIndex );
     }
-    uint64 GetSystemLibraryOid( EOIDType type, int nIndex )
+    uint64 GetSystemLibraryOid( EOIDType type, int nIndex ) const
     {
         // We've checked that no index can be larger than 1,000 already.
         return GetProjectRelativeOid( EOIDSpaceProjectSystemLibraries, type, (uint16_t)nIndex );
@@ -213,16 +213,16 @@ public:
         return m_pGenerator->GetProjectName();
     }
     
-    const char *GetStringProperty( configKeyword_e configKeyword, const char *pPropertyName )
+    const char *GetStringProperty( configKeyword_e configKeyword, const char *pPropertyName ) const
     {
         return m_pGenerator->GetPropertyValueAsString(nullptr, m_pConfigName, configKeyword, pPropertyName );
     }
-    const char *GetConfigStringProperty( const char *pConfigName, configKeyword_e configKeyword, const char *pPropertyName )
+    const char *GetConfigStringProperty( const char *pConfigName, configKeyword_e configKeyword, const char *pPropertyName ) const
     {
         return m_pGenerator->GetPropertyValueAsString(nullptr, pConfigName, configKeyword, pPropertyName );
     }
 
-    bool DependsOn( CProject_Xcode *pProj )
+    bool DependsOn( CProject_Xcode *pProj ) const
     {
         if ( pProj == this )
         {

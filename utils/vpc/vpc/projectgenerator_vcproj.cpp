@@ -975,7 +975,7 @@ CProjectConfiguration::~CProjectConfiguration()
 	delete m_pIntellisenseTool;
 }
 
-bool CProjectConfiguration::IsEmpty()
+bool CProjectConfiguration::IsEmpty() const
 {
 	if ( m_PropertyStates.m_Properties.Count() )
 		return false;
@@ -2225,7 +2225,7 @@ const char *CVCProjGenerator::GetPropertyValue( const char *pPropertyName )
 	return propertyValue;
 }
 
-bool CVCProjGenerator::GetFolder( const char *pFolderName, CProjectFolder *pParentFolder, CProjectFolder **ppOutFolder )
+bool CVCProjGenerator::GetFolder( const char *pFolderName, CProjectFolder *pParentFolder, CProjectFolder **ppOutFolder ) const
 {
 	bool bValid;
 	if ( !pParentFolder )
@@ -2239,7 +2239,7 @@ bool CVCProjGenerator::GetFolder( const char *pFolderName, CProjectFolder *pPare
 	return bValid;
 }
 
-bool CVCProjGenerator::AddFolder( const char *pFolderName, CProjectFolder *pParentFolder, VpcFolderFlags_t iFlags, CProjectFolder **ppOutFolder )
+bool CVCProjGenerator::AddFolder( const char *pFolderName, CProjectFolder *pParentFolder, VpcFolderFlags_t iFlags, CProjectFolder **ppOutFolder ) const
 {
 	bool bValid;
 	if ( !pParentFolder )
@@ -2352,7 +2352,7 @@ void CVCProjGenerator::GetAllConfigurationNames( CUtlVector< CUtlString > &confi
 	}
 }
 
-void CVCProjGenerator::GetAllRootConfigurations( CUtlVector< CProjectConfiguration * > &rootConfigurations )
+void CVCProjGenerator::GetAllRootConfigurations( CUtlVector< CProjectConfiguration * > &rootConfigurations ) const
 {
 	rootConfigurations.RemoveAll();
 	rootConfigurations.AddVectorToTail( m_RootConfigurations );
@@ -2625,7 +2625,7 @@ void CVCProjGenerator::GetAllProjectFiles( CUtlVector< CProjectFile * > &project
 	}
 }
 
-bool CVCProjGenerator::HasFilePropertyValue( CProjectFile *pProjectFile, const char *pConfigrationName, configKeyword_e configKeyword, const char *pPropertyName )
+bool CVCProjGenerator::HasFilePropertyValue( CProjectFile *pProjectFile, const char *pConfigrationName, configKeyword_e configKeyword, const char *pPropertyName ) const
 {
 	// find the specific tool property
 	ToolProperty_t *pToolProperty = GetGeneratorDefinition()->GetProperty( configKeyword, pPropertyName );

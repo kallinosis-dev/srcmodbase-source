@@ -665,7 +665,7 @@ public:
 	void				SetInvalid()	{ m_SubNeighbors[0].SetInvalid(); m_SubNeighbors[1].SetInvalid(); }
 	
 	// Returns false if there isn't anything touching this edge.
-	bool				IsValid()		{ return m_SubNeighbors[0].IsValid() || m_SubNeighbors[1].IsValid(); }
+	bool				IsValid() const { return m_SubNeighbors[0].IsValid() || m_SubNeighbors[1].IsValid(); }
 
 
 public:
@@ -834,7 +834,7 @@ public:
 
 	unsigned short GetNumPrims() const;
 	void SetNumPrims( unsigned short nPrims );
-	bool AreDynamicShadowsEnabled();
+	bool AreDynamicShadowsEnabled() const;
 	void SetDynamicShadowsEnabled( bool bEnabled );
 
 	// non-polygon primitives (strips and lists)
@@ -860,7 +860,7 @@ inline void dface_t::SetNumPrims( unsigned short nPrims )
 	m_NumPrims |= (nPrims & 0x7FFF);
 }
 
-inline bool dface_t::AreDynamicShadowsEnabled()
+inline bool dface_t::AreDynamicShadowsEnabled() const
 {
 	return (m_NumPrims & 0x8000) == 0;
 }

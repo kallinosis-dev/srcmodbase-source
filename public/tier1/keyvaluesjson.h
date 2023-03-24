@@ -60,7 +60,7 @@ private:
 	void NextToken();
 	void ParseNumberToken();
 	void ParseStringToken();
-	const char *GetTokenDebugText();
+	const char *GetTokenDebugText() const;
 };
 
 #ifdef _DEBUG

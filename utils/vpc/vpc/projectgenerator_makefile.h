@@ -38,8 +38,8 @@ private:
 
 	typedef CUtlSymbolTableLargeBase< CNonThreadsafeTree< false >, false, 16000 > DependencyTable_t;
 	void WriteSourceFilesList( CUtlBuffer &outBuf, const char *pListName, const char **pExtensions, const char *pConfigName );
-	void WriteNonConfigSpecificStuff( CUtlBuffer &outBuf );
-	void CollectDependencies( const char *pDependencies, DependencyTable_t &dependenciesOut, const char *pFullFileNameForVisualStudioReplacements = nullptr );
+	void WriteNonConfigSpecificStuff( CUtlBuffer &outBuf ) const;
+	void CollectDependencies( const char *pDependencies, DependencyTable_t &dependenciesOut, const char *pFullFileNameForVisualStudioReplacements = nullptr ) const;
     void WriteCustomDependencies( const char *pDependencies, CUtlBuffer &outBuf, DependencyTable_t *pDependenciesOut );
     bool WriteCustomBuildTool(	CProjectConfiguration *pConfig,
 								CUtlBuffer &outBuf,
@@ -52,19 +52,19 @@ private:
 								DependencyTable_t &outputsOut );
     void WriteDefines( CProjectConfiguration *pConfig,
                        CUtlBuffer &outBuf,
-                       CProjectFile *pProjectFile );
+                       CProjectFile *pProjectFile ) const;
     void WriteIncludes( CProjectConfiguration *pConfig,
                         CUtlBuffer &outBuf,
-                        CProjectFile *pProjectFile );
+                        CProjectFile *pProjectFile ) const;
 	void WriteCompileRule( CUtlBuffer &outBuf, CProjectFile *pProjectFile, CProjectConfiguration *pConfig,
 	                       const char *pCompileFunction, const char *pTarget, const char *pSource, const char *pAdditionalDeps, const char *pOrderOnlyDeps,
-	                       const char *pPchInclude );
+	                       const char *pPchInclude ) const;
 	void WriteConfigSpecificStuff( CProjectConfiguration *pConfig, CUtlBuffer &outBuf, ScriptType_t scriptType );
     void WriteDependencies( const char *szVarName, DependencyTable_t &otherDependencies, CUtlBuffer &outBuf );
 	bool WriteMakefile( const char *pFilename );
 
 	//returns true if the file changed
-	bool WriteScriptFile( const char *pFileName, CUtlStringBuilder *pContents, ScriptType_t scriptType );
+	bool WriteScriptFile( const char *pFileName, CUtlStringBuilder *pContents, ScriptType_t scriptType ) const;
 
 	void BuildFileSet();
 

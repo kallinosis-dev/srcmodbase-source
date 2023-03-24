@@ -495,7 +495,7 @@ const CLoggingSystem::LoggingState_t *CLoggingSystem::GetCurrentState() const
 	}
 }
 
-int CLoggingSystem::FindUnusedStateIndex()
+int CLoggingSystem::FindUnusedStateIndex() const
 {
 	for ( int i = 0; i < MAX_LOGGING_STATE_COUNT; ++ i )
 	{

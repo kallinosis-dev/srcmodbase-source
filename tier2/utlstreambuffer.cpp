@@ -405,7 +405,7 @@ bool CUtlStreamBuffer::StreamGetOverflow( int nSize )
 //-----------------------------------------------------------------------------
 // open file unless already failed to open
 //-----------------------------------------------------------------------------
-FileHandle_t CUtlStreamBuffer::OpenFile( const char *pFileName, const char *pPath, int nOpenFileFlags )
+FileHandle_t CUtlStreamBuffer::OpenFile( const char *pFileName, const char *pPath, int nOpenFileFlags ) const
 {
 	if ( m_Error & FILE_OPEN_ERROR )
 		return FILESYSTEM_INVALID_HANDLE;

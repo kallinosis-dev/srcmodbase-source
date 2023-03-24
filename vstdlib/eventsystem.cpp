@@ -49,7 +49,7 @@ public:
 	// Refcount
 	int AddRef() { return ++m_nRefCount; }
 	int Release() { return --m_nRefCount; }
-	int RefCount() { return m_nRefCount; }
+	int RefCount() const { return m_nRefCount; }
 
 private:
 	struct QueuedEvent_t

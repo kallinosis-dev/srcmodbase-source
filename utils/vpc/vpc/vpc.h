@@ -152,20 +152,20 @@ public:
 	CMacro( const char *pMacroName, const char *pMacroValue, const char *pConfigurationName, bool bSystemMacro, bool bSetupDefine );
 	CMacro( const char *pMacroName, void (*pFNResolveValue)( CMacro * ) );
 
-	bool IsSystemMacro() { return m_bSystemMacro; }
-	bool IsPropertyMacro() { return !m_ConfigurationName.IsEmpty(); }
-	bool ShouldDefineInProjectFile()	{ return m_bSetupDefineInProjectFile; }
+	bool IsSystemMacro() const { return m_bSystemMacro; }
+	bool IsPropertyMacro() const { return !m_ConfigurationName.IsEmpty(); }
+	bool ShouldDefineInProjectFile() const { return m_bSetupDefineInProjectFile; }
 
     // GetName returns the name without a leading $.
 	const char *GetName() { return m_FullName.Get() + 1; }
     const char *GetFullName() { return m_FullName.Get(); }
-    int GetNameLength() { return m_nBaseNameLength; }
-    int GetFullNameLength() { return m_nBaseNameLength + 1; }
+    int GetNameLength() const { return m_nBaseNameLength; }
+    int GetFullNameLength() const { return m_nBaseNameLength + 1; }
 	const char *GetValue() { ResolveValue(); return m_Value; }
     int GetValueLength() { ResolveValue(); return m_Value.Length(); }
     bool HasValue() { ResolveValue(); return !m_Value.IsEmpty(); }
 	const char *GetConfigurationName() { return m_ConfigurationName; }
-    bool HasConfigurationName() { return !m_ConfigurationName.IsEmpty(); }
+    bool HasConfigurationName() const { return !m_ConfigurationName.IsEmpty(); }
 	void SetValue( const char *pMacroValue ) { Assert( !m_pFNResolveDynamicMacro); m_Value = pMacroValue; }
 	void SetResolveFunc( void (*pFNResolveValue)( CMacro *pThis ) ) { m_pFNResolveDynamicMacro = pFNResolveValue; }
 
@@ -308,51 +308,51 @@ public:
 	bool		IsProjectCurrent( const char *szScriptFileName, CUtlString &statusString );
 	void		UpdateCacheFile( const char *szScriptFileName );
 
-	bool		HasCommandLineParameter( const char *pParamName );
-	bool		HasP4SLNCommand();
+	bool		HasCommandLineParameter( const char *pParamName ) const;
+	bool		HasP4SLNCommand() const;
 
 	CScript		&GetScript()			{ return m_Script; }
 
-	bool		IsVerbose()						{ return m_bVerbose; }
-	bool		IsQuiet()						{ return m_bQuiet; }
-	bool		IsQuietValidSpew()				{ return m_bQuietValidSpew; }
+	bool		IsVerbose() const { return m_bVerbose; }
+	bool		IsQuiet() const { return m_bQuiet; }
+	bool		IsQuietValidSpew() const { return m_bQuietValidSpew; }
 	void		SetQuietValidSpew( bool bQuiet ){ m_bQuietValidSpew = bQuiet; }
-	bool		IsShowDependencies()			{ return m_bShowDeps; }
-	bool		IsForceGenerate()				{ return m_bForceGenerate; }
-	bool		IsForceIterate()				{ return m_bForceIterate || IsForceGenerate(); }
-	bool		IsCheckFiles()					{ return m_bCheckFiles; }
+	bool		IsShowDependencies() const { return m_bShowDeps; }
+	bool		IsForceGenerate() const { return m_bForceGenerate; }
+	bool		IsForceIterate() const { return m_bForceIterate || IsForceGenerate(); }
+	bool		IsCheckFiles() const { return m_bCheckFiles; }
 	
-	bool		IsShowFixedPaths()				{ return m_bShowFixedPaths; }
-	bool		IsShowCaseIssues()				{ return m_bShowCaseIssues; }
+	bool		IsShowFixedPaths() const { return m_bShowFixedPaths; }
+	bool		IsShowCaseIssues() const { return m_bShowCaseIssues; }
 
-	bool		IsSourceControlEnabled()		{ return m_bSourceControl; }
-	bool		IsOSMacroEnabled()				{ return m_bAllowOSMacro; }
-	bool		IsCRCCheckInProjectEnabled()	{ return m_bCRCCheckInProject; }
-	bool		IsMissingFileAsErrorEnabled()	{ return m_bMissingFileIsError; }
-	bool		IsFilePatternEnabled()			{ return m_bAllowFilePattern; }
-	bool		AddExecuteableToCRCChecks()		{ return m_bAddExecuteableToCRC; }
-	bool		IsP4AutoAddEnabled()			{ return m_bP4AutoAdd; }
-    bool        IsPerFileCompileConfigEnabled() { return m_bPerFileCompileConfig; }
-    bool		IsLibWithinLibEnabled()			{ return m_bAllowLibWithinLib; }
+	bool		IsSourceControlEnabled() const { return m_bSourceControl; }
+	bool		IsOSMacroEnabled() const { return m_bAllowOSMacro; }
+	bool		IsCRCCheckInProjectEnabled() const { return m_bCRCCheckInProject; }
+	bool		IsMissingFileAsErrorEnabled() const { return m_bMissingFileIsError; }
+	bool		IsFilePatternEnabled() const { return m_bAllowFilePattern; }
+	bool		AddExecuteableToCRCChecks() const { return m_bAddExecuteableToCRC; }
+	bool		IsP4AutoAddEnabled() const { return m_bP4AutoAdd; }
+    bool        IsPerFileCompileConfigEnabled() const { return m_bPerFileCompileConfig; }
+    bool		IsLibWithinLibEnabled() const { return m_bAllowLibWithinLib; }
     
-	bool		Is2005()						{ return !m_bUse2010 && !m_bUse2012 && !m_bUse2013 && !m_bUse2015 && !m_bUse2022; }
+	bool		Is2005() const { return !m_bUse2010 && !m_bUse2012 && !m_bUse2013 && !m_bUse2015 && !m_bUse2022; }
 	// Note that internally to VPC this returns true when Is2012() or Is2013() or Is2015() return true because they use
 	// the VS 2010 file format.
-	bool		Is2010()						{ return m_bUse2010; }
-	bool		Is2012()						{ return m_bUse2012; }
-	bool		Is2013()						{ return m_bUse2013; }
-	bool		Is2015()						{ return m_bUse2015; }
-	bool		Is2022()						{ return m_bUse2022; }
+	bool		Is2010() const { return m_bUse2010; }
+	bool		Is2012() const { return m_bUse2012; }
+	bool		Is2013() const { return m_bUse2013; }
+	bool		Is2015() const { return m_bUse2015; }
+	bool		Is2022() const { return m_bUse2022; }
 
-	bool		PrefersVS2010()					{ return m_bPreferVS2010; }
-	bool		PrefersVS2012()					{ return m_bPreferVS2012; }
-	bool		PrefersVS2013()					{ return m_bPreferVS2013; }
-	bool		PrefersVS2015()					{ return m_bPreferVS2015; }
-	bool		PrefersVS2022()					{ return m_bPreferVS2022; }
+	bool		PrefersVS2010() const { return m_bPreferVS2010; }
+	bool		PrefersVS2012() const { return m_bPreferVS2012; }
+	bool		PrefersVS2013() const { return m_bPreferVS2013; }
+	bool		PrefersVS2015() const { return m_bPreferVS2015; }
+	bool		PrefersVS2022() const { return m_bPreferVS2022; }
   
-	bool		IsForceRebuildCache()			{ return m_bForceRebuildCache; }
-	bool		IsDedicatedBuild()				{ return m_bDedicatedBuild; }
-	bool		UseValveBinDir()				{ return m_bUseValveBinDir; }
+	bool		IsForceRebuildCache() const { return m_bForceRebuildCache; }
+	bool		IsDedicatedBuild() const { return m_bDedicatedBuild; }
+	bool		UseValveBinDir() const { return m_bUseValveBinDir; }
 
 	bool		IsQtEnabled();
 	bool		IsSchemaEnabled();
@@ -361,17 +361,17 @@ public:
 	bool		IsClangEnabled();
 	bool		ShouldEmitClangProject();
 
-	bool		RestrictProjectsToEverything()	{ return m_bRestrictProjects; }
+	bool		RestrictProjectsToEverything() const { return m_bRestrictProjects; }
 
 	int			GetMissingFilesCount() const	{ return m_nFilesMissing; }
 	int			GetTotalMissingFilesCount() const	{ return m_nTotalFilesMissing; }
 	void		IncrementFileMissing()	{ ++m_nFilesMissing; ++m_nTotalFilesMissing; }
 	void		ResetMissingFilesCount() { m_nFilesMissing = 0; }
 
-	bool		IsIgnoreRedundancyWarning()					{ return m_bIgnoreRedundancyWarning; }
+	bool		IsIgnoreRedundancyWarning() const { return m_bIgnoreRedundancyWarning; }
 	void		SetIgnoreRedundancyWarning( bool bSet )		{ m_bIgnoreRedundancyWarning = bSet; }
 
-	bool UsingShallowDependencies( void ) { return m_bShallowDepencies; }
+	bool UsingShallowDependencies( void ) const { return m_bShallowDepencies; }
 
 	const char *GetStartDirectory()			{ return m_StartDirectory.Get(); }
 	const char *GetSourcePath()				{ return m_SourcePath.Get(); }
@@ -399,7 +399,7 @@ public:
 	void SetProjectPath( const char *pProjectPath )			{ m_ProjectPath = pProjectPath; }
 
     const char *GetSourceFileConfigFilter()                 { return m_sourceFileConfigFilter.Get(); }
-    bool IsConfigAllowedBySourceFileConfigFilter( const char *pConfigName )
+    bool IsConfigAllowedBySourceFileConfigFilter( const char *pConfigName ) const
     {
         return m_sourceFileConfigFilter.IsEmpty() || !V_stricmp_fast( pConfigName, m_sourceFileConfigFilter );
     }
@@ -429,10 +429,10 @@ public:
 	const char				*GetTargetPlatformName();
 	const char				*GetTargetCompilerName();
 
-	IBaseProjectGenerator	*GetProjectGenerator()										{ return m_pProjectGenerator; }
+	IBaseProjectGenerator	*GetProjectGenerator() const { return m_pProjectGenerator; }
 	void					SetProjectGenerator( IBaseProjectGenerator *pGenerator )	{ m_pProjectGenerator = pGenerator; }
 
-	IBaseSolutionGenerator	*GetSolutionGenerator()	{ return m_pSolutionGenerator; }
+	IBaseSolutionGenerator	*GetSolutionGenerator() const { return m_pSolutionGenerator; }
 
 	// Conditionals
 	conditional_t			*FindOrCreateConditional( const char *pName, bool bCreate, conditionalType_e type );
@@ -490,7 +490,7 @@ private:
 	bool					LoadPerforceInterface();
 	void					UnloadPerforceInterface();
 
-	void					InProcessCRCCheck();
+	void					InProcessCRCCheck() const;
 	void					CheckForInstalledXDK();
 
 	void					DetermineSourcePath();

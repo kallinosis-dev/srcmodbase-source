@@ -60,7 +60,7 @@ private:
 	// Reads bytes from the file; fixes up maxput if necessary and null terminates
 	int ReadBytesFromFile( int nBytesToRead, int nReadOffset );
 
-	FileHandle_t OpenFile( const char *pFileName, const char *pPath, int nOpenFileFlags );
+	FileHandle_t OpenFile( const char *pFileName, const char *pPath, int nOpenFileFlags ) const;
 
 	FileHandle_t m_hFileHandle;
 

@@ -56,7 +56,7 @@ public:
 	void EndProcessingCommands();
 
 	// Are we in the middle of processing commands?
-	bool IsProcessingCommands();
+	bool IsProcessingCommands() const;
 
 	// Delays all queued commands to execute at a later time
 	void DelayAllQueuedCommands( int nTickDelay );
@@ -70,13 +70,13 @@ public:
 	// most relevantly, to implement a feature where you stream a file
 	// worth of commands into the buffer, where the file size is too large
 	// to entirely contain in the buffer).
-    CommandHandle_t GetNextCommandHandle();
+    CommandHandle_t GetNextCommandHandle() const;
 
 	// Specifies a max limit of the args buffer. For unittesting. Size == 0 means use default
 	void LimitArgumentBufferSize( int nSize );
 
 	void SetWaitEnabled( bool bEnable )		{ m_bWaitEnabled = bEnable; }
-	bool IsWaitEnabled( void )				{ return m_bWaitEnabled; }
+	bool IsWaitEnabled( void ) const { return m_bWaitEnabled; }
 
 private:
 	enum

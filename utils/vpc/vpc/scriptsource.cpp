@@ -468,7 +468,7 @@ void CScript::PopScript()
 	m_ScriptStack.Pop();
 }
 
-void CScript::EnsureScriptStackEmpty()
+void CScript::EnsureScriptStackEmpty() const
 {
 	if ( m_ScriptStack.Count() != 0 )
 	{

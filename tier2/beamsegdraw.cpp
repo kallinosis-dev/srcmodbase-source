@@ -43,7 +43,7 @@ void CBeamSegDraw::Start( IMatRenderContext *pRenderContext, int nSegs, IMateria
 	}
 }
 
-inline void CBeamSegDraw::ComputeNormal( const Vector &vecCameraPos, const Vector &vStartPos, const Vector &vNextPos, Vector *pNormal )
+inline void CBeamSegDraw::ComputeNormal( const Vector &vecCameraPos, const Vector &vStartPos, const Vector &vNextPos, Vector *pNormal ) const
 {
 	// vTangentY = line vector for beam
 	Vector vTangentY;
@@ -174,7 +174,7 @@ void CBeamSegDraw::LoadSIMDData( FourVectors * RESTRICT pV4StartPos, FourVectors
 }
 
 
-void CBeamSegDraw::ComputeRenderInfo( BeamSegRenderInfo_t * pRenderInfo, const Vector &vecCameraPos, int nSegCount, const BeamSeg_t *pSrcSegs ) RESTRICT
+void CBeamSegDraw::ComputeRenderInfo( BeamSegRenderInfo_t * pRenderInfo, const Vector &vecCameraPos, int nSegCount, const BeamSeg_t *pSrcSegs ) const RESTRICT
 {
 	int nPaddedSegCount = ( ( nSegCount + 3 ) >> 2 ) << 2;
 

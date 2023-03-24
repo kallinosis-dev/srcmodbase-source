@@ -99,7 +99,7 @@ public:
 		}
 	}
 
-	void CloseAllLibraries()
+	void CloseAllLibraries() const
 	{
 		delete m_pList;
 	}

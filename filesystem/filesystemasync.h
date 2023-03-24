@@ -94,12 +94,12 @@ class CAsyncRequestBase
 										~CAsyncRequestBase();		// Destructor - not virtual anymore
 
 		void							SetOuter( void* pOuter )			{ m_pOuter = pOuter; }
-		void*							GetOuter()							{ return m_pOuter; }
+		void*							GetOuter() const { return m_pOuter; }
 
-		IAsyncRequestBase*				GetInterfaceBase();
+		IAsyncRequestBase*				GetInterfaceBase() const;
 
 		// functions to query operation
-		AsyncFileOperation_t			GetAsyncOperationType()				{ return m_Operation; }
+		AsyncFileOperation_t			GetAsyncOperationType() const { return m_Operation; }
 
 		// Set completion options								
 		void							AssignCallback( CFunctor* pCallback );					// Add a completion callback to this request
@@ -112,24 +112,24 @@ class CAsyncRequestBase
 		void							KeepRequestPostCallback()			{ m_bDontAutoRelease = true; }		// User wants to keep request alive after the callback completes
 		void							DontKeepRequestPostCallback()		{ m_bDontAutoRelease = false; }		// User doesn't want to keep request after the callback completes 
 
-		void							Release();							// lets user manually release the async request (only valid when completed)
-		void							DeleteOuter();						// Used by async filesystem to delete the containing object (as well as the CAsyncRequestBase)
+		void							Release() const;							// lets user manually release the async request (only valid when completed)
+		void							DeleteOuter() const;						// Used by async filesystem to delete the containing object (as well as the CAsyncRequestBase)
 
 		// Priority Functions
 		void							SetPriority( int32 nPriority );
-		int32							GetPriority()						{ return m_priority; }
+		int32							GetPriority() const { return m_priority; }
 
 		// Status & Results functions
-		AsyncRequestState_t				GetRequestState()					{ return m_RequestState; }
-		AsyncRequestStatus_t			GetRequestStatus()					{ return m_RequestStatus; }
+		AsyncRequestState_t				GetRequestState() const { return m_RequestState; }
+		AsyncRequestStatus_t			GetRequestStatus() const { return m_RequestStatus; }
 		
 		// --------------------------------------------------------------
 		// Gateway to outer's Public Methods not included in the interface, used by Async FileSystem
 		
-		void							AbortAfterServicing( CAsyncResultInfo_t& results );								// Handle a request that got aborted while being serviced
-		void							UpdateAfterServicing( CAsyncResultInfo_t& results );							// Handle a request that got aborted while being serviced
-		AsyncRequestStatus_t			ValidateSubmittedRequest( bool bPerformSync );									// Validates the derived object data at request submission
-		bool							ValidateRequestModification();													// core check to determine if modification is allowed at this time
+		void							AbortAfterServicing( CAsyncResultInfo_t& results ) const;								// Handle a request that got aborted while being serviced
+		void							UpdateAfterServicing( CAsyncResultInfo_t& results ) const;							// Handle a request that got aborted while being serviced
+		AsyncRequestStatus_t			ValidateSubmittedRequest( bool bPerformSync ) const;									// Validates the derived object data at request submission
+		bool							ValidateRequestModification() const;													// core check to determine if modification is allowed at this time
 		
 	protected:
 		// Helper functions for repeated operations
@@ -345,7 +345,7 @@ class CAsyncFileRequest : public IAsyncFileRequest
 		void							AbortAfterServicing( CAsyncResultInfo_t& results );								// Handle a request that got aborted while being serviced
 		void							UpdateAfterServicing( CAsyncResultInfo_t& results );							// Handle a request that got aborted while being serviced
 		AsyncRequestStatus_t			ValidateSubmittedRequest( bool bPerformSync );									// Validates the derived object data at request submission
-		bool							ValidateRequestModification();													// Check to determine if modification is allowed at this time
+		bool							ValidateRequestModification() const;													// Check to determine if modification is allowed at this time
 	
 	protected:
 		// Helper functions for repeated operations
@@ -445,8 +445,8 @@ class CAsyncSearchRequest  :  public IAsyncSearchRequest
 		
 		void							AbortAfterServicing( CAsyncResultInfo_t& results );									// Handle a request that got aborted while being serviced
 		void							UpdateAfterServicing( CAsyncResultInfo_t& results );								// Handle a request that got aborted while being serviced
-		AsyncRequestStatus_t			ValidateSubmittedRequest( bool bPerformSync );										// Validates the derived object data at request submission
-		bool							ValidateRequestModification();														// Check to determine if modification is allowed at this time
+		AsyncRequestStatus_t			ValidateSubmittedRequest( bool bPerformSync ) const;										// Validates the derived object data at request submission
+		bool							ValidateRequestModification() const;														// Check to determine if modification is allowed at this time
 
 	private:
 		// disabled functions
@@ -473,9 +473,9 @@ class CAsyncRequestQueue
 		CAsyncRequestQueue();
 		~CAsyncRequestQueue();
 
-		int32						GetSize()	{ return m_nQueueSize; }
-		bool						IsInQueue( CAsyncRequestBase* pItem );
-		bool						IsInQueueIp( const IAsyncRequestBase* pInterfaceBase );
+		int32						GetSize() const { return m_nQueueSize; }
+		bool						IsInQueue( CAsyncRequestBase* pItem ) const;
+		bool						IsInQueueIp( const IAsyncRequestBase* pInterfaceBase ) const;
 		
 		void						AddToHead( CAsyncRequestBase* pItem );
 		void						AddToTail( CAsyncRequestBase* pItem );
@@ -541,9 +541,9 @@ class CAsyncFileSystem : public CTier2AppSystem< IAsyncFileSystem >
 		
 		void								RemoveRequest( CAsyncRequestBase* pRequest );
 
-		bool								ResolveAsyncRequest( const IAsyncRequestBase* pRequest, CAsyncRequestBase*& pRequestBase, AsyncRequestState_t& CurrentStage );
+		bool								ResolveAsyncRequest( const IAsyncRequestBase* pRequest, CAsyncRequestBase*& pRequestBase, AsyncRequestState_t& CurrentStage ) const;
 
-		bool								ValidateRequestPtr( CAsyncRequestBase* pRequest );
+		bool								ValidateRequestPtr( CAsyncRequestBase* pRequest ) const;
 
 	private:
 		CAsyncRequestQueue					m_Composing;				// requests in state: Composing
@@ -564,10 +564,10 @@ class CAsyncFileSystem : public CTier2AppSystem< IAsyncFileSystem >
 		CThreadFastMutex					m_AsyncStateUpdateMutex;
 		CThreadEvent						m_CompletionSignal;			// Used to signal the completion of an IO
 
-		AsyncRequestStatus_t				ValidateRequest( CAsyncRequestBase* pRequest, bool bPerformSync = false );
+		AsyncRequestStatus_t				ValidateRequest( CAsyncRequestBase* pRequest, bool bPerformSync = false ) const;
 
 		void								KickOffFileJobs();			
-		void								WaitForServincingIOCompletion();	// Pauses until all jobs being serviced are complete
+		void								WaitForServincingIOCompletion() const;	// Pauses until all jobs being serviced are complete
 
 		static void*						OldAsyncAllocatorCallback( const char *pszFilename, unsigned nBytes );
 		

@@ -276,7 +276,7 @@ void VPC_Keyword_AddFilesByPattern()
 class CNoNameTranslation
 {
 public:
-	void operator()( CUtlStringBuilder *pStrBuf ) {}
+	void operator()( CUtlStringBuilder *pStrBuf ) const {}
 };
 
 //-----------------------------------------------------------------------------

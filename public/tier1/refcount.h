@@ -93,7 +93,7 @@ public:
 	CBaseAutoPtr(T *pFrom)                        			: m_pObject(pFrom) {}
 
 	operator const void *() const          					{ return m_pObject; }
-	operator void *()                      					{ return m_pObject; }
+	operator void *() const { return m_pObject; }
 
 	operator const T *() const							    { return m_pObject; }
 	operator const T *()          							{ return m_pObject; }

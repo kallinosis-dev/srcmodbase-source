@@ -450,7 +450,7 @@ public:
 		m_bShouldReloadSymbols = true;
 	}
 
-	bool GetSymbolNameFromAddress( const void *pAddress, tchar *pSymbolNameOut, int iMaxSymbolNameLength, uint64 *pDisplacementOut )
+	bool GetSymbolNameFromAddress( const void *pAddress, tchar *pSymbolNameOut, int iMaxSymbolNameLength, uint64 *pDisplacementOut ) const
 	{
 		if( pAddress == nullptr)
 			return false;
@@ -474,7 +474,7 @@ public:
 		return false;
 	}
 
-	bool GetFileAndLineFromAddress( const void *pAddress, tchar *pFileNameOut, int iMaxFileNameLength, uint32 &iLineNumberOut, uint32 *pDisplacementOut )
+	bool GetFileAndLineFromAddress( const void *pAddress, tchar *pFileNameOut, int iMaxFileNameLength, uint32 &iLineNumberOut, uint32 *pDisplacementOut ) const
 	{
 		if( pAddress == nullptr)
 			return false;
@@ -503,7 +503,7 @@ public:
 		return false;
 	}
 
-	bool GetModuleNameFromAddress( const void *pAddress, tchar *pModuleNameOut, int iMaxModuleNameLength )
+	bool GetModuleNameFromAddress( const void *pAddress, tchar *pModuleNameOut, int iMaxModuleNameLength ) const
 	{
 		AUTO_LOCK_FM( m_Mutex );
 		IMAGEHLP_MODULE64 moduleInfo;

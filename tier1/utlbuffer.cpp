@@ -1700,7 +1700,7 @@ void CUtlBuffer::SetBigEndian( bool bigEndian )
 	m_Byteswap.SetTargetBigEndian( bigEndian );
 }
 
-bool CUtlBuffer::IsBigEndian( void )
+bool CUtlBuffer::IsBigEndian( void ) const
 {
 	return m_Byteswap.IsTargetBigEndian();
 }

@@ -226,7 +226,7 @@ class CPackedStoreReadCache
 public:
 	CPackedStoreReadCache( IBaseFileSystem *pFS );
 
-	bool ReadCacheLine( FileHandleTracker_t &fHandle, CachedVPKRead_t &cachedVPKRead, int &nRead );
+	bool ReadCacheLine( FileHandleTracker_t &fHandle, CachedVPKRead_t &cachedVPKRead, int &nRead ) const;
 	bool BCanSatisfyFromReadCache( uint8 *pOutData, CPackedStoreFileHandle &handle, FileHandleTracker_t &fHandle, int nDesiredPos, int nNumBytes, int &nRead );
 	bool BCanSatisfyFromReadCacheInternal( uint8 *pOutData, CPackedStoreFileHandle &handle, FileHandleTracker_t &fHandle, int nDesiredPos, int nNumBytes, int &nRead );
 	bool CheckMd5Result( CachedVPKRead_t &cachedVPKRead, MD5Value_t &md5Value );
@@ -343,12 +343,12 @@ public:
 	void GetPackFileName( CPackedStoreFileHandle &handle, char *pchFileNameOut, int cchFileNameOut ) const;
 	void GetDataFileName( char *pchFileNameOut, int cchFileNameOut, int nFileNumber ) const;
 
-	char const *BaseName( void )
+	char const *BaseName( void ) const
 	{
 		return m_pszFileBaseName;
 	}
 
-	char const *FullPathName( void )
+	char const *FullPathName( void ) const
 	{
 		return m_pszFullPathName;
 	}
@@ -360,7 +360,7 @@ public:
 
 	int GetWriteChunkSize() const { return m_nWriteChunkSize; }
 
-	int GetHighestChunkFileIndex() { return m_nHighestChunkFileIndex; }
+	int GetHighestChunkFileIndex() const { return m_nHighestChunkFileIndex; }
 
 	void DiscardChunkHashes( int iChunkFileIndex );
 
@@ -403,7 +403,7 @@ private:
 	CUtlBlockVector<uint8> m_EmbeddedChunkData;
 
 	CUtlSortVector<ChunkHashFraction_t, ChunkHashFractionLess_t > m_vecChunkHashFraction;
-	bool BFileContainedHashes() { return m_vecChunkHashFraction.Count() > 0; }
+	bool BFileContainedHashes() const { return m_vecChunkHashFraction.Count() > 0; }
 	// these are valid if BFileContainedHashes() is true
 	MD5Value_t m_DirectoryMD5;
 	MD5Value_t m_ChunkHashesMD5;
@@ -431,7 +431,7 @@ private:
 
 	struct CFileHeaderFixedData *FindFileEntry( 
 		char const *pDirname, char const *pBaseName, char const *pExtension,
-		uint8 **pExtBaseOut = nullptr, uint8 **pNameBaseOut = nullptr);
+		uint8 **pExtBaseOut = nullptr, uint8 **pNameBaseOut = nullptr) const;
 
 	void BuildHashTables( void );
 

@@ -634,7 +634,7 @@ void KeyValuesJSONParser::ParseStringToken()
 	m_eToken = kToken_Err;
 }
 
-const char *KeyValuesJSONParser::GetTokenDebugText()
+const char *KeyValuesJSONParser::GetTokenDebugText() const
 {
 	switch ( m_eToken )
 	{

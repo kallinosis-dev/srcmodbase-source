@@ -947,7 +947,7 @@ private:
 
 	// FIXME: specify a spew output func for dumping stats
 	// Stat output
-	void DumpMemInfo( const char *pAllocationName, int line, const MemInfo_t &info );
+	void DumpMemInfo( const char *pAllocationName, int line, const MemInfo_t &info ) const;
 	void DumpFileStats();
 #if defined( USE_STACK_TRACES )
 	void DumpMemInfo( void * const CallStack[STACK_TRACE_LENGTH], const MemInfo_t &info );
@@ -2081,7 +2081,7 @@ void CDbgMemAlloc::DumpBlockStats( void *p )
 //-----------------------------------------------------------------------------
 // Stat output
 //-----------------------------------------------------------------------------
-void CDbgMemAlloc::DumpMemInfo( const char *pAllocationName, int line, const MemInfo_t &info )
+void CDbgMemAlloc::DumpMemInfo( const char *pAllocationName, int line, const MemInfo_t &info ) const
 {
 	m_OutputFunc("%s, line %i\t%.1f\t%.1f\t%.1f\t%.1f\t%.1f\t%d\t%d\t%d\t%d\t%d\t%d\t%d",
 		pAllocationName,

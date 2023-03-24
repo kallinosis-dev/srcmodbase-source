@@ -58,14 +58,14 @@ public:
 	void 			PopScript();
 	CScriptSource	GetCurrentScript();
 	void			RestoreScript( const CScriptSource &scriptSource );
-	void			EnsureScriptStackEmpty();
+	void			EnsureScriptStackEmpty() const;
 	void			SpewScriptStack( bool bDueToError );
 
 	const char		*GetName() const		{ return m_ScriptName.Get(); }
 	const char		*GetData() const 		{ return m_pScriptData; }
 	int				GetLine() const			{ return m_nScriptLine; }
 
-    bool            IsInPrivilegedScript()  { return m_nInPrivilegedScript > 0; }
+    bool            IsInPrivilegedScript() const { return m_nInPrivilegedScript > 0; }
     void            EnterPrivilegedScript() { m_nInPrivilegedScript++; }
     void            LeavePrivilegedScript() { m_nInPrivilegedScript--; }
     

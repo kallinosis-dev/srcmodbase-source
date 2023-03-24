@@ -127,7 +127,7 @@ private:
 		CONSOLE_DPRINT,
 	};
 
-	void DisplayQueuedMessages( );
+	void DisplayQueuedMessages( ) const;
 
 	CUtlVector< FnChangeCallback_t >	m_GlobalChangeCallbacks;
 	CUtlVector< IConsoleDisplayFunc* >	m_DisplayFuncs;
@@ -839,7 +839,7 @@ int CCvar::ProcessQueuedMaterialThreadConVarSets()
 //-----------------------------------------------------------------------------
 // Display queued messages
 //-----------------------------------------------------------------------------
-void CCvar::DisplayQueuedMessages( )
+void CCvar::DisplayQueuedMessages( ) const
 {
 	// Display any queued up messages
 	if ( m_TempConsoleBuffer.TellPut() == 0 )

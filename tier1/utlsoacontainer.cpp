@@ -292,7 +292,7 @@ void CSOAContainer::SetThreadMode( SOAThreadMode_t eThreadMode )
 }
 
 
-void CSOAContainer::CopyAttrFromPartial( int nStartRow, int nNumRows, int nStartSlice, int nEndSlice, CSOAContainer const *pOther, int nDestAttributeIndex, int nSrcAttributeIndex )
+void CSOAContainer::CopyAttrFromPartial( int nStartRow, int nNumRows, int nStartSlice, int nEndSlice, CSOAContainer const *pOther, int nDestAttributeIndex, int nSrcAttributeIndex ) const
 {
 	// copy a subregion in parallel
 	for( int z = nStartSlice; z < nEndSlice; z++ )
@@ -325,7 +325,7 @@ void CSOAContainer::CopyAttrFrom( CSOAContainer const &other, int nDestAttribute
 }
 
 
-void CSOAContainer::CopyAttrToAttr( int nSrcAttributeIndex, int nDestAttributeIndex)
+void CSOAContainer::CopyAttrToAttr( int nSrcAttributeIndex, int nDestAttributeIndex) const
 {
 	Assert( m_nDataType[nSrcAttributeIndex] == m_nDataType[nDestAttributeIndex] );
 	memcpy( m_pAttributePtrs[nDestAttributeIndex], m_pAttributePtrs[nSrcAttributeIndex], AttributeMemorySize( nSrcAttributeIndex ) );
@@ -335,7 +335,7 @@ void CSOAContainer::PackScalarAttributesToVectorAttribute( CSOAContainer *pInput
 														   int nVecAttributeOut,
 														   int nScalarAttributeX,
 														   int nScalarAttributeY,
-														   int nScalarAttributeZ )
+														   int nScalarAttributeZ ) const
 {
 	AssertDataType( nVecAttributeOut, ATTRDATATYPE_4V );
 	pInput->AssertDataType( nScalarAttributeX, ATTRDATATYPE_FLOAT );
@@ -373,7 +373,7 @@ void CSOAContainer::UnPackVectorAttributeToScalarAttributes( CSOAContainer *pInp
 															 int nVecAttributeIn,
 															 int nScalarAttributeX,
 															 int nScalarAttributeY,
-															 int nScalarAttributeZ )
+															 int nScalarAttributeZ ) const
 {
 	pInput->AssertDataType( nVecAttributeIn, ATTRDATATYPE_4V );
 	AssertDataType( nScalarAttributeX, ATTRDATATYPE_FLOAT );
@@ -413,7 +413,7 @@ void CSOAContainer::UnPackVectorAttributeToScalarAttributes( CSOAContainer *pInp
 
 void CSOAContainer::MultiplyVectorAttribute( CSOAContainer *pInput, int nAttributeIn,
 											 const Vector &vecScalar, 
-											 int nAttributeOut )
+											 int nAttributeOut ) const
 {
 	Assert( pInput->NumCols() == NumCols() );
 	Assert( pInput->NumRows() == NumRows() );
@@ -524,7 +524,7 @@ void CSOAContainer::FillAttrWithInterpolatedValues( int nAttr, Vector vecValue00
 	
 }
 
-void CSOAContainer::FillAttr( int nAttr, const Vector &vecValue )
+void CSOAContainer::FillAttr( int nAttr, const Vector &vecValue ) const
 {
 	FourVectors v4Fill;
 	v4Fill.DuplicateVector( vecValue );
@@ -550,7 +550,7 @@ void CSOAContainer::FillAttr( int nAttr, const Vector &vecValue )
 	} while ( --nRowCtr );
 }
 
-void CSOAContainer::FillAttrPartial( int nStartRow, int nNumRows, int nStartSlice, int nEndSlice, int nAttr, fltx4 fl4Value )
+void CSOAContainer::FillAttrPartial( int nStartRow, int nNumRows, int nStartSlice, int nEndSlice, int nAttr, fltx4 fl4Value ) const
 {
 	for( int z = nStartSlice; z < nEndSlice; z++ )
 	{
@@ -611,7 +611,7 @@ float CSOAContainer::MinAttributeValue( int nAttr ) const
 	return ReduceAttr<MinSIMD>( nAttr, Four_FLT_MAX );
 }
 
-void CSOAContainer::NormalizeAttr( int nAttr )
+void CSOAContainer::NormalizeAttr( int nAttr ) const
 {
 	AssertDataType( nAttr, ATTRDATATYPE_4V );
 	FourVectors *pOut = RowPtr<FourVectors>( nAttr, 0 );
@@ -630,7 +630,7 @@ void CSOAContainer::NormalizeAttr( int nAttr )
 	} while ( --nRowCtr );
 }
 
-void CSOAContainer::MulAttr( CSOAContainer const &src, int nSrcAttr, int nDestAttr )
+void CSOAContainer::MulAttr( CSOAContainer const &src, int nSrcAttr, int nDestAttr ) const
 {
 	AssertDataType( nDestAttr, ATTRDATATYPE_4V );
 	src.AssertDataType( nSrcAttr, ATTRDATATYPE_4V );
@@ -653,7 +653,7 @@ void CSOAContainer::MulAttr( CSOAContainer const &src, int nSrcAttr, int nDestAt
 	} while ( --nRowCtr );
 }
 
-void CSOAContainer::AddGaussianSRBF( float flWeight, Vector vecDir, int nDirectionAttribute, int nScalarTargetAttribute )
+void CSOAContainer::AddGaussianSRBF( float flWeight, Vector vecDir, int nDirectionAttribute, int nScalarTargetAttribute ) const
 {
 	AssertDataType( nDirectionAttribute, ATTRDATATYPE_4V );
 	AssertDataType( nScalarTargetAttribute, ATTRDATATYPE_FLOAT );
@@ -683,7 +683,7 @@ void CSOAContainer::AddGaussianSRBF( float flWeight, Vector vecDir, int nDirecti
 }
 
 void CSOAContainer::AddGaussianSRBF( Vector vecWeight, Vector vecDir, int nDirectionAttribute, 
-									 int nVectorTargetAttribute )
+									 int nVectorTargetAttribute ) const
 {
 	AssertDataType( nDirectionAttribute, ATTRDATATYPE_4V );
 	AssertDataType( nVectorTargetAttribute, ATTRDATATYPE_4V );
@@ -807,7 +807,7 @@ struct KMeansQuantizationWorkUnit
 	int m_nFieldToStoreIndexInto;
 	KMeansQuantizedValue *m_pOutValues;
 	int m_nErrorChannel;
-	void Process( void );
+	void Process( void ) const;
 };
 
 
@@ -817,7 +817,7 @@ static void DoKMeansWork( KMeansQuantizationWorkUnit &jobDesc )
 	jobDesc.Process();
 }
 
-void KMeansQuantizationWorkUnit::Process( void )
+void KMeansQuantizationWorkUnit::Process( void ) const
 {
 	FourVectors v4SamplePositions;
 	for( int nZ = 0; nZ < m_pContainer->NumSlices(); nZ++ )
@@ -961,7 +961,7 @@ void CSOAContainer:: KMeansQuantization( int const *pFieldIndices, int nNumField
 #define THRESH 0.9
 
 void CSOAContainer::UpdateDistanceRow( int nSearchRadius, int nMinX, int nMaxX, int nY, int nZ,
-									   int nSrcField, int nDestField )
+									   int nSrcField, int nDestField ) const
 {
 	float const *pDataIn = RowPtr<float>( nSrcField, nY, nZ ) + nMinX;
 	float *pDataOut = RowPtr<float>( nDestField, nY, nZ ) + nMinX;
@@ -1080,7 +1080,7 @@ void CSOAContainer::GenerateDistanceField( int nSrcField, int nDestField,
 
 void CSOAContainer::CopyRegionFrom( CSOAContainer const &src, int nSrcAttr, int nDestAttr,
 									int nSrcMinX, int nSrcMaxX, int nSrcMinY, int nSrcMaxY, int nSrcMinZ, int nSrcMaxZ,
-									int nDestX, int nDestY, int nDestZ )
+									int nDestX, int nDestY, int nDestZ ) const
 {
 	Assert( HasAllocatedMemory( nDestAttr ) );
 	Assert( src.HasAllocatedMemory( nSrcAttr ) );

@@ -1306,7 +1306,7 @@ public:
 
 	// Use for access
 	operator const char *() const { return pString; }
-	const char *AsString() { return pString; }
+	const char *AsString() const { return pString; }
 
 private:
 	char m_szBuf[64];

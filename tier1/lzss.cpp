@@ -47,7 +47,7 @@ unsigned int CLZSS::GetActualSize( unsigned char *pInput )
 	return 0;
 }
 
-void CLZSS::BuildHash( unsigned char *pData )
+void CLZSS::BuildHash( unsigned char *pData ) const
 {
 	lzss_list_t *pList;
 	lzss_node_t *pTarget;

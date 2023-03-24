@@ -117,8 +117,8 @@ public:
 		inline void Assign( KeyValues *pKeyValues ) { m_pKeyValues = pKeyValues; }
 		/// behaves more like an auto pointer detach ( flags itself to not delete the contained object, and returns a pointer to it)
 		inline KeyValues * Detach() { KeyValues *retval = m_pKeyValues; Assign(nullptr); return retval; }
-		KeyValues *operator->()	{ return m_pKeyValues; }
-		operator KeyValues *()	{ return m_pKeyValues; }
+		KeyValues *operator->() const { return m_pKeyValues; }
+		operator KeyValues *() const { return m_pKeyValues; }
 	private:
 		AutoDelete( AutoDelete const &x ); // forbid
 		AutoDelete & operator= ( AutoDelete const &x ); // forbid
@@ -177,7 +177,7 @@ public:
 	void AddSubKey( KeyValues *pSubkey );	// Adds a subkey. Make sure the subkey isn't a child of some other keyvalues
 	void RemoveSubKey(KeyValues *subKey);	// removes a subkey from the list, DOES NOT DELETE IT
 	void InsertSubKey( int nIndex, KeyValues *pSubKey ); // Inserts the given sub-key before the Nth child location
-	bool ContainsSubKey( KeyValues *pSubKey ); // Returns true if this key values contains the specified sub key, false otherwise.
+	bool ContainsSubKey( KeyValues *pSubKey ) const; // Returns true if this key values contains the specified sub key, false otherwise.
 	void SwapSubKey( KeyValues *pExistingSubKey, KeyValues *pNewSubKey );	// Swaps an existing subkey for a new one, DOES NOT DELETE THE OLD ONE but takes ownership of the new one
 	void ElideSubKey( KeyValues *pSubKey );	// Removes a subkey but inserts all of its children in its place, in-order (flattens a tree, like firing a manager!)
 	KeyValues* CreateKey( const char *keyName );
@@ -192,7 +192,7 @@ public:
 	KeyValues *GetNextKey() const;		// returns the next subkey
 	void SetNextKey( KeyValues * pDat);
 
-	KeyValues *FindLastSubKey();	// returns the LAST subkey in the list.  This requires a linked list iteration to find the key.  Returns NULL if we don't have any children
+	KeyValues *FindLastSubKey() const;	// returns the LAST subkey in the list.  This requires a linked list iteration to find the key.  Returns NULL if we don't have any children
 
 	bool BInteriorNode() const
 	{
@@ -215,11 +215,11 @@ public:
 	//     {
 	//         Msg( "Int value: %d\n", pValue->GetInt() );  // Assuming pValue->GetDataType() == TYPE_INT...
 	//     }
-	KeyValues* GetFirstTrueSubKey();
-	KeyValues* GetNextTrueSubKey();
+	KeyValues* GetFirstTrueSubKey() const;
+	KeyValues* GetNextTrueSubKey() const;
 
-	KeyValues* GetFirstValue();	// When you get a value back, you can use GetX and pass in NULL to get the value.
-	KeyValues* GetNextValue();
+	KeyValues* GetFirstValue() const;	// When you get a value back, you can use GetX and pass in NULL to get the value.
+	KeyValues* GetNextValue() const;
 
 
 	// Data access
@@ -234,15 +234,15 @@ public:
 	bool  IsEmpty(const char *keyName = nullptr);
 
 	// Data access
-	int   GetInt( int keySymbol, int defaultValue = 0 );
-	uint64 GetUint64( int keySymbol, uint64 defaultValue = 0 );
-	float GetFloat( int keySymbol, float defaultValue = 0.0f );
-	const char *GetString( int keySymbol, const char *defaultValue = "" );
-	const wchar_t *GetWString( int keySymbol, const wchar_t *defaultValue = L"" );
-	void *GetPtr( int keySymbol, void *defaultValue = (void*)nullptr );
-	Color GetColor( int keySymbol /* default value is all black */);
-	bool GetBool( int keySymbol, bool defaultValue = false ) { return GetInt( keySymbol, defaultValue ? 1 : 0 ) ? true : false; }
-	bool  IsEmpty( int keySymbol );
+	int   GetInt( int keySymbol, int defaultValue = 0 ) const;
+	uint64 GetUint64( int keySymbol, uint64 defaultValue = 0 ) const;
+	float GetFloat( int keySymbol, float defaultValue = 0.0f ) const;
+	const char *GetString( int keySymbol, const char *defaultValue = "" ) const;
+	const wchar_t *GetWString( int keySymbol, const wchar_t *defaultValue = L"" ) const;
+	void *GetPtr( int keySymbol, void *defaultValue = (void*)nullptr ) const;
+	Color GetColor( int keySymbol /* default value is all black */) const;
+	bool GetBool( int keySymbol, bool defaultValue = false ) const { return GetInt( keySymbol, defaultValue ? 1 : 0 ) ? true : false; }
+	bool  IsEmpty( int keySymbol ) const;
 
 	// Key writing
 	void SetWString( const char *keyName, const wchar_t *value );
@@ -274,7 +274,7 @@ public:
 	bool ReadAsBinary( CUtlBuffer &buffer, int nStackDepth = 0 );
 
 	// Same as the other binary functions, but filter out and remove empty keys (like when seralizing to a file )
-	bool WriteAsBinaryFiltered( CUtlBuffer &buffer );
+	bool WriteAsBinaryFiltered( CUtlBuffer &buffer ) const;
 	bool ReadAsBinaryFiltered( CUtlBuffer &buffer, int nStackDepth = 0 );
 
 	// Allocate & create a new copy of the keys
@@ -306,7 +306,7 @@ public:
 	types_t GetDataType() const;
 
 	// for backward compat
-	void deleteThis();
+	void deleteThis() const;
 
 	void SetStringValue( char const *strValue );
 
@@ -359,7 +359,7 @@ private:
 	// for handling #include "filename"
 	void AppendIncludedKeys( CUtlVector< KeyValues * >& includedKeys );
 	void ParseIncludedKeys( char const *resourceName, const char *filetoinclude, 
-		IBaseFileSystem* pFileSystem, const char *pPathID, CUtlVector< KeyValues * >& includedKeys, GetSymbolProc_t pfnEvaluateSymbolProc );
+		IBaseFileSystem* pFileSystem, const char *pPathID, CUtlVector< KeyValues * >& includedKeys, GetSymbolProc_t pfnEvaluateSymbolProc ) const;
 
 	// For handling #base "filename"
 	void MergeBaseKeys( CUtlVector< KeyValues * >& baseKeys );
@@ -451,50 +451,50 @@ struct KeyValuesUnpackStructure
 //-----------------------------------------------------------------------------
 // inline methods
 //-----------------------------------------------------------------------------
-inline int   KeyValues::GetInt( int keySymbol, int defaultValue )
+inline int   KeyValues::GetInt( int keySymbol, int defaultValue ) const
 {
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->GetInt( (const char *)nullptr, defaultValue ) : defaultValue;
 }
 
-inline uint64 KeyValues::GetUint64( int keySymbol, uint64 defaultValue )
+inline uint64 KeyValues::GetUint64( int keySymbol, uint64 defaultValue ) const
 {
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->GetUint64( (const char *)nullptr, defaultValue ) : defaultValue;
 }
 
-inline float KeyValues::GetFloat( int keySymbol, float defaultValue )
+inline float KeyValues::GetFloat( int keySymbol, float defaultValue ) const
 {
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->GetFloat( (const char *)nullptr, defaultValue ) : defaultValue;
 }
 
-inline const char *KeyValues::GetString( int keySymbol, const char *defaultValue )
+inline const char *KeyValues::GetString( int keySymbol, const char *defaultValue ) const
 {
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->GetString( (const char *)nullptr, defaultValue ) : defaultValue;
 }
 
-inline const wchar_t *KeyValues::GetWString( int keySymbol, const wchar_t *defaultValue )
+inline const wchar_t *KeyValues::GetWString( int keySymbol, const wchar_t *defaultValue ) const
 {
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->GetWString( (const char *)nullptr, defaultValue ) : defaultValue;
 }
 
-inline void *KeyValues::GetPtr( int keySymbol, void *defaultValue )
+inline void *KeyValues::GetPtr( int keySymbol, void *defaultValue ) const
 {
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->GetPtr( (const char *)nullptr, defaultValue ) : defaultValue;
 }
 
-inline Color KeyValues::GetColor( int keySymbol )
+inline Color KeyValues::GetColor( int keySymbol ) const
 {
 	Color defaultValue( 0, 0, 0, 0 );
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->GetColor( ) : defaultValue;
 }
 
-inline bool  KeyValues::IsEmpty( int keySymbol )
+inline bool  KeyValues::IsEmpty( int keySymbol ) const
 {
 	KeyValues *dat = FindKey( keySymbol );
 	return dat ? dat->IsEmpty( ) : true;

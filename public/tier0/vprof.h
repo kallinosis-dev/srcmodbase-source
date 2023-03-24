@@ -347,10 +347,10 @@ public:
 	
 	CVProfNode *GetSubNode( const tchar *pszName, int detailLevel, const tchar *pBudgetGroupName, int budgetFlags );
 	CVProfNode *GetSubNode( const tchar *pszName, int detailLevel, const tchar *pBudgetGroupName );
-	CVProfNode *GetParent();
-	CVProfNode *GetSibling();		
-	CVProfNode *GetPrevSibling();	
-	CVProfNode *GetChild();		
+	CVProfNode *GetParent() const;
+	CVProfNode *GetSibling() const;		
+	CVProfNode *GetPrevSibling() const;	
+	CVProfNode *GetChild() const;		
 	
 	void MarkFrame();
 	void ResetPeak();
@@ -362,9 +362,9 @@ public:
 	void EnterScope();
 	bool ExitScope();
 
-	const tchar *GetName();
+	const tchar *GetName() const;
 
-	int GetBudgetGroupID()
+	int GetBudgetGroupID() const
 	{
 		return m_BudgetGroupID;
 	}
@@ -375,24 +375,24 @@ public:
 		m_BudgetGroupID = id;
 	}
 
-	int	GetCurCalls();
-	double GetCurTime();		
-	int GetPrevCalls();
-	double GetPrevTime();
-	int	GetTotalCalls();
-	double GetTotalTime();		
-	double GetPeakTime();		
+	int	GetCurCalls() const;
+	double GetCurTime() const;		
+	int GetPrevCalls() const;
+	double GetPrevTime() const;
+	int	GetTotalCalls() const;
+	double GetTotalTime() const;		
+	double GetPeakTime() const;		
 
-	double GetCurTimeLessChildren();
-	double GetPrevTimeLessChildren();
-	double GetTotalTimeLessChildren();
+	double GetCurTimeLessChildren() const;
+	double GetPrevTimeLessChildren() const;
+	double GetTotalTimeLessChildren() const;
 
-	int GetPrevL2CacheMissLessChildren();
+	int GetPrevL2CacheMissLessChildren() const;
 	int GetPrevLoadHitStoreLessChildren();
 
 	void ClearPrevTime();
 
-	int GetL2CacheMisses();
+	int GetL2CacheMisses() const;
 
 	// Not used in the common case...
 	void SetCurFrameTime( unsigned long milliseconds );
@@ -539,8 +539,8 @@ public:
 	void Stop();
 
 	void SetTargetThreadId( unsigned id ) { m_TargetThreadId = id; }
-	unsigned GetTargetThreadId() { return m_TargetThreadId; }
-	bool InTargetThread() { return ( m_TargetThreadId == ThreadGetCurrentId() ); }
+	unsigned GetTargetThreadId() const { return m_TargetThreadId; }
+	bool InTargetThread() const { return ( m_TargetThreadId == ThreadGetCurrentId() ); }
 
 #ifdef VPROF_VXCONSOLE_EXISTS
 	enum VXConsoleReportMode_t
@@ -643,20 +643,20 @@ public:
 	inline void PopGroup( void );
 #endif
 	
-	int NumFramesSampled()	{ return m_nFrames; }
-	double GetPeakFrameTime();
-	double GetTotalTimeSampled();
-	double GetTimeLastFrame();
+	int NumFramesSampled() const { return m_nFrames; }
+	double GetPeakFrameTime() const;
+	double GetTotalTimeSampled() const;
+	double GetTimeLastFrame() const;
 	
 	CVProfNode *GetRoot();
 	CVProfNode *FindNode( CVProfNode *pStartNode, const tchar *pszNode );
-	CVProfNode *GetCurrentNode();
+	CVProfNode *GetCurrentNode() const;
 
 	void OutputReport( int type = VPRT_FULL, const tchar *pszStartNode = nullptr, int budgetGroupID = -1 );
 
-	const tchar *GetBudgetGroupName( int budgetGroupID );
+	const tchar *GetBudgetGroupName( int budgetGroupID ) const;
 	int GetBudgetGroupFlags( int budgetGroupID ) const;	// Returns a combination of BUDGETFLAG_ defines.
-	int GetNumBudgetGroups( void );
+	int GetNumBudgetGroups( void ) const;
 	void GetBudgetGroupColor( int budgetGroupID, int &r, int &g, int &b, int &a );
 	int BudgetGroupNameToBudgetGroupID( const tchar *pBudgetGroupName );
 	int BudgetGroupNameToBudgetGroupID( const tchar *pBudgetGroupName, int budgetFlagsToORIn );
@@ -664,7 +664,7 @@ public:
 
 	int BudgetGroupNameToBudgetGroupIDNoCreate( const tchar *pBudgetGroupName ) { return FindBudgetGroupName( pBudgetGroupName ); }
 
-	void HideBudgetGroup( int budgetGroupID, bool bHide = true );
+	void HideBudgetGroup( int budgetGroupID, bool bHide = true ) const;
 	void HideBudgetGroup( const tchar *pszName, bool bHide = true ) { HideBudgetGroup( BudgetGroupNameToBudgetGroupID( pszName), bHide ); }
 
 	int *FindOrCreateCounter( const tchar *pName, CounterGroup_t eCounterGroup=COUNTER_GROUP_DEFAULT  );
@@ -686,7 +686,7 @@ public:
 #elif defined( _PS3 )
 	inline bool UsePME( void )				{ return false; }
 #else
-	bool UsePME( void )						{ return ( m_bPMEInit && m_bPMEEnabled ); }
+	bool UsePME( void ) const { return ( m_bPMEInit && m_bPMEEnabled ); }
 #endif
 
 #ifdef DBGFLAG_VALIDATE
@@ -698,11 +698,11 @@ protected:
 	void FreeNodes_R( CVProfNode *pNode );
 
 #ifdef VPROF_VTUNE_GROUP
-	bool VTuneGroupEnabled()
+	bool VTuneGroupEnabled() const
 	{ 
 		return m_bVTuneGroupEnabled; 
 	}
-	int VTuneGroupID() 
+	int VTuneGroupID() const
 	{ 
 		return m_nVTuneGroupID; 
 	}
@@ -711,7 +711,7 @@ protected:
 	void SumTimes( const tchar *pszStartNode, int budgetGroupID );
 	void SumTimes( CVProfNode *pNode, int budgetGroupID );
 	void DumpNodes( CVProfNode *pNode, int indent, bool bAverageAndCountOnly );
-	int FindBudgetGroupName( const tchar *pBudgetGroupName );
+	int FindBudgetGroupName( const tchar *pBudgetGroupName ) const;
 	int AddBudgetGroupName( const tchar *pBudgetGroupName, int budgetFlags );
 
 #ifdef VPROF_VTUNE_GROUP
@@ -905,7 +905,7 @@ inline CVProfNode::CVProfNode( const tchar * pszName, int detailLevel, CVProfNod
 
 //-------------------------------------
 
-inline CVProfNode *CVProfNode::GetParent()		
+inline CVProfNode *CVProfNode::GetParent() const
 { 
 	Assert( m_pParent );
 	return m_pParent; 
@@ -913,7 +913,7 @@ inline CVProfNode *CVProfNode::GetParent()
 
 //-------------------------------------
 
-inline CVProfNode *CVProfNode::GetSibling()		
+inline CVProfNode *CVProfNode::GetSibling() const
 { 
 	return m_pSibling; 
 }
@@ -923,7 +923,7 @@ inline CVProfNode *CVProfNode::GetSibling()
 // so it didn't seem like it was worth the memory waste to add the reverse
 // link per node.
 
-inline CVProfNode *CVProfNode::GetPrevSibling()		
+inline CVProfNode *CVProfNode::GetPrevSibling() const
 { 
 	CVProfNode* p = GetParent();
 
@@ -941,70 +941,70 @@ inline CVProfNode *CVProfNode::GetPrevSibling()
 
 //-------------------------------------
 
-inline CVProfNode *CVProfNode::GetChild()			
+inline CVProfNode *CVProfNode::GetChild() const
 { 
 	return m_pChild; 
 }
 
 //-------------------------------------
 
-inline const tchar *CVProfNode::GetName()				
+inline const tchar *CVProfNode::GetName() const
 { 
 	return m_pszName;
 }
 
 //-------------------------------------
 
-inline int	CVProfNode::GetTotalCalls()		
+inline int	CVProfNode::GetTotalCalls() const
 { 
 	return m_nTotalCalls; 
 }
 
 //-------------------------------------
 
-inline double CVProfNode::GetTotalTime()		
+inline double CVProfNode::GetTotalTime() const
 { 
 	return m_TotalTime.GetMillisecondsF();
 }
 
 //-------------------------------------
 
-inline int	CVProfNode::GetCurCalls()		
+inline int	CVProfNode::GetCurCalls() const
 { 
 	return m_nCurFrameCalls; 
 }
 
 //-------------------------------------
 
-inline double CVProfNode::GetCurTime()		
+inline double CVProfNode::GetCurTime() const
 { 
 	return m_CurFrameTime.GetMillisecondsF();
 }
 
 //-------------------------------------
 
-inline int CVProfNode::GetPrevCalls()
+inline int CVProfNode::GetPrevCalls() const
 {
 	return m_nPrevFrameCalls;
 }
 
 //-------------------------------------
 
-inline double CVProfNode::GetPrevTime()		
+inline double CVProfNode::GetPrevTime() const
 { 
 	return m_PrevFrameTime.GetMillisecondsF();
 }
 
 //-------------------------------------
 
-inline double CVProfNode::GetPeakTime()		
+inline double CVProfNode::GetPeakTime() const
 { 
 	return m_PeakTime.GetMillisecondsF();
 }
 
 //-------------------------------------
 
-inline double CVProfNode::GetTotalTimeLessChildren()
+inline double CVProfNode::GetTotalTimeLessChildren() const
 {
 	double result = GetTotalTime();
 	CVProfNode *pChild = GetChild();
@@ -1018,7 +1018,7 @@ inline double CVProfNode::GetTotalTimeLessChildren()
 
 //-------------------------------------
 
-inline double CVProfNode::GetCurTimeLessChildren()
+inline double CVProfNode::GetCurTimeLessChildren() const
 {
 	double result = GetCurTime();
 	CVProfNode *pChild = GetChild();
@@ -1030,7 +1030,7 @@ inline double CVProfNode::GetCurTimeLessChildren()
 	return result;
 }
 
-inline double CVProfNode::GetPrevTimeLessChildren()
+inline double CVProfNode::GetPrevTimeLessChildren() const
 {
 	double result = GetPrevTime();
 	CVProfNode *pChild = GetChild();
@@ -1043,7 +1043,7 @@ inline double CVProfNode::GetPrevTimeLessChildren()
 }
 
 //-----------------------------------------------------------------------------
-inline int CVProfNode::GetPrevL2CacheMissLessChildren()
+inline int CVProfNode::GetPrevL2CacheMissLessChildren() const
 {
 	int result = m_iPrevL2CacheMiss;
 	CVProfNode *pChild = GetChild();
@@ -1080,7 +1080,7 @@ inline void CVProfNode::ClearPrevTime()
 }
 
 //-----------------------------------------------------------------------------
-inline int CVProfNode::GetL2CacheMisses( void )
+inline int CVProfNode::GetL2CacheMisses( void ) const
 { 
 #ifndef _X360
 	return m_L2Cache.GetL2CacheMisses(); 
@@ -1302,21 +1302,21 @@ inline void CVProfile::MarkFrame()
 
 //-------------------------------------
 
-inline double CVProfile::GetTotalTimeSampled()
+inline double CVProfile::GetTotalTimeSampled() const
 {
 	return m_Root.GetTotalTime();
 }
 
 //-------------------------------------
 
-inline double CVProfile::GetPeakFrameTime()
+inline double CVProfile::GetPeakFrameTime() const
 {
 	return m_Root.GetPeakTime();
 }
 
 //-------------------------------------
 
-inline double CVProfile::GetTimeLastFrame()
+inline double CVProfile::GetTimeLastFrame() const
 {
 	return m_Root.GetCurTime();
 }
@@ -1330,13 +1330,13 @@ inline CVProfNode *CVProfile::GetRoot()
 
 //-------------------------------------
 
-inline CVProfNode *CVProfile::GetCurrentNode()
+inline CVProfNode *CVProfile::GetCurrentNode() const
 {
 	return m_pCurNode;
 }
 
 
-inline const tchar *CVProfile::GetBudgetGroupName( int budgetGroupID )
+inline const tchar *CVProfile::GetBudgetGroupName( int budgetGroupID ) const
 {
 	Assert( budgetGroupID >= 0 && budgetGroupID < m_nBudgetGroupNames );
 	return m_pBudgetGroups[budgetGroupID].m_pName;
@@ -1414,12 +1414,12 @@ public:
 	~CVProfCounter()
 	{
 	}
-	void Increment( int val ) 
+	void Increment( int val ) const
 	{ 
 		Assert( m_pCounter );
 		*m_pCounter += val; 
 	}
-	void Set( int val )
+	void Set( int val ) const
 	{
 		Assert( m_pCounter );
 		*m_pCounter = val; 

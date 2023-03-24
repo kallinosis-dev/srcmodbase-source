@@ -93,10 +93,10 @@ private:
 
 	void AddConfig( const CUtlVector< CUtlStringCI > &fileList, const CUtlVector< CProjectFile * > &relevantProjectFiles, CProjectConfiguration *pRootConfig );
 	void AddUnityFiles();
-	void BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaContext_t *pCtx );
+	void BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaContext_t *pCtx ) const;
 	void CreateSchemaCustomBuild( CConfig *pCfg, CProjectConfiguration *pRootConfiguration, CVCProjGenerator *pVCProjGenerator, const SchemaContext_t &ctx, CUtlVector<SchemaFileInfo_t> &schemaFileInfos );
 	void GetCustomBuildStrings( bool bIsGlobalBuildStep, CConfig *pCfg, const SchemaContext_t &ctx, CUtlVector<SchemaFileInfo_t> &schemaFileInfos, CUtlString &description, CUtlString &cmdLine, CUtlString &outputList, CUtlString &potentialOutputList, CUtlString &additionalDependencies, CUtlString &orderOnlyFileDependencies );
-	void CollectSchemaPreincludeFilesForConfig( CConfig *pConfig, const CUtlVector< CProjectFile * > &relevantProjectFiles, CProjectConfiguration *pRootConfig );
+	void CollectSchemaPreincludeFilesForConfig( CConfig *pConfig, const CUtlVector< CProjectFile * > &relevantProjectFiles, CProjectConfiguration *pRootConfig ) const;
 
 	CVCProjGenerator *m_pDataCollector;
 	CUtlVector<CConfig*> m_Configs;
@@ -158,7 +158,7 @@ void CSchemaVPC::AddConfig( const CUtlVector< CUtlStringCI > &fileList, const CU
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
-void CSchemaVPC::CollectSchemaPreincludeFilesForConfig( CConfig *pConfig, const CUtlVector< CProjectFile * > &relevantProjectFiles, CProjectConfiguration *pRootConfig )
+void CSchemaVPC::CollectSchemaPreincludeFilesForConfig( CConfig *pConfig, const CUtlVector< CProjectFile * > &relevantProjectFiles, CProjectConfiguration *pRootConfig ) const
 {
 	//Collect all the $SchemaPreIncludeFiles
 	//need to loop all schema files since any of them can technically modify their own version of $SchemaPreIncludeFiles
@@ -485,7 +485,7 @@ void RemoveSubstring_CaseInsensitive( char *pString, const char *pSubString )
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
-void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaContext_t *pCtx )
+void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaContext_t *pCtx ) const
 {
 	// eg. win32
 	pCtx->m_platformName = g_pVPC->GetTargetPlatformName();

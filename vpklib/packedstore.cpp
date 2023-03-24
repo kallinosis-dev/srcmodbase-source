@@ -151,7 +151,7 @@ static inline int SkipAllFilesInDir( char const * & pData )
 }
 
 
-CFileHeaderFixedData *CPackedStore::FindFileEntry( char const *pDirname, char const *pBaseName, char const *pExtension, uint8 **pExtBaseOut , uint8 **pNameBaseOut )
+CFileHeaderFixedData *CPackedStore::FindFileEntry( char const *pDirname, char const *pBaseName, char const *pExtension, uint8 **pExtBaseOut , uint8 **pNameBaseOut ) const
 {
 	if ( pExtBaseOut )
 		*pExtBaseOut = nullptr;
@@ -876,7 +876,7 @@ bool CPackedStoreReadCache::BCanSatisfyFromReadCache( uint8 *pOutData, CPackedSt
 
 
 // read a single line into the cache
-bool CPackedStoreReadCache::ReadCacheLine( FileHandleTracker_t &fHandle, CachedVPKRead_t &cachedVPKRead, int &nRead )
+bool CPackedStoreReadCache::ReadCacheLine( FileHandleTracker_t &fHandle, CachedVPKRead_t &cachedVPKRead, int &nRead ) const
 {
 #ifdef IS_WINDOWS_PC
 	if ( cachedVPKRead.m_nFileFraction != fHandle.m_nCurOfs )

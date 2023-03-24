@@ -465,7 +465,7 @@ struct CatchAndWriteContext_t
 		ErrorIfNot( m_pfn, ( "CatchAndWriteContext_t::Set w/o a function pointer!" ) );
 	}
 
-	int							Invoke()
+	int							Invoke() const
 	{
 		switch ( m_eType )
 		{

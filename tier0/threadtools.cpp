@@ -861,7 +861,7 @@ bool CThreadSyncObject::operator!() const
 
 //---------------------------------------------------------
 
-void CThreadSyncObject::AssertUseable()
+void CThreadSyncObject::AssertUseable() const
 {
 #ifdef THREADS_DEBUG
 #if PLATFORM_PS3
@@ -877,7 +877,7 @@ void CThreadSyncObject::AssertUseable()
 //---------------------------------------------------------
 
 #if defined(_WIN32) || ( defined(POSIX) && !defined( _PS3 ) )
-bool CThreadSyncObject::Wait( uint32 dwTimeout )
+bool CThreadSyncObject::Wait( uint32 dwTimeout ) const
 {
 #ifdef THREADS_DEBUG
    AssertUseable();
@@ -1269,7 +1269,7 @@ void CThreadEvent::UnregisterWaitingThread(sys_semaphore_t *pSemaphore)
 
 //---------------------------------------------------------
 
-bool CThreadEvent::Set()
+bool CThreadEvent::Set() const
 {
 //////////////////////////////////////////////////////////////
 #ifndef NEW_WAIT_FOR_MULTIPLE_OBJECTS
@@ -1361,7 +1361,7 @@ bool CThreadEvent::Set()
 
 //---------------------------------------------------------
 
-bool CThreadEvent::Reset()
+bool CThreadEvent::Reset() const
 {
 #ifdef THREADS_DEBUG
    AssertUseable();
@@ -1385,7 +1385,7 @@ bool CThreadEvent::Reset()
 
 //---------------------------------------------------------
 
-bool CThreadEvent::Check()
+bool CThreadEvent::Check() const
 {
 	#ifdef _PS3
 	return m_bSet; // Please, use for debugging only!
@@ -1398,7 +1398,7 @@ bool CThreadEvent::Check()
 
 
 
-bool CThreadEvent::Wait( uint32 dwTimeout )
+bool CThreadEvent::Wait( uint32 dwTimeout ) const
 {
 //////////////////////////////////////////////////////////////
 #ifndef NEW_WAIT_FOR_MULTIPLE_OBJECTS
@@ -1601,7 +1601,7 @@ bool CThreadSemaphore::Wait( uint32 dwTimeout )
 
 //---------------------------------------------------------
 
-bool CThreadSemaphore::Release( int32 releaseCount, int32 *pPreviousCount )
+bool CThreadSemaphore::Release( int32 releaseCount, int32 *pPreviousCount ) const
 {
 #ifdef THRDTOOL_DEBUG
    AssertUseable();
@@ -1644,7 +1644,7 @@ CThreadFullMutex::CThreadFullMutex( bool bEstablishInitialOwnership, const char 
 
 //---------------------------------------------------------
 
-bool CThreadFullMutex::Release()
+bool CThreadFullMutex::Release() const
 {
 #ifdef THRDTOOL_DEBUG
    AssertUseable();
@@ -1706,7 +1706,7 @@ void * CThreadLocalBase::Get() const
 
 //---------------------------------------------------------
 
-void CThreadLocalBase::Set( void *value )
+void CThreadLocalBase::Set( void *value ) const
 {
 #if defined(_WIN32) || defined(_PS3)
 	if (m_index != 0xFFFFFFFF)
@@ -2920,14 +2920,14 @@ int CWorkerThread::WaitForReply( unsigned timeout, WaitFunc_t pfnWait )
 //
 //---------------------------------------------------------
 
-bool CWorkerThread::WaitForCall(unsigned * pResult)
+bool CWorkerThread::WaitForCall(unsigned * pResult) const
 {
 	return WaitForCall(TT_INFINITE, pResult);
 }
 
 //---------------------------------------------------------
 
-bool CWorkerThread::WaitForCall(unsigned dwTimeout, unsigned * pResult)
+bool CWorkerThread::WaitForCall(unsigned dwTimeout, unsigned * pResult) const
 {
 	bool returnVal = m_EventSend.Wait(dwTimeout);
 	if (pResult)
@@ -2940,7 +2940,7 @@ bool CWorkerThread::WaitForCall(unsigned dwTimeout, unsigned * pResult)
 // is there a request?
 //
 
-bool CWorkerThread::PeekCall(unsigned * pParam)
+bool CWorkerThread::PeekCall(unsigned * pParam) const
 {
 	if (!m_EventSend.Check())
 	{

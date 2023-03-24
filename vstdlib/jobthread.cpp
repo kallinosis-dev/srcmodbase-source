@@ -64,12 +64,12 @@ public:
 	{
 	}
 
-	int Count()
+	int Count() const
 	{
 		return m_nItems;
 	}
 
-	int Count( JobPriority_t priority )
+	int Count( JobPriority_t priority ) const
 	{
 		return m_queues[priority].Count();
 	}

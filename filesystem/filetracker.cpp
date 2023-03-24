@@ -89,7 +89,7 @@ void CFileTracker::NoteFileFailedToLoad( const char *pFilename, const char *pPat
 	}
 }
 
-CRC32_t CFileTracker::CalculateCRCForFile( FileHandle_t fp )
+CRC32_t CFileTracker::CalculateCRCForFile( FileHandle_t fp ) const
 {	
 	CRC32_t crc;
 	
@@ -830,7 +830,7 @@ EFileCRCStatus CFileTracker2::CheckCachedFileHash( const char *pPathID, const ch
 	}
 }
 
-bool TrackedFile_t::GetCRCValues( FileHash_t *pFileHash )
+bool TrackedFile_t::GetCRCValues( FileHash_t *pFileHash ) const
 {
 	if ( m_filehashFinal.m_eFileHashType != FileHash_t::k_EFileHashTypeEntireFile )
 	{

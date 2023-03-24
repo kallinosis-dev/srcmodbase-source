@@ -72,7 +72,7 @@ public:
 private:
 	bool FindDependency_Internal( CUtlVector<CUtlBuffer> &callTreeOutputStack, CDependency *pTest, int flags, int depth );
 	void Mark();
-	bool HasBeenMarked();
+	bool HasBeenMarked() const;
 
 	CProjectDependencyGraph *m_pDependencyGraph;
 	unsigned int m_iDependencyMark;
@@ -143,7 +143,7 @@ public:
 	// 
 	// This takes a bunch of project indices (usually m_targetProjects, which comes from the command line's "+this -that *theother" syntax), 
 	// which are game-agnostic, and based on what games were specified on the command line, it builds the list of CDependency_Project*s.
-	void TranslateProjectIndicesToDependencyProjects( CUtlVector<projectIndex_t> &projectList, CUtlVector<CDependency_Project*> &out );
+	void TranslateProjectIndicesToDependencyProjects( CUtlVector<projectIndex_t> &projectList, CUtlVector<CDependency_Project*> &out ) const;
 
 	// Use ClearAllDependencyMarks with CDependency::HasBeenMarked/Mark() to optimize graph traversal
 	void ClearAllDependencyMarks();

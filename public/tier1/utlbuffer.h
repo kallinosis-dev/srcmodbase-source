@@ -222,7 +222,7 @@ public:
 	// Controls endian-ness of binary utlbufs - default matches the current platform
 	void			ActivateByteSwapping( bool bActivate );
 	void			SetBigEndian( bool bigEndian );
-	bool			IsBigEndian( void );
+	bool			IsBigEndian( void ) const;
 
 	// Resets the buffer; but doesn't free memory
 	void			Clear();

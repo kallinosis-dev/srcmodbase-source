@@ -251,7 +251,7 @@ bool CCommandBuffer::AddText( const char *pText, cmd_source_t cmdSource, int nTi
 //-----------------------------------------------------------------------------
 // Are we in the middle of processing commands?
 //-----------------------------------------------------------------------------
-bool CCommandBuffer::IsProcessingCommands()
+bool CCommandBuffer::IsProcessingCommands() const
 {
 	return m_bIsProcessingCommands;
 }
@@ -397,7 +397,7 @@ void CCommandBuffer::EndProcessingCommands()
 //-----------------------------------------------------------------------------
 // Returns a handle to the next command to process
 //-----------------------------------------------------------------------------
-CommandHandle_t CCommandBuffer::GetNextCommandHandle()
+CommandHandle_t CCommandBuffer::GetNextCommandHandle() const
 {
 	Assert( m_bIsProcessingCommands );
 	return m_Commands.Head();

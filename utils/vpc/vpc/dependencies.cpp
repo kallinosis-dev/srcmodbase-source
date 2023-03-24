@@ -139,7 +139,7 @@ void CDependency::Mark()
 	m_iDependencyMark = m_pDependencyGraph->m_iDependencyMark;
 }
 
-bool CDependency::HasBeenMarked()
+bool CDependency::HasBeenMarked() const
 {
 	return m_iDependencyMark == m_pDependencyGraph->m_iDependencyMark;
 }
@@ -578,7 +578,7 @@ public:
 		}
 	}
 
-	void SetupAdditionalProjectDependencies( CProjectConfiguration *pRootConfig )
+	void SetupAdditionalProjectDependencies( CProjectConfiguration *pRootConfig ) const
 	{
 		CUtlString cfgString;
 		if ( VPC_GetPropertyString( KEYWORD_GENERAL, pRootConfig, nullptr, g_pOption_AdditionalProjectDependencies, &cfgString ) )
@@ -595,7 +595,7 @@ public:
 		}
 	}
 
-	void SetupBuildToolDependencies( CProjectConfiguration *pRootConfig )
+	void SetupBuildToolDependencies( CProjectConfiguration *pRootConfig ) const
 	{
 		CUtlVector< CUtlString > splitStrings;
 		auto addFileDependencies = 
@@ -1349,7 +1349,7 @@ public:
 	CUtlVector<CDependency_Project*> *m_pOutProjectsList;
 };
 
-void CProjectDependencyGraph::TranslateProjectIndicesToDependencyProjects( CUtlVector<projectIndex_t> &projectList, CUtlVector<CDependency_Project*> &out )
+void CProjectDependencyGraph::TranslateProjectIndicesToDependencyProjects( CUtlVector<projectIndex_t> &projectList, CUtlVector<CDependency_Project*> &out ) const
 {
 	CProjectDependencyGraphProjectFilter iterator;
 	iterator.m_pAllProjectsList = &m_Projects;

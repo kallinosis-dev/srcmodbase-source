@@ -24,7 +24,7 @@ public:
 	//-------------------------------------------------------------------------
 	// GetL2CacheMisses
 	//-------------------------------------------------------------------------
-	int GetL2CacheMisses( void )
+	int GetL2CacheMisses( void ) const
 	{
 		return m_iL2CacheMissCount;
 	}

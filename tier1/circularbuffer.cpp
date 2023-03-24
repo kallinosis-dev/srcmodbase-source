@@ -55,7 +55,7 @@ void CCircularBuffer::Flush()
 //Purpose : Returns the available space in a circular buffer.
 //Author  : DSpeyrer
 //------------------------------------------------------------------------------
-int CCircularBuffer::GetWriteAvailable()
+int CCircularBuffer::GetWriteAvailable() const
 {
 	AssertValid();
 
@@ -67,7 +67,7 @@ int CCircularBuffer::GetWriteAvailable()
 //Purpose : Returns the size of a circular buffer.
 //Author  : DSpeyrer
 //------------------------------------------------------------------------------
-int CCircularBuffer::GetSize()
+int CCircularBuffer::GetSize() const
 {
 	AssertValid();
 
@@ -79,7 +79,7 @@ int CCircularBuffer::GetSize()
 //Purpose : Returns the number of bytes in a circular buffer.
 //Author  : DSpeyrer
 //------------------------------------------------------------------------------
-int CCircularBuffer::GetReadAvailable()
+int CCircularBuffer::GetReadAvailable() const
 {
 	AssertValid();
 
@@ -96,7 +96,7 @@ int CCircularBuffer::GetReadAvailable()
 //Output  : Returns the number of bytes placed in the destination buffer.
 //Author  : DSpeyrer
 //------------------------------------------------------------------------------
-int CCircularBuffer::Peek(char *pchDest, int nCount)
+int CCircularBuffer::Peek(char *pchDest, int nCount) const
 {
 	// If no data available, just return.
 	if(m_nCount == 0)

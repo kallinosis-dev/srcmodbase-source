@@ -333,7 +333,7 @@ public:
 	void CompactIncremental() override;
 
 	MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) override;
-	size_t CallAllocFailHandler( size_t nBytes ) { return (*m_pfnFailHandler)( nBytes); }
+	size_t CallAllocFailHandler( size_t nBytes ) const { return (*m_pfnFailHandler)( nBytes); }
 
 	uint32 GetDebugInfoSize() override { return 0; }
 	void SaveDebugInfo( void *pvDebugInfo ) override { }
@@ -426,7 +426,7 @@ public:
 		};
 
 	public:
-		byte *AllocatePoolMemory()
+		byte *AllocatePoolMemory() const
 		{
 #ifdef _WIN32
 #ifdef _X360

@@ -38,7 +38,7 @@ public:
 	void	SetPort( unsigned short port );
 	bool	SetFromSockadr(const struct sockaddr *s);
 	void	SetIP(uint8 b1, uint8 b2, uint8 b3, uint8 b4);
-	void	SetIP(uint unIP);									// Sets IP.  unIP is in host order (little-endian)
+	void	SetIP(uint unIP) const;									// Sets IP.  unIP is in host order (little-endian)
 	void    SetIPAndPort( uint unIP, unsigned short usPort ) { SetIP( unIP ); SetPort( usPort ); }
 	bool	SetFromString(const char *pch, bool bUseDNS = false ); // if bUseDNS is true then do a DNS lookup if needed
 	

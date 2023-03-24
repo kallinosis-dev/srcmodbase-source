@@ -279,7 +279,7 @@ struct CAsyncIOResult_t
 		AsyncRequestStatus_t	m_Status;				// Result status
 
 		inline					CAsyncIOResult_t();
-		inline void 			ProcessCallback();
+		inline void 			ProcessCallback() const;
 
 };
 
@@ -302,7 +302,7 @@ inline CAsyncIOResult_t::CAsyncIOResult_t()
 //-----------------------------------------------------------------------------
 // CAsyncIOResult_t - process the user callback
 //-----------------------------------------------------------------------------
-inline void CAsyncIOResult_t::ProcessCallback()
+inline void CAsyncIOResult_t::ProcessCallback() const
 {
 	if ( m_pRequest != nullptr)
 	{
@@ -321,8 +321,8 @@ class CIOCompletionQueue
 
 	public:
 		inline void 	Insert( CAsyncIOResult_t& theResult);
-		inline bool 	IsEmpty();
-		inline bool 	IsNotEmpty();
+		inline bool 	IsEmpty() const;
+		inline bool 	IsNotEmpty() const;
 		inline void 	ProcessAllResultCallbacks();
 		inline bool 	RemoveAtHead( CAsyncIOResult_t& theResult );
 
@@ -344,7 +344,7 @@ inline void CIOCompletionQueue::Insert( CAsyncIOResult_t& theResult)
 //-----------------------------------------------------------------------------
 // CIOCompletionQueue - check if queue empty
 //-----------------------------------------------------------------------------
-inline bool CIOCompletionQueue::IsEmpty()
+inline bool CIOCompletionQueue::IsEmpty() const
 {
 	return ( m_TSIOResultQueue.Count() == 0 );
 }
@@ -352,7 +352,7 @@ inline bool CIOCompletionQueue::IsEmpty()
 //-----------------------------------------------------------------------------
 // CIOCompletionQueue - check if queue is not empty
 //-----------------------------------------------------------------------------
-inline bool CIOCompletionQueue::IsNotEmpty()
+inline bool CIOCompletionQueue::IsNotEmpty() const
 {
 	return ( m_TSIOResultQueue.Count() != 0 );
 }

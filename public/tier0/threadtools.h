@@ -544,7 +544,7 @@ public:
 		~CThreadLocalBase();
 
 		void * Get() const;
-		void   Set(void *);
+		void   Set(void *) const;
 
 private:
 #if defined(POSIX)   && !defined( _GAMECONSOLE )
@@ -638,7 +638,7 @@ private:
 		CThreadLocalPtr() {}
 
 		operator const void *() const          					{ return (const T *)Get(); }
-		operator void *()                      					{ return (T *)Get(); }
+		operator void *() const { return (T *)Get(); }
 
 		operator const T *() const							    { return (const T *)Get(); }
 		operator const T *()          							{ return (const T *)Get(); }
@@ -944,7 +944,7 @@ public:
 	// On windows with THREAD_MUTEX_TRACING_ENABLED defined, this returns
 	// true if the mutex is owned by the current thread.
 	//------------------------------------------------------
-	bool IsOwnedByCurrentThread_DebugOnly();
+	bool IsOwnedByCurrentThread_DebugOnly() const;
 
 	//------------------------------------------------------
 	// Enable tracing to track deadlock problems
@@ -1333,13 +1333,13 @@ public:
 	// Access handle
 	//-----------------------------------------------------
 #ifdef _WIN32
-	operator HANDLE() { return GetHandle(); }
+	operator HANDLE() const { return GetHandle(); }
 	const HANDLE GetHandle() const { return m_hSyncObject; }
 #endif
 	//-----------------------------------------------------
 	// Wait for a signal from the object
 	//-----------------------------------------------------
-	bool Wait( uint32 dwTimeout = TT_INFINITE );
+	bool Wait( uint32 dwTimeout = TT_INFINITE ) const;
 
 	//-----------------------------------------------------
 	// Wait for a signal from any of the specified objects.
@@ -1358,7 +1358,7 @@ public:
 
 protected:
 	CThreadSyncObject();
-	void AssertUseable();
+	void AssertUseable() const;
 
 #ifdef _WIN32
 	HANDLE m_hSyncObject;
@@ -1406,7 +1406,7 @@ public:
 	// Increases the count of the semaphore object by a specified
 	// amount.  Wait() decreases the count by one on return.
 	//-----------------------------------------------------
-	bool Release(int32 releaseCount = 1, int32 * pPreviousCount = nullptr);
+	bool Release(int32 releaseCount = 1, int32 * pPreviousCount = nullptr) const;
 	bool Wait( uint32 dwTimeout = TT_INFINITE );
 
 private:
@@ -1439,7 +1439,7 @@ public:
 	//-----------------------------------------------------
 	// Release ownership of the mutex
 	//-----------------------------------------------------
-	bool Release();
+	bool Release() const;
 
 	// To match regular CThreadMutex:
 	void Lock()							{ Wait(); }
@@ -1507,19 +1507,19 @@ public:
 	//-----------------------------------------------------
 	// Set the state to signaled
 	//-----------------------------------------------------
-	bool Set();
+	bool Set() const;
 
 	//-----------------------------------------------------
 	// Set the state to nonsignaled
 	//-----------------------------------------------------
-	bool Reset();
+	bool Reset() const;
 
 	//-----------------------------------------------------
 	// Check if the event is signaled
 	//-----------------------------------------------------
-	bool Check(); // Please, use for debugging only!
+	bool Check() const; // Please, use for debugging only!
 
-	bool Wait( uint32 dwTimeout = TT_INFINITE );
+	bool Wait( uint32 dwTimeout = TT_INFINITE ) const;
 
 	// See CThreadSyncObject for definitions of these functions.
 	static uint32 WaitForMultiple( int nObjects, CThreadEvent **ppObjects, bool bWaitAll, uint32 dwTimeout = TT_INFINITE );
@@ -1670,8 +1670,8 @@ public:
 #endif
 	}
 
-	bool IsLockedForWrite();
-	bool IsLockedForRead();
+	bool IsLockedForWrite() const;
+	bool IsLockedForRead() const;
 
 	FORCEINLINE bool TryLockForWrite();
 	bool TryLockForWrite_UnforcedInline();
@@ -1797,7 +1797,7 @@ public:
 	const char *GetName();
 	void SetName( const char *pszName );
 
-	size_t CalcStackDepth( void *pStackVariable )		{ return ((byte *)m_pStackBase - (byte *)pStackVariable); }
+	size_t CalcStackDepth( void *pStackVariable ) const { return ((byte *)m_pStackBase - (byte *)pStackVariable); }
 
 	//-----------------------------------------------------
 	// Functions for the other threads
@@ -1807,11 +1807,11 @@ public:
 	virtual bool Start( unsigned nBytesStack = 0, ThreadPriorityEnum_t nPriority = TP_PRIORITY_DEFAULT );
 
 	// Returns true if thread has been created and hasn't yet exited
-	bool IsAlive();
+	bool IsAlive() const;
 
 	// This method causes the current thread to wait until this thread
 	// is no longer alive.
-	bool Join( unsigned timeout = TT_INFINITE );
+	bool Join( unsigned timeout = TT_INFINITE ) const;
 
 	// Access the thread handle directly
 	ThreadHandle_t GetThreadHandle();
@@ -1822,7 +1822,7 @@ public:
 
 	//-----------------------------------------------------
 
-	int GetResult();
+	int GetResult() const;
 
 	//-----------------------------------------------------
 	// Functions for both this, and maybe, and other threads
@@ -1835,7 +1835,7 @@ public:
 	int GetPriority() const;
 
 	// Set the priority
-	bool SetPriority( int priority );
+	bool SetPriority( int priority ) const;
 
 	// Suspend a thread, can only call from the thread itself
 	unsigned Suspend();
@@ -2015,11 +2015,11 @@ public:
 	int CallMaster( unsigned, unsigned timeout = TT_INFINITE );
 
 	// Wait for the next request
-	bool WaitForCall( unsigned dwTimeout, unsigned *pResult = nullptr);
-	bool WaitForCall( unsigned *pResult = nullptr);
+	bool WaitForCall( unsigned dwTimeout, unsigned *pResult = nullptr) const;
+	bool WaitForCall( unsigned *pResult = nullptr) const;
 
 	// Is there a request?
-	bool PeekCall( unsigned *pParam = nullptr);
+	bool PeekCall( unsigned *pParam = nullptr) const;
 
 	// Reply to the request
 	void Reply( unsigned );
@@ -2248,7 +2248,7 @@ inline bool CThreadMutex::AssertOwnedByCurrentThread()
 #endif
 }
 
-inline bool CThreadMutex::IsOwnedByCurrentThread_DebugOnly()
+inline bool CThreadMutex::IsOwnedByCurrentThread_DebugOnly() const
 {
 #if defined ( THREAD_MUTEX_TRACING_ENABLED ) && defined ( _WIN32 )
 	return ThreadGetCurrentId() == m_currentOwnerID;
@@ -2386,12 +2386,12 @@ inline void CThreadRWLock::UnlockRead()
 #define RWLAssert( exp ) ((void)0)
 #endif
 
-inline bool CThreadSpinRWLock::IsLockedForWrite()
+inline bool CThreadSpinRWLock::IsLockedForWrite() const
 {
 	return ( m_lockInfo.m_fWriting == 1 );
 }
 
-inline bool CThreadSpinRWLock::IsLockedForRead()
+inline bool CThreadSpinRWLock::IsLockedForRead() const
 {
 	return ( m_lockInfo.m_nReaders > 0 );
 }

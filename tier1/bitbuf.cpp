@@ -192,7 +192,7 @@ void bf_write::SetAssertOnOverflow( bool bAssert )
 }
 
 
-const char* bf_write::GetDebugName()
+const char* bf_write::GetDebugName() const
 {
 	return m_pDebugName;
 }
@@ -974,7 +974,7 @@ void old_bf_read::SetAssertOnOverflow( bool bAssert )
 	m_bAssertOnOverflow = bAssert;
 }
 
-const char* old_bf_read::GetDebugName()
+const char* old_bf_read::GetDebugName() const
 {
 	return m_pDebugName;
 }

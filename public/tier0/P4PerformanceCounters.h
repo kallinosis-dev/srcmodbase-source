@@ -194,17 +194,17 @@ public:
         pme->WriteMSR( cccrPort, cccr.flat );
     }
 
-    void ClearCounter()
+    void ClearCounter() const
     {
         pme->WriteMSR( counterPort, 0ui64 ); // clear
     }
 
-    void WriteCounter( int64 value )
+    void WriteCounter( int64 value ) const
     {
         pme->WriteMSR( counterPort, value ); // clear
     }
 
-    int64 ReadCounter()
+    int64 ReadCounter() const
     {
 #if PME_DEBUG
         if ( escr.USR == 0 && escr.OS == 0 )
@@ -295,7 +295,7 @@ public:
         pme->WriteMSR( cccrPort, cccr.flat );
     }
 
-    bool isOverflow()
+    bool isOverflow() const
     {
         CCCR cccr_temp;
         pme->ReadMSR( cccrPort, &cccr_temp.flat );

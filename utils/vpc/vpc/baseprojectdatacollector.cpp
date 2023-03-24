@@ -26,12 +26,12 @@ CSpecificConfig::~CSpecificConfig()
 	m_pKV->deleteThis();
 }
 
-const char* CSpecificConfig::GetConfigName()
+const char* CSpecificConfig::GetConfigName() const
 {
 	return m_pKV->GetName();
 }
 
-const char* CSpecificConfig::GetOption( const char *pOptionName, const char *pDefaultValue /*= nullptr*/ )
+const char* CSpecificConfig::GetOption( const char *pOptionName, const char *pDefaultValue /*= nullptr*/ ) const
 {
 	const char *pRet = m_pKV->GetString( pOptionName, nullptr);
 	if ( pRet )
@@ -59,7 +59,7 @@ void CFileConfig::Term()
 	m_Filename.Clear();
 }
 
-const char* CFileConfig::GetName()
+const char* CFileConfig::GetName() const
 {
 	return m_Filename.String();
 }

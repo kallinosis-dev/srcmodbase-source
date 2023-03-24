@@ -385,7 +385,7 @@ CUtlString &CUtlString::operator+=( double rhs )
 	return operator+=( tmpBuf );
 }
 
-bool CUtlString::MatchesPattern( const CUtlString &Pattern, int nFlags )
+bool CUtlString::MatchesPattern( const CUtlString &Pattern, int nFlags ) const
 {
 	const char *pszSource = String();
 	const char *pszPattern = Pattern.String();
@@ -437,7 +437,7 @@ void CUtlString::StripTrailingSlash()
 	}
 }
 
-CUtlString CUtlString::Slice( int32 nStart, int32 nEnd )
+CUtlString CUtlString::Slice( int32 nStart, int32 nEnd ) const
 {
 	if ( nStart < 0 )
 		nStart = Length() - (-nStart % Length());
@@ -467,12 +467,12 @@ CUtlString CUtlString::Slice( int32 nStart, int32 nEnd )
 }
 
 // Grab a substring starting from the left or the right side.
-CUtlString CUtlString::Left( int32 nChars )
+CUtlString CUtlString::Left( int32 nChars ) const
 {
 	return Slice( 0, nChars );
 }
 
-CUtlString CUtlString::Right( int32 nChars )
+CUtlString CUtlString::Right( int32 nChars ) const
 {
 	return Slice( -nChars );
 }
@@ -558,7 +558,7 @@ CUtlString CUtlString::Replace( char const *pchFrom, const char *pchTo, bool bCa
 
 
 
-CUtlString CUtlString::Replace( char cFrom, char cTo )
+CUtlString CUtlString::Replace( char cFrom, char cTo ) const
 {
 	CUtlString ret = *this;
 	int len = ret.Length();
@@ -597,7 +597,7 @@ CUtlString CUtlString::UnqualifiedFilename() const
 	return CUtlString( pFilename );
 }
 
-CUtlString CUtlString::DirName()
+CUtlString CUtlString::DirName() const
 {
 	CUtlString ret( this->String() );
 	V_StripLastDir( (char*)ret.m_Storage.Get(), ret.m_Storage.Length() );

@@ -215,21 +215,21 @@ public:
 
 	void	Init( CBaseFileSystem* fs );
 
-	int		GetSectorSize();
-	bool	IsOK();
-	void	Flush();
-	void	SetBufferSize( int nBytes );
+	int		GetSectorSize() const;
+	bool	IsOK() const;
+	void	Flush() const;
+	void	SetBufferSize( int nBytes ) const;
 
 	int		Read( void* pBuffer, int nLength );
 	int		Read( void* pBuffer, int nDestSize, int nLength );
 
-	int		Write( const void* pBuffer, int nLength );
+	int		Write( const void* pBuffer, int nLength ) const;
 	int		Seek( int64 nOffset, int nWhence );
-	int		Tell();
-	int		Size();
+	int		Tell() const;
+	int		Size() const;
 
-	int64 AbsoluteBaseOffset();
-	bool	EndOfFile();
+	int64 AbsoluteBaseOffset() const;
+	bool	EndOfFile() const;
 
 	char *m_pszTrueFileName;
 	char const *Name() const { return m_pszTrueFileName ? m_pszTrueFileName : ""; }
@@ -270,7 +270,7 @@ protected:
 #endif // _PS3
 	unsigned int	m_nMagic;
 
-	bool IsValid();
+	bool IsValid() const;
 };
 
 // A pack file handle - essentially represents a file inside the pack file.  
@@ -283,12 +283,12 @@ public:
 
 	int				Read( void* pBuffer, int nDestSize, int nBytes );
 	int				Seek( int nOffset, int nWhence );
-	int				Tell() { return m_nFilePointer; }
-	int				Size() { return m_nLength; }
+	int				Tell() const { return m_nFilePointer; }
+	int				Size() const { return m_nLength; }
 
-	inline void		SetBufferSize( int nBytes );
-	inline int		GetSectorSize();
-	inline int64	AbsoluteBaseOffset();
+	inline void		SetBufferSize( int nBytes ) const;
+	inline int		GetSectorSize() const;
+	inline int64	AbsoluteBaseOffset() const;
 
 protected:
 	int64			m_nBase;			// Base offset of the file inside the pack file.
@@ -320,7 +320,7 @@ public:
 	// Returns the filename for a given file in the pack. Returns true if a filename is found, otherwise buffer is filled with "unknown"
 	virtual bool IndexToFilename( int nIndex, char* buffer, int nBufferSize ) = 0;
 
-	inline int GetSectorSize();
+	inline int GetSectorSize() const;
 
 	virtual void SetupPreloadData() {}
 	virtual void DiscardPreloadData() {}
@@ -498,7 +498,7 @@ public:
 	void						InitAsync();
 	void						ShutdownAsync();
 
-	void						ParsePathID( const char* &pFilename, const char* &pPathID, char tempPathID[MAX_PATH] );
+	void						ParsePathID( const char* &pFilename, const char* &pPathID, char tempPathID[MAX_PATH] ) const;
 
 	// file handling
 	FileHandle_t		Open( const char *pFileName, const char *pOptions, const char *pathID ) override;
@@ -709,7 +709,7 @@ public:
 
 	void						BuildExcludeList();
 	void				SyncDvdDevCache() override;
-	bool						FixupFATXFilename( const char *pFilename, char *pOutFilename, int nOutSize );
+	bool						FixupFATXFilename( const char *pFilename, char *pOutFilename, int nOutSize ) const;
 	bool				GetStringFromKVPool( CRC32_t poolKey, unsigned int key, char *pOutBuff, int buflen ) override;
 
 	bool				DiscoverDLC( int iController ) override;
@@ -719,7 +719,7 @@ public:
 	bool				GetAnyCorruptDLCInfo( int iCorruptDLC, wchar_t *pTitleBuff, int nOutTitleSize ) override;
 	bool				AddDLCSearchPaths() override;
 	bool				IsSpecificDLCPresent( unsigned int nDLCPackage ) override;
-	void						PrintDLCInfo();
+	void						PrintDLCInfo() const;
 	void                SetIODelayAlarm( float flTime ) override;
 	bool				AddXLSPUpdateSearchPath( const void *pData, int nSize ) override;
 
@@ -1037,7 +1037,7 @@ protected:
 		bool operator==( const COpenedFile& src ) const;
 
 		void		SetName( char const *name );
-		char const	*GetName( void );
+		char const	*GetName( void ) const;
 
 		FILE		*m_pFile;
 		char		*m_pName;
@@ -1065,7 +1065,7 @@ protected:
 
 public:
 	void						LogAccessToFile( char const *accesstype, char const *fullpath, char const *options );
-	void						FileSystemWarning( FileWarningLevel_t level, const char *fmt, ... );
+	void						FileSystemWarning( FileWarningLevel_t level, const char *fmt, ... ) const;
 
 protected:
 	// Note: if pFoundStoreID is passed in, then it will set that to the CSearchPath::m_storeId value of the search path it found the file in.
@@ -1082,7 +1082,7 @@ protected:
 	FileHandle_t				FindFileInSearchPaths( const char *pFileName, const char *pOptions, const char *pathID, unsigned flags, char **ppszResolvedFilename = nullptr, bool bTrackCRCs=false );
 
 	bool						HandleOpenFromZipFile( CFileOpenInfo &openInfo );
-	void		 				HandleOpenFromPackFile( CPackFile *pPackFile, CFileOpenInfo &openInfo );
+	void		 				HandleOpenFromPackFile( CPackFile *pPackFile, CFileOpenInfo &openInfo ) const;
 	void						HandleOpenRegularFile( CFileOpenInfo &openInfo, bool bIsAbsolutePath );
 
 	FileHandle_t				FindFile( const CSearchPath *path, const char *pFileName, const char *pOptions, unsigned flags, char **ppszResolvedFilename = nullptr, bool bTrackCRCs=false );
@@ -1102,7 +1102,7 @@ protected:
 	CSearchPath *FindWritePath( const char *pFilename, const char *pathID );
 
 	// Helper function for fs_log file logging
-	void LogFileAccess( const char *pFullFileName );
+	void LogFileAccess( const char *pFullFileName ) const;
 #if IsPlatformPS3()
 	virtual bool PrefetchFile( const char *pFileName, int nPriority, bool bPersist );
 	virtual bool PrefetchFile( const char *pFileName, int nPriority, bool bPersist, int64 nOffset, int64 nSize );
@@ -1267,7 +1267,7 @@ inline CPackFileHandle::~CPackFileHandle()
 	m_pOwner->m_mutex.Unlock();
 }
 
-inline void CPackFileHandle::SetBufferSize( int nBytes ) 
+inline void CPackFileHandle::SetBufferSize( int nBytes ) const
 {
 	if ( m_pOwner->m_hPackFileHandleFS )
 	{
@@ -1275,12 +1275,12 @@ inline void CPackFileHandle::SetBufferSize( int nBytes )
 	}
 }
 
-inline int CPackFileHandle::GetSectorSize() 
+inline int CPackFileHandle::GetSectorSize() const
 { 
 	return m_pOwner->GetSectorSize(); 
 }
 
-inline int64 CPackFileHandle::AbsoluteBaseOffset() 
+inline int64 CPackFileHandle::AbsoluteBaseOffset() const
 { 
 	return m_pOwner->GetPackFileBaseOffset() + m_nBase;
 }
@@ -1316,7 +1316,7 @@ inline CPackFile::~CPackFile()
 }
 
 
-inline int CPackFile::GetSectorSize()
+inline int CPackFile::GetSectorSize() const
 {
 	if ( m_hPackFileHandleFS )
 	{

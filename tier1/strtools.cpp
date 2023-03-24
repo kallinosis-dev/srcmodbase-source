@@ -3772,7 +3772,7 @@ class CBoyerMooreSearch
 public:
 	explicit CBoyerMooreSearch( const byte *pNeedle, int nNeedleSize );
 
-	int Search( const byte *pHayStack, int nHayStackLength );
+	int Search( const byte *pHayStack, int nHayStackLength ) const;
 
 private:
 	int m_JumpTable[256];
@@ -3800,7 +3800,7 @@ CBoyerMooreSearch::CBoyerMooreSearch( const byte *pNeedle, int nNeedleSize )
 	}
 }
 
-int CBoyerMooreSearch::Search( const byte *pHayStack, int nHayStackLength )
+int CBoyerMooreSearch::Search( const byte *pHayStack, int nHayStackLength ) const
 {
 	if ( m_nNeedleSize > nHayStackLength )
 	{

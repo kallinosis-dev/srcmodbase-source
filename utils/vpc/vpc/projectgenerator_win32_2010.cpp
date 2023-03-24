@@ -781,7 +781,7 @@ bool CProjectGenerator_Win32_2010::Save( const char *pOutputFilename )
 	return bValid;
 }
 
-bool CProjectGenerator_Win32_2010::GenerateToolProperty( const char *pOutputName, const char *pScriptValue, CUtlString &outputWrite, const PropertyState_t *pPropertyState, const char *szPlatformName, const char *pConfigName )
+bool CProjectGenerator_Win32_2010::GenerateToolProperty( const char *pOutputName, const char *pScriptValue, CUtlString &outputWrite, const PropertyState_t *pPropertyState, const char *szPlatformName, const char *pConfigName ) const
 {
 	CProjectConfiguration *pRootConfig = nullptr;
 	if ( pConfigName )

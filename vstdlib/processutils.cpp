@@ -36,11 +36,11 @@ public:
 	void CacheOutput();
 
 	// Returns true when there is data in m_hRead, false otherwise.
-	bool WaitForOutput();
+	bool WaitForOutput() const;
 
-	int GetActualProcessOutputSize();
+	int GetActualProcessOutputSize() const;
 	int GetProcessOutput( void *pBuf, int nBytes );
-	int GetActualProcessOutput( void *pBuf, int nBufLen );
+	int GetActualProcessOutput( void *pBuf, int nBufLen ) const;
 
 public:
 	CProcess *m_pProcess;
@@ -281,7 +281,7 @@ void CProcessPipeRead::ReadLine( CUtlString &sStr )
 	}
 }
 
-bool CProcessPipeRead::WaitForOutput()
+bool CProcessPipeRead::WaitForOutput() const
 {
 	if ( m_hRead == INVALID_HANDLE_VALUE )
 	{
@@ -318,7 +318,7 @@ void CProcessPipeRead::CacheOutput()
 //-----------------------------------------------------------------------------
 // Methods used to read	output back from a process
 //-----------------------------------------------------------------------------
-int CProcessPipeRead::GetActualProcessOutputSize()
+int CProcessPipeRead::GetActualProcessOutputSize() const
 {
 	if ( m_hRead == INVALID_HANDLE_VALUE )
 	{
@@ -356,7 +356,7 @@ int CProcessPipeRead::GetProcessOutput( void *pBuf, int nBytes )
 	return nCachedBytes + nPipedBytesRead;
 }
 
-int CProcessPipeRead::GetActualProcessOutput( void *pBuf, int nBufLen )
+int CProcessPipeRead::GetActualProcessOutput( void *pBuf, int nBufLen ) const
 {
 	if ( m_hRead == INVALID_HANDLE_VALUE )
 	{

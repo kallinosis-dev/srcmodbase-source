@@ -446,7 +446,7 @@ bool				IsCommand( void ) const override;
 
 	// Install a change callback (there shouldn't already be one....)
 	void InstallChangeCallback( FnChangeCallback_t callback, bool bInvoke = true );
-	void RemoveChangeCallback( FnChangeCallback_t callbackToRemove );
+	void RemoveChangeCallback( FnChangeCallback_t callbackToRemove ) const;
 
 	int GetChangeCallbackCount() const { return m_pParent->m_fnChangeCallbacks.Count(); }
 	FnChangeCallback_t GetChangeCallback( int slot ) const { return m_pParent->m_fnChangeCallbacks[ slot ]; }
@@ -472,7 +472,7 @@ void				SetValue( int value ) override;
 void				SetValue( Color value ) override;
 	
 	// Reset to default value
-	void						Revert( void );
+	void						Revert( void ) const;
 
 	// True if it has a min/max setting
 	bool						HasMin() const;
@@ -710,7 +710,7 @@ public:
 	void Init( const char *pName, bool bIgnoreMissing );
 	bool IsValid() const;
 	bool IsFlagSet( int nFlags ) const;
-	IConVar *GetLinkedConVar();
+	IConVar *GetLinkedConVar() const;
 
 	// Get/Set value
 	float GetFloat( void ) const;
@@ -719,11 +719,11 @@ public:
 	bool GetBool() const { return !!GetInt(); }
 	const char *GetString( void ) const;
 
-	void SetValue( const char *pValue );
-	void SetValue( float flValue );
-	void SetValue( int nValue );
-	void SetValue( Color value );
-	void SetValue( bool bValue );
+	void SetValue( const char *pValue ) const;
+	void SetValue( float flValue ) const;
+	void SetValue( int nValue ) const;
+	void SetValue( Color value ) const;
+	void SetValue( bool bValue ) const;
 
 	const char *GetName() const;
 
@@ -760,7 +760,7 @@ FORCEINLINE_CVAR bool ConVarRef::IsFlagSet( int nFlags ) const
 	return ( m_pConVar->IsFlagSet( nFlags ) != 0 );
 }
 
-FORCEINLINE_CVAR IConVar *ConVarRef::GetLinkedConVar()
+FORCEINLINE_CVAR IConVar *ConVarRef::GetLinkedConVar() const
 {
 	return m_pConVar;
 }
@@ -814,27 +814,27 @@ FORCEINLINE_CVAR const char *ConVarRef::GetString( void ) const
 }
 
 
-FORCEINLINE_CVAR void ConVarRef::SetValue( const char *pValue )
+FORCEINLINE_CVAR void ConVarRef::SetValue( const char *pValue ) const
 {
 	m_pConVar->SetValue( pValue );
 }
 
-FORCEINLINE_CVAR void ConVarRef::SetValue( float flValue )
+FORCEINLINE_CVAR void ConVarRef::SetValue( float flValue ) const
 {
 	m_pConVar->SetValue( flValue );
 }
 
-FORCEINLINE_CVAR void ConVarRef::SetValue( int nValue )
+FORCEINLINE_CVAR void ConVarRef::SetValue( int nValue ) const
 {
 	m_pConVar->SetValue( nValue );
 }
 
-FORCEINLINE_CVAR void ConVarRef::SetValue( Color value )
+FORCEINLINE_CVAR void ConVarRef::SetValue( Color value ) const
 {
 	m_pConVar->SetValue( value );
 }
 
-FORCEINLINE_CVAR void ConVarRef::SetValue( bool bValue )
+FORCEINLINE_CVAR void ConVarRef::SetValue( bool bValue ) const
 {
 	m_pConVar->SetValue( bValue ? 1 : 0 );
 }
@@ -887,11 +887,11 @@ public:
 	bool GetBool( int nSlot ) const { return !!GetInt( nSlot ); }
 	const char *GetString( int nSlot  ) const;
 
-	void SetValue( int nSlot, const char *pValue );
-	void SetValue( int nSlot, float flValue );
-	void SetValue( int nSlot, int nValue );
-	void SetValue( int nSlot, Color value );
-	void SetValue( int nSlot, bool bValue );
+	void SetValue( int nSlot, const char *pValue ) const;
+	void SetValue( int nSlot, float flValue ) const;
+	void SetValue( int nSlot, int nValue ) const;
+	void SetValue( int nSlot, Color value ) const;
+	void SetValue( int nSlot, bool bValue ) const;
 
 	const char *GetName( int nSlot ) const;
 
@@ -961,27 +961,27 @@ FORCEINLINE_CVAR const char *SplitScreenConVarRef::GetString( int nSlot ) const
 }
 
 
-FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, const char *pValue )
+FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, const char *pValue ) const
 {
 	m_Info[ nSlot ].m_pConVar->SetValue( pValue );
 }
 
-FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, float flValue )
+FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, float flValue ) const
 {
 	m_Info[ nSlot ].m_pConVar->SetValue( flValue );
 }
 
-FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, int nValue )
+FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, int nValue ) const
 {
 	m_Info[ nSlot ].m_pConVar->SetValue( nValue );
 }
 
-FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, Color value )
+FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, Color value ) const
 {
 	m_Info[ nSlot ].m_pConVar->SetValue( value );
 }
 
-FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, bool bValue )
+FORCEINLINE_CVAR void SplitScreenConVarRef::SetValue( int nSlot, bool bValue ) const
 {
 	m_Info[ nSlot ].m_pConVar->SetValue( bValue ? 1 : 0 );
 }
@@ -1031,11 +1031,11 @@ public:
 	bool GetBool( void ) const { return SplitScreenConVarRef::GetBool( m_iSlot ); }
 	const char *GetString( void ) const { return SplitScreenConVarRef::GetString( m_iSlot ); }
 
-	void SetValue( const char *pValue ) { SplitScreenConVarRef::SetValue( m_iSlot, pValue );}
-	void SetValue( float flValue ) { SplitScreenConVarRef::SetValue( m_iSlot, flValue );};
-	void SetValue( int nValue ) { SplitScreenConVarRef::SetValue( m_iSlot, nValue );};
-	void SetValue( Color value ) { SplitScreenConVarRef::SetValue( m_iSlot, value );};
-	void SetValue( bool bValue ) { SplitScreenConVarRef::SetValue( m_iSlot, bValue );};
+	void SetValue( const char *pValue ) const { SplitScreenConVarRef::SetValue( m_iSlot, pValue );}
+	void SetValue( float flValue ) const { SplitScreenConVarRef::SetValue( m_iSlot, flValue );};
+	void SetValue( int nValue ) const { SplitScreenConVarRef::SetValue( m_iSlot, nValue );};
+	void SetValue( Color value ) const { SplitScreenConVarRef::SetValue( m_iSlot, value );};
+	void SetValue( bool bValue ) const { SplitScreenConVarRef::SetValue( m_iSlot, bValue );};
 
 	const char *GetName( void ) const { return SplitScreenConVarRef::GetName( m_iSlot ); }
 

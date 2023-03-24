@@ -86,7 +86,7 @@ private:
 	{
 	public:
 		CLocationLess( int ignored ) {}
-		bool operator!() { return false; }
+		bool operator!() const { return false; }
 
 		bool operator()(  const Location_t &lhs, const Location_t &rhs ) const
 		{

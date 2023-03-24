@@ -443,7 +443,7 @@ void CMemoryStack::FreeAll( bool bDecommit )
 
 //-------------------------------------
 
-void CMemoryStack::Access( void **ppRegion, unsigned *pBytes )
+void CMemoryStack::Access( void **ppRegion, unsigned *pBytes ) const
 {
 	*ppRegion = m_pBase;
 	*pBytes = ( m_pNextAlloc - m_pBase);

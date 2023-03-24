@@ -302,7 +302,7 @@ public:
 		}
 	}
 
-	const char* FindInFile( const char *pFilename, const char *pFileData, const char *pSearchFor )
+	const char* FindInFile( const char *pFilename, const char *pFileData, const char *pSearchFor ) const
 	{
 		const char *pPos = V_stristr( pFileData, pSearchFor );
 		if ( !pPos )

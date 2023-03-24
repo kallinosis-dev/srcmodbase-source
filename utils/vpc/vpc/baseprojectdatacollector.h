@@ -14,8 +14,8 @@ public:
 	CSpecificConfig( CSpecificConfig *pParentConfig );
 	~CSpecificConfig();
 
-	const char	*GetConfigName();
-	const char	*GetOption( const char *pOptionName, const char *pDefaultValue = nullptr );
+	const char	*GetConfigName() const;
+	const char	*GetOption( const char *pOptionName, const char *pDefaultValue = nullptr ) const;
 
 public:
 	CSpecificConfig *m_pParentConfig;
@@ -30,7 +30,7 @@ public:
 	~CFileConfig();
 
 	void			Term();
-	const char		*GetName();
+	const char		*GetName() const;
 	CSpecificConfig	*GetConfig( const char *pConfigName );
 	CSpecificConfig	*GetOrCreateConfig( const char *pConfigName, CSpecificConfig *pParentConfig );
 	bool			IsExcludedFrom( const char *pConfigName );

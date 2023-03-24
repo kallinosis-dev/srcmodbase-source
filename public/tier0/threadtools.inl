@@ -230,7 +230,7 @@ INLINE_ON_PS3 bool CThread::Start( unsigned nBytesStack, ThreadPriorityEnum_t nP
 // Return true if the thread has been created and hasn't yet exited
 //
 
-INLINE_ON_PS3 bool CThread::IsAlive()
+INLINE_ON_PS3 bool CThread::IsAlive() const
 {
 #ifdef PLATFORM_WINDOWS
 	DWORD dwExitCode;
@@ -245,7 +245,7 @@ INLINE_ON_PS3 bool CThread::IsAlive()
 
 // This method causes the current thread to wait until this thread
 // is no longer alive.
-INLINE_ON_PS3 bool CThread::Join( unsigned timeout )
+INLINE_ON_PS3 bool CThread::Join( unsigned timeout ) const
 {
 #ifdef _WIN32
 	if ( m_hThread )
@@ -280,7 +280,7 @@ INLINE_ON_PS3 ThreadHandle_t CThread::GetThreadHandle()
 
 //---------------------------------------------------------
 
-INLINE_ON_PS3 int CThread::GetResult()
+INLINE_ON_PS3 int CThread::GetResult() const
 {
 	return m_result;
 }
@@ -347,7 +347,7 @@ INLINE_ON_PS3 int CThread::GetPriority() const
 //---------------------------------------------------------
 
 // Set the priority
-INLINE_ON_PS3 bool CThread::SetPriority(int priority)
+INLINE_ON_PS3 bool CThread::SetPriority(int priority) const
 {
 #ifdef WIN32
 	return ThreadSetPriority( (ThreadHandle_t)m_hThread, priority );

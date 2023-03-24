@@ -86,7 +86,7 @@ CAsyncRequestBase::~CAsyncRequestBase()
 // CAsyncRequestBase::Destructor
 //		
 //-----------------------------------------------------------------------------
-IAsyncRequestBase* CAsyncRequestBase::GetInterfaceBase()
+IAsyncRequestBase* CAsyncRequestBase::GetInterfaceBase() const
 {
 	if ( m_pOuter != nullptr)
 	{
@@ -194,7 +194,7 @@ void CAsyncRequestBase::ProcessCallback( bool bRelease )
 //     Can only be done once the request is complete, if the async system
 //     needs to at other times, call DeleteOuter() instead
 //-----------------------------------------------------------------------------
-void CAsyncRequestBase::Release()
+void CAsyncRequestBase::Release() const
 {
 	if ( m_RequestState != ASYNC_REQUEST_STATE_COMPLETED )
 	{
@@ -215,7 +215,7 @@ void CAsyncRequestBase::Release()
 //	   calls the destructor on the containing object	
 //     must update this when adding a new async request type
 //-----------------------------------------------------------------------------
-void CAsyncRequestBase::DeleteOuter()
+void CAsyncRequestBase::DeleteOuter() const
 {
 	if ( m_pOuter != nullptr)
 	{
@@ -281,7 +281,7 @@ void CAsyncRequestBase::RefreshCallback( CFunctor* pCallback )
 //	  calls the correct containing object's method and does any cleanup needed
 //    by the base object
 //-----------------------------------------------------------------------------
- void CAsyncRequestBase::AbortAfterServicing( CAsyncResultInfo_t& results )
+ void CAsyncRequestBase::AbortAfterServicing( CAsyncResultInfo_t& results ) const
  {
  
 	if ( m_pOuter != nullptr)
@@ -320,8 +320,8 @@ void CAsyncRequestBase::RefreshCallback( CFunctor* pCallback )
 //	  calls the correct containing object's method and does any update needed
 //    by the base object
 //-----------------------------------------------------------------------------
-void CAsyncRequestBase::UpdateAfterServicing( CAsyncResultInfo_t& results )
- {
+void CAsyncRequestBase::UpdateAfterServicing( CAsyncResultInfo_t& results ) const
+{
  
  	if ( m_pOuter != nullptr)
 	{
@@ -359,7 +359,7 @@ void CAsyncRequestBase::UpdateAfterServicing( CAsyncResultInfo_t& results )
 //	  calls the correct containing object's method and does any validation needed
 //    by the base object
 //-----------------------------------------------------------------------------
- AsyncRequestStatus_t CAsyncRequestBase::ValidateSubmittedRequest( bool bPerformSync )
+ AsyncRequestStatus_t CAsyncRequestBase::ValidateSubmittedRequest( bool bPerformSync ) const
  {
 
  	if ( m_pOuter != nullptr)
@@ -397,7 +397,7 @@ void CAsyncRequestBase::UpdateAfterServicing( CAsyncResultInfo_t& results )
 // CAsyncRequestBase::ValidateRequestModification
 //		Makes sure it's ok to modify this request
 //-----------------------------------------------------------------------------
-bool CAsyncRequestBase::ValidateRequestModification()
+bool CAsyncRequestBase::ValidateRequestModification() const
 {
 	if ( m_RequestState == ASYNC_REQUEST_STATE_COMPOSING )
 	{
@@ -805,7 +805,7 @@ void CAsyncFileRequest::RefreshFileName( const char* pNewFileName )
 // CAsyncFileRequest::ValidateRequestModification
 //		Makes sure it's ok to modify this request
 //-----------------------------------------------------------------------------
-bool CAsyncFileRequest::ValidateRequestModification()
+bool CAsyncFileRequest::ValidateRequestModification() const
 {
 	return m_Base.ValidateRequestModification();
 }
@@ -1011,7 +1011,7 @@ void CAsyncSearchRequest::UpdateAfterServicing( CAsyncResultInfo_t& results )
 // CAsyncSearchRequest::ValidateSubmittedRequest
 //		Validate that this request can be submitted successfully
 //-----------------------------------------------------------------------------
-AsyncRequestStatus_t CAsyncSearchRequest::ValidateSubmittedRequest( bool bPerformSync )
+AsyncRequestStatus_t CAsyncSearchRequest::ValidateSubmittedRequest( bool bPerformSync ) const
 {
 	// filespec missing?
 	if ( V_strlen( m_FileSpec ) < 1 )
@@ -1030,7 +1030,7 @@ AsyncRequestStatus_t CAsyncSearchRequest::ValidateSubmittedRequest( bool bPerfor
 // CAsyncSearchRequest::ValidateRequestModification
 //		Makes sure it's ok to modify this request
 //-----------------------------------------------------------------------------
-bool CAsyncSearchRequest::ValidateRequestModification()
+bool CAsyncSearchRequest::ValidateRequestModification() const
 {
 	return m_Base.ValidateRequestModification();
 }
@@ -1079,7 +1079,7 @@ CAsyncRequestQueue::~CAsyncRequestQueue()
 // CAsyncRequestQueue::IsInQueue
 //			- asks if a request is in this queue
 //-----------------------------------------------------------------------------
-bool CAsyncRequestQueue::IsInQueue( CAsyncRequestBase* pItem )
+bool CAsyncRequestQueue::IsInQueue( CAsyncRequestBase* pItem ) const
 {
 	AUTO_LOCK_FM( m_Mutex );		// synchronize since we are scanning the queue?
 	
@@ -1100,7 +1100,7 @@ bool CAsyncRequestQueue::IsInQueue( CAsyncRequestBase* pItem )
 // CAsyncRequestQueue::IsInQueueIp - Interface pointer version of IsInQueue
 //			- asks if a request is in this queue
 //-----------------------------------------------------------------------------
-bool CAsyncRequestQueue::IsInQueueIp( const IAsyncRequestBase* pInterfaceBase )
+bool CAsyncRequestQueue::IsInQueueIp( const IAsyncRequestBase* pInterfaceBase ) const
 {
 	AUTO_LOCK_FM( m_Mutex );		// synchronize since we are scanning the queue?
 
@@ -2016,7 +2016,7 @@ AsyncRequestStatus_t CAsyncFileSystem::AbortAsyncFileRequest( const IAsyncReques
 // CAsyncFileSystem::ResolveAsyncRequest - take an interface pointer supplied
 //	  by a caller and 1) Determine if it is valid and 2) return base info if so
 //-----------------------------------------------------------------------------
-bool CAsyncFileSystem::ResolveAsyncRequest( const IAsyncRequestBase* pRequest, CAsyncRequestBase*& pRequestBase, AsyncRequestState_t& CurrentStage )
+bool CAsyncFileSystem::ResolveAsyncRequest( const IAsyncRequestBase* pRequest, CAsyncRequestBase*& pRequestBase, AsyncRequestState_t& CurrentStage ) const
 {
 	// We should only be called when the Mutex is taken
 	Assert( m_AsyncStateUpdateMutex.GetDepth() > 0 );
@@ -2244,7 +2244,7 @@ bool CAsyncFileSystem::BlockUntilAsyncIOComplete( const IAsyncRequestBase* pRequ
 //	    pauses the calling thread until all IO jobs being serviced
 //      by the old system are completed..
 //-----------------------------------------------------------------------------
-void CAsyncFileSystem::WaitForServincingIOCompletion()
+void CAsyncFileSystem::WaitForServincingIOCompletion() const
 {
 	while ( m_nJobsInflight > 0 )
 	{
@@ -2300,7 +2300,7 @@ void CAsyncFileSystem::ReleaseBuffer( void* pBuffer )
 // CAsyncFileSystem::ValidateRequestPtr
 //	
 //-----------------------------------------------------------------------------
-bool CAsyncFileSystem::ValidateRequestPtr( CAsyncRequestBase* pRequest )
+bool CAsyncFileSystem::ValidateRequestPtr( CAsyncRequestBase* pRequest ) const
 {
 	// can't let it slip state between lines here...
 	AUTO_LOCK_FM( m_AsyncStateUpdateMutex );
@@ -2348,7 +2348,7 @@ bool CAsyncFileSystem::ValidateRequestPtr( CAsyncRequestBase* pRequest )
 // CAsyncFileSystem::ValidateRequest
 //	
 //-----------------------------------------------------------------------------
-AsyncRequestStatus_t CAsyncFileSystem::ValidateRequest( CAsyncRequestBase* pRequest, bool bPerformSync )
+AsyncRequestStatus_t CAsyncFileSystem::ValidateRequest( CAsyncRequestBase* pRequest, bool bPerformSync ) const
 {
 
 	// Is this a request we know about and is awaiting submission?

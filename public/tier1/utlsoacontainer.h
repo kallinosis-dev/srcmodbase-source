@@ -242,12 +242,12 @@ public:
 	void CopyAttrFrom( CSOAContainer const &other, int nDestAttributeIdx, int nSrcAttributeIndex = -1 );
 
 	// copy the attribute data from another attribute. must be compatible data format
-	void CopyAttrToAttr( int nSrcAttributeIndex, int nDestAttributeIndex);
+	void CopyAttrToAttr( int nSrcAttributeIndex, int nDestAttributeIndex) const;
 
 	// copy a subvolume of attribute data from one container to another.
 	void CopyRegionFrom( CSOAContainer const &src, int nSrcAttr, int nDestAttr,
 						 int nSrcMinX, int nSrcMaxX, int nSrcMinY, int nSrcMaxY, int nSrcMinZ, int nSrcMaxZ,
-						 int nDestX, int nDestY, int nDestZ );
+						 int nDestX, int nDestY, int nDestZ ) const;
 
 	// copy all fields from a region of src to this.
 	void CopyRegionFrom( CSOAContainer const &src, 
@@ -264,22 +264,22 @@ public:
 	void RandomizeAttribute( int nAttr, float flMin, float flMax ) const;
 
 	/// this.attr = vec
-	void FillAttr( int nAttr, Vector const &vecValue );
+	void FillAttr( int nAttr, Vector const &vecValue ) const;
 
 	/// this.attr = float
 	void FillAttr( int nAttr, float flValue );
 
 	/// this.nDestAttr *= src.nSrcAttr
-	void MulAttr( CSOAContainer const &src, int nSrcAttr, int nDestAttr );
+	void MulAttr( CSOAContainer const &src, int nSrcAttr, int nDestAttr ) const;
 
 	/// Returns the result of repeatedly combining attr values with the initial value using the specified function.
 	/// For instance, SumAttributeValue is just ReduceAttr<AddSIMD>( attr, FOUR_ZEROS );
 	template<BINARYSIMDFUNCTION fn> float ReduceAttr( int nSrcAttr, fltx4 const &fl4InitialValue ) const;
 
-	template<BINARYSIMDFUNCTION fn> void ApplyBinaryFunctionToAttr( int nDestAttr, fltx4 const &flFnArg1 );
+	template<BINARYSIMDFUNCTION fn> void ApplyBinaryFunctionToAttr( int nDestAttr, fltx4 const &flFnArg1 ) const;
 
 	/// this.attr = fn1( fn2( attr, arg2 ), arg1 )
-	template<BINARYSIMDFUNCTION fn1, BINARYSIMDFUNCTION fn2> void ApplyTwoComposedBinaryFunctionsToAttr( int nDestAttr, fltx4 const &flFnArg1, fltx4 const &flFnArg2 );
+	template<BINARYSIMDFUNCTION fn1, BINARYSIMDFUNCTION fn2> void ApplyTwoComposedBinaryFunctionsToAttr( int nDestAttr, fltx4 const &flFnArg1, fltx4 const &flFnArg2 ) const;
 
 	/// this.nDestAttr *= flValue
 	void MulAttr( int nDestAttr, float flScale )
@@ -304,13 +304,13 @@ public:
 		ApplyBinaryFunctionToAttr<MinSIMD>( nDestAttr, ReplicateX4( flMaxValue ) );
 	}
 
-	void ClampAttr( int nDestAttr, float flMinValue, float flMaxValue )
+	void ClampAttr( int nDestAttr, float flMinValue, float flMaxValue ) const
 	{
 		ApplyTwoComposedBinaryFunctionsToAttr<MinSIMD, MaxSIMD>( nDestAttr, ReplicateX4( flMaxValue ), ReplicateX4( flMinValue ) );
 	}
 
 	/// this.attr = normalize( this.attr )
-	void NormalizeAttr( int nAttr );
+	void NormalizeAttr( int nAttr ) const;
 
 	/// fill 2d a rectangle with values interpolated from 4 corner values. 
 	void FillAttrWithInterpolatedValues( int nAttr, float flValue00, float flValue10, float flValue01, float flValue11 ) const;
@@ -322,17 +322,17 @@ public:
 												int nVecAttributeOut,
 												int nScalarAttributeX,
 												int nScalarAttributeY,
-												int nScalarAttributeZ );
+												int nScalarAttributeZ ) const;
 
 	/// grab the 3 components of a vector attribute and store in 3 scalar attributes.
 	void UnPackVectorAttributeToScalarAttributes( CSOAContainer *pInput,
 												  int nVecAttributeIn,
 												  int nScalarAttributeX,
 												  int nScalarAttributeY,
-												  int nScalarAttributeZ );
+												  int nScalarAttributeZ ) const;
 	
 	/// this.attrout = src.attrin * vec (component by component )
-	void MultiplyVectorAttribute( CSOAContainer *pInput, int nAttributeIn, Vector const &vecScalar, int nAttributeOut );
+	void MultiplyVectorAttribute( CSOAContainer *pInput, int nAttributeIn, Vector const &vecScalar, int nAttributeOut ) const;
 
 	/// Given an soa container of a different dimension, resize one attribute from it to fit this
 	/// table's geometry. point sampling only
@@ -352,11 +352,11 @@ public:
 
 
 	/// scalartargetattribute += w*exp( vecdir dot ndirection)
-	void AddGaussianSRBF( float flWeight, Vector vecDir, int nDirectionAttribute, int nScalarTargetAttribute );
+	void AddGaussianSRBF( float flWeight, Vector vecDir, int nDirectionAttribute, int nScalarTargetAttribute ) const;
 
 	/// vec3targetattribute += w*exp( vecdir dot ndirection)
 	void AddGaussianSRBF( Vector vecWeight, Vector vecDir, int nDirectionAttribute, 
-						  int nVectorTargetAttribute );
+						  int nVectorTargetAttribute ) const;
 
 
 	/// find the largest value of a vector attribute
@@ -422,11 +422,11 @@ protected:
 	}
 
 	void UpdateDistanceRow( int nSearchRadius, int nMinX, int nMaxX, int nY, int nZ,
-							int nSrcField, int nDestField );
+							int nSrcField, int nDestField ) const;
 
 	// parallel helper functions. These do the work, and all take a row/column range as their first arguments.
-	void CopyAttrFromPartial( int nStartRow, int nNumRows, int nStartSlice, int nEndSlice, CSOAContainer const *pOther, int nDestAttributeIndex, int nSrcAttributeIndex );
-	void FillAttrPartial( int nStartRow, int nNumRows, int nStartSlice, int nEndSlice, int nAttr, fltx4 fl4Value );
+	void CopyAttrFromPartial( int nStartRow, int nNumRows, int nStartSlice, int nEndSlice, CSOAContainer const *pOther, int nDestAttributeIndex, int nSrcAttributeIndex ) const;
+	void FillAttrPartial( int nStartRow, int nNumRows, int nStartSlice, int nEndSlice, int nAttr, fltx4 fl4Value ) const;
 
 	// Allocation utility funcs (NOTE: all allocs are multiples of 16, and are aligned allocs)
 	size_t DataMemorySize( void ) const;					// total bytes of data memory to allocate at m_pDataMemory (if all attributes were allocated in a single block)
@@ -555,7 +555,7 @@ FORCEINLINE CSOAAttributeReference CSOAContainer::Attr( int nAttrIdx )
 	return (*this)[nAttrIdx];
 }
 
-template<BINARYSIMDFUNCTION fn1, BINARYSIMDFUNCTION fn2> void CSOAContainer::ApplyTwoComposedBinaryFunctionsToAttr( int nDestAttr, fltx4 const &fl4FnArg1, fltx4 const &fl4FnArg2 )
+template<BINARYSIMDFUNCTION fn1, BINARYSIMDFUNCTION fn2> void CSOAContainer::ApplyTwoComposedBinaryFunctionsToAttr( int nDestAttr, fltx4 const &fl4FnArg1, fltx4 const &fl4FnArg2 ) const
 {
 	if (  m_nDataType[nDestAttr] == ATTRDATATYPE_4V )
 	{
@@ -593,7 +593,7 @@ template<BINARYSIMDFUNCTION fn1, BINARYSIMDFUNCTION fn2> void CSOAContainer::App
 	}
 }
 
-template<BINARYSIMDFUNCTION fn> void CSOAContainer::ApplyBinaryFunctionToAttr( int nDestAttr, fltx4 const &fl4FnArg1 )
+template<BINARYSIMDFUNCTION fn> void CSOAContainer::ApplyBinaryFunctionToAttr( int nDestAttr, fltx4 const &fl4FnArg1 ) const
 {
 	if (  m_nDataType[nDestAttr] == ATTRDATATYPE_4V )
 	{

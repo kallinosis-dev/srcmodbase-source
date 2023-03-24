@@ -329,7 +329,7 @@ public:
 	void			AddBufferToZip( const char *relativename, void *data, int length, bool bTextMode );
 
 	// Check if a file already exists in the zip.
-	bool			FileExistsInZip( const char *relativename );
+	bool			FileExistsInZip( const char *relativename ) const;
 
 	// Reads a file from a zip file
 	bool			ReadFileFromZip( const char *relativename, bool bTextMode, CUtlBuffer &buf );
@@ -359,7 +359,7 @@ public:
 
 	void			ForceAlignment( bool aligned, bool bCompatibleFormat, unsigned int alignmentSize );
 
-	unsigned int	GetAlignment();
+	unsigned int	GetAlignment() const;
 
 	void			SetBigEndian( bool bigEndian );
 	void			ActivateByteSwapping( bool bActivate );
@@ -382,9 +382,9 @@ private:
 	bool			m_bForceAlignment;
 	bool			m_bCompatibleFormat;
 
-	unsigned short	CalculatePadding( unsigned int filenameLen, unsigned int pos );
+	unsigned short	CalculatePadding( unsigned int filenameLen, unsigned int pos ) const;
 	void			SaveDirectory( IWriteStream& stream );
-	int				MakeXZipCommentString( char *pComment );
+	int				MakeXZipCommentString( char *pComment ) const;
 	void			ParseXZipCommentString( const char *pComment );
 	
 	// Internal entry for faster searching, etc.
@@ -580,7 +580,7 @@ void CZipFile::ForceAlignment( bool bAligned, bool bCompatibleFormat, unsigned i
 	}
 }
 
-unsigned int CZipFile::GetAlignment()
+unsigned int CZipFile::GetAlignment() const
 {
 	if ( !m_bForceAlignment || !m_AlignmentSize )
 	{
@@ -1118,7 +1118,7 @@ bool CZipFile::ReadFileFromZip( HANDLE hZipFile, const char *pRelativeName, bool
 // Purpose: Check if a file already exists in the zip.
 // Input  : *relativename - 
 //-----------------------------------------------------------------------------
-bool CZipFile::FileExistsInZip( const char *pRelativeName )
+bool CZipFile::FileExistsInZip( const char *pRelativeName ) const
 {
 	// Lower case only
 	char pName[512];
@@ -1186,7 +1186,7 @@ void CZipFile::RemoveFileFromZip( const char *relativename )
 //  to push the start of the file data to the next aligned boundary
 //  Output: Required padding size
 //---------------------------------------------------------------
-unsigned short CZipFile::CalculatePadding( unsigned int filenameLen, unsigned int pos )
+unsigned short CZipFile::CalculatePadding( unsigned int filenameLen, unsigned int pos ) const
 {
 	if ( m_AlignmentSize == 0 )
 	{
@@ -1201,7 +1201,7 @@ unsigned short CZipFile::CalculatePadding( unsigned int filenameLen, unsigned in
 // Purpose: Create the XZIP identifying comment string
 // Output : Length
 //-----------------------------------------------------------------------------
-int CZipFile::MakeXZipCommentString( char *pCommentString )
+int CZipFile::MakeXZipCommentString( char *pCommentString ) const
 {
 	char tempString[XZIP_COMMENT_LENGTH];
 

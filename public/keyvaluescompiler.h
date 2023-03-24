@@ -104,7 +104,7 @@ private:
 
 	void BuildKVData_R( KeyValues *kv, int parent );
 
-	void WriteStringTable( CUtlBuffer& buf );
+	void WriteStringTable( CUtlBuffer& buf ) const;
 	void WriteData( CUtlBuffer& buf );
 	void WriteFiles( CUtlBuffer &buf );
 

@@ -489,7 +489,7 @@ protected:
 		m_pObject = pObject;
 	}
 
-	void OnCall()
+	void OnCall() const
 	{
 		Assert( (void *)m_pObject != NULL );
 	}

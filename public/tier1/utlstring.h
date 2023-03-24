@@ -190,7 +190,7 @@ public:
 	bool		IsEmpty() const;
 
 	// GS - Added for chromehtml
-	bool IsValid()
+	bool IsValid() const
 	{
 		return (Length() != 0);
 	}
@@ -239,7 +239,7 @@ public:
 	CUtlString operator+( const char *pOther )const;
 	CUtlString operator+( int rhs )const;
 
-	bool MatchesPattern( const CUtlString &Pattern, int nFlags = 0 );		// case SENSITIVE, use * for wildcard in pattern string
+	bool MatchesPattern( const CUtlString &Pattern, int nFlags = 0 ) const;		// case SENSITIVE, use * for wildcard in pattern string
 
 #if ! defined(SWIG)
 	// Don't let SWIG see the PRINTF_FORMAT_STRING attribute or it will complain.
@@ -259,16 +259,16 @@ public:
 	// Take a piece out of the string.
 	// If you only specify nStart, it'll go from nStart to the end.
 	// You can use negative numbers and it'll wrap around to the start.
-	CUtlString Slice( int32 nStart=0, int32 nEnd=INT_MAX );
+	CUtlString Slice( int32 nStart=0, int32 nEnd=INT_MAX ) const;
 
 	// Grab a substring starting from the left or the right side.
-	CUtlString Left( int32 nChars );
-	CUtlString Right( int32 nChars );
+	CUtlString Left( int32 nChars ) const;
+	CUtlString Right( int32 nChars ) const;
 
 	CUtlString Remove(char const *pTextToRemove, bool bCaseSensitive) const;
 
 	// Replace all instances of one character with another.
-	CUtlString Replace( char cFrom, char cTo );
+	CUtlString Replace( char cFrom, char cTo ) const;
 
 	/// Replace one string with the other (single pass).  Passing a NULL to pchTo is same as calling Remove
 	CUtlString Replace( char const *pchFrom, const char *pchTo, bool bCaseSensitive = false ) const; 
@@ -300,7 +300,7 @@ public:
 	CUtlString UnqualifiedFilename() const;
 	
 	// Strips off one directory. Uses V_StripLastDir but strips the last slash also!
-	CUtlString DirName();
+	CUtlString DirName() const;
 
 	// Get a string with the extension removed (with V_StripExtension).
 	CUtlString StripExtension() const;
@@ -805,7 +805,7 @@ private:
 		}
 
 		// If we have heap allocated data, free it
-		void FreeHeap()
+		void FreeHeap() const
 		{
 			if (IsHeap() && Heap.m_pchString)
 				MemAlloc_Free(Heap.m_pchString);

@@ -1542,7 +1542,7 @@ void CVProfile::GetBudgetGroupColor( int budgetGroupID, int &r, int &g, int &b, 
 }
 
 // return -1 if it doesn't exist.
-int CVProfile::FindBudgetGroupName( const tchar *pBudgetGroupName )
+int CVProfile::FindBudgetGroupName( const tchar *pBudgetGroupName ) const
 {
 	int i;
 	for( i = 0; i < m_nBudgetGroupNames; i++ )
@@ -1608,7 +1608,7 @@ int CVProfile::BudgetGroupNameToBudgetGroupID( const tchar *pBudgetGroupName )
 	return BudgetGroupNameToBudgetGroupID( pBudgetGroupName, BUDGETFLAG_OTHER );
 }
 
-int CVProfile::GetNumBudgetGroups( void )
+int CVProfile::GetNumBudgetGroups( void ) const
 {
 	return m_nBudgetGroupNames;
 }
@@ -1618,7 +1618,7 @@ void CVProfile::RegisterNumBudgetGroupsChangedCallBack( void (*pCallBack)(void) 
 	m_pNumBudgetGroupsChangedCallBack = pCallBack;
 }
 
-void CVProfile::HideBudgetGroup( int budgetGroupID, bool bHide )
+void CVProfile::HideBudgetGroup( int budgetGroupID, bool bHide ) const
 {
 	if( budgetGroupID != -1 )
 	{

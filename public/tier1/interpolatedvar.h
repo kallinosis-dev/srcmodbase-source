@@ -485,7 +485,7 @@ public:
 	}
 
 	void SetHistoryValuesForItem( int item, Type& value );
-	void	SetLooping( bool looping, int iArrayIndex=0 );
+	void	SetLooping( bool looping, int iArrayIndex=0 ) const;
 	
 	void SetMaxCount( float flCurrentTime, int newmax );
 	int GetMaxCount() const;
@@ -1246,7 +1246,7 @@ inline void CInterpolatedVarArrayBase<Type, IS_ARRAY>::SetHistoryValuesForItem( 
 }
 
 template< typename Type, bool IS_ARRAY >
-inline void	CInterpolatedVarArrayBase<Type, IS_ARRAY>::SetLooping( bool looping, int iArrayIndex )
+inline void	CInterpolatedVarArrayBase<Type, IS_ARRAY>::SetLooping( bool looping, int iArrayIndex ) const
 {
 	Assert( iArrayIndex >= 0 && iArrayIndex < m_nMaxCount );
 	m_bLooping[ iArrayIndex ] = looping;

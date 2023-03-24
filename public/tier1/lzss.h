@@ -56,7 +56,7 @@ private:
 		lzss_node_t *pEnd;
 	};
 
-	void			BuildHash( unsigned char *pData );
+	void			BuildHash( unsigned char *pData ) const;
 	lzss_list_t		*m_pHashTable;	
 	lzss_node_t		*m_pHashTarget;
 	int             m_nWindowSize;

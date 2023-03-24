@@ -44,15 +44,15 @@ public:
 	InFileRIFF( const char *pFileName, IFileReadBinary &io );
 	~InFileRIFF( void );
 
-	unsigned int RIFFName( void ) { return m_riffName; }
-	unsigned int RIFFSize( void ) { return m_riffSize; }
+	unsigned int RIFFName( void ) const { return m_riffName; }
+	unsigned int RIFFSize( void ) const { return m_riffSize; }
 	unsigned int GetFileSize() const { return m_nFileSize; }
 
-	int		ReadInt( void );
-	int		ReadData( void *pOutput, int dataSize );
-	int		PositionGet( void );
-	void	PositionSet( int position );
-	bool	IsValid( void ) { return m_file != nullptr; }
+	int		ReadInt( void ) const;
+	int		ReadData( void *pOutput, int dataSize ) const;
+	int		PositionGet( void ) const;
+	void	PositionSet( int position ) const;
+	bool	IsValid( void ) const { return m_file != nullptr; }
 
 private:
 	const InFileRIFF & operator=( const InFileRIFF & );
@@ -74,15 +74,15 @@ public:
 	IterateRIFF( InFileRIFF &riff, int size );
 	IterateRIFF( IterateRIFF &parent );
 
-	bool			ChunkAvailable( void );
+	bool			ChunkAvailable( void ) const;
 	bool			ChunkNext( void );
 
-	unsigned int	ChunkName( void );
-	unsigned int	ChunkSize( void );
-	int				ChunkRead( void *pOutput );
-	int				ChunkReadPartial( void *pOutput, int dataSize );
-	int				ChunkReadInt( void );
-	int				ChunkFilePosition( void ) { return m_chunkPosition; }
+	unsigned int	ChunkName( void ) const;
+	unsigned int	ChunkSize( void ) const;
+	int				ChunkRead( void *pOutput ) const;
+	int				ChunkReadPartial( void *pOutput, int dataSize ) const;
+	int				ChunkReadInt( void ) const;
+	int				ChunkFilePosition( void ) const { return m_chunkPosition; }
 
 private:
 	const IterateRIFF & operator=( const IterateRIFF & );
@@ -117,11 +117,11 @@ public:
 	OutFileRIFF( const char *pFileName, IFileWriteBinary &io );
 	~OutFileRIFF( void );
 
-	bool	WriteInt( int number );
-	bool 	WriteData( void *pOutput, int dataSize );
-	int		PositionGet( void );
-	void	PositionSet( int position );
-	bool	IsValid( void ) { return m_file != nullptr; }
+	bool	WriteInt( int number ) const;
+	bool 	WriteData( void *pOutput, int dataSize ) const;
+	int		PositionGet( void ) const;
+	void	PositionSet( int position ) const;
+	bool	IsValid( void ) const { return m_file != nullptr; }
 	
 	void    HasLISETData( int position );
 
@@ -154,17 +154,17 @@ public:
 	void			ChunkFinish( void );
 
 	void			ChunkWrite( unsigned int chunkname, void *pOutput, int size );
-	void			ChunkWriteInt( int number );
-	void			ChunkWriteData( void *pOutput, int size );
+	void			ChunkWriteInt( int number ) const;
+	void			ChunkWriteData( void *pOutput, int size ) const;
 
-	int				ChunkFilePosition( void ) { return m_chunkPosition; }
+	int				ChunkFilePosition( void ) const { return m_chunkPosition; }
 
-	unsigned int	ChunkGetPosition( void );
-	void			ChunkSetPosition( int position );
+	unsigned int	ChunkGetPosition( void ) const;
+	void			ChunkSetPosition( int position ) const;
 
-	void			CopyChunkData( IterateRIFF& input );
+	void			CopyChunkData( IterateRIFF& input ) const;
 
-	void			SetLISETData( int position );
+	void			SetLISETData( int position ) const;
 
 private:
 

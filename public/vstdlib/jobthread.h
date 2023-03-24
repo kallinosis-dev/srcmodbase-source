@@ -816,9 +816,9 @@ public:
 	}
 
 	//CFuncJobItemProcessor(OBJECT_TYPE_PTR pObject, void (FUNCTION_CLASS::*pfnProcess)( ITEM_TYPE & ), void (*pfnBegin)() = NULL, void (*pfnEnd)() = NULL );
-	void Begin()						{ if ( m_pfnBegin ) (*m_pfnBegin)(); }
+	void Begin() const { if ( m_pfnBegin ) (*m_pfnBegin)(); }
 	void Process( T &item )	{ (*m_pfnProcess)( item ); }
-	void End()							{ if ( m_pfnEnd ) (*m_pfnEnd)(); }
+	void End() const { if ( m_pfnEnd ) (*m_pfnEnd)(); }
 
 protected:
 	void (*m_pfnProcess)( T & );
@@ -861,9 +861,9 @@ public:
 		m_pfnEnd = pfnEnd;
 	}
 
-	void Begin()									{ if ( m_pfnBegin ) (*m_pfnBegin)(); }
+	void Begin() const { if ( m_pfnBegin ) (*m_pfnBegin)(); }
 	void Process( T* pContext, int nFirst, int nCount )	{ (*m_pfnProcess)( pContext, nFirst, nCount ); }
-	void End()										{ if ( m_pfnEnd ) (*m_pfnEnd)(); }
+	void End() const { if ( m_pfnEnd ) (*m_pfnEnd)(); }
 
 protected:
 	void (*m_pfnProcess)( T*, int, int );

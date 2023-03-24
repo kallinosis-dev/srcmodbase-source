@@ -53,7 +53,7 @@ public:
 	const char *Error(char *error, ...);
 	trtoken_t PeekTokenType(char* = nullptr, int maxlen = 0);
 
-	inline int GetErrorCount(void);
+	inline int GetErrorCount(void) const;
 
 private:
 
@@ -74,7 +74,7 @@ private:
 //-----------------------------------------------------------------------------
 // Purpose: Returns the total number of parsing errors since this file was opened.
 //-----------------------------------------------------------------------------
-int TokenReader::GetErrorCount(void)
+int TokenReader::GetErrorCount(void) const
 {
 	return(m_nErrorCount);
 }

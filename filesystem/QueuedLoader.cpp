@@ -154,7 +154,7 @@ public:
 	char								*GetFilename( const FileNameHandle_t hFilename, char *pBuff, int nBuffSize );	
 	FileNameHandle_t					FindFilename( const char *pFilename );
 	void								SpewInfo();
-	unsigned int						GetStartTime();
+	unsigned int						GetStartTime() const;
 
 	// submit any queued jobs to the async loader, called by main or async thread to get more work
 	void								SubmitPendingJobs();
@@ -185,18 +185,18 @@ private:
 	class CFileJobsLessFunc
 	{
 	public:
-		int GetLayoutOrderForFilename( const char *pFilename );
-		bool Less( FileJob_t* const &pFileJobLHS, FileJob_t* const &pFileJobRHS, void *pCtx );
+		int GetLayoutOrderForFilename( const char *pFilename ) const;
+		bool Less( FileJob_t* const &pFileJobLHS, FileJob_t* const &pFileJobRHS, void *pCtx ) const;
 	};
 
 	class CResourceNameLessFunc
 	{
 	public:
-		bool Less( const FileNameHandle_t &hFilenameLHS, const FileNameHandle_t &hFilenameRHS, void *pCtx );
+		bool Less( const FileNameHandle_t &hFilenameLHS, const FileNameHandle_t &hFilenameRHS, void *pCtx ) const;
 	};
 	typedef CUtlSortVector< FileNameHandle_t, CResourceNameLessFunc > ResourceList_t;
 
-	ILoaderProgress *			GetProgress() { return m_pProgress; };
+	ILoaderProgress *			GetProgress() const { return m_pProgress; };
 
 	static void							BuildResources( IResourcePreload *pLoader, ResourceList_t *pList, float *pBuildTime );
 	static void							BuildMaterialResources( IResourcePreload *pLoader, ResourceList_t *pList, float *pBuildTime );
@@ -206,9 +206,9 @@ private:
 	void								SubmitBatchedJobsAndWait();
 	void								ParseResourceList( CUtlBuffer &resourceList );
 	void								GetJobRequests();
-	void								PurgeUnreferencedResources();
+	void								PurgeUnreferencedResources() const;
 	void								AddResourceToTable( const char *pFilename );
-	void								GetDVDLayout();
+	void								GetDVDLayout() const;
 
 	bool								m_bStarted;
 	bool								m_bActive;
@@ -715,7 +715,7 @@ FileNameHandle_t CQueuedLoader::FindFilename( const char *pFilename )
 //-----------------------------------------------------------------------------
 // Sort function for resource names.
 //-----------------------------------------------------------------------------
-bool CQueuedLoader::CResourceNameLessFunc::Less( const FileNameHandle_t &hFilenameLHS, const FileNameHandle_t &hFilenameRHS, void *pCtx )
+bool CQueuedLoader::CResourceNameLessFunc::Less( const FileNameHandle_t &hFilenameLHS, const FileNameHandle_t &hFilenameRHS, void *pCtx ) const
 {
 	switch ( (intp)pCtx )
 	{
@@ -752,7 +752,7 @@ bool CQueuedLoader::CResourceNameLessFunc::Less( const FileNameHandle_t &hFilena
 // specific to the actual game's data distribution in the zips. For now,
 // good enough.
 //-----------------------------------------------------------------------------
-void CQueuedLoader::GetDVDLayout()
+void CQueuedLoader::GetDVDLayout() const
 {
 	g_DVDLayout.Purge();
 
@@ -775,7 +775,7 @@ void CQueuedLoader::GetDVDLayout()
 // Files that are from different zips should sort to match the relative placement
 // of the zips on the disc image.
 //-----------------------------------------------------------------------------
-int CQueuedLoader::CFileJobsLessFunc::GetLayoutOrderForFilename( const char *pFilename )
+int CQueuedLoader::CFileJobsLessFunc::GetLayoutOrderForFilename( const char *pFilename ) const
 {
 	for ( int i = 0; i < g_DVDLayout.Count(); i++ )
 	{
@@ -789,7 +789,7 @@ int CQueuedLoader::CFileJobsLessFunc::GetLayoutOrderForFilename( const char *pFi
 }
 
 //-----------------------------------------------------------------------------
-bool CQueuedLoader::CFileJobsLessFunc::Less( FileJob_t* const &pFileJobLHS, FileJob_t* const &pFileJobRHS, void *pCtx )
+bool CQueuedLoader::CFileJobsLessFunc::Less( FileJob_t* const &pFileJobLHS, FileJob_t* const &pFileJobRHS, void *pCtx ) const
 {
 	static int nCalls = 0;
 
@@ -1468,7 +1468,7 @@ void CQueuedLoader::InstallProgress( ILoaderProgress *pProgress )
 //-----------------------------------------------------------------------------
 // Invoke the loader systems to purge dead resources
 //-----------------------------------------------------------------------------
-void CQueuedLoader::PurgeUnreferencedResources()
+void CQueuedLoader::PurgeUnreferencedResources() const
 {
 	ResourcePreload_t purgeOrder[RESOURCEPRELOAD_COUNT];
 	
@@ -2139,7 +2139,7 @@ int CQueuedLoader::GetSpewDetail() const
 	return 1 << ( spewDetail - 1 );
 }
 
-unsigned int CQueuedLoader::GetStartTime()
+unsigned int CQueuedLoader::GetStartTime() const
 {
 	return m_StartTime;
 }

@@ -452,7 +452,7 @@ public:
 		return m_ListCoroutines[m_VecCoroutineStack[m_VecCoroutineStack.Count() - 2]];
 	}
 
-	bool IsValidCoroutine( HCoroutine hCoroutine )
+	bool IsValidCoroutine( HCoroutine hCoroutine ) const
 	{
 		return m_ListCoroutines.IsValidIndex( hCoroutine ) && hCoroutine > 0;
 	}
@@ -468,7 +468,7 @@ public:
 		m_VecCoroutineStack.Remove( m_VecCoroutineStack.Count() - 1 );
 	}
 
-	bool IsAnyCoroutineActive()
+	bool IsAnyCoroutineActive() const
 	{
 		return m_VecCoroutineStack.Count() > 1;
 	}

@@ -2952,7 +2952,7 @@ void CVPC::SetMacrosAndConditionals()
 //-----------------------------------------------------------------------------
 // Checks for command line /params ( +/- used for projects, so ICommandLine() not suitable)
 //-----------------------------------------------------------------------------
-bool CVPC::HasCommandLineParameter( const char *pParamName )
+bool CVPC::HasCommandLineParameter( const char *pParamName ) const
 {
 	for ( int i=1; i < m_nArgc; i++ )
 	{
@@ -2964,7 +2964,7 @@ bool CVPC::HasCommandLineParameter( const char *pParamName )
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-bool CVPC::HasP4SLNCommand()
+bool CVPC::HasP4SLNCommand() const
 {
 	return HasCommandLineParameter( "/p4sln" );
 }
@@ -3362,7 +3362,7 @@ void CVPC::DetermineProjectGenerator()
 // Since Steam's VPC builds tier0 and vstdlib directly in, Steam uses vpc.exe as the CRC checker.
 // Source uses vpccrccheck.exe to do this.
 //-----------------------------------------------------------------------------
-void CVPC::InProcessCRCCheck()
+void CVPC::InProcessCRCCheck() const
 {
 	for ( int i = 1; i<m_nArgc; i++ )
 	{

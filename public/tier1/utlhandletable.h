@@ -359,8 +359,8 @@ public:
 
 	// Casting
 	operator T*();
-	operator UtlHandle_t();
-	operator bool();
+	operator UtlHandle_t() const;
+	operator bool() const;
 	T* operator->();
 	const T* operator->() const;
 
@@ -474,7 +474,7 @@ CUtlHandle<T>::operator T*()
 }
 
 template< class T >
-CUtlHandle<T>::operator UtlHandle_t()
+CUtlHandle<T>::operator UtlHandle_t() const
 {
 	return m_handle;
 }
@@ -492,7 +492,7 @@ const T* CUtlHandle<T>::operator->() const
 }
 
 template< class T >
-CUtlHandle<T>::operator bool()							
+CUtlHandle<T>::operator bool() const
 { 
 	return m_handle != UTLHANDLE_INVALID;
 }

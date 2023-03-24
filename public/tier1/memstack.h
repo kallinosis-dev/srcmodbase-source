@@ -43,7 +43,7 @@ public:
 	void FreeToAllocPoint( MemoryStackMark_t mark, bool bDecommit = true );
 	void FreeAll( bool bDecommit = true );
 	
-	void Access( void **ppRegion, unsigned *pBytes );
+	void Access( void **ppRegion, unsigned *pBytes ) const;
 
 	void PrintContents() const;
 

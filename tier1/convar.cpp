@@ -736,7 +736,7 @@ void ConVar::InstallChangeCallback( FnChangeCallback_t callback, bool bInvoke /*
 	}
 }
 
-void ConVar::RemoveChangeCallback( FnChangeCallback_t callback )
+void ConVar::RemoveChangeCallback( FnChangeCallback_t callback ) const
 {
 	m_pParent->m_fnChangeCallbacks.FindAndRemove( callback );
 }
@@ -1179,7 +1179,7 @@ void ConVar::SetValue( Color value )
 //-----------------------------------------------------------------------------
 // Purpose: Reset to default value
 //-----------------------------------------------------------------------------
-void ConVar::Revert( void )
+void ConVar::Revert( void ) const
 {
 	// Force default value again
 	ConVar *var = ( ConVar * )m_pParent;

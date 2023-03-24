@@ -233,12 +233,12 @@ public:
 		return CUtlSymbolTable::String( id );
 	}
 
-	void LockForRead()
+	void LockForRead() const
 	{
 		m_lock.LockForRead();
 	}
 
-	void UnlockForRead()
+	void UnlockForRead() const
 	{
 		m_lock.UnlockRead();
 	}

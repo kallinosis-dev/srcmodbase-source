@@ -219,7 +219,7 @@ void CXMLWriter::Write( const char *p )
 	m_WriteBuffer.PutString( "\n" );
 }
 
-CUtlString CXMLWriter::FixupXMLString( const char *pInput )
+CUtlString CXMLWriter::FixupXMLString( const char *pInput ) const
 {
 	struct XMLFixup_t
 	{

@@ -145,11 +145,11 @@ public:
 
     HRESULT SelectP5P6PerformanceEvent( uint32 dw_event, uint32 dw_counter, bool b_user, bool b_kernel );
 
-    HRESULT ReadMSR( uint32 dw_reg, int64 * pi64_value );
-    HRESULT ReadMSR( uint32 dw_reg, uint64 * pi64_value );
+    HRESULT ReadMSR( uint32 dw_reg, int64 * pi64_value ) const;
+    HRESULT ReadMSR( uint32 dw_reg, uint64 * pi64_value ) const;
 
-    HRESULT WriteMSR( uint32 dw_reg, const int64 & i64_value );
-    HRESULT WriteMSR( uint32 dw_reg, const uint64 & i64_value );
+    HRESULT WriteMSR( uint32 dw_reg, const int64 & i64_value ) const;
+    HRESULT WriteMSR( uint32 dw_reg, const uint64 & i64_value ) const;
 
     void SetProcessPriority( ProcessPriority priority )
     {
@@ -173,12 +173,12 @@ public:
     //---------------------------------------------------------------------------
     // Return the family of the processor
     //---------------------------------------------------------------------------
-    CPUVendor GetVendor(void)
+    CPUVendor GetVendor(void) const
     {
         return vendor;
     }
 
-    int GetProcessorFamily(void)
+    int GetProcessorFamily(void) const
     {
         return version.Family;
     }

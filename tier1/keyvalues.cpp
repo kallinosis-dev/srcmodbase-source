@@ -121,7 +121,7 @@ public:
 		m_bEncounteredErrors = true;
 	}
 
-	bool EncounteredAnyErrors()
+	bool EncounteredAnyErrors() const
 	{
 		return m_bEncounteredErrors;
 	}
@@ -303,7 +303,7 @@ public:
 	{
 		Init( symName );
 	}
-	void Reset( int symName )
+	void Reset( int symName ) const
 	{
 		g_KeyValuesErrorStack.Reset( m_stackLevel, symName );
 	}
@@ -632,7 +632,7 @@ KeyValues::~KeyValues()
 
 // for backwards compat - we used to need this to force the free to run from the same DLL
 // as the alloc
-void KeyValues::deleteThis()
+void KeyValues::deleteThis() const
 { 
 	delete this; 
 }
@@ -1276,7 +1276,7 @@ void KeyValues::InsertSubKey( int nIndex, KeyValues *pSubKey )
 	}
 }
 
-bool KeyValues::ContainsSubKey( KeyValues *pSubKey )
+bool KeyValues::ContainsSubKey( KeyValues *pSubKey ) const
 {
 	for ( KeyValues *pIter = GetFirstSubKey(); pIter != nullptr; pIter = pIter->GetNextKey() )
 	{
@@ -1364,7 +1364,7 @@ void KeyValues::ElideSubKey( KeyValues *pSubKey )
 //-----------------------------------------------------------------------------
 // Purpose: Locate last child.  Returns NULL if we have no children
 //-----------------------------------------------------------------------------
-KeyValues *KeyValues::FindLastSubKey()
+KeyValues *KeyValues::FindLastSubKey() const
 {
 	// No children?
 	if ( m_pSub == nullptr)
@@ -1405,7 +1405,7 @@ void KeyValues::SetNextKey( KeyValues *pDat )
 }
 
 
-KeyValues* KeyValues::GetFirstTrueSubKey()
+KeyValues* KeyValues::GetFirstTrueSubKey() const
 {
 	AssertMsg( this, "Member function called on NULL KeyValues" );
 	KeyValues *pRet = this ? m_pSub : nullptr;
@@ -1415,7 +1415,7 @@ KeyValues* KeyValues::GetFirstTrueSubKey()
 	return pRet;
 }
 
-KeyValues* KeyValues::GetNextTrueSubKey()
+KeyValues* KeyValues::GetNextTrueSubKey() const
 {
 	AssertMsg( this, "Member function called on NULL KeyValues" );
 	KeyValues *pRet = this ? m_pPeer : nullptr;
@@ -1425,7 +1425,7 @@ KeyValues* KeyValues::GetNextTrueSubKey()
 	return pRet;
 }
 
-KeyValues* KeyValues::GetFirstValue()
+KeyValues* KeyValues::GetFirstValue() const
 {
 	AssertMsg( this, "Member function called on NULL KeyValues" );
 	KeyValues *pRet = this ? m_pSub : nullptr;
@@ -1435,7 +1435,7 @@ KeyValues* KeyValues::GetFirstValue()
 	return pRet;
 }
 
-KeyValues* KeyValues::GetNextValue()
+KeyValues* KeyValues::GetNextValue() const
 {
 	AssertMsg( this, "Member function called on NULL KeyValues" );
 	KeyValues *pRet = this ? m_pPeer : nullptr;
@@ -2157,7 +2157,7 @@ void KeyValues::AppendIncludedKeys( CUtlVector< KeyValues * >& includedKeys )
 }
 
 void KeyValues::ParseIncludedKeys( char const *resourceName, const char *filetoinclude, 
-	IBaseFileSystem* pFileSystem, const char *pPathID, CUtlVector< KeyValues * >& includedKeys, GetSymbolProc_t pfnEvaluateSymbolProc )
+	IBaseFileSystem* pFileSystem, const char *pPathID, CUtlVector< KeyValues * >& includedKeys, GetSymbolProc_t pfnEvaluateSymbolProc ) const
 {
 	Assert( resourceName );
 	Assert( filetoinclude );
@@ -2948,7 +2948,7 @@ bool KeyValues::ReadAsBinary( CUtlBuffer &buffer, int nStackDepth )
 
 // writes KeyValue as binary data to buffer
 // removes empty keys
-bool KeyValues::WriteAsBinaryFiltered( CUtlBuffer &buffer )
+bool KeyValues::WriteAsBinaryFiltered( CUtlBuffer &buffer ) const
 {
 	if ( buffer.IsText() ) // must be a binary buffer
 		return false;

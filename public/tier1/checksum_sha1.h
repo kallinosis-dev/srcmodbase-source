@@ -95,13 +95,13 @@ public:
 	// Finalize hash and report
 	void Final();
 #if !defined(_MINIMUM_BUILD_) 
-	void ReportHash(char *szReport, uint8 uReportType = REPORT_HEX);
+	void ReportHash(char *szReport, uint8 uReportType = REPORT_HEX) const;
 #endif
-	void GetHash(uint8 *uDest);
+	void GetHash(uint8 *uDest) const;
 
 private:
 	// Private SHA-1 transformation
-	void Transform(unsigned int state[5], const uint8 buffer[64]);
+	void Transform(unsigned int state[5], const uint8 buffer[64]) const;
 
 	// Member variables
 	uint8 m_workspace[64];

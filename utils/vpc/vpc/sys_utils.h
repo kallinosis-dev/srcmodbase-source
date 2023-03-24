@@ -44,7 +44,7 @@ public:
 		m_nCount = 0;
 	}
 
-	inline int Count()
+	inline int Count() const
 	{
 		return m_nCount;
 	}
@@ -107,7 +107,7 @@ public:
 	void		PushNode( const char *pName, const char *pString );
 
 	void		Write( const char *p );
-	CUtlString	FixupXMLString( const char *pInput );
+	CUtlString	FixupXMLString( const char *pInput ) const;
 
 private:
 	void	Indent( int nReduceDepth = 0 );
@@ -211,7 +211,7 @@ public:
     {
         return Get();
     }
-    char *GetForModify()
+    char *GetForModify() const
     {
         return (char*)Get();
     }

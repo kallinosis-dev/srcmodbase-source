@@ -83,7 +83,7 @@ struct BeamSeg_t
 		SetColor( vecColor.x, vecColor.y, vecColor.z );
 	}
 
-	void GetColor( Vector4D *pColor )
+	void GetColor( Vector4D *pColor ) const
 	{
 		pColor->x = m_color.r / 255.0f;
 		pColor->y = m_color.g / 255.0f;
@@ -91,7 +91,7 @@ struct BeamSeg_t
 		pColor->w = m_color.a / 255.0f;
 	}
 
-	void GetColor( Vector *pColor )
+	void GetColor( Vector *pColor ) const
 	{
 		pColor->x = m_color.r / 255.0f;
 		pColor->y = m_color.g / 255.0f;
@@ -117,13 +117,13 @@ public:
 	// Pass null for pMaterial if you have already set the material you want.
 	void			Start( IMatRenderContext *pRenderContext, int nSegs, IMaterial *pMaterial=nullptr, CMeshBuilder *pMeshBuilder = nullptr, int nMeshVertCount = 0 );
 
-	void			ComputeRenderInfo( BeamSegRenderInfo_t *pRenderInfo, const Vector &vecCameraPos, int nSegCount, const BeamSeg_t *pSegs ) RESTRICT;
+	void			ComputeRenderInfo( BeamSegRenderInfo_t *pRenderInfo, const Vector &vecCameraPos, int nSegCount, const BeamSeg_t *pSegs ) const RESTRICT;
 	virtual void	NextSeg( BeamSeg_t *pSeg );
 	void			End();
 
 protected:
 	void			SpecifySeg( const Vector &vecCameraPos, const Vector &vNextPos );
-	void			ComputeNormal( const Vector &vecCameraPos, const Vector &vStartPos, const Vector &vNextPos, Vector *pNormal );
+	void			ComputeNormal( const Vector &vecCameraPos, const Vector &vStartPos, const Vector &vNextPos, Vector *pNormal ) const;
 	static void		LoadSIMDData( FourVectors *pV4StartPos, FourVectors *pV4EndPos, FourVectors *pV4HalfWidth, int nSegCount, const BeamSeg_t *pSegs );
 	CMeshBuilder	*m_pMeshBuilder;
 	int				m_nMeshVertCount;

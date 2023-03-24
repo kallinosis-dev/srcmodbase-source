@@ -172,7 +172,7 @@ void netadr_t::SetIP(uint8 b1, uint8 b2, uint8 b3, uint8 b4)
 	ip[3] = b4;
 }
 
-void netadr_t::SetIP(uint unIP)
+void netadr_t::SetIP(uint unIP) const
 {
 	*((uint*)ip) = BigLong( unIP );
 }

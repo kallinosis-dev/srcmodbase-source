@@ -3799,7 +3799,7 @@ void CBaseFileSystem::RemoveAllSearchPaths( void )
 }
 
 
-void CBaseFileSystem::LogFileAccess( const char *pFullFileName )
+void CBaseFileSystem::LogFileAccess( const char *pFullFileName ) const
 {
 	if( !m_pLogFile )
 	{
@@ -3885,7 +3885,7 @@ public:
 		V_FixSlashes( m_AbsolutePath );
 	}
 	
-	void SetResolvedFilename( const char *pStr )
+	void SetResolvedFilename( const char *pStr ) const
 	{
 		if ( m_ppszResolvedFilename )
 		{
@@ -3896,7 +3896,7 @@ public:
 
 	// Handles telling CFileTracker about the file we just opened so it can remember
 	// where the file came from, and possibly calculate a CRC if necessary.
-	void HandleFileCRCTracking( const char *pRelativeFileName, bool bIsAbsolutePath )
+	void HandleFileCRCTracking( const char *pRelativeFileName, bool bIsAbsolutePath ) const
 	{
 		if ( IsGameConsole() )
 		{
@@ -3929,7 +3929,7 @@ public:
 	}
 
 	// Decides if the file must come from Steam or if it can be allowed to come off disk.
-	void DetermineFileLoadInfoParameters( CFileLoadInfo &fileLoadInfo, bool bIsAbsolutePath )
+	void DetermineFileLoadInfoParameters( CFileLoadInfo &fileLoadInfo, bool bIsAbsolutePath ) const
 	{
 		if ( IsGameConsole() )
 		{
@@ -4027,7 +4027,7 @@ bool CBaseFileSystem::HandleOpenFromZipFile( CFileOpenInfo &openInfo )
 	}
 }
 
-void CBaseFileSystem::HandleOpenFromPackFile( CPackFile *pPackFile, CFileOpenInfo &openInfo )
+void CBaseFileSystem::HandleOpenFromPackFile( CPackFile *pPackFile, CFileOpenInfo &openInfo ) const
 {
 	openInfo.m_pFileHandle = pPackFile->OpenFile( openInfo.m_pFileName, openInfo.m_pOptions );
 #ifdef SUPPORT_VPK
@@ -4311,7 +4311,7 @@ FileHandle_t CBaseFileSystem::OpenForWrite( const char *pFileName, const char *p
 // This looks for UNC-type filename specifiers, which should be used instead of 
 // passing in path ID. So if it finds //mod/cfg/config.cfg, it translates
 // pFilename to "cfg/config.cfg" and pPathID to "mod" (mod is placed in tempPathID).
-void CBaseFileSystem::ParsePathID( const char* &pFilename, const char* &pPathID, char tempPathID[MAX_PATH] )
+void CBaseFileSystem::ParsePathID( const char* &pFilename, const char* &pPathID, char tempPathID[MAX_PATH] ) const
 {
 	tempPathID[0] = 0;
 	
@@ -6980,7 +6980,7 @@ void CBaseFileSystem::GetVPKFileStatisticsKV( KeyValues *pKV )
 //			*fmt - 
 //			... - 
 //-----------------------------------------------------------------------------
-void CBaseFileSystem::FileSystemWarning( FileWarningLevel_t level, const char *fmt, ... )
+void CBaseFileSystem::FileSystemWarning( FileWarningLevel_t level, const char *fmt, ... ) const
 {
 #ifdef _CERT
 	return;
@@ -7076,7 +7076,7 @@ void CBaseFileSystem::COpenedFile::SetName( char const *name )
 // Purpose: 
 // Output : char
 //-----------------------------------------------------------------------------
-char const *CBaseFileSystem::COpenedFile::GetName( void )
+char const *CBaseFileSystem::COpenedFile::GetName( void ) const
 {
 	return m_pName ? m_pName : "???";
 }
@@ -7535,7 +7535,7 @@ bool CBaseFileSystem::GetOptimalIOConstraints( FileHandle_t hFile, unsigned *pOf
 // This is a DVDDEV misery that needs to convolve loose filenames that exceed the 42 character limit.
 // This is not for files inside zip files or in any other context.
 //-----------------------------------------------------------------------------
-bool CBaseFileSystem::FixupFATXFilename( const char *pFilename, char *pOutFilename, int nOutSize )
+bool CBaseFileSystem::FixupFATXFilename( const char *pFilename, char *pOutFilename, int nOutSize ) const
 {
 	if ( !IsX360() || m_DVDMode != DVDMODE_DEV )
 	{
@@ -7655,12 +7655,12 @@ void CFileHandle::Init( CBaseFileSystem *fs )
 	m_pszTrueFileName = nullptr;
 }
 
-bool CFileHandle::IsValid()
+bool CFileHandle::IsValid() const
 {
 	return ( m_nMagic == MAGIC );
 }
 
-int CFileHandle::GetSectorSize()
+int CFileHandle::GetSectorSize() const
 {
 	Assert( IsValid() );
 
@@ -7678,7 +7678,7 @@ int CFileHandle::GetSectorSize()
 	}
 }
 
-bool CFileHandle::IsOK()
+bool CFileHandle::IsOK() const
 {
 #ifdef SUPPORT_VPK
 	if ( m_VPKHandle )
@@ -7697,7 +7697,7 @@ bool CFileHandle::IsOK()
 	return false;
 }
 
-void CFileHandle::Flush()
+void CFileHandle::Flush() const
 {
 	Assert( IsValid() );
 
@@ -7707,7 +7707,7 @@ void CFileHandle::Flush()
 	}
 }
 
-void CFileHandle::SetBufferSize( int nBytes )
+void CFileHandle::SetBufferSize( int nBytes ) const
 {
 	Assert( IsValid() );
 
@@ -7756,7 +7756,7 @@ int CFileHandle::Read( void* pBuffer, int nDestSize, int nLength )
 	return 0;
 }
 
-int CFileHandle::Write( const void* pBuffer, int nLength )
+int CFileHandle::Write( const void* pBuffer, int nLength ) const
 {
 	Assert( IsValid() );
 
@@ -7797,7 +7797,7 @@ int CFileHandle::Seek( int64 nOffset, int nWhence )
 	return -1;
 }
 
-int CFileHandle::Tell()
+int CFileHandle::Tell() const
 {
 	Assert( IsValid() );
 
@@ -7819,7 +7819,7 @@ int CFileHandle::Tell()
 	return -1;
 }
 
-int CFileHandle::Size()
+int CFileHandle::Size() const
 {
 	Assert( IsValid() );
 
@@ -7843,7 +7843,7 @@ int CFileHandle::Size()
 	return nReturnedSize;
 }
 
-int64 CFileHandle::AbsoluteBaseOffset()
+int64 CFileHandle::AbsoluteBaseOffset() const
 {
 	Assert( IsValid() );
 
@@ -7857,7 +7857,7 @@ int64 CFileHandle::AbsoluteBaseOffset()
 	}
 }
 
-bool CFileHandle::EndOfFile()
+bool CFileHandle::EndOfFile() const
 {
 	Assert( IsValid() );
 
@@ -8369,7 +8369,7 @@ bool CBaseFileSystem::AddDLCSearchPaths()
 	return true;
 }
 
-void CBaseFileSystem::PrintDLCInfo()
+void CBaseFileSystem::PrintDLCInfo() const
 {
 	if ( IsX360() )
 	{
@@ -8541,7 +8541,7 @@ class CIODelayAlarmThread : public CThread
 {
 public:
 	CIODelayAlarmThread( CBaseFileSystem *pFileSystem );
-	void WakeUp( void );
+	void WakeUp( void ) const;
 	CBaseFileSystem *m_pFileSystem;
 	CThreadEvent m_hThreadEvent;
 
@@ -8558,7 +8558,7 @@ CIODelayAlarmThread::CIODelayAlarmThread( CBaseFileSystem *pFileSystem )
 
 }
 
-void CIODelayAlarmThread::WakeUp( void )
+void CIODelayAlarmThread::WakeUp( void ) const
 {
 	m_hThreadEvent.Set();
 }

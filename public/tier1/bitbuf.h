@@ -161,14 +161,14 @@ public:
 	void			Reset();
 
 	// Get the base pointer.
-	unsigned char*	GetBasePointer() { return m_pData; }
+	unsigned char*	GetBasePointer() const { return m_pData; }
 
 	// Enable or disable assertion on overflow. 99% of the time, it's a bug that we need to catch,
 	// but there may be the occasional buffer that is allowed to overflow gracefully.
 	void			SetAssertOnOverflow( bool bAssert );
 
 	// This can be set to assign a name that gets output if the buffer overflows.
-	const char*		GetDebugName();
+	const char*		GetDebugName() const;
 	void			SetDebugName( const char *pDebugName );
 
 
@@ -478,7 +478,7 @@ public:
 	void			SetAssertOnOverflow( bool bAssert );
 
 	// This can be set to assign a name that gets output if the buffer overflows.
-	const char*		GetDebugName();
+	const char*		GetDebugName() const;
 	void			SetDebugName( const char *pName );
 
 	void			ExciseBits( int startbit, int bitstoremove );
@@ -501,7 +501,7 @@ protected:
 public:
 
 	// Get the base pointer.
-	const unsigned char*	GetBasePointer() { return m_pData; }
+	const unsigned char*	GetBasePointer() const { return m_pData; }
 
 	FORCEINLINE int TotalBytesAvailable( void ) const
 	{
@@ -574,9 +574,9 @@ public:
 
 // Status.
 public:
-	int				GetNumBytesLeft();
-	int				GetNumBytesRead();
-	int				GetNumBitsLeft();
+	int				GetNumBytesLeft() const;
+	int				GetNumBytesRead() const;
+	int				GetNumBitsLeft() const;
 	int				GetNumBitsRead() const;
 
 	// Has the buffer overflowed?
@@ -617,17 +617,17 @@ private:
 // Inlines.
 //-----------------------------------------------------------------------------
 
-inline int old_bf_read::GetNumBytesRead()	
+inline int old_bf_read::GetNumBytesRead() const
 {
 	return BitByte(m_iCurBit);
 }
 
-inline int old_bf_read::GetNumBitsLeft()	
+inline int old_bf_read::GetNumBitsLeft() const
 {
 	return m_nDataBits - m_iCurBit;
 }
 
-inline int old_bf_read::GetNumBytesLeft()	
+inline int old_bf_read::GetNumBytesLeft() const
 {
 	return GetNumBitsLeft() >> 3;
 }
@@ -1114,7 +1114,7 @@ public:
 		return Seek( GetNumBitsRead() + nOffset );
 	}
 
-	FORCEINLINE unsigned char const * GetBasePointer()
+	FORCEINLINE unsigned char const * GetBasePointer() const
 	{
 		return reinterpret_cast< unsigned char const *>( m_pData );
 	}

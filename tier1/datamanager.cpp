@@ -350,18 +350,18 @@ memhandle_t CDataManagerBase::ToHandle( unsigned short index )
 	return reinterpret_cast< memhandle_t >( (uintp)( hiword|index ) );
 }
 
-unsigned int CDataManagerBase::TargetSize() 
+unsigned int CDataManagerBase::TargetSize() const
 { 
 	return MemTotal_Inline(); 
 }
 
-unsigned int CDataManagerBase::AvailableSize()
+unsigned int CDataManagerBase::AvailableSize() const
 { 
 	return MemAvailable_Inline(); 
 }
 
 
-unsigned int CDataManagerBase::UsedSize()
+unsigned int CDataManagerBase::UsedSize() const
 { 
 	return MemUsed_Inline(); 
 }

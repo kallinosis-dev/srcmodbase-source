@@ -49,7 +49,7 @@ private:
 
 	const char	*GetKeyNameForFile( CProjectFile *pFile );
 
-	bool		GenerateToolProperty( const char *pOutputName, const char *pScriptValue, CUtlString &outputWrite, const PropertyState_t *pPropertyState, const char *szPlatformName, const char *pConfigName );
+	bool		GenerateToolProperty( const char *pOutputName, const char *pScriptValue, CUtlString &outputWrite, const PropertyState_t *pPropertyState, const char *szPlatformName, const char *pConfigName ) const;
 
 	CXMLWriter			m_XMLWriter;
 	CXMLWriter			m_XMLFilterWriter;

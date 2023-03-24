@@ -307,7 +307,7 @@ void AddFilesToList( CUtlVector< CUtlString > &list, const char *pDirectory, con
 	}
 }
 
-void CBaseFile::ReadLines( CUtlStringList &lineList, int nMaxLineLength )
+void CBaseFile::ReadLines( CUtlStringList &lineList, int nMaxLineLength ) const
 {
 	char *pLine = ( char * ) stackalloc( nMaxLineLength );
 	while( ReadLine( pLine, nMaxLineLength ) )
@@ -319,7 +319,7 @@ void CBaseFile::ReadLines( CUtlStringList &lineList, int nMaxLineLength )
 	}
 }
 
-void CBaseFile::ReadFile( CUtlBuffer &fileData )
+void CBaseFile::ReadFile( CUtlBuffer &fileData ) const
 {
 	int nFileSize = Size();
 	fileData.EnsureCapacity( Size() );

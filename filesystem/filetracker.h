@@ -53,8 +53,8 @@ public:
 	CFileInfo();
 	~CFileInfo();
 	
-	const char* GetFilename();
-	const char* GetPathIDString();
+	const char* GetFilename() const;
+	const char* GetPathIDString() const;
 	
 public:	
 
@@ -143,7 +143,7 @@ private:
 	void					CalculateMissingCRC( const char *pFilename, const char *pPathID );
 	CPathIDFileList*		GetPathIDFileList( const char *pPathID, bool bAutoAdd=true );
 
-	CRC32_t					CalculateCRCForFile( FileHandle_t fp );
+	CRC32_t					CalculateCRCForFile( FileHandle_t fp ) const;
 
 private:
 	CUtlLinkedList<CFileInfo*>		m_NeedsVerificationList;	// The list of files that need CRCs verified.
@@ -153,12 +153,12 @@ private:
 };
 
 
-inline const char* CFileInfo::GetFilename()
+inline const char* CFileInfo::GetFilename() const
 {
 	return m_pPathIDFileList->m_Files.GetElementName( m_PathIDFileListDictIndex );
 }
 
-inline const char* CFileInfo::GetPathIDString()
+inline const char* CFileInfo::GetPathIDString() const
 {
 	return m_pPathIDFileList->m_PathID.String();
 }
@@ -230,7 +230,7 @@ struct TrackedFile_t
 			return true;
 		return false;
 	}
-	bool GetCRCValues( FileHash_t *pFileHash );
+	bool GetCRCValues( FileHash_t *pFileHash ) const;
 
 	void ProcessFileRead( void *dest, size_t nBytesRead );
 

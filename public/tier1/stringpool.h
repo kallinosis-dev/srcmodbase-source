@@ -100,7 +100,7 @@ public:
 	T				ReferenceStringHandle( const char* pIntrinsic );
 	char			*HandleToString( T handle );
 	void			SpewStrings();
-	unsigned		Hash( const char *pszKey );
+	unsigned		Hash( const char *pszKey ) const;
 
 	bool			SaveToBuffer( CUtlBuffer &buffer );
 	bool			RestoreFromBuffer( CUtlBuffer &buffer );
@@ -171,7 +171,7 @@ inline void CCountedStringPoolBase<T>::FreeAll()
 }
 
 template<class T>
-inline unsigned CCountedStringPoolBase<T>::Hash( const char *pszKey )
+inline unsigned CCountedStringPoolBase<T>::Hash( const char *pszKey ) const
 {
 	if ( m_caseSensitivity == StringPoolCaseInsensitive )
 	{
