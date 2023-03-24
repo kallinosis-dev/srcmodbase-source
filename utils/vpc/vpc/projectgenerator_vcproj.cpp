@@ -793,7 +793,7 @@ bool CPropertyStates::SetProperty( ToolProperty_t *pToolProperty, CProjectTool *
 	case PT_DEPRECATED:
 		g_pVPC->VPCError( "SetProperty: Property %s has been deprecated and is no longer supported!", pToolProperty->m_ParseString.Get() );
 		break;
-
+		
 	default:
 		g_pVPC->VPCError( "SetProperty: Unknown type for %s - requires implementation", pToolProperty->m_ParseString.Get() );
 	}

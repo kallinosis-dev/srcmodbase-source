@@ -26,6 +26,8 @@
 class IBaseProjectGenerator
 {
 public:
+	virtual ~IBaseProjectGenerator() = default;
+
 	// What file extension does this use? (vcproj, mak, vpj).
 	virtual const char* GetProjectFileExtension() = 0;
 

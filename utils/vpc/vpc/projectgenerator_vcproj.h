@@ -99,6 +99,8 @@ private:
 class CProjectTool
 {
 public:
+	virtual ~CProjectTool() = default;
+
 	CProjectTool( CVCProjGenerator *pGenerator )
 	{
 		m_pGenerator = pGenerator;
