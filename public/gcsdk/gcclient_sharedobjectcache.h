@@ -1,4 +1,4 @@
-//====== Copyright ©, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½, Valve Corporation, All rights reserved. =======
 //
 // Purpose: Additional shared object cache functionality for the GC
 //
@@ -151,7 +151,7 @@ public:
 	void SetSubscribed( bool bSubscribed ) { m_bSubscribed = bSubscribed; }
 
 	/// Who owns this cache?
-	virtual SOID_t GetOwner() const OVERRIDE { return m_IDOwner; }
+	virtual SOID_t GetOwner() const override { return m_IDOwner; }
 
 	const CGCClientSharedObjectTypeCache *FindTypeCache( int nClassID ) const { return static_cast<const CGCClientSharedObjectTypeCache *>(FindBaseTypeCache( nClassID )); }
 	CGCClientSharedObjectTypeCache *FindTypeCache( int nClassID ) { return static_cast<CGCClientSharedObjectTypeCache *>(FindBaseTypeCache( nClassID )); }
@@ -170,7 +170,7 @@ public:
 	void NotifyCreated( ISharedObjectListener &context );
 
 private:
-	virtual CSharedObjectTypeCache *AllocateTypeCache( int nClassID ) const OVERRIDE { return new CGCClientSharedObjectTypeCache( nClassID ); }
+	virtual CSharedObjectTypeCache *AllocateTypeCache( int nClassID ) const override { return new CGCClientSharedObjectTypeCache( nClassID ); }
 	CGCClientSharedObjectTypeCache *GetTypeCacheByIndex( int nIndex ) { return (CGCClientSharedObjectTypeCache *)CSharedObjectCache::GetTypeCacheByIndex( nIndex ); }
 
 	SOID_t m_IDOwner;

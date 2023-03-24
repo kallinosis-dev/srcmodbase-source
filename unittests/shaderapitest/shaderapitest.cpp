@@ -100,7 +100,7 @@ public:
 	virtual ITexture *GetRenderTargetEx( int nRenderTargetID ) { return 0; }
 
 	// Tells the material system to draw a buffer clearing quad
-	virtual void DrawClearBufferQuad( unsigned char r, unsigned char g, unsigned char b, unsigned char a, bool bClearColor, bool bClearAlpha, bool bClearDepth ) OVERRIDE {}
+	virtual void DrawClearBufferQuad( unsigned char r, unsigned char g, unsigned char b, unsigned char a, bool bClearColor, bool bClearAlpha, bool bClearDepth ) override {}
 
 #if defined( _X360 )
 	virtual void ReadBackBuffer( Rect_t *pSrcRect, Rect_t *pDstRect, unsigned char *pData, ImageFormat dstFormat, int nDstStride ) {}

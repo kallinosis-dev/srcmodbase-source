@@ -46,17 +46,17 @@ public:
 	~CAudioXAudio2( void );
 	bool		Init( const audio_device_init_params_t &params, int nDeviceIndex );
 
-	void		Shutdown( void ) OVERRIDE;
-	void		OutputBuffer( int nChannels, CAudioMixBuffer *pChannelArray ) OVERRIDE;
-	const wchar_t *GetDeviceID() const OVERRIDE  { return m_deviceID; }
-	int			QueuedBufferCount() OVERRIDE;
-	int			EmptyBufferCount() OVERRIDE;
-	void		CancelOutput() OVERRIDE;
-	void		WaitForComplete() OVERRIDE;
-	void		UpdateFocus( bool bWindowHasFocus ) OVERRIDE;
-	void		ClearBuffer() OVERRIDE {}
-	void		OutputDebugInfo() const OVERRIDE;
-	bool		SetShouldPlayWhenNotInFocus( bool bPlayEvenWhenNotInFocus ) OVERRIDE
+	void		Shutdown( void ) override;
+	void		OutputBuffer( int nChannels, CAudioMixBuffer *pChannelArray ) override;
+	const wchar_t *GetDeviceID() const override  { return m_deviceID; }
+	int			QueuedBufferCount() override;
+	int			EmptyBufferCount() override;
+	void		CancelOutput() override;
+	void		WaitForComplete() override;
+	void		UpdateFocus( bool bWindowHasFocus ) override;
+	void		ClearBuffer() override {}
+	void		OutputDebugInfo() const override;
+	bool		SetShouldPlayWhenNotInFocus( bool bPlayEvenWhenNotInFocus ) override
 	{
 		m_savedParams.m_bPlayEvenWhenNotInFocus = bPlayEvenWhenNotInFocus;
 		return true;
@@ -67,13 +67,13 @@ public:
 
 	// IXAudio2VoiceCallback
 	// Called just before this voice's processing pass begins.
-	virtual void __stdcall OnVoiceProcessingPassStart( UINT32 nBytesRequired ) OVERRIDE {}
-	virtual void __stdcall OnVoiceProcessingPassEnd() OVERRIDE {}
-	virtual void __stdcall OnStreamEnd() OVERRIDE {}
-	virtual void __stdcall OnBufferStart( void* pBufferContext ) OVERRIDE 
+	virtual void __stdcall OnVoiceProcessingPassStart( UINT32 nBytesRequired ) override {}
+	virtual void __stdcall OnVoiceProcessingPassEnd() override {}
+	virtual void __stdcall OnStreamEnd() override {}
+	virtual void __stdcall OnBufferStart( void* pBufferContext ) override 
 	{
 	}
-	virtual void __stdcall OnBufferEnd( void* pBufferContext ) OVERRIDE 
+	virtual void __stdcall OnBufferEnd( void* pBufferContext ) override 
 	{
 		Assert( m_nActiveBuffers > 0 );
 		m_nActiveBuffers--;
@@ -86,8 +86,8 @@ public:
 			}
 		}
 	}
-	virtual void __stdcall OnLoopEnd( void* pBufferContext ) OVERRIDE {}
-	virtual void __stdcall OnVoiceError( void* pBufferContext, HRESULT nError ) OVERRIDE 
+	virtual void __stdcall OnLoopEnd( void* pBufferContext ) override {}
+	virtual void __stdcall OnVoiceError( void* pBufferContext, HRESULT nError ) override 
 	{
 		g_nDetectedAudioError = 1;
 		Warning("Xaudio2 Voice Error %x\n", uint(nError) );

@@ -954,7 +954,7 @@ private:
 	void DumpCallStackFlow( char const *pchFileBase );
 #endif
 	void DumpStats() override;
-	void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) OVERRIDE;
+	void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) override;
 	void DumpBlockStats( void *p ) override;
 	void GlobalMemoryStatus( size_t *pUsedMemory, size_t *pFreeMemory ) override;
 

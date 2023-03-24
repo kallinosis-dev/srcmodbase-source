@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2005, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. =======
 //
 // Purpose: 
 //
@@ -20,7 +20,7 @@ class CProjectGenerator_PS3 : public IVCProjWriter
 {
 public:
 	CProjectGenerator_PS3();
-	CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
+	CVCProjGenerator *GetProjectGenerator() override { return m_pVCProjGenerator; }
 
 	bool Save( const char *pOutputFilename ) override;
 

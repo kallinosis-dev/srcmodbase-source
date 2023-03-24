@@ -313,9 +313,9 @@ public:
         m_outBuf.SetBufferType( true, false );
     }
 
-    void GenerateSolutionFile( const char *pSolutionFilename, CUtlVector<CDependency_Project*> &projects ) OVERRIDE;
-    void ProjectEnd( IBaseProjectGenerator *pCurGen ) OVERRIDE;
-    SolutionType_t GetSolutionType( void ) OVERRIDE { return ST_XCODE; }
+    void GenerateSolutionFile( const char *pSolutionFilename, CUtlVector<CDependency_Project*> &projects ) override;
+    void ProjectEnd( IBaseProjectGenerator *pCurGen ) override;
+    SolutionType_t GetSolutionType( void ) override { return ST_XCODE; }
 
 private:
     const char *UsePOSIXSlashes( const char *pStr );
@@ -3118,7 +3118,7 @@ public:
         return true;
     }
 
-	CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
+	CVCProjGenerator *GetProjectGenerator() override { return m_pVCProjGenerator; }
 
 protected:
 	CVCProjGenerator *m_pVCProjGenerator;

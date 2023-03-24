@@ -387,7 +387,7 @@ public:
 
 	virtual const char *GetWebkitHTMLUserAgentString();
 
-	virtual void *Deprecated_AccessChromeHTMLController() OVERRIDE { return NULL; }
+	virtual void *Deprecated_AccessChromeHTMLController() override { return NULL; }
 
 	virtual void DrawSetTextureRGBALinear(int id, const unsigned char *rgba, int wide, int tall );
 

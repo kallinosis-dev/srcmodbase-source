@@ -1,4 +1,4 @@
-//========= Copyright © Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ Valve Corporation, All rights reserved. ============//
 //
 // Purpose: interface for the Portal2 puzzle maker within client.dll
 //
@@ -205,25 +205,25 @@ public:
 	CPuzzleMakerFrame( void );
 	virtual ~CPuzzleMakerFrame();
 
-	virtual void Paint() OVERRIDE;
+	virtual void Paint() override;
 
 	virtual void PrecacheSound( const char *pszSoundName );
 	virtual int PlaySoundEffect( const char *pszSoundName );
 	virtual void StopSoundByGUID( int nGUID );
 
 protected:
-	virtual void ApplySchemeSettings( vgui::IScheme *pScheme )	OVERRIDE;
-	virtual void PerformLayout( void ) OVERRIDE;
-	virtual void OnThink( void ) OVERRIDE;
+	virtual void ApplySchemeSettings( vgui::IScheme *pScheme )	override;
+	virtual void PerformLayout( void ) override;
+	virtual void OnThink( void ) override;
 
 	// Forward input events to g_pPuzzleMaker (from our parent panel):
 	// [NOTE: MOUSE_WHEEL_UP and MOUSE_WHEEL_DOWN are received by OnMousePressed (with no associated 'release' event), OnMouseWheeled is not called]
-	virtual void OnKeyCodeTyped( vgui::KeyCode code )			OVERRIDE { g_pPuzzleMaker->OnKeyCodeTyped(		code  );	}
-	virtual void OnKeyCodeReleased( vgui::KeyCode code )		OVERRIDE { g_pPuzzleMaker->OnKeyCodeReleased(	code  );	}
-	virtual void OnMousePressed( vgui::MouseCode code )			OVERRIDE { g_pPuzzleMaker->OnMousePressed(		code  );	}
-	virtual void OnMouseReleased( vgui::MouseCode code )		OVERRIDE { g_pPuzzleMaker->OnMouseReleased(		code  );	}
-	virtual void OnMouseDoublePressed( vgui::MouseCode code )	OVERRIDE { g_pPuzzleMaker->OnMouseDoublePressed(code  );	}
-	virtual void OnMouseWheeled( int delta )					OVERRIDE { g_pPuzzleMaker->OnMouseWheeled(		delta );	}
+	virtual void OnKeyCodeTyped( vgui::KeyCode code )			override { g_pPuzzleMaker->OnKeyCodeTyped(		code  );	}
+	virtual void OnKeyCodeReleased( vgui::KeyCode code )		override { g_pPuzzleMaker->OnKeyCodeReleased(	code  );	}
+	virtual void OnMousePressed( vgui::MouseCode code )			override { g_pPuzzleMaker->OnMousePressed(		code  );	}
+	virtual void OnMouseReleased( vgui::MouseCode code )		override { g_pPuzzleMaker->OnMouseReleased(		code  );	}
+	virtual void OnMouseDoublePressed( vgui::MouseCode code )	override { g_pPuzzleMaker->OnMouseDoublePressed(code  );	}
+	virtual void OnMouseWheeled( int delta )					override { g_pPuzzleMaker->OnMouseWheeled(		delta );	}
 	virtual void OnCursorMoved( int x, int y );
 	// Forward the 'show' message to g_pPuzzleMaker (from our parent panel):
 	MESSAGE_FUNC_INT( OnShow, "Show", show )							 { g_pPuzzleMaker->Show( !!show ); }

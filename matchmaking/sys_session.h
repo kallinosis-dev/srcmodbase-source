@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2009, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2009, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -180,7 +180,7 @@ public:
 	virtual void DebugPrint();
 
 protected:
-	virtual void ReceiveMessage( KeyValues *msg, bool bValidatedLobbyMember, XUID xuidSrc ) OVERRIDE;
+	virtual void ReceiveMessage( KeyValues *msg, bool bValidatedLobbyMember, XUID xuidSrc ) override;
 	virtual void OnPlayerLeave( XUID xuid );
 
 protected:
@@ -267,7 +267,7 @@ public:
 	virtual void DebugPrint();
 
 protected:
-	virtual void ReceiveMessage( KeyValues *msg, bool bValidatedLobbyMember, XUID xuidSrc ) OVERRIDE;
+	virtual void ReceiveMessage( KeyValues *msg, bool bValidatedLobbyMember, XUID xuidSrc ) override;
 	virtual void OnPlayerLeave( XUID xuid );
 
 protected:
@@ -345,7 +345,7 @@ public:
 	bool GetPlayerSidesAssignment( int *numPlayers, uint64 playerIDs[10], int side[10] );
 	
 protected:
-	virtual void ReceiveMessage( KeyValues *msg, bool bValidatedLobbyMember, XUID xuidSrc ) OVERRIDE;
+	virtual void ReceiveMessage( KeyValues *msg, bool bValidatedLobbyMember, XUID xuidSrc ) override;
 	void SendReservationRequest();
 	void Succeeded();
 	void Failed();

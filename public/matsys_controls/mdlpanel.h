@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2005, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. =======
 //
 // Purpose: 
 //
@@ -72,9 +72,9 @@ public:
 	bool IsCameraPositionOverrideEnabled(void) { return m_bCameraPositionOverrideEnabled; }
 
 protected:
-	virtual void OnPostSetUpBonesPreDraw() OVERRIDE;
-	virtual void OnModelDrawPassStart( int iPass, CStudioHdr *pStudioHdr, int &nFlags ) OVERRIDE;
-	virtual void OnModelDrawPassFinished( int iPass, CStudioHdr *pStudioHdr, int &nFlags ) OVERRIDE;
+	virtual void OnPostSetUpBonesPreDraw() override;
+	virtual void OnModelDrawPassStart( int iPass, CStudioHdr *pStudioHdr, int &nFlags ) override;
+	virtual void OnModelDrawPassFinished( int iPass, CStudioHdr *pStudioHdr, int &nFlags ) override;
 
 private:
 	// paint it!

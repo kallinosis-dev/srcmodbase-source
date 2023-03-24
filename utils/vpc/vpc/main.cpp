@@ -2256,7 +2256,7 @@ bool CVPC::BuildTargetProjects()
 	class CDefaultProjectIterator : public IProjectIterator
 	{
 	public:
-		bool VisitProject( projectIndex_t iProject, const char *pScriptPath ) OVERRIDE
+		bool VisitProject( projectIndex_t iProject, const char *pScriptPath ) override
 		{
 			bool bProjectDirty = IProjectIterator::VisitProject( iProject, pScriptPath );
 			if ( !IProjectIterator::m_CRCCheckStatusSpew.IsEmpty() )

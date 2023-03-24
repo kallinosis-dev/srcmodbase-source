@@ -290,7 +290,7 @@ public:
 
 	const char *GetSolutionFileExtension() override { return "sln"; }
 
-	SolutionType_t GetSolutionType( void ) OVERRIDE { return ST_VISUALSTUDIO; }
+	SolutionType_t GetSolutionType( void ) override { return ST_VISUALSTUDIO; }
 	
 	const char* FindInFile( const char *pFilename, const char *pFileData, const char *pSearchFor )
 	{

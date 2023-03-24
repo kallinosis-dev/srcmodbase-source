@@ -311,7 +311,7 @@ public:
 	int heapchk() override;
 
 	void DumpStats() override;
-	void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) OVERRIDE;
+	void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) override;
 	size_t ComputeMemoryUsedBy( char const *pchSubStr ) override;
 	void GlobalMemoryStatus( size_t *pUsedMemory, size_t *pFreeMemory ) override;
 

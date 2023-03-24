@@ -229,7 +229,7 @@ public:
 
 	virtual void CompactMaterialVars()									{ ::CompactMaterialVars( m_aMaterialVars.Base(), m_aMaterialVars.Count() ); }
 
-	virtual bool HasQueueFriendlyProxies() const OVERRIDE				{ return m_pMaterialPage->HasQueueFriendlyProxies(); }
+	virtual bool HasQueueFriendlyProxies() const override				{ return m_pMaterialPage->HasQueueFriendlyProxies(); }
 
 	virtual bool SetTempExcluded( bool bSet, int nExcludedDimensionLimit )	{ return false; }
 

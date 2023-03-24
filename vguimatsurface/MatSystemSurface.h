@@ -303,8 +303,8 @@ public:
 
 	// Some drawing methods that cannot be accomplished under Win32
 	virtual void DrawColoredCircle( int centerx, int centery, float radius, int r, int g, int b, int a );
-	virtual void DrawColoredText( vgui::HFont font, int x, int y, int r, int g, int b, int a, const char *fmt, ... ) OVERRIDE;
-	virtual void DrawColoredTextRect( vgui::HFont font, int x, int y, int w, int h, int r, int g, int b, int a, const char *fmt, ... ) OVERRIDE;
+	virtual void DrawColoredText( vgui::HFont font, int x, int y, int r, int g, int b, int a, const char *fmt, ... ) override;
+	virtual void DrawColoredTextRect( vgui::HFont font, int x, int y, int w, int h, int r, int g, int b, int a, const char *fmt, ... ) override;
 	virtual void DrawTextHeight( vgui::HFont font, int w, int& h, char *fmt, ... );
 
 	// Returns the length in pixels of the text
@@ -367,7 +367,7 @@ public:
 	
 	virtual const char *GetWebkitHTMLUserAgentString() { return "Valve Client"; }
 
-	virtual void *Deprecated_AccessChromeHTMLController() OVERRIDE { return NULL; }
+	virtual void *Deprecated_AccessChromeHTMLController() override { return NULL; }
 
 	// Methods of ILocalizeTextQuery
 	//virtual int ComputeTextWidth( const wchar_t *pString );

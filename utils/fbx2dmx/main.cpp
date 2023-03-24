@@ -247,10 +247,10 @@ public:
 		m_pszOptOutFilename = NULL;
 	}
 
-	virtual bool Create() OVERRIDE;
-	virtual int Main() OVERRIDE;
+	virtual bool Create() override;
+	virtual int Main() override;
 
-	virtual bool PreInit() OVERRIDE
+	virtual bool PreInit() override
 	{
 		CreateInterfaceFn factory = GetFactory();
 		ConnectTier1Libraries( &factory, 1 );
@@ -267,7 +267,7 @@ public:
 		return true;
 	}
 
-	virtual void PostShutdown() OVERRIDE
+	virtual void PostShutdown() override
 	{
 		ConVar_Unregister();
 		DisconnectTier2Libraries();

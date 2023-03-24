@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2005, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. =======
 //
 //
 //=============================================================================
@@ -63,55 +63,55 @@ public:
 	~CBaseProjectDataCollector();
 
 	// Called before doing anything in a project
-void StartProject() OVERRIDE;
-void EndProject( bool bSaveData ) OVERRIDE;
+void StartProject() override;
+void EndProject( bool bSaveData ) override;
 
 	// Access the project name.
-const char *GetProjectName() OVERRIDE;
-void SetProjectName( const char *pProjectName ) OVERRIDE;
+const char *GetProjectName() override;
+void SetProjectName( const char *pProjectName ) override;
 
 	// Get a list of all configurations.
-void GetAllConfigurationNames( CUtlVector< CUtlString > &configurationNames ) OVERRIDE;
+void GetAllConfigurationNames( CUtlVector< CUtlString > &configurationNames ) override;
 
 	// Configuration data is specified in between these calls and inside BeginPropertySection/EndPropertySection.
 	// If bFileSpecific is set, then the configuration data only applies to the last file added.
-void StartConfigurationBlock( const char *pConfigName, bool bFileSpecific ) OVERRIDE;
-void EndConfigurationBlock() OVERRIDE;
+void StartConfigurationBlock( const char *pConfigName, bool bFileSpecific ) override;
+void EndConfigurationBlock() override;
 
 	// Get the current configuration name. Only valid between StartConfigurationBlock()/EndConfigurationBlock()
-const char *GetCurrentConfigurationName() OVERRIDE;
+const char *GetCurrentConfigurationName() override;
 
 	// These functions are called when it enters a section like $Compiler, $Linker, etc.
 	// In between the BeginPropertySection/EndPropertySection, it'll call HandleProperty for any properties inside that section.
 	// 
 	// If you pass pCustomScriptData to HandleProperty, it won't touch the global parsing state -
 	// it'll parse the platform filters and property value from pCustomScriptData instead.
-bool StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip = NULL ) OVERRIDE;
-void HandleProperty( const char *pProperty, const char *pCustomScriptData = NULL ) OVERRIDE;
-const char *GetPropertyValue( const char *pProperty ) OVERRIDE;
-void EndPropertySection( configKeyword_e keyword ) OVERRIDE;
+bool StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip = NULL ) override;
+void HandleProperty( const char *pProperty, const char *pCustomScriptData = NULL ) override;
+const char *GetPropertyValue( const char *pProperty ) override;
+void EndPropertySection( configKeyword_e keyword ) override;
 
 	// Files go in folders. The generator should maintain a stack of folders as they're added.
-void StartFolder( const char *pFolderName, VpcFolderFlags_t iFlags ) OVERRIDE;
-void EndFolder() OVERRIDE;
+void StartFolder( const char *pFolderName, VpcFolderFlags_t iFlags ) override;
+void EndFolder() override;
 	
 	// Add files. Any config blocks/properties between StartFile/EndFile apply to this file only.
 	// It will only ever have one active file.
-bool StartFile( const char *pFilename, VpcFileFlags_t iFlags, bool bWarnIfAlreadyExists ) OVERRIDE;
-void EndFile() OVERRIDE;
+bool StartFile( const char *pFilename, VpcFileFlags_t iFlags, bool bWarnIfAlreadyExists ) override;
+void EndFile() override;
 
 	// This is actually just per-file configuration data.
-void FileExcludedFromBuild( bool bExcluded ) OVERRIDE;
+void FileExcludedFromBuild( bool bExcluded ) override;
 
 	// Remove the specified file.
-bool RemoveFile( const char *pFilename ) OVERRIDE;		// returns ture if a file was removed
+bool RemoveFile( const char *pFilename ) override;		// returns ture if a file was removed
 
-bool HasFile( const char *pFilename ) OVERRIDE
+bool HasFile( const char *pFilename ) override
     {
         return m_Files.HasElement( pFilename );
     }
 
-const char *GetCurrentFileName() OVERRIDE;
+const char *GetCurrentFileName() override;
 
 public:
 	void Term();

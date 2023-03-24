@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2004, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½ 1996-2004, Valve Corporation, All rights reserved. =======
 //
 // Purpose: 
 //
@@ -238,7 +238,7 @@ public:
 		}
 	}
 
-	virtual CUtlString GetName() OVERRIDE
+	virtual CUtlString GetName() override
 	{ 
 		return PB_OBJECT_TYPE::default_instance().GetTypeName().c_str(); 
 	}
@@ -303,7 +303,7 @@ public:
 	CProtoBufPtrMsg( google::protobuf::Message *pProto ) : m_pProtoBufBody( pProto )	{}
 
 private:
-	virtual google::protobuf::Message *GetGenericBody() const OVERRIDE { return m_pProtoBufBody; }
+	virtual google::protobuf::Message *GetGenericBody() const override { return m_pProtoBufBody; }
 
 	// Protobuf object for the message body
 	google::protobuf::Message *m_pProtoBufBody;
@@ -425,7 +425,7 @@ public:
 	const PB_OBJECT_TYPE &Body() const { return *m_pProtoBufBody; }
 
 private:
-	virtual google::protobuf::Message *GetGenericBody() const OVERRIDE { return m_pProtoBufBody; }
+	virtual google::protobuf::Message *GetGenericBody() const override { return m_pProtoBufBody; }
 
 	// Protobuf object for the message body
 	PB_OBJECT_TYPE *m_pProtoBufBody;

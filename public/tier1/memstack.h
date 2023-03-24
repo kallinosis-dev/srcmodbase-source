@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: A fast stack memory allocator that uses virtual memory if available
 //
@@ -65,11 +65,11 @@ private:
 	// Track the highest alloc limit seen.
 	byte *m_pHighestAllocLimit;
 
-	const char* GetMemoryName() const OVERRIDE; // User friendly name for this stack or pool
-	size_t GetAllocatedBytes() const OVERRIDE; // Number of bytes currently allocated
-	size_t GetCommittedBytes() const OVERRIDE; // Bytes committed -- may be greater than allocated.
-	size_t GetReservedBytes() const OVERRIDE; // Bytes reserved -- may be greater than committed.
-	size_t GetHighestBytes() const OVERRIDE; // The maximum number of bytes allocated or committed.	
+	const char* GetMemoryName() const override; // User friendly name for this stack or pool
+	size_t GetAllocatedBytes() const override; // Number of bytes currently allocated
+	size_t GetCommittedBytes() const override; // Bytes committed -- may be greater than allocated.
+	size_t GetReservedBytes() const override; // Bytes reserved -- may be greater than committed.
+	size_t GetHighestBytes() const override; // The maximum number of bytes allocated or committed.	
 
 	byte *m_pBase;
 	bool m_bRegisteredAllocation;

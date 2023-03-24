@@ -13,7 +13,7 @@ class CProjectGenerator_Makefile : public IVCProjWriter
 {
 public:
 	CProjectGenerator_Makefile();
-	CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
+	CVCProjGenerator *GetProjectGenerator() override { return m_pVCProjGenerator; }
 
 	bool Save( const char *pOutputFilename ) override;
 	const char *GetProjectFileExtension() override { return "mak"; }

@@ -275,7 +275,7 @@ public:
 	virtual void CompactMaterialVars();
 
 	// Are any of the proxies attached to this material callable from the queued thread?
-	virtual bool HasQueueFriendlyProxies() const OVERRIDE;
+	virtual bool HasQueueFriendlyProxies() const override;
 
 	virtual bool SetTempExcluded( bool bSet, int nExcludedDimensionLimit );
 

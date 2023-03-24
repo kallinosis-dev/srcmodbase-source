@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2005, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. =======
 //
 // Purpose: 
 //
@@ -132,8 +132,8 @@ public:
 		m_bIsFileConfig = bIsFileConfig;
 	}
 
-	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) OVERRIDE;
-	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) OVERRIDE;
+	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
+	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
 
 private:
 	CUtlString	m_ConfigName;
@@ -179,8 +179,8 @@ public:
 		m_bIsFileConfig = bIsFileConfig;
 	}
 
-	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) OVERRIDE;
-	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) OVERRIDE;
+	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
+	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
 
 private:
 	CUtlString	m_ConfigName;
@@ -214,8 +214,8 @@ public:
 		m_bIsFileConfig = bIsFileConfig;
 	}
 
-	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) OVERRIDE;
-	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) OVERRIDE;
+	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
+	const char *GetPropertyValue( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = NULL ) override;
 
 private:
 	CUtlString	m_ConfigName;
@@ -305,29 +305,29 @@ public:
 	typedef CBaseProjectDataCollector BaseClass;
 	CVCProjGenerator();
 
-	const char	*GetProjectFileExtension() OVERRIDE;
-	void		StartProject() OVERRIDE;
-	void		EndProject( bool bSaveData ) OVERRIDE;
-	const char *GetProjectName() OVERRIDE;
-	void		SetProjectName( const char *pProjectName ) OVERRIDE;
-	void		GetAllConfigurationNames( CUtlVector< CUtlString > &configurationNames ) OVERRIDE;
-	void		StartConfigurationBlock( const char *pConfigName, bool bFileSpecific ) OVERRIDE;
-	void		EndConfigurationBlock() OVERRIDE;
-	bool		StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip ) OVERRIDE;
-	void		HandleProperty( const char *pProperty, const char *pCustomScriptData ) OVERRIDE;
-	const char *GetPropertyValue( const char *pPropertyName ) OVERRIDE;
-	void		EndPropertySection( configKeyword_e keyword ) OVERRIDE;
-	void		StartFolder( const char *pFolderName, VpcFolderFlags_t iFlags ) OVERRIDE;
-	void		EndFolder() OVERRIDE;
-	bool		StartFile( const char *pFilename, VpcFileFlags_t iFlags, bool bWarnIfAlreadyExists ) OVERRIDE;
-	void		EndFile() OVERRIDE;
-	void		FileExcludedFromBuild( bool bExcluded ) OVERRIDE;
-	bool		RemoveFile( const char *pFilename ) OVERRIDE;
+	const char	*GetProjectFileExtension() override;
+	void		StartProject() override;
+	void		EndProject( bool bSaveData ) override;
+	const char *GetProjectName() override;
+	void		SetProjectName( const char *pProjectName ) override;
+	void		GetAllConfigurationNames( CUtlVector< CUtlString > &configurationNames ) override;
+	void		StartConfigurationBlock( const char *pConfigName, bool bFileSpecific ) override;
+	void		EndConfigurationBlock() override;
+	bool		StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip ) override;
+	void		HandleProperty( const char *pProperty, const char *pCustomScriptData ) override;
+	const char *GetPropertyValue( const char *pPropertyName ) override;
+	void		EndPropertySection( configKeyword_e keyword ) override;
+	void		StartFolder( const char *pFolderName, VpcFolderFlags_t iFlags ) override;
+	void		EndFolder() override;
+	bool		StartFile( const char *pFilename, VpcFileFlags_t iFlags, bool bWarnIfAlreadyExists ) override;
+	void		EndFile() override;
+	void		FileExcludedFromBuild( bool bExcluded ) override;
+	bool		RemoveFile( const char *pFilename ) override;
 
-	void		EnumerateSupportedVPCTargetPlatforms( CUtlVector<CUtlString> &output ) OVERRIDE;
-	bool		BuildsForTargetPlatform( const char *szVPCTargetPlatform ) OVERRIDE;
-	bool		DeploysForVPCTargetPlatform( const char *szVPCTargetPlatform ) OVERRIDE;
-	CUtlString	GetSolutionPlatformAlias( const char *szVPCTargetPlatform, IBaseSolutionGenerator *pSolutionGenerator ) OVERRIDE;
+	void		EnumerateSupportedVPCTargetPlatforms( CUtlVector<CUtlString> &output ) override;
+	bool		BuildsForTargetPlatform( const char *szVPCTargetPlatform ) override;
+	bool		DeploysForVPCTargetPlatform( const char *szVPCTargetPlatform ) override;
+	CUtlString	GetSolutionPlatformAlias( const char *szVPCTargetPlatform, IBaseSolutionGenerator *pSolutionGenerator ) override;
 
 	CGeneratorDefinition	*GetGeneratorDefinition()	{ return m_pGeneratorDefinition; }
 	void					SetupGeneratorDefinition( const char *pDefinitionName, PropertyName_t *pPropertyNames );

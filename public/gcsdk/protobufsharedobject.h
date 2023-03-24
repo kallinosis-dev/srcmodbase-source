@@ -1,4 +1,4 @@
-//====== Copyright ©, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½, Valve Corporation, All rights reserved. =======
 //
 // Purpose: Shared object based on a CBaseRecord subclass
 //
@@ -37,22 +37,22 @@ class CProtoBufSharedObjectBase : public CSharedObject
 public:
 	typedef CSharedObject BaseClass;
 
-	virtual bool BParseFromMessage( const CUtlBuffer & buffer ) OVERRIDE;
-	virtual bool BParseFromMessage( const std::string &buffer ) OVERRIDE;
-	virtual bool BUpdateFromNetwork( const CSharedObject & objUpdate ) OVERRIDE;
+	virtual bool BParseFromMessage( const CUtlBuffer & buffer ) override;
+	virtual bool BParseFromMessage( const std::string &buffer ) override;
+	virtual bool BUpdateFromNetwork( const CSharedObject & objUpdate ) override;
 
-	virtual bool BAddToMessage( std::string *pBuffer ) const OVERRIDE;
-	virtual bool BAddDestroyToMessage( std::string *pBuffer ) const OVERRIDE;
+	virtual bool BAddToMessage( std::string *pBuffer ) const override;
+	virtual bool BAddDestroyToMessage( std::string *pBuffer ) const override;
 
 	virtual bool BIsKeyLess( const CSharedObject & soRHS ) const ;
 	virtual void Copy( const CSharedObject & soRHS );
-	virtual void Dump() const OVERRIDE;
+	virtual void Dump() const override;
 
 
 #ifdef GC
 
-	virtual bool BParseFromMemcached( CUtlBuffer & buffer ) OVERRIDE;
-	virtual bool BAddToMemcached( CUtlBuffer & bufOutput ) const OVERRIDE;
+	virtual bool BParseFromMemcached( CUtlBuffer & buffer ) override;
+	virtual bool BAddToMemcached( CUtlBuffer & bufOutput ) const override;
 #endif //GC
 
 	// Static helpers
@@ -108,7 +108,7 @@ class CProtoBufCachedSharedObject : public CProtoBufSharedObject< Message_t, nTy
 {
 #ifdef GC
 public:
-	virtual bool BAddToMessage( std::string *pBuffer ) const OVERRIDE
+	virtual bool BAddToMessage( std::string *pBuffer ) const override
 	{
 		UpdateCache();
 		*pBuffer = m_cachedSerialize;

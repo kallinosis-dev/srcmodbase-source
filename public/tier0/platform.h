@@ -210,19 +210,6 @@
 #define BINK_ENABLED_FOR_CONSOLE
 #endif
 
-#if defined( _MSC_VER )
-#define OVERRIDE override
-// warning C4481: nonstandard extension used: override specifier 'override'
-#pragma warning(disable : 4481)
-#elif defined( __clang__ )
-#define OVERRIDE override
-// warning: 'override' keyword is a C++11 extension [-Wc++11-extensions]
-// Disabling this warning is less intrusive than enabling C++11 extensions
-#pragma GCC diagnostic ignored "-Wc++11-extensions"
-#else
-#define OVERRIDE
-#endif
-
 #if _MSC_VER >= 1800
 #define	VECTORCALL __vectorcall 
 #else 
@@ -496,13 +483,6 @@ typedef signed char					int8;
 		#define __m128				__vector4
 	#endif
 
-	// Use this to specify that a function is an override of a virtual function.
-	// This lets the compiler catch cases where you meant to override a virtual
-	// function but you accidentally changed the function signature and created
-	// an overloaded function. Usage in function declarations is like this:
-	// int GetData() const OVERRIDE;
-	#define OVERRIDE override
-
 #else // !COMPILER_MSVC
 
 	typedef short					int16;
@@ -528,10 +508,6 @@ typedef signed char					int8;
     // otherwise confuse the compiler.
     typedef long int lint64;
     typedef unsigned long int ulint64;
-
-	#ifndef OVERRIDE // suppress redifinition warning (because we don't have CROSS_PLATFORM_VERSION defined)
-		#define OVERRIDE
-	#endif
 #endif // else COMPILER_MSVC
 
 #if defined(_PS3) && !defined(NO_SIMD)

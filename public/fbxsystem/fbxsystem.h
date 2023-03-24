@@ -28,10 +28,10 @@ public:
 	virtual ~CFbxSystem();
 
 	// From CBaseAppSystem
-	virtual InitReturnVal_t Init() OVERRIDE;
-	virtual void Shutdown() OVERRIDE;
-	virtual AppSystemTier_t GetTier() OVERRIDE { return APP_SYSTEM_TIER2; }
-	virtual bool IsSingleton() OVERRIDE{ return false; }
+	virtual InitReturnVal_t Init() override;
+	virtual void Shutdown() override;
+	virtual AppSystemTier_t GetTier() override { return APP_SYSTEM_TIER2; }
+	virtual bool IsSingleton() override{ return false; }
 
 	// From IFbxSystem
 	virtual FbxManager *GetFbxManager();

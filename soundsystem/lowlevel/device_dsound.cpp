@@ -44,7 +44,7 @@ public:
 	void		CancelOutput( void );
 	void		WaitForComplete();
 	const wchar_t	*GetDeviceID() const { return m_deviceID; }
-	bool		SetShouldPlayWhenNotInFocus( bool bPlayEvenWhenNotInFocus ) OVERRIDE
+	bool		SetShouldPlayWhenNotInFocus( bool bPlayEvenWhenNotInFocus ) override
 	{
 		if ( bPlayEvenWhenNotInFocus != m_bPlayEvenWhenNotInFocus )
 			return false;

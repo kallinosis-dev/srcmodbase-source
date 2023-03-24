@@ -1,4 +1,4 @@
-//===== Copyright © Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ Valve Corporation, All rights reserved. ======//
 //
 // Purpose: Resource Stream is conceptually memory file where you write the data
 //          that you want to live both on disk and in memory. The constraint then is
@@ -560,10 +560,10 @@ class CResourceStreamVM: public CResourceStream
 public:
 	// Constructor, destructor
 	CResourceStreamVM( uint nReserveSize = 16 * 1024 * 1024 );
-	virtual ~CResourceStreamVM( ) OVERRIDE;
+	virtual ~CResourceStreamVM( ) override;
 	void CloneStream( CResourceStreamVM& copyFromStream );
 protected:
-	virtual void Commit( uint nNewCommit ) OVERRIDE;
+	virtual void Commit( uint nNewCommit ) override;
 	void ReserveVirtualMemory( uint nAddressSize );
 	void ReleaseVirtualMemory( );
 	enum
@@ -584,7 +584,7 @@ private:
 public:
 	CResourceStreamFixed( uint nPreallocateDataSize );// NOTE: the preallocated data is Zeroed in this constructor
 	CResourceStreamFixed( void *pPreallocatedData, uint nPreallocatedDataSize ); // NOTE: the preallocated data is Zeroed in this constructor
-	virtual ~CResourceStreamFixed() OVERRIDE;
+	virtual ~CResourceStreamFixed() override;
 
 	int GetSlack(); // remaining bytes
 	virtual void Commit( uint nNewCommit );

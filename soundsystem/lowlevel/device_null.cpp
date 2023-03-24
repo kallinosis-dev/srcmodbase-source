@@ -40,7 +40,7 @@ public:
 	{
 		Msg( "Sound Disabled.\n" );
 	}
-	virtual bool		SetShouldPlayWhenNotInFocus( bool bPlayEvenWhenNotInFocus ) OVERRIDE
+	virtual bool		SetShouldPlayWhenNotInFocus( bool bPlayEvenWhenNotInFocus ) override
 	{
 		return true;
 	}

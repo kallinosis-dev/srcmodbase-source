@@ -25,8 +25,8 @@ public:
 	typedef CBaseProjectDataCollector BaseClass;
 	CProjectGenerator_Android();
 
-	const char* GetProjectFileExtension() OVERRIDE { return "androidproj"; }
-	void EndProject( bool bSaveData ) OVERRIDE;
+	const char* GetProjectFileExtension() override { return "androidproj"; }
+	void EndProject( bool bSaveData ) override;
 
 	CGeneratorDefinition	m_GeneratorDefinition;
 
@@ -37,10 +37,10 @@ public:
 	bool WriteAndroidManifestXML( CSpecificConfig *pBaseConfig, const CUtlVector<CSpecificConfig *> &generalConfigurations );
 	bool WriteProjectProperties( CSpecificConfig *pBaseConfig, const CUtlVector<CSpecificConfig *> &generalConfigurations );
 
-	void EnumerateSupportedVPCTargetPlatforms( CUtlVector<CUtlString> &output ) OVERRIDE;
-	bool BuildsForTargetPlatform( const char *szVPCTargetPlatform ) OVERRIDE;
-	bool DeploysForVPCTargetPlatform( const char *szVPCTargetPlatform ) OVERRIDE;
-	CUtlString GetSolutionPlatformAlias( const char *szVPCTargetPlatform, IBaseSolutionGenerator *pSolutionGenerator ) OVERRIDE;
+	void EnumerateSupportedVPCTargetPlatforms( CUtlVector<CUtlString> &output ) override;
+	bool BuildsForTargetPlatform( const char *szVPCTargetPlatform ) override;
+	bool DeploysForVPCTargetPlatform( const char *szVPCTargetPlatform ) override;
+	CUtlString GetSolutionPlatformAlias( const char *szVPCTargetPlatform, IBaseSolutionGenerator *pSolutionGenerator ) override;
 };
 
 #endif // PROJECTGENERATOR_ANDROID_H

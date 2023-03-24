@@ -70,7 +70,7 @@ public:
 	virtual int heapchk();
 
 	virtual void DumpStats() {}
-	virtual void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) OVERRIDE {}
+	virtual void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) override {}
 
 	virtual bool IsDebugHeap()
 	{
