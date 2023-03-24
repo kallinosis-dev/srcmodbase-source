@@ -150,7 +150,7 @@ public:
 
 // IProjectIterator overrides.
 protected:
-	virtual bool VisitProject( projectIndex_t iProject, const char *szProjectName ) OVERRIDE;
+bool VisitProject( projectIndex_t iProject, const char *szProjectName ) OVERRIDE;
 
 private:
 

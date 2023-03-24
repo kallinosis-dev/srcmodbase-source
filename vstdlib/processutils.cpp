@@ -23,11 +23,11 @@ class CProcessPipeRead : public IPipeRead
 {
 // IPipeRead overrides.
 public:
-	virtual int GetNumBytesAvailable();
-	virtual void ReadAvailable( CUtlString &sStr, int nMaxBytes );
-	virtual void ReadAvailable( CUtlBuffer *pOutBuffer, int nMaxBytes );
-	virtual void Read( CUtlString &sStr, int nMaxBytes );
-	virtual void ReadLine( CUtlString &sStr );
+int GetNumBytesAvailable() override;
+void ReadAvailable( CUtlString &sStr, int nMaxBytes ) override;
+void ReadAvailable( CUtlBuffer *pOutBuffer, int nMaxBytes ) override;
+void Read( CUtlString &sStr, int nMaxBytes ) override;
+void ReadLine( CUtlString &sStr ) override;
 
 public:
 	bool IsValid() const;
@@ -78,16 +78,16 @@ public:
 
 // IProcess overrides.
 public:
-	virtual void Release();
-	virtual void Abort();
-	virtual bool IsComplete();
-	virtual int WaitUntilComplete();
+	void Release() override;
+	void Abort() override;
+	bool IsComplete() override;
+	int WaitUntilComplete() override;
 
-	virtual int WriteStdin( char *pBuf, int nBufLen );
-	virtual IPipeRead* GetStdout();
-	virtual IPipeRead* GetStderr();
+	int WriteStdin( char *pBuf, int nBufLen ) override;
+	IPipeRead* GetStdout() override;
+	IPipeRead* GetStderr() override;
 
-	virtual int GetExitCode();
+	int GetExitCode() override;
 
 public:
 	ProcessInfo_t m_Info;
@@ -111,13 +111,13 @@ public:
 	CProcessUtils() {}
 
 	// Inherited from IAppSystem
-	virtual InitReturnVal_t Init();
-	virtual void Shutdown();
+	InitReturnVal_t Init() override;
+	void Shutdown() override;
 
 	// Inherited from IProcessUtils
-	virtual IProcess* StartProcess( const char *pCommandLine, int fFlags, const char *pWorkingDir );
-	virtual IProcess* StartProcess( int argc, const char **argv, int fFlags, const char *pWorkingDir );
-	virtual int SimpleRunProcess( const char *pCommandLine, const char *pWorkingDir, CUtlString *pStdout );
+	IProcess* StartProcess( const char *pCommandLine, int fFlags, const char *pWorkingDir ) override;
+	IProcess* StartProcess( int argc, const char **argv, int fFlags, const char *pWorkingDir ) override;
+	int SimpleRunProcess( const char *pCommandLine, const char *pWorkingDir, CUtlString *pStdout ) override;
 
 public:
 	void OnProcessDelete( CProcess *pProcess );

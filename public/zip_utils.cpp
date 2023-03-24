@@ -247,10 +247,10 @@ public:
 	CBufferStream( CUtlBuffer& buff ) : IWriteStream(), m_buff( &buff ) {}
 
 	// Implementing IWriteStream method
-	virtual void Put( const void* pMem, int size ) { m_buff->Put( pMem, size ); }
+	void Put( const void* pMem, int size ) override { m_buff->Put( pMem, size ); }
 
 	// Implementing IWriteStream method
-	virtual unsigned int Tell( void ) { return m_buff->TellPut(); }
+	unsigned int Tell( void ) override { return m_buff->TellPut(); }
 
 private:
 	CUtlBuffer *m_buff;
@@ -266,7 +266,7 @@ public:
 	CFileStream( HANDLE hOutFile ) : IWriteStream(), m_file( NULL ), m_hFile( hOutFile ) {}
 
 	// Implementing IWriteStream method
-	virtual void Put( const void* pMem, int size ) 
+	void Put( const void* pMem, int size ) override
 	{ 
 		if ( m_file )
 		{
@@ -282,7 +282,7 @@ public:
 	}
 
 	// Implementing IWriteStream method
-	virtual unsigned int Tell( void ) 
+	unsigned int Tell( void ) override
 	{ 
 		if ( m_file )
 		{
@@ -1573,56 +1573,56 @@ public:
 	CZip( const char *pDiskCacheWritePath, bool bSortByName );
 	virtual ~CZip();
 
-	virtual void			Reset();
+	void			Reset() override;
 
 	// Add a single file to a zip - maintains the zip's previous alignment state
-	virtual void			AddFileToZip( const char *relativename, const char *fullpath );
+	void			AddFileToZip( const char *relativename, const char *fullpath ) override;
 
 	// Whether a file is contained in a zip - maintains alignment
-	virtual bool			FileExistsInZip( const char *pRelativeName );
+	bool			FileExistsInZip( const char *pRelativeName ) override;
 
 	// Reads a file from the zip - maintains alignement
-	virtual bool			ReadFileFromZip( const char *pRelativeName, bool bTextMode, CUtlBuffer &buf );
-	virtual bool			ReadFileFromZip( HANDLE hZipFile, const char *relativename, bool bTextMode, CUtlBuffer &buf );
+	bool			ReadFileFromZip( const char *pRelativeName, bool bTextMode, CUtlBuffer &buf ) override;
+	bool			ReadFileFromZip( HANDLE hZipFile, const char *relativename, bool bTextMode, CUtlBuffer &buf ) override;
 
 	// Removes a single file from the zip - maintains alignment
-	virtual void			RemoveFileFromZip( const char *relativename );
+	void			RemoveFileFromZip( const char *relativename ) override;
 
 	// Gets next filename in zip, for walking the directory - maintains alignment
-	virtual int				GetNextFilename( int id, char *pBuffer, int bufferSize, int &fileSize );
+	int				GetNextFilename( int id, char *pBuffer, int bufferSize, int &fileSize ) override;
 
 	// Prints the zip's contents - maintains alignment
-	virtual void			PrintDirectory( void );
+	void			PrintDirectory( void ) override;
 
 	// Estimate the size of the Zip (including header, padding, etc.)
-	virtual unsigned int	EstimateSize( void );
+	unsigned int	EstimateSize( void ) override;
 
 	// Add buffer to zip as a file with given name - uses current alignment size, default 0 (no alignment)
-	virtual void			AddBufferToZip( const char *relativename, void *data, int length, bool bTextMode );
+	void			AddBufferToZip( const char *relativename, void *data, int length, bool bTextMode ) override;
 
 	// Writes out zip file to a buffer - uses current alignment size 
 	// (set by file's previous alignment, or a call to ForceAlignment)
-	virtual void			SaveToBuffer( CUtlBuffer& outbuf );
+	void			SaveToBuffer( CUtlBuffer& outbuf ) override;
 
 	// Writes out zip file to a filestream - uses current alignment size 
 	// (set by file's previous alignment, or a call to ForceAlignment)
-	virtual void			SaveToDisk( FILE *fout );
-	virtual void			SaveToDisk( HANDLE hOutFile );
+	void			SaveToDisk( FILE *fout ) override;
+	void			SaveToDisk( HANDLE hOutFile ) override;
 
 	// Reads a zip file from a buffer into memory - sets current alignment size to 
 	// the file's alignment size, unless overridden by a ForceAlignment call)
-	virtual void			ParseFromBuffer( void *buffer, int bufferlength );
-	virtual HANDLE			ParseFromDisk( const char *pFilename );
+	void			ParseFromBuffer( void *buffer, int bufferlength ) override;
+	HANDLE			ParseFromDisk( const char *pFilename ) override;
 
 	// Forces a specific alignment size for all subsequent file operations, overriding files' previous alignment size.
 	// Return to using files' individual alignment sizes by passing FALSE.
-	virtual void			ForceAlignment( bool aligned, bool bCompatibleFormat, unsigned int alignmentSize );
+	void			ForceAlignment( bool aligned, bool bCompatibleFormat, unsigned int alignmentSize ) override;
 
 	// Sets the endianess of the zip
-	virtual void			SetBigEndian( bool bigEndian );
-	virtual void			ActivateByteSwapping( bool bActivate );
+	void			SetBigEndian( bool bigEndian ) override;
+	void			ActivateByteSwapping( bool bActivate ) override;
 
-	virtual unsigned int	GetAlignment();
+	unsigned int	GetAlignment() override;
 
 private:
 	CZipFile				m_ZipFile;

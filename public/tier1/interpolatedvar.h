@@ -438,22 +438,21 @@ public:
 	friend class CInterpolatedVarPrivate;
 
 	CInterpolatedVarArrayBase( const char *pDebugName="no debug name" );
-	virtual ~CInterpolatedVarArrayBase();
+	~CInterpolatedVarArrayBase() override;
 
 	
 	// IInterpolatedVar overrides.
 public:
-	
-	virtual void Setup( void *pValue, int type );
-	virtual void SetInterpolationAmount( float seconds );
-	virtual void NoteLastNetworkedValue();
-	virtual bool NoteChanged( float flCurrentTime, float flChangeTime, bool bUpdateLastNetworkedValue );
-	virtual void Reset( float flCurrentTime );
-	virtual int Interpolate( float currentTime );
-	virtual int GetType() const;
-	virtual void RestoreToLastNetworked();
-	virtual void Copy( IInterpolatedVar *pInSrc );
-	virtual const char *GetDebugName() { return m_pDebugName; }
+	void Setup( void *pValue, int type ) override;
+	void SetInterpolationAmount( float seconds ) override;
+	void NoteLastNetworkedValue() override;
+	bool NoteChanged( float flCurrentTime, float flChangeTime, bool bUpdateLastNetworkedValue ) override;
+	void Reset( float flCurrentTime ) override;
+	int Interpolate( float currentTime ) override;
+	int GetType() const override;
+	void RestoreToLastNetworked() override;
+	void Copy( IInterpolatedVar *pInSrc ) override;
+	const char *GetDebugName() override { return m_pDebugName; }
 
 
 public:
@@ -495,7 +494,7 @@ public:
 	float GetOldestEntry();
 
 	// set a debug name (if not provided by constructor)
-	void	SetDebugName(const char *pName ) { m_pDebugName = pName; }
+	void	SetDebugName(const char *pName ) override { m_pDebugName = pName; }
 
 	bool GetInterpolationInfo( float currentTime, int *pNewer, int *pOlder, int *pOldest );
 

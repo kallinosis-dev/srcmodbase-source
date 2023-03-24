@@ -206,59 +206,59 @@ class CThreadPool : public CRefCounted1<IThreadPool, CRefCountServiceMT>
 {
 public:
 	CThreadPool();
-	~CThreadPool();
+	~CThreadPool() override;
 
 	//-----------------------------------------------------
 	// Thread functions
 	//-----------------------------------------------------
-	bool Start( const ThreadPoolStartParams_t &startParams = ThreadPoolStartParams_t() ) { return Start( startParams, NULL ); }
-	bool Start( const ThreadPoolStartParams_t &startParams, const char *pszNameOverride );
-	bool Stop( int timeout = TT_INFINITE );
-	void Distribute( bool bDistribute = true, int *pAffinityTable = NULL );
+	bool Start( const ThreadPoolStartParams_t &startParams = ThreadPoolStartParams_t() ) override { return Start( startParams, NULL ); }
+	bool Start( const ThreadPoolStartParams_t &startParams, const char *pszNameOverride ) override;
+	bool Stop( int timeout = TT_INFINITE ) override;
+	void Distribute( bool bDistribute = true, int *pAffinityTable = NULL ) override;
 
 	//-----------------------------------------------------
 	// Functions for any thread
 	//-----------------------------------------------------
-	unsigned GetJobCount()							{ return m_nJobs; }
-	int NumThreads();
-	int NumIdleThreads();
+	unsigned GetJobCount() override { return m_nJobs; }
+	int NumThreads() override;
+	int NumIdleThreads() override;
 
 	//-----------------------------------------------------
 	// Pause/resume processing jobs
 	//-----------------------------------------------------
-	int SuspendExecution();
-	int ResumeExecution();
+	int SuspendExecution() override;
+	int ResumeExecution() override;
 
 	//-----------------------------------------------------
 	// Offer the current thread to the pool
 	//-----------------------------------------------------
-	virtual int YieldWait( CThreadEvent **pEvents, int nEvents, bool bWaitAll = true, unsigned timeout = TT_INFINITE );
-	virtual int YieldWait( CJob **, int nJobs, bool bWaitAll = true, unsigned timeout = TT_INFINITE );
-	void Yield( unsigned timeout );
-	virtual int YieldWaitPerFrameJobs( );
+	int YieldWait( CThreadEvent **pEvents, int nEvents, bool bWaitAll = true, unsigned timeout = TT_INFINITE ) override;
+	int YieldWait( CJob **, int nJobs, bool bWaitAll = true, unsigned timeout = TT_INFINITE ) override;
+	void Yield( unsigned timeout ) override;
+	int YieldWaitPerFrameJobs( ) override;
 
 	//-----------------------------------------------------
 	// Add a native job to the queue (master thread)
 	//-----------------------------------------------------
-	void AddJob( CJob * );
-	virtual void AddPerFrameJob( CJob * );
+	void AddJob( CJob * ) override;
+	void AddPerFrameJob( CJob * ) override;
 	void InsertJobInQueue( CJob * );
 
 	//-----------------------------------------------------
 	// Add an function object to the queue (master thread)
 	//-----------------------------------------------------
-	void AddFunctorInternal( CFunctor *, CJob ** = NULL, const char *pszDescription = NULL, unsigned flags = 0 );
+	void AddFunctorInternal( CFunctor *, CJob ** = NULL, const char *pszDescription = NULL, unsigned flags = 0 ) override;
 
 	//-----------------------------------------------------
 	// Remove a job from the queue (master thread)
 	//-----------------------------------------------------
-	virtual void ChangePriority( CJob *p, JobPriority_t priority );
+	void ChangePriority( CJob *p, JobPriority_t priority ) override;
 
 	//-----------------------------------------------------
 	// Bulk job manipulation (blocking)
 	//-----------------------------------------------------
-	int ExecuteToPriority( JobPriority_t toPriority, JobFilter_t pfnFilter = NULL  );
-	int AbortAll();
+	int ExecuteToPriority( JobPriority_t toPriority, JobFilter_t pfnFilter = NULL  ) override;
+	int AbortAll() override;
 
 private:
 	enum
@@ -271,7 +271,7 @@ private:
 	//
 	//-----------------------------------------------------
 	CJob *PeekJob();
-	CJob *GetDummyJob();
+	CJob *GetDummyJob() override;
 
 	//-----------------------------------------------------
 	// Thread functions
@@ -315,7 +315,7 @@ JOB_INTERFACE void DestroyThreadPool( IThreadPool *pPool )
 class CGlobalThreadPool : public CThreadPool
 {
 public:
-	virtual bool Start( const ThreadPoolStartParams_t &startParamsIn )
+	bool Start( const ThreadPoolStartParams_t &startParamsIn ) override
 	{
 		int nThreads = ( CommandLine()->ParmValue( "-threads", -1 ) - 1 );
 		ThreadPoolStartParams_t startParams = startParamsIn;
@@ -332,7 +332,7 @@ public:
 		return CThreadPool::Start( startParams, "GlobPool" );
 	}
 
-	virtual bool OnFinalRelease()
+	bool OnFinalRelease() override
 	{
 		AssertMsg( 0, "Releasing global thread pool object!" );
 		return false;
@@ -411,7 +411,7 @@ private:
 		return waitResult;
 	}
 
-	int Run()
+	int Run() override
 	{
 		// Wait for either a call from the master thread, or an item in the queue...
 		unsigned waitResult;
@@ -1279,7 +1279,7 @@ CJob *CThreadPool::GetDummyJob()
 			Execute();
 		}
 
-		virtual JobStatus_t DoExecute() { return JOB_OK; }
+		JobStatus_t DoExecute() override { return JOB_OK; }
 	};
 
 	static CDummyJob dummyJob;
@@ -1300,7 +1300,7 @@ CThreadPool *g_pTestThreadPool;
 class CCountJob : public CJob
 {
 public:
-	virtual JobStatus_t DoExecute()
+	JobStatus_t DoExecute() override
 	{
 		m_nCount++;
 		ThreadPause();
@@ -1435,7 +1435,7 @@ CInterlockedInt g_nReady;
 class CExecuteTestJob : public CJob
 {
 public:
-	virtual JobStatus_t DoExecute()
+	JobStatus_t DoExecute() override
 	{
 		byte pMemory[1024];
 		int i;
@@ -1462,7 +1462,7 @@ public:
 class CExecuteTestExecuteJob : public CJob
 {
 public:
-	virtual JobStatus_t DoExecute()
+	JobStatus_t DoExecute() override
 	{
 		bool bAbort = ( RandomInt(  1, 10 ) == 1 );
 		g_nReady++;

@@ -569,13 +569,13 @@ public:
 		}
 	}
 
-	virtual JobStatus_t DoExecute()
+	JobStatus_t DoExecute() override
 	{
 		(*m_pFunctor)();
 		return JOB_OK;
 	}
 
-	const char *Describe()
+	const char *Describe() override
 	{
 		return m_szDescription;
 	}

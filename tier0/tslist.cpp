@@ -57,14 +57,14 @@ CThreadConditionalMutex< CThreadFastMutex, &g_bUseMutex > g_TestLock;
 
 class CQueueOps : public CTestOps
 {
-	void Push( int item )
+	void Push( int item ) override
 	{
 		g_TestLock.Lock();
 		g_TestQueue.PushItem( item );
 		g_TestLock.Unlock();
 		g_nPushes++;
 	}
-	bool Pop( int *pResult )
+	bool Pop( int *pResult ) override
 	{
 		g_TestLock.Lock();
 		if ( g_TestQueue.PopItem( pResult ) )
@@ -76,11 +76,11 @@ class CQueueOps : public CTestOps
 		g_TestLock.Unlock();
 		return false;
 	}
-	bool Validate()
+	bool Validate() override
 	{
 		return true; //g_TestQueue.Validate();
 	}
-	bool IsEmpty()
+	bool IsEmpty() override
 	{
 		return ( g_TestQueue.Count() == 0 );
 	}
@@ -88,13 +88,13 @@ class CQueueOps : public CTestOps
 
 class CListOps : public CTestOps
 {
-	void Push( int item )
+	void Push( int item ) override
 	{
 		g_TestLock.Lock();
 		g_TestList.PushItem( item );
 		g_nPushes++;
 	}
-	bool Pop( int *pResult )
+	bool Pop( int *pResult ) override
 	{
 		g_TestLock.Lock();
 		if ( g_TestList.PopItem( pResult ) )
@@ -106,11 +106,11 @@ class CListOps : public CTestOps
 		g_TestLock.Unlock();
 		return false;
 	}
-	bool Validate()
+	bool Validate() override
 	{
 		return true;
 	}
-	bool IsEmpty()
+	bool IsEmpty() override
 	{
 		return ( g_TestList.Count() == 0 );
 	}

@@ -269,16 +269,16 @@ public:
 	void CompactOnFail();
 
 	// Release versions
-	virtual void *Alloc( size_t nSize );
-	virtual void *Realloc( void *pMem, size_t nSize );
-	virtual void  Free( void *pMem );
-    virtual void *Expand_NoLongerSupported( void *pMem, size_t nSize );
+	void *Alloc( size_t nSize ) override;
+	void *Realloc( void *pMem, size_t nSize ) override;
+	void  Free( void *pMem ) override;
+	void *Expand_NoLongerSupported( void *pMem, size_t nSize ) override;
 
 	// Debug versions
-    virtual void *Alloc( size_t nSize, const char *pFileName, int nLine );
-    virtual void *Realloc( void *pMem, size_t nSize, const char *pFileName, int nLine );
-    virtual void  Free( void *pMem, const char *pFileName, int nLine );
-    virtual void *Expand_NoLongerSupported( void *pMem, size_t nSize, const char *pFileName, int nLine );
+	void *Alloc( size_t nSize, const char *pFileName, int nLine ) override;
+	void *Realloc( void *pMem, size_t nSize, const char *pFileName, int nLine ) override;
+	void  Free( void *pMem, const char *pFileName, int nLine ) override;
+	void *Expand_NoLongerSupported( void *pMem, size_t nSize, const char *pFileName, int nLine ) override;
 
 #ifdef MEMALLOC_SUPPORTS_ALIGNED_ALLOCATIONS
 	virtual void *AllocAlign( size_t nSize, size_t align );
@@ -287,61 +287,61 @@ public:
 	virtual void *ReallocAlign( void *pMem, size_t nSize, size_t align, const char *pFileName, int nLine );
 #endif
 
-	virtual void *RegionAlloc( int region, size_t nSize );
-	virtual void *RegionAlloc( int region, size_t nSize, const char *pFileName, int nLine );
+	void *RegionAlloc( int region, size_t nSize ) override;
+	void *RegionAlloc( int region, size_t nSize, const char *pFileName, int nLine ) override;
 
 	// Returns size of a particular allocation
-	virtual size_t GetSize( void *pMem );
+	size_t GetSize( void *pMem ) override;
 
     // Force file + line information for an allocation
-    virtual void PushAllocDbgInfo( const char *pFileName, int nLine );
-    virtual void PopAllocDbgInfo();
+	void PushAllocDbgInfo( const char *pFileName, int nLine ) override;
+	void PopAllocDbgInfo() override;
 
-	virtual int32 CrtSetBreakAlloc( int32 lNewBreakAlloc );
-	virtual	int CrtSetReportMode( int nReportType, int nReportMode );
-	virtual int CrtIsValidHeapPointer( const void *pMem );
-	virtual int CrtIsValidPointer( const void *pMem, unsigned int size, int access );
-	virtual int CrtCheckMemory( void );
-	virtual int CrtSetDbgFlag( int nNewFlag );
-	virtual void CrtMemCheckpoint( _CrtMemState *pState );
-	void* CrtSetReportFile( int nRptType, void* hFile );
-	void* CrtSetReportHook( void* pfnNewHook );
+	int32 CrtSetBreakAlloc( int32 lNewBreakAlloc ) override;
+	int CrtSetReportMode( int nReportType, int nReportMode ) override;
+	int CrtIsValidHeapPointer( const void *pMem ) override;
+	int CrtIsValidPointer( const void *pMem, unsigned int size, int access ) override;
+	int CrtCheckMemory( void ) override;
+	int CrtSetDbgFlag( int nNewFlag ) override;
+	void CrtMemCheckpoint( _CrtMemState *pState ) override;
+	void* CrtSetReportFile( int nRptType, void* hFile ) override;
+	void* CrtSetReportHook( void* pfnNewHook ) override;
 	int CrtDbgReport( int nRptType, const char * szFile,
-			int nLine, const char * szModule, const char * pMsg );
-	virtual int heapchk();
+			int nLine, const char * szModule, const char * pMsg ) override;
+	int heapchk() override;
 
-	virtual void DumpStats();
-	virtual void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) OVERRIDE;
-	virtual size_t ComputeMemoryUsedBy( char const *pchSubStr );
-	virtual void GlobalMemoryStatus( size_t *pUsedMemory, size_t *pFreeMemory );
+	void DumpStats() override;
+	void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) OVERRIDE;
+	size_t ComputeMemoryUsedBy( char const *pchSubStr ) override;
+	void GlobalMemoryStatus( size_t *pUsedMemory, size_t *pFreeMemory ) override;
 
-	virtual bool IsDebugHeap() { return false; }
+	bool IsDebugHeap() override { return false; }
 
-	virtual void GetActualDbgInfo( const char *&pFileName, int &nLine ) {}
-	virtual void RegisterAllocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) {}
-	virtual void RegisterDeallocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) {}
+	void GetActualDbgInfo( const char *&pFileName, int &nLine ) override {}
+	void RegisterAllocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) override {}
+	void RegisterDeallocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) override {}
 
-	virtual int GetVersion() { return MEMALLOC_VERSION; }
+	int GetVersion() override { return MEMALLOC_VERSION; }
 
-	virtual void OutOfMemory( size_t nBytesAttempted = 0 ) { SetCRTAllocFailed( nBytesAttempted ); }
+	void OutOfMemory( size_t nBytesAttempted = 0 ) override { SetCRTAllocFailed( nBytesAttempted ); }
 
-	virtual IVirtualMemorySection * AllocateVirtualMemorySection( size_t numMaxBytes );
+	IVirtualMemorySection * AllocateVirtualMemorySection( size_t numMaxBytes ) override;
 
-	virtual int GetGenericMemoryStats( GenericMemoryStat_t **ppMemoryStats );
+	int GetGenericMemoryStats( GenericMemoryStat_t **ppMemoryStats ) override;
 
-	virtual void CompactHeap();
-	virtual void CompactIncremental(); 
+	void CompactHeap() override;
+	void CompactIncremental() override;
 
-	virtual MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler );
+	MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) override;
 	size_t CallAllocFailHandler( size_t nBytes ) { return (*m_pfnFailHandler)( nBytes); }
 
-	virtual uint32 GetDebugInfoSize() { return 0; }
-	virtual void SaveDebugInfo( void *pvDebugInfo ) { }
-	virtual void RestoreDebugInfo( const void *pvDebugInfo ) {}	
-	virtual void InitDebugInfo( void *pvDebugInfo, const char *pchRootFileName, int nLine ) {}
+	uint32 GetDebugInfoSize() override { return 0; }
+	void SaveDebugInfo( void *pvDebugInfo ) override { }
+	void RestoreDebugInfo( const void *pvDebugInfo ) override {}
+	void InitDebugInfo( void *pvDebugInfo, const char *pchRootFileName, int nLine ) override {}
 
 	static size_t DefaultFailHandler( size_t );
-	void DumpBlockStats( void *p ) {}
+	void DumpBlockStats( void *p ) override {}
 
 #if MEM_SBH_ENABLED
 	class CVirtualAllocator
@@ -501,9 +501,9 @@ public:
 #endif // MEM_SBH_ENABLED
 
 
-	virtual void SetStatsExtraInfo( const char *pMapName, const char *pComment );
+	void SetStatsExtraInfo( const char *pMapName, const char *pComment ) override;
 
-	virtual size_t MemoryAllocFailed();
+	size_t MemoryAllocFailed() override;
 
 	void		SetCRTAllocFailed( size_t nMemSize );
 

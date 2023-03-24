@@ -83,83 +83,84 @@ class CHeapDefault : public IMemAlloc
 
 	// Release versions
 	// Alloc, Realloc, and Free must be implemented
-	virtual void *Expand_NoLongerSupported( void *pMem, size_t nSize ) OVERRIDE { return 0; }
+	void *Expand_NoLongerSupported( void *pMem, size_t nSize ) OVERRIDE { return 0; }
 
 	// Debug versions
-	virtual void *Alloc( size_t nSize, const char *pFileName, int nLine ) OVERRIDE { return Alloc( nSize ); }
-	virtual void *Realloc( void *pMem, size_t nSize, const char *pFileName, int nLine ) OVERRIDE { return Realloc(pMem, nSize); }
-	virtual void  Free( void *pMem, const char *pFileName, int nLine ) OVERRIDE { Free( pMem ); }
-	virtual void *Expand_NoLongerSupported( void *pMem, size_t nSize, const char *pFileName, int nLine ) OVERRIDE { return 0; }
+	void *Alloc( size_t nSize, const char *pFileName, int nLine ) OVERRIDE { return Alloc( nSize ); }
+	void *Realloc( void *pMem, size_t nSize, const char *pFileName, int nLine ) OVERRIDE { return Realloc(pMem, nSize); }
+	void  Free( void *pMem, const char *pFileName, int nLine ) OVERRIDE { Free( pMem ); }
+	void *Expand_NoLongerSupported( void *pMem, size_t nSize, const char *pFileName, int nLine ) OVERRIDE { return 0; }
 
 	// GetSize must be implemented
 
 	// Force file + line information for an allocation
-	virtual void PushAllocDbgInfo( const char *pFileName, int nLine ) OVERRIDE {}
-	virtual void PopAllocDbgInfo() OVERRIDE {}
+	void PushAllocDbgInfo( const char *pFileName, int nLine ) OVERRIDE {}
+	void PopAllocDbgInfo() OVERRIDE {}
 
 	// FIXME: Remove when we have our own allocator
 	// these methods of the Crt debug code is used in our codebase currently
-	virtual int32 CrtSetBreakAlloc( int32 lNewBreakAlloc ) OVERRIDE { return 0; }
-	virtual	int CrtSetReportMode( int nReportType, int nReportMode ) OVERRIDE { return 0; }
-	virtual int CrtIsValidHeapPointer( const void *pMem ) OVERRIDE { return 0; }
-	virtual int CrtIsValidPointer( const void *pMem, unsigned int size, int access ) OVERRIDE { return 0; }
-	virtual int CrtCheckMemory( void ) OVERRIDE { return 0; }
-	virtual int CrtSetDbgFlag( int nNewFlag ) OVERRIDE { return 0; }
-	virtual void CrtMemCheckpoint( _CrtMemState *pState ) OVERRIDE {}
+	int32 CrtSetBreakAlloc( int32 lNewBreakAlloc ) OVERRIDE { return 0; }
+	int CrtSetReportMode( int nReportType, int nReportMode ) OVERRIDE { return 0; }
+	int CrtIsValidHeapPointer( const void *pMem ) OVERRIDE { return 0; }
+	int CrtIsValidPointer( const void *pMem, unsigned int size, int access ) OVERRIDE { return 0; }
+	int CrtCheckMemory( void ) OVERRIDE { return 0; }
+	int CrtSetDbgFlag( int nNewFlag ) OVERRIDE { return 0; }
+	void CrtMemCheckpoint( _CrtMemState *pState ) OVERRIDE {}
 
 	// FIXME: Make a better stats interface
-	virtual void DumpStats() OVERRIDE {}
-	virtual void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) OVERRIDE { DumpStats(); }
-	virtual size_t ComputeMemoryUsedBy( char const *pchSubStr ) OVERRIDE { return 0; }
+	void DumpStats() OVERRIDE {}
+	void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) OVERRIDE { DumpStats(); }
+	size_t ComputeMemoryUsedBy( char const *pchSubStr ) OVERRIDE { return 0; }
 
 	// FIXME: Remove when we have our own allocator
-	virtual void* CrtSetReportFile( int nRptType, void* hFile ) OVERRIDE { return 0; }
-	virtual void* CrtSetReportHook( void* pfnNewHook ) OVERRIDE { return 0; }
-	virtual int CrtDbgReport( int nRptType, const char * szFile,
-		int nLine, const char * szModule, const char * pMsg ) OVERRIDE { return 0; }
+	void* CrtSetReportFile( int nRptType, void* hFile ) OVERRIDE { return 0; }
+	void* CrtSetReportHook( void* pfnNewHook ) OVERRIDE { return 0; }
 
-	virtual int heapchk() OVERRIDE { return _HEAPOK; }
-	virtual bool IsDebugHeap() OVERRIDE { return 0; }
+	int CrtDbgReport( int nRptType, const char * szFile,
+	                  int nLine, const char * szModule, const char * pMsg ) OVERRIDE { return 0; }
 
-	virtual void GetActualDbgInfo( const char *&pFileName, int &nLine ) OVERRIDE { pFileName = ""; nLine = 0; }
-	virtual void RegisterAllocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) OVERRIDE {}
-	virtual void RegisterDeallocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) OVERRIDE {}
+	int heapchk() OVERRIDE { return _HEAPOK; }
+	bool IsDebugHeap() OVERRIDE { return 0; }
 
-	virtual int GetVersion() OVERRIDE { return 0; }
+	void GetActualDbgInfo( const char *&pFileName, int &nLine ) OVERRIDE { pFileName = ""; nLine = 0; }
+	void RegisterAllocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) OVERRIDE {}
+	void RegisterDeallocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) OVERRIDE {}
 
-	virtual void CompactHeap() OVERRIDE {}
+	int GetVersion() OVERRIDE { return 0; }
 
-	virtual MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) OVERRIDE { return 0; }
+	void CompactHeap() OVERRIDE {}
 
-	virtual void DumpBlockStats( void * ) OVERRIDE {}
+	MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) OVERRIDE { return 0; }
 
-	virtual void SetStatsExtraInfo( const char *pMapName, const char *pComment ) OVERRIDE {}
+	void DumpBlockStats( void * ) OVERRIDE {}
+
+	void SetStatsExtraInfo( const char *pMapName, const char *pComment ) OVERRIDE {}
 
 	// Returns 0 if no failure, otherwise the size_t of the last requested chunk
-	virtual size_t MemoryAllocFailed() OVERRIDE { return 0; }
+	size_t MemoryAllocFailed() OVERRIDE { return 0; }
 
-	virtual void CompactIncremental() OVERRIDE {}
+	void CompactIncremental() OVERRIDE {}
 
-	virtual void OutOfMemory( size_t nBytesAttempted = 0 ) OVERRIDE {}
+	void OutOfMemory( size_t nBytesAttempted = 0 ) OVERRIDE {}
 
 	// Region-based allocations
-	virtual void *RegionAlloc( int region, size_t nSize ) OVERRIDE { return 0; }
-	virtual void *RegionAlloc( int region, size_t nSize, const char *pFileName, int nLine ) OVERRIDE { return 0; }
+	void *RegionAlloc( int region, size_t nSize ) OVERRIDE { return 0; }
+	void *RegionAlloc( int region, size_t nSize, const char *pFileName, int nLine ) OVERRIDE { return 0; }
 
 	// Replacement for ::GlobalMemoryStatus which accounts for unused memory in our system
-	virtual void GlobalMemoryStatus( size_t *pUsedMemory, size_t *pFreeMemory ) OVERRIDE {}
+	void GlobalMemoryStatus( size_t *pUsedMemory, size_t *pFreeMemory ) OVERRIDE {}
 
 	// Obtain virtual memory manager interface
-	virtual IVirtualMemorySection * AllocateVirtualMemorySection( size_t numMaxBytes ) OVERRIDE { return 0; }
+	IVirtualMemorySection * AllocateVirtualMemorySection( size_t numMaxBytes ) OVERRIDE { return 0; }
 
 	// Request 'generic' memory stats (returns a list of N named values; caller should assume this list will change over time)
-	virtual int GetGenericMemoryStats( GenericMemoryStat_t **ppMemoryStats ) { return 0; }
+	int GetGenericMemoryStats( GenericMemoryStat_t **ppMemoryStats ) override { return 0; }
 
 	// handles storing allocation info for coroutines
-	virtual uint32 GetDebugInfoSize() { return 0; }
-	virtual void SaveDebugInfo( void *pvDebugInfo ) {}
-	virtual void RestoreDebugInfo( const void *pvDebugInfo ) {}
-	virtual void InitDebugInfo( void *pvDebugInfo, const char *pchRootFileName, int nLine ) {}
+	uint32 GetDebugInfoSize() override { return 0; }
+	void SaveDebugInfo( void *pvDebugInfo ) override {}
+	void RestoreDebugInfo( const void *pvDebugInfo ) override {}
+	void InitDebugInfo( void *pvDebugInfo, const char *pchRootFileName, int nLine ) override {}
 };
 
 class CHeapMemAlloc : public CHeapDefault
@@ -176,26 +177,26 @@ public:
 
 	// Release API
 public:
-	virtual void *Alloc( size_t nSize ) OVERRIDE;
-	virtual void *Realloc( void *pMem, size_t nSize ) OVERRIDE;
-	virtual void  Free( void *pMem ) OVERRIDE;
+	void *Alloc( size_t nSize ) OVERRIDE;
+	void *Realloc( void *pMem, size_t nSize ) OVERRIDE;
+	void  Free( void *pMem ) OVERRIDE;
 
 	// Returns size of a particular allocation
 	// BUGBUG: this function should be 'const'
-	virtual size_t GetSize( void *pMem ) OVERRIDE;
+	size_t GetSize( void *pMem ) OVERRIDE;
 
 	// Return 1 to indicate a healthy heap.
 	// BUGBUG: this function should be 'const'
-	virtual int CrtCheckMemory( void ) OVERRIDE;
+	int CrtCheckMemory( void ) OVERRIDE;
 
 	// BUGBUG: this function should be 'const'
-	virtual void DumpStats() OVERRIDE;
+	void DumpStats() OVERRIDE;
 
 	void Init(bool bZeroMemory);
 
 private:
 
-	void OutOfMemory( size_t nBytesAttempted = 0 );
+	void OutOfMemory( size_t nBytesAttempted = 0 ) override;
 
 	// Internal allocation calls used to support alignment
 	void * Alloc_Unaligned( size_t nSize );

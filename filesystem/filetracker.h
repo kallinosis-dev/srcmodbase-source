@@ -338,9 +338,9 @@ public:
 
 #ifdef SUPPORT_VPK
 	unsigned ThreadedProcessMD5Requests();
-	virtual int SubmitThreadedMD5Request( uint8 *pubBuffer, int cubBuffer, int PackFileID, int nPackFileNumber, int nPackFileFraction );
-	virtual bool			BlockUntilMD5RequestComplete( int iRequest, MD5Value_t *pMd5ValueOut );
-	virtual bool			IsMD5RequestComplete( int iRequest, MD5Value_t *pMd5ValueOut );
+	int SubmitThreadedMD5Request( uint8 *pubBuffer, int cubBuffer, int PackFileID, int nPackFileNumber, int nPackFileFraction ) override;
+	bool			BlockUntilMD5RequestComplete( int iRequest, MD5Value_t *pMd5ValueOut ) override;
+	bool			IsMD5RequestComplete( int iRequest, MD5Value_t *pMd5ValueOut ) override;
 
 	int NotePackFileOpened( const char *pRawFileName, const char *pFilename, const char *pPathID, int64 nLength );
 	void NotePackFileAccess( const char *pFilename, const char *pPathID, CPackedStoreFileHandle &VPKHandle );

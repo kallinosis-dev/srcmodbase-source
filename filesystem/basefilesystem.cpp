@@ -486,15 +486,15 @@ public:
 	{
 		m_pFileSystem = pFileSystem;
 	}
-	
-	virtual void Release()
+
+	void Release() override
 	{
 		delete this;
 	}
 	
 	// The engine is calling this for any files it wants to be pure.
 	// Return true if this file should be reloaded based on its current state and the whitelist that we have now.
-	virtual bool IsFileInList( const char *pFilename )
+	bool IsFileInList( const char *pFilename ) override
 	{
 		bool bRet = m_pFileSystem->ShouldGameReloadFile( pFilename );
 		return bRet;
@@ -538,18 +538,18 @@ class CIoStats : public IIoStats
 {
 public:
 	CIoStats();
-	~CIoStats();
+	~CIoStats() override;
 
-	virtual void OnFileSeek( int nTimeInMs );
-	virtual void OnFileRead( int nTimeInMs, int nBytesRead );
-	virtual void OnFileOpen( const char * pFileName );
-	virtual int GetNumberOfFileSeeks();
-	virtual int GetTimeInFileSeek();
-	virtual int GetNumberOfFileReads();
-	virtual int GetTimeInFileReads();
-	virtual int GetFileReadTotalSize();
-	virtual int GetNumberOfFileOpens();
-	void Reset();
+	void OnFileSeek( int nTimeInMs ) override;
+	void OnFileRead( int nTimeInMs, int nBytesRead ) override;
+	void OnFileOpen( const char * pFileName ) override;
+	int GetNumberOfFileSeeks() override;
+	int GetTimeInFileSeek() override;
+	int GetNumberOfFileReads() override;
+	int GetTimeInFileReads() override;
+	int GetFileReadTotalSize() override;
+	int GetNumberOfFileOpens() override;
+	void Reset() override;
 
 private:
 	CInterlockedInt m_nNumberOfFileSeeks;
@@ -8547,7 +8547,7 @@ public:
 
 	volatile bool m_bThreadShouldExit;
 	// CThread Overrides
-	virtual int Run( void );
+	int Run( void ) override;
 };
 
 

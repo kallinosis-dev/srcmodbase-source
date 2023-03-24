@@ -33,22 +33,22 @@ class CFSIOReadBinary : public IFileReadBinary
 {
 public:
 	// inherited from IFileReadBinary
-	virtual FileHandle_t open( const char *pFileName );
-	virtual int read( void *pOutput, int size, FileHandle_t file );
-	virtual void seek( FileHandle_t file, int pos );
-	virtual unsigned int tell( FileHandle_t file );
-	virtual unsigned int size( FileHandle_t file );
-	virtual void close( FileHandle_t file );
+	FileHandle_t open( const char *pFileName ) override;
+	int read( void *pOutput, int size, FileHandle_t file ) override;
+	void seek( FileHandle_t file, int pos ) override;
+	unsigned int tell( FileHandle_t file ) override;
+	unsigned int size( FileHandle_t file ) override;
+	void close( FileHandle_t file ) override;
 };
 
 class CFSIOWriteBinary : public IFileWriteBinary
 {
 public:
-	virtual FileHandle_t create( const char *pFileName );
-	virtual int write( void *pData, int size, FileHandle_t file );
-	virtual void close( FileHandle_t file );
-	virtual void seek( FileHandle_t file, int pos );
-	virtual unsigned int tell( FileHandle_t file );
+	FileHandle_t create( const char *pFileName ) override;
+	int write( void *pData, int size, FileHandle_t file ) override;
+	void close( FileHandle_t file ) override;
+	void seek( FileHandle_t file, int pos ) override;
+	unsigned int tell( FileHandle_t file ) override;
 };
 
 

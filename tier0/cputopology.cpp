@@ -56,7 +56,7 @@ public:
     //-----------------------------------------------------------------------------
     // DefaultImpl::IsDefaultImpl
     //-----------------------------------------------------------------------------
-    /*virtual*/ BOOL        IsDefaultImpl() const
+    /*virtual*/ BOOL        IsDefaultImpl() const override
     {
         return TRUE;
     }
@@ -64,7 +64,7 @@ public:
     //-----------------------------------------------------------------------------
     // DefaultImpl::NumberOfProcessCores
     //-----------------------------------------------------------------------------
-    /*virtual*/ DWORD       NumberOfProcessCores() const
+    /*virtual*/ DWORD       NumberOfProcessCores() const override
     {
         return 1;
     }
@@ -72,7 +72,7 @@ public:
     //-----------------------------------------------------------------------------
     // DefaultImpl::IsNumberOfSystemCores
     //-----------------------------------------------------------------------------
-    /*virtual*/ DWORD       NumberOfSystemCores() const
+    /*virtual*/ DWORD       NumberOfSystemCores() const override
     {
         return 1;
     }
@@ -80,7 +80,7 @@ public:
     //-----------------------------------------------------------------------------
     // DefaultImpl::CoreAffinityMask
     //-----------------------------------------------------------------------------
-    /*virtual*/ DWORD_PTR   CoreAffinityMask( DWORD coreIdx ) const
+    /*virtual*/ DWORD_PTR   CoreAffinityMask( DWORD coreIdx ) const override
     {
         DWORD_PTR coreAffinity = 0;
         if( 1 == coreIdx )
@@ -126,8 +126,8 @@ public:
     //-----------------------------------------------------------------------------
     // Name: GlpiImpl::~GlpiImpl
     //-----------------------------------------------------------------------------
-                            /*virtual*/ ~GlpiImpl()
-                            {
+                            /*virtual*/ ~GlpiImpl() override
+    {
                                 free( m_pSlpi );
                                 m_pSlpi = 0;
                                 m_nItems = 0;
@@ -136,7 +136,7 @@ public:
     //-----------------------------------------------------------------------------
     // Name: GlpiImpl::IsDefaultImpl
     //-----------------------------------------------------------------------------
-    /*virtual*/ BOOL        IsDefaultImpl() const
+    /*virtual*/ BOOL        IsDefaultImpl() const override
     {
         return FALSE;
     }
@@ -146,7 +146,7 @@ public:
     // Desc: Gets the total number of physical processor cores available to the
     //       current process.
     //-----------------------------------------------------------------------------
-    /*virtual*/ DWORD       NumberOfProcessCores() const
+    /*virtual*/ DWORD       NumberOfProcessCores() const override
     {
         DWORD_PTR dwProcessAffinity, dwSystemAffinity;
         GetProcessAffinityMask( GetCurrentProcess(), &dwProcessAffinity, &dwSystemAffinity );
@@ -168,7 +168,7 @@ public:
     // Desc: Gets the total number of physical processor cores enabled on the
     //       system.
     //-----------------------------------------------------------------------------
-    /*virtual*/ DWORD       NumberOfSystemCores() const
+    /*virtual*/ DWORD       NumberOfSystemCores() const override
     {
         DWORD nCores = 0;
         for( DWORD i = 0; i < m_nItems; ++i )
@@ -184,7 +184,7 @@ public:
     // Desc: Gets an affinity mask that corresponds to the requested processor
     //       core.
     //-----------------------------------------------------------------------------
-    /*virtual*/ DWORD_PTR   CoreAffinityMask( DWORD coreIdx ) const
+    /*virtual*/ DWORD_PTR   CoreAffinityMask( DWORD coreIdx ) const override
     {
         DWORD_PTR dwProcessAffinity, dwSystemAffinity;
         GetProcessAffinityMask( GetCurrentProcess(), &dwProcessAffinity, &dwSystemAffinity );
@@ -738,7 +738,7 @@ public:
     //-----------------------------------------------------------------------------
     // Name: CpuidImpl::IsDefaultImpl
     //-----------------------------------------------------------------------------
-    /*virtual*/ BOOL        IsDefaultImpl() const
+    /*virtual*/ BOOL        IsDefaultImpl() const override
     {
         return FALSE;
     }
@@ -749,7 +749,7 @@ public:
     //       The total accounts for cores that may have been masked out by process
     //       affinity.
     //-----------------------------------------------------------------------------
-    /*virtual*/ DWORD       NumberOfProcessCores() const
+    /*virtual*/ DWORD       NumberOfProcessCores() const override
     {
         DWORD_PTR dwProcessAffinity, dwSystemAffinity;
         GetProcessAffinityMask( GetCurrentProcess(), &dwProcessAffinity, &dwSystemAffinity );
@@ -771,7 +771,7 @@ public:
     // Name: CpuidImpl::NumberOfSystemCores
     // Desc: Gets the number of processor cores on the system.
     //-----------------------------------------------------------------------------
-    /*virtual*/ DWORD       NumberOfSystemCores() const
+    /*virtual*/ DWORD       NumberOfSystemCores() const override
     {
         BYTE pkgCoreIds[MaxLogicalProcessors] = { 0 };
         DWORD nPkgCoreIds = 0;
@@ -788,7 +788,7 @@ public:
     //       coreIdx must be less than the total number of processor cores
     //       recognized by the operating system (NumberOfSystemCores()).
     //-----------------------------------------------------------------------------
-    /*virtual*/ DWORD_PTR   CoreAffinityMask( DWORD coreIdx ) const
+    /*virtual*/ DWORD_PTR   CoreAffinityMask( DWORD coreIdx ) const override
     {
         BYTE pkgCoreIds[MaxLogicalProcessors] = { 0 };
         DWORD nPkgCoreIds = 0;

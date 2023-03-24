@@ -1317,7 +1317,7 @@ void CProjectDependencyGraph::MarkAllCacheEntriesValid()
 class CProjectDependencyGraphProjectFilter : public IProjectIterator
 {
 public:
-	virtual bool VisitProject( projectIndex_t iProject, const char *szProjectName )
+	bool VisitProject( projectIndex_t iProject, const char *szProjectName ) override
 	{
 		char szAbsolute[MAX_FIXED_PATH];
 		V_MakeAbsolutePath( szAbsolute, sizeof( szAbsolute ), szProjectName, NULL, k_bVPCForceLowerCase );

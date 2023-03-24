@@ -42,7 +42,7 @@ private:
 	}
 	
 public:
-	virtual void GenerateSolutionFile( const char *pSolutionFilename, CUtlVector<CDependency_Project*> &projects )
+	void GenerateSolutionFile( const char *pSolutionFilename, CUtlVector<CDependency_Project*> &projects ) override
 	{
 		// Default extension.
 		CUtlPathStringHolder tmpSolutionFilename;
@@ -269,10 +269,10 @@ public:
 
 		fclose( fp );
 	}
-	
-	virtual const char *GetSolutionFileExtension() { return "mak"; }
 
-	virtual SolutionType_t GetSolutionType( void ) { return ST_MAKEFILE; }
+	const char *GetSolutionFileExtension() override { return "mak"; }
+
+	SolutionType_t GetSolutionType( void ) override { return ST_MAKEFILE; }
 
 	void ResolveAdditionalProjectDependencies( 
 		CDependency_Project *pCurProject, 

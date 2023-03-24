@@ -140,7 +140,7 @@ public:
 	CDataManager<STORAGE_TYPE, CREATE_PARAMS, LOCK_TYPE, MUTEX_TYPE>( unsigned int size = (unsigned)-1 ) : BaseClass(size) {}
 	
 
-	~CDataManager<STORAGE_TYPE, CREATE_PARAMS, LOCK_TYPE, MUTEX_TYPE>()
+	~CDataManager<STORAGE_TYPE, CREATE_PARAMS, LOCK_TYPE, MUTEX_TYPE>() override
 	{
 		// NOTE: This must be called in all implementations of CDataManager
 		if ( m_freeOnDestruct )
@@ -243,9 +243,9 @@ public:
 	}
 
 	MUTEX_TYPE &AccessMutex()	{ return m_mutex; }
-	virtual void Lock() { m_mutex.Lock(); }
-	virtual bool TryLock() { return m_mutex.TryLock(); }
-	virtual void Unlock() { m_mutex.Unlock(); }
+	void Lock() override { m_mutex.Lock(); }
+	bool TryLock() override { return m_mutex.TryLock(); }
+	void Unlock() override { m_mutex.Unlock(); }
 
 private:
 	STORAGE_TYPE *StoragePointer( void *pMem )
@@ -253,12 +253,12 @@ private:
 		return static_cast<STORAGE_TYPE *>(pMem);
 	}
 
-	virtual void DestroyResourceStorage( void *pStore )
+	void DestroyResourceStorage( void *pStore ) override
 	{
 		StoragePointer(pStore)->DestroyResource();
 	}
-	
-	virtual unsigned int GetRealSize( void *pStore )
+
+	unsigned int GetRealSize( void *pStore ) override
 	{
 		return StoragePointer(pStore)->Size();
 	}

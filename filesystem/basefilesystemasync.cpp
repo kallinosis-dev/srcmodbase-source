@@ -308,7 +308,7 @@ public:
 #endif
 	}
 
-	~CFileAsyncReadJob()
+	~CFileAsyncReadJob() override
 	{
 		if ( hSpecificAsyncFile != FS_INVALID_ASYNC_FILE )
 		{
@@ -319,7 +319,7 @@ public:
 			free( (void *)pszFilename );
 	}
 
-	virtual char const	*Describe()
+	char const	*Describe() override
 	{
 		return pszFilename; 
 	}
@@ -329,7 +329,7 @@ public:
 		return this;
 	}
 
-	virtual JobStatus_t DoExecute()
+	JobStatus_t DoExecute() override
 	{
 		SimulateDelay();
 #if defined( TRACK_BLOCKING_IO )
@@ -357,7 +357,7 @@ public:
 		return retval;
 	}
 
-	virtual JobStatus_t GetResult( void **ppData, int *pSize ) 
+	JobStatus_t GetResult( void **ppData, int *pSize ) override
 	{ 
 		if ( m_pResultData )
 		{
@@ -433,17 +433,17 @@ public:
 		SetFlags( GetFlags() | JF_SERIAL );
 	}
 
-	~CFileAsyncWriteJob()
+	~CFileAsyncWriteJob() override
 	{
 		g_nAsyncWriteJobs--;
 		free( (void *)m_pszFilename );
 	}
 
-	virtual char const *Describe() { return m_pszFilename; }
+	char const *Describe() override { return m_pszFilename; }
 
-	virtual bool IsWrite() const { return true; }
+	bool IsWrite() const override { return true; }
 
-	virtual JobStatus_t DoExecute()
+	JobStatus_t DoExecute() override
 	{
 		SimulateDelay();
 #if defined( TRACK_BLOCKING_IO )
@@ -460,7 +460,7 @@ public:
 		return retval;
 	}
 
-	virtual void DoCleanup()
+	void DoCleanup() override
 	{
 		if ( m_pData && m_bFreeMemory )
 		{
@@ -489,7 +489,7 @@ public:
 	{
 	}
 
-	virtual void DoCleanup()
+	void DoCleanup() override
 	{
 		if ( m_pBuffer && m_bFreeMemory )
 		{
@@ -522,16 +522,16 @@ public:
 		SetFlags( GetFlags() | JF_SERIAL );
 	}
 
-	~CFileAsyncAppendFileJob()
+	~CFileAsyncAppendFileJob() override
 	{
 		g_nAsyncWriteJobs--;
 	}
 
-	virtual char const	*Describe() { return m_pszAppendTo; }
+	char const	*Describe() override { return m_pszAppendTo; }
 
-	virtual bool IsWrite() const { return true; }
+	bool IsWrite() const override { return true; }
 
-	virtual JobStatus_t DoExecute()
+	JobStatus_t DoExecute() override
 	{
 		SimulateDelay();
 #if defined( TRACK_BLOCKING_IO )
@@ -572,7 +572,7 @@ public:
 #endif
 	}
 
-	virtual JobStatus_t DoExecute()
+	JobStatus_t DoExecute() override
 	{
 		SimulateDelay();
 #if defined( TRACK_BLOCKING_IO )
@@ -620,15 +620,15 @@ class CFileAsyncDirectoryScanJob : public CFileAsyncJob
 			V_memset( m_CurPath, 0, sizeof (m_CurPath) );
 		
 		}
-		~CFileAsyncDirectoryScanJob()  {};
+		~CFileAsyncDirectoryScanJob() override {};
 
-	virtual char const*		Describe() { return m_SearchSpec; }
+		char const*		Describe() override { return m_SearchSpec; }
 
-	virtual bool			IsWrite() const { return false; }
+		bool			IsWrite() const override { return false; }
 
-	virtual JobStatus_t		DoExecute();
+		JobStatus_t		DoExecute() override;
 
-	virtual void			DoCleanup()   {};
+		void			DoCleanup() override {};
 
 };
 
@@ -675,7 +675,7 @@ void CBaseFileSystem::InitAsync()
 	{
 		class CBreakThread : public CThread
 		{
-			virtual int Run()
+			int Run() override
 			{
 				for (;;)
 				{

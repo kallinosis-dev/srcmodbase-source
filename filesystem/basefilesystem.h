@@ -305,7 +305,7 @@ class CPackFile : public CRefCounted<CRefCountServiceMT>
 public:
 
 	inline CPackFile();
-	inline virtual ~CPackFile();
+	inline ~CPackFile() override;
 
 	// The means by which you open files:
 	virtual CFileHandle *OpenFile( const char *pFileName, const char *pOptions = "rb" );
@@ -369,19 +369,19 @@ class CZipPackFile : public CPackFile
 {
 public:
 	CZipPackFile( CBaseFileSystem* fs, void *pSection = NULL );
-	~CZipPackFile();
+	~CZipPackFile() override;
 
 	// Loads the pack file
-	virtual bool Prepare( int64 fileLen = -1, int64 nFileOfs = 0 );
-	virtual bool FindFile( const char *pFilename, int &nIndex, int64 &nOffset, int &nLength );
-	virtual int  ReadFromPack( int nIndex, void* buffer, int nDestBytes, int nBytes, int64 nOffset  );
+	bool Prepare( int64 fileLen = -1, int64 nFileOfs = 0 ) override;
+	bool FindFile( const char *pFilename, int &nIndex, int64 &nOffset, int &nLength ) override;
+	int  ReadFromPack( int nIndex, void* buffer, int nDestBytes, int nBytes, int64 nOffset  ) override;
 
-	int64 GetPackFileBaseOffset() { return m_nBaseOffset; }
+	int64 GetPackFileBaseOffset() override { return m_nBaseOffset; }
 
-	bool	IndexToFilename( int nIndex, char *pBuffer, int nBufferSize );
+	bool	IndexToFilename( int nIndex, char *pBuffer, int nBufferSize ) override;
 
-	virtual CRC32_t GetKVPoolKey();
-	virtual bool GetStringFromKVPool( unsigned int key, char *pOutBuff, int buflen );
+	CRC32_t GetKVPoolKey() override;
+	bool GetStringFromKVPool( unsigned int key, char *pOutBuff, int buflen ) override;
 
 protected:
 	#pragma pack(1)
@@ -436,8 +436,8 @@ protected:
 	bool						GetOffsetAndLength( const char *FileName, int &nBaseIndex, int64 &nFileOffset, int &nLength );
 
 	// Preload Support
-	void						SetupPreloadData();	
-	void						DiscardPreloadData();	
+	void						SetupPreloadData() override;	
+	void						DiscardPreloadData() override;	
 	ZIP_PreloadDirectoryEntry*	GetPreloadEntry( int nEntryIndex );
 
 	int64						m_nPreloadSectionOffset;
@@ -491,9 +491,9 @@ public:
 	~CBaseFileSystem();
 
 	// Methods of IAppSystem
-	virtual void				*QueryInterface( const char *pInterfaceName );
-	virtual InitReturnVal_t		Init();
-	virtual void				Shutdown();
+	void				*QueryInterface( const char *pInterfaceName ) override;
+	InitReturnVal_t		Init() override;
+	void				Shutdown() override;
 
 	void						InitAsync();
 	void						ShutdownAsync();
@@ -501,166 +501,166 @@ public:
 	void						ParsePathID( const char* &pFilename, const char* &pPathID, char tempPathID[MAX_PATH] );
 
 	// file handling
-	virtual FileHandle_t		Open( const char *pFileName, const char *pOptions, const char *pathID );
-	virtual FileHandle_t		OpenEx( const char *pFileName, const char *pOptions, unsigned flags = 0, const char *pathID = 0, char **ppszResolvedFilename = NULL );
-	virtual void				Close( FileHandle_t );
-	virtual void				Seek( FileHandle_t file, int pos, FileSystemSeek_t method );
-	virtual unsigned int		Tell( FileHandle_t file );
-	virtual unsigned int		Size( FileHandle_t file );
-	virtual unsigned int		Size( const char *pFileName, const char *pPathID );
+	FileHandle_t		Open( const char *pFileName, const char *pOptions, const char *pathID ) override;
+	FileHandle_t		OpenEx( const char *pFileName, const char *pOptions, unsigned flags = 0, const char *pathID = 0, char **ppszResolvedFilename = NULL ) override;
+	void				Close( FileHandle_t ) override;
+	void				Seek( FileHandle_t file, int pos, FileSystemSeek_t method ) override;
+	unsigned int		Tell( FileHandle_t file ) override;
+	unsigned int		Size( FileHandle_t file ) override;
+	unsigned int		Size( const char *pFileName, const char *pPathID ) override;
 
-	virtual void				SetBufferSize( FileHandle_t file, unsigned nBytes );
-	virtual bool				IsOk( FileHandle_t file );
-	virtual void				Flush( FileHandle_t file );
-	virtual bool				Precache( const char *pFileName, const char *pPathID );
-	virtual bool				EndOfFile( FileHandle_t file );
- 
-	virtual int					Read( void *pOutput, int size, FileHandle_t file );
-	virtual int					ReadEx( void* pOutput, int sizeDest, int size, FileHandle_t file );
-	virtual int					Write( void const* pInput, int size, FileHandle_t file );
-	virtual char				*ReadLine( char *pOutput, int maxChars, FileHandle_t file );
-	virtual int					FPrintf( FileHandle_t file, PRINTF_FORMAT_STRING const char *pFormat, ... ) FMTFUNCTION( 3, 4 );
+	void				SetBufferSize( FileHandle_t file, unsigned nBytes ) override;
+	bool				IsOk( FileHandle_t file ) override;
+	void				Flush( FileHandle_t file ) override;
+	bool				Precache( const char *pFileName, const char *pPathID ) override;
+	bool				EndOfFile( FileHandle_t file ) override;
+
+	int					Read( void *pOutput, int size, FileHandle_t file ) override;
+	int					ReadEx( void* pOutput, int sizeDest, int size, FileHandle_t file ) override;
+	int					Write( void const* pInput, int size, FileHandle_t file ) override;
+	char				*ReadLine( char *pOutput, int maxChars, FileHandle_t file ) override;
+	int					FPrintf( FileHandle_t file, PRINTF_FORMAT_STRING const char *pFormat, ... ) override FMTFUNCTION( 3, 4 );
 
 	// Reads/writes files to utlbuffers
-	virtual bool				ReadFile( const char *pFileName, const char *pPath, CUtlBuffer &buf, int nMaxBytes, int nStartingByte, FSAllocFunc_t pfnAlloc = NULL );
-	virtual bool				WriteFile( const char *pFileName, const char *pPath, CUtlBuffer &buf );
-	virtual bool				UnzipFile( const char *pFileName, const char *pPath, const char *pDestination );
-	virtual int					ReadFileEx( const char *pFileName, const char *pPath, void **ppBuf, bool bNullTerminate, bool bOptimalAlloc, int nMaxBytes = 0, int nStartingByte = 0, FSAllocFunc_t pfnAlloc = NULL );
-	virtual bool				ReadToBuffer( FileHandle_t hFile, CUtlBuffer &buf, int nMaxBytes = 0, FSAllocFunc_t pfnAlloc = NULL );
+	bool				ReadFile( const char *pFileName, const char *pPath, CUtlBuffer &buf, int nMaxBytes, int nStartingByte, FSAllocFunc_t pfnAlloc = NULL ) override;
+	bool				WriteFile( const char *pFileName, const char *pPath, CUtlBuffer &buf ) override;
+	bool				UnzipFile( const char *pFileName, const char *pPath, const char *pDestination ) override;
+	int					ReadFileEx( const char *pFileName, const char *pPath, void **ppBuf, bool bNullTerminate, bool bOptimalAlloc, int nMaxBytes = 0, int nStartingByte = 0, FSAllocFunc_t pfnAlloc = NULL ) override;
+	bool				ReadToBuffer( FileHandle_t hFile, CUtlBuffer &buf, int nMaxBytes = 0, FSAllocFunc_t pfnAlloc = NULL ) override;
 
 	// Optimal buffer
-	bool						GetOptimalIOConstraints( FileHandle_t hFile, unsigned *pOffsetAlign, unsigned *pSizeAlign, unsigned *pBufferAlign );
-	void						*AllocOptimalReadBuffer( FileHandle_t hFile, unsigned nSize, unsigned nOffset )	{ return malloc( nSize ); }
-	void						FreeOptimalReadBuffer( void *p ) { free( p ); }
+	bool						GetOptimalIOConstraints( FileHandle_t hFile, unsigned *pOffsetAlign, unsigned *pSizeAlign, unsigned *pBufferAlign ) override;
+	void						*AllocOptimalReadBuffer( FileHandle_t hFile, unsigned nSize, unsigned nOffset ) override { return malloc( nSize ); }
+	void						FreeOptimalReadBuffer( void *p ) override { free( p ); }
 
 	// Gets the current working directory
-	virtual bool				GetCurrentDirectory( char* pDirectory, int maxlen );
+	bool				GetCurrentDirectory( char* pDirectory, int maxlen ) override;
 
 	// this isn't implementable on STEAM as is.
-	virtual void				CreateDirHierarchy( const char *path, const char *pathID );
+	void				CreateDirHierarchy( const char *path, const char *pathID ) override;
 
 	// returns true if the file is a directory
-	virtual bool				IsDirectory( const char *pFileName, const char *pathID );
+	bool				IsDirectory( const char *pFileName, const char *pathID ) override;
 
 	// path info
-	virtual const char			*GetLocalPath( const char *pFileName, char *pLocalPath, int localPathBufferSize );
-	virtual bool				FullPathToRelativePath( const char *pFullpath, char *pRelative, int maxlen );
+	const char			*GetLocalPath( const char *pFileName, char *pLocalPath, int localPathBufferSize ) override;
+	bool				FullPathToRelativePath( const char *pFullpath, char *pRelative, int maxlen ) override;
 
 	// removes a file from disk
-	virtual void				RemoveFile( char const* pRelativePath, const char *pathID );
+	void				RemoveFile( char const* pRelativePath, const char *pathID ) override;
 
 	// Remove all search paths (including write path?)
-	virtual void				RemoveAllSearchPaths( void );
+	void				RemoveAllSearchPaths( void ) override;
 
 	// Purpose: Removes all search paths for a given pathID, such as all "GAME" paths.
-	virtual void				RemoveSearchPaths( const char *pathID );
+	void				RemoveSearchPaths( const char *pathID ) override;
 
 	// STUFF FROM IFileSystem
 	// Add paths in priority order (mod dir, game dir, ....)
 	// Can also add pak files (errr, NOT YET!)
-	virtual void				AddSearchPath( const char *pPath, const char *pathID, SearchPathAdd_t addType );
-	virtual bool				RemoveSearchPath( const char *pPath, const char *pathID );
-	virtual void				PrintSearchPaths( void );
+	void				AddSearchPath( const char *pPath, const char *pathID, SearchPathAdd_t addType ) override;
+	bool				RemoveSearchPath( const char *pPath, const char *pathID ) override;
+	void				PrintSearchPaths( void ) override;
 
-	virtual void				MarkPathIDByRequestOnly( const char *pPathID, bool bRequestOnly );
+	void				MarkPathIDByRequestOnly( const char *pPathID, bool bRequestOnly ) override;
 
-	virtual bool				IsFileInReadOnlySearchPath(const char *pPath, const char *pathID = 0);
+	bool				IsFileInReadOnlySearchPath(const char *pPath, const char *pathID = 0) override;
 
-	virtual bool				FileExists( const char *pFileName, const char *pPathID = NULL );
-	virtual long				GetFileTime( const char *pFileName, const char *pPathID = NULL );
-	virtual bool				IsFileWritable( char const *pFileName, const char *pPathID = NULL );
-	virtual bool				SetFileWritable( char const *pFileName, bool writable, const char *pPathID = 0 );
-	virtual void				FileTimeToString( char *pString, int maxChars, long fileTime );
-	
-	virtual const char			*FindFirst( const char *pWildCard, FileFindHandle_t *pHandle );
-	virtual const char			*FindFirstEx( const char *pWildCard, const char *pPathID, FileFindHandle_t *pHandle );
-	virtual const char			*FindNext( FileFindHandle_t handle );
-	virtual bool				FindIsDirectory( FileFindHandle_t handle );
-	virtual void				FindClose( FileFindHandle_t handle );
+	bool				FileExists( const char *pFileName, const char *pPathID = NULL ) override;
+	long				GetFileTime( const char *pFileName, const char *pPathID = NULL ) override;
+	bool				IsFileWritable( char const *pFileName, const char *pPathID = NULL ) override;
+	bool				SetFileWritable( char const *pFileName, bool writable, const char *pPathID = 0 ) override;
+	void				FileTimeToString( char *pString, int maxChars, long fileTime ) override;
 
-	virtual void				FindFileAbsoluteList( CUtlVector< CUtlString > &outAbsolutePathNames, const char *pWildCard, const char *pPathID );
+	const char			*FindFirst( const char *pWildCard, FileFindHandle_t *pHandle ) override;
+	const char			*FindFirstEx( const char *pWildCard, const char *pPathID, FileFindHandle_t *pHandle ) override;
+	const char			*FindNext( FileFindHandle_t handle ) override;
+	bool				FindIsDirectory( FileFindHandle_t handle ) override;
+	void				FindClose( FileFindHandle_t handle ) override;
 
-	virtual void				PrintOpenedFiles( void );
-	virtual void				SetWarningFunc( void (*pfnWarning)( const char *fmt, ... ) );
-	virtual void				SetWarningLevel( FileWarningLevel_t level );
-	virtual void				AddLoggingFunc( FileSystemLoggingFunc_t logFunc );
-	virtual void				RemoveLoggingFunc( FileSystemLoggingFunc_t logFunc );
-	virtual bool				RenameFile( char const *pOldPath, char const *pNewPath, const char *pathID );
+	void				FindFileAbsoluteList( CUtlVector< CUtlString > &outAbsolutePathNames, const char *pWildCard, const char *pPathID ) override;
 
-	virtual void				GetLocalCopy( const char *pFileName );
+	void				PrintOpenedFiles( void ) override;
+	void				SetWarningFunc( void (*pfnWarning)( const char *fmt, ... ) ) override;
+	void				SetWarningLevel( FileWarningLevel_t level ) override;
+	void				AddLoggingFunc( FileSystemLoggingFunc_t logFunc ) override;
+	void				RemoveLoggingFunc( FileSystemLoggingFunc_t logFunc ) override;
+	bool				RenameFile( char const *pOldPath, char const *pNewPath, const char *pathID ) override;
 
-	virtual FileNameHandle_t	FindOrAddFileName( char const *pFileName );
-	virtual FileNameHandle_t	FindFileName( char const *pFileName );
-	virtual bool				String( const FileNameHandle_t& handle, char *buf, int buflen );
-	virtual int					GetPathIndex( const FileNameHandle_t &handle );
-	long						GetPathTime( const char *pFileName, const char *pPathID );
+	void				GetLocalCopy( const char *pFileName ) override;
+
+	FileNameHandle_t	FindOrAddFileName( char const *pFileName ) override;
+	FileNameHandle_t	FindFileName( char const *pFileName ) override;
+	bool				String( const FileNameHandle_t& handle, char *buf, int buflen ) override;
+	int					GetPathIndex( const FileNameHandle_t &handle ) override;
+	long						GetPathTime( const char *pFileName, const char *pPathID ) override;
 	
 	bool						ShouldGameReloadFile( const char *pFilename );
-	virtual void				EnableWhitelistFileTracking( bool bEnable, bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes );
-	virtual void				RegisterFileWhitelist( IFileList *pWantCRCList, IFileList *pAllowFromDiskList, IFileList **pFilesToReload );
-	virtual	void				MarkAllCRCsUnverified();
-	virtual void				CacheFileCRCs( const char *pPathname, ECacheCRCType eType, IFileList *pFilter );
+	void				EnableWhitelistFileTracking( bool bEnable, bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes ) override;
+	void				RegisterFileWhitelist( IFileList *pWantCRCList, IFileList *pAllowFromDiskList, IFileList **pFilesToReload ) override;
+	void				MarkAllCRCsUnverified() override;
+	void				CacheFileCRCs( const char *pPathname, ECacheCRCType eType, IFileList *pFilter ) override;
 	void						CacheFileCRCs_R( const char *pPathname, ECacheCRCType eType, IFileList *pFilter, CUtlDict<int,int> &searchPathNames );
-	virtual EFileCRCStatus		CheckCachedFileHash( const char *pPathID, const char *pRelativeFilename, int nFileFraction, FileHash_t *pFileHash );
-	virtual int					GetUnverifiedFileHashes( CUnverifiedFileHash *pFiles, int nMaxFiles );
-	virtual int					GetWhitelistSpewFlags();
-	virtual void				SetWhitelistSpewFlags( int flags );
-	virtual void				InstallDirtyDiskReportFunc( FSDirtyDiskReportFunc_t func );
+	EFileCRCStatus		CheckCachedFileHash( const char *pPathID, const char *pRelativeFilename, int nFileFraction, FileHash_t *pFileHash ) override;
+	int					GetUnverifiedFileHashes( CUnverifiedFileHash *pFiles, int nMaxFiles ) override;
+	int					GetWhitelistSpewFlags() override;
+	void				SetWhitelistSpewFlags( int flags ) override;
+	void				InstallDirtyDiskReportFunc( FSDirtyDiskReportFunc_t func ) override;
 
-	virtual void				CacheAllVPKFileHashes( bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes );
-	virtual bool				CheckVPKFileHash( int PackFileID, int nPackFileNumber, int nFileFraction, MD5Value_t &md5Value );
+	void				CacheAllVPKFileHashes( bool bCacheAllVPKHashes, bool bRecalculateAndCheckHashes ) override;
+	bool				CheckVPKFileHash( int PackFileID, int nPackFileNumber, int nFileFraction, MD5Value_t &md5Value ) override;
 
 	// Returns the file system statistics retreived by the implementation.  Returns NULL if not supported.
-	virtual const FileSystemStatistics *GetFilesystemStatistics();
+	const FileSystemStatistics *GetFilesystemStatistics() override;
 	
 	// GetVPKFileStatisticsKV
-	virtual void GetVPKFileStatisticsKV( KeyValues *pKV );
+	void GetVPKFileStatisticsKV( KeyValues *pKV ) override;
 
 	// Load dlls
-	virtual CSysModule 			*LoadModule( const char *pFileName, const char *pPathID, bool bValidatedDllOnly );
-	virtual void				UnloadModule( CSysModule *pModule );
+	CSysModule 			*LoadModule( const char *pFileName, const char *pPathID, bool bValidatedDllOnly ) override;
+	void				UnloadModule( CSysModule *pModule ) override;
 
 	//--------------------------------------------------------
 	// asynchronous file loading
 	//--------------------------------------------------------
-	virtual FSAsyncStatus_t		AsyncReadMultiple( const FileAsyncRequest_t *pRequests, int nRequests, FSAsyncControl_t *pControls );
-	virtual FSAsyncStatus_t		AsyncReadMultipleCreditAlloc( const FileAsyncRequest_t *pRequests, int nRequests, const char *pszFile, int line, FSAsyncControl_t *phControls = NULL );
-	virtual FSAsyncStatus_t		AsyncDirectoryScan( const char* pSearchSpec, bool recurseFolders, void* pContext, FSAsyncScanAddFunc_t pfnAdd, FSAsyncScanCompleteFunc_t pfnDone, FSAsyncControl_t *pControl = NULL );
-	virtual FSAsyncStatus_t		AsyncFinish( FSAsyncControl_t hControl, bool wait );
-	virtual FSAsyncStatus_t		AsyncGetResult( FSAsyncControl_t hControl, void **ppData, int *pSize );
-	virtual FSAsyncStatus_t		AsyncAbort( FSAsyncControl_t hControl );
-	virtual FSAsyncStatus_t		AsyncStatus( FSAsyncControl_t hControl );
-	virtual FSAsyncStatus_t		AsyncSetPriority(FSAsyncControl_t hControl, int newPriority);
-	virtual FSAsyncStatus_t		AsyncFlush();
-	virtual FSAsyncStatus_t		AsyncAppend(const char *pFileName, const void *pSrc, int nSrcBytes, bool bFreeMemory, FSAsyncControl_t *pControl) { return AsyncWrite( pFileName, pSrc, nSrcBytes, bFreeMemory, true, pControl); }
-	virtual FSAsyncStatus_t		AsyncWrite(const char *pFileName, const void *pSrc, int nSrcBytes, bool bFreeMemory, bool bAppend, FSAsyncControl_t *pControl);
-	virtual FSAsyncStatus_t		AsyncWriteFile(const char *pFileName, const CUtlBuffer *pSrc, int nSrcBytes, bool bFreeMemory, bool bAppend, FSAsyncControl_t *pControl);
-	virtual FSAsyncStatus_t		AsyncAppendFile(const char *pDestFileName, const char *pSrcFileName, FSAsyncControl_t *pControl);
-	virtual void				AsyncFinishAll( int iToPriority = INT_MIN );
-	virtual void				AsyncFinishAllWrites();
-	virtual bool				AsyncSuspend();
-	virtual bool				AsyncResume();
+	FSAsyncStatus_t		AsyncReadMultiple( const FileAsyncRequest_t *pRequests, int nRequests, FSAsyncControl_t *pControls ) override;
+	FSAsyncStatus_t		AsyncReadMultipleCreditAlloc( const FileAsyncRequest_t *pRequests, int nRequests, const char *pszFile, int line, FSAsyncControl_t *phControls = NULL ) override;
+	FSAsyncStatus_t		AsyncDirectoryScan( const char* pSearchSpec, bool recurseFolders, void* pContext, FSAsyncScanAddFunc_t pfnAdd, FSAsyncScanCompleteFunc_t pfnDone, FSAsyncControl_t *pControl = NULL ) override;
+	FSAsyncStatus_t		AsyncFinish( FSAsyncControl_t hControl, bool wait ) override;
+	FSAsyncStatus_t		AsyncGetResult( FSAsyncControl_t hControl, void **ppData, int *pSize ) override;
+	FSAsyncStatus_t		AsyncAbort( FSAsyncControl_t hControl ) override;
+	FSAsyncStatus_t		AsyncStatus( FSAsyncControl_t hControl ) override;
+	FSAsyncStatus_t		AsyncSetPriority(FSAsyncControl_t hControl, int newPriority) override;
+	FSAsyncStatus_t		AsyncFlush() override;
+	FSAsyncStatus_t		AsyncAppend(const char *pFileName, const void *pSrc, int nSrcBytes, bool bFreeMemory, FSAsyncControl_t *pControl) override { return AsyncWrite( pFileName, pSrc, nSrcBytes, bFreeMemory, true, pControl); }
+	FSAsyncStatus_t		AsyncWrite(const char *pFileName, const void *pSrc, int nSrcBytes, bool bFreeMemory, bool bAppend, FSAsyncControl_t *pControl) override;
+	FSAsyncStatus_t		AsyncWriteFile(const char *pFileName, const CUtlBuffer *pSrc, int nSrcBytes, bool bFreeMemory, bool bAppend, FSAsyncControl_t *pControl) override;
+	FSAsyncStatus_t		AsyncAppendFile(const char *pDestFileName, const char *pSrcFileName, FSAsyncControl_t *pControl) override;
+	void				AsyncFinishAll( int iToPriority = INT_MIN ) override;
+	void				AsyncFinishAllWrites() override;
+	bool				AsyncSuspend() override;
+	bool				AsyncResume() override;
 
-	virtual void				AsyncAddRef( FSAsyncControl_t hControl );
-	virtual void				AsyncRelease( FSAsyncControl_t hControl );
-	virtual FSAsyncStatus_t		AsyncBeginRead( const char *pszFile, FSAsyncFile_t *phFile );
-	virtual FSAsyncStatus_t		AsyncEndRead( FSAsyncFile_t hFile );
+	void				AsyncAddRef( FSAsyncControl_t hControl ) override;
+	void				AsyncRelease( FSAsyncControl_t hControl ) override;
+	FSAsyncStatus_t		AsyncBeginRead( const char *pszFile, FSAsyncFile_t *phFile ) override;
+	FSAsyncStatus_t		AsyncEndRead( FSAsyncFile_t hFile ) override;
 
 	//--------------------------------------------------------
 	// pack files
 	//--------------------------------------------------------
-	bool						AddPackFile( const char *pFileName, const char *pathID );
+	bool						AddPackFile( const char *pFileName, const char *pathID ) override;
 	bool						AddPackFileFromPath( const char *pPath, const char *pakfile, bool bCheckForAppendedPack, const char *pathID );
 
 	// converts a partial path into a full path
 	// can be filtered to restrict path types and can provide info about resolved path
-	virtual const char			*RelativePathToFullPath( const char *pFileName, const char *pPathID, char *pFullPath, int fullPathBufferSize, PathTypeFilter_t pathFilter = FILTER_NONE, PathTypeQuery_t *pPathType = NULL );
+	const char			*RelativePathToFullPath( const char *pFileName, const char *pPathID, char *pFullPath, int fullPathBufferSize, PathTypeFilter_t pathFilter = FILTER_NONE, PathTypeQuery_t *pPathType = NULL ) override;
 #if IsGameConsole()
 	virtual bool				GetPackFileInfoFromRelativePath( const char *pFileName, const char *pPathID, char *pPackPath, int nPackPathBufferSize, int64 &nPosition, int64 &nLength );
 #endif
 	// Returns the search path, each path is separated by ;s. Returns the length of the string returned
-	virtual int					GetSearchPath( const char *pathID, bool bGetPackFiles, char *pPath, int nMaxLen );
-	virtual int					GetSearchPathID( char *pPath, int nMaxLen );
+	int					GetSearchPath( const char *pathID, bool bGetPackFiles, char *pPath, int nMaxLen ) override;
+	int					GetSearchPathID( char *pPath, int nMaxLen ) override;
 
 #if defined( TRACK_BLOCKING_IO )
 	virtual void				EnableBlockingFileAccessTracking( bool state );
@@ -672,11 +672,11 @@ public:
 	virtual bool				SetAllowSynchronousLogging( bool state );
 #endif
 
-	virtual bool				GetFileTypeForFullPath( char const *pFullPath, wchar_t *buf, size_t bufSizeInBytes );
+	bool				GetFileTypeForFullPath( char const *pFullPath, wchar_t *buf, size_t bufSizeInBytes ) override;
 
-	virtual void				BeginMapAccess();
-	virtual void				EndMapAccess();
-	virtual bool				FullPathToRelativePathEx( const char *pFullpath, const char *pPathId, char *pRelative, int maxlen );
+	void				BeginMapAccess() override;
+	void				EndMapAccess() override;
+	bool				FullPathToRelativePathEx( const char *pFullpath, const char *pPathId, char *pRelative, int maxlen ) override;
 
 	FSAsyncStatus_t				SyncRead( const FileAsyncRequest_t &request );
 	FSAsyncStatus_t				SyncWrite(const char *pszFilename, const void *pSrc, int nSrcBytes, bool bFreeMemory, bool bAppend );
@@ -684,46 +684,46 @@ public:
 	FSAsyncStatus_t				SyncGetFileSize( const FileAsyncRequest_t &request );
 	void						DoAsyncCallback( const FileAsyncRequest_t &request, void *pData, int nBytesRead, FSAsyncStatus_t result );
 
-	void						SetupPreloadData();
-	void						DiscardPreloadData();
+	void						SetupPreloadData() override;
+	void						DiscardPreloadData() override;
 
 	// If the "PreloadedData" hasn't been purged, then this'll try and instance the KeyValues using the fast path of compiled keyvalues loaded during startup.
 	// Otherwise, it'll just fall through to the regular KeyValues loading routines
-	virtual KeyValues			*LoadKeyValues( KeyValuesPreloadType_t type, char const *filename, char const *pPathID = 0 );
-	virtual bool				LoadKeyValues( KeyValues& head, KeyValuesPreloadType_t type, char const *filename, char const *pPathID = 0 );
+	KeyValues			*LoadKeyValues( KeyValuesPreloadType_t type, char const *filename, char const *pPathID = 0 ) override;
+	bool				LoadKeyValues( KeyValues& head, KeyValuesPreloadType_t type, char const *filename, char const *pPathID = 0 ) override;
 
-	virtual DVDMode_t			GetDVDMode() { return m_DVDMode; }
-	virtual bool				IsLaunchedFromXboxHDD() { return m_bLaunchedFromXboxHDD; }
-	virtual bool				IsInstalledToXboxHDDCache() { return m_bFoundXboxImageInCache; }
-	virtual bool				IsDVDHosted() { return m_bDVDHosted; }
-	virtual bool				IsInstallAllowed() { return m_bAllowXboxInstall; }
-	virtual bool				FixupSearchPathsAfterInstall();
+	DVDMode_t			GetDVDMode() override { return m_DVDMode; }
+	bool				IsLaunchedFromXboxHDD() override { return m_bLaunchedFromXboxHDD; }
+	bool				IsInstalledToXboxHDDCache() override { return m_bFoundXboxImageInCache; }
+	bool				IsDVDHosted() override { return m_bDVDHosted; }
+	bool				IsInstallAllowed() override { return m_bAllowXboxInstall; }
+	bool				FixupSearchPathsAfterInstall() override;
 
-	virtual FSDirtyDiskReportFunc_t		GetDirtyDiskReportFunc() { return m_DirtyDiskReportFunc; }
+	FSDirtyDiskReportFunc_t		GetDirtyDiskReportFunc() override { return m_DirtyDiskReportFunc; }
 
-	virtual void AddVPKFile( char const *pszName, SearchPathAdd_t addType = PATH_ADD_TO_TAIL );
-	virtual void RemoveVPKFile( char const *pszName );
-	virtual void GetVPKFileNames( CUtlVector<CUtlString> &destVector );
+	void AddVPKFile( char const *pszName, SearchPathAdd_t addType = PATH_ADD_TO_TAIL ) override;
+	void RemoveVPKFile( char const *pszName ) override;
+	void GetVPKFileNames( CUtlVector<CUtlString> &destVector ) override;
 
-	virtual void				RemoveAllMapSearchPaths( void );
+	void				RemoveAllMapSearchPaths( void ) override;
 
 	void						BuildExcludeList();
-	virtual void				SyncDvdDevCache();
+	void				SyncDvdDevCache() override;
 	bool						FixupFATXFilename( const char *pFilename, char *pOutFilename, int nOutSize );
-	virtual bool				GetStringFromKVPool( CRC32_t poolKey, unsigned int key, char *pOutBuff, int buflen );
+	bool				GetStringFromKVPool( CRC32_t poolKey, unsigned int key, char *pOutBuff, int buflen ) override;
 
-	virtual bool				DiscoverDLC( int iController );
-	virtual int					IsAnyDLCPresent( bool *pbDLCSearchPathMounted = NULL );
-	virtual bool				GetAnyDLCInfo( int iDLC, unsigned int *pLicenseMask, wchar_t *pTitleBuff, int nOutTitleSize );
-	virtual int					IsAnyCorruptDLC();
-	virtual bool				GetAnyCorruptDLCInfo( int iCorruptDLC, wchar_t *pTitleBuff, int nOutTitleSize );
-	virtual bool				AddDLCSearchPaths();
-	virtual bool				IsSpecificDLCPresent( unsigned int nDLCPackage );
+	bool				DiscoverDLC( int iController ) override;
+	int					IsAnyDLCPresent( bool *pbDLCSearchPathMounted = NULL ) override;
+	bool				GetAnyDLCInfo( int iDLC, unsigned int *pLicenseMask, wchar_t *pTitleBuff, int nOutTitleSize ) override;
+	int					IsAnyCorruptDLC() override;
+	bool				GetAnyCorruptDLCInfo( int iCorruptDLC, wchar_t *pTitleBuff, int nOutTitleSize ) override;
+	bool				AddDLCSearchPaths() override;
+	bool				IsSpecificDLCPresent( unsigned int nDLCPackage ) override;
 	void						PrintDLCInfo();
-	virtual void                SetIODelayAlarm( float flTime );
-	virtual bool				AddXLSPUpdateSearchPath( const void *pData, int nSize );
+	void                SetIODelayAlarm( float flTime ) override;
+	bool				AddXLSPUpdateSearchPath( const void *pData, int nSize ) override;
 
-	virtual IIoStats			*GetIoStats();
+	IIoStats			*GetIoStats() override;
 
 public:
 	//------------------------------------

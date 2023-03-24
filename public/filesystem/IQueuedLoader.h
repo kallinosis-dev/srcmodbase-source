@@ -93,10 +93,10 @@ public:
 // Default implementation
 class CResourcePreload : public IResourcePreload
 {
-	void PrepareForCreate( bool bSameMap ) {}
-	void PurgeUnreferencedResources()	{}
-	void OnEndMapLoading( bool bAbort )	{}
-	void PurgeAll() {}
+	void PrepareForCreate( bool bSameMap ) override {}
+	void PurgeUnreferencedResources() override {}
+	void OnEndMapLoading( bool bAbort ) override {}
+	void PurgeAll() override {}
 #if defined( _PS3 )
 	virtual bool RequiresRendererLock() { return false; }
 #endif // _PS3

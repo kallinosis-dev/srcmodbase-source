@@ -596,7 +596,8 @@ class CFunctorData0 : public CFunctorDataBase
 {
 public:
 	CFunctorData0( ) {}
-	virtual void ComputeValidationString( char *pString, size_t nBufLen_ ) const { int nBufLen = (int)nBufLen_; FUNC_VALIDATION_STRING_0 }
+	void ComputeValidationString( char *pString, size_t nBufLen_ ) const override
+	{ int nBufLen = (int)nBufLen_; FUNC_VALIDATION_STRING_0 }
 };
 
 FUNC_GENERATE_ALL_BUT0( DEFINE_FUNCTOR_DATA_TEMPLATE );
@@ -627,20 +628,24 @@ class CFunctorCallback0 : public CFunctorCallbackBase
 	typedef void (*Callback_t)( ); 
 public:
 	CFunctorCallback0( Callback_t pfnProxied ) : m_pfnProxied( pfnProxied ) {}
-	void operator()( CFunctorData *pFunctorDataBase )
+	void operator()( CFunctorData *pFunctorDataBase ) override
 	{
 		ValidateFunctorData( pFunctorDataBase );
 		m_pfnProxied( );
 	}
-	virtual void ComputeValidationString( char *pString, size_t nBufLen_ ) const { int nBufLen = (int)nBufLen_; FUNC_VALIDATION_STRING_0 }
-	virtual bool IsEqual( CFunctorCallback *pSrc ) const 
+
+	void ComputeValidationString( char *pString, size_t nBufLen_ ) const override
+	{ int nBufLen = (int)nBufLen_; FUNC_VALIDATION_STRING_0 }
+
+	bool IsEqual( CFunctorCallback *pSrc ) const override
 	{ 
 		if ( Q_stricmp( GetImplClassName(), pSrc->GetImplClassName() ) )
 			return false;
 		return m_pfnProxied == static_cast< CFunctorCallback0* >( pSrc )->m_pfnProxied; 
 	}
-	virtual const char *GetImplClassName() const { return "CFunctorCallback0"; }
-	virtual const void *GetTarget() const { return ( void * )m_pfnProxied; }
+
+	const char *GetImplClassName() const override { return "CFunctorCallback0"; }
+	const void *GetTarget() const override { return ( void * )m_pfnProxied; }
 private:
 	Callback_t m_pfnProxied; 
 };
@@ -674,20 +679,23 @@ class CMemberFunctorCallback0 : public CFunctorCallbackBase
 	typedef void (FUNCTION_CLASS::*MemberCallback_t)( );
 public:
 	CMemberFunctorCallback0( FUNCTION_CLASS *pObject, MemberCallback_t pfnProxied ) : m_Proxy( pObject, pfnProxied ) {} 
-	void operator()( CFunctorData *pFunctorDataBase )
+	void operator()( CFunctorData *pFunctorDataBase ) override
 	{
 		ValidateFunctorData( pFunctorDataBase );
 		m_Proxy( );
 	}
-	virtual void ComputeValidationString( char *pString, size_t nBufLen ) const { FUNC_VALIDATION_STRING_0 }
-	virtual bool IsEqual( CFunctorCallback *pSrc ) const 
+
+	void ComputeValidationString( char *pString, size_t nBufLen ) const override { FUNC_VALIDATION_STRING_0 }
+
+	bool IsEqual( CFunctorCallback *pSrc ) const override
 	{ 
 		if ( Q_stricmp( GetImplClassName(), pSrc->GetImplClassName() ) )
 			return false;
 		return m_Proxy == static_cast< CMemberFunctorCallback0 * >( pSrc )->m_Proxy; 
 	}
-	virtual const char *GetImplClassName() const { return "CMemberFunctorCallback0"; } 
-	virtual const void *GetTarget() const { return m_Proxy.GetTarget(); }
+
+	const char *GetImplClassName() const override { return "CMemberFunctorCallback0"; }
+	const void *GetTarget() const override { return m_Proxy.GetTarget(); }
 private:
 	CMemberFuncProxy0< FUNCTION_CLASS *, MemberCallback_t, MEM_POLICY > m_Proxy;
 };

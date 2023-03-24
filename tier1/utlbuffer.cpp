@@ -30,7 +30,7 @@ public:
 	CUtlCStringConversion( char nEscapeChar, const char *pDelimiter, int nCount, ConversionArray_t *pArray );
 
 	// Finds a conversion for the passed-in string, returns length
-	virtual char FindConversion( const char *pString, int *pLength );
+	char FindConversion( const char *pString, int *pLength ) override;
 
 private:
 	char m_pConversion[256];
@@ -47,7 +47,8 @@ public:
 		CUtlCharConversion( nEscapeChar, pDelimiter, nCount, pArray ) {}
 
 	// Finds a conversion for the passed-in string, returns length
-	virtual char FindConversion( const char *pString, int *pLength ) { *pLength = 0; return 0; }
+	char FindConversion( const char *pString, int *pLength ) override
+	{ *pLength = 0; return 0; }
 };
 
 

@@ -855,7 +855,7 @@ class PLATFORM_CLASS BasicStatStructFieldDesc : public CallStackStatStructDescFu
 {
 public:
 	BasicStatStructFieldDesc( BasicStatStructFieldTypes_t type, BasicStatStructFieldCombineMethods_t combineMethod ) : m_Type(type), m_Combine(combineMethod) {};
-	size_t DescribeField( uint8 *pDescribeWriteBuffer, size_t iDescribeMaxLength );
+	size_t DescribeField( uint8 *pDescribeWriteBuffer, size_t iDescribeMaxLength ) override;
 #if 0 //embedded script handling not ready yet
 	size_t DescribeMergeOperation( MergeScript_Language scriptLanguage, uint8 *pDescribeWriteBuffer, size_t iDescribeMaxLength );
 #endif

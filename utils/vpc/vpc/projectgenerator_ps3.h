@@ -20,9 +20,9 @@ class CProjectGenerator_PS3 : public IVCProjWriter
 {
 public:
 	CProjectGenerator_PS3();
-	virtual CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
-	
-	virtual bool Save( const char *pOutputFilename );
+	CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
+
+	bool Save( const char *pOutputFilename ) override;
 
 private:
 	bool		WriteToXML();

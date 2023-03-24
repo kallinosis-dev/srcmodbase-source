@@ -43,7 +43,7 @@
 class CDefaultCvarQuery : public CBaseAppSystem< ICvarQuery >
 {
 public:
-	virtual void *QueryInterface( const char *pInterfaceName )
+	void *QueryInterface( const char *pInterfaceName ) override
 	{
 		if ( !Q_stricmp( pInterfaceName, CVAR_QUERY_INTERFACE_VERSION ) )
 			return (ICvarQuery*)this;
@@ -51,7 +51,7 @@ public:
 	
 	}
 
-	virtual bool AreConVarsLinkable( const ConVar *child, const ConVar *parent )
+	bool AreConVarsLinkable( const ConVar *child, const ConVar *parent ) override
 	{
 		return true;
 	}
@@ -71,53 +71,53 @@ public:
 	CCvar();
 
 	// Methods of IAppSystem
-	virtual bool Connect( CreateInterfaceFn factory );
-	virtual void Disconnect();
-	virtual void *QueryInterface( const char *pInterfaceName );
-	virtual InitReturnVal_t Init();
-	virtual void Shutdown();
+	bool Connect( CreateInterfaceFn factory ) override;
+	void Disconnect() override;
+	void *QueryInterface( const char *pInterfaceName ) override;
+	InitReturnVal_t Init() override;
+	void Shutdown() override;
 
 	// Inherited from ICVar
-	virtual CVarDLLIdentifier_t AllocateDLLIdentifier();
-	virtual void			RegisterConCommand( ConCommandBase *pCommandBase );
-	virtual void			UnregisterConCommand( ConCommandBase *pCommandBase );
-	virtual void			UnregisterConCommands( CVarDLLIdentifier_t id );
-	virtual const char*		GetCommandLineValue( const char *pVariableName );
-	virtual ConCommandBase *FindCommandBase( const char *name );
-	virtual const ConCommandBase *FindCommandBase( const char *name ) const;
-	virtual ConVar			*FindVar ( const char *var_name );
-	virtual const ConVar	*FindVar ( const char *var_name ) const;
-	virtual ConCommand		*FindCommand( const char *name );
-	virtual const ConCommand *FindCommand( const char *name ) const;
-	virtual void			InstallGlobalChangeCallback( FnChangeCallback_t callback );
-	virtual void			RemoveGlobalChangeCallback( FnChangeCallback_t callback );
-	virtual void			CallGlobalChangeCallbacks( ConVar *var, const char *pOldString, float flOldValue );
-	virtual void			InstallConsoleDisplayFunc( IConsoleDisplayFunc* pDisplayFunc );
-	virtual void			RemoveConsoleDisplayFunc( IConsoleDisplayFunc* pDisplayFunc );
-	virtual void			ConsoleColorPrintf( const Color& clr, const char *pFormat, ... ) const;
-	virtual void			ConsolePrintf( const char *pFormat, ... ) const;
-	virtual void			ConsoleDPrintf( const char *pFormat, ... ) const;
-	virtual void			RevertFlaggedConVars( int nFlag );
-	virtual void			InstallCVarQuery( ICvarQuery *pQuery );
+	CVarDLLIdentifier_t AllocateDLLIdentifier() override;
+	void			RegisterConCommand( ConCommandBase *pCommandBase ) override;
+	void			UnregisterConCommand( ConCommandBase *pCommandBase ) override;
+	void			UnregisterConCommands( CVarDLLIdentifier_t id ) override;
+	const char*		GetCommandLineValue( const char *pVariableName ) override;
+	ConCommandBase *FindCommandBase( const char *name ) override;
+	const ConCommandBase *FindCommandBase( const char *name ) const override;
+	ConVar			*FindVar ( const char *var_name ) override;
+	const ConVar	*FindVar ( const char *var_name ) const override;
+	ConCommand		*FindCommand( const char *name ) override;
+	const ConCommand *FindCommand( const char *name ) const override;
+	void			InstallGlobalChangeCallback( FnChangeCallback_t callback ) override;
+	void			RemoveGlobalChangeCallback( FnChangeCallback_t callback ) override;
+	void			CallGlobalChangeCallbacks( ConVar *var, const char *pOldString, float flOldValue ) override;
+	void			InstallConsoleDisplayFunc( IConsoleDisplayFunc* pDisplayFunc ) override;
+	void			RemoveConsoleDisplayFunc( IConsoleDisplayFunc* pDisplayFunc ) override;
+	void			ConsoleColorPrintf( const Color& clr, const char *pFormat, ... ) const override;
+	void			ConsolePrintf( const char *pFormat, ... ) const override;
+	void			ConsoleDPrintf( const char *pFormat, ... ) const override;
+	void			RevertFlaggedConVars( int nFlag ) override;
+	void			InstallCVarQuery( ICvarQuery *pQuery ) override;
 
 #if defined( USE_VXCONSOLE )
 	virtual void			PublishToVXConsole( );
 #endif
 
-	virtual void			SetMaxSplitScreenSlots( int nSlots );
-	virtual int				GetMaxSplitScreenSlots() const;
+	void			SetMaxSplitScreenSlots( int nSlots ) override;
+	int				GetMaxSplitScreenSlots() const override;
 
-	virtual void			AddSplitScreenConVars();
-	virtual void			RemoveSplitScreenConVars( CVarDLLIdentifier_t id );
+	void			AddSplitScreenConVars() override;
+	void			RemoveSplitScreenConVars( CVarDLLIdentifier_t id ) override;
 
-	virtual int				GetConsoleDisplayFuncCount() const;
-	virtual void			GetConsoleText( int nDisplayFuncIndex, char *pchText, size_t bufSize ) const;
-	virtual bool			IsMaterialThreadSetAllowed( ) const;
-	virtual void			QueueMaterialThreadSetValue( ConVar *pConVar, const char *pValue );
-	virtual void			QueueMaterialThreadSetValue( ConVar *pConVar, int nValue );
-	virtual void			QueueMaterialThreadSetValue( ConVar *pConVar, float flValue );
-	virtual bool			HasQueuedMaterialThreadConVarSets() const;
-	virtual int				ProcessQueuedMaterialThreadConVarSets();
+	int				GetConsoleDisplayFuncCount() const override;
+	void			GetConsoleText( int nDisplayFuncIndex, char *pchText, size_t bufSize ) const override;
+	bool			IsMaterialThreadSetAllowed( ) const override;
+	void			QueueMaterialThreadSetValue( ConVar *pConVar, const char *pValue ) override;
+	void			QueueMaterialThreadSetValue( ConVar *pConVar, int nValue ) override;
+	void			QueueMaterialThreadSetValue( ConVar *pConVar, float flValue ) override;
+	bool			HasQueuedMaterialThreadConVarSets() const override;
+	int				ProcessQueuedMaterialThreadConVarSets() override;
 
 private:
 	enum
@@ -160,7 +160,7 @@ protected:
 		CConCommandHash::CCommandHashIterator_t m_hashIter;
 	};
 
-	virtual ICVarIteratorInternal	*FactoryInternalIterator( void );
+	ICVarIteratorInternal	*FactoryInternalIterator( void ) override;
 	friend class CCVarIteratorInternal;
 
 	enum ConVarSetType_t

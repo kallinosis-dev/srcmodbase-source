@@ -516,9 +516,9 @@ public:
 class IKeyValuesDumpContextAsText : public IKeyValuesDumpContext
 {
 public:
-	virtual bool KvBeginKey( KeyValues *pKey, int nIndentLevel );
-	virtual bool KvWriteValue( KeyValues *pValue, int nIndentLevel );
-	virtual bool KvEndKey( KeyValues *pKey, int nIndentLevel );
+	bool KvBeginKey( KeyValues *pKey, int nIndentLevel ) override;
+	bool KvWriteValue( KeyValues *pValue, int nIndentLevel ) override;
+	bool KvEndKey( KeyValues *pKey, int nIndentLevel ) override;
 
 public:
 	virtual bool KvWriteIndent( int nIndentLevel );
@@ -532,8 +532,8 @@ public:
 	CKeyValuesDumpContextAsDevMsg( int nDeveloperLevel = 1 ) : m_nDeveloperLevel( nDeveloperLevel ) {}
 
 public:
-	virtual bool KvBeginKey( KeyValues *pKey, int nIndentLevel );
-	virtual bool KvWriteText( char const *szText );
+	bool KvBeginKey( KeyValues *pKey, int nIndentLevel ) override;
+	bool KvWriteText( char const *szText ) override;
 
 protected:
 	int m_nDeveloperLevel;

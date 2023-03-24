@@ -25,7 +25,7 @@ typedef void * FileHandle_t;
 abstract_class IFileLoggingListener : public ILoggingListener
 {
 public:
-	virtual void Log( const LoggingContext_t *pContext, const char *pMessage ) = 0;
+	void Log( const LoggingContext_t *pContext, const char *pMessage ) override = 0;
 
 	virtual LoggingFileHandle_t BeginLoggingToFile( const char *pFilename, const char *pOptions, const char *pPathID = NULL ) = 0;
 	virtual void EndLoggingToFile( LoggingFileHandle_t fileHandle ) = 0;
@@ -40,17 +40,17 @@ class CFileLoggingListener : public IFileLoggingListener
 {
 public:
 	CFileLoggingListener();
-	~CFileLoggingListener();
+	~CFileLoggingListener() override;
 
-	virtual void Log( const LoggingContext_t *pContext, const char *pMessage );
+	void Log( const LoggingContext_t *pContext, const char *pMessage ) override;
 
-	virtual LoggingFileHandle_t BeginLoggingToFile( const char *pFilename, const char *pOptions, const char *pPathID = NULL );
-	virtual void EndLoggingToFile( LoggingFileHandle_t fileHandle );
+	LoggingFileHandle_t BeginLoggingToFile( const char *pFilename, const char *pOptions, const char *pPathID = NULL ) override;
+	void EndLoggingToFile( LoggingFileHandle_t fileHandle ) override;
 
-	virtual void AssignLogChannel( LoggingChannelID_t channelID, LoggingFileHandle_t loggingFileHandle );
-	virtual void UnassignLogChannel( LoggingChannelID_t channelID );
-	virtual void AssignAllLogChannels( LoggingFileHandle_t loggingFileHandle );
-	virtual void UnassignAllLogChannels();
+	void AssignLogChannel( LoggingChannelID_t channelID, LoggingFileHandle_t loggingFileHandle ) override;
+	void UnassignLogChannel( LoggingChannelID_t channelID ) override;
+	void AssignAllLogChannels( LoggingFileHandle_t loggingFileHandle ) override;
+	void UnassignAllLogChannels() override;
 
 private:
 	int GetUnusedFileInfo() const;

@@ -756,13 +756,13 @@ class CDbgMemAlloc : public IMemAlloc
 {
 public:
 	CDbgMemAlloc();
-	virtual ~CDbgMemAlloc();
+	~CDbgMemAlloc() override;
 
 	// Release versions
-	virtual void *Alloc( size_t nSize );
-	virtual void *Realloc( void *pMem, size_t nSize );
-	virtual void  Free( void *pMem );
-    virtual void *Expand_NoLongerSupported( void *pMem, size_t nSize );
+	void *Alloc( size_t nSize ) override;
+	void *Realloc( void *pMem, size_t nSize ) override;
+	void  Free( void *pMem ) override;
+	void *Expand_NoLongerSupported( void *pMem, size_t nSize ) override;
 
 #ifdef MEMALLOC_SUPPORTS_ALIGNED_ALLOCATIONS
 	virtual void *AllocAlign( size_t nSize, size_t align );
@@ -772,60 +772,60 @@ public:
 #endif
 
 	// Debug versions
-    virtual void *Alloc( size_t nSize, const char *pFileName, int nLine );
-    virtual void *Realloc( void *pMem, size_t nSize, const char *pFileName, int nLine );
-    virtual void  Free( void *pMem, const char *pFileName, int nLine );
-    virtual void *Expand_NoLongerSupported( void *pMem, size_t nSize, const char *pFileName, int nLine );
+	void *Alloc( size_t nSize, const char *pFileName, int nLine ) override;
+	void *Realloc( void *pMem, size_t nSize, const char *pFileName, int nLine ) override;
+	void  Free( void *pMem, const char *pFileName, int nLine ) override;
+	void *Expand_NoLongerSupported( void *pMem, size_t nSize, const char *pFileName, int nLine ) override;
 
-	virtual void *RegionAlloc( int region, size_t nSize ) { return Alloc( nSize ); }
-	virtual void *RegionAlloc( int region, size_t nSize, const char *pFileName, int nLine ) { return Alloc( nSize, pFileName, nLine ); }
+	void *RegionAlloc( int region, size_t nSize ) override { return Alloc( nSize ); }
+	void *RegionAlloc( int region, size_t nSize, const char *pFileName, int nLine ) override { return Alloc( nSize, pFileName, nLine ); }
 
 	// Returns the size of a particular allocation (NOTE: may be larger than the size requested!)
-	virtual size_t GetSize( void *pMem );
+	size_t GetSize( void *pMem ) override;
 
     // Force file + line information for an allocation
-    virtual void PushAllocDbgInfo( const char *pFileName, int nLine );
-    virtual void PopAllocDbgInfo();
+	void PushAllocDbgInfo( const char *pFileName, int nLine ) override;
+	void PopAllocDbgInfo() override;
 
-	virtual int32 CrtSetBreakAlloc( int32 lNewBreakAlloc );
-	virtual	int CrtSetReportMode( int nReportType, int nReportMode );
-	virtual int CrtIsValidHeapPointer( const void *pMem );
-	virtual int CrtIsValidPointer( const void *pMem, unsigned int size, int access );
-	virtual int CrtCheckMemory( void );
-	virtual int CrtSetDbgFlag( int nNewFlag );
-	virtual void CrtMemCheckpoint( _CrtMemState *pState );
+	int32 CrtSetBreakAlloc( int32 lNewBreakAlloc ) override;
+	int CrtSetReportMode( int nReportType, int nReportMode ) override;
+	int CrtIsValidHeapPointer( const void *pMem ) override;
+	int CrtIsValidPointer( const void *pMem, unsigned int size, int access ) override;
+	int CrtCheckMemory( void ) override;
+	int CrtSetDbgFlag( int nNewFlag ) override;
+	void CrtMemCheckpoint( _CrtMemState *pState ) override;
 
 	// handles storing allocation info for coroutines
-	virtual uint32 GetDebugInfoSize();
-	virtual void SaveDebugInfo( void *pvDebugInfo );
-	virtual void RestoreDebugInfo( const void *pvDebugInfo );	
-	virtual void InitDebugInfo( void *pvDebugInfo, const char *pchRootFileName, int nLine );
+	uint32 GetDebugInfoSize() override;
+	void SaveDebugInfo( void *pvDebugInfo ) override;
+	void RestoreDebugInfo( const void *pvDebugInfo ) override;
+	void InitDebugInfo( void *pvDebugInfo, const char *pchRootFileName, int nLine ) override;
 
 	// FIXME: Remove when we have our own allocator
-	virtual void* CrtSetReportFile( int nRptType, void* hFile );
-	virtual void* CrtSetReportHook( void* pfnNewHook );
-	virtual int CrtDbgReport( int nRptType, const char * szFile,
-			int nLine, const char * szModule, const char * szFormat );
+	void* CrtSetReportFile( int nRptType, void* hFile ) override;
+	void* CrtSetReportHook( void* pfnNewHook ) override;
+	int CrtDbgReport( int nRptType, const char * szFile,
+	                  int nLine, const char * szModule, const char * szFormat ) override;
 
-	virtual int heapchk();
+	int heapchk() override;
 
-	virtual bool IsDebugHeap() { return true; }
+	bool IsDebugHeap() override { return true; }
 
-	virtual int GetVersion() { return MEMALLOC_VERSION; }
+	int GetVersion() override { return MEMALLOC_VERSION; }
 
-	virtual void CompactHeap() 
+	void CompactHeap() override
 	{
 #if defined( _X360 ) && defined( _DEBUG )
 		HeapCompact( GetProcessHeap(), 0 );
 #endif
 	}
 
-	virtual void CompactIncremental() {}
-	virtual void OutOfMemory( size_t nBytesAttempted = 0 ) {}
+	void CompactIncremental() override {}
+	void OutOfMemory( size_t nBytesAttempted = 0 ) override {}
 
-	virtual MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) { return NULL; } // debug heap doesn't attempt retries
+	MemAllocFailHandler_t SetAllocFailHandler( MemAllocFailHandler_t pfnMemAllocFailHandler ) override { return NULL; } // debug heap doesn't attempt retries
 
-	void SetStatsExtraInfo( const char *pMapName, const char *pComment )
+	void SetStatsExtraInfo( const char *pMapName, const char *pComment ) override
 	{
 #if defined( _MEMTEST )
 		strncpy( s_szStatsMapName, pMapName, sizeof( s_szStatsMapName ) );
@@ -836,7 +836,7 @@ public:
 #endif
 	}
 
-	virtual size_t MemoryAllocFailed();
+	size_t MemoryAllocFailed() override;
 	void		SetCRTAllocFailed( size_t nMemSize );
 
 	enum
@@ -920,7 +920,7 @@ private:
 
 private:
 	// Returns the actual debug info
-	virtual void GetActualDbgInfo( const char *&pFileName, int &nLine );
+	void GetActualDbgInfo( const char *&pFileName, int &nLine ) override;
 
 	// Finds the file in our map
 	MemInfo_t &FindOrCreateEntry( const char *pFileName, int line );
@@ -932,8 +932,8 @@ private:
 #endif
 
 	// Updates stats
-	virtual void RegisterAllocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime );
-	virtual void RegisterDeallocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime );
+	void RegisterAllocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) override;
+	void RegisterDeallocation( const char *pFileName, int nLine, size_t nLogicalSize, size_t nActualSize, unsigned nTime ) override;
 #if defined( USE_STACK_TRACES )
 	void RegisterAllocation( unsigned int nStatIndex, size_t nLogicalSize, size_t nActualSize, unsigned nTime );
 	void RegisterDeallocation( unsigned int nStatIndex, size_t nLogicalSize, size_t nActualSize, unsigned nTime );
@@ -953,14 +953,14 @@ private:
 	void DumpMemInfo( void * const CallStack[STACK_TRACE_LENGTH], const MemInfo_t &info );
 	void DumpCallStackFlow( char const *pchFileBase );
 #endif
-	virtual void DumpStats();
-	virtual void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) OVERRIDE;
-	virtual void DumpBlockStats( void *p );
-	virtual void GlobalMemoryStatus( size_t *pUsedMemory, size_t *pFreeMemory );
-	
-	virtual size_t ComputeMemoryUsedBy( char const *pchSubStr );
+	void DumpStats() override;
+	void DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t nFormat = FORMAT_TEXT ) OVERRIDE;
+	void DumpBlockStats( void *p ) override;
+	void GlobalMemoryStatus( size_t *pUsedMemory, size_t *pFreeMemory ) override;
 
-	virtual IVirtualMemorySection * AllocateVirtualMemorySection( size_t numMaxBytes )
+	size_t ComputeMemoryUsedBy( char const *pchSubStr ) override;
+
+	IVirtualMemorySection * AllocateVirtualMemorySection( size_t numMaxBytes ) override
 	{
 #if defined( _GAMECONSOLE ) || defined( _WIN32 )
 		extern IVirtualMemorySection * VirtualMemoryManager_AllocateVirtualMemorySection( size_t numMaxBytes );
@@ -970,7 +970,7 @@ private:
 #endif
 	}
 
-	virtual int GetGenericMemoryStats( GenericMemoryStat_t **ppMemoryStats )
+	int GetGenericMemoryStats( GenericMemoryStat_t **ppMemoryStats ) override
 	{
 		// TODO: reuse code from GlobalMemoryStatus (though this is only really useful when using CStdMemAlloc...)
 		return 0;

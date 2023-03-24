@@ -359,13 +359,13 @@ public:
 
 	// Methods of IEventSystem
 public:
-	virtual EventQueue_t CreateEventQueue();
-	virtual void DestroyEventQueue( EventQueue_t hQueue );
-	virtual void ProcessEvents( EventQueue_t hQueue );
-	virtual EventId_t RegisterEvent( const char *pEventName );
-	virtual void PostEventInternal( EventId_t nEventId, EventQueue_t hQueue, const void *pListener, CFunctorData *pData );
-	virtual void RegisterListener( EventId_t nEventId, EventQueue_t hQueue, CFunctorCallback *pCallback );
-	virtual void UnregisterListener( EventId_t nEventId, EventQueue_t hQueue, CFunctorCallback *pCallback );
+	EventQueue_t CreateEventQueue() override;
+	void DestroyEventQueue( EventQueue_t hQueue ) override;
+	void ProcessEvents( EventQueue_t hQueue ) override;
+	EventId_t RegisterEvent( const char *pEventName ) override;
+	void PostEventInternal( EventId_t nEventId, EventQueue_t hQueue, const void *pListener, CFunctorData *pData ) override;
+	void RegisterListener( EventId_t nEventId, EventQueue_t hQueue, CFunctorCallback *pCallback ) override;
+	void UnregisterListener( EventId_t nEventId, EventQueue_t hQueue, CFunctorCallback *pCallback ) override;
 
 	// Other public methods
 public:

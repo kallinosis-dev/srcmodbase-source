@@ -20,9 +20,9 @@ class CProjectGenerator_Xbox360_2010 : public IVCProjWriter
 {
 public:
 	CProjectGenerator_Xbox360_2010();
-	virtual CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
-	
-	virtual bool Save( const char *pOutputFilename );
+	CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
+
+	bool Save( const char *pOutputFilename ) override;
 
 private:
 	// primary XML - foo.vcxproj

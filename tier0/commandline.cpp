@@ -39,26 +39,26 @@ public:
 	virtual 			~CCommandLine( void );
 
 	// Implements ICommandLine
-	virtual void		CreateCmdLine( const char *commandline  );
-	virtual void		CreateCmdLine( int argc, char **argv );
-	virtual const char	*GetCmdLine( void ) const;
-	virtual	const char	*CheckParm( const char *psz, const char **ppszValue = 0 ) const;
+	void		CreateCmdLine( const char *commandline  ) override;
+	void		CreateCmdLine( int argc, char **argv ) override;
+	const char	*GetCmdLine( void ) const override;
+	const char	*CheckParm( const char *psz, const char **ppszValue = 0 ) const override;
 	// A bool return of whether param exists, useful for just checking if param that is just a flag is set
-	virtual bool		HasParm( const char *psz ) const;
+	bool		HasParm( const char *psz ) const override;
 
-	virtual void		RemoveParm( const char *parm );
-	virtual void		AppendParm( const char *pszParm, const char *pszValues );
+	void		RemoveParm( const char *parm ) override;
+	void		AppendParm( const char *pszParm, const char *pszValues ) override;
 
-	virtual int			ParmCount() const;
-	virtual int			FindParm( const char *psz ) const;
-	virtual const char* GetParm( int nIndex ) const;
+	int			ParmCount() const override;
+	int			FindParm( const char *psz ) const override;
+	const char* GetParm( int nIndex ) const override;
 
-	virtual const char	*ParmValue( const char *psz, const char *pDefaultVal = NULL ) const;
-	virtual int			ParmValue( const char *psz, int nDefaultVal ) const;
-	virtual float		ParmValue( const char *psz, float flDefaultVal ) const;
-	virtual void        SetParm( int nIndex, char const *pParm );
+	const char	*ParmValue( const char *psz, const char *pDefaultVal = NULL ) const override;
+	int			ParmValue( const char *psz, int nDefaultVal ) const override;
+	float		ParmValue( const char *psz, float flDefaultVal ) const override;
+	void        SetParm( int nIndex, char const *pParm ) override;
 
-	virtual const char **GetParms() const { return (const char**)m_ppParms; }
+	const char **GetParms() const override { return (const char**)m_ppParms; }
 
 private:
 	enum

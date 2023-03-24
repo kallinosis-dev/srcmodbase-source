@@ -366,9 +366,9 @@ public:
 	ConCommand( const char *pName, ICommandCallback *pCallback, 
 		const char *pHelpString = 0, int flags = 0, ICommandCompletionCallback *pCommandCompletionCallback = 0 );
 
-	virtual ~ConCommand( void );
+~ConCommand( void ) override;
 
-	virtual	bool IsCommand( void ) const;
+bool IsCommand( void ) const override;
 
 	virtual int AutoCompleteSuggest( const char *partial, CUtlVector< CUtlString > &commands );
 
@@ -430,19 +430,19 @@ public:
 									const char *pHelpString, bool bMin, float fMin, bool bMax, float fMax,
 									FnChangeCallback_t callback );
 
-	virtual						~ConVar( void );
+~ConVar( void ) override;
 
-	virtual bool				IsFlagSet( int flag ) const;
-	virtual const char*			GetHelpText( void ) const;
-	virtual bool				IsRegistered( void ) const;
-	virtual const char			*GetName( void ) const;
+bool				IsFlagSet( int flag ) const override;
+const char*			GetHelpText( void ) const override;
+bool				IsRegistered( void ) const override;
+const char			*GetName( void ) const override;
 	// Return name of command (usually == GetName(), except in case of FCVAR_SS_ADDED vars
-	virtual const char			*GetBaseName( void ) const;
-	virtual int					GetSplitScreenPlayerSlot() const;
+const char			*GetBaseName( void ) const override;
+int					GetSplitScreenPlayerSlot() const override;
 
-	virtual void				AddFlags( int flags );
-	virtual int					GetFlags() const;
-	virtual	bool				IsCommand( void ) const;
+void				AddFlags( int flags ) override;
+int					GetFlags() const override;
+bool				IsCommand( void ) const override;
 
 	// Install a change callback (there shouldn't already be one....)
 	void InstallChangeCallback( FnChangeCallback_t callback, bool bInvoke = true );
@@ -466,10 +466,10 @@ public:
 	//  from alloc/free across dll/exe boundaries.
 	
 	// These just call into the IConCommandBaseAccessor to check flags and set the var (which ends up calling InternalSetValue).
-	virtual void				SetValue( const char *value );
-	virtual void				SetValue( float value );
-	virtual void				SetValue( int value );
-	virtual void				SetValue( Color value );
+void				SetValue( const char *value ) override;
+void				SetValue( float value ) override;
+void				SetValue( int value ) override;
+void				SetValue( Color value ) override;
 	
 	// Reset to default value
 	void						Revert( void );
@@ -524,7 +524,7 @@ private:
 									bool bMax = false, float fMax = false, FnChangeCallback_t callback = 0 );
 
 	// Used internally by OneTimeInit to initialize.
-	virtual void				Init();
+void				Init() override;
 
 protected:
 
@@ -661,9 +661,9 @@ public:
 	}
 
 	const ConVar *GetBaseVar() const;
-	virtual const char *GetBaseName() const;
+	const char *GetBaseName() const override;
 	void SetSplitScreenPlayerSlot( int nSlot );
-	virtual int GetSplitScreenPlayerSlot() const;
+	int GetSplitScreenPlayerSlot() const override;
 
 protected:
 
@@ -1079,7 +1079,7 @@ public:
 		m_CompletionFunc = completionFunc;
 	}
 
-	~CConCommandMemberAccessor()
+	~CConCommandMemberAccessor() override
 	{
 		Shutdown();
 	}
@@ -1089,13 +1089,13 @@ public:
 		m_pOwner = pOwner;
 	}
 
-	virtual void CommandCallback( const CCommand &command )
+	void CommandCallback( const CCommand &command ) override
 	{
 		Assert( m_pOwner && m_Func );
 		(m_pOwner->*m_Func)( command );
 	}
 
-	virtual int  CommandCompletionCallback( const char *pPartial, CUtlVector< CUtlString > &commands )
+	int  CommandCompletionCallback( const char *pPartial, CUtlVector< CUtlString > &commands ) override
 	{
 		Assert( m_pOwner && m_CompletionFunc );
 		return (m_pOwner->*m_CompletionFunc)( pPartial, commands );

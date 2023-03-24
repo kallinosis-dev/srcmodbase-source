@@ -175,46 +175,45 @@ class CAsyncGroupRequest : public IAsyncGroupRequest
 		// ---------------------------------------------------------
 
 		// functions to query operation
-		virtual AsyncFileOperation_t	GetAsyncOperationType()				{ return m_Base.GetAsyncOperationType(); }
+		AsyncFileOperation_t	GetAsyncOperationType() override { return m_Base.GetAsyncOperationType(); }
 
 		// Set completion options								
-		virtual void					AssignCallback( CFunctor* pCallback )				{  m_Base.AssignCallback( pCallback ); }
-		virtual void					AssignResultQueue( CIOCompletionQueue* pMsgQueue )	{  m_Base.AssignResultQueue( pMsgQueue ); }
-		virtual void					AssignCallbackAndQueue( CIOCompletionQueue* pMsgQueue, CFunctor* pCallback )  {  m_Base.AssignCallbackAndQueue( pMsgQueue, pCallback); }
+		void					AssignCallback( CFunctor* pCallback ) override {  m_Base.AssignCallback( pCallback ); }
+		void					AssignResultQueue( CIOCompletionQueue* pMsgQueue ) override {  m_Base.AssignResultQueue( pMsgQueue ); }
+		void					AssignCallbackAndQueue( CIOCompletionQueue* pMsgQueue, CFunctor* pCallback ) override {  m_Base.AssignCallbackAndQueue( pMsgQueue, pCallback); }
 
 		// Completion processing functions		
-		virtual void					ProcessCallback( bool bRelease = true )	{  m_Base.ProcessCallback( bRelease ); }
+		void					ProcessCallback( bool bRelease = true ) override {  m_Base.ProcessCallback( bRelease ); }
 
-		virtual void					KeepRequestPostCallback()			{  m_Base.KeepRequestPostCallback(); }
-		virtual void					DontKeepRequestPostCallback()		{  m_Base.DontKeepRequestPostCallback(); }
+		void					KeepRequestPostCallback() override {  m_Base.KeepRequestPostCallback(); }
+		void					DontKeepRequestPostCallback() override {  m_Base.DontKeepRequestPostCallback(); }
 
-		virtual void					Release()							{  m_Base.Release(); }
+		void					Release() override {  m_Base.Release(); }
 
 		// Priority Functions
-		virtual void					SetPriority( int32 nPriority )		{  m_Base.SetPriority( nPriority ); }
-		virtual int32					GetPriority()						{ return  m_Base.GetPriority(); }
+		void					SetPriority( int32 nPriority ) override {  m_Base.SetPriority( nPriority ); }
+		int32					GetPriority() override { return  m_Base.GetPriority(); }
 
 		// Status & Results functions
-		virtual AsyncRequestState_t		GetRequestState()					{ return  m_Base.GetRequestState(); }
-		virtual AsyncRequestStatus_t	GetRequestStatus()					{ return  m_Base.GetRequestStatus(); }
+		AsyncRequestState_t		GetRequestState() override { return  m_Base.GetRequestState(); }
+		AsyncRequestStatus_t	GetRequestStatus() override { return  m_Base.GetRequestStatus(); }
 
 	private:
-		virtual CAsyncRequestBase*		GetBase()							{ return (CAsyncRequestBase*) &m_Base; }
+		CAsyncRequestBase*		GetBase() override { return (CAsyncRequestBase*) &m_Base; }
 
 		// ----------------------------------------------------
 		// methods from the IAsyncGroupRequest Interface
 		// ----------------------------------------------------
 
-	public:	
+	public:
+		void					AddAsyncRequest( IAsyncRequestBase* pRequest ) override;
 
-		virtual void					AddAsyncRequest( IAsyncRequestBase* pRequest );
-		
-		virtual int32					GetAsyncRequestCount()			{ return m_RequestList.Count(); }
-		virtual IAsyncRequestBase*		GetAsyncRequest( int32 nRNum );
-		virtual IAsyncFileRequest*		GetAsyncFileRequest( int32 nRNum );
-		virtual IAsyncSearchRequest*	GetAsyncSearchRequest( int32 nRNum );
-		
-		virtual void					ReleaseAsyncRequest( int32 nRNum );
+		int32					GetAsyncRequestCount() override { return m_RequestList.Count(); }
+		IAsyncRequestBase*		GetAsyncRequest( int32 nRNum ) override;
+		IAsyncFileRequest*		GetAsyncFileRequest( int32 nRNum ) override;
+		IAsyncSearchRequest*	GetAsyncSearchRequest( int32 nRNum ) override;
+
+		void					ReleaseAsyncRequest( int32 nRNum ) override;
 
 		void							NotifyOfCompletion(  IAsyncRequestBase* pRequest );
 
@@ -280,31 +279,31 @@ class CAsyncFileRequest : public IAsyncFileRequest
 		// ---------------------------------------------------------
 
 		// functions to query operation
-		virtual AsyncFileOperation_t	GetAsyncOperationType()				{ return m_Base.GetAsyncOperationType(); }
+		AsyncFileOperation_t	GetAsyncOperationType() override { return m_Base.GetAsyncOperationType(); }
 
 		// Set completion options								
-		virtual void					AssignCallback( CFunctor* pCallback )				{  m_Base.AssignCallback( pCallback ); }
-		virtual void					AssignResultQueue( CIOCompletionQueue* pMsgQueue )	{  m_Base.AssignResultQueue( pMsgQueue ); }
-		virtual void					AssignCallbackAndQueue( CIOCompletionQueue* pMsgQueue, CFunctor* pCallback )  {  m_Base.AssignCallbackAndQueue( pMsgQueue, pCallback); }
+		void					AssignCallback( CFunctor* pCallback ) override {  m_Base.AssignCallback( pCallback ); }
+		void					AssignResultQueue( CIOCompletionQueue* pMsgQueue ) override {  m_Base.AssignResultQueue( pMsgQueue ); }
+		void					AssignCallbackAndQueue( CIOCompletionQueue* pMsgQueue, CFunctor* pCallback ) override {  m_Base.AssignCallbackAndQueue( pMsgQueue, pCallback); }
 
 		// Completion processing functions		
-		virtual void					ProcessCallback( bool bRelease = true )	{  m_Base.ProcessCallback( bRelease ); }
+		void					ProcessCallback( bool bRelease = true ) override {  m_Base.ProcessCallback( bRelease ); }
 
-		virtual void					KeepRequestPostCallback()			{  m_Base.KeepRequestPostCallback(); }
-		virtual void					DontKeepRequestPostCallback()		{  m_Base.DontKeepRequestPostCallback(); }
+		void					KeepRequestPostCallback() override {  m_Base.KeepRequestPostCallback(); }
+		void					DontKeepRequestPostCallback() override {  m_Base.DontKeepRequestPostCallback(); }
 
-		virtual void					Release()							{  m_Base.Release(); }
+		void					Release() override {  m_Base.Release(); }
 
 		// Priority Functions
-		virtual void					SetPriority( int32 nPriority )		{  m_Base.SetPriority( nPriority ); }
-		virtual int32					GetPriority()						{ return  m_Base.GetPriority(); }
+		void					SetPriority( int32 nPriority ) override {  m_Base.SetPriority( nPriority ); }
+		int32					GetPriority() override { return  m_Base.GetPriority(); }
 
 		// Status & Results functions
-		virtual AsyncRequestState_t		GetRequestState()					{ return  m_Base.GetRequestState(); }
-		virtual AsyncRequestStatus_t	GetRequestStatus()					{ return  m_Base.GetRequestStatus(); }
+		AsyncRequestState_t		GetRequestState() override { return  m_Base.GetRequestState(); }
+		AsyncRequestStatus_t	GetRequestStatus() override { return  m_Base.GetRequestStatus(); }
 
 	private:
-		virtual CAsyncRequestBase*		GetBase()							{ return (CAsyncRequestBase*) &m_Base; }
+		CAsyncRequestBase*		GetBase() override { return (CAsyncRequestBase*) &m_Base; }
 
 		// ----------------------------------------------------
 		// methods from the IAsyncFileRequest Interface
@@ -312,32 +311,32 @@ class CAsyncFileRequest : public IAsyncFileRequest
 
 	public:	
 		// functions to set filename and operation
-		virtual void					LoadFile( const char* pFileName );									// make this a 'read data from file' request
-		virtual void					SaveFile( const char* pFileName );									// make this a 'write data to file' request
-		virtual void					AppendFile( const char* pFileName );								// make this a 'append data to file' request
-																											
-		virtual void					SetFileName( const char* pFileName );								// assign the filename to use
-		virtual const char*				GetFileName()				{ return m_pFileName; }					// get the filename we've assigned
+		void					LoadFile( const char* pFileName ) override;									// make this a 'read data from file' request
+		void					SaveFile( const char* pFileName ) override;									// make this a 'write data to file' request
+		void					AppendFile( const char* pFileName ) override;								// make this a 'append data to file' request
+
+		void					SetFileName( const char* pFileName ) override;								// assign the filename to use
+		const char*				GetFileName() override { return m_pFileName; }					// get the filename we've assigned
 		
 		// Buffer control functions		
-		virtual void					SetUserBuffer( void* pDataBuffer, size_t nBufferSize );				// User supplies a memory buffer to use, which they own the memory for
-		virtual void*					GetUserBuffer()				{ return m_pUserProvidedDataBuffer; }	// returns the address of the user supplied buffer
-		virtual size_t					GetUserBufferSize()			{ return m_nUserProvidedBufferSize; }	// returns the size of the user supplied buffer
+		void					SetUserBuffer( void* pDataBuffer, size_t nBufferSize ) override;				// User supplies a memory buffer to use, which they own the memory for
+		void*					GetUserBuffer() override { return m_pUserProvidedDataBuffer; }	// returns the address of the user supplied buffer
+		size_t					GetUserBufferSize() override { return m_nUserProvidedBufferSize; }	// returns the size of the user supplied buffer
 
-		virtual void					ProvideDataBuffer();												// file system provide a buffer with the results
+		void					ProvideDataBuffer() override;												// file system provide a buffer with the results
 		
 		// returned buffer (read) functions		
-		virtual void*					GetResultBuffer()			{ return m_pResultsBuffer; }			// Returns the address of the data transferred
-		virtual size_t					GetResultBufferSize()		{ return m_nResultsBufferSize; }		// Returns the size of the buffer holding the data transferred
-		virtual size_t					GetIOTransferredSize()		{ return m_nIOActualSize; }				// Returns the number of bytes of data actually transferred
+		void*					GetResultBuffer() override { return m_pResultsBuffer; }			// Returns the address of the data transferred
+		size_t					GetResultBufferSize() override { return m_nResultsBufferSize; }		// Returns the size of the buffer holding the data transferred
+		size_t					GetIOTransferredSize() override { return m_nIOActualSize; }				// Returns the number of bytes of data actually transferred
 
 		// Memory control functions for buffers allocated by the async file system
-		virtual void					KeepResultBuffer()			{ m_bDeleteBufferMemory = false; }		// User wants to keeps buffer allocated by the file system
-		virtual void					ReleaseResultBuffer()		{ m_bDeleteBufferMemory = true; }		// User decides they want the request to take care of releasing the buffer
+		void					KeepResultBuffer() override { m_bDeleteBufferMemory = false; }		// User wants to keeps buffer allocated by the file system
+		void					ReleaseResultBuffer() override { m_bDeleteBufferMemory = true; }		// User decides they want the request to take care of releasing the buffer
 
 		// file position functions										
-		virtual void					ReadFileDataAt( int64 nOffset, size_t nReadSize = 0 );				// Read file data starting at supplied offset, optional max size to read
-		virtual void					WriteFileDataAt( int64 nOffset, size_t nWriteSize = 0 );			// Write data to file at supplied offset, optional size to write (max size of buffer)
+		void					ReadFileDataAt( int64 nOffset, size_t nReadSize = 0 ) override;				// Read file data starting at supplied offset, optional max size to read
+		void					WriteFileDataAt( int64 nOffset, size_t nWriteSize = 0 ) override;			// Write data to file at supplied offset, optional size to write (max size of buffer)
 	
 
 		// --------------------------------------------------------------
@@ -395,31 +394,31 @@ class CAsyncSearchRequest  :  public IAsyncSearchRequest
 		// ---------------------------------------------------------
 		
 		// functions to query operation
-		virtual AsyncFileOperation_t	GetAsyncOperationType()				{ return m_Base.GetAsyncOperationType(); }
+		AsyncFileOperation_t	GetAsyncOperationType() override { return m_Base.GetAsyncOperationType(); }
 
 		// Set completion options								
-		virtual void					AssignCallback( CFunctor* pCallback )				{  m_Base.AssignCallback( pCallback ); }
-		virtual void					AssignResultQueue( CIOCompletionQueue* pMsgQueue )	{  m_Base.AssignResultQueue( pMsgQueue ); }
-		virtual void					AssignCallbackAndQueue( CIOCompletionQueue* pMsgQueue, CFunctor* pCallback )  {  m_Base.AssignCallbackAndQueue( pMsgQueue, pCallback); }
+		void					AssignCallback( CFunctor* pCallback ) override {  m_Base.AssignCallback( pCallback ); }
+		void					AssignResultQueue( CIOCompletionQueue* pMsgQueue ) override {  m_Base.AssignResultQueue( pMsgQueue ); }
+		void					AssignCallbackAndQueue( CIOCompletionQueue* pMsgQueue, CFunctor* pCallback ) override {  m_Base.AssignCallbackAndQueue( pMsgQueue, pCallback); }
 
 		// Completion processing functions		
-		virtual void					ProcessCallback( bool bRelease = true )	{  m_Base.ProcessCallback( bRelease ); }
+		void					ProcessCallback( bool bRelease = true ) override {  m_Base.ProcessCallback( bRelease ); }
 
-		virtual void					KeepRequestPostCallback()			{  m_Base.KeepRequestPostCallback(); }
-		virtual void					DontKeepRequestPostCallback()		{  m_Base.DontKeepRequestPostCallback(); }
+		void					KeepRequestPostCallback() override {  m_Base.KeepRequestPostCallback(); }
+		void					DontKeepRequestPostCallback() override {  m_Base.DontKeepRequestPostCallback(); }
 
-		virtual void					Release()							{  m_Base.Release(); }
+		void					Release() override {  m_Base.Release(); }
 
 		// Priority Functions
-		virtual void					SetPriority( int32 nPriority )		{  m_Base.SetPriority( nPriority ); }
-		virtual int32					GetPriority()						{ return  m_Base.GetPriority(); }
+		void					SetPriority( int32 nPriority ) override {  m_Base.SetPriority( nPriority ); }
+		int32					GetPriority() override { return  m_Base.GetPriority(); }
 
 		// Status & Results functions
-		virtual AsyncRequestState_t		GetRequestState()					{ return  m_Base.GetRequestState(); }
-		virtual AsyncRequestStatus_t	GetRequestStatus()					{ return  m_Base.GetRequestStatus(); }
+		AsyncRequestState_t		GetRequestState() override { return  m_Base.GetRequestState(); }
+		AsyncRequestStatus_t	GetRequestStatus() override { return  m_Base.GetRequestStatus(); }
 
 	private:
-		virtual CAsyncRequestBase*		GetBase()							{ return (CAsyncRequestBase*) &m_Base; }
+		CAsyncRequestBase*		GetBase() override { return (CAsyncRequestBase*) &m_Base; }
 
 		// ---------------------------------------------------------
 		// methods from the IAsyncSearchRequest Interface
@@ -428,18 +427,18 @@ class CAsyncSearchRequest  :  public IAsyncSearchRequest
 	public:
 		// functions to define the request
 
-		virtual void					SetSearchFilespec( const char* pFullSearchSpec );
-		virtual void					SetSearchPathAndFileSpec( const char* pPathId, const char* pRelativeSearchSpec );
-		virtual void					SetSearchPathAndFileSpec( const char* pPathId, const char* pRelativeSearchPath, const char* pSearchSpec );
-		
-		virtual void					SetSubdirectoryScan( const bool bInclude );
-		virtual bool					GetSubdirectoryScan()				{ return m_bRecurseSubdirs; }
+		void					SetSearchFilespec( const char* pFullSearchSpec ) override;
+		void					SetSearchPathAndFileSpec( const char* pPathId, const char* pRelativeSearchSpec ) override;
+		void					SetSearchPathAndFileSpec( const char* pPathId, const char* pRelativeSearchPath, const char* pSearchSpec ) override;
+
+		void					SetSubdirectoryScan( const bool bInclude ) override;
+		bool					GetSubdirectoryScan() override { return m_bRecurseSubdirs; }
 		
 		// Functions to return the results.
-		
-		virtual int						GetResultCount()					{ return m_nNumResults; }
-		virtual CDirectoryEntryInfo_t*	GetResult( int rNum = 0 );
-		virtual const char*				GetMatchedFile( int rNum = 0 );
+
+		int						GetResultCount() override { return m_nNumResults; }
+		CDirectoryEntryInfo_t*	GetResult( int rNum = 0 ) override;
+		const char*				GetMatchedFile( int rNum = 0 ) override;
 
 		// --------------------------------------------------------------
 		// Public Methods not included in the interface, used by Async FileSystem
@@ -512,33 +511,33 @@ class CAsyncFileSystem : public CTier2AppSystem< IAsyncFileSystem >
 		//--------------------------------------------------
 		// Interface methods exposed with IAsyncFileSystem
 		//--------------------------------------------------
-		
-		virtual AsyncRequestStatus_t			SubmitAsyncFileRequest( const IAsyncRequestBase* pRequest );			
-		virtual AsyncRequestStatus_t			SubmitSyncFileRequest( const IAsyncRequestBase* pRequest );			
-	
- 		virtual AsyncRequestStatus_t			GetAsyncFileRequestStatus( const IAsyncRequestBase* pRequest );
-		virtual AsyncRequestStatus_t			AbortAsyncFileRequest( const IAsyncRequestBase* pRequest );
 
-		virtual void							SuspendAllAsyncIO( bool bWaitForIOCompletion = true );
-		virtual void							ResumeAllAsyncIO();
-		virtual AsyncRequestStatus_t			AbortAllAsyncIO( bool bWaitForIOCompletion = true );
+	AsyncRequestStatus_t			SubmitAsyncFileRequest( const IAsyncRequestBase* pRequest ) override;
+	AsyncRequestStatus_t			SubmitSyncFileRequest( const IAsyncRequestBase* pRequest ) override;
 
-		virtual IAsyncFileRequest*				CreateNewFileRequest();
-		virtual IAsyncSearchRequest*			CreateNewSearchRequest();
-		virtual IAsyncGroupRequest*				CreateNewAsyncRequestGroup();
-		
-		virtual void							ReleaseAsyncRequest( const IAsyncRequestBase* pRequest );
-		virtual bool							BlockUntilAsyncIOComplete( const IAsyncRequestBase* pRequest );
+	AsyncRequestStatus_t			GetAsyncFileRequestStatus( const IAsyncRequestBase* pRequest ) override;
+	AsyncRequestStatus_t			AbortAsyncFileRequest( const IAsyncRequestBase* pRequest ) override;
 
-		virtual void*							AllocateBuffer( size_t nBufferSize, int nAlignment = 4 );
-		virtual void							ReleaseBuffer( void* pBuffer );
+	void							SuspendAllAsyncIO( bool bWaitForIOCompletion = true ) override;
+	void							ResumeAllAsyncIO() override;
+	AsyncRequestStatus_t			AbortAllAsyncIO( bool bWaitForIOCompletion = true ) override;
+
+	IAsyncFileRequest*				CreateNewFileRequest() override;
+	IAsyncSearchRequest*			CreateNewSearchRequest() override;
+	IAsyncGroupRequest*				CreateNewAsyncRequestGroup() override;
+
+	void							ReleaseAsyncRequest( const IAsyncRequestBase* pRequest ) override;
+	bool							BlockUntilAsyncIOComplete( const IAsyncRequestBase* pRequest ) override;
+
+	void*							AllocateBuffer( size_t nBufferSize, int nAlignment = 4 ) override;
+	void							ReleaseBuffer( void* pBuffer ) override;
 
 		//--------------------------------------------------
 		// Public Methods used inside the filesystem
 		//--------------------------------------------------
 		
 	
-		void*								QueryInterface( const char *pInterfaceName );
+		void*								QueryInterface( const char *pInterfaceName ) override;
 		
 		void								RemoveRequest( CAsyncRequestBase* pRequest );
 

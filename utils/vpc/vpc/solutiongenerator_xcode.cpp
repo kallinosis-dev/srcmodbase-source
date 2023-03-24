@@ -313,9 +313,9 @@ public:
         m_outBuf.SetBufferType( true, false );
     }
 
-	virtual void GenerateSolutionFile( const char *pSolutionFilename, CUtlVector<CDependency_Project*> &projects ) OVERRIDE;
-    virtual void ProjectEnd( IBaseProjectGenerator *pCurGen ) OVERRIDE;
-	virtual SolutionType_t GetSolutionType( void ) OVERRIDE { return ST_XCODE; }
+    void GenerateSolutionFile( const char *pSolutionFilename, CUtlVector<CDependency_Project*> &projects ) OVERRIDE;
+    void ProjectEnd( IBaseProjectGenerator *pCurGen ) OVERRIDE;
+    SolutionType_t GetSolutionType( void ) OVERRIDE { return ST_XCODE; }
 
 private:
     const char *UsePOSIXSlashes( const char *pStr );
@@ -3092,13 +3092,13 @@ class CProjectGenerator_Xcode : public IVCProjWriter
 public:
 	CProjectGenerator_Xcode();
 
-	virtual const char *GetProjectFileExtension()
-    {
+	const char *GetProjectFileExtension() override
+	{
         return "timestamp";
     }
 
-	virtual bool Save( const char *pOutputFilename )
-    {
+	bool Save( const char *pOutputFilename ) override
+	{
 		// we need the "project file" to exist for crc checking
 		if ( !Sys_Exists( pOutputFilename ) )
         {
@@ -3117,8 +3117,8 @@ public:
         
         return true;
     }
-	
-	virtual CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
+
+	CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
 
 protected:
 	CVCProjGenerator *m_pVCProjGenerator;

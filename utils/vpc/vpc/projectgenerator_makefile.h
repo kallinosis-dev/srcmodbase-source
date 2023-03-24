@@ -13,10 +13,10 @@ class CProjectGenerator_Makefile : public IVCProjWriter
 {
 public:
 	CProjectGenerator_Makefile();
-	virtual CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
-	
-	virtual bool Save( const char *pOutputFilename );
-	virtual const char *GetProjectFileExtension() { return "mak"; }
+	CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
+
+	bool Save( const char *pOutputFilename ) override;
+	const char *GetProjectFileExtension() override { return "mak"; }
 
 private:
 	enum ScriptType_t

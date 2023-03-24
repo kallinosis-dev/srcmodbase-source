@@ -48,7 +48,7 @@ public:
 		return pProjectFilename;
 	}
 
-	virtual void GenerateSolutionFile( const char *pSolutionFilename, CUtlVector<CDependency_Project*> &projects )
+	void GenerateSolutionFile( const char *pSolutionFilename, CUtlVector<CDependency_Project*> &projects ) override
 	{
 		// Default extension.
 		CUtlPathStringHolder tmpSolutionFilename;
@@ -288,9 +288,9 @@ public:
 		Sys_CopyToMirror( pSolutionFilename );
 	}
 
-    virtual const char *GetSolutionFileExtension() { return "sln"; }	
-	
-	virtual SolutionType_t GetSolutionType( void ) OVERRIDE { return ST_VISUALSTUDIO; }
+	const char *GetSolutionFileExtension() override { return "sln"; }
+
+	SolutionType_t GetSolutionType( void ) OVERRIDE { return ST_VISUALSTUDIO; }
 	
 	const char* FindInFile( const char *pFilename, const char *pFileData, const char *pSearchFor )
 	{

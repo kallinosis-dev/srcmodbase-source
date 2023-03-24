@@ -115,10 +115,10 @@ struct FileJob_t
 // dummy stubbed progress interface
 class CDummyProgress : public ILoaderProgress
 {
-	void BeginProgress() {}
-	void UpdateProgress( float progress, bool bForce = false ) {}
-	void PauseNonInteractiveProgress( bool bPause ) {}
-	void EndProgress() {}
+	void BeginProgress() override {}
+	void UpdateProgress( float progress, bool bForce = false ) override {}
+	void PauseNonInteractiveProgress( bool bPause ) override {}
+	void EndProgress() override {}
 };
 static CDummyProgress s_DummyProgress;
 
@@ -131,25 +131,25 @@ public:
 	virtual ~CQueuedLoader();
 
 	// Inherited from IAppSystem
-	virtual InitReturnVal_t				Init();
-	virtual void						Shutdown();
+	InitReturnVal_t				Init() override;
+	void						Shutdown() override;
 
 	// IQueuedLoader
-	virtual void						InstallLoader( ResourcePreload_t type, IResourcePreload *pLoader );
-	virtual void						InstallProgress( ILoaderProgress *pProgress );
+	void						InstallLoader( ResourcePreload_t type, IResourcePreload *pLoader ) override;
+	void						InstallProgress( ILoaderProgress *pProgress ) override;
 	// Set bOptimizeReload if you want appropriate data (such as static prop lighting)
 	// to persist - rather than being purged and reloaded - when going from map A to map A.
-	virtual bool						BeginMapLoading( const char *pMapName, bool bLoadForHDR, bool bOptimizeMapReload, void (*pfnBeginMapLoadingCallback)( int nStage ) );
-	virtual void						EndMapLoading( bool bAbort );
-	virtual bool						AddJob( const LoaderJob_t *pLoaderJob );
-	virtual void						AddMapResource( const char *pFilename );
-	virtual bool						ClaimAnonymousJob( const char *pFilename, QueuedLoaderCallback_t pCallback, void *pContext, void *pContext2 );
-	virtual bool						ClaimAnonymousJob( const char *pFilename, void **pData, int *pDataSize, LoaderError_t *pError );
-	virtual bool						IsMapLoading() const;
-	virtual bool						IsSameMapLoading() const;
-	virtual bool						IsFinished() const;
-	virtual bool						IsBatching() const;
-	virtual int							GetSpewDetail() const;
+	bool						BeginMapLoading( const char *pMapName, bool bLoadForHDR, bool bOptimizeMapReload, void (*pfnBeginMapLoadingCallback)( int nStage ) ) override;
+	void						EndMapLoading( bool bAbort ) override;
+	bool						AddJob( const LoaderJob_t *pLoaderJob ) override;
+	void						AddMapResource( const char *pFilename ) override;
+	bool						ClaimAnonymousJob( const char *pFilename, QueuedLoaderCallback_t pCallback, void *pContext, void *pContext2 ) override;
+	bool						ClaimAnonymousJob( const char *pFilename, void **pData, int *pDataSize, LoaderError_t *pError ) override;
+	bool						IsMapLoading() const override;
+	bool						IsSameMapLoading() const override;
+	bool						IsFinished() const override;
+	bool						IsBatching() const override;
+	int							GetSpewDetail() const override;
 
 	char								*GetFilename( const FileNameHandle_t hFilename, char *pBuff, int nBuffSize );	
 	FileNameHandle_t					FindFilename( const char *pFilename );
@@ -159,7 +159,7 @@ public:
 	// submit any queued jobs to the async loader, called by main or async thread to get more work
 	void								SubmitPendingJobs();
 
-	void								PurgeAll( ResourcePreload_t *pDontPurgeList = NULL, int nPurgeListSize = 0 );
+	void								PurgeAll( ResourcePreload_t *pDontPurgeList = NULL, int nPurgeListSize = 0 ) override;
 #ifdef _PS3
 	// hack to prevent PS/3 deadlock on queued loader render mutex when quitting during loading a map
 	// PLEASE REMOVE THIS (AND THE MUTEX) AFTER WE SHIP
@@ -263,9 +263,9 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CQueuedLoader, IQueuedLoader, QUEUEDLOADER_IN
 
 class CResourcePreloadAnonymous : public IResourcePreload
 {
-	virtual void PrepareForCreate( bool bSameMap ) {}
+	void PrepareForCreate( bool bSameMap ) override {}
 
-	virtual bool CreateResource( const char *pName )
+	bool CreateResource( const char *pName ) override
 	{
 		// create an anonymous job to get the data in memory, claimed during load, or auto-freed
 		LoaderJob_t loaderJob;
@@ -276,9 +276,9 @@ class CResourcePreloadAnonymous : public IResourcePreload
 		return true;
 	}
 
-	virtual void PurgeUnreferencedResources() {}
-	virtual void OnEndMapLoading( bool bAbort ) {}
-	virtual void PurgeAll() {}
+	void PurgeUnreferencedResources() override {}
+	void OnEndMapLoading( bool bAbort ) override {}
+	void PurgeAll() override {}
 #if defined( _PS3 )
 	virtual bool RequiresRendererLock() { return true; }	// do we know that anonymous resource loads won't hit the renderer?
 #endif // _PS3

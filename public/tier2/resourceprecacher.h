@@ -117,10 +117,10 @@ public:
 
 	static void RegisterAll();
 
-	PrecacheSystem_t GetSystem() { return m_nSystem; }
-	const char *GetName() { return m_pName; }
-	IResourcePrecacher *GetNext() { return m_pNext; }
-	void SetNext( IResourcePrecacher * pNext ) { m_pNext = pNext; }
+	PrecacheSystem_t GetSystem() override { return m_nSystem; }
+	const char *GetName() override { return m_pName; }
+	IResourcePrecacher *GetNext() override { return m_pNext; }
+	void SetNext( IResourcePrecacher * pNext ) override { m_pNext = pNext; }
 
 	static CBaseResourcePrecacher *sm_pFirst[PRECACHE_SYSTEM_COUNT];
 

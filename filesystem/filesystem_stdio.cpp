@@ -379,43 +379,43 @@ public:
 	~CFileSystem_Stdio();
 
 	// Used to get at older versions
-	void *QueryInterface( const char *pInterfaceName );
+	void *QueryInterface( const char *pInterfaceName ) override;
 
 	// Higher level filesystem methods requiring specific behavior
-	virtual void GetLocalCopy( const char *pFileName );
-	virtual int	HintResourceNeed( const char *hintlist, int forgetEverything );
-	virtual bool IsFileImmediatelyAvailable(const char *pFileName);
-	virtual WaitForResourcesHandle_t WaitForResources( const char *resourcelist );
-	virtual bool GetWaitForResourcesProgress( WaitForResourcesHandle_t handle, float *progress /* out */ , bool *complete /* out */ );
-	virtual void CancelWaitForResources( WaitForResourcesHandle_t handle );
-	virtual bool IsSteam() const { return false; }
-	virtual	FilesystemMountRetval_t MountSteamContent( int nExtraAppId = -1 ) { return FILESYSTEM_MOUNT_OK; }
+	void GetLocalCopy( const char *pFileName ) override;
+	int	HintResourceNeed( const char *hintlist, int forgetEverything ) override;
+	bool IsFileImmediatelyAvailable(const char *pFileName) override;
+	WaitForResourcesHandle_t WaitForResources( const char *resourcelist ) override;
+	bool GetWaitForResourcesProgress( WaitForResourcesHandle_t handle, float *progress /* out */ , bool *complete /* out */ ) override;
+	void CancelWaitForResources( WaitForResourcesHandle_t handle ) override;
+	bool IsSteam() const override { return false; }
+	FilesystemMountRetval_t MountSteamContent( int nExtraAppId = -1 ) override { return FILESYSTEM_MOUNT_OK; }
 
-	bool GetOptimalIOConstraints( FileHandle_t hFile, unsigned *pOffsetAlign, unsigned *pSizeAlign, unsigned *pBufferAlign );
-	void *AllocOptimalReadBuffer( FileHandle_t hFile, unsigned nSize, unsigned nOffset );
-	void FreeOptimalReadBuffer( void *p );
+	bool GetOptimalIOConstraints( FileHandle_t hFile, unsigned *pOffsetAlign, unsigned *pSizeAlign, unsigned *pBufferAlign ) override;
+	void *AllocOptimalReadBuffer( FileHandle_t hFile, unsigned nSize, unsigned nOffset ) override;
+	void FreeOptimalReadBuffer( void *p ) override;
 
 protected:
 	// implementation of CBaseFileSystem virtual functions
-	virtual FILE *FS_fopen( const char *filename, const char *options, unsigned flags, int64 *size, CFileLoadInfo *pInfo );
-	virtual void FS_setbufsize( FILE *fp, unsigned nBytes );
-	virtual void FS_fclose( FILE *fp );
-	virtual void FS_fseek( FILE *fp, int64 pos, int seekType );
-	virtual long FS_ftell( FILE *fp );
-	virtual int FS_feof( FILE *fp );
-	virtual size_t FS_fread( void *dest, size_t destSize, size_t size, FILE *fp );
-	virtual size_t FS_fwrite( const void *src, size_t size, FILE *fp );
-	virtual bool FS_setmode( FILE *fp, FileMode_t mode );
-	virtual size_t FS_vfprintf( FILE *fp, const char *fmt, va_list list );
-	virtual int FS_ferror( FILE *fp );
-	virtual int FS_fflush( FILE *fp );
-	virtual char *FS_fgets( char *dest, int destSize, FILE *fp );
-	virtual int FS_stat( const char *path, struct _stat *buf );
-	virtual int FS_chmod( const char *path, int pmode );
-	virtual HANDLE FS_FindFirstFile(const char *findname, WIN32_FIND_DATA *dat);
-	virtual bool FS_FindNextFile(HANDLE handle, WIN32_FIND_DATA *dat);
-	virtual bool FS_FindClose(HANDLE handle);
-	virtual int FS_GetSectorSize( FILE * );
+	FILE *FS_fopen( const char *filename, const char *options, unsigned flags, int64 *size, CFileLoadInfo *pInfo ) override;
+	void FS_setbufsize( FILE *fp, unsigned nBytes ) override;
+	void FS_fclose( FILE *fp ) override;
+	void FS_fseek( FILE *fp, int64 pos, int seekType ) override;
+	long FS_ftell( FILE *fp ) override;
+	int FS_feof( FILE *fp ) override;
+	size_t FS_fread( void *dest, size_t destSize, size_t size, FILE *fp ) override;
+	size_t FS_fwrite( const void *src, size_t size, FILE *fp ) override;
+	bool FS_setmode( FILE *fp, FileMode_t mode ) override;
+	size_t FS_vfprintf( FILE *fp, const char *fmt, va_list list ) override;
+	int FS_ferror( FILE *fp ) override;
+	int FS_fflush( FILE *fp ) override;
+	char *FS_fgets( char *dest, int destSize, FILE *fp ) override;
+	int FS_stat( const char *path, struct _stat *buf ) override;
+	int FS_chmod( const char *path, int pmode ) override;
+	HANDLE FS_FindFirstFile(const char *findname, WIN32_FIND_DATA *dat) override;
+	bool FS_FindNextFile(HANDLE handle, WIN32_FIND_DATA *dat) override;
+	bool FS_FindClose(HANDLE handle) override;
+	int FS_GetSectorSize( FILE * ) override;
 
 private:
 	bool CanAsync() const
@@ -457,18 +457,18 @@ class CStdioFile : public CStdFilesystemFile
 public:
 	static CStdioFile *FS_fopen( const char *filename, const char *options, int64 *size );
 
-	virtual void FS_setbufsize( unsigned nBytes );
-	virtual void FS_fclose();
-	virtual void FS_fseek( int64 pos, int seekType );
-	virtual long FS_ftell();
-	virtual int FS_feof();
-	virtual size_t FS_fread( void *dest, size_t destSize, size_t size);
-	virtual size_t FS_fwrite( const void *src, size_t size );
-	virtual bool FS_setmode( FileMode_t mode );
-	virtual size_t FS_vfprintf( const char *fmt, va_list list );
-	virtual int FS_ferror();
-	virtual int FS_fflush();
-	virtual char *FS_fgets( char *dest, int destSize );
+	void FS_setbufsize( unsigned nBytes ) override;
+	void FS_fclose() override;
+	void FS_fseek( int64 pos, int seekType ) override;
+	long FS_ftell() override;
+	int FS_feof() override;
+	size_t FS_fread( void *dest, size_t destSize, size_t size) override;
+	size_t FS_fwrite( const void *src, size_t size ) override;
+	bool FS_setmode( FileMode_t mode ) override;
+	size_t FS_vfprintf( const char *fmt, va_list list ) override;
+	int FS_ferror() override;
+	int FS_fflush() override;
+	char *FS_fgets( char *dest, int destSize ) override;
 
 #if defined( POSIX ) && !defined( _PS3 )
 	static CUtlMap< int, CInterlockedInt > m_LockedFDMap;
@@ -496,19 +496,21 @@ public:
 	static bool CanOpen( const char *filename, const char *options );
 	static CWin32ReadOnlyFile *FS_fopen( const char *filename, const char *options, int64 *size );
 
-	virtual void FS_setbufsize( unsigned nBytes ) {}
-	virtual void FS_fclose();
-	virtual void FS_fseek( int64 pos, int seekType );
-	virtual long FS_ftell();
-	virtual int FS_feof();
-	virtual size_t FS_fread( void *dest, size_t destSize, size_t size);
-	virtual size_t FS_fwrite( const void *src, size_t size ) { return 0; }
-	virtual bool FS_setmode( FileMode_t mode ) { Error( "Can't set mode, open a second file in right mode\n" ); return false; }
-	virtual size_t FS_vfprintf( const char *fmt, va_list list ) { return 0; }
-	virtual int FS_ferror() { return 0;	}
-	virtual int FS_fflush() { return 0; }
-	virtual char *FS_fgets( char *dest, int destSize );
-	virtual int FS_GetSectorSize() { return m_SectorSize; }
+	void FS_setbufsize( unsigned nBytes ) override {}
+	void FS_fclose() override;
+	void FS_fseek( int64 pos, int seekType ) override;
+	long FS_ftell() override;
+	int FS_feof() override;
+	size_t FS_fread( void *dest, size_t destSize, size_t size) override;
+	size_t FS_fwrite( const void *src, size_t size ) override { return 0; }
+	bool FS_setmode( FileMode_t mode ) override
+	{ Error( "Can't set mode, open a second file in right mode\n" ); return false; }
+
+	size_t FS_vfprintf( const char *fmt, va_list list ) override { return 0; }
+	int FS_ferror() override { return 0;	}
+	int FS_fflush() override { return 0; }
+	char *FS_fgets( char *dest, int destSize ) override;
+	int FS_GetSectorSize() override { return m_SectorSize; }
 
 private:
 	CWin32ReadOnlyFile( HANDLE hFileUnbuffered, HANDLE hFileBuffered, int sectorSize, int64 fileSize, bool bOverlapped )

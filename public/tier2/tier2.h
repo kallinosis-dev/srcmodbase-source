@@ -47,7 +47,7 @@ class CTier2AppSystem : public CTier1AppSystem< IInterface, ConVarFlag >
 	typedef CTier1AppSystem< IInterface, ConVarFlag > BaseClass;
 
 public:
-	virtual bool Connect( CreateInterfaceFn factory ) 
+	bool Connect( CreateInterfaceFn factory ) override
 	{
 		if ( !BaseClass::Connect( factory ) )
 			return false;
@@ -56,7 +56,7 @@ public:
 		return true;
 	}
 
-	virtual InitReturnVal_t Init()
+	InitReturnVal_t Init() override
 	{
 		InitReturnVal_t nRetVal = BaseClass::Init();
 		if ( nRetVal != INIT_OK )
@@ -65,17 +65,17 @@ public:
 		return INIT_OK;
 	}
 
-	virtual AppSystemTier_t GetTier()
+	AppSystemTier_t GetTier() override
 	{
 		return APP_SYSTEM_TIER2;
 	}
 
-	virtual void Shutdown()
+	void Shutdown() override
 	{
 		BaseClass::Shutdown();
 	}
 
-	virtual void Disconnect() 
+	void Disconnect() override
 	{
 		DisconnectTier2Libraries();
 		BaseClass::Disconnect();

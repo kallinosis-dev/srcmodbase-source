@@ -20,10 +20,10 @@ class CProjectGenerator_Win32_2010 : public IVCProjWriter
 {
 public:
 	CProjectGenerator_Win32_2010();
-	virtual CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
-	
-	virtual bool Save( const char *pOutputFilename );
-	virtual const char *GetProjectFileExtension() { return "vcxproj"; }
+	CVCProjGenerator *GetProjectGenerator() OVERRIDE { return m_pVCProjGenerator; }
+
+	bool Save( const char *pOutputFilename ) override;
+	const char *GetProjectFileExtension() override { return "vcxproj"; }
 
 private:
 	// primary XML - foo.vcxproj

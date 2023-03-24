@@ -276,8 +276,8 @@ public:
 	  { 
 	  }
 
-	  virtual void Log( const LoggingContext_t *pContext, const tchar *pMessage )
-	  {
+	void Log( const LoggingContext_t *pContext, const tchar *pMessage ) override
+	{
 #ifdef _X360
 		  if ( !m_bQuietDebugger && XBX_IsConsoleConnected() )
 		  {
@@ -315,7 +315,7 @@ public:
 class CSimpleWindowsLoggingListener : public ILoggingListener
 {
 public:
-	virtual void Log( const LoggingContext_t *pContext, const tchar *pMessage )
+	void Log( const LoggingContext_t *pContext, const tchar *pMessage ) override
 	{
 		if ( Plat_IsInDebugSession() )
 		{
@@ -349,7 +349,7 @@ public:
 		InitWin32ConsoleColorContext( &m_ColorContext );
 	}
 
-	virtual void Log( const LoggingContext_t *pContext, const tchar *pMessage )
+	void Log( const LoggingContext_t *pContext, const tchar *pMessage ) override
 	{
 		if ( !m_bQuietPrintf )
 		{
@@ -389,7 +389,7 @@ public:
 class CDefaultLoggingResponsePolicy : public ILoggingResponsePolicy
 {
 public:
-	virtual LoggingResponse_t OnLog( const LoggingContext_t *pContext )
+	LoggingResponse_t OnLog( const LoggingContext_t *pContext ) override
 	{
 		if ( pContext->m_Severity == LS_ASSERT && !CommandLine()->FindParm( "-noassert" ) ) 
 		{
@@ -412,7 +412,7 @@ public:
 class CNonFatalLoggingResponsePolicy : public ILoggingResponsePolicy
 {
 public:
-	virtual LoggingResponse_t OnLog( const LoggingContext_t *pContext )
+	LoggingResponse_t OnLog( const LoggingContext_t *pContext ) override
 	{
 		if ( ( pContext->m_Severity == LS_ASSERT && !CommandLine()->FindParm( "-noassert" ) ) || pContext->m_Severity == LS_ERROR )
 		{
