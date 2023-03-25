@@ -17,14 +17,6 @@ struct PropertyState_t
 	CUtlString		m_StringValue;
 };
 
-// ps3 visual studio integration
-enum PS3VSIType_e
-{
-	PS3_VSI_TYPE_UNDEFINED = -1,
-	PS3_VSI_TYPE_SNC = 0,
-	PS3_VSI_TYPE_GCC = 1,
-};
-
 class CProjectFile
 {
 public:
@@ -224,18 +216,6 @@ private:
 	bool		m_bIsFileConfig;
 };
 
-class CXboxImageTool : public CProjectTool
-{
-public:
-	CXboxImageTool( CVCProjGenerator *pGenerator ) : CProjectTool( pGenerator ) {}
-};
-
-class CXboxDeploymentTool : public CProjectTool
-{
-public:
-	CXboxDeploymentTool( CVCProjGenerator *pGenerator ) : CProjectTool( pGenerator ) {}
-};
-
 class CProjectConfiguration
 {
 public:
@@ -254,8 +234,6 @@ public:
 	CPreLinkEventTool *GetPreLinkEventTool() const { return m_pPreLinkEventTool; }
 	CPostBuildEventTool *GetPostBuildEventTool() const { return m_pPostBuildEventTool; }
 	CCustomBuildTool *GetCustomBuildTool() const { return m_pCustomBuildTool; }
-	CXboxImageTool *GetXboxImageTool() const { return m_pXboxImageTool; }
-	CXboxDeploymentTool *GetXboxDeploymentTool() const { return m_pXboxDeploymentTool; }
 	CProjectTool *GetIntellisenseTool() const { return m_pIntellisenseTool; }
 
 	bool IsEmpty() const;
@@ -287,8 +265,6 @@ private:
 	CPreLinkEventTool			*m_pPreLinkEventTool;
 	CPostBuildEventTool			*m_pPostBuildEventTool;
 	CCustomBuildTool			*m_pCustomBuildTool;
-	CXboxImageTool				*m_pXboxImageTool;
-	CXboxDeploymentTool			*m_pXboxDeploymentTool;
 	CProjectTool				*m_pIntellisenseTool;
 };
 
@@ -338,8 +314,6 @@ public:
 	void				AddProjectWriter( IVCProjWriter *pVCProjWriter );
     void                RemoveLastProjectWriter() { m_VCProjWriters.RemoveMultipleFromTail( 1 ); }
 
-	PS3VSIType_e		GetVSIType() const { return m_VSIType; }
-
 	bool				GetRootConfiguration( const char *pConfigName, CProjectConfiguration **pConfig );
 	void				GetAllRootConfigurations( CUtlVector< CProjectConfiguration * > &rootConfigurations ) const;
 
@@ -371,8 +345,6 @@ private:
 
 	bool				IsConfigurationNameValid( const char *pConfigName );
 
-	configKeyword_e		SetPS3VisualStudioIntegrationType( configKeyword_e eKeyword );
-
 	void				ApplyInternalPreprocessorDefinitions();
 
     void                LogOutputFiles( const char *pConfigName );
@@ -399,8 +371,6 @@ private:
 	CPreLinkEventTool		*m_pPreLinkEventTool;
 	CPostBuildEventTool		*m_pPostBuildEventTool;
 	CCustomBuildTool		*m_pCustomBuildTool;
-	CXboxImageTool			*m_pXboxImageTool;
-	CXboxDeploymentTool		*m_pXboxDeploymentTool;
 	CProjectTool			*m_pIntellisenseTool;
 
 	CProjectConfiguration	*m_pConfig;
@@ -422,7 +392,4 @@ private:
 	CUtlRBTree< CProjectFile*, int >	m_FileDictionary;
 
 	CUtlVector< IVCProjWriter* >			m_VCProjWriters;
-
-	// ps3 visual studio integration
-	PS3VSIType_e			m_VSIType;
 };

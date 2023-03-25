@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2016, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2016, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: VPC
 //
@@ -11,12 +11,8 @@ static KeywordName_t s_KeywordNameTable[] =
 	{"$General",				KEYWORD_GENERAL},
 	{"$Debugging",				KEYWORD_DEBUGGING},
 	{"$Compiler",				KEYWORD_COMPILER},
-	{"$SNCCompiler", 			KEYWORD_PS3_SNCCOMPILER},
-	{"$GCCCompiler",			KEYWORD_PS3_GCCCOMPILER},
 	{"$Librarian",				KEYWORD_LIBRARIAN},
 	{"$Linker",					KEYWORD_LINKER},
-	{"$SNCLinker",				KEYWORD_PS3_SNCLINKER},
-	{"$GCCLinker",				KEYWORD_PS3_GCCLINKER},
 	{"$ManifestTool",			KEYWORD_MANIFEST},
 	{"$XMLDocumentGenerator",	KEYWORD_XMLDOCGEN},
 	{"$BrowseInformation",		KEYWORD_BROWSEINFO},
@@ -25,8 +21,6 @@ static KeywordName_t s_KeywordNameTable[] =
 	{"$PreLinkEvent",			KEYWORD_PRELINKEVENT},
 	{"$PostBuildEvent",			KEYWORD_POSTBUILDEVENT},
 	{"$CustomBuildStep",		KEYWORD_CUSTOMBUILDSTEP},
-	{"$Xbox360ImageConversion",	KEYWORD_XBOXIMAGE},
-	{"$ConsoleDeployment",		KEYWORD_XBOXDEPLOYMENT},
 	{"$Ant",					KEYWORD_ANT},
 	{"$Intellisense",			KEYWORD_INTELLISENSE},
 };
@@ -381,8 +375,6 @@ void VPC_Keyword_FileConfiguration()
 			{
 			// these are the only tools wired to deal with file configuration overrides
 			case KEYWORD_COMPILER:
-			case KEYWORD_PS3_SNCCOMPILER:
-			case KEYWORD_PS3_GCCCOMPILER:
                 if ( !g_pVPC->IsPerFileCompileConfigEnabled() &&
                      !g_pVPC->GetScript().IsInPrivilegedScript() &&
                      g_pVPC->GetScript().GetLine() != nWarningLine )

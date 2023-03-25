@@ -1320,7 +1320,6 @@ bool IsSchemaSupportedForThisTargetPlatform( void )
 	const char *pPlatformName = g_pVPC->GetTargetPlatformName();
 	bool bSupported = !V_stricmp_fast( pPlatformName, "WIN32" ) || 
 						!V_stricmp_fast( pPlatformName, "WIN64" )||
-						!V_stricmp_fast( pPlatformName, "X360" ) ||
 						!V_stricmp_fast( pPlatformName, "OSX32" ) ||
 						!V_stricmp_fast( pPlatformName, "OSX64" ) ||
 						VPC_IsPlatformLinux( pPlatformName ) ||

@@ -27,9 +27,6 @@ void CVPC::SetupDefaultConditionals()
 		FindOrCreateConditional( "OSX32", true, CONDITIONAL_PLATFORM );
 		FindOrCreateConditional( "OSX64", true, CONDITIONAL_PLATFORM );
 
-		FindOrCreateConditional( "X360", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "PS3", true, CONDITIONAL_PLATFORM );
-
 		FindOrCreateConditional( "IOS", true, CONDITIONAL_PLATFORM );
 
 		FindOrCreateConditional( "ANDROIDARM32", true, CONDITIONAL_PLATFORM );
@@ -49,7 +46,6 @@ void CVPC::SetupDefaultConditionals()
 		FindOrCreateConditional( "RETAIL", true, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "CALLCAP", true, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "FASTCAP", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "CERT", true, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "MEMTEST", true, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "NOFPO", true, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "POSIX", true, CONDITIONAL_SYSTEM );
@@ -134,8 +130,7 @@ const char *CVPC::GetTargetCompilerName()
 {
 	const char *pPlatformName = GetTargetPlatformName();
 	if ( !V_stricmp_fast( pPlatformName, "WIN32" ) ||
-		 !V_stricmp_fast( pPlatformName, "WIN64" ) ||
-		 !V_stricmp_fast( pPlatformName, "X360" ) )
+		 !V_stricmp_fast( pPlatformName, "WIN64" ))
 	{
 		if ( IsConditionalDefined( "VS2005" ) )
 			return "VS2005";

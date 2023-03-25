@@ -107,8 +107,8 @@ const char *g_szArrPlatforms[] =
 	"linuxsteamrtarm32hf",	//  6
 	"linuxsteamrtarm64hf",	//  7
 	"",						//  8
-	"ps3",					//  9
-	"x360",					// 10
+	"",						//  9
+	"",						// 10
 	"androidarm32",			// 11
 	"androidarm64",			// 12
 	"androidmips32",		// 13

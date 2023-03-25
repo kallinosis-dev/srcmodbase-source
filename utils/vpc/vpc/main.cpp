@@ -1008,7 +1008,8 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "\n");
 			Log_Msg(LOG_VPC, "  Single .vcproj generation:\n");
 			Log_Msg(LOG_VPC, "    vpc +client /hl2     <-- Creates a Win32 .vcproj for the HL2 client.\n");
-			Log_Msg(LOG_VPC, "    vpc +shaderapi /x360 <-- Creates a Xbox360 .vcproj for the shaderapi.\n");
+			// TODO: OSX or Linux example
+			//Log_Msg(LOG_VPC, "    vpc +shaderapi /x360 <-- Creates a Xbox360 .vcproj for the shaderapi.\n");
 
 			Log_Msg(LOG_VPC, "\n");
 			Log_Msg(LOG_VPC, "  Multiple .vcproj generation - Multiple Projects for Games:\n");
@@ -1646,11 +1647,6 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		{
 			m_bRestrictProjects = false;
 		}
-		else if (!V_stricmp_fast(pArgName, "cert"))
-		{
-			VPCError(
-				"Cannot enable /CERT via command line. CERT as a command line option has been deprecated. Use /RETAIL with a console platform modifier.");
-		}
 		else if (char const* pActualDefineName = StringAfterPrefix(pArgName, "define:"))
 		{
 			// Define:<string> is used to explicitly inform VPC that 'string' is a conditional.
@@ -1893,8 +1889,6 @@ void CVPC::ParseBuildOptions(int argc, const char** argv)
 			HandleSingleCommandLineArg(pArg);
 		}
 	}
-
-	CheckForInstalledXDK();
 }
 
 //-----------------------------------------------------------------------------
@@ -1985,40 +1979,6 @@ bool CVPC::RestartFromCorrectLocation(bool* pIsChild)
 
 	// process is running from correct location
 	return false;
-#endif
-}
-
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-void CVPC::CheckForInstalledXDK()
-{
-#ifndef POSIX
-	if (!IsPlatformDefined("X360"))
-	{
-		// caller not doing any 360 work, so ignore
-		return;
-	}
-
-	// quick and dirty early check for 360 XDK ability
-	// can only detect simplistic condition, VPC can't validate a perfect XDK/MSDEV installation
-	bool bHasXDK = false;
-	const char* pXDK = getenv("XEDK");
-	if (pXDK && pXDK[0])
-	{
-		// look for expected compiler
-		CUtlPathStringHolder fullPath(pXDK);
-		fullPath.AppendSlash();
-		fullPath.Append("bin\\win32\\cl.exe");
-		int fileSize = Sys_FileLength(fullPath, false);
-		if (fileSize > 0)
-		{
-			bHasXDK = true;
-		}
-	}
-	if (!bHasXDK)
-	{
-		VPCError("Cannot Build For Xbox 360, XDK is missing or damaged. Remove /x360 from command line.");
-	}
 #endif
 }
 
@@ -2568,7 +2528,6 @@ void CVPC::SetMacrosAndConditionals()
 
 	if (!V_stricmp_fast(platformName.String(), "WIN32") ||
 		!V_stricmp_fast(platformName.String(), "WIN64") ||
-		!V_stricmp_fast(platformName.String(), "X360") ||
 		bCrossCompileUsingVisualStudio)
 	{
 		if (PrefersVS2022())
@@ -2651,34 +2610,6 @@ void CVPC::SetMacrosAndConditionals()
 		SetSystemMacro("_EXTERNAL_DLL_EXT", ".dll", true);
 		SetSystemMacro("_EXTERNAL_IMPLIB_EXT", ".lib", false);
 		SetSystemMacro("_EXTERNAL_STATICLIB_EXT", ".lib", false);
-	}
-	else if (!V_stricmp_fast(platformName.String(), "X360"))
-	{
-		SetSystemMacro("PLATSUBDIR", "\\x360", false);
-
-		SetSystemMacro("_DLL_EXT", "_360.dll", true);
-		SetSystemMacro("_IMPLIB_EXT", "_360.lib", false);
-
-		SetSystemMacro("_DLL_PREFIX", "", true);
-		SetSystemMacro("_IMPLIB_PREFIX", "", false);
-		SetSystemMacro("_IMPLIB_DLL_PREFIX", "", false);
-
-		SetSystemMacro("_STATICLIB_EXT", "_360.lib", false);
-		SetSystemMacro("_EXE_EXT", ".exe", false);
-	}
-	else if (!V_stricmp_fast(platformName.String(), "PS3"))
-	{
-		SetSystemMacro("PLATSUBDIR", "\\ps3", false);
-
-		SetSystemMacro("_DLL_EXT", "_ps3.sprx", true);
-		SetSystemMacro("_IMPLIB_EXT", "_ps3.lib", false);
-
-		SetSystemMacro("_DLL_PREFIX", "", true);
-		SetSystemMacro("_IMPLIB_PREFIX", "", false);
-		SetSystemMacro("_IMPLIB_DLL_PREFIX", "", false);
-
-		SetSystemMacro("_STATICLIB_EXT", "_ps3.lib", false);
-		SetSystemMacro("_EXE_EXT", ".self", false);
 	}
 	else if (VPC_IsPlatformLinux(platformName.String()) ||
 		VPC_IsPlatformAndroid(platformName.String()))
@@ -2965,13 +2896,6 @@ void CVPC::SetMacrosAndConditionals()
 #error "Unsupported host platform."
 #endif
 
-	// CERT has been decided to be a platform permutation of RETAIL.
-	if (IsConditionalDefined("RETAIL") && (IsPlatformDefined("X360") || (IsPlatformDefined("PS3"))))
-	{
-		// CERT is a restricted console RETAIL concept, with publisher dictated rules, there is no CERT process for non-console platforms.
-		SetConditional("CERT", true, CONDITIONAL_SYSTEM);
-	}
-
 	// Set VPCGAME macro based on target game
 	// NOTE: This is broken, and is not compatible with /allgames.
 	// only the 360 is using this to sign all the DLLs to a specific xlast
@@ -3250,25 +3174,6 @@ void CVPC::DetermineSolutionGenerator()
 	}
 	else
 	{
-		if (IsPlatformDefined("PS3"))
-		{
-			VPCStatusWithColor(true, Color(0, 255, 255, 255), "Generating for PS3.");
-
-			m_pSolutionGenerator = GetSolutionGenerator_Win32();
-		}
-		else if (IsPlatformDefined("X360"))
-		{
-			if (m_bUse2010)
-			{
-				VPCStatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2010.");
-			}
-			else
-			{
-				VPCStatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2005.");
-			}
-			m_pSolutionGenerator = GetSolutionGenerator_Win32();
-		}
-		else
 		{
 			if (m_bUse2022)
 			{
@@ -3301,20 +3206,19 @@ void CVPC::DetermineSolutionGenerator()
 	}
 }
 
+
+extern IBaseProjectGenerator* GetWin32ProjectGenerator();
+extern IBaseProjectGenerator* GetWin32ProjectGenerator_2010();
+extern IBaseProjectGenerator* GetMakefileProjectGenerator();
+extern IBaseProjectGenerator* GetXcodeProjectGenerator();
+extern IBaseProjectGenerator* GetAndroidProjectGenerator();
+extern IVCProjWriter* GetWin32ProjectGenerator_VCProjWriter_2010();
+
 void CVPC::DetermineProjectGenerator()
 {
 	if (m_pProjectGenerator)
 		return; //already picked one for this project!
 
-	extern IBaseProjectGenerator*GetWin32ProjectGenerator();
-	extern IBaseProjectGenerator*GetWin32ProjectGenerator_2010();
-	extern IBaseProjectGenerator*GetPS3ProjectGenerator();
-	extern IBaseProjectGenerator*GetXbox360ProjectGenerator();
-	extern IBaseProjectGenerator*GetXbox360ProjectGenerator_2010();
-	extern IBaseProjectGenerator*GetMakefileProjectGenerator();
-	extern IBaseProjectGenerator*GetXcodeProjectGenerator();
-	extern IBaseProjectGenerator*GetAndroidProjectGenerator();
-	extern IVCProjWriter*GetWin32ProjectGenerator_VCProjWriter_2010();
 
 	bool bIsLinuxPlatform = IsConditionalDefined("LINUXALL");
 	bool bIsOSXPlatform = IsConditionalDefined("OSXALL");
@@ -3369,22 +3273,6 @@ void CVPC::DetermineProjectGenerator()
 		// feature so disallow lib containment.
 		m_bAllowLibWithinLib = false;
 
-		if (IsPlatformDefined("PS3"))
-		{
-			m_pProjectGenerator = GetPS3ProjectGenerator();
-		}
-		else if (IsPlatformDefined("X360"))
-		{
-			if (m_bUse2010)
-			{
-				m_pProjectGenerator = GetXbox360ProjectGenerator_2010();
-			}
-			else
-			{
-				m_pProjectGenerator = GetXbox360ProjectGenerator();
-			}
-		}
-		else
 		{
 			if (m_bUse2022)
 			{

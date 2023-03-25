@@ -261,9 +261,6 @@ public:
 #include "projectgenerator_vcproj.h"
 #include "projectgenerator_win32.h"
 #include "projectgenerator_win32_2010.h"
-#include "projectgenerator_xbox360.h"
-#include "projectgenerator_xbox360_2010.h"
-#include "projectgenerator_ps3.h"
 #include "projectgenerator_makefile.h"
 
 class CUtlStringCaseLess
@@ -492,7 +489,6 @@ private:
 	void					UnloadPerforceInterface();
 
 	void					InProcessCRCCheck() const;
-	void					CheckForInstalledXDK();
 
 	void					DetermineSourcePath();
 	void					SetDefaultSourcePath();
