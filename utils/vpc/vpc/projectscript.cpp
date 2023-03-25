@@ -809,28 +809,27 @@ static void VPC_AddLibraryDependencies( const char *pLibPath )
     {
         return;
     }
-
     CUtlVector< CUtlString > &dependencies = g_pVPC->m_LibraryDependencies[i];
-    for ( i = 0; i < dependencies.Count(); i++ )
+
+	for ( char const* pDependency: dependencies)
     {
-        const char *pDependency = dependencies[i].Get();
-        if ( !g_pVPC->GetProjectGenerator()->HasFile( pDependency ) )
+        if ( g_pVPC->GetProjectGenerator()->HasFile( pDependency ) )
+	        continue;
+
+        if ( !g_pVPC->m_bIsDependencyPass )
         {
-            if ( !g_pVPC->m_bIsDependencyPass )
-            {
-                g_pVPC->VPCStatus( false, "$LibDependency: '%s' added for '%s'",
-                                   pDependency, pLibPath );
-            }
-
-            bool bAdded = g_pVPC->GetProjectGenerator()->StartFile( pDependency, VPC_FILE_FLAGS_STATIC_LIB, true );
-            if ( !bAdded )
-            {
-                g_pVPC->VPCError( "couldn't add %s", pDependency );
-            }
-            g_pVPC->GetProjectGenerator()->EndFile();
-
-            VPC_AddLibraryDependencies( pDependency );
+	        g_pVPC->VPCStatus( false, "$LibDependency: '%s' added for '%s'",
+	                           pDependency, pLibPath );
         }
+
+        bool bAdded = g_pVPC->GetProjectGenerator()->StartFile( pDependency, VPC_FILE_FLAGS_STATIC_LIB, true );
+        if ( !bAdded )
+        {
+	        g_pVPC->VPCError( "couldn't add %s", pDependency );
+        }
+        g_pVPC->GetProjectGenerator()->EndFile();
+
+        VPC_AddLibraryDependencies( pDependency );
     }
 }
 
@@ -863,10 +862,10 @@ static void VPC_LibDepends( char const *pDefaultPath, char const *pFileNamePrefi
         return;
     }
     
-    for ( i = 0; i < dependents.Count(); i++ )
+    for ( CUtlString const& dependent: dependents )
     {
         CUtlPathStringHolder depName;
-        VPC_ExpandLibraryName( dependents[i], pDefaultPath, pFileNamePrefix, pSuffix, &depName );
+        VPC_ExpandLibraryName(dependent, pDefaultPath, pFileNamePrefix, pSuffix, &depName );
 
         int j;
         for ( j = 0; j < dependencies.Count(); j++ )

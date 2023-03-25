@@ -53,13 +53,14 @@ CProjectGenerator_Win32_2010::CProjectGenerator_Win32_2010()
 	m_pVCProjGenerator->AddProjectWriter( this );
 }
 
-enum TypeKeyNames_e
+enum TypeKeyNames_e : byte
 {
 	TKN_LIBRARY = 0,
 	TKN_INCLUDE,
 	TKN_COMPILE,
 	TKN_RESOURCECOMPILE,
 	TKN_CUSTOMBUILD,
+	TKN_PROJREF,
 	TKN_NONE,
 	TKN_MAX_COUNT,
 };
@@ -71,42 +72,48 @@ static const char *s_TypeKeyNames[] =
 	"ClCompile",
 	"ResourceCompile",
 	"CustomBuild",
+	"ProjectReference",
 	"None"
 };
 
-const char *CProjectGenerator_Win32_2010::GetKeyNameForFile( CProjectFile *pFile )
+TypeKeyNames_e CProjectGenerator_Win32_2010::GetFileType(CProjectFile* pFile)
 {
 	COMPILE_TIME_ASSERT( ARRAYSIZE( s_TypeKeyNames ) == TKN_MAX_COUNT );
 
 	const char *pExtension = V_GetFileExtension( pFile->m_Name.Get() );
 
-	const char *pKeyName = s_TypeKeyNames[TKN_NONE];
-	if ( pExtension )
+	TypeKeyNames_e filetype = TKN_NONE;
+
+	if (IsProjectReference(pFile))
 	{
-		if ( pFile->m_Configs.Count() && pFile->m_Configs[0]->GetCustomBuildTool() )
-		{
-			pKeyName = s_TypeKeyNames[TKN_CUSTOMBUILD];
-		}
-		else if ( IsCFileExtension( pExtension ) )
-		{
-			pKeyName = s_TypeKeyNames[TKN_COMPILE];
-		}
-		else if ( IsHFileExtension( pExtension ) )
-		{
-			pKeyName = s_TypeKeyNames[TKN_INCLUDE];
-		}
-		else if ( !V_stricmp_fast( pExtension, "lib" ) )
-		{
-			pKeyName = s_TypeKeyNames[TKN_LIBRARY];
-		}
-		else if ( !V_stricmp_fast( pExtension, "rc" ) )
-		{
-			pKeyName = s_TypeKeyNames[TKN_RESOURCECOMPILE];
-		}
+		filetype = TKN_PROJREF;
+	}
+	else if ( pExtension )
+	{
+		if (pFile->m_Configs.Count() && pFile->m_Configs[0]->GetCustomBuildTool())
+			filetype = TKN_CUSTOMBUILD;
+		else if (IsCFileExtension(pExtension))
+			filetype = TKN_COMPILE;
+		else if (IsHFileExtension(pExtension))
+			filetype = TKN_INCLUDE;
+		else if (!V_stricmp_fast(pExtension, "lib"))
+			filetype = TKN_LIBRARY;
+		else if (!V_stricmp_fast(pExtension, "rc"))
+			filetype = TKN_RESOURCECOMPILE;
 	}
 
-	return pKeyName;
+	return filetype;
 }
+
+static char const* GetTaskNameByFileType(TypeKeyNames_e filetype) { return s_TypeKeyNames[filetype]; }
+
+
+bool CProjectGenerator_Win32_2010::IsProjectReference(CProjectFile* project_file)
+{
+	// TODO
+	return false;
+}
+
 
 bool CProjectGenerator_Win32_2010::WritePropertyGroupTool( CProjectTool *pProjectTool, CProjectConfiguration *pConfiguration, const char *szPlatformName )
 {
@@ -128,7 +135,8 @@ bool CProjectGenerator_Win32_2010::WritePropertyGroupTool( CProjectTool *pProjec
 
 bool CProjectGenerator_Win32_2010::WriteFile( CProjectFile *pFile, const char *pFileTypeName, const char *szPlatformName )
 {
-	const char *pKeyName = GetKeyNameForFile( pFile );
+	auto fileType = GetFileType( pFile );
+	auto pKeyName = GetTaskNameByFileType(fileType);
 	if ( V_stricmp_fast( pFileTypeName, pKeyName ) )
 	{
 		// skip it
@@ -187,7 +195,9 @@ bool CProjectGenerator_Win32_2010::WriteConfiguration( CProjectConfiguration *pC
 {
 	if ( !pConfig->m_bIsFileConfig )
 	{
-		m_XMLWriter.PushNode( "PropertyGroup", CFmtStr( "Condition=\"'$(Configuration)|$(Platform)'=='%s|%s'\" Label=\"Configuration\"", pConfig->m_Name.Get(), szPlatformName ) );
+		m_XMLWriter.PushNode( "PropertyGroup", 
+			CFmtStr(R"(Condition="'$(Configuration)|$(Platform)'=='%s|%s'" Label="Configuration")", 
+				pConfig->m_Name.Get(), szPlatformName ) );
 
 		for ( int i = 0; i < pConfig->m_PropertyStates.m_PropertiesInOutputOrder.Count(); i++ )
 		{
@@ -281,9 +291,10 @@ bool CProjectGenerator_Win32_2010::WritePrimaryXML( const char *pOutputFilename,
 	if ( !m_XMLWriter.Open( pOutputFilename, true, g_pVPC->IsForceGenerate() ) )
 		return false;
 	
-	m_XMLWriter.PushNode( "Project", "DefaultTargets=\"Build\" ToolsVersion=\"4.0\" xmlns=\"http://schemas.microsoft.com/developer/msbuild/2003\"" );
+	m_XMLWriter.PushNode( "Project",
+	                      R"(DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003")");
 
-	m_XMLWriter.PushNode( "ItemGroup", "Label=\"ProjectConfigurations\"" );
+	m_XMLWriter.PushNode( "ItemGroup", R"(Label="ProjectConfigurations")" );
 	CUtlVector< CUtlString > configurationNames;
 	m_pVCProjGenerator->GetAllConfigurationNames( configurationNames ); 
 	for ( int i = 0; i < configurationNames.Count(); i++ )
@@ -325,7 +336,7 @@ bool CProjectGenerator_Win32_2010::WritePrimaryXML( const char *pOutputFilename,
 
 	m_XMLWriter.PopNode();
 
-	m_XMLWriter.PushNode( "Import", "Project=\"$(VCTargetsPath)\\Microsoft.Cpp.Default.props\"" );
+	m_XMLWriter.PushNode( "Import", R"(Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props")");
 	m_XMLWriter.PopNode();
 
 	// write the root configurations
@@ -339,7 +350,7 @@ bool CProjectGenerator_Win32_2010::WritePrimaryXML( const char *pOutputFilename,
 		}
 	}
 
-	m_XMLWriter.PushNode( "Import", "Project=\"$(VCTargetsPath)\\Microsoft.Cpp.props\"" );
+	m_XMLWriter.PushNode( "Import", R"(Project="$(VCTargetsPath)\Microsoft.Cpp.props")");
 	m_XMLWriter.PopNode();
 
 	m_XMLWriter.PushNode( "ImportGroup", "Label=\"ExtensionSettings\"" );
@@ -347,9 +358,11 @@ bool CProjectGenerator_Win32_2010::WritePrimaryXML( const char *pOutputFilename,
 
 	for ( int i = 0; i < configurationNames.Count(); i++ )
 	{
-		m_XMLWriter.PushNode( "ImportGroup", CFmtStr( "Condition=\"'$(Configuration)|$(Platform)'=='%s|%s'\" Label=\"PropertySheets\"", configurationNames[i].Get(), szPlatformName ) );
+		m_XMLWriter.PushNode( "ImportGroup", 
+			CFmtStr(R"(Condition="'$(Configuration)|$(Platform)'=='%s|%s'" Label="PropertySheets")", 
+				configurationNames[i].Get(), szPlatformName ) );
 		m_XMLWriter.PushNode( "Import" );
-		m_XMLWriter.AddNodeProperty( "Project=\"$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props\"" );
+		m_XMLWriter.AddNodeProperty(R"(Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props")");
 		m_XMLWriter.AddNodeProperty( "Condition=\"exists('$(UserRootDir)\\Microsoft.Cpp.$(Platform).user.props')\"" );
 		m_XMLWriter.AddNodeProperty( "Label=\"LocalAppDataPlatform\"" );
 		m_XMLWriter.PopNode();
@@ -467,7 +480,9 @@ bool CProjectGenerator_Win32_2010::WriteFolderToSecondaryXML( CProjectFolder *pF
 
 bool CProjectGenerator_Win32_2010::WriteFileToSecondaryXML( CProjectFile *pFile, const char *pParentPath, const char *pFileTypeName )
 {
-	const char *pKeyName = GetKeyNameForFile( pFile );
+	auto fileType = GetFileType(pFile);
+	auto pKeyName = GetTaskNameByFileType(fileType);
+
 	if ( V_stricmp_fast( pFileTypeName, pKeyName ) )
 	{
 		// skip it

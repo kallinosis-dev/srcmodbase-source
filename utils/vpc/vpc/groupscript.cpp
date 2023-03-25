@@ -378,9 +378,8 @@ void CVPC::GenerateBuildSet( CProjectDependencyGraph &dependencyGraph )
 	}
 
 	// process +XXX commands
-	for ( int i = 0; i < m_BuildCommands.Count(); i++ )
+	for ( const char* pCommand : m_BuildCommands )
 	{
-		const char *pCommand = m_BuildCommands[i].Get();
 		if ( pCommand[0] == '-' )
 			continue;
 

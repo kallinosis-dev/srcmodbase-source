@@ -295,6 +295,7 @@ private:
 class IVCProjWriter
 {
 public:
+	virtual ~IVCProjWriter() = default;
 	virtual bool Save( const char *pOutputFilename ) = 0;
 	virtual const char *GetProjectFileExtension() { return nullptr; }
 	virtual CVCProjGenerator *GetProjectGenerator() = 0;

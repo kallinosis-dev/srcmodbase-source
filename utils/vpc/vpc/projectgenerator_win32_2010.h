@@ -16,6 +16,8 @@ enum Win32_2010_Properties_e
 	#include "projectgenerator_win32_2010.inc"
 };
 
+enum TypeKeyNames_e : byte;
+
 class CProjectGenerator_Win32_2010 : public IVCProjWriter
 {
 public:
@@ -47,7 +49,8 @@ private:
     // VisualGDB support files
     bool        WriteVisualGDBSettings( const char *pConfiguration );
 
-	const char	*GetKeyNameForFile( CProjectFile *pFile );
+	bool IsProjectReference(CProjectFile* project_file);
+	TypeKeyNames_e GetFileType(CProjectFile* pFile);
 
 	bool		GenerateToolProperty( const char *pOutputName, const char *pScriptValue, CUtlString &outputWrite, const PropertyState_t *pPropertyState, const char *szPlatformName, const char *pConfigName ) const;
 

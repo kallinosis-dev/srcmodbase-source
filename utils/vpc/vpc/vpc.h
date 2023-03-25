@@ -245,6 +245,7 @@ struct scriptList_t
 class IProjectIterator
 {
 public:
+	virtual ~IProjectIterator() = default;
 	// the base IProjectIterator::VisitProject() implementation performs the CRC check,
 	// so derived classes should call it if they want to skip up-to-date projects
 	// NOTE: iProject/projectIndex_t indexes CVPC::m_Projects/project_t

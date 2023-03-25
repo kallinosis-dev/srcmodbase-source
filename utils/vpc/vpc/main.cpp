@@ -2316,10 +2316,10 @@ bool CVPC::BuildTargetProjects()
 		bool VisitProject(projectIndex_t iProject, const char* pScriptPath) override
 		{
 			bool bProjectDirty = IProjectIterator::VisitProject(iProject, pScriptPath);
-			if (!IProjectIterator::m_CRCCheckStatusSpew.IsEmpty())
+			if (!m_CRCCheckStatusSpew.IsEmpty())
 			{
 				bool bSpewCRCStatus = !g_pVPC->IsQuietValidSpew() || bProjectDirty;
-				g_pVPC->VPCStatus(bSpewCRCStatus, "%s", IProjectIterator::m_CRCCheckStatusSpew.Get());
+				g_pVPC->VPCStatus(bSpewCRCStatus, "%s", m_CRCCheckStatusSpew.Get());
 			}
 
 			if (!bProjectDirty)
@@ -3189,9 +3189,7 @@ void CVPC::HandleMKSLN(IBaseSolutionGenerator* pSolutionGenerator,
 		VPCStatus(true, "Keeping current solution.");
 		return;
 	}
-
-	VPCStatus(true, "(Re)generating solution...");
-
+	
 	pSolutionGenerator->GenerateSolutionFile(fullSolutionPath, referencedProjects);
 
 	if (pSolutionGenerator2)
