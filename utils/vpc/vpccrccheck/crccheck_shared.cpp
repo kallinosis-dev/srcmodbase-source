@@ -449,7 +449,7 @@ int VPC_CommandLineCRCChecks( int argc, char **argv )
 
 	const char *pProjectFilename = argv[2];
 
-	// Build the xxxxx.vcproj.vpc_crc filename
+	// Build the xxxxx.vcxproj.vpc_crc filename
 	char szCRCFilename[512];
 	SafeSnprintf( szCRCFilename, sizeof( szCRCFilename ), "%s.%s", pProjectFilename, VPCCRCCHECK_FILE_EXTENSION );
 

@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2016, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½ 1996-2016, Valve Corporation, All rights reserved. =======
 //
 // Purpose: 
 //
@@ -203,7 +203,7 @@ void GenerateSolutionForPerforceChangelist( CProjectDependencyGraph &dependencyG
 		}
 	}
 
-	// Make sure the latest .vcproj files are generated.
+	// Make sure the latest .vcxproj files are generated.
 	g_pVPC->BuildDependencyProjects( projects );
 
 	// List the projects.

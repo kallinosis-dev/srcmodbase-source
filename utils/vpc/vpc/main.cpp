@@ -947,7 +947,7 @@ void CVPC::UpdateCacheFile(const char* szScriptFileName)
 
 		//ancillary files
 		//TODO: The project generator should probably control this
-		if (m_bUse2010 && IsConditionalDefined("GENERATE_MAKEFILE_VCXPROJ"))
+		if (IsConditionalDefined("GENERATE_MAKEFILE_VCXPROJ"))
 		{
 			// IsProjectCurrent is only called once even though
 			// we're generating twice and thus have more files to check,
@@ -958,7 +958,7 @@ void CVPC::UpdateCacheFile(const char* szScriptFileName)
 			extraOutFile.Append(".filters");
 			pKVOutputs->SetString(CFmtStr("%d", nKeyName++).Get(), extraOutFile.Get());
 		}
-		else if (m_bUse2010)
+		else
 		{
 			CUtlPathStringHolder extraOutFile(szOutputFileName, ".filters");
 			pKVOutputs->SetString(CFmtStr("%d", nKeyName++).Get(), extraOutFile.Get());
@@ -1000,19 +1000,19 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "  Use *   to add a project and all projects that depend on it.\n");
 			Log_Msg(LOG_VPC, "  Use @   to add a project and all projects that it depends on.\n");
 			Log_Msg(LOG_VPC, "\n");
-			Log_Msg(LOG_VPC, "  Use /h spew final target build set ONLY (no .vcproj created).\n");
+			Log_Msg(LOG_VPC, "  Use /h spew final target build set ONLY (no .vcxproj created).\n");
 
 			Log_Msg(LOG_VPC, "\n");
 			Log_Msg(LOG_VPC, "Examples:\n");
 
 			Log_Msg(LOG_VPC, "\n");
-			Log_Msg(LOG_VPC, "  Single .vcproj generation:\n");
-			Log_Msg(LOG_VPC, "    vpc +client /hl2     <-- Creates a Win32 .vcproj for the HL2 client.\n");
+			Log_Msg(LOG_VPC, "  Single .vcxproj generation:\n");
+			Log_Msg(LOG_VPC, "    vpc +client /hl2     <-- Creates a Win32 .vcxproj for the HL2 client.\n");
 			// TODO: OSX or Linux example
-			//Log_Msg(LOG_VPC, "    vpc +shaderapi /x360 <-- Creates a Xbox360 .vcproj for the shaderapi.\n");
+			//Log_Msg(LOG_VPC, "    vpc +shaderapi /x360 <-- Creates a Xbox360 .vcxproj for the shaderapi.\n");
 
 			Log_Msg(LOG_VPC, "\n");
-			Log_Msg(LOG_VPC, "  Multiple .vcproj generation - Multiple Projects for Games:\n");
+			Log_Msg(LOG_VPC, "  Multiple .vcxproj generation - Multiple Projects for Games:\n");
 			Log_Msg(LOG_VPC,
 			        "    vpc +client /hl2 /tf     <-- Creates ALL the Win32 .vcprojs for the HL2 and TF client.\n");
 			Log_Msg(LOG_VPC,
@@ -1056,9 +1056,9 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "[/fi]:          Ignore input CRC checks, always consider regenerating projects\n");
 			Log_Msg(LOG_VPC, "[/fc]:          Force build dependency caches\n");
 			Log_Msg(LOG_VPC, "[/dp]:          Decorate project names with platform\n");
-			Log_Msg(LOG_VPC, "[/testmode]:    Override output .vcproj file to be named 'test.vcproj'\n");
+			Log_Msg(LOG_VPC, "[/testmode]:    Override output .vcxproj file to be named 'test.vcxproj'\n");
 			Log_Msg(LOG_VPC,
-			        "[/projsuffix]:  <suffix> - Override output .vcproj file to be named '?????_suffix.vcproj'\n");
+			        "[/projsuffix]:  <suffix> - Override output .vcxproj file to be named '?????_suffix.vcxproj'\n");
 			Log_Msg(LOG_VPC, "[/mirror]:      <path> - Mirror output files to specified path. Used for A:B testing.\n");
 			Log_Msg(LOG_VPC, "[/2022]:        Generate projects and solutions for Visual Studio 2022\n");
 			Log_Msg(LOG_VPC, "[/2015]:        Generate projects and solutions for Visual Studio 2015\n");
@@ -2344,12 +2344,6 @@ void CVPC::FindProjectFromVCPROJ(const char* pScriptNameVCProj, int nMainArgc, c
 		VPCError("Could not resolve '%s' to any known projects", pScriptNameVCProj);
 	}
 
-	// skip past known project prefix and check+remove the extension
-	const char* pExt = V_GetFileExtensionSafe(pScriptNameVCProj);
-
-	// vcproj uniquely identifies 2005, vcxproj could be 2010/2012/2013/201x
-	bool bUse2005 = !V_stricmp_fast(pExt, "vcproj");
-
 	CUtlString projectSuffix = CUtlString(pScriptNameVCProj).StripExtension().Get() + projectName.Length();
 
 	// split the remainder into tokens, separated by '_'
@@ -2384,12 +2378,6 @@ void CVPC::FindProjectFromVCPROJ(const char* pScriptNameVCProj, int nMainArgc, c
 	newArgs.FindAndRemove(pScriptNameVCProj);
 
 	newArgs.AddToTail(CFmtStr("+%s", projectName.Get()).Get());
-
-	if (bUse2005)
-	{
-		// only 2005 is explicit, VPC will auto choose the 2010/2012/2013/201x based on configuration
-		newArgs.AddToTail("/2005");
-	}
 
 	for (int i = 0; i < projectTokens.Count(); i++)
 	{
@@ -2555,22 +2543,18 @@ void CVPC::SetMacrosAndConditionals()
 		if (m_bUse2022)
 		{
 			SetConditional("VS2022", true, CONDITIONAL_SYSTEM);
-			m_bUse2010 = true; // Request the 2010 file-format.
 		}
 		else if (m_bUse2015)
 		{
 			SetConditional("VS2015", true, CONDITIONAL_SYSTEM);
-			m_bUse2010 = true; // Request the 2010 file-format.
 		}
 		else if (m_bUse2013)
 		{
 			SetConditional("VS2013", true, CONDITIONAL_SYSTEM);
-			m_bUse2010 = true; // Request the 2010 file-format.
 		}
 		else if (m_bUse2012)
 		{
 			SetConditional("VS2012", true, CONDITIONAL_SYSTEM);
-			m_bUse2010 = true; // Request the 2010 file-format.
 		}
 		else if (m_bUse2010)
 		{
@@ -2578,7 +2562,7 @@ void CVPC::SetMacrosAndConditionals()
 		}
 		else
 		{
-			SetConditional("VS2005", true, CONDITIONAL_SYSTEM);
+			AssertMsg(false, "Unsupported format");
 		}
 	}
 
@@ -3191,13 +3175,9 @@ void CVPC::DetermineSolutionGenerator()
 			{
 				VPCStatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2012.");
 			}
-			else if (m_bUse2010)
-			{
-				VPCStatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2010.");
-			}
 			else
 			{
-				VPCStatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2005.");
+				VPCStatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2010.");
 			}
 			m_pSolutionGenerator = GetSolutionGenerator_Win32();
 		}
@@ -3206,8 +3186,6 @@ void CVPC::DetermineSolutionGenerator()
 	}
 }
 
-
-extern IBaseProjectGenerator* GetWin32ProjectGenerator();
 extern IBaseProjectGenerator* GetWin32ProjectGenerator_2010();
 extern IBaseProjectGenerator* GetMakefileProjectGenerator();
 extern IBaseProjectGenerator* GetXcodeProjectGenerator();
@@ -3272,33 +3250,7 @@ void CVPC::DetermineProjectGenerator()
 		// direct people towards the cross-platform $LibDependsOn
 		// feature so disallow lib containment.
 		m_bAllowLibWithinLib = false;
-
-		{
-			if (m_bUse2022)
-			{
-				m_pProjectGenerator = GetWin32ProjectGenerator_2010();
-			}
-			else if (m_bUse2015)
-			{
-				m_pProjectGenerator = GetWin32ProjectGenerator_2010();
-			}
-			else if (m_bUse2013)
-			{
-				m_pProjectGenerator = GetWin32ProjectGenerator_2010();
-			}
-			else if (m_bUse2012)
-			{
-				m_pProjectGenerator = GetWin32ProjectGenerator_2010();
-			}
-			else if (m_bUse2010)
-			{
-				m_pProjectGenerator = GetWin32ProjectGenerator_2010();
-			}
-			else
-			{
-				m_pProjectGenerator = GetWin32ProjectGenerator();
-			}
-		}
+		m_pProjectGenerator = GetWin32ProjectGenerator_2010();
 	}
 
 	m_pProjectGenerator->StartProject();
@@ -3430,9 +3382,9 @@ int CVPC::ProcessCommandLine()
 		}
 		else
 		{
-			if (V_stristr(pArg, ".vcproj") || V_stristr(pArg, ".vcxproj"))
+			if (V_stristr(pArg, ".vcxproj"))
 			{
-				// caller wants to re-gen the vcproj, this is commonly used by MSDEV to re-gen
+				// caller wants to re-gen the vcxproj, this is commonly used by MSDEV to re-gen
 				pScriptNameVCProj = pArg;
 				bScriptIsVCProj = true;
 				bHasBuildCommand = true;

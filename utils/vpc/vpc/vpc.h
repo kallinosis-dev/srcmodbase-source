@@ -259,7 +259,6 @@ public:
 #include "ibaseprojectgenerator.h"
 #include "baseprojectdatacollector.h"
 #include "projectgenerator_vcproj.h"
-#include "projectgenerator_win32.h"
 #include "projectgenerator_win32_2010.h"
 #include "projectgenerator_makefile.h"
 
@@ -333,9 +332,6 @@ public:
     bool        IsPerFileCompileConfigEnabled() const { return m_bPerFileCompileConfig; }
     bool		IsLibWithinLibEnabled() const { return m_bAllowLibWithinLib; }
     
-	bool		Is2005() const { return !m_bUse2010 && !m_bUse2012 && !m_bUse2013 && !m_bUse2015 && !m_bUse2022; }
-	// Note that internally to VPC this returns true when Is2012() or Is2013() or Is2015() return true because they use
-	// the VS 2010 file format.
 	bool		Is2010() const { return m_bUse2010; }
 	bool		Is2012() const { return m_bUse2012; }
 	bool		Is2013() const { return m_bUse2013; }

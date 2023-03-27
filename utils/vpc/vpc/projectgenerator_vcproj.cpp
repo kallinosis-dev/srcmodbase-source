@@ -1247,7 +1247,7 @@ const char* CVCProjGenerator::GetProjectFileExtension()
 	if ( !pProjectExtension )
 	{
 		// provide default
-		pProjectExtension = g_pVPC->Is2005() ? "vcproj" : "vcxproj";
+		pProjectExtension = "vcxproj";
 	}
 
 	return pProjectExtension;

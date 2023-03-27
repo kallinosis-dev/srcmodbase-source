@@ -33,15 +33,10 @@ public:
 		// We may be generating a makefile wrapper solution,
 		// in which case we need to look at the wrapper
 		// project instead of the base project.
-		const char *pProjectExt = "vcproj";
-		if ( g_pVPC->Is2010() )
-		{
-			pProjectExt = "vcxproj";
-		}
 		if ( pExt == nullptr ||
 			V_stricmp_fast( pExt, "mak" ) == 0 )
 		{
-			pUpdateBuffer->Set( pProjectFilename, ".", pProjectExt );
+			pUpdateBuffer->Set( pProjectFilename, ".", "vcxproj" );
 			return pUpdateBuffer->Get();
 		}
 
@@ -112,8 +107,7 @@ public:
 		}
 		else
 		{
-			fprintf( fp, "\xef\xbb\xbf\nMicrosoft Visual Studio Solution File, Format Version 9.00\n" );
-			fprintf( fp, "# Visual Studio 2005\n" );
+			AssertMsg(false, "Unsupported version");
 		}
 		fprintf( fp, "#\n" );
 		fprintf( fp, "# Automatically generated solution:\n" );
@@ -125,20 +119,6 @@ public:
 		fprintf( fp, "\n" );
 		fprintf( fp, "#\n" );
 		fprintf( fp, "#\n" );
-
-		if ( !g_pVPC->Is2010() )
-		{
-			// if /slnItems <filename> is passed on the command line, build a Solution Items project
-			const char *pSolutionItemsFilename = g_pVPC->GetSolutionItemsFilename();
-			if ( pSolutionItemsFilename[0] != '\0' )
-			{
-				fprintf( fp, "Project(\"{2150E333-8FDC-42A3-9474-1A3956D46DE8}\") = \"Solution Items\", \"Solution Items\", \"{AAAAAAAA-8B4A-11D0-8D11-90A07D6D6F7D}\"\n" );
-				fprintf( fp, "\tProjectSection(SolutionItems) = preProject\n" );
-				WriteSolutionItems( fp );
-				fprintf( fp, "\tEndProjectSection\n" );
-				fprintf( fp, "EndProject\n" );
-			}
-		}
 
 		//Write the data for all the solution folders
 		CUtlVector< SolutionFolderData_t > solutionFolderData;
@@ -163,27 +143,22 @@ public:
 			if ( !V_MakeRelativePath( pFullProjectFilename, g_pVPC->GetSourcePath(), szRelativeFilename, sizeof( szRelativeFilename ) ) )
 				g_pVPC->VPCError( "Can't make a relative path (to the base source directory) for %s.", pFullProjectFilename );
 
-			if ( g_pVPC->Is2010() )
-			{
-				char *pLastDot;
-				char pProjectName[MAX_BASE_FILENAME];
 
-				// It looks like Incredibuild 3.6 looks to build projects using the full project name
-				//	with _x360 or _win64 attached to the end. Basically, the full project filename with
-				//	the path and .vcxproj extension removed.
-				Sys_StripPath( pFullProjectFilename, pProjectName, sizeof( pProjectName ) );
-				pLastDot = V_strrchr( pProjectName, '.' );
-				if (pLastDot)
-				{
-					*pLastDot = 0;
-				}
+			char *pLastDot;
+			char pProjectName[MAX_BASE_FILENAME];
 
-				fprintf( fp, "Project(\"%s\") = \"%s\", \"%s\", \"{%s}\"\n", SolutionGUID, pProjectName, szRelativeFilename, pCurProject->GetProjectGUIDString() );
-			}
-			else
+			// It looks like Incredibuild 3.6 looks to build projects using the full project name
+			//	with _x360 or _win64 attached to the end. Basically, the full project filename with
+			//	the path and .vcxproj extension removed.
+			Sys_StripPath( pFullProjectFilename, pProjectName, sizeof( pProjectName ) );
+			pLastDot = V_strrchr( pProjectName, '.' );
+			if (pLastDot)
 			{
-				fprintf( fp, "Project(\"%s\") = \"%s\", \"%s\", \"{%s}\"\n", SolutionGUID, pCurProject->GetName(), szRelativeFilename, pCurProject->GetProjectGUIDString() );
+				*pLastDot = 0;
 			}
+
+			fprintf( fp, "Project(\"%s\") = \"%s\", \"%s\", \"{%s}\"\n", SolutionGUID, pProjectName, szRelativeFilename, pCurProject->GetProjectGUIDString() );
+
 
 			bool bHasDependencies = false;
 			for ( int iTestProject=0; iTestProject < projects.Count(); iTestProject++ )
@@ -209,80 +184,78 @@ public:
 			fprintf( fp, "EndProject\n" );
 		}
 
-		if ( g_pVPC->Is2010() )
+
+		fprintf( fp, "Global\n" );
+		fprintf( fp, "	GlobalSection(SolutionConfigurationPlatforms) = preSolution\n" );
+		for ( int nPlatformIter = 0; nPlatformIter < allProjectPlatforms.Count(); ++nPlatformIter )
 		{
-			fprintf( fp, "Global\n" );
-			fprintf( fp, "	GlobalSection(SolutionConfigurationPlatforms) = preSolution\n" );
-			for ( int nPlatformIter = 0; nPlatformIter < allProjectPlatforms.Count(); ++nPlatformIter )
-			{
-				const char *szVPCPlatformName = allProjectPlatforms[nPlatformIter].Get();
-				fprintf( fp, "		Debug|%s = Debug|%s\n", szVPCPlatformName, szVPCPlatformName );
-				fprintf( fp, "		Release|%s = Release|%s\n", szVPCPlatformName, szVPCPlatformName );
-			}
-			fprintf( fp, "	EndGlobalSection\n" );
-			fprintf( fp, "	GlobalSection(ProjectConfigurationPlatforms) = postSolution\n" );
-
-			for ( int nPlatformIter = 0; nPlatformIter < allProjectPlatforms.Count(); ++nPlatformIter )
-			{
-				const char *szVPCPlatformName = allProjectPlatforms[nPlatformIter].Get();
-
-				for ( int i=0; i < projects.Count(); i++ )
-				{
-					const char *ProjectGUID = projects[i]->GetProjectGUIDString();
-
-					IBaseProjectGenerator *pProjectGenerator = projects[i]->m_pProjectGenerator;
-
-					bool bBuilds = pProjectGenerator->BuildsForTargetPlatform( szVPCPlatformName );
-					bool bDeploys = pProjectGenerator->DeploysForVPCTargetPlatform( szVPCPlatformName );
-					if ( bBuilds || bDeploys )
-					{
-						CUtlString sPlatformAlias = pProjectGenerator->GetSolutionPlatformAlias( szVPCPlatformName, this );
-						const char *szVisualStudioPlatformName = sPlatformAlias.Get();
-
-						fprintf( fp, "		{%s}.Debug|%s.ActiveCfg = Debug|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
-						if ( bBuilds )
-						{
-							fprintf( fp, "		{%s}.Debug|%s.Build.0 = Debug|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
-						}
-						if ( bDeploys )
-						{
-							fprintf( fp, "		{%s}.Debug|%s.Deploy.0 = Debug|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
-						}
-
-						fprintf( fp, "		{%s}.Release|%s.ActiveCfg = Release|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
-						if ( bBuilds )
-						{
-							fprintf( fp, "		{%s}.Release|%s.Build.0 = Release|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
-						}
-						if ( bDeploys )
-						{
-							fprintf( fp, "		{%s}.Release|%s.Deploy.0 = Release|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
-						}
-					}
-				}
-			}
-
-			fprintf( fp, "	EndGlobalSection\n" );
-			fprintf( fp, "	GlobalSection(SolutionProperties) = preSolution\n" );
-			fprintf( fp, "		HideSolutionNode = FALSE\n" );
-			fprintf( fp, "	EndGlobalSection\n" );
-
-			if ( solutionFolderData.Count() > 0 )
-			{
-				//Add the nested solution folders
-				fprintf( fp, "	GlobalSection(NestedProjects) = preSolution\n" );
-				FOR_EACH_VEC( solutionFolderData, i )
-				{
-					if ( !solutionFolderData[i].strParentGUID.IsEmpty() && ShouldWriteSolutionFolder( solutionFolderData[i], solutionFolderData ) )
-					{
-						fprintf( fp, "\t\t%s = %s\n", solutionFolderData[i].strGUID.Get(), solutionFolderData[i].strParentGUID.Get() );
-					}
-				}
-				fprintf( fp, "	EndGlobalSection\n" );
-			}
-
-			fprintf( fp, "EndGlobal\n" );
+			const char *szVPCPlatformName = allProjectPlatforms[nPlatformIter].Get();
+			fprintf( fp, "		Debug|%s = Debug|%s\n", szVPCPlatformName, szVPCPlatformName );
+			fprintf( fp, "		Release|%s = Release|%s\n", szVPCPlatformName, szVPCPlatformName );
 		}
+		fprintf( fp, "	EndGlobalSection\n" );
+		fprintf( fp, "	GlobalSection(ProjectConfigurationPlatforms) = postSolution\n" );
+
+		for ( int nPlatformIter = 0; nPlatformIter < allProjectPlatforms.Count(); ++nPlatformIter )
+		{
+			const char *szVPCPlatformName = allProjectPlatforms[nPlatformIter].Get();
+
+			for ( int i=0; i < projects.Count(); i++ )
+			{
+				const char *ProjectGUID = projects[i]->GetProjectGUIDString();
+
+				IBaseProjectGenerator *pProjectGenerator = projects[i]->m_pProjectGenerator;
+
+				bool bBuilds = pProjectGenerator->BuildsForTargetPlatform( szVPCPlatformName );
+				bool bDeploys = pProjectGenerator->DeploysForVPCTargetPlatform( szVPCPlatformName );
+				if ( bBuilds || bDeploys )
+				{
+					CUtlString sPlatformAlias = pProjectGenerator->GetSolutionPlatformAlias( szVPCPlatformName, this );
+					const char *szVisualStudioPlatformName = sPlatformAlias.Get();
+
+					fprintf( fp, "		{%s}.Debug|%s.ActiveCfg = Debug|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
+					if ( bBuilds )
+					{
+						fprintf( fp, "		{%s}.Debug|%s.Build.0 = Debug|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
+					}
+					if ( bDeploys )
+					{
+						fprintf( fp, "		{%s}.Debug|%s.Deploy.0 = Debug|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
+					}
+
+					fprintf( fp, "		{%s}.Release|%s.ActiveCfg = Release|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
+					if ( bBuilds )
+					{
+						fprintf( fp, "		{%s}.Release|%s.Build.0 = Release|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
+					}
+					if ( bDeploys )
+					{
+						fprintf( fp, "		{%s}.Release|%s.Deploy.0 = Release|%s\n", ProjectGUID, szVPCPlatformName, szVisualStudioPlatformName );
+					}
+				}
+			}
+		}
+
+		fprintf( fp, "	EndGlobalSection\n" );
+		fprintf( fp, "	GlobalSection(SolutionProperties) = preSolution\n" );
+		fprintf( fp, "		HideSolutionNode = FALSE\n" );
+		fprintf( fp, "	EndGlobalSection\n" );
+
+		if ( solutionFolderData.Count() > 0 )
+		{
+			//Add the nested solution folders
+			fprintf( fp, "	GlobalSection(NestedProjects) = preSolution\n" );
+			FOR_EACH_VEC( solutionFolderData, i )
+			{
+				if ( !solutionFolderData[i].strParentGUID.IsEmpty() && ShouldWriteSolutionFolder( solutionFolderData[i], solutionFolderData ) )
+				{
+					fprintf( fp, "\t\t%s = %s\n", solutionFolderData[i].strGUID.Get(), solutionFolderData[i].strParentGUID.Get() );
+				}
+			}
+			fprintf( fp, "	EndGlobalSection\n" );
+		}
+
+		fprintf( fp, "EndGlobal\n" );
 
 		fclose( fp );
 		Sys_CopyToMirror( pSolutionFilename );
