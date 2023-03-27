@@ -6,6 +6,7 @@
 #include "p4sln.h"
 #include "ilaunchabledll.h"
 #include "bundled_module_info.h"
+#include "filesystem.h"
 #include "tier1/interface.h"
 #include "tier1/keyvalues.h"
 
@@ -423,6 +424,12 @@ void CVPC::UnloadPerforceInterface()
 
 	if (m_pFilesystemModule)
 	{
+		// HACK: shutdown filesystem properly
+		auto fs = (IFileSystem*)Sys_GetFactory(m_pFilesystemModule)(FILESYSTEM_INTERFACE_VERSION, nullptr);
+		Assert(fs);
+
+		fs->Shutdown();
+
 		Sys_UnloadModule(m_pFilesystemModule);
 		m_pFilesystemModule = PLAT_MODULE_INVALID;
 	}
