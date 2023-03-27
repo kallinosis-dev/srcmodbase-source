@@ -1013,43 +1013,26 @@ void CVPC::SpewUsage(void)
 
 			Log_Msg(LOG_VPC, "\n");
 			Log_Msg(LOG_VPC, "  Multiple .vcxproj generation - Multiple Projects for Games:\n");
-			Log_Msg(LOG_VPC,
-			        "    vpc +client /hl2 /tf     <-- Creates ALL the Win32 .vcprojs for the HL2 and TF client.\n");
-			Log_Msg(LOG_VPC,
-			        "    vpc +gamedlls /allgames  <-- Creates ALL the Win32 .vcprojs for client and server for all GAMES.\n")
-			;
-			Log_Msg(LOG_VPC,
-			        "    vpc +tools -tier0 /win32 <-- Creates ALL the Win32 .vcprojs for the tool projects but not the tier0 project.\n")
-			;
+			Log_Msg(LOG_VPC, "    vpc +client /hl2 /tf     <-- Creates ALL the Win32 .vcprojs for the HL2 and TF client.\n");
+			Log_Msg(LOG_VPC, "    vpc +gamedlls /allgames  <-- Creates ALL the Win32 .vcprojs for client and server for all GAMES.\n");
+			Log_Msg(LOG_VPC, "    vpc +tools -tier0 /win32 <-- Creates ALL the Win32 .vcprojs for the tool projects but not the tier0 project.\n");
 
 			Log_Msg(LOG_VPC, "\n");
 			Log_Msg(LOG_VPC, "  Automatically expand and add projects based on dependencies:\n");
-			Log_Msg(LOG_VPC,
-			        "    vpc *tier2 <--- Would expand out to every project that needs tier2. i.e. How do I know what projects are affected for my tier2 change?\n")
-			;
-			Log_Msg(LOG_VPC,
-			        "    vpc @engine <--- Would expand out to every project that engine requires. i.e. What projects might I need to fully debug engine?\n")
-			;
+			Log_Msg(LOG_VPC, "    vpc *tier2 <--- Would expand out to every project that needs tier2. i.e. How do I know what projects are affected for my tier2 change?\n");
+			Log_Msg(LOG_VPC, "    vpc @engine <--- Would expand out to every project that engine requires. i.e. What projects might I need to fully debug engine?\n");
 			Log_Msg(LOG_VPC, "\n");
 
 			Log_Msg(LOG_VPC, "  Creating Solutions:\n");
-			Log_Msg(LOG_VPC,
-			        "    vpc /mksln foo.sln *tier2 +bar <--- Builds a foo solution of all tier2 consumers and bar. Sets up solution dependencies as required.\n")
-			;
-			Log_Msg(LOG_VPC,
-			        "    vpc /mksln foo.sln @engine +bar <--- Builds a foo solution of engine and all the projects it requires and bar. Sets up solution dependencies as required.\n")
-			;
-			Log_Msg(LOG_VPC,
-			        "    vpc /p4sln checkin.sln 0 <--- Builds a checkin solution with all dependencies based on whatever is in the current p4 client's changelists.\n")
-			;
+			Log_Msg(LOG_VPC, "    vpc /mksln foo.sln *tier2 +bar <--- Builds a foo solution of all tier2 consumers and bar. Sets up solution dependencies as required.\n");
+			Log_Msg(LOG_VPC, "    vpc /mksln foo.sln @engine +bar <--- Builds a foo solution of engine and all the projects it requires and bar. Sets up solution dependencies as required.\n");
+			Log_Msg(LOG_VPC, "    vpc /p4sln checkin.sln 0 <--- Builds a checkin solution with all dependencies based on whatever is in the current p4 client's changelists.\n");
 
 			Log_Msg(LOG_VPC, "\n");
 			Log_Msg(LOG_VPC, "  Further details can be found on Valve Internal Wiki on VPC.\n");
 
 			Log_Msg(LOG_VPC, "\n--- OPTIONS ---\n");
-			Log_Msg(LOG_VPC,
-			        "[/q]:           Quiet mode (quiet mode is automatically on if the VPC_QUIET environment variable is set)\n")
-			;
+			Log_Msg(LOG_VPC, "[/q]:           Quiet mode (quiet mode is automatically on if the VPC_QUIET environment variable is set)\n");
 			Log_Msg(LOG_VPC, "[/qv]:          Quiet just the CRC valid spew for those projects that are up-to-date.\n");
 			Log_Msg(LOG_VPC, "[/v]:           Verbose\n");
 			Log_Msg(LOG_VPC, "[/f]:           Force rewrite project files, even if they would not change\n");
@@ -1057,8 +1040,7 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "[/fc]:          Force build dependency caches\n");
 			Log_Msg(LOG_VPC, "[/dp]:          Decorate project names with platform\n");
 			Log_Msg(LOG_VPC, "[/testmode]:    Override output .vcxproj file to be named 'test.vcxproj'\n");
-			Log_Msg(LOG_VPC,
-			        "[/projsuffix]:  <suffix> - Override output .vcxproj file to be named '?????_suffix.vcxproj'\n");
+			Log_Msg(LOG_VPC, "[/projsuffix]:  <suffix> - Override output .vcxproj file to be named '?????_suffix.vcxproj'\n");
 			Log_Msg(LOG_VPC, "[/mirror]:      <path> - Mirror output files to specified path. Used for A:B testing.\n");
 			Log_Msg(LOG_VPC, "[/2022]:        Generate projects and solutions for Visual Studio 2022\n");
 			Log_Msg(LOG_VPC, "[/2015]:        Generate projects and solutions for Visual Studio 2015\n");
@@ -1093,25 +1075,18 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "[/qtdebug]:     Set Reserved $QTDEBUG=1\n");
 			Log_Msg(LOG_VPC, "[/no_schema]:   Set Reserved $ALLOW_SCHEMA=0\n");
 			Log_Msg(LOG_VPC, "[/unity]:	   Set Reserved $ALLOW_UNITY=1\n");
-			Log_Msg(LOG_VPC,
-			        "[/forceunity]:  Set Reserved $ALLOW_UNITY=1 and compile writable files in unity files -- needed for buildbot\n")
-			;
+			Log_Msg(LOG_VPC, "[/forceunity]:  Set Reserved $ALLOW_UNITY=1 and compile writable files in unity files -- needed for buildbot\n");
 
 			Log_Msg(LOG_VPC, "\n--- User Custom Conditionals ---\n");
-			Log_Msg(LOG_VPC,
-			        "[/define:xxx]:   Enable a custom conditional $XXX as true to use for quick testing in VPC files.\n")
-			;
-			Log_Msg(LOG_VPC,
-			        "                 (i.e. /define:FOOBAR, sets $FOOBAR=1, otherwise the default is $FOOBAR=0)\n");
+			Log_Msg(LOG_VPC, "[/define:xxx]:   Enable a custom conditional $XXX as true to use for quick testing in VPC files.\n");
+			Log_Msg(LOG_VPC, "                 (i.e. /define:FOOBAR, sets $FOOBAR=1, otherwise the default is $FOOBAR=0)\n");
 
 			Log_Msg(LOG_VPC, "\n--- Solution Generation ---\n");
 			Log_Msg(LOG_VPC, "[/mksln]:        <.sln filename> - make a solution file\n");
 			Log_Msg(LOG_VPC, "[/p4sln]:        <.sln filename> <changelists...> - make a solution file based on\n");
-			Log_Msg(LOG_VPC, "                 the changelist. Changelists can be specific numbers, 0 or \"default\"\n")
-			;
+			Log_Msg(LOG_VPC, "                 the changelist. Changelists can be specific numbers, 0 or \"default\"\n");
 			Log_Msg(LOG_VPC, "                 for the default changelist, or \"all\" for all active changelists.\n");
-			Log_Msg(LOG_VPC,
-			        "[/slnitems]:     <filename> - adds all files listed in <filename> to generated solutions.\n");
+			Log_Msg(LOG_VPC, "[/slnitems]:     <filename> - adds all files listed in <filename> to generated solutions.\n");
 			Log_Msg(LOG_VPC, "[/slnfolder]:    <folder path with search pattern> - Adds a solution folder\n");
 			Log_Msg(LOG_VPC, "                 containing all the files found in the specified folder path\n");
 			Log_Msg(LOG_VPC, "                 that match the search pattern. Searches all the\n");
@@ -1122,20 +1097,12 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "                 The path can be absolute or relative to the src dir. \n");
 			Log_Msg(LOG_VPC, "[/showdeps]:     Show an example dependency chain for each project that depends\n");
 			Log_Msg(LOG_VPC, "                 on your p4 change list(s).  Use with /p4sln.\n");
-			Log_Msg(LOG_VPC,
-			        "[/shallowdeps]:  Do not treat .lib files as dependencies. Allows building a solution of only files directly affected by source code changes for compile testing.\n")
-			;
-			Log_Msg(LOG_VPC,
-			        "[/allprojects]:  Do not restrict dependency and solutions to the everything group, allow all known projects.\n")
-			;
+			Log_Msg(LOG_VPC, "[/shallowdeps]:  Do not treat .lib files as dependencies. Allows building a solution of only files directly affected by source code changes for compile testing.\n");
+			Log_Msg(LOG_VPC, "[/allprojects]:  Do not restrict dependency and solutions to the everything group, allow all known projects.\n");
 
 			Log_Msg(LOG_VPC, "\n--- Checking Files ---\n");
-			Log_Msg(LOG_VPC,
-			        "[/checkfiles]:         Check for the existence of files in $file commands. For debugging vpc files.\n")
-			;
-			Log_Msg(LOG_VPC,
-			        "[/nocheckfiles]:       Do not check for the existence of files in $file commands. For debugging vpc files.\n")
-			;
+			Log_Msg(LOG_VPC, "[/checkfiles]:         Check for the existence of files in $file commands. For debugging vpc files.\n");
+			Log_Msg(LOG_VPC, "[/nocheckfiles]:       Do not check for the existence of files in $file commands. For debugging vpc files.\n");
 			Log_Msg(LOG_VPC, "[/checkfiles_error]:   Missing files reported as errors.\n");
 			Log_Msg(LOG_VPC, "[/checkfiles_warning]: Missing files reported as warnings.\n");
 
@@ -1145,8 +1112,7 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "[/srcctl]:       Enable source control integration.\n");
 			Log_Msg(LOG_VPC, "[/nosrcctl]:     Disable source control integration.\n");
 			Log_Msg(LOG_VPC, "[/novpcgame]:    Xbox Only. Disable reserved vpc macro $VPCGAME and $VPCGAMECAPS.\n");
-			Log_Msg(LOG_VPC,
-			        "                 By default if a single game is specified on command line, then that game\n");
+			Log_Msg(LOG_VPC, "                 By default if a single game is specified on command line, then that game\n");
 			Log_Msg(LOG_VPC, "                 name will be used as a value for $VPCGAME and $VPCGAMECAPS macros.\n");
 			Log_Msg(LOG_VPC, "[/clangall]:     Emit .BAT files to parse projects with Clang [WIP]\n");
 			Log_Msg(LOG_VPC, "[/unity_suffix]: Add a '_unity' suffix to $UnityProject-enabled vcxproj files\n");
