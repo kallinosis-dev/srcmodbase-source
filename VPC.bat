@@ -1,2 +1,2 @@
-devtools\bin\vpc.exe +vpc /mksln vpc.sln
+devtools\bin\win32\vpc.exe +vpc /mksln vpc.sln
 pause

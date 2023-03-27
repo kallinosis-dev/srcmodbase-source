@@ -4,39 +4,22 @@
 //	Project Script
 //-----------------------------------------------------------------------------
 
-$Macro VPCNAME		"vpc"						[$STATIC_LINK]
-$Macro VPCNAME		"vpcd"						[!$STATIC_LINK]
-$Macro VPCNAME		"vpcs_test"					[$VPC_STATIC_LINK_TEST]
-
 //$Macro NO_HARD_LINKS 1
 
 $Macro SRCDIR					"..\..\.."
-$Macro OUTBINDIR				"$SRCDIR\devtools\bin"		[$WIN32]
-$Macro OUTBINDIR				"$SRCDIR\devtools\bin\linux64"	[$LINUX64]
-$Macro OUTBINDIR				"$SRCDIR\devtools\bin\osx"	[$OSX32]
-$Macro RPATH_TO_STANDARD_BINS	"$ORIGIN/../../../../game/bin$PLATSUBDIR"
-$Macro LIBSUBDIR				"$PLATFORM"					[$STATIC_LINK && $WINDOWS]
-$Macro OUTBINNAME				"$VPCNAME"
+$Macro OUTBINDIR				"$SRCDIR\devtools\bin$PLATSUBDIR"
 
-// isolate any build outputs from the normal DLL version
-$Macro _STATICSUBDIR	"Static"					[$STATIC_LINK]
-$Macro _STATICSUBDIR	"StaticTest"				[$VPC_STATIC_LINK_TEST]
+$Macro OUTBINNAME				"vpc"
 
 $Conditional DISABLE_TCMALLOC 1					[$LINUXALL]
 // $Conditional LINK_P4API "true"					[$STATIC_LINK && $WINDOWS]
 $Conditional REQUIRES_ITERATOR_DEBUGGING "true" [$LINK_P4API] //or else we get linker errors against the p4api libs
 $Conditional DISABLE_MULTIPROCESSOR_COMPILATION "true"
 
-$Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"		[!$STATIC_LINK]
-$Include "$SRCDIR\vpc_scripts\source_exe_con_base.vpc"	[$STATIC_LINK]
+$Include "$SRCDIR\vpc_scripts\source_exe_con_base.vpc"
 
 $Configuration
-{
-	$General
-	{
-		$AdditionalProjectDependencies		"$BASE;binlaunch;p4lib;filesystem_stdio"	[!$STATIC_LINK]
-	}
-	
+{	
 	$Compiler
 	{
 		$AdditionalIncludeDirectories		"$BASE;..\..\..\thirdparty\clang\include"
@@ -56,29 +39,20 @@ $Configuration
 		$SystemLibraries				"$BASE;rt"						[$LINUXALL]
 	}
 
-	// Note that CS:GO vpc is an exe. The rule below does not fire
-	$PostBuildEvent [$WINDOWS && !$STATIC_LINK && !$ANALYZE]
-	{
-		// Copy binlaunch.exe to our exe.  Don't try to hardlink.
-		// And don't try to sign it.  That makes up-to-date check complicated.
-		$CommandLine		"$BASE" "\n" \
-							"$CALLCOPYBUILDOUTPUTSCRIPT --no-ensure-source-writable --copy $SRCDIR\devtools\bin$PLATSUBDIR\binlaunch.exe $OUTBINDIR\$(TargetName).exe" "\n"
-	}
-
-	$PostBuildEvent [$WINDOWS && $STATIC_LINK && !$ANALYZE]
+	$PostBuildEvent [$WINDOWS && !$ANALYZE]
 	{
 		// Copy dlls over from the game bin directory, to insulate vpc from changes in those dlls
 		// tier0, vstdlib, p4lib, filesystem_stdio
 
 		$CommandLine		"$BASE" "\n" \
-							"copy $SRCDIR\..\game\bin\vstdlib.dll $SRCDIR\devtools\bin" "\n" \
-							"copy $SRCDIR\..\game\bin\tier0.dll $SRCDIR\devtools\bin" "\n" \
-							"copy $SRCDIR\..\game\bin\filesystem_stdio.dll $SRCDIR\devtools\bin" "\n" \
-							"copy $SRCDIR\..\game\bin\p4lib.dll $SRCDIR\devtools\bin" "\n"
+							"copy $SRCDIR\..\game\bin$PLATSUBDIR\vstdlib.dll $SRCDIR\devtools\bin$PLATSUBDIR" "\n" \
+							"copy $SRCDIR\..\game\bin$PLATSUBDIR\tier0.dll   $SRCDIR\devtools\bin$PLATSUBDIR" "\n" \
+							"copy $SRCDIR\..\game\bin$PLATSUBDIR\filesystem_stdio.dll $SRCDIR\devtools\bin$PLATSUBDIR" "\n" \
+							"copy $SRCDIR\..\game\bin$PLATSUBDIR\p4lib.dll   $SRCDIR\devtools\bin$PLATSUBDIR" "\n"
 	}
 }
 
-$Project "$VPCNAME"
+$Project "vpc"
 {
 	$Folder	"Source Files"
 	{
