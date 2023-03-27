@@ -17,7 +17,7 @@ typedef hk_uint32	hk_timestamp;
 typedef hk_int32 hk_int; //@@@put in by sascha
 typedef hk_int16 hk_short; //@@@put in by sascha
 
-#define HK_DELETE(a)  { if (a) { delete(a); (a)=HK_NULL; } } //@@@put in by sascha
+#define HK_DELETE(a)  { if (a) { delete(a); (a)=nullptr; } } //@@@put in by sascha
 
 // make sure this is big enough to hold a pointer for every platform
 typedef hk_int32 hk_Entity_Core_ID;

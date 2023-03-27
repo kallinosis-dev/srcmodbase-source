@@ -122,7 +122,7 @@ hk_Ragdoll_Constraint::hk_Ragdoll_Constraint(
 		hk_Rigid_Body* b )
 	: hk_Constraint( env, a, b, HK_PRIORITY_LOCAL_CONSTRAINT)
 {	
-	init_ragdoll_constraint(bp, HK_NULL);
+	init_ragdoll_constraint(bp, nullptr);
 }
 
 

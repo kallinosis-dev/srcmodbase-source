@@ -74,9 +74,6 @@ typedef unsigned int 	hk_size_t;
 	typedef unsigned __int64	hk_uint64;
 #endif
 
-
-#define HK_NULL 0
-
 //: Note that M must be a power of two for this to work.
 #define HK_NEXT_MULTIPLE_OF(M, P)  ( ((P) + ((M)-1)) & (~((M)-1)) )
 
@@ -90,10 +87,6 @@ enum hk_result
 	HK_FAULT
 };
 
-typedef bool hk_bool;
-#define HK_FALSE false
-#define HK_TRUE  true
-
 typedef hk_real		hk_time;
 typedef hk_uint16	hk_sorted_set_store_index;
 
@@ -102,10 +95,10 @@ typedef hk_int32	hk_array_index;
 typedef hk_uint16	hk_array_store_index;
 typedef hk_uint32	hk_id;
 
-#ifdef HK_HAVE_FORCE_INLINE
-#	define inline __forceinline
-#endif
-#define HK_TEMPLATE_INLINE inline
+//#ifdef HK_HAVE_FORCE_INLINE
+//#	define inline __forceinline
+//#endif
+//#define HK_TEMPLATE_INLINE inline
 
 #if defined(__i386__) || defined(WIN32)
 #	define HK_HAVE_QUERY_PERFORMANCE_TIMER

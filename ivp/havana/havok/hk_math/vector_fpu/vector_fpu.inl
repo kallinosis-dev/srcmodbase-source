@@ -1,6 +1,6 @@
 
-inline void hk_VecFPU::fpu_add_multiple_row(hk_real *target_adress,hk_real *source_adress,hk_real factor,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_add_multiple_row(hk_real *target_adress,hk_real *source_adress,hk_real factor,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
 	//we have to calculate the block size and shift adresses to lower aligned adresses
 	long result_adress = long(source_adress) & hk_VecFPU_MEM_MASK_FLOAT;
 	target_adress = (hk_real *)( long (target_adress) & hk_VecFPU_MEM_MASK_FLOAT);
@@ -79,8 +79,8 @@ inline void hk_VecFPU::fpu_add_multiple_row(hk_real *target_adress,hk_real *sour
 #endif
 }
 
-inline hk_real hk_VecFPU::fpu_large_dot_product(hk_real *base_a, hk_real *base_b, int size, hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline hk_real hk_VecFPU::fpu_large_dot_product(hk_real *base_a, hk_real *base_b, int size, bool adress_aligned) {
+    if(adress_aligned==false) {
 	    //we have to calculate the block size and shift adresses to lower aligned adresses
 	    long result_adress = long(base_a) & hk_VecFPU_MEM_MASK_FLOAT;
 	    base_b = (hk_real *)( long (base_b) & hk_VecFPU_MEM_MASK_FLOAT);
@@ -135,8 +135,8 @@ inline hk_real hk_VecFPU::fpu_large_dot_product(hk_real *base_a, hk_real *base_b
 #endif
 }
 
-inline void hk_VecFPU::fpu_multiply_row(hk_real *target_adress,hk_real factor,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_multiply_row(hk_real *target_adress,hk_real factor,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
 	//we have to calculate the block size and shift adresses to lower aligned adresses
 	long adress,result_adress;
 	adress=(long)target_adress;
@@ -181,8 +181,8 @@ inline void hk_VecFPU::fpu_multiply_row(hk_real *target_adress,hk_real factor,in
 	}
 }
 // #+# sparc says rui, optimize for non vector units ( hk_VecFPU_SIZE_FLOAT = 4 )
-inline void hk_VecFPU::fpu_exchange_rows(hk_real *target_adress1,hk_real *target_adress2,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_exchange_rows(hk_real *target_adress1,hk_real *target_adress2,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
 	//we have to calculate the block size and shift adresses to lower aligned adresses
 	long adress,result_adress;
 	adress=(long)target_adress1;
@@ -227,8 +227,8 @@ inline void hk_VecFPU::fpu_exchange_rows(hk_real *target_adress1,hk_real *target
 	
 }
 
-inline void hk_VecFPU::fpu_copy_rows(hk_real *target_adress,hk_real *source_adress,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_copy_rows(hk_real *target_adress,hk_real *source_adress,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
 	//we have to calculate the block size and shift adresses to lower aligned adresses
 	long adress,result_adress;
 	adress=(long)source_adress;
@@ -262,8 +262,8 @@ inline void hk_VecFPU::fpu_copy_rows(hk_real *target_adress,hk_real *source_adre
 	}
 }
 
-inline void hk_VecFPU::fpu_set_row_to_zero(hk_real *target_adress,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_set_row_to_zero(hk_real *target_adress,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
         long adress,result_adress;
 	adress=(long)target_adress;
 	result_adress=adress & hk_VecFPU_MEM_MASK_FLOAT;
@@ -299,8 +299,8 @@ inline int hk_VecFPU::calc_aligned_row_len(int unaligned_len,hk_real *dummy_type
 
 
 
-inline void hk_VecFPU::fpu_add_multiple_row(hk_double *target_adress,hk_double *source_adress,hk_double factor,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_add_multiple_row(hk_double *target_adress,hk_double *source_adress,hk_double factor,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
 	//we have to calculate the block size and shift adresses to lower aligned adresses
 	long result_adress = long(source_adress) & hk_VecFPU_MEM_MASK_DOUBLE;
 	target_adress = (hk_double *)( long (target_adress) & hk_VecFPU_MEM_MASK_DOUBLE);
@@ -378,8 +378,8 @@ inline void hk_VecFPU::fpu_add_multiple_row(hk_double *target_adress,hk_double *
 #endif
 }
 
-inline hk_double hk_VecFPU::fpu_large_dot_product(hk_double *base_a, hk_double *base_b, int size, hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline hk_double hk_VecFPU::fpu_large_dot_product(hk_double *base_a, hk_double *base_b, int size, bool adress_aligned) {
+    if(adress_aligned==false) {
 	    //we have to calculate the block size and shift adresses to lower aligned adresses
 	    long result_adress = long(base_a) & hk_VecFPU_MEM_MASK_DOUBLE;
 	    base_b = (hk_double *)( long (base_b) & hk_VecFPU_MEM_MASK_DOUBLE);
@@ -434,8 +434,8 @@ inline hk_double hk_VecFPU::fpu_large_dot_product(hk_double *base_a, hk_double *
 #endif
 }
 
-inline void hk_VecFPU::fpu_multiply_row(hk_double *target_adress,hk_double factor,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_multiply_row(hk_double *target_adress,hk_double factor,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
 	//we have to calculate the block size and shift adresses to lower aligned adresses
 	long adress,result_adress;
 	adress=(long)target_adress;
@@ -480,8 +480,8 @@ inline void hk_VecFPU::fpu_multiply_row(hk_double *target_adress,hk_double facto
 	}
 }
 // #+# sparc says rui, optimize for non vector units ( hk_VecFPU_SIZE_DOUBLE = 4 )
-inline void hk_VecFPU::fpu_exchange_rows(hk_double *target_adress1,hk_double *target_adress2,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_exchange_rows(hk_double *target_adress1,hk_double *target_adress2,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
 	//we have to calculate the block size and shift adresses to lower aligned adresses
 	long adress,result_adress;
 	adress=(long)target_adress1;
@@ -526,8 +526,8 @@ inline void hk_VecFPU::fpu_exchange_rows(hk_double *target_adress1,hk_double *ta
 	}
 }
 
-inline void hk_VecFPU::fpu_copy_rows(hk_double *target_adress,hk_double *source_adress,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_copy_rows(hk_double *target_adress,hk_double *source_adress,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
 	//we have to calculate the block size and shift adresses to lower aligned adresses
 	long adress,result_adress;
 	adress=(long)source_adress;
@@ -562,8 +562,8 @@ inline void hk_VecFPU::fpu_copy_rows(hk_double *target_adress,hk_double *source_
 #endif
 }
 
-inline void hk_VecFPU::fpu_set_row_to_zero(hk_double *target_adress,int size,hk_bool adress_aligned) {
-    if(adress_aligned==HK_FALSE) {
+inline void hk_VecFPU::fpu_set_row_to_zero(hk_double *target_adress,int size,bool adress_aligned) {
+    if(adress_aligned==false) {
         long adress,result_adress;
 	adress=(long)target_adress;
 	result_adress=adress & hk_VecFPU_MEM_MASK_DOUBLE;

@@ -15,7 +15,7 @@
 #	endif
 #endif
 
-hk_Console *hk_Console::m_console = HK_NULL;
+hk_Console *hk_Console::m_console = nullptr;
 hk_Console hk_Console::m_default_console_buffer;
 
 hk_Console *hk_Console::get_instance()

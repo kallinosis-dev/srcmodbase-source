@@ -11,8 +11,8 @@ class hk_Constraint_Limit_BP
 
 		hk_Constraint_Limit_BP()
 		{
-			m_limit_is_enabled = HK_FALSE;
-			m_friction_is_enabled = HK_FALSE;
+			m_limit_is_enabled = false;
+			m_friction_is_enabled = false;
 			m_limit_min = 0.0f;
 			m_limit_max = 0.0f;
 			m_limit_tau = 1.0f;
@@ -20,29 +20,29 @@ class hk_Constraint_Limit_BP
 
 		void set_limits(hk_real lower, hk_real upper)
 		{
-			m_limit_is_enabled = HK_TRUE;
+			m_limit_is_enabled = true;
 			m_limit_min = lower;
 			m_limit_max = upper;
 		}
 
 		void set_friction( hk_real friction)
 		{
-			m_friction_is_enabled = (friction!=0.0f)?HK_TRUE: HK_FALSE;
+			m_friction_is_enabled = (friction!=0.0f)?true: false;
 			m_joint_friction = friction;
 			m_desired_velocity = 0.0f;
 		}
 
 		void set_motor( hk_real desired_vel, hk_real max_force)
 		{
-			m_friction_is_enabled = (max_force!=0.0f)?HK_TRUE: HK_FALSE;
+			m_friction_is_enabled = (max_force!=0.0f)?true: false;
 			m_joint_friction = max_force;
 			m_desired_velocity = desired_vel;
 		}
 
 	public:
 
-		hk_bool m_limit_is_enabled;
-		hk_bool	m_friction_is_enabled;
+		bool m_limit_is_enabled;
+		bool	m_friction_is_enabled;
 
 		hk_real m_limit_min;
 		hk_real m_limit_max;
@@ -84,7 +84,7 @@ class hk_Constraint_Limit: public hk_Constraint_Limit_BP
 			m_joint_friction = bp.m_joint_friction * eps;		
 			m_desired_velocity = bp.m_desired_velocity * eps;		
 			if ( m_limit_max - m_limit_min > HK_PI * 2.0f){
-				m_limit_is_enabled = HK_FALSE;
+				m_limit_is_enabled = false;
 			}
 		}
 

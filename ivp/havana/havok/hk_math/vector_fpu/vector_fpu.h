@@ -43,21 +43,21 @@
 // extra work has to be done
 class hk_VecFPU {
 public:
-    static inline void fpu_add_multiple_row(hk_real *target_adress,hk_real *source_adress,hk_real factor,int size,hk_bool adress_aligned);
-    static inline void fpu_multiply_row(hk_real *target_adress,hk_real factor,int size,hk_bool adress_aligned);
-    static inline void fpu_exchange_rows(hk_real *target_adress1,hk_real *target_adress2,int size,hk_bool adress_aligned);
-    static inline void fpu_copy_rows(hk_real *target_adress,hk_real *source_adress,int size,hk_bool adress_aligned);
-    static inline void fpu_set_row_to_zero(hk_real *target_adress,int size,hk_bool adress_aligned);
-    static inline hk_real fpu_large_dot_product(hk_real *base_a,hk_real *x,int size,hk_bool adress_aligned);
+    static inline void fpu_add_multiple_row(hk_real *target_adress,hk_real *source_adress,hk_real factor,int size,bool adress_aligned);
+    static inline void fpu_multiply_row(hk_real *target_adress,hk_real factor,int size,bool adress_aligned);
+    static inline void fpu_exchange_rows(hk_real *target_adress1,hk_real *target_adress2,int size,bool adress_aligned);
+    static inline void fpu_copy_rows(hk_real *target_adress,hk_real *source_adress,int size,bool adress_aligned);
+    static inline void fpu_set_row_to_zero(hk_real *target_adress,int size,bool adress_aligned);
+    static inline hk_real fpu_large_dot_product(hk_real *base_a,hk_real *x,int size,bool adress_aligned);
     static inline int calc_aligned_row_len(int unaligned_len,hk_real *dummy_type);
 
 
-    static inline void fpu_add_multiple_row(hk_double *target_adress,hk_double *source_adress,hk_double factor,int size,hk_bool adress_aligned);
-    static inline void fpu_multiply_row(hk_double *target_adress,hk_double factor,int size,hk_bool adress_aligned);
-    static inline void fpu_exchange_rows(hk_double *target_adress1,hk_double *target_adress2,int size,hk_bool adress_aligned);
-    static inline void fpu_copy_rows(hk_double *target_adress,hk_double *source_adress,int size,hk_bool adress_aligned);
-    static inline void fpu_set_row_to_zero(hk_double *target_adress,int size,hk_bool adress_aligned);
-    static inline hk_double fpu_large_dot_product(hk_double *base_a,hk_double *x,int size,hk_bool adress_aligned);
+    static inline void fpu_add_multiple_row(hk_double *target_adress,hk_double *source_adress,hk_double factor,int size,bool adress_aligned);
+    static inline void fpu_multiply_row(hk_double *target_adress,hk_double factor,int size,bool adress_aligned);
+    static inline void fpu_exchange_rows(hk_double *target_adress1,hk_double *target_adress2,int size,bool adress_aligned);
+    static inline void fpu_copy_rows(hk_double *target_adress,hk_double *source_adress,int size,bool adress_aligned);
+    static inline void fpu_set_row_to_zero(hk_double *target_adress,int size,bool adress_aligned);
+    static inline hk_double fpu_large_dot_product(hk_double *base_a,hk_double *x,int size,bool adress_aligned);
     static inline int calc_aligned_row_len(int unaligned_len,hk_double *dummy_type);
 };
 

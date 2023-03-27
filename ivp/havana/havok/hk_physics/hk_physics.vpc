@@ -9,9 +9,9 @@ $Configuration
 		//$PreprocessorDefinitions		"$BASE;IVP_VERSION_SDK;HAVANA_CONSTRAINTS"
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\ivp\havana\havok;$SRCDIR\ivp\ivp_physics" \
                                         ";$SRCDIR\ivp\ivp_collision;$SRCDIR\ivp\ivp_controller;$SRCDIR\ivp\ivp_intern" \
-                                        ";$SRCDIR\ivp\ivp_surface_manager"
-		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
-		$Create/UsePCHThroughFile		"vecmath.h"
+                                        ";$SRCDIR\ivp\ivp_surface_manager;$SRCDIR\ivp\ivp_utility"
+		//$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+		//$Create/UsePCHThroughFile		"vecmath.h"
 	}
 }
 

@@ -42,4 +42,14 @@ $Project "hk_base"
 	$File ".\console.cpp"
 	$File ".\console.h"
 
+	$File "pch.cpp"
+	{
+		$Configuration
+		{
+			$Compiler
+			{
+				$Create/UsePrecompiledHeader	"Create Precompiled Header (/Yc)"
+			}
+		}
+	}
 }

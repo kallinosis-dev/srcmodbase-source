@@ -16,7 +16,7 @@ hk_result hk_Incr_LU_Matrix::normize_row_L(int row_nr) {
     }
     hk_incrlu_real inv_val=1.0f/val;
     
-    hk_VecFPU::fpu_multiply_row(&base[0],inv_val,m_n_sub,HK_FALSE); //should be TRUE
+    hk_VecFPU::fpu_multiply_row(&base[0],inv_val,m_n_sub,false); //should be TRUE
     
     base[row_nr]=1.0f;
     return HK_OK;
@@ -29,8 +29,8 @@ hk_result hk_Incr_LU_Matrix::normize_row(int row_nr) {
 	return HK_FAULT;
     }
     hk_incrlu_real inv_val = 1.0f / val;
-    hk_VecFPU::fpu_multiply_row(&m_L_matrix[row_base],inv_val,m_n_sub,HK_FALSE);
-    hk_VecFPU::fpu_multiply_row(&m_U_matrix[row_base+row_nr+1],inv_val,m_n_sub-row_nr-1,HK_FALSE);
+    hk_VecFPU::fpu_multiply_row(&m_L_matrix[row_base],inv_val,m_n_sub,false);
+    hk_VecFPU::fpu_multiply_row(&m_U_matrix[row_base+row_nr+1],inv_val,m_n_sub-row_nr-1,false);
     
     m_U_matrix[row_base + row_nr] = 1.0f;
     return HK_OK;
@@ -54,8 +54,8 @@ void hk_Incr_LU_Matrix::exchange_rows_l_u(int pivot_col,int exchange) {
 	m_L_matrix[base_b + i]=temp;	
     }
 #else
-    hk_VecFPU::fpu_exchange_rows(&m_U_matrix[base_a+pivot_col],&m_U_matrix[base_b+pivot_col],m_n_sub-pivot_col,HK_FALSE);
-    hk_VecFPU::fpu_exchange_rows(&m_L_matrix[base_a],&m_L_matrix[base_b],m_n_sub,HK_FALSE);
+    hk_VecFPU::fpu_exchange_rows(&m_U_matrix[base_a+pivot_col],&m_U_matrix[base_b+pivot_col],m_n_sub-pivot_col,false);
+    hk_VecFPU::fpu_exchange_rows(&m_L_matrix[base_a],&m_L_matrix[base_b],m_n_sub,false);
 #endif    
 }
 
@@ -87,7 +87,7 @@ void hk_Incr_LU_Matrix::add_neg_row_upwards_l_u(int row_down,int dest_row,hk_inc
 	base_b[i] -= factor * base_a[i];
     }
 #else
-    hk_VecFPU::fpu_add_multiple_row(&base_b[row_down+1],&base_a[row_down+1],-factor,m_n_sub-row_down-1,HK_FALSE);
+    hk_VecFPU::fpu_add_multiple_row(&base_b[row_down+1],&base_a[row_down+1],-factor,m_n_sub-row_down-1,false);
 #endif    
     
     
@@ -98,7 +98,7 @@ void hk_Incr_LU_Matrix::add_neg_row_upwards_l_u(int row_down,int dest_row,hk_inc
 	base_b[i] -=factor * base_a[i];
     }
 #else
-    hk_VecFPU::fpu_add_multiple_row(&base_b[0],&base_a[0],-factor,m_n_sub,HK_TRUE); //should be TRUE
+    hk_VecFPU::fpu_add_multiple_row(&base_b[0],&base_a[0],-factor,m_n_sub,true); //should be TRUE
 #endif    
     base_b[row_down] = 0.0f;
 }
@@ -117,8 +117,8 @@ void hk_Incr_LU_Matrix::add_neg_row_to_row_l_u(int pivot_row,int dest_row,hk_inc
 	m_L_matrix[ base_b + i ] -= factor*m_L_matrix[ base_a + i]; 
     }
 #else
-    hk_VecFPU::fpu_add_multiple_row(&m_U_matrix[ base_b + pivot_row +1], &m_U_matrix[ base_a + pivot_row +1], -factor, m_n_sub-pivot_row-1,HK_FALSE);
-    hk_VecFPU::fpu_add_multiple_row(&m_L_matrix[ base_b ], &m_L_matrix[ base_a ], -factor, m_n_sub, HK_FALSE); //set to TRUE
+    hk_VecFPU::fpu_add_multiple_row(&m_U_matrix[ base_b + pivot_row +1], &m_U_matrix[ base_a + pivot_row +1], -factor, m_n_sub-pivot_row-1,false);
+    hk_VecFPU::fpu_add_multiple_row(&m_L_matrix[ base_b ], &m_L_matrix[ base_a ], -factor, m_n_sub, false); //set to TRUE
 #endif
     m_U_matrix[base_b + pivot_row] = 0.0f; 
 }
@@ -132,7 +132,7 @@ void hk_Incr_LU_Matrix::subtract_row_L(int from,int dest,hk_incrlu_real factor) 
 	base_b[i] -= base_a[i]*factor;
     }
 #else
-    hk_VecFPU::fpu_add_multiple_row(&base_b[0],&base_a[0],-factor,m_n_sub,HK_FALSE); //should be TRUE
+    hk_VecFPU::fpu_add_multiple_row(&base_b[0],&base_a[0],-factor,m_n_sub,false); //should be TRUE
 #endif
     
     base_b[from]=0.0f;
@@ -146,7 +146,7 @@ hk_result hk_Incr_LU_Matrix::l_u_decomposition_with_pivoting() {
     int i;
     for(i=m_n_sub-1;i>=0;i--) {
 	hk_incrlu_real *base=&m_L_matrix[ i*m_aligned_row_len ];
-	hk_VecFPU::fpu_set_row_to_zero(&base[0],m_n_sub,HK_FALSE); //should be TRUE
+	hk_VecFPU::fpu_set_row_to_zero(&base[0],m_n_sub,false); //should be TRUE
 	base[i]=1.0f;
     }
     
@@ -197,7 +197,7 @@ hk_result hk_Incr_LU_Matrix::increment_l_u() {
     for(i=m_n_sub-1;i>=0;i--) {
 	    m_L_matrix[ i * m_aligned_row_len + m_n_sub ] = 0.0f;
     }
-	hk_VecFPU::fpu_set_row_to_zero(&m_L_matrix[m_n_sub*m_aligned_row_len],m_n_sub,HK_FALSE); //should be TRUE
+	hk_VecFPU::fpu_set_row_to_zero(&m_L_matrix[m_n_sub*m_aligned_row_len],m_n_sub,false); //should be TRUE
     
     m_L_matrix[ m_n_sub * m_aligned_row_len + m_n_sub ] = 1.0f;
 
@@ -307,7 +307,7 @@ void hk_Incr_LU_Matrix::exchange_columns_U(int col0,int col1) {
 void hk_Incr_LU_Matrix::mult_vec_with_L() {
     int i;
     for(i=m_n_sub-1;i>=0;i--) {
-	hk_incrlu_real sum=hk_VecFPU::fpu_large_dot_product(&m_L_matrix[i*m_aligned_row_len],&m_inout_vec[0],m_n_sub,HK_TRUE);
+	hk_incrlu_real sum=hk_VecFPU::fpu_large_dot_product(&m_L_matrix[i*m_aligned_row_len],&m_inout_vec[0],m_n_sub,true);
 	m_temp_vec[i]=sum;
     }
 }
@@ -327,7 +327,7 @@ void hk_Incr_LU_Matrix::solve_vec_with_U() {
 		//               put one zero in front -> zero mult something is zero
 		hk_incrlu_real remember=m_U_matrix[i*m_aligned_row_len+i];
 		m_U_matrix[i*m_aligned_row_len+i]=0.0f;
-		hk_incrlu_real leftsum = hk_VecFPU::fpu_large_dot_product(&m_U_matrix[i*m_aligned_row_len+i+1],&m_temp_vec[i+1],m_n_sub-i-1,HK_FALSE);
+		hk_incrlu_real leftsum = hk_VecFPU::fpu_large_dot_product(&m_U_matrix[i*m_aligned_row_len+i+1],&m_temp_vec[i+1],m_n_sub-i-1,false);
 		m_U_matrix[i*m_aligned_row_len+i]=remember;
 		if( hkMath::fabs(leftsum-oldleftsum) > 0.0001f ) {
 			leftsum=oldleftsum;
@@ -354,7 +354,7 @@ void hk_Incr_LU_Matrix::add_neg_row_L(int source_row,int dest_row,hk_incrlu_real
 	m_L_matrix[ base_b + i ] -= factor*m_L_matrix[ base_a + i]; 
     }
 #else
-    hk_VecFPU::fpu_add_multiple_row(&m_L_matrix[base_b],&m_L_matrix[base_a],-factor,m_n_sub,HK_FALSE); //should be TRUE
+    hk_VecFPU::fpu_add_multiple_row(&m_L_matrix[base_b],&m_L_matrix[base_a],-factor,m_n_sub,false); //should be TRUE
 #endif    
 }
 

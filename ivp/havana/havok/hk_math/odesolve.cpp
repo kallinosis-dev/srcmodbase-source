@@ -28,8 +28,8 @@ OdeSolver::OdeSolver()
 {
   state_size = 0;
 
-  dy = HK_NULL;
-  Iy = HK_NULL;
+  dy = nullptr;
+  Iy = nullptr;
 }
 
 
@@ -63,10 +63,10 @@ void OdeSolver::ode_realloc(int new_size)
 
 OdeRungaKutta4::OdeRungaKutta4()
 {
-  k1 = HK_NULL;
-  k2 = HK_NULL;
-  k3 = HK_NULL;
-  k4 = HK_NULL;
+  k1 = nullptr;
+  k2 = nullptr;
+  k3 = nullptr;
+  k4 = nullptr;
 
   ode_realloc(ODE_INITIAL_STATE_SIZE);
 }

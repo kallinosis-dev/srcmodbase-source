@@ -4,21 +4,21 @@
 
 //: hash class, requires KV (== KEY VALUE pair) class to implement:
 //: hk_uint32 KV::get_hash_index(): should return a number between and 1 and 0xffffffff
-//: hk_bool KV::equals( KV & ) should return true if two KV are equal else HK_FALSE
+//: bool KV::equals( KV & ) should return true if two KV are equal else false
 template<class KV>
 class hk_Hash
 {
 	public:
 
-		HK_TEMPLATE_INLINE hk_Hash(int size, hk_Memory *mem = hk_Memory::get_instance());
+		inline hk_Hash(int size, hk_Memory *mem = hk_Memory::get_instance());
 			//: assert(size = 2,4,8,16,32 ... 2**x)
 		inline ~hk_Hash();
 
-		HK_TEMPLATE_INLINE void add_element( KV &key_value );
+		inline void add_element( KV &key_value );
 
 		//inline void remove_element( KEY &key );
 
-		HK_TEMPLATE_INLINE KV* search_element( KV &in);
+		inline KV* search_element( KV &in);
 			//: search element
 
 

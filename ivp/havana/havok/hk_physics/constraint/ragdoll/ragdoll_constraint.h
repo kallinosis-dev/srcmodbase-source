@@ -28,7 +28,7 @@ class hk_Ragdoll_Constraint : public hk_Constraint
 		virtual void init_constraint(const void *);
 		//: update all parameters of the ragdoll constraint,
 
-		void init_ragdoll_constraint(const hk_Ragdoll_Constraint_BP *, hk_Local_Constraint_System *sys = HK_NULL);
+		void init_ragdoll_constraint(const hk_Ragdoll_Constraint_BP *, hk_Local_Constraint_System *sys = nullptr);
 		//: update all parameters of the ragdoll constraint,
 
 		void write_to_blueprint( hk_Ragdoll_Constraint_BP * );

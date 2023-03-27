@@ -75,6 +75,16 @@ $Project "hk_math"
 	$File ".\transform.inl"
 	$File ".\types.h"
 	$File ".\vecmath.h"
+	$File "vecmath.cpp"
+	{
+		$Configuration
+		{
+			$Compiler
+			{
+				$Create/UsePrecompiledHeader	"Create Precompiled Header (/Yc)"
+			}
+		}
+	}
 	$File ".\vector4.h"
 	$File ".\vector4.inl"
 

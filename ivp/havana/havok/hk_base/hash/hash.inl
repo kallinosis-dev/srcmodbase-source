@@ -85,7 +85,7 @@ KV* hk_Hash<KV>::search_element( KV &kv )
 		}
 		return &e->m_kv;
     }
-	return HK_NULL;
+	return nullptr;
 }
 
 template<class KV>

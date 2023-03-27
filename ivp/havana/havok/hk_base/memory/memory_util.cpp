@@ -6,7 +6,7 @@ void hk_Memory_Util::print_statistics( hk_Memory *mem, hk_Console *out )
 {
 	const char *enum_to_string[HK_MEMORY_CLASS_MAX];
 	{
-		for (int i = 0; i< HK_MEMORY_CLASS_MAX; i++)	{		enum_to_string[i] = HK_NULL;		}
+		for (int i = 0; i< HK_MEMORY_CLASS_MAX; i++)	{		enum_to_string[i] = nullptr;		}
 #define H(a) enum_to_string[a] = #a
 		H(HK_MEMORY_CLASS_UNKNOWN);
 		H(HK_MEMORY_CLASS_DUMMY);

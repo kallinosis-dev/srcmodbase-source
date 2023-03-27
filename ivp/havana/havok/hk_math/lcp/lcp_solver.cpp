@@ -111,25 +111,25 @@ void hk_LCP_Solver::mult_x_with_full_A_minus_b() {
 #if 0
     for(int i=0;i<n_variables;i++) {
 	    IVP_DOUBLE *base_a=&full_A[i*aligned_size];
-	    IVP_DOUBLE sum=IVP_VecFPU::fpu_large_dot_product(base_a,full_x,n_variables,HK_TRUE);
+	    IVP_DOUBLE sum=IVP_VecFPU::fpu_large_dot_product(base_a,full_x,n_variables,true);
 	    temp[i] = sum-full_b[i];
     }
 #endif
     input_struct->m_A->mult_vector(full_x,temp);
-    hk_VecFPU::fpu_add_multiple_row(temp,full_b,-1.0f,n_variables,HK_TRUE);
+    hk_VecFPU::fpu_add_multiple_row(temp,full_b,-1.0f,n_variables,true);
 }
 
 //quite costly, because we have to multiply with the full matrix
 // we check wether the active variables match with the right side full_b
 //    and we check wether the inactives are greater equal the right side full_b
-hk_bool hk_LCP_Solver::numerical_stability_ok() {
+bool hk_LCP_Solver::numerical_stability_ok() {
     mult_x_with_full_A_minus_b();
     int k;
     hk_real val;
     for(k=0;k<r_actives;k++) {
 	val=hk_Math::fabs(temp[actives_inactives_ignored[k]]);
 	if( val > HK_LCP_TEST_EPS ) {
-	    return HK_FALSE;
+	    return false;
 	}
     }
     for(k=r_actives; k<n_variables; k++) {
@@ -138,10 +138,10 @@ hk_bool hk_LCP_Solver::numerical_stability_ok() {
 	    HK_LCP_IF(debug_lcs) {
 		hk_Console::get_instance()->printf("numerical_unstable %d %.10f should be %.10f\n",ignored_pos,temp[actives_inactives_ignored[k]],accel[actives_inactives_ignored[k]]);
 	    }
-	    return HK_FALSE;
+	    return false;
 	}
     }
-    return HK_TRUE;
+    return true;
 }
 
 hk_result hk_LCP_Solver::solve_lcp(hk_LCP_Input &in,hk_LCP_Temp &tmp,hk_LCP_Output &out) {
@@ -210,10 +210,10 @@ hk_result hk_LCP_Solver::solve_lcp(hk_LCP_Input &in,hk_LCP_Temp &tmp,hk_LCP_Outp
     hk_result ret_val = solve_lc();
 
     for(i=r_actives-1;i>=0;i--) {
-	out.m_active[actives_inactives_ignored[i]]=HK_TRUE;
+	out.m_active[actives_inactives_ignored[i]]=true;
     }
     for(i=r_actives;i<n_variables;i++) {
-	out.m_active[this->actives_inactives_ignored[i]]=HK_FALSE;
+	out.m_active[this->actives_inactives_ignored[i]]=false;
     }
 
     //only for debug
@@ -371,7 +371,7 @@ hk_result hk_LCP_Solver::solve_lc()
 		
 		if( next_numeric_stability_test == 0 )
 		{
-			if( (numerical_stability_ok() == HK_FALSE) )
+			if( (numerical_stability_ok() == false) )
 			{
 perform_full_setup:
 				increase_step_count(&step_count);

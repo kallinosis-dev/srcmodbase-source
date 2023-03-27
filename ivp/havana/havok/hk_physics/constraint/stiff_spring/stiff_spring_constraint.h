@@ -32,7 +32,7 @@ class hk_Stiff_Spring_Constraint : public hk_Constraint
 		hk_real m_tau;       // 4
 		hk_real m_strength;  // 4
 		hk_real m_stiff_spring_length;       // 4
-		hk_bool m_is_rigid;
+		bool m_is_rigid;
 
 	private:
 

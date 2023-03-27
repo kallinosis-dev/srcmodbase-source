@@ -21,7 +21,7 @@ class hk_Stiff_Spring_BP  //: public hk_Constraint_BP
 		hk_real     m_tau;
 		hk_real		m_strength;
 		hk_Vector3	m_translation_os_ks[2];
-		hk_bool		m_is_rigid;
+		bool		m_is_rigid;
 
 	protected:
 

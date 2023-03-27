@@ -43,7 +43,7 @@ class hk_Prismatic_Work
 void hk_Prismatic_Constraint::init_constraint(const void* vbp)
 {
 	const hk_Prismatic_BP *bp = static_cast<const hk_Prismatic_BP *>(vbp);
-	this->init_prismatic_constraint(bp, HK_NULL);
+	this->init_prismatic_constraint(bp, nullptr);
 }
 
 void hk_Prismatic_Constraint::init_prismatic_constraint(const hk_Prismatic_BP* bp, hk_Local_Constraint_System *sys)
@@ -102,7 +102,7 @@ hk_Prismatic_Constraint::hk_Prismatic_Constraint(
 		hk_Rigid_Body* b )
 	: hk_Constraint( env, a, b, HK_PRIORITY_LOCAL_CONSTRAINT)
 {
-	init_prismatic_constraint( bp, HK_NULL );
+	init_prismatic_constraint( bp, nullptr );
 }
 
 

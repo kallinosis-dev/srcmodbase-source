@@ -12,7 +12,7 @@ hk_Array<T>::hk_Array( int initial_size )
 		m_elems = (char *)hk_allocate(T, initial_size, HK_MEMORY_CLASS_ARRAY );
 	}else{
 		m_memsize = 0;
-		m_elems = HK_NULL;
+		m_elems = nullptr;
 	}
 }
 
@@ -151,7 +151,7 @@ void hk_Array<T>::free_elem_array()
 	}
 	m_n_elems = 0;
 	m_memsize = 0;
-	m_elems = HK_NULL;
+	m_elems = nullptr;
 }
 
 
@@ -189,9 +189,9 @@ T& hk_Array<T>::get_element( iterator i )
 }
 
 template <class T>
-hk_bool hk_Array<T>::is_valid( iterator i)
+bool hk_Array<T>::is_valid( iterator i)
 {
-	return hk_bool(i>=0);
+	return bool(i>=0);
 }
 
 template <class T>
@@ -212,7 +212,7 @@ void hk_Array<T>::set( hk_Array<T> &t ) // OS: name to be discussed
 	*this = t;
 	t.m_n_elems = 0;
 	t.m_memsize = 0;
-	t.m_elems = HK_NULL;
+	t.m_elems = nullptr;
 }
 
 

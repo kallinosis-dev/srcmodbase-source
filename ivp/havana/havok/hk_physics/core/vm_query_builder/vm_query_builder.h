@@ -239,7 +239,7 @@ class hk_VM_Query_Builder
 		inline void apply_impulses( hk_Body_Index body_index, hk_Rigid_Body *rb,
 									const hk_real impulses[] )
 		{
-			HK_IF_CHECK (HK_FALSE)
+			HK_IF_CHECK (false)
 			{
 				for (int i = 0; i < m_dense_matrix_offset;i++)
 				{

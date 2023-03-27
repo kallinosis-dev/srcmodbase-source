@@ -91,7 +91,7 @@ public:
 						continue;
 					}
 					
-					//	hk_VecFPU::fpu_add_multiple_row( inverted_row, pr_out, -factor, lda, HK_TRUE);
+					//	hk_VecFPU::fpu_add_multiple_row( inverted_row, pr_out, -factor, lda, true);
 
 					int k = num_rows-1;
 					do {

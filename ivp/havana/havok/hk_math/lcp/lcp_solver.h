@@ -34,7 +34,7 @@ public:
 class hk_LCP_Output {
 public:
 	hk_real			*m_result;
-	hk_bool			*m_active; 
+	bool			*m_active; 
 };
 
 
@@ -91,7 +91,7 @@ class hk_LCP_Solver {
     hk_result full_setup();
     void get_values_when_setup();
     void startup_setup(int num_actives);
-    hk_bool numerical_stability_ok();
+    bool numerical_stability_ok();
     void increase_step_count(int *counter) { (*counter)++; };
     void do_a_little_random_permutation();
     void lcs_bubble_sort_x_vals();

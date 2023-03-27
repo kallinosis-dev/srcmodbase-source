@@ -10,7 +10,7 @@ void hk_Gauss_Elm_Solver::add_multiple_line(int first,int second,hk_gauss_real f
     hk_gauss_real *first_line=&m_A[first * this->m_aligned_row_len + first];
     hk_gauss_real *second_line=&m_A[second * this->m_aligned_row_len + first];
 
-    hk_VecFPU::fpu_add_multiple_row(second_line,first_line,factor,m_n_columns-first,HK_FALSE);
+    hk_VecFPU::fpu_add_multiple_row(second_line,first_line,factor,m_n_columns-first,false);
     m_b[second]+=m_b[first] * factor;
 }
 
@@ -54,7 +54,7 @@ void hk_Gauss_Elm_Solver::exchange_rows(int a,int b)
 	m_A[b*m_aligned_row_len+i]=h;
     }
 #endif
-    hk_VecFPU::fpu_exchange_rows(&m_A[b*m_aligned_row_len],&m_A[a*m_aligned_row_len],m_n_columns,HK_TRUE);
+    hk_VecFPU::fpu_exchange_rows(&m_A[b*m_aligned_row_len],&m_A[a*m_aligned_row_len],m_n_columns,true);
     
     h=m_b[a];
     m_b[a]=m_b[b];

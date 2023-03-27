@@ -38,7 +38,7 @@ class hk_Pulley_Constraint : public hk_Constraint
 		hk_real m_strength;  			// 4
 		hk_real m_length;       		// 4
 		hk_real m_gearing;			// 4
-		hk_bool m_is_rigid;
+		bool m_is_rigid;
 		
 	private:
 

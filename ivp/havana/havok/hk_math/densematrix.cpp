@@ -14,7 +14,7 @@ void hk_Dense_Matrix::mult_vector( hk_real *x_vector, hk_real *result_vector ) c
     for(i=getNumRows()-1;i>=0;i--)
 	{
 		start_column-=m_lda;
-		hk_VecFPU::fpu_add_multiple_row(result_vector,start_column,x_vector[i],getNumCols(),HK_TRUE);
+		hk_VecFPU::fpu_add_multiple_row(result_vector,start_column,x_vector[i],getNumCols(),true);
     }
 }
 

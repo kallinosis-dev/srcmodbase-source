@@ -16,11 +16,11 @@ void hk_Memory::init_memory( char *buffer, int buffer_size )
 	m_memory_start = buffer;
 	m_used_end = buffer;
 	m_memory_end = m_used_end + buffer_size;
-	m_allocated_memory_blocks = HK_NULL;
+	m_allocated_memory_blocks = nullptr;
 
 	for (int i = HK_MEMORY_MAX_ROW-1; i>=0 ; i-- )
 	{
-		m_free_list[i] = HK_NULL;
+		m_free_list[i] = nullptr;
 		m_blocks_in_use[i] = 0;
 	}
 
@@ -47,7 +47,7 @@ hk_Memory::hk_Memory()
 #ifdef HK_MEMORY_POOL_INITIAL_SIZE
 	init_memory( new char[HK_MEMORY_POOL_INITIAL_SIZE], 0 );
 #else
-	init_memory( HK_NULL, 0 );
+	init_memory( nullptr, 0 );
 #endif
 }
 

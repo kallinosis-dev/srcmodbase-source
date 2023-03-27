@@ -40,7 +40,7 @@ class hk_Sorted_Set
 		inline void* find_min_element();
 			//: find the first element in the queue
 
-		inline hk_bool has_elements();
+		inline bool has_elements();
 			// check for an empty set
 
 		inline hk_ss_real find_min_value();
@@ -86,9 +86,9 @@ void* hk_Sorted_Set::find_min_element()
 };
 
 
-hk_bool hk_Sorted_Set::has_elements()
+bool hk_Sorted_Set::has_elements()
 {
-	return (hk_bool) (m_n_added_elements!=0);
+	return (bool) (m_n_added_elements!=0);
 }
 
 hk_Sorted_Set::hk_ss_real hk_Sorted_Set::find_min_value()
