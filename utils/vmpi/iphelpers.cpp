@@ -14,6 +14,8 @@
 #include "iphelpers.h"
 #include "basetypes.h"
 #include <assert.h>
+
+#include "fasttimer.h"
 #include "utllinkedlist.h"
 #include "utlvector.h"
 #include "tier1/strtools.h"

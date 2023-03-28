@@ -27,6 +27,7 @@
 	#include "SteamCommon.h"
 #endif
 
+#ifndef NO_STEAM
 
 #ifdef __cplusplus
 extern "C"
@@ -59,6 +60,7 @@ STEAM_API void STEAM_CALL	SteamWriteMiniDumpSetComment
 
 #ifdef __cplusplus
 }
+#endif
 #endif
 
 #endif

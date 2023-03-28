@@ -769,8 +769,8 @@ $Project "hammer_dll"
 		$Lib	"movieobjects"
 		$Lib	"particles"
 		$Lib	"raytrace"
-		$Lib	"$LIBCOMMON\Steam"
-		$ImpLib	steam_api
+		$Lib	"$LIBCOMMON\Steam"	[!$NO_STEAM]
+		$ImpLib	"$LIBPUBLIC\steam_api" [!$NO_STEAM]
 		$Lib	"tier2"
 		$Lib	"tier3"
 		$Lib	"toolutils"

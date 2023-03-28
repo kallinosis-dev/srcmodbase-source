@@ -392,11 +392,11 @@ public:
 
 			// Allocate room for upcoming work units lookup
 			WUIndexType iBegin = vlkup.PastVisibleIndex();
-			WUIndexType iEnd = min( iBegin + g_nMaxWorkerCount * numWusToDeal, vlkup.PastPossibleIndex() );
+			WUIndexType iEnd = std::min( iBegin + g_nMaxWorkerCount * numWusToDeal, vlkup.PastPossibleIndex() );
 			vlkup.ExpandWindow( iEnd - 1 );
 
 			// Allocate a partition
-			size_t numPartitions = min( ( size_t )(iEnd - iBegin), ( size_t )g_nMaxWorkerCount );
+			size_t numPartitions = std::min( ( size_t )(iEnd - iBegin), ( size_t )g_nMaxWorkerCount );
 			CArrayAutoPtr< CPartitionInfo * > spArrPartitions( new CPartitionInfo* [ numPartitions ] );
 			CPartitionInfo **arrPartitions = spArrPartitions.Get();
 

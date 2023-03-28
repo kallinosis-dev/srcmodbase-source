@@ -23,6 +23,7 @@
 #include "vmpi_distribute_work.h"
 #include "filesystem.h"
 #include "checksum_md5.h"
+#include "fasttimer.h"
 #include "tslist.h"
 #include "tier0/icommandline.h"
 

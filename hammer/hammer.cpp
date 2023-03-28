@@ -158,6 +158,7 @@ int WrapFunctionWithMinidumpHandler( int (*pfn)(void *pParam), void *pParam, int
 {
 	int nRetVal;
 
+#ifndef NO_STEAM
 	if ( !Plat_IsInDebugSession() && !CommandLine()->FindParm( "-nominidumps") )
 	{
 		_set_se_translator( SteamWriteMiniDumpUsingExceptionInfo );
@@ -172,6 +173,7 @@ int WrapFunctionWithMinidumpHandler( int (*pfn)(void *pParam), void *pParam, int
 		}
 	}
 	else
+#endif
 	{
 		nRetVal = pfn( pParam );
 	}

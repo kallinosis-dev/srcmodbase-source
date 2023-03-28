@@ -1131,11 +1131,13 @@ public:
 	virtual bool IsSubscribedMap( const char *pchMapName, bool bOnlyOnDisk ) = 0;
 	virtual bool IsFeaturedMap( const char *pchMapName, bool bOnlyOnDisk ) = 0;
 
+#ifndef NO_STEAM
 	// Gets file info for a workshop map, downloads latest version if needed
 	virtual void DownloadCommunityMapFile( PublishedFileId_t id ) = 0;
 
 	// Return download progress from 0.0 - 1.0, or -1.0 on error
 	virtual float GetUGCFileDownloadProgress( PublishedFileId_t id ) = 0;
+#endif
 
 	virtual void RecordUIEvent( const char* szEvent ) = 0;
 
