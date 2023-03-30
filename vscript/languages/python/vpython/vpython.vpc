@@ -28,7 +28,7 @@ $Project "vpython"
 {
 	//$Folder  "Link libraries"
 	//{
-	//	$File  "..\python25\lib\python25.lib"
+	//	$Lib  "..\python25\lib\python25.lib"
 	//}
 
 	$Folder "Source Files"

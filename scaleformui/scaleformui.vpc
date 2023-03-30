@@ -200,8 +200,8 @@ $Project "ScaleformUI"
 		$ImplibExternal	steam_api64									[ $WIN64 && !$NO_STEAM ]
 		$ImpLib			togl										[!$IS_LIB_PROJECT && $GL && !$DEDICATED]
 
-		$File			"$SRCDIR\dx9sdk\lib$PLATSUBDIR\d3d9.lib"	[$WINDOWS && !$GL]
-		$File			"$SRCDIR\dx9sdk\lib$PLATSUBDIR\d3dx9.lib"	[$WINDOWS && !$GL]
-		$File			"$SRCDIR\dx9sdk\lib$PLATSUBDIR\dxguid.lib"	[$WINDOWS && !$GL]
+		$Lib			"$SRCDIR\dx9sdk\lib$PLATSUBDIR\d3d9.lib"	[$WINDOWS && !$GL]
+		$Lib			"$SRCDIR\dx9sdk\lib$PLATSUBDIR\d3dx9.lib"	[$WINDOWS && !$GL]
+		$Lib			"$SRCDIR\dx9sdk\lib$PLATSUBDIR\dxguid.lib"	[$WINDOWS && !$GL]
 	}
 }

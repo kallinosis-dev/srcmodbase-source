@@ -1183,8 +1183,8 @@ $Project $EPROJ
 
 		$Lib	"jpeglib" [$WINDOWS || $OSXALL || ($LINUX && !$DEDICATED)]
 
-		$File	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dsound.lib"		[$WINDOWS]
-		$File	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dxguid.lib"		[$WINDOWS]
+		$Lib	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dsound.lib"		[$WINDOWS]
+		$Lib	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dxguid.lib"		[$WINDOWS]
 
 //		$LibExternal	libprotobuf [!$VS2013 && !$VS2015]
 //		$LibExternal	$LIBPUBLIC\2013\libprotobuf [$VS2013]
@@ -1203,15 +1203,12 @@ $Project $EPROJ
 		$Lib libz [$LINUXALL&&!$DEDICATED]
 		$Lib $LIBCOMMON/libcrypto [$LINUXALL&&!$DEDICATED]
 
-		$File	"$SRCDIR\lib\osx32\MacOSX10.6.sdk\libcurl.dylib"	[$OSXALL]
+		$Lib	"$SRCDIR\lib\osx32\MacOSX10.6.sdk\libcurl.dylib"	[$OSXALL]
         $Lib     "quickhull" 
 		$ImpLib	"SDL2" [$SDL && !$LINUXALL]
 
-		$File	"$SRCDIR\lib\common\win32\phonon3d.lib"	[$WIN32]
-		$File	"$SRCDIR\lib\common\x64\phonon3d.lib"	[$WIN64]
-		$File	"$SRCDIR\lib\common\osx64\libphonon3d.dylib" [$OSX64]
-		$File	"$SRCDIR\lib\common\linux32\libphonon3d.so" [$LINUX32 && !$DEDICATED]
-		$File	"$SRCDIR\lib\common\linux64\libphonon3d.so" [$LINUX64 && !$DEDICATED]
+		$Lib	"$LIBCOMMON\phonon3d"	[$WIN32]
+		$Lib	"$SRCDIR\lib\common\x64\phonon3d.lib"	[!$DEDICATED]
 	}
 
 	$include $ESRCDIR/engine_linux_excludes.vpc		[$LINUX]

@@ -71,7 +71,7 @@ $Project "Phonemeextractor"
 	
 	$Folder	"Link Libraries"
 	{
-		$File	"mathlib"
-		$File	"..\sapi51\lib\i386\sapi.lib"
+		$Lib	"mathlib"
+		$Lib	"..\sapi51\lib\i386\sapi.lib"
 	}
 }

@@ -454,6 +454,6 @@ $Project "VScript (SOB)"
 	
 	$Folder	"Link Libraries"
 	{
-		$File	mathlib
+		$Lib	mathlib
 	}
 }

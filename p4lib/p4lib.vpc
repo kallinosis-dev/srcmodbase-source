@@ -36,8 +36,8 @@ $Project "P4lib"
 
 	$Folder "Link Libraries" [0]
 	{
-		$File	"$SRCDIR\lib\common\libclient.lib"
-		$File	"$SRCDIR\lib\common\librpc.lib"
-		$File	"$SRCDIR\lib\common\libsupp.lib"
+		$Lib	"$LIBCOMMON\libclient"
+		$Lib	"$LIBCOMMON\librpc"
+		$Lib	"$LIBCOMMON\libsupp"
 	}
 }

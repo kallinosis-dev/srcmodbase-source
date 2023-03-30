@@ -146,16 +146,16 @@ $Project "shaderapidx10"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"tier2.lib"
-		$File	"bitmap.lib"
-		$File	"mathlib.lib"
-		$File 	"bzip2"
-		$File	"videocfg.lib"
-		$File	"$SRCDIR\dx10sdk\lib\x86\d3d9.lib" 
-		$File	"$SRCDIR\dx10sdk\lib\x86\d3d10.lib" 
-		$File	"$SRCDIR\dx10sdk\lib\x86\dxgi.lib" 
+		$Lib	"tier2"
+		$Lib	"bitmap"
+		$Lib	"mathlib"
+		$Lib 	"bzip2"
+		$Lib	"videocfg"
+		$Lib	"$SRCDIR\dx10sdk\lib\x86\d3d9.lib" 
+		$Lib	"$SRCDIR\dx10sdk\lib\x86\d3d10.lib" 
+		$Lib	"$SRCDIR\dx10sdk\lib\x86\dxgi.lib" 
 		
-		$File	"$SRCDIR\dx10sdk\lib\x86\d3dx10.lib"	\
+		$Lib	"$SRCDIR\dx10sdk\lib\x86\d3dx10.lib"	\
 				"$SRCDIR\dx10sdk\lib\x86\d3dx9.lib"
 		{
 			$Configuration "Debug"
@@ -164,7 +164,7 @@ $Project "shaderapidx10"
 			}
 		}
 		
-		$File	"$SRCDIR\dx10sdk\lib\x86\d3dx10d.lib"	\
+		$Lib	"$SRCDIR\dx10sdk\lib\x86\d3dx10d.lib"	\
 				"$SRCDIR\dx10sdk\lib\x86\d3dx9d.lib"
 		{
 			$Configuration "Release"

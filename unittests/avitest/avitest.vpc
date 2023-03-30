@@ -19,9 +19,9 @@ $Project "Avitest"
 
 	$Folder	"Link Libraries"
 	{
-		$DynamicFile	"appframework"
-		$DynamicFile	"tier2"
-		$DynamicFile	"tier3"
-		$DynamicFile	"vgui_controls"
+		$Lib	"appframework"
+		$Lib	"tier2"
+		$Lib	"tier3"
+		$Lib	"vgui_controls"
 	}
 }

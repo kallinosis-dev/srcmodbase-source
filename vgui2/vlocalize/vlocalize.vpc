@@ -80,11 +80,11 @@ $Project "Vlocalize"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"appframework"
-		$File	"dmxloader"
-		$File	"mathlib"
-		$File	"tier2"
-		$File	"tier3"
-		$File	"vgui_controls"
+		$Lib	"appframework"
+		$Lib	"dmxloader"
+		$Lib	"mathlib"
+		$Lib	"tier2"
+		$Lib	"tier3"
+		$Lib	"vgui_controls"
 	}
 }

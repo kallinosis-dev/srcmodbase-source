@@ -37,7 +37,7 @@ $Project "vfont"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"tier2"
-		$File	"tier3"
+		$Lib	"tier2"
+		$Lib	"tier3"
 	}
 }

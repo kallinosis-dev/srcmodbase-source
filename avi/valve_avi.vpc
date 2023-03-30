@@ -63,11 +63,11 @@ $Project "valve_avi"
 	$Folder "Link Libraries"
 	{
 		$Lib tier2
-		$lib tier3
-		$File   "$SRCDIR\lib\common\quicktime\QTMLClient.lib"		[$QUICKTIME_WINDOWS]
-		$File	"$SRCDIR\DX9SDK\lib\dsound.lib"						[$QUICKTIME_WINDOWS]
-		$File	"$SRCDIR\DX9SDK\lib\dxguid.lib"						[$QUICKTIME_WINDOWS]
-		$File	"$SRCDIR\lib\common\libSDL2_mixer.a"				[$LINUXALL]
+		$Lib tier3
+		$Lib   "$LIBCOMMON\quicktime\QTMLClient.lib"		[$QUICKTIME_WINDOWS]
+		$Lib	"$SRCDIR\DX9SDK\lib\dsound.lib"						[$QUICKTIME_WINDOWS]
+		$Lib	"$SRCDIR\DX9SDK\lib\dxguid.lib"						[$QUICKTIME_WINDOWS]
+		$Lib	"$LIBCOMMON\libSDL2_mixer.a"				[$LINUXALL]
 	}
 
 }

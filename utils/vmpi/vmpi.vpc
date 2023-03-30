@@ -57,6 +57,6 @@ $Project "Vmpi"
 
 	$Folder "Link Libraries"
 	{
-		$File	"ZLib.lib"
+		$Lib	ZLib
 	}
 }

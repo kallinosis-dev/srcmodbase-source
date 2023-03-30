@@ -55,7 +55,7 @@ $Project "bugreporter_filequeue"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"$SRCDIR\lib\common\expdlln.lib" [$WIN32]
-		$File	"$SRCDIR\lib\common\trktooln.lib" [$WIN32]
+		$Lib	"$LIBCOMMON\expdlln" [$WIN32]
+		$Lib	"$LIBCOMMON\trktooln" [$WIN32]
 	}
 }

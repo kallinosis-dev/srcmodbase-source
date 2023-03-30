@@ -212,12 +212,12 @@ $Project "Vrad_dll"
 
 	$Folder	"Link Libraries"
 	{
-		$File	"bitmap"
-		$File	"mathlib"
-		$File	"raytrace"
-		$File	"tier2"
-		$File	"vmpi"
-		$File	"vtf"
+		$Lib	"bitmap"
+		$Lib	"mathlib"
+		$Lib	"raytrace"
+		$Lib	"tier2"
+		$Lib	"vmpi"
+		$Lib	"vtf"
 	}
 
 	$File	"notes.txt"
