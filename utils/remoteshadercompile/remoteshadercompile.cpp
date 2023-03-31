@@ -8,7 +8,9 @@
 //#include <time.h>
 #include <winsock2.h>
 #include <ws2tcpip.h>
-#include <conio.h >
+#include <conio.h>
+#include <process.h>
+
 #include "tier1/utlvector.h"
 #include "tier0/icommandline.h"
 #include "tier2/tier2.h"

@@ -47,8 +47,8 @@
 unsigned char *LZMA_Compress( 
 unsigned char	*pInput,
 unsigned int	inputSize, 
-unsigned int	*pOutputSize, 
-unsigned int	dictionarySize = LZMA_DEFAULT_DICTIONARY );
+unsigned int	*pOutputSize/*, 
+unsigned int	dictionarySize = LZMA_DEFAULT_DICTIONARY*/ );
 
 //-----------------------------------------------------------------------------
 // Decoding glue. Returns TRUE if succesful.

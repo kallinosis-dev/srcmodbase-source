@@ -28,7 +28,6 @@
 #include "filesystem/IXboxInstaller.h"
 #include "cdll_int.h"
 #include "vjobs_interface.h"
-#include "ps3/ps3_sn.h"
 #include "shaderapidx9/imeshdx8.h"
 #include "tier0/perfstats.h"
 
@@ -4144,7 +4143,6 @@ void CMaterialSystem::EndFrame( void )
 		}
 #endif
 		ServiceEndFramePriorToNextContext();
-		g_pfnSwapBufferMarker();
 		break;
 
 #ifndef _PS3
@@ -4153,7 +4151,6 @@ void CMaterialSystem::EndFrame( void )
 		{
 			VPROF_BUDGET( "Mat_ThreadedEndframe", "Mat_ThreadedEndframe" );
 			{
-				TM_ZONE_PLOT( TELEMETRY_LEVEL1, "Endframe_Wait", TELEMETRY_ZONE_PLOT_SLOT_3 );
 				PERF_STATS_BLOCK( "Endframe_Wait", PERF_STATS_SLOT_END_FRAME );
 
 			while ( m_pActiveAsyncJob && !m_pActiveAsyncJob->IsFinished() )
@@ -4195,7 +4192,6 @@ void CMaterialSystem::EndFrame( void )
 			}
 #endif
 			ServiceEndFramePriorToNextContext();
-			g_pfnSwapBufferMarker();
 
 			CMatQueuedRenderContext *pPrevContext = &m_QueuedRenderContexts[m_iCurQueuedContext];
 
@@ -4266,7 +4262,6 @@ void CMaterialSystem::EndFrame( void )
 			}
 #endif
 			ServiceEndFramePriorToNextContext();
-			g_pfnSwapBufferMarker();
 
 			// Switch Render Contexts
 
@@ -4309,7 +4304,6 @@ void CMaterialSystem::EndFrame( void )
 			s_flTotalFrameBeginTimestamp = flCurrentTime;
 #endif
 			ServiceEndFramePriorToNextContext();
-			g_pfnSwapBufferMarker();
 			break;
 		}
 	}

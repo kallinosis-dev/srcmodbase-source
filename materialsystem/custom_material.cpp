@@ -337,7 +337,6 @@ ICustomMaterial * CCustomMaterialManager::GetOrCreateCustomMaterial( KeyValues *
 #if defined( DEDICATED ) || defined( DISABLE_CUSTOM_MATERIAL_GENERATION )
 	return NULL;
 #endif
-	TM_MESSAGE( TELEMETRY_LEVEL0, TMMF_ICON_NOTE | TMMF_SEVERITY_WARNING, "%s %d", __FUNCTION__, vecTextureInfos[0].m_size );
 
 	for ( int i = 0; i < m_pCustomMaterials.Count(); ++i )
 	{

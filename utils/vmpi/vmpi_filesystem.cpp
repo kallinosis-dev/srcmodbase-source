@@ -330,7 +330,7 @@ bool CBaseVMPIFileSystem::ReadFile( const char *pFileName, const char *pPath, CU
 	int nBytesToRead = Size( fp );
 	if ( nMaxBytes > 0 )
 	{
-		nBytesToRead = min( nMaxBytes, nBytesToRead );
+		nBytesToRead = std::min( nMaxBytes, nBytesToRead );
 	}
 	buf.EnsureCapacity( nBytesToRead + buf.TellPut() );
 

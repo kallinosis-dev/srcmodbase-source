@@ -18,7 +18,6 @@
 #include "tier1/memstack.h"
 #include "tier1/fmtstr.h"
 
-#include "tier0/vprof_telemetry.h"
 #include "tier0/perfstats.h"
 
 class IMaterialInternal;
@@ -89,7 +88,6 @@ public:
 
 	void CallQueued()
 	{
-		TM_ZONE_PLOT( TELEMETRY_LEVEL1, "RenderThread",  TELEMETRY_ZONE_PLOT_SLOT_2 );
 		PERF_STATS_BLOCK( "RenderThread", PERF_STATS_SLOT_RENDERTHREAD );
 		if ( !m_pHead )
 		{

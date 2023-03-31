@@ -84,8 +84,6 @@ int GetRTIndex( int nSize )
 // pRect is ignored, this always does the whole texture
 void CCompositeTextureResult::RegenerateTextureBits( ITexture *pTexture, IVTFTexture *pVTFTexture, Rect_t *pRect )
 {
-	TM_ZONE_FILTERED( TELEMETRY_LEVEL1, 200, TMZF_NONE, "%s", __FUNCTION__ );
-
 	if ( m_pOwner && m_pOwner->GenerationComplete() )
 	{
 		TEX_GEN_LOG( "Finished generating texture %s... ", m_pOwner->GetName() );
@@ -267,8 +265,6 @@ void CCompositeTexture::ReleasePreloadedTextures()
 // this is called from the GenerationStep which is called from the generate thread
 void CCompositeTexture::GenerateComposite( void )
 {
-	TM_ZONE_FILTERED( TELEMETRY_LEVEL1, 100, TMZF_NONE, "GenerateComposite" );
-
 	if ( m_nRegenerateStage == COMPOSITE_TEXTURE_STATE_NOT_STARTED )
 	{
 		TEX_GEN_LOG( "Loading texture for %s\n", GetName() );

@@ -1148,13 +1148,7 @@ void CMatRenderContext::BeginRender()
 	if ( GetMaterialSystem()->GetThreadMode() != MATERIAL_SINGLE_THREADED )
 	{
 //		VPROF_INCREMENT_GROUP_COUNTER( "render/CMatBeginRender", COUNTER_GROUP_TELEMETRY, 1 );
-
-		TelemetrySetLockName( TELEMETRY_LEVEL0, (char const *)&g_MatSysMutex, "MatSysMutex" );
-
-		tmTryLock( TELEMETRY_LEVEL0, (char const *)&g_MatSysMutex, "BeginRender" );
 		g_MatSysMutex.Lock();
-		tmEndTryLock( TELEMETRY_LEVEL0, (char const *)&g_MatSysMutex, TMLR_SUCCESS );
-		tmSetLockState( TELEMETRY_LEVEL0, (char const *)&g_MatSysMutex, TMLS_LOCKED, "BeginRender" );
 	}
 }
 
@@ -1163,7 +1157,6 @@ void CMatRenderContext::EndRender()
 	if ( GetMaterialSystem()->GetThreadMode() != MATERIAL_SINGLE_THREADED )
 	{
 		g_MatSysMutex.Unlock();
-		tmSetLockState( TELEMETRY_LEVEL0, (char const *)&g_MatSysMutex, TMLS_RELEASED, "EndRender" );
 	}
 }
 

@@ -113,7 +113,7 @@ LzmaEncode( const Byte *inBuffer,
             size_t     inSize,
             Byte       *outBuffer,
             size_t     outSize,
-            size_t     *outSizeProcessed )
+            size_t     *outSizeProcessed)
 {
 	// Based on Encode helper in SDK/LzmaUtil
 	*outSizeProcessed = 0;
@@ -135,6 +135,7 @@ LzmaEncode( const Byte *inBuffer,
 	}
 
 	LzmaEncProps_Init( &props );
+
 	res = LzmaEnc_SetProps( enc, &props );
 
 	if ( res != SZ_OK )
@@ -193,7 +194,7 @@ LzmaEncode( const Byte *inBuffer,
 //-----------------------------------------------------------------------------
 unsigned char *LZMA_Compress( unsigned char *pInput,
                               unsigned int  inputSize,
-                              unsigned int  *pOutputSize )
+                              unsigned int  *pOutputSize)
 {
 	*pOutputSize = 0;
 
@@ -207,7 +208,9 @@ unsigned char *LZMA_Compress( unsigned char *pInput,
 
 	// compress, skipping past our header
 	size_t compressedSize;
-	int result = LzmaEncode( pInput, inputSize, pOutputBuffer + sizeof( lzma_header_t ), outSize - sizeof( lzma_header_t ), &compressedSize );
+	int result = LzmaEncode( pInput, 
+		inputSize, pOutputBuffer + sizeof( lzma_header_t ), outSize - sizeof( lzma_header_t ), 
+		&compressedSize);
 	if ( result != SZ_OK )
 	{
 		Warning( "LZMA encode failed (%i)\n", result );

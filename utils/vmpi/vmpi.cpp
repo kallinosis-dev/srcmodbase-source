@@ -15,6 +15,9 @@
 #include "utlvector.h"
 #include "utllinkedlist.h"
 #include "vmpi.h"
+
+#include <ctime>
+
 #include "bitbuf.h"
 #include "tier1/strtools.h"
 #include "threadhelpers.h"
@@ -1621,8 +1624,8 @@ bool IsValidSDKBinPath( CUtlVector< char* > &outStrings, int *pError )
 		return false;
 	}
 
-	long curTime;
-	VCRHook_Time( &curTime );
+	time_t curTime;
+	time( &curTime );
 	int nSecondsSinceLastSteamAccess = curTime - results.st_mtime;
 	int nSecondsPerDay = 60 * 60 * 24;
 	int nMaxDaysUnaccessed = 10;
