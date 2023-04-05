@@ -44,25 +44,6 @@
 #endif
 
 //-----------------------------------------------------------------------------
-// Standard spew functions
-//-----------------------------------------------------------------------------
-static SpewRetval_t SpewStdout( SpewType_t spewType, char const *pMsg )
-{
-	if ( !pMsg )
-		return SPEW_CONTINUE;
-
-#ifdef _DEBUG
-	OutputDebugString( pMsg );
-#endif
-
-	printf( pMsg );
-	fflush( stdout );
-
-	return ( spewType == SPEW_ASSERT ) ? SPEW_DEBUGGER : SPEW_CONTINUE; 
-}
-
-
-//-----------------------------------------------------------------------------
 // The application object
 //-----------------------------------------------------------------------------
 class CVcdUpdateApp : public CTier3SteamApp
@@ -100,8 +81,6 @@ DEFINE_CONSOLE_STEAM_APPLICATION_OBJECT( CVcdUpdateApp );
 //-----------------------------------------------------------------------------
 bool CVcdUpdateApp::Create()
 {
-	SpewOutputFunc( SpewStdout );
-
 	AppSystemInfo_t appSystems[] = 
 	{
 		{ "materialsystem.dll",		MATERIAL_SYSTEM_INTERFACE_VERSION },
@@ -444,8 +423,8 @@ int CVcdUpdateApp::Main()
 
 	g_p4factory->SetOpenFileChangeList( "Automatically Updated VCD files" );
 
-	g_pSoundEmitterSystem->ModInit();
+	g_pSoundEmitterSystem->Init();
 	UpdateVcdFiles( info );
-	g_pSoundEmitterSystem->ModShutdown();
+	g_pSoundEmitterSystem->Shutdown();
 	return -1;
 }

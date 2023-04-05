@@ -1075,7 +1075,6 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "[/lv]:          Set Reserved $LV=1\n");
 			Log_Msg(LOG_VPC, "[/demo]:        Set Reserved $DEMO=1\n");
 			Log_Msg(LOG_VPC, "[/no_steam]:    Set Reserved $NO_STEAM=1\n");
-			Log_Msg(LOG_VPC, "[/no_scaleform]:    Set Reserved $NO_SCALEFORM=1\n");
 			Log_Msg(LOG_VPC, "[/no_ceg]:      Set Reserved $NO_CEG=1\n");
 			Log_Msg(LOG_VPC, "[/upload_ceg]:  Set Reserved $UPLOAD_CEG=1\n");
 			Log_Msg(LOG_VPC, "[/no_qt]:       Set Reserved $ALLOW_QT=0\n");
@@ -1453,12 +1452,6 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		{
 			m_bDecorateProject = true;
 			m_ExtraOptionsForCRC.InsertIfNotFound("/dp");
-		}
-		else if (!V_stricmp(pArgName, "no_scaleform") || !V_stricmp(pArgName, "noscaleform") || !
-			V_stricmp(pArgName, "nosf") || !V_stricmp(pArgName, "no_sf"))
-		{
-			// Disable Scaleform
-			SetConditional("NO_SCALEFORM", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp(pArgName, "no_steam") || !V_stricmp(pArgName, "nosteam"))
 		{

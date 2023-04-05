@@ -51,7 +51,6 @@ void CVPC::SetupDefaultConditionals()
 		FindOrCreateConditional( "POSIX", true, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "LV", true, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "DEMO", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "NO_SCALEFORM", false, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "NO_STEAM", false, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "DVDEMU", true, CONDITIONAL_SYSTEM );
 		FindOrCreateConditional( "QTDEBUG", true, CONDITIONAL_SYSTEM );

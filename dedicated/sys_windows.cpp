@@ -364,11 +364,6 @@ static char *GetBaseDir( const char *pszBuffer )
 	return basedir;
 }
 
-void MiniDumpFunction( unsigned int nExceptionCode, EXCEPTION_POINTERS *pException )
-{
-	SteamAPI_WriteMiniDump( nExceptionCode, pException, 0 );
-}
-
 extern "C" __declspec(dllexport) int DedicatedMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow )
 {
 	SetAppInstance( hInstance );
@@ -387,25 +382,7 @@ extern "C" __declspec(dllexport) int DedicatedMain( HINSTANCE hInstance, HINSTAN
 	LPWSTR * argv= CommandLineToArgvW(GetCommandLineW(),&argc);
 	CommandLine()->CreateCmdLine( GetCommandLine() );
 
-	if ( !Plat_IsInDebugSession() && !CommandLine()->FindParm( "-nominidumps") )
-	{
-		// This warning is not actually true in this context.
-#pragma warning( suppress : 4535 ) // warning C4535: calling _set_se_translator() requires /EHa
-		_set_se_translator( MiniDumpFunction );
-
-		try  // this try block allows the SE translator to work
-		{
-			iret = main(argc,(char **)argv);
-		}
-		catch( ... )
-		{
-			return -1;
-		}
-	}
-	else
-	{
-		iret = main(argc,(char **)argv);
-	}
+	iret = main(argc,(char **)argv);
 
 	GlobalFree( argv );
 	return iret;

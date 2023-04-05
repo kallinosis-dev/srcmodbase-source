@@ -79,20 +79,6 @@ static const char *gBugTokenTable[] = {
 	NULL
 };
 
-
-// [jason] Forward Printf messages to the Scaleform voicestatus panel
-#if defined ( CSTRIKE15 )
-inline void CS15ForwardStatusMsg( const char* text, int clientid )
-{
-	/* Removed for partner depot */
-}
-inline void CS15ForwardStatusMsg( const wchar_t* text, int clientid )
-{
-	/* Removed for partner depot */
-}
-#endif // CSTRIKE15
-
-
 // removes all color markup characters, so Msg can deal with the string properly
 // returns a pointer to str
 char* RemoveColorMarkup( char *str )
@@ -1898,20 +1884,6 @@ void CBaseHudChat::ChatPrintf( int iPlayerIndex, int iFilter, const char *fmt, .
 
 	if ( !*pmsg )
 		return;
-
-	// [jason] Forward message to Scaleform for display
-#if defined( CSTRIKE15 ) 
-
-	if ( iFilter != CHAT_FILTER_NONE )
-	{
-		if ( !( iFilter & GetFilterFlags() ) )
-			return;
-	}
-
-	CS15ForwardStatusMsg( pmsg, iPlayerIndex );	
-	return;
-
-#endif // CSTRIKE15
 
 	// Now strip just newlines, since we want the color info for printing
 	pmsg = msg;

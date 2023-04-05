@@ -26,10 +26,6 @@
 #include "shaderapidx9/shadershadowdx8.h"
 #endif
 
-#if defined( INCLUDE_SCALEFORM )
-#include "scaleformui/scaleformui.h"
-#endif
-
 //-----------------------------------------------------------------------------
 // Forward declarations
 //-----------------------------------------------------------------------------
@@ -96,14 +92,6 @@ inline IHardwareConfigInternal *HardwareConfig()
 {
 	extern IHardwareConfigInternal* g_pHWConfig;
 	return g_pHWConfig;
-}
-#endif
-
-#if defined( INCLUDE_SCALEFORM )
-inline IScaleformUI* ScaleformUI()
-{
-	extern IScaleformUI* g_pScaleformUI;
-	return g_pScaleformUI;
 }
 #endif
 

@@ -74,8 +74,6 @@
 #include "GameStats.h"
 #include "c_cs_team.h"
 
-#include "Scaleform/HUD/sfhudinfopanel.h"
-
 #include <engine/IEngineSound.h>
 
 #include "cs_shareddefs.h"

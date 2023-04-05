@@ -101,10 +101,6 @@ END_DEFINE_LOGGING_CHANNEL();
 
 IMaterialInternal *g_pErrorMaterial = NULL;
 
-#if defined( INCLUDE_SCALEFORM )
-extern IScaleformUI* g_pScaleformUI;
-#endif
-
 CreateInterfaceFn g_fnMatSystemConnectCreateInterface = NULL;  
 
 #ifdef _PS3
@@ -855,10 +851,6 @@ bool CMaterialSystem::Connect( CreateInterfaceFn factory )
 	// Remember the factory for connect
 	g_fnMatSystemConnectCreateInterface = factory;
 
-#if defined( INCLUDE_SCALEFORM )
-	g_pScaleformUI = ( IScaleformUI* ) factory( SCALEFORMUI_INTERFACE_VERSION, 0 );
-#endif
-
 	return g_pShaderDeviceMgr->Connect( ShaderFactory );	
 }
 
@@ -880,10 +872,6 @@ void CMaterialSystem::Disconnect()
 	g_pHWConfig = NULL;
 	g_pShaderShadow = NULL;
 	g_pShaderDevice = NULL;
-#endif
-
-#if defined( INCLUDE_SCALEFORM )
-	g_pScaleformUI = NULL;
 #endif
 
 	BaseClass::Disconnect();
@@ -4398,7 +4386,6 @@ void CMaterialSystem::EndFrame( void )
 				Assert( m_QueuedRenderContexts[i].IsInitialized() );
 				m_QueuedRenderContexts[i].Shutdown();
 			}
-			g_pScaleformUI->SetSingleThreadedMode(true);
 			break;
 
 		case MATERIAL_QUEUED_SINGLE_THREADED:
@@ -4416,7 +4403,6 @@ void CMaterialSystem::EndFrame( void )
 			if ( m_ThreadMode == MATERIAL_QUEUED_SINGLE_THREADED )
 			{
 				g_pShaderAPI->SetDisallowAccess( true );
-				g_pScaleformUI->SetSingleThreadedMode(true);
 			}
 			else
 			{
@@ -4426,7 +4412,6 @@ void CMaterialSystem::EndFrame( void )
 				g_pShaderAPI->ReleaseThreadOwnership();
 				m_QueuedRenderContexts[m_iCurQueuedContext].GetCallQueueInternal()->QueueCall( g_pShaderAPI, &IShaderAPI::AcquireThreadOwnership );
 #endif
-				g_pScaleformUI->SetSingleThreadedMode(false);
 			}
 			break;
 		}

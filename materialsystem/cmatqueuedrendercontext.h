@@ -710,41 +710,6 @@ public:
 	void									DoStartupShaderPreloading( void ) {}
 #endif
 
-
-#if defined( INCLUDE_SCALEFORM )
-	//--------------------------------------------------------
-	// scaleform calls
-	//
-	// *** NOTE - THREAD SAFETY ***
-	// SFUI is not mutexed. If you add functions to this list check it is safe
-	// to call them in parallel with the main thread
-	//--------------------------------------------------------
-	DEFINE_QUEUED_CALL_5(					SetScaleformSlotViewport, int, int, int, int, int, IMatRenderContext, m_pHardwareContext );
-	DEFINE_QUEUED_CALL_1(					RenderScaleformSlot, int, IMatRenderContext, m_pHardwareContext );
-	DEFINE_QUEUED_CALL_4(					SetScaleformCursorViewport, int, int, int, int, IMatRenderContext, m_pHardwareContext );
-	DEFINE_QUEUED_CALL_0(					RenderScaleformCursor, IMatRenderContext, m_pHardwareContext );
-
-	// Unused on PC
-	DEFINE_QUEUED_CALL_1(					ForkRenderScaleformSlot, int, IMatRenderContext, m_pHardwareContext );
-	DEFINE_QUEUED_CALL_1(					JoinRenderScaleformSlot, int, IMatRenderContext, m_pHardwareContext );
-
-	void									AdvanceAndRenderScaleformSlot( int slot )
-	{
-		// always run advance slot on the main thread
-		ScaleformUI()->AdvanceSlot( slot );
-		// renderSlot can be queued
-		RenderScaleformSlot( slot );
-	}
-
-	void									AdvanceAndRenderScaleformCursor()
-	{
-		// always run advance slot on the main thread
-		ScaleformUI()->AdvanceCursor();
-		// renderSlot can be queued
-		RenderScaleformCursor();
-	}
-#endif // INCLUDE_SCALEFORM
-
 	virtual ColorCorrectionHandle_t			FindLookup( const char *pName );
 
 private:

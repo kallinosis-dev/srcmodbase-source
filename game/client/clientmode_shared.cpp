@@ -27,10 +27,6 @@
 #include "hltvcamera.h"
 #include "hud.h"
 #include "hud_element_helper.h"
-#include "Scaleform/HUD/sfhud_chat.h"
-#include "Scaleform/HUD/sfhudfreezepanel.h"
-#include "Scaleform/HUD/sfhud_teamcounter.h"
-#include "Scaleform/mapoverview.h"
 #include "hltvreplaysystem.h"
 #include "netmessages.h"
 #if defined( REPLAY_ENABLED )

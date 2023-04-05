@@ -69,7 +69,6 @@
 #include "matchmaking/mm_helpers.h"
 #include "gameui/basepanel.h"
 #include "gameui/uigamedata.h"
-#include "Scaleform/messagebox_scaleform.h"
 #include "GameStats.h"
 #if defined ( _GAMECONSOLE )
 #include "GameUI/IGameUI.h"
@@ -80,8 +79,6 @@
 #include "hltvcamera.h"
 #include "basecsgrenade_projectile.h"
 #include "hud_chat.h"
-#include "Scaleform/HUD/sfhud_uniquealerts.h"
-#include "Scaleform/HUD/sfhud_rosettaselector.h"
 #include "hltvreplaysystem.h"
 #include "netmessages.h"
 #include "playerdecals_signature.h"
@@ -204,100 +201,6 @@ CON_COMMAND_F( cl_sos_test_get_opvar, "", FCVAR_CHEAT )
 		DevMsg( "SOS: GetOpvar %s, %f\n", args[1], flResult );
 	}
 }
-
-
-#if defined( _PS3 )
-
-CON_COMMAND( cl_write_ps3_bindings, "Used internally for scaleform to tell us to write out our bindings to the title data." )
-{
-	if ( args.ArgC() != 3 )
-	{
-		ConMsg( "Usage:  cl_write_ps3_bindings <controller index> <device ID>\n" );
-		return;
-	}
-
-	int iController = atoi( args[1] );
-	int iDeviceID = atoi( args[2] );
-	GetClientModeCSNormal()->SyncCurrentKeyBindingsToDeviceTitleData( iController, iDeviceID, KEYBINDING_WRITE_TO_TITLEDATA );
-}
-
-CON_COMMAND( cl_read_ps3_bindings, "Used internally for scaleform to tell us to read in our bindings from the title data." )
-{
-	if ( args.ArgC() != 3 )
-	{
-		ConMsg( "Usage:  cl_read_ps3_bindings <controller index> <device ID>\n" );
-		return;
-	}
-
-	int iController = atoi( args[1] );
-	int iDeviceID = atoi( args[2] );
-	GetClientModeCSNormal()->SyncCurrentKeyBindingsToDeviceTitleData( iController, iDeviceID, KEYBINDING_READ_FROM_TITLEDATA );
-}
-
-CON_COMMAND( cl_reset_ps3_bindings, "Used internally for scaleform to tell us to reset our bindings to their defaults and save them." )
-{
-	if ( args.ArgC() != 3 )
-	{
-		ConMsg( "Usage:  cl_reset_ps3_bindings <controller index> <device ID(s) ORed together or -1 for all devices>\n" );
-		return;
-	}
-
-	int iController = atoi( args[1] );
-	int iDevicesToReset = atoi( args[2] );
-
-	if ( -1 == iDevicesToReset )
-	{
-		iDevicesToReset = (int) PlatformInputDevice::GetValidInputDevicesForPlatform();
-	}
-
-	int numDevices = PlatformInputDevice::GetInputDeviceCountforPlatform();
-
-	for ( int ii=1; ii<=numDevices; ++ii )
-	{
-		InputDevice_t eDevice = PlatformInputDevice::GetInputDeviceTypefromPlatformOrdinal( ii );
-
-		// See if we're supposed to reset this particular device.
-		if ( ( iDevicesToReset & eDevice ) == 0 ) continue;
-
-		char *cmdBuffer = NULL;
-		switch ( eDevice )
-		{
-			case INPUT_DEVICE_GAMEPAD:
-				cmdBuffer = "exec controller_bindings" PLATFORM_EXT ".cfg game\n";
-				break;
-			case INPUT_DEVICE_PLAYSTATION_MOVE:
-				cmdBuffer = "exec controller_move_bindings" PLATFORM_EXT ".cfg game\n";
-				break;
-			case INPUT_DEVICE_SHARPSHOOTER:
-				cmdBuffer = "exec controller_sharp_shooter_bindings" PLATFORM_EXT ".cfg game\n";
-				break;
-		}
-
-		if ( NULL != cmdBuffer )
-		{
-			// Save out the settings for each device.
-			engine->ExecuteClientCmd( cmdBuffer );
-			// Need to use another command to write the settings because these commands are deferred.
-			engine->ExecuteClientCmd( VarArgs( "cl_write_ps3_bindings %d %d", iController, (int)eDevice ) );
-		}
-
-	}
-	
-#if defined( _PS3 )
-	
-	// We need to restore our settings based on our active device since we may have loaded other settings by entering this function.
-	InputDevice_t currentDevice = g_pInputSystem->GetCurrentInputDevice();
-	if( currentDevice != INPUT_DEVICE_NONE  )
-	{
-		// Load the bindings for the specific device.
-		engine->ExecuteClientCmd( VarArgs( "cl_read_ps3_bindings %d %d", GET_ACTIVE_SPLITSCREEN_SLOT(), (int)currentDevice ) );
-	}
-
-#endif // _PS3
-
-}
-
-#endif // _PS3
 
 CON_COMMAND_F( toggleRdrOpt, "", FCVAR_DEVELOPMENTONLY )
 {
@@ -684,13 +587,11 @@ void ClientModeCSNormal::Init()
 		hintBox->RegisterForRenderGroup("hide_for_round_panel");
 	}
 
-#if !defined( INCLUDE_SCALEFORM )
 	CHudElement* historyResource = (CHudElement*)GET_HUDELEMENT( CHudHistoryResource );
 	if (historyResource)
 	{
 		historyResource->RegisterForRenderGroup("hide_for_scoreboard");		
 	}
-#endif
 
 	char szName[ MAX_PATH ] = "";
 

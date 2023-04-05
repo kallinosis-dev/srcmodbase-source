@@ -4659,15 +4659,6 @@ void CMatSystemSurface::CalculateMouseVisible()
 			}
 		}
 	}
-	
-	// [jason] If we don't handle windows input event messages, ensure that we UnlockCursor:
-	//	this is used so that in-game Scaleform can claim mouse focus on PC and have the mouse move around
-#if defined( CSTRIKE15 )
-	if ( IsPC() && !m_bNeedsMouse )
-	{
-		m_bNeedsMouse = !m_bEnableInput;
-	}
-#endif // defined( CSTRIKE15 )
 
 	if (m_bNeedsMouse)
 	{

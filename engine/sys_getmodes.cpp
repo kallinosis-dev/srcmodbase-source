@@ -879,33 +879,8 @@ void CVideoMode_Common::DrawStartupGraphic()
 		
 		float depth = 0.5f;
 
-#if defined( CSTRIKE15 )
-		// Apply a custom scaling that mirrors the way we draw the Scaleform background texture
-		Assert( tw == th );
-
-		// VTFs are forced to be square, even if the source texture is non 1:1.  Rescale the
-		//		texture to assume its actually in 16:9, as it was authored
-		float convertTH = th * 720.0f / 1280.0f;
-
-		// Now, determine the scale between the texture and the viewport in height
-		float heightScale = (float)h / convertTH;
-
-		int scaledTH = (int)( heightScale * (float) convertTH );
-		int scaledTW = (int)( heightScale * (float) tw );
-
-		int halfH = h / 2;
-		int halfW = w / 2;
-
-		int halfTH = scaledTH / 2;
-		int halfTW = scaledTW / 2;
-
-		DrawScreenSpaceRectangle( pMaterial, halfW - halfTW, halfH - halfTH, scaledTW, scaledTH, 0, 0, tw-1, th-1, tw, th, NULL,1,1,depth );
-#else
-		
 		DrawScreenSpaceRectangle( pMaterial, 0, 0, w, h, 0, 0, tw-1, th-1, tw, th, NULL,1,1,depth );
 //		DrawScreenSpaceRectangle( pLoadingMaterial, w-lw, h-lh, lw, lh, 0, 0, lw-1, lh-1, lw, lh, NULL,1,1,depth );
-
-#endif // CSTRIKE15
 
 // Don't draw the title text for CSS15
 #if !defined( CSTRIKE15 )

@@ -2546,19 +2546,6 @@ public:
 	virtual void				EndConsoleZPass() {}
 #endif
 
-#if defined( INCLUDE_SCALEFORM )
-	virtual void				SetScaleformSlotViewport( int slot, int x, int y, int w, int h ) {}
-	virtual void				RenderScaleformSlot( int slot ) {}
-	virtual void				ForkRenderScaleformSlot( int slot ) {}
-	virtual void				JoinRenderScaleformSlot( int slot ) {}
-
-	virtual void				SetScaleformCursorViewport( int x, int y, int w, int h ) {}
-	virtual void				RenderScaleformCursor() {}
-
-	virtual void				AdvanceAndRenderScaleformSlot( int slot ) {}
-	virtual void				AdvanceAndRenderScaleformCursor() {}
-#endif // INCLUDE_SCALEFORM
-
 #if defined( _PS3 )
 	virtual void				FlushTextureCache() { }
 #endif

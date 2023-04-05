@@ -26,11 +26,12 @@ $Project "vcdupdate"
 
 	$Folder "External"
 	{
-		$File	"$SRCDIR\public\bone_setup.cpp"
 		$File	"$SRCDIR\public\collisionutils.cpp"
 		$File	"$SRCDIR\public\interpolatortypes.cpp"
 		$File	"$SRCDIR\public\studio.cpp"
 		$File	"$SRCDIR\public\sentence.cpp"
+		$File	"$SRCDIR\public\phonemeconverter.cpp"
+		
 	}
 	
 	$Folder	"External Header Files"
@@ -46,5 +47,6 @@ $Project "vcdupdate"
 		$Lib mathlib
 		$Lib tier2
 		$Lib tier3
+		$Lib bonesetup
 	}
 }

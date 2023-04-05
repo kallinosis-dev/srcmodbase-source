@@ -745,11 +745,6 @@ $Project "sampletool"
 	"tools/sampletool/sampletool.vpc" [$WINDOWS]
 }
 
-$Project "scaleformui"
-{
-	"scaleformui/scaleformui.vpc" [$WINDOWS||$POSIX]
-}
-
 $Project "scenefilecache"
 {
 	"scenefilecache/scenefilecache.vpc" [$WINDOWS || $X360 || $DEDICATED || $PS3 || $POSIX]

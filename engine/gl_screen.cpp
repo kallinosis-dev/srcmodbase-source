@@ -32,8 +32,6 @@
 #include "matchmaking/imatchframework.h"
 #include "cl_steamauth.h"
 
-#include "scaleformui/scaleformui.h"
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -264,10 +262,6 @@ void SCR_UpdateScreen( void )
 
 	CMatRenderContextPtr pRenderContext;
 	pRenderContext.GetFrom( materials );
-
-	pRenderContext->RenderScaleformSlot(SF_RESERVED_BEGINFRAME_SLOT);
-
-
 	if( EngineVGui()->IsGameUIVisible() || IsSteam3ClientGameOverlayActive() )
 	{
 		pRenderContext->AntiAliasingHint( AA_HINT_MENU );
@@ -301,10 +295,6 @@ void SCR_UpdateScreen( void )
 
 	// Draw world, etc.
 	V_RenderView();
-
-	pRenderContext.GetFrom( materials );
-	pRenderContext->RenderScaleformSlot(SF_RESERVED_ENDFRAME_SLOT);
-	pRenderContext.SafeRelease();
 
 	CL_TakeSnapshotAndSwap();	   
 

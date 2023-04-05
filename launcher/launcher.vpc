@@ -17,7 +17,7 @@ $Configuration
 	}
 	$Compiler
 	{
-		$PreprocessorDefinitions	"$BASE;LAUNCHERONLY;INCLUDE_SCALEFORM"
+		$PreprocessorDefinitions	"$BASE;LAUNCHERONLY"
 	}
 
 	$Linker

@@ -1,4 +1,4 @@
-//========== Copyright © 2005, Valve Corporation, All rights reserved. ========
+//========== Copyright ï¿½ 2005, Valve Corporation, All rights reserved. ========
 //
 // Purpose:
 //
@@ -949,18 +949,7 @@ public:
 	{
 		AssertMsg( 0, "CMatNullRenderContext only provides base features, not a stub (right now)" );
 	}
-
-#if defined( INCLUDE_SCALEFORM )
-	virtual void SetScaleformSlotViewport( int slot, int x, int y, int w, int h ) { Assert (0); }
-	virtual void RenderScaleformSlot( int slot ) { Assert (0); }
-	virtual void ForkRenderScaleformSlot( int slot ) { Assert (0); }
-	virtual void JoinRenderScaleformSlot( int slot ) { Assert (0); }
-	virtual void SetScaleformCursorViewport( int x, int y, int w, int h ) { Assert (0); }
-	virtual void RenderScaleformCursor() { Assert (0); }
-	virtual void AdvanceAndRenderScaleformSlot( int slot ) { Assert (0); }
-	virtual void AdvanceAndRenderScaleformCursor() { Assert (0); }
-#endif
-
+	
 	//--------------------------------------------------------
 	// debug logging - no-op in queued context
 	//--------------------------------------------------------

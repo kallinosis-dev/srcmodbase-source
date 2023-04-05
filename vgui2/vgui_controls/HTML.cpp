@@ -40,8 +40,6 @@ using namespace vgui;
 
 const int k_nMaxCustomCursors = 2; // the max number of custom cursors we keep cached PER html control
 
-bool gScaleformBrowserActive = false;
-
 // Workaround to only allow one popup window to be visible
 // Try to avoid malicious server from opening multiple window on the client side
 static bool gMOTDPopupWindowActive = false;

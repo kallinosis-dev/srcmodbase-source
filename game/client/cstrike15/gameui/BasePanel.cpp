@@ -72,7 +72,6 @@ using namespace vgui;
 #endif
 #include "iachievementmgr.h"
 #include "customtabexplanationdialog.h"
-#include "loadingscreen_scaleform.h"
 // dgoodenough - limit this to X360 only
 // PS3_BUILDFIX
 #if defined( _X360 )
@@ -100,8 +99,6 @@ using namespace vgui;
 
 #include "cbase.h"
 #include "cs_shareddefs.h"
-
-#include "itempickup_scaleform.h"
 
 #include "checksum_sha1.h"
 

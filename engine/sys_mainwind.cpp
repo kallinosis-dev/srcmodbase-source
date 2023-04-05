@@ -67,10 +67,6 @@
 #include "characterset.h"
 #include "server.h"
 
-#if defined( INCLUDE_SCALEFORM )
-#include "scaleformui/scaleformui.h"
-#endif
-
 #include <vgui/ILocalize.h>
 #include <vgui/ISystem.h>
 
@@ -411,30 +407,10 @@ void CGame::DispatchInputEvent( const InputEvent_t &event )
 	// Broadcast analog values both to VGui & to GameUI
 	case IE_AnalogValueChanged:
 		{
-			// mouse events should go to vgui first, but joystick events should go to scaleform first
-
-			if ( event.m_nData >= JOYSTICK_FIRST_AXIS )
-			{
-				if ( g_pScaleformUI && g_pScaleformUI->HandleInputEvent( event ) )
-					break;
-
-				if ( g_pMatSystemSurface && g_pMatSystemSurface->HandleInputEvent( event ) )
-					break;
-			}
-			else
-			{
-				if ( g_pMatSystemSurface && g_pMatSystemSurface->HandleInputEvent( event ) )
-					break;
-
-#if defined( INCLUDE_SCALEFORM )
-				bool vguiActive = IsPC() && cv_vguipanel_active.GetBool();			
+			// mouse events should go to vgui first
+			if ( g_pMatSystemSurface && g_pMatSystemSurface->HandleInputEvent( event ) )
+				break;
 			
-				// we filter input while the console is visible, to prevent scaleform from
-				//		handling anything underneath the console
-				if ( !vguiActive && g_pScaleformUI && g_pScaleformUI->HandleInputEvent( event ) )
-					break;
-#endif // INCLUDE_SCALEFORM
-			}
 
 			// Let GameUI have the next whack at events
 			if ( g_ClientDLL && g_ClientDLL->HandleGameUIEvent( event ) )
@@ -469,15 +445,6 @@ void CGame::DispatchInputEvent( const InputEvent_t &event )
 		// Let vgui have the first whack at events
 		if ( g_pMatSystemSurface && g_pMatSystemSurface->HandleInputEvent( event ) )
 			break;
-
-#if defined( INCLUDE_SCALEFORM )
-		bool vguiActive = IsPC() && cv_vguipanel_active.GetBool();			
-
-		// we filter all input while the console is visible, to prevent scaleform from
-		//		handling anything underneath the console
-		if ( !vguiActive && g_pScaleformUI && g_pScaleformUI->HandleInputEvent( event ) )
-			break;
-#endif // INCLUDE_SCALEFORM
 
 		for ( int i=0; i < ARRAYSIZE( g_GameMessageHandlers ); i++ )
 		{

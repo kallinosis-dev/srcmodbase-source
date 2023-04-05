@@ -84,10 +84,6 @@
 
 #endif // DEDICATED
 
-#if defined( INCLUDE_SCALEFORM )
-#include "scaleformui/scaleformui.h"
-#endif
-
 #if defined(_WIN32)
 #include <eh.h>
 #include <imm.h>
@@ -131,9 +127,6 @@ IAvi *avi = NULL;
 IBik *bik = NULL;
 #ifdef _PS3
 IPS3SaveRestoreToUI *ps3saveuiapi = NULL;
-#endif
-#if defined( INCLUDE_SCALEFORM )
-IScaleformUI* g_pScaleformUI = NULL;
 #endif
 
 #ifndef DEDICATED
@@ -557,10 +550,6 @@ bool CEngineAPI::Connect( CreateInterfaceFn factory )
 	}
 
 	g_pSoundEmitterSystem = (ISoundEmitterSystemBase *)factory(SOUNDEMITTERSYSTEM_INTERFACE_VERSION, NULL);
-	
-#if defined( INCLUDE_SCALEFORM )
-	g_pScaleformUI = ( IScaleformUI* ) factory( SCALEFORMUI_INTERFACE_VERSION, NULL );
-#endif
 
 	if ( IsPC() && !IsPosix() )
 	{
@@ -985,21 +974,8 @@ void CEngineAPI::PumpMessages()
 	MSG msg;
 	while ( PeekMessageW( &msg, NULL, 0, 0, PM_REMOVE ) )
 	{
-#if defined( INCLUDE_SCALEFORM )
-		if ( g_pScaleformUI )
-		{
-			// Scaleform IME requirement. Pass these messages to GFxIME BEFORE any TranlsateMessage/DispatchMessage.
-			if ( (msg.message == WM_KEYDOWN) || (msg.message == WM_KEYUP) || ImmIsUIMessage( NULL, msg.message, msg.wParam, msg.lParam ) 
-				|| (msg.message == WM_LBUTTONDOWN) || (msg.message == WM_LBUTTONUP) )
-			{
-				g_pScaleformUI->PreProcessKeyboardEvent( (size_t)msg.hwnd, msg.message, msg.wParam, msg.lParam );
-			}
-		}
-#endif
-
 		TranslateMessage( &msg );
 		DispatchMessageW( &msg );
-
 	}
 #elif defined( OSX ) || defined( USE_SDL )
 	g_pLauncherMgr->PumpWindowsMessageLoop();

@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2004, Valve Corporation, All rights reserved. =======
+//====== Copyright ï¿½ 1996-2004, Valve Corporation, All rights reserved. =======
 //
 // Purpose: 
 //
@@ -40,16 +40,6 @@ public:
 	void LocalizeAndDisplay( const char *pszHudTxtMsg, const char *szRawString );
 
 	virtual void PerformLayout();
-
-	virtual bool ShouldDraw()
-	{
-		// [jason] Moving into Scaleform: sfhudinfopanel
-#if defined( CSTRIKE15 )
-		return false;
-#else
-		return Super::ShouldDraw();
-#endif
-	}
 
 	CUserMessageBinder m_UMCMsgHintText;
 
@@ -434,11 +424,6 @@ void CHudHintKeyDisplay::ApplySchemeSettings( vgui::IScheme *pScheme )
 //-----------------------------------------------------------------------------
 bool CHudHintKeyDisplay::ShouldDraw( void )
 {
-	// [jason] Moving into Scaleform: sfhudinfopanel
-#if defined( CSTRIKE15 )
-	return false;
-#endif
-
 	return ( ( GetAlpha() > 0 ) && CHudElement::ShouldDraw() );
 }
 

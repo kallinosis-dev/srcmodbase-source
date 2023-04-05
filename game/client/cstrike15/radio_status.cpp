@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -19,7 +19,6 @@
 #include "cdll_int.h"
 #include "c_cs_player.h"
 #include "menu.h" // for CHudMenu defs
-#include "Scaleform/HUD/sfhud_radio.h"
 #include "cs_gamerules.h"
 
 // memdbgon must be the last include file in a .cpp file!!!

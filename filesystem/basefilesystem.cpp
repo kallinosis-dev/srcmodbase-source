@@ -311,15 +311,11 @@ static char const * V_FormatFilenameForSymlinking( char (&tempSymlinkBuffer)[MAX
 #define CHECK_DOUBLE_SLASHES( x ) Assert( V_CheckDoubleSlashes(x) == false );
 
 
-// Win32 dedicated.dll contains both filesystem_steam.cpp and filesystem_stdio.cpp, so it has two
-// CBaseFileSystem objects.  We'll let it manage BaseFileSystem() itself.
-#if !( defined(_WIN32) && defined(DEDICATED) ) || defined( _PS3 )
 static CBaseFileSystem *g_pBaseFileSystem;
 CBaseFileSystem *BaseFileSystem()
 {
 	return g_pBaseFileSystem;
 }
-#endif
 
 ConVar filesystem_buffer_size( "filesystem_buffer_size", "0", 0, "Size of per file buffers. 0 for none" );
 

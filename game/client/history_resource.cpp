@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Item pickup history displayed onscreen when items are picked up.
 //
@@ -20,10 +20,7 @@ using namespace vgui;
 
 extern ConVar hud_drawhistory_time;
 
-#if !defined ( INCLUDE_SCALEFORM )
 DECLARE_HUDELEMENT( CHudHistoryResource );
-#endif //INCLUDE_SCALEFORM
-
 DECLARE_HUD_MESSAGE( CHudHistoryResource, ItemPickup );
 DECLARE_HUD_MESSAGE( CHudHistoryResource, AmmoDenied );
 

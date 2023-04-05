@@ -3691,57 +3691,6 @@ void CShaderDeviceDx8::RefreshFrontBufferNonInteractive()
 
 	bool bInStartupMode = ( m_NonInteractiveRefresh.m_Mode == MATERIAL_NON_INTERACTIVE_MODE_STARTUP );
 	
-#if defined( CSTRIKE15 )
-	if ( bInStartupMode )
-	{
-		// Render the initial vtf loading screen to match how we render our Scaleform backgrounds,
-		//	so the transition between loading and Scaleform is seamless:
-
-		// HACK: These are the dimensions of the src background vtf
-		const float th = 1024.f;
-		const float tw = 1024.f;
-
-		// VTFs are forced to be square, even if the source texture is non 1:1.  Rescale the
-		//		texture to assume its actually in 16:9, as it was authored
-		float convertTH = th * 720.0f / 1280.0f;
-
-		// Now, determine the scale between the texture and the viewport in height
-		float heightScale = (float)h / convertTH;
-
-		int scaledTH = (int)( heightScale * (float) convertTH );
-		int scaledTW = (int)( heightScale * (float) tw );
-
-		float bgTop		= (h / 2) - (scaledTH / 2) - flPixelCenter;
-		float bgLeft	= (w / 2) - (scaledTW / 2) - flPixelCenter;
-		float bgBottom	= (h / 2) + (scaledTH / 2) - flPixelCenter;
-		float bgRight	= (w / 2) + (scaledTW / 2) - flPixelCenter;
-
-		Vertices[0].Position[0] = bgLeft;
-		Vertices[0].Position[1] = bgTop;
-		Vertices[0].Position[2] = 0;
-		Vertices[0].TexCoord[0] = 0;
-		Vertices[0].TexCoord[1] = 0;
-
-		Vertices[1].Position[0] = bgRight;
-		Vertices[1].Position[1] = bgTop;
-		Vertices[1].Position[2] = 0;
-		Vertices[1].TexCoord[0] = 1;
-		Vertices[1].TexCoord[1] = 0;
-
-		Vertices[2].Position[0] = bgRight;
-		Vertices[2].Position[1] = bgBottom;
-		Vertices[2].Position[2] = 0;
-		Vertices[2].TexCoord[0] = 1;
-		Vertices[2].TexCoord[1] = 1;
-
-		Vertices[3].Position[0] = bgLeft;
-		Vertices[3].Position[1] = bgBottom;
-		Vertices[3].Position[2] = 0;
-		Vertices[3].TexCoord[0] = 0;
-		Vertices[3].TexCoord[1] = 1;
-	}
-	else
-#endif // !CSTRIKE15
 	{
 		Vertices[0].Position[0] = -flPixelCenter;
 		Vertices[0].Position[1] = -flPixelCenter;

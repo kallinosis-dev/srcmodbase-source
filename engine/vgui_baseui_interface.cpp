@@ -104,10 +104,6 @@
 #include "vgui_askconnectpanel.h"
 #include "tier1/tokenset.h"
 
-#if defined( INCLUDE_SCALEFORM )
-#include "scaleformui/scaleformui.h"
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 

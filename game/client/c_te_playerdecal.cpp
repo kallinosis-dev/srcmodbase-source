@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -24,7 +24,6 @@
 #include "playerdecals_signature.h"
 #include "tier1/callqueue.h"
 #include "engine/decal_flags.h"
-#include "cstrike15/Scaleform/HUD/sfhud_rosettaselector.h"
 #include "c_cs_player.h"
 
 // memdbgon must be the last include file in a .cpp file!!!

@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -18,24 +18,9 @@
 #include "vgui/IScheme.h"
 #include "vgui/IPanel.h"
 
-#if defined ( CSTRIKE15 )
-#include "Scaleform/HUD/sfhudinfopanel.h"
-#endif // CSTRIKE15
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
-
-// [jason] Forward the message to the Scaleform info panel
-#if defined ( CSTRIKE15 )
-#define FORWARD_PRIORITY_MSG( x )												\
-		{																		\
-			CHudElement *pElement = GetHud().FindElement( "SFHudInfoPanel" );	\
-			if ( pElement )														\
-			{																	\
-				((SFHudInfoPanel *)pElement)->SetPriorityText( x );				\
-			}																	\
-		}
-#endif // CSTRIKE15
 
 #ifdef TF_CLIENT_DLL
 static ConVar		scr_centertime( "scr_centertime", "5" );
@@ -225,11 +210,6 @@ void CCenterStringLabel::OnTick( void )
 //-----------------------------------------------------------------------------
 bool CCenterStringLabel::ShouldDraw( void )
 {
-	// [jason] This element only exists to forward center print messages to the Scaleform InfoPanel
-#if defined ( CSTRIKE15 )
-	return false;
-#endif
-
 	if ( engine->IsDrawingLoadingImage() )
 	{
 		return false;
@@ -264,11 +244,6 @@ void CCenterPrint::SetTextColor( int r, int g, int b, int a )
 
 void CCenterPrint::Print( char *text )
 {
-	// [jason] Forward the message to the Scaleform info panel
-#if defined ( CSTRIKE15 )
-	FORWARD_PRIORITY_MSG( text );
-	return;
-#endif
 
 	if ( vguiCenterString )
 	{
@@ -278,12 +253,6 @@ void CCenterPrint::Print( char *text )
 
 void CCenterPrint::Print( wchar_t *text )
 {
-	// [jason] Forward the message to the Scaleform info panel
-#if defined ( CSTRIKE15 )
-	FORWARD_PRIORITY_MSG( text );
-	return;
-#endif
-
 	if ( vguiCenterString )
 	{
 		vguiCenterString->ColorPrint( 255, 255, 255, 255, text );
@@ -292,12 +261,6 @@ void CCenterPrint::Print( wchar_t *text )
 
 void CCenterPrint::ColorPrint( int r, int g, int b, int a, char *text )
 {
-	// [jason] Forward the message to the Scaleform info panel
-#if defined ( CSTRIKE15 )
-	FORWARD_PRIORITY_MSG( text );
-	return;
-#endif
-
 	if ( vguiCenterString )
 	{
 		vguiCenterString->ColorPrint( r, g, b, a, text );
@@ -306,12 +269,6 @@ void CCenterPrint::ColorPrint( int r, int g, int b, int a, char *text )
 
 void CCenterPrint::ColorPrint( int r, int g, int b, int a, wchar_t *text )
 {
-	// [jason] Forward the message to the Scaleform info panel
-#if defined ( CSTRIKE15 )
-	FORWARD_PRIORITY_MSG( text );
-	return;
-#endif
-
 	if ( vguiCenterString )
 	{
 		vguiCenterString->ColorPrint( r, g, b, a, text );
@@ -320,12 +277,6 @@ void CCenterPrint::ColorPrint( int r, int g, int b, int a, wchar_t *text )
 
 void CCenterPrint::Clear( void )
 {
-	// [jason] Forward the message to the Scaleform info panel
-#if defined ( CSTRIKE15 )
-	FORWARD_PRIORITY_MSG( static_cast<wchar_t*>(NULL) );
-	return;
-#endif
-
 	if ( vguiCenterString )
 	{
 		vguiCenterString->Clear();

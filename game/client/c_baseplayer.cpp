@@ -55,12 +55,6 @@
 #include "platforminputdevice.h"
 #include "inputsystem/iinputsystem.h"
 
-#if defined( INCLUDE_SCALEFORM ) && defined( CSTRIKE_DLL )
-#include "HUD/sfweaponselection.h"
-#include "Scaleform/HUD/sfhudfreezepanel.h"
-#include "cs_weapon_parse.h"
-#endif
-
 #ifdef DEMOPOLISH_ENABLED
 #include "demo_polish/demo_polish.h"
 #endif
@@ -1386,7 +1380,7 @@ void C_BasePlayer::OnDataChanged( DataUpdateType_t updateType )
 			render->SetAreaState( m_Local.m_chAreaBits, m_Local.m_chAreaPortalBits );
 		}
 
-#if !defined( INCLUDE_SCALEFORM ) || !defined( CSTRIKE_DLL )
+#if !defined( CSTRIKE_DLL )
 		// Check for Ammo pickups.
 		int ammoTypes = GetAmmoDef()->NumAmmoTypes();
 		for ( int i = 0; i <= ammoTypes; i++ )

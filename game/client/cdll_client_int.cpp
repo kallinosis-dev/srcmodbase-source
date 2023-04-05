@@ -158,11 +158,6 @@
 #include "iachievementmgr.h"
 #include "hud.h"
 #include "hud_element_helper.h"
-#include "Scaleform/HUD/sfhud_chat.h"
-#include "Scaleform/HUD/sfhud_radio.h"
-#include "Scaleform/options_scaleform.h"
-#include "Scaleform/loadingscreen_scaleform.h"
-#include "Scaleform/HUD/sfhud_deathnotice.h"
 #endif
 
 #ifdef PORTAL
@@ -251,10 +246,6 @@ IBik *bik = NULL;
 IQuickTime *pQuicktime = NULL;
 IVJobs * g_pVJobs = NULL;
 IRenderToRTHelper *g_pRenderToRTHelper = NULL;
-
-#if defined( INCLUDE_SCALEFORM )
-IScaleformUI* g_pScaleformUI = NULL;
-#endif
 
 IUploadGameStats *gamestatsuploader = NULL;
 IBlackBox *blackboxrecorder = NULL;
@@ -1024,9 +1015,6 @@ public:
 	virtual void PrepareSignedEvidenceData( void *pvData, int numBytes, CDemoPlaybackParameters_t const *pPlaybackParameters );
 	virtual bool ShouldSkipEvidencePlayback( CDemoPlaybackParameters_t const *pPlaybackParameters );
 
-	// Scaleform slot controller
-	virtual IScaleformSlotInitController * GetScaleformSlotInitController();
-
 	virtual bool IsConnectedUserInfoChangeAllowed( IConVar *pCvar );
 	virtual void OnCommandDuringPlayback( char const *cmd );
 
@@ -1405,10 +1393,6 @@ int CHLClient::Connect( CreateInterfaceFn appSystemFactory, CGlobalVarsBase *pGl
 	ConnectTier1Libraries( &appSystemFactory, 1 );
 	ConnectTier2Libraries( &appSystemFactory, 1 );
 	ConnectTier3Libraries( &appSystemFactory, 1 );
-
-#if defined( INCLUDE_SCALEFORM )
-	g_pScaleformUI = ( IScaleformUI* ) appSystemFactory( SCALEFORMUI_INTERFACE_VERSION, NULL );
-#endif
 
 #ifndef NO_STEAM
 	#ifndef _PS3
@@ -4791,13 +4775,6 @@ bool CHLClient::ShouldSkipEvidencePlayback( CDemoPlaybackParameters_t const *pPl
 {
 	/* Removed for partner depot */
 	return true;
-}
-
-// Scaleform slot controller
-IScaleformSlotInitController * CHLClient::GetScaleformSlotInitController()
-{
-	/* Removed for partner depot */
-	return nullptr;
 }
 
 bool CHLClient::IsConnectedUserInfoChangeAllowed( IConVar *pCvar )

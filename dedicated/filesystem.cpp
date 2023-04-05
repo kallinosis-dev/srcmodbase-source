@@ -25,68 +25,26 @@
 
 extern IFileSystem *g_pFileSystem;
 extern IBaseFileSystem *g_pBaseFileSystem;
-extern IFileSystem *g_pFileSystemSteam;
-extern IBaseFileSystem *g_pBaseFileSystemSteam;
-
-// We have two CBaseFilesystem objects, stdio and steam, so we have to manage the
-// BaseFileSystem() accessor ourselves.
-#ifdef _WIN32
-CBaseFileSystem *BaseFileSystem_Steam( void );
-CBaseFileSystem *BaseFileSystem_Stdio( void );
-static CBaseFileSystem *s_pBaseFileSystem = NULL;
-CBaseFileSystem *BaseFileSystem( void )
-{
-	return s_pBaseFileSystem;
-}
-#endif
 
 // implement our own special factory that we don't export outside of the DLL, to stop
 // people being able to get a pointer to a FILESYSTEM_INTERFACE_VERSION stdio interface
 void* FileSystemFactory(const char *pName, int *pReturnCode)
 {
-#ifdef _WIN32
-	if ( CommandLine()->FindParm( "-steam" ) )
+	if ( !Q_stricmp(pName, FILESYSTEM_INTERFACE_VERSION ) )
 	{
-		s_pBaseFileSystem = BaseFileSystem_Steam();
-		if ( !Q_stricmp(pName, FILESYSTEM_INTERFACE_VERSION ) )
+		if ( pReturnCode )
 		{
-			if ( pReturnCode )
-			{
-				*pReturnCode = IFACE_OK;
-			}
-			return g_pFileSystemSteam;
+			*pReturnCode = IFACE_OK;
 		}
-		if ( !Q_stricmp(pName, BASEFILESYSTEM_INTERFACE_VERSION ) )
-		{
-			if ( pReturnCode )
-			{
-				*pReturnCode = IFACE_OK;
-			}
-			return g_pBaseFileSystemSteam;
-		}
+		return g_pFileSystem;
 	}
-	else
-#endif
+	if ( !Q_stricmp(pName, BASEFILESYSTEM_INTERFACE_VERSION ) )
 	{
-#ifdef _WIN32
-		s_pBaseFileSystem = BaseFileSystem_Stdio();
-#endif
-		if ( !Q_stricmp(pName, FILESYSTEM_INTERFACE_VERSION ) )
+		if ( pReturnCode )
 		{
-			if ( pReturnCode )
-			{
-				*pReturnCode = IFACE_OK;
-			}
-			return g_pFileSystem;
+			*pReturnCode = IFACE_OK;
 		}
-		if ( !Q_stricmp(pName, BASEFILESYSTEM_INTERFACE_VERSION ) )
-		{
-			if ( pReturnCode )
-			{
-				*pReturnCode = IFACE_OK;
-			}
-			return g_pBaseFileSystem;
-		}
+		return g_pBaseFileSystem;
 	}
 
 	if ( pReturnCode )

@@ -68,7 +68,6 @@
 #include "matsys_controls/matsyscontrols.h"
 #include "steam/steam_api.h"
 #include "protocol.h"
-#include "loadingscreen_scaleform.h"
 #include "GameUI/IGameUI.h"
 #include "inputsystem/iinputsystem.h"
 
@@ -124,7 +123,6 @@ class IMatchExtPortal2 *g_pMatchExtPortal2 = &g_MatchExtPortal2;
 
 #include "basepanel.h"
 #include "../gameui/cstrike15/cstrike15basepanel.h"
-#include "../Scaleform/messagebox_scaleform.h"
 
 typedef CBaseModPanel UI_BASEMOD_PANEL_CLASS;
 inline UI_BASEMOD_PANEL_CLASS & GetUiBaseModPanelClass() { return *BasePanel(); }
@@ -175,13 +173,6 @@ CGameUI *g_pGameUI = NULL;
 vgui::VPANEL g_hLoadingBackgroundDialog = NULL;
 
 static CGameUI g_GameUI;
-
-#if defined( INCLUDE_SCALEFORM )
-IScaleformUI* ScaleformUI()
-{
-	return g_pScaleformUI;
-}
-#endif
 
 
 static IGameClientExports *g_pGameClientExports = NULL;
@@ -399,9 +390,6 @@ void CGameUI::SetLoadingBackgroundDialog( vgui::VPANEL panel )
 void CGameUI::Connect( CreateInterfaceFn gameFactory )
 {
 	g_pGameClientExports = (IGameClientExports *)gameFactory(GAMECLIENTEXPORTS_INTERFACE_VERSION, NULL);
-#if defined( INCLUDE_SCALEFORM )
-	g_pScaleformUI = ( IScaleformUI* ) gameFactory( SCALEFORMUI_INTERFACE_VERSION, NULL );
-#endif
 
 	achievementmgr = engine->GetAchievementMgr();
 

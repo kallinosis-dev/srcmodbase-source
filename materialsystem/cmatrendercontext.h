@@ -659,27 +659,6 @@ public:
 	void									DoStartupShaderPreloading( void );
 #endif
 
-
-	//---------------------------------------------------------
-
-#if defined( INCLUDE_SCALEFORM )
-	//--------------------------------------------------------
-	// scaleform interaction
-	//--------------------------------------------------------
-
-	void									SetScaleformSlotViewport( int slot, int x, int y, int w, int h ) { ScaleformUI()->SetSlotViewport( slot, x, y, w, h ); }
-	void									RenderScaleformSlot( int slot ) { ScaleformUI()->RenderSlot( slot ); }
-	void									ForkRenderScaleformSlot( int slot ) { ScaleformUI()->ForkRenderSlot( slot ); }
-	void									JoinRenderScaleformSlot( int slot ) { ScaleformUI()->JoinRenderSlot( slot ); }
-
-	void									SetScaleformCursorViewport( int x, int y, int w, int h ) { ScaleformUI()->SetCursorViewport( x, y, w, h ); }
-	void									RenderScaleformCursor( void ) { ScaleformUI()->RenderCursor(); }
-
-	void									AdvanceAndRenderScaleformSlot( int slot ) { ScaleformUI()->AdvanceSlot( slot ); ScaleformUI()->RenderSlot( slot ); }
-	void									AdvanceAndRenderScaleformCursor() { ScaleformUI()->AdvanceCursor(); ScaleformUI()->RenderCursor(); }
-
-#endif // INCLUDE_SCALEFORM
-
 	DELEGATE_TO_OBJECT_1( ColorCorrectionHandle_t, FindLookup, const char *, g_pColorCorrectionSystem );
 
 	//---------------------------------------------------------

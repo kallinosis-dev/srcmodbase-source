@@ -62,7 +62,6 @@ $Project "Dedicated"
 			$File	"$SRCDIR\filesystem\basefilesystem.cpp"
 			$File	"$SRCDIR\filesystem\basefilesystemasync.cpp"
 			$File	"$SRCDIR\filesystem\filesystem_stdio.cpp"
-			$File	"$SRCDIR\filesystem\filesystem_steam.cpp" [!$POSIX]
 			$File	"$SRCDIR\filesystem\filesystemasync.cpp"
 			$File	"$SRCDIR\public\zip_utils.cpp"
 			$File	"$SRCDIR\filesystem\linux_support.cpp" [$POSIX]

@@ -241,12 +241,8 @@ void Con_ShowConsole_f( void )
 		// show the console
 		EngineVGui()->ShowConsole();
 
-		// [jason] Do not call this for CS:GO, since our loading screen is in Scaleform.  Additionally, this can
-		//	 cause a hang us during the load process since it prematurely fires OnEngineLevelLoadingFinished
-#if !defined( CSTRIKE15 )
 		// remove any loading screen
 		SCR_EndLoadingPlaque();
-#endif
 	}
 }
 

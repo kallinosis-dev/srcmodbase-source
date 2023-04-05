@@ -776,37 +776,6 @@ bool CSourceAppSystemGroup::Create()
 	if ( !AddSystems( appSystems ) ) 
 		return false;
 
-	// SF4 TODO
-	// Windows - See if we need to launch SF4 instead of SF3
-	// When we move entirely to SF4 this can go back in appsystems[] where it used to be
-#if defined( INCLUDE_SCALEFORM )
-   
-	if ( CommandLine()->FindParm( "-sf3" ) )
-	{
-		AppSystemInfo_t scaleformInfo[] =
-		{
-			{ LAUNCHER_APPSYSTEM( "scaleformui_3" ),		SCALEFORMUI_INTERFACE_VERSION },
-			{ "", "" }
-		};
-
-		if ( !AddSystems( scaleformInfo ) ) 
-		{
-			return false;
-		}			
-	}
-	else
-	{
-		AppSystemInfo_t scaleformInfo[] =
-		{
-			{ LAUNCHER_APPSYSTEM( "scaleformui" ),		SCALEFORMUI_INTERFACE_VERSION },
-			{ "", "" }
-		};
-
-		if ( !AddSystems( scaleformInfo ) ) 
-			return false;	
-	}
-#endif // INCLUDE_SCALEFORM
-		
 	// Hook in datamodel and p4 control if we're running with -tools
 	if ( IsPC() && ( ( CommandLine()->FindParm( "-tools" ) && !CommandLine()->FindParm( "-nop4" ) ) || CommandLine()->FindParm( "-p4" ) ) )
 	{

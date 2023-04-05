@@ -22,7 +22,6 @@ $Project "ihvtest1"
 {
 	$Folder	"Source Files"
 	{
-		$File	"$SRCDIR\public\bone_setup.cpp"
 		$File	"$SRCDIR\public\collisionutils.cpp"
 		$File	"ihvtest1.cpp"
 		$File	"$SRCDIR\public\studio.cpp"
@@ -100,6 +99,7 @@ $Project "ihvtest1"
 	{
 		$Lib appframework
 		$Lib mathlib
+		$Lib bonesetup
 		$Lib $LIBCOMMON\vtuneapi [$WIN32]
 	}
 }

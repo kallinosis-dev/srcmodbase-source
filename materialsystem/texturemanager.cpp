@@ -1240,19 +1240,6 @@ ITextureInternal *CTextureManager::FindTexture( const char *pTextureName )
 		}
 	}
 
-	// scaleform textures bypass the texture manager
-	if ( !V_strncmp( szCleanName, "scaleform", 9 ) )
-	{
-		ShaderAPITextureHandle_t hTex = g_pShaderAPI->FindTexture( szCleanName );
-		if ( hTex != INVALID_SHADERAPI_TEXTURE_HANDLE )
-		{
-			// Establish the lookup linking in the dictionary
-			ITextureInternal *pTxInt = ITextureInternal::CreateReferenceTextureFromHandle( szCleanName, TEXTURE_GROUP_SCALEFORM, hTex );
-			m_TextureList.Insert( szCleanName, pTxInt );
-			return pTxInt;
-		}
-	}
-
 	return NULL;
 }
 

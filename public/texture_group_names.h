@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -42,6 +42,5 @@
 #define TEXTURE_GROUP_VERTEX_SHADERS				"Vertex Shaders"
 #define TEXTURE_GROUP_RENDER_TARGET_SURFACE			"RenderTarget Surfaces"
 #define TEXTURE_GROUP_MORPH_TARGETS					"Morph Targets"
-#define TEXTURE_GROUP_SCALEFORM						"Scaleform textures"
 
 #endif // TEXTURE_GROUP_NAMES_H

@@ -27,10 +27,6 @@
 #include "cl_splitscreen.h"
 #endif
 
-#if defined( INCLUDE_SCALEFORM )
-#include "scaleformui/scaleformui.h"
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -44,7 +40,6 @@ enum KeyUpTarget_t
 	KEY_UP_TOOLS,
 	KEY_UP_CLIENT,
 	KEY_UP_GAMEUI,
-	KEY_UP_SCALEFORM,
 	KEY_UP_OVERLAY,
 
 	KEY_UP_TARGET_COUNT
@@ -138,13 +133,6 @@ void Key_SetBinding( ButtonCode_t keynum, const char *pBinding )
 	Q_strncpy( pNewBinding, pBinding, l + 1 );
 	pNewBinding[l] = 0;
 	s_KeyContext.m_pKeyInfo[keynum].m_pKeyBinding = pNewBinding;	
-
-#if defined( INCLUDE_SCALEFORM )
-	if ( g_pScaleformUI )
-	{
-		g_pScaleformUI->UpdateBindingForButton( keynum, pBinding );
-	}
-#endif
 
 #ifndef DEDICATED
 	if ( g_ClientDLL )
@@ -987,81 +975,6 @@ static bool HandleVGuiKey( const InputEvent_t &event )
 	return EngineVGui()->Key_Event( event );
 }
 
-
-#if defined( INCLUDE_SCALEFORM )
-//-----------------------------------------------------------------------------
-// Lets scaleform have a whack at key events
-//-----------------------------------------------------------------------------
-static bool HandleScaleformKey( const InputEvent_t &event )
-{
-	ButtonCode_t code = ( ButtonCode_t ) event.m_nData;
-
-	bool bDown = ( event.m_nType == IE_ButtonPressed ) || ( event.m_nType == IE_ButtonDoubleClicked );
-	if ( bDown )
-	{
-		if ( IsX360() )
-		{
-			LogKeyPress( code );
-			CheckCheatCodes();
-		}
-
-
-	#if defined ( CSTRIKE15 )
-
-		if ( !g_ClientDLL->IsLoadingScreenRaised() && !g_ClientDLL->IsChatRaised() && !g_ClientDLL->IsBindMenuRaised() && !g_ClientDLL->IsRadioPanelRaised() && !g_ClientDLL->IsTeamMenuRaised() )
-	#endif
-		{
-
-			const char * szBinding = s_KeyContext.m_pKeyInfo[ code ].m_pKeyBinding;
-	
-			if ( szBinding && szBinding[0] )
-			{
-				// Add entries to this list if you want to PREVENT scaleform from filtering them
-				static const char *szNoFilterList[] = 
-				{
-					"screenshot",
-				};
-
-				static const int kNumNoFilterEntries = sizeof( szNoFilterList ) / sizeof( szNoFilterList[0] );
-
-				for ( int idx=0; idx < kNumNoFilterEntries; ++idx )
-				{
-					if ( StringHasPrefix( szBinding, szNoFilterList[idx] ) )
-					{
-						return false;
-					}
-				}
-
-				// Only filter these binds when the GameUI is active
-				static const char *szNoFilterListGameUI[] = 
-				{
-					"messagemode",
-					"messagemode2",
-					"+showscores",
-					"togglescores",
-					"+voicerecord",
-				};
-
-				static const int kNumNoFilterEntriesGameUI = sizeof( szNoFilterListGameUI ) / sizeof( szNoFilterListGameUI[0] );
-
-				if ( !EngineVGui()->IsGameUIVisible() )
-				{
-					for ( int idx=0; idx < kNumNoFilterEntriesGameUI; ++idx )
-					{
-						if ( StringHasPrefix( szBinding, szNoFilterListGameUI[idx] ) )
-						{
-							return false;
-						}
-					}
-				}
-			}
-		}
-	}
-
-	return g_pScaleformUI->HandleInputEvent( event );
-}
-#endif
-
 //-----------------------------------------------------------------------------
 // Lets the client have a whack at key events
 //-----------------------------------------------------------------------------
@@ -1312,21 +1225,7 @@ void Key_Event( const InputEvent_t &event )
 		// Let vgui have a whack at keys
 		if ( FilterKey( event, KEY_UP_VGUI, HandleVGuiKey ) )
 			return;
-
-#if defined( INCLUDE_SCALEFORM )
-		// scaleform goes first
-		if ( FilterKey( event, KEY_UP_SCALEFORM, HandleScaleformKey ) )
-			return;
-#endif
 	}
-#if defined ( CSTRIKE15 )
-	else if ( g_ClientDLL->IsChatRaised() || g_ClientDLL->IsBindMenuRaised() )
-	{
-		if ( FilterKey( event, KEY_UP_SCALEFORM, HandleScaleformKey ) )
-			return;
-	}
-
-#endif
 
 	// Let the new GameUI system have a whack at keys
 	if ( FilterKey( event, KEY_UP_GAMEUI, HandleGameUIKey ) )
@@ -1340,23 +1239,6 @@ void Key_Event( const InputEvent_t &event )
 	// let's see if VGUI wants to do something with it.
 	if ( IsESC( event ) )
 	{
-#if defined( INCLUDE_SCALEFORM ) 
-		bool bAllowScaleformFilter = true;
-		static ConVarRef cv_console_window_open( "console_window_open" );
-		static ConVarRef cv_server_browser_dialog_open( "server_browser_dialog_open" );
-		if ( ( cv_console_window_open.GetBool() ) ||
-			 ( cv_server_browser_dialog_open.GetBool() ) ||
-			 ( EngineSoundClient() && EngineSoundClient()->IsMoviePlaying() ) )
-		{
-			// make closing the console window, server browser dialog, or exiting a movie priority
-			bAllowScaleformFilter = false;
-		}
-
-		if ( bAllowScaleformFilter && FilterKey( event, KEY_UP_SCALEFORM, HandleScaleformKey ) )
-			return;
-
-#endif // INCLUDE_SCALEFORM
-
 		// Let vgui have a whack at keys
 		if ( FilterKey( event, KEY_UP_VGUI, HandleVGuiKey ) )
 			return;

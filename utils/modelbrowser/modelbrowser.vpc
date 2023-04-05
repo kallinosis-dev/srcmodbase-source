@@ -30,7 +30,6 @@ $Project "Modelbrowser"
 		$File	"$SRCDIR\public\interpolatortypes.h"
 		$File	"modelbrowser.cpp"
 		$File	"$SRCDIR\public\vgui_controls\vgui_controls.cpp"
-		$File	"$SRCDIR\public\bone_setup.cpp"
 		$File	"$SRCDIR\public\studio.cpp"
 		$File	"$SRCDIR\public\collisionutils.cpp"
 	}
@@ -52,5 +51,6 @@ $Project "Modelbrowser"
 		$Lib tier2
 		$Lib tier3
 		$Lib vgui_controls
+		$Lib bonesetup
 	}
 }

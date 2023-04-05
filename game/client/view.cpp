@@ -1188,24 +1188,6 @@ void CViewRender::Render( vrect_t *rect )
 	// Draw all of the UI stuff "fullscreen"
 	if ( true ) // For PIXEVENT
 	{
-#if defined( INCLUDE_SCALEFORM )
-		// Render Scaleform after game and HUD, but before VGui 
-		{
-			CMatRenderContextPtr pRenderContext( materials );
-#if PIX_ENABLE
-			{
-				PIXEVENT( pRenderContext, "Scaleform UI" );
-			}
-#endif
-
-			pRenderContext->SetScaleformSlotViewport( SF_FULL_SCREEN_SLOT, rect->x, rect->y, rect->width, rect->height );
-			pRenderContext->AdvanceAndRenderScaleformSlot( SF_FULL_SCREEN_SLOT );
-
-			pRenderContext->Flush();
-			pRenderContext.SafeRelease();
-		}
-#endif
-
 		{
 			CMatRenderContextPtr pRenderContext( materials );
 #if PIX_ENABLE
@@ -1230,23 +1212,6 @@ void CViewRender::Render( vrect_t *rect )
 			pRenderContext.SafeRelease();
 		}
 
-#if defined( INCLUDE_SCALEFORM )
-		// Render Scaleform cursor after VGui 
-		{
-			CMatRenderContextPtr pRenderContext( materials );
-#if PIX_ENABLE
-			{
-				PIXEVENT( pRenderContext, "Scaleform Cursor UI" );
-			}
-#endif
-
-			pRenderContext->SetScaleformCursorViewport( rect->x, rect->y, rect->width, rect->height );
-			pRenderContext->AdvanceAndRenderScaleformCursor();
-
-			pRenderContext->Flush();
-			pRenderContext.SafeRelease();
-		}
-#endif
 	}
 
 	m_bAllowViewAccess = false;

@@ -201,14 +201,6 @@ bool CAudioSDL::Init( const audio_device_init_params_t &params )
 	// start audio playback
 	SDL_PauseAudioDevice( m_nDeviceID, 0 );
 
-#if defined( LINUX ) && defined( INCLUDE_SCALEFORM )
-	// Send the obtained audio device details to scaleform
-    if ( g_pScaleformUI )
-    {
-        g_pScaleformUI->SDLSetAudioSpec( sizeof(m_deviceSpec), &m_deviceSpec );
-    }
-#endif
-
 	return true;
 }
 
@@ -235,13 +227,6 @@ void CAudioSDL::OutputBuffer( int nChannels, CAudioMixBuffer *pChannelArray )
 	{
 		ConvertFloat32Int16_Clamp_InterleaveStride( pWaveData, m_nChannels, MIX_BUFFER_SIZE, pChannelArray[0].m_flData, nChannels, MIX_BUFFER_SIZE );
 	}
-
-#if defined( LINUX ) && defined( INCLUDE_SCALEFORM )
-    if ( g_pScaleformUI )
-    {
-        g_pScaleformUI->SDLMixAudio( nChannels, pWaveData, m_nBufferSizeBytes );
-    }
-#endif
 
 //	Old way of sending data, by queueing it. Now we do it by providing it in the callback.
 //	SDL_QueueAudio( m_nDeviceID, m_pBuffer, m_nBufferSizeBytes );

@@ -2895,27 +2895,6 @@ void CTextureListPanel::Paint()
 		KeepKeysMatchingFilter( textureList.Get(), chFilterString );
 	}
 
-	// Remove scaleform texture
-	if ( 1 )
-	{
-		KeyValues *pNext;
-		for ( KeyValues *pCur=textureList.Get()->GetFirstSubKey(); pCur; pCur=pNext )
-		{
-			pNext = pCur->GetNextKey();
-
-			char const *szName = pCur->GetString( KEYNAME_NAME );
-
-			char chName[MAX_PATH] = {0};
-			Q_strncpy( chName, szName, sizeof( chName ) - 1 );
-			ToLowerInplace( chName );
-
-			if ( V_stristr( chName, "ScaleformDynamic" ) )
-			{
-				textureList.Get()->RemoveSubKey( pCur );
-			}
-		}
-	}
-
 	// Compute the total size of the displayed textures
 	int cbTotalDisplayedSizeInBytes = 0;
 	

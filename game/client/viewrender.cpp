@@ -3501,21 +3501,6 @@ void CViewRender::RenderView( const CViewSetup &view, const CViewSetup &hudViewS
 	m_CurrentView = hudViewSetup;
 	pRenderContext = materials->GetRenderContext();
 
-	if( IsPS3() )
-	{
-#if !defined( CSTRIKE15 )
-		extern bool ShouldDrawHudViewfinder();
-		// HUD viewfinder has complex material that isn't handled correctly by deferred queuing in material system, so we shouldn't attempt to 
-		if( !ShouldDrawHudViewfinder() )
-		{
-			pRenderContext->AntiAliasingHint( AA_HINT_TEXT );	
-		}
-#else
-		// mdonofrio - Ensure we don't MLAA scaleform/hud rendering
-		pRenderContext->AntiAliasingHint( AA_HINT_TEXT );	
-#endif // CSTRIKE15
-	}
-
 	if ( true )
 	{
 		PIXEVENT( pRenderContext, "2D Client Rendering" );
@@ -3565,10 +3550,6 @@ void CViewRender::RenderView( const CViewSetup &view, const CViewSetup &hudViewS
 
 			GetClientMode()->PostRenderVGui();
 
-#if defined( INCLUDE_SCALEFORM )
-			pRenderContext->SetScaleformSlotViewport( SF_SS_SLOT( slot ), hudViewSetup.x, hudViewSetup.y, hudViewSetup.width, hudViewSetup.height );
-			pRenderContext->AdvanceAndRenderScaleformSlot( SF_SS_SLOT( slot ) );
-#endif
 			pRenderContext->Flush();
 		}
 

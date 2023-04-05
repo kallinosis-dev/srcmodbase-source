@@ -1501,9 +1501,6 @@ bool SixenseInput::InMenuMode()
 #endif
 
 #if defined( CSTRIKE_DLL ) && !defined( TERROR )
-#ifdef CSTRIKE15
-		BasePanel()->IsScaleformPauseMenuVisible() ||
-#endif
 		cstrike_panel_visible ||
 #endif
 		(SixenseInput::m_SixenseFrame && SixenseInput::m_SixenseFrame->IsVisible() ) || 

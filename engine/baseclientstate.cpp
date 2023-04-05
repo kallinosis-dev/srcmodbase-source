@@ -35,10 +35,6 @@
 #include "hltvserver.h"
 #include "UtlStringMap.h"
 
-#if defined( INCLUDE_SCALEFORM )
-#include "scaleformui/scaleformui.h"
-#endif
-
 #include "vgui/ILocalize.h"
 #include "eiface.h"
 #include "cl_broadcast.h"
@@ -58,10 +54,6 @@ ConVar cl_teammate_color_2( "cl_teammate_color_2", "150 34 223" );
 ConVar cl_teammate_color_3( "cl_teammate_color_3", "0 165 90" );
 ConVar cl_teammate_color_4( "cl_teammate_color_4", "92 168 255" );
 ConVar cl_teammate_color_5( "cl_teammate_color_5", "255 155 37" );
-
-#if defined( INCLUDE_SCALEFORM )
-const char* g_szDefaultScaleformClientMovieName = "resource/flash/GameUIRootMovie.swf";
-#endif
 
 #ifdef ENABLE_RPT
 void CL_NotifyRPTOfDisconnect( );
@@ -1274,15 +1266,6 @@ void CBaseClientState::Disconnect( bool bShowMainMenu )
 	{
 		splitscreen->RemoveSplitScreenUser( m_nSplitScreenSlot, m_nPlayerSlot + 1 );
 	}
-
-#if defined( INCLUDE_SCALEFORM )
-	if ( g_pScaleformUI )
-	{
-		g_pScaleformUI->ShutdownIME();
-		g_pScaleformUI->SlotRelease( SF_SS_SLOT( m_nSplitScreenSlot ) );
-	}
-#endif
-
 #endif // DEDICATED
 }
 
@@ -2621,15 +2604,6 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 	
 #ifndef DEDICATED
 	splitscreen->AddBaseUser( 0, msg.player_slot() + 1 );
-
-#if defined( INCLUDE_SCALEFORM )
-	if ( g_pScaleformUI )
-	{
-		extern IScaleformSlotInitController *g_pIScaleformSlotInitControllerEngineImpl;
-		g_pScaleformUI->InitSlot( SF_SS_SLOT( 0 ), g_szDefaultScaleformClientMovieName, g_pIScaleformSlotInitControllerEngineImpl );
-	}
-#endif
-
 #endif
 	m_nPlayerSlot = msg.player_slot();
 	m_nViewEntity = msg.player_slot() + 1; 
@@ -3345,19 +3319,11 @@ bool CBaseClientState::SVCMsg_SplitScreen( const CSVCMsg_SplitScreen& msg )
 	case MSG_SPLITSCREEN_ADDUSER:
 		{
 			splitscreen->AddSplitScreenUser( msg.slot(), msg.player_index() );
-#if defined( INCLUDE_SCALEFORM )
-			extern IScaleformSlotInitController *g_pIScaleformSlotInitControllerEngineImpl;
-			g_pScaleformUI->InitSlot( SF_SS_SLOT( msg.slot() ), g_szDefaultScaleformClientMovieName, g_pIScaleformSlotInitControllerEngineImpl );
-#endif
 		}
 		break;
 	case MSG_SPLITSCREEN_REMOVEUSER:
 		{
 			splitscreen->RemoveSplitScreenUser( msg.slot(), msg.player_index() );
-
-#if defined( INCLUDE_SCALEFORM )
-			g_pScaleformUI->SlotRelease( SF_SS_SLOT( msg.slot() ) );
-#endif
 		}
 		break;
 	}
