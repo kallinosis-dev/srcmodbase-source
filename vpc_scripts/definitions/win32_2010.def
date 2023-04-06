@@ -802,6 +802,15 @@
 		{
 			"type"	"string"
 		}
+
+		"$LanguageStandard"
+		{
+			"ordinals"
+			{
+				"stdcpplatest" "stdcpplatest"
+				// TODO: Other versions
+			}
+		}
 	}
 
 	"$Librarian"

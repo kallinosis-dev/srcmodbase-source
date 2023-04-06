@@ -26,6 +26,7 @@ $Configuration
 
 	$Compiler
 	{
+		$LanguageStandard "stdcpplatest"
 		$MultiProcessorCompilation "True"
 
 		// warning C4316: object allocated on the heap may not be aligned 16
