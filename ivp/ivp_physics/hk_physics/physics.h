@@ -181,7 +181,7 @@ public:
 
 	void hk_Link_EF::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vector<IVP_Core> * /*core_list*/) 
 	{
-		apply_effector_PSI( *(hk_PSI_Info *)(es), NULL );
+		apply_effector_PSI( *(hk_PSI_Info *)(es), nullptr);
 	}
 
     hk_Link_EF(hk_Environment *env)

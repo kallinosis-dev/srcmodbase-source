@@ -166,7 +166,7 @@ Vector getVectorFromString(const char *pString)
 	while( token )
 	{
 		result[i] = atof( token );
-		token = strtok( NULL, "," );
+		token = strtok(nullptr, "," );
 		i++;
 	}
 	return result;
@@ -367,8 +367,8 @@ private:
 
 // singleton system
 C_SoundscapeSystem g_SoundscapeSystem;
-ConVar *C_SoundscapeSystem::m_pDSPVolumeVar = NULL;
-ConVar *C_SoundscapeSystem::m_pSoundMixerVar = NULL;
+ConVar *C_SoundscapeSystem::m_pDSPVolumeVar = nullptr;
+ConVar *C_SoundscapeSystem::m_pSoundMixerVar = nullptr;
 
 IGameSystem *ClientSoundscapeSystem()
 {
@@ -431,7 +431,7 @@ bool C_SoundscapeSystem::Init()
 	}
 
 	const char *mapname = MapName();
-	const char *mapSoundscapeFilename = NULL;
+	const char *mapSoundscapeFilename = nullptr;
 	if ( mapname && *mapname )
 	{
 		mapSoundscapeFilename = VarArgs( "scripts/soundscapes_%s.txt", mapname );
@@ -440,7 +440,7 @@ bool C_SoundscapeSystem::Init()
 	KeyValues *manifest = new KeyValues( SOUNDSCAPE_MANIFEST_FILE );
 	if ( filesystem->LoadKeyValues( *manifest, IFileSystem::TYPE_SOUNDSCAPE, SOUNDSCAPE_MANIFEST_FILE, "GAME" ) )
 	{
-		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 		{
 			if ( !Q_stricmp( sub->GetName(), "file" ) )
 			{
@@ -448,7 +448,7 @@ bool C_SoundscapeSystem::Init()
 				AddSoundScapeFile( sub->GetString() );
 				if ( mapSoundscapeFilename && FStrEq( sub->GetString(), mapSoundscapeFilename ) )
 				{
-					mapSoundscapeFilename = NULL; // we've already loaded the map's soundscape
+					mapSoundscapeFilename = nullptr; // we've already loaded the map's soundscape
 				}
 				continue;
 			}
@@ -489,7 +489,7 @@ KeyValues *C_SoundscapeSystem::SoundscapeByIndex( int index )
 {
 	if ( m_soundscapes.IsValidIndex(index) )
 		return m_soundscapes[index];
-	return NULL;
+	return nullptr;
 }
 
 const char *C_SoundscapeSystem::SoundscapeNameByIndex( int index )
@@ -499,7 +499,7 @@ const char *C_SoundscapeSystem::SoundscapeNameByIndex( int index )
 		return m_soundscapes[index]->GetName();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void C_SoundscapeSystem::Shutdown()
@@ -563,7 +563,7 @@ static int SoundscapeCompletion( const char *partial, char commands[ COMMAND_COM
 	int current = 0;
 
 	const char *cmdname = "playsoundscape";
-	char *substring = NULL;
+	char *substring = nullptr;
 	int substringLen = 0;
 	if ( Q_strstr( partial, cmdname ) && strlen(partial) > strlen(cmdname) + 1 )
 	{
@@ -609,7 +609,7 @@ CON_COMMAND_F( stopsoundscape, "Stops all soundscape processing and fades curren
 	FOR_EACH_VALID_SPLITSCREEN_PLAYER( hh )
 	{
 		ACTIVE_SPLITSCREEN_PLAYER_GUARD( hh );
-		GetClientSoundscapeSystem()->StartNewSoundscape( NULL );
+		GetClientSoundscapeSystem()->StartNewSoundscape(nullptr);
 	}
 }
 
@@ -723,7 +723,7 @@ void C_SoundscapeSystem::Update( float frametime )
 			if ( pPlayer )
 			{
 				Vector origin, forward, right;
-				pPlayer->EyePositionAndVectors( &origin, &forward, &right, NULL );
+				pPlayer->EyePositionAndVectors( &origin, &forward, &right, nullptr);
 
 				// put the sound origins at the corners of a box around the player
 				GetPerUser(hh).m_params.localSound.Set( 0, origin + GetPerUser(hh).m_forcedSoundscapeRadius * (forward-right) );
@@ -952,7 +952,7 @@ void C_SoundscapeSystem::ProcessPlayLooping( KeyValues *pAmbient, const subsound
 {
 	float volume = 0;
 	soundlevel_t soundlevel = ATTN_TO_SNDLVL(ATTN_NORM);
-	const char *pSoundName = NULL;
+	const char *pSoundName = nullptr;
 	int pitch = PITCH_NORM;
 	int positionIndex = -1;
 	bool randomPosition = false;
@@ -1045,7 +1045,7 @@ void C_SoundscapeSystem::ProcessPlayLooping( KeyValues *pAmbient, const subsound
 		return;
 	}
 
-	if ( volume != 0 && pSoundName != NULL )
+	if ( volume != 0 && pSoundName != nullptr)
 	{
 		if ( randomPosition )
 		{
@@ -1105,7 +1105,7 @@ Vector C_SoundscapeSystem::GenerateRandomSoundPosition()
 	if ( pPlayer )
 	{
 		Vector origin, forward, right;
-		pPlayer->EyePositionAndVectors( &origin, &forward, &right, NULL );
+		pPlayer->EyePositionAndVectors( &origin, &forward, &right, nullptr);
 		return origin + DEFAULT_SOUND_RADIUS * (cosAngle * right + sinAngle * forward);
 	}
 	else
@@ -1320,7 +1320,7 @@ void C_SoundscapeSystem::ProcessPlaySoundscape( KeyValues *pPlaySoundscape, subs
 		return;
 	}
 	KeyValues *pKey = pPlaySoundscape->GetFirstSubKey();
-	const char *pSoundscapeName = NULL;
+	const char *pSoundscapeName = nullptr;
 	while ( pKey )
 	{
 		if ( !Q_strcasecmp( pKey->GetName(), "volume" ) )
@@ -1395,7 +1395,7 @@ int C_SoundscapeSystem::AddLoopingSound( const char *pSoundName, bool isAmbient,
 {
 	Split_t &slot = GetPerUser(GET_ACTIVE_SPLITSCREEN_SLOT());
 
-	loopingsound_t *pSoundSlot = NULL;
+	loopingsound_t *pSoundSlot = nullptr;
 	int soundSlot = slot.m_loopingSounds.Count() - 1;
 	bool bForceSoundUpdate = false;
 	while ( soundSlot >= 0 )

@@ -74,7 +74,7 @@ CQuickListPanel::CQuickListPanel( vgui::Panel* pParent, const char *pElementName
 
 	m_pListPanelParent = pParent;
 
-	CMouseMessageForwardingPanel *panel = new CMouseMessageForwardingPanel(this, NULL);
+	CMouseMessageForwardingPanel *panel = new CMouseMessageForwardingPanel(this, nullptr);
 	panel->SetZPos(3);
 
 	m_pLatencyImage = new ImagePanel( this, "latencyimage" );
@@ -171,7 +171,7 @@ void CQuickListPanel::SetGameType( const char *pGameType )
 //-----------------------------------------------------------------------------
 void CQuickListPanel::SetServerInfo ( KeyValues *pKV, int iListID )
 {
-	if ( pKV == NULL )
+	if ( pKV == nullptr)
 		return;
 
 	m_iListID = iListID;

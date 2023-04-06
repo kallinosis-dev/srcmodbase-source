@@ -95,7 +95,7 @@ CChoreoEvent *CChoreoChannel::GetEvent( int event )
 {
 	if ( event < 0 || event >= m_Events.Count() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_Events[ event ];
@@ -154,7 +154,7 @@ int CChoreoChannel::FindEventIndex( CChoreoEvent *event )
 void CChoreoChannel::Init( void )
 {
 	m_szName[ 0 ] = 0;
-	SetActor( NULL );
+	SetActor(nullptr);
 	m_bActive = true;
 }
 
@@ -226,7 +226,7 @@ void CChoreoChannel::ReconcileGestureTimes()
 	if ( !sortedGestures.Count() )
 		return;
 
-	CChoreoEvent *previous = NULL;
+	CChoreoEvent *previous = nullptr;
 
 	for ( i = sortedGestures.FirstInorder(); i != sortedGestures.InvalidIndex(); i = sortedGestures.NextInorder( i ) )
 	{
@@ -459,7 +459,7 @@ void CChoreoChannel::ReconcileCloseCaption()
 
 		// Okay, read them back in of start time
 		int j = eg.timeSortedEvents.FirstInorder();
-		CChoreoEvent *master = NULL;
+		CChoreoEvent *master = nullptr;
 		while ( j != eg.timeSortedEvents.InvalidIndex() )
 		{
 			CChoreoEvent *e = eg.timeSortedEvents[ j ];

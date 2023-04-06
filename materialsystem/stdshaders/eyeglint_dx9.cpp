@@ -29,7 +29,7 @@ SHADER_INIT
 
 SHADER_FALLBACK
 {
-	return 0;
+	return nullptr;
 }
 
 SHADER_DRAW

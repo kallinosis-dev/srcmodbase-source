@@ -37,9 +37,9 @@ END_DATADESC()
 
 LINK_ENTITY_TO_CLASS( vote_controller, CVoteController );
 
-CVoteController *g_voteControllerGlobal = NULL;
-CVoteController *g_voteControllerCT = NULL;
-CVoteController *g_voteControllerT = NULL;
+CVoteController *g_voteControllerGlobal = nullptr;
+CVoteController *g_voteControllerCT = nullptr;
+CVoteController *g_voteControllerT = nullptr;
 
 ConVar sv_vote_timer_duration("sv_vote_timer_duration", "15", FCVAR_RELEASE, "How long to allow voting on an issue");
 ConVar sv_vote_command_delay("sv_vote_command_delay", "2", FCVAR_RELEASE, "How long after a vote passes until the action happens", false, 0, true, 4.5);
@@ -174,9 +174,9 @@ CON_COMMAND_F( callvote, "Start a vote on an issue.", FCVAR_GAMEDLL_FOR_REMOTE_C
 //-----------------------------------------------------------------------------
 CVoteController::~CVoteController()
 {
-	if ( g_voteControllerGlobal == this )	{	g_voteControllerGlobal = NULL; }
-	else if ( g_voteControllerCT == this )	{	g_voteControllerCT = NULL; }
-	else if ( g_voteControllerT == this ) 	{	g_voteControllerT = NULL; }
+	if ( g_voteControllerGlobal == this )	{	g_voteControllerGlobal = nullptr; }
+	else if ( g_voteControllerCT == this )	{	g_voteControllerCT = nullptr; }
+	else if ( g_voteControllerT == this ) 	{	g_voteControllerT = nullptr; }
 
 
 	for( int issueIndex = 0; issueIndex < m_potentialIssues.Count(); ++issueIndex )
@@ -541,7 +541,7 @@ CVoteController::TryCastVoteResult CVoteController::TryCastVote( int iEntIndex, 
 	{
 		CBaseEntity *pVoteHolder = UTIL_EntityByIndex( m_iEntityHoldingVote );
 
-		if( ( pVoteHolder == NULL ) || ( pVoter == NULL ) || ( GetVoterTeam( pVoteHolder ) != GetVoterTeam( pVoter ) ) )
+		if( ( pVoteHolder == nullptr) || ( pVoter == nullptr) || ( GetVoterTeam( pVoteHolder ) != GetVoterTeam( pVoter ) ) )
 		{
 			return CAST_FAIL_TEAM_RESTRICTED;
 		}
@@ -732,7 +732,7 @@ void CVoteController::VoteControllerThink( void )
 				m_resetVoteTimer.Start( 5.0 );
 
 				CBaseEntity *pVoteHolder = UTIL_EntityByIndex( m_iEntityHoldingVote );
-				CBasePlayer *pVoteHolderPlayer = ( pVoteHolder && pVoteHolder->IsPlayer() ) ? (CBasePlayer *)( pVoteHolder ) : NULL;
+				CBasePlayer *pVoteHolderPlayer = ( pVoteHolder && pVoteHolder->IsPlayer() ) ? (CBasePlayer *)( pVoteHolder ) : nullptr;
 				if( pVoteHolderPlayer )
 				{
 					pVoteHolderPlayer->GetLastHeldVoteTimer().Invalidate();	// You can go ahead and make a new vote since yours passed.
@@ -808,7 +808,7 @@ void CVoteController::CheckForEarlyVoteClose( void )
 //-----------------------------------------------------------------------------
 bool CVoteController::IsValidVoter( CBasePlayer *pWhom )
 {
-	if ( pWhom == NULL )
+	if ( pWhom == nullptr)
 		return false;
 
 	if ( !pWhom->IsConnected() )

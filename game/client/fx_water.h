@@ -80,7 +80,7 @@ inline void FX_GetSplashLighting( Vector position, Vector *color, float *luminos
 	UTIL_GetNormalizedColorTintAndLuminosity( totalColor, color, luminosity );
 	
 	// Fake a specular highlight (too dim otherwise)
-	if ( luminosity != NULL )
+	if ( luminosity != nullptr)
 	{
 		*luminosity = MIN( 1.0f, (*luminosity) * 4.0f );
 		
@@ -92,7 +92,7 @@ inline void FX_GetSplashLighting( Vector position, Vector *color, float *luminos
 	}
 	
 	// Only take a quarter of the tint, mostly we want to be white
-	if ( color != NULL )
+	if ( color != nullptr)
 	{
 		(*color) = ( (*color) * 0.25f ) + Vector( 0.75f, 0.75f, 0.75f );
 	}

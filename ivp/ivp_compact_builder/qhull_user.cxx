@@ -133,7 +133,7 @@ int qh_new_qhull (int dim, int numpoints, coordT *points, boolT ismalloc,
     ivp_message( "qh_new_qhull: start qhull_cmd argument with \"qhull \"\n");
     exit(1);
   }
-  qh_initqhull_start (NULL, outfile, errfile);
+  qh_initqhull_start (nullptr, outfile, errfile);
   trace1(( qh ferr, "qh_new_qhull: build new Qhull for %d %d-d points with %s\n", numpoints, dim, qhull_cmd));
   exitcode = setjmp (qh errexit);
   if (!exitcode)
@@ -202,7 +202,7 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
 	qh ERREXITcalled= True;
 	if (!qh QHULLfinished)
 	    qh hulltime= qh_CPUclock - qh hulltime;
-	qh_errprint("ERRONEOUS", facet, NULL, ridge, NULL);
+	qh_errprint("ERRONEOUS", facet, nullptr, ridge, nullptr);
 	ivp_message( "\nWhile executing: %s | %s\n", qh rbox_command, qh qhull_command);
 	ivp_message( "Options selected for %s:\n%s\n", qh_version, qh qhull_options);
 	if (qh furthest_id >= 0) {
@@ -228,7 +228,7 @@ void qh_errexit(int exitcode, facetT *facet, ridgeT *ridge) {
 		}
 	    }
 	    if (qh PRINTprecision)
-		qh_printstats (qh ferr, qhstat precision, NULL);
+		qh_printstats (qh ferr, qhstat precision, nullptr);
 	}
 	if (!exitcode)
 	    exitcode= qh_ERRqhull;

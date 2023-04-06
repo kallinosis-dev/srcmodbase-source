@@ -15,7 +15,7 @@
 
 IScriptVM *GameUIScriptSystemCreate( )
 {
-	IScriptVM	*pScriptVM = NULL;
+	IScriptVM	*pScriptVM = nullptr;
 
 	ScriptLanguage_t scriptLanguage = SL_LUA;
 
@@ -40,7 +40,7 @@ HSCRIPT GameUIScriptSystemCompile( IScriptVM *pScriptVM, const char *pszScriptNa
 {
 	if ( !pScriptVM )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	static const char *pszExtensions[] =
@@ -57,7 +57,7 @@ HSCRIPT GameUIScriptSystemCompile( IScriptVM *pScriptVM, const char *pszScriptNa
 	if ( pszIncomingExtension && V_stricmp( pszIncomingExtension, pszVMExtension ) != 0 )
 	{
 		Msg( "Script file type does not match VM type\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	CFmtStr scriptPath;
@@ -76,7 +76,7 @@ HSCRIPT GameUIScriptSystemCompile( IScriptVM *pScriptVM, const char *pszScriptNa
 	if ( pScriptVM->GetLanguage() == SL_PYTHON )
 	{
 		// python auto-loads raw or precompiled modules - don't load data here
-		pBase = NULL;
+		pBase = nullptr;
 	}
 	else
 	{
@@ -91,7 +91,7 @@ HSCRIPT GameUIScriptSystemCompile( IScriptVM *pScriptVM, const char *pszScriptNa
 
 		if ( !pBase || !*pBase )
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 

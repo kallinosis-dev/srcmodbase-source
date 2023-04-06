@@ -183,7 +183,7 @@ CDmeTransformList *CDmeModel::FindBaseState( const char *pBaseStateName )
 		if ( !V_stricmp( m_BaseStates[i]->GetName(), pBaseStateName ) )
 			return m_BaseStates[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -373,7 +373,7 @@ matrix3x4_t *CDmeModel::SetupModelRenderState( const matrix3x4_t& shapeToWorld, 
 			return s_PoseToWorld.Base();
 		}
 		if ( retVal != NO_SKIN_DATA )
-			return NULL;
+			return nullptr;
 	}
 
 	if ( bForceSoftwareSkin )
@@ -387,7 +387,7 @@ matrix3x4_t *CDmeModel::SetupModelRenderState( const matrix3x4_t& shapeToWorld, 
 
 	pRenderContext->MatrixMode( MATERIAL_MODEL );
 	pRenderContext->LoadMatrix( shapeToWorld );
-	return NULL;
+	return nullptr;
 }
 
 void CDmeModel::CleanupModelRenderState()
@@ -495,7 +495,7 @@ void CDmeModel::ReplaceMaterial( const char *pOldMaterialName, const char *pNewM
 //-----------------------------------------------------------------------------
 CDmeDag *CDmeModel::GetJoint( const char *pJointName )
 {
-	CDmeDag *pJoint = NULL;
+	CDmeDag *pJoint = nullptr;
 
 	const int nJointCount = m_JointList.Count();
 	for ( int i = 0; i < nJointCount; ++i )
@@ -508,7 +508,7 @@ CDmeDag *CDmeModel::GetJoint( const char *pJointName )
 			return pJoint;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

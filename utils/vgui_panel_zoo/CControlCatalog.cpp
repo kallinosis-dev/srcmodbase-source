@@ -27,7 +27,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CControlCatalog::CControlCatalog(): Frame(NULL, "PanelZoo")
+CControlCatalog::CControlCatalog(): Frame(nullptr, "PanelZoo")
 {
 	SetTitle("VGUI SDK Sample Application", true);
 	// calculate defaults
@@ -121,7 +121,7 @@ CControlCatalog::CControlCatalog(): Frame(NULL, "PanelZoo")
 	// These are the names of the panels in the panel list
 	for ( i = sorted.FirstInorder() ; i != sorted.InvalidIndex(); i = sorted.NextInorder( i ) )
 	{
-		m_pSelectControl->AddItem( sorted[ i ], NULL);
+		m_pSelectControl->AddItem( sorted[ i ], nullptr);
 	}
 
 	m_pSelectControl->ActivateItem(0);

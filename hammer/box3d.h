@@ -81,8 +81,8 @@ protected:
 	virtual void GetStatusString(char *pszBuf);
     unsigned long UpdateCursor(CMapView *pView, const Vector &vHandleHit, TransformMode_t eTransformMode);
 
-	void HandleToWorld( Vector &vWorld, const Vector &vHandle, const Vector *pCustomHandleBox = NULL);
-	const Vector NearestCorner(const Vector2D &vPoint, CMapView *pView, const Vector *pCustomHandleBox = NULL);
+	void HandleToWorld( Vector &vWorld, const Vector &vHandle, const Vector *pCustomHandleBox = nullptr);
+	const Vector NearestCorner(const Vector2D &vPoint, CMapView *pView, const Vector *pCustomHandleBox = nullptr);
 	int GetVisibleHandles( Vector *handles, CMapView *, int nMode );
 
 	void RenderHandles2D(CRender2D *pRender, const Vector &mins, const Vector &maxs );
@@ -98,7 +98,7 @@ public:
 	
 	// If pCustomHandleBox is non-null, it points at an array 2 vectors (min and max), and
 	// it will use those bounds to figure out the corners that it will align to the grid.
-	virtual void StartTranslation( CMapView *pView, const Vector2D &vPoint, const Vector &vHandleOrigin, const Vector *pRefPoint = NULL, const Vector *pCustomHandleBox = NULL );
+	virtual void StartTranslation( CMapView *pView, const Vector2D &vPoint, const Vector &vHandleOrigin, const Vector *pRefPoint = nullptr, const Vector *pCustomHandleBox = nullptr);
 	
 	virtual bool UpdateTranslation(const Vector &vUpdate, UINT uConstraints);
 	virtual void FinishTranslation(bool bSave);

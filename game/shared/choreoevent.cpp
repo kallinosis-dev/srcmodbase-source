@@ -404,7 +404,7 @@ bool CEventAbsoluteTag::GetExit( void )
 CFlexAnimationTrack::CFlexAnimationTrack( CChoreoEvent *event )
 {
 	m_pEvent			= event;
-	m_pControllerName	=	NULL;
+	m_pControllerName	= nullptr;
 	m_bActive			= false;
 	m_bCombo			= false;
 	m_bServerSide		= false;
@@ -422,7 +422,7 @@ CFlexAnimationTrack::CFlexAnimationTrack( CChoreoEvent *event )
 //-----------------------------------------------------------------------------
 CFlexAnimationTrack::CFlexAnimationTrack( const CFlexAnimationTrack* src )
 {
-	m_pControllerName = NULL;
+	m_pControllerName = nullptr;
 	SetFlexControllerName( src->m_pControllerName ? src->m_pControllerName : "" );
 
 	m_bActive	= src->m_bActive;
@@ -451,7 +451,7 @@ CFlexAnimationTrack::CFlexAnimationTrack( const CFlexAnimationTrack* src )
 	m_EdgeInfo[ 0 ] = src->m_EdgeInfo[ 0 ];
 	m_EdgeInfo[ 1 ] = src->m_EdgeInfo[ 1 ];
 
-	m_pEvent = NULL;
+	m_pEvent = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -540,7 +540,7 @@ CExpressionSample *CFlexAnimationTrack::GetSample( int index, int type /*=0*/ )
 	Assert( type == 0 || type == 1 );
 
 	if ( index < 0 || index >= GetNumSamples( type ) )
-		return NULL;
+		return nullptr;
 	return &m_Samples[ type ][ index ];
 }
 
@@ -743,8 +743,8 @@ float CFlexAnimationTrack::GetFracIntensity( float time, int type )
 		return zeroValueLeft;
 	}
 
-	CExpressionSample *esStart = NULL;
-	CExpressionSample *esEnd = NULL;
+	CExpressionSample *esStart = nullptr;
+	CExpressionSample *esEnd = nullptr;
 
 	// do binary search for sample in time period
 	int j = MAX( rampCount / 2, 1 );
@@ -1184,8 +1184,8 @@ CChoreoEvent& CChoreoEvent::operator=( const CChoreoEvent& src )
 	// Copy global id when copying entity
 	m_nGlobalID = src.m_nGlobalID;
 
-	m_pActor = NULL;
-	m_pChannel = NULL;
+	m_pActor = nullptr;
+	m_pChannel = nullptr;
 
 	m_nDefaultCurveType = src.m_nDefaultCurveType;
 	m_fType = src.m_fType;
@@ -1301,13 +1301,13 @@ void CChoreoEvent::Init( CChoreoScene *scene )
 	m_flStartTime		= 0.0f;
 	m_flEndTime			= -1.0f;
 
-	m_pActor			= NULL;
-	m_pChannel			= NULL;
+	m_pActor			= nullptr;
+	m_pChannel			= nullptr;
 	m_pScene			= scene;
 
 	m_bFixedLength		= false;
 	m_bResumeCondition	= false;
-	SetUsingRelativeTag( false, 0, 0 );
+	SetUsingRelativeTag( false, nullptr, nullptr );
 
 	m_bTrackLookupSet	= false;
 
@@ -1317,10 +1317,10 @@ void CChoreoEvent::Init( CChoreoScene *scene )
 	m_bSyncToFollowingGesture = false;
 	m_bPlayOverScript = false;
 
-	m_pSubScene			= NULL;
+	m_pSubScene			= nullptr;
 	m_bProcessing		= false;
 	m_bHasStopped		= false;
-	m_pMixer  			= NULL;
+	m_pMixer  			= nullptr;
 	m_flGestureSequenceDuration = 0.0f;
 
 	m_nPitch = m_nYaw = 0;
@@ -1618,8 +1618,8 @@ float CCurveData::GetIntensity( ICurveDataAccessor *data, float time )
 		return 1.0f;
 	}
 
-	CExpressionSample *esStart = NULL;
-	CExpressionSample *esEnd = NULL;
+	CExpressionSample *esStart = nullptr;
+	CExpressionSample *esEnd = nullptr;
 
 	// do binary search for sample in time period
 	int j = MAX( rampCount / 2, 1 );
@@ -1800,8 +1800,8 @@ float CCurveData::GetIntensityArea( ICurveDataAccessor *data, float time )
 		return 1.0f;
 	}
 
-	CExpressionSample *esStart = NULL;
-	CExpressionSample *esEnd = NULL;
+	CExpressionSample *esStart = nullptr;
+	CExpressionSample *esEnd = nullptr;
 
 	// do binary search for sample in time period
 	int j = MAX( rampCount / 2, 1 );
@@ -2449,7 +2449,7 @@ CEventRelativeTag * CChoreoEvent::FindRelativeTag( const char *tagname )
 			return prt;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2604,7 +2604,7 @@ CFlexTimingTag * CChoreoEvent::FindTimingTag( const char *tagname )
 			return ptt;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2641,7 +2641,7 @@ int CChoreoEvent::GetNumFlexAnimationTracks( void )
 CFlexAnimationTrack *CChoreoEvent::GetFlexAnimationTrack( int index )
 {
 	if ( index < 0 || index >= GetNumFlexAnimationTracks() )
-		return NULL;
+		return nullptr;
 	return m_FlexAnimationTracks[ index ];
 }
 
@@ -2700,7 +2700,7 @@ CFlexAnimationTrack *CChoreoEvent::FindTrack( const char *controllername )
 			return t;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2977,7 +2977,7 @@ CEventAbsoluteTag *CChoreoEvent::FindAbsoluteTag( AbsTagType type, const char *t
 			return ptag;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3186,8 +3186,8 @@ float CChoreoEvent::GetOriginalPercentageFromPlaybackPercentage( float t )
 	end = MIN( end, count );
 	next = MIN( next, count + 1 );
 
-	CEventAbsoluteTag *pStartTag = NULL;
-	CEventAbsoluteTag *pEndTag = NULL;
+	CEventAbsoluteTag *pStartTag = nullptr;
+	CEventAbsoluteTag *pEndTag = nullptr;
 
 	// check for linear portion of lookup
 	if (start >= 0 && start < count)
@@ -3312,8 +3312,8 @@ float CChoreoEvent::GetPlaybackPercentageFromOriginalPercentage( float t )
 	end = MIN( end, count );
 	next = MIN( next, count + 1 );
 
-	CEventAbsoluteTag *pStartTag = NULL;
-	CEventAbsoluteTag *pEndTag = NULL;
+	CEventAbsoluteTag *pStartTag = nullptr;
+	CEventAbsoluteTag *pEndTag = nullptr;
 
 	// check for linear portion of lookup
 	if (start >= 0 && start < count)
@@ -3509,7 +3509,7 @@ int	 CCurveData::GetCount( void )
 CExpressionSample *CCurveData::Get( int index )
 {
 	if ( index < 0 || index >= GetCount() )
-		return NULL;
+		return nullptr;
 
 	return &m_Ramp[ index ];
 }
@@ -3714,7 +3714,7 @@ CEventAbsoluteTag *CChoreoEvent::FindEntryTag( AbsTagType type )
 			return ptag;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3735,7 +3735,7 @@ CEventAbsoluteTag *CChoreoEvent::FindExitTag( AbsTagType type )
 			return ptag;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 

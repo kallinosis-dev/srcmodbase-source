@@ -37,7 +37,7 @@ struct AnalysisData
 
 static AnalysisData g_Analysis;
 
-IBaseFileSystem *filesystem = NULL;
+IBaseFileSystem *filesystem = nullptr;
 //IFileSystem *g_pFullFileSystem = NULL;
 
 //-----------------------------------------------------------------------------
@@ -54,7 +54,7 @@ void vprint( int depth, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -98,7 +98,7 @@ void logprint( char const *logfile, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 	static bool first = true;
 	if ( first )
 	{
@@ -382,7 +382,7 @@ void DescribeKV( int depth, KeyValues *parent, KeyValues *kv )
 	// Then add peers
 	if ( !parent && kv->GetNextKey() )
 	{
-		DescribeKV( depth, NULL, kv->GetNextKey() );
+		DescribeKV( depth, nullptr, kv->GetNextKey() );
 	}
 }
 
@@ -518,8 +518,8 @@ bool CCompileKeyValuesApp::Create()
 
 void CCompileKeyValuesApp::Destroy()
 {
-	g_pFullFileSystem = NULL;
-	g_pFileSystem = filesystem = NULL;
+	g_pFullFileSystem = nullptr;
+	g_pFileSystem = filesystem = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -527,7 +527,7 @@ void CCompileKeyValuesApp::Destroy()
 //-----------------------------------------------------------------------------
 bool CCompileKeyValuesApp::SetupSearchPaths()
 {
-	if ( !BaseClass::SetupSearchPaths( NULL, false, true ) )
+	if ( !BaseClass::SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	// Set gamedir.

@@ -135,7 +135,7 @@ bool ParseRect( KeyValues *pValues, const char* pFieldName, int& x, int& y, int&
 //-----------------------------------------------------------------------------
 // Helper class to make meta class panels (for use in entities, so they autocleanup)
 //-----------------------------------------------------------------------------
-CPanelWrapper::CPanelWrapper() : m_pPanel(NULL)
+CPanelWrapper::CPanelWrapper() : m_pPanel(nullptr)
 {
 }
 
@@ -159,7 +159,7 @@ void CPanelWrapper::Deactivate( void )
 	if ( m_pPanel )
 	{
 		PanelMetaClassMgr()->DestroyPanelMetaClass( m_pPanel );
-		m_pPanel = NULL;
+		m_pPanel = nullptr;
 	}
 }
 
@@ -404,7 +404,7 @@ vgui::Panel *CPanelMetaClassMgrImp::CreatePanelMetaClass( const char* pMetaClass
 	// Search for the metaclass name
 	int i = m_MetaClassDict.Find( pMetaClassName );
 	if (i == m_MetaClassDict.InvalidIndex())
-		return NULL; 
+		return nullptr; 
 
 	// Now that we've got the metaclass, we can figure out what kind of
 	// panel to instantiate...
@@ -413,13 +413,13 @@ vgui::Panel *CPanelMetaClassMgrImp::CreatePanelMetaClass( const char* pMetaClass
 	if ( metaClass.m_TypeIndex == m_MetaClassDict.InvalidIndex() )
 	{
 		AssertMsg( "Type Index invalid for Meta class %s in m_MetaClassDict.", pMetaClassName );
-		return NULL;
+		return nullptr;
 	}
 	IPanelFactory* pFactory = m_PanelTypeDict[metaClass.m_TypeIndex];
-	if ( pFactory == NULL )
+	if ( pFactory == nullptr)
 	{
 		AssertMsg( "Null factory found for Meta class %s in m_PanelTypeDict.", pMetaClassName );
-		return NULL;
+		return nullptr;
 	}
 
 	// Set up the key values for use in initialization

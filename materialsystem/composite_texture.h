@@ -78,7 +78,7 @@ class CCompositeTexture;
 class CCompositeTextureResult : public ITextureRegenerator
 {
 public:
-	CCompositeTextureResult( CCompositeTexture *pOwner ) : m_pOwner( pOwner ), m_pTexture( NULL ) {}
+	CCompositeTextureResult( CCompositeTexture *pOwner ) : m_pOwner( pOwner ), m_pTexture(nullptr) {}
 
 	virtual void RegenerateTextureBits( ITexture *pTexture, IVTFTexture *pVTFTexture, Rect_t *pRect );
 	virtual void Release();

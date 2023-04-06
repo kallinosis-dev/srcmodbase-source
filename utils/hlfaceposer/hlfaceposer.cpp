@@ -209,7 +209,7 @@ void MakeFileWriteable( const char *filename )
 	char *pFullPath;
 	if ( !Q_IsAbsolutePath( filename ) )
 	{
-		pFullPath = (char*)filesystem->RelativePathToFullPath( filename, NULL, pFullPathBuf, sizeof(pFullPathBuf) );
+		pFullPath = (char*)filesystem->RelativePathToFullPath( filename, nullptr, pFullPathBuf, sizeof(pFullPathBuf) );
 	}
 	else
 	{
@@ -236,7 +236,7 @@ bool IsFileWriteable( const char *filename )
 	char *pFullPath;
 	if ( !Q_IsAbsolutePath( filename ) )
 	{
-		pFullPath = (char*)filesystem->RelativePathToFullPath( filename, NULL, pFullPathBuf, sizeof(pFullPathBuf) );
+		pFullPath = (char*)filesystem->RelativePathToFullPath( filename, nullptr, pFullPathBuf, sizeof(pFullPathBuf) );
 	}
 	else
 	{
@@ -259,8 +259,8 @@ bool MakeFileWriteablePrompt( const char *filename, char const *promptTitle )
 {
 	if ( !IsFileWriteable( filename ) )
 	{
-		int retval = mxMessageBox( NULL, va( "File '%s' is Read-Only, make writable?", filename ),
-			promptTitle, MX_MB_WARNING | MX_MB_YESNO );
+		int retval = mxMessageBox(nullptr, va( "File '%s' is Read-Only, make writable?", filename ),
+		                          promptTitle, MX_MB_WARNING | MX_MB_YESNO );
 
 		// Didn't pick yes, bail
 		if ( retval != 0 )
@@ -280,7 +280,7 @@ void FPCopyFile( const char *source, const char *dest, bool bCheckOut )
 
 	if ( !Q_IsAbsolutePath( source ) )
 	{
-		filesystem->RelativePathToFullPath( source, NULL, fullpaths, sizeof(fullpaths) );
+		filesystem->RelativePathToFullPath( source, nullptr, fullpaths, sizeof(fullpaths) );
 	}
 	else
 	{
@@ -476,19 +476,19 @@ bool FacePoser_ShowFileNameDialog( bool openFile, char *relative, size_t bufsize
 	}
 
 // Show file io
-	const char *fullpath = NULL;
+	const char *fullpath = nullptr;
 	
 	if ( openFile )
 	{
 		fullpath = mxGetOpenFileName( 
-			0, 
+			nullptr, 
 			inWorkingDirectoryAlready ? "." : FacePoser_MakeWindowsSlashes( va( "%s%s/", GetGameDirectory(), subdir ) ), 
 			wildcard );
 	}
 	else
 	{
 		fullpath = mxGetSaveFileName( 
-			0, 
+			nullptr, 
 			inWorkingDirectoryAlready ? "." : FacePoser_MakeWindowsSlashes( va( "%s%s/", GetGameDirectory(), subdir ) ), 
 			wildcard );
 	}
@@ -522,7 +522,7 @@ int ConvertANSIToUnicode(const char *ansi, wchar_t *unicode, int unicodeBufferSi
 //-----------------------------------------------------------------------------
 int ConvertUnicodeToANSI(const wchar_t *unicode, char *ansi, int ansiBufferSize)
 {
-	return ::WideCharToMultiByte(CP_ACP, 0, unicode, -1, ansi, ansiBufferSize, NULL, NULL);
+	return ::WideCharToMultiByte(CP_ACP, 0, unicode, -1, ansi, ansiBufferSize, nullptr, nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -634,7 +634,7 @@ char const *FacePoser_TranslateSoundName( char const *soundname, StudioModel *mo
 	}
 	else
 	{
-		Q_strncpy( temp, PSkipSoundChars( soundemitter->GetWavFileForSound( soundname, NULL ) ), sizeof( temp ) );
+		Q_strncpy( temp, PSkipSoundChars( soundemitter->GetWavFileForSound( soundname, nullptr) ), sizeof( temp ) );
 	}
 	return temp;
 }
@@ -648,18 +648,18 @@ char const *FacePoser_TranslateSoundName( CChoreoEvent *event )
 	// See if we can figure out the .mdl associated to this event's actor
 	static char temp[ 256 ];
 	temp[ 0 ] = 0;
-	StudioModel *model = NULL;
+	StudioModel *model = nullptr;
 
 	CChoreoActor *a = event->GetActor();
 	CChoreoScene *s = event->GetScene();
 
-	if ( a != NULL && 
-		 s != NULL )
+	if ( a != nullptr && 
+		 s != nullptr)
 	{
 		model = FindAssociatedModel( s, a );
 	}
 
-	Q_strncpy( temp, PSkipSoundChars( soundemitter->GetWavFileForSound( soundname, model ? model->GetFileName() : NULL ) ), sizeof( temp ) );
+	Q_strncpy( temp, PSkipSoundChars( soundemitter->GetWavFileForSound( soundname, model ? model->GetFileName() : nullptr) ), sizeof( temp ) );
 	return temp;
 }
 
@@ -686,7 +686,7 @@ char *Q_stristr_slash( char const *pStr, char const *pSearch )
 	AssertValidStringPtr(pSearch);
 
 	if (!pStr || !pSearch) 
-		return 0;
+		return nullptr;
 
 	char const* pLetter = pStr;
 
@@ -703,7 +703,7 @@ char *Q_stristr_slash( char const *pStr, char const *pSearch )
 			{
 				// We've run off the end; don't bother.
 				if (*pMatch == 0)
-					return 0;
+					return nullptr;
 
 				if ( !charsmatch( *pMatch, *pTest ) )
 					break;
@@ -720,7 +720,7 @@ char *Q_stristr_slash( char const *pStr, char const *pSearch )
 		++pLetter;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 static CUniformRandomStream g_Random;

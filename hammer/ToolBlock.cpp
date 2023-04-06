@@ -71,7 +71,7 @@ bool CToolBlockMessageWnd::Create(void)
 		return(false);
 	}
 
-	return(CWnd::CreateEx(0, g_pszClassName, g_pszClassName, 0, CRect(0, 0, 10, 10), NULL, 0) == TRUE);
+	return(CWnd::CreateEx(0, g_pszClassName, g_pszClassName, 0, CRect(0, 0, 10, 10), nullptr, 0) == TRUE);
 }
 
 
@@ -457,7 +457,7 @@ void CToolBlock::CreateMapObject(CMapView *pView)
 
 	// Create the object within the given bounding box.
 	CMapClass *pObject = GetMainWnd()->m_ObjectBar.CreateInBox(&NewBox, pView);
-	if (pObject == NULL)
+	if (pObject == nullptr)
 	{
 		SetEmpty();
 		return;

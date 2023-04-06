@@ -86,10 +86,10 @@ bool CToolDecal::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &
 	ULONG ulFace;
 	CMapClass *pObject;
 
-	if ((pObject = pView->NearestObjectAt( vPoint, ulFace)) != NULL)
+	if ((pObject = pView->NearestObjectAt( vPoint, ulFace)) != nullptr)
 	{
 		CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pObject);
-		if (pSolid == NULL)
+		if (pSolid == nullptr)
 		{
 			return true;
 		}
@@ -105,7 +105,7 @@ bool CToolDecal::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &
 		CMapFace *pFace = pSolid->GetFace(ulFace);
 		if (pFace->TraceLine(HitPos, HitNormal, Start, End))
 		{
-			GetHistory()->MarkUndoPosition(NULL, "Create decal");
+			GetHistory()->MarkUndoPosition(nullptr, "Create decal");
 
 			CMapEntity *pEntity = new CMapEntity;
 			pEntity->SetKeyValue("texture", GetDefaultTextureName());
@@ -115,8 +115,8 @@ bool CToolDecal::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &
 
 			CMapWorld *pWorld = pDoc->GetMapWorld();
 
-			CMapDecal *pDecal = pEntity->GetChildOfType((CMapDecal *)NULL);
-			if (pDecal != NULL)
+			CMapDecal *pDecal = pEntity->GetChildOfType((CMapDecal *)nullptr);
+			if (pDecal != nullptr)
 			{
 				pDecal->DecalAllSolids(pWorld);
 			}

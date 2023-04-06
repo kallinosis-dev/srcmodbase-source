@@ -41,7 +41,7 @@ public:
 	CVProfRecorder()
 	{
 		m_Mode = Mode_None;
-		m_hFile = NULL;
+		m_hFile = nullptr;
 		m_nQueuedStarts = 0;
 		m_nQueuedStops = 0;
 		m_iPlaybackTick = -1;
@@ -91,7 +91,7 @@ public:
 
 	void Stop()
 	{
-		if ( (m_Mode == Mode_Record || m_Mode == Mode_Playback) && m_hFile != NULL )
+		if ( (m_Mode == Mode_Record || m_Mode == Mode_Playback) && m_hFile != nullptr)
 		{
 			if ( m_Mode == Mode_Record )
 				++m_nQueuedStops;
@@ -100,7 +100,7 @@ public:
 		}
 
 		m_Mode = Mode_None;
-		m_hFile = NULL;
+		m_hFile = nullptr;
 		g_pVProfileForDisplay = &g_VProfCurrentProfile;	// Stop using us for vprofile displays.
 		m_iPlaybackTick = -1;
 		m_bNodesChanged = true;
@@ -131,7 +131,7 @@ public:
 		m_iLastUniqueNodeID = -1;
 		m_hFile = g_pFileSystem->Open( pFilename, "wb" );
 		m_Mode = Mode_Record;
-		if ( m_hFile == NULL )
+		if ( m_hFile == nullptr)
 		{
 			return false;
 		}
@@ -166,7 +166,7 @@ public:
 			while ( !pOut->m_pChild || pIn->m_pChild->GetUniqueNodeID() != pOut->m_pChild->GetUniqueNodeID() )
 			{
 				// Find the last new node in the list.
-				const CVProfNode *pToAdd = NULL;
+				const CVProfNode *pToAdd = nullptr;
 				const CVProfNode *pCur = pIn->m_pChild;
 				while ( pCur )
 				{
@@ -331,7 +331,7 @@ public:
 		m_hFile = g_pFileSystem->Open( pFilename, "rb" );
 		m_Mode = Mode_Playback;
 		m_bPlaybackPaused = true;
-		if ( m_hFile == NULL )
+		if ( m_hFile == nullptr)
 		{
 			Warning( "vprof_playback_start: Open( %s ) failed.\n", pFilename );
 			return false;
@@ -446,7 +446,7 @@ public:
 				return pTest;
 		}
 		
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -534,7 +534,7 @@ public:
 	// Read the next tick. If iDontGoPast is set, then it will abort IF the next tick's index
 	// is greater than iDontGoPast. In that case, sets pWouldHaveGonePast to true, 
 	// stays where it was before the call, and returns true.
-	bool Playback_ReadTick( int iDontGoPast = -1, bool *pWouldHaveGonePast = NULL )
+	bool Playback_ReadTick( int iDontGoPast = -1, bool *pWouldHaveGonePast = nullptr)
 	{
 		if ( pWouldHaveGonePast )
 			*pWouldHaveGonePast = false;
@@ -631,7 +631,7 @@ public:
 			if ( averages[i].m_pNode == pNode )
 				return &averages[i];
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	void UpdateAverages_R( CUtlVector<CNodeAverage> &averages, CVProfNode *pNode )
@@ -910,7 +910,7 @@ class CVPROFToCSVConverter
 public:
 	CVPROFToCSVConverter()
 	{
-		m_pTokenMap = NULL;
+		m_pTokenMap = nullptr;
 	}
 
 	void ConvertVPROJFileToCSVFile( const char *szVPROJName, const char *szCSVName )
@@ -1000,7 +1000,7 @@ protected:
 		if ( 0 != V_strcmp( pcNodeName, "Root" ) )
 		{
 			// If there is a token filter and it is populated then use it
-			if ( NULL == m_pTokenMap || 0 == m_pTokenMap->Count() ||  ( m_pTokenMap->InvalidIndex() != m_pTokenMap->Find( pcNodeName ) ) )
+			if (nullptr == m_pTokenMap || 0 == m_pTokenMap->Count() ||  ( m_pTokenMap->InvalidIndex() != m_pTokenMap->Find( pcNodeName ) ) )
 			{
 				// Store the label in the label vector if we haven't seen it before
 				if (-1 == m_labelVector.Find( pcNodeName ) )

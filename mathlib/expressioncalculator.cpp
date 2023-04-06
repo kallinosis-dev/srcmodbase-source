@@ -181,7 +181,7 @@ const char *CExpressionCalculator::VariableName( int nIndex )
 
 bool CExpressionCalculator::ParseExpr( const char *&expr )
 {
-	return ( expr != NULL ) && ParseConditional( expr );
+	return ( expr != nullptr) && ParseConditional( expr );
 }
 
 bool CExpressionCalculator::ParseConditional( const char *&expr )

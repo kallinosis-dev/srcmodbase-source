@@ -26,7 +26,7 @@ CBitmapButton::CBitmapButton( vgui::Panel *pParent, const char *pName, const cha
 	{
 		m_bImageLoaded[i] = false;
 	}
-	_doublePressedActionMessage = NULL;
+	_doublePressedActionMessage = nullptr;
 }
 
 CBitmapButton::~CBitmapButton()

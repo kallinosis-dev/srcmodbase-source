@@ -78,7 +78,7 @@ public:
 	void SetStyle(DWORD dwStyle);
 
 	void AddItem(char * pszCaption, int iEditType, PVOID pData,
-		int iRangeMin = -1, int iRangeMax = -1, const char * pszHelp = NULL);
+		int iRangeMin = -1, int iRangeMax = -1, const char * pszHelp = nullptr);
 	void SetItemChoices(int iItem, CStringArray * pChoices, 
 		int iDefaultChoice = 0);
 	void GetItemText(int iItem, char *pszText);

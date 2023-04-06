@@ -98,14 +98,14 @@ public:
 	const char *GetMap( int globalIndex )
 	{
 		if ( !m_list.IsValidIndex(globalIndex) )
-			return NULL;
+			return nullptr;
 		return m_nameList.String( m_list[globalIndex].levelName );
 	}
 
 	const char *GetName( int globalIndex )
 	{
 		if ( !m_list.IsValidIndex(globalIndex) )
-			return NULL;
+			return nullptr;
 		return m_nameList.String( m_list[globalIndex].name );
 	}
 
@@ -289,7 +289,7 @@ END_DATADESC()
 
 int CGlobalState::Save( ISave &save )
 {
-	if ( !save.WriteFields( "GLOBAL", this, NULL, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
+	if ( !save.WriteFields( "GLOBAL", this, nullptr, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
 		return 0;
 	
 	return 1;
@@ -298,7 +298,7 @@ int CGlobalState::Save( ISave &save )
 int CGlobalState::Restore( IRestore &restore )
 {
 	Reset();
-	if ( !restore.ReadFields( "GLOBAL", this, NULL, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
+	if ( !restore.ReadFields( "GLOBAL", this, nullptr, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
 		return 0;
 	
 	return 1;

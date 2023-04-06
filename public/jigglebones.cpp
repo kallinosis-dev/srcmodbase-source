@@ -38,7 +38,7 @@ SELECTANY CDummyOverlay *debugoverlay = new CDummyOverlay;
 
 char *VarArgs( const char *format, ... )
 {
-	return NULL;
+	return nullptr;
 }
 #endif
 
@@ -92,7 +92,7 @@ JiggleData *CJiggleBones::GetJiggleData( int bone, float currenttime, const Vect
 
 	int idx = m_jiggleBoneState.AddToHead( data );
 	if ( idx == m_jiggleBoneState.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	return &m_jiggleBoneState[idx];
 }

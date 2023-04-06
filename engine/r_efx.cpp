@@ -152,14 +152,14 @@ dlight_t *CVEfx::GetElightByKey( int key )
 				}
 				else
 				{
-					return NULL;
+					return nullptr;
 				}
 			}
 		}
 	}
 
 	// if we are down here, we found nothing, or no lights were active
-	return NULL;
+	return nullptr;
 }
 
 // Expose it to the client .dll

@@ -65,17 +65,17 @@ struct AnimationControlAttributes_t : public AttributeValue_t
 {
 	AnimationControlAttributes_t()
 	{
-		m_pValueAttribute[ANIM_CONTROL_VALUE] = 0;
-		m_pValueAttribute[ANIM_CONTROL_VALUE_RIGHT] = 0;
-		m_pValueAttribute[ANIM_CONTROL_VALUE_LEFT] = 0;
-		m_pValueAttribute[ANIM_CONTROL_TXFORM_POSITION] = 0;
-		m_pValueAttribute[ANIM_CONTROL_TXFORM_ORIENTATION] = 0;
+		m_pValueAttribute[ANIM_CONTROL_VALUE] = nullptr;
+		m_pValueAttribute[ANIM_CONTROL_VALUE_RIGHT] = nullptr;
+		m_pValueAttribute[ANIM_CONTROL_VALUE_LEFT] = nullptr;
+		m_pValueAttribute[ANIM_CONTROL_TXFORM_POSITION] = nullptr;
+		m_pValueAttribute[ANIM_CONTROL_TXFORM_ORIENTATION] = nullptr;
 
-		m_pTimesAttribute[ANIM_CONTROL_VALUE] = 0;
-		m_pTimesAttribute[ANIM_CONTROL_VALUE_RIGHT] = 0;
-		m_pTimesAttribute[ANIM_CONTROL_VALUE_LEFT] = 0;
-		m_pTimesAttribute[ANIM_CONTROL_TXFORM_POSITION] = 0;
-		m_pTimesAttribute[ANIM_CONTROL_TXFORM_ORIENTATION] = 0;
+		m_pTimesAttribute[ANIM_CONTROL_VALUE] = nullptr;
+		m_pTimesAttribute[ANIM_CONTROL_VALUE_RIGHT] = nullptr;
+		m_pTimesAttribute[ANIM_CONTROL_VALUE_LEFT] = nullptr;
+		m_pTimesAttribute[ANIM_CONTROL_TXFORM_POSITION] = nullptr;
+		m_pTimesAttribute[ANIM_CONTROL_TXFORM_ORIENTATION] = nullptr;
 	}
 
 	void Clear()
@@ -94,7 +94,7 @@ typedef CUtlMap< DmElementHandle_t, AnimationControlAttributes_t, unsigned short
 inline AttributeDict_t *CopyAttributeDict( AttributeDict_t *pSrc )
 {
 	if ( !pSrc )
-		return NULL;
+		return nullptr;
 
 	AttributeDict_t *pDest = new AttributeDict_t();
 	pDest->AccessTree()->CopyFrom( *pSrc->AccessTree() );

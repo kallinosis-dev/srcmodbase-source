@@ -27,7 +27,7 @@ void vprint( int depth, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -77,7 +77,7 @@ unsigned char *COM_LoadFile( const char *name, int *len)
 	if ( !fp )
 	{
 		*len = 0;
-		return NULL;
+		return nullptr;
 	}
 
 	fseek( fp, 0, SEEK_END );

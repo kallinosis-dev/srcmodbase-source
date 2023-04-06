@@ -21,7 +21,7 @@ CCvarNegateCheckButton::CCvarNegateCheckButton( Panel *parent, const char *panel
 	const char *cvarname )
  : CheckButton( parent, panelName, text )
 {
-	m_pszCvarName = cvarname ? strdup( cvarname ) : NULL;
+	m_pszCvarName = cvarname ? strdup( cvarname ) : nullptr;
 	Reset();
 	AddActionSignalTarget( this );
 }

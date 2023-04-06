@@ -19,9 +19,9 @@
 gmLog::gmLog() :
   m_mem(1, GMLOG_CHAINSIZE)
 {
-  m_first = NULL;
-  m_last = NULL;
-  m_curr = NULL;
+  m_first = nullptr;
+  m_last = nullptr;
+  m_curr = nullptr;
 
   m_memApproxLimit = -1;
 }
@@ -36,9 +36,9 @@ gmLog::~gmLog()
 
 void gmLog::Reset()
 {
-  m_first = NULL;
-  m_last = NULL;
-  m_curr = NULL;
+  m_first = nullptr;
+  m_last = nullptr;
+  m_curr = nullptr;
   m_mem.Reset();
 }
 
@@ -46,9 +46,9 @@ void gmLog::Reset()
 
 void gmLog::ResetAndFreeMemory()
 {
-  m_first = NULL;
-  m_last = NULL;
-  m_curr = NULL;
+  m_first = nullptr;
+  m_last = nullptr;
+  m_curr = nullptr;
   m_mem.ResetAndFreeMemory();
 }
 
@@ -71,14 +71,14 @@ void GM_CDECL gmLog::LogEntry(const char * a_format, ...)
 
   // add to entry list
   Entry * entry = (Entry *) m_mem.AllocBytes(sizeof(Entry) + sizeof(int), GM_DEFAULT_ALLOC_ALIGNMENT);
-  if(entry != NULL)
+  if(entry != nullptr)
   {
     char * text = (char *) m_mem.AllocBytes(strlen(buffer) + 1, GM_DEFAULT_ALLOC_ALIGNMENT);
     if(text)
     {
       strcpy(text, buffer);
       entry->m_text = text;
-      entry->m_next = NULL;
+      entry->m_next = nullptr;
       if(m_last)
       {
         m_last->m_next = entry;
@@ -109,7 +109,7 @@ const char * gmLog::GetEntry(bool &a_first)
     return text;
   }
 
-  return NULL;
+  return nullptr;
 }
 
 

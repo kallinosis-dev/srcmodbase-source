@@ -209,7 +209,7 @@ void CAI_BaseNPC::RemoveFromSquad()
 	if ( m_pSquad )
 	{
 		m_pSquad->RemoveFromSquad( this, false );
-		m_pSquad = NULL;
+		m_pSquad = nullptr;
 	}
 }
 
@@ -222,7 +222,7 @@ void CAI_BaseNPC::CheckSquad()
 	if( !GetSquad()->IsLeader(this) )
 		return;
 
-	if( VPhysicsGetObject() != NULL && (VPhysicsGetObject()->GetGameFlags() & FVPHYSICS_PLAYER_HELD) )
+	if( VPhysicsGetObject() != nullptr && (VPhysicsGetObject()->GetGameFlags() & FVPHYSICS_PLAYER_HELD) )
 	{
 		// I AM the leader, and I'm currently being held. This will screw up all of my relationship checks
 		// if I'm a manhack or a rollermine, so just bomb out and try next time.
@@ -239,7 +239,7 @@ void CAI_BaseNPC::CheckSquad()
 
 			// Rollermines and manhacks set their Class to NONE when held by the player, which makes all of 
 			// their squadmates complain that an enemy is in the squad. Suppress this.
-			if( pSquadmate->VPhysicsGetObject() != NULL )
+			if( pSquadmate->VPhysicsGetObject() != nullptr)
 			{
 				if (pSquadmate->VPhysicsGetObject()->GetGameFlags() & FVPHYSICS_PLAYER_HELD)
 				{

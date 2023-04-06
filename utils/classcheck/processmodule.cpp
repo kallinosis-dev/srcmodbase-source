@@ -46,7 +46,7 @@ CClass *CCodeProcessor::FindClass( const char *name ) const
 
 		cl = cl->m_pNext;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void ClearMissingTypes();
@@ -62,7 +62,7 @@ void CCodeProcessor::Clear( void )
 		delete cl;
 		cl = next;
 	}
-	m_pClassList = NULL;
+	m_pClassList = nullptr;
 }
 
 
@@ -109,7 +109,7 @@ void CCodeProcessor::SortClassList( void )
 		{
 			ppList[ i ]->m_pNext = ppList[ i + 1 ];
 		}
-		ppList[ i ]->m_pNext = NULL;
+		ppList[ i ]->m_pNext = nullptr;
 		m_pClassList = ppList[ 0 ];
 	}
 	delete[] ppList;
@@ -1233,7 +1233,7 @@ void CCodeProcessor::ProcessModule( bool forcequiet, int depth, int& maxdepth, i
 		maxdepth = depth;
 	}
 	int filelength;
-	char *buffer = NULL;
+	char *buffer = nullptr;
 		
 	// Always skip these particular modules/headers
 	if ( SkipFile( module ) )
@@ -1569,7 +1569,7 @@ void CCodeProcessor::PrintResults( const char *baseentityclass )
 
 CCodeProcessor::CCodeProcessor( void )
 {
-	m_pClassList					= NULL;
+	m_pClassList					= nullptr;
 	
 	m_Modules.RemoveAll();
 

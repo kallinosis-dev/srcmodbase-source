@@ -50,7 +50,7 @@ extern int giPrecacheGrunt;
 
 extern bool IsInCommentaryMode( void );
 
-ConVar  *sv_cheats = NULL;
+ConVar  *sv_cheats = nullptr;
 static ConVar tv_relaytextchat( "tv_relaytextchat", "1", FCVAR_RELEASE, "Relay text chat data: 0=off, 1=say, 2=say+say_team" );
 
 void ClientKill( edict_t *pEdict, const Vector &vecForce, bool bExplode = false )
@@ -65,7 +65,7 @@ char * CheckChatText( CBasePlayer *pPlayer, char *text )
 
 	// invalid if NULL or empty
 	if ( !text || !text[0] )
-		return NULL;
+		return nullptr;
 
 	int length = Q_strlen( text );
 
@@ -134,7 +134,7 @@ void Host_Say( edict_t *pEdict, const CCommand &args, bool teamonly )
 		p = szTemp;
 	}
 
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 	if ( pEdict )
 	{
 		pPlayer = ((CBasePlayer *)CBaseEntity::Instance( pEdict ));
@@ -171,9 +171,9 @@ void Host_Say( edict_t *pEdict, const CCommand &args, bool teamonly )
 		bSenderDead = false;
 	}
 
-	const char *pszFormat = NULL;
-	const char *pszPrefix = NULL;
-	const char *pszLocation = NULL;
+	const char *pszFormat = nullptr;
+	const char *pszPrefix = nullptr;
+	const char *pszLocation = nullptr;
 	if ( g_pGameRules )
 	{
 		pszFormat = g_pGameRules->GetChatFormat( teamonly, pPlayer );
@@ -211,7 +211,7 @@ void Host_Say( edict_t *pEdict, const CCommand &args, bool teamonly )
 	// This may return the world in single player if the client types something between levels or during spawn
 	// so check it, or it will infinite loop
 
-	client = NULL;
+	client = nullptr;
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
 		client = ToBaseMultiplayerPlayer( UTIL_PlayerByIndex( i ) );
@@ -490,7 +490,7 @@ CON_COMMAND_F( cast_hull, "Tests hull collision detection", FCVAR_CHEAT )
 CBaseEntity *GetNextCommandEntity( CBasePlayer *pPlayer, const char *name, CBaseEntity *ent )
 {
 	if ( !pPlayer )
-		return NULL;
+		return nullptr;
 
 	// If no name was given set bits based on the picked
 	if (FStrEq(name,"")) 
@@ -498,9 +498,9 @@ CBaseEntity *GetNextCommandEntity( CBasePlayer *pPlayer, const char *name, CBase
 		// If we've already found an entity, return NULL. 
 		// Makes it easier to write code using this func.
 		if ( ent )
-			return NULL;
+			return nullptr;
 
-		return pPlayer ? pPlayer->FindPickerEntity() : NULL;
+		return pPlayer ? pPlayer->FindPickerEntity() : nullptr;
 	}
 
 	int index = atoi( name );
@@ -509,13 +509,13 @@ CBaseEntity *GetNextCommandEntity( CBasePlayer *pPlayer, const char *name, CBase
 		// If we've already found an entity, return NULL. 
 		// Makes it easier to write code using this func.
 		if ( ent )
-			return NULL;
+			return nullptr;
 
 		return CBaseEntity::Instance( index );
 	}
 		
 	// Loop through all entities matching, starting from the specified previous
-	while ( (ent = gEntList.NextEnt(ent)) != NULL )
+	while ( (ent = gEntList.NextEnt(ent)) != nullptr)
 	{
 		if (  (ent->GetEntityName() != NULL_STRING	&& ent->NameMatches(name))	|| 
 			  (ent->m_iClassname != NULL_STRING && ent->ClassMatches(name)) )
@@ -524,7 +524,7 @@ CBaseEntity *GetNextCommandEntity( CBasePlayer *pPlayer, const char *name, CBase
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -536,8 +536,8 @@ void SetDebugBits( CBasePlayer* pPlayer, const char *name, int bit )
 	if ( !pPlayer )
 		return;
 
-	CBaseEntity *pEntity = NULL;
-	while ( (pEntity = GetNextCommandEntity( pPlayer, name, pEntity )) != NULL )
+	CBaseEntity *pEntity = nullptr;
+	while ( (pEntity = GetNextCommandEntity( pPlayer, name, pEntity )) != nullptr)
 	{
 		if (pEntity->m_debugOverlays & bit)
 		{
@@ -564,10 +564,10 @@ void SetDebugBits( CBasePlayer* pPlayer, const char *name, int bit )
 //-----------------------------------------------------------------------------
 void KillTargets( const char *pKillTargetName )
 {
-	CBaseEntity *pentKillTarget = NULL;
+	CBaseEntity *pentKillTarget = nullptr;
 
 	DevMsg( 2, "KillTarget: %s\n", pKillTargetName );
-	pentKillTarget = gEntList.FindEntityByName( NULL, pKillTargetName );
+	pentKillTarget = gEntList.FindEntityByName(nullptr, pKillTargetName );
 	while ( pentKillTarget )
 	{
 		UTIL_Remove( pentKillTarget );
@@ -586,7 +586,7 @@ void ConsoleKillTarget( CBasePlayer *pPlayer, const char *name )
 	// If no name was given use the picker
 	if (FStrEq(name,"")) 
 	{
-		CBaseEntity *pEntity = pPlayer ? pPlayer->FindPickerEntity() : NULL;
+		CBaseEntity *pEntity = pPlayer ? pPlayer->FindPickerEntity() : nullptr;
 		if ( pEntity )
 		{
 			UTIL_Remove( pEntity );
@@ -615,7 +615,7 @@ void CPointClientCommand::InputCommand( inputdata_t& inputdata )
 	if ( !inputdata.value.String()[0] )
 		return;
 
-	edict_t *pClient = NULL;
+	edict_t *pClient = nullptr;
 	if ( gpGlobals->maxClients == 1 )
 	{
 		pClient = INDEXENT( 1 );
@@ -671,7 +671,7 @@ void CPointServerCommand::InputCommand( inputdata_t& inputdata )
 #if defined( CSTRIKE15 )
 	CBasePlayer *player = UTIL_GetListenServerHost();
 	// if we're on a dedicated server or a non-listen server, only accept whitelisted commands
-	if ( engine->IsDedicatedServer() || player == NULL )
+	if ( engine->IsDedicatedServer() || player == nullptr)
 	{
 		// Parse the text into distinct commands
 		const char *pCurrentCommand = inputdata.value.String();
@@ -805,7 +805,7 @@ void kill_helper( const CCommand &args, bool bVector, bool bExplode )
 {
 	bool bKillOther = args.ArgC() > ( bVector ? 4 : 1 );
 
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 
 	if ( bKillOther && sv_cheats->GetBool() )
 	{
@@ -815,7 +815,7 @@ void kill_helper( const CCommand &args, bool bVector, bool bExplode )
 			pPlayer = ToBasePlayer( UTIL_PlayerByIndex(i) );
 			if ( pPlayer && Q_strstr( pPlayer->GetPlayerName(), args[1] ) )
 				break;
-			pPlayer = NULL;
+			pPlayer = nullptr;
 		}
 	}
 	else
@@ -924,7 +924,7 @@ CON_COMMAND_F( say, "Display player message", FCVAR_GAMEDLL_FOR_REMOTE_CLIENTS )
 	}
 	else if ( UTIL_IsCommandIssuedByServerAdmin() )
 	{
-		Host_Say( NULL, args, 0 );
+		Host_Say(nullptr, args, 0 );
 	}
 }
 
@@ -1250,7 +1250,7 @@ ConVar noclip_fixup( "noclip_fixup", "1", FCVAR_CHEAT );
 void EnableNoClip( CBasePlayer *pPlayer )
 {
 	// Disengage from hierarchy
-	pPlayer->SetParent( NULL );
+	pPlayer->SetParent(nullptr);
 	pPlayer->SetMoveType( MOVETYPE_NOCLIP );
 	ClientPrint( pPlayer, HUD_PRINTCONSOLE, "noclip ON\n");
 	pPlayer->AddEFlags( EFL_NOCLIP_ACTIVE );
@@ -1578,7 +1578,7 @@ CON_COMMAND_F( setpos_exact, "Move player to an exact specified origin (must hav
 	newpos.y = atof( args[2] );
 	newpos.z = args.ArgC() == 4 ? atof( args[3] ) : oldorigin.z;
 
-	pPlayer->Teleport( &newpos, NULL, NULL );
+	pPlayer->Teleport( &newpos, nullptr, nullptr);
 
 
 	if ( !TestEntityPosition( pPlayer, MASK_PLAYERSOLID ) )
@@ -1613,7 +1613,7 @@ CON_COMMAND_F( setang_exact, "Snap player eyes and orientation to specified pitc
 	newang.y = atof( args[2] );
 	newang.z = args.ArgC() == 4 ? atof( args[3] ) : oldang.z;
 
-	pPlayer->Teleport( NULL, &newang, NULL );
+	pPlayer->Teleport(nullptr, &newang, nullptr);
 	pPlayer->SnapEyeAngles( newang );
 
 #ifdef TF_DLL
@@ -1727,7 +1727,7 @@ static int DescribeGroundList( CBaseEntity *ent )
 		}
 	}
 
-	if ( ent->GetGroundEntity() != NULL )
+	if ( ent->GetGroundEntity() != nullptr)
 	{
 		Assert( IsInGroundList( ent, ent->GetGroundEntity() ) );
 	}
@@ -1752,9 +1752,9 @@ void CC_GroundList_f(const CCommand &args)
 	}
 	else
 	{
-		CBaseEntity *ent = NULL;
+		CBaseEntity *ent = nullptr;
 		int linkCount = 0;
-		while ( (ent = gEntList.NextEnt(ent)) != NULL )
+		while ( (ent = gEntList.NextEnt(ent)) != nullptr)
 		{
 			linkCount += DescribeGroundList( ent );
 		}
@@ -1823,7 +1823,7 @@ void ClientCommand( CBasePlayer *pPlayer, const CCommand &args )
 			{
 				// Destroy it
 				//
-				CBaseEntity *ent = gEntList.FindEntityByClassname( NULL, "te_tester" );
+				CBaseEntity *ent = gEntList.FindEntityByClassname(nullptr, "te_tester" );
 				while ( ent )
 				{
 					CBaseEntity *next = gEntList.FindEntityByClassname( ent, "te_tester" );

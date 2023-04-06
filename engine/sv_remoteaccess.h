@@ -36,7 +36,7 @@ public:
 
 	void SendVProfData( ra_listener_id listenerID, bool bGroupData, void *data, int len );
 
-	virtual ra_listener_id GetNextListenerID( bool authConnection, const netadr_t *adr = NULL );
+	virtual ra_listener_id GetNextListenerID( bool authConnection, const netadr_t *adr = nullptr);
 	virtual void RegisterAdminUIID( ra_listener_id listener ) { m_AdminUIID = listener; }
 
 	ra_listener_id GetAdminUIID() { return m_AdminUIID; }

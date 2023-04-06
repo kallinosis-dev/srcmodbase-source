@@ -19,7 +19,7 @@ class CEntityBlocker : public CBaseEntity
 
 public:
 
-	static CEntityBlocker *Create( const Vector &origin, const Vector &mins, const Vector &maxs, CBaseEntity *pOwner = NULL, bool bBlockPhysics = false );
+	static CEntityBlocker *Create( const Vector &origin, const Vector &mins, const Vector &maxs, CBaseEntity *pOwner = nullptr, bool bBlockPhysics = false );
 
 	void Spawn( void );
 	bool TestCollision( const Ray_t &ray, unsigned int mask, trace_t& trace );

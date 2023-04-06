@@ -70,7 +70,7 @@ class AllocData
 public:
 	AllocData( void * buffer, int bufferSize, VertexFormat_t fmt, int numVerts, int allocatorHash )
 		: m_buffer( buffer ), m_bufferSize( bufferSize ), m_fmt( fmt ), m_numVerts( numVerts ), m_allocatorHash( allocatorHash ) {}
-	AllocData() : m_buffer( NULL ), m_bufferSize( 0 ), m_fmt( 0 ), m_numVerts( 0 ), m_allocatorHash( 0 ) {}
+	AllocData() : m_buffer(nullptr), m_bufferSize( 0 ), m_fmt( 0 ), m_numVerts( 0 ), m_allocatorHash( 0 ) {}
 
 	VertexFormat_t	m_fmt;
 	void		*	m_buffer;
@@ -570,7 +570,7 @@ void CVBAllocTracker::UpdateData( const char * allocatorName, short allocatorKey
 
 const char * CVBAllocTracker::GetNameString( int allocatorKey )
 {
-	UtlHashFixedHandle_t handle = GetCounterHandle( NULL, allocatorKey );
+	UtlHashFixedHandle_t handle = GetCounterHandle(nullptr, allocatorKey );
 	if ( handle != m_VBCountTable.InvalidHandle() )
 	{
 		CounterData & data = m_VBCountTable.Element( handle );
@@ -633,7 +633,7 @@ void CVBAllocTracker::DumpVBAllocs()
 	for ( int i = ( m_VBTableNameHashes.Count() - 1 ); i >= 0; i-- )
 	{
 		short nameHash = m_VBTableNameHashes.Element( i );
-		SpewElements( NULL, nameHash );
+		SpewElements(nullptr, nameHash );
 	}
 
 	Msg("[VBMEM]\n");
@@ -646,7 +646,7 @@ void CVBAllocTracker::DumpVBAllocs()
 	for ( int i = ( m_VBTableNameHashes.Count() - 1 ); i >= 0; i-- )
 	{
 		short nameHash = m_VBTableNameHashes.Element( i );
-		SpewData( NULL, nameHash );
+		SpewData(nullptr, nameHash );
 	}
 	SpewExpectedSavings();
 	Msg("[VBMEM] ----running totals----\n" );
@@ -717,9 +717,9 @@ void CVBAllocTracker::UnCountVB( void * buffer )
 		// Subtract from the VB memory counters
 		if ( !isDynamic )
 		{
-			UpdateData( NULL, totalKey, -bufferSize, fmt, -numVerts, 0, isDynamic, isCompressed );
+			UpdateData(nullptr, totalKey, -bufferSize, fmt, -numVerts, 0, isDynamic, isCompressed );
 		}
-		UpdateData( NULL, key, -bufferSize, fmt, -numVerts, 0, isDynamic, isCompressed );
+		UpdateData(nullptr, key, -bufferSize, fmt, -numVerts, 0, isDynamic, isCompressed );
 
 		const char * nameString = GetNameString( key );
 

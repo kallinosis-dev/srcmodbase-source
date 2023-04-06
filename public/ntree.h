@@ -223,7 +223,7 @@ NTreeNode<T> *NTreeNode<T>::GetNextSibling()
 	parent = this->GetParent();
 	if( !parent )
 	{
-		return NULL;
+		return nullptr;
 	}
 	currentID = this->GetIndexRelativeToParent();
 	siblingID = currentID + 1;
@@ -233,7 +233,7 @@ NTreeNode<T> *NTreeNode<T>::GetNextSibling()
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -310,7 +310,7 @@ NTreeNode<T> *NTreeNode<T>::ReentrantTraversalGetNext( void )
 	}
 	delete reentrantStack;
 	reentrantStack = NULL;
-	return NULL;
+	return nullptr;
 }
 
 #endif /* __TREE_H__ */

@@ -335,7 +335,7 @@ void CDmxElementDictionary::SetElementId( DmxElementDictHandle_t hElement, const
 CDmxElement *CDmxElementDictionary::GetElement( DmxElementDictHandle_t handle )
 {
 	if ( handle == ELEMENT_DICT_HANDLE_INVALID )
-		return NULL;
+		return nullptr;
 
 	return m_Dict[ handle ].m_pElement;
 }
@@ -742,8 +742,8 @@ bool CDmxSerializerKeyValues2::Serialize( CUtlBuffer &outBuf, CDmxElement *pRoot
 		outBuf.PutChar( '\n' );
 	}
 
-	SetSerializationDelimiter( NULL );
-	SetSerializationArrayDelimiter( NULL );
+	SetSerializationDelimiter(nullptr);
+	SetSerializationArrayDelimiter(nullptr);
 
 	return true;
 }
@@ -762,7 +762,7 @@ void CDmxSerializerKeyValues2::EatWhitespacesAndComments( CUtlBuffer &buf )
 	while ( nOffset < nMaxPut )	
 	{
 		// Eat whitespaces, keep track of line count
-		const char *pPeek = NULL;
+		const char *pPeek = nullptr;
 		while ( pPeek = (const char *)buf.PeekGet( sizeof(char), nOffset ) )
 		{
 			if ( !V_isspace( *pPeek ) )
@@ -1075,7 +1075,7 @@ bool CDmxSerializerKeyValues2::UnserializeAttributeValueFromToken( CDmxAttribute
 
 	if ( bIsString )
 	{
-		SetSerializationDelimiter( NULL );
+		SetSerializationDelimiter(nullptr);
 	}
 
 	return bOk;
@@ -1401,7 +1401,7 @@ bool CDmxSerializerKeyValues2::UnserializeElement( CUtlBuffer &buf, DmxElementDi
 //-----------------------------------------------------------------------------
 bool CDmxSerializerKeyValues2::Unserialize( const char *pFileName, CUtlBuffer &buf, CDmxElement **ppRoot )
 {
-	*ppRoot = NULL;
+	*ppRoot = nullptr;
 
 	g_KeyValues2ErrorStack.SetFilename( pFileName );
 	m_hRoot = ELEMENT_DICT_HANDLE_INVALID;
@@ -1430,7 +1430,7 @@ bool CDmxSerializerKeyValues2::Unserialize( const char *pFileName, CUtlBuffer &b
 	if ( !bOk )
 	{
 		CleanupDMX( *ppRoot );
-		*ppRoot = NULL;
+		*ppRoot = nullptr;
 	}
 
 	return bOk;

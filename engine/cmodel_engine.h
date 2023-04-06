@@ -56,7 +56,7 @@ void		CM_TransformedBoxTrace (const Ray_t& ray, int headnode, int brushmask, con
 void		CM_BoxTrace (const Ray_t& ray, int headnode, int brushmask, bool computeEndpt, trace_t& tr );
 struct OcclusionTestResults_t;
 bool		CM_IsFullyOccluded( const AABB_t &aabb1, const AABB_t &aabb2 );
-bool		CM_IsFullyOccluded( const VectorAligned &p0, const VectorAligned &vExtents1, const VectorAligned &p1, const VectorAligned &vExtents2, OcclusionTestResults_t * pResults = NULL );
+bool		CM_IsFullyOccluded( const VectorAligned &p0, const VectorAligned &vExtents1, const VectorAligned &p1, const VectorAligned &vExtents2, OcclusionTestResults_t * pResults = nullptr);
 bool		CM_IsFullyOccluded_WithShadow( const AABB_t &aabb1, const AABB_t &aabb2, const Vector &vShadow );
 void		CM_BoxTraceAgainstLeafList( const Ray_t &ray, const CTraceListData &traceData, int nBrushMask, trace_t &trace );
 

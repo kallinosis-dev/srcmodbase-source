@@ -27,7 +27,7 @@ CRunMapExpertDlg::CRunMapExpertDlg(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CRunMapExpertDlg)
 	//}}AFX_DATA_INIT
 
-	m_pActiveSequence = NULL;
+	m_pActiveSequence = nullptr;
 	m_bNoUpdateCmd = FALSE;
 	m_bSwitchMode = FALSE;
 	m_bWaitForKeypress = FALSE;
@@ -113,14 +113,14 @@ BOOL CRunMapExpertDlg::HandleInsertCommand(UINT nID)
 // insert a parm at the current cursor location into the parameters
 //  edit control
 {
-	PCCOMMAND pCommand = GetCommandAtIndex(NULL);
+	PCCOMMAND pCommand = GetCommandAtIndex(nullptr);
 
 	if(!pCommand)
 		return TRUE;	// no command
 
 	if(nID == id_BrExecutable)
 	{
-		CFileDialog dlg(TRUE, "exe", NULL, OFN_HIDEREADONLY | 
+		CFileDialog dlg(TRUE, "exe", nullptr, OFN_HIDEREADONLY | 
 			OFN_FILEMUSTEXIST |	OFN_NOCHANGEDIR, 
 			"Executable Files|*.exe||", this);
 		if(dlg.DoModal() == IDCANCEL)
@@ -201,7 +201,7 @@ void CRunMapExpertDlg::OnBrowsecommand(void)
 	CWnd *pButton = GetDlgItem(IDC_BROWSECOMMAND);
 	CRect r;
 	pButton->GetWindowRect(r);
-	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON, r.left, r.bottom, this, NULL);
+	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON, r.left, r.bottom, this, nullptr);
 }
 
 
@@ -343,7 +343,7 @@ void CRunMapExpertDlg::OnInsertparm(void)
 	CWnd *pButton = GetDlgItem(IDC_INSERTPARM);
 	CRect r;
 	pButton->GetWindowRect(r);
-	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON, r.left, r.bottom, this, NULL);
+	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON, r.left, r.bottom, this, nullptr);
 }
 
 
@@ -462,14 +462,14 @@ PCCOMMAND CRunMapExpertDlg::GetCommandAtIndex(int *piIndex)
 {
 	// make sure we're pointing at something:
 	int iIndex = -1;
-	if(piIndex == NULL)
+	if(piIndex == nullptr)
 		piIndex = &iIndex;
 	
 	// return the current command structure 
 	if(piIndex[0] == -1)
 		piIndex[0] = m_cCommandList.GetCurSel();
 	if(piIndex[0] == LB_ERR)
-		return NULL;
+		return nullptr;
 	PCCOMMAND pCommand = PCCOMMAND(m_cCommandList.GetItemDataPtr(piIndex[0]));
 	return pCommand;
 }
@@ -490,7 +490,7 @@ void CRunMapExpertDlg::OnUpdateCommand()
 		// make sure no special command is contained here ..
 		// (this is only ever called when the user types
 		//  in the command edit field.)
-		PCCOMMAND pCommand = GetCommandAtIndex(NULL);
+		PCCOMMAND pCommand = GetCommandAtIndex(nullptr);
 		if(pCommand->iSpecialCmd)
 		{
 			// clear out command .. set the noupdatecmd
@@ -551,7 +551,7 @@ void CRunMapExpertDlg::InitSequenceList()
 		m_cCmdSequences.SetItemDataPtr(iIndex, PVOID(pSeq));
 	}
 	
-	m_pActiveSequence = NULL;
+	m_pActiveSequence = nullptr;
 	m_cCmdSequences.SetCurSel(0);
 	OnSelchangeConfigurations();
 }
@@ -610,7 +610,7 @@ void CRunMapExpertDlg::OnSelchangeConfigurations()
 	int iSel = m_cCmdSequences.GetCurSel();
 	if(iSel == LB_ERR)	// nothing there
 	{
-		m_pActiveSequence = NULL;
+		m_pActiveSequence = nullptr;
 		return;
 	}
 

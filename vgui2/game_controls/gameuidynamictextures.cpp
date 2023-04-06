@@ -54,7 +54,7 @@ private:
 	IMaterialVar* m_BaseTextureVar;
 };
 
-CGameControlsProxy::CGameControlsProxy(): m_BaseTextureVar( NULL )
+CGameControlsProxy::CGameControlsProxy(): m_BaseTextureVar(nullptr)
 {
 }
 
@@ -96,7 +96,7 @@ IMaterialProxy *CMaterialProxyFactory::CreateProxy( const char *proxyName )
 	{	
 		return static_cast< IMaterialProxy * >( new CGameControlsProxy );
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CMaterialProxyFactory::DeleteProxy( IMaterialProxy *pProxy )
@@ -114,8 +114,8 @@ CreateInterfaceFn CMaterialProxyFactory::GetFactory()
 //-----------------------------------------------------------------------------
 CGameUIDynamicTextures::CGameUIDynamicTextures() 
 {
-	m_pDynamicTexturePacker = NULL;
-	m_RenderMaterial = NULL;
+	m_pDynamicTexturePacker = nullptr;
+	m_RenderMaterial = nullptr;
 	m_bRegenerate = false;	
 }
 
@@ -168,7 +168,7 @@ void CGameUIDynamicTextures::InitRenderTargets()
 			imageData.m_Width = pErrorTexture->GetActualWidth();
 			imageData.m_Height = pErrorTexture->GetActualHeight();
 			imageData.m_szBaseTextureName = "error";
-			imageData.m_Material = NULL;
+			imageData.m_Material = nullptr;
 			m_ImageAliasMap[ "errorImageAlias" ] = imageData;
 		}
 
@@ -203,8 +203,8 @@ void CGameUIDynamicTextures::Shutdown()
 		delete m_pDynamicTexturePacker;
 	}
 
-	m_pDynamicTexturePacker = NULL;
-	m_RenderMaterial = NULL;
+	m_pDynamicTexturePacker = nullptr;
+	m_RenderMaterial = nullptr;
 	m_bRegenerate = false;
 }
 
@@ -394,7 +394,7 @@ void CGameUIDynamicTextures::LoadImageAliasTexture( const char *pAlias, const ch
 		pImageData->m_YPos = newEntry.rc.y;
 
 		CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-		pRenderContext->PushRenderTargetAndViewport( m_TexturePage, NULL, pImageData->m_XPos, pImageData->m_YPos, pImageData->m_Width, pImageData->m_Height );	
+		pRenderContext->PushRenderTargetAndViewport( m_TexturePage, nullptr, pImageData->m_XPos, pImageData->m_YPos, pImageData->m_Width, pImageData->m_Height );	
 		pRenderContext->MatrixMode( MATERIAL_PROJECTION );
 		pRenderContext->PushMatrix();
 		pRenderContext->LoadIdentity();
@@ -561,7 +561,7 @@ void CGameUIDynamicTextures::DrawDynamicTexture( const char *pAlias, int x, int 
 	drawcolor.a = 255;
 
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pImageData->m_Material );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pImageData->m_Material );
 	if ( !pMesh )
 		return;
 

@@ -178,7 +178,7 @@ public:
 	virtual CSWeaponID GetCSWeaponID( void ) const		{ return WEAPON_C4; }
 
 	virtual bool			Deploy( void );								// returns true is deploy was successful
-	virtual bool			Holster( CBaseCombatWeapon *pSwitchingTo = NULL );
+	virtual bool			Holster( CBaseCombatWeapon *pSwitchingTo = nullptr);
 
 	#ifdef CLIENT_DLL
 	
@@ -208,7 +208,7 @@ public:
 	
 		void Think( void );
 		void ResetToLastValidPlayerHeldPosition();
-		virtual void PhysicsTouchTriggers(const Vector *pPrevAbsOrigin = NULL);
+		virtual void PhysicsTouchTriggers(const Vector *pPrevAbsOrigin = nullptr);
 
 private:
 		Vector m_vecLastValidPlayerHeldPosition;

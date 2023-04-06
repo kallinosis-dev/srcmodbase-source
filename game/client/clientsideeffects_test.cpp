@@ -212,7 +212,7 @@ ConVar cl_tracer_whiz_distance( "cl_tracer_whiz_distance", "72" );	// putting TR
 
 void FX_TracerSound( const Vector &start, const Vector &end, int iTracerType )
 {
-	const char *pszSoundName = NULL;
+	const char *pszSoundName = nullptr;
 	float flWhizDist = TRACER_MAX_HEAR_DIST;
 	float flMinWhizTime = TRACER_SOUND_TIME_MIN;
 	float flMaxWhizTime = TRACER_SOUND_TIME_MAX;
@@ -272,7 +272,7 @@ void FX_TracerSound( const Vector &start, const Vector &end, int iTracerType )
 		return;
 
 	CSoundParameters params;
-	if( C_BaseEntity::GetParametersForSound( pszSoundName, params, NULL ) )
+	if( C_BaseEntity::GetParametersForSound( pszSoundName, params, nullptr) )
 	{
 		// Get shot direction
 		Vector shotDir;
@@ -281,7 +281,7 @@ void FX_TracerSound( const Vector &start, const Vector &end, int iTracerType )
 
 		CLocalPlayerFilter filter;
 		enginesound->EmitSound(	filter, SOUND_FROM_WORLD, CHAN_STATIC, pszSoundName, SOUNDEMITTER_INVALID_HASH, params.soundname, 
-			params.volume, SNDLVL_TO_ATTN(params.soundlevel), params.m_nRandomSeed, 0, params.pitch, &start, &shotDir, NULL);
+			params.volume, SNDLVL_TO_ATTN(params.soundlevel), params.m_nRandomSeed, 0, params.pitch, &start, &shotDir, nullptr);
 	}
 
 	// FIXME: This has a bad behavior when both bullet + strider shots are whizzing by at the same time

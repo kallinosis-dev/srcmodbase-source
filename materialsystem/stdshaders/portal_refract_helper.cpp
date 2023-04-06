@@ -86,11 +86,11 @@ void DrawPortalRefract( CBaseVSShader *pShader, IMaterialVar** params,
 		// Set stream format
 		if ( !bUseOnStaticProp )
 		{
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION | VERTEX_NORMAL, 2, NULL, 4 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION | VERTEX_NORMAL, 2, nullptr, 4 );
 		}
 		else
 		{
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION | VERTEX_FORMAT_COMPRESSED, 1, NULL, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION | VERTEX_FORMAT_COMPRESSED, 1, nullptr, 0 );
 		}
 
 		// Vertex Shader

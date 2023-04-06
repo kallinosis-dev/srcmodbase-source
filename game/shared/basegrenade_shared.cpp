@@ -143,7 +143,7 @@ void CBaseGrenade::Explode( trace_t *pTrace, int bitsDamageType )
 	// Try using the new particle system instead of temp ents
 	surfacedata_t *pSurfaceData = physprops->GetSurfaceData( pTrace->surface.surfaceProps );
 	const char *pEffectName = GetParticleSystemName( contents, pSurfaceData );
-	if ( pEffectName != NULL )
+	if ( pEffectName != nullptr)
 	{
 		Vector vecParticleOrigin = vecAbsOrigin;
 
@@ -152,14 +152,14 @@ void CBaseGrenade::Explode( trace_t *pTrace, int bitsDamageType )
 			// Find our water surface by tracing up till we're out of the water
 			trace_t tr;
 			Vector vecTrace( 0, 0, MAX_WATER_SURFACE_DISTANCE );
-			UTIL_TraceLine( vecParticleOrigin, vecParticleOrigin + vecTrace, MASK_WATER, NULL, COLLISION_GROUP_NONE, &tr );
+			UTIL_TraceLine( vecParticleOrigin, vecParticleOrigin + vecTrace, MASK_WATER, nullptr, COLLISION_GROUP_NONE, &tr );
 
 			// If we didn't start in water, we're above it
 			if ( tr.startsolid == false )
 			{
 				// Look downward to find the surface
 				vecTrace.Init( 0, 0, -MAX_WATER_SURFACE_DISTANCE );
-				UTIL_TraceLine( vecParticleOrigin, vecParticleOrigin + vecTrace, MASK_WATER, NULL, COLLISION_GROUP_NONE, &tr );
+				UTIL_TraceLine( vecParticleOrigin, vecParticleOrigin + vecTrace, MASK_WATER, nullptr, COLLISION_GROUP_NONE, &tr );
 
 				// If we hit it, setup the explosion
 				if ( tr.fraction < 1.0f )
@@ -220,7 +220,7 @@ void CBaseGrenade::Explode( trace_t *pTrace, int bitsDamageType )
 	EmitSound( "BaseGrenade.Explode" );
 	CTakeDamageInfo info( this, m_hThrower, GetBlastForce(), GetAbsOrigin(), m_flDamage, bitsDamageType, 0, &vecReported );
 
-	RadiusDamage( info, GetAbsOrigin(), m_DmgRadius, CLASS_NONE, NULL );
+	RadiusDamage( info, GetAbsOrigin(), m_DmgRadius, CLASS_NONE, nullptr);
 
 	UTIL_DecalTrace( pTrace, "Scorch" );
 
@@ -412,7 +412,7 @@ void CBaseGrenade::BounceTouch( CBaseEntity *pOther )
 			tr = CBaseEntity::GetTouchTrace( );
 			ClearMultiDamage( );
 			Vector forward;
-			AngleVectors( GetLocalAngles(), &forward, NULL, NULL );
+			AngleVectors( GetLocalAngles(), &forward, nullptr, nullptr);
 			CTakeDamageInfo info( this, m_hThrower, 1, DMG_CLUB );
 			CalculateMeleeDamageForce( &info, GetAbsVelocity(), GetAbsOrigin() );
 			pOther->DispatchTraceAttack( info, forward, &tr ); 
@@ -541,7 +541,7 @@ void CBaseGrenade::Precache( void )
 CBaseCombatCharacter *CBaseGrenade::GetThrower( void )
 {
 	CBaseCombatCharacter *pResult = ToBaseCombatCharacter( m_hThrower );
-	if ( !pResult && GetOwnerEntity() != NULL )
+	if ( !pResult && GetOwnerEntity() != nullptr)
 	{
 		pResult = ToBaseCombatCharacter( GetOwnerEntity() );
 	}
@@ -555,7 +555,7 @@ void CBaseGrenade::SetThrower( CBaseCombatCharacter *pThrower )
 	m_hThrower = pThrower;
 
 	// if this is the first thrower, set it as the original thrower
-	if ( NULL == m_hOriginalThrower )
+	if (nullptr == m_hOriginalThrower )
 	{
 		m_hOriginalThrower = pThrower;
 	}
@@ -580,8 +580,8 @@ CBaseGrenade::CBaseGrenade(void)
 	:m_GlowObject( this, Vector( 1.0f, 1.0f, 1.0f ), 0.0f, false, false )
 #endif
 {
-	m_hThrower			= NULL;
-	m_hOriginalThrower	= NULL;
+	m_hThrower			= nullptr;
+	m_hOriginalThrower	= nullptr;
 	m_bIsLive			= false;
 	m_DmgRadius			= 100;
 	m_flDetonateTime	= 0;

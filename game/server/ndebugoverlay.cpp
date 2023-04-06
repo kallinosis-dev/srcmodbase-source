@@ -78,7 +78,7 @@ void UTIL_AddDebugLine(const Vector &startPos, const Vector &endPos, bool noDept
 	if (testLOS)
 	{
 		trace_t tr;
-		UTIL_TraceLine ( debugLine->origin, debugLine->dest, MASK_BLOCKLOS, NULL, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceLine ( debugLine->origin, debugLine->dest, MASK_BLOCKLOS, nullptr, COLLISION_GROUP_NONE, &tr );
 		if (tr.startsolid || tr.fraction < 1.0)
 		{
 			debugLine->r = 255;
@@ -106,7 +106,7 @@ float GetLongFloorZ(const Vector &origin)
 	UTIL_TraceLine ( origin,
 					 origin - Vector ( 0, 0, 2048 ),
 					 MASK_NPCSOLID_BRUSHONLY,
-					 NULL,
+					 nullptr,
 					 COLLISION_GROUP_NONE,
 					 &tr );
 
@@ -115,7 +115,7 @@ float GetLongFloorZ(const Vector &origin)
 	UTIL_TraceLine ( origin,
 					 origin - Vector ( 0, 0, 2048 ),
 					 MASK_NPCSOLID,
-					 NULL,
+					 nullptr,
 					 COLLISION_GROUP_NONE,
 					 &trEnt );
 
@@ -152,7 +152,7 @@ void UTIL_DrawPositioningOverlay( float flCrossDistance )
 	}
 
 	Vector pRight;
-	pPlayer->EyeVectors( NULL, &pRight, NULL );
+	pPlayer->EyeVectors(nullptr, &pRight, nullptr);
 
 #ifdef _WIN32
 	Vector topPos		= NWCEdit::AirNodePlacementPosition();

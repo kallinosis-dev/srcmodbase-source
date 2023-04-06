@@ -37,7 +37,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CMultiplayerAdvancedDialog::CMultiplayerAdvancedDialog(vgui::Panel *parent) : BaseClass(NULL, "MultiplayerAdvancedDialog")
+CMultiplayerAdvancedDialog::CMultiplayerAdvancedDialog(vgui::Panel *parent) : BaseClass(nullptr, "MultiplayerAdvancedDialog")
 {
 	SetBounds(0, 0, 372, 160);
 	SetSizeable( false );
@@ -52,12 +52,12 @@ CMultiplayerAdvancedDialog::CMultiplayerAdvancedDialog(vgui::Panel *parent) : Ba
 
 	m_pListPanel = new CPanelListPanel( this, "PanelListPanel" );
 
-	m_pList = NULL;
+	m_pList = nullptr;
 
 	m_pDescription = new CInfoDescription( m_pListPanel );
 	m_pDescription->InitFromFile( DEFAULT_OPTIONS_FILE );
 	m_pDescription->InitFromFile( OPTIONS_FILE );
-	m_pDescription->TransferCurrentValues( NULL );
+	m_pDescription->TransferCurrentValues(nullptr);
 
 	LoadControlSettings("Resource\\MultiplayerAdvancedDialog.res");
 	CreateControls();
@@ -264,7 +264,7 @@ void CMultiplayerAdvancedDialog::CreateControls()
 			pListItem = pObj->pListItems;
 			while ( pListItem )
 			{
-				pCombo->AddItem( pListItem->szItemText, NULL );
+				pCombo->AddItem( pListItem->szItemText, nullptr);
 				pListItem = pListItem->pNext;
 			}
 
@@ -293,7 +293,7 @@ void CMultiplayerAdvancedDialog::CreateControls()
 		if ( !m_pList )
 		{
 			m_pList = pCtrl;
-			pCtrl->next = NULL;
+			pCtrl->next = nullptr;
 		}
 		else
 		{
@@ -304,7 +304,7 @@ void CMultiplayerAdvancedDialog::CreateControls()
 				if ( !p->next )
 				{
 					p->next = pCtrl;
-					pCtrl->next = NULL;
+					pCtrl->next = nullptr;
 					break;
 				}
 				p = p->next;
@@ -333,7 +333,7 @@ void CMultiplayerAdvancedDialog::DestroyControls()
 		p = n;
 	}
 
-	m_pList = NULL;
+	m_pList = nullptr;
 }
 
 //-----------------------------------------------------------------------------

@@ -36,7 +36,7 @@ public:
 	void *palette;
 
 	// CREATORS
-	mxImage () : width (0), height (0), bpp (0), data (0), palette (0)
+	mxImage () : width (0), height (0), bpp (0), data (nullptr), palette (nullptr)
 	{
 	}
 
@@ -74,7 +74,7 @@ public:
 			}
 		}
 		else
-			palette = 0;
+			palette = nullptr;
 
 		width = w;
 		height = h;
@@ -91,7 +91,7 @@ public:
 		if (palette)
 			delete[] palette;
 
-		data = palette = 0;
+		data = palette = nullptr;
 		width = height = bpp = 0;
 	}
 

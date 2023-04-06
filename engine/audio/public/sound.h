@@ -77,12 +77,12 @@ struct StartSoundParams_t
 {
 	StartSoundParams_t() :
 		m_nSoundScriptHash( SOUNDEMITTER_INVALID_HASH ),
-		m_pSoundEntryName( NULL ),
+		m_pSoundEntryName(nullptr),
 		staticsound( false ),
 		userdata( 0 ),
 		soundsource( 0 ), 
 		entchannel( CHAN_AUTO ), 
-		pSfx( 0 ), 
+		pSfx( nullptr ), 
 		bUpdatePositions( true ),
 		fvol( 1.0f ),  
 		soundlevel( SNDLVL_NORM ), 
@@ -96,7 +96,7 @@ struct StartSoundParams_t
 		skipInitialSamples( 0 ),
 		m_nQueuedGUID( UNINT_GUID ),
 		m_bIsScriptHandle( false ),
-		m_pOperatorsKV( NULL ),
+		m_pOperatorsKV(nullptr),
 		opStackElapsedTime( 0.0f ),
 		opStackElapsedStopTime( 0.0f ),
 		m_bDelayedStart( false ),

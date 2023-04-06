@@ -44,8 +44,8 @@
 //#define DEBUGFP
 #endif
 
-const char *g_pGameDir = NULL;
-const char *g_pTextureOutputDir = NULL;
+const char *g_pGameDir = nullptr;
+const char *g_pTextureOutputDir = nullptr;
 char g_WorkerTempPath[MAX_PATH];
 char g_ExeDir[MAX_PATH];
 CUtlVector<char *> g_CompileCommands;

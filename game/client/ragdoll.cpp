@@ -137,7 +137,7 @@ void CRagdoll::Init(
 	params.allowStretch = false;
 	params.fixedConstraints = bFixedConstraints;
 	RagdollCreate( m_ragdoll, params, physenv );
-	ent->VPhysicsSetObject( NULL );
+	ent->VPhysicsSetObject(nullptr);
 	ent->VPhysicsSetObject( m_ragdoll.list[0].pObject );
 	// Mark the ragdoll as debris.
 	ent->SetCollisionGroup( COLLISION_GROUP_DEBRIS );
@@ -154,7 +154,7 @@ void CRagdoll::Init(
 
 	RagdollApplyAnimationAsVelocity( m_ragdoll, pDeltaBones0, pDeltaBones1, dt );
 	RagdollActivate( m_ragdoll, params.pCollide, ent->GetModelIndex() );
-	m_ragdoll.list[0].pObject->GetPosition( &m_origin, 0 );
+	m_ragdoll.list[0].pObject->GetPosition( &m_origin, nullptr );
 
 	// It's moving now...
 	m_flLastOriginChangeTime = physenv->GetSimulationTime();
@@ -227,7 +227,7 @@ void CRagdoll::VPhysicsUpdate( IPhysicsObject *pPhysics )
 	if ( m_lastUpdate == gpGlobals->curtime )
 		return;
 
-	m_ragdoll.list[0].pObject->GetPosition( &m_origin, 0 );
+	m_ragdoll.list[0].pObject->GetPosition( &m_origin, nullptr );
 	m_lastUpdate = gpGlobals->curtime;
 
 	Vector origin = GetRagdollOrigin();
@@ -423,7 +423,7 @@ CRagdoll *CreateRagdoll(
 	{
 		Msg("Bad ragdoll for %s\n", pstudiohdr->pszName() );
 		delete pRagdoll;
-		pRagdoll = NULL;
+		pRagdoll = nullptr;
 	}
 	return pRagdoll;
 }
@@ -584,7 +584,7 @@ IClientModelRenderable*	C_ServerRagdoll::GetClientModelRenderable()
 	// FIXME: Once we get modelrender->SetViewTarget working in the model fast
 	// path, we can eliminate the check for eye attachment
 	if ( m_iEyeAttachment > 0 )
-		return NULL;
+		return nullptr;
 
 	return BaseClass::GetClientModelRenderable();
 }
@@ -691,7 +691,7 @@ void C_ServerRagdoll::BuildTransformations( CStudioHdr *hdr, BoneVector *pos, Bo
 	memset( boneSimulated, 0, sizeof(boneSimulated) );
 	const mstudiobone_t *pbones = hdr->pBone( 0 );
 
-	mstudioseqdesc_t *pSeqDesc = NULL;
+	mstudioseqdesc_t *pSeqDesc = nullptr;
 	if ( m_nOverlaySequence >= 0 && m_nOverlaySequence < hdr->GetNumSeq() )
 	{
 		pSeqDesc = &hdr->pSeqdesc( m_nOverlaySequence );
@@ -759,7 +759,7 @@ void C_ServerRagdoll::BuildTransformations( CStudioHdr *hdr, BoneVector *pos, Bo
 
 IPhysicsObject *C_ServerRagdoll::GetElement( int elementNum ) 
 { 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -769,7 +769,7 @@ IPhysicsObject *C_ServerRagdoll::GetElement( int elementNum )
 void C_ServerRagdoll::UpdateOnRemove()
 {
 	C_BaseAnimating *anim = m_hUnragdoll.Get();
-	if ( NULL != anim && 
+	if (nullptr != anim && 
 		anim->GetModel() && 
 		( anim->GetModel() == GetModel() ) )
 	{
@@ -841,7 +841,7 @@ public:
 		if ( parent )
 		{
 			Assert( parent != this );
-			parent->SetupBones( NULL, -1, BONE_USED_BY_ANYTHING, gpGlobals->curtime );
+			parent->SetupBones(nullptr, -1, BONE_USED_BY_ANYTHING, gpGlobals->curtime );
 
 			matrix3x4_t boneToWorld;
 			parent->GetCachedBoneMatrix( m_boneIndexAttached, boneToWorld );

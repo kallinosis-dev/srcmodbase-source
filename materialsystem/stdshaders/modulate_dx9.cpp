@@ -43,7 +43,7 @@ BEGIN_VS_SHADER( Modulate_DX9,
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	// Cloak Pass
@@ -119,7 +119,7 @@ BEGIN_VS_SHADER( Modulate_DX9,
 	{
 		// Skip the standard rendering if cloak pass is fully opaque
 		bool bDrawStandardPass = true;
-		if ( params[CLOAKPASSENABLED]->GetIntValue() && ( pShaderShadow == NULL ) ) // && not snapshotting
+		if ( params[CLOAKPASSENABLED]->GetIntValue() && ( pShaderShadow == nullptr) ) // && not snapshotting
 		{
 			CloakBlendedPassVars_t info;
 			SetupVarsCloakBlendedPass( info );
@@ -183,7 +183,7 @@ BEGIN_VS_SHADER( Modulate_DX9,
 				// This shader supports compressed vertices, so OR in that flag:
 				flags |= VERTEX_FORMAT_COMPRESSED;
 
-				pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, NULL, userDataSize );
+				pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, userDataSize );
 
 #if !defined( _X360 ) && !defined( _PS3 )
 				if ( !g_pHardwareConfig->HasFastVertexTextures() )
@@ -340,7 +340,7 @@ BEGIN_VS_SHADER( Modulate_DX9,
 		if ( params[CLOAKPASSENABLED]->GetIntValue() )
 		{
 			// If ( snapshotting ) or ( we need to draw this frame )
-			if ( ( pShaderShadow != NULL ) || ( ( params[CLOAKFACTOR]->GetFloatValue() > 0.0f ) && ( params[CLOAKFACTOR]->GetFloatValue() < 1.0f ) ) )
+			if ( ( pShaderShadow != nullptr) || ( ( params[CLOAKFACTOR]->GetFloatValue() > 0.0f ) && ( params[CLOAKFACTOR]->GetFloatValue() < 1.0f ) ) )
 			{
 				CloakBlendedPassVars_t info;
 				SetupVarsCloakBlendedPass( info );

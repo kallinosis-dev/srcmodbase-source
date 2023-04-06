@@ -16,7 +16,7 @@ public:
 
 private:
 
-	CMapDiffDlg(CWnd* pParent  = NULL);   // standard constructor
+	CMapDiffDlg(CWnd* pParent  = nullptr);   // standard constructor
 	enum { IDD = IDD_DIFFMAP };
 
 	BOOL	m_bCheckSimilar;

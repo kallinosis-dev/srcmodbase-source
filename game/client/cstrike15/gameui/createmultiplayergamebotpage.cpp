@@ -35,7 +35,7 @@ enum BotGUITeamType
 };
 
 // these must correlate with above enum
-static const char *joinTeamArg[] = { "any", "ct", "t", NULL };
+static const char *joinTeamArg[] = { "any", "ct", "t", nullptr};
 
 
 // for bot chatter combo box
@@ -48,7 +48,7 @@ enum BotGUIChatterType
 };
 
 // these must correlate with above enum
-static const char *chatterArg[] = { "normal", "minimal", "radio", "off", NULL };
+static const char *chatterArg[] = { "normal", "minimal", "radio", "off", nullptr};
 
 
 extern void UTIL_StripInvalidCharacters( char *pszInput );
@@ -116,17 +116,17 @@ CCreateMultiplayerGameBotPage::CCreateMultiplayerGameBotPage( vgui::Panel *paren
 	// set up team join combo box
 	// NOTE: If order of AddItem is changed, update the associated enum
 	m_joinTeamCombo = new ComboBox( this, "BotJoinTeamCombo", 3, false );
-	m_joinTeamCombo->AddItem( "#Cstrike_Random", NULL );
-	m_joinTeamCombo->AddItem( "#Cstrike_ScoreBoard_CT", NULL );
-	m_joinTeamCombo->AddItem( "#Cstrike_ScoreBoard_Ter", NULL );
+	m_joinTeamCombo->AddItem( "#Cstrike_Random", nullptr);
+	m_joinTeamCombo->AddItem( "#Cstrike_ScoreBoard_CT", nullptr);
+	m_joinTeamCombo->AddItem( "#Cstrike_ScoreBoard_Ter", nullptr);
 
 	// set up chatter combo box
 	// NOTE: If order of AddItem is changed, update the associated enum
 	m_chatterCombo = new ComboBox( this, "BotChatterCombo", 4, false );
-	m_chatterCombo->AddItem( "#Cstrike_Bot_Chatter_Normal", NULL );
-	m_chatterCombo->AddItem( "#Cstrike_Bot_Chatter_Minimal", NULL );
-	m_chatterCombo->AddItem( "#Cstrike_Bot_Chatter_Radio", NULL );
-	m_chatterCombo->AddItem( "#Cstrike_Bot_Chatter_Off", NULL );
+	m_chatterCombo->AddItem( "#Cstrike_Bot_Chatter_Normal", nullptr);
+	m_chatterCombo->AddItem( "#Cstrike_Bot_Chatter_Minimal", nullptr);
+	m_chatterCombo->AddItem( "#Cstrike_Bot_Chatter_Radio", nullptr);
+	m_chatterCombo->AddItem( "#Cstrike_Bot_Chatter_Off", nullptr);
 
 	// create text entry fields for quota and prefix
 	m_prefixEntry = new TextEntry( this, "BotPrefixEntry" );

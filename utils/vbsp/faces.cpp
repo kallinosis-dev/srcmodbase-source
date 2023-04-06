@@ -811,9 +811,9 @@ face_t *NewFaceFromFace (face_t *f)
 
 	newf = AllocFace ();
 	*newf = *f;
-	newf->merged = NULL;
-	newf->split[0] = newf->split[1] = NULL;
-	newf->w = NULL;
+	newf->merged = nullptr;
+	newf->split[0] = newf->split[1] = nullptr;
+	newf->w = nullptr;
 	return newf;
 }
 
@@ -954,7 +954,7 @@ winding_t *TryMergeWinding (winding_t *f1, winding_t *f2, Vector& planenormal)
 	//
 	// find a common edge
 	//	
-	p1 = p2 = NULL;	// stop compiler warning
+	p1 = p2 = nullptr;	// stop compiler warning
 	j = 0;			// 
 	
 	for (i=0 ; i<f1->numpoints ; i++)
@@ -980,7 +980,7 @@ winding_t *TryMergeWinding (winding_t *f1, winding_t *f2, Vector& planenormal)
 	}
 	
 	if (i == f1->numpoints)
-		return NULL;			// no matching edges
+		return nullptr;			// no matching edges
 
 	//
 	// check slope of connected lines
@@ -995,7 +995,7 @@ winding_t *TryMergeWinding (winding_t *f1, winding_t *f2, Vector& planenormal)
 	VectorSubtract (*back, *p1, delta);
 	dot = DotProduct (delta, normal);
 	if (dot > CONTINUOUS_EPSILON)
-		return NULL;			// not a convex polygon
+		return nullptr;			// not a convex polygon
 	keep1 = (qboolean)(dot < -CONTINUOUS_EPSILON);
 	
 	back = &f1->p[(i+2)%f1->numpoints];
@@ -1007,7 +1007,7 @@ winding_t *TryMergeWinding (winding_t *f1, winding_t *f2, Vector& planenormal)
 	VectorSubtract (*back, *p2, delta);
 	dot = DotProduct (delta, normal);
 	if (dot > CONTINUOUS_EPSILON)
-		return NULL;			// not a convex polygon
+		return nullptr;			// not a convex polygon
 	keep2 = (qboolean)(dot < -CONTINUOUS_EPSILON);
 
 	//
@@ -1089,23 +1089,23 @@ face_t *TryMerge (face_t *f1, face_t *f2, Vector& planenormal)
 	winding_t	*nw;
 
 	if (!f1->w || !f2->w)
-		return NULL;
+		return nullptr;
 	if (f1->texinfo != f2->texinfo)
-		return NULL;
+		return nullptr;
 	if (f1->planenum != f2->planenum)	// on front and back sides
-		return NULL;
+		return nullptr;
 	if (f1->contents != f2->contents)
-		return NULL;
+		return nullptr;
     if ( f1->originalface->smoothingGroups != f2->originalface->smoothingGroups )
-        return NULL;
+        return nullptr;
 	if ( !OverlaysAreEqual( f1, f2 ) )
-		return NULL;
+		return nullptr;
 	if ( nomergewater && ( FaceOnWaterBrush( f1 ) || FaceOnWaterBrush( f2 ) ) )
-		return NULL;
+		return nullptr;
 
 	nw = TryMergeWinding (f1->w, f2->w, planenormal);
 	if (!nw)
-		return NULL;
+		return nullptr;
 
 	c_merge++;
 	newf = NewFaceFromFace (f1);
@@ -1121,13 +1121,13 @@ face_t *TryMerge (face_t *f1, face_t *f2, Vector& planenormal)
 	{
 		newf->pMergedList->AddVectorToTail( *f1->pMergedList );
 		delete f1->pMergedList;
-		f1->pMergedList = NULL;
+		f1->pMergedList = nullptr;
 	}
 	if ( f2->pMergedList )
 	{
 		newf->pMergedList->AddVectorToTail( *f2->pMergedList );
 		delete f2->pMergedList;
-		f2->pMergedList = NULL;
+		f2->pMergedList = nullptr;
 	}
 	// ----------------------------------------------------------------------------
 
@@ -1147,7 +1147,7 @@ void MergeFaceList(face_t **pList)
 	face_t	*merged;
 	plane_t	*plane;
 
-	merged = NULL;
+	merged = nullptr;
 	
 	for (f1 = *pList; f1 ; f1 = f1->next)
 	{
@@ -1167,7 +1167,7 @@ void MergeFaceList(face_t **pList)
 			// so it will be checked against all the faces again
 			for (end = *pList; end->next ; end = end->next)
 			;
-			merged->next = NULL;
+			merged->next = nullptr;
 			end->next = merged;
 			break;
 		}
@@ -1332,7 +1332,7 @@ face_t *FaceFromPortal (portal_t *p, int pside)
     // portal does not bridge different visible contents
 	side = p->side;
 	if (!side)
-		return NULL;	
+		return nullptr;	
 
     // allocate a new face
 	f = AllocFace();
@@ -1366,7 +1366,7 @@ face_t *FaceFromPortal (portal_t *p, int pside)
 
     // save portal info
 	f->portal = p;
-	f->fogVolumeLeaf = NULL;
+	f->fogVolumeLeaf = nullptr;
 
 	deltaContents = VisibleContents(p->nodes[!pside]->contents^p->nodes[pside]->contents);
 	
@@ -1375,7 +1375,7 @@ face_t *FaceFromPortal (portal_t *p, int pside)
 		((p->nodes[pside]->contents & CONTENTS_GRATE) && deltaContents == CONTENTS_GRATE) )
 	{
 		FreeFace( f );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( p->nodes[pside]->contents & MASK_WATER )
@@ -1393,7 +1393,7 @@ face_t *FaceFromPortal (portal_t *p, int pside)
 		if ( !AssignBottomWaterMaterialToFace( f ) )
 		{
 			FreeFace( f );
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -1704,7 +1704,7 @@ static void SubdivideFaceBySubdivSize( face_t *f, float subdivsize )
 	
 #ifdef USE_TRISTRIPS
 	int numTristripIndices;
-	WORD *pStripIndices = NULL;
+	WORD *pStripIndices = nullptr;
 	Stripify( triListIndices.Count() / 3, triListIndices.Base(), &numTristripIndices, 
 		&pStripIndices );
 	Assert( pStripIndices );

@@ -44,16 +44,16 @@ CConnectionlessLanMgr *g_pConnectionlessLanMgr = &g_ConnectionlessLanMgr;
 KeyValues * CConnectionlessLanMgr::UnpackPacket( netpacket_t *packet )
 {
 	if ( !packet )
-		return NULL;
+		return nullptr;
 
 	if ( !packet->size || !packet->data )
-		return NULL;
+		return nullptr;
 
 	// Try to unpack the data
 	if ( packet->message.ReadLong() != 0 )
-		return NULL;
+		return nullptr;
 	if ( packet->message.ReadLong() != g_pMatchExtensions->GetINetSupport()->GetEngineBuildNumber() )
-		return NULL;
+		return nullptr;
 
 	MEM_ALLOC_CREDIT();
 	int nDataLen = packet->message.ReadLong();
@@ -84,7 +84,7 @@ KeyValues * CConnectionlessLanMgr::UnpackPacket( netpacket_t *packet )
 	}
 	
 	pMsg->deleteThis();
-	return NULL;
+	return nullptr;
 }
 
 bool CConnectionlessLanMgr::ProcessConnectionlessPacket( netpacket_t *packet )
@@ -184,6 +184,6 @@ void CConnectionlessLanMgr::SendPacket( KeyValues *pMsg, char const *szAddress /
 		return;
 
 	// Sending the connectionless packet
-	g_pMatchExtensions->GetINetSupport()->SendPacket( NULL, eSock,
-		inetAddr, msg.GetData(), msg.GetNumBytesWritten() );
+	g_pMatchExtensions->GetINetSupport()->SendPacket(nullptr, eSock,
+	                                                 inetAddr, msg.GetData(), msg.GetNumBytesWritten() );
 }

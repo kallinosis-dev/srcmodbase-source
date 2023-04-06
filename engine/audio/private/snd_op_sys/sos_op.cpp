@@ -37,7 +37,7 @@ void S_GetFloatFromString( float *pFlVector, const char *pString, int nSize = 3 
 	while( token )
 	{
 		*pFlVector = atof( token );
-		token = strtok( NULL, "," );
+		token = strtok(nullptr, "," );
 		i++;
 		if ( i >= nSize )
 		{
@@ -174,7 +174,7 @@ int CSosOperator::ParseValueRef( CSosOperatorStack *pStack, const char *pParamSt
 		Q_strncpy( tempString, pValueString, sizeof(tempString) );
 
 		char *pOpname = strtok( tempString, "." );
-		char *pOutputName = strtok( NULL, "");
+		char *pOutputName = strtok(nullptr, "");
 		int nOutOffset = pStack->GetOperatorOutputOffset( pOpname, pOutputName );
 		if ( nOutOffset < 0 )
 		{
@@ -196,7 +196,7 @@ int CSosOperator::BaseParseHasArrayIndice( const char *pParamString ) const
 	char tempString[64];
 	Q_strncpy( tempString, pParamString, sizeof(tempString) );
 	//	char *pInputParamString = strtok( tempString, "[" );
-	char *pIndexString = strtok( NULL, "]");
+	char *pIndexString = strtok(nullptr, "]");
 	if ( pIndexString && *pIndexString )
 	{
 		nInputIndex = Q_atoi( pIndexString );
@@ -237,7 +237,7 @@ bool CSosOperator::BaseParseKV( CSosOperatorStack *pStack, CSosOperator_t *pStru
 		char tempString[64];
 		Q_strncpy( tempString, pParamString, sizeof(tempString) );
 		char *pInputParamString = strtok( tempString, "[" );
-		char *pIndexString = strtok( NULL, "]");
+		char *pIndexString = strtok(nullptr, "]");
 		bool bFillInputArray = false;
 		if ( pIndexString && *pIndexString )
 		{
@@ -364,7 +364,7 @@ void CSosOperator::ResolveInputValue( void *pInputDefault, int *pOffsetArray, sh
 	for ( int i = 0; i < nDataCount; i++ )
 	{
 		int nOffset = *( pOffsetArray + i );
-		void *pSrc = NULL;
+		void *pSrc = nullptr;
 		if ( nOffset > -1 )
 		{
 

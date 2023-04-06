@@ -223,7 +223,7 @@ void CHud::DrawProgressBar( int x, int y, int width, int height, float percentag
 //-----------------------------------------------------------------------------
 void CHud::DrawIconProgressBar( int x, int y, CHudTexture *icon, CHudTexture *icon2, float percentage, Color& clr, int type )
 {
-	if ( icon == NULL )
+	if ( icon == nullptr)
 		return;
 
 	//Clamp our percentage

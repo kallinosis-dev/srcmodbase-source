@@ -78,7 +78,7 @@ void CEditGroups::OnColor(void)
 {
 	CVisGroup *pGroup = m_cGroupList.GetSelectedVisGroup();
 
-	if (pGroup != NULL)
+	if (pGroup != nullptr)
 	{
 		color32 rgbColor = pGroup->GetColor();
 		CColorDialog dlg(RGB(rgbColor.r, rgbColor.g, rgbColor.b), CC_FULLOPEN);
@@ -142,7 +142,7 @@ void CEditGroups::OnRemove(void)
 		return;
 
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pDoc->VisGroups_RemoveGroup(pGroup);
 
@@ -241,7 +241,7 @@ void CEditGroups::UpdateGroupList()
 	m_cGroupList.DeleteAllItems();
 
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		int nCount = pDoc->VisGroups_GetCount();
 		for (int i = 0; i < nCount; i++)
@@ -297,7 +297,7 @@ void CColorBox::SetColor(COLORREF c, BOOL bRedraw)
 	m_c = c;
 	if (bRedraw)
 	{
-		RedrawWindow(NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+		RedrawWindow(nullptr, nullptr, RDW_INVALIDATE | RDW_UPDATENOW);
 	}
 }
 

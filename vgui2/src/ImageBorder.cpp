@@ -27,10 +27,10 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 ImageBorder::ImageBorder()
 {
-	_name = NULL;
+	_name = nullptr;
 	m_eBackgroundType = IBorder::BACKGROUND_TEXTURED;
 
-	m_pszImageName = NULL;
+	m_pszImageName = nullptr;
 	m_iTextureID = g_pSurface->CreateNewTextureID();
 }
 
@@ -54,7 +54,7 @@ void ImageBorder::SetImage(const char *imageName)
 	if ( m_pszImageName )
 	{
 		delete [] m_pszImageName;
-		m_pszImageName = NULL;
+		m_pszImageName = nullptr;
 	}
 
 	if (*imageName)

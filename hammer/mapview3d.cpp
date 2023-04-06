@@ -120,8 +120,8 @@ END_MESSAGE_MAP()
 CMapView3D::CMapView3D(void)
 {
 	m_eDrawType = VIEW3D_WIREFRAME;
-	m_pRender = NULL;
-	m_pCamera = NULL;
+	m_pRender = nullptr;
+	m_pCamera = nullptr;
 
 	m_dwTimeLastInputSample = 0;
 
@@ -129,7 +129,7 @@ CMapView3D::CMapView3D(void)
 	m_fStrafeSpeed = 0;
 	m_fVerticalSpeed = 0;
 
-	m_pwndTitle = NULL;
+	m_pwndTitle = nullptr;
 	m_bLightingPreview = false;
 
 	m_bMouseLook = false;
@@ -151,18 +151,18 @@ CMapView3D::CMapView3D(void)
 //-----------------------------------------------------------------------------
 CMapView3D::~CMapView3D(void)
 {
-	if (m_pCamera != NULL)
+	if (m_pCamera != nullptr)
 	{
 		delete m_pCamera;
 	}
 
-	if (m_pRender != NULL)
+	if (m_pRender != nullptr)
 	{
 		m_pRender->ShutDown();
 		delete m_pRender;
 	}
 
-	if (m_pwndTitle != NULL)
+	if (m_pwndTitle != nullptr)
 	{
 		delete m_pwndTitle;
 	}
@@ -182,7 +182,7 @@ BOOL CMapView3D::PreCreateWindow(CREATESTRUCT& cs)
 		//
 		// We need the CS_OWNDC bit so that we don't need to call GetDC every time we render. That fixes the flicker under Win98.
 		//
-		className = AfxRegisterWndClass(CS_BYTEALIGNCLIENT | CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW | CS_OWNDC, NULL, HBRUSH(GetStockObject(BLACK_BRUSH)));
+		className = AfxRegisterWndClass(CS_BYTEALIGNCLIENT | CS_DBLCLKS | CS_HREDRAW | CS_VREDRAW | CS_OWNDC, nullptr, HBRUSH(GetStockObject(BLACK_BRUSH)));
 	}
 
 	cs.lpszClass = className;
@@ -223,7 +223,7 @@ void CMapView3D::SetDrawType(DrawType_t eDrawType)
 		}
 	}
 
-	if (m_pwndTitle != NULL)
+	if (m_pwndTitle != nullptr)
 	{
 		m_pwndTitle->SetTitle("camera");
 	}
@@ -334,7 +334,7 @@ void CMapView3D::SetDrawType(DrawType_t eDrawType)
 	//
 	// Set renderer to use the new rendering mode.
 	//
-	if (m_pRender != NULL)
+	if (m_pRender != nullptr)
 	{
 		m_pRender->SetDefaultRenderMode(eRenderMode);
 		m_pRender->SetInLightingPreview( m_bLightingPreview );
@@ -498,7 +498,7 @@ void CMapView3D::OnContextMenu(CWnd *pWnd, CPoint point)
 void CMapView3D::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags) 
 {
 	CMapDoc *pDoc = GetMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		return;
 	}
@@ -509,7 +509,7 @@ void CMapView3D::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	if (((char)tolower(nChar) == 'z') && !(nFlags & 0x4000) && (Options.view3d.bUseMouseLook))
 	{
 		CMapDoc *pDoc = GetMapDoc();
-		if (pDoc != NULL)
+		if (pDoc != nullptr)
 		{
 			EnableMouseLook(!m_bMouseLook);
 
@@ -547,19 +547,19 @@ void CMapView3D::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	{
 		case VK_DELETE:
 		{
-			pDoc->OnCmdMsg(ID_EDIT_DELETE, CN_COMMAND, NULL, NULL);
+			pDoc->OnCmdMsg(ID_EDIT_DELETE, CN_COMMAND, nullptr, nullptr);
 			break;
 		}
 
 		case VK_NEXT:
 		{
-			pDoc->OnCmdMsg(ID_EDIT_SELNEXT, CN_COMMAND, NULL, NULL);
+			pDoc->OnCmdMsg(ID_EDIT_SELNEXT, CN_COMMAND, nullptr, nullptr);
 			break;
 		}
 
 		case VK_PRIOR:
 		{
-			pDoc->OnCmdMsg(ID_EDIT_SELPREV, CN_COMMAND, NULL, NULL);
+			pDoc->OnCmdMsg(ID_EDIT_SELPREV, CN_COMMAND, nullptr, nullptr);
 			break;
 		}
 
@@ -772,7 +772,7 @@ void CMapView3D::OnLButtonDblClk(UINT nFlags, CPoint point)
 	if ( !m_pToolManager ) 
 		return;
 	CBaseTool *pTool = m_pToolManager->GetActiveTool(); 
-	if (pTool != NULL)
+	if (pTool != nullptr)
 	{
 		Vector2D vPoint( point.x,point.y);
 		if (pTool->OnLMouseDblClk3D( this, nFlags, vPoint ))
@@ -797,10 +797,10 @@ void CMapView3D::OnLButtonDown(UINT nFlags, CPoint point)
     //
 	// Pass the message to the active tool.
     //
-	if ( m_pToolManager != NULL )
+	if ( m_pToolManager != nullptr)
 	{
 		CBaseTool *pTool = m_pToolManager->GetActiveTool();
-		if (pTool != NULL)
+		if (pTool != nullptr)
 		{
 			Vector2D vPoint( point.x,point.y);
 			if (pTool->OnLMouseDown3D(this, nFlags, vPoint))
@@ -819,7 +819,7 @@ void CMapView3D::OnLButtonDown(UINT nFlags, CPoint point)
 //-----------------------------------------------------------------------------
 void CMapView3D::BeginPick(void)
 {
-	SetTimer(MVTIMER_PICKNEXT, 500, NULL);
+	SetTimer(MVTIMER_PICKNEXT, 500, nullptr);
 }
 
 
@@ -852,10 +852,10 @@ void CMapView3D::OnLButtonUp(UINT nFlags, CPoint point)
 	//
 	// Pass the message to the active tool.
 	//
-	if ( m_pToolManager != NULL )
+	if ( m_pToolManager != nullptr)
 	{
 		CBaseTool *pTool = m_pToolManager->GetActiveTool();
-		if (pTool != NULL)
+		if (pTool != nullptr)
 		{
 			Vector2D vPoint( point.x,point.y);
 			if (pTool->OnLMouseUp3D(this, nFlags, vPoint))
@@ -881,7 +881,7 @@ void CMapView3D::OnInitialUpdate(void)
 	//
 	m_pwndTitle = CTitleWnd::CreateTitleWnd(this, ID_2DTITLEWND);
 	Assert(m_pwndTitle != NULL);
-	if (m_pwndTitle != NULL)
+	if (m_pwndTitle != nullptr)
 	{
 		m_pwndTitle->SetTitle("camera");
 	}
@@ -890,7 +890,7 @@ void CMapView3D::OnInitialUpdate(void)
 	// CMainFrame::LoadWindowStates calls InitialUpdateFrame which causes us to get two
 	// OnInitialUpdate messages! Check for a NULL renderer to avoid processing twice.
 	//
-	if (m_pRender != NULL)
+	if (m_pRender != nullptr)
 	{
 		return;
 	}
@@ -901,7 +901,7 @@ void CMapView3D::OnInitialUpdate(void)
 	m_pRender = new CRender3D();
 	
 	CMapDoc *pDoc = GetMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		Assert(pDoc != NULL);
 		return;
@@ -919,7 +919,7 @@ void CMapView3D::OnInitialUpdate(void)
 	//
 	m_pCamera = new CCamera();
 	Assert(m_pCamera != NULL);
-	if (m_pCamera == NULL)
+	if (m_pCamera == nullptr)
 	{
 		return;
 	}
@@ -1205,7 +1205,7 @@ void CMapView3D::UpdateView(int nFlags)
 		m_pCamera->SetPerspective( CMapEntity::GetShowDotACamera() ? 65.0f : Options.view3d.fFOV, CAMERA_FRONT_PLANE_DISTANCE, Options.view3d.iBackPlane);
 		
 		CMapDoc *pDoc = GetMapDoc();
-		if ((pDoc != NULL) && (m_pRender != NULL))
+		if ((pDoc != nullptr) && (m_pRender != nullptr))
 		{
 			m_pRender->RenderEnable(RENDER_GRID, pDoc->Is3DGridEnabled());
 			m_pRender->RenderEnable(RENDER_FILTER_TEXTURES, (Options.view3d.bFilterTextures == TRUE));
@@ -1230,9 +1230,9 @@ void CMapView3D::UpdateView(int nFlags)
 CMapClass *CMapView3D::NearestObjectAt( const Vector2D &vPoint, ULONG &ulFace, unsigned int nFlags, VMatrix *pLocalMatrix )
 {
 	ulFace = 0;
-	if (m_pRender == NULL)
+	if (m_pRender == nullptr)
 	{
-		return(NULL);
+		return(nullptr);
 	}
 
 	HitInfo_t Hits;
@@ -1245,11 +1245,11 @@ CMapClass *CMapView3D::NearestObjectAt( const Vector2D &vPoint, ULONG &ulFace, u
 		//
 		CMapAtom *pObject = (CMapAtom *)Hits.pObject;
 		CMapSolid *pSolid = dynamic_cast<CMapSolid *>(pObject);
-		if ( pLocalMatrix != NULL )
+		if ( pLocalMatrix != nullptr)
 		{
 			*pLocalMatrix = Hits.m_LocalMatrix;
 		}
-		if (pSolid != NULL)
+		if (pSolid != nullptr)
 		{
 			ulFace = Hits.uData;
 			return(pSolid);
@@ -1258,7 +1258,7 @@ CMapClass *CMapView3D::NearestObjectAt( const Vector2D &vPoint, ULONG &ulFace, u
 		return((CMapClass *)pObject);
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1316,7 +1316,7 @@ bool CMapView3D::HitTest( const Vector2D &vPoint, const Vector& mins, const Vect
 //-----------------------------------------------------------------------------
 int CMapView3D::ObjectsAt( const Vector2D &vPoint, HitInfo_t *pObjects, int nMaxObjects, unsigned int nFlags )
 {
-	if (m_pRender != NULL)
+	if (m_pRender != nullptr)
 	{
 		return m_pRender->ObjectsAt( vPoint.x, vPoint.y, 1, 1, pObjects, nMaxObjects, nFlags );
 	}
@@ -1704,7 +1704,7 @@ void CMapView3D::ProcessMouse(void)
 	// is an active tool.
 	//
 	CBaseTool *pTool = m_pToolManager->GetActiveTool();
-	if (pTool != NULL)
+	if (pTool != nullptr)
 	{
 		//
 		// Pass the message to the tool.
@@ -1738,10 +1738,10 @@ BOOL CMapView3D::OnMouseWheel(UINT nFlags, short zDelta, CPoint point)
     //
 	// Pass the message to the active tool.
     //
-	if ( m_pToolManager != NULL )
+	if ( m_pToolManager != nullptr)
 	{
 		CBaseTool *pTool = m_pToolManager->GetActiveTool();
-		if (pTool != NULL)
+		if (pTool != nullptr)
 		{
 			Vector2D vPoint( point.x,point.y);
 			if (pTool->OnMouseWheel3D(this, nFlags, zDelta, vPoint))
@@ -1781,10 +1781,10 @@ void CMapView3D::OnRButtonDown(UINT nFlags, CPoint point)
 	//
 	// Pass the message to the active tool.
 	//
-	if ( m_pToolManager != NULL )
+	if ( m_pToolManager != nullptr)
 	{
 		CBaseTool *pTool = m_pToolManager->GetActiveTool();
-		if (pTool != NULL)
+		if (pTool != nullptr)
 		{
 			Vector2D vPoint( point.x,point.y);
 			if (pTool->OnRMouseDown3D( this, nFlags, vPoint ))
@@ -1817,10 +1817,10 @@ void CMapView3D::OnRButtonUp(UINT nFlags, CPoint point)
 	//
 	// Pass the message to the active tool.
 	//
-	if ( m_pToolManager != NULL )
+	if ( m_pToolManager != nullptr)
 	{
 		CBaseTool *pTool = m_pToolManager->GetActiveTool();
-		if (pTool != NULL)
+		if (pTool != nullptr)
 		{
 			Vector2D vPoint( point.x,point.y);
 			if (pTool->OnRMouseUp3D( this, nFlags, vPoint ))
@@ -1847,7 +1847,7 @@ void CMapView3D::OnChar(UINT nChar, UINT nRepCnt, UINT nFlags)
 		// Pass the message to the active tool.
 		//
 		CBaseTool *pTool = m_pToolManager->GetActiveTool();
-		if (pTool != NULL)
+		if (pTool != nullptr)
 		{
 			if (pTool->OnChar3D(this, nChar, nRepCnt, nFlags))
 			{
@@ -1881,7 +1881,7 @@ void CMapView3D::EnableCrosshair(bool bEnable)
 	}
 	else
 	{
-		ClipCursor(NULL);
+		ClipCursor(nullptr);
 	}
 
 	ShowCursor(bEnable ? FALSE : TRUE);
@@ -1967,12 +1967,12 @@ void CMapView3D::EnableStrafing(bool bEnable)
 //-----------------------------------------------------------------------------
 void CMapView3D::Render( bool bRenderingOverEngine )
 {
-	if ( m_pRender != NULL )
+	if ( m_pRender != nullptr)
 	{
 		m_pRender->Render( bRenderingOverEngine );
 	}
 
-	if (m_pwndTitle != NULL)
+	if (m_pwndTitle != nullptr)
 	{
 		m_pwndTitle->BringWindowToTop();
 		m_pwndTitle->Invalidate();
@@ -1987,7 +1987,7 @@ void CMapView3D::Render( bool bRenderingOverEngine )
 //-----------------------------------------------------------------------------
 void CMapView3D::RenderPreloadObject(CMapAtom *pObject)
 {
-	if ((pObject != NULL) && (m_pRender != NULL))
+	if ((pObject != nullptr) && (m_pRender != nullptr))
 	{
 		pObject->RenderPreload(m_pRender, false);
 	}
@@ -2014,7 +2014,7 @@ void CMapView3D::Foundry_OnLButtonDown( int x, int y )
 //-----------------------------------------------------------------------------
 void CMapView3D::MoveForward(float flDistance)
 {
-	if (m_pCamera != NULL)
+	if (m_pCamera != nullptr)
 	{
 		m_pCamera->MoveForward(flDistance);
 	}
@@ -2026,7 +2026,7 @@ void CMapView3D::MoveForward(float flDistance)
 //-----------------------------------------------------------------------------
 void CMapView3D::MoveUp(float flDistance)
 {
-	if (m_pCamera != NULL)
+	if (m_pCamera != nullptr)
 	{
 		m_pCamera->MoveUp(flDistance);
 	}
@@ -2038,7 +2038,7 @@ void CMapView3D::MoveUp(float flDistance)
 //-----------------------------------------------------------------------------
 void CMapView3D::MoveRight(float flDistance)
 {
-	if (m_pCamera != NULL)
+	if (m_pCamera != nullptr)
 	{
 		m_pCamera->MoveRight(flDistance);
 	}
@@ -2050,7 +2050,7 @@ void CMapView3D::MoveRight(float flDistance)
 //-----------------------------------------------------------------------------
 void CMapView3D::Pitch(float flDegrees)
 {
-	if (m_pCamera != NULL)
+	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Pitch(flDegrees);
 	}
@@ -2062,7 +2062,7 @@ void CMapView3D::Pitch(float flDegrees)
 //-----------------------------------------------------------------------------
 void CMapView3D::Yaw(float flDegrees)
 {
-	if (m_pCamera != NULL)
+	if (m_pCamera != nullptr)
 	{
 		m_pCamera->Yaw(flDegrees);
 	}

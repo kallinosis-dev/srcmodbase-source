@@ -120,8 +120,8 @@ static stringtable_t strings[32768];
 
 static void BeginStringTable(  )
 {
-	strings[0].base = NULL;
-	strings[0].ptr = NULL;
+	strings[0].base = nullptr;
+	strings[0].ptr = nullptr;
 	strings[0].string = "";
 	strings[0].dupindex = -1;
 	numStrings = 1;
@@ -214,7 +214,7 @@ template < class M, class S, int nType >
 static S *WriteBaseConstraint( M *pConstraint, mstudiobone_t *pbone )
 {
 	if ( !pConstraint )
-		return NULL;
+		return nullptr;
 
 	S *pProc = (S *)pData;
 	pData += sizeof( S );
@@ -954,7 +954,7 @@ static void WriteSequenceInfo( studiohdr_t *phdr )
 
 
 		// save boneweights
-		float *pweight = 0;
+		float *pweight = nullptr;
 		j = 0;
 		// look up previous sequence weights and try to find a match
 		for (k = 0; k < m; k++)
@@ -1135,12 +1135,12 @@ static void WriteSequenceInfo( studiohdr_t *phdr )
 
 const studiohdr_t *studiohdr_t::FindModel( void **cache, char const *modelname ) const
 {
-	return NULL;
+	return nullptr;
 }
 
 virtualmodel_t *studiohdr_t::GetVirtualModel( void ) const
 {
-	return NULL;
+	return nullptr;
 }
 
 const studiohdr_t *virtualgroup_t::GetStudioHdr( void ) const
@@ -1150,7 +1150,7 @@ const studiohdr_t *virtualgroup_t::GetStudioHdr( void ) const
 
 byte *studiohdr_t::GetAnimBlock( int i, bool preloadIfMissing ) const
 {
-	return NULL;
+	return nullptr;
 }
 
 bool studiohdr_t::hasAnimBlockBeenPreloaded( int i ) const
@@ -1181,7 +1181,7 @@ void WriteRLEAnimationData( s_animation_t *srcanim, mstudioanimdesc_t *destanimd
 
 	destanim->bone = 255;
 
-	mstudio_rle_anim_t	*prevanim = NULL;
+	mstudio_rle_anim_t	*prevanim = nullptr;
 
 	// save animation value info
 	for (j = 0; j < g_numbones; j++)
@@ -1239,8 +1239,8 @@ void WriteRLEAnimationData( s_animation_t *srcanim, mstudioanimdesc_t *destanimd
 				useRaw++;
 			}
 
-			mstudioanim_valueptr_t *posvptr	= NULL;
-			mstudioanim_valueptr_t *rotvptr	= NULL;
+			mstudioanim_valueptr_t *posvptr	= nullptr;
+			mstudioanim_valueptr_t *rotvptr	= nullptr;
 
 			// allocate room for rotation ptrs
 			rotvptr	= (mstudioanim_valueptr_t *)pData;
@@ -1449,14 +1449,14 @@ void WriteFrameAnimationData( s_animation_t *srcanim, mstudioanimdesc_t *destani
 
 void WriteAnimationData( s_animation_t *srcanim, mstudioanimdesc_t *destanimdesc, byte *&pLocalData, byte *&pExtData )
 {
-	byte *pData = NULL;
+	byte *pData = nullptr;
 
 	for (int w = 0; w < srcanim->numsections; w++)
 	{
 		bool bUseExtData = false;
 		pData = pLocalData;
 
-		if (pExtData != NULL && !srcanim->disableAnimblocks && !((w * srcanim->sectionframes < srcanim->numNostallFrames) && srcanim->isFirstSectionLocal))
+		if (pExtData != nullptr && !srcanim->disableAnimblocks && !((w * srcanim->sectionframes < srcanim->numNostallFrames) && srcanim->isFirstSectionLocal))
 		{
 			pData = pExtData;
 			bUseExtData = true;
@@ -1465,7 +1465,7 @@ void WriteAnimationData( s_animation_t *srcanim, mstudioanimdesc_t *destanimdesc
 		byte *pStartSection = pData;
 
 		// use frameanim if not lowres data
-		if (pExtData != NULL && !g_bAnimblockLowRes)
+		if (pExtData != nullptr && !g_bAnimblockLowRes)
 		{
 			srcanim->flags |= STUDIO_FRAMEANIM;
 			destanimdesc->flags |= STUDIO_FRAMEANIM;
@@ -1812,9 +1812,9 @@ static byte *WriteAnimations( byte *pData, byte *pStart, studiohdr_t *phdr )
 		// block zero is relative to me
 		g_animblock[0].start = (byte *)(destanim);
 
-		byte *pAnimData = NULL;
-		byte *pIkData = NULL;
-		byte *pLocalHierarchy = NULL;
+		byte *pAnimData = nullptr;
+		byte *pIkData = nullptr;
+		byte *pLocalHierarchy = nullptr;
 		byte *pBlockEnd = pBlockData;
 
 		if (srcanim->disableAnimblocks || srcanim->isFirstSectionLocal)
@@ -2639,8 +2639,8 @@ static void WriteModel( studiohdr_t *phdr )
 
 	// vertex data is written to external file, offsets kept internal
 	// track expected external base to store proper offsets
-	byte *externalVertexIndex   = 0;
-	byte *externalTangentsIndex = 0;
+	byte *externalVertexIndex   = nullptr;
+	byte *externalTangentsIndex = nullptr;
 
 	// write bodypart info
 	pbodypart = (mstudiobodyparts_t *)pData;
@@ -3255,7 +3255,7 @@ void LoadMaterials( studiohdr_t *phdr )
 		for( i = 0; i < phdr->numtextures; i++ )
 		{
 			char szPath[MAX_PATH];
-			IMaterial *pMaterial = NULL;
+			IMaterial *pMaterial = nullptr;
 			// search through all specified directories until a valid material is found
 			for( j = 0; j < phdr->numcdtextures && IsErrorMaterial( pMaterial ); j++ )
 			{
@@ -3397,19 +3397,19 @@ void EnsureFileDirectoryExists( const char *pFilename )
 
 void WriteModelFiles(void)
 {
-	FileHandle_t modelouthandle = 0;
-	FileHandle_t blockouthandle = 0;
+	FileHandle_t modelouthandle = nullptr;
+	FileHandle_t blockouthandle = nullptr;
 	CPlainAutoPtr< CP4File > spFileBlockOut, spFileModelOut;
 	int			total = 0;
 	int			i;
 	char		filename[260];
 	studiohdr_t *phdr;
-	studiohdr_t *pblockhdr = 0;
+	studiohdr_t *pblockhdr = nullptr;
 
 	pStart = (byte *)kalloc( 1, FILEBUFFER );
 
-	pBlockData = NULL;
-	pBlockStart = NULL;
+	pBlockData = nullptr;
+	pBlockStart = nullptr;
 
 	Q_StripExtension( g_outname, g_outname, sizeof( g_outname ) );
 		
@@ -4014,9 +4014,9 @@ bool BuildSortedVertexList(const studiohdr_t *pStudioHdr, const void *pVtxBuff, 
 	int									finalMeshVertID;
 	int									baseMeshVertID;
 
-	*ppVertexPools   = NULL;
+	*ppVertexPools   = nullptr;
 	*pNumVertexPools = 0;
-	*ppVertexList    = NULL;
+	*ppVertexList    = nullptr;
 	*pNumVertexes    = 0;
 
 	pVtxHdr = (OptimizedModel::FileHeader_t*)pVtxBuff; 
@@ -4304,11 +4304,11 @@ bool FixupVVDFile(const char *fileName,  const studiohdr_t *pStudioHdr, const vo
 	mstudiovertex_t					*pVertex_new;
 	Vector4D						*pTangent_new;
 	Vector4D						*pTangent_old;
-	byte							*pExtraData_new = NULL;
-	byte							*pExtraData_old = NULL;
+	byte							*pExtraData_new = nullptr;
+	byte							*pExtraData_old = nullptr;
 	mstudiovertex_t					**pFlatVertexes;
 	Vector4D						**pFlatTangents;
-	byte							**pFlatExtraData = NULL;
+	byte							**pFlatExtraData = nullptr;
 	vertexFileFixup_t				*pFixupTable;
 	const lodMeshInfo_t				*pLodMeshInfo;
 	byte							*pStart_new;
@@ -4316,8 +4316,8 @@ bool FixupVVDFile(const char *fileName,  const studiohdr_t *pStudioHdr, const vo
 	byte							*pStart_base;
 	byte							*pVertexBase_old;
 	byte							*pTangentBase_old;
-	byte							*pExtraDataBase_old = NULL;
-	byte							*pExtraDataBase_new = NULL;
+	byte							*pExtraDataBase_old = nullptr;
+	byte							*pExtraDataBase_new = nullptr;
 	void							*pVvdBuff;
 	int								i;
 	int								j;
@@ -4332,10 +4332,10 @@ bool FixupVVDFile(const char *fileName,  const studiohdr_t *pStudioHdr, const vo
 	int								numMeshes;
 	int								numOutFixups;
 	bool							bExtraData = (pStudioHdr->flags & STUDIOHDR_FLAGS_EXTRA_VERTEX_DATA) != 0;
-	ExtraVertexAttributeIndex_t*	pExtraIndex_old = NULL;
-	ExtraVertexAttributeIndex_t*	pExtraIndex_new = NULL;
-	ExtraVertexAttributesHeader_t*  pExtraHeader_old = NULL;
-	ExtraVertexAttributesHeader_t*  pExtraHeader_new = NULL;
+	ExtraVertexAttributeIndex_t*	pExtraIndex_old = nullptr;
+	ExtraVertexAttributeIndex_t*	pExtraIndex_new = nullptr;
+	ExtraVertexAttributesHeader_t*  pExtraHeader_old = nullptr;
+	ExtraVertexAttributesHeader_t*  pExtraHeader_new = nullptr;
 
 	pVtxHdr = (OptimizedModel::FileHeader_t*)pVtxBuff; 
 
@@ -4505,7 +4505,7 @@ bool FixupVVDFile(const char *fileName,  const studiohdr_t *pStudioHdr, const vo
 	numFlat = 0;
 	pFlatVertexes = (mstudiovertex_t**)malloc(numVertexes*sizeof(mstudiovertex_t*));
 	pFlatTangents = (Vector4D**)malloc(numVertexes*sizeof(Vector4D*));
-	pFlatExtraData = bExtraData ? (byte**)malloc( numVertexes*sizeof( byte* )*pExtraHeader_old->m_count ) : 0;
+	pFlatExtraData = bExtraData ? (byte**)malloc( numVertexes*sizeof( byte* )*pExtraHeader_old->m_count ) : nullptr;
 
 	for (i=0; i<pStudioHdr->numbodyparts; i++)
 	{
@@ -4782,7 +4782,7 @@ bool FixupMDLFile(const char *fileName, studiohdr_t *pStudioHdr, const void *pVt
 	{
 		for (int i = 0; i < pStudioHdr->numtextures; i++)
 		{
-			pStudioHdr->pTexture(i)->material = NULL;
+			pStudioHdr->pTexture(i)->material = nullptr;
 		}
 	}
 
@@ -5313,7 +5313,7 @@ void WriteSwappedFile( char *srcname, char *outname, int(*pfnSwapFunc)(void*, in
 			printf( "Generating Xbox360 file format for \"%s\":\n", srcname );
 		}
 
-		void *pFileBase = NULL;
+		void *pFileBase = nullptr;
 		int fileSize = LoadFile( srcname, &pFileBase );
 		int paddedSize = fileSize + BYTESWAP_ALIGNMENT_PADDING;
 

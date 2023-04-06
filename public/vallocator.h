@@ -70,7 +70,7 @@ template<class T>
 inline void VAllocator_CallConstructors(T *pObjects, int count=1)
 {
 	for(int i=0; i < count; i++)
-		new(&pObjects[i], (DummyAllocatorHelper*)0) T;
+		new(&pObjects[i], (DummyAllocatorHelper*)nullptr) T;
 }
 
 template<class T>

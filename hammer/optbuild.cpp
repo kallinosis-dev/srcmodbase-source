@@ -43,7 +43,7 @@ COPTBuild::COPTBuild()
 	//{{AFX_DATA_INIT(COPTBuild)
 	//}}AFX_DATA_INIT
 
-	m_pConfig = NULL;
+	m_pConfig = nullptr;
 }
 
 
@@ -122,7 +122,7 @@ void COPTBuild::OnSelchangeConfigs()
 {
 	SaveInfo(m_pConfig);
 
-	m_pConfig = NULL;
+	m_pConfig = nullptr;
 
 	int iCurSel = m_cConfigs.GetCurSel();
 	
@@ -165,7 +165,7 @@ void COPTBuild::SaveInfo(CGameConfig *pConfig)
 
 void COPTBuild::UpdateConfigList()
 {
-	m_pConfig = NULL;
+	m_pConfig = nullptr;
 
 	::UpdateConfigList(m_cConfigs);
 	::SelectActiveConfig(m_cConfigs);
@@ -195,7 +195,7 @@ BOOL COPTBuild::HandleInsertParm(UINT nID)
 // insert a parm at the current cursor location into the parameters
 //  edit control
 {
-	LPCTSTR pszInsert = 0;
+	LPCTSTR pszInsert = nullptr;
 
 	switch (nID)
 	{
@@ -250,7 +250,7 @@ void COPTBuild::InsertParm(UINT nID, CEdit *pEdit)
 	CWnd *pButton = GetDlgItem(nID);
 	CRect r;
 	pButton->GetWindowRect(r);
-	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON, r.left, r.bottom, this, NULL);
+	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON, r.left, r.bottom, this, nullptr);
 }
 
 
@@ -292,7 +292,7 @@ void COPTBuild::OnBrowseBspdir()
 
 	LPITEMIDLIST idl = SHBrowseForFolder(&bi);
 
-	if (idl == NULL)
+	if (idl == nullptr)
 		return;
 
 	SHGetPathFromIDList(idl, szTemp);

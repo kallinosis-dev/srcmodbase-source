@@ -29,7 +29,7 @@ CRR_Response::CRR_Response() : m_fMatchScore(0)
 	m_Type = ResponseRules::RESPONSE_NONE;
 	m_szResponseName[0] = 0;
 	m_szMatchingRule[0]=0;
-	m_szContext = NULL;
+	m_szContext = nullptr;
 	m_bApplyContextToWorld = false;
 }
 
@@ -40,7 +40,7 @@ CRR_Response::CRR_Response( const CRR_Response &from ) : m_fMatchScore(0)
 	// Assert( (void*)(&m_Type) == (void*)this );
 	Invalidate();
 	memcpy( this, &from, sizeof(*this) );
-	m_szContext = NULL;
+	m_szContext = nullptr;
 	SetContext( from.m_szContext );
 	m_bApplyContextToWorld = from.m_bApplyContextToWorld;
 }
@@ -52,7 +52,7 @@ CRR_Response &CRR_Response::operator=( const CRR_Response &from )
 	// Assert( (void*)(&m_Type) == (void*)this );
 	Invalidate();
 	memcpy( this, &from, sizeof(*this) );
-	m_szContext = NULL;
+	m_szContext = nullptr;
 	SetContext( from.m_szContext );
 	m_bApplyContextToWorld = from.m_bApplyContextToWorld;
 	return *this;
@@ -72,7 +72,7 @@ void CRR_Response::Invalidate()
 	if (m_szContext)
 	{
 		delete[] m_szContext;
-		m_szContext = NULL;
+		m_szContext = nullptr;
 	}
 	m_Type = ResponseRules::RESPONSE_NONE;
 	m_szResponseName[0] = 0;
@@ -298,7 +298,7 @@ void CRR_Response::SetContext( const char *context )
 	if (m_szContext)
 	{
 		delete[] m_szContext;
-		m_szContext = NULL;
+		m_szContext = nullptr;
 	}
 
 	if ( context )

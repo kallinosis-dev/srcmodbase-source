@@ -15,7 +15,7 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-static IMaterial *g_pSmokeFogMaterial = NULL;
+static IMaterial *g_pSmokeFogMaterial = nullptr;
 
 
 float		g_SmokeFogOverlayAlpha;
@@ -46,7 +46,7 @@ void TermSmokeFogOverlay()
 	if(g_pSmokeFogMaterial)
 	{
 		g_pSmokeFogMaterial->DecrementReferenceCount();
-		g_pSmokeFogMaterial = NULL;
+		g_pSmokeFogMaterial = nullptr;
 	}
 }
 
@@ -69,7 +69,7 @@ void DrawSmokeFogOverlay()
 	pRenderContext->MatrixMode( MATERIAL_MODEL );
 	pRenderContext->LoadIdentity();
 
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( false, NULL, NULL, g_pSmokeFogMaterial );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( false, nullptr, nullptr, g_pSmokeFogMaterial );
 	CMeshBuilder meshBuilder;
 
 	static float dist = 10;

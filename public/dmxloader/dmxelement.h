@@ -492,7 +492,7 @@ public:
 		if ( m_pElement )
 		{
 			m_pElement->LockForChanges( false );
-			m_pElement = NULL;
+			m_pElement = nullptr;
 		}
 	}
 private:

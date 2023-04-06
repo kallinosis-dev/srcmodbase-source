@@ -69,7 +69,7 @@ SpewRetval_t MySpewFunc( SpewType_t spewType, const tchar *pMsg )
 
 int RunVMPITransferWorker( int argc, char  **argv )
 {
-	if ( !VMPI_Init( argc, argv, NULL, MyDisconnectHandler, VMPI_RUN_NETWORKED, true ) )
+	if ( !VMPI_Init( argc, argv, nullptr, MyDisconnectHandler, VMPI_RUN_NETWORKED, true ) )
 	{
 		return 1;
 	}
@@ -82,11 +82,11 @@ int RunVMPITransferWorker( int argc, char  **argv )
 	ICommandLine *pCommandLine = CommandLine();
 
 	// Look for the cache path and file base args.
-	const char *pCachePath = pCommandLine->ParmValue( "-CachePath", (char*)NULL );
+	const char *pCachePath = pCommandLine->ParmValue( "-CachePath", (char*)nullptr);
 	if ( !pCachePath )
 		Error( "No -CachePath specified." );
 
-	const char *pRemoteFileBase = pCommandLine->ParmValue( "-mpi_filebase", (char*)NULL );
+	const char *pRemoteFileBase = pCommandLine->ParmValue( "-mpi_filebase", (char*)nullptr);
 	if ( !pRemoteFileBase )
 		Error( "No -mpi_filebase specified." );
 	

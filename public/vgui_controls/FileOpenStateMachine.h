@@ -73,10 +73,10 @@ public:
 	virtual ~FileOpenStateMachine();
 
 	// Opens a file, saves an existing one if necessary
-	void OpenFile( const char *pOpenFileType, KeyValues *pContextKeyValues, const char *pSaveFileName = NULL, const char *pSaveFileType = NULL, int nFlags = 0 );
+	void OpenFile( const char *pOpenFileType, KeyValues *pContextKeyValues, const char *pSaveFileName = nullptr, const char *pSaveFileType = nullptr, int nFlags = 0 );
 
 	// Version of OpenFile that skips browsing for a particular file to open
-	void OpenFile( const char *pOpenFileName, const char *pOpenFileType, KeyValues *pContextKeyValues, const char *pSaveFileName = NULL, const char *pSaveFileType = NULL, int nFlags = 0 );
+	void OpenFile( const char *pOpenFileName, const char *pOpenFileType, KeyValues *pContextKeyValues, const char *pSaveFileName = nullptr, const char *pSaveFileType = nullptr, int nFlags = 0 );
 
 	// Used to save a specified file, and deal with all the lovely dialogs
 	// Pass in NULL to get a dialog to choose a filename to save

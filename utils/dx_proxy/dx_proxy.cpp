@@ -334,7 +334,7 @@ Proxy_D3DXCompileShaderFromFile(
 	// Open the top-level file via our include interface
 	LPCVOID lpcvData;
 	UINT numBytes;
-	HRESULT hr = pInclude->Open( ( D3DXINCLUDE_TYPE ) 0, pSrcFile, NULL, &lpcvData, &numBytes
+	HRESULT hr = pInclude->Open( ( D3DXINCLUDE_TYPE ) 0, pSrcFile, nullptr, &lpcvData, &numBytes
 #if defined( DX9_V00_X360 )
 		, s_dummyBuffer, sizeof( s_dummyBuffer )
 #endif

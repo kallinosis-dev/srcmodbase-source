@@ -145,11 +145,11 @@ public: // IHLTVServer interface:
 	const netadr_t *GetRelayAddress( void ); // returns relay address
 
 	void	BroadcastEvent(IGameEvent *event);
-	virtual void	StopRecording( const CGameInfo *pGameInfo = NULL )		{	StopRecordingAndFreeFrames( false, pGameInfo ); }
+	virtual void	StopRecording( const CGameInfo *pGameInfo = nullptr)		{	StopRecordingAndFreeFrames( false, pGameInfo ); }
 
 	//similar to the standard stop recording, but this allows for specifying a tick before which frames can be dropped. This is very useful for
 	//shutdown to prevent memory spikes
-	void	StopRecordingAndFreeFrames( bool bFreeClientFrames, const CGameInfo *pGameInfo = NULL );
+	void	StopRecordingAndFreeFrames( bool bFreeClientFrames, const CGameInfo *pGameInfo = nullptr);
 
 	virtual bool		IsRecording();
     virtual const char* GetRecordingDemoFilename();
@@ -179,17 +179,17 @@ public: // IDemoPlayer interface
 	void	ResumePlayback( void ) {}; 
 	void	StopPlayback( void ) {};	
 	void	InterpolateViewpoint() {};
-	netpacket_t *ReadPacket( void ) { return NULL; }
+	netpacket_t *ReadPacket( void ) { return nullptr; }
 
 	void	ResetDemoInterpolation( void ) {};
 
 	void SetPacketReadSuspended( bool bSuspendPacketReading ) {};
 
 	void	SetImportantEventData( const KeyValues *pData ) {};
-	int		FindNextImportantTick( int nCurrentTick, const char *pEventName = NULL ) { return -1; } // -1 = no next important tick
-	int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = NULL ) { return -1; } // -1 = no previous important tick
-	const DemoImportantTick_t *GetImportantTick( int nIndex ) { return NULL; }
-	const DemoImportantGameEvent_t *GetImportantGameEvent( const char *pszEventName ) { return NULL; }
+	int		FindNextImportantTick( int nCurrentTick, const char *pEventName = nullptr) { return -1; } // -1 = no next important tick
+	int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = nullptr) { return -1; } // -1 = no previous important tick
+	const DemoImportantTick_t *GetImportantTick( int nIndex ) { return nullptr; }
+	const DemoImportantGameEvent_t *GetImportantGameEvent( const char *pszEventName ) { return nullptr; }
 	void	ListImportantTicks( void ) {};
 	void	ListHighlightData( void ) {};
 	void	SetHighlightXuid( uint64 xuid, bool bLowlights ) {};
@@ -216,7 +216,7 @@ public:
 	void	LinkInstanceBaselines( void );
 	void	BroadcastEventLocal( IGameEvent *event, bool bReliable ); // broadcast event but not to relay proxies
 	void	BroadcastLocalChat( const char *pszChat, const char *pszGroup ); // broadcast event but not to relay proxies
-	void	BroadcastLocalTitle( CHLTVClient *client = NULL ); // NULL = broadcast to all
+	void	BroadcastLocalTitle( CHLTVClient *client = nullptr); // NULL = broadcast to all
 	bool	DispatchToRelay( CHLTVClient *pClient);
 	bf_write *GetBuffer( int nBuffer);
 	CClientFrame *GetDeltaFrame( int nTick );
@@ -405,11 +405,11 @@ public:
 
 	operator CHLTVServer* ( )
 	{
-		return m_nIndex < HLTV_SERVER_MAX_COUNT ? g_pHltvServer[ m_nIndex ] : NULL;
+		return m_nIndex < HLTV_SERVER_MAX_COUNT ? g_pHltvServer[ m_nIndex ] : nullptr;
 	}
 	CHLTVServer *operator->()
 	{
-		return m_nIndex < HLTV_SERVER_MAX_COUNT ? g_pHltvServer[ m_nIndex ] : NULL;
+		return m_nIndex < HLTV_SERVER_MAX_COUNT ? g_pHltvServer[ m_nIndex ] : nullptr;
 	}
 	bool Next()
 	{
@@ -437,11 +437,11 @@ public:
 
 	operator CHLTVServer* ( )
 	{
-		return m_nIndex < HLTV_SERVER_MAX_COUNT ? g_pHltvServer[ m_nIndex ] : NULL;
+		return m_nIndex < HLTV_SERVER_MAX_COUNT ? g_pHltvServer[ m_nIndex ] : nullptr;
 	}
 	CHLTVServer *operator->( )
 	{
-		return m_nIndex < HLTV_SERVER_MAX_COUNT ? g_pHltvServer[ m_nIndex ] : NULL;
+		return m_nIndex < HLTV_SERVER_MAX_COUNT ? g_pHltvServer[ m_nIndex ] : nullptr;
 	}
 	bool Next()
 	{

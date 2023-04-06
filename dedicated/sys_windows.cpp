@@ -75,7 +75,7 @@ ISys *sys = &g_Sys;
 //-----------------------------------------------------------------------------
 CSys::~CSys()
 {
-	sys = NULL;
+	sys = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -121,7 +121,7 @@ void CSys::FreeLibrary( long library )
 //-----------------------------------------------------------------------------
 bool CSys::GetExecutableName( char *out )
 {
-	if ( !::GetModuleFileName( ( HINSTANCE )GetModuleHandle( NULL ), out, 256 ) )
+	if ( !::GetModuleFileName( ( HINSTANCE )GetModuleHandle(nullptr), out, 256 ) )
 	{
 		return false;
 	}
@@ -135,7 +135,7 @@ bool CSys::GetExecutableName( char *out )
 //-----------------------------------------------------------------------------
 void CSys::ErrorMessage( int level, const char *msg )
 {
-	MessageBox( NULL, msg, "Half-Life", MB_OK );
+	MessageBox(nullptr, msg, "Half-Life", MB_OK );
 	PostQuitMessage(0);	
 }
 
@@ -339,7 +339,7 @@ static char *GetBaseDir( const char *pszBuffer )
 	static char	basedir[ MAX_PATH ];
 	char szBuffer[ MAX_PATH ];
 	int j;
-	char *pBuffer = NULL;
+	char *pBuffer = nullptr;
 
 	strcpy( szBuffer, pszBuffer );
 

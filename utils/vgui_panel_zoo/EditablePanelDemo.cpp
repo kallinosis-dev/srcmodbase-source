@@ -114,7 +114,7 @@ EditablePanelDemo::EditablePanelDemo(Panel *parent, const char *name) : DemoPage
 	// Add menu items to this combo box.
 	for (int i = 0; i < ARRAYSIZE(g_Speeds); i++)
 	{
-		m_pInternetSpeed->AddItem(g_Speeds[i], NULL );
+		m_pInternetSpeed->AddItem(g_Speeds[i], nullptr);
 	}
 
 	// Associate our label with our combo box

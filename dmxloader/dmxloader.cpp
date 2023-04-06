@@ -67,7 +67,7 @@ void* DMXAlloc( size_t size )
 {
 	Assert( s_bInDMXContext );
 	if ( !s_bInDMXContext )
-		return 0;
+		return nullptr;
 	MEM_ALLOC_CREDIT_( "DMXAlloc" );
 	return s_DMXAllocator.Alloc( size, false );
 }
@@ -123,7 +123,7 @@ private:
 	{
 		int uSym = ( bUseLargeSymbols ) ? buf.GetInt() : buf.GetShort();
 		if ( uSym >= nStrings )
-			return NULL;
+			return nullptr;
 		return stringTable + offsetTable[ uSym ];
 	}
 };
@@ -348,13 +348,13 @@ CDmxElement* CDmxSerializer::UnserializeElementIndex( CUtlBuffer &buf, CUtlVecto
 //		DmObjectId_t id;
 //		UniqueIdFromString( &id, idstr, sizeof( idstr ) );
 
-		return NULL;
+		return nullptr;
 	}
 
 	Assert( nElementIndex < elementList.Count() );
 	Assert( nElementIndex >= 0 || nElementIndex == ELEMENT_INDEX_NULL );
 	if ( nElementIndex < 0 || !elementList[ nElementIndex ] )
-		return NULL;
+		return nullptr;
 
 	return elementList[ nElementIndex ];
 }
@@ -401,7 +401,7 @@ bool CDmxSerializer::UnserializeAttributes( CUtlBuffer &buf, CDmxElement *pEleme
 	int nAttributeCount = buf.GetInt();
 	for ( int i = 0; i < nAttributeCount; ++i )
 	{
-		const char *pName = NULL;
+		const char *pName = nullptr;
 		{
 			if ( stringTable )
 			{
@@ -507,8 +507,8 @@ bool CDmxSerializer::Unserialize( CUtlBuffer &buf, int nEncodingVersion, CDmxEle
 
 	// Read string table
 	int nStrings = 0;
-	int *offsetTable = NULL;
-	char *stringTable = NULL;
+	int *offsetTable = nullptr;
+	char *stringTable = nullptr;
 	if ( bReadStringTable )
 	{
 		if ( nEncodingVersion >= DMX_BINARY_VER_GLOBAL_STRINGTABLE )
@@ -554,7 +554,7 @@ bool CDmxSerializer::Unserialize( CUtlBuffer &buf, int nEncodingVersion, CDmxEle
 	CUtlVector<CDmxElement*> elementList( 0, nElementCount );
 	for ( int i = 0; i < nElementCount; ++i )
 	{
-		const char *pType = NULL;
+		const char *pType = nullptr;
 		if ( stringTable )
 		{
 			pType = Dme_GetStringFromBuffer( buf, bUseLargeSymbols, nStrings, offsetTable, stringTable );
@@ -567,7 +567,7 @@ bool CDmxSerializer::Unserialize( CUtlBuffer &buf, int nEncodingVersion, CDmxEle
 			pType = pTypeBuf;
 		}
 
-		const char *pName = NULL;
+		const char *pName = nullptr;
 		if ( bReadStringTable && nEncodingVersion >= DMX_BINARY_VER_GLOBAL_STRINGTABLE )
 		{
 			pName = Dme_GetStringFromBuffer( buf, bUseLargeSymbols, nStrings, offsetTable, stringTable );
@@ -745,7 +745,7 @@ bool ReadDMXHeader( CUtlBuffer &buf, char *pEncodingName, int nEncodingNameLen, 
 bool UnserializeDMX( CUtlBuffer &buf, CDmxElement **ppRoot, const char *pFileName )
 {
 	// NOTE: Checking the format name string for a version check here is how you'd do it
-	*ppRoot = NULL;
+	*ppRoot = nullptr;
 
 	// Read the standard buffer header
 	int nEncodingVersion, nFormatVersion;

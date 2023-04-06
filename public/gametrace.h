@@ -74,7 +74,7 @@ public:
 	// Otherwise, this is the hitbox index.
 	int			hitbox;					// box hit by trace in studio
 
-	CGameTrace() : m_pEnt(NULL) {}
+	CGameTrace() : m_pEnt(nullptr) {}
 
 private:
 	// No copy constructors allowed

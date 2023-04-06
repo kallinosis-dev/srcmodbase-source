@@ -187,9 +187,9 @@ inline void CSubdivMesh::Clear( void )
 	m_MaxEdgeCount = 0;
 	m_MaxTreeCount = 0;
 
-	m_pPoints = NULL;
-	m_pEdges = NULL;
-	m_ppTrees = NULL;
+	m_pPoints = nullptr;
+	m_pEdges = nullptr;
+	m_ppTrees = nullptr;
 }
 
 

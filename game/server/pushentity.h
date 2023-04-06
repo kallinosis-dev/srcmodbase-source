@@ -77,7 +77,7 @@ protected:
 	bool SpeculativelyCheckPush( PhysicsPushedInfo_t &info, const Vector &vecAbsPush, bool bRotationalPush, CBaseEntity *pRoot, bool bIgnoreTeammates = false );
 
 	// Speculatively checks to see if all entities in this list can be pushed
-	virtual bool SpeculativelyCheckRotPush( const RotatingPushMove_t &rotPushMove, CBaseEntity *pRoot = NULL );
+	virtual bool SpeculativelyCheckRotPush( const RotatingPushMove_t &rotPushMove, CBaseEntity *pRoot = nullptr);
 
 	// Speculatively checks to see if all entities in this list can be pushed
 	virtual bool	SpeculativelyCheckLinearPush( const Vector &vecAbsPush );
@@ -89,7 +89,7 @@ protected:
 	virtual void	FinishRotPushedEntity( CBaseEntity *pPushedEntity, const RotatingPushMove_t &rotPushMove );
 
 	// Commits the speculative movement
-	void	FinishPush( bool bIsRotPush = false, const RotatingPushMove_t *pRotPushMove = NULL );
+	void	FinishPush( bool bIsRotPush = false, const RotatingPushMove_t *pRotPushMove = nullptr);
 
 	// Generates a list of all entities potentially blocking all pushers
 	void	GenerateBlockingEntityList();

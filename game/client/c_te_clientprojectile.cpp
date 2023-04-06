@@ -42,7 +42,7 @@ C_TEClientProjectile::C_TEClientProjectile( void )
 	m_vecVelocity.Init();
 	m_nModelIndex = 0;
 	m_nLifeTime = 0;
-	m_hOwner = NULL;
+	m_hOwner = nullptr;
 }
 
 //-----------------------------------------------------------------------------

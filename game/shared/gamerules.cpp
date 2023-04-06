@@ -64,7 +64,7 @@ bool IsGameRulesMultiplayer()
 // CGameRulesProxy implementation.
 // ------------------------------------------------------------------------------------ //
 
-CGameRulesProxy *CGameRulesProxy::s_pGameRulesProxy = NULL;
+CGameRulesProxy *CGameRulesProxy::s_pGameRulesProxy = nullptr;
 
 IMPLEMENT_NETWORKCLASS_ALIASED( GameRulesProxy, DT_GameRulesProxy )
 
@@ -81,7 +81,7 @@ CGameRulesProxy::CGameRulesProxy()
 #ifndef CLIENT_DLL
 		UTIL_Remove( s_pGameRulesProxy );
 #endif
-		s_pGameRulesProxy = NULL;
+		s_pGameRulesProxy = nullptr;
 	}
 	s_pGameRulesProxy = this;
 }
@@ -90,7 +90,7 @@ CGameRulesProxy::~CGameRulesProxy()
 {
 	if ( s_pGameRulesProxy == this )
 	{
-		s_pGameRulesProxy = NULL;
+		s_pGameRulesProxy = nullptr;
 	}
 }
 
@@ -134,7 +134,7 @@ CGameRules::CGameRules() : CAutoGameSystemPerFrame( "CGameRules" )
 extern IVoiceGameMgrHelper *g_pVoiceGameMgrHelper;
 
 
-CGameRules*	g_pGameRules = NULL;
+CGameRules*	g_pGameRules = nullptr;
 extern bool	g_fGameOver;
 
 //-----------------------------------------------------------------------------
@@ -207,8 +207,8 @@ CBaseEntity *CGameRules::GetPlayerSpawnSpot( CBasePlayer *pPlayer )
 {
 	CBaseEntity *pSpawnSpot = pPlayer->EntSelectSpawnPoint();
 	Assert( pSpawnSpot );
-	if ( pSpawnSpot == NULL )
-		return NULL;
+	if ( pSpawnSpot == nullptr)
+		return nullptr;
 
 	pPlayer->SetLocalOrigin( pSpawnSpot->GetAbsOrigin() + Vector(0,0,1) );
 	pPlayer->SetAbsVelocity( vec3_origin );
@@ -224,14 +224,14 @@ CBaseEntity *CGameRules::GetPlayerSpawnSpot( CBasePlayer *pPlayer )
 // checks if the spot is clear of players
 bool CGameRules::IsSpawnPointValid( CBaseEntity *pSpot, CBasePlayer *pPlayer  )
 {
-	CBaseEntity *ent = NULL;
+	CBaseEntity *ent = nullptr;
 
 	if ( !pSpot->IsTriggered( pPlayer ) )
 	{
 		return false;
 	}
 
-	for ( CEntitySphereQuery sphere( pSpot->GetAbsOrigin(), 128 ); (ent = sphere.GetCurrentEntity()) != NULL; sphere.NextEntity() )
+	for ( CEntitySphereQuery sphere( pSpot->GetAbsOrigin(), 128 ); (ent = sphere.GetCurrentEntity()) != nullptr; sphere.NextEntity() )
 	{
 		// if ent is a client, don't spawn on 'em
 		if ( ent->IsPlayer() && ent != pPlayer )
@@ -313,7 +313,7 @@ bool IsExplosionTraceBlocked( trace_t *ptr )
 	if( ptr->DidHitWorld() )
 		return true;
 
-	if( ptr->m_pEnt == NULL )
+	if( ptr->m_pEnt == nullptr)
 		return false;
 
 	if( ptr->m_pEnt->GetMoveType() == MOVETYPE_PUSH )
@@ -336,7 +336,7 @@ bool IsExplosionTraceBlocked( trace_t *ptr )
 void CGameRules::RadiusDamage( const CTakeDamageInfo &info, const Vector &vecSrcIn, float flRadius, int iClassIgnore, CBaseEntity *pEntityIgnore )
 {
 	const int MASK_RADIUS_DAMAGE = MASK_SHOT&(~CONTENTS_HITBOX);
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 	trace_t		tr;
 	float		flAdjustedDamage, falloff;
 	Vector		vecSpot;
@@ -366,7 +366,7 @@ void CGameRules::RadiusDamage( const CTakeDamageInfo &info, const Vector &vecSrc
 	float flHalfRadiusSqr = Square( flRadius / 2.0f );
 
 	// iterate on all entities in the vicinity.
-	for ( CEntitySphereQuery sphere( vecSrc, flRadius ); (pEntity = sphere.GetCurrentEntity()) != NULL; sphere.NextEntity() )
+	for ( CEntitySphereQuery sphere( vecSrc, flRadius ); (pEntity = sphere.GetCurrentEntity()) != nullptr; sphere.NextEntity() )
 	{
 		// This value is used to scale damage when the explosion is blocked by some other object.
 		float flBlockedDamagePercent = 0.0f;
@@ -562,7 +562,7 @@ void CGameRules::RadiusDamage( const CTakeDamageInfo &info, const Vector &vecSrc
 				bIsPrimary = false;
 			}
 
-			gamestats->Event_WeaponHit( player, bIsPrimary, (pWeapon != NULL) ? player->GetActiveWeapon()->GetClassname() : "NULL", info );
+			gamestats->Event_WeaponHit( player, bIsPrimary, (pWeapon != nullptr) ? player->GetActiveWeapon()->GetClassname() : "NULL", info );
 		}
 #endif
 	}
@@ -666,7 +666,7 @@ edict_t *CGameRules::DoFindClientInPVS( edict_t *pEdict, unsigned char *pvs, uns
 CGameRules::~CGameRules()
 {
 	Assert( g_pGameRules == this );
-	g_pGameRules = NULL;
+	g_pGameRules = nullptr;
 }
 
 bool CGameRules::Init()
@@ -685,7 +685,7 @@ bool CGameRules::SwitchToNextBestWeapon( CBaseCombatCharacter *pPlayer, CBaseCom
 
 CBaseCombatWeapon *CGameRules::GetNextBestWeapon( CBaseCombatCharacter *pPlayer, CBaseCombatWeapon *pCurrentWeapon )
 {
-	return NULL;
+	return nullptr;
 }
 
 bool CGameRules::ShouldCollide( int collisionGroup0, int collisionGroup1 )

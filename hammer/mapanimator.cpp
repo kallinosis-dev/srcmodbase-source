@@ -82,7 +82,7 @@ CMapClass *CMapAnimator::CopyFrom(CMapClass *pObj, bool bUpdateDependencies)
 
 	memcpy( m_CoordFrame.Base(), pFrom->m_CoordFrame.Base(), sizeof(m_CoordFrame) );
 	m_bCurrentlyAnimating = false;
-	m_pCurrentKeyFrame = NULL;	// keyframe it's currently at
+	m_pCurrentKeyFrame = nullptr;	// keyframe it's currently at
 
 	m_iTimeModifier = pFrom->m_iTimeModifier;
 	m_iPositionInterpolator = pFrom->m_iPositionInterpolator;
@@ -237,7 +237,7 @@ CMapEntity *CMapAnimator::CreateNewKeyFrame( float time )
 	CMapWorld *pWorld = GetWorldObject( this );
 	if ( pWorld )
 	{
-		pWorld->GenerateNewTargetname( oldName, newName, sizeof( newName ), true, NULL );
+		pWorld->GenerateNewTargetname( oldName, newName, sizeof( newName ), true, nullptr);
 		pNewEntity->SetKeyValue( "targetname", newName );
 
 		// point the current entity at the newly created one
@@ -427,7 +427,7 @@ void CMapAnimator::RebuildPath( void )
 	//
 	CMapObjectList VisitedList;
 	CMapKeyFrame *pCurKey = this;
-	while ( pCurKey != NULL )
+	while ( pCurKey != nullptr)
 	{
 		VisitedList.AddToTail( pCurKey );
 
@@ -449,16 +449,16 @@ void CMapAnimator::RebuildPath( void )
 		// Find the next keyframe in the path.
 		//
 		CMapEntity *pNextEnt = pWorld->FindEntityByName( pCurEnt->GetKeyValue( "NextKey" ) );
-		CMapKeyFrame *pNextKey = NULL;
+		CMapKeyFrame *pNextKey = nullptr;
 
 		if ( pNextEnt )
 		{
-			pNextKey = pNextEnt->GetChildOfType( ( CMapKeyFrame * )NULL );
+			pNextKey = pNextEnt->GetChildOfType( ( CMapKeyFrame * )nullptr);
 			pCurKey->SetNextKeyFrame(pNextKey);
 		}
 		else
 		{
-			pCurKey->SetNextKeyFrame( NULL );
+			pCurKey->SetNextKeyFrame(nullptr);
 		}
 
 		pCurKey = pNextKey;
@@ -479,7 +479,7 @@ void CMapAnimator::RebuildPath( void )
 	VisitedList.RemoveAll();
 	pCurKey = this;
 	CMapKeyFrame *pPrevKey = this;
-	while ( pCurKey != NULL )
+	while ( pCurKey != nullptr)
 	{
 		VisitedList.AddToTail( pCurKey );
 

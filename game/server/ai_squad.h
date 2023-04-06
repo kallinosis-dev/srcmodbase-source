@@ -37,7 +37,7 @@ class CAI_SquadManager
 public:
 	CAI_SquadManager()
 	{
-		m_pSquads = NULL;
+		m_pSquads = nullptr;
 	}
 
 	CAI_Squad *		GetFirstSquad( AISquadsIter_t *pIter );
@@ -91,7 +91,7 @@ public:
 
 	void					RemoveFromSquad( CAI_BaseNPC *pNPC, bool bDeath = false );
 
-	CAI_BaseNPC *			GetFirstMember( AISquadIter_t *pIter = NULL, bool bIgnoreSilentMembers = true );
+	CAI_BaseNPC *			GetFirstMember( AISquadIter_t *pIter = nullptr, bool bIgnoreSilentMembers = true );
 	CAI_BaseNPC *			GetNextMember( AISquadIter_t *pIter, bool bIgnoreSilentMembers = true );
 	CAI_BaseNPC *			GetAnyMember();
 	int						NumMembers( bool bIgnoreSilentMembers = true );
@@ -114,7 +114,7 @@ public:
 
 	Vector					ComputeSquadCentroid( bool bIncludeSilentMembers, CBaseCombatCharacter *pExcludeMember );
 
-	int						BroadcastInteraction( int interactionType, void *data, CBaseCombatCharacter *sender = NULL );
+	int						BroadcastInteraction( int interactionType, void *data, CBaseCombatCharacter *sender = nullptr);
 
 	void					AddToSquad(CAI_BaseNPC *pNPC);
 	bool					FOkToMakeSound( int soundPriority );
@@ -257,7 +257,7 @@ inline CAI_BaseNPC *CAI_Squad::GetAnyMember()
 {
 	if ( m_SquadMembers.Count() )
 		return m_SquadMembers[random->RandomInt( 0, m_SquadMembers.Count()-1 )];
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------

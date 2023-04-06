@@ -187,7 +187,7 @@ public:
 		return false; 
 	}
 
-	virtual CAI_AddOn **GetAddOnsBase() { return NULL; }
+	virtual CAI_AddOn **GetAddOnsBase() { return nullptr; }
 	const CAI_AddOn **GetAddOnsBase() const { return (const CAI_AddOn **)const_cast<CAI_AddOnBehaviorBase *>(this)->GetAddOnsBase(); }
 	virtual int NumAddOns() const { return 0; }
 };
@@ -248,7 +248,7 @@ class CAI_AddOnBehaviorConnector : public ADDON
 	{
 		CBasePlayer *pPlayer = ToBasePlayer( pActivator );
 
-		if ( pPlayer == NULL )
+		if ( pPlayer == nullptr)
 			return;
 
 		if ( this->m_bWasAttached )
@@ -307,7 +307,7 @@ class CAI_AddOnBehaviorConnector : public ADDON
 
 			if ( !bSaved )
 			{
-				CAI_BehaviorBase::SaveBehaviors( save, NULL, NULL, 0 );
+				CAI_BehaviorBase::SaveBehaviors( save, nullptr, nullptr, 0 );
 			}
 		}
 
@@ -329,7 +329,7 @@ class CAI_AddOnBehaviorConnector : public ADDON
 			}
 			else
 			{
-				CAI_BehaviorBase::RestoreBehaviors( restore, NULL, 0,false );
+				CAI_BehaviorBase::RestoreBehaviors( restore, nullptr, 0,false );
 			}
 		}
 		return result;

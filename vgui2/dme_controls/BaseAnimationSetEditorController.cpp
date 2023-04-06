@@ -89,7 +89,7 @@ int CNotifyAnimationSetControlSelectionChangedScopeGuard::m_nDepth = 0;
 
 
 CBaseAnimationSetControl::CBaseAnimationSetControl() :
-	m_pEditor( NULL ),
+	m_pEditor(nullptr),
 	m_bShowHiddenControls( false ),
 	m_PreviousPresetSlider( "" ),
 	m_flPreviousPresetAmount( 0.0f ),
@@ -104,7 +104,7 @@ CBaseAnimationSetControl::~CBaseAnimationSetControl()
 {
 	m_ControlSelectionChangedListeners.RemoveAll();
 
-	ChangeAnimationSetClip( NULL );
+	ChangeAnimationSetClip(nullptr);
 
 	int nCount = m_crossfadePresetControlValues.Count();
 	for ( int i = 0; i < nCount; ++i )
@@ -120,7 +120,7 @@ void CBaseAnimationSetControl::ChangeAnimationSetClip( CDmeFilmClip *pFilmClip )
 	// Force recomputation
 	m_nDominantSlider = -1;
 
-	SetWorkCameraParent( NULL );
+	SetWorkCameraParent(nullptr);
 	ClearSelection();
 
 	if ( CBaseAnimSetPresetFaderPanel *pPresetFader = m_pEditor->GetPresetFader() )
@@ -326,11 +326,11 @@ void CBaseAnimationSetControl::RestoreSelection( const CUtlVector< SelectionInfo
 		const SelectionInfo_t &selectionElement = selection[ iSelected ];
 		
 		CDmElement *pControl = g_pDataModel->GetElement( selectionElement.m_hControl );
-		if ( pControl == NULL )
+		if ( pControl == nullptr)
 			continue;
 
 		SelectionInfo_t *pSelectionInfo = FindSelectionInfoForControl( pControl );
-		if ( pSelectionInfo == NULL )
+		if ( pSelectionInfo == nullptr)
 			continue;
 
 		pSelectionInfo->m_nComponentFlags = selectionElement.m_nComponentFlags;
@@ -355,7 +355,7 @@ void CBaseAnimationSetControl::DeselectHiddenControls()
 		if ( pSelection  )
 		{
 			const CDmElement *pControl = pSelection->m_hControl;
-			if ( pControl == NULL )
+			if ( pControl == nullptr)
 				continue;
 
 			if ( IsControlVisible( pControl ) == false )
@@ -436,7 +436,7 @@ void CBaseAnimationSetControl::SelectAnimationSet( CDmeAnimationSet *pAnimSet, E
 	for ( int iRoot = 0; iRoot < nNumRoots; ++iRoot )
 	{		
 		CDmeDag *pRootDag = rootDagNodes[ iRoot ];
-		if ( pRootDag == NULL )
+		if ( pRootDag == nullptr)
 			continue;
 		
 		CDmeTransformControl *pControl = pRootDag->FindTransformControl();
@@ -491,7 +491,7 @@ SelectionState_t CBaseAnimationSetControl::GetSelectionState( CDmeControlGroup *
 SelectionState_t CBaseAnimationSetControl::GetSelectionState( CDmElement *pControl, TransformComponent_t componentFlags /*= TRANSFORM_COMPONENT_ALL*/ ) const
 {
 	Assert( pControl );
-	if ( ( pControl == NULL ) || !IsControlVisible( pControl ) )
+	if ( ( pControl == nullptr) || !IsControlVisible( pControl ) )
 		return SEL_EMPTY;
 
 	TransformComponent_t nSelectionComponentFlags = GetSelectionComponentFlags( pControl );
@@ -510,14 +510,14 @@ CDmElement *CBaseAnimationSetControl::GetMostRecentlySelectedControl()
 {
 	int i = m_SelectionHistory.Tail();
 	if ( i == m_SelectionHistory.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	return m_SelectionHistory[ i ]->m_hControl;
 }
 
 TransformComponent_t CBaseAnimationSetControl::GetSelectionComponentFlags( CDmElement *pControl ) const
 {
-	if ( pControl == NULL )
+	if ( pControl == nullptr)
 		return TRANSFORM_COMPONENT_NONE;
 
 	for ( int i = m_SelectionHistory.Head(); i != m_SelectionHistory.InvalidIndex(); i = m_SelectionHistory.Next( i ) )
@@ -536,7 +536,7 @@ void SetPresetFromControl( CDmePreset *pPreset, CDmElement *pControl )
 	if ( pTransformControl )
 	{
 		CDmElement *pControlValue = pPreset->FindOrAddControlValue( pControl->GetName() );
-		if ( pControlValue == NULL )
+		if ( pControlValue == nullptr)
 			return;
 
 		CDmeChannel *pPosChannel = pTransformControl->GetPositionChannel();
@@ -760,7 +760,7 @@ void CBaseAnimationSetControl::AddPreset( CDmeAnimationSet *pAnimSet, const char
 bool CBaseAnimationSetControl::IsControlSnapTarget( const CDmElement *pControl ) const
 {
 	CDmeControlGroup *pGroup = CDmeControlGroup::FindGroupContainingControl( pControl );
-	if ( pGroup == NULL )
+	if ( pGroup == nullptr)
 		return false;
 	
 	return pGroup->IsSnappable();
@@ -773,7 +773,7 @@ bool CBaseAnimationSetControl::IsControlSnapTarget( const CDmElement *pControl )
 bool CBaseAnimationSetControl::IsControlSelectable( const CDmElement *pControl ) const
 {
 	CDmeControlGroup *pGroup = CDmeControlGroup::FindGroupContainingControl( pControl );
-	if ( pGroup == NULL )
+	if ( pGroup == nullptr)
 		return false;
 
 	return ( pGroup->IsVisible() && pGroup->IsSelectable() );
@@ -975,7 +975,7 @@ void CBaseAnimationSetControl::UpdatePreviewSliderTimes()
 		m_nDominantSlider = newDominantSlider;
 	}
 
-	CAttributeSlider *dragSlider = m_ActiveAttributeSlider && m_ActiveAttributeSlider->IsDragging() ? m_ActiveAttributeSlider.Get() : NULL;
+	CAttributeSlider *dragSlider = m_ActiveAttributeSlider && m_ActiveAttributeSlider->IsDragging() ? m_ActiveAttributeSlider.Get() : nullptr;
 	pAttributeSlider->UpdateControlSetMode( changingvalues, previewing, dragSlider );
 }
 
@@ -1021,7 +1021,7 @@ void CBaseAnimationSetControl::UpdateDominantSliderStartValues( bool restoreSlid
 	for ( int i = 0; i < nSliders; ++i )
 	{
 		CAttributeSlider *pSlider = pAttributeSlider->GetSlider( i );
-		if ( pSlider == NULL )
+		if ( pSlider == nullptr)
 			continue;
 
 		if ( !pSlider->IsVisible() )
@@ -1058,7 +1058,7 @@ void CBaseAnimationSetControl::GetDominantSliderValues( float &flDomStart, float
 		return;
 
 	CAttributeSlider *pDominantSlider = pAttributeSlider->GetSlider( m_nDominantSlider );
-	if ( pDominantSlider == NULL )
+	if ( pDominantSlider == nullptr)
 		return;
 
 	if ( pDominantSlider->IsTransform() )
@@ -1103,8 +1103,8 @@ void CBaseAnimationSetControl::ApplyPreset( float flScale, AttributeDict_t& valu
 template< class T >
 void CBaseAnimationSetControl::ApplyTransformSliderValue( CAttributeSlider *pSlider, CDmeTransformControl *pTranformControl, bool bUsePreviewValue, bool bForce, bool &valuesChanged, AnimationControlType_t type )
 {
-	CDmAttribute *pAttr = NULL;
-	CDmeChannel *pChannel = NULL;
+	CDmAttribute *pAttr = nullptr;
+	CDmeChannel *pChannel = nullptr;
 	if ( type == ANIM_CONTROL_TXFORM_POSITION )
 	{
 		pAttr = pTranformControl->GetPositionAttr();
@@ -1251,7 +1251,7 @@ bool CBaseAnimationSetControl::ApplySliderValues( bool bForce )
 
 		bool shiftDown = input()->IsKeyDown( KEY_LSHIFT ) || input()->IsKeyDown( KEY_RSHIFT );
 		bool bPreviewingAttributeSlider = m_ActiveAttributeSlider.Get() == pSlider && !pSlider->IsDragging() && shiftDown;
-		bool bMouseOverPresetSlider = m_pEditor->GetPresetFader()->GetActivePresetSlider() != NULL;
+		bool bMouseOverPresetSlider = m_pEditor->GetPresetFader()->GetActivePresetSlider() != nullptr;
 		bool bUsePreviewValue = m_bPreviouslyHoldingPresetPreviewKey || bPreviewingAttributeSlider || ( bForce && bMouseOverPresetSlider );
 
 		CDmeTransformControl *pTransformControl = CastElement< CDmeTransformControl >( pControl );

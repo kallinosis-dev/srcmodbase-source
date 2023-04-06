@@ -204,7 +204,7 @@ void FX_HitEffectBloodSpray(
 
 		pParticle = pEmitter->AddSimpleParticle( hMaterial, offset, 0, 0 );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			pParticle->m_flLifetime = 0.0f;
 			pParticle->m_flDieTime	= random->RandomFloat( 0.7f, 1.3f);
@@ -298,7 +298,7 @@ void FX_HitEffectBloodSplatter(
 			random->RandomFloat( interpolatedRamp.m_flMinSize, interpolatedRamp.m_flMaxSize )
 			);
 
-		if ( tParticle == NULL )
+		if ( tParticle == nullptr)
 			break;
 
 		Vector offDir = vSplatterNormal + RandomVector( -0.05f, 0.05f );

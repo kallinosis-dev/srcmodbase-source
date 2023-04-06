@@ -114,7 +114,7 @@ public:
 	{
 		CBaseEntity *pEnt = gEntList.GetBaseEntity( pHandleEntity->GetRefEHandle() );
 
-		if ( pEnt == NULL )
+		if ( pEnt == nullptr)
 			return ITERATION_CONTINUE;
 
 		if ( ( pEnt->ObjectCaps() & FCAP_IMPULSE_USE ) == 0 )
@@ -175,7 +175,7 @@ CBaseEntity * CheckForEntitiesAlongSegment( const Vector &start, const Vector &e
 //--------------------------------------------------------------------------------------------------------------
 // Retrieves physics objects near pPushingEntity
 void AvoidPushawayProps(  CBaseCombatCharacter *pPlayer, CUserCmd *pCmd );
-int GetPushawayEnts( CBaseCombatCharacter *pPushingEntity, CBaseEntity **ents, int nMaxEnts, float flPlayerExpand, int PartitionMask, CPushAwayEnumerator *enumerator = NULL );
+int GetPushawayEnts( CBaseCombatCharacter *pPushingEntity, CBaseEntity **ents, int nMaxEnts, float flPlayerExpand, int PartitionMask, CPushAwayEnumerator *enumerator = nullptr);
 
 //--------------------------------------------------------------------------------------------------------------
 // Pushes physics objects away from the entity

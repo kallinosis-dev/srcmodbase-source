@@ -38,7 +38,7 @@ mxTreeView::mxTreeView (mxWindow *parent, int x, int y, int w, int h, int id)
 
 	d_this->d_hwnd = CreateWindowEx (WS_EX_CLIENTEDGE, WC_TREEVIEW, "", dwStyle,
 				x, y, w, h, hwndParent,
-				(HMENU) id, (HINSTANCE) GetModuleHandle (NULL), NULL);
+				(HMENU) id, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 	
 	SendMessage (d_this->d_hwnd, WM_SETFONT, (WPARAM) (HFONT) GetStockObject (ANSI_VAR_FONT), MAKELPARAM (TRUE, 0));
 	SetWindowLong (d_this->d_hwnd, GWL_USERDATA, (LONG) this);
@@ -53,7 +53,7 @@ mxTreeView::mxTreeView (mxWindow *parent, int x, int y, int w, int h, int id)
 
 mxTreeView::~mxTreeView ()
 {
-	remove (0);
+	remove (nullptr);
 	delete d_this;
 }
 
@@ -63,7 +63,7 @@ mxTreeViewItem*
 mxTreeView::add (mxTreeViewItem *parent, const char *item)
 {
 	if (!d_this)
-		return 0;
+		return nullptr;
 
 	TV_ITEM tvItem;
 	tvItem.mask = TVIF_TEXT;
@@ -100,7 +100,7 @@ mxTreeView::remove (mxTreeViewItem *item)
 void
 mxTreeView::removeAll ()
 {
-	remove( 0 );
+	remove( nullptr );
 }
 
 void
@@ -170,7 +170,7 @@ mxTreeViewItem*
 mxTreeView::getFirstChild (mxTreeViewItem *item) const
 {
 	if (!d_this)
-		return 0;
+		return nullptr;
 
 	return (mxTreeViewItem *) TreeView_GetChild (d_this->d_hwnd, item ? (HTREEITEM) item:TVI_ROOT);
 }
@@ -181,12 +181,12 @@ mxTreeViewItem*
 mxTreeView::getNextChild (mxTreeViewItem *item) const
 {
 	if (!d_this)
-		return 0;
+		return nullptr;
 
 	if (item)
 		return (mxTreeViewItem *) TreeView_GetNextSibling (d_this->d_hwnd, (HTREEITEM) item);
 	else
-		return 0;
+		return nullptr;
 }
 
 
@@ -195,7 +195,7 @@ mxTreeViewItem*
 mxTreeView::getSelectedItem () const
 {
 	if (!d_this)
-		return 0;
+		return nullptr;
 
 	return (mxTreeViewItem *) TreeView_GetSelection (d_this->d_hwnd);
 }
@@ -233,7 +233,7 @@ void*
 mxTreeView::getUserData (mxTreeViewItem *item) const
 {
 	if (!d_this)
-		return 0;
+		return nullptr;
 
 	if (item)
 	{
@@ -246,7 +246,7 @@ mxTreeView::getUserData (mxTreeViewItem *item) const
 		return (void *) tvItem.lParam;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 
@@ -301,12 +301,12 @@ mxTreeViewItem *
 mxTreeView::getParent (mxTreeViewItem *item) const
 {
 	if (!d_this)
-		return 0;
+		return nullptr;
 
 	if (item)
 		return (mxTreeViewItem *) TreeView_GetParent (d_this->d_hwnd, (HTREEITEM) item);
 
-	return 0;
+	return nullptr;
 }
 
 void mxTreeView::setImageList( void *himagelist )

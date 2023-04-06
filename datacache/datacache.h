@@ -90,7 +90,7 @@ public:
 	virtual void SetLimits( const DataCacheLimits_t &limits );
 	const DataCacheLimits_t &GetLimits();
 	virtual void SetOptions( unsigned options );
-	virtual void GetStatus( DataCacheStatus_t *pStatus, DataCacheLimits_t *pLimits = NULL );
+	virtual void GetStatus( DataCacheStatus_t *pStatus, DataCacheLimits_t *pLimits = nullptr);
 
 	inline unsigned GetNumBytes()			{ return m_status.nBytes; }
 	inline unsigned GetNumItems()			{ return m_status.nItems; }
@@ -108,7 +108,7 @@ public:
 	virtual bool Add( DataCacheClientID_t clientId, const void *pItemData, unsigned size, DataCacheHandle_t *pHandle );
 	virtual bool AddEx( DataCacheClientID_t clientId, const void *pItemData, unsigned size, unsigned flags, DataCacheHandle_t *pHandle );
 	virtual DataCacheHandle_t Find( DataCacheClientID_t clientId );
-	virtual DataCacheRemoveResult_t Remove( DataCacheHandle_t handle, const void **ppItemData = NULL, unsigned *pItemSize = NULL, bool bNotify = false );
+	virtual DataCacheRemoveResult_t Remove( DataCacheHandle_t handle, const void **ppItemData = nullptr, unsigned *pItemSize = nullptr, bool bNotify = false );
 	virtual bool IsPresent( DataCacheHandle_t handle );
 
 	//--------------------------------------------------------
@@ -255,7 +255,7 @@ public:
 	virtual void SetSize( int nMaxBytes );
 	virtual void SetOptions( unsigned options );
 	virtual void SetSectionLimits( const char *pszSectionName, const DataCacheLimits_t &limits );
-	virtual void GetStatus( DataCacheStatus_t *pStatus, DataCacheLimits_t *pLimits = NULL );
+	virtual void GetStatus( DataCacheStatus_t *pStatus, DataCacheLimits_t *pLimits = nullptr);
 
 	//--------------------------------------------------------
 
@@ -271,7 +271,7 @@ public:
 
 	//--------------------------------------------------------
 
-	virtual void OutputReport( DataCacheReportType_t reportType = DC_SUMMARY_REPORT, const char *pszSection = NULL );
+	virtual void OutputReport( DataCacheReportType_t reportType = DC_SUMMARY_REPORT, const char *pszSection = nullptr);
 
 	//--------------------------------------------------------
 
@@ -300,7 +300,7 @@ private:
 	int FindSectionIndex( const char *pszSection );
 
 	// Utilities used by the data cache report
-	void OutputItemReport( memhandle_t hItem, void *pXboxData = NULL );
+	void OutputItemReport( memhandle_t hItem, void *pXboxData = nullptr);
 	static bool SortMemhandlesBySizeLessFunc( const memhandle_t& lhs, const memhandle_t& rhs );
 
 	//-----------------------------------------------------

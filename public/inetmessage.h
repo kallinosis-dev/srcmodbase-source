@@ -36,7 +36,7 @@ public:
 	virtual int				GetGroup( void ) const = 0;	// returns net message group of this message
 	virtual const char		*GetName( void ) const = 0;	// returns network message name, eg "svc_serverinfo"
 
-	virtual INetChannel		*GetNetChannel( void ) const { DebuggerBreak(); return NULL; }
+	virtual INetChannel		*GetNetChannel( void ) const { DebuggerBreak(); return nullptr; }
 
 	virtual const char		*ToString( void ) const = 0; // returns a human readable string about message content
 	virtual size_t			GetSize() const = 0;

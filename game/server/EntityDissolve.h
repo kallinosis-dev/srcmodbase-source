@@ -21,7 +21,7 @@ public:
 	~CEntityDissolve( void );
 
 	static CEntityDissolve	*Create( CBaseEntity *pTarget, const char *pMaterialName, 
-		float flStartTime, int nDissolveType = 0, bool *pRagdollCreated = NULL );
+		float flStartTime, int nDissolveType = 0, bool *pRagdollCreated = nullptr);
 	static CEntityDissolve	*Create( CBaseEntity *pTarget, CBaseEntity *pSource );
 	
 	void	Precache();

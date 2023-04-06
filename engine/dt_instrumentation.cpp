@@ -95,7 +95,7 @@ void DTI_Term()
 		DTI_Flush();
 		g_DTIRecvTables.PurgeAndDeleteElements();
 		delete g_pDTIFilename;
-		g_pDTIFilename = NULL;
+		g_pDTIFilename = nullptr;
 		g_bDTIEnabled = false;
 	}
 }

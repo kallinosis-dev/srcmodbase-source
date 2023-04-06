@@ -17,7 +17,7 @@ class CPrefabsDlg : public CDialog
 {
 // Construction
 public:
-	CPrefabsDlg(CWnd* pParent = NULL);   // standard constructor
+	CPrefabsDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CPrefabsDlg)
@@ -43,8 +43,8 @@ protected:
 	BOOL bCurLibraryModified;
 	void SetCurObject(int);
 	int GetCurObject() { return iCurObject; }
-	CPrefabLibrary * GetCurrentLibrary(int *piSel = NULL);
-	CPrefab * GetCurrentObject(int *piSel = NULL);
+	CPrefabLibrary * GetCurrentLibrary(int *piSel = nullptr);
+	CPrefab * GetCurrentObject(int *piSel = nullptr);
 	void AddToObjectList(CPrefab *pPrefab, int iItem = -1, 
 		BOOL bReplace = FALSE);
 	CImageList PrefabImages;

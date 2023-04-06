@@ -60,7 +60,7 @@ private:
 	MESSAGE_FUNC_PARAMS( OnColorSelected, "ColorSelected", data );
 
 	// Called when the color changes
-	void OnColorChanged( vgui::TextEntry *pChanged = NULL );
+	void OnColorChanged( vgui::TextEntry *pChanged = nullptr);
 
 	// Updates the preview colors
 	void UpdatePreviewColors();
@@ -109,7 +109,7 @@ public:
 	// If a color is picked, the message 'ColorPickerPicked' is sent with the "color" field set to the color
 	// If cancel is hit, the message 'ColorPickerCancel' is sent
 	// If the color is changed in the preview, the message 'ColorPickerPreview' is sent with the "color" field set to the color
-	void DoModal( Color initialColor, KeyValues *pContextKeys = NULL );
+	void DoModal( Color initialColor, KeyValues *pContextKeys = nullptr);
 
 	// Gets the initial color
 	void GetInitialColor( Color *pColor );
@@ -141,7 +141,7 @@ class CColorPickerButton : public vgui::Button
 	*/
 
 public:
-	CColorPickerButton( vgui::Panel *pParent, const char *pName, vgui::Panel *pActionSignalTarget = NULL );
+	CColorPickerButton( vgui::Panel *pParent, const char *pName, vgui::Panel *pActionSignalTarget = nullptr);
 	~CColorPickerButton();
 
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );

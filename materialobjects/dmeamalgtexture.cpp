@@ -75,10 +75,10 @@ void GetFullPathUsingMaterialsrcContent( const char * fname, char *pFullTGAFileN
 	char localTexturePath[MAX_PATH];
 	Q_snprintf( localTexturePath, sizeof(localTexturePath), "materialsrc\\%s", fname );
 	const char *result = g_pFullFileSystem->RelativePathToFullPath( localTexturePath, "CONTENT", pFullTGAFileNameDest, fullPathBufferSize );
-	if ( result == NULL )
+	if ( result == nullptr)
 	{
 		Warning( "CDataModel: Unable to generate full path for file %s\n", fname );
-		pFullTGAFileNameDest = NULL;
+		pFullTGAFileNameDest = nullptr;
 	}
 }
 
@@ -100,7 +100,7 @@ void GetFullPathUsingCurrentDir( const char * fname, char *pFullTGAFileNameDest,
 	else
 	{
 		Warning( "CDataModel: Unable to generate full path for file %s\n", fname );
-		pFullTGAFileNameDest = NULL;
+		pFullTGAFileNameDest = nullptr;
 	}
 }
 
@@ -109,7 +109,7 @@ void GetFullPathUsingCurrentDir( const char * fname, char *pFullTGAFileNameDest,
 //-----------------------------------------------------------------------------
 static FloatBitMap_t *CreateFloatBitmap( const char *pFilename, bool bUseCurrentDir = false )
 {
-	if ( strchr( pFilename, ',' ) == NULL )
+	if ( strchr( pFilename, ',' ) == nullptr)
 	{
 		char fullTGAFileName[ MAX_PATH ];
 		if ( Q_IsAbsolutePath( pFilename ) )
@@ -127,7 +127,7 @@ static FloatBitMap_t *CreateFloatBitmap( const char *pFilename, bool bUseCurrent
 				GetFullPathUsingMaterialsrcContent( pFilename, fullTGAFileName, sizeof(fullTGAFileName) );
 			}
 		}
-		if ( fullTGAFileName == NULL )
+		if ( fullTGAFileName == nullptr)
 		{
 			Warning( "CDataModel: Unable to generate full path for file %s\n", pFilename );
 		}
@@ -139,7 +139,7 @@ static FloatBitMap_t *CreateFloatBitmap( const char *pFilename, bool bUseCurrent
 	// parse extended specifications
 	CUtlVector<char *> Images;
 	V_SplitString( pFilename, ",", Images );
-	FloatBitMap_t *pBitmap = NULL;
+	FloatBitMap_t *pBitmap = nullptr;
 	// now, process bitmaps, performing copy operations specified by {} syntax
 	for( int i = 0; i < Images.Count(); i++ )
 	{
@@ -220,7 +220,7 @@ void CDmeAmalgamatedTexture::OnDestruction()
 void CDmeAmalgamatedTexture::Init( const char *pShtFileName, bool bUseCurrentDir )
 {
 	CDisableUndoScopeGuard sg;
-	m_pCurSequence = NULL;
+	m_pCurSequence = nullptr;
 
 	// Load up the image bitmaps.
 	char pFullDir[MAX_PATH];
@@ -320,7 +320,7 @@ void CDmeAmalgamatedTexture::SetSequenceType( int eMode )
 //-----------------------------------------------------------------------------
 bool CDmeAmalgamatedTexture::CurrentSequenceExists()
 {
-	return m_pCurSequence != NULL;
+	return m_pCurSequence != nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -486,7 +486,7 @@ bool CDmeAmalgamatedTexture::PackImagesFlat( bool bGenerateImage, int nWidth )
 	for ( int i = 0; i < m_ImageList.Count(); i++ )
 	{
 		CDmeSheetImage &sheetImage = *(m_ImageList[i]);
-		if ( sheetImage.m_pImage == NULL )
+		if ( sheetImage.m_pImage == nullptr)
 		{
 			Warning( "CDataModel: Image %s was not loaded! Unable to pack.\n", sheetImage.GetName() );
 			m_pPackedImage->EndFloatBitmapModification();
@@ -579,7 +579,7 @@ bool CDmeAmalgamatedTexture::PackImagesRGBA( bool bGenerateImage, int nWidth )
 	for ( int i = 0; i < m_ImageList.Count(); i++ )
 	{
 		CDmeSheetImage &sheetImage = *( m_ImageList[i] );
-		if ( sheetImage.m_pImage == NULL )
+		if ( sheetImage.m_pImage == nullptr)
 		{
 			Warning( "CDataModel: Image %s was not loaded! Unable to pack.\n", sheetImage.GetName() );
 			m_pPackedImage->EndFloatBitmapModification();
@@ -932,7 +932,7 @@ CDmeSheetImage *CDmeAmalgamatedTexture::FindImage( const char *pImageName )
 		if ( !Q_stricmp( pImageName, pImage->GetName() ) ) 
 			return pImage;
 	}
-	return NULL;
+	return nullptr;
 }
 
 	  

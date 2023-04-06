@@ -308,7 +308,7 @@ void* CreateVoiceCodec_Miles()
 {
 	IFrameEncoder *pEncoder = new FrameEncoder_Miles;
 	if(!pEncoder)
-		return NULL;
+		return nullptr;
 
 	return CreateVoiceCodec_Frame(pEncoder);
 }

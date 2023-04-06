@@ -26,10 +26,10 @@
 #include "tier0/memdbgon.h"
 
 
-static CMainPanel *g_pMainPanel = NULL; // the main panel to show
+static CMainPanel *g_pMainPanel = nullptr; // the main panel to show
 static CSysModule *g_hAdminServerModule;
-IAdminServer *g_pAdminServer = NULL;
-static IVGuiModule *g_pAdminVGuiModule = NULL;
+IAdminServer *g_pAdminServer = nullptr;
+static IVGuiModule *g_pAdminVGuiModule = nullptr;
 
 void* DedicatedFactory(const char *pName, int *pReturnCode);
 
@@ -86,7 +86,7 @@ int StartVGUI( CreateInterfaceFn dedicatedFactory )
 	g_pFullFileSystem->GetLocalCopy("bin/AdminServer.dll");
 	g_hAdminServerModule = g_pFullFileSystem->LoadModule("AdminServer");
 	Assert(g_hAdminServerModule != NULL);
-	CreateInterfaceFn adminFactory = NULL;
+	CreateInterfaceFn adminFactory = nullptr;
 
 	if (!g_hAdminServerModule)
 	{
@@ -96,8 +96,8 @@ int StartVGUI( CreateInterfaceFn dedicatedFactory )
 	{
 		// make sure we get the right version
 		adminFactory = Sys_GetFactory(g_hAdminServerModule);
-		g_pAdminServer = (IAdminServer *)adminFactory(ADMINSERVER_INTERFACE_VERSION, NULL);
-		g_pAdminVGuiModule = (IVGuiModule *)adminFactory("VGuiModuleAdminServer001", NULL);
+		g_pAdminServer = (IAdminServer *)adminFactory(ADMINSERVER_INTERFACE_VERSION, nullptr);
+		g_pAdminVGuiModule = (IVGuiModule *)adminFactory("VGuiModuleAdminServer001", nullptr);
 		Assert(g_pAdminServer != NULL);
 		Assert(g_pAdminVGuiModule != NULL);
 		if (!g_pAdminServer || !g_pAdminVGuiModule)
@@ -128,7 +128,7 @@ void StopVGUI()
 	SetEvent(g_pMainPanel->GetShutdownHandle());
 
 	delete g_pMainPanel;
-	g_pMainPanel = NULL;
+	g_pMainPanel = nullptr;
 
 	if (g_hAdminServerModule)
 	{
@@ -175,7 +175,7 @@ void VGUIPrintf( const char *msg )
 {
 	if ( !g_pMainPanel || VGUIIsInConfig() || VGUIIsStopping() )
 	{
-		::MessageBox( NULL, msg, "Dedicated Server Message", MB_OK | MB_TOPMOST );
+		::MessageBox(nullptr, msg, "Dedicated Server Message", MB_OK | MB_TOPMOST );
 	}
 	else if ( g_pMainPanel )
 	{

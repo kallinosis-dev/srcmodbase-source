@@ -93,7 +93,7 @@ public:
 	virtual void SetSysMenu(Menu *menu);
 
 	// Set the system menu images
-	void SetImages( const char *pEnabledImage, const char *pDisabledImage = NULL );
+	void SetImages( const char *pEnabledImage, const char *pDisabledImage = nullptr);
 
 	// set whether the title bar should be rendered
 	virtual void SetTitleBarVisible( bool state );
@@ -117,7 +117,7 @@ public:
 	*/
 
 	// Load the control settings 
-	virtual void LoadControlSettings( const char *dialogResourceName, const char *pathID = NULL, KeyValues *pPreloadedKeyValues = NULL, KeyValues *pConditions = NULL );
+	virtual void LoadControlSettings( const char *dialogResourceName, const char *pathID = nullptr, KeyValues *pPreloadedKeyValues = nullptr, KeyValues *pConditions = nullptr);
 
 	void SetChainKeysToParent( bool state );
 	bool CanChainKeysToParent() const;

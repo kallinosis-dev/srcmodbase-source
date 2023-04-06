@@ -39,7 +39,7 @@ void CAttributeSurfacePropertyPickerPanel::AddSurfacePropertiesToList( PickerLis
 	KeyValues *manifest = new KeyValues( SURFACEPROP_MANIFEST_FILE );
 	if ( manifest->LoadFromFile( g_pFullFileSystem, SURFACEPROP_MANIFEST_FILE, "GAME" ) )
 	{
-		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 		{
 			if ( Q_stricmp( sub->GetName(), "file" ) )
 				continue;
@@ -89,7 +89,7 @@ void CAttributeSurfacePropertyPickerPanel::ShowPickerDialog()
 void CAttributeSurfacePropertyPickerPanel::OnPicked( KeyValues *pKeyValues )
 {
 	// Get the asset name back
-	const char *pSurfacePropertyName = pKeyValues->GetString( "choice", NULL );
+	const char *pSurfacePropertyName = pKeyValues->GetString( "choice", nullptr);
 	if ( !pSurfacePropertyName || !pSurfacePropertyName[ 0 ] )
 		return;
 

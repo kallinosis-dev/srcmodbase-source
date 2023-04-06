@@ -48,7 +48,7 @@ class CVisGroup
 
 		inline void SetName(const char *pszName)
 		{
-			if (pszName != NULL)
+			if (pszName != nullptr)
 			{
 				strncpy(m_szName, pszName, sizeof(m_szName));
 			}

@@ -25,7 +25,7 @@ coerciblevariant_t::~coerciblevariant_t()
 // step, because they may need to wipe out a string that's 
 // been allocated. 
 
-coerciblevariant_t::coerciblevariant_t( bool b ) : szVal(NULL)
+coerciblevariant_t::coerciblevariant_t( bool b ) : szVal(nullptr)
 {
 	// do the bool, int, and float conversions right now, set the flags
 	bVal = b;
@@ -47,7 +47,7 @@ void coerciblevariant_t::SetBool( bool b )
 	fieldType = FIELD_BOOLEAN;
 }
 
-coerciblevariant_t::coerciblevariant_t( int i ) : szVal(NULL)
+coerciblevariant_t::coerciblevariant_t( int i ) : szVal(nullptr)
 {
 	// do the bool, int, and float conversions right now, set the flags
 	bVal = i;
@@ -69,7 +69,7 @@ void coerciblevariant_t::SetInt( int i )
 	fieldType = FIELD_INTEGER;
 }
 
-coerciblevariant_t::coerciblevariant_t( float f ) : szVal(NULL)
+coerciblevariant_t::coerciblevariant_t( float f ) : szVal(nullptr)
 {
 	// do the bool, int, and float conversions right now, set the flags
 	bVal = f;
@@ -109,11 +109,11 @@ void coerciblevariant_t::SetString( const char * str )
 }
 
 coerciblevariant_t::coerciblevariant_t( const EHANDLE &handle )
-	: eVal(handle), fieldType(FIELD_EHANDLE), m_bvInitFields(kINIT_EHANDLE), szVal(NULL)
+	: eVal(handle), fieldType(FIELD_EHANDLE), m_bvInitFields(kINIT_EHANDLE), szVal(nullptr)
 {};
 
 coerciblevariant_t::coerciblevariant_t( CBaseEntity *ent )
-	: eVal( ent ), fieldType(FIELD_EHANDLE), m_bvInitFields(kINIT_EHANDLE), szVal(NULL)
+	: eVal( ent ), fieldType(FIELD_EHANDLE), m_bvInitFields(kINIT_EHANDLE), szVal(nullptr)
 {};
 
 void coerciblevariant_t::SetEntity( CBaseEntity *val )
@@ -260,7 +260,7 @@ CBaseEntity *coerciblevariant_t::ConvertEntity() const
 	{
 	case FIELD_STRING:
 		// try to look up the entity by name
-		return gEntList.FindEntityByName(NULL, szVal);
+		return gEntList.FindEntityByName(nullptr, szVal);
 
 	case FIELD_EHANDLE:
 		return eVal.Get();
@@ -269,9 +269,9 @@ CBaseEntity *coerciblevariant_t::ConvertEntity() const
 	case FIELD_INTEGER:
 	case FIELD_BOOLEAN:
 		AssertMsg( false, "Coercible variant tried to turn a number into an entity, which is just plain wierd." );
-		return NULL;
+		return nullptr;
 	default:
 		AssertMsg1( false, "Tried to convert a variant from unknown field type %d", fieldType );
-		return NULL;
+		return nullptr;
 	}
 }

@@ -52,7 +52,7 @@ void mxTab_resizeChild (HWND hwnd)
 			rc.right -= 2 * ex;
 			rc.bottom -= 2 * ey;
 			HDWP hdwp = BeginDeferWindowPos (2);
-			DeferWindowPos (hdwp, hwnd, NULL, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
+			DeferWindowPos (hdwp, hwnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOZORDER);
 			DeferWindowPos (hdwp, (HWND) widget->getHandle (), HWND_TOP, rc.left, rc.top, rc.right - rc.left, rc.bottom - rc.top, SWP_SHOWWINDOW);
 			EndDeferWindowPos (hdwp);
 		}
@@ -72,7 +72,7 @@ mxTab::mxTab (mxWindow *parent, int x, int y, int w, int h, int id)
 
 	void *handle = (void *) CreateWindowEx (0, WC_TABCONTROL, "", dwStyle,
 				x, y, w, h, hwndParent,
-				(HMENU) id, (HINSTANCE) GetModuleHandle (NULL), NULL);
+				(HMENU) id, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 
 	SendMessage ((HWND) handle, WM_SETFONT, (WPARAM) (HFONT) GetStockObject (ANSI_VAR_FONT), MAKELPARAM (TRUE, 0));
 	SetWindowLong ((HWND) handle, GWL_USERDATA, (LONG) this);

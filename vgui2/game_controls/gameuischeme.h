@@ -60,7 +60,7 @@ public:
 private:
 	const char *GetMungedFontName( const char *fontName, const char *scheme, bool proportional );
 	void LoadFonts();
-	int GetMinimumFontHeightForCurrentLanguage( const char *pLanguage = NULL );
+	int GetMinimumFontHeightForCurrentLanguage( const char *pLanguage = nullptr);
 	FontHandle_t FindFontInAliasList( const char *fontName );
 
 	bool m_bActive;

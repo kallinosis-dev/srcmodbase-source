@@ -31,7 +31,7 @@ class CCvarTextEntry;
 class CTextEntryBox : public vgui::QueryBox
 {
 public:
-	CTextEntryBox(const char *title, const char *labelText, const char *entryText, bool isCvar, vgui::Panel *parent = NULL);
+	CTextEntryBox(const char *title, const char *labelText, const char *entryText, bool isCvar, vgui::Panel *parent = nullptr);
 
 	virtual ~CTextEntryBox();
  

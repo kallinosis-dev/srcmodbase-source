@@ -36,12 +36,12 @@ public:
 	void		ValidateTree( mxTreeView *tree, mxTreeViewItem* parent );
 
 	// ITreeItem
-	virtual CWorkspace	*GetWorkspace() { return NULL; }
-	virtual CProject	*GetProject() { return NULL; }
-	virtual CScene		*GetScene() { return NULL; }
+	virtual CWorkspace	*GetWorkspace() { return nullptr; }
+	virtual CProject	*GetProject() { return nullptr; }
+	virtual CScene		*GetScene() { return nullptr; }
 	virtual CVCDFile	*GetVCDFile() { return this; }
-	virtual CSoundEntry	*GetSoundEntry() { return NULL; }
-	virtual CWaveFile	*GetWaveFile() { return NULL; }
+	virtual CSoundEntry	*GetSoundEntry() { return nullptr; }
+	virtual CWaveFile	*GetWaveFile() { return nullptr; }
 
 	// IChoreoEventCallback stubs
 	virtual void StartEvent( float currenttime, CChoreoScene *scene, CChoreoEvent *event ) {}

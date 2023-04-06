@@ -32,7 +32,7 @@
 /**
  * The singleton for accessing the navigation mesh
  */
-CNavMesh *TheNavMesh = NULL;
+CNavMesh *TheNavMesh = nullptr;
 
 ConVar nav_edit( "nav_edit", "0", FCVAR_GAMEDLL | FCVAR_CHEAT, "Set to one to interactively edit the Navigation Mesh. Set to zero to leave edit mode." );
 
@@ -60,13 +60,13 @@ bool FindGroundForNode( Vector *pos, Vector *normal );
 //--------------------------------------------------------------------------------------------------------------
 CNavMesh::CNavMesh( void )
 {
-	m_spawnName = NULL;
+	m_spawnName = nullptr;
 	m_gridCellSize = 300.0f;
 	m_editMode = NORMAL;
 	m_bQuitWhenFinished = false;
 	m_hostThreadModeRestoreValue = 0;
 	m_placeCount = 0;
-	m_placeName = NULL;
+	m_placeName = nullptr;
 
 	LoadPlaceDatabase();
 
@@ -102,25 +102,25 @@ void CNavMesh::Reset( void )
 	DestroyNavigationMesh();
 
 	m_generationMode = GENERATE_NONE;
-	m_currentNode = NULL;
+	m_currentNode = nullptr;
 	ClearWalkableSeeds();
 
 	m_isAnalyzed = false;
 	m_isOutOfDate = false;
 	m_isEditing = false;
 	m_navPlace = UNDEFINED_PLACE;
-	m_markedArea = NULL;
-	m_selectedArea = NULL;
+	m_markedArea = nullptr;
+	m_selectedArea = nullptr;
 	m_bQuitWhenFinished = false;
 
 	m_editMode = NORMAL;
 
-	m_lastSelectedArea = NULL;
+	m_lastSelectedArea = nullptr;
 	m_isPlacePainting = false;
 
 	m_climbableSurface = false;
-	m_markedLadder = NULL;
-	m_selectedLadder = NULL;
+	m_markedLadder = nullptr;
+	m_selectedLadder = nullptr;
 
 	m_updateBlockedAreasTimer.Invalidate();
 
@@ -129,7 +129,7 @@ void CNavMesh::Reset( void )
 		delete [] m_spawnName;
 	}
 
-	m_spawnName = NULL;
+	m_spawnName = nullptr;
 
 	m_walkableSeeds.RemoveAll();
 }
@@ -148,7 +148,7 @@ CNavArea *CNavMesh::GetMarkedArea( void ) const
 		return m_selectedSet[0];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -213,7 +213,7 @@ void CNavMesh::DestroyNavigationMesh( bool incremental )
 	// clear the hash table
 	for( int i=0; i<HASH_TABLE_SIZE; ++i )
 	{
-		m_hashTable[i] = NULL;
+		m_hashTable[i] = nullptr;
 	}
 
 	if ( !incremental )
@@ -230,12 +230,12 @@ void CNavMesh::DestroyNavigationMesh( bool incremental )
 
 	SetEditMode( NORMAL );
 
-	m_markedArea = NULL;
-	m_selectedArea = NULL;
-	m_lastSelectedArea = NULL;
+	m_markedArea = nullptr;
+	m_selectedArea = nullptr;
+	m_lastSelectedArea = nullptr;
 	m_climbableSurface = false;
-	m_markedLadder = NULL;
-	m_selectedLadder = NULL;
+	m_markedLadder = nullptr;
+	m_selectedLadder = nullptr;
 
 	if ( !incremental )
 	{
@@ -475,7 +475,7 @@ void CNavMesh::AddNavArea( CNavArea *area )
 	if (m_hashTable[key])
 	{
 		// add to head of list in this slot
-		area->m_prevHash = NULL;
+		area->m_prevHash = nullptr;
 		area->m_nextHash = m_hashTable[key];
 		m_hashTable[key]->m_prevHash = area;
 		m_hashTable[key] = area;
@@ -484,8 +484,8 @@ void CNavMesh::AddNavArea( CNavArea *area )
 	{
 		// first entry in this slot
 		m_hashTable[key] = area;
-		area->m_nextHash = NULL;
-		area->m_prevHash = NULL;
+		area->m_nextHash = nullptr;
+		area->m_prevHash = nullptr;
 	}
 
 	if ( area->GetAttributes() & NAV_MESH_TRANSIENT )
@@ -530,7 +530,7 @@ void CNavMesh::RemoveNavArea( CNavArea *area )
 
 		if (m_hashTable[key])
 		{
-			m_hashTable[key]->m_prevHash = NULL;
+			m_hashTable[key]->m_prevHash = nullptr;
 		}
 	}
 
@@ -640,7 +640,7 @@ CNavArea *CNavMesh::GetNavArea( const Vector &pos, float beneathLimit, bool chec
 	VPROF_BUDGET( "CNavMesh::GetNavArea", "NextBot"  );
 
 	if ( !m_grid.Count() )
-		return NULL;
+		return nullptr;
 
 	// get list in cell that contains position
 	int x = WorldToGridX( pos.x );
@@ -648,7 +648,7 @@ CNavArea *CNavMesh::GetNavArea( const Vector &pos, float beneathLimit, bool chec
 	NavAreaVector *areaVector = &m_grid[ x + y*m_gridSizeX ];
 
 	// search cell list to find correct area
-	CNavArea *use = NULL;
+	CNavArea *use = nullptr;
 	float useZ = -99999999.9f;
 	Vector testPos = pos + Vector( 0, 0, 5 );
 
@@ -680,7 +680,7 @@ CNavArea *CNavMesh::GetNavArea( const Vector &pos, float beneathLimit, bool chec
 					trace_t result;
 					Vector groundPos( pos.x, pos.y, z + 0.1f );
 
-					UTIL_TraceLine( pos, groundPos, MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+					UTIL_TraceLine( pos, groundPos, MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 
 					if ( result.DidHit() && fabs( result.endpos.z - groundPos.z ) > StepHeight )
 					{
@@ -709,7 +709,7 @@ CNavArea *CNavMesh::GetNavArea( CBaseEntity *pEntity, int nFlags, float flBeneat
 	VPROF( "CNavMesh::GetNavArea [ent]" );
 
 	if ( !m_grid.Count() )
-		return NULL;
+		return nullptr;
 
 	Vector testPos = pEntity->GetAbsOrigin();
 
@@ -734,7 +734,7 @@ CNavArea *CNavMesh::GetNavArea( CBaseEntity *pEntity, int nFlags, float flBeneat
 	NavAreaVector *areaVector = &m_grid[ x + y*m_gridSizeX ];
 
 	// search cell list to find correct area
-	CNavArea *use = NULL;
+	CNavArea *use = nullptr;
 	float useZ = -99999999.9f;
 
 	bool bSkipBlockedAreas = ( ( nFlags & GETNAVAREA_ALLOW_BLOCKED_AREAS ) == 0 );
@@ -774,9 +774,9 @@ CNavArea *CNavMesh::GetNavArea( CBaseEntity *pEntity, int nFlags, float flBeneat
 	{
 		// trace directly down to see if it's below us and unobstructed
 		trace_t result;
-		UTIL_TraceLine( testPos, Vector( testPos.x, testPos.y, useZ ), MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceLine( testPos, Vector( testPos.x, testPos.y, useZ ), MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 		if ( ( result.fraction != 1.0f ) && ( fabs( result.endpos.z - useZ ) > flStepHeight ) )
-			return NULL;
+			return nullptr;
 	}
 	return use;
 }
@@ -796,9 +796,9 @@ CNavArea *CNavMesh::GetNearestNavArea( const Vector &pos, bool anyZ, float maxDi
 	VPROF_BUDGET( "CNavMesh::GetNearestNavArea", "NextBot" );
 
 	if ( !m_grid.Count() )
-		return NULL;	
+		return nullptr;	
 
-	CNavArea *close = NULL;
+	CNavArea *close = nullptr;
 	float closeDistSq = maxDist * maxDist;
 
 	// quick check
@@ -823,7 +823,7 @@ CNavArea *CNavMesh::GetNearestNavArea( const Vector &pos, bool anyZ, float maxDi
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -914,7 +914,7 @@ CNavArea *CNavMesh::GetNearestNavArea( const Vector &pos, bool anyZ, float maxDi
 						// make sure 'pos' is not embedded in the world
 						Vector safePos;
 
-						UTIL_TraceLine( pos, pos + Vector( 0, 0, StepHeight ), MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+						UTIL_TraceLine( pos, pos + Vector( 0, 0, StepHeight ), MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 						if ( result.startsolid )
 						{
 							// it was embedded - move it out
@@ -930,7 +930,7 @@ CNavArea *CNavMesh::GetNearestNavArea( const Vector &pos, bool anyZ, float maxDi
 						if ( heightDelta > StepHeight )
 						{
 							// trace to the height of the original point
-							UTIL_TraceLine( areaPos + Vector( 0, 0, StepHeight ), Vector( areaPos.x, areaPos.y, safePos.z ), MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+							UTIL_TraceLine( areaPos + Vector( 0, 0, StepHeight ), Vector( areaPos.x, areaPos.y, safePos.z ), MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 							
 							if ( result.fraction != 1.0f )
 							{
@@ -939,7 +939,7 @@ CNavArea *CNavMesh::GetNearestNavArea( const Vector &pos, bool anyZ, float maxDi
 						}
 
 						// trace to the original point's height above the area
-						UTIL_TraceLine( safePos, Vector( areaPos.x, areaPos.y, safePos.z + StepHeight ), MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+						UTIL_TraceLine( safePos, Vector( areaPos.x, areaPos.y, safePos.z + StepHeight ), MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 
 						if ( result.fraction != 1.0f )
 						{
@@ -974,7 +974,7 @@ CNavArea *CNavMesh::GetNearestNavArea( CBaseEntity *pEntity, int nFlags, float m
 	SNPROF("CNavMesh::GetNearestNavArea [ent]");
 
 	if ( !m_grid.Count() )
-		return NULL;
+		return nullptr;
 
 	// quick check
 	CNavArea *pClose = GetNavArea( pEntity, nFlags );
@@ -994,7 +994,7 @@ CNavArea *CNavMesh::GetNearestNavArea( CBaseEntity *pEntity, int nFlags, float m
 CNavArea *CNavMesh::GetNavAreaByID( unsigned int id ) const
 {
 	if (id == 0)
-		return NULL;
+		return nullptr;
 
 	int key = ComputeHashKey( id );
 
@@ -1006,7 +1006,7 @@ CNavArea *CNavMesh::GetNavAreaByID( unsigned int id ) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -1016,7 +1016,7 @@ CNavArea *CNavMesh::GetNavAreaByID( unsigned int id ) const
 CNavLadder *CNavMesh::GetLadderByID( unsigned int id ) const
 {
 	if (id == 0)
-		return NULL;
+		return nullptr;
 
 	for ( int i=0; i<m_ladders.Count(); ++i )
 	{
@@ -1027,7 +1027,7 @@ CNavLadder *CNavMesh::GetLadderByID( unsigned int id ) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -1141,7 +1141,7 @@ const char *CNavMesh::PlaceToName( Place place ) const
 	if (place >= 1 && place <= m_placeCount)
 		return m_placeName[ (int)place - 1 ];
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1316,7 +1316,7 @@ bool CNavMesh::GetSimpleGroundHeight( const Vector &pos, float *height, Vector *
 
 	trace_t result;
 
-	UTIL_TraceLine( pos, to, MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+	UTIL_TraceLine( pos, to, MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 
 	if (result.startsolid)
 		return false;
@@ -1391,7 +1391,7 @@ void CNavMesh::DrawPlayerCounts( void ) const
  */
 void CNavMesh::IncreaseDangerNearby( int teamID, float amount, CNavArea *startArea, const Vector &pos, float maxRadius, float dangerLimit )
 {
-	if (startArea == NULL)
+	if (startArea == nullptr)
 		return;
 
 	CNavArea::MakeNewMarker();
@@ -2402,7 +2402,7 @@ void CommandNavAnalyzeScripted( const CCommand &args )
 	if ( !UTIL_IsCommandIssuedByServerAdmin() )
 		return;
 
-	const char *pszCmd = NULL;
+	const char *pszCmd = nullptr;
 	int count = args.ArgC();
 	if ( count > 0 )
 	{
@@ -2450,7 +2450,7 @@ void CNavMesh::CommandNavMarkWalkable( void )
 		// we are not in edit mode, use the position of the local player
 		CBasePlayer *player = UTIL_GetListenServerHost();
 
-		if (player == NULL)
+		if (player == nullptr)
 		{
 			Msg( "ERROR: No local player!\n" );
 			return;
@@ -2580,7 +2580,7 @@ NavAttributeLookup TheNavAttributeTable[] =
 	{ "PLAYERCLIP", (NavAttributeType)CNavArea::NAV_PLAYERCLIP },
 	{ "BREAKABLEWALL", (NavAttributeType)CNavArea::NAV_BREAKABLEWALL },
 #endif
-	{ NULL, NAV_MESH_INVALID }
+	{nullptr, NAV_MESH_INVALID }
 };
 
 
@@ -2599,7 +2599,7 @@ static int NavAttributeAutocomplete( const char *input, char commands[ COMMAND_C
 	
 	// skip to start of argument
 	char *partialArg = Q_strrchr( command, ' ' );
-	if ( partialArg == NULL )
+	if ( partialArg == nullptr)
 	{
 		return 0;
 	}
@@ -2747,8 +2747,8 @@ void CNavMesh::DestroyLadders( void )
 
 	m_ladders.RemoveAll();
 
-	m_markedLadder = NULL;
-	m_selectedLadder = NULL;
+	m_markedLadder = nullptr;
+	m_selectedLadder = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -2816,7 +2816,7 @@ HidingSpot::HidingSpot( void )
 	m_pos = Vector( 0, 0, 0 );
 	m_id = m_nextID++;
 	m_flags = 0;
-	m_area = NULL;
+	m_area = nullptr;
 	m_bIsSaved = true;
 
 	TheHidingSpots.AddToTail( this );
@@ -2884,7 +2884,7 @@ HidingSpot *GetHidingSpotByID( unsigned int id )
 			return spot;
 	}	
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -3026,7 +3026,7 @@ void CNavMesh::EndVisibilityComputations( void )
 
 		// find adjacent area with the smallest change from our visibility list
 		CNavArea::CAreaBindInfoArray bestDelta;
-		CNavArea *anchor = NULL;
+		CNavArea *anchor = nullptr;
 
 		for( int dir = NORTH; dir < NUM_DIRECTIONS; ++dir )
 		{
@@ -3036,7 +3036,7 @@ void CNavMesh::EndVisibilityComputations( void )
 				CNavArea *adjArea = (CNavArea *)area->GetAdjacentArea( (NavDirType)dir, i );
 
 				// do not inherit from an area that is inheriting - use its ultimate source
-				if ( adjArea->m_inheritVisibilityFrom.area != NULL )
+				if ( adjArea->m_inheritVisibilityFrom.area != nullptr)
 				{
 					adjArea = adjArea->m_inheritVisibilityFrom.area;
 					if ( adjArea == area )
@@ -3068,7 +3068,7 @@ void CNavMesh::EndVisibilityComputations( void )
 		else
 		{
 			// retain full list of visible areas
-			area->m_inheritVisibilityFrom.area = NULL;
+			area->m_inheritVisibilityFrom.area = nullptr;
 		}
 	}
 

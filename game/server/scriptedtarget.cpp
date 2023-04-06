@@ -89,7 +89,7 @@ void CScriptedTarget::TurnOff( void )
 	if (GetTarget())
 	{
 		CAI_BaseNPC* pNPC	= GetTarget()->MyNPCPointer();
-		pNPC->DispatchInteraction( g_interactionScriptedTarget, NULL, NULL );
+		pNPC->DispatchInteraction( g_interactionScriptedTarget, nullptr, nullptr);
 	}
 }
 
@@ -151,7 +151,7 @@ CScriptedTarget* CScriptedTarget::NextScriptedTarget(void)
 		if (!pNextTarget)
 		{
 			TurnOff();
-			SetTarget( NULL );
+			SetTarget(nullptr);
 		}
 		// ------------------------------------------------
 		//	Otherwise, turn myself off, the next target on
@@ -172,7 +172,7 @@ CScriptedTarget* CScriptedTarget::NextScriptedTarget(void)
 			pNextTarget->TurnOn();
 			pNextTarget->SetTarget( GetTarget() );
 
-			SetTarget( NULL );
+			SetTarget(nullptr);
 			TurnOff();
 		}
 		// --------------------------------------------
@@ -197,11 +197,11 @@ CBaseEntity* CScriptedTarget::FindEntity( void )
 	// ---------------------------------------------------
 	//	First try to find the entity by name
 	// ---------------------------------------------------
-	CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, m_iszEntity );
+	CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, m_iszEntity );
 	if (pEntity && pEntity->GetFlags() & FL_NPC)
 	{
 		CAI_BaseNPC* pNPC	= pEntity->MyNPCPointer();
-		if (pNPC->DispatchInteraction( g_interactionScriptedTarget, NULL, this ))
+		if (pNPC->DispatchInteraction( g_interactionScriptedTarget, nullptr, this ))
 		{
 			return pEntity;
 		}
@@ -212,10 +212,10 @@ CBaseEntity* CScriptedTarget::FindEntity( void )
 	//  and find nearest entity in radius of that class
 	// ---------------------------------------------------
 	float			flNearestDist	= MAX_COORD_RANGE;
-	CBaseEntity*	pNearestEnt		= NULL;
-	CBaseEntity*	pTestEnt		= NULL;
+	CBaseEntity*	pNearestEnt		= nullptr;
+	CBaseEntity*	pTestEnt		= nullptr;
 
-	for ( CEntitySphereQuery sphere( GetAbsOrigin(), m_flRadius ); ( pTestEnt = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+	for ( CEntitySphereQuery sphere( GetAbsOrigin(), m_flRadius ); ( pTestEnt = sphere.GetCurrentEntity() ) != nullptr; sphere.NextEntity() )
 	{
 		if (pTestEnt->GetFlags() & FL_NPC)
 		{
@@ -235,13 +235,13 @@ CBaseEntity* CScriptedTarget::FindEntity( void )
 	if (pNearestEnt)
 	{
 		CAI_BaseNPC* pNPC	= pNearestEnt->MyNPCPointer();
-		if (pNPC->DispatchInteraction( g_interactionScriptedTarget, NULL, this ))
+		if (pNPC->DispatchInteraction( g_interactionScriptedTarget, nullptr, this ))
 		{
 			return pNearestEnt;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -253,7 +253,7 @@ void CScriptedTarget::ScriptThink( void )
 	// --------------------------------------------
 	//  If I don't have target entity look for one
 	// --------------------------------------------
-	if (GetTarget() == NULL)
+	if (GetTarget() == nullptr)
 	{
 		m_flPauseDoneTime		= 0;
 		SetTarget( FindEntity() );
@@ -306,7 +306,7 @@ int CScriptedTarget::DrawDebugTextOverlays(void)
 		// --------------
 		// Print Target
 		// --------------
-		if (GetTarget()!=NULL) 
+		if (GetTarget()!= nullptr) 
 		{
 			Q_snprintf(tempstr,sizeof(tempstr),"User: %s",GetTarget()->GetDebugName() );
 		}
@@ -351,7 +351,7 @@ void CScriptedTarget::DrawDebugGeometryOverlays(void)
 		{
 			NDebugOverlay::Line(GetAbsOrigin(),pTarget->GetAbsOrigin(),200,100,100,true,0.0);
 		}
-		if (GetTarget() != NULL)
+		if (GetTarget() != nullptr)
 		{
 			NDebugOverlay::Line(GetAbsOrigin(),GetTarget()->EyePosition(),0,255,0,true,0.0);
 		}

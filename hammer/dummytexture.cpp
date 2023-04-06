@@ -23,7 +23,7 @@
 //-----------------------------------------------------------------------------
 CDummyTexture::CDummyTexture(const char *pszName, TEXTUREFORMAT eFormat)
 {
-	if (pszName != NULL)
+	if (pszName != nullptr)
 	{
 		strcpy(m_szName, pszName);
 	}
@@ -62,7 +62,7 @@ const char *CDummyTexture::GetFileName() const
 //-----------------------------------------------------------------------------
 int CDummyTexture::GetKeywords(char *pszKeywords) const
 {
-	if (pszKeywords != NULL)
+	if (pszKeywords != nullptr)
 	{
 		*pszKeywords = '\0';
 	}
@@ -81,7 +81,7 @@ int CDummyTexture::GetShortName(char *pszName) const
 {
 	char szBuf[MAX_PATH];
 
-	if (pszName == NULL)
+	if (pszName == nullptr)
 	{
 		pszName = szBuf;
 	}
@@ -89,7 +89,7 @@ int CDummyTexture::GetShortName(char *pszName) const
 	if (m_eTextureFormat == tfWAL)
 	{
 		const char *psz = strstr(m_szName, "textures");
-		if (psz == NULL)
+		if (psz == nullptr)
 		{
 			psz = m_szName;
 		}

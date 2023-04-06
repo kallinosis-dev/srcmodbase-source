@@ -13,7 +13,7 @@
 
 CFileChangeWatcher::CFileChangeWatcher()
 {
-	m_pCallbacks = NULL;
+	m_pCallbacks = nullptr;
 }
 
 CFileChangeWatcher::~CFileChangeWatcher()
@@ -32,7 +32,7 @@ bool CFileChangeWatcher::AddDirectory( const char *pSearchPathBase, const char *
 	char fullDirName[MAX_PATH];
 	V_ComposeFileName( pSearchPathBase, pDirName, fullDirName, sizeof( fullDirName ) );
 	
-	HANDLE hDir = CreateFile( fullDirName, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OVERLAPPED, NULL );
+	HANDLE hDir = CreateFile( fullDirName, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS|FILE_FLAG_OVERLAPPED, nullptr);
 	if ( hDir == INVALID_HANDLE_VALUE )
 	{
 		Warning( "CFileChangeWatcher::AddDirectory - can't get a handle to directory %s.\n", pDirName );
@@ -46,7 +46,7 @@ bool CFileChangeWatcher::AddDirectory( const char *pSearchPathBase, const char *
 	V_strncpy( pDirWatch->m_DirName, pDirName, sizeof( pDirWatch->m_DirName ) );
 	V_strncpy( pDirWatch->m_FullDirName, fullDirName, sizeof( pDirWatch->m_FullDirName ) );
 	pDirWatch->m_hDir = hDir;
-	pDirWatch->m_hEvent = CreateEvent( NULL, false, false, NULL );
+	pDirWatch->m_hEvent = CreateEvent(nullptr, false, false, nullptr);
 	memset( &pDirWatch->m_Overlapped, 0, sizeof( pDirWatch->m_Overlapped ) );
 	pDirWatch->m_Overlapped.hEvent = pDirWatch->m_hEvent;
 	if ( !CallReadDirectoryChanges( pDirWatch ) )
@@ -69,7 +69,7 @@ void CFileChangeWatcher::Term()
 		CloseHandle( m_DirWatches[i]->m_hEvent );
 	}
 	m_DirWatches.PurgeAndDeleteElements();
-	m_pCallbacks = NULL;
+	m_pCallbacks = nullptr;
 }
 
 int CFileChangeWatcher::Update()
@@ -151,10 +151,10 @@ BOOL CFileChangeWatcher::CallReadDirectoryChanges( CFileChangeWatcher::CDirWatch
 		pDirWatch->m_Buffer, 
 		sizeof( pDirWatch->m_Buffer ), 
 		true, 
-		FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_LAST_WRITE, 
-		NULL, 
-		&pDirWatch->m_Overlapped, 
-		NULL );
+		FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_LAST_WRITE,
+		nullptr, 
+		&pDirWatch->m_Overlapped,
+	nullptr);
 }
 
 

@@ -78,7 +78,7 @@ CBaseLesson::~CBaseLesson( void )
 		{
 			// Remove from children if they are still around
 			CBaseLesson *pLesson = m_OpenOpportunities[ i ];
-			pLesson->m_pRoot = NULL;
+			pLesson->m_pRoot = nullptr;
 		}
 	}
 }
@@ -118,7 +118,7 @@ bool CBaseLesson::ShouldShowSpew( void )
 	if ( gameinstructor_verbose_lesson.GetString()[ 0 ] == '\0' )
 		return false;
 
-	return ( Q_stristr( GetName(), gameinstructor_verbose_lesson.GetString() ) != NULL );
+	return ( Q_stristr( GetName(), gameinstructor_verbose_lesson.GetString() ) != nullptr);
 }
 
 bool CBaseLesson::NoPriority( void ) const
@@ -247,7 +247,7 @@ bool CBaseLesson::IncSuccessCount( void )
 
 void CBaseLesson::Init( void )
 {
-	m_pRoot = NULL;
+	m_pRoot = nullptr;
 	m_bSuccessCounted = false;
 
 	SetCloseReason( "None given." );
@@ -376,7 +376,7 @@ void CTextLesson::Stop( void )
 
 void CIconLesson::Init( void )
 {
-	m_hIconTarget = NULL;
+	m_hIconTarget = nullptr;
 	m_szVguiTargetName = "";
 	m_szVguiTargetLookup = "";
 	m_nVguiTargetEdge = 0;
@@ -440,7 +440,7 @@ void CIconLesson::Start( void )
 		}
 	}
 
-	CLocatorTarget *pLocatorTarget = NULL;
+	CLocatorTarget *pLocatorTarget = nullptr;
 
 	if( m_hLocatorTarget != -1 )
 	{
@@ -874,7 +874,7 @@ void CIconLesson::UpdateLocatorTarget( CLocatorTarget *pLocatorTarget, C_BaseEnt
 	C_BasePlayer *pLocalPlayer = GetGameInstructor().GetLocalPlayer();
 
 	if( !m_bFixedPosition && 
-		( ( pLocalPlayer != NULL && pLocalPlayer == m_hIconTarget ) || 
+		( ( pLocalPlayer != nullptr && pLocalPlayer == m_hIconTarget ) || 
 		  GetClientWorldEntity() == m_hIconTarget ) )
 	{
 		// Mark this icon as a static icon that draws in a fixed 
@@ -1228,7 +1228,7 @@ public:
 
 		CGameInstructorSymbol *pSymbol = (CGameInstructorSymbol*)fieldInfo.pField;
 
-		int nNumChars = pSymbol->String() != NULL ? V_strlen( pSymbol->String() ) + 1 : 0;
+		int nNumChars = pSymbol->String() != nullptr ? V_strlen( pSymbol->String() ) + 1 : 0;
 		pSave->WriteInt( &nNumChars );
 
 		if ( nNumChars > 0 )
@@ -1288,17 +1288,17 @@ CScriptedIconLesson::~CScriptedIconLesson( void )
 	if ( m_pDefaultHolder )
 	{
 		delete m_pDefaultHolder;
-		m_pDefaultHolder = NULL;
+		m_pDefaultHolder = nullptr;
 	}
 }
 
 
 void CScriptedIconLesson::Init( void )
 {
-	m_hLocalPlayer.Set( NULL );
+	m_hLocalPlayer.Set(nullptr);
 	m_fOutput = 0.0f;
-	m_hEntity1.Set( NULL );
-	m_hEntity2.Set( NULL );
+	m_hEntity1.Set(nullptr);
+	m_hEntity2.Set(nullptr);
 	m_szString1 = "";
 	m_szString2 = "";
 	m_iInteger1 = 0;
@@ -1307,7 +1307,7 @@ void CScriptedIconLesson::Init( void )
 	m_fFloat2 = 0.0f;
 
 	m_fUpdateEventTime = 0.0f;
-	m_pDefaultHolder = NULL;
+	m_pDefaultHolder = nullptr;
 	
 	m_iScopeDepth = 0;
 
@@ -1438,7 +1438,7 @@ void CScriptedIconLesson::OnOpen( void )
 			ConColorMsg( Color( 64, 128, 255, 255 ), "received for lesson \"%s\"...\n", GetName() );
 		}
 
-		ProcessElements( NULL, &(pLessonEvent->elements) );
+		ProcessElements(nullptr, &(pLessonEvent->elements) );
 	}
 
 	BaseClass::OnOpen();
@@ -1479,7 +1479,7 @@ void CScriptedIconLesson::Update( void )
 				ConColorMsg( CBaseLesson::m_rgbaVerbosePlain, "received for lesson \"%s\"...\n", GetName() );
 			}
 
-			ProcessElements( NULL, &(pLessonEvent->elements) );
+			ProcessElements(nullptr, &(pLessonEvent->elements) );
 		}
 
 		gameinstructor_verbose.SetValue( iVerbose );
@@ -1768,7 +1768,7 @@ int LessonActionFromString( const char *pchName )
 
 void CScriptedIconLesson::InitElementsFromKeys( CUtlVector< LessonElement_t > *pLessonElements, KeyValues *pKey )
 {
-	KeyValues *pSubKey = NULL;
+	KeyValues *pSubKey = nullptr;
 	for ( pSubKey = pKey->GetFirstSubKey(); pSubKey; pSubKey = pSubKey->GetNextKey() )
 	{
 		char szSubKeyName[ 256 ];
@@ -1777,7 +1777,7 @@ void CScriptedIconLesson::InitElementsFromKeys( CUtlVector< LessonElement_t > *p
 		char *pchToken = strtok( szSubKeyName, " " );
 		LessonVariable iVariable = LessonVariableFromString( pchToken );
 
-		pchToken = strtok ( NULL, "" );
+		pchToken = strtok (nullptr, "" );
 		int iAction = LESSON_ACTION_NONE;
 		bool bNot = false;
 		bool bOptionalParam = false;
@@ -1812,7 +1812,7 @@ void CScriptedIconLesson::InitElementsFromKeys( CUtlVector< LessonElement_t > *p
 
 		if ( paramType != FIELD_VOID )
 		{
-			pchToken = strtok ( NULL, "" );
+			pchToken = strtok (nullptr, "" );
 			pchParam = pchToken;
 		}
 
@@ -1865,7 +1865,7 @@ void CScriptedIconLesson::InitFromKeys( KeyValues *pKey )
 	static int s_nOnOpenSymbol = KeyValuesSystem()->GetSymbolForString( "onopen" );
 	static int s_nUpdateSymbol = KeyValuesSystem()->GetSymbolForString( "update" );
 
-	KeyValues *pSubKey = NULL;
+	KeyValues *pSubKey = nullptr;
 	for ( pSubKey = pKey->GetFirstSubKey(); pSubKey; pSubKey = pSubKey->GetNextKey() )
 	{
 		if ( pSubKey->GetNameSymbol() == s_nInstanceTypeSymbol )
@@ -1916,7 +1916,7 @@ void CScriptedIconLesson::InitFromKeys( KeyValues *pKey )
 		}
 		else if ( pSubKey->GetNameSymbol() == s_nOpenSymbol )
 		{
-			KeyValues *pEventKey = NULL;
+			KeyValues *pEventKey = nullptr;
 			for ( pEventKey = pSubKey->GetFirstTrueSubKey(); pEventKey; pEventKey = pEventKey->GetNextTrueSubKey() )
 			{
 				LessonEvent_t *pLessonEvent = AddOpenEvent();
@@ -1934,7 +1934,7 @@ void CScriptedIconLesson::InitFromKeys( KeyValues *pKey )
 		}
 		else if ( pSubKey->GetNameSymbol() == s_nCloseSymbol )
 		{
-			KeyValues *pEventKey = NULL;
+			KeyValues *pEventKey = nullptr;
 			for ( pEventKey = pSubKey->GetFirstTrueSubKey(); pEventKey; pEventKey = pEventKey->GetNextTrueSubKey() )
 			{
 				LessonEvent_t *pLessonEvent = AddCloseEvent();
@@ -1952,7 +1952,7 @@ void CScriptedIconLesson::InitFromKeys( KeyValues *pKey )
 		}
 		else if ( pSubKey->GetNameSymbol() == s_nSuccessSymbol )
 		{
-			KeyValues *pEventKey = NULL;
+			KeyValues *pEventKey = nullptr;
 			for ( pEventKey = pSubKey->GetFirstTrueSubKey(); pEventKey; pEventKey = pEventKey->GetNextTrueSubKey() )
 			{
 				LessonEvent_t *pLessonEvent = AddSuccessEvent();
@@ -1970,7 +1970,7 @@ void CScriptedIconLesson::InitFromKeys( KeyValues *pKey )
 		}
 		else if ( pSubKey->GetNameSymbol() == s_nOnOpenSymbol )
 		{
-			KeyValues *pEventKey = NULL;
+			KeyValues *pEventKey = nullptr;
 			for ( pEventKey = pSubKey->GetFirstTrueSubKey(); pEventKey; pEventKey = pEventKey->GetNextTrueSubKey() )
 			{
 				LessonEvent_t *pLessonEvent = AddOnOpenEvent();
@@ -1988,7 +1988,7 @@ void CScriptedIconLesson::InitFromKeys( KeyValues *pKey )
 		}
 		else if ( pSubKey->GetNameSymbol() == s_nUpdateSymbol )
 		{
-			KeyValues *pEventKey = NULL;
+			KeyValues *pEventKey = nullptr;
 			for ( pEventKey = pSubKey->GetFirstTrueSubKey(); pEventKey; pEventKey = pEventKey->GetNextTrueSubKey() )
 			{
 				LessonEvent_t *pLessonEvent = AddUpdateEvent();
@@ -2193,7 +2193,7 @@ bool CScriptedIconLesson::ProcessElement( IGameEvent *event, const LessonElement
 	float eventParam_float = 0.0f;
 	char eventParam_string[ 256 ];
 	eventParam_string[ 0 ] = '\0';
-	C_BaseEntity *eventParam_BaseEntity = NULL;
+	C_BaseEntity *eventParam_BaseEntity = nullptr;
 
 	// Get the value from the event parameter based on its type
 	switch ( pLessonElement->paramType )
@@ -2318,7 +2318,7 @@ bool CScriptedIconLesson::ProcessElement( IGameEvent *event, const LessonElement
 		}
 		else
 		{
-			const char *pchEventString = NULL;
+			const char *pchEventString = nullptr;
 
 			if ( event && !(event->IsEmpty( pParamName )) )
 			{
@@ -2447,7 +2447,7 @@ bool CScriptedIconLesson::ProcessElement( IGameEvent *event, const LessonElement
 		else if ( Q_stricmp( pParamName, "null" ) == 0 )
 		{
 			// They explicitly want a null pointer
-			eventParam_BaseEntity = NULL;
+			eventParam_BaseEntity = nullptr;
 		}
 		else
 		{
@@ -2524,7 +2524,7 @@ bool CScriptedIconLesson::ProcessElement( IGameEvent *event, const LessonElement
 		else if ( Q_stricmp( pParamName, "null" ) == 0 )
 		{
 			// They explicitly want a null pointer
-			eventParam_BaseEntity = NULL;
+			eventParam_BaseEntity = nullptr;
 		}
 		else if ( Q_stricmp( pParamName, "world" ) == 0 )
 		{
@@ -2761,8 +2761,8 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 				return false;
 			}
 			
-			C_BasePlayer *pVarPlayer = ( pVar->IsPlayer() ? static_cast< C_BasePlayer* >( pVar ) : NULL );
-			C_BasePlayer *pParamPlayer = ( pParam->IsPlayer() ? static_cast< C_BasePlayer* >( pParam ) : NULL );
+			C_BasePlayer *pVarPlayer = ( pVar->IsPlayer() ? static_cast< C_BasePlayer* >( pVar ) : nullptr);
+			C_BasePlayer *pParamPlayer = ( pParam->IsPlayer() ? static_cast< C_BasePlayer* >( pParam ) : nullptr);
 
 			Vector vVarPos = ( pVarPlayer ? pVarPlayer->ActivePlayerCombatCharacter()->EyePosition() : pVar->WorldSpaceCenter() );
 			Vector vParamPos = ( pParamPlayer ? pParamPlayer->ActivePlayerCombatCharacter()->EyePosition() : pParam->WorldSpaceCenter() );
@@ -2792,8 +2792,8 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 				return false;
 			}
 
-			C_BasePlayer *pVarPlayer = ( pVar->IsPlayer() ? static_cast< C_BasePlayer* >( pVar ) : NULL );
-			C_BasePlayer *pParamPlayer = ( pParam->IsPlayer() ? static_cast< C_BasePlayer* >( pParam ) : NULL );
+			C_BasePlayer *pVarPlayer = ( pVar->IsPlayer() ? static_cast< C_BasePlayer* >( pVar ) : nullptr);
+			C_BasePlayer *pParamPlayer = ( pParam->IsPlayer() ? static_cast< C_BasePlayer* >( pParam ) : nullptr);
 
 			Vector vVarPos = ( pVarPlayer ? pVarPlayer->ActivePlayerCombatCharacter()->EyePosition() : pVar->WorldSpaceCenter() );
 			Vector vParamPos = ( pParamPlayer ? pParamPlayer->ActivePlayerCombatCharacter()->EyePosition() : pParam->WorldSpaceCenter() );
@@ -2805,11 +2805,11 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 
 			if ( pVar->IsPlayer() )
 			{
-				AngleVectors( static_cast< C_BasePlayer* >( pVar )->ActivePlayerCombatCharacter()->EyeAngles(), &vVarForward, NULL, NULL );
+				AngleVectors( static_cast< C_BasePlayer* >( pVar )->ActivePlayerCombatCharacter()->EyeAngles(), &vVarForward, nullptr, nullptr);
 			}
 			else
 			{
-				pVar->GetVectors( &vVarForward, NULL, NULL );
+				pVar->GetVectors( &vVarForward, nullptr, nullptr);
 			}
 
 			// Set the distance in degrees
@@ -2843,7 +2843,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 
 			// Use string2 if it was specified, otherwise, use string1
 			CGameInstructorSymbol *pString;
-			char const *pchParamNameTemp = NULL;
+			char const *pchParamNameTemp = nullptr;
 
 			if ( iTemp == 2 )
 			{
@@ -3063,7 +3063,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 			// Use entity2 if it was specified, otherwise, use entity1
 			CHandle<C_BaseEntity> *pHandle;
 
-			char const *pchParamNameTemp = NULL;
+			char const *pchParamNameTemp = nullptr;
 
 			if ( iTemp == 2 )
 			{
@@ -3076,7 +3076,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 				pchParamNameTemp = "entity1";
 			}
 
-			C_BaseCombatCharacter *pBaseCombatCharacter = NULL;
+			C_BaseCombatCharacter *pBaseCombatCharacter = nullptr;
 
 			if ( pVar )
 			{
@@ -3107,7 +3107,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 
 		case LESSON_ACTION_WEAPON_IS:
 		{
-			C_BaseCombatCharacter *pBaseCombatCharacter = NULL;
+			C_BaseCombatCharacter *pBaseCombatCharacter = nullptr;
 
 			if ( pVar )
 			{
@@ -3157,7 +3157,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 
 		case LESSON_ACTION_WEAPON_HAS:
 		{
-			C_BaseCombatCharacter *pBaseCombatCharacter = NULL;
+			C_BaseCombatCharacter *pBaseCombatCharacter = nullptr;
 
 			if ( pVar )
 			{
@@ -3184,12 +3184,12 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 				ConColorMsg( CBaseLesson::m_rgbaVerbosePlain, ")\n" );
 			}
 
-			return ( bNot ) ? ( pBaseCombatCharacter->Weapon_OwnsThisType( pchParam ) == NULL ) : ( pBaseCombatCharacter->Weapon_OwnsThisType( pchParam ) != NULL );
+			return ( bNot ) ? ( pBaseCombatCharacter->Weapon_OwnsThisType( pchParam ) == nullptr) : ( pBaseCombatCharacter->Weapon_OwnsThisType( pchParam ) != nullptr);
 		}
 
 		case LESSON_ACTION_GET_ACTIVE_WEAPON_SLOT:
 		{
-			C_BaseCombatCharacter *pBaseCombatCharacter = NULL;
+			C_BaseCombatCharacter *pBaseCombatCharacter = nullptr;
 
 			if ( pVar )
 			{
@@ -3233,7 +3233,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 
 		case LESSON_ACTION_GET_WEAPON_SLOT:
 		{
-			C_BaseCombatCharacter *pBaseCombatCharacter = NULL;
+			C_BaseCombatCharacter *pBaseCombatCharacter = nullptr;
 
 			if ( pVar )
 			{
@@ -3254,7 +3254,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 			}
 
 			C_BaseCombatWeapon *pWeapon = pBaseCombatCharacter->Weapon_OwnsThisType( pchParam );
-			m_fOutput = (pWeapon != NULL) ? pWeapon->GetSlot() : 0.0f;
+			m_fOutput = (pWeapon != nullptr) ? pWeapon->GetSlot() : 0.0f;
 
 			if ( gameinstructor_verbose.GetInt() > 0 && ShouldShowSpew() )
 			{
@@ -3271,7 +3271,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 		{
 			int nTemp = static_cast<int>( fParam );
 
-			C_BaseCombatCharacter *pBaseCombatCharacter = NULL;
+			C_BaseCombatCharacter *pBaseCombatCharacter = nullptr;
 
 			if ( pVar )
 			{
@@ -3305,7 +3305,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 
 		case LESSON_ACTION_CLIP_PERCENTAGE_LESS_THAN:
 		{
-			C_BaseCombatCharacter *pBaseCombatCharacter = NULL;
+			C_BaseCombatCharacter *pBaseCombatCharacter = nullptr;
 
 			if ( pVar )
 			{
@@ -3379,7 +3379,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 				return false;
 			}
 
-			CBaseCombatWeapon *pBaseCombatWeapon = NULL;
+			CBaseCombatWeapon *pBaseCombatWeapon = nullptr;
 
 			// Get the weapon in variable slot
 			for ( int iWeapon = 0; iWeapon < MAX_WEAPONS; iWeapon++ )
@@ -3450,7 +3450,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 				return false;
 			}
 
-			CBaseCombatWeapon *pBaseCombatWeapon = NULL;
+			CBaseCombatWeapon *pBaseCombatWeapon = nullptr;
 
 			// Get the weapon in variable slot
 			for ( int iWeapon = 0; iWeapon < MAX_WEAPONS; iWeapon++ )
@@ -3515,7 +3515,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 				return false;
 			}
 
-			CBaseCombatWeapon *pBaseCombatWeapon = NULL;
+			CBaseCombatWeapon *pBaseCombatWeapon = nullptr;
 
 			// Get the weapon in variable slot
 			for ( int iWeapon = 0; iWeapon < MAX_WEAPONS; iWeapon++ )
@@ -3639,7 +3639,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 
 			// Use entity2 if it was specified, otherwise, use entity1
 			CHandle<C_BaseEntity> *pHandle;
-			char const *pchParamNameTemp = NULL;
+			char const *pchParamNameTemp = nullptr;
 
 			if ( iTemp == 2 )
 			{
@@ -3692,7 +3692,7 @@ bool CScriptedIconLesson::ProcessElementAction( int iAction, bool bNot, const ch
 
 			// Use entity2 if it was specified, otherwise, use entity1
 			CHandle<C_BaseEntity> *pHandle;
-			char const *pchParamNameTemp = NULL;
+			char const *pchParamNameTemp = nullptr;
 
 			if ( iTemp == 2 )
 			{

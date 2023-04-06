@@ -38,7 +38,7 @@ MovieExplosion* MovieExplosion::CreateMovieExplosion(const Vector &pos)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

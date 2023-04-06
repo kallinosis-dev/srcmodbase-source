@@ -63,7 +63,7 @@ CToolDisplace::CToolDisplace()
 	LoadFilters( szProgramDir );
 	AddFiltersToManagers();
 
-	m_SculptTool = NULL;
+	m_SculptTool = nullptr;
 	m_MousePoint.Init( 0.0f, 0.0f );
 }
 
@@ -108,7 +108,7 @@ void CToolDisplace::OnDeactivate()
 	if ( m_pDocument->GetTools()->GetActiveToolID() != TOOL_FACEEDIT_MATERIAL )
 	{
 		// Clear the selected faces when we are deactivated.
-		m_pDocument->SelectFace(NULL, 0, scClear );
+		m_pDocument->SelectFace(nullptr, 0, scClear );
 	}
 }
 
@@ -480,7 +480,7 @@ void CToolDisplace::LiftFaceNormal( CMapView3D *pView, const Vector2D &vPoint )
 	ULONG		ulFace;
 	CMapClass	*pObject;
 
-	if( ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != NULL ) )
+	if( ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != nullptr) )
 	{
 		if( pObject->IsMapClass( MAPCLASS_TYPE( CMapSolid ) ) )
 		{
@@ -568,7 +568,7 @@ void CToolDisplace::Nudge_Deactivate( void )
 void CToolDisplace::Nudge_Do( void )
 {
 	CMapDisp *pNudgeDisp = GetEditDisp();
-	if (pNudgeDisp == NULL)
+	if (pNudgeDisp == nullptr)
 	{
 		return;
 	}
@@ -865,7 +865,7 @@ void CToolDisplace::HandleSelection( CMapView3D *pView, const Vector2D &vPoint )
 
 	bool bShift = ( ( GetAsyncKeyState( VK_SHIFT ) & 0x8000 ) != 0 );
 
-	if( ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != NULL ) )
+	if( ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != nullptr) )
 	{
 		if( pObject->IsMapClass( MAPCLASS_TYPE( CMapSolid ) ) )
 		{
@@ -908,9 +908,9 @@ void CToolDisplace::HandleTagging( CMapView3D *pView, const Vector2D &vPoint )
 {
 	// Get the displacement face (if any) at the 2d point.
 	ULONG ulFace;
-	CMapClass *pObject = NULL;
+	CMapClass *pObject = nullptr;
 
-	if( ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != NULL ) )
+	if( ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != nullptr) )
 	{
 		if( pObject->IsMapClass( MAPCLASS_TYPE( CMapSolid ) ) )
 		{
@@ -984,9 +984,9 @@ void CToolDisplace::HandleTaggingReset( CMapView3D *pView, const Vector2D &vPoin
 {
 	// Get the displacement face (if any) at the 2d point.
 	ULONG ulFace;
-	CMapClass *pObject = NULL;
+	CMapClass *pObject = nullptr;
 
-	if( ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != NULL ) )
+	if( ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != nullptr) )
 	{
 		if( pObject->IsMapClass( MAPCLASS_TYPE( CMapSolid ) ) )
 		{
@@ -1361,7 +1361,7 @@ ChunkFileResult_t CToolDisplace::LoadFiltersCallback( CChunkFile *pFile, CToolDi
 void CToolDisplace::RenderPaintSphere( CRender3D *pRender )
 {
 	CMapDisp *pDisp = GetEditDisp();
-	if (pDisp == NULL)
+	if (pDisp == nullptr)
 		return;
 	
 	// Get the sphere center.
@@ -1418,7 +1418,7 @@ void CToolDisplace::RenderPaintSphere( CRender3D *pRender )
 void CToolDisplace::RenderHitBox( CRender3D *pRender )
 {
 	CMapDisp *pDisp = GetEditDisp();
-	if (pDisp == NULL)
+	if (pDisp == nullptr)
 		return;
 
     //

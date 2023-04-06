@@ -39,7 +39,7 @@ bool CCStrike15ItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema 
 	CCStrike15ItemSchema *pSchema = ItemSystem()->GetItemSchema();
 
 	// Get the default loadout slot
-	const char *pchSubPosition = GetRawDefinition()->GetString( "item_sub_position", NULL );
+	const char *pchSubPosition = GetRawDefinition()->GetString( "item_sub_position", nullptr);
 	m_iDefaultLoadoutSlot = ( pchSubPosition ? StringFieldToInt( pchSubPosition, pSchema->GetLoadoutStringsSubPositions() ) : -1 );
 	for ( int i = 0; i < LOADOUT_COUNT; i++ )
 	{
@@ -135,7 +135,7 @@ bool CCStrike15ItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema 
 	// Initialize player display model.
 	for ( int i = 0; i < LOADOUT_COUNT; i++ )
 	{
-		m_pszPlayerDisplayModel[i] = NULL;
+		m_pszPlayerDisplayModel[i] = nullptr;
 	}
 
 	// "model_player_per_class"
@@ -144,9 +144,9 @@ bool CCStrike15ItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema 
 	{
 		if ( pPerClassModels )
 		{
-			m_pszPlayerDisplayModel[i] = pPerClassModels->GetString( pSchema->GetClassUsabilityStrings()[i], NULL );
+			m_pszPlayerDisplayModel[i] = pPerClassModels->GetString( pSchema->GetClassUsabilityStrings()[i], nullptr);
 
-			if ( m_pszPlayerDisplayModel[0] == NULL )
+			if ( m_pszPlayerDisplayModel[0] == nullptr)
 			{
 				m_pszPlayerDisplayModel[0] = m_pszPlayerDisplayModel[i];
 			}
@@ -196,12 +196,12 @@ bool CCStrike15ItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema 
 	if ( pInventoryImageData )
 	{
 		m_pInventoryImageData = new InventoryImageData_t;
-		m_pInventoryImageData->m_pCameraAngles = NULL;
-		m_pInventoryImageData->m_pCameraOffset = NULL;
+		m_pInventoryImageData->m_pCameraAngles = nullptr;
+		m_pInventoryImageData->m_pCameraOffset = nullptr;
 		m_pInventoryImageData->m_cameraFOV = -1.0f;
 		for ( int i = 0; i < MATERIAL_MAX_LIGHT_COUNT; i++ )
 		{
-			m_pInventoryImageData->m_pLightDesc[ i ] = NULL;
+			m_pInventoryImageData->m_pLightDesc[ i ] = nullptr;
 		}
 
 		m_pInventoryImageData->m_bOverrideDefaultLight = pInventoryImageData->GetBool( "override_default_light", false );

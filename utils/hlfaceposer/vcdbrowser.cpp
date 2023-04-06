@@ -17,7 +17,7 @@
 #include "ChoreoEvent.h"
 #include "ChoreoView.h"
 
-CVCDBrowser	*g_pVCDBrowser = NULL;
+CVCDBrowser	*g_pVCDBrowser = nullptr;
 
 enum
 {
@@ -95,7 +95,7 @@ public:
 		char *p = sz;
 
 		// Start at root
-		mxTreeViewItem *cur = NULL;
+		mxTreeViewItem *cur = nullptr;
 
 		// Tokenize path
 		while ( p && p[0] )
@@ -117,7 +117,7 @@ public:
 			}
 			else
 			{
-				p = NULL;
+				p = nullptr;
 			}
 
 			Assert( check );
@@ -149,7 +149,7 @@ public:
 			_PopulateTree( i, m_Paths[ i ].path );
 		}
 
-		mxTreeViewItem *p = getFirstChild( NULL );
+		mxTreeViewItem *p = getFirstChild(nullptr);
 		setOpen( p, true );
 	}
 
@@ -331,7 +331,7 @@ CVCDBrowser::CVCDBrowser( mxWindow *parent )
 
 	LoadAllSounds();
 
-	PopulateTree( NULL );
+	PopulateTree(nullptr);
 }
 
 #define CX_ICON  16
@@ -351,7 +351,7 @@ HIMAGELIST CVCDBrowser::CreateImageList()
 	int c = 0;
 #endif
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_VCD)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_VCD)); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
@@ -592,11 +592,11 @@ void CVCDBrowser::PopulateTree( char const *subdirectory )
 
 	CUtlSortVector< FileNameHandle_t, CNameLessFunc >	sorted( 0, 0 );
 	
-	char const *texttofind = NULL;
+	char const *texttofind = nullptr;
 
 	if ( m_bTextSearch )
 	{
-		subdirectory = NULL;
+		subdirectory = nullptr;
 		texttofind = GetSearchString();
 	}
 
@@ -808,7 +808,7 @@ int	 CVCDBrowser::GetVCDCount() const
 FileNameHandle_t CVCDBrowser::GetVCD( int index )
 {
 	if ( index < 0 || index >= (int)m_AllVCDs.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_AllVCDs[ index ];
 }

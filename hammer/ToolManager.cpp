@@ -96,8 +96,8 @@ bool CToolManager::Init( CMapDoc *pDocument )
 //-----------------------------------------------------------------------------
 void CToolManager::Shutdown()
 {
-	m_pActiveTool = NULL;
-	m_pDocument = NULL;
+	m_pActiveTool = nullptr;
+	m_pDocument = nullptr;
 	RemoveAllTools();
 }
 
@@ -107,8 +107,8 @@ void CToolManager::Shutdown()
 //-----------------------------------------------------------------------------
 CToolManager::CToolManager()
 {
-    m_pActiveTool = NULL;
-	m_pDocument = NULL;
+    m_pActiveTool = nullptr;
+	m_pDocument = nullptr;
 }
 
 
@@ -164,7 +164,7 @@ CBaseTool *CToolManager::GetToolForID(ToolID_t eToolID)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -251,7 +251,7 @@ void CToolManager::SetTool(ToolID_t eNewTool)
 	//		  CFaceEditDispPage::OnSetActive() calls SetTool(TOOL_FACEEDIT_DISP). This
 	//		  behavior is rather nonsensical during startup.
 	CMainFrame *pwndMain = GetMainWnd();
-	if (pwndMain != NULL)
+	if (pwndMain != nullptr)
 	{
 		pwndMain->m_ObjectBar.UpdateListForTool(eNewTool);
 	}
@@ -264,7 +264,7 @@ ChunkFileResult_t CToolManager::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo)
 {
 	for (int i=0;i<m_Tools.Count(); i++)
 	{
-		if ( m_Tools[i]->GetVMFChunkName() != NULL  )
+		if ( m_Tools[i]->GetVMFChunkName() != nullptr)
 		{
 			m_Tools[i]->SaveVMF( pFile, pSaveInfo );
 		}
@@ -284,7 +284,7 @@ void CToolManager::AddToolHandlers( CChunkHandlerMap *pHandlersMap )
 {
 	for (int i=0;i<m_Tools.Count(); i++)
 	{
-		if ( m_Tools[i]->GetVMFChunkName() != NULL  )
+		if ( m_Tools[i]->GetVMFChunkName() != nullptr)
 		{
 			pHandlersMap->AddHandler( m_Tools[i]->GetVMFChunkName(), (ChunkHandler_t)LoadCallback, m_Tools[i] );
 		}
@@ -298,7 +298,7 @@ void CToolManager::AddToolHandlers( CChunkHandlerMap *pHandlersMap )
 //-----------------------------------------------------------------------------
 void CToolManager::RemoveAllTools()
 {
-	m_pActiveTool = NULL;
+	m_pActiveTool = nullptr;
 	m_Tools.PurgeAndDeleteElements();
 	m_ToolIDStack.RemoveAll();
 }

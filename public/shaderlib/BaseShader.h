@@ -39,7 +39,7 @@ public:
 	CBaseShader();
 
 	// Methods inherited from IShader
-	virtual char const* GetFallbackShader( IMaterialVar** params ) const { return 0; }
+	virtual char const* GetFallbackShader( IMaterialVar** params ) const { return nullptr; }
 	virtual int GetParamCount( ) const;
 	virtual const ShaderParamInfo_t& GetParamInfo( int paramIndex ) const;
 
@@ -205,7 +205,7 @@ inline int CBaseShader::CurrentMaterialVarFlags2() const
 //-----------------------------------------------------------------------------
 inline bool CBaseShader::IsSnapshotting() const
 {
-	return (s_pShaderShadow != NULL);
+	return (s_pShaderShadow != nullptr);
 }
 
 //-----------------------------------------------------------------------------

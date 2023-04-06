@@ -143,7 +143,7 @@ public:
 		m_bSkipPlayers = !bTracePlayers;
 
 		{
-			m_pLowerBody = NULL;
+			m_pLowerBody = nullptr;
 		}
 	}
 
@@ -155,7 +155,7 @@ public:
 		if ( !pEntity )
 			return true;
 
-		if ( ( ToBaseViewModel( pEntity ) != NULL ) ||
+		if ( ( ToBaseViewModel( pEntity ) != nullptr) ||
 			 pEntity == m_pPlayer ||
 			 pEntity == m_pLowerBody ||
 			 ( m_bSkipPlayers && pEntity->IsPlayer() ) ||
@@ -368,7 +368,7 @@ void CFlashlightEffect::UpdateLight(	int nEntIdx, const Vector &vecPos, const Ve
 	if ( pFlashlightTexture )
 	{
 		state.m_pSpotlightTexture = pFlashlightTexture;
-		state.m_pProjectedMaterial = NULL;
+		state.m_pProjectedMaterial = nullptr;
 	}
 
 	if( m_FlashlightHandle == CLIENTSHADOW_INVALID_HANDLE )
@@ -515,7 +515,7 @@ bool CFlashlightEffect::UpdateDefaultFlashlightState( FlashlightState_t& state, 
 	if ( m_bMuzzleFlashEnabled )
 	{
 		state.m_pSpotlightTexture = m_MuzzleFlashTexture;
-		state.m_pProjectedMaterial = NULL;
+		state.m_pProjectedMaterial = nullptr;
 		state.m_Color[0] = m_flMuzzleFlashBrightness;
 		state.m_Color[1] = m_flMuzzleFlashBrightness;
 		state.m_Color[2] = m_flMuzzleFlashBrightness;
@@ -523,7 +523,7 @@ bool CFlashlightEffect::UpdateDefaultFlashlightState( FlashlightState_t& state, 
 	else
 	{
 		state.m_pSpotlightTexture = m_FlashlightTexture;
-		state.m_pProjectedMaterial = NULL;
+		state.m_pProjectedMaterial = nullptr;
 	}
 
 	state.m_nSpotlightTextureFrame = 0;
@@ -539,7 +539,7 @@ void CFlashlightEffect::UpdateFlashlightTexture( const char* pTextureName )
 {
 	static const char *pEmptyString = "";
 
-	if ( pTextureName == NULL )
+	if ( pTextureName == nullptr)
 	{
 		pTextureName = pEmptyString;
 	}
@@ -729,7 +729,7 @@ void CFlashlightEffect::LightOff()
 		msg->SetFloat( "time", gpGlobals->curtime );
 		msg->SetInt( "entindex", m_nEntIndex );
 		msg->SetInt( "flashlightHandle", m_FlashlightHandle );
-		msg->SetPtr( "flashlightState", NULL );
+		msg->SetPtr( "flashlightState", nullptr);
 		ToolFramework_PostToolMessage( HTOOLHANDLE_INVALID, msg );
 		msg->deleteThis();
 	}
@@ -784,7 +784,7 @@ void CHeadlightEffect::UpdateLight( const Vector &vecPos, const Vector &vecDir, 
 	state.m_FarZ = r_flashlightfar.GetFloat();
 	state.m_bEnableShadows = true;
 	state.m_pSpotlightTexture = m_FlashlightTexture;
-	state.m_pProjectedMaterial = NULL;
+	state.m_pProjectedMaterial = nullptr;
 	state.m_nSpotlightTextureFrame = 0;
 	
 	if( GetFlashlightHandle() == CLIENTSHADOW_INVALID_HANDLE )

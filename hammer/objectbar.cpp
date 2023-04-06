@@ -93,7 +93,7 @@ static int FindSolidType( const char *pName )
 static int FindGameDataClass( const char *pName )
 {
 	extern GameData *pGD;
-	if( pGD != NULL )
+	if( pGD != nullptr)
 	{
 		int nCount = pGD->GetClassCount();
 		for (int i = 0; i < nCount; i++)
@@ -154,7 +154,7 @@ BOOL CObjectBar::GetPrefabBounds(BoundBox *pBox)
 	}
 
 	CPrefab3D *pPrefab = (CPrefab3D *)CPrefab::FindID(_iNewObjIndex);
-	if (pPrefab != NULL)
+	if (pPrefab != nullptr)
 	{
 		if (pPrefab->GetType() != pt3D)
 		{
@@ -203,7 +203,7 @@ CPrefab* CObjectBar::FindPrefabByName( const char *pName )
 			pPrefab = pLibrary->EnumPrefabs( p );
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -252,12 +252,12 @@ CMapClass *CObjectBar::CreateInBox(BoundBox *pBox, CMapView *pView)
 			str.Format("The face count for a %s must be in the range of %d to %d.",
 				SolidTypes[nSolidIndex].pszName, nFacesMin, nFacesMax);
 			AfxMessageBox(str);
-			return NULL;
+			return nullptr;
 		}
 
 		if(nSolidIndex < 5)
 		{
-			StockSolid *pStock = NULL;
+			StockSolid *pStock = nullptr;
 
 			switch(nSolidIndex)
 			{
@@ -300,7 +300,7 @@ CMapClass *CObjectBar::CreateInBox(BoundBox *pBox, CMapView *pView)
 			dlg.m_iSides = nFaces;
 			dlg.SetMaxWallWidth(min((int)sizebounds[axHorz], (int)sizebounds[axVert]));
 			if(dlg.DoModal() != IDOK)
-				return NULL;
+				return nullptr;
 
 			// save values for next use of arch
 			dlg.SaveValues();
@@ -328,7 +328,7 @@ CMapClass *CObjectBar::CreateInBox(BoundBox *pBox, CMapView *pView)
 			pBox->GetBoundsSize( sizebounds );
 			dlg.SetMaxWallWidth(min((int)sizebounds[axHorz], (int)sizebounds[axVert]));
 			if(dlg.DoModal() != IDOK)
-				return NULL;
+				return nullptr;
 
 			// save values for next use of arch
 			dlg.SaveValues();
@@ -352,13 +352,13 @@ CMapClass *CObjectBar::CreateInBox(BoundBox *pBox, CMapView *pView)
 	else
 	{
 		CPrefab *pPrefab = CPrefab::FindID(_iNewObjIndex);
-		if (pPrefab != NULL)
+		if (pPrefab != nullptr)
 		{
 			return(pPrefab->CreateInBox(pBox));
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -381,7 +381,7 @@ CMapClass *CObjectBar::BuildPrefabObjectAtPoint( Vector const &HitPos )
 	//
 	CPrefab3D *pPrefab = ( CPrefab3D* )CPrefab::FindID( _iNewObjIndex );
 	if( !pPrefab )
-		return NULL;
+		return nullptr;
 
 	//
 	// create prefab bounding box -- centered at hit pos
@@ -628,7 +628,7 @@ void CObjectBar::LoadEntityItems( void )
 
 		CUtlVector<CString> suggestions;
 		extern GameData *pGD;
-		if( pGD != NULL )
+		if( pGD != nullptr)
 		{
 			int nCount = pGD->GetClassCount();
 			for (int i = 0; i < nCount; i++)

@@ -34,7 +34,7 @@ END_MESSAGE_MAP()
 CNewVisGroupDlg::CNewVisGroupDlg(CString &str, CWnd *pParent)
 	: CDialog(CNewVisGroupDlg::IDD, pParent)
 {
-	m_pPickedVisGroup = NULL;
+	m_pPickedVisGroup = nullptr;
 
 	//{{AFX_DATA_INIT(CNewVisGroupDlg)
 	m_strName = str;
@@ -124,7 +124,7 @@ void CNewVisGroupDlg::OnCreateNewVisGroup()
 	pEdit = (CEdit *)GetDlgItem(IDC_GROUP_LIST);
 	pEdit->EnableWindow(FALSE);
 
-	m_pPickedVisGroup = NULL;
+	m_pPickedVisGroup = nullptr;
 }
 
 
@@ -147,7 +147,7 @@ void CNewVisGroupDlg::UpdateGroupList(void)
 	m_cGroupList.DeleteAllItems();
 
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		int nCount = pDoc->VisGroups_GetRootCount();
 		for (int i = 0; i < nCount; i++)

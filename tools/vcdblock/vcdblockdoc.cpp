@@ -25,8 +25,8 @@
 //-----------------------------------------------------------------------------
 CVcdBlockDoc::CVcdBlockDoc( IVcdBlockDocCallback *pCallback ) : m_pCallback( pCallback )
 {
-	m_hVMFRoot = NULL;
-	m_hEditRoot = NULL;
+	m_hVMFRoot = nullptr;
+	m_hEditRoot = nullptr;
 	m_pBSPFileName[0] = 0;
 	m_pVMFFileName[0] = 0;
 	m_pEditFileName[0] = 0;
@@ -147,10 +147,10 @@ bool CVcdBlockDoc::LoadFromFile( const char *pFileName )
 	// Set the txt file name. 
 	// If we loaded a .bsp, clear out what we're doing
 	// load the Edits file into memory, assign it as our "root"
-	CDmElement *pEdit = NULL;
+	CDmElement *pEdit = nullptr;
 	if ( !V_stricmp( Q_GetFileExtension( pFileName ), "vle" ) )
 	{
-		if ( g_pDataModel->RestoreFromFile( m_pEditFileName, NULL, "vmf", &pEdit ) != DMFILEID_INVALID )
+		if ( g_pDataModel->RestoreFromFile( m_pEditFileName, nullptr, "vmf", &pEdit ) != DMFILEID_INVALID )
 		{
 			// If we successfully read the file in, ask it for the max hammer id
 			//int nMaxHammerId = pVMF->GetAttributeValue<int>( "maxHammerId" );
@@ -160,7 +160,7 @@ bool CVcdBlockDoc::LoadFromFile( const char *pFileName )
 		}
 	}
 
-	if (pEdit == NULL)
+	if (pEdit == nullptr)
 	{
 		if ( g_pFileSystem->FileExists( m_pEditFileName ) )
 		{
@@ -195,7 +195,7 @@ void CVcdBlockDoc::SaveToFile( )
 {
 	if ( m_hEditRoot.Get() && m_pEditFileName && m_pEditFileName[0] )
 	{
-		g_pDataModel->SaveToFile( m_pEditFileName, NULL, "keyvalues", "vmf", m_hEditRoot );
+		g_pDataModel->SaveToFile( m_pEditFileName, nullptr, "keyvalues", "vmf", m_hEditRoot );
 	}
 
 	SetDirty( false );
@@ -216,7 +216,7 @@ CDmElement *CVcdBlockDoc::GetRootObject()
 //-----------------------------------------------------------------------------
 CDmAttribute *CVcdBlockDoc::GetEntityList()
 {
-	return m_hEditRoot ? m_hEditRoot->GetAttribute( "entities", AT_ELEMENT_ARRAY ) : NULL;
+	return m_hEditRoot ? m_hEditRoot->GetAttribute( "entities", AT_ELEMENT_ARRAY ) : nullptr;
 }
 
 
@@ -296,7 +296,7 @@ CDmeVMFEntity *CVcdBlockDoc::GetInfoTargetForLocation( Vector &vecOrigin, QAngle
 			return pNode;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -315,7 +315,7 @@ CDmeVMFEntity *CVcdBlockDoc::GetInfoTargetForLocation( Vector &vecStart, Vector 
 	vecDelta = vecEnd - vecStart;
 	flEndDist = VectorNormalize( vecDelta );
 
-	CDmeVMFEntity *pSelectedNode = NULL;
+	CDmeVMFEntity *pSelectedNode = nullptr;
 	float flMinDistFromLine = 1E30;
 
 	const CDmrElementArray<CDmElement> entities = GetEntityList();
@@ -430,7 +430,7 @@ static const char *s_pUseOriginalClasses[] =
 {
 	"worldspawn",
 	"func_occluder",
-	NULL
+	nullptr
 };
 
 
@@ -505,7 +505,7 @@ void CVcdBlockDoc::VerifyAllEdits( const CDmrElementArray<> &entityList )
 
 		CBaseEntity *pServerEntity = servertools->FindEntityByHammerID( pEntity->GetEntityId() );
 
-		if (pServerEntity != NULL)
+		if (pServerEntity != nullptr)
 		{
 			if (!pEntity->IsSameOnServer( pServerEntity ))
 			{
@@ -532,9 +532,9 @@ bool CVcdBlockDoc::CopyEditsToVMF( )
 {
 	const CDmrElementArray<CDmElement> entityList = GetEntityList();
 	
-	CDmElement *pVMF = NULL;
+	CDmElement *pVMF = nullptr;
 	DmFileId_t fileid = g_pDataModel->FindOrCreateFileId( m_pVMFFileName );
-	if ( g_pDataModel->RestoreFromFile( m_pVMFFileName, NULL, "vmf", &pVMF ) == DMFILEID_INVALID )
+	if ( g_pDataModel->RestoreFromFile( m_pVMFFileName, nullptr, "vmf", &pVMF ) == DMFILEID_INVALID )
 	{
 		// needs some kind of error message
 		return false;
@@ -607,7 +607,7 @@ bool CVcdBlockDoc::CopyEditsToVMF( )
 	Q_StripExtension( m_pVMFFileName, tmpname, sizeof(tmpname) );
 	Q_SetExtension( tmpname, ".vme", sizeof(tmpname) );
 
-	if (!g_pDataModel->SaveToFile( tmpname, NULL, "keyvalues", "vmf", pVMF ))
+	if (!g_pDataModel->SaveToFile( tmpname, nullptr, "keyvalues", "vmf", pVMF ))
 	{
 		// needs some kind of error message
 		return false;

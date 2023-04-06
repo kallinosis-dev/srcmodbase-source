@@ -91,7 +91,7 @@ PlayerModelInfo::PlayerModelInfo()
 
 const PlayerViewmodelArmConfig *GetPlayerViewmodelArmConfigForPlayerModel( const char* szPlayerModel )
 {
-	if ( szPlayerModel != NULL )
+	if ( szPlayerModel != nullptr)
 	{
 		for ( int i=0; i<ARRAYSIZE(s_playerViewmodelArmConfigs); i++ )
 		{
@@ -172,7 +172,7 @@ int PlayerModelInfo::GetNextClassForTeam( int team )
 
 void PlayerModelInfo::InitializeForCurrentMap( void )
 {
-	const char *mapName = ( gpGlobals ? STRING( gpGlobals->mapname ) : NULL );
+	const char *mapName = ( gpGlobals ? STRING( gpGlobals->mapname ) : nullptr);
 	if ( mapName && 
 		 V_stricmp( m_mapName, mapName ) == 0 )
 	{

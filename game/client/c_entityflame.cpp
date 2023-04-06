@@ -27,9 +27,9 @@ END_RECV_TABLE()
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-C_EntityFlame::C_EntityFlame( void ) : m_hEffect( NULL )
+C_EntityFlame::C_EntityFlame( void ) : m_hEffect(nullptr)
 {
-	m_hOldAttached = NULL;
+	m_hOldAttached = nullptr;
 	AddToEntityList( ENTITY_LIST_SIMULATE );
 }
 
@@ -49,16 +49,16 @@ void C_EntityFlame::StopEffect( void )
 	if ( m_hEffect )
 	{
 		ParticleProp()->StopEmission( m_hEffect, true );
-		m_hEffect = NULL;
+		m_hEffect = nullptr;
 	}
 
 	if ( m_hEntAttached )
 	{
 		m_hEntAttached->RemoveFlag( FL_ONFIRE );
-		m_hEntAttached->SetEffectEntity( NULL );
+		m_hEntAttached->SetEffectEntity(nullptr);
 		m_hEntAttached->StopSound( "General.BurningFlesh" );
 		m_hEntAttached->StopSound( "General.BurningObject" );
-		m_hEntAttached = NULL;
+		m_hEntAttached = nullptr;
 	}
 }
 
@@ -77,7 +77,7 @@ void C_EntityFlame::CreateEffect( void )
 	{
 		m_hOldAttached = m_hEntAttached;
 		ParticleProp()->StopEmission( m_hEffect, true );
-		m_hEffect = NULL;
+		m_hEffect = nullptr;
 	}
 
 	C_BaseEntity *pEntity = m_hEntAttached;

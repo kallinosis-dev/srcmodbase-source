@@ -110,7 +110,7 @@ bool VMPI_Init(
 	int &argc, 
 	char **&argv, 
 	const char *pDependencyFilename, 
-	VMPI_Disconnect_Handler handler = NULL, 
+	VMPI_Disconnect_Handler handler = nullptr, 
 	VMPIRunMode runMode = VMPI_RUN_NETWORKED, // Networked or local?,
 	bool bConnectingAsService = false
 	);

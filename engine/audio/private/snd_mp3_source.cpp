@@ -211,7 +211,7 @@ void CAudioSourceMP3Cache::CacheUnload( void )
 
 char *CAudioSourceMP3Cache::GetDataPointer( void )
 {
-	char *pMP3Data = NULL;
+	char *pMP3Data = nullptr;
 	bool dummy = false;
 
 	if ( m_hCache == 0 )
@@ -337,7 +337,7 @@ CAudioMixer	*CAudioSourceStreamMP3::CreateMixer(int intialStreamPosition, int in
 		// so no need to delete
 	}
 	soundError = SE_CANT_CREATE_MIXER;
-	return NULL;
+	return nullptr;
 }
 
 int	CAudioSourceStreamMP3::GetOutputData( void **pData, int64 samplePosition, int sampleCount, char copyBuf[AUDIOSOURCE_COPYBUF_SIZE] )
@@ -361,7 +361,7 @@ bool Audio_IsMP3( const char *pName )
 
 CAudioSource *Audio_CreateStreamedMP3( CSfxTable *pSfx )
 {
-	CAudioSourceStreamMP3 *pMP3 = NULL; 	
+	CAudioSourceStreamMP3 *pMP3 = nullptr; 	
 	CAudioSourceCachedInfo *info = audiosourcecache->GetInfo( CAudioSource::AUDIO_SOURCE_MP3, pSfx->IsPrecachedSound(), pSfx );
 	if ( info && info->DataSize() != 0 )
 	{
@@ -377,7 +377,7 @@ CAudioSource *Audio_CreateStreamedMP3( CSfxTable *pSfx )
 
 CAudioSource *Audio_CreateMemoryMP3( CSfxTable *pSfx )
 {
-	CAudioSourceMP3Cache *pMP3 = NULL;
+	CAudioSourceMP3Cache *pMP3 = nullptr;
 	CAudioSourceCachedInfo *info = audiosourcecache->GetInfo( CAudioSource::AUDIO_SOURCE_MP3, pSfx->IsPrecachedSound(), pSfx );
 	if ( info )
 	{

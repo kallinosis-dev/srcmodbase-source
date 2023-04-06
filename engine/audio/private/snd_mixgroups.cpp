@@ -650,7 +650,7 @@ void MXR_SetSoloActive(void)
 
 ClientClass *GetClientClass( SoundSource soundsource )
 {
-	IClientEntity *pClientEntity = NULL;
+	IClientEntity *pClientEntity = nullptr;
 	if ( entitylist )
 	{
 		pClientEntity = entitylist->GetClientEntity( soundsource );
@@ -662,13 +662,13 @@ ClientClass *GetClientClass( SoundSource soundsource )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // get the client class name if an entity was specified
 const char *GetClientClassname( SoundSource soundsource )
 {
-	IClientEntity *pClientEntity = NULL;
+	IClientEntity *pClientEntity = nullptr;
 	if ( entitylist )
 	{
 		pClientEntity = entitylist->GetClientEntity( soundsource );
@@ -683,7 +683,7 @@ const char *GetClientClassname( SoundSource soundsource )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // builds a cached list of rules that match the directory name on the sound
@@ -1520,7 +1520,7 @@ soundmixer_t *MXR_GetCurrentMixer( )
 	// if no soundmixer currently set, return 1.0 volume
 	if (g_isoundmixer < 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 	if (g_csoundmixers)
 	{
@@ -1531,7 +1531,7 @@ soundmixer_t *MXR_GetCurrentMixer( )
 			return pmixer;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 void MXR_GetValuesFromMixGroupIndex( mixervalues_t *mixValues, int imixgroup )
 {
@@ -1653,7 +1653,7 @@ char *MXR_GetGroupnameFromId( int mixgroupid)
 {
 	// scan group rules for mapping from name to id
 	if (mixgroupid < 0)
-		return NULL;
+		return nullptr;
 
 	for (int i = 0; i < g_cgrouprules; i++)
 	{
@@ -1661,7 +1661,7 @@ char *MXR_GetGroupnameFromId( int mixgroupid)
 			return g_grouprules[i].szmixgroup;
 	}	
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2183,7 +2183,7 @@ bool MXR_LoadAllSoundMixers( void )
 
 	Q_snprintf( szFile, sizeof( szFile ), "scripts/soundmixers.txt" );
 
-	pbuffer = (char *)COM_LoadFile( szFile, 5, NULL ); // Use malloc - free at end of this routine
+	pbuffer = (char *)COM_LoadFile( szFile, 5, nullptr); // Use malloc - free at end of this routine
 	if ( !pbuffer )
 	{
 		Error( "MXR_LoadAllSoundMixers: unable to open '%s'\n", szFile );
@@ -2499,7 +2499,7 @@ void S_GetMixGroupOfCurrentMixer( const char *szgroupname, soundmixer_t *pmixer)
 
 static void MXR_GetSoundMixer( const CCommand &args )
 {
-	soundmixer_t *pmixer = NULL;
+	soundmixer_t *pmixer = nullptr;
 
 	if ( args.ArgC() == 2)
 	{

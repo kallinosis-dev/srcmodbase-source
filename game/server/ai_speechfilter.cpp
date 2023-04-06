@@ -92,7 +92,7 @@ void CAI_SpeechFilter::InputSetIdleModifier( inputdata_t &inputdata )
 void CAI_SpeechFilter::PopulateSubjectList( bool purge )
 {
 	// Populate the subject list. Try targetname first.
-	CBaseEntity *pSearch = NULL;
+	CBaseEntity *pSearch = nullptr;
 	int iNumSubjects = 0;
 	do
 	{

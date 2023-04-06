@@ -130,9 +130,9 @@ CRopeKeyframe::CRopeKeyframe()
 CRopeKeyframe::~CRopeKeyframe()
 {
 	// Release transmit state ownership.
-	SetStartPoint( NULL, 0 );
-	SetEndPoint( NULL, 0 );
-	SetParent( NULL, 0 );
+	SetStartPoint(nullptr, 0 );
+	SetEndPoint(nullptr, 0 );
+	SetParent(nullptr, 0 );
 }
 
 
@@ -217,7 +217,7 @@ CRopeKeyframe* CRopeKeyframe::Create(
 {
 	CRopeKeyframe *pRet = (CRopeKeyframe*)CreateEntityByName( pClassName );
 	if( !pRet )
-		return NULL;
+		return nullptr;
 
 	pRet->SetStartPoint( pStartEnt, iStartAttachment );
 	pRet->SetEndPoint( pEndEnt, iEndAttachment );
@@ -248,10 +248,10 @@ CRopeKeyframe* CRopeKeyframe::CreateWithSecondPointDetached(
 {
 	CRopeKeyframe *pRet = (CRopeKeyframe*)CreateEntityByName( pClassName );
 	if( !pRet )
-		return NULL;
+		return nullptr;
 
 	pRet->SetStartPoint( pStartEnt, iStartAttachment );
-	pRet->SetEndPoint( NULL, 0 );
+	pRet->SetEndPoint(nullptr, 0 );
 	pRet->m_bCreatedFromMapFile = false;
 	pRet->m_fLockedPoints.Set( ROPE_LOCK_START_POINT ); // Only attach the first point.
 
@@ -345,8 +345,8 @@ void CRopeKeyframe::Init()
 
 	UpdateBBox( true );
 
-	m_bStartPointValid = (m_hStartPoint.Get() != NULL);
-	m_bEndPointValid = (m_hEndPoint.Get() != NULL);
+	m_bStartPointValid = (m_hStartPoint.Get() != nullptr);
+	m_bEndPointValid = (m_hEndPoint.Get() != nullptr);
 
 	// Sanity-check the rope texture scale before it goes over the wire
 	if ( m_TextureScale < 0.1f )
@@ -387,7 +387,7 @@ void CRopeKeyframe::Activate()
 	}
 
 	// Find the next entity in our chain.
-	CBaseEntity *pEnt = gEntList.FindEntityByName( NULL, m_iNextLinkName );
+	CBaseEntity *pEnt = gEntList.FindEntityByName(nullptr, m_iNextLinkName );
 	if( pEnt && pEnt->edict() )
 	{
 		SetEndPoint( pEnt );
@@ -608,7 +608,7 @@ bool CRopeKeyframe::Break( void )
 
 	// Find whoever references us and detach us from them.
 	// UNDONE: PERFORMANCE: This is very slow!!!
-	CRopeKeyframe *pTest = NULL;
+	CRopeKeyframe *pTest = nullptr;
 	pTest = gEntList.NextEntByClass( pTest );
 	while ( pTest )
 	{
@@ -647,7 +647,7 @@ void CRopeKeyframe::NotifyPositionChanged( CBaseEntity *pEntity )
 	bool *pValid[2] = { &m_bStartPointValid, &m_bEndPointValid };
 	for ( int i=0; i < 2; i++ )
 	{
-		bool bCurrentlyValid = ( ents[i] != NULL );
+		bool bCurrentlyValid = ( ents[i] != nullptr);
 		if ( *pValid[i] != bCurrentlyValid )
 		{
 			*pValid[i] = bCurrentlyValid;

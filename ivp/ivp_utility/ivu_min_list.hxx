@@ -96,7 +96,7 @@ public:
 	    e = min_list->elems[loop_elem].element;
 	    loop_elem = min_list->elems[loop_elem].next;
 	}else{
-	    e = NULL;
+	    e = nullptr;
 	}
 	return e;
     }
@@ -107,7 +107,7 @@ public:
 	    el = &min_list->elems[loop_elem];
 	    loop_elem = el->next;
 	}else{
-	    el = (IVP_U_Min_List_Element *)NULL;
+	    el = (IVP_U_Min_List_Element *)nullptr;
 	}
 	return el;
     }
@@ -117,11 +117,11 @@ public:
 	void *e;
 	if (loop_elem != IVP_U_MINLIST_UNUSED) {
 	    IVP_U_Min_List_Element *el = &min_list->elems[loop_elem]; 
-	    if (el->value >= max_limit) return NULL;
+	    if (el->value >= max_limit) return nullptr;
 	    loop_elem = min_list->elems[loop_elem].next;
 	    e = el->element;
 	}else{
-	    e = NULL;
+	    e = nullptr;
 	}
 	return e;
     }

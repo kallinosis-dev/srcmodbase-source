@@ -47,7 +47,7 @@ extern bool g_bSetThreadPriorities;
 // NOTE VMPI_DISTRIBUTE_WORK_EXTRA_SUBPACKET_BASE is where the IWorkUnitDistributorX classes start their subpackets.
 
 
-IWorkUnitDistributorCallbacks *g_pDistributeWorkCallbacks = NULL;
+IWorkUnitDistributorCallbacks *g_pDistributeWorkCallbacks = nullptr;
 
 
 static CDSInfo g_DSInfo;
@@ -56,7 +56,7 @@ static int g_iMasterFinishedDistributeWorkCall = -1;		// The worker stores this 
 static int g_iMasterReadyForDistributeWorkCall = -1;
 
 // This is only valid if we're a worker and if the worker currently has threads chewing on work units.
-static CDSInfo *g_pCurWorkerThreadsInfo = NULL;
+static CDSInfo *g_pCurWorkerThreadsInfo = nullptr;
 
 static CUtlVector<uint64> g_wuCountByProcess;
 static uint64 g_totalWUCountByProcess[512];
@@ -72,8 +72,8 @@ bool g_bVMPIEarlyExit = false;
 
 static bool g_bMasterDistributingWork = false;
 
-static IWorkUnitDistributorWorker *g_pCurDistributorWorker = NULL;
-static IWorkUnitDistributorMaster *g_pCurDistributorMaster = NULL;
+static IWorkUnitDistributorWorker *g_pCurDistributorWorker = nullptr;
+static IWorkUnitDistributorMaster *g_pCurDistributorMaster = nullptr;
 
 // For the stats database.
 WUIndexType g_ThreadWUs[4] = { ~0ull, ~0ull, ~0ull, ~0ull };
@@ -384,7 +384,7 @@ void CheckLocalMasterCompletedWorkUnits()
 	
 	for ( int i=0; i < pList->m_CompletedWUs.Count(); i++ )
 	{
-		HandleWorkUnitCompleted( &g_DSInfo, 0, pList->m_CompletedWUs[i], NULL );
+		HandleWorkUnitCompleted( &g_DSInfo, 0, pList->m_CompletedWUs[i], nullptr);
 	}
 	pList->m_CompletedWUs.RemoveAll();	
 		
@@ -521,7 +521,7 @@ void DistributeWork_Worker( CDSInfo *pInfo, ProcessWorkUnitFn processFn )
 	
 
 	// Close the threads.
-	g_pCurWorkerThreadsInfo = NULL;
+	g_pCurWorkerThreadsInfo = nullptr;
 	RunThreads_End();
 
 	if ( g_iVMPIVerboseLevel >= 1 )
@@ -598,7 +598,7 @@ double DistributeWork(
 		DistributeWork_Master( pInfo, processFn, receiveFn );
 		
 		g_pCurDistributorMaster->Release();
-		g_pCurDistributorMaster = NULL;
+		g_pCurDistributorMaster = nullptr;
 	}
 	else 
 	{
@@ -608,7 +608,7 @@ double DistributeWork(
 		DistributeWork_Worker( pInfo, processFn );
 		
 		g_pCurDistributorWorker->Release();
-		g_pCurDistributorWorker = NULL;
+		g_pCurDistributorWorker = nullptr;
 	}
 
 	double flTimeSpent = Plat_FloatTime() - flMPIStartTime;

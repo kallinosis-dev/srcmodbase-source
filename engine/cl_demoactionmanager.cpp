@@ -395,7 +395,7 @@ CBaseDemoAction *CDemoActionManager::GetAction( int index )
 {
 	int count = m_ActionStack.Count();
 	if ( index < 0 || index >= count )
-		return NULL;
+		return nullptr;
 
 	return m_ActionStack[ index ];
 }

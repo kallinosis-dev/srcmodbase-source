@@ -61,7 +61,7 @@ inline CHelperInfo::~CHelperInfo(void)
 	{
 		char *pszParam = m_Parameters.Element(i);
 		Assert(pszParam != NULL);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			delete [] pszParam;
 		}
@@ -78,14 +78,14 @@ inline CHelperInfo::~CHelperInfo(void)
 //-----------------------------------------------------------------------------
 inline bool CHelperInfo::AddParameter(const char *pszParameter)
 {
-	if ((pszParameter != NULL) && (pszParameter[0] != '\0'))
+	if ((pszParameter != nullptr) && (pszParameter[0] != '\0'))
 	{
 		int nLen = strlen(pszParameter);
 		
 		if (nLen > 0)
 		{
 			char *pszNew = new char [nLen + 1];
-			if (pszNew != NULL)
+			if (pszNew != nullptr)
 			{
 				strcpy(pszNew, pszParameter);
 				m_Parameters.AddToTail(pszNew);
@@ -103,7 +103,7 @@ inline bool CHelperInfo::AddParameter(const char *pszParameter)
 inline const char *CHelperInfo::GetParameter(int nIndex) const
 {
 	if (nIndex >= m_Parameters.Count())
-		return NULL;
+		return nullptr;
 	
 	return m_Parameters.Element(nIndex); 
 }
@@ -115,7 +115,7 @@ inline const char *CHelperInfo::GetParameter(int nIndex) const
 //-----------------------------------------------------------------------------
 inline void CHelperInfo::SetName(const char *pszName)
 {
-	if (pszName != NULL)
+	if (pszName != nullptr)
 	{	
 		strcpy(m_szName, pszName);
 	}

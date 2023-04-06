@@ -501,7 +501,7 @@ public:
 	// Computes light due to dynamic lighting at a point
 	// If the normal isn't specified, then it'll return the maximum lighting
 	// If pBoxColors is specified (it's an array of 6), then it'll copy the light contribution at each box side.
-	virtual void		ComputeLighting( const Vector& pt, const Vector* pNormal, bool bClamp, Vector& color, Vector *pBoxColors=NULL ) = 0;
+	virtual void		ComputeLighting( const Vector& pt, const Vector* pNormal, bool bClamp, Vector& color, Vector *pBoxColors= nullptr) = 0;
 
 	// Activates/deactivates an occluder...
 	virtual void		ActivateOccluder( int nOccluderIndex, bool bActive ) = 0;

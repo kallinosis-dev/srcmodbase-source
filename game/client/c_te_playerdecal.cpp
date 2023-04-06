@@ -97,7 +97,7 @@ void CreateDecalData( int nKey, ITexture* pTex, int nRarity, int nTintID, float 
 		// Release the old texture
 		Assert( ddata.m_pTex );
 		ddata.m_pTex->DecrementReferenceCount();
-		ddata.m_pTex = NULL;
+		ddata.m_pTex = nullptr;
 
 		// Overwrite the data for the new item.
 		ddata.m_pTex = pTex;
@@ -291,7 +291,7 @@ void TE_PlayerDecal( IRecipientFilter& filter, float delay,
 		// Only decal the world + brush models
 		// Here we deal with decals on entities.
 		C_BaseEntity* ent;
-		if ( ( ent = cl_entitylist->GetEnt( entity ) ) == NULL )
+		if ( ( ent = cl_entitylist->GetEnt( entity ) ) == nullptr)
 			return;
 
 		ent->AddDecal( *start, *pos, *pos, hitbox,
@@ -343,7 +343,7 @@ DEVELOPMENT_ONLY_CONVAR( cl_playerspray_debug_pulse_force, 0 );
 
 // Checks if the local player has an equipped spray and is aiming in a sprayable area with the rosetta menu up and if cooldown is ready
 // Note: rosetta menu code is using this check to determine if we're passing all the validity checks to spray. 
-bool Helper_CanShowPreviewDecal( CEconItemView **ppOutEconItemView = NULL, trace_t* pOutSprayTrace = NULL, Vector *pOutVecPlayerRight = NULL, uint32* pOutUnStickerKitID = NULL )
+bool Helper_CanShowPreviewDecal( CEconItemView **ppOutEconItemView = nullptr, trace_t* pOutSprayTrace = nullptr, Vector *pOutVecPlayerRight = nullptr, uint32* pOutUnStickerKitID = nullptr)
 {
 	if ( !Helper_CanUseSprays() )
 		return false;
@@ -366,7 +366,7 @@ bool Helper_CanShowPreviewDecal( CEconItemView **ppOutEconItemView = NULL, trace
 
 	Vector playerRight;
 	trace_t sprayTrace;
-	if ( pLocalPlayer->IsAbleToApplySpray( &sprayTrace, NULL, &playerRight ) )
+	if ( pLocalPlayer->IsAbleToApplySpray( &sprayTrace, nullptr, &playerRight ) )
 		return false;
 
 	if ( pOutSprayTrace )
@@ -536,7 +536,7 @@ void QcCreatePreviewDecal( uint32 nStickerKitDefinition, uint32 nTintID, const t
 
 IMaterial * QcCreateDecalDataForModelPreviewPanel( int nStickerKitDefinition, int nTintID )
 {
-	IMaterial *pMatStickerOverride = NULL;
+	IMaterial *pMatStickerOverride = nullptr;
 
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	ICallQueue* pCQ = pRenderContext->GetCallQueue();
@@ -564,7 +564,7 @@ IMaterial * QcCreateDecalDataForModelPreviewPanel( int nStickerKitDefinition, in
 	}
 
 	if ( !pMatStickerOverride || pMatStickerOverride->IsErrorMaterial() )
-		return NULL;
+		return nullptr;
 
 	QcCreateDecalData( g_nPlayerLogoProxyForPreviewKey, nStickerKitDefinition, nTintID, true, gpGlobals->curtime - PLAYERDECALS_DURATION_APPLY );
 
@@ -667,11 +667,11 @@ CPlayerLogoProxy::CPlayerLogoProxy()
 {
 	m_bInspectInModelPreviewWindow = false;
 	m_bVertexLitMaterial = false;
-	m_pAlphaVar = NULL;
-	m_pColorVar = NULL;
-	m_pDetailBlendFactorVar = NULL;
-	m_pBaseTextureVar = NULL;
-	m_pDefaultTexture = NULL;
+	m_pAlphaVar = nullptr;
+	m_pColorVar = nullptr;
+	m_pDetailBlendFactorVar = nullptr;
+	m_pBaseTextureVar = nullptr;
+	m_pDefaultTexture = nullptr;
 }
 
 bool CPlayerLogoProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValues )

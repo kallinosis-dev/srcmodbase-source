@@ -27,7 +27,7 @@ void* VStdAllocator::Alloc(unsigned long size)
 		return ret;
 	}
 	else
-		return 0;
+		return nullptr;
 }
 
 void VStdAllocator::Free(void *ptr)

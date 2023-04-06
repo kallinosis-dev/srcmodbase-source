@@ -46,7 +46,7 @@ public:
     {
 	IVP_Compact_Ledge *ret;
 	ret = c_ledge;
-	c_ledge = 0;
+	c_ledge = nullptr;
 	return ret;
     };
     ///////// real public

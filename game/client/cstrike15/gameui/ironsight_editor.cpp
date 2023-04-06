@@ -37,7 +37,7 @@
 
 #ifdef IRONSIGHT
 
-CIronSightDialog *g_pIronSightDialog = NULL;
+CIronSightDialog *g_pIronSightDialog = nullptr;
 
 using namespace vgui;
 
@@ -268,7 +268,7 @@ void CIronSightDialog::OnMessage( const KeyValues *pParams, vgui::VPANEL fromPan
 
 CON_COMMAND_F( ironsight_editor, "Edit ironsights.", FCVAR_DONTRECORD | FCVAR_DEVELOPMENTONLY )
 {
-	g_pIronSightDialog = new CIronSightDialog(NULL);
+	g_pIronSightDialog = new CIronSightDialog(nullptr);
 
 	vgui::VPANEL parentPanel = enginevgui->GetPanel( PANEL_INGAMESCREENS );
 	g_pIronSightDialog->SetParent( parentPanel );

@@ -198,7 +198,7 @@ bool IsStandardPhoneme( int index )
 const char *DescForPhonemeByIndex( int index )
 {
 	if ( index < 0 || index >= NumPhonemes() )
-		return NULL;
+		return nullptr;
 	return g_Phonemes[ index ].desc;
 }
 

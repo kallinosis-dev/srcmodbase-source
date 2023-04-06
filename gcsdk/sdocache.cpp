@@ -473,7 +473,7 @@ bool CSDOCache::BFrameFuncRunMemcachedQueriesUntilCompleted( CLimitTimer &limitT
 				m_vecMemcachedJobs.AddToTail( pJob->GetJobID() );
 
 				// start the job
-				pJob->StartJob( NULL );
+				pJob->StartJob(nullptr);
 
 				// mark that we should be ran again
 				bDoneWork = true;
@@ -534,7 +534,7 @@ bool CSDOCache::BFrameFuncRunSQLQueriesUntilCompleted( CLimitTimer &limitTimer )
 					sqlRequestManager->m_vecSQLJobs.AddToTail( pJob->GetJobID() );
 
 					// start the job
-					pJob->StartJob( NULL );
+					pJob->StartJob(nullptr);
 					bDoneWork = true;
 				}
 				else

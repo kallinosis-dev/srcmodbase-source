@@ -47,8 +47,8 @@ class CTexture : public IEditorTexture
 
 		int GetKeywords(char *pszKeywords) const;
 		
-		int GetImageDataRGB( void *pData = NULL );
-		int GetImageDataRGBA( void *pData = NULL );
+		int GetImageDataRGB( void *pData = nullptr);
+		int GetImageDataRGBA( void *pData = nullptr);
 
 		inline int GetPreviewImageWidth( void ) const
 		{
@@ -77,7 +77,7 @@ class CTexture : public IEditorTexture
 		
 		inline CPalette *GetPalette( void ) const
 		{
-			return( NULL );
+			return(nullptr);
 		}
 
 		inline int GetSurfaceAttributes( void ) const
@@ -112,7 +112,7 @@ class CTexture : public IEditorTexture
 
 		inline bool HasData( void ) const
 		{
-			return( m_pImageData != NULL );
+			return( m_pImageData != nullptr);
 		}
 
 		inline bool HasPalette( void ) const
@@ -122,7 +122,7 @@ class CTexture : public IEditorTexture
 
 		inline bool IsDummy( void ) const
 		{
-			return(( m_nWidth == 0) || ( m_nHeight == 0) || ( m_pImageData == NULL ));
+			return(( m_nWidth == 0) || ( m_nHeight == 0) || ( m_pImageData == nullptr));
 		}
 
 		bool Load( void );

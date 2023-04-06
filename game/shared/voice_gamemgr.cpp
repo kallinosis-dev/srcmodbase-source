@@ -62,7 +62,7 @@ static CBasePlayer* FindPlayerByName(const char *pTestName)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static void VoiceServerDebug( const char *pFmt, ... )

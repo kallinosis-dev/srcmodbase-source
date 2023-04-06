@@ -417,7 +417,7 @@ public:
 	// New version
 	// Locks/unlocks the mesh, providing space for nVertexCount and nIndexCount.
 	// nIndexCount of -1 means don't lock the index buffer...
-	virtual void LockMesh( int nVertexCount, int nIndexCount, MeshDesc_t &desc, MeshBuffersAllocationSettings_t *pSettings = 0 ) = 0;
+	virtual void LockMesh( int nVertexCount, int nIndexCount, MeshDesc_t &desc, MeshBuffersAllocationSettings_t *pSettings = nullptr ) = 0;
 	virtual void ModifyBegin( int nFirstVertex, int nVertexCount, int nFirstIndex, int nIndexCount, MeshDesc_t& desc ) = 0;
 	virtual void ModifyEnd( MeshDesc_t& desc ) = 0;
 	virtual void UnlockMesh( int nVertexCount, int nIndexCount, MeshDesc_t &desc ) = 0;
@@ -711,7 +711,7 @@ private:
 //-----------------------------------------------------------------------------
 inline CVertexBuilder::CVertexBuilder()
 {
-	m_pVertexBuffer = NULL;
+	m_pVertexBuffer = nullptr;
 	m_nBufferOffset = INVALID_BUFFER_OFFSET;
 	m_nBufferFirstVertex = 0;
 	m_nVertexCount = 0;
@@ -721,9 +721,9 @@ inline CVertexBuilder::CVertexBuilder()
 	m_CompressionType = VERTEX_COMPRESSION_INVALID;
 
 #ifdef _DEBUG
-	m_pCurrPosition = NULL;
-	m_pCurrNormal = NULL;
-	m_pCurrColor = NULL;
+	m_pCurrPosition = nullptr;
+	m_pCurrNormal = nullptr;
+	m_pCurrColor = nullptr;
 	memset( m_pCurrTexCoord, 0, sizeof( m_pCurrTexCoord ) );
 	m_bModify = false;
 #endif
@@ -750,9 +750,9 @@ inline CVertexBuilder::CVertexBuilder( IVertexBuffer *pVertexBuffer, VertexForma
 	}
 
 #ifdef _DEBUG
-	m_pCurrPosition = NULL;
-	m_pCurrNormal = NULL;
-	m_pCurrColor = NULL;
+	m_pCurrPosition = nullptr;
+	m_pCurrNormal = nullptr;
+	m_pCurrColor = nullptr;
 	memset( m_pCurrTexCoord, 0, sizeof( m_pCurrTexCoord ) );
 	m_bModify = false;
 #endif
@@ -817,9 +817,9 @@ inline void CVertexBuilder::Unlock()
 
 #ifdef _DEBUG
 	// Null out our data...
-	m_pCurrPosition = NULL;
-	m_pCurrNormal = NULL;
-	m_pCurrColor = NULL;
+	m_pCurrPosition = nullptr;
+	m_pCurrNormal = nullptr;
+	m_pCurrColor = nullptr;
 	memset( m_pCurrTexCoord, 0, sizeof( m_pCurrTexCoord ) );
 	memset( static_cast<VertexDesc_t*>( this ), 0, sizeof(VertexDesc_t) );
 #endif
@@ -843,7 +843,7 @@ inline void CVertexBuilder::Bind( IMatRenderContext *pContext, int nStreamID, Ve
 	}
 	else
 	{
-		pContext->BindVertexBuffer( nStreamID, NULL, 0, 0, 0, 0 );
+		pContext->BindVertexBuffer( nStreamID, nullptr, 0, 0, 0, 0 );
 	}
 }
 
@@ -930,16 +930,16 @@ inline void CVertexBuilder::End( bool bSpewData )
 	// Unlock our buffers
 	m_pVertexBuffer->Unlock( m_nVertexCount, *this );
 
-	m_pVertexBuffer = 0;
+	m_pVertexBuffer = nullptr;
 	m_nMaxVertexCount = 0;
 
 	m_CompressionType = VERTEX_COMPRESSION_INVALID;
 
 #ifdef _DEBUG
 	// Null out our pointers...
-	m_pCurrPosition = NULL;
-	m_pCurrNormal = NULL;
-	m_pCurrColor = NULL;
+	m_pCurrPosition = nullptr;
+	m_pCurrNormal = nullptr;
+	m_pCurrColor = nullptr;
 	memset( m_pCurrTexCoord, 0, sizeof( m_pCurrTexCoord ) );
 	memset( static_cast< VertexDesc_t* >( this ), 0, sizeof(VertexDesc_t) );
 #endif
@@ -975,15 +975,15 @@ inline void CVertexBuilder::AttachEnd()
 	Assert( !m_bModify );
 
 	m_nMaxVertexCount = 0;
-	m_pVertexBuffer = NULL;
+	m_pVertexBuffer = nullptr;
 
 	m_CompressionType = VERTEX_COMPRESSION_INVALID;
 
 #ifdef _DEBUG
 	// Null out our pointers...
-	m_pCurrPosition = NULL;
-	m_pCurrNormal = NULL;
-	m_pCurrColor = NULL;
+	m_pCurrPosition = nullptr;
+	m_pCurrNormal = nullptr;
+	m_pCurrColor = nullptr;
 	memset( m_pCurrTexCoord, 0, sizeof( m_pCurrTexCoord ) );
 	memset( static_cast<VertexDesc_t*>( this ), 0, sizeof(VertexDesc_t) );
 #endif
@@ -1008,16 +1008,16 @@ inline void CVertexBuilder::AttachEndModify()
 	Assert( m_pVertexBuffer );
 	Assert( m_bModify );	// Make sure they called BeginModify.
 
-	m_pVertexBuffer = 0;
+	m_pVertexBuffer = nullptr;
 	m_nMaxVertexCount = 0;
 
 	m_CompressionType = VERTEX_COMPRESSION_INVALID;
 
 #ifdef _DEBUG
 	// Null out our pointers...
-	m_pCurrPosition = NULL;
-	m_pCurrNormal = NULL;
-	m_pCurrColor = NULL;
+	m_pCurrPosition = nullptr;
+	m_pCurrNormal = nullptr;
+	m_pCurrColor = nullptr;
 	memset( m_pCurrTexCoord, 0, sizeof( m_pCurrTexCoord ) );
 	memset( static_cast<VertexDesc_t*>( this ), 0, sizeof(VertexDesc_t) );
 #endif
@@ -2637,7 +2637,7 @@ private:
 //-----------------------------------------------------------------------------
 // Constructor
 //-----------------------------------------------------------------------------
-inline CIndexBuilder::CIndexBuilder() : m_pIndexBuffer(0), m_nIndexCount(0), 
+inline CIndexBuilder::CIndexBuilder() : m_pIndexBuffer(nullptr), m_nIndexCount(0), 
 	m_nCurrentIndex(0),	m_nMaxIndexCount(0)
 {
 	m_nTotalIndexCount = 0;
@@ -2748,7 +2748,7 @@ inline void CIndexBuilder::Bind( IMatRenderContext *pContext )
 	}
 	else
 	{
-		pContext->BindIndexBuffer( NULL, 0 );
+		pContext->BindIndexBuffer(nullptr, 0 );
 	}
 }
 
@@ -2801,7 +2801,7 @@ inline void CIndexBuilder::End( bool bSpewData )
 	// Unlock our buffers
 	m_pIndexBuffer->Unlock( m_nIndexCount, *this );
 
-	m_pIndexBuffer = 0;
+	m_pIndexBuffer = nullptr;
 	m_nMaxIndexCount = 0;
 
 #ifdef _DEBUG
@@ -2842,7 +2842,7 @@ inline void CIndexBuilder::EndModify( bool bSpewData )
 	// Unlock our buffers
 	m_pIndexBuffer->ModifyEnd( *this );
 
-	m_pIndexBuffer = 0;
+	m_pIndexBuffer = nullptr;
 	m_nMaxIndexCount = 0;
 
 #ifdef _DEBUG
@@ -2877,7 +2877,7 @@ inline void CIndexBuilder::AttachEnd()
 	Assert( m_pIndexBuffer );
 	Assert( !m_bModify );	// Make sure they called AttachBegin.
 
-	m_pIndexBuffer = 0;
+	m_pIndexBuffer = nullptr;
 	m_nMaxIndexCount = 0;
 
 #ifdef _DEBUG
@@ -2907,7 +2907,7 @@ inline void CIndexBuilder::AttachEndModify()
 	Assert( m_pIndexBuffer );
 	Assert( m_bModify );	// Make sure they called AttachBeginModify.
 
-	m_pIndexBuffer = 0;
+	m_pIndexBuffer = nullptr;
 	m_nMaxIndexCount = 0;
 
 #ifdef _DEBUG
@@ -3257,7 +3257,7 @@ public:
 	// Locks the vertex buffer, can specify arbitrary index lists
 	// (must use the Index() call below)
 	void Begin( IMesh *pMesh, MaterialPrimitiveType_t type, int nVertexCount, int nIndexCount, int *nFirstVertex );
-	void Begin( IMesh *pMesh, MaterialPrimitiveType_t type, int nVertexCount, int nIndexCount, MeshBuffersAllocationSettings_t *pSettings = 0 );
+	void Begin( IMesh *pMesh, MaterialPrimitiveType_t type, int nVertexCount, int nIndexCount, MeshBuffersAllocationSettings_t *pSettings = nullptr );
 
 	// forward compat
 	void Begin( IVertexBuffer *pVertexBuffer, MaterialPrimitiveType_t type, int numPrimitives );
@@ -3469,7 +3469,7 @@ public:
 	FORCEINLINE void *GetVertexDataPtr( int nWhatSizeIThinkItIs )
 	{
 		if ( m_VertexBuilder.m_VertexSize_Position != nWhatSizeIThinkItIs )
-			return NULL;
+			return nullptr;
 		return m_VertexBuilder.m_pCurrPosition;
 	}
 
@@ -3518,7 +3518,7 @@ inline void CMeshBuilder::Begin( IVertexBuffer* pVertexBuffer, IIndexBuffer *pIn
 //-----------------------------------------------------------------------------
 // Constructor
 //-----------------------------------------------------------------------------
-inline CMeshBuilder::CMeshBuilder()	: m_pMesh(0), m_bGenerateIndices(false)
+inline CMeshBuilder::CMeshBuilder()	: m_pMesh(nullptr), m_bGenerateIndices(false)
 {
 	VertexDesc_t::m_nOffset = 0;
 	VertexDesc_t::m_CompressionType = VERTEX_COMPRESSION_NONE;
@@ -3736,7 +3736,7 @@ inline void CMeshBuilder::End( bool bSpewData, bool bDraw )
 		m_pMesh->Draw();
 	}
 
-	m_pMesh = 0;
+	m_pMesh = nullptr;
 
 #ifdef _DEBUG
 	memset( (MeshDesc_t*)this, 0, sizeof(MeshDesc_t) );
@@ -3783,7 +3783,7 @@ inline void CMeshBuilder::EndModify( bool bSpewData )
 
 	// Unlocks mesh
 	m_pMesh->ModifyEnd( *this );
-	m_pMesh = 0;
+	m_pMesh = nullptr;
 
 	m_IndexBuilder.AttachEndModify();
 	m_VertexBuilder.AttachEndModify();

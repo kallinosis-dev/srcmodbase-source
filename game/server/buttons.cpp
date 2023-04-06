@@ -324,7 +324,7 @@ int CBaseButton::OnTakeDamage( const CTakeDamageInfo &info )
 	m_hActivator = info.GetAttacker();
 
 	// dvsents2: why would activator be NULL here?
-	if ( m_hActivator == NULL )
+	if ( m_hActivator == nullptr)
 		return 0;
 
 	if (m_bLocked)
@@ -1496,7 +1496,7 @@ void CMomentaryRotButton::ReturnMoveDone( void )
 		SetLocalAngularVelocity( vec3_angle );
 		SetLocalAngles( m_start );
 
-		UpdateTarget( 0, NULL );
+		UpdateTarget( 0, nullptr);
 
 		SetMoveDoneTime( -1 );
 		SetMoveDone( NULL );
@@ -1521,7 +1521,7 @@ void CMomentaryRotButton::ReturnMoveDone( void )
 void CMomentaryRotButton::UpdateThink( void )
 {
 	float value = GetPos( GetLocalAngles() );
-	UpdateTarget( value, NULL );
+	UpdateTarget( value, nullptr);
 	SetNextThink( gpGlobals->curtime );
 }
 

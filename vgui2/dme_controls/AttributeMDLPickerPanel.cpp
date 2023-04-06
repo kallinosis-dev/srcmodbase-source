@@ -52,7 +52,7 @@ void CAttributeMDLPickerPanel::ShowPickerDialog()
 //-----------------------------------------------------------------------------
 void CAttributeMDLPickerPanel::OnMDLSelected( KeyValues *pKeyValues )
 {
-	const char *pMDLName = pKeyValues->GetString( "asset", NULL );
+	const char *pMDLName = pKeyValues->GetString( "asset", nullptr);
 	if ( !pMDLName || !pMDLName[ 0 ] )
 		return;
 

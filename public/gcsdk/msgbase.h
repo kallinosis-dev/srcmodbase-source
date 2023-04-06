@@ -192,8 +192,8 @@ public:
 		Assert( pcubPkt );
 		*pcubPkt = m_cubPkt;
 		uint8 * pRetVal = m_pubPkt;
-		m_pubPkt = NULL;
-		m_pubBody = NULL;
+		m_pubPkt = nullptr;
+		m_pubBody = nullptr;
 		m_cubPkt = 0;
 		return pRetVal;
 	}
@@ -253,7 +253,7 @@ CMsgBase_t<MSG_HEADER_TYPE>::CMsgBase_t( uint32 cubStruct, uint32 cubReserve )
 	m_pubBody = m_pubPkt + m_cubMsgHdr;
 	memset(m_pubPkt, 0, m_cubPkt );
 	m_bAlloced = true;
-	m_pubVarRead = NULL;
+	m_pubVarRead = nullptr;
 }
 
 
@@ -269,7 +269,7 @@ CMsgBase_t<MSG_HEADER_TYPE>::CMsgBase_t( const uint8 *pubPkt, uint32 cubPkt )
 	m_pubBody = m_pubPkt + m_cubMsgHdr;
 	Q_memcpy(m_pubPkt, pubPkt, cubPkt );
 	m_bAlloced = true;
-	m_pubVarRead = NULL;
+	m_pubVarRead = nullptr;
 }
 
 
@@ -744,7 +744,7 @@ bool CMsgBase_t<MSG_HEADER_TYPE>::BReadStr( char *pchBuff, int cchBuff )
 template <typename MSG_HEADER_TYPE>
 bool CMsgBase_t<MSG_HEADER_TYPE>::BReadStr( CUtlString *pstr )
 {
-	if ( pstr == NULL )
+	if ( pstr == nullptr)
 		return false;
 
 	int cchRead = 0;

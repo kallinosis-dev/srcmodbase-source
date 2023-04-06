@@ -39,7 +39,7 @@ CVisGroup::CVisGroup(void)
 	m_rgbColor.b = 0;
 	m_rgbColor.a = 0;
 
-	m_pParent = NULL;
+	m_pParent = nullptr;
 	
 	m_eVisible = VISGROUP_HIDDEN;
 	m_szName[0] = '\0';
@@ -135,7 +135,7 @@ ChunkFileResult_t CVisGroup::LoadVisGroupCallback(CChunkFile *pFile, LoadVisGrou
 	ChunkFileResult_t eResult = pVisGroup->LoadVMF(pFile, pLoadData->pDoc);
 	if (eResult == ChunkFile_Ok)
 	{
-		if (pLoadData->pParent != NULL)
+		if (pLoadData->pParent != nullptr)
 		{
 			pLoadData->pParent->AddChild(pVisGroup);
 			pVisGroup->SetParent(pLoadData->pParent);
@@ -164,7 +164,7 @@ ChunkFileResult_t CVisGroup::LoadVisGroupsCallback(CChunkFile *pFile, CMapDoc *p
 	// Fill out a little context blob for passing to the handler.
 	LoadVisGroupData_t LoadData;
 	LoadData.pDoc = pDoc;
-	LoadData.pParent = NULL;
+	LoadData.pParent = nullptr;
 
 	//
 	// Set up handlers for the subchunks that we are interested in.
@@ -378,7 +378,7 @@ void CVisGroup::VisGroups_UpdateParent( VisGroupState_t state )
 		pParent->SetVisible( VISGROUP_PARTIAL );
 	}
 
-	if ( pParent->GetParent() != NULL )
+	if ( pParent->GetParent() != nullptr)
 	{
 		pParent->VisGroups_UpdateParent( pParent->GetVisible() );
 	}

@@ -79,7 +79,7 @@ void CListBoxEx::AddItem(char *pszCaption, int iEditType, PVOID pData,
 		break;
 	case lbeChoices:
 		lbis.iDataType = lbdString;
-		lbis.pChoices = NULL;
+		lbis.pChoices = nullptr;
 		break;
 	}
 
@@ -262,7 +262,7 @@ void CListBoxEx::CreateEditControl()
 		IDC_EDITPARAMETER);
 	// set font
 	HFONT hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-	if (hFont == NULL)
+	if (hFont == nullptr)
 		hFont = (HFONT)GetStockObject(ANSI_VAR_FONT);
 	EditCtrl.SendMessage(WM_SETFONT, (WPARAM)hFont);
 	
@@ -303,7 +303,7 @@ void CListBoxEx::CreateComboControl()
 		WS_TABSTOP, r, this, IDC_EDITPARAMETER);
 	// set font
 	HFONT hFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-	if (hFont == NULL)
+	if (hFont == nullptr)
 		hFont = (HFONT)GetStockObject(ANSI_VAR_FONT);
 	ComboCtrl.SendMessage(WM_SETFONT, (WPARAM)hFont);
 	

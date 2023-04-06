@@ -20,7 +20,7 @@ using namespace vgui;
 CDoubleComboBoxContainerPanel::CDoubleComboBoxContainerPanel( vgui::Panel *parent, char const *name ) :
 	BaseClass( parent, name )
 {
-	m_pBoxes[ 0 ] = m_pBoxes[ 1 ] = NULL;
+	m_pBoxes[ 0 ] = m_pBoxes[ 1 ] = nullptr;
 }
 
 void CDoubleComboBoxContainerPanel::AddComboBox( int slot, vgui::ComboBox *box )

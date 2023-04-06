@@ -60,7 +60,7 @@ extern ConVar view_recoil_tracking;
 
 static Vector WALL_MIN(-WALL_OFFSET,-WALL_OFFSET,-WALL_OFFSET);
 static Vector WALL_MAX(WALL_OFFSET,WALL_OFFSET,WALL_OFFSET);
-static const ConVar	*tv_transmitall = NULL;
+static const ConVar	*tv_transmitall = nullptr;
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
@@ -276,7 +276,7 @@ void C_HLTVCamera::CalcChaseCamView( Vector& eyeOrigin, QAngle& eyeAngles, float
 	}
 
 	// get secondary target if set
-	C_BaseEntity *target2 = NULL;
+	C_BaseEntity *target2 = nullptr;
 
 	if ( m_iTarget2 > 0 && (m_iTarget2 != m_iTarget1) && !bManual )
 	{
@@ -284,7 +284,7 @@ void C_HLTVCamera::CalcChaseCamView( Vector& eyeOrigin, QAngle& eyeAngles, float
 
 		// if target is out PVS and not dead, it's not valid
 		if ( target2 && target2->IsDormant() && target2->IsAlive() )
-			target2 = NULL;
+			target2 = nullptr;
 
 		if ( target2 )
 		{
@@ -544,12 +544,12 @@ C_BaseEntity* C_HLTVCamera::GetPrimaryTarget()
 
 	if ( m_iTarget1 <= 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	C_BaseEntity* target = ClientEntityList().GetEnt( m_iTarget1 );
 
-	if ( !target || (m_bIsFollowingGrenade && dynamic_cast< CBaseCSGrenadeProjectile* >( target ) == NULL) )
+	if ( !target || (m_bIsFollowingGrenade && dynamic_cast< CBaseCSGrenadeProjectile* >( target ) == nullptr) )
 	{
 		C_BaseEntity* oldTarget = ClientEntityList().GetEnt( m_iLastTarget1 );
 		if ( oldTarget )
@@ -564,7 +564,7 @@ C_BaseEntity* C_HLTVCamera::GetPrimaryTarget()
 
 C_BasePlayer *C_HLTVCamera::GetCameraMan()
 {
-	return m_iCameraMan ? UTIL_PlayerByIndex( m_iCameraMan ): NULL;
+	return m_iCameraMan ? UTIL_PlayerByIndex( m_iCameraMan ): nullptr;
 }
 
 void C_HLTVCamera::CalcInEyeCamView( Vector& eyeOrigin, QAngle& eyeAngles, float& fov )
@@ -1061,7 +1061,7 @@ void C_HLTVCamera::SetPrimaryTarget( int nEntity )
 			{
 				CBaseEntity * target = UTIL_PlayerByIndex( idxEntity );
 
-				if ( target == NULL )
+				if ( target == nullptr)
 					continue;
 
 				if ( !target->IsPlayer() )
@@ -1180,7 +1180,7 @@ void C_HLTVCamera::SpecNextPlayer( bool bReverse )
 
 		CBaseEntity * target = UTIL_PlayerByIndex( Index );
 
-		if ( target == NULL )
+		if ( target == nullptr)
 			continue;
 
 		if ( !target->IsPlayer() )
@@ -1703,7 +1703,7 @@ bool C_HLTVCamera::IsPVSLocked()
 			return true;	// when playback wants to lock to a specific account force PVS lock
 	}
 
-	if ( tv_transmitall != NULL )
+	if ( tv_transmitall != nullptr)
 	{
 		return !tv_transmitall->GetBool();
 	}

@@ -377,7 +377,7 @@ void CSteamWorksGameStatsClient::AddVPKFileLoadErrorData( KeyValues *pKV )
 	uint64 uSessionID = m_SessionID;
 	uint64 ulRowID = 0;
 
-	for ( KeyValues *pkvSubKey = pKV->GetFirstTrueSubKey(); pkvSubKey != NULL; pkvSubKey = pkvSubKey->GetNextTrueSubKey() )
+	for ( KeyValues *pkvSubKey = pKV->GetFirstTrueSubKey(); pkvSubKey != nullptr; pkvSubKey = pkvSubKey->GetNextTrueSubKey() )
 	{
 
 		m_SteamWorksInterface->AddNewRow( &ulRowID, uSessionID, "CSGOClientVPKFileError" );

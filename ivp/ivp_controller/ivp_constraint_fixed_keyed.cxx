@@ -118,8 +118,8 @@ void IVP_Constraint_Fixed_Keyframed::do_simulation_controller(IVP_Event_Sim *es,
     IVP_U_Float_Point y_rot_axis_world(0,1,0);
     IVP_U_Float_Point z_rot_axis_world(0,0,1);
 
-    IVP_Core *core_A = (reference_obj->get_core()->physical_unmoveable)? NULL : reference_obj->get_core();
-    IVP_Core *core_B = (attached_obj->get_core()->physical_unmoveable)? NULL : attached_obj->get_core();
+    IVP_Core *core_A = (reference_obj->get_core()->physical_unmoveable)? nullptr : reference_obj->get_core();
+    IVP_Core *core_B = (attached_obj->get_core()->physical_unmoveable)? nullptr : attached_obj->get_core();
 
     // orientation
     {

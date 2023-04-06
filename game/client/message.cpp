@@ -48,7 +48,7 @@ static const char *s_NetworkMessageNames[MAX_NETMESSAGE] = { NETWORK_MESSAGE1, N
 //-----------------------------------------------------------------------------
 void DispatchHudText( const char *pszText )
 {
-	if ( pszText == NULL )
+	if ( pszText == nullptr)
 	{
 		(GET_HUDELEMENT( CHudMessage ))->Reset();
 	}
@@ -67,17 +67,17 @@ DECLARE_HUD_MESSAGE( CHudMessage, HudText );
 DECLARE_HUD_MESSAGE( CHudMessage, GameTitle );
 DECLARE_HUD_MESSAGE( CHudMessage, HudMsg );
 
-ITextMessage *textmessage = NULL;
+ITextMessage *textmessage = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
 CHudMessage::CHudMessage( const char *pElementName ) :
-	CHudElement( pElementName ), BaseClass( NULL, "HudMessage" )
+	CHudElement( pElementName ), BaseClass(nullptr, "HudMessage" )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
-	if( textmessage == NULL ) //HACKHACK: Fixes center print text in when MAX_SPLITSCREEN_PLAYERS is greater than 1
+	if( textmessage == nullptr) //HACKHACK: Fixes center print text in when MAX_SPLITSCREEN_PLAYERS is greater than 1
 	{
 		textmessage = this;
 	}
@@ -89,7 +89,7 @@ CHudMessage::CHudMessage( const char *pElementName ) :
 
 CHudMessage::~CHudMessage()
 {
-	textmessage = NULL;
+	textmessage = nullptr;
 }
 
 void CHudMessage::ApplySchemeSettings( IScheme *scheme )
@@ -130,7 +130,7 @@ void CHudMessage::Reset( void )
 	memset( m_startTime, 0, sizeof( m_startTime[0] ) * maxHUDMessages );
 	
 	m_gameTitleTime = 0;
-	m_pGameTitle = NULL;
+	m_pGameTitle = nullptr;
 	m_bHaveMessage = false;
 }
 
@@ -348,7 +348,7 @@ void CHudMessage::MessageScanStart( void )
 
 	m_parms.font = g_hFontTrebuchet24;
 
-	if ( m_parms.vguiFontName != NULL && 
+	if ( m_parms.vguiFontName != nullptr && 
 		m_parms.vguiFontName[ 0 ] )
 	{
 #ifdef PORTAL2
@@ -401,7 +401,7 @@ void CHudMessage::MessageDrawScan( client_textmessage_t *pMessage, float time )
 
 	if ( m_parms.font == 0 )
 	{
-		if ( m_parms.vguiFontName != NULL && 
+		if ( m_parms.vguiFontName != nullptr && 
 			m_parms.vguiFontName[ 0 ] )
 		{
 #ifdef PORTAL2
@@ -615,7 +615,7 @@ void CHudMessage::Paint()
 			else
 			{
 				// The message is over
-				m_pMessages[i] = NULL;
+				m_pMessages[i] = nullptr;
 			}
 		}
 	}
@@ -641,7 +641,7 @@ void CHudMessage::MessageAdd( const char *pName )
 
 	float time = gpGlobals->curtime;
 
-	client_textmessage_t *pMessage = NULL;
+	client_textmessage_t *pMessage = nullptr;
 
 	if ( pName[0] == '#' )
 	{
@@ -662,7 +662,7 @@ void CHudMessage::MessageAdd( const char *pName )
 			if ( m_pMessages[ i ] && !Q_stricmp( m_pMessages[ i ]->pName, pMessage->pClearMessage ) )
 			{
 				m_startTime[ i ] = 0.0f;
-				m_pMessages[ i ] = NULL;
+				m_pMessages[ i ] = nullptr;
 				break;
 			}
 		}
@@ -704,7 +704,7 @@ bool CHudMessage::MsgFunc_HudText(const CCSUsrMsg_HudText &msg)
 bool CHudMessage::MsgFunc_GameTitle(const CCSUsrMsg_GameTitle &msg)
 {
 	m_pGameTitle = TextMessageGet( "GAMETITLE" );
-	if ( m_pGameTitle != NULL )
+	if ( m_pGameTitle != nullptr)
 	{
 		m_gameTitleTime = gpGlobals->curtime;
 
@@ -853,7 +853,7 @@ CHudMessage::message_t *CHudMessage::AllocMessage( void )
 	message_t *msg;
 
 	if ( m_Messages.Count() >= MAX_TEXTMESSAGE_CHARS )
-		return NULL;
+		return nullptr;
 
 	msg = &m_Messages[ m_Messages.AddToTail() ];
 

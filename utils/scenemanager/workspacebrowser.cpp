@@ -58,9 +58,9 @@ CWorkspaceBrowser::CWorkspaceBrowser( mxWindow *parent, CWorkspaceManager *manag
 
 	SceneManager_MakeToolWindow( this, false );
 
-	m_pLastSelected = NULL;
+	m_pLastSelected = nullptr;
 
-	m_pCurrentWorkspace = NULL;
+	m_pCurrentWorkspace = nullptr;
 	m_pTree = new CBrowserTree( this, IDC_WSB_TREE );
 
 	HIMAGELIST list = GetWorkspaceManager()->CreateImageList();
@@ -133,7 +133,7 @@ CWorkspace *CWorkspaceBrowser::GetWorkspace()
 //-----------------------------------------------------------------------------
 void CWorkspaceBrowser::PopulateTree()
 {
-	m_pLastSelected = NULL;
+	m_pLastSelected = nullptr;
 
 	CWorkspace *w = m_pCurrentWorkspace;
 
@@ -152,10 +152,10 @@ void CWorkspaceBrowser::PopulateTree()
 	}
 
 
-	mxTreeViewItem *root = w->FindItem( m_pTree, NULL );
+	mxTreeViewItem *root = w->FindItem( m_pTree, nullptr);
 	if ( !root )
 	{
-		root = m_pTree->add( NULL, sz );
+		root = m_pTree->add(nullptr, sz );
 	}
 
 	// Reset the label
@@ -250,7 +250,7 @@ void CWorkspaceBrowser::OnTreeItemSelected( int x, int y, bool rightmouse, bool 
 
 void CWorkspaceBrowser::JumpTo( ITreeItem *item )
 {
-	mxTreeViewItem *found = item->FindItem( m_pTree, NULL, true );
+	mxTreeViewItem *found = item->FindItem( m_pTree, nullptr, true );
 	if ( found )
 	{
 		m_pTree->scrollTo( found );

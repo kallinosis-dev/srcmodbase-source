@@ -186,7 +186,7 @@ char *GetBspFilename( const char *navFilename )
 
 	int len = strlen( bspFilename );
 	if (len < 3)
-		return NULL;
+		return nullptr;
 
 	bspFilename[ len-3 ] = 'b';
 	bspFilename[ len-2 ] = 's';
@@ -682,7 +682,7 @@ NavErrorType CNavArea::PostLoad( void )
 				connect.ladder = TheNavMesh->GetLadderByID( id );
 			}
 
-			if (id && connect.ladder == NULL)
+			if (id && connect.ladder == nullptr)
 			{
 				Msg( "CNavArea::PostLoad: Corrupt navigation ladder data. Cannot connect Navigation Areas.\n" );
 				error = NAV_CORRUPT_DATA;
@@ -700,7 +700,7 @@ NavErrorType CNavArea::PostLoad( void )
 			// convert connect ID into an actual area
 			unsigned int id = connect->id;
 			connect->area = TheNavMesh->GetNavAreaByID( id );
-			if (id && connect->area == NULL)
+			if (id && connect->area == nullptr)
 			{
 				Msg( "CNavArea::PostLoad: Corrupt navigation data. Cannot connect Navigation Areas.\n" );
 				error = NAV_CORRUPT_DATA;
@@ -716,14 +716,14 @@ NavErrorType CNavArea::PostLoad( void )
 		e = m_spotEncounters[ it ];
 
 		e->from.area = TheNavMesh->GetNavAreaByID( e->from.id );
-		if (e->from.area == NULL)
+		if (e->from.area == nullptr)
 		{
 			Msg( "CNavArea::PostLoad: Corrupt navigation data. Missing \"from\" Navigation Area for Encounter Spot.\n" );
 			error = NAV_CORRUPT_DATA;
 		}
 
 		e->to.area = TheNavMesh->GetNavAreaByID( e->to.id );
-		if (e->to.area == NULL)
+		if (e->to.area == nullptr)
 		{
 			Msg( "CNavArea::PostLoad: Corrupt navigation data. Missing \"to\" Navigation Area for Encounter Spot.\n" );
 			error = NAV_CORRUPT_DATA;
@@ -747,7 +747,7 @@ NavErrorType CNavArea::PostLoad( void )
 			SpotOrder *order = &e->spots[ sit ];
 
 			order->spot = GetHidingSpotByID( order->id );
-			if (order->spot == NULL)
+			if (order->spot == nullptr)
 			{
 				Msg( "CNavArea::PostLoad: Corrupt navigation data. Missing Hiding Spot\n" );
 				error = NAV_CORRUPT_DATA;
@@ -761,7 +761,7 @@ NavErrorType CNavArea::PostLoad( void )
 		AreaBindInfo &info = m_potentiallyVisibleAreas[ it ];
 
 		info.area = TheNavMesh->GetNavAreaByID( info.id );
-		if ( info.area == NULL )
+		if ( info.area == nullptr)
 		{
 			Warning( "Invalid area in visible set for area #%d\n", GetID() );
 		}		
@@ -772,7 +772,7 @@ NavErrorType CNavArea::PostLoad( void )
 
 	// remove any invalid areas from the list
 	AreaBindInfo bad;
-	bad.area = NULL;
+	bad.area = nullptr;
 	while( m_potentiallyVisibleAreas.FindAndRemove( bad ) );
 
 	return error;
@@ -788,20 +788,20 @@ template< typename CostFunctor >
 float NavAreaTravelDistance( const Vector &startPos, const Vector &goalPos, CostFunctor &costFunc )
 {
 	CNavArea *startArea = TheNavMesh->GetNearestNavArea( startPos );
-	if (startArea == NULL)
+	if (startArea == nullptr)
 	{
 		return -1.0f;
 	}
 
 	// compute path between areas using given cost heuristic
-	CNavArea *goalArea = NULL;
+	CNavArea *goalArea = nullptr;
 	if (NavAreaBuildPath( startArea, NULL, &goalPos, costFunc, &goalArea ) == false)
 	{
 		return -1.0f;
 	}
 
 	// compute distance along path
-	if (goalArea->GetParent() == NULL)
+	if (goalArea->GetParent() == nullptr)
 	{
 		// both points are in the same area - return euclidean distance
 		return (goalPos - startPos).Length();
@@ -853,7 +853,7 @@ void CNavArea::ComputeEarliestOccupyTimes( void )
 
 	// determine the shortest time it will take a Terrorist to reach this area
 	int team = TEAM_TERRORIST % MAX_NAV_TEAMS;
-	for( spot = gEntList.FindEntityByClassname( NULL, "info_player_terrorist" );
+	for( spot = gEntList.FindEntityByClassname(nullptr, "info_player_terrorist" );
 		 spot;
 		 spot = gEntList.FindEntityByClassname( spot, "info_player_terrorist" ) )
 	{
@@ -871,7 +871,7 @@ void CNavArea::ComputeEarliestOccupyTimes( void )
 
 	// determine the shortest time it will take a CT to reach this area
 	team = TEAM_CT % MAX_NAV_TEAMS;
-	for( spot = gEntList.FindEntityByClassname( NULL, "info_player_counterterrorist" );
+	for( spot = gEntList.FindEntityByClassname(nullptr, "info_player_counterterrorist" );
 		 spot;
 		 spot = gEntList.FindEntityByClassname( spot, "info_player_counterterrorist" ) )
 	{
@@ -1059,7 +1059,7 @@ bool CNavMesh::Save( void ) const
 	WarnIfMeshNeedsAnalysis( NavCurrentVersion );
 
 	const char *filename = GetFilename();
-	if (filename == NULL)
+	if (filename == nullptr)
 		return false;
 
 	//
@@ -1070,7 +1070,7 @@ bool CNavMesh::Save( void ) const
 	// get size of source bsp file for later (before we open the nav file for writing, in
 	// case of failure)
 	char *bspFilename = GetBspFilename( filename );
-	if (bspFilename == NULL)
+	if (bspFilename == nullptr)
 	{
 		return false;
 	}
@@ -1307,7 +1307,7 @@ const CUtlVector< Place > *CNavMesh::GetPlacesFromNavFile( bool *hasUnnamedPlace
 	{
 		if ( !filesystem->ReadFile( filename, "BSP", fileBuffer ) )	// ... and this looks for one if it's the only one around.
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 	
@@ -1328,19 +1328,19 @@ const CUtlVector< Place > *CNavMesh::GetPlacesFromNavFile( bool *hasUnnamedPlace
 	unsigned int magic = fileBuffer.GetUnsignedInt();
 	if ( !fileBuffer.IsValid() || magic != NAV_MAGIC_NUMBER )
 	{
-		return NULL;	// Corrupt nav file?
+		return nullptr;	// Corrupt nav file?
 	}
 
 	// read file version number
 	unsigned int version = fileBuffer.GetUnsignedInt();
 	if ( !fileBuffer.IsValid() || version > NavCurrentVersion )
 	{
-		return NULL;	// Unknown nav file version
+		return nullptr;	// Unknown nav file version
 	}
 
 	if ( version < 5 )
 	{
-		return NULL;	// Too old to have place names
+		return nullptr;	// Too old to have place names
 	}
 
 	unsigned int subVersion = 0;
@@ -1349,7 +1349,7 @@ const CUtlVector< Place > *CNavMesh::GetPlacesFromNavFile( bool *hasUnnamedPlace
 		subVersion = fileBuffer.GetUnsignedInt();
 		if ( !fileBuffer.IsValid() )
 		{
-			return NULL;	// No sub-version
+			return nullptr;	// No sub-version
 		}
 	}
 
@@ -1468,7 +1468,7 @@ NavErrorType CNavMesh::Load( void )
 
 		// verify size
 		char *bspFilename = GetBspFilename( filename );
-		if ( bspFilename == NULL )
+		if ( bspFilename == nullptr)
 		{
 			return NAV_INVALID_FILE;
 		}

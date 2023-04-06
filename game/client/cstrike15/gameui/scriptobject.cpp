@@ -36,7 +36,7 @@ void StripFloatTrailingZeros(char *str)
 		return;
 
 	// start at the end and scan back to the period
-	char *end = 0;
+	char *end = nullptr;
 	for ( end = str + strlen(str) - 1; end > period; --end )
 	{
 		if (*end == '0')
@@ -71,11 +71,11 @@ mpcontrol_t::mpcontrol_t( Panel *parent, char const *panelName )
 : Panel( parent, panelName )
 {
 	type = O_BADTYPE;
-	pControl = NULL;
-	pPrompt = NULL;
-	pScrObj = NULL;
+	pControl = nullptr;
+	pPrompt = nullptr;
+	pScrObj = nullptr;
 
-	next = NULL;
+	next = nullptr;
 
 	SetPaintBackgroundEnabled( false );
 }
@@ -105,14 +105,14 @@ void mpcontrol_t::OnSizeChanged( int wide, int tall )
 
 CScriptListItem::CScriptListItem()
 {
-	pNext = NULL;
+	pNext = nullptr;
 	memset( szItemText, 0, 128 ); 
 	memset( szValue, 0, 256 );
 }
 
 CScriptListItem::CScriptListItem( char const *strItem, char const *strValue )
 {
-	pNext = NULL;
+	pNext = nullptr;
 	Q_strncpy( szItemText, strItem, sizeof( szItemText ) );
 	Q_strncpy( szValue   , strValue, sizeof( szValue ) );
 }
@@ -121,8 +121,8 @@ CScriptObject::CScriptObject( void )
 {
 	type = O_BOOL;
 	bSetInfo = false;  // Prepend "Setinfo" to keyvalue pair in config?
-	pNext = NULL;
-	pListItems = NULL;
+	pNext = nullptr;
+	pListItems = nullptr;
 }
 
 CScriptObject::~CScriptObject()
@@ -136,7 +136,7 @@ CScriptObject::~CScriptObject()
 		delete p;
 		p = n;
 	}
-	pListItems = NULL;
+	pListItems = nullptr;
 }
 
 void CScriptObject::SetCurValue( char const *strValue )
@@ -159,7 +159,7 @@ void CScriptObject::AddItem( CScriptListItem *pItem )
 	if ( !p )
 	{
 		pListItems = pItem;
-		pItem->pNext = NULL;
+		pItem->pNext = nullptr;
 		return;
 	}
 
@@ -168,7 +168,7 @@ void CScriptObject::AddItem( CScriptListItem *pItem )
 		if ( !p->pNext )
 		{
 			p->pNext = pItem;
-			pItem->pNext = NULL;
+			pItem->pNext = nullptr;
 			return;
 		}
 		p = p->pNext;
@@ -676,7 +676,7 @@ bool CScriptObject::ReadFromBuffer( const char **pBuffer, bool isNewObject )
 /////////////////////////
 CDescription::CDescription( CPanelListPanel *panel )
 {
-	pObjList = NULL;
+	pObjList = nullptr;
 
 	m_pListPanel = panel;
 }
@@ -689,13 +689,13 @@ CDescription::~CDescription()
 	while ( p )
 	{
 		n = p->pNext;
-		p->pNext = NULL;
+		p->pNext = nullptr;
 		p->MarkForDeletion();
 		//delete p;
 		p = n;
 	}
 
-	pObjList = NULL;
+	pObjList = nullptr;
 	
 	if ( m_pszHintText )
 		free( m_pszHintText );
@@ -706,7 +706,7 @@ CDescription::~CDescription()
 CScriptObject * CDescription::FindObject( const char *pszObjectName )
 {
 	if ( !pszObjectName )
-		return NULL;
+		return nullptr;
 
 	CScriptObject *p;
 	p = pObjList;
@@ -716,7 +716,7 @@ CScriptObject * CDescription::FindObject( const char *pszObjectName )
 			return p;
 		p = p->pNext;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CDescription::AddObject( CScriptObject *pObj )
@@ -726,7 +726,7 @@ void CDescription::AddObject( CScriptObject *pObj )
 	if ( !p )
 	{
 		pObjList = pObj;
-		pObj->pNext = NULL;
+		pObj->pNext = nullptr;
 		return;
 	}
 
@@ -735,7 +735,7 @@ void CDescription::AddObject( CScriptObject *pObj )
 		if ( !p->pNext )
 		{
 			p->pNext = pObj;
-			pObj->pNext = NULL;
+			pObj->pNext = nullptr;
 			return;
 		}
 		p = p->pNext;

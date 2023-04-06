@@ -31,14 +31,14 @@ ScalableImageBorder::ScalableImageBorder()
 	_inset[1]=0;
 	_inset[2]=0;
 	_inset[3]=0;
-	_name = NULL;
+	_name = nullptr;
 	m_eBackgroundType = IBorder::BACKGROUND_TEXTURED;
 
 	m_iSrcCornerHeight = 0;
 	m_iSrcCornerWidth = 0;
 	m_iCornerHeight = 0;
 	m_iCornerWidth = 0;
-	m_pszImageName = NULL;
+	m_pszImageName = nullptr;
 	m_iTextureID = g_pSurface->CreateNewTextureID();
 }
 
@@ -62,7 +62,7 @@ void ScalableImageBorder::SetImage(const char *imageName)
 	if ( m_pszImageName )
 	{
 		delete [] m_pszImageName;
-		m_pszImageName = NULL;
+		m_pszImageName = nullptr;
 	}
 
 	if (*imageName)
@@ -220,7 +220,7 @@ void ScalableImageBorder::ApplySchemeSettings(IScheme *pScheme, KeyValues *inRes
 
 	m_bPaintFirst = inResourceData->GetBool("paintfirst", true );
 
-	const char *col = inResourceData->GetString("color", NULL);
+	const char *col = inResourceData->GetString("color", nullptr);
 	if ( col && col[0] )
 	{
 		m_Color = pScheme->GetColor(col, Color(255, 255, 255, 255));

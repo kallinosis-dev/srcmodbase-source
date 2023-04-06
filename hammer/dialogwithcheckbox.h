@@ -22,7 +22,7 @@ class CDialogWithCheckbox : public CDialog
 	DECLARE_DYNAMIC(CDialogWithCheckbox)
 
 public:
-	CDialogWithCheckbox( const char *pszTitleText, const char *pszDialogText, const char *pszCheckboxText, bool bCheckState = false, bool bDisabled = false, CWnd* pParent = NULL );   // constructor
+	CDialogWithCheckbox( const char *pszTitleText, const char *pszDialogText, const char *pszCheckboxText, bool bCheckState = false, bool bDisabled = false, CWnd* pParent = nullptr);   // constructor
 	virtual ~CDialogWithCheckbox();
 
 // Dialog Data

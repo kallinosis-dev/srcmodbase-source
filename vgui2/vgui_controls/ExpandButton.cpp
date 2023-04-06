@@ -59,7 +59,7 @@ void ExpandButton::ApplySchemeSettings(IScheme *pScheme)
 //-----------------------------------------------------------------------------
 IBorder *ExpandButton::GetBorder(bool depressed, bool armed, bool selected, bool keyfocus)
 {
-	return NULL;
+	return nullptr;
 }
 
 

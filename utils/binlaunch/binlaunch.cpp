@@ -198,14 +198,14 @@ void TranslateSymlink( const char *pInDir, char *pOutDir, int len )
 	DWORD nAttribs = GetFileAttributes( pInDir );
 	if ( nAttribs & FILE_ATTRIBUTE_REPARSE_POINT )
 	{
-		HANDLE hDir = CreateFile( pInDir, FILE_READ_EA, FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, NULL );
+		HANDLE hDir = CreateFile( pInDir, FILE_READ_EA, FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OPEN_REPARSE_POINT, nullptr);
 		if ( hDir )
 		{
 			DWORD dwBufSize = MAXIMUM_REPARSE_DATA_BUFFER_SIZE;
 			REPARSE_DATA_BUFFER *pReparseData = (REPARSE_DATA_BUFFER*)malloc( dwBufSize );
   
 			DWORD nBytesReturned = 0;
-			BOOL bSuccess = DeviceIoControl( hDir, FSCTL_GET_REPARSE_POINT, NULL, 0, pReparseData, dwBufSize, &nBytesReturned, NULL );
+			BOOL bSuccess = DeviceIoControl( hDir, FSCTL_GET_REPARSE_POINT, nullptr, 0, pReparseData, dwBufSize, &nBytesReturned, nullptr);
 			CloseHandle( hDir );
 
 			if ( bSuccess )
@@ -249,7 +249,7 @@ int main( int argc, char **argv )
 	// Find the game\bin directory and setup the DLL path.
 	char szModuleFilename[MAX_PATH], szModuleParts[MAX_PATH], szCurDir[MAX_PATH];
 #ifdef WIN32
-	GetModuleFileName( NULL, szModuleFilename, sizeof( szModuleFilename ) );
+	GetModuleFileName(nullptr, szModuleFilename, sizeof( szModuleFilename ) );
 	V_FixSlashes( szModuleFilename );
 #else
 	V_strncpy( szModuleFilename, argv[0], sizeof(szModuleFilename) );
@@ -343,7 +343,7 @@ int main( int argc, char **argv )
 		return 9997;
 	}
 
-	pLaunchable = (ILaunchableDLL*)fn( LAUNCHABLE_DLL_INTERFACE_VERSION, NULL );
+	pLaunchable = (ILaunchableDLL*)fn( LAUNCHABLE_DLL_INTERFACE_VERSION, nullptr);
 	if ( !pLaunchable )
 	{
 		fprintf( stderr, "%s (binlaunch): Can't get interface %s from from %s\n\n", argv[0], LAUNCHABLE_DLL_INTERFACE_VERSION, szDLLName );

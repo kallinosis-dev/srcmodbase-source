@@ -190,7 +190,7 @@ private:
 	bool m_bDrawDebugAreas;
 };
 
-static CConPanel *g_pConPanel = NULL;
+static CConPanel *g_pConPanel = nullptr;
 
 /*
 ================
@@ -542,7 +542,7 @@ void Con_LogDumpChannels_f()
 			
 		buf[0] = '\0';
 		CLoggingSystem::LoggingTag_t *pTag = pChannel->m_pFirstTag;
-		while ( pTag != NULL )
+		while ( pTag != nullptr)
 		{
 			Q_strncat( buf, "[", nMaxLen );
 			Q_strncat( buf, pTag->m_pTagName, nMaxLen );
@@ -782,17 +782,17 @@ void Con_ColorPrint( const Color& clr, char const *msg )
 			{
 			case 1:
 				// if line does not contain keyword do not print the line
-				if ( pszText && ( *pszText != '\0' ) && ( Q_stristr( msg, pszText ) == NULL ))
+				if ( pszText && ( *pszText != '\0' ) && ( Q_stristr( msg, pszText ) == nullptr))
 					return;
-				if ( pszIgnoreText && *pszIgnoreText && ( Q_stristr( msg, pszIgnoreText ) != NULL ) )
+				if ( pszIgnoreText && *pszIgnoreText && ( Q_stristr( msg, pszIgnoreText ) != nullptr) )
 					return;
 				break;
 
 			case 2:
-				if ( pszIgnoreText && *pszIgnoreText && ( Q_stristr( msg, pszIgnoreText ) != NULL ) )
+				if ( pszIgnoreText && *pszIgnoreText && ( Q_stristr( msg, pszIgnoreText ) != nullptr) )
 					return;
 				// if line does not contain keyword print it in a darker color
-				if ( pszText && ( *pszText != '\0' ) && ( Q_stristr( msg, pszText ) == NULL ))
+				if ( pszText && ( *pszText != '\0' ) && ( Q_stristr( msg, pszText ) == nullptr))
 				{
 					Color mycolor(200, 200, 200, 150 );
 					g_pCVar->ConsoleColorPrintf( mycolor, "%s", msg );
@@ -1236,7 +1236,7 @@ void CConPanel::AddToNotify( const Color& clr, char const *msg )
 	if ( !msg[0] )
 		return;
 
-	CNotifyText *current = NULL;
+	CNotifyText *current = nullptr;
 
 	int slot = m_NotifyText.Count() - 1;
 	if ( slot < 0 )
@@ -1262,7 +1262,7 @@ void CConPanel::AddToNotify( const Color& clr, char const *msg )
 	while ( *p )
 	{
 		const wchar_t *nextreturn = wcsstr( p, L"\n" );
-		if ( nextreturn != NULL )
+		if ( nextreturn != nullptr)
 		{
 			int copysize = nextreturn - p + 1;
 			safestrncat( current->text, MAX_NOTIFY_TEXT_LINE, p, copysize );
@@ -1622,7 +1622,7 @@ void CConPanel::PaintBackground()
 //-----------------------------------------------------------------------------
 // Purpose: Creates the Console VGUI object
 //-----------------------------------------------------------------------------
-static CConPanel *conPanel = NULL;
+static CConPanel *conPanel = nullptr;
 
 void Con_CreateConsolePanel( vgui::Panel *parent )
 {

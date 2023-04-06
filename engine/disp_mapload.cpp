@@ -85,7 +85,7 @@ static CDispGroup* FindCombo( CUtlVector<CDispGroup*> &combos, int idLMPage, IMa
 		if( combos[i]->m_LightmapPageID == idLMPage && combos[i]->m_pMaterial == pMaterial )
 			return combos[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -640,7 +640,7 @@ bool DispInfo_LoadDisplacements( model_t *pWorld, bool bRestoring )
 		g_VBAllocTracker->TrackMeshAllocations( "DispInfo_LoadDisplacements" );
 	DispInfo_CreateEmptyStaticBuffers( pWorld, tempDisps );
 	if ( g_VBAllocTracker )
-		g_VBAllocTracker->TrackMeshAllocations( NULL );
+		g_VBAllocTracker->TrackMeshAllocations(nullptr);
 
 	// Now setup each displacement one at a time.
 	// using temporary storage that is not the stack for compatibility with console stack
@@ -789,7 +789,7 @@ void DispInfo_ReleaseMaterialSystemObjects( model_t *pWorld )
 				continue;
 			}
 			
-			pDisp->m_pMesh = NULL;
+			pDisp->m_pMesh = nullptr;
 			pDisp->m_iVertOffset = pDisp->m_iIndexOffset = 0;
 		}
 	}
@@ -813,18 +813,18 @@ CDispInfo::CDispInfo()
 
 	m_idLMPage = -1;
 
-	m_pPowerInfo = NULL;
+	m_pPowerInfo = nullptr;
 
 	m_ViewerSphereCenter.Init( 1e24, 1e24, 1e24 );
 	
 	m_bInUse = false;
 
-	m_pNodeInfo = 0;
+	m_pNodeInfo = nullptr;
 
-	m_pMesh = NULL;
+	m_pMesh = nullptr;
 
 	m_Tag = NULL;
-	m_pDispArray = NULL;
+	m_pDispArray = nullptr;
 
 	m_FirstDecal = DISP_DECAL_HANDLE_INVALID;
 	m_FirstShadowDecal = DISP_SHADOW_HANDLE_INVALID;

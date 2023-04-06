@@ -388,7 +388,7 @@ void *CMsgBuffer::GetSpace( int length )
 				( *m_pfnErrorFunc )( "CMsgBuffer(%s), no room for %i bytes, %i / %i already in use\n",
 					m_pszBufferName, length, m_nCurSize, m_nMaxSize );
 			}
-			return NULL;
+			return nullptr;
 		}
 		
 		if (length > m_nMaxSize)
@@ -398,7 +398,7 @@ void *CMsgBuffer::GetSpace( int length )
 				( *m_pfnErrorFunc )( "CMsgBuffer(%s), no room for %i bytes, %i is max\n",
 					m_pszBufferName, length, m_nMaxSize );
 			}
-			return NULL;
+			return nullptr;
 		}
 			
 		m_bOverFlowed = true;

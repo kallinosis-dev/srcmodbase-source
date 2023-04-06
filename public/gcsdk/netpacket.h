@@ -21,7 +21,7 @@ public:
 
 	//called to allocate a buffer for the net packet of the specified size. This takes an optional pointer
 	//of which it will copy into the data if appropriate
-	void Init( uint32 cubData, const void* pCopyData = NULL );
+	void Init( uint32 cubData, const void* pCopyData = nullptr);
 
 	//called when working with a net packet that you want to reference a separate buffer
 	void InitAdoptBuffer( uint32 cubData, uint8* pubData );

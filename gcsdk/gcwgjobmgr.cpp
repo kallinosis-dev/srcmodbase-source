@@ -85,7 +85,7 @@ bool CGCWGJobMgr::BHandleMsg( IMsgNetPacket *pNetPacket )
 	if( !BVerifyPrivileges( msg, pFunc ) )
 		return false;
 
-	CGCWGJob *job = (CGCWGJob *)(*((GMapGCWGJobCreationFuncs())[iJobType]))( GGCBase(), NULL );
+	CGCWGJob *job = (CGCWGJob *)(*((GMapGCWGJobCreationFuncs())[iJobType]))( GGCBase(), nullptr);
 	Assert( job );
 
 	job->SetWebApiFunc( pFunc );

@@ -148,7 +148,7 @@ END_DATADESC()
 
 CPhysForce::CPhysForce( void )
 {
-	m_pController = NULL;
+	m_pController = nullptr;
 	m_wasRestored = false;
 }
 
@@ -194,9 +194,9 @@ void CPhysForce::Activate( void )
 	if ( m_wasRestored )
 		return;
 
-	if ( m_attachedObject == NULL )
+	if ( m_attachedObject == nullptr)
 	{
-		m_attachedObject = gEntList.FindEntityByName( NULL, m_nameAttach );
+		m_attachedObject = gEntList.FindEntityByName(nullptr, m_nameAttach );
 	}
 	
 	// Let the derived class set up before we throw the switch
@@ -255,7 +255,7 @@ void CPhysForce::ForceOn( void )
 
 void CPhysForce::ActivateForce( void )
 {
-	IPhysicsObject *pPhys = NULL;
+	IPhysicsObject *pPhys = nullptr;
 	if ( m_attachedObject )
 	{
 		pPhys = m_attachedObject->VPhysicsGetObject();
@@ -283,10 +283,10 @@ void CPhysForce::ForceOff( void )
 		return;
 
 	physenv->DestroyMotionController( m_pController );
-	m_pController = NULL;
+	m_pController = nullptr;
 	SetThink( NULL );
 	SetNextThink( TICK_NEVER_THINK );
-	IPhysicsObject *pPhys = NULL;
+	IPhysicsObject *pPhys = nullptr;
 	if ( m_attachedObject )
 	{
 		pPhys = m_attachedObject->VPhysicsGetObject();
@@ -358,7 +358,7 @@ CBaseEntity *CreatePhysThruster( const Vector &vecOrigin, const QAngle &vecAngle
 
 void CPhysThruster::OnActivate( void )
 {
-	if ( m_attachedObject != NULL )
+	if ( m_attachedObject != nullptr)
 	{
 		matrix3x4_t worldToAttached, thrusterToAttached;
 		MatrixInvert( m_attachedObject->EntityToWorldTransform(), worldToAttached );
@@ -527,7 +527,7 @@ IMotionEvent::simresult_e CMotorController::Simulate( IPhysicsMotionController *
 	AngularImpulse currentRotAxis;
 	
 	// currentRotAxis is in local space
-	pObject->GetVelocity( NULL, &currentRotAxis );
+	pObject->GetVelocity(nullptr, &currentRotAxis );
 	// transform motor axis to local space
 	Vector motorAxis_ls;
 	VectorIRotate( m_axis, matrix, motorAxis_ls );
@@ -764,9 +764,9 @@ void CPhysMotor::Activate( void )
 	BaseClass::Activate();
 	
 	// This gets called after all objects spawn and after all objects restore
-	if ( m_attachedObject == NULL )
+	if ( m_attachedObject == nullptr)
 	{
-		CBaseEntity *pAttach = gEntList.FindEntityByName( NULL, m_nameAttach );
+		CBaseEntity *pAttach = gEntList.FindEntityByName(nullptr, m_nameAttach );
 		if ( pAttach && pAttach->GetMoveType() == MOVETYPE_VPHYSICS )
 		{
 			m_attachedObject = pAttach;
@@ -797,7 +797,7 @@ void CPhysMotor::Activate( void )
 				hingeParams.worldAxisDirection = m_motor.m_axis;
 				hingeParams.worldPosition = GetLocalOrigin();
 
-				m_pHinge = physenv->CreateHingeConstraint( g_PhysWorldObject, pPhys, NULL, hingeParams );
+				m_pHinge = physenv->CreateHingeConstraint( g_PhysWorldObject, pPhys, nullptr, hingeParams );
 				m_pHinge->SetGameData( (void *)this );
 				// can't grab this object
 				PhysSetGameFlags(pPhys, FVPHYSICS_NO_PLAYER_PICKUP);
@@ -810,7 +810,7 @@ void CPhysMotor::Activate( void )
 		}
 		else
 		{
-			m_pHinge = NULL;
+			m_pHinge = nullptr;
 		}
 
 		// NOTE: On restore, this path isn't run because m_pController will not be NULL
@@ -922,7 +922,7 @@ CKeepUpright::CKeepUpright()
 {
 	// by default, recover from up to 15 degrees / sec angular velocity
 	m_angularLimit = 15;
-	m_attachedObject = NULL;
+	m_attachedObject = nullptr;
 	m_bDampAllRotation = false;
 }
 
@@ -931,7 +931,7 @@ CKeepUpright::~CKeepUpright()
 	if ( m_pController )
 	{
 		physenv->DestroyMotionController( m_pController );
-		m_pController = NULL;
+		m_pController = nullptr;
 	}
 }
 
@@ -940,7 +940,7 @@ void CKeepUpright::Spawn()
 	// align the object's local Z axis
 	m_localTestAxis.Init( 0, 0, 1 );
 	// Use our Up axis so mapmakers can orient us arbitrarily
-	GetVectors( NULL, NULL, &m_worldGoalAxis );
+	GetVectors(nullptr, nullptr, &m_worldGoalAxis );
 
 	SetMoveType( MOVETYPE_NONE );
 
@@ -1030,7 +1030,7 @@ IMotionEvent::simresult_e CKeepUpright::Simulate( IPhysicsMotionController *pCon
 	linear.Init();
 
 	AngularImpulse angVel;
-	pObject->GetVelocity( NULL, &angVel );
+	pObject->GetVelocity(nullptr, &angVel );
 
 	matrix3x4_t matrix;
 	// get the object's local to world transform

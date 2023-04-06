@@ -34,14 +34,14 @@
 //-----------------------------------------------------------------------------
 void CAI_BaseNPC::ForceSelectedGo(CBaseEntity *pPlayer, const Vector &targetPos, const Vector &traceDir, bool bRun) 
 {
-	CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)NULL );
+	CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)nullptr);
 	for ( ; npc; npc = gEntList.NextEntByClass(npc) )
 	{
 		if ( ( npc->m_debugOverlays & OVERLAY_NPC_SELECTED_BIT ) == 0 )
 			continue;
 
 		// If a behavior is active, we need to stop running it
-		npc->SetPrimaryBehavior( NULL );
+		npc->SetPrimaryBehavior(nullptr);
 
 		Vector chasePosition = targetPos;
 		npc->TranslateNavGoal( pPlayer, chasePosition );
@@ -60,7 +60,7 @@ void CAI_BaseNPC::ForceSelectedGo(CBaseEntity *pPlayer, const Vector &targetPos,
 
 		npc->m_vecLastPosition = chasePosition;
 
-		if (npc->m_hCine != NULL)
+		if (npc->m_hCine != nullptr)
 		{
 			npc->ExitScriptedSequence();
 		}
@@ -77,14 +77,14 @@ void CAI_BaseNPC::ForceSelectedGo(CBaseEntity *pPlayer, const Vector &targetPos,
 //-----------------------------------------------------------------------------
 void CAI_BaseNPC::ForceSelectedGoRandom(void) 
 {
-	CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)NULL );
+	CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)nullptr);
 
 	while (npc)
 	{
 		if (npc->m_debugOverlays & OVERLAY_NPC_SELECTED_BIT) 
 		{
 			// If a behavior is active, we need to stop running it
-			npc->SetPrimaryBehavior( NULL );
+			npc->SetPrimaryBehavior(nullptr);
 			npc->SetSchedule( SCHED_RUN_RANDOM );
 			npc->GetNavigator()->SetMovementActivity(ACT_RUN);
 		}
@@ -97,7 +97,7 @@ void CAI_BaseNPC::ForceSelectedGoRandom(void)
 bool CAI_BaseNPC::ScheduledMoveToGoalEntity( int scheduleType, CBaseEntity *pGoalEntity, Activity movementActivity )
 {
 	// If a behavior is active, we need to stop running it
-	SetPrimaryBehavior( NULL );
+	SetPrimaryBehavior(nullptr);
 
 	if ( m_NPCState == NPC_STATE_NONE )
 	{
@@ -124,7 +124,7 @@ bool CAI_BaseNPC::ScheduledMoveToGoalEntity( int scheduleType, CBaseEntity *pGoa
 bool CAI_BaseNPC::ScheduledFollowPath( int scheduleType, CBaseEntity *pPathStart, Activity movementActivity )
 {
 	// If a behavior is active, we need to stop running it
-	SetPrimaryBehavior( NULL );
+	SetPrimaryBehavior(nullptr);
 
 	if ( m_NPCState == NPC_STATE_NONE )
 	{
@@ -258,7 +258,7 @@ float CAI_BaseNPC::OpenDoorAndWait( CBaseEntity *pDoor )
 		flTravelTime = pDoor->GetMoveDoneTime();
 		if ( pDoor->GetEntityName() != NULL_STRING )
 		{
-			CBaseEntity *pTarget = NULL;
+			CBaseEntity *pTarget = nullptr;
 			for (;;)
 			{
 				pTarget = gEntList.FindEntityByName( pTarget, pDoor->GetEntityName() );

@@ -21,7 +21,7 @@
 class mxLineEdit2 : public mxLineEdit
 {
 public:
-	mxLineEdit2( mxWindow *parent, int x, int y, int w, int h, const char *label = 0, int id = 0, int style = 0 );
+	mxLineEdit2( mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr, int id = 0, int style = 0 );
 
 	void getText( char *pOut, int len );
 	void setText( const char *pText );

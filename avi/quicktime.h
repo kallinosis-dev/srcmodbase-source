@@ -72,7 +72,7 @@ class CQuicktimeMaterialRGBTextureRegenerator : public ITextureRegenerator
 {
 public:
 	CQuicktimeMaterialRGBTextureRegenerator() :
-		m_pQTMaterial( NULL ),
+		m_pQTMaterial(nullptr),
 		m_nSourceWidth( 0 ),
 		m_nSourceHeight( 0 )
 	{

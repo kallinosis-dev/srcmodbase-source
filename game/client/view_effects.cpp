@@ -672,7 +672,7 @@ void CViewEffects::ClearAllShakes()
 //-----------------------------------------------------------------------------
 screenshake_t *CViewEffects::FindLongestShake()
 {
-	screenshake_t *pLongestShake = NULL;
+	screenshake_t *pLongestShake = nullptr;
 
 	int nShakeCount = m_ShakeList.Count();
 	for ( int i = 0; i < nShakeCount; i++ )
@@ -759,7 +759,7 @@ void CViewEffects::ClearAllTilts()
 //-----------------------------------------------------------------------------
 screentilt_t *CViewEffects::FindLongestTilt()
 {
-	screentilt_t *pLongestTilt = NULL;
+	screentilt_t *pLongestTilt = nullptr;
 
 	int nTiltCount = m_TiltList.Count();
 	for ( int i = 0; i < nTiltCount; i++ )
@@ -883,7 +883,7 @@ void CViewEffects::FadeCalculate( void )
 			if ( s_pfnFadeDoneCallback )
 			{
 				s_pfnFadeDoneCallback( s_nCallbackParameter );
-				s_pfnFadeDoneCallback = NULL;
+				s_pfnFadeDoneCallback = nullptr;
 				s_nCallbackParameter = 0;
 			}
 

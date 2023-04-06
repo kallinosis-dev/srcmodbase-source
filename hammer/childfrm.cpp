@@ -86,7 +86,7 @@ CChildFrame::CChildFrame(void)
 	bAutosize4 = TRUE;
 	bFirstPaint = TRUE;
 	bUsingSplitter = !g_b4Views ? FALSE : !Options.general.bIndependentwin;
-	m_wndSplitter = NULL;
+	m_wndSplitter = nullptr;
 	m_bNeedsCentered = FALSE;
 }
 
@@ -96,7 +96,7 @@ CChildFrame::CChildFrame(void)
 //-----------------------------------------------------------------------------
 CChildFrame::~CChildFrame(void)
 {
-	if (m_wndSplitter != NULL)
+	if (m_wndSplitter != nullptr)
 	{
 		m_wndSplitter->DestroyWindow();
 		delete m_wndSplitter;
@@ -134,8 +134,8 @@ CView * CChildFrame::GetActiveView()
 
 		// If no active view for the frame, return FALSE because this
 		// function retrieves the current document from the active view.
-		if ((pCurrentView= (CView*) m_wndSplitter->GetPane(iRow, iCol))==NULL)
-			return NULL;
+		if ((pCurrentView= (CView*) m_wndSplitter->GetPane(iRow, iCol))== nullptr)
+			return nullptr;
 	}
 	else
 	{
@@ -171,7 +171,7 @@ void CChildFrame::SetSplitterMode(BOOL bSplitter)
 
 		m_wndSplitter->DestroyWindow();
 		delete m_wndSplitter;
-		m_wndSplitter = NULL;
+		m_wndSplitter = nullptr;
 
 		pDoc->m_bAutoDelete = bAutoDelete;
 
@@ -205,10 +205,10 @@ void CChildFrame::SetSplitterMode(BOOL bSplitter)
 		CSize sizeView(r.Width()/2 - 3, r.Height()/2 - 3);
 
 		CCreateContext context;
-		context.m_pNewViewClass = NULL;
+		context.m_pNewViewClass = nullptr;
 		context.m_pCurrentDoc = pDoc;
-		context.m_pNewDocTemplate = NULL;
-		context.m_pLastView = NULL;
+		context.m_pNewDocTemplate = nullptr;
+		context.m_pLastView = nullptr;
 		context.m_pCurrentFrame = this;
 
 		context.m_pNewViewClass = RUNTIME_CLASS(CMapView2D);
@@ -242,7 +242,7 @@ CView *CChildFrame::ReplaceView(CRuntimeClass *pViewClass)
 	CView *pCurrentView = GetActiveView();
 	if (!pCurrentView)
 	{
-		return(NULL);
+		return(nullptr);
 	}
 	
 	//
@@ -286,11 +286,11 @@ CView *CChildFrame::ReplaceView(CRuntimeClass *pViewClass)
 
 	context.m_pNewViewClass = pViewClass;
 	context.m_pCurrentDoc = pDoc;
-	context.m_pNewDocTemplate = NULL;
-	context.m_pLastView = NULL;
+	context.m_pNewDocTemplate = nullptr;
+	context.m_pLastView = nullptr;
 	context.m_pCurrentFrame=this;
  
-	CView *pNewView = NULL;
+	CView *pNewView = nullptr;
 
 	if (bUsingSplitter)
 	{
@@ -307,9 +307,9 @@ CView *CChildFrame::ReplaceView(CRuntimeClass *pViewClass)
 			CRect r;
 			GetClientRect(r);
 
-			if (!pNewView->Create(NULL, NULL, AFX_WS_DEFAULT_VIEW, r, this, AFX_IDW_PANE_FIRST, &context))
+			if (!pNewView->Create(nullptr, nullptr, AFX_WS_DEFAULT_VIEW, r, this, AFX_IDW_PANE_FIRST, &context))
 			{
-				pNewView = NULL;
+				pNewView = nullptr;
 			}
 		}
  	}
@@ -317,7 +317,7 @@ CView *CChildFrame::ReplaceView(CRuntimeClass *pViewClass)
 	if (!pNewView) 
 	{
 		TRACE0("Warning: couldn't create view for frame\n");
-		return(NULL);
+		return(nullptr);
 	}
  
 	pNewView->SendMessage(WM_INITIALUPDATE, 0, 0);
@@ -368,7 +368,7 @@ void CChildFrame::SaveOptions(void)
 			for (int nCol = 0; nCol < 2; nCol++)
 			{
 				CMapView *pView =  dynamic_cast<CMapView*>(m_wndSplitter->GetPane(nRow, nCol));
-				if (pView != NULL)
+				if (pView != nullptr)
 				{
 					char szKey[30];
 					sprintf(szKey, "DrawType%d,%d", nRow, nCol);
@@ -405,7 +405,7 @@ void CChildFrame::SaveOptions(void)
 //-----------------------------------------------------------------------------
 void CChildFrame::SetViewType(DrawType_t eViewType)
 {
-	CMapView *pNewView = NULL;
+	CMapView *pNewView = nullptr;
 	
 	switch (eViewType)
 	{
@@ -433,7 +433,7 @@ void CChildFrame::SetViewType(DrawType_t eViewType)
 			break;
 	}
 
-	if (pNewView != NULL)
+	if (pNewView != nullptr)
 	{
 		SetActiveView( dynamic_cast<CView*>(pNewView->GetViewWnd()) );
 		pNewView->SetDrawType(eViewType);
@@ -561,7 +561,7 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext *pContext)
 		m_wndSplitter = new CMySplitterWnd;
 		Assert(m_wndSplitter != NULL);
 		
-		if (m_wndSplitter == NULL)
+		if (m_wndSplitter == nullptr)
 		{
 			return(FALSE);
 		}
@@ -569,7 +569,7 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext *pContext)
 		if (!m_wndSplitter->CreateStatic(this, 2, 2))
 		{
 			delete m_wndSplitter;
-			m_wndSplitter = NULL;
+			m_wndSplitter = nullptr;
 			TRACE0("Failed to create split bar ");
 			return(FALSE);
 		}
@@ -632,7 +632,7 @@ BOOL CChildFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext *pContext)
 				}
 
 				CMapView *pView = dynamic_cast<CMapView*>(m_wndSplitter->GetPane(nRow, nCol));
-				if (pView != NULL)
+				if (pView != nullptr)
 				{
 					pView->SetDrawType(eDrawType[nRow][nCol]);
 				}
@@ -783,7 +783,7 @@ void CChildFrame::OnPaint(void)
 {
 	if (bFirstPaint)
 	{
-		ValidateRect(NULL);
+		ValidateRect(nullptr);
 		bFirstPaint = FALSE;
 		if ( m_bNeedsCentered )
 		{
@@ -845,7 +845,7 @@ void CMySplitterWnd::ToggleMax(CWnd *pWnd)
 		SetColumnInfo(0, sizePrev[0][0], 0);
 		SetColumnInfo(1, sizePrev[0][1], 0);
 
-		pMaxPrev = NULL;
+		pMaxPrev = nullptr;
 	}
 
 	RecalcLayout();

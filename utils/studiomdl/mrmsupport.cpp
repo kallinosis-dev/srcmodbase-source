@@ -128,7 +128,7 @@ void Grab_Vertexlist( s_source_t *psource )
 {
 	while (1) 
 	{
-		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 		{
 			int j;
 			int bone;
@@ -190,7 +190,7 @@ void Grab_Facelist( s_source_t *psource )
 {
 	while (1) 
 	{
-		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 		{
 			int j;
 			s_tmpface_t f;
@@ -221,7 +221,7 @@ void Grab_Materiallist( s_source_t *psource )
 {
 	while (1) 
 	{
-		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 		{
 			// char name[256];
 			char path[MAX_PATH];
@@ -265,7 +265,7 @@ void Grab_Texcoordlist( s_source_t *psource )
 {
 	while (1) 
 	{
-		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 		{
 			int j;
 			Vector2D t;
@@ -297,7 +297,7 @@ void Grab_Normallist( s_source_t *psource )
 {
 	while (1) 
 	{
-		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 		{
 			int j;
 			int bone;
@@ -338,7 +338,7 @@ void Grab_Faceattriblist( s_source_t *psource )
 {
 	while (1) 
 	{
-		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 		{
 			int j;
 			int smooth;
@@ -412,7 +412,7 @@ int closestNormal( int v, int n )
 
 int AddToVlist(int v, int m, int n, int* t, int firstref)
 {
-	v_unify_t *prev = NULL;
+	v_unify_t *prev = nullptr;
 	v_unify_t *cur = v_list[v];
 
 	while (cur)
@@ -797,7 +797,7 @@ void Grab_MRMFaceupdates( s_source_t *psource )
 {
 	while (1) 
 	{
-		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 		{
 			g_iLinecount++;
 
@@ -825,7 +825,7 @@ int Load_VRM ( s_source_t *psource )
 
 	g_iLinecount = 0;
 
-	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 	{
 		g_iLinecount++;
 		sscanf( g_szLine, "%1023s %d", cmd, &option );

@@ -31,8 +31,8 @@ QueryBox::QueryBox(const char *title, const char *queryText, vgui::Panel *parent
 	m_pCancelButton = new Button(this, "CancelButton", "#QueryBox_Cancel");
 	m_pCancelButton->SetCommand("Cancel"); 
 	m_pOkButton->SetCommand("OK");
-	m_pCancelCommand = NULL;
-	m_pOkCommand = NULL;
+	m_pCancelCommand = nullptr;
+	m_pOkCommand = nullptr;
 
 	m_pOkButton->SetTabPosition(1);
 	m_pCancelButton->SetTabPosition(2);
@@ -47,8 +47,8 @@ QueryBox::QueryBox(const wchar_t *wszTitle, const wchar_t *wszQueryText,vgui::Pa
 	m_pCancelButton = new Button(this, "CancelButton", "#QueryBox_Cancel");
 	m_pCancelButton->SetCommand("Cancel"); 
 	m_pOkButton->SetCommand("OK");
-	m_pCancelCommand = NULL;
-	m_pOkCommand = NULL;
+	m_pCancelCommand = nullptr;
+	m_pOkCommand = nullptr;
 
 	m_pOkButton->SetTabPosition(1);
 	m_pCancelButton->SetTabPosition(2);

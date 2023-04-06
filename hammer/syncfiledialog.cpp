@@ -116,7 +116,7 @@ BOOL CSyncFileDialog::OnInitDialog()
 
 	m_DoOperationControl.SetCheck( m_bRepeatOperation ? TRUE : FALSE );
 
-	HICON	Icon = ::LoadIcon( NULL, MAKEINTRESOURCE( IDI_ERROR ) );
+	HICON	Icon = ::LoadIcon(nullptr, MAKEINTRESOURCE( IDI_ERROR ) );
 	m_IconControl.SetIcon( Icon );
 
 	return TRUE; 

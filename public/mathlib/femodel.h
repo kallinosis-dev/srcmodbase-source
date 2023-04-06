@@ -775,7 +775,7 @@ public:
 	uint CtrlToNode( uint nCtrl ) const { return m_pCtrlToNode ? m_pCtrlToNode[ nCtrl ] : nCtrl; }
 
 	const char *GetNodeName( uint nNode )const { return GetCtrlName( NodeToCtrl( nNode ) ); }
-	const char *GetCtrlName( uint nCtrl )const { return m_pCtrlName ? m_pCtrlName[ nCtrl ] : NULL;  }
+	const char *GetCtrlName( uint nCtrl )const { return m_pCtrlName ? m_pCtrlName[ nCtrl ] : nullptr;  }
 
 	FeCtrlOffset_t *FindCtrlOffsetByChild( uint nChild );
 	FeCtrlOsOffset_t *FindCtrlOsOffsetByChild( uint nChild );
@@ -1512,7 +1512,7 @@ inline FeCtrlOffset_t *CFeModel::FindCtrlOffsetByChild( uint nChild )
 			return &m_pCtrlOffsets[ i ];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 inline FeCtrlOsOffset_t *CFeModel::FindCtrlOsOffsetByChild( uint nChild )
@@ -1524,7 +1524,7 @@ inline FeCtrlOsOffset_t *CFeModel::FindCtrlOsOffsetByChild( uint nChild )
 			return &m_pCtrlOsOffsets[ i ];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 FORCEINLINE const Vector AsVector( const fltx4& f4 )

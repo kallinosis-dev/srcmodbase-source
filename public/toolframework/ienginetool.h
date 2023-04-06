@@ -206,7 +206,7 @@ public:
 	virtual void		CancelMovieRecording() = 0;
 	virtual AVIHandle_t GetRecordingAVIHandle() = 0;
 
-	virtual void		StartRecordingVoiceToFile( char const *filename, char const *pPathID = 0 ) = 0;
+	virtual void		StartRecordingVoiceToFile( char const *filename, char const *pPathID = nullptr ) = 0;
 	virtual void		StopRecordingVoiceToFile() = 0;
 	virtual bool		IsVoiceRecording() = 0;
 

@@ -235,12 +235,12 @@ void RemovePortalFromNode (portal_t *portal, node_t *l)
 	if (portal->nodes[0] == l)
 	{
 		*pp = portal->next[0];
-		portal->nodes[0] = NULL;
+		portal->nodes[0] = nullptr;
 	}
 	else if (portal->nodes[1] == l)
 	{
 		*pp = portal->next[1];	
-		portal->nodes[1] = NULL;
+		portal->nodes[1] = nullptr;
 	}
 }
 
@@ -296,8 +296,8 @@ void MakeHeadnodePortals (tree_t *tree)
 	}
 	
 	tree->outside_node.planenum = PLANENUM_LEAF;
-	tree->outside_node.brushlist = NULL;
-	tree->outside_node.portals = NULL;
+	tree->outside_node.brushlist = nullptr;
+	tree->outside_node.portals = nullptr;
 	tree->outside_node.contents = 0;
 
 	for (i=0 ; i<3 ; i++)
@@ -488,14 +488,14 @@ void SplitNodePortals (node_t *node)
 		if (frontwinding && WindingIsTiny(frontwinding))
 		{
 			FreeWinding (frontwinding);
-			frontwinding = NULL;
+			frontwinding = nullptr;
 			c_tinyportals++;
 		}
 
 		if (backwinding && WindingIsTiny(backwinding))
 		{
 			FreeWinding (backwinding);
-			backwinding = NULL;
+			backwinding = nullptr;
 			c_tinyportals++;
 		}
 
@@ -542,7 +542,7 @@ void SplitNodePortals (node_t *node)
 		}
 	}
 
-	node->portals = NULL;
+	node->portals = nullptr;
 }
 
 
@@ -957,13 +957,13 @@ void FindAreas_r (node_t *node)
 		return;
 
 	c_areas++;
-	FloodAreas_r (node, NULL);
+	FloodAreas_r (node, nullptr);
 }
 
 
 void ReportAreaportalLeak( tree_t *tree, node_t *node )
 {
-	portal_t *p, *pStart = NULL;
+	portal_t *p, *pStart = nullptr;
 	int s;
 
 	// Find a portal out of this areaportal into empty space
@@ -987,7 +987,7 @@ void ReportAreaportalLeak( tree_t *tree, node_t *node )
 		FloodAreaLeak( tree->headnode, pStart->nodes[s] );
 
 		// find the portal into the longest path around the portal
-		portal_t *pBest = NULL;
+		portal_t *pBest = nullptr;
 		int bestDist = 0;
 		for (p=node->portals ; p ; p = p->next[s])
 		{
@@ -1556,7 +1556,7 @@ void FindPortalSide (portal_t *p)
 	}
 
 	planenum = p->onnode->planenum;
-	bestside = NULL;
+	bestside = nullptr;
 	bestdist = 1000000;
 
 	for (j=0 ; j<2 ; j++)

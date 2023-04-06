@@ -19,31 +19,31 @@
 namespace vgui
 {
 
-IMaterialSystem *g_pMaterialSystem = NULL;
+IMaterialSystem *g_pMaterialSystem = nullptr;
 IMaterialSystem *MaterialSystem()
 {
 	return g_pMaterialSystem;
 }
 
-IMaterialSystemHardwareConfig *g_pMaterialSystemHardwareConfig = NULL;
+IMaterialSystemHardwareConfig *g_pMaterialSystemHardwareConfig = nullptr;
 IMaterialSystemHardwareConfig *MaterialSystemHardwareConfig()
 {
 	return g_pMaterialSystemHardwareConfig;
 }
 
-IMDLCache *g_pMDLCache = NULL;
+IMDLCache *g_pMDLCache = nullptr;
 IMDLCache *MDLCache()
 {
 	return g_pMDLCache;
 }
 
-IMatSystemSurface *g_pMatSystemSurface = NULL;
+IMatSystemSurface *g_pMatSystemSurface = nullptr;
 IMatSystemSurface *MatSystemSurface()
 {
 	return g_pMatSystemSurface;
 }
 
-IStudioRender *g_pStudioRender = NULL;
+IStudioRender *g_pStudioRender = nullptr;
 IStudioRender *StudioRender()
 {
 	return g_pStudioRender;
@@ -63,7 +63,7 @@ static void *InitializeInterface( char const *interfaceName, CreateInterfaceFn *
 		if ( !factory )
 			continue;
 
-		retval = factory( interfaceName, NULL );
+		retval = factory( interfaceName, nullptr);
 		if ( retval )
 			return retval;
 	}
@@ -71,7 +71,7 @@ static void *InitializeInterface( char const *interfaceName, CreateInterfaceFn *
 	// No provider for requested interface!!!
 	// Assert( !"No provider for requested interface!!!" );
 
-	return NULL;
+	return nullptr;
 }
 
 

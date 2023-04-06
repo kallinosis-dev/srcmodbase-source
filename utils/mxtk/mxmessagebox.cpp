@@ -22,7 +22,7 @@
 int
 mxMessageBox (mxWindow *parent, const char *msg, const char *title, int style)
 {
-	HWND hwndParent = 0;
+	HWND hwndParent = nullptr;
 	if (parent)
 		hwndParent = (HWND) parent->getHandle ();
 

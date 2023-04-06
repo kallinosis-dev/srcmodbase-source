@@ -219,7 +219,7 @@ void CInput::SteamControllerMove( float flFrametime, CUserCmd *cmd )
 				engine->ClientCmd_Unrestricted( cmdbuf, true );
 
 				IClientMode *clientMode = GetClientMode();
-				if ( clientMode != NULL )
+				if ( clientMode != nullptr)
 				{
 					clientMode->KeyInput( bState ? true : false, STEAMCONTROLLER_SELECT, cmdbuf );
 				}

@@ -82,7 +82,7 @@ public:
 #endif
 	
 	void Iterate( SQVM *vm, CSQStateIterator *pIterator );
-	static void IterateObject( CSQStateIterator *pIterator, SQObjectPtr &value, const char *pszName = NULL );
+	static void IterateObject( CSQStateIterator *pIterator, SQObjectPtr &value, const char *pszName = nullptr);
 
 	SQObjectPtrVec *_metamethods;
 	SQObjectPtr _metamethodsmap;

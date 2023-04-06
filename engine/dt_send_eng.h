@@ -111,7 +111,7 @@ bool SendTable_Encode(
 	SerializedEntityHandle_t handle,
 	const void *pStruct, 
 	int objectID = -1,
-	CUtlMemory<CSendProxyRecipients> *pRecipients = NULL	// If non-null, this is an array of CSendProxyRecipients.
+	CUtlMemory<CSendProxyRecipients> *pRecipients = nullptr // If non-null, this is an array of CSendProxyRecipients.
 															// The array must have room for pTable->GetNumDataTableProxies().
 	);
 

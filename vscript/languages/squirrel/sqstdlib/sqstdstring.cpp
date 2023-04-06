@@ -146,7 +146,7 @@ SQRESULT sqstd_format(HSQUIRRELVM v,SQInteger nformatstringidx,SQInteger *outlen
 
 static SQInteger _string_format(HSQUIRRELVM v)
 {
-	SQChar *dest = NULL;
+	SQChar *dest = nullptr;
 	SQInteger length = 0;
 	if(SQ_FAILED(sqstd_format(v,2,&length,&dest)))
 		return -1;
@@ -214,10 +214,10 @@ static SQInteger _string_split(HSQUIRRELVM v)
 	memcpy(stemp,str,memsize);
 	tok = scstrtok(stemp,seps);
 	sq_newarray(v,0);
-	while( tok != NULL ) {
+	while( tok != nullptr) {
 		sq_pushstring(v,tok,-1);
 		sq_arrayappend(v,-2);
-		tok = scstrtok( NULL, seps );
+		tok = scstrtok(nullptr, seps );
 	}
 	return 1;
 }
@@ -328,7 +328,7 @@ static SQRegFunction rexobj_funcs[]={
 	_DECL_REX_FUNC(capture,-2,_SC("xsn")),
 	_DECL_REX_FUNC(subexpcount,1,_SC("x")),
 	_DECL_REX_FUNC(_typeof,1,_SC("x")),
-	{0,0}
+	{nullptr,nullptr}
 };
 
 #define _DECL_FUNC(name,nparams,pmask) {_SC(#name),_string_##name,nparams,pmask}
@@ -338,7 +338,7 @@ static SQRegFunction stringlib_funcs[]={
 	_DECL_FUNC(lstrip,2,_SC(".s")),
 	_DECL_FUNC(rstrip,2,_SC(".s")),
 	_DECL_FUNC(split,3,_SC(".ss")),
-	{0,0}
+	{nullptr,nullptr}
 };
 
 
@@ -347,7 +347,7 @@ SQInteger sqstd_register_stringlib(HSQUIRRELVM v)
 	sq_pushstring(v,_SC("regexp"),-1);
 	sq_newclass(v,SQFalse);
 	SQInteger i = 0;
-	while(rexobj_funcs[i].name != 0) {
+	while(rexobj_funcs[i].name != nullptr) {
 		SQRegFunction &f = rexobj_funcs[i];
 		sq_pushstring(v,f.name,-1);
 		sq_newclosure(v,f.f,0);
@@ -359,7 +359,7 @@ SQInteger sqstd_register_stringlib(HSQUIRRELVM v)
 	sq_createslot(v,-3);
 
 	i = 0;
-	while(stringlib_funcs[i].name!=0)
+	while(stringlib_funcs[i].name!=nullptr)
 	{
 		sq_pushstring(v,stringlib_funcs[i].name,-1);
 		sq_newclosure(v,stringlib_funcs[i].f,0);

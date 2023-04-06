@@ -373,7 +373,7 @@ CBaseDemoAction *CDemoEditorPanel::FindActionByName( char const *name )
 		if ( !Q_strcasecmp( name, action->GetActionName() ) )
 			return action;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

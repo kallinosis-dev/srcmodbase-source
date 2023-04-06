@@ -903,7 +903,7 @@ public:
 	virtual void			SetCollisionHints( uint32 collisionHints ) = 0;
 	virtual uint32			GetCollisionHints() const = 0;
 
-	inline bool				IsPredicted( void ) const { return GetPredictedInterface() != NULL; } //true if class has an IPredictedPhysicsObject interface
+	inline bool				IsPredicted( void ) const { return GetPredictedInterface() != nullptr; } //true if class has an IPredictedPhysicsObject interface
 	virtual IPredictedPhysicsObject *GetPredictedInterface( void ) const = 0;
 	virtual void			SyncWith( IPhysicsObject *pOther ) = 0;
 };
@@ -1162,7 +1162,7 @@ struct convertconvexparams_t
 		checkOptimalTracing = false;
 		bUseFastApproximateInertiaTensor = false;
 		bBuildAABBTree = false;
-		pForcedOuterHull = NULL;
+		pForcedOuterHull = nullptr;
 	}
 };
 

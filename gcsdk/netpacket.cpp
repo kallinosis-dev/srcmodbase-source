@@ -20,7 +20,7 @@ namespace GCSDK
 CNetPacket::CNetPacket()
 {
 	m_cRef = 0;
-	m_pubData = NULL;
+	m_pubData = nullptr;
 	m_cubData = 0;
 }
 
@@ -80,7 +80,7 @@ void CNetPacket::InitAdoptBuffer( uint32 cubData, uint8* pubData )
 //-----------------------------------------------------------------------------
 void CNetPacket::OrphanBuffer()
 {
-	m_pubData = NULL;
+	m_pubData = nullptr;
 	m_cubData = 0;
 }
 

@@ -68,7 +68,7 @@ private:
 // Input  : *parent - 
 //-----------------------------------------------------------------------------
 CCenterStringLabel::CCenterStringLabel( vgui::VPANEL parent ) : 
-	BaseClass( NULL, "CCenterStringLabel", " " )
+	BaseClass(nullptr, "CCenterStringLabel", " " )
 {
 	SetParent( parent );
 	ComputeSize();
@@ -231,7 +231,7 @@ bool CCenterStringLabel::ShouldDraw( void )
 //-----------------------------------------------------------------------------
 CCenterPrint::CCenterPrint( void )
 {
-	vguiCenterString = NULL;
+	vguiCenterString = nullptr;
 }
 
 void CCenterPrint::SetTextColor( int r, int g, int b, int a )
@@ -297,9 +297,9 @@ void CCenterPrint::Destroy( void )
 {
 	if ( vguiCenterString )
 	{
-		vguiCenterString->SetParent( (vgui::Panel *)NULL );
+		vguiCenterString->SetParent( (vgui::Panel *)nullptr);
 		delete vguiCenterString;
-		vguiCenterString = NULL;
+		vguiCenterString = nullptr;
 	}
 }
 

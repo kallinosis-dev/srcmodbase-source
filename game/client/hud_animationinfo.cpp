@@ -68,14 +68,14 @@ DECLARE_HUDELEMENT( CHudAnimationInfo );
 //			*panelName - 
 //-----------------------------------------------------------------------------
 CHudAnimationInfo::CHudAnimationInfo( const char *pElementName )
- : CHudElement( pElementName ), BaseClass( NULL, "HudAnimationInfo" )
+ : CHudElement( pElementName ), BaseClass(nullptr, "HudAnimationInfo" )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
 
 	SetActive( true );
 
-	m_pWatch = NULL;
+	m_pWatch = nullptr;
 
 	// Make sure we render on top of other hud elements since we are debugging info for them.
 	SetZPos( 100 );
@@ -172,7 +172,7 @@ void CHudAnimationInfo::PaintMappingInfo( int& x, int& y, Panel *element, PanelA
 		char value[ 256 ];
 
 		Color col( 0, 0, 0, 0 );
-		Color  *pColor = NULL;
+		Color  *pColor = nullptr;
 		KeyValues *kv = new KeyValues( e->name() );
 		if ( element->RequestInfo( kv ) )
 		{
@@ -234,9 +234,9 @@ void CHudAnimationInfo::Paint()
 	panel->GetBounds( bounds[0], bounds[1], bounds[2], bounds[3] );
 	char sz[ 256 ];
 	Q_snprintf( sz, sizeof( sz ), "%-30s %-20s (%i %i)", "Position", "pos", bounds[0], bounds[1] );
-	PaintString( x, y, sz, NULL );
+	PaintString( x, y, sz, nullptr);
 	Q_snprintf( sz, sizeof( sz ), "%-30s %-20s (%i %i)", "Size", "size", bounds[2], bounds[3] );
-	PaintString( x, y, sz, NULL );
+	PaintString( x, y, sz, nullptr);
 }
 
 
@@ -294,12 +294,12 @@ CON_COMMAND_F_COMPLETION( cl_animationinfo, "Hud element to examine.", 0, HudEle
 
 	if ( args.ArgC() != 2 )
 	{
-		info->SetWatch( NULL );
+		info->SetWatch(nullptr);
 		return;
 	}
 
 	// Find it
-	CHudElement *element = NULL;
+	CHudElement *element = nullptr;
 	
 	for ( int i = 0; i < GetHud().GetHudList().Count(); i++ )
 	{
@@ -318,7 +318,7 @@ CON_COMMAND_F_COMPLETION( cl_animationinfo, "Hud element to examine.", 0, HudEle
 	{
 		VPANEL root = VGui_GetClientDLLRootPanel();
 		vgui::Panel *rootPanel = ipanel()->GetPanel( root, info->GetModuleName() );
-		Panel *panel = NULL;
+		Panel *panel = nullptr;
 		if ( rootPanel )
 		{
 			panel = rootPanel->FindChildByName( args[1], true );

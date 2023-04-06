@@ -89,7 +89,7 @@ class CRallyPoint : public CPointEntity
 public:
 	CRallyPoint()
 	{
-		m_hLockedBy.Set(NULL);
+		m_hLockedBy.Set(nullptr);
 		m_sExclusivity = RALLY_EXCLUSIVE_NOT_EVALUATED;
 	}
 
@@ -116,11 +116,11 @@ public:
 			}
 		}
 
-		m_hLockedBy.Set( NULL );
+		m_hLockedBy.Set(nullptr);
 		return true;
 	}
 
-	bool IsLocked( void ) { return (m_hLockedBy.Get() != NULL); }
+	bool IsLocked( void ) { return (m_hLockedBy.Get() != nullptr); }
 	bool ShouldBeLocked( void ) { return m_bShouldLock; }
 
 	int DrawDebugTextOverlays();

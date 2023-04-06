@@ -16,7 +16,7 @@ extern ConVar cl_pitchup;
 
 
 // ConCommands useful for creating view animations
-CViewAngleAnimation *g_pTestAnimation = NULL;
+CViewAngleAnimation *g_pTestAnimation = nullptr;
 
 // create a view animation object to be used for creating an animation. parameter is flags
 CON_COMMAND( viewanim_create, "viewanim_create" )
@@ -24,7 +24,7 @@ CON_COMMAND( viewanim_create, "viewanim_create" )
 	if ( g_pTestAnimation )
 	{
 		delete g_pTestAnimation;
-		g_pTestAnimation = NULL;
+		g_pTestAnimation = nullptr;
 	}
 
 	int flags = 0;
@@ -236,7 +236,7 @@ void CViewAngleAnimation::SaveAsAnimFile( const char *pKeyFrameFileName )
 		pKey->SetInt( "flags", m_KeyFrames[i]->m_iFlags );
 	}
 
-	pData->SaveToFile( filesystem, pKeyFrameFileName, NULL );
+	pData->SaveToFile( filesystem, pKeyFrameFileName, nullptr);
 	pData->deleteThis();
 }
 

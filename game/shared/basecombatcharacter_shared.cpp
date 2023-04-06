@@ -24,7 +24,7 @@ bool CBaseCombatCharacter::SwitchToNextBestWeapon(CBaseCombatWeapon *pCurrent)
 {
 	CBaseCombatWeapon *pNewWeapon = g_pGameRules->GetNextBestWeapon(this, pCurrent);
 	
-	if ( ( pNewWeapon != NULL ) && ( pNewWeapon != pCurrent ) )
+	if ( ( pNewWeapon != nullptr) && ( pNewWeapon != pCurrent ) )
 	{
 		return Weapon_Switch( pNewWeapon );
 	}
@@ -39,7 +39,7 @@ bool CBaseCombatCharacter::SwitchToNextBestWeapon(CBaseCombatWeapon *pCurrent)
 //-----------------------------------------------------------------------------
 bool CBaseCombatCharacter::Weapon_Switch( CBaseCombatWeapon *pWeapon, int viewmodelindex /*=0*/ ) 
 {
-	if ( pWeapon == NULL )
+	if ( pWeapon == nullptr)
 		return false;
 
 	// Already have it out?
@@ -218,7 +218,7 @@ CBaseCombatWeapon* CBaseCombatCharacter::Weapon_OwnsThisType( const char *pszWea
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -233,7 +233,7 @@ CBaseCombatWeapon *CBaseCombatCharacter::Weapon_GetSlot( int slot ) const
 	// Check for that slot being occupied already
 	for ( int i=0; i < MAX_WEAPONS; i++ )
 	{
-		if ( m_hMyWeapons[i].Get() != NULL )
+		if ( m_hMyWeapons[i].Get() != nullptr)
 		{
 			// If the slots match, it's already occupied
 			if ( m_hMyWeapons[i]->GetSlot() == targetSlot )
@@ -241,7 +241,7 @@ CBaseCombatWeapon *CBaseCombatCharacter::Weapon_GetSlot( int slot ) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -254,7 +254,7 @@ CBaseCombatWeapon *CBaseCombatCharacter::Weapon_GetPosition( int position ) cons
 	// Check for that slot being occupied already
 	for ( int i = 0; i < MAX_WEAPONS; i++ )
 	{
-		if ( m_hMyWeapons[ i ].Get() != NULL )
+		if ( m_hMyWeapons[ i ].Get() != nullptr)
 		{
 			CEconItemView * pItem = m_hMyWeapons[ i ]->GetEconItemView() ;
 			if ( !pItem )
@@ -268,7 +268,7 @@ CBaseCombatWeapon *CBaseCombatCharacter::Weapon_GetPosition( int position ) cons
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -577,7 +577,7 @@ bool CBaseCombatCharacter::IsAbleToSee( CBaseCombatCharacter *pBCC, FieldOfViewC
 class CTraceFilterNoCombatCharacters : public CTraceFilterSimple
 {
 public:
-	CTraceFilterNoCombatCharacters( const IHandleEntity *passentity = NULL, int collisionGroup = COLLISION_GROUP_NONE )
+	CTraceFilterNoCombatCharacters( const IHandleEntity *passentity = nullptr, int collisionGroup = COLLISION_GROUP_NONE )
 		: CTraceFilterSimple( passentity, collisionGroup )
 	{
 	}
@@ -608,7 +608,7 @@ bool CBaseCombatCharacter::ComputeLOS( const Vector &vecEyePosition, const Vecto
 {
 	// We simply can't see because the world is in the way.
 	trace_t result;
-	CTraceFilterNoCombatCharacters traceFilter( NULL, COLLISION_GROUP_NONE );
+	CTraceFilterNoCombatCharacters traceFilter(nullptr, COLLISION_GROUP_NONE );
 	UTIL_TraceLine( vecEyePosition, vecTarget, MASK_OPAQUE | CONTENTS_IGNORE_NODRAW_OPAQUE | CONTENTS_MONSTER, &traceFilter, &result );
 	return ( result.fraction == 1.0f );
 }
@@ -749,7 +749,7 @@ static bool TraceFilterNoCombatCharacters( IHandleEntity *pServerEntity, int con
 {
 	// Honor BlockLOS also to allow seeing through partially-broken doors
 	CBaseEntity *entity = EntityFromEntityHandle( pServerEntity );
-	return ( entity->MyCombatCharacterPointer() == NULL && !entity->MyCombatWeaponPointer() && entity->BlocksLOS() );
+	return ( entity->MyCombatCharacterPointer() == nullptr && !entity->MyCombatWeaponPointer() && entity->BlocksLOS() );
 }
 
 bool CBaseCombatCharacter::IsLineOfSightClear( const Vector &pos, LineOfSightCheckType checkType, CBaseEntity *entityToIgnore ) const

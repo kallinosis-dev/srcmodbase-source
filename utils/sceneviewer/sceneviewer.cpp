@@ -61,7 +61,7 @@
 
 // temporary HACK
 class _Window_t { int unused; };
-_Window_t *g_pWindow = NULL;
+_Window_t *g_pWindow = nullptr;
 
 
 const MaterialSystem_Config_t *g_pMaterialSystemConfig;
@@ -168,7 +168,7 @@ private:
 //-----------------------------------------------------------------------------
 static bool CHLSceneViewerApp_SuggestGameInfoDirFn( CFSSteamSetupInfo const *pFsSteamSetupInfo, char *pchPathBuffer, int nBufferLength, bool *pbBubbleDirectories )
 {
-	const char *pFilename = NULL;
+	const char *pFilename = nullptr;
 	const int nParmCount = CommandLine()->ParmCount();
 	char pchTmpBuf[ MAX_PATH ];
 	for ( int nPi = 0; nPi < nParmCount; ++nPi )
@@ -253,14 +253,14 @@ bool CSceneViewerApp::Create()
 
 			char tmpBuf[ 2 ];
 			DWORD cRead;
-			ReadConsole( GetStdHandle( STD_INPUT_HANDLE ), tmpBuf, 1, &cRead, NULL );
+			ReadConsole( GetStdHandle( STD_INPUT_HANDLE ), tmpBuf, 1, &cRead, nullptr);
 		}
 
 		return false;
 	}
 
 	// FIXME: Enable vs30 shaders while NVidia driver bug exists
-	CommandLine()->AppendParm( "-box", NULL );
+	CommandLine()->AppendParm( "-box", nullptr);
 
 	if ( !BaseClass::Create() )
 		return false;
@@ -339,7 +339,7 @@ void CSceneViewerApp::InitDefaultEnvCubemap( )
 {
 	// Deal with the default cubemap
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap", NULL, true );
+	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap", nullptr, true );
 	m_DefaultEnvCubemap.Init( pCubemapTexture );
 	pRenderContext->BindLocalCubemap( pCubemapTexture );
 }
@@ -347,7 +347,7 @@ void CSceneViewerApp::InitDefaultEnvCubemap( )
 void CSceneViewerApp::ShutdownDefaultEnvCubemap( )
 {
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	pRenderContext->BindLocalCubemap( NULL );
+	pRenderContext->BindLocalCubemap(nullptr);
 	m_DefaultEnvCubemap.Shutdown( );
 }
 

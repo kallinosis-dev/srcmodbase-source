@@ -132,12 +132,12 @@ class CPhysCollide : public IPhysCollide
 {
 public:
 	static CPhysCollide *UnserializeFromBuffer( const char *pBuffer, unsigned int size, int index, bool swap = false );
-	virtual const IVP_Compact_Surface *GetCompactSurface() const { return NULL; }
+	virtual const IVP_Compact_Surface *GetCompactSurface() const { return nullptr; }
 	virtual Vector GetOrthographicAreas() const { return Vector(1,1,1); }
 	virtual float GetSphereRadius() const { return 0; }
 	virtual void ComputeOrthographicAreas( float epsilon ) {}
 	virtual void SetOrthographicAreas( const Vector &areas ) {}
-	virtual const collidemap_t *GetCollideMap() const { return NULL; }
+	virtual const collidemap_t *GetCollideMap() const { return nullptr; }
 };
 
 class ITraceObject

@@ -76,7 +76,7 @@ public:
       {
         m_elem = m_hash->GetNext(m_elem);
       }
-      while(m_elem == NULL && m_slot < m_hash->m_size)
+      while(m_elem == nullptr && m_slot < m_hash->m_size)
       {
         m_elem = m_hash->m_table[m_slot++];
       }
@@ -85,7 +85,7 @@ public:
     inline void Dec(void) { GM_ASSERT(false); }
     inline T * Resolve(void) { return m_elem; }
     inline const T * Resolve(void) const { return m_elem; }
-    inline bool IsValid() const { return (m_elem != NULL); }
+    inline bool IsValid() const { return (m_elem != nullptr); }
  
   private:
 
@@ -254,7 +254,7 @@ T * QUAL::Insert(T * a_node)
   a_node->NQUAL::m_next = *node;
   *node = a_node;
   ++m_count;
-  return NULL;
+  return nullptr;
 }
 
 
@@ -274,7 +274,7 @@ T * QUAL::Remove(T * a_node)
     }
     node = &((*node)->NQUAL::m_next);
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -287,7 +287,7 @@ T * QUAL::Remove(Iterator & a_it)
     a_it.Inc();
     return Remove(node);
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -311,11 +311,11 @@ T * QUAL::RemoveKey(const KEY &a_key)
     }
     else if(compare > 0)
     {
-      return NULL;
+      return nullptr;
     }
     node = &((*node)->NQUAL::m_next);
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -334,11 +334,11 @@ T * QUAL::Find(const KEY &a_key)
     }
     else if(compare > 0)
     {
-      return NULL;
+      return nullptr;
     }
     node = node->NQUAL::m_next;
   }
-  return NULL;
+  return nullptr;
 }
 
 #undef TMPL

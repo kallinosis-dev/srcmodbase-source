@@ -96,7 +96,7 @@ void CExpClass::Save( void )
 	int numflexmaps = 0;
 	int flexmap[128]; // maps file local controlls into global controls
 
-	CExpression *expr = NULL;
+	CExpression *expr = nullptr;
 	// find all used controllers
 	int fc = GetGlobalFlexControllerCount();
 	for ( j = 0; j < fc; ++j )
@@ -206,7 +206,7 @@ void CExpClass::Export( void )
 
 	int numflexmaps = 0;
 	int flexmap[128]; // maps file local controlls into global controls
-	CExpression *expr = NULL;
+	CExpression *expr = nullptr;
 
 	// find all used controllers
 	int fc_count = GetGlobalFlexControllerCount();
@@ -445,13 +445,13 @@ CExpression *CExpClass::AddExpression( const char *name, const char *description
 {
 	CStudioHdr *hdr = models->GetActiveStudioModel()->GetStudioHdr();
 	if ( !hdr )
-		return NULL;
+		return nullptr;
 
 	CExpression *exp = FindExpression( name );
 	if ( exp )
 	{
 		Con_ErrorPrintf( "Can't create, an expression with the name '%s' already exists.\n", name );
-		return NULL;
+		return nullptr;
 	}
 
 	// Add to end of list
@@ -511,7 +511,7 @@ CExpression *CExpClass::FindExpression( const char *name )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -552,7 +552,7 @@ CExpression *CExpClass::GetExpression( int num )
 {
 	if ( num < 0 || num >= m_Expressions.Count() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	CExpression *exp = &m_Expressions[ num ];

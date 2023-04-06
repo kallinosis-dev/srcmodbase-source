@@ -36,7 +36,7 @@ BEGIN_VS_SHADER_FLAGS( BlurFilterX, "Help for BlurFilterX", SHADER_NOT_EDITABLE 
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -49,7 +49,7 @@ BEGIN_VS_SHADER_FLAGS( BlurFilterX, "Help for BlurFilterX", SHADER_NOT_EDITABLE 
 			pShaderShadow->EnableDepthWrites( false );
 			pShaderShadow->EnableAlphaWrites( true );
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
 			pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, bForceSRGBReadAndWrite );
 			pShaderShadow->EnableSRGBWrite( bForceSRGBReadAndWrite );

@@ -40,7 +40,7 @@ void gmGCRootManager::Destroy()
   if( s_staticInstance )
   {
     delete s_staticInstance;
-    s_staticInstance = NULL;
+    s_staticInstance = nullptr;
   }
 }
 
@@ -52,12 +52,12 @@ gmgcrHolder* gmGCRootManager::FindOrAdd(gmObject* a_object, gmMachine* a_machine
   
   if( !a_object || !a_machine )
   {
-    return NULL;
+    return nullptr;
   }
   
   MachineHolders* machineSet = FindOrAddMachine(a_machine);
   
-  gmgcrHolder* holder = NULL;
+  gmgcrHolder* holder = nullptr;
   if( !machineSet->m_mapPtrToHolder.GetAt(a_object, holder) )
   {
     // Add new
@@ -118,7 +118,7 @@ void gmGCRootManager::DestroyMachine(gmMachine* a_machine)
     destroySet->m_mapPtrToHolder.GetFirst(it);
     while( !destroySet->m_mapPtrToHolder.IsNull(it) )
     {
-      gmgcrHolder* toDelete = NULL;
+      gmgcrHolder* toDelete = nullptr;
       if( destroySet->m_mapPtrToHolder.GetValue(it, toDelete) )
       {
         // NOTE: Delete this found value after incrementing iterator

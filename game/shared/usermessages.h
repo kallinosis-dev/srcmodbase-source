@@ -67,7 +67,7 @@ class CUserMessageBinder
 {
 public:
 	CUserMessageBinder()
-		: m_pBind( NULL )
+		: m_pBind(nullptr)
 	{
 	}
 
@@ -95,12 +95,12 @@ public:
 		if ( m_pBind )
 		{
 			delete m_pBind;
-			m_pBind = NULL;
+			m_pBind = nullptr;
 		}
 	}
 	bool IsBound() const
 	{
-		return m_pBind != NULL;
+		return m_pBind != nullptr;
 	}
 
 private:

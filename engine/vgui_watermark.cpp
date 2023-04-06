@@ -45,7 +45,7 @@ private:
 // Purpose: 
 // Input  : *parent - 
 //-----------------------------------------------------------------------------
-CWatermarkPanel::CWatermarkPanel( vgui::Panel *parent ) : BaseClass( NULL, "CWatermarkPanel" )
+CWatermarkPanel::CWatermarkPanel( vgui::Panel *parent ) : BaseClass(nullptr, "CWatermarkPanel" )
 {
 	SetParent( parent );
 	SetVisible( true );
@@ -113,7 +113,7 @@ void CWatermarkPanel::Paint()
 }
 
 
-static CWatermarkPanel *watermarkPanel = NULL;
+static CWatermarkPanel *watermarkPanel = nullptr;
 
 void CreateWatermarkPanel( vgui::Panel *parent )
 {

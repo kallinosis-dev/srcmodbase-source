@@ -27,7 +27,7 @@ CON_COMMAND( mm_dlc_debugprint, "Shows information about dlc" )
 //////////////////////////////////////////////////////////////////////////
 
 CDlcManager::CDlcManager() :
-	m_pDataInfo( NULL ),
+	m_pDataInfo(nullptr),
 	m_eState( STATE_IDLE ),
 	m_flTimestamp( 0.0f ),
 	m_bNeedToDiscoverAllDlcs( true ),
@@ -43,7 +43,7 @@ CDlcManager::~CDlcManager()
 {
 	if ( m_pDataInfo )
 		m_pDataInfo->deleteThis();
-	m_pDataInfo = NULL;
+	m_pDataInfo = nullptr;
 }
 
 void CDlcManager::Update()

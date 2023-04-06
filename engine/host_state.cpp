@@ -749,7 +749,7 @@ void CHostState::State_Restart( void )
 //-----------------------------------------------------------------------------
 // this is the state machine's main processing loop
 //-----------------------------------------------------------------------------
-char const *g_szHostStateDelayedMessage = NULL;
+char const *g_szHostStateDelayedMessage = nullptr;
 void CHostState::FrameUpdate( float time )
 {
 #if _DEBUG
@@ -775,7 +775,7 @@ void CHostState::FrameUpdate( float time )
 
 			Warning( "Host state %d at %s -- %s\n", m_currentState, tString, g_szHostStateDelayedMessage );
 
-			g_szHostStateDelayedMessage = NULL;
+			g_szHostStateDelayedMessage = nullptr;
 		}
 
 		int oldState = m_currentState;
@@ -857,7 +857,7 @@ void CHostState::RememberLocation()
 	m_vecLocation = MainViewOrigin();
 	VectorAngles( MainViewForward(), m_angLocation );
 
-	IClientEntity *localPlayer = entitylist ? entitylist->GetClientEntity( GetLocalClient().m_nPlayerSlot + 1 ) : NULL;
+	IClientEntity *localPlayer = entitylist ? entitylist->GetClientEntity( GetLocalClient().m_nPlayerSlot + 1 ) : nullptr;
 	if ( localPlayer )
 	{
 		m_vecLocation = localPlayer->GetAbsOrigin();

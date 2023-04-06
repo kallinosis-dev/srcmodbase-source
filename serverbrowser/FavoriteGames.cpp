@@ -168,7 +168,7 @@ void CFavoriteGames::OnAddCurrentServer()
 
 	if ( pConnected && steamapicontext->SteamMatchmaking() )
 	{
-		steamapicontext->SteamMatchmaking()->AddFavoriteGame( pConnected->m_nAppID, pConnected->m_NetAdr.GetIP(), pConnected->m_NetAdr.GetConnectionPort(), pConnected->m_NetAdr.GetQueryPort(), k_unFavoriteFlagFavorite, time( NULL ) );
+		steamapicontext->SteamMatchmaking()->AddFavoriteGame( pConnected->m_nAppID, pConnected->m_NetAdr.GetIP(), pConnected->m_NetAdr.GetConnectionPort(), pConnected->m_NetAdr.GetQueryPort(), k_unFavoriteFlagFavorite, time(nullptr) );
 		m_bRefreshOnListReload = true;
 	}
 }

@@ -10,7 +10,7 @@
 #include "mdlviewer.h"
 #include "expressions.h"
 
-mxExpressionTab *g_pExpressionClass = 0;
+mxExpressionTab *g_pExpressionClass = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Right click context menu

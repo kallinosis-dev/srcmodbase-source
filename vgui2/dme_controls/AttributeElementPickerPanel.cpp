@@ -62,7 +62,7 @@ void CAttributeElementPickerPanel::Refresh()
 	char elemText[ 512 ];
 	elemText[0] = 0;
 
-	CDmElement *element = NULL;
+	CDmElement *element = nullptr;
 	if ( !GetEditorInfo() || !GetEditorInfo()->GetValue<bool>( "hideText" ) )
 	{
 		if ( HasAttribute( ) )

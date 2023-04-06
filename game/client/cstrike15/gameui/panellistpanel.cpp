@@ -133,7 +133,7 @@ Panel *CPanelListPanel::GetCellRenderer( int row )
 		return panel;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -169,7 +169,7 @@ int	CPanelListPanel::GetItemCount( void )
 Panel *CPanelListPanel::GetItem(int itemIndex)
 {
 	if ( itemIndex < 0 || itemIndex >= _dataItems.GetCount() )
-		return NULL;
+		return nullptr;
 
 	return _dataItems[itemIndex]->panel;
 }
@@ -182,7 +182,7 @@ Panel *CPanelListPanel::GetItem(int itemIndex)
 CPanelListPanel::DATAITEM *CPanelListPanel::GetDataItem( int itemIndex )
 {
 	if ( itemIndex < 0 || itemIndex >= _dataItems.GetCount() )
-		return NULL;
+		return nullptr;
 
 	return _dataItems[ itemIndex ];
 }

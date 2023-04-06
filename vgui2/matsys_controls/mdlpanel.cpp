@@ -280,7 +280,7 @@ void CMDLPanel::DrawCollisionModel()
 		{
 			solid_t solid;
 
-			pParser->ParseSolid( &solid, NULL );
+			pParser->ParseSolid( &solid, nullptr);
 			int boneIndex = Studio_BoneIndexByName( &studioHdr, solid.name );
 			Vector *outVerts;
 			int vertCount = g_pPhysicsCollision->CreateDebugMesh( pCollide->solids[solid.index], &outVerts );
@@ -301,7 +301,7 @@ void CMDLPanel::DrawCollisionModel()
 				{
 					MatrixCopy( pBoneToWorld[ boneIndex ], xform );
 				}
-				IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, GetWireframeMaterial() );
+				IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, GetWireframeMaterial() );
 
 				CMeshBuilder meshBuilder;
 				meshBuilder.Begin( pMesh, MATERIAL_TRIANGLES, vertCount/3 );
@@ -494,7 +494,7 @@ void CMDLPanel::OnPostSetUpBonesPreDraw()
 		}
 	}
 
-	if ( bFlashlightPosKnown && GetRenderingWithFlashlightConfiguration() != NULL )
+	if ( bFlashlightPosKnown && GetRenderingWithFlashlightConfiguration() != nullptr)
 	{
 		CRenderCaptureConfigurationState *pFlashlightInfo = reinterpret_cast< CRenderCaptureConfigurationState * >( GetRenderingWithFlashlightConfiguration() );
 		
@@ -588,7 +588,7 @@ void CMDLPanel::OnPostSetUpBonesPreDraw()
 			Assert( bFlashlightPosKnown );
 			// Add the shadow we rendered in previous pass to our model
 			CRenderCaptureConfigurationState *pFlashlightInfo = reinterpret_cast< CRenderCaptureConfigurationState * >( GetRenderingWithFlashlightConfiguration() );
-			g_pStudioRender->AddShadow( NULL, NULL, &pFlashlightInfo->m_renderFlashlightState, &pFlashlightInfo->m_renderMatrixWorldToShadow, pFlashlightInfo->m_pFlashlightDepthTexture );
+			g_pStudioRender->AddShadow(nullptr, nullptr, &pFlashlightInfo->m_renderFlashlightState, &pFlashlightInfo->m_renderMatrixWorldToShadow, pFlashlightInfo->m_pFlashlightDepthTexture );
 		}
 	}
 }

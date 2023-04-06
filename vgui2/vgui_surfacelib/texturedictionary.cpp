@@ -184,7 +184,7 @@ public:
 
 	virtual void BindTextureToMaterial2Reference( int id, int referenceId, IMaterial2 *pMaterial ) { Assert(0); }
 	virtual void BindTextureToMaterial2( int id, IMaterial2 *pMaterial ) { Assert(0); }
-	virtual IMaterial2 *GetTextureMaterial2( int id ) { Assert(0); return NULL; }
+	virtual IMaterial2 *GetTextureMaterial2( int id ) { Assert(0); return nullptr; }
 
 #if defined( _X360 )
 
@@ -272,7 +272,7 @@ public:
 		else
 		{
 			// will be allocated as needed
-			m_pTextureBits = NULL;
+			m_pTextureBits = nullptr;
 		}
 	}
 
@@ -397,7 +397,7 @@ public:
 		if ( m_pTextureBits )
 		{
 			delete [] m_pTextureBits;
-			m_pTextureBits = NULL;
+			m_pTextureBits = nullptr;
 		}
 	}
 
@@ -415,15 +415,15 @@ private:
 CMatSystemTexture::CMatSystemTexture( void )
 {
 	m_Texture2 = RENDER_TEXTURE_HANDLE_INVALID;
-	m_pMaterial = NULL;
-	m_pTexture = NULL;
+	m_pMaterial = nullptr;
+	m_pTexture = nullptr;
 	m_crcFile = (CRC32_t)0;
 	m_iWide = m_iTall = 0;
 	m_s0 = m_t0 = 0;
 	m_s1 = m_t1 = 1;
 
 	m_Flags = 0;
-	m_pRegen = NULL;
+	m_pRegen = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -458,15 +458,15 @@ void CMatSystemTexture::CleanUpMaterial()
 		// causes the underlying texture (if unreferenced) to be deleted as well
 		m_pMaterial->DecrementReferenceCount();
 		m_pMaterial->DeleteIfUnreferenced();
-		m_pMaterial = NULL;
+		m_pMaterial = nullptr;
 	}
 
 	if ( m_pTexture )
 	{
-		m_pTexture->SetTextureRegenerator( NULL );
+		m_pTexture->SetTextureRegenerator(nullptr);
 		m_pTexture->DecrementReferenceCount();
 		m_pTexture->DeleteIfUnreferenced();
-		m_pTexture = NULL;
+		m_pTexture = nullptr;
 	}
 
 	ReleaseRegen();
@@ -491,7 +491,7 @@ void CMatSystemTexture::ReleaseRegen( void )
 			delete m_pRegen;
 		}
 
-		m_pRegen = NULL;
+		m_pRegen = nullptr;
 	}
 }
 
@@ -694,7 +694,7 @@ ITexture *CMatSystemTexture::GetTextureValue( void )
 {
 	Assert( IsProcedural() );
 	if ( !m_pMaterial )
-		return NULL;
+		return nullptr;
 
 	return m_pTexture;
 }
@@ -803,7 +803,7 @@ void CMatSystemTexture::SetSubTextureRGBA( IRenderDevice *pRenderDevice, int dra
 
 	CRenderContextPtr pRenderContext( pRenderDevice, RENDER_TARGET_BINDING_BACK_BUFFER );	
 	Rect_t myRect = { drawX, drawY, subTextureWide, subTextureTall };
-	pRenderContext->SetTextureData( m_Texture2, NULL, rgba, subTextureWide * subTextureTall * 4, false, 0, &myRect );
+	pRenderContext->SetTextureData( m_Texture2, nullptr, rgba, subTextureWide * subTextureTall * 4, false, 0, &myRect );
 }
 
 
@@ -1381,7 +1381,7 @@ void CTextureDictionary::BindTextureToMaterialReference( int id, int referenceId
 IMaterial *CTextureDictionary::GetTextureMaterial( int id )
 {
 	if (!IsValidId(id))
-		return NULL;
+		return nullptr;
 
 	return m_Textures[id].GetMaterial();
 }
@@ -1392,7 +1392,7 @@ IMaterial *CTextureDictionary::GetTextureMaterial( int id )
 HRenderTexture CTextureDictionary::GetTextureHandle( int id )
 {
 	if (!IsValidId(id))
-		return NULL;
+		return nullptr;
 
 	return m_Textures[id].GetTextureHandle();
 }
@@ -1438,7 +1438,7 @@ void CTextureDictionary::GetTextureTexCoords( int id, float &s0, float &t0, floa
 CMatSystemTexture *CTextureDictionary::GetTexture( int id )
 {
 	if (!IsValidId(id))
-		return NULL;
+		return nullptr;
 
 	return &m_Textures[ id ];
 }

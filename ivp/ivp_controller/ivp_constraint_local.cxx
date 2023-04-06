@@ -41,7 +41,7 @@
 // 8 white
 
 IVP_Constraint_Local_Anchor::IVP_Constraint_Local_Anchor() {
-    rot = NULL;
+    rot = nullptr;
 }
 
 IVP_Constraint_Local_Anchor::~IVP_Constraint_Local_Anchor() {
@@ -163,8 +163,8 @@ void IVP_Constraint_Local::init(const IVP_Template_Constraint &tmpl) {
 	m_Afs_f_Acs.rot = new IVP_U_Matrix3;
         m_fs_f_rs.mimult3(&m_Afs_f_Acs, m_Afs_f_Acs.rot);
     } else {
-	m_Rfs_f_Rcs.rot = NULL;
-	m_Afs_f_Acs.rot = NULL;
+	m_Rfs_f_Rcs.rot = nullptr;
+	m_Afs_f_Acs.rot = nullptr;
     }
     
     m_Rfs_f_Rcs.object = objectR;
@@ -204,7 +204,7 @@ void IVP_Constraint_Local::init(const IVP_Template_Constraint &tmpl) {
 	    maxforce->type[i] = tmpl.maximpulse_type[i];
 	}
     } else {
-	maxforce = NULL;
+	maxforce = nullptr;
     }
     
     is_enabled = IVP_FALSE;
@@ -243,8 +243,8 @@ void IVP_Constraint_Local::constraint_changed() {
 void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vector<IVP_Core> * /*core_list*/){
     IVP_FLOAT d_time = es->delta_time;
 
-    IVP_Core *coreR = m_Rfs_f_Rcs.object ? m_Rfs_f_Rcs.object->get_core() : NULL;
-    IVP_Core *coreA = m_Afs_f_Acs.object ? m_Afs_f_Acs.object->get_core() : NULL;
+    IVP_Core *coreR = m_Rfs_f_Rcs.object ? m_Rfs_f_Rcs.object->get_core() : nullptr;
+    IVP_Core *coreA = m_Afs_f_Acs.object ? m_Afs_f_Acs.object->get_core() : nullptr;
     IVP_ASSERT(!coreR || coreR->physical_unmoveable || coreR->movement_state != IVP_MT_NOT_SIM);
     IVP_ASSERT(!coreA || coreA->physical_unmoveable || coreA->movement_state != IVP_MT_NOT_SIM);
 
@@ -699,9 +699,9 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 		pos_i++;
 	}
     }
-    mg_impulse_f_dvRA.matrix_values = NULL;
-    mg_impulse_f_dvRA.result_vector = NULL;
-    mg_impulse_f_dvRA.desired_vector = NULL;    
+    mg_impulse_f_dvRA.matrix_values = nullptr;
+    mg_impulse_f_dvRA.result_vector = nullptr;
+    mg_impulse_f_dvRA.desired_vector = nullptr;    
     
     // Ideen:
     // klippen
@@ -1072,7 +1072,7 @@ void IVP_Constraint_Local::change_Aos_to_relaxe_constraint() {
     if (m_Rfs_f_Rcs.rot){
 	m_Rfs_f_Rcs.rot->mmult3(&m_Rcs_f_Acs, m_Afs_f_Acs.rot);
     }else{
-	m_Afs_f_Acs.rot = NULL;
+	m_Afs_f_Acs.rot = nullptr;
     }
 }
 
@@ -1086,6 +1086,6 @@ void IVP_Constraint_Local::change_Ros_to_relaxe_constraint() {
     if (m_Afs_f_Acs.rot){
 	m_Afs_f_Acs.rot->mmult3(&m_Acs_f_Rcs, m_Rfs_f_Rcs.rot);
     }else{
-	m_Rfs_f_Rcs.rot = NULL;
+	m_Rfs_f_Rcs.rot = nullptr;
     }
 }

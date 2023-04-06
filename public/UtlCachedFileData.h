@@ -51,7 +51,7 @@ public:
 	( 
 		char const *repositoryFileName, 
 		int version, 
-		PFNCOMPUTECACHEMETACHECKSUM checksumfunc = NULL, 
+		PFNCOMPUTECACHEMETACHECKSUM checksumfunc = nullptr, 
 		UtlCachedFileDataType_t fileCheckType = UTL_CACHED_FILE_USE_TIMESTAMP,
 		bool nevercheckdisk = false,
 		bool readonly = false,
@@ -228,7 +228,7 @@ private:
 	struct ElementType_t
 	{
 		ElementType_t() :
-			handle( 0 ),
+			handle( nullptr ),
 			fileinfo( 0 ),
 			diskfileinfo( UTL_CACHED_FILE_DATA_UNDEFINED_DISKINFO ),
 			dataIndex( -1 )

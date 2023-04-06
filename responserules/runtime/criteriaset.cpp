@@ -36,7 +36,7 @@ const char *SplitContext( const char *raw, char *key, int keylen, char *value, i
 	{
 		DevMsg( "SplitContext:  warning, ignoring context '%s', missing colon separator!\n", raw );
 		*key = *value = 0;
-		return NULL;
+		return nullptr;
 	}
 
 	int len = colon1 - raw;
@@ -63,7 +63,7 @@ const char *SplitContext( const char *raw, char *key, int keylen, char *value, i
 		{
 			DevMsg( "SplitContext:  warning, ignoring context '%s', missing comma separator!  Entire context was '%s'.\n", raw, entireContext );
 			*key = *value = 0;
-			return NULL;
+			return nullptr;
 		}
 
 		len = MIN( colon2 - ( colon1 + 1 ), valuelen - 1 );
@@ -80,7 +80,7 @@ const char *SplitContext( const char *raw, char *key, int keylen, char *value, i
 		value[ len ] = 0;
 	}
 
-	return last ? NULL : end + 1;
+	return last ? nullptr : end + 1;
 }
 
 
@@ -322,7 +322,7 @@ void CriteriaSet::Merge( const CriteriaSet * RESTRICT otherCriteria )
 void CriteriaSet::Merge( const char *modifiers ) // add criteria parsed from a text string
 {
 	// Always include any optional modifiers
-	if ( modifiers == NULL )
+	if ( modifiers == nullptr)
 		return;
 
 	char copy_modifiers[ 255 ];
@@ -335,7 +335,7 @@ void CriteriaSet::Merge( const char *modifiers ) // add criteria parsed from a t
 
 	while( pCopy )
 	{
-		pCopy = SplitContext( pCopy, key, sizeof( key ), value, sizeof( value ), NULL, modifiers );
+		pCopy = SplitContext( pCopy, key, sizeof( key ), value, sizeof( value ), nullptr, modifiers );
 
 		if( *key && *value )
 		{

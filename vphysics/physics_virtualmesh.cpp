@@ -71,7 +71,7 @@ public:
 	CMeshInstance *GetData() { return this; }
 	const triangleledge_t	*GetLedges() { return (triangleledge_t *)m_pMemory; }
 	inline int HullCount() { return m_hullCount; }
-	const IVP_Compact_Ledge *GetOuterHull() { return (m_hullCount==1) ? (const IVP_Compact_Ledge *)(m_pMemory + m_hullOffset) : NULL; }
+	const IVP_Compact_Ledge *GetOuterHull() { return (m_hullCount==1) ? (const IVP_Compact_Ledge *)(m_pMemory + m_hullOffset) : nullptr; }
 	int GetRootLedges( IVP_Compact_Ledge **pLedges, int outCount ) 
 	{ 
 		int hullOffset = m_hullOffset;
@@ -85,7 +85,7 @@ public:
 	}
 
 	// locals
-	CMeshInstance() { m_pMemory = 0; }
+	CMeshInstance() { m_pMemory = nullptr; }
 	~CMeshInstance();
 
 private:
@@ -103,7 +103,7 @@ CMeshInstance::~CMeshInstance()
 	if ( m_pMemory )
 	{
 		ivp_free_aligned( m_pMemory );
-		m_pMemory = NULL;
+		m_pMemory = nullptr;
 	}
 }
 
@@ -245,7 +245,7 @@ public:
 	void Init( const char *pBuffer, unsigned int size )
 	{
 	}
-	void GetAllLedgesWithinRadius( const IVP_U_Point *observer_os, IVP_DOUBLE radius, IVP_U_BigVector<IVP_Compact_Ledge> *resulting_ledges, const IVP_Compact_Ledge *pRootLedge = NULL )
+	void GetAllLedgesWithinRadius( const IVP_U_Point *observer_os, IVP_DOUBLE radius, IVP_U_BigVector<IVP_Compact_Ledge> *resulting_ledges, const IVP_Compact_Ledge *pRootLedge = nullptr)
 	{
 		virtualmeshtrianglelist_t list;
 		list.triangleCount = 0;
@@ -306,7 +306,7 @@ public:
 
 	CPhysCollideVirtualMesh(const virtualmeshparams_t &params) : m_params(params), m_hMemory( INVALID_MEMHANDLE ), m_ledgeCount( 0 )
 	{
-		m_pHull = NULL;
+		m_pHull = nullptr;
 		if ( params.buildOuterHull )
 		{
 			BuildBoundingLedge();
@@ -451,7 +451,7 @@ CMeshInstance *CPhysCollideVirtualMesh::BuildLedges()
 		CMeshInstance *pMesh = g_MeshManager.LockResource( m_hMemory );
 		return pMesh;
 	}
-	return NULL;
+	return nullptr;
 }
 
 // build the outer ledge, split into two if necessary
@@ -464,7 +464,7 @@ void CPhysCollideVirtualMesh::BuildBoundingLedge()
 
 virtualmeshhull_t *CPhysCollideVirtualMesh::CreateMeshBoundingHull( const virtualmeshlist_t &list )
 {
-	virtualmeshhull_t *pHull = NULL;
+	virtualmeshhull_t *pHull = nullptr;
 	if ( list.triangleCount )
 	{
 		IVP_Compact_Surface *pSurface = CreateBoundingSurfaceFromRange( list, 0, list.indexCount );

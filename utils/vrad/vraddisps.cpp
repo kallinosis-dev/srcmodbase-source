@@ -251,7 +251,7 @@ bool FASTCALL CBSPDispRayEnumerator::EnumerateElement( int userId, intp context 
 class CBSPDispRayDistanceEnumerator : public IBSPTreeDataEnumerator
 {
 public:
-	CBSPDispRayDistanceEnumerator() : m_Distance(1.0f), m_pSurface(0) {}
+	CBSPDispRayDistanceEnumerator() : m_Distance(1.0f), m_pSurface(nullptr) {}
 
 	// IBSPTreeDataEnumerator
 	bool FASTCALL EnumerateElement( int userId, intp context )
@@ -421,7 +421,7 @@ void CVRadDispMgr::DispBuilderInit( CCoreDispInfo *pBuilderDisp, dface_t *pFace,
 		pVerts,
 		pTris,
 		0,
-		NULL );
+	nullptr);
 }
 
 
@@ -544,7 +544,7 @@ void CVRadDispMgr::StartRayTest( DispTested_t &dispTested )
 {
 	if( m_DispTrees.Count() > 0 )
 	{
-		if( dispTested.m_pTested == 0 )
+		if( dispTested.m_pTested == nullptr )
 		{
 			dispTested.m_pTested = new int[m_DispTrees.Count()];
 			memset( dispTested.m_pTested, 0, m_DispTrees.Count() * sizeof( int ) );
@@ -1078,7 +1078,7 @@ radial_t *CVRadDispMgr::BuildLuxelRadial( int ndxFace, int ndxStyle, bool bBump 
 	// allocate the radial
 	radial_t *pRadial = AllocateRadial( ndxFace );
 	if( !pRadial )
-		return NULL;
+		return nullptr;
 
 	//
 	// step 1: get the displacement surface to be lit
@@ -1086,7 +1086,7 @@ radial_t *CVRadDispMgr::BuildLuxelRadial( int ndxFace, int ndxStyle, bool bBump 
 	DispCollTree_t &dispTree = m_DispTrees[g_pFaces[ndxFace].dispinfo];
 	CVRADDispColl *pDispTree = dispTree.m_pDispTree;
 	if( !pDispTree )
-		return NULL;
+		return nullptr;
 
 	// step 2: build radial luxels
 	RadialLuxelBuild( pDispTree, pRadial, ndxStyle, bBump );
@@ -1436,7 +1436,7 @@ radial_t *CVRadDispMgr::BuildPatchRadial( int ndxFace, bool bBump )
 	// allocate the radial
 	radial_t *pRadial = AllocateRadial( ndxFace );
 	if( !pRadial )
-		return NULL;
+		return nullptr;
 
 	//
 	// step 1: get the displacement surface to be lit
@@ -1444,7 +1444,7 @@ radial_t *CVRadDispMgr::BuildPatchRadial( int ndxFace, bool bBump )
 	DispCollTree_t &dispTree = m_DispTrees[g_pFaces[ndxFace].dispinfo];
 	CVRADDispColl *pDispTree = dispTree.m_pDispTree;
 	if( !pDispTree )
-		return NULL;
+		return nullptr;
 
 	// step 2: build radial of patch light
 	RadialPatchBuild( pDispTree, pRadial, bBump );
@@ -1550,13 +1550,13 @@ void CVRadDispMgr::InsertPatchSampleDataIntoHashTable( void )
 		//
 		// for each patch
 		//
-		CPatch *pNextPatch = NULL;
+		CPatch *pNextPatch = nullptr;
 		if( g_FacePatches.Element( ndxFace ) != g_FacePatches.InvalidIndex() )
 		{
 			for( CPatch *pPatch = &g_Patches.Element( g_FacePatches.Element( ndxFace ) ); pPatch; pPatch = pNextPatch )
 			{
 				// next patch
-				pNextPatch = NULL;
+				pNextPatch = nullptr;
 				if( pPatch->ndxNext != g_Patches.InvalidIndex() )
 				{
 					pNextPatch = &g_Patches.Element( pPatch->ndxNext );

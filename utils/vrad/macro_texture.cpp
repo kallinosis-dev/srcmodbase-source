@@ -22,7 +22,7 @@ public:
 };
 
 
-CMacroTextureData *g_pGlobalMacroTextureData = NULL;
+CMacroTextureData *g_pGlobalMacroTextureData = nullptr;
 
 // Which macro texture each map face uses.
 static CUtlDict<CMacroTextureData*, int> g_MacroTextureLookup;	// Stores a list of unique macro textures.
@@ -36,7 +36,7 @@ CMacroTextureData* FindMacroTexture( const char *pFilename )
 	if ( g_MacroTextureLookup.IsValidIndex( index ) )
 		return g_MacroTextureLookup[index];
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -44,7 +44,7 @@ CMacroTextureData* LoadMacroTextureFile( const char *pFilename )
 {
 	FileHandle_t hFile = g_pFileSystem->Open( pFilename, "rb" );
 	if ( hFile == FILESYSTEM_INVALID_HANDLE )
-		return NULL;
+		return nullptr;
 
 	// Read the file in.
 	CUtlVector<char> tempData;
@@ -113,7 +113,7 @@ void InitMacroTexture( const char *pBSPFilename )
 	g_FaceMacroTextures.SetSize( numfaces );
 	for ( int iFace=0; iFace < numfaces; iFace++ )
 	{
-		g_FaceMacroTextures[iFace] = NULL;
+		g_FaceMacroTextures[iFace] = nullptr;
 
 		if ( iFace < g_FaceMacroTextureInfos.Count() )
 		{

@@ -142,9 +142,9 @@ void gmDefaultPrintCallback(gmMachine * a_machine, const char * a_string)
 //
 //
 
-gmMachineCallback gmMachine::s_machineCallback = NULL;
+gmMachineCallback gmMachine::s_machineCallback = nullptr;
 gmPrintCallback gmMachine::s_printCallback = gmDefaultPrintCallback;
-gmUserBreakCallback gmMachine::s_userBreakCallback = NULL;
+gmUserBreakCallback gmMachine::s_userBreakCallback = nullptr;
 
 
 #if GM_USE_INCGC
@@ -153,7 +153,7 @@ void GM_CDECL gmMachine::ScanRootsCallBack(gmMachine* a_machine, gmGarbageCollec
   gmThread * tit;
 
   // call the gc callback
-  if(s_machineCallback) s_machineCallback(a_machine, MC_COLLECT_GARBAGE, NULL);
+  if(s_machineCallback) s_machineCallback(a_machine, MC_COLLECT_GARBAGE, nullptr);
 
   // iterate cpp owned gmObjects
   gmHash<gmObject*, ObjHashNode>::Iterator cgmoIt;
@@ -206,10 +206,10 @@ gmMachine::gmMachine()
     m_cppOwnedGMObjs(GMMACHINE_CPPOWNEDGMOBJHASHSIZE)
 
 {
-  m_line = NULL;
-  m_call = NULL;
-  m_return = NULL;
-  m_isBroken = NULL;
+  m_line = nullptr;
+  m_call = nullptr;
+  m_return = nullptr;
+  m_isBroken = nullptr;
 
 #if GM_USE_INCGC
   m_gc = GM_NEW( gmGarbageCollector );
@@ -218,11 +218,11 @@ gmMachine::gmMachine()
   m_permanantStrings.SetCount(0);
   #endif //!GM_GC_KEEP_PERSISTANT_SEPARATE
 #endif //GM_USE_INCGC
-  m_trueGlobal = m_global = NULL;
+  m_trueGlobal = m_global = nullptr;
 
-  m_objects = NULL;
+  m_objects = nullptr;
   m_threadId = 0;
-  m_nextThread = NULL;
+  m_nextThread = nullptr;
   m_nextThreadValid = false;
   m_autoMem = GMMACHINE_AUTOMEM;
   m_currentMemoryUsage = 0;
@@ -237,7 +237,7 @@ gmMachine::gmMachine()
   m_statsGCWarnings = 0;
 
   m_debug = false;
-  m_debugUser = NULL;
+  m_debugUser = nullptr;
 
   m_gcEnabled = true;
 
@@ -274,12 +274,12 @@ void gmMachine::ResetAndFreeMemory()
   m_permanantStrings.SetCount(0);
   #endif //!GM_GC_KEEP_PERSISTANT_SEPARATE
 
-  m_trueGlobal = m_global = NULL;
+  m_trueGlobal = m_global = nullptr;
   gmuint i;
   for(i = 0; i < m_types.Count(); ++i)
   {
-    m_types[i].m_variables = NULL;
-    m_types[i].m_name = NULL;
+    m_types[i].m_variables = nullptr;
+    m_types[i].m_name = nullptr;
   }
 
   //FindMissingCountObj();
@@ -302,7 +302,7 @@ void gmMachine::ResetAndFreeMemory()
     m_types[i].m_name = NULL;
   }
 #endif //GM_USE_INCGC
-  m_objects = NULL;
+  m_objects = nullptr;
 
   // string table
   GM_ASSERT(m_strings.Count() == 0);
@@ -317,7 +317,7 @@ void gmMachine::ResetAndFreeMemory()
   m_threads.RemoveAndDeleteAll();
   m_threadId = 0;
   m_time = 0;
-  m_nextThread = NULL;
+  m_nextThread = nullptr;
   m_nextThreadValid = false;
   GM_ASSERT(m_blocks.Count() == 0);
 
@@ -345,7 +345,7 @@ void gmMachine::ResetAndFreeMemory()
   m_fixedSet.ResetAndFreeMemory();
 
   m_debug = false;
-  m_debugUser = NULL;
+  m_debugUser = nullptr;
   m_source.RemoveAndDeleteAll();
 
   // types
@@ -728,7 +728,7 @@ gmFunctionObject * gmMachine::CompileStringToFunction(const char * a_string, int
     gmCodeTree::Get().Unlock();
     if(a_errorCount) 
       *a_errorCount = errors;
-    return NULL;
+    return nullptr;
   }
 
   // compile
@@ -740,7 +740,7 @@ gmFunctionObject * gmMachine::CompileStringToFunction(const char * a_string, int
     gmCodeGen::Get().Unlock();
     if(a_errorCount) 
       *a_errorCount = errors;
-    return NULL;
+    return nullptr;
   }
 
   gmCodeTree::Get().Unlock();
@@ -766,8 +766,8 @@ gmThread * gmMachine::CreateThread(const gmVariable &a_this, const gmVariable &a
   gmThread * thread = CreateThread(a_threadId);
   thread->Push(a_this);
   thread->Push(a_function);
-  if(thread->PushStackFrame(0, 0) == gmThread::RUNNING) return thread;
-  return NULL;
+  if(thread->PushStackFrame(0, nullptr) == gmThread::RUNNING) return thread;
+  return nullptr;
 }
 
 
@@ -784,7 +784,7 @@ void gmMachine::Sys_SignalCreateThread(gmThread * a_thread)
 gmThread * gmMachine::CreateThread(int * a_threadId)
 {
   gmThread * thread = m_killedThreads.RemoveFirst();
-  if(thread == NULL)
+  if(thread == nullptr)
   {
     thread = GM_NEW( gmThread(this) );
   }
@@ -827,7 +827,7 @@ bool gmMachine::Signal(const gmVariable &a_signal, int a_dstThreadId, int a_srcT
       gmThread * thread = block->m_thread;
       if(a_dstThreadId == GM_INVALID_THREAD || a_dstThreadId == thread->GetId())
       {
-        gmSignal * signal = NULL;
+        gmSignal * signal = nullptr;
         used = true;
 
         // allocate a signal
@@ -891,7 +891,7 @@ int gmMachine::Sys_Block(gmThread * a_thread, int m_numBlocks, const gmVariable 
   for(i = 0; i < m_numBlocks; ++i)
   {
     gmBlockList * blockList = m_blocks.Find(a_blocks[i]);
-    if(blockList == NULL)
+    if(blockList == nullptr)
     {
       blockList = (gmBlockList *) Sys_Alloc(sizeof(gmBlockList));
       blockList = gmConstructElement<gmBlockList>(blockList);
@@ -1623,19 +1623,19 @@ gmObject * gmMachine::CheckReference(gmptr a_ref)
 
 void gmMachine::Type::Init()
 {
-  m_variables = NULL;
-  m_name = NULL;
+  m_variables = nullptr;
+  m_name = nullptr;
   memset(m_nativeOperators, 0, sizeof(gmOperatorFunction) * O_MAXOPERATORS);
   memset(m_operators, 0, sizeof(gmptr) * O_MAXOPERATORS);
-  m_asString = NULL;
+  m_asString = nullptr;
 #if GM_USE_INCGC
-  m_gcDestruct = NULL;
-  m_gcTrace = NULL;
+  m_gcDestruct = nullptr;
+  m_gcTrace = nullptr;
 #else
   m_mark = NULL;
   m_gc = NULL;
 #endif
-  m_asString = NULL;
+  m_asString = nullptr;
 }
 
 
@@ -1648,8 +1648,8 @@ void gmMachine::ResetDefaultTypes()
   {
 #if GM_USE_INCGC
     //Note, old objects must be null or already destructed by GC
-    m_types[i].m_variables = NULL;
-    m_types[i].m_name = NULL;
+    m_types[i].m_variables = nullptr;
+    m_types[i].m_name = nullptr;
 #else //GM_USE_INCGC
     m_types[i].m_variables->Destruct(this);
     FreeObject(m_types[i].m_variables);
@@ -1701,7 +1701,7 @@ void gmMachine::Sys_RemoveBlocks(gmThread * a_thread)
     Sys_Free(block);
     block = next;
   }
-  a_thread->Sys_SetBlocks(NULL);
+  a_thread->Sys_SetBlocks(nullptr);
 }
 
 
@@ -1715,7 +1715,7 @@ void gmMachine::Sys_RemoveSignals(gmThread * a_thread)
     Sys_Free(signal);
     signal = next;
   }
-  a_thread->Sys_SetSignals(NULL);
+  a_thread->Sys_SetSignals(nullptr);
 }
 
 
@@ -1724,7 +1724,7 @@ gmuint32 gmMachine::AddSourceCode(const char * a_source, const char * a_filename
 {
   gmuint32 id = 0;
 
-  if(a_filename == NULL) { a_filename = "unknown"; }
+  if(a_filename == nullptr) { a_filename = "unknown"; }
 
   if(m_debug)
   {
@@ -1801,7 +1801,7 @@ const void * gmMachine::GetInstructionAtBreakPoint(gmuint32 a_sourceId, int a_li
 bool gmMachine::IsCPPOwnedGMObject(gmObject * a_obj)
 {
   ObjHashNode * foundNode = m_cppOwnedGMObjs.Find(a_obj);
-  return (foundNode != NULL);
+  return (foundNode != nullptr);
 }
 
 
@@ -1862,7 +1862,7 @@ gmTableObject * gmMachine::GetTypeTable(gmType a_type)
    {
      return m_types[a_type].m_variables;
    }
-   return NULL; 
+   return nullptr; 
 }
 
 //
@@ -1881,7 +1881,7 @@ gmHooks::gmHooks(gmMachine * a_machine, const char * a_source, const char * a_fi
   m_gcEnabled = a_machine->IsGCEnabled();
   m_debug = false;
   m_errors = 0;
-  m_rootFunction = NULL;
+  m_rootFunction = nullptr;
   m_sourceId = 0;
 }
 
@@ -1935,7 +1935,7 @@ bool gmHooks::End(int a_errors)
 
 gmptr gmHooks::GetFunctionId()
 {
-  return (gmptr) m_machine->AllocFunctionObject(NULL);
+  return (gmptr) m_machine->AllocFunctionObject(nullptr);
 }
 
 

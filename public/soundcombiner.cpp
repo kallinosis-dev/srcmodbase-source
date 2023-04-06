@@ -24,9 +24,9 @@ class CSoundCombiner : public ISoundCombiner
 {
 public:
 	CSoundCombiner() :
-		m_pWaveOutput( NULL ),
-		m_pOutRIFF( NULL ),
-		m_pOutIterator( NULL )
+		m_pWaveOutput(nullptr),
+		m_pOutRIFF(nullptr),
+		m_pOutIterator(nullptr)
 	{
 		m_szOutFile[ 0 ] = 0;
 	}
@@ -41,9 +41,9 @@ private:
 		CombinerWork() :
 			sentence(),
 			duration( 0.0 ),
-			wave( 0 ),
-			mixer( 0 ),
-			entry( 0 )
+			wave( nullptr ),
+			mixer( nullptr ),
+			entry( nullptr )
 		{
 		}
 		CSentence		sentence;
@@ -138,10 +138,10 @@ void CSoundCombiner::CleanupWork()
 	m_Work.RemoveAll();
 
 	delete m_pOutIterator;
-	m_pOutIterator = NULL;
+	m_pOutIterator = nullptr;
 
 	delete m_pOutRIFF;
-	m_pOutRIFF = NULL;
+	m_pOutRIFF = nullptr;
 }
 
 bool CSoundCombiner::InternalCombineSoundFiles( IFileSystem *filesystem, char const *outfile, CUtlVector< CombinerEntry >& info )
@@ -774,7 +774,7 @@ bool CSoundCombiner::PerformSplicingOnWorkItems( IFileSystem *filesystem )
 		int currentsample = 0;
 
 		CombinerWork *curitem = m_Work[ i ];
-		CombinerWork *nextitem = NULL;
+		CombinerWork *nextitem = nullptr;
 		if ( i != c - 1 )
 		{
 			nextitem = m_Work[ i + 1 ];
@@ -788,7 +788,7 @@ bool CSoundCombiner::PerformSplicingOnWorkItems( IFileSystem *filesystem )
 
 		timeoffset += duration;
 
-		if ( nextitem != NULL )
+		if ( nextitem != nullptr)
 		{
 			float nextstart = nextitem->entry->startoffset;
 			float silence_time = nextstart - timeoffset;

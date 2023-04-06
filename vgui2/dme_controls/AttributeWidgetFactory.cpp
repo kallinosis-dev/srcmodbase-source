@@ -52,8 +52,8 @@ public:
 	virtual IAttributeWidgetFactory *GetWidgetFactory( const char *pWidgetName );
 	virtual IAttributeWidgetFactory *GetWidgetFactory( CDmElement *object, CDmAttribute *pAttribute, CDmeEditorTypeDictionary *pTypeDictionary );
 	virtual IAttributeWidgetFactory *GetArrayWidgetFactory( CDmElement *object, CDmAttribute *pAttribute, CDmeEditorTypeDictionary *pTypeDictionary );
-	virtual void ApplyChanges( vgui::Panel *pWidget, vgui::Panel *pSender = NULL );
-	virtual void Refresh( vgui::Panel *pWidget, vgui::Panel *pSender = NULL );
+	virtual void ApplyChanges( vgui::Panel *pWidget, vgui::Panel *pSender = nullptr);
+	virtual void Refresh( vgui::Panel *pWidget, vgui::Panel *pSender = nullptr);
 
 	// Adds a widget to the factory
 	void AddWidgetFactory( IAttributeWidgetFactory *pFactory, const char *pWidgetName );
@@ -209,7 +209,7 @@ struct DefaultAttributeFactoryEntry_t
 static DefaultAttributeFactoryEntry_t g_AttributeWidgetFactories[] =
 {
 
-	{ AT_UNKNOWN,		NULL },
+	{ AT_UNKNOWN, nullptr},
 
 	{ AT_ELEMENT,		&g_AttributeElementWidgetFactory },
 	{ AT_INT,			&g_AttributeTextWidgetFactory },
@@ -268,7 +268,7 @@ IAttributeWidgetFactory *CAttributeWidgetFactoryList::FindWidgetFactory( const c
 	unsigned short i = m_Factories.Find( pWidgetName );
 	if ( i != m_Factories.InvalidIndex() )
 		return m_Factories[i];
-	return NULL;
+	return nullptr;
 }
 
 	
@@ -288,7 +288,7 @@ IAttributeWidgetFactory *CAttributeWidgetFactoryList::GetWidgetFactory( CDmEleme
 	CDmAttribute *pAttribute, CDmeEditorTypeDictionary *pTypeDictionary )
 {
 	if ( !object )
-		return NULL;
+		return nullptr;
 
 	DmAttributeType_t attributeType = pAttribute->GetType();
 	IAttributeWidgetFactory *pFactory = g_AttributeWidgetFactories[ attributeType ].factory;
@@ -301,7 +301,7 @@ IAttributeWidgetFactory *CAttributeWidgetFactoryList::GetWidgetFactory( CDmEleme
 		if ( pEditorInfo )
 		{
 			if ( !pEditorInfo->m_bIsVisible )
-				return NULL;
+				return nullptr;
 
 			if ( pEditorInfo->GetWidgetName() )
 			{
@@ -324,7 +324,7 @@ IAttributeWidgetFactory *CAttributeWidgetFactoryList::GetArrayWidgetFactory( CDm
 	CDmAttribute *pAttribute, CDmeEditorTypeDictionary *pTypeDictionary )
 {
 	if ( !object )
-		return NULL;
+		return nullptr;
 
 	DmAttributeType_t attributeType = ArrayTypeToValueType( pAttribute->GetType() );
 	IAttributeWidgetFactory *pFactory = g_AttributeWidgetFactories[ attributeType ].factory;
@@ -336,7 +336,7 @@ IAttributeWidgetFactory *CAttributeWidgetFactoryList::GetArrayWidgetFactory( CDm
 		if ( pEditorInfo )
 		{
 			if ( !pEditorInfo->m_bIsVisible )
-				return NULL;
+				return nullptr;
 
 			if ( pEditorInfo->GetWidgetName() )
 			{

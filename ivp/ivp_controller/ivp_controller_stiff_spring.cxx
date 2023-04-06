@@ -23,9 +23,9 @@ IVP_Template_Stiff_Spring::IVP_Template_Stiff_Spring(){
 
 
 IVP_Template_Stiff_Spring_Active::IVP_Template_Stiff_Spring_Active(){
-    active_float_spring_len = NULL;
-    active_float_spring_constant = NULL;
-    active_float_spring_damp = NULL;
+    active_float_spring_len = nullptr;
+    active_float_spring_constant = nullptr;
+    active_float_spring_damp = nullptr;
 }
 
 /////////////////// SPRING /////////////////
@@ -170,14 +170,14 @@ void IVP_Controller_Stiff_Spring::do_simulation_controller(IVP_Event_Sim *es,IVP
 	}
     }
     
-    if (pc0->movement_state >= IVP_MT_NOT_SIM)	pc0 = NULL;
-    if (pc1->movement_state >= IVP_MT_NOT_SIM)	pc1 = NULL;
+    if (pc0->movement_state >= IVP_MT_NOT_SIM)	pc0 = nullptr;
+    if (pc1->movement_state >= IVP_MT_NOT_SIM)	pc1 = nullptr;
 
     
     /* second step: calc and apply forces */
     IVP_Solver_Core_Reaction scr;
 
-    scr.init_reaction_solver_translation_ws( pc0, pc1, pos0_ws, &dir_ws, NULL, NULL);
+    scr.init_reaction_solver_translation_ws( pc0, pc1, pos0_ws, &dir_ws, nullptr, nullptr);
     IVP_U_Matrix3 &tpm = scr.m_velocity_ds_f_impulse_ds;
     
     IVP_DOUBLE a = (this->spring_len - dlen) * es->i_delta_time * this->spring_constant -

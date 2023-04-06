@@ -54,11 +54,11 @@ CRagdollBoogie *CRagdollBoogie::Create( CBaseEntity *pTarget, float flMagnitude,
 {
 	CRagdollProp *pRagdoll = dynamic_cast< CRagdollProp* >( pTarget );
 	if ( !pRagdoll )
-		return NULL;
+		return nullptr;
 
 	CRagdollBoogie *pBoogie = (CRagdollBoogie *)CreateEntityByName( "env_ragdoll_boogie" );
-	if ( pBoogie == NULL )
-		return NULL;
+	if ( pBoogie == nullptr)
+		return nullptr;
 
 	pBoogie->AddSpawnFlags( nSpawnFlags );
 	pBoogie->AttachToEntity( pTarget );

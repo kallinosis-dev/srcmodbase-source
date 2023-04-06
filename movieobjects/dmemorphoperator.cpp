@@ -114,7 +114,7 @@ namespace MorphOp
 {
 void AddAttr( CUtlVector< CDmAttribute * > &attrs, CDmAttribute *pAttr )
 {
-	if ( pAttr == NULL )
+	if ( pAttr == nullptr)
 		return;
 	attrs.AddToTail( pAttr );
 }

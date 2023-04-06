@@ -117,7 +117,7 @@ EditablePanel2Demo::EditablePanel2Demo(Panel *parent, const char *name) : DemoPa
 	// Add menu items to this combo box.
 	for (int i = 0; i < ARRAYSIZE(g_Speeds); i++)
 	{
-		m_pInternetSpeed->AddItem(g_Speeds[i], NULL );
+		m_pInternetSpeed->AddItem(g_Speeds[i], nullptr);
 	}
 
 	// Load the resource file settings into our panel.

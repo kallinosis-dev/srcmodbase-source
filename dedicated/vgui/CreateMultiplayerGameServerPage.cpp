@@ -114,8 +114,8 @@ CCreateMultiplayerGameServerPage::CCreateMultiplayerGameServerPage(vgui::Panel *
 	memset(&m_iServer,0x0,sizeof(serveritem_t));
 
 	m_MainPanel = parent; // as we are a popup frame we need to store this seperately
-	m_pSavedData = NULL;
-	m_pGameInfo = NULL;
+	m_pSavedData = nullptr;
+	m_pGameInfo = nullptr;
 
 	SetMinimumSize(310, 350);
 	SetSize(310, 350);
@@ -129,8 +129,8 @@ CCreateMultiplayerGameServerPage::CCreateMultiplayerGameServerPage(vgui::Panel *
 	m_pMapList->SetEditable(false);
 
 	m_pNetworkCombo = new ComboBox(this, "NetworkCombo",10,false);
-	int defaultItem = m_pNetworkCombo->AddItem("#Internet", NULL);
-	int lanItem = m_pNetworkCombo->AddItem("#LAN", NULL);
+	int defaultItem = m_pNetworkCombo->AddItem("#Internet", nullptr);
+	int lanItem = m_pNetworkCombo->AddItem("#LAN", nullptr);
 	if ( CommandLine()->CheckParm("-steam") && IsSteamInOfflineMode() )
 	{
 		defaultItem = lanItem;
@@ -143,7 +143,7 @@ CCreateMultiplayerGameServerPage::CCreateMultiplayerGameServerPage(vgui::Panel *
 	for( i = 1 ; i <= MAX_PLAYERS ; i++ ) 
 	{
 		_snprintf(num, 3, "%i", i);
-		m_pNumPlayers->AddItem(num, NULL);
+		m_pNumPlayers->AddItem(num, nullptr);
 	}
 	m_pNumPlayers->ActivateItemByRow(23); // 24 players by default 
 
@@ -170,7 +170,7 @@ CCreateMultiplayerGameServerPage::CCreateMultiplayerGameServerPage(vgui::Panel *
 
 	// get default port from commandline if possible
 	m_iPort = 27015;
-	const char *portVal = NULL;
+	const char *portVal = nullptr;
 	if (CommandLine()->CheckParm("-port", &portVal) && portVal && atoi(portVal) > 0)
 	{
 		m_iPort = atoi(portVal);
@@ -207,12 +207,12 @@ CCreateMultiplayerGameServerPage::~CCreateMultiplayerGameServerPage()
   	if (m_pSavedData)
   	{
   		m_pSavedData->deleteThis();
-		m_pSavedData = NULL;
+		m_pSavedData = nullptr;
   	}
 	if ( m_pGameInfo )
 	{
 		m_pGameInfo->deleteThis();
-		m_pGameInfo = NULL;
+		m_pGameInfo = nullptr;
 	}
 }
 
@@ -500,11 +500,11 @@ void CCreateMultiplayerGameServerPage::LoadMODList()
 
 		KeyValues *gamesFile = new KeyValues( pSteamGamesFilename );
 		
-		if ( gamesFile->LoadFromFile( g_pFullFileSystem, pSteamGamesFilename, NULL ) )
+		if ( gamesFile->LoadFromFile( g_pFullFileSystem, pSteamGamesFilename, nullptr) )
 		{
-			for ( KeyValues *kv = gamesFile->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey() )
+			for ( KeyValues *kv = gamesFile->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey() )
 			{
-				const char *pGameDir = kv->GetString( "gamedir", NULL );
+				const char *pGameDir = kv->GetString( "gamedir", nullptr);
 				if ( !pGameDir )
 					Error( "Mod %s in %s missing 'gamedir'.", kv->GetName(), pSteamGamesFilename );
 
@@ -512,7 +512,7 @@ void CCreateMultiplayerGameServerPage::LoadMODList()
 			}
 		}
 		gamesFile->deleteThis();
-		gamesFile = NULL;
+		gamesFile = nullptr;
 	}
 
 
@@ -581,7 +581,7 @@ void CCreateMultiplayerGameServerPage::LoadPossibleMod( const char *pGameDirName
 	AddMod( pGameDirName, gameInfoFilename, pGameInfo );
 
 	pGameInfo->deleteThis();
-	pGameInfo = NULL;
+	pGameInfo = nullptr;
 }
 
 
@@ -617,7 +617,7 @@ void CCreateMultiplayerGameServerPage::AddMod( const char *pGameDirName, const c
 			return;
 #endif
 
-		const char *gameName = pGameInfo->GetString( "game", NULL );
+		const char *gameName = pGameInfo->GetString( "game", nullptr);
 		if ( !gameName )
 			Error( "%s missing 'game' key.", pGameInfoFilename );
 
@@ -629,7 +629,7 @@ void CCreateMultiplayerGameServerPage::AddMod( const char *pGameDirName, const c
 		m_pGameCombo->AddItem( gameName, kv );
 
 		kv->deleteThis();
-		kv = NULL;
+		kv = nullptr;
 	}
 }
 
@@ -650,7 +650,7 @@ int CCreateMultiplayerGameServerPage::LoadMaps( const char *pszMod )
 
 	const char *pszFilename = g_pFullFileSystem->FindFirst( szSearch, &findHandle );
 
-	KeyValues *hiddenMaps = NULL;
+	KeyValues *hiddenMaps = nullptr;
 	if ( m_pGameInfo )
 	{
 		hiddenMaps = m_pGameInfo->FindKey( "hidden_maps" );
@@ -695,7 +695,7 @@ int CCreateMultiplayerGameServerPage::LoadMaps( const char *pszMod )
 		iMapsFound++;
 
 		// add to the map list
-		m_pMapList->AddItem( mapname, NULL );
+		m_pMapList->AddItem( mapname, nullptr);
 
 		// get the next file
 	nextFile:
@@ -730,10 +730,10 @@ void CCreateMultiplayerGameServerPage::LoadMapList()
 	if ( CommandLine()->CheckParm( "-steam" ) )
 	{
 		KeyValues *userData = m_pGameCombo->GetActiveItemUserData();
-		if ( userData && userData->GetString( "DedicatedServerStartMap", NULL ) )
+		if ( userData && userData->GetString( "DedicatedServerStartMap", nullptr) )
 		{
 			// set only
-			m_pMapList->AddItem( userData->GetString( "DedicatedServerStartMap" ), NULL );
+			m_pMapList->AddItem( userData->GetString( "DedicatedServerStartMap" ), nullptr);
 			m_pMapList->ActivateItemByRow( 0 );
 			m_pMapList->SetEnabled( false );
 			return;
@@ -817,7 +817,7 @@ void CCreateMultiplayerGameServerPage::OnTextChanged(Panel *panel)
 		if ( !gameData )
 			Error( "Missing gameData for active item." );
 
-		const char *pGameDir = gameData->GetString( "gamedir", NULL );
+		const char *pGameDir = gameData->GetString( "gamedir", nullptr);
 		if ( !pGameDir )
 			Error( "Game %s missing 'gamedir' key.", m_szGameName );
 

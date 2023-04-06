@@ -19,7 +19,7 @@ DECLARE_HUDELEMENT( CHudSubtitles );
 
 CHudSubtitles::CHudSubtitles( const char *pElementName ) :
 	CHudElement( pElementName ),
-	BaseClass( NULL, "HudSubtitles" )
+	BaseClass(nullptr, "HudSubtitles" )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
@@ -33,14 +33,14 @@ CHudSubtitles::CHudSubtitles( const char *pElementName ) :
 	SetPos( 0, 0 );
 	SetSize( nScreenWide, nScreenTall );
 
-	m_pSubtitlePanel = NULL;
+	m_pSubtitlePanel = nullptr;
 	m_bIsPaused = false;
 }
 
 CHudSubtitles::~CHudSubtitles()
 {
 	delete m_pSubtitlePanel;
-	m_pSubtitlePanel = NULL;
+	m_pSubtitlePanel = nullptr;
 }
 
 void CHudSubtitles::ApplySchemeSettings( IScheme *pScheme )
@@ -67,7 +67,7 @@ void CHudSubtitles::StartCaptions( const char *pFilename )
 void CHudSubtitles::StopCaptions()
 {
 	delete m_pSubtitlePanel;
-	m_pSubtitlePanel = NULL;
+	m_pSubtitlePanel = nullptr;
 }
 
 void CHudSubtitles::LevelShutdown()

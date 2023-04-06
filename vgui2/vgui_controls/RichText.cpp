@@ -139,7 +139,7 @@ RichText::RichText(Panel *parent, const char *panelName) : BaseClass(parent, pan
 	m_hFontUnderline = INVALID_FONT;
 
 	m_bRecalcLineBreaks = true;
-	m_pszInitialText = NULL;
+	m_pszInitialText = nullptr;
 	_cursorPos = 0;
 	_mouseSelection = false;
 	_mouseDragSelection = false;
@@ -148,12 +148,12 @@ RichText::RichText(Panel *parent, const char *panelName) : BaseClass(parent, pan
 	_recalcSavedRenderState = true;
 	_maxCharCount = (64 * 1024);
 	AddActionSignalTarget(this);
-	m_pInterior = new RichTextInterior( this, NULL );
+	m_pInterior = new RichTextInterior( this, nullptr);
 
 	//a -1 for _select[0] means that the selection is empty
 	_select[0] = -1;
 	_select[1] = -1;
-	m_pEditMenu = NULL;
+	m_pEditMenu = nullptr;
 	
 	SetCursor(dc_ibeam);
 	
@@ -414,7 +414,7 @@ void RichText::SetText(const char *text)
 	}
 	else
 	{
-		SetText( (const wchar_t *)NULL );
+		SetText( (const wchar_t *)nullptr);
 	}
 }
 
@@ -661,7 +661,7 @@ int RichText::DrawString(int iFirst, int iLast, TRenderState &renderState, HFont
 void RichText::FinishingURL(int x, int y)
 {
 	// finishing URL
-	ClickPanel *clickPanel = _clickableTextPanels.IsValidIndex( _clickableTextIndex ) ? _clickableTextPanels[_clickableTextIndex] : NULL;
+	ClickPanel *clickPanel = _clickableTextPanels.IsValidIndex( _clickableTextIndex ) ? _clickableTextPanels[_clickableTextIndex] : nullptr;
 	if ( clickPanel )
 	{
 		int px, py;
@@ -775,7 +775,7 @@ void RichText::Paint()
 					surface()->DrawSetTextFont( m_hFontUnderline );
 					
 					// set up the panel
-					ClickPanel *clickPanel = _clickableTextPanels.IsValidIndex( _clickableTextIndex ) ? _clickableTextPanels[_clickableTextIndex] : NULL;
+					ClickPanel *clickPanel = _clickableTextPanels.IsValidIndex( _clickableTextIndex ) ? _clickableTextPanels[_clickableTextIndex] : nullptr;
 					
 					if (clickPanel)
 					{
@@ -808,7 +808,7 @@ void RichText::Paint()
 			{
 				// move to the next URL
 				_clickableTextIndex++;
-				ClickPanel *clickPanel = _clickableTextPanels.IsValidIndex( _clickableTextIndex ) ? _clickableTextPanels[_clickableTextIndex] : NULL;
+				ClickPanel *clickPanel = _clickableTextPanels.IsValidIndex( _clickableTextIndex ) ? _clickableTextPanels[_clickableTextIndex] : nullptr;
 				if (clickPanel)
 				{
 					clickPanel->SetPos(renderState.x, renderState.y);
@@ -2329,7 +2329,7 @@ void RichText::ApplySettings(KeyValues *inResourceData)
 	}
 	else
 	{
-		const char *textfilename = inResourceData->GetString("textfile", NULL);
+		const char *textfilename = inResourceData->GetString("textfile", nullptr);
 		if ( textfilename )
 		{
 			FileHandle_t f = g_pFullFileSystem->Open( textfilename, "rt" );
@@ -2510,7 +2510,7 @@ int RichText::ParseTextStringForUrls( const char *text, int startPos, char *pchU
 		{
 			// scan ahead for another '.'
 			bool bPeriodFound = false;
-			for (const char *ch = text + i + 5; ch != 0; ch++)
+			for (const char *ch = text + i + 5; ch != nullptr; ch++)
 			{
 				if (*ch == '.')
 				{

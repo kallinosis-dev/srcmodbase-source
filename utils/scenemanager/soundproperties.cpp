@@ -282,17 +282,17 @@ static void SoundProperties_GetSelectedWaveList( HWND hwndDlg, HWND control, CUt
 	delete[] s;
 }
 
-static const char *SoundProperties_GetSelectedWave( HWND hwndDlg, HWND control, int *item = NULL )
+static const char *SoundProperties_GetSelectedWave( HWND hwndDlg, HWND control, int *item = nullptr)
 {
 	if ( item )
 		*item = -1;
 
 	if ( !control )
-		return NULL;
+		return nullptr;
 
 	int selectedionindex = SendMessage( control, LB_GETCURSEL, 0, 0 );
 	if ( selectedionindex == LB_ERR )
-		return NULL;
+		return nullptr;
 
 	static char itemtext[ 256 ];
 	SendMessage( control, LB_GETTEXT, selectedionindex, (LPARAM)itemtext );
@@ -313,7 +313,7 @@ static void SoundProperties_OnOK( HWND hwndDlg )
 	CSoundEntry *item = g_Params.items[ 0 ];
 
 	int soundindex = -1;
-	char const *script = NULL;
+	char const *script = nullptr;
 
 	char outsoundname[ 256 ];
 	char outscriptfile[ 256 ];
@@ -396,16 +396,16 @@ static BOOL CALLBACK SoundPropertiesDialogProc( HWND hwndDlg, UINT uMsg, WPARAM 
 		{
 			g_Params.PositionSelf( hwndDlg );
 
-			CSoundEntry *item = NULL;
+			CSoundEntry *item = nullptr;
 
-			CSoundParametersInternal *p = NULL;
-			char const *script = NULL;
+			CSoundParametersInternal *p = nullptr;
+			char const *script = nullptr;
 				
 			if ( g_Params.addsound )
 			{
 				Assert( g_Params.items.Count() == 0 );
 
-				CSoundEntry *entry = new CSoundEntry( NULL, "Unnamed" );
+				CSoundEntry *entry = new CSoundEntry(nullptr, "Unnamed" );
 				g_Params.items.AddToTail( entry );
 
 				item = item = g_Params.items[ 0 ];

@@ -20,7 +20,7 @@ BEGIN_VS_SHADER_FLAGS( ObjectMotionBlur, "Object Motion Blur", SHADER_NOT_EDITAB
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -39,7 +39,7 @@ BEGIN_VS_SHADER_FLAGS( ObjectMotionBlur, "Object Motion Blur", SHADER_NOT_EDITAB
 	{
 		SHADOW_STATE 
 		{
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 			pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, true );

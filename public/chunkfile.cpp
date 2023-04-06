@@ -55,7 +55,7 @@
 //-----------------------------------------------------------------------------
 CChunkHandlerMap::CChunkHandlerMap(void)
 {
-	m_pHandlers = NULL;
+	m_pHandlers = nullptr;
 }
 
 
@@ -65,7 +65,7 @@ CChunkHandlerMap::CChunkHandlerMap(void)
 CChunkHandlerMap::~CChunkHandlerMap(void)
 {
 	ChunkHandlerInfoNode_t *pNode = m_pHandlers;
-	while (pNode != NULL)
+	while (pNode != nullptr)
 	{
 		ChunkHandlerInfoNode_t *pPrev = pNode;
 		pNode = pNode->pNext;
@@ -88,16 +88,16 @@ void CChunkHandlerMap::AddHandler(const char *pszChunkName, ChunkHandler_t pfnHa
 	Q_strncpy(pNew->Handler.szChunkName, pszChunkName, sizeof( pNew->Handler.szChunkName ));
 	pNew->Handler.pfnHandler = pfnHandler;
 	pNew->Handler.pData = pData;
-	pNew->pNext = NULL;
+	pNew->pNext = nullptr;
 
-	if (m_pHandlers == NULL)
+	if (m_pHandlers == nullptr)
 	{
 		m_pHandlers = pNew;
 	}
 	else
 	{
 		ChunkHandlerInfoNode_t *pNode = m_pHandlers;
-		while (pNode->pNext != NULL)
+		while (pNode->pNext != nullptr)
 		{
 			pNode = pNode->pNext;
 		}
@@ -140,7 +140,7 @@ ChunkErrorHandler_t CChunkHandlerMap::GetErrorHandler(void **ppData)
 ChunkHandler_t CChunkHandlerMap::GetHandler(const char *pszChunkName, void **ppData)
 {
 	ChunkHandlerInfoNode_t *pNode = m_pHandlers;
-	while (pNode != NULL)
+	while (pNode != nullptr)
 	{
 		if (!stricmp(pNode->Handler.szChunkName, pszChunkName))
 		{
@@ -151,7 +151,7 @@ ChunkHandler_t CChunkHandlerMap::GetHandler(const char *pszChunkName, void **ppD
 		pNode = pNode->pNext;
 	}
 
-	return(0);
+	return(nullptr);
 }
 
 
@@ -160,11 +160,11 @@ ChunkHandler_t CChunkHandlerMap::GetHandler(const char *pszChunkName, void **ppD
 //-----------------------------------------------------------------------------
 CChunkFile::CChunkFile(void)
 {
-	m_hFile = NULL;
+	m_hFile = nullptr;
 	m_nCurrentDepth = 0;
 	m_szIndent[0] = '\0';
 	m_nHandlerStackDepth = 0;
-	m_DefaultChunkHandler = 0;
+	m_DefaultChunkHandler = nullptr;
 }
 
 
@@ -173,7 +173,7 @@ CChunkFile::CChunkFile(void)
 //-----------------------------------------------------------------------------
 CChunkFile::~CChunkFile(void)
 {
-	if (m_hFile != NULL)
+	if (m_hFile != nullptr)
 	{
 		fclose(m_hFile);
 	}
@@ -230,10 +230,10 @@ void CChunkFile::BuildIndentString(char *pszDest, int nDepth)
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::Close(void)
 {
-	if (m_hFile != NULL)
+	if (m_hFile != nullptr)
 	{
 		fclose(m_hFile);
-		m_hFile = NULL;
+		m_hFile = nullptr;
 	}
 
 	return(ChunkFile_Ok);
@@ -342,7 +342,7 @@ ChunkFileResult_t CChunkFile::HandleChunk(const char *szChunkName)
 		//
 		void *pData;
 		ChunkHandler_t pfnHandler = pHandler->GetHandler(szChunkName, &pData);
-		if (pfnHandler != NULL)
+		if (pfnHandler != nullptr)
 		{
 			// Dispatch this chunk to the handler.
 			ChunkFileResult_t eResult = pfnHandler(this, pData);
@@ -417,7 +417,7 @@ ChunkFileResult_t CChunkFile::Open(const char *pszFileName, ChunkFileOpenMode_t 
 	{
 		m_hFile = fopen(pszFileName, "wb");
 
-		if (m_hFile == NULL)
+		if (m_hFile == nullptr)
 		{
 			return(ChunkFile_OpenFail);
 		}
@@ -597,7 +597,7 @@ ChunkFileResult_t CChunkFile::ReadChunk(KeyHandler_t pfnKeyHandler, void *pData)
 				//
 				eResult = HandleChunk(szName);
 			}
-			else if ((eChunkType == ChunkType_Key) && (pfnKeyHandler != NULL))
+			else if ((eChunkType == ChunkType_Key) && (pfnKeyHandler != nullptr))
 			{
 				//
 				// Dispatch keys to the key value handler.
@@ -686,7 +686,7 @@ bool CChunkFile::ReadKeyValueInt(const char *pszValue, int &nInt)
 //-----------------------------------------------------------------------------
 bool CChunkFile::ReadKeyValueColor(const char *pszValue, unsigned char &chRed, unsigned char &chGreen, unsigned char &chBlue)
 {
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		int r;
 		int g;
@@ -714,7 +714,7 @@ bool CChunkFile::ReadKeyValueColor(const char *pszValue, unsigned char &chRed, u
 //-----------------------------------------------------------------------------
 bool CChunkFile::ReadKeyValuePoint(const char *pszValue, Vector &Point)
 {
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		return(sscanf(pszValue, "(%f %f %f)", &Point.x, &Point.y, &Point.z) == 3);
 	}
@@ -731,7 +731,7 @@ bool CChunkFile::ReadKeyValuePoint(const char *pszValue, Vector &Point)
 //-----------------------------------------------------------------------------
 bool CChunkFile::ReadKeyValueVector2(const char *pszValue, Vector2D &vec)
 {
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		return ( sscanf( pszValue, "[%f %f]", &vec.x, &vec.y) == 2 );
 	}
@@ -748,7 +748,7 @@ bool CChunkFile::ReadKeyValueVector2(const char *pszValue, Vector2D &vec)
 //-----------------------------------------------------------------------------
 bool CChunkFile::ReadKeyValueVector3(const char *pszValue, Vector &vec)
 {
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		return(sscanf(pszValue, "[%f %f %f]", &vec.x, &vec.y, &vec.z) == 3);
 	}
@@ -765,7 +765,7 @@ bool CChunkFile::ReadKeyValueVector3(const char *pszValue, Vector &vec)
 //-----------------------------------------------------------------------------
 bool CChunkFile::ReadKeyValueVector4(const char *pszValue, Vector4D &vec)
 {
-	if( pszValue != NULL )
+	if( pszValue != nullptr)
 	{
 		return(sscanf(pszValue, "[%f %f %f %f]", &vec[0], &vec[1], &vec[2], &vec[3]) == 4);
 	}
@@ -781,7 +781,7 @@ bool CChunkFile::ReadKeyValueVector4(const char *pszValue, Vector4D &vec)
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteKeyValue(const char *pszKey, const char *pszValue)
 {
-	if ((pszKey != NULL) && (pszValue != NULL))
+	if ((pszKey != nullptr) && (pszValue != nullptr))
 	{
 		char szTemp[MAX_KEYVALUE_LEN];
 		Q_snprintf(szTemp, sizeof( szTemp ), "\"%s\" \"%s\"", pszKey, pszValue);
@@ -800,7 +800,7 @@ ChunkFileResult_t CChunkFile::WriteKeyValue(const char *pszKey, const char *pszV
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteKeyValueBool(const char *pszKey, bool bValue)
 {
-	if (pszKey != NULL)
+	if (pszKey != nullptr)
 	{
 		char szBuf[MAX_KEYVALUE_LEN];
 		Q_snprintf(szBuf, sizeof( szBuf ), "\"%s\" \"%d\"", pszKey, (int)bValue);
@@ -819,7 +819,7 @@ ChunkFileResult_t CChunkFile::WriteKeyValueBool(const char *pszKey, bool bValue)
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteKeyValueInt(const char *pszKey, int nValue)
 {
-	if (pszKey != NULL)
+	if (pszKey != nullptr)
 	{
 		char szBuf[MAX_KEYVALUE_LEN];
 		Q_snprintf(szBuf, sizeof( szBuf ), "\"%s\" \"%d\"", pszKey, nValue);
@@ -838,7 +838,7 @@ ChunkFileResult_t CChunkFile::WriteKeyValueInt(const char *pszKey, int nValue)
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteKeyValueFloat(const char *pszKey, float fValue)
 {
-	if (pszKey != NULL)
+	if (pszKey != nullptr)
 	{
 		char szBuf[MAX_KEYVALUE_LEN];
 		Q_snprintf(szBuf, sizeof( szBuf ), "\"%s\" \"%g\"", pszKey, (double)fValue);
@@ -859,7 +859,7 @@ ChunkFileResult_t CChunkFile::WriteKeyValueFloat(const char *pszKey, float fValu
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteKeyValueColor(const char *pszKey, unsigned char r, unsigned char g, unsigned char b)
 {
-	if (pszKey != NULL)
+	if (pszKey != nullptr)
 	{
 		char szBuf[MAX_KEYVALUE_LEN];
 		Q_snprintf(szBuf, sizeof( szBuf ), "\"%s\" \"%d %d %d\"", pszKey, (int)r, (int)g, (int)b);
@@ -878,7 +878,7 @@ ChunkFileResult_t CChunkFile::WriteKeyValueColor(const char *pszKey, unsigned ch
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteKeyValuePoint(const char *pszKey, const Vector &Point)
 {
-	if (pszKey != NULL)
+	if (pszKey != nullptr)
 	{
 		char szBuf[MAX_KEYVALUE_LEN];
 		Q_snprintf(szBuf, sizeof( szBuf ), "\"%s\" \"(%g %g %g)\"", pszKey, (double)Point[0], (double)Point[1], (double)Point[2]);
@@ -894,7 +894,7 @@ ChunkFileResult_t CChunkFile::WriteKeyValuePoint(const char *pszKey, const Vecto
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteKeyValueVector2(const char *pszKey, const Vector2D &vec)
 {
-	if (pszKey != NULL)
+	if (pszKey != nullptr)
 	{
 		char szBuf[MAX_KEYVALUE_LEN];
 		Q_snprintf( szBuf, sizeof( szBuf ), "\"%s\" \"[%g %g]\"", pszKey, (double)vec.x, (double)vec.y );
@@ -910,7 +910,7 @@ ChunkFileResult_t CChunkFile::WriteKeyValueVector2(const char *pszKey, const Vec
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteKeyValueVector3(const char *pszKey, const Vector &vec)
 {
-	if (pszKey != NULL)
+	if (pszKey != nullptr)
 	{
 		char szBuf[MAX_KEYVALUE_LEN];
 		Q_snprintf(szBuf, sizeof( szBuf ), "\"%s\" \"[%g %g %g]\"", pszKey, (double)vec.x, (double)vec.y, (double)vec.z);
@@ -929,7 +929,7 @@ ChunkFileResult_t CChunkFile::WriteKeyValueVector3(const char *pszKey, const Vec
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteKeyValueVector4(const char *pszKey, const Vector4D &vec)
 {
-	if (pszKey != NULL)
+	if (pszKey != nullptr)
 	{
 		char szBuf[MAX_KEYVALUE_LEN];
 		Q_snprintf(szBuf, sizeof( szBuf ), "\"%s\" \"[%g %g %g %g]\"", pszKey, (double)vec.x, (double)vec.y, (double)vec.z, (double)vec.w);
@@ -947,7 +947,7 @@ ChunkFileResult_t CChunkFile::WriteKeyValueVector4(const char *pszKey, const Vec
 //-----------------------------------------------------------------------------
 ChunkFileResult_t CChunkFile::WriteLine(const char *pszLine)
 {
-	if (pszLine != NULL)
+	if (pszLine != nullptr)
 	{
 		//
 		// Write the indentation string.

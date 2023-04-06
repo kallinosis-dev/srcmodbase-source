@@ -27,7 +27,7 @@ public:
 	virtual void OnVideoOver();
 
 	void ReturnToLoopVideo( void );
-	void PlayTempVideo( const char *pFilename, const char *pTransitionFilename = NULL );
+	void PlayTempVideo( const char *pFilename, const char *pTransitionFilename = nullptr);
 	void SetLoopVideo( const char *pFilename, int nNumLoopAlternatives = 0, float fAlternateChance = 1.0f );
 
 	const char* GetCurrentVideo( void ) const;
@@ -46,7 +46,7 @@ private:
 HUDVideoPanel *HUDVideoPanel_Create( vgui::Panel *pParent,
 							unsigned int iWide, unsigned int iTall, 
 							const char *pVideoFilename, 
-							const char *pExitCommand = NULL,
+							const char *pExitCommand = nullptr,
 							float flFadeInTime = 1,
 							bool bLoop = false,
 							bool bPreloadVideo = false );

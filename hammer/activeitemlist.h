@@ -70,7 +70,7 @@ template <class T> ActiveItemList<T>::ActiveItemList()
 	m_CurrentItem = -1;
     m_ListSize = 0;
     m_pList = NULL;
-    m_pEmptyList = NULL;
+    m_pEmptyList = nullptr;
 }
 
 
@@ -172,7 +172,7 @@ template <class T> T* ActiveItemList<T>::GetFirstItem( void )
 	}
 
 	// no items found
-	return NULL;
+	return nullptr;
 }
 
 	
@@ -195,7 +195,7 @@ template <class T> T* ActiveItemList<T>::GetNextItem( void )
 	}
 
 	// no more items found
-	return NULL;
+	return nullptr;
 }
 
 
@@ -257,7 +257,7 @@ template <class T> void ActiveItemList<T>::SetActiveItem( ITEM_HANDLE handle )
 template <class T> T* ActiveItemList<T>::GetActiveItem( void )
 {
     if( m_ActiveItem == -1 )
-        return NULL;
+        return nullptr;
 
     return &m_pList[m_ActiveItem];
 }

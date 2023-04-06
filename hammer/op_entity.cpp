@@ -244,7 +244,7 @@ void CPickAnglesTarget::OnNotifyPickAngles(const Vector &vecPos)
 		CMapClass *pObject = (CUtlReference< CMapClass >)m_pDlg->m_pObjectList->Element(pos);
 		CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pObject);
 		Assert(pEntity != NULL);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			GetHistory()->Keep(pEntity);
 
@@ -463,19 +463,19 @@ COP_Entity::COP_Entity()
 	m_bPicking = false;
 	m_bChangingKeyName = false;
 	
-	m_pSmartBrowseButton = NULL;
-	m_pLastSmartControlVar = NULL;
+	m_pSmartBrowseButton = nullptr;
+	m_pLastSmartControlVar = nullptr;
 
-	m_pEditInstanceVariable = NULL;
-	m_pEditInstanceValue = NULL;
-	m_pComboInstanceParmType = NULL;
-	m_pEditInstanceDefault = NULL;
+	m_pEditInstanceVariable = nullptr;
+	m_pEditInstanceValue = nullptr;
+	m_pComboInstanceParmType = nullptr;
+	m_pEditInstanceDefault = nullptr;
 
 	m_bIgnoreKVChange = false;
 	m_bSmartedit = true;
-	m_pSmartControl = NULL;
-	m_pDisplayClass = NULL;
-	m_pEditClass = NULL;
+	m_pSmartControl = nullptr;
+	m_pDisplayClass = nullptr;
+	m_pEditClass = nullptr;
 	m_eEditType = ivString;
 
 	m_nNewKeyCount = 0;
@@ -485,9 +485,9 @@ COP_Entity::COP_Entity()
 
 	m_pEditObjectRuntimeClass = RUNTIME_CLASS(editCEditGameClass);
 
-	m_pInstanceVar = NULL;
-	m_pModelBrowser = NULL;
-	m_pParticleBrowser = NULL;
+	m_pInstanceVar = nullptr;
+	m_pModelBrowser = nullptr;
+	m_pParticleBrowser = nullptr;
 
 	m_bCustomColorsLoaded = false; //Make sure they get loaded!
 	memset(CustomColors, 0, sizeof(CustomColors));
@@ -502,10 +502,10 @@ COP_Entity::~COP_Entity(void)
 	DestroySmartControls();
 
 	delete m_pModelBrowser;
-	m_pModelBrowser = NULL;
+	m_pModelBrowser = nullptr;
 
 	delete m_pParticleBrowser;
-	m_pParticleBrowser = NULL;
+	m_pParticleBrowser = nullptr;
 }
 
 
@@ -661,7 +661,7 @@ void COP_Entity::MergeObjectKeyValues(CEditGameClass *pEdit)
 	for ( int i=pEdit->GetFirstKeyValue(); i != pEdit->GetInvalidKeyValue(); i=pEdit->GetNextKeyValue( i ) )
 	{
 		LPCTSTR pszCurValue = m_kv.GetValue(pEdit->GetKey(i));
-		if (pszCurValue == NULL)
+		if (pszCurValue == nullptr)
 		{
 			//
 			// Doesn't exist yet - set current value.
@@ -698,10 +698,10 @@ void COP_Entity::MergeKeyValue(char const *pszKey)
 
 	bool bHandled = false;
 
-	if (m_pEditClass != NULL)
+	if (m_pEditClass != nullptr)
 	{
 		GDinputvariable *pVar = m_pEditClass->VarForName(pszKey);
-		if (pVar != NULL)
+		if (pVar != nullptr)
 		{
 			switch (pVar->GetType())
 			{
@@ -855,7 +855,7 @@ void COP_Entity::UpdateData( int Mode, PVOID pData, bool bCanEdit )
 		{
 			const char *pszKey = pEdit->GetKey(i);
 			const char *pszValue = pEdit->GetKeyValue(i);
-			if ((pszKey != NULL) && (pszValue != NULL))
+			if ((pszKey != nullptr) && (pszValue != nullptr))
 			{
 				m_kv.SetValue(pszKey, pszValue);
 			}
@@ -964,7 +964,7 @@ void COP_Entity::StopPicking(void)
 //-----------------------------------------------------------------------------
 BOOL COP_Entity::OnApply(void)
 {
-	m_pLastSmartControlVar = NULL;	// Force it to recreate the target name combo if need be, 
+	m_pLastSmartControlVar = nullptr;	// Force it to recreate the target name combo if need be, 
 									// because we might have locked in a new targetname.
 	StopPicking();
 	return(TRUE);
@@ -982,10 +982,10 @@ void COP_Entity::ApplyKeyValueToObject(CEditGameClass *pObject, const char *pszK
 	//VPROF_BUDGET( "COP_Entity::ApplyKeyValueToObject", "Object Properties" );
 
 	GDclass *pClass = pObject->GetClass();
-	if (pClass != NULL)
+	if (pClass != nullptr)
 	{
 		GDinputvariable *pVar = pClass->VarForName(pszKey);
-		if (pVar != NULL)
+		if (pVar != nullptr)
 		{
 			if ((pVar->GetType() == ivSideList) || (pVar->GetType() == ivSide))
 			{
@@ -996,9 +996,9 @@ void COP_Entity::ApplyKeyValueToObject(CEditGameClass *pObject, const char *pszK
 				//
 				CMapFaceIDList CurFaceList;
 				const char *pszCurVal = pObject->GetKeyValue(pszKey);
-				if (pszCurVal != NULL)
+				if (pszCurVal != nullptr)
 				{
-					pWorld->FaceID_StringToFaceIDLists(&CurFaceList, NULL, pszCurVal);
+					pWorld->FaceID_StringToFaceIDLists(&CurFaceList, nullptr, pszCurVal);
 				}
 
 				//
@@ -1028,7 +1028,7 @@ void COP_Entity::ApplyKeyValueToObject(CEditGameClass *pObject, const char *pszK
 				FullFaceList.AddVectorToTail(KeepFaceList);
 
 				char szSetValue[KEYVALUE_MAX_VALUE_LENGTH];
-				CMapWorld::FaceID_FaceIDListsToString(szSetValue, sizeof(szSetValue), &FullFaceList, NULL);
+				CMapWorld::FaceID_FaceIDListsToString(szSetValue, sizeof(szSetValue), &FullFaceList, nullptr);
 
 				pObject->SetKeyValue(pszKey, szSetValue);
 				return;
@@ -1060,8 +1060,8 @@ void COP_Entity::RememberState(void)
 //-----------------------------------------------------------------------------
 void COP_Entity::MarkDataDirty()
 {
-	UpdateDisplayClass( (GDclass*)NULL );
-	m_pEditClass = NULL;
+	UpdateDisplayClass( (GDclass*)nullptr);
+	m_pEditClass = nullptr;
 	m_VarList.DeleteAllItems();
 	m_InstanceParmData.RemoveAll();
 }
@@ -1098,7 +1098,7 @@ bool COP_Entity::SaveData( SaveData_Reason_t reason )
 		CEditGameClass *pEdit = dynamic_cast <CEditGameClass *>(pObject);
 		Assert(pEdit != NULL);
 
-		if (pEdit != NULL)
+		if (pEdit != nullptr)
 		{
 			RemoveBlankKeys();
 
@@ -1111,7 +1111,7 @@ bool COP_Entity::SaveData( SaveData_Reason_t reason )
 			{
 				MDkeyvalue &kvCur = m_kv.GetKeyValue(i);
 				const char *pszAddedKeyValue = m_kvAdded.GetValue(kvCur.szKey);							
-				if (pszAddedKeyValue != NULL)
+				if (pszAddedKeyValue != nullptr)
 				{
 					Q_FixSlashes( kvCur.szValue, '/' );	
 					//
@@ -1215,8 +1215,8 @@ protected:
 };
 
 CStringListTokenizer::CStringListTokenizer(const char *szString) :
-	m_pNextToken( NULL ),
-	m_pCurrentToken( NULL )
+	m_pNextToken(nullptr),
+	m_pCurrentToken(nullptr)
 {
 	if ( szString )
 	{
@@ -1224,7 +1224,7 @@ CStringListTokenizer::CStringListTokenizer(const char *szString) :
 		m_pString.Attach( new char[ len + 1 ] );
 		strcpy( m_pString.Get(), szString );
 		m_pNextToken = m_pString.Get();
-		m_pCurrentToken = NULL;
+		m_pCurrentToken = nullptr;
 	}
 }
 
@@ -1237,7 +1237,7 @@ char const * CStringListTokenizer::NextToken()
 		++ m_pNextToken;
 
 	if ( !m_pNextToken || !*m_pNextToken )
-		return NULL;
+		return nullptr;
 
 	char *pNextToken = strchr( m_pNextToken, chSeparator );
 	if ( pNextToken )
@@ -1249,7 +1249,7 @@ char const * CStringListTokenizer::NextToken()
 	else
 	{
 		m_pCurrentToken = m_pNextToken;
-		m_pNextToken = NULL;
+		m_pNextToken = nullptr;
 	}
 	
 	return CurrentToken();
@@ -1294,7 +1294,7 @@ void COP_Entity::RefreshKVListValues( const char *pOnlyThisVar )
 	for ( int i=0; i < m_VarList.GetItemCount(); i++ )
 	{
 		const char *pVarName = (const char*)m_VarList.GetItemData( i );
-		const char *pValue = NULL;
+		const char *pValue = nullptr;
 		char tmpValueBuf[512];
 
 		// If they only wanted to update one var...
@@ -1303,7 +1303,7 @@ void COP_Entity::RefreshKVListValues( const char *pOnlyThisVar )
 		
 		if ( m_bSmartedit )
 		{
-			GDinputvariable *pVar = (m_pDisplayClass ? m_pDisplayClass->VarForName( pVarName ) : NULL);
+			GDinputvariable *pVar = (m_pDisplayClass ? m_pDisplayClass->VarForName( pVarName ) : nullptr);
 			if ( pVar )
 			{
 				const char *pUnformattedValue = m_kv.GetValue( pVar->GetName() );
@@ -1439,7 +1439,7 @@ void COP_Entity::PresentProperties()
 			CMapClass *pMapClass = (CUtlReference< CMapClass >)m_pObjectList->Element( 0 );
 			CMapEntity *pEntity = static_cast< CMapEntity * >( pMapClass );
 
-			CMapInstance *pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
+			CMapInstance *pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )nullptr);
 			if ( pMapInstance && pMapInstance->GetInstancedMap() )
 			{
 				CMapEntityList entityList;
@@ -1519,7 +1519,7 @@ void COP_Entity::PresentProperties()
 		//
 		// If this class defines angles, enable the angles control.
 		//
-		if (m_pDisplayClass->VarForName("angles") != NULL)
+		if (m_pDisplayClass->VarForName("angles") != nullptr)
 		{
 			m_Angle.Enable( m_bCanEdit );
 		}
@@ -1672,9 +1672,9 @@ BOOL COP_Entity::OnInitDialog(void)
 	// Sometimes it has deleted our window (and its children) from underneath us,
 	// and we don't want to hang onto old window pointers.
 	m_SmartControls.Purge();
-	m_pDisplayClass = NULL;
-	m_pEditClass = NULL;
-	m_pLastSmartControlVar = NULL;
+	m_pDisplayClass = nullptr;
+	m_pEditClass = nullptr;
+	m_pLastSmartControlVar = nullptr;
 
 	// Clear m_kv.
 	m_kv.RemoveAll();
@@ -1787,7 +1787,7 @@ void COP_Entity::OnDblClickKeyValues(NMHDR* pNMHDR, LRESULT* pResult)
 		return;
 
 	GDinputvariable *pVar = GetVariableAt( iSel );
-	if ( pVar == NULL )
+	if ( pVar == nullptr)
 	{
 		return;
 	}
@@ -1895,7 +1895,7 @@ void COP_Entity::DestroySmartControls(void)
 	for (int i = 0; i < m_SmartControls.Count(); i++)
 	{
 		CWnd *pControl = m_SmartControls.Element(i);
-		if (pControl != NULL)
+		if (pControl != nullptr)
 		{
 			pControl->DestroyWindow();
 			delete pControl;
@@ -1903,13 +1903,13 @@ void COP_Entity::DestroySmartControls(void)
 	}
 	
 	m_SmartControls.RemoveAll();
-	m_pSmartBrowseButton = NULL;
-	m_pSmartControl = NULL;
-	m_pLastSmartControlVar = NULL;
+	m_pSmartBrowseButton = nullptr;
+	m_pSmartControl = nullptr;
+	m_pLastSmartControlVar = nullptr;
 
-	m_pEditInstanceVariable = NULL;
-	m_pEditInstanceValue = NULL;
-	m_pComboInstanceParmType = NULL;
+	m_pEditInstanceVariable = nullptr;
+	m_pEditInstanceValue = nullptr;
+	m_pComboInstanceParmType = nullptr;
 
 	UpdateAnchors();
 }
@@ -1925,7 +1925,7 @@ void COP_Entity::CreateSmartControls(GDinputvariable *pVar, CUtlVector<const cha
 	//VPROF_BUDGET( "COP_Entity::CreateSmartControls", "Object Properties" );
 
 	// dvs: TODO: break this monster up into smaller functions
-	if (pVar == NULL)
+	if (pVar == nullptr)
 	{
 		// UNDONE: delete smart controls?
 		return;
@@ -1964,7 +1964,7 @@ void COP_Entity::CreateSmartControls(GDinputvariable *pVar, CUtlVector<const cha
 	m_cPickColor.ShowWindow((eType == ivColor255 || eType == ivColor1) ? SW_SHOW : SW_HIDE);
 
 	HFONT hControlFont = (HFONT)GetStockObject(DEFAULT_GUI_FONT);
-	if (hControlFont == NULL)
+	if (hControlFont == nullptr)
 	{
 		hControlFont = (HFONT)GetStockObject(ANSI_VAR_FONT);
 	}
@@ -2067,12 +2067,12 @@ void COP_Entity::CreateSmartControls_Angle( GDinputvariable *pVar, CRect &ctrlre
 		CRect rectAngleEdit;
 		m_SmartAngleEdit.GetWindowRect(&rectAngleEdit);
 
-		m_SmartAngle.SetWindowPos(NULL, ctrlrect.left + rectAngleEdit.Width() + 4, ctrlrect.bottom + 10, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
-		m_SmartAngleEdit.SetWindowPos(NULL, ctrlrect.left, (ctrlrect.bottom + rectAngleBox.Height() + 10) - rectAngleEdit.Height(), 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		m_SmartAngle.SetWindowPos(nullptr, ctrlrect.left + rectAngleEdit.Width() + 4, ctrlrect.bottom + 10, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		m_SmartAngleEdit.SetWindowPos(nullptr, ctrlrect.left, (ctrlrect.bottom + rectAngleBox.Height() + 10) - rectAngleEdit.Height(), 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 
 		// Update the smart control with the current value
 		LPCTSTR pszValue = m_kv.GetValue(pVar->GetName());
-		if (pszValue != NULL)
+		if (pszValue != nullptr)
 		{
 			if (!stricmp(pszValue, VALUE_DIFFERENT_STRING))
 			{
@@ -2163,7 +2163,7 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 		FOR_EACH_OBJ( *pEntityList, pos )
 		{
 			const CMapEntity *pEntity = pEntityList->Element(pos).GetObject();
-			GDclass *pClass = pEntity ? pEntity->GetClass() : NULL;
+			GDclass *pClass = pEntity ? pEntity->GetClass() : nullptr;
 			if (pClass && pClass->IsFilterClass())
 			{
 				const char *pString = pEntity->GetKeyValue("targetname");
@@ -2179,7 +2179,7 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 	//
 	else if (pVar->GetType() == ivNPCClass)
 	{
-		if (pGD != NULL)
+		if (pGD != nullptr)
 		{
 			int nCount = pGD->GetClassCount();
 			for (int i = 0; i < nCount; i++)
@@ -2197,7 +2197,7 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 	//
 	else
 	{
-		if (pGD != NULL)
+		if (pGD != nullptr)
 		{
 			int nCount = pGD->GetClassCount();
 			for (int i = 0; i < nCount; i++)
@@ -2215,7 +2215,7 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 	// If the current value is the "different" string, display that in the combo box.
 	//
 	LPCTSTR pszValue = m_kv.GetValue(pVar->GetName());
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		if (strcmp(pszValue, VALUE_DIFFERENT_STRING) == 0)
 		{
@@ -2223,7 +2223,7 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 		}
 		else
 		{
-			const char *p = NULL;
+			const char *p = nullptr;
 			
 			//
 			// If this is a choices field and the current value corresponds to one of our
@@ -2234,7 +2234,7 @@ void COP_Entity::CreateSmartControls_Choices( GDinputvariable *pVar, CRect &ctrl
 				p = pVar->ItemStringForValue(pszValue);
 			}
 
-			if (p != NULL)
+			if (p != nullptr)
 			{
 				pCombo->SelectString(-1, p);
 			}
@@ -2396,7 +2396,7 @@ void COP_Entity::CreateSmartControls_MarkAndEyedropperButtons( GDinputvariable *
 	CRect ButtonRect = ctrlrect;
 	ButtonRect.top = ctrlrect.bottom + 4;
 	ButtonRect.bottom = ctrlrect.bottom + ctrlrect.Height() + 4;
-	CButton *pButton = NULL;
+	CButton *pButton = nullptr;
 
 	GDIV_TYPE eType = pVar->GetType();
 
@@ -2692,7 +2692,7 @@ void COP_Entity::OnSelchangeKeyvalues(void)
 	// Load new selection's key/values into the key/value 
 	// edit controls.
 	//
-	if (m_VarList.m_hWnd == NULL)
+	if (m_VarList.m_hWnd == nullptr)
 	{
 		return;
 	}
@@ -2736,7 +2736,7 @@ void COP_Entity::OnSelchangeKeyvalues(void)
 	else
 	{
 		GDinputvariable *pVar = GetVariableAt( iSel );
-		if ( pVar == NULL || !m_pDisplayClass )
+		if ( pVar == nullptr || !m_pDisplayClass )
 		{
 			// This is a var added in dumbedit mode.
 			DestroySmartControls();
@@ -3018,7 +3018,7 @@ void COP_Entity::UpdateEditClass(const char *pszClass, bool bForce)
 			iNext = m_kv.GetNext( i );
 			
 			MDkeyvalue &KeyValue = m_kv.GetKeyValue(i);
-			if (m_pEditClass->VarForName(KeyValue.szKey) == NULL)
+			if (m_pEditClass->VarForName(KeyValue.szKey) == nullptr)
 			{
 				m_kv.RemoveKey(KeyValue.szKey);
 			}
@@ -3132,7 +3132,7 @@ void COP_Entity::SetReadOnly(bool bReadOnly)
 	
 	for (int i = 0; i < m_SmartControls.Count(); i++)
 	{
-		if (m_SmartControls.Element(i) != NULL)
+		if (m_SmartControls.Element(i) != nullptr)
 		{
 			m_SmartControls.Element(i)->EnableWindow(bReadOnly ? FALSE : TRUE);
 		}
@@ -3167,7 +3167,7 @@ void COP_Entity::UpdateDisplayClass(GDclass *pClass)
 	// The outer check here is lame, but somewhere along the line, all the controls get enabled
 	// behind our backs. So verify that our state information is sane. If it's not, then we'll redo some state in here.
 	bool bForceRefresh = false;
-	if ( GetDlgItem(IDC_SMARTEDIT)->IsWindowEnabled() != (m_pDisplayClass != 0) )
+	if ( GetDlgItem(IDC_SMARTEDIT)->IsWindowEnabled() != (m_pDisplayClass != nullptr) )
 		bForceRefresh = true;
 		
 	if ( pClass == m_pDisplayClass && !bForceRefresh )
@@ -3276,7 +3276,7 @@ bool COP_Entity::BrowseParticles( char *szParticleSysName, int length )
 {
 	bool bChanged = false;
 
-	if (m_pParticleBrowser == NULL)
+	if (m_pParticleBrowser == nullptr)
 	{
 		m_pParticleBrowser = new CParticleBrowser( GetMainWnd() );
 	}
@@ -3290,7 +3290,7 @@ bool COP_Entity::BrowseParticles( char *szParticleSysName, int length )
 	}
 
 	delete m_pParticleBrowser;
-	m_pParticleBrowser = NULL;
+	m_pParticleBrowser = nullptr;
 
 	return bChanged;
 }
@@ -3304,7 +3304,7 @@ void COP_Entity::BrowseTextures( const char *szFilter, bool bSprite )
 	int iSel = GetCurVarListSelection();
 
 	GDinputvariable * pVar = GetVariableAt( iSel );
-	if ( pVar == NULL )
+	if ( pVar == nullptr)
 	{
 		return;
 	}
@@ -3392,7 +3392,7 @@ void COP_Entity::InternalOnChangeSmartcontrol( const char *szValue )
 
 	int iSel = GetCurVarListSelection();
 	GDinputvariable * pVar = GetVariableAt( iSel );
-	if ( pVar == NULL )
+	if ( pVar == nullptr)
 	{
 		return;
 	}
@@ -3408,7 +3408,7 @@ void COP_Entity::InternalOnChangeSmartcontrol( const char *szValue )
 		// If a choicelist, change buffer to the string value of what we chose.
 		//
 		const char *pszValueString = pVar->ItemValueForString(szValue);
-		if (pszValueString != NULL)
+		if (pszValueString != nullptr)
 		{
 			strValue = pszValueString;
 		}
@@ -3464,7 +3464,7 @@ void COP_Entity::OnChangeInstanceVariableControl( void )
 
 		int iSel = GetCurVarListSelection();
 		GDinputvariable * pVar = GetVariableAt( iSel );
-		if ( pVar == NULL )
+		if ( pVar == nullptr)
 		{
 			return;
 		}
@@ -3513,7 +3513,7 @@ void COP_Entity::OnChangeInstanceParmControl( void )
 
 		int iSel = GetCurVarListSelection();
 		GDinputvariable * pVar = GetVariableAt( iSel );
-		if ( pVar == NULL )
+		if ( pVar == nullptr)
 		{
 			return;
 		}
@@ -3537,7 +3537,7 @@ void COP_Entity::OnChangeSmartcontrolSel(void)
 		return;
 
 	GDinputvariable * pVar = GetVariableAt( iSel );
-	if ( pVar == NULL )
+	if ( pVar == nullptr)
 	{
 		return;
 	}
@@ -3573,7 +3573,7 @@ void COP_Entity::OnChangeSmartcontrolSel(void)
 	if (pVar->GetType() == ivChoices)
 	{
 		const char *pszValue = pVar->ItemValueForString(szBuf);
-		if (pszValue != NULL)
+		if (pszValue != nullptr)
 		{
 			strcpy(szBuf, pszValue);
 		}
@@ -3667,8 +3667,8 @@ void COP_Entity::OnManageList()
 
 
 // Filesystem dialog module wrappers.
-CSysModule *g_pFSDialogModule = 0;
-CreateInterfaceFn g_FSDialogFactory = 0;
+CSysModule *g_pFSDialogModule = nullptr;
+CreateInterfaceFn g_FSDialogFactory = nullptr;
 
 void LoadFileSystemDialogModule()
 {
@@ -3678,13 +3678,13 @@ void LoadFileSystemDialogModule()
 	const char *pDLLName = "FileSystemOpenDialog.dll";
 	g_pFSDialogModule = Sys_LoadModule( pDLLName );
 	if ( !g_pFSDialogModule || 
-		 (g_FSDialogFactory = Sys_GetFactory( g_pFSDialogModule )) == NULL
-		 )
+		 (g_FSDialogFactory = Sys_GetFactory( g_pFSDialogModule )) == nullptr
+	)
 	{
 		if ( g_pFSDialogModule )
 		{
 			Sys_UnloadModule( g_pFSDialogModule );
-			g_pFSDialogModule = 0;
+			g_pFSDialogModule = nullptr;
 		}
 
 		char str[512];
@@ -3698,7 +3698,7 @@ void UnloadFileSystemDialogModule()
 	if ( g_pFSDialogModule )
 	{
 		Sys_UnloadModule( g_pFSDialogModule );
-		g_pFSDialogModule = 0;
+		g_pFSDialogModule = nullptr;
 	}
 }	
 
@@ -3775,7 +3775,7 @@ void COP_Entity::OnBrowse(void)
 		return;
 	}
 
-	char *pszInitialDir = 0;
+	char *pszInitialDir = nullptr;
 
 	
 	// Instantiate a dialog.
@@ -3783,7 +3783,7 @@ void COP_Entity::OnBrowse(void)
 		return;
 
 	IFileSystemOpenDialog *pDlg;
-	pDlg = (IFileSystemOpenDialog*)g_FSDialogFactory( FILESYSTEMOPENDIALOG_VERSION, NULL );
+	pDlg = (IFileSystemOpenDialog*)g_FSDialogFactory( FILESYSTEMOPENDIALOG_VERSION, nullptr);
 	if ( !pDlg )
 	{
 		char str[512];
@@ -3791,7 +3791,7 @@ void COP_Entity::OnBrowse(void)
 		AfxMessageBox( str, MB_OK );
 		return;
 	}
-	pDlg->Init( g_Factory, NULL );
+	pDlg->Init( g_Factory, nullptr);
 	
 	
 	const char *pPathID = "GAME";
@@ -3914,13 +3914,13 @@ void COP_Entity::OnBrowse(void)
 				szResultBuffer.Get() );
 			
 			char *pchSlash = strrchr(pszInitialDir, '\\');
-			if (pchSlash != NULL)
+			if (pchSlash != nullptr)
 			{
 				*pchSlash = '\0';
 			}
 		}
 		
-		if (m_pSmartControl != NULL)
+		if (m_pSmartControl != nullptr)
 		{
 			Q_FixSlashes( szResultBuffer.Get(), '/' );
 
@@ -3946,7 +3946,7 @@ bool COP_Entity::HandleBrowse( CStringList &lstBrowse )
 		return false;
 
 	IFileSystemOpenDialog *pDlg;
-	pDlg = (IFileSystemOpenDialog*)g_FSDialogFactory( FILESYSTEMOPENDIALOG_VERSION, NULL );
+	pDlg = (IFileSystemOpenDialog*)g_FSDialogFactory( FILESYSTEMOPENDIALOG_VERSION, nullptr);
 	if ( !pDlg )
 	{
 		char str[512];
@@ -3954,7 +3954,7 @@ bool COP_Entity::HandleBrowse( CStringList &lstBrowse )
 		AfxMessageBox( str, MB_OK );
 		return false;
 	}
-	pDlg->Init( g_Factory, NULL );
+	pDlg->Init( g_Factory, nullptr);
 
 	pDlg->AddFileMask( "*.nut" );
 	pDlg->AddFileMask( "*.gm" );
@@ -4030,7 +4030,7 @@ void COP_Entity::OnBrowseInstance(void)
 			pos += strlen( pszMapPath );
 			*( pos - 1 ) = 0;
 		}
-		else if ( pos == NULL )
+		else if ( pos == nullptr)
 		{
 			const char *pszInstancePath = CMapInstance::GetInstancePath();
 
@@ -4111,7 +4111,7 @@ void COP_Entity::OnKillfocusKey(void)
 
 	char szSaveValue[KEYVALUE_MAX_VALUE_LENGTH];
 	memset(szSaveValue, 0, sizeof(szSaveValue));
-	strncpy(szSaveValue, m_kv.GetValue(m_szOldKeyName, NULL), sizeof(szSaveValue) - 1);
+	strncpy(szSaveValue, m_kv.GetValue(m_szOldKeyName, nullptr), sizeof(szSaveValue) - 1);
 
 	int iSel = GetCurVarListSelection();
 	if (iSel == LB_ERR)
@@ -4146,7 +4146,7 @@ void COP_Entity::PerformMark( const char *szTargetName, bool bClear, bool bNameO
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		if (szTargetName[0] != '\0')
 		{
@@ -4197,7 +4197,7 @@ void COP_Entity::OnMark(void)
 {
 	int iSel = GetCurVarListSelection();
 	GDinputvariable * pVar = GetVariableAt( iSel );
-	if ( pVar == NULL )
+	if ( pVar == nullptr)
 	{
 		return;
 	}
@@ -4222,7 +4222,7 @@ void COP_Entity::OnMarkAndAdd(void)
 {
 	int iSel = GetCurVarListSelection();
 	GDinputvariable * pVar = GetVariableAt( iSel );
-	if ( pVar == NULL )
+	if ( pVar == nullptr)
 	{
 		return;
 	}
@@ -4300,7 +4300,7 @@ void COP_Entity::GetFaceIDListsForKey(CMapFaceIDList &FullFaces, CMapFaceIDList 
 {
 	CMapWorld *pWorld = GetActiveWorld();
 
-	if ((m_pObjectList != NULL) && (pWorld != NULL))
+	if ((m_pObjectList != nullptr) && (pWorld != nullptr))
 	{
 		bool bFirst = true;
 		
@@ -4308,19 +4308,19 @@ void COP_Entity::GetFaceIDListsForKey(CMapFaceIDList &FullFaces, CMapFaceIDList 
 		{
 			CMapClass *pObject = (CUtlReference< CMapClass >)m_pObjectList->Element(pos);
 			CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pObject);
-			if (pEntity != NULL)
+			if (pEntity != nullptr)
 			{
 				const char *pszValue = pEntity->GetKeyValue(pszKey);
 
 				if (bFirst)
 				{
-					pWorld->FaceID_StringToFaceIDLists(&FullFaces, NULL, pszValue);
+					pWorld->FaceID_StringToFaceIDLists(&FullFaces, nullptr, pszValue);
 					bFirst = false;
 				}
 				else
 				{
 					CMapFaceIDList TempFaces;
-					pWorld->FaceID_StringToFaceIDLists(&TempFaces, NULL, pszValue);
+					pWorld->FaceID_StringToFaceIDLists(&TempFaces, nullptr, pszValue);
 
 					CMapFaceIDList TempFullFaces = FullFaces;
 					FullFaces.RemoveAll();
@@ -4346,7 +4346,7 @@ void COP_Entity::GetFaceListsForKey(CMapFaceList &FullFaces, CMapFaceList &Parti
 {
 	CMapWorld *pWorld = GetActiveWorld();
 
-	if ((m_pObjectList != NULL) && (pWorld != NULL))
+	if ((m_pObjectList != nullptr) && (pWorld != nullptr))
 	{
 		bool bFirst = true;
 		
@@ -4354,19 +4354,19 @@ void COP_Entity::GetFaceListsForKey(CMapFaceList &FullFaces, CMapFaceList &Parti
 		{
 			CMapClass *pObject = (CUtlReference< CMapClass >)m_pObjectList->Element(pos);
 			CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pObject);
-			if (pEntity != NULL)
+			if (pEntity != nullptr)
 			{
 				const char *pszValue = pEntity->GetKeyValue(pszKey);
 
 				if (bFirst)
 				{
-					pWorld->FaceID_StringToFaceLists(&FullFaces, NULL, pszValue);
+					pWorld->FaceID_StringToFaceLists(&FullFaces, nullptr, pszValue);
 					bFirst = false;
 				}
 				else
 				{
 					CMapFaceList TempFaces;
-					pWorld->FaceID_StringToFaceLists(&TempFaces, NULL, pszValue);
+					pWorld->FaceID_StringToFaceLists(&TempFaces, nullptr, pszValue);
 
 					CMapFaceList TempFullFaces = FullFaces;
 					FullFaces.RemoveAll();
@@ -4387,7 +4387,7 @@ void COP_Entity::OnPickFaces(void)
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 	Assert(pDoc != NULL);
 
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		return;
 	}
@@ -4395,7 +4395,7 @@ void COP_Entity::OnPickFaces(void)
 	CButton *pButton = (CButton *)GetDlgItem(IDC_PICK_FACES);
 	Assert(pButton != NULL);
 
-	if (pButton != NULL)
+	if (pButton != nullptr)
 	{
 		if (pButton->GetCheck())
 		{
@@ -4405,7 +4405,7 @@ void COP_Entity::OnPickFaces(void)
 			if (nSel != LB_ERR )
 			{
 				GDinputvariable * pVar = GetVariableAt( nSel );
-				if ( pVar != NULL )
+				if ( pVar != nullptr)
 				{
 					Assert((pVar->GetType() == ivSideList) || (pVar->GetType() == ivSide));
 
@@ -4458,7 +4458,7 @@ void COP_Entity::OnPickAngles(void)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 	Assert(pDoc != NULL);
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		return;
 	}
@@ -4466,7 +4466,7 @@ void COP_Entity::OnPickAngles(void)
 	CButton *pButton = (CButton *)GetDlgItem(IDC_PICK_ANGLES);
 	Assert(pButton != NULL);
 
-	if (pButton != NULL)
+	if (pButton != nullptr)
 	{
 		if (pButton->GetCheck())
 		{
@@ -4476,7 +4476,7 @@ void COP_Entity::OnPickAngles(void)
 			if (nSel != LB_ERR)
 			{
 				GDinputvariable * pVar = GetVariableAt( nSel );
-				if ( pVar != NULL )
+				if ( pVar != nullptr)
 				{
 					Assert(pVar->GetType() == ivAngle);
 
@@ -4510,7 +4510,7 @@ void COP_Entity::OnPickEntity(void)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 	Assert(pDoc != NULL);
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		return;
 	}
@@ -4518,7 +4518,7 @@ void COP_Entity::OnPickEntity(void)
 	CButton *pButton = (CButton *)GetDlgItem(IDC_PICK_ENTITY);
 	Assert(pButton != NULL);
 
-	if (pButton != NULL)
+	if (pButton != nullptr)
 	{
 		if (pButton->GetCheck())
 		{
@@ -4528,7 +4528,7 @@ void COP_Entity::OnPickEntity(void)
 			if (nSel != LB_ERR)
 			{
 				GDinputvariable * pVar = GetVariableAt( nSel );
-				if ( pVar != NULL )
+				if ( pVar != nullptr)
 				{
 					// Save the old tool so we can reset to the correct tool when we stop picking.
 					m_ToolPrePick = ToolManager()->GetActiveToolID();
@@ -4626,7 +4626,7 @@ GDinputvariable *COP_Entity::GetVariableAt( int index )
 {
 	if ( m_VarMap[ index ] == -1 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( m_VarMap[ index ] <= INSTANCE_VAR_MAP_START )
@@ -4645,7 +4645,7 @@ void COP_Entity::OnPickColor(void)
 {
 	int iSel = GetCurVarListSelection();
 	GDinputvariable * pVar = GetVariableAt( iSel );
-	if ( pVar == NULL )
+	if ( pVar == nullptr)
 	{
 		return;
 	}
@@ -4691,7 +4691,7 @@ void COP_Entity::OnPickColor(void)
 			}
 			++iCurToken;
 		}
-		pTmp = strtok(NULL, " ");
+		pTmp = strtok(nullptr, " ");
 	}
 
 	clr = RGB(r, g, b);
@@ -4916,7 +4916,7 @@ void COP_Entity::OnCameraDistance(void)
 	Vector cameraPos;
 	camera->GetViewPoint( cameraPos );
 	Assert(pDoc != NULL);
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		return;
 	}
@@ -4927,7 +4927,7 @@ void COP_Entity::OnCameraDistance(void)
 	if (nSel != LB_ERR)
 	{		
 		GDinputvariable * pVar = GetVariableAt( nSel );
-		if ( pVar == NULL )
+		if ( pVar == nullptr)
 		{
 			return;
 		}
@@ -5053,7 +5053,7 @@ bool COP_Entity::CustomDrawItemValue( const LPDRAWITEMSTRUCT p, const RECT *pRec
 		return false;
 	
 	GDinputvariable * pVar = GetVariableAt( p->itemID );
-	if ( pVar == NULL )
+	if ( pVar == nullptr)
 	{
 		return false;
 	}

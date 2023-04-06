@@ -89,11 +89,11 @@ CObjectProperties::CObjectProperties(void) :
 	CPropertySheet()
 {
 	m_bDummy = false;
-	m_pDummy = NULL;
-	m_pInputButton = NULL;
-	m_pOutputButton = NULL;
-	m_pInstanceButton = NULL;
-	m_pOrgObjects = NULL;
+	m_pDummy = nullptr;
+	m_pInputButton = nullptr;
+	m_pOutputButton = nullptr;
+	m_pInstanceButton = nullptr;
+	m_pOrgObjects = nullptr;
 	m_bDataDirty = false;
 	m_bCanEdit = false;
 
@@ -111,10 +111,10 @@ CObjectProperties::CObjectProperties(UINT nIDCaption, CWnd* pParentWnd, UINT iSe
 	:CPropertySheet(nIDCaption, pParentWnd, iSelectPage)
 {
 	m_bDummy = false;
-	m_pDummy = NULL;
-	m_pInputButton = NULL;
-	m_pOutputButton = NULL;
-	m_pInstanceButton = NULL;
+	m_pDummy = nullptr;
+	m_pInputButton = nullptr;
+	m_pOutputButton = nullptr;
+	m_pInstanceButton = nullptr;
 	m_bCanEdit = false;
 
 	CreatePages();
@@ -131,10 +131,10 @@ CObjectProperties::CObjectProperties(LPCTSTR pszCaption, CWnd* pParentWnd, UINT 
 	:CPropertySheet(pszCaption, pParentWnd, iSelectPage)
 {
 	m_bDummy = false;
-	m_pDummy = NULL;
-	m_pInputButton = NULL;
-	m_pOutputButton = NULL;
-	m_pInstanceButton = NULL;
+	m_pDummy = nullptr;
+	m_pInputButton = nullptr;
+	m_pOutputButton = nullptr;
+	m_pInstanceButton = nullptr;
 	m_bCanEdit = false;
 
 	CreatePages();
@@ -196,10 +196,10 @@ void CObjectProperties::CreatePages(void)
 
 	m_pDummy = new CPropertyPage(IDD_OBJPAGE_DUMMY);
 
-	m_ppPages = NULL;
+	m_ppPages = nullptr;
 	m_nPages = 0;
 
-	m_pLastActivePage = NULL;
+	m_pLastActivePage = nullptr;
 }
 
 
@@ -221,7 +221,7 @@ PVOID CObjectProperties::GetEditObject(CRuntimeClass *pType)
 	}
 
 	Assert(0);
-	return NULL;
+	return nullptr;
 }
 
 
@@ -251,7 +251,7 @@ PVOID CObjectProperties::GetEditObjectFromMapObject(CMapClass *pobj, CRuntimeCla
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -362,7 +362,7 @@ void CObjectProperties::UpdateOutputButton(void)
 	{
 		CMapClass *pObject = m_DstObjects.Element(pos);
 
-		if ((pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))))
+		if ((pObject != nullptr) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))))
 		{
 			CMapEntity *pEntity = (CMapEntity *)pObject;
 			int nStatus = CEntityConnection::ValidateOutputConnections( pEntity, true, bIgnoreHiddenTargets, true );
@@ -406,7 +406,7 @@ void CObjectProperties::UpdateInputButton()
 	{
 		CMapClass *pObject = m_DstObjects.Element(pos);
 
-		if ((pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))))
+		if ((pObject != nullptr) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))))
 		{
 			CMapEntity *pEntity = (CMapEntity *)pObject;
 			int nStatus = CEntityConnection::ValidateInputConnections(pEntity, false);
@@ -551,7 +551,7 @@ LayoutType_t CObjectProperties::GetLayout(void)
 
 	LayoutType_t eLayoutType = ltNone;
 
-	if ((m_DstObjects.Count() == 0) || (CMapDoc::GetActiveMapDoc() == NULL))
+	if ((m_DstObjects.Count() == 0) || (CMapDoc::GetActiveMapDoc() == nullptr))
 	{
 		eLayoutType = ltNone;
 	}
@@ -582,7 +582,7 @@ LayoutType_t CObjectProperties::GetLayout(void)
 					//
 					if (m_DstObjects.Count() == 1)
 					{
-						if (pEntity->GetChildOfType((CMapStudioModel *)NULL))
+						if (pEntity->GetChildOfType((CMapStudioModel *)nullptr))
 						{
 							eLayoutType = ltModelEntity;
 						}
@@ -656,7 +656,7 @@ void CObjectProperties::SaveActivePage(void)
 	//VPROF_BUDGET( "CObjectProperties::SaveActivePage", "Object Properties" );
 
 	CObjectPage *pPage = (CObjectPage *)GetActivePage();
-	if (pPage != NULL)
+	if (pPage != nullptr)
 	{
 		m_pLastActivePage = pPage;
 	}
@@ -717,7 +717,7 @@ BOOL CObjectProperties::SetupPages(void)
 		!((eLayoutType == ltEntity) && (eLastValidLayoutType == ltModelEntity)) &&
 		!((eLayoutType == ltModelEntity) && (eLastValidLayoutType == ltEntity)))
 	{
-		m_pLastActivePage = NULL;
+		m_pLastActivePage = nullptr;
 		eLastValidLayoutType = eLayoutType;
 	}
 
@@ -836,7 +836,7 @@ BOOL CObjectProperties::SetupPages(void)
 	UpdateOutputButton();
 	UpdateInputButton();
 
-	if (pActiveWnd != NULL)
+	if (pActiveWnd != nullptr)
 	{
 		pActiveWnd->SetActiveWindow();
 	}
@@ -979,7 +979,7 @@ void CObjectProperties::LoadDataForPages(int iPage)
 			m_ppPages[iPage]->SetMultiEdit(bMultiEdit);
 
 			void *pObject = GetEditObjectFromMapObject(pobj, m_ppPages[iPage]->GetEditObjectRuntimeClass());
-			if (pObject != NULL)
+			if (pObject != nullptr)
 			{
 				m_ppPages[iPage]->UpdateData(nMode, pObject, m_bCanEdit);
 				m_ppPages[iPage]->m_bHasUpdatedData = true;
@@ -997,7 +997,7 @@ void CObjectProperties::LoadDataForPages(int iPage)
 				continue;
 
 			void *pObject = GetEditObjectFromMapObject(pobj, m_ppPages[i]->GetEditObjectRuntimeClass());
-			if (pObject != NULL)
+			if (pObject != nullptr)
 			{
 				m_ppPages[i]->UpdateData(nMode, pObject, m_bCanEdit);
 				m_ppPages[i]->m_bHasUpdatedData = true;
@@ -1018,7 +1018,7 @@ void CObjectProperties::LoadDataForPages(int iPage)
 		//
 		// Specific page.
 		//
-		m_ppPages[iPage]->UpdateData(CObjectPage::LoadFinished, NULL, m_bCanEdit);
+		m_ppPages[iPage]->UpdateData(CObjectPage::LoadFinished, nullptr, m_bCanEdit);
 	}
 	else for (int i = 0; i < m_nPages; i++)
 	{
@@ -1030,7 +1030,7 @@ void CObjectProperties::LoadDataForPages(int iPage)
 		if (m_ppPages[i]->m_bFirstTimeActive)
 			continue;
 
-		m_ppPages[i]->UpdateData(CObjectPage::LoadFinished, NULL, m_bCanEdit);
+		m_ppPages[i]->UpdateData(CObjectPage::LoadFinished, nullptr, m_bCanEdit);
 	}
 
 	//
@@ -1139,7 +1139,7 @@ void CObjectProperties::ReloadData()
 			if ( strcmpi( pEntity->GetClassName(), "func_instance" ) == 0 )
 			{
 				pDoc->PopulateInstance( pEntity );
-				CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
+				CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )nullptr);
 				if ( pMapInstance && pMapInstance->GetInstancedMap() )
 				{
 					m_pInstanceButton->ShowWindow( SW_SHOW );
@@ -1179,7 +1179,7 @@ BOOL CObjectProperties::OnInitDialog()
 	SetWindowText("Object Properties");
 
 	CreateButtons();
-	UpdateAnchors( NULL );
+	UpdateAnchors(nullptr);
 		
 	return b;
 }
@@ -1191,7 +1191,7 @@ void CObjectProperties::UpdateAnchors( CWnd *pPage )
 		return;
 		
 	// Anchor stuff.
-	HWND hTab = NULL;
+	HWND hTab = nullptr;
 	if ( GetTabControl() )
 		hTab = GetTabControl()->GetSafeHwnd();
 
@@ -1204,7 +1204,7 @@ void CObjectProperties::UpdateAnchors( CWnd *pPage )
 		CAnchorDef( IDI_OUTPUT, k_eSimpleAnchorBottomRight ),
 		CAnchorDef( IDD_EDIT_INSTANCE, k_eSimpleAnchorBottomRight ),
 		CAnchorDef( hTab, k_eSimpleAnchorAllSides ),
-		CAnchorDef( pPage ? pPage->GetSafeHwnd() : (HWND)NULL, k_eSimpleAnchorAllSides )
+		CAnchorDef( pPage ? pPage->GetSafeHwnd() : (HWND)nullptr, k_eSimpleAnchorAllSides )
 	};
 	m_AnchorMgr.Init( GetSafeHwnd(), anchorDefs, ARRAYSIZE( anchorDefs ) );
 }
@@ -1241,7 +1241,7 @@ void CObjectProperties::OnShowWindow(BOOL bShow, UINT nStatus)
 	// Forget the last active page when the window is hidden or shown.
 	// FIXME: SetupPages calls SaveActivePage, so we must switch to page 0 here
 	SetActivePage(0);
-	m_pLastActivePage = NULL;
+	m_pLastActivePage = nullptr;
 
 	CPropertySheet::OnShowWindow(bShow, nStatus);
 
@@ -1376,10 +1376,10 @@ void CObjectProperties::OnEditInstance(void)
 		{
 			EnumChildrenPos_t	pos;
 			CMapClass *pChild = pEntity->GetFirstDescendent( pos );
-			while ( pChild != NULL )
+			while ( pChild != nullptr)
 			{
 				CMapInstance *pMapInstance = dynamic_cast< CMapInstance * >( pChild );
-				if ( pMapInstance != NULL )
+				if ( pMapInstance != nullptr)
 				{
 					OnClose();
 

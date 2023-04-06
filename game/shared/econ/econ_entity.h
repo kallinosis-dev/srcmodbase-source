@@ -77,7 +77,7 @@ public:
 	void					UpdateParticleSystems( void );
 	virtual bool			ShouldDrawParticleSystems( void );
 	void					SetParticleSystemsVisible( bool bVisible );
-	void					UpdateSingleParticleSystem( bool bVisible, attachedparticlesystem_t *pSystem, const char *pszAttachmentName = NULL );
+	void					UpdateSingleParticleSystem( bool bVisible, attachedparticlesystem_t *pSystem, const char *pszAttachmentName = nullptr);
 	virtual void			UpdateAttachmentModels( void );
 	virtual bool			AttachmentModelsShouldBeVisible( void ) { return true; }
 

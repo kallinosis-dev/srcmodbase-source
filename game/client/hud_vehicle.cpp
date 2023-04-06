@@ -23,7 +23,7 @@ using namespace vgui;
 DECLARE_HUDELEMENT( CHudVehicle );
 
 CHudVehicle::CHudVehicle( const char *pElementName ) :
-  CHudElement( pElementName ), BaseClass( NULL, "HudVehicle" )
+  CHudElement( pElementName ), BaseClass(nullptr, "HudVehicle" )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
@@ -47,7 +47,7 @@ IClientVehicle *CHudVehicle::GetLocalPlayerVehicle()
 	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
 	if ( !pPlayer ||  !pPlayer->IsInAVehicle() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return pPlayer->GetVehicle();

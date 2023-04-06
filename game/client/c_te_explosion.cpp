@@ -33,13 +33,13 @@ IterationRetval_t CRagdollExplosionEnumerator::EnumElement( IHandleEntity *pHand
 {
 	C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle( pHandleEntity->GetRefEHandle() );
 	
-	if ( pEnt == NULL )
+	if ( pEnt == nullptr)
 		return ITERATION_CONTINUE;
 
 	C_BaseAnimating *pModel = static_cast< C_BaseAnimating * >( pEnt );
 
 	// If the ragdoll was created on this tick, then the forces were already applied on the server
-	if ( pModel == NULL || WasRagdollCreatedOnCurrentTick( pEnt ) )
+	if ( pModel == nullptr || WasRagdollCreatedOnCurrentTick( pEnt ) )
 		return ITERATION_CONTINUE;
 	
 	m_Entities.AddToTail( pEnt );
@@ -64,7 +64,7 @@ CRagdollExplosionEnumerator::~CRagdollExplosionEnumerator()
 			continue;
 
 		trace_t	tr;
-		UTIL_TraceLine( m_vecOrigin, position, MASK_SHOT_HULL, NULL, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceLine( m_vecOrigin, position, MASK_SHOT_HULL, nullptr, COLLISION_GROUP_NONE, &tr );
 
 		// debugoverlay->AddLineOverlay( m_vecOrigin, position, 0,255,0, true, 18.0 );
 
@@ -78,7 +78,7 @@ CRagdollExplosionEnumerator::~CRagdollExplosionEnumerator()
 		// move expolsion center a bit down, so things fly higher 
 		tr.startpos.z -= 32.0f;
 
-		pModel->ImpactTrace( &tr, DMG_BLAST, NULL );
+		pModel->ImpactTrace( &tr, DMG_BLAST, nullptr);
 	}
 }
 
@@ -152,8 +152,8 @@ C_TEExplosion::C_TEExplosion( void )
 	m_nRadius = 0;
 	m_nMagnitude = 0;
 
-	m_pParticleMgr		= NULL;
-	m_MaterialHandle	= INVALID_MATERIAL_HANDLE;
+	m_pParticleMgr		= nullptr;
+	m_MaterialHandle	= nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -214,7 +214,7 @@ void C_TEExplosion::RecordExplosion( )
 
 	if ( clienttools->IsInRecordingMode() )
 	{
-		const model_t* pModel = (m_nModelIndex != 0) ? modelinfo->GetModel( m_nModelIndex ) : NULL;
+		const model_t* pModel = (m_nModelIndex != 0) ? modelinfo->GetModel( m_nModelIndex ) : nullptr;
 		const char *pModelName = pModel ? modelinfo->GetModelName( pModel ) : "";
 
 		KeyValues *msg = new KeyValues( "TempEntity" );

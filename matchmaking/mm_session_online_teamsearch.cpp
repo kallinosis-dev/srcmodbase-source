@@ -79,11 +79,11 @@ typedef CSysSessionStubForTeamSearch< CSysSessionHost > CSysTeamSearchHost;
 CMatchSessionOnlineTeamSearch::CMatchSessionOnlineTeamSearch( KeyValues *pSettings, CMatchSessionOnlineHost *pHost ) :
 	m_pHostSession( pHost ),
 	m_eState( STATE_SEARCHING ),
-	m_pSysSessionHost( NULL ),
-	m_pSysSessionClient( NULL ),
-	m_pDsSearcher( NULL ),
+	m_pSysSessionHost(nullptr),
+	m_pSysSessionClient(nullptr),
+	m_pDsSearcher(nullptr),
 	m_flActionTime( 0.0f ),
-	m_pUpdateHostSessionPacket( NULL ),
+	m_pUpdateHostSessionPacket(nullptr),
 	m_autodelete_pUpdateHostSessionPacket( m_pUpdateHostSessionPacket ),
 	m_iLinkState( 0 ),
 	m_xuidLinkPeer( 0ull ),
@@ -181,14 +181,14 @@ void CMatchSessionOnlineTeamSearch::OnSessionEvent( KeyValues *pEvent )
 
 	if ( !Q_stricmp( "mmF->SysSessionUpdate", szEvent ) )
 	{
-		if ( m_pSysSessionHost && pEvent->GetPtr( "syssession", NULL ) == m_pSysSessionHost )
+		if ( m_pSysSessionHost && pEvent->GetPtr( "syssession", nullptr) == m_pSysSessionHost )
 		{
 			// We had a session error
-			if ( char const *szError = pEvent->GetString( "error", NULL ) )
+			if ( char const *szError = pEvent->GetString( "error", nullptr) )
 			{
 				// Destroy the session
 				m_pSysSessionHost->Destroy();
-				m_pSysSessionHost = NULL;
+				m_pSysSessionHost = nullptr;
 
 				// Handle error
 				m_eState = STATE_ERROR;
@@ -218,7 +218,7 @@ void CMatchSessionOnlineTeamSearch::OnSessionEvent( KeyValues *pEvent )
 	}
 	else if ( !Q_stricmp( "mmF->SysSessionCommand", szEvent ) )
 	{
-		if ( m_pSysSessionHost && pEvent->GetPtr( "syssession", NULL ) == m_pSysSessionHost )
+		if ( m_pSysSessionHost && pEvent->GetPtr( "syssession", nullptr) == m_pSysSessionHost )
 		{
 			KeyValues *pCommand = pEvent->GetFirstTrueSubKey();
 			if ( pCommand )
@@ -226,7 +226,7 @@ void CMatchSessionOnlineTeamSearch::OnSessionEvent( KeyValues *pEvent )
 				OnRunSessionCommand( pCommand );
 			}
 		}
-		if ( m_pSysSessionClient && pEvent->GetPtr( "syssession", NULL ) == m_pSysSessionClient )
+		if ( m_pSysSessionClient && pEvent->GetPtr( "syssession", nullptr) == m_pSysSessionClient )
 		{
 			KeyValues *pCommand = pEvent->GetFirstTrueSubKey();
 			if ( pCommand )
@@ -292,8 +292,8 @@ void CMatchSessionOnlineTeamSearch::ApplyHostSessionUpdatePacket()
 	if ( m_pUpdateHostSessionPacket )
 	{
 		KeyValues *pUpdatePkt = m_pUpdateHostSessionPacket;
-		m_pUpdateHostSessionPacket = NULL;
-		m_autodelete_pUpdateHostSessionPacket.Assign( NULL );
+		m_pUpdateHostSessionPacket = nullptr;
+		m_autodelete_pUpdateHostSessionPacket.Assign(nullptr);
 
 		m_pHostSession->UpdateSessionSettings( pUpdatePkt );
 
@@ -339,7 +339,7 @@ CSysSessionBase * CMatchSessionOnlineTeamSearch::LinkSysSession()
 		else if ( m_pSysSessionClient )
 			return m_pSysSessionClient;
 		else
-			return NULL;
+			return nullptr;
 	}
 }
 
@@ -461,17 +461,17 @@ void CMatchSessionOnlineTeamSearch::Destroy()
 	if ( m_pSysSessionHost )
 	{
 		m_pSysSessionHost->Destroy();
-		m_pSysSessionHost = NULL;
+		m_pSysSessionHost = nullptr;
 	}
 	if ( m_pSysSessionClient )
 	{
 		m_pSysSessionClient->Destroy();
-		m_pSysSessionClient = NULL;
+		m_pSysSessionClient = nullptr;
 	}
 	if ( m_pDsSearcher )
 	{
 		m_pDsSearcher->Destroy();
-		m_pDsSearcher = NULL;
+		m_pDsSearcher = nullptr;
 	}
 
 #ifdef _X360
@@ -598,7 +598,7 @@ void CMatchSessionOnlineTeamSearchLinkBase::StartDedicatedServerSearch()
 			"progress", "dedicated"
 		) );
 
-	m_pDsSearcher = new CDsSearcher( m_pSettings, m_pHostSession->GetSessionSystemData()->GetUint64( "xuidReserve" ), NULL );
+	m_pDsSearcher = new CDsSearcher( m_pSettings, m_pHostSession->GetSessionSystemData()->GetUint64( "xuidReserve" ), nullptr);
 }
 
 void CMatchSessionOnlineTeamSearchLinkBase::OnDedicatedSearchFinished()
@@ -607,7 +607,7 @@ void CMatchSessionOnlineTeamSearchLinkBase::OnDedicatedSearchFinished()
 	CDsSearcher::DsResult_t dsResult = m_pDsSearcher->GetResult();
 
 	m_pDsSearcher->Destroy();
-	m_pDsSearcher = NULL;
+	m_pDsSearcher = nullptr;
 
 	if ( !dsResult.m_bDedicated )
 	{

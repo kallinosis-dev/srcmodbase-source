@@ -45,8 +45,8 @@ NavAreaVector TheNavAreas;
 
 uint32 CNavArea::m_masterMarker = 1;
 
-CNavArea *CNavArea::m_openList = NULL;
-CNavArea *CNavArea::m_openListTail = NULL;
+CNavArea *CNavArea::m_openList = nullptr;
+CNavArea *CNavArea::m_openListTail = nullptr;
 
 bool CNavArea::m_isReset = false;
 uint32 CNavArea::s_nCurrVisTestCounter = 0;
@@ -112,14 +112,14 @@ int CNavVectorNoEditAllocator::m_nBytesCurrent;
 
 CNavVectorNoEditAllocator::CNavVectorNoEditAllocator()
 {
-	m_pCurrent = NULL;
+	m_pCurrent = nullptr;
 	m_nBytesCurrent = 0;
 }
 
 void CNavVectorNoEditAllocator::Reset()
 {
 	m_memory.FreeAll();
-	m_pCurrent = NULL;
+	m_pCurrent = nullptr;
 	m_nBytesCurrent = 0;
 }
 
@@ -191,7 +191,7 @@ CNavArea::CNavArea( void )
 	m_damagingTickCount = 0;
 	m_openMarker = 0;
 
-	m_parent = NULL;
+	m_parent = nullptr;
 	m_parentHow = GO_NORTH;
 	m_attributeFlags = 0;
 	m_place = TheNavMesh->GetNavPlace();
@@ -220,8 +220,8 @@ CNavArea::CNavArea( void )
 	// set an ID for splitting and other interactive editing - loads will overwrite this
 	m_id = m_nextID++;
 	
-	m_prevHash = NULL;
-	m_nextHash = NULL;
+	m_prevHash = nullptr;
+	m_nextHash = nullptr;
 
 	for( i = 0; i<NUM_DIRECTIONS; ++i )
 	{
@@ -241,7 +241,7 @@ CNavArea::CNavArea( void )
 	m_invDxCorners = 0;
 	m_invDyCorners = 0;
 
-	m_inheritVisibilityFrom.area = NULL;
+	m_inheritVisibilityFrom.area = nullptr;
 	m_isInheritedFrom = false;
 }
 
@@ -376,12 +376,12 @@ void CNavArea::GetExtent( Extent *extent ) const
 CNavNode *CNavArea::FindClosestNode( const Vector &pos, NavDirType dir ) const
 {
 	if ( !HasNodes() )
-		return NULL;
+		return nullptr;
 
 	CUtlVector< CNavNode * > nodes;
 	GetNodes( dir, &nodes );
 
-	CNavNode *bestNode = NULL;
+	CNavNode *bestNode = nullptr;
 	float bestDistanceSq = FLT_MAX;
 
 	for ( int i=0; i<nodes.Count(); ++i )
@@ -710,7 +710,7 @@ void CNavArea::ResetNodes( void )
 {
 	for ( int i=0; i<NUM_CORNERS; ++i )
 	{
-		m_node[i] = NULL;
+		m_node[i] = nullptr;
 	}
 }
 
@@ -1084,8 +1084,8 @@ public:
  */
 bool CNavArea::SplitEdit( bool splitAlongX, float splitEdge, CNavArea **outAlpha, CNavArea **outBeta )
 {
-	CNavArea *alpha = NULL;
-	CNavArea *beta = NULL;
+	CNavArea *alpha = nullptr;
+	CNavArea *beta = nullptr;
 
 	if (splitAlongX)
 	{
@@ -1496,7 +1496,7 @@ void CNavArea::FinishSplitEdit( CNavArea *newArea, NavDirType ignoreEdge )
  */
 bool CNavArea::SpliceEdit( CNavArea *other )
 {
-	CNavArea *newArea = NULL;
+	CNavArea *newArea = nullptr;
 	Vector nw, ne, se, sw;
 
 	if (m_nwCorner.x > other->m_seCorner.x)
@@ -1522,7 +1522,7 @@ bool CNavArea::SpliceEdit( CNavArea *other )
 		sw.z = other->GetZ( sw );
 
 		newArea = TheNavMesh->CreateArea();
-		if (newArea == NULL)
+		if (newArea == nullptr)
 		{
 			Warning( "SpliceEdit: Out of memory.\n" );
 			return false;
@@ -1559,7 +1559,7 @@ bool CNavArea::SpliceEdit( CNavArea *other )
 		sw.z = GetZ( sw );
 
 		newArea = TheNavMesh->CreateArea();
-		if (newArea == NULL)
+		if (newArea == nullptr)
 		{
 			Warning( "SpliceEdit: Out of memory.\n" );
 			return false;
@@ -1598,7 +1598,7 @@ bool CNavArea::SpliceEdit( CNavArea *other )
 			sw.z = GetZ( sw );
 
 			newArea = TheNavMesh->CreateArea();
-			if (newArea == NULL)
+			if (newArea == nullptr)
 			{
 				Warning( "SpliceEdit: Out of memory.\n" );
 				return false;
@@ -1635,7 +1635,7 @@ bool CNavArea::SpliceEdit( CNavArea *other )
 			sw.z = other->GetZ( sw );
 
 			newArea = TheNavMesh->CreateArea();
-			if (newArea == NULL)
+			if (newArea == nullptr)
 			{
 				Warning( "SpliceEdit: Out of memory.\n" );
 				return false;
@@ -2248,7 +2248,7 @@ CNavArea *CNavArea::GetRandomAdjacentArea( NavDirType dir ) const
 		++i;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -3190,7 +3190,7 @@ void CNavArea::DrawConnectedAreas( void ) const
 	int i;
 
 	CBasePlayer *player = UTIL_GetListenServerHost();
-	if (player == NULL)
+	if (player == nullptr)
 		return;
 
 	// draw self
@@ -3319,18 +3319,18 @@ void CNavArea::AddToOpenList( void )
 	m_openMarker = m_masterMarker;
 
 	// if list is empty, add and return
-	if ( m_openList == NULL )
+	if ( m_openList == nullptr)
 	{
 		m_openList = this;
 		m_openListTail = this;
-		this->m_prevOpen = NULL;
-		this->m_nextOpen = NULL;
+		this->m_prevOpen = nullptr;
+		this->m_nextOpen = nullptr;
 		return;
 	}
 
 	// insert self in ascending cost order
 	// Since costs are positive, IEEE754 let's us compare as integers (see http://www.cygnus-software.com/papers/comparingfloats/comparingfloats.htm)
-	CNavArea *area, *last = NULL;
+	CNavArea *area, *last = nullptr;
 	int thisCostBits = *reinterpret_cast<const int *>(&m_totalCost);
 
 	Assert ( m_totalCost >= 0.0f );
@@ -3368,7 +3368,7 @@ void CNavArea::AddToOpenList( void )
 		last->m_nextOpen = this;
 		this->m_prevOpen = last;
 	
-		this->m_nextOpen = NULL;
+		this->m_nextOpen = nullptr;
 
 		m_openListTail = this;
 	}
@@ -3395,12 +3395,12 @@ void CNavArea::AddToOpenListTail( void )
 	m_openMarker = m_masterMarker;
 
 	// if list is empty, add and return
-	if ( m_openList == NULL )
+	if ( m_openList == nullptr)
 	{
 		m_openList = this;
 		m_openListTail = this;
-		this->m_prevOpen = NULL;
-		this->m_nextOpen = NULL;
+		this->m_prevOpen = nullptr;
+		this->m_nextOpen = nullptr;
 
 		Assert( (m_openList && m_openList->m_prevOpen == NULL) || m_openList == NULL );
 		return;
@@ -3410,7 +3410,7 @@ void CNavArea::AddToOpenListTail( void )
 	m_openListTail->m_nextOpen = this;
 
 	this->m_prevOpen = m_openListTail;
-	this->m_nextOpen = NULL;
+	this->m_nextOpen = nullptr;
 
 	m_openListTail = this;
 
@@ -3498,8 +3498,8 @@ void CNavArea::ClearSearchLists( void )
 	// effectively clears all open list pointers and closed flags
 	CNavArea::MakeNewMarker();
 
-	m_openList = NULL;
-	m_openListTail = NULL;
+	m_openList = nullptr;
+	m_openListTail = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -3584,7 +3584,7 @@ bool IsHidingSpotInCover( const Vector &spot )
 
 	// if we are crouched underneath something, that counts as good cover
 	to = from + Vector( 0, 0, 20.0f );
-	UTIL_TraceLine( from, to, MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+	UTIL_TraceLine( from, to, MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 	if (result.fraction != 1.0f)
 		return true;
 
@@ -3595,7 +3595,7 @@ bool IsHidingSpotInCover( const Vector &spot )
 	{
 		to = from + Vector( coverRange * (float)cos(angle), coverRange * (float)sin(angle), HalfHumanHeight );
 
-		UTIL_TraceLine( from, to, MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceLine( from, to, MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 
 		// if traceline hit something, it hit "cover"
 		if (result.fraction != 1.0f)
@@ -3838,7 +3838,7 @@ void ClassifySniperSpot( HidingSpot *spot )
 				walkable.z = area->GetZ( walkable ) + HalfHumanHeight;
 				
 				// check line of sight
-				UTIL_TraceLine( eye, walkable, CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_PLAYERCLIP, NULL, COLLISION_GROUP_NONE, &result );
+				UTIL_TraceLine( eye, walkable, CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_PLAYERCLIP, nullptr, COLLISION_GROUP_NONE, &result );
 
 				if (result.fraction == 1.0f && !result.startsolid)
 				{
@@ -3944,7 +3944,7 @@ SpotEncounter *CNavArea::GetSpotEncounter( const CNavArea *from, const CNavArea 
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -4022,7 +4022,7 @@ void CNavArea::AddSpotEncounters( const CNavArea *from, NavDirType fromDir, cons
 
 			// check if we have LOS
 			// BOTPORT: ignore glass here
-			UTIL_TraceLine( eye, Vector( spotPos.x, spotPos.y, spotPos.z + HalfHumanHeight ), MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+			UTIL_TraceLine( eye, Vector( spotPos.x, spotPos.y, spotPos.z + HalfHumanHeight ), MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 			if (result.fraction != 1.0f)
 				continue;
 
@@ -4533,7 +4533,7 @@ static void CommandNavUpdateBlocked( void )
 	else
 	{
 		float start = Plat_FloatTime();
-		CNavArea *blockedArea = NULL;
+		CNavArea *blockedArea = nullptr;
 		FOR_EACH_VEC( TheNavAreas, nit )
 		{
 			CNavArea *area = TheNavAreas[ nit ];
@@ -4859,7 +4859,7 @@ void CNavArea::UpdateBlocked( bool force, int teamID )
 	// don't unblock func_doors
 	CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_PLAYER_MOVEMENT, WALK_THRU_PROP_DOORS | WALK_THRU_BREAKABLES );
 #else
-	CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_PLAYER_MOVEMENT, WALK_THRU_DOORS | WALK_THRU_BREAKABLES );
+	CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, WALK_THRU_DOORS | WALK_THRU_BREAKABLES );
 #endif
 	trace_t tr;
 	{
@@ -5020,7 +5020,7 @@ void CNavArea::CheckFloor( CBaseEntity *ignore )
 	// If the center is open space, we're effectively blocked
 	if ( !tr.startsolid )
 	{
-		MarkAsBlocked( TEAM_ANY, NULL );
+		MarkAsBlocked( TEAM_ANY, nullptr);
 	}
 
 	/*
@@ -5131,7 +5131,7 @@ static void CommandNavCheckFloor( void )
 	if ( TheNavMesh->GetMarkedArea() )
 	{
 		CNavArea *area = TheNavMesh->GetMarkedArea();
-		area->CheckFloor( NULL );
+		area->CheckFloor(nullptr);
 		if ( area->IsBlocked( TEAM_ANY ) )
 		{
 			DevMsg( "Area #%d %s is blocked\n", area->GetID(), VecToString( area->GetCenter() + Vector( 0, 0, HalfHumanHeight ) ) );
@@ -5143,7 +5143,7 @@ static void CommandNavCheckFloor( void )
 		FOR_EACH_VEC( TheNavAreas, nit )
 		{
 			CNavArea *area = TheNavAreas[ nit ];
-			area->CheckFloor( NULL );
+			area->CheckFloor(nullptr);
 			if ( area->IsBlocked( TEAM_ANY ) )
 			{
 				DevMsg( "Area #%d %s is blocked\n", area->GetID(), VecToString( area->GetCenter() + Vector( 0, 0, HalfHumanHeight ) ) );
@@ -5161,8 +5161,8 @@ static ConCommand nav_check_floor( "nav_check_floor", CommandNavCheckFloor, "Upd
 //--------------------------------------------------------------------------------------------------------------
 bool SelectOverlappingAreas::operator()( CNavArea *area )
 {
-	CNavArea *overlappingArea = NULL;
-	CNavLadder *overlappingLadder = NULL;
+	CNavArea *overlappingArea = nullptr;
+	CNavLadder *overlappingLadder = nullptr;
 
 	Vector nw = area->GetCorner( NORTH_WEST );
 	Vector se = area->GetCorner( SOUTH_EAST );
@@ -5343,7 +5343,7 @@ CNavArea::VisibilityType CNavArea::ComputeVisibility( const CNavArea *area, bool
 	vTarget.z = area->GetZ( vTarget ) + eye.z;
 
 	trace_t tr;
-	CTraceFilterNoNPCsOrPlayer traceFilter( NULL, COLLISION_GROUP_NONE );
+	CTraceFilterNoNPCsOrPlayer traceFilter(nullptr, COLLISION_GROUP_NONE );
 
 	UTIL_TraceHull( vThisCenter, vTarget, vTraceMins, vTraceMaxs, MASK_NAV_VISION, &traceFilter, &tr );
 
@@ -5425,7 +5425,7 @@ const CNavArea::CAreaBindInfoArray &CNavArea::ComputeVisibilityDelta( const CNav
 	delta.RemoveAll();
 	
 	// do not delta from a delta - if 'other' is already inheriting, use its inherited source directly
-	if ( other->m_inheritVisibilityFrom.area != NULL )
+	if ( other->m_inheritVisibilityFrom.area != nullptr)
 	{
 		Assert( false && "Visibility inheriting from inherited area" );
 
@@ -5557,7 +5557,7 @@ void CNavArea::ComputeVisToArea( CNavArea *&pOtherArea )
 
 void CNavArea::ComputeVisibilityToMesh( void )
 {
-	m_inheritVisibilityFrom.area = NULL;
+	m_inheritVisibilityFrom.area = nullptr;
 	m_isInheritedFrom = false;
 
 	// collect all possible nav areas that could be visible from this area
@@ -5689,7 +5689,7 @@ bool CNavArea::IsPotentiallyVisible( const CNavArea *viewedArea ) const
 {
 	VPROF_BUDGET( "CNavArea::IsPotentiallyVisible", "NextBot" );
 
-	if ( viewedArea == NULL )
+	if ( viewedArea == nullptr)
 	{
 		return false;
 	}
@@ -5734,7 +5734,7 @@ bool CNavArea::IsCompletelyVisible( const CNavArea *viewedArea ) const
 {
 	VPROF_BUDGET( "CNavArea::IsCompletelyVisible", "NextBot" );
 
-	if ( viewedArea == NULL )
+	if ( viewedArea == nullptr)
 	{
 		return false;
 	}

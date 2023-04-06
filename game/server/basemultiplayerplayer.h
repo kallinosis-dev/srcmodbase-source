@@ -35,9 +35,9 @@ public:
 	virtual void		PostConstructor( const char *szClassname );
 	virtual void		ModifyOrAppendCriteria( AI_CriteriaSet& criteriaSet );
 
-	virtual bool		SpeakIfAllowed( AIConcept_t concept, SpeechPriorityType priority, const char *modifiers = NULL, char *pszOutResponseChosen = NULL, size_t bufsize = 0, IRecipientFilter *filter = NULL );
+	virtual bool		SpeakIfAllowed( AIConcept_t concept, SpeechPriorityType priority, const char *modifiers = nullptr, char *pszOutResponseChosen = nullptr, size_t bufsize = 0, IRecipientFilter *filter = nullptr);
 	void				SpeakConcept( AI_Response &outresponse, int iConcept );
-	virtual bool		SpeakConceptIfAllowed( int iConcept, const char *modifiers = NULL, char *pszOutResponseChosen = NULL, size_t bufsize = 0, IRecipientFilter *filter = NULL );
+	virtual bool		SpeakConceptIfAllowed( int iConcept, const char *modifiers = nullptr, char *pszOutResponseChosen = nullptr, size_t bufsize = 0, IRecipientFilter *filter = nullptr);
 
 	virtual bool		CanHearAndReadChatFrom( CBasePlayer *pPlayer );
 	virtual bool		CanSpeak( void ) { return true; }
@@ -126,7 +126,7 @@ private:
 inline CBaseMultiplayerPlayer *ToBaseMultiplayerPlayer( CBaseEntity *pEntity )
 {
 	if ( !pEntity || !pEntity->IsPlayer() )
-		return NULL;
+		return nullptr;
 #if _DEBUG
 	return dynamic_cast<CBaseMultiplayerPlayer *>( pEntity );
 #else

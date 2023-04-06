@@ -64,7 +64,7 @@ public:
 	
 	CPathTrack	*Nearest( const Vector &origin );
 	//CPathTrack *LookAhead( Vector &origin, float dist, int move );
-	CPathTrack *LookAhead( Vector &origin, float dist, int move, CPathTrack **pNextNext = NULL );
+	CPathTrack *LookAhead( Vector &origin, float dist, int move, CPathTrack **pNextNext = nullptr);
 
 	TrackOrientationType_t GetOrientationType();
 	QAngle GetOrientation( bool bForwardDir );

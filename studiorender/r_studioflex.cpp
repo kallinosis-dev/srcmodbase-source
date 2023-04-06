@@ -232,7 +232,7 @@ void CStudioRender::R_StudioFlexVerts( mstudiomesh_t *pmesh, int lod, bool bQuad
 	}
 
 	mstudiovertex_t *pVertices = vertData->Vertex( 0 );
-	Vector4D *pStudioTangentS = vertData->HasTangentData() ? vertData->TangentS( 0 ) : NULL;
+	Vector4D *pStudioTangentS = vertData->HasTangentData() ? vertData->TangentS( 0 ) : nullptr;
 	mstudioflex_t *pflex = pmesh->pFlex( 0 );
 	
 	m_VertexCache.SetupComputation( pmesh, true );
@@ -285,7 +285,7 @@ void CStudioRender::R_StudioFlexVerts( mstudiomesh_t *pmesh, int lod, bool bQuad
 				{
 					pFlexedVertex = m_VertexCache.CreateFlexVertex(n);	// Add a new flexed vert to the list
 
-					if ( pFlexedVertex == NULL )						// Skip processing if no more can be allocated
+					if ( pFlexedVertex == nullptr)						// Skip processing if no more can be allocated
 						continue;
 
 					VectorCopy( vert.m_vecPosition, pFlexedVertex->m_Position.AsVector3D() );
@@ -497,7 +497,7 @@ public:
 
 static CGlintTextureRegenerator s_GlintTextureRegen;
 
-static ITexture *s_pProcGlint = NULL;
+static ITexture *s_pProcGlint = nullptr;
 void CStudioRender::PrecacheGlint()
 {
 	if ( ! m_pGlintTexture )
@@ -529,7 +529,7 @@ void CStudioRender::PrecacheGlint()
 		// For now, just hardcode one
 		// UNDONE: Add a $lodtexture to the eyes shader.  Maybe add a $lodsize too.
 		// UNDONE: Make eyes texture load $lodtexture and switch to that here instead of black
-		m_pGlintLODTexture = g_pMaterialSystem->FindTexture( IsX360() ? "black" : "vgui/black", NULL, false );
+		m_pGlintLODTexture = g_pMaterialSystem->FindTexture( IsX360() ? "black" : "vgui/black", nullptr, false );
 		m_pGlintLODTexture->IncrementReferenceCount();
 	}
 }
@@ -540,14 +540,14 @@ void CStudioRender::UncacheGlint()
 	{
 		if ( s_pProcGlint )
 		{
-			s_pProcGlint->SetTextureRegenerator( NULL );
+			s_pProcGlint->SetTextureRegenerator(nullptr);
 			s_pProcGlint->DecrementReferenceCount();
-			s_pProcGlint = NULL;
+			s_pProcGlint = nullptr;
 		}
 		m_pGlintTexture->DecrementReferenceCount();
-		m_pGlintTexture = NULL;
+		m_pGlintTexture = nullptr;
 		m_pGlintLODTexture->DecrementReferenceCount();
-		m_pGlintLODTexture = NULL;
+		m_pGlintLODTexture = nullptr;
 	}
 }
 
@@ -750,7 +750,7 @@ ITexture* CStudioRender::RenderGlintTexture( const eyeballstate_t *pState,
 
 	if ( IsX360() )
 	{
-		pRenderContext->CopyRenderTargetToTextureEx( m_pGlintTexture, 0, NULL, NULL );
+		pRenderContext->CopyRenderTargetToTextureEx( m_pGlintTexture, 0, nullptr, nullptr);
 	}
 
 	pRenderContext->PopRenderTargetAndViewport( );
@@ -811,7 +811,7 @@ void CStudioRender::R_StudioEyeballGlint( const eyeballstate_t *pstate, IMateria
 
 		// This is necessary to make sure we don't reconstitute the bits
 		// after coming back from a task switch
-		s_GlintTextureRegen.m_pStudioRender = NULL;
+		s_GlintTextureRegen.m_pStudioRender = nullptr;
 
 		// Use the normal glint instead of the black glint
 		pGlintVar->SetTextureValue( s_pProcGlint );

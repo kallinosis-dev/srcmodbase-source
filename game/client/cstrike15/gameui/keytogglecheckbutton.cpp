@@ -19,8 +19,8 @@ CKeyToggleCheckButton::CKeyToggleCheckButton( Panel *parent, const char *panelNa
 	char const *key, char const *cmdname )
  : CheckButton( parent, panelName, text )
 {
-	m_pszKeyName = key ? strdup( key ) : NULL;
-	m_pszCmdName = cmdname ? strdup( cmdname ) : NULL;
+	m_pszKeyName = key ? strdup( key ) : nullptr;
+	m_pszCmdName = cmdname ? strdup( cmdname ) : nullptr;
 
 	if (m_pszKeyName)
 	{

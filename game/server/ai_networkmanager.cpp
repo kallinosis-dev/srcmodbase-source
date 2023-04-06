@@ -120,7 +120,7 @@ CAI_NetworkManager::~CAI_NetworkManager(void)
 	delete m_pNetwork;
 	if ( g_pAINetworkManager == this )
 	{
-		g_pAINetworkManager = NULL;
+		g_pAINetworkManager = nullptr;
 	}
 }
 
@@ -858,7 +858,7 @@ void CAI_NetworkManager::DeleteAllAINetworks(void)
 {
 	CAI_DynamicLink::gm_bInitialized = false;
 	gm_fNetworksLoaded = false;
-	g_pBigAINet = NULL;
+	g_pBigAINet = nullptr;
 }
 
 
@@ -1187,9 +1187,9 @@ void CAI_NetworkManager::ThreadedInit( void )
 			}
 			// set the global pointers again
 			g_pBigAINet = m_pNetwork = m_ThreadedBuild.pBuildingNetwork;
-			m_ThreadedBuild.pBuildingNetwork = NULL;
+			m_ThreadedBuild.pBuildingNetwork = nullptr;
 			ReleaseThreadHandle( m_ThreadedBuild.job );
-			m_ThreadedBuild.job = NULL;
+			m_ThreadedBuild.job = nullptr;
 
 
 			// If I'm loading for the first time save.  Otherwise I'm 
@@ -1251,7 +1251,7 @@ uintp CAI_NetworkManager::ThreadedBuildJob( /* (ThreadedGraphBuildData *) */ voi
 // CAI_NetworkEditTools
 //-----------------------------------------------------------------------------
 
-CAI_Node*		CAI_NetworkEditTools::m_pLastDeletedNode		= NULL;						// For undo in wc edit mode
+CAI_Node*		CAI_NetworkEditTools::m_pLastDeletedNode		= nullptr;						// For undo in wc edit mode
 int				CAI_NetworkEditTools::m_iHullDrawNum			= HULL_HUMAN;				// Which hulls to draw
 int				CAI_NetworkEditTools::m_iVisibilityNode		= NO_NODE;
 int				CAI_NetworkEditTools::m_iGConnectivityNode	= NO_NODE;
@@ -1332,7 +1332,7 @@ int CAI_NetworkEditTools::GetWCIdFromNodeId( int nNodeId )
 CAI_Node *CAI_NetworkEditTools::FindAINodeNearestFacing( const Vector &origin, const Vector &facing, float threshold, int nNodeType)
 {
 	float bestDot  = threshold;
-	CAI_Node *best = NULL;
+	CAI_Node *best = nullptr;
 
 	CAI_Network* aiNet = g_pBigAINet;
 
@@ -1354,7 +1354,7 @@ CAI_Node *CAI_NetworkEditTools::FindAINodeNearestFacing( const Vector &origin, c
 					// Make sure I have a line of sight to it
 					trace_t tr;
 					AI_TraceLine ( origin, aiNet->GetNode(node)->GetPosition(m_iHullDrawNum), 
-						MASK_BLOCKLOS, NULL, COLLISION_GROUP_NONE, &tr );
+						MASK_BLOCKLOS, nullptr, COLLISION_GROUP_NONE, &tr );
 					if ( tr.fraction == 1.0 )
 					{
 						bestDot	= dot;
@@ -1391,7 +1391,7 @@ Vector PointOnLineNearestPoint(const Vector& vStartPos, const Vector& vEndPos, c
 CAI_Link *CAI_NetworkEditTools::FindAILinkNearestFacing( const Vector &vOrigin, const Vector &vFacing, float threshold)
 {
 	float bestDot  = threshold;
-	CAI_Link *best = NULL;
+	CAI_Link *best = nullptr;
 
 	CAI_Network* aiNet = g_pBigAINet;
 
@@ -1447,7 +1447,7 @@ CAI_Link *CAI_NetworkEditTools::FindAILinkNearestFacing( const Vector &vOrigin, 
 					{
 						// Make sure I have a line of sight to it
 						trace_t tr;
-						AI_TraceLine ( vOrigin, vIntersection, MASK_BLOCKLOS, NULL, COLLISION_GROUP_NONE, &tr );
+						AI_TraceLine ( vOrigin, vIntersection, MASK_BLOCKLOS, nullptr, COLLISION_GROUP_NONE, &tr );
 						if ( tr.fraction == 1.0 )
 						{
  							bestDot	= lookDot;
@@ -2132,10 +2132,10 @@ CAI_NetworkEditTools::CAI_NetworkEditTools(CAI_NetworkManager *pNetworkManager)
 	}
 	else
 	{
-		m_pWCPosition	= NULL;
+		m_pWCPosition	= nullptr;
 	}
 
-	m_pNodeIndexTable		= NULL;
+	m_pNodeIndexTable		= nullptr;
 	m_debugNetOverlays		= 0;
 
 	// ----------------------------------------------------------------------------
@@ -2559,7 +2559,7 @@ void CAI_NetworkBuilder::InitClimbNodePosition(CAI_Network *pNetwork, CAI_Node *
 	Vector posOnLadder		= pNode->GetPosition(HULL_SMALL_CENTERED);
 	AI_TraceHull( posOnLadder, posOnLadder + Vector( 0, 0, -37 ), 
 		NAI_Hull::Mins(HULL_SMALL_CENTERED), NAI_Hull::Maxs(HULL_SMALL_CENTERED), 
-		MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &trace );
+		MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &trace );
 
 	// --------------------------------------------------------------------
 	// If climb node is right above the floor, we don't need any dismount
@@ -2605,7 +2605,7 @@ void CAI_NetworkBuilder::InitClimbNodePosition(CAI_Network *pNetwork, CAI_Node *
 		AI_TraceLine ( posOnLadder,
 						 origin,
 						 MASK_NPCSOLID_BRUSHONLY,
-						 NULL,
+						 nullptr,
 						 COLLISION_GROUP_NONE, 
 						 &trace );
 
@@ -2618,7 +2618,7 @@ void CAI_NetworkBuilder::InitClimbNodePosition(CAI_Network *pNetwork, CAI_Node *
 			if (abs(pNode->GetOrigin().z - floorZ) < 36)
 			{
 				CAI_Node *new_node		= pNetwork->AddNode( pNode->GetOrigin(), pNode->m_flYaw );
-				new_node->m_pHint			= NULL;
+				new_node->m_pHint			= nullptr;
 				new_node->m_eNodeType		= NODE_CLIMB;
 				new_node->m_eNodeInfo		= pNode->m_eNodeInfo;
 				InitGroundNodePosition( pNetwork, new_node );
@@ -2688,7 +2688,7 @@ void CAI_NetworkBuilder::InitGroundNodePosition(CAI_Network *pNetwork, CAI_Node 
 		// shift up so bottom of box is at center of node
 		origin.z -= mins.z;
 
-		AI_TraceHull( origin, origin + Vector( 0, 0, -384 ), mins, maxs, MASK_NPCSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &tr );
+		AI_TraceHull( origin, origin + Vector( 0, 0, -384 ), mins, maxs, MASK_NPCSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &tr );
 
 		if ( !tr.startsolid )
 			pNode->m_flVOffset[hull] = tr.endpos.z - pNode->GetOrigin().z + 0.1;
@@ -2826,7 +2826,7 @@ void CAI_NetworkBuilder::InitVisibility(CAI_Network *pNetwork, CAI_Node *pNode)
 		Vector destPos = pNetwork->GetNode( testnode )->GetPosition(HULL_SMALL_CENTERED);
 
 		trace_t	tr;
-		tr.m_pEnt = NULL;
+		tr.m_pEnt = nullptr;
 
 		// Try several line of sight checks
 
@@ -2835,7 +2835,7 @@ void CAI_NetworkBuilder::InitVisibility(CAI_Network *pNetwork, CAI_Node *pNode)
 		// ------------------
 		//  Bottom to bottom
 		// ------------------
-		AI_TraceLine ( srcPos, destPos,MASK_NPCWORLDSTATIC_FLUID,NULL,COLLISION_GROUP_NONE, &tr );
+		AI_TraceLine ( srcPos, destPos,MASK_NPCWORLDSTATIC_FLUID, nullptr,COLLISION_GROUP_NONE, &tr );
 		if (!tr.startsolid && tr.fraction == 1.0)
 		{
 			isVisible = true;
@@ -2846,7 +2846,7 @@ void CAI_NetworkBuilder::InitVisibility(CAI_Network *pNetwork, CAI_Node *pNode)
 		// ------------------
 		if (!isVisible)
 		{
-			AI_TraceLine ( srcPos + Vector( 0, 0, 70 ),destPos + Vector( 0, 0, 70 ),MASK_NPCWORLDSTATIC_FLUID,NULL,COLLISION_GROUP_NONE, &tr );
+			AI_TraceLine ( srcPos + Vector( 0, 0, 70 ),destPos + Vector( 0, 0, 70 ),MASK_NPCWORLDSTATIC_FLUID, nullptr,COLLISION_GROUP_NONE, &tr );
 			if (!tr.startsolid && tr.fraction == 1.0)
 			{	
 				isVisible = true;
@@ -2858,7 +2858,7 @@ void CAI_NetworkBuilder::InitVisibility(CAI_Network *pNetwork, CAI_Node *pNode)
 		// ------------------
 		if (!isVisible)
 		{
-			AI_TraceLine ( srcPos + Vector( 0, 0, 70 ),destPos,MASK_NPCWORLDSTATIC_FLUID,NULL,COLLISION_GROUP_NONE, &tr );
+			AI_TraceLine ( srcPos + Vector( 0, 0, 70 ),destPos,MASK_NPCWORLDSTATIC_FLUID, nullptr,COLLISION_GROUP_NONE, &tr );
 			if (!tr.startsolid && tr.fraction == 1.0)
 			{	
 				isVisible = true;
@@ -2870,7 +2870,7 @@ void CAI_NetworkBuilder::InitVisibility(CAI_Network *pNetwork, CAI_Node *pNode)
 		// ------------------
 		if (!isVisible)
 		{
-			AI_TraceLine ( srcPos,destPos + Vector( 0, 0, 70 ),MASK_NPCWORLDSTATIC_FLUID,NULL,COLLISION_GROUP_NONE, &tr );
+			AI_TraceLine ( srcPos,destPos + Vector( 0, 0, 70 ),MASK_NPCWORLDSTATIC_FLUID, nullptr,COLLISION_GROUP_NONE, &tr );
 			if (!tr.startsolid && tr.fraction == 1.0)
 			{	
 				isVisible = true;
@@ -3235,7 +3235,7 @@ int CAI_NetworkBuilder::ComputeConnection( CAI_Node *pSrcNode, CAI_Node *pDestNo
 
 		if ( !fStandFailed )
 		{
-			fWalkFailed = !m_pTestHull->GetMoveProbe()->TestGroundMove( srcPos, destPos, NAI_Hull::TraceMask(hull), AITGM_IGNORE_INITIAL_STAND_POS, NULL );
+			fWalkFailed = !m_pTestHull->GetMoveProbe()->TestGroundMove( srcPos, destPos, NAI_Hull::TraceMask(hull), AITGM_IGNORE_INITIAL_STAND_POS, nullptr);
 			if ( fWalkFailed )
 				DebugConnectMsg( srcId, destId, "      Failed to walk between nodes\n" );
 		}
@@ -3251,7 +3251,7 @@ int CAI_NetworkBuilder::ComputeConnection( CAI_Node *pSrcNode, CAI_Node *pDestNo
 			else
 			{
 				// Try it with a very large step height
-				fCrawlFailed = !m_pTestHull->GetMoveProbe()->TestGroundMove( srcPos, destPos, NAI_Hull::TraceMask(hull), AITGM_IGNORE_INITIAL_STAND_POS | AITGM_CRAWL_LARGE_STEPS, NULL );
+				fCrawlFailed = !m_pTestHull->GetMoveProbe()->TestGroundMove( srcPos, destPos, NAI_Hull::TraceMask(hull), AITGM_IGNORE_INITIAL_STAND_POS | AITGM_CRAWL_LARGE_STEPS, nullptr);
 				if ( !fCrawlFailed )
 				{
 					DebugConnectMsg( srcId, destId, "      Nodes connect for crawl movement\n" );
@@ -3285,12 +3285,12 @@ int CAI_NetworkBuilder::ComputeConnection( CAI_Node *pSrcNode, CAI_Node *pDestNo
 				m_pTestHull->SetGravity(1.0);
 
 				AIMoveTrace_t moveTrace;
-				pMoveProbe->MoveLimit( NAV_JUMP, srcPos,destPos, NAI_Hull::TraceMask(hull), NULL, &moveTrace);
+				pMoveProbe->MoveLimit( NAV_JUMP, srcPos,destPos, NAI_Hull::TraceMask(hull), nullptr, &moveTrace);
 				if (!IsMoveBlocked(moveTrace))
 				{
 					fJumpLegal = true;
 				}
-				pMoveProbe->MoveLimit( NAV_JUMP, destPos,srcPos, NAI_Hull::TraceMask(hull), NULL, &moveTrace);
+				pMoveProbe->MoveLimit( NAV_JUMP, destPos,srcPos, NAI_Hull::TraceMask(hull), nullptr, &moveTrace);
 				if (!IsMoveBlocked(moveTrace))
 				{
 					fJumpLegal = true;

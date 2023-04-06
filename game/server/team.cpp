@@ -82,7 +82,7 @@ LINK_ENTITY_TO_CLASS( team_manager, CTeam );
 CTeam *GetGlobalTeam( int iIndex )
 {
 	if ( iIndex < 0 || iIndex >= GetNumberOfTeams() )
-		return NULL;
+		return nullptr;
 
 	return g_Teams[ iIndex ];
 }
@@ -238,9 +238,9 @@ int CTeam::GetGGLeader( int nTeam )
 int CTeam::TeamGGSortFunction( CCSPlayer* const *entry1, CCSPlayer* const *entry2 )
 {
 	// bail out early if either player is an empty slot, i.e. has a player index of -1
-	if ( entry1 == NULL )
+	if ( entry1 == nullptr)
 		return 1;
-	if ( entry2 == NULL )
+	if ( entry2 == nullptr)
 		return -1;
 	if ( (*entry1)->entindex() == -1 )
 		return 1;
@@ -464,7 +464,7 @@ void CTeam::RemoveSpawnpoint( CTeamSpawnPoint *pSpawnpoint )
 CBaseEntity *CTeam::SpawnPlayer( CBasePlayer *pPlayer )
 {
 	if ( m_aSpawnPoints.Count() == 0 )
-		return NULL;
+		return nullptr;
 
 	// Randomize the start spot
 	int iSpawn = m_iLastSpawn + random->RandomInt( 1,3 );
@@ -495,7 +495,7 @@ CBaseEntity *CTeam::SpawnPlayer( CBasePlayer *pPlayer )
 		iSpawn++;
 	} while ( iSpawn != iStartingSpawn ); // loop if we're not back to the start
 
-	return NULL;
+	return nullptr;
 }
 
 //------------------------------------------------------------------------------------------------------------------

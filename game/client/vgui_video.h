@@ -126,7 +126,7 @@ private:
 extern bool VideoPanel_Create( unsigned int nXPos, unsigned int nYPos, 
 							   unsigned int nWidth, unsigned int nHeight, 
 							   const char *pVideoFilename, 
-							   const char *pExitCommand = NULL );
+							   const char *pExitCommand = nullptr);
 
 extern void VGui_StopAllVideoPanels();
 

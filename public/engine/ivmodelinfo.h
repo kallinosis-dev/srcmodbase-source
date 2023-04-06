@@ -194,7 +194,7 @@ public:
 
 	virtual int						BeginCombinedModel( const char *pszName, bool bReuseExisting ) = 0;
 	virtual bool					SetCombineModels( int nModelIndex, const CUtlVector< SCombinerModelInput_t > &vecModelsToCombine ) = 0;
-	virtual bool					FinishCombinedModel( int nModelIndex, CombinedModelLoadedCallback pFunc, void *pUserData = NULL ) = 0;
+	virtual bool					FinishCombinedModel( int nModelIndex, CombinedModelLoadedCallback pFunc, void *pUserData = nullptr) = 0;
 	virtual void					ReleaseCombinedModel( int nModelIndex ) = 0;
 
 	virtual bool					IsDynamicModelLoading( int modelIndex ) = 0;

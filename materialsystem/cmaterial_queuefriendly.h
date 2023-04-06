@@ -100,7 +100,7 @@ public:
 	virtual void	Uncache( bool bPreserveVars = false  ) { QUEUEFRIENDLY_USED_INTERNALLY_ASSERT; m_pRealTimeVersion->Uncache( bPreserveVars ); }
 	virtual void	Precache() { QUEUEFRIENDLY_USED_INTERNALLY_ASSERT; m_pRealTimeVersion->Precache(); }
 	// If provided, pKeyValues and pPatchKeyValues should come from LoadVMTFile()
-	virtual bool	PrecacheVars( KeyValues *pKeyValues = NULL, KeyValues *pPatchKeyValues = NULL, CUtlVector<FileNameHandle_t> *pIncludes = NULL ) { QUEUEFRIENDLY_USED_INTERNALLY_ASSERT; return m_pRealTimeVersion->PrecacheVars( pKeyValues, pPatchKeyValues, pIncludes ); }
+	virtual bool	PrecacheVars( KeyValues *pKeyValues = nullptr, KeyValues *pPatchKeyValues = nullptr, CUtlVector<FileNameHandle_t> *pIncludes = nullptr) { QUEUEFRIENDLY_USED_INTERNALLY_ASSERT; return m_pRealTimeVersion->PrecacheVars( pKeyValues, pPatchKeyValues, pIncludes ); }
 	virtual void	ReloadTextures() { QUEUEFRIENDLY_USED_INTERNALLY_ASSERT; m_pRealTimeVersion->ReloadTextures(); }
 	virtual void	SetMinLightmapPageID( int pageID ) { QUEUEFRIENDLY_USED_INTERNALLY_ASSERT; m_pRealTimeVersion->SetMinLightmapPageID( pageID ); }
 	virtual void	SetMaxLightmapPageID( int pageID ) { QUEUEFRIENDLY_USED_INTERNALLY_ASSERT; m_pRealTimeVersion->SetMaxLightmapPageID( pageID ); }

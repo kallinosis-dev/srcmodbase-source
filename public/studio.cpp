@@ -53,7 +53,7 @@ byte *mstudioanimdesc_t::pAnimBlock( int block, int index, bool preloadIfMissing
 {
 	if (block == -1)
 	{
-		return (byte *)NULL;
+		return (byte *)nullptr;
 	}
 	if (block == 0)
 	{
@@ -66,7 +66,7 @@ byte *mstudioanimdesc_t::pAnimBlock( int block, int index, bool preloadIfMissing
 		return pAnimBlock + index;
 	}
 
-	return (byte *)NULL;
+	return (byte *)nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -91,7 +91,7 @@ byte *mstudioanimdesc_t::pAnim( int *piFrame ) const
 
 byte *mstudioanimdesc_t::pAnim( int *piFrame, float &flStall ) const
 {
-	byte *panim = NULL;
+	byte *panim = nullptr;
 
 	int block = animblock;
 	int index = animindex;
@@ -118,7 +118,7 @@ byte *mstudioanimdesc_t::pAnim( int *piFrame, float &flStall ) const
 	if (block == -1)
 	{
 		// model needs to be recompiled
-		return NULL;
+		return nullptr;
 	}
 
 	panim = pAnimBlock( block, index );
@@ -148,7 +148,7 @@ byte *mstudioanimdesc_t::pAnim( int *piFrame, float &flStall ) const
 		}
 	}
 
-	if (panim == NULL)
+	if (panim == nullptr)
 	{
 		if (section > 0 && mod_load_showstall.GetInt() > 0)
 		{
@@ -172,12 +172,12 @@ byte *mstudioanimdesc_t::pAnim( int *piFrame, float &flStall ) const
 
 	// try to guess a valid stall time interval (tuned for the X360)
 	flStall = 0.0f;
-	if (panim == NULL && section <= 0)
+	if (panim == nullptr && section <= 0)
 	{
 		zeroframestalltime = Plat_FloatTime();
 		flStall = 1.0f;
 	}
-	else if (panim != NULL && zeroframestalltime != 0.0f)
+	else if (panim != nullptr && zeroframestalltime != 0.0f)
 	{
 		float dt = Plat_FloatTime() - zeroframestalltime;
 		if (dt >= 0.0)
@@ -196,7 +196,7 @@ byte *mstudioanimdesc_t::pAnim( int *piFrame, float &flStall ) const
 		}
 	}
 
-	if (panim == NULL && mod_load_showstall.GetInt() > 1)
+	if (panim == nullptr && mod_load_showstall.GetInt() > 1)
 	{
 		Msg("[%8.3f] stall on %s:%s:%d:%d\n", Plat_FloatTime(), pStudiohdr()->pszName(), pszName(), section, block );
 	}
@@ -231,7 +231,7 @@ mstudioikrule_t *mstudioanimdesc_t::pIKRule( int i ) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -254,7 +254,7 @@ mstudiolocalhierarchy_t *mstudioanimdesc_t::pHierarchy( int i ) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -268,7 +268,7 @@ bool studiohdr_t::SequencesAvailable() const
 		return true;
 	}
 
-	return ( GetVirtualModel() != NULL );
+	return ( GetVirtualModel() != nullptr);
 }
 
 
@@ -726,7 +726,7 @@ CStudioHdr::CStudioHdr( void )
 	// set pointer to bogus value
 	m_nFrameUnlockCounter = 0;
 	m_pFrameUnlockCounter = &m_nFrameUnlockCounter;
-	Init( NULL );
+	Init(nullptr);
 }
 
 CStudioHdr::CStudioHdr( const studiohdr_t *pStudioHdr, IMDLCache *mdlcache ) 
@@ -744,11 +744,11 @@ void CStudioHdr::Init( const studiohdr_t *pStudioHdr, IMDLCache *mdlcache )
 {
 	m_pStudioHdr = pStudioHdr;
 
-	m_pVModel = NULL;
-	m_pSoftbody = NULL;
+	m_pVModel = nullptr;
+	m_pSoftbody = nullptr;
 	m_pStudioHdrCache.RemoveAll();
 
-	if (m_pStudioHdr == NULL)
+	if (m_pStudioHdr == nullptr)
 	{
 		return;
 	}
@@ -774,7 +774,7 @@ void CStudioHdr::Init( const studiohdr_t *pStudioHdr, IMDLCache *mdlcache )
 
 
 
-	m_pActivityToSequence = NULL;
+	m_pActivityToSequence = nullptr;
 }
 
 void CStudioHdr::Term()
@@ -785,10 +785,10 @@ void CStudioHdr::Term()
 		m_pSoftbody->Shutdown();
 		Assert( pFeModel );
 		MemAlloc_FreeAligned( pFeModel );
-		m_pSoftbody = NULL;
+		m_pSoftbody = nullptr;
 	}
 	CActivityToSequenceMapping::ReleaseMapping( m_pActivityToSequence );
-	m_pActivityToSequence = NULL;
+	m_pActivityToSequence = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -802,10 +802,10 @@ bool CStudioHdr::SequencesAvailable() const
 		return true;
 	}
 
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		// repoll m_pVModel
-		return (ResetVModel( m_pStudioHdr->GetVirtualModel() ) != NULL);
+		return (ResetVModel( m_pStudioHdr->GetVirtualModel() ) != nullptr);
 	}
 	else
 		return true;
@@ -814,7 +814,7 @@ bool CStudioHdr::SequencesAvailable() const
 
 const virtualmodel_t * CStudioHdr::ResetVModel( const virtualmodel_t *pVModel ) const
 {
-	if (pVModel != NULL)
+	if (pVModel != nullptr)
 	{
 		m_pVModel = (virtualmodel_t *)pVModel;
 #if !defined( POSIX )
@@ -825,15 +825,15 @@ const virtualmodel_t * CStudioHdr::ResetVModel( const virtualmodel_t *pVModel ) 
 		int i;
 		for (i = 0; i < m_pStudioHdrCache.Count(); i++)
 		{
-			m_pStudioHdrCache[ i ] = NULL;
+			m_pStudioHdrCache[ i ] = nullptr;
 		}
 		
 		return const_cast<virtualmodel_t *>(pVModel);
 	}
 	else
 	{
-		m_pVModel = NULL;
-		return NULL;
+		m_pVModel = nullptr;
+		return nullptr;
 	}
 }
 
@@ -866,7 +866,7 @@ const studiohdr_t *CStudioHdr::GroupStudioHdr( int i )
 
 	const studiohdr_t *pStudioHdr = m_pStudioHdrCache[ i ];
 
-	if (pStudioHdr == NULL)
+	if (pStudioHdr == nullptr)
 	{
 #if !defined( POSIX )
 		Assert( !m_pVModel->m_Lock.GetOwnerId() );
@@ -883,7 +883,7 @@ const studiohdr_t *CStudioHdr::GroupStudioHdr( int i )
 
 const studiohdr_t *CStudioHdr::pSeqStudioHdr( int sequence )
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return m_pStudioHdr;
 	}
@@ -896,7 +896,7 @@ const studiohdr_t *CStudioHdr::pSeqStudioHdr( int sequence )
 
 const studiohdr_t *CStudioHdr::pAnimStudioHdr( int animation )
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return m_pStudioHdr;
 	}
@@ -959,7 +959,7 @@ int CStudioHdr::iRelativeAnim_Internal( int baseseq, int relanim ) const
 
 int CStudioHdr::iRelativeSeq( int baseseq, int relseq ) const
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return relseq;
 	}
@@ -978,7 +978,7 @@ int CStudioHdr::iRelativeSeq( int baseseq, int relseq ) const
 
 int	CStudioHdr::GetNumPoseParameters( void ) const
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		if ( m_pStudioHdr )
 			return m_pStudioHdr->numlocalposeparameters;
@@ -999,7 +999,7 @@ int	CStudioHdr::GetNumPoseParameters( void ) const
 
 const mstudioposeparamdesc_t &CStudioHdr::pPoseParameter( int i )
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return *m_pStudioHdr->pLocalPoseParameter( i );
 	}
@@ -1019,7 +1019,7 @@ const mstudioposeparamdesc_t &CStudioHdr::pPoseParameter( int i )
 
 int CStudioHdr::GetSharedPoseParameter( int iSequence, int iLocalPose ) const
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return iLocalPose;
 	}
@@ -1043,7 +1043,7 @@ int CStudioHdr::EntryNode( int iSequence )
 {
 	mstudioseqdesc_t &seqdesc = pSeqdesc( iSequence );
 
-	if (m_pVModel == NULL || seqdesc.localentrynode == 0)
+	if (m_pVModel == nullptr || seqdesc.localentrynode == 0)
 	{
 		return seqdesc.localentrynode;
 	}
@@ -1065,7 +1065,7 @@ int CStudioHdr::ExitNode( int iSequence )
 {
 	mstudioseqdesc_t &seqdesc = pSeqdesc( iSequence );
 
-	if (m_pVModel == NULL || seqdesc.localexitnode == 0)
+	if (m_pVModel == nullptr || seqdesc.localexitnode == 0)
 	{
 		return seqdesc.localexitnode;
 	}
@@ -1084,7 +1084,7 @@ int CStudioHdr::ExitNode( int iSequence )
 
 int	CStudioHdr::GetNumAttachments( void ) const
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return m_pStudioHdr->numlocalattachments;
 	}
@@ -1102,7 +1102,7 @@ int	CStudioHdr::GetNumAttachments( void ) const
 
 const mstudioattachment_t &CStudioHdr::pAttachment( int i )
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return *m_pStudioHdr->pLocalAttachment( i );
 	}
@@ -1120,7 +1120,7 @@ const mstudioattachment_t &CStudioHdr::pAttachment( int i )
 
 int	CStudioHdr::GetAttachmentBone( int i )
 {
-	if (m_pVModel == 0)
+	if (m_pVModel == nullptr)
 	{
 		return m_pStudioHdr->pLocalAttachment( i )->localbone;
 	}
@@ -1157,7 +1157,7 @@ void CStudioHdr::SetAttachmentBone( int iAttachment, int iBone )
 
 char *CStudioHdr::pszNodeName( int iNode )
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return m_pStudioHdr->pszLocalNodeName( iNode );
 	}
@@ -1177,7 +1177,7 @@ char *CStudioHdr::pszNodeName( int iNode )
 
 int CStudioHdr::GetTransition( int iFrom, int iTo ) const
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return *m_pStudioHdr->pLocalTransition( (iFrom-1)*m_pStudioHdr->numlocalnodes + (iTo - 1) );
 	}
@@ -1198,7 +1198,7 @@ int CStudioHdr::GetTransition( int iFrom, int iTo ) const
 
 int	CStudioHdr::GetActivityListVersion( void )
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return m_pStudioHdr->activitylistversion;
 	}
@@ -1220,7 +1220,7 @@ void CStudioHdr::SetActivityListVersion( int version )
 {
 	m_pStudioHdr->activitylistversion = version;
 
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return;
 	}
@@ -1241,7 +1241,7 @@ void CStudioHdr::SetActivityListVersion( int version )
 
 int	CStudioHdr::GetEventListVersion( void )
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return m_pStudioHdr->eventsindexed;
 	}
@@ -1263,7 +1263,7 @@ void CStudioHdr::SetEventListVersion( int version )
 {
 	m_pStudioHdr->eventsindexed = version;
 
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return;
 	}
@@ -1284,7 +1284,7 @@ void CStudioHdr::SetEventListVersion( int version )
 
 int CStudioHdr::GetNumIKAutoplayLocks( void ) const
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return m_pStudioHdr->numlocalikautoplaylocks;
 	}
@@ -1294,7 +1294,7 @@ int CStudioHdr::GetNumIKAutoplayLocks( void ) const
 
 const mstudioiklock_t &CStudioHdr::pIKAutoplayLock( int i )
 {
-	if (m_pVModel == NULL)
+	if (m_pVModel == nullptr)
 	{
 		return *m_pStudioHdr->pLocalIKAutoplayLock( i );
 	}
@@ -1879,7 +1879,7 @@ void CStudioHdr::CActivityToSequenceMapping::Initialize( const CStudioHdr * __re
 	m_pStudioHdr = pstudiohdr->m_pStudioHdr;
 
 	AssertMsg1( m_pSequenceTuples == NULL, "Tried to double-initialize sequence mapping for %s", pstudiohdr->pszName() );
-	if ( m_pSequenceTuples != NULL )
+	if ( m_pSequenceTuples != nullptr)
 		return; // don't double initialize.
 
 	SetValidation(pstudiohdr);
@@ -1994,7 +1994,7 @@ void CStudioHdr::CActivityToSequenceMapping::Initialize( const CStudioHdr * __re
 			}
 			else
 			{
-				(tupleList + element.startingIdx + tupleOffset)->pActivityModifiers = NULL;
+				(tupleList + element.startingIdx + tupleOffset)->pActivityModifiers = nullptr;
 				(tupleList + element.startingIdx + tupleOffset)->iNumActivityModifiers = 0;
 			}
 
@@ -2032,7 +2032,7 @@ void CStudioHdr::CActivityToSequenceMapping::Reinitialize( CStudioHdr *pstudiohd
 	if (m_pSequenceTuples)
 	{
 		delete m_pSequenceTuples;
-		m_pSequenceTuples = NULL;
+		m_pSequenceTuples = nullptr;
 	}
 	m_ActToSeqHash.RemoveAll();
 
@@ -2062,7 +2062,7 @@ const CStudioHdr::CActivityToSequenceMapping::SequenceTuple *CStudioHdr::CActivi
 	{
 		// invalid handle; return NULL.
 		// this is actually a legit use case, so no need to assert.
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -2071,7 +2071,7 @@ int CStudioHdr::CActivityToSequenceMapping::NumSequencesForActivity( int forActi
 	// If this trips, you've called this function on something that doesn't 
 	// have activities.
 	//Assert(m_pSequenceTuples != NULL);
-	if ( m_pSequenceTuples == NULL )
+	if ( m_pSequenceTuples == nullptr)
 		return 0;
 
 	HashValueType entry(forActivity, 0, 0, 0);

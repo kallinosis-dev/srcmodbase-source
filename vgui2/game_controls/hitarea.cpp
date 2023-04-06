@@ -42,9 +42,9 @@ public:
 	virtual CGameGraphic *CreateNewGraphicClass( KeyValues *kvRequest, CGameUIDefinition *pMenu )
 	{
 		Assert( pMenu );
-		CHitArea *pNewGraphic = NULL;
+		CHitArea *pNewGraphic = nullptr;
 
-		const char *pName = kvRequest->GetString( "name", NULL );
+		const char *pName = kvRequest->GetString( "name", nullptr);
 		if ( pName )
 		{
 			pNewGraphic = new CHitArea( pName );
@@ -53,7 +53,7 @@ public:
 			pMenu->AddGraphicToLayer( pNewGraphic, SUBLAYER_STATIC );
 			
 			// Now set the attributes.
-			for ( KeyValues *arg = kvRequest->GetFirstSubKey(); arg != NULL; arg = arg->GetNextKey() )
+			for ( KeyValues *arg = kvRequest->GetFirstSubKey(); arg != nullptr; arg = arg->GetNextKey() )
 			{
 				pNewGraphic->HandleScriptCommand( arg );	
 			}
@@ -104,7 +104,7 @@ CHitArea::CHitArea( const char *pName )
 	m_Geometry.m_bVisible = true;
 	m_CurrentState = -1;
 	m_bDragEnabled = false;
-	m_OnMouseLeftClickedScriptCommand = NULL;
+	m_OnMouseLeftClickedScriptCommand = nullptr;
 
 	m_Geometry.m_RelativePositions.AddToTail( Vector2D( -.5, -.5 ) );
 	m_Geometry.m_RelativePositions.AddToTail( Vector2D( .5, -.5 ) );
@@ -275,7 +275,7 @@ void CHitArea::UpdateRenderData( color32 parentColor, CUtlVector< RenderGeometry
 		renderGeometry.m_SheetSequenceNumber = 0;
 		renderGeometry.m_AnimationRate = 1;
 		renderGeometry.m_bAnimate = 0;
-		renderGeometry.m_pImageAlias = NULL;
+		renderGeometry.m_pImageAlias = nullptr;
 	}
 
 	// Now transform our array of positions into local graphic coord system.
@@ -706,19 +706,19 @@ KeyValues * CHitArea::HandleScriptCommand( KeyValues *args )
 	if ( !Q_stricmp( "SetDragEnabled", szCommand ) )
 	{
 		m_bDragEnabled = args->GetBool( "dragenabled", 0 );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetMouseLeftClickedCommand", szCommand ) )
 	{
 		m_OnMouseLeftClickedScriptCommand = args->GetString( "command", "" );
-		return NULL;
+		return nullptr;
 	}
 
 
 	if ( !Q_stricmp( "RequestFocus", szCommand ) )
 	{
 		g_pGameUISystemMgrImpl->RequestKeyFocus( this, args );
-		return NULL;
+		return nullptr;
 	}
 	
 

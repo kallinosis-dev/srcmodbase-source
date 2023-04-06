@@ -130,8 +130,8 @@ CAttributeSlider::CAttributeSlider( CBaseAnimSetAttributeSliderPanel *parent ) :
 	m_pParent( parent ),
 	m_flFaderAmount( 1.0f ),
 	m_bDependent( false ),
-	m_pTextField( 0 ),
-	m_pRightTextField( 0 ),
+	m_pTextField( nullptr ),
+	m_pRightTextField( nullptr ),
 	m_nVisibleComponents( LOG_COMPONENTS_ALL )
 {
 	SetPaintBackgroundEnabled( true );
@@ -367,7 +367,7 @@ void CAttributeSlider::OnCursorExited()
 		return;
 
 	BaseClass::OnCursorExited();
-	m_pParent->GetController()->SetActiveAttributeSlider( NULL );
+	m_pParent->GetController()->SetActiveAttributeSlider(nullptr);
 }
 
 
@@ -603,7 +603,7 @@ void CAttributeSlider::OnMouseReleased( MouseCode code )
 		if ( m_hContextMenu.Get() )
 		{
 			delete m_hContextMenu.Get();
-			m_hContextMenu = NULL;
+			m_hContextMenu = nullptr;
 		}
 
 		m_hContextMenu = new Menu( this, "ActionMenu" );
@@ -1325,7 +1325,7 @@ void CAttributeSlider::ClearDependencies()
 //-----------------------------------------------------------------------------
 bool CAttributeSlider::AddDependency( const CAttributeSlider* pSlider )
 {
-	if ( pSlider == NULL )
+	if ( pSlider == nullptr)
 		return false;
 
 	// Make sure the slider is not already in the dependency list

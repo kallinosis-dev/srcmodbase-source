@@ -162,13 +162,13 @@ bool qhCheckConsistency( const qhFace* Face )
 		{
 		const qhHalfEdge* Twin = Edge->Twin;
 	
-		if ( Twin == NULL )
+		if ( Twin == nullptr)
 			{
 			// Unreflected edge
 			return false;
 			}
 
-		if ( Twin->Face == NULL )
+		if ( Twin->Face == nullptr)
 			{
 			// Missing face
 			return false;

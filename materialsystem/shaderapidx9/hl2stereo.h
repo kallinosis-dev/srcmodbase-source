@@ -98,19 +98,19 @@ namespace nv
 
 			static StagingResource *CreateStagingResource( Device *pDevice, float eyeSep, float sep, float conv )
 			{
-				StagingResource *staging = 0;
+				StagingResource *staging = nullptr;
 				unsigned int stagingWidth = StereoTexWidth * 2;
 				unsigned int stagingHeight = StereoTexHeight + 1;
 
-				pDevice->CreateOffscreenPlainSurface( stagingWidth, stagingHeight, StereoTexFormat, D3DPOOL_SYSTEMMEM, &staging, NULL );
+				pDevice->CreateOffscreenPlainSurface( stagingWidth, stagingHeight, StereoTexFormat, D3DPOOL_SYSTEMMEM, &staging, nullptr);
 
 				if ( !staging )
 				{
-					return 0;
+					return nullptr;
 				}
 
 				D3DLOCKED_RECT lr;
-				staging->LockRect( &lr, NULL, 0 );
+				staging->LockRect( &lr, nullptr, 0 );
 				unsigned char *sysData = ( unsigned char * ) lr.pBits;
 				unsigned int sysMemPitch = stagingWidth * StereoBytesPerPixel;
 
@@ -224,7 +224,7 @@ namespace nv
 			mEyeSeparation( 0 ),
 				mSeparation( 0 ),
 				mConvergence( 0 ),
-				mStereoHandle( 0 ),
+				mStereoHandle( nullptr ),
 				mInitialized( false ),
 				mActive( false ),
 				mDeviceLost( true ) // mDeviceLost is set to true to initialize the texture with good data at app startup.
@@ -238,7 +238,7 @@ namespace nv
 				if ( mStereoHandle )
 				{
 					NvAPI_Stereo_DestroyHandle( mStereoHandle );
-					mStereoHandle = 0;
+					mStereoHandle = nullptr;
 				}
 			}
 

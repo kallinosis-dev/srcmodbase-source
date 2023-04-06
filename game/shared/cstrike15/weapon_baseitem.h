@@ -48,7 +48,7 @@ public:
 	virtual bool CanFidget( void );
 
 	virtual bool Deploy( void );
-	virtual bool Holster( CBaseCombatWeapon *pSwitchingTo = NULL );
+	virtual bool Holster( CBaseCombatWeapon *pSwitchingTo = nullptr);
 
 	virtual void WeaponIdle( void );					// called when no buttons pressed
 

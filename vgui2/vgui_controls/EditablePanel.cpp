@@ -51,9 +51,9 @@ DECLARE_BUILD_FACTORY( EditablePanel );
 EditablePanel::EditablePanel(Panel *parent, const char *panelName) : Panel(parent, panelName), m_NavGroup(this)
 {
 	_buildGroup = new BuildGroup(this, this);
-	m_pszConfigName = NULL;
+	m_pszConfigName = nullptr;
 	m_iConfigID = 0;
-	m_pDialogVariables = NULL;
+	m_pDialogVariables = nullptr;
 
 	// add ourselves to the build group
 	_buildGroup->PanelAdded( this );
@@ -65,9 +65,9 @@ EditablePanel::EditablePanel(Panel *parent, const char *panelName) : Panel(paren
 EditablePanel::EditablePanel(Panel *parent, const char *panelName, HScheme hScheme) : Panel(parent, panelName, hScheme), m_NavGroup(this)
 {
 	_buildGroup = new BuildGroup(this, this);
-	m_pszConfigName = NULL;
+	m_pszConfigName = nullptr;
 	m_iConfigID = 0;
-	m_pDialogVariables = NULL;
+	m_pDialogVariables = nullptr;
 
 	// add ourselves to the build group
 	_buildGroup->PanelAdded( this );
@@ -80,7 +80,7 @@ EditablePanel::EditablePanel(Panel *parent, const char *panelName, HScheme hSche
 //-----------------------------------------------------------------------------
 EditablePanel::~EditablePanel()
 {
-	SetBuildGroup( NULL );
+	SetBuildGroup(nullptr);
 
 	delete [] m_pszConfigName;
 	delete _buildGroup;
@@ -819,7 +819,7 @@ Panel *EditablePanel::HasHotkey(wchar_t key)
 {
 	if( !IsVisible() || !IsEnabled()) // not visible, so can't respond to a hot key 
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	for (int i = 0; i < GetChildCount(); i++)
@@ -831,7 +831,7 @@ Panel *EditablePanel::HasHotkey(wchar_t key)
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 	
 }
 
@@ -1033,5 +1033,5 @@ Panel *EditablePanel::CreateControlByName(const char *controlName)
 		return fromFactory;
 	}
 
-	return NULL;
+	return nullptr;
 }

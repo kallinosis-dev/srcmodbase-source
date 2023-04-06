@@ -34,7 +34,7 @@ public:
 
 	// Writes lines containing "set variable value" for all variables
 	// with the archive flag set to true.
-	void WriteVariables( CUtlBuffer *buff, const int iSplitscreenSlot = -1, bool bSlotRequired = false, void *pConvarsList = 0 );
+	void WriteVariables( CUtlBuffer *buff, const int iSplitscreenSlot = -1, bool bSlotRequired = false, void *pConvarsList = nullptr );
 
 	// Returns the # of cvars with the server flag set.
 	int	CountVariablesWithFlags( int flags );

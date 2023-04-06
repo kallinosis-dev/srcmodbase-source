@@ -36,7 +36,7 @@ BEGIN_VS_SHADER( Prototype_dx9, "Prototype" )
 			return "Wireframe";
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

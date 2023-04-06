@@ -24,7 +24,7 @@ public:
 	};
 
 	// Buffers must be named
-					CMsgBuffer( const char *buffername = "unnamed", void (*ef)( const char *fmt, ... ) = 0 );
+					CMsgBuffer( const char *buffername = "unnamed", void (*ef)( const char *fmt, ... ) = nullptr );
 	virtual			~CMsgBuffer( void );
 
 	// Reset the buffer for writing

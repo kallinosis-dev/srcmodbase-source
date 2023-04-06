@@ -70,7 +70,7 @@ class GameData
 
 		BOOL Load(const char *pszFilename);
 
-		GDclass *ClassForName(const char *pszName, int *piIndex = NULL);
+		GDclass *ClassForName(const char *pszName, int *piIndex = nullptr);
 
 		void ClearData();
 
@@ -141,7 +141,7 @@ inline int GameData::GetClassCount()
 inline GDclass *GameData::GetClass(int nIndex)
 {
 	if (nIndex >= m_Classes.Count())
-		return NULL;
+		return nullptr;
 		
 	return m_Classes.Element(nIndex);
 }
@@ -212,9 +212,9 @@ int GameData::GetTraceHeight(void)
 
 void GDSetMessageFunc(GameDataMessageFunc_t pFunc);
 bool GDError(TokenReader &tr, char const* error, ...);
-bool GDSkipToken(TokenReader &tr, trtoken_t ttexpecting = TOKENNONE, const char *pszExpecting = NULL);
-bool GDGetToken(TokenReader &tr, char *pszStore, int nSize, trtoken_t ttexpecting = TOKENNONE, const char *pszExpecting = NULL);
-bool GDGetTokenDynamic(TokenReader &tr, char **pszStore, trtoken_t ttexpecting, const char *pszExpecting = NULL);
+bool GDSkipToken(TokenReader &tr, trtoken_t ttexpecting = TOKENNONE, const char *pszExpecting = nullptr);
+bool GDGetToken(TokenReader &tr, char *pszStore, int nSize, trtoken_t ttexpecting = TOKENNONE, const char *pszExpecting = nullptr);
+bool GDGetTokenDynamic(TokenReader &tr, char **pszStore, trtoken_t ttexpecting, const char *pszExpecting = nullptr);
 
 
 #endif // GAMEDATA_H

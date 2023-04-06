@@ -29,7 +29,7 @@ void AppendConstraint( const char *pchTableName, const char *pchColumnName, int 
 //void BuildSelectStatementText( CUtlVector<CQuery> *pVecQuery, bool bForPreparedStatement, char *pchStatement, int cchStatement );
 void BuildInsertStatementText( CFmtStr1024 *psStatement, const CRecordInfo *pRecordInfo );
 void BuildInsertAndReadStatementText( CFmtStr1024 *psStatement, CUtlVector<int> *pvecOutputFields, const CRecordInfo *pRecordInfo ) ;
-void BuildSelectStatementText( CFmtStr1024 *psStatement, const CColumnSet & selectSet, const char *pchTopClause = NULL );		  
+void BuildSelectStatementText( CFmtStr1024 *psStatement, const CColumnSet & selectSet, const char *pchTopClause = nullptr);		  
 void BuildUpdateStatementText( CFmtStr1024 *psStatement, const CColumnSet & columnSet );
 void BuildDeleteStatementText( CFmtStr1024 *psStatement, const CRecordInfo* pRecordInfo );
 void BuildWhereClauseText( CFmtStr1024 *psClause, const CColumnSet & columnSet );

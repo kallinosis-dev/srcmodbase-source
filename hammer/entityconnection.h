@@ -95,7 +95,7 @@ public:
 	static bool ValidateOutput(const CMapEntity *pEntity, const char* pszOutput);
 	static bool ValidateOutput(const CMapEntityList *pEntityList, const char* pszOutput);
 	static bool ValidateTarget(const CMapEntityList *pEntityList, bool bVisibilityCheck, const char* pszTarget);
-	static bool ValidateInput( const char *pszTarget, const char *pszInput, bool bVisiblesOnly, CMapDoc *pDoc = NULL );
+	static bool ValidateInput( const char *pszTarget, const char *pszInput, bool bVisiblesOnly, CMapDoc *pDoc = nullptr);
 
 	static int  ValidateOutputConnections( CMapEntity *pEntity, bool bVisibilityCheck, bool bIgnoreHiddenTargets=false, bool CheckAllDocuments = false );
 	static int  ValidateInputConnections(CMapEntity *pEntity, bool bVisibilityCheck);

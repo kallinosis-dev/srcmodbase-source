@@ -71,7 +71,7 @@ void CAttributeSoundPickerPanel::ShowPickerDialog()
 void CAttributeSoundPickerPanel::OnSoundSelected( KeyValues *pKeyValues )
 {
 	// We're either going to get an activity or sequence name
-	const char *pGameSoundName = pKeyValues->GetString( "gamesound", NULL );
+	const char *pGameSoundName = pKeyValues->GetString( "gamesound", nullptr);
 	const char *pSoundName = pKeyValues->GetString( "wav", pGameSoundName );
 	if ( !pSoundName || !pSoundName[ 0 ] )
 		return;

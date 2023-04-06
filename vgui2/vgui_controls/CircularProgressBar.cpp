@@ -36,7 +36,7 @@ CircularProgressBar::CircularProgressBar(Panel *parent, const char *panelName) :
 	for ( int i = 0; i < NUM_PROGRESS_TEXTURES; i++ )
 	{
 		m_nTextureId[i] = -1;
-		m_pszImageName[i] = NULL;
+		m_pszImageName[i] = nullptr;
 		m_lenImageName[i] = 0;
 	}
 }
@@ -61,7 +61,7 @@ void CircularProgressBar::ApplySettings(KeyValues *inResourceData)
 	for ( int i = 0; i < NUM_PROGRESS_TEXTURES; i++ )
 	{
 		delete [] m_pszImageName[i];
-		m_pszImageName[i] = NULL;
+		m_pszImageName[i] = nullptr;
 		m_lenImageName[i] = 0;
 	}
 
@@ -88,7 +88,7 @@ void CircularProgressBar::ApplySchemeSettings(IScheme *pScheme)
 
 	SetFgColor(GetSchemeColor("CircularProgressBar.FgColor", pScheme));
 	SetBgColor(GetSchemeColor("CircularProgressBar.BgColor", pScheme));
-	SetBorder(NULL);
+	SetBorder(nullptr);
 
 	for ( int i = 0; i < NUM_PROGRESS_TEXTURES; i++ )
 	{
@@ -117,7 +117,7 @@ void CircularProgressBar::SetImage(const char *imageName, progress_textures_t iP
 	{
 		// If we already have a buffer, but it is too short, then free the buffer
 		delete [] m_pszImageName[iPos];
-		m_pszImageName[iPos] = NULL;
+		m_pszImageName[iPos] = nullptr;
 		m_lenImageName[iPos] = 0;
 	}
 

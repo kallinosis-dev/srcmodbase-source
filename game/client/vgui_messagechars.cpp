@@ -93,7 +93,7 @@ private:
 // Output : 
 //-----------------------------------------------------------------------------
 CMessageCharsPanel::CMessageCharsPanel( vgui::VPANEL parent ) : 
-	BaseClass( NULL, "CMessageCharsPanel" )
+	BaseClass(nullptr, "CMessageCharsPanel" )
 {
 	SetParent( parent );
 	SetSize( ScreenWidth(), ScreenHeight() );
@@ -148,18 +148,18 @@ void CMessageCharsPanel::Clear( void )
 //-----------------------------------------------------------------------------
 void CMessageCharsPanel::Reset( void )
 {
-	m_pActive = NULL;
+	m_pActive = nullptr;
 	int i;
 	for( i = 0; i < MAX_MESSAGECHARS_MESSAGES-1; i++ )
 	{
 		if ( m_Messages[ i ].text )
 		{
 			delete[] m_Messages[ i ].text;
-			m_Messages[ i ].text = NULL;
+			m_Messages[ i ].text = nullptr;
 		}
 		m_Messages[ i ].next = &m_Messages[ i + 1 ];
 	}
-	m_Messages[ i ].next = NULL;
+	m_Messages[ i ].next = nullptr;
 	m_pFree = &m_Messages[ 0 ];
 	SetVisible( false );
 }
@@ -173,7 +173,7 @@ CMessageCharsPanel::message_t *CMessageCharsPanel::AllocMessage( void )
 	CMessageCharsPanel::message_t *msg;
 
 	if ( !m_pFree )
-		return NULL;
+		return nullptr;
 
 	msg			= m_pFree;
 	m_pFree		= m_pFree->next;
@@ -183,7 +183,7 @@ CMessageCharsPanel::message_t *CMessageCharsPanel::AllocMessage( void )
 
 	msg->x		= 0;
 	msg->y		= 0;
-	msg->text	= NULL;
+	msg->text	= nullptr;
 
 	msg->hCustomFont = NULL;
 
@@ -314,7 +314,7 @@ void CMessageCharsPanel::Paint()
 	}
 
 	// Clear our dead messages
-	message_t *pPrev = NULL;
+	message_t *pPrev = nullptr;
 	message_t *pCurrent = m_pActive;
 	while ( pCurrent )
 	{
@@ -333,7 +333,7 @@ void CMessageCharsPanel::Paint()
 			// Store off next one, because we're about to move the current
 			message_t *pNext = pCurrent->next;
 			delete[] pCurrent->text;
-			pCurrent->text = NULL;
+			pCurrent->text = nullptr;
 			pCurrent->next = m_pFree;
 			m_pFree = pCurrent;
 
@@ -364,7 +364,7 @@ private:
 public:
 	CMessageChars( void )
 	{
-		messageCharsPanel = NULL;
+		messageCharsPanel = nullptr;
 	}
 
 	void Create( vgui::VPANEL parent )
@@ -376,7 +376,7 @@ public:
 	{
 		if ( messageCharsPanel )
 		{
-			messageCharsPanel->SetParent( (vgui::Panel *)NULL );
+			messageCharsPanel->SetParent( (vgui::Panel *)nullptr);
 			delete messageCharsPanel;
 		}
 	}

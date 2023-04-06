@@ -199,9 +199,9 @@ Int32 BZ2_decompress ( DState* s )
       s->save_zj          = 0;
       s->save_gSel        = 0;
       s->save_gMinlen     = 0;
-      s->save_gLimit      = NULL;
-      s->save_gBase       = NULL;
-      s->save_gPerm       = NULL;
+      s->save_gLimit      = nullptr;
+      s->save_gBase       = nullptr;
+      s->save_gPerm       = nullptr;
    }
 
    /*restore from the save area*/
@@ -253,10 +253,10 @@ Int32 BZ2_decompress ( DState* s )
          s->ll4  = (UChar *)BZALLOC( 
                       ((1 + s->blockSize100k * 100000) >> 1) * sizeof(UChar) 
                    );
-         if (s->ll16 == NULL || s->ll4 == NULL) RETURN(BZ_MEM_ERROR);
+         if (s->ll16 == nullptr || s->ll4 == nullptr) RETURN(BZ_MEM_ERROR);
       } else {
          s->tt  = (UInt32 *)BZALLOC( s->blockSize100k * 100000 * sizeof(Int32) );
-         if (s->tt == NULL) RETURN(BZ_MEM_ERROR);
+         if (s->tt == nullptr) RETURN(BZ_MEM_ERROR);
       }
 
       GET_UCHAR(BZ_X_BLKHDR_1, uc);

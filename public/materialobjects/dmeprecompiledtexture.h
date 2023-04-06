@@ -87,7 +87,7 @@ template< class T > inline T *CDmePrecompiledTexture::FindProcessor( const char 
 		if ( !Q_stricmp( pName, m_Processors[i]->GetName() ) )
 			return CastElement< T >( m_Processors[i] );
 	}
-	return NULL;
+	return nullptr;
 }
 
 

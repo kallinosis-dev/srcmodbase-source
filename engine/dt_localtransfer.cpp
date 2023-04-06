@@ -153,7 +153,7 @@ public:
 	inline unsigned char*	CallPropProxy( CSendNode *pNode, int iProp, unsigned char *pStructBase )
 	{
 		if ( !pStructBase )
-			return 0;
+			return nullptr;
 		
 		const SendProp *pProp = m_pPropMapStackPrecalc->GetDatatableProp( iProp );
 		if ( IsNonPointerModifyingProxy( pProp->GetDataTableProxyFn(), m_pSendProxies ) )
@@ -164,7 +164,7 @@ public:
 		}
 		else
 		{
-			return 0;
+			return nullptr;
 		}
 	}
 
@@ -177,7 +177,7 @@ public:
 		{
 			CSendNode *pCurChild = pNode->GetChild( iChild );
 			
-			unsigned char *pNewStructBase = NULL;
+			unsigned char *pNewStructBase = nullptr;
 			if ( pStructBase )
 			{
 				pNewStructBase = CallPropProxy( pCurChild, pCurChild->m_iDatatableProp, pStructBase );
@@ -201,7 +201,7 @@ void BuildPropOffsetToIndexMap( CSendTablePrecalc *pPrecalc, const CStandardSend
 	for ( int i=0; i < pPrecalc->m_Props.Count(); i++ )
 	{
 		pmStack.SeekToProp( i );
-		if ( pmStack.GetCurStructBase() != 0 )
+		if ( pmStack.GetCurStructBase() != nullptr )
 		{
 			const SendProp *pProp = pPrecalc->m_Props[i];
 			
@@ -671,10 +671,10 @@ void LocalTransfer_TransferEntity(
 		}
 
  		// Transfer over the fast properties.
-		LocalTransfer_FastType( (int*)0, serverStack, clientStack, pPrecalc->m_FastLocalTransfer.m_FastInt32.Base(), pPrecalc->m_FastLocalTransfer.m_FastInt32.Count() );
-		LocalTransfer_FastType( (short*)0, serverStack, clientStack, pPrecalc->m_FastLocalTransfer.m_FastInt16.Base(), pPrecalc->m_FastLocalTransfer.m_FastInt16.Count() );
-		LocalTransfer_FastType( (char*)0, serverStack, clientStack, pPrecalc->m_FastLocalTransfer.m_FastInt8.Base(), pPrecalc->m_FastLocalTransfer.m_FastInt8.Count() );
-		LocalTransfer_FastType( (Vector*)0, serverStack, clientStack, pPrecalc->m_FastLocalTransfer.m_FastVector.Base(), pPrecalc->m_FastLocalTransfer.m_FastVector.Count() );
+		LocalTransfer_FastType( (int*)nullptr, serverStack, clientStack, pPrecalc->m_FastLocalTransfer.m_FastInt32.Base(), pPrecalc->m_FastLocalTransfer.m_FastInt32.Count() );
+		LocalTransfer_FastType( (short*)nullptr, serverStack, clientStack, pPrecalc->m_FastLocalTransfer.m_FastInt16.Base(), pPrecalc->m_FastLocalTransfer.m_FastInt16.Count() );
+		LocalTransfer_FastType( (char*)nullptr, serverStack, clientStack, pPrecalc->m_FastLocalTransfer.m_FastInt8.Base(), pPrecalc->m_FastLocalTransfer.m_FastInt8.Count() );
+		LocalTransfer_FastType( (Vector*)nullptr, serverStack, clientStack, pPrecalc->m_FastLocalTransfer.m_FastVector.Base(), pPrecalc->m_FastLocalTransfer.m_FastVector.Count() );
 	}		
 
 	

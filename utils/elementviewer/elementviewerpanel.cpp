@@ -107,14 +107,14 @@ vgui::Panel *CreateElementViewerPanel()
 
 //CElementView *CreateView( vgui::Panel *parent, CDmElement *pRoot, const char *title );
 
-CElementViewerPanel::CElementViewerPanel() : vgui::Panel( NULL, "ElementViewer" )
+CElementViewerPanel::CElementViewerPanel() : vgui::Panel(nullptr, "ElementViewer" )
 {
 	SetElementPropertiesChoices( this );
 	m_pMenuBar = new vgui::MenuBar( this, "Main Menu Bar" );
 	m_pMenuBar->SetSize( 10, 28 );
 
 	// Next create a menu
-	Menu *pMenu = new Menu(NULL, "File Menu");
+	Menu *pMenu = new Menu(nullptr, "File Menu");
 	pMenu->AddMenuItem("&New", new KeyValues ( "Command", "command", "OnNew"), this);
 	pMenu->AddMenuItem("&Open", new KeyValues ("Command", "command", "OnOpen"), this);
 	pMenu->AddMenuItem("&Save", new KeyValues ("Command", "command", "OnSave"), this);
@@ -130,7 +130,7 @@ CElementViewerPanel::CElementViewerPanel() : vgui::Panel( NULL, "ElementViewer" 
 	SetKeyBoardInputEnabled( true );
 
 	// load a file from the commandline
-	const char *fileName = NULL;
+	const char *fileName = nullptr;
 	CommandLine()->CheckParm("-loadDmx", &fileName );
 
 	if ( fileName )
@@ -188,7 +188,7 @@ CElementViewerPanel::~CElementViewerPanel()
 
 	ReportElementStats();
 	g_pDataModel->RemoveNotificationCallback( this );
-	SetElementPropertiesChoices( NULL );
+	SetElementPropertiesChoices(nullptr);
 }
 
 void CElementViewerPanel::OnThink()
@@ -274,7 +274,7 @@ void CElementViewerPanel::OnSaveAs()
 	FileOpenDialog *pFileOpenDialog = new FileOpenDialog( this, "Save .dmx File As", false, pContextKeyValues );
 
 	const char *pFileFormat = g_pDataModel->GetFileFormat( fileid );
-	const char *pDescription = ( pFileFormat && *pFileFormat ) ? g_pDataModel->GetFormatDescription( pFileFormat ) : NULL;
+	const char *pDescription = ( pFileFormat && *pFileFormat ) ? g_pDataModel->GetFormatDescription( pFileFormat ) : nullptr;
 
 	if ( pDescription && *pDescription )
 	{
@@ -301,7 +301,7 @@ void CElementViewerPanel::OnSave()
 		const char *pEncoding = g_pDataModel->GetDefaultEncoding( pFormat );
 		const char *pFileName = g_pDataModel->GetFileName( fileid );
 		CDmElement *pRoot = GetElement< CDmElement >( g_pDataModel->GetFileRoot( fileid ) );
-		g_pDataModel->SaveToFile( pFileName, NULL, pEncoding, pFormat, pRoot );
+		g_pDataModel->SaveToFile( pFileName, nullptr, pEncoding, pFormat, pRoot );
 		// TODO - figure out what file type this was
 	}
 }
@@ -375,7 +375,7 @@ void CElementViewerPanel::OnFileSelected( KeyValues *pKeyValues )
 		if ( docCount == 1 )
 		{
 			g_pDataModel->SetFileName( m_Docs[ 0 ].m_fileid, pFullPath );
-			g_pDataModel->SaveToFile( pFullPath, NULL, g_pDataModel->GetDefaultEncoding( pFormat ), pFormat, GetElement< CDmElement >( g_pDataModel->GetFileRoot( m_Docs[ 0 ].m_fileid ) ) );
+			g_pDataModel->SaveToFile( pFullPath, nullptr, g_pDataModel->GetDefaultEncoding( pFormat ), pFormat, GetElement< CDmElement >( g_pDataModel->GetFileRoot( m_Docs[ 0 ].m_fileid ) ) );
 		}
 		return;
 	}
@@ -384,11 +384,11 @@ void CElementViewerPanel::OnFileSelected( KeyValues *pKeyValues )
 //	g_pFileSystem->FullPathToRelativePath( fullpath, relativepath, sizeof( relativepath ) );
 
 	g_pDataModel->OnlyCreateUntypedElements( true );
-	g_pDataModel->SetDefaultElementFactory( NULL );
+	g_pDataModel->SetDefaultElementFactory(nullptr);
 
 	// Open the path as a KV and parse stuff from it...
-	CDmElement *pRoot = NULL;
-	DmFileId_t fileid = g_pDataModel->RestoreFromFile( pFullPath, NULL, NULL, &pRoot, CR_DELETE_NEW );
+	CDmElement *pRoot = nullptr;
+	DmFileId_t fileid = g_pDataModel->RestoreFromFile( pFullPath, nullptr, nullptr, &pRoot, CR_DELETE_NEW );
 	if ( pRoot )
 	{
 		ViewerDoc_t doc;

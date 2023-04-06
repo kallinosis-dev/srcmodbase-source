@@ -79,7 +79,7 @@ public:
 
 	void FindItemsByType( EItemType eType, CUtlVector< CEconItemView* >& outVec );
 
-	virtual CEconItemView	*GetItemInLoadout( int iClass, int iSlot ) const { AssertMsg( 0, "Implement me!" ); return NULL; }
+	virtual CEconItemView	*GetItemInLoadout( int iClass, int iSlot ) const { AssertMsg( 0, "Implement me!" ); return nullptr; }
 
 	
 	// Get the item object cache data for the specified item
@@ -94,7 +94,7 @@ public:
 	CEconItemView		*GetInventoryItemByItemID( itemid_t iIndex ) const;
 
 	// Finds the item in our inventory in the specified position
-	CEconItemView		*GetItemByPosition( int iPosition, int *pIndex = NULL );
+	CEconItemView		*GetItemByPosition( int iPosition, int *pIndex = nullptr);
 
 	// Used to reject items on the backend for inclusion into this inventory.
 	// Mostly used for division of bags into different in-game inventories.
@@ -242,8 +242,8 @@ public:
 	// Adds the inventory to the list of inventories that should be maintained.
 	// This causes the game to load the items for the SteamID into this inventory.
 	// NOTE: This fires off a request to Steam. The data will not be filled out immediately.
-	void SteamRequestInventory( CPlayerInventory *pInventory, CSteamID pSteamID, IInventoryUpdateListener *pListener = NULL );
-	void RegisterPlayerInventory( CPlayerInventory *pInventory, IInventoryUpdateListener *pListener = NULL, CSteamID* pSteamID = NULL );
+	void SteamRequestInventory( CPlayerInventory *pInventory, CSteamID pSteamID, IInventoryUpdateListener *pListener = nullptr);
+	void RegisterPlayerInventory( CPlayerInventory *pInventory, IInventoryUpdateListener *pListener = nullptr, CSteamID* pSteamID = nullptr);
 
 	void PreInitGC();
 	void PostInitGC();

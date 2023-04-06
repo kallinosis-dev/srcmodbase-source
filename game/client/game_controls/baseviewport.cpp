@@ -72,8 +72,8 @@ IViewPort *GetFullscreenViewPortInterface()
 	return s_pFullscreenViewportInterface;
 }
 
-vgui::Panel *g_lastPanel = NULL; // used for mouseover buttons, keeps track of the last active panel
-vgui::Button *g_lastButton = NULL; // used for mouseover buttons, keeps track of the last active button
+vgui::Panel *g_lastPanel = nullptr; // used for mouseover buttons, keeps track of the last active panel
+vgui::Button *g_lastButton = nullptr; // used for mouseover buttons, keeps track of the last active button
 using namespace vgui;
 
 ConVar hud_autoreloadscript("hud_autoreloadscript", "0", FCVAR_NONE, "Automatically reloads the animation script each time one is ran");
@@ -138,7 +138,7 @@ bool CBaseViewport::LoadHudAnimations( void )
 	bool bClearScript = true;
 
 	// Load each file defined in the text
-	for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+	for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 	{
 		if ( !Q_stricmp( sub->GetName(), "file" ) )
 		{
@@ -158,27 +158,27 @@ bool CBaseViewport::LoadHudAnimations( void )
 }
 
 //================================================================
-CBaseViewport::CBaseViewport() : vgui::EditablePanel( NULL, "CBaseViewport" )
+CBaseViewport::CBaseViewport() : vgui::EditablePanel(nullptr, "CBaseViewport" )
 {	
 	SetSize( 10, 10 ); // Quiet "parent not sized yet" spew
 	m_bInitialized = false;
 	m_bFullscreenViewport = false;
 
-	m_GameuiFuncs = NULL;
-	m_GameEventManager = NULL;
+	m_GameuiFuncs = nullptr;
+	m_GameEventManager = nullptr;
 	SetKeyBoardInputEnabled( false );
 	SetMouseInputEnabled( false );
 
-	m_pBackGround = NULL;
+	m_pBackGround = nullptr;
 
 	m_bHasParent = false;
-	m_pActivePanel = NULL;
+	m_pActivePanel = nullptr;
 
 #if !defined( CSTRIKE15 )
 	m_pLastActivePanel = NULL;
 #endif
 
-	g_lastPanel = NULL;
+	g_lastPanel = nullptr;
 
 	m_OldSize[ 0 ] = m_OldSize[ 1 ] = -1;
 }
@@ -202,12 +202,12 @@ void CBaseViewport::OnScreenSizeChanged(int iOldWide, int iOldTall)
 	bool bSpecGuiWasVisible = pSpecGuiPanel && pSpecGuiPanel->IsVisible();
 
 	// reload the script file, so the screen positions in it are correct for the new resolution
-	ReloadScheme( NULL );
+	ReloadScheme(nullptr);
 
 	// recreate all the default panels
 	RemoveAllPanels();
 
-	m_pBackGround = new CBackGroundPanel( NULL );
+	m_pBackGround = new CBackGroundPanel(nullptr);
 	m_pBackGround->SetZPos( -20 ); // send it to the back 
 	m_pBackGround->SetVisible( false );
 
@@ -258,7 +258,7 @@ void CBaseViewport::UpdateAllPanels( void )
 
 IViewPortPanel* CBaseViewport::CreatePanelByName(const char *szPanelName)
 {
-	IViewPortPanel* newpanel = NULL;
+	IViewPortPanel* newpanel = nullptr;
 
 	if ( Q_strcmp(PANEL_SCOREBOARD, szPanelName) == 0 )
 	{
@@ -305,7 +305,7 @@ bool CBaseViewport::AddNewPanel( IViewPortPanel* pPanel, char const *pchDebugNam
 	}
 
 	// we created a new panel, initialize it
-	if ( FindPanelByName( pPanel->GetName() ) != NULL )
+	if ( FindPanelByName( pPanel->GetName() ) != nullptr)
 	{
 		DevMsg("CBaseViewport::AddNewPanel: panel with name '%s' already exists.\n", pPanel->GetName() );
 		return false;
@@ -322,7 +322,7 @@ IViewPortPanel* CBaseViewport::FindPanelByName(const char *szPanelName)
 {
 	int idx = m_Panels.Find( szPanelName );
 	if ( idx == m_Panels.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	return m_Panels[ idx ];
 }
@@ -345,7 +345,7 @@ void CBaseViewport::PostMessageToPanel( const char *pName, KeyValues *pKeyValues
 		return;
 	}
 
-	IViewPortPanel * panel = NULL;
+	IViewPortPanel * panel = nullptr;
 
 	if ( Q_strcmp( pName, PANEL_ACTIVE ) == 0 )
 	{
@@ -412,7 +412,7 @@ void CBaseViewport::ShowPanel( const char *pName, bool state )
 		return;
 	}
 
-	IViewPortPanel * panel = NULL;
+	IViewPortPanel * panel = nullptr;
 
 	if ( Q_strcmp( pName, PANEL_ACTIVE ) == 0 )
 	{
@@ -447,7 +447,7 @@ void CBaseViewport::ShowPanel( IViewPortPanel* pPanel, bool state )
 				)
 				return;
 
-			if ( (m_pActivePanel != NULL) && (m_pActivePanel != pPanel) && (m_pActivePanel->IsVisible()) )
+			if ( (m_pActivePanel != nullptr) && (m_pActivePanel != pPanel) && (m_pActivePanel->IsVisible()) )
 			{
 				// store a pointer to the currently active panel
 				// so we can restore it later
@@ -488,7 +488,7 @@ void CBaseViewport::ShowPanel( IViewPortPanel* pPanel, bool state )
 		// update m_pActivePanel pointer
 		if ( m_pActivePanel == pPanel )
 		{
-			m_pActivePanel = NULL;
+			m_pActivePanel = nullptr;
 		}
 
 #if !defined( CSTRIKE15 )
@@ -543,7 +543,7 @@ void CBaseViewport::RecreatePanel( const char *szPanelName )
 
 		if ( m_pActivePanel == panel )
 		{
-			m_pActivePanel = NULL;
+			m_pActivePanel = nullptr;
 		}
 
 #if !defined( CSTRIKE15 )
@@ -560,7 +560,7 @@ void CBaseViewport::RecreatePanel( const char *szPanelName )
 
 void CBaseViewport::RemoveAllPanels( void)
 {
-	g_lastPanel = NULL;
+	g_lastPanel = nullptr;
 	for ( int i = 0; i < m_UnorderedPanels.Count(); ++i )
 	{
 		IViewPortPanel *p = m_UnorderedPanels[i];
@@ -579,12 +579,12 @@ void CBaseViewport::RemoveAllPanels( void)
 	if ( m_pBackGround )
 	{
 		m_pBackGround->MarkForDeletion();
-		m_pBackGround = NULL;
+		m_pBackGround = nullptr;
 	}
 
 	m_Panels.RemoveAll();
 	m_UnorderedPanels.RemoveAll();
-	m_pActivePanel = NULL;
+	m_pActivePanel = nullptr;
 #if !defined( CSTRIKE15 )
 	m_pLastActivePanel = NULL;
 #endif
@@ -599,7 +599,7 @@ CBaseViewport::~CBaseViewport()
 	{
 		m_pBackGround->MarkForDeletion();
 	}
-	m_pBackGround = NULL;
+	m_pBackGround = nullptr;
 
 	RemoveAllPanels();
 }
@@ -621,7 +621,7 @@ void CBaseViewport::Start( IGameUIFuncs *pGameUIFuncs, IGameEventManager2 * pGam
 	m_GameuiFuncs = pGameUIFuncs;
 	m_GameEventManager = pGameEventManager;
 
-	m_pBackGround = new CBackGroundPanel( NULL );
+	m_pBackGround = new CBackGroundPanel(nullptr);
 	m_pBackGround->SetZPos( -20 ); // send it to the back 
 	m_pBackGround->SetVisible( false );
 
@@ -699,7 +699,7 @@ bool CBaseViewport::AllowedToPrintText( void )
 	return false; */
 	// TODO ask every aktive elemet if it allows to draw text while visible
 
-	return ( m_pActivePanel == NULL);
+	return ( m_pActivePanel == nullptr);
 } 
 
 void CBaseViewport::OnThink()
@@ -728,7 +728,7 @@ void CBaseViewport::OnThink()
 		}
 		else
 #endif
-			m_pActivePanel = NULL;
+			m_pActivePanel = nullptr;
 	}
 
 	m_pAnimController->UpdateAnimations( gpGlobals->curtime );
@@ -833,7 +833,7 @@ void CBaseViewport::ReloadScheme(const char *fromFile)
 {
 	// See if scheme should change
 
-	if ( fromFile != NULL )
+	if ( fromFile != nullptr)
 	{
 		// "resource/ClientScheme.res"
 
@@ -891,7 +891,7 @@ void CBaseViewport::LoadHudLayout( void )
 	VGUI_ABSPOS_SPLITSCREEN_GUARD( GET_ACTIVE_SPLITSCREEN_SLOT() );
 
 	// reload the .res file from disk
-	KeyValues *pConditions = NULL;
+	KeyValues *pConditions = nullptr;
 	
 	if ( engine->IsSplitScreenActive() )
 	{
@@ -931,7 +931,7 @@ void CBaseViewport::LoadHudLayout( void )
 		}	
 	}
 
-	LoadControlSettings( "scripts/HudLayout.res", NULL, NULL, pConditions );
+	LoadControlSettings( "scripts/HudLayout.res", nullptr, nullptr, pConditions );
 
 	if ( pConditions )
 	{

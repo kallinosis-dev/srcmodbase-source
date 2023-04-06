@@ -9,8 +9,8 @@
 #include "choreoview.h"
 
 // Static elements
-CChoreoScene *CChoreoWidget::m_pScene = NULL;
-CChoreoView *CChoreoWidget::m_pView = NULL;
+CChoreoScene *CChoreoWidget::m_pScene = nullptr;
+CChoreoView *CChoreoWidget::m_pView = nullptr;
 
 static int widgets = 0;
 //-----------------------------------------------------------------------------

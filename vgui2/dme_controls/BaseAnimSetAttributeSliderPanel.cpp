@@ -180,7 +180,7 @@ void CPresetSideFilterSlider::PaintBackground()
 //-----------------------------------------------------------------------------
 CBaseAnimSetAttributeSliderPanel::CBaseAnimSetAttributeSliderPanel( vgui::Panel *parent, const char *className, CBaseAnimationSetEditor *editor ) :
 	BaseClass( parent, className ),
-	m_pController( NULL )
+	m_pController(nullptr)
 {
 	m_hEditor = editor;
 
@@ -448,7 +448,7 @@ void CBaseAnimSetAttributeSliderPanel::OnControlSelectionChanged()
 		CAttributeSlider *slider = m_SliderList[ i ];
 		if ( slider->IsVisible() )
 		{
-			m_Sliders->AddItem( NULL, slider );
+			m_Sliders->AddItem(nullptr, slider );
 		}
 	}
 }
@@ -496,7 +496,7 @@ bool CBaseAnimSetAttributeSliderPanel::ApplySliderValues( bool bForce )
 void CBaseAnimSetAttributeSliderPanel::UpdateSliderDependencyFlags() const
 {
 	bool ctrlDown = input()->IsKeyDown( KEY_LCONTROL ) || input()->IsKeyDown( KEY_RCONTROL );
-	CAttributeSlider *pPrimarySlider = ctrlDown ? m_pController->GetActiveAttributeSlider() : NULL;
+	CAttributeSlider *pPrimarySlider = ctrlDown ? m_pController->GetActiveAttributeSlider() : nullptr;
 
 	int nSliders = m_SliderList.Count();
 	for ( int iSlider = 0; iSlider < nSliders; ++iSlider )
@@ -535,7 +535,7 @@ CAttributeSlider *CBaseAnimSetAttributeSliderPanel::FindSliderForControl( const 
 {
 	int i = FindSliderIndexForControl( control );
 	if ( i < 0 )
-		return NULL;
+		return nullptr;
 
 	return m_SliderList[ i ];
 }

@@ -53,7 +53,7 @@ CMapClass *CMapStudioModel::CreateMapStudioModel(CHelperInfo *pHelperInfo, CMapE
 	// If we weren't passed a model name as an argument, get it from our parent
 	// entity's "model" key.
 	//
-	if (pszModel == NULL)
+	if (pszModel == nullptr)
 	{
 		pszModel = pParent->GetKeyValue("model");
 	}
@@ -61,14 +61,14 @@ CMapClass *CMapStudioModel::CreateMapStudioModel(CHelperInfo *pHelperInfo, CMapE
 	//
 	// If we have a model name, create a studio model object.
 	//
-	if (pszModel != NULL)
+	if (pszModel != nullptr)
 	{
 		bool bLightProp = !stricmp(pHelperInfo->GetName(), "lightprop");
 		bool bOrientedBounds = (bLightProp | !stricmp(pHelperInfo->GetName(), "studioprop"));
 		return CreateMapStudioModel(pszModel, bOrientedBounds, bLightProp);
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -94,7 +94,7 @@ CMapStudioModel *CMapStudioModel::CreateMapStudioModel(const char *pszModelPath,
 	else
 	{
 		delete pModel;
-		pModel = NULL;
+		pModel = nullptr;
 	}
 	return(pModel);
 }
@@ -115,7 +115,7 @@ CMapStudioModel::CMapStudioModel(void)
 //-----------------------------------------------------------------------------
 CMapStudioModel::~CMapStudioModel(void)
 {
-	if (m_pStudioModel != NULL)
+	if (m_pStudioModel != nullptr)
 	{
 		CStudioModelCache::Release(m_pStudioModel);
 	}
@@ -145,7 +145,7 @@ void CMapStudioModel::CalcBounds(BOOL bFullUpdate)
 	Vector Mins(0, 0, 0);
 	Vector Maxs(0, 0, 0);
 
-	if (m_pStudioModel != NULL)
+	if (m_pStudioModel != nullptr)
 	{
 		//
 		// The 3D bounds are the bounds of the oriented model's first sequence, so that
@@ -204,7 +204,7 @@ CMapClass *CMapStudioModel::Copy(bool bUpdateDependencies)
 {
 	CMapStudioModel *pCopy = new CMapStudioModel;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -293,7 +293,7 @@ void CMapStudioModel::Initialize(void)
 	m_bPitchSet = false;
 	m_flPitch = 0;
 	m_bReversePitch = false;
-	m_pStudioModel = NULL;
+	m_pStudioModel = nullptr;
 	m_Skin = 0;
 	m_BodyGroup = 0;
 	m_ModelRenderColor.SetColor( 255, 255, 255, 255 );
@@ -373,7 +373,7 @@ void CMapStudioModel::OnParentKeyChanged(const char* szKey, const char* szValue)
 //-----------------------------------------------------------------------------
 bool CMapStudioModel::RenderPreload(CRender3D *pRender, bool bNewContext)
 {
-	return(m_pStudioModel != NULL);
+	return(m_pStudioModel != nullptr);
 }
 
 
@@ -519,7 +519,7 @@ void CMapStudioModel::Render2D(CRender2D *pRender)
 		//
 		
 		Vector Forward;
-		AngleVectors(vecAngles, &Forward, NULL, NULL);
+		AngleVectors(vecAngles, &Forward, nullptr, nullptr);
 
 		pRender->SetDrawColor( 255, 255, 0 );
 		pRender->DrawLine(m_Origin, m_Origin + Forward * 24);
@@ -723,7 +723,7 @@ void CMapStudioModel::Render3D(CRender3D *pRender)
 	//
 	// If we have a model, render it if it is close enough to the camera.
 	//
-	if (m_pStudioModel != NULL)
+	if (m_pStudioModel != nullptr)
 	{
 		Vector ViewPoint;
 		pRender->GetCamera()->GetViewPoint(ViewPoint);
@@ -881,7 +881,7 @@ void CMapStudioModel::SetAngles(QAngle &Angles)
 	// Update the angles of our parent entity.
 	//
 	CMapEntity *pEntity = dynamic_cast<CMapEntity *>(m_pParent);
-	if (pEntity != NULL)
+	if (pEntity != nullptr)
 	{
 		char szValue[80];
 		sprintf(szValue, "%g %g %g", m_Angles[0], m_Angles[1], m_Angles[2]);
@@ -1054,8 +1054,8 @@ float CMapStudioModel::GetBoundingRadius( void )
 //-----------------------------------------------------------------------------
 const char *CMapStudioModel::GetModelName( void )
 {
-	if ( m_pStudioModel == NULL )
-		return NULL;
+	if ( m_pStudioModel == nullptr)
+		return nullptr;
 
 	return m_pStudioModel->GetModelName();
 }

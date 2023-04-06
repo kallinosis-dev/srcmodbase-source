@@ -35,7 +35,7 @@ public:
 		unsigned char noise, unsigned char red, unsigned char green,
 		unsigned char blue, unsigned char brightness, unsigned char speed);
 	virtual void Smoke( const Vector &origin, int mModel, float flScale, float flFramerate );
-	virtual void Sparks( const Vector &position, int nMagnitude = 1, int nTrailLength = 1, const Vector *pvecDir = NULL );
+	virtual void Sparks( const Vector &position, int nMagnitude = 1, int nTrailLength = 1, const Vector *pvecDir = nullptr);
 	virtual void Dust( const Vector &pos, const Vector &dir, float size, float speed );
 	virtual void MuzzleFlash( const Vector &origin, const QAngle &angles, float scale, int type );
 	virtual void MetalSparks( const Vector &position, const Vector &direction ); 

@@ -752,9 +752,9 @@ struct FireBulletsInfo_t
 		m_iTracerFreq = 4;
 		m_flDamage = 0.0f;
 		m_flPlayerDamage = 0.0f;
-		m_pAttacker = NULL;
+		m_pAttacker = nullptr;
 		m_nFlags = 0;
-		m_pAdditionalIgnoreEnt = NULL;
+		m_pAdditionalIgnoreEnt = nullptr;
 		m_flDamageForceScale = 1.0f;
 
 #ifdef _DEBUG
@@ -776,9 +776,9 @@ struct FireBulletsInfo_t
 		m_iTracerFreq = 4;
 		m_flDamage = 0;
 		m_flPlayerDamage = 0;
-		m_pAttacker = NULL;
+		m_pAttacker = nullptr;
 		m_nFlags = 0;
-		m_pAdditionalIgnoreEnt = NULL;
+		m_pAdditionalIgnoreEnt = nullptr;
 		m_flDamageForceScale = 1.0f;
 		m_bPrimaryAttack = bPrimaryAttack;
 	}
@@ -862,14 +862,14 @@ struct EmitSound_t
 {
 	EmitSound_t() :
 		m_nChannel( 0 ),
-		m_pSoundName( 0 ),
+		m_pSoundName( nullptr ),
 		m_flVolume( VOL_NORM ),
 		m_SoundLevel( SNDLVL_NONE ),
 		m_nFlags( 0 ),
 		m_nPitch( PITCH_NORM ),
-		m_pOrigin( 0 ),
+		m_pOrigin( nullptr ),
 		m_flSoundTime( 0.0f ),
-		m_pflSoundDuration( 0 ),
+		m_pflSoundDuration( nullptr ),
 		m_bEmitCloseCaption( true ),
 		m_bWarnOnMissingCloseCaption( false ),
 		m_bWarnOnDirectWaveReference( false ),

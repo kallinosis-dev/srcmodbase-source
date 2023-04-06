@@ -18,10 +18,10 @@
 int g_FrameNum;
 
 #ifndef SHADERAPI_GLOBAL_H
-IShaderAPI *g_pShaderAPI = 0;
-IShaderDeviceMgr* g_pShaderDeviceMgr = 0;
-IShaderDevice *g_pShaderDevice = 0;
-IShaderShadow* g_pShaderShadow = 0;
+IShaderAPI *g_pShaderAPI = nullptr;
+IShaderDeviceMgr* g_pShaderDeviceMgr = nullptr;
+IShaderDevice *g_pShaderDevice = nullptr;
+IShaderShadow* g_pShaderShadow = nullptr;
 #endif
 
-IClientMaterialSystem *g_pClientMaterialSystem = 0;
+IClientMaterialSystem *g_pClientMaterialSystem = nullptr;

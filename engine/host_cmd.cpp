@@ -100,7 +100,7 @@ extern IVEngineClient *engineClient;
 bool g_bInEditMode = false;
 bool g_bInCommentaryMode = false;
 #endif
-KeyValues *g_pLaunchOptions = NULL;
+KeyValues *g_pLaunchOptions = nullptr;
 
 void PerformKick( cmd_source_t commandSource, int iSearchIndex, char* szSearchString, bool bForceKick, const char* pszMessage );
 
@@ -515,7 +515,7 @@ void Host_Status_PrintClient( IClient *client, bool bShowAddress, void (*print) 
 	else if ( client->IsConnected() )
 		state = "connecting";
 	
-	if ( nci != NULL )
+	if ( nci != nullptr)
 	{
 		print( "# %2i %i \"%s\" %s %s %i %i %s %d", 
 			client->GetUserID(), client->GetPlayerSlot() + 1, client->GetClientName(), client->GetNetworkIDString(), COM_FormatSeconds( nci->GetTimeConnected() ),
@@ -802,7 +802,7 @@ CON_COMMAND( hltv_replay_status, "Show Killer Replay status and some statistics,
 		else if ( client->IsConnected() )
 			state = "connecting";
 
-		if ( nci != NULL )
+		if ( nci != nullptr)
 		{
 			ConMsg( "# %2i %i \"%s\" %s %s %s %s",
 				client->GetUserID(), client->GetPlayerSlot() + 1, client->GetClientName(), client->GetNetworkIDString(), COM_FormatSeconds( nci->GetTimeConnected() ),
@@ -1848,7 +1848,7 @@ CON_COMMAND( unpause, "Unpause the game." )
 //-----------------------------------------------------------------------------
 CON_COMMAND( kickid_ex, "Kick a player by userid or uniqueid, provide a force-the-kick flag and also assign a message." )
 {
-	const char	*pszArg1 = NULL, *pszMessage = NULL;
+	const char	*pszArg1 = nullptr, *pszMessage = nullptr;
 	int			iSearchIndex = -1;
 	char		szSearchString[128];
 	int			argsStartNum = 1;
@@ -1918,7 +1918,7 @@ CON_COMMAND( kickid_ex, "Kick a player by userid or uniqueid, provide a force-th
 
 		if ( dataLen > Q_strlen( pszMessage ) ) // saftey check
 		{
-			pszMessage = NULL;
+			pszMessage = nullptr;
 		}
 		else
 		{
@@ -1934,7 +1934,7 @@ CON_COMMAND( kickid_ex, "Kick a player by userid or uniqueid, provide a force-th
 //-----------------------------------------------------------------------------
 CON_COMMAND( kickid, "Kick a player by userid or uniqueid, with a message." )
 {
-	const char	*pszArg1 = NULL, *pszMessage = NULL;
+	const char	*pszArg1 = nullptr, *pszMessage = nullptr;
 	int			iSearchIndex = -1;
 	char		szSearchString[128];
 	int			argsStartNum = 1;
@@ -1992,7 +1992,7 @@ CON_COMMAND( kickid, "Kick a player by userid or uniqueid, with a message." )
 
 		if ( dataLen > Q_strlen( pszMessage ) ) // saftey check
 		{
-			pszMessage = NULL;
+			pszMessage = nullptr;
 		}
 		else
 		{
@@ -2005,7 +2005,7 @@ CON_COMMAND( kickid, "Kick a player by userid or uniqueid, with a message." )
 
 void PerformKick( cmd_source_t commandSource, int iSearchIndex, char* szSearchString, bool bForceKick, const char* pszMessage )
 {
-	IClient		*client = NULL;
+	IClient		*client = nullptr;
 	char		*who = "Console";
 
 	// find this client
@@ -2093,8 +2093,8 @@ Kicks a user off of the server using their name
 CON_COMMAND( kick, "Kick a player by name." )
 {
 	char		*who = "Console";
-	char		*pszName = NULL;
-	IClient		*client = NULL;
+	char		*pszName = nullptr;
+	IClient		*client = nullptr;
 	int			i = 0;
 	char		name[64];
 
@@ -2211,7 +2211,7 @@ void Host_PrintMemoryStatus( const char *mapname )
 		g_pMemAlloc->SetStatsExtraInfo( mapname, "" );
 	}
 
-	int nTotal = g_pMemAlloc->GetSize( 0 );
+	int nTotal = g_pMemAlloc->GetSize( nullptr );
 	if (nTotal == -1)
 	{
 		Msg( "Internal heap corrupted!\n" );
@@ -2225,7 +2225,7 @@ void Host_PrintMemoryStatus( const char *mapname )
 	Hunk_Print();
 
 	Msg( "\nDatacache reports:\n" );
-	g_pDataCache->OutputReport( DC_SUMMARY_REPORT, NULL );
+	g_pDataCache->OutputReport( DC_SUMMARY_REPORT, nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -2234,7 +2234,7 @@ void Host_PrintMemoryStatus( const char *mapname )
 CON_COMMAND( memory, "Print memory stats." )
 {
 	ConMsg( "Heap Used:\n" );
-	int nTotal = g_pMemAlloc->GetSize( 0 );
+	int nTotal = g_pMemAlloc->GetSize( nullptr );
 	if (nTotal == -1)
 	{
 		ConMsg( "Corrupted!\n" );
@@ -2519,9 +2519,9 @@ void Host_VoiceRecordStart_f(void)
 	int iSsSlot = GET_ACTIVE_SPLITSCREEN_SLOT();
 	if ( GetLocalClient( iSsSlot ).IsActive() )
 	{
-		const char *pUncompressedFile = NULL;
-		const char *pDecompressedFile = NULL;
-		const char *pInputFile = NULL;
+		const char *pUncompressedFile = nullptr;
+		const char *pDecompressedFile = nullptr;
+		const char *pInputFile = nullptr;
 
 		if (voice_recordtofile.GetInt())
 		{
@@ -2601,9 +2601,9 @@ void Host_VoiceToggle_f( const CCommand &args )
 		}
 		else if ( bToggle == true && Voice_IsRecording() == false )
 		{
-			const char *pUncompressedFile = NULL;
-			const char *pDecompressedFile = NULL;
-			const char *pInputFile = NULL;
+			const char *pUncompressedFile = nullptr;
+			const char *pDecompressedFile = nullptr;
+			const char *pInputFile = nullptr;
 
 			if (voice_recordtofile.GetInt())
 			{
@@ -2779,7 +2779,7 @@ CON_COMMAND_F( crash, "Cause the engine to crash (Debug!!)", FCVAR_CHEAT )
 #if defined( _X360 )
 	DmCrashDump( FALSE );
 #else
-	char *p = 0;
+	char *p = nullptr;
 	*p = 0;
 #endif
 }
@@ -2894,7 +2894,7 @@ CON_COMMAND_F( flush_locked, "Flush unlocked and locked cache memory.", FCVAR_CH
 
 CON_COMMAND( cache_print, "cache_print [section]\nPrint out contents of cache memory." )
 {
-	const char *pszSection = NULL;
+	const char *pszSection = nullptr;
 	if ( args.ArgC() == 2 )
 	{
 		pszSection = args[ 1 ];
@@ -2904,7 +2904,7 @@ CON_COMMAND( cache_print, "cache_print [section]\nPrint out contents of cache me
 
 CON_COMMAND( cache_print_lru, "cache_print_lru [section]\nPrint out contents of cache memory." )
 {
-	const char *pszSection = NULL;
+	const char *pszSection = nullptr;
 	if ( args.ArgC() == 2 )
 	{
 		pszSection = args[ 1 ];
@@ -2914,7 +2914,7 @@ CON_COMMAND( cache_print_lru, "cache_print_lru [section]\nPrint out contents of 
 
 CON_COMMAND( cache_print_summary, "cache_print_summary [section]\nPrint out a summary contents of cache memory." )
 {
-	const char *pszSection = NULL;
+	const char *pszSection = nullptr;
 	if ( args.ArgC() == 2 )
 	{
 		pszSection = args[ 1 ];

@@ -48,7 +48,7 @@ public:
 	{
 		Assert( s_DbgInfoStackDepth >= 0 );
 		if ( s_DbgInfoStackDepth >= 0 )
-			s_DbgInfoStack[ s_DbgInfoStackDepth-- ] = NULL;
+			s_DbgInfoStack[ s_DbgInfoStackDepth-- ] = nullptr;
 	}
 	static const char *GetAllocDbgInfo( void )
 	{

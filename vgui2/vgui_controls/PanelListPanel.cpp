@@ -125,7 +125,7 @@ int	PanelListPanel::ComputeVPixelsNeeded()
 Panel *PanelListPanel::GetCellRenderer( int row )
 {
 	if ( !m_SortedItems.IsValidIndex(row) )
-		return NULL;
+		return nullptr;
 
 	Panel *panel = m_DataItems[ m_SortedItems[row] ].panel;
 	return panel;
@@ -214,7 +214,7 @@ int PanelListPanel::InvalidItemID() const
 Panel *PanelListPanel::GetItemLabel(int itemID)
 {
 	if ( !m_DataItems.IsValidIndex(itemID) )
-		return NULL;
+		return nullptr;
 
 	return m_DataItems[itemID].labelPanel;
 }
@@ -225,7 +225,7 @@ Panel *PanelListPanel::GetItemLabel(int itemID)
 Panel *PanelListPanel::GetItemPanel(int itemID)
 {
 	if ( !m_DataItems.IsValidIndex(itemID) )
-		return NULL;
+		return nullptr;
 
 	return m_DataItems[itemID].panel;
 }

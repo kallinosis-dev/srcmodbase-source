@@ -29,7 +29,7 @@ void ScratchPad_DrawWorldToScratchPad(
 		CBaseEntity *pCur = gEntList.FirstEnt();
 		while ( pCur )
 		{
-			bool bPlayer = ( dynamic_cast< CBasePlayer* >( pCur ) != 0 );
+			bool bPlayer = ( dynamic_cast< CBasePlayer* >( pCur ) != nullptr );
 			if ( (bPlayer && !( flags & SPDRAWWORLD_DRAW_PLAYERS )) ||
 				(!bPlayer && !( flags & SPDRAWWORLD_DRAW_ENTITIES )) )
 			{

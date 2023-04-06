@@ -35,7 +35,7 @@ BEGIN_VS_SHADER( DecalModulate_dx9,
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT_PARAMS()

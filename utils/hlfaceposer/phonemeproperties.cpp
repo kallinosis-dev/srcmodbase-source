@@ -15,7 +15,7 @@
 static CPhonemeParams g_Params;
 
 static int		g_nPhonemeCount = 0;
-static HWND		*g_rgButtons = NULL;
+static HWND		*g_rgButtons = nullptr;
 
 #define IDC_PHONEME			2000
 
@@ -201,8 +201,8 @@ static void CreateAndLayoutControls( HWND hwndDlg, CPhonemeParams* params )
 			PHONEME_HEIGHT,
 			hwndDlg,
 			(HMENU)( IDC_PHONEME + i ),
-			(HINSTANCE)GetModuleHandle( 0 ),
-			NULL );
+			(HINSTANCE)GetModuleHandle( nullptr ),
+		nullptr);
 		Assert( button );
 		SetWindowLong( (HWND)button, GWL_USERDATA, (LONG)exp );
 
@@ -234,7 +234,7 @@ static void DestroyControls( HWND hwndDlg )
 		if ( g_rgButtons[ i ] )
 		{
 			DestroyWindow( g_rgButtons[ i ] );
-			g_rgButtons[ i ] = NULL;
+			g_rgButtons[ i ] = nullptr;
 		}
 	}
 

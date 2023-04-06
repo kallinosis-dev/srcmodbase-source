@@ -102,7 +102,7 @@ SpewRetval_t D3DAppSpewFunc( SpewType_t spewType, char const *pMsg )
 	switch (spewType)
 	{
 	case SPEW_ERROR:
-		MessageBox(NULL, pMsg, "FATAL ERROR", MB_OK);
+		MessageBox(nullptr, pMsg, "FATAL ERROR", MB_OK);
 		return SPEW_ABORT;
 
 	default:
@@ -142,12 +142,12 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	hAccelTable = LoadAccelerators(hInstance, (LPCTSTR)IDC_TERRAINBLEND);
 
 
-	InvalidateRect( g_hWnd, NULL, FALSE );
+	InvalidateRect( g_hWnd, nullptr, FALSE );
 
 	// Main message loop:
 	while(1)
 	{
-		while(PeekMessage(&msg, NULL, 0, 0, PM_REMOVE)) 
+		while(PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) 
 		{
 			if(msg.message == WM_QUIT)
 				break;
@@ -197,9 +197,9 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 	wcex.cbWndExtra		= 0;
 	wcex.hInstance		= hInstance;
 	wcex.hIcon			= LoadIcon(hInstance, (LPCTSTR)IDI_TERRAINBLEND);
-	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
+	wcex.hCursor		= LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= NULL;
+	wcex.lpszMenuName	= nullptr;
 	wcex.lpszClassName	= szWindowClass;
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, (LPCTSTR)IDI_SMALL);
 	
@@ -212,13 +212,13 @@ void ShutdownD3D()
 	if( g_pDevice )
 	{
 		g_pDevice->Release();
-		g_pDevice = NULL;
+		g_pDevice = nullptr;
 	}
 
 	if( g_pDirect3D )
 	{
 		g_pDirect3D->Release();
-		g_pDirect3D = NULL;
+		g_pDirect3D = nullptr;
 	}
 }
 
@@ -464,7 +464,7 @@ bool Sys_Error(const char *pMsg, ...)
 	V_vsprintf_safe( msg, pMsg, marker );
 	va_end( marker );
 
-	MessageBox( NULL, msg, "Error!", MB_OK );
+	MessageBox(nullptr, msg, "Error!", MB_OK );
 	exit(1);
 	return true;
 }
@@ -538,7 +538,7 @@ char const* Sys_FindArg( char const *pArg, char const *pDefault )
 
 int Sys_FindArgInt( char const *pArg, int defaultVal )
 {
-	char const *pVal = Sys_FindArg( pArg, NULL );
+	char const *pVal = Sys_FindArg( pArg, nullptr);
 	if( pVal )
 		return atoi( pVal );
 	else

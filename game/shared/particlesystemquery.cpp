@@ -129,7 +129,7 @@ public:
 		RayTracingResult *rslt_out, int32 skip_id ) const ;
 
 	virtual Vector GetLocalPlayerPos( void );
-	virtual void GetLocalPlayerEyeVectors( Vector *pForward, Vector *pRight = NULL, Vector *pUp = NULL );
+	virtual void GetLocalPlayerEyeVectors( Vector *pForward, Vector *pRight = nullptr, Vector *pUp = nullptr);
 
 	virtual Vector GetCurrentViewOrigin();
 
@@ -1077,7 +1077,7 @@ void *CParticleSystemQuery::GetModel( char const *pMdlName )
  	//pMdlName = "models/weapons/shells/shell_pistol.mdl";
 	return ( void * )pModel;
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 
@@ -1160,7 +1160,7 @@ int CParticleSystemQuery::GetActivityCount()
 }
 const char* CParticleSystemQuery::GetActivityNameFromIndex( int nActivityIndex )
 {
-	return 0;
+	return nullptr;
 }
 
 int CParticleSystemQuery::GetActivityNumber( void *pModel, const char *m_pszActivityName )

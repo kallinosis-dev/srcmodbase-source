@@ -23,7 +23,7 @@
 
 #define TEXTLESS_WORDNAME	"[Textless]"
 
-static IImsHelper *talkback = NULL;
+static IImsHelper *talkback = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Expose the interface
@@ -120,8 +120,8 @@ private:
 
 CPhonemeExtractorLipSinc::CPhonemeExtractorLipSinc( void )
 {
-	m_hHelper = (HMODULE)0;
-	m_pfnPrint = NULL;
+	m_hHelper = (HMODULE)nullptr;
+	m_pfnPrint = nullptr;
 
 	m_bInitialized = false;
 	
@@ -276,7 +276,7 @@ bool CPhonemeExtractorLipSinc::InitLipSinc( void )
 
 	char szExeName[ MAX_PATH ];
 	szExeName[0] = 0;
-	GetModuleFileName( (HMODULE)0, szExeName, sizeof( szExeName ) );
+	GetModuleFileName( (HMODULE)nullptr, szExeName, sizeof( szExeName ) );
 
 	char szBaseDir[ MAX_PATH ];
 	Q_strncpy( szBaseDir, szExeName, sizeof( szBaseDir ) );
@@ -491,7 +491,7 @@ static TBPHONEMES_t g_TBPhonemeList[]=
 	{ TALKBACK_PHONEME_K, "k" },
 	{ TALKBACK_PHONEME_CH, "ch" },
 	{ TALKBACK_PHONEME_SIL, "<sil>" },
-	{ -1, NULL }
+	{ -1, nullptr}
 };
 
 char const *TBPhonemeToString( TALKBACK_PHONEME phoneme )
@@ -600,7 +600,7 @@ CPhonemeExtractorLipSinc::CAnalyzedPhoneme *CPhonemeExtractorLipSinc::GetAnalyze
 	if ( err != TALKBACK_NOERR )
 	{
 		DescribeError( err );
-		return NULL;
+		return nullptr;
 	}
 
 	strcpy( p.phoneme, TBPhonemeToString( tb ) );
@@ -609,13 +609,13 @@ CPhonemeExtractorLipSinc::CAnalyzedPhoneme *CPhonemeExtractorLipSinc::GetAnalyze
 	if ( err != TALKBACK_NOERR )
 	{
 		DescribeError( err );
-		return NULL;
+		return nullptr;
 	}
 	err = talkback->TalkBackGetPhonemeEndTime( analysis, index, &p.endtime );
 	if ( err != TALKBACK_NOERR )
 	{
 		DescribeError( err );
-		return NULL;
+		return nullptr;
 	}
 
 	return &p;
@@ -633,20 +633,20 @@ CPhonemeExtractorLipSinc::CAnalyzedWord *CPhonemeExtractorLipSinc::GetAnalyzedWo
 	if ( err != TALKBACK_NOERR )
 	{
 		DescribeError( err );
-		return NULL;
+		return nullptr;
 	}
 
 	err = talkback->TalkBackGetWordStartTime( analysis, index, &w.starttime );
 	if ( err != TALKBACK_NOERR )
 	{
 		DescribeError( err );
-		return NULL;
+		return nullptr;
 	}
 	err = talkback->TalkBackGetWordEndTime( analysis, index, &w.endtime );
 	if ( err != TALKBACK_NOERR )
 	{
 		DescribeError( err );
-		return NULL;
+		return nullptr;
 	}
 
 	return &w;
@@ -1046,7 +1046,7 @@ SR_RESULT CPhonemeExtractorLipSinc::Extract(
 		return SR_RESULT_ERROR;
 	}
 
-	TALKBACK_ANALYSIS *analysis = NULL;
+	TALKBACK_ANALYSIS *analysis = nullptr;
 
 	if ( !AttemptAnalysis( &analysis, wavfile, inwords ) )
 	{

@@ -641,7 +641,7 @@ void CLog::FireGameEvent( IGameEvent *event )
 			const char *pszIP = event->GetString( "ip" );	
 			const char *pszDuration = event->GetString( "duration" );
 			const char *pszCmdGiver = event->GetString( "by" );
-			const char *pszResult = NULL;
+			const char *pszResult = nullptr;
 			
 			if ( Q_strlen( pszIP ) > 0 )
 			{
@@ -752,7 +752,7 @@ void CLog::Open( void )
 	char szFileBase[ MAX_OSPATH ];
 	char szTestFile[ MAX_OSPATH ];
 	int i;
-	FileHandle_t fp = 0;
+	FileHandle_t fp = nullptr;
 
 	if ( !m_bActive || !sv_logfile.GetInt() )
 	{

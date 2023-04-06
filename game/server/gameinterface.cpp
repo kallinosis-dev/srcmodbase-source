@@ -178,7 +178,7 @@ CSteamGameServerAPIContext *steamgameserverapicontext = &s_SteamGameServerAPICon
 #endif
 
 
-IUploadGameStats *gamestatsuploader = NULL;
+IUploadGameStats *gamestatsuploader = nullptr;
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
@@ -195,38 +195,38 @@ ISaveRestoreBlockHandler *GetCommentarySaveRestoreBlockHandler();
 CUtlLinkedList<CMapEntityRef, unsigned short> g_MapEntityRefs;
 
 // Engine interfaces.
-IVEngineServer	*engine = NULL;
-IVoiceServer	*g_pVoiceServer = NULL;
+IVEngineServer	*engine = nullptr;
+IVoiceServer	*g_pVoiceServer = nullptr;
 #if !defined(_STATIC_LINKED)
-IFileSystem		*filesystem = NULL;
+IFileSystem		*filesystem = nullptr;
 #else
 extern IFileSystem *filesystem;
 #endif
-INetworkStringTableContainer *networkstringtable = NULL;
-IStaticPropMgrServer *staticpropmgr = NULL;
-IUniformRandomStream *random = NULL;
-IEngineSound *enginesound = NULL;
-ISpatialPartition *partition = NULL;
-IVModelInfo *modelinfo = NULL;
-IEngineTrace *enginetrace = NULL;
-IFileLoggingListener *filelogginglistener = NULL;
-IGameEventManager2 *gameeventmanager = NULL;
-IDataCache *datacache = NULL;
-IVDebugOverlay * debugoverlay = NULL;
-ISoundEmitterSystemBase *soundemitterbase = NULL;
-IServerPluginHelpers *serverpluginhelpers = NULL;
+INetworkStringTableContainer *networkstringtable = nullptr;
+IStaticPropMgrServer *staticpropmgr = nullptr;
+IUniformRandomStream *random = nullptr;
+IEngineSound *enginesound = nullptr;
+ISpatialPartition *partition = nullptr;
+IVModelInfo *modelinfo = nullptr;
+IEngineTrace *enginetrace = nullptr;
+IFileLoggingListener *filelogginglistener = nullptr;
+IGameEventManager2 *gameeventmanager = nullptr;
+IDataCache *datacache = nullptr;
+IVDebugOverlay * debugoverlay = nullptr;
+ISoundEmitterSystemBase *soundemitterbase = nullptr;
+IServerPluginHelpers *serverpluginhelpers = nullptr;
 #ifdef SERVER_USES_VGUI
-IEngineVGui *enginevgui = NULL;
+IEngineVGui *enginevgui = nullptr;
 #endif // SERVER_USES_VGUI
-IServerEngineTools *serverenginetools = NULL;
-IServerFoundry *serverfoundry = NULL;
-ISceneFileCache *scenefilecache = NULL;
+IServerEngineTools *serverenginetools = nullptr;
+IServerFoundry *serverfoundry = nullptr;
+ISceneFileCache *scenefilecache = nullptr;
 #ifdef SERVER_USES_VGUI
-IGameUIFuncs *gameuifuncs = NULL;
+IGameUIFuncs *gameuifuncs = nullptr;
 #endif // SERVER_USES_VGUI
-IXboxSystem *xboxsystem = NULL;	// Xbox 360 only
-IScriptManager *scriptmanager = NULL;
-IBlackBox *blackboxrecorder = NULL;
+IXboxSystem *xboxsystem = nullptr;	// Xbox 360 only
+IScriptManager *scriptmanager = nullptr;
+IBlackBox *blackboxrecorder = nullptr;
 
 #ifdef INFESTED_DLL
 IASW_Mission_Chooser *missionchooser = NULL;
@@ -253,7 +253,7 @@ ConVar sv_massreport( "sv_massreport", "0" );
 ConVar sv_force_transmit_ents( "sv_force_transmit_ents", "0", FCVAR_RELEASE, "Will transmit all entities to client, regardless of PVS conditions (will still skip based on transmit flags, however)." );
 
 ConVar sv_autosave( "sv_autosave", "1", 0, "Set to 1 to autosave game on level transition. Does not affect autosave triggers." );
-ConVar *sv_maxreplay = NULL;
+ConVar *sv_maxreplay = nullptr;
 
 ConVar sv_comp_mode_allow_dc( "sv_comp_mode_allow_dc", 
 	"0", FCVAR_DEVELOPMENTONLY, 
@@ -264,8 +264,8 @@ ConVar sv_dc_friends_reqd(
 	"0", FCVAR_RELEASE,
 	"Set this to 0 to allow direct connects to a game in progress even if no presents are present" );
 
-static ConVar  *g_pcv_commentary = NULL;
-static ConVar *g_pcv_ThreadMode = NULL;
+static ConVar  *g_pcv_commentary = nullptr;
+static ConVar *g_pcv_ThreadMode = nullptr;
 
 #if !defined(NO_STEAM)
 //-----------------------------------------------------------------------------
@@ -287,14 +287,14 @@ CSteam3Server::CSteam3Server()
 #endif
 
 // String tables
-INetworkStringTable *g_pStringTableParticleEffectNames = NULL;
-INetworkStringTable *g_pStringTableEffectDispatch = NULL;
-INetworkStringTable *g_pStringTableVguiScreen = NULL;
-INetworkStringTable *g_pStringTableMaterials = NULL;
-INetworkStringTable *g_pStringTableInfoPanel = NULL;
-INetworkStringTable *g_pStringTableClientSideChoreoScenes = NULL;
-INetworkStringTable *g_pStringTableExtraParticleFiles = NULL;
-INetworkStringTable *g_pStringTableMovies = NULL;
+INetworkStringTable *g_pStringTableParticleEffectNames = nullptr;
+INetworkStringTable *g_pStringTableEffectDispatch = nullptr;
+INetworkStringTable *g_pStringTableVguiScreen = nullptr;
+INetworkStringTable *g_pStringTableMaterials = nullptr;
+INetworkStringTable *g_pStringTableInfoPanel = nullptr;
+INetworkStringTable *g_pStringTableClientSideChoreoScenes = nullptr;
+INetworkStringTable *g_pStringTableExtraParticleFiles = nullptr;
+INetworkStringTable *g_pStringTableMovies = nullptr;
 
 CStringTableSaveRestoreOps g_VguiScreenStringOps;
 
@@ -309,10 +309,10 @@ static int		g_nCurrentChapterIndex = -1;
 static ConVar sv_showhitboxes( "sv_showhitboxes", "-1", FCVAR_CHEAT, "Send server-side hitboxes for specified entity to client (NOTE:  this uses lots of bandwidth, use on listen server only)." );
 #endif
 
-static ClientPutInServerOverrideFn g_pClientPutInServerOverride = NULL;
+static ClientPutInServerOverrideFn g_pClientPutInServerOverride = nullptr;
 static void UpdateChapterRestrictions( const char *mapname );
 
-CSharedEdictChangeInfo *g_pSharedChangeInfo = NULL;
+CSharedEdictChangeInfo *g_pSharedChangeInfo = nullptr;
 
 IChangeInfoAccessor *CBaseEdict::GetChangeAccessor()
 {
@@ -380,7 +380,7 @@ CBasePlayer *UTIL_GetCommandClient( void )
 	}
 
 	// HLDS console issued command
-	return NULL;
+	return nullptr;
 }
 
 extern void InitializeCvars( void );
@@ -708,7 +708,7 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 	COM_TimestampedLog( "ConnectTier1/2/3Libraries - Finish" );
 
 	// Connected in ConnectTier1Libraries
-	if ( cvar == NULL )
+	if ( cvar == nullptr)
 		return false;
 
 #if !defined( SWDS ) && !defined(NO_STEAM)
@@ -724,7 +724,7 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 	COM_TimestampedLog( "Factories - Start" );
 
 	// init each (seperated for ease of debugging)
-	if ( (engine = (IVEngineServer*)appSystemFactory(INTERFACEVERSION_VENGINESERVER, NULL)) == NULL )
+	if ( (engine = (IVEngineServer*)appSystemFactory(INTERFACEVERSION_VENGINESERVER, nullptr)) == nullptr)
 		return false;
 
  	if( !STEAMWORKS_INITCEGLIBRARY() )
@@ -745,53 +745,53 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
  	STEAMWORKS_TESTSECRETALWAYS();
  	STEAMWORKS_SELFCHECK();
 
-	if ( (g_pVoiceServer = (IVoiceServer*)appSystemFactory(INTERFACEVERSION_VOICESERVER, NULL)) == NULL )
+	if ( (g_pVoiceServer = (IVoiceServer*)appSystemFactory(INTERFACEVERSION_VOICESERVER, nullptr)) == nullptr)
 		return false;
-	if ( (networkstringtable = (INetworkStringTableContainer *)appSystemFactory(INTERFACENAME_NETWORKSTRINGTABLESERVER,NULL)) == NULL )
+	if ( (networkstringtable = (INetworkStringTableContainer *)appSystemFactory(INTERFACENAME_NETWORKSTRINGTABLESERVER, nullptr)) == nullptr)
 		return false;
-	if ( (staticpropmgr = (IStaticPropMgrServer *)appSystemFactory(INTERFACEVERSION_STATICPROPMGR_SERVER,NULL)) == NULL )
+	if ( (staticpropmgr = (IStaticPropMgrServer *)appSystemFactory(INTERFACEVERSION_STATICPROPMGR_SERVER, nullptr)) == nullptr)
 		return false;
-	if ( (random = (IUniformRandomStream *)appSystemFactory(VENGINE_SERVER_RANDOM_INTERFACE_VERSION, NULL)) == NULL )
+	if ( (random = (IUniformRandomStream *)appSystemFactory(VENGINE_SERVER_RANDOM_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
-	if ( (enginesound = (IEngineSound *)appSystemFactory(IENGINESOUND_SERVER_INTERFACE_VERSION, NULL)) == NULL )
+	if ( (enginesound = (IEngineSound *)appSystemFactory(IENGINESOUND_SERVER_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
-	if ( (::partition = (ISpatialPartition *)appSystemFactory(INTERFACEVERSION_SPATIALPARTITION, NULL)) == NULL )
+	if ( (::partition = (ISpatialPartition *)appSystemFactory(INTERFACEVERSION_SPATIALPARTITION, nullptr)) == nullptr)
 		return false;
-	if ( (modelinfo = (IVModelInfo *)appSystemFactory(VMODELINFO_SERVER_INTERFACE_VERSION, NULL)) == NULL )
+	if ( (modelinfo = (IVModelInfo *)appSystemFactory(VMODELINFO_SERVER_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
-	if ( (enginetrace = (IEngineTrace *)appSystemFactory(INTERFACEVERSION_ENGINETRACE_SERVER,NULL)) == NULL )
+	if ( (enginetrace = (IEngineTrace *)appSystemFactory(INTERFACEVERSION_ENGINETRACE_SERVER, nullptr)) == nullptr)
 		return false;
-	if ( (filelogginglistener = (IFileLoggingListener *)appSystemFactory(FILELOGGINGLISTENER_INTERFACE_VERSION, NULL)) == NULL )
+	if ( (filelogginglistener = (IFileLoggingListener *)appSystemFactory(FILELOGGINGLISTENER_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
-	if ( (filesystem = (IFileSystem *)fileSystemFactory(FILESYSTEM_INTERFACE_VERSION,NULL)) == NULL )
+	if ( (filesystem = (IFileSystem *)fileSystemFactory(FILESYSTEM_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
 
-	if ( (gameeventmanager = (IGameEventManager2 *)appSystemFactory(INTERFACEVERSION_GAMEEVENTSMANAGER2,NULL)) == NULL )
+	if ( (gameeventmanager = (IGameEventManager2 *)appSystemFactory(INTERFACEVERSION_GAMEEVENTSMANAGER2, nullptr)) == nullptr)
 		return false;
-	if ( (datacache = (IDataCache*)appSystemFactory(DATACACHE_INTERFACE_VERSION, NULL )) == NULL )
+	if ( (datacache = (IDataCache*)appSystemFactory(DATACACHE_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
-	if ( (soundemitterbase = (ISoundEmitterSystemBase *)appSystemFactory(SOUNDEMITTERSYSTEM_INTERFACE_VERSION, NULL)) == NULL )
+	if ( (soundemitterbase = (ISoundEmitterSystemBase *)appSystemFactory(SOUNDEMITTERSYSTEM_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
-	if ( (gamestatsuploader = (IUploadGameStats *)appSystemFactory( INTERFACEVERSION_UPLOADGAMESTATS, NULL )) == NULL )
+	if ( (gamestatsuploader = (IUploadGameStats *)appSystemFactory( INTERFACEVERSION_UPLOADGAMESTATS, nullptr)) == nullptr)
 		return false;
 	if ( !mdlcache )
 		return false;
-	if ( (serverpluginhelpers = (IServerPluginHelpers *)appSystemFactory(INTERFACEVERSION_ISERVERPLUGINHELPERS, NULL)) == NULL )
+	if ( (serverpluginhelpers = (IServerPluginHelpers *)appSystemFactory(INTERFACEVERSION_ISERVERPLUGINHELPERS, nullptr)) == nullptr)
 		return false;
-	if ( (scenefilecache = (ISceneFileCache *)appSystemFactory( SCENE_FILE_CACHE_INTERFACE_VERSION, NULL )) == NULL )
+	if ( (scenefilecache = (ISceneFileCache *)appSystemFactory( SCENE_FILE_CACHE_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
-	if ( (blackboxrecorder = (IBlackBox *)appSystemFactory(BLACKBOX_INTERFACE_VERSION, NULL)) == NULL )
+	if ( (blackboxrecorder = (IBlackBox *)appSystemFactory(BLACKBOX_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
-	if ( (xboxsystem = (IXboxSystem *)appSystemFactory( XBOXSYSTEM_INTERFACE_VERSION, NULL )) == NULL )
+	if ( (xboxsystem = (IXboxSystem *)appSystemFactory( XBOXSYSTEM_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
 
 	if ( !CommandLine()->CheckParm( "-noscripting") )
 	{
-		scriptmanager = (IScriptManager *)appSystemFactory( VSCRIPT_INTERFACE_VERSION, NULL );
+		scriptmanager = (IScriptManager *)appSystemFactory( VSCRIPT_INTERFACE_VERSION, nullptr);
 	}
 
 #if defined( CSTRIKE15 )
-	if ( ( g_pGameTypes = (IGameTypes *)appSystemFactory( VENGINE_GAMETYPES_VERSION, NULL )) == NULL )
+	if ( ( g_pGameTypes = (IGameTypes *)appSystemFactory( VENGINE_GAMETYPES_VERSION, nullptr)) == nullptr)
 		return false;
 #endif
 
@@ -800,13 +800,13 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 	if ( !engine->IsDedicatedServer() )
 	{
 #ifdef _WIN32
-		if ( ( enginevgui = ( IEngineVGui * )appSystemFactory(VENGINE_VGUI_VERSION, NULL)) == NULL )
+		if ( ( enginevgui = ( IEngineVGui * )appSystemFactory(VENGINE_VGUI_VERSION, nullptr)) == nullptr)
 			return false;
 		
 		// This interface is optional, and is only valid when running with -tools
-		serverenginetools = ( IServerEngineTools * )appSystemFactory( VSERVERENGINETOOLS_INTERFACE_VERSION, NULL );
+		serverenginetools = ( IServerEngineTools * )appSystemFactory( VSERVERENGINETOOLS_INTERFACE_VERSION, nullptr);
 		
-		gameuifuncs = (IGameUIFuncs * )appSystemFactory( VENGINE_GAMEUIFUNCS_VERSION, NULL );
+		gameuifuncs = (IGameUIFuncs * )appSystemFactory( VENGINE_GAMEUIFUNCS_VERSION, nullptr);
 #endif
 	}
 #endif // SERVER_USES_VGUI
@@ -925,7 +925,7 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 		COM_TimestampedLog( "InitGameSystems - Finish" );
 	}
 	// try to get debug overlay, may be NULL if on HLDS
-	debugoverlay = (IVDebugOverlay *)appSystemFactory( VDEBUG_OVERLAY_INTERFACE_VERSION, NULL );
+	debugoverlay = (IVDebugOverlay *)appSystemFactory( VDEBUG_OVERLAY_INTERFACE_VERSION, nullptr);
 
 	// init the gamestatsupload connection
 	gamestatsuploader->InitConnection();
@@ -1009,7 +1009,7 @@ void CServerGameDLL::DLLShutdown( void )
 	if (TheNavMesh)
 	{
 		delete TheNavMesh;
-		TheNavMesh = NULL;
+		TheNavMesh = nullptr;
 	}
 
 #if !defined(NO_STEAM)
@@ -1147,7 +1147,7 @@ void EndRestoreEntities()
 	gEntList.CleanupDeleteList();
 
 	// HACKHACK: UNDONE: We need to redesign the main loop with respect to save/load/server activate
-	g_ServerGameDLL.ServerActivate( NULL, 0, 0 );
+	g_ServerGameDLL.ServerActivate(nullptr, 0, 0 );
 	CBaseEntity::SetAllowPrecache( false );
 }
 
@@ -1243,11 +1243,11 @@ CEG_NOINLINE bool CServerGameDLL::LevelInit( const char *pMapName, char const *p
 		{
 			// This is a single-player style level transition.
 			// Queue up an autosave one second into the level
-			CBaseEntity *pAutosave = CBaseEntity::Create( "logic_autosave", vec3_origin, vec3_angle, NULL );
+			CBaseEntity *pAutosave = CBaseEntity::Create( "logic_autosave", vec3_origin, vec3_angle, nullptr);
 			if ( pAutosave )
 			{
-				g_EventQueue.AddEvent( pAutosave, "Save", 1.0, NULL, NULL );
-				g_EventQueue.AddEvent( pAutosave, "Kill", 1.1, NULL, NULL );
+				g_EventQueue.AddEvent( pAutosave, "Save", 1.0, nullptr, nullptr);
+				g_EventQueue.AddEvent( pAutosave, "Kill", 1.1, nullptr, nullptr);
 			}
 		}
 	}
@@ -1346,7 +1346,7 @@ CEG_NOINLINE void CServerGameDLL::ServerActivate( edict_t *pEdictList, int edict
 		Msg( "ERROR: Entity delete queue not empty on level start!\n" );
 	}
 
-	for ( CBaseEntity *pClass = gEntList.FirstEnt(); pClass != NULL; pClass = gEntList.NextEnt(pClass) )
+	for ( CBaseEntity *pClass = gEntList.FirstEnt(); pClass != nullptr; pClass = gEntList.NextEnt(pClass) )
 	{
 		if ( pClass && !pClass->IsDormant() )
 		{
@@ -1564,7 +1564,7 @@ void CServerGameDLL::PreClientUpdate( bool simulating )
 	if ( sv_showhitboxes.GetInt() == 0 )
 	{
 		// assume it's text
-		CBaseEntity *pEntity = NULL;
+		CBaseEntity *pEntity = nullptr;
 
 		while (1)
 		{
@@ -1946,7 +1946,7 @@ void CServerGameDLL::GetSaveComment( char *text, int maxlength, float flMinutes,
 
 	char const *mapname = STRING( gpGlobals->mapname );
 
-	pName = NULL;
+	pName = nullptr;
 
 	// Try to find a matching title comment for this mapname
 	for ( i = 0; i < ARRAYSIZE(gTitleComments) && !pName; i++ )
@@ -2047,7 +2047,7 @@ bool CServerGameDLL::ShouldHideServer( void )
 void CServerGameDLL::InvalidateMdlCache()
 {
 	CBaseAnimating *pAnimating;
-	for ( CBaseEntity *pEntity = gEntList.FirstEnt(); pEntity != NULL; pEntity = gEntList.NextEnt(pEntity) )
+	for ( CBaseEntity *pEntity = gEntList.FirstEnt(); pEntity != nullptr; pEntity = gEntList.NextEnt(pEntity) )
 	{
 		pAnimating = dynamic_cast<CBaseAnimating *>(pEntity);
 		if ( pAnimating )
@@ -2061,7 +2061,7 @@ void CServerGameDLL::InvalidateMdlCache()
 static KeyValues * FindLaunchOptionByValue( KeyValues *pLaunchOptions, char const *szLaunchOption )
 {
 	if ( !pLaunchOptions || !szLaunchOption || !*szLaunchOption )
-		return NULL;
+		return nullptr;
 
 	for ( KeyValues *val = pLaunchOptions->GetFirstSubKey(); val; val = val->GetNextKey() )
 	{
@@ -2070,7 +2070,7 @@ static KeyValues * FindLaunchOptionByValue( KeyValues *pLaunchOptions, char cons
 			return val;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool CServerGameDLL::ShouldPreferSteamAuth()
@@ -2107,7 +2107,7 @@ bool CServerGameDLL::IsValveDS()
 
 KeyValues*	CServerGameDLL::GetExtendedServerInfoForNewClient()
 {
-	static KeyValues *s_pExtendedServerInfo = NULL;
+	static KeyValues *s_pExtendedServerInfo = nullptr;
 	static char s_szExtendedHashKey[256] = {0};
 
 	int iGameType = g_pGameTypes->GetCurrentGameType();
@@ -2155,7 +2155,7 @@ KeyValues*	CServerGameDLL::GetExtendedServerInfoForNewClient()
 				if ( modelName )
 				{
 					KeyValues *val = new KeyValues( "" );
-					val->SetString( NULL, modelName );
+					val->SetString(nullptr, modelName );
 					s_pExtendedServerInfo->FindKey( "ct_models", true )->AddSubKey( val );
 				}
 			}
@@ -2168,7 +2168,7 @@ KeyValues*	CServerGameDLL::GetExtendedServerInfoForNewClient()
 				if ( modelName )
 				{
 					KeyValues *val = new KeyValues( "" );
-					val->SetString( NULL, modelName );
+					val->SetString(nullptr, modelName );
 					s_pExtendedServerInfo->FindKey( "t_models", true )->AddSubKey( val );
 				}
 			}
@@ -2182,7 +2182,7 @@ KeyValues*	CServerGameDLL::GetExtendedServerInfoForNewClient()
 				if ( sz )
 				{
 					KeyValues *val = new KeyValues( "" );
-					val->SetString( NULL, sz );
+					val->SetString(nullptr, sz );
 					s_pExtendedServerInfo->FindKey( "maplist", true )->AddSubKey( val );
 				}
 			}
@@ -2678,7 +2678,7 @@ edict_t* CServerGameEnts::BaseEntityToEdict( CBaseEntity *pEnt )
 	if ( pEnt )
 		return pEnt->edict();
 	else
-		return NULL;
+		return nullptr;
 }
 
 CBaseEntity* CServerGameEnts::EdictToBaseEntity( edict_t *pEdict )
@@ -2686,7 +2686,7 @@ CBaseEntity* CServerGameEnts::EdictToBaseEntity( edict_t *pEdict )
 	if ( pEdict )
 		return CBaseEntity::Instance( pEdict );
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -2974,7 +2974,7 @@ void CServerGameEnts::CheckTransmit( CCheckTransmitInfo *pInfo, const unsigned s
 							if ( !pInfo->m_pTransmitEdict->Get( pParent->entindex() ) )
 							{
 								bInPVS = false;
-								check = NULL; // don't check anything, just don't transmit this entity
+								check = nullptr; // don't check anything, just don't transmit this entity
 							}
 							/*
 							if ( CBasePlayer *pParentPlayer = dynamic_cast< CBasePlayer* >( pParent ) )
@@ -3007,7 +3007,7 @@ void CServerGameEnts::CheckTransmit( CCheckTransmitInfo *pInfo, const unsigned s
 
 		// If a player has just been spawned, forcibly send it for a brief
 		// window so that everyone gets its basic info.
-		const bool bFreshlySpawnedTargetPlayer = pPlayer != NULL && pPlayer->GetInitialSpawnTime()+3.0f > gpGlobals->curtime;
+		const bool bFreshlySpawnedTargetPlayer = pPlayer != nullptr && pPlayer->GetInitialSpawnTime()+3.0f > gpGlobals->curtime;
 		if ( bInPVS || bIsFreshlySpawned || bFreshlySpawnedTargetPlayer || sv_force_transmit_ents.GetBool() )
 		{
 			// only send if entity is in PVS
@@ -3134,7 +3134,7 @@ CEG_NOINLINE void CServerGameClients::ClientActive( edict_t *pEdict, bool bLoadG
 	if ( gpGlobals->eLoadType != MapLoad_LoadGame )
 	{
 		// notify all entities that the player is now in the game
-		for ( CBaseEntity *pEntity = gEntList.FirstEnt(); pEntity != NULL; pEntity = gEntList.NextEnt(pEntity) )
+		for ( CBaseEntity *pEntity = gEntList.FirstEnt(); pEntity != nullptr; pEntity = gEntList.NextEnt(pEntity) )
 		{
 			pEntity->PostClientActive();
 		}
@@ -3221,7 +3221,7 @@ void CServerGameClients::ClientPutInServer( edict_t *pEntity, const char *player
 	if ( pPlayer )
 	{
 		bool bIsSplitScreenPlayer = engine->IsSplitScreenPlayer( pPlayer->entindex() );
-		CBasePlayer *pAttachedTo = NULL;
+		CBasePlayer *pAttachedTo = nullptr;
 		if ( bIsSplitScreenPlayer )
 		{
 			pAttachedTo = (CBasePlayer *)::GetContainingEntity( engine->GetSplitScreenPlayerAttachToEdict( pPlayer->entindex() ) );
@@ -3425,7 +3425,7 @@ void CServerGameClients::ClientSetupVisibility( edict_t *pViewEntity, edict_t *p
 	g_pToolFrameworkServer->PreSetupVisibility();
 
 	// Find the client's PVS
-	CBaseEntity *pVE = NULL;
+	CBaseEntity *pVE = nullptr;
 	if ( pViewEntity )
 	{
 		pVE = GetContainingEntity( pViewEntity );
@@ -3577,7 +3577,7 @@ float CServerGameClients::ProcessUsercmds( edict_t *player, bf_read *buf, int nu
 	Assert( numcmds >= 0 );
 	Assert( ( totalcmds - numcmds ) >= 0 );
 
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 	CBaseEntity *pEnt = CBaseEntity::Instance(player);
 	if ( pEnt && pEnt->IsPlayer() )
 	{
@@ -3719,11 +3719,11 @@ CPlayerState *CServerGameClients::GetPlayerState( edict_t *player )
 {
 	// Is the client spawned yet?
 	if ( !player || !player->GetUnknown() )
-		return NULL;
+		return nullptr;
 
 	CBasePlayer *pBasePlayer = ( CBasePlayer * )CBaseEntity::Instance( player );
 	if ( !pBasePlayer )
-		return NULL;
+		return nullptr;
 
 	return &pBasePlayer->pl;
 }
@@ -3744,7 +3744,7 @@ void CServerGameClients::GetBugReportInfo( char *buf, int buflen )
 
 	if ( gpGlobals->maxClients == 1 )
 	{
-		CBaseEntity *ent = UTIL_PlayerByIndex(1) ? UTIL_PlayerByIndex(1)->FindPickerEntity() : NULL;
+		CBaseEntity *ent = UTIL_PlayerByIndex(1) ? UTIL_PlayerByIndex(1)->FindPickerEntity() : nullptr;
 		if ( ent )
 		{
 			Q_snprintf( buf, buflen, "Picker %i/%s - ent %s model %s\n",
@@ -3837,7 +3837,7 @@ void CServerGameClients::ClientCommandKeyValues( edict_t *pEntity, KeyValues *pK
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-static bf_write *g_pMsgBuffer = NULL;
+static bf_write *g_pMsgBuffer = nullptr;
 
 void EntityMessageBegin( CBaseEntity * entity, bool reliable /*= false*/ ) 
 {
@@ -3854,7 +3854,7 @@ void MessageEnd( void )
 
 	engine->MessageEnd();
 
-	g_pMsgBuffer = NULL;
+	g_pMsgBuffer = nullptr;
 }
 
 void MessageWriteByte( int iValue)

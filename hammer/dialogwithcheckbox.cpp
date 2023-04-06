@@ -123,7 +123,7 @@ BOOL CDialogWithCheckbox::OnInitDialog()
 		GetDlgItem( IDC_CHECKMARK_TEXT )->EnableWindow( false );
 	}
 
-	HICON Icon = ::LoadIcon( NULL, MAKEINTRESOURCE( IDI_ERROR ) );
+	HICON Icon = ::LoadIcon(nullptr, MAKEINTRESOURCE( IDI_ERROR ) );
 	m_IconControl.SetIcon( Icon );
 
 	return TRUE; 

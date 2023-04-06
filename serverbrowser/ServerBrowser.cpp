@@ -20,9 +20,9 @@ CServerBrowser &ServerBrowser()
 	return g_ServerBrowserSingleton;
 }
 
-IRunGameEngine *g_pRunGameEngine = NULL;
-IGameUI *pGameUI = NULL;
-IVEngineClient *engine = NULL;
+IRunGameEngine *g_pRunGameEngine = nullptr;
+IGameUI *pGameUI = nullptr;
+IVEngineClient *engine = nullptr;
 
 static CSteamAPIContext g_SteamAPIContext;
 CSteamAPIContext *steamapicontext = &g_SteamAPIContext;
@@ -53,7 +53,7 @@ void CServerBrowser::CreateDialog()
 {
 	if (!m_hInternetDlg.Get())
 	{
-		m_hInternetDlg = new CServerBrowserDialog(NULL); // SetParent() call below fills this in
+		m_hInternetDlg = new CServerBrowserDialog(nullptr); // SetParent() call below fills this in
 		m_hInternetDlg->Initialize();
 	}
 }
@@ -68,7 +68,7 @@ bool CServerBrowser::Initialize(CreateInterfaceFn *factorylist, int factoryCount
 	ConVar_Register();
 	ConnectTier2Libraries( factorylist, factoryCount );
 	ConnectTier3Libraries( factorylist, factoryCount );
-	g_pRunGameEngine = NULL;
+	g_pRunGameEngine = nullptr;
 	
 	SteamAPI_InitSafe();
 	SteamAPI_SetTryCatchCallbacks( false ); // We don't use exceptions, so tell steam not to use try/catch in callback handlers
@@ -78,17 +78,17 @@ bool CServerBrowser::Initialize(CreateInterfaceFn *factorylist, int factoryCount
 	{
 		if (!g_pRunGameEngine)
 		{
-			g_pRunGameEngine = (IRunGameEngine *)(factorylist[i])(RUNGAMEENGINE_INTERFACE_VERSION, NULL);
+			g_pRunGameEngine = (IRunGameEngine *)(factorylist[i])(RUNGAMEENGINE_INTERFACE_VERSION, nullptr);
 		}
 
 		if ( !pGameUI )
 		{
-			pGameUI = ( IGameUI * )( factorylist[i] )( GAMEUI_INTERFACE_VERSION, NULL );
+			pGameUI = ( IGameUI * )( factorylist[i] )( GAMEUI_INTERFACE_VERSION, nullptr);
 		}
 
 		if ( !engine )
 		{
-			engine = (IVEngineClient *)( factorylist[i] )( VENGINE_CLIENT_INTERFACE_VERSION, NULL );
+			engine = (IVEngineClient *)( factorylist[i] )( VENGINE_CLIENT_INTERFACE_VERSION, nullptr);
 		}
 	}
 
@@ -117,7 +117,7 @@ bool CServerBrowser::PostInitialize(CreateInterfaceFn *modules, int factoryCount
 	{
 		if (!g_pRunGameEngine)
 		{
-			g_pRunGameEngine = (IRunGameEngine *)(modules[i])(RUNGAMEENGINE_INTERFACE_VERSION, NULL);
+			g_pRunGameEngine = (IRunGameEngine *)(modules[i])(RUNGAMEENGINE_INTERFACE_VERSION, nullptr);
 		}
 	}
 

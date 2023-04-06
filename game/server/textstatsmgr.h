@@ -28,7 +28,7 @@ public:
 	CTextStatsMgr( void );
 
 	// Write a file with all the registered stats.
-	bool				WriteFile( IFileSystem *pFileSystem, const char *pFilename = NULL );
+	bool				WriteFile( IFileSystem *pFileSystem, const char *pFilename = nullptr);
 
 	// Get the preset filename to write stats to, if none is specified when writing
 	char				*GetStatsFilename( void );

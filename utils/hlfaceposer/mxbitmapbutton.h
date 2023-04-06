@@ -18,7 +18,7 @@
 class mxBitmapButton : public mxWindow
 {
 public:
-	mxBitmapButton( mxWindow *parent, int x, int y, int w, int h, int id = 0, const char *bitmap = 0 );
+	mxBitmapButton( mxWindow *parent, int x, int y, int w, int h, int id = 0, const char *bitmap = nullptr );
 	~mxBitmapButton( void );
 
 	virtual void redraw();

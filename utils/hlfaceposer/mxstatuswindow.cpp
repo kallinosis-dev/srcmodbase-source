@@ -13,13 +13,13 @@
 
 extern double realtime;
 
-mxStatusWindow *g_pStatusWindow = NULL;
+mxStatusWindow *g_pStatusWindow = nullptr;
 
 #define STATUS_SCROLLBAR_SIZE		12
 #define STATUS_FONT_SIZE			9
 
 mxStatusWindow::mxStatusWindow(mxWindow *parent, int x, int y, int w, int h, const char *label /*= 0*/ ) 
-: mxWindow( parent, x, y, w, h, label ), IFacePoserToolWindow( "Status Window", "Output" ), m_pScrollbar(NULL)
+: mxWindow( parent, x, y, w, h, label ), IFacePoserToolWindow( "Status Window", "Output" ), m_pScrollbar(nullptr)
 {
 	for ( int i = 0; i < MAX_TEXT_LINES; i++ )
 	{
@@ -36,7 +36,7 @@ mxStatusWindow::mxStatusWindow(mxWindow *parent, int x, int y, int w, int h, con
 
 mxStatusWindow::~mxStatusWindow()
 {
-	g_pStatusWindow = NULL;
+	g_pStatusWindow = nullptr;
 }
 
 void mxStatusWindow::redraw()

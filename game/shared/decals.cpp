@@ -184,7 +184,7 @@ void CDecalEmitterSystem::LoadDecalsFromScript( char const *filename )
 	Assert( kv );
 	if ( kv )
 	{
-		KeyValues *translation = NULL;
+		KeyValues *translation = nullptr;
 		if ( kv->LoadFromFile( filesystem, filename ) )
 		{
 			KeyValues *p = kv;
@@ -202,7 +202,7 @@ void CDecalEmitterSystem::LoadDecalsFromScript( char const *filename )
 					{
 						DecalEntry entry;
 
-						for ( KeyValues *sub = p->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+						for ( KeyValues *sub = p->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 						{
 							MEM_ALLOC_CREDIT();
 
@@ -239,7 +239,7 @@ void CDecalEmitterSystem::LoadDecalsFromScript( char const *filename )
 		else
 		{
 			// Now parse game material to entry translation table
-			for ( KeyValues *sub = translation->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+			for ( KeyValues *sub = translation->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 			{
 				// Don't add NULL string to list
 				if ( !Q_stricmp( sub->GetString(), "" ) )
@@ -289,7 +289,7 @@ char const *CDecalEmitterSystem::ImpactDecalForGameMaterial( int gamematerial )
 
 	int idx = m_GameMaterialTranslation.Find( gm );
 	if ( idx == m_GameMaterialTranslation.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	return m_Decals.GetElementName( m_GameMaterialTranslation.Element(idx) );
 }

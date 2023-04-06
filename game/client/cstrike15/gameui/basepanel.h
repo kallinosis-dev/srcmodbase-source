@@ -141,7 +141,7 @@ public:
 	class CAsyncJobContext
 	{
 	public:
-		explicit CAsyncJobContext( float flLeastExecuteTime = 0.0f ) : m_flLeastExecuteTime( flLeastExecuteTime ), m_hThreadHandle( NULL )  {}
+		explicit CAsyncJobContext( float flLeastExecuteTime = 0.0f ) : m_flLeastExecuteTime( flLeastExecuteTime ), m_hThreadHandle(nullptr)  {}
 		virtual ~CAsyncJobContext() {}
 
 		virtual void ExecuteAsync() = 0;		// Executed on the secondary thread
@@ -175,7 +175,7 @@ public:
 	virtual void OnGameUIActivated();
 
 	// game dialogs
-	void OnOpenNewGameDialog( const char *chapter = NULL );
+	void OnOpenNewGameDialog( const char *chapter = nullptr);
 	void OnOpenBonusMapsDialog();
 	void OnOpenLoadGameDialog();
 	void OnOpenLoadGameDialog_Xbox();
@@ -224,7 +224,7 @@ public:
 
 	// gameconsole
 	void SystemNotification( const int notification );
-	void ShowMessageDialog( const uint nType, vgui::Panel *pParent = NULL );
+	void ShowMessageDialog( const uint nType, vgui::Panel *pParent = nullptr);
 	void CloseMessageDialog( const uint nType );
 	void OnChangeStorageDevice();
 	bool ValidateStorageDevice();

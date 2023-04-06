@@ -51,8 +51,8 @@ END_MESSAGE_MAP()
 //-----------------------------------------------------------------------------
 CTreeList::CTreeList()
 {
-	m_pDragImageList = NULL;
-	m_hDragItem = NULL;
+	m_pDragImageList = nullptr;
+	m_hDragItem = nullptr;
 	m_bRButtonDown = false;
 }
 
@@ -93,7 +93,7 @@ void CTreeList::AddItem(void *pItem, void *pParent, const char *pText, bool bHas
 	}
 	
 	HTREEITEM hItem = InsertItem(pText, hParent, TVI_LAST);
-	if (hItem != NULL)
+	if (hItem != nullptr)
 	{
 		SetItemData(hItem, (DWORD)pItem);
 		m_Items.AddToTail(pItem);
@@ -118,7 +118,7 @@ static void UnsetItemData_R( CTreeCtrl *pCtrl, HTREEITEM hItem )
 	
 	HTREEITEM hChildItem = pCtrl->GetChildItem( hItem );
 
-	while( hChildItem != NULL )
+	while( hChildItem != nullptr)
 	{
 		UnsetItemData_R( pCtrl, hChildItem );
 		hChildItem = pCtrl->GetNextItem(hChildItem, TVGN_NEXT);
@@ -166,7 +166,7 @@ void CTreeList::ExpandRecursive(HTREEITEM hItem)
 		if (ItemHasChildren(hItem))
 		{
 			HTREEITEM hChildItem = GetChildItem(hItem);
-			while (hChildItem != NULL)
+			while (hChildItem != nullptr)
 			{
 				ExpandRecursive(hChildItem);
 				hChildItem = GetNextItem(hChildItem, TVGN_NEXT);
@@ -230,7 +230,7 @@ HTREEITEM CTreeList::FindHTreeItemRecursive(HTREEITEM hItem, void *pItem)
 		if (ItemHasChildren(hItem))
 		{
 			HTREEITEM hChildItem = GetChildItem(hItem);
-			while (hChildItem != NULL)
+			while (hChildItem != nullptr)
 			{
 				HTREEITEM hFoundItem = FindHTreeItemRecursive(hChildItem, pItem);
 				if (hFoundItem)
@@ -243,7 +243,7 @@ HTREEITEM CTreeList::FindHTreeItemRecursive(HTREEITEM hItem, void *pItem)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -264,7 +264,7 @@ HTREEITEM CTreeList::FindHTreeItem(void *pItem)
 		hItem = GetNextItem(hItem, TVGN_NEXT);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -278,7 +278,7 @@ void *CTreeList::GetSelectedItem()
 		return (void *)GetItemData(hItem);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -311,7 +311,7 @@ void CTreeList::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	unsigned int uFlags;
 	HTREEITEM hItemHit = HitTest(point, &uFlags);
-	if (hItemHit != NULL)
+	if (hItemHit != nullptr)
 	{
 		if (uFlags & TVHT_ONITEMSTATEICON)
 		{
@@ -336,7 +336,7 @@ void CTreeList::OnLButtonUp(UINT nFlags, CPoint point)
 	{
 		unsigned int uFlags;
 		HTREEITEM hItemHit = HitTest(point, &uFlags);
-		if (hItemHit != NULL)
+		if (hItemHit != nullptr)
 		{
 			if (uFlags & TVHT_ONITEMSTATEICON)
 			{
@@ -344,7 +344,7 @@ void CTreeList::OnLButtonUp(UINT nFlags, CPoint point)
 				// Notify our parent window that this item's state has changed.
 				//
 				CWnd *pwndParent = GetParent();
-				if (pwndParent != NULL)
+				if (pwndParent != nullptr)
 				{
 					// TODO: might need a way to cycle through three states: on, off, grey
 					int nCheckState = GetCheck(hItemHit);
@@ -381,7 +381,7 @@ void CTreeList::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	unsigned int uFlags;
 	HTREEITEM hItemHit = HitTest(point, &uFlags);
-	if (hItemHit != NULL)
+	if (hItemHit != nullptr)
 	{
 		if (uFlags & TVHT_ONITEMICON)
 		{
@@ -403,7 +403,7 @@ void CTreeList::OnLButtonDblClk(UINT nFlags, CPoint point)
 void CTreeList::OnSelChange(NMHDR *pNMHDR, LRESULT *pResult)
 {
 	CWnd *pwndParent = GetParent();
-	if (pwndParent != NULL)
+	if (pwndParent != nullptr)
 	{
 		pwndParent->PostMessage( g_uSelChangeMsg, (WPARAM)GetDlgCtrlID(), 0 );
 	}
@@ -449,7 +449,7 @@ void CTreeList::OnKeyDown( NMHDR *pNMHDR, LRESULT *pResult )
 {
 	NMTVKEYDOWN *pKeyDown = (NMTVKEYDOWN *)pNMHDR;
 	CWnd *pwndParent = GetParent();
-	if (pwndParent != NULL)
+	if (pwndParent != nullptr)
 	{
 		pwndParent->PostMessage(g_uKeyDownMsg, (WPARAM)pKeyDown->wVKey, (LPARAM)pKeyDown->flags);
 	}
@@ -470,11 +470,11 @@ void CTreeList::BeginDrag(CPoint point, HTREEITEM hItem)
 			CPoint ptHotSpot(0, 0);
 			m_pDragImageList->BeginDrag(0, ptHotSpot);
 			m_pDragImageList->DragEnter(this, point);
-			SelectDropTarget(NULL);
+			SelectDropTarget(nullptr);
 		}
 
 		// Timer handles scrolling the list control when dragging outside the window bounds.
-		SetTimer(TIMER_GROUP_DRAG_SCROLL, 300, NULL);
+		SetTimer(TIMER_GROUP_DRAG_SCROLL, 300, nullptr);
 
 		SetCapture();
 	}
@@ -487,7 +487,7 @@ void CTreeList::OnRButtonDown(UINT nFlags, CPoint point)
 {
 	m_bRButtonDown = true;
 	m_ptRButtonDown = point;
-	m_hDragItem = NULL;
+	m_hDragItem = nullptr;
 	SetCapture();
 
 	// Chaining to the base class causes us never to receive the button up message
@@ -546,10 +546,10 @@ void CTreeList::OnRButtonUp(UINT nFlags, CPoint point)
 //-----------------------------------------------------------------------------
 void CTreeList::Drop(DropType_t eDropType, UINT nFlags, CPoint point)
 {
-	SelectDropTarget(NULL);
+	SelectDropTarget(nullptr);
 
 	HTREEITEM hDragItem = m_hDragItem;
-	m_hDragItem = NULL;
+	m_hDragItem = nullptr;
 
 	//
 	// We are dragging. Drop!
@@ -559,7 +559,7 @@ void CTreeList::Drop(DropType_t eDropType, UINT nFlags, CPoint point)
 		m_pDragImageList->DragLeave(this);
 		m_pDragImageList->EndDrag();
 		delete m_pDragImageList;
-		m_pDragImageList = NULL;
+		m_pDragImageList = nullptr;
 	}
 
 	//
@@ -576,7 +576,7 @@ void CTreeList::Drop(DropType_t eDropType, UINT nFlags, CPoint point)
 		return;
 	}
 
-	void *pDropItem = NULL;
+	void *pDropItem = nullptr;
 	if (hDropItem)
 	{
 		pDropItem = (void *)GetItemData(hDropItem);
@@ -589,7 +589,7 @@ void CTreeList::Drop(DropType_t eDropType, UINT nFlags, CPoint point)
 	}
 
 	CWnd *pwndParent = GetParent();
-	if (pwndParent != NULL)
+	if (pwndParent != nullptr)
 	{
 		if (eDropType == DROP_LEFT)
 		{

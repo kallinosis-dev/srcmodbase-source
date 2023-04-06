@@ -35,7 +35,7 @@ public:
 	virtual void PreDataUpdate( DataUpdateType_t updateType );
 
 	virtual void StopClientOnlyScene();
-	virtual void SetupClientOnlyScene( const char *pszFilename, C_BaseFlex *pOwner = NULL , bool bMultiplayer = false );
+	virtual void SetupClientOnlyScene( const char *pszFilename, C_BaseFlex *pOwner = nullptr, bool bMultiplayer = false );
 
 	virtual void ClientThink();
 

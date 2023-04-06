@@ -69,7 +69,7 @@ void CDmeMaterialOverlayFXClip::Resolve()
 		const char *pName = m_Material.Get();
 		if ( pName && pName[0] )
 		{
-			m_OverlayMaterial.Init( pName, NULL, false );
+			m_OverlayMaterial.Init( pName, nullptr, false );
 		}
 		m_Material.GetAttribute()->RemoveFlag( FATTRIB_DIRTY );
 	}

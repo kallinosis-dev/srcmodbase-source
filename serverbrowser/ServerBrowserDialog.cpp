@@ -35,7 +35,7 @@ using namespace vgui;
 
 ConVar sb_quick_list_bit_field( "sb_quick_list_bit_field", "-1" );
 
-static CServerBrowserDialog *s_InternetDlg = NULL;
+static CServerBrowserDialog *s_InternetDlg = nullptr;
 extern IGameUI *pGameUI;
 
 static const int BROWSER_WIDTH = 640;
@@ -70,11 +70,11 @@ CServerBrowserDialog::CServerBrowserDialog(vgui::Panel *parent) : Frame(parent, 
 
 	m_szGameName[0] = 0;
 	m_szModDir[0] = 0;
-	m_pSavedData = NULL;
-	m_pFilterData = NULL;
-	m_pFavorites = NULL;
-	m_pBlacklist = NULL;
-	m_pHistory = NULL;
+	m_pSavedData = nullptr;
+	m_pFilterData = nullptr;
+	m_pFavorites = nullptr;
+	m_pBlacklist = nullptr;
+	m_pHistory = nullptr;
 
 	// Do this before LoadUserData() so it loads the blacklist file properly
 	m_pBlacklist = new CBlacklistedServers(this);
@@ -186,7 +186,7 @@ gameserveritem_t *CServerBrowserDialog::GetServer( unsigned int serverID )
 {
 	if (m_pGameList)
 		return m_pGameList->GetServer( serverID );
-	return NULL;
+	return nullptr;
 }
 
 
@@ -433,7 +433,7 @@ void CServerBrowserDialog::AddServerToFavorites(gameserveritem_t &server)
 			server.m_NetAdr.GetConnectionPort(),		
 			server.m_NetAdr.GetQueryPort(), 
 			k_unFavoriteFlagFavorite, 
-			time( NULL ) );
+			time(nullptr) );
 	}
 }
 
@@ -518,9 +518,9 @@ CDialogGameInfo *CServerBrowserDialog::OpenGameInfoDialog( IGameList *gameList, 
 {
 	gameserveritem_t *pServer = gameList->GetServer( serverIndex );
 	if ( !pServer )
-		return NULL;
+		return nullptr;
 
-	CDialogGameInfo *gameDialog = new CDialogGameInfo( this, NULL, pServer->m_NetAdr.GetIP(), pServer->m_NetAdr.GetQueryPort(), pServer->m_NetAdr.GetConnectionPort() );
+	CDialogGameInfo *gameDialog = new CDialogGameInfo( this, nullptr, pServer->m_NetAdr.GetIP(), pServer->m_NetAdr.GetQueryPort(), pServer->m_NetAdr.GetConnectionPort() );
 	gameDialog->SetParent(GetVParent());
 	gameDialog->AddActionSignalTarget(this);
 	gameDialog->Run( pServer->GetName() );
@@ -534,7 +534,7 @@ CDialogGameInfo *CServerBrowserDialog::OpenGameInfoDialog( IGameList *gameList, 
 //-----------------------------------------------------------------------------
 CDialogGameInfo *CServerBrowserDialog::OpenGameInfoDialog( int serverIP, uint16 connPort, uint16 queryPort )
 {
-	CDialogGameInfo *gameDialog = new CDialogGameInfo( this, NULL, serverIP, queryPort, connPort);
+	CDialogGameInfo *gameDialog = new CDialogGameInfo( this, nullptr, serverIP, queryPort, connPort);
 	gameDialog->AddActionSignalTarget(this);
 	gameDialog->SetParent(GetVParent());
 	gameDialog->Run("");
@@ -572,7 +572,7 @@ CDialogGameInfo *CServerBrowserDialog::GetDialogGameInfoForFriend( uint64 ulStea
 			return pDlg;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -588,7 +588,7 @@ KeyValues *CServerBrowserDialog::GetFilterSaveData(const char *filterSet)
 //-----------------------------------------------------------------------------
 const char *CServerBrowserDialog::GetActiveModName()
 {
-	return m_szModDir[0] ? m_szModDir : NULL;
+	return m_szModDir[0] ? m_szModDir : nullptr;
 }
 
 
@@ -597,7 +597,7 @@ const char *CServerBrowserDialog::GetActiveModName()
 //-----------------------------------------------------------------------------
 const char *CServerBrowserDialog::GetActiveGameName()
 {
-	return m_szGameName[0] ? m_szGameName : NULL;
+	return m_szGameName[0] ? m_szGameName : nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -655,7 +655,7 @@ void CServerBrowserDialog::OnConnectToGame( KeyValues *pMessageValues )
 
 	if (m_pHistory && steamapicontext->SteamMatchmaking() )
 	{
-		steamapicontext->SteamMatchmaking()->AddFavoriteGame( 0, unIP, connectionPort, queryPort, k_unFavoriteFlagHistory, time( NULL ) );
+		steamapicontext->SteamMatchmaking()->AddFavoriteGame( 0, unIP, connectionPort, queryPort, k_unFavoriteFlagHistory, time(nullptr) );
 		m_pHistory->SetRefreshOnReload();
 	}
 
@@ -779,7 +779,7 @@ bool CServerBrowserDialog::GetDefaultScreenPosition(int &x, int &y, int &wide, i
 //-----------------------------------------------------------------------------
 void CServerBrowserDialog::SetCustomScheme( KeyValues *pMessageValues )
 {
-	const char *pszScheme = pMessageValues->GetString( "SchemeName", NULL );
+	const char *pszScheme = pMessageValues->GetString( "SchemeName", nullptr);
 	if ( pszScheme )
 	{
 		char buffer[ MAX_PATH ];

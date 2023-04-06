@@ -180,7 +180,7 @@ BEGIN_VS_SHADER( Water_DX90,
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -357,7 +357,7 @@ BEGIN_VS_SHADER( Water_DX90,
 			{
 				numTexCoords = 3;
 			}
-			pShaderShadow->VertexShaderVertexFormat( fmt, numTexCoords, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, numTexCoords, nullptr, 0 );
 			
 			DECLARE_STATIC_VERTEX_SHADER( water_vs20 );
 			SET_STATIC_VERTEX_SHADER_COMBO( MULTITEXTURE, bHasMultiTexture );
@@ -755,7 +755,7 @@ BEGIN_VS_SHADER( Water_DX90,
 			// Normalizing cube map
 			pShaderShadow->EnableTexture( SHADER_SAMPLER6, true );
 			int fmt = VERTEX_POSITION | VERTEX_NORMAL | VERTEX_TANGENT_S | VERTEX_TANGENT_T;
-			pShaderShadow->VertexShaderVertexFormat( fmt, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( watercheap_vs20 );
 			SET_STATIC_VERTEX_SHADER_COMBO( BLEND,  bBlend && bRefraction );
@@ -956,7 +956,7 @@ BEGIN_INHERITED_SHADER( Water_DX9_HDR, Water_DX90,
 		{
 			return "WATER_DX90";
 		}
-		return 0;
+		return nullptr;
 	}
 END_INHERITED_SHADER
 

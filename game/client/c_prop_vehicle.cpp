@@ -64,7 +64,7 @@ C_PropVehicleDriveable::C_PropVehicleDriveable() :
 	m_iv_vecGunCrosshair( "C_PropVehicleDriveable::m_iv_vecGunCrosshair" )
 
 {
-	m_hPrevPlayer = NULL;
+	m_hPrevPlayer = nullptr;
 
 	memset( &m_ViewSmoothingData, 0, sizeof( m_ViewSmoothingData ) );
 
@@ -107,7 +107,7 @@ C_BaseCombatCharacter *C_PropVehicleDriveable::GetPassenger( int nRole )
 	if ( nRole == VEHICLE_ROLE_DRIVER )
 		return m_hPlayer.Get();
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -242,7 +242,7 @@ void C_PropVehicleDriveable::DrawHudElements( )
 		// draw crosshairs for vehicle gun
 		pIcon = HudIcons().GetIcon( "gunhair" );
 
-		if ( pIcon != NULL )
+		if ( pIcon != nullptr)
 		{
 			float x, y;
 			Vector screen;
@@ -361,7 +361,7 @@ void C_PropVehicleDriveable::UpdateViewAngles( C_BasePlayer *pLocalPlayer, CUser
 	if ( r_VehicleViewClamp.GetInt() )
 	{
 		float pitchBounds[2] = { -85.0f, 25.0f };
-		RestrictView( NULL, pitchBounds, NULL, pCmd->viewangles );
+		RestrictView(nullptr, pitchBounds, nullptr, pCmd->viewangles );
 	}
 }
 

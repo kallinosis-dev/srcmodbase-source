@@ -60,7 +60,7 @@ bool DataTable_SetupReceiveTableFromSendTable( SendTable *sendTable, bool bNeeds
 
 	// Read the property list.
 	pTable->m_nProps = sendTable->m_nProps;
-	pTable->m_pProps = pTable->m_nProps ? new SendProp[ pTable->m_nProps ] : 0;
+	pTable->m_pProps = pTable->m_nProps ? new SendProp[ pTable->m_nProps ] : nullptr;
 	pClientSendTable->m_Props.SetSize( pTable->m_nProps );
 
 	for ( int iProp=0; iProp < pTable->m_nProps; iProp++ )
@@ -328,7 +328,7 @@ void DataTable_WriteSendTablesBuffer( ServerClass *pClasses, bf_write *pBuf )
 	}
 
 	// Signal no more send tables.
-	SendTable_WriteInfos( NULL, *pBuf, false, true );
+	SendTable_WriteInfos(nullptr, *pBuf, false, true );
 }
 
 #ifdef _DEBUG
@@ -361,7 +361,7 @@ void DataTable_WriteClassInfosBuffer(ServerClass *pClasses, bf_write *pBuf )
 	ServerClass *pClass = pClasses;
 	
 	// first count total number of classes in list
-	while ( pClass != NULL )
+	while ( pClass != nullptr)
 	{
 		pClass=pClass->m_pNext;
 		count++;
@@ -373,7 +373,7 @@ void DataTable_WriteClassInfosBuffer(ServerClass *pClasses, bf_write *pBuf )
 	pClass = pClasses; // go back to first class
 
 	// write each class info
-	while ( pClass != NULL )
+	while ( pClass != nullptr)
 	{
 		pBuf->WriteShort( pClass->m_ClassID );
 		pBuf->WriteString( pClass->m_pNetworkName );
@@ -390,7 +390,7 @@ void DataTable_DumpClassInfos(ServerClass *pClasses )
 	ServerClass *pClass = pClasses;
 
 	// first count total number of classes in list
-	while ( pClass != NULL )
+	while ( pClass != nullptr)
 	{
 		pClass=pClass->m_pNext;
 		count++;
@@ -402,7 +402,7 @@ void DataTable_DumpClassInfos(ServerClass *pClasses )
 	pClass = pClasses; // go back to first class
 
 	// write each class info
-	while ( pClass != NULL )
+	while ( pClass != nullptr)
 	{
 		Msg( "\t%d: %s / %s\n", pClass->m_ClassID, pClass->m_pNetworkName, pClass->m_pTable->GetName() );
 		pClass=pClass->m_pNext;

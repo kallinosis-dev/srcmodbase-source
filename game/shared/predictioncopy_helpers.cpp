@@ -35,7 +35,7 @@
 CValueChangeTracker::CValueChangeTracker() :
 	m_bActive( false ),
 	m_bTracking( false ),
-	m_pTrackField( NULL )
+	m_pTrackField(nullptr)
 {
 	Q_memset( m_OrigValueBuf, 0, sizeof( m_OrigValueBuf ) );
 }
@@ -171,10 +171,10 @@ void CValueChangeTracker::ClearTracking()
 {
 	m_bActive = false;
 	m_bTracking = false;
-	m_hEntityToTrack = NULL;
+	m_hEntityToTrack = nullptr;
 	m_strFieldName = "";
 	m_History.RemoveAll();
-	m_pTrackField = NULL;
+	m_pTrackField = nullptr;
 }
 
 void CValueChangeTracker::SetupTracking( C_BaseEntity *ent, char const *pchFieldName )

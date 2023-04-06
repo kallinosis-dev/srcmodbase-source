@@ -120,7 +120,7 @@ inline unsigned short PhysClearGameFlags( IPhysicsObject *pPhys, unsigned short 
 
 
 // Create a vphysics object based on a model
-IPhysicsObject *PhysModelCreate( CBaseEntity *pEntity, int modelIndex, const Vector &origin, const QAngle &angles, solid_t *pSolid = NULL );
+IPhysicsObject *PhysModelCreate( CBaseEntity *pEntity, int modelIndex, const Vector &origin, const QAngle &angles, solid_t *pSolid = nullptr);
 
 IPhysicsObject *PhysModelCreateBox( CBaseEntity *pEntity, const Vector &mins, const Vector &maxs, const Vector &origin, bool isStatic );
 IPhysicsObject *PhysModelCreateOBB( CBaseEntity *pEntity, const Vector &mins, const Vector &maxs, const Vector &origin, const QAngle &angle, bool isStatic );
@@ -129,7 +129,7 @@ IPhysicsObject *PhysModelCreateOBB( CBaseEntity *pEntity, const Vector &mins, co
 IPhysicsObject *PhysModelCreateUnmoveable( CBaseEntity *pEntity, int modelIndex, const Vector &origin, const QAngle &angles );
 
 // Create a vphysics object based on an existing collision model
-IPhysicsObject *PhysModelCreateCustom( CBaseEntity *pEntity, const CPhysCollide *pModel, const Vector &origin, const QAngle &angles, const char *pName, bool isStatic, solid_t *pSolid = NULL );
+IPhysicsObject *PhysModelCreateCustom( CBaseEntity *pEntity, const CPhysCollide *pModel, const Vector &origin, const QAngle &angles, const char *pName, bool isStatic, solid_t *pSolid = nullptr);
 
 // Create a bbox collision model (these may be shared among entities, they are auto-deleted at end of level. do not manage)
 CPhysCollide *PhysCreateBbox( const Vector &mins, const Vector &maxs );
@@ -138,7 +138,7 @@ CPhysCollide *PhysCreateBbox( const Vector &mins, const Vector &maxs );
 IPhysicsObject *PhysSphereCreate( CBaseEntity *pEntity, float radius, const Vector &origin, solid_t &solid );
 
 // Destroy a physics object created using PhysModelCreate...()
-void PhysDestroyObject( IPhysicsObject *pObject, CBaseEntity *pEntity = NULL );
+void PhysDestroyObject( IPhysicsObject *pObject, CBaseEntity *pEntity = nullptr);
 
 void PhysDisableObjectCollisions( IPhysicsObject *pObject0, IPhysicsObject *pObject1 );
 void PhysDisableEntityCollisions( IPhysicsObject *pObject0, IPhysicsObject *pObject1 );

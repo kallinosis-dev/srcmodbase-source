@@ -32,7 +32,7 @@ class CDmeShape : public CDmElement
 	DEFINE_ELEMENT( CDmeShape, CDmElement );
 
 public:
-	virtual void Draw( const matrix3x4_t &shapeToWorld, CDmeDrawSettings *pDmeDrawSettings = NULL );
+	virtual void Draw( const matrix3x4_t &shapeToWorld, CDmeDrawSettings *pDmeDrawSettings = nullptr);
 
 	virtual void GetBoundingSphere( Vector &c, float &r ) const;
 	virtual void GetBoundingBox( Vector &min, Vector &max ) const { min.Zero(); max.Zero(); }

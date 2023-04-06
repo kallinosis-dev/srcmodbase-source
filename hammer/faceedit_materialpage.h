@@ -60,7 +60,7 @@ public:
 	void Apply( CMapFace *pOnlyFace, int flags );
 
 	void NotifyGraphicsChanged( void );
-	void UpdateDialogData( CMapFace *pFace = NULL );
+	void UpdateDialogData( CMapFace *pFace = nullptr);
 
 	void SetMaterialPageTool( unsigned short iMaterialTool );
 	unsigned short GetMaterialPageTool( void )					 { return m_iMaterialTool; }

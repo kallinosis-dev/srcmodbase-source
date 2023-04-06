@@ -32,7 +32,7 @@
 //#pragma warning(disable:4244)
 
 
-static HCURSOR s_hcurEntity = NULL;
+static HCURSOR s_hcurEntity = nullptr;
 
 
 class CToolEntityMessageWnd : public CWnd
@@ -86,7 +86,7 @@ bool CToolEntityMessageWnd::Create(void)
 		return(false);
 	}
 
-	return(CWnd::CreateEx(0, g_pszClassName, g_pszClassName, 0, CRect(0, 0, 10, 10), NULL, 0) == TRUE);
+	return(CWnd::CreateEx(0, g_pszClassName, g_pszClassName, 0, CRect(0, 0, 10, 10), nullptr, 0) == TRUE);
 }
 
 
@@ -120,7 +120,7 @@ CToolEntity::CToolEntity(void)
 
 	m_vecPos.Init();
 	
-	if (s_hcurEntity == NULL)
+	if (s_hcurEntity == nullptr)
 	{
 		s_hcurEntity = LoadCursor(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDC_ENTITY));
 	}
@@ -229,7 +229,7 @@ bool CToolEntity::OnContextMenu2D(CMapView2D *pView, UINT nFlags, const Vector2D
 	if (!IsEmpty())
 	{
 		CMapDoc *pDoc = pView->GetMapDoc();
-		if (pDoc == NULL)
+		if (pDoc == nullptr)
 		{
 			return true;
 		}
@@ -440,7 +440,7 @@ bool CToolEntity::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &
 bool CToolEntity::OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	CMapDoc *pDoc = pView->GetMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		return false;
 	}
@@ -503,10 +503,10 @@ bool CToolEntity::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D 
 	CMapClass *pObject = pView->NearestObjectAt( vPoint, ulFace, FLAG_OBJECTS_AT_RESOLVE_INSTANCES, &LocalMatrix );
 	Tool3D::OnLMouseDown3D(pView, nFlags, vPoint);
 
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pObject);
-		if (pSolid == NULL)
+		if (pSolid == nullptr)
 		{
 			// Clicked on a point entity - do nothing.
 			return true;
@@ -530,7 +530,7 @@ bool CToolEntity::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D 
 			Vector vFinalHitPos, vFinalHitNormal;
 			LocalMatrix.V3Mul( HitPos, vFinalHitPos );
 			vFinalHitNormal = LocalMatrix.ApplyRotation( HitNormal );
-			CMapClass *pNewObject = NULL;
+			CMapClass *pNewObject = nullptr;
 
  			if (GetMainWnd()->m_ObjectBar.IsEntityToolCreatingPrefab())
 			{
@@ -672,7 +672,7 @@ void CToolEntity::RenderTool3D(CRender3D *pRender)
 void CToolEntity::CreateMapObject(CMapView2D *pView)
 {
 	CMapWorld *pWorld = m_pDocument->GetMapWorld();
-	CMapClass *pobj = NULL;
+	CMapClass *pobj = nullptr;
 
 	//
 	// Handle prefab creation.
@@ -683,7 +683,7 @@ void CToolEntity::CreateMapObject(CMapView2D *pView)
 
 		CMapClass *pPrefabObject = GetMainWnd()->m_ObjectBar.BuildPrefabObjectAtPoint(m_vecPos);
 
-		if (pPrefabObject == NULL)
+		if (pPrefabObject == nullptr)
 		{
 			pView->MessageBox("Unable to load prefab", "Error", MB_OK);
 			SetEmpty();

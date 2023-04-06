@@ -102,7 +102,7 @@ void CBaseEntity::SUB_DoNothing( void )
 //-----------------------------------------------------------------------------
 void FireTargets( const char *targetName, CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	CBaseEntity *pTarget = NULL;
+	CBaseEntity *pTarget = nullptr;
 	if ( !targetName || !targetName[0] )
 		return;
 

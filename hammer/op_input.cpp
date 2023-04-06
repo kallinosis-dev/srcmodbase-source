@@ -48,7 +48,7 @@ END_MESSAGE_MAP()
 //-----------------------------------------------------------------------------
 // Static vars
 //-----------------------------------------------------------------------------
-CImageList*			   COP_Input::m_pImageList = NULL;
+CImageList*			   COP_Input::m_pImageList = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
@@ -56,7 +56,7 @@ CImageList*			   COP_Input::m_pImageList = NULL;
 COP_Input::COP_Input(void)
 	: CObjectPage(COP_Input::IDD)
 {
-	m_pObjectList = NULL;
+	m_pObjectList = nullptr;
 	m_pEntityList = new CMapEntityList;
 	m_pEditObjectRuntimeClass = RUNTIME_CLASS(editCMapClass);
 	m_nSortColumn = OUTPUT_NAME_COLUMN;
@@ -159,7 +159,7 @@ bool COP_Input::ValidateConnections(int nItem)
 	}
 
 	CEntityConnection *pConnection = pInputConn->m_pConnection;
-	if (pConnection != NULL)
+	if (pConnection != nullptr)
 	{
 		// Validate input
 		if (!MapEntityList_HasInput(m_pEntityList, pConnection->GetInputName()))
@@ -193,7 +193,7 @@ void COP_Input::UpdateItemValidity(int nItem)
 	{
 		nIcon = (m_bMultipleTargetNames ? ICON_CONN_BAD_GREY : ICON_CONN_BAD);
 	}
-	m_ListCtrl.SetItem(nItem,0,LVIF_IMAGE, 0, nIcon, 0, 0, 0 );
+	m_ListCtrl.SetItem(nItem,0,LVIF_IMAGE, nullptr, nIcon, 0, 0, 0 );
 }
 
 
@@ -214,11 +214,11 @@ void COP_Input::AddEntityConnections(const char *pTargetName, CMapEntity *pTestE
 		for (int i = 0; i < nConnCount; i++)
 		{
 			CEntityConnection *pConnection = pTestEntity->Connections_Get(i);
-			if (pConnection != NULL && !CompareEntityNames(pConnection->GetTargetName(), pTargetName))
+			if (pConnection != nullptr && !CompareEntityNames(pConnection->GetTargetName(), pTargetName))
 			{
 				// Update source name for correct sorting
 				const char *pszTestName = pTestEntity->GetKeyValue("targetname");
-				if (pszTestName == NULL)
+				if (pszTestName == nullptr)
 				{
 					pszTestName = pTestEntity->GetClassName();
 				}
@@ -524,7 +524,7 @@ void COP_Input::SetSortColumn(int nColumn, SortDirection_t eDirection)
 //-----------------------------------------------------------------------------
 void COP_Input::SortListByColumn(int nColumn, SortDirection_t eDirection)
 {
-	PFNLVCOMPARE pfnSort = NULL;
+	PFNLVCOMPARE pfnSort = nullptr;
 
 	switch (nColumn)
 	{
@@ -570,7 +570,7 @@ void COP_Input::SortListByColumn(int nColumn, SortDirection_t eDirection)
 		}
 	}
 
-	if (pfnSort != NULL)
+	if (pfnSort != nullptr)
 	{
 		m_ListCtrl.SortItems(pfnSort, (DWORD)eDirection);
 	}
@@ -587,13 +587,13 @@ void COP_Input::UpdateEntityList()
 	// Clear old entity list
 	m_pEntityList->RemoveAll();
 
-	if (m_pObjectList != NULL)
+	if (m_pObjectList != nullptr)
 	{
 		FOR_EACH_OBJ( *m_pObjectList, pos )
 		{
 			const CMapClass *pObject = m_pObjectList->Element(pos);
 	
-			if ((pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))))
+			if ((pObject != nullptr) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))))
 			{
 				CMapEntity *pEntity = (CMapEntity *)pObject;
 				m_pEntityList->AddToTail(pEntity);
@@ -611,7 +611,7 @@ void COP_Input::UpdateConnectionList(void)
 	RemoveAllEntityConnections();
 	m_bMultipleTargetNames = false;
 
-	const char *pszTargetName = NULL;
+	const char *pszTargetName = nullptr;
 	
 	FOR_EACH_OBJ( *m_pEntityList, pos )
 	{
@@ -636,7 +636,7 @@ void COP_Input::UpdateConnectionList(void)
 			FOR_EACH_OBJ( *pEntityList, pos2 )
 			{
 				CMapEntity *pTestEntity = (CUtlReference<CMapEntity>)pEntityList->Element( pos2 );
-				if (pTestEntity != NULL)
+				if (pTestEntity != nullptr)
 				{
 					AddEntityConnections(pszTargetName, pTestEntity);
 				}

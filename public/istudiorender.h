@@ -386,7 +386,7 @@ public:
 	// Add decals to a decal list by doing a planar projection along the ray
 	// The BoneToWorld matrices must be set before this is called
 	virtual void AddDecal( StudioDecalHandle_t handle, studiohdr_t *pStudioHdr, matrix3x4_t *pBoneToWorld, 
-		const Ray_t & ray, const Vector& decalUp, IMaterial* pDecalMaterial, float radius, int body, bool noPokethru = false, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, void *pvProxyUserData = NULL, int nAdditionalDecalFlags = 0 ) = 0;
+		const Ray_t & ray, const Vector& decalUp, IMaterial* pDecalMaterial, float radius, int body, bool noPokethru = false, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, void *pvProxyUserData = nullptr, int nAdditionalDecalFlags = 0 ) = 0;
 
 	// Compute the lighting at a point and normal
 	virtual void ComputeLighting( const Vector* pAmbient, int lightCount,
@@ -398,19 +398,19 @@ public:
 		LightDesc_t* pLights, const Vector& pt, const Vector& normal, Vector& lighting, float flDirectionalAmount ) = 0;
 
 	// Shadow state (affects the models as they are rendered)
-	virtual void AddShadow( IMaterial* pMaterial, void* pProxyData, FlashlightState_t *m_pFlashlightState = NULL, VMatrix *pWorldToTexture = NULL, ITexture *pFlashlightDepthTexture = NULL ) = 0;
+	virtual void AddShadow( IMaterial* pMaterial, void* pProxyData, FlashlightState_t *m_pFlashlightState = nullptr, VMatrix *pWorldToTexture = nullptr, ITexture *pFlashlightDepthTexture = nullptr) = 0;
 	virtual void ClearAllShadows() = 0;
 
 	// Gets the model LOD; pass in the screen size in pixels of a sphere 
 	// of radius 1 that has the same origin as the model to get the LOD out...
-	virtual int ComputeModelLod( studiohwdata_t* pHardwareData, float unitSphereSize, float *pMetric = NULL ) = 0;
+	virtual int ComputeModelLod( studiohwdata_t* pHardwareData, float unitSphereSize, float *pMetric = nullptr) = 0;
 
 	// Return a number that is usable for budgets, etc.
 	// Things that we care about:
 	// 1) effective triangle count (factors in batch sizes, state changes, etc)
 	// 2) texture memory usage
 	// Get Triangles returns the LOD used
-	virtual void GetPerfStats( DrawModelResults_t *pResults, const DrawModelInfo_t &info, CUtlBuffer *pSpewBuf = NULL ) const = 0;
+	virtual void GetPerfStats( DrawModelResults_t *pResults, const DrawModelInfo_t &info, CUtlBuffer *pSpewBuf = nullptr) const = 0;
 	virtual void GetTriangles( const DrawModelInfo_t& info, matrix3x4_t *pBoneToWorld, GetTriangles_Output_t &out ) = 0;
 
 	// Returns materials used by a particular model

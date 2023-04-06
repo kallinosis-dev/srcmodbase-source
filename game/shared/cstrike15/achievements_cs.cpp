@@ -16,7 +16,7 @@ CAchievementMgr * CAchievementMgr::GetInstance()
 	class CAchievementMgrDelegateIAchievementMgr_friend : public CAchievementMgrDelegateIAchievementMgr
 	{
 	public: CAchievementMgr * GetDelegate() const { return m_pDelegate; }
-	private: CAchievementMgrDelegateIAchievementMgr_friend() : CAchievementMgrDelegateIAchievementMgr( NULL ) {}
+	private: CAchievementMgrDelegateIAchievementMgr_friend() : CAchievementMgrDelegateIAchievementMgr(nullptr) {}
 	};
 	return reinterpret_cast< CAchievementMgrDelegateIAchievementMgr_friend * >( pMgr )->GetDelegate();
 }

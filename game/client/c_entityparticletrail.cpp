@@ -133,7 +133,7 @@ void C_EntityParticleTrail::AddParticle( float flInitialDeltaTime, const Vector 
 
 	// Make a new particle
 	SimpleParticle *pParticle = (SimpleParticle *)m_ParticleEffect.AddParticle( sizeof(SimpleParticle), m_hMaterial );
-	if ( pParticle == NULL )
+	if ( pParticle == nullptr)
 		return;
 
 	pParticle->m_Pos			= vecWorldPosition;

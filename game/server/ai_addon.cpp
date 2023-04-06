@@ -367,10 +367,10 @@ void CAI_AddOn::Dettach( void )
 
 	m_flNextAttachTime = gpGlobals->curtime + 2.0f;
 
-	m_hNPCHost.Set( NULL );
-	SetParent( NULL );
+	m_hNPCHost.Set(nullptr);
+	SetParent(nullptr);
 
-	IPhysicsObject *pPhysObject = NULL;
+	IPhysicsObject *pPhysObject = nullptr;
 
 	CBaseEntity *pPhysReplacement = m_hPhysReplacement.Get();
 	if ( pPhysReplacement )
@@ -387,8 +387,8 @@ void CAI_AddOn::Dettach( void )
 			pPhysReplacement->SetMoveType( MOVETYPE_VPHYSICS );	
 		}
 
-		pPhysReplacement->SetParent( NULL );
-		pPhysReplacement->SetOwnerEntity( NULL );
+		pPhysReplacement->SetParent(nullptr);
+		pPhysReplacement->SetOwnerEntity(nullptr);
 
 		pPhysReplacement->SetLocalAngles( m_angPhysReplacementLocalOrientation );
 
@@ -413,7 +413,7 @@ void CAI_AddOn::Dettach( void )
 		pPhysObject->SetPosition( GetAbsOrigin(), GetAbsAngles(), true );
 		pPhysObject->Wake();
 
-		pPhysObject->AddVelocity( &m_vecPhysReplacementDetatchForce, NULL );
+		pPhysObject->AddVelocity( &m_vecPhysReplacementDetatchForce, nullptr);
 	}
 }
 
@@ -440,7 +440,7 @@ bool CAI_AddOn::Install( CAI_BaseNPC *pHost, bool bRemoveOnFail )
 	}
 
 	// Failed to attach
-	m_hNPCHost = NULL;
+	m_hNPCHost = nullptr;
 
 	if ( bRemoveOnFail || m_hPhysReplacement.Get() )
 	{
@@ -462,7 +462,7 @@ CAI_BaseNPC *CAI_AddOn::GetNPCHost()
 CBaseEntity *CAI_AddOn::GetHostEnemy()
 {
 	if( !GetNPCHost() )
-		return NULL;
+		return nullptr;
 
 	return GetNPCHost()->GetEnemy();
 }
@@ -471,7 +471,7 @@ CBaseEntity *CAI_AddOn::GetHostEnemy()
 //---------------------------------------------------------
 void CAI_AddOn::DispatchAddOnThink()
 {
-	if( GetNPCHost() != NULL && !GetNPCHost()->IsAlive() )
+	if( GetNPCHost() != nullptr && !GetNPCHost()->IsAlive() )
 	{
 		EjectFromHost();
 		return;
@@ -513,10 +513,10 @@ QAngle CAI_AddOn::GetLocalOrientation( void )
 void CAI_AddOn::EjectFromHost()
 {
 	Unbind();
-	m_hNPCHost.Set( NULL );
+	m_hNPCHost.Set(nullptr);
 
 	SetThink( NULL );
-	SetParent( NULL );
+	SetParent(nullptr);
 
 	SetSize( Vector( 0,0,0), Vector(0,0,0) );
 	SetMoveType( MOVETYPE_FLYGRAVITY );
@@ -524,7 +524,7 @@ void CAI_AddOn::EjectFromHost()
 	SetSolid( SOLID_BBOX );
 
 	Vector vecDir;
-	GetVectors( NULL, NULL, &vecDir );
+	GetVectors(nullptr, nullptr, &vecDir );
 
 	SetAbsVelocity( GetAbsVelocity() + vecDir * RandomFloat(50, 200) );
 	QAngle avelocity( RandomFloat( 10, 60), RandomFloat( 10, 60), 0 );
@@ -538,7 +538,7 @@ void CAI_AddOn::EjectFromHost()
 //---------------------------------------------------------
 void CAI_AddOn::InputInstall( inputdata_t &data )
 {
-	CAI_BaseNPC *pHost = dynamic_cast<CAI_BaseNPC *>( gEntList.FindEntityByName( NULL, data.value.String() ) );
+	CAI_BaseNPC *pHost = dynamic_cast<CAI_BaseNPC *>( gEntList.FindEntityByName(nullptr, data.value.String() ) );
 
 	if( !pHost )
 	{
@@ -555,9 +555,9 @@ void CAI_AddOn::InputInstall( inputdata_t &data )
 void CAI_AddOn::InputRemove( inputdata_t &data )
 {
 	Remove();
-	m_hNPCHost.Set( NULL );
+	m_hNPCHost.Set(nullptr);
 	SetThink( NULL );
-	SetParent( NULL );
+	SetParent(nullptr);
 	UTIL_Remove( this );
 }
 

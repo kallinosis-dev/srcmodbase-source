@@ -314,7 +314,7 @@ static QAngle g_vecCurrentRenderAngles(0,0,0);
 static Vector g_vecCurrentVForward(0,0,0), g_vecCurrentVRight(0,0,0), g_vecCurrentVUp(0,0,0);
 static VMatrix g_matCurrentCamInverse;
 bool s_bCanAccessCurrentView = false;
-IntroData_t *g_pIntroData = NULL;
+IntroData_t *g_pIntroData = nullptr;
 static bool	g_bRenderingView = false;			// For debugging...
 static int g_CurrentViewID = VIEW_NONE;
 bool g_bRenderingScreenshot = false;
@@ -524,7 +524,7 @@ struct ClientWorldListInfo_t : public CRefCounted1<WorldListInfo_t>
 	ClientWorldListInfo_t() 
 	{ 
 		memset( (WorldListInfo_t *)this, 0, sizeof(WorldListInfo_t) ); 
-		m_pOriginalLeafIndex = NULL;
+		m_pOriginalLeafIndex = nullptr;
 		m_bPooledAlloc = false;
 	}
 
@@ -597,9 +597,9 @@ public:
 private:
 	struct Entry_t
 	{
-		Entry_t( const CViewSetup &viewSetup, VisOverrideData_t *pVisOverrideData, int iForceViewLeaf, IWorldRenderList *pList = NULL, ClientWorldListInfo_t *pListInfo = NULL ) :
-			pList( ( pList ) ? InlineAddRef( pList ) : NULL ),
-			pListInfo( ( pListInfo ) ? InlineAddRef( pListInfo ) : NULL )
+		Entry_t( const CViewSetup &viewSetup, VisOverrideData_t *pVisOverrideData, int iForceViewLeaf, IWorldRenderList *pList = nullptr, ClientWorldListInfo_t *pListInfo = nullptr) :
+			pList( ( pList ) ? InlineAddRef( pList ) : nullptr),
+			pListInfo( ( pListInfo ) ? InlineAddRef( pListInfo ) : nullptr)
 		{
             // @NOTE (toml 8/18/2006): because doing memcmp, need to fill all of the fields and the padding!
 			memset( &m_bOrtho, 0, offsetof(Entry_t, pList ) - offsetof(Entry_t, m_bOrtho ) );
@@ -694,7 +694,7 @@ class CSkyboxView : public CRendering3dView
 public:
 	explicit CSkyboxView(CViewRender *pMainView) : 
 		CRendering3dView( pMainView ),
-		m_pSky3dParams( NULL )
+		m_pSky3dParams(nullptr)
 	  {
 	  }
 
@@ -712,7 +712,7 @@ protected:
 	bool			GetSkyboxFogEnable();
 
 	void			Enable3dSkyboxFog( void );
-	void			DrawInternal( view_id_t iSkyBoxViewID = VIEW_3DSKY, bool bInvokePreAndPostRender = true, ITexture *pRenderTarget = NULL );
+	void			DrawInternal( view_id_t iSkyBoxViewID = VIEW_3DSKY, bool bInvokePreAndPostRender = true, ITexture *pRenderTarget = nullptr);
 
 	sky3dparams_t *	PreRender3dSkyboxWorld( SkyboxVisibility_t nSkyboxVisible );
 
@@ -815,7 +815,7 @@ class CSimpleWorldView : public CBaseWorldView
 public:
 	explicit CSimpleWorldView(CViewRender *pMainView) : CBaseWorldView( pMainView ) {}
 
-	void			Setup( const CViewSetup &view, int nClearFlags, bool bDrawSkybox, const VisibleFogVolumeInfo_t &fogInfo, const WaterRenderInfo_t& info, ViewCustomVisibility_t *pCustomVisibility = NULL );
+	void			Setup( const CViewSetup &view, int nClearFlags, bool bDrawSkybox, const VisibleFogVolumeInfo_t &fogInfo, const WaterRenderInfo_t& info, ViewCustomVisibility_t *pCustomVisibility = nullptr);
 	void			Draw();
 
 private: 
@@ -880,7 +880,7 @@ public:
 		m_IntersectionView( pMainView )
 	{}
 
-	void Setup(  const CViewSetup &view, bool bDrawSkybox, const VisibleFogVolumeInfo_t &fogInfo, const WaterRenderInfo_t& waterInfo, ViewCustomVisibility_t *pCustomVisibility = NULL );
+	void Setup(  const CViewSetup &view, bool bDrawSkybox, const VisibleFogVolumeInfo_t &fogInfo, const WaterRenderInfo_t& waterInfo, ViewCustomVisibility_t *pCustomVisibility = nullptr);
 	void Draw();
 
 	class CReflectionView : public CBaseWorldView
@@ -947,7 +947,7 @@ public:
 		m_RefractionView( pMainView )
 	{}
 
-	void			Setup( const CViewSetup &view, bool bDrawSkybox, const VisibleFogVolumeInfo_t &fogInfo, const WaterRenderInfo_t& info, ViewCustomVisibility_t *pCustomVisibility = NULL );
+	void			Setup( const CViewSetup &view, bool bDrawSkybox, const VisibleFogVolumeInfo_t &fogInfo, const WaterRenderInfo_t& info, ViewCustomVisibility_t *pCustomVisibility = nullptr);
 	void			Draw();
 
 	class CRefractionView : public CBaseWorldView
@@ -1354,8 +1354,8 @@ CViewRender::CViewRender()
 	m_flCheapWaterStartDistance = 0.0f;
 	m_flCheapWaterEndDistance = 0.1f;
 	m_BaseDrawFlags = 0;
-	m_pActiveRenderer = NULL;
-	m_pCurrentlyDrawingEntity = NULL;
+	m_pActiveRenderer = nullptr;
+	m_pCurrentlyDrawingEntity = nullptr;
 	m_bAllowViewAccess = false;
 	m_flOldChaseOverviewScale = 1.0f;
 	m_flIdealChaseOverviewScale = 1.0f;
@@ -1455,7 +1455,7 @@ void CViewRender::DrawRenderablesInList( CViewModelRenderablesList::RenderGroups
 		nDrawFlags |= renderGroups[i].m_InstanceData.m_bTwoPass ? STUDIO_TWOPASS : 0;
 		pRenderable->DrawModel( nDrawFlags, renderGroups[i].m_InstanceData );
 	}
-	m_pCurrentlyDrawingEntity = NULL;
+	m_pCurrentlyDrawingEntity = nullptr;
 }
 
 void CViewRender::DrawViewModelsShadowDepth( const CViewSetup &view )
@@ -1552,7 +1552,7 @@ void CViewRender::DrawViewModels( const CViewSetup &view, bool drawViewmodel )
 	viewModelSetup.fov = view.fovViewmodel;
 	viewModelSetup.m_flAspectRatio = engine->GetScreenAspectRatio( view.width, view.height );
 
-	render->Push3DView( pRenderContext, viewModelSetup, 0, NULL, GetFrustum() );
+	render->Push3DView( pRenderContext, viewModelSetup, 0, nullptr, GetFrustum() );
 
 #ifdef PORTAL //the depth range hack doesn't work well enough for the portal mod (and messing with the depth hack values makes some models draw incorrectly)
 				//step up to a full depth clear if we're extremely close to a portal (in a portal environment)
@@ -1674,7 +1674,7 @@ void CViewRender::DrawViewModels( const CViewSetup &view, bool drawViewmodel )
 	if ( !bDrawScopeLensMask && (opaqueNormalFOVList.Count() > 0 || translucentNormalFOVList.Count() > 0) )
 	{
 		viewModelSetup.fov = view.fov;
-		render->Push3DView( pRenderContext, viewModelSetup, 0, NULL, GetFrustum() );
+		render->Push3DView( pRenderContext, viewModelSetup, 0, nullptr, GetFrustum() );
 
 		// HACK HACK:  Munge the depth range to prevent view model from poking into walls, etc.
 		// Force clipped down range
@@ -2215,7 +2215,7 @@ static void GetFogColor( fogparams_t *pFogParams, float *pColor, bool ignoreOver
 			// The secondary fog color is at 180 degrees to the primary fog color.
 			//
 			Vector forward;
-			pbp->EyeVectors( &forward, NULL, NULL );
+			pbp->EyeVectors( &forward, nullptr, nullptr);
 			
 			Vector vNormalized = pFogParams->dirPrimary;
 			VectorNormalize( vNormalized );
@@ -2451,7 +2451,7 @@ static void GetSkyboxFogColor( float *pColor, bool ignoreOverride, bool ignoreHD
 			// The secondary fog color is at 180 degrees to the primary fog color.
 			//
 			Vector forward;
-			pbp->EyeVectors( &forward, NULL, NULL );
+			pbp->EyeVectors( &forward, nullptr, nullptr);
 
 			Vector vNormalized = local->m_skybox3d.fog.dirPrimary;
 			VectorNormalize( vNormalized );
@@ -2767,12 +2767,12 @@ void CViewRender::SetupMain3DView( int nSlot, const CViewSetup &view, const CVie
 		else
 		{
 			pRenderContext->SetIntRenderingParameter( INT_RENDERPARM_BACK_BUFFER_INDEX, BACK_BUFFER_INDEX_HDR );
-			render->Push3DView( pRenderContext, view, nClearFlags, NULL, GetFrustum() );
+			render->Push3DView( pRenderContext, view, nClearFlags, nullptr, GetFrustum() );
 		}
 	}
 	else
 	{
-		render->Push3DView( pRenderContext, view, nClearFlags, NULL, GetFrustum() );
+		render->Push3DView( pRenderContext, view, nClearFlags, nullptr, GetFrustum() );
 	}
 
 	pRenderContext.SafeRelease(); // don't want to hold for long periods in case in a locking active share thread mode
@@ -2856,7 +2856,7 @@ void PositionHudPanels( CUtlVector< vgui::VPANEL > &list, const CViewSetup &view
 
 #ifdef PARTICLE_USAGE_DEMO
 static ConVar r_particle_demo( "r_particle_demo", "0", FCVAR_CHEAT );
-static CNonDrawingParticleSystem *s_pDemoSystem = NULL;
+static CNonDrawingParticleSystem *s_pDemoSystem = nullptr;
 
 void ParticleUsageDemo( void )
 {
@@ -2885,7 +2885,7 @@ void ParticleUsageDemo( void )
 		if ( s_pDemoSystem )
 		{
 			delete s_pDemoSystem;
-			s_pDemoSystem = NULL;
+			s_pDemoSystem = nullptr;
 		}
 
 	}
@@ -3246,7 +3246,7 @@ void CViewRender::RenderView( const CViewSetup &view, const CViewSetup &hudViewS
 		{
 			// Ensure the final framebuffer is always copied into the backbuffer on PS3 (this is normally done by the postprocess pass, which for whatever reason didn't happen).
 			CMatRenderContextPtr pRenderContext( materials );
-			pRenderContext->PushRenderTargetAndViewport( NULL );
+			pRenderContext->PushRenderTargetAndViewport(nullptr);
 			
 			UpdateScreenEffectTexture( 0, view.x, view.y, view.width, view.height );
 
@@ -3308,7 +3308,7 @@ void CViewRender::RenderView( const CViewSetup &view, const CViewSetup &hudViewS
 			// On PS3, engine_post reads from _rt_FullFrameFB and outputs to the backbuffer.
 			CMatRenderContextPtr pRenderContext( materials );
 						
-			pRenderContext->SetRenderTarget( NULL );
+			pRenderContext->SetRenderTarget(nullptr);
 
 			pRenderContext->Viewport( curViewport.x, curViewport.y, curViewport.width, curViewport.height );
 
@@ -3400,11 +3400,11 @@ void CViewRender::RenderView( const CViewSetup &view, const CViewSetup &hudViewS
 			if ( IsGameConsole() )
 			{
 				// 360 doesn't create the Fullscreen texture
-				pRenderContext->CopyRenderTargetToTextureEx( GetFullFrameFrameBufferTexture( 1 ), 0, NULL, NULL );
+				pRenderContext->CopyRenderTargetToTextureEx( GetFullFrameFrameBufferTexture( 1 ), 0, nullptr, nullptr);
 			}
 			else
 			{
-				pRenderContext->CopyRenderTargetToTextureEx( GetFullscreenTexture(), 0, NULL, NULL );
+				pRenderContext->CopyRenderTargetToTextureEx( GetFullscreenTexture(), 0, nullptr, nullptr);
 			}
 			pRenderContext.SafeRelease();
 			m_FreezeParams[ slot ].m_bTakeFreezeFrame = false;
@@ -3681,8 +3681,8 @@ void CViewRender::DetermineWaterRenderInfo( const VisibleFogVolumeInfo_t &fogVol
 	info.m_bOpaqueWater = !pWaterMaterial->IsTranslucent();
 
 	// The material can override the default settings though
-	IMaterialVar *pForceCheapVar = pWaterMaterial->FindVar( "$forcecheap", NULL, false );
-	IMaterialVar *pForceExpensiveVar = pWaterMaterial->FindVar( "$forceexpensive", NULL, false );
+	IMaterialVar *pForceCheapVar = pWaterMaterial->FindVar( "$forcecheap", nullptr, false );
+	IMaterialVar *pForceExpensiveVar = pWaterMaterial->FindVar( "$forceexpensive", nullptr, false );
 
 	if ( !bForceCheap && pForceCheapVar && pForceCheapVar->IsDefined() )
 	{
@@ -3718,7 +3718,7 @@ void CViewRender::DetermineWaterRenderInfo( const VisibleFogVolumeInfo_t &fogVol
 	}
 	else
 	{
-		IMaterialVar *pReflectTextureVar = pWaterMaterial->FindVar( "$reflecttexture", NULL, false );
+		IMaterialVar *pReflectTextureVar = pWaterMaterial->FindVar( "$reflecttexture", nullptr, false );
 		bLocalReflection = pReflectTextureVar && (pReflectTextureVar->GetType() == MATERIAL_VAR_TYPE_TEXTURE);
 	}
 
@@ -3750,7 +3750,7 @@ void CViewRender::DetermineWaterRenderInfo( const VisibleFogVolumeInfo_t &fogVol
 	}
 	else
 	{
-		IMaterialVar *pRefractTextureVar = pWaterMaterial->FindVar( "$refracttexture", NULL, false );
+		IMaterialVar *pRefractTextureVar = pWaterMaterial->FindVar( "$refracttexture", nullptr, false );
 		info.m_bRefract = pRefractTextureVar && (pRefractTextureVar->GetType() == MATERIAL_VAR_TYPE_TEXTURE);
 
 		// Refractive water can be seen through
@@ -3778,7 +3778,7 @@ void CViewRender::DetermineWaterRenderInfo( const VisibleFogVolumeInfo_t &fogVol
 		}
 		else
 		{
-			IMaterialVar *pReflectEntitiesVar = pWaterMaterial->FindVar( "$reflectentities", NULL, false );
+			IMaterialVar *pReflectEntitiesVar = pWaterMaterial->FindVar( "$reflectentities", nullptr, false );
 			info.m_bReflectEntities = pReflectEntitiesVar && (pReflectEntitiesVar->GetIntValueFast() != 0);
 
 			// -- PORTAL 2 console perf hack --
@@ -3804,7 +3804,7 @@ void CViewRender::DetermineWaterRenderInfo( const VisibleFogVolumeInfo_t &fogVol
 			}
 		}
 
-		IMaterialVar *pReflect2DSkybox = pWaterMaterial->FindVar( "$reflect2dskybox", NULL, false );
+		IMaterialVar *pReflect2DSkybox = pWaterMaterial->FindVar( "$reflect2dskybox", nullptr, false );
 		info.m_bReflect2DSkybox = pReflect2DSkybox && ( pReflect2DSkybox->GetIntValueFast() != 0 );
 	}
 
@@ -3850,7 +3850,7 @@ void CViewRender::DrawWorldAndEntities( bool bDrawSkybox, const CViewSetup &view
 		render->GetVisibleFogVolume( g_pPortalRender->GetExitPortalFogOrigin(), &pCustomVisibility->m_VisData, &fogVolumeInfo );
 	}
 #else
-	render->GetVisibleFogVolume( viewIn.origin, NULL, &fogVolumeInfo );
+	render->GetVisibleFogVolume( viewIn.origin, nullptr, &fogVolumeInfo );
 #endif
 
 	WaterRenderInfo_t info;
@@ -4286,7 +4286,7 @@ void CViewRender::ViewDrawScene_Intro( const CViewSetup &view, int nClearFlags, 
 		// Start view, clear frame/z buffer if necessary
 		SetupVis( playerView, visFlags );
 		
-		render->Push3DView( pRenderContext, playerView, VIEW_CLEAR_COLOR | VIEW_CLEAR_DEPTH, NULL, GetFrustum() );
+		render->Push3DView( pRenderContext, playerView, VIEW_CLEAR_COLOR | VIEW_CLEAR_DEPTH, nullptr, GetFrustum() );
 		DrawWorldAndEntities( true /* drawSkybox */, playerView, VIEW_CLEAR_COLOR | VIEW_CLEAR_DEPTH  );
 		render->PopView( pRenderContext, GetFrustum() );
 
@@ -4334,8 +4334,8 @@ void CViewRender::ViewDrawScene_Intro( const CViewSetup &view, int nClearFlags, 
 	// -----------------------------------------------------------------------
 	// Find the material that we use to render the overlays
 	IMaterial *pOverlayMaterial = materials->FindMaterial( "scripted/intro_screenspaceeffect", TEXTURE_GROUP_OTHER );
-	IMaterialVar *pModeVar = pOverlayMaterial->FindVar( "$mode", NULL );
-	IMaterialVar *pAlphaVar = pOverlayMaterial->FindVar( "$alpha", NULL );
+	IMaterialVar *pModeVar = pOverlayMaterial->FindVar( "$mode", nullptr);
+	IMaterialVar *pAlphaVar = pOverlayMaterial->FindVar( "$alpha", nullptr);
 
 	pRenderContext->ClearBuffers( true, true );
 	
@@ -4442,7 +4442,7 @@ bool CViewRender::DrawOneMonitor( ITexture *pRenderTarget, int cameraNum, C_Poin
 
 	CViewSetup monitorView = cameraView;
 
-	fogparams_t *pFogParams = NULL;
+	fogparams_t *pFogParams = nullptr;
 
 	if ( fogEnabled )
 	{	
@@ -4528,7 +4528,7 @@ void CViewRender::DrawMonitors( const CViewSetup &cameraView )
 	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
 	
 	int cameraNum;
-	for ( cameraNum = 0; pCameraEnt != NULL; pCameraEnt = pCameraEnt->m_pNext )
+	for ( cameraNum = 0; pCameraEnt != nullptr; pCameraEnt = pCameraEnt->m_pNext )
 	{
 		if ( !pCameraEnt->IsActive() || pCameraEnt->IsDormant() )
 			continue;
@@ -4545,7 +4545,7 @@ void CViewRender::DrawMonitors( const CViewSetup &cameraView )
 		// resolving *after* all monitors drawn to ensure a single blit using fastest resolve path
 		CMatRenderContextPtr pRenderContext( materials );
 		pRenderContext->PushRenderTargetAndViewport( pCameraTarget );
-		pRenderContext->CopyRenderTargetToTextureEx( pCameraTarget, 0, NULL, NULL );
+		pRenderContext->CopyRenderTargetToTextureEx( pCameraTarget, 0, nullptr, nullptr);
 		pRenderContext->PopRenderTargetAndViewport();
 	}
 
@@ -4636,12 +4636,12 @@ ClientWorldListInfo_t  g_WorldListInfoPool[ MAX_CONCURRENT_BUILDVIEWS ];
 //-----------------------------------------------------------------------------
 CRendering3dView::CRendering3dView(CViewRender *pMainView) :
 	CBase3dView( pMainView ),
-	m_pWorldRenderList( NULL ), 
+	m_pWorldRenderList(nullptr), 
 #if !defined(_PS3)
-	m_pRenderables( NULL ),
-	m_pWorldListInfo( NULL ), 
+	m_pRenderables(nullptr),
+	m_pWorldListInfo(nullptr), 
 #endif
-	m_pCustomVisibility( NULL ),
+	m_pCustomVisibility(nullptr),
 	m_DrawFlags( 0 ),
 	m_ClearFlags( 0 )
 {
@@ -4679,7 +4679,7 @@ void CRendering3dView::Setup( const CViewSetup &setup )
 	//m_pRenderables = new CClientRenderablesList; 
 #endif
 
-	m_pCustomVisibility = NULL;
+	m_pCustomVisibility = nullptr;
 }
 
 
@@ -4702,7 +4702,7 @@ void CRendering3dView::ReleaseLists()
 	SafeRelease( m_pWorldListInfo );
 #endif
 
-	m_pCustomVisibility = NULL;
+	m_pCustomVisibility = nullptr;
 }
 
 
@@ -4835,7 +4835,7 @@ void CRendering3dView::BuildWorldRenderLists( bool bDrawEntities, int iForceView
 
 	m_pMainView->IncWorldListsNumber();
 	// Override vis data if specified this render, otherwise use default behavior with NULL
-	VisOverrideData_t* pVisData = ( m_pCustomVisibility && m_pCustomVisibility->m_VisData.m_fDistToAreaPortalTolerance != FLT_MAX ) ?  &m_pCustomVisibility->m_VisData : NULL;
+	VisOverrideData_t* pVisData = ( m_pCustomVisibility && m_pCustomVisibility->m_VisData.m_fDistToAreaPortalTolerance != FLT_MAX ) ?  &m_pCustomVisibility->m_VisData : nullptr;
 	bool bUseCache = ( bUseCacheIfEnabled && r_worldlistcache.GetBool() );
 	if ( m_pCustomVisibility )
 	{
@@ -4953,7 +4953,7 @@ JobStatus_t	PruneWorldListInfoJob::DoExecute()
 		return JOB_OK;;
 	}
 
-	ClientWorldListInfo_t *pNewInfo = NULL;
+	ClientWorldListInfo_t *pNewInfo = nullptr;
 	if ( pWorldListInfo->m_LeafCount > 0 && nWaterDrawFlags )
 	{
 		pNewInfo = ClientWorldListInfo_t::AllocPooled( *pWorldListInfo );
@@ -5344,7 +5344,7 @@ static void DrawClippedDepthBox( IClientRenderable *pEnt, float *pClipPlane )
 #ifdef DEBUG_DRAWCLIPPEDDEPTHBOX
 	pRenderContext->Bind( materials->FindMaterial( "debug/debugvertexcolor", TEXTURE_GROUP_OTHER ), NULL );
 #else
-	pRenderContext->Bind( g_material_WriteZ, NULL );
+	pRenderContext->Bind( g_material_WriteZ, nullptr);
 #endif
 
 	CMeshBuilder meshBuilder;
@@ -5369,7 +5369,7 @@ static void DrawClippedDepthBox( IClientRenderable *pEnt, float *pClipPlane )
 		if( j == 3 ) //not enough lines to even form a triangle
 			continue;
 
-		float *pStartPoint = NULL;
+		float *pStartPoint = nullptr;
 		float *pTriangleFanPoints[4]; //at most, one of our fans will have 5 points total, with the first point being stored separately as pStartPoint
 		int iTriangleFanPointCount = 1; //the switch below creates the first for sure
 		
@@ -5476,7 +5476,7 @@ static void DrawClippedDepthBox( IClientRenderable *pEnt, float *pClipPlane )
 //-----------------------------------------------------------------------------
 static inline void DrawRenderable( IClientRenderable *pEnt, int flags, const RenderableInstance_t &instance, bool bShadowDepth )
 {
-	float *pRenderClipPlane = NULL;
+	float *pRenderClipPlane = nullptr;
 	if( r_entityclips.GetBool() )
 		pRenderClipPlane = pEnt->GetRenderClipPlane();
 
@@ -5490,7 +5490,7 @@ static inline void DrawRenderable( IClientRenderable *pEnt, int flags, const Ren
 		Assert( view->GetCurrentlyDrawingEntity() == NULL );
 		view->SetCurrentlyDrawingEntity( pEnt->GetIClientUnknown()->GetBaseEntity() );
 		pEnt->DrawModel( flags, instance );
-		view->SetCurrentlyDrawingEntity( NULL );
+		view->SetCurrentlyDrawingEntity(nullptr);
 
 		if( !materials->UsingFastClipping() )	
 			pRenderContext->PopCustomClipPlane();
@@ -5502,7 +5502,7 @@ static inline void DrawRenderable( IClientRenderable *pEnt, int flags, const Ren
 		if( bShadowDepth )
 			flags |= DF_SHADOW_DEPTH_MAP;
 		pEnt->DrawModel( flags, instance );
-		view->SetCurrentlyDrawingEntity( NULL );
+		view->SetCurrentlyDrawingEntity(nullptr);
 	}
 }
 
@@ -5551,7 +5551,7 @@ static inline void DrawOpaqueRenderable( IClientRenderable *pEnt, bool bTwoPass,
 
 static void SetupBonesOnBaseAnimating( C_BaseAnimating *&pBaseAnimating )
 {
-	pBaseAnimating->SetupBones( NULL, -1, -1, gpGlobals->curtime );
+	pBaseAnimating->SetupBones(nullptr, -1, -1, gpGlobals->curtime );
 }
 
 
@@ -5613,7 +5613,7 @@ static void DrawOpaqueRenderables_DrawBrushModels( CClientRenderablesList::CEntr
 		for( int i = 0; i < nRemainingBrushes; ++i )
 		{
 			CClientRenderablesList::CEntry* pEntity = pBrushEntities[i];
-			if( pEntity->m_pRenderable && (pEntity->m_pRenderable->GetRenderClipPlane() != NULL) )
+			if( pEntity->m_pRenderable && (pEntity->m_pRenderable->GetRenderClipPlane() != nullptr) )
 			{
 				pDeferClippedOpaqueRenderables_Out->AddToTail( pEntity );
 			}
@@ -5675,7 +5675,7 @@ static void DrawOpaqueRenderables_Range( int nCount, CClientRenderablesList::CEn
 		for ( int i = 0; i < nCount; ++i )
 		{
 			CClientRenderablesList::CEntry *itEntity = ppEntities[i]; 
-			if( itEntity->m_pRenderable && (itEntity->m_pRenderable->GetRenderClipPlane() != NULL) )
+			if( itEntity->m_pRenderable && (itEntity->m_pRenderable->GetRenderClipPlane() != nullptr) )
 			{
 				pDeferClippedOpaqueRenderables_Out->AddToTail( itEntity );
 			}
@@ -6471,7 +6471,7 @@ void CRendering3dView::DrawTranslucentRenderables( bool bInSkybox, bool bShadowD
 				DetailObjectSystem()->RenderTranslucentDetailObjects( pRenderablesList->m_DetailFade, CurrentViewOrigin(), CurrentViewForward(), CurrentViewRight(), CurrentViewUp(), nDetailLeafCount, pDetailLeafList );
 
 				// HACK: for now just draw all the detail props in this leaf right away. They're alphatest and write z, so there's no need to manually sort them.
-				DetailObjectSystem()->RenderTranslucentDetailObjectsInLeaf( pRenderablesList->m_DetailFade, CurrentViewOrigin(), CurrentViewForward(), CurrentViewRight(), CurrentViewUp(), nLeaf, NULL );
+				DetailObjectSystem()->RenderTranslucentDetailObjectsInLeaf( pRenderablesList->m_DetailFade, CurrentViewOrigin(), CurrentViewForward(), CurrentViewRight(), CurrentViewUp(), nLeaf, nullptr);
 
 				// Draw translucent renderables in the leaf interspersed with detail props
 				for( ;pEntities[iCurTranslucentEntity].m_iWorldListInfoLeaf == iThisLeaf && iCurTranslucentEntity >= 0; --iCurTranslucentEntity )
@@ -6507,7 +6507,7 @@ void CRendering3dView::DrawTranslucentRenderables( bool bInSkybox, bool bShadowD
 
 						int nDrawFlags = pEntities[iCurTranslucentEntity].m_TwoPass ? STUDIORENDER_DRAW_TRANSLUCENT_ONLY : STUDIORENDER_DRAW_ENTIRE_MODEL;
 						g_pStudioRender->DrawModelArray( *renderData.m_pModelInfo, 1, renderData.m_pInstanceData, sizeof(StudioArrayInstanceData_t), nDrawFlags );
-						g_pStudioRender->ForcedMaterialOverride( NULL );
+						g_pStudioRender->ForcedMaterialOverride(nullptr);
 					}
 					else
 					{
@@ -6552,7 +6552,7 @@ void CRendering3dView::DrawTranslucentRenderables( bool bInSkybox, bool bShadowD
 							}
 							int nDrawFlags = pEntities[iCurTranslucentEntity].m_TwoPass ? STUDIORENDER_DRAW_TRANSLUCENT_ONLY : STUDIORENDER_DRAW_ENTIRE_MODEL;
 							g_pStudioRender->DrawModelArray( *renderData.m_pModelInfo, 1, renderData.m_pInstanceData, sizeof(StudioArrayInstanceData_t), nDrawFlags );
-							g_pStudioRender->ForcedMaterialOverride( NULL );
+							g_pStudioRender->ForcedMaterialOverride(nullptr);
 						}
 					}
 					else
@@ -6595,7 +6595,7 @@ void CRendering3dView::EnableWorldFog( void )
 	VPROF("CViewRender::EnableWorldFog");
 	CMatRenderContextPtr pRenderContext( materials );
 
-	fogparams_t *pFogParams = NULL;
+	fogparams_t *pFogParams = nullptr;
 	C_BasePlayer *pbp = C_BasePlayer::GetLocalPlayer();
 	if ( pbp )
 	{
@@ -6732,21 +6732,21 @@ void CSkyboxView::Enable3dSkyboxFog( void )
 sky3dparams_t *CSkyboxView::PreRender3dSkyboxWorld( SkyboxVisibility_t nSkyboxVisible )
 {
 	if ( ( nSkyboxVisible != SKYBOX_3DSKYBOX_VISIBLE ) && r_3dsky.GetInt() != 2 )
-		return NULL;
+		return nullptr;
 
 	// render the 3D skybox
 	if ( !r_3dsky.GetInt() )
-		return NULL;
+		return nullptr;
 
 	C_BasePlayer *pbp = C_BasePlayer::GetLocalPlayer();
 
 	// No local player object yet...
 	if ( !pbp )
-		return NULL;
+		return nullptr;
 
 	CPlayerLocalData* local = &pbp->m_Local;
 	if ( local->m_skybox3d.area == 255 )
-		return NULL;
+		return nullptr;
 
 	return &local->m_skybox3d;
 }
@@ -6853,7 +6853,7 @@ void CSkyboxView::DrawInternal( view_id_t iSkyBoxViewID, bool bInvokePreAndPostR
 	DrawWorld( pRenderContext, 0.0f );
 
 	// Iterate over all leaves and render objects in those leaves
-	DrawOpaqueRenderables( pRenderContext, RENDERABLES_RENDER_PATH_NORMAL, DEPTH_MODE_NORMAL, NULL );
+	DrawOpaqueRenderables( pRenderContext, RENDERABLES_RENDER_PATH_NORMAL, DEPTH_MODE_NORMAL, nullptr);
 
 #if defined( PORTAL )
 	DrawRecursivePortalViews(); //Dave K: probably does nothing in this view, calling it anyway because it's contents were directly inside DrawTranslucentRenderables() a moment ago and I don't want to risk breaking anything
@@ -6887,7 +6887,7 @@ void CSkyboxView::DrawInternal( view_id_t iSkyBoxViewID, bool bInvokePreAndPostR
 		// draw a fullscreen quad setting destalpha to 1
 
 		IMaterial *pMat = materials->FindMaterial( "dev/clearalpha", TEXTURE_GROUP_OTHER, true );
-		if ( pMat != NULL )
+		if ( pMat != nullptr)
 		{
 			int nWidth = 0;
 			int nHeight = 0;
@@ -6899,7 +6899,7 @@ void CSkyboxView::DrawInternal( view_id_t iSkyBoxViewID, bool bInvokePreAndPostR
 				pMat,
 				0, 0, nWidth, nHeight,
 				0, 0, nWidth-1, nHeight-1,
-				nWidth, nHeight, NULL /*GetClientWorldEntity()->GetClientRenderable()*/ );
+				nWidth, nHeight, nullptr /*GetClientWorldEntity()->GetClientRenderable()*/ );
 		}
 	}
 
@@ -7398,7 +7398,7 @@ void CShadowDepthView::Draw()
 		render->TopViewNoBackfaceCulling( false );
 		render->TopViewNoVisCheck( false );
 		render->DrawTopView( false );
-		render->SetTopViewVolumeCuller( NULL );
+		render->SetTopViewVolumeCuller(nullptr);
 	}
 
 	END_2PASS_BLOCK
@@ -7427,7 +7427,7 @@ void CShadowDepthView::Draw()
 
 	// Draw opaque and translucent renderables with appropriate override materials
 	// OVERRIDE_DEPTH_WRITE is OK with a NULL material pointer
-	modelrender->ForcedMaterialOverride( NULL, OVERRIDE_DEPTH_WRITE );	
+	modelrender->ForcedMaterialOverride(nullptr, OVERRIDE_DEPTH_WRITE );	
 
 	SYNC_BUILDRENDERABLES_JOB( CurrentViewID() )
 	if ( m_bRenderWorldAndObjects && bRenderWorldAndObjects )
@@ -7442,8 +7442,8 @@ void CShadowDepthView::Draw()
 			#endif
 			RENDERABLES_RENDER_PATH_SHADOWDEPTH_DEFAULT, 
 			DEPTH_MODE_SHADOW,
-			NULL
-			);
+			nullptr
+		);
 	}
 
 	if ( m_bRenderViewModels )
@@ -7459,8 +7459,8 @@ void CShadowDepthView::Draw()
 			{
 				// cstrike15 supports efficiently rendering translucent materials into CSM shadow buffers
 				DrawOpaqueRenderables( pRenderContext,
-					RENDERABLES_RENDER_PATH_SHADOWDEPTH_DEFAULT, DEPTH_MODE_SHADOW, 
-					NULL, RENDER_GROUP_TRANSLUCENT );
+					RENDERABLES_RENDER_PATH_SHADOWDEPTH_DEFAULT, DEPTH_MODE_SHADOW,
+					nullptr, RENDER_GROUP_TRANSLUCENT );
 			}
 			else
 			{
@@ -7483,7 +7483,7 @@ void CShadowDepthView::Draw()
 #endif
 	}
 
-	modelrender->ForcedMaterialOverride( 0 );
+	modelrender->ForcedMaterialOverride( nullptr );
 
 	m_DrawFlags = 0;
 
@@ -7773,11 +7773,11 @@ void CBaseWorldView::PopView()
 			// these renders paths used their surfaces, so blit their results
 			if ( m_DrawFlags & DF_RENDER_REFRACTION )
 			{
-				pRenderContext->CopyRenderTargetToTextureEx( GetWaterRefractionTexture(), NULL, NULL );
+				pRenderContext->CopyRenderTargetToTextureEx( GetWaterRefractionTexture(), NULL, nullptr);
 			}
 			if ( m_DrawFlags & DF_RENDER_REFLECTION )
 			{
-				pRenderContext->CopyRenderTargetToTextureEx( GetWaterReflectionTexture(), NULL, NULL );
+				pRenderContext->CopyRenderTargetToTextureEx( GetWaterReflectionTexture(), NULL, nullptr);
 			}
 		}
 
@@ -7805,7 +7805,7 @@ void CBaseWorldView::DrawSetup( IMatRenderContext *pRenderContext, float waterHe
 
 	if ( bViewChanged )
 	{
-		render->Push3DView( pRenderContext, *this, 0, NULL, GetFrustum() );
+		render->Push3DView( pRenderContext, *this, 0, nullptr, GetFrustum() );
 	}
 
 	BEGIN_2PASS_BUILD_BLOCK
@@ -7817,7 +7817,7 @@ void CBaseWorldView::DrawSetup( IMatRenderContext *pRenderContext, float waterHe
 		bool bDrawEntities = ( nSetupFlags & DF_DRAW_ENTITITES ) != 0;
 		bool bDrawReflection = ( nSetupFlags & DF_RENDER_REFLECTION ) != 0;
 		bool bFastEntityRendering = ( nSetupFlags & DF_FAST_ENTITY_RENDERING ) != 0;
-		BuildWorldRenderLists( bDrawEntities, iForceViewLeaf, true, false, bDrawReflection ? &waterHeight : NULL );
+		BuildWorldRenderLists( bDrawEntities, iForceViewLeaf, true, false, bDrawReflection ? &waterHeight : nullptr);
 
 		PruneWorldListInfo();
 		g_viewBuilder.FlushBuildWorldListJob(); // PruneWorldListInfo part of the BuildWorldList job
@@ -7936,7 +7936,7 @@ void CBaseWorldView::DrawExecute( float waterHeight, view_id_t viewID, float wat
 #else
 	CUtlVector< CClientRenderablesList::CEntry * > arrFastClippedOpaqueRenderables( (CClientRenderablesList::CEntry **)stackalloc( m_pRenderables->m_RenderGroupCounts[RENDER_GROUP_OPAQUE] * sizeof( CClientRenderablesList::CEntry * ) ), m_pRenderables->m_RenderGroupCounts[RENDER_GROUP_OPAQUE] );
 #endif
-	CUtlVector< CClientRenderablesList::CEntry * > *pArrFastClippedOpaqueRenderables = (r_deferopaquefastclipped.GetBool() && !m_bDrawWorldNormal && r_entityclips.GetBool() && materials->UsingFastClipping()) ? &arrFastClippedOpaqueRenderables : NULL;
+	CUtlVector< CClientRenderablesList::CEntry * > *pArrFastClippedOpaqueRenderables = (r_deferopaquefastclipped.GetBool() && !m_bDrawWorldNormal && r_entityclips.GetBool() && materials->UsingFastClipping()) ? &arrFastClippedOpaqueRenderables : nullptr;
 
 	m_DrawFlags &= ~DF_SKIP_WORLD_DECALS_AND_OVERLAYS;
 	if ( m_DrawFlags & DF_DRAW_ENTITITES )
@@ -8071,13 +8071,13 @@ void CBaseWorldView::SSAO_DepthPass()
 
 	// Draw opaque and translucent renderables with appropriate override materials
 	// OVERRIDE_SSAO_DEPTH_WRITE is OK with a NULL material pointer
-	modelrender->ForcedMaterialOverride( NULL, OVERRIDE_SSAO_DEPTH_WRITE );
+	modelrender->ForcedMaterialOverride(nullptr, OVERRIDE_SSAO_DEPTH_WRITE );
 
 	{
 		VPROF_BUDGET( "DrawOpaqueRenderables", VPROF_BUDGETGROUP_SHADOW_DEPTH_TEXTURING );
 		//DrawOpaqueRenderables( pRenderContext, DEPTH_MODE_SSA0 );
 
-		DrawOpaqueRenderables( pRenderContext, RENDERABLES_RENDER_PATH_NORMAL, DEPTH_MODE_SSA0, NULL );
+		DrawOpaqueRenderables( pRenderContext, RENDERABLES_RENDER_PATH_NORMAL, DEPTH_MODE_SSA0, nullptr);
 
 	}
 
@@ -8089,7 +8089,7 @@ void CBaseWorldView::SSAO_DepthPass()
 	}
 #endif
 
-	modelrender->ForcedMaterialOverride( 0 );
+	modelrender->ForcedMaterialOverride( nullptr );
 
 	m_DrawFlags &= ~DF_SSAO_DEPTH_PASS;
 
@@ -8098,7 +8098,7 @@ void CBaseWorldView::SSAO_DepthPass()
 	if ( IsX360() )
 	{
 		//Resolve() the depth texture here. Before the pop so the copy will recognize that the resolutions are the same
-		pRenderContext->CopyRenderTargetToTextureEx( NULL, -1, NULL, NULL );
+		pRenderContext->CopyRenderTargetToTextureEx(nullptr, -1, nullptr, nullptr);
 	}
 
 	render->PopView( pRenderContext, GetFrustum() );
@@ -8629,7 +8629,7 @@ void CUnderWaterView::Setup( const CViewSetup &view, bool bDrawSkybox, const Vis
 	CalcWaterEyeAdjustments( fogInfo, m_waterHeight, m_waterZAdjust, m_bSoftwareUserClipPlane );
 
 	IMaterial *pWaterMaterial = fogInfo.m_pFogVolumeMaterial;
-		IMaterialVar *pScreenOverlayVar = pWaterMaterial->FindVar( "$underwateroverlay", NULL, false );
+		IMaterialVar *pScreenOverlayVar = pWaterMaterial->FindVar( "$underwateroverlay", nullptr, false );
 		if ( pScreenOverlayVar && ( pScreenOverlayVar->IsDefined() ) )
 		{
 			char const *pOverlayName = pScreenOverlayVar->GetStringValue();
@@ -8774,7 +8774,7 @@ void CUnderWaterView::CRefractionView::Draw()
 	srcRect.height = height;
 
 	ITexture *pTexture = GetWaterRefractionTexture();
-	pRenderContext->CopyRenderTargetToTextureEx( pTexture, 0, &srcRect, NULL );
+	pRenderContext->CopyRenderTargetToTextureEx( pTexture, 0, &srcRect, nullptr);
 	END_2PASS_BLOCK
 
 }
@@ -8792,7 +8792,7 @@ void CUnderWaterView::CRefractionView::Draw()
 void CReflectiveGlassView::Setup( const CViewSetup &view, int nClearFlags, bool bDrawSkybox, 
 	const VisibleFogVolumeInfo_t &fogInfo, const WaterRenderInfo_t &waterInfo, const cplane_t &reflectionPlane )
 {
-	BaseClass::Setup( view, nClearFlags, bDrawSkybox, fogInfo, waterInfo, NULL );
+	BaseClass::Setup( view, nClearFlags, bDrawSkybox, fogInfo, waterInfo, nullptr);
 	m_ReflectionPlane = reflectionPlane;
 }
 
@@ -8811,7 +8811,7 @@ bool CReflectiveGlassView::AdjustView( float flWaterHeight )
 	VectorMA( origin, - 2.0f * flDist, m_ReflectionPlane.normal, origin );
 
 	Vector vecForward, vecUp;
-	AngleVectors( angles, &vecForward, NULL, &vecUp );
+	AngleVectors( angles, &vecForward, nullptr, &vecUp );
 
 	float flDot = DotProduct( vecForward, m_ReflectionPlane.normal );
 	VectorMA( vecForward, - 2.0f * flDot, m_ReflectionPlane.normal, vecForward );
@@ -8871,7 +8871,7 @@ void CReflectiveGlassView::Draw()
 void CRefractiveGlassView::Setup( const CViewSetup &view, int nClearFlags, bool bDrawSkybox, 
 	const VisibleFogVolumeInfo_t &fogInfo, const WaterRenderInfo_t &waterInfo, const cplane_t &reflectionPlane )
 {
-	BaseClass::Setup( view, nClearFlags, bDrawSkybox, fogInfo, waterInfo, NULL );
+	BaseClass::Setup( view, nClearFlags, bDrawSkybox, fogInfo, waterInfo, nullptr);
 	m_ReflectionPlane = reflectionPlane;
 }
 
@@ -9270,16 +9270,16 @@ void CConcurrentViewBuilderPS3::PushBuildRenderableJobs( void )
 
 void CConcurrentViewData::Init()
 {	
-	m_pWorldRenderList			= NULL;
-	m_pWorldListInfo			= NULL;
-	m_pRenderablesList			= NULL;
-	m_pBuildWorldListJob		= NULL;
-	m_pBuildRenderablesListJob	= NULL;
+	m_pWorldRenderList			= nullptr;
+	m_pWorldListInfo			= nullptr;
+	m_pRenderablesList			= nullptr;
+	m_pBuildWorldListJob		= nullptr;
+	m_pBuildRenderablesListJob	= nullptr;
 	m_bWaitForWorldList			= false;
 	m_volumeCuller.Clear();
 	for ( int lp = 0; lp < MAX_MAP_AREAS; ++lp )
 	{
-		m_frustumList[lp] = NULL;
+		m_frustumList[lp] = nullptr;
 	}
 }
 
@@ -9320,8 +9320,8 @@ void CConcurrentViewBuilder::Init()
 		m_viewData[lp].Init();
 	}
 
-	m_pCurrentSeqJobs = NULL;
-	m_pPendingSeqJobs = NULL;
+	m_pCurrentSeqJobs = nullptr;
+	m_pPendingSeqJobs = nullptr;
 }
 
 void CConcurrentViewBuilder::Purge()
@@ -9426,12 +9426,12 @@ const CVolumeCuller* CConcurrentViewBuilder::GetBuildViewVolumeCuller( int build
 	if( viewID == -1 )
 	{
 		Warning( "ViewBuilder Begin/End Error - Accessing volume culler(-1)\n" );
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
 		const CVolumeCuller* pVolumeCuller = &m_viewData[viewID].m_volumeCuller;
-		return ( pVolumeCuller->IsValid() ? pVolumeCuller : NULL ); 
+		return ( pVolumeCuller->IsValid() ? pVolumeCuller : nullptr); 
 	}
 }
 
@@ -9504,7 +9504,7 @@ const Frustum_t* CConcurrentViewBuilder::GetBuildViewFrustum( int buildViewID /*
 	if( viewID == -1 )
 	{
 		Warning( "ViewBuilder Begin/End Error - Accessing frustum(-1)\n" );
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -9518,7 +9518,7 @@ const CUtlVector< Frustum_t, CUtlMemoryAligned< Frustum_t,16 > >* CConcurrentVie
 	if( viewID == -1 )
 	{
 		Warning( "ViewBuilder Begin/End Error - Accessing aera frustums(-1)\n" );
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -9532,7 +9532,7 @@ Frustum_t** CConcurrentViewBuilder::GetBuildViewFrustumList( int buildViewID /*=
 	if( viewID == -1 )
 	{
 		Warning( "ViewBuilder Begin/End Error - Accessing frustum list(-1)\n" );
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -9545,7 +9545,7 @@ IWorldRenderList *CConcurrentViewBuilder::GetWorldRenderListElement( void )
 	if( m_buildViewID == -1 )
 	{
 		Warning( "ViewBuilder Begin/End Error - Accessing WorldRenderListElement(-1)\n" );
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -9574,7 +9574,7 @@ ClientWorldListInfo_t *CConcurrentViewBuilder::GetClientWorldListInfoElement( in
 	if( viewID == -1 )
 	{
 		Warning( "ViewBuilder Begin/End Error - Accessing ClientWorlListInfoElement(-1)\n" );
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -9587,7 +9587,7 @@ WorldListInfo_t *CConcurrentViewBuilder::GetWorldListInfoElement( int buildViewI
 	if( buildViewID == -1 )
 	{
 		Warning( "ViewBuilder Begin/End Error - Accessing WorlListInfoElement(-1)\n" );
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -9622,7 +9622,7 @@ CClientRenderablesList *CConcurrentViewBuilder::GetRenderablesListElement( int b
 	if( viewID == -1 )
 	{
 		Warning( "ViewBuilder Begin/End Error - Accessing RenderablesListElement(-1)\n" );
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -9829,14 +9829,14 @@ void CConcurrentViewBuilder::TryRunSequentialJobs( void )
 	if ( m_pCurrentSeqJobs && m_pCurrentSeqJobs->IsFinished() )
 	{
 		SafeRelease( m_pCurrentSeqJobs );
-		m_pCurrentSeqJobs = NULL;
+		m_pCurrentSeqJobs = nullptr;
 	}
 
 	if ( !m_pCurrentSeqJobs && m_pPendingSeqJobs )
 	{
 		m_pCurrentSeqJobs = m_pPendingSeqJobs;
 		AddJobToThreadPool( m_pCurrentSeqJobs );
-		m_pPendingSeqJobs = NULL;
+		m_pPendingSeqJobs = nullptr;
 	}
 }
 

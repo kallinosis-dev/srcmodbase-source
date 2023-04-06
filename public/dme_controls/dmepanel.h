@@ -56,7 +56,7 @@ public:
 	virtual void PerformLayout();
 	virtual void ApplySchemeSettings( vgui::IScheme *pScheme );
 
-	void SetDmeElement( CDmElement *pDmeElement, bool bForce = false, const char *pPanelName = NULL );
+	void SetDmeElement( CDmElement *pDmeElement, bool bForce = false, const char *pPanelName = nullptr);
 
 	// Switch to a new editor
 	void SetEditor( const char *pEditorName );
@@ -98,7 +98,7 @@ private:
 	void DeleteCachedPanels();
 
 	// Populate editor name combo box
-	void PopulateEditorNames( const char *pPanelName = NULL );
+	void PopulateEditorNames( const char *pPanelName = nullptr);
 
 	// Deactivates the current editor
 	void DeactivateCurrentEditor();
@@ -263,8 +263,8 @@ private:
 //-----------------------------------------------------------------------------
 // Get Dme Factories for a particular element type
 //-----------------------------------------------------------------------------
-DmeFactoryHandle_t DmePanelFirstFactory( CDmElement *pElement = NULL );
-DmeFactoryHandle_t DmePanelNextFactory( DmeFactoryHandle_t h, CDmElement *pElement = NULL );
+DmeFactoryHandle_t DmePanelFirstFactory( CDmElement *pElement = nullptr);
+DmeFactoryHandle_t DmePanelNextFactory( DmeFactoryHandle_t h, CDmElement *pElement = nullptr);
 const char *DmePanelFactoryName( DmeFactoryHandle_t h );
 const char *DmePanelFactoryDisplayName( DmeFactoryHandle_t h );
 const char *DmePanelFactoryElementType( DmeFactoryHandle_t h );
@@ -274,7 +274,7 @@ bool DmePanelFactoryIsDefault( DmeFactoryHandle_t h );
 //-----------------------------------------------------------------------------
 // Dme Panel factory methods
 //-----------------------------------------------------------------------------
-vgui::EditablePanel *CreateDmePanel( vgui::Panel *pParent, const char *pPanelName, CDmElement *pElement, const char *pEditorName = NULL );
+vgui::EditablePanel *CreateDmePanel( vgui::Panel *pParent, const char *pPanelName, CDmElement *pElement, const char *pEditorName = nullptr);
 
 
 #endif // DMEPANEL_H

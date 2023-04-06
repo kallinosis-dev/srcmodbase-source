@@ -98,7 +98,7 @@ extern IGameMovement *g_pGameMovement;
 class CTraceFilterSkipTwoEntitiesAndCheckTeamMask : public CTraceFilterSkipTwoEntities
 {
 public:
-	CTraceFilterSkipTwoEntitiesAndCheckTeamMask( const IHandleEntity *passentity = NULL, const IHandleEntity *passentity2 = NULL, int collisionGroup = COLLISION_GROUP_NONE ) :
+	CTraceFilterSkipTwoEntitiesAndCheckTeamMask( const IHandleEntity *passentity = nullptr, const IHandleEntity *passentity2 = nullptr, int collisionGroup = COLLISION_GROUP_NONE ) :
 		CTraceFilterSkipTwoEntities( passentity, passentity2, collisionGroup )
 	{
 	}
@@ -751,10 +751,10 @@ CGameMovement::CGameMovement( void )
 	m_nOnLadder			= 0;
 	m_bProcessingMovement = false;
 
-	mv					= NULL;
+	mv					= nullptr;
 
 	memset( m_flStuckCheckTime, 0, sizeof(m_flStuckCheckTime) );
-	m_pTraceListData = NULL;
+	m_pTraceListData = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -782,7 +782,7 @@ ITraceFilter *CGameMovement::LockTraceFilter( int collisionGroup )
 	// If this assertion triggers, you forgot to call UnlockTraceFilter
 	Assert( s_nTraceFilterCount < MAX_NESTING );
 	if ( s_nTraceFilterCount >= MAX_NESTING )
-		return NULL;
+		return nullptr;
 
 	CTraceFilterSkipTwoEntitiesAndCheckTeamMask *pFilter = &s_TraceFilter[s_nTraceFilterCount++];
 	pFilter->SetPassEntity( mv->m_nPlayerHandle.Get() );
@@ -796,7 +796,7 @@ void CGameMovement::UnlockTraceFilter( ITraceFilter *&pFilter )
 	Assert( s_nTraceFilterCount > 0 );
 	--s_nTraceFilterCount;
 	Assert( &s_TraceFilter[s_nTraceFilterCount] == pFilter );
-	pFilter = NULL;
+	pFilter = nullptr;
 }
 
 
@@ -1076,7 +1076,7 @@ void CGameMovement::CategorizeGroundSurface( trace_t &pm )
 	IPhysicsSurfaceProps *physprops = MoveHelper()->GetSurfaceProps();
 	player->m_surfaceProps = pm.surface.surfaceProps;
 	player->m_pSurfaceData = physprops->GetSurfaceData( player->m_surfaceProps );
-	physprops->GetPhysicsProperties( player->m_surfaceProps, NULL, NULL, &player->m_surfaceFriction, NULL );
+	physprops->GetPhysicsProperties( player->m_surfaceProps, nullptr, nullptr, &player->m_surfaceFriction, nullptr);
 	
 	// HACKHACK: Scale this to fudge the relationship between vphysics friction values and player friction values.
 	// A value of 0.8f feels pretty normal for vphysics, whereas 1.0f is normal for players.
@@ -1378,7 +1378,7 @@ void CGameMovement::ProcessMovement( CBasePlayer *pPlayer, CMoveData *pMove )
 
 void CGameMovement::Reset( void )
 {
-	player = NULL;
+	player = nullptr;
 }
 
 void CGameMovement::StartTrackPredictionErrors( CBasePlayer *pPlayer )
@@ -1884,7 +1884,7 @@ void CGameMovement::Friction( void )
 	drop = 0;
 
 	// apply ground friction
-	if (player->GetGroundEntity() != NULL)  // On an entity that is the ground
+	if (player->GetGroundEntity() != nullptr)  // On an entity that is the ground
 	{
 		friction = sv_friction.GetFloat() * player->m_surfaceFriction;
 
@@ -2258,7 +2258,7 @@ void CGameMovement::WalkMove( void )
 	}
 
 	// Don't walk up stairs if not on ground.
-	if ( oldground == NULL && player->GetWaterLevel()  == WL_NotInWater )
+	if ( oldground == nullptr && player->GetWaterLevel()  == WL_NotInWater )
 	{
 		// Now pull the base velocity back out.   Base velocity is set if you are on a moving object, like a conveyor (or maybe another monster?)
 		VectorSubtract( mv->m_vecVelocity, player->GetBaseVelocity(), mv->m_vecVelocity );
@@ -2334,7 +2334,7 @@ void CGameMovement::FullWalkMove( )
 		CategorizePosition();
 
 		// If we are on ground, no downward velocity.
-		if ( player->GetGroundEntity() != NULL )
+		if ( player->GetGroundEntity() != nullptr)
 		{
 			mv->m_vecVelocity[2] = 0;			
 		}
@@ -2354,7 +2354,7 @@ void CGameMovement::FullWalkMove( )
 
 		// Fricion is handled before we add in any base velocity. That way, if we are on a conveyor, 
 		//  we don't slow when standing still, relative to the conveyor.
-		if (player->GetGroundEntity() != NULL)
+		if (player->GetGroundEntity() != nullptr)
 		{
 			mv->m_vecVelocity[2] = 0.0;
 			player->m_Local.m_flFallVelocity = 0.0f;
@@ -2364,7 +2364,7 @@ void CGameMovement::FullWalkMove( )
 		// Make sure velocity is valid.
 		CheckVelocity();
 
-		if (player->GetGroundEntity() != NULL)
+		if (player->GetGroundEntity() != nullptr)
 		{
 			WalkMove();
 
@@ -2389,7 +2389,7 @@ void CGameMovement::FullWalkMove( )
 		}
 
 		// If we are on ground, no downward velocity.
-		if ( player->GetGroundEntity() != NULL )
+		if ( player->GetGroundEntity() != nullptr)
 		{
 			mv->m_vecVelocity[2] = 0;
 		}
@@ -2420,7 +2420,7 @@ void CGameMovement::FullObserverMove( void )
 	{
 		CBaseEntity * target = player->GetObserverTarget();
 
-		if ( target != NULL )
+		if ( target != nullptr)
 		{
 			mv->SetAbsOrigin( target->GetAbsOrigin() );
 			mv->m_vecViewAngles = target->GetAbsAngles();
@@ -2648,7 +2648,7 @@ bool CGameMovement::CheckJumpButton( void )
 	if ( player->GetWaterLevel() >= WL_Waist )
 	{	
 		// swimming, not jumping
-		SetGroundEntity( NULL );
+		SetGroundEntity(nullptr);
 
 		if(player->GetWaterType() == CONTENTS_WATER)    // We move up a certain amount
 			mv->m_vecVelocity[2] = 100;
@@ -2670,7 +2670,7 @@ bool CGameMovement::CheckJumpButton( void )
 	player->m_bHasWalkMovedSinceLastJump = false;
 
 	// No more effect
- 	if (player->GetGroundEntity() == NULL)
+ 	if (player->GetGroundEntity() == nullptr)
 	{
 		mv->m_nOldButtons |= IN_JUMP;
 		return false;		// in air, so no effect
@@ -2695,7 +2695,7 @@ bool CGameMovement::CheckJumpButton( void )
 
 
 	// In the air now.
-    SetGroundEntity( NULL );
+    SetGroundEntity(nullptr);
 	
 	player->PlayStepSound( (Vector &)mv->GetAbsOrigin(), player->m_pSurfaceData, 1.0, true );
 	
@@ -3016,7 +3016,7 @@ int CGameMovement::TryPlayerMove( Vector *pFirstDest, trace_t *pFirstTrace )
 		//  and pressing forward and nobody was really using this bounce/reflection feature anyway...
 		if ( numplanes == 1 &&
 			player->GetMoveType() == MOVETYPE_WALK &&
-			player->GetGroundEntity() == NULL )	
+			player->GetGroundEntity() == nullptr)	
 		{
 			for ( i = 0; i < numplanes; i++ )
 			{
@@ -3202,7 +3202,7 @@ bool CGameMovement::LadderMove( void )
 		
 		if( player->m_bHasWalkMovedSinceLastJump &&								// the player is not in the air due to an intentional jump
 			player->GetMoveType() != MOVETYPE_LADDER &&							// not already laddering
-			player->GetGroundEntity() == NULL &&								// in the air
+			player->GetGroundEntity() == nullptr &&								// in the air
 			mv->m_vecVelocity.z <= 0 &&											// not flying upward
 			mv->m_vecVelocity.z > -50.0f &&										// not falling too fast
 			( abs(mv->m_vecVelocity.x) > 0 && abs(mv->m_vecVelocity.y) > 0 )	// lateral velocity present
@@ -3261,7 +3261,7 @@ bool CGameMovement::LadderMove( void )
 	VectorCopy( mv->GetAbsOrigin(), floor );
 	floor[2] += GetPlayerMins()[2] - 1;
 
-	if( enginetrace->GetPointContents( floor ) == CONTENTS_SOLID || player->GetGroundEntity() != NULL )
+	if( enginetrace->GetPointContents( floor ) == CONTENTS_SOLID || player->GetGroundEntity() != nullptr)
 	{
 		onFloor = true;
 	}
@@ -3745,7 +3745,7 @@ bool CGameMovement::IsMovingPlayerStuck( void ) const
 //-----------------------------------------------------------------------------
 CBasePlayer *CGameMovement::GetMovingPlayer( void ) const
 {
-	return m_bProcessingMovement ? player : NULL;
+	return m_bProcessingMovement ? player : nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------
@@ -3984,7 +3984,7 @@ bool CGameMovement::CheckWater( void )
 
 void CGameMovement::SetGroundEntity( trace_t *pm )
 {
-	CBaseEntity *newGround = pm ? pm->m_pEnt : NULL;
+	CBaseEntity *newGround = pm ? pm->m_pEnt : nullptr;
 
 	CBaseEntity *oldGround = player->GetGroundEntity();
 	Vector vecBaseVelocity = player->GetBaseVelocity();
@@ -4206,7 +4206,7 @@ void CGameMovement::CategorizePosition( void )
 	bool bUnderwater = ( player->GetWaterLevel() >= WL_Eyes );
 	bool bMoveToEndPos = false;
 	if ( player->GetMoveType() == MOVETYPE_WALK && 
-		player->GetGroundEntity() != NULL && !bUnderwater )
+		player->GetGroundEntity() != nullptr && !bUnderwater )
 	{
 		// if walking and still think we're on ground, we'll extend trace down by stepsize so we don't bounce down slopes
 		bMoveToEndPos = true;
@@ -4217,7 +4217,7 @@ void CGameMovement::CategorizePosition( void )
 	if ( bMovingUpRapidly || 
 		( bMovingUp && player->GetMoveType() == MOVETYPE_LADDER ) )   
 	{
-		SetGroundEntity( NULL );
+		SetGroundEntity(nullptr);
 		bMoveToEndPos = false;
 	}
 	else
@@ -4244,7 +4244,7 @@ void CGameMovement::CategorizePosition( void )
 			UnlockTraceFilter( pFilter );
 			if ( !CheckValidStandableGroundCandidate( pm, flStandableZ ) )
 			{
-				SetGroundEntity( NULL );
+				SetGroundEntity(nullptr);
 				// probably want to add a check for a +z velocity too!
 				if ( ( mv->m_vecVelocity.z > 0.0f ) && 
 					( player->GetMoveType() != MOVETYPE_NOCLIP ) )
@@ -4337,7 +4337,7 @@ void CGameMovement::CategorizePosition( void )
 void CGameMovement::CheckFalling( void )
 {
 	// this function really deals with landing, not falling, so ignore everything else
-	if ( player->GetGroundEntity() == NULL || player->m_Local.m_flFallVelocity <= 0 )
+	if ( player->GetGroundEntity() == nullptr || player->m_Local.m_flFallVelocity <= 0 )
 		return;
 
 	if ( !IsDead() && player->m_Local.m_flFallVelocity >= PLAYER_FALL_PUNCH_THRESHOLD )
@@ -4498,7 +4498,7 @@ bool CGameMovement::CanUnduck()
 
 	VectorCopy( mv->GetAbsOrigin(), newOrigin );
 
-	if ( player->GetGroundEntity() != NULL )
+	if ( player->GetGroundEntity() != nullptr)
 	{
 		for ( i = 0; i < 3; i++ )
 		{
@@ -4537,7 +4537,7 @@ void CGameMovement::FinishUnDuck( void )
 
 	VectorCopy( mv->GetAbsOrigin(), newOrigin );
 
-	if ( player->GetGroundEntity() != NULL )
+	if ( player->GetGroundEntity() != nullptr)
 	{
 		for ( i = 0; i < 3; i++ )
 		{
@@ -4644,7 +4644,7 @@ void CGameMovement::FinishDuck( void )
 	player->SetViewOffset( GetPlayerViewOffset( true ) );
 
 	// HACKHACK - Fudge for collision bug - no time to fix this properly
-	if ( player->GetGroundEntity() != NULL )
+	if ( player->GetGroundEntity() != nullptr)
 	{
 		for ( int i = 0; i < 3; i++ )
 		{
@@ -4730,7 +4730,7 @@ void CGameMovement::SetDuckedEyeOffset( float duckFraction )
 //-----------------------------------------------------------------------------
 void CGameMovement::HandleDuckingSpeedCrop( void )
 {
-	if ( !( m_iSpeedCropped & SPEED_CROPPED_DUCK ) && ( player->GetFlags() & FL_DUCKING ) && ( player->GetGroundEntity() != NULL ) )
+	if ( !( m_iSpeedCropped & SPEED_CROPPED_DUCK ) && ( player->GetFlags() & FL_DUCKING ) && ( player->GetGroundEntity() != nullptr) )
 	{
 		float frac = 0.33333333f;
 		mv->m_flForwardMove	*= frac;
@@ -4777,7 +4777,7 @@ void CGameMovement::Duck( void )
 	int buttonsReleased	=  buttonsChanged & mv->m_nOldButtons;		// The changed ones which were previously down are "released"
 
 	// Check to see if we are in the air.
-	bool bInAir = ( player->GetGroundEntity() == NULL );
+	bool bInAir = ( player->GetGroundEntity() == nullptr);
 	bool bInDuck = ( player->GetFlags() & FL_DUCKING ) ? true : false;
 	bool bDuckJump = ( player->m_Local.m_nJumpTimeMsecs > 0 );
 	bool bDuckJumpTime = ( player->m_Local.m_nDuckJumpTimeMsecs > 0 );
@@ -5042,7 +5042,7 @@ void CGameMovement::PlayerMove( void )
 	{
 		if ( mv->m_vecVelocity.z > 250.0f )
 		{
-			SetGroundEntity( NULL );
+			SetGroundEntity(nullptr);
 		}
 	}
 
@@ -5050,7 +5050,7 @@ void CGameMovement::PlayerMove( void )
 	m_nOldWaterLevel = player->GetWaterLevel();
 
 	// If we are not on ground, store off how fast we are moving down
-	if ( player->GetGroundEntity() == NULL )
+	if ( player->GetGroundEntity() == nullptr)
 	{
 		player->m_Local.m_flFallVelocity = -mv->m_vecVelocity[ 2 ];
 	}
@@ -5243,11 +5243,11 @@ void CGameMovement::FullTossMove( void )
 
 	if ( mv->m_vecVelocity[2] > 0 )
 	{
-		SetGroundEntity( NULL );
+		SetGroundEntity(nullptr);
 	}
 
 	// If on ground and not moving, return.
-	if ( player->GetGroundEntity() != NULL )
+	if ( player->GetGroundEntity() != nullptr)
 	{
 		if (VectorCompare(player->GetBaseVelocity(), vec3_origin) &&
 		    VectorCompare(mv->m_vecVelocity, vec3_origin))

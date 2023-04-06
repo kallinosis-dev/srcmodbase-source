@@ -124,7 +124,7 @@ class CDmeConstraintSlave : public CDmElement
 public:
 
 	// Get the transform of the dag assigned to the slave
-	CDmeTransform *GetTransform()							{ return m_Dag.GetElement() ? m_Dag->GetTransform() : NULL; }
+	CDmeTransform *GetTransform()							{ return m_Dag.GetElement() ? m_Dag->GetTransform() : nullptr; }
 
 	// Set the dag node targeted by the slave
 	void SetDag( CDmeDag *pDag )							{ m_Dag = pDag; }

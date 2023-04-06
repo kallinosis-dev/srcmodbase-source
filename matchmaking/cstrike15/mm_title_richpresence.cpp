@@ -55,7 +55,7 @@ KeyValues * MM_Title_RichPresence_PrepareForSessionCreate( KeyValues *pSettings 
 		DevMsg( "PrepareForSessionCreate: matchmaking version %d\n", val );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void MM_Title_RichPresence_Update( KeyValues *pFullSettings, KeyValues *pUpdatedSettings )

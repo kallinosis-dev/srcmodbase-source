@@ -23,7 +23,7 @@ void IVP_Synapse_Real::insert_exact_synapse_in_object(){
     if (this->next){
 	this->next->prev = this;
     }
-    this->prev = NULL;
+    this->prev = nullptr;
     l_obj->exact_synapses = this;
 }
 
@@ -45,7 +45,7 @@ void IVP_Synapse_Real::insert_invalid_synapse_in_object(){
     if (this->next){
 	this->next->prev = this;
     }
-    this->prev = NULL;
+    this->prev = nullptr;
     l_obj->invalid_synapses = this;
 }
 

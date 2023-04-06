@@ -212,7 +212,7 @@ public:
 	// Purpose: Activate the dialog
 	// The message "AssetSelected" will be sent if an asset is picked
 	// Pass in optional keyvalues to add to the message
-	void DoModal( KeyValues *pContextKeyValues = NULL );
+	void DoModal( KeyValues *pContextKeyValues = nullptr);
 
 	// Sets the initial selected asset
 	void SetInitialSelection( const char *pAssetName );

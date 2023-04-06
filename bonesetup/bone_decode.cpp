@@ -661,7 +661,7 @@ static void CalcZeroframeData( const CStudioHdr *pStudioHdr, const studiohdr_t *
 // Purpose: Extract and blend two frames from a mstudio_frame_anim_t block of data
 //-----------------------------------------------------------------------------
 
-inline byte *ExtractTwoFrames( byte flags, float s, byte *RESTRICT pFrameData, byte *&pConstantData, int framelength, BoneQuaternion &q, BoneVector &pos, bool bIsDelta = false, const mstudiolinearbone_t *pLinearBones = NULL, int bone = 0 )
+inline byte *ExtractTwoFrames( byte flags, float s, byte *RESTRICT pFrameData, byte *&pConstantData, int framelength, BoneQuaternion &q, BoneVector &pos, bool bIsDelta = false, const mstudiolinearbone_t *pLinearBones = nullptr, int bone = 0 )
 {
 	BONE_PROFILE_FUNC();
 #ifdef _GAMECONSOLE
@@ -884,7 +884,7 @@ inline byte *ExtractTwoFrames( byte flags, float s, byte *RESTRICT pFrameData, b
 // Purpose: Extract one frame from a mstudio_frame_anim_t block of data
 //-----------------------------------------------------------------------------
 
-inline byte *ExtractSingleFrame( byte flags, byte *pFrameData, byte *&pConstantData, BoneQuaternion &q, BoneVector &pos, bool bIsDelta = false, const mstudiolinearbone_t *pLinearBones = NULL, int bone = 0 )
+inline byte *ExtractSingleFrame( byte flags, byte *pFrameData, byte *&pConstantData, BoneQuaternion &q, BoneVector &pos, bool bIsDelta = false, const mstudiolinearbone_t *pLinearBones = nullptr, int bone = 0 )
 {
 	BONE_PROFILE_FUNC();
 #ifdef _GAMECONSOLE
@@ -1180,8 +1180,8 @@ void SetupSingleBoneMatrix(
 		// look up animation if found, if not, initialize
 		if (panim && seqdesc.weight(iBone) > 0)
 		{
-			CalcBoneQuaternion( iLocalFrame, s, pbone, NULL, panim, boneQuat );
-			CalcBonePosition  ( iLocalFrame, s, pbone, NULL, panim, bonePos );
+			CalcBoneQuaternion( iLocalFrame, s, pbone, nullptr, panim, boneQuat );
+			CalcBonePosition  ( iLocalFrame, s, pbone, nullptr, panim, bonePos );
 			bFound = true;
 		}
 	}
@@ -1259,13 +1259,13 @@ static void CalcVirtualAnimation( virtualmodel_t *pVModel, const CStudioHdr *pSt
 	int iLocalFrame = iFrame;
 	float flStall;
 
-	const mstudio_rle_anim_t *panim = NULL;
-	const mstudio_frame_anim_t *pFrameanim = NULL;
+	const mstudio_rle_anim_t *panim = nullptr;
+	const mstudio_frame_anim_t *pFrameanim = nullptr;
 	
-	byte *pBoneFlags = NULL;
-	byte *pConstantData = NULL;
-	byte *pFrameData = NULL;
-	byte *pFrameDataNext = NULL;
+	byte *pBoneFlags = nullptr;
+	byte *pConstantData = nullptr;
+	byte *pFrameData = nullptr;
+	byte *pFrameDataNext = nullptr;
 	int framelength = 0;
 	
 	if (animdesc.flags & STUDIO_FRAMEANIM)
@@ -1504,13 +1504,13 @@ void CalcAnimation( const CStudioHdr *pStudioHdr, BoneVector *pos, BoneQuaternio
 	int iLocalFrame = iFrame;
 	float flStall = 0.0f;
 
-	const mstudio_rle_anim_t *panim = NULL;
-	const mstudio_frame_anim_t *pFrameanim = NULL;
+	const mstudio_rle_anim_t *panim = nullptr;
+	const mstudio_frame_anim_t *pFrameanim = nullptr;
 	
-	byte *pBoneFlags = NULL;
-	byte *pConstantData = NULL;
-	byte *pFrameData = NULL;
-	byte *pFrameDataNext = NULL;
+	byte *pBoneFlags = nullptr;
+	byte *pConstantData = nullptr;
+	byte *pFrameData = nullptr;
+	byte *pFrameDataNext = nullptr;
 	int framelength = NULL;
 
 	if (animdesc.flags & STUDIO_FRAMEANIM)
@@ -1560,7 +1560,7 @@ void CalcAnimation( const CStudioHdr *pStudioHdr, BoneVector *pos, BoneQuaternio
 			}
 		}
 
-		CalcZeroframeData( pStudioHdr, pStudioHdr->GetRenderHdr(), NULL, pStudioHdr->pBone( 0 ), animdesc, fFrame, pos, q, boneMask, 1.0 );
+		CalcZeroframeData( pStudioHdr, pStudioHdr->GetRenderHdr(), nullptr, pStudioHdr->pBone( 0 ), animdesc, fFrame, pos, q, boneMask, 1.0 );
 
 		return;
 	}
@@ -1650,7 +1650,7 @@ void CalcAnimation( const CStudioHdr *pStudioHdr, BoneVector *pos, BoneQuaternio
 	// cross fade in previous zeroframe data
 	if (flStall > 0.0f)
 	{
-		CalcZeroframeData( pStudioHdr, pStudioHdr->GetRenderHdr(), NULL, pStudioHdr->pBone( 0 ), animdesc, fFrame, pos, q, boneMask, flStall );
+		CalcZeroframeData( pStudioHdr, pStudioHdr->GetRenderHdr(), nullptr, pStudioHdr->pBone( 0 ), animdesc, fFrame, pos, q, boneMask, flStall );
 	}
 
 	if (animdesc.numlocalhierarchy)

@@ -10,7 +10,7 @@
 
 namespace GCSDK
 {
-IGameCoordinatorHost *g_pGCHost = NULL;
+IGameCoordinatorHost *g_pGCHost = nullptr;
 
 IGameCoordinatorHost *GGCHost()
 {

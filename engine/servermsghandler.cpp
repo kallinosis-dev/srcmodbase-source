@@ -99,7 +99,7 @@ void CClientState::ConnectionClosing( const char * reason )
 		SCR_EndLoadingPlaque();
 		Host_Disconnect(true);
 
-		if ( (reason != NULL) && (Q_stricmp( reason, "Server shutting down" ) == 0) && //if disconnect reason is server shutdown
+		if ( (reason != nullptr) && (Q_stricmp( reason, "Server shutting down" ) == 0) && //if disconnect reason is server shutdown
 			(CommandLine()->FindParm( "-quitonservershutdown" ) != 0) ) //and we want to quit the game whenever the server shuts down (assists quick iteration)
 		{
 			Host_Shutdown(); //quit the game
@@ -511,7 +511,7 @@ bool CClientState::SVCMsg_VoiceData( const CSVCMsg_VoiceData &msg )
 
 	CSteamID voicePlayer( playerinfo.xuid );
 
-	if ( Q_strlen( cl_voice_filter.GetString() ) > 0 && Q_strstr( playerinfo.name, cl_voice_filter.GetString() ) == NULL )
+	if ( Q_strlen( cl_voice_filter.GetString() ) > 0 && Q_strstr( playerinfo.name, cl_voice_filter.GetString() ) == nullptr)
 		return true;
 
 	// Data length can be zero when the server is just acking a client's voice data.
@@ -666,7 +666,7 @@ bool CClientState::SVCMsg_BSPDecal( const CSVCMsg_BSPDecal& msg )
 		}
 	}
 
-	if ( model == NULL )
+	if ( model == nullptr)
 	{
 		IMaterial *mat = Draw_DecalMaterial( msg.decal_texture_index() );
 		char const *matname = "???";
@@ -694,7 +694,7 @@ bool CClientState::SVCMsg_BSPDecal( const CSVCMsg_BSPDecal& msg )
 			vec3_origin,
 			vec3_angle,
 			vecPos,
-			NULL,
+			nullptr,
 			msg.low_priority() ? 0 : FDECAL_PERMANENT );
 	}
 
@@ -792,7 +792,7 @@ bool CClientState::SVCMsg_PacketEntities( const CSVCMsg_PacketEntities &msg )
 		if ( m_nSignonState == SIGNONSTATE_SPAWN  )
 		{	
 			// We are done with signon sequence.
-			SetSignonState( SIGNONSTATE_FULL, m_nServerCount, NULL );
+			SetSignonState( SIGNONSTATE_FULL, m_nServerCount, nullptr);
 		}
 
 		// ignore message, all entities are transmitted using fast local memcopy routines
@@ -838,12 +838,12 @@ bool CClientState::SVCMsg_TempEntities( const CSVCMsg_TempEntities &msg )
 	bf_read buffer( &msg.entity_data()[0], msg.entity_data().size() );
 
 	int classID = -1;
-	void *from = NULL;
-	C_ServerClassInfo *pServerClass = NULL;
-	ClientClass *pClientClass = NULL;
+	void *from = nullptr;
+	C_ServerClassInfo *pServerClass = nullptr;
+	ClientClass *pClientClass = nullptr;
 	ALIGN4 unsigned char data[CEventInfo::MAX_EVENT_DATA] ALIGN4_POST;
 	bf_write toBuf( data, sizeof(data) );
-	CEventInfo *ei = NULL;
+	CEventInfo *ei = nullptr;
 
 	CUtlFixedLinkedList< CEventInfo > &eventList = GetBaseLocalClient().events;
 
@@ -879,14 +879,14 @@ bool CClientState::SVCMsg_TempEntities( const CSVCMsg_TempEntities &msg )
 
 		if ( buffer.ReadOneBit() )
 		{
-			from = NULL; // full update
+			from = nullptr; // full update
 
 			classID = buffer.ReadUBitLong( m_nServerClassBits ); // classID 
 
 			// Look up the client class, etc.
 
 			// Match the server classes to the client classes.
-			pServerClass = m_pServerClasses ? &m_pServerClasses[ classID - 1 ] : NULL;
+			pServerClass = m_pServerClasses ? &m_pServerClasses[ classID - 1 ] : nullptr;
 
 			if ( !pServerClass )
 			{

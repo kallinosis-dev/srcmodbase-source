@@ -117,10 +117,10 @@ int		g_nWorkersDisconnected = 0;
 
 DWORD	g_StatsStartTime;
 
-CMySqlDatabase	*g_pDB = NULL;
+CMySqlDatabase	*g_pDB = nullptr;
 
-IMySQL			*g_pSQL = NULL;
-CSysModule		*g_hMySQLDLL = NULL;
+IMySQL			*g_pSQL = nullptr;
+CSysModule		*g_hMySQLDLL = nullptr;
 
 char	g_BSPFilename[256];
 
@@ -132,9 +132,9 @@ char			g_MachineName[MAX_COMPUTERNAME_LENGTH+1] = {0};
 unsigned long	g_CurrentMessageIndex = 0;
 
 
-HANDLE	g_hPerfThread = NULL;
+HANDLE	g_hPerfThread = nullptr;
 DWORD	g_PerfThreadID = 0xFEFEFEFE;
-HANDLE	g_hPerfThreadExitEvent = NULL;
+HANDLE	g_hPerfThreadExitEvent = nullptr;
 
 // These are set by the app and they go into the database.
 extern uint64 g_ThreadWUs[4];
@@ -425,7 +425,7 @@ void PerfThread_SendSpewText()
 			
 			if ( g_bMPI_StatsTextOutput )
 			{
-				g_pDB->AddCommandToQueue( new CSQLDBCommand_TextMessage( g_SpewText.Base() ), NULL );
+				g_pDB->AddCommandToQueue( new CSQLDBCommand_TextMessage( g_SpewText.Base() ), nullptr);
 			}
 			else
 			{
@@ -437,7 +437,7 @@ void PerfThread_SendSpewText()
 					char msg[512];
 					V_snprintf( msg, sizeof( msg ), "%s not enabled", VMPI_GetParamString( mpi_Stats_TextOutput ) );
 					bFirst = false;
-					g_pDB->AddCommandToQueue( new CSQLDBCommand_TextMessage( msg ), NULL );
+					g_pDB->AddCommandToQueue( new CSQLDBCommand_TextMessage( msg ), nullptr);
 				}
 			}
 			
@@ -458,8 +458,8 @@ void PerfThread_AddGraphEntry( DWORD startTicks, DWORD &lastSent, DWORD &lastRec
 		new CSQLDBCommand_GraphEntry( 
 			GetTickCount() - startTicks,
 			curSent - lastSent, 
-			curReceived - lastReceived ), 
-		NULL );
+			curReceived - lastReceived ),
+	nullptr);
 
 	lastSent = curSent;
 	lastReceived = curReceived;
@@ -484,8 +484,8 @@ DWORD WINAPI PerfThreadFn( LPVOID pParameter )
 		if ( g_bMaster )
 		{
 			g_pDB->AddCommandToQueue( 
-				new CSQLDBCommand_WorkerStats, 
-				NULL );
+				new CSQLDBCommand_WorkerStats,
+			nullptr);
 		}
 	}
 
@@ -515,11 +515,11 @@ void UnloadMySQLWrapper()
 		if ( g_pSQL )
 		{
 			g_pSQL->Release();
-			g_pSQL = NULL;
+			g_pSQL = nullptr;
 		}
 	
 		Sys_UnloadModule( g_hMySQLDLL );
-		g_hMySQLDLL = NULL;
+		g_hMySQLDLL = nullptr;
 	}
 }
 
@@ -563,7 +563,7 @@ bool VMPI_Stats_Init_Master(
 	if ( !g_pDB || !g_pDB->Initialize() || !LoadMySQLWrapper( pHostName, pDBName, pUserName ) )
 	{
 		delete g_pDB;
-		g_pDB = NULL;
+		g_pDB = nullptr;
 		return false;
 	}
 
@@ -582,14 +582,14 @@ bool VMPI_Stats_Init_Master(
 	if ( g_JobPrimaryID == 0 )
 	{
 		delete g_pDB;
-		g_pDB = NULL;
+		g_pDB = nullptr;
 		return false;
 	}
 
 
 	// Now init the worker portion.
 	*pDBJobID = g_JobPrimaryID;
-	return VMPI_Stats_Init_Worker( NULL, NULL, NULL, g_JobPrimaryID );
+	return VMPI_Stats_Init_Worker(nullptr, nullptr, nullptr, g_JobPrimaryID );
 }
 
 
@@ -608,7 +608,7 @@ bool VMPI_Stats_Init_Worker( const char *pHostName, const char *pDBName, const c
 		if ( !g_pDB || !g_pDB->Initialize() || !LoadMySQLWrapper( pHostName, pDBName, pUserName ) )
 		{
 			delete g_pDB;
-			g_pDB = NULL;
+			g_pDB = nullptr;
 			return false;
 		}
 		
@@ -630,17 +630,17 @@ bool VMPI_Stats_Init_Worker( const char *pHostName, const char *pDBName, const c
 	if ( g_JobWorkerID == 0 )
 	{
 		delete g_pDB;
-		g_pDB = NULL;
+		g_pDB = nullptr;
 		return false;
 	}
 
 	// Now create a thread that samples perf data and stores it in the database.
-	g_hPerfThreadExitEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
+	g_hPerfThreadExitEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	g_hPerfThread = CreateThread(
-		NULL,
+		nullptr,
 		0,
 		PerfThreadFn,
-		NULL,
+		nullptr,
 		0,
 		&g_PerfThreadID );
 
@@ -658,15 +658,15 @@ void VMPI_Stats_Term()
 	WaitForSingleObject( g_hPerfThread, INFINITE );
 	
 	CloseHandle( g_hPerfThreadExitEvent );
-	g_hPerfThreadExitEvent = NULL;
+	g_hPerfThreadExitEvent = nullptr;
 
 	CloseHandle( g_hPerfThread );
-	g_hPerfThread = NULL;
+	g_hPerfThread = nullptr;
 
 	if ( g_bMaster )
 	{
 		// (Write a job_master_end entry here).
-		g_pDB->AddCommandToQueue( new CSQLDBCommand_JobMasterEnd, NULL );
+		g_pDB->AddCommandToQueue( new CSQLDBCommand_JobMasterEnd, nullptr);
 	}
 
 	// Wait for up to a second for the DB to finish writing its data.
@@ -678,7 +678,7 @@ void VMPI_Stats_Term()
 	}
 
 	delete g_pDB;
-	g_pDB = NULL;
+	g_pDB = nullptr;
 
 	UnloadMySQLWrapper();
 }
@@ -706,7 +706,7 @@ static bool ReadStringFromFile( FILE *fp, char *pStr, int strSize )
 void GetDBInfo( const char *pDBInfoFilename, CDBInfo *pInfo )
 {
 	char baseExeFilename[512];
-	if ( !GetModuleFileName( GetModuleHandle( NULL ), baseExeFilename, sizeof( baseExeFilename ) ) )
+	if ( !GetModuleFileName( GetModuleHandle(nullptr), baseExeFilename, sizeof( baseExeFilename ) ) )
 		Error( "GetModuleFileName failed." );
 	
 	// Look for the info file in the same directory as the exe.
@@ -749,7 +749,7 @@ void RunJobWatchApp( char *pCmdLine )
 
 	// Working directory should be the same as our exe's directory.
 	char dirName[512];
-	if ( GetModuleFileName( NULL, dirName, sizeof( dirName ) ) != 0 )
+	if ( GetModuleFileName(nullptr, dirName, sizeof( dirName ) ) != 0 )
 	{
 		char *s1 = V_strrchr( dirName, '\\' );
 		char *s2 = V_strrchr( dirName, '/' );
@@ -759,14 +759,14 @@ void RunJobWatchApp( char *pCmdLine )
 			s1 = max( s1, s2 );
 			s1[0] = 0;
 		
-			if ( !CreateProcess( 
-				NULL, 
-				pCmdLine, 
-				NULL,							// security
-				NULL,
+			if ( !CreateProcess(
+				nullptr, 
+				pCmdLine,
+				nullptr,							// security
+				nullptr,
 				TRUE,
 				0,			// flags
-				NULL,							// environment
+				nullptr,							// environment
 				dirName,							// current directory
 				&si,
 				&pi ) )

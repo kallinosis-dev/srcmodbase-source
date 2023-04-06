@@ -23,8 +23,8 @@
 //////////////////////////////////////////////////////////////////////////
 
 SubProcessKernelObjects::SubProcessKernelObjects( void ) :
-	m_hMemorySection( NULL ),
-	m_hMutex( NULL )
+	m_hMemorySection(nullptr),
+	m_hMutex(nullptr)
 {
 	ZeroMemory( m_hEvent, sizeof( m_hEvent ) );
 }
@@ -39,26 +39,26 @@ BOOL SubProcessKernelObjects::Create( char const *szBaseName )
 	char chBufferName[0x100] = { 0 };
 	
 	sprintf( chBufferName, "%s_msec", szBaseName );
-	m_hMemorySection = CreateFileMapping( INVALID_HANDLE_VALUE, NULL,
+	m_hMemorySection = CreateFileMapping( INVALID_HANDLE_VALUE, nullptr,
 		PAGE_READWRITE, 0, 4 * 1024 * 1024, chBufferName ); // 4Mb for a piece
-	if ( NULL != m_hMemorySection )
+	if (nullptr != m_hMemorySection )
 	{
 		if ( ERROR_ALREADY_EXISTS == GetLastError() )
 		{
 			CloseHandle( m_hMemorySection );
-			m_hMemorySection = NULL;
+			m_hMemorySection = nullptr;
 
 			Assert( 0 && "CreateFileMapping - already exists!\n" );
 		}
 	}
 
 	sprintf( chBufferName, "%s_mtx", szBaseName );
-	m_hMutex = CreateMutex( NULL, FALSE, chBufferName );
+	m_hMutex = CreateMutex(nullptr, FALSE, chBufferName );
 
 	for ( int k = 0; k < 2; ++ k )
 	{
 		sprintf( chBufferName, "%s_evt%d", szBaseName, k );
-		m_hEvent[k] = CreateEvent( NULL, FALSE, ( k ? TRUE /* = master */ : FALSE ), chBufferName );
+		m_hEvent[k] = CreateEvent(nullptr, FALSE, ( k ? TRUE /* = master */ : FALSE ), chBufferName );
 	}
 
 	return IsValid();
@@ -136,7 +136,7 @@ void * SubProcessKernelObjects_Memory::Lock( void )
 				{
 					// We just acted, still waiting for result
 					UnmapViewOfFile( m_pLockData );
-					m_pLockData = NULL;
+					m_pLockData = nullptr;
 					
 					SetEvent( m_pObjs->m_hEvent[ !m_pObjs->m_dwCookie ] );
 					Sleep( 1 );
@@ -157,13 +157,13 @@ void * SubProcessKernelObjects_Memory::Lock( void )
 		default:
 			OutputDebugString( "WAIT failure in Memory::Lock\n" );
 			SetLastError( ERROR_BAD_UNIT );
-			return NULL;
+			return nullptr;
 		}
 	}
 	
 	OutputDebugString( "Ran out of wait attempts in Memory::Lock\n" );
 	SetLastError( ERROR_NOT_READY );
-	return NULL;
+	return nullptr;
 }
 
 BOOL SubProcessKernelObjects_Memory::Unlock( void )
@@ -180,8 +180,8 @@ BOOL SubProcessKernelObjects_Memory::Unlock( void )
 			Msg( "UnmapViewOfFile failed with error %d\n", err );
 		}
 
-		m_pMemory = NULL;
-		m_pLockData = NULL;
+		m_pMemory = nullptr;
+		m_pLockData = nullptr;
 		
 		SetEvent( m_pObjs->m_hEvent[ !m_pObjs->m_dwCookie ] );
 		Sleep( 1 );
@@ -224,7 +224,7 @@ CSubProcessResponse::CSubProcessResponse( void const *pvMemory ) :
 	m_pvResultBuffer = pBytes;
 	pBytes += m_dwResultBufferLength;
 
-	m_szListing = ( char const * ) ( *pBytes ? pBytes : NULL );
+	m_szListing = ( char const * ) ( *pBytes ? pBytes : nullptr);
 }
 
 
@@ -250,8 +250,8 @@ int ShaderCompile_Subprocess_Main( char const *szSubProcessData )
 	// Enter the command pumping loop
 	SubProcessKernelObjects_Memory shrmem( &objs );
 	for (
-		void *pvMemory = NULL;
-		NULL != ( pvMemory = shrmem.Lock() );
+		void *pvMemory = nullptr;
+		nullptr != ( pvMemory = shrmem.Lock() );
 		shrmem.Unlock()
 		)
 	{
@@ -270,7 +270,7 @@ int ShaderCompile_Subprocess_Main( char const *szSubProcessData )
 			return 0;
 		}
 
-		CmdSink::IResponse *pResponse = NULL;
+		CmdSink::IResponse *pResponse = nullptr;
 		if ( InterceptFxc::TryExecuteCommand( szCommand, &pResponse ) )
 		{
 			byte *pBytes = ( byte * ) pvMemory;

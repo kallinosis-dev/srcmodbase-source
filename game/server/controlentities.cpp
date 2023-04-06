@@ -48,7 +48,7 @@ void CTargetCDAudioRep::InputChangeCDTrack( inputdata_t &inputdata )
 	int iTrack = m_iTrack;
 	
 
-	edict_t *pClient = NULL;
+	edict_t *pClient = nullptr;
 	if ( gpGlobals->maxClients == 1 )
 	{
 		pClient = INDEXENT( 1 );

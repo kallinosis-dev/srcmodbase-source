@@ -78,7 +78,7 @@ MaterialSystemMaterial_t GetMatIDFromDisp( mapdispinfo_t *pMapDisp )
 {
 	texinfo_t *pTexInfo = &texinfo[pMapDisp->face.texinfo];
 	dtexdata_t *pTexData = GetTexData( pTexInfo->texdata );
-	MaterialSystemMaterial_t matID = FindOriginalMaterial( TexDataStringTable_GetString( pTexData->nameStringTableID ), NULL, true );
+	MaterialSystemMaterial_t matID = FindOriginalMaterial( TexDataStringTable_GetString( pTexData->nameStringTableID ), nullptr, true );
 	return matID;
 }
 
@@ -144,7 +144,7 @@ void Disp_AddCollisionModels( CUtlVector<CPhysCollisionEntry *> &collisionList, 
 				CPhysCollide *pCollide = physcollision->ConvertPolysoupToCollide( pTerrainPhysics, false );
 				if ( pCollide )
 				{
-					collisionList.AddToTail( new CPhysCollisionEntryStaticMesh( pCollide, NULL ) );	
+					collisionList.AddToTail( new CPhysCollisionEntryStaticMesh( pCollide, nullptr) );	
 				}
 				// Throw this polysoup away and start over for the remaining triangles
 				physcollision->PolysoupDestroy( pTerrainPhysics );
@@ -224,7 +224,7 @@ void Disp_AddCollisionModels( CUtlVector<CPhysCollisionEntry *> &collisionList, 
 		CPhysCollide *pCollide = physcollision->ConvertPolysoupToCollide( pTerrainPhysics, false );
 		if ( pCollide )
 		{
-			collisionList.AddToTail( new CPhysCollisionEntryStaticMesh( pCollide, NULL ) );	
+			collisionList.AddToTail( new CPhysCollisionEntryStaticMesh( pCollide, nullptr) );	
 		}
 		// now that we have the collide, we're done with the soup
 		physcollision->PolysoupDestroy( pTerrainPhysics );
@@ -277,7 +277,7 @@ void CDispMeshEvent::GetVirtualMesh( void *userData, virtualmeshlist_t *pList )
 	pList->triangleCount = m_indexCount/3;
 	pList->vertexCount = m_verts.Count();
 	pList->surfacePropsIndex = 0;	// doesn't matter here, reset at runtime
-	pList->pHull = NULL;
+	pList->pHull = nullptr;
 	int indexMax = ARRAYSIZE(pList->indices);
 	int indexCount = MIN(m_indexCount, indexMax);
 	Assert(m_indexCount < indexMax);
@@ -313,7 +313,7 @@ void Disp_BuildVirtualMesh( int contentsMask )
 		CCoreDispInfo *pDispInfo = g_CoreDispInfos[ i ];
 		mapdispinfo_t *pMapDisp = &mapdispinfo[ i ];
 
-		virtualMeshes[i] = NULL;
+		virtualMeshes[i] = nullptr;
 		// not solid for this pass
 		if ( !(pMapDisp->contents & contentsMask) )
 			continue;

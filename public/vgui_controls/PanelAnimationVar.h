@@ -145,8 +145,8 @@ struct PanelAnimationMap
 {
 	PanelAnimationMap()
 	{
-		baseMap = NULL;
-		pfnClassName = NULL;
+		baseMap = nullptr;
+		pfnClassName = nullptr;
 	}
 
 	CUtlVector< PanelAnimationMapEntry > entries;

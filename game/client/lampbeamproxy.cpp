@@ -38,7 +38,7 @@ private:
 //-----------------------------------------------------------------------------
 CLampBeamProxy::CLampBeamProxy( void )
 {
-	m_pFadeValue = NULL;
+	m_pFadeValue = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -85,7 +85,7 @@ void CLampBeamProxy::OnBind( C_BaseEntity *pEnt )
 IMaterial *CLampBeamProxy::GetMaterial()
 {
 	if ( !m_pFadeValue )
-		return NULL;
+		return nullptr;
 
 	return m_pFadeValue->GetOwningMaterial();
 }

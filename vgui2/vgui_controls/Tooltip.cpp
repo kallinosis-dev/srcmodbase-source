@@ -213,7 +213,7 @@ TextTooltip::TextTooltip(Panel *parent, const char *text) : BaseTooltip( parent,
 
 	if (!s_TooltipWindow.Get())
 	{
-		s_TooltipWindow = new TextEntry(NULL, "tooltip");
+		s_TooltipWindow = new TextEntry(nullptr, "tooltip");
 
  		s_TooltipWindow->InvalidateLayout(false, true);
 
@@ -233,7 +233,7 @@ TextTooltip::TextTooltip(Panel *parent, const char *text) : BaseTooltip( parent,
 	s_TooltipWindow->SetMouseInputEnabled( false );
 	
 	SetText(text);
-	if (s_TooltipWindow.Get()->GetParent() == NULL)
+	if (s_TooltipWindow.Get()->GetParent() == nullptr)
 	{
 		s_TooltipWindow->SetText(m_Text.Base());
 		s_TooltipWindow->SetEditable(false);
@@ -262,7 +262,7 @@ TextTooltip::~TextTooltip()
 		{
 			s_TooltipWindow->MarkForDeletion();
 		}
-		s_TooltipWindow = NULL;
+		s_TooltipWindow = nullptr;
 	}
 }
 

@@ -114,7 +114,7 @@ int Templates_Add(CBaseEntity *pEntity, const char *pszMapData, int nLen, int nH
 	// tweak them for Entity I/O purposes.
 	pEntData->iszMapData = NULL_STRING;
 	pEntData->bNeedsEntityIOFixup = false;
-	pEntData->pszFixedMapData = NULL;
+	pEntData->pszFixedMapData = nullptr;
 
 	return g_Templates.AddToTail(pEntData);
 }
@@ -256,7 +256,7 @@ void Templates_ReconnectIOForGroup( CPointTemplate *pGroup )
 
 				// FIXME: This is very brittle. Any key with a , will not be found.
 				char delimiter = VMF_IOPARAM_STRING_DELIMITER;
-				if( strchr( value, delimiter ) == NULL )
+				if( strchr( value, delimiter ) == nullptr)
 				{
 					delimiter = ',';
 				}
@@ -515,7 +515,7 @@ public:
 				pRestore->ReadString( pNewTemplate->pszMapData, pNewTemplate->iMapDataLength, sizeData );
 
 				// Set this to NULL so it'll be created the first time it gets used
-				pNewTemplate->pszFixedMapData = NULL;
+				pNewTemplate->pszFixedMapData = nullptr;
 
 				g_Templates.AddToTail( pNewTemplate );
 			}

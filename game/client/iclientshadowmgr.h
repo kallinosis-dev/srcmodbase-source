@@ -43,7 +43,7 @@ abstract_class IClientShadowMgr : public IGameSystemPerFrame
 {
 public:
 	// Create, destroy shadows
-	virtual ClientShadowHandle_t CreateShadow( ClientEntityHandle_t entity, int nEntIndex, int flags, CBitVec< MAX_SPLITSCREEN_PLAYERS > *pSplitScreenBits = NULL ) = 0;
+	virtual ClientShadowHandle_t CreateShadow( ClientEntityHandle_t entity, int nEntIndex, int flags, CBitVec< MAX_SPLITSCREEN_PLAYERS > *pSplitScreenBits = nullptr) = 0;
 	virtual void DestroyShadow( ClientShadowHandle_t handle ) = 0;
 
 	// Create flashlight.

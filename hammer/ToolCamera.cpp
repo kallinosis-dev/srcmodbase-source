@@ -529,7 +529,7 @@ bool Camera3D::OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT nFl
 		Vector viewPos,lookAt;
 
 		GetCameraPos( viewPos, lookAt );
-		pDoc->UpdateAllCameras( &viewPos, &lookAt, NULL );
+		pDoc->UpdateAllCameras( &viewPos, &lookAt, nullptr);
 
 		return true;
 	}
@@ -631,7 +631,7 @@ bool Camera3D::OnLMouseUp2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoi
 		Vector viewPos, lookAt;
 		GetCameraPos( viewPos, lookAt );
 		
-		m_pDocument->UpdateAllCameras( &viewPos, &lookAt, NULL );
+		m_pDocument->UpdateAllCameras( &viewPos, &lookAt, nullptr);
 	}
 
 	m_pDocument->UpdateStatusbar();
@@ -789,7 +789,7 @@ bool Camera3D::OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFl
 		Vector viewPos, lookAt;
 		GetCameraPos( viewPos, lookAt );
 
-		pDoc->UpdateAllCameras( &viewPos, &lookAt, NULL );
+		pDoc->UpdateAllCameras( &viewPos, &lookAt, nullptr);
 		
 		return true;
 	}

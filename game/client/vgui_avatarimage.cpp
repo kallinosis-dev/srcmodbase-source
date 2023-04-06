@@ -56,7 +56,7 @@ CAvatarImage::CAvatarImage( void )
 	// set up friend icon
 	m_pFriendIcon = HudIcons().GetIcon( "ico_friend_indicator_avatar" );
 
-	m_pDefaultImage = NULL;
+	m_pDefaultImage = nullptr;
 
 	SetAvatarSize(DEFAULT_AVATAR_SIZE, DEFAULT_AVATAR_SIZE);
 }

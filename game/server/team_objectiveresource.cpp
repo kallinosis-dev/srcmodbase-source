@@ -88,7 +88,7 @@ BEGIN_DATADESC( CBaseTeamObjectiveResource )
 	DEFINE_THINKFUNC( ObjectiveThink ),
 END_DATADESC()
 
-CBaseTeamObjectiveResource *g_pObjectiveResource = NULL;
+CBaseTeamObjectiveResource *g_pObjectiveResource = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -107,7 +107,7 @@ CBaseTeamObjectiveResource::CBaseTeamObjectiveResource()
 CBaseTeamObjectiveResource::~CBaseTeamObjectiveResource()
 {
 	Assert( g_pObjectiveResource == this );
-	g_pObjectiveResource = NULL;	
+	g_pObjectiveResource = nullptr;	
 }
 
 //-----------------------------------------------------------------------------

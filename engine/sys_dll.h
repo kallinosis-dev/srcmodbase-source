@@ -63,7 +63,7 @@ extern AVIHandle_t g_hCurrentAVI;
 
 inline bool InEditMode()
 {
-	return g_pHammer != NULL;
+	return g_pHammer != nullptr;
 }
 
 

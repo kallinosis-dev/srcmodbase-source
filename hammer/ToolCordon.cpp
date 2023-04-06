@@ -160,7 +160,7 @@ bool Cordon3D::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2D &vP
 		// Add it to the current edit cordon
 		// Set the edit cordon to current edit cordon and the new box
 		Cordon_t *cordon = m_pDocument->Cordon_GetSelectedCordonForEditing();
-		BoundBox *box = NULL;
+		BoundBox *box = nullptr;
 		if ( !cordon )
 		{
 			// No cordon, we need a new one.
@@ -312,7 +312,7 @@ void Cordon3D::OnEscape(void)
 //-----------------------------------------------------------------------------
 void Cordon3D::OnDelete()
 {
-	BoundBox *pBox = NULL;
+	BoundBox *pBox = nullptr;
 	Cordon_t *pCordon = m_pDocument->Cordon_GetSelectedCordonForEditing( &pBox );
 	if ( !pCordon || !pBox )
 		return;

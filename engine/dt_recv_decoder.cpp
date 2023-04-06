@@ -15,13 +15,13 @@
 
 CRecvDecoder::CRecvDecoder()
 {
-	m_pTable = 0;
-	m_pClientSendTable = 0;
+	m_pTable = nullptr;
+	m_pClientSendTable = nullptr;
 }
 
 CClientSendProp::CClientSendProp()
 {
-	m_pTableName = 0;
+	m_pTableName = nullptr;
 }
 
 CClientSendProp::~CClientSendProp()

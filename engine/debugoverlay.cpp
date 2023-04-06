@@ -104,7 +104,7 @@ struct OverlayBase_t
 		m_nServerCount = -1;
 		m_nCreationTick = -1;
 		m_flEndTime = 0.0f;
-		m_pNextOverlay = NULL;
+		m_pNextOverlay = nullptr;
 	}
 
 	bool IsDead()
@@ -263,8 +263,8 @@ void ClearDeadOverlays();
 //-----------------------------------------------------------------------------
 // Init static member variables
 //-----------------------------------------------------------------------------
-OverlayText_t*	s_pOverlayText = NULL;	// text is handled differently; for backward compatibility reasons
-OverlayBase_t*	s_pOverlays = NULL; 
+OverlayText_t*	s_pOverlayText = nullptr;	// text is handled differently; for backward compatibility reasons
+OverlayBase_t*	s_pOverlays = nullptr; 
 Vector			s_vGridPosition(0,0,0);
 bool			s_bDrawGrid = false;
 CThreadFastMutex s_OverlayMutex;
@@ -421,7 +421,7 @@ void AddCoordFrameOverlay(const matrix3x4_t& frame, float flScale, int vColorTab
 	};
 
 	AUTO_LOCK( s_OverlayMutex );
-	if ( vColorTable == NULL )
+	if ( vColorTable == nullptr)
 		vColorTable = s_defaultColorTable;
 
 	Vector startPt, endPt;
@@ -1079,7 +1079,7 @@ void DrawAllOverlays(void)
 
 	AUTO_LOCK( s_OverlayMutex );
 	OverlayBase_t* pCurrOverlay = s_pOverlays;
-	OverlayBase_t* pPrevOverlay = NULL;
+	OverlayBase_t* pPrevOverlay = nullptr;
 	OverlayBase_t* pNextOverlay;
 
 	while (pCurrOverlay) 
@@ -1214,8 +1214,8 @@ void ClearDeadOverlays( void )
 {
 	AUTO_LOCK( s_OverlayMutex );
 	OverlayText_t* pCurrText = s_pOverlayText;
-	OverlayText_t* pLastText = NULL;
-	OverlayText_t* pNextText = NULL;
+	OverlayText_t* pLastText = nullptr;
+	OverlayText_t* pNextText = nullptr;
 	while (pCurrText) 
 	{
 		// Is it time to kill this Text?
@@ -1348,7 +1348,7 @@ public:
 		CDebugOverlay::AddGridOverlay( origin );
 	}
 
-	void AddCoordFrameOverlay(const matrix3x4_t& frame, float flScale, int vColorTable[3][3] = NULL)
+	void AddCoordFrameOverlay(const matrix3x4_t& frame, float flScale, int vColorTable[3][3] = nullptr)
 	{
 		CDebugOverlay::AddCoordFrameOverlay( frame, flScale, vColorTable );
 	}

@@ -600,7 +600,7 @@ void CDmeCombinationOperatorPanel::AddNewAnimationSetControls()
 		return;
 
 	// Add new controls to the root group
-	CDmElement *pGroup = pAnimationSet->FindOrAddControlGroup( NULL, "Root" );
+	CDmElement *pGroup = pAnimationSet->FindOrAddControlGroup(nullptr, "Root" );
 
 	// Fill in members
 	CDmrElementArray<> groups( pGroup, "controls" );
@@ -950,7 +950,7 @@ void CDmeDagEditPanel::OnPageChanged( )
 //-----------------------------------------------------------------------------
 void CDmeDagEditPanel::OnAnimationSelected( KeyValues *pKeyValues )
 {
-	vgui::Panel *pPanel = (vgui::Panel *)pKeyValues->GetPtr( "panel", NULL );
+	vgui::Panel *pPanel = (vgui::Panel *)pKeyValues->GetPtr( "panel", nullptr);
 	const char *pAnimationName = pKeyValues->GetString( "animationName", "" );
 
 	if ( pPanel == m_pAnimationListPanel )
@@ -969,7 +969,7 @@ void CDmeDagEditPanel::OnAnimationSelected( KeyValues *pKeyValues )
 
 void CDmeDagEditPanel::OnAnimationDeselected( KeyValues *pKeyValues )
 {
-	vgui::Panel *pPanel = (vgui::Panel *)pKeyValues->GetPtr( "panel", NULL );
+	vgui::Panel *pPanel = (vgui::Panel *)pKeyValues->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pAnimationListPanel )
 	{
 		m_pDagRenderPanel->SelectAnimation( "" );

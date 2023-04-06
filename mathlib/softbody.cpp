@@ -124,9 +124,9 @@ public:
 CSoftbody::CSoftbody( void )
 {
 	// this constructor prepares softbody for a snoop or deserialization
-	m_pEnvironment = NULL;
-	m_pPos0 = m_pPos1 = NULL;
-	m_pParticles = NULL;
+	m_pEnvironment = nullptr;
+	m_pPos0 = m_pPos1 = nullptr;
+	m_pParticles = nullptr;
 	m_flThreadStretch = 0;
 	m_flSurfaceStretch = 0;
 	InitDefaults( );
@@ -340,7 +340,7 @@ void CSoftbody::InitFeModel( int numModelBones )
 	m_pParticles = buffer.Stride< matrix3x4a_t >( GetParticleArrayCount( ) );
 	m_pPos0 = buffer.Stride< VectorAligned >( m_nNodeCount );
 	m_pPos1 = buffer.Stride< VectorAligned >( m_nNodeCount );
-	m_pAabb = nAabbs ? buffer.Stride< FeAabb_t >( nAabbs ) : NULL;
+	m_pAabb = nAabbs ? buffer.Stride< FeAabb_t >( nAabbs ) : nullptr;
 	if ( nParticleGlue )
 	{
 		m_StickyBuffer.EnsureBitExists( nParticleGlue - 1 );
@@ -348,7 +348,7 @@ void CSoftbody::InitFeModel( int numModelBones )
 	}
 	else
 	{
-		m_pParticleGlue = NULL;
+		m_pParticleGlue = nullptr;
 	}
 	if ( numModelBones )
 	{
@@ -365,8 +365,8 @@ void CSoftbody::InitFeModel( int numModelBones )
 	}
 	else
 	{
-		m_pModelBoneToCtrl = NULL;
-		m_pCtrlToModelBone = NULL;
+		m_pModelBoneToCtrl = nullptr;
+		m_pCtrlToModelBone = nullptr;
 	}
 
 	m_bEnableFtlPass = ( m_pFeModel->m_nDynamicNodeFlags & FE_FLAG_ENABLE_FTL ) != 0;
@@ -603,7 +603,7 @@ void CSoftbody::DebugPreStep(float flTimeStep )
 	if ( s_bRead )
 	{
 		CUtlBuffer buf( 0, 0, CUtlBuffer::TEXT_BUFFER );
-		if ( g_pFullFileSystem->ReadFile( "cloth.txt", NULL, buf ) )
+		if ( g_pFullFileSystem->ReadFile( "cloth.txt", nullptr, buf ) )
 		{
 			ParseParticleState( buf, flTimeStep );
 		}
@@ -1961,7 +1961,7 @@ void CSoftbody::SetAbsAngles( const QAngle &vNewAngles, bool bTeleport )
 	}
 	else
 	{
-		AngleVectors( vNewAngles, NULL, &m_vRopeOffset, NULL );
+		AngleVectors( vNewAngles, nullptr, &m_vRopeOffset, nullptr);
 		m_vRopeOffset *= g_flRopeSize;
 	}
 }
@@ -2247,7 +2247,7 @@ void CSoftbody::FilterTransforms( matrix3x4a_t *pModelBones )
 		}
 	}
 
-	const VectorAligned *pNodePos = NULL;
+	const VectorAligned *pNodePos = nullptr;
 
 	///////
 	// recompute Sim particle rotations if needed (if we simulated particles since the last Filter was called)
@@ -3277,7 +3277,7 @@ void CSoftbody::Draw( const RnDebugDrawOptions_t &options, IMesh *pDynamicMesh )
 	uint nVirtualCtrls = ComputeVirtualCtrls( virtualCtrls );
 
 	// the positions of nodes are not correct in dormant mode
-	const matrix3x4a_t *pSim = IsDormant() ? GetAnimatedTransforms() : GetParticleTransforms( NULL, SOFTBODY_SIM_TRANSFORMS_INCLUDE_STATIC ); // make the softbody compute the sim bones
+	const matrix3x4a_t *pSim = IsDormant() ? GetAnimatedTransforms() : GetParticleTransforms(nullptr, SOFTBODY_SIM_TRANSFORMS_INCLUDE_STATIC ); // make the softbody compute the sim bones
 	if ( m_pFeModel->m_nSimdTriCount[ 0 ] && (options.m_nLayers & RN_SOFTBODY_DRAW_POLYGONS))
 	{
 		CMeshBuilder meshBuilder;
@@ -3426,7 +3426,7 @@ void CSoftbody::Draw( const RnDebugDrawOptions_t &options, IVDebugOverlay* pDebu
 	ComputeVirtualCtrls( virtualCtrls );
 
 	// the positions of nodes are not correct in dormant mode
-	const matrix3x4a_t *pSim = IsDormant() ? GetAnimatedTransforms() : GetParticleTransforms( NULL, SOFTBODY_SIM_TRANSFORMS_INCLUDE_STATIC ); // make the softbody compute the sim bones
+	const matrix3x4a_t *pSim = IsDormant() ? GetAnimatedTransforms() : GetParticleTransforms(nullptr, SOFTBODY_SIM_TRANSFORMS_INCLUDE_STATIC ); // make the softbody compute the sim bones
 
 	VertexColor_t colorNeg( 255, 255, 200, 255 ), colorPos( 255, 200, 200, 255 ), colorNeutral( 200, 200, 200, 255 );
 
@@ -3883,7 +3883,7 @@ void CSoftbody::SetUserData( uint nIndex, void *pData )
 
 void* CSoftbody::GetUserData( uint nIndex )
 {
-	return ( nIndex < ARRAYSIZE( m_pUserData ) ) ? ( void* )( m_pUserData[ nIndex ] ): NULL;
+	return ( nIndex < ARRAYSIZE( m_pUserData ) ) ? ( void* )( m_pUserData[ nIndex ] ): nullptr;
 }
 
 
@@ -3921,7 +3921,7 @@ float CSoftbody::GetElasticEnergy( )const
 
 float CSoftbody::GetPotentialEnergy( )const
 {
-	const FeNodeIntegrator_t *pNodeIntegrator = m_pFeModel->m_nDynamicNodeFlags & ( FE_FLAG_HAS_NODE_DAMPING | FE_FLAG_HAS_ANIMATION_FORCE_ATTRACTION ) ? m_pFeModel->m_pNodeIntegrator : NULL;
+	const FeNodeIntegrator_t *pNodeIntegrator = m_pFeModel->m_nDynamicNodeFlags & ( FE_FLAG_HAS_NODE_DAMPING | FE_FLAG_HAS_ANIMATION_FORCE_ATTRACTION ) ? m_pFeModel->m_pNodeIntegrator : nullptr;
 	float flTimeStep = m_flLastTimestep;
 
 	float flPotentialEnergy = 0;
@@ -3947,7 +3947,7 @@ float CSoftbody::GetPotentialEnergy( )const
 
 float CSoftbody::GetKinematicEnergy( )const
 {
-	const FeNodeIntegrator_t *pNodeIntegrator = m_pFeModel->m_nDynamicNodeFlags & ( FE_FLAG_HAS_NODE_DAMPING | FE_FLAG_HAS_ANIMATION_FORCE_ATTRACTION ) ? m_pFeModel->m_pNodeIntegrator : NULL;
+	const FeNodeIntegrator_t *pNodeIntegrator = m_pFeModel->m_nDynamicNodeFlags & ( FE_FLAG_HAS_NODE_DAMPING | FE_FLAG_HAS_ANIMATION_FORCE_ATTRACTION ) ? m_pFeModel->m_pNodeIntegrator : nullptr;
 	float flTimeStep = m_flLastTimestep;
 
 	float flKinematicEnergy = 0;

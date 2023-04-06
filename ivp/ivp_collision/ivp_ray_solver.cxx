@@ -343,7 +343,7 @@ IVP_BOOL IVP_Ray_Solver_Os::check_ray_against_compact_ledge_os(const IVP_Compact
     ray_dir_os.set(&ray_direction);
     
     const IVP_Compact_Triangle *tri = ledge_to_compare->get_first_triangle();
-    const IVP_Compact_Edge *take_edge = 0;
+    const IVP_Compact_Edge *take_edge = nullptr;
     int i;
     for(i=0; i<n_triangles; i++, tri=tri->get_next_tri()){
 	// check triangle
@@ -534,7 +534,7 @@ void IVP_Ray_Solver::check_ray_against_ball(IVP_Ball *ball)
 		hit_sur_normal.set(1.0f, 0.0f, 0.0f);
 	}
 
-    add_hit_object(ball, NULL, NULL, hit_dist, &hit_sur_normal);
+    add_hit_object(ball, nullptr, nullptr, hit_dist, &hit_sur_normal);
 }
 
 void IVP_Ray_Solver::check_ray_against_object(IVP_Real_Object *object){

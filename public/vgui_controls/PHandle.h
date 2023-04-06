@@ -36,7 +36,7 @@ public:
 	Panel * operator = (Panel *pPanel)		{ return Set(pPanel); }
 
 	bool operator == (Panel *pPanel)		{ return (Get() == pPanel); }
-	operator bool ()						{ return Get() != 0; }
+	operator bool ()						{ return Get() != nullptr; }
 
 	friend inline bool operator == ( const PHandle &p1, const PHandle &p2 )
 	{ 
@@ -83,7 +83,7 @@ public:
 	PanelType * operator ->()					{ return (PanelType *)PHandle::Get(); }
 	PanelType * operator = (PanelType *pPanel)	{ return (PanelType *)PHandle::Set(pPanel); }
 	bool operator == (Panel *pPanel)			{ return (PHandle::Get() == pPanel); }
-	operator bool ()							{ return PHandle::Get() != NULL; }
+	operator bool ()							{ return PHandle::Get() != nullptr; }
 };
 
 };

@@ -26,7 +26,7 @@ public:
 
 
 mxMenuBar::mxMenuBar (mxWindow *parent)
-: mxWidget (0, 0, 0, 0, 0)
+: mxWidget (nullptr, 0, 0, 0, 0)
 {
 	void *handle = (void *) CreateMenu ();
 	setHandle (handle);

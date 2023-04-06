@@ -20,7 +20,7 @@ class mxScrollbar;
 class mxStatusWindow : public mxWindow, public IFacePoserToolWindow
 {
 public:
-	mxStatusWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = 0 );
+	mxStatusWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr );
 	~mxStatusWindow();
 
 	void StatusPrint(const Color& clr, bool overwrite, const char *text );

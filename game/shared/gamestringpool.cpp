@@ -95,7 +95,7 @@ string_t AllocPooledString( const char * pszValue )
 {
 	if (pszValue && *pszValue)
 		return MAKE_STRING( g_GameStringPool.Allocate( pszValue ) );
-	return NULL_STRING;
+	return nullptr;
 }
 
 string_t FindPooledString( const char *pszValue )

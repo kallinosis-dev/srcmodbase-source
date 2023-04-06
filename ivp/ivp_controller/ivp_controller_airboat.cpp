@@ -136,7 +136,7 @@ bool IVP_Controller_Raycast_Airboat::PostRaycasts( IVP_Ray_Solver_Template *pRay
 			pPontoonPoint->raycast_dist = pPontoonPoint->raycast_length;
 
 			pTempPontoonPoint->inv_normal_dot_dir = 1.0f;	    
-			pTempPontoonPoint->moveable_object_hit_by_ray = NULL;
+			pTempPontoonPoint->moveable_object_hit_by_ray = nullptr;
 			pTempPontoonPoint->ground_normal_ws.set_multiple( &pTempPontoonPoint->raycast_dir_ws, -1 );
 			pTempPontoonPoint->friction_value = 1.0f;
 		}

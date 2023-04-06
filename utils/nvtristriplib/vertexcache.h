@@ -19,7 +19,7 @@ public:
 	}
 		
 	VertexCache() { VertexCache(16); }
-	~VertexCache() { delete[] entries; entries = 0; }
+	~VertexCache() { delete[] entries; entries = nullptr; }
 	
 	bool InCache(int entry)
 	{

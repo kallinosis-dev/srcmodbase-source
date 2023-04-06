@@ -346,8 +346,8 @@ CInputWin32::CInputWin32()
 {
 	m_nDebugMessages = -1;
 #ifdef DO_IME
-	_imeWnd = 0;
-	_imeCandidates = 0;
+	_imeWnd = nullptr;
+	_imeCandidates = nullptr;
 #endif
 	InitInputContext( &m_DefaultInputContext );
 	m_hContext = DEFAULT_INPUT_CONTEXT;
@@ -472,12 +472,12 @@ CInputWin32::~CInputWin32()
 void CInputWin32::InitInputContext( InputContext_t *pContext )
 {
 	pContext->_rootPanel = NULL;
-	pContext->_keyFocus = NULL;
-	pContext->_oldMouseFocus = NULL;
-	pContext->_mouseFocus = NULL;
-	pContext->_mouseOver = NULL;
-	pContext->_mouseCapture = NULL;
-	pContext->_appModalPanel = NULL;
+	pContext->_keyFocus = nullptr;
+	pContext->_oldMouseFocus = nullptr;
+	pContext->_mouseFocus = nullptr;
+	pContext->_mouseOver = nullptr;
+	pContext->_mouseCapture = nullptr;
+	pContext->_appModalPanel = nullptr;
 
 	pContext->m_nCursorX = pContext->m_nCursorY = 0;
 	pContext->m_nLastPostedCursorX = pContext->m_nLastPostedCursorY = -9999;
@@ -498,8 +498,8 @@ void CInputWin32::InitInputContext( InputContext_t *pContext )
 
 	pContext->m_KeyCodeUnhandledListeners.RemoveAll();
 
-	pContext->m_pModalSubTree = NULL;
-	pContext->m_pUnhandledMouseClickListener = NULL;
+	pContext->m_pModalSubTree = nullptr;
+	pContext->m_pUnhandledMouseClickListener = nullptr;
 	pContext->m_bRestrictMessagesToModalSubTree = false;
 	pContext->m_bModalSubTreeShowMouse = false;
 }
@@ -629,7 +629,7 @@ void CInputWin32::RunFrame()
 	// make sure old and new focus get painted
 	if (pContext->_keyFocus != wantedKeyFocus)
 	{
-		if (pContext->_keyFocus != NULL)
+		if (pContext->_keyFocus != nullptr)
 		{
 			pContext->_keyFocus->Client()->InternalFocusChanged(true);
 
@@ -661,7 +661,7 @@ void CInputWin32::RunFrame()
 				dlg->Client()->Repaint();
 			}
 		}
-		if (wantedKeyFocus != NULL)
+		if (wantedKeyFocus != nullptr)
 		{
 			wantedKeyFocus->Client()->InternalFocusChanged(false);
 
@@ -721,7 +721,7 @@ VPanel *CInputWin32::CalculateNewKeyFocus()
 	InputContext_t *pContext = GetInputContext(m_hContext);
 
 	// get the top-order panel
-	VPanel *wantedKeyFocus = NULL;
+	VPanel *wantedKeyFocus = nullptr;
 
 	VPanel *pRoot = (VPanel *)pContext->_rootPanel;
 	VPanel *top = pRoot;
@@ -776,14 +776,14 @@ VPanel *CInputWin32::CalculateNewKeyFocus()
 	// check to see if any of this surfaces panels have the focus
 	if (!g_pSurface->HasFocus())
 	{
-		wantedKeyFocus=NULL;
+		wantedKeyFocus= nullptr;
 	}
 
 	// check if we are in modal state, 
 	// and if we are make sure this panel is a child of us.
 	if (!IsChildOfModalPanel((VPANEL)wantedKeyFocus))
 	{	
-		wantedKeyFocus=NULL;
+		wantedKeyFocus= nullptr;
 	}
 
 	return wantedKeyFocus;
@@ -803,7 +803,7 @@ void CInputWin32::PanelDeleted(VPANEL vfocus, InputContext_t &context)
 			g_pIVgui->DPrintf2( "removing kb focus %s\n", 
 				context._keyFocus ? context._keyFocus->GetName() : "(no name)" );
 		}
-		context._keyFocus = NULL;
+		context._keyFocus = nullptr;
 	}
 	if (context._mouseOver == focus)
 	{
@@ -814,22 +814,22 @@ void CInputWin32::PanelDeleted(VPANEL vfocus, InputContext_t &context)
 				context._keyFocus ? pcontext._keyFocus->GetName() : "(no name)" );
 		}
 		*/
-		context._mouseOver = NULL;
+		context._mouseOver = nullptr;
 	}
 	if (context._oldMouseFocus == focus)
 	{
-		context._oldMouseFocus = NULL;
+		context._oldMouseFocus = nullptr;
 	}
 	if (context._mouseFocus == focus)
 	{
-		context._mouseFocus = NULL;
+		context._mouseFocus = nullptr;
 	}
 
 	// NOTE: These two will only ever happen for the default context at the moment
 	if (context._mouseCapture == focus)
 	{
 		SetMouseCapture(NULL);
-		context._mouseCapture = NULL;
+		context._mouseCapture = nullptr;
 	}
 	if (context._appModalPanel == focus)
 	{
@@ -837,11 +837,11 @@ void CInputWin32::PanelDeleted(VPANEL vfocus, InputContext_t &context)
 	}
 	if ( context.m_pUnhandledMouseClickListener == focus )
 	{
-		context.m_pUnhandledMouseClickListener = NULL;
+		context.m_pUnhandledMouseClickListener = nullptr;
 	}
 	if ( context.m_pModalSubTree == focus )
 	{
-		context.m_pModalSubTree = NULL;
+		context.m_pModalSubTree = nullptr;
 		context.m_bRestrictMessagesToModalSubTree = false;
 		context.m_bModalSubTreeShowMouse = false;
 	}
@@ -909,7 +909,7 @@ void CInputWin32::SetMouseFocus(VPANEL newMouseFocus)
 		pContext->_mouseOver = (VPanel *)newMouseFocus;
 
 		//tell the old panel with the mouseFocus that the cursor exited
-		if ( pContext->_oldMouseFocus != NULL )
+		if ( pContext->_oldMouseFocus != nullptr)
 		{
 			// only notify of entry if the mouse is not captured or we're the captured panel
 			if ( !pContext->_mouseCapture || pContext->_oldMouseFocus == pContext->_mouseCapture )
@@ -919,7 +919,7 @@ void CInputWin32::SetMouseFocus(VPANEL newMouseFocus)
 		}
 
 		//tell the new panel with the mouseFocus that the cursor entered
-		if ( pContext->_mouseOver != NULL )
+		if ( pContext->_mouseOver != nullptr)
 		{
 			// only notify of entry if the mouse is not captured or we're the captured panel
 			if ( !pContext->_mouseCapture || pContext->_mouseOver == pContext->_mouseCapture )
@@ -947,7 +947,7 @@ void CInputWin32::SetMouseFocus(VPANEL newMouseFocus)
 VPanel *CInputWin32::GetMouseFocusIgnoringModalSubtree()
 {
 	// find the panel that has the focus
-	VPanel *focus = NULL; 
+	VPanel *focus = nullptr; 
 
 	InputContext_t *pContext = GetInputContext( m_hContext );
 
@@ -999,7 +999,7 @@ VPanel *CInputWin32::GetMouseFocusIgnoringModalSubtree()
 	if ( !IsChildOfModalPanel((VPANEL)focus, false ))
 	{	
 		// should this be _appModalPanel?
-		focus = NULL;
+		focus = nullptr;
 	}
 
 	return focus;
@@ -1014,7 +1014,7 @@ VPanel *CInputWin32::GetMouseFocusIgnoringModalSubtree()
 void CInputWin32::UpdateMouseFocus(int x, int y)
 {
 	// find the panel that has the focus
-	VPanel *focus = NULL; 
+	VPanel *focus = nullptr; 
 
 	InputContext_t *pContext = GetInputContext( m_hContext );
 
@@ -1105,7 +1105,7 @@ void CInputWin32::UpdateMouseFocus(int x, int y)
 	if (!IsChildOfModalPanel((VPANEL)focus))
 	{	
 		// should this be _appModalPanel?
-		focus = NULL;
+		focus = nullptr;
 	}
 
 	SetMouseFocus((VPANEL)focus);
@@ -1163,7 +1163,7 @@ void CInputWin32::SetMouseCapture(VPANEL panel)
 
 	if (panel == NULL)
 	{
-		if (pContext->_mouseCapture != NULL)
+		if (pContext->_mouseCapture != nullptr)
 		{
 			g_pSurface->EnableMouseCapture((VPANEL)pContext->_mouseCapture, false);
 		}
@@ -1502,7 +1502,7 @@ bool CInputWin32::InternalJoystickMoved( int axis, int value )
 		g_pIVgui->PostMessage((VPANEL)-1, new KeyValues("SetJoystickYPosInternal", "pos", value), NULL);
 
 	InputContext_t *pContext = GetInputContext( m_hContext );
-	if( (pContext->_keyFocus!= NULL) && IsChildOfModalPanel((VPANEL)pContext->_keyFocus))
+	if( (pContext->_keyFocus!= nullptr) && IsChildOfModalPanel((VPANEL)pContext->_keyFocus))
 	{
 		const char* axis_message_map[4] = {"Stick1XChanged", "Stick1YChanged", "Stick2XChanged", "Stick2YChanged"};	
 		g_pIVgui->PostMessage((VPANEL)pContext->_keyFocus, new KeyValues(axis_message_map[axis], "pos", value), NULL );		
@@ -1565,7 +1565,7 @@ void CInputWin32::PostCursorMessage( )
 		// the panel with mouse capture gets all messages
 		g_pIVgui->PostMessage((VPANEL)pContext->_mouseCapture, new KeyValues("CursorMoved", "xpos", pContext->m_nCursorX, "ypos", pContext->m_nCursorY), NULL);
 	}
-	else if (pContext->_mouseFocus != NULL)
+	else if (pContext->_mouseFocus != nullptr)
 	{
 		// mouse focus is current from UpdateMouse focus
 		// so the appmodal check has already been made.
@@ -1600,7 +1600,7 @@ bool CInputWin32::InternalMousePressed(MouseCode code)
 			SetMouseCapture(NULL);
 		}
 	}
-	else if ( (pContext->_mouseFocus != NULL) && IsChildOfModalPanel((VPANEL)pContext->_mouseFocus) )
+	else if ( (pContext->_mouseFocus != nullptr) && IsChildOfModalPanel((VPANEL)pContext->_mouseFocus) )
 	{
 		// The faked mouse wheel button messages are specifically ignored by vgui
 		if ( code == MOUSE_WHEEL_DOWN || code == MOUSE_WHEEL_UP )
@@ -1670,7 +1670,7 @@ bool CInputWin32::InternalMouseDoublePressed(MouseCode code)
 		pTargetPanel = pContext->_mouseCapture;
 		bFilter = true;
 	}
-	else if ( (pContext->_mouseFocus != NULL) && IsChildOfModalPanel((VPANEL)pContext->_mouseFocus))
+	else if ( (pContext->_mouseFocus != nullptr) && IsChildOfModalPanel((VPANEL)pContext->_mouseFocus))
 	{			
 		// The faked mouse wheel button messages are specifically ignored by vgui
 		if ( code == MOUSE_WHEEL_DOWN || code == MOUSE_WHEEL_UP )
@@ -1716,7 +1716,7 @@ bool CInputWin32::InternalMouseReleased( MouseCode code )
 		g_pIVgui->PostMessage((VPANEL)pContext->_mouseCapture, new KeyValues("MouseReleased", "code", code), NULL );
 		bFilter = true;
 	}
-	else if ((pContext->_mouseFocus != NULL) && IsChildOfModalPanel((VPANEL)pContext->_mouseFocus))
+	else if ((pContext->_mouseFocus != nullptr) && IsChildOfModalPanel((VPANEL)pContext->_mouseFocus))
 	{
 		// The faked mouse wheel button messages are specifically ignored by vgui
 		if ( code == MOUSE_WHEEL_DOWN || code == MOUSE_WHEEL_UP )
@@ -1744,7 +1744,7 @@ bool CInputWin32::InternalMouseWheeled(int delta)
 	bool bFilter = false;
 
 	InputContext_t *pContext = GetInputContext( m_hContext );
-	if ((pContext->_mouseFocus != NULL) && IsChildOfModalPanel((VPANEL)pContext->_mouseFocus))
+	if ((pContext->_mouseFocus != nullptr) && IsChildOfModalPanel((VPANEL)pContext->_mouseFocus))
 	{
 		// the mouseWheel works with the mouseFocus, not the keyFocus
 		g_pIVgui->PostMessage((VPANEL)pContext->_mouseFocus, new KeyValues("MouseWheeled", "delta", delta), NULL);
@@ -1909,7 +1909,7 @@ bool CInputWin32::InternalKeyCodeReleased( KeyCode code )
 bool CInputWin32::PostKeyMessage(KeyValues *message)
 {
 	InputContext_t *pContext = GetInputContext( m_hContext );
-	if( (pContext->_keyFocus!= NULL) && IsChildOfModalPanel((VPANEL)pContext->_keyFocus))
+	if( (pContext->_keyFocus!= nullptr) && IsChildOfModalPanel((VPANEL)pContext->_keyFocus))
 	{
 #ifdef _GAMECONSOLE
 		g_pIVgui->PostMessage((VPANEL) MESSAGE_CURRENT_KEYFOCUS, message, NULL );
@@ -1949,7 +1949,7 @@ void CInputWin32::SetAppModalSurface(VPANEL panel)
 void CInputWin32::ReleaseAppModalSurface()
 {
 	InputContext_t *pContext = GetInputContext( m_hContext );
-	pContext->_appModalPanel = NULL;
+	pContext->_appModalPanel = nullptr;
 }
 
 #ifdef DO_IME
@@ -2159,7 +2159,7 @@ static LanguageIds *GetLanguageInfo( unsigned short id )
 			break;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -2238,7 +2238,7 @@ void CInputWin32::OnChangeIME( bool forward )
 #ifdef DO_IME
 	HKL currentKb = GetKeyboardLayout( 0 );
 
-	UINT numKBs = GetKeyboardLayoutList( 0, NULL );
+	UINT numKBs = GetKeyboardLayoutList( 0, nullptr);
 	if ( numKBs > 0 )
 	{
 		HKL *list = new HKL[ numKBs ];
@@ -2351,7 +2351,7 @@ int CInputWin32::GetIMELanguageList( LanguageItem *dest, int destcount )
 #ifdef DO_IME
 	int iret = 0;
 
-	UINT numKBs = GetKeyboardLayoutList( 0, NULL );
+	UINT numKBs = GetKeyboardLayoutList( 0, nullptr);
 	if ( numKBs > 0 )
 	{
 		HKL *list = new HKL[ numKBs ];
@@ -2940,7 +2940,7 @@ void CInputWin32::DestroyCandidateList()
 	if ( _imeCandidates )
 	{
 		delete[] (char *)_imeCandidates;
-		_imeCandidates = 0;
+		_imeCandidates = nullptr;
 	}
 #endif
 }
@@ -3231,7 +3231,7 @@ void CInputWin32::OnKeyCodeUnhandled( int keyCode )
 void CInputWin32::PostModalSubTreeMessage( VPanel *subTree, bool state )
 {
 	InputContext_t *pContext = GetInputContext( m_hContext );
-	if( pContext->m_pModalSubTree == NULL )
+	if( pContext->m_pModalSubTree == nullptr)
 		return;
 
 	//tell the current focused panel that a key was released
@@ -3280,8 +3280,8 @@ void CInputWin32::ReleaseModalSubTree()
 		PostModalSubTreeMessage( pContext->m_pModalSubTree, false );
 	}
 
-	pContext->m_pModalSubTree = NULL;
-	pContext->m_pUnhandledMouseClickListener = NULL;
+	pContext->m_pModalSubTree = nullptr;
+	pContext->m_pUnhandledMouseClickListener = nullptr;
 	pContext->m_bRestrictMessagesToModalSubTree = false;
 	pContext->m_bModalSubTreeShowMouse = false;
 }

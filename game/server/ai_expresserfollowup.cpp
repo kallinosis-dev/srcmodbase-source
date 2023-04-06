@@ -32,7 +32,7 @@
 static const char *GetResponseName( CBaseEntity *pEnt )
 {
 	Assert( pEnt );
-	if ( pEnt == NULL )
+	if ( pEnt == nullptr)
 		return "";
 	return STRING( pEnt->GetEntityName() );
 }
@@ -145,17 +145,17 @@ static CBaseEntity *AscertainSpeechSubjectFromContext( AI_Response *response, AI
 		CBaseEntity *pSurvivor = TerrorGetPlayerPointerFromCharacterName(subject);
 		return pSurvivor ? pSurvivor : gEntList.FindEntityByName( NULL, subject );
 #else
-		return gEntList.FindEntityByName( NULL, subject );
+		return gEntList.FindEntityByName(nullptr, subject );
 #endif
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
 // TODO: Currently uses awful stricmp. Use symbols! Once I know which ones we want, that is. 
-static CResponseQueue::CFollowupTargetSpec_t ResolveFollowupTargetToEntity( AIConcept_t &concept, AI_CriteriaSet &criteria, const char * RESTRICT szTarget, AI_Response * RESTRICT response = NULL )
+static CResponseQueue::CFollowupTargetSpec_t ResolveFollowupTargetToEntity( AIConcept_t &concept, AI_CriteriaSet &criteria, const char * RESTRICT szTarget, AI_Response * RESTRICT response = nullptr)
 {
 
 #if defined(TERROR)
@@ -189,7 +189,7 @@ static CResponseQueue::CFollowupTargetSpec_t ResolveFollowupTargetToEntity( AICo
 	}
 #endif
 	// last resort, try a named lookup
-	else if ( CBaseEntity *pSpecific = gEntList.FindEntityByName(NULL, szTarget) ) // it could be anything
+	else if ( CBaseEntity *pSpecific = gEntList.FindEntityByName(nullptr, szTarget) ) // it could be anything
 	{
 		return CResponseQueue::CFollowupTargetSpec_t( pSpecific );
 	}
@@ -204,7 +204,7 @@ static CResponseQueue::CFollowupTargetSpec_t ResolveFollowupTargetToEntity( AICo
 {
 	const char * RESTRICT szTarget = followup->followup_target;
 	const CResponseQueue::CFollowupTargetSpec_t INVALID; // default: invalid result
-	if ( szTarget == NULL )
+	if ( szTarget == nullptr)
 		return INVALID; 
 	else
 		return ResolveFollowupTargetToEntity( concept, criteria, szTarget, response );
@@ -331,7 +331,7 @@ bool CAI_ExpresserWithFollowup::SpeakDispatchResponse( AIConcept_t &concept, AI_
 		if ( followup->followup_entityiotarget && followup->followup_entityioinput )
 		if ( criteria ) 
 		{
-			CBaseEntity * RESTRICT pTarget = gEntList.FindEntityByName( NULL, followup->followup_entityiotarget );
+			CBaseEntity * RESTRICT pTarget = gEntList.FindEntityByName(nullptr, followup->followup_entityiotarget );
 			if ( pTarget )
 			{
 				g_EventQueue.AddEvent( pTarget, followup->followup_entityioinput, variant_t(), followup->followup_entityiodelay, GetOuter(), GetOuter() );
@@ -466,7 +466,7 @@ void CAI_ExpresserWithFollowup::SpeakDispatchFollowup( AI_ResponseFollowup &foll
 		DispatchFollowupThroughQueue( followup.followup_concept, followup.followup_contexts, m_followupTarget, followup.followup_delay, GetOuter() );
 	}
 	// clear out the followup member just in case.
-	m_pPostponedFollowup = NULL;
+	m_pPostponedFollowup = nullptr;
 	m_followupTarget.m_iTargetType = kDRT_MAX;
 }
 

@@ -86,7 +86,7 @@ C_BasePlayer *C_BreakableProp::GetPredictionOwner( void )
 #ifdef PORTAL
 	return GetPlayerHoldingEntity( this );
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 

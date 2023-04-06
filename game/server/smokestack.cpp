@@ -132,7 +132,7 @@ void CSmokeStack::Activate()
 	bool bGotDirLight = false;
 
 	// Find local lights.
-	CBaseEntity *pTestEnt = NULL;
+	CBaseEntity *pTestEnt = nullptr;
 	while ( 1 )
 	{
 		pTestEnt = gEntList.FindEntityByClassname( pTestEnt, PARTICLELIGHT_ENTNAME );

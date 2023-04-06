@@ -54,8 +54,8 @@ struct MP3File_t
 
 	MP3File_t()
 	{
-		filename = 0;
-		playbackfilename = 0;
+		filename = nullptr;
+		playbackfilename = nullptr;
 		flags = FLAG_UNKNOWN;
 		dirnum = -1;
 		shortname = UTL_INVAL_SYMBOL;
@@ -170,7 +170,7 @@ struct SoundDirectory_t
 	explicit SoundDirectory_t( int index ) :
 		m_nIndex( index ),
 		m_Root( UTL_INVAL_SYMBOL ),
-		m_pTree( 0 ),
+		m_pTree( nullptr ),
 		m_bGameSound( false )
 	{
 	}

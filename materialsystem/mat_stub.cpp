@@ -31,7 +31,7 @@ class CDummyMesh : public IMesh
 public:
 	// Locks/ unlocks the mesh, providing space for nVertexCount and nIndexCount.
 	// nIndexCount of -1 means don't lock the index buffer...
-	virtual void LockMesh( int nVertexCount, int nIndexCount, MeshDesc_t& desc, MeshBuffersAllocationSettings_t *pSettings = 0 )
+	virtual void LockMesh( int nVertexCount, int nIndexCount, MeshDesc_t& desc, MeshBuffersAllocationSettings_t *pSettings = nullptr )
 	{
 		Lock( nVertexCount, false, *static_cast< VertexDesc_t* >( &desc ) );
 		Lock( nIndexCount, false, *static_cast< IndexDesc_t* >( &desc ) );
@@ -218,15 +218,15 @@ public:
 		return this;
 	}
 
-	virtual void * AccessRawHardwareDataStream( uint8 nRawStreamIndex, uint32 numBytes, uint32 uiFlags, void *pvContext ) { return NULL; }
+	virtual void * AccessRawHardwareDataStream( uint8 nRawStreamIndex, uint32 numBytes, uint32 uiFlags, void *pvContext ) { return nullptr; }
 
-	virtual ICachedPerFrameMeshData *GetCachedPerFrameMeshData() { return NULL; }
+	virtual ICachedPerFrameMeshData *GetCachedPerFrameMeshData() { return nullptr; }
 	virtual void ReconstructFromCachedPerFrameMeshData( ICachedPerFrameMeshData *pData ) {}
 };
 
 // We allocate this dynamically because it uses a bunch of memory and we don't want to
 // waste the memory unless we need to.
-CDummyMesh *g_pDummyMesh = NULL;
+CDummyMesh *g_pDummyMesh = nullptr;
 CDummyMesh* GetDummyMesh()
 {
 	if ( !g_pDummyMesh )
@@ -265,7 +265,7 @@ public:
 	//		pointer to the resource data, or NULL
 	virtual void *GetResourceData( uint32 eDataType, size_t *pNumBytes ) const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -279,7 +279,7 @@ public:
 	// Reconstruct the texture bits in HW memory
 
 	// If rect is not specified, reconstruct all bits, otherwise just reconstruct a subrect.
-	virtual void Download( Rect_t *pRect = 0, int nAdditionalCreationFlags = 0 ) {}
+	virtual void Download( Rect_t *pRect = nullptr, int nAdditionalCreationFlags = 0 ) {}
 
 	// Fast download without intermediate vtf texture copy
 	virtual void Download( int nXOffset, int nYOffset, unsigned char *pData, int nWidth, int nHeight, ImageFormat srcFormat ) {}
@@ -289,7 +289,7 @@ public:
 
 	virtual bool IsError() const { return false; }
 
-	virtual ITexture *GetEmbeddedTexture( int nIndex ) { return NULL; }
+	virtual ITexture *GetEmbeddedTexture( int nIndex ) { return nullptr; }
 
 	// For volume textures
 	virtual bool IsVolumeTexture() const { return false; }
@@ -482,7 +482,7 @@ public:
 	// This here should be the major item looked at when checking for compat
 	// from anywhere other than the material system	shaders
 	virtual int	 GetDXSupportLevel() const			{ return 90; }
-	virtual const char *GetShaderDLLName() const	{ return NULL; }
+	virtual const char *GetShaderDLLName() const	{ return nullptr; }
 
 	virtual bool ReadPixelsFromFrontBuffer() const	{ return false; }
 
@@ -626,7 +626,7 @@ public:
 
 	virtual IMaterial			*GetMaterialPage( void )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	virtual IMaterialVar *	FindVar( const char *varName, bool *found, bool complain = true )
@@ -638,7 +638,7 @@ public:
 	}
 	virtual IMaterialVar *	FindVarFast( const char *varName, unsigned int *pToken )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	virtual void			IncrementReferenceCount( void )
@@ -813,7 +813,7 @@ public:
 
 	virtual IMaterialVar	**GetShaderParams( void )
 	{
-		return 0;
+		return nullptr;
 	}
 
 	virtual bool IsErrorMaterial() const
@@ -851,7 +851,7 @@ void* DummyMaterialSystemFactory( const char *pName, int *pReturnCode )
 		return &g_DummyHardwareConfig;
 
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -878,7 +878,7 @@ private:
 public:
 	CDummyMaterialSystem()
 	{
-		m_pRealMaterialSystem = 0;
+		m_pRealMaterialSystem = nullptr;
 	}
 
 	virtual void	SetRealMaterialSystem( IMaterialSystem *pSys )
@@ -1015,7 +1015,7 @@ public:
 	// a file extension.
 	// eg. "dev/dev_bumptest" refers to somethign similar to:
 	// "d:/hl2/hl2/materials/dev/dev_bumptest.vmt"
-	virtual IMaterial *FindMaterial( char const* pMaterialName, const char *pTextureGroupName, bool complain = true, const char *pComplainPrefix = NULL )
+	virtual IMaterial *FindMaterial( char const* pMaterialName, const char *pTextureGroupName, bool complain = true, const char *pComplainPrefix = nullptr)
 	{
 		if ( m_pRealMaterialSystem )
 			return m_pRealMaterialSystem->FindMaterial( pMaterialName, pTextureGroupName, complain, pComplainPrefix );
@@ -1203,7 +1203,7 @@ public:
 	virtual uint32				GetCurrentFrameCount() { return 0; }
 
 	// Bind a material is current for rendering.
-	virtual void				Bind( IMaterial *material, void *proxyData = 0 )
+	virtual void				Bind( IMaterial *material, void *proxyData = nullptr )
 	{
 	}
 	// Bind a lightmap page current for rendering.  You only have to 
@@ -1234,15 +1234,15 @@ public:
 	}
 
 	// read to a unsigned char rgb image.
-	virtual void				ReadPixels( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = NULL )
+	virtual void				ReadPixels( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = nullptr)
 	{
 	}
 
-	virtual void				ReadPixelsAsync( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = NULL, CThreadEvent *pPixelsReadEvent = NULL )
+	virtual void				ReadPixelsAsync( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = nullptr, CThreadEvent *pPixelsReadEvent = nullptr)
 	{
 	}
 
-	virtual void				ReadPixelsAsyncGetResult( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, CThreadEvent *pGetResultEvent = NULL )
+	virtual void				ReadPixelsAsyncGetResult( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, CThreadEvent *pGetResultEvent = nullptr)
 	{
 	}
 
@@ -1481,7 +1481,7 @@ public:
 	}
 	virtual IMaterialProxyFactory *GetMaterialProxyFactory()
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	virtual void	SetMaterialProxyFactory( IMaterialProxyFactory* pFactory )
@@ -1490,7 +1490,7 @@ public:
 
 	virtual IClientMaterialSystem*	GetClientMaterialSystemInterface()
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Read the page size of an existing lightmap by sort id (returned from AllocateLightmap())
@@ -1547,14 +1547,14 @@ public:
 	// If you pass in a material in pAutoBind, it will automatically bind the
 	// material. This can be helpful since you must bind the material you're
 	// going to use BEFORE calling GetDynamicMesh.
-	virtual IMesh* GetDynamicMesh( bool bBuffered = true, IMesh* pVertexOverride = 0,	
-		IMesh* pIndexOverride = 0, IMaterial *pAutoBind = 0 )
+	virtual IMesh* GetDynamicMesh( bool bBuffered = true, IMesh* pVertexOverride = nullptr,	
+		IMesh* pIndexOverride = nullptr, IMaterial *pAutoBind = nullptr )
 	{
 		return GetDummyMesh();
 	}
 
 	virtual IMesh* GetDynamicMeshEx( VertexFormat_t vertexFormat, bool bBuffered = true, 
-		IMesh* pVertexOverride = 0,	IMesh* pIndexOverride = 0, IMaterial *pAutoBind = 0 )
+		IMesh* pVertexOverride = nullptr,	IMesh* pIndexOverride = nullptr, IMaterial *pAutoBind = nullptr )
 	{
 		return GetDummyMesh();
 	}
@@ -1646,7 +1646,7 @@ public:
 	}
 	virtual const char *		GetShaderName( int shaderID ) const
 	{
-		return NULL;
+		return nullptr;
 	}
 	virtual int					GetNumShaderParams( int shaderID ) const
 	{
@@ -1654,11 +1654,11 @@ public:
 	}
 	virtual const char *		GetShaderParamName( int shaderID, int paramID ) const
 	{
-		return NULL;
+		return nullptr;
 	}
 	virtual const char *		GetShaderParamHelp( int shaderID, int paramID ) const
 	{
-		return NULL;
+		return nullptr;
 	}
 	virtual ShaderParamType_t	GetShaderParamType( int shaderID, int paramID ) const
 	{
@@ -1666,11 +1666,11 @@ public:
 	}
 	virtual const char *		GetShaderParamDefault( int shaderID, int paramID ) const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Reloads materials
-	virtual void	ReloadMaterials( const char *pSubString = NULL )
+	virtual void	ReloadMaterials( const char *pSubString = nullptr)
 	{
 	}
 
@@ -1800,8 +1800,8 @@ public:
 	// FIXME: Test interface
 	virtual bool Connect( CreateInterfaceFn factory ) { return true; }
 	virtual void Disconnect() {}
-	virtual void *QueryInterface( const char *pInterfaceName ) { return NULL; }
-	virtual const AppSystemInfo_t *GetDependencies( ) { return NULL; }
+	virtual void *QueryInterface( const char *pInterfaceName ) { return nullptr; }
+	virtual const AppSystemInfo_t *GetDependencies( ) { return nullptr; }
 	virtual AppSystemTier_t GetTier() { return APP_SYSTEM_TIER2; }
 	virtual InitReturnVal_t Init() { return INIT_OK; }
 	virtual void Reconnect( CreateInterfaceFn factory, const char *pInterfaceName ) {}
@@ -2052,7 +2052,7 @@ public:
 		float src_texture_x0, float src_texture_y0,
 		float src_texture_x1, float src_texture_y1,	
 		int src_texture_width, int src_texture_height,
-		void *pClientRenderable = NULL,
+		void *pClientRenderable = nullptr,
 		int nXDice = 1,
 		int nYDice = 1 )
 	{
@@ -2087,7 +2087,7 @@ public:
 		unsigned int renderTargetFlags = 0
 		)
 	{
-		return NULL;
+		return nullptr;
 	};
 
 	ITexture *CreateNamedMultiRenderTargetTexture( 
@@ -2101,7 +2101,7 @@ public:
 		unsigned int renderTargetFlags = 0
 		)
 	{
-		return NULL;
+		return nullptr;
 	};
 
 	void PushRenderTargetAndViewport( )
@@ -2152,11 +2152,11 @@ public:
 	
 	
 	// Blit a subrect of the current render target to another texture
-	virtual void CopyRenderTargetToTextureEx( ITexture *pTexture, int nRenderTargetID, Rect_t *pSrcRect, Rect_t *pDstRect = NULL )
+	virtual void CopyRenderTargetToTextureEx( ITexture *pTexture, int nRenderTargetID, Rect_t *pSrcRect, Rect_t *pDstRect = nullptr)
 	{
 	}
 
-	virtual void CopyTextureToRenderTargetEx( int nRenderTargetID, ITexture *pTexture, Rect_t *pSrcRect, Rect_t *pDstRect = NULL )
+	virtual void CopyTextureToRenderTargetEx( int nRenderTargetID, ITexture *pTexture, Rect_t *pSrcRect, Rect_t *pDstRect = nullptr)
 	{
 	}
 
@@ -2202,7 +2202,7 @@ public:
 
 	ITexture *GetTextureRenderingParameter(int parm_number) const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Vector GetVectorRenderingParameter(int parm_number) const
@@ -2326,7 +2326,7 @@ public:
 	virtual void							ExecuteQueued() {}
 
 	virtual void BeginBatch( IMesh* pIndices ) {}
-	virtual void BindBatch( IMesh* pVertices, IMaterial *pAutoBind = NULL ) {}
+	virtual void BindBatch( IMesh* pVertices, IMaterial *pAutoBind = nullptr) {}
 	virtual void DrawBatch( MaterialPrimitiveType_t primType, int nFirstIndex, int nIndexCount )  {}
 	virtual void EndBatch()  {}
 
@@ -2337,7 +2337,7 @@ public:
 
 	virtual void SetShadowDepthBiasFactors( float fShadowSlopeScaleDepthBias, float fShadowDepthBias ) {}
 
-	virtual ICallQueue *GetCallQueue() { return NULL; }
+	virtual ICallQueue *GetCallQueue() { return nullptr; }
 	virtual void GetWorldSpaceCameraPosition( Vector *pCameraPos )
 	{
 		pCameraPos->Init();
@@ -2361,7 +2361,7 @@ public:
 	virtual void BeginUpdateLightmaps() {}
 	virtual void EndUpdateLightmaps() {}
 
-	virtual MaterialLock_t		Lock() { return NULL; }
+	virtual MaterialLock_t		Lock() { return nullptr; }
 	virtual void				Unlock( MaterialLock_t ) {}
 
 	virtual ImageFormat GetShadowDepthTextureFormat() { return IMAGE_FORMAT_UNKNOWN; }
@@ -2380,13 +2380,13 @@ public:
 	virtual IVertexBuffer *		GetDynamicVertexBuffer( /*VertexFormat_t vertexFormat, */bool buffered = true )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 //		return GetDummyMesh();
 	}
 	virtual IIndexBuffer *		GetDynamicIndexBuffer( )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 //		return GetDummyMesh();
 	}
 
@@ -2394,12 +2394,12 @@ public:
 	virtual IVertexBuffer *CreateStaticVertexBuffer( VertexFormat_t fmt, int nVertexCount, const char *pBudgetGroup )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 	virtual IIndexBuffer *CreateStaticIndexBuffer( MaterialIndexFormat_t fmt, int nIndexCount, const char *pBudgetGroup )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 	virtual void DestroyVertexBuffer( IVertexBuffer * )
 	{
@@ -2411,7 +2411,7 @@ public:
 	virtual IVertexBuffer *GetDynamicVertexBuffer( int streamID, VertexFormat_t vertexFormat, bool bBuffered = true )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 	virtual void BindVertexBuffer( int streamID, IVertexBuffer *pVertexBuffer, int nOffsetInBytes, int nFirstVertex, int nVertexCount, VertexFormat_t fmt, int nRepetitions = 1 )
 	{
@@ -2442,7 +2442,7 @@ public:
 	}
 	virtual float* LockSubDBuffer( int nNumRows )
 	{
-		return NULL;
+		return nullptr;
 	}
 	virtual void UnlockSubDBuffer()
 	{
@@ -2463,9 +2463,9 @@ public:
 
 	virtual bool SupportsBorderColor() { return false; }
 
-	virtual IMaterial *GetCurrentMaterial() { return NULL; }
+	virtual IMaterial *GetCurrentMaterial() { return nullptr; }
 	virtual int  GetCurrentNumBones() const { return 0; }
-	virtual void *GetCurrentProxy() { return NULL; }
+	virtual void *GetCurrentProxy() { return nullptr; }
 
 	virtual void SetFullScreenDepthTextureValidityFlag( bool bIsValid ) {}
 
@@ -2487,7 +2487,7 @@ public:
 	}
 
 	virtual void DrawInstances( int nInstanceCount, const MeshInstanceData_t *pInstance ) {}
-	virtual void *			LockRenderData( int nSizeInBytes ) { return NULL; }
+	virtual void *			LockRenderData( int nSizeInBytes ) { return nullptr; }
 	virtual void			UnlockRenderData( void *pData ) {}
 	virtual bool			IsRenderData( const void *pData ) const { return false; }
 	virtual void			AddRefRenderData() {}
@@ -2573,7 +2573,7 @@ public:
 	//--------------------------------------------------------
 	virtual void							Printf( char *fmt, ... ) {};
 	virtual void							PrintfVA( char *fmt, va_list vargs ){};
-	virtual float							Knob( char *knobname, float *setvalue=NULL ) { return 0.0f; };	
+	virtual float							Knob( char *knobname, float *setvalue= nullptr) { return 0.0f; };	
 
 	virtual void RegisterPaintmapDataManager( IPaintmapDataManager *pDataManager ) {}
 	virtual void BeginUpdatePaintmaps( void ) {}

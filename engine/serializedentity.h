@@ -91,7 +91,7 @@ public:
 	}
 
 	//called to read the path and offset information form the field path, adding them to the list
-	bool ReadFieldPaths( bf_read *pBuf, CUtlVector< int > *pvecFieldPathBits = NULL ); // pvecFieldPathBits needed for DTI modes
+	bool ReadFieldPaths( bf_read *pBuf, CUtlVector< int > *pvecFieldPathBits = nullptr); // pvecFieldPathBits needed for DTI modes
 	//called to seal a dynamic list, packing it into a compact memory block along with its actual value data
 	void PackWithFieldData( void *pData, int nDataBits );
 	void PackWithFieldData( bf_read &buf, int nDataBits );
@@ -171,7 +171,7 @@ public:
 	  m_pEntity( pEntity )
 	  , m_entityFieldCount( pEntity ? pEntity->GetFieldCount() : 0 )
 	  , m_nFieldIndex( -1 )
-	  , m_pCurrent( NULL )
+	  , m_pCurrent(nullptr)
 	  {
 		  m_Sentinel = PROP_SENTINEL;
 	  }

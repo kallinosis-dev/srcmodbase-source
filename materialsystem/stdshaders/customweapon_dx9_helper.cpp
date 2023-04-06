@@ -152,7 +152,7 @@ void DrawCustomWeapon(  CBaseVSShader *pShader, IMaterialVar** params, IShaderDy
 			unsigned int flags = VERTEX_POSITION | VERTEX_FORMAT_COMPRESSED;
 
 			int nTexCoordCount = 1;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 			// Vertex Shader
 			if ( g_pHardwareConfig->SupportsPixelShaders_3_0() )

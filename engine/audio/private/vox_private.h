@@ -48,7 +48,7 @@ struct voxword_t
 struct sentence_t
 {
 	sentence_t() :
-		pName( 0 ),
+		pName( nullptr ),
 		length( 0.0f ),
 		closecaption( false )
 	{

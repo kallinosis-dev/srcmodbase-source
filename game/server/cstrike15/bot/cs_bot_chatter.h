@@ -209,7 +209,7 @@ typedef CUtlVector< BotSpeakableVector * > BotVoiceBankVector;
 class BotPhrase
 {
 public:
-	char *GetSpeakable( int bankIndex, float *duration = NULL ) const;		///< return a random speakable and its duration in seconds that meets the current criteria
+	char *GetSpeakable( int bankIndex, float *duration = nullptr) const;		///< return a random speakable and its duration in seconds that meets the current criteria
 
 	// NOTE: Criteria must be set just before the GetSpeakable() call, since they are shared among all bots
 	void ClearCriteria( void ) const;
@@ -618,7 +618,7 @@ inline BotChatterInterface::VerbosityType BotChatterInterface::GetVerbosity( voi
 {
 	const char *string = cv_bot_chatter.GetString();
 
-	if (string == NULL)
+	if (string == nullptr)
 		return NORMAL;
 
 	if (string[0] == 'm' || string[0] == 'M')

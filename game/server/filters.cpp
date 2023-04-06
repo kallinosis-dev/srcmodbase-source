@@ -55,7 +55,7 @@ bool CBaseFilter::PassesDamageFilter(const CTakeDamageInfo &info)
 
 bool CBaseFilter::PassesDamageFilterImpl( const CTakeDamageInfo &info )
 {
-	return PassesFilterImpl( NULL, info.GetAttacker() );
+	return PassesFilterImpl(nullptr, info.GetAttacker() );
 }
 
 //-----------------------------------------------------------------------------
@@ -143,9 +143,9 @@ void CFilterMultiple::Activate( void )
 	{
 		if ( m_iFilterName[i] != NULL_STRING )
 		{
-			CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, m_iFilterName[i] );
+			CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, m_iFilterName[i] );
 			CBaseFilter *pFilter = dynamic_cast<CBaseFilter *>(pEntity);
-			if ( pFilter == NULL )
+			if ( pFilter == nullptr)
 			{
 				Warning("filter_multi: Tried to add entity (%s) which is not a filter entity!\n", STRING( m_iFilterName[i] ) );
 				continue;
@@ -170,7 +170,7 @@ bool CFilterMultiple::PassesFilterImpl( CBaseEntity *pCaller, CBaseEntity *pEnti
 	{
 		for (int i=0;i<MAX_FILTERS;i++)
 		{
-			if (m_hFilter[i] != NULL)
+			if (m_hFilter[i] != nullptr)
 			{
 				CBaseFilter* pFilter = (CBaseFilter *)(m_hFilter[i].Get());
 				if (!pFilter->PassesFilter( pCaller, pEntity ) )
@@ -185,7 +185,7 @@ bool CFilterMultiple::PassesFilterImpl( CBaseEntity *pCaller, CBaseEntity *pEnti
 	{
 		for (int i=0;i<MAX_FILTERS;i++)
 		{
-			if (m_hFilter[i] != NULL)
+			if (m_hFilter[i] != nullptr)
 			{
 				CBaseFilter* pFilter = (CBaseFilter *)(m_hFilter[i].Get());
 				if (pFilter->PassesFilter( pCaller, pEntity ) )
@@ -210,7 +210,7 @@ bool CFilterMultiple::PassesDamageFilterImpl(const CTakeDamageInfo &info)
 	{
 		for (int i=0;i<MAX_FILTERS;i++)
 		{
-			if (m_hFilter[i] != NULL)
+			if (m_hFilter[i] != nullptr)
 			{
 				CBaseFilter* pFilter = (CBaseFilter *)(m_hFilter[i].Get());
 				if (!pFilter->PassesDamageFilter(info))
@@ -225,7 +225,7 @@ bool CFilterMultiple::PassesDamageFilterImpl(const CTakeDamageInfo &info)
 	{
 		for (int i=0;i<MAX_FILTERS;i++)
 		{
-			if (m_hFilter[i] != NULL)
+			if (m_hFilter[i] != nullptr)
 			{
 				CBaseFilter* pFilter = (CBaseFilter *)(m_hFilter[i].Get());
 				if (pFilter->PassesDamageFilter(info))
@@ -367,7 +367,7 @@ public:
 
 	bool PassesFilterImpl( CBaseEntity *pCaller, CBaseEntity *pEntity )
 	{
-	 	return ( pEntity != NULL && pEntity->GetTeamNumber() == m_iFilterTeam );
+	 	return ( pEntity != nullptr && pEntity->GetTeamNumber() == m_iFilterTeam );
 	}
 };
 
@@ -394,7 +394,7 @@ public:
 
 	bool PassesFilterImpl( CBaseEntity *pCaller, CBaseEntity *pEntity )
 	{
-		if ( pEntity->VPhysicsGetObject() == NULL )
+		if ( pEntity->VPhysicsGetObject() == nullptr)
 			return false;
 
 		return ( pEntity->VPhysicsGetObject()->GetMass() > m_fFilterMass );
@@ -487,7 +487,7 @@ private:
 //-----------------------------------------------------------------------------
 bool CFilterEnemy::PassesFilterImpl( CBaseEntity *pCaller, CBaseEntity *pEntity )
 {
-	if ( pCaller == NULL || pEntity == NULL )
+	if ( pCaller == nullptr || pEntity == nullptr)
 		return false;
 
 	// If asked to, we'll never fail to pass an already acquired enemy
@@ -661,7 +661,7 @@ bool CFilterEnemy::PassesMobbedFilter( CBaseEntity *pCaller, CBaseEntity *pEnemy
 {
 	// Must be a valid candidate
 	CAI_BaseNPC *pNPC = pCaller->MyNPCPointer();
-	if ( pNPC == NULL || pNPC->GetSquad() == NULL )
+	if ( pNPC == nullptr || pNPC->GetSquad() == nullptr)
 		return true;
 
 	// Make sure we're checking for this
@@ -672,7 +672,7 @@ bool CFilterEnemy::PassesMobbedFilter( CBaseEntity *pCaller, CBaseEntity *pEnemy
 	int nNumMatchingSquadmates = 0;
 	
 	// Look through our squad members to see how many of them are already mobbing this entity
-	for ( CAI_BaseNPC *pSquadMember = pNPC->GetSquad()->GetFirstMember( &iter ); pSquadMember != NULL; pSquadMember = pNPC->GetSquad()->GetNextMember( &iter ) )
+	for ( CAI_BaseNPC *pSquadMember = pNPC->GetSquad()->GetFirstMember( &iter ); pSquadMember != nullptr; pSquadMember = pNPC->GetSquad()->GetNextMember( &iter ) )
 	{
 		// Disregard ourself
 		if ( pSquadMember == pNPC )

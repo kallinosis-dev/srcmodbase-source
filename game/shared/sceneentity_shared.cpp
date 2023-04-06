@@ -16,9 +16,9 @@ ConVar scene_clientflex( "scene_clientflex", "1", FCVAR_REPLICATED, "Do client s
 
 CSceneEventInfo::CSceneEventInfo()
 	:
-m_pEvent( 0 ),
-m_pScene( 0 ),
-m_pActor( 0 ),
+m_pEvent( nullptr ),
+m_pScene( nullptr ),
+m_pActor( nullptr ),
 m_hSceneEntity( INVALID_EHANDLE ),
 m_bStarted( false ),
 m_iLayer( -1 ),
@@ -35,7 +35,7 @@ m_flFacingYaw( 0.0f ),
 m_nType( 0 ),
 m_flNext( 0.0f ),
 m_bClientSide( false ),
-m_pExpHdr( NULL )
+m_pExpHdr(nullptr)
 {
 }
 

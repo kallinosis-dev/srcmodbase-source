@@ -23,8 +23,8 @@ void IVP_Cache_Object_Manager::invalid_cache_object(IVP_Real_Object *object)
 	IVP_ASSERT(object->cache_object->reference_count==0);
 	IVP_ASSERT(object->cache_object->object==object);
 
-	object->cache_object->object = NULL;
-	object->cache_object = NULL;
+	object->cache_object->object = nullptr;
+	object->cache_object = nullptr;
     }
 }
 

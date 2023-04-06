@@ -203,7 +203,7 @@ int CGameServer::PrecacheModel( char const *name, int flags, model_t *model /*=N
 	CPrecacheUserData p;
 
 	// first time, set file size & flags
-	CPrecacheUserData const *pExisting = (CPrecacheUserData const *)m_pModelPrecacheTable->GetStringUserData( idx, NULL );
+	CPrecacheUserData const *pExisting = (CPrecacheUserData const *)m_pModelPrecacheTable->GetStringUserData( idx, nullptr);
 	if ( !pExisting )
 	{
 		p.flags = flags;
@@ -248,7 +248,7 @@ int CGameServer::PrecacheModel( char const *name, int flags, model_t *model /*=N
 		else
 		{
 			modelloader->ReferenceModel( name, IModelLoader::FMODELLOADER_SERVER );
-			slot->SetModel( NULL );
+			slot->SetModel(nullptr);
 		}
 	}
 
@@ -263,11 +263,11 @@ int CGameServer::PrecacheModel( char const *name, int flags, model_t *model /*=N
 model_t *CGameServer::GetModel( int index )
 {
 	if ( index <= 0 || !m_pModelPrecacheTable )
-		return NULL;
+		return nullptr;
 
 	if ( index >= m_pModelPrecacheTable->GetNumStrings() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	CPrecacheItem *slot = &model_precache[ index ];
@@ -339,7 +339,7 @@ int CGameServer::PrecacheSound( char const *name, int flags )
 
 	// first time, set file size & flags
 	CPrecacheUserData p;
-	CPrecacheUserData const *pExisting = (CPrecacheUserData const *)m_pSoundPrecacheTable->GetStringUserData( idx, NULL );
+	CPrecacheUserData const *pExisting = (CPrecacheUserData const *)m_pSoundPrecacheTable->GetStringUserData( idx, nullptr);
 	if ( !pExisting )
 	{
 		p.flags = flags;
@@ -368,12 +368,12 @@ char const *CGameServer::GetSound( int index )
 {
 	if ( index <= 0 || !m_pSoundPrecacheTable )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( index >= m_pSoundPrecacheTable->GetNumStrings() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	CPrecacheItem *slot = &sound_precache[ index ];
@@ -426,7 +426,7 @@ int CGameServer::PrecacheGeneric( char const *name, int flags )
 	CPrecacheUserData p;
 
 	// first time, set file size & flags
-	CPrecacheUserData const *pExisting = (CPrecacheUserData const *)m_pGenericPrecacheTable->GetStringUserData( idx, NULL );
+	CPrecacheUserData const *pExisting = (CPrecacheUserData const *)m_pGenericPrecacheTable->GetStringUserData( idx, nullptr);
 	if ( !pExisting )
 	{
 		p.flags = flags;
@@ -519,7 +519,7 @@ int CGameServer::PrecacheDecal( char const *name, int flags )
 	CPrecacheUserData p;
 
 	// first time, set file size & flags
-	CPrecacheUserData const *pExisting = (CPrecacheUserData const *)m_pDecalPrecacheTable->GetStringUserData( idx, NULL );
+	CPrecacheUserData const *pExisting = (CPrecacheUserData const *)m_pDecalPrecacheTable->GetStringUserData( idx, nullptr);
 	if ( !pExisting )
 	{
 		p.flags = flags;
@@ -557,13 +557,13 @@ int CGameServer::LookupDecalIndex( char const *name )
 //-----------------------------------------------------------------------------
 void CGameServer::DumpPrecacheStats( INetworkStringTable *table )
 {
-	if ( table == NULL )
+	if ( table == nullptr)
 	{
 		ConMsg( "Can only dump stats when active in a level\n" );
 		return;
 	}
 
-	CPrecacheItem *items = NULL;
+	CPrecacheItem *items = nullptr;
 	if ( table == m_pModelPrecacheTable )
 	{
 		items = model_precache;

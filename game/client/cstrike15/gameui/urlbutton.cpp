@@ -62,7 +62,7 @@ void URLButton::Init()
 	_buttonFlags.SetFlag( USE_CAPTURE_MOUSE | BUTTON_BORDER_ENABLED );
 
 	_mouseClickMask = 0;
-	_actionMessage = NULL;
+	_actionMessage = nullptr;
 	m_bSelectionStateSaved = false;
 	SetTextInset(0, 0);
 	SetMouseClickEnabled( MOUSE_LEFT, true );

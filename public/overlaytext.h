@@ -23,7 +23,7 @@ class  OverlayText_t
 public:
 	OverlayText_t()
 	{
-		nextOverlayText = 0;
+		nextOverlayText = nullptr;
 		origin.Init();
 		bUseOrigin = false;
 		lineOffset = 0;

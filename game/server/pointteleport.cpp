@@ -69,11 +69,11 @@ END_DATADESC()
 //-----------------------------------------------------------------------------
 bool CPointTeleport::EntityMayTeleport( CBaseEntity *pTarget )
 {
-	if ( pTarget->GetMoveParent() != NULL )
+	if ( pTarget->GetMoveParent() != nullptr)
 	{
 		// Passengers in a vehicle are allowed to teleport; their behavior handles it
 		CBaseCombatCharacter *pBCC = pTarget->MyCombatCharacterPointer();
-		if ( pBCC == NULL || ( pBCC != NULL && pBCC->IsInAVehicle() == false ) )
+		if ( pBCC == nullptr || ( pBCC != nullptr && pBCC->IsInAVehicle() == false ) )
 			return false;
 	}
 
@@ -92,7 +92,7 @@ void CPointTeleport::Activate( void )
 	// Save off the spawn position of the target if instructed to do so
 	if ( m_spawnflags & SF_TELEPORT_TO_SPAWN_POS )
 	{
-		CBaseEntity *pTarget = gEntList.FindEntityByName( NULL, m_target );
+		CBaseEntity *pTarget = gEntList.FindEntityByName(nullptr, m_target );
 		if ( pTarget )
 		{
 			// If teleport object is in a movement hierarchy, remove it first
@@ -163,15 +163,15 @@ void CPointTeleport::DoTeleport( inputdata_t &inputdata, const Vector &vecOrigin
 	if( bOverrideTarget )
 	{
 		// Use the inputdata to find the entity that the designer supplied in the parameter override 
-		pTarget = gEntList.FindEntityByName( NULL, inputdata.value.String(), this, inputdata.pActivator, inputdata.pCaller );
+		pTarget = gEntList.FindEntityByName(nullptr, inputdata.value.String(), this, inputdata.pActivator, inputdata.pCaller );
 	}
 	else
 	{
 		// Default behavior: Just find the entity that I am hardwired in Hammer to teleport.
-		pTarget = gEntList.FindEntityByName( NULL, m_target, this, inputdata.pActivator, inputdata.pCaller );
+		pTarget = gEntList.FindEntityByName(nullptr, m_target, this, inputdata.pActivator, inputdata.pCaller );
 	}
 
-	if ( pTarget == NULL )
+	if ( pTarget == nullptr)
 		return;
 
 	// If teleport object is in a movement hierarchy, remove it first
@@ -208,6 +208,6 @@ void CPointTeleport::DoTeleport( inputdata_t &inputdata, const Vector &vecOrigin
 	}
 #endif
 
-	pTarget->Teleport( &vecOrigin, &angRotation, NULL );
+	pTarget->Teleport( &vecOrigin, &angRotation, nullptr);
 }
 

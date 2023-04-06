@@ -31,7 +31,7 @@ BEGIN_VS_SHADER_FLAGS( BufferClearObeyStencil_DX9, "", SHADER_NOT_EDITABLE )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -59,7 +59,7 @@ BEGIN_VS_SHADER_FLAGS( BufferClearObeyStencil_DX9, "", SHADER_NOT_EDITABLE )
 			pShaderShadow->EnableColorWrites( bEnableColorWrites );
 			pShaderShadow->EnableAlphaWrites( bEnableAlphaWrites );
 
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION|VERTEX_COLOR, 1, NULL, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION|VERTEX_COLOR, 1, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( bufferclearobeystencil_vs20 );
 			SET_STATIC_VERTEX_SHADER_COMBO( USESCOLOR, bUsesColor );

@@ -13,7 +13,7 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-CStressEntityReg	*CStressEntityReg::s_pHead = NULL;
+CStressEntityReg	*CStressEntityReg::s_pHead = nullptr;
 
 
 // CStressEntityReg::s_pHead in array form for convenient access.
@@ -145,8 +145,8 @@ void Test_RemoveAllRandomEntities()
 }
 
 
-ConCommand cc_Test_InitRandomEntitySpawner( "Test_InitRandomEntitySpawner", Test_InitRandomEntitySpawner, 0, FCVAR_CHEAT );
-ConCommand cc_Test_SpawnRandomEntities( "Test_SpawnRandomEntities", Test_SpawnRandomEntities, 0, FCVAR_CHEAT );
-ConCommand cc_Test_RandomizeInPVS( "Test_RandomizeInPVS", Test_RandomizeInPVS, 0, FCVAR_CHEAT );
-ConCommand cc_Test_RemoveAllRandomEntities( "Test_RemoveAllRandomEntities", Test_RemoveAllRandomEntities, 0, FCVAR_CHEAT );
+ConCommand cc_Test_InitRandomEntitySpawner( "Test_InitRandomEntitySpawner", Test_InitRandomEntitySpawner, nullptr, FCVAR_CHEAT );
+ConCommand cc_Test_SpawnRandomEntities( "Test_SpawnRandomEntities", Test_SpawnRandomEntities, nullptr, FCVAR_CHEAT );
+ConCommand cc_Test_RandomizeInPVS( "Test_RandomizeInPVS", Test_RandomizeInPVS, nullptr, FCVAR_CHEAT );
+ConCommand cc_Test_RemoveAllRandomEntities( "Test_RemoveAllRandomEntities", Test_RemoveAllRandomEntities, nullptr, FCVAR_CHEAT );
 

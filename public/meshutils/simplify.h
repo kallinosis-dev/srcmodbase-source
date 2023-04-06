@@ -56,13 +56,13 @@ struct mesh_simplifyweights_t
 {
 	inline void Defaults()
 	{
-		m_pVertexWeights = NULL;
+		m_pVertexWeights = nullptr;
 		m_nVertexCount = 0;
 	}
 
 	float	*m_pVertexWeights;
 	int		m_nVertexCount;
 };
-void SimplifyMesh( CMesh &meshOut, const CMesh &input, const mesh_simplifyparams_t &params, const mesh_simplifyweights_t *pWeights = NULL );
+void SimplifyMesh( CMesh &meshOut, const CMesh &input, const mesh_simplifyparams_t &params, const mesh_simplifyweights_t *pWeights = nullptr);
 
 #endif // SIMPLIFY_H

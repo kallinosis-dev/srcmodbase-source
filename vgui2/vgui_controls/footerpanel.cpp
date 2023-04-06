@@ -32,7 +32,7 @@ CFooterPanel::CFooterPanel( Panel *parent, const char *panelName ) : BaseClass( 
 {
 	SetVisible( true );
 	SetAlpha( 0 );
-	m_pHelpName = NULL;
+	m_pHelpName = nullptr;
 
 	m_pSizingLabel = new vgui::Label( this, "SizingLabel", "" );
 	m_pSizingLabel->SetVisible( false );
@@ -65,7 +65,7 @@ CFooterPanel::CFooterPanel( Panel *parent, const char *panelName ) : BaseClass( 
 
 CFooterPanel::~CFooterPanel()
 {
-	SetHelpNameAndReset( NULL );
+	SetHelpNameAndReset(nullptr);
 
 	delete m_pSizingLabel;
 }
@@ -124,7 +124,7 @@ void CFooterPanel::ApplySettings( KeyValues *inResourceData )
 	Q_strncpy( m_szFGColor, inResourceData->GetString( "fgcolor", "White" ), sizeof( m_szFGColor ) );
 	Q_strncpy( m_szBGColor, inResourceData->GetString( "bgcolor", "Black" ), sizeof( m_szBGColor ) );
 
-	for ( KeyValues *pButton = inResourceData->GetFirstSubKey(); pButton != NULL; pButton = pButton->GetNextKey() )
+	for ( KeyValues *pButton = inResourceData->GetFirstSubKey(); pButton != nullptr; pButton = pButton->GetNextKey() )
 	{
 		const char *pName = pButton->GetName();
 
@@ -185,7 +185,7 @@ void CFooterPanel::SetHelpNameAndReset( const char *pName )
 	if ( m_pHelpName )
 	{
 		free( m_pHelpName );
-		m_pHelpName = NULL;
+		m_pHelpName = nullptr;
 	}
 
 	if ( pName )

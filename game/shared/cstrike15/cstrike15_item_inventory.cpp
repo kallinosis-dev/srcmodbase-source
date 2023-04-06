@@ -613,7 +613,7 @@ CEconItemView *CCSInventoryManager::GetItemInLoadoutForTeam( int iTeam, int iSlo
 #endif
 
 	if ( !pID )
-		return NULL;
+		return nullptr;
 
 	CCSPlayerInventory *pInv = GetInventoryForPlayer( *pID );
 	if ( !pInv )
@@ -635,7 +635,7 @@ CCSPlayerInventory *CCSInventoryManager::GetInventoryForPlayer( const CSteamID &
 		return assert_cast<CCSPlayerInventory*>( m_pInventories[i].pInventory );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 #ifdef CLIENT_DLL
@@ -795,9 +795,9 @@ equipped_class_t CCSInventoryManager::DoClassMapping( equipped_class_t unClass, 
 CEconItemView *CCSInventoryManager::GetBaseItemForTeam( int iTeam, int iSlot )
 {
 	if ( iSlot < 0 || iSlot >= LOADOUT_POSITION_COUNT )
-		return NULL;
+		return nullptr;
 	if ( iTeam < 0 || iTeam >= LOADOUT_COUNT )
-		return NULL;
+		return nullptr;
 	return &m_pBaseLoadoutItems[iTeam][iSlot];
 }
 
@@ -817,7 +817,7 @@ void CCSInventoryManager::GetActiveSets( CUtlVector<const CEconItemSetDefinition
 	CUtlVector<CEconItemView*> equippedSetItems;
 	for ( int i = 0; i < LOADOUT_POSITION_COUNT; i++ )
 	{
-		CEconItemView *pItem = NULL;
+		CEconItemView *pItem = nullptr;
 
 #ifdef GAME_DLL
 		// On the server we need to look at what the player actually has equipped
@@ -1078,7 +1078,7 @@ float CCSPlayerInventory::FindInventoryItemWithMaxAttributeValue( char const *sz
 	if ( !pAttr )
 		return -1.0f;
 
-	CEconItemView *pItemFound = NULL;
+	CEconItemView *pItemFound = nullptr;
 	float flReturnValue = -1.0f; // Nothing found yet
 
 	CSchemaItemDefHandle hRequiredItem( szItemType );
@@ -1144,7 +1144,7 @@ void CCSPlayerInventory::FindInventoryItemsWithAttribute( char const *szAttrClas
 	if ( !pAttr )
 		return;
 
-	FindInventoryItemsWithAttribute( pAttr, foundItems, NULL, bMatchValue, unValue );
+	FindInventoryItemsWithAttribute( pAttr, foundItems, nullptr, bMatchValue, unValue );
 
 
 }
@@ -1214,7 +1214,7 @@ itemid_t CCSPlayerInventory::GetActiveSeasonItemId( bool bCoin /* false is the P
 
 	static CSchemaAttributeDefHandle pAttr( "season access" );
 	Assert( pAttr );
-	FindInventoryItemsWithAttribute( pAttr, foundItems, NULL, true, MEDAL_SEASON_ACCESS_VALUE );
+	FindInventoryItemsWithAttribute( pAttr, foundItems, nullptr, true, MEDAL_SEASON_ACCESS_VALUE );
 
 	FOR_EACH_VEC( foundItems, i )
 	{
@@ -1239,7 +1239,7 @@ void CCSPlayerInventory::RefreshActiveQuestID( void )
 {
 	static CSchemaAttributeDefHandle pAttr( "season access" );
 	CUtlVector< CEconItemView* > foundItems;
-	FindInventoryItemsWithAttribute( pAttr, foundItems, NULL, true, MEDAL_SEASON_ACCESS_VALUE );
+	FindInventoryItemsWithAttribute( pAttr, foundItems, nullptr, true, MEDAL_SEASON_ACCESS_VALUE );
 
 	Assert( foundItems.Count() <= 1 );
 	if ( foundItems.Count() > 0 )
@@ -1425,9 +1425,9 @@ void CCSPlayerInventory::DumpInventoryToConsole( bool bRoot )
 CEconItemView *CCSPlayerInventory::GetItemInLoadout( int iTeam, int iSlot ) const
 {
 	if ( iSlot < 0 || iSlot >= LOADOUT_POSITION_COUNT )
-		return NULL;
+		return nullptr;
 	if ( iTeam < 0 || iTeam >= LOADOUT_COUNT )
-		return NULL;
+		return nullptr;
 
 	// If we don't have an item in the loadout at that slot, we return the base item
 	if ( m_LoadoutItems[iTeam][iSlot] != LOADOUT_SLOT_USE_BASE_ITEM )
@@ -1477,11 +1477,11 @@ CEconItemView* CCSPlayerInventory::GetItemInLoadoutFilteredByProhibition( int iT
 CEconGameAccountClient *GetSOCacheGameAccountClient( CGCClientSharedObjectCache *pSOCache )
 {
 	if ( !pSOCache )
-		return NULL;
+		return nullptr;
 
 	CSharedObjectTypeCache *pTypeCache = pSOCache->FindTypeCache( CEconGameAccountClient::k_nTypeID );
 	if ( !pTypeCache || pTypeCache->GetCount() != 1 )
-		return NULL;
+		return nullptr;
 
 	CEconGameAccountClient *pGameAccountClient = (CEconGameAccountClient*)pTypeCache->GetObject( 0 );
 	return pGameAccountClient;

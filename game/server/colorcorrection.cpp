@@ -293,7 +293,7 @@ CColorCorrectionSystem *ColorCorrectionSystem( void )
 //-----------------------------------------------------------------------------
 void CColorCorrectionSystem::LevelInitPreEntity( void )
 {
-	m_hMasterController = NULL;
+	m_hMasterController = nullptr;
 	ListenForGameEvent( "round_start" );
 }
 
@@ -303,13 +303,13 @@ void CColorCorrectionSystem::LevelInitPreEntity( void )
 //-----------------------------------------------------------------------------
 void CColorCorrectionSystem::InitMasterController( void )
 {
-	CColorCorrection *pColorCorrection = NULL;
+	CColorCorrection *pColorCorrection = nullptr;
 	do
 	{
 		pColorCorrection = dynamic_cast<CColorCorrection*>( gEntList.FindEntityByClassname( pColorCorrection, "color_correction" ) );
 		if ( pColorCorrection )
 		{
-			if ( m_hMasterController.Get() == NULL )
+			if ( m_hMasterController.Get() == nullptr)
 			{
 				m_hMasterController = pColorCorrection;
 			}
@@ -347,7 +347,7 @@ void CColorCorrectionSystem::LevelInitPostEntity( void )
 	if ( gpGlobals->maxClients == 1 )
 	{
 		CBasePlayer *pPlayer = UTIL_GetLocalPlayer();
-		if ( pPlayer && ( pPlayer->m_hColorCorrectionCtrl.Get() == NULL ) )
+		if ( pPlayer && ( pPlayer->m_hColorCorrectionCtrl.Get() == nullptr) )
 		{
 			pPlayer->InitColorCorrectionController();
 		}

@@ -124,7 +124,7 @@ public:
 		}
 
 #endif
-		return NULL;
+		return nullptr;
 	}
 
 	virtual const char *GetPlayerFriendsName(int trackerID)
@@ -146,7 +146,7 @@ public:
 		}
 
 #endif
-		return NULL;
+		return nullptr;
 	}
 
 	// return the build number of the engine

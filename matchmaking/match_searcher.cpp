@@ -21,9 +21,9 @@ static ConVar mm_session_search_ping_buckets( "mm_session_search_ping_buckets", 
 CMatchSearcher::CMatchSearcher( KeyValues *pSettings ) :
 	m_pSettings( pSettings ), // takes ownership
 	m_autodelete_pSettings( m_pSettings ),
-	m_pSessionSearchTree( NULL ),
+	m_pSessionSearchTree(nullptr),
 	m_autodelete_pSessionSearchTree( m_pSessionSearchTree ),
-	m_pSearchPass( NULL ),
+	m_pSearchPass(nullptr),
 	m_eState( STATE_INIT )
 {
 #ifdef _X360
@@ -53,7 +53,7 @@ CMatchSearcher::~CMatchSearcher()
 			if ( sr.m_pGameDetails )
 			{
 				sr.m_pGameDetails->deleteThis();
-				sr.m_pGameDetails = NULL;
+				sr.m_pGameDetails = nullptr;
 			}
 		}
 	}

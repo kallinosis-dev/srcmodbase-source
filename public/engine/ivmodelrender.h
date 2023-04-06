@@ -81,9 +81,9 @@ struct ModelRenderInfo_t
 
 	ModelRenderInfo_t()
 	{
-		pModelToWorld = NULL;
-		pLightingOffset = NULL;
-		pLightingOrigin = NULL;
+		pModelToWorld = nullptr;
+		pLightingOffset = nullptr;
+		pLightingOrigin = nullptr;
 	}
 };
 
@@ -125,8 +125,8 @@ public:
 								int skin,
 								int body,
 								int hitboxset,
-								const matrix3x4_t *modelToWorld = NULL,
-								const matrix3x4_t *pLightingOffset = NULL ) = 0;
+								const matrix3x4_t *modelToWorld = nullptr,
+								const matrix3x4_t *pLightingOffset = nullptr) = 0;
 
 	// This causes a material to be used when rendering the model instead 
 	// of the materials the model was compiled with
@@ -136,7 +136,7 @@ public:
 	virtual void	SetViewTarget( const CStudioHdr *pStudioHdr, int nBodyIndex, const Vector& target ) = 0;
 
 	// Creates, destroys instance data to be associated with the model
-	virtual ModelInstanceHandle_t CreateInstance( IClientRenderable *pRenderable, LightCacheHandle_t *pCache = NULL ) = 0;
+	virtual ModelInstanceHandle_t CreateInstance( IClientRenderable *pRenderable, LightCacheHandle_t *pCache = nullptr) = 0;
 	virtual void DestroyInstance( ModelInstanceHandle_t handle ) = 0;
 
 	// Associates a particular lighting condition with a model instance handle.
@@ -154,7 +154,7 @@ public:
 	// along the ray. The material is the decal material, the radius is the
 	// radius of the decal to create.
 	virtual void AddDecal( ModelInstanceHandle_t handle, Ray_t const& ray, 
-		Vector const& decalUp, int decalIndex, int body, bool noPokeThru = false, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, IMaterial *pSpecifyMaterial = NULL, float w=1.0f, float h=1.0f, void *pvProxyUserData = NULL, int nAdditionalDecalFlags = 0 ) = 0;
+		Vector const& decalUp, int decalIndex, int body, bool noPokeThru = false, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, IMaterial *pSpecifyMaterial = nullptr, float w=1.0f, float h=1.0f, void *pvProxyUserData = nullptr, int nAdditionalDecalFlags = 0 ) = 0;
 
 	// Removes all the decals on a model instance
 	virtual void RemoveAllDecals( ModelInstanceHandle_t handle ) = 0;
@@ -166,8 +166,8 @@ public:
 	virtual void RemoveAllDecalsFromAllModels( bool bRenderContextValid ) = 0;
 
 	// Shadow rendering, DrawModelShadowSetup returns the address of the bone-to-world array, NULL in case of error
-	virtual matrix3x4a_t* DrawModelShadowSetup( IClientRenderable *pRenderable, int body, int skin, DrawModelInfo_t *pInfo, matrix3x4a_t *pCustomBoneToWorld = NULL ) = 0;
-	virtual void DrawModelShadow(  IClientRenderable *pRenderable, const DrawModelInfo_t &info, matrix3x4a_t *pCustomBoneToWorld = NULL ) = 0;
+	virtual matrix3x4a_t* DrawModelShadowSetup( IClientRenderable *pRenderable, int body, int skin, DrawModelInfo_t *pInfo, matrix3x4a_t *pCustomBoneToWorld = nullptr) = 0;
+	virtual void DrawModelShadow(  IClientRenderable *pRenderable, const DrawModelInfo_t &info, matrix3x4a_t *pCustomBoneToWorld = nullptr) = 0;
 
 	// This gets called when overbright, etc gets changed to recompute static prop lighting.
 	virtual bool RecomputeStaticLighting( ModelInstanceHandle_t handle ) = 0;
@@ -181,7 +181,7 @@ public:
 	virtual int	DrawModelExStaticProp( IMatRenderContext *pRenderContext, ModelRenderInfo_t &pInfo ) = 0;
 
 	virtual bool DrawModelSetup( IMatRenderContext *pRenderContext, ModelRenderInfo_t &pInfo, DrawModelState_t *pState, matrix3x4_t **ppBoneToWorldOut ) = 0;
-	virtual void DrawModelExecute( IMatRenderContext *pRenderContext, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld = NULL ) = 0;
+	virtual void DrawModelExecute( IMatRenderContext *pRenderContext, const DrawModelState_t &state, const ModelRenderInfo_t &pInfo, matrix3x4_t *pCustomBoneToWorld = nullptr) = 0;
 
 	// Sets up lighting context for a point in space
 	virtual void SetupLighting( const Vector &vecCenter ) = 0;

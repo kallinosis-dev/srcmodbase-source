@@ -21,7 +21,7 @@
 #include "UtlBuffer.h"
 #include "ChoreoEvent.h"
 
-CWaveBrowser	*g_pWaveBrowser = NULL;
+CWaveBrowser	*g_pWaveBrowser = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Implements the RIFF i/o interface on stdio
@@ -251,7 +251,7 @@ public:
 		char *p = sz;
 
 		// Start at root
-		mxTreeViewItem *cur = NULL;
+		mxTreeViewItem *cur = nullptr;
 
 		// Tokenize path
 		while ( p && p[0] )
@@ -273,7 +273,7 @@ public:
 			}
 			else
 			{
-				p = NULL;
+				p = nullptr;
 			}
 
 			Assert( check );
@@ -305,7 +305,7 @@ public:
 			_PopulateTree( i, m_Paths[ i ].path );
 		}
 
-		mxTreeViewItem *p = getFirstChild( NULL );
+		mxTreeViewItem *p = getFirstChild(nullptr);
 		setOpen( p, true );
 	}
 
@@ -499,7 +499,7 @@ CWaveBrowser::CWaveBrowser( mxWindow *parent )
 
 	LoadAllSounds();
 
-	PopulateTree( NULL );
+	PopulateTree(nullptr);
 }
 
 #define CX_ICON  16
@@ -563,7 +563,7 @@ HIMAGELIST CWaveBrowser::CreateImageList()
 	DeleteObject( hicon );
 	*/
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_WAV)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_WAV)); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
@@ -822,11 +822,11 @@ void CWaveBrowser::PopulateTree( char const *subdirectory )
 	
 	bool check_load_sentence_data = false;
 
-	char const *texttofind = NULL;
+	char const *texttofind = nullptr;
 
 	if ( m_bTextSearch )
 	{
-		subdirectory = NULL;
+		subdirectory = nullptr;
 		texttofind = GetSearchString();
 	}
 
@@ -1069,7 +1069,7 @@ CWaveFile	*CWaveBrowser::FindEntry( char const *wavname, bool jump /*= false*/ )
 		return wav;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int	 CWaveBrowser::GetSoundCount() const
@@ -1080,7 +1080,7 @@ int	 CWaveBrowser::GetSoundCount() const
 CWaveFile *CWaveBrowser::GetSound( int index )
 {
 	if ( index < 0 || index >= (int)m_AllSounds.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_AllSounds[ index ];
 }

@@ -49,7 +49,7 @@ public:
 
 	CDmxEdit()
 		: m_nDistanceType( CDmeMesh::DIST_ABSOLUTE )
-		, m_pDmeMakefile( NULL )
+		, m_pDmeMakefile(nullptr)
 	{
 	}
 
@@ -61,7 +61,7 @@ public:
 		}
 
 		if ( !m_pDmeMakefile )
-			return NULL;
+			return nullptr;
 
 		return m_pDmeMakefile;
 	}
@@ -70,7 +70,7 @@ public:
 	{
 		CDmeMakefile *pDmeMakefile = GetMakefile();
 		if ( !pDmeMakefile )
-			return NULL;
+			return nullptr;
 
 		CDmeSource *pDmeSource =  pDmeMakefile->AddSource< CDmeSource >( pszSource );
 		if ( pDmeSource )
@@ -101,7 +101,7 @@ public:
 
 	virtual const char *GetErrorString() const
 	{
-		return m_nErrorState == DMXEDIT_OK ? NULL : m_sErrorString.Get();
+		return m_nErrorState == DMXEDIT_OK ? nullptr : m_sErrorString.Get();
 	}
 
 	int SetErrorString( DmxEditErrorState_t nErrorState, const char *pszErrorString, ... )
@@ -383,7 +383,7 @@ CDmeVertexData *FindMeshEditBaseState( CDmeMesh *pDmeMesh, const char *pszFuncNa
 	if ( pDmeEditBaseState && BaseStateSanityCheck( pDmeMesh, pDmeEditBaseState, pszFuncName ) )
 		return pDmeEditBaseState;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -400,28 +400,28 @@ CDmeVertexData *FindOrCreateMeshEditBaseState( CDmeMesh *pDmeMesh, const char *p
 		if ( BaseStateSanityCheck( pDmeMesh, pDmeEditBaseState, pszFuncName ) )
 			return pDmeEditBaseState;
 
-		return NULL;
+		return nullptr;
 	}
 
 	CDmeVertexData *pDmeBindBaseState = pDmeMesh->GetBindBaseState();
 	if ( !pDmeBindBaseState )
 	{
 		g_pDmxEditImpl->SetErrorString( DMXEDIT_WARNING, "%s: No bind base state found on mesh \"%s\"", pszFuncName, pDmeMesh->GetName() );
-		return NULL;
+		return nullptr;
 	}
 
 	pDmeEditBaseState = pDmeMesh->FindOrCreateBaseState( s_szEditBaseStateName );
 	if ( !pDmeEditBaseState )
 	{
 		g_pDmxEditImpl->SetErrorString( DMXEDIT_WARNING, "%s: Couldn't create edit base state on mesh \"%s\"", pszFuncName, pDmeMesh->GetName() );
-		return NULL;
+		return nullptr;
 	}
 
 	pDmeBindBaseState->CopyTo( pDmeEditBaseState );
 	pDmeEditBaseState->SetFileId( DMFILEID_INVALID, TD_ALL );
 
 	// Save the current base state so we can restore it on save
-	CDmAttribute *pDmeOldCurrentStateAttr = NULL;
+	CDmAttribute *pDmeOldCurrentStateAttr = nullptr;
 
 	if ( pDmeMesh->HasAttribute( s_szEditOldCurrentState ) )
 	{
@@ -430,17 +430,17 @@ CDmeVertexData *FindOrCreateMeshEditBaseState( CDmeMesh *pDmeMesh, const char *p
 		{
 			Msg( "WARNING %s: Attribute %s.%s is of type %s, not AT_ELEMENT, removing", pszFuncName, pDmeMesh->GetName(), pDmeOldCurrentStateAttr->GetName(), pDmeOldCurrentStateAttr->GetTypeString() );
 			pDmeMesh->RemoveAttribute( s_szEditOldCurrentState );
-			pDmeOldCurrentStateAttr = NULL;
+			pDmeOldCurrentStateAttr = nullptr;
 		}
 	}
 
-	if ( pDmeOldCurrentStateAttr == NULL )
+	if ( pDmeOldCurrentStateAttr == nullptr)
 	{
 		pDmeOldCurrentStateAttr = pDmeMesh->AddAttributeElement< CDmeVertexData >( s_szEditOldCurrentState );
 		if ( !pDmeOldCurrentStateAttr )
 		{
 			g_pDmxEditImpl->SetErrorString( DMXEDIT_WARNING, "%s: Couldn't create %s.%s attribute", pszFuncName, pDmeMesh->GetName(), s_szEditOldCurrentState );
-			return NULL;
+			return nullptr;
 		}
 
 		pDmeOldCurrentStateAttr->AddFlag( FATTRIB_DONTSAVE );
@@ -455,7 +455,7 @@ CDmeVertexData *FindOrCreateMeshEditBaseState( CDmeMesh *pDmeMesh, const char *p
 	if ( BaseStateSanityCheck( pDmeMesh, pDmeBaseState, pszFuncName ) )
 		return pDmeBaseState;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -464,12 +464,12 @@ CDmeVertexData *FindOrCreateMeshEditBaseState( CDmeMesh *pDmeMesh, const char *p
 //-----------------------------------------------------------------------------
 CDmElement *LoadDmx( const char *pszFilename )
 {
-	CDmElement *pRoot = NULL;
+	CDmElement *pRoot = nullptr;
 
 	if ( !Q_stricmp( "dmx", Q_GetFileExtension( pszFilename ) ) )
 	{
 		g_pDmxEditImpl->AddSource( pszFilename, true );
-		g_pDataModel->RestoreFromFile( pszFilename, NULL, NULL, &pRoot, CR_COPY_NEW );
+		g_pDataModel->RestoreFromFile( pszFilename, nullptr, nullptr, &pRoot, CR_COPY_NEW );
 		if ( !pRoot )
 			DMXEDIT_ERROR_RETURN_NULL( "DMX Load Fail: \"%s\"", pszFilename );
 	}
@@ -485,7 +485,7 @@ CDmElement *LoadDmx( const char *pszFilename )
 //-----------------------------------------------------------------------------
 CDmElement *LoadObj( const char *pszFilename, const char *pszLoadType /* = "ABSOLUTE" */ )
 {
-	CDmElement *pRoot = NULL;
+	CDmElement *pRoot = nullptr;
 
 	if ( !Q_stricmp( "obj", Q_GetFileExtension( pszFilename ) ) )
 	{
@@ -506,7 +506,7 @@ CDmElement *LoadObj( const char *pszFilename, const char *pszLoadType /* = "ABSO
 				DMXEDIT_ERROR_RETURN_NULL( "Invalid OBJ loadType specified (%s), must be \"ABSOLUTE\" or \"RELATIVE\"", pszLoadType );
 		}
 
-		pRoot = CDmObjSerializer().ReadOBJ( pszFilename, NULL, true, bAbsoluteObjs );
+		pRoot = CDmObjSerializer().ReadOBJ( pszFilename, nullptr, true, bAbsoluteObjs );
 		if ( !pRoot )
 			DMXEDIT_ERROR_RETURN_NULL( "OBJ Load Fail: \"%s\"", pszFilename );
 	}
@@ -791,7 +791,7 @@ bool SaveDmx( CDmElement *pDmeRoot, const char *pszFilename )
 
 	if ( !Q_stricmp( "dmx", Q_GetFileExtension( pszFilename ) ) )
 	{
-		bRetVal = g_pDataModel->SaveToFile( pszFilename, NULL, "keyvalues2", "model", pDmeRoot );
+		bRetVal = g_pDataModel->SaveToFile( pszFilename, nullptr, "keyvalues2", "model", pDmeRoot );
 		if ( !bRetVal )
 		{
 			DMXEDIT_WARNING( "Couldn't write dmx file \"%s\"", pszFilename );
@@ -846,7 +846,7 @@ bool SaveObj( CDmElement *pDmeRoot, const char *pszFilename, const char *pszObjS
 		{
 			if ( !Q_stricmp( "base", pszDeltaName ) || !Q_stricmp( "bind", pszDeltaName ) )
 			{
-				bRetVal = CDmObjSerializer().WriteOBJ( pszFilename, pDmeRoot, false, NULL, bAbsoluteObjs );
+				bRetVal = CDmObjSerializer().WriteOBJ( pszFilename, pDmeRoot, false, nullptr, bAbsoluteObjs );
 			}
 			else
 			{
@@ -855,7 +855,7 @@ bool SaveObj( CDmElement *pDmeRoot, const char *pszFilename, const char *pszObjS
 		}
 		else
 		{
-			bRetVal = CDmObjSerializer().WriteOBJ( pszFilename, pDmeRoot, true, NULL, bAbsoluteObjs );
+			bRetVal = CDmObjSerializer().WriteOBJ( pszFilename, pDmeRoot, true, nullptr, bAbsoluteObjs );
 		}
 	}
 	else
@@ -875,7 +875,7 @@ bool SaveObj( CDmElement *pDmeRoot, const char *pszFilename, const char *pszObjS
 CDmeMesh *FindMesh( CDmElement *pRoot, const char *pszMeshSearchName, bool bComboOnly )
 {
 	if ( !pRoot )
-		return NULL;
+		return nullptr;
 
 	CDmeDag *pDmeDag = CastElement< CDmeDag >( pRoot );
 	if ( !pDmeDag )
@@ -921,7 +921,7 @@ CDmeMesh *FindMesh( CDmElement *pRoot, const char *pszMeshSearchName, bool bComb
 	}
 
 	// No mesh found
-	return NULL;
+	return nullptr;
 }
 
 
@@ -930,7 +930,7 @@ CDmeMesh *FindMesh( CDmElement *pRoot, const char *pszMeshSearchName, bool bComb
 //-----------------------------------------------------------------------------
 CDmeMesh *GetFirstComboMesh( CDmElement *pRoot )
 {
-	CDmeMesh *pDmeMesh = FindMesh( pRoot, NULL, true );
+	CDmeMesh *pDmeMesh = FindMesh( pRoot, nullptr, true );
 	if ( !pDmeMesh )
 		DMXEDIT_WARNING_RETURN_NULL( "No mesh with combinations found" );
 
@@ -956,7 +956,7 @@ CDmeMesh *GetNamedMesh( CDmElement *pRoot, const char *pszMeshSearchName )
 //-----------------------------------------------------------------------------
 CDmeMesh *GetFirstMesh( CDmElement *pDmeRoot )
 {
-	CDmeMesh *pDmeMesh = FindMesh( pDmeRoot, NULL, false );
+	CDmeMesh *pDmeMesh = FindMesh( pDmeRoot, nullptr, false );
 	if ( !pDmeMesh )
 		DMXEDIT_WARNING_RETURN_NULL( "No mesh found" );
 
@@ -976,7 +976,7 @@ CDmeMesh *GetNextMesh( CDmeMesh *pCurrentDmeMesh )
 		DMXEDIT_WARNING_RETURN_NULL( "No dmeDag owning mesh \"%s\"", pCurrentDmeMesh->GetName() );
 
 	// Walk up to the root
-	CDmeDag *pDmeDagParent = NULL;
+	CDmeDag *pDmeDagParent = nullptr;
 	for ( ;; )
 	{
 		pDmeDagParent = FindReferringElement< CDmeDag >( pDmeDag, "children" );
@@ -1017,7 +1017,7 @@ CDmeMesh *GetNextMesh( CDmeMesh *pCurrentDmeMesh )
 			return pDmeMesh;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1146,7 +1146,7 @@ bool ResetState( CDmeMesh *pDmeMesh )
 	if ( !BaseStateSanityCheck( pDmeMesh, pDmeEditBaseState, __func__ ) )
 		return false;
 
-	return pDmeMesh->SetBaseStateToDelta( NULL, pDmeEditBaseState );
+	return pDmeMesh->SetBaseStateToDelta(nullptr, pDmeEditBaseState );
 }
 
 //-----------------------------------------------------------------------------
@@ -1276,7 +1276,7 @@ bool ComputeNormals( CDmeMesh *pDmeMesh )
 CDmeCombinationOperator *GetComboOpFromMesh( CDmeMesh *pDmeMesh )
 {
 	if ( !pDmeMesh )
-		return NULL;
+		return nullptr;
 
 	CUtlRBTree< CDmElement * > visited( CDefOps< CDmElement * >::LessFunc );
 	visited.Insert( pDmeMesh );
@@ -1285,7 +1285,7 @@ CDmeCombinationOperator *GetComboOpFromMesh( CDmeMesh *pDmeMesh )
 	const CUtlSymbolLarge sTarget = g_pDataModel->GetSymbol( "target" );
 
 	CDmElement *pDmThisElement = pDmeMesh;
-	CDmElement *pDmNextElement = NULL;
+	CDmElement *pDmNextElement = nullptr;
 
 	while ( pDmThisElement )
 	{
@@ -1309,7 +1309,7 @@ CDmeCombinationOperator *GetComboOpFromMesh( CDmeMesh *pDmeMesh )
 		visited.Insert( pDmThisElement );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1525,7 +1525,7 @@ bool Scale( CDmeMesh *pDmeMesh, float flScaleX, float flScaleY, float flScaleZ )
 	DMXEDIT_MESH_WARNING_RETURN_FALSE( pDmeMesh );
 
 	int nArraySize = 0;
-	Vector *pPosArray = NULL;
+	Vector *pPosArray = nullptr;
 
 	const int nBaseStateCount = pDmeMesh->BaseStateCount();
 	for ( int i = 0; i < nBaseStateCount; ++i )
@@ -1540,7 +1540,7 @@ bool Scale( CDmeMesh *pDmeMesh, float flScaleX, float flScaleY, float flScaleZ )
 		if ( nPosDataCount <= 0 )
 			continue;
 
-		if ( nArraySize < nPosDataCount || pPosArray == NULL )
+		if ( nArraySize < nPosDataCount || pPosArray == nullptr)
 		{
 			pPosArray = reinterpret_cast< Vector * >( alloca( nPosDataCount * sizeof( Vector ) ) );
 			if ( pPosArray )
@@ -2009,7 +2009,7 @@ CDmeSingleIndexedComponent *FindOrCreateMeshSelection( CDmeMesh *pDmeMesh, CDmeS
 
 	DMXEDIT_MESH_WARNING_RETURN_NULL( pDmeMesh );
 
-	CDmAttribute *pDmeSelAttr = NULL;
+	CDmAttribute *pDmeSelAttr = nullptr;
 
 	if ( pDmeMesh->HasAttribute( s_szSelAttrName ) )
 	{
@@ -2018,11 +2018,11 @@ CDmeSingleIndexedComponent *FindOrCreateMeshSelection( CDmeMesh *pDmeMesh, CDmeS
 		{
 			DMXEDIT_WARNING( "Attribute %s.%s is of type %s, not AT_ELEMENT, removing", pDmeMesh->GetName(), pDmeSelAttr->GetName(), pDmeSelAttr->GetTypeString() );
 			pDmeMesh->RemoveAttribute( s_szSelAttrName );
-			pDmeSelAttr = NULL;
+			pDmeSelAttr = nullptr;
 		}
 	}
 
-	if ( pDmeSelAttr == NULL )
+	if ( pDmeSelAttr == nullptr)
 	{
 		CDmeSingleIndexedComponent *pTempSelection = CreateElement< CDmeSingleIndexedComponent >( s_szSelAttrName, DMFILEID_INVALID );
 		if ( !pTempSelection )
@@ -2120,7 +2120,7 @@ CDmeSingleIndexedComponent *Select(
 	DMXEDIT_MESH_WARNING_RETURN_NULL( pDmeMesh );
 
 	if ( nSelectOp < 0 || nSelectOp >= INVALID_SELECT_OP )
-		return NULL;
+		return nullptr;
 
 	CDmeSingleIndexedComponent *pDmeSelection = FindOrCreateMeshSelection( pDmeMesh, pDmePassedSelection );
 	if ( !pDmeSelection )
@@ -2441,7 +2441,7 @@ bool GrowSelection( CDmeMesh *pDmeMesh, int nSize /* = 1 */, CDmeSingleIndexedCo
 	}
 
 	// TODO: Cache the CDmMeshComp object, make it into winged or half edge data structure
-	pDmeMesh->GrowSelection( nSize, pDmeSelection, NULL );
+	pDmeMesh->GrowSelection( nSize, pDmeSelection, nullptr);
 
 	return true;
 }
@@ -2462,7 +2462,7 @@ bool ShrinkSelection( CDmeMesh *pDmeMesh, int nSize /* = 1 */, CDmeSingleIndexed
 	}
 
 	// TODO: Cache the CDmMeshComp object, make it into winged or half edge data structure
-	pDmeMesh->ShrinkSelection( nSize, pDmeSelection, NULL );
+	pDmeMesh->ShrinkSelection( nSize, pDmeSelection, nullptr);
 
 	return true;
 }
@@ -2568,7 +2568,7 @@ bool Interp(
 	if ( !pDmeSelection )
 		DMXEDIT_WARNING_RETURN_NULL( "Couldn't find or create selection for mesh %s\n", pDmeMesh->GetName() );
 
-	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, NULL ) : NULL;
+	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, nullptr) : nullptr;
 
 	bool bRetVal = false;
 
@@ -2578,7 +2578,7 @@ bool Interp(
 
 	if ( !Q_stricmp( "base", pszDeltaName ) || !Q_stricmp( "bind", pszDeltaName ) )
 	{
-		bRetVal = pDmeMesh->InterpMaskedDelta( NULL, pDmeEditState, flWeight, pNewSelection ? pNewSelection : pDmeSelection );
+		bRetVal = pDmeMesh->InterpMaskedDelta(nullptr, pDmeEditState, flWeight, pNewSelection ? pNewSelection : pDmeSelection );
 	}
 	else
 	{
@@ -2648,7 +2648,7 @@ bool Add(
 	if ( !pDmeSelection )
 		DMXEDIT_WARNING_RETURN_NULL( "Couldn't find or create selection for mesh %s\n", pDmeMesh->GetName() );
 
-	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, NULL ) : NULL;
+	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, nullptr) : nullptr;
 
 	bool bRetVal = false;
 
@@ -2721,7 +2721,7 @@ bool AddCorrected(
 	if ( !pDmeSelection )
 		DMXEDIT_WARNING_RETURN_NULL( "Couldn't find or create selection for mesh %s\n", pDmeMesh->GetName() );
 
-	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, NULL ) : NULL;
+	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, nullptr) : nullptr;
 
 	bool bRetVal = false;
 
@@ -2794,7 +2794,7 @@ bool Translate(
 	if ( !pDmeSelection )
 		DMXEDIT_WARNING_RETURN_NULL( "Couldn't find or create selection for mesh %s\n", pDmeMesh->GetName() );
 
-	CDmeSingleIndexedComponent *pTmpSelection = NULL;
+	CDmeSingleIndexedComponent *pTmpSelection = nullptr;
 
 	if ( !pDmeSelection || pDmeSelection->Count() == 0 )
 	{
@@ -2803,10 +2803,10 @@ bool Translate(
 		pDmeMesh->SelectAllVertices( pDmeSelection );
 	}
 
-	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, NULL ) : pDmeSelection;
+	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, nullptr) : pDmeSelection;
 
 	int nArraySize = 0;
-	Vector *pPosArray = NULL;
+	Vector *pPosArray = nullptr;
 
 	const int nPosIndex = pDmeEditState->FindFieldIndex( CDmeVertexData::FIELD_POSITION );
 	if ( nPosIndex < 0 )
@@ -2817,7 +2817,7 @@ bool Translate(
 	if ( nPosDataCount <= 0 )
 		return false;
 
-	if ( nArraySize < nPosDataCount || pPosArray == NULL )
+	if ( nArraySize < nPosDataCount || pPosArray == nullptr)
 	{
 		pPosArray = reinterpret_cast< Vector * >( alloca( nPosDataCount * sizeof( Vector ) ) );
 		if ( pPosArray )
@@ -2932,7 +2932,7 @@ bool Rotate(
 	if ( !pDmeSelection )
 		DMXEDIT_WARNING_RETURN_NULL( "Couldn't find or create selection for mesh %s\n", pDmeMesh->GetName() );
 
-	CDmeSingleIndexedComponent *pTmpSelection = NULL;
+	CDmeSingleIndexedComponent *pTmpSelection = nullptr;
 
 	if ( !pDmeSelection || pDmeSelection->Count() == 0 )
 	{
@@ -2941,9 +2941,9 @@ bool Rotate(
 		pDmeMesh->SelectAllVertices( pDmeSelection );
 	}
 
-	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, NULL ) : pDmeSelection;
+	CDmeSingleIndexedComponent *pNewSelection = flFeatherDistance > 0.0f ? pDmeMesh->FeatherSelection( flFeatherDistance, nFalloffType, nDistanceType, pDmeSelection, nullptr) : pDmeSelection;
 	int nArraySize = 0;
-	Vector *pPosArray = NULL;
+	Vector *pPosArray = nullptr;
 
 	const int nPosIndex = pDmeEditState->FindFieldIndex( CDmeVertexData::FIELD_POSITION );
 	if ( nPosIndex < 0 )
@@ -2954,7 +2954,7 @@ bool Rotate(
 	if ( nPosDataCount <= 0 )
 		return false;
 
-	if ( nArraySize < nPosDataCount || pPosArray == NULL )
+	if ( nArraySize < nPosDataCount || pPosArray == nullptr)
 	{
 		pPosArray = reinterpret_cast< Vector * >( alloca( nPosDataCount * sizeof( Vector ) ) );
 		if ( pPosArray )
@@ -3270,7 +3270,7 @@ bool ApplyMaskToDelta( CDmeVertexDeltaData *pTheDelta, CDmeSingleIndexedComponen
 		}
 	}
 
-	return pTheDelta == NULL;
+	return pTheDelta == nullptr;
 }
 
 
@@ -3287,7 +3287,7 @@ bool CreateDeltaFromMesh( CDmeMesh *pBaseMesh, CDmeMesh *pMeshToUseAsDelta, cons
 		ApplyMaskToDelta( pRet, pDmePassedSelection );
 	}
 
-	return pRet == NULL;
+	return pRet == nullptr;
 }
 
 
@@ -3315,7 +3315,7 @@ CDmeMesh *ComputeConvexHull3D( CDmeMesh *pDmeMesh, float flCoplanarEpsilon /* = 
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 //-----------------------------------------------------------------------------
 //
@@ -3428,7 +3428,7 @@ bool SetMeshFromSkeleton( CDmeMesh *pDmeMesh )
 
 	for ( int i = 0; i < nVertexCount; ++i )
 	{
-		renderInfo.ComputePosition( i, pPoseToWorld, static_cast< Vector * >( NULL ), pVertices );
+		renderInfo.ComputePosition( i, pPoseToWorld, static_cast< Vector * >(nullptr), pVertices );
 	}
 
 	pDmeEditBaseState->SetVertexData( nEditPosField, 0, nVertexCount, AT_VECTOR3, pVertices );
@@ -3942,7 +3942,7 @@ bool FlexRuleExpression( CDmeMesh *pDmeMesh, const char *pszExpression )
 static CDmeFlexRules *GetFlexRulesForMesh( CDmeMesh *pDmeMesh )
 {
 	if ( !pDmeMesh )
-		return NULL;
+		return nullptr;
 
 	CUtlRBTree< CDmElement * > visited( CDefOps< CDmElement * >::LessFunc );
 	visited.Insert( pDmeMesh );
@@ -3951,7 +3951,7 @@ static CDmeFlexRules *GetFlexRulesForMesh( CDmeMesh *pDmeMesh )
 	const CUtlSymbolLarge sTarget = g_pDataModel->GetSymbol( "target" );
 
 	CDmElement *pDmThisElement = pDmeMesh;
-	CDmElement *pDmNextElement = NULL;
+	CDmElement *pDmNextElement = nullptr;
 
 	while ( pDmThisElement )
 	{
@@ -3975,7 +3975,7 @@ static CDmeFlexRules *GetFlexRulesForMesh( CDmeMesh *pDmeMesh )
 		visited.Insert( pDmThisElement );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -4069,7 +4069,7 @@ bool SetControlMinMax( CDmeMesh *pDmeMesh, ControlIndex_t nControlIndex, float f
 static CDmeModel *GetDmeModel( CDmeMesh *pDmeMesh )
 {
 	if ( !pDmeMesh )
-		return NULL;
+		return nullptr;
 
 	// Find the DmeModel of the destination mesh scene
 	CDmeDag *pDmeDag = pDmeMesh->GetParent();

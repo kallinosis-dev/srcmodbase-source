@@ -270,7 +270,7 @@ bool CAI_MoveSolver::HaveRegulationForObstacle( CBaseEntity *pEntity)
 {
    for ( int i = 0; i < m_Regulations.Count(); ++i )
    {
-      if ( m_Regulations[i].hObstacleEntity != NULL &&
+      if ( m_Regulations[i].hObstacleEntity != nullptr &&
            pEntity == m_Regulations[i].hObstacleEntity.Get() )
       {
          return true;

@@ -69,7 +69,7 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CInputStackSystem, IInputStackSystem,
 static AppSystemInfo_t s_Dependencies[] =
 {
 	{ "inputsystem" DLL_EXT_STRING, INPUTSYSTEM_INTERFACE_VERSION },
-	{ NULL, NULL }
+	{nullptr, nullptr}
 };
 
 const AppSystemInfo_t* CInputStackSystem::GetDependencies()
@@ -86,7 +86,7 @@ void CInputStackSystem::Shutdown()
 	// Delete any leaked contexts
 	while( m_ContextStack.Count() )
 	{
-		InputContext_t *pContext = NULL;
+		InputContext_t *pContext = nullptr;
 		m_ContextStack.Pop( pContext );
 		delete pContext;
 	}
@@ -122,7 +122,7 @@ void CInputStackSystem::PopInputContext( )
 	if ( m_ContextStack.Count() == 0 )
 		return;
 
-	InputContext_t *pContext = NULL;
+	InputContext_t *pContext = nullptr;
 	m_ContextStack.Pop( pContext );
 	delete pContext;
 

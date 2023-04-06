@@ -32,7 +32,7 @@ void CCSBot::OnPlayerDeath( IGameEvent *event )
 	CBasePlayer *other = UTIL_PlayerByUserId( event->GetInt( "attacker" ) );
 	CBasePlayer *victim = player;
 
-	CBasePlayer *killer = (other && other->IsPlayer()) ? static_cast<CBasePlayer *>( other ) : NULL;
+	CBasePlayer *killer = (other && other->IsPlayer()) ? static_cast<CBasePlayer *>( other ) : nullptr;
 
 	// if the human player died in the single player game, tell the team
 	if (CSGameRules()->IsCareer() && !victim->IsBot() && victim->GetTeamNumber() == GetTeamNumber())

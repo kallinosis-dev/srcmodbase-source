@@ -228,7 +228,7 @@ bool CScratchPad3D::LoadCommandsFromFile( )
 		unsigned char iCommand;
 		fileRead.Read( &iCommand, sizeof(iCommand) );
 		
-		CBaseCommand *pCmd = NULL;
+		CBaseCommand *pCmd = nullptr;
 		if( iCommand == COMMAND_POINT )
 			pCmd = new CCommand_Point;
 		else if( iCommand == COMMAND_LINE )
@@ -433,7 +433,7 @@ void CScratchPad3D::Clear()
 {
 	FileHandle_t fp;
 	
-	while( ( fp = m_pFileSystem->Open(m_pFilename, "wb") ) == NULL )
+	while( ( fp = m_pFileSystem->Open(m_pFilename, "wb") ) == nullptr)
 	{
 #ifdef _WIN32
 		Sleep( 5 );
@@ -452,7 +452,7 @@ void CScratchPad3D::Flush()
 {
 	FileHandle_t fp;
 
-	while( ( fp = m_pFileSystem->Open(m_pFilename, "ab+") ) == NULL )
+	while( ( fp = m_pFileSystem->Open(m_pFilename, "ab+") ) == nullptr)
 	{
 #ifdef _WIN32
 		Sleep( 5 );
@@ -590,7 +590,7 @@ void CScratchPad3D::DrawImageRGBA(
 	if ( bOutlinePixels )
 	{
 		SetRenderState( IScratchPad3D::RS_FillMode, IScratchPad3D::FillMode_Wireframe );
-		DrawPolygonsForPixels( NULL, width, height, pitchInBytes, vCorners );
+		DrawPolygonsForPixels(nullptr, width, height, pitchInBytes, vCorners );
 	}
 
 	// Draw an outline around the whole image.
@@ -614,14 +614,14 @@ IFileSystem* ScratchPad3D_SetupFileSystem()
 	// Get a filesystem interface.
 	CSysModule *pModule = Sys_LoadModule( "filesystem_stdio" );
 	if( !pModule )
-		return NULL;
+		return nullptr;
 
 	CreateInterfaceFn fn = Sys_GetFactory( pModule );
 	IFileSystem *pFileSystem;
-	if( !fn || (pFileSystem = (IFileSystem *)fn( FILESYSTEM_INTERFACE_VERSION, NULL )) == NULL )
+	if( !fn || (pFileSystem = (IFileSystem *)fn( FILESYSTEM_INTERFACE_VERSION, nullptr)) == nullptr)
 	{
 		Sys_UnloadModule( pModule );
-		return NULL;
+		return nullptr;
 	}
 
 	return pFileSystem;
@@ -631,7 +631,7 @@ IScratchPad3D* ScratchPad3D_Create( char const *pFilename )
 {
 	IFileSystem *pFileSystem = ScratchPad3D_SetupFileSystem();
 	if( !pFileSystem )
-		return NULL;
+		return nullptr;
 
 	CScratchPad3D *pRet = new CScratchPad3D( pFilename, pFileSystem, true );
 	return pRet;

@@ -39,7 +39,7 @@ IMPLEMENT_MAPCLASS(CMapLineOccluder)
 CMapClass *CMapLineOccluder::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 {
 	CMapLineOccluder *pOccluder = new CMapLineOccluder;
-	if (pOccluder != NULL)
+	if (pOccluder != nullptr)
 	{
 		//
 		// The first parameter should be the key name to represent. If it isn't
@@ -64,19 +64,19 @@ CMapClass *CMapLineOccluder::Create(CHelperInfo *pHelperInfo, CMapEntity *pParen
 		unsigned char chBlue = 255;
 
 		const char *pszParam = pHelperInfo->GetParameter(1);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			chRed = atoi(pszParam);
 		}
 
 		pszParam = pHelperInfo->GetParameter(2);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			chGreen = atoi(pszParam);
 		}
 
 		pszParam = pHelperInfo->GetParameter(3);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			chBlue = atoi(pszParam);
 		}
@@ -105,7 +105,7 @@ CMapLineOccluder::CMapLineOccluder( bool AddToFoW ) :
 	SetVisible( true );
 	SetVisible2D( true );
 
-	m_pLineOccluder = NULL;
+	m_pLineOccluder = nullptr;
 }
 
 
@@ -158,7 +158,7 @@ CMapClass *CMapLineOccluder::Copy(bool bUpdateDependencies)
 {
 	CMapLineOccluder *pCopy = new CMapLineOccluder( false );
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -240,7 +240,7 @@ CBaseTool *CMapLineOccluder::GetToolObject(int nHitData, bool bAttachObject)
 
 	return pTool;
 #endif
-	return NULL;
+	return nullptr;
 }
 
 

@@ -248,7 +248,7 @@ const char *CPhysicsSurfaceProps::GetPropName( int surfaceDataIndex ) const
 	{
 		return GetNameString( pSurface->m_name );
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -262,7 +262,7 @@ CSurface *CPhysicsSurfaceProps::GetInternalSurface( int materialIndex )
 	}
 	if ( materialIndex < 0 || materialIndex > m_props.Size()-1 )
 	{
-		return NULL;
+		return nullptr;
 	}
 	return &m_props[materialIndex];
 }
@@ -344,7 +344,7 @@ const char *CPhysicsSurfaceProps::GetReservedMaterialName( int materialIndex ) c
 		return "$MATERIAL_INDEX_SHADOW";
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int CPhysicsSurfaceProps::GetReservedSurfaceIndex( const char *pPropertyName ) const

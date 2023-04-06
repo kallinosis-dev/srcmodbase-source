@@ -159,7 +159,7 @@ private:
 // Purpose: 
 // Input  : *parent - 
 //-----------------------------------------------------------------------------
-CFPSPanel::CFPSPanel( vgui::VPANEL parent ) : BaseClass( NULL, "CFPSPanel" )
+CFPSPanel::CFPSPanel( vgui::VPANEL parent ) : BaseClass(nullptr, "CFPSPanel" )
 {
 	memset( m_pServerTimes, 0, sizeof(m_pServerTimes) );
 	m_nServerTimeIndex = 0;
@@ -713,11 +713,11 @@ void CFPSPanel::Paint()
 		char *szFlipName = ( char * ) ( mat_vsync.GetBool() ? "TOTAL" : "TOTAL" );
 		FpsDetail_t arrGrid[6][5] = {
 			{ { "PERF/ms",0 },		{ "MAX",0 },					{ "AVG",0 },					{ "MIN",0 },					{ "CUR",0 } },
-			{ { "MAIN",0 },			{ 0,s_tracker.m_max.msMain },	{ 0,s_tracker.m_avg.msMain },	{ 0,s_tracker.m_min.msMain },	{ 0,s_tracker.m_cur.msMain } },
-			{ { szMSTname,0 },		{ 0,s_tracker.m_max.msMST },	{ 0,s_tracker.m_avg.msMST },	{ 0,s_tracker.m_min.msMST },	{ 0,s_tracker.m_cur.msMST } },
-			{ { "GPU",0 },			{ 0,s_tracker.m_max.msGPU },	{ 0,s_tracker.m_avg.msGPU },	{ 0,s_tracker.m_min.msGPU },	{ 0,s_tracker.m_cur.msGPU } },
-			{ { szFlipName,0 },		{ 0,s_tracker.m_max.msFlip },	{ 0,s_tracker.m_avg.msFlip },	{ 0,s_tracker.m_min.msFlip },	{ 0,s_tracker.m_cur.msFlip } },
-			{ { "TOTAL",0 },		{ 0,s_tracker.m_max.msTotal },	{ 0,s_tracker.m_avg.msTotal },	{ 0,s_tracker.m_min.msTotal },	{ 0,s_tracker.m_cur.msTotal } }
+			{ { "MAIN",0 },			{ nullptr,s_tracker.m_max.msMain },	{ nullptr,s_tracker.m_avg.msMain },	{ nullptr,s_tracker.m_min.msMain },	{ nullptr,s_tracker.m_cur.msMain } },
+			{ { szMSTname,0 },		{ nullptr,s_tracker.m_max.msMST },	{ nullptr,s_tracker.m_avg.msMST },	{ nullptr,s_tracker.m_min.msMST },	{ nullptr,s_tracker.m_cur.msMST } },
+			{ { "GPU",0 },			{ nullptr,s_tracker.m_max.msGPU },	{ nullptr,s_tracker.m_avg.msGPU },	{ nullptr,s_tracker.m_min.msGPU },	{ nullptr,s_tracker.m_cur.msGPU } },
+			{ { szFlipName,0 },		{ nullptr,s_tracker.m_max.msFlip },	{ nullptr,s_tracker.m_avg.msFlip },	{ nullptr,s_tracker.m_min.msFlip },	{ nullptr,s_tracker.m_cur.msFlip } },
+			{ { "TOTAL",0 },		{ nullptr,s_tracker.m_max.msTotal },	{ nullptr,s_tracker.m_avg.msTotal },	{ nullptr,s_tracker.m_min.msTotal },	{ nullptr,s_tracker.m_cur.msTotal } }
 		};
 		int numRowsToDisplay = ( cl_showfps.GetInt() >= 20 ? 6 : 5 );
 		if (IsPS3() || IsX360() )
@@ -978,7 +978,7 @@ private:
 public:
 	CFPS( void )
 	{
-		fpsPanel = NULL;
+		fpsPanel = nullptr;
 	}
 
 	void Create( vgui::VPANEL parent )
@@ -990,7 +990,7 @@ public:
 	{
 		if ( fpsPanel )
 		{
-			fpsPanel->SetParent( (vgui::Panel *)NULL );
+			fpsPanel->SetParent( (vgui::Panel *)nullptr);
 			delete fpsPanel;
 		}
 	}

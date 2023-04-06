@@ -91,13 +91,13 @@ CDmAttribute *CDmeUserSettings::FindAttributeForRegistryPath( const char *pRegis
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
 const char *CDmeUserSettings::FindRegistryPathForAttribute( CDmAttribute *pAttribute )
 {
-	const char *pReturnValue = NULL;
+	const char *pReturnValue = nullptr;
 	for ( int i = s_RegistryPathToAttribute.FirstInorder(); i != s_RegistryPathToAttribute.InvalidIndex(); i = s_RegistryPathToAttribute.NextInorder( i ) )
 	{
 		CDmAttribute *pCurrentAttribute = s_RegistryPathToAttribute[i];
@@ -217,7 +217,7 @@ bool CDmeUserSettings::SetRegistryString(const char *pRegistryPath, const char *
 	char pValueKey[1024];
 	CreateRegistryEntryAndValueKey( pRegistryPath, pEntryKey, sizeof( pEntryKey), pValueKey, sizeof( pValueKey ) );
 
-	if ( RegCreateKeyEx( hSlot, pEntryKey ,NULL, NULL, REG_OPTION_NON_VOLATILE, pStringValue ? KEY_WRITE : KEY_ALL_ACCESS, NULL, &hKey , NULL) != ERROR_SUCCESS )
+	if ( RegCreateKeyEx( hSlot, pEntryKey ,NULL, nullptr, REG_OPTION_NON_VOLATILE, pStringValue ? KEY_WRITE : KEY_ALL_ACCESS, nullptr, &hKey , nullptr) != ERROR_SUCCESS )
 	{
 		return false;
 	}
@@ -252,7 +252,7 @@ bool CDmeUserSettings::GetRegistryString(const char *pRegistryPath, char *pStrin
 	}
 
 	unsigned long len = nStringValueLen;
-	if ( RegQueryValueEx( hKey, pValueKey, NULL, NULL, (unsigned char *)pStringValue, &len ) == ERROR_SUCCESS )
+	if ( RegQueryValueEx( hKey, pValueKey, nullptr, nullptr, (unsigned char *)pStringValue, &len ) == ERROR_SUCCESS )
 	{		
 		RegCloseKey(hKey);
 		return true;

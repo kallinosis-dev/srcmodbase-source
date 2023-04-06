@@ -208,7 +208,7 @@ void CGridNav::GenerateGridNavFile( const char *pFileFullPath )
 		return;
 
 	// Error if we can't open the file for writing
-	if ( g_pFullFileSystem->FileExists( pFileFullPath, NULL ) && !g_pFullFileSystem->IsFileWritable( pFileFullPath, NULL ) )
+	if ( g_pFullFileSystem->FileExists( pFileFullPath, nullptr) && !g_pFullFileSystem->IsFileWritable( pFileFullPath, nullptr) )
 	{
 		//AfxMessageBox( NULL, "Grid nav file already exists and is not writable. Unable to generate grid nav.", "Error", MB_OK );
 		AfxMessageBox( "Grid nav file already exists and is not writable. Unable to generate grid nav.");
@@ -248,7 +248,7 @@ void CGridNav::GenerateGridNavFile( const char *pFileFullPath )
 			// trace here
 			Vector vTracePos( pos[0], pos[1], sm_flTraceHeight );
 			float moveDir = -1.0f;
-			if ( pMapDoc->DropTraceOnDisplacementsAndClips( vTracePos, NULL, NULL ) )
+			if ( pMapDoc->DropTraceOnDisplacementsAndClips( vTracePos, nullptr, nullptr) )
 			{
 				// we hit something, must move forward
 				moveDir = 1.0f;
@@ -407,7 +407,7 @@ void CGridNav::GenerateGridNavFile( const char *pFileFullPath )
 	}
 
 	// write to file
-	if ( !g_pFullFileSystem->WriteFile( pFileFullPath, NULL, fileBuffer ) )
+	if ( !g_pFullFileSystem->WriteFile( pFileFullPath, nullptr, fileBuffer ) )
 	{
 		Warning( "Unable to save %d bytes to %s\n", fileBuffer.Size(), pFileFullPath );
 	}

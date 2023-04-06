@@ -31,7 +31,7 @@ StockSolid::~StockSolid()
 	if ( pFields )
 	{
 		delete[] pFields;
-		pFields = NULL;
+		pFields = nullptr;
 	}
 }
 

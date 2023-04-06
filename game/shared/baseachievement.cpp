@@ -24,7 +24,7 @@
 
 
 
-CBaseAchievementHelper *CBaseAchievementHelper::s_pFirst = NULL;
+CBaseAchievementHelper *CBaseAchievementHelper::s_pFirst = nullptr;
 static int g_nAchivementBitchCount = 0;
 
 BEGIN_DATADESC_NO_BASE( CBaseAchievement )
@@ -49,15 +49,15 @@ CBaseAchievement::CBaseAchievement()
 	m_iPointValue = 0;
 	m_bHideUntilAchieved = false;
 	m_bStoreProgressInSteam = false;
-	m_pVictimClassNameFilter = NULL;
-	m_pAttackerClassNameFilter = NULL;
-	m_pInflictorClassNameFilter = NULL;
-	m_pInflictorEntityNameFilter = NULL;
-	m_pMapNameFilter = NULL;
-	m_pGameDirFilter = NULL;
-	m_pszComponentNames = NULL;
-	m_pszComponentDisplayNames = NULL;
-	m_pszComponentPrefix = NULL;
+	m_pVictimClassNameFilter = nullptr;
+	m_pAttackerClassNameFilter = nullptr;
+	m_pInflictorClassNameFilter = nullptr;
+	m_pInflictorEntityNameFilter = nullptr;
+	m_pMapNameFilter = nullptr;
+	m_pGameDirFilter = nullptr;
+	m_pszComponentNames = nullptr;
+	m_pszComponentDisplayNames = nullptr;
+	m_pszComponentPrefix = nullptr;
 	m_iNumComponents = 0;
 	m_iComponentPrefixLen = 0;
 	m_iComponentBits = 0;
@@ -65,7 +65,7 @@ CBaseAchievement::CBaseAchievement()
 	m_iProgressShown = 0;
 	m_bAchieved = false;
 	m_uUnlockTime = 0;
-	m_pAchievementMgr = NULL;
+	m_pAchievementMgr = nullptr;
 	m_nUserSlot = 0;
 	m_iAssetAwardID = 0;
 	m_bShowOnHUD = false;

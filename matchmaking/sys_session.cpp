@@ -179,7 +179,7 @@ bool CSysSessionBase::IsServiceSession()
 	if ( !m_pSettings )
 		return true;
 
-	if ( char const *szNetFlag = m_pSettings->GetString( "system/netflag", NULL ) )
+	if ( char const *szNetFlag = m_pSettings->GetString( "system/netflag", nullptr) )
 	{
 		if ( !Q_stricmp( "teamlink", szNetFlag ) )
 			return true;
@@ -583,7 +583,7 @@ void CSysSessionBase::ReplyLanSearch( KeyValues *msg )
 
 	// Reply to sender
 	g_pConnectionlessLanMgr->SendPacket( reply,
-		( !IsX360() && msg ) ? msg->GetString( "from", NULL ) : NULL );
+		( !IsX360() && msg ) ? msg->GetString( "from", nullptr) : nullptr);
 }
 
 void CSysSessionBase::SendMessage( KeyValues *msg )
@@ -1151,7 +1151,7 @@ void CSysSessionBase::Voice_CaptureAndTransmitLocalVoiceData()
 		if ( v->VoiceUpdateData( iCtrlr ) )
 		{
 			// Capture the voice data buffers
-			const byte *pbVoiceData = NULL;
+			const byte *pbVoiceData = nullptr;
 			unsigned int numBytes = 0;
 			v->GetVoiceData( iCtrlr, &pbVoiceData, &numBytes );
 
@@ -1233,7 +1233,7 @@ void CSysSessionBase::Voice_UpdateLocalHeadsetsStatus()
 	m_Voice_flLastHeadsetStatusCheck = Plat_FloatTime();
 
 	// Find the local machine
-	KeyValues *pMachine = NULL;
+	KeyValues *pMachine = nullptr;
 	SessionMembersFindPlayer( m_pSettings, m_xuidMachineId, &pMachine );
 	if ( !pMachine )
 		return;
@@ -1280,7 +1280,7 @@ void CSysSessionBase::Voice_UpdateMutelist()
 	
 	msg->SetUint64( "xuid", m_xuidMachineId );
 
-	if ( KeyValues *pMembers = m_pSettings ? m_pSettings->FindKey( "members" ) : NULL )
+	if ( KeyValues *pMembers = m_pSettings ? m_pSettings->FindKey( "members" ) : nullptr)
 	{
 		int numMachines = pMembers->GetInt( "numMachines" );
 		for ( int i = 0; i < numMachines; ++ i )
@@ -1292,7 +1292,7 @@ void CSysSessionBase::Voice_UpdateMutelist()
 	}
 
 	// Find current mutelist
-	KeyValues *pLocalMachine = NULL;
+	KeyValues *pLocalMachine = nullptr;
 	SessionMembersFindPlayer( m_pSettings, m_xuidMachineId, &pLocalMachine );
 	if ( pLocalMachine )
 	{
@@ -1777,7 +1777,7 @@ void CSysSessionHost::KickPlayer( KeyValues *pCommand )
 	XUID xuid = pCommand->GetUint64( "xuid", 0ull );
 
 	// Locate the machine being kicked
-	KeyValues *pMachine = NULL;
+	KeyValues *pMachine = nullptr;
 	SessionMembersFindPlayer( m_pSettings, xuid, &pMachine );
 	if ( !pMachine )
 		return;
@@ -2633,7 +2633,7 @@ void CSysSessionHost::Process_VoiceMutelist( KeyValues *msg )
 {
 	XUID xuid = msg->GetUint64( "xuid" );
 	
-	KeyValues *pMachine = NULL;
+	KeyValues *pMachine = nullptr;
 	SessionMembersFindPlayer( m_pSettings, xuid, &pMachine );
 	if ( !pMachine )
 		return;
@@ -3338,7 +3338,7 @@ void CSysSessionClient::Process_ReplyJoinData_Our( KeyValues *msg )
 	KeyValuesDumpAsDevMsg( msg );
 
 	KeyValues *pSettings = msg->FindKey( "settings" );
-	char const *szError = msg->GetString( "error", NULL );
+	char const *szError = msg->GetString( "error", nullptr);
 	if ( !pSettings || szError )
 	{
 		Warning( "CSysSessionClient: Received bad session data from host\n" );
@@ -3382,7 +3382,7 @@ void CSysSessionClient::Process_ReplyJoinData_Our( KeyValues *msg )
 		}
 
 		// Setup voice engine
-		Voice_ProcessTalkers( NULL, true );
+		Voice_ProcessTalkers(nullptr, true );
 		Voice_UpdateMutelist();
 
 #ifdef _X360
@@ -3402,7 +3402,7 @@ void CSysSessionClient::Process_ReplyJoinData_Our( KeyValues *msg )
 void CSysSessionClient::Process_ReplyJoinData_Other( KeyValues *msg )
 {
 	// Somebody has joined the session
-	char const *szError = msg->GetString( "error", NULL );
+	char const *szError = msg->GetString( "error", nullptr);
 	KeyValues *pSettings = msg->FindKey( "settings" );
 	if ( !pSettings || szError )
 		// connection attempt was rejected
@@ -3484,7 +3484,7 @@ void CSysSessionClient::Process_OnPlayerUpdated( KeyValues *msg )
 
 void CSysSessionClient::Process_OnMachineUpdated( KeyValues *msg )
 {
-	KeyValues *pMachine = NULL;
+	KeyValues *pMachine = nullptr;
 	SessionMembersFindPlayer( m_pSettings, msg->GetUint64( "id" ), &pMachine );
 	if ( !pMachine )
 		return;
@@ -3606,7 +3606,7 @@ void CSysSessionClient::OnPlayerLeave( XUID xuid )
 	}
 
 	// We only care to handle this event further if we are becoming the new host
-	char const *szForcedError = NULL;
+	char const *szForcedError = nullptr;
 
 #ifdef _X360
 
@@ -3695,10 +3695,10 @@ void CSysSessionClient::OnPlayerLeave( XUID xuid )
 	{
 		// We are about to migrate and become the new host
 		// See if the title settings mgr wants to chime in
-		if ( KeyValues *pMigrationHdlr = g_pMMF->GetMatchTitleGameSettingsMgr()->PrepareClientLobbyForMigration( m_pSettings, NULL ) )
+		if ( KeyValues *pMigrationHdlr = g_pMMF->GetMatchTitleGameSettingsMgr()->PrepareClientLobbyForMigration( m_pSettings, nullptr) )
 		{
 			KeyValues::AutoDelete autodelete( pMigrationHdlr );
-			if ( char const *szError = pMigrationHdlr->GetString( "error", NULL ) )
+			if ( char const *szError = pMigrationHdlr->GetString( "error", nullptr) )
 			{
 				// Title forcing a migration error
 				m_eState = STATE_FAIL;

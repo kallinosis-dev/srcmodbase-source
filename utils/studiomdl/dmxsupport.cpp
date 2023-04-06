@@ -71,7 +71,7 @@
 //-----------------------------------------------------------------------------
 // The current model being loaded...
 //-----------------------------------------------------------------------------
-s_model_t *g_pCurrentModel = NULL;
+s_model_t *g_pCurrentModel = nullptr;
 
 
 void UnifyIndices( s_source_t *psource );
@@ -236,7 +236,7 @@ static bool DefineUniqueVertices( CDmeVertexData *pBindState )
 		}
 		else
 		{
-			extraTexcoordIndices[i-1] = NULL;
+			extraTexcoordIndices[i-1] = nullptr;
 			nExtraTexcoordCount[i-1] = 0;
 		}
 	}
@@ -1170,7 +1170,7 @@ static int LoadSkeleton( CDmeDag *pRoot, CDmeModel *pModel, s_node_t *pNodes, Bo
 		pNodes[i].parent = -1;
 		boneMap.m_pnDmeModelToMdl[i] = -1;
 		boneMap.m_pnMdlToDmeModel[i] = -1;
-		boneMap.m_ppTransforms[i] = NULL;
+		boneMap.m_ppTransforms[i] = nullptr;
 	}
 
 	// Don't create joints for the the root dag ever.. just deal with the children
@@ -1266,7 +1266,7 @@ static void LoadBindPose( CDmeModel *pModel, float flScale, const BoneTransformM
 		CDmeTransformList *pBindPose = pModel->FindBaseState( "bind" );
 		for ( int nMdlBoneIndex = 0; nMdlBoneIndex < boneMap.m_nBoneCount; ++nMdlBoneIndex )
 		{
-			CDmeTransform *pDmeTransform = NULL;
+			CDmeTransform *pDmeTransform = nullptr;
 
 			const int nDmeModelBoneIndex = boneMap.m_pnMdlToDmeModel[ nMdlBoneIndex ];
 			if ( nDmeModelBoneIndex < 0 )
@@ -1980,9 +1980,9 @@ static bool LoadEyelid( s_model_t *pModel, CDmeEyelid *pDmeEyelid )
 
 	EyelidData_t eyelidData[3] =
 	{
-		{ { -1, -1 },	NULL, 0.0f, "lowerer" },
-		{ { -1, -1 },	NULL, 0.0f, "neutral" },
-		{ { -1, -1 },	NULL, 0.0f, "raiser" }
+		{ { -1, -1 }, nullptr, 0.0f, "lowerer" },
+		{ { -1, -1 }, nullptr, 0.0f, "neutral" },
+		{ { -1, -1 }, nullptr, 0.0f, "raiser" }
 	};
 
 	eyelidData[kLowerer].m_pSourceAnim = GetNewStyleSourceVertexAnim( pSource, pDmeEyelid->m_sLowererFlex.Get() );
@@ -4756,7 +4756,7 @@ int Load_DMX( s_source_t *pSource )
 	// When reading, keep the CRLF; this will make ReadFile read it in binary format
 	// and also append a couple 0s to the end of the buffer.
 	CDmElement *pRoot;
-	if ( g_pDataModel->RestoreFromFile( pFullPath, NULL, NULL, &pRoot ) == DMFILEID_INVALID )
+	if ( g_pDataModel->RestoreFromFile( pFullPath, nullptr, nullptr, &pRoot ) == DMFILEID_INVALID )
 		return 0;
 
 	if ( !g_quiet )
@@ -4844,7 +4844,7 @@ int Load_FBX( s_source_t *pSource )
 		}
 
 		if ( CommandLine()->FindParm( "-debugfbx2dmx" ) )
-			g_pDataModel->SaveToFile( CUtlString( pFullPath ).StripExtension() + ".fbx2dmx.dmx", NULL, "keyvalues2", "model", pRoot );
+			g_pDataModel->SaveToFile( CUtlString( pFullPath ).StripExtension() + ".fbx2dmx.dmx", nullptr, "keyvalues2", "model", pRoot );
 		nReturn = 1; // loaded ok
 	}
 	g_pDataModel->UnloadFile/*RemoveFileId?*/( pRoot->GetFileId() );

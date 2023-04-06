@@ -31,7 +31,7 @@ IVP_Controller_Phantom::~IVP_Controller_Phantom(){
 		IVP_Listener_Phantom *l = listeners.element_at(i);
 		l->phantom_is_going_to_be_deleted_event(this);
 	}
-	object->controller_phantom = 0;
+	object->controller_phantom = nullptr;
 	P_DELETE(mindist_core_counter);
 	P_DELETE(mindist_object_counter);
 	
@@ -173,8 +173,8 @@ set_of_mindists(16)
 	} 
 	else 
 	{
-		set_of_objects = NULL;
-		mindist_object_counter = NULL;
+		set_of_objects = nullptr;
+		mindist_object_counter = nullptr;
 	}
 	
 	if (templat->manage_intruding_cores)
@@ -184,8 +184,8 @@ set_of_mindists(16)
 	} 
 	else 
 	{
-		set_of_cores = NULL;
-		mindist_core_counter = NULL;
+		set_of_cores = nullptr;
+		mindist_core_counter = nullptr;
 	}
 	
 	
@@ -245,7 +245,7 @@ set_of_mindists(16)
 		
 		IVP_U_Min_List_Enumerator mindists(ss);
 		IVP_Listener_Hull *supers;
-		while ( (supers = (IVP_Listener_Hull*)mindists.get_next_element()) != NULL )
+		while ( (supers = (IVP_Listener_Hull*)mindists.get_next_element()) != nullptr)
 		{
 			if (supers->get_type() != IVP_HULL_ELEM_POLYGON) continue;
 			IVP_Synapse_Real *syn = (IVP_Synapse_Real*)supers;
@@ -258,7 +258,7 @@ set_of_mindists(16)
 			}
 		}
 	}
-	client_data = 0;
+	client_data = nullptr;
 }
 
 

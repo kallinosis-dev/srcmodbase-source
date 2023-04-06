@@ -90,14 +90,14 @@ public:
 
 	//--------------------------------------------------------
 	// Attribute hook. Use the CALL_ATTRIB_HOOK macros above.
-	template <class T> static T AttribHookValue( T TValue, const char *pszAttribHook, const CBaseEntity *pEntity, CUtlVector<CBaseEntity*> *pItemList = NULL, bool bIsGlobalConstString = false )
+	template <class T> static T AttribHookValue( T TValue, const char *pszAttribHook, const CBaseEntity *pEntity, CUtlVector<CBaseEntity*> *pItemList = nullptr, bool bIsGlobalConstString = false )
 	{
 		// Do we have a hook?
-		if ( pszAttribHook == NULL || pszAttribHook[0] == '\0' )
+		if ( pszAttribHook == nullptr || pszAttribHook[0] == '\0' )
 			return TValue;
 
 		// Verify that we have an entity, at least as "this"
-		if ( pEntity == NULL )
+		if ( pEntity == nullptr)
 			return TValue;
 
 		IHasAttributes *pAttribInterface = dynamic_cast<IHasAttributes*>( (CBaseEntity*) pEntity );
@@ -111,7 +111,7 @@ public:
 
 		return TValue;
 	}
-	virtual float	ApplyAttributeFloat( float flValue, CBaseEntity *pInitiator, string_t iszAttribHook = NULL_STRING, CUtlVector<CBaseEntity*> *pItemList = NULL );
+	virtual float	ApplyAttributeFloat( float flValue, CBaseEntity *pInitiator, string_t iszAttribHook = NULL_STRING, CUtlVector<CBaseEntity*> *pItemList = nullptr);
 
 	//--------------------------------------------------------
 	// Networking
@@ -137,7 +137,7 @@ public:
 
 private:
 
-	virtual float	ApplyAttributeFloatWrapper( float flValue, CBaseEntity *pInitiator, string_t pszAttribHook, CUtlVector<CBaseEntity*> *pItemList = NULL );
+	virtual float	ApplyAttributeFloatWrapper( float flValue, CBaseEntity *pInitiator, string_t pszAttribHook, CUtlVector<CBaseEntity*> *pItemList = nullptr);
 
 private:
 
@@ -173,7 +173,7 @@ public:
 
 	//--------------------------------------------------------
 	// Attribute hook. Use the CALL_ATTRIB_HOOK macros above.
-	virtual float	ApplyAttributeFloat( float flValue, CBaseEntity *pInitiator, string_t iszAttribHook = NULL_STRING, CUtlVector<CBaseEntity*> *pItemList = NULL ) OVERRIDE;
+	virtual float	ApplyAttributeFloat( float flValue, CBaseEntity *pInitiator, string_t iszAttribHook = NULL_STRING, CUtlVector<CBaseEntity*> *pItemList = nullptr) OVERRIDE;
 
 	CEconItemView *GetItem( void ) { return m_Item.Get(); }
 	const CEconItemView *GetItem( void ) const { return m_Item.Get(); }
@@ -199,7 +199,7 @@ public:
 	DECLARE_EMBEDDED_NETWORKVAR();
 
 	virtual void	InitializeAttributes( CBaseEntity *pEntity );
-	virtual float	ApplyAttributeFloat( float flValue, CBaseEntity *pInitiator, string_t iszAttribHook = NULL_STRING, CUtlVector<CBaseEntity*> *pItemList = NULL ) OVERRIDE;
+	virtual float	ApplyAttributeFloat( float flValue, CBaseEntity *pInitiator, string_t iszAttribHook = NULL_STRING, CUtlVector<CBaseEntity*> *pItemList = nullptr) OVERRIDE;
 
 	CBasePlayer*	GetPlayer( void ) { return m_hPlayer; }
 	void			SetPlayer( CBasePlayer *pPlayer ) { m_hPlayer = pPlayer; }

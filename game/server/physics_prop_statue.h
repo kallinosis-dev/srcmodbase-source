@@ -52,7 +52,7 @@ public:
 	virtual int		OnTakeDamage( const CTakeDamageInfo &info );
 	virtual void	Event_Killed( const CTakeDamageInfo &info );
 
-	virtual void	Freeze( float flFreezeAmount = -1.0f, CBaseEntity *pFreezer = NULL, Ray_t *pFreezeRay = NULL );
+	virtual void	Freeze( float flFreezeAmount = -1.0f, CBaseEntity *pFreezer = nullptr, Ray_t *pFreezeRay = nullptr);
 
 	void	CollisionPartnerThink( void );
 

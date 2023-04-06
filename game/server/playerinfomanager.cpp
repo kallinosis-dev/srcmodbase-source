@@ -71,7 +71,7 @@ namespace
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -87,7 +87,7 @@ IPlayerInfo *CPlayerInfoManager::GetPlayerInfo( edict_t *pEdict )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -107,7 +107,7 @@ IBotController *CPluginBotManager::GetBotController( edict_t *pEdict )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -117,7 +117,7 @@ edict_t *CPluginBotManager::CreateBot( const char *botname )
 	if (!pEdict)
 	{
 		Msg( "Failed to create Bot.\n");
-		return NULL;
+		return nullptr;
 	}
 
 	// Allocate a player entity for the bot, and call spawn

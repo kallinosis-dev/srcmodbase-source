@@ -205,7 +205,7 @@ void IVP_Merge_Core::synchronize_motion(){
 }
 
 void IVP_Merge_Core::check_for_unmovable_core(){
-    unmovable_core = NULL;
+    unmovable_core = nullptr;
     mcore->fast_piling_allowed_flag = IVP_TRUE;
     movement_type = IVP_MT_NOT_SIM;
     

@@ -263,7 +263,7 @@ CBaseEntity *CBasePropDoor::GetActivator()
 
 bool CBasePropDoor::IsDoorBlocked() const
 {
-	return ( m_hBlocker != NULL );
+	return ( m_hBlocker != nullptr);
 }
 
 bool CBasePropDoor::IsNPCOpening( CAI_BaseNPC *pNPC )

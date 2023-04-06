@@ -235,7 +235,7 @@ ModelPoseDebugInfo::InfoText * ModelPoseDebugInfo::LookupInfoText( InfoText *x )
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void ModelPoseDebugInfo::PrintPendingInfoText( int &rnPosPrint )
@@ -355,7 +355,7 @@ CPoseDebuggerImpl::CPoseDebuggerImpl() :
 	m_mapModel( DefLessFunc( CStudioHdr const * ) ),
 	m_mapModelOld( DefLessFunc( CStudioHdr const * ) ),
 	m_nPosPrint( 0 ),
-	m_pLastModel( NULL )
+	m_pLastModel(nullptr)
 {
 	m_uiMaskShowModels.SetAll();
 }
@@ -405,13 +405,13 @@ void CPoseDebuggerImpl::StartBlending( IClientNetworkable *pEntity, const CStudi
 		if ( idx != m_mapModel.InvalidIndex() )
 		{
 			ModelPoseDebugInfo &mpi = m_mapModel.Element( idx );
-			ModelPoseDebugInfo *pMpiOld = NULL;
+			ModelPoseDebugInfo *pMpiOld = nullptr;
 			MapModel::IndexType_t idxMapModelOld = m_mapModelOld.Find( m_pLastModel );
 			if ( idxMapModelOld != m_mapModelOld.InvalidIndex() )
 			{
 				pMpiOld = &m_mapModelOld.Element( idxMapModelOld );
 			}
-			mpi.AddInfoText( NULL, pMpiOld );
+			mpi.AddInfoText(nullptr, pMpiOld );
 			mpi.PrintPendingInfoText( m_nPosPrint );
 		}
 	}
@@ -494,7 +494,7 @@ void CPoseDebuggerImpl::AccumulatePose( const CStudioHdr *pStudioHdr, CIKContext
 	if ( !IsModelShown( mpi.m_iEntNum ) )
 		return;
 
-	ModelPoseDebugInfo *pMpiOld = NULL;
+	ModelPoseDebugInfo *pMpiOld = nullptr;
 	MapModel::IndexType_t idxMapModelOld = m_mapModelOld.Find( pStudioHdr );
 	if ( idxMapModelOld != m_mapModelOld.InvalidIndex() )
 	{
@@ -547,7 +547,7 @@ void CPoseDebuggerImpl::AccumulatePose( const CStudioHdr *pStudioHdr, CIKContext
 	}
 
 	// The layer information
-	ModelPoseDebugInfo::InfoText *pOldTxt = pMpiOld ? pMpiOld->LookupInfoText( &txt ) : NULL;
+	ModelPoseDebugInfo::InfoText *pOldTxt = pMpiOld ? pMpiOld->LookupInfoText( &txt ) : nullptr;
 	Q_snprintf( txt.m_chTextLines[numLines],
 		ARRAYSIZE( txt.m_chTextLines[numLines] ),
 		"%-*s  %-*s  %*.2f  %*.1f/%-*d  %*.0f%% ",

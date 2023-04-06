@@ -36,7 +36,7 @@ void RayTracingEnvironment::AddBSPFace(int id,dface_t const &face)
 {
 	if (face.dispinfo!=-1)									// displacements must be dealt with elsewhere
 		return;
-	texinfo_t *tx =(face.texinfo>=0)?&(texinfo[face.texinfo]):0;
+	texinfo_t *tx =(face.texinfo>=0)?&(texinfo[face.texinfo]):nullptr;
 // 	if (tx && (tx->flags & (SURF_SKY|SURF_NODRAW)))
 // 		return;
 	if (tx)

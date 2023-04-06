@@ -59,7 +59,7 @@ public:
 	void StartCommentary( C_PointCommentaryNode *pNode, char *pszSpeakers, int iNode, int iNodeMax, float flStartTime, float flEndTime );
 	void StopCommentary( void );
 	bool IsTheActiveNode( C_PointCommentaryNode *pNode ) { return (pNode == m_hActiveNode); }
-	bool HasActiveNode( void ) { return m_hActiveNode.Get() != NULL; }
+	bool HasActiveNode( void ) { return m_hActiveNode.Get() != nullptr; }
 
 	// vgui overrides
 	virtual void Paint( void );
@@ -349,10 +349,10 @@ void C_PointCommentaryNode::OnDataChanged( DataUpdateType_t updateType )
 //-----------------------------------------------------------------------------
 void C_PointCommentaryNode::StopLoopingSounds( void )
 {
-	if ( m_sndCommentary != NULL )
+	if ( m_sndCommentary != nullptr)
 	{
 		(CSoundEnvelopeController::GetController()).SoundDestroy( m_sndCommentary );
-		m_sndCommentary = NULL;
+		m_sndCommentary = nullptr;
 	}
 }
 
@@ -396,7 +396,7 @@ DECLARE_HUDELEMENT( CHudCommentary );
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CHudCommentary::CHudCommentary( const char *name ) : vgui::Panel( NULL, "HudCommentary" ), CHudElement( name )
+CHudCommentary::CHudCommentary( const char *name ) : vgui::Panel(nullptr, "HudCommentary" ), CHudElement( name )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
@@ -404,7 +404,7 @@ CHudCommentary::CHudCommentary( const char *name ) : vgui::Panel( NULL, "HudComm
 	SetPaintBorderEnabled( false );
 	SetHiddenBits( HIDEHUD_PLAYERDEAD );
 
-	m_hActiveNode = NULL;
+	m_hActiveNode = nullptr;
 	m_bShouldPaint = true;
 	m_bSoundStarted = false;
 
@@ -459,7 +459,7 @@ void CHudCommentary::Paint()
 		if ( m_bSoundStarted && ( flPercentage == 0.0f ) && m_hActiveNode )
 		{
 			// The sound started and is now finished (elapsed time is 0% as the sound is not present anymore), time to stop.
-			m_hActiveNode = NULL;
+			m_hActiveNode = nullptr;
 			GetClientMode()->GetViewportAnimationController()->StartAnimationSequence( "HideCommentary" );
 
 			engine->ServerCmd( "commentary_finishnode\n" );
@@ -608,7 +608,7 @@ void CHudCommentary::StartCommentary( C_PointCommentaryNode *pNode, char *pszSpe
 //-----------------------------------------------------------------------------
 void CHudCommentary::StopCommentary( void )
 {
-	m_hActiveNode = NULL;
+	m_hActiveNode = nullptr;
 }
 
 //-----------------------------------------------------------------------------

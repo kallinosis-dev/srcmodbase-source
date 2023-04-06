@@ -202,7 +202,7 @@ bool SaveMeshesToDMX( CUtlVector<CMesh*> &inputMeshes, const char *pDMXFile, boo
 	pModel->CaptureJointsToBaseState( "bind" );
 
 	const char *pFileFormat = "model";
-	if ( !g_pDataModel->SaveToFile( pDMXFile, NULL, NULL, pFileFormat, pRoot ) )
+	if ( !g_pDataModel->SaveToFile( pDMXFile, nullptr, nullptr, pFileFormat, pRoot ) )
 	{
 		Warning( "SaveMeshesToDMX: SaveToFile \"%s\" failed!\n", pDMXFile );
 		return false;

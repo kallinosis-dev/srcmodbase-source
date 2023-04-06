@@ -127,13 +127,13 @@ public:
 		if ( m_pStaticCmds )
 		{
 			delete[] m_pStaticCmds;
-			m_pStaticCmds = NULL;
+			m_pStaticCmds = nullptr;
 		}
 	}
 
 	CLightmapped_4WayBlend_DX9_Context( void )
 	{
-		m_pStaticCmds = NULL;
+		m_pStaticCmds = nullptr;
 	}
 
 	~CLightmapped_4WayBlend_DX9_Context( void )

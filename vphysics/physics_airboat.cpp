@@ -597,7 +597,7 @@ bool CPhysics_Airboat::PostRaycasts( IVP_Ray_Solver_Template *pRaySolverTemplate
 			pPontoonPoint->raycast_dist = pPontoonPoint->raycast_length;
 
 			pImpact->inv_normal_dot_dir = 1.0f;	    
-			pImpact->moveable_object_hit_by_ray = NULL;
+			pImpact->moveable_object_hit_by_ray = nullptr;
 			pImpact->vecImpactNormalWS.set_multiple( &pImpact->raycast_dir_ws, -1 );
 			pImpact->friction_value = 1.0f;
 		}

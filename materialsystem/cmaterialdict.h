@@ -150,7 +150,7 @@ inline IMaterialInternal* CMaterialDict::FindMaterial( const char *pszName, bool
 		return m_MaterialDict[h].m_pMaterial;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

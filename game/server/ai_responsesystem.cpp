@@ -66,14 +66,14 @@ inline const char *RR_Parse(const char *data, char *token )
 	token[0] = 0;
 
 	if (!data)
-		return NULL;
+		return nullptr;
 
 	// skip whitespace
 skipwhite:
 	while ( (c = *data) <= ' ')
 	{
 		if (c == 0)
-			return NULL;                    // end of file;
+			return nullptr;                    // end of file;
 		data++;
 	}
 
@@ -316,7 +316,7 @@ class CInstancedResponseSystem : public CGameResponseSystem
 
 public:
 	CInstancedResponseSystem( const char *scriptfile ) :
-	  m_pszScriptFile( 0 )
+	  m_pszScriptFile( nullptr )
 	  {
 		  Assert( scriptfile );
 
@@ -398,7 +398,7 @@ public:
 	{
 		int idx = m_InstancedSystems.Find( scriptfile );
 		if ( idx == m_InstancedSystems.InvalidIndex() )
-			return NULL;
+			return nullptr;
 		return m_InstancedSystems[ idx ];
 	}
 

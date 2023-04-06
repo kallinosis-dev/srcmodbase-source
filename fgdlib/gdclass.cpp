@@ -38,7 +38,7 @@ GDclass::GDclass(void)
 	m_rgbColor.b = 220;
 	m_rgbColor.a = 0;
 
-	m_pszDescription = NULL;
+	m_pszDescription = nullptr;
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -187,7 +187,7 @@ BOOL GDclass::AddVariable(GDinputvariable *pVar, GDclass *pBase, int iBaseIndex,
 	//
 	// Check to see if we are overriding an existing variable definition.
 	//
-	if (pThisVar != NULL)
+	if (pThisVar != nullptr)
 	{
 		//
 		// Same name, different type. Flag this as an error.
@@ -316,7 +316,7 @@ CClassInput *GDclass::FindInput(const char *szName)
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -335,7 +335,7 @@ CClassOutput *GDclass::FindOutput(const char *szName)
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -446,7 +446,7 @@ BOOL GDclass::InitFromTokens(TokenReader& tr, GameData *pGD)
 		// allocates memory for us.
 		//
 		delete m_pszDescription;
-		m_pszDescription = NULL;
+		m_pszDescription = nullptr;
 
 		// Load description
 		if (!GDGetTokenDynamic(tr, &m_pszDescription, STRING))
@@ -503,7 +503,7 @@ bool GDclass::ParseBase(TokenReader &tr)
 		// Find base class in list of classes.
 		//
 		GDclass *pBase = Parent->ClassForName(szToken);
-		if (pBase == NULL)
+		if (pBase == nullptr)
 		{
 			GDError(tr, "undefined base class '%s", szToken);
 			return(false);
@@ -987,7 +987,7 @@ bool GDclass::ParseVariables(TokenReader &tr)
 GDinputvariable *GDclass::GetVariableAt(int iIndex)
 {
 	if ( iIndex < 0 || iIndex >= m_nVariables )
-		return NULL;
+		return nullptr;
 
 	if (m_VariableMap[iIndex][0] == -1)
 	{
@@ -1017,7 +1017,7 @@ GDinputvariable *GDclass::VarForName(const char *pszName, int *piIndex)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void GDclass::GetHelperForGDVar( GDinputvariable *pVar, CUtlVector<const char *> *pszHelperName )

@@ -62,8 +62,8 @@ static	ConVar tv_timeout( "tv_timeout", "30", FCVAR_RELEASE, "GOTV connection ti
 
 CHLTVClientState::CHLTVClientState(CHLTVServer *pHltvServer) : m_pHLTV( pHltvServer )
 {
-	m_pNewClientFrame = NULL;
-	m_pCurrentClientFrame = NULL;
+	m_pNewClientFrame = nullptr;
+	m_pCurrentClientFrame = nullptr;
 	m_bSaveMemory = false;
 
 	eventid_hltv_status = -1;
@@ -99,7 +99,7 @@ void CHLTVClientState::CopyNewEntity(
 
 	SerializedEntityHandle_t oldbaseline = SERIALIZED_ENTITY_HANDLE_INVALID;
 
-	PackedEntity *baseline = u.m_bAsDelta ? GetEntityBaseline( u.m_nBaseline, ent ) : NULL;
+	PackedEntity *baseline = u.m_bAsDelta ? GetEntityBaseline( u.m_nBaseline, ent ) : nullptr;
 
 	if ( baseline && baseline->m_pClientClass == pClientClass )
 	{
@@ -116,7 +116,7 @@ void CHLTVClientState::CopyNewEntity(
 
 	// create new ChangeFrameList containing all properties set as changed
 	int nFlatProps = SendTable_GetNumFlatProps( pServerClass->m_pTable );
-	CChangeFrameList *pChangeFrame = NULL;
+	CChangeFrameList *pChangeFrame = nullptr;
 	
 	if ( !m_bSaveMemory )
 	{
@@ -293,7 +293,7 @@ void CHLTVClientState::SendPacket()
 		m_NetChannel->SendNetMsg( tick );
 	}
 
-	m_NetChannel->SendDatagram( NULL );
+	m_NetChannel->SendDatagram(nullptr);
 
 	if ( IsActive() )
 	{
@@ -346,8 +346,8 @@ void CHLTVClientState::Clear()
 {
 	CBaseClientState::Clear();
 
-	m_pNewClientFrame = NULL;
-	m_pCurrentClientFrame = NULL;
+	m_pNewClientFrame = nullptr;
+	m_pCurrentClientFrame = nullptr;
 
 	eventid_hltv_status = -1;
 	eventid_hltv_title = -1;
@@ -451,7 +451,7 @@ void CHLTVClientState::PacketEnd( void )
 		// if so, add a new frame to HLTV
 		m_pCurrentClientFrame = m_pHLTV->AddNewFrame( m_pNewClientFrame );
 		delete m_pNewClientFrame; // release own refernces
-		m_pNewClientFrame = NULL;
+		m_pNewClientFrame = nullptr;
 	}
 }
 
@@ -656,7 +656,7 @@ bool CHLTVClientState::SVCMsg_Menu( const CSVCMsg_Menu& msg )
 
 bool CHLTVClientState::SVCMsg_PacketEntities( const CSVCMsg_PacketEntities &msg )
 {
-	CClientFrame *oldFrame = NULL;
+	CClientFrame *oldFrame = nullptr;
 
 #ifdef _HLTVTEST
 	if ( g_RecvDecoders.Count() == 0 )
@@ -779,7 +779,7 @@ void CHLTVClientState::ReadLeavePVS( CEntityReadInfo &u )
 
 		// clear entity references
 		pEntry->m_nSerialNumber = -1;
-		pEntry->m_pClass = NULL;
+		pEntry->m_pClass = nullptr;
 		Assert( pEntry->m_pPackedData == INVALID_PACKED_ENTITY_HANDLE );
 	}
 
@@ -865,7 +865,7 @@ void CHLTVClientState::ReadDeletions( CEntityReadInfo &u )
 
 		// clear entity references
 		pEntry->m_nSerialNumber = -1;
-		pEntry->m_pClass = NULL;
+		pEntry->m_pClass = nullptr;
 		Assert( pEntry->m_pPackedData == INVALID_PACKED_ENTITY_HANDLE );
 		
 		nBase = nSlot;

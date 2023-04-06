@@ -156,8 +156,8 @@ END_RECV_TABLE()
 // ------------------------------------------------------------------------- //
 C_ParticleFire::C_ParticleFire()
 {
-	m_pParticleMgr = NULL;
-	m_MaterialHandle = INVALID_MATERIAL_HANDLE;
+	m_pParticleMgr = nullptr;
+	m_MaterialHandle = nullptr;
 }
 
 
@@ -174,7 +174,7 @@ void C_ParticleFire::OnDataChanged(DataUpdateType_t updateType)
 
 	if(updateType == DATA_UPDATE_CREATED)
 	{
-		Start(ParticleMgr(), NULL);
+		Start(ParticleMgr(), nullptr);
 	}
 }
 
@@ -208,13 +208,13 @@ void C_ParticleFire::Update(float fTimeDelta)
 		float tempDelta = fTimeDelta;
 		while(m_EmitterSpawn.NextEvent(tempDelta))
 		{
-			FireEmitter *pEmitter = NULL;
+			FireEmitter *pEmitter = nullptr;
 
 			if(m_nEmitters == 0)
 			{
 				// Make the first emitter.
 				trace_t trace;
-				UTIL_TraceLine(m_vOrigin, m_vOrigin+m_vDirection*1000, MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &trace);
+				UTIL_TraceLine(m_vOrigin, m_vOrigin+m_vDirection*1000, MASK_SOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &trace);
 				if(trace.fraction < 1)
 				{
 					pEmitter = &m_Emitters[m_nEmitters];

@@ -37,7 +37,7 @@ void CLabeledCommandComboBox::AddItem( char const *text, char const *engineComma
 	int idx = m_Items.AddToTail();
 	COMMANDITEM *item = &m_Items[ idx ];
 
-	item->comboBoxID = BaseClass::AddItem( text, NULL );
+	item->comboBoxID = BaseClass::AddItem( text, nullptr);
 
 	Q_strncpy( item->name, text, sizeof( item->name )  );
 
@@ -98,7 +98,7 @@ void CLabeledCommandComboBox::OnTextChanged( char const *text )
 const char *CLabeledCommandComboBox::GetActiveItemCommand()
 {
 	if (m_iCurrentSelection == -1)
-		return NULL;
+		return nullptr;
 
 	COMMANDITEM *item = &m_Items[ m_iCurrentSelection ];
 	return item->command;

@@ -163,7 +163,7 @@ public:
 	void Autosave();
 	void LoadLastGoodSave();
 	void ResetAutosaveTimer();
-	bool VerifyAutosaveDirectory( char *szAutosaveDir = 0 ) const;	
+	bool VerifyAutosaveDirectory( char *szAutosaveDir = nullptr ) const;	
 	int GetNextAutosaveNumber( CUtlMap<FILETIME, WIN32_FIND_DATA, int> *pFileMap, DWORD *pdwTotalDirSize, const CString * ) const;
 
 	// When in lighting preview, it will avoid rendering frames.

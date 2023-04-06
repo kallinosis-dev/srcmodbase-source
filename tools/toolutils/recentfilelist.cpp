@@ -64,7 +64,7 @@ bool CToolsRecentFileList::IsEmpty() const
 const char *CToolsRecentFileList::GetFile( int slot ) const
 {
 	if ( slot < 0 || slot >= m_RecentFiles.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_RecentFiles[slot].m_pFileName;
 }
@@ -76,7 +76,7 @@ const char *CToolsRecentFileList::GetFile( int slot ) const
 const char *CToolsRecentFileList::GetFileFormat( int slot ) const
 {
 	if ( slot < 0 || slot >= m_RecentFiles.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_RecentFiles[slot].m_pFileFormat;
 }

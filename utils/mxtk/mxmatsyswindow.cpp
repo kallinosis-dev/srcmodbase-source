@@ -30,13 +30,13 @@ mxMatSysWindow::mxMatSysWindow (mxWindow *parent, int x, int y, int w, int h, co
 
 	bool error = false;
 
-	if ((d_this->hdc = GetDC ((HWND) getHandle ())) == NULL)
+	if ((d_this->hdc = GetDC ((HWND) getHandle ())) == nullptr)
 	{
 		error = true;
 		goto done;
 	}
 
-	setDrawFunc (0);
+	setDrawFunc (nullptr);
 
 done:
 	if (error)

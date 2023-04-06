@@ -105,7 +105,7 @@ StudioModel *CStudioModelCache::FindModel(const char *pszModelPath)
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -147,7 +147,7 @@ StudioModel *CStudioModelCache::CreateModel(const char *pszModelPath)
 	//
 	StudioModel *pModel = new StudioModel;
 
-	if (pModel != NULL)
+	if (pModel != nullptr)
 	{
 		bool bLoaded = pModel->LoadModel(pszModelPath);
 
@@ -159,14 +159,14 @@ StudioModel *CStudioModelCache::CreateModel(const char *pszModelPath)
 		if (!bLoaded)
 		{
 			delete pModel;
-			pModel = NULL;
+			pModel = nullptr;
 		}
 	}
 
 	//
 	// If we successfully created it, add it to the cache.
 	//
-	if (pModel != NULL)
+	if (pModel != nullptr)
 	{
 		CStudioModelCache::AddModel(pModel, pszModelPath);
 	}
@@ -196,7 +196,7 @@ BOOL CStudioModelCache::AddModel(StudioModel *pModel, const char *pszModelPath)
 		// Allocate space for and copy the model path.
 		//
 		m_Cache[m_nItems].pszPath = new char [strlen(pszModelPath) + 1];
-		if (m_Cache[m_nItems].pszPath != NULL)
+		if (m_Cache[m_nItems].pszPath != nullptr)
 		{
 			strcpy(m_Cache[m_nItems].pszPath, pszModelPath);
 		}
@@ -406,7 +406,7 @@ void StudioModel::Shutdown( void )
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
-StudioModel::StudioModel(void) : m_pModelName(0)
+StudioModel::StudioModel(void) : m_pModelName(nullptr)
 {
 	int i;
 
@@ -430,10 +430,10 @@ StudioModel::StudioModel(void) : m_pModelName(0)
 	m_mouth = 0;
 
 	m_MDLHandle = MDLHANDLE_INVALID;
-	m_pModel = NULL;
-	m_pStudioHdr = NULL;
-	m_pPosePos = NULL;
-	m_pPoseAng = NULL;
+	m_pModel = nullptr;
+	m_pStudioHdr = nullptr;
+	m_pPosePos = nullptr;
+	m_pPoseAng = nullptr;
 }
 
 
@@ -491,7 +491,7 @@ void StudioModel::SetUpBones( bool bUpdatePose, matrix3x4a_t *pBoneToWorld )
 {
 	CStudioHdr *pStudioHdr = GetStudioHdr();
 
-	if ( m_pPosePos == NULL )
+	if ( m_pPosePos == nullptr)
 	{
 		bUpdatePose = true;
 		m_pPosePos = new Vector[pStudioHdr->numbones()] ;
@@ -502,7 +502,7 @@ void StudioModel::SetUpBones( bool bUpdatePose, matrix3x4a_t *pBoneToWorld )
 	{
 		IBoneSetup boneSetup( pStudioHdr, BONE_USED_BY_ANYTHING, m_poseParameter );
 		boneSetup.InitPose( m_pPosePos, m_pPoseAng );
-		boneSetup.AccumulatePose( m_pPosePos, m_pPoseAng, m_sequence, m_cycle, 1.0f, 0.0f, NULL );
+		boneSetup.AccumulatePose( m_pPosePos, m_pPoseAng, m_sequence, m_cycle, 1.0f, 0.0f, nullptr);
 	}
 	
 	const mstudiobone_t *pbones = pStudioHdr->pBone( 0 );
@@ -591,9 +591,9 @@ void StudioModel::DrawModel3D( CRender3D *pRender, const Color &color, float flA
 	info.m_Body = m_bodynum;
 	info.m_HitboxSet = 0;
 
-	info.m_pClientEntity = NULL;
+	info.m_pClientEntity = nullptr;
 	info.m_Lod = -1;
-	info.m_pColorMeshes = NULL;
+	info.m_pColorMeshes = nullptr;
 
 	if ( pRender->IsInLocalTransformMode() )
 	{
@@ -656,9 +656,9 @@ void StudioModel::DrawModel2D( CRender2D *pRender, float flAlpha, bool bWireFram
 	info.m_Body = m_bodynum;
 	info.m_HitboxSet = 0;
 
-	info.m_pClientEntity = NULL;
+	info.m_pClientEntity = nullptr;
 	info.m_Lod = -1;
-	info.m_pColorMeshes = NULL;
+	info.m_pColorMeshes = nullptr;
 
 	bool bTransform = pRender->IsInLocalTransformMode();
 
@@ -707,7 +707,7 @@ bool StudioModel::IsTranslucent()
 {
 	// garymcthack - shouldn't crack hardwaredata
 	studiohwdata_t *pHardwareData = GetHardwareData();
-	if ( pHardwareData == NULL )
+	if ( pHardwareData == nullptr)
 		return false;
 
 	int lodID;
@@ -732,7 +732,7 @@ void StudioModel::FreeModel(void)
 	/*int nRef = */g_pMDLCache->Release( m_MDLHandle );
 //	Assert( nRef == 0 );
 	m_MDLHandle = MDLHANDLE_INVALID;
-	m_pModel = NULL;
+	m_pModel = nullptr;
 }
 
 CStudioHdr *StudioModel::GetStudioHdr() const
@@ -760,7 +760,7 @@ studiohdr_t *StudioModel::GetStudioRenderHdr() const
 	{
 		return (studiohdr_t *)pStudioHdr->GetRenderHdr();
 	}
-	return NULL;
+	return nullptr;
 }
 
 studiohwdata_t* StudioModel::GetHardwareData()
@@ -804,7 +804,7 @@ bool StudioModel::LoadModel( const char *modelname )
 	if (m_pStudioHdr)
 	{
 		delete m_pStudioHdr;
-		m_pStudioHdr = NULL;
+		m_pStudioHdr = nullptr;
 	}
 
 	m_pStudioHdr = new CStudioHdr;
@@ -817,7 +817,7 @@ bool StudioModel::LoadModel( const char *modelname )
 bool StudioModel::PostLoadModel(const char *modelname)
 {
 	CStudioHdr *pStudioHdr = GetStudioHdr();
-	if (pStudioHdr == NULL)
+	if (pStudioHdr == nullptr)
 	{
 		return(false);
 	}
@@ -1111,7 +1111,7 @@ void StudioModel::SetFrame( int nFrame )
 int StudioModel::GetMaxFrame( void )
 {
 	CStudioHdr *pStudioHdr = GetStudioHdr();
-	return Studio_MaxFrame( pStudioHdr, m_sequence, NULL );
+	return Studio_MaxFrame( pStudioHdr, m_sequence, nullptr);
 }
 
 //-----------------------------------------------------------------------------

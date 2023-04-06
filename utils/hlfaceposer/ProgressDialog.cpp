@@ -47,7 +47,7 @@ static CProgressDialog g_ProgressDialog;
 IProgressDialog *g_pProgressDialog = &g_ProgressDialog;
 
 CProgressDialog::CProgressDialog() : 
-	m_flFraction( 0.0f ), m_hwndDlg( 0 ), m_bShowCancel( false ), m_bWantsCancel( false ), m_flStartTime( 0.0f )
+	m_flFraction( 0.0f ), m_hwndDlg( nullptr ), m_bShowCancel( false ), m_bWantsCancel( false ), m_flStartTime( 0.0f )
 {
 }
 
@@ -177,7 +177,7 @@ void CProgressDialog::Finish()
 	if ( !m_hwndDlg )
 		return;
 	DestroyWindow( m_hwndDlg );
-	m_hwndDlg = NULL;
+	m_hwndDlg = nullptr;
 }
 
 BOOL CProgressDialog::ProgressDialogProcImpl( HWND hwndDlg, UINT uMsg, WPARAM wParam, LPARAM lParam )

@@ -565,8 +565,8 @@ void ComputeNiceFilterKernel( float wratio, float hratio, float dratio, KernelIn
 		}
 	}
 
-	static float* s_pKernelCache[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-	static float* s_pInvKernelCache[10] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+	static float* s_pKernelCache[10] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
+	static float* s_pInvKernelCache[10] = { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr };
 	if (power >= 0)
 	{
 		if (!s_pKernelCache[power])
@@ -663,7 +663,7 @@ bool ResampleRGBA8888( const ResampleInfo_t& info )
 		kernel.m_pInvKernel = pInvKernelMem;
 	}
 
-	float *pAlphaResult = NULL;
+	float *pAlphaResult = nullptr;
 	KernelType_t type;
 	if ( info.m_nFlags & RESAMPLE_NORMALMAP )
 	{

@@ -27,7 +27,7 @@
 static ConVar	r_drawskybox(  "r_drawskybox", "1", FCVAR_CHEAT	);
 
 extern ConVar		mat_loadtextures;
-static IMaterial	*skyboxMaterials[6] = { NULL, NULL, NULL, NULL, NULL, NULL };
+static IMaterial	*skyboxMaterials[6] = {nullptr, nullptr, nullptr, nullptr, nullptr, nullptr};
 static char			currentloadedsky[ 128 ] = "";
 
 // 1 = s, 2 = t, 3 = 2048
@@ -90,7 +90,7 @@ void R_UnloadSkys( void )
 		if( skyboxMaterials[i] )
 		{
 			skyboxMaterials[ i ]->DecrementReferenceCount();
-			skyboxMaterials[ i ] = NULL;
+			skyboxMaterials[ i ] = nullptr;
 		}
 	}
 	currentloadedsky[0] = 0;
@@ -110,8 +110,8 @@ bool R_LoadNamedSkys( const char *skyname )
 
 	for ( int i = 0; i < 6; i++ )
 	{
-		skies[i] = NULL;
-		if ( skies[i] == NULL )
+		skies[i] = nullptr;
+		if ( skies[i] == nullptr)
 		{
 			Q_snprintf( name, sizeof( name ), "skybox/%s%s", skyname, skyboxsuffix[i] );
 			skies[i] = materials->FindMaterial( name, TEXTURE_GROUP_SKYBOX );
@@ -135,7 +135,7 @@ bool R_LoadNamedSkys( const char *skyname )
 		if ( skyboxMaterials[ i ] )
 		{
 			skyboxMaterials[ i ]->DecrementReferenceCount();
-			skyboxMaterials[ i ] = NULL;
+			skyboxMaterials[ i ] = nullptr;
 		}
 	
 		// Use the new one

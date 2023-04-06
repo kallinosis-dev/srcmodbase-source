@@ -19,7 +19,7 @@ CDatatableStack::CDatatableStack( CSendTablePrecalc *pPrecalc, unsigned char *pS
 	m_ObjectID = objectID;
 	
 	m_iCurProp = 0;
-	m_pCurProp = NULL;
+	m_pCurProp = nullptr;
 
 	m_bInitted = false;
 

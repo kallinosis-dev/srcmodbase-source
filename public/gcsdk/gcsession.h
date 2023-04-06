@@ -28,7 +28,7 @@ public:
 
 	const CGCSharedObjectCache *GetSOCache() const { return m_pSOCache; }
 	CGCSharedObjectCache *GetSOCache() { return m_pSOCache; }
-	void RemoveSOCache() { m_pSOCache = NULL; }
+	void RemoveSOCache() { m_pSOCache = nullptr; }
 
 	EOSType GetOSType() const;
 	bool IsTestSession() const;

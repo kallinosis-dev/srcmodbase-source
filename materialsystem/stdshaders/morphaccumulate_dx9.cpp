@@ -31,7 +31,7 @@ BEGIN_VS_SHADER_FLAGS( MorphAccumulate_DX9, "Help for MorphAccumulate", SHADER_N
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

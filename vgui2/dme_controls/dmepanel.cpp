@@ -50,8 +50,8 @@ CDmePanel::CDmePanel( vgui::Panel *pParent, const char *pPanelName, bool bComboB
 	{
 		m_pEditorNames->SetVisible( false );
 	}
-	m_pDmeEditorPanel = NULL;
-	m_hElement = NULL;
+	m_pDmeEditorPanel = nullptr;
+	m_hElement = nullptr;
 
 	SetDropEnabled( true );
 }
@@ -164,7 +164,7 @@ void CDmePanel::PopulateEditorNames( const char *pPanelName )
 		return;
 	}
 
-	const char *pPreferredEditor = NULL;
+	const char *pPreferredEditor = nullptr;
 	if ( m_LastUsedEditorType.Defined( m_hElement->GetTypeString() ) )
 	{
 		pPreferredEditor = m_LastUsedEditorType[ m_hElement->GetTypeString() ].Get();
@@ -220,7 +220,7 @@ void CDmePanel::PopulateEditorNames( const char *pPanelName )
 	{
 		// ItemCount == 0;
 		m_pEditorNames->SetText( "" );
-		m_CurrentEditorName = NULL;
+		m_CurrentEditorName = nullptr;
 		OnTextChanged();
 		return;
 	}
@@ -408,9 +408,9 @@ void CDmePanel::DeactivateCurrentEditor()
 {
 	if ( m_pDmeEditorPanel )
 	{
-		m_pDmeEditorPanel->SetParent( (vgui::Panel*)NULL );
-		m_pDmeEditorPanel = NULL;
-		m_CurrentEditorName = NULL;
+		m_pDmeEditorPanel->SetParent( (vgui::Panel*)nullptr);
+		m_pDmeEditorPanel = nullptr;
+		m_CurrentEditorName = nullptr;
 	}
 }
 
@@ -472,7 +472,7 @@ void CDmePanel::SetEditor( const char *pEditorName )
 void CDmePanel::OnTextChanged()
 {
 	KeyValues *kv = m_pEditorNames->GetActiveItemUserData();
-	const char *pEditorName = kv ? kv->GetString( "editorName", NULL ) : NULL;
+	const char *pEditorName = kv ? kv->GetString( "editorName", nullptr) : nullptr;
 	SetEditor( pEditorName );
 }
 
@@ -489,7 +489,7 @@ void CDmePanel::SetDmeElement( CDmElement *pDmeElement, bool bForce, const char 
 	}
 
 	m_hElement = pDmeElement;
-	m_CurrentEditorName = NULL;
+	m_CurrentEditorName = nullptr;
 
 	// Populate the editor type list
 	PopulateEditorNames( pPanelName );
@@ -509,7 +509,7 @@ CBaseDmePanelFactory::CBaseDmePanelFactory( const char *pElementType, const char
 	const char *pEditorDisplayName, bool bIsDefault, bool bIsOverride )
 {
 	// Prior to linking this in, look to see if this has been overridden
-	CBaseDmePanelFactory *pPrevFactory = NULL;
+	CBaseDmePanelFactory *pPrevFactory = nullptr;
 	for( CBaseDmePanelFactory* pFactory = s_pFirstDmePanelFactory; pFactory; 
 		pPrevFactory = pFactory, pFactory = pFactory->m_pNext )
 	{
@@ -586,19 +586,19 @@ DmeFactoryHandle_t DmePanelNextFactory( DmeFactoryHandle_t h, CDmElement *pEleme
 const char *DmePanelFactoryName( DmeFactoryHandle_t h )
 {
 	CBaseDmePanelFactory *pFactory = (CBaseDmePanelFactory*)h; 
-	return pFactory ? pFactory->m_pEditorName : NULL;
+	return pFactory ? pFactory->m_pEditorName : nullptr;
 }
 
 const char *DmePanelFactoryDisplayName( DmeFactoryHandle_t h )
 {
 	CBaseDmePanelFactory *pFactory = (CBaseDmePanelFactory*)h; 
-	return pFactory ? pFactory->m_pEditorDisplayName : NULL;
+	return pFactory ? pFactory->m_pEditorDisplayName : nullptr;
 }
 
 const char *DmePanelFactoryElementType( DmeFactoryHandle_t h )
 {
 	CBaseDmePanelFactory *pFactory = (CBaseDmePanelFactory*)h; 
-	return pFactory ? pFactory->m_pElementType : NULL;
+	return pFactory ? pFactory->m_pElementType : nullptr;
 }
 
 bool DmePanelFactoryIsDefault( DmeFactoryHandle_t h )
@@ -614,7 +614,7 @@ bool DmePanelFactoryIsDefault( DmeFactoryHandle_t h )
 bool CDmePanel::CreateDmePanel( vgui::Panel *pParent, const char *pPanelName, CDmElement *pElement, const char *pEditorName, EditorPanelMap_t *pMap )
 {
 	int nBestInheritanceDepth = -1;
-	CBaseDmePanelFactory *pBestFactory = NULL;
+	CBaseDmePanelFactory *pBestFactory = nullptr;
 	CBaseDmePanelFactory *pFactory = CBaseDmePanelFactory::s_pFirstDmePanelFactory; 
 	for ( ; pFactory; pFactory = pFactory->m_pNext )
 	{

@@ -402,15 +402,15 @@ void CProtoBufSharedObjectBase::RecursiveAddProtoBufToKV( KeyValues *pKVDest, co
 				KeyValues *pKVNode = pKVContainer->CreateNewKey();
 				switch ( pField->cpp_type() )
 				{
-				case FieldDescriptor::CPPTYPE_INT32:	pKVNode->SetInt(	NULL, pReflection->GetRepeatedInt32( msg, pField, iRepeated ) );			break;
-				case FieldDescriptor::CPPTYPE_INT64:	pKVNode->SetUint64( NULL, (uint64)pReflection->GetRepeatedInt64( msg, pField, iRepeated ) );	break;
-				case FieldDescriptor::CPPTYPE_UINT32:	pKVNode->SetInt(	NULL, (int32)pReflection->GetRepeatedUInt32( msg, pField, iRepeated ) );	break;
-				case FieldDescriptor::CPPTYPE_UINT64:	pKVNode->SetUint64( NULL, pReflection->GetRepeatedUInt64( msg, pField, iRepeated ) );			break;
-				case FieldDescriptor::CPPTYPE_DOUBLE:	pKVNode->SetFloat(	NULL, (float)pReflection->GetRepeatedDouble( msg, pField, iRepeated ) );	break;
-				case FieldDescriptor::CPPTYPE_FLOAT:	pKVNode->SetFloat(	NULL, pReflection->GetRepeatedFloat( msg, pField, iRepeated ) );			break;
-				case FieldDescriptor::CPPTYPE_BOOL:		pKVNode->SetBool(	NULL, pReflection->GetRepeatedBool( msg, pField, iRepeated ) );				break;
-				case FieldDescriptor::CPPTYPE_ENUM:		pKVNode->SetInt(	NULL, pReflection->GetRepeatedEnum( msg, pField, iRepeated )->number() );	break;
-				case FieldDescriptor::CPPTYPE_STRING:	pKVNode->SetString(	NULL, pReflection->GetRepeatedString( msg, pField, iRepeated ).c_str() );	break;
+				case FieldDescriptor::CPPTYPE_INT32:	pKVNode->SetInt(nullptr, pReflection->GetRepeatedInt32( msg, pField, iRepeated ) );			break;
+				case FieldDescriptor::CPPTYPE_INT64:	pKVNode->SetUint64(nullptr, (uint64)pReflection->GetRepeatedInt64( msg, pField, iRepeated ) );	break;
+				case FieldDescriptor::CPPTYPE_UINT32:	pKVNode->SetInt(nullptr, (int32)pReflection->GetRepeatedUInt32( msg, pField, iRepeated ) );	break;
+				case FieldDescriptor::CPPTYPE_UINT64:	pKVNode->SetUint64(nullptr, pReflection->GetRepeatedUInt64( msg, pField, iRepeated ) );			break;
+				case FieldDescriptor::CPPTYPE_DOUBLE:	pKVNode->SetFloat(nullptr, (float)pReflection->GetRepeatedDouble( msg, pField, iRepeated ) );	break;
+				case FieldDescriptor::CPPTYPE_FLOAT:	pKVNode->SetFloat(nullptr, pReflection->GetRepeatedFloat( msg, pField, iRepeated ) );			break;
+				case FieldDescriptor::CPPTYPE_BOOL:		pKVNode->SetBool(nullptr, pReflection->GetRepeatedBool( msg, pField, iRepeated ) );				break;
+				case FieldDescriptor::CPPTYPE_ENUM:		pKVNode->SetInt(nullptr, pReflection->GetRepeatedEnum( msg, pField, iRepeated )->number() );	break;
+				case FieldDescriptor::CPPTYPE_STRING:	pKVNode->SetString(nullptr, pReflection->GetRepeatedString( msg, pField, iRepeated ).c_str() );	break;
 				case FieldDescriptor::CPPTYPE_MESSAGE:
 					{
 						const ::google::protobuf::Message &subMsg = pReflection->GetRepeatedMessage( msg, pField, iRepeated );

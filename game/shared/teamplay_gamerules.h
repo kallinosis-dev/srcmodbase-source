@@ -48,8 +48,8 @@ public:
 	// Return the value of this player towards capturing a point
 	virtual int	 GetCaptureValueForPlayer( CBasePlayer *pPlayer ) { return 1; }
 	virtual bool TeamMayCapturePoint( int iTeam, int iPointIndex ) { return true; }
-	virtual bool PlayerMayCapturePoint( CBasePlayer *pPlayer, int iPointIndex, char *pszReason = NULL, int iMaxReasonLength = 0 ) { return true; }
-	virtual bool PlayerMayBlockPoint( CBasePlayer *pPlayer, int iPointIndex, char *pszReason = NULL, int iMaxReasonLength = 0 ) { return false; }
+	virtual bool PlayerMayCapturePoint( CBasePlayer *pPlayer, int iPointIndex, char *pszReason = nullptr, int iMaxReasonLength = 0 ) { return true; }
+	virtual bool PlayerMayBlockPoint( CBasePlayer *pPlayer, int iPointIndex, char *pszReason = nullptr, int iMaxReasonLength = 0 ) { return false; }
 
 	// Return false if players aren't allowed to cap points at this time (i.e. in WaitingForPlayers)
 	virtual bool PointsMayBeCaptured( void ) { return true; }

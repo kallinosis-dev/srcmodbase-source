@@ -41,7 +41,7 @@ BEGIN_SHADER( DebugTangentSpace, "Help for DebugTangentSpace" )
 			unsigned int flags = VERTEX_POSITION | VERTEX_NORMAL | VERTEX_FORMAT_COMPRESSED;
 			int nTexCoordCount = 0;
 			int userDataSize = 4;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 			DECLARE_STATIC_VERTEX_SHADER( debugtangentspace_vs20 );
 			SET_STATIC_VERTEX_SHADER( debugtangentspace_vs20 );

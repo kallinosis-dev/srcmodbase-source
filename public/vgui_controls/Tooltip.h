@@ -25,7 +25,7 @@ namespace vgui
 class BaseTooltip
 {
 public:
-	BaseTooltip(Panel *parent, const char *text = NULL);
+	BaseTooltip(Panel *parent, const char *text = nullptr);
 
 	virtual void SetText(const char *text);
 	virtual const char *GetText();
@@ -58,7 +58,7 @@ protected:
 class TextTooltip : public BaseTooltip
 {
 public:
-	TextTooltip(Panel *parent, const char *text = NULL);
+	TextTooltip(Panel *parent, const char *text = nullptr);
 	~TextTooltip();
 
 	virtual void SetText(const char *text);

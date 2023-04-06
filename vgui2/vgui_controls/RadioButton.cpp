@@ -152,7 +152,7 @@ void RadioButton::ApplySchemeSettings(IScheme *pScheme)
 //-----------------------------------------------------------------------------
 IBorder *RadioButton::GetBorder(bool depressed, bool armed, bool selected, bool keyfocus)
 {
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -379,7 +379,7 @@ void RadioButton::OnKeyCodeTyped(KeyCode code)
 //-----------------------------------------------------------------------------
 RadioButton *RadioButton::FindBestRadioButton(int direction)
 {
-	RadioButton *bestRadio = NULL;
+	RadioButton *bestRadio = nullptr;
 	int highestRadio = 0;
 	Panel *pr = GetParent();
 	if (pr)

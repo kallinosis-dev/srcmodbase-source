@@ -35,7 +35,7 @@ class CResourceStream;
 inline byte *ResolveOffset( const int32 *pOffset )
 {
 	int offset = *pOffset;
-	return offset ? ( ( byte* )pOffset ) + offset : NULL;
+	return offset ? ( ( byte* )pOffset ) + offset : nullptr;
 }
 
 inline byte *ResolveOffsetFast( const int32 *pOffset )
@@ -55,7 +55,7 @@ private:
 	//uint m_nStride; // normally sizeof(T), but may be not
 	//uint m_nClassCRC;
 public:
-	CLockedResource(): m_pData( NULL ), m_nCount( 0 )  {}
+	CLockedResource(): m_pData(nullptr), m_nCount( 0 )  {}
 	CLockedResource( T *pData, uint nCount ): m_pData( pData ), m_nCount( nCount )  {}
 
 	// emulates pointer arithmetics
@@ -82,10 +82,10 @@ private:
 	//uint m_nStride; // normally sizeof(T), but may be not
 	//uint m_nClassCRC;
 public:
-	CUnlockedResource( ): m_pStream( NULL ), m_nOffset( 0 ), m_nCount( 0 )  {}
+	CUnlockedResource( ): m_pStream(nullptr), m_nOffset( 0 ), m_nCount( 0 )  {}
 	CUnlockedResource( CResourceStream *pStream, T *pData, uint nCount );
-	bool IsValid( )const { return m_pStream != NULL;  }
-	void Reset( ) { m_pStream = NULL; }
+	bool IsValid( )const { return m_pStream != nullptr;  }
+	void Reset( ) { m_pStream = nullptr; }
 
 	// emulates pointer arithmetics
 	CUnlockedResource<T> operator + ( int nOffset )
@@ -162,7 +162,7 @@ public:
 
 	void SetRawPtr( const void* p )
 	{
-		if ( p == NULL )
+		if ( p == nullptr)
 		{
 			m_nOffset = 0;
 		}
@@ -309,7 +309,7 @@ public:
 
 	void WriteDirect( int nCount, void *pData )
 	{
-		if ( pData == NULL )
+		if ( pData == nullptr)
 		{
 			AssertDbg( nCount == 0 );
 			m_nOffset = 0;
@@ -600,10 +600,10 @@ public:
 	uint8 *Detach( )
 	{
 		uint8 *pData = m_pData;
-		m_pData = 0;
+		m_pData = nullptr;
 		m_nCommitted = 0;
 		m_nUsed = 0;
-		m_pData = NULL;
+		m_pData = nullptr;
 		return pData;
 	}
 };
@@ -652,7 +652,7 @@ public:
 
 	const char* GetPtr() const
 	{
-		if ( GetRawPtr() == NULL )
+		if ( GetRawPtr() == nullptr)
 		{
 			return "";
 		}
@@ -664,7 +664,7 @@ public:
 
 	char* GetPtr()
 	{
-		if ( GetRawPtr() == NULL )
+		if ( GetRawPtr() == nullptr)
 		{
 			return ( char* )"";
 		}
@@ -676,7 +676,7 @@ public:
 
 	operator const char* ()const
 	{
-		if ( GetRawPtr() == NULL )
+		if ( GetRawPtr() == nullptr)
 		{
 			return "";
 		}
@@ -790,7 +790,7 @@ inline CLockedResource<char> CResourceStream::WriteString( const char *pString )
 
 	if ( nLength == 0 )
 	{
-		return CLockedResource<char>( NULL, 0 );
+		return CLockedResource<char>(nullptr, 0 );
 	}
 	else
 	{
@@ -810,7 +810,7 @@ inline CLockedResource<char> CResourceStream::WriteStringMaxLen( const char *pSt
 
 	if ( nStrLen == 0 )
 	{
-		return CLockedResource<char>( NULL, 0 );
+		return CLockedResource<char>(nullptr, 0 );
 	}
 	else
 	{
@@ -880,7 +880,7 @@ inline void* CResourceStream::GetDataPtr( uint nOffset )
 {
 	if ( nOffset > m_nUsed )
 	{
-		return NULL;
+		return nullptr;
 	}
 	else 
 	{
@@ -906,13 +906,13 @@ inline T* CResourceStream::GetDataPtrTypeAligned( uint Offset )
 template <typename T>
 inline const T* OffsetPointer( const T *p, intp nOffsetBytes )
 {
-	return p ? ( const T* )( intp( p ) + nOffsetBytes ) : NULL;
+	return p ? ( const T* )( intp( p ) + nOffsetBytes ) : nullptr;
 }
 
 template <typename T>
 inline T* ConstCastOffsetPointer( const T *p, intp nOffsetBytes )
 {
-	return p ? ( T* ) ( intp( p ) + nOffsetBytes ) : NULL;
+	return p ? ( T* ) ( intp( p ) + nOffsetBytes ) : nullptr;
 }
 
 template < typename T >

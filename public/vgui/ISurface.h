@@ -319,7 +319,7 @@ public:
 	// video mode changing
 	virtual void OnScreenSizeChanged( int nOldWidth, int nOldHeight ) = 0;
 
-	virtual vgui::HCursor CreateCursorFromFile( char const *curOrAniFile, char const *pPathID = 0 ) = 0;
+	virtual vgui::HCursor CreateCursorFromFile( char const *curOrAniFile, char const *pPathID = nullptr ) = 0;
 
 	// create IVguiMatInfo object ( IMaterial wrapper in VguiMatSurface, NULL in CWin32Surface )
 	virtual IVguiMatInfo *DrawGetTextureMatInfoFactory( int id ) = 0;

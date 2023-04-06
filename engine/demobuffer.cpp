@@ -50,7 +50,7 @@ class CDiskDemoBuffer : public IDemoBuffer
 {
 public:
 	CDiskDemoBuffer()
-	:	m_pBuffer( NULL )
+	:	m_pBuffer(nullptr)
 	{
 		m_nDecodedOffset = -1;
 	}
@@ -85,7 +85,7 @@ public:
 		m_pBuffer->Open( pParams->pFilename, pParams->pszPath, pParams->nFlags );
 		m_nDecodedOffset = -1;
 
-		m_pPlaybackParams = NULL;
+		m_pPlaybackParams = nullptr;
 #ifndef DEDICATED
 		extern IDemoPlayer *demoplayer;
 		extern IBaseClientDLL *g_ClientDLL;
@@ -235,7 +235,7 @@ private:
 			// Read raw state
 			//
 			m_pReadFromBuffer = pRawData;
-			m_pSeekSyncBuffer = NULL;
+			m_pSeekSyncBuffer = nullptr;
 		}
 		~COnTheFlyDemoBufferReadInfo()
 		{
@@ -672,7 +672,7 @@ IDemoBuffer *CreateDemoBuffer( bool bMemoryBuffer, const DemoBufferInitParams_t&
 	if ( !pRet->Init( params ) )
 	{
 		delete pRet;
-		return NULL;
+		return nullptr;
 	}
 
 	return pRet;

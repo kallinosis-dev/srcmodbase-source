@@ -73,13 +73,13 @@ inline CMaterialDict *CMatLightmaps::GetMaterialDict()
 //-----------------------------------------------------------------------------
 CMatLightmaps::CMatLightmaps()
 {
-	m_currentWhiteLightmapMaterial = NULL;
-	m_pLightmapPages = NULL;
+	m_currentWhiteLightmapMaterial = nullptr;
+	m_pLightmapPages = nullptr;
 	m_NumLightmapPages = 0;
 	m_numSortIDs = 0;
 	m_nUpdatingLightmapsStackDepth = 0;
 	m_nLockedLightmap = -1;
-	m_pLightmapDataPtrArray = NULL;
+	m_pLightmapDataPtrArray = nullptr;
 	m_eLightmapsState = STATE_DEFAULT;
 }
 
@@ -221,7 +221,7 @@ void CMatLightmaps::CleanupLightmaps()
 	  // Write PFM files containing lightmap data for this page
 	  for (int lightmap = 0; lightmap < GetNumLightmapPages(); lightmap++)
 	  {
-		 if ((NULL != m_pLightmapDataPtrArray) && (NULL != m_pLightmapDataPtrArray[lightmap]))
+		 if ((nullptr != m_pLightmapDataPtrArray) && (nullptr != m_pLightmapDataPtrArray[lightmap]))
 		 {
 			char szPFMFileName[MAX_PATH];
 
@@ -241,7 +241,7 @@ void CMatLightmaps::CleanupLightmaps()
 	  }
 
 	  delete [] m_pLightmapDataPtrArray;
-	  m_pLightmapDataPtrArray = NULL;
+	  m_pLightmapDataPtrArray = nullptr;
 	}
 
 	// delete old lightmap pages
@@ -253,7 +253,7 @@ void CMatLightmaps::CleanupLightmaps()
 			g_pShaderAPI->DeleteTexture( m_LightmapPageTextureHandles[i] );
 		}
 		delete [] m_pLightmapPages;
-		m_pLightmapPages = 0;
+		m_pLightmapPages = nullptr;
 	}
 
 	m_NumLightmapPages = 0;
@@ -288,8 +288,8 @@ void CMatLightmaps::BeginLightmapAllocation()
 	int i = m_ImagePackers.AddToTail();
 	m_ImagePackers[i].Reset( 0, GetMaxLightmapPageWidth(), GetMaxLightmapPageHeight() );
 
-	SetCurrentMaterialInternal(0);
-	m_currentWhiteLightmapMaterial = 0;
+	SetCurrentMaterialInternal(nullptr);
+	m_currentWhiteLightmapMaterial = nullptr;
 	m_numSortIDs = 0;
 
 	// need to set the min and max sorting id number for each material to 
@@ -437,7 +437,7 @@ void CMatLightmaps::EndLightmapAllocation()
         if ( mat_lightmap_pfms.GetBool())
         {
            // Initialize the pointers to lightmap data
-           m_pLightmapDataPtrArray[i] = NULL;
+           m_pLightmapDataPtrArray[i] = nullptr;
         }
 	}
 
@@ -2216,7 +2216,7 @@ void CMatLightmaps::UpdateLightmap( int lightmapPageID, int lightmapSize[2],
 
 	bool hasBump = false;
 	int uSize = 1;
-	FloatBitMap_t *pfmOut = NULL;
+	FloatBitMap_t *pfmOut = nullptr;
 	if ( pFloatImageBump1 && pFloatImageBump2 && pFloatImageBump3 )
 	{
 		hasBump = true;
@@ -2240,7 +2240,7 @@ void CMatLightmaps::UpdateLightmap( int lightmapPageID, int lightmapSize[2],
 	if ( mat_lightmap_pfms.GetBool())
 	{
 		// Allocate and initialize lightmap data that will be written to a PFM file
-		if (NULL == m_pLightmapDataPtrArray[lightmapPageID])
+		if (nullptr == m_pLightmapDataPtrArray[lightmapPageID])
 		{
 			m_pLightmapDataPtrArray[lightmapPageID] = new FloatBitMap_t(m_pLightmapPages[lightmapPageID].m_Width, m_pLightmapPages[lightmapPageID].m_Height);
 			m_pLightmapDataPtrArray[lightmapPageID]->Clear(0, 0, 0, 1);

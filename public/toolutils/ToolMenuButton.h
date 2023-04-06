@@ -30,12 +30,12 @@ public:
 	vgui::Menu	*GetMenu();
 
 	// Add a simple text item to the menu
-	virtual int AddMenuItem( char const *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL, char const *kbcommandname = NULL );
-	virtual int AddCheckableMenuItem( char const *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL, char const *kbcommandname = NULL );
+	virtual int AddMenuItem( char const *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr, char const *kbcommandname = nullptr);
+	virtual int AddCheckableMenuItem( char const *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr, char const *kbcommandname = nullptr);
 
 	// Wide-character version to add a simple text item to the menu
-	virtual int AddMenuItem( char const *itemName, const wchar_t *itemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL, char const *kbcommandname = NULL );
-	virtual int AddCheckableMenuItem( char const *itemName, const wchar_t *itemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL, char const *kbcommandname = NULL );
+	virtual int AddMenuItem( char const *itemName, const wchar_t *itemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr, char const *kbcommandname = nullptr);
+	virtual int AddCheckableMenuItem( char const *itemName, const wchar_t *itemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr, char const *kbcommandname = nullptr);
 
 	virtual int FindMenuItem( char const *itemName );
 	virtual vgui::MenuItem *GetMenuItem( int itemID );

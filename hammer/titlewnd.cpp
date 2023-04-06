@@ -50,7 +50,7 @@ CTitleWnd *CTitleWnd::CreateTitleWnd(CWnd *pwndParent, UINT uID)
 	// Create the title window.
 	//
 	CTitleWnd *pWnd = new CTitleWnd();
-	if (pWnd != NULL)
+	if (pWnd != nullptr)
 	{
 		pWnd->Create(strTitleWndClass, "Title Window", WS_CHILD | WS_VISIBLE, CRect(0, 0, 5, 5), pwndParent, uID);
 	}
@@ -87,17 +87,17 @@ CTitleWnd::CTitleWnd(void)
 void CTitleWnd::SetTitle(LPCTSTR pszTitle)
 {
 	Assert(pszTitle != NULL);
-	if (pszTitle != NULL)
+	if (pszTitle != nullptr)
 	{
 		strcpy(m_szTitle, pszTitle);
 		if (::IsWindow(m_hWnd))
 		{
 			CDC *pDC = GetDC();
-			if (pDC != NULL)
+			if (pDC != nullptr)
 			{
 				pDC->SelectObject(&m_FontActive);
 				CSize TextSize = pDC->GetTextExtent(m_szTitle, strlen(m_szTitle));
-				SetWindowPos(NULL, 0, 0, TextSize.cx, TextSize.cy, SWP_NOMOVE | SWP_NOZORDER);
+				SetWindowPos(nullptr, 0, 0, TextSize.cx, TextSize.cy, SWP_NOMOVE | SWP_NOZORDER);
 				Invalidate();
 				UpdateWindow();
 			}
@@ -152,7 +152,7 @@ void CTitleWnd::OnPaint(void)
 {
 	if (m_szTitle[0] != '\0')
 	{
-		if (GetUpdateRect(NULL, TRUE))
+		if (GetUpdateRect(nullptr, TRUE))
 		{
 			CPaintDC dc(this);
 			CFont *pFontOld;
@@ -221,7 +221,7 @@ void CTitleWnd::OnMouseButton(void)
 	ClientToScreen(&MenuLocation);
 
 	m_bMenuOpen = true;
-	pPopupMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, MenuLocation.x, MenuLocation.y, (CWnd *)GetMainWnd(), NULL);
+	pPopupMenu->TrackPopupMenu(TPM_LEFTALIGN | TPM_RIGHTBUTTON, MenuLocation.x, MenuLocation.y, (CWnd *)GetMainWnd(), nullptr);
 	m_bMenuOpen = false;
 }
 

@@ -46,7 +46,7 @@ CMapClass *CMapAxisHandle::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 	static char *pszDefaultKeyName = "axis";
 
 	const char *pszKey = pHelperInfo->GetParameter(0);
-	if (pszKey == NULL)
+	if (pszKey == nullptr)
 	{
 		pszKey = pszDefaultKeyName;
 	}
@@ -139,7 +139,7 @@ CMapClass *CMapAxisHandle::Copy(bool bUpdateDependencies)
 {
 	CMapAxisHandle *pCopy = new CMapAxisHandle;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -411,7 +411,7 @@ void CMapAxisHandle::UpdateParentKey(void)
 	if (m_szKeyName[0])
 	{
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *> (m_pParent);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			Vector vecOrigin1;
 			Vector vecOrigin2;

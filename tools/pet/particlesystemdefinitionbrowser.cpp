@@ -96,7 +96,7 @@ CParticleSystemDefinitionBrowser::~CParticleSystemDefinitionBrowser()
 CDmeParticleSystemDefinition* CParticleSystemDefinitionBrowser::GetSelectedParticleSystem( int i )
 {
 	if ( i < 0 || i >= m_pSystemGrid->GetSelectedSystemCount() )
-		return NULL;
+		return nullptr;
 
 	int iSel = m_pSystemGrid->GetSelectedSystemId(i);
 	return m_pDoc->GetParticleSystem(iSel);
@@ -134,7 +134,7 @@ void CParticleSystemDefinitionBrowser::DeleteParticleSystems()
 			m_pDoc->DeleteParticleSystemDefinition( itemsToDelete[i] );
 		}
 
-		g_pPetTool->SetCurrentParticleSystem( NULL, true );
+		g_pPetTool->SetCurrentParticleSystem(nullptr, true );
 	}
 }
 
@@ -166,7 +166,7 @@ void CParticleSystemDefinitionBrowser::UpdateParticleSystemSelection()
 	}
 	else
 	{
-		g_pPetTool->SetCurrentParticleSystem( NULL, false );
+		g_pPetTool->SetCurrentParticleSystem(nullptr, false );
 	}
 }
 
@@ -203,7 +203,7 @@ void CParticleSystemDefinitionBrowser::SelectParticleSystem( CDmeParticleSystemD
 //-----------------------------------------------------------------------------
 void CParticleSystemDefinitionBrowser::OnInputCompleted( KeyValues *pKeyValues )
 {
-	const char *pText = pKeyValues->GetString( "text", NULL );
+	const char *pText = pKeyValues->GetString( "text", nullptr);
 	if ( m_pDoc->IsParticleSystemDefined( pText ) )
 	{
 		char pBuf[1024];
@@ -225,7 +225,7 @@ void CParticleSystemDefinitionBrowser::OnInputCompleted( KeyValues *pKeyValues )
 		if ( nCount == 1 )
 		{
 			CDmeParticleSystemDefinition *pParticleSystem = GetSelectedParticleSystem( 0 );
-			CDmeParticleSystemDefinition * pNew = NULL;
+			CDmeParticleSystemDefinition * pNew = nullptr;
 			{
 				CAppUndoScopeGuard guard( NOTIFY_SETDIRTYFLAG|NOTIFY_FLAG_PARTICLESYS_ADDED_OR_REMOVED, "Duplicate One Particle System", "Duplicate One Particle System" );
 				pNew = CastElement<CDmeParticleSystemDefinition>( pParticleSystem->Copy( ) );
@@ -244,7 +244,7 @@ void CParticleSystemDefinitionBrowser::OnInputCompleted( KeyValues *pKeyValues )
 			for ( int i = 0; i < nCount; ++i )
 			{
 				CDmeParticleSystemDefinition *pParticleSystem = GetSelectedParticleSystem( i );
-				CDmeParticleSystemDefinition *pNew = NULL;
+				CDmeParticleSystemDefinition *pNew = nullptr;
 
 				CUtlString newName = pParticleSystem->GetName();
 				newName += pText;
@@ -262,7 +262,7 @@ void CParticleSystemDefinitionBrowser::OnInputCompleted( KeyValues *pKeyValues )
 				m_pDoc->AddNewParticleSystemDefinition( pNewSystems[i], guard );
 			}
 
-			g_pPetTool->SetCurrentParticleSystem( NULL );
+			g_pPetTool->SetCurrentParticleSystem(nullptr);
 		}
 	}
 }

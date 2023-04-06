@@ -122,7 +122,7 @@ bool MD5_Hash_File(unsigned char digest[16], char *pszFileName, bool bUsefopen /
 		if ( feof( fp ) )
 		{
 			fclose( fp );
-			fp = NULL;
+			fp = nullptr;
 			break;
 		}
 		// If there was a disk error, indicate failure.
@@ -165,7 +165,7 @@ int main( int argc, char *argv[] )
 	sprintf( datFile, "%s.dat", out );
 
 	// Build the MD5 hash for the .EXE file
-	MD5_Hash_File( digest, argv[1], TRUE, FALSE, NULL );
+	MD5_Hash_File( digest, argv[1], TRUE, FALSE, nullptr);
 
 	// Write the first 4 bytes of the MD5 hash as the signature ".dat" file
 	FILE *fp = fopen( datFile, "wb" );

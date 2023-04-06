@@ -48,7 +48,7 @@ public:
 						CBaseCommand( unsigned char iCommand )
 						{
 							m_iCommand = (unsigned char)iCommand;
-							m_pCachedRenderData = NULL;
+							m_pCachedRenderData = nullptr;
 						}
 
 						~CBaseCommand()
@@ -66,7 +66,7 @@ public:
 			if ( m_pCachedRenderData )
 			{
 				m_pCachedRenderData->Release();
-				m_pCachedRenderData = NULL;
+				m_pCachedRenderData = nullptr;
 			}
 		}
 
@@ -190,7 +190,7 @@ public:
 		int pitchInBytes, 
 		bool bOutlinePixels=true, 
 		bool bOutlineImage=false,
-		Vector *vCorners=NULL );
+		Vector *vCorners= nullptr);
 	
 	// Draw an RGBA image.
 	// Corners are in this order: bottom-left, top-left, top-right, bottom-right.
@@ -201,7 +201,7 @@ public:
 		int pitchInBytes, 
 		bool bOutlinePixels=true,
 		bool bOutlineImage=false,
-		Vector *vCorners=NULL );
+		Vector *vCorners= nullptr);
 
 	void DrawPolygonsForPixels(
 			SPRGBA *pData, 

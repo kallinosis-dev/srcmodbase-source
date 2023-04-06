@@ -31,7 +31,7 @@ public:
     IVP_BOOL                     reported_ledge;
 
     IVP_Clustering_Visualizer_Shortrange_Nodedata() {
-	this->node = NULL;
+	this->node = nullptr;
 	this->n_touches = 0;
 	this->reported_ledge = IVP_FALSE;
     };
@@ -45,7 +45,7 @@ public:
     IVP_DOUBLE  radius;
 
     IVP_Clustering_Visualizer_Shortrange_Objectdata() {
-	this->real_object = NULL;
+	this->real_object = nullptr;
     };
 };
 
@@ -259,7 +259,7 @@ void IVP_Clustering_Visualizer_Shortrange::analyze_collision(IVP_Real_Object *ob
 	object_cache->transform_position_to_object_coords(&intruder_matrix.vv, &this->intruder_position_in_private_property_cs);
 	object_cache->remove_reference();
 
-	this->pipelined_private_property_data = NULL;
+	this->pipelined_private_property_data = nullptr;
 	int x;
 	for (x=0; x<this->pipelined_objects.len(); x++) {
 	    IVP_Clustering_Visualizer_Shortrange_Objectdata *objectdata = this->pipelined_objects.element_at(x);

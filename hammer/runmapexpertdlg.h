@@ -26,7 +26,7 @@ class CRunMapExpertDlg : public CDialog
 {
 // Construction
 public:
-	CRunMapExpertDlg(CWnd* pParent = NULL);   // standard constructor
+	CRunMapExpertDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CRunMapExpertDlg)

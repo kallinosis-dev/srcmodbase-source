@@ -226,8 +226,8 @@ private:
 	template < typename T >
 	CGameStatList< T >* GetStatTable( void )
 	{
-		static CGameStatList< T > *s_vecOfType = 0;
-		if( s_vecOfType == 0 )
+		static CGameStatList< T > *s_vecOfType = nullptr;
+		if( s_vecOfType == nullptr )
 		{
 			s_vecOfType = new CGameStatList< T >();
 			GetStatContainerList()->AddToTail( s_vecOfType );

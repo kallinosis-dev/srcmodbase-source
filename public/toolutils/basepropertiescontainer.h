@@ -18,7 +18,7 @@ class CBasePropertiesContainer : public CElementPropertiesTreeInternal
 
 public:
 
-	CBasePropertiesContainer( vgui::Panel *parent, IDmNotify *pNotify, CDmeEditorTypeDictionary *pDict = NULL );
+	CBasePropertiesContainer( vgui::Panel *parent, IDmNotify *pNotify, CDmeEditorTypeDictionary *pDict = nullptr);
 
 	virtual bool IsDroppable( CUtlVector< KeyValues * >& msglist );
 	virtual void OnPanelDropped( CUtlVector< KeyValues * >& msglist );

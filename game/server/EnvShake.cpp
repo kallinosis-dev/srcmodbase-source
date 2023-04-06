@@ -23,7 +23,7 @@ public:
 	virtual simresult_e	Simulate( IPhysicsMotionController *pController, IPhysicsObject *pObject, float deltaTime, Vector &linear, AngularImpulse &angular )
 	{
 		Vector contact;
-		if ( !pObject->GetContactPoint( &contact, NULL ) )
+		if ( !pObject->GetContactPoint( &contact, nullptr) )
 			return SIM_NOTHING;
 
 		// fudge the force a bit to make it more dramatic

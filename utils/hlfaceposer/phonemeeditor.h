@@ -186,7 +186,7 @@ public:
 	void				OnModeChanged( void );
 
 	// Change wave file being edited
-	void				SetCurrentWaveFile( const char *wavefile, bool force = false, CChoreoEvent *event = NULL );
+	void				SetCurrentWaveFile( const char *wavefile, bool force = false, CChoreoEvent *event = nullptr);
 
 	// called when scene is unloaded in choreview or when event/channel/actor gets deleted
 	// so we don't have dangling pointers to tags, events, scene
@@ -418,8 +418,8 @@ private:
 	void				ShiftSelectedWord( int direction );
 	void				ExtendSelectedWordEndTime( int direction );
 
-	float				GetTimeGapToNextWord( bool forward, CWordTag *currentWord, CWordTag **ppNextWord = NULL );
-	float				GetTimeGapToNextPhoneme( bool forward, CPhonemeTag *currentPhoneme, CWordTag **ppword = NULL, CPhonemeTag **phoneme = NULL );
+	float				GetTimeGapToNextWord( bool forward, CWordTag *currentWord, CWordTag **ppNextWord = nullptr);
+	float				GetTimeGapToNextPhoneme( bool forward, CPhonemeTag *currentPhoneme, CWordTag **ppword = nullptr, CPhonemeTag **phoneme = nullptr);
 	int					IndexOfWord( CWordTag *word );
 	CPhonemeTag			*GetSelectedPhoneme( void );
 	CWordTag			*GetSelectedWord( void );

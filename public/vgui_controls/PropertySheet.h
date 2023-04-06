@@ -39,7 +39,7 @@ public:
 	void		SetDraggableTabs( bool state );
 
 	// Adds a page to the sheet.  The first page added becomes the active sheet.
-	virtual void AddPage(Panel *page, const char *title, char const *imageName = NULL, bool showContextMenu = false, int nInsertBefore = -1 );
+	virtual void AddPage(Panel *page, const char *title, char const *imageName = nullptr, bool showContextMenu = false, int nInsertBefore = -1 );
 
 	virtual void SetPageTitle( Panel *page, const char *title );
 
@@ -167,7 +167,7 @@ private:
 	struct Page_t
 	{
 		Page_t() :
-			page( 0 ),
+			page( nullptr ),
 			contextMenu( false )
 		{
 		}

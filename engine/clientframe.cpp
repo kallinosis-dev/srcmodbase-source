@@ -16,32 +16,32 @@
 CClientFrame::CClientFrame( CFrameSnapshot *pSnapshot )
 {
 	last_entity = 0;
-	transmit_always = NULL;	// bit array used only by HLTV and replay client
-	from_baseline = NULL;
+	transmit_always = nullptr;	// bit array used only by HLTV and replay client
+	from_baseline = nullptr;
 	tick_count = pSnapshot->m_nTickCount;
-	m_pSnapshot = NULL;
+	m_pSnapshot = nullptr;
 	SetSnapshot( pSnapshot );
-	m_pNext = NULL;
+	m_pNext = nullptr;
 }
 
 CClientFrame::CClientFrame( int tickcount )
 {
 	last_entity = 0;
-	transmit_always = NULL;	// bit array used only by HLTV and replay client
-	from_baseline = NULL;
+	transmit_always = nullptr;	// bit array used only by HLTV and replay client
+	from_baseline = nullptr;
 	tick_count = tickcount;
-	m_pSnapshot = NULL;
-	m_pNext = NULL;
+	m_pSnapshot = nullptr;
+	m_pNext = nullptr;
 }
 
 CClientFrame::CClientFrame( void )
 {
 	last_entity = 0;
-	transmit_always = NULL;	// bit array used only by HLTV and replay client
-	from_baseline = NULL;
+	transmit_always = nullptr;	// bit array used only by HLTV and replay client
+	from_baseline = nullptr;
 	tick_count = 0;
-	m_pSnapshot = NULL;
-	m_pNext = NULL;
+	m_pSnapshot = nullptr;
+	m_pNext = nullptr;
 }
 
 void CClientFrame::Init( int tickcount )
@@ -57,12 +57,12 @@ void CClientFrame::Init( CFrameSnapshot *pSnapshot )
 
 CClientFrame::~CClientFrame()
 {
-	SetSnapshot( NULL );	// Release our reference to the snapshot.
+	SetSnapshot(nullptr);	// Release our reference to the snapshot.
 
-	if ( transmit_always != NULL )
+	if ( transmit_always != nullptr)
 	{
 		delete transmit_always;
-		transmit_always = NULL;
+		transmit_always = nullptr;
 	}
 }
 
@@ -100,12 +100,12 @@ void CClientFrame::CopyFrame( CClientFrame &frame )
 CClientFrame *CClientFrameManager::GetClientFrame( int nTick, bool bExact )
 {
 	if ( nTick < 0 )
-		return NULL;
+		return nullptr;
 
 	CClientFrame *frame = m_Frames;
 	CClientFrame *lastFrame = frame;
 
-	while ( frame != NULL )
+	while ( frame != nullptr)
 	{
 		if ( frame->tick_count >= nTick  )
 		{
@@ -113,7 +113,7 @@ CClientFrame *CClientFrameManager::GetClientFrame( int nTick, bool bExact )
 				return frame;
 			
 			if ( bExact )
-				return NULL;
+				return nullptr;
 
 			return lastFrame;
 		}
@@ -123,7 +123,7 @@ CClientFrame *CClientFrameManager::GetClientFrame( int nTick, bool bExact )
 	}
 
 	if ( bExact )
-		return NULL;
+		return nullptr;
 	
 	return lastFrame;
 }
@@ -190,7 +190,7 @@ void CClientFrameManager::RemoveOldestFrame( void )
 void CClientFrameManager::DeleteClientFrames(int nTick)
 {
 	CClientFrame *frame = m_Frames; // first
-	CClientFrame *prev = NULL;	  // last
+	CClientFrame *prev = nullptr;	  // last
 
 	while ( frame )
 	{

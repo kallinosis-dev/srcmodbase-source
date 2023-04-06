@@ -354,7 +354,7 @@ Activity CCSHostageAnimState::CalcMainActivity()
 
 CCSPlayerAnimState::CCSPlayerAnimState()
 {
-	m_pOuter = NULL;
+	m_pOuter = nullptr;
 
 	m_bJumping = false;
 	m_flJumpStartTime = 0.0f;
@@ -409,11 +409,11 @@ CCSPlayerAnimState::CCSPlayerAnimState()
 	m_bTryingToRunAfterJump = false;
 	m_CurrentActivity = ACT_IDLE;
 
-	m_pPlayer = NULL;
+	m_pPlayer = nullptr;
 	m_iDeployedWeaponID = WEAPON_NONE;
 	m_flWeaponSwitchTime = 0.0f;
 
-	m_pHelpers = NULL;
+	m_pHelpers = nullptr;
 
 	m_flLastActChangeTime = gpGlobals->curtime;
 	m_LastActivity = ACT_IDLE;
@@ -745,7 +745,7 @@ void CCSPlayerAnimState::DoAnimationEvent( PlayerAnimEvent_t animEvent, int nDat
 	case PLAYERANIMEVENT_DEPLOY:
 		{
 			// Update the weapon to use for animations.
-			if ( pActiveWeapon != NULL )
+			if ( pActiveWeapon != nullptr)
 			{
 				m_iDeployedWeaponID = pActiveWeapon->GetCSWeaponID();
 			}
@@ -1571,7 +1571,7 @@ const char* CCSPlayerAnimState::GetWeaponSuffix()
 	// Figure out the weapon suffix.
 	CWeaponCSBase *pWeapon = m_pHelpers->CSAnim_GetActiveWeapon();
 	if ( !pWeapon )
-		return NULL;
+		return nullptr;
 
 	const char *pSuffix = pWeapon->GetPlayerAnimationExtension();
 
@@ -2133,7 +2133,7 @@ bool CCSPlayerAnimState::ActiveWeaponIsDeployed()
 {
 	CWeaponCSBase *pActiveWeapon = m_pHelpers->CSAnim_GetActiveWeapon();
 	bool currentWeaponIsDeployedWeapon = true;
-	if ( pActiveWeapon != NULL )
+	if ( pActiveWeapon != nullptr)
 	{
 		currentWeaponIsDeployedWeapon = ( pActiveWeapon->GetCSWeaponID() == m_iDeployedWeaponID );
 		if ( !currentWeaponIsDeployedWeapon )

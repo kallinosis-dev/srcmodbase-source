@@ -52,20 +52,20 @@ bool CCSCustomMaterialSwapManager::Process()
 	{
 		if ( m_pPendingSwaps[ i ].m_pNewCustomMaterial->IsValid() )
 		{
-			C_BaseAnimating* pOwner = ( m_pPendingSwaps[ i ].m_hOwner ) ?  m_pPendingSwaps[ i ].m_hOwner->GetBaseAnimating() : NULL;
+			C_BaseAnimating* pOwner = ( m_pPendingSwaps[ i ].m_hOwner ) ?  m_pPendingSwaps[ i ].m_hOwner->GetBaseAnimating() : nullptr;
 			if ( pOwner )
 			{
 				pOwner->SetCustomMaterial( m_pPendingSwaps[ i ].m_pNewCustomMaterial,  m_pPendingSwaps[ i ].m_nCustomMaterialIndex );
 			}
 
-			m_pPendingSwaps[ i ].m_hOwner = NULL;
+			m_pPendingSwaps[ i ].m_hOwner = nullptr;
 			m_pPendingSwaps[ i ].m_nCustomMaterialIndex = -1;
 			m_pPendingSwaps[ i ].m_pNewCustomMaterial->Release();
-			m_pPendingSwaps[ i ].m_pNewCustomMaterial = NULL;
+			m_pPendingSwaps[ i ].m_pNewCustomMaterial = nullptr;
 			if ( m_pPendingSwaps[ i ].m_pOldCustomMaterial )
 			{
 				m_pPendingSwaps[ i ].m_pOldCustomMaterial->Release();
-				m_pPendingSwaps[ i ].m_pOldCustomMaterial = NULL;
+				m_pPendingSwaps[ i ].m_pOldCustomMaterial = nullptr;
 			}
 			m_pPendingSwaps.Remove( i );
 		}
@@ -99,14 +99,14 @@ void CCSCustomMaterialSwapManager::ClearPendingSwaps( EHANDLE hOwner, int nCusto
 	{
 		if ( m_pPendingSwaps[ i ].m_hOwner == hOwner && m_pPendingSwaps[ i ].m_nCustomMaterialIndex == nCustomMaterialIndex )
 		{
-			m_pPendingSwaps[ i ].m_hOwner = NULL;
+			m_pPendingSwaps[ i ].m_hOwner = nullptr;
 			m_pPendingSwaps[ i ].m_nCustomMaterialIndex = -1;
 			m_pPendingSwaps[ i ].m_pNewCustomMaterial->Release();
-			m_pPendingSwaps[ i ].m_pNewCustomMaterial = NULL;
+			m_pPendingSwaps[ i ].m_pNewCustomMaterial = nullptr;
 			if ( m_pPendingSwaps[ i ].m_pOldCustomMaterial )
 			{
 				m_pPendingSwaps[ i ].m_pOldCustomMaterial->Release();
-				m_pPendingSwaps[ i ].m_pOldCustomMaterial = NULL;
+				m_pPendingSwaps[ i ].m_pOldCustomMaterial = nullptr;
 			}
 			m_pPendingSwaps.Remove( i );
 		}
@@ -118,14 +118,14 @@ void CCSCustomMaterialSwapManager::ClearAllPendingSwaps( void )
 	for ( int i = 0; i < m_pPendingSwaps.Count(); ++i )
 	{
 		CCSPendingCustomMaterialSwap_t &materialSwap = m_pPendingSwaps[ i ];
-		materialSwap.m_hOwner = NULL;
+		materialSwap.m_hOwner = nullptr;
 		materialSwap.m_nCustomMaterialIndex = -1;
 		materialSwap.m_pNewCustomMaterial->Release();
-		materialSwap.m_pNewCustomMaterial = NULL;
+		materialSwap.m_pNewCustomMaterial = nullptr;
 		if ( m_pPendingSwaps[ i ].m_pOldCustomMaterial )
 		{
 			materialSwap.m_pOldCustomMaterial->Release();
-			materialSwap.m_pOldCustomMaterial = NULL;
+			materialSwap.m_pOldCustomMaterial = nullptr;
 		}
 	}
 	m_pPendingSwaps.RemoveAll();

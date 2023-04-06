@@ -27,10 +27,10 @@
 #include "tier0/memdbgon.h"
 
 
-static CGameUIDynamicTextures *s_pDynamicTextures = NULL;
+static CGameUIDynamicTextures *s_pDynamicTextures = nullptr;
 void OnRestore( int nChangeFlags )
 {
-	if ( s_pDynamicTextures != NULL )
+	if ( s_pDynamicTextures != nullptr)
 	{
 		s_pDynamicTextures->OnRestore( nChangeFlags );
 	}
@@ -61,14 +61,14 @@ public:
 	void *EmitSound( const char *pSoundName )
 	{
 		if ( !g_pSoundSystem )
-			return NULL;
+			return nullptr;
 
 		// Ensure the sound is valid
 		int nSoundIndex = g_pSoundEmitterSystem->GetSoundIndex( pSoundName );
 		if ( !g_pSoundEmitterSystem->IsValidIndex( nSoundIndex ) )
 		{
 			Warning( "Attempted to play invalid sound \"%s\"\n", pSoundName );
-			return NULL;
+			return nullptr;
 		}
 
 		const char *pSourceFile = g_pSoundEmitterSystem->GetSourceFileForSound( nSoundIndex );
@@ -76,27 +76,27 @@ public:
 		{
 			Warning( "Attempted to play invalid sound \"%s\". This sound must be defined\n"
 				"in game_sounds_ui.txt but was defined in \"%s\" instead.\n", pSoundName, pSourceFile );
-			return NULL;
+			return nullptr;
 		}
 
 		// Pull data from parameters
 		CSoundParameters params;
 		HSOUNDSCRIPTHASH handle = SOUNDEMITTER_INVALID_HASH;
 		if ( !g_pSoundEmitterSystem->GetParametersForSoundEx( pSoundName, handle, params, GENDER_NONE, true ) )
-			return NULL;
+			return nullptr;
 
 		if ( !params.soundname[0] )
-			return NULL;
+			return nullptr;
 
 		char pFileName[ MAX_PATH ];
 		Q_snprintf( pFileName, sizeof(pFileName), "sound/%s", params.soundname );
 		CAudioSource *pAudioSource = g_pSoundSystem->FindOrAddSound( pFileName );
 		if ( !pAudioSource )
-			return NULL;
+			return nullptr;
 
 		// NOTE: We're currently ignoring the sound delay time from the parameters,
 		// as well as a bunch of other parameters. Oh well.
-		CAudioMixer *pMixer = NULL;
+		CAudioMixer *pMixer = nullptr;
 		g_pSoundSystem->PlaySound( pAudioSource, params.volume, &pMixer );
 		return pAudioSource;
 
@@ -203,7 +203,7 @@ bool CGameUISystemMgr::Connect( CreateInterfaceFn factory )
 	if ( !BaseClass::Connect( factory ) )
 		return false;
 
-	g_pScriptManager = (IScriptManager *)factory( VSCRIPT_INTERFACE_VERSION, NULL );
+	g_pScriptManager = (IScriptManager *)factory( VSCRIPT_INTERFACE_VERSION, nullptr);
 
 	if ( !g_pScriptManager )
 		return false;
@@ -213,7 +213,7 @@ bool CGameUISystemMgr::Connect( CreateInterfaceFn factory )
 
 void CGameUISystemMgr::Disconnect()
 {
-	g_pScriptManager = NULL;
+	g_pScriptManager = nullptr;
 	BaseClass::Disconnect();
 }
 
@@ -222,7 +222,7 @@ void *CGameUISystemMgr::QueryInterface( const char *pInterfaceName )
 	if (!Q_strncmp(	pInterfaceName, GAMEUISYSTEMMGR_INTERFACE_VERSION, Q_strlen( GAMEUISYSTEMMGR_INTERFACE_VERSION ) + 1))
 		return (IGameUISystemMgr*)this;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -256,9 +256,9 @@ CGameUISystemMgr::CGameUISystemMgr() :
 	m_nWindowHeight = 0;
 
 	m_flCurrentTime = DmeTime_t(0);
-	m_Scheme = NULL;
+	m_Scheme = nullptr;
 
-	m_RequestedKeyFocus = NULL;
+	m_RequestedKeyFocus = nullptr;
 
 	m_bForceFocusUpdate = false;
 	m_bUseGameInputQueue = false;
@@ -276,7 +276,7 @@ CGameUISystemMgr::CGameUISystemMgr() :
 	if ( !g_pGameUISystemMgr )
 		g_pGameUISystemMgr = this;
 
-	m_pCursorText = NULL;
+	m_pCursorText = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -301,7 +301,7 @@ static AppSystemInfo_t s_pDependencies[] =
 	{ "inputsystem.dll",	INPUTSYSTEM_INTERFACE_VERSION },
 	{ "inputsystem.dll",	INPUTSTACKSYSTEM_INTERFACE_VERSION },
 	{ "soundemittersystem.dll",	SOUNDEMITTERSYSTEM_INTERFACE_VERSION },
-	{ NULL, NULL }
+	{nullptr, nullptr}
 };
 
 const AppSystemInfo_t* CGameUISystemMgr::GetDependencies()
@@ -341,12 +341,12 @@ InitReturnVal_t CGameUISystemMgr::Init( )
 	// Tell the input system to generate UI events
 	g_pInputSystem->AddUIEventListener();
 
-	m_Scheme = NULL;
+	m_Scheme = nullptr;
 	SetViewportSize( 1024, 768 );
 	SetWindowSize( 1024, 768 );
 
 	m_bVisible = true;
-	m_RequestedKeyFocus = NULL;
+	m_RequestedKeyFocus = nullptr;
 
 	m_flCurrentTime = DmeTime_t(0);
 
@@ -385,7 +385,7 @@ IMaterialProxy *CGameUISystemMgr::CreateProxy( const char *proxyName )
 	{
 		return s_pDynamicTextures->CreateProxy( proxyName );
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -555,7 +555,7 @@ IGameUIScheme * CGameUISystemMgr::GetCurrentScheme()
 IGameUISystem * CGameUISystemMgr::LoadGameUIScreen( KeyValues *kvScreenLoadSettings )
 {
 	if ( !kvScreenLoadSettings )
-		return NULL;
+		return nullptr;
 
 	// Make a copy for safe modifications
 	kvScreenLoadSettings = kvScreenLoadSettings->MakeCopy();
@@ -566,14 +566,14 @@ IGameUISystem * CGameUISystemMgr::LoadGameUIScreen( KeyValues *kvScreenLoadSetti
 	const char *pFilename = sFilename;
 
 	// Current menu
-	IGameUISystem *pPreviousScreen = NULL;
+	IGameUISystem *pPreviousScreen = nullptr;
 	if ( m_ActiveMenuList.Count() )
 	{
 		pPreviousScreen = m_ActiveMenuList[ m_ActiveMenuList.Count() - 1 ];
 	}
 
 	// Always load a new instance of the menu
-	CGameUISystem *pNewScreen = NULL;
+	CGameUISystem *pNewScreen = nullptr;
 	if ( !pNewScreen )
 	{
 		bool bSuccess = false;
@@ -672,7 +672,7 @@ IGameUISystem * CGameUISystemMgr::LoadGameUIScreen( KeyValues *kvScreenLoadSetti
 			// null out requested focus for a released panel 
 			if ( m_RequestedKeyFocus && m_ReleasedMenuList[i]->Definition().HasGraphic( m_RequestedKeyFocus ) )
 			{
-				m_RequestedKeyFocus = NULL;
+				m_RequestedKeyFocus = nullptr;
 			}
 		}
 		m_ReleaseTime = DmeTime_t(0);
@@ -729,7 +729,7 @@ void CGameUISystemMgr::OnScreenReleased( CGameUISystem *pScreen )
 	// null out requested focus for a released panel 
 	if ( m_RequestedKeyFocus && pScreen->Definition().HasGraphic( m_RequestedKeyFocus ) )
 	{
-		m_RequestedKeyFocus = NULL;
+		m_RequestedKeyFocus = nullptr;
 	}
 }
 
@@ -746,7 +746,7 @@ void CGameUISystemMgr::RunFrame()
 		{
 			CGameUISystem *&pReleasedScreen = m_ReleasedMenuList[i];
 			pReleasedScreen->Release();	
-			pReleasedScreen = NULL;
+			pReleasedScreen = nullptr;
 		}
 		m_ReleasedMenuList.RemoveAll();
 	}
@@ -764,7 +764,7 @@ void CGameUISystemMgr::RunFrame()
 		
 		// Update keyfocused and reset mouse and key states.
 		g_pInputGameUI->RunFrame();
-		m_RequestedKeyFocus = NULL;
+		m_RequestedKeyFocus = nullptr;
 
 		// Generate all gameui event messages
 		// Run scripts to handle them.
@@ -786,7 +786,7 @@ void CGameUISystemMgr::RunFrame()
 		// Generate all input messages
 		// this will generate all key and mouse events
 		
-		const InputEvent_t* pEvents = NULL;
+		const InputEvent_t* pEvents = nullptr;
 		int nEventCount = 0;
 		if ( m_bUseGameInputQueue )
 		{
@@ -861,7 +861,7 @@ IGameUIScreenControllerFactory *CGameUISystemMgr::GetScreenControllerFactory( ch
 	if ( idx != m_ScreenControllerMap.InvalidIndex() )
 		return m_ScreenControllerMap[idx];
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -882,7 +882,7 @@ IGameUIGraphicClassFactory *CGameUISystemMgr::GetGraphicClassFactory( char const
 	if ( idx != m_GraphicClassMap.InvalidIndex() )
 		return m_GraphicClassMap[idx];
 	else
-		return NULL;
+		return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1048,7 +1048,7 @@ CHitArea *CGameUISystemMgr::GetMouseFocus( int x, int y )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1091,7 +1091,7 @@ void CGameUISystemMgr::RequestKeyFocus( CHitArea *pGraphic, KeyValues *args )
 	}
 
 	// Has nobody asked for it?
-	if ( m_RequestedKeyFocus == NULL )
+	if ( m_RequestedKeyFocus == nullptr)
 	{
 		if ( pGraphic->IsGroup() )
 		{
@@ -1190,7 +1190,7 @@ void CGameUISystemMgr::OnMouseFocusLost( CHitArea *mouseFocus )
 		{
 			if ( m_ActiveMenuList[i]->Definition().IsMouseFocusEqualToKeyboardFocus() )
 			{
-				m_RequestedKeyFocus = NULL;		
+				m_RequestedKeyFocus = nullptr;		
 			}
 			return;
 		}
@@ -1252,7 +1252,7 @@ bool CGameUISystemMgr::OnKeyTyped( const wchar_t &unichar )
 //-----------------------------------------------------------------------------
 void CGameUISystemMgr::PlayMenuSound( const char *pSoundName )
 {
-	if ( pSoundName == NULL || pSoundName[ 0 ] == '\0' )
+	if ( pSoundName == nullptr || pSoundName[ 0 ] == '\0' )
 		return;
 
 	int index = m_MenuSoundMap.Find( pSoundName );
@@ -1262,7 +1262,7 @@ void CGameUISystemMgr::PlayMenuSound( const char *pSoundName )
 	}
 	else
 	{
-		index = m_MenuSoundMap.Insert( pSoundName, NULL );
+		index = m_MenuSoundMap.Insert( pSoundName, nullptr);
 	}
 
 	m_MenuSoundMap[index] = m_pSoundPlayback->EmitSound( pSoundName );
@@ -1281,7 +1281,7 @@ void CGameUISystemMgr::StopMenuSound( const char *pSoundName )
 	if ( m_MenuSoundMap[index] )
 	{
 		m_pSoundPlayback->StopSound( m_MenuSoundMap[index] );
-		m_MenuSoundMap[index] = NULL;
+		m_MenuSoundMap[index] = nullptr;
 	}
 }
 
@@ -1330,7 +1330,7 @@ void CGameUISystemMgr::GetViewportSize( int &nWidth, int &nHeight )
 //-----------------------------------------------------------------------------
 void CGameUISystemMgr::InitImageAlias( const char *pAlias )
 {
-	if ( s_pDynamicTextures == NULL )
+	if ( s_pDynamicTextures == nullptr)
 	{
 		s_pDynamicTextures = new CGameUIDynamicTextures;
 	}
@@ -1367,7 +1367,7 @@ void CGameUISystemMgr::InitImageAlias( const char *pAlias )
 //-----------------------------------------------------------------------------
 void CGameUISystemMgr::LoadImageAliasTexture( const char *pAlias, const char *pBaseTextureName )
 {
-	if ( s_pDynamicTextures == NULL )
+	if ( s_pDynamicTextures == nullptr)
 	{
 		s_pDynamicTextures = new CGameUIDynamicTextures;
 	}
@@ -1390,8 +1390,8 @@ void CGameUISystemMgr::ReleaseImageAlias(  const char *pAlias )
 //-----------------------------------------------------------------------------
 IMaterial *CGameUISystemMgr::GetImageAliasMaterial( const char *pAlias )
 { 
-	if ( s_pDynamicTextures == NULL )
-		return NULL;
+	if ( s_pDynamicTextures == nullptr)
+		return nullptr;
 
 	return s_pDynamicTextures->GetImageAliasMaterial( pAlias );	
 }
@@ -1402,8 +1402,8 @@ IMaterial *CGameUISystemMgr::GetImageAliasMaterial( const char *pAlias )
 //-----------------------------------------------------------------------------
 ImageAliasData_t *CGameUISystemMgr::GetImageAliasData( const char *pAlias )
 {
-	if ( s_pDynamicTextures == NULL )
-		return NULL;
+	if ( s_pDynamicTextures == nullptr)
+		return nullptr;
 
 	return s_pDynamicTextures->GetImageAliasData( pAlias );
 }
@@ -1450,7 +1450,7 @@ void CGameUISystemMgr::TexCoordsToSheetTexCoords( const char *pAlias, Vector2D t
 //-----------------------------------------------------------------------------
 void CGameUISystemMgr::DrawDynamicTexture( const char *pAlias, int x, int y )
 {
-	if ( s_pDynamicTextures == NULL )
+	if ( s_pDynamicTextures == nullptr)
 		return;
 
 	s_pDynamicTextures->DrawDynamicTexture( pAlias, x, y );
@@ -1508,7 +1508,7 @@ void CGameUISystemMgr::ShowCursorCoords()
 void CGameUISystemMgr::ShowGraphicName()
 {
 	// Find the graphic directly under the cursor.
-	CGameGraphic *pGraphic = NULL;
+	CGameGraphic *pGraphic = nullptr;
 	int x, y;
 	g_pInputGameUI->GetCursorPos( x, y );
 
@@ -1519,7 +1519,7 @@ void CGameUISystemMgr::ShowGraphicName()
 			break;
 	}
 
-	if ( pGraphic == NULL )
+	if ( pGraphic == nullptr)
 	{
 		if ( m_pCursorText )
 		{

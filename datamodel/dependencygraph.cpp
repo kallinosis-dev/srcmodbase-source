@@ -30,7 +30,7 @@ enum TraversalState_t
 
 struct COperatorNode
 {
-	COperatorNode( IDmeOperator *pOp = NULL ) :
+	COperatorNode( IDmeOperator *pOp = nullptr) :
 		m_state( TS_NOT_VISITED ), 
 		m_operator( pOp ),
 		m_bInList( false )
@@ -46,7 +46,7 @@ struct COperatorNode
 class CAttributeNode
 {
 public:
-	CAttributeNode( CDmAttribute *attribute = NULL ) : 
+	CAttributeNode( CDmAttribute *attribute = nullptr) : 
 		m_attribute( attribute ),
 		m_bIsOutputToOperator( false )
 	{
@@ -98,7 +98,7 @@ void CDependencyGraph::Reset( const CUtlVector< IDmeOperator * > &operators )
 	{
 		IDmeOperator *pOp = operators[ oi ];
 		Assert( pOp );
-		if ( pOp == NULL )
+		if ( pOp == nullptr)
 			continue;
 
 		COperatorNode *pOpNode = g_OperatorNodePool.Alloc();
@@ -314,7 +314,7 @@ CAttributeNode *CDependencyGraph::FindAttrNode( CDmAttribute *pAttr )
 		return m_attrNodes.Element( idx );
 	}
 
-	CAttributeNode *pAttrNode = 0;
+	CAttributeNode *pAttrNode = nullptr;
 	{
 		VPROF( "CDependencyGraph::FindAttrNode_Alloc" );
 		pAttrNode = g_AttrNodePool.Alloc();

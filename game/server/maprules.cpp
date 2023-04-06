@@ -157,7 +157,7 @@ void CGameScore::InputApplyScore( inputdata_t &inputdata )
 {
 	CBaseEntity *pActivator = inputdata.pActivator;
 
-	if ( pActivator == NULL )
+	if ( pActivator == nullptr)
 		 return;
 
 	if ( CanFireForActivator( pActivator ) == false )
@@ -257,37 +257,37 @@ int	CGameCoopMissionManager::GetWaveNumber( void )
 void CGameCoopMissionManager::SetWaveCompleted( void )
 {
 	// send output
-	m_OnWaveCompleted.FireOutput( NULL, NULL );
+	m_OnWaveCompleted.FireOutput(nullptr, nullptr);
 }
 
 void CGameCoopMissionManager::SetRoundReset( void )
 {
 	// send output
-	m_OnRoundReset.FireOutput( NULL, NULL );
+	m_OnRoundReset.FireOutput(nullptr, nullptr);
 }
 
 void CGameCoopMissionManager::SetSpawnsReset( void )
 {
 	// send output
-	m_OnSpawnsReset.FireOutput( NULL, NULL );
+	m_OnSpawnsReset.FireOutput(nullptr, nullptr);
 }
 
 void CGameCoopMissionManager::SetRoundLostKilled( void )
 {
 	// send output
-	m_OnRoundLostKilled.FireOutput( NULL, NULL );
+	m_OnRoundLostKilled.FireOutput(nullptr, nullptr);
 }
 
 void CGameCoopMissionManager::SetRoundLostTime( void )
 {
 	// send output
-	m_OnRoundLostTime.FireOutput( NULL, NULL );
+	m_OnRoundLostTime.FireOutput(nullptr, nullptr);
 }
 
 void CGameCoopMissionManager::SetMissionCompleted( void )
 {
 	// send output
-	m_OnMissionCompleted.FireOutput( NULL, NULL );
+	m_OnMissionCompleted.FireOutput(nullptr, nullptr);
 }
 
 // void CGameCoopMissionManager::InputApplyScore( inputdata_t &inputdata )
@@ -370,7 +370,7 @@ void CGameMoney::InputAddMoneyPlayer( inputdata_t &inputdata )
 {
 	CBaseEntity *pActivator = inputdata.pActivator;
 
-	if ( pActivator == NULL )
+	if ( pActivator == nullptr)
 		return;
 
 // 	if ( CanFireForActivator( pActivator ) == false )
@@ -483,7 +483,7 @@ void CGameRoundEnd::FireGameEvent( IGameEvent *event )
 
 	if ( Q_strcmp( name, "round_end" ) == 0 )
 	{
-		m_OnRoundEnded.FireOutput( NULL, NULL );
+		m_OnRoundEnded.FireOutput(nullptr, nullptr);
 	}
 }
 
@@ -792,7 +792,7 @@ void CGamePlayerZone::InputCountPlayersInZone( inputdata_t &inputdata )
 	if ( !CanFireForActivator( inputdata.pActivator ) )
 		return;
 
-	CBaseEntity *pPlayer = NULL;
+	CBaseEntity *pPlayer = nullptr;
 
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
@@ -989,7 +989,7 @@ void CGamePlayerEquip::EquipPlayer( CBaseEntity *pEntity, const char *szWeapon )
 	if ( !pEntity )
 		return;
 
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 
 	if ( pEntity->IsPlayer() )
 	{
@@ -1008,15 +1008,15 @@ void CGamePlayerEquip::EquipPlayer( CBaseEntity *pEntity, const char *szWeapon )
 	const char *weaponName = szWeapon;
 
 	int nMaxLoop = MAX_EQUIP;
-	if ( szWeapon != NULL )
+	if ( szWeapon != nullptr)
 		nMaxLoop = 1;
 
 	for ( int i = 0; i < MAX_EQUIP; i++ )
 	{
-		if ( szWeapon == NULL && !m_weaponNames[i] )
+		if ( szWeapon == nullptr && !m_weaponNames[i] )
 			break;
 
-		if ( szWeapon == NULL )
+		if ( szWeapon == nullptr)
 			weaponName = STRING( m_weaponNames[i] );
 
 		CSWeaponID weaponID = WeaponIdFromString( weaponName );
@@ -1030,7 +1030,7 @@ void CGamePlayerEquip::EquipPlayer( CBaseEntity *pEntity, const char *szWeapon )
 		{
 			if ( !pCSPlayer->Weapon_OwnsThisType( weaponName ) )
 			{
-				AcquireResult::Type acquireResult = pCSPlayer->CanAcquire( weaponID, AcquireMethod::PickUp, NULL );
+				AcquireResult::Type acquireResult = pCSPlayer->CanAcquire( weaponID, AcquireMethod::PickUp, nullptr);
 				if ( acquireResult == AcquireResult::Allowed )
 					pCSPlayer->GiveNamedItem( weaponName );
 			}
@@ -1119,15 +1119,15 @@ LINK_ENTITY_TO_CLASS( game_player_team, CGamePlayerTeam );
 
 const char *CGamePlayerTeam::TargetTeamName( const char *pszTargetName, CBaseEntity *pActivator )
 {
-	CBaseEntity *pTeamEntity = NULL;
+	CBaseEntity *pTeamEntity = nullptr;
 
-	while ((pTeamEntity = gEntList.FindEntityByName( pTeamEntity, pszTargetName, NULL, pActivator )) != NULL)
+	while ((pTeamEntity = gEntList.FindEntityByName( pTeamEntity, pszTargetName, nullptr, pActivator )) != nullptr)
 	{
 		if ( FClassnameIs( pTeamEntity, "game_team_master" ) )
 			return pTeamEntity->TeamID();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

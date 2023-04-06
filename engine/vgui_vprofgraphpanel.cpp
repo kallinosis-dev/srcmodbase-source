@@ -91,7 +91,7 @@ public:
 	static CVProfNode*  m_CurrentNode;
 };
 
-CVProfNode* CVProfGraphPanel::m_CurrentNode = NULL;
+CVProfNode* CVProfGraphPanel::m_CurrentNode = nullptr;
 
 
 void IN_VProfPrevSibling(void)
@@ -142,7 +142,7 @@ static ConCommand vprof_child		("vprof_child",		  IN_VProfChild);
 // Purpose: 
 // Input  : *parent - 
 //-----------------------------------------------------------------------------
-CVProfGraphPanel::CVProfGraphPanel( vgui::VPANEL parent ) : BaseClass( NULL, "CVProfGraphPanel" )
+CVProfGraphPanel::CVProfGraphPanel( vgui::VPANEL parent ) : BaseClass(nullptr, "CVProfGraphPanel" )
 {
 	SetParent( parent ); 
 	SetSize( videomode->GetModeWidth(), videomode->GetModeHeight() );
@@ -310,7 +310,7 @@ void CVProfGraphPanel::PaintLineArt( int x, int y, int w )
 
 	CMatRenderContextPtr pRenderContext( materials );
 
-	IMesh* m_pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, m_WhiteMaterial );
+	IMesh* m_pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, m_WhiteMaterial );
 	CMeshBuilder meshBuilder;
 	meshBuilder.Begin( m_pMesh, MATERIAL_LINES, 3 * w + 4 );
 
@@ -409,7 +409,7 @@ void CVProfGraphPanel::PaintLineArt( int x, int y, int w )
 //-----------------------------------------------------------------------------
 
 #ifdef VPROF_ENABLED
-static CVProfGraphPanel *s_pVProfGraphPanel = NULL;
+static CVProfGraphPanel *s_pVProfGraphPanel = nullptr;
 #endif
 
 void CreateVProfGraphPanel( vgui::Panel *pParent )
@@ -424,9 +424,9 @@ void DestroyVProfGraphPanel()
 #ifdef VPROF_ENABLED
 	if ( s_pVProfGraphPanel )
 	{
-		s_pVProfGraphPanel->SetParent( (vgui::Panel *)NULL );
+		s_pVProfGraphPanel->SetParent( (vgui::Panel *)nullptr);
 		delete s_pVProfGraphPanel;
-		s_pVProfGraphPanel = NULL;
+		s_pVProfGraphPanel = nullptr;
 	}
 #endif
 }

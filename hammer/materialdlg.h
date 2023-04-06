@@ -19,7 +19,7 @@ class CFaceSmoothingDlg : public CDialog
 {
 public:
 
-	CFaceSmoothingDlg( CWnd *pParent = NULL );
+	CFaceSmoothingDlg( CWnd *pParent = nullptr);
 	~CFaceSmoothingDlg();
 
 	void UpdateControls( void );
@@ -74,7 +74,7 @@ class CFaceSmoothingVisualDlg : public CDialog
 {
 public:
 
-	CFaceSmoothingVisualDlg( CWnd *pParent = NULL );
+	CFaceSmoothingVisualDlg( CWnd *pParent = nullptr);
 	~CFaceSmoothingVisualDlg();
 
 	//{{AFX_DATA( CFaceSmoothingVisualDlg )

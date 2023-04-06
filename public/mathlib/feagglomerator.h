@@ -140,7 +140,7 @@ public:
 
 protected:
 	void Process( ClustersPriorityQueue_t &queue );
-	void Validate( ClustersPriorityQueue_t *pQueue  = NULL );
+	void Validate( ClustersPriorityQueue_t *pQueue  = nullptr);
 	void AddLink( CCluster* pCluster0, CCluster *pCluster1, ClustersPriorityQueue_t &queue );
 protected:
 	// the first N clusters are the original nodes that have no children, 

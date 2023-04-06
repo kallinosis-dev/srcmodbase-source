@@ -28,7 +28,7 @@ bool CMdlLib::CreateNewStripInfo( IMdlStripInfo **ppStripInfo )
 	}
 
 	*ppStripInfo = new CMdlStripInfo;
-	return ( NULL != *ppStripInfo );
+	return (nullptr != *ppStripInfo );
 }
 
 //
@@ -261,8 +261,8 @@ bool CMdlLib::StripModelBuffers( CUtlBuffer &mdlBuffer, CUtlBuffer &vvdBuffer, C
 		}
 
 		// Move back the memory after fixups were applied
-		vvdVertexSrc  ? memcpy( vvdVertexSrc, BYTE_OFF_PTR( memTempVVD.Get(), vvdHdr->vertexDataStart ), mdlNumVerticesOld * sizeof( *vvdVertexSrc ) ) : 0;
-		vvdTangentSrc ? memcpy( vvdTangentSrc, BYTE_OFF_PTR( memTempVVD.Get(), vvdHdr->tangentDataStart ), mdlNumVerticesOld * sizeof( *vvdTangentSrc ) ) : 0;
+		vvdVertexSrc  ? memcpy( vvdVertexSrc, BYTE_OFF_PTR( memTempVVD.Get(), vvdHdr->vertexDataStart ), mdlNumVerticesOld * sizeof( *vvdVertexSrc ) ) : nullptr;
+		vvdTangentSrc ? memcpy( vvdTangentSrc, BYTE_OFF_PTR( memTempVVD.Get(), vvdHdr->tangentDataStart ), mdlNumVerticesOld * sizeof( *vvdTangentSrc ) ) : nullptr;
 	}
 	
 	vvdHdr->vertexDataStart -= ALIGN_VALUE( sizeof( vertexFileFixup_t ) * vvdHdr->numFixups, 16 );
@@ -620,8 +620,8 @@ bool CMdlLib::ParseMdlMesh( CUtlBuffer &mdlBuffer, CUtlBuffer &vvdBuffer, CUtlBu
 		}
 
 		// Move back the memory after fixups were applied
-		vvdVertexSrc  ? memcpy( vvdVertexSrc, BYTE_OFF_PTR( memTempVVD.Get(), vvdHdr->vertexDataStart ), mdlNumVertices * sizeof( *vvdVertexSrc ) ) : 0;
-		vvdTangentSrc ? memcpy( vvdTangentSrc, BYTE_OFF_PTR( memTempVVD.Get(), vvdHdr->tangentDataStart ), mdlNumVertices * sizeof( *vvdTangentSrc ) ) : 0;
+		vvdVertexSrc  ? memcpy( vvdVertexSrc, BYTE_OFF_PTR( memTempVVD.Get(), vvdHdr->vertexDataStart ), mdlNumVertices * sizeof( *vvdVertexSrc ) ) : nullptr;
+		vvdTangentSrc ? memcpy( vvdTangentSrc, BYTE_OFF_PTR( memTempVVD.Get(), vvdHdr->tangentDataStart ), mdlNumVertices * sizeof( *vvdTangentSrc ) ) : nullptr;
 	}
 
 	for ( mstudiovertex_t *pSrc = vvdVertexSrc, *pEnd = pSrc + mdlNumVertices;

@@ -55,7 +55,7 @@ void SteamApiContext_Shutdown()
 
 #else
 
-class CSteamAPIContext *steamapicontext = NULL;
+class CSteamAPIContext *steamapicontext = nullptr;
 void SteamApiContext_Init()
 {
 }

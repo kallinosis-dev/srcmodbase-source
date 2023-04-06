@@ -19,7 +19,7 @@ void CCSClothingVisualsDataCompare::SerializeToBuffer( CUtlBuffer &buf )
 
 CCSClothingVisualsDataProcessor::CCSClothingVisualsDataProcessor( CCSClothingVisualsDataCompare &&compareObject, const WeaponPaintableMaterial_t *pWeaponPaintableMaterialData, const char *szCompositingShaderName )
 	: m_pWeaponPaintableMaterialData( pWeaponPaintableMaterialData )
-	, m_szCompositingShaderName( NULL )
+	, m_szCompositingShaderName(nullptr)
 {
 	m_compareObject = Move( compareObject );
 	m_compareObject.FillCompareBlob();
@@ -31,7 +31,7 @@ CCSClothingVisualsDataProcessor::~CCSClothingVisualsDataProcessor()
 	if ( m_szCompositingShaderName )
 	{
 		delete [] m_szCompositingShaderName;
-		m_szCompositingShaderName = NULL;
+		m_szCompositingShaderName = nullptr;
 	}
 
 }
@@ -46,7 +46,7 @@ void CCSClothingVisualsDataProcessor::SetVisualsData( const char *pCompositingSh
 	if ( m_szCompositingShaderName )
 	{
 		delete[] m_szCompositingShaderName;
-		m_szCompositingShaderName = NULL;
+		m_szCompositingShaderName = nullptr;
 	}
 
 	if ( pCompositingShaderName )
@@ -69,7 +69,7 @@ void CCSClothingVisualsDataProcessor::SetVisualsData( const char *pCompositingSh
 
 	m_visualsData.pVMTOverrideValues = pPaintKit->kvVmtOverrides;
 
-	KeyValues *pOrigVMTKeyValues = NULL;
+	KeyValues *pOrigVMTKeyValues = nullptr;
 	bool bVMTExists = materials->GetCustomMaterialManager()->GetVMTKeyValues( m_visualsData.m_szOrigVMTName, &pOrigVMTKeyValues );
 
 	if (!bVMTExists)
@@ -85,7 +85,7 @@ void CCSClothingVisualsDataProcessor::SetVisualsData( const char *pCompositingSh
 		pOrigVMTKeyValues->MergeFrom( pPaintKit->kvVmtOverrides, KeyValues::MERGE_KV_UPDATE );
 	}
 	
-	KeyValues *pSkinVMTKeyValues = NULL;
+	KeyValues *pSkinVMTKeyValues = nullptr;
 	bVMTExists = materials->GetCustomMaterialManager()->GetVMTKeyValues( m_visualsData.m_szSkinVMTName, &pSkinVMTKeyValues ); 
 
 	if (!bVMTExists)
@@ -138,7 +138,7 @@ void CCSClothingVisualsDataProcessor::SetVisualsData( const char *pCompositingSh
 //Generates keyvalues for the generated material to save
 KeyValues *CCSClothingVisualsDataProcessor::GenerateCustomMaterialKeyValues()
 {
-	KeyValues *pOrigVMTKeyValues = NULL;
+	KeyValues *pOrigVMTKeyValues = nullptr;
 	bool bVMTExists = materials->GetCustomMaterialManager()->GetVMTKeyValues( m_visualsData.m_szOrigVMTName, &pOrigVMTKeyValues ); 
 
 	if (!bVMTExists)
@@ -163,7 +163,7 @@ KeyValues *CCSClothingVisualsDataProcessor::GenerateCustomMaterialKeyValues()
 //Generates keyvalues for the composite material
 KeyValues *CCSClothingVisualsDataProcessor::GenerateCompositeMaterialKeyValues( int nMaterialParamId )
 {
-	KeyValues *pOrigVMTKeyValues = NULL;
+	KeyValues *pOrigVMTKeyValues = nullptr;
 	bool bVMTExists = materials->GetCustomMaterialManager()->GetVMTKeyValues( m_visualsData.m_szOrigVMTName, &pOrigVMTKeyValues ); 
 
 	if (!bVMTExists)
@@ -173,10 +173,10 @@ KeyValues *CCSClothingVisualsDataProcessor::GenerateCompositeMaterialKeyValues( 
 #else
 		DevWarning( "Warning! Couldn't load VMT keyvalues: %s\n", m_visualsData.m_szOrigVMTName );
 #endif
-		return NULL;
+		return nullptr;
 	}
 
-	KeyValues *pSkinVMTKeyValues = NULL;
+	KeyValues *pSkinVMTKeyValues = nullptr;
 	bVMTExists = materials->GetCustomMaterialManager()->GetVMTKeyValues(  m_visualsData.m_szSkinVMTName, &pSkinVMTKeyValues );
 
 	if (!bVMTExists)
@@ -186,7 +186,7 @@ KeyValues *CCSClothingVisualsDataProcessor::GenerateCompositeMaterialKeyValues( 
 #else
 		DevWarning( "Warning! Couldn't load VMT keyvalues: %s\n", m_visualsData.m_szSkinVMTName );
 #endif
-		return NULL;
+		return nullptr;
 	}
 
 	if ( nMaterialParamId == MATERIAL_PARAM_ID_BUMP_MAP )

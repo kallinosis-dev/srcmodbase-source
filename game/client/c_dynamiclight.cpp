@@ -75,7 +75,7 @@ END_RECV_TABLE()
 //------------------------------------------------------------------------------
 // Purpose :
 //------------------------------------------------------------------------------
-C_DynamicLight::C_DynamicLight(void) : m_pSpotlightEnd(0), m_pDynamicLight(0)
+C_DynamicLight::C_DynamicLight(void) : m_pSpotlightEnd(nullptr), m_pDynamicLight(nullptr)
 {
 }
 
@@ -110,13 +110,13 @@ void C_DynamicLight::Release()
 	if (m_pDynamicLight)
 	{
 		m_pDynamicLight->die = gpGlobals->curtime;
-		m_pDynamicLight = 0;
+		m_pDynamicLight = nullptr;
 	}
 	
 	if (m_pSpotlightEnd)
 	{
 		m_pSpotlightEnd->die = gpGlobals->curtime;
-		m_pSpotlightEnd = 0;
+		m_pSpotlightEnd = nullptr;
 	}
 
 	BaseClass::Release();
@@ -169,7 +169,7 @@ void C_DynamicLight::ClientThink(void)
 		if (m_pDynamicLight)
 		{
 			m_pDynamicLight->die = gpGlobals->curtime;
-			m_pDynamicLight = 0;
+			m_pDynamicLight = nullptr;
 		}
 	}
 	
@@ -193,14 +193,14 @@ void C_DynamicLight::ClientThink(void)
 
 		trace_t		pm;
 		C_BaseEntity::PushEnableAbsRecomputations( false );	 // HACK don't recompute positions while doing RayTrace
-		UTIL_TraceLine( GetAbsOrigin(), end, MASK_NPCWORLDSTATIC, NULL, COLLISION_GROUP_NONE, &pm );
+		UTIL_TraceLine( GetAbsOrigin(), end, MASK_NPCWORLDSTATIC, nullptr, COLLISION_GROUP_NONE, &pm );
 		C_BaseEntity::PopEnableAbsRecomputations();
 		VectorCopy( pm.endpos, m_pSpotlightEnd->origin );
 		
 		if (pm.fraction == 1.0f)
 		{
 			m_pSpotlightEnd->die = gpGlobals->curtime;
-			m_pSpotlightEnd = 0;
+			m_pSpotlightEnd = nullptr;
 		}
 		else
 		{
@@ -230,7 +230,7 @@ void C_DynamicLight::ClientThink(void)
 		if (m_pSpotlightEnd)
 		{
 			m_pSpotlightEnd->die = gpGlobals->curtime;
-			m_pSpotlightEnd = 0;
+			m_pSpotlightEnd = nullptr;
 		}
 	}
 

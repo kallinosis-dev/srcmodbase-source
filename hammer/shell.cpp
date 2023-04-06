@@ -59,7 +59,7 @@ ShellDispatchTable_t CShell::m_DispatchTable[] =
 //-----------------------------------------------------------------------------
 CShell::CShell(void)
 {
-	m_pDoc = NULL;
+	m_pDoc = nullptr;
 }
 
 
@@ -79,7 +79,7 @@ CShell::~CShell(void)
 //-----------------------------------------------------------------------------
 bool CShell::BeginSession(const char *pszCommand, const char *pszArguments)
 {
-	if ((m_pDoc != NULL) && !m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && !m_pDoc->IsShellSessionActive())
 	{
 		if (DoVersionCheck(pszArguments))
 		{
@@ -102,7 +102,7 @@ bool CShell::BeginSession(const char *pszCommand, const char *pszArguments)
 //-----------------------------------------------------------------------------
 bool CShell::CheckMapVersion(const char *pszCommand, const char *pszArguments)
 {
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		return(DoVersionCheck(pszArguments));
 	}
@@ -121,7 +121,7 @@ bool CShell::CheckMapVersion(const char *pszCommand, const char *pszArguments)
 //-----------------------------------------------------------------------------
 bool CShell::DoVersionCheck(const char *pszArguments)
 {
-	if (m_pDoc != NULL)
+	if (m_pDoc != nullptr)
 	{
 		char szEngineMapPath[MAX_PATH];
 		int nEngineMapVersion;
@@ -129,10 +129,10 @@ bool CShell::DoVersionCheck(const char *pszArguments)
 		if (sscanf(pszArguments, "%s %d", szEngineMapPath, &nEngineMapVersion) == 2)
 		{
 			char szEngineMapName[MAX_PATH];
-			_splitpath(szEngineMapPath, NULL, NULL, szEngineMapName, NULL);
+			_splitpath(szEngineMapPath, nullptr, nullptr, szEngineMapName, nullptr);
 
 			char szDocName[MAX_PATH];
-			_splitpath(m_pDoc->GetPathName(), NULL, NULL, szDocName, NULL);
+			_splitpath(m_pDoc->GetPathName(), nullptr, nullptr, szDocName, nullptr);
 
 			int nDocVersion = m_pDoc->GetDocVersion();
 
@@ -157,7 +157,7 @@ bool CShell::DoVersionCheck(const char *pszArguments)
 //-----------------------------------------------------------------------------
 bool CShell::EndSession(const char *pszCommand, const char *pszArguments)
 {
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		m_pDoc->EndShellSession();
 		return(true);
@@ -176,7 +176,7 @@ bool CShell::EndSession(const char *pszCommand, const char *pszArguments)
 //-----------------------------------------------------------------------------
 bool CShell::EntityCreate(const char *pszCommand, const char *pszArguments)
 {
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		float x;
 		float y;
@@ -185,7 +185,7 @@ bool CShell::EntityCreate(const char *pszCommand, const char *pszArguments)
 
 		if (sscanf(pszArguments, "%s %f %f %f", szClassName, &x, &y, &z) == 4)
 		{
-			bool bCreated = (m_pDoc->CreateEntity(szClassName, x, y, z) != NULL);
+			bool bCreated = (m_pDoc->CreateEntity(szClassName, x, y, z) != nullptr);
 			return(bCreated);
 		}
 	}
@@ -202,7 +202,7 @@ bool CShell::EntityCreate(const char *pszCommand, const char *pszArguments)
 //-----------------------------------------------------------------------------
 bool CShell::EntityDelete(const char *pszCommand, const char *pszArguments)
 {
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		float x;
 		float y;
@@ -230,7 +230,7 @@ static void RotateMapEntity( CMapEntity *pEntity, const QAngle &rotation )
 
 bool CShell::EntityRotateIncremental(const char *pszCommand, const char *pszArguments)
 {
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		const int NUM_ROTATE_INCREMENTAL_ARGS = 7;
 		float x;
@@ -244,7 +244,7 @@ bool CShell::EntityRotateIncremental(const char *pszCommand, const char *pszArgu
 		int arg = 0;
 		while ( pBuffer && arg < NUM_ROTATE_INCREMENTAL_ARGS )
 		{
-			pBuffer = ParseFile( pBuffer, token, NULL );
+			pBuffer = ParseFile( pBuffer, token, nullptr);
 			if ( pBuffer )
 			{
 				Q_strncpy( szArgs[arg], token, ARRAYSIZE(szArgs[arg]) );
@@ -257,7 +257,7 @@ bool CShell::EntityRotateIncremental(const char *pszCommand, const char *pszArgu
 			y = atof(szArgs[2]);
 			z = atof(szArgs[3]);
 			CMapEntity *pEntity = m_pDoc->FindEntity(szArgs[0], x, y, z);
-			if (pEntity != NULL)
+			if (pEntity != nullptr)
 			{
 				rotation.x = atof(szArgs[4]);
 				rotation.y = atof(szArgs[5]);
@@ -278,7 +278,7 @@ bool CShell::EntityRotateIncremental(const char *pszCommand, const char *pszArgu
 //-----------------------------------------------------------------------------
 bool CShell::EntitySetKeyValue(const char *pszCommand, const char *pszArguments)
 {
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		const int NUM_KEY_VALUE_ARGS = 6;
 		float x;
@@ -291,7 +291,7 @@ bool CShell::EntitySetKeyValue(const char *pszCommand, const char *pszArguments)
 		int arg = 0;
 		while ( pBuffer && arg < NUM_KEY_VALUE_ARGS )
 		{
-			pBuffer = ParseFile( pBuffer, token, NULL );
+			pBuffer = ParseFile( pBuffer, token, nullptr);
 			if ( pBuffer )
 			{
 				Q_strncpy( szArgs[arg], token, ARRAYSIZE(szArgs[arg]) );
@@ -304,7 +304,7 @@ bool CShell::EntitySetKeyValue(const char *pszCommand, const char *pszArguments)
 			y = atof(szArgs[2]);
 			z = atof(szArgs[3]);
 			CMapEntity *pEntity = m_pDoc->FindEntity(szArgs[0], x, y, z);
-			if (pEntity != NULL)
+			if (pEntity != nullptr)
 			{
 				if ( !Q_stricmp( szArgs[4], "origin" ) )
 				{
@@ -353,7 +353,7 @@ bool CShell::EntitySetKeyValue(const char *pszCommand, const char *pszArguments)
 //-----------------------------------------------------------------------------
 bool CShell::NodeCreate(const char *pszCommand, const char *pszArguments)
 {
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		float x;
 		float y;
@@ -384,7 +384,7 @@ bool CShell::NodeDelete(const char *pszCommand, const char *pszArguments)
 {
 	bool bFound = false;
 
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		char szID[80];
 		if (sscanf(pszArguments, "%s", szID) == 1)
@@ -414,7 +414,7 @@ bool CShell::NodeDelete(const char *pszCommand, const char *pszArguments)
 //-----------------------------------------------------------------------------
 bool CShell::NodeLinkCreate(const char *pszCommand, const char *pszArguments)
 {
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		char szIDStart[80];
 		char szIDEnd[80];
@@ -426,7 +426,7 @@ bool CShell::NodeLinkCreate(const char *pszCommand, const char *pszArguments)
 			// start and end entities.
 			//
 			CMapEntity *pEntity = m_pDoc->CreateEntity("info_node_link", 0, 0, 0);
-			if (pEntity != NULL)
+			if (pEntity != nullptr)
 			{
 				pEntity->SetKeyValue("startnode", szIDStart);
 				pEntity->SetKeyValue("endnode", szIDEnd);
@@ -450,7 +450,7 @@ bool CShell::NodeLinkDelete(const char *pszCommand, const char *pszArguments)
 {
 	bool bFound = false;
 
-	if ((m_pDoc != NULL) && m_pDoc->IsShellSessionActive())
+	if ((m_pDoc != nullptr) && m_pDoc->IsShellSessionActive())
 	{
 		char szIDStart[80];
 		char szIDEnd[80];
@@ -469,7 +469,7 @@ bool CShell::NodeLinkDelete(const char *pszCommand, const char *pszArguments)
 
 					const char *pszNode1 = pEntity->GetKeyValue("startnode");
 					const char *pszNode2 = pEntity->GetKeyValue("endnode");
-					if ((pszNode1 != NULL) && (pszNode2 != NULL))
+					if ((pszNode1 != nullptr) && (pszNode2 != nullptr))
 					{
 						if (((!stricmp(pszNode1, szIDStart)) && (!stricmp(pszNode2, szIDEnd))) ||
 							((!stricmp(pszNode1, szIDEnd)) && (!stricmp(pszNode2, szIDStart))))

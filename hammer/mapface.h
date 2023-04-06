@@ -233,7 +233,7 @@ public:
 	int SerializeRMF(std::fstream&, BOOL);
 	int SerializeMAP(std::fstream&, BOOL);
 
-	BOOL CheckFace(CCheckFaceInfo* = NULL);
+	BOOL CheckFace(CCheckFaceInfo* = nullptr);
 	BOOL Fix(void);
 
 	float GetNormalDistance(Vector& fPoint);
@@ -596,7 +596,7 @@ int CMapFaceList::FindFaceID(int nFaceID)
 {
 	for (int i = 0; i < Count(); i++)
 	{
-		if ((Element(i) != NULL) && (Element(i)->GetFaceID() == nFaceID))
+		if ((Element(i) != nullptr) && (Element(i)->GetFaceID() == nFaceID))
 		{
 			return(i);
 		}

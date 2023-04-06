@@ -36,7 +36,7 @@ namespace GCSDK
 //------------------------------------------------------------------------------------
 CSQLAccess::CSQLAccess( ESchemaCatalog eSchemaCatalog )
 	: m_eSchemaCatalog( eSchemaCatalog)
-	, m_pCurrentQuery( NULL )
+	, m_pCurrentQuery(nullptr)
 	, m_bInTransaction( false )
 {
 	m_pQueryGroup = CGCSQLQueryGroup::Alloc();
@@ -60,7 +60,7 @@ CSQLAccess::~CSQLAccess( )
 //------------------------------------------------------------------------------------
 bool CSQLAccess::BYieldingExecute( const char *pchName, const char *pchSQLCommand, uint32 *pcRowsAffected, bool bSpewOnError )
 {
-	if ( NULL == pchName )
+	if (nullptr == pchName )
 	{
 		pchName = pchSQLCommand;
 	}
@@ -73,7 +73,7 @@ bool CSQLAccess::BYieldingExecute( const char *pchName, const char *pchSQLComman
 
 	CurrentQuery()->SetCommand( pchSQLCommand );
 	m_pQueryGroup->AddQuery( m_pCurrentQuery );
-	m_pCurrentQuery = NULL;
+	m_pCurrentQuery = nullptr;
 
 	bool bSuccess = true;
 	if( bStandalone )
@@ -381,7 +381,7 @@ void CSQLAccess::ClearParams()
 	if( m_pCurrentQuery )
 	{
 		delete m_pCurrentQuery;
-		m_pCurrentQuery = NULL;
+		m_pCurrentQuery = nullptr;
 	}
 }
 

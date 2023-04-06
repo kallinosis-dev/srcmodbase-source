@@ -78,7 +78,7 @@ void IVP_Object_Attach::attach_object( IVP_Real_Object *parent, IVP_Real_Object 
     }
 
     // position object
-    reposition_object_Ros( NULL, attached_object, &q_world_f_object,  &shift_world_f_object, IVP_FALSE);
+    reposition_object_Ros(nullptr, attached_object, &q_world_f_object,  &shift_world_f_object, IVP_FALSE);
 
     // now update radius
 
@@ -123,7 +123,7 @@ void IVP_Object_Attach::detach_object( IVP_Real_Object *attached_object, IVP_Tem
     {  // get rid of old core
 		int n_objs = old_core->objects.len();
 			old_core->unlink_obj_from_core_and_maybe_destroy(attached_object);
-		if (n_objs <= 1) old_core = 0; // mark core as deleted
+		if (n_objs <= 1) old_core = nullptr; // mark core as deleted
 		if (old_core) {
 			old_core->values_changed_recalc_redundants();
 		}
@@ -167,7 +167,7 @@ void IVP_Object_Attach::detach_object( IVP_Real_Object *attached_object, IVP_Tem
 	    IVP_Event_Sim es(env, delta_time_till_next_PSI);
 	    IVP_Calc_Next_PSI_Solver nps(my_core);
 	    nps.calc_next_PSI_matrix(&es, &active_hull_managers);
-	    my_core->tmp_null.old_sync_info=NULL;
+	    my_core->tmp_null.old_sync_info= nullptr;
    	    IVP_Calc_Next_PSI_Solver::commit_all_hull_managers( env,  &active_hull_managers);
 	    attached_object->recalc_exact_mindists_of_object();
 	    attached_object->update_exact_mindist_events_of_object();

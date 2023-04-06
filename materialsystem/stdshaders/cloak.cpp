@@ -103,7 +103,7 @@ BEGIN_VS_SHADER( Cloak_DX90, "Help for Cloak" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

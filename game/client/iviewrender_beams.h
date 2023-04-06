@@ -95,8 +95,8 @@ struct BeamInfo_t
 	{ 
 		m_nType = TE_BEAMPOINTS;
 		m_nSegments = -1;
-		m_pszModelName = NULL;
-		m_pszHaloName = NULL;
+		m_pszModelName = nullptr;
+		m_pszHaloName = nullptr;
 		m_nModelIndex = -1;
 		m_nHaloIndex = -1;
 		m_bRenderable = true;
@@ -118,7 +118,7 @@ public:
 	// Updates the state of the temp ent beams
 	virtual void	UpdateTempEntBeams() = 0;
 
-	virtual void	DrawBeam( C_Beam* pbeam, const RenderableInstance_t &instance, ITraceFilter *pEntityBeamTraceFilter = NULL ) = 0;
+	virtual void	DrawBeam( C_Beam* pbeam, const RenderableInstance_t &instance, ITraceFilter *pEntityBeamTraceFilter = nullptr) = 0;
 	virtual void	DrawBeam( Beam_t *pbeam ) = 0;
 
 	virtual void	KillDeadBeams( CBaseEntity *pEnt ) = 0;

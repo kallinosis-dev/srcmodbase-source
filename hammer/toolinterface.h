@@ -106,7 +106,7 @@ public:
 
 	virtual ToolID_t GetToolID(void) { return TOOL_NONE; }
 
-	virtual const char* GetVMFChunkName() { return NULL; }
+	virtual const char* GetVMFChunkName() { return nullptr; }
 	virtual ChunkFileResult_t LoadVMF(CChunkFile *pFile) { return (ChunkFileResult_t)0; /*ChunkFile_Ok*/ }
 	virtual ChunkFileResult_t SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo) { return (ChunkFileResult_t)0 ; /*ChunkFile_Ok*/ }
 	//
@@ -180,7 +180,7 @@ CBaseTool::CBaseTool()
 {
 	m_bEmpty = true;
 	m_bActiveTool = false;
-	m_pDocument = NULL;
+	m_pDocument = nullptr;
 }
 
 #endif // TOOLINTERFACE_H

@@ -21,7 +21,7 @@ class CReplaceTexDlg : public CDialog
 {
 // Construction
 public:
-	CReplaceTexDlg(int, CWnd* pParent = NULL);   // standard constructor
+	CReplaceTexDlg(int, CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CReplaceTexDlg)

@@ -299,7 +299,7 @@ int CreateClippedPoly(CMapFace *pFace, IEditorTexture *pDecalTex, Vector& org, v
 
 	Vector textureSpaceBasis[3];
 	
-	R_DecalComputeBasis( pFace->plane.normal, NULL,
+	R_DecalComputeBasis( pFace->plane.normal, nullptr,
 						 false, textureSpaceBasis );
 
 	float u = DotProduct(textureSpaceBasis[0], org);

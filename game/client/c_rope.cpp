@@ -117,7 +117,7 @@ static ConVar rope_solid_maxalpha( "rope_solid_maxalpha", "1" );
 
 static int			g_nRopePointsSimulated;
 
-static IMaterial *g_pSplineCableShadowdepth = NULL;
+static IMaterial *g_pSplineCableShadowdepth = nullptr;
 // Active ropes.
 CUtlLinkedList<C_RopeKeyframe*, int> g_Ropes;
 
@@ -182,7 +182,7 @@ private:
 		RopeRenderData_t *pCaches;
 		int iCacheCount;
 		CThreadFastMutex *m_pRopeDataMutex;
-		RopeQueuedRenderCache_t( void ) : pCaches(NULL), iCacheCount(0) { };
+		RopeQueuedRenderCache_t( void ) : pCaches(nullptr), iCacheCount(0) { };
 	};
 
 	void DrawRenderCache_NonQueued( bool bShadowDepth, RopeRenderData_t *pRenderCache, int nRenderCacheCount, const Vector &vCurrentViewForward, const Vector &vCurrentViewOrigin, C_RopeKeyframe::BuildRopeQueuedData_t *pBuildRopeQueuedData, CThreadFastMutex *pRopeDataMutex );
@@ -212,7 +212,7 @@ IRopeManager *RopeManager()
 CRopeManager::CRopeManager()
 {
 	m_aRenderCache.Purge();
-	m_pDepthWriteMaterial = NULL;
+	m_pDepthWriteMaterial = nullptr;
 	m_bDrawHolidayLights = false;
 	m_bHolidayInitialized = false;
 }
@@ -303,7 +303,7 @@ void CRopeManager::DrawRenderCache_NonQueued( bool bShadowDepth, RopeRenderData_
 	VPROF_BUDGET( "CRopeManager::DrawRenderCache", VPROF_BUDGETGROUP_ROPES );
 	
 	CThreadFastMutex dummyMutex;
-	if( pRopeDataMutex == NULL )
+	if( pRopeDataMutex == nullptr)
 		pRopeDataMutex = &dummyMutex;
 
 	if ( bShadowDepth && !m_pDepthWriteMaterial && g_pMaterialSystem )
@@ -589,7 +589,7 @@ void CRopeManager::DrawRenderCache( IMatRenderContext *pRenderContext, bool bSha
 	Vector vOrigin = CurrentViewOrigin();
 
 	ICallQueue *pCallQueue;
-	if( r_queued_ropes.GetBool() && (pCallQueue = pRenderContext->GetCallQueue()) != NULL )
+	if( r_queued_ropes.GetBool() && (pCallQueue = pRenderContext->GetCallQueue()) != nullptr)
 	{
 		//material queue available and desired
 		CRopeManager::RopeRenderData_t *pRenderCache = m_aRenderCache.Base();
@@ -646,7 +646,7 @@ void CRopeManager::DrawRenderCache( IMatRenderContext *pRenderContext, bool bSha
 			for( int j = 0; j != iCacheCount; ++j )
 			{
 				C_RopeKeyframe *pRope = pReadCache->m_aCache[j];
-				if( pRope == NULL )
+				if( pRope == nullptr)
 					continue;
 
 				pWriteCache->m_aCache[pWriteCache->m_nCacheCount] = pRope;
@@ -690,7 +690,7 @@ void CRopeManager::DrawRenderCache( IMatRenderContext *pRenderContext, bool bSha
 	}
 	else
 	{
-		DrawRenderCache_NonQueued( bShadowDepth, m_aRenderCache.Base(), iRenderCacheCount, vForward, vOrigin, NULL, NULL );
+		DrawRenderCache_NonQueued( bShadowDepth, m_aRenderCache.Base(), iRenderCacheCount, vForward, vOrigin, nullptr, nullptr);
 	}
 }
 
@@ -723,7 +723,7 @@ void CRopeManager::RemoveRopeFromQueuedRenderCaches( C_RopeKeyframe *pRope )
 				if( pCache->m_aCache[j] == pRope )
 				{
 					RenderCacheData.m_pRopeDataMutex->Lock();
-					pCache->m_aCache[j] = NULL;
+					pCache->m_aCache[j] = nullptr;
 					RenderCacheData.m_pRopeDataMutex->Unlock();
 				}
 			}
@@ -936,7 +936,7 @@ C_RopeKeyframe::C_RopeKeyframe()
 	m_bEndPointAttachmentPositionsDirty = true;
 	m_bEndPointAttachmentAnglesDirty = true;
 	m_PhysicsDelegate.m_pKeyframe = this;
-	m_pMaterial = NULL;
+	m_pMaterial = nullptr;
 	m_bPhysicsInitted = false;
 	m_RopeFlags = 0;
 	m_TextureHeight = 1;
@@ -983,7 +983,7 @@ C_RopeKeyframe* C_RopeKeyframe::Create(
 {
 	C_RopeKeyframe *pRope = new C_RopeKeyframe;
 
-	pRope->InitializeAsClientEntity( NULL, false );
+	pRope->InitializeAsClientEntity(nullptr, false );
 	
 	if ( pStartEnt )
 	{
@@ -1748,8 +1748,8 @@ bool C_RopeKeyframe::GetEndPointPos( int iPt, Vector &vPos )
 	// By caching the results here, we avoid doing this a bunch of times per frame.
 	if ( m_bEndPointAttachmentPositionsDirty )
 	{
-		CalculateEndPointAttachment( m_hStartPoint, m_iStartAttachment, m_vCachedEndPointAttachmentPos[0], NULL );
-		CalculateEndPointAttachment( m_hEndPoint, m_iEndAttachment, m_vCachedEndPointAttachmentPos[1], NULL );
+		CalculateEndPointAttachment( m_hStartPoint, m_iStartAttachment, m_vCachedEndPointAttachmentPos[0], nullptr);
+		CalculateEndPointAttachment( m_hEndPoint, m_iEndAttachment, m_vCachedEndPointAttachmentPos[1], nullptr);
 		m_bEndPointAttachmentPositionsDirty = false;
 	}
 
@@ -1799,7 +1799,7 @@ void C_RopeKeyframe::CalcLightValues()
 	for( int i=0; i < m_RopePhysics.NumNodes(); i++ )
 	{
 		const Vector &vPos = m_RopePhysics.GetNode(i)->m_vPredicted;
-		engine->ComputeLighting( vPos, NULL, true, m_LightValues[i], boxColors );
+		engine->ComputeLighting( vPos, nullptr, true, m_LightValues[i], boxColors );
 
 		if ( !rope_averagelight.GetInt() )
 		{

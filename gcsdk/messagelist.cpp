@@ -23,7 +23,7 @@ namespace GCSDK
 class CMessageListRegistration
 {
 public:
-	CMessageListRegistration( MsgInfo_t *pMsgInfo, int cMsgInfo, void *pExtra = NULL );
+	CMessageListRegistration( MsgInfo_t *pMsgInfo, int cMsgInfo, void *pExtra = nullptr);
 
 	static CMessageListRegistration *sm_pFirst;
 	CMessageListRegistration *m_pNext;
@@ -50,7 +50,7 @@ CMessageListRegistration::CMessageListRegistration( MsgInfo_t *pMsgInfo, int cMs
 	sm_pFirst = this;
 }
 
-CMessageListRegistration *CMessageListRegistration::sm_pFirst = NULL;
+CMessageListRegistration *CMessageListRegistration::sm_pFirst = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns the name of a message type
@@ -110,7 +110,7 @@ bool CMessageList::BInit(  )
 
 	// figure out our message count
 	int cMessageInfos = 0;
-	for( CMessageListRegistration *pReg = CMessageListRegistration::sm_pFirst; pReg != NULL; pReg = pReg->m_pNext)
+	for( CMessageListRegistration *pReg = CMessageListRegistration::sm_pFirst; pReg != nullptr; pReg = pReg->m_pNext)
 	{
 		cMessageInfos += pReg->m_cMsgInfo;
 	}
@@ -123,7 +123,7 @@ bool CMessageList::BInit(  )
 	m_vecMessageInfoBuckets.RemoveAll();
 
 	int nIndex = 0;
-	for( CMessageListRegistration *pReg = CMessageListRegistration::sm_pFirst; pReg != NULL; pReg = pReg->m_pNext)
+	for( CMessageListRegistration *pReg = CMessageListRegistration::sm_pFirst; pReg != nullptr; pReg = pReg->m_pNext)
 	{
 		for ( int nRegIndex = 0; nRegIndex < pReg->m_cMsgInfo; nRegIndex++ )
 		{
@@ -558,10 +558,10 @@ CMessageList::~CMessageList()
 	int nUsedBuckets = 0;
 	for ( int nIndex = 0; nIndex < m_vecMessageInfoBuckets.Count(); nIndex++ )
 	{
-		if ( m_vecMessageInfoBuckets[nIndex] != NULL )
+		if ( m_vecMessageInfoBuckets[nIndex] != nullptr)
 		{
 			FreePv( m_vecMessageInfoBuckets[nIndex] );
-			m_vecMessageInfoBuckets[nIndex] = NULL;
+			m_vecMessageInfoBuckets[nIndex] = nullptr;
 			nUsedBuckets++;
 		}
 	}
@@ -589,12 +589,12 @@ void CMessageList::AssureBucket( int nBucket )
 		// initialize the new ones to NULL
 		for ( int nIndex = nOldCount; nIndex < nNewCount; nIndex++ )
 		{
-			m_vecMessageInfoBuckets[nIndex] = NULL;
+			m_vecMessageInfoBuckets[nIndex] = nullptr;
 		}
 	}
 
 	// is the bucket we want allocated?
-	if ( m_vecMessageInfoBuckets[nBucket] == NULL )
+	if ( m_vecMessageInfoBuckets[nBucket] == nullptr)
 	{
 		// nope; get one and initialize it
 		m_vecMessageInfoBuckets[nBucket] = (short*) PvAlloc( sizeof(short) * m_kcBucketSize );
@@ -621,7 +621,7 @@ short CMessageList::GetMessageIndex( MsgType_t eMsg )
 		return -1;
 
 	// not a bucket?
-	if ( m_vecMessageInfoBuckets[nBucket] == NULL )
+	if ( m_vecMessageInfoBuckets[nBucket] == nullptr)
 		return -1;
 
 	// get the index back to the global array
@@ -643,7 +643,7 @@ bool CMessageList::GetMessage( MsgType_t eMsg, const char **ppMsgName, int nType
 
 	// if an out variable for the name is provided,
 	// initialize it with a pointer to "unknown" string
-	if ( ppMsgName != NULL )
+	if ( ppMsgName != nullptr)
 		*ppMsgName = k_rgchUnknown;
 
 	short nIndex = GetMessageIndex( eMsg );
@@ -651,7 +651,7 @@ bool CMessageList::GetMessage( MsgType_t eMsg, const char **ppMsgName, int nType
 	// good index?
 	if ( nIndex == -1 )
 	{
-		if ( ppMsgName != NULL )
+		if ( ppMsgName != nullptr)
 		{
 			*ppMsgName = "Unknown MsgType - Not Found";
 		}
@@ -661,7 +661,7 @@ bool CMessageList::GetMessage( MsgType_t eMsg, const char **ppMsgName, int nType
 	const MsgInfo_t &msgInfo = m_vecMsgInfo[nIndex];
 
 	// get the string out
-	if ( ppMsgName != NULL )
+	if ( ppMsgName != nullptr)
 		*ppMsgName = msgInfo.pchMsgName;
 
 	// it's good if it matches the flags

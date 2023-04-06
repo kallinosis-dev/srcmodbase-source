@@ -131,7 +131,7 @@ void CGunTarget::Activate( void )
 	{
 		m_hTargetEnt = pTarg;
 		Vector nextPos = pTarg->GetAbsOrigin();
-		Teleport( &nextPos, NULL, NULL );
+		Teleport( &nextPos, nullptr, nullptr);
 	}
 }
 
@@ -141,7 +141,7 @@ void CGunTarget::Start( void )
 	m_takedamage = DAMAGE_YES;
 	AddFlag( FL_AIMTARGET );
 	m_hTargetEnt = GetNextTarget();
-	if ( m_hTargetEnt == NULL )
+	if ( m_hTargetEnt == nullptr)
 		return;
 	m_iHealth = m_iMaxHealth;
 	Next();

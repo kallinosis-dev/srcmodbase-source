@@ -252,7 +252,7 @@ bool CMatchTitle::StartServerMap( KeyValues *pSettings )
 	numPlayers = XBX_GetNumGameUsers();
 #endif
 
-	char const *szMap = pSettings->GetString( "game/map", NULL );
+	char const *szMap = pSettings->GetString( "game/map", nullptr);
 	if ( !szMap )
 		return false;
 
@@ -282,7 +282,7 @@ bool CMatchTitle::StartServerMap( KeyValues *pSettings )
 static KeyValues * GetCurrentMatchSessionSettings()
 {
 	IMatchSession *pIMatchSession = g_pMatchFramework->GetMatchSession();
-	return pIMatchSession ? pIMatchSession->GetSessionSettings() : NULL;
+	return pIMatchSession ? pIMatchSession->GetSessionSettings() : nullptr;
 }
 
 //
@@ -301,7 +301,7 @@ void CMatchTitle::OnEvent( KeyValues *pEvent )
 	if ( !Q_stricmp( "OnPlayerRemoved", szEvent ) ||
 		 !Q_stricmp( "OnPlayerUpdated", szEvent ) )
 	{
-		MM_Title_RichPresence_Update( GetCurrentMatchSessionSettings(), NULL );
+		MM_Title_RichPresence_Update( GetCurrentMatchSessionSettings(), nullptr);
 	}
 	else if ( !Q_stricmp( "OnPlayerMachinesConnected", szEvent ) ||
 		!Q_stricmp( "OnPlayerMachinesDisconnected", szEvent ) )
@@ -330,7 +330,7 @@ void CMatchTitle::OnEvent( KeyValues *pEvent )
 		else if ( !Q_stricmp( pEvent->GetString( "state" ), "created" ) ||
 				  !Q_stricmp( pEvent->GetString( "state" ), "ready" ) )
 		{
-			MM_Title_RichPresence_Update( GetCurrentMatchSessionSettings(), NULL );
+			MM_Title_RichPresence_Update( GetCurrentMatchSessionSettings(), nullptr);
 			if ( IMatchSession *pSession = g_pMatchFramework->GetMatchSession() )
 			{
 				if ( !Q_stricmp( "training", pSession->GetSessionSettings()->GetString( "game/type" ) ) )
@@ -344,7 +344,7 @@ void CMatchTitle::OnEvent( KeyValues *pEvent )
 				g_bPlayingTrainingMap = false;
 				g_pMatchExtensions->GetIVEngineClient()->ClientCmd_Unrestricted( CFmtStr( "host_writeconfig_ss %d", XBX_GetPrimaryUserId() ) );
 			}
-			MM_Title_RichPresence_Update( NULL, NULL );
+			MM_Title_RichPresence_Update(nullptr, nullptr);
 		}
 	}
 	else if ( !Q_stricmp( szEvent, "Client::CmdKeyValues" ) )
@@ -371,16 +371,16 @@ void CMatchTitle::OnEvent( KeyValues *pEvent )
 			iNewState >= SIGNONSTATE_FULL )
 			)
 		{
-			MM_Title_RichPresence_Update( NULL, NULL );
+			MM_Title_RichPresence_Update(nullptr, nullptr);
 		}
 	}
 	else if ( !Q_stricmp( "OnEngineDisconnectReason", szEvent ) )
 	{
-		MM_Title_RichPresence_Update( NULL, NULL );
+		MM_Title_RichPresence_Update(nullptr, nullptr);
 	}
 	else if ( !Q_stricmp( "OnEngineEndGame", szEvent ) )
 	{
-		MM_Title_RichPresence_Update( NULL, NULL );
+		MM_Title_RichPresence_Update(nullptr, nullptr);
 	}
 }
 
@@ -406,7 +406,7 @@ void CMatchTitle::FireGameEvent( IGameEvent *pIGameEvent )
 		!Q_stricmp( "player_connect", szGameEvent ) ||
 		!Q_stricmp( "player_disconnect", szGameEvent ) )
 	{	// Update rich presence
-		MM_Title_RichPresence_Update( NULL, NULL );
+		MM_Title_RichPresence_Update(nullptr, nullptr);
 	}
 
 	// Check if the current match session is on an active game server
@@ -421,7 +421,7 @@ void CMatchTitle::FireGameEvent( IGameEvent *pIGameEvent )
 		return;
 
 	// Also don't run on the client when there's a host
-	char const *szSessionType = pMatchSession->GetSessionSystemData()->GetString( "type", NULL );
+	char const *szSessionType = pMatchSession->GetSessionSystemData()->GetString( "type", nullptr);
 	if ( szSessionType && !Q_stricmp( szSessionType, "client" ) )
 		return;
 

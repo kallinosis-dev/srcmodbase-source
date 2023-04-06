@@ -19,10 +19,10 @@
 
 gmFunctionObject::gmFunctionObject()
 {
-  m_cFunction = NULL;
-  m_cUserData = NULL;
-  m_debugInfo = NULL;
-  m_byteCode = NULL;
+  m_cFunction = nullptr;
+  m_cUserData = nullptr;
+  m_debugInfo = nullptr;
+  m_byteCode = nullptr;
   m_byteCodeLength = 0;
   m_maxStackSize = 1; // return value
   m_numLocals = 0;
@@ -42,7 +42,7 @@ void gmFunctionObject::Destruct(gmMachine * a_machine)
   if(m_byteCode)
   {
     a_machine->Sys_Free(m_byteCode);
-    m_byteCode = NULL;
+    m_byteCode = nullptr;
   }
   if(m_debugInfo)
   {
@@ -58,7 +58,7 @@ void gmFunctionObject::Destruct(gmMachine * a_machine)
       a_machine->Sys_Free(m_debugInfo->m_symbols);
     }
     a_machine->Sys_Free(m_debugInfo);
-    m_debugInfo = NULL;
+    m_debugInfo = nullptr;
   }
 
 #if GM_USE_INCGC
@@ -109,7 +109,7 @@ bool gmFunctionObject::Init(gmMachine * a_machine, bool a_debug, gmFunctionInfo 
   }
   else
   {
-    m_byteCode = NULL;
+    m_byteCode = nullptr;
     m_byteCodeLength = 0;
   }
 
@@ -190,7 +190,7 @@ bool gmFunctionObject::Init(gmMachine * a_machine, bool a_debug, gmFunctionInfo 
   }
   
   // debug info
-  m_debugInfo = NULL;
+  m_debugInfo = nullptr;
   if(a_debug)
   {
     m_debugInfo = (gmFunctionObjectDebugInfo *) a_machine->Sys_Alloc(sizeof(gmFunctionObjectDebugInfo));
@@ -270,7 +270,7 @@ const void * gmFunctionObject::GetInstructionAtLine(int a_line) const
       }
     }
   }
-  return NULL;
+  return nullptr;
 }
 
 

@@ -39,7 +39,7 @@ int CFuncLadder::GetLadderCount()
 CFuncLadder *CFuncLadder::GetLadder( int index )
 {
 	if ( index < 0 || index >= s_Ladders.Count() )
-		return NULL;
+		return nullptr;
 
 	return s_Ladders[ index ];
 }
@@ -73,9 +73,9 @@ void CFuncLadder::Spawn()
 #if !defined( CLIENT_DLL )
 	trace_t bottomtrace, toptrace;
 	UTIL_TraceHull( m_vecPlayerMountPositionBottom, m_vecPlayerMountPositionBottom, 
-		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, NULL, COLLISION_GROUP_PLAYER_MOVEMENT, &bottomtrace );
+		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, &bottomtrace );
 	UTIL_TraceHull( m_vecPlayerMountPositionTop, m_vecPlayerMountPositionTop, 
-		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, NULL, COLLISION_GROUP_PLAYER_MOVEMENT, &toptrace );
+		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, &toptrace );
 
 	if ( bottomtrace.startsolid || toptrace.startsolid )
 	{
@@ -223,7 +223,7 @@ void CFuncLadder::SetEndPoints( const Vector& p1, const Vector& p2 )
 
 	trace_t result;
 	UTIL_TraceHull( m_vecPlayerMountPositionTop + Vector( 0, 0, 4 ), m_vecPlayerMountPositionTop, 
-		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, NULL, COLLISION_GROUP_PLAYER_MOVEMENT, &result );
+		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, &result );
 
 	if ( !result.startsolid )
 	{
@@ -231,7 +231,7 @@ void CFuncLadder::SetEndPoints( const Vector& p1, const Vector& p2 )
 	}
 
 	UTIL_TraceHull( m_vecPlayerMountPositionBottom + Vector( 0, 0, 4 ), m_vecPlayerMountPositionBottom, 
-		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, NULL, COLLISION_GROUP_PLAYER_MOVEMENT, &result );
+		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, &result );
 
 	if ( !result.startsolid )
 	{
@@ -265,7 +265,7 @@ void CFuncLadder::DrawDebugGeometryOverlays()
 
 	trace_t bottomtrace;
 	UTIL_TraceHull( m_vecPlayerMountPositionBottom, m_vecPlayerMountPositionBottom, 
-		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, NULL, COLLISION_GROUP_PLAYER_MOVEMENT, &bottomtrace );
+		playerMins, playerMaxs, MASK_PLAYERSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, &bottomtrace );
 
 	int c = m_Dismounts.Count();
 	for ( int i = 0 ; i < c ; i++ )
@@ -329,7 +329,7 @@ int CFuncLadder::GetDismountCount() const
 CInfoLadderDismount *CFuncLadder::GetDismount( int index )
 {
 	if ( index < 0 || index >= m_Dismounts.Count() )
-		return NULL;
+		return nullptr;
 	return m_Dismounts[ index ];
 }
 
@@ -342,8 +342,8 @@ CInfoLadderDismount *CFuncLadder::GetDismount( int index )
 void CFuncLadder::FindNearbyDismountPoints( const Vector& origin, float radius, CUtlVector< CInfoLadderDismountHandle >& list )
 {
 #if !defined( CLIENT_DLL )
-	CBaseEntity *pEntity = NULL;
-	while ( (pEntity = gEntList.FindEntityByClassnameWithin( pEntity, "info_ladder_dismount", origin, radius)) != NULL )
+	CBaseEntity *pEntity = nullptr;
+	while ( (pEntity = gEntList.FindEntityByClassnameWithin( pEntity, "info_ladder_dismount", origin, radius)) != nullptr)
 	{
 		CInfoLadderDismount *landingspot = static_cast< CInfoLadderDismount * >( pEntity );
 		Assert( landingspot );
@@ -421,7 +421,7 @@ bool CFuncLadder::DontGetOnLadder( void ) const
 const char *CFuncLadder::GetSurfacePropName()
 {
 	if ( !m_surfacePropName )
-		return NULL;
+		return nullptr;
 	return m_surfacePropName.ToCStr();
 }
 #endif

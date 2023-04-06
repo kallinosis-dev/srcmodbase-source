@@ -390,21 +390,21 @@ typedef struct STextureEntry
 
 static TTextureEntry szCustomHeroTextures[] =
 {
-	{ "$basetexture", NULL },
+	{ "$basetexture", nullptr},
 	{ "$normalmap", "models\\development\\flatnormal" },
 //	"$diffusewarp",
 	{ "$maskmap1", "models\\development\\blankmasks1" },
 	{ "$maskmap2", "models\\development\\blankmasks2" },
 
-	{ NULL, NULL }
+	{nullptr, nullptr}
 };
 
 static TTextureEntry szVertexLitGenericTextures[] =
 {
-	{ "$basetexture", NULL },
-	{ "$phongexponenttexture", NULL },
+	{ "$basetexture", nullptr},
+	{ "$phongexponenttexture", nullptr},
 
-	{ NULL, NULL }
+	{nullptr, nullptr}
 };
 
 typedef struct SMaterialToTexture
@@ -425,8 +425,8 @@ static const TMaterialToTexture MaterialToTexture[] =
 		szVertexLitGenericTextures
 	},
 	{
-		NULL,
-		NULL
+		nullptr,
+		nullptr
 	}
 };
 
@@ -437,13 +437,13 @@ static const char *pszFlatTextures[] =
 	"models\\development\\blankmasks1",
 	"models\\development\\blankmasks2",
 
-	NULL
+	nullptr
 };
 
 
 CTextureCombine::CTextureCombine( )
 {
-	Init( NULL );
+	Init(nullptr);
 }
 	
 
@@ -469,13 +469,13 @@ void CTextureCombine::Init( TCombinedStudioData *pCombinedStudioData )
 		memset( m_AtlasGroups[ nGroup ].m_pResources, 0, sizeof( m_AtlasGroups[ nGroup ].m_pResources ) );
 		memset( m_AtlasGroups[ nGroup ].m_bIsFlat, 0, sizeof( m_AtlasGroups[ nGroup ].m_bIsFlat ) );
 
-		m_AtlasGroups[ nGroup ].m_pCombinedMaterialKVs = NULL;
+		m_AtlasGroups[ nGroup ].m_pCombinedMaterialKVs = nullptr;
 
 		memset( m_AtlasGroups[ nGroup ].m_CombinedTextureMemory, 0, sizeof( m_AtlasGroups[ nGroup ].m_CombinedTextureMemory ) );
 		memset( m_AtlasGroups[ nGroup ].m_nCombinedTextureSize, 0, sizeof( m_AtlasGroups[ nGroup ].m_nCombinedTextureSize ) );
 		memset( m_AtlasGroups[ nGroup ].m_CombinedHeaders, 0, sizeof( m_AtlasGroups[ nGroup ].m_CombinedHeaders ) );
 
-		m_AtlasGroups[ nGroup ].m_pSimpleTexturePacker = NULL;
+		m_AtlasGroups[ nGroup ].m_pSimpleTexturePacker = nullptr;
 	}
 
 	if ( pCombinedStudioData )
@@ -493,7 +493,7 @@ void CTextureCombine::Cleanup( )
 		if ( m_pMaterialKVs[ nMaterial ] )
 		{
 			m_pMaterialKVs[ nMaterial ]->deleteThis();
-			m_pMaterialKVs[ nMaterial ] = NULL;
+			m_pMaterialKVs[ nMaterial ] = nullptr;
 		}
 	}
 
@@ -502,7 +502,7 @@ void CTextureCombine::Cleanup( )
 		for( int nMaterial = 0; nMaterial < m_nNumMaterials; nMaterial++ )
 		{
 			delete m_AtlasGroups[ nGroup ].m_pVTFData[ nMaterial ];
-			m_AtlasGroups[ nGroup ].m_pVTFData[ nMaterial ] = NULL;
+			m_AtlasGroups[ nGroup ].m_pVTFData[ nMaterial ] = nullptr;
 		}
 	}
 }
@@ -512,14 +512,14 @@ void CTextureCombine::FreeCombinedMaterials( )
 {
 	for ( int nGroup = 0; nGroup <= COMBINER_MAX_ATLAS_GROUPS; nGroup++ )
 	{
-		if ( m_AtlasGroups[ nGroup ].m_pCombinedMaterialKVs != NULL )
+		if ( m_AtlasGroups[ nGroup ].m_pCombinedMaterialKVs != nullptr)
 		{
 			m_AtlasGroups[ nGroup ].m_pCombinedMaterialKVs->deleteThis();
-			m_AtlasGroups[ nGroup ].m_pCombinedMaterialKVs = NULL;
+			m_AtlasGroups[ nGroup ].m_pCombinedMaterialKVs = nullptr;
 		}
 
 		delete m_AtlasGroups[ nGroup ].m_pSimpleTexturePacker;
-		m_AtlasGroups[ nGroup ].m_pSimpleTexturePacker = NULL;
+		m_AtlasGroups[ nGroup ].m_pSimpleTexturePacker = nullptr;
 	}
 }
 
@@ -541,7 +541,7 @@ int CTextureCombine::AddMaterial( const char *pszFileName )
 
 void CTextureCombine::AddNonAtlasedMaterial( int nMaterial )
 {
-	m_pCombinedStudioData->m_pNonAtlasedMaterialKVs[ m_pCombinedStudioData->m_nNumNonAtlasedMaterialBaseNames ] = ( m_pMaterialKVs[ nMaterial ] != NULL ) ? m_pMaterialKVs[ nMaterial ]->MakeCopy() : NULL;
+	m_pCombinedStudioData->m_pNonAtlasedMaterialKVs[ m_pCombinedStudioData->m_nNumNonAtlasedMaterialBaseNames ] = ( m_pMaterialKVs[ nMaterial ] != nullptr) ? m_pMaterialKVs[ nMaterial ]->MakeCopy() : nullptr;
 	V_FileBase(  m_szMaterials[ nMaterial ], m_pCombinedStudioData->m_szNonAtlasedMaterialBaseName[ m_pCombinedStudioData->m_nNumNonAtlasedMaterialBaseNames ], MAX_PATH );
 	m_pCombinedStudioData->m_nNumNonAtlasedMaterialBaseNames++;
 
@@ -587,7 +587,7 @@ void CTextureCombine::Resolve( )
 			m_nMaterialAtlasInfo[ nMaterial ][ ATLAS_INFO_MATERIAL_INDEX ] = m_pCombinedStudioData->m_nNumNonAtlasedMaterialBaseNames - 1;
 
 			m_pMaterialKVs[ nMaterial ]->deleteThis();
-			m_pMaterialKVs[ nMaterial ] = NULL;
+			m_pMaterialKVs[ nMaterial ] = nullptr;
 		}
 	}
 
@@ -623,7 +623,7 @@ void CTextureCombine::GatherAtlasInfo( )
 {
 	for( int nMaterial = 0; nMaterial < m_nNumMaterials; nMaterial++ )
 	{	
-		if ( m_pMaterialKVs[ nMaterial ] != NULL )
+		if ( m_pMaterialKVs[ nMaterial ] != nullptr)
 		{
 			// get the atlas index for each material (default it to just use index 0, one atlas for all)
 			int nAtlasGroup = m_pMaterialKVs[ nMaterial ]->GetInt( "$atlas_group", 0 );
@@ -656,7 +656,7 @@ void CTextureCombine::FindMaterialToTexture( )
 		// use the first material of the atlas group as the "master" for KV values and image format
 		const char *pszShaderName = m_pMaterialKVs[ m_AtlasGroups[ nAtlasGroup ].m_nMaterialIndices[ 0 ] ]->GetName();
 
-		for( m_nMaterialToTexture = 0; MaterialToTexture[ m_nMaterialToTexture ].m_pszMaterialName != NULL; m_nMaterialToTexture++ )
+		for( m_nMaterialToTexture = 0; MaterialToTexture[ m_nMaterialToTexture ].m_pszMaterialName != nullptr; m_nMaterialToTexture++ )
 		{
 			if ( strcmpi( pszShaderName, MaterialToTexture[ m_nMaterialToTexture ].m_pszMaterialName ) == 0 )
 			{
@@ -664,14 +664,14 @@ void CTextureCombine::FindMaterialToTexture( )
 			}
 		}
 
-		if ( MaterialToTexture[ m_nMaterialToTexture ].m_pszMaterialName == NULL )
+		if ( MaterialToTexture[ m_nMaterialToTexture ].m_pszMaterialName == nullptr)
 		{
 			Assert( 0 );
 			V_sprintf_safe( m_pCombinedStudioData->m_Results.m_szErrorMessage, "unsupported shader for texture combiner: %s", pszShaderName );
 			throw( COMBINE_RESULT_FLAG_UNSUPPORTED_SHADER );
 		}
 
-		for( int nTexture = 0; MaterialToTexture[ m_nMaterialToTexture ].m_pszTextureList[ nTexture ].m_pszTextureField != NULL; nTexture++ )
+		for( int nTexture = 0; MaterialToTexture[ m_nMaterialToTexture ].m_pszTextureList[ nTexture ].m_pszTextureField != nullptr; nTexture++ )
 		{
 			const char *pszTextureField = MaterialToTexture[ m_nMaterialToTexture ].m_pszTextureList[ nTexture ].m_pszTextureField;
 			const char *pszFlatReplacement = MaterialToTexture[ m_nMaterialToTexture ].m_pszTextureList[ nTexture ].m_pszFlatReplacement;
@@ -701,16 +701,16 @@ bool CTextureCombine::LoadVTFs( int nAtlasGroup, const char *pszTextureField, co
 {
 	for( int nMaterial = 0; nMaterial < m_AtlasGroups[ nAtlasGroup ].m_nNumMaterials; nMaterial++ )
 	{
-		const char *pszTexture = m_pMaterialKVs[ m_AtlasGroups[ nAtlasGroup ].m_nMaterialIndices[ nMaterial ] ]->GetString( pszTextureField, NULL );
+		const char *pszTexture = m_pMaterialKVs[ m_AtlasGroups[ nAtlasGroup ].m_nMaterialIndices[ nMaterial ] ]->GetString( pszTextureField, nullptr);
 
-		if ( pszTexture == NULL )
+		if ( pszTexture == nullptr)
 		{
 			if ( nMaterial == 0 )
 			{	// if not present on the primary material, then skip this texture option
 				return false;
 			}
 
-			if ( pszFlatReplacement != NULL )
+			if ( pszFlatReplacement != nullptr)
 			{
 				pszTexture = pszFlatReplacement;
 			}
@@ -835,7 +835,7 @@ bool CTextureCombine::CombineTexture( int nAtlasGroup, int nTexture, const char 
 			throw( COMBINE_RESULT_FLAG_UNHANDLED_ISSUE );
 		}
 
-		ResourceEntryInfo	*pImageResource = NULL;
+		ResourceEntryInfo	*pImageResource = nullptr;
 		for( unsigned int nResource = 0; nResource < m_AtlasGroups[ nAtlasGroup ].m_pVTFFileHeader[ nMaterial ]->numResources; nResource++ )
 		{
 			if ( m_AtlasGroups[ nAtlasGroup ].m_pResources[ nMaterial ][ nResource ].eType == VTF_LEGACY_RSRC_IMAGE )
@@ -845,7 +845,7 @@ bool CTextureCombine::CombineTexture( int nAtlasGroup, int nTexture, const char 
 			}
 		}
 
-		if ( pImageResource == NULL )
+		if ( pImageResource == nullptr)
 		{
 			Assert( 0 );
 			V_sprintf_safe( m_pCombinedStudioData->m_Results.m_szErrorMessage, "could not locate image resource for texture '%s'", szTextureNames[ nMaterial ] );
@@ -859,7 +859,7 @@ bool CTextureCombine::CombineTexture( int nAtlasGroup, int nTexture, const char 
 		V_FixupPathName( szCheckFileName, sizeof( szCheckFileName ), szTextureNames[ nMaterial ] );
 
 		m_AtlasGroups[ nAtlasGroup ].m_bIsFlat[ nMaterial ] = false;
-		for( int nTestIndex = 0; pszFlatTextures[ nTestIndex ] != NULL; nTestIndex++ )
+		for( int nTestIndex = 0; pszFlatTextures[ nTestIndex ] != nullptr; nTestIndex++ )
 		{
 			if ( strcmpi( pszFlatTextures[ nTestIndex ], szCheckFileName ) == 0 )
 			{
@@ -1169,9 +1169,9 @@ bool CTextureCombine::CombineTexture( int nAtlasGroup, int nTexture, const char 
 	for( int nMaterial = 0; nMaterial < m_AtlasGroups[ nAtlasGroup ].m_nNumMaterials; nMaterial++ )
 	{
 		delete m_AtlasGroups[ nAtlasGroup ].m_pVTFData[ nMaterial ];
-		m_AtlasGroups[ nAtlasGroup ].m_pVTFData[ nMaterial ] = NULL;
+		m_AtlasGroups[ nAtlasGroup ].m_pVTFData[ nMaterial ] = nullptr;
 
-		m_AtlasGroups[ nAtlasGroup ].m_pVTFFileHeader[ nMaterial ] = NULL;
+		m_AtlasGroups[ nAtlasGroup ].m_pVTFFileHeader[ nMaterial ] = nullptr;
 	}
 
 	m_pCombinedStudioData->m_Results.m_flTextureCombineDuration += ( float )( Plat_FloatTime() - flStartCombineTime );

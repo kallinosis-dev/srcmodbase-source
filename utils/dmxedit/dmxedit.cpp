@@ -70,7 +70,7 @@
 //-----------------------------------------------------------------------------
 // Statics
 //-----------------------------------------------------------------------------
-LuaFunc_s *LuaFunc_s::s_pFirstFunc = NULL;
+LuaFunc_s *LuaFunc_s::s_pFirstFunc = nullptr;
 CDmxEdit LuaFunc_s::m_dmxEdit;
 
 //-----------------------------------------------------------------------------
@@ -116,9 +116,9 @@ const CDmxEdit::CHalfType CDmxEdit::RIGHT( CDmxEdit::CHalfType::kRight );
 //
 //-----------------------------------------------------------------------------
 CDmxEdit::CDmxEdit()
-: m_pRoot( NULL )
-, m_pMesh( NULL )
-, m_pCurrentSelection( NULL )
+: m_pRoot(nullptr)
+, m_pMesh(nullptr)
+, m_pCurrentSelection(nullptr)
 , m_distanceType( CDmeMesh::DIST_ABSOLUTE )
 {}
 
@@ -142,7 +142,7 @@ bool CDmxEdit::Load( const char *pFilename, const CObjType &loadType /* = DIST_A
 	const int sLen = Q_strlen( pFilename );
 	if ( sLen > 4 && !Q_stricmp( pFilename + sLen - 4, ".dmx" ) )
 	{
-		g_pDataModel->RestoreFromFile( pFilename, NULL, NULL, &m_pRoot );
+		g_pDataModel->RestoreFromFile( pFilename, nullptr, nullptr, &m_pRoot );
 
 		if ( !m_pRoot )
 			return SetErrorString( "DMX Load Failed" );
@@ -155,7 +155,7 @@ bool CDmxEdit::Load( const char *pFilename, const CObjType &loadType /* = DIST_A
 		CDmeDag *pDag = m_pRoot->GetValueElement< CDmeDag >( "model" );
 		if ( pDag )
 		{
-			CDmeMesh *pFirstMesh = NULL;
+			CDmeMesh *pFirstMesh = nullptr;
 
 			CUtlStack< CDmeDag * > traverseStack;
 			traverseStack.Push( pDag );
@@ -175,7 +175,7 @@ bool CDmxEdit::Load( const char *pFilename, const CObjType &loadType /* = DIST_A
 				if ( !pMesh )
 					continue;
 
-				if ( pFirstMesh == NULL )
+				if ( pFirstMesh == nullptr)
 				{
 					pFirstMesh = pMesh;
 				}
@@ -257,7 +257,7 @@ LUA_COMMAND(
 
 	const char *pFilename = luaL_checkstring( pLuaState, 1 );
 
-	const char *pLoadType = NULL;
+	const char *pLoadType = nullptr;
 
 	if ( lua_isboolean( pLuaState, 2 ) )
 	{
@@ -306,8 +306,8 @@ bool CDmxEdit::Import( const char *pFilename, const char *pParentName )
 
 	CDisableUndoScopeGuard sgDisableUndo;
 
-	CDmElement *pRoot = NULL;
-	g_pDataModel->RestoreFromFile( pFilename, NULL, NULL, &pRoot, CR_FORCE_COPY );
+	CDmElement *pRoot = nullptr;
+	g_pDataModel->RestoreFromFile( pFilename, nullptr, nullptr, &pRoot, CR_FORCE_COPY );
 
 	if ( !pRoot )
 		return SetErrorString( "Can't Load DMX File" );
@@ -325,7 +325,7 @@ bool CDmxEdit::Import( const char *pFilename, const char *pParentName )
 
 	if ( pParentName )
 	{
-		CDmeTransform *pJoint = NULL;
+		CDmeTransform *pJoint = nullptr;
 
 		const int nJointTransformCount = pDstModel->GetJointTransformCount();
 		for ( int i = 0; i < nJointTransformCount; ++i )
@@ -393,7 +393,7 @@ LUA_COMMAND(
 	LuaFunc_s::m_dmxEdit.SetFuncString( pLuaState );
 
 	const char *pFilename = luaL_checkstring( pLuaState, 1 );
-	const char *pParentBone = lua_isstring( pLuaState, 2 ) ? lua_tostring( pLuaState, 2 ) : NULL;
+	const char *pParentBone = lua_isstring( pLuaState, 2 ) ? lua_tostring( pLuaState, 2 ) : nullptr;
 
 	if ( LuaFunc_s::m_dmxEdit.Import( pFilename, pParentBone ) )
 		return LuaFunc_s::m_dmxEdit.LuaOk( pLuaState );
@@ -476,13 +476,13 @@ const char *CDmxEdit::DeltaName( int nDeltaStateIndex )
 	if ( !m_pMesh )
 	{
 		SetErrorString( "No Mesh" );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( nDeltaStateIndex >= m_pMesh->DeltaStateCount() )
 	{
 		SetErrorString( "Delta Index Too High" );
-		return NULL;
+		return nullptr;
 	}
 
 	return m_pMesh->GetDeltaState( nDeltaStateIndex )->GetName();
@@ -530,9 +530,9 @@ void CDmxEdit::Unload()
 	}
 
 	m_filename = "";
-	m_pRoot = NULL;
-	m_pMesh = NULL;
-	m_pCurrentSelection = NULL;
+	m_pRoot = nullptr;
+	m_pMesh = nullptr;
+	m_pCurrentSelection = nullptr;
 }
 
 
@@ -550,8 +550,8 @@ bool CDmxEdit::ImportComboRules( const char *pFilename, bool bOverwrite /* = tru
 
 	CDisableUndoScopeGuard sg;
 
-	CDmElement *pRoot = NULL;
-	g_pDataModel->RestoreFromFile( pFilename, NULL, NULL, &pRoot, CR_FORCE_COPY );
+	CDmElement *pRoot = nullptr;
+	g_pDataModel->RestoreFromFile( pFilename, nullptr, nullptr, &pRoot, CR_FORCE_COPY );
 
 	if ( !pRoot )
 		return SetErrorString( "File Cannot Be Read" );
@@ -903,7 +903,7 @@ bool CDmxEdit::ResetState()
 	if ( !m_pMesh )
 		return SetErrorString( "No Mesh" );
 
-	return m_pMesh->SetBaseStateToDelta( NULL );
+	return m_pMesh->SetBaseStateToDelta(nullptr);
 }
 
 
@@ -1232,7 +1232,7 @@ bool CDmxEdit::GrowSelection( int nSize /* = 1 */ )
 	if ( !m_pMesh )
 		return SetErrorString( "No Mesh" );
 
-	m_pMesh->GrowSelection( nSize, m_pCurrentSelection, NULL );
+	m_pMesh->GrowSelection( nSize, m_pCurrentSelection, nullptr);
 
 	return true;
 }
@@ -1272,7 +1272,7 @@ bool CDmxEdit::ShrinkSelection( int nSize /* = 1 */ )
 	if ( !m_pMesh )
 		return SetErrorString( "No Mesh" );
 
-	m_pMesh->ShrinkSelection( nSize, m_pCurrentSelection, NULL );
+	m_pMesh->ShrinkSelection( nSize, m_pCurrentSelection, nullptr);
 
 	return true;
 }
@@ -1326,12 +1326,12 @@ bool CDmxEdit::Add(
 
 	const CDistanceType &distanceType = passedDistanceType() == CDmeMesh::DIST_DEFAULT ? m_distanceType : passedDistanceType;
 
-	CDmeSingleIndexedComponent *pNewSelection = featherDistance > 0.0f ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), m_pCurrentSelection, NULL ) : NULL;
+	CDmeSingleIndexedComponent *pNewSelection = featherDistance > 0.0f ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), m_pCurrentSelection, nullptr) : nullptr;
 
 	const bool retVal =
 		addType == kRaw ?
-		m_pMesh->AddMaskedDelta( NULL, NULL, weight, pNewSelection ? pNewSelection : m_pCurrentSelection ) :
-		m_pMesh->AddCorrectedMaskedDelta( NULL, NULL, weight, pNewSelection ? pNewSelection : m_pCurrentSelection ) ;
+		m_pMesh->AddMaskedDelta(nullptr, nullptr, weight, pNewSelection ? pNewSelection : m_pCurrentSelection ) :
+		m_pMesh->AddCorrectedMaskedDelta(nullptr, nullptr, weight, pNewSelection ? pNewSelection : m_pCurrentSelection ) ;
 
 	if ( pNewSelection )
 	{
@@ -1367,7 +1367,7 @@ bool CDmxEdit::Add(
 
 	const CDistanceType &distanceType = passedDistanceType() == CDmeMesh::DIST_DEFAULT ? m_distanceType : passedDistanceType;
 
-	CDmeSingleIndexedComponent *pNewSelection = featherDistance > 0.0f ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), m_pCurrentSelection, NULL ) : NULL;
+	CDmeSingleIndexedComponent *pNewSelection = featherDistance > 0.0f ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), m_pCurrentSelection, nullptr) : nullptr;
 
 	CDmeVertexDeltaData *pDelta = FindDeltaState( pDeltaName );
 	if ( !pDelta )
@@ -1375,8 +1375,8 @@ bool CDmxEdit::Add(
 
 	const bool retVal =
 		addType == kRaw ?
-		m_pMesh->AddMaskedDelta( pDelta, NULL, weight, pNewSelection ) :
-		m_pMesh->AddCorrectedMaskedDelta( pDelta, NULL, weight, pNewSelection );
+		m_pMesh->AddMaskedDelta( pDelta, nullptr, weight, pNewSelection ) :
+		m_pMesh->AddCorrectedMaskedDelta( pDelta, nullptr, weight, pNewSelection );
 
 	if ( pNewSelection )
 	{
@@ -1451,9 +1451,9 @@ bool CDmxEdit::Interp( const CDmxEditProxy &e, float weight /* = 1.0f */, float 
 
 	const CDistanceType &distanceType = passedDistanceType() == CDmeMesh::DIST_DEFAULT ? m_distanceType : passedDistanceType;
 
-	CDmeSingleIndexedComponent *pNewSelection = featherDistance > 0.0f ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), m_pCurrentSelection, NULL ) : NULL;
+	CDmeSingleIndexedComponent *pNewSelection = featherDistance > 0.0f ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), m_pCurrentSelection, nullptr) : nullptr;
 
-	const bool retVal = m_pMesh->InterpMaskedDelta( NULL, NULL, weight, pNewSelection ? pNewSelection : m_pCurrentSelection );
+	const bool retVal = m_pMesh->InterpMaskedDelta(nullptr, nullptr, weight, pNewSelection ? pNewSelection : m_pCurrentSelection );
 
 	if ( pNewSelection )
 	{
@@ -1483,13 +1483,13 @@ bool CDmxEdit::Interp( const char *pDeltaName, float weight /* = 1.0f */, float 
 
 	const CDistanceType &distanceType = passedDistanceType() == CDmeMesh::DIST_DEFAULT ? m_distanceType : passedDistanceType;
 
-	CDmeSingleIndexedComponent *pNewSelection = featherDistance > 0.0f ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), m_pCurrentSelection, NULL ) : NULL;
+	CDmeSingleIndexedComponent *pNewSelection = featherDistance > 0.0f ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), m_pCurrentSelection, nullptr) : nullptr;
 
 	CDmeVertexDeltaData *pDelta = FindDeltaState( pDeltaName );
 	if ( !pDelta )
 		return SetErrorString( "Invalid Delta \"%s\"", pDeltaName );
 
-	const bool retVal = m_pMesh->InterpMaskedDelta( pDelta, NULL, weight, pNewSelection ? pNewSelection : m_pCurrentSelection );
+	const bool retVal = m_pMesh->InterpMaskedDelta( pDelta, nullptr, weight, pNewSelection ? pNewSelection : m_pCurrentSelection );
 
 	if ( pNewSelection )
 	{
@@ -1550,7 +1550,7 @@ bool CDmxEdit::Save( const char *pFilename, const CObjType &saveType /* = ABSOLU
 			retVal = g_p4factory->AccessFile( pFilename )->Add();
 		}
 
-		retVal = g_pDataModel->SaveToFile( pFilename, NULL, "keyvalues2", "model", m_pRoot );
+		retVal = g_pDataModel->SaveToFile( pFilename, nullptr, "keyvalues2", "model", m_pRoot );
 		if ( !retVal )
 		{
 			SetErrorString( "Cannot Write File" );
@@ -1569,7 +1569,7 @@ bool CDmxEdit::Save( const char *pFilename, const CObjType &saveType /* = ABSOLU
 		{
 			if ( !Q_stricmp( "base", pDeltaName ) )
 			{
-				retVal = CDmObjSerializer().WriteOBJ( pFilename, m_pRoot, false, NULL, absolute );
+				retVal = CDmObjSerializer().WriteOBJ( pFilename, m_pRoot, false, nullptr, absolute );
 			}
 			else
 			{
@@ -1578,7 +1578,7 @@ bool CDmxEdit::Save( const char *pFilename, const CObjType &saveType /* = ABSOLU
 		}
 		else
 		{
-			retVal = CDmObjSerializer().WriteOBJ( pFilename, m_pRoot, true, NULL, absolute );
+			retVal = CDmObjSerializer().WriteOBJ( pFilename, m_pRoot, true, nullptr, absolute );
 		}
 	}
 
@@ -1683,7 +1683,7 @@ LUA_COMMAND(
 
 	const char *pSave1 = lua_tostring( pLuaState, 1 );
 
-	const char *pSaveType = NULL;
+	const char *pSaveType = nullptr;
 
 	if ( lua_isboolean( pLuaState, 2 ) )
 	{
@@ -1705,7 +1705,7 @@ LUA_COMMAND(
 	{
 		if ( pSaveType )
 		{
-			const char *pDeltaName = lua_isstring( pLuaState, 3 ) ? lua_tostring( pLuaState, 3 ) : NULL;
+			const char *pDeltaName = lua_isstring( pLuaState, 3 ) ? lua_tostring( pLuaState, 3 ) : nullptr;
 
 			if ( LuaFunc_s::m_dmxEdit.Save( pSave1, pSaveType, pDeltaName ) )
 				return LuaFunc_s::m_dmxEdit.LuaOk( pLuaState );
@@ -1731,10 +1731,10 @@ LUA_COMMAND(
 //-----------------------------------------------------------------------------
 bool CDmxEdit::Merge( const char *pInFilename, const char *pOutFilename )
 {
-	CDmElement *pRoot = NULL;
+	CDmElement *pRoot = nullptr;
 
 	CDisableUndoScopeGuard guard0;
-	g_pDataModel->RestoreFromFile( pInFilename, NULL, NULL, &pRoot );
+	g_pDataModel->RestoreFromFile( pInFilename, nullptr, nullptr, &pRoot );
 	guard0.Release();
 
 	if ( !pRoot )
@@ -1753,7 +1753,7 @@ bool CDmxEdit::Merge( const char *pInFilename, const char *pOutFilename )
 			bPerforce = g_p4factory->AccessFile( pOutFilename )->Add();
 		}
 
-		if ( !g_pDataModel->SaveToFile( pOutFilename, NULL, "keyvalues2", "model", pRoot ) )
+		if ( !g_pDataModel->SaveToFile( pOutFilename, nullptr, "keyvalues2", "model", pRoot ) )
 		{
 			retVal = false;
 			SetErrorString( "Can't Write File \"%s\"", pOutFilename );
@@ -2185,10 +2185,10 @@ LUA_COMMAND(
 
 	const char *pPresetFilename = luaL_checkstring( pLuaState, 1 );
 	const bool bPurge = lua_isboolean( pLuaState, 2 ) ? lua_toboolean( pLuaState, 2 ) ? true : false : true;
-	const char *pExpressionFilename = lua_isstring( pLuaState, 4 ) ? lua_tostring( pLuaState, 4 ) : NULL;
+	const char *pExpressionFilename = lua_isstring( pLuaState, 4 ) ? lua_tostring( pLuaState, 4 ) : nullptr;
 
 	CUtlVector< CUtlString > purgeAllBut;
-	const CUtlVector< CUtlString > *pPurgeAllBut = NULL;
+	const CUtlVector< CUtlString > *pPurgeAllBut = nullptr;
 
 	if ( lua_istable( pLuaState, 3 ) )
 	{
@@ -2233,7 +2233,7 @@ LUA_COMMAND(
 	LuaFunc_s::m_dmxEdit.SetFuncString( pLuaState );
 
 	const char *pPresetFilename = luaL_checkstring( pLuaState, 1 );
-	const char *pExpressionFilename = lua_isstring( pLuaState, 2 ) ? lua_tostring( pLuaState, 2 ) : NULL;
+	const char *pExpressionFilename = lua_isstring( pLuaState, 2 ) ? lua_tostring( pLuaState, 2 ) : nullptr;
 
 	if ( LuaFunc_s::m_dmxEdit.CachePreset( pPresetFilename, pExpressionFilename ) )
 		return LuaFunc_s::m_dmxEdit.LuaOk( pLuaState );
@@ -2293,7 +2293,7 @@ LUA_COMMAND(
 	const bool bPurge = lua_isboolean( pLuaState, 1 ) ? lua_toboolean( pLuaState, 1 ) ? true : false : true;
 
 	CUtlVector< CUtlString > purgeAllBut;
-	const CUtlVector< CUtlString > *pPurgeAllBut = NULL;
+	const CUtlVector< CUtlString > *pPurgeAllBut = nullptr;
 
 	if ( lua_istable( pLuaState, 2 ) )
 	{
@@ -2377,9 +2377,9 @@ bool CDmxEdit::CreateExpressionFilesFromCachedPresets() const
 	{
 		const char *pPresetFilename = m_presetCache.String( i );
 
-		CDmElement *pRoot = NULL;
+		CDmElement *pRoot = nullptr;
 		g_p4factory->AccessFile( pPresetFilename )->Add();
-		g_pDataModel->RestoreFromFile( pPresetFilename, NULL, NULL, &pRoot );
+		g_pDataModel->RestoreFromFile( pPresetFilename, nullptr, nullptr, &pRoot );
 
 		if ( !pRoot )
 		{
@@ -2410,7 +2410,7 @@ bool CDmxEdit::CreateExpressionFilesFromCachedPresets() const
 				g_p4factory->AccessFile( buf )->Add();
 			}
 
-			pPresetGroup->ExportToTXT( buf, NULL, pComboOp );
+			pPresetGroup->ExportToTXT( buf, nullptr, pComboOp );
 
 			Q_SetExtension( buf, ".vfe", sizeof( buf ) );
 			Q_ExtractFilePath( buf, buf1, sizeof( buf1 ) );
@@ -2422,7 +2422,7 @@ bool CDmxEdit::CreateExpressionFilesFromCachedPresets() const
 				g_p4factory->AccessFile( buf )->Add();
 			}
 
-			pPresetGroup->ExportToVFE( buf, NULL, pComboOp );
+			pPresetGroup->ExportToVFE( buf, nullptr, pComboOp );
 		}
 
 		g_pDataModel->UnloadFile( pRoot->GetFileId() );
@@ -2484,7 +2484,7 @@ void ScaleDeltaPositions( const CDmrArrayConst< Vector > &bindPosData, CDmeVerte
 bool CDmxEdit::Scale( float sx, float sy, float sz )
 {
 	int nArraySize = 0;
-	Vector *pPosArray = NULL;
+	Vector *pPosArray = nullptr;
 
 	const int nBaseStateCount = m_pMesh->BaseStateCount();
 	for ( int i = 0; i < nBaseStateCount; ++i )
@@ -2499,7 +2499,7 @@ bool CDmxEdit::Scale( float sx, float sy, float sz )
 		if ( nPosDataCount <= 0 )
 			continue;
 
-		if ( nArraySize < nPosDataCount || pPosArray == NULL )
+		if ( nArraySize < nPosDataCount || pPosArray == nullptr)
 		{
 			pPosArray = reinterpret_cast< Vector * >( alloca( nPosDataCount * sizeof( Vector ) ) );
 			if ( pPosArray )
@@ -2623,7 +2623,7 @@ bool CDmxEdit::Translate(
 	CDmeVertexData *pBase = pPassedBase ? pPassedBase : pMesh->GetCurrentBaseState();
 
 	CDmeSingleIndexedComponent *pSelection = pPassedSelection ? pPassedSelection : m_pCurrentSelection;
-	CDmeSingleIndexedComponent *pTmpSelection = NULL;
+	CDmeSingleIndexedComponent *pTmpSelection = nullptr;
 
 	if ( !pSelection || pSelection->Count() == 0 )
 	{
@@ -2632,10 +2632,10 @@ bool CDmxEdit::Translate(
 		pMesh->SelectAllVertices( pSelection );
 	}
 
-	CDmeSingleIndexedComponent *pNewSelection = ( pSelection && featherDistance > 0.0f ) ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), pSelection, NULL ) : pSelection;
+	CDmeSingleIndexedComponent *pNewSelection = ( pSelection && featherDistance > 0.0f ) ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), pSelection, nullptr) : pSelection;
 
 	int nArraySize = 0;
-	Vector *pPosArray = NULL;
+	Vector *pPosArray = nullptr;
 
 	const int nPosIndex = pBase->FindFieldIndex( CDmeVertexData::FIELD_POSITION );
 	if ( nPosIndex < 0 )
@@ -2646,7 +2646,7 @@ bool CDmxEdit::Translate(
 	if ( nPosDataCount <= 0 )
 		return false;
 
-	if ( nArraySize < nPosDataCount || pPosArray == NULL )
+	if ( nArraySize < nPosDataCount || pPosArray == nullptr)
 	{
 		pPosArray = reinterpret_cast< Vector * >( alloca( nPosDataCount * sizeof( Vector ) ) );
 		if ( pPosArray )
@@ -2766,7 +2766,7 @@ bool CDmxEdit::Rotate(
 	CDmeVertexData *pBase = pPassedBase ? pPassedBase : pMesh->GetCurrentBaseState();
 
 	CDmeSingleIndexedComponent *pSelection = pPassedSelection ? pPassedSelection : m_pCurrentSelection;
-	CDmeSingleIndexedComponent *pTmpSelection = NULL;
+	CDmeSingleIndexedComponent *pTmpSelection = nullptr;
 
 	if ( !pSelection || pSelection->Count() == 0 )
 	{
@@ -2775,10 +2775,10 @@ bool CDmxEdit::Rotate(
 		pMesh->SelectAllVertices( pSelection );
 	}
 
-	CDmeSingleIndexedComponent *pNewSelection = ( pSelection && featherDistance > 0.0f ) ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), pSelection, NULL ) : pSelection;
+	CDmeSingleIndexedComponent *pNewSelection = ( pSelection && featherDistance > 0.0f ) ? m_pMesh->FeatherSelection( featherDistance, falloffType(), distanceType(), pSelection, nullptr) : pSelection;
 
 	int nArraySize = 0;
-	Vector *pPosArray = NULL;
+	Vector *pPosArray = nullptr;
 
 	const int nPosIndex = pBase->FindFieldIndex( CDmeVertexData::FIELD_POSITION );
 	if ( nPosIndex < 0 )
@@ -2789,7 +2789,7 @@ bool CDmxEdit::Rotate(
 	if ( nPosDataCount <= 0 )
 		return false;
 
-	if ( nArraySize < nPosDataCount || pPosArray == NULL )
+	if ( nArraySize < nPosDataCount || pPosArray == nullptr)
 	{
 		pPosArray = reinterpret_cast< Vector * >( alloca( nPosDataCount * sizeof( Vector ) ) );
 		if ( pPosArray )
@@ -3813,7 +3813,7 @@ void CDmxEdit::CleanupWork()
 		if ( m_pCurrentSelection )
 		{
 			g_pDataModel->DestroyElement( m_pCurrentSelection->GetHandle() );
-			m_pCurrentSelection = NULL;
+			m_pCurrentSelection = nullptr;
 		}
 
 		CDmeVertexData *pBind( m_pMesh->FindBaseState( "bind" ) );

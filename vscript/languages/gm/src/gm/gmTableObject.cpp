@@ -21,8 +21,8 @@
 
 gmTableObject::gmTableObject()
 {
-  m_nodes = NULL;
-  m_firstFree = NULL;
+  m_nodes = nullptr;
+  m_firstFree = nullptr;
   m_tableSize = 0;
   m_slotsUsed = 0;
 }
@@ -93,10 +93,10 @@ void gmTableObject::Destruct(gmMachine * a_machine)
   if(m_nodes)
   {
     a_machine->Sys_Free(m_nodes);
-    m_nodes = NULL;
+    m_nodes = nullptr;
   }
 
-  m_firstFree = NULL;
+  m_firstFree = nullptr;
   m_tableSize = 0;
   m_slotsUsed = 0;
 
@@ -109,7 +109,7 @@ void gmTableObject::Destruct(gmMachine * a_machine)
 
 gmVariable gmTableObject::Get(const gmVariable &a_key) const
 {
-  gmTableNode* foundNode = NULL;
+  gmTableNode* foundNode = nullptr;
 
   if(m_nodes && a_key.m_type != GM_NULL)
   {
@@ -156,7 +156,7 @@ void gmTableObject::Set(gmMachine * a_machine, const gmVariable &a_key, const gm
 
   gmTableNode* origHashNode = GetAtHashPos(&a_key);
   gmTableNode* foundNode = origHashNode;
-  gmTableNode* lastNode = NULL;
+  gmTableNode* lastNode = nullptr;
 
   GM_ASSERT(foundNode);
 
@@ -189,7 +189,7 @@ void gmTableObject::Set(gmMachine * a_machine, const gmVariable &a_key, const gm
           lastNode->m_nextInHashTable = foundNode->m_nextInHashTable;
 
           foundNode->m_key.m_type = GM_NULL;
-          foundNode->m_nextInHashTable = NULL;
+          foundNode->m_nextInHashTable = nullptr;
         }
         else if(foundNode->m_nextInHashTable)
         {
@@ -198,7 +198,7 @@ void gmTableObject::Set(gmMachine * a_machine, const gmVariable &a_key, const gm
           *foundNode = *nextSlot;
 
           nextSlot->m_key.m_type = GM_NULL;
-          nextSlot->m_nextInHashTable = NULL;
+          nextSlot->m_nextInHashTable = nullptr;
         }
         else
         {
@@ -243,7 +243,7 @@ void gmTableObject::Set(gmMachine * a_machine, const gmVariable &a_key, const gm
       }
       other->m_nextInHashTable = m_firstFree;
       *m_firstFree = *origHashNode; //Copy colliding node into free pos
-      origHashNode->m_nextInHashTable = NULL; //original is now completely free
+      origHashNode->m_nextInHashTable = nullptr; //original is now completely free
     }
     else
     {
@@ -328,7 +328,7 @@ gmTableNode* gmTableObject::GetNext(gmTableIterator& a_it) const
   int index = a_it;
   if(index == IT_NULL)
   {
-    return NULL;
+    return nullptr;
   }
   if(index == IT_FIRST)
   {
@@ -344,7 +344,7 @@ gmTableNode* gmTableObject::GetNext(gmTableIterator& a_it) const
     ++index;
   }
   a_it = IT_NULL;
-  return NULL;
+  return nullptr;
 }
 
 

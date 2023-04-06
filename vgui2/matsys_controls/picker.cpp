@@ -190,10 +190,10 @@ PickerChoiceType_t CPicker::GetSelectionType() const
 const char *CPicker::GetSelectedString( ) const
 {
 	if ( m_pPickerBrowser->GetSelectedItemsCount() == 0 )
-		return NULL;
+		return nullptr;
 
 	if ( m_Type != PICKER_CHOICE_STRING )
-		return NULL;
+		return nullptr;
 
 	int nIndex = m_pPickerBrowser->GetSelectedItem( 0 );
 	KeyValues *pItemKeyValues = m_pPickerBrowser->GetItem( nIndex );
@@ -203,10 +203,10 @@ const char *CPicker::GetSelectedString( ) const
 void *CPicker::GetSelectedPtr( ) const
 {
 	if ( m_pPickerBrowser->GetSelectedItemsCount() == 0 )
-		return NULL;
+		return nullptr;
 
 	if ( m_Type != PICKER_CHOICE_PTR )
-		return NULL;
+		return nullptr;
 
 	int nIndex = m_pPickerBrowser->GetSelectedItem( 0 );
 	KeyValues *pItemKeyValues = m_pPickerBrowser->GetItem( nIndex );
@@ -234,7 +234,7 @@ int CPicker::GetSelectedIndex()
 CPickerFrame::CPickerFrame( vgui::Panel *pParent, const char *pTitle, const char *pPickerType, const char *pTextType ) : 
 	BaseClass( pParent, "PickerFrame" )
 {
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 	SetDeleteSelfOnClose( true );
 	m_pPicker = new CPicker( this, pPickerType, pTextType );
 	m_pPicker->AddActionSignalTarget( this );
@@ -261,7 +261,7 @@ void CPickerFrame::CleanUpMessage()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -302,7 +302,7 @@ void CPickerFrame::OnCommand( const char *pCommand )
 		if ( m_pContextKeyValues )
 		{
 			pActionKeys->AddSubKey( m_pContextKeyValues );
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 		PostActionSignal( pActionKeys );
 		CloseModal();

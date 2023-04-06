@@ -223,7 +223,7 @@ void TestPatchToFace (unsigned patchnum, int facenum, int head, transfer_t *tran
 		for( ; patch2; patch2 = pNextPatch )
 		{
 			// next patch
-			pNextPatch = NULL;
+			pNextPatch = nullptr;
 			if( patch2->ndxNextParent != g_Patches.InvalidIndex() )
 			{
 				pNextPatch = &g_Patches.Element( patch2->ndxNextParent );
@@ -271,11 +271,11 @@ void AddDispsToClusterTable( void )
 		//
 		if( g_FacePatches.Element( ndxFace ) != g_FacePatches.InvalidIndex() )
 		{
-			CPatch *pNextPatch = NULL;
+			CPatch *pNextPatch = nullptr;
 			for( CPatch *pPatch = &g_Patches.Element( g_FacePatches.Element( ndxFace ) ); pPatch; pPatch = pNextPatch )
 			{
 				// next patch
-				pNextPatch = NULL;
+				pNextPatch = nullptr;
 				if( pPatch->ndxNext != g_Patches.InvalidIndex() )
 				{
 					pNextPatch = &g_Patches.Element( pPatch->ndxNext );
@@ -446,7 +446,7 @@ void BuildVisLeafs_Cluster(
 			//
 			// next patch
 			//
-			pNextPatch = NULL;
+			pNextPatch = nullptr;
 			if( patch->ndxNextClusterChild != g_Patches.InvalidIndex() )
 			{
 				pNextPatch = &g_Patches.Element( patch->ndxNextClusterChild );
@@ -490,7 +490,7 @@ void BuildVisLeafs( int threadnum, void *pUserData )
 		if ( iCluster == -1 )
 			break;
 
-		BuildVisLeafs_Cluster( threadnum, transfers, iCluster, NULL );
+		BuildVisLeafs_Cluster( threadnum, transfers, iCluster, nullptr);
 	}
 	
 	BuildVisLeafs_End( transfers );

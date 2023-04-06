@@ -195,7 +195,7 @@ public:
 	virtual int	InternalDrawModel( int flags, const RenderableInstance_t &instance );
 	virtual bool OnInternalDrawModel( ClientModelRenderInfo_t *pInfo );
 	virtual bool OnPostInternalDrawModel( ClientModelRenderInfo_t *pInfo );
-	void		DoInternalDrawModel( class IMatRenderContext *pRenderContext, ClientModelRenderInfo_t *pInfo, DrawModelState_t *pState, matrix3x4_t *pBoneToWorldArray = NULL );
+	void		DoInternalDrawModel( class IMatRenderContext *pRenderContext, ClientModelRenderInfo_t *pInfo, DrawModelState_t *pState, matrix3x4_t *pBoneToWorldArray = nullptr);
 
 	//
 	virtual CMouthInfo *GetMouth();
@@ -218,7 +218,7 @@ public:
 
 	virtual CStudioHdr *OnNewModel( void );
 	CStudioHdr	*GetModelPtr() const;
-	virtual void InvalidateMdlCache() { UnlockStudioHdr(); delete m_pStudioHdr; m_pStudioHdr = NULL; }
+	virtual void InvalidateMdlCache() { UnlockStudioHdr(); delete m_pStudioHdr; m_pStudioHdr = nullptr; }
 	
 	virtual void SetPredictable( bool state );
 	void UseClientSideAnimation();
@@ -554,7 +554,7 @@ public:
 	void							DisableRenderOriginOverride( void );
 	bool							IsUsingRenderOriginOverride( void ) { return m_vecRenderOriginOverride != vec3_invalid; }
 
-	virtual C_BaseAnimating *		GetBoneSetupDependancy( void ) { return GetMoveParent() ? GetMoveParent()->GetBaseAnimating() : NULL; }
+	virtual C_BaseAnimating *		GetBoneSetupDependancy( void ) { return GetMoveParent() ? GetMoveParent()->GetBaseAnimating() : nullptr; }
 	
 	bool							GetRootBone( matrix3x4_t &rootBone );
 	inline void						SetUseParentLightingOrigin( bool value ){ m_bUseParentLightingOrigin = value; }
@@ -970,7 +970,7 @@ inline CStudioHdr *C_BaseAnimating::GetModelPtr() const
 	{
 		const_cast<C_BaseAnimating *>(this)->LockStudioHdr();
 	}
-	return ( m_pStudioHdr && m_pStudioHdr->IsValid() ) ? m_pStudioHdr : NULL;
+	return ( m_pStudioHdr && m_pStudioHdr->IsValid() ) ? m_pStudioHdr : nullptr;
 }
 
 inline bool C_BaseAnimating::IsModelScaleFractional() const   /// very fast way to ask if the model scale is < 1.0f

@@ -375,17 +375,17 @@ public:
 		AssertAlignedConsole(vguiPanel);
 
 		if (!vguiPanel)
-			return NULL;
+			return nullptr;
 
 		if (vguiPanel == g_pSurface->GetEmbeddedPanel())
-			return NULL;
+			return nullptr;
 
 		// assert that the specified vpanel is from the same module as requesting the cast
 		if ( !vguiPanel || stricmp(GetModuleName(vguiPanel), moduleName) )
 		{
 			// assert(!("GetPanel() used to retrieve a Panel * from a different dll than which which it was created. This is bad, you can't pass Panel * across dll boundaries else you'll break the versioning.  Please only use a VPANEL."));
 			// this is valid for now
-			return NULL;
+			return nullptr;
 		}
 		return Client(vguiPanel)->GetPanel();
 	}

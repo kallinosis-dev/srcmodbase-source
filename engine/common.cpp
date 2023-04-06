@@ -163,7 +163,7 @@ UTF-8 characters into question marks
 const char *COM_ReadChar(const char *data)
 {
 	if ( !data || !*data )
-		return NULL;
+		return nullptr;
 
 	com_character = *data++;
 	return data;
@@ -190,14 +190,14 @@ const char *COM_Parse (const char *data)
 	com_token[0] = 0;
 	
 	if (!data)
-		return NULL;
+		return nullptr;
 		
 // skip whitespace
 skipwhite:
 	while ( (c = *data) <= ' ')
 	{
 		if (c == 0)
-			return NULL;                    // end of file;
+			return nullptr;                    // end of file;
 		data++;
 	}
 	
@@ -334,7 +334,7 @@ const char *COM_ParseLine (const char *data)
 			data = nextChar;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 #pragma warning( default : 4706 )
@@ -606,7 +606,7 @@ int COM_ExpandFilename( char *filename, int maxlength )
 {
 	char expanded[MAX_OSPATH];
 
-	if ( g_pFileSystem->GetLocalPath( filename, expanded, sizeof(expanded) ) != NULL )
+	if ( g_pFileSystem->GetLocalPath( filename, expanded, sizeof(expanded) ) != nullptr)
 	{
 		Q_strncpy( filename, expanded, maxlength );
 		return 1;
@@ -656,7 +656,7 @@ int             loadsize;
 byte *COM_LoadFile (const char *path, int usehunk, int *pLength)
 {
 	FileHandle_t	hFile;
-	byte			*buf = NULL;
+	byte			*buf = nullptr;
 	char			base[128];
 	int             len;
 
@@ -669,7 +669,7 @@ byte *COM_LoadFile (const char *path, int usehunk, int *pLength)
 	len = COM_OpenFile( path, &hFile );
 	if ( !hFile )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Extract the filename base name for hunk tag
@@ -711,7 +711,7 @@ byte *COM_LoadFile (const char *path, int usehunk, int *pLength)
 	{
 		Sys_Error ("COM_LoadFile: not enough space for %s", path);
 		COM_CloseFile(hFile);	// exit here to prevent fault on oom (kdb)
-		return NULL;			
+		return nullptr;			
 	}
 		
 	g_pFileSystem->ReadEx( buf, bufSize, len, hFile );
@@ -805,7 +805,7 @@ void COM_SetupLogDir( const char *mapname )
 	COM_GetGameDir( gameDir, sizeof( gameDir ) );
 
 	// Blat out the all directories in the LOGDIR path
-	g_pFileSystem->RemoveSearchPath( NULL, "LOGDIR" );
+	g_pFileSystem->RemoveSearchPath(nullptr, "LOGDIR" );
 
 	// set the log directory
 	if ( mapname && CommandLine()->FindParm("-uselogdir") )
@@ -971,7 +971,7 @@ void COM_InitFilesystem( const char *pFullModPath )
 #endif
 
 	// Set LOGDIR to be something reasonable
-	COM_SetupLogDir( NULL );
+	COM_SetupLogDir(nullptr);
 }
 
 const char *COM_DXLevelToString( int dxlevel )

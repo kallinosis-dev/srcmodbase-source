@@ -298,7 +298,7 @@ void NWCEdit::UndoDestroyAINode(void)
 			g_pAINetworkManager->GetEditOps()->m_pLastDeletedNode->SetType( NODE_GROUND );
 			//@ tofo g_pAINetworkManager->GetEditOps()->m_pLastDeletedNode->m_pNetwork->BuildNetworkGraph();
 			g_pAINetworkManager->BuildNetworkGraph();
-			g_pAINetworkManager->GetEditOps()->m_pLastDeletedNode = NULL;
+			g_pAINetworkManager->GetEditOps()->m_pLastDeletedNode = nullptr;
 		}
 	}
 }
@@ -446,9 +446,9 @@ void NWCEdit::DestroyAILink( CBasePlayer *pPlayer )
 	}
 }
 
-Vector *g_EntityPositions = NULL;
-QAngle *g_EntityOrientations = NULL;
-string_t *g_EntityClassnames = NULL;
+Vector *g_EntityPositions = nullptr;
+QAngle *g_EntityOrientations = nullptr;
+string_t *g_EntityClassnames = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Saves the entity's position for future communication with Hammer
@@ -685,7 +685,7 @@ void CC_WC_LinkEdit( void )
 		}
 	}
 }
-static ConCommand wc_link_edit("wc_link_edit", CC_WC_LinkEdit, 0, FCVAR_CHEAT);
+static ConCommand wc_link_edit("wc_link_edit", CC_WC_LinkEdit, nullptr, FCVAR_CHEAT);
 
 
 /// This is an entity used by the hammer_update_safe_entities command. It allows designers
@@ -759,8 +759,8 @@ CON_COMMAND( hammer_update_entity, "Updates the entity's position/angles when in
 	}
 	else
 	{
-		CBaseEntity *pEnt = NULL;
-		while ((pEnt = gEntList.FindEntityGeneric( pEnt, args[1] ) ) != NULL)
+		CBaseEntity *pEnt = nullptr;
+		while ((pEnt = gEntList.FindEntityGeneric( pEnt, args[1] ) ) != nullptr)
 		{
 			NWCEdit::UpdateEntityPosition( pEnt );
 		}
@@ -770,7 +770,7 @@ CON_COMMAND( hammer_update_entity, "Updates the entity's position/angles when in
 CON_COMMAND( hammer_update_safe_entities, "Updates entities in the map that can safely be updated (don't have parents or are affected by constraints). Also excludes entities mentioned in any hammer_updateignorelist objects in this map." )
 {
 	int iCount = 0;
-	CBaseEntity *pEnt = NULL;
+	CBaseEntity *pEnt = nullptr;
 
 	if ( !UTIL_IsCommandIssuedByServerAdmin() )
 		return;
@@ -782,7 +782,7 @@ CON_COMMAND( hammer_update_safe_entities, "Updates entities in the map that can 
 	// CUtlSymbolTable)
 
 	CUtlSymbolTable ignoredNames(16,32,true); // grow 16 strings at a time. Case insensitive.
-	while ( (pEnt = gEntList.FindEntityByClassname( pEnt, "hammer_updateignorelist" )) != NULL )
+	while ( (pEnt = gEntList.FindEntityByClassname( pEnt, "hammer_updateignorelist" )) != nullptr)
 	{
 		// for each name in each of those strings, add it to the symbol table.
 		CWC_UpdateIgnoreList *piglist = static_cast<CWC_UpdateIgnoreList *>(pEnt);
@@ -802,7 +802,7 @@ CON_COMMAND( hammer_update_safe_entities, "Updates entities in the map that can 
 
 
 	// now iterate through everything in the world
-	for ( pEnt = gEntList.FirstEnt(); pEnt != NULL; pEnt = gEntList.NextEnt(pEnt) )
+	for ( pEnt = gEntList.FirstEnt(); pEnt != nullptr; pEnt = gEntList.NextEnt(pEnt) )
 	{
 		if ( !(pEnt->ObjectCaps() & FCAP_WCEDIT_POSITION) )
 			continue;

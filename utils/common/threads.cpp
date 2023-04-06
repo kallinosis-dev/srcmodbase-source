@@ -190,7 +190,7 @@ void RunThreads_Start( RunThreadsFn fn, void *pUserData, ERunThreadsPriority ePr
 
 		DWORD dwDummy;
 		g_ThreadHandles[i] = CreateThread(
-		   NULL,	// LPSECURITY_ATTRIBUTES lpsa,
+			nullptr,	// LPSECURITY_ATTRIBUTES lpsa,
 		   0,		// DWORD cbStack,
 		   InternalRunThreadsFn,	// LPTHREAD_START_ROUTINE lpStartAddr,
 		   &g_RunThreadsData[i],	// LPVOID lpvThreadParm,

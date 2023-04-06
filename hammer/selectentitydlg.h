@@ -22,7 +22,7 @@ class CSelectEntityDlg : public CDialog
 	// Construction
 	public:
 		CSelectEntityDlg(const CMapObjectList *pList,
-			CWnd* pParent = NULL);   // standard constructor
+			CWnd* pParent = nullptr);   // standard constructor
 
 	// Dialog Data
 		//{{AFX_DATA(CSelectEntityDlg)

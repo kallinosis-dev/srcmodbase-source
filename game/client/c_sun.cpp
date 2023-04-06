@@ -99,7 +99,7 @@ void C_Sun::OnDataChanged( DataUpdateType_t updateType )
 	m_Overlay.m_Sprites[0].m_flHorzSize = m_nSize;
 	m_Overlay.m_Sprites[0].m_flVertSize = m_nSize;
 
-	const model_t* pModel = (m_nMaterial != 0) ? modelinfo->GetModel( m_nMaterial ) : NULL;
+	const model_t* pModel = (m_nMaterial != 0) ? modelinfo->GetModel( m_nMaterial ) : nullptr;
 	const char *pModelName = pModel ? modelinfo->GetModelName( pModel ) : "";
 	m_Overlay.m_Sprites[0].m_pMaterial = materials->FindMaterial( pModelName, TEXTURE_GROUP_OTHER );
 	m_Overlay.m_flProxyRadius = 0.05f; // about 1/20th of the screen
@@ -115,7 +115,7 @@ void C_Sun::OnDataChanged( DataUpdateType_t updateType )
 	m_GlowOverlay.m_Sprites[0].m_flHorzSize = m_nOverlaySize;
 	m_GlowOverlay.m_Sprites[0].m_flVertSize = m_nOverlaySize;
 
-	pModel = (m_nOverlayMaterial != 0) ? modelinfo->GetModel( m_nOverlayMaterial ) : NULL;
+	pModel = (m_nOverlayMaterial != 0) ? modelinfo->GetModel( m_nOverlayMaterial ) : nullptr;
 	pModelName = pModel ? modelinfo->GetModelName( pModel ) : "";
 	m_GlowOverlay.m_Sprites[0].m_pMaterial = materials->FindMaterial( pModelName, TEXTURE_GROUP_OTHER );
 

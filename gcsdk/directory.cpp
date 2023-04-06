@@ -133,7 +133,7 @@ const CGCDirTypeInstance *CGCDirProcess::GetTypeInstance( uint32 nGCIndex ) cons
 	bool bValidIndex = m_vecGCs.IsValidIndex( nGCIndex );
 	Assert( bValidIndex );
 	if ( !bValidIndex )
-		return NULL;
+		return nullptr;
 
 	return m_vecGCs[ nGCIndex ];
 }
@@ -215,7 +215,7 @@ bool CDirectory::BInit( KeyValues *pKVDirectory )
 	if ( m_bInitialized )
 		return false;
 
-	if ( NULL == pKVDirectory )
+	if (nullptr == pKVDirectory )
 	{
 		AssertMsg( false, "Null KV passed to CDirectory::BInit()" );
 		return false;
@@ -258,7 +258,7 @@ bool CDirectory::BInit( KeyValues *pKVDirectory )
 			if( 0 != Q_stricmp( pkvType->GetName(), "gc" ) )
 				continue;
 
-			const char *pchGCType = NULL;
+			const char *pchGCType = nullptr;
 			if( pkvType->GetFirstSubKey() )
 			{
 				pchGCType = pkvType->GetString( "gc" );
@@ -364,7 +364,7 @@ const CGCDirProcess *CDirectory::GetProcess( int32 nIndex ) const
 	if( !m_vecProcesses.IsValidIndex( nIndex ) )
 	{
 		Assert( false );
-		return NULL;
+		return nullptr;
 	}
 
 	return m_vecProcesses[ nIndex ];
@@ -388,7 +388,7 @@ const CGCDirTypeInstance *CDirectory::GetGCTypeInstance( uint32 iDirGC ) const
 	if( iDirGC >= ( uint32 )m_vecTypeInstances.Count() )
 	{
 		Assert( false );
-		return NULL;
+		return nullptr;
 	}
 
 	return m_vecTypeInstances[ iDirGC ];
@@ -420,14 +420,14 @@ const CGCDirTypeInstance *CDirectory::GetGCInstanceForType( int32 nTypeID, int32
 	if ( !m_mapGCsByType.IsValidIndex( nIndex ) )
 	{
 		EmitWarning( SPEW_GC, 2, "CDirectory::GetGCInstanceForType() called with unregistered type %d (%s)\n", nTypeID, GetNameForGCType( nTypeID ) );
-		return NULL;
+		return nullptr;
 	}
 
 	const CCopyableUtlVector<CGCDirTypeInstance *> &vecGCs = m_mapGCsByType[ nIndex ];
 	bool bValidIndex = vecGCs.IsValidIndex( nInstance );
 	Assert( bValidIndex );
 	if ( !bValidIndex )
-		return NULL;
+		return nullptr;
 
 	return vecGCs[ nInstance ];
 }

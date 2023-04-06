@@ -42,7 +42,7 @@ C_BasePlayer *C_BaseToggle::GetPredictionOwner( void )
 	if( pPlayer && pPlayer->IsLocalPlayer() )
 		return pPlayer;
 
-	return NULL;
+	return nullptr;
 }
 
 bool C_BaseToggle::PredictionIsPhysicallySimulated( void )

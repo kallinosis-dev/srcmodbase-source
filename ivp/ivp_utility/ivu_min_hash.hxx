@@ -46,7 +46,7 @@ public:
     void add(void *elem,IVP_DOUBLE value);
     void change_value(void *elem,IVP_DOUBLE new_value);
     
-    void *find_min_elem(){	if (!stadel[1]) return NULL; else return stadel[1]->elem; };
+    void *find_min_elem(){	if (!stadel[1]) return nullptr; else return stadel[1]->elem; };
     IVP_DOUBLE find_min_value(){	return stadel[1]->value; };
     int  is_elem(void *elem)const;
     void remove(void *elem);
@@ -61,7 +61,7 @@ class IVP_U_Min_Hash_Enumerator {
 public:
     IVP_U_Min_Hash_Enumerator( IVP_U_Min_Hash *mh){
 	min_hash = mh;
-	loop_elem = 0;
+	loop_elem = nullptr;
 	loop_index = -1;
     }
     
@@ -71,7 +71,7 @@ public:
 	}	
 	while(!loop_elem){
 	    loop_index++;
-	    if (loop_index >= (int)min_hash->size) return NULL;
+	    if (loop_index >= (int)min_hash->size) return nullptr;
 	    loop_elem = min_hash->elems[loop_index];
 	}
 	return loop_elem->elem;
@@ -84,7 +84,7 @@ public:
 	    }	
 	    while(!loop_elem){
 		loop_index++;
-		if (loop_index >= (int)min_hash->size) return NULL;
+		if (loop_index >= (int)min_hash->size) return nullptr;
 		loop_elem = min_hash->elems[loop_index];
 	    }
 	    if (loop_elem->value < max_limit){

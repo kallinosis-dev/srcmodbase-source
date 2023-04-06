@@ -71,7 +71,7 @@ void DrawSpriteModel( IClientEntity *baseentity, CEngineSprite *psprite, const V
 	if ( ShouldDrawInWireFrameMode() || r_drawsprites.GetInt() == 2 )
 	{
 		IMaterial *pMaterial = materials->FindMaterial( "debug/debugspritewireframe", TEXTURE_GROUP_OTHER );
-		pRenderContext->Bind( pMaterial, NULL );
+		pRenderContext->Bind( pMaterial, nullptr);
 	}
 	else
 	{
@@ -482,7 +482,7 @@ void CSprite::GetToolRecordingState( KeyValues *msg )
 			ent->GetAttachment( m_nAttachment, pState->m_vecRenderOrigin, temp );
 
 			// override viewmodel if we're driven by an attachment
-			bool bViewModel = ToBaseViewModel( ent ) != NULL;
+			bool bViewModel = ToBaseViewModel( ent ) != nullptr;
 			msg->SetInt( "viewmodel", bViewModel );
 		}
 	}

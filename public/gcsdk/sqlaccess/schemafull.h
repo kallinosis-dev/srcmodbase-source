@@ -44,7 +44,7 @@ public:
 	int m_nFileGroup;
 
 	CFTSCatalogInfo()
-		: m_pstrName( NULL ),
+		: m_pstrName(nullptr),
 		m_eCatalog( k_ESchemaCatalogInvalid )
 	{
 	}
@@ -58,10 +58,10 @@ public:
 	{
 		m_eCatalog = refOther.m_eCatalog;
 		m_nFileGroup = refOther.m_nFileGroup;
-		if ( refOther.m_pstrName != NULL )
+		if ( refOther.m_pstrName != nullptr)
 			m_pstrName = strdup( refOther.m_pstrName );
 		else
-			m_pstrName = NULL;
+			m_pstrName = nullptr;
 	}
 
 #ifdef DBGFLAG_VALIDATE

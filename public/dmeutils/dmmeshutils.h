@@ -31,7 +31,7 @@ class CMesh;
 
 bool SaveMeshesToDMX( CUtlVector<CMesh*> &inputMeshes, const char *pDMXFile, bool bForce2DTexcoords = true );
 bool LoadMeshesFromDMX( CUtlVector<CMesh*> &outputMeshes, const char *pDMXFile );
-bool LoadMeshes( CUtlVector<CMesh*> &outputMeshes, CDmeModel *pModel, float flScale, int *pBoneRemap = NULL );
+bool LoadMeshes( CUtlVector<CMesh*> &outputMeshes, CDmeModel *pModel, float flScale, int *pBoneRemap = nullptr);
 bool LoadCollisionMeshes( CUtlVector< CMesh* > &outputMeshes, CUtlVector< CDmeDag* > &outputDags, CDmeModel *pModel, float flScale );
 bool ConvertMeshFromDMX( CMesh *pMeshOut, CDmeMesh *pDmeMesh );
 void ConvertMeshToDMX( CDmeMesh *pDmeMeshOut, CMesh *pMeshIn, bool bForce2DTexcoords );
@@ -66,9 +66,9 @@ public:
 	// Merge the specified mesh onto the first mesh under pRoot that fits it
 	static bool Merge( CDmeMesh *pSrcMesh, CDmElement *pRoot );
 
-	static bool Merge( CDmeMesh *pSrcMesh, CDmeMesh *pDstMesh, int nSkinningJointIndex, CUtlMap< int, int > *pJointMap = NULL );
+	static bool Merge( CDmeMesh *pSrcMesh, CDmeMesh *pDstMesh, int nSkinningJointIndex, CUtlMap< int, int > *pJointMap = nullptr);
 
-	static bool CreateDeltasFromPresets( CDmeMesh *pMesh, CDmeVertexData *pPassedDst, const CUtlStringMap< CUtlString > &presetMap, bool bPurge, const CUtlVector< CUtlString > *pPurgeAllButThese = NULL );
+	static bool CreateDeltasFromPresets( CDmeMesh *pMesh, CDmeVertexData *pPassedDst, const CUtlStringMap< CUtlString > &presetMap, bool bPurge, const CUtlVector< CUtlString > *pPurgeAllButThese = nullptr);
 
 	static bool PurgeUnusedDeltas( CDmeMesh *pMesh );
 
@@ -78,7 +78,7 @@ public:
 		kAdd
 	};
 
-	static bool CreateWrinkleDeltaFromBaseState( CDmeVertexDeltaData *pDelta, float flScale = 1.0f, WrinkleOp wrinkleOp = kReplace, CDmeMesh *pMesh = NULL, CDmeVertexData *pBind = NULL, CDmeVertexData *pCurrent = NULL, bool bUseNormalForSign = false );
+	static bool CreateWrinkleDeltaFromBaseState( CDmeVertexDeltaData *pDelta, float flScale = 1.0f, WrinkleOp wrinkleOp = kReplace, CDmeMesh *pMesh = nullptr, CDmeVertexData *pBind = nullptr, CDmeVertexData *pCurrent = nullptr, bool bUseNormalForSign = false );
 
 	static int FindMergeSocket(
 		const CUtlVector< CUtlVector< CDmMeshComp::CEdge * > > &srcBorderEdgesList,
@@ -138,11 +138,11 @@ class CDmMeshFaceIt
 {
 public:
 	// Constructs a new face iterator for the specified mesh
-	CDmMeshFaceIt( const CDmeMesh *pMesh, const CDmeVertexData *pVertexData = NULL );
+	CDmMeshFaceIt( const CDmeMesh *pMesh, const CDmeVertexData *pVertexData = nullptr);
 
 	// Resets the iterator to the start of the specified mesh or for another iteration of the
 	// current mesh if the specified mesh is NULL
-	bool Reset( const CDmeMesh *pMesh = NULL, const CDmeVertexData *pVertexData = NULL );
+	bool Reset( const CDmeMesh *pMesh = nullptr, const CDmeVertexData *pVertexData = nullptr);
 
 	// Returns the total number of faces in the mesh
 	int Count() const;
@@ -179,7 +179,7 @@ public:
 	bool GetVertexData(
 		CUtlVector< T_t > &vertexData,
 		CDmeVertexDataBase::StandardFields_t nStandardField,
-		CDmeVertexData *pPassedBase = NULL ) const;
+		CDmeVertexData *pPassedBase = nullptr) const;
 
 protected:
 	bool SetFaceSet();

@@ -168,7 +168,7 @@ private:
 			AnimBitmap()
 			{
 				needsload = false;
-				bitmap = 0;
+				bitmap = nullptr;
 			}
 			bool			needsload;
 			mxbitmapdata_t *bitmap;

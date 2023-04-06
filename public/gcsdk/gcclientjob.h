@@ -31,7 +31,7 @@ protected:
 
 	bool BYldSendMessageAndGetReply( CGCMsgBase &msgOut, uint nTimeoutSec, CGCMsgBase *pMsgIn, MsgType_t eMsg )
 	{
-		IMsgNetPacket *pNetPacket = NULL;
+		IMsgNetPacket *pNetPacket = nullptr;
 
 		if ( !BYldSendMessageAndGetReply( msgOut, nTimeoutSec, &pNetPacket ) )
 			return false;
@@ -64,7 +64,7 @@ protected:
 	};
 	BYldSendMessageAndGetReply_t BYldSendMessageAndGetReplyEx( CProtoBufMsgBase &msgOut, uint nTimeoutSec, CProtoBufMsgBase *pMsgIn, MsgType_t eMsg )
 	{
-		IMsgNetPacket *pNetPacket = NULL;
+		IMsgNetPacket *pNetPacket = nullptr;
 
 		msgOut.ExpectingReply( GetJobID() );
 

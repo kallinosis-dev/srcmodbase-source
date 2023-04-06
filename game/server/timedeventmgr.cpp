@@ -18,7 +18,7 @@
 CEventRegister::CEventRegister()
 {
 	m_bRegistered = false;
-	m_pEventMgr = NULL;
+	m_pEventMgr = nullptr;
 }
 
 

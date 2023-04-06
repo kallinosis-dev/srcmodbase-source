@@ -462,7 +462,7 @@ const char* Stream::WriteAndLinkString( Offset_t<char> *pOffset, const char *pSt
 	else
 	{
 		pOffset->offset = 0; // make the offset NULL
-		return NULL;
+		return nullptr;
 	}
 }
 

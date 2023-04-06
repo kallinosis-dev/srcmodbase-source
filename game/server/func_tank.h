@@ -203,7 +203,7 @@ private:
 	void AimFuncTankAtTarget( void );
 
 	// Returns true if the desired angles are out of range 
-	bool RotateTankToAngles( const QAngle &angles, float *pDistX = NULL, float *pDistY = NULL );
+	bool RotateTankToAngles( const QAngle &angles, float *pDistX = nullptr, float *pDistY = nullptr);
 
 	// We lost our target! 
 	void LostTarget( void );

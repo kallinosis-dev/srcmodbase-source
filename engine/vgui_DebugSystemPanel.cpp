@@ -101,7 +101,7 @@ public:
 		CCommand args;
 		args.Tokenize( pCommand );
 
-		m_pVar = NULL;
+		m_pVar = nullptr;
 		if ( args.ArgC() >= 4 )
 		{
 			m_pVar = ( ConVar * )g_pCVar->FindVar( args[0] );
@@ -221,7 +221,7 @@ public:
 	void Init( KeyValues *kv )
 	{
 		// LoadControlSettings( va( "resource\\%s.res", kv->GetName() ) );
-		for (KeyValues *control = kv->GetFirstSubKey(); control != NULL; control = control->GetNextKey())
+		for (KeyValues *control = kv->GetFirstSubKey(); control != nullptr; control = control->GetNextKey())
 		{
 			const char *t;
 			
@@ -270,7 +270,7 @@ public:
 		{
 			if ( kv->LoadFromFile(g_pFullFileSystem, "scripts/DebugOptions.txt") )
 			{
-				for (KeyValues *dat = kv->GetFirstSubKey(); dat != NULL; dat = dat->GetNextKey())
+				for (KeyValues *dat = kv->GetFirstSubKey(); dat != nullptr; dat = dat->GetNextKey())
 				{
 					if ( !Q_strcasecmp( dat->GetName(), "width" ) )
 					{

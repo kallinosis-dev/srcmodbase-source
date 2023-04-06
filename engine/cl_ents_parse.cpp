@@ -150,7 +150,7 @@ IClientNetworkable* CL_CreateDLLEntity( int iEnt, int iClass, int iSerialNum )
 #endif
 
 	ClientClass *pClientClass;
-	if ( ( pClientClass = GetBaseLocalClient().m_pServerClasses[iClass].m_pClientClass ) != NULL )
+	if ( ( pClientClass = GetBaseLocalClient().m_pServerClasses[iClass].m_pClientClass ) != nullptr)
 	{
 		TRACE_DELTA( va( "Trace %i (%s): create\n", iEnt, pClientClass->m_pNetworkName ) );
 
@@ -167,7 +167,7 @@ IClientNetworkable* CL_CreateDLLEntity( int iEnt, int iClass, int iSerialNum )
 	}
 
 	Assert(false);
-	return NULL;
+	return nullptr;
 }
 
 void	SpewBitStream( unsigned char* pMem, int bit, int lastbit )
@@ -249,7 +249,7 @@ static inline RecvTable* GetEntRecvTable( int entnum )
 	if ( pNet )
 		return pNet->GetClientClass()->m_pRecvTable;
 	else
-		return NULL;
+		return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -326,7 +326,7 @@ void CL_CopyNewEntity(
 		if ( ent->GetIClientUnknown()->GetRefEHandle().GetSerialNumber() != iSerialNum )
 		{
 			CL_DeleteDLLEntity( u.m_nNewEntity, "CopyNewEntity" );
-			ent = NULL; // force a recreate
+			ent = nullptr; // force a recreate
 		}
 	}
 
@@ -351,7 +351,7 @@ void CL_CopyNewEntity(
 	SerializedEntityHandle_t oldbaseline = SERIALIZED_ENTITY_HANDLE_INVALID;
 
 	// Get either the static or instance baseline.
-	PackedEntity *baseline = u.m_bAsDelta ? GetBaseLocalClient().GetEntityBaseline( u.m_nBaseline, u.m_nNewEntity ) : NULL;
+	PackedEntity *baseline = u.m_bAsDelta ? GetBaseLocalClient().GetEntityBaseline( u.m_nBaseline, u.m_nNewEntity ) : nullptr;
 	if ( baseline && baseline->m_pClientClass == pClass )
 	{
 		oldbaseline = baseline->GetPackedData();
@@ -379,7 +379,7 @@ void CL_CopyNewEntity(
 			// store this baseline in u.m_pUpdateBaselines
 			SerializedEntityHandle_t newbaseline = g_pSerializedEntities->AllocateSerializedEntity( __FILE__, __LINE__ );
 
-			RecvTable_MergeDeltas( pRecvTable, oldbaseline, u.m_DecodeEntity, newbaseline, -1, NULL );
+			RecvTable_MergeDeltas( pRecvTable, oldbaseline, u.m_DecodeEntity, newbaseline, -1, nullptr);
 
 			// set the other baseline
 			GetBaseLocalClient().SetEntityBaseline( (u.m_nBaseline==0)?1:0, pClass, u.m_nNewEntity, newbaseline );
@@ -578,7 +578,7 @@ bool CL_ProcessPacketEntities( const CSVCMsg_PacketEntities &msg )
 	// Packed entities for that frame
 	// Allocate space for new packet info.
 	CClientFrame *newFrame = GetBaseLocalClient().AllocateAndInitFrame( GetBaseLocalClient().GetServerTickCount() );
-	CClientFrame *oldFrame = NULL;
+	CClientFrame *oldFrame = nullptr;
 
 	// if cl_flushentitypacket is set to N, the next N entity updates will be flushed
 	if ( cl_flushentitypacket.GetInt() )

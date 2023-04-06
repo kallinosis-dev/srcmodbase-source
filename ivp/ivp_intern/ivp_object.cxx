@@ -117,7 +117,7 @@ void IVP_Real_Object::change_unmovable_flag( IVP_BOOL flag ) {
     if(my_core->physical_unmoveable) {
 	P_DELETE(my_core->core_friction_info.for_unmoveables.l_friction_info_hash);
     } else {
-	my_core->core_friction_info.for_moveables.moveable_core_friction_info=NULL;
+	my_core->core_friction_info.for_moveables.moveable_core_friction_info= nullptr;
     }
     if(my_core->movement_state < IVP_MT_NOT_SIM) {
         my_core->freeze_simulation_core();
@@ -239,7 +239,7 @@ void IVP_Real_Object::remove_listener_object(IVP_Listener_Object *listener){
 
 void IVP_Real_Object::insert_anchor(IVP_Anchor *new_anchor)
 {
-    new_anchor->anchor_prev_in_object=NULL;
+    new_anchor->anchor_prev_in_object= nullptr;
     new_anchor->anchor_next_in_object=this->anchors;
     if (this->anchors){
 	this->anchors->anchor_prev_in_object=new_anchor;
@@ -251,14 +251,14 @@ void IVP_Real_Object::remove_anchor(IVP_Anchor *destroy_anch)
 {
     IVP_Anchor *previous=destroy_anch->anchor_prev_in_object;
     IVP_Anchor *following=destroy_anch->anchor_next_in_object;
-    if(previous!=NULL)
+    if(previous!= nullptr)
     {
 	previous->anchor_next_in_object=following;
     } else {
 	this->anchors=following;
     }
 
-    if(following!=NULL)
+    if(following!= nullptr)
     {
 	following->anchor_prev_in_object=previous;
     }
@@ -337,17 +337,17 @@ IVP_Real_Object::IVP_Real_Object(IVP_Cluster *cluster,IVP_SurfaceManager *surfac
     }
 //	ivp_message("IVP_Real_Object::IVP_Real_Object 0x%x - %s\n", this, templ_obj->get_name());
     
-    exact_synapses = NULL;
-    invalid_synapses = NULL;
-    friction_synapses = NULL;
+    exact_synapses = nullptr;
+    invalid_synapses = nullptr;
+    friction_synapses = nullptr;
     surface_manager = surface_manager_;
-    anchors = NULL;
-    ov_element = NULL;			// will be set by IVP_Mindist_Manager::enable_collision_detection
+    anchors = nullptr;
+    ov_element = nullptr;			// will be set by IVP_Mindist_Manager::enable_collision_detection
     ((int *) &flags)[0] = 0;
-    q_core_f_object = NULL;
+    q_core_f_object = nullptr;
     shift_core_f_object.set_to_zero();
-    cache_object = NULL;
-    controller_phantom = NULL;
+    cache_object = nullptr;
+    controller_phantom = nullptr;
 
     strncpy(nocoll_group_ident, templ_obj->get_nocoll_group_ident(),IVP_NO_COLL_GROUP_STRING_LEN);
     physical_core = new IVP_Core(this, q_world_f_object, position, templ_obj->physical_unmoveable ,templ_obj->enable_piling_optimization);
@@ -592,7 +592,7 @@ void IVP_Real_Object::unlink_contact_points(IVP_BOOL silent) {
     // then delete static friction datas @@@OS, loop only once + flag 
     int debug_once=0;
     IVP_Synapse_Friction *fr_synapse;
-    while((fr_synapse=this->get_first_friction_synapse())!=NULL) {
+    while((fr_synapse=this->get_first_friction_synapse())!= nullptr) {
 	IVP_Contact_Point *fr_mindist=fr_synapse->get_contact_point();
         IVP_Friction_System *fr_sys=fr_mindist->l_friction_system;
 	IVP_IF(debug_once) {
@@ -625,8 +625,8 @@ void IVP_Real_Object::unlink_contact_points(IVP_BOOL silent) {
 void IVP_Real_Object::clear_internal_references() {
     // first clear actuators
     IVP_Anchor *my_anchor;
-    IVP_Anchor *last_anchor = 0;
-    while( (my_anchor=this->get_first_anchor()) != NULL) {
+    IVP_Anchor *last_anchor = nullptr;
+    while( (my_anchor=this->get_first_anchor()) != nullptr) {
 	my_anchor->object_is_going_to_be_deleted_event(this);
 	if (my_anchor == last_anchor){ // check for errors in anchors
 	    CORE;
@@ -637,7 +637,7 @@ void IVP_Real_Object::clear_internal_references() {
     unlink_contact_points(IVP_TRUE); //do it silently (do not wake up objects)
     
     IVP_Synapse_Real *fr_synapse;
-    while((fr_synapse=this->get_first_exact_synapse())!=NULL) {
+    while((fr_synapse=this->get_first_exact_synapse())!= nullptr) {
 	IVP_Mindist *my_mindist=fr_synapse->get_mindist();
 	P_DELETE(my_mindist);
     }
@@ -656,9 +656,9 @@ IVP_Object::IVP_Object(IVP_Environment *env){
 }
 
 void IVP_Object::init(IVP_Environment *env){
-    next_in_cluster = prev_in_cluster = father_cluster = NULL;
+    next_in_cluster = prev_in_cluster = father_cluster = nullptr;
     environment = env;
-    name=0;
+    name=nullptr;
 	this->set_type(IVP_NONE);
 }
 
@@ -668,7 +668,7 @@ IVP_Object::~IVP_Object(){
     }
     P_FREE(this->name);
 	IVP_ASSERT(environment);
-	environment = NULL;
+	environment = nullptr;
 }
 
 void IVP_Real_Object::calc_m_core_f_object( IVP_U_Matrix *m_core_f_object )
@@ -695,12 +695,12 @@ void   IVP_Real_Object::get_quat_world_f_object_AT(IVP_U_Quat *quat_world_f_obje
 
 
 IVP_Cluster::IVP_Cluster(IVP_Cluster *father, IVP_Template_Cluster *templ): IVP_Object(father, templ) {
-    objects = NULL;
+    objects = nullptr;
 	this->set_type(IVP_CLUSTER);
 };
 
 IVP_Cluster::IVP_Cluster(IVP_Environment *env): IVP_Object(env){
-   objects = NULL;
+   objects = nullptr;
    this->set_type(IVP_CLUSTER);
 };
 
@@ -713,8 +713,8 @@ IVP_Cluster::~IVP_Cluster(){	// silently deletes a cluster
 
 void IVP_Cluster::add_object(IVP_Object *object){
     object->next_in_cluster = objects;
-    object->prev_in_cluster = NULL;
-    if (objects != NULL){
+    object->prev_in_cluster = nullptr;
+    if (objects != nullptr){
 	objects->prev_in_cluster = object;
     }
     objects = object;
@@ -723,13 +723,13 @@ void IVP_Cluster::add_object(IVP_Object *object){
 
 
 void IVP_Cluster::remove_object(IVP_Object *object){
-    if ( object->prev_in_cluster == NULL){
+    if ( object->prev_in_cluster == nullptr){
 	objects = object->next_in_cluster;
     }else{
 	object->prev_in_cluster->next_in_cluster = object->next_in_cluster;
     }
 
-    if ( object->next_in_cluster != NULL){
+    if ( object->next_in_cluster != nullptr){
 	object->next_in_cluster->prev_in_cluster = object->prev_in_cluster;
     }
 };
@@ -954,7 +954,7 @@ void IVP_Real_Object::do_radar_checking(IVP_Radar *radar){
     max_range = radar->max_range + hm->get_current_hull_time();
     IVP_U_Min_List_Enumerator mindists(ss);
     IVP_Listener_Hull *supers;
-    while ( (supers = (IVP_Listener_Hull*)mindists.get_next_element_lt(max_range))!= NULL ){
+    while ( (supers = (IVP_Listener_Hull*)mindists.get_next_element_lt(max_range))!= nullptr){
 	if (supers->get_type() != IVP_HULL_ELEM_POLYGON) continue;
 	IVP_Synapse_Real *syn = (IVP_Synapse_Real*)supers;
 	IVP_Mindist *md = syn->get_mindist();

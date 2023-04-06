@@ -151,7 +151,7 @@ public:
 
 	int GetStatCount();
 
-	void AddClientCSGOGameEvent( CSClientCsgoGameEventType_t eEvent, Vector const &pos, QAngle const &ang, uint64 ullData = 0ull, char const *szMapName = NULL, int16 nRound = CSCLIENTCSGOGAMEEVENTTYPE_AUTODETECT_INT16, int16 nRoundSecondsElapsed = CSCLIENTCSGOGAMEEVENTTYPE_AUTODETECT_INT16 );
+	void AddClientCSGOGameEvent( CSClientCsgoGameEventType_t eEvent, Vector const &pos, QAngle const &ang, uint64 ullData = 0ull, char const *szMapName = nullptr, int16 nRound = CSCLIENTCSGOGAMEEVENTTYPE_AUTODETECT_INT16, int16 nRoundSecondsElapsed = CSCLIENTCSGOGAMEEVENTTYPE_AUTODETECT_INT16 );
 
 	PlayerStatData_t GetStatById(int id, int nUserSlot );
 

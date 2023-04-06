@@ -80,7 +80,7 @@ void CTEGlowSprite::Test( const Vector& current_origin, const QAngle& current_an
 
 	m_vecOrigin.GetForModify()[2] += 24;
 
-	AngleVectors( current_angles, &forward, &right, NULL );
+	AngleVectors( current_angles, &forward, &right, nullptr);
 	forward[2] = 0.0;
 	VectorNormalize( forward );
 

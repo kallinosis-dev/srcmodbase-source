@@ -106,7 +106,7 @@ char* CmdLib_FGets( char *pOut, int outSize, FileHandle_t hFile )
 		if ( !g_pFileSystem->Read( &c, 1, hFile ) )
 		{
 			if ( iCur == 0 )
-				return NULL;
+				return nullptr;
 			else
 				break;
 		}
@@ -118,7 +118,7 @@ char* CmdLib_FGets( char *pOut, int outSize, FileHandle_t hFile )
 		if ( c == EOF )
 		{
 			if ( iCur == 0 )
-				return NULL;
+				return nullptr;
 			else
 				break;
 		}
@@ -286,12 +286,12 @@ void CCmdLibStandardLoggingListener::Log( const LoggingContext_t *pContext, cons
 				0,							// dwExceptionCode
 				EXCEPTION_NONCONTINUABLE,	// dwExceptionFlags
 				0,							// nNumberOfArguments,
-				NULL						// const ULONG_PTR* lpArguments
+				nullptr				// const ULONG_PTR* lpArguments
 				);
 
 			// Never get here (non-continuable exception)
 
-			VMPI_HandleCrash( pMessage, 0, NULL, true );
+			VMPI_HandleCrash( pMessage, 0, nullptr, true );
 			exit( 0 );
 		}
 	}
@@ -361,8 +361,8 @@ void InstallSpewFunction()
 	if ( !g_bInstalledSpewFunction )
 	{
 		g_bInstalledSpewFunction = true;
-		setvbuf( stdout, NULL, _IONBF, 0 );
-		setvbuf( stderr, NULL, _IONBF, 0 );
+		setvbuf( stdout, nullptr, _IONBF, 0 );
+		setvbuf( stderr, nullptr, _IONBF, 0 );
 
 		LoggingSystem_PushLoggingState();
 		LoggingSystem_RegisterLoggingListener( &g_CmdLibOutputLoggingListener );
@@ -651,7 +651,7 @@ Parse a token out of a string
 */
 char *COM_Parse( char *data )
 {
-	return ( char* )ParseFile( data, com_token, NULL );
+	return ( char* )ParseFile( data, com_token, nullptr);
 }
 
 
@@ -818,7 +818,7 @@ const char *CmdLib_GetBasePath( int i )
 FileHandle_t SafeOpenRead( const char *filename )
 {
 	int pathLength;
-	FileHandle_t f = 0;
+	FileHandle_t f = nullptr;
 	if( CmdLib_HasBasePath( filename, pathLength ) )
 	{
 		filename = filename + pathLength;
@@ -908,7 +908,7 @@ int    LoadFile( const char *filename, void **bufferptr )
 	}
 	else
 	{
-		*bufferptr = NULL;
+		*bufferptr = nullptr;
 	}
 	return length;
 }

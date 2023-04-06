@@ -860,7 +860,7 @@ CBaseClient *CSteam3Server::ClientFindFromSteamID( CSteamID & steamIDFind )
 			return cl;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -911,7 +911,7 @@ bool CSteam3Server::NotifyClientConnect( CBaseClient *client, uint32 unUserID, c
 	if ( steamID.IsValid() && sv_mmqueue_reservation.GetString()[0] == 'Q' && ( client->GetServer() == &sv ) )
 	{
 		// For queue reservation client ID must match
-		static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * ) NULL );
+		static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * )nullptr);
 		bool bQMMplayer = !!strstr( sv_mmqueue_reservation.GetString(), CFmtStr( "[%x]", steamID.GetAccountID() ) );
 		bool bQMMcaster = ( !bQMMplayer && s_pchTournamentServer && !!strstr( sv_mmqueue_reservation.GetString(), CFmtStr( "{%x}", steamID.GetAccountID() ) ) );
 		if ( !bQMMplayer && !bQMMcaster )
@@ -1062,7 +1062,7 @@ void CSteam3Server::RunFrame()
 //-----------------------------------------------------------------------------
 void CSteam3Server::SendUpdatedServerDetails()
 {
-	if ( !BIsActive() || SteamGameServer() == NULL )
+	if ( !BIsActive() || SteamGameServer() == nullptr)
 		return;
 
 	// Check if we are running with a special flag and not advertise to Steam
@@ -1078,11 +1078,11 @@ void CSteam3Server::SendUpdatedServerDetails()
 
 	SteamGameServer()->SetBotPlayerCount( nBots );
 	SteamGameServer()->SetMaxPlayerCount( nMaxHumans );
-	SteamGameServer()->SetPasswordProtected( sv.GetPassword() != NULL );
+	SteamGameServer()->SetPasswordProtected( sv.GetPassword() != nullptr);
 	SteamGameServer()->SetRegion( sv_region.GetString() );
 	SteamGameServer()->SetServerName( sv.GetName() );
 
-	char const *pszMapName = NULL;
+	char const *pszMapName = nullptr;
 	CHltvServerIterator hltv;
 	if ( hltv && hltv->IsTVRelay() )
 	{
@@ -1117,7 +1117,7 @@ void CSteam3Server::SendUpdatedServerDetails()
 	}
 	SteamGameServer()->SetMapName( pszMapName );
 
-	if ( hltv != NULL )
+	if ( hltv != nullptr)
 	{
 		SteamGameServer()->SetSpectatorPort( NET_GetUDPPort( NS_HLTV + hltv->GetInstanceIndex() ) );
 		SteamGameServer()->SetSpectatorServerName( hltv->GetName() );

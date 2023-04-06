@@ -39,7 +39,7 @@ public:
 	void UpdateListForTool(int iTool);
 	void SetupForBlockTool();
 	void DoHideControls();
-	CMapClass *CreateInBox(BoundBox *pBox, CMapView *pView = NULL);
+	CMapClass *CreateInBox(BoundBox *pBox, CMapView *pView = nullptr);
 	BOOL GetPrefabBounds(BoundBox *pBox);
 	
 	// If this is on, then it'll randomize the yaw when entities are placed.
@@ -87,7 +87,7 @@ private:
 
 	int UpdatePreviousSelection( int iTool );
 
-	int GetPrevSelIndex(DWORD dwGameID, int *piNewIndex = NULL);
+	int GetPrevSelIndex(DWORD dwGameID, int *piNewIndex = nullptr);
 	BOOL EnableFaceControl(CWnd *pWnd, BOOL bModifyWnd);
 	
 	int iEntitySel;

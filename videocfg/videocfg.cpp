@@ -106,7 +106,7 @@ static VideoConfigSetting_t const * VideoConfigSettingFindWhitelistEntryByName( 
 		if ( !V_stricmp( szSettingName, s_pVideoConfigSettingsWhitelist[k].m_pSettingVar ) )
 			return &s_pVideoConfigSettingsWhitelist[k];
 	}
-	return NULL;
+	return nullptr;
 }
 
 static RatioToAspectMode_t g_pRatioToAspectModes[] =
@@ -138,7 +138,7 @@ static AspectRatioMode_t GetScreenAspectMode( int width, int height )
 #if !defined( _GAMECONSOLE )
 static inline int ReadHexValue( KeyValues *pVal, const char *pName )
 {
-	const char *pString = pVal->GetString( pName, NULL );
+	const char *pString = pVal->GetString( pName, nullptr);
 	if (!pString)
 	{
 		return -1;
@@ -343,7 +343,7 @@ bool AddVideoCardKeys( KeyValues *pModKeys, int nVendorID, int nDeviceID, KeyVal
 			continue;
 
 		// Only initialize with unknown data if we didn't find the actual card.
-		bool bUnknownDevice = ( pModKey->FindKey( "makemelast" ) != NULL );
+		bool bUnknownDevice = ( pModKey->FindKey( "makemelast" ) != nullptr);
 
 		// Fixed for CS:GO - Don't apply this node's keys at all unless the node's vendor ID matches (for example, some NVidia device ID's, such as the 6800's, alias a few Intel ID's).
 		if ( ( iDeviceMin <= nDeviceID ) && ( nDeviceID <= iDeviceMax ) && ( nVendorID == iVender ) )
@@ -849,7 +849,7 @@ bool BLoadUserVideoConfigFileFromDisk( KeyValues *pConfigKeys )
 	if ( !kvDefaultSettings->LoadFromFile( g_pFullFileSystem, VIDEOCONFIG_DEFAULT_FILENAME, VIDEOCONFIG_PATHID ) )
 	{
 		kvDefaultSettings->deleteThis();
-		kvDefaultSettings = NULL;
+		kvDefaultSettings = nullptr;
 	}
 
 	// bloat the AUTO detected settings for compatibility as proper 'setting.' fields
@@ -870,7 +870,7 @@ bool BLoadUserVideoConfigFileFromDisk( KeyValues *pConfigKeys )
 	if ( kvDefaultSettings )
 	{
 		kvDefaultSettings->deleteThis();
-		kvDefaultSettings = NULL;
+		kvDefaultSettings = nullptr;
 	}
 
 	return true;
@@ -1192,7 +1192,7 @@ KeyValues* ReadEncryptedKVFile( const char *pRelativePath, const char *pPathID, 
 	FileHandle_t f = g_pFullFileSystem->Open( pRelativePath, "rb", pPathID );
 	if ( !f )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// load file into a null-terminated buffer
@@ -1209,7 +1209,7 @@ KeyValues* ReadEncryptedKVFile( const char *pRelativePath, const char *pPathID, 
 	if ( !retOK )
 	{
 		pKV->deleteThis();
-		return NULL;
+		return nullptr;
 	}
 
 	return pKV;

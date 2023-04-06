@@ -22,7 +22,7 @@ class CParticleBrowserPanel : public vgui::EditablePanel
 {
 public:
 	CParticleBrowserPanel( CParticleBrowser *pBrowser, const char *panelName, vgui::HScheme hScheme ) : 
-	  vgui::EditablePanel( NULL, panelName, hScheme )
+	  vgui::EditablePanel(nullptr, panelName, hScheme )
 	{
 		m_pBrowser = pBrowser;
 	}
@@ -76,11 +76,11 @@ IMPLEMENT_DYNAMIC(CParticleBrowser, CDialog)
 CParticleBrowser::CParticleBrowser(CWnd* pParent /*=NULL*/)
 	: CDialog(CParticleBrowser::IDD, pParent)
 {
-	m_pPicker = new CParticlePicker( NULL );
-	m_pStatusLine = new vgui::TextEntry( NULL, "StatusLine" );
+	m_pPicker = new CParticlePicker(nullptr);
+	m_pStatusLine = new vgui::TextEntry(nullptr, "StatusLine" );
 
-	m_pButtonOK = new vgui::Button( NULL, "OpenButton", "OK" );
-	m_pButtonCancel = new vgui::Button( NULL, "CancelButton", "Cancel" );
+	m_pButtonOK = new vgui::Button(nullptr, "OpenButton", "OK" );
+	m_pButtonCancel = new vgui::Button(nullptr, "CancelButton", "Cancel" );
 }
 
 CParticleBrowser::~CParticleBrowser()
@@ -214,7 +214,7 @@ BOOL CParticleBrowser::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	m_VGuiWindow.Create( NULL, _T("ParticleViewer"), WS_VISIBLE|WS_CHILD, CRect(0,0,100,100), this, IDD_PARTICLE_BROWSER );
+	m_VGuiWindow.Create(nullptr, _T("ParticleViewer"), WS_VISIBLE|WS_CHILD, CRect(0,0,100,100), this, IDD_PARTICLE_BROWSER );
 
 	vgui::EditablePanel *pMainPanel = new CParticleBrowserPanel( this, "ParticleBrowerPanel", HammerVGui()->GetHammerScheme() );
 	

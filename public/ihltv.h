@@ -52,7 +52,7 @@ public:
 	virtual bool		IsRecording() = 0;
 	virtual const char* GetRecordingDemoFilename() = 0;
 	virtual void		StartAutoRecording() = 0;
-	virtual void		StopRecording( const CGameInfo *pGameInfo = NULL ) = 0;
+	virtual void		StopRecording( const CGameInfo *pGameInfo = nullptr) = 0;
 };
 
 #endif

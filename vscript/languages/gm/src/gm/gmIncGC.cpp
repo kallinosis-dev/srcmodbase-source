@@ -46,7 +46,7 @@
 
 gmGCColorSet::gmGCColorSet()
 {
-  Init(NULL);
+  Init(nullptr);
 }
 
 
@@ -72,12 +72,12 @@ void gmGCColorSet::Init(gmGarbageCollector* a_gc)
   m_tail = &m_tailObject;
 
   m_tailObject.SetPrev(&m_separatorObject);
-  m_tailObject.SetNext(NULL);
+  m_tailObject.SetNext(nullptr);
   
   m_separatorObject.SetPrev(&m_headObject);
   m_separatorObject.SetNext(&m_tailObject);
   
-  m_headObject.SetPrev(NULL);
+  m_headObject.SetPrev(nullptr);
   m_headObject.SetNext(&m_separatorObject);
 
   // Make persistList into a list node
@@ -541,7 +541,7 @@ void gmGCColorSet::DestructAll()
 
 gmGarbageCollector::gmGarbageCollector()
 {
-  Init(NULL, NULL);
+  Init(nullptr, nullptr);
 }
 
 
@@ -562,7 +562,7 @@ void gmGarbageCollector::Init(gmGCScanRootsCallBack a_scanRootsCallback, gmMachi
   m_doneTracing = false;
   m_colorSet.Init(this);
   m_traceState.Reset();
-  m_flipCallback = NULL;
+  m_flipCallback = nullptr;
   m_scanRootsCallback = a_scanRootsCallback;
   m_gmMachine = a_gmMachine;
 }
@@ -790,7 +790,7 @@ const void* gmGCColorSet::GetInstructionAtBreakPoint(gmuint32 a_sourceId, int a_
     cur = cur->GetNext();
   }
 
-  return NULL;
+  return nullptr;
 }
 
 
@@ -834,5 +834,5 @@ gmObject* gmGCColorSet::CheckReference(gmptr a_ref)
     cur = cur->GetNext();
   }
 
-  return NULL;
+  return nullptr;
 }

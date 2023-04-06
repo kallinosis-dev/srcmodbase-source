@@ -30,7 +30,7 @@ public:
 	virtual C_BaseCombatCharacter* GetPassenger( int nRole );
 	virtual int	GetPassengerRole( C_BaseCombatCharacter *pEnt );
 	virtual bool IsPassengerUsingStandardWeapons( int nRole = VEHICLE_ROLE_DRIVER ) { return false; }
-	virtual void GetVehicleViewPosition( int nRole, Vector *pOrigin, QAngle *pAngles, float *pFOV = NULL );
+	virtual void GetVehicleViewPosition( int nRole, Vector *pOrigin, QAngle *pAngles, float *pFOV = nullptr);
 
 	virtual void SetupMove( C_BasePlayer *player, CUserCmd *ucmd, IMoveHelper *pHelper, CMoveData *move ) {}
 	virtual void ProcessMovement( C_BasePlayer *pPlayer, CMoveData *pMoveData ) {}

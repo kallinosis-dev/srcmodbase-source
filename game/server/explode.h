@@ -33,7 +33,7 @@ void ExplosionCreate( const Vector &center, const QAngle &angles,
 
 void ExplosionCreate( const Vector &center, const QAngle &angles, 
 					 CBaseEntity *pOwner, int magnitude, int radius, int nSpawnFlags, 
-					 float flExplosionForce = 0.0f, CBaseEntity *pInflictor = NULL, int iCustomDamageType = -1,  const EHANDLE *ignoredEntity = NULL, Class_T ignoredClass = CLASS_NONE);
+					 float flExplosionForce = 0.0f, CBaseEntity *pInflictor = nullptr, int iCustomDamageType = -1,  const EHANDLE *ignoredEntity = nullptr, Class_T ignoredClass = CLASS_NONE);
 
 // this version lets you specify classes or entities to be ignored
 void ExplosionCreate( const Vector &center, const QAngle &angles, 

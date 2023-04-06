@@ -19,7 +19,7 @@ CParticleSphereRenderer::CParticleSphereRenderer()
 
 	m_bUsingPixelShaders = false;
 	m_iLastTickStartRenderCalled = -1;
-	m_pParticleMgr = NULL;
+	m_pParticleMgr = nullptr;
 }
 
 

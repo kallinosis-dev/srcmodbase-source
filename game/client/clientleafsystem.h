@@ -183,11 +183,11 @@ struct SetupRenderInfo_t
 
 	SetupRenderInfo_t()
 	{
-		m_pWorldListInfo = NULL;
-		m_pRenderList = NULL;
-		m_pCSMVolumeCuller = NULL;
-		m_pFrustum = NULL;
-		m_ppFrustumList = NULL;
+		m_pWorldListInfo = nullptr;
+		m_pRenderList = nullptr;
+		m_pCSMVolumeCuller = nullptr;
+		m_pFrustum = nullptr;
+		m_ppFrustumList = nullptr;
 		m_nBuildViewID = -1;
 		m_nOcclustionViewID = -1;
 
@@ -299,7 +299,7 @@ public:
 	virtual int GetRenderableLeaves( ClientRenderHandle_t handle, int leaves[128] ) = 0;
 
 	// Get leaves this renderable is in
-	virtual bool GetRenderableLeaf ( ClientRenderHandle_t handle, int* pOutLeaf, const int* pInIterator = 0, int* pOutIterator = 0 ) = 0;
+	virtual bool GetRenderableLeaf ( ClientRenderHandle_t handle, int* pOutLeaf, const int* pInIterator = nullptr, int* pOutIterator = nullptr ) = 0;
 
 	// Draw translucent objects in the opaque renderables pass
 	virtual void EnableForceOpaquePass( ClientRenderHandle_t handle, bool bEnable ) = 0;

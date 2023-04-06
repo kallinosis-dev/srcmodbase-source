@@ -300,12 +300,12 @@ DispDecalHandle_t CDispInfo::NotifyAddDecal( decal_t *pDecal, float flSize )
 		pDispDecal->m_flSize = flSize;
 		
 		// Setup a basis for it.
-		CDecalVert *pOutVerts = NULL;
+		CDecalVert *pOutVerts = nullptr;
 		R_SetupDecalClip( pOutVerts, pDispDecal->m_pDecal, MSurf_Plane( m_ParentSurfID ).normal, pDispDecal->m_pDecal->material,
 			pDispDecal->m_TextureSpaceBasis, pDispDecal->m_DecalWorldScale );
 		
 		// Recurse and precalculate which nodes this thing can touch.
-		SetupDecalNodeIntersect( m_pPowerInfo->m_RootNode, 0, pDispDecal, 0 );
+		SetupDecalNodeIntersect( m_pPowerInfo->m_RootNode, 0, pDispDecal, nullptr );
 	}
 
 	return h;
@@ -974,7 +974,7 @@ void DispInfo_DrawDecalsGroup( IMatRenderContext *pRenderContext, int iGroup, in
 				continue;
 	
 			// New bucket = new batch.
-			DecalBatchList_t *pBatch = NULL;
+			DecalBatchList_t *pBatch = nullptr;
 			bool bBatchInit = true;
 			
 			int nCount;
@@ -1017,7 +1017,7 @@ void DispInfo_DrawDecalsGroup( IMatRenderContext *pRenderContext, int iGroup, in
 
 						// Reset.
 						bMeshInit = true;
-						pBatch = NULL;
+						pBatch = nullptr;
 						bBatchInit = true;
 						unPlayerDecalStickerKitID = 0;
 					}
@@ -1026,16 +1026,16 @@ void DispInfo_DrawDecalsGroup( IMatRenderContext *pRenderContext, int iGroup, in
 					if ( bMeshInit )
 					{
 						// Reset the mesh list.
-						meshList.m_pMesh = NULL;
+						meshList.m_pMesh = nullptr;
 						meshList.m_aBatches.RemoveAll();
 
 						if ( !bMatWireframe )
 						{
-							meshList.m_pMesh = pRenderContext->GetDynamicMesh( false, NULL, NULL, pDecalHead->material );
+							meshList.m_pMesh = pRenderContext->GetDynamicMesh( false, nullptr, nullptr, pDecalHead->material );
 						}
 						else
 						{
-							meshList.m_pMesh = pRenderContext->GetDynamicMesh( false, NULL, NULL, g_materialDecalWireframe );
+							meshList.m_pMesh = pRenderContext->GetDynamicMesh( false, nullptr, nullptr, g_materialDecalWireframe );
 						}
 
 						meshBuilder.Begin( meshList.m_pMesh, MATERIAL_TRIANGLES, nDecalSortMaxVerts, nDecalSortMaxIndices );
@@ -1239,7 +1239,7 @@ HDISPINFOARRAY DispInfo_CreateArray( int nElements )
 	}
 	else
 	{
-		pRet->m_pDispInfos = NULL;
+		pRet->m_pDispInfos = nullptr;
 	}
 	for( int i=0; i < nElements; i++ )
 		pRet->m_pDispInfos[i].m_pDispArray = pRet;
@@ -1263,7 +1263,7 @@ IDispInfo* DispInfo_IndexArray( HDISPINFOARRAY hArray, int iElement )
 {
 	CDispArray *pArray = static_cast<CDispArray*>( hArray );
 	if( !pArray )
-		return NULL;
+		return nullptr;
 
 	Assert( iElement >= 0 && iElement < pArray->m_nDispInfos );
 	return &pArray->m_pDispInfos[iElement];

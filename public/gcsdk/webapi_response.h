@@ -103,7 +103,7 @@ private:
 class CWebAPIValues 
 {
 public:
-	CWebAPIValues( CWebAPIValues *pParent, const char *pchName, EWebAPIValueType eValueType, const char *pchArrayElementNames = NULL );
+	CWebAPIValues( CWebAPIValues *pParent, const char *pchName, EWebAPIValueType eValueType, const char *pchArrayElementNames = nullptr);
 
 	~CWebAPIValues();
 
@@ -331,7 +331,7 @@ private:
 	void AssertNoChildren();
 
 	// Internal helper for creating children 
-	CWebAPIValues *CreateChildInternal( const char *pchName, EWebAPIValueType eValueType, const char *pchArrayElementNames = NULL );
+	CWebAPIValues *CreateChildInternal( const char *pchName, EWebAPIValueType eValueType, const char *pchArrayElementNames = nullptr);
 
 	// Name of this node
 	char *m_pchName;
@@ -376,30 +376,30 @@ class CWebAPIValuesAD
 public:
 	CWebAPIValuesAD()
 	{
-		m_pwav = NULL;
+		m_pwav = nullptr;
 	}
 
 	// create a webapivalues object of the object type
 	CWebAPIValuesAD( const char *pchName )
 	{
-		m_pwav = new CWebAPIValues( NULL,  pchName, k_EWebAPIValueType_Object );
+		m_pwav = new CWebAPIValues(nullptr,  pchName, k_EWebAPIValueType_Object );
 	}
 
 	// create a webapivalues object of the array type
 	CWebAPIValuesAD( const char *pchName, const char *pchArrayElementName )
 	{
-		m_pwav = new CWebAPIValues( NULL,  pchName, k_EWebAPIValueType_NumericArray, pchArrayElementName );
+		m_pwav = new CWebAPIValues(nullptr,  pchName, k_EWebAPIValueType_NumericArray, pchArrayElementName );
 	}
 
 	CWebAPIValuesAD( const CWebAPIValuesAD &rhs )
 	{
-		m_pwav = NULL;
+		m_pwav = nullptr;
 		Copy( rhs.m_pwav );
 	}
 
 	CWebAPIValuesAD( const CWebAPIValues *pwav )
 	{
-		m_pwav = NULL;
+		m_pwav = nullptr;
 		Copy( pwav );
 	}
 
@@ -408,8 +408,8 @@ public:
 		delete m_pwav;
 	}
 
-	CWebAPIValues *operator->()	{ if ( !m_pwav ) m_pwav = new CWebAPIValues( NULL, "root", k_EWebAPIValueType_Object ); return m_pwav; }
-	operator CWebAPIValues *()	{ if ( !m_pwav ) m_pwav = new CWebAPIValues( NULL, "root", k_EWebAPIValueType_Object ); return m_pwav; }
+	CWebAPIValues *operator->()	{ if ( !m_pwav ) m_pwav = new CWebAPIValues(nullptr, "root", k_EWebAPIValueType_Object ); return m_pwav; }
+	operator CWebAPIValues *()	{ if ( !m_pwav ) m_pwav = new CWebAPIValues(nullptr, "root", k_EWebAPIValueType_Object ); return m_pwav; }
 	operator const CWebAPIValues *() const { return m_pwav;  }
 
 	CWebAPIValuesAD & operator= ( const CWebAPIValuesAD &rhs )
@@ -428,7 +428,7 @@ public:
 		else if ( m_pwav )
 		{
 			delete m_pwav;
-			m_pwav = NULL;
+			m_pwav = nullptr;
 		}
 	}
 
@@ -440,13 +440,13 @@ public:
 		if ( pwav )
 		{
 			if( pwav->IsArray() )
-				m_pwav = new CWebAPIValues( NULL, pwav->GetName(), k_EWebAPIValueType_NumericArray, pwav->GetElementName() );
+				m_pwav = new CWebAPIValues(nullptr, pwav->GetName(), k_EWebAPIValueType_NumericArray, pwav->GetElementName() );
 			else
-				m_pwav = new CWebAPIValues( NULL, pwav->GetName(), k_EWebAPIValueType_Object );
+				m_pwav = new CWebAPIValues(nullptr, pwav->GetName(), k_EWebAPIValueType_Object );
 			m_pwav->CopyFrom( pwav );
 		}
 		else
-			m_pwav = NULL;
+			m_pwav = nullptr;
 
 	}
 

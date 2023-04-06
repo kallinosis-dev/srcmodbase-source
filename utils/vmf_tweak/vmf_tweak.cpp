@@ -23,7 +23,7 @@
 
 #include <windows.h>
 
-char const *g_pInFilename = NULL;
+char const *g_pInFilename = nullptr;
 
 char *CopyString( char const *pStr );
 
@@ -59,7 +59,7 @@ void logprint( char const *logfile, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 	static bool first = false;
 	if ( first )
 	{
@@ -143,8 +143,8 @@ public:
 CChunk* ParseChunk( char const *pChunkName, bool bOnlyOne );
 
 
-CChunk		*g_pCurChunk = 0;
-CChunkFile	*g_pChunkFile = 0;
+CChunk		*g_pCurChunk = nullptr;
+CChunkFile	*g_pChunkFile = nullptr;
 int g_DotCounter = 0;
 
 
@@ -174,7 +174,7 @@ CKeyValue* CChunk::FindKey( char const *pKeyName )
 			return pKey;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -188,7 +188,7 @@ CChunk* CChunk::FindChunk( char const *pChunkName )
 			return pChunk;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CKeyValue* CChunk::FindKey( char const *pKeyName, const char *pValue )
@@ -201,7 +201,7 @@ CKeyValue* CChunk::FindKey( char const *pKeyName, const char *pValue )
 			return pKey;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -286,11 +286,11 @@ CChunk* ReadChunkFile( char const *pInFilename )
 	if( chunkFile.Open( pInFilename, ChunkFile_Read ) != ChunkFile_Ok )
 	{
 		printf( "Error opening chunk file %s for reading.\n", pInFilename );
-		return NULL;
+		return nullptr;
 	}
 
 	printf( "Reading.." );
-	chunkFile.SetDefaultChunkHandler( MyDefaultHandler, 0 );
+	chunkFile.SetDefaultChunkHandler( MyDefaultHandler, nullptr );
 	g_pChunkFile = &chunkFile;
 	
 	CChunk *pRet = ParseChunk( "***ROOT***", false );
@@ -329,7 +329,7 @@ void WriteChunks_R( CChunkFile *pFile, CChunk *pChunk, bool bRoot )
 		CChunkHolder holder;
 		holder.m_pKey = pChunk->m_Keys[i];
 		holder.m_LoadOrder = holder.m_pKey->m_LoadOrder;
-		holder.m_pChunk = NULL;
+		holder.m_pChunk = nullptr;
 		sortedStuff.Insert( holder );
 	}
 
@@ -339,7 +339,7 @@ void WriteChunks_R( CChunkFile *pFile, CChunk *pChunk, bool bRoot )
 		CChunkHolder holder;
 		holder.m_pChunk = pChunk->m_Chunks[i];
 		holder.m_LoadOrder = holder.m_pChunk->m_LoadOrder;
-		holder.m_pKey = NULL;
+		holder.m_pKey = nullptr;
 		sortedStuff.Insert( holder );
 	}
 

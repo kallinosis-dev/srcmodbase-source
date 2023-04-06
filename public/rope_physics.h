@@ -47,7 +47,7 @@ public:
 
 	// Set simulation parameters.
 	// If you pass in a delegate, you can be called to apply constraints.
-	void			SetupSimulation( float flSpringDist, CSimplePhysics::IHelper *pDelegate=0 );
+	void			SetupSimulation( float flSpringDist, CSimplePhysics::IHelper *pDelegate=nullptr );
 
 	// Set the physics delegate.
 	void			SetDelegate( CSimplePhysics::IHelper *pDelegate );

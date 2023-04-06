@@ -121,7 +121,7 @@ int main( int argc, char* argv[] )
 
 	vprint( 0, "Valve Software - classcheck.exe (%s)\n", __DATE__ );
 	vprint( 0, "--- Game Code Static Analysis ---\n" );
-	char *pSpecificFile = NULL;
+	char *pSpecificFile = nullptr;
 	bool bOutsideGamedir = false;
 
 	int i = 1;

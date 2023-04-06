@@ -160,7 +160,7 @@ CUtlVector< char >	g_KeyValueText;
 CUtlVector<s_flexcontrollerremap_t> g_FlexControllerRemap;
 
 
-const char* g_szInCurrentSeqName = NULL;
+const char* g_szInCurrentSeqName = nullptr;
 
 //-----------------------------------------------------------------------------
 // Parsed data from a .qc or .dmx file
@@ -621,7 +621,7 @@ void Option_KeyValues( CUtlVector< char > *pKeyValue );
 
 bool GetLineInput( void )
 {
-	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 	{
 		g_iLinecount++;
 		// skip comments
@@ -705,13 +705,13 @@ s_sourceanim_t *FindSourceAnim( s_source_t *pSource, const char *pAnimName )
 		if ( !Q_stricmp( pAnimName, pAnim->animationname ) )
 			return pAnim;
 	}
-	return NULL;
+	return nullptr;
 }
 
 const s_sourceanim_t *FindSourceAnim( const s_source_t *pSource, const char *pAnimName )
 {
 	if ( !pAnimName[0] )
-		return NULL;
+		return nullptr;
 
 	int nCount = pSource->m_Animations.Count();
 	for ( int i = 0; i < nCount; ++i )
@@ -720,13 +720,13 @@ const s_sourceanim_t *FindSourceAnim( const s_source_t *pSource, const char *pAn
 		if ( !Q_stricmp( pAnimName, pAnim->animationname ) )
 			return pAnim;
 	}
-	return NULL;
+	return nullptr;
 }
 
 s_sourceanim_t *FindOrAddSourceAnim( s_source_t *pSource, const char *pAnimName )
 {
 	if ( !pAnimName[0] )
-		return NULL;
+		return nullptr;
 
 	int nCount = pSource->m_Animations.Count();
 	for ( int i = 0; i < nCount; ++i )
@@ -1013,7 +1013,7 @@ void SetSkinValues( )
 		if ( g_texture[i].flags & RELATIVE_TEXTURE_PATH_SPECIFIED )
 		{
 			// Add an empty path to prepend if anything specifies a relative path
-			cdtextures[numcdtextures] = 0;
+			cdtextures[numcdtextures] = nullptr;
 			++numcdtextures;
 			break;
 		}
@@ -1426,7 +1426,7 @@ void ProcessOptionStudio( s_model_t *pmodel, const char *pFullPath, float flScal
 	// load source
 	pmodel->source = Load_Source( pmodel->filename, "", bFlipTriangles, true );
 
-	g_pCurrentModel = NULL;
+	g_pCurrentModel = nullptr;
 
 	// Reset currentscale to whatever global we currently have set
 	// g_defaultscale gets set in Cmd_ScaleUp everytime the $scale command is used.
@@ -2499,11 +2499,11 @@ void Grab_Animation( s_source_t *pSource, const char *pAnimName )
 
 			if ( t >= pAnim->rawanim.Count())
 			{
-				s_bone_t *ptr = NULL;
+				s_bone_t *ptr = nullptr;
 				pAnim->rawanim.AddMultipleToTail( t - pAnim->rawanim.Count() + 1, &ptr );
 			}
 
-			if ( pAnim->rawanim[t] != NULL )
+			if ( pAnim->rawanim[t] != nullptr)
 			{
 				continue;
 			}
@@ -2528,7 +2528,7 @@ void Grab_Animation( s_source_t *pSource, const char *pAnimName )
 
 			for ( t = 0; t < pAnim->numframes; t++ )
 			{
-				if ( pAnim->rawanim[t] == NULL)
+				if ( pAnim->rawanim[t] == nullptr)
 				{
 					MdlError( "%s is missing frame %d\n", pSource->filename, t + pAnim->startframe );
 				}
@@ -3123,7 +3123,7 @@ static s_source_t *FindCachedSource( const char* name, const char* xext )
 	}
 
 	// Not found
-	return 0;
+	return nullptr;
 }
 
 
@@ -3706,7 +3706,7 @@ s_source_t *Load_Source( const char *name, const char *ext, bool reverse, bool i
 		Q_StripExtension( pTempName, pTempName, namelen );
 	}
 
-	s_source_t* pSource = NULL;
+	s_source_t* pSource = nullptr;
 
 	if ( bUseCache )
 	{
@@ -3790,7 +3790,7 @@ s_sequence_t *LookupSequence( const char *name )
 		if ( !Q_stricmp( g_sequence[i].name, name ) )
 			return &g_sequence[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -3824,7 +3824,7 @@ s_animation_t *LookupAnimation( const char *name, int nFallbackRecursionDepth )
 		return LookupAnimation( g_szInCurrentSeqName, 1 );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 s_animation_t *LookupAnimation( const char *name )
@@ -3877,7 +3877,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 		GetToken( false );
 
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown subtract animation '%s\'\n", token );
 		}
@@ -3896,7 +3896,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 		GetToken( false );
 
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown presubtract animation '%s\'\n", token );
 		}
@@ -3910,11 +3910,11 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 	{
 		pcmd->cmd = CMD_AO;
 
-		pcmd->u.ao.pBonename = NULL;
+		pcmd->u.ao.pBonename = nullptr;
 
 		GetToken( false );
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown alignto animation '%s\'\n", token );
 		}
@@ -3928,11 +3928,11 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 	{
 		pcmd->cmd = CMD_AO;
 
-		pcmd->u.ao.pBonename = NULL;
+		pcmd->u.ao.pBonename = nullptr;
 
 		GetToken( false );
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown align animation '%s\'\n", token );
 		}
@@ -3969,7 +3969,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 		
 		GetToken( false );
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown alignboneto animation '%s\'\n", token );
 		}
@@ -3988,7 +3988,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 		
 		GetToken( false );
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown alignboneto animation '%s\'\n", token );
 		}
@@ -4023,7 +4023,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 		GetToken( false );
 
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown match animation '%s\'\n", token );
 		}
@@ -4037,7 +4037,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 		GetToken( false );
 
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			MdlError( "unknown match animation '%s\'\n", token );
 		}
@@ -4068,7 +4068,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 		GetToken( false );
 
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown worldspaceblend animation '%s\'\n", token );
 		}
@@ -4084,7 +4084,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 		GetToken( false );
 
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown worldspaceblend animation '%s\'\n", token );
 		}
@@ -4166,7 +4166,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 
 		GetToken( false ); // reference animation
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown alignto animation '%s\'\n", token );
 		}
@@ -4214,7 +4214,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 		// reference animation
 		GetToken( false );
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown alignto animation '%s\'\n", token );
 		}
@@ -4532,7 +4532,7 @@ int ParseCmdlistToken( int &numcmds, s_animcmd_t *cmds )
 
 		GetToken( false ); // reference animation
 		s_animation_t *extanim = LookupAnimation( token );
-		if (extanim == NULL)
+		if (extanim == nullptr)
 		{
 			TokenError( "unknown appendanim '%s\'\n", token );
 		}
@@ -4909,7 +4909,7 @@ void Cmd_Animation( )
 
 	s_animation_t *panim = LookupAnimation( token );
 
-	if (panim != NULL)
+	if (panim != nullptr)
 	{
 		if (!panim->isOverride)
 		{
@@ -5132,7 +5132,7 @@ s_sequence_t *ProcessCmdSequence( const char *pSequenceName )
 	s_animation_t *panim = LookupAnimation( pSequenceName );
 
 	// allocate sequence
-	if ( panim != NULL )
+	if ( panim != nullptr)
 	{
 		if ( !panim->isOverride )
 		{
@@ -5141,7 +5141,7 @@ s_sequence_t *ProcessCmdSequence( const char *pSequenceName )
 		else
 		{
 			panim->doesOverride = true;
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -5186,7 +5186,7 @@ void Cmd_Sequence( )
 	// Find existing sequences
 	const char *pSequenceName = token;
 	s_animation_t *panim = LookupAnimation( pSequenceName );
-	if ( panim != NULL && panim->isOverride )
+	if ( panim != nullptr && panim->isOverride )
 	{
 		ParseEmpty( );
 	}
@@ -5404,7 +5404,7 @@ int ParseSequence( s_sequence_t *pseq, bool isAppend )
 		{
 			GetToken( false );
 			pseq->paramanim = LookupAnimation( token );
-			if (pseq->paramanim == NULL)
+			if (pseq->paramanim == nullptr)
 			{
 				TokenError( "Unknown blendref animation \"%s\"\n", token );
 			}
@@ -5413,7 +5413,7 @@ int ParseSequence( s_sequence_t *pseq, bool isAppend )
 		{
 			GetToken( false );
 			pseq->paramcompanim = LookupAnimation( token );
-			if (pseq->paramcompanim == NULL)
+			if (pseq->paramcompanim == nullptr)
 			{
 				TokenError( "Unknown blendcomp animation \"%s\"\n", token );
 			}
@@ -5422,7 +5422,7 @@ int ParseSequence( s_sequence_t *pseq, bool isAppend )
 		{
 			GetToken( false );
 			pseq->paramcenter = LookupAnimation( token );
-			if (pseq->paramcenter == NULL)
+			if (pseq->paramcenter == nullptr)
 			{
 				TokenError( "Unknown blendcenter animation \"%s\"\n", token );
 			}
@@ -5742,7 +5742,7 @@ void Cmd_Prepend( )
 
 	s_sequence_t *pseq = LookupSequence( token );
 	int count = 0;
-	s_animation_t *panim = NULL;
+	s_animation_t *panim = nullptr;
 	int iRet =  false;
 
 	if (pseq)
@@ -6548,7 +6548,7 @@ void AddCombination( s_source_t *pSource, CDmeCombinationOperator *pCombination 
 
 				if ( bFlexRule )
 				{
-					Option_Flexrule( NULL, pDmeFlexRule->GetName() );
+					Option_Flexrule(nullptr, pDmeFlexRule->GetName() );
 				}
 
 				PopMemoryScript();
@@ -6844,7 +6844,7 @@ const s_sourceanim_t *GetNewStyleSourceVertexAnim( s_source_t *pSource, const ch
 			return pSourceAnim;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -6856,7 +6856,7 @@ const s_sourceanim_t *GetNewStyleSourceVertexAnim( s_source_t *pSource, const ch
 void Option_DmxEyelid( int imodel )
 {
 	// upper | lower
-	const char *pszType = NULL;
+	const char *pszType = nullptr;
 	GetToken( false );
 	if ( !Q_stricmp( "upper", token ) )
 	{
@@ -6901,9 +6901,9 @@ void Option_DmxEyelid( int imodel )
 
 	EyelidData_t eyelidData[3] =
 	{
-		{ { -1, -1 },	NULL, 0.0f, "lowerer" },
-		{ { -1, -1 },	NULL, 0.0f, "neutral" },
-		{ { -1, -1 },	NULL, 0.0f, "raiser" }
+		{ { -1, -1 }, nullptr, 0.0f, "lowerer" },
+		{ { -1, -1 }, nullptr, 0.0f, "neutral" },
+		{ { -1, -1 }, nullptr, 0.0f, "raiser" }
 	};
 
 	CUtlString sRightEyeball;
@@ -6922,7 +6922,7 @@ void Option_DmxEyelid( int imodel )
 
 				GetToken( false );
 				eyelidData[i].m_pSourceAnim = GetNewStyleSourceVertexAnim( pSource, token );
-				if ( eyelidData[i].m_pSourceAnim == NULL )
+				if ( eyelidData[i].m_pSourceAnim == nullptr)
 				{
 					MdlError( "(%d) : %s:  No DMX vertex animation named \"%s\" in source \"%s\"\n", g_iLinecount, g_szLine, token, sSourceFile.Get() );
 					return;
@@ -8353,7 +8353,7 @@ char* FindSurfaceProp ( const char* pJointName )
 			return s_JointSurfaceProp[i].m_pSurfaceProp;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 
@@ -8381,7 +8381,7 @@ char* GetSurfaceProp ( const char* pJointName )
 		}
 		else
 		{
-			pJointName = 0;
+			pJointName = nullptr;
 		}
 	}
 
@@ -8546,7 +8546,7 @@ int GetContents( const char* pJointName )
 		}
 		else
 		{
-			pJointName = 0;
+			pJointName = nullptr;
 		}
 	}
 
@@ -10344,7 +10344,7 @@ int OpenGlobalFile( char *src )
 			time1 = FileTime( tmp );
 			if( time1 != -1 )
 			{
-				if ((g_fpInput = fopen(tmp, "r" ) ) == 0) 
+				if ((g_fpInput = fopen(tmp, "r" ) ) == nullptr) 
 				{
 					MdlWarning( "reader: could not open file '%s'\n", src );
 					return 0;
@@ -10368,7 +10368,7 @@ int OpenGlobalFile( char *src )
 			CreateMakefile_AddDependency( filename );
 			return 0;
 		}
-		if ((g_fpInput = fopen(filename, "r" ) ) == 0) 
+		if ((g_fpInput = fopen(filename, "r" ) ) == nullptr) 
 		{
 			MdlWarning( "reader: could not open file '%s'\n", src );
 			return 0;
@@ -10436,7 +10436,7 @@ void Grab_AxisInterpBones( )
 {
 	char	cmd[1024], tmp[1025];
 	Vector	basepos;
-	s_axisinterpbone_t *pAxis = NULL;
+	s_axisinterpbone_t *pAxis = nullptr;
 	s_axisinterpbone_t *pBone = &g_axisinterpbones[g_numaxisinterpbones];
 
 	while (GetLineInput()) 
@@ -10560,7 +10560,7 @@ void Grab_QuatInterpBones( )
 	Vector	basepos;
 	RadianEuler	rotateaxis( 0.0f, 0.0f, 0.0f );
 	RadianEuler	jointorient( 0.0f, 0.0f, 0.0f );
-	s_quatinterpbone_t *pAxis = NULL;
+	s_quatinterpbone_t *pAxis = nullptr;
 	s_quatinterpbone_t *pBone = &g_quatinterpbones[g_numquatinterpbones];
 
 	while (GetLineInput()) 
@@ -11202,7 +11202,7 @@ void Cmd_Cloth()
 	// When reading, keep the CRLF; this will make ReadFile read it in binary format
 	// and also append a couple 0s to the end of the buffer.
 	CDmElement *pRoot;
-	if ( g_pDataModel->RestoreFromFile( pFullPath, NULL, NULL, &pRoot ) == DMFILEID_INVALID )
+	if ( g_pDataModel->RestoreFromFile( pFullPath, nullptr, nullptr, &pRoot ) == DMFILEID_INVALID )
 	{
 		TokenError( "Cannot read file %s", pFullPath );
 		return;
@@ -11233,7 +11233,7 @@ void Cmd_ClothPlaneCollision()
 		return;
 	}
 	CDmElement *pRoot;
-	if ( g_pDataModel->RestoreFromFile( pFullPath, NULL, NULL, &pRoot ) == DMFILEID_INVALID )
+	if ( g_pDataModel->RestoreFromFile( pFullPath, nullptr, nullptr, &pRoot ) == DMFILEID_INVALID )
 	{
 		TokenError( "Cannot read file %s", pFullPath );
 		return;
@@ -11532,7 +11532,7 @@ bool ParsePreprocessedFile( const char *pFullPath )
 // They specify the .mdl file and it prints out all the surface props that the model uses.
 bool HandlePrintSurfaceProps( int &returnValue )
 {
-	const char *pFilename = CommandLine()->ParmValue( "-PrintSurfaceProps", (const char*)NULL );
+	const char *pFilename = CommandLine()->ParmValue( "-PrintSurfaceProps", (const char*)nullptr);
 	if ( pFilename )
 	{
 		CUtlVector<char> buf;
@@ -11586,7 +11586,7 @@ bool HandlePrintSurfaceProps( int &returnValue )
 // They specify the .mdl file and it prints out perf info.
 bool HandleMdlReport( int &returnValue )
 {
-	const char *pFilename = CommandLine()->ParmValue( "-mdlreport", (const char*)NULL );
+	const char *pFilename = CommandLine()->ParmValue( "-mdlreport", (const char*)nullptr);
 	if ( pFilename )
 	{
 		CUtlVector<char> buf;
@@ -11608,7 +11608,7 @@ bool HandleMdlReport( int &returnValue )
 			if ( pHdr->version == STUDIO_VERSION )
 			{
 				int flags = SPEWPERFSTATS_SHOWPERF;
-				if( CommandLine()->CheckParm( "-mdlreportspreadsheet", NULL ) )
+				if( CommandLine()->CheckParm( "-mdlreportspreadsheet", nullptr) )
 				{
 					flags |= SPEWPERFSTATS_SPREADSHEET;
 				}
@@ -11733,7 +11733,7 @@ private:
 
 static bool CStudioMDLApp_SuggestGameInfoDirFn( CFSSteamSetupInfo const *pFsSteamSetupInfo, char *pchPathBuffer, int nBufferLength, bool *pbBubbleDirectories )
 {
-	const char *pProcessFileName = NULL;
+	const char *pProcessFileName = nullptr;
 	int nParmCount = CommandLine()->ParmCount();
 	if ( nParmCount > 1 )
 	{
@@ -12221,7 +12221,7 @@ void ParseGameInfo()
 	gameinfoDefault.bSupportsDX8 = true;
 	
 	KeyValues *pKeyValues = new KeyValues( "gameinfo.txt" );
-	if ( pKeyValues != NULL )
+	if ( pKeyValues != nullptr)
 	{
 		if ( g_pFileSystem && pKeyValues->LoadFromFile( g_pFileSystem, "gameinfo.txt" ) )
 		{
@@ -12477,7 +12477,7 @@ bool WriteBufferToFile( CUtlBuffer &buf, const char *szFilebase, const char *szE
 {
 	char szFilename[ 1024 ];
 	Q_snprintf( szFilename, ARRAYSIZE( szFilename ), "%s%s", szFilebase, szExt );
-	return WriteFileToDisk( szFilename, NULL, buf );
+	return WriteFileToDisk( szFilename, nullptr, buf );
 }
 
 
@@ -12491,7 +12491,7 @@ bool LoadBufferFromFile( CUtlBuffer &buffer, const char *szFilebase, const char 
 	char szFilename[1024];
 	Q_snprintf( szFilename, ARRAYSIZE( szFilename ), "%s%s", szFilebase, szExt );
 
-	if ( g_pFullFileSystem->ReadFile( szFilename, NULL, buffer ) )
+	if ( g_pFullFileSystem->ReadFile( szFilename, nullptr, buffer ) )
 		return true;
 
 	if ( bError )
@@ -12567,7 +12567,7 @@ int CStudioMDLApp::Main_StripVhv()
 	{
 		LoggingSystem_SetChannelSpewLevelByName( "ModelLib", LS_MESSAGE );
 
-		IMdlStripInfo *pMdlStripInfo = NULL;
+		IMdlStripInfo *pMdlStripInfo = nullptr;
 		
 		if ( mdllib->CreateNewStripInfo( &pMdlStripInfo ) )
 		{
@@ -12633,7 +12633,7 @@ int CStudioMDLApp::Main_MakeVsi()
 			LoggingSystem_SetChannelSpewLevelByName( "ModelLib", LS_MESSAGE );
 		}
 
-		IMdlStripInfo *pMdlStripInfo = NULL;
+		IMdlStripInfo *pMdlStripInfo = nullptr;
 
 		bResult =
 			mdllib->StripModelBuffers( bufMDL, bufVVD, bufVTX, &pMdlStripInfo ) &&
@@ -12657,7 +12657,7 @@ int CStudioMDLApp::Main_MakeVsi()
 	sprintf( pExt, ".vsi" );
 	CP4AutoEditAddFile _auto_edit_vsi( g_path );
 	
-	if ( !WriteFileToDisk( g_path, NULL, bufMappingTable ) )
+	if ( !WriteFileToDisk( g_path, nullptr, bufMappingTable ) )
 	{
 		printf( "ERROR: Failed to save '%s'!\n", g_path );
 		return 1;
@@ -12703,7 +12703,7 @@ int CStudioMDLApp::Main_StripModel()
 	{
 		LoggingSystem_SetChannelSpewLevelByName( "ModelLib", LS_MESSAGE );
 
-		IMdlStripInfo *pMdlStripInfo = NULL;
+		IMdlStripInfo *pMdlStripInfo = nullptr;
 		
 		bResult =
 			mdllib->StripModelBuffers( bufMDL, bufVVD, bufVTX, &pMdlStripInfo ) &&
@@ -12725,7 +12725,7 @@ int CStudioMDLApp::Main_StripModel()
 
 	// Save mdl
 	sprintf( pExt, ".mdl.strip" );
-	if ( !WriteFileToDisk( g_path, NULL, bufMDL ) )
+	if ( !WriteFileToDisk( g_path, nullptr, bufMDL ) )
 	{
 		printf( "ERROR: Failed to save '%s'!\n", g_path );
 		return 1;
@@ -12733,7 +12733,7 @@ int CStudioMDLApp::Main_StripModel()
 
 	// Save vvd
 	sprintf( pExt, ".vvd.strip" );
-	if ( !WriteFileToDisk( g_path, NULL, bufVVD ) )
+	if ( !WriteFileToDisk( g_path, nullptr, bufVVD ) )
 	{
 		printf( "ERROR: Failed to save '%s'!\n", g_path );
 		return 1;
@@ -12741,7 +12741,7 @@ int CStudioMDLApp::Main_StripModel()
 
 	// Save vtx
 	sprintf( pExt, ".vtx.strip" );
-	if ( !WriteFileToDisk( g_path, NULL, bufVTX ) )
+	if ( !WriteFileToDisk( g_path, nullptr, bufVTX ) )
 	{
 		printf( "ERROR: Failed to save '%s'!\n", g_path );
 		return 1;
@@ -12749,7 +12749,7 @@ int CStudioMDLApp::Main_StripModel()
 
 	// Save remapping data
 	sprintf( pExt, ".info.strip" );
-	if ( !WriteFileToDisk( g_path, NULL, bufMappingTable ) )
+	if ( !WriteFileToDisk( g_path, nullptr, bufMappingTable ) )
 	{
 		printf( "ERROR: Failed to save '%s'!\n", g_path );
 		return 1;

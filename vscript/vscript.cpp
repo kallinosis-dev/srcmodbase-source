@@ -26,7 +26,7 @@ public:
 
 	IScriptVM *CreateVM( ScriptLanguage_t language )
 	{
-		IScriptVM *pVM = NULL;
+		IScriptVM *pVM = nullptr;
 
 		if ( language == SL_SQUIRREL )
 		{

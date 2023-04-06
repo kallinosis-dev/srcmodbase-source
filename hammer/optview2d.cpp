@@ -88,7 +88,7 @@ END_MESSAGE_MAP()
 BOOL COPTView2D::OnInitDialog() 
 {
 	CWnd *pwnd = GetDlgItem(IDC_GRIDHIGH1024);
-	if (pwnd != NULL)
+	if (pwnd != nullptr)
 	{
 		pwnd->EnableWindow(FALSE);
 		pwnd->ShowWindow(SW_HIDE);

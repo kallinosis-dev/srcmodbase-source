@@ -102,7 +102,7 @@ static void Status_UpdateMemoryStatus( bool bIncludeFullMemoryInfo )
 		buf.Printf( "*** Memory allocation failed for %d bytes! ***\n", g_pMemAlloc->MemoryAllocFailed() );
 	}
 
-	GenericMemoryStat_t *pMemoryStats = NULL;
+	GenericMemoryStat_t *pMemoryStats = nullptr;
 	int nMemoryStatCount = g_pMemAlloc->GetGenericMemoryStats( &pMemoryStats );
 	if ( nMemoryStatCount > 0 )
 	{
@@ -129,7 +129,7 @@ static void Status_UpdateMinidumpCommentBuffer()
 	minidumpInfoBuffer.Printf( "Active: %s\nSpawnCount %d\nMapLoad Count %d\n", ( game && game->IsActiveApp() ) ? "active" : "inactive", gHostSpawnCount, g_nMapLoadCount );
 }
 
-static CUtlBuffer *s_pStatusBuffer = NULL;
+static CUtlBuffer *s_pStatusBuffer = nullptr;
 
 static void Status_PrintCallback( const char *fmt, ... )
 {
@@ -148,7 +148,7 @@ static void Status_UpdateHostStatusBuffer()
 	CUtlBuffer hostStatusBuffer( g_szHostStatusBuffer, sizeof(g_szHostStatusBuffer), CUtlBuffer::TEXT_BUFFER );
 	s_pStatusBuffer = &hostStatusBuffer;
 	Host_PrintStatus( kCommandSrcCode, Status_PrintCallback, false );
-	s_pStatusBuffer = NULL;
+	s_pStatusBuffer = nullptr;
 }
 
 static void Status_UpdateMatchmakingBuffer()

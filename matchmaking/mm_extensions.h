@@ -49,7 +49,7 @@ protected:
 		void *m_pvInterface;
 		int m_nRefCount;
 
-		RegisteredInterface_t() : m_nRefCount( 0 ), m_pvInterface( 0 ) {}
+		RegisteredInterface_t() : m_nRefCount( 0 ), m_pvInterface( nullptr ) {}
 	};
 	typedef CUtlStringMap< RegisteredInterface_t > InterfaceMap_t;
 	InterfaceMap_t m_mapRegisteredInterfaces;

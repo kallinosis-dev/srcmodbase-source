@@ -24,7 +24,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 WizardPanel::WizardPanel(Panel *parent, const char *panelName) : Frame(parent, panelName)
 {
-	_currentSubPanel = NULL;
+	_currentSubPanel = nullptr;
 	_currentData = new KeyValues("WizardData");
 	_showButtons = true;
 
@@ -244,10 +244,10 @@ void WizardPanel::CreateButtons()
 	_cancelButton->SetCommand(new KeyValues("CancelButton"));
 	_finishButton->SetCommand(new KeyValues("FinishButton"));
 
-	SetNextButtonText(NULL);
-	SetPrevButtonText(NULL);
-	SetFinishButtonText(NULL);
-	SetCancelButtonText(NULL);
+	SetNextButtonText(nullptr);
+	SetPrevButtonText(nullptr);
+	SetFinishButtonText(nullptr);
+	SetCancelButtonText(nullptr);
 
 	_prevButton->SetSize(82, 24);
 	_nextButton->SetSize(82, 24);
@@ -327,7 +327,7 @@ void WizardPanel::ActivatePrevSubPanel()
 {
 	_currentSubPanel->SetVisible(false);
 
-	WizardSubPanel *prevPanel = NULL;
+	WizardSubPanel *prevPanel = nullptr;
 	if (_subPanelStack.GetCount())
 	{
 		// check to see if we need to jump back to a previous sub panel

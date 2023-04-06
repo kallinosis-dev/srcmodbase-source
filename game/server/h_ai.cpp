@@ -92,7 +92,7 @@ Vector VecCheckToss( CBaseEntity *pEntity, ITraceFilter *pFilter, Vector vecSpot
 	}
 
 	Vector forward, right;
-	AngleVectors( pEntity->GetLocalAngles(), &forward, &right, NULL );
+	AngleVectors( pEntity->GetLocalAngles(), &forward, &right, nullptr);
 
 	if (bRandomize)
 	{

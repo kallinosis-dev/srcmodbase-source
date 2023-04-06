@@ -32,7 +32,7 @@ void EngineTool_InstallQuitHandler( void *pvUserData, FnQuitHandler func );
 
 struct ToolModule_t
 {
-	ToolModule_t() : m_pModule( NULL ), m_pDictionary( NULL ) {}
+	ToolModule_t() : m_pModule(nullptr), m_pDictionary(nullptr) {}
 
 	ToolModule_t &operator =( const ToolModule_t &other )
 	{
@@ -275,7 +275,7 @@ InitReturnVal_t CToolFrameworkInternal::Init()
 {
 	m_bInToolMode = false;
 	m_nActiveToolIndex = -1;
-	m_ClientFactory = m_ServerFactory = NULL;
+	m_ClientFactory = m_ServerFactory = nullptr;
 
 // Disabled in REL for now
 #if 1
@@ -484,7 +484,7 @@ void CToolFrameworkInternal::ShutdownModules()
 	{
 		Assert( !m_Modules[i].m_pDictionary );
 		Sys_UnloadModule( m_Modules[i].m_pModule );
-		m_Modules[i].m_pModule = NULL;
+		m_Modules[i].m_pModule = nullptr;
 	}
 
 	m_Modules.RemoveAll();
@@ -506,7 +506,7 @@ void CToolFrameworkInternal::ShutdownToolDictionaries()
 	for ( i = m_Modules.Count(); --i >= 0; )
 	{
 		m_Modules[i].m_pDictionary->Disconnect();
-		m_Modules[i].m_pDictionary = NULL;
+		m_Modules[i].m_pDictionary = nullptr;
 	}
 }
 
@@ -545,7 +545,7 @@ ToolModule_t *CToolFrameworkInternal::LoadToolsFromLibrary( const char *dllname 
 	if ( !module )
 	{
 		Warning( "CToolFrameworkInternal::LoadToolsFromLibrary:  Unable to load '%s'\n", dllname );
-		return NULL;
+		return nullptr;
 	}
 
 	CreateInterfaceFn factory = Sys_GetFactory( module );
@@ -553,29 +553,29 @@ ToolModule_t *CToolFrameworkInternal::LoadToolsFromLibrary( const char *dllname 
 	{
 		Sys_UnloadModule( module );
 		Warning( "CToolFrameworkInternal::LoadToolsFromLibrary:  Dll '%s' has no factory\n", dllname );
-		return NULL;
+		return nullptr;
 	}
 
-	IToolDictionary *dictionary = ( IToolDictionary * )factory( VTOOLDICTIONARY_INTERFACE_VERSION, NULL );
+	IToolDictionary *dictionary = ( IToolDictionary * )factory( VTOOLDICTIONARY_INTERFACE_VERSION, nullptr);
 	if ( !dictionary )
 	{
 		Sys_UnloadModule( module );
 		Warning( "CToolFrameworkInternal::LoadToolsFromLibrary:  Dll '%s' doesn't support '%s'\n", dllname, VTOOLDICTIONARY_INTERFACE_VERSION );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( !dictionary->Connect( g_AppSystemFactory ) )
 	{
 		Sys_UnloadModule( module );
 		Warning( "CToolFrameworkInternal::LoadToolsFromLibrary:  Dll '%s' connection phase failed.\n", dllname );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( dictionary->Init( ) != INIT_OK )
 	{
 		Sys_UnloadModule( module );
 		Warning( "CToolFrameworkInternal::LoadToolsFromLibrary:  Dll '%s' initialization phase failed.\n", dllname );
-		return NULL;
+		return nullptr;
 	}
 
 	dictionary->CreateTools();
@@ -608,7 +608,7 @@ ToolModule_t *CToolFrameworkInternal::LoadToolsFromLibrary( const char *dllname 
 	}
 
 	// If this is Hammer, get a pointer to the Hammer interface.
-	g_pHammer = (IHammer*)factory( INTERFACEVERSION_HAMMER, NULL );
+	g_pHammer = (IHammer*)factory( INTERFACEVERSION_HAMMER, nullptr);
 
 	return tm;
 }
@@ -711,7 +711,7 @@ IMaterialProxy *CToolFrameworkInternal::LookupProxy( const char *proxyName )
 			return matProxy;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -752,7 +752,7 @@ void CToolFrameworkInternal::LoadToolsFromEngineToolsManifest()
 	if ( kv && kv->LoadFromFile( g_pFileSystem, szToolConfigFile, "EXECUTABLE_PATH" ) )
 	{
 		for ( KeyValues *tool = kv->GetFirstSubKey();
-				tool != NULL;
+				tool != nullptr;
 				tool = tool->GetNextKey() )
 		{
 			if ( !Q_stricmp( tool->GetName(),  "library" ) )
@@ -775,7 +775,7 @@ ToolModule_t *CToolFrameworkInternal::Find( char const *pModuleName )
 			return tm;
 	}
 
-	return NULL;
+	return nullptr;
 }
  
 //-----------------------------------------------------------------------------
@@ -829,7 +829,7 @@ int CToolAutoCompleteFileList::AutoCompletionFunc( char const *partial, char com
 	CUtlSymbolTable entries( 0, 0, true );
 	CUtlVector< CUtlSymbol > symbols;
 
-	char const *findfn = Sys_FindFirstEx( searchpath, "EXECUTABLE_PATH", NULL, 0 );
+	char const *findfn = Sys_FindFirstEx( searchpath, "EXECUTABLE_PATH", nullptr, 0 );
 	while ( findfn )
 	{
 		char sz[ MAX_QPATH ] = { 0 };
@@ -860,7 +860,7 @@ int CToolAutoCompleteFileList::AutoCompletionFunc( char const *partial, char com
 			}
 		}
 
-		findfn = Sys_FindNext( NULL, 0 );
+		findfn = Sys_FindNext(nullptr, 0 );
 
 		// Too many
 		if ( symbols.Count() >= COMMAND_COMPLETION_MAXITEMS )
@@ -1287,7 +1287,7 @@ void* CToolFrameworkInternal::QueryInterface( const char *pInterfaceName )
 		if ( pRet )
 			return pRet;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CToolFrameworkInternal::ServerPreSetupVisibilityAllTools()
@@ -1459,7 +1459,7 @@ IToolSystem *CToolFrameworkInternal::SwitchToTool( const char* pToolName )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 	
@@ -1478,7 +1478,7 @@ bool CToolFrameworkInternal::IsTopmostTool( const IToolSystem *sys )
 
 IToolSystem *CToolFrameworkInternal::GetTopmostTool()
 {
-	return m_nActiveToolIndex >= 0 ? m_ToolSystems[ m_nActiveToolIndex ] : NULL;
+	return m_nActiveToolIndex >= 0 ? m_ToolSystems[ m_nActiveToolIndex ] : nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1487,7 +1487,7 @@ IToolSystem *CToolFrameworkInternal::GetTopmostTool()
 const IToolSystem *CToolFrameworkInternal::GetToolSystem( int index ) const
 {
 	if ( ( index < 0 ) || ( index >= m_ToolSystems.Count() ) )
-		return NULL;
+		return nullptr;
 
 	return m_ToolSystems[index];
 }

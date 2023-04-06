@@ -22,7 +22,7 @@ extern ConVar tv_playcast_max_rcvage;
 CBroadcastPlayer s_ClientBroadcastPlayer;
 
 CBroadcastPlayer::CBroadcastPlayer() :
-	m_DemoStrider( NULL )
+	m_DemoStrider(nullptr)
 {
 	m_bPlayingBack = false;
 	m_flPlaybackRateModifier = 1.0f;
@@ -66,12 +66,12 @@ void CBroadcastPlayer::StartStreaming( const char *url, const char *options )
 	if ( !options )
 		options = "";
 
-	m_bSkipSync = ( NULL != V_strstr( options, "c" ) ); // playback akamai cached content (sync isn't cached)
-	m_bIgnoreDemoStopCommand = ( NULL != V_strstr( options, "b" ) );
+	m_bSkipSync = (nullptr != V_strstr( options, "c" ) ); // playback akamai cached content (sync isn't cached)
+	m_bIgnoreDemoStopCommand = (nullptr != V_strstr( options, "b" ) );
 	int nPlayFromFragment = 0;
 	if ( const char *pFrame = V_strstr( options, "f" ) )
 		nPlayFromFragment = V_atoi( pFrame + 1 );
-	else if ( NULL != V_strstr( options, "a" ) )
+	else if (nullptr != V_strstr( options, "a" ) )
 		nPlayFromFragment = 1;
 
 	StopPlayback();
@@ -126,7 +126,7 @@ bool CBroadcastPlayer::StartStreamingInternal()
 	GetBaseLocalClient().m_nSignonState = SIGNONSTATE_CONNECTED;
 	ResyncDemoClock();
 	// create a fake channel with a NULL address (no encryption keys in demos)
-	GetBaseLocalClient().m_NetChannel = NET_CreateNetChannel( NS_CLIENT, NULL, "BROADCAST", &GetBaseLocalClient(), NULL, false );
+	GetBaseLocalClient().m_NetChannel = NET_CreateNetChannel( NS_CLIENT, nullptr, "BROADCAST", &GetBaseLocalClient(), nullptr, false );
 
 	if ( !GetBaseLocalClient().m_NetChannel )
 	{
@@ -150,10 +150,10 @@ bool CBroadcastPlayer::StartStreamingInternal()
 	V_memset( &m_DemoPacket, 0, sizeof( m_DemoPacket ) );
 
 	// setup demo packet data buffer
-	m_DemoPacket.data = NULL;
+	m_DemoPacket.data = nullptr;
 	m_DemoPacket.from.SetAddrType( NSAT_NETADR );
 	m_DemoPacket.from.m_adr.SetType( NA_LOOPBACK );
-	m_DemoStrider.Set( NULL );
+	m_DemoStrider.Set(nullptr);
 
 	GetBaseLocalClient().chokedcommands = 0;
 	GetBaseLocalClient().lastoutgoingcommand = -1;
@@ -201,8 +201,8 @@ void CBroadcastPlayer::OnDemoStreamStop()
 	}
 	m_flAutoResumeTime = 0.0f;
 	m_flPlaybackRateModifier = 1.0f;
-	m_DemoPacket.data = NULL;
-	m_DemoStrider.Set( NULL );
+	m_DemoPacket.data = nullptr;
+	m_DemoStrider.Set(nullptr);
 	m_nStreamState = STREAM_STOP;
 
 	if ( g_pMatchFramework )
@@ -411,14 +411,14 @@ netpacket_t *CBroadcastPlayer::ReadPacket( void )
 {
 	int			tick = 0;
 	byte		cmd = dem_signon;
-	uint8* curpos = NULL;
+	uint8* curpos = nullptr;
 
 	m_DemoStream.Update();
 	if ( m_DemoStream.IsIdle() )
 	{
 		m_bPlayingBack = false;
 		Host_EndGame( true, "Tried to read a demo message with no demo file\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	// dropped: timedemo
@@ -426,17 +426,17 @@ netpacket_t *CBroadcastPlayer::ReadPacket( void )
 	// If game is still shutting down, then don't read any demo messages from file quite yet
 	if ( HostState_IsGameShuttingDown() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Assert( IsPlayingBack() );
 
 	// External editor has paused playback
 	if ( CheckPausedPlayback() )
-		return NULL;
+		return nullptr;
 
 	if ( m_nStreamState <= STREAM_SYNC )
-		return NULL; // waiting for data
+		return nullptr; // waiting for data
 
 	// dropped: highlights
 
@@ -445,7 +445,7 @@ netpacket_t *CBroadcastPlayer::ReadPacket( void )
 	while ( !bStopReading )
 	{
 		if ( !PreparePacket() )
-			return NULL; // packet is not ready
+			return nullptr; // packet is not ready
 
 		curpos = m_DemoStrider.Get();
 
@@ -471,7 +471,7 @@ netpacket_t *CBroadcastPlayer::ReadPacket( void )
 			{
 				demoaction->Update( false, playbacktick, TICKS_TO_TIME( playbacktick ) );
 				m_DemoStrider.Set( curpos ); // go back to start of current demo command
-				return NULL;   // Not time yet, dont return packet data.
+				return nullptr;   // Not time yet, dont return packet data.
 			}
 		}
 
@@ -500,7 +500,7 @@ netpacket_t *CBroadcastPlayer::ReadPacket( void )
 					ACTIVE_SPLITSCREEN_PLAYER_GUARD( hh );
 					GetBaseLocalClient().Disconnect( true );
 				}
-				return NULL;
+				return nullptr;
 			}
 			break;
 
@@ -608,7 +608,7 @@ netpacket_t *CBroadcastPlayer::ReadPacket( void )
 	{
 		Warning( "Invalid broadcast packet size %d in fragment buffer size %d\n", length, m_DemoBuffer->m_nSize );
 		StrideDemoPacket();
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -644,9 +644,9 @@ void CBroadcastPlayer::SetDemoBuffer( CDemoStreamHttp::Buffer_t * pBuffer )
 	m_DemoBuffer = pBuffer;
 	m_DemoPacket.received = realtime;
 
-	m_DemoPacket.data = NULL;
+	m_DemoPacket.data = nullptr;
 	m_DemoPacket.size = 0;
-	m_DemoPacket.message.StartReading( NULL, 0 ); // message must be set up later
+	m_DemoPacket.message.StartReading(nullptr, 0 ); // message must be set up later
 }
 
 void CBroadcastPlayer::StrideDemoPacket( int nLength )

@@ -117,7 +117,7 @@ void CClientEntityList::SetDormant( int entityIndex, bool bDormant )
 IClientEntity* CClientEntityList::GetClientEntity( int entnum )
 {
 	IClientUnknown *pEnt = GetListedEntity( entnum );
-	return pEnt ? pEnt->GetIClientEntity() : 0;
+	return pEnt ? pEnt->GetIClientEntity() : nullptr;
 }
 
 
@@ -171,7 +171,7 @@ void CClientEntityList::RecomputeHighestEntityUsed( void )
 	int i;
 	for ( i = MAX_EDICTS - 1; i >= 0; i-- )
 	{
-		if ( GetListedEntity( i ) != NULL )
+		if ( GetListedEntity( i ) != nullptr)
 		{
 			m_iMaxUsedServerIndex = i;
 			break;
@@ -193,56 +193,56 @@ void CClientEntityList::RecomputeHighestEntityUsed( void )
 C_BaseEntity* CClientEntityList::GetBaseEntity( int entnum )
 {
 	IClientUnknown *pEnt = GetListedEntity( entnum );
-	return pEnt ? pEnt->GetBaseEntity() : 0;
+	return pEnt ? pEnt->GetBaseEntity() : nullptr;
 }
 
 
 ICollideable* CClientEntityList::GetCollideable( int entnum )
 {
 	IClientUnknown *pEnt = GetListedEntity( entnum );
-	return pEnt ? pEnt->GetCollideable() : 0;
+	return pEnt ? pEnt->GetCollideable() : nullptr;
 }
 
 
 IClientNetworkable* CClientEntityList::GetClientNetworkableFromHandle( ClientEntityHandle_t hEnt )
 {
 	IClientUnknown *pEnt = GetClientUnknownFromHandle( hEnt );
-	return pEnt ? pEnt->GetClientNetworkable() : 0;
+	return pEnt ? pEnt->GetClientNetworkable() : nullptr;
 }
 
 
 IClientEntity* CClientEntityList::GetClientEntityFromHandle( ClientEntityHandle_t hEnt )
 {
 	IClientUnknown *pEnt = GetClientUnknownFromHandle( hEnt );
-	return pEnt ? pEnt->GetIClientEntity() : 0;
+	return pEnt ? pEnt->GetIClientEntity() : nullptr;
 }
 
 
 IClientRenderable* CClientEntityList::GetClientRenderableFromHandle( ClientEntityHandle_t hEnt )
 {
 	IClientUnknown *pEnt = GetClientUnknownFromHandle( hEnt );
-	return pEnt ? pEnt->GetClientRenderable() : 0;
+	return pEnt ? pEnt->GetClientRenderable() : nullptr;
 }
 
 
 C_BaseEntity* CClientEntityList::GetBaseEntityFromHandle( ClientEntityHandle_t hEnt )
 {
 	IClientUnknown *pEnt = GetClientUnknownFromHandle( hEnt );
-	return pEnt ? pEnt->GetBaseEntity() : 0;
+	return pEnt ? pEnt->GetBaseEntity() : nullptr;
 }
 
 
 ICollideable* CClientEntityList::GetCollideableFromHandle( ClientEntityHandle_t hEnt )
 {
 	IClientUnknown *pEnt = GetClientUnknownFromHandle( hEnt );
-	return pEnt ? pEnt->GetCollideable() : 0;
+	return pEnt ? pEnt->GetCollideable() : nullptr;
 }
 
 
 IClientThinkable* CClientEntityList::GetClientThinkableFromHandle( ClientEntityHandle_t hEnt )
 {
 	IClientUnknown *pEnt = GetClientUnknownFromHandle( hEnt );
-	return pEnt ? pEnt->GetClientThinkable() : 0;
+	return pEnt ? pEnt->GetClientThinkable() : nullptr;
 }
 
 
@@ -378,7 +378,7 @@ void CClientEntityList::OnRemoveEntity( IHandleEntity *pEnt, CBaseHandle handle 
 	if ( entnum >= 0 && entnum < MAX_EDICTS )
 	{
 		// This is a networkable ent. Clear out our cache info for it.
-		pCache->m_pNetworkable = NULL;
+		pCache->m_pNetworkable = nullptr;
 		m_iNumServerEnts--;
 
 		if ( entnum >= m_iMaxUsedServerIndex )
@@ -432,13 +432,13 @@ C_BaseEntity* CClientEntityList::FirstBaseEntity() const
 		pList = pList->m_pNext;
 	}
 
-	return NULL;
+	return nullptr;
 
 }
 
 C_BaseEntity* CClientEntityList::NextBaseEntity( C_BaseEntity *pEnt ) const
 {
-	if ( pEnt == NULL )
+	if ( pEnt == nullptr)
 		return FirstBaseEntity();
 
 	// Run through the list until we get a C_BaseEntity.
@@ -460,7 +460,7 @@ C_BaseEntity* CClientEntityList::NextBaseEntity( C_BaseEntity *pEnt ) const
 		pList = pList->m_pNext;
 	}
 	
-	return NULL; 
+	return nullptr; 
 }
 
 
@@ -483,7 +483,7 @@ void C_AllBaseEntityIterator::Restart()
 C_BaseEntity* C_AllBaseEntityIterator::Next()
 {
 	if ( m_CurBaseEntity == ClientEntityList().m_BaseEntities.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	C_BaseEntity *pRet = ClientEntityList().m_BaseEntities[m_CurBaseEntity];
 	m_CurBaseEntity = ClientEntityList().m_BaseEntities.Next( m_CurBaseEntity );
@@ -516,5 +516,5 @@ C_BaseEntity* C_BaseEntityIterator::Next()
 			return pRet;
 	}
 
-	return NULL;
+	return nullptr;
 }

@@ -45,7 +45,7 @@ void C_SensorGrenadeProjectile::OnParticleEffectDeleted( CNewParticleEffect *pPa
 {
 	if ( m_sensorgrenadeParticleEffect == pParticleEffect )
 	{
-		m_sensorgrenadeParticleEffect = NULL;
+		m_sensorgrenadeParticleEffect = nullptr;
 	}
 }
 

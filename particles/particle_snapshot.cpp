@@ -41,7 +41,7 @@
 void CParticleSnapshot::Purge( void )
 {
 	m_Container.Purge();
-	m_pContainer = NULL;
+	m_pContainer = nullptr;
 	for ( int i = 0; i < ARRAYSIZE( m_ParticleAttributeToContainerAttribute ); i++ ) m_ParticleAttributeToContainerAttribute[ i ] = -1;
 	for ( int i = 0; i < ARRAYSIZE( m_ContainerAttributeToParticleAttribute ); i++ ) m_ContainerAttributeToParticleAttribute[ i ] = -1;
 }
@@ -220,7 +220,7 @@ bool CParticleSnapshot::Unserialize( const char *pFullPath )
 
 	CheckParticleAttributesForChanges();
 
-	CDmxElement *pRootElement = NULL;
+	CDmxElement *pRootElement = nullptr;
 	bool bTextMode = true, bBinaryMode = false;
 	if ( !UnserializeDMX( pFullPath, "GAME", bTextMode,   &pRootElement ) &&
 		 !UnserializeDMX( pFullPath, "GAME", bBinaryMode, &pRootElement ) ) // TODO: shouldn't UnserializeDMX automatically detect text mode?

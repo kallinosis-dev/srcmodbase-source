@@ -145,7 +145,7 @@ public:
 
 	virtual void PrintfVA( char *fmt, va_list vargs ) = 0;
 	virtual void Printf( char *fmt, ... ) = 0;	
-	virtual float Knob( char *knobname, float *setvalue = NULL ) = 0;
+	virtual float Knob( char *knobname, float *setvalue = nullptr) = 0;
 
 	virtual void NotifyShaderConstantsChangedInRenderPass() = 0;
 

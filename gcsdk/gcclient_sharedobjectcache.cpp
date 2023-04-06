@@ -151,7 +151,7 @@ bool CGCClientSharedObjectTypeCache::BParseCacheSubscribedMsg( const CMsgSOCache
 	{
 		bool bUpdatedExisting = false;
 		CSharedObject *pObject = BCreateFromMsg( msg.object_data( usObject ).data(), msg.object_data( usObject ).size(), &bUpdatedExisting );
-		if ( pObject == NULL)
+		if ( pObject == nullptr)
 		{
 			Assert( pObject );
 			return false;
@@ -163,7 +163,7 @@ bool CGCClientSharedObjectTypeCache::BParseCacheSubscribedMsg( const CMsgSOCache
 			int index = vecUntouchedObjects.Find( pObject );
 			if ( index != vecUntouchedObjects.InvalidIndex() )
 			{
-				vecUntouchedObjects[index] = NULL;
+				vecUntouchedObjects[index] = nullptr;
 			}
 			vecUpdatedObjects.AddToTail( pObject );
 		}
@@ -176,7 +176,7 @@ bool CGCClientSharedObjectTypeCache::BParseCacheSubscribedMsg( const CMsgSOCache
 	// all objects that weren't in the SubscribedMsg should be destroyed
 	for ( int i = 0; i < vecUntouchedObjects.Count(); i++ )
 	{
-		if ( vecUntouchedObjects[i] == NULL )
+		if ( vecUntouchedObjects[i] == nullptr)
 			continue;
 
 		CSharedObject *pObject = RemoveObject( *vecUntouchedObjects[i] );
@@ -214,13 +214,13 @@ CSharedObject *CGCClientSharedObjectTypeCache::BCreateFromMsg( const void *pvDat
 	if( !pNewObj )
 	{
 		EmitError( SPEW_SHAREDOBJ, "Unable to create object of type %d\n", GetTypeID() );
-		return NULL;
+		return nullptr;
 	}
 
 	if( !pNewObj->BParseFromMessage( bufCreate ) )
 	{
 		delete pNewObj;
-		return NULL;
+		return nullptr;
 	}
 
 	// Existing object?
@@ -479,7 +479,7 @@ bool CGCClientSharedObjectCache::BCreateFromMsg( int nTypeID, const void *pvData
 	// Create the message or update existing
 	bool bUpdatedExisting = false;
 	CSharedObject *pObject = pTypeCache->BCreateFromMsg( pvData, unSize, &bUpdatedExisting );
-	if ( pObject == NULL )
+	if ( pObject == nullptr)
 		return false;
 
 	// Send notifications to listeners

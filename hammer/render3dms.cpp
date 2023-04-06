@@ -127,7 +127,7 @@ static bool TranslucentObjectsLessFunc( TranslucentObjects_t const&a, Translucen
 
 bool GetRequiredMaterial( const char *pName, IMaterial* &pMaterial )
 {
-	pMaterial = NULL;
+	pMaterial = nullptr;
 	IEditorTexture *pTex = g_Textures.FindActiveTexture( pName );
 	if ( pTex )
 		pMaterial = pTex->GetMaterial();
@@ -140,7 +140,7 @@ bool GetRequiredMaterial( const char *pName, IMaterial* &pMaterial )
 	{
 		char str[512];
 		Q_snprintf( str, sizeof( str ), "Missing material '%s'. Go to Tools | Options | Game Configurations and verify that your game directory is correct.", pName );
-		MessageBox( NULL, str, "FATAL ERROR", MB_OK );
+		MessageBox(nullptr, str, "FATAL ERROR", MB_OK );
 		return false;
 	}
 }
@@ -201,7 +201,7 @@ CRender3D::CRender3D(void) :
 
 	for (int i = 0; i < 2; ++i)
 	{
-		m_pVertexColor[i] = 0;
+		m_pVertexColor[i] = nullptr;
 	}
 	m_bLightingPreview = false;
 
@@ -219,7 +219,7 @@ CRender3D::CRender3D(void) :
 //-----------------------------------------------------------------------------
 CRender3D::~CRender3D(void)
 {
-	if (m_pDropCamera != NULL)
+	if (m_pDropCamera != nullptr)
 	{
 		delete m_pDropCamera;
 	}
@@ -304,7 +304,7 @@ void CRender3D::AddTranslucentDeferredRendering( CMapPoint *pMapPoint )
 	}
 	else
 	{
-		entry.m_InstanceState.m_pInstanceClass = NULL;
+		entry.m_InstanceState.m_pInstanceClass = nullptr;
 	}
 
 	entry.object = pMapPoint;
@@ -460,10 +460,10 @@ bool CRender3D::SetView( CMapView *pView )
 	MaterialSystemInterface()->SetView( hwnd );
 	m_WinData.hWnd = hwnd;
 
-	if ((m_WinData.hDC = GetDCEx(m_WinData.hWnd, NULL, DCX_CACHE | DCX_CLIPSIBLINGS)) == NULL)
+	if ((m_WinData.hDC = GetDCEx(m_WinData.hWnd, nullptr, DCX_CACHE | DCX_CLIPSIBLINGS)) == nullptr)
 	{
-		ChangeDisplaySettings(NULL, 0);
-		MessageBox(NULL, "GetDC on main window failed", "FATAL ERROR", MB_OK);
+		ChangeDisplaySettings(nullptr, 0);
+		MessageBox(nullptr, "GetDC on main window failed", "FATAL ERROR", MB_OK);
 		return(false);
 	}
 
@@ -751,7 +751,7 @@ void CRender3D::StartRenderFrame( bool bRenderingOverEngine )
 	//
 	// Build the frustum planes for view volume culling.
 	//
-	CCamera *pTempCamera = NULL;
+	CCamera *pTempCamera = nullptr;
 
 	if (m_bDroppedCamera)
 	{
@@ -798,7 +798,7 @@ void CRender3D::StartRenderFrame( bool bRenderingOverEngine )
 
 static void SetNamedMaterialVar(IMaterial *pMat, char const *pVName, float fValue)
 {
-	IMaterialVar *pVar = pMat->FindVar( pVName, NULL );
+	IMaterialVar *pVar = pMat->FindVar( pVName, nullptr);
 	pVar->SetFloatValue( fValue );
 }
 
@@ -826,7 +826,7 @@ void CRender3D::SendShadowTriangles( void )
 		
 		if (g_pLPreviewOutputBitmap)
 			delete g_pLPreviewOutputBitmap;
-		g_pLPreviewOutputBitmap = NULL;
+		g_pLPreviewOutputBitmap = nullptr;
 		EnumChildrenPos_t pos;
 		CMapClass *pChild = pWorld->GetFirstDescendent( pos );
 		while ( pChild )
@@ -1162,7 +1162,7 @@ void CRender3D::SendLightList( void )
 		LastSendTimeStamp = GetUpdateCounter( EVTYPE_LIGHTING_CHANGED );
 		if (g_pLPreviewOutputBitmap)
 			delete g_pLPreviewOutputBitmap;
-		g_pLPreviewOutputBitmap = NULL;
+		g_pLPreviewOutputBitmap = nullptr;
 		// now, get list of lights
 		CUtlIntrusiveList<CLightingPreviewLightDescription> pList = BuildLightList( );
 		MessageToLPreview Msg( LPREVIEW_MSG_LIGHT_DATA );
@@ -1504,7 +1504,7 @@ void CRender3D::AccumulateLights( CUtlPriorityQueue<CLightPreview_Light> &light_
 	meshBuilder.End();
 	pMesh->Draw();
 
-	pRenderContext->SetRenderTarget( NULL );
+	pRenderContext->SetRenderTarget(nullptr);
 				
 }
 
@@ -1602,10 +1602,10 @@ void CRender3D::EndRenderFrame(void)
 			)
 		{
 			pRenderContext->Flush();
-			pRenderContext->SetRenderTarget( NULL );
-			pRenderContext->SetRenderTargetEx( 1,NULL );
-			pRenderContext->SetRenderTargetEx( 2,NULL );
-			pRenderContext->SetRenderTargetEx( 3,NULL );
+			pRenderContext->SetRenderTarget(nullptr);
+			pRenderContext->SetRenderTargetEx( 1, nullptr);
+			pRenderContext->SetRenderTargetEx( 2, nullptr);
+			pRenderContext->SetRenderTargetEx( 3, nullptr);
 
 
 			ITexture *pRT = SetRenderTargetNamed(0,"_rt_accbuf");
@@ -1657,10 +1657,10 @@ void CRender3D::EndRenderFrame(void)
 						Last_SendTime=newtime;
 						if (g_pLPreviewOutputBitmap)
 							delete g_pLPreviewOutputBitmap;
-						g_pLPreviewOutputBitmap = NULL;
+						g_pLPreviewOutputBitmap = nullptr;
 						SendGBuffersToLightingThread( nTargetWidth, nTargetHeight );
 
-						pRenderContext->SetRenderTarget( NULL );
+						pRenderContext->SetRenderTarget(nullptr);
 					}
 				}
 			}			
@@ -1885,7 +1885,7 @@ void CRender3D::RenderTranslucentObjects( void )
 {
 	CMatRenderContextPtr	pRenderContext( MaterialSystemInterface() );
 	bool					bAddedTransform = false;
-	CMapInstance			*pInstanceClass = NULL;
+	CMapInstance			*pInstanceClass = nullptr;
 	TInstanceState			SaveInstanceState = m_CurrentInstanceState;
 
 	m_bInstanceRendering = false;
@@ -1970,7 +1970,7 @@ void CRender3D::RenderFoW( void )
 	for( int i = 0; i < pFoW->GetNumTriSoups(); i++ )
 	{
 		CFoW_TriSoupCollection	*pSoup = pFoW->GetTriSoup( i );
-		if ( pSoup == NULL )
+		if ( pSoup == nullptr)
 		{
 			continue;
 		}
@@ -2791,7 +2791,7 @@ void CRender3D::RenderMapClass(CMapClass *pMapClass)
 {
 	Assert(pMapClass != NULL);
 
-	if ((pMapClass != NULL) && (pMapClass->GetRenderFrame() != m_nFrameCount))
+	if ((pMapClass != nullptr) && (pMapClass->GetRenderFrame() != m_nFrameCount))
 	{
 		if (pMapClass->IsVisible())
 		{
@@ -2923,7 +2923,7 @@ void CRender3D::RenderInstanceMapClass_r(CMapClass *pMapClass)
 {
 	Assert(pMapClass != NULL);
 
-	if ( ( pMapClass != NULL ) && ( pMapClass->GetRenderFrame() != m_nInstanceCount ) )
+	if ( ( pMapClass != nullptr) && ( pMapClass->GetRenderFrame() != m_nInstanceCount ) )
 	{
 		if (pMapClass->IsVisible())
 		{
@@ -3003,7 +3003,7 @@ void CRender3D::Preload(CMapClass *pParent)
 {
 	Assert(pParent != NULL);
 
-	if (pParent != NULL)
+	if (pParent != nullptr)
 	{
 		//
 		// Preload this object's children.
@@ -3037,7 +3037,7 @@ void CRender3D::RenderNode(CCullTreeNode *pNode, bool bForce )
 			pChild = pNode->GetCullTreeChild(nChild);
 			Assert(pChild != NULL);
 
-			if (pChild != NULL)
+			if (pChild != nullptr)
 			{
 				//
 				// Only bother checking nodes with children or objects.
@@ -3167,7 +3167,7 @@ void CRender3D::RenderTool(void)
 //-----------------------------------------------------------------------------
 void CRender3D::RenderTree( CMapWorld *pWorld )
 {
-	if (pWorld == NULL)
+	if (pWorld == nullptr)
 	{
 		return;
 	}
@@ -3176,7 +3176,7 @@ void CRender3D::RenderTree( CMapWorld *pWorld )
 	// Recursively traverse the culling tree, rendering visible nodes.
 	//
 	CCullTreeNode *pTree = pWorld->CullTree_GetCullTree();
-	if (pTree != NULL)
+	if (pTree != nullptr)
 	{
 		Vector vecMins;
 		Vector vecMaxs;
@@ -3213,7 +3213,7 @@ void CRender3D::ResetFocus()
 {
 	// A bizarre workaround; the drop-down menu somehow
 	// sets some wierd state that causes the whole screen to not be updated
-	InvalidateRect( m_WinData.hWnd, 0, false );
+	InvalidateRect( m_WinData.hWnd, nullptr, false );
 }
 
 
@@ -3238,12 +3238,12 @@ void CRender3D::ShutDown(void)
 
 	if (m_WinData.hDC)
 	{
-		m_WinData.hDC = NULL;
+		m_WinData.hDC = nullptr;
 	}
 	
 	if (m_WinData.bFullScreen)
 	{
-		ChangeDisplaySettings(NULL, 0);
+		ChangeDisplaySettings(nullptr, 0);
 	}
 }
 

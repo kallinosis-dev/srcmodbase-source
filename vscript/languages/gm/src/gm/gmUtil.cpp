@@ -26,7 +26,7 @@ char * gmItoa(int a_val, char * a_dst, int a_radix)
   int new_val;
 
   if (a_radix < 0) {
-    if (a_radix < -36 || a_radix > -2) return NULL;
+    if (a_radix < -36 || a_radix > -2) return nullptr;
     if (a_val < 0) {
       *dst++ = '-';
       a_val = -a_val;
@@ -35,7 +35,7 @@ char * gmItoa(int a_val, char * a_dst, int a_radix)
   } 
   else 
   {
-    if (a_radix > 36 || a_radix < 2) return NULL;
+    if (a_radix > 36 || a_radix < 2) return nullptr;
   }
   p = &buffer[sizeof(buffer)-1];
   *p = '\0';

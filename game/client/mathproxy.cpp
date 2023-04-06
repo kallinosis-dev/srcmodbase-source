@@ -800,7 +800,7 @@ public:
 	virtual bool Init( IMaterial *pMaterial, KeyValues *pKeyValues ) { return true; }
 	virtual void OnBind( void *pC_BaseEntity ) {}
 	virtual void Release( void ) { delete this; }
-	virtual IMaterial *GetMaterial() { return NULL; }
+	virtual IMaterial *GetMaterial() { return nullptr; }
 };
 
 

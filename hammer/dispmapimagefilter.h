@@ -267,8 +267,8 @@ inline int CDispMapImageFilterManager::GetFilterCount( void )
 //-----------------------------------------------------------------------------
 inline CDispMapImageFilter *CDispMapImageFilterManager::GetFilter( int ndx )
 {
-	if( ndx < 0 ) { return NULL; }
-	if( ndx >= m_FilterCount ) { return NULL; }
+	if( ndx < 0 ) { return nullptr; }
+	if( ndx >= m_FilterCount ) { return nullptr; }
 
 	return m_pFilterList[ndx];
 }

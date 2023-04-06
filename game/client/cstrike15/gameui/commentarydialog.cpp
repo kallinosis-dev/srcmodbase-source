@@ -148,7 +148,7 @@ void CC_CommentaryTestFirstRun( void )
 		OpenCommentaryDialog();
 	}
 }
-static ConCommand commentary_testfirstrun("commentary_testfirstrun", CC_CommentaryTestFirstRun, 0 );
+static ConCommand commentary_testfirstrun("commentary_testfirstrun", CC_CommentaryTestFirstRun, nullptr );
 
 
 //-----------------------------------------------------------------------------

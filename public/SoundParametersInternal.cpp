@@ -323,7 +323,7 @@ const char *PitchToString( float pitch )
 
 CSoundParametersInternal::CSoundParametersInternal()
 {
-	m_pConvertedNames = m_pSoundNames = NULL;
+	m_pConvertedNames = m_pSoundNames = nullptr;
 	m_nConvertedNames = m_nSoundNames = 0;
 	channel			= CHAN_AUTO; // 0
 
@@ -345,20 +345,20 @@ CSoundParametersInternal::CSoundParametersInternal()
 	
 	m_nSoundEntryVersion = 1;
 
-	m_pOperatorsKV = NULL;
+	m_pOperatorsKV = nullptr;
 
 	// TERROR:
-	m_pGameData = NULL;
+	m_pGameData = nullptr;
 }
 
 CSoundParametersInternal::CSoundParametersInternal( const CSoundParametersInternal& src )
 {
-	m_pSoundNames = NULL;
-	m_pConvertedNames = NULL;
+	m_pSoundNames = nullptr;
+	m_pConvertedNames = nullptr;
 
-	m_pOperatorsKV = NULL;
+	m_pOperatorsKV = nullptr;
 	// TERROR:
-	m_pGameData = NULL;
+	m_pGameData = nullptr;
 	
 	CopyFrom( src );
 }
@@ -373,11 +373,11 @@ CSoundParametersInternal::~CSoundParametersInternal()
 	if ( m_pOperatorsKV )
 	{
 		m_pOperatorsKV->deleteThis();
-		m_pOperatorsKV = NULL;
+		m_pOperatorsKV = nullptr;
 	}
 
-	m_pConvertedNames = NULL;
-	m_pSoundNames = NULL;
+	m_pConvertedNames = nullptr;
+	m_pSoundNames = nullptr;
 	m_nSoundNames = 0;
 	m_nConvertedNames = 0;
 }
@@ -388,7 +388,7 @@ void CSoundParametersInternal::SetOperatorsKV( KeyValues *src )
 	{
 		m_pOperatorsKV->deleteThis();
 	}
-	m_pOperatorsKV = NULL;
+	m_pOperatorsKV = nullptr;
 
 	m_pOperatorsKV = new KeyValues( "Operators" );
 	src->CopySubkeys( m_pOperatorsKV );
@@ -425,7 +425,7 @@ void CSoundParametersInternal::CopyFrom( const CSoundParametersInternal& src )
 	}
 	else
 	{
-		m_pSoundNames = NULL;
+		m_pSoundNames = nullptr;
 	}
 
 	m_nConvertedNames = src.m_nConvertedNames;
@@ -443,7 +443,7 @@ void CSoundParametersInternal::CopyFrom( const CSoundParametersInternal& src )
 	}
 	else
 	{
-		m_pConvertedNames = NULL;
+		m_pConvertedNames = nullptr;
 	}
 
 	if ( src.m_pOperatorsKV )
@@ -608,7 +608,7 @@ void CSoundParametersInternal::AddToTail( SoundFile **pDest, uint16 *pDestCount,
 			// Copying from a list of one soundfile. Save off the struct
 			// packed into the pointer field.
 			temp = *((SoundFile *)(pDest));
-			*pDest = NULL;
+			*pDest = nullptr;
 		}
 
 		*pDest = (SoundFile *)realloc( *pDest, (*pDestCount) * sizeof(SoundFile) );

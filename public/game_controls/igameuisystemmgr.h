@@ -122,7 +122,7 @@ abstract_class IGameUISystem
 {
 public:
 	virtual char const * GetName() = 0;
-	virtual bool ExecuteScript( KeyValues *kvEvent, KeyValues **ppResult = NULL ) = 0;
+	virtual bool ExecuteScript( KeyValues *kvEvent, KeyValues **ppResult = nullptr) = 0;
 
 	virtual int32 GetScriptHandle() = 0;
 
@@ -142,7 +142,7 @@ public:
 	virtual InitReturnVal_t Init() = 0;
 	virtual void Shutdown() = 0;
 
-	virtual void PrecacheFontCharacters( FontHandle_t font, wchar_t *pCharacterString = NULL ) = 0;
+	virtual void PrecacheFontCharacters( FontHandle_t font, wchar_t *pCharacterString = nullptr) = 0;
 
 	virtual FontHandle_t CreateFont() = 0;
 	virtual bool SetFontGlyphSet( FontHandle_t font, const char *windowsFontName, int tall, int weight, int blur, int scanlines, int flags, int nRangeMin = 0, int nRangeMax = 0 ) = 0;

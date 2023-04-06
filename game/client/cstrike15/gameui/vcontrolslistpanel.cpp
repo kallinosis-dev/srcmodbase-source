@@ -28,7 +28,7 @@ using namespace vgui;
 class CInlineEditPanel : public vgui::Panel
 {
 public:
-	CInlineEditPanel() : vgui::Panel(NULL, "InlineEditPanel")
+	CInlineEditPanel() : vgui::Panel(nullptr, "InlineEditPanel")
 	{
 	}
 

@@ -61,7 +61,7 @@ void IVP_Compact_Surface::byte_swap_all(IVP_BOOL swap_points, int point_estimate
 
 			const IVP_Compact_Ledge* ledge = ltn->get_compact_hull(); //returns const only?!
 
-			if(ledge != NULL)
+			if(ledge != nullptr)
 			{
 				//
 				// just swap the convex hull ledge, no recursion
@@ -76,7 +76,7 @@ void IVP_Compact_Surface::byte_swap_all(IVP_BOOL swap_points, int point_estimate
 			printf("Found %d unique points\n", swapped_points.len());
 		}
 		else
-			const_cast<IVP_Compact_Ledgetree_Node*>(ltn)->byte_swap_all(NULL);
+			const_cast<IVP_Compact_Ledgetree_Node*>(ltn)->byte_swap_all(nullptr);
 	}
 
 #if defined (WIN32)

@@ -83,7 +83,7 @@ BEGIN_SEND_TABLE_NOBASE( CBaseAnimatingOverlay, DT_OverlayVars )
 	SendPropUtlVector( 
 		SENDINFO_UTLVECTOR( m_AnimOverlay ),
 		CBaseAnimatingOverlay::MAX_OVERLAYS, // max elements
-		SendPropDataTable( NULL, 0, &REFERENCE_SEND_TABLE( DT_Animationlayer ) )  )
+		SendPropDataTable(nullptr, 0, &REFERENCE_SEND_TABLE( DT_Animationlayer ) )  )
 END_SEND_TABLE()
 
 
@@ -97,7 +97,7 @@ END_SEND_TABLE()
 
 CAnimationLayer::CAnimationLayer( )
 {
-	Init( NULL );
+	Init(nullptr);
 }
 
 // 7LS - using '=' operator on a NetworkVar will call the Set(x) fn, which does a comparison of 'x' against the current value to determine if the network state
@@ -131,7 +131,7 @@ void CAnimationLayer::Init( CBaseAnimatingOverlay *pOverlay )
 	m_flBlendIn = 0.0f;
 	m_flBlendOut = 0.0f;
 	m_flLastEventCheck = 0.0f;
-	m_pDispatchedStudioHdr = NULL;
+	m_pDispatchedStudioHdr = nullptr;
 	m_nDispatchedSrc = ACT_INVALID;
 	m_nDispatchedDst = ACT_INVALID;
 
@@ -299,7 +299,7 @@ void CBaseAnimatingOverlay::RegenerateDispatchedLayers( IBoneSetup &boneSetup, B
 				for ( int i=0; i < pFollow->GetNumAnimOverlays(); i++ )
 				{
 					CAnimationLayer *pLayer = pFollow->GetAnimOverlay( i );
-					if ( pLayer->m_pDispatchedStudioHdr == NULL || pLayer->m_nOrder >= MAX_OVERLAYS || pLayer->GetSequence() == -1 || pLayer->GetWeight() <= 0.0f )
+					if ( pLayer->m_pDispatchedStudioHdr == nullptr || pLayer->m_nOrder >= MAX_OVERLAYS || pLayer->GetSequence() == -1 || pLayer->GetWeight() <= 0.0f )
 						continue;
 
 					// FIXME: why do the CStudioHdr's not match?
@@ -610,8 +610,8 @@ void CBaseAnimatingOverlay::GetSkeleton( CStudioHdr *pStudioHdr, BoneVector pos[
 
 	// check if this is a player with a valid weapon
 	// look for weapon, pull layer animations from it if/when they exist
-	CBaseCombatWeapon *pWeapon = NULL;
-	CBaseWeaponWorldModel *pWeaponWorldModel = NULL;
+	CBaseCombatWeapon *pWeapon = nullptr;
+	CBaseWeaponWorldModel *pWeaponWorldModel = nullptr;
 
 	bool bDoWeaponSetup = false;
 
@@ -711,7 +711,7 @@ void CBaseAnimatingOverlay::GetSkeleton( CStudioHdr *pStudioHdr, BoneVector pos[
 	}
 	else
 	{
-		boneSetup.CalcAutoplaySequences( pos, q, gpGlobals->curtime, NULL );
+		boneSetup.CalcAutoplaySequences( pos, q, gpGlobals->curtime, nullptr);
 	}
 	boneSetup.CalcBoneAdj( pos, q, GetEncodedControllerArray() );
 
@@ -1367,7 +1367,7 @@ CAnimationLayer *CBaseAnimatingOverlay::GetAnimOverlay( int iIndex, bool bUseOrd
 	iIndex = clamp( iIndex, 0, m_AnimOverlay.Count()-1 );
 
 	if ( !m_AnimOverlay.Count() )
-		return NULL;
+		return nullptr;
 
 	if ( bUseOrder )
 	{

@@ -37,7 +37,7 @@ C_PropJeep::C_PropJeep()
 {
 	m_vecEyeSpeed.Init();
 	m_flViewAngleDeltaTime = 0.0f;
-	m_pHeadlight = NULL;
+	m_pHeadlight = nullptr;
 	
 	ConVarRef r_JeepFOV( "r_JeepFOV" );
 	m_ViewSmoothingData.flFOV = r_JeepFOV.GetFloat();
@@ -59,12 +59,12 @@ bool C_PropJeep::Simulate( void )
 	// The dim light is the flashlight.
 	if ( m_bHeadlightIsOn )
 	{
-		if ( m_pHeadlight == NULL )
+		if ( m_pHeadlight == nullptr)
 		{
 			// Turned on the headlight; create it.
 			m_pHeadlight = new CHeadlightEffect;
 
-			if ( m_pHeadlight == NULL )
+			if ( m_pHeadlight == nullptr)
 				return true;
 
 			m_pHeadlight->TurnOn();
@@ -88,7 +88,7 @@ bool C_PropJeep::Simulate( void )
 	{
 		// Turned off the flashlight; delete it.
 		delete m_pHeadlight;
-		m_pHeadlight = NULL;
+		m_pHeadlight = nullptr;
 	}
 
 	BaseClass::Simulate();
@@ -251,7 +251,7 @@ void C_PropJeep::DampenUpMotion( Vector &vecVehicleEyePos, QAngle &vecVehicleEye
 {
 	// Get up vector.
 	Vector vecUp;
-	AngleVectors( vecVehicleEyeAngles, NULL, NULL, &vecUp );
+	AngleVectors( vecVehicleEyeAngles, nullptr, nullptr, &vecUp );
 	vecUp.z = clamp( vecUp.z, 0.0f, vecUp.z );
 	vecVehicleEyePos.z += r_JeepViewZHeight.GetFloat() * vecUp.z;
 
@@ -300,7 +300,7 @@ void WheelDustCallback( const CEffectData &data )
 
 	pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof(SimpleParticle), g_Mat_DustPuff[0], offset );
 
-	if ( pParticle != NULL )
+	if ( pParticle != nullptr)
 	{			
 		pParticle->m_flLifetime		= 0.0f;
 		pParticle->m_flDieTime		= random->RandomFloat( 0.25f, 0.5f );

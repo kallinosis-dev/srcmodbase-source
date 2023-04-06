@@ -83,7 +83,7 @@ void CPupilProxy::OnBind( C_BaseEntity *pBaseEntity )
 
 	// Compute the lighting at the eye position of the entity; use it to dialate the pupil
 	Vector forward;
-	pBaseEntity->GetVectors( &forward, NULL, NULL );
+	pBaseEntity->GetVectors( &forward, nullptr, nullptr);
 
 	Vector eyePt = pBaseEntity->EyePosition();
 	Vector color;
@@ -120,7 +120,7 @@ void CPupilProxy::OnBind( C_BaseEntity *pBaseEntity )
 IMaterial *CPupilProxy::GetMaterial()
 {
 	if ( !m_pAnimatedTextureVar )
-		return NULL;
+		return nullptr;
 
 	return m_pAnimatedTextureVar->GetOwningMaterial();
 }

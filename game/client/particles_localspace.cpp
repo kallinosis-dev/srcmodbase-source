@@ -94,7 +94,7 @@ void CLocalSpaceEmitter::RenderParticles( CParticleRenderIterator *pIterator )
 		// Correct viewmodel squashing
 		if ( m_fFlags & FLE_VIEWMODEL )
 		{
-			FormatViewModelAttachment( NULL, worldPos, false );
+			FormatViewModelAttachment(nullptr, worldPos, false );
 		}
 
 		TransformParticle( mModelView, worldPos, screenPos );

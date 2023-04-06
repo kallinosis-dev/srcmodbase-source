@@ -486,13 +486,13 @@ int CMorph::s_nUniqueId = 0;
 CMorph::CMorph()
 {
 	memset( m_pMorphTexture, 0, sizeof(m_pMorphTexture) );
-	m_pMorphBuffer = NULL;
+	m_pMorphBuffer = nullptr;
 	m_nTextureWidth = 0;
 	m_nTextureHeight = 0;
 	m_bLocked = false;
 	m_Format = 0;
 	m_flFloatToFixedScale = 1.0f;
-	m_pRenderMorphWeight = 0;
+	m_pRenderMorphWeight = nullptr;
 	m_nMaxMorphTargetCount = 0;
 }
 
@@ -603,24 +603,24 @@ void CMorph::CleanUp( )
 	if ( m_pMorphBuffer )
 	{
 		pRenderContext->DestroyStaticMesh( m_pMorphBuffer );
-		m_pMorphBuffer = NULL;
+		m_pMorphBuffer = nullptr;
 	}
 
 	for ( int i = 0; i < MORPH_TEXTURE_COUNT; ++i )
 	{
 		if ( m_pMorphTexture[i] )
 		{
-			m_pMorphTexture[i]->SetTextureRegenerator( NULL );
+			m_pMorphTexture[i]->SetTextureRegenerator(nullptr);
 			m_pMorphTexture[i]->DecrementReferenceCount( );
 			m_pMorphTexture[i]->DeleteIfUnreferenced();
-			m_pMorphTexture[i] = NULL;
+			m_pMorphTexture[i] = nullptr;
 		}
 	}
 
 	if ( m_pRenderMorphWeight )
 	{
 		delete[] m_pRenderMorphWeight;
-		m_pRenderMorphWeight = NULL;
+		m_pRenderMorphWeight = nullptr;
 	}
 
 	m_nMaxMorphTargetCount = 0;
@@ -1672,11 +1672,11 @@ int CMorphMgrRenderContext::GetRenderId( CMorph* pMorph )
 //-----------------------------------------------------------------------------
 CMorphMgr::CMorphMgr()
 {
-	m_pMorphAccumTexture = NULL;
-	m_pMorphWeightTexture = NULL;
-	m_pVisualizeMorphAccum = NULL;
-	m_pVisualizeMorphWeight = NULL;
-	m_pRenderMorphWeight = NULL;
+	m_pMorphAccumTexture = nullptr;
+	m_pMorphWeightTexture = nullptr;
+	m_pVisualizeMorphAccum = nullptr;
+	m_pVisualizeMorphWeight = nullptr;
+	m_pRenderMorphWeight = nullptr;
 	m_nFrameCount = 0;
 	m_nTotalMorphSizeInBytes = 0;
 	m_bUsingConstantRegisters = false;
@@ -1752,14 +1752,14 @@ void CMorphMgr::FreeScratchTextures()
 	{
 		m_pMorphAccumTexture->DecrementReferenceCount();
 		m_pMorphAccumTexture->DeleteIfUnreferenced();
-		m_pMorphAccumTexture = NULL;
+		m_pMorphAccumTexture = nullptr;
 	}
 
 	if ( m_pMorphWeightTexture )
 	{
 		m_pMorphWeightTexture->DecrementReferenceCount();
 		m_pMorphWeightTexture->DeleteIfUnreferenced();
-		m_pMorphWeightTexture = NULL;
+		m_pMorphWeightTexture = nullptr;
 	}
 }
 
@@ -1798,21 +1798,21 @@ void CMorphMgr::FreeMaterials()
 	{
 		m_pVisualizeMorphAccum->DecrementReferenceCount();
 		m_pVisualizeMorphAccum->DeleteIfUnreferenced();
-		m_pVisualizeMorphAccum = NULL;
+		m_pVisualizeMorphAccum = nullptr;
 	}
 
 	if ( m_pVisualizeMorphWeight )
 	{
 		m_pVisualizeMorphWeight->DecrementReferenceCount();
 		m_pVisualizeMorphWeight->DeleteIfUnreferenced();
-		m_pVisualizeMorphWeight = NULL;
+		m_pVisualizeMorphWeight = nullptr;
 	}
 
 	if ( m_pRenderMorphWeight )
 	{
 		m_pRenderMorphWeight->DecrementReferenceCount();
 		m_pRenderMorphWeight->DeleteIfUnreferenced();
-		m_pRenderMorphWeight = NULL;
+		m_pRenderMorphWeight = nullptr;
 	}
 }
 

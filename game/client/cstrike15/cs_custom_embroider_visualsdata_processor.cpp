@@ -15,7 +15,7 @@ void CCSEmbroiderVisualsDataCompare::SerializeToBuffer( CUtlBuffer &buf )
 }
 
 CCSEmbroiderVisualsDataProcessor::CCSEmbroiderVisualsDataProcessor( CCSEmbroiderVisualsDataCompare &&compareObject, CCSEmbroiderData_t visualsData, const char *pCompositingShaderName )
-	: m_pCompositingShaderName( NULL )
+	: m_pCompositingShaderName(nullptr)
 	, m_visualsData( visualsData )
 {
 	m_compareObject = Move( compareObject );
@@ -27,7 +27,7 @@ CCSEmbroiderVisualsDataProcessor::~CCSEmbroiderVisualsDataProcessor()
 	if ( m_pCompositingShaderName )
 	{
 		delete [] m_pCompositingShaderName;
-		m_pCompositingShaderName = NULL;
+		m_pCompositingShaderName = nullptr;
 	}
 }
 
@@ -41,7 +41,7 @@ void CCSEmbroiderVisualsDataProcessor::SetVisualsData( const char *pCompositingS
 	if ( m_pCompositingShaderName )
 	{
 		delete[] m_pCompositingShaderName;
-		m_pCompositingShaderName = NULL;
+		m_pCompositingShaderName = nullptr;
 	}
 
 	if ( pCompositingShaderName )

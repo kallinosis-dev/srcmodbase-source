@@ -19,7 +19,7 @@
 Ammo_t *CAmmoDef::GetAmmoOfIndex(int nAmmoIndex)
 {
 	if ( nAmmoIndex >= m_nAmmoIndex )
-		return NULL;
+		return nullptr;
 
 	return &m_AmmoType[ nAmmoIndex ];
 }

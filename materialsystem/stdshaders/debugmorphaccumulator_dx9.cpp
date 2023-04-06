@@ -30,7 +30,7 @@ BEGIN_VS_SHADER_FLAGS( DebugMorphAccumulator, "Help for Debug Morph Accumulator"
 		{
 			return "Wireframe";
 		}
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -49,7 +49,7 @@ BEGIN_VS_SHADER_FLAGS( DebugMorphAccumulator, "Help for Debug Morph Accumulator"
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 			pShaderShadow->EnableSRGBWrite( false );
 
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( debugmorphaccumulator_vs30 );
 			SET_STATIC_VERTEX_SHADER( debugmorphaccumulator_vs30 );

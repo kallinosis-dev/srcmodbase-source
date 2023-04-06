@@ -44,7 +44,7 @@ class CDmeMDL : public CDmeShape
 	DEFINE_ELEMENT( CDmeMDL, CDmeShape );
 
 public:
-	virtual void Draw( const matrix3x4_t& shapeToWorld, CDmeDrawSettings *pDrawSettings = NULL );
+	virtual void Draw( const matrix3x4_t& shapeToWorld, CDmeDrawSettings *pDrawSettings = nullptr);
 
 	void DrawInEngine( bool bDrawInEngine );
 	bool IsDrawingInEngine() const;

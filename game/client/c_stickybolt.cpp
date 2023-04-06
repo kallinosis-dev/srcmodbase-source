@@ -50,18 +50,18 @@ public:
 	IterationRetval_t EnumElement( IHandleEntity *pHandleEntity )
 	{
 		C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle( pHandleEntity->GetRefEHandle() );
-		if ( pEnt == NULL )
+		if ( pEnt == nullptr)
 			return ITERATION_CONTINUE;
 
 		C_BaseAnimating *pModel = static_cast< C_BaseAnimating * >( pEnt );
 
-		if ( pModel == NULL )
+		if ( pModel == nullptr)
 			return ITERATION_CONTINUE;
 
 		trace_t tr;
 		enginetrace->ClipRayToEntity( m_rayShot, MASK_SHOT, pModel, &tr );
 
-		IPhysicsObject	*pPhysicsObject = NULL;
+		IPhysicsObject	*pPhysicsObject = nullptr;
 		
 		//Find the real object we hit.
 		if( tr.physicsbone >= 0 )
@@ -82,14 +82,14 @@ public:
 			}
 		}
 
-		if ( pPhysicsObject == NULL )
+		if ( pPhysicsObject == nullptr)
 			return ITERATION_CONTINUE;
 
 		if ( tr.fraction < 1.0 )
 		{
 			IPhysicsObject *pReference = GetWorldPhysObject();
 
-			if ( pReference == NULL || pPhysicsObject == NULL )
+			if ( pReference == nullptr || pPhysicsObject == nullptr)
 				 return ITERATION_CONTINUE;
 			
 			float flMass = pPhysicsObject->GetMass();
@@ -101,7 +101,7 @@ public:
 			pReference->WorldToLocal( &ballsocket.constraintPosition[0], m_vWorld );
 			pPhysicsObject->WorldToLocal( &ballsocket.constraintPosition[1], tr.endpos );
 	
-			physenv->CreateBallsocketConstraint( pReference, pPhysicsObject, NULL, ballsocket );
+			physenv->CreateBallsocketConstraint( pReference, pPhysicsObject, nullptr, ballsocket );
 
 			//Play a sound
 			CPASAttenuationFilter filter( pEnt );
@@ -150,7 +150,7 @@ void StickRagdollNow( const Vector &vecOrigin, const Vector &vecDirection )
 	Ray_t	shotRay;
 	trace_t tr;
 	
-	UTIL_TraceLine( vecOrigin, vecOrigin + vecDirection * 16, MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceLine( vecOrigin, vecOrigin + vecDirection * 16, MASK_SOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &tr );
 
 	if ( tr.surface.flags & SURF_SKY )
 		return;

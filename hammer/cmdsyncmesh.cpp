@@ -83,7 +83,7 @@ static bool s_opt_vmf_bStoreMa = true;
 static bool s_opt_maya_bMeshAtOrigin = false;
 static bool s_opt_maya_bReplaceSelection = true;
 
-static HWND s_hMainWnd = NULL;
+static HWND s_hMainWnd = nullptr;
 
 //
 // Utility routines
@@ -173,7 +173,7 @@ int ComputeFileHash( const char *pszFilename )
 {
 	CUtlBuffer bufFile;
 	
-	if ( g_pFileSystem->ReadFile( pszFilename, NULL, bufFile ) )
+	if ( g_pFileSystem->ReadFile( pszFilename, nullptr, bufFile ) )
 		return ComputeBufferHash( bufFile.Base(), bufFile.TellPut() );
 	
 	return 0;
@@ -196,8 +196,8 @@ void SwitchActiveWindow( HWND hWndActivate )
 		return;
 
 	DWORD dwThreadIdFg, dwThreadIdActivate;
-	dwThreadIdFg = GetWindowThreadProcessId( hWndFg, NULL );
-	dwThreadIdActivate = GetWindowThreadProcessId( hWndActivate, NULL );
+	dwThreadIdFg = GetWindowThreadProcessId( hWndFg, nullptr);
+	dwThreadIdActivate = GetWindowThreadProcessId( hWndActivate, nullptr);
 	
 	if ( dwThreadIdActivate != dwThreadIdFg )
 		AttachThreadInput( dwThreadIdFg, dwThreadIdActivate, TRUE );
@@ -286,15 +286,15 @@ static void AppMainLoopIdle_Delegate()
 
 CToolHandler_SyncMesh::CToolHandler_SyncMesh()
 {
-	m_pApp = NULL;
-	m_pDoc = NULL;
-	m_pView = NULL;
-	m_pSelection = NULL;
+	m_pApp = nullptr;
+	m_pDoc = nullptr;
+	m_pView = nullptr;
+	m_pSelection = nullptr;
 	
-	m_pCopiedObjects = NULL;
-	m_pTempDoc = NULL;
+	m_pCopiedObjects = nullptr;
+	m_pTempDoc = nullptr;
 
-	m_pAsyncDialogRequest = NULL;
+	m_pAsyncDialogRequest = nullptr;
 
 	AppRegisterMessageLoopFn( AppMainLoopIdle_Delegate );
 }
@@ -352,7 +352,7 @@ void CToolHandler_SyncMesh::AppMainLoopIdle()
 {
 	s_hMainWnd = AfxGetMainWnd()->GetSafeHwnd();
 
-	CDialog *pAsyncDlg = NULL;
+	CDialog *pAsyncDlg = nullptr;
 	// Fetch requests
 	{
 		AUTO_LOCK( m_mtxRequest );
@@ -381,7 +381,7 @@ void CToolHandler_SyncMesh::AppMainLoopIdle()
 	{
 		SwitchActiveWindow( s_hMainWnd );
 		pAsyncDlg->DoModal();
-		m_pAsyncDialogRequest = NULL;
+		m_pAsyncDialogRequest = nullptr;
 	}
 }
 
@@ -461,8 +461,8 @@ BOOL CToolHandler_SyncMesh::Setup()
 		 m_pSelection->GetCount() < 1 )
 		 return FALSE;
 
-	m_pTempDoc = NULL;
-	m_pCopiedObjects = NULL;
+	m_pTempDoc = nullptr;
+	m_pCopiedObjects = nullptr;
 	m_strTempFileName.Empty();
 
 	return TRUE;
@@ -511,7 +511,7 @@ BOOL CToolHandler_SyncMesh::CopySelToClipboard()
 
 BOOL CToolHandler_SyncMesh::CreateTempDoc()
 {
-	CDocTemplate *pTemplate = NULL;
+	CDocTemplate *pTemplate = nullptr;
 	if ( POSITION pos = m_pApp->GetFirstDocTemplatePosition() )
 	{
 		pTemplate = m_pApp->GetNextDocTemplate( pos );
@@ -521,7 +521,7 @@ BOOL CToolHandler_SyncMesh::CreateTempDoc()
 		return FALSE;
 
 	// Force a new document file created
-	m_pTempDoc = _AsFriendlyDoc( pTemplate->OpenDocumentFile( NULL ) );
+	m_pTempDoc = _AsFriendlyDoc( pTemplate->OpenDocumentFile(nullptr) );
 	if ( !m_pTempDoc )
 		return FALSE;
 
@@ -544,7 +544,7 @@ BOOL CToolHandler_SyncMesh::PasteSelToTempDoc()
 		vecPasteOffset = Vector( 0, 0, 0 );
 	
 	m_pTempDoc->Paste( m_pCopiedObjects, m_pTempDoc->GetMapWorld(),
-		vecPasteOffset, QAngle(0, 0, 0), NULL, false, NULL);
+		vecPasteOffset, QAngle(0, 0, 0), nullptr, false, nullptr);
 	
 	// Restore snapping mode
 	if ( bSnapping )
@@ -580,7 +580,7 @@ BOOL CToolHandler_SyncMesh::CloseTempDoc()
 	if ( m_pCopiedObjects )
 	{
 		m_pCopiedObjects->Destroy();
-		m_pCopiedObjects = NULL;
+		m_pCopiedObjects = nullptr;
 	}
 
 	if ( m_pTempDoc )
@@ -700,7 +700,7 @@ BOOL CToolHandler_SyncMesh::ProcessDmxRequest()
 	if ( !DmxDeleteOrigObjects() )
 		goto failed;
 
-	if ( !g_pFileSystem->ReadFile( m_strDmxFileName, NULL, bufIndex ) )
+	if ( !g_pFileSystem->ReadFile( m_strDmxFileName, nullptr, bufIndex ) )
 		goto failed;
 
 	while ( char *pszEntry = bufIndex.InplaceGetLinePtr() )
@@ -777,21 +777,21 @@ BOOL CToolHandler_SyncMesh::DmxPrepareModelFiles()
 	// system( sMdlCmdLine );
 	BOOL bCreatedProcess = CreateProcess(
 		sExeName.GetBuffer(), sMdlCmdLine.GetBuffer(),
-		NULL, NULL, FALSE, 0, NULL, NULL,
+		nullptr, nullptr, FALSE, 0, nullptr, nullptr,
 		&si, &pi );
 	bCreatedProcess;
 	
 	if ( pi.hThread )
 	{
 		CloseHandle( pi.hThread );
-		pi.hThread = NULL;
+		pi.hThread = nullptr;
 	}
 
 	if ( pi.hProcess )
 	{
 		WaitForSingleObject( pi.hProcess, INFINITE );
 		CloseHandle( pi.hProcess );
-		pi.hProcess = NULL;
+		pi.hProcess = nullptr;
 	}
 
 	// We should have the model now
@@ -851,7 +851,7 @@ BOOL CToolHandler_SyncMesh::DmxCreateStaticProp()
 		for ( int k = 0; k < 4; ++ k )
 		{
 			CString sParse = m_strDmxFileName.Mid( m_strDmxFileName.GetLength() - 37 + 1 + 8 * k, 8 );
-			arrV[k] = strtoul( sParse, NULL, 16 );
+			arrV[k] = strtoul( sParse, nullptr, 16 );
 		}
 		for ( int k = 1; k < 4; ++ k )
 		{
@@ -1104,7 +1104,7 @@ ChunkFileResult_t CSyncMesh_SaveLoadHandler::OnFileDataWriting( CChunkFile *pFil
 		CString sSrc = sMdlPath + CString( "/" ) + CString( szModelHash ) + arrFiles[j];
 
 		CUtlBuffer bufFile;
-		if ( !g_pFileSystem->ReadFile( sSrc, NULL, bufFile ) )
+		if ( !g_pFileSystem->ReadFile( sSrc, nullptr, bufFile ) )
 		{
 			if ( !bOptRequired[ j ] )
 				continue;
@@ -1125,7 +1125,7 @@ ChunkFileResult_t CSyncMesh_SaveLoadHandler::OnFileDataLoaded( CUtlBuffer &bufDa
 	char const * arrFiles[] = { ".ma", ".dmx", ".mdl", ".vvd", ".dx90.vtx", ".phy", ".ss2" };
 	char const * arrNames[] = { "maa", "dmx", "mdl", "vvd", "vtx", "phy", "ss2" };
 
-	char const *pFileExt = NULL;
+	char const *pFileExt = nullptr;
 
 	// Determine the file name to save
 	for ( int j = 0; j < ARRAYSIZE( arrFiles ); ++ j )

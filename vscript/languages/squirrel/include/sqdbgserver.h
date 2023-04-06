@@ -113,7 +113,7 @@ public:
 	void BreakExecution();
 	void Send(const SQChar *s,...);
 	void SendChunk(const SQChar *chunk);
-	void Break(int line,const SQChar *src,const SQChar *type,const SQChar *error=NULL);
+	void Break(int line,const SQChar *src,const SQChar *type,const SQChar *error= nullptr);
 
 
 	void SerializeState();

@@ -170,7 +170,7 @@ DEFINE_TESTCASE_NOSUITE( DmxLoaderTest )
 	Msg( "Running dmx loader tests...\n" );
 	
 	CDmxElement *pRoot;
-	bool bOk = UnserializeDMX( "dmxtestloader.dmx", NULL, false, &pRoot );
+	bool bOk = UnserializeDMX( "dmxtestloader.dmx", nullptr, false, &pRoot );
 	Shipping_Assert( bOk );
 	Shipping_Assert( pRoot );
 	if ( pRoot )
@@ -179,7 +179,7 @@ DEFINE_TESTCASE_NOSUITE( DmxLoaderTest )
 		CleanupDMX( pRoot );
 	}
 
-	bOk = UnserializeDMX( "dmxtestloadertext.dmx", NULL, true, &pRoot );
+	bOk = UnserializeDMX( "dmxtestloadertext.dmx", nullptr, true, &pRoot );
 	Shipping_Assert( bOk );
 	Shipping_Assert( pRoot );
 	if ( pRoot )
@@ -189,18 +189,18 @@ DEFINE_TESTCASE_NOSUITE( DmxLoaderTest )
 	}
 
 	// Test serialization
-	bOk = UnserializeDMX( "dmxtestloader.dmx", NULL, false, &pRoot );
+	bOk = UnserializeDMX( "dmxtestloader.dmx", nullptr, false, &pRoot );
 	Shipping_Assert( bOk );
 	Shipping_Assert( pRoot );
 	if ( pRoot )
 	{
-		bOk = SerializeDMX( "dmxtestscratch.dmx", NULL, false, pRoot );
+		bOk = SerializeDMX( "dmxtestscratch.dmx", nullptr, false, pRoot );
 		Shipping_Assert( bOk );
 		CleanupDMX( pRoot );
 	}
 	CleanupDMX( pRoot );
 
-	bOk = UnserializeDMX( "dmxtestscratch.dmx", NULL, false, &pRoot );
+	bOk = UnserializeDMX( "dmxtestscratch.dmx", nullptr, false, &pRoot );
 	Shipping_Assert( bOk );
 	Shipping_Assert( pRoot );
 	if ( pRoot )

@@ -44,7 +44,7 @@ CMapClass *CMapPlayerHullHandle::Create(CHelperInfo *pHelperInfo, CMapEntity *pP
 	bool bDrawLineToParent = !stricmp(pHelperInfo->GetName(), "vecline");
 
 	const char *pszKey = pHelperInfo->GetParameter(0);
-	if (pszKey == NULL)
+	if (pszKey == nullptr)
 	{
 		pszKey = pszDefaultKeyName;
 	}
@@ -138,7 +138,7 @@ CMapClass *CMapPlayerHullHandle::Copy(bool bUpdateDependencies)
 {
 	CMapPlayerHullHandle *pCopy = new CMapPlayerHullHandle;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -258,7 +258,7 @@ void CMapPlayerHullHandle::Render3D(CRender3D *pRender)
 	pRender->RenderBox( Mins, Maxs, 200, 180, 0, SELECT_NONE );
 	pRender->EndRenderHitTarget();
 
-	if ((m_pParent != NULL) && (m_bDrawLineToParent))
+	if ((m_pParent != nullptr) && (m_bDrawLineToParent))
 	{
 		Vector vecOrigin;
 		GetParent()->GetOrigin(vecOrigin);
@@ -346,7 +346,7 @@ void CMapPlayerHullHandle::UpdateParentKey(void)
 	if (m_szKeyName[0])
 	{
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *> (m_pParent);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			char szValue[KEYVALUE_MAX_VALUE_LENGTH];
 			sprintf(szValue, "%g %g %g", (double)m_Origin.x, (double)m_Origin.y, (double)m_Origin.z);

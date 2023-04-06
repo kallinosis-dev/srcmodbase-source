@@ -46,7 +46,7 @@ class CNonFocusableMenu : public Menu
 public:
 	CNonFocusableMenu( Panel *parent, const char *panelName )
 		: BaseClass( parent, panelName ),
-		m_pFocus( 0 )
+		m_pFocus( nullptr )
 	{
 	}
 
@@ -113,24 +113,24 @@ private:
 // Things the user typed in and hit submit/return with
 CHistoryItem::CHistoryItem( void )
 {
-	m_text = NULL;
-	m_extraText = NULL;
+	m_text = nullptr;
+	m_extraText = nullptr;
 	m_bHasExtra = false;
 }
 
 CHistoryItem::CHistoryItem( const char *text, const char *extra )
 {
 	Assert( text );
-	m_text = NULL;
-	m_extraText = NULL;
+	m_text = nullptr;
+	m_extraText = nullptr;
 	m_bHasExtra = false;
 	SetText( text , extra );
 }
 
 CHistoryItem::CHistoryItem( const CHistoryItem& src )
 {
-	m_text = NULL;
-	m_extraText = NULL;
+	m_text = nullptr;
+	m_extraText = nullptr;
 	m_bHasExtra = false;
 	SetText( src.GetText(), src.GetExtra() );
 }
@@ -139,7 +139,7 @@ CHistoryItem::~CHistoryItem( void )
 {
 	delete[] m_text;
 	delete[] m_extraText;
-	m_text = NULL;
+	m_text = nullptr;
 }
 
 const char *CHistoryItem::GetText() const
@@ -162,7 +162,7 @@ const char *CHistoryItem::GetExtra() const
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -199,8 +199,8 @@ void CHistoryItem::SetText( const char *text, const char *extra )
 CConsolePanel::CompletionItem::CompletionItem( void )
 {
 	m_bIsCommand = true;
-	m_pCommand = NULL;
-	m_pText = NULL;
+	m_pCommand = nullptr;
+	m_pText = nullptr;
 }
 
 CConsolePanel::CompletionItem::CompletionItem( const CompletionItem& src )
@@ -213,7 +213,7 @@ CConsolePanel::CompletionItem::CompletionItem( const CompletionItem& src )
 	}
 	else
 	{
-		m_pText = NULL;
+		m_pText = nullptr;
 	}
 }
 
@@ -230,7 +230,7 @@ CConsolePanel::CompletionItem& CConsolePanel::CompletionItem::operator =( const 
 	}
 	else
 	{
-		m_pText = NULL;
+		m_pText = nullptr;
 	}
 
 	return *this;
@@ -241,7 +241,7 @@ CConsolePanel::CompletionItem::~CompletionItem( void )
 	if ( m_pText )
 	{
 		delete m_pText;
-		m_pText = NULL;
+		m_pText = nullptr;
 	}
 }
 
@@ -437,10 +437,10 @@ static ConCommand *FindAutoCompleteCommmandFromPartial( const char *partial )
 
 	ConCommand *cmd = g_pCVar->FindCommand( command );
 	if ( !cmd )
-		return NULL;
+		return nullptr;
 
 	if ( !cmd->CanAutoComplete() )
-		return NULL;
+		return nullptr;
 
 	return cmd;
 }
@@ -488,7 +488,7 @@ bool CConsolePanel::CommandMatchesText(const char *command, const char *text, bo
 			}
 			else // we hit the end of our substrings - abort
 			{
-				space = NULL;
+				space = nullptr;
 			}
 
 		} while (space);
@@ -522,7 +522,7 @@ void CConsolePanel::RebuildCompletionList(const char *text)
 			CompletionItem *comp = new CompletionItem();
 			m_CompletionList.AddToTail( comp );
 			comp->m_bIsCommand = false;
-			comp->m_pCommand = NULL;
+			comp->m_pCommand = nullptr;
 			comp->m_pText = new CHistoryItem( *item );
 		}
 		return;
@@ -550,7 +550,7 @@ void CConsolePanel::RebuildCompletionList(const char *text)
 				CompletionItem *item = new CompletionItem();
 				m_CompletionList.AddToTail( item );
 				item->m_bIsCommand = false;
-				item->m_pCommand = NULL;
+				item->m_pCommand = nullptr;
 				item->m_pText = new CHistoryItem( commands[ i ].String() );
 			}
 		}
@@ -1094,7 +1094,7 @@ void CConsolePanel::AddToHistory( const char *commandText, const char *extraText
 	}
 
 	// strip the quotes off the extra text
-	char *extra = NULL;
+	char *extra = nullptr;
 
 	if ( extraText )
 	{
@@ -1116,7 +1116,7 @@ void CConsolePanel::AddToHistory( const char *commandText, const char *extraText
 	}
 
 	// If it's already there, then remove since we'll add it to the end instead
-	CHistoryItem *item = NULL;
+	CHistoryItem *item = nullptr;
 	for ( int i = m_CommandHistory.Count() - 1; i >= 0; i-- )
 	{
 		item = &m_CommandHistory[ i ];

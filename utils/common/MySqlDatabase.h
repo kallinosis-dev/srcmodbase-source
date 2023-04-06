@@ -84,7 +84,7 @@ public:
 	virtual int RunCommand() = 0;
 
 	// return data
-	virtual void *GetReturnData() { return NULL; }
+	virtual void *GetReturnData() { return nullptr; }
 
 	// returns the command ID
 	virtual int GetID() { return 0; }

@@ -121,13 +121,13 @@ void VGui_ActivateMouse();
 extern CreateInterfaceFn g_AppSystemFactory;
 
 // functions to reference GameUI and GameConsole functions, from GameUI.dll
-IGameUI *staticGameUIFuncs = NULL;
+IGameUI *staticGameUIFuncs = nullptr;
 IGameUI* GetGameUI( void )
 {
 	return staticGameUIFuncs;
 }
 
-IGameConsole *staticGameConsole = NULL;
+IGameConsole *staticGameConsole = nullptr;
 
 // cache some of the state we pass through to matsystemsurface, for visibility
 bool s_bWindowsInputEnabled = true;
@@ -136,10 +136,10 @@ ConVar r_drawvgui( "r_drawvgui", "1", FCVAR_CHEAT, "Enable the rendering of vgui
 ConVar gameui_xbox( "gameui_xbox", "0", 0 );
 
 // Tracks whether console window is open or not - true as soon as we receive the request to open it, until after it has shutdown
-ConVar cv_console_window_open( "console_window_open", NULL, FCVAR_HIDDEN, "Is the console window active" );
-ConVar cv_ignore_ui_activate_key( "ignore_ui_activate_key", NULL, FCVAR_HIDDEN, "When set will ignore UI activation key" );
-ConVar cv_vguipanel_active( "vgui_panel_active", NULL, FCVAR_HIDDEN, "Is a vgui panel currently active" );
-ConVar cv_server_browser_dialog_open( "server_browser_dialog_open", NULL, FCVAR_HIDDEN, "Is the server browser window active" );
+ConVar cv_console_window_open( "console_window_open", nullptr, FCVAR_HIDDEN, "Is the console window active" );
+ConVar cv_ignore_ui_activate_key( "ignore_ui_activate_key", nullptr, FCVAR_HIDDEN, "When set will ignore UI activation key" );
+ConVar cv_vguipanel_active( "vgui_panel_active", nullptr, FCVAR_HIDDEN, "Is a vgui panel currently active" );
+ConVar cv_server_browser_dialog_open( "server_browser_dialog_open", nullptr, FCVAR_HIDDEN, "Is the server browser window active" );
 
 void Con_CreateConsolePanel( Panel *parent );
 void CL_CreateEntityReportPanel( Panel *parent );
@@ -185,7 +185,7 @@ static tokenset_t< LevelLoadingProgress_e > g_ProgressTokens[]=
 	{ PT( PROGRESS_PRECACHELIGHTING ) },
 	{ PT( PROGRESS_READYTOPLAY ) },
 	{ PT( PROGRESS_HIGHESTITEM ) },
-	{ NULL, PROGRESS_INVALID }
+	{nullptr, PROGRESS_INVALID }
 };
 //-----------------------------------------------------------------------------
 // Purpose: Console command to hide the gameUI, most commonly called from gameUI.dll
@@ -258,7 +258,7 @@ public:
 		SetKeyBoardInputEnabled( true );
 	}
 
-	CEnginePanel( VPANEL parent, const char *pName ) : BaseClass( NULL, pName )
+	CEnginePanel( VPANEL parent, const char *pName ) : BaseClass(nullptr, pName )
 	{
 		SetParent( parent );
 
@@ -452,7 +452,7 @@ public:
 	virtual void ShowPasswordUI( char const *pchCurrentPW );
 
 	void SetProgressBias( float bias );
-	void UpdateProgressBar( float progress, const char *pszDesc = NULL, bool showDialog = true );
+	void UpdateProgressBar( float progress, const char *pszDesc = nullptr, bool showDialog = true );
 
 	virtual bool IsPlayingFullScreenVideo();
 
@@ -623,24 +623,24 @@ static CLoaderProgress s_LoaderProgress;
 //-----------------------------------------------------------------------------
 CEngineVGui::CEngineVGui()
 {
-	staticPanel = NULL;
-	staticClientDLLToolsPanel = NULL;
-	staticClientDLLPanel = NULL;
-	staticGameDLLPanel = NULL;
-	staticGameUIPanel = NULL;
-	staticGameUIBackgroundPanel = NULL;
-	staticEngineToolsPanel = NULL;
-	staticDebugSystemPanel = NULL;
-	staticSteamOverlayPanel = NULL;
-	staticFocusOverlayPanel = NULL;
-	staticTransitionPanel = NULL;
+	staticPanel = nullptr;
+	staticClientDLLToolsPanel = nullptr;
+	staticClientDLLPanel = nullptr;
+	staticGameDLLPanel = nullptr;
+	staticGameUIPanel = nullptr;
+	staticGameUIBackgroundPanel = nullptr;
+	staticEngineToolsPanel = nullptr;
+	staticDebugSystemPanel = nullptr;
+	staticSteamOverlayPanel = nullptr;
+	staticFocusOverlayPanel = nullptr;
+	staticTransitionPanel = nullptr;
 
 	m_hGameUIInputContext = INPUT_CONTEXT_HANDLE_INVALID;
-	m_hStaticGameUIModule = NULL;
-	m_GameUIFactory = NULL;
+	m_hStaticGameUIModule = nullptr;
+	m_GameUIFactory = nullptr;
 	
 #ifdef VPROF_ENABLED
-	m_pVProfPanel = NULL;
+	m_pVProfPanel = nullptr;
 #endif
 
 	m_bShowProgressDialog = false;
@@ -648,9 +648,9 @@ CEngineVGui::CEngineVGui()
 	m_bNoShaderAPI = false;
 	m_bNotAllowedToHideGameUI = false;
 	m_bNotAllowedToShowGameUI = false;
-	m_pInputInternal = NULL;
+	m_pInputInternal = nullptr;
 	m_ProgressBias = 0;
-	m_pConstantColorMaterial = NULL;
+	m_pConstantColorMaterial = nullptr;
 }
 
 
@@ -727,7 +727,7 @@ void CEngineVGui::Init()
 	}
 	
 	// get the initialization func
-	staticGameUIFuncs = (IGameUI *)m_GameUIFactory(GAMEUI_INTERFACE_VERSION, NULL);
+	staticGameUIFuncs = (IGameUI *)m_GameUIFactory(GAMEUI_INTERFACE_VERSION, nullptr);
 	if (!staticGameUIFuncs )
 	{
 		Error( "Could not get IGameUI interface %s from %s\n", GAMEUI_INTERFACE_VERSION, szDllName );
@@ -735,7 +735,7 @@ void CEngineVGui::Init()
 
 	if ( IsPC() )
 	{
-		staticGameConsole = (IGameConsole *)m_GameUIFactory(GAMECONSOLE_INTERFACE_VERSION, NULL);
+		staticGameConsole = (IGameConsole *)m_GameUIFactory(GAMECONSOLE_INTERFACE_VERSION, nullptr);
 		if ( !staticGameConsole )
 		{
 			Sys_Error( "Could not get IGameConsole interface %s from %s\n", GAMECONSOLE_INTERFACE_VERSION, szDllName );
@@ -795,7 +795,7 @@ void CEngineVGui::Init()
 	ivgui()->Start();
 	ivgui()->SetSleep(false);
 
-	bool bTools = CommandLine()->CheckParm( "-tools" ) != NULL;
+	bool bTools = CommandLine()->CheckParm( "-tools" ) != nullptr;
 
 	// setup base panel for the whole VGUI System
 	// The root panel for everything ( NULL parent makes it a child of the embedded panel )
@@ -818,7 +818,7 @@ void CEngineVGui::Init()
 #endif
 
 	COM_TimestampedLog( "Building Panels (staticPanel)" );
-	staticPanel = new CStaticPanel( NULL, "staticPanel" );	
+	staticPanel = new CStaticPanel(nullptr, "staticPanel" );	
 	staticPanel->SetParent( surface()->GetEmbeddedPanel() );
 	PreparePanel( staticPanel, 0 );
 
@@ -1070,7 +1070,7 @@ void CEngineVGui::PostInit()
 //-----------------------------------------------------------------------------
 void CEngineVGui::Connect()
 {
-	m_pInputInternal = (IInputInternal *)g_GameSystemFactory( VGUI_INPUTINTERNAL_INTERFACE_VERSION,  NULL );
+	m_pInputInternal = (IInputInternal *)g_GameSystemFactory( VGUI_INPUTINTERNAL_INTERFACE_VERSION, nullptr);
 	staticGameUIFuncs->Connect( g_GameSystemFactory );
 
 	#if OSX
@@ -1128,19 +1128,19 @@ void CEngineVGui::DestroyVProfPanels( )
 	if ( m_pVProfPanel )
 	{
 		delete m_pVProfPanel;
-		m_pVProfPanel = NULL;
+		m_pVProfPanel = nullptr;
 	}
 	if ( m_pBudgetPanel )
 	{
 		delete m_pBudgetPanel;
-		m_pBudgetPanel = NULL;
+		m_pBudgetPanel = nullptr;
 	}
 	DestroyVProfGraphPanel();
 
 	if ( m_pTextureBudgetPanel )
 	{
 		delete m_pTextureBudgetPanel;
-		m_pTextureBudgetPanel = NULL;
+		m_pTextureBudgetPanel = nullptr;
 	}
 #endif
 }
@@ -1151,7 +1151,7 @@ void CEngineVGui::DestroyVProfPanels( )
 //-----------------------------------------------------------------------------
 bool CEngineVGui::IsInitialized() const
 {
-	return staticPanel != NULL;
+	return staticPanel != nullptr;
 }
 
 extern bool g_bUsingLegacyAppSystems;
@@ -1163,7 +1163,7 @@ void CEngineVGui::Shutdown()
 	if ( m_pConstantColorMaterial )
 	{
 		m_pConstantColorMaterial->DecrementReferenceCount();
-		m_pConstantColorMaterial = NULL;
+		m_pConstantColorMaterial = nullptr;
 	}
 
 	if ( IsPC() && CL_IsHL2Demo() ) // if they are playing the demo then open the storefront on shutdown
@@ -1198,21 +1198,21 @@ void CEngineVGui::Shutdown()
 	if ( staticGameConsole )
 	{
 		staticGameConsole->Shutdown();
-		staticGameConsole = NULL;
+		staticGameConsole = nullptr;
 	}
 
-	staticGameUIPanel = NULL;
-	staticClientDLLToolsPanel = NULL;
-	staticClientDLLPanel	= NULL;
-	staticEngineToolsPanel = NULL;
-	staticDebugSystemPanel = NULL;
-	staticSteamOverlayPanel = NULL;
-	staticFocusOverlayPanel = NULL;
-	staticGameDLLPanel = NULL;
+	staticGameUIPanel = nullptr;
+	staticClientDLLToolsPanel = nullptr;
+	staticClientDLLPanel	= nullptr;
+	staticEngineToolsPanel = nullptr;
+	staticDebugSystemPanel = nullptr;
+	staticSteamOverlayPanel = nullptr;
+	staticFocusOverlayPanel = nullptr;
+	staticGameDLLPanel = nullptr;
 
 	// This will delete the engine subpanel since it's a child
 	delete staticPanel;
-	staticPanel = NULL;
+	staticPanel = nullptr;
 
 	// Give panels a chance to settle so things
 	//  Marked for deletion will actually get deleted
@@ -1223,7 +1223,7 @@ void CEngineVGui::Shutdown()
 
 	// unload the gameUI
 	staticGameUIFuncs->Shutdown();
-	staticGameUIFuncs = NULL;
+	staticGameUIFuncs = nullptr;
 
 	// stop the App running
 	ivgui()->Stop();
@@ -1243,9 +1243,9 @@ void CEngineVGui::Shutdown()
 		Sys_UnloadModule(m_hStaticGameUIModule);
 	}
 
-	m_hStaticGameUIModule = NULL;
-	m_GameUIFactory = NULL;
-	m_pInputInternal = NULL;
+	m_hStaticGameUIModule = nullptr;
+	m_GameUIFactory = nullptr;
+	m_pInputInternal = nullptr;
 }
 
 
@@ -1256,7 +1256,7 @@ inline Panel *CEngineVGui::GetRootPanel( VGuiPanel_t type )
 {
 	if ( sv.IsDedicated() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	switch ( type )
@@ -1480,52 +1480,52 @@ struct LoadingProgressDescription_t
 
 LoadingProgressDescription_t g_ListenServerLoadingProgressDescriptions[] =
 {	
-	{ PROGRESS_NONE,						0,		0,		NULL },
+	{ PROGRESS_NONE,						0,		0, nullptr},
 	{ PROGRESS_SPAWNSERVER,					5,		0,		"#LoadingProgress_SpawningServer" },
 	{ PROGRESS_LOADWORLDMODEL,				8,		5,		"#LoadingProgress_LoadMap" },
-	{ PROGRESS_CREATENETWORKSTRINGTABLES,	12,		0,		NULL },
+	{ PROGRESS_CREATENETWORKSTRINGTABLES,	12,		0, nullptr},
 	{ PROGRESS_PRECACHEWORLD,				15,		0,		"#LoadingProgress_PrecacheWorld" },
-	{ PROGRESS_CLEARWORLD,					16,		20,		NULL },
+	{ PROGRESS_CLEARWORLD,					16,		20, nullptr},
 	{ PROGRESS_LEVELINIT,					20,		200,	"#LoadingProgress_LoadResources" },
-	{ PROGRESS_ACTIVATESERVER,				50,		0,		NULL },
+	{ PROGRESS_ACTIVATESERVER,				50,		0, nullptr},
 	{ PROGRESS_SIGNONCHALLENGE,				51,		0,		"#LoadingProgress_Connecting" },
-	{ PROGRESS_SIGNONCONNECT,				55,		0,		NULL },
+	{ PROGRESS_SIGNONCONNECT,				55,		0, nullptr},
 	{ PROGRESS_SIGNONCONNECTED,				56,		1,		"#LoadingProgress_SignonLocal" },
-	{ PROGRESS_PROCESSSERVERINFO,			58,		0,		NULL },
-	{ PROGRESS_PROCESSSTRINGTABLE,			60,		3,		NULL },	// 16
-	{ PROGRESS_SIGNONNEW,					63,		200,	NULL },
-	{ PROGRESS_SENDCLIENTINFO,				80,		1,		NULL },
+	{ PROGRESS_PROCESSSERVERINFO,			58,		0, nullptr},
+	{ PROGRESS_PROCESSSTRINGTABLE,			60,		3, nullptr},	// 16
+	{ PROGRESS_SIGNONNEW,					63,		200, nullptr},
+	{ PROGRESS_SENDCLIENTINFO,				80,		1, nullptr},
 	{ PROGRESS_SENDSIGNONDATA,				81,		1,		"#LoadingProgress_SignonDataLocal" },
-	{ PROGRESS_SIGNONSPAWN,					83,		10,		NULL },
-	{ PROGRESS_CREATEENTITIES,				85,		3,		NULL },
-	{ PROGRESS_FULLYCONNECTED,				86,		0,		NULL },
-	{ PROGRESS_PRECACHELIGHTING,			87,		50,		NULL },
-	{ PROGRESS_READYTOPLAY,					95,		100,	NULL },
-	{ PROGRESS_HIGHESTITEM,					100,	0,		NULL },
+	{ PROGRESS_SIGNONSPAWN,					83,		10, nullptr},
+	{ PROGRESS_CREATEENTITIES,				85,		3, nullptr},
+	{ PROGRESS_FULLYCONNECTED,				86,		0, nullptr},
+	{ PROGRESS_PRECACHELIGHTING,			87,		50, nullptr},
+	{ PROGRESS_READYTOPLAY,					95,		100, nullptr},
+	{ PROGRESS_HIGHESTITEM,					100,	0, nullptr},
 };
 
 LoadingProgressDescription_t g_RemoteConnectLoadingProgressDescriptions[] =
 {	
-	{ PROGRESS_NONE,						0,		0,		NULL },
+	{ PROGRESS_NONE,						0,		0, nullptr},
 	{ PROGRESS_CHANGELEVEL,					1,		0,		"#LoadingProgress_Changelevel" },
 	{ PROGRESS_BEGINCONNECT,				5,		0,		"#LoadingProgress_BeginConnect" },
 	{ PROGRESS_SIGNONCHALLENGE,				10,		0,		"#LoadingProgress_Connecting" },
-	{ PROGRESS_SIGNONCONNECTED,				11,		0,		NULL },
+	{ PROGRESS_SIGNONCONNECTED,				11,		0, nullptr},
 	{ PROGRESS_PROCESSSERVERINFO,			12,		0,		"#LoadingProgress_ProcessServerInfo" },
-	{ PROGRESS_PROCESSSTRINGTABLE,			15,		3,		NULL },
+	{ PROGRESS_PROCESSSTRINGTABLE,			15,		3, nullptr},
 	{ PROGRESS_LOADWORLDMODEL,				20,		14,		"#LoadingProgress_LoadMap" },
 	{ PROGRESS_SIGNONNEW,					30,		200,	"#LoadingProgress_PrecacheWorld" },
 	{ PROGRESS_SENDCLIENTINFO,				60,		1,		"#LoadingProgress_SendClientInfo" },
 	{ PROGRESS_SENDSIGNONDATA,				64,		1,		"#LoadingProgress_SignonData" },
-	{ PROGRESS_SIGNONSPAWN,					65,		10,		NULL },
-	{ PROGRESS_CREATEENTITIES,				85,		3,		NULL },
-	{ PROGRESS_FULLYCONNECTED,				86,		0,		NULL },
-	{ PROGRESS_PRECACHELIGHTING,			87,		50,		NULL },
-	{ PROGRESS_READYTOPLAY,					95,		100,	NULL },
-	{ PROGRESS_HIGHESTITEM,					100,	0,		NULL },
+	{ PROGRESS_SIGNONSPAWN,					65,		10, nullptr},
+	{ PROGRESS_CREATEENTITIES,				85,		3, nullptr},
+	{ PROGRESS_FULLYCONNECTED,				86,		0, nullptr},
+	{ PROGRESS_PRECACHELIGHTING,			87,		50, nullptr},
+	{ PROGRESS_READYTOPLAY,					95,		100, nullptr},
+	{ PROGRESS_HIGHESTITEM,					100,	0, nullptr},
 };
 
-static LoadingProgressDescription_t *g_pLoadingProgressDescriptions = NULL;
+static LoadingProgressDescription_t *g_pLoadingProgressDescriptions = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: returns current progress point description
@@ -1830,7 +1830,7 @@ void CEngineVGui::StartCustomProgress()
 		return;
 
 	// we've starting loading a level/connecting to a server
-	staticGameUIFuncs->OnLevelLoadingStarted( NULL, true );
+	staticGameUIFuncs->OnLevelLoadingStarted(nullptr, true );
 	m_bSaveProgress = staticGameUIFuncs->SetShowProgressText( true );
 }
 

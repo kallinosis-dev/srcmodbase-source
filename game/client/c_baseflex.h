@@ -114,7 +114,7 @@ public:
 	virtual	bool		ClearSceneEvent( CSceneEventInfo *info, bool fastKill, bool canceled );
 
 	// Add the event to the queue for this actor
-	void				AddSceneEvent( CChoreoScene *scene, CChoreoEvent *event, C_BaseEntity *pTarget = NULL, bool bClientSide = false, C_SceneEntity *pSceneEntity = NULL );
+	void				AddSceneEvent( CChoreoScene *scene, CChoreoEvent *event, C_BaseEntity *pTarget = nullptr, bool bClientSide = false, C_SceneEntity *pSceneEntity = nullptr);
 
 	// Remove the event from the queue for this actor
 	void				RemoveSceneEvent( CChoreoScene *scene, CChoreoEvent *event, bool fastKill );
@@ -166,16 +166,16 @@ private:
 	struct FS_LocalToGlobal_t
 	{
 		explicit FS_LocalToGlobal_t() :
-			m_Key( 0 ),
+			m_Key( nullptr ),
 			m_nCount( 0 ),
-			m_Mapping( 0 )
+			m_Mapping( nullptr )
 		{
 		}
 
 		explicit FS_LocalToGlobal_t( const flexsettinghdr_t *key ) :
 			m_Key( key ),
 			m_nCount( 0 ),
-			m_Mapping( 0 )
+			m_Mapping( nullptr )
 		{
 		}		
 
@@ -202,7 +202,7 @@ private:
 		{
 			delete m_Mapping;
 			m_nCount = 0;
-			m_Mapping = 0;
+			m_Mapping = nullptr;
 		}
 
 		const flexsettinghdr_t	*m_Key;

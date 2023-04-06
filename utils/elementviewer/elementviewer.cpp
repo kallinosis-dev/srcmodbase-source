@@ -94,7 +94,7 @@ bool CElementViewerApp::Create()
 	SpewOutputFunc( SpewToODS );
 
 	// This is a little cheezy but fast...
-	CommandLine()->AppendParm( "-resizing", NULL );
+	CommandLine()->AppendParm( "-resizing", nullptr);
 
 	if ( !BaseClass::Create() )
 		return false;

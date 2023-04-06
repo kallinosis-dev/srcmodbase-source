@@ -36,7 +36,7 @@ public:
 	bool	IsRecording();
 	void	PauseRecording() {}
 	void	ResumeRecording() {}
-	void	StopRecording( const CGameInfo *pGameInfo = NULL );
+	void	StopRecording( const CGameInfo *pGameInfo = nullptr);
 	
 	void	RecordCommand( const char *cmdstring );
 	void	RecordUserInput( int cmdnumber ) {} ;  // not need by Replay recorder

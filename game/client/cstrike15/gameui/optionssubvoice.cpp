@@ -25,7 +25,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-COptionsSubVoice::COptionsSubVoice(vgui::Panel *parent) : PropertyPage(parent, NULL)
+COptionsSubVoice::COptionsSubVoice(vgui::Panel *parent) : PropertyPage(parent, nullptr)
 {
 #if !defined( NO_VOICE ) //#ifndef _XBOX
 	m_pVoiceTweak = engine->GetVoiceTweakAPI();

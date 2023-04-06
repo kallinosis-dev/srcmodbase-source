@@ -589,7 +589,7 @@ SewCornerData_t *SewCorner_Create( void )
 		return pCornerData;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -600,7 +600,7 @@ void SewCorner_Destroy( SewCornerData_t *pCornerData )
 	if( pCornerData )
 	{
 		delete pCornerData;
-		pCornerData = NULL;
+		pCornerData = nullptr;
 	}
 }
 
@@ -1011,7 +1011,7 @@ SewTJuncData_t *SewTJunc_Create( void )
 		return pTJData;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1022,7 +1022,7 @@ void SewTJunc_Destroy( SewTJuncData_t *pTJData )
 	if( pTJData )
 	{
 		delete pTJData;
-		pTJData = NULL;
+		pTJData = nullptr;
 	}
 }
 
@@ -1415,7 +1415,7 @@ SewEdgeData_t *SewEdge_Create( void )
 		return pEdgeData;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1426,7 +1426,7 @@ void SewEdge_Destroy( SewEdgeData_t *pEdgeData )
 	if( pEdgeData )
 	{
 		delete pEdgeData;
-		pEdgeData = NULL;
+		pEdgeData = nullptr;
 	}
 }
 

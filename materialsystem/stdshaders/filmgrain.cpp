@@ -28,7 +28,7 @@ BEGIN_VS_SHADER_FLAGS( FilmGrain, "Help for FilmGrain", SHADER_NOT_EDITABLE )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -45,7 +45,7 @@ BEGIN_VS_SHADER_FLAGS( FilmGrain, "Help for FilmGrain", SHADER_NOT_EDITABLE )
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 
 			int fmt = VERTEX_POSITION;
-			pShaderShadow->VertexShaderVertexFormat( fmt, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( screenspaceeffect_vs20 );
 			SET_STATIC_VERTEX_SHADER( screenspaceeffect_vs20 );

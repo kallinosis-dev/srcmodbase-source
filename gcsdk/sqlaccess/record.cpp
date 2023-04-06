@@ -194,7 +194,7 @@ CSchema *CRecordBase::GetPSchema()
 
 CSchema *CRecordBase::GetPSchemaImpl()
 {
-	CSchema *pSchema = NULL;
+	CSchema *pSchema = nullptr;
 	int i = GetITable();
 	if ( i != -1 )
 		pSchema = &GSchemaFull().GetSchema( i );
@@ -236,7 +236,7 @@ void CRecordVar::Cleanup()
 	{
 		void *pvVarBlock = m_pSchema->PVarFieldBlockInfoFromRecord( PubRecordFixed() )->m_pubBlock;
 		free( pvVarBlock );
-		m_pSchema->PVarFieldBlockInfoFromRecord( PubRecordFixed() )->m_pubBlock = NULL;
+		m_pSchema->PVarFieldBlockInfoFromRecord( PubRecordFixed() )->m_pubBlock = nullptr;
 		SetFlag( k_EAllocatedVarBlock, false );
 	}
 }
@@ -248,7 +248,7 @@ void CRecordExternal::Cleanup()
 	{
 		void *pvVarBlock = m_pSchema->PVarFieldBlockInfoFromRecord( PubRecordFixed() )->m_pubBlock;
 		free( pvVarBlock );
-		m_pSchema->PVarFieldBlockInfoFromRecord( PubRecordFixed() )->m_pubBlock = NULL;
+		m_pSchema->PVarFieldBlockInfoFromRecord( PubRecordFixed() )->m_pubBlock = nullptr;
 		SetFlag( k_EAllocatedVarBlock, false );
 	}
 
@@ -256,7 +256,7 @@ void CRecordExternal::Cleanup()
 	if ( BFlagSet( k_EAllocatedFixed ) )
 		free( m_pubRecordFixedExternal );
 	SetFlag( k_EAllocatedFixed, false );
-	m_pubRecordFixedExternal = NULL;
+	m_pubRecordFixedExternal = nullptr;
 
 	// clean up the lowest layer, not calling CRecordVar
 	CRecordBase::Cleanup();
@@ -347,7 +347,7 @@ uint8* CRecordBase::PubRecordVarBlock()
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -401,7 +401,7 @@ bool CRecordBase::BAssureRecordVarStorage( uint32 cVariableBytes )
 
 		// allocate it
 		uint8* pubData = (uint8*) malloc( cVariableBytes );
-		if ( pubData == NULL )
+		if ( pubData == nullptr)
 			return false;
 
 		// do we have something right now?
@@ -559,7 +559,7 @@ void CRecordVar::WipeField( int iField )
 //-----------------------------------------------------------------------------
 const char * CRecordBase::GetStringField( int iField, uint32 *pcubField )
 {
-	uint8 * pubData = NULL;
+	uint8 * pubData = nullptr;
 	*pcubField = 0;
 
 	if ( BGetField( iField, &pubData, pcubField ) && *pcubField > 0 )
@@ -587,13 +587,13 @@ int CRecordBase::GetInt( int iField )
 //-----------------------------------------------------------------------------
 uint16 CRecordBase::GetUint16( int iField )
 {
-	uint8 * pubData = NULL;
+	uint8 * pubData = nullptr;
 	uint32 cubField = 0;
 
 	DbgVerify( BGetField( iField, &pubData, &cubField ) );
 	Assert( 0 < cubField );
 
-	if ( NULL != pubData )
+	if (nullptr != pubData )
 		return *( uint16 * ) pubData;
 	else
 		return 0;
@@ -607,13 +607,13 @@ uint16 CRecordBase::GetUint16( int iField )
 //-----------------------------------------------------------------------------
 uint32 CRecordBase::GetUint32( int iField )
 {
-	uint8 * pubData = NULL;
+	uint8 * pubData = nullptr;
 	uint32 cubField = 0;
 
 	DbgVerify( BGetField( iField, &pubData, &cubField ) );
 	Assert( 0 < cubField );
 
-	if ( NULL != pubData )
+	if (nullptr != pubData )
 		return *( uint32 * ) pubData;
 	else
 		return 0;
@@ -627,13 +627,13 @@ uint32 CRecordBase::GetUint32( int iField )
 //-----------------------------------------------------------------------------
 uint64 CRecordBase::GetUint64( int iField )
 {
-	uint8 * pubData = NULL;
+	uint8 * pubData = nullptr;
 	uint32 cubField = 0;
 
 	DbgVerify( BGetField( iField, &pubData, &cubField ) );
 	Assert( 0 < cubField );
 
-	if ( NULL != pubData )
+	if (nullptr != pubData )
 		return *( uint64 * ) pubData;
 	else
 		return 0;
@@ -644,13 +644,13 @@ uint64 CRecordBase::GetUint64( int iField )
 const char * CRecordBase::ReadVarCharField( const CVarCharField &field ) const
 {
 	Assert( false );
-	return NULL;
+	return nullptr;
 }
 
 const uint8 * CRecordBase::ReadVarDataField( const CVarField &field, uint32 *pcubField ) const
 {
 	Assert( false );
-	return NULL;
+	return nullptr;
 }
 
 // These may cause a realloc
@@ -698,7 +698,7 @@ const uint8 *CRecordVar::ReadVarDataField( const CVarField &field, uint32 *pcubF
 	if ( GetPSchema()->BGetVarField( PubRecordFixed(), &field, &pubData, pcubField ) )
 		return pubData;
 	else
-		return NULL;
+		return nullptr;
 }
 
 

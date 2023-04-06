@@ -64,7 +64,7 @@ static int CountActiveWorkUnits()
 // ------------------------------------------------------------------------ //
 
 static bool g_bUseGraphics = false;
-static HWND g_hWnd = 0;
+static HWND g_hWnd = nullptr;
 
 static int g_LastSizeX = 600, g_LastSizeY = 600;
 
@@ -79,9 +79,9 @@ static COLORREF g_StateColors[] =
 	RGB(0,0,250)
 };
 
-static HANDLE g_hCreateEvent = 0;
-static HANDLE g_hDestroyWindowEvent = 0;
-static HANDLE g_hDestroyWindowCompletedEvent = 0;
+static HANDLE g_hCreateEvent = nullptr;
+static HANDLE g_hDestroyWindowEvent = nullptr;
+static HANDLE g_hDestroyWindowCompletedEvent = nullptr;
 
 static CRITICAL_SECTION g_CS;
 
@@ -229,13 +229,13 @@ static DWORD WINAPI ThreadProc( LPVOID lpParameter )
 	WndClsEx.lpfnWndProc   = TrackerWindowProc;
 	WndClsEx.cbClsExtra    = 0;
 	WndClsEx.cbWndExtra    = 0;
-	WndClsEx.hIcon         = NULL;
-	WndClsEx.hCursor       = LoadCursor(NULL, IDC_ARROW);
+	WndClsEx.hIcon         = nullptr;
+	WndClsEx.hCursor       = LoadCursor(nullptr, IDC_ARROW);
 	WndClsEx.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	WndClsEx.lpszMenuName  = NULL;
+	WndClsEx.lpszMenuName  = nullptr;
 	WndClsEx.lpszClassName = pClassName;
 	WndClsEx.hInstance     = (HINSTANCE)GetCurrentProcess();
-	WndClsEx.hIconSm       = NULL;
+	WndClsEx.hIconSm       = nullptr;
 	RegisterClassEx(&WndClsEx);
 	
 	// Create the window.
@@ -266,7 +266,7 @@ static DWORD WINAPI ThreadProc( LPVOID lpParameter )
 		CheckFlashTimers();
 				
 		if ( g_nChanges != g_nLastDrawnChanges )
-			InvalidateRect( g_hWnd, NULL, FALSE );
+			InvalidateRect( g_hWnd, nullptr, FALSE );
 	}
 	
 	// Tell the main thread we're done.	
@@ -283,9 +283,9 @@ static void Graphical_Start()
 	// Setup an event so we'll wait until the window is ready.
 	if ( !g_hCreateEvent )
 	{
-		g_hCreateEvent = CreateEvent( 0, 0, 0, 0 );
-		g_hDestroyWindowEvent = CreateEvent( 0, 0, 0, 0 );
-		g_hDestroyWindowCompletedEvent = CreateEvent( 0, 0, 0, 0 );
+		g_hCreateEvent = CreateEvent( nullptr, 0, 0, nullptr );
+		g_hDestroyWindowEvent = CreateEvent( nullptr, 0, 0, nullptr );
+		g_hDestroyWindowCompletedEvent = CreateEvent( nullptr, 0, 0, nullptr );
 		InitializeCriticalSection( &g_CS );
 	}
 	ResetEvent( g_hCreateEvent );
@@ -296,7 +296,7 @@ static void Graphical_Start()
 		g_WUStatus[i].m_iState = 0;
 	
 	// Setup our thread.
-	CreateThread( NULL, 0, ThreadProc, NULL, 0, NULL );
+	CreateThread(nullptr, 0, ThreadProc, nullptr, 0, nullptr);
 	
 	// Wait until the event is signaled.
 	WaitForSingleObject( g_hCreateEvent, INFINITE );

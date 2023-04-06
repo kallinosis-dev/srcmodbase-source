@@ -325,7 +325,7 @@ SpawnPointCoopEnemy::SpawnPointCoopEnemy( void )
 {
 	//m_szWeaponsToGive = NULL_STRING;
 	Assert( CSGameRules()->IsPlayingCoopMission() );
-	m_pMyArea = NULL;
+	m_pMyArea = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -407,7 +407,7 @@ void CPointGiveAmmo::Spawn( void )
 	SetThink( NULL );
 	SetUse( NULL );
 
-	m_pActivator = NULL;
+	m_pActivator = nullptr;
 
 	Precache();
 }
@@ -1247,8 +1247,8 @@ bool IsAssassinationQuest( uint32 questID )
 // Checks basic conditions for a quest (mapgroup, mode, etc) to see if a quest is possible to complete
 bool Helper_CheckQuestMapAndMode( const CEconQuestDefinition *pQuest )
 {
-	const char *szMapName = NULL;
-	const char *szMapGroupName = NULL;
+	const char *szMapName = nullptr;
+	const char *szMapGroupName = nullptr;
 #if defined ( CLIENT_DLL )
 	szMapName = engine->GetLevelNameShort();
 	szMapGroupName = engine->GetMapGroupName();
@@ -2730,7 +2730,7 @@ ConVar cl_autohelp(
     public:
         virtual bool		CanPlayerHearPlayer( CBasePlayer *pListener, CBasePlayer *pTalker, bool &bProximity )
         {
-            if ( pListener == NULL || pTalker == NULL )
+            if ( pListener == nullptr || pTalker == nullptr)
                 return false;
 
             if ( !CSGameRules() )
@@ -2945,7 +2945,7 @@ ConVar cl_autohelp(
 	void cc_ReportEntitiesInEntList( const CCommand& args )
 	{
 		//int nNumEnts = gEntList.NumberOfEntities();
-		for ( CBaseEntity *pClass = gEntList.FirstEnt(); pClass != NULL; pClass = gEntList.NextEnt( pClass ) )
+		for ( CBaseEntity *pClass = gEntList.FirstEnt(); pClass != nullptr; pClass = gEntList.NextEnt( pClass ) )
 		{
 			if ( pClass /*&& !pClass->IsDormant()*/ )
 			{
@@ -3823,7 +3823,7 @@ ConVar cl_autohelp(
 		m_bTCantBuy = false;
 		m_bForceTeamChangeSilent = false;
 		m_bLoadingRoundBackupData = false;
-		m_pfnCalculateEndOfRoundMVPHook = NULL;
+		m_pfnCalculateEndOfRoundMVPHook = nullptr;
 
 		m_bMapHasBombTarget = false;
 		m_bMapHasRescueZone = false;
@@ -3882,10 +3882,10 @@ ConVar cl_autohelp(
 		m_bIsQuestEligible = IsQuestEligible();
 		m_bIsQueuedMatchmaking = IsQueuedMatchmaking();
 		m_bIsValveDS = IsValveDS();
-		m_pQueuedMatchmakingReservationString = NULL;
+		m_pQueuedMatchmakingReservationString = nullptr;
 		m_eQueuedMatchmakingRematchState = k_EQueuedMatchmakingRematchState_MatchInProgress;
 		m_bNeedToAskPlayersForContinueVote = false;
-		m_pQueuedMatchmakingReportedRoundStats = NULL;
+		m_pQueuedMatchmakingReportedRoundStats = nullptr;
 		m_numTotalTournamentDrops = 0;
 		m_numSpectatorsCountMax = 0;
 		m_numSpectatorsCountMaxTV = 0;
@@ -4030,7 +4030,7 @@ ConVar cl_autohelp(
 			Q_strcpy( m_pQueuedMatchmakingReservationString, sv_mmqueue_reservation.GetString() );
 			int iDraftIndex = 0;
 			for ( char const *pszPrev = sv_mmqueue_reservation.GetString(), *pszNext = pszPrev;
-				( pszNext = strchr( pszPrev, '[' ) ) != NULL; ( pszPrev = pszNext + 1 ), ( ++ iDraftIndex ) )
+				( pszNext = strchr( pszPrev, '[' ) ) != nullptr; ( pszPrev = pszNext + 1 ), ( ++ iDraftIndex ) )
 			{
 				uint32 uiAccountId = 0;
 				sscanf( pszNext, "[%x]", &uiAccountId );
@@ -4065,14 +4065,14 @@ ConVar cl_autohelp(
 		m_bNoTerroristsDamaged = true;
 		m_bNoCTsDamaged = true;
 		m_bNoEnemiesKilled = true;
-		m_pFirstKill = NULL;
+		m_pFirstKill = nullptr;
 		m_firstKillTime = 0;
 
 		// [menglish] Reset fun fact values
-		m_pFirstBlood = NULL;
+		m_pFirstBlood = nullptr;
 		m_firstBloodTime = 0;
 
-		m_pMVP = NULL;
+		m_pMVP = nullptr;
 
 		m_bCanDonateWeapons = true;
 
@@ -4194,7 +4194,7 @@ ConVar cl_autohelp(
 		m_bWarmupPeriod = mp_do_warmup_period.GetBool();
 		m_fWarmupNextChatNoticeTime = 0;
 		m_fWarmupPeriodStart = gpGlobals->curtime;
-		m_coopMissionManager = NULL;
+		m_coopMissionManager = nullptr;
 
 		for ( int i = 0; i < MAX_TEAMS; i++ )
 		{
@@ -4224,13 +4224,13 @@ ConVar cl_autohelp(
         g_Teams.Purge();
         
 		delete m_pFunFactManager;
-		m_pFunFactManager = NULL;
+		m_pFunFactManager = nullptr;
 
 		delete m_pQueuedMatchmakingReportedRoundStats;
-		m_pQueuedMatchmakingReportedRoundStats = NULL;
+		m_pQueuedMatchmakingReportedRoundStats = nullptr;
 
 		delete m_pQueuedMatchmakingReservationString;
-		m_pQueuedMatchmakingReservationString = NULL;
+		m_pQueuedMatchmakingReservationString = nullptr;
 
 		m_mapQueuedMatchmakingPlayersData.PurgeAndDeleteElements();
 
@@ -5057,7 +5057,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         else if ( FStrEq( args[0], "nextmap" ) )
         {
             // catch corrupted command
-            if ( pPlayer == NULL )
+            if ( pPlayer == nullptr)
                 return true;
 
 			extern ConVar nextmap_print_enabled;
@@ -5103,7 +5103,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
             //engine->ServerCommand( "ent_fire @tr_exit_hint trigger\n" );
             return true;
         }
-        else if( pPlayer != NULL && pPlayer->ClientCommand( args ) )
+        else if( pPlayer != nullptr && pPlayer->ClientCommand( args ) )
         {
             return true;
         }
@@ -5145,8 +5145,8 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 
         bool addDefault = (pPlayer->GetTeamNumber() > TEAM_SPECTATOR);
 
-        CBaseEntity	*pWeaponEntity = NULL;
-        while ( ( pWeaponEntity = gEntList.FindEntityByClassname( pWeaponEntity, "game_player_equip" )) != NULL )
+        CBaseEntity	*pWeaponEntity = nullptr;
+        while ( ( pWeaponEntity = gEntList.FindEntityByClassname( pWeaponEntity, "game_player_equip" )) != nullptr)
         {
 			CGamePlayerEquip *pEquip = dynamic_cast<CGamePlayerEquip*>( pWeaponEntity );
 			if ( pEquip && !pEquip->UseOnly() )
@@ -5212,18 +5212,18 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         {
             retval = 1.0;
         }
-        else if (!(tr.DidHitWorld()) && (tr.m_pEnt != NULL) && (tr.m_pEnt != pEntityToIgnore) && (tr.m_pEnt->GetOwnerEntity() != pEntityToIgnore))
+        else if (!(tr.DidHitWorld()) && (tr.m_pEnt != nullptr) && (tr.m_pEnt != pEntityToIgnore) && (tr.m_pEnt->GetOwnerEntity() != pEntityToIgnore))
         {
             // if we didn't hit world geometry perhaps there's still damage to be done here.
 
             CBaseEntity *blockingEntity = tr.m_pEnt;
 
             // check to see if this part of the player is visible if entities are ignored.
-            UTIL_TraceLine(vecSrc, vecEnd, CONTENTS_SOLID, NULL, COLLISION_GROUP_NONE, &tr);
+            UTIL_TraceLine(vecSrc, vecEnd, CONTENTS_SOLID, nullptr, COLLISION_GROUP_NONE, &tr);
 
             if (tr.fraction == 1.0)
             {
-                if ((blockingEntity != NULL) && (blockingEntity->VPhysicsGetObject() != NULL))
+                if ((blockingEntity != nullptr) && (blockingEntity->VPhysicsGetObject() != nullptr))
                 {
                     int nMaterialIndex = blockingEntity->VPhysicsGetObject()->GetMaterialIndex();
 
@@ -5295,7 +5295,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         vecHead.z += HumanHeight;
 
         Vector vecRightFacing;
-        AngleVectors(player->GetAbsAngles(), NULL, &vecRightFacing, NULL);
+        AngleVectors(player->GetAbsAngles(), nullptr, &vecRightFacing, nullptr);
 
         vecRightFacing.NormalizeInPlace();
         vecRightFacing = vecRightFacing * armDistanceFromChest;
@@ -5341,7 +5341,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
     // Add the ability to ignore the world trace
     void CCSGameRules::RadiusDamage( const CTakeDamageInfo &info, const Vector &vecSrcIn, float flRadius, int iClassIgnore, bool bIgnoreWorld )
     {
-        CBaseEntity *pEntity = NULL;
+        CBaseEntity *pEntity = nullptr;
         trace_t		tr;
         float		falloff, damagePercentage;
         Vector		vecSpot;
@@ -5356,7 +5356,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 
         // [tj] used to determine which achievement to award for sufficient kills
         CBaseEntity* pInflictor = info.GetInflictor();
-        bool isGrenade = dynamic_cast< CHEGrenadeProjectile* >( pInflictor ) != NULL;
+        bool isGrenade = dynamic_cast< CHEGrenadeProjectile* >( pInflictor ) != nullptr;
         bool isBomb = pInflictor && V_strcmp(pInflictor->GetClassname(), "planted_c4") == 0;
 
         vecEndPos.Init();
@@ -5375,7 +5375,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         vecSrc.z += 1;// in case grenade is lying on the ground
 
         // iterate on all entities in the vicinity.
-        for ( CEntitySphereQuery sphere( vecSrc, flRadius ); ( pEntity = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+        for ( CEntitySphereQuery sphere( vecSrc, flRadius ); ( pEntity = sphere.GetCurrentEntity() ) != nullptr; sphere.NextEntity() )
         {
             // [tj] We have to save whether or not the player is killed so we don't give credit 
             //		for pre-dead players.
@@ -5481,7 +5481,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
                         Vector vecTarget;
                         vecTarget = pEntity->BodyTarget(vecSrc, false);
 
-                        UTIL_TraceLine(vecSrc, vecTarget, MASK_SHOT, NULL, COLLISION_GROUP_NONE, &tr);
+                        UTIL_TraceLine(vecSrc, vecTarget, MASK_SHOT, nullptr, COLLISION_GROUP_NONE, &tr);
 
                         // blasts always hit chest
                         tr.hitgroup = HITGROUP_GENERIC;
@@ -5554,7 +5554,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
     {  
         CUtlLinkedList< CDamageRecord *, int >& victimDamageTakenList = pCSVictim->GetDamageList();
         float maxDamage = 0.0f;
-        CCSPlayer* maxDamagePlayer = NULL;
+        CCSPlayer* maxDamagePlayer = nullptr;
 
         FOR_EACH_LL( victimDamageTakenList, ii )
         {
@@ -5579,7 +5579,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
             return maxDamagePlayer;
         }
 
-        return NULL;
+        return nullptr;
     }
 
 	//-----------------------------------------------------------------------------
@@ -5592,7 +5592,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 	{
 		IGameEvent * event = gameeventmanager->CreateEvent( szEventName );
 		if ( !event )
-			return NULL;
+			return nullptr;
 
 		// Work out what killed the player, and prepare to send a message to all clients about it
 		const char *killer_weapon_name = "world";		// by default, the player is killed by the world
@@ -5868,7 +5868,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 
         m_bCanDonateWeapons = false;
 
-        if ( m_pFirstKill == NULL && pCSScorer != pVictim )
+        if ( m_pFirstKill == nullptr && pCSScorer != pVictim )
         {
             m_pFirstKill = pCSScorer;
             m_firstKillTime = gpGlobals->curtime - m_fRoundStartTime;
@@ -6061,7 +6061,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 			}
 
 			CWeaponCSBase* pWeapon = dynamic_cast<CWeaponCSBase *>( info.GetWeapon() );
-			CEconItemView *pEconWeapon = pWeapon ? pWeapon->GetEconItemView() : NULL ;
+			CEconItemView *pEconWeapon = pWeapon ? pWeapon->GetEconItemView() : nullptr;
 
 			EconEntity_OnOwnerKillEaterEvent( pEconWeapon, pCSScorer, pCSVictim, kKillEaterEvent_PlayerKill );
 
@@ -6085,13 +6085,13 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 				{
 					CBaseEntity *player = UTIL_PlayerByIndex( i );
 
-					if ( player == NULL || player->GetTeamNumber() == TEAM_CT || !player->IsAlive() )
+					if ( player == nullptr || player->GetTeamNumber() == TEAM_CT || !player->IsAlive() )
 						continue;
 
 					count++;
 				}
 
-				CCSPlayer *pCTPlayer = NULL;
+				CCSPlayer *pCTPlayer = nullptr;
 				for ( int i = 1; i <= gpGlobals->maxClients; ++i )
 				{
 					pCTPlayer = ToCSPlayer( UTIL_PlayerByIndex( i ) );
@@ -6537,7 +6537,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
     bool CCSGameRules::HostageRescueRoundEndCheck( bool bNeededPlayers )
     {
         // Check to see if 50% of the hostages have been rescued.
-        CHostage* hostage = NULL;
+        CHostage* hostage = nullptr;
 
         int iNumHostages = g_Hostages.Count();
         int iNumLeftToRescue = 0;
@@ -6821,7 +6821,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         if ( !IsPlayingGunGame() )
             return false;
 
-        CCSPlayer *pWinner = NULL;
+        CCSPlayer *pWinner = nullptr;
 
         // Test if a player made a kill with the final gun game weapon
         for ( int iTeam=0; iTeam < GetNumberOfTeams(); iTeam++ )
@@ -6944,7 +6944,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
     //			examples of more specific conditions:  Planting the bomb, defusing the bomb, rescuing the hostages, escaping as the VIP, etc
     CCSPlayer * CCSGameRules::CalculateEndOfRoundMVP()
     {
-        CCSPlayer* pMVP = NULL;
+        CCSPlayer* pMVP = nullptr;
         int maxKills = 0;
         int maxDamage = 0;
         CSMvpReason_t mvpReason = CSMVP_ELIMINATION;
@@ -7177,7 +7177,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 								CUtlVector < CCSBot* > vecBotsOnTeam;
 								if ( pTeam->GetBotMembers( &vecBotsOnTeam ) )
 								{
-									CCSBot *pLeadBot = NULL;
+									CCSBot *pLeadBot = nullptr;
 									BotDifficultyType botHighDifficulty = BOT_EXPERT;
 									FOR_EACH_VEC( vecBotsOnTeam, i )
 									{
@@ -7446,7 +7446,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 						CUtlVector < CCSBot* > vecBotsOnTeam;
 						if ( pTeam->GetBotMembers( &vecBotsOnTeam ) )
 						{
-							CCSBot *pLeadBot = NULL;
+							CCSBot *pLeadBot = nullptr;
 							BotDifficultyType botHighDifficulty = BOT_EASY;
 							FOR_EACH_VEC( vecBotsOnTeam, i )
 							{
@@ -7995,7 +7995,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         
         // Check to see if this map has a bomb target in it
 
-        if ( gEntList.FindEntityByClassname( NULL, "func_bomb_target" ) )
+        if ( gEntList.FindEntityByClassname(nullptr, "func_bomb_target" ) )
         {
 			// this is a bit hacky, but it makes it so the bomb stuff only shows up on mission 3 of the coop mission
 			if ( IsPlayingCoopMission() && mp_anyone_can_pickup_c4.GetBool() == false )
@@ -8009,7 +8009,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 				m_bMapHasBombZone = true;
 			}
         }
-        else if ( gEntList.FindEntityByClassname( NULL, "info_bomb_target" ) )
+        else if ( gEntList.FindEntityByClassname(nullptr, "info_bomb_target" ) )
         {
             m_bMapHasBombTarget		= true;
             m_bMapHasBombZone		= false;
@@ -8022,7 +8022,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 
         // Check to see if this map has hostage rescue zones
 
-        if ( gEntList.FindEntityByClassname( NULL, "func_hostage_rescue" ) )
+        if ( gEntList.FindEntityByClassname(nullptr, "func_hostage_rescue" ) )
             m_bMapHasRescueZone = true;
         else
             m_bMapHasRescueZone = false;
@@ -8031,14 +8031,14 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         // See if the map has func_buyzone entities
         // Used by CBasePlayer::HandleSignals() to support maps without these entities
         
-        if ( gEntList.FindEntityByClassname( NULL, "func_buyzone" ) )
+        if ( gEntList.FindEntityByClassname(nullptr, "func_buyzone" ) )
             m_bMapHasBuyZone = true;
         else
             m_bMapHasBuyZone = false;
 
 
         // GOOSEMAN : See if this map has func_escapezone entities
-        if ( gEntList.FindEntityByClassname( NULL, "func_escapezone" ) )
+        if ( gEntList.FindEntityByClassname(nullptr, "func_escapezone" ) )
         {
             m_bMapHasEscapeZone = true;
             m_iHaveEscaped = 0;
@@ -8312,7 +8312,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 						break;
 
 					uint32 iKeepHostage = ( uint32 ) RandomInt( 0, uiTotalSpawnWeightFactor - 1 );
-					CHostage *pKeepHostage = NULL;
+					CHostage *pKeepHostage = nullptr;
 					FOR_EACH_VEC( g_Hostages, idxGlobalHostage )
 					{
 						if ( CHostage *pCheckHostage = g_Hostages[idxGlobalHostage] )
@@ -8521,9 +8521,9 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         }
 
 		// move follower chickens
-		CBaseEntity *pNextChicken = NULL;
+		CBaseEntity *pNextChicken = nullptr;
 
-		while ( ( pNextChicken = gEntList.FindEntityByClassname( pNextChicken, "chicken" ) ) != NULL )
+		while ( ( pNextChicken = gEntList.FindEntityByClassname( pNextChicken, "chicken" ) ) != nullptr)
 		{
 			CChicken * pChicken = dynamic_cast< CChicken* >( pNextChicken );
 			if ( pChicken && pChicken->GetLeader( ) )
@@ -8681,10 +8681,10 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         m_bNoTerroristsDamaged = true;
         m_bNoCTsDamaged = true;
 		m_bNoEnemiesKilled = true;
-        m_pFirstKill = NULL;
-        m_pFirstBlood = NULL;
+        m_pFirstKill = nullptr;
+        m_pFirstBlood = nullptr;
 
-		m_pMVP = NULL;
+		m_pMVP = nullptr;
 
         m_bCanDonateWeapons = true;
 
@@ -9604,7 +9604,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
                 for ( int i=1; i <= gpGlobals->maxClients; ++i )
                 {
                     CBasePlayer *player = UTIL_PlayerByIndex( i );
-                    if (player == NULL)
+                    if (player == nullptr)
                         continue;
 
                     if (!player->IsBot())
@@ -9690,7 +9690,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 								pPlayer->DestroyWeapons( true );
 								pPlayer->GiveDefaultItems();
 								pPlayer->ResetAccount();
-								pPlayer->AddAccount( mp_startmoney.GetInt(), false, false, NULL );
+								pPlayer->AddAccount( mp_startmoney.GetInt(), false, false, nullptr);
 							}
 						}
 					}
@@ -9992,7 +9992,7 @@ void ServerThinkReplayUploader()
 					{
 						CReliableBroadcastRecipientFilter filter;
 						CCSUsrMsg_ServerRankRevealAll msg;
-						static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * ) NULL );
+						static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * )nullptr);
 						if ( s_pchTournamentServer )
 							msg.set_seconds_till_shutdown( MAX( 0, mp_competitive_endofmatch_extra_time.GetInt() ) );
 						SendUserMessage( filter, CS_UM_ServerRankRevealAll, msg );
@@ -10639,13 +10639,13 @@ void ServerThinkReplayUploader()
 		if ( IsPlayingGunGameDeathmatch() )
 		{
 			// TODO: make this a shared function so playercount runs the same code
-			CCSPlayer *pWinner = NULL;
+			CCSPlayer *pWinner = nullptr;
 			for ( int i = 1; i <= MAX_PLAYERS; i++ )
 			{
 				CCSPlayer *pPlayer = ToCSPlayer( UTIL_PlayerByIndex( i ) );
 				if ( pPlayer )
 				{
-					if ( pWinner == NULL )
+					if ( pWinner == nullptr)
 						pWinner = pPlayer; 
 
 					if ( pWinner != pPlayer ) 
@@ -11250,7 +11250,7 @@ void ServerThinkReplayUploader()
             const float fRadiusInner = score_dropped_bomb_proximity_damage_bonus_radius_inner.GetFloat();
             const float fRadiusOuter = score_dropped_bomb_proximity_damage_bonus_radius_outer.GetFloat();
             CBaseEntity* pC4 = gEntList.FindEntityByClassnameNearest( "weapon_c4", pPlayer->GetAbsOrigin(), fRadiusOuter );
-            if ( pC4 && pC4->GetOwnerEntity() == NULL )
+            if ( pC4 && pC4->GetOwnerEntity() == nullptr)
             {
                 float fWeight = FalloffWeight( pC4->GetAbsOrigin().DistTo( pPlayer->GetAbsOrigin()), fRadiusInner, fRadiusOuter );
                 int score = RoundFloatToInt( fDamage * fWeight * score_dropped_bomb_proximity_damage_bonus.GetFloat() );
@@ -11264,7 +11264,7 @@ void ServerThinkReplayUploader()
             const float fRadiusInner = score_dropped_defuser_proximity_damage_radius_inner.GetFloat();
             const float fRadiusOuter = score_dropped_defuser_proximity_damage_radius_outer.GetFloat();
             CBaseEntity* pDefuser = gEntList.FindEntityByClassnameNearest( "item_defuser", pPlayer->GetAbsOrigin(), fRadiusOuter );
-            if ( pDefuser && pDefuser->GetOwnerEntity() == NULL )
+            if ( pDefuser && pDefuser->GetOwnerEntity() == nullptr)
             {
                 float fWeight = FalloffWeight( pDefuser->GetAbsOrigin().DistTo( pPlayer->GetAbsOrigin() ), fRadiusInner, fRadiusOuter );
                 int score = RoundFloatToInt( fDamage * fWeight * score_dropped_defuser_proximity_damage_bonus.GetFloat() );
@@ -11286,7 +11286,7 @@ void ServerThinkReplayUploader()
         ASSERT( pC4 != NULL );
         if ( pC4 )
         {
-            SplitScoreAmongPlayersInRange( score_bomb_plant_bonus.GetInt(), TEAM_TERRORIST, NULL, pC4->GetAbsOrigin(), 
+            SplitScoreAmongPlayersInRange( score_bomb_plant_bonus.GetInt(), TEAM_TERRORIST, nullptr, pC4->GetAbsOrigin(), 
                 score_bomb_plant_radius_inner.GetFloat(), score_bomb_plant_radius_outer.GetFloat() );
         }
     }
@@ -11314,7 +11314,7 @@ void ServerThinkReplayUploader()
         ASSERT( pC4 != NULL );
         if ( pC4 && bMajorEvent )
         {
-            SplitScoreAmongPlayersInRange( score_bomb_defuse_bonus.GetInt(), TEAM_CT, NULL, pC4->GetAbsOrigin(), 
+            SplitScoreAmongPlayersInRange( score_bomb_defuse_bonus.GetInt(), TEAM_CT, nullptr, pC4->GetAbsOrigin(), 
                 score_bomb_defuse_radius_inner.GetFloat(), score_bomb_defuse_radius_outer.GetFloat() );
         }
     }
@@ -11330,7 +11330,7 @@ void ServerThinkReplayUploader()
         ASSERT( pHostage != NULL );
         if ( pHostage && bMajorEvent )
         {
-            SplitScoreAmongPlayersInRange( score_hostage_rescue_bonus.GetInt(), TEAM_CT, NULL, pHostage->GetAbsOrigin(), 
+            SplitScoreAmongPlayersInRange( score_hostage_rescue_bonus.GetInt(), TEAM_CT, nullptr, pHostage->GetAbsOrigin(), 
                 score_hostage_rescue_radius_inner.GetFloat(), score_hostage_rescue_radius_outer.GetFloat() );
         }
     }
@@ -11479,7 +11479,7 @@ void ServerThinkReplayUploader()
         for (playerNum = 1; playerNum <= gpGlobals->maxClients; ++playerNum)
         {
             CCSPlayer *player = (CCSPlayer *)UTIL_PlayerByIndex(playerNum);
-            if (player == NULL)
+            if (player == nullptr)
             {
                 continue;
             }
@@ -11545,7 +11545,7 @@ void ServerThinkReplayUploader()
 			GenerateSpawnPointListsFirstTime();
 
             // Is this a logo map?
-            if ( gEntList.FindEntityByClassname( NULL, "info_player_logo" ) )
+            if ( gEntList.FindEntityByClassname(nullptr, "info_player_logo" ) )
                 m_bLogoMap = true;
 
             m_bLevelInitialized = true;
@@ -11558,11 +11558,11 @@ void ServerThinkReplayUploader()
 
 		if ( m_vecMainCTSpawnPos == Vector( 0, 0, 0 ) )
 		{
-			CBaseEntity* ent = NULL;
+			CBaseEntity* ent = nullptr;
 			// we need to find at least one CT spawn point to figure out where the "start" of the map is
-			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_player_counterterrorist" ) ) != NULL )
+			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_player_counterterrorist" ) ) != nullptr)
 			{
-				if ( IsSpawnPointValid( ent, NULL ) )
+				if ( IsSpawnPointValid( ent, nullptr) )
 				{
 					SpawnPoint* pSpawnPoint = assert_cast< SpawnPoint* >( ent );
 					if ( pSpawnPoint )
@@ -11642,13 +11642,13 @@ void ServerThinkReplayUploader()
 		m_CTSpawnPointsMasterList.RemoveAll();
 
 		const char* szTSpawnEntName = "info_player_terrorist";
-		CBaseEntity* ent = NULL; 
+		CBaseEntity* ent = nullptr; 
 		if ( IsPlayingCoopMission() )
 			szTSpawnEntName = "info_enemy_terrorist_spawn";
 
-		while ( ( ent = gEntList.FindEntityByClassname( ent, szTSpawnEntName ) ) != NULL )
+		while ( ( ent = gEntList.FindEntityByClassname( ent, szTSpawnEntName ) ) != nullptr)
 		{
-			if ( IsSpawnPointValid( ent, NULL ) )
+			if ( IsSpawnPointValid( ent, nullptr) )
 			{
 				SpawnPoint* pSpawnPoint = assert_cast< SpawnPoint* >( ent );
 				if ( pSpawnPoint )
@@ -11664,9 +11664,9 @@ void ServerThinkReplayUploader()
 			}
 		}
 
-		while ( ( ent = gEntList.FindEntityByClassname( ent, "info_player_counterterrorist" ) ) != NULL )
+		while ( ( ent = gEntList.FindEntityByClassname( ent, "info_player_counterterrorist" ) ) != nullptr)
 		{
-			if ( IsSpawnPointValid( ent, NULL ) ) 
+			if ( IsSpawnPointValid( ent, nullptr) ) 
 			{
 				SpawnPoint* pSpawnPoint = assert_cast< SpawnPoint* >( ent );
 				if ( pSpawnPoint )
@@ -11682,13 +11682,13 @@ void ServerThinkReplayUploader()
 			}
 		}
 
-		ent = NULL; 
+		ent = nullptr; 
 		// if we're playing armsrace, add the armsrace spawns to the list as well
 		if ( CSGameRules()->IsPlayingGunGameProgressive() )
 		{
-			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_armsrace_terrorist" ) ) != NULL )
+			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_armsrace_terrorist" ) ) != nullptr)
 			{
-				if ( IsSpawnPointValid( ent, NULL ) )
+				if ( IsSpawnPointValid( ent, nullptr) )
 				{
 					SpawnPoint* pSpawnPoint = assert_cast< SpawnPoint* >( ent );
 					if ( pSpawnPoint )
@@ -11705,9 +11705,9 @@ void ServerThinkReplayUploader()
 				}
 			}
 
-			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_armsrace_counterterrorist" ) ) != NULL )
+			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_armsrace_counterterrorist" ) ) != nullptr)
 			{
-				if ( IsSpawnPointValid( ent, NULL ) )
+				if ( IsSpawnPointValid( ent, nullptr) )
 				{
 					SpawnPoint* pSpawnPoint = assert_cast< SpawnPoint* >( ent );
 					if ( pSpawnPoint )
@@ -11841,7 +11841,7 @@ void ServerThinkReplayUploader()
 				SpawnPoint* pSpawnPoint = m_TerroristSpawnPointsMasterList[i];
 				if ( pSpawnPoint && pSpawnPoint->IsEnabled() )
 				{
-					if ( IsSpawnPointValid( pSpawnPoint, NULL ) == false )
+					if ( IsSpawnPointValid( pSpawnPoint, nullptr) == false )
 					{
 						pSpawnPoint->m_bEnabled = false;
 						continue;
@@ -11860,7 +11860,7 @@ void ServerThinkReplayUploader()
 				SpawnPoint* pSpawnPoint = m_CTSpawnPointsMasterList[i];
 				if ( pSpawnPoint && pSpawnPoint->IsEnabled() )
 				{
-					if ( IsSpawnPointValid( pSpawnPoint, NULL ) == false )
+					if ( IsSpawnPointValid( pSpawnPoint, nullptr) == false )
 					{
 						pSpawnPoint->m_bEnabled = false;
 						continue;
@@ -11899,7 +11899,7 @@ void ServerThinkReplayUploader()
 
     CBaseEntity*CCSGameRules::GetNextSpawnpoint( int teamNumber )
     {
-        CBaseEntity* pRetVal = NULL;
+        CBaseEntity* pRetVal = nullptr;
 
         if ( teamNumber == TEAM_CT )
         {
@@ -11933,11 +11933,11 @@ void ServerThinkReplayUploader()
 
     void CCSGameRules::ShowSpawnPoints( int duration )
     {
-        CBaseEntity* ent = NULL;
+        CBaseEntity* ent = nullptr;
         
-        while ( ( ent = gEntList.FindEntityByClassname( ent, "info_player_terrorist" ) ) != NULL )
+        while ( ( ent = gEntList.FindEntityByClassname( ent, "info_player_terrorist" ) ) != nullptr)
         {
-            if ( IsSpawnPointValid( ent, NULL ) == false )
+            if ( IsSpawnPointValid( ent, nullptr) == false )
             {
 				NDebugOverlay::Box( ent->GetAbsOrigin(), VEC_HULL_MIN, VEC_HULL_MAX, 255, 0, 0, 200, duration );
             }
@@ -11951,9 +11951,9 @@ void ServerThinkReplayUploader()
 			}
         }
 
-        while ( ( ent = gEntList.FindEntityByClassname( ent, "info_player_counterterrorist" ) ) != NULL )
+        while ( ( ent = gEntList.FindEntityByClassname( ent, "info_player_counterterrorist" ) ) != nullptr)
         {
-            if ( IsSpawnPointValid( ent, NULL ) == false ) 
+            if ( IsSpawnPointValid( ent, nullptr) == false ) 
             {
 				NDebugOverlay::Box( ent->GetAbsOrigin(), VEC_HULL_MIN, VEC_HULL_MAX, 255, 0, 0, 200, duration );
 			}
@@ -11967,15 +11967,15 @@ void ServerThinkReplayUploader()
 			}
         }
 
-		while ( ( ent = gEntList.FindEntityByClassname( ent, "info_deathmatch_spawn" ) ) != NULL )
+		while ( ( ent = gEntList.FindEntityByClassname( ent, "info_deathmatch_spawn" ) ) != nullptr)
 		{
-			if ( IsSpawnPointValid( ent, NULL ) )
+			if ( IsSpawnPointValid( ent, nullptr) )
 			{
 				if ( !( assert_cast< SpawnPoint* >( ent )->IsEnabled() ) )
 				{
 					NDebugOverlay::Box( ent->GetAbsOrigin(), VEC_HULL_MIN, VEC_HULL_MAX, 255, 0, 255, 200, duration );
 				}
-				else if ( IsSpawnPointHiddenFromOtherPlayers( ent, NULL ) )
+				else if ( IsSpawnPointHiddenFromOtherPlayers( ent, nullptr) )
 				{
 					NDebugOverlay::Box( ent->GetAbsOrigin(), VEC_HULL_MIN, VEC_HULL_MAX, 0, 255, 0, 200, duration );
 				}
@@ -11992,9 +11992,9 @@ void ServerThinkReplayUploader()
 
 		if ( CSGameRules()->IsPlayingGunGameProgressive() )
 		{
-			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_armsrace_terrorist" ) ) != NULL )
+			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_armsrace_terrorist" ) ) != nullptr)
 			{
-				if ( IsSpawnPointValid( ent, NULL ) == false )
+				if ( IsSpawnPointValid( ent, nullptr) == false )
 				{
 					NDebugOverlay::Box( ent->GetAbsOrigin(), VEC_HULL_MIN, VEC_HULL_MAX, 255, 0, 0, 200, duration );
 				}
@@ -12008,9 +12008,9 @@ void ServerThinkReplayUploader()
 				}
 			}
 
-			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_armsrace_counterterrorist" ) ) != NULL )
+			while ( ( ent = gEntList.FindEntityByClassname( ent, "info_armsrace_counterterrorist" ) ) != nullptr)
 			{
-				if ( IsSpawnPointValid( ent, NULL ) == false )
+				if ( IsSpawnPointValid( ent, nullptr) == false )
 				{
 					NDebugOverlay::Box( ent->GetAbsOrigin(), VEC_HULL_MIN, VEC_HULL_MAX, 255, 0, 0, 200, duration );
 				}
@@ -12389,7 +12389,7 @@ void ServerThinkReplayUploader()
         {
             // last person to join the server
             int iHighestUserID = -1;
-            CCSPlayer *pPlayerToSwap = NULL;
+            CCSPlayer *pPlayerToSwap = nullptr;
 
             // check if target team is full, exit if so
             if ( TeamFull(iTragetTeam) )
@@ -12417,7 +12417,7 @@ void ServerThinkReplayUploader()
                     }
             }
 
-            if ( pPlayerToSwap != NULL )
+            if ( pPlayerToSwap != nullptr)
             {
                 m_AutoBalanceTraitors.AddRecipient( pPlayerToSwap );
                 m_AutoBalanceLoyalists.RemoveRecipient( pPlayerToSwap );
@@ -12436,7 +12436,7 @@ void ServerThinkReplayUploader()
 
     void CCSGameRules::HandleScrambleTeams( void )
     {
-        CCSPlayer *pCSPlayer = NULL;
+        CCSPlayer *pCSPlayer = nullptr;
         CUtlVector<CCSPlayer *> pListPlayers;
 
         // add all the players (that are on CT or Terrorist) to our temp list
@@ -12517,7 +12517,7 @@ void ServerThinkReplayUploader()
 
     void CCSGameRules::HandleSwapTeams( void )
     {
-        CCSPlayer *pCSPlayer = NULL;
+        CCSPlayer *pCSPlayer = nullptr;
         CUtlVector<CCSPlayer *> pListPlayers;
 		CUtlVector<CCSPlayer *> pListCoaches;
 
@@ -12954,7 +12954,7 @@ void ServerThinkReplayUploader()
 
 			// Reset hostage spawn indices
 			m_arrSelectedHostageSpawnIndices.RemoveAll();
-			if ( char const *szHostageSpawnIndices = kvSaveFile->GetString( "History/HostageSpawnIndices", NULL ) )
+			if ( char const *szHostageSpawnIndices = kvSaveFile->GetString( "History/HostageSpawnIndices", nullptr) )
 			{
 				CUtlVector< char* > tagStrings;
 				V_SplitString( szHostageSpawnIndices, ",", tagStrings );
@@ -13035,7 +13035,7 @@ void ServerThinkReplayUploader()
 				if ( pPlayer->GetSteamID( &steamIdHumanPlayer ) )
 				{
 					int iTeamOrder = 0;
-					KeyValues *kvPlayerData = NULL;
+					KeyValues *kvPlayerData = nullptr;
 					for ( ; iTeamOrder < 2; ++ iTeamOrder )
 					{
 						kvPlayerData = kvSaveFile->FindKey( CFmtStr( "PlayersOnTeam%d/%u", iTeamOrder + 1, steamIdHumanPlayer.GetAccountID() ), false );
@@ -13076,7 +13076,7 @@ void ServerThinkReplayUploader()
 						{
 							iCashAccount = GetOvertimePlaying() ? mp_overtime_startmoney.GetInt() : mp_startmoney.GetInt();
 						}
-						pPlayer->AddAccount( iCashAccount - pPlayer->GetAccountBalance(), true, false, NULL );
+						pPlayer->AddAccount( iCashAccount - pPlayer->GetAccountBalance(), true, false, nullptr);
 
 						pPlayer->RemoveAllItems( true );
 						if ( !bResetPlayerAccounts )
@@ -13205,11 +13205,11 @@ void ServerThinkReplayUploader()
 	{
 		CSteamID steamIdHumanPlayer;
 		if ( !pPlayer->GetSteamID( &steamIdHumanPlayer ) )
-			return NULL;
+			return nullptr;
 		if ( !steamIdHumanPlayer.IsValid() || !steamIdHumanPlayer.BIndividualAccount() )
-			return NULL;
+			return nullptr;
 		if ( steamIdHumanPlayer.GetAccountID() != pPlayer->GetHumanPlayerAccountID() )
-			return NULL;
+			return nullptr;
 
 		CCSGameRules::CQMMPlayerData_t *pQMM = QueuedMatchmakingPlayersDataFind( steamIdHumanPlayer.GetAccountID() );
 		if ( pQMM )	// Already exists
@@ -13218,7 +13218,7 @@ void ServerThinkReplayUploader()
 		// There are some cases where we cannot create the player data
 		// or are supposed to have all entries previously created upon GC request
 		if ( IsQueuedMatchmaking() )
-			return NULL;
+			return nullptr;
 
 		// Prepare for creating the entry
 		bool bControllingBot = pPlayer->IsControllingBot();
@@ -13231,7 +13231,7 @@ void ServerThinkReplayUploader()
 			iTeamOrder = ( ( pPlayer->GetTeamNumber() == TEAM_CT ) == bTeamsArePlayingSwitchedSides ) ? 1 : 0;
 			break;
 		default:
-			return NULL;
+			return nullptr;
 		}
 
 		//
@@ -13466,13 +13466,13 @@ void ServerThinkReplayUploader()
         if ( iWinnerTeam == WINNER_CT )
         {
             for( int i=0;i<g_Hostages.Count();i++ )
-                g_Hostages[i]->AcceptInput( "CTsWin", NULL, NULL, emptyVariant, 0 );
+                g_Hostages[i]->AcceptInput( "CTsWin", nullptr, nullptr, emptyVariant, 0 );
         }
 
         else if ( iWinnerTeam == WINNER_TER )
         {
             for( int i=0;i<g_Hostages.Count();i++ )
-                g_Hostages[i]->AcceptInput( "TerroristsWin", NULL, NULL, emptyVariant, 0 );
+                g_Hostages[i]->AcceptInput( "TerroristsWin", nullptr, nullptr, emptyVariant, 0 );
         }
         else
         {
@@ -13892,7 +13892,7 @@ void ServerThinkReplayUploader()
                                 // Change the bot's new profile based on desired difficulty
                                 const BotProfile* pNewProfileData = TheBotProfiles->GetRandomProfile( ( BotDifficultyType )nextBotDifficulty, pBot->GetTeamNumber(), WEAPONTYPE_UNKNOWN, true );
 
-                                if ( NULL == pNewProfileData )
+                                if (nullptr == pNewProfileData )
                                 {
                                     Warning( "-----No profile found to match search criteria.  Not updating this bot's difficulty.");
                                 }
@@ -13953,7 +13953,7 @@ void ServerThinkReplayUploader()
                                 // Have a valid difficulty level, so apply it to each bot
                                 const BotProfile* pNewProfileData = TheBotProfiles->GetRandomProfile( ( BotDifficultyType )nextBotDifficulty, pBot->GetTeamNumber(), WEAPONTYPE_UNKNOWN, true );
 
-                                if ( NULL == pNewProfileData )
+                                if (nullptr == pNewProfileData )
                                 {
                                     Warning( "-----No profile found to match search criteria.  Not updating this bot's difficulty.");
                                 }
@@ -14009,7 +14009,7 @@ void ServerThinkReplayUploader()
                                 // Have a valid difficulty level, so apply it to each bot
                                 const BotProfile* pNewProfileData = TheBotProfiles->GetRandomProfile( ( BotDifficultyType )nextBotDifficulty, pBot->GetTeamNumber(), WEAPONTYPE_UNKNOWN, true );
 
-                                if ( NULL == pNewProfileData )
+                                if (nullptr == pNewProfileData )
                                 {
                                     Warning( "-----No profile found to match search criteria.  Not updating this bot's difficulty.");
                                 }
@@ -14231,7 +14231,7 @@ void ServerThinkReplayUploader()
     void CCSGameRules::CheckMapConditions()
     {
         // Check to see if this map has a bomb target in it
-        if ( gEntList.FindEntityByClassname( NULL, "func_bomb_target" ) )
+        if ( gEntList.FindEntityByClassname(nullptr, "func_bomb_target" ) )
         {
 			// this is a bit hacky, but it makes it so the bomb stuff only shows up on mission 3 of the coop mission
 			if ( IsPlayingCoopMission() && mp_anyone_can_pickup_c4.GetBool() == false )
@@ -14245,7 +14245,7 @@ void ServerThinkReplayUploader()
 				m_bMapHasBombZone = true;
 			}
         }
-        else if ( gEntList.FindEntityByClassname( NULL, "info_bomb_target" ) )
+        else if ( gEntList.FindEntityByClassname(nullptr, "info_bomb_target" ) )
         {
             m_bMapHasBombTarget		= true;
             m_bMapHasBombZone		= false;
@@ -14258,7 +14258,7 @@ void ServerThinkReplayUploader()
 
         // See if the map has func_buyzone entities
         // Used by CBasePlayer::HandleSignals() to support maps without these entities
-        if ( gEntList.FindEntityByClassname( NULL, "func_buyzone" ) )
+        if ( gEntList.FindEntityByClassname(nullptr, "func_buyzone" ) )
         {
             m_bMapHasBuyZone = true;
         }
@@ -14268,7 +14268,7 @@ void ServerThinkReplayUploader()
         }
 
         // Check to see if this map has hostage rescue zones
-        if ( gEntList.FindEntityByClassname( NULL, "func_hostage_rescue" ) )
+        if ( gEntList.FindEntityByClassname(nullptr, "func_hostage_rescue" ) )
         {
             m_bMapHasRescueZone = true;
         }
@@ -14278,7 +14278,7 @@ void ServerThinkReplayUploader()
         }
 
         // GOOSEMAN : See if this map has func_escapezone entities
-        if ( gEntList.FindEntityByClassname( NULL, "func_escapezone" ) )
+        if ( gEntList.FindEntityByClassname(nullptr, "func_escapezone" ) )
         {
             m_bMapHasEscapeZone = true;
         }
@@ -14351,7 +14351,7 @@ void ServerThinkReplayUploader()
 			if ( pPlayer && !FNullEnt( pPlayer->edict() ) )
 			{
 				if ( pPlayer->GetParent() )
-					pPlayer->SetParent( NULL );
+					pPlayer->SetParent(nullptr);
 			}
 		}
 
@@ -14432,7 +14432,7 @@ void ServerThinkReplayUploader()
                     // CCSMapLoadEntityFilter, which should have built the g_MapEntityRefs list
                     // with the same list of entities we're referring to here.
                     Assert( false );
-                    return NULL;
+                    return nullptr;
                 }
                 else
                 {
@@ -14509,7 +14509,7 @@ void ServerThinkReplayUploader()
         }
 
         //Didn't find a bomber.
-        return NULL;
+        return nullptr;
     }
 
 
@@ -14525,7 +14525,7 @@ void ServerThinkReplayUploader()
 		// it increments the spawn number without actually spawning and messes up the spawn priority
 		CCSPlayer* pCSPlayer = ToCSPlayer( pPlayer );
 		if ( !pCSPlayer || pCSPlayer->IsPlayerSpawning() )
-			return NULL;
+			return nullptr;
 
 		pCSPlayer->SetPlayerSpawning( true );
 
@@ -14618,12 +14618,12 @@ void ServerThinkReplayUploader()
         bool bBombFound = false;
 
         /* are there any bombs, either laying around, or in someone's inventory? */
-        if( gEntList.FindEntityByClassname( NULL, WEAPON_C4_CLASSNAME ) != 0 )
+        if( gEntList.FindEntityByClassname(nullptr, WEAPON_C4_CLASSNAME ) != nullptr )
         {
             bBombFound = true;
         }
         /* what about planted bombs!? */
-        else if( gEntList.FindEntityByClassname( NULL, PLANTED_C4_CLASSNAME ) != 0 )
+        else if( gEntList.FindEntityByClassname(nullptr, PLANTED_C4_CLASSNAME ) != nullptr )
         {
             bBombFound = true;
         }
@@ -14672,7 +14672,7 @@ void ServerThinkReplayUploader()
 			NewTeamIssue< CStartTimeOutIssue >();
 		}
 
-		static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * ) NULL );
+		static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * )nullptr);
 		if ( s_pchTournamentServer && IsQueuedMatchmaking() )
 		{
 			NewGlobalIssue< CPauseMatchIssue >();
@@ -15001,7 +15001,7 @@ int CCSGameRules::GetGunGameNumKillsRequiredForWeapon( int nCurrentWeaponIndex, 
 
 CBaseCombatWeapon *CCSGameRules::GetNextBestWeapon( CBaseCombatCharacter *pPlayer, CBaseCombatWeapon *pCurrentWeapon )
 {
-    CBaseCombatWeapon *bestWeapon = NULL;
+    CBaseCombatWeapon *bestWeapon = nullptr;
 
     // search all the weapons looking for the closest next
     for ( int i = 0; i < MAX_WEAPONS; i++ )
@@ -15582,7 +15582,7 @@ int CCSGameRules::IPointsForKill( CBasePlayer *pAttacker, CBasePlayer *pKilled )
 bool CanPlayerHear( CBasePlayer* pListener, CBasePlayer *pSpeaker, bool bTeamOnly, bool bHearEnemies )
 {
 	Assert(pListener != NULL && pSpeaker != NULL);
-	if ( pListener == NULL || pSpeaker == NULL )
+	if ( pListener == nullptr || pSpeaker == nullptr)
 		return false;
 
 	// sv_full_alltalk lets everyone can talk to everyone else, except comms specifically flagged as team-only
@@ -15827,7 +15827,7 @@ void CCSGameRules::GiveGuardianBotGrenades( CCSPlayer *pBot )
 		 && IsWarmupPeriod() == false && (IsPlayingCoopGuardian() || IsPlayingCoopMission()) )
 	{
 		const char* szGrenade = Helper_PickBotGrenade();
-		if ( szGrenade && pBot->GiveNamedItem( CFmtStr( "weapon_%s", szGrenade ).Access() ) != NULL )
+		if ( szGrenade && pBot->GiveNamedItem( CFmtStr( "weapon_%s", szGrenade ).Access() ) != nullptr)
 			m_nGuardianGrenadesToGiveBots--;
 	}
 }
@@ -15965,7 +15965,7 @@ float CCSGameRules::GetNextRespawnWave( int iTeam, CBasePlayer *pPlayer )
 	// 		return 0;
 
 	// If we are purely checking when the next respawn wave is for this team
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 	{
 		return m_flNextRespawnWave[iTeam];
 	}
@@ -16017,28 +16017,28 @@ CAmmoDef* GetAmmoDef()
     {
         bInitted = true;
         
-        ammoDef.AddAmmoType( BULLET_PLAYER_50AE,		DMG_BULLET, TRACER_LINE, 0, 0, "ammo_50AE_max",		"ammo_50AE_impulse", 0, 10, 14 );
-        ammoDef.AddAmmoType( BULLET_PLAYER_762MM,		DMG_BULLET, TRACER_LINE, 0, 0, "ammo_762mm_max",	"ammo_762mm_impulse", 0, 10, 14 );//Sniper ammo has little force since it just goes through the target.
-        ammoDef.AddAmmoType( BULLET_PLAYER_556MM,		DMG_BULLET, TRACER_LINE, 0, 0, "ammo_556mm_max",	"ammo_556mm_impulse", 0, 10, 14 );
-		ammoDef.AddAmmoType( BULLET_PLAYER_556MM_SMALL,	DMG_BULLET, TRACER_LINE, 0, 0, "ammo_556mm_small_max","ammo_556mm_impulse", 0, 10, 14 ); // 15 round clip
-        ammoDef.AddAmmoType( BULLET_PLAYER_556MM_BOX,	DMG_BULLET, TRACER_LINE, 0, 0, "ammo_556mm_box_max","ammo_556mm_box_impulse", 0, 10, 14 );
-        ammoDef.AddAmmoType( BULLET_PLAYER_338MAG,		DMG_BULLET, TRACER_LINE, 0, 0, "ammo_338mag_max",	"ammo_338mag_impulse", 0, 12, 16 );
-        ammoDef.AddAmmoType( BULLET_PLAYER_9MM,			DMG_BULLET, TRACER_LINE, 0, 0, "ammo_9mm_max",		"ammo_9mm_impulse", 0, 5, 10 );
-        ammoDef.AddAmmoType( BULLET_PLAYER_BUCKSHOT,	DMG_BULLET, TRACER_LINE, 0, 0, "ammo_buckshot_max", "ammo_buckshot_impulse", 0, 3, 6 );
-        ammoDef.AddAmmoType( BULLET_PLAYER_45ACP,		DMG_BULLET, TRACER_LINE, 0, 0, "ammo_45acp_max",	"ammo_45acp_impulse", 0, 6, 10 );
-        ammoDef.AddAmmoType( BULLET_PLAYER_357SIG,		DMG_BULLET, TRACER_LINE, 0, 0, "ammo_357sig_max",	"ammo_357sig_impulse", 0, 4, 8 );
-        ammoDef.AddAmmoType( BULLET_PLAYER_357SIG_SMALL,DMG_BULLET, TRACER_LINE, 0, 0, "ammo_357sig_small_max",	"ammo_357sig_impulse", 0, 4, 8 );
-        ammoDef.AddAmmoType( BULLET_PLAYER_357SIG_MIN,	DMG_BULLET, TRACER_LINE, 0, 0, "ammo_357sig_min_max",	"ammo_357sig_impulse", 0, 4, 8 );
-        ammoDef.AddAmmoType( BULLET_PLAYER_57MM,		DMG_BULLET, TRACER_LINE, 0, 0, "ammo_57mm_max",		"ammo_57mm_impulse", 0, 4, 8 );
-        ammoDef.AddAmmoType( AMMO_TYPE_HEGRENADE,		DMG_BLAST,	TRACER_LINE, 0, 0, "ammo_grenade_limit_default", 0, 0, 0 );
-        ammoDef.AddAmmoType( AMMO_TYPE_FLASHBANG,		0,			TRACER_LINE, 0,	0, "ammo_grenade_limit_flashbang", 0, 0, 0 );
-        ammoDef.AddAmmoType( AMMO_TYPE_SMOKEGRENADE,	0,			TRACER_LINE, 0, 0, "ammo_grenade_limit_default", 0, 0, 0 );
-        ammoDef.AddAmmoType( AMMO_TYPE_MOLOTOV,			DMG_BURN,	TRACER_NONE, 0, 0, "ammo_grenade_limit_default", 0, 0, 0 );
-        ammoDef.AddAmmoType( AMMO_TYPE_DECOY,			0,			TRACER_NONE, 0, 0, "ammo_grenade_limit_default", 0, 0, 0 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_50AE,		DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_50AE_max",		"ammo_50AE_impulse", 0, 10, 14 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_762MM,		DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_762mm_max",	"ammo_762mm_impulse", 0, 10, 14 );//Sniper ammo has little force since it just goes through the target.
+        ammoDef.AddAmmoType( BULLET_PLAYER_556MM,		DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_556mm_max",	"ammo_556mm_impulse", 0, 10, 14 );
+		ammoDef.AddAmmoType( BULLET_PLAYER_556MM_SMALL,	DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_556mm_small_max","ammo_556mm_impulse", 0, 10, 14 ); // 15 round clip
+        ammoDef.AddAmmoType( BULLET_PLAYER_556MM_BOX,	DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_556mm_box_max","ammo_556mm_box_impulse", 0, 10, 14 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_338MAG,		DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_338mag_max",	"ammo_338mag_impulse", 0, 12, 16 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_9MM,			DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_9mm_max",		"ammo_9mm_impulse", 0, 5, 10 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_BUCKSHOT,	DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_buckshot_max", "ammo_buckshot_impulse", 0, 3, 6 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_45ACP,		DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_45acp_max",	"ammo_45acp_impulse", 0, 6, 10 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_357SIG,		DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_357sig_max",	"ammo_357sig_impulse", 0, 4, 8 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_357SIG_SMALL,DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_357sig_small_max",	"ammo_357sig_impulse", 0, 4, 8 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_357SIG_MIN,	DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_357sig_min_max",	"ammo_357sig_impulse", 0, 4, 8 );
+        ammoDef.AddAmmoType( BULLET_PLAYER_57MM,		DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_57mm_max",		"ammo_57mm_impulse", 0, 4, 8 );
+        ammoDef.AddAmmoType( AMMO_TYPE_HEGRENADE,		DMG_BLAST,	TRACER_LINE, nullptr, nullptr, "ammo_grenade_limit_default", nullptr, 0, 0 );
+        ammoDef.AddAmmoType( AMMO_TYPE_FLASHBANG,		0,			TRACER_LINE, nullptr,	nullptr, "ammo_grenade_limit_flashbang", nullptr, 0, 0 );
+        ammoDef.AddAmmoType( AMMO_TYPE_SMOKEGRENADE,	0,			TRACER_LINE, nullptr, nullptr, "ammo_grenade_limit_default", nullptr, 0, 0 );
+        ammoDef.AddAmmoType( AMMO_TYPE_MOLOTOV,			DMG_BURN,	TRACER_NONE, nullptr, nullptr, "ammo_grenade_limit_default", nullptr, 0, 0 );
+        ammoDef.AddAmmoType( AMMO_TYPE_DECOY,			0,			TRACER_NONE, nullptr, nullptr, "ammo_grenade_limit_default", nullptr, 0, 0 );
         ammoDef.AddAmmoType( AMMO_TYPE_TASERCHARGE,		DMG_SHOCK,	TRACER_BEAM, 0, 0, 0, 0, 0, 0 );
-		ammoDef.AddAmmoType( BULLET_PLAYER_357SIG_P250,	DMG_BULLET, TRACER_LINE, 0, 0, "ammo_357sig_p250_max",	"ammo_357sig_impulse", 0, 4, 8 );
-		ammoDef.AddAmmoType( AMMO_TYPE_HEALTHSHOT, 0, TRACER_LINE, 0, 0, "ammo_item_limit_healthshot", 0, 0, 0 );
-		ammoDef.AddAmmoType( AMMO_TYPE_TAGRENADE,	0,			TRACER_NONE, 0, 0, "ammo_grenade_limit_default", 0, 0, 0 );
+		ammoDef.AddAmmoType( BULLET_PLAYER_357SIG_P250,	DMG_BULLET, TRACER_LINE, nullptr, nullptr, "ammo_357sig_p250_max",	"ammo_357sig_impulse", 0, 4, 8 );
+		ammoDef.AddAmmoType( AMMO_TYPE_HEALTHSHOT, 0, TRACER_LINE, nullptr, nullptr, "ammo_item_limit_healthshot", nullptr, 0, 0 );
+		ammoDef.AddAmmoType( AMMO_TYPE_TAGRENADE,	0,			TRACER_NONE, nullptr, nullptr, "ammo_grenade_limit_default", nullptr, 0, 0 );
 
         //Adrian: I set all the prices to 0 just so the rest of the buy code works
         //This should be revisited.
@@ -16138,7 +16138,7 @@ void CCSGameRules::RecordPlayerItemDrop( const CEconItemPreviewDataBlock &itemin
 #ifndef CLIENT_DLL
 const char *CCSGameRules::GetChatPrefix( bool bTeamOnly, CBasePlayer *pPlayer )
 {
-    char *pszPrefix = NULL;
+    char *pszPrefix = nullptr;
 
     if ( !pPlayer )  // dedicated server output
     {
@@ -16204,19 +16204,19 @@ const char *CCSGameRules::GetChatLocation( bool bTeamOnly, CBasePlayer *pPlayer 
 {
     if ( !pPlayer )  // dedicated server output
     {
-        return NULL;
+        return nullptr;
     }
 
     // only teammates see locations
     if ( !bTeamOnly )
-        return NULL;
+        return nullptr;
 
     // only living players have locations
     if ( pPlayer->GetTeamNumber() != TEAM_CT && pPlayer->GetTeamNumber() != TEAM_TERRORIST )
-        return NULL;
+        return nullptr;
 
     if ( !pPlayer->IsAlive() )
-        return NULL;
+        return nullptr;
 
     return pPlayer->GetLastKnownPlaceName();
 }
@@ -16225,10 +16225,10 @@ const char *CCSGameRules::GetChatFormat( bool bTeamOnly, CBasePlayer *pPlayer )
 {
     if ( !pPlayer )  // dedicated server output
     {
-        return NULL;
+        return nullptr;
     }
 
-    const char *pszFormat = NULL;
+    const char *pszFormat = nullptr;
 
     // team only
     if ( bTeamOnly == TRUE )
@@ -16440,15 +16440,15 @@ CON_COMMAND_F( map_showbombradius, "Shows bomb radius from the center of each bo
     float flBombRadius = flBombDamage * 3.5f;
     Msg( "Bomb Damage is %.0f, Radius is %.0f\n", flBombDamage, flBombRadius );
 
-    CBaseEntity* ent = NULL;
-    while ( ( ent = gEntList.FindEntityByClassname( ent, "func_bomb_target" ) ) != NULL )
+    CBaseEntity* ent = nullptr;
+    while ( ( ent = gEntList.FindEntityByClassname( ent, "func_bomb_target" ) ) != nullptr)
     {
         const Vector &pos = ent->WorldSpaceCenter();
         DrawSphere( pos, flBombRadius, 255, 255, 0, 10 );
     }
 
-    ent = NULL;
-    while ( ( ent = gEntList.FindEntityByClassname( ent, "planted_c4" ) ) != NULL )
+    ent = nullptr;
+    while ( ( ent = gEntList.FindEntityByClassname( ent, "planted_c4" ) ) != nullptr)
     {
         const Vector &pos = ent->WorldSpaceCenter();
         DrawSphere( pos, flBombRadius, 255, 0, 0, 10 );
@@ -16525,7 +16525,7 @@ void CCSGameRules::PlayerTookDamage(CCSPlayer* player, const CTakeDamageInfo &da
             m_bNoTerroristsDamaged = false;
         }
         // set the first blood if this is the first and the victim is on a different team then the player
-        if ( m_pFirstBlood == NULL && pCSScorer != player && pCSScorer->GetTeamNumber() != player->GetTeamNumber() )
+        if ( m_pFirstBlood == nullptr && pCSScorer != player && pCSScorer->GetTeamNumber() != player->GetTeamNumber() )
         {
             m_pFirstBlood = pCSScorer;
             m_firstBloodTime = gpGlobals->curtime - m_fRoundStartTime;
@@ -16650,7 +16650,7 @@ void CCSGameRules::AddTeamAccount( int team, TeamCashAward::Type reason, int amo
 
 	char customAwardText[256];
 	bool bUsingCustom = false;
-    const char* awardReasonToken = NULL;
+    const char* awardReasonToken = nullptr;
     
     switch ( reason )
     {
@@ -17037,7 +17037,7 @@ CGameCoopMissionManager *CCSGameRules::GetCoopMissionManager( void )
 	CGameCoopMissionManager *pManager = static_cast< CGameCoopMissionManager* >( m_coopMissionManager.Get() );
 	if ( !pManager )
 	{
-		CBaseEntity *ent = NULL;
+		CBaseEntity *ent = nullptr;
 		do
 		{
 			ent = gEntList.FindEntityByClassname( ent, "game_coopmission_manager" );
@@ -17445,11 +17445,11 @@ void CCSGameRules::ResetCasterConvars()
 CEconQuestDefinition* CCSGameRules::GetActiveAssassinationQuest( void ) const
 {
 	if ( IsPlayingCooperativeGametype() )
-		return NULL;
+		return nullptr;
 
 	// Skip the map lookup for invlaid quest id
 	if ( !m_iActiveAssassinationTargetMissionID )
-		return NULL;
+		return nullptr;
 	else
 		return GetItemSchema()->GetQuestDefinition( m_iActiveAssassinationTargetMissionID );
 }
@@ -18434,7 +18434,7 @@ ENABLE_COMPETITIVE_CONVAR( cl_bobcycle, 0.98, 0.98 );		// tournament standard
             if ( steamID.GetAccountID() == account_id )
                 return pPlayer;
         }
-        return NULL;
+        return nullptr;
     }
 #endif
 

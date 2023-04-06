@@ -84,7 +84,7 @@ void CSosOperatorGetTrackSyncPoint::Execute( void *pVoidMem, channel_t *pChannel
 	//	HSOUNDSCRIPTHASH nSoundScriptHashHandle = SOUNDEMITTER_INVALID_HASH;
 	float fElapsedTime = 0.0;
 	float fDuration = 0.0;
-	KeyValues *pSyncPointList = NULL;
+	KeyValues *pSyncPointList = nullptr;
 
 
 	if( ! pStructMem->m_bDataFromThis )
@@ -350,10 +350,10 @@ void CSosOperatorQueueToTrack::Execute( void *pVoidMem, channel_t *pChannel, CSc
 	float fElapsedTime = 0.0;
 	float fDuration = 0.0;
 	float flMinTimeToSyncPoint = 0.0;
-	KeyValues *pSyncPointList = NULL;
+	KeyValues *pSyncPointList = nullptr;
 
 
-	channel_t *pCurrentChannelOnThisTrack = NULL;
+	channel_t *pCurrentChannelOnThisTrack = nullptr;
 	int nThisTrackIndex = g_pSoundOperatorSystem->m_vTrackDict.Find( trackData.m_pTrackName );
 	if( g_pSoundOperatorSystem->m_vTrackDict.IsValidIndex( nThisTrackIndex ) )
 	{
@@ -384,7 +384,7 @@ void CSosOperatorQueueToTrack::Execute( void *pVoidMem, channel_t *pChannel, CSc
 
 	// if there's nothing playing on the sync track do we just play? 
 	// currently YES
-	channel_t *pCurrentChannelOnSyncTrack = NULL;
+	channel_t *pCurrentChannelOnSyncTrack = nullptr;
 	int nTrackIndex = g_pSoundOperatorSystem->m_vTrackDict.Find( trackData.m_pSyncTrackName );
 	if( g_pSoundOperatorSystem->m_vTrackDict.IsValidIndex( nTrackIndex ) )
 	{

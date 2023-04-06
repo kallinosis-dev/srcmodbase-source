@@ -33,7 +33,7 @@ CDmeSheetSequence *CDmeSheetImage::FindSequence( int index )
 	{
 		return m_mapSequences[index];
 	}
-	return NULL;
+	return nullptr;
 }
 
 

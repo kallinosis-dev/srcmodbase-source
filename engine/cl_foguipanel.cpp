@@ -35,7 +35,7 @@ using namespace vgui;
 // CFogUIPanel
 //-----------------------------------------------------------------------------
 
-CFogUIPanel *g_pFogUI = NULL;
+CFogUIPanel *g_pFogUI = nullptr;
 
 void CFogUIPanel::InstallFogUI( vgui::Panel *parent )
 {

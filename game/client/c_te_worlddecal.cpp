@@ -106,7 +106,7 @@ void C_TEWorldDecal::PostDataUpdate( DataUpdateType_t updateType )
 		C_BaseEntity *ent = cl_entitylist->GetEnt( 0 );
 		if ( ent )
 		{
-			effects->DecalShoot( m_nIndex, 0, ent->GetModel(), ent->GetAbsOrigin(), ent->GetAbsAngles(), m_vecOrigin, 0, 0 );
+			effects->DecalShoot( m_nIndex, 0, ent->GetModel(), ent->GetAbsOrigin(), ent->GetAbsAngles(), m_vecOrigin, nullptr, 0 );
 		}
 	}
 	RecordWorldDecal( &m_vecOrigin, m_nIndex );
@@ -123,7 +123,7 @@ void TE_WorldDecal( IRecipientFilter& filter, float delay, const Vector* pos, in
 		C_BaseEntity *ent = cl_entitylist->GetEnt( 0 );
 		if ( ent )
 		{
-			effects->DecalShoot( index, 0, ent->GetModel(), ent->GetAbsOrigin(), ent->GetAbsAngles(), *pos, 0, 0 );
+			effects->DecalShoot( index, 0, ent->GetModel(), ent->GetAbsOrigin(), ent->GetAbsAngles(), *pos, nullptr, 0 );
 		}
 	}
 	RecordWorldDecal( pos, index );

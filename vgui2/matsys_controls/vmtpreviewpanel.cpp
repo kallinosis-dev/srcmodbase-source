@@ -40,7 +40,7 @@ using namespace vgui;
 CVMTPreviewPanel::CVMTPreviewPanel( vgui::Panel *pParent, const char *pName ) :
 	BaseClass( pParent, pName )
 {
-	m_pMaterialSheet = NULL;
+	m_pMaterialSheet = nullptr;
 
 	SetVMT( "//platform/materials/vgui/vtfnotloaded" );
 
@@ -83,7 +83,7 @@ void CVMTPreviewPanel::SetVMT( const char *pMaterialName )
 	}
 	else
 	{
-		m_pMaterialSheet = NULL;
+		m_pMaterialSheet = nullptr;
 	}
 
 	m_nCurrentSheetSequence = 0;
@@ -687,12 +687,12 @@ void CVMTPreviewPanel::Paint( void )
 
 bool CVMTPreviewPanel::VMTUsesSheets()
 {
-	return m_pMaterialSheet != NULL;
+	return m_pMaterialSheet != nullptr;
 }
 
 int CVMTPreviewPanel::GetSheetSequenceCount()
 {
-	if ( m_pMaterialSheet == NULL )
+	if ( m_pMaterialSheet == nullptr)
 	{
 		return 0;
 	}
@@ -719,7 +719,7 @@ int CVMTPreviewPanel::GetRealSequenceNumber()
 
 void CVMTPreviewPanel::SetSheetSequence( int nSequence )
 {
-	if ( m_pMaterialSheet == NULL )
+	if ( m_pMaterialSheet == nullptr)
 	{
 		return;
 	}
@@ -729,7 +729,7 @@ void CVMTPreviewPanel::SetSheetSequence( int nSequence )
 
 void CVMTPreviewPanel::SetSecondarySheetSequence( int nSequence )
 {
-	if ( m_pMaterialSheet == NULL )
+	if ( m_pMaterialSheet == nullptr)
 	{
 		return;
 	}

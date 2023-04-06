@@ -14,8 +14,8 @@
 // Constructor
 //-----------------------------------------------------------------------------
 
-CCachedRenderData::CCachedRenderData() : m_CurrentTag(0), m_pFirstFlexIndex(0),
-	m_pFirstWorldIndex(0)
+CCachedRenderData::CCachedRenderData() : m_CurrentTag(0), m_pFirstFlexIndex(nullptr),
+	m_pFirstWorldIndex(nullptr)
 {
 #ifdef _DEBUG
 	int i;
@@ -55,9 +55,9 @@ void CCachedRenderData::StartModel()
 	m_FlexVertexCount = 0;
 	m_ThinFlexVertexCount = 0;
 	m_WorldVertexCount = 0;
-	m_pFirstFlexIndex = 0;
-	m_pFirstThinFlexIndex = 0;
-	m_pFirstWorldIndex = 0;
+	m_pFirstFlexIndex = nullptr;
+	m_pFirstThinFlexIndex = nullptr;
+	m_pFirstWorldIndex = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -69,9 +69,9 @@ void CCachedRenderData::SetBodyPart( int bodypart )
 	m_Body = bodypart;
 	m_CacheDict.EnsureCount(m_Body+1);
 	m_Model = m_Mesh = -1;
-	m_pFirstFlexIndex = 0;
-	m_pFirstThinFlexIndex = 0;
-	m_pFirstWorldIndex = 0;
+	m_pFirstFlexIndex = nullptr;
+	m_pFirstThinFlexIndex = nullptr;
+	m_pFirstWorldIndex = nullptr;
 }
 
 void CCachedRenderData::SetModel( int model )
@@ -80,9 +80,9 @@ void CCachedRenderData::SetModel( int model )
 	m_Model = model;
 	m_CacheDict[m_Body].EnsureCount(m_Model+1);
 	m_Mesh = -1;
-	m_pFirstFlexIndex = 0;
-	m_pFirstThinFlexIndex = 0;
-	m_pFirstWorldIndex = 0;
+	m_pFirstFlexIndex = nullptr;
+	m_pFirstThinFlexIndex = nullptr;
+	m_pFirstWorldIndex = nullptr;
 }
 
 void CCachedRenderData::SetMesh( int mesh )
@@ -103,9 +103,9 @@ void CCachedRenderData::SetMesh( int mesh )
 	}
 	else
 	{
-		m_pFirstFlexIndex = 0;
-		m_pFirstThinFlexIndex = 0;
-		m_pFirstWorldIndex = 0;
+		m_pFirstFlexIndex = nullptr;
+		m_pFirstThinFlexIndex = nullptr;
+		m_pFirstWorldIndex = nullptr;
 	}
 }
 
@@ -163,7 +163,7 @@ CachedPosNormTan_t* CCachedRenderData::CreateFlexVertex( int vertex )
 
 	Assert ( m_FlexVertexCount < MAXSTUDIOFLEXVERTS );
 	if ( m_FlexVertexCount >= MAXSTUDIOFLEXVERTS )
-		return NULL;
+		return nullptr;
 
 	// Point the flex list to the new flexed vertex
 	m_pFirstFlexIndex[vertex].m_Tag = m_CurrentTag;
@@ -186,7 +186,7 @@ CachedPosNorm_t* CCachedRenderData::CreateThinFlexVertex( int vertex )
 
 	Assert ( m_ThinFlexVertexCount < MAXSTUDIOFLEXVERTS );
 	if ( m_ThinFlexVertexCount >= MAXSTUDIOFLEXVERTS )
-		return NULL;
+		return nullptr;
 
 	// Point the flex list to the new flexed vertex
 	m_pFirstThinFlexIndex[vertex].m_Tag = m_CurrentTag;

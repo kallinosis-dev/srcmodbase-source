@@ -55,7 +55,7 @@ static const uint32 knHLTVSnapshotSet = CFrameSnapshotManager::knDefaultSnapshot
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CHLTVServer *g_pHltvServer[ HLTV_SERVER_MAX_COUNT ] = { NULL, NULL };
+CHLTVServer *g_pHltvServer[ HLTV_SERVER_MAX_COUNT ] = {nullptr, nullptr};
 bool IsHltvActive()
 {
 	CActiveHltvServerIterator hltv;
@@ -112,23 +112,23 @@ ConVar tv_broadcast_url( "tv_broadcast_url", "http://localhost:8080", FCVAR_RELE
 
 
 CHLTVServer::SHLTVDeltaFrame_t::SHLTVDeltaFrame_t() :
-m_pRelativeFrame( NULL ),
-	m_pSourceFrame( NULL ),
-	m_pClientFrame( NULL ),
+m_pRelativeFrame(nullptr),
+	m_pSourceFrame(nullptr),
+	m_pClientFrame(nullptr),
 	m_nNumValidEntities( 0 ),
 	m_nTotalEntities( 0 ),
-	m_pEntities( NULL ),
-	m_pNewerDeltaFrame( NULL )
+	m_pEntities(nullptr),
+	m_pNewerDeltaFrame(nullptr)
 {}
 
 CHLTVServer::SHLTVDeltaFrame_t::~SHLTVDeltaFrame_t()
 {
 	delete [] m_pCopyEntities;
-	m_pCopyEntities = NULL;
+	m_pCopyEntities = nullptr;
 
 	//delete the client frame
 	delete m_pClientFrame;
-	m_pClientFrame = NULL;
+	m_pClientFrame = nullptr;
 
 	//delete our entity linked list
 	while( m_pEntities )
@@ -147,9 +147,9 @@ CHLTVServer::SHLTVDeltaFrame_t::~SHLTVDeltaFrame_t()
 
 CHLTVServer::SHLTVDeltaEntity_t::SHLTVDeltaEntity_t() :
 	m_SerializedEntity( SERIALIZED_ENTITY_HANDLE_INVALID ),
-	m_pServerClass( NULL ),
-	m_pNewRecipients( NULL ),
-	m_pNext( NULL )
+	m_pServerClass(nullptr),
+	m_pNewRecipients(nullptr),
+	m_pNext(nullptr)
 {
 }
 
@@ -183,10 +183,10 @@ void CDeltaEntityCache::Flush()
 		// at least one entity was set
 		for ( int i=0; i<m_nMaxEntities; i++ )
 		{
-			if ( m_Cache[i] != NULL )
+			if ( m_Cache[i] != nullptr)
 			{
 				free( m_Cache[i] );
-				m_Cache[i] = NULL;
+				m_Cache[i] = nullptr;
 			}
 		}
 
@@ -217,7 +217,7 @@ unsigned char* CDeltaEntityCache::FindDeltaBits( int nEntityIndex, int nDeltaTic
 	nBits = -1;
 	
 	if ( nEntityIndex < 0 || nEntityIndex >= m_nMaxEntities )
-		return NULL;
+		return nullptr;
 
 	DeltaEntityEntry_s *pEntry = m_Cache[nEntityIndex];
 
@@ -235,7 +235,7 @@ unsigned char* CDeltaEntityCache::FindDeltaBits( int nEntityIndex, int nDeltaTic
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 void CDeltaEntityCache::AddDeltaBits( int nEntityIndex, int nDeltaTick, int nBits, bf_write *pBuffer )
@@ -247,7 +247,7 @@ void CDeltaEntityCache::AddDeltaBits( int nEntityIndex, int nDeltaTick, int nBit
 
 	DeltaEntityEntry_s *pEntry = m_Cache[nEntityIndex];
 
-	if ( pEntry == NULL )
+	if ( pEntry == nullptr)
 	{
 		if ( (int)(nBufferSize+sizeof(DeltaEntityEntry_s)) > m_nCacheSize )
 			return;  // way too big, don't even create an entry
@@ -273,7 +273,7 @@ void CDeltaEntityCache::AddDeltaBits( int nEntityIndex, int nDeltaTick, int nBit
 		pEntry->pNext = pEntry = pNew;
 	}
 
-	pEntry->pNext = NULL; // link to next
+	pEntry->pNext = nullptr; // link to next
 	pEntry->nDeltaTick = nDeltaTick;
 	pEntry->nBits = nBits;
 	
@@ -295,7 +295,7 @@ static RecvTable* FindRecvTable( const char *pName, RecvTable **pRecvTables, int
 			return pRecvTables[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static RecvTable* AddRecvTableR( SendTable *sendt, RecvTable **pRecvTables, int &nRecvTables )
@@ -354,7 +354,7 @@ static RecvTable* AddRecvTableR( SendTable *sendt, RecvTable **pRecvTables, int 
 	else
 	{
 		// table with no properties
-		recvt = new RecvTable( NULL, 0, sendt->m_pNetTableName );
+		recvt = new RecvTable(nullptr, 0, sendt->m_pNetTableName );
 	}
 
 	pRecvTables[nRecvTables] = recvt;
@@ -388,9 +388,9 @@ void CHLTVServer::FreeClientRecvTables()
 // creates client receive tables from server send tables
 void CHLTVServer::InitClientRecvTables()
 {
-	ServerClass* pCur = NULL;
+	ServerClass* pCur = nullptr;
 	
-	if ( ClientDLL_GetAllClasses() != NULL )
+	if ( ClientDLL_GetAllClasses() != nullptr)
 		return; //already initialized
 
 	// first create all SendTables
@@ -419,7 +419,7 @@ void CHLTVServer::InitClientRecvTables()
 		Assert ( recvt );
 		
 		// register class, constructor addes clientClass to g_pClientClassHead list
-		ClientClass * clientclass = new ClientClass( pCur->m_pNetworkName, NULL, NULL, recvt );
+		ClientClass * clientclass = new ClientClass( pCur->m_pNetworkName, nullptr, nullptr, recvt );
 
 		if ( !clientclass	)
 		{
@@ -530,7 +530,7 @@ void CHLTVFrame::FreeBuffers( void )
 		if ( msg.GetBasePointer() )
 		{
 			delete[] msg.GetBasePointer();
-			msg.StartWriting( NULL, 0 );
+			msg.StartWriting(nullptr, 0 );
 		}
 	}
 }
@@ -543,12 +543,12 @@ CHLTVServer::CHLTVServer( uint nInstanceIndex, float flSnapshotRate )
 	, m_flSnapshotRate( flSnapshotRate )
 {
 	m_flTickInterval = 0.03;
-	m_MasterClient = NULL;
-	m_Server = NULL;
-	m_Director = NULL;
+	m_MasterClient = nullptr;
+	m_Server = nullptr;
+	m_Director = nullptr;
 	m_nFirstTick = -1;
 	m_nLastTick = 0;
-	m_CurrentFrame = NULL;
+	m_CurrentFrame = nullptr;
 	m_nViewEntity = 0;
 	m_nPlayerSlot = 0;
 	m_bSignonState = false;
@@ -574,11 +574,11 @@ CHLTVServer::CHLTVServer( uint nInstanceIndex, float flSnapshotRate )
 
 	m_nDebugID = EVENT_DEBUG_ID_INIT;
 
-	m_pOldestDeltaFrame = NULL;
-	m_pNewestDeltaFrame = NULL;
+	m_pOldestDeltaFrame = nullptr;
+	m_pNewestDeltaFrame = nullptr;
 
-	m_pLastSourceSnapshot = NULL;
-	m_pLastTargetSnapshot = NULL;
+	m_pLastSourceSnapshot = nullptr;
+	m_pLastTargetSnapshot = nullptr;
 }
 
 CHLTVServer::~CHLTVServer()
@@ -669,7 +669,7 @@ void CHLTVServer::StartMaster(CGameClient *client)
 	const char **modevents = m_Director->GetModEvents();
 
 	int j = 0;
-	while ( modevents[j] != NULL )
+	while ( modevents[j] != nullptr)
 	{
 		const char *eventname = modevents[j];
 
@@ -754,7 +754,7 @@ bool CHLTVServer::DispatchToRelay( CHLTVClient *pClient )
 	if ( tv_dispatchmode.GetInt() <= DISPATCH_MODE_OFF )
 		return false; // don't redirect
 	
-	CBaseClient	*pBestProxy = NULL;
+	CBaseClient	*pBestProxy = nullptr;
 	float fBestRatio = 1.0f;
 
 	// find best relay proxy
@@ -783,7 +783,7 @@ bool CHLTVServer::DispatchToRelay( CHLTVClient *pClient )
 		}
 	}
 
-	if ( pBestProxy == NULL )
+	if ( pBestProxy == nullptr)
 	{
 		if ( tv_dispatchmode.GetInt() == DISPATCH_MODE_ALWAYS )
 		{
@@ -1010,12 +1010,12 @@ const netadr_t *CHLTVServer::GetRelayAddress( void )
 			return &adr.AsType<netadr_t>();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool CHLTVServer::IsMasterProxy( void )
 {
-	return ( m_MasterClient != NULL );
+	return ( m_MasterClient != nullptr);
 }
 
 bool CHLTVServer::IsTVRelay()
@@ -1212,7 +1212,7 @@ void CHLTVServer::StopRecordingAndFreeFrames( bool bFreeFrames, const CGameInfo 
 		{
 			DeleteClientFrames( -1 );
 			FreeAllDeltaFrames();
-			m_CurrentFrame = NULL;
+			m_CurrentFrame = nullptr;
 		}
 
 		return;
@@ -1223,7 +1223,7 @@ void CHLTVServer::StopRecordingAndFreeFrames( bool bFreeFrames, const CGameInfo 
 
 	//clear our current frame since we are flushing all of our frames
 	if( bFreeFrames )
-		m_CurrentFrame = NULL;
+		m_CurrentFrame = nullptr;
 
 	//flush any remaining current frames that we have
 	while ( pFrame )
@@ -1338,7 +1338,7 @@ void CHLTVServer::UninstallStringTables( void )
 		if ( !serverTable )
 			continue;
 
-		serverTable->SetMirrorTable( m_nInstanceIndex, NULL ); // alternatively, we could find serverTable again and remove mirror table by pointer. It would be a bit more fragile and slower.
+		serverTable->SetMirrorTable( m_nInstanceIndex, nullptr); // alternatively, we could find serverTable again and remove mirror table by pointer. It would be a bit more fragile and slower.
 	}
 }
 
@@ -1452,7 +1452,7 @@ CHLTVEntityData *FindHLTVDataInSnapshot( CFrameSnapshot * pSnapshot, int iEntInd
 
 	if ( iEntIndex < pSnapshot->m_pValidEntities[a] ||
 		 iEntIndex > pSnapshot->m_pValidEntities[z] )
-		 return NULL;
+		 return nullptr;
 	
 	while ( a < z )
 	{
@@ -1469,7 +1469,7 @@ CHLTVEntityData *FindHLTVDataInSnapshot( CFrameSnapshot * pSnapshot, int iEntInd
 				return &pSnapshot->m_pHLTVEntityData[z];
 
 			if ( a == m )
-				return NULL;
+				return nullptr;
 
 			a = m;
 		}
@@ -1479,13 +1479,13 @@ CHLTVEntityData *FindHLTVDataInSnapshot( CFrameSnapshot * pSnapshot, int iEntInd
 				return &pSnapshot->m_pHLTVEntityData[a];
 
 			if ( z == m )
-				return NULL;
+				return nullptr;
 
 			z = m;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CHLTVServer::EntityPVSCheck( CClientFrame *pFrame )
@@ -1598,12 +1598,12 @@ CFrameSnapshot* CHLTVServer::CloneDeltaSnapshot( const CFrameSnapshot *pCopySnap
 	pNewSnapshot->m_nTickCount = pCopySnapshot->m_nTickCount;
 
 	//note that we do not copy over the valid entities list. We only copy over info for valid entities, so it is already properly collapsed, and we can save memory by ignoring this
-	pNewSnapshot->m_pValidEntities = NULL;
+	pNewSnapshot->m_pValidEntities = nullptr;
 	pNewSnapshot->m_nValidEntities = 0;
 
 	//we don't need to copy over the events. The HLTV frame will actually copy over all the bits from the frame for the temporary entities, so we do not need to serialize this
 	pNewSnapshot->m_nTempEntities = 0;
-	pNewSnapshot->m_pTempEntities = NULL;
+	pNewSnapshot->m_pTempEntities = nullptr;
 
 	return pNewSnapshot;
 }
@@ -1697,10 +1697,10 @@ static SerializedEntityHandle_t CreateDeltaProperties( int nTick, const PackedEn
 //given a current and previous packed data, this will determine if the entity data changed, and if so, will setup the new recipient list with the appropraite information
 static CSendProxyRecipients* CopyRecipientList( const PackedEntity* pCurrFramePacked, const PackedEntity* pPrevFramePacked )
 {
-	if( ( pPrevFramePacked != NULL ) && pCurrFramePacked->CompareRecipients( CUtlMemory< CSendProxyRecipients >( pPrevFramePacked->GetRecipients(), pPrevFramePacked->GetNumRecipients() ) ) )
+	if( ( pPrevFramePacked != nullptr) && pCurrFramePacked->CompareRecipients( CUtlMemory< CSendProxyRecipients >( pPrevFramePacked->GetRecipients(), pPrevFramePacked->GetNumRecipients() ) ) )
 	{
 		//they match, so we don't need a delta buffer
-		return NULL;
+		return nullptr;
 	}
 
 	//if we got down here there is a mismatch, so just copy the new list
@@ -1722,13 +1722,13 @@ void CHLTVServer::CreateDeltaFrameEntities( SHLTVDeltaFrame_t *pOutputEntities, 
 	//allocate memory for us to actually store the objects
 	pOutputEntities->m_nTotalEntities		= pCurrFrame->m_nNumEntities;
 	pOutputEntities->m_nNumValidEntities	= pCurrFrame->m_nValidEntities;
-	pOutputEntities->m_pEntities			= NULL;
+	pOutputEntities->m_pEntities			= nullptr;
 	pOutputEntities->m_pCopyEntities		= new uint32 [ nNumCopyInts ];
 	memset( pOutputEntities->m_pCopyEntities, 0, sizeof(uint32) * nNumCopyInts );
 
 	//the index into our current previous frame so that we can find old versions of the object to delta against
-	const uint16 *pPrevEntityIndex		= ( pPrevFrame ) ? pPrevFrame->m_pValidEntities : NULL;
-	const uint16 *pPrevEndEntityIndex	= ( pPrevFrame ) ? pPrevEntityIndex + pPrevFrame->m_nValidEntities : NULL;
+	const uint16 *pPrevEntityIndex		= ( pPrevFrame ) ? pPrevFrame->m_pValidEntities : nullptr;
+	const uint16 *pPrevEndEntityIndex	= ( pPrevFrame ) ? pPrevEntityIndex + pPrevFrame->m_nValidEntities : nullptr;
 
 	//the tick that we want to compare changes against
 	int nChangeTick = ( pPrevFrame ) ? pPrevFrame->m_nTickCount : -1;
@@ -1745,7 +1745,7 @@ void CHLTVServer::CreateDeltaFrameEntities( SHLTVDeltaFrame_t *pOutputEntities, 
 
 		//see if we can find a previous entity in order to diff ourself against
 		bool bReuseOriginal = false;
-		const PackedEntity* pPrevFramePacked = NULL;
+		const PackedEntity* pPrevFramePacked = nullptr;
 		for( ; pPrevEntityIndex != pPrevEndEntityIndex; ++pPrevEntityIndex )
 		{
 			//see if our entity is higher than our current one, if so, we need to stop searching and let our current frame list catch up
@@ -1839,7 +1839,7 @@ void CHLTVServer::AddNewDeltaFrame( CClientFrame *pClientFrame )
 	Assert( pClientFrame->tick_count > m_nLastTick );
 
 	//if we don't have any frames encoded, we will be doing an absolute encode, so we can just store the frame direct (saves a lot of time and allocations)
-	if( m_pLastSourceSnapshot == NULL )
+	if( m_pLastSourceSnapshot == nullptr)
 	{
 		Assert( ( m_pLastTargetSnapshot == NULL ) && ( m_nFirstTick < 0 ) );
 
@@ -1864,8 +1864,8 @@ void CHLTVServer::AddNewDeltaFrame( CClientFrame *pClientFrame )
 
 	//first off allocate our holding frame and client information
 	SHLTVDeltaFrame_t *pNewDeltaFrame = new SHLTVDeltaFrame_t;
-	pNewDeltaFrame->m_pNewerDeltaFrame = NULL;
-	pNewDeltaFrame->m_pRelativeFrame = NULL;
+	pNewDeltaFrame->m_pNewerDeltaFrame = nullptr;
+	pNewDeltaFrame->m_pRelativeFrame = nullptr;
 
 	//Uncomment these lines if you want to enable validation support
 	{
@@ -1905,7 +1905,7 @@ void CHLTVServer::AddNewDeltaFrame( CClientFrame *pClientFrame )
 
 	// reset HLTV frame for recording next messages etc.
 	m_HLTVFrame.Reset();
-	m_HLTVFrame.SetSnapshot( NULL );
+	m_HLTVFrame.SetSnapshot(nullptr);
 
 	//update our references to point to our latest snapshots for subsequent encodes/decodes
 	if( m_pLastSourceSnapshot )
@@ -2206,7 +2206,7 @@ void CHLTVServer::ExpandDeltaFrameToFullFrame( SHLTVDeltaFrame_t *pDeltaFrame )
 
 			//see if we can find a previous entity in order to diff ourself against
 			PackedEntityHandle_t PrevPackedHandle = INVALID_PACKED_ENTITY_HANDLE;
-			PackedEntity *pPrevPacked = NULL;
+			PackedEntity *pPrevPacked = nullptr;
 
 			if( nCurrEntity < nPrevFrameEntities )
 			{
@@ -2222,7 +2222,7 @@ void CHLTVServer::ExpandDeltaFrameToFullFrame( SHLTVDeltaFrame_t *pDeltaFrame )
 			//now the packed entity contents
 			PackedEntity* pNewPacked = framesnapshotmanager->CreateLocalPackedEntity( pSnapshot, pDeltaEntity->m_nSourceIndex );
 
-			pNewPacked->SetServerAndClientClass( pDeltaEntity->m_pServerClass, NULL );
+			pNewPacked->SetServerAndClientClass( pDeltaEntity->m_pServerClass, nullptr);
 			pNewPacked->SetSnapshotCreationTick( pDeltaEntity->m_nSnapshotCreationTick );		
 
 			//update our entities (which we either have stored, or we need to take from the previous frame)
@@ -2278,7 +2278,7 @@ void CHLTVServer::ExpandDeltaFrameToFullFrame( SHLTVDeltaFrame_t *pDeltaFrame )
 		{
 			//we don't have this object on this frame, so clear it out
 			pCurrEntity->m_nSerialNumber	= -1;
-			pCurrEntity->m_pClass			= NULL;
+			pCurrEntity->m_pClass			= nullptr;
 			pCurrEntity->m_pPackedData		= INVALID_PACKED_ENTITY_HANDLE;
 		}
 	}	
@@ -2306,12 +2306,12 @@ void CHLTVServer::ExpandDeltaFramesToTick( int nTick )
 		AddClientFrame( pFrame->m_pClientFrame );
 
 		//give up ownership of it since someone else is now holding onto it
-		pFrame->m_pClientFrame = NULL;
+		pFrame->m_pClientFrame = nullptr;
 
 		//remove this frame from our list
 		m_pOldestDeltaFrame = m_pOldestDeltaFrame->m_pNewerDeltaFrame;
-		if( m_pOldestDeltaFrame == NULL )
-			m_pNewestDeltaFrame = NULL;
+		if( m_pOldestDeltaFrame == nullptr)
+			m_pNewestDeltaFrame = nullptr;
 
 		//and nuke the memory
 		delete pFrame;
@@ -2331,7 +2331,7 @@ void CHLTVServer::FreeAllDeltaFrames( )
 	}
 
 	//and make sure to completely reset our list
-	m_pNewestDeltaFrame = NULL;
+	m_pNewestDeltaFrame = nullptr;
 }
 
 
@@ -2408,7 +2408,7 @@ CClientFrame *CHLTVServer::AddNewFrame( CClientFrame *clientFrame )
 
 	// reset HLTV frame for recording next messages etc.
 	m_HLTVFrame.Reset();
-	m_HLTVFrame.SetSnapshot( NULL );
+	m_HLTVFrame.SetSnapshot(nullptr);
 
 	return hltvFrame;
 }
@@ -2509,7 +2509,7 @@ void CHLTVServer::UpdateStats( void )
 	m_fNextSendUpdateTime = net_time + 8.0f;
 	
 	// fire game event for everyone
-	IGameEvent *event = NULL; 
+	IGameEvent *event = nullptr; 
 
 	if ( !IsMasterProxy() && !m_ClientState.IsConnected() )
 	{
@@ -2689,7 +2689,7 @@ bool CHLTVServer::SendNetMsg( INetMessage &msg, bool bForceReliable, bool bVoice
 bf_write *CHLTVServer::GetBuffer( int nBuffer )
 {
 	if ( nBuffer < 0 || nBuffer >= HLTV_BUFFER_MAX )
-		return NULL;
+		return nullptr;
 
 	return &m_HLTVFrame.m_Messages[nBuffer];
 }
@@ -2789,7 +2789,7 @@ void CHLTVServer::UpdateTick( void )
 	if ( m_nFirstTick < 0 )
 	{
 		m_nTickCount = 0;
-		m_CurrentFrame = NULL;
+		m_CurrentFrame = nullptr;
 		return;
 	}
 
@@ -2814,7 +2814,7 @@ void CHLTVServer::UpdateTick( void )
 	// the the closest available frame
 	CHLTVFrame *newFrame = (CHLTVFrame*) GetClientFrame( nNewTick, false );
 
-	if ( newFrame == NULL )
+	if ( newFrame == nullptr)
 		return; // we dont have a new frame
 	
 	if ( m_CurrentFrame == newFrame )
@@ -2878,10 +2878,10 @@ void CHLTVServer::Clear( void )
 {
 	CBaseServer::Clear();
 
-	m_Director = NULL;
-	m_MasterClient = NULL;
+	m_Director = nullptr;
+	m_MasterClient = nullptr;
 	m_ClientState.Clear();
-	m_Server = NULL;
+	m_Server = nullptr;
 	m_nFirstTick = -1;
 	m_nLastTick = 0;
 	m_nTickCount = 0;
@@ -2918,7 +2918,7 @@ void CHLTVServer::Changelevel( bool bInactivateClients )
 		InactivateClients();
 	}
 
-	m_CurrentFrame = NULL;
+	m_CurrentFrame = nullptr;
 
 	m_HLTVFrame.FreeBuffers();
 	m_vPVSOrigin.Init();
@@ -2936,12 +2936,12 @@ void CHLTVServer::Changelevel( bool bInactivateClients )
 	if( m_pLastSourceSnapshot )
 	{
 		m_pLastSourceSnapshot->ReleaseReference();
-		m_pLastSourceSnapshot = NULL;
+		m_pLastSourceSnapshot = nullptr;
 	}
 	if( m_pLastTargetSnapshot )
 	{
 		m_pLastTargetSnapshot->ReleaseReference();
-		m_pLastTargetSnapshot = NULL;
+		m_pLastTargetSnapshot = nullptr;
 	}
 
 	// Free all avatar data
@@ -3055,7 +3055,7 @@ bool CHLTVServer::StartPlayback( const char *filename, bool bAsTimeDemo, CDemoPl
 	}
 	
 	// create a fake channel with a NULL address (no encryption)
-	m_ClientState.m_NetChannel = NET_CreateNetChannel( NS_CLIENT, NULL, "DEMO", &m_ClientState, NULL, false );
+	m_ClientState.m_NetChannel = NET_CreateNetChannel( NS_CLIENT, nullptr, "DEMO", &m_ClientState, nullptr, false );
 
 	if ( !m_ClientState.m_NetChannel )
 	{
@@ -3081,7 +3081,7 @@ bool CHLTVServer::StartPlayback( const char *filename, bool bAsTimeDemo, CDemoPl
 	ConMsg( "Reading time :%.4f\n", diff );
 
 	NET_RemoveNetChannel( m_ClientState.m_NetChannel, true );
-	m_ClientState.m_NetChannel = NULL;
+	m_ClientState.m_NetChannel = nullptr;
 
 	return true;
 }
@@ -3332,7 +3332,7 @@ const char *CHLTVServer::GetPassword() const
 	// if password is empty or "none", return NULL
 	if ( !password[0] || !Q_stricmp(password, "none" ) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return password;
@@ -3349,7 +3349,7 @@ const char *CHLTVServer::GetHltvRelayPassword() const
 	// if password is empty or "none", return NULL
 	if ( !password[0] || !Q_stricmp(password, "none" ) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return password;
@@ -3405,7 +3405,7 @@ bool CHLTVServer::GetRedirectAddressForConnectClient( const ns_address &adr, CUt
 	if ( tv_dispatchmode.GetInt() <= DISPATCH_MODE_OFF )
 		return false; // don't redirect
 	
-	CBaseClient	*pBestProxy = NULL;
+	CBaseClient	*pBestProxy = nullptr;
 	float fBestRatio = 1.0f;
 
 	// find best relay proxy
@@ -3434,7 +3434,7 @@ bool CHLTVServer::GetRedirectAddressForConnectClient( const ns_address &adr, CUt
 		}
 	}
 
-	if ( pBestProxy == NULL )
+	if ( pBestProxy == nullptr)
 	{
 		if ( tv_dispatchmode.GetInt() == DISPATCH_MODE_ALWAYS )
 		{
@@ -3909,7 +3909,7 @@ CON_COMMAND( tv_clients, "Shows list of connected GOTV clients [-instance <inst>
 				continue;
 
 			bool bClientIsHLTV = client->IsHLTV();
-			char const *szClientHLTVRedirect = bClientIsHLTV ? client->GetUserSetting( "hltv_addr" ) : NULL;
+			char const *szClientHLTVRedirect = bClientIsHLTV ? client->GetUserSetting( "hltv_addr" ) : nullptr;
 
 			ConMsg( "ID: %i, \"%s\"%s, Time %s, %s%s%s, In %.1f, Out %.1f.\n",
 				client->GetUserID(),
@@ -4051,7 +4051,7 @@ void EditDemo_f( const CCommand &args )
 
 		hltv->m_ClientState.m_bSaveMemory = true;
 
-		hltv->StartPlayback( name, false, NULL, -1 );
+		hltv->StartPlayback( name, false, nullptr, -1 );
 	}
 }
 

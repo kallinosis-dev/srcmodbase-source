@@ -76,7 +76,7 @@ CGameUIScript::CGameUIScript( )
 	m_pScriptVM->SetErrorCallback( ScriptErrorFunc );
 
 	m_IsActive = false;
-	m_pGameUIScriptInterface = NULL;
+	m_pGameUIScriptInterface = nullptr;
 	m_Version = -1;
 	m_Name = "unknown";
 }
@@ -94,7 +94,7 @@ void CGameUIScript::Shutdown()
 	if ( m_pGameUIScriptInterface )
 	{
 		delete m_pGameUIScriptInterface;
-		m_pGameUIScriptInterface = NULL;
+		m_pGameUIScriptInterface = nullptr;
 	}
 }
 
@@ -108,7 +108,7 @@ bool CGameUIScript::SetScript( const char *pszFileName, CGameUIDefinition *pDef 
 	m_ScriptFile = pszFileName;
 	m_pGameUIScriptInterface = new CGameUIScriptInterface( m_pScriptVM, pDef );
 	
-	if ( GameUIScriptSystemRun( m_pScriptVM, m_ScriptFile, NULL, true ) == false )
+	if ( GameUIScriptSystemRun( m_pScriptVM, m_ScriptFile, nullptr, true ) == false )
 	{
 		return false;
 	}
@@ -143,7 +143,7 @@ bool CGameUIScript::SetScript( const char *pszFileName, CGameUIDefinition *pDef 
 bool CGameUIScript::GetScriptName( )
 {
 	HSCRIPT ExecuteFuncProc = m_pScriptVM->LookupFunction( "Name", m_Scope );
-	if ( ExecuteFuncProc == NULL )
+	if ( ExecuteFuncProc == nullptr)
 	{
 		return false;
 	}
@@ -166,7 +166,7 @@ bool CGameUIScript::GetScriptName( )
 bool CGameUIScript::GetScriptVersion( )
 {
 	HSCRIPT ExecuteFuncProc = m_pScriptVM->LookupFunction( "Version", m_Scope );
-	if ( ExecuteFuncProc == NULL )
+	if ( ExecuteFuncProc == nullptr)
 	{
 		return false;
 	}
@@ -197,7 +197,7 @@ bool CGameUIScript::Execute( KeyValues *pData, KeyValues **ppResult )
 {
 	const char *eventName = pData->GetName();
 	HSCRIPT ExecuteFuncProc = m_pScriptVM->LookupFunction( eventName, m_Scope );
-	if ( ExecuteFuncProc == NULL )
+	if ( ExecuteFuncProc == nullptr)
 	{
 		return false;
 	}

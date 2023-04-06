@@ -78,7 +78,7 @@ class CSelectionOverlayPanel : public vgui::Panel
 	int m_iChapterIndex;
 	CNewGameDialog *m_pSelectionTarget;
 public:
-	CSelectionOverlayPanel( Panel *parent, CNewGameDialog *selectionTarget, int chapterIndex ) : BaseClass( parent, NULL )
+	CSelectionOverlayPanel( Panel *parent, CNewGameDialog *selectionTarget, int chapterIndex ) : BaseClass( parent, nullptr)
 	{
 		m_iChapterIndex = chapterIndex;
 		m_pSelectionTarget = selectionTarget;
@@ -138,7 +138,7 @@ public:
 
 		m_pLevelPicBorder = SETUP_PANEL( new ImagePanel( this, "LevelPicBorder" ) );
 		m_pLevelPic = SETUP_PANEL( new ImagePanel( this, "LevelPic" ) );
-		m_pCommentaryIcon = NULL;
+		m_pCommentaryIcon = nullptr;
 		m_bCommentaryMode = bCommentary;
 
 		wchar_t text[32];
@@ -170,13 +170,13 @@ public:
 		}
 		m_pLevelPic->SetImage( szMaterial );
 
-		KeyValues *pKeys = NULL;
+		KeyValues *pKeys = nullptr;
 		if ( GameUI().IsConsoleUI() )
 		{
 			// JDW FIXME: Cannot call BasePanel() at this time!
 			// pKeys = BasePanel()->GetConsoleControlSettings()->FindKey( "NewGameChapterPanel.res" );
 		}
-		LoadControlSettings( "Resource/NewGameChapterPanel.res", NULL, pKeys );
+		LoadControlSettings( "Resource/NewGameChapterPanel.res", nullptr, pKeys );
 
 		int px, py;
 		m_pLevelPicBorder->GetPos( px, py );
@@ -294,7 +294,7 @@ CNewGameDialog::CNewGameDialog(vgui::Panel *parent, bool bCommentaryMode) : Base
 	m_ScrollSpeed = 0.f;
 	m_ButtonPressed = SCROLL_NONE;
 	m_ScrollDirection = SCROLL_NONE;
-	m_pCommentaryLabel = NULL;
+	m_pCommentaryLabel = nullptr;
 
 	m_iBonusSelection = 0;
 	m_bScrollToFirstBonusMap = false;
@@ -340,7 +340,7 @@ CNewGameDialog::CNewGameDialog(vgui::Panel *parent, bool bCommentaryMode) : Base
 	}
 	else
 	{
-		m_pFooter = NULL;
+		m_pFooter = nullptr;
 	}
 
 	// parse out the chapters off disk
@@ -456,7 +456,7 @@ CNewGameDialog::CNewGameDialog(vgui::Panel *parent, bool bCommentaryMode) : Base
 		Q_snprintf(chapterName, sizeof(chapterName), "#%s_Chapter%s_Title", pGameDir, chapterID);
 
 		Q_snprintf( szFullFileName, sizeof( szFullFileName ), "%s", fileName );
-		CGameChapterPanel *chapterPanel = SETUP_PANEL( new CGameChapterPanel( this, NULL, chapterName, i, chapterID, szFullFileName, m_bCommentaryMode ) );
+		CGameChapterPanel *chapterPanel = SETUP_PANEL( new CGameChapterPanel( this, nullptr, chapterName, i, chapterID, szFullFileName, m_bCommentaryMode ) );
 		chapterPanel->SetVisible( false );
 
 		UpdatePanelLockedStatus( iUnlockedChapter, i + 1, chapterPanel );
@@ -481,13 +481,13 @@ CNewGameDialog::CNewGameDialog(vgui::Panel *parent, bool bCommentaryMode) : Base
 		m_ChapterPanels.AddToTail( chapterPanel );
 	}
 
-	KeyValues *pKeys = NULL;
+	KeyValues *pKeys = nullptr;
 	if ( GameUI().IsConsoleUI() )
 	{
 		// JDW FIXME: Cannot call BasePanel() at this point
 		// pKeys = BasePanel()->GetConsoleControlSettings()->FindKey( "NewGameDialog.res" );
 	}
-	LoadControlSettings( "Resource/NewGameDialog.res", NULL, pKeys );
+	LoadControlSettings( "Resource/NewGameDialog.res", nullptr, pKeys );
 
 	// Reset all properties
 	for ( int i = 0; i < NUM_SLOTS; ++i )
@@ -529,7 +529,7 @@ CNewGameDialog::CNewGameDialog(vgui::Panel *parent, bool bCommentaryMode) : Base
 CNewGameDialog::~CNewGameDialog()
 {
 	delete m_pFooter;
-	m_pFooter = NULL;
+	m_pFooter = nullptr;
 }
 
 void CNewGameDialog::Activate( void )
@@ -599,7 +599,7 @@ void CNewGameDialog::ApplySchemeSettings( vgui::IScheme *pScheme )
 	if ( m_pFooter )
 	{
 		KeyValues *pFooterControlSettings = BasePanel()->GetConsoleControlSettings()->FindKey( "NewGameFooter.res" );
-		m_pFooter->LoadControlSettings( "null", NULL, pFooterControlSettings );
+		m_pFooter->LoadControlSettings( "null", nullptr, pFooterControlSettings );
 	}
 
 	UpdateMenuComponents( SCROLL_NONE );
@@ -694,7 +694,7 @@ void CNewGameDialog::UpdateMenuComponents( EScrollDirection dir )
 		}
 		else
 		{
-			m_pBonusMapDescription = NULL;
+			m_pBonusMapDescription = nullptr;
 		}
 
 		vgui::Panel *upArrow = this->FindChildByName( "UpArrow" );
@@ -789,7 +789,7 @@ void CNewGameDialog::UpdateBonusSelection( void )
 			Q_snprintf( szMapAdvancedName, sizeof( szMapAdvancedName ), "%s_advanced", m_pBonusMapDescription->szMapFileName );
 		}
 
-		BonusMapDescription_t *pAdvancedDescription = NULL;
+		BonusMapDescription_t *pAdvancedDescription = nullptr;
 
 		// Find the bonus description for this panel
 		for ( int iBonus = 0; iBonus < BonusMapsDatabase()->BonusCount(); ++iBonus )

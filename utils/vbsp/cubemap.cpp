@@ -105,7 +105,7 @@ static const char *FindSkyboxMaterialName( void )
 			return ValueForKey( &g_MainMap->entities[i], "skyname" );
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 static void BackSlashToForwardSlash( char *pname )
@@ -142,7 +142,7 @@ static const char *s_pDependentMaterialVar[] =
 	"",					// Always must be last
 };
 
-static const char *FindDependentMaterial( const char *pMaterialName, const char **ppMaterialVar = NULL )
+static const char *FindDependentMaterial( const char *pMaterialName, const char **ppMaterialVar = nullptr)
 {
 	// FIXME: This is a terrible way of doing this! It creates a dependency
 	// between vbsp and *all* code which reads dependent materials from materialvars
@@ -182,7 +182,7 @@ static const char *FindDependentMaterial( const char *pMaterialName, const char 
 		return pDependentMaterialName;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void VTFNameToHDRVTFName( const char *pSrcName, char *pDest, int maxLen, bool bHDR )
@@ -298,7 +298,7 @@ void Cubemap_SaveBrushSides( const char *pSideListStr )
 		{
 			brushSidesVector.AddToTail( brushSideID );
 		}
-	} while( ( pScan = strtok( NULL, " " ) ) );
+	} while( ( pScan = strtok(nullptr, " " ) ) );
 }
 
 
@@ -342,7 +342,7 @@ static bool PatchEnvmapForMaterialAndDependents( const char *pMaterialName, cons
 
 	// See if we have a dependent material to patch
 	bool bDependentMaterialPatched = false;
-	const char *pDependentMaterialVar = NULL;
+	const char *pDependentMaterialVar = nullptr;
 	const char *pDependentMaterial = FindDependentMaterial( pMaterialName, &pDependentMaterialVar );
 	if ( pDependentMaterial )
 	{

@@ -16,8 +16,8 @@
 #include "tier0/icommandline.h"
 #include "tier2/tier2.h"
 
-CreateInterfaceFn g_MatSysFactory = NULL;
-CreateInterfaceFn g_ShaderAPIFactory = NULL;
+CreateInterfaceFn g_MatSysFactory = nullptr;
+CreateInterfaceFn g_ShaderAPIFactory = nullptr;
 
 class CShaderDLLInfo
 {
@@ -42,7 +42,7 @@ bool LoadShaderDLL( const char *pFilename )
 		return false;
 	}
 
-	IShaderDLLInternal *pShaderDLL = (IShaderDLLInternal*)factory( SHADER_DLL_INTERFACE_VERSION, NULL );
+	IShaderDLLInternal *pShaderDLL = (IShaderDLLInternal*)factory( SHADER_DLL_INTERFACE_VERSION, nullptr);
 	if ( !pShaderDLL )
 	{
 		g_pFullFileSystem->UnloadModule( hInstance );

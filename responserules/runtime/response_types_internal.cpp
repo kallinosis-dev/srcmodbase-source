@@ -92,8 +92,7 @@ ResponseRulePartition::tRuleDict &ResponseRulePartition::GetDictForRule( CRespon
 	return m_RuleParts[ 
 		GetBucketForSpeakerAndConcept( pszSpeaker, pszConcept, 
 			( pSubjCrit && pSubjCrit->required && CanBucketBySubject(pSubjCrit->value) ) ? 
-			pSubjCrit->value : 
-		NULL ) 
+			pSubjCrit->value : nullptr) 
 	];
 }
 
@@ -105,16 +104,16 @@ void ResponseRulePartition::GetDictsForCriteria( CUtlVectorFixed< ResponseRulePa
 
 	// get the values for Who and Concept, which are what we bucket on
 	int speakerIdx = criteria.FindCriterionIndex( "Who" );
-	const char *pszSpeaker = speakerIdx != -1 ? criteria.GetValue( speakerIdx ) : NULL ;
+	const char *pszSpeaker = speakerIdx != -1 ? criteria.GetValue( speakerIdx ) : nullptr;
 
 	int conceptIdx = criteria.FindCriterionIndex( "Concept" );
-	const char *pszConcept = conceptIdx != -1 ? criteria.GetValue( conceptIdx ) : NULL ;
+	const char *pszConcept = conceptIdx != -1 ? criteria.GetValue( conceptIdx ) : nullptr;
 
 	int subjectIdx = criteria.FindCriterionIndex( "Subject" );
-	const char *pszSubject = subjectIdx != -1 ? criteria.GetValue( subjectIdx ) : NULL ;
+	const char *pszSubject = subjectIdx != -1 ? criteria.GetValue( subjectIdx ) : nullptr;
 
 	pResult->AddToTail( &m_RuleParts[ GetBucketForSpeakerAndConcept(pszSpeaker, pszConcept, pszSubject) ] );
 	// also try the rules not specifying subject
-	pResult->AddToTail( &m_RuleParts[ GetBucketForSpeakerAndConcept(pszSpeaker, pszConcept, NULL) ] );
+	pResult->AddToTail( &m_RuleParts[ GetBucketForSpeakerAndConcept(pszSpeaker, pszConcept, nullptr) ] );
 
 }

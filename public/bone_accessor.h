@@ -63,14 +63,14 @@ private:
 
 inline CBoneAccessor::CBoneAccessor()
 {
-	m_pAnimating = NULL;
-	m_pBones = NULL;
+	m_pAnimating = nullptr;
+	m_pBones = nullptr;
 	m_ReadableBones = m_WritableBones = 0;
 }
 
 inline CBoneAccessor::CBoneAccessor( matrix3x4a_t *pBones )
 {
-	m_pAnimating = NULL;
+	m_pAnimating = nullptr;
 	m_pBones = pBones;
 }
 

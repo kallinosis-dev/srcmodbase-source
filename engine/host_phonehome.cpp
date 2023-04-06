@@ -56,7 +56,7 @@ public:
 	CPhoneHome() :
 		m_bPhoneHome( false ),
 		m_uSessionID( 0 ),
-		m_pSocket( 0 )
+		m_pSocket( nullptr )
 	{
 		  Q_memset( &m_cserIP, 0, sizeof( m_cserIP ) );
 		  Q_memset( m_szBuildIdentifier, 0, sizeof( m_szBuildIdentifier ) );
@@ -65,7 +65,7 @@ public:
 	virtual void Shutdown()
 	{
 		delete m_pSocket;
-		m_pSocket = NULL;
+		m_pSocket = nullptr;
 	}
 
 	virtual void Init()
@@ -288,7 +288,7 @@ private:
 		encrypted.WriteFloat( (float)realtime );
 
 		encrypted.WriteByte( msgtype );
-		if ( mapname != NULL )
+		if ( mapname != nullptr)
 		{
 			encrypted.WriteString( mapname );
 		}
@@ -368,7 +368,7 @@ private:
 		
 		buf.StartWriting( data, sizeof( data ) );
 
-		BuildMessage( buf, PHONE_MSG_ENGINESTART, NULL, id );
+		BuildMessage( buf, PHONE_MSG_ENGINESTART, nullptr, id );
 
 		struct sockaddr_in sa;
 

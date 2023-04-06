@@ -19,7 +19,7 @@ class CScenePreviewDlg : public CDialog
 // Construction
 public:
 	// Note: the dialog now owns the scene and it'll delete it when it goes away.
-	CScenePreviewDlg( CChoreoScene *pScene, const char *pSceneFilename, CWnd* pParent = NULL );   // standard constructor
+	CScenePreviewDlg( CChoreoScene *pScene, const char *pSceneFilename, CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CScenePreviewDlg();
 	
 // Dialog Data

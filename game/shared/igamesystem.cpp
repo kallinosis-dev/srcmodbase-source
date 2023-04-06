@@ -32,14 +32,14 @@ typedef void (IGameSystem::*GameSystemFunc_t)();
 typedef void (IGameSystemPerFrame::*PerFrameGameSystemFunc_t)();
 
 // Used to invoke a method of all added Game systems in order
-static void InvokeMethod( GameSystemFunc_t f, char const *timed = 0 );
+static void InvokeMethod( GameSystemFunc_t f, char const *timed = nullptr );
 // Used to invoke a method of all added Game systems in order
-static void InvokeMethodTickProgress( GameSystemFunc_t f, char const *timed = 0 );
+static void InvokeMethodTickProgress( GameSystemFunc_t f, char const *timed = nullptr );
 // Used to invoke a method of all added Game systems in reverse order
 static void InvokeMethodReverseOrder( GameSystemFunc_t f );
 
 // Used to invoke a method of all added Game systems in order
-static void InvokePerFrameMethod( PerFrameGameSystemFunc_t f, char const *timed = 0 );
+static void InvokePerFrameMethod( PerFrameGameSystemFunc_t f, char const *timed = nullptr );
 
 static bool s_bSystemsInitted = false; 
 
@@ -49,15 +49,15 @@ static CUtlVector<IGameSystem*> s_GameSystems( 0, 4 );
 static CUtlVector<IGameSystemPerFrame*> s_GameSystemsPerFrame( 0, 4 );
 
 // The map name
-static char* s_pMapName = 0;
+static char* s_pMapName = nullptr;
 
-static CBasePlayer *s_pRunCommandPlayer = NULL;
-static CUserCmd *s_pRunCommandUserCmd = NULL;
+static CBasePlayer *s_pRunCommandPlayer = nullptr;
+static CUserCmd *s_pRunCommandUserCmd = nullptr;
 
 //-----------------------------------------------------------------------------
 // Auto-registration of game systems
 //-----------------------------------------------------------------------------
-static	CAutoGameSystem *s_pSystemList = NULL;
+static	CAutoGameSystem *s_pSystemList = nullptr;
 
 CAutoGameSystem::CAutoGameSystem( char const *name ) :
 	m_pszName( name )
@@ -76,7 +76,7 @@ CAutoGameSystem::CAutoGameSystem( char const *name ) :
 	}
 }
 
-static	CAutoGameSystemPerFrame *s_pPerFrameSystemList = NULL;
+static	CAutoGameSystemPerFrame *s_pPerFrameSystemList = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: This is a CAutoGameSystem which also cares about the "per frame" hooks
@@ -121,7 +121,7 @@ IGameSystemPerFrame::~IGameSystemPerFrame()
 void IGameSystem::Add( IGameSystem* pSys )
 {
 	s_GameSystems.AddToTail( pSys );
-	if ( dynamic_cast< IGameSystemPerFrame * >( pSys ) != NULL )
+	if ( dynamic_cast< IGameSystemPerFrame * >( pSys ) != nullptr)
 	{
 		s_GameSystemsPerFrame.AddToTail( static_cast< IGameSystemPerFrame * >( pSys ) );
 	}
@@ -134,7 +134,7 @@ void IGameSystem::Add( IGameSystem* pSys )
 void IGameSystem::Remove( IGameSystem* pSys )
 {
 	s_GameSystems.FindAndRemove( pSys );
-	if ( dynamic_cast< IGameSystemPerFrame * >( pSys ) != NULL )
+	if ( dynamic_cast< IGameSystemPerFrame * >( pSys ) != nullptr)
 	{
 		s_GameSystemsPerFrame.FindAndRemove( static_cast< IGameSystemPerFrame * >( pSys ) );
 	}
@@ -192,7 +192,7 @@ bool IGameSystem::InitAllSystems()
 			}
 			pSystem = pSystem->m_pNext;
 		}
-		s_pSystemList = NULL;
+		s_pSystemList = nullptr;
 	}
 
 	{
@@ -210,7 +210,7 @@ bool IGameSystem::InitAllSystems()
 
 			pSystem = pSystem->m_pNext;
 		}
-		s_pSystemList = NULL;
+		s_pSystemList = nullptr;
 	}
 	// Now remember that we are initted so new CAutoGameSystems will add themselves automatically.
 	s_bSystemsInitted = true;
@@ -286,7 +286,7 @@ void IGameSystem::LevelShutdownPostEntityAllSystems()
 	if ( s_pMapName )
 	{
 		delete[] s_pMapName;
-		s_pMapName = 0;
+		s_pMapName = nullptr;
 	}
 }
 

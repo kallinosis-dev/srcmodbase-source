@@ -145,10 +145,10 @@ int C_TestTraceline::DrawModel( int flags, const RenderableInstance_t &instance 
 	AngleVectors (GetAbsAngles(), &forward, &right, &up);
 	endpos = GetAbsOrigin() + forward * MAX_TRACE_LENGTH;
 
-	UTIL_TraceLine( GetAbsOrigin(), endpos, MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceLine( GetAbsOrigin(), endpos, MASK_SOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &tr );
 
 	CMatRenderContextPtr pRenderContext( materials );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, m_pWireframe );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, m_pWireframe );
 
 	CMeshBuilder meshBuilder;
 	meshBuilder.Begin( pMesh, MATERIAL_LINES, 1 );

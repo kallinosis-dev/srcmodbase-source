@@ -160,8 +160,8 @@ public:
 	int Size( void ) const { return ( int ) size(); }
 	bool Add( char const *szString ) { return insert( szString ).second; }
 	void Remove( char const *szString ) { erase( szString ); }
-	char const * Lookup( char const *szString ) { const_iterator it = find( szString ); if ( end() != it ) return it->data(); else return NULL; }
-	char const * AddLookup( char const *szString ) { iterator it = insert( szString ).first; if ( end() != it ) return it->data(); else return NULL; }
+	char const * Lookup( char const *szString ) { const_iterator it = find( szString ); if ( end() != it ) return it->data(); else return nullptr; }
+	char const * AddLookup( char const *szString ) { iterator it = insert( szString ).first; if ( end() != it ) return it->data(); else return nullptr; }
 	void Clear( void ) { clear(); }
 };
 
@@ -334,7 +334,7 @@ END_EXPR_BINARY()
 class CComplexExpression : public IExpression
 {
 public:
-	CComplexExpression( IEvaluationContext *pCtx ) : m_pRoot( NULL ), m_pContext( pCtx ) { }
+	CComplexExpression( IEvaluationContext *pCtx ) : m_pRoot(nullptr), m_pContext( pCtx ) { }
 	~CComplexExpression() { Clear(); }
 
 	void Parse( char const *szExpression );
@@ -402,7 +402,7 @@ IExpression * CComplexExpression::ParseTopLevel( char *&szExpression )
 		}
 
 		// Determine the binary expression type
-		CExprBinary *pBinaryExpression = NULL;
+		CExprBinary *pBinaryExpression = nullptr;
 
 		if ( 0 )
 		{
@@ -410,42 +410,42 @@ IExpression * CComplexExpression::ParseTopLevel( char *&szExpression )
 		}
 		else if ( !strncmp( szExpression, "&&", 2 ) )
 		{
-			pBinaryExpression = new CExprBinary_And( NULL, NULL );
+			pBinaryExpression = new CExprBinary_And(nullptr, nullptr);
 			szExpression += 2;
 		}
 		else if ( !strncmp( szExpression, "||", 2 ) )
 		{
-			pBinaryExpression = new CExprBinary_Or( NULL, NULL );
+			pBinaryExpression = new CExprBinary_Or(nullptr, nullptr);
 			szExpression += 2;
 		}
 		else if ( !strncmp( szExpression, ">=", 2 ) )
 		{
-			pBinaryExpression = new CExprBinary_Ge( NULL, NULL );
+			pBinaryExpression = new CExprBinary_Ge(nullptr, nullptr);
 			szExpression += 2;
 		}
 		else if ( !strncmp( szExpression, "<=", 2 ) )
 		{
-			pBinaryExpression = new CExprBinary_Le( NULL, NULL );
+			pBinaryExpression = new CExprBinary_Le(nullptr, nullptr);
 			szExpression += 2;
 		}
 		else if ( !strncmp( szExpression, "==", 2 ) )
 		{
-			pBinaryExpression = new CExprBinary_Eq( NULL, NULL );
+			pBinaryExpression = new CExprBinary_Eq(nullptr, nullptr);
 			szExpression += 2;
 		}
 		else if ( !strncmp( szExpression, "!=", 2 ) )
 		{
-			pBinaryExpression = new CExprBinary_Neq( NULL, NULL );
+			pBinaryExpression = new CExprBinary_Neq(nullptr, nullptr);
 			szExpression += 2;
 		}
 		else if ( *szExpression == '>' )
 		{
-			pBinaryExpression = new CExprBinary_G( NULL, NULL );
+			pBinaryExpression = new CExprBinary_G(nullptr, nullptr);
 			++ szExpression;
 		}
 		else if ( *szExpression == '<' )
 		{
-			pBinaryExpression = new CExprBinary_L( NULL, NULL );
+			pBinaryExpression = new CExprBinary_L(nullptr, nullptr);
 			++ szExpression;
 		}
 		else
@@ -586,7 +586,7 @@ void CComplexExpression::Clear( void )
 	}
 
 	m_arrAllExpressions.Clear();
-	m_pRoot = NULL;
+	m_pRoot = nullptr;
 }
 
 
@@ -758,7 +758,7 @@ namespace ConfigurationProcessing
 	class CfgEntry
 	{
 	public:
-		CfgEntry() : m_szName( "" ), m_szShaderSrc( "" ), m_pCg( NULL ), m_pExpr( NULL ) { memset( &m_eiInfo, 0, sizeof( m_eiInfo ) ); }
+		CfgEntry() : m_szName( "" ), m_szShaderSrc( "" ), m_pCg(nullptr), m_pExpr(nullptr) { memset( &m_eiInfo, 0, sizeof( m_eiInfo ) ); }
 		static void Destroy( CfgEntry const &x ) { delete x.m_pCg; delete x.m_pExpr; }
 
 	public:
@@ -787,7 +787,7 @@ namespace ConfigurationProcessing
 		CfgEntry const *m_pEntry;
 
 	public:
-		ComboHandleImpl() : m_iTotalCommand( 0 ), m_iComboNumber( 0 ), m_numCombos( 0 ), m_pEntry( NULL ) {}
+		ComboHandleImpl() : m_iTotalCommand( 0 ), m_iComboNumber( 0 ), m_numCombos( 0 ), m_pEntry(nullptr) {}
 
 		// IEvaluationContext
 	public:
@@ -975,19 +975,19 @@ have_combo_iteration:
 
 	CUtlInplaceBuffer *& GetInputStream( CUtlInplaceBuffer * )
 	{
-		static CUtlInplaceBuffer *s_fInput = NULL;
+		static CUtlInplaceBuffer *s_fInput = nullptr;
 		return s_fInput;
 	}
 
 	char * GetLinePtr_Private( void )
 	{
-		if ( CUtlInplaceBuffer *pUtlBuffer = GetInputStream( ( CUtlInplaceBuffer * ) NULL ) )
+		if ( CUtlInplaceBuffer *pUtlBuffer = GetInputStream( ( CUtlInplaceBuffer * )nullptr) )
 			return pUtlBuffer->InplaceGetLinePtr();
 
-		if ( FILE *fInput = GetInputStream( ( FILE * ) NULL ) )
+		if ( FILE *fInput = GetInputStream( ( FILE * )nullptr) )
 			return fgets( g_chTmpBuffer, g_lenTmpBuffer, fInput );
 
-		return NULL;
+		return nullptr;
 	}
 
 	bool LineEquals( char const *sz1, char const *sz2, int nLen )
@@ -1007,7 +1007,7 @@ have_combo_iteration:
 			}
 			return szLine;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	char * WaitFor( char const *szWaitString, int nMatchLength )
@@ -1018,7 +1018,7 @@ have_combo_iteration:
 				return pchResult;
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	bool ProcessSection( CfgEntry &cfge )
@@ -1125,9 +1125,9 @@ have_combo_iteration:
 		OutputF( stdout, "Preparing %d combos for %s...\n", cfge.m_pCg->NumCombos(), cfge.m_szName );
 		OutputF( stderr, "#%s\n", cfge.m_szName );
 
-		time_t tt_start = time( NULL );
+		time_t tt_start = time(nullptr);
 		cfge.m_pCg->RunAllCombos( *cfge.m_pExpr );
-		time_t tt_end = time( NULL );
+		time_t tt_end = time(nullptr);
 
 		OutputF( stderr, "#%s\n", cfge.m_szName );
 		OutputF( stdout, "Prepared %s combos. %d sec.\n", cfge.m_szName, ( int ) difftime( tt_end, tt_start ) );
@@ -1148,9 +1148,9 @@ have_combo_iteration:
 		OutputF( stdout, "Preparing %d combos for %s...\n", cfge.m_pCg->NumCombos(), cfge.m_szName );
 		OutputF( stderr, "#%s\n", cfge.m_szName );
 
-		time_t tt_start = time( NULL );
+		time_t tt_start = time(nullptr);
 		cfge.m_pCg->RunAllCombos( *cfge.m_pExpr );
-		time_t tt_end = time( NULL );
+		time_t tt_end = time(nullptr);
 
 		OutputF( stderr, "#%s\n", cfge.m_szName );
 		OutputF( stdout, "Prepared %s combos. %d sec.\n", cfge.m_szName, ( int ) difftime( tt_end, tt_start ) );
@@ -1291,7 +1291,7 @@ ComboHandle Combo_GetCombo( uint64 iCommandNumber )
 
 	if ( chiFound.m_iTotalCommand < 0 ||
 		 chiFound.m_iTotalCommand > iCommandNumber )
-		 return NULL;
+		 return nullptr;
 
 	// Advance the handle as needed
 	CPCHI_t *pImpl = new CPCHI_t( chiFound );
@@ -1321,7 +1321,7 @@ ComboHandle Combo_GetNext( uint64 &riCommandNumber, ComboHandle &rhCombo, uint64
 			 !chiFound.m_pEntry->m_pExpr ||
 			 chiFound.m_iTotalCommand < 0 ||
 			 chiFound.m_iTotalCommand > riCommandNumber )
-			 return NULL;
+			 return nullptr;
 
 		// Advance the handle as needed
 		pImpl = new CPCHI_t( chiFound );
@@ -1347,9 +1347,9 @@ ComboHandle Combo_GetNext( uint64 &riCommandNumber, ComboHandle &rhCombo, uint64
 		if ( pImpl->m_iTotalCommand + 1 >= iCommandEnd )
 		{
 			delete pImpl;
-			rhCombo = NULL;
+			rhCombo = nullptr;
 			riCommandNumber = iCommandEnd;
-			return NULL;
+			return nullptr;
 		}
 
 		// Otherwise we just have to obtain the next combo handle
@@ -1357,7 +1357,7 @@ ComboHandle Combo_GetNext( uint64 &riCommandNumber, ComboHandle &rhCombo, uint64
 
 		// Delete the old combo handle
 		delete pImpl;
-		rhCombo = NULL;
+		rhCombo = nullptr;
 
 		// Retrieve the next combo handle data
 		uint64 iCommandLookup = riCommandNumber;
@@ -1401,7 +1401,7 @@ CfgEntryInfo const *Combo_GetEntryInfo( ComboHandle hCombo )
 	if ( CPCHI_t *pImpl = FromHandle( hCombo ) )
 		return &pImpl->m_pEntry->m_eiInfo;
 	else
-		return NULL;
+		return nullptr;
 }
 
 ComboHandle Combo_Alloc( ComboHandle hComboCopyFrom )
@@ -1421,7 +1421,7 @@ void Combo_Assign( ComboHandle hComboDst, ComboHandle hComboSrc )
 void Combo_Free( ComboHandle &rhComboFree )
 {
 	delete FromHandle( rhComboFree );
-	rhComboFree = NULL;
+	rhComboFree = nullptr;
 }
 
 }; // namespace CfgProcessor

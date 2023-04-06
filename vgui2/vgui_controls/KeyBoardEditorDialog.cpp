@@ -25,7 +25,7 @@ using namespace vgui;
 static char *CopyString( const char *in )
 {
 	if ( !in )
-		return NULL;
+		return nullptr;
 
 	int len = strlen( in );
 	char *n = new char[ len + 1 ];
@@ -33,7 +33,7 @@ static char *CopyString( const char *in )
 	return n;
 }
 
-CKeyBoardEditorPage::SaveMapping_t::SaveMapping_t() : map( 0 )
+CKeyBoardEditorPage::SaveMapping_t::SaveMapping_t() : map( nullptr )
 {
 }
 
@@ -93,7 +93,7 @@ class CInlineEditPanel : public vgui::Panel
 	DECLARE_CLASS_SIMPLE( CInlineEditPanel, vgui::Panel );
 
 public:
-	CInlineEditPanel() : vgui::Panel(NULL, "InlineEditPanel")
+	CInlineEditPanel() : vgui::Panel(nullptr, "InlineEditPanel")
 	{
 	}
 
@@ -418,7 +418,7 @@ void CKeyBoardEditorPage::BindKey( KeyCode code )
 	KeyValues *item = m_pList->GetItem(r);
 	if ( item )
 	{
-		BoundKey_t *kbMap = reinterpret_cast< BoundKey_t * >( item->GetPtr( "Item", 0 ) );
+		BoundKey_t *kbMap = reinterpret_cast< BoundKey_t * >( item->GetPtr( "Item", nullptr ) );
 		if ( kbMap )
 		{
 			KeyBindingMap_t *binding = m_pPanel->LookupBindingByKeyCode( code, modifiers );
@@ -436,7 +436,7 @@ void CKeyBoardEditorPage::BindKey( KeyCode code )
 			PopulateList();
 		}
 
-		KeyBindingMap_t *bindingMap = reinterpret_cast< KeyBindingMap_t * >( item->GetPtr( "Unbound", 0 ) );
+		KeyBindingMap_t *bindingMap = reinterpret_cast< KeyBindingMap_t * >( item->GetPtr( "Unbound", nullptr ) );
 		if ( bindingMap )
 		{
 			KeyBindingMap_t *binding = m_pPanel->LookupBindingByKeyCode( code, modifiers );
@@ -682,7 +682,7 @@ void CKeyBoardEditorPage::OnClearBinding( int item )
 		return;
 	}
 
-	BoundKey_t *kbMap = reinterpret_cast< BoundKey_t * >( kv->GetPtr( "Item", 0 ) );
+	BoundKey_t *kbMap = reinterpret_cast< BoundKey_t * >( kv->GetPtr( "Item", nullptr ) );
 	if ( !kbMap )
 	{
 		return;
@@ -706,7 +706,7 @@ CKeyBoardEditorSheet::CKeyBoardEditorSheet( Panel *parent, Panel *panelToEdit, K
 	SetSmallTabs( true );
 
 	// Create this sheet and add the subcontrols
-	CKeyBoardEditorPage *active = NULL;
+	CKeyBoardEditorPage *active = nullptr;
 
 	int subCount = Panel::GetPanelsWithKeyBindingsCount( handle );
 	for ( int i = 0; i < subCount; ++i )
@@ -740,7 +740,7 @@ void CKeyBoardEditorSheet::SetKeybindingsSaveFile( char const *filename, char co
 	Assert( filename );
 	m_bSaveToExternalFile = true;
 	m_SaveFileName = filename;
-	if ( pathID != NULL )
+	if ( pathID != nullptr)
 	{
 		m_SaveFilePathID = pathID;
 	}
@@ -761,7 +761,7 @@ void CKeyBoardEditorSheet::OnSaveChanges()
 
 	if ( m_bSaveToExternalFile )
 	{
-		m_hPanel->SaveKeyBindingsToFile( m_Handle, m_SaveFileName.String(), m_SaveFilePathID.IsValid() ? m_SaveFilePathID.String() : NULL );
+		m_hPanel->SaveKeyBindingsToFile( m_Handle, m_SaveFileName.String(), m_SaveFilePathID.IsValid() ? m_SaveFilePathID.String() : nullptr);
 	}
 	else
 	{

@@ -27,10 +27,10 @@ CMatchSessionOnlineHost::CMatchSessionOnlineHost( KeyValues *pSettings ) :
 	m_pSysData( new KeyValues( "SysSessionData", "type", "host" ) ),
 	m_autodelete_pSysData( m_pSysData ),
 	m_eState( STATE_INIT ),
-	m_pSysSession( NULL ),
-	m_pDsSearcher( NULL ),
-	m_pTeamSearcher( NULL ),
-	m_pMatchSearcher( NULL )
+	m_pSysSession(nullptr),
+	m_pDsSearcher(nullptr),
+	m_pTeamSearcher(nullptr),
+	m_pMatchSearcher(nullptr)
 {
 	DevMsg( "Created CMatchSessionOnlineHost:\n" );
 	KeyValuesDumpAsDevMsg( m_pSettings, 1 );
@@ -50,10 +50,10 @@ CMatchSessionOnlineHost::CMatchSessionOnlineHost( CSysSessionClient *pSysSession
 	m_pSysData( new KeyValues( "SysSessionData", "type", "host" ) ),
 	m_autodelete_pSysData( m_pSysData ),
 	m_eState( STATE_LOBBY ), // it's at least lobby, we'll figure out later
-	m_pSysSession( NULL ),
-	m_pDsSearcher( NULL ),
-	m_pTeamSearcher( NULL ),
-	m_pMatchSearcher( NULL )
+	m_pSysSession(nullptr),
+	m_pDsSearcher(nullptr),
+	m_pTeamSearcher(nullptr),
+	m_pMatchSearcher(nullptr)
 {
 	Assert( m_pSettings );
 
@@ -312,13 +312,13 @@ void CMatchSessionOnlineHost::OnRunCommand_Match()
 	if ( m_pTeamSearcher )
 	{
 		m_pTeamSearcher->Destroy();
-		m_pTeamSearcher = NULL;
+		m_pTeamSearcher = nullptr;
 	}
 
 	if ( m_pMatchSearcher )
 	{
 		m_pMatchSearcher->Destroy();
-		m_pMatchSearcher = NULL;
+		m_pMatchSearcher = nullptr;
 	}
 
 	KeyValues *teamMatch = m_pSettings->FindKey( "options/conteammatch" );
@@ -349,13 +349,13 @@ void CMatchSessionOnlineHost::OnRunCommand_Cancel_Match()
 	if ( m_pTeamSearcher )
 	{
 		m_pTeamSearcher->Destroy();
-		m_pTeamSearcher = NULL;
+		m_pTeamSearcher = nullptr;
 	}
 
 	if ( m_pMatchSearcher )
 	{
 		m_pMatchSearcher->Destroy();
-		m_pMatchSearcher = NULL;
+		m_pMatchSearcher = nullptr;
 	}
 
 	// Flip the state back to lobby
@@ -379,7 +379,7 @@ void CMatchSessionOnlineHost::OnRunCommand_Cancel_DsSearch()
 	if ( m_pDsSearcher )
 	{
 		m_pDsSearcher->Destroy();
-		m_pDsSearcher = NULL;
+		m_pDsSearcher = nullptr;
 	}
 
 	// Flip the state back to lobby
@@ -410,7 +410,7 @@ void CMatchSessionOnlineHost::OnRunCommand_StartDsSearchFinished()
 	}
 
 	m_pDsSearcher->Destroy();
-	m_pDsSearcher = NULL;
+	m_pDsSearcher = nullptr;
 
 	// Handle console team matchmaking case here - if we did not find a ds then
 	// just go back to the lobby
@@ -573,7 +573,7 @@ void CMatchSessionOnlineHost::OnRunCommand_StartListenServerStarted( uint32 exte
 	m_pSysSession->UpdateServerInfo( m_pSettings );
 	
 	// Mark the local session as active
-	SetSessionActiveGameplayState( true, NULL );
+	SetSessionActiveGameplayState( true, nullptr);
 
 	// Run the extra Update on the teamsearcher if it is alive
 	if ( m_pTeamSearcher )
@@ -643,7 +643,7 @@ void CMatchSessionOnlineHost::ConnectGameServer( CDsSearcher::DsResult_t *pDsRes
 
 		// Destroy the session
 		m_pSysSession->Destroy();
-		m_pSysSession = NULL;
+		m_pSysSession = nullptr;
 
 		// Handle error
 		g_pMatchEventsSubscription->BroadcastEvent( new KeyValues( "OnMatchSessionUpdate",
@@ -727,7 +727,7 @@ void CMatchSessionOnlineHost::OnEndGameToLobby()
 	g_pMatchExtensions->GetINetSupport()->UpdateServerReservation( 0ull );
 
 	// Mark gameplay state as inactive
-	SetSessionActiveGameplayState( false, NULL );
+	SetSessionActiveGameplayState( false, nullptr);
 }
 
 void CMatchSessionOnlineHost::SetSessionActiveGameplayState( bool bActive, char const *szSecureServerAddress )
@@ -738,7 +738,7 @@ void CMatchSessionOnlineHost::SetSessionActiveGameplayState( bool bActive, char 
 		if ( !bActive )
 		{
 			m_pTeamSearcher->Destroy();
-			m_pTeamSearcher = NULL;
+			m_pTeamSearcher = nullptr;
 		}
 		else
 		{
@@ -806,7 +806,7 @@ void CMatchSessionOnlineHost::OnGamePlayerMachinesConnected( int numMachines )
 		
 		bool bNewMachine = false;
 		XUID xuidPlayer = arrPlayersUpdated[k]->GetUint64( "xuid" );
-		KeyValues *pMachine = NULL;
+		KeyValues *pMachine = nullptr;
 		SessionMembersFindPlayer( m_pSettings, xuidPlayer, &pMachine );
 		if ( pMachine )
 		{
@@ -850,7 +850,7 @@ void CMatchSessionOnlineHost::InviteTeam()
 	KeyValuesDumpAsDevMsg( m_pSettings );
 
 	KeyValues *teamMatch = m_pSettings->FindKey( "options/conteammatch" );
-	if ( teamMatch == NULL )
+	if ( teamMatch == nullptr)
 	{
 		return;
 	}
@@ -994,7 +994,7 @@ void CMatchSessionOnlineHost::Update()
 			else if (result == CMatchSessionOnlineSearch::RESULT_SUCCESS )
 			{
 				m_pMatchSearcher->Destroy();
-				m_pMatchSearcher = NULL;
+				m_pMatchSearcher = nullptr;
 			}
 		}
 
@@ -1041,25 +1041,25 @@ void CMatchSessionOnlineHost::Destroy()
 	if ( m_pMatchSearcher )
 	{
 		m_pMatchSearcher->Destroy();
-		m_pMatchSearcher = NULL;
+		m_pMatchSearcher = nullptr;
 	}
 
 	if ( m_pTeamSearcher )
 	{
 		m_pTeamSearcher->Destroy();
-		m_pTeamSearcher = NULL;
+		m_pTeamSearcher = nullptr;
 	}
 
 	if ( m_pDsSearcher )
 	{
 		m_pDsSearcher->Destroy();
-		m_pDsSearcher = NULL;
+		m_pDsSearcher = nullptr;
 	}
 
 	if ( m_pSysSession )
 	{
 		m_pSysSession->Destroy();
-		m_pSysSession = NULL;
+		m_pSysSession = nullptr;
 	}
 
 	delete this;
@@ -1359,22 +1359,22 @@ void CMatchSessionOnlineHost::OnEvent( KeyValues *pEvent )
 			else
 			{
 				// we need to resolve secure server XNADDR just like clients do
-				ConnectGameServer( NULL );
+				ConnectGameServer(nullptr);
 			}
 		}
 	}
 	else if ( !Q_stricmp( "mmF->SysSessionUpdate", szEvent ) )
 	{
-		if ( m_pSysSession && pEvent->GetPtr( "syssession", NULL ) == m_pSysSession )
+		if ( m_pSysSession && pEvent->GetPtr( "syssession", nullptr) == m_pSysSession )
 		{
 			// We had a session error
-			if ( char const *szError = pEvent->GetString( "error", NULL ) )
+			if ( char const *szError = pEvent->GetString( "error", nullptr) )
 			{
 				State_t eSavedState = m_eState;
 
 				// Destroy the session
 				m_pSysSession->Destroy();
-				m_pSysSession = NULL;
+				m_pSysSession = nullptr;
 
 				// Handle error
 				m_eState = STATE_CREATING;
@@ -1396,7 +1396,7 @@ void CMatchSessionOnlineHost::OnEvent( KeyValues *pEvent )
 				g_pMatchEventsSubscription->BroadcastEvent( new KeyValues( "OnMatchSessionUpdate", "state", "created" ) );
 
 				// Session created successfully and we were straight on the way to a server
-				if ( char const *szServer = m_pSettings->GetString( "server/server", NULL ) )
+				if ( char const *szServer = m_pSettings->GetString( "server/server", nullptr) )
 				{
 					OnRunCommand_Start();
 				}
@@ -1409,7 +1409,7 @@ void CMatchSessionOnlineHost::OnEvent( KeyValues *pEvent )
 				break;
 
 			default:
-				if ( char const *szAction = pEvent->GetString( "action", NULL ) )
+				if ( char const *szAction = pEvent->GetString( "action", nullptr) )
 				{
 					if ( !Q_stricmp( "client", szAction ) )
 					{
@@ -1428,15 +1428,15 @@ void CMatchSessionOnlineHost::OnEvent( KeyValues *pEvent )
 						pExtendedSettings->AddSubKey( m_pSettings );
 
 						// Release ownership of the resources since new match session now owns them
-						m_pSettings = NULL;
-						m_autodelete_pSettings.Assign( NULL );
+						m_pSettings = nullptr;
+						m_autodelete_pSettings.Assign(nullptr);
 
 						CSysSessionHost *pSysSession = m_pSysSession;
-						m_pSysSession = NULL;
+						m_pSysSession = nullptr;
 
 						// Destroy our instance and create the new match interface
 						m_eState = STATE_MIGRATE;
-						g_pMMF->SetCurrentMatchSession( NULL );
+						g_pMMF->SetCurrentMatchSession(nullptr);
 						this->Destroy();
 
 						// Now we need to create the new client session that will install itself
@@ -1452,7 +1452,7 @@ void CMatchSessionOnlineHost::OnEvent( KeyValues *pEvent )
 	}
 	else if ( !Q_stricmp( "mmF->SysSessionCommand", szEvent ) )
 	{
-		if ( m_pSysSession && pEvent->GetPtr( "syssession", NULL ) == m_pSysSession )
+		if ( m_pSysSession && pEvent->GetPtr( "syssession", nullptr) == m_pSysSession )
 		{
 			KeyValues *pCommand = pEvent->GetFirstTrueSubKey();
 			if ( pCommand )
@@ -1485,7 +1485,7 @@ void CMatchSessionOnlineHost::MigrateGameSettings()
 			// and "server" key on the session.
 
 			// Check if the server or endgame information was set
-			char const *szServer = m_pSettings->GetString( "server/server", NULL );
+			char const *szServer = m_pSettings->GetString( "server/server", nullptr);
 			char const *szLockType = m_pSettings->GetString( "system/lock", "" );
 				
 			// Remove server information
@@ -1589,7 +1589,7 @@ void CMatchSessionOnlineHost::InitializeGameSettings()
 
 	if ( KeyValues *kv = m_pSettings->FindKey( "options", true ) )
 	{
-		char const *szServerType = kv->GetString( "server", NULL );
+		char const *szServerType = kv->GetString( "server", nullptr);
 		if ( !szServerType || Q_stricmp( szServerType, "official") )
 			szServerType = "official";
 		if ( Q_stricmp( "LIVE", m_pSettings->GetString( "system/network" ) ) )

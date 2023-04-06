@@ -70,7 +70,7 @@ void CPrefabsDlg::OnAddobject()
 	if(!pLibrary)
 		return;	// no lib, no add
 
-	CFileDialog dlg(TRUE, NULL, NULL, OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST |
+	CFileDialog dlg(TRUE, nullptr, nullptr, OFN_ALLOWMULTISELECT | OFN_FILEMUSTEXIST |
 		OFN_HIDEREADONLY | OFN_LONGNAMES | OFN_NOCHANGEDIR, 
 		"Prefab files (*.map;*.rmf;*.os)|*.map; *.rmf; *.os|"
 		"Game MAP files (*.map)|*.map|"
@@ -112,7 +112,7 @@ void CPrefabsDlg::OnAddobject()
 			strFullPath = szFile;
 
 		// check file type
-		CPrefab *pPrefab = NULL;
+		CPrefab *pPrefab = nullptr;
 
 		switch(CPrefab::CheckFileType(strFullPath))
 		{
@@ -251,7 +251,7 @@ void CPrefabsDlg::EditObjectData()
 			pLibrary->Save();
 	}
 
-	CMapDoc *pDoc = (CMapDoc*) pApp->pMapDocTemplate->OpenDocumentFile(NULL);
+	CMapDoc *pDoc = (CMapDoc*) pApp->pMapDocTemplate->OpenDocumentFile(nullptr);
 	pDoc->EditPrefab3D(GetCurrentObject()->GetID());
 	EndDialog(IDOK);
 }
@@ -273,7 +273,7 @@ void CPrefabsDlg::OnEditobject()
 	CRect r;
 	pButton->GetWindowRect(r);
 	menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON, r.left, r.bottom,
-		this, NULL);
+		this, nullptr);
 }
 
 void CPrefabsDlg::OnRemoveobject() 
@@ -393,7 +393,7 @@ CPrefabLibrary *CPrefabsDlg::GetCurrentLibrary(int *piSel)
 	
 	int iSel = m_Libraries.GetCurSel();
 	if(iSel == CB_ERR)
-		return NULL;
+		return nullptr;
 	CPrefabLibrary *pLibrary = CPrefabLibrary::FindID(
 		m_Libraries.GetItemData(iSel));
 
@@ -409,7 +409,7 @@ CPrefab *CPrefabsDlg::GetCurrentObject(int *piSel)
 
 	int iSel = iCurObject;
 	if(iSel == -1)
-		return NULL;
+		return nullptr;
 	CPrefab *pPrefab= CPrefab::FindID(m_Objects.GetItemData(iSel));
 
 	if(piSel)
@@ -543,7 +543,7 @@ void CPrefabsDlg::OnRemovelibrary()
 	// get cur library
 	int iSel;
 	CPrefabLibrary *pLibrary = GetCurrentLibrary(&iSel);
-	if (pLibrary == NULL)
+	if (pLibrary == nullptr)
 	{
 		return;
 	}
@@ -599,7 +599,7 @@ void CPrefabsDlg::OnEndlabeleditObjects(NMHDR* pNMHDR, LRESULT* pResult)
 	
 	*pResult = 0;
 
-	if(item.pszText == NULL)
+	if(item.pszText == nullptr)
 		return;
 
 	CPrefab *pPrefab = CPrefab::FindID(m_Objects.GetItemData(item.iItem));

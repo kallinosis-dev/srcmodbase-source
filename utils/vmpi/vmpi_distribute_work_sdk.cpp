@@ -360,7 +360,7 @@ public:
 			// Do this work unit.
 			m_WorkUnitWalker.Thread_NoteLocalWorkUnitCompleted( iWU );	// We do this before it's completed because otherwise if a Shuffle() occurs,
 																		// the other thread might happen to pickup this work unit and we don't want that.
-			m_pInfo->m_WorkerInfo.m_pProcessFn( iThread, iWU, NULL );
+			m_pInfo->m_WorkerInfo.m_pProcessFn( iThread, iWU, nullptr);
 			NotifyLocalMasterCompletedWorkUnit( iWU );
 		}
 	}
@@ -373,7 +373,7 @@ public:
 		m_flLastShuffleRequestServiceTime = Plat_FloatTime();
 		
 		// Spawn idle-priority worker threads right here.
-		m_bUsingMasterLocalThreads = (pInfo->m_WorkerInfo.m_pProcessFn != 0);
+		m_bUsingMasterLocalThreads = (pInfo->m_WorkerInfo.m_pProcessFn != nullptr);
 		if ( VMPI_IsParamUsed( mpi_NoMasterWorkerThreads ) )
 		{
 			Msg( "%s found. No worker threads will be created.\n", VMPI_GetParamString( mpi_NoMasterWorkerThreads ) );

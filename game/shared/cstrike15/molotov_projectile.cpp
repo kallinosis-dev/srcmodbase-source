@@ -49,7 +49,7 @@ void C_MolotovProjectile::OnParticleEffectDeleted( CNewParticleEffect *pParticle
 {
 	if ( m_molotovParticleEffect == pParticleEffect )
 	{
-		m_molotovParticleEffect = NULL;
+		m_molotovParticleEffect = nullptr;
 	}
 }
 

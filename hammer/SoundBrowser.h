@@ -23,7 +23,7 @@ class CSoundBrowser : public CDialog
 {
 // Construction
 public:
-	CSoundBrowser( const char *pCurrentSoundName, CWnd* pParent = NULL);   // standard constructor
+	CSoundBrowser( const char *pCurrentSoundName, CWnd* pParent = nullptr);   // standard constructor
 	const char *GetSelectedSound();
 
 // Dialog Data

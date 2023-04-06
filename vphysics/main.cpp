@@ -101,7 +101,7 @@ private:
 class CPhysicsInterface : public CTier1AppSystem<IPhysics>
 {
 public:
-	CPhysicsInterface() : m_pCollisionSetHash(NULL) {}
+	CPhysicsInterface() : m_pCollisionSetHash(nullptr) {}
 	virtual void *QueryInterface( const char *pInterfaceName );
 	virtual	IPhysicsEnvironment *CreateEnvironment( void );
 	virtual void DestroyEnvironment( IPhysicsEnvironment *pEnvironment );
@@ -135,7 +135,7 @@ void *CPhysicsInterface::QueryInterface( const char *pInterfaceName )
 	// Loading the datacache DLL mounts *all* interfaces
 	// This includes the backward-compatible interfaces + other vphysics interfaces
 	CreateInterfaceFn factory = Sys_GetFactoryThis();	// This silly construction is necessary
-	return factory( pInterfaceName, NULL );				// to prevent the LTCG compiler from crashing.
+	return factory( pInterfaceName, nullptr);				// to prevent the LTCG compiler from crashing.
 }
 
 
@@ -158,7 +158,7 @@ void CPhysicsInterface::DestroyEnvironment( IPhysicsEnvironment *pEnvironment )
 IPhysicsEnvironment	*CPhysicsInterface::GetActiveEnvironmentByIndex( int index )
 {
 	if ( index < 0 || index >= m_envList.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_envList[index];
 }
@@ -184,7 +184,7 @@ IPhysicsCollisionSet *CPhysicsInterface::FindOrCreateCollisionSet( unsigned int 
 	Assert( id != 0 );
 	Assert( maxElementCount <= 32 );
 	if ( maxElementCount > 32 )
-		return NULL;
+		return nullptr;
 
 	IPhysicsCollisionSet *pSet = FindCollisionSet( id );
 	if ( pSet )
@@ -208,14 +208,14 @@ IPhysicsCollisionSet *CPhysicsInterface::FindCollisionSet( unsigned int id )
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CPhysicsInterface::DestroyAllCollisionSets()
 {
 	m_collisionSets.Purge();
 	delete m_pCollisionSetHash;
-	m_pCollisionSetHash = NULL;
+	m_pCollisionSetHash = nullptr;
 }
 
 	

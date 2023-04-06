@@ -470,7 +470,7 @@ static OutputRowFunc_t GetOutputRowFunc( ImageFormat imageFormat )
 		return &OutputRowBGR888;
 #endif
 	default:
-		return NULL;
+		return nullptr;
 		break;
 	}
 }
@@ -768,14 +768,14 @@ static ReadRowFunc_t GetReadRowFunc( TGAHeader_t const& header )
 			break;
 		default:
 			//Error( "unsupported tga colordepth: %d", TGAHeader_t.pixel_size" );
-			return 0;
+			return nullptr;
 			break;
 		}
 	case 10: // 24/32 bit compressed TGA image
 		if( header.colormap_length )
 		{
 			// Error( "colormaps not support with 24/32 bit TGAs." );
-			return 0;
+			return nullptr;
 		}
 		else
 		{
@@ -789,13 +789,13 @@ static ReadRowFunc_t GetReadRowFunc( TGAHeader_t const& header )
 				break;
 			default:
 				//Error( "unsupported tga colordepth: %d", TGAHeader_t.pixel_size" );
-				return NULL;
+				return nullptr;
 				break;
 			}
 		}
 	default:
 		// Error( "unsupported tga pixel format" );
-		return 0;
+		return nullptr;
 		break;
 	}
 }

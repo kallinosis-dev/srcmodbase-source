@@ -44,7 +44,7 @@ struct postrestore_objectlist_t
 
 	void Defaults()
 	{
-		pObject = NULL;
+		pObject = nullptr;
 		growFriction = false;
 		enableCollisions = false;
 	}
@@ -101,13 +101,13 @@ void CPhysicsObject::Init( const CPhysCollide *pCollisionModel, IVP_Real_Object 
 	m_materialIndex = materialIndex;
 	m_pObject = pObject;
 	pObject->client_data = (void *)this;
-	m_pGameData = NULL;
+	m_pGameData = nullptr;
 	m_gameFlags = 0;
 	m_gameIndex = 0;
 	m_sleepState = OBJ_SLEEP;		// objects start asleep
 	m_callbacks = CALLBACK_GLOBAL_COLLISION|CALLBACK_GLOBAL_FRICTION|CALLBACK_FLUID_TOUCH|CALLBACK_GLOBAL_TOUCH|CALLBACK_GLOBAL_COLLIDE_STATIC|CALLBACK_DO_FLUID_SIMULATION;
 	m_activeIndex = 0xFFFF;
-	m_pShadow = NULL;
+	m_pShadow = nullptr;
 	m_shadowTempGravityDisable = false;
 	m_forceSilentDelete = false;
 	m_dragBasis = vec3_origin;
@@ -137,8 +137,8 @@ CPhysicsObject::~CPhysicsObject( void )
 	{
 		// prevents callbacks to the game code / unlink from this object
 		m_callbacks = 0;
-		m_pGameData = 0;
-		m_pObject->client_data = 0;
+		m_pGameData = nullptr;
+		m_pObject->client_data = nullptr;
 
 		IVP_Core *pCore = m_pObject->get_core();
 		if ( pCore->physical_unmoveable == IVP_TRUE && pCore->controllers_of_core.n_elems )
@@ -682,7 +682,7 @@ void CPhysicsObject::SetVolume( float volume )
 		volume *= HL2IVP_FACTOR*HL2IVP_FACTOR*HL2IVP_FACTOR;
 		float density = GetMass() / volume;
 		float matDensity;
-		physprops->GetPhysicsProperties( GetMaterialIndexInternal(), &matDensity, NULL, NULL, NULL );
+		physprops->GetPhysicsProperties( GetMaterialIndexInternal(), &matDensity, nullptr, nullptr, nullptr);
 		m_buoyancyRatio = density / matDensity;
 	}
 	else
@@ -1149,7 +1149,7 @@ void CPhysicsObject::RemoveShadowController()
 	{
 		CPhysicsEnvironment *pVEnv = GetVPhysicsEnvironment();
 		pVEnv->DestroyShadowController( m_pShadow );
-		m_pShadow = NULL;
+		m_pShadow = nullptr;
 	}
 }
 
@@ -1197,7 +1197,7 @@ IVP_SurfaceManager *CPhysicsObject::GetSurfaceManager( void ) const
 	{
 		return m_pObject->get_surface_manager();
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1336,7 +1336,7 @@ void CPhysicsObject::RemoveTrigger()
 
 bool CPhysicsObject::IsTrigger() const
 {
-	return m_pObject->get_controller_phantom() != NULL ? true : false;
+	return m_pObject->get_controller_phantom() != nullptr ? true : false;
 }
 
 bool CPhysicsObject::IsFluid() const
@@ -1551,7 +1551,7 @@ CPhysicsObject *CreatePhysicsObject( CPhysicsEnvironment *pEnvironment, const CP
 	short collideType;
 	IVP_SurfaceManager *pSurman = CreateSurfaceManager( pCollisionModel, collideType );
 	if ( !pSurman )
-		return NULL;
+		return nullptr;
 	pObject->m_collideType = collideType;
 	pObject->m_asleepSinceCreation = true;
 
@@ -1599,7 +1599,7 @@ CPhysicsObject *CreatePhysicsSphere( CPhysicsEnvironment *pEnvironment, float ra
 		volume = 4.0f * radius * radius * radius * M_PI / 3.0f;
 	}
 	CPhysicsObject *pObject = new CPhysicsObject();
-	pObject->Init( NULL, realObject, materialIndex, volume, 0, 0 ); //, pParams->dragCoefficient, pParams->dragCoefficient
+	pObject->Init(nullptr, realObject, materialIndex, volume, 0, 0 ); //, pParams->dragCoefficient, pParams->dragCoefficient
 	pObject->SetGameData( pParams->pGameData );
 
 	if ( pParams->enableCollisions )
@@ -1707,7 +1707,7 @@ void CPhysicsObject::WriteToTemplate( vphysics_save_cphysicsobject_t &objectTemp
 {
 	if ( m_collideType == COLLIDE_BALL )
 	{
-		objectTemplate.pCollide = NULL;
+		objectTemplate.pCollide = nullptr;
 		objectTemplate.sphereRadius = GetSphereRadius();
 	}
 	else
@@ -1740,7 +1740,7 @@ void CPhysicsObject::WriteToTemplate( vphysics_save_cphysicsobject_t &objectTemp
 	objectTemplate.dragCoefficient = m_dragCoefficient;
 	objectTemplate.angDragCoefficient = m_angDragCoefficient;
 	objectTemplate.pShadow = m_pShadow;
-	objectTemplate.hasShadowController = (m_pShadow != NULL) ? true : false;
+	objectTemplate.hasShadowController = (m_pShadow != nullptr) ? true : false;
 	objectTemplate.hasTouchedDynamic = HasTouchedDynamic();
 	//bool			m_shadowTempGravityDisable;
 	objectTemplate.collideType = m_collideType;
@@ -1798,7 +1798,7 @@ void CPhysicsObject::InitFromTemplate( CPhysicsEnvironment *pEnvironment, void *
 		ivpObjectTemplate.mass_center_override = &massCenterMatrix;
 	}
 
-	IVP_Real_Object *realObject = NULL;
+	IVP_Real_Object *realObject = nullptr;
 	if ( m_collideType == COLLIDE_BALL )
 	{
 		IVP_Template_Ball ballTemplate;
@@ -1877,7 +1877,7 @@ void CPhysicsObject::InitFromTemplate( CPhysicsEnvironment *pEnvironment, void *
 		SetTouchedDynamic();
 	}
 
-	m_pShadow = NULL;
+	m_pShadow = nullptr;
 }
 
 
@@ -1956,7 +1956,7 @@ IPhysicsObject *CreateObjectFromBuffer( CPhysicsEnvironment *pEnvironment, void 
 		}
 		return pObject;
 	}
-	return NULL;
+	return nullptr;
 }
 
 IPhysicsObject *CreateObjectFromBuffer_UseExistingMemory( CPhysicsEnvironment *pEnvironment, void *pGameData, unsigned char *pBuffer, unsigned int bufferSize, CPhysicsObject *pExistingMemory )
@@ -1976,7 +1976,7 @@ IPhysicsObject *CreateObjectFromBuffer_UseExistingMemory( CPhysicsEnvironment *p
 		}
 		return pExistingMemory;
 	}
-	return NULL;
+	return nullptr;
 }
 
 // regenerate the friction systems for these objects.  Because when it was saved it had them (came to rest with the contact points).

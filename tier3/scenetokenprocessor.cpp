@@ -64,14 +64,14 @@ const char *CSceneTokenProcessor::ParseNextToken (const char *data)
 	m_szToken[0] = 0;
 	
 	if (!data)
-		return NULL;
+		return nullptr;
 		
 // skip whitespace
 skipwhite:
 	while ( (c = *data) <= ' ')
 	{
 		if (c == 0)
-			return NULL;                    // end of file;
+			return nullptr;                    // end of file;
 		data++;
 	}
 	

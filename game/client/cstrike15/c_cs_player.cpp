@@ -251,26 +251,26 @@ public:
 // These must follow the ADDON_ ordering.
 CAddonInfo g_AddonInfo[] = 
 {
-	{ "grenade0",	"weapon_flashbang",		0, 0 },
-	{ "grenade1",	"weapon_flashbang",		0, 0 },
-	{ "grenade2",	"weapon_hegrenade",		0, 0 },
-	{ "grenade3",	"weapon_smokegrenade",	0, 0 },
-	{ "c4",			"weapon_c4",			0, 0 },
-	{ "defusekit",	0,						"models/weapons/w_defuser.mdl", 0 },
-	{ "primary",	0,						0, 0 },	// Primary addon model is looked up based on m_iPrimaryAddon
-	{ "pistol",		0,						0, 0 },	// Pistol addon model is looked up based on m_iSecondaryAddon
-	{ "eholster",	0,						"models/weapons/w_eq_eholster_elite.mdl", "models/weapons/w_eq_eholster.mdl" },
-	{ "grenade4",	"weapon_decoy",			0, 0 },
-	{ "knife",		"weapon_knife",			0, 0 },
-	{ "facemask",	0,						"models/player/holiday/facemasks/facemask_skull.mdl", 0 },
-	{ "grenade4",	"weapon_tagrenade",	0, 0 },
+	{ "grenade0",	"weapon_flashbang",		nullptr, nullptr },
+	{ "grenade1",	"weapon_flashbang",		nullptr, nullptr },
+	{ "grenade2",	"weapon_hegrenade",		nullptr, nullptr },
+	{ "grenade3",	"weapon_smokegrenade",	nullptr, nullptr },
+	{ "c4",			"weapon_c4",			nullptr, nullptr },
+	{ "defusekit",	nullptr,						"models/weapons/w_defuser.mdl", nullptr },
+	{ "primary",	nullptr,						nullptr, nullptr },	// Primary addon model is looked up based on m_iPrimaryAddon
+	{ "pistol",		nullptr,						nullptr, nullptr },	// Pistol addon model is looked up based on m_iSecondaryAddon
+	{ "eholster",	nullptr,						"models/weapons/w_eq_eholster_elite.mdl", "models/weapons/w_eq_eholster.mdl" },
+	{ "grenade4",	"weapon_decoy",			nullptr, nullptr },
+	{ "knife",		"weapon_knife",			nullptr, nullptr },
+	{ "facemask",	nullptr,						"models/player/holiday/facemasks/facemask_skull.mdl", nullptr },
+	{ "grenade4",	"weapon_tagrenade",	nullptr, nullptr },
 };
 
 CAddonInfo g_ClientSideAddons[] =
 {
-	{ "forward",	0,						"models/player/holiday/santahat.mdl", 0 },
-	{ "forward",	0,						"models/ghost/ghost.mdl", 0 },
-	{ "facemask",	0,						"models/player/holiday/facemasks/facemask_battlemask.mdl", 0 },
+	{ "forward",	nullptr,						"models/player/holiday/santahat.mdl", nullptr },
+	{ "forward",	nullptr,						"models/ghost/ghost.mdl", nullptr },
+	{ "facemask",	nullptr,						"models/player/holiday/facemasks/facemask_battlemask.mdl", nullptr },
 };
 
 #define SMOKEGRENADE_LIFETIME 17.5f
@@ -542,7 +542,7 @@ END_PREDICTION_DATA()
 
 vgui::IImage* GetDefaultAvatarImage( C_BasePlayer *pPlayer )
 {
-	vgui::IImage* result = NULL;
+	vgui::IImage* result = nullptr;
 
 	switch ( pPlayer ? pPlayer->GetTeamNumber() : TEAM_MAXCOUNT )
 	{
@@ -725,7 +725,7 @@ void C_CSRagdoll::ApplySemiRandomDirectionalForce( Vector vecDir, float flStreng
 		for ( int i=0; i<24; i++ )
 		{
 			IPhysicsObject *pPhysObj = pIRagdoll->GetElement( i );
-			if ( pPhysObj != NULL )
+			if ( pPhysObj != nullptr)
 			{
 				pPhysObj->ApplyForceCenter( vecDir * flStrength );
 			}
@@ -1357,7 +1357,7 @@ void RecvProxy_HasDefuser( const CRecvProxyData *pData, void *pStruct, void *pOu
 {
 	C_CSPlayer *pPlayerData = (C_CSPlayer * )pStruct;
 
-	if (pPlayerData == NULL )
+	if (pPlayerData == nullptr)
 	{
 		return;
 	}
@@ -1427,7 +1427,7 @@ bool __MsgFunc_ReloadEffect( const CCSUsrMsg_ReloadEffect &msg )
 	int iActAnimID = msg.has_actanim() ? msg.actanim() : ACT_VM_RELOAD;
 
 	Vector origin;
-	Vector *pOrigin = NULL;
+	Vector *pOrigin = nullptr;
 	if ( msg.has_origin_x() )
 	{
 		origin.x = msg.origin_x();
@@ -1657,14 +1657,14 @@ C_CSPlayer::C_CSPlayer() :
 	m_unRoundStartEquipmentValue = 0;
 	m_unFreezetimeEndEquipmentValue = 0;
 
-	m_hC4AddonLED = NULL;
-	m_hC4WeaponLED = NULL;
+	m_hC4AddonLED = nullptr;
+	m_hC4WeaponLED = nullptr;
 
-	m_hOldGrenadeObserverTarget = NULL;
+	m_hOldGrenadeObserverTarget = nullptr;
 
 	m_Activity = ACT_IDLE;
 
-	m_pFlashlightBeam = NULL;
+	m_pFlashlightBeam = nullptr;
 	m_fNextThinkPushAway = 0.0f;
 	m_fNextGlowCheckUpdate = 0.0f;
 	m_fNextGlowCheckInterval = GLOWUPDATE_DEFAULT_THINK_INTERVAL;
@@ -1678,7 +1678,7 @@ C_CSPlayer::C_CSPlayer() :
 
 	m_serverIntendedCycle = -1.0f;
 
-	view->SetScreenOverlayMaterial( NULL );
+	view->SetScreenOverlayMaterial(nullptr);
 
 	m_iTargetedWeaponEntIndex = 0;
 
@@ -1823,7 +1823,7 @@ C_CSPlayer::C_CSPlayer() :
 	m_vecLastClipCameraForward.Init();
 	m_bClipHitStaticWorld = false;
 	m_bCachedPlaneIsValid = false;
-	m_pClippingWeaponWorldModel = NULL;
+	m_pClippingWeaponWorldModel = nullptr;
 
 
 	m_vecLastContactShadowTraceOriginLeft = vec3_origin;
@@ -1845,7 +1845,7 @@ public:
 		if ( pParentPlayer )
 			return pParentPlayer->GetRenderClipPlane();
 
-		return NULL;
+		return nullptr;
 	}
 
 	virtual bool ShouldDraw()
@@ -1968,7 +1968,7 @@ C_CSPlayer::~C_CSPlayer()
 class CTraceFilterOmitPlayers : public CTraceFilterSimple
 {
 public:
-	CTraceFilterOmitPlayers( const IHandleEntity *passentity = NULL, int collisionGroup = MASK_SHOT )
+	CTraceFilterOmitPlayers( const IHandleEntity *passentity = nullptr, int collisionGroup = MASK_SHOT )
 		: CTraceFilterSimple( passentity, collisionGroup )
 	{
 	}
@@ -2021,7 +2021,7 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 		!m_bUseNewAnimstate || !cl_weapon_clip_thinwalls.GetBool() || IsDormant() || !ShouldDraw() || GetMoveType() == MOVETYPE_LADDER )
 	{
 		m_bCachedPlaneIsValid = false;
-		return NULL;
+		return nullptr;
 	}
 
 	if ( cl_weapon_clip_thinwalls_lock.GetBool() )
@@ -2040,7 +2040,7 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 			if ( !pWeaponWorldModel->IsEffectActive( EF_BONEMERGE ) )
 			{
 				m_bCachedPlaneIsValid = false;
-				return NULL;
+				return nullptr;
 			}
 
 			Vector vecEyePosition = EyePosition();
@@ -2087,7 +2087,7 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 				if ( iMuzzleBoneIndex < 0 )
 				{
 					m_bCachedPlaneIsValid = false;
-					return NULL;
+					return nullptr;
 				}
 
 				CStudioHdr *pHdr = pWeaponWorldModel->GetModelPtr();
@@ -2103,13 +2103,13 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 					else
 					{
 						m_bCachedPlaneIsValid = false;
-						return NULL;
+						return nullptr;
 					}
 				}
 				else
 				{
 					m_bCachedPlaneIsValid = false;
-					return NULL;
+					return nullptr;
 				}
 			}
 			else
@@ -2133,7 +2133,7 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 			if ( flEyeToWorldMuzzleLength > 128 )
 			{
 				m_bCachedPlaneIsValid = false;
-				return NULL;
+				return nullptr;
 			}
 
 			// the weapon is pointing away from the flat eye direction, don't clip
@@ -2142,7 +2142,7 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 			if ( flDotEyeToMuzzleByEyeForward < 0 )
 			{
 				m_bCachedPlaneIsValid = false;
-				return NULL;
+				return nullptr;
 			}
 
 			Vector vecWeaponForward;
@@ -2190,14 +2190,14 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 						UTIL_clipwalls_debugline( tr_EyeToMuzzle );
 					}
 					m_bCachedPlaneIsValid = false;
-					return NULL;
+					return nullptr;
 				}
 
 				// if the weapon direction is wildly different from the eye direction, don't clip
 				if ( DotProduct( vecEyeForward, vecWeaponForward ) < 0.3 )
 				{
 					m_bCachedPlaneIsValid = false;
-					return NULL;
+					return nullptr;
 				}
 
 				// Can the player see the muzzle position from a point to the left of their eye position?
@@ -2214,7 +2214,7 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 						UTIL_clipwalls_debugline( tr_LeftOfEyeToMuzzle );
 					}
 					m_bCachedPlaneIsValid = false;
-					return NULL;
+					return nullptr;
 				}
 
 				// Can a point to the left of the muzzle see the side of the player's head?
@@ -2232,7 +2232,7 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 						UTIL_clipwalls_debugline( tr_LeftOfMuzzleToEye );
 					}
 					m_bCachedPlaneIsValid = false;
-					return NULL;
+					return nullptr;
 				}
 
 				// We also want to avoid the situation where a player can see and fire around a corner, but their weapon doesn't appear.
@@ -2258,7 +2258,7 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 				{
 					// The spot the player is looking at can see the muzzle of the weapon. Don't clip the weapon.
 					m_bCachedPlaneIsValid = false;
-					return NULL;
+					return nullptr;
 				}
 				
 
@@ -2332,7 +2332,7 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 				{
 					Assert( false );
 					m_bCachedPlaneIsValid = false;
-					return NULL;
+					return nullptr;
 				}
 
 				if ( flDistFromPlane < 16.0f )
@@ -2397,12 +2397,12 @@ float *	C_CSPlayer::GetRenderClipPlane( void )
 					UTIL_clipwalls_debugline( tr_StockToMuzzle );
 				}
 				m_bCachedPlaneIsValid = false;
-				return NULL;
+				return nullptr;
 			}
 		}
 	}
 	m_bCachedPlaneIsValid = false;
-	return NULL;
+	return nullptr;
 }
 
 ConVar thirdperson_lockcamera("thirdperson_lockcamera", "0", FCVAR_CHEAT | FCVAR_REPLICATED );
@@ -2442,7 +2442,7 @@ void C_CSPlayer::FireGameEvent( IGameEvent *event )
 			if ( pElement && pCSRes && pQuest )
 			{
 				wchar_t szBuf[ 512 ];
-				const char *szAlertToken = NULL;
+				const char *szAlertToken = nullptr;
 				if ( IsAssassinationTarget() )
 					szAlertToken = "#quest_assassination_you_are_target";
 				else if ( GetActiveQuestID() == pQuest->GetID() && (int)pQuest->GetTargetTeam() != GetTeamNumber() )
@@ -2893,7 +2893,7 @@ void C_CSPlayer::FireGameEvent( IGameEvent *event )
 
 			m_flLastSpawnTimeIndex = gpGlobals->curtime;
 
-			m_pViewmodelArmConfig = NULL;
+			m_pViewmodelArmConfig = nullptr;
 
 			if ( m_bUseNewAnimstate && m_PlayerAnimStateCSGO )
 			{
@@ -3513,7 +3513,7 @@ void C_CSPlayer::UpdateGlows( void )
 	{
 		m_ARScreenGlowEffect->StopEmission();
 		m_ARScreenGlowEffect->SetRemoveFlag();
-		m_ARScreenGlowEffect = NULL;
+		m_ARScreenGlowEffect = nullptr;
 	}
 
 	// in order of priority
@@ -3663,7 +3663,7 @@ void C_CSPlayer::UpdateOnRemove( void )
 	{
 		m_ARScreenGlowEffect->StopEmission();
 		m_ARScreenGlowEffect->SetRemoveFlag();
-		m_ARScreenGlowEffect = NULL;
+		m_ARScreenGlowEffect = nullptr;
 	}
 
 
@@ -3683,7 +3683,7 @@ void C_CSPlayer::OnSetDormant( bool bDormant )
 		{
 			m_ARScreenGlowEffect->StopEmission();
 			m_ARScreenGlowEffect->SetRemoveFlag();
-			m_ARScreenGlowEffect = NULL;
+			m_ARScreenGlowEffect = nullptr;
 		}
 
 		//if ( m_AdrenalineScreenEffect.IsValid() )
@@ -4041,7 +4041,7 @@ void C_CSPlayer::UpdateRadioHeadIcon( bool bRadio )
 		{
 			m_radioHeadIconParticleEffect->StopEmission();
 			m_radioHeadIconParticleEffect->SetRemoveFlag();
-			m_radioHeadIconParticleEffect = NULL;
+			m_radioHeadIconParticleEffect = nullptr;
 		}
 	}
 }
@@ -4191,7 +4191,7 @@ void C_CSPlayer::ThirdPersonSwitch( bool bThirdperson )
 {
 	BaseClass::ThirdPersonSwitch( bThirdperson );
 
-	if ( m_hCarriedHostageProp != NULL )
+	if ( m_hCarriedHostageProp != nullptr)
 	{
 		C_HostageCarriableProp *pHostageProp = static_cast< C_HostageCarriableProp* >( m_hCarriedHostageProp.Get() );
 		if ( pHostageProp )
@@ -4258,7 +4258,7 @@ void C_CSPlayer::UpdateHostageCarryModels()
 {
 	if ( m_hCarriedHostage )
 	{
-		if ( m_hCarriedHostageProp != NULL )
+		if ( m_hCarriedHostageProp != nullptr)
 		{
 			C_HostageCarriableProp *pHostageProp = static_cast< C_HostageCarriableProp* >( m_hCarriedHostageProp.Get() );
 			if ( pHostageProp )
@@ -4540,7 +4540,7 @@ void C_CSPlayer::RemoveC4Effect( bool bIsWeaponModel )
 		if ( m_hC4WeaponLED )
 		{
 			ParticleProp()->StopEmission( m_hC4WeaponLED );
-			m_hC4WeaponLED = NULL;
+			m_hC4WeaponLED = nullptr;
 		}
 	}
 	else
@@ -4548,7 +4548,7 @@ void C_CSPlayer::RemoveC4Effect( bool bIsWeaponModel )
 		if ( m_hC4AddonLED )
 		{
 			ParticleProp()->StopEmission( m_hC4AddonLED );
-			m_hC4AddonLED = NULL;
+			m_hC4AddonLED = nullptr;
 		}
 	}
 }
@@ -4560,7 +4560,7 @@ void C_CSPlayer::NotifyShouldTransmit( ShouldTransmitState_t state )
 	{
 		RemoveAddonModels();
 
-		if( m_pFlashlightBeam != NULL )
+		if( m_pFlashlightBeam != nullptr)
 		{
 			FOR_EACH_VALID_SPLITSCREEN_PLAYER( hh )
 			{
@@ -4584,7 +4584,7 @@ void C_CSPlayer::UpdateSoundEvents()
 		CCSSoundEvent *pEvent = &m_SoundEvents[i];
 		if ( gpGlobals->curtime >= pEvent->m_flEventTime )
 		{
-			const Vector *pOrigin = NULL;
+			const Vector *pOrigin = nullptr;
 			if ( pEvent->m_bHasSoundOrigin )
 			{
 				pOrigin = &pEvent->m_SoundOrigin;
@@ -5019,7 +5019,7 @@ void C_CSPlayer::ClientThink()
 			m_fImmuneToGunGameDamageTimeLast = m_fImmuneToGunGameDamageTime;
 		}
 	}
-	else if ( IsAlive() && m_hCarriedHostage != NULL && this == GetLocalPlayer() && IsAlive() && GetObserverMode() == OBS_MODE_NONE )
+	else if ( IsAlive() && m_hCarriedHostage != nullptr && this == GetLocalPlayer() && IsAlive() && GetObserverMode() == OBS_MODE_NONE )
 	{
 		wchar_t wszLocalized[256];	
 		//g_pVGuiLocalize->ConstructString( wszLocalized, sizeof( wszLocalized ), g_pVGuiLocalize->Find( "#SFUI_Notice_DM_BuyMenu_RandomOFF" ), 3, wzBuyBind, wzTime, wzAutoBuyBind );
@@ -5035,7 +5035,7 @@ void C_CSPlayer::ClientThink()
 	{
 		if ( CSGameRules()->IsWarmupPeriod() == false )
 		{
-			float flTimeLeft = CSGameRules()->GetNextRespawnWave( GetTeamNumber(), NULL ) - gpGlobals->curtime;
+			float flTimeLeft = CSGameRules()->GetNextRespawnWave( GetTeamNumber(), nullptr) - gpGlobals->curtime;
 			if ( flTimeLeft > CSGameRules()->GetRespawnWaveMaxLength( GetTeamNumber() ) )
 			{
 				CHudElement *pElement = GetHud().FindElement( "SFHudInfoPanel" );
@@ -5111,7 +5111,7 @@ void C_CSPlayer::ClientThink()
 			bool bDoAutoBuy = true;
 
 			// Make sure the player only has the starting equipment (USP for CT, Glock for T )
-			if ( Weapon_GetSlot( WEAPON_SLOT_RIFLE ) != NULL )
+			if ( Weapon_GetSlot( WEAPON_SLOT_RIFLE ) != nullptr)
 			{
 				// Already has a primary weapon, so don't auto-buy
 				bDoAutoBuy = false;
@@ -5162,7 +5162,7 @@ void C_CSPlayer::ClientThink()
 
 		// if we don't have a target, but we have an old grenade target, the grenade exploded
 		if ( pLocalPlayer->IsSpecFollowingGrenade() && pLocalPlayer->GetTeamNumber() == TEAM_SPECTATOR && pLocalPlayer->m_hOldGrenadeObserverTarget.Get() && 
-			 (pLocalPlayer->GetObserverTarget() == NULL || dynamic_cast< CBaseCSGrenadeProjectile* >( pLocalPlayer->GetObserverTarget() ) ) )
+			 (pLocalPlayer->GetObserverTarget() == nullptr || dynamic_cast< CBaseCSGrenadeProjectile* >( pLocalPlayer->GetObserverTarget() ) ) )
 		{
 			CBaseCSGrenadeProjectile *pGrenade = dynamic_cast< CBaseCSGrenadeProjectile* >( pLocalPlayer->GetObserverTarget() );
 			C_BaseEntity *pTarget = m_hOldGrenadeObserverTarget.Get();
@@ -5174,7 +5174,7 @@ void C_CSPlayer::ClientThink()
 
 				if ( !pGrenade )
 				{
-					pLocalPlayer->SetSpecWatchingGrenade( NULL, false );
+					pLocalPlayer->SetSpecWatchingGrenade(nullptr, false );
 					pLocalPlayer->m_iObserverMode = pLocalPlayer->GetObserverMode();
 				}
 
@@ -5213,15 +5213,15 @@ void C_CSPlayer::ClientThink()
 
 		bool bIsFollowingGrenade = IsHLTV() ? HLTVCamera()->IsWatchingGrenade() : pLocalPlayer->m_bIsSpecFollowingGrenade;
 		
-		CBaseEntity *pGrenade = NULL;
+		CBaseEntity *pGrenade = nullptr;
 		if ( pTarget && bHoldingGrenadeKey && bIsFollowingGrenade == false )
 		{
-			CBaseEntity *pEnt = NULL;
+			CBaseEntity *pEnt = nullptr;
 			
 			float flNewest = 0;
 			float flSpawnTime = 0;
 
-			for ( CEntitySphereQuery sphere( pTarget->GetAbsOrigin(), 1024 ); ( pEnt = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+			for ( CEntitySphereQuery sphere( pTarget->GetAbsOrigin(), 1024 ); ( pEnt = sphere.GetCurrentEntity() ) != nullptr; sphere.NextEntity() )
 			{
 				CBaseCSGrenadeProjectile* pGrenadeProjectile = dynamic_cast< CBaseCSGrenadeProjectile* >( pEnt );
 				// filter out non-tracks
@@ -5373,7 +5373,7 @@ void C_CSPlayer::SetModelPointer( const model_t *pModel )
 
 	if ( bModelPointerIsChanged )
 	{
-		m_bUseNewAnimstate = ( Q_stristr( modelinfo->GetModelName(GetModel()), "custom_player" ) != 0 );
+		m_bUseNewAnimstate = ( Q_stristr( modelinfo->GetModelName(GetModel()), "custom_player" ) != nullptr );
 		m_bAddonModelsAreOutOfDate = true; // next time we update addon models, do a complete refresh
 
 		// apply BONE_ALWAYS_SETUP flag to certain hardcoded bone names, in case they're missing the flags in content
@@ -5772,7 +5772,7 @@ CWeaponCSBase* C_CSPlayer::GetCSWeapon( CSWeaponID id ) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //REMOVEME
@@ -6290,7 +6290,7 @@ void C_CSPlayer::AccumulateLayers( IBoneSetup &boneSetup, BoneVector pos[], Bone
 		return;
 
 	C_BaseCombatWeapon *pWeapon = GetActiveWeapon();
-	CBaseWeaponWorldModel *pWeaponWorldModel = NULL;
+	CBaseWeaponWorldModel *pWeaponWorldModel = nullptr;
 	if ( pWeapon )
 		pWeaponWorldModel = pWeapon->m_hWeaponWorldModel.Get();
 
@@ -6539,9 +6539,9 @@ void C_CSPlayer::DoExtraBoneProcessing( CStudioHdr *pStudioHdr, BoneVector pos[]
 	if ( !IsVisible() || (IsLocalPlayer( this ) && !C_BasePlayer::ShouldDrawLocalPlayer()) || !ShouldDraw() )
 		return;
 
-	mstudioikchain_t *pLeftFootChain = NULL;
-	mstudioikchain_t *pRightFootChain = NULL;
-	mstudioikchain_t *pLeftArmChain = NULL;
+	mstudioikchain_t *pLeftFootChain = nullptr;
+	mstudioikchain_t *pRightFootChain = nullptr;
+	mstudioikchain_t *pLeftArmChain = nullptr;
 
 	int nLeftFootBoneIndex = LookupBone( "ankle_L" );
 	int nRightFootBoneIndex = LookupBone( "ankle_R" );
@@ -6746,7 +6746,7 @@ void C_CSPlayer::BuildTransformations( CStudioHdr *pHdr, BoneVector *pos, BoneQu
 
 C_BaseAnimating * C_CSPlayer::BecomeRagdollOnClient()
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -6760,7 +6760,7 @@ IRagdoll* C_CSPlayer::GetRepresentativeRagdoll() const
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -6854,7 +6854,7 @@ void C_CSPlayer::PlayReloadEffect( int iActAnimID, const Vector *pOrigin )
 					event.m_SoundName = pEvent->options;
 					event.m_flEventTime = gpGlobals->curtime + pEvent->cycle / cyclesPerSecond;
 
-					if ( pOrigin != NULL )
+					if ( pOrigin != nullptr)
 					{
 						event.m_SoundOrigin = *pOrigin;
 						event.m_bHasSoundOrigin = true;
@@ -7131,7 +7131,7 @@ void C_CSPlayer::FireEvent( const Vector& origin, const QAngle& angles, int even
 			//trace up from foot position to the water surface
 			trace_t tr;
 			Vector vecTrace(0,0,1024 );
-			UTIL_TraceLine( origin, origin + vecTrace, MASK_WATER, NULL, COLLISION_GROUP_NONE, &tr );
+			UTIL_TraceLine( origin, origin + vecTrace, MASK_WATER, nullptr, COLLISION_GROUP_NONE, &tr );
 			if ( tr.fractionleftsolid )
 			{
 				data.m_vOrigin = origin + (vecTrace * tr.fractionleftsolid );
@@ -7159,7 +7159,7 @@ void C_CSPlayer::FireEvent( const Vector& origin, const QAngle& angles, int even
 			//trace up from foot position to the water surface
 			trace_t tr;
 			Vector vecTrace(0,0,1024 );
-			UTIL_TraceLine( origin, origin + vecTrace, MASK_WATER, NULL, COLLISION_GROUP_NONE, &tr );
+			UTIL_TraceLine( origin, origin + vecTrace, MASK_WATER, nullptr, COLLISION_GROUP_NONE, &tr );
 			if ( tr.fractionleftsolid )
 			{
 				data.m_vOrigin = origin + (vecTrace * tr.fractionleftsolid );
@@ -7291,7 +7291,7 @@ void C_CSPlayer::ReleaseFlashlight( void )
 		m_pFlashlightBeam->flags = 0;
 		m_pFlashlightBeam->die = gpGlobals->curtime - 1;
 
-		m_pFlashlightBeam = NULL;
+		m_pFlashlightBeam = nullptr;
 	}
 }
 
@@ -7299,7 +7299,7 @@ bool C_CSPlayer::HasC4( void )
 {
 	if( C_BasePlayer::IsLocalPlayer( this ) )
 	{
-		return Weapon_OwnsThisType( "weapon_c4" ) != NULL;
+		return Weapon_OwnsThisType( "weapon_c4" ) != nullptr;
 	}
 	else
 	{
@@ -7387,7 +7387,7 @@ void C_CSPlayer::SetSpecWatchingGrenade( C_BaseEntity *pGrenade, bool bWatching 
 				if ( pLastTarget )
 				{
 					SetObserverTarget( pLastTarget );
-					m_hOldGrenadeObserverTarget = NULL;
+					m_hOldGrenadeObserverTarget = nullptr;
 				}
 			}
 		}
@@ -7628,7 +7628,7 @@ bool C_CSPlayer::ShouldInterpolateObserverChanges() const
 		return false;
 
 	// In hltv, our camera man might be the player we're using for view. Only bother with the dynamic cast if needed.
-	CBasePlayer *pCameraMan = NULL;
+	CBasePlayer *pCameraMan = nullptr;
 	if ( engine->IsHLTV() )
 		pCameraMan = HLTVCamera()->GetCameraMan();
 
@@ -8169,7 +8169,7 @@ void C_CSPlayer::CancelFreezeCamFlashlightEffect()
 
 void C_CSPlayer::CalcDeathCamView( Vector& eyeOrigin, QAngle& eyeAngles, float& fov )
 {
-	CBaseEntity* pKiller = NULL;
+	CBaseEntity* pKiller = nullptr;
 
 	if ( mp_forcecamera.GetInt() == OBS_ALLOW_ALL )
 	{
@@ -8304,7 +8304,7 @@ void C_CSPlayer::DisplayInventory( bool showPistol )
 		CWeaponCSBase *pWeapon = dynamic_cast< CWeaponCSBase* > ( GetWeapon( i ) );
 		
 
-		if ( pWeapon == NULL )
+		if ( pWeapon == nullptr)
 			continue;
 
 		if ( pWeapon->IsKindOf( WEAPONTYPE_GRENADE )  && ( ( CBaseCSGrenade * ) pWeapon )->GetIsThrown() )
@@ -8390,7 +8390,7 @@ void C_BulletHitModel::AttachToPlayer( C_CSPlayer *pTargetPlayer, int nBoneIndex
 }
 
 
-C_CSPlayer *C_BulletHitModel::GetPlayerParent() { return m_hPlayerParent.IsValid() ? static_cast< C_CSPlayer* >( m_hPlayerParent.Get() ) : NULL; }
+C_CSPlayer *C_BulletHitModel::GetPlayerParent() { return m_hPlayerParent.IsValid() ? static_cast< C_CSPlayer* >( m_hPlayerParent.Get() ) : nullptr; }
 
 bool C_BulletHitModel::UpdatePosition( void )
 {

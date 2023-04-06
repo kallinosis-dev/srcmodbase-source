@@ -63,7 +63,7 @@ static const int WARN_PANEL_NUMBER = 32768; // in DEBUG if more panels than this
 //-----------------------------------------------------------------------------
 struct MessageItem_t
 {
-	MessageItem_t() : _params( 0 ), _arrivalTime( -1.0f ), _messageID( -1 ) {}
+	MessageItem_t() : _params( nullptr ), _arrivalTime( -1.0f ), _messageID( -1 ) {}
 
 	KeyValues *_params; // message data
 						// _params->GetName() is the message name
@@ -738,7 +738,7 @@ bool CVGui::DispatchMessages()
 		while (m_MessageQueue.Count() > 0 || (m_SecondaryQueue.Count() > 0) || bUsingDelayedQueue)
 		{
 			// get the first message
-			MessageItem_t *messageItem = NULL;
+			MessageItem_t *messageItem = nullptr;
 			int messageIndex = 0;
 
 			// use the secondary queue until it empties. empty it after each message in the
@@ -1104,7 +1104,7 @@ static AppSystemInfo_t s_Dependencies[] =
 {
 	{ "localize" DLL_EXT_STRING,	LOCALIZE_INTERFACE_VERSION },
 	{ "vgui2" DLL_EXT_STRING,		VGUI_SURFACE_INTERFACE_VERSION },
-	{ NULL, NULL }
+	{nullptr, nullptr}
 };
 
 const AppSystemInfo_t* CVGui::GetDependencies()
@@ -1195,5 +1195,5 @@ void *CVGui::QueryInterface( const char *pInterfaceName )
 	// FIXME: Should this go here?
 	// Access other global interfaces exposed by this system...
 	CreateInterfaceFn vguiFactory = Sys_GetFactoryThis();
-	return vguiFactory( pInterfaceName, NULL );
+	return vguiFactory( pInterfaceName, nullptr);
 }

@@ -61,7 +61,7 @@ void C_KeyValueSaver::Shutdown( void )
 	for ( int i = 0; i < m_KeyValueData.Count(); ++i )
 	{
 		m_KeyValueData[ i ].pKeyValues->deleteThis();
-		m_KeyValueData[ i ].pKeyValues = NULL;
+		m_KeyValueData[ i ].pKeyValues = nullptr;
 	}
 
 	m_KeyValueData.RemoveAll();
@@ -125,7 +125,7 @@ bool C_KeyValueSaver::InitKeyValues( const char *pchFileName, KeyValueBuilder fu
 	pKeyValueData = &(m_KeyValueData[ nNew ]);
 	V_strcpy( pKeyValueData->szFileName, pchFileName );
 	pKeyValueData->bDirtySaveData = false;
-	pKeyValueData->pKeyValues = NULL;
+	pKeyValueData->pKeyValues = nullptr;
 	pKeyValueData->funcKeyValueBuilder = funcKeyValueBuilder;
 
 	return true;
@@ -151,14 +151,14 @@ KeyValues * C_KeyValueSaver::GetKeyValues( const char *pchFileName, bool bForceR
 		{
 			if ( !ReadKeyValues( pKeyValueData ) )
 			{
-				return NULL;
+				return nullptr;
 			}
 		}
 
 		return pKeyValueData->pKeyValues;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void C_KeyValueSaver::MarkKeyValuesDirty( const char *pchFileName )
@@ -233,7 +233,7 @@ bool C_KeyValueSaver::WriteDirtyKeyValues( KeyValueSaverData *pKeyValueData, boo
 	if ( pKeyValueData->pKeyValues )
 	{
 		pKeyValueData->pKeyValues->deleteThis();
-		pKeyValueData->pKeyValues = NULL;
+		pKeyValueData->pKeyValues = nullptr;
 	}
 
 	pKeyValueData->pKeyValues = new KeyValues( "KeyValueSaverData" );
@@ -277,5 +277,5 @@ KeyValueSaverData * C_KeyValueSaver::FindKeyValueData( const char *pchFileName )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }

@@ -26,7 +26,7 @@
 
 AI_EnemyInfo_t::AI_EnemyInfo_t(void) 
 {
-	hEnemy				= NULL;
+	hEnemy				= nullptr;
 	vLastKnownLocation	= vec3_origin;
 	vLastSeenLocation	= vec3_origin;
 	timeLastSeen = 0;
@@ -83,7 +83,7 @@ public:
 			
 			pRestore->ReadAll( pAddMemory );
 			
-			if ( pAddMemory->hEnemy != NULL )
+			if ( pAddMemory->hEnemy != nullptr)
 			{
 				pMemMap->Insert( pAddMemory->hEnemy, pAddMemory );
 			}
@@ -181,9 +181,9 @@ AI_EnemyInfo_t *CAI_Enemies::GetFirst( AIEnemiesIter_t *pIter )
 	*pIter = (AIEnemiesIter_t)(uintp)i;
 
 	if ( i == m_Map.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
-	if ( m_Map[i]->hEnemy == NULL )
+	if ( m_Map[i]->hEnemy == nullptr)
 		return GetNext( pIter );
 
 	return m_Map[i];
@@ -196,14 +196,14 @@ AI_EnemyInfo_t *CAI_Enemies::GetNext( AIEnemiesIter_t *pIter )
 	CMemMap::IndexType_t i = size_cast< CMemMap::IndexType_t >( (uintp)(*pIter) );
 
 	if ( i == m_Map.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	i = m_Map.NextInorder( i );
 	*pIter = size_cast< AIEnemiesIter_t >( (uintp)i );
 	if ( i == m_Map.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
-	if ( m_Map[i]->hEnemy == NULL )
+	if ( m_Map[i]->hEnemy == nullptr)
 		return GetNext( pIter );
 
 	return m_Map[i];
@@ -214,13 +214,13 @@ AI_EnemyInfo_t *CAI_Enemies::GetNext( AIEnemiesIter_t *pIter )
 AI_EnemyInfo_t *CAI_Enemies::Find( CBaseEntity *pEntity, bool bTryDangerMemory )
 {
 	if ( pEntity == AI_UNKNOWN_ENEMY )
-		pEntity = NULL;
+		pEntity = nullptr;
 
 	CMemMap::IndexType_t i = m_Map.Find( pEntity );
 	if ( i == m_Map.InvalidIndex() )
 	{
-		if ( !bTryDangerMemory || ( i = m_Map.Find( NULL ) ) == m_Map.InvalidIndex() )
-			return NULL;
+		if ( !bTryDangerMemory || ( i = m_Map.Find(nullptr) ) == m_Map.InvalidIndex() )
+			return nullptr;
 		Assert(m_Map[i]->bDangerMemory == true);
 	}
 	return m_Map[i];
@@ -231,9 +231,9 @@ AI_EnemyInfo_t *CAI_Enemies::Find( CBaseEntity *pEntity, bool bTryDangerMemory )
 
 AI_EnemyInfo_t *CAI_Enemies::GetDangerMemory()
 {
-	CMemMap::IndexType_t i = m_Map.Find( NULL );
+	CMemMap::IndexType_t i = m_Map.Find(nullptr);
 	if ( i == m_Map.InvalidIndex() )
-		return NULL;
+		return nullptr;
 	Assert(m_Map[i]->bDangerMemory == true);
 	return m_Map[i];
 }
@@ -327,7 +327,7 @@ void CAI_Enemies::RefreshMemories(void)
 bool CAI_Enemies::UpdateMemory(CAI_Network* pAINet, CBaseEntity *pEnemy, const Vector &vPosition, float reactionDelay, bool firstHand )
 {
 	if ( pEnemy == AI_UNKNOWN_ENEMY )
-		pEnemy = NULL;
+		pEnemy = nullptr;
 
 	const float DIST_TRIGGER_REACQUIRE_SQ			= Square(20.0 * 12.0);
 	const float TIME_TRIGGER_REACQUIRE				= 4.0;
@@ -391,7 +391,7 @@ bool CAI_Enemies::UpdateMemory(CAI_Network* pAINet, CBaseEntity *pEnemy, const V
 
 	// I'm either remembering a position of an enemy or just a danger position
 	pAddMemory->hEnemy = pEnemy;
-	pAddMemory->bDangerMemory = ( pEnemy == NULL );
+	pAddMemory->bDangerMemory = ( pEnemy == nullptr);
 
 	if ( pEnemy )
 	{
@@ -422,7 +422,7 @@ void CAI_Enemies::OnTookDamageFrom( CBaseEntity *pEnemy )
 //------------------------------------------------------------------------------
 bool CAI_Enemies::HasMemory( CBaseEntity *pEnemy )
 {
-	return ( Find( pEnemy ) != NULL );
+	return ( Find( pEnemy ) != nullptr);
 }
 
 //-----------------------------------------------------------------------------

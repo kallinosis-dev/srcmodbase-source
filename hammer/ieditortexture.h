@@ -106,14 +106,14 @@ class IEditorTexture
 		// Input  : pData - 
 		// Output : 
 		//-----------------------------------------------------------------------------
-		virtual int GetImageDataRGB( void *pData = NULL ) = 0;
+		virtual int GetImageDataRGB( void *pData = nullptr) = 0;
 
 		//-----------------------------------------------------------------------------
 		// Purpose: 
 		// Input  : pData - 
 		// Output : 
 		//-----------------------------------------------------------------------------
-		virtual int GetImageDataRGBA( void *pData = NULL ) = 0;
+		virtual int GetImageDataRGBA( void *pData = nullptr) = 0;
 
 		//-----------------------------------------------------------------------------
 		// Purpose: Returns true if this texture has an alpha component, false if not.
@@ -150,7 +150,7 @@ class IEditorTexture
 		// Returns the material system material associated with a texture
 		//-----------------------------------------------------------------------------
 
-		virtual IMaterial* GetMaterial( bool bForceLoad=true ) { return 0; }
+		virtual IMaterial* GetMaterial( bool bForceLoad=true ) { return nullptr; }
 };
 
 

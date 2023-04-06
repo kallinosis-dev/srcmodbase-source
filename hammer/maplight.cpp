@@ -41,5 +41,5 @@ CMapClass *CMapLight::Copy(bool bUpdateDependencies)
 //-----------------------------------------------------------------------------
 CMapClass *CMapLight::PrepareSelection(SelectMode_t eSelectMode)
 {
-	return NULL;
+	return nullptr;
 }

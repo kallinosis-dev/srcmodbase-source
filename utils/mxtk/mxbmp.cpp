@@ -24,21 +24,21 @@ mxImage *
 mxBmpRead (const char *filename)
 {
 	int i;
-	FILE *pfile = 0;
+	FILE *pfile = nullptr;
 	mxBitmapFileHeader bmfh;
 	mxBitmapInfoHeader bmih;
 	mxBitmapRGBQuad rgrgbPalette[256];
 	int cbBmpBits;
 	byte *pbBmpBits;
-	byte *pb, *pbPal = 0;
+	byte *pb, *pbPal = nullptr;
 	int cbPalBytes;
 	int biTrueWidth;
-	mxImage *image = 0;
+	mxImage *image = nullptr;
 	bool success = false;
 
 	// File exists?
-	if ((pfile = fopen (filename, "rb")) == 0)
-		return 0;
+	if ((pfile = fopen (filename, "rb")) == nullptr)
+		return nullptr;
 	
 	// Read file header
 	if (fread (&bmfh, sizeof bmfh, 1/*count*/, pfile) != 1)
@@ -109,7 +109,7 @@ mxBmpRead (const char *filename)
 	// Read bitmap bits (remainder of file)
 	cbBmpBits = bmfh.bfSize - ftell (pfile);
 	pb = (byte *) malloc (cbBmpBits * sizeof (byte));
-	if (pb == 0)
+	if (pb == nullptr)
 	{
 		free (pbPal);
 		goto GetOut;
@@ -155,7 +155,7 @@ GetOut:
 	if ( !success )
 	{
 		delete image;
-		image = 0;
+		image = nullptr;
 	}
 
 	return image;
@@ -167,13 +167,13 @@ bool
 mxBmpWrite (const char *filename, mxImage *image)
 {
 	int i;
-	FILE *pfile = 0;
+	FILE *pfile = nullptr;
 	mxBitmapFileHeader bmfh;
 	mxBitmapInfoHeader bmih;
 	mxBitmapRGBQuad rgrgbPalette[256];
 	int cbBmpBits;
 	byte *pbBmpBits;
-	byte *pb = 0;
+	byte *pb = nullptr;
 	int cbPalBytes;
 	int biTrueWidth;
 
@@ -181,7 +181,7 @@ mxBmpWrite (const char *filename, mxImage *image)
 		return false;
 
 	// File exists?
-	if ((pfile = fopen(filename, "wb")) == 0)
+	if ((pfile = fopen(filename, "wb")) == nullptr)
 		return false;
 
 	biTrueWidth = ((image->width + 3) & ~3);

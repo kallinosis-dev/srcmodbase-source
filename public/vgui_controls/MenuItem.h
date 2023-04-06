@@ -33,8 +33,8 @@ class MenuItem : public Button
 	DECLARE_CLASS_SIMPLE( MenuItem, Button );
 
 public:
-	MenuItem(Menu *parent, const char *panelName, const char *text, Menu *cascadeMenu = NULL, bool checkable = false);
-	MenuItem(Menu *parent, const char *panelName, const wchar_t *wszText, Menu *cascadeMenu = NULL, bool checkable = false);
+	MenuItem(Menu *parent, const char *panelName, const char *text, Menu *cascadeMenu = nullptr, bool checkable = false);
+	MenuItem(Menu *parent, const char *panelName, const wchar_t *wszText, Menu *cascadeMenu = nullptr, bool checkable = false);
 	~MenuItem();
 
 	virtual void Paint();

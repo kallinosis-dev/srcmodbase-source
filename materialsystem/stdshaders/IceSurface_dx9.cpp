@@ -119,7 +119,7 @@ BEGIN_VS_SHADER( IceSurface_dx9, "IceSurface" )
 			return "Wireframe";
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

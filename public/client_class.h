@@ -55,7 +55,7 @@ public:
 		m_pCreateFn		= createFn;
 		m_pCreateEventFn= createEventFn;
 		m_pRecvTable	= pRecvTable;
-		m_pMapClassname = NULL;
+		m_pMapClassname = nullptr;
 
 		// Link it in
 		m_pNext				= g_pClientClassHead;

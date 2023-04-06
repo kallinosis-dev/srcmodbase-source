@@ -186,7 +186,7 @@ EditorSendResult_t Editor_SendCommand(const char *pszCommand, bool bShowUI)
 {
 #ifdef _WIN32
 	HWND hwnd = FindWindow("Worldcraft_ShellMessageWnd", "Worldcraft_ShellMessageWnd");
-	if (hwnd != NULL)
+	if (hwnd != nullptr)
 	{
 		//
 		// Fill out the data structure to send to the editor.
@@ -203,7 +203,7 @@ EditorSendResult_t Editor_SendCommand(const char *pszCommand, bool bShowUI)
 			{
 				char szError[1024];
 				Q_snprintf(szError,sizeof(szError), "Worldcraft did not accept the command: \n\n\"%s\"\n\n Make sure the command is valid and that Worldcraft is still running properly.", pszCommand);
-				MessageBox(NULL, szError, "Editor_SendCommand Error", MB_OK);
+				MessageBox(nullptr, szError, "Editor_SendCommand Error", MB_OK);
 			}
 		
 			return(Editor_BadCommand);
@@ -215,7 +215,7 @@ EditorSendResult_t Editor_SendCommand(const char *pszCommand, bool bShowUI)
 		{
 			char szError[1024];
 			Q_snprintf(szError,sizeof(szError), "Could not contact Worldcraft to send the command: \n\n\"%s\"\n\n Worldcraft does not appear to be running.", pszCommand);
-			MessageBox(NULL, szError, "Editor_SendCommand Error", MB_OK);
+			MessageBox(nullptr, szError, "Editor_SendCommand Error", MB_OK);
 		}
 
 		return(Editor_NotRunning);

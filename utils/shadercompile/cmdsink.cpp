@@ -15,11 +15,11 @@ namespace CmdSink
 // ------ implementation of CResponseFiles --------------
 
 CResponseFiles::CResponseFiles( char const *szFileResult, char const *szFileListing ) :
-	m_fResult(NULL),
-	m_fListing(NULL),
+	m_fResult(nullptr),
+	m_fListing(nullptr),
 	m_lenResult(0),
-	m_dataResult(NULL),
-	m_dataListing(NULL)
+	m_dataResult(nullptr),
+	m_dataListing(nullptr)
 {
 	sprintf( m_szFileResult, szFileResult );
 	sprintf( m_szFileListing, szFileListing );
@@ -37,7 +37,7 @@ CResponseFiles::~CResponseFiles( void )
 bool CResponseFiles::Succeeded( void )
 {
 	OpenResultFile();
-	return ( m_fResult != NULL );
+	return ( m_fResult != nullptr);
 }
 
 size_t CResponseFiles::GetResultBufferLen( void )
@@ -55,7 +55,7 @@ const void * CResponseFiles::GetResultBuffer( void )
 const char * CResponseFiles::GetListing( void )
 {
 	ReadListingFile();
-	return ( ( m_dataListing && *m_dataListing ) ? m_dataListing : NULL );
+	return ( ( m_dataListing && *m_dataListing ) ? m_dataListing : nullptr);
 }
 
 void CResponseFiles::OpenResultFile( void )

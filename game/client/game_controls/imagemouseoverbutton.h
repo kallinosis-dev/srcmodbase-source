@@ -54,11 +54,11 @@ template <class T>
 CImageMouseOverButton<T>::CImageMouseOverButton( vgui::Panel *parent, const char *panelName, T *templatePanel ) :
 	MouseOverButton<T>( parent, panelName, templatePanel )
 {
-	m_pszActiveImageName = NULL;
-	m_pszInactiveImageName = NULL;
+	m_pszActiveImageName = nullptr;
+	m_pszInactiveImageName = nullptr;
 
-	m_pActiveImage = NULL;
-	m_pInactiveImage = NULL;
+	m_pActiveImage = nullptr;
+	m_pInactiveImage = nullptr;
 }
 
 template <class T>
@@ -68,7 +68,7 @@ void CImageMouseOverButton<T>::ApplySettings( KeyValues *inResourceData )
 
 	// Active Image
 	delete [] m_pszActiveImageName;
-	m_pszActiveImageName = NULL;
+	m_pszActiveImageName = nullptr;
 
 	const char *activeImageName = inResourceData->GetString( "activeimage", "" );
 	if ( *activeImageName )
@@ -78,7 +78,7 @@ void CImageMouseOverButton<T>::ApplySettings( KeyValues *inResourceData )
 
 	// Inactive Image
 	delete [] m_pszInactiveImageName;
-	m_pszInactiveImageName = NULL;
+	m_pszInactiveImageName = nullptr;
 
 	const char *inactiveImageName = inResourceData->GetString( "inactiveimage", "" );
 	if ( *inactiveImageName )

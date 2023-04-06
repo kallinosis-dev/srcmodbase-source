@@ -196,7 +196,7 @@ int LocalRandomInt( int min, int max )
 template <typename T>
 bool CheckPointers( T * p1, T * p2 )
 {
-	if ( p1 != NULL )
+	if ( p1 != nullptr)
 	{
 		Assert( p2 != NULL );
 		// When pointers are not NULL, we want to make sure that they don't point to the same object (after all they are completely cloned).
@@ -1813,7 +1813,7 @@ void FLT_FreeAll ( void ) {	for (int i = 0 ; i < CFLTS; i++) FLT_Free ( &flts[i]
 flt_t * FLT_Alloc ( int N, int M, int L, int *a, int *b, float gain )
 {
 	int i, j;
-	flt_t *pf = NULL;
+	flt_t *pf = nullptr;
 	
 	for (i = 0; i < CFLTS; i++)
 	{
@@ -1832,9 +1832,9 @@ flt_t * FLT_Alloc ( int N, int M, int L, int *a, int *b, float gain )
 			for (j = 0; j <= L; j++)
 				pf->b[j] = (int)((float)(b[j]) * gain);
 
-			pf->pf1 = NULL;
-			pf->pf2 = NULL;
-			pf->pf3 = NULL;
+			pf->pf1 = nullptr;
+			pf->pf2 = nullptr;
+			pf->pf3 = nullptr;
 
 			pf->fused = true;
 			break;
@@ -1874,7 +1874,7 @@ void FLT_Print( const flt_t & filter, int nIndentation )
 	DevMsg( "%sN: %d\n", pIndent, filter.N );
 
 	DevMsg( "%spf1:", pIndent );
-	if ( filter.pf1 != NULL )
+	if ( filter.pf1 != nullptr)
 	{
 		FLT_Print( *filter.pf1, nIndentation + 1 );
 	}
@@ -1883,7 +1883,7 @@ void FLT_Print( const flt_t & filter, int nIndentation )
 		DevMsg( "NULL\n" );
 	}
 	DevMsg( "%spf2:", pIndent );
-	if ( filter.pf2 != NULL )
+	if ( filter.pf2 != nullptr)
 	{
 		FLT_Print( *filter.pf2, nIndentation + 1 );
 	}
@@ -1892,7 +1892,7 @@ void FLT_Print( const flt_t & filter, int nIndentation )
 		DevMsg( "NULL\n" );
 	}
 	DevMsg( "%spf3:", pIndent );
-	if ( filter.pf3 != NULL )
+	if ( filter.pf3 != nullptr)
 	{
 		FLT_Print( *filter.pf3, nIndentation + 1 );
 	}
@@ -1905,9 +1905,9 @@ void FLT_Print( const flt_t & filter, int nIndentation )
 #if CHECK_VALUES_AFTER_REFACTORING
 flt_t * FLT_Clone( flt_t * pOldFilter )
 {
-	if ( pOldFilter == NULL )
+	if ( pOldFilter == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 	// Use a gain of 1.0 to make sure we keep the same data.
 	flt_t * pNewFilter = FLT_Alloc( pOldFilter->N, pOldFilter->M, pOldFilter->L, pOldFilter->a, pOldFilter->b, 1.0f );
@@ -2101,10 +2101,10 @@ flt_t * FLT_Params ( prc_t *pprc )
 	if (bpass)
 		N = MAX(N, 1);
 
-	flt_t *pf0 = NULL;
-	flt_t *pf1 = NULL;
-	flt_t *pf2 = NULL;
-	flt_t *pf3 = NULL;
+	flt_t *pf0 = nullptr;
+	flt_t *pf1 = nullptr;
+	flt_t *pf2 = nullptr;
+	flt_t *pf3 = nullptr;
 	
 	// scale b numerators with gain - only scale for first filter if series filters
 
@@ -2581,7 +2581,7 @@ dly_t * DLY_AllocLP ( int D, int a, int b, int type, int M, int L, int *fa, int 
 {
 	CircularBufferSample_t *w;
 	int i;
-	dly_t *pdly = NULL;
+	dly_t *pdly = nullptr;
 	int feedback;
 
 	// find open slot
@@ -2599,7 +2599,7 @@ dly_t * DLY_AllocLP ( int D, int a, int b, int type, int M, int L, int *fa, int 
 	if ( i == CDLYS )
 	{
 		DevMsg ("DSP: Warning, failed to allocate delay line.\n" );
-		return NULL;					// all delay lines in use
+		return nullptr;					// all delay lines in use
 	}
 
 	// save original feedback value
@@ -2626,7 +2626,7 @@ dly_t * DLY_AllocLP ( int D, int a, int b, int type, int M, int L, int *fa, int 
 		if ( !pdly->pflt )
 		{
 			DevMsg ("DSP: Warning, failed to allocate filter for delay line.\n" );
-			return NULL;
+			return nullptr;
 		}	
 	}
 
@@ -2636,7 +2636,7 @@ dly_t * DLY_AllocLP ( int D, int a, int b, int type, int M, int L, int *fa, int 
 	{ 
 		Warning( "Sound DSP: Failed to lock.\n");
 		FLT_Free ( pdly->pflt );
-		return NULL; 
+		return nullptr; 
 	}
 	
 	// clear delay array
@@ -2685,7 +2685,7 @@ dly_t * DLY_AllocLP ( int D, int a, int b, int type, int M, int L, int *fa, int 
 
 dly_t * DLY_Alloc( int D, int a, int b, int type )
 {
-	return DLY_AllocLP( D, a, b, type, 0, 0, 0, 0 );
+	return DLY_AllocLP( D, a, b, type, 0, 0, nullptr, nullptr );
 }
 
 void DLY_Print( const dly_t & delay, int nIndentation )
@@ -2743,7 +2743,7 @@ void DLY_Print( const dly_t & delay, int nIndentation )
 	DevMsg( "%sb: %d\n", pIndent, delay.b );
 
 	DevMsg( "%spflt: ", pIndent );
-	if (delay.pflt != NULL)
+	if (delay.pflt != nullptr)
 	{
 		FLT_Print( *delay.pflt, nIndentation + 1 );
 	}
@@ -2758,7 +2758,7 @@ dly_t * DLY_Clone(dly_t * pOldDelay)
 {
 	flt_t * pFilter = pOldDelay->pflt;
 	dly_t * pNewDelay;
-	if ( pFilter != NULL )
+	if ( pFilter != nullptr)
 	{
 		pNewDelay = DLY_AllocLP(pOldDelay->D, pOldDelay->a, pOldDelay->b, pOldDelay->type, pFilter->M, pFilter->L, pFilter->a, pFilter->b);
 	}
@@ -2777,7 +2777,7 @@ dly_t * DLY_Clone(dly_t * pOldDelay)
 	Assert( ( pNewDelay->p - pNewDelay->w ) == ( pOldDelay->p - pOldDelay->w ) );
 
 	// Let's make sure that the filters have the same values
-	if ( pFilter != NULL )
+	if ( pFilter != nullptr)
 	{
 		for (int i = 0 ; i < FLT_M + 1 ; ++i)
 		{
@@ -2880,7 +2880,7 @@ prm_rng_t dly_rng[] = {
 
 dly_t * DLY_Params ( prc_t *pprc )
 {
-	dly_t *pdly = NULL;
+	dly_t *pdly = nullptr;
 	int D, a, b;
 	
 	float delay		= fabs(pprc->prm[dly_idelay]);
@@ -2929,7 +2929,7 @@ dly_t * DLY_Params ( prc_t *pprc )
 		if ( !pflt )
 		{
 			DevMsg ("DSP: Warning, failed to allocate filter.\n" );
-			return NULL;
+			return nullptr;
 		}
 
 		pdly = DLY_AllocLP ( D, a, b, type, pflt->M, pflt->L, pflt->a, pflt->b );
@@ -3325,7 +3325,7 @@ mdy_t *MDY_Alloc ( dly_t *pdly, float ramptime, float modtime, float depth, floa
 	mdy_t *pmdy;
 
 	if ( !pdly )
-		return NULL;
+		return nullptr;
 
 	for (i = 0; i < CMDYS; i++)
 	{
@@ -3340,7 +3340,7 @@ mdy_t *MDY_Alloc ( dly_t *pdly, float ramptime, float modtime, float depth, floa
 			if ( !pmdy->pdly )
 			{
 				DevMsg ("DSP: Warning, failed to allocate delay for mod delay.\n" );
-				return NULL;
+				return nullptr;
 			}
 
 			pmdy->fused = true;
@@ -3356,7 +3356,7 @@ mdy_t *MDY_Alloc ( dly_t *pdly, float ramptime, float modtime, float depth, floa
 	}
 
 	DevMsg ("DSP: Warning, failed to allocate mod delay.\n" );
-	return NULL;
+	return nullptr;
 }
 
 void MDY_Print( const mdy_t & modDelay, int nIndentation )
@@ -3367,7 +3367,7 @@ void MDY_Print( const mdy_t & modDelay, int nIndentation )
 	DevMsg( "%sfchanging: %d\n", pIndent, modDelay.fchanging );
 
 	DevMsg( "%spdly: ", pIndent );
-	if ( modDelay.pdly != NULL )
+	if ( modDelay.pdly != nullptr)
 	{
 		DLY_Print( *modDelay.pdly, nIndentation + 1 );
 	}
@@ -3647,7 +3647,7 @@ mdy_t * MDY_Params ( prc_t *pprc )
 	pdly = DLY_Params( pprc );
 	
 	if ( !pdly )
-		return NULL;
+		return nullptr;
 
 	pmdy = MDY_Alloc ( pdly, ramptime, modtime, depth, mix );
 	
@@ -3745,7 +3745,7 @@ void RVA_Free( rva_t *prva )
 		for (i = 0; i < CRVA_DLYS; i++)
 		{
 			if ( prva->pmdlys[i] )
-				prva->pmdlys[i]->pdly = NULL;
+				prva->pmdlys[i]->pdly = nullptr;
 		}
 
 		// free all mod delays
@@ -3780,7 +3780,7 @@ rva_t * RVA_Alloc ( int *D, int *a, int *b, int m, flt_t *pflt, int fparallel, f
 	int i;
 	int dtype;
 	rva_t *prva;
-	flt_t *pflt2 = NULL;
+	flt_t *pflt2 = nullptr;
 	
 	bool btaps = ftaps > 0.0;
 
@@ -3797,7 +3797,7 @@ rva_t * RVA_Alloc ( int *D, int *a, int *b, int m, flt_t *pflt, int fparallel, f
 	if (i == CRVAS)
 	{
 		DevMsg ("DSP: Warning, failed to allocate reverb.\n" );
-		return NULL;
+		return nullptr;
 	}
 	
 	prva = &rvas[i];
@@ -3813,7 +3813,7 @@ rva_t * RVA_Alloc ( int *D, int *a, int *b, int m, flt_t *pflt, int fparallel, f
 		if (!pflt2)
 		{
 			DevMsg ("DSP: Warning, failed to allocate flt for reverb.\n" );
-			return NULL;
+			return nullptr;
 		}
 
 		pflt2->pf1 = FLT_Alloc (0, pflt->M, pflt->L, pflt->a, pflt->b, 1.0);
@@ -3896,7 +3896,7 @@ rva_t * RVA_Alloc ( int *D, int *a, int *b, int m, flt_t *pflt, int fparallel, f
 			FLT_Free( pflt2 );
 			RVA_Free( prva );
 			DevMsg ("DSP: Warning, failed to allocate delay for reverb.\n" );
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -3915,7 +3915,7 @@ void RVA_Print( const rva_t & rva, int nIndentation )
 	DevMsg( "%sm: %d\n", pIndent, rva.m );
 	DevMsg( "%sfparallel: %d\n", pIndent, rva.fparallel );
 	DevMsg( "%sFilter:", pIndent );
-	if ( rva.pflt != NULL )
+	if ( rva.pflt != nullptr)
 	{
 		FLT_Print( *rva.pflt, nIndentation + 1 );
 	}
@@ -3926,7 +3926,7 @@ void RVA_Print( const rva_t & rva, int nIndentation )
 	for ( int i = 0 ; i < CRVA_DLYS ; ++i )
 	{
 		DevMsg( "%sDelay[%d]: ", pIndent, i );
-		if ( rva.pdlys[i] != NULL )
+		if ( rva.pdlys[i] != nullptr)
 		{
 			DLY_Print( *rva.pdlys[i], nIndentation + 1 );
 		}
@@ -3938,7 +3938,7 @@ void RVA_Print( const rva_t & rva, int nIndentation )
 	for ( int i = 0 ; i < CRVA_DLYS ; ++i )
 	{
 		DevMsg( "%sModDelay[%d]: ", pIndent, i );
-		if ( rva.pmdlys[i] != NULL )
+		if ( rva.pmdlys[i] != nullptr)
 		{
 			MDY_Print( *rva.pmdlys[i], nIndentation + 1 );
 		}
@@ -3965,7 +3965,7 @@ rva_t * RVA_Clone( rva_t * pOldRva )
 	if (i == CRVAS)
 	{
 		DevMsg ("DSP: Warning, failed to allocate reverb.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	rva_t * pNewRva = &rvas[i];
@@ -3978,7 +3978,7 @@ rva_t * RVA_Clone( rva_t * pOldRva )
 	{
 		// First we do MDYs. In some cases, MDYs can point to DLY that can be stored in the pdlys array
 		// In that case instead of cloning the DLY, we will just update the pointer.
-		if ( pOldRva->pmdlys[j] != NULL )
+		if ( pOldRva->pmdlys[j] != nullptr)
 		{
 			pNewRva->pmdlys[j] = MDY_Clone( pOldRva->pmdlys[j] );
 
@@ -3989,7 +3989,7 @@ rva_t * RVA_Clone( rva_t * pOldRva )
 				continue;	// Don't clone afterward
 			}
 		}
-		if ( pOldRva->pdlys[j] != NULL )
+		if ( pOldRva->pdlys[j] != nullptr)
 		{
 			pNewRva->pdlys[j] = DLY_Clone( pOldRva->pdlys[j] );
 		}
@@ -4174,7 +4174,7 @@ inline void RVA_GetNext_Opt( rva_t *pRva, portable_samplepair_t * pBuffer, int n
 		// run series filters if present
 
 		flt_t * pFilter = pRva->pflt;
-		if ( pFilter != NULL)
+		if ( pFilter != nullptr)
 		{
 			for ( int j = 0 ; j < nCount ; ++j )
 			{
@@ -4866,7 +4866,7 @@ rva_t * RVA_Params ( prc_t *pprc )
 
 	// add filter
 
-	flt_t *pflt = NULL;
+	flt_t *pflt = nullptr;
 
 	if ( cutoff )
 	{
@@ -4974,7 +4974,7 @@ dfr_t * DFR_Alloc ( int *D, int *a, int *b, int n )
 	if (i == CDFRS)
 	{
 		DevMsg ("DSP: Warning, failed to allocate diffusor.\n" );
-		return NULL;
+		return nullptr;
 	}
 	
 	pdfr = &dfrs[i];
@@ -4994,7 +4994,7 @@ dfr_t * DFR_Alloc ( int *D, int *a, int *b, int n )
 		{
 			DFR_Free( pdfr );
 			DevMsg ("DSP: Warning, failed to allocate delay for diffusor.\n" );
-			return NULL;
+			return nullptr;
 		}
 	}
 	
@@ -5012,7 +5012,7 @@ void DFR_Print( const dfr_t & dfr, int nIndentation )
 	for ( int i = 0 ; i < CDFR_DLYS ; ++i )
 	{
 		DevMsg( "%sDelay[%d]: ", pIndent, i );
-		if ( dfr.pdlys[i] != NULL )
+		if ( dfr.pdlys[i] != nullptr)
 		{
 			DLY_Print( *dfr.pdlys[i], nIndentation + 1 );
 		}
@@ -5038,7 +5038,7 @@ dfr_t * DFR_Clone( dfr_t * pOldDfr )
 	if (i == CDFRS)
 	{
 		DevMsg ("DSP: Warning, failed to allocate diffusor.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	dfr_t * pNewDfr = &dfrs[i];
@@ -5049,7 +5049,7 @@ dfr_t * DFR_Clone( dfr_t * pOldDfr )
 	{
 		// First we do MDYs. In some cases, MDYs can point to DLY that can be stored in the pdlys array
 		// In that case instead of cloning the DLY, we will just update the pointer.
-		if ( pOldDfr->pdlys[j] != NULL )
+		if ( pOldDfr->pdlys[j] != nullptr)
 		{
 			pNewDfr->pdlys[j] = DLY_Clone( pOldDfr->pdlys[j] );
 		}
@@ -5798,7 +5798,7 @@ lfo_t * LFO_Alloc( int wtype, float freqHz, bool foneshot, float gain )
 			return plfo;
 		}
 		DevMsg ("DSP: Warning, failed to allocate LFO.\n" );
-		return NULL;
+		return nullptr;
 }
 
 void LFO_Print( const lfo_t & crs, int nIndentation )
@@ -6059,7 +6059,7 @@ ptc_t * PTC_Alloc( float timeslice, float timexfade, float fstep )
 	if ( i == CPTCS ) 
 	{
 		DevMsg ("DSP: Warning, failed to allocate pitch shifter.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	pptc = &ptcs[i];
@@ -6099,7 +6099,7 @@ ptc_t * PTC_Alloc( float timeslice, float timexfade, float fstep )
 	{
 		PTC_Free( pptc );
 		DevMsg ("DSP: Warning, failed to allocate delay for pitch shifter.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	// buffer pointers
@@ -6494,7 +6494,7 @@ env_t *ENV_Alloc ( int type, float famp1, float famp2, float famp3, float attack
 		}
 	}
 	DevMsg ("DSP: Warning, failed to allocate envelope.\n" );
-	return NULL;
+	return nullptr;
 }
 
 void ENV_Print( const env_t & env, int nIndentation )
@@ -6727,7 +6727,7 @@ efo_t *EFO_Alloc ( float threshold, float attack_sec, float decay_sec, bool bexp
 	}
 
 	DevMsg ("DSP: Warning, failed to allocate envelope follower.\n" );
-	return NULL;
+	return nullptr;
 }
 
 void EFO_Print( const efo_t & crs, int nIndentation )
@@ -7052,7 +7052,7 @@ crs_t * CRS_Alloc( int lfotype, float fHz, float fdepth, float mix )
 	if ( i == CCRSS ) 
 	{
 		DevMsg ("DSP: Warning, failed to allocate chorus.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	pcrs = &crss[i];
@@ -7074,7 +7074,7 @@ crs_t * CRS_Alloc( int lfotype, float fHz, float fdepth, float mix )
 		LFO_Free ( plfo );
 		MDY_Free ( pmdy );
 		DevMsg ("DSP: Warning, failed to allocate lfo or mdy for chorus.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	pcrs->pmdy = pmdy;
@@ -7275,7 +7275,7 @@ amp_t * AMP_Alloc( float gain, float vthresh, float distmix, float vfeed, float 
 	if ( i == CAMPS ) 
 	{
 		DevMsg ("DSP: Warning, failed to allocate amp.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	pamp = &amps[i];
@@ -7881,14 +7881,14 @@ struct pset_t
 
 pset_t psets[CPSETS];
 
-pset_t *g_psettemplates = NULL;
+pset_t *g_psettemplates = nullptr;
 int	g_cpsettemplates = 0;
 
 // returns true if preset will expire after duration
 
 bool PSET_IsOneShot( pset_t *ppset )
 {
-	if ( ppset == NULL )
+	if ( ppset == nullptr)
 	{
 		return false;
 	}
@@ -7979,7 +7979,7 @@ pset_t * PSET_Alloc ( int ipsettemplate )
 	}
 
 	if ( i == CPSETS )
-		return NULL;
+		return nullptr;
 
 	if (das_debug.GetInt())
 	{
@@ -8017,7 +8017,7 @@ pset_t * PSET_Alloc ( int ipsettemplate )
 		// failed to init one or more processors
 		Warning( "Sound DSP: preset failed to init.\n");
 		PRC_FreeAll ( ppset->prcs, ppset->cprcs );
-		return NULL;
+		return nullptr;
 	}
 
 	// if preset has duration, setup duration sample counter
@@ -8649,9 +8649,9 @@ int DSP_Alloc( int ipset, float xfade, int cchan )
 
 	for (i = 0; i < pdsp->cchan; i++)
 	{
-		pdsp->ppset[i] = ( pdsp->ipset != 0 ) ? PSET_Alloc ( ipset ) : NULL;		// Allocate a preset only if it is meaningful
+		pdsp->ppset[i] = ( pdsp->ipset != 0 ) ? PSET_Alloc ( ipset ) : nullptr;		// Allocate a preset only if it is meaningful
 																					// This will also remove ambiguities where ipset is zero, but the pointer is not NULL
-		pdsp->ppsetprev[i] = NULL;
+		pdsp->ppsetprev[i] = nullptr;
 	}
 
 	// set up crossfade time in seconds
@@ -8726,7 +8726,7 @@ void DSP_Print( const dsp_t & dsp, int nIndentation )
 	{
 		pset_t * pPreset = dsp.ppset[i];
 		DevMsg( "%sPSET[%d]: ", pIndent, i );
-		if ( pPreset == NULL )
+		if ( pPreset == nullptr)
 		{
 			DevMsg( "None\n" );
 			continue;
@@ -8738,7 +8738,7 @@ void DSP_Print( const dsp_t & dsp, int nIndentation )
 	{
 		pset_t * pPreset = dsp.ppsetprev[i];
 		DevMsg( "%sPSET[%d]: ", pIndent, i );
-		if ( pPreset == NULL )
+		if ( pPreset == nullptr)
 		{
 			DevMsg( "None\n" );
 			continue;
@@ -8817,7 +8817,7 @@ inline void DSP_FreePrevPreset( dsp_t *pdsp )
 		if ( pdsp->ppsetprev[i] )
 		{
 			PSET_Free( pdsp->ppsetprev[i] );
-			pdsp->ppsetprev[i] = NULL;
+			pdsp->ppsetprev[i] = nullptr;
 			didFree = true;
 		}
 	}
@@ -8943,7 +8943,7 @@ void DSP_SetPreset( int idsp, int ipsetnew, const char * pDspName)
 			pdsp->ipsetsav_oneshot = pdsp->ipsetprev;
 	
 	// get new xfade time from previous preset (ie: fade out time). if 0 use default. if < 0, use exponential xfade
-	if ( ( pdsp->ppsetprev[0] != NULL) && ( fabs(pdsp->ppsetprev[0]->fade) > 0.0 ) )
+	if ( ( pdsp->ppsetprev[0] != nullptr) && ( fabs(pdsp->ppsetprev[0]->fade) > 0.0 ) )
 	{
 		pdsp->xfade = fabs(pdsp->ppsetprev[0]->fade);
 		pdsp->bexpfade = pdsp->ppsetprev[0]->fade < 0 ? 1 : 0;
@@ -11773,7 +11773,7 @@ void DSP_ReleaseMemory( void )
 	if (g_psettemplates)
 	{
 		delete[] g_psettemplates;
-		g_psettemplates = NULL;
+		g_psettemplates = nullptr;
 	}
 }
 

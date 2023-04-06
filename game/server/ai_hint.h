@@ -153,7 +153,7 @@ public:
 	void		SetGroup( string_t group );
 	string_t	GetGroup( void )	const	{ return m_strGroup;	}
 
-	void		SetFilterFunc( HintSearchFilterFunc_t pfnFilter, void *pContext = NULL )	{ m_pfnFilter = pfnFilter; m_pFilterContext = pContext; }
+	void		SetFilterFunc( HintSearchFilterFunc_t pfnFilter, void *pContext = nullptr)	{ m_pfnFilter = pfnFilter; m_pFilterContext = pContext; }
 	bool		PassesFilter( CAI_Hint *pCandidate ) const { return ( m_pfnFilter ) ? (*m_pfnFilter)( m_pFilterContext, pCandidate ) : true; }
 
 	void		SetGenericType( string_t genericType )	{ m_strGenericType = genericType; }
@@ -239,7 +239,7 @@ class CAI_HintManager
 	friend class CAI_Hint;
 public:
 	// Hint node creation
-	static CAI_Hint		*CreateHint( HintNodeData *pNodeData, const char *pMapData = NULL );
+	static CAI_Hint		*CreateHint( HintNodeData *pNodeData, const char *pMapData = nullptr);
 	static void			DrawHintOverlays(float flDrawDuration);
 
 	static void			AddHint( CAI_Hint *pTestHint );
@@ -251,12 +251,12 @@ public:
 	static CAI_Hint		*FindHint( CAI_BaseNPC *pNPC, const Vector &position, const CHintCriteria &hintCriteria );
 	static CAI_Hint		*FindHint( CAI_BaseNPC *pNPC, const CHintCriteria &hintCriteria );
 	static CAI_Hint		*FindHint( const Vector &position, const CHintCriteria &hintCriteria );
-	static CAI_Hint		*FindHint( CAI_BaseNPC *pNPC, Hint_e nHintType, int nFlags, float flMaxDist, const Vector *pMaxDistFrom = NULL );
+	static CAI_Hint		*FindHint( CAI_BaseNPC *pNPC, Hint_e nHintType, int nFlags, float flMaxDist, const Vector *pMaxDistFrom = nullptr);
 
 	// Purpose: Finds a random suitable hint within the requested radious of the npc
 	static CAI_Hint		*FindHintRandom( CAI_BaseNPC *pNPC, const Vector &position, const CHintCriteria &hintCriteria );
 	static int			FindAllHints( CAI_BaseNPC *pNPC, const Vector &position, const CHintCriteria &hintCriteria, CUtlVector<CAI_Hint *> *pResult );
-	static int			FindAllHints( const Vector &position, const CHintCriteria &hintCriteria, CUtlVector<CAI_Hint *> *pResult )	{ return FindAllHints( NULL, position, hintCriteria, pResult ); }
+	static int			FindAllHints( const Vector &position, const CHintCriteria &hintCriteria, CUtlVector<CAI_Hint *> *pResult )	{ return FindAllHints(nullptr, position, hintCriteria, pResult ); }
 	static int			FindAllHints( CAI_BaseNPC *pNPC, const CHintCriteria &hintCriteria, CUtlVector<CAI_Hint *> *pResult )		{ return FindAllHints( pNPC, pNPC->GetAbsOrigin(), hintCriteria, pResult ); }
 	static int			GetFlags( const char *token );
 

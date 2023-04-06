@@ -27,30 +27,30 @@
 #include "tier0/memdbgon.h"
 
 //
-IPhysics			*physics = NULL;
-IPhysicsObject		*g_PhysWorldObject = NULL;
-IPhysicsCollision	*physcollision = NULL;
-IPhysicsEnvironment	*physenv = NULL;
+IPhysics			*physics = nullptr;
+IPhysicsObject		*g_PhysWorldObject = nullptr;
+IPhysicsCollision	*physcollision = nullptr;
+IPhysicsEnvironment	*physenv = nullptr;
 #ifdef PORTAL
 IPhysicsEnvironment	*physenv_main = NULL;
 #endif
-IPhysicsSurfaceProps *physprops = NULL;
+IPhysicsSurfaceProps *physprops = nullptr;
 // UNDONE: This hash holds both entity & IPhysicsObject pointer pairs
 // UNDONE: Split into separate hashes?
-IPhysicsObjectPairHash *g_EntityCollisionHash = NULL;
+IPhysicsObjectPairHash *g_EntityCollisionHash = nullptr;
 
 const char *SURFACEPROP_MANIFEST_FILE = "scripts/surfaceproperties_manifest.txt";
 
 const objectparams_t g_PhysDefaultObjectParams =
 {
-	NULL,
+	nullptr,
 	1.0, //mass
 	1.0, // inertia
 	0.1f, // damping
 	0.1f, // rotdamping
 	0.05f, // rotIntertiaLimit
 	"DEFAULT",
-	NULL,// game data
+	nullptr,// game data
 	0.f, // volume (leave 0 if you don't have one or call physcollision->CollideVolume() to compute it)
 	1.0f, // drag coefficient
 	true,// enable collisions?
@@ -126,7 +126,7 @@ IPhysicsObject *PhysModelCreateBox( CBaseEntity *pEntity, const Vector &mins, co
 
 	CPhysCollide *pCollide = PhysCreateBbox( mins, maxs );
 	if ( !pCollide )
-		return NULL;
+		return nullptr;
 	
 	return PhysModelCreateCustom( pEntity, pCollide, origin, vec3_angle, STRING(pEntity->GetModelName()), isStatic, &solid );
 }
@@ -166,7 +166,7 @@ IPhysicsObject *PhysModelCreateOBB( CBaseEntity *pEntity, const Vector &mins, co
 
 	CPhysCollide *pCollide = PhysCreateBbox( mins, maxs );
 	if ( !pCollide )
-		return NULL;
+		return nullptr;
 	
 	return PhysModelCreateCustom( pEntity, pCollide, origin, angle, STRING(pEntity->GetModelName()), isStatic, &solid );
 }
@@ -302,18 +302,18 @@ bool PhysModelParseSolidByIndex( solid_t &solid, CBaseEntity *pEntity, vcollide_
 IPhysicsObject *PhysModelCreate( CBaseEntity *pEntity, int modelIndex, const Vector &origin, const QAngle &angles, solid_t *pSolid )
 {
 	if ( !physenv )
-		return NULL;
+		return nullptr;
 
 	vcollide_t *pCollide = modelinfo->GetVCollide( modelIndex );
 	if ( !pCollide || !pCollide->solidCount )
-		return NULL;
+		return nullptr;
 	
 	solid_t tmpSolid;
 	if ( !pSolid )
 	{
 		pSolid = &tmpSolid;
 		if ( !PhysModelParseSolidByIndex( tmpSolid, pEntity, pCollide, -1 ) )
-			return NULL;
+			return nullptr;
 	}
 
 	int surfaceProp = -1;
@@ -360,16 +360,16 @@ IPhysicsObject *PhysModelCreate( CBaseEntity *pEntity, int modelIndex, const Vec
 IPhysicsObject *PhysModelCreateUnmoveable( CBaseEntity *pEntity, int modelIndex, const Vector &origin, const QAngle &angles )
 {
 	if ( !physenv )
-		return NULL;
+		return nullptr;
 
 	vcollide_t *pCollide = modelinfo->GetVCollide( modelIndex );
 	if ( !pCollide || !pCollide->solidCount )
-		return NULL;
+		return nullptr;
 
 	solid_t solid;
 
 	if ( !PhysModelParseSolidByIndex( solid, pEntity, pCollide, -1 ) )
-		return NULL;
+		return nullptr;
 
 	// collisions are off by default
 	solid.params.enableCollisions = true;
@@ -417,7 +417,7 @@ IPhysicsObject *PhysModelCreateUnmoveable( CBaseEntity *pEntity, int modelIndex,
 IPhysicsObject *PhysModelCreateCustom( CBaseEntity *pEntity, const CPhysCollide *pModel, const Vector &origin, const QAngle &angles, const char *pName, bool isStatic, solid_t *pSolid )
 {
 	if ( !physenv )
-		return NULL;
+		return nullptr;
 
 	solid_t tmpSolid;
 	if ( !pSolid )
@@ -428,7 +428,7 @@ IPhysicsObject *PhysModelCreateCustom( CBaseEntity *pEntity, const CPhysCollide 
 	int surfaceProp = physprops->GetSurfaceIndex( pSolid->surfaceprop );
 	pSolid->params.pGameData = static_cast<void *>(pEntity);
 	pSolid->params.pName = pName;
-	IPhysicsObject *pObject = NULL;
+	IPhysicsObject *pObject = nullptr;
 	if ( isStatic )
 	{
 		pObject = physenv->CreatePolyObjectStatic( pModel, surfaceProp, origin, angles, &pSolid->params );
@@ -455,7 +455,7 @@ IPhysicsObject *PhysModelCreateCustom( CBaseEntity *pEntity, const CPhysCollide 
 IPhysicsObject *PhysSphereCreate( CBaseEntity *pEntity, float radius, const Vector &origin, solid_t &solid )
 {
 	if ( !physenv )
-		return NULL;
+		return nullptr;
 
 	int surfaceProp = -1;
 	if ( solid.surfaceprop[0] )
@@ -490,7 +490,7 @@ void PhysDestroyObject( IPhysicsObject *pObject, CBaseEntity *pEntity )
 
 	
 	if ( pObject )
-		pObject->SetGameData( NULL );
+		pObject->SetGameData(nullptr);
 
 	g_EntityCollisionHash->RemoveAllPairsForObject( pObject );
 	if ( pEntity && pEntity->IsMarkedForDeletion() )
@@ -533,7 +533,7 @@ void PhysParseSurfaceData( IPhysicsSurfaceProps *pProps, IFileSystem *pFileSyste
 	KeyValues *manifest = new KeyValues( SURFACEPROP_MANIFEST_FILE );
 	if ( manifest->LoadFromFile( pFileSystem, SURFACEPROP_MANIFEST_FILE, "GAME" ) )
 	{
-		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 		{
 			if ( !Q_stricmp( sub->GetName(), "file" ) )
 			{
@@ -586,7 +586,7 @@ IPhysicsObject *PhysCreateWorld_Shared( CBaseEntity *pWorld, vcollide_t *pWorldC
 	fluid_t fluid;
 
 	if ( !physenv )
-		return NULL;
+		return nullptr;
 
 	int surfaceData = physprops->GetSurfaceIndex( "default" );
 
@@ -651,7 +651,7 @@ IPhysicsObject *PhysCreateWorld_Shared( CBaseEntity *pWorld, vcollide_t *pWorldC
 		}
 		else if ( !strcmpi( pBlock, "fluid" ) )
 		{
-			pParse->ParseFluid( &fluid, NULL );
+			pParse->ParseFluid( &fluid, nullptr);
 
 			// create a fluid for floating
 			if ( fluid.index > 0 )
@@ -675,7 +675,7 @@ IPhysicsObject *PhysCreateWorld_Shared( CBaseEntity *pWorld, vcollide_t *pWorldC
 			int surfaceTable[128];
 			memset( surfaceTable, 0, sizeof(surfaceTable) );
 
-			pParse->ParseSurfaceTable( surfaceTable, NULL );
+			pParse->ParseSurfaceTable( surfaceTable, nullptr);
 			physprops->SetWorldMaterialIndexTable( surfaceTable, 128 );
 		}
 		else if ( !strcmpi(pBlock, "virtualterrain" ) )

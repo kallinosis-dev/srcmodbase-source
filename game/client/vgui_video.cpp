@@ -123,7 +123,7 @@ bool VGui_IsPlayingFullScreenVideo()
 }
 
 VideoPanel::VideoPanel( unsigned int nXPos, unsigned int nYPos, unsigned int nHeight, unsigned int nWidth ) : 
-	BaseClass( NULL, "VideoPanel" ),
+	BaseClass(nullptr, "VideoPanel" ),
 	m_BIKHandle( BIKHANDLE_INVALID ),
 	m_nPlaybackWidth( 0 ),
 	m_nPlaybackHeight( 0 ),
@@ -146,12 +146,12 @@ VideoPanel::VideoPanel( unsigned int nXPos, unsigned int nYPos, unsigned int nHe
 
 	m_bBlackBackground = true;
 
-	m_pWaitingForPlayers = NULL;
-	m_pPnlGamerPic = NULL;
-	m_pLblGamerTag = NULL;
-	m_pLblGamerTagStatus = NULL;
+	m_pWaitingForPlayers = nullptr;
+	m_pPnlGamerPic = nullptr;
+	m_pLblGamerTag = nullptr;
+	m_pLblGamerTagStatus = nullptr;
 
-	m_pSubtitlePanel = NULL;
+	m_pSubtitlePanel = nullptr;
 
 #ifdef PORTAL2
 	vgui::VPANEL pParent = enginevgui->GetPanel( PANEL_GAMEDLL );
@@ -198,7 +198,7 @@ VideoPanel::~VideoPanel( void )
 	{
 		bik->DestroyMaterial( m_BIKHandle );
 		m_BIKHandle = BIKHANDLE_INVALID;
-		m_pMaterial = NULL;
+		m_pMaterial = nullptr;
 	}
 #endif
 }
@@ -289,7 +289,7 @@ bool VideoPanel::BeginPlayback( const char *pFilename )
 	{
 		bik->DestroyMaterial( m_BIKHandle );
 		m_BIKHandle = BIKHANDLE_INVALID;
-		m_pMaterial = NULL;
+		m_pMaterial = nullptr;
 	}
 
 	// Load and create our BINK video
@@ -489,7 +489,7 @@ void VideoPanel::StopPlayback( bool bTerminate )
 		{
 			bik->DestroyMaterial( m_BIKHandle );
 			m_BIKHandle = BIKHANDLE_INVALID;
-			m_pMaterial = NULL;
+			m_pMaterial = nullptr;
 		}
 	}
 }
@@ -578,7 +578,7 @@ void VideoPanel::GetPanelPos( int &xpos, int &ypos )
 float VideoPanel::DrawMovieFrame( void )
 {
 	// No video to play, so do nothing
-	if ( m_BIKHandle == BIKHANDLE_INVALID || m_pMaterial == NULL )
+	if ( m_BIKHandle == BIKHANDLE_INVALID || m_pMaterial == nullptr)
 		return 0;
 
 #if !defined( _GAMECONSOLE ) || defined( BINK_ENABLED_FOR_CONSOLE )
@@ -656,7 +656,7 @@ float VideoPanel::DrawMovieFrame( void )
 	pRenderContext->PushMatrix();
 	pRenderContext->LoadIdentity();
 
-	pRenderContext->Bind( m_pMaterial, NULL );
+	pRenderContext->Bind( m_pMaterial, nullptr);
 
 	CMeshBuilder meshBuilder;
 	IMesh* pMesh = pRenderContext->GetDynamicMesh( true );
@@ -741,7 +741,7 @@ void VideoPanel::PostChildPaint()
 
 bool VideoPanel::IsPlaying()
 {
-	if ( m_BIKHandle == BIKHANDLE_INVALID || m_pMaterial == NULL )
+	if ( m_BIKHandle == BIKHANDLE_INVALID || m_pMaterial == nullptr)
 		return false;
 
 	return true;
@@ -854,7 +854,7 @@ bool VideoPanel_Create( unsigned int nXPos, unsigned int nYPos,
 {
 	// Create the base video panel
 	VideoPanel *pVideoPanel = new VideoPanel( nXPos, nYPos, nHeight, nWidth );
-	if ( pVideoPanel == NULL )
+	if ( pVideoPanel == nullptr)
 		return false;
 
 	// Toggle if we want the panel to allow interruption
@@ -930,7 +930,7 @@ CON_COMMAND( playvideo, "Plays a video: <filename> [width height]" )
 	unsigned int nScreenWidth = Q_atoi( args[2] );
 	unsigned int nScreenHeight = Q_atoi( args[3] );
 	
-	CreateVideoPanel( args[1], NULL, nScreenWidth, nScreenHeight, VIDEO_ALLOW_INTERRUPT );
+	CreateVideoPanel( args[1], nullptr, nScreenWidth, nScreenHeight, VIDEO_ALLOW_INTERRUPT );
 }
 
 //-----------------------------------------------------------------------------
@@ -945,7 +945,7 @@ CON_COMMAND( playvideo_nointerrupt, "Plays a video without ability to skip: <fil
 	unsigned int nScreenWidth = Q_atoi( args[2] );
 	unsigned int nScreenHeight = Q_atoi( args[3] );
 
-	CreateVideoPanel( args[1], NULL, nScreenWidth, nScreenHeight, VIDEO_NO_INTERRUPT );
+	CreateVideoPanel( args[1], nullptr, nScreenWidth, nScreenHeight, VIDEO_NO_INTERRUPT );
 }
 
 //-----------------------------------------------------------------------------
@@ -976,7 +976,7 @@ CON_COMMAND( playvideo_end_level_transition, "Plays a video fullscreen without a
 	// this con command is only used for the coop transition videos
 	bool bAddPartnerUI = true;
 
-	CreateVideoPanel( args[1], NULL, 0, 0, VIDEO_ALLOW_INTERRUPT_DEV_ONLY, flTime, true, true, bAddPartnerUI );
+	CreateVideoPanel( args[1], nullptr, 0, 0, VIDEO_ALLOW_INTERRUPT_DEV_ONLY, flTime, true, true, bAddPartnerUI );
 }
 
 //-----------------------------------------------------------------------------

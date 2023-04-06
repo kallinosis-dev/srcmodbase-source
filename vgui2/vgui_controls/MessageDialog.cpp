@@ -24,7 +24,7 @@ CMessageDialog::CMessageDialog( vgui::Panel *pParent, const uint nType, const ch
 	SetCloseButtonVisible( false );
 	SetSizeable( false );
 
-	m_pControlSettings = NULL;
+	m_pControlSettings = nullptr;
 	m_pCreator = pCreator ? pCreator : pParent;
 
 	m_nType = nType;
@@ -37,7 +37,7 @@ CMessageDialog::CMessageDialog( vgui::Panel *pParent, const uint nType, const ch
 	if ( nType & MD_SIMPLEFRAME )
 	{
 		SetPaintBackgroundEnabled( true );
-		m_pBackground = NULL;
+		m_pBackground = nullptr;
 	}
 	else
 	{
@@ -92,20 +92,20 @@ CMessageDialog::~CMessageDialog()
 	for ( int i = 0; i < MAX_BUTTONS; ++i )
 	{
 		free( m_pCommands[i] );
-		m_pCommands[i] = NULL;
+		m_pCommands[i] = nullptr;
 
 		delete m_Buttons[i].pIcon;
 		delete m_Buttons[i].pText;
 	}
 
 	delete m_pTitle;
-	m_pTitle = NULL;
+	m_pTitle = nullptr;
 
 	delete m_pMsg;
-	m_pMsg = NULL;
+	m_pMsg = nullptr;
 
 	delete m_pBackground;
-	m_pBackground = NULL;
+	m_pBackground = nullptr;
 }
 
 //-----------------------------------------------------------------------------

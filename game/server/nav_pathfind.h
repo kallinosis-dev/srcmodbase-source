@@ -41,7 +41,7 @@ class ShortestPathCost
 public:
 	float operator() ( CNavArea *area, CNavArea *fromArea, const CNavLadder *ladder, const CFuncElevator *elevator, float length )
 	{
-		if ( fromArea == NULL )
+		if ( fromArea == nullptr)
 		{
 			// first area in path, no cost
 			return 0.0f;
@@ -106,7 +106,7 @@ public:
  */
 #define IGNORE_NAV_BLOCKERS true
 template< typename CostFunctor >
-bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *goalPos, CostFunctor &costFunc, CNavArea **closestArea = NULL, float maxPathLength = 0.0f, int teamID = TEAM_ANY, bool ignoreNavBlockers = false )
+bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *goalPos, CostFunctor &costFunc, CNavArea **closestArea = nullptr, float maxPathLength = 0.0f, int teamID = TEAM_ANY, bool ignoreNavBlockers = false )
 {
 	VPROF_BUDGET( "NavAreaBuildPath", "NextBotSpiky" );
 	SNPROF("NavAreaBuildPath");
@@ -118,21 +118,21 @@ bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *go
 
 	bool isDebug = ( g_DebugPathfindCounter-- > 0 );
 
-	if (startArea == NULL)
+	if (startArea == nullptr)
 		return false;
 
-	if (goalArea != NULL && goalArea->IsBlocked( teamID, ignoreNavBlockers ))
-		goalArea = NULL;
+	if (goalArea != nullptr && goalArea->IsBlocked( teamID, ignoreNavBlockers ))
+		goalArea = nullptr;
 
-	if (goalArea == NULL && goalPos == NULL)
+	if (goalArea == nullptr && goalPos == nullptr)
 		return false;
 
-	startArea->SetParent( NULL );
+	startArea->SetParent(nullptr);
 
 	// if we are already in the goal area, build trivial path
 	if (startArea == goalArea)
 	{
-		goalArea->SetParent( NULL );
+		goalArea->SetParent(nullptr);
 		return true;
 	}
 
@@ -175,7 +175,7 @@ bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *go
 			continue;
 
 		// check if we have found the goal area or position
-		if (area == goalArea || (goalArea == NULL && goalPos && area->Contains( *goalPos )))
+		if (area == goalArea || (goalArea == nullptr && goalPos && area->Contains( *goalPos )))
 		{
 			if (closestArea)
 			{
@@ -197,7 +197,7 @@ bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *go
 		const NavConnectVector *floorList = area->GetAdjacentAreas( NORTH );
 
 		bool ladderUp = true;
-		const NavLadderConnectVector *ladderList = NULL;
+		const NavLadderConnectVector *ladderList = nullptr;
 		enum { AHEAD = 0, LEFT, RIGHT, BEHIND, NUM_TOP_DIRECTIONS };
 		int ladderTopDir = AHEAD;
 		bool bHaveMaxPathLength = ( maxPathLength > 0.0f );
@@ -205,10 +205,10 @@ bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *go
 		
 		while( true )
 		{
-			CNavArea *newArea = NULL;
+			CNavArea *newArea = nullptr;
 			NavTraverseType how;
-			const CNavLadder *ladder = NULL;
-			const CFuncElevator *elevator = NULL;
+			const CNavLadder *ladder = nullptr;
+			const CFuncElevator *elevator = nullptr;
 
 			//
 			// Get next adjacent area - either on floor or via ladder
@@ -259,7 +259,7 @@ bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *go
 						// checked both ladder directions - check elevators next
 						searchWhere = SEARCH_ELEVATORS;
 						searchIndex = 0;
-						ladder = NULL;
+						ladder = nullptr;
 					}
 					else
 					{
@@ -306,14 +306,14 @@ bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *go
 					++searchIndex;
 				}
 
-				if ( newArea == NULL )
+				if ( newArea == nullptr)
 					continue;
 
 				length = -1.0f;
 			}
 			else // if ( searchWhere == SEARCH_ELEVATORS )
 			{
-				elevator = NULL;
+				elevator = nullptr;
 				break;
 			}
 
@@ -398,10 +398,10 @@ bool NavAreaBuildPath( CNavArea *startArea, CNavArea *goalArea, const Vector *go
 template< typename CostFunctor >
 float NavAreaTravelDistance( CNavArea *startArea, CNavArea *endArea, CostFunctor &costFunc, float maxPathLength = 0.0f )
 {
-	if (startArea == NULL)
+	if (startArea == nullptr)
 		return -1.0f;
 
-	if (endArea == NULL)
+	if (endArea == nullptr)
 		return -1.0f;
 
 	if (startArea == endArea)
@@ -438,7 +438,7 @@ float NavAreaTravelDistance( CNavArea *startArea, CNavArea *endArea, CostFunctor
 // helper function
 inline void AddAreaToOpenList( CNavArea *area, CNavArea *parent, const Vector &startPos, float maxRange )
 {
-	if (area == NULL)
+	if (area == nullptr)
 		return;
 
 	if (!area->IsMarked())
@@ -483,7 +483,7 @@ inline void AddAreaToOpenList( CNavArea *area, CNavArea *parent, const Vector &s
 template < typename Functor >
 void SearchSurroundingAreas( CNavArea *startArea, const Vector &startPos, Functor &func, float maxRange = -1.0f, unsigned int options = 0, int teamID = TEAM_ANY )
 {
-	if (startArea == NULL)
+	if (startArea == nullptr)
 		return;
 
 	CNavArea::MakeNewMarker();
@@ -492,7 +492,7 @@ void SearchSurroundingAreas( CNavArea *startArea, const Vector &startPos, Functo
 	startArea->AddToOpenList();
 	startArea->SetTotalCost( 0.0f );
 	startArea->SetCostSoFar( 0.0f );
-	startArea->SetParent( NULL );
+	startArea->SetParent(nullptr);
 	startArea->Mark();
 
 	while( !CNavArea::IsOpenListEmpty() )
@@ -624,7 +624,7 @@ public:
 	// consider 'area' in upcoming search steps
 	void IncludeInSearch( CNavArea *area, CNavArea *priorArea ) 
 	{
-		if ( area == NULL )
+		if ( area == nullptr)
 			return;
 
 		if ( !area->IsMarked() )
@@ -666,7 +666,7 @@ inline void SearchSurroundingAreas( CNavArea *startArea, ISearchSurroundingAreas
 		startArea->AddToOpenList();
 		startArea->SetTotalCost( 0.0f );
 		startArea->SetCostSoFar( 0.0f );
-		startArea->SetParent( NULL );
+		startArea->SetParent(nullptr);
 		startArea->Mark();
 
 		CUtlVector< CNavArea * > adjVector;

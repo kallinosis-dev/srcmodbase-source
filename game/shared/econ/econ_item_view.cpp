@@ -305,7 +305,7 @@ CEconItemView::CEconItemView( void )
 	m_iInventoryPosition = 0;
 	m_bInitialized = false;
 	m_iAccountID = 0;
-	m_pNonSOEconItem = NULL;
+	m_pNonSOEconItem = nullptr;
 #if defined( CLIENT_DLL )
 	m_bIsTradeItem = false;
 	m_iEntityQuantity = 1;
@@ -401,7 +401,7 @@ void CEconItemView::Cleanup( void )
 	if ( m_pNonSOEconItem )
 	{
 		delete m_pNonSOEconItem;
-		m_pNonSOEconItem = NULL;		
+		m_pNonSOEconItem = nullptr;		
 	}
 }
 
@@ -410,7 +410,7 @@ void CEconItemView::Cleanup( void )
 //-----------------------------------------------------------------------------
 CEconItemView::CEconItemView( const CEconItemView &src )
 {
-	m_pNonSOEconItem = NULL;
+	m_pNonSOEconItem = nullptr;
 #if defined( CSTRIKE_CLIENT_DLL )
 	m_bInventoryImageRgbaRequested = false;
 	m_bInventoryImageTriedCache = false;
@@ -727,7 +727,7 @@ const char *CEconItemView::GetCustomName() const
 	}
 #endif
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -735,7 +735,7 @@ const char *CEconItemView::GetCustomName() const
 //-----------------------------------------------------------------------------
 const char *CEconItemView::GetCustomDesc() const
 {
-	return GetSOCData() ? GetSOCData()->GetCustomDesc() : NULL;
+	return GetSOCData() ? GetSOCData()->GetCustomDesc() : nullptr;
 }
 
 int CEconItemView::GetItemSetIndex() const
@@ -753,7 +753,7 @@ void CEconItemView::Invalidate( void )
 	 if ( m_pNonSOEconItem )
 	 {
 		 delete m_pNonSOEconItem;
-		 m_pNonSOEconItem = NULL;
+		 m_pNonSOEconItem = nullptr;
 	 }
 }
 
@@ -1009,7 +1009,7 @@ CEconItem *CEconItemView::GetSOCData( void ) const
 	if ( pInventory )
 		return pInventory->GetSOCDataForItem( GetItemID() );
 
-	return NULL;
+	return nullptr;
 }
 
 itemid_t CEconItemView::GetFauxItemIDFromDefinitionIndex( void ) const
@@ -1024,7 +1024,7 @@ itemid_t CEconItemView::GetFauxItemIDFromDefinitionIndex( void ) const
 const char *CEconItemView::GetInventoryModel( void )
 {
 	if ( !GetStaticData() )
-		return NULL;
+		return nullptr;
 	return GetStaticData()->GetInventoryModel();
 }
 
@@ -1044,7 +1044,7 @@ IMaterial *CEconItemView::GetToolStickerMaterial( void )
 {
 
 	if ( !IsStickerTool() )
-		return NULL;
+		return nullptr;
 
 	uint32 nStickerId = GetStickerAttributeBySlotIndexInt( 0, k_EStickerAttribute_ID, 0 );
 	if ( nStickerId > 0 && GetItemSchema() && GetItemSchema()->GetStickerKitDefinition( nStickerId ) )
@@ -1079,7 +1079,7 @@ IMaterial *CEconItemView::GetToolStickerMaterial( void )
 
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1089,7 +1089,7 @@ const char *CEconItemView::GetInventoryImage( void ) const
 {
 	const GameItemDefinition_t *pStaticData = GetStaticData();
 	if ( !pStaticData )
-		return NULL;
+		return nullptr;
 
 	const CEconStyleInfo *pStyle = GetStaticData()->GetStyleInfo( GetItemStyle() );
 
@@ -1126,7 +1126,7 @@ const char *CEconItemView::GetInventoryImage( void ) const
 	else if ( Helper_IsGraphicTool( GetItemDefinition() ) )
 	{
 		uint32 nStickerId = GetStickerAttributeBySlotIndexInt( 0, k_EStickerAttribute_ID, 0 );
-		if ( const CStickerKit *pStickerKitDef = ( ( nStickerId > 0 ) ? GetItemSchema()->GetStickerKitDefinition( nStickerId ) : NULL ) )
+		if ( const CStickerKit *pStickerKitDef = ( ( nStickerId > 0 ) ? GetItemSchema()->GetStickerKitDefinition( nStickerId ) : nullptr) )
 		{
 			char const *szResult = pStickerKitDef->GetIconURLLarge();
 
@@ -1206,7 +1206,7 @@ bool CEconItemView::GetInventoryImageData( int *iPosition, int *iSize )
 const char *CEconItemView::GetInventoryOverlayImage( int idx )
 {
 	if ( !GetStaticData() )
-		return NULL;
+		return nullptr;
 	return GetStaticData()->GetInventoryOverlayImage( idx );
 }
 
@@ -1224,7 +1224,7 @@ const char *CEconItemView::GetPlayerDisplayModel( int iClass ) const
 {
 	const CEconItemDefinition *pDef = GetStaticData();
 	if ( !pDef )
-		return NULL;
+		return nullptr;
 
 	// If we have styles, give the style system a chance to change the mesh used for this
 	// player class.
@@ -1292,7 +1292,7 @@ const char *CEconItemView::GetIconDisplayModel()
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	return pData->GetIconDisplayModel();
 }
@@ -1304,7 +1304,7 @@ const char *CEconItemView::GetPedestalDisplayModel()
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	static CSchemaItemDefHandle hItemDefMusicKit( "musickit" );
 	static CSchemaItemDefHandle hItemDefMusicKitDefault( "musickit_default" );
@@ -1337,7 +1337,7 @@ const char *CEconItemView::GetBuyMenuDisplayModel()
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	return pData->GetBuyMenuDisplayModel();
 }
@@ -1349,7 +1349,7 @@ const char *CEconItemView::GetWorldDroppedModel()
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	return pData->GetWorldDroppedModel();
 }
@@ -1361,7 +1361,7 @@ const char *CEconItemView::GetMagazineModel()
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	return pData->GetMagazineModel();
 }
@@ -1373,7 +1373,7 @@ const char *CEconItemView::GetScopeLensMaskModel()
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	return pData->GetScopeLensMaskModel();
 }
@@ -1385,7 +1385,7 @@ const char *CEconItemView::GetStatTrakModelByType( int nStatTrakType )
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	return pData->GetStatTrakModelByType( nStatTrakType );
 }
@@ -1397,7 +1397,7 @@ const char *CEconItemView::GetUidModel()
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	return pData->GetUidModel();
 }
@@ -1478,7 +1478,7 @@ const char *CEconItemView::GetWorldDisplayModel()
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	return pData->GetWorldDisplayModel();
 }
@@ -1490,7 +1490,7 @@ const char *CEconItemView::GetExtraWearableModel()
 {
 	const CEconItemDefinition *pData = GetStaticData();
 	if ( !pData )
-		return NULL;
+		return nullptr;
 
 	return pData->GetExtraWearableModel();
 }
@@ -1553,7 +1553,7 @@ void CEconItemView::DestroyAllAttributes( void )
 #if defined ( GAME_DLL )
 void CEconItemView::UpdateNetworkedCustomName()
 {
-	const char* szName = GetSOCData() ? GetSOCData()->GetCustomName() : NULL;
+	const char* szName = GetSOCData() ? GetSOCData()->GetCustomName() : nullptr;
 	if ( szName )
 	{
 		V_strncpy( m_szCustomName.GetForModify(), szName, MAX_ITEM_CUSTOM_NAME_DATABASE_SIZE );
@@ -3410,7 +3410,7 @@ const CPaintKit *CEconItemView::GetCustomPaintKit( void ) const
 CAttributeList::CAttributeList()
 {
 #if defined(CLIENT_DLL) || defined(GAME_DLL)
-	m_pManager = NULL;
+	m_pManager = nullptr;
 #endif
 	m_Attributes.Purge();
 }
@@ -3571,7 +3571,7 @@ CEconItemAttribute *CAttributeList::GetAttributeByClass( const char *szAttribCla
 			return pAttr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const CEconItemAttribute *CAttributeList::GetAttributeByClass( const char *szAttribClass ) const
@@ -3585,7 +3585,7 @@ const CEconItemAttribute *CAttributeList::GetAttributeByClass( const char *szAtt
 			return pAttr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3602,7 +3602,7 @@ CEconItemAttribute *CAttributeList::GetAttributeByDefIndex( uint16 unAttrDefInde
 			return pAttr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const CEconItemAttribute *CAttributeList::GetAttributeByDefIndex( uint16 unAttrDefIndex ) const
@@ -3616,7 +3616,7 @@ const CEconItemAttribute *CAttributeList::GetAttributeByDefIndex( uint16 unAttrD
 			return pAttr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3626,7 +3626,7 @@ CEconItemAttribute *CAttributeList::GetAttributeByName( const char *pszAttribDef
 {
 	const CEconItemAttributeDefinition *pDef = GetItemSchema()->GetAttributeDefinitionByName( pszAttribDefName );
 	if ( !pDef )
-		return NULL;
+		return nullptr;
 
 	int iAttributes = m_Attributes.Count();
 	for ( int i = 0; i < iAttributes; i++ )
@@ -3635,14 +3635,14 @@ CEconItemAttribute *CAttributeList::GetAttributeByName( const char *pszAttribDef
 			return &m_Attributes[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const CEconItemAttribute *CAttributeList::GetAttributeByName( const char *pszAttribDefName ) const
 {
 	const CEconItemAttributeDefinition *pDef = GetItemSchema()->GetAttributeDefinitionByName( pszAttribDefName );
 	if ( !pDef )
-		return NULL;
+		return nullptr;
 
 	int iAttributes = m_Attributes.Count();
 	for ( int i = 0; i < iAttributes; i++ )
@@ -3651,7 +3651,7 @@ const CEconItemAttribute *CAttributeList::GetAttributeByName( const char *pszAtt
 			return &m_Attributes[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3666,7 +3666,7 @@ CAttributeList&	CAttributeList::operator=( const CAttributeList& src )
 	// CEconItemViews, which we duplicate inside CItemModelPanels all the time. If the manager
 	// is copied, copies will mess with the attribute caches of the copied item.
 	// Our manager will be setup properly by the CAttributeManager itself if we have an associated entity.
-	m_pManager = NULL;
+	m_pManager = nullptr;
 #endif
 
 	return *this;

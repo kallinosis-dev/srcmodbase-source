@@ -85,7 +85,7 @@ static activitylist_t *ListFromString( const char *pString )
 	// just use the string registry to do this search/map
 	int stringID = g_ActivityStrings.GetStringID( pString );
 	if ( stringID < 0 )
-		return NULL;
+		return nullptr;
 
 	return &g_ActivityList[stringID];
 }
@@ -102,7 +102,7 @@ static activitylist_t *ListFromActivity( int activityIndex )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool ActivityList_RegisterSharedActivity( const char *pszActivityName, int iActivityIndex )
@@ -186,7 +186,7 @@ const char *ActivityList_NameForIndex( int activityIndex )
 	{
 		return g_ActivityStrings.GetStringForKey( pList->stringKey );
 	}
-	return NULL;
+	return nullptr;
 }
 
 void ActivityList_RegisterSharedActivities( void )
@@ -1453,7 +1453,7 @@ void UTIL_LoadActivityRemapFile( const char *filename, const char *section, CUtl
 
 	KeyValues *pkvFile = new KeyValues( section );
 
-	if ( pkvFile->LoadFromFile( filesystem, filename, NULL ) )
+	if ( pkvFile->LoadFromFile( filesystem, filename, nullptr) )
 	{
 		KeyValues *pTestKey = pkvFile->GetFirstSubKey();
 

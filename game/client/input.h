@@ -87,7 +87,7 @@ public:
 	virtual		void		ClearStates( void );
 	virtual		float		GetLookSpring( void );
 
-	virtual		void		GetFullscreenMousePos( int *mx, int *my, int *unclampedx = NULL, int *unclampedy = NULL );
+	virtual		void		GetFullscreenMousePos( int *mx, int *my, int *unclampedx = nullptr, int *unclampedy = nullptr);
 	virtual		void		SetFullscreenMousePos( int mx, int my );
 	virtual		void		ResetMouse( void );
 
@@ -286,11 +286,11 @@ protected:
 
 			m_flLastForwardMove = 0;
 
-			m_pCommands = 0;
-			m_pVerifiedCommands = NULL;
+			m_pCommands = nullptr;
+			m_pVerifiedCommands = nullptr;
 
 			m_nClearInputState = 0;
-			m_pCameraThirdData = NULL;
+			m_pCameraThirdData = nullptr;
 			m_nCamCommand = 0;
 
 			m_flPreviousJoystickForwardMove = 0;

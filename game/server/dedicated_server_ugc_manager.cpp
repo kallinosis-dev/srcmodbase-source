@@ -148,12 +148,12 @@ bool DedicatedServerUGCFileInfo_t::BuildFromKV( KeyValues *pPublishedFileDetails
 	if ( !contentHandle )
 		return false;
 	
-	const char* szUrl = pPublishedFileDetails->GetString( "file_url", NULL );
+	const char* szUrl = pPublishedFileDetails->GetString( "file_url", nullptr);
 	if ( !szUrl )
 		return false;
 	V_strcpy_safe( m_szUrl, szUrl );
 
-	const char* szName = V_UnqualifiedFileName( pPublishedFileDetails->GetString( "filename", NULL ) );
+	const char* szName = V_UnqualifiedFileName( pPublishedFileDetails->GetString( "filename", nullptr) );
 	if ( !szName )
 		return false;
 	V_strcpy_safe( m_szFileName, szName );
@@ -162,7 +162,7 @@ bool DedicatedServerUGCFileInfo_t::BuildFromKV( KeyValues *pPublishedFileDetails
 	if ( !m_unFileSizeInBytes )
 		return false;
 	
-	const char* szTitle = pPublishedFileDetails->GetString( "title", NULL );
+	const char* szTitle = pPublishedFileDetails->GetString( "title", nullptr);
 	if ( !szTitle )
 		return false;
 	V_strcpy_safe( m_szTitle, szTitle );
@@ -236,7 +236,7 @@ bool CDedicatedServerWorkshopManager::Init( void )
 		KeyValues* pCollectionCacheKV = new KeyValues("");
 		KeyValues::AutoDelete autodelete( pCollectionCacheKV );
 		pCollectionCacheKV->LoadFromFile( g_pFullFileSystem, g_szCollectionCacheFileName, "MOD" );
-		for ( KeyValues *pDetails = pCollectionCacheKV->GetFirstSubKey(); pDetails != NULL; pDetails = pDetails->GetNextKey() )
+		for ( KeyValues *pDetails = pCollectionCacheKV->GetFirstSubKey(); pDetails != nullptr; pDetails = pDetails->GetNextKey() )
 		{
 			PublishedFileId_t collectionId = pDetails->GetUint64( "publishedfileid", 0 );
 			if ( collectionId != 0 )
@@ -291,7 +291,7 @@ void CDedicatedServerWorkshopManager::GetNewestSubscribedFiles( void )
 		{
 			int nLength;
 			szAuthKey = (const char *)UTIL_LoadFileForMe( g_szAuthKeyFilename, &nLength );
-			if ( szAuthKey != NULL )
+			if ( szAuthKey != nullptr)
 			{
 				if ( !StringIsEmpty( szAuthKey ) )
 				{
@@ -309,7 +309,7 @@ void CDedicatedServerWorkshopManager::GetNewestSubscribedFiles( void )
 				}
 				
 				UTIL_FreeFile( (byte *)szAuthKey );
-				szAuthKey = NULL;
+				szAuthKey = nullptr;
 			}
 			if ( StringIsEmpty(m_szWebAPIAuthKey) )
 			{
@@ -391,7 +391,7 @@ void CDedicatedServerWorkshopManager::Cleanup( void )
 	if ( m_pMapGroupBuilder )
 	{
 		delete m_pMapGroupBuilder;
-		m_pMapGroupBuilder = NULL;
+		m_pMapGroupBuilder = nullptr;
 	}
 }
 
@@ -413,7 +413,7 @@ void CDedicatedServerWorkshopManager::Update( void )
 		{
 			m_pMapGroupBuilder->CreateOrUpdateMapGroup();
 
-			if ( m_desiredHostCollection != 0 && m_pMapGroupBuilder->GetFirstMap() != NULL )
+			if ( m_desiredHostCollection != 0 && m_pMapGroupBuilder->GetFirstMap() != nullptr)
 			{
 				// Set the map group and changelevel if this was our target hosting map group
 				const char* szStartMap = m_unTargetStartMap ?  m_pMapGroupBuilder->GetMapMatchingId( m_unTargetStartMap ) : m_pMapGroupBuilder->GetFirstMap();
@@ -422,7 +422,7 @@ void CDedicatedServerWorkshopManager::Update( void )
 			}
 
 			delete m_pMapGroupBuilder;
-			m_pMapGroupBuilder = NULL;
+			m_pMapGroupBuilder = nullptr;
 			m_desiredHostCollection = 0;
 		}
 	}
@@ -586,7 +586,7 @@ void CDedicatedServerWorkshopManager::UpdatePublishedFileInfoRequests( void )
 		else
 		{
 			KeyValues* pCollectionDetails = pCurRequest->GetResponseKV();
-			for ( KeyValues *pDetails = pCollectionDetails->GetFirstSubKey(); pDetails != NULL; pDetails = pDetails->GetNextKey() )
+			for ( KeyValues *pDetails = pCollectionDetails->GetFirstSubKey(); pDetails != nullptr; pDetails = pDetails->GetNextKey() )
 			{
 				PublishedFileId_t collectionId = ParseCollectionInfo( pDetails );
 				if ( collectionId != 0 )
@@ -961,7 +961,7 @@ const char* CDedicatedServerWorkshopManager::GetUGCMapPath( PublishedFileId_t id
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -980,7 +980,7 @@ PublishedFileId_t CDedicatedServerWorkshopManager::ParseCollectionInfo( KeyValue
 		}
 
 		CUtlVector<PublishedFileId_t> vecCollectionIDs;
-		for ( KeyValues *pFile = pChildren->GetFirstSubKey(); pFile != NULL; pFile = pFile->GetNextKey() )
+		for ( KeyValues *pFile = pChildren->GetFirstSubKey(); pFile != nullptr; pFile = pFile->GetNextKey() )
 		{
 			PublishedFileId_t id = pFile->GetUint64( "publishedfileid" );
 			vecCollectionIDs.AddToTail( id );
@@ -1003,11 +1003,11 @@ PublishedFileId_t CDedicatedServerWorkshopManager::ParseCollectionInfo( KeyValue
 
 CStreamingUGCDownloader::CStreamingUGCDownloader():m_fileBuffer( 1024*1024, 1024*1024, 0 )
 {
-	m_ioAsyncControl = NULL;
+	m_ioAsyncControl = nullptr;
 	m_unChunkSize = 0;
 	m_unBytesReceived = 0;
 	m_unFileSizeInBytes = 0;
-	m_pFileInfo = NULL;
+	m_pFileInfo = nullptr;
 	m_bIsFinished = false;
 	m_bHTTPRequestPending = false;
 	m_flTimeLastMessage = 0.0f;
@@ -1020,7 +1020,7 @@ void CStreamingUGCDownloader::Cleanup( void )
 		filesystem->AsyncAbort( m_ioAsyncControl );
 		filesystem->AsyncFinish( m_ioAsyncControl, true );
 		filesystem->AsyncRelease( m_ioAsyncControl );
-		m_ioAsyncControl = NULL;
+		m_ioAsyncControl = nullptr;
 	}
 	m_fileBuffer.Clear();
 
@@ -1168,7 +1168,7 @@ void CStreamingUGCDownloader::Update( void )
 		return;
 
 	// Free to ask for more content if async write is done, or if we haven't started writing yet.
-	bool bDoneWriting =  m_ioAsyncControl == NULL || filesystem->AsyncStatus( m_ioAsyncControl ) == FSASYNC_OK;
+	bool bDoneWriting =  m_ioAsyncControl == nullptr || filesystem->AsyncStatus( m_ioAsyncControl ) == FSASYNC_OK;
 	if ( bDoneWriting == true && m_bHTTPRequestPending == false )
 	{
 		if ( m_unBytesReceived <  m_unFileSizeInBytes ) 
@@ -1243,7 +1243,7 @@ void CWorkshopMapGroupBuilder::CreateOrUpdateMapGroup( void )
 
 const char* CWorkshopMapGroupBuilder::GetFirstMap( void ) const
 {
-	return m_Maps.Count() > 0 ? m_Maps.Head() : NULL;
+	return m_Maps.Count() > 0 ? m_Maps.Head() : nullptr;
 }
 
 const char* CWorkshopMapGroupBuilder::GetMapMatchingId( PublishedFileId_t id ) const
@@ -1342,7 +1342,7 @@ void CBaseWorkshopHTTPRequest::OnHTTPRequestComplete( HTTPRequestCompleted_t *ar
 				KeyValues *pResponseKV = new KeyValues("");
 				pResponseKV->UsesEscapeSequences( true );
 				KeyValuesAD autodelete( pResponseKV );
-				bool bLoadSucessful = pResponseKV->LoadFromBuffer( NULL, resBuffer );
+				bool bLoadSucessful = pResponseKV->LoadFromBuffer(nullptr, resBuffer );
 
 				if ( sv_debug_ugc_downloads.GetBool() )
 					KeyValuesDumpAsDevMsg( pResponseKV, 1 );
@@ -1404,7 +1404,7 @@ void CPublishedFileInfoHTTPRequest::ProcessHTTPResponse( KeyValues *pResponseKV 
 	KeyValues *pPublishedFileDetails = pResponseKV->FindKey( "publishedfiledetails", false );
 	if ( pPublishedFileDetails )
 	{
-		for ( KeyValues *fileDetails = pPublishedFileDetails->GetFirstSubKey(); fileDetails != NULL; fileDetails = fileDetails->GetNextKey() )
+		for ( KeyValues *fileDetails = pPublishedFileDetails->GetFirstSubKey(); fileDetails != nullptr; fileDetails = fileDetails->GetNextKey() )
 		{
 			DedicatedServerUGCFileInfo_t * pNewFileInfo = new DedicatedServerUGCFileInfo_t;
 			pNewFileInfo->BuildFromKV( fileDetails );
@@ -1416,7 +1416,7 @@ void CPublishedFileInfoHTTPRequest::ProcessHTTPResponse( KeyValues *pResponseKV 
 CCollectionInfoHTTPRequest::CCollectionInfoHTTPRequest( const CUtlVector<PublishedFileId_t>& vecFileIDs )
 	: CBaseWorkshopHTTPRequest( vecFileIDs )
 {
-	m_pResponseKV = NULL;
+	m_pResponseKV = nullptr;
 }
 
 CCollectionInfoHTTPRequest::~CCollectionInfoHTTPRequest()
@@ -1424,7 +1424,7 @@ CCollectionInfoHTTPRequest::~CCollectionInfoHTTPRequest()
 	if ( m_pResponseKV )
 	{
 		m_pResponseKV->deleteThis();
-		m_pResponseKV = NULL;
+		m_pResponseKV = nullptr;
 	}
 }
 

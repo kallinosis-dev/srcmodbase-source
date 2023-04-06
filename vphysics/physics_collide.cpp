@@ -298,7 +298,7 @@ static const IVP_Compact_Surface *ConvertPhysCollideToCompactSurface( const CPhy
 
 IVP_SurfaceManager *CreateSurfaceManager( const CPhysCollide *pCollisionModel, short &collideType )
 {
-	return pCollisionModel ? pCollisionModel->CreateSurfaceManager( collideType ) : NULL;
+	return pCollisionModel ? pCollisionModel->CreateSurfaceManager( collideType ) : nullptr;
 }
 
 void OutputCollideDebugInfo( const CPhysCollide *pCollisionModel )
@@ -322,11 +322,11 @@ CPhysCollide *CPhysCollide::UnserializeFromBuffer( const char *pBuffer, unsigned
 			return new CPhysCollideMopp( (moppheader_t *)pHeader );
 #else
 			DevMsg( 2, "Null physics model\n");
-			return NULL;
+			return nullptr;
 #endif
 		default:
 			Assert(0);
-			return NULL;
+			return nullptr;
 		}
 	}
 	const IVP_Compact_Surface *pSurface = reinterpret_cast<const IVP_Compact_Surface *>(pBuffer);
@@ -336,7 +336,7 @@ CPhysCollide *CPhysCollide::UnserializeFromBuffer( const char *pBuffer, unsigned
 		return new CPhysCollideMopp( pBuffer, size );
 #else
 		Assert(0);
-		return NULL;
+		return nullptr;
 #endif
 	}
 	if ( pSurface->dummy[2] == IVP_COMPACT_SURFACE_ID || 
@@ -352,7 +352,7 @@ CPhysCollide *CPhysCollide::UnserializeFromBuffer( const char *pBuffer, unsigned
 	}
 
 	Assert(0);
-	return NULL;
+	return nullptr;
 }
 
 #if ENABLE_IVP_MOPP
@@ -430,7 +430,7 @@ void CPhysCollideMopp::OutputDebugInfo() const
 
 void CPhysCollideCompactSurface::InitCollideMap()
 {
-	m_pCollideMap = NULL;
+	m_pCollideMap = nullptr;
 	if ( m_pCompactSurface )
 	{
 		IVP_U_BigVector<IVP_Compact_Ledge> ledges;
@@ -665,7 +665,7 @@ CPhysConvex	*CPhysicsCollision::ConvexFromVertsFast( Vector **pVerts, int vertCo
 CPhysConvex *CPhysicsCollision::RebuildConvexFromPlanes( CPhysConvex *pConvex, float mergeTolerance )
 {
 	if ( !pConvex )
-		return NULL;
+		return nullptr;
 	
 	IVP_Compact_Ledge *pLedge = (IVP_Compact_Ledge *)pConvex;
 	int triangleCount = pLedge->get_n_triangles();
@@ -1164,12 +1164,12 @@ CPhysCollide *CPhysicsCollision::ConvertConvexToCollide( CPhysConvex **pConvex, 
 CPhysCollide *CPhysicsCollision::ConvertConvexToCollideParams( CPhysConvex **pConvex, int convexCount, const convertconvexparams_t &convertParams )
 {
 	if ( !convexCount || !pConvex )
-		return NULL;
+		return nullptr;
 
 	int validConvex = 0;
 	BEGIN_IVP_ALLOCATION();
 	IVP_SurfaceBuilder_Ledge_Soup builder;
-	IVP_Compact_Surface *pSurface = NULL;
+	IVP_Compact_Surface *pSurface = nullptr;
 
 	for ( int i = 0; i < convexCount; i++ )
 	{
@@ -1200,7 +1200,7 @@ CPhysCollide *CPhysicsCollision::ConvertConvexToCollideParams( CPhysConvex **pCo
 
 	END_IVP_ALLOCATION();
 
-	return NULL;
+	return nullptr;
 }
 
 static void InitBoxVerts( Vector *boxVerts, Vector **ppVerts, const Vector &mins, const Vector &maxs )
@@ -1222,7 +1222,7 @@ static void InitBoxVerts( Vector *boxVerts, Vector **ppVerts, const Vector &mins
 CPhysCollideCompactSurface *CPhysicsCollision::FastBboxCollide( const CPhysCollideCompactSurface *pCollide, const Vector &mins, const Vector &maxs )
 {
 	Vector boxVerts[8];
-	InitBoxVerts( boxVerts, NULL, mins, maxs );
+	InitBoxVerts( boxVerts, nullptr, mins, maxs );
 	// copy the compact ledge at bboxCache 0
 	// stuff the verts in there
 	const IVP_Compact_Surface *pSurface = ConvertPhysCollideToCompactSurface( pCollide );
@@ -1301,7 +1301,7 @@ CPhysCollide *CPhysicsCollision::BBoxToCollide( const Vector &mins, const Vector
 	if ( mins == maxs )
 	{
 		Assert(0);
-		return NULL;
+		return nullptr;
 	}
 
 	// find this bbox in the cache
@@ -1352,7 +1352,7 @@ CPhysCollideCompactSurface *CPhysicsCollision::GetBBoxCache( const Vector &mins,
 		if ( m_bboxCache[i].mins == mins && m_bboxCache[i].maxs == maxs )
 			return m_bboxCache[i].pCollide;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1437,9 +1437,9 @@ void CPhysicsCollision::PolysoupAddTriangle( CPhysPolysoup *pSoup, const Vector 
 CPhysCollide *CPhysicsCollision::ConvertPolysoupToCollide( CPhysPolysoup *pSoup, bool useMOPP )
 {
 	if ( !pSoup->m_isValid )
-		return NULL;
+		return nullptr;
 
-	CPhysCollide *pCollide = NULL;
+	CPhysCollide *pCollide = nullptr;
 #if ENABLE_IVP_MOPP
 	if ( useMOPP )
 	{
@@ -1551,7 +1551,7 @@ void CPhysicsCollision::TraceBox( const Vector &start, const Vector &end, const 
 
 void CPhysicsCollision::TraceBox( const Ray_t &ray, const CPhysCollide *pCollide, const Vector &collideOrigin, const QAngle &collideAngles, trace_t *ptr )
 {
-	TraceBox( ray, MASK_ALL, NULL, pCollide, collideOrigin, collideAngles, ptr );
+	TraceBox( ray, MASK_ALL, nullptr, pCollide, collideOrigin, collideAngles, ptr );
 }
 
 void CPhysicsCollision::TraceBox( const Ray_t &ray, unsigned int contentsMask, IConvexInfo *pConvexInfo, const CPhysCollide *pCollide, const Vector &collideOrigin, const QAngle &collideAngles, trace_t *ptr )
@@ -1875,7 +1875,7 @@ void CCollisionQuery::SetTriangleMaterialIndex( int convexIndex, int triangleInd
 IVP_Compact_Triangle *CCollisionQuery::Triangle( IVP_Compact_Ledge *pLedge, int triangleIndex )
 {
 	if ( !pLedge )
-		return NULL;
+		return nullptr;
 
 	return pLedge->get_first_triangle() + triangleIndex;
 }

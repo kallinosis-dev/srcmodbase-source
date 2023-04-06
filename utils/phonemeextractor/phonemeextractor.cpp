@@ -264,7 +264,7 @@ void AddWordTransitionRule( ISpRecoGrammar* cpRecoGrammar, WORDRULETYPE *from, W
 		OutputDebugString( va( "Transition from %s to %s\r\n", from->plaintext, to->plaintext ) );
 	}
 
-	hr = cpRecoGrammar->AddWordTransition( from->hRule, to ? to->hRule : NULL, (WCHAR *)from->word, NULL, SPWT_LEXICAL, CONFIDENCE_WEIGHT, NULL );
+	hr = cpRecoGrammar->AddWordTransition( from->hRule, to ? to->hRule : nullptr, (WCHAR *)from->word, nullptr, SPWT_LEXICAL, CONFIDENCE_WEIGHT, nullptr);
 	Assert( !FAILED( hr ) );
 }
 
@@ -290,7 +290,7 @@ void AddOptionalTransitionRule( ISpRecoGrammar* cpRecoGrammar, WORDRULETYPE *fro
 		OutputDebugString( va( "Opt transition from %s to %s\r\n", from->plaintext, to->plaintext ) );
 	}
 
-	hr = cpRecoGrammar->AddWordTransition( from->hRule, to ? to->hRule : NULL, NULL, NULL, SPWT_LEXICAL, CONFIDENCE_WEIGHT, NULL );
+	hr = cpRecoGrammar->AddWordTransition( from->hRule, to ? to->hRule : nullptr, nullptr, nullptr, SPWT_LEXICAL, CONFIDENCE_WEIGHT, nullptr);
 	Assert( !FAILED( hr ) );
 }
 
@@ -312,7 +312,7 @@ bool BuildRules( ISpRecoGrammar* cpRecoGrammar, SPSTATEHANDLE *root, CUtlVector<
 	rule = &(*rules)[ 0 ];
 
 	// Add transition
-	hr = cpRecoGrammar->AddWordTransition( *root, rule->hRule, NULL, NULL, SPWT_LEXICAL, CONFIDENCE_WEIGHT, NULL );
+	hr = cpRecoGrammar->AddWordTransition( *root, rule->hRule, nullptr, nullptr, SPWT_LEXICAL, CONFIDENCE_WEIGHT, nullptr);
 	Assert( !FAILED( hr ) );
 
 	for ( int i = 0; i < numrules; i++ )
@@ -324,7 +324,7 @@ bool BuildRules( ISpRecoGrammar* cpRecoGrammar, SPSTATEHANDLE *root, CUtlVector<
 		}
 		else
 		{
-			next = NULL;
+			next = nullptr;
 		}
 
 		AddWordTransitionRule( cpRecoGrammar, rule, next );
@@ -336,7 +336,7 @@ bool BuildRules( ISpRecoGrammar* cpRecoGrammar, SPSTATEHANDLE *root, CUtlVector<
 		{
 			OutputDebugString( va( "Opt transition from Root to %s\r\n", (*rules)[ 0 ].plaintext ) );
 
-			hr = cpRecoGrammar->AddWordTransition( *root, (*rules)[ 0 ].hRule, NULL, NULL, SPWT_LEXICAL, CONFIDENCE_WEIGHT, NULL );
+			hr = cpRecoGrammar->AddWordTransition( *root, (*rules)[ 0 ].hRule, nullptr, nullptr, SPWT_LEXICAL, CONFIDENCE_WEIGHT, nullptr);
 
 			// Now build rules where you can skip 1 to N intervening words
 			for ( int i = 1; i < numrules; i++ )
@@ -357,7 +357,7 @@ bool BuildRules( ISpRecoGrammar* cpRecoGrammar, SPSTATEHANDLE *root, CUtlVector<
 			}
 
 			// Go from final rule to end point
-			AddOptionalTransitionRule( cpRecoGrammar, rule, NULL );
+			AddOptionalTransitionRule( cpRecoGrammar, rule, nullptr);
 		}
 	}
 
@@ -401,7 +401,7 @@ void PrintAlternates( ISpRecoResult* cpResult, void (*pfnPrint)( const char *fmt
 				for ( ULONG r = 0 ; r < ulCount; r++ )
 				{
 					CSpDynamicString dstrText;
-					hr = rgPhraseAlt[ r ]->GetText( (ULONG)SP_GETWHOLEPHRASE, (ULONG)SP_GETWHOLEPHRASE, TRUE, &dstrText, NULL);
+					hr = rgPhraseAlt[ r ]->GetText( (ULONG)SP_GETWHOLEPHRASE, (ULONG)SP_GETWHOLEPHRASE, TRUE, &dstrText, nullptr);
 					Assert( !FAILED( hr ) );
 
 					pfnPrint( "[ ALT ]" );
@@ -418,7 +418,7 @@ void PrintAlternates( ISpRecoResult* cpResult, void (*pfnPrint)( const char *fmt
 		if ( rgPhraseAlt[ i ] )
 		{
 			rgPhraseAlt[ i ]->Release();
-			rgPhraseAlt[ i ] = NULL;
+			rgPhraseAlt[ i ] = nullptr;
 		}
 	}
 }
@@ -504,7 +504,7 @@ SR_RESULT ExtractPhonemes( const char *wavname, CSpDynamicString& text, CSentenc
 	hr = cpInputStream->BindToFile(
 		T2W(wavname),
 		SPFM_OPEN_READONLY,
-		NULL,
+		nullptr,
 		sInputFormat.WaveFormatExPtr(),
 		SPFEI_ALL_EVENTS );
 
@@ -551,7 +551,7 @@ SR_RESULT ExtractPhonemes( const char *wavname, CSpDynamicString& text, CSentenc
 	}
 
 	// Create a phoneme converter ( so we can convert to IPA codes )
-	hr = SpCreatePhoneConverter( langID, NULL, NULL, &cpPhoneConv );
+	hr = SpCreatePhoneConverter( langID, nullptr, nullptr, &cpPhoneConv );
 	if ( FAILED( hr ) )
 	{
 		if ( langID != englishID )
@@ -567,7 +567,7 @@ SR_RESULT ExtractPhonemes( const char *wavname, CSpDynamicString& text, CSentenc
 
 			// Try english!!!
 			langID = englishID;
-			hr = SpCreatePhoneConverter( langID, NULL, NULL, &cpPhoneConv );
+			hr = SpCreatePhoneConverter( langID, nullptr, nullptr, &cpPhoneConv );
 		}
 
 		if ( FAILED( hr ) )
@@ -595,7 +595,7 @@ SR_RESULT ExtractPhonemes( const char *wavname, CSpDynamicString& text, CSentenc
 	}
 
 	// Inactivate it so we can alter it
-	hr = cpRecoGrammar->SetRuleState( NULL, NULL, SPRS_INACTIVE );
+	hr = cpRecoGrammar->SetRuleState(nullptr, nullptr, SPRS_INACTIVE );
 	if ( FAILED( hr ) )
 	{
 		pfnPrint( "Error:  SAPI 5.1 Unable to deactivate grammar rules\n" );
@@ -690,7 +690,7 @@ SR_RESULT ExtractPhonemes( const char *wavname, CSpDynamicString& text, CSentenc
 	}	
 
 	// Activate the CFG ( rather than using dictation )
-	hr = cpRecoGrammar->SetRuleState( NULL, NULL, SPRS_ACTIVE );
+	hr = cpRecoGrammar->SetRuleState(nullptr, nullptr, SPRS_ACTIVE );
 	if ( FAILED( hr ) )
 	{
 		switch ( hr )
@@ -788,7 +788,7 @@ SR_RESULT ExtractPhonemes( const char *wavname, CSpDynamicString& text, CSentenc
                     else
                     {
 						// Hypothesis or recognition success
-                        cpResult->GetText( (ULONG)SP_GETWHOLEPHRASE, (ULONG)SP_GETWHOLEPHRASE, TRUE, &dstrText, NULL);
+                        cpResult->GetText( (ULONG)SP_GETWHOLEPHRASE, (ULONG)SP_GETWHOLEPHRASE, TRUE, &dstrText, nullptr);
 
 						EnumeratePhonemes( cpPhoneConv, cpResult, sentence );
 
@@ -815,7 +815,7 @@ SR_RESULT ExtractPhonemes( const char *wavname, CSpDynamicString& text, CSentenc
 	}// END event polling loop - break on event timeout OR end stream
 	
 	// Deactivate rule
-	hr = cpRecoGrammar->SetRuleState( NULL, NULL, SPRS_INACTIVE );
+	hr = cpRecoGrammar->SetRuleState(nullptr, nullptr, SPRS_INACTIVE );
 	if ( FAILED( hr ) )
 	{
 		pfnPrint( "Error:  SAPI 5.1 Unable to deactivate rule set\n" );
@@ -845,7 +845,7 @@ void RecursiveRegDelKey(HKEY hKey)
 	DWORD namesize=256;
 
 	//base case: no subkeys when RegEnumKeyEx returns error on index 0
-	LONG lResult=RegEnumKeyEx(hKey,0,keyname,&namesize,NULL,NULL,NULL,NULL);
+	LONG lResult=RegEnumKeyEx(hKey,0,keyname,&namesize, nullptr, nullptr, nullptr, nullptr);
 	if (lResult!=ERROR_SUCCESS)
 	{
 		return;
@@ -866,7 +866,7 @@ void RecursiveRegDelKey(HKEY hKey)
 			lDelResult=RegDeleteKey(hKey,keyname);
 			namesize=256;
 			//use 0 in the next function call because when you delete one, the rest shift down!
-			lResult=RegEnumKeyEx(hKey,0,keyname,&namesize,NULL,NULL,NULL,NULL);
+			lResult=RegEnumKeyEx(hKey,0,keyname,&namesize, nullptr, nullptr, nullptr, nullptr);
 		}
 
 		else 

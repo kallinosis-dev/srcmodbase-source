@@ -12,7 +12,7 @@ BOOL CreateStaticNamespace(HSQUIRRELVM v,ScriptNamespaceDecl *sn)
 	sq_pushstring(v,sn->name,-1);
 	sq_newtable(v);
 	const ScriptClassMemberDecl *members = sn->members;
-	const ScriptClassMemberDecl *m = NULL;
+	const ScriptClassMemberDecl *m = nullptr;
 	while(members[n].name) {
 		m = &members[n];
 		sq_pushstring(v,m->name,-1);
@@ -23,7 +23,7 @@ BOOL CreateStaticNamespace(HSQUIRRELVM v,ScriptNamespaceDecl *sn)
 		n++;
 	}
 	const ScriptConstantDecl *consts = sn->constants;
-	const ScriptConstantDecl *c = NULL;
+	const ScriptConstantDecl *c = nullptr;
 	n = 0;
 	while(consts[n].name) {
 		c = &consts[n];
@@ -38,7 +38,7 @@ BOOL CreateStaticNamespace(HSQUIRRELVM v,ScriptNamespaceDecl *sn)
 	}
 	if(sn->delegate) {
 		const ScriptClassMemberDecl *members = sn->delegate;
-		const ScriptClassMemberDecl *m = NULL;
+		const ScriptClassMemberDecl *m = nullptr;
 		sq_newtable(v);
 		while(members[n].name) {
 			m = &members[n];
@@ -80,7 +80,7 @@ BOOL CreateClass(HSQUIRRELVM v,SquirrelClassDecl *cd)
 #endif
 	sq_settypetag(v,-1,reinterpret_cast<SQUserPointer>(cd));
 	const ScriptClassMemberDecl *members = cd->members;
-	const ScriptClassMemberDecl *m = NULL;
+	const ScriptClassMemberDecl *m = nullptr;
   if (members) {
     while(members[n].name) {
       m = &members[n];

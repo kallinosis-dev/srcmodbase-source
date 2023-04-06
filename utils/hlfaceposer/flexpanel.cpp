@@ -40,7 +40,7 @@ extern char g_appTitle[];
 
 #define FLEXSLIDER_INVALID_INDEX	-1
 
-FlexPanel		*g_pFlexPanel = 0;
+FlexPanel		*g_pFlexPanel = nullptr;
 
 void FlexPanel::PositionControls( int width, int height )
 {
@@ -441,7 +441,7 @@ void FlexPanel::initFlexes()
 void FlexPanel::OnModelChanged()
 {
 	ResetSliders( true, false );
-	SetEvent( NULL );
+	SetEvent(nullptr);
 	redraw();
 }
 
@@ -449,7 +449,7 @@ void FlexPanel::SetEvent( CChoreoEvent *event )
 {
 	bool bUpdateSliders = false;
 
-	if ( event != NULL )
+	if ( event != nullptr)
 	{
 		CChoreoScene *scene = event->GetScene();
 		StudioModel *model = FindAssociatedModel( scene, event->GetActor()  );
@@ -802,7 +802,7 @@ void FlexPanel::ResetSliders( bool preserveundo, bool bDirtyClass )
 	bool needredo = false;
 	CExpression zeroes;
 
-	CExpression *exp = NULL;
+	CExpression *exp = nullptr;
 	if ( active )
 	{
 		int index = active->GetSelectedExpression();
@@ -888,7 +888,7 @@ void FlexPanel::PasteControllerSettings( void )
 	if ( !paste )
 		return;
 
-	CExpression *exp = NULL;
+	CExpression *exp = nullptr;
 	int index = active->GetSelectedExpression();
 	if ( index != -1 )
 	{

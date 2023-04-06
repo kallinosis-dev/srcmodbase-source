@@ -45,7 +45,7 @@ CMapClass *CMapSprite::CreateMapSprite(CHelperInfo *pHelperInfo, CMapEntity *pPa
 	// If we weren't passed a sprite name as an argument, get it from our parent
 	// entity's "model" key.
 	//
-	if (pszSprite == NULL)
+	if (pszSprite == nullptr)
 	{
 		pszSprite = pParent->GetKeyValue("model");
 	}
@@ -65,12 +65,12 @@ CMapClass *CMapSprite::CreateMapSprite(CHelperInfo *pHelperInfo, CMapEntity *pPa
 	//
 	// If we have a sprite name, create a sprite object.
 	//
-	CMapSprite *pSprite = NULL;
+	CMapSprite *pSprite = nullptr;
 
-	if (pszSprite != NULL)
+	if (pszSprite != nullptr)
 	{
 		pSprite = CreateMapSprite(pszSprite);
-		if (pSprite != NULL)
+		if (pSprite != nullptr)
 		{
 			//
 			// Icons are alpha tested.
@@ -101,7 +101,7 @@ CMapSprite *CMapSprite::CreateMapSprite(const char *pszSpritePath)
 {
 	CMapSprite *pSprite = new CMapSprite;
 
-	if (pSprite != NULL)
+	if (pSprite != nullptr)
 	{
 		char szPath[MAX_PATH];
 
@@ -205,7 +205,7 @@ CMapClass *CMapSprite::Copy(bool bUpdateDependencies)
 {
 	CMapSprite *pCopy = new CMapSprite;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -224,7 +224,7 @@ CMapClass *CMapSprite::CopyFrom(CMapClass *pObject, bool bUpdateDependencies)
 	CMapSprite *pFrom = dynamic_cast<CMapSprite *>(pObject);
 	Assert(pObject != NULL);
 
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		CMapClass::CopyFrom(pObject, bUpdateDependencies);
 

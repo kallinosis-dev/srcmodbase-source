@@ -120,8 +120,8 @@ END_DATADESC()
 //-----------------------------------------------------------------------------
 CBaseServerVehicle::CBaseServerVehicle( void )
 {
-	m_pVehicle = NULL;
-	m_pDrivableVehicle = NULL;
+	m_pVehicle = nullptr;
+	m_pDrivableVehicle = nullptr;
 	m_nNPCButtons = 0;
 	m_nPrevNPCButtons = 0;
 	m_flTurnDegrees = 0;
@@ -132,8 +132,8 @@ CBaseServerVehicle::CBaseServerVehicle( void )
 
 	m_flVehicleVolume = 0.5;
 	m_iSoundGear = 0;
-	m_pStateSound = NULL;
-	m_pStateSoundFade = NULL;
+	m_pStateSound = nullptr;
+	m_pStateSoundFade = nullptr;
 	m_soundState = SS_NONE;
 	m_flSpeedPercentage = 0;
 	m_bUseLegacyExitChecks = false;
@@ -186,7 +186,7 @@ void CBaseServerVehicle::Precache( void )
 bool CBaseServerVehicle::Initialize( const char *pScriptName )
 {
 	// Attempt to parse our vehicle script
-	if ( PhysFindOrAddVehicleScript( pScriptName, NULL, &m_vehicleSounds ) == false )
+	if ( PhysFindOrAddVehicleScript( pScriptName, nullptr, &m_vehicleSounds ) == false )
 		return false;
 
 	Precache();
@@ -231,8 +231,8 @@ CBaseCombatCharacter *CBaseServerVehicle::GetPassenger( int nRole )
 	Assert( nRole == VEHICLE_ROLE_DRIVER ); 
 	CBaseEntity *pDriver = GetDrivableVehicle()->GetDriver();
 
-	if ( pDriver == NULL )
-		return NULL;
+	if ( pDriver == nullptr)
+		return nullptr;
 
 	return pDriver->MyCombatCharacterPointer();
 }
@@ -257,7 +257,7 @@ bool CBaseServerVehicle::NPC_AddPassenger( CBaseCombatCharacter *pPassenger, str
 {
 	// Players cannot yet use this code! - jdw
 	Assert( pPassenger != NULL && pPassenger->IsPlayer() == false );
-	if ( pPassenger == NULL || pPassenger->IsPlayer() )
+	if ( pPassenger == nullptr || pPassenger->IsPlayer() )
 		return false;
 
 	// Find our role
@@ -271,7 +271,7 @@ bool CBaseServerVehicle::NPC_AddPassenger( CBaseCombatCharacter *pPassenger, str
 		return true;
 
 	// If we weren't the same passenger, we need to be empty
-	if ( pCurrentPassenger != NULL )
+	if ( pCurrentPassenger != nullptr)
 		return false;
 
 	// Find the seat
@@ -296,7 +296,7 @@ bool CBaseServerVehicle::NPC_RemovePassenger( CBaseCombatCharacter *pPassenger )
 {
 	// Players cannot yet use this code! - jdw
 	Assert( pPassenger != NULL && pPassenger->IsPlayer() == false );
-	if ( pPassenger == NULL || pPassenger->IsPlayer() )
+	if ( pPassenger == nullptr || pPassenger->IsPlayer() )
 		return false;
 
 	// Find the seat
@@ -304,7 +304,7 @@ bool CBaseServerVehicle::NPC_RemovePassenger( CBaseCombatCharacter *pPassenger )
 	{
 		if ( m_PassengerInfo[i].m_hPassenger == pPassenger )
 		{
-			m_PassengerInfo[i].m_hPassenger = NULL;
+			m_PassengerInfo[i].m_hPassenger = nullptr;
 			return true;
 		}
 	}
@@ -349,19 +349,19 @@ bool CBaseServerVehicle::NPC_GetPassengerSeatPosition( CBaseCombatCharacter *pPa
 
 	// Figure out which entrypoint hitbox the player is in
 	CBaseAnimating *pAnimating = dynamic_cast< CBaseAnimating * >( m_pVehicle );
-	if ( pAnimating == NULL )
+	if ( pAnimating == nullptr)
 		return false;
 
 	Vector vecPos;
 	QAngle vecAngles;
 	pAnimating->GetAttachment( nSeatAttachment, vecPos, vecAngles );
 
-	if ( vecResultPos != NULL )
+	if ( vecResultPos != nullptr)
 	{
 		*vecResultPos = vecPos;
 	}
 
-	if ( vecResultAngles != NULL )
+	if ( vecResultAngles != nullptr)
 	{
 		*vecResultAngles = vecAngles;
 	}
@@ -382,7 +382,7 @@ bool CBaseServerVehicle::NPC_GetPassengerSeatPositionLocal( CBaseCombatCharacter
 
 	// Figure out which entrypoint hitbox the player is in
 	CBaseAnimating *pAnimating = m_pVehicle->GetBaseAnimating();
-	if ( pAnimating == NULL )
+	if ( pAnimating == nullptr)
 		return false;
 
 	Vector vecPos;
@@ -390,12 +390,12 @@ bool CBaseServerVehicle::NPC_GetPassengerSeatPositionLocal( CBaseCombatCharacter
 	pAnimating->InvalidateBoneCache(); // NOTE: We're moving with velocity, so we're almost always out of date
 	pAnimating->GetAttachmentLocal( nSeatAttachment, vecPos, vecAngles );
 
-	if ( vecResultPos != NULL )
+	if ( vecResultPos != nullptr)
 	{
 		*vecResultPos = vecPos;
 	}
 
-	if ( vecResultAngles != NULL )
+	if ( vecResultAngles != nullptr)
 	{
 		*vecResultAngles = vecAngles;
 	}
@@ -428,31 +428,31 @@ const PassengerSeatAnims_t *CBaseServerVehicle::NPC_GetPassengerSeatAnims( CBase
 				break;
 
 			default:
-				return NULL;
+				return nullptr;
 				break;
 			}
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CBaseServerVehicle::SetPassengerWeapon( bool bUseWeapon, CBaseCombatCharacter *pPassenger )
 {
 	CBasePlayer *pPlayer = ToBasePlayer( pPassenger );
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 	{
 		return;
 	}
 
-	if ( pPassenger != NULL && pPassenger->IsPlayer() == false )
+	if ( pPassenger != nullptr && pPassenger->IsPlayer() == false )
 	{
 		Assert( 0 );
 		return;
 	}
 
 	CBaseCombatWeapon *pWeapon = pPlayer->GetActiveWeapon();
-	if ( pWeapon == NULL )
+	if ( pWeapon == nullptr)
 	{
 		Assert( 0 );
 		return;
@@ -470,7 +470,7 @@ void CBaseServerVehicle::SetPassengerWeapon( bool bUseWeapon, CBaseCombatCharact
 	}
 	else
 	{
-		pWeapon->Holster( NULL );
+		pWeapon->Holster(nullptr);
 		pPlayer->ShowCrosshair( false );
 	}
 }
@@ -483,7 +483,7 @@ void CBaseServerVehicle::SetPassenger( int nRole, CBaseCombatCharacter *pPasseng
 	// Baseclass only handles vehicles with a single passenger
 	Assert( nRole == VEHICLE_ROLE_DRIVER ); 
 
-	if ( pPassenger != NULL && pPassenger->IsPlayer() == false )
+	if ( pPassenger != nullptr && pPassenger->IsPlayer() == false )
 	{
 		// Use NPC_AddPassenger() for NPCs at the moment, these will all be collapsed into one system -- jdw
 		Assert( 0 );
@@ -491,10 +491,10 @@ void CBaseServerVehicle::SetPassenger( int nRole, CBaseCombatCharacter *pPasseng
 	}
 
 	// Getting in? or out?
-	if ( pPassenger != NULL )
+	if ( pPassenger != nullptr)
 	{
 		CBasePlayer *pPlayer = ToBasePlayer( pPassenger );
-		if ( pPlayer != NULL )
+		if ( pPlayer != nullptr)
 		{
 			m_savedViewOffset = pPlayer->GetViewOffset();
 			pPlayer->SetViewOffset( vec3_origin );
@@ -607,7 +607,7 @@ bool CBaseServerVehicle::CheckExitPoint( float yaw, int distance, Vector *pEndPo
    
   	vecStart.z += 12;		// always 12" from ground
   	vehicleAngles[YAW] += yaw;	
-  	AngleVectors( vehicleAngles, NULL, &vecDir, NULL );
+  	AngleVectors( vehicleAngles, nullptr, &vecDir, nullptr);
 	// Vehicles are oriented along the Y axis
 	vecDir *= -1;
   	*pEndPoint = vecStart + vecDir * distance;
@@ -746,7 +746,7 @@ void CBaseServerVehicle::ParseNPCPassengerSeat( KeyValues *pSetKeyValues, CPasse
 	pSeat->m_strSeatName = AllocPooledString( lpszAttachmentName );
 
 	KeyValues *pKey = pSetKeyValues->GetFirstSubKey();
-	while ( pKey != NULL )
+	while ( pKey != nullptr)
 	{
 		const char *lpszName = pKey->GetName();
 
@@ -789,7 +789,7 @@ CPassengerRole *CBaseServerVehicle::FindOrCreatePassengerRole( string_t strName,
 		if ( FStrEq( STRING( m_PassengerRoles[i].m_strName ), STRING( strName ) ) )
 		{
 			// Supply the index, if requested
-			if ( nIndex != NULL )
+			if ( nIndex != nullptr)
 			{
 				*nIndex = i;
 			}
@@ -805,7 +805,7 @@ CPassengerRole *CBaseServerVehicle::FindOrCreatePassengerRole( string_t strName,
 	m_PassengerRoles[nNewIndex].m_strName = strName;
 	
 	// Supply the index, if requested
-	if ( nIndex != NULL )
+	if ( nIndex != nullptr)
 	{
 		*nIndex = nNewIndex;
 	}
@@ -822,31 +822,31 @@ ConVar g_debug_npc_vehicle_roles( "g_debug_npc_vehicle_roles", "0" );
 void CBaseServerVehicle::ParseNPCRoles( KeyValues *pkvPassengerList )
 {
 	// Get the definition section
-	if ( pkvPassengerList == NULL )
+	if ( pkvPassengerList == nullptr)
 		return;
 
 	// Get our animating class
 	CBaseAnimating *pAnimating = dynamic_cast<CBaseAnimating *>(m_pVehicle);
 	Assert( pAnimating != NULL );
-	if ( pAnimating == NULL )
+	if ( pAnimating == nullptr)
 		return;
 
 	// For attachment polling
 	CStudioHdr *pStudioHdr = pAnimating->GetModelPtr();
 	Assert( pStudioHdr != NULL );
-	if ( pStudioHdr == NULL )
+	if ( pStudioHdr == nullptr)
 		return;
 
 	// Parse all subkeys
 	int nRoleIndex;
 	KeyValues *pkvPassengerKey = pkvPassengerList->GetFirstSubKey();
-	while ( pkvPassengerKey != NULL )
+	while ( pkvPassengerKey != nullptr)
 	{
 		string_t strRoleName = AllocPooledString( pkvPassengerKey->GetName() );
 
 		// Find or create the container
 		CPassengerRole *pRole = FindOrCreatePassengerRole( strRoleName, &nRoleIndex );
-		if ( pRole == NULL )
+		if ( pRole == nullptr)
 			continue;
 
 		// Add a new role
@@ -858,7 +858,7 @@ void CBaseServerVehicle::ParseNPCRoles( KeyValues *pkvPassengerList )
 	
 		// Add a matching entry into our passenger manifest
 		int nPassengerIndex = m_PassengerInfo.AddToTail();
-		m_PassengerInfo[nPassengerIndex].m_hPassenger = NULL;
+		m_PassengerInfo[nPassengerIndex].m_hPassenger = nullptr;
 		m_PassengerInfo[nPassengerIndex].m_nSeat = nSeatIndex;
 		m_PassengerInfo[nPassengerIndex].m_nRole = nRoleIndex;
 		
@@ -924,7 +924,7 @@ void CBaseServerVehicle::ParseNPCRoles( KeyValues *pkvPassengerList )
 bool CBaseServerVehicle::GetLocalAttachmentAtTime( int nQuerySequence, int nAttachmentIndex, float flCyclePoint, Vector *vecOriginOut, QAngle *vecAnglesOut )
 {
 	CBaseAnimating *pAnimating = m_pVehicle->GetBaseAnimating();
-	if ( pAnimating == NULL )
+	if ( pAnimating == nullptr)
 		return false;
 
 	// TODO: It's annoying to stomp and restore this off each time when we're just going to stomp it again later, but the function 
@@ -944,12 +944,12 @@ bool CBaseServerVehicle::GetLocalAttachmentAtTime( int nQuerySequence, int nAtta
 	QAngle vecAngles;
 	pAnimating->GetAttachmentLocal( nAttachmentIndex, vecOrigin, vecAngles );
 
-	if ( vecOriginOut != NULL )
+	if ( vecOriginOut != nullptr)
 	{
 		*vecOriginOut = vecOrigin;
 	}
 
-	if ( vecAnglesOut != NULL )
+	if ( vecAnglesOut != nullptr)
 	{
 		*vecAnglesOut = vecAngles;
 	}
@@ -972,7 +972,7 @@ bool CBaseServerVehicle::GetLocalAttachmentAtTime( int nQuerySequence, int nAtta
 bool CBaseServerVehicle::GetLocalAttachmentAtTime( const char *lpszAnimName, int nAttachmentIndex, float flCyclePoint, Vector *vecOriginOut, QAngle *vecAnglesOut )
 {
 	CBaseAnimating *pAnimating = m_pVehicle->GetBaseAnimating();
-	if ( pAnimating == NULL )
+	if ( pAnimating == nullptr)
 		return false;
 
 	int nQuerySequence = pAnimating->LookupSequence( lpszAnimName );
@@ -988,7 +988,7 @@ bool CBaseServerVehicle::GetLocalAttachmentAtTime( const char *lpszAnimName, int
 void CBaseServerVehicle::CacheEntryExitPoints( void )
 {
 	CBaseAnimating *pAnimating = m_pVehicle->GetBaseAnimating();
-	if ( pAnimating == NULL )
+	if ( pAnimating == nullptr)
 		return;
 
 	int nAttachment = pAnimating->LookupAttachment( "vehicle_driver_eyes" );
@@ -1073,7 +1073,7 @@ void CBaseServerVehicle::ParseEntryExitAnims( void )
 void CBaseServerVehicle::HandlePassengerEntry( CBaseCombatCharacter *pPassenger, bool bAllowEntryOutsideZone )
 {
 	CBasePlayer *pPlayer = ToBasePlayer( pPassenger );
-	if ( pPlayer != NULL )
+	if ( pPlayer != nullptr)
 	{
 		// Find out which hitbox the player's eyepoint is within
 		int iEntryAnim = GetEntryAnimForPoint( pPlayer->EyePosition() );
@@ -1127,7 +1127,7 @@ void CBaseServerVehicle::HandlePassengerEntry( CBaseCombatCharacter *pPassenger,
 bool CBaseServerVehicle::HandlePassengerExit( CBaseCombatCharacter *pPassenger )
 {
 	CBasePlayer *pPlayer = ToBasePlayer( pPassenger );
-	if ( pPlayer != NULL )
+	if ( pPlayer != nullptr)
 	{
 		// Clear hud hints
 		UTIL_HudHintText( pPlayer, "" );
@@ -1191,7 +1191,7 @@ bool CBaseServerVehicle::HandlePassengerExit( CBaseCombatCharacter *pPassenger )
 
 				// We may as well stand where we're going to get out at and stop being parented
 				pPlayer->SetAbsOrigin( vecExitFeetPoint );
-				pPlayer->SetParent( NULL );
+				pPlayer->SetParent(nullptr);
 
 				return true;
 			}
@@ -1310,7 +1310,7 @@ int CBaseServerVehicle::GetExitAnimToUse( Vector &vecEyeExitEndpoint, bool &bAll
 	// Loop through the exit animations and find one that ends in a clear position
 	// Also attempt to choose the animation which brings you closest to your view direction.
 	CBasePlayer *pPlayer = ToBasePlayer( GetDriver() );
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 		return ACTIVITY_NOT_AVAILABLE;
 
 	int nRole = GetPassengerRole( pPlayer );
@@ -1380,7 +1380,7 @@ int CBaseServerVehicle::GetExitAnimToUse( Vector &vecEyeExitEndpoint, bool &bAll
 		// Starting at the exit point, trace a flat plane down until we hit ground
 		// NOTE: The hull has no vertical span because we want to test the lateral constraints against the ground, not height (yet)
 		trace_t tr;
-		UTIL_TraceHull( vecStart, vecEnd, VEC_HULL_MIN, Vector( VEC_HULL_MAX.x, VEC_HULL_MAX.y, VEC_HULL_MIN.z ), MASK_PLAYERSOLID, NULL, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceHull( vecStart, vecEnd, VEC_HULL_MIN, Vector( VEC_HULL_MAX.x, VEC_HULL_MAX.y, VEC_HULL_MIN.z ), MASK_PLAYERSOLID, nullptr, COLLISION_GROUP_NONE, &tr );
 		
 		if ( g_debug_vehicleexit.GetBool() )
 		{
@@ -1390,7 +1390,7 @@ int CBaseServerVehicle::GetExitAnimToUse( Vector &vecEyeExitEndpoint, bool &bAll
 		if ( tr.fraction < 1.0f )
 		{
 			// If we hit the ground, try to now "stand up" at that point to see if we'll fit
-			UTIL_TraceHull( tr.endpos, tr.endpos, VEC_HULL_MIN, VEC_HULL_MAX, MASK_PLAYERSOLID, NULL, COLLISION_GROUP_NONE, &tr );
+			UTIL_TraceHull( tr.endpos, tr.endpos, VEC_HULL_MIN, VEC_HULL_MAX, MASK_PLAYERSOLID, nullptr, COLLISION_GROUP_NONE, &tr );
 			
 			// See if we're unable to stand at this space
 			if ( tr.startsolid )
@@ -1486,7 +1486,7 @@ void CBaseServerVehicle::HandleEntryExitFinish( bool bExitAnimOn, bool bResetAni
 	{
 		// The exit animation just finished
 		CBasePlayer *pPlayer = ToBasePlayer( GetDriver() );
-		if ( pPlayer != NULL )
+		if ( pPlayer != nullptr)
 		{
 			Vector vecEyes;
 			QAngle vecEyeAng;
@@ -1554,15 +1554,15 @@ void CBaseServerVehicle::GetVehicleViewPosition( int nRole, Vector *pAbsOrigin, 
 	Assert( pPassenger );
 
 	CBasePlayer *pPlayer = ToBasePlayer( pPassenger );
-	if ( pPlayer != NULL )
+	if ( pPlayer != nullptr)
 	{
 		// Call through the player to resolve the actual position (if available)
-		if ( pAbsOrigin != NULL )
+		if ( pAbsOrigin != nullptr)
 		{
 			*pAbsOrigin = pPlayer->EyePosition();
 		}
 		
-		if ( pAbsAngles != NULL )
+		if ( pAbsAngles != nullptr)
 		{
 			*pAbsAngles = pPlayer->EyeAngles();
 		}
@@ -1632,7 +1632,7 @@ void CBaseServerVehicle::ItemPostFrame( CBasePlayer *player )
 	{
 		if ( GetDrivableVehicle()->CanExitVehicle(player) )
 		{
-			if ( !HandlePassengerExit( player ) && ( player != NULL ) )
+			if ( !HandlePassengerExit( player ) && ( player != nullptr) )
 			{
 				player->PlayUseDenySound();
 			}
@@ -1819,12 +1819,12 @@ void CBaseServerVehicle::StopLoopingSound( float fadeTime )
 	if ( m_pStateSoundFade )
 	{
 		controller.SoundDestroy( m_pStateSoundFade );
-		m_pStateSoundFade = NULL;
+		m_pStateSoundFade = nullptr;
 	}
 	if ( m_pStateSound )
 	{
 		m_pStateSoundFade = m_pStateSound;
-		m_pStateSound = NULL;
+		m_pStateSound = nullptr;
 		controller.SoundFadeOut( m_pStateSoundFade, fadeTime, false );
 	}
 }
@@ -1834,7 +1834,7 @@ void CBaseServerVehicle::PlayLoopingSound( const char *pSoundName )
 	CSoundEnvelopeController &controller = CSoundEnvelopeController::GetController();
 
 	CPASAttenuationFilter filter( m_pVehicle );
-	CSoundPatch *pNewSound = NULL;
+	CSoundPatch *pNewSound = nullptr;
 	if ( pSoundName && pSoundName[0] )
 	{
 		pNewSound = controller.SoundCreate( filter, m_pVehicle->entindex(), CHAN_STATIC, pSoundName, ATTN_NORM );
@@ -1846,7 +1846,7 @@ void CBaseServerVehicle::PlayLoopingSound( const char *pSoundName )
 		controller.SoundDestroy( pNewSound );
 		pNewSound = m_pStateSound;
 		controller.SoundChangeVolume( pNewSound, 1.0f, 0.0f );
-		m_pStateSound = NULL;
+		m_pStateSound = nullptr;
 	}
 	else if ( g_debug_vehiclesound.GetInt() )
 	{
@@ -2280,12 +2280,12 @@ void CBaseServerVehicle::SoundShutdown( float flFadeTime )
 	if ( m_pStateSoundFade )
 	{
 		controller.SoundFadeOut( m_pStateSoundFade, flFadeTime, true );
-		m_pStateSoundFade = NULL;
+		m_pStateSoundFade = nullptr;
 	}
 	if ( m_pStateSound )
 	{
 		controller.SoundFadeOut( m_pStateSound, flFadeTime, true );
-		m_pStateSound = NULL;
+		m_pStateSound = nullptr;
 	}
 }
 
@@ -2417,7 +2417,7 @@ CBaseCombatCharacter *CBaseServerVehicle::NPC_GetPassengerInSeat( int nRoleID, i
 			return m_PassengerInfo[i].m_hPassenger;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2432,7 +2432,7 @@ int CBaseServerVehicle::NPC_GetAvailableSeat_Any( CBaseCombatCharacter *pPasseng
 	{
 		// See if anyone is already in this seat
 		CBaseCombatCharacter *pCurrentPassenger = NPC_GetPassengerInSeat( nRoleID, i );
-		if ( pCurrentPassenger != NULL && pCurrentPassenger != pPassenger )
+		if ( pCurrentPassenger != nullptr && pCurrentPassenger != pPassenger )
 			continue;
 
 		// This seat is open
@@ -2503,7 +2503,7 @@ int CBaseServerVehicle::NPC_GetAvailableSeat( CBaseCombatCharacter *pPassenger, 
 //-----------------------------------------------------------------------------
 bool CBaseServerVehicle::NPC_HasAvailableSeat( string_t strRoleName )
 {
-	return ( NPC_GetAvailableSeat( NULL, strRoleName, VEHICLE_SEAT_ANY ) != -1 );
+	return ( NPC_GetAvailableSeat(nullptr, strRoleName, VEHICLE_SEAT_ANY ) != -1 );
 }
 
 //-----------------------------------------------------------------------------
@@ -2535,7 +2535,7 @@ int CBaseServerVehicle::FindSeatIndexByName( int nRoleIndex, string_t strSeatNam
 
 	// Used for attachment polling
 	CBaseAnimating *pAnimating = dynamic_cast<CBaseAnimating *>(GetVehicleEnt());
-	if ( pAnimating == NULL )
+	if ( pAnimating == nullptr)
 		return -1;
 
 	// Get the index of the named attachment in the model
@@ -2606,7 +2606,7 @@ void CBaseServerVehicle::ReloadScript()
 	{
 		string_t script = m_pDrivableVehicle->GetVehicleScriptName();
 		IPhysicsVehicleController *pController = GetVehicleController();
-		vehicleparams_t *pVehicleParams = pController ? &(pController->GetVehicleParamsForChange()) : NULL;
+		vehicleparams_t *pVehicleParams = pController ? &(pController->GetVehicleParamsForChange()) : nullptr;
 		PhysFindOrAddVehicleScript( script.ToCStr(), pVehicleParams, &m_vehicleSounds );
 		if ( pController )
 		{

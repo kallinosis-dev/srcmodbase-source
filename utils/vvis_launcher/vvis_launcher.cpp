@@ -25,12 +25,12 @@ char* GetLastErrorString()
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 		FORMAT_MESSAGE_FROM_SYSTEM | 
 		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		GetLastError(),
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 		(LPTSTR) &lpMsgBuf,
 		0,
-		NULL 
+		nullptr
 	);
 
 	strncpy( err, (char*)lpMsgBuf, sizeof( err ) );

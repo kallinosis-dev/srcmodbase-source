@@ -181,7 +181,7 @@ private:
 
 	void		VerifyField( int nField, const char *pszDescription );
 	void		VerifyField2( int nField, const char *pszDescription );
-	void		VerifyOffset( void *pPtr, const char *pszDescription, void *pWritePos = 0 );
+	void		VerifyOffset( void *pPtr, const char *pszDescription, void *pWritePos = nullptr );
 
 	void		DetermineMasterBoneList( );
 

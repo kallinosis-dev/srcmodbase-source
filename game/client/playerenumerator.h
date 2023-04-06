@@ -34,7 +34,7 @@ public:
 	C_BaseEntity *GetObject( int index )
 	{
 		if ( index < 0 || index >= GetObjectCount() )
-			return NULL;
+			return nullptr;
 
 		return m_Objects[ index ];
 	}
@@ -43,7 +43,7 @@ public:
 	virtual IterationRetval_t EnumElement( IHandleEntity *pHandleEntity )
 	{
 		C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle( pHandleEntity->GetRefEHandle() );
-		if ( pEnt == NULL )
+		if ( pEnt == nullptr)
 			return ITERATION_CONTINUE;
 
 		if ( !pEnt->IsPlayer() )

@@ -29,7 +29,7 @@ public:
 	virtual int						GetPassengerRole( CBaseCombatCharacter *pPassenger ) = 0;
 	
 	// Where is the passenger seeing from?
-	virtual void			GetVehicleViewPosition( int nRole, Vector *pOrigin, QAngle *pAngles, float *pFOV = NULL ) = 0;
+	virtual void			GetVehicleViewPosition( int nRole, Vector *pOrigin, QAngle *pAngles, float *pFOV = nullptr) = 0;
 
 	// Does the player use his normal weapons while in this mode?
 	virtual bool			IsPassengerUsingStandardWeapons( int nRole = VEHICLE_ROLE_DRIVER ) = 0;

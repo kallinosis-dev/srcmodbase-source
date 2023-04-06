@@ -30,7 +30,7 @@ class CAI_TacticalServices : public CAI_Component
 public:
 	CAI_TacticalServices( CAI_BaseNPC *pOuter )
 	 :	CAI_Component(pOuter),
-		m_pNetwork( NULL )
+		m_pNetwork(nullptr)
 	{
 		m_bAllowFindLateralLos = true;
 	}

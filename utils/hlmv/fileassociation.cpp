@@ -30,12 +30,12 @@
 
 
 
-FileAssociation *g_FileAssociation = 0;
+FileAssociation *g_FileAssociation = nullptr;
 
 
 
 FileAssociation::FileAssociation ()
-: mxWindow (0, 100, 100, 400, 210, "File Associations", mxWindow::Dialog)
+: mxWindow (nullptr, 100, 100, 400, 210, "File Associations", mxWindow::Dialog)
 {
 	cExtension = new mxChoice (this, 5, 5, 220, 22, IDC_EXTENSION);
 
@@ -110,7 +110,7 @@ FileAssociation::handleEvent (mxEvent *event)
 
 	case IDC_CHOOSEPROGRAM:
 	{
-		const char *ptr = mxGetOpenFileName (this, 0, "*.exe");
+		const char *ptr = mxGetOpenFileName (this, nullptr, "*.exe");
 		if (ptr)
 		{
 			leProgram->setLabel (ptr);
@@ -284,5 +284,5 @@ FileAssociation::getProgram (char *extension)
 			return d_associations[i].program;
 	}
 
-	return 0;
+	return nullptr;
 }

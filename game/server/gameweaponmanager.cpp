@@ -149,7 +149,7 @@ void CGameWeaponManager::Spawn()
 	}
 	else
 	{
-		m_bExpectingWeapon = ( dynamic_cast<CBaseCombatWeapon *>(pEntity) != NULL );
+		m_bExpectingWeapon = ( dynamic_cast<CBaseCombatWeapon *>(pEntity) != nullptr);
 		UTIL_Remove(pEntity);
 	}
 }
@@ -191,7 +191,7 @@ void CGameWeaponManager::Think()
 
 	if ( m_bExpectingWeapon )
 	{
-		CBaseCombatWeapon *pWeapon = NULL;
+		CBaseCombatWeapon *pWeapon = nullptr;
 		// Firstly, count the total number of weapons of this type in the world.
 		// Also count how many of those can potentially be removed.
 		pWeapon = assert_cast<CBaseCombatWeapon *>(gEntList.FindEntityByClassname( pWeapon, pszWeaponName ));

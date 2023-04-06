@@ -31,7 +31,7 @@ DECLARE_HUDELEMENT_FLAGS( CHudChat, HUDELEMENT_SS_FULLSCREEN_ONLY );
 
 CHudChatLine::CHudChatLine( vgui::Panel *parent, const char *panelName ) : CBaseHudChatLine( parent, panelName )
 {
-	m_text = NULL;
+	m_text = nullptr;
 }
 
 void CHudChatLine::ApplySchemeSettings(vgui::IScheme *pScheme)

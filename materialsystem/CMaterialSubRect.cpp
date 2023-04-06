@@ -79,7 +79,7 @@ public:
 	void				Precache();
 	void				Uncache( bool bPreserveVars = false );
 	// If provided, pKeyValues and pPatchKeyValues should come from LoadVMTFile()
-	bool				PrecacheVars( KeyValues *pKeyValues = NULL, KeyValues *pPatchKeyValues = NULL, CUtlVector<FileNameHandle_t> *pIncludes = NULL );
+	bool				PrecacheVars( KeyValues *pKeyValues = nullptr, KeyValues *pPatchKeyValues = nullptr, CUtlVector<FileNameHandle_t> *pIncludes = nullptr);
 	bool				IsPrecached() const;
 	bool				IsPrecachedVars( ) const;
 	bool				IsManuallyCreated() const;
@@ -336,8 +336,8 @@ CMaterialSubRect::CMaterialSubRect( const char *pMaterialName, const char *pText
 	Q_strncpy( m_pDebugName, pTemp, Q_strlen( pTemp ) + 1 );
 #endif
 
-	m_pMaterialPage = NULL;
-	m_pModelMaterialPage = NULL;
+	m_pMaterialPage = nullptr;
+	m_pModelMaterialPage = nullptr;
 	m_iEnumID = 0;
 	m_symTextureGroupName = pTextureGroupName;
 	m_vecOffset.Init();
@@ -363,7 +363,7 @@ CMaterialSubRect::CMaterialSubRect( const char *pMaterialName, const char *pText
 	}
 	else
 	{
-		m_pVMTKeyValues = NULL;
+		m_pVMTKeyValues = nullptr;
 		PrecacheVars( pVMTKeyValues, pPatchKeyValues );
 		Precache();
 	}
@@ -395,26 +395,26 @@ CMaterialSubRect::~CMaterialSubRect()
 	if ( m_pMaterialPage )
 	{
 		m_pMaterialPage->DecrementReferenceCount();
-		m_pMaterialPage = NULL;
+		m_pMaterialPage = nullptr;
 	}
 
 	if ( m_pModelMaterialPage )
 	{
 		m_pModelMaterialPage->DecrementReferenceCount();
-		m_pModelMaterialPage = NULL;
+		m_pModelMaterialPage = nullptr;
 	}
 
 	if ( m_pVMTKeyValues )
 	{
 		m_pVMTKeyValues->deleteThis();
-		m_pVMTKeyValues = NULL;
+		m_pVMTKeyValues = nullptr;
 	}
 
 #ifdef _DEBUG
 	if ( m_pDebugName )
 	{
 		delete[] m_pDebugName;
-		m_pDebugName = NULL;
+		m_pDebugName = nullptr;
 	}
 #endif
 }
@@ -429,10 +429,10 @@ void CMaterialSubRect::SetShaderAndParams( KeyValues *pKeyValues )
 	if ( m_pVMTKeyValues )
 	{
 		m_pVMTKeyValues->deleteThis();
-		m_pVMTKeyValues = NULL;
+		m_pVMTKeyValues = nullptr;
 	}
 
-	m_pVMTKeyValues = pKeyValues ? pKeyValues->MakeCopy() : NULL;
+	m_pVMTKeyValues = pKeyValues ? pKeyValues->MakeCopy() : nullptr;
 	if (m_pVMTKeyValues)
 	{
 		m_fLocal |= MATERIALSUBRECT_IS_MANUALLY_CREATED; 
@@ -591,8 +591,8 @@ bool CMaterialSubRect::PrecacheVars( KeyValues *pVMTKeyValues, KeyValues *pPatch
 
 	// load data from the vmt file
 	bool bOk = false;
-	KeyValues *vmtKeyValues = NULL;
-	KeyValues *patchKeyValues = NULL;
+	KeyValues *vmtKeyValues = nullptr;
+	KeyValues *patchKeyValues = nullptr;
 	if ( m_pVMTKeyValues )
 	{
 		// Use the procedural KeyValues
@@ -613,7 +613,7 @@ bool CMaterialSubRect::PrecacheVars( KeyValues *pVMTKeyValues, KeyValues *pPatch
 		// load data from the vmt file
 		vmtKeyValues = new KeyValues( "vmt" );
 		patchKeyValues = new KeyValues( "vmt_patches" );
-		if( !LoadVMTFile( *vmtKeyValues, *patchKeyValues, GetName(), UsesUNCFileName(), NULL ) )
+		if( !LoadVMTFile( *vmtKeyValues, *patchKeyValues, GetName(), UsesUNCFileName(), nullptr) )
 		{
 			Warning( "CMaterialSubRect::PrecacheVars: error loading vmt file for %s\n", GetName() );
 			goto precacheVarsDone;
@@ -815,7 +815,7 @@ IMaterialVar *CMaterialSubRect::FindVarFast( char const *pVarName, unsigned int 
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -823,9 +823,9 @@ IMaterialVar *CMaterialSubRect::FindVarFast( char const *pVarName, unsigned int 
 //-----------------------------------------------------------------------------
 IMaterialVar *CMaterialSubRect::GetDummyMaterialVar()
 {
-	static IMaterialVar* pDummyVar = 0;
+	static IMaterialVar* pDummyVar = nullptr;
 	if ( !pDummyVar )
-		pDummyVar = IMaterialVar::Create( 0, "$dummyVar", 0 );
+		pDummyVar = IMaterialVar::Create( nullptr, "$dummyVar", 0 );
 
 	return pDummyVar;
 }
@@ -1002,7 +1002,7 @@ static IMaterialVar* CreateVectorMaterialVarFromKeyValue( IMaterial* pMaterial, 
 		if (pScan == pEnd)
 		{
 			Warning( "Error in .VMT file: error parsing vector element \"%s\" in \"%s\"\n", pKeyValue->GetName(), pMaterial->GetName() );
-			return 0;
+			return nullptr;
 		}
 
 		pScan = pEnd;
@@ -1073,7 +1073,7 @@ static IMaterialVar* CreateMatrixMaterialVarFromKeyValue( IMaterial* pMaterial, 
 	count = sscanf( pScan, " center %f %f scale %f %f rotate %f translate %f %f",
 		&center.x, &center.y, &scale.x, &scale.y, &angle, &translation.x, &translation.y );
 	if (count != 7)
-		return NULL;
+		return nullptr;
 
 	VMatrix temp;
 	MatrixBuildTranslation( mat, -center.x, -center.y, 0.0f );
@@ -1109,7 +1109,7 @@ static IMaterialVar *CreateMaterialVarFromKeyValue( IMaterial* pMaterial, KeyVal
 		{
 			char const* pString = pKeyValue->GetString();
 			if (!pString || !pString[0])
-				return 0;
+				return nullptr;
 
 			// Look for matrices
 			IMaterialVar *pMatrixVar = CreateMatrixMaterialVarFromKeyValue( pMaterial, pKeyValue );
@@ -1125,7 +1125,7 @@ static IMaterialVar *CreateMaterialVarFromKeyValue( IMaterial* pMaterial, KeyVal
 		}
 	}
 
-	return 0;
+	return nullptr;
 }
 
 void CMaterialSubRect::DeleteIfUnreferenced()

@@ -33,7 +33,7 @@ CPresetPickerFrame::CPresetPickerFrame( vgui::Panel *pParent, const char *pTitle
 	BaseClass( pParent, "PresetPickerFrame" )
 {
 	SetDeleteSelfOnClose( true );
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 
 	m_pPresetList = new vgui::ListPanel( this, "PresetList" );
 	m_pPresetList->AddColumnHeader( 0, "name", "Preset Name", 52, 0 );
@@ -106,7 +106,7 @@ void CPresetPickerFrame::CleanUpMessage()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -166,7 +166,7 @@ void CPresetPickerFrame::OnCommand( const char *pCommand )
 			pActionKeys->AddSubKey( m_pContextKeyValues );
 
 			// This prevents them from being deleted later
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 
 		PostActionSignal( pActionKeys );
@@ -182,7 +182,7 @@ void CPresetPickerFrame::OnCommand( const char *pCommand )
 			pActionKeys->AddSubKey( m_pContextKeyValues );
 
 			// This prevents them from being deleted later
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 		PostActionSignal( pActionKeys );
 		CloseModal();

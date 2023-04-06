@@ -15,7 +15,7 @@
 template < typename T > inline
 qhPool< T >::qhPool( void )
 	: mSize( 0 )
-	, mPool( NULL )
+	, mPool(nullptr)
 	, mFree( -1 )
 	{
 

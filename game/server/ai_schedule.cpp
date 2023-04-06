@@ -41,11 +41,11 @@ void CAI_SchedulesManager::DestroyStringRegistries(void)
 	CAI_BaseNPC::gm_SquadSlotNamespace.Clear();
 
 	delete CAI_BaseNPC::m_pActivitySR;
-	CAI_BaseNPC::m_pActivitySR = NULL;
+	CAI_BaseNPC::m_pActivitySR = nullptr;
 	CAI_BaseNPC::m_iNumActivities = 0;
 
 	delete CAI_BaseNPC::m_pEventSR;
-	CAI_BaseNPC::m_pEventSR = NULL;
+	CAI_BaseNPC::m_pEventSR = nullptr;
 	CAI_BaseNPC::m_iNumEvents = 0;
 }
 
@@ -520,7 +520,7 @@ bool CAI_SchedulesManager::LoadSchedulesFromBuffer( const char *prefix, char *pS
 //-----------------------------------------------------------------------------
 CAI_Schedule *CAI_SchedulesManager::GetScheduleFromID( int schedID )
 {
-	for ( CAI_Schedule *schedule = CAI_SchedulesManager::allSchedules; schedule != NULL; schedule = schedule->nextSchedule )
+	for ( CAI_Schedule *schedule = CAI_SchedulesManager::allSchedules; schedule != nullptr; schedule = schedule->nextSchedule )
 	{
 		if (schedule->m_iScheduleID == schedID)
 			return schedule;
@@ -528,7 +528,7 @@ CAI_Schedule *CAI_SchedulesManager::GetScheduleFromID( int schedID )
 
 	DevMsg( "Couldn't find schedule (%s)\n", CAI_BaseNPC::GetSchedulingSymbols()->ScheduleIdToSymbol(schedID) );
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -536,13 +536,13 @@ CAI_Schedule *CAI_SchedulesManager::GetScheduleFromID( int schedID )
 //-----------------------------------------------------------------------------
 CAI_Schedule *CAI_SchedulesManager::GetScheduleByName( const char *name )
 {
-	for ( CAI_Schedule *schedule = CAI_SchedulesManager::allSchedules; schedule != NULL; schedule = schedule->nextSchedule )
+	for ( CAI_Schedule *schedule = CAI_SchedulesManager::allSchedules; schedule != nullptr; schedule = schedule->nextSchedule )
 	{
 		if (FStrEq(schedule->GetName(),name))
 			return schedule;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -566,7 +566,7 @@ void CAI_SchedulesManager::DeleteAllSchedules(void)
 		delete schedule;
 		schedule = next;
 	}
-	CAI_SchedulesManager::allSchedules = NULL;
+	CAI_SchedulesManager::allSchedules = nullptr;
 }
 
 
@@ -584,7 +584,7 @@ CAI_Schedule::CAI_Schedule(char *name, int schedule_id, CAI_Schedule *pNext)
 	m_pName = new char[len+1];
 	Q_strncpy(m_pName,name,len+1);
 
-	m_pTaskList = NULL;
+	m_pTaskList = nullptr;
 	m_iNumTasks = 0;
 
 	// ---------------------------------

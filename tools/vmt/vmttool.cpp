@@ -59,7 +59,7 @@ char const *GetVGuiControlsModuleName()
 //-----------------------------------------------------------------------------
 bool ConnectTools( CreateInterfaceFn factory )
 {
-	return (g_pMDLCache != NULL) && (studiorender != NULL) && (materials != NULL) && (g_pMatSystemSurface != NULL);
+	return (g_pMDLCache != nullptr) && (studiorender != nullptr) && (materials != nullptr) && (g_pMatSystemSurface != nullptr);
 }
 
 void DisconnectTools( )
@@ -222,7 +222,7 @@ private:
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
-CVMTTool	*g_pVMTTool = NULL;
+CVMTTool	*g_pVMTTool = nullptr;
 
 void CreateTools()
 {
@@ -235,9 +235,9 @@ void CreateTools()
 //-----------------------------------------------------------------------------
 CVMTTool::CVMTTool()
 {
-	m_pVMTType = NULL;
-	m_pMenuBar = NULL;
-	m_pDoc = NULL;
+	m_pVMTType = nullptr;
+	m_pMenuBar = nullptr;
+	m_pDoc = nullptr;
 }
 
 
@@ -248,7 +248,7 @@ bool CVMTTool::Init()
 {
 	m_bToolParamsVisible = false;
 	m_bFlagParamsVisible = true;
-	m_pDoc = NULL;
+	m_pDoc = nullptr;
 	m_RecentFiles.LoadFromRegistry( GetRegistryName() );
 
 	// NOTE: This has to happen before BaseClass::Init
@@ -393,7 +393,7 @@ void CVMTTool::AddFlagParameter( const char *pParam )
 	CDmeEditorAttributeInfo *pInfo = CreateElement< CDmeEditorAttributeInfo >( "flag param info", m_pVMTType->GetFileId() );
 	m_pVMTType->AddAttributeInfo( pParam, pInfo ); 
 	pInfo->m_bIsVisible = m_bFlagParamsVisible;
-	pInfo->m_Widget = NULL;
+	pInfo->m_Widget = nullptr;
 	m_toolElements.AddToTail( pInfo->GetHandle() );
 }
 
@@ -902,7 +902,7 @@ void CVMTTool::OnNew()
 void CVMTTool::OnOpen( )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc && m_pDoc->IsDirty() )
 	{
 		nFlags = FOSM_SHOW_PERFORCE_DIALOGS | FOSM_SHOW_SAVE_QUERY;
@@ -924,7 +924,7 @@ void CVMTTool::OnSaveAs()
 {
 	if ( m_pDoc )
 	{
-		SaveFile( NULL, "vmt", FOSM_SHOW_PERFORCE_DIALOGS );
+		SaveFile(nullptr, "vmt", FOSM_SHOW_PERFORCE_DIALOGS );
 	}
 }
 
@@ -949,11 +949,11 @@ void CVMTTool::OnCloseNoSave()
 		CAppNotifyScopeGuard sg( "CVMTTool::OnCloseNoSave", NOTIFY_CHANGE_OTHER );
 
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 
 		if ( m_hProperties )
 		{
-			m_hProperties->SetObject( NULL );
+			m_hProperties->SetObject(nullptr);
 		}
 	}
 	
@@ -975,7 +975,7 @@ void CVMTTool::OnMarkNotDirty()
 void CVMTTool::OpenSpecificFile( const char *pFileName )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc )
 	{
 		// File is already open
@@ -1122,7 +1122,7 @@ bool CVMTTool::LoadDocument( char const *pDocName )
 	if ( !m_pDoc->LoadFromFile( pDocName ) )
 	{
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 		Warning( "Fatal error loading '%s'\n", pDocName );
 		return false;
 	}
@@ -1184,13 +1184,13 @@ void CVMTTool::DestroyTools()
 	{
 		windowposmgr->UnregisterPanel( m_hProperties.Get() );
 		delete m_hProperties.Get();
-		m_hProperties = NULL;
+		m_hProperties = nullptr;
 	}
 	if ( m_hVMTPreview.Get() )
 	{
 		windowposmgr->UnregisterPanel( m_hVMTPreview.Get() );
 		delete m_hVMTPreview.Get();
-		m_hVMTPreview = NULL;
+		m_hVMTPreview = nullptr;
 	}
 }
 
@@ -1198,11 +1198,11 @@ void CVMTTool::CreateTools( CVMTDoc *doc )
 {
 	if ( !m_hProperties.Get() )
 	{
-		m_hProperties = new CBasePropertiesContainer( NULL, m_pDoc, g_pEditorTypeDict );
+		m_hProperties = new CBasePropertiesContainer(nullptr, m_pDoc, g_pEditorTypeDict );
 	}
 	if ( !m_hVMTPreview.Get() )
 	{
-		m_hVMTPreview = new CVMTPanel( NULL, "VMT Preview" );
+		m_hVMTPreview = new CVMTPanel(nullptr, "VMT Preview" );
 		SETUP_PANEL( m_hVMTPreview.Get() );
 		m_hVMTPreview->SetMaterial( m_pDoc->GetPreviewMaterial() );
 	}
@@ -1214,7 +1214,7 @@ void CVMTTool::ShowToolWindow( Panel *tool, char const *toolName, bool visible )
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL && visible )
+	if ( tool->GetParent() == nullptr && visible )
 	{
 		m_ToolWindowFactory.InstanceToolWindow( this, false, tool, toolName, false );
 	}
@@ -1230,7 +1230,7 @@ void CVMTTool::ToggleToolWindow( Panel *tool, char const *toolName )
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL )
+	if ( tool->GetParent() == nullptr)
 	{
 		ShowToolWindow( tool, toolName, true );
 	}

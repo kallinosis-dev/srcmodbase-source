@@ -64,7 +64,7 @@ public:
 	bool GetBoundingSphere( Vector &vecCenter, float &flRadius );
 	ITexture *GetEnvCubeMap();
 
-	void SetUpBones( const matrix3x4_t& shapeToWorld, int nMaxBoneCount, matrix3x4_t *pOutputMatrices, const float *pPoseParameters = NULL, MDLSquenceLayer_t *pSequenceLayers = NULL, int nNumSequenceLayers = 0 );
+	void SetUpBones( const matrix3x4_t& shapeToWorld, int nMaxBoneCount, matrix3x4_t *pOutputMatrices, const float *pPoseParameters = nullptr, MDLSquenceLayer_t *pSequenceLayers = nullptr, int nNumSequenceLayers = 0 );
 	void SetupBonesWithBoneMerge( const CStudioHdr *pMergeHdr, matrix3x4_t *pMergeBoneToWorld, 
 		const CStudioHdr *pFollow, const matrix3x4_t *pFollowBoneToWorld, const matrix3x4_t &matModelToWorld );
 	
@@ -131,8 +131,8 @@ public:
 	virtual ~CMergedMDL();
 
 	// Sets the current mdl
-	virtual void SetMDL( MDLHandle_t handle, CCustomMaterialOwner* pCustomMaterialOwner = NULL, void *pProxyData = NULL );
-	virtual void SetMDL( const char *pMDLName, CCustomMaterialOwner* pCustomMaterialOwner = NULL, void *pProxyData = NULL );
+	virtual void SetMDL( MDLHandle_t handle, CCustomMaterialOwner* pCustomMaterialOwner = nullptr, void *pProxyData = nullptr);
+	virtual void SetMDL( const char *pMDLName, CCustomMaterialOwner* pCustomMaterialOwner = nullptr, void *pProxyData = nullptr);
 	CMDL *GetMDL() { return &m_RootMDL.m_MDL; }
 
 	// Sets the current sequence
@@ -156,8 +156,8 @@ public:
 	void SetModelAnglesAndPosition( const QAngle &angRot, const Vector &vecPos );
 
 	// Attached models.
-	void	SetMergeMDL( MDLHandle_t handle, CCustomMaterialOwner* pCustomMaterialOwner = NULL, void *pProxyData = NULL, bool bRequestBonemergeTakeover = false );
-	MDLHandle_t SetMergeMDL( const char *pMDLName, CCustomMaterialOwner* pCustomMaterialOwner = NULL, void *pProxyData = NULL, bool bRequestBonemergeTakeover = false );
+	void	SetMergeMDL( MDLHandle_t handle, CCustomMaterialOwner* pCustomMaterialOwner = nullptr, void *pProxyData = nullptr, bool bRequestBonemergeTakeover = false );
+	MDLHandle_t SetMergeMDL( const char *pMDLName, CCustomMaterialOwner* pCustomMaterialOwner = nullptr, void *pProxyData = nullptr, bool bRequestBonemergeTakeover = false );
 	int		GetMergeMDLIndex( MDLHandle_t handle );
 	CMDL	*GetMergeMDL(MDLHandle_t handle );
 	void	ClearMergeMDLs( void );

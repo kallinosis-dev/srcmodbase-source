@@ -251,7 +251,7 @@ public:
 	void DestroyResource()
 	{
 		Uncache();
-		m_hCache = NULL;
+		m_hCache = nullptr;
 	}
 #endif
 

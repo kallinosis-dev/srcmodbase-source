@@ -28,7 +28,7 @@ BEGIN_VS_SHADER_FLAGS( TreeLeaf, "Help for TreeLeaf", SHADER_NOT_EDITABLE )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -52,7 +52,7 @@ BEGIN_VS_SHADER_FLAGS( TreeLeaf, "Help for TreeLeaf", SHADER_NOT_EDITABLE )
 
 			unsigned int flags = VERTEX_POSITION | VERTEX_NORMAL;
 			int numTexCoords = 1;
-			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, 0 );
 
 			bool bFlattenStaticControlFlow = !g_pHardwareConfig->SupportsStaticControlFlow();
 

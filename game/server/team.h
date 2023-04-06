@@ -103,8 +103,8 @@ public:
 	virtual int GetAliveMembers( void );
 
 #if defined ( CSTRIKE15 )
-	virtual int GetBotMembers( CUtlVector< class CCSBot* > *pOutVecBots = NULL );
-	virtual int GetHumanMembers( CUtlVector< class CCSPlayer* > *pOutVecPlayers = NULL );
+	virtual int GetBotMembers( CUtlVector< class CCSBot* > *pOutVecBots = nullptr);
+	virtual int GetHumanMembers( CUtlVector< class CCSPlayer* > *pOutVecPlayers = nullptr);
 #endif
 
 	float m_flLastPlayerSortTime;

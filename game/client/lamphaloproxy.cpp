@@ -37,7 +37,7 @@ private:
 //-----------------------------------------------------------------------------
 CLampHaloProxy::CLampHaloProxy( void )
 {
-	m_pFadeValue = NULL;
+	m_pFadeValue = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -97,7 +97,7 @@ void CLampHaloProxy::OnBind( C_BaseEntity *pEnt )
 IMaterial *CLampHaloProxy::GetMaterial()
 {
 	if ( !m_pFadeValue )
-		return NULL;
+		return nullptr;
 
 	return m_pFadeValue->GetOwningMaterial();
 }

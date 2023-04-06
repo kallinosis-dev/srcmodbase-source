@@ -37,7 +37,7 @@ CSharedObjectTypeCache::~CSharedObjectTypeCache()
 		// NULL the entry so that this SO isn't found during
 		// cleanup assertion checking.
 		CSharedObject *pObj = m_vecObjects[ i ];
-		m_vecObjects[ i ] = NULL;
+		m_vecObjects[ i ] = nullptr;
 
 #ifdef GC
 		if ( pObj->BShouldDeleteByCache() )
@@ -123,7 +123,7 @@ CSharedObject *CSharedObjectTypeCache::RemoveObject( const CSharedObject & soInd
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -193,7 +193,7 @@ CSharedObject *CSharedObjectTypeCache::FindSharedObject( const CSharedObject & s
 	if( m_vecObjects.IsValidIndex( nIndex ) )
 		return m_vecObjects[nIndex];
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -274,7 +274,7 @@ CSharedObjectCache::~CSharedObjectCache()
 CSharedObjectTypeCache *CSharedObjectCache::FindBaseTypeCache( int nClassID ) const
 {
 	int nIndex = m_mapObjects.Find( nClassID );
-	CSharedObjectTypeCache *pTypeCache = NULL;
+	CSharedObjectTypeCache *pTypeCache = nullptr;
 	if( m_mapObjects.IsValidIndex( nIndex ) )
 	{
 		pTypeCache = m_mapObjects[nIndex];
@@ -330,7 +330,7 @@ CSharedObject *CSharedObjectCache::RemoveObject( const CSharedObject & soIndex )
 {
 	CSharedObjectTypeCache *pTypeCache = FindBaseTypeCache( soIndex.GetTypeID() );
 	if( !pTypeCache )
-		return NULL;
+		return nullptr;
 
 	MarkDirty();
 
@@ -361,7 +361,7 @@ CSharedObject *CSharedObjectCache::FindSharedObject( const CSharedObject & soInd
 	if( pTypeCache )
 		return pTypeCache->FindSharedObject( soIndex );
 	else
-		return NULL;
+		return nullptr;
 }
 
 //----------------------------------------------------------------------------

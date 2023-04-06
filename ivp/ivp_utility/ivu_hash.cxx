@@ -182,7 +182,7 @@ void IVP_Hash::add(const char *key, void *val){
 void IVP_Hash::remove(const char *key){
     int i = hash_index(key);
     IVP_Hash_Elem *el,*last_el;
-    last_el = 0;
+    last_el = nullptr;
     for (el = elems[i];el;el=el->next){
 	if ( !memcmp(el->key,key,key_size)){
 	    if (last_el){
@@ -190,7 +190,7 @@ void IVP_Hash::remove(const char *key){
 	    }else{
 		elems[i] = el->next;
 	    }
-	    el->next = 0;
+	    el->next = nullptr;
 	    P_FREE(el);
 	    return;
 	}
@@ -259,7 +259,7 @@ void IVP_U_String_Hash::add(const char *key, void *val){
 void IVP_U_String_Hash::remove(const char *key){
     int i = hash_index(key);
     IVP_Hash_Elem *el,*last_el;
-    last_el = 0;
+    last_el = nullptr;
     for (el = elems[i];el;el=el->next){
 	if ( !strcmp(&el->key[0],key)){
 	    if (last_el){
@@ -267,7 +267,7 @@ void IVP_U_String_Hash::remove(const char *key){
 	    }else{
 		elems[i] = el->next;
 	    }
-	    el->next = 0;
+	    el->next = nullptr;
 	    P_FREE(el);
 	    return;
 	}

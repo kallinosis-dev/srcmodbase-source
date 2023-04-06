@@ -37,7 +37,7 @@ void CAttributeTextEntry::ApplySchemeSettings( IScheme *pScheme )
 {
 	BaseClass::ApplySchemeSettings( pScheme );
 
-	SetBorder(NULL);
+	SetBorder(nullptr);
 
 	//HFont font = pScheme->GetFont( "DmePropertyVerySmall", IsProportional() );
 	//SetFont(font);
@@ -72,7 +72,7 @@ bool CAttributeTextEntry::IsDroppable( CUtlVector< KeyValues * >& msglist )
 
 	KeyValues *msg = msglist[ 0 ];
 
-	Panel *draggedPanel = ( Panel * )msg->GetPtr( "panel", NULL );
+	Panel *draggedPanel = ( Panel * )msg->GetPtr( "panel", nullptr);
 	if ( draggedPanel == GetParent() )
 		return false;
 
@@ -118,7 +118,7 @@ void CAttributeTextEntry::OnPanelDropped( CUtlVector< KeyValues * >& msglist )
 		return;
 
 	KeyValues *data = msglist[ 0 ];
-	Panel *draggedPanel = ( Panel * )data->GetPtr( "panel", NULL );
+	Panel *draggedPanel = ( Panel * )data->GetPtr( "panel", nullptr);
 	if ( draggedPanel == GetParent() )
 		return;
 

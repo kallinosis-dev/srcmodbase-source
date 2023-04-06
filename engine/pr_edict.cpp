@@ -75,7 +75,7 @@ edict_t *ED_Alloc( int iForceEdictIndex )
 		if ( iForceEdictIndex >= sv.num_edicts )
 		{
 			Warning( "ED_Alloc( %d ) - invalid edict index specified.", iForceEdictIndex );
-			return NULL;
+			return nullptr;
 		}
 		
 		edict_t *e = &sv.edicts[iForceEdictIndex];
@@ -86,7 +86,7 @@ edict_t *ED_Alloc( int iForceEdictIndex )
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 

@@ -261,7 +261,7 @@ void CModelBrowserApp::InitDefaultEnvCubemap( )
 {
 	// Deal with the default cubemap
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap", NULL, true );
+	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap", nullptr, true );
 	m_DefaultEnvCubemap.Init( pCubemapTexture );
 	pRenderContext->BindLocalCubemap( pCubemapTexture );
 }
@@ -269,7 +269,7 @@ void CModelBrowserApp::InitDefaultEnvCubemap( )
 void CModelBrowserApp::ShutdownDefaultEnvCubemap( )
 {
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	pRenderContext->BindLocalCubemap( NULL );
+	pRenderContext->BindLocalCubemap(nullptr);
 	m_DefaultEnvCubemap.Shutdown( );
 }
 
@@ -281,7 +281,7 @@ class CMDLBrowserFrame : public vgui::Frame
 {
 	DECLARE_CLASS_SIMPLE( CMDLBrowserFrame, vgui::Frame );
 public:
-	CMDLBrowserFrame() : BaseClass( NULL, "MDLPickerFrame" ) 
+	CMDLBrowserFrame() : BaseClass(nullptr, "MDLPickerFrame" ) 
 	{
 		m_pMDLPicker = new CMDLPicker( this );
 		SetTitle( "Model Browser", true );

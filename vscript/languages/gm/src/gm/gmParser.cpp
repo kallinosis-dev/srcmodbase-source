@@ -83,9 +83,9 @@ extern gmCodeTreeNode * g_codeTree;
 void ATTACH(gmCodeTreeNode * &a_res, gmCodeTreeNode * a_a, gmCodeTreeNode * a_b)
 {
   YYSTYPE t = a_a;
-  if(t != NULL)
+  if(t != nullptr)
   {
-    while(t->m_sibling != NULL)
+    while(t->m_sibling != nullptr)
     {
       t = t->m_sibling;
     }
@@ -99,7 +99,7 @@ void ATTACH(gmCodeTreeNode * &a_res, gmCodeTreeNode * a_a, gmCodeTreeNode * a_b)
   }
 }
 
-gmCodeTreeNode * CreateOperation(int a_subTypeType, gmCodeTreeNode * a_left = NULL, gmCodeTreeNode * a_right = NULL)
+gmCodeTreeNode * CreateOperation(int a_subTypeType, gmCodeTreeNode * a_left = nullptr, gmCodeTreeNode * a_right = nullptr)
 {
   gmCodeTreeNode * node = gmCodeTreeNode::Create(CTNT_EXPRESSION, CTNET_OPERATION, gmlineno, a_subTypeType);
   node->SetChild(0, a_left);
@@ -1132,7 +1132,7 @@ case 15:
     break;}
 case 16:
 {
-      yyval = NULL;
+      yyval = nullptr;
     ;
     break;}
 case 17:
@@ -1298,7 +1298,7 @@ case 42:
     break;}
 case 43:
 {
-      yyval = NULL;
+      yyval = nullptr;
     ;
     break;}
 case 44:
@@ -1676,13 +1676,13 @@ case 111:
 case 112:
 {
       yyval = gmCodeTreeNode::Create(CTNT_EXPRESSION, CTNET_CONSTANT, gmlineno, CTNCT_INT);
-      yyval->m_data.m_iValue = strtoul(gmtext + 2, NULL, 16);
+      yyval->m_data.m_iValue = strtoul(gmtext + 2, nullptr, 16);
     ;
     break;}
 case 113:
 {
       yyval = gmCodeTreeNode::Create(CTNT_EXPRESSION, CTNET_CONSTANT, gmlineno, CTNCT_INT);
-      yyval->m_data.m_iValue = strtoul(gmtext + 2, NULL, 2);
+      yyval->m_data.m_iValue = strtoul(gmtext + 2, nullptr, 2);
     ;
     break;}
 case 114:
@@ -1884,7 +1884,7 @@ yyerrlab:   /* here on detecting error */
               size += strlen(yytname[x]) + 15, count++;
           //_GD_ msg = (char *) malloc(size + 15);
           msg = GM_NEW( char [size + 15] );
-          if (msg != 0)
+          if (msg != nullptr)
             {
               strcpy(msg, "parse error");
 

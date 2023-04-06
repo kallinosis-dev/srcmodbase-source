@@ -161,7 +161,7 @@ void TestLine( const FourVectors& start, const FourVectors& stop,
 	RayTracingResult rt_result;
 	CCoverageCountTexture coverageCallback;
 
-	g_RtEnv.Trace4Rays(myrays, Four_Zeros, len, &rt_result, TRACE_ID_STATICPROP | static_prop_index_to_ignore, g_bTextureShadows ? &coverageCallback : 0 );
+	g_RtEnv.Trace4Rays(myrays, Four_Zeros, len, &rt_result, TRACE_ID_STATICPROP | static_prop_index_to_ignore, g_bTextureShadows ? &coverageCallback : nullptr );
 
 	// Assume we can see the targets unless we get hits
 	float visibility[4];
@@ -192,7 +192,7 @@ void TestLine_IgnoreSky( const FourVectors& start, const FourVectors& stop,
 	RayTracingResult rt_result;
 	CCoverageCountTexture coverageCallback;
 
-	g_RtEnv.Trace4Rays(myrays, Four_Zeros, len, &rt_result, TRACE_ID_STATICPROP | static_prop_index_to_ignore, g_bTextureShadows ? &coverageCallback : 0 );
+	g_RtEnv.Trace4Rays(myrays, Four_Zeros, len, &rt_result, TRACE_ID_STATICPROP | static_prop_index_to_ignore, g_bTextureShadows ? &coverageCallback : nullptr );
 
 	// Assume we can see the targets unless we get hits
 	float visibility[4];
@@ -226,7 +226,7 @@ void TestLine_LightBlockers( const FourVectors& start, const FourVectors& stop,
 
 	RayTracingResult rt_result;
 
-	g_RtEnv_LightBlockers.Trace4Rays( myrays, Four_Zeros, len, &rt_result, -1, NULL );
+	g_RtEnv_LightBlockers.Trace4Rays( myrays, Four_Zeros, len, &rt_result, -1, nullptr);
 
 	// Assume we can see the targets unless we get hits
 	float visibility[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
@@ -262,11 +262,11 @@ void DM_ClipBoxToBrush( CToolTrace *trace, const Vector& mins, const Vector& max
 
 	float enterfrac = NEVER_UPDATED;
 	float leavefrac = 1.f;
-	clipplane = NULL;
+	clipplane = nullptr;
 
 	bool getout = false;
 	bool startout = false;
-	leadside = NULL;
+	leadside = nullptr;
 
 	// Loop interchanged, so we don't have to check trace->ispoint every side.
 	if ( !trace->ispoint )
@@ -404,7 +404,7 @@ void DM_ClipBoxToBrush( CToolTrace *trace, const Vector& mins, const Vector& max
 			if (leadside->texinfo!=-1)
 				trace->surface = &texinfo[leadside->texinfo];
 			else
-				trace->surface = 0;
+				trace->surface = nullptr;
 			trace->contents = brush->contents;
 		}
 	}
@@ -422,7 +422,7 @@ void TestLine_DoesHitSky( FourVectors const& start, FourVectors const& stop,
 	RayTracingResult rt_result;
 	CCoverageCountTexture coverageCallback;
 
-	g_RtEnv.Trace4Rays(myrays, Four_Zeros, len, &rt_result, TRACE_ID_STATICPROP | static_prop_to_skip, g_bTextureShadows? &coverageCallback : 0);
+	g_RtEnv.Trace4Rays(myrays, Four_Zeros, len, &rt_result, TRACE_ID_STATICPROP | static_prop_to_skip, g_bTextureShadows? &coverageCallback : nullptr);
 
 	if ( bDoDebug )
 	{
@@ -547,7 +547,7 @@ dmodel_t *BrushmodelForEntity( entity_t *pEntity )
 			return &dmodels[modelIndex];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 // Add one that casts textureshadows

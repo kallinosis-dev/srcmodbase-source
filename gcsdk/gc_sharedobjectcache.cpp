@@ -244,7 +244,7 @@ CGCSharedObjectCache::CGCSharedObjectCache( const CSteamID & steamIDOwner )
 	m_unWritebackTime( 0 ),
 	m_unLRUHandle( CUtlLinkedList< CSteamID, uint32 >::InvalidIndex() ),
 	m_unCachedSubscriptionMsgFlags( 0 ),
-	m_pCachedSubscriptionMsg( NULL ),
+	m_pCachedSubscriptionMsg(nullptr),
 	m_bDetectVersionChanges( true )
 #if WITH_SOCACHE_LRU_DEBUGGING
 ,	m_unDebugTag( 0 )
@@ -455,7 +455,7 @@ void CGCSharedObjectCache::SendSubscriberMessage( const CSteamID & steamID )
 void CGCSharedObjectCache::ClearCachedSubscriptionMessage()
 {
 	delete m_pCachedSubscriptionMsg;
-	m_pCachedSubscriptionMsg = NULL;
+	m_pCachedSubscriptionMsg = nullptr;
 	m_unCachedSubscriptionMsgFlags = 0;
 }
 
@@ -545,7 +545,7 @@ bool CGCSharedObjectCache::IsObjectCached( const CSharedObject *pObj, uint32 nTy
 	// pObj->GetTypeID() isn't called because the method is virtual,
 	// and this code gets called from a destructor.
 	CSharedObjectTypeCache *pTypeCache = FindBaseTypeCache( nTypeID );
-	if ( pTypeCache == NULL )
+	if ( pTypeCache == nullptr)
 	{
 		return false;
 	}
@@ -921,7 +921,7 @@ void CGCSharedObjectCache::SetInWriteback( bool bInWriteback )
 {
 	if( !m_bInWriteback && bInWriteback )
 	{
-		m_unWritebackTime = time( NULL );
+		m_unWritebackTime = time(nullptr);
 	}
 	m_bInWriteback = bInWriteback;
 }
@@ -1014,7 +1014,7 @@ void CGCSharedObjectCache::DumpDirtyObjects() const
 		EmitInfo( SPEW_CONSOLE, SPEW_ALWAYS, LOG_ALWAYS, "\t Num database dirty (%d):\n", m_databaseDirtyList.NumDirtyObjects() );
 		for( int i = 0; i < m_databaseDirtyList.NumDirtyObjects(); ++i )
 		{
-			CSharedObject *pObj = NULL;
+			CSharedObject *pObj = nullptr;
 			CUtlVector<int> fieldSet;
 			m_databaseDirtyList.GetDirtyFieldSetByIndex( i, &pObj, fieldSet );
 			EmitInfo( SPEW_CONSOLE, SPEW_ALWAYS, LOG_ALWAYS, "\t\t Object type id: %d\n", pObj->GetTypeID() );

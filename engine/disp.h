@@ -77,7 +77,7 @@ public:
 	CDispInfo();
 
 	// Used for indexing displacements.
-	CDispInfo*	GetDispByIndex( int index )		{ return index == 0xFFFF ? 0 : &m_pDispArray->m_pDispInfos[index]; }
+	CDispInfo*	GetDispByIndex( int index )		{ return index == 0xFFFF ? nullptr : &m_pDispArray->m_pDispInfos[index]; }
 	
 	// Get this displacement's index into the main array.
 	int			GetDispIndex()					{ return this - m_pDispArray->m_pDispInfos; }

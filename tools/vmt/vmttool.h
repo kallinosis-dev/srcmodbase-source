@@ -41,7 +41,7 @@ public:
 
 	// Adds flags, tool parameters
 	virtual void AddFlagParameter( const char *pParam ) = 0;
-	virtual void AddToolParameter( const char *pParam, const char *pWidget = NULL, const char *pTextType = NULL ) = 0;
+	virtual void AddToolParameter( const char *pParam, const char *pWidget = nullptr, const char *pTextType = nullptr) = 0;
 	virtual void RemoveAllFlagParameters() = 0;
 	virtual void RemoveAllToolParameters() = 0;
 };

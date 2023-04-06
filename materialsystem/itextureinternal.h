@@ -59,8 +59,8 @@ public:
 	virtual void Precache() = 0;
 
 	// Stretch blit the framebuffer into this texture.
-	virtual void CopyFrameBufferToMe( int nRenderTargetID = 0, Rect_t *pSrcRect = NULL, Rect_t *pDstRect = NULL ) = 0;
-	virtual void CopyMeToFrameBuffer( int nRenderTargetID = 0, Rect_t *pSrcRect = NULL, Rect_t *pDstRect = NULL ) = 0;
+	virtual void CopyFrameBufferToMe( int nRenderTargetID = 0, Rect_t *pSrcRect = nullptr, Rect_t *pDstRect = nullptr) = 0;
+	virtual void CopyMeToFrameBuffer( int nRenderTargetID = 0, Rect_t *pSrcRect = nullptr, Rect_t *pDstRect = nullptr) = 0;
 
 	virtual ITexture *GetEmbeddedTexture( int nIndex ) = 0;
 

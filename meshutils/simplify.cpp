@@ -204,7 +204,7 @@ public:
 		tmp.m_nV0 = MIN(nV0, nV1);
 		tmp.m_nV1 = MAX(nV0, nV1);
 		uint nHashKey = VertHashKey(MIN(nV0, nV1), MAX(nV0, nV1));
-		tmp.m_pSharedEdge = NULL;
+		tmp.m_pSharedEdge = nullptr;
 		return m_edgeHash.Find( nHashKey, tmp );
 	}
 
@@ -608,7 +608,7 @@ void CMeshVisit::BuildFromMesh( const CMesh &input )
 			tmp.m_nV0 = MIN(nV0, nV1);
 			tmp.m_nV1 = MAX(nV0, nV1);
 			uint nHashKey = VertHashKey(MIN(nV0, nV1), MAX(nV0, nV1));
-			tmp.m_pSharedEdge = NULL;
+			tmp.m_pSharedEdge = nullptr;
 			UtlHashFastHandle_t edgeHashIndex = m_edgeHash.Find( nHashKey, tmp );
 			// new edge, initialize it
 			if ( m_edgeHash.InvalidHandle() == edgeHashIndex )
@@ -673,7 +673,7 @@ void CMeshVisit::ComputeVertListError( float flOpenEdgePenalty, float flMinArea,
 		// can we use all of the weights?  If not, don't use any of them
 		if ( pWeights->m_nVertexCount != m_nInputVertCount )
 		{
-			pWeights = NULL;
+			pWeights = nullptr;
 		}
 	}
 	for ( int i = 0; i < m_nInputVertCount; i++ )

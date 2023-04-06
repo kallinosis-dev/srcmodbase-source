@@ -138,7 +138,7 @@ bool CEventLog::PrintPlayerEvent( IGameEvent *event )
 		const char *reason = event->GetString("reason" );
 		const char *name = event->GetString("name" );
 		const char *networkid = event->GetString("networkid" );
-		CTeam *team = NULL;
+		CTeam *team = nullptr;
 		CBasePlayer *pPlayer = UTIL_PlayerByUserId( userid );
 
 		if ( pPlayer )
@@ -193,7 +193,7 @@ bool CEventLog::PrintPlayerEvent( IGameEvent *event )
 
 		CBasePlayer *pAttacker = UTIL_PlayerByUserId( attackerid );
 		CTeam *team = pPlayer->GetTeam();
-		CTeam *attackerTeam = NULL;
+		CTeam *attackerTeam = nullptr;
 		
 		if ( pAttacker )
 		{

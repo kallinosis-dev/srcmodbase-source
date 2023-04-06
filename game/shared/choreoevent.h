@@ -454,7 +454,7 @@ public:
 	void			RemoveRelativeTag( const char *tagname );
 	
 	bool			IsUsingRelativeTag( void );
-	void			SetUsingRelativeTag( bool usetag, const char *tagname = 0, const char *wavname = 0);
+	void			SetUsingRelativeTag( bool usetag, const char *tagname = nullptr, const char *wavname = nullptr);
 	const char		*GetRelativeTagName( void );
 	const char		*GetRelativeWavName( void );
 

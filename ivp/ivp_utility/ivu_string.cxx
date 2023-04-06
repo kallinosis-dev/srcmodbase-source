@@ -51,7 +51,7 @@ const char *P_String::find_string(const char *str, const char *key, int upper_ca
               = 1	-> a==A
               = 2	-> a==A && a==?
 */
-    if ( str == NULL ) return NULL;
+    if ( str == nullptr) return nullptr;
     
 	register const char  *p1, *p2;
 	register char b;
@@ -121,7 +121,7 @@ const char *P_String::find_string(const char *str, const char *key, int upper_ca
 		if (!*p2) return (char *)str;
 		break;
 	}
-	return 0;
+	return nullptr;
 }
 
 
@@ -186,7 +186,7 @@ char *gbs_add_path(char *path,char *name)
 	char *erg;
 	if (!name) return name;
 	if (!path) {
-		return 0;
+		return nullptr;
 	}
 	if (*name == '/') return name;
 	found =0;
@@ -246,7 +246,7 @@ char *p_strdup(const char *s)
 	memcpy(s2,(char *)s,len); 
 	return s2;
     }else{
-	return NULL;
+	return nullptr;
     }
 }
 
@@ -258,7 +258,7 @@ char *p_make_string_fast(const char *templat, ...)
     // NULL-Strings and empty strings allowed
     // no check for overflow
     
-    if(!templat) return NULL;
+    if(!templat) return nullptr;
     
     char buffer[MAX_MAKE_STRING_LEN];
     va_list parg;
@@ -275,7 +275,7 @@ char *p_make_string(const char *templat, ...)
     // NULL-Strings and empty strings allowed
     // LINUX: check for overflow
     
-    if(!templat) return NULL;
+    if(!templat) return nullptr;
     
     char buffer[MAX_MAKE_STRING_LEN];
     va_list parg;
@@ -291,7 +291,7 @@ char *p_make_string(const char *templat, ...)
 }
 
 #define MAX_ERROR_BUFFER_LEN 10000
-char *p_error_buffer = 0;
+char *p_error_buffer = nullptr;
 
 IVP_ERROR_STRING p_export_error(const char *templat, ...)
 {
@@ -364,24 +364,24 @@ char *p_read_first_token(FILE *fp){
 	if (!tok) continue;
 	return tok;
     }
-    return 0;
+    return nullptr;
 }
 
 char *p_get_string(){
-    char *s =  p_str_tok(0,"\n");
+    char *s =  p_str_tok(nullptr,"\n");
     return p_strdup(s);
 }
 
 char *p_get_next_token(){
-    return  p_str_tok(0,IVP_WHITESPACE);
+    return  p_str_tok(nullptr,IVP_WHITESPACE);
 }
 
 int p_get_num(){
-    return atoi(p_str_tok(NULL, IVP_WHITESPACE));
+    return atoi(p_str_tok(nullptr, IVP_WHITESPACE));
 }
 
 IVP_DOUBLE p_get_float(){
-    char *str = p_str_tok(NULL, IVP_WHITESPACE);
+    char *str = p_str_tok(nullptr, IVP_WHITESPACE);
     if (!str) return 0.0f;
     return IVP_DOUBLE(atof(str));
 }
@@ -394,18 +394,18 @@ int p_strlen(const char *s)
 }
 
 int p_strcmp( const char *s1, const char *s2){
-    if (s1 == NULL){
-	if (s2 == NULL) return 0;
+    if (s1 == nullptr){
+	if (s2 == nullptr) return 0;
 	return 1;
     }
-    if (s2 == NULL) return -1;
+    if (s2 == nullptr) return -1;
     return strcmp(s1,s2);
 }
 
 char *p_str_tok(char *a,const char *deli){
 	char *temp=strtok(a,(char *)deli);
 	// Windows will always append a '0d'; maybe correct this with deli
-	if(!temp) return NULL;
+	if(!temp) return nullptr;
 	int i=0;
 	while(temp[i])
 	{

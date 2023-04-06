@@ -79,7 +79,7 @@ BEGIN_DATADESC( CPhysicsNPCSolver )
 END_DATADESC()
 
 CEntityClassList<CPhysicsNPCSolver> g_SolverList;
-template <> CPhysicsNPCSolver *CEntityClassList<CPhysicsNPCSolver>::m_pClassList = NULL;
+template <> CPhysicsNPCSolver *CEntityClassList<CPhysicsNPCSolver>::m_pClassList = nullptr;
 
 bool NPCPhysics_SolverExists( CAI_BaseNPC *pNPC, CBaseEntity *pPhysicsObject )
 {
@@ -96,7 +96,7 @@ bool NPCPhysics_SolverExists( CAI_BaseNPC *pNPC, CBaseEntity *pPhysicsObject )
 
 CPhysicsNPCSolver *CPhysicsNPCSolver::Create( CAI_BaseNPC *pNPC, CBaseEntity *pPhysicsObject, bool disableCollisions, float separationTime )
 {
-	CPhysicsNPCSolver *pSolver = (CPhysicsNPCSolver *)CBaseEntity::CreateNoSpawn( "physics_npc_solver", vec3_origin, vec3_angle, NULL );
+	CPhysicsNPCSolver *pSolver = (CPhysicsNPCSolver *)CBaseEntity::CreateNoSpawn( "physics_npc_solver", vec3_origin, vec3_angle, nullptr);
 	pSolver->Init( pNPC, pPhysicsObject, disableCollisions, separationTime );
 	pSolver->Spawn();
 	//NDebugOverlay::EntityBounds(pNPC, 255, 255, 0, 64, 0.5f );
@@ -117,7 +117,7 @@ void CPhysicsNPCSolver::Init( CAI_BaseNPC *pNPC, CBaseEntity *pPhysicsObject, bo
 {
 	m_hNPC = pNPC;
 	m_hEntity = pPhysicsObject;
-	m_pController = NULL;
+	m_pController = nullptr;
 	m_separationDuration = separationTime;
 	m_allowIntersection = disableCollisions;
 
@@ -166,7 +166,7 @@ void CPhysicsNPCSolver::UpdateOnRemove()
 	if ( m_allowIntersection )
 	{
 		physenv->DestroyMotionController( m_pController );
-		m_pController = NULL;
+		m_pController = nullptr;
 		PhysEnableEntityCollisions( m_hNPC, m_hEntity );
 	}
 	else
@@ -204,7 +204,7 @@ bool CPhysicsNPCSolver::IsContactOnNPCHead( IPhysicsFrictionSnapshot *pSnapshot,
 {
 	float heightCheck = pNPC->GetAbsOrigin().z + pNPC->GetHullMaxs().z;
 	Vector vel, point;
-	pPhysics->GetVelocity( &vel, NULL );
+	pPhysics->GetVelocity( &vel, nullptr);
 	pSnapshot->GetContactPoint( point );
 	// don't care if the object is already moving away
 	if ( vel.LengthSqr() < 10.0f*10.0f )
@@ -327,8 +327,8 @@ IMotionEvent::simresult_e CPhysicsNPCSolver::Simulate( IPhysicsMotionController 
 		}
 
 		Vector origin, vel;
-		pObject->GetPosition( &origin, NULL );
-		pObject->GetVelocity( &vel, NULL );
+		pObject->GetPosition( &origin, nullptr);
+		pObject->GetVelocity( &vel, nullptr);
 		Vector dir = origin - m_hNPC->GetAbsOrigin();
 		dir.z = dir.z > 0 ? 0.1f : -0.1f;
 		VectorNormalize(dir);
@@ -338,7 +338,7 @@ IMotionEvent::simresult_e CPhysicsNPCSolver::Simulate( IPhysicsMotionController 
 		// NOTE: Iterate this object's contact points 
 		// if it can't move in this direction, try sliding along the plane/crease
 		Vector pushImpulse;
-		PhysComputeSlideDirection( pObject, dir * PUSH_SPEED, angVel, &pushImpulse, NULL, 0 );
+		PhysComputeSlideDirection( pObject, dir * PUSH_SPEED, angVel, &pushImpulse, nullptr, 0 );
 
 		dir = pushImpulse;
 		VectorNormalize(dir);
@@ -346,7 +346,7 @@ IMotionEvent::simresult_e CPhysicsNPCSolver::Simulate( IPhysicsMotionController 
 		if ( DotProduct( vel, dir ) < PUSH_SPEED * 0.5f )
 		{
 			linear = pushImpulse;
-			if ( pObject->GetContactPoint(NULL,NULL) )
+			if ( pObject->GetContactPoint(nullptr, nullptr) )
 			{
 				linear.z += sv_gravity.GetFloat();
 			}
@@ -362,12 +362,12 @@ CBaseEntity *NPCPhysics_CreateSolver( CAI_BaseNPC *pNPC, CBaseEntity *pPhysicsOb
 	if ( disableCollisions )
 	{
 		if ( PhysEntityCollisionsAreDisabled( pNPC, pPhysicsObject ) )
-			return NULL;
+			return nullptr;
 	}
 	else
 	{
 		if ( pPhysicsObject->IsNavIgnored() )
-			return NULL;
+			return nullptr;
 	}
 	return CPhysicsNPCSolver::Create( pNPC, pPhysicsObject, disableCollisions, separationDuration );
 }
@@ -419,7 +419,7 @@ END_DATADESC()
 
 CPhysicsEntitySolver *CPhysicsEntitySolver::Create( CBaseEntity *pMovingEntity, CBaseEntity *pPhysicsBlocker, float separationTime )
 {
-	CPhysicsEntitySolver *pSolver = (CPhysicsEntitySolver *)CBaseEntity::CreateNoSpawn( "physics_entity_solver", vec3_origin, vec3_angle, NULL );
+	CPhysicsEntitySolver *pSolver = (CPhysicsEntitySolver *)CBaseEntity::CreateNoSpawn( "physics_entity_solver", vec3_origin, vec3_angle, nullptr);
 	pSolver->Init( pMovingEntity, pPhysicsBlocker, separationTime );
 	pSolver->Spawn();
 	//NDebugOverlay::EntityBounds(pNPC, 255, 255, 0, 64, 0.5f );
@@ -472,7 +472,7 @@ void CPhysicsEntitySolver::UpdateOnRemove()
 CBaseEntity *EntityPhysics_CreateSolver( CBaseEntity *pMovingEntity, CBaseEntity *pPhysicsObject, bool disableCollisions, float separationDuration )
 {
 	if ( PhysEntityCollisionsAreDisabled( pMovingEntity, pPhysicsObject ) )
-		return NULL;
+		return nullptr;
 
 	return CPhysicsEntitySolver::Create( pMovingEntity, pPhysicsObject, separationDuration );
 }

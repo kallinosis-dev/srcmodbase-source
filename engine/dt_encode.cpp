@@ -227,8 +227,8 @@ int	DecodeBits( DecodeInfo *pInfo, unsigned char *pOut )
 	// Read the property in (note: we don't return the bits from here because Decode returns
 	// the decoded bits.. we're interested in getting the encoded bits).
 	temp = *pInfo->m_pIn;
-	pInfo->m_pRecvProp = NULL;
-	pInfo->m_pData = NULL;
+	pInfo->m_pRecvProp = nullptr;
+	pInfo->m_pData = nullptr;
 	g_PropTypeFns[pInfo->m_pProp->m_Type].Decode( pInfo );
 
 	// Return the encoded bits.
@@ -1022,7 +1022,7 @@ void Array_Decode( DecodeInfo *pInfo )
 	subDecodeInfo.m_pProp = pArrayProp;
 
 	int elementStride = 0;	
-	ArrayLengthRecvProxyFn lengthProxy = 0;
+	ArrayLengthRecvProxyFn lengthProxy = nullptr;
 	if ( pInfo->m_pRecvProp )
 	{
 		RecvProp *pArrayRecvProp = pInfo->m_pRecvProp->GetArrayProp();
@@ -1423,15 +1423,15 @@ PropTypeFns g_PropTypeFns[DPT_NUMSendPropTypes] =
 	 
 	// DPT_DataTable
 	{
-		NULL,
-		NULL,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
+		nullptr,
+		nullptr,
 		DataTable_GetTypeNameString,
-		NULL,
-		NULL,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
+		nullptr,
+		nullptr,
 	},
 #if 0 // We can't ship this since it changes the size of DTVariant to be 20 bytes instead of 16 and that breaks MODs!!!
 

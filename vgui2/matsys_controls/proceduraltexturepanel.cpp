@@ -26,7 +26,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 CProceduralTexturePanel::CProceduralTexturePanel( vgui::Panel *pParent, const char *pName ) : BaseClass( pParent, pName )
 {
-	m_pImageBuffer = NULL;
+	m_pImageBuffer = nullptr;
 	m_bMaintainProportions = false;
 	m_bUsePaintRect = false;
 	m_PaintRect.x = m_PaintRect.y = 0;
@@ -117,14 +117,14 @@ void CProceduralTexturePanel::CleanUp()
 
 	if ( m_ProceduralTexture )
 	{
-		m_ProceduralTexture->SetTextureRegenerator( NULL );
+		m_ProceduralTexture->SetTextureRegenerator(nullptr);
 		m_ProceduralTexture.Shutdown( true );
 	}
 	
 	if ( m_pImageBuffer )
 	{
 		delete[] m_pImageBuffer;
-		m_pImageBuffer = NULL;
+		m_pImageBuffer = nullptr;
 	}
 }
 
@@ -185,7 +185,7 @@ int CProceduralTexturePanel::GetImageHeight() const
 //-----------------------------------------------------------------------------
 void CProceduralTexturePanel::SetPaintRect( const Rect_t *pPaintRect )
 {
-	m_bUsePaintRect = ( pPaintRect != NULL );
+	m_bUsePaintRect = ( pPaintRect != nullptr);
 	if ( m_bUsePaintRect )
 	{
 		m_PaintRect = *pPaintRect;

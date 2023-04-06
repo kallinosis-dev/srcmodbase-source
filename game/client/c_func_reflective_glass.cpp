@@ -35,7 +35,7 @@ END_RECV_TABLE()
 // Globals
 //-----------------------------------------------------------------------------
 C_EntityClassList<C_FuncReflectiveGlass> g_ReflectiveGlassList;
-template<> C_FuncReflectiveGlass *C_EntityClassList<C_FuncReflectiveGlass>::m_pClassList = NULL;
+template<> C_FuncReflectiveGlass *C_EntityClassList<C_FuncReflectiveGlass>::m_pClassList = nullptr;
 
 C_FuncReflectiveGlass* GetReflectiveGlassList()
 {
@@ -78,9 +78,9 @@ bool IsReflectiveGlassInView( const CViewSetup& view, cplane_t &plane )
 
 	cplane_t localPlane;
 	Vector vecOrigin, vecWorld, vecDelta, vecForward;
-	AngleVectors( view.angles, &vecForward, NULL, NULL );
+	AngleVectors( view.angles, &vecForward, nullptr, nullptr);
 
-	for ( ; pReflectiveGlass != NULL; pReflectiveGlass = pReflectiveGlass->m_pNext )
+	for ( ; pReflectiveGlass != nullptr; pReflectiveGlass = pReflectiveGlass->m_pNext )
 	{
 		if ( pReflectiveGlass->IsDormant() )
 			continue;

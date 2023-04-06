@@ -20,7 +20,7 @@ public:
 	template <class UTLCLASS>
 	static datamap_t *Deduce( UTLCLASS *p )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 };

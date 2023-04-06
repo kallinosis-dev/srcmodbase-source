@@ -94,26 +94,26 @@ void CLogicAuto::Think(void)
 	{
 		if (gpGlobals->eLoadType == MapLoad_Transition)
 		{
-			m_OnMapTransition.FireOutput(NULL, this);
+			m_OnMapTransition.FireOutput(nullptr, this);
 		}
 		else if (gpGlobals->eLoadType == MapLoad_NewGame)
 		{
-			m_OnNewGame.FireOutput(NULL, this);
+			m_OnNewGame.FireOutput(nullptr, this);
 		}
 		else if (gpGlobals->eLoadType == MapLoad_LoadGame)
 		{
-			m_OnLoadGame.FireOutput(NULL, this);
+			m_OnLoadGame.FireOutput(nullptr, this);
 		}
 		else if (gpGlobals->eLoadType == MapLoad_Background)
 		{
-			m_OnBackgroundMap.FireOutput(NULL, this);
+			m_OnBackgroundMap.FireOutput(nullptr, this);
 		}
 
-		m_OnMapSpawn.FireOutput(NULL, this);
+		m_OnMapSpawn.FireOutput(nullptr, this);
 
 		if ( g_pGameRules->IsMultiplayer() )
 		{
-			m_OnMultiNewMap.FireOutput(NULL, this);
+			m_OnMultiNewMap.FireOutput(nullptr, this);
 		}
 
 		if (m_spawnflags & SF_AUTO_FIREONCE)
@@ -129,7 +129,7 @@ void CLogicAuto::FireGameEvent( IGameEvent *gameEvent )
 	{
 		if ( g_pGameRules->IsMultiplayer() )
 		{
-			m_OnMultiNewRound.FireOutput(NULL, this);
+			m_OnMultiNewRound.FireOutput(nullptr, this);
 		}
 	}
 }

@@ -86,8 +86,8 @@ void CPointPlayerMoveConstraint::InputTurnOn( inputdata_t &inputdata )
 	{
 		flRadius = MAX_COORD_RANGE;
 	}
-	CBaseEntity *pEntity = NULL;
-	while ( (pEntity = gEntList.FindEntityByClassnameWithin( pEntity, "player", GetLocalOrigin(), flRadius)) != NULL )
+	CBaseEntity *pEntity = nullptr;
+	while ( (pEntity = gEntList.FindEntityByClassnameWithin( pEntity, "player", GetLocalOrigin(), flRadius)) != nullptr)
 	{
 		CBasePlayer *pPlayer = ToBasePlayer( pEntity );
 		Assert( pPlayer );

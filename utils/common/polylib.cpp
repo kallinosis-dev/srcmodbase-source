@@ -64,7 +64,7 @@ winding_t *AllocWinding (int points)
 	ThreadUnlock();
 	w->numpoints = 0; // None are occupied yet even though allocated.
 	w->maxpoints = points;
-	w->next = NULL;
+	w->next = nullptr;
 	return w;
 }
 
@@ -394,7 +394,7 @@ void ClipWindingEpsilon (winding_t *in, const Vector &normal, vec_t dist,
 	sides[i] = sides[0];
 	dists[i] = dists[0];
 	
-	*front = *back = NULL;
+	*front = *back = nullptr;
 
 	if (!counts[0])
 	{
@@ -542,7 +542,7 @@ void ClassifyWindingEpsilon( winding_t *in, const Vector &normal, vec_t dist,
 	sides[i] = sides[0];
 	dists[i] = dists[0];
 	
-	*front = *back = *on = NULL;
+	*front = *back = *on = nullptr;
 
 	if ( !counts[0] && !counts[1] )
 	{
@@ -665,7 +665,7 @@ void ChopWindingInPlace (winding_t **inout, const Vector &normal, vec_t dist, ve
 	if (!counts[0])
 	{
 		FreeWinding (in);
-		*inout = NULL;
+		*inout = nullptr;
 		return;
 	}
 	if (!counts[1])

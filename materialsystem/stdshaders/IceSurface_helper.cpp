@@ -296,7 +296,7 @@ void DrawIceSurface(  CBaseVSShader *pShader, IMaterialVar** params, IShaderDyna
 			VMatrix worldToTexture;
 			ITexture *pFlashlightDepthTexture;
 			FlashlightState_t state = pShaderAPI->GetFlashlightStateEx( worldToTexture, &pFlashlightDepthTexture );
-			bFlashlightShadows = state.m_bEnableShadows && ( pFlashlightDepthTexture != NULL );
+			bFlashlightShadows = state.m_bEnableShadows && ( pFlashlightDepthTexture != nullptr);
 
 			SetFlashLightColorFromState( state, pShaderAPI, PSREG_FLASHLIGHT_COLOR );
 

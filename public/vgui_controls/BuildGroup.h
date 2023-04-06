@@ -49,7 +49,7 @@ public:
 	virtual Panel *GetCurrentPanel();
 
 	// Load the control settings from file
-	virtual void LoadControlSettings(const char *controlResourceName, const char *pathID = NULL, KeyValues *pPreloadedKeyValues = NULL, KeyValues *pConditions = NULL);
+	virtual void LoadControlSettings(const char *controlResourceName, const char *pathID = nullptr, KeyValues *pPreloadedKeyValues = nullptr, KeyValues *pConditions = nullptr);
 
 	// Reload the control settings from file
 	void ReloadControlSettings();
@@ -115,7 +115,7 @@ public:
 
 	// registers that a control settings file may be loaded
 	// use when the dialog may have multiple states and the editor will need to be able to switch between them
-	void RegisterControlSettingsFile(const char *controlResourceName, const char *pathID = NULL);
+	void RegisterControlSettingsFile(const char *controlResourceName, const char *pathID = nullptr);
 
 	// iterator for registered files
 	int GetRegisteredControlSettingsFileCount();

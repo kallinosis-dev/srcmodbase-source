@@ -22,7 +22,7 @@
 
 CServiceConn::CServiceConn()
 {
-	m_pSocket = NULL;
+	m_pSocket = nullptr;
 }
 
 
@@ -42,7 +42,7 @@ CServiceConnMgr::CServiceConnMgr()
 {
 	m_bServer = false;
 	m_bShuttingDown = false;
-	m_pListenSocket = NULL;
+	m_pListenSocket = nullptr;
 }
 
 
@@ -91,7 +91,7 @@ void CServiceConnMgr::Term()
 	if ( m_pListenSocket )
 	{
 		m_pListenSocket->Release();
-		m_pListenSocket = NULL;
+		m_pListenSocket = nullptr;
 	}
 
 	m_Connections.PurgeAndDeleteElements();
@@ -191,7 +191,7 @@ void CServiceConnMgr::AttemptConnect()
 	m_LastConnectAttemptTime = GetTickCount();
 
 
-	ITCPSocket *pSocket = NULL;
+	ITCPSocket *pSocket = nullptr;
 	for ( int iPort=VMPI_SERVICE_FIRST_UI_PORT; iPort <= VMPI_SERVICE_LAST_UI_PORT; iPort++ )
 	{
 		pSocket = CreateTCPSocketEmu();
@@ -203,7 +203,7 @@ void CServiceConnMgr::AttemptConnect()
 			break;
 
 		pSocket->Release();
-		pSocket = NULL;
+		pSocket = nullptr;
 	}
 
 	if ( pSocket )

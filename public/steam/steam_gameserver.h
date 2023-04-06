@@ -157,10 +157,10 @@ inline ISteamApps *SteamGameServerApps()				{ return SteamInternal_GlobalContext
 inline void CSteamGameServerAPIContext::Clear()
 {
 	m_pSteamClient = NULL;
-	m_pSteamGameServer = NULL;
+	m_pSteamGameServer = nullptr;
 	m_pSteamGameServerUtils = NULL;
 	m_pSteamGameServerNetworking = NULL;
-	m_pSteamGameServerStats = NULL;
+	m_pSteamGameServerStats = nullptr;
 	m_pSteamHTTP = NULL;
 	m_pSteamInventory = NULL;
 	m_pSteamUGC = NULL;

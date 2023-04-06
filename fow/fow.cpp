@@ -33,13 +33,13 @@ CFoW::CFoW( ) :
 	m_nNumberOfTeams = 0;
 	for ( int i = 0; i < MAX_FOW_TEAMS; i++ )
 	{
-		m_pVisibilityGridFlags[ i ] = NULL;
-		m_pVisibilityGridDegree[ i ] = NULL;
-		m_pVisibilityFadeTimer[ i ] = NULL;
+		m_pVisibilityGridFlags[ i ] = nullptr;
+		m_pVisibilityGridDegree[ i ] = nullptr;
+		m_pVisibilityFadeTimer[ i ] = nullptr;
 	}
 
-	m_pHorizontalSlices = NULL;
-	m_pVerticalLevels = NULL;
+	m_pHorizontalSlices = nullptr;
+	m_pVerticalLevels = nullptr;
 
 	m_flDegreeFadeRate = 2.0;
 
@@ -75,11 +75,11 @@ void CFoW::ClearState( )
 		if ( m_pVisibilityGridFlags[ i ] )
 		{
 			free( m_pVisibilityGridFlags[ i ] );
-			m_pVisibilityGridFlags[ i ] = NULL;
+			m_pVisibilityGridFlags[ i ] = nullptr;
 			free( m_pVisibilityGridDegree[ i ] );
-			m_pVisibilityGridDegree[ i ] = NULL;
+			m_pVisibilityGridDegree[ i ] = nullptr;
 			free( m_pVisibilityFadeTimer[ i ] );
-			m_pVisibilityFadeTimer[ i ] = NULL;
+			m_pVisibilityFadeTimer[ i ] = nullptr;
 		}
 	}
 
@@ -91,7 +91,7 @@ void CFoW::ClearState( )
 		}
 		delete m_pHorizontalSlices;
 
-		m_pHorizontalSlices = NULL;
+		m_pHorizontalSlices = nullptr;
 	}
 
 	m_nGridZUnits = 0;
@@ -99,7 +99,7 @@ void CFoW::ClearState( )
 	if ( m_pVerticalLevels )
 	{
 		delete m_pVerticalLevels;
-		m_pVerticalLevels = NULL;
+		m_pVerticalLevels = nullptr;
 	}
 
 	m_Occluders.PurgeAndDeleteElements();
@@ -369,7 +369,7 @@ int CFoW::AddViewer( unsigned nViewerTeam )
 	// optimize this!
 	for ( int i = 0; i < m_Viewers.Count(); i++ )
 	{
-		if ( m_Viewers[ i ] == NULL )
+		if ( m_Viewers[ i ] == nullptr)
 		{
 			nSlotID = i;
 			break;
@@ -379,7 +379,7 @@ int CFoW::AddViewer( unsigned nViewerTeam )
 	if ( nSlotID == -1 )
 	{
 		nSlotID = m_Viewers.Count();
-		m_Viewers.AddToTail( NULL );
+		m_Viewers.AddToTail(nullptr);
 	}
 
 	CFoW_Viewer	*pViewer = new CFoW_Viewer( nSlotID, nViewerTeam );
@@ -397,12 +397,12 @@ int CFoW::AddViewer( unsigned nViewerTeam )
 //-----------------------------------------------------------------------------
 void CFoW::RemoveViewer( int nID )
 {
-	if ( m_Viewers[ nID ] != NULL )
+	if ( m_Viewers[ nID ] != nullptr)
 	{
 		RemoveViewerFromTree( nID );
 
 		delete m_Viewers[ nID ];
-		m_Viewers[ nID ] = NULL;
+		m_Viewers[ nID ] = nullptr;
 	}
 }
 
@@ -418,7 +418,7 @@ void CFoW::UpdateViewerLocation( int nID, const Vector &vLocation )
 	Assert( m_Viewers[ nID ] );
 
 #ifdef FOW_SAFETY_DANCE
-	if ( m_Viewers[ nID ] == NULL )
+	if ( m_Viewers[ nID ] == nullptr)
 	{
 		Warning( "CFoW: UpdateViewerLocation( %d, ( %g, %g %g ) ) has missing viewer\n", nID, vLocation.x, vLocation.y, vLocation.z );
 		return;
@@ -443,7 +443,7 @@ void CFoW::UpdateViewerSize( int nID, float flRadius )
 	Assert( m_Viewers[ nID ] );
 
 #ifdef FOW_SAFETY_DANCE
-	if ( m_Viewers[ nID ] == NULL )
+	if ( m_Viewers[ nID ] == nullptr)
 	{
 		Warning( "CFoW: UpdateViewerSize( %d, %g ) has missing viewer\n", nID, flRadius );
 		return;
@@ -466,7 +466,7 @@ void CFoW::UpdateViewerHeightGroup( int nID, uint8 nHeightGroup )
 	Assert( m_Viewers[ nID ] );
 
 #ifdef FOW_SAFETY_DANCE
-	if ( m_Viewers[ nID ] == NULL )
+	if ( m_Viewers[ nID ] == nullptr)
 	{
 		Warning( "CFoW: UpdateViewerHeightGroup( %d, %d ) has missing viewer\n", nID, ( int )nHeightGroup );
 		return;
@@ -489,7 +489,7 @@ int CFoW::AddOccluder( bool nPermanent )
 	// optimize this!
 	for ( int i = 0; i < m_Occluders.Count(); i++ )
 	{
-		if ( m_Occluders[ i ] == NULL )
+		if ( m_Occluders[ i ] == nullptr)
 		{
 			nSlotID = i;
 			break;
@@ -499,7 +499,7 @@ int CFoW::AddOccluder( bool nPermanent )
 	if ( nSlotID == -1 )
 	{
 		nSlotID = m_Occluders.Count();
-		m_Occluders.AddToTail( NULL );
+		m_Occluders.AddToTail(nullptr);
 	}
 
 	CFoW_RadiusOccluder	*pOccluder = new CFoW_RadiusOccluder( nSlotID );
@@ -517,13 +517,13 @@ int CFoW::AddOccluder( bool nPermanent )
 //-----------------------------------------------------------------------------
 void CFoW::RemoveOccluder( int nID )
 {
-	if ( m_Occluders[ nID ] != NULL )
+	if ( m_Occluders[ nID ] != nullptr)
 	{
 		RemoveOccluderFromTree( nID );
 		DirtyViewers( m_Occluders[ nID ]->GetLocation(), m_Occluders[ nID ]->GetSize() );
 
 		delete m_Occluders[ nID ];
-		m_Occluders[ nID ] = NULL;
+		m_Occluders[ nID ] = nullptr;
 
 //		RepopulateOccluders();		// CUtlSphereTree has no delete function for now
 	}
@@ -533,7 +533,7 @@ void CFoW::RemoveOccluder( int nID )
 void CFoW::EnableOccluder( int nID, bool bEnable )
 {
 #ifdef FOW_SAFETY_DANCE
-	if ( m_Occluders[ nID ] == NULL )
+	if ( m_Occluders[ nID ] == nullptr)
 	{
 		Warning( "CFoW: EnableOccluder( %d, %s ) has missing occluder\n", nID, bEnable ? "true" : "false" );
 		return;
@@ -555,7 +555,7 @@ void CFoW::UpdateOccluderLocation( int nID, Vector &vLocation )
 	Assert( m_Occluders[ nID ] );
 
 #ifdef FOW_SAFETY_DANCE
-	if ( m_Occluders[ nID ] == NULL )
+	if ( m_Occluders[ nID ] == nullptr)
 	{
 		Warning( "CFoW: UpdateOccluderLocation( %d, ( %g, %g, %g ) ) has missing occluder\n", nID, vLocation.x, vLocation.y, vLocation.z );
 		return;
@@ -583,7 +583,7 @@ void CFoW::UpdateOccluderSize( int nID, float flRadius )
 	Assert( m_Occluders[ nID ] );
 
 #ifdef FOW_SAFETY_DANCE
-	if ( m_Occluders[ nID ] == NULL )
+	if ( m_Occluders[ nID ] == nullptr)
 	{
 		Warning( "CFoW: UpdateOccluderSize( %d, %g ) has missing occluder\n", nID, flRadius );
 		return;
@@ -610,7 +610,7 @@ void CFoW::UpdateOccluderHeightGroup( int nID, uint8 nHeightGroup )
 	Assert( m_Occluders[ nID ] );
 
 #ifdef FOW_SAFETY_DANCE
-	if ( m_Occluders[ nID ] == NULL )
+	if ( m_Occluders[ nID ] == nullptr)
 	{
 		Warning( "CFoW: UpdateOccluderHeightGroup( %d, %d ) has missing occluder\n", nID, ( int )nHeightGroup );
 		return;
@@ -689,7 +689,7 @@ int CFoW::AddTriSoup( )
 	// optimize this!
 	for ( int i = 0; i < m_TriSoupCollection.Count(); i++ )
 	{
-		if ( m_TriSoupCollection[ i ] == NULL )
+		if ( m_TriSoupCollection[ i ] == nullptr)
 		{
 			nSlotID = i;
 			break;
@@ -699,7 +699,7 @@ int CFoW::AddTriSoup( )
 	if ( nSlotID == -1 )
 	{
 		nSlotID = m_TriSoupCollection.Count();
-		m_TriSoupCollection.AddToTail( NULL );
+		m_TriSoupCollection.AddToTail(nullptr);
 	}
 
 	CFoW_TriSoupCollection *pTriSoup = new CFoW_TriSoupCollection( nSlotID );
@@ -715,10 +715,10 @@ int CFoW::AddTriSoup( )
 //-----------------------------------------------------------------------------
 void CFoW::RemoveTriSoup( int nID )
 {
-	if ( m_TriSoupCollection[ nID ] != NULL )
+	if ( m_TriSoupCollection[ nID ] != nullptr)
 	{
 		delete m_TriSoupCollection[ nID ];
-		m_TriSoupCollection[ nID ] = NULL;
+		m_TriSoupCollection[ nID ] = nullptr;
 	}
 }
 
@@ -794,7 +794,7 @@ void CFoW::AddTriSoupOccluder( CFoW_LineOccluder *pOccluder, int nSliceNum )
 //-----------------------------------------------------------------------------
 int CFoW::GetHorizontalSlice( float flZPos )
 {
-	if ( m_nVerticalGridSize == 0 || m_pHorizontalSlices == NULL )
+	if ( m_nVerticalGridSize == 0 || m_pHorizontalSlices == nullptr)
 	{
 		return -1;
 	}
@@ -864,7 +864,7 @@ void CFoW::SolveVisibility( float flFrameTime )
 
 	for ( int i = 0; i < m_Viewers.Count(); i++ )
 	{
-		if ( m_Viewers[ i ] == NULL )
+		if ( m_Viewers[ i ] == nullptr)
 		{
 			continue;
 		}
@@ -877,7 +877,7 @@ void CFoW::SolveVisibility( float flFrameTime )
 		}
 #endif
 
-		if ( m_Viewers[ i ] != NULL && m_Viewers[ i ]->IsDirty() == true )
+		if ( m_Viewers[ i ] != nullptr && m_Viewers[ i ]->IsDirty() == true )
 		{
 			nRealCount++;
 		}
@@ -898,7 +898,7 @@ void CFoW::SolveVisibility( float flFrameTime )
 
 	for ( int i = 0; i < m_Viewers.Count(); i++ )
 	{
-		if ( m_Viewers[ i ] == NULL )
+		if ( m_Viewers[ i ] == nullptr)
 			continue;
 
 		if ( m_Viewers[ i ]->GetSize() <= 1.0f )
@@ -906,7 +906,7 @@ void CFoW::SolveVisibility( float flFrameTime )
 			continue;
 		}
 
-		if ( m_Viewers[ i ] != NULL && m_Viewers[ i ]->IsDirty() == true )
+		if ( m_Viewers[ i ] != nullptr && m_Viewers[ i ]->IsDirty() == true )
 		{
 			pJobs[ nRealCount ] = new CFunctorJob( CreateFunctor( ::CalcLocalizedVisibilityThreaded, this, m_Viewers[ i ] ) );
 			pJobs[ nRealCount ]->SetFlags( JF_QUEUE );
@@ -1096,7 +1096,7 @@ float CFoW::GetLocationVisibilityDegree( unsigned nViewerTeam, const Vector &vLo
 //-----------------------------------------------------------------------------
 void CFoW::InsertViewerIntoTree( int nIndex )
 {
-	if ( m_Viewers[ nIndex ] != NULL )
+	if ( m_Viewers[ nIndex ] != nullptr)
 	{
 		Sphere_t	Bounds;
 
@@ -1114,11 +1114,11 @@ void CFoW::InsertViewerIntoTree( int nIndex )
 //-----------------------------------------------------------------------------
 void CFoW::RemoveViewerFromTree( int nIndex, Vector *pvOldLocation )
 {
-	if ( m_Viewers[ nIndex ] != NULL )
+	if ( m_Viewers[ nIndex ] != nullptr)
 	{
 		Sphere_t	Bounds;
 
-		if ( pvOldLocation != NULL )
+		if ( pvOldLocation != nullptr)
 		{
 			Bounds.AsVector3D() = *pvOldLocation;
 		}
@@ -1164,7 +1164,7 @@ void CFoW::RepopulateOccluders( )
 
 	for ( int i = 0; i < m_Occluders.Count(); i++ )
 	{
-		if ( m_Occluders[ i ] != NULL )
+		if ( m_Occluders[ i ] != nullptr)
 		{
 			Sphere_t	Bounds;
 
@@ -1183,7 +1183,7 @@ void CFoW::RepopulateOccluders( )
 //-----------------------------------------------------------------------------
 void CFoW::InsertOccluderIntoTree( int nIndex )
 {
-	if ( m_Occluders[ nIndex ] != NULL )
+	if ( m_Occluders[ nIndex ] != nullptr)
 	{
 		Sphere_t	Bounds;
 
@@ -1201,7 +1201,7 @@ void CFoW::InsertOccluderIntoTree( int nIndex )
 //-----------------------------------------------------------------------------
 void CFoW::RemoveOccluderFromTree( int nIndex )
 {
-	if ( m_Occluders[ nIndex ] != NULL )
+	if ( m_Occluders[ nIndex ] != nullptr)
 	{
 		Sphere_t	Bounds;
 
@@ -1533,7 +1533,7 @@ void CFoW::DrawDebugInfo( Vector &vLocation, float flViewRadius )
 
 	for ( int i = 0; i < m_Viewers.Count(); i++ )
 	{
-		if ( m_Viewers[ i ] == NULL )
+		if ( m_Viewers[ i ] == nullptr)
 		{
 			continue;
 		}
@@ -1543,7 +1543,7 @@ void CFoW::DrawDebugInfo( Vector &vLocation, float flViewRadius )
 
 	for ( int i = 0; i < m_Occluders.Count(); i++ )
 	{
-		if ( m_Occluders[ i ] == NULL )
+		if ( m_Occluders[ i ] == nullptr)
 		{
 			continue;
 		}
@@ -1572,7 +1572,7 @@ void CFoW::PrintStats( )
 
 	for ( int i = 0; i < m_Viewers.Count(); i++ )
 	{
-		if ( m_Viewers[ i ] == NULL )
+		if ( m_Viewers[ i ] == nullptr)
 		{
 			continue;
 		}
@@ -1585,7 +1585,7 @@ void CFoW::PrintStats( )
 
 	for ( int i = 0; i < m_Occluders.Count(); i++ )
 	{
-		if ( m_Occluders[ i ] == NULL )
+		if ( m_Occluders[ i ] == nullptr)
 		{
 			continue;
 		}
@@ -1636,7 +1636,7 @@ void CFoW::PrintStats( )
 //-----------------------------------------------------------------------------
 void CFoW::GenerateVMF( IFileSystem *pFileSystem, const char *pszFileName )
 {
-	KeyValues	*kv = new KeyValues( NULL );
+	KeyValues	*kv = new KeyValues(nullptr);
 	char		temp[ 128 ];
 	int			nCount = 1;
 
@@ -1734,12 +1734,12 @@ void CFoW::GenerateVMF( IFileSystem *pFileSystem, const char *pszFileName )
 	}
 
 	CUtlBuffer buf( 0, 0, CUtlBuffer::TEXT_BUFFER );
-	for ( KeyValues *pWriteKV = kv->GetFirstSubKey(); pWriteKV != NULL; pWriteKV = pWriteKV->GetNextKey() )
+	for ( KeyValues *pWriteKV = kv->GetFirstSubKey(); pWriteKV != nullptr; pWriteKV = pWriteKV->GetNextKey() )
 	{
 		pWriteKV->RecursiveSaveToFile( buf, 0 );
 	}
 
-	pFileSystem->WriteFile( pszFileName, NULL, buf );
+	pFileSystem->WriteFile( pszFileName, nullptr, buf );
 }
 
 #include <tier0/memdbgoff.h>

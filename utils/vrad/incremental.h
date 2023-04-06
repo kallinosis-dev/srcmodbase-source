@@ -54,7 +54,7 @@ public:
 					CIncLight();
 					~CIncLight();
 
-	CLightFace*		FindOrCreateLightFace( int iFace, int lmSize, bool *bNew=NULL );
+	CLightFace*		FindOrCreateLightFace( int iFace, int lmSize, bool *bNew= nullptr);
 
 
 public:

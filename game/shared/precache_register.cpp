@@ -37,7 +37,7 @@ static const char *s_pPrecacheResourceTypeName[] =
 class CPrecacheHandler : public IPrecacheHandler
 {
 public:
-	void CacheResource( PrecacheResourceType_t nType, const char *pName, bool bPrecache, ResourceList_t hResourceList, int *pIndex = NULL );
+	void CacheResource( PrecacheResourceType_t nType, const char *pName, bool bPrecache, ResourceList_t hResourceList, int *pIndex = nullptr);
 
 private:
 	void CacheResourceFile( const char *pFilename, bool bPrecache, ResourceList_t hResourceList );
@@ -65,7 +65,7 @@ bool CPrecacheRegister::Init()
 void CPrecacheRegister::LevelInitPreEntity()
 {
 	COM_TimestampedLog( "LevelInitPreEntity - PreCache - Start" );
-	g_pPrecacheSystem->Cache( g_pPrecacheHandler, GLOBAL, NULL, true, RESOURCE_LIST_INVALID, false );
+	g_pPrecacheSystem->Cache( g_pPrecacheHandler, GLOBAL, nullptr, true, RESOURCE_LIST_INVALID, false );
 	COM_TimestampedLog( "LevelInitPreEntity - PreCache - Finish" );
 
 #ifdef CLIENT_DLL
@@ -104,7 +104,7 @@ void CPrecacheHandler::CacheResourceFile( const char *pFilename, bool bPrecache,
 		return;
 	}
 
-	for ( KeyValues *pData = pValues->GetFirstSubKey(); pData != NULL; pData = pData->GetNextKey() )
+	for ( KeyValues *pData = pValues->GetFirstSubKey(); pData != nullptr; pData = pData->GetNextKey() )
 	{
 		const char *pszType = pData->GetName();
 		const char *pszFile = pData->GetString();
@@ -159,37 +159,37 @@ void CPrecacheHandler::PrecachePhysicsSounds( const char *pName, bool bPrecache,
 		if ( bBulletSounds )
 		{
 			const char *pSoundName = physprops->GetString( pprop->sounds.bulletImpact );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 		}
 
 		if ( bStepSounds )
 		{
 			const char *pSoundName = physprops->GetString( pprop->sounds.walkStepLeft );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 			pSoundName = physprops->GetString( pprop->sounds.walkStepRight );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 			pSoundName = physprops->GetString( pprop->sounds.runStepLeft );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 			pSoundName = physprops->GetString( pprop->sounds.runStepRight );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 		}
 
 		if ( bPhysicsImpactSounds )
 		{
 			const char *pSoundName = physprops->GetString( pprop->sounds.impactSoft );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 			pSoundName = physprops->GetString( pprop->sounds.impactHard );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 			pSoundName = physprops->GetString( pprop->sounds.scrapeSmooth );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 			pSoundName = physprops->GetString( pprop->sounds.scrapeRough );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 			pSoundName = physprops->GetString( pprop->sounds.rolling );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 			pSoundName = physprops->GetString( pprop->sounds.breakSound );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 			pSoundName = physprops->GetString( pprop->sounds.strainSound );
-			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, NULL );
+			CacheResource( GAMESOUND, pSoundName, bPrecache, hResourceList, nullptr);
 		}
 	}
 }
@@ -230,7 +230,7 @@ void CPrecacheHandler::CacheResource( PrecacheResourceType_t nType, const char *
 #ifdef CLIENT_DLL
 				void* nIndex = ParticleMgr()->GetPMaterial( pName );
 #else
-				void* nIndex = 0;
+				void* nIndex = nullptr;
 #endif
 				if ( pIndex )
 				{

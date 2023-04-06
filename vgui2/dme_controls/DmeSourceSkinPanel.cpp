@@ -67,7 +67,7 @@ void CDmeSourceSkinPanel::SetDmeElement( CDmeSourceSkin *pSourceSkin )
 {
 	m_hSourceSkin = pSourceSkin;
 
-	bool bEnabled = (pSourceSkin != NULL);
+	bool bEnabled = (pSourceSkin != nullptr);
 	m_pSkinName->SetEnabled( bEnabled );
 	m_pScale->SetEnabled( bEnabled );
 	m_pFlipTriangles->SetEnabled( bEnabled );
@@ -112,7 +112,7 @@ void CDmeSourceSkinPanel::OnTextChanged( KeyValues *kv )
 	if ( !m_hSourceSkin.Get() )
 		return;
 
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pSkinName )
 	{
 		char pTextBuf[256];

@@ -80,7 +80,7 @@ static inline void RecordSprite( const Vector& start, int nModelIndex,
 
 	if ( clienttools->IsInRecordingMode() )
 	{
-		const model_t* pModel = (nModelIndex != 0) ? modelinfo->GetModel( nModelIndex ) : NULL;
+		const model_t* pModel = (nModelIndex != 0) ? modelinfo->GetModel( nModelIndex ) : nullptr;
 		const char *pModelName = pModel ? modelinfo->GetModelName( pModel ) : "";
 
 		KeyValues *msg = new KeyValues( "TempEntity" );

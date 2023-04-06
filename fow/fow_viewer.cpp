@@ -23,9 +23,9 @@ CFoW_Viewer::CFoW_Viewer( int nID, unsigned nViewerTeam )
 	m_nViewerTeam = nViewerTeam;
 	m_vLocation.Init();
 	m_flRadius = 0.0f;
-	m_pVisibility = NULL;
+	m_pVisibility = nullptr;
 
-	m_pVisibilityRadius = NULL;
+	m_pVisibilityRadius = nullptr;
 	m_nRadiusUnits = 0;
 	m_nHeightGroup = 0;
 
@@ -43,13 +43,13 @@ CFoW_Viewer::~CFoW_Viewer( void )
 	if ( m_pVisibility )
 	{
 		free( m_pVisibility );
-		m_pVisibility = NULL;
+		m_pVisibility = nullptr;
 	}
 
 	if ( m_pVisibilityRadius )
 	{
 		free( m_pVisibilityRadius );
-		m_pVisibilityRadius = NULL;
+		m_pVisibilityRadius = nullptr;
 	}
 }
 
@@ -108,7 +108,7 @@ bool CFoW_Viewer::UpdateLocation( CFoW *pFoW, const Vector &vLocation, Vector *p
 	if ( vNewLocation.x != m_vLocation.x || vNewLocation.y != m_vLocation.y )
 	{	// we've moved to a new grid center
 		m_bDirty = true;
-		if ( pvOldLocation != NULL )
+		if ( pvOldLocation != nullptr)
 		{
 			*pvOldLocation = m_vLocation;
 		}

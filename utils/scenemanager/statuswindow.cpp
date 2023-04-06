@@ -8,13 +8,13 @@
 #include "statuswindow.h"
 #include "drawhelper.h"
 
-CStatusWindow *g_pStatusWindow = NULL;
+CStatusWindow *g_pStatusWindow = nullptr;
 
 #define STATUS_SCROLLBAR_SIZE		12
 #define STATUS_FONT_SIZE			10
 
 CStatusWindow::CStatusWindow(mxWindow *parent, int x, int y, int w, int h, const char *label /*= 0*/ ) 
-: mxWindow( parent, x, y, w, h, label ), m_pScrollbar(NULL)
+: mxWindow( parent, x, y, w, h, label ), m_pScrollbar(nullptr)
 {
 	for ( int i = 0; i < MAX_TEXT_LINES; i++ )
 	{
@@ -34,7 +34,7 @@ CStatusWindow::CStatusWindow(mxWindow *parent, int x, int y, int w, int h, const
 
 CStatusWindow::~CStatusWindow()
 {
-	g_pStatusWindow = NULL;
+	g_pStatusWindow = nullptr;
 }
 
 void CStatusWindow::redraw()

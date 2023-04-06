@@ -120,12 +120,12 @@ public:
 
 		if (pkv->GetInt("dir"))
 		{
-			pContext->AddMenuItem("Cloak folder", new KeyValues("CloakFolder", "item", itemIndex), GetParent(), NULL);
+			pContext->AddMenuItem("Cloak folder", new KeyValues("CloakFolder", "item", itemIndex), GetParent(), nullptr);
 		}
 		else
 		{
-			pContext->AddMenuItem("Open for edit", new KeyValues("EditFile", "item", itemIndex), GetParent(), NULL);
-			pContext->AddMenuItem("Open for delete", new KeyValues("DeleteFile", "item", itemIndex), GetParent(), NULL);
+			pContext->AddMenuItem("Open for edit", new KeyValues("EditFile", "item", itemIndex), GetParent(), nullptr);
+			pContext->AddMenuItem("Open for delete", new KeyValues("DeleteFile", "item", itemIndex), GetParent(), nullptr);
 		}
 
 		// show the context menu
@@ -165,7 +165,7 @@ public:
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CVP4Dialog::CVP4Dialog() : BaseClass(NULL, "vp4dialog"), m_Images(false)
+CVP4Dialog::CVP4Dialog() : BaseClass(nullptr, "vp4dialog"), m_Images(false)
 {
 	SetSize(1024, 768);
 	SetTitle("VP4", true);

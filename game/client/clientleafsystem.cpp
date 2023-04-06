@@ -214,7 +214,7 @@ public:
 	int GetRenderableLeaves( ClientRenderHandle_t handle, int leaves[128] );
 
 	// Get leaves this renderable is in
-	virtual bool GetRenderableLeaf ( ClientRenderHandle_t handle, int* pOutLeaf, const int* pInIterator = 0, int* pOutIterator = 0 );
+	virtual bool GetRenderableLeaf ( ClientRenderHandle_t handle, int* pOutLeaf, const int* pInIterator = nullptr, int* pOutIterator = nullptr );
 
 	// Singleton instance...
 	static CClientLeafSystem s_ClientLeafSystem;
@@ -707,7 +707,7 @@ void CClientLeafSystem::LevelShutdownPostEntity()
 			if ( m_Leaf[i].m_pSubSystemData[j] )
 			{
 				delete m_Leaf[i].m_pSubSystemData[j];
-				m_Leaf[i].m_pSubSystemData[j] = NULL;
+				m_Leaf[i].m_pSubSystemData[j] = nullptr;
 			}
 		}
 	}
@@ -2466,7 +2466,7 @@ void ComputeScreenSizeInfo( ScreenSizeComputeInfo_t *pInfo )
 	pRenderContext->GetViewport( x, y, w, h );
 	pInfo->m_nViewportHeight = h;
 
-	pRenderContext->GetWorldSpaceCameraVectors( NULL, NULL, &pInfo->m_vecViewUp );
+	pRenderContext->GetWorldSpaceCameraVectors(nullptr, nullptr, &pInfo->m_vecViewUp );
 }
 
 void CClientLeafSystem::ComputeScreenFade( const ScreenSizeComputeInfo_t &info, float flMinScreenWidth, float flMaxScreenWidth, int nCount, AlphaInfo_t *pAlphaInfo )
@@ -2535,7 +2535,7 @@ int CClientLeafSystem::ComputeTranslucency( int nFrameNumber, int nViewID, int n
 		RenderableInfo_t *pInfo = ppRenderables[i];
 		if ( IsLeafMarker( pInfo ) )
 		{
-			pAlphaInfo[i].m_pAlphaProperty = NULL;
+			pAlphaInfo[i].m_pAlphaProperty = nullptr;
 			continue;
 		}
 
@@ -3691,7 +3691,7 @@ RenderGroup_t CClientLeafSystem::GenerateRenderListEntry( IClientRenderable *pRe
 		iter = m_Renderables.Next( iter );
 	}
 
-	entryOut.m_pRenderable = NULL;
+	entryOut.m_pRenderable = nullptr;
 	entryOut.m_iWorldListInfoLeaf = 0;
 	entryOut.m_bShadowDepthNoCache = false;
 	entryOut.m_TwoPass = false;

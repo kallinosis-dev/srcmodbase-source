@@ -181,7 +181,7 @@ public:
 // Functions to verify the single/multiplayer status of a game
 	virtual bool IsMultiplayer( void ) = 0;// is this a multiplayer game? (either coop or deathmatch)
 
-	virtual const unsigned char *GetEncryptionKey() { return NULL; }
+	virtual const unsigned char *GetEncryptionKey() { return nullptr; }
 
 	virtual bool InRoundRestart( void ) { return false; }
 
@@ -301,7 +301,7 @@ public:
 	virtual int IPointsForKill( CBasePlayer *pAttacker, CBasePlayer *pKilled ) = 0;// how many points do I award whoever kills this player?
 	virtual void PlayerKilled( CBasePlayer *pVictim, const CTakeDamageInfo &info ) = 0;// Called each time a player dies
 	virtual void DeathNotice( CBasePlayer *pVictim, const CTakeDamageInfo &info )=  0;// Call this from within a GameRules class to report an obituary.
-	virtual const char *GetDamageCustomString( const CTakeDamageInfo &info ) { return NULL; }
+	virtual const char *GetDamageCustomString( const CTakeDamageInfo &info ) { return nullptr; }
 
 
 	virtual bool IgnorePlayerKillCommand( void ) const { return false; }
@@ -338,7 +338,7 @@ public:
 
 // AI Definitions
 	virtual void			InitDefaultAIRelationships( void ) { return; }
-	virtual const char*		AIClassText(int classType) { return NULL; }
+	virtual const char*		AIClassText(int classType) { return nullptr; }
 	virtual int				NumEntityClasses() const	{ return LAST_SHARED_ENTITY_CLASS; }
 	virtual int				NumFactions() const	{ return LAST_SHARED_FACTION; }
 
@@ -386,10 +386,10 @@ public:
 	virtual const char *GetChatPrefix( bool bTeamOnly, CBasePlayer *pPlayer );
 
 	// Location name shown in chat
-	virtual const char *GetChatLocation( bool bTeamOnly, CBasePlayer *pPlayer ) { return NULL; }
+	virtual const char *GetChatLocation( bool bTeamOnly, CBasePlayer *pPlayer ) { return nullptr; }
 
 	// VGUI format string for chat, if desired
-	virtual const char *GetChatFormat( bool bTeamOnly, CBasePlayer *pPlayer ) { return NULL; }
+	virtual const char *GetChatFormat( bool bTeamOnly, CBasePlayer *pPlayer ) { return nullptr; }
 
 	// Whether props that are on fire should get a DLIGHT.
 	virtual bool ShouldBurningPropsEmitLight() { return false; }
@@ -410,7 +410,7 @@ public:
 	virtual edict_t *DoFindClientInPVS( edict_t *pEdict, unsigned char *pvs, unsigned pvssize );
 #endif
 
-	virtual const char *GetGameTypeName( void ){ return NULL; }
+	virtual const char *GetGameTypeName( void ){ return nullptr; }
 	virtual int GetGameType( void ){ return 0; }
 
 	virtual bool ForceSplitScreenPlayersOnToSameTeam() { return true; }

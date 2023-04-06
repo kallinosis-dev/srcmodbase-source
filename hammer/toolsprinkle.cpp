@@ -47,9 +47,9 @@ CToolEntitySprinkle::CToolEntitySprinkle(void)
 
 	m_vecPos.Init();
 
-	pSprinkleDlg = NULL;
+	pSprinkleDlg = nullptr;
 
-	m_pSprinkleInfo = NULL;
+	m_pSprinkleInfo = nullptr;
 
 	m_OrigBrushSize = m_BrushSize = 256;
 	m_vMousePoint.Init();
@@ -81,16 +81,16 @@ CToolEntitySprinkle::~CToolEntitySprinkle(void)
 //-----------------------------------------------------------------------------
 void CToolEntitySprinkle::OnActivate()
 {
-	if ( pSprinkleDlg == NULL )
+	if ( pSprinkleDlg == nullptr)
 	{
 		pSprinkleDlg = new CEntitySprinkleDlg();
-		pSprinkleDlg->Create( CEntitySprinkleDlg::IDD, NULL );
+		pSprinkleDlg->Create( CEntitySprinkleDlg::IDD, nullptr);
 	}
 
-	if ( m_pSprinkleInfo != NULL )
+	if ( m_pSprinkleInfo != nullptr)
 	{
 		m_pSprinkleInfo->deleteThis();
-		m_pSprinkleInfo = NULL;
+		m_pSprinkleInfo = nullptr;
 	}
 
 
@@ -299,7 +299,7 @@ bool CToolEntitySprinkle::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Ve
 bool CToolEntitySprinkle::OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT nFlags)
 {
 	CMapDoc *pDoc = pView->GetMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		return false;
 	}
@@ -428,7 +428,7 @@ void CToolEntitySprinkle::RenderTool3D(CRender3D *pRender)
 			}
 
 			KeyValues	*pSprinkleType = pSprinkleDlg->GetSprinkleType( );
-			if ( pSprinkleType != NULL )
+			if ( pSprinkleType != nullptr)
 			{
 				float		flGridXSize, flGridYSize;
 				float		flXSize, flYSize;
@@ -484,14 +484,14 @@ void CToolEntitySprinkle::RemoveMapObjects( Vector &vOrigin, KeyValues *pSprinkl
 {
 	float						flCheckSizeSq;
 	KeyValues					*pBaseInfo = pSprinkleType->FindKey( "base" );
-	KeyValues					*pBaseClass = NULL;
+	KeyValues					*pBaseClass = nullptr;
 	CMapDoc						*pDoc = CMapDoc::GetActiveMapDoc();
 	CMapWorld					*pWorld = pDoc->GetMapWorld();
 	const CMapEntityList		*pEntityList = pWorld->EntityList_GetList();
 	CUtlVector< CMapEntity *>	RemoveList;
 	Vector						m_CheckOrigin;
 
-	if ( pTouchedEntity != NULL )
+	if ( pTouchedEntity != nullptr)
 	{
 		pTouchedEntity->GetOrigin( m_CheckOrigin );
 		flCheckSizeSq = 32 * 32;
@@ -502,7 +502,7 @@ void CToolEntitySprinkle::RemoveMapObjects( Vector &vOrigin, KeyValues *pSprinkl
 		flCheckSizeSq = m_BrushSize * m_BrushSize;
 	}
 
-	if ( pBaseInfo != NULL )
+	if ( pBaseInfo != nullptr)
 	{
 		pBaseClass = pBaseInfo->FindKey( "classname" );
 	}
@@ -510,7 +510,7 @@ void CToolEntitySprinkle::RemoveMapObjects( Vector &vOrigin, KeyValues *pSprinkl
 	FOR_EACH_OBJ( *pEntityList, pos )
 	{
 		CMapEntity *pEntity = ( CUtlReference< CMapEntity > )pEntityList->Element( pos );
-		if ( pEntity == NULL || pEntity == pTouchedEntity )
+		if ( pEntity == nullptr || pEntity == pTouchedEntity )
 		{
 			continue;
 		}
@@ -535,16 +535,16 @@ void CToolEntitySprinkle::RemoveMapObjects( Vector &vOrigin, KeyValues *pSprinkl
 
 		bool	bRemove = false;
 
-		if ( pBaseClass != NULL && pEntity->ClassNameMatches( pBaseClass->GetString() )== true )
+		if ( pBaseClass != nullptr && pEntity->ClassNameMatches( pBaseClass->GetString() )== true )
 		{
 			bRemove = true;
 		}
 		else
 		{
-			for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != NULL; pSub = pSub->GetNextKey() )
+			for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != nullptr; pSub = pSub->GetNextKey() )
 			{
 				KeyValues	*pClass = pSub->FindKey( "classname" );
-				if ( pClass != NULL && pEntity->ClassNameMatches( pClass->GetString() )== true )
+				if ( pClass != nullptr && pEntity->ClassNameMatches( pClass->GetString() )== true )
 				{
 					bRemove = true;
 					break;
@@ -552,7 +552,7 @@ void CToolEntitySprinkle::RemoveMapObjects( Vector &vOrigin, KeyValues *pSprinkl
 			}
 		}
 
-		if ( nMode == SPRINKLE_MODE_SUBTRACTIVE && pTouchedEntity == NULL )
+		if ( nMode == SPRINKLE_MODE_SUBTRACTIVE && pTouchedEntity == nullptr)
 		{
 			if ( RandomInt( 1, 100 ) > nDensity )
 			{
@@ -563,7 +563,7 @@ void CToolEntitySprinkle::RemoveMapObjects( Vector &vOrigin, KeyValues *pSprinkl
 		if ( bRemove == true )
 		{
 			RemoveList.AddToTail( pEntity );
-			if ( pRemovedEntities != NULL )
+			if ( pRemovedEntities != nullptr)
 			{
 				pRemovedEntities->AddToTail( pEntity );
 			}
@@ -585,7 +585,7 @@ static const char *pszReserved[ ] =
 {
 	"classname",
 	"grid",
-	NULL
+	nullptr
 };
 
 
@@ -596,13 +596,13 @@ static const char *pszReserved[ ] =
 //-----------------------------------------------------------------------------
 void CToolEntitySprinkle::PopulateEntity( CMapEntity *pEntity, KeyValues *pFields )
 {
-	if ( pFields != NULL )
+	if ( pFields != nullptr)
 	{
-		for ( KeyValues *pSub = pFields->GetFirstSubKey() ; pSub != NULL; pSub = pSub->GetNextKey() )
+		for ( KeyValues *pSub = pFields->GetFirstSubKey() ; pSub != nullptr; pSub = pSub->GetNextKey() )
 		{
 			int i;
 
-			for( i = 0; pszReserved[ i ] != NULL; i++ )
+			for( i = 0; pszReserved[ i ] != nullptr; i++ )
 			{
 				if ( strcmpi( pSub->GetName(), pszReserved[ i ] ) == 0 )
 				{
@@ -610,7 +610,7 @@ void CToolEntitySprinkle::PopulateEntity( CMapEntity *pEntity, KeyValues *pField
 				}
 			}
 
-			if ( pszReserved[ i ] == NULL )
+			if ( pszReserved[ i ] == nullptr)
 			{
 				pEntity->SetKeyValue( pSub->GetName(), pSub->GetString() );
 			}
@@ -627,16 +627,16 @@ void CToolEntitySprinkle::PopulateEntity( CMapEntity *pEntity, KeyValues *pField
 void CToolEntitySprinkle::CreateMapObject( Vector &vOrigin, KeyValues *pSprinkleType, int nMode, bool bRandomYaw, CMapEntity *pExisting )
 {
 	int			nTotal = 0;
-	KeyValues	*pUseInfo = NULL;
+	KeyValues	*pUseInfo = nullptr;
 
-	for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != NULL; pSub = pSub->GetNextKey() )
+	for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != nullptr; pSub = pSub->GetNextKey() )
 	{
 		nTotal += atoi( pSub->GetName() );
 	}
 
 	int nPick = RandomInt( 1, nTotal );
 	nTotal = 0;
-	for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != NULL; pSub = pSub->GetNextKey() )
+	for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != nullptr; pSub = pSub->GetNextKey() )
 	{
 		nTotal += atoi( pSub->GetName() );
 		if ( nPick <= nTotal )
@@ -646,28 +646,28 @@ void CToolEntitySprinkle::CreateMapObject( Vector &vOrigin, KeyValues *pSprinkle
 		}
 	}
 
-	if ( pUseInfo == NULL )
+	if ( pUseInfo == nullptr)
 	{
 		return;
 	}
 	
 	KeyValues	*pBaseInfo = pSprinkleType->FindKey( "base" );
 	KeyValues	*pClass = pUseInfo->FindKey( "classname" );
-	if ( pClass == NULL )
+	if ( pClass == nullptr)
 	{
-		if ( pBaseInfo != NULL )
+		if ( pBaseInfo != nullptr)
 		{
 			pClass = pBaseInfo->FindKey( "classname" );
 		}
 	}
-	if ( pClass == NULL )
+	if ( pClass == nullptr)
 	{
 		return;
 	}
 
 	CMapEntity *pEntity;
 	
-	if ( pExisting != NULL )
+	if ( pExisting != nullptr)
 	{
 		pEntity = pExisting;
 	}
@@ -691,13 +691,13 @@ void CToolEntitySprinkle::CreateMapObject( Vector &vOrigin, KeyValues *pSprinkle
 		pEntity->SetAngles( vAngles );
 	}
 
-	if ( pExisting == NULL )
+	if ( pExisting == nullptr)
 	{
 		m_pDocument->AddObjectToWorld( pEntity );
 	
 		GetHistory()->KeepNew( pEntity );
 
-		RemoveMapObjects( vOrigin, pSprinkleType, nMode, 0, NULL, pEntity );
+		RemoveMapObjects( vOrigin, pSprinkleType, nMode, 0, nullptr, pEntity );
 	}
 }
 
@@ -716,10 +716,10 @@ bool CToolEntitySprinkle::FindWorldMousePoint( CMapView3D *pView, const Vector2D
 
 	m_bWorldValid = false;
 
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		CMapSolid *pSolid = dynamic_cast <CMapSolid *> ( pObject );
-		if ( pSolid == NULL )
+		if ( pSolid == nullptr)
 		{	// Clicked on a point entity - do nothing.
 			return false;
 		}
@@ -795,21 +795,21 @@ bool CToolEntitySprinkle::FindWorldSpot( Vector &vOrigin )
 bool CToolEntitySprinkle::IsInSprinkle( KeyValues *pSprinkleType, const char *pszClassname )
 {
 	KeyValues	*pBaseInfo = pSprinkleType->FindKey( "base" );
-	if ( pBaseInfo != NULL )
+	if ( pBaseInfo != nullptr)
 	{
 		KeyValues *pClass = pBaseInfo->FindKey( "classname" );
 
-		if ( pClass != NULL && strcmpi( pClass->GetString(), pszClassname ) == 0 )
+		if ( pClass != nullptr && strcmpi( pClass->GetString(), pszClassname ) == 0 )
 		{
 			return true;
 		}
 	}
 
-	for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != NULL; pSub = pSub->GetNextKey() )
+	for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != nullptr; pSub = pSub->GetNextKey() )
 	{
 		KeyValues *pClass = pSub->FindKey( "classname" );
 
-		if ( pClass != NULL && strcmpi( pClass->GetString(), pszClassname ) == 0 )
+		if ( pClass != nullptr && strcmpi( pClass->GetString(), pszClassname ) == 0 )
 		{
 			return true;
 		}
@@ -826,33 +826,33 @@ bool CToolEntitySprinkle::IsInSprinkle( KeyValues *pSprinkleType, const char *ps
 //-----------------------------------------------------------------------------
 const char *CToolEntitySprinkle::FindField( KeyValues *pSprinkleType, const char *pszClassname, const char *pszFieldName )
 {
-	KeyValues *pFoundClass = NULL;
+	KeyValues *pFoundClass = nullptr;
 
-	for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != NULL; pSub = pSub->GetNextKey() )
+	for ( KeyValues *pSub = pSprinkleType->GetFirstSubKey() ; pSub != nullptr; pSub = pSub->GetNextKey() )
 	{
 		KeyValues *pClass = pSub->FindKey( "classname" );
 
-		if ( pClass != NULL && strcmpi( pClass->GetString(), pszClassname ) == 0 )
+		if ( pClass != nullptr && strcmpi( pClass->GetString(), pszClassname ) == 0 )
 		{
 			pFoundClass = pClass;
 			break;
 		}
 	}
 
-	if ( pFoundClass != NULL )
+	if ( pFoundClass != nullptr)
 	{
 		pFoundClass = pFoundClass->FindKey( pszFieldName, false );
-		if ( pFoundClass != NULL )
+		if ( pFoundClass != nullptr)
 		{
 			return pFoundClass->GetString();
 		}
 	}
 
 	KeyValues	*pBaseInfo = pSprinkleType->FindKey( "base" );
-	if ( pBaseInfo != NULL )
+	if ( pBaseInfo != nullptr)
 	{
 		pFoundClass = pBaseInfo->FindKey( pszFieldName, false );
-		if ( pFoundClass != NULL )
+		if ( pFoundClass != nullptr)
 		{
 			return pFoundClass->GetString();
 		}
@@ -900,10 +900,10 @@ void CToolEntitySprinkle::CalcGridInfo( KeyValues *pSprinkleType, float &flGridX
 	if ( pSprinkleDlg->UseDefinitionGridSize() )
 	{
 		KeyValues	*pBaseInfo = pSprinkleType->FindKey( "base" );
-		if ( pBaseInfo != NULL )
+		if ( pBaseInfo != nullptr)
 		{
 			KeyValues	*pGridInfo = pBaseInfo->FindKey( "grid" );
-			if ( pGridInfo != NULL )
+			if ( pGridInfo != nullptr)
 			{
 				sscanf( pGridInfo->GetString(), "%g %g", &flGridXSize, &flGridYSize );
 			}
@@ -935,7 +935,7 @@ void CToolEntitySprinkle::PerformSprinkle( bool bInitial )
 	}
 
 	KeyValues					*pSprinkleType = pSprinkleDlg->GetSprinkleType( );
-	if ( pSprinkleType == NULL )
+	if ( pSprinkleType == nullptr)
 	{
 		return;
 	}

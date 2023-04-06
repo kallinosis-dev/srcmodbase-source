@@ -15,7 +15,7 @@
 
 namespace GCSDK {
 
-IWorkThreadPoolSignal *CWorkThreadPool::sm_pWorkItemsCompletedSignal = NULL;
+IWorkThreadPoolSignal *CWorkThreadPool::sm_pWorkItemsCompletedSignal = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose:	CWorkThread constructors
@@ -145,7 +145,7 @@ int CWorkThread::Run()
 				}
 				else
 				{
-					pWorkItem = NULL;
+					pWorkItem = nullptr;
 				}
 
 #if 0 // game vprof doesn't yet support TLS'd vprof instances, until new vprof code is ported
@@ -214,7 +214,7 @@ CWorkThreadPool::CWorkThreadPool( const char *pszThreadName )
 	m_cMaxThreads( 0 ),
 	m_cFailures( 0 ),
 	m_cSuccesses( 0 ),
-	m_pWorkThreadConstructor( NULL ),
+	m_pWorkThreadConstructor(nullptr),
 	m_ulLastCompletedSequenceNumber( 0 ),
 	m_ulLastUsedSequenceNumber( 0 ),
 	m_ulLastDispatchedSequenceNumber( 0 ),
@@ -250,11 +250,11 @@ CWorkThreadPool::~CWorkThreadPool()
 	Assert( 0 == m_cThreadsRunning );
 
 	// WARNING: We need to release any items left in the queues
-	CWorkItem *pWorkItem = NULL;
+	CWorkItem *pWorkItem = nullptr;
 	if ( m_pTSQueueCompleted->Count() > 0 )
 	{
 		EmitWarning( SPEW_THREADS, 2, "CWorkThreadPool::~CWorkThreadPool: work complete queue not empty, %d items discarded.\n", m_pTSQueueCompleted->Count() );
-		pWorkItem = NULL;
+		pWorkItem = nullptr;
 		while ( m_pTSQueueCompleted->PopItem( &pWorkItem ) )
 		{
 			while( pWorkItem->Release() )
@@ -473,7 +473,7 @@ bool CWorkThreadPool::AddWorkItem( CWorkItem *pWorkItem )
 			else
 			{
 				// create another thread
-				CWorkThread *pWorkThread = NULL;
+				CWorkThread *pWorkThread = nullptr;
 				if ( m_pWorkThreadConstructor )
 				{
 					pWorkThread = m_pWorkThreadConstructor->CreateWorkerThread( this );
@@ -482,7 +482,7 @@ bool CWorkThreadPool::AddWorkItem( CWorkItem *pWorkItem )
 				{
 					pWorkThread = new CWorkThread( this );
 				}
-				if( pWorkThread != NULL ) 
+				if( pWorkThread != nullptr) 
 				{
 					int iName = AddWorkThread( pWorkThread );
 					StartWorkThread( pWorkThread, iName );
@@ -521,7 +521,7 @@ bool CWorkThreadPool::AddWorkItem( CWorkItem *pWorkItem )
 
 CWorkItem *CWorkThreadPool::GetNextCompletedWorkItem( )
 {
-	CWorkItem *pWorkItem = NULL;
+	CWorkItem *pWorkItem = nullptr;
 
 	// Use a while loop just in case ref counts get screwed up and an item gets deleted when we release our reference to it
 	while ( m_pTSQueueCompleted->PopItem( &pWorkItem ) )
@@ -529,13 +529,13 @@ CWorkItem *CWorkThreadPool::GetNextCompletedWorkItem( )
 		// WARNING: We need to call workitem AddRef() and Release() at all entry/exit points for the thread pool system.
 		// Release() returns the current refcount of the object (after decrementing it by one) and should be non-zero unless the
 		// the caller has released it already.
-		if ( pWorkItem != NULL && pWorkItem->Release() > 0 )
+		if ( pWorkItem != nullptr && pWorkItem->Release() > 0 )
 		{
 			return pWorkItem;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -546,14 +546,14 @@ CWorkItem *CWorkThreadPool::GetNextCompletedWorkItem( )
 //-----------------------------------------------------------------------------
 CWorkItem *CWorkThreadPool::GetNextWorkItemToProcess( )
 {
-	CWorkItem *pWorkItem = NULL;
+	CWorkItem *pWorkItem = nullptr;
 
 	if ( m_pTSQueueToProcess->Count() && m_pTSQueueToProcess->PopItem( &pWorkItem ) )
 	{
 		return pWorkItem;
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 
@@ -562,14 +562,14 @@ bool CWorkThreadPool::BDispatchCompletedWorkItems( const CLimitTimer &limitTimer
 	BTryDeleteExitedWorkerThreads();
 
 	CWorkItem *pWorkItem = GetNextCompletedWorkItem( );
-	while ( pWorkItem != NULL )
+	while ( pWorkItem != nullptr)
 	{
 		uint64 ulSequenceNumber = pWorkItem->m_ulSequenceNumber;
 		// NOTE: despite its name, this YIELDS - the target job
 		// is resumed, and we resume here.
 		if ( !pWorkItem->DispatchCompletedWorkItem( pJobMgr ) )
 		{
-			EmitWarning( SPEW_THREADS, 2, "Work Item for Work Pool %s completed but job no longer existed to notify\n", m_szThreadNamePfx == NULL ? "UNKNOWN" :m_szThreadNamePfx );
+			EmitWarning( SPEW_THREADS, 2, "Work Item for Work Pool %s completed but job no longer existed to notify\n", m_szThreadNamePfx == nullptr ? "UNKNOWN" :m_szThreadNamePfx );
 			AssertMsg1( m_bMayHaveJobTimeouts, "Work Item for Work Pool %s completed but job no longer existed to notify", m_szThreadNamePfx == NULL ? "UNKNOWN" :m_szThreadNamePfx );
 		}
 
@@ -643,7 +643,7 @@ bool CWorkItem::DispatchCompletedWorkItem( CJobMgr *pJobMgr )
 //-----------------------------------------------------------------------------
 void CWorkThreadPool::OnWorkItemCompleted( CWorkItem *pWorkItem ) 
 { 
-	if ( sm_pWorkItemsCompletedSignal != NULL )
+	if ( sm_pWorkItemsCompletedSignal != nullptr)
 		sm_pWorkItemsCompletedSignal->Signal();
 
 	if ( !m_bEnsureOutputOrdering )

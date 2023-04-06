@@ -136,7 +136,7 @@ public:
 	virtual CBaseCombatCharacter *GetPassenger( int nRole = VEHICLE_ROLE_DRIVER );
 
 	virtual int				GetPassengerRole( CBaseCombatCharacter *pPassenger );
-	virtual void			GetVehicleViewPosition( int nRole, Vector *pOrigin, QAngle *pAngles, float *pFOV = NULL );
+	virtual void			GetVehicleViewPosition( int nRole, Vector *pOrigin, QAngle *pAngles, float *pFOV = nullptr);
 	virtual bool			IsPassengerUsingStandardWeapons( int nRole = VEHICLE_ROLE_DRIVER ) { return false; }
 	virtual void			SetupMove( CBasePlayer *player, CUserCmd *ucmd, IMoveHelper *pHelper, CMoveData *move );
 	virtual void			ProcessMovement( CBasePlayer *pPlayer, CMoveData *pMoveData );
@@ -162,9 +162,9 @@ public:
 	virtual bool			GetPassengerExitPoint( int nRole, Vector *pPoint, QAngle *pAngles );
 	virtual Class_T			ClassifyPassenger( CBaseCombatCharacter *pPassenger, Class_T defaultClassification ) { return defaultClassification; }
 	virtual float			PassengerDamageModifier( const CTakeDamageInfo &info ) { return 1.0; }
-	virtual const vehicleparams_t	*GetVehicleParams( void ) { return NULL; }
+	virtual const vehicleparams_t	*GetVehicleParams( void ) { return nullptr; }
 	virtual bool			IsVehicleBodyInWater( void ) { return false; }
-	virtual IPhysicsVehicleController *GetVehicleController() { return NULL; }
+	virtual IPhysicsVehicleController *GetVehicleController() { return nullptr; }
 
 	// NPC Driving
 	virtual bool			NPC_CanDrive( void ) { return true; }
@@ -223,7 +223,7 @@ protected:
 	int		NPC_GetAvailableSeat_Any( CBaseCombatCharacter *pPassenger, int nRoleID );
 	int		NPC_GetAvailableSeat_Nearest( CBaseCombatCharacter *pPassenger, int nRoleID );
 
-	CPassengerRole *FindOrCreatePassengerRole( string_t strName, int *nIndex = NULL );
+	CPassengerRole *FindOrCreatePassengerRole( string_t strName, int *nIndex = nullptr);
 
 	CUtlVector< CPassengerInfo >	m_PassengerInfo;
 	CUtlVector< CPassengerRole >	m_PassengerRoles;	// Not save/restored

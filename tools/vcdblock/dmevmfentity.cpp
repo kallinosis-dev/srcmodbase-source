@@ -127,7 +127,7 @@ void CDmeVMFEntity::OnAttributeChanged( CDmAttribute *pAttribute )
 		m_bInfoTarget = !Q_strncmp( m_ClassName, "info_target", 11 );
 
 		// FIXME: Change the model based on the current class
-		SetModelName( NULL );
+		SetModelName(nullptr);
 		return;
 	}
 
@@ -202,20 +202,20 @@ CDmAttribute *CDmeVMFEntity::FirstEntityKey()
 		if ( IsEntityKey( pAttribute ) )
 			return pAttribute;
 	}
-	return NULL;
+	return nullptr;
 }
 
 CDmAttribute *CDmeVMFEntity::NextEntityKey( CDmAttribute *pEntityKey )
 {
 	if ( !pEntityKey )
-		return NULL;
+		return nullptr;
 
 	for ( CDmAttribute *pAttribute = pEntityKey->NextAttribute(); pAttribute; pAttribute = pAttribute->NextAttribute() )
 	{
 		if ( IsEntityKey( pAttribute ) )
 			return pAttribute;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -602,7 +602,7 @@ bool CDmeVMFEntity::CopyToServer( void )
 	if (GetEntityId() != 0)
 	{
 		CBaseEntity *pServerEntity = servertools->FindEntityByHammerID( GetEntityId() );
-		if (pServerEntity != NULL)
+		if (pServerEntity != nullptr)
 		{
 			servertools->SetKeyValue( pServerEntity, "origin", m_vecLocalOrigin.Get() );
 			// FIXME: isn't there a string to vector conversion?

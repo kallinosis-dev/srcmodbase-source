@@ -171,7 +171,7 @@ LzmaEncode( const Byte *inBuffer,
 	{
 		CInStreamRam inStream;
 		inStream.Init( inBuffer, inSize );
-		res = LzmaEnc_Encode( enc, &outStream, &inStream, NULL, &g_Alloc, &g_Alloc );
+		res = LzmaEnc_Encode( enc, &outStream, &inStream, nullptr, &g_Alloc, &g_Alloc );
 
 		if ( outStream.Overflow )
 		{
@@ -203,7 +203,7 @@ unsigned char *LZMA_Compress( unsigned char *pInput,
 	unsigned char *pOutputBuffer = (unsigned char*)malloc( outSize );
 	if ( !pOutputBuffer )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// compress, skipping past our header
@@ -216,7 +216,7 @@ unsigned char *LZMA_Compress( unsigned char *pInput,
 		Warning( "LZMA encode failed (%i)\n", result );
 		Assert( result == SZ_OK );
 		free( pOutputBuffer );
-		return NULL;
+		return nullptr;
 	}
 
 	// construct our header, strip theirs
@@ -249,7 +249,7 @@ unsigned char *LZMA_OpportunisticCompress( unsigned char *pInput,
 	{
 		// compression got worse or stayed the same
 		free( pRet );
-		return NULL;
+		return nullptr;
 	}
 
 	return pRet;
@@ -262,7 +262,7 @@ bool LZMA_Uncompress( unsigned char *pInBuffer,
                       unsigned char **ppOutBuffer,
                       unsigned int  *pOutSize )
 {
-	*ppOutBuffer = NULL;
+	*ppOutBuffer = nullptr;
 	*pOutSize = 0;
 
 	lzma_header_t *pHeader = (lzma_header_t *)pInBuffer;

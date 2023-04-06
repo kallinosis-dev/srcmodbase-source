@@ -84,9 +84,9 @@ void CTextureBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	{
 		IEditorTexture *pTex = (IEditorTexture *)GetItemDataPtr(lpDrawItemStruct->itemID);
 		dc.SetROP2(R2_COPYPEN);
-		CPalette *pOldPalette = NULL;
+		CPalette *pOldPalette = nullptr;
 
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			pTex->Load();
 
@@ -108,7 +108,7 @@ void CTextureBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 		brush.CreateSolidBrush(dwBackColor);
 		dc.FillRect(&r, &brush);
 
-		if (pTex == NULL)
+		if (pTex == nullptr)
 		{
 			// separator
 			dc.SelectStockObject(BLACK_PEN);
@@ -175,7 +175,7 @@ void CTextureBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 //-----------------------------------------------------------------------------
 void CTextureBox::AddMRU(IEditorTexture *pTex)
 {
-	if (pTex != NULL)
+	if (pTex != nullptr)
 	{
 		//
 		// Add the texture to the MRU set.
@@ -216,7 +216,7 @@ void CTextureBox::RebuildMRU(void)
 		//
 		// The first item with a NULL item data pointer is the MRU delimiter.
 		//
-		if (GetItemDataPtr(nDelimiterIndex) == NULL)
+		if (GetItemDataPtr(nDelimiterIndex) == nullptr)
 		{
 			break;
 		}
@@ -243,7 +243,7 @@ void CTextureBox::RebuildMRU(void)
 	for (int nMRU = 0; nMRU < nMRUCount; nMRU++)
 	{
 		IEditorTexture *pTex = g_Textures.MRUGet(nMRU);
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			char szBuf[MAX_PATH];
 			pTex->GetShortName(szBuf);
@@ -260,7 +260,7 @@ void CTextureBox::RebuildMRU(void)
 	if (nStrCount > 0)
 	{
 		int nIndex = InsertString(nStrCount, "");
-		SetItemDataPtr(nIndex, NULL);
+		SetItemDataPtr(nIndex, nullptr);
 	}
 
 	//
@@ -297,7 +297,7 @@ void CTextureBox::MeasureItem(LPMEASUREITEMSTRUCT lpMeasureItemStruct)
 	//
 	char *pszText = (char *)lpMeasureItemStruct->itemData;
 
-	if ((pszText == NULL) || (*pszText == '\0'))
+	if ((pszText == nullptr) || (*pszText == '\0'))
 	{
 		lpMeasureItemStruct->itemHeight = 9;
 	}
@@ -330,7 +330,7 @@ void CTextureBox::LoadGraphicList(void)
 	for (int nMRU = 0; nMRU < nMRUCount; nMRU++)
 	{
 		IEditorTexture *pTex = g_Textures.MRUGet(nMRU);
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			char szStr[MAX_PATH];
 			pTex->GetShortName(szStr);
@@ -346,7 +346,7 @@ void CTextureBox::LoadGraphicList(void)
 	if (nStrCount > 0)
 	{
 		AddString("");
-		SetItemDataPtr(nStrCount, NULL);
+		SetItemDataPtr(nStrCount, nullptr);
 		nStrCount++;
 	}
 
@@ -355,7 +355,7 @@ void CTextureBox::LoadGraphicList(void)
 	//
 	int nIndex = 0;
 	IEditorTexture *pTex = g_Textures.EnumActiveTextures(&nIndex, g_pGameConfig->GetTextureFormat());
-	while (pTex != NULL)
+	while (pTex != nullptr)
 	{
 		char szStr[MAX_PATH];
 		pTex->GetShortName(szStr);
@@ -376,12 +376,12 @@ void CTextureBox::LoadGraphicList(void)
 	for (int i = 0; i < nSel; i++)
 	{
 		IEditorTexture *pTexSearch = (IEditorTexture *)GetItemDataPtr(i);
-		if (pTexSearch != NULL)
+		if (pTexSearch != nullptr)
 		{
 			char szName[MAX_PATH];
 			pTexSearch->GetShortName(szName);
 
-			if ((szName[0] != 0) && (szName[0] != '*') && (szName[0] != '+') && (szName[0] != '!') && (strstr(szName, "door") == NULL))
+			if ((szName[0] != 0) && (szName[0] != '*') && (szName[0] != '+') && (szName[0] != '!') && (strstr(szName, "door") == nullptr))
 			{
 				// this one is ok
 				SetCurSel(i);
@@ -405,7 +405,7 @@ void CTextureBox::BeginCustomGraphicList( )
 
 void CTextureBox::AddTexture( IEditorTexture *pTex )
 {
-	if ( pTex == NULL )
+	if ( pTex == nullptr)
 	{
 		return;
 	}
@@ -448,13 +448,13 @@ BOOL CTextureBox::Create(DWORD dwStyle, const RECT &rect, CWnd *pParentWnd, UINT
 		// get default class provided by MFC
 		WNDCLASS wndclass;
 		GetClassInfo(AfxGetInstanceHandle(), _T("COMBOBOX"), &wndclass);
-		wndclass.hbrBackground = NULL;
+		wndclass.hbrBackground = nullptr;
 		wndclass.lpszClassName = pszTextureBoxClass;
 
 		AfxRegisterClass(&wndclass);
 	}
 
-	return CWnd::Create(pszTextureBoxClass, NULL, dwStyle, rect, pParentWnd, nID);
+	return CWnd::Create(pszTextureBoxClass, nullptr, dwStyle, rect, pParentWnd, nID);
 }
 
 
@@ -473,7 +473,7 @@ LRESULT CTextureBox::OnSelectString(WPARAM wParam, LPARAM lParam)
 	for(int i = wParam + 1; i < nCount; i++)
 	{
 		pTex = (IEditorTexture *)GetItemDataPtr(i);
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			char szName[MAX_PATH];
 			pTex->GetShortName(szName);

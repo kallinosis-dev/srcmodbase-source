@@ -1344,7 +1344,7 @@ static void ComputeLightmapFromLightstyle( msurfacelighting_t *pLighting, bool c
 	ColorRGBExp32 *pLightmap = pLighting->m_pSamples;
 
 	// This data should only exist on the PC. We strip out the data and clear the flag in makegamedata for consoles.
-	unsigned char *pLightmapExtraData = NULL;
+	unsigned char *pLightmapExtraData = nullptr;
 	if ( g_bHasLightmapAlphaData )
 	{
 		pLightmapExtraData = ( unsigned char * )&( pLighting->m_pSamples[ hasBumpmapLightmapData ? lightmapSize * ( NUM_BUMP_VECTS + 1 ) : lightmapSize ] );
@@ -1443,7 +1443,7 @@ static void ComputeLightmapFromLightstyleOLD( msurfacelighting_t *pLighting, boo
 	ColorRGBExp32 *pLightmap = pLighting->m_pSamples;
 
 	// This data should only exist on the PC. We strip out the data and clear the flag in makegamedata for consoles.
-	unsigned char *pLightmapExtraData = NULL;
+	unsigned char *pLightmapExtraData = nullptr;
 	if ( g_bHasLightmapAlphaData )
 	{
 		pLightmapExtraData = ( unsigned char * )&( pLighting->m_pSamples[ hasBumpmapLightmapData ? lightmapSize * ( NUM_BUMP_VECTS + 1 ) : lightmapSize ] );
@@ -1574,7 +1574,7 @@ static void UpdateLightmapTextures( SurfaceHandle_t surfID, bool needsBumpmap )
 		{
 			materials->UpdateLightmap( materialSortInfoArray[MSurf_MaterialSortID( surfID )].lightmapPageID,
 				lightmapSize, offsetIntoLightmapPage, 
-				&blocklights[0][0][0], NULL, NULL, NULL );
+				&blocklights[0][0][0], nullptr, nullptr, nullptr);
 		}
 	}
 }

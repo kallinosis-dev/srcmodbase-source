@@ -485,7 +485,7 @@ IVP_Concave_Polyhedron * IVP_SurfaceBuilder_3ds::convert_3ds_to_concave(const ch
 #ifndef GEKKO
 //****
 
-    char * infn=0, * outfn=0; // , * name=DEFNAME;
+    char * infn=nullptr, * outfn=nullptr; // , * name=DEFNAME;
 	FILE * inf, * outf;
 	int n;
 	H3dsScene * scene;
@@ -559,51 +559,51 @@ IVP_Concave_Polyhedron * IVP_SurfaceBuilder_3ds::convert_3ds_to_concave(const ch
 	}
 #else
 	infn = (char *)filename;
-	outf = NULL;
+	outf = nullptr;
 #endif
 
 	if(!infn) {
         ivp_message( "No inputfile specified!\n");
-		return NULL;
+		return nullptr;
 	}
 
 	// Open inputfile
 
 	if(!(inf = fopen(infn, "rb"))) {
 	    ivp_message( "Failed to open %s\n", infn);
-	    return NULL;
+	    return nullptr;
 	}
 
 	if(!outfn && (flags & BINARY) != 0) {
 	    ivp_message( "Missing output filename!\n");
 		fclose(inf);
-		return NULL;
+		return nullptr;
 	}
 
 	// Open, create or redirect outputfile
 
 	if(outfn) {
-		if((outf = fopen(outfn, "r+b")) != 0) {
+		if((outf = fopen(outfn, "r+b")) != nullptr) {
 			if((flags & OVERWR) == 0) {
 				ivp_message( "%s exist, overwrite [y/n] ", outfn);
 				if(toupper(getc(stdin)) != 'Y') {
 					fclose(outf);
 					fclose(inf);
-					return 0;
+					return nullptr;
 				}
 				ivp_message( "\n");
 				fclose(outf);
-				if((outf = fopen(outfn, "w+b")) == 0) {
+				if((outf = fopen(outfn, "w+b")) == nullptr) {
                     ivp_message( "Unable to reopen %s\n", outfn);
 					fclose(inf);
-					return NULL;
+					return nullptr;
 				}
 			}
 		} else {
-			if((outf = fopen(outfn, "w+b")) == 0) {
+			if((outf = fopen(outfn, "w+b")) == nullptr) {
                 ivp_message( "Unable to create %s\n", outfn);
 				fclose(inf);
-				return NULL;
+				return nullptr;
 			}
 		}
 	} else {
@@ -620,22 +620,22 @@ IVP_Concave_Polyhedron * IVP_SurfaceBuilder_3ds::convert_3ds_to_concave(const ch
         ivp_message( "Error seeking %s\n", infn);
 		if(outf!=stdout) fclose(outf);
 		fclose(inf);
-		return NULL;
+		return nullptr;
 	}
 
 	if((size=ftell(inf)) == -1L) {
 	    ivp_message( "Error seeking %s\n", infn);
 		if(outf!=stdout) fclose(outf);
 		fclose(inf);
-		return NULL;
+		return nullptr;
 	}
 	rewind(inf);
 
-	if((scene = HRead3dsScene(inf, 0, size)) == 0) {
+	if((scene = HRead3dsScene(inf, 0, size)) == nullptr) {
         ivp_message( "Failed to load %s\n", infn);
 		if(outf!=stdout) fclose(outf);
 		fclose(inf);
-		return NULL;
+		return nullptr;
 	}
 	fclose(inf);
 
@@ -710,7 +710,7 @@ IVP_Concave_Polyhedron * IVP_SurfaceBuilder_3ds::convert_3ds_to_concave(const ch
 			ivp_message( "%-14s more maps than vertices, quitting!\n",
 					scene->meshobjlist[n].name);
 			if(outf!=stdout) fclose(outf);
-			return NULL;
+			return nullptr;
 		}
 		// Get the total number of vertices in all objects
 		verts+=v;
@@ -721,7 +721,7 @@ IVP_Concave_Polyhedron * IVP_SurfaceBuilder_3ds::convert_3ds_to_concave(const ch
 		ivp_message( "Failed to allocate mem for vertice array\n");
 		HFree3dsScene(scene);
 		fclose(outf);
-		return NULL;
+		return nullptr;
 	}
 	memset(vrtmap, 0, verts*sizeof(H3dsMapVert));
 
@@ -825,14 +825,14 @@ int p_graphlib_robust_convert_3dmax_object_to_compact_ledges(P_Hardware *hw, con
 
 //    P_Hardware_W95 *w95_hw = (P_Hardware_W95 *)hw;
 flags |= NORMDUP;
-    char * infn=0, * name=DEFNAME;
+    char * infn=nullptr, * name=DEFNAME;
 	FILE * inf, * outf;
 	int n;
 	H3dsScene * scene;
 //    float32 xscale, yscale, zscale;
 
 	infn = (char *)filename;
-	outf = NULL;
+	outf = nullptr;
 
 	if(!infn) {
         ivp_message( "No inputfile specified!\n");
@@ -866,7 +866,7 @@ flags |= NORMDUP;
 	}
 	rewind(inf);
 
-	if((scene = HRead3dsScene(inf, 0, size)) == 0) {
+	if((scene = HRead3dsScene(inf, 0, size)) == nullptr) {
         ivp_message( "Failed to load %s\n", infn);
 		if(outf!=stdout) fclose(outf);
 		fclose(inf);

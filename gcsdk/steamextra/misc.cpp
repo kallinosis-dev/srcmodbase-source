@@ -184,4 +184,4 @@ bool BRejectDueToBacklog( int nBacklogCur, int nBacklogThreshold, int nBacklogLi
 //-----------------------------------------------------------------------------
 // Purpose: Defines the head of the CDumpMemFnReg linked list
 //-----------------------------------------------------------------------------
-CDumpMemFnReg *CDumpMemFnReg::sm_Head = NULL;
+CDumpMemFnReg *CDumpMemFnReg::sm_Head = nullptr;

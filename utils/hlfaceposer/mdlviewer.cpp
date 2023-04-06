@@ -72,7 +72,7 @@
 
 #define WINDOW_TAB_OFFSET 24
 
-MDLViewer *g_MDLViewer = 0;
+MDLViewer *g_MDLViewer = nullptr;
 char g_appTitle[] = "Half-Life Face Poser";
 static char recentFiles[8][256] = { "", "", "", "", "", "", "", "" };
 
@@ -83,9 +83,9 @@ using namespace vgui;
 IPhysicsSurfaceProps *physprop;
 IPhysicsCollision *physcollision;
 IStudioDataCache *g_pStudioDataCache;
-ISoundEmitterSystemBase *soundemitter = NULL;
+ISoundEmitterSystemBase *soundemitter = nullptr;
 CreateInterfaceFn g_Factory;
-IFileSystem *g_pFileSystem = NULL;
+IFileSystem *g_pFileSystem = nullptr;
 
 bool g_bInError = false;
 
@@ -93,8 +93,8 @@ static char gamedir[MAX_PATH];  // full path to gamedir U:\main\game\ep2
 static char gamedirsimple[MAX_PATH];  // just short name:  ep2
 
 // Filesystem dialog module wrappers.
-CSysModule *g_pFSDialogModule = 0;
-CreateInterfaceFn g_FSDialogFactory = 0;
+CSysModule *g_pFSDialogModule = nullptr;
+CreateInterfaceFn g_FSDialogFactory = nullptr;
 
 //-----------------------------------------------------------------------------
 // FIXME: Remove this crap (from cmdlib.cpp)
@@ -195,7 +195,7 @@ void LoadFileSystemDialogModule()
 		if ( g_pFSDialogModule )
 		{
 			Sys_UnloadModule( g_pFSDialogModule );
-			g_pFSDialogModule = NULL;
+			g_pFSDialogModule = nullptr;
 		}
 	}
 }
@@ -205,7 +205,7 @@ void UnloadFileSystemDialogModule()
 	if ( g_pFSDialogModule )
 	{
 		Sys_UnloadModule( g_pFSDialogModule );
-		g_pFSDialogModule = 0;
+		g_pFSDialogModule = nullptr;
 	}
 }	
 
@@ -322,7 +322,7 @@ bool MDLViewer::CanClose()
 			continue;
 		}
 
-		int retval = mxMessageBox( NULL, va( "Save changes to sound script '%s'?", scriptname ), g_appTitle, MX_MB_YESNOCANCEL );
+		int retval = mxMessageBox(nullptr, va( "Save changes to sound script '%s'?", scriptname ), g_appTitle, MX_MB_YESNOCANCEL );
 		if ( retval == 2 )
 		{
 			return false;
@@ -951,7 +951,7 @@ private:
 		int c = IFacePoserToolWindow::GetToolCount();
 	
 		if ( idx < 0 || idx >= c )
-			return NULL;
+			return nullptr;
 
 		IFacePoserToolWindow *tool = IFacePoserToolWindow::GetTool( idx );
 		return tool;
@@ -968,7 +968,7 @@ private:
 class CMDLViewerWorkspace : public mxWindow
 {
 public:
-	CMDLViewerWorkspace( mxWindow *parent, int x, int y, int w, int h, const char *label = 0, int style = 0)
+	CMDLViewerWorkspace( mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr, int style = 0)
 		: mxWindow( parent, x, y, w, h, label, style )
 	{
 		FacePoser_AddWindowStyle( this, WS_VISIBLE | WS_CLIPCHILDREN | WS_CLIPSIBLINGS );
@@ -1051,8 +1051,8 @@ void MDLViewer::SavePosition( void )
 }
 
 MDLViewer::MDLViewer () : 
-	mxWindow (0, 0, 0, 0, 0, g_appTitle, mxWindow::Normal),
-	menuCloseCaptionLanguages(0),
+	mxWindow (nullptr, 0, 0, 0, 0, g_appTitle, mxWindow::Normal),
+	menuCloseCaptionLanguages(nullptr),
 	m_bOldSoundScriptsDirty( -1 ),
 	m_bAlwaysUpdate( true )
 {
@@ -1352,7 +1352,7 @@ void MDLViewer::OnDelete()
 
 	IFacePoserToolWindow::ShutdownTools();
 
-	g_MDLViewer = NULL;
+	g_MDLViewer = nullptr;
 }
 
 MDLViewer::~MDLViewer ()
@@ -1420,7 +1420,7 @@ void MDLViewer::Refresh( void )
 			continue;
 		}
 
-		int retval = mxMessageBox( NULL, va( "Save changes to sound script '%s'?", scriptname ), g_appTitle, MX_MB_YESNOCANCEL );
+		int retval = mxMessageBox(nullptr, va( "Save changes to sound script '%s'?", scriptname ), g_appTitle, MX_MB_YESNOCANCEL );
 		if ( retval != 0 )
 		{
 			reinit_soundemitter = false;
@@ -1549,15 +1549,15 @@ void MDLViewer::LoadModel_Steam()
 		return;
 
 	IFileSystemOpenDialog *pDlg;
-	pDlg = (IFileSystemOpenDialog*)g_FSDialogFactory( FILESYSTEMOPENDIALOG_VERSION, NULL );
+	pDlg = (IFileSystemOpenDialog*)g_FSDialogFactory( FILESYSTEMOPENDIALOG_VERSION, nullptr);
 	if ( !pDlg )
 	{
 		char str[512];
 		Q_snprintf( str, sizeof( str ), "Can't create %s interface.", FILESYSTEMOPENDIALOG_VERSION );
-		::MessageBox( NULL, str, "Error", MB_OK );
+		::MessageBox(nullptr, str, "Error", MB_OK );
 		return;
 	}
-	pDlg->Init( g_Factory, NULL );
+	pDlg->Init( g_Factory, nullptr);
 	pDlg->AddFileMask( "*.jpg" );
 	pDlg->AddFileMask( "*.mdl" );
 	pDlg->SetInitialDir( "models", "game" );
@@ -1667,7 +1667,7 @@ int MDLViewer::handleEvent (mxEvent *event)
 			case IDC_FILE_LOADBACKGROUNDTEX:
 			case IDC_FILE_LOADGROUNDTEX:
 				{
-					const char *ptr = mxGetOpenFileName (this, 0, "*.*");
+					const char *ptr = mxGetOpenFileName (this, nullptr, "*.*");
 					if (ptr)
 					{
 						if (0 /* g_pMatSysWindow->loadTexture (ptr, event->action - IDC_FILE_LOADBACKGROUNDTEX) */)
@@ -1793,7 +1793,7 @@ int MDLViewer::handleEvent (mxEvent *event)
 				
 #ifdef WIN32
 			case IDC_HELP_GOTOHOMEPAGE:
-				ShellExecute (0, "open", "http://developer.valvesoftware.com/wiki/Category:Choreography", 0, 0, SW_SHOW);
+				ShellExecute (nullptr, "open", "http://developer.valvesoftware.com/wiki/Category:Choreography", nullptr, nullptr, SW_SHOW);
 				break;
 #endif
 				
@@ -2013,7 +2013,7 @@ int MDLViewer::handleEvent (mxEvent *event)
 			}
 			else
 			{
-				mx::setIdleWindow( 0 );
+				mx::setIdleWindow( nullptr );
 			}
 			iret = 1;
 		}
@@ -2359,12 +2359,12 @@ void MDLViewer::OnRebuildScenesImage()
 bool SendConsoleCommandToEngine( const char* szConsoleCommand, const char* szCopyDataFailedMsg, const char* szEngineNotRunningMsg = "The Source engine must be running in order to utilize this feature." )
 {
 	bool bRetVal = false;
-	const HWND hwndEngine = FindWindow( "Valve001", NULL );
+	const HWND hwndEngine = FindWindow( "Valve001", nullptr);
 
 	// Can't find the engine
-	if ( hwndEngine == NULL )
+	if ( hwndEngine == nullptr)
 	{
-		::MessageBox( NULL, szEngineNotRunningMsg, "Source Engine Not Running", MB_OK | MB_ICONEXCLAMATION );
+		::MessageBox(nullptr, szEngineNotRunningMsg, "Source Engine Not Running", MB_OK | MB_ICONEXCLAMATION );
 	}
 	else
 	{			
@@ -2378,7 +2378,7 @@ bool SendConsoleCommandToEngine( const char* szConsoleCommand, const char* szCop
 
 		if ( !SendMessageA( hwndEngine, WM_COPYDATA, 0, (LPARAM)&copyData ) )
 		{
-			::MessageBox( NULL, szCopyDataFailedMsg, "Source Engine Declined Request", MB_OK | MB_ICONEXCLAMATION );
+			::MessageBox(nullptr, szCopyDataFailedMsg, "Source Engine Declined Request", MB_OK | MB_ICONEXCLAMATION );
 		}
 		else
 		{
@@ -2395,7 +2395,7 @@ void MDLViewer::OnPlaySceneInFoundry()
 {
 	const CChoreoScene *scene = g_pChoreoView->GetScene();
 	
-	if ( NULL != scene )
+	if (nullptr != scene )
 	{
 		// Rebuild the scenes.image file
 		OnRebuildScenesImage();
@@ -2413,7 +2413,7 @@ void MDLViewer::OnPlaySceneInFoundry()
 	}
 	else
 	{
-		::MessageBox( NULL, "There is no scene presently loaded. Please load a scene using Choreography|Load... before attempting to play the scene inside the engine.", "No Scene Loaded", MB_OK | MB_ICONEXCLAMATION );
+		::MessageBox(nullptr, "There is no scene presently loaded. Please load a scene using Choreography|Load... before attempting to play the scene inside the engine.", "No Scene Loaded", MB_OK | MB_ICONEXCLAMATION );
 	}
 }
 
@@ -2467,11 +2467,11 @@ void MDLViewer::OnSaveSoundScriptChanges()
 
 		if ( !filesystem->IsFileWritable( scriptname ) )
 		{
-			mxMessageBox( NULL, va( "Can't save changes to sound script '%s', file is READ-ONLY?", scriptname ), g_appTitle, MX_MB_OK );
+			mxMessageBox(nullptr, va( "Can't save changes to sound script '%s', file is READ-ONLY?", scriptname ), g_appTitle, MX_MB_OK );
 			continue;
 		}
 
-		int retval = mxMessageBox( NULL, va( "Save changes to sound script '%s'?", scriptname ), g_appTitle, MX_MB_YESNOCANCEL );
+		int retval = mxMessageBox(nullptr, va( "Save changes to sound script '%s'?", scriptname ), g_appTitle, MX_MB_YESNOCANCEL );
 		if ( retval == 2 )
 		{
 			return;
@@ -2540,7 +2540,7 @@ static CHLFacePoserLoggingListener s_HLFacePoserLoggingListener;
 bool CHLFacePoserApp::Create()
 {
 	// Save some memory so engine/hammer isn't so painful
-	CommandLine()->AppendParm( "-disallowhwmorph", NULL );
+	CommandLine()->AppendParm( "-disallowhwmorph", nullptr);
 
 	LoggingSystem_PushLoggingState();
 	LoggingSystem_RegisterLoggingListener( &s_HLFacePoserLoggingListener );
@@ -2614,7 +2614,7 @@ char const *GetGameDirectorySimple()
 bool CHLFacePoserApp::SetupSearchPaths()
 {
 	// Add paths...
-	if ( !BaseClass::SetupSearchPaths( NULL, false, true ) )
+	if ( !BaseClass::SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	// Set gamedir.
@@ -2682,14 +2682,14 @@ void CHLFacePoserApp::PostShutdown()
 {
 	UnloadFileSystemDialogModule();
 
-	g_pFileSystem = filesystem = NULL;
-	g_pStudioDataCache = NULL;
-	physcollision = NULL;
-	physprop = NULL;
+	g_pFileSystem = filesystem = nullptr;
+	g_pStudioDataCache = nullptr;
+	physcollision = nullptr;
+	physprop = nullptr;
 
 	BaseClass::PostShutdown();
 
-	g_Factory = NULL;
+	g_Factory = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2759,7 +2759,7 @@ int CHLFacePoserApp::Main()
 	if (g_pStudioModel)
 	{
 		g_pStudioModel->Shutdown();
-		g_pStudioModel = NULL;
+		g_pStudioModel = nullptr;
 	}
 
 	g_pMaterialSystem->ModShutdown();
@@ -2786,7 +2786,7 @@ static bool CHLFacePoserApp_SuggestGameInfoDirFn( CFSSteamSetupInfo const *pFsSt
 int main (int argc, char *argv[])
 {
 	CommandLine()->CreateCmdLine( argc, argv );
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	// make sure, we start in the right directory
 	char szName[256];

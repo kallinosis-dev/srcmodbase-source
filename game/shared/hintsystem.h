@@ -58,7 +58,7 @@ public:
 
 	// Call this to add a hint timer. It'll be reset for you automatically 
 	// everytime ResetHintTimers() is called.
-	void				RegisterHintTimer( int iHintID, float flTimerDuration, bool bOnlyIfClear = false, HintTimerCallback pfnCallback = NULL );
+	void				RegisterHintTimer( int iHintID, float flTimerDuration, bool bOnlyIfClear = false, HintTimerCallback pfnCallback = nullptr);
 
 	// Call these to start & stop registered hint timers
 	void				StartHintTimer( int iHintID );

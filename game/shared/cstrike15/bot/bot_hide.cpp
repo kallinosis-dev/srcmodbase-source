@@ -182,8 +182,8 @@ public:
 const Vector *FindNearbyHidingSpot( CBaseEntity *me, const Vector &pos, float maxRange, bool isSniper, bool useNearest )
 {
 	CNavArea *startArea = TheNavMesh->GetNearestNavArea( pos );
-	if (startArea == NULL)
-		return NULL;
+	if (startArea == nullptr)
+		return nullptr;
 
 	// collect set of nearby hiding spots
 	if (isSniper)
@@ -224,13 +224,13 @@ const Vector *FindNearbyHidingSpot( CBaseEntity *me, const Vector &pos, float ma
 			return FindNearbyHidingSpot( me, pos, maxRange, true, useNearest );
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	if (useNearest)
 	{
 		// return closest hiding spot
-		const Vector *closest = NULL;
+		const Vector *closest = nullptr;
 		float closeRangeSq = 9999999999.9f;
 		for( int i=0; i<collector.m_count; ++i )
 		{
@@ -289,7 +289,7 @@ const Vector *FindRandomHidingSpot( CBaseEntity *me, Place place, bool isSniper 
 	TheNavMesh->ForAllAreas( collector );
 
 	if (collector.m_count == 0)
-		return NULL;
+		return nullptr;
 
 	// select a hiding spot at random
 	int which = RandomInt( 0, collector.m_count-1 );
@@ -306,15 +306,15 @@ const Vector *FindRandomHidingSpot( CBaseEntity *me, Place place, bool isSniper 
 const Vector *FindNearbyRetreatSpot( CBaseEntity *me, const Vector &start, float maxRange, int avoidTeam )
 {
 	CNavArea *startArea = TheNavMesh->GetNearestNavArea( start );
-	if (startArea == NULL)
-		return NULL;
+	if (startArea == nullptr)
+		return nullptr;
 
 	// collect hiding spots with decent "cover"
 	CollectHidingSpotsFunctor collector( me, start, maxRange, HidingSpot::IN_COVER );
 	SearchSurroundingAreas( startArea, start, collector, maxRange );
 
 	if (collector.m_count == 0)
-		return NULL;
+		return nullptr;
 
 	// find the closest unoccupied hiding spot that crosses the least lines of fire and has the best cover
 	for( int i=0; i<collector.m_count; ++i )
@@ -352,7 +352,7 @@ const Vector *FindNearbyRetreatSpot( CBaseEntity *me, const Vector &start, float
 	}
 
 	if (collector.m_count <= 0)
-		return NULL;
+		return nullptr;
 
 	// all remaining spots are ok - pick one at random
 	int which = RandomInt( 0, collector.m_count-1 );
@@ -452,8 +452,8 @@ public:
 const HidingSpot *FindInitialEncounterSpot( CBaseEntity *me, const Vector &searchOrigin, float enemyArriveTime, float maxRange, bool isSniper )
 {
 	CNavArea *startArea = TheNavMesh->GetNearestNavArea( searchOrigin );
-	if (startArea == NULL)
-		return NULL;
+	if (startArea == nullptr)
+		return nullptr;
 
 	// collect set of nearby hiding spots
 	if (isSniper)
@@ -487,7 +487,7 @@ const HidingSpot *FindInitialEncounterSpot( CBaseEntity *me, const Vector &searc
 	SearchSurroundingAreas( startArea, searchOrigin, collector, maxRange );
 
 	if (collector.m_count == 0)
-		return NULL;
+		return nullptr;
 
 	// select a hiding spot at random
 	int which = RandomInt( 0, collector.m_count-1 );

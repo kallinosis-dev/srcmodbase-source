@@ -218,16 +218,16 @@ void CLocatorTarget::Deactivate( bool bNoFade )
 		m_serialNumber = -1;
 		m_isActive = false;
 		m_frameLastUpdated = 0;
-		m_pIcon_onscreen = NULL;
-		m_pIcon_offscreen = NULL;
+		m_pIcon_onscreen = nullptr;
+		m_pIcon_offscreen = nullptr;
 		m_bDrawControllerButton = false;
 		m_bDrawControllerButtonOffscreen = false;
 		m_iEffectsFlags = LOCATOR_ICON_FX_NONE;
 		m_rgbaIconColor = Color( 255, 255, 255, 255 );
 		m_captionWide = 0;
 
-		m_pchDrawBindingName = NULL;
-		m_pchDrawBindingNameOffscreen = NULL;
+		m_pchDrawBindingName = nullptr;
+		m_pchDrawBindingNameOffscreen = nullptr;
 		m_widthScale_onscreen = 1.0f;
 		m_bOccluded = false;
 		m_alpha = 0;
@@ -236,7 +236,7 @@ void CLocatorTarget::Deactivate( bool bNoFade )
 
 		m_szVguiTargetName = "";
 		m_szVguiTargetLookup = "";
-		m_hVguiTarget = NULL;
+		m_hVguiTarget = nullptr;
 		m_nVguiTargetEdge = vgui::Label::a_northwest;
 
 		m_szBinding = "";
@@ -347,7 +347,7 @@ void CLocatorTarget::SetCaptionText( const char *pszText, const char *pszParam )
 	if ( pszParam && pszParam[ 0 ] != '\0' )
 	{
 		wchar_t wszParamBuff[ 128 ];
-		wchar_t *pLocalizedParam = NULL;
+		wchar_t *pLocalizedParam = nullptr;
 
 		if ( pszParam[ 0 ] == '#' )
 		{
@@ -361,7 +361,7 @@ void CLocatorTarget::SetCaptionText( const char *pszText, const char *pszParam )
 		}
 
 		wchar_t wszTextBuff[ 128 ];
-		wchar_t *pLocalizedText = NULL;
+		wchar_t *pLocalizedText = nullptr;
 
 		if ( pszText[ 0 ] == '#' )
 		{
@@ -382,7 +382,7 @@ void CLocatorTarget::SetCaptionText( const char *pszText, const char *pszParam )
 	else
 	{
 		wchar_t wszTextBuff[ 128 ];
-		wchar_t *pLocalizedText = NULL;
+		wchar_t *pLocalizedText = nullptr;
 
 		if ( pszText[ 0 ] == '#' )
 		{
@@ -466,7 +466,7 @@ void CLocatorTarget::UpdateVguiTarget( void )
 
 	if ( !pchVguiTargetName || pchVguiTargetName[ 0 ] == '\0' )
 	{
-		m_hVguiTarget = NULL;
+		m_hVguiTarget = nullptr;
 		return;
 	}
 
@@ -527,7 +527,7 @@ void CLocatorTarget::SetOnscreenIconTextureName( const char *pszTexture )
 		return;
 
 	m_szOnscreenTexture = pszTexture;
-	m_pIcon_onscreen = NULL; // Dirty the onscreen icon so that the Locator will look up the new icon by name.
+	m_pIcon_onscreen = nullptr; // Dirty the onscreen icon so that the Locator will look up the new icon by name.
 
 	m_pulseStart = gpGlobals->curtime;
 }
@@ -539,7 +539,7 @@ void CLocatorTarget::SetOffscreenIconTextureName( const char *pszTexture )
 		return;
 
 	m_szOffscreenTexture = pszTexture;
-	m_pIcon_offscreen = NULL; // Ditto
+	m_pIcon_offscreen = nullptr; // Ditto
 
 	m_pulseStart = gpGlobals->curtime;
 }
@@ -579,8 +579,8 @@ void CLocatorTarget::SetBinding( const char *pszBinding )
 	m_bWasSteamControllerLast = g_pInputSystem->IsSteamControllerActive();
 
 	m_szBinding = pszBinding;
-	m_pIcon_onscreen = NULL; // Dirty the onscreen icon so that the Locator will look up the new icon by name.
-	m_pIcon_offscreen = NULL; // ditto.
+	m_pIcon_onscreen = nullptr; // Dirty the onscreen icon so that the Locator will look up the new icon by name.
+	m_pIcon_offscreen = nullptr; // ditto.
 	m_flNextBindingTick = gpGlobals->curtime + 0.75f;
 
 	// Get a list of all the keys bound to these actions
@@ -774,7 +774,7 @@ const char *CLocatorTarget::UseBindingImage( char *pchIconTextureName, size_t bu
 			return "#GameUI_Icons_NONE";
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	// Cycle through the list of binds at a rate of 2 per second
@@ -827,47 +827,47 @@ const char *CLocatorTarget::UseBindingImage( char *pchIconTextureName, size_t bu
 	if ( Q_strcmp( pchBinding, "MOUSE1" ) == 0 )
 	{
 		Q_strncpy( pchIconTextureName, "icon_mouseLeft", bufSize );
-		return NULL;
+		return nullptr;
 	}
 	else if ( Q_strcmp( pchBinding, "MOUSE2" ) == 0 )
 	{
 		Q_strncpy( pchIconTextureName, "icon_mouseRight", bufSize );
-		return NULL;
+		return nullptr;
 	}
 	else if ( Q_strcmp( pchBinding, "MOUSE3" ) == 0 )
 	{
 		Q_strncpy( pchIconTextureName, "icon_mouseThree", bufSize );
-		return NULL;
+		return nullptr;
 	}
 	else if ( Q_strcmp( pchBinding, "MWHEELUP" ) == 0 )
 	{
 		Q_strncpy( pchIconTextureName, "icon_mouseWheel_up", bufSize );
-		return NULL;
+		return nullptr;
 	}
 	else if ( Q_strcmp( pchBinding, "MWHEELDOWN" ) == 0 )
 	{
 		Q_strncpy( pchIconTextureName, "icon_mouseWheel_down", bufSize );
-		return NULL;
+		return nullptr;
 	}
 	else if ( Q_strcmp( pchBinding, "UPARROW" ) == 0 )
 	{
 		Q_strncpy( pchIconTextureName, "icon_key_up", bufSize );
-		return NULL;
+		return nullptr;
 	}
 	else if ( Q_strcmp( pchBinding, "LEFTARROW" ) == 0 )
 	{
 		Q_strncpy( pchIconTextureName, "icon_key_left", bufSize );
-		return NULL;
+		return nullptr;
 	}
 	else if ( Q_strcmp( pchBinding, "DOWNARROW" ) == 0 )
 	{
 		Q_strncpy( pchIconTextureName, "icon_key_down", bufSize );
-		return NULL;
+		return nullptr;
 	}
 	else if ( Q_strcmp( pchBinding, "RIGHTARROW" ) == 0 )
 	{
 		Q_strncpy( pchIconTextureName, "icon_key_right", bufSize );
-		return NULL;
+		return nullptr;
 	}
 	else if ( Q_strcmp( pchBinding, "SEMICOLON" ) == 0 || 
 		Q_strcmp( pchBinding, "INS" ) == 0 || 
@@ -1002,12 +1002,12 @@ inline CLocatorPanel *GetPlayerLocatorPanel()
 {
 	ASSERT_LOCAL_PLAYER_RESOLVABLE();
 	if ( !engine->IsLocalPlayerResolvable() )
-		return NULL;
+		return nullptr;
 
 	int nSlot = GET_ACTIVE_SPLITSCREEN_SLOT();
 	Assert( !( nSlot < 0 || nSlot >= ARRAYSIZE( s_pLocatorPanel ) ) );
 	if ( nSlot < 0 || nSlot >= ARRAYSIZE( s_pLocatorPanel ) )
-		return NULL;
+		return nullptr;
 
 	Assert( nSlot >= 0 && nSlot < MAX_SPLITSCREEN_PLAYERS );
 	return s_pLocatorPanel[ nSlot ];
@@ -1031,7 +1031,7 @@ int Locator_AddTarget()
 	if ( nSlot < 0 || nSlot >= ARRAYSIZE( s_pLocatorPanel ) )
 		return -1;
 
-	if( s_pLocatorPanel[ nSlot ] == NULL )
+	if( s_pLocatorPanel[ nSlot ] == nullptr)
 	{
 		// Locator has not been used yet. Construct it.
 		CLocatorPanel *pLocator = new CLocatorPanel( GetClientMode()->GetViewport(), "LocatorPanel" );
@@ -1064,7 +1064,7 @@ CLocatorTarget *Locator_GetTargetFromHandle( int hTarget )
 	if ( CLocatorPanel *pPanel = GetPlayerLocatorPanel() )
 		return pPanel->GetPointerForHandle( hTarget );
 	else
-		return NULL;
+		return nullptr;
 }
 
 void Locator_ComputeTargetIconPositionFromHandle( int hTarget )
@@ -1110,7 +1110,7 @@ CLocatorPanel::~CLocatorPanel( void )
 	ASSERT_LOCAL_PLAYER_RESOLVABLE();
 	int nSlot = GET_ACTIVE_SPLITSCREEN_SLOT();
 	Assert( s_pLocatorPanel[ nSlot ] == this );
-	s_pLocatorPanel[ nSlot ] = NULL;
+	s_pLocatorPanel[ nSlot ] = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1150,7 +1150,7 @@ void CLocatorPanel::GetTargetPosition( const Vector &vecDelta, float flRadius, f
 	QAngle playerAngles = MainViewAngles(nSlot);
 
 	Vector forward, right, up(0,0,1);
-	AngleVectors (playerAngles, &forward, NULL, NULL );
+	AngleVectors (playerAngles, &forward, nullptr, nullptr);
 	forward.z = 0;
 	VectorNormalize(forward);
 	CrossProduct( up, forward, right );
@@ -1551,7 +1551,7 @@ bool CLocatorPanel::ValidateTargetTextures( CLocatorTarget *pTarget )
 		{
 			pTarget->m_bDrawControllerButton = false;
 			V_strcpy_safe( szIconTextureName, pTarget->GetOnscreenIconTextureName() );
-			pTarget->DrawBindingName( NULL );
+			pTarget->DrawBindingName(nullptr);
 		}
 
 		// This target's texture ID is dirty, meaning the target is about to be drawn
@@ -1588,7 +1588,7 @@ bool CLocatorPanel::ValidateTargetTextures( CLocatorTarget *pTarget )
 		{
 			pTarget->m_bDrawControllerButtonOffscreen = false;
 			V_strcpy_safe( szIconTextureName, pTarget->GetOffscreenIconTextureName() );
-			pTarget->DrawBindingNameOffscreen( NULL );
+			pTarget->DrawBindingNameOffscreen(nullptr);
 		}
 
 		if( Q_strlen(szIconTextureName) == 0 )
@@ -1739,7 +1739,7 @@ void CLocatorPanel::CalculateOcclusion( CLocatorTarget *pTarget )
 			return;
 
 		trace_t	tr;
-		UTIL_TraceLine( pTarget->m_vecOrigin, MainViewOrigin(nSlot), (CONTENTS_SOLID|CONTENTS_MOVEABLE), NULL, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceLine( pTarget->m_vecOrigin, MainViewOrigin(nSlot), (CONTENTS_SOLID|CONTENTS_MOVEABLE), nullptr, COLLISION_GROUP_NONE, &tr );
 		if ( tr.fraction < 1.0f )
 		{
 			pTarget->m_bOccluded = true;
@@ -2297,7 +2297,7 @@ void CLocatorPanel::DrawBindingName( CLocatorTarget *pTarget, const char *pchBin
 		int fontTall = vgui::surface()->GetFontTall( KeysFont );
 
 		wchar_t wszCaption[ 64 ];
-		g_pVGuiLocalize->ConstructString( wszCaption, sizeof(wchar_t)*64, szBinding, NULL );
+		g_pVGuiLocalize->ConstructString( wszCaption, sizeof(wchar_t)*64, szBinding, nullptr);
 
 		int iWidth = GetScreenWidthForCaption( wszCaption, KeysFont );
 
@@ -2419,7 +2419,7 @@ CLocatorTarget *CLocatorPanel::GetPointerForHandle( int hTarget )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

@@ -95,7 +95,7 @@ void CPrecacheSystem::Cache( IPrecacheHandler *pPrecacheHandler, PrecacheSystem_
 
 		if ( !bPrecache )
 		{
-			m_ResourceList[ nSystem ][ pName ] = NULL;
+			m_ResourceList[ nSystem ][ pName ] = nullptr;
 		}
 	}
 }
@@ -128,7 +128,7 @@ void CPrecacheSystem::Register( IResourcePrecacher *pResourcePrecacherFirst, Pre
 
 	if ( pCur )
 	{
-		while ( pCur->GetNext() != NULL )
+		while ( pCur->GetNext() != nullptr)
 		{
 			pCur = pCur->GetNext();
 		}
@@ -149,7 +149,7 @@ void CPrecacheSystem::LimitResourceAccess( PrecacheSystem_t nSystem, const char 
 {
 	if ( g_pResourceAccessControl )
 	{
-		UtlSymId_t nSym = ( pName != NULL ) ? m_ResourceList[nSystem].Find( pName ) : UTL_INVAL_SYMBOL;
+		UtlSymId_t nSym = ( pName != nullptr) ? m_ResourceList[nSystem].Find( pName ) : UTL_INVAL_SYMBOL;
 		if ( nSym != UTL_INVAL_SYMBOL )
 		{
 			g_pResourceAccessControl->LimitAccess( m_ResourceList[nSystem][nSym] );

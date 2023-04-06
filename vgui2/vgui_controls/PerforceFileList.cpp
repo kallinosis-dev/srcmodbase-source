@@ -258,7 +258,7 @@ void PerforceFileList::AddItemToDirectoryList( const char *pFullPath, int nItemI
 //-----------------------------------------------------------------------------
 int PerforceFileList::AddFileToFileList( const char *pFullPath, bool bExistsOnDisk )
 {
-	bool bIsFileWriteable = bExistsOnDisk ? g_pFullFileSystem->IsFileWritable( pFullPath, NULL ) : true;
+	bool bIsFileWriteable = bExistsOnDisk ? g_pFullFileSystem->IsFileWritable( pFullPath, nullptr) : true;
 
 	// add the file to the list
 	KeyValues *kv = new KeyValues("item");
@@ -307,7 +307,7 @@ int PerforceFileList::AddDirectoryToFileList( const char *pFullPath, bool bExist
 	const char *pRelativePath = Q_UnqualifiedFileName( pFullPath );
 	kv->SetString( "text", pRelativePath );
 	kv->SetString( "fullpath", pFullPath );
-	kv->SetPtr( "iconImage", (void *)NULL );
+	kv->SetPtr( "iconImage", (void *)nullptr);
 	kv->SetInt( "image", 2 );
 	kv->SetInt( "imageSelected", 3 );
 	kv->SetInt( "directory", 1 );
@@ -418,7 +418,7 @@ static P4File_t *FindFileInPerforceList( const char *pFileName, CUtlVector<P4Fil
 			return &fileList[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -430,7 +430,7 @@ void PerforceFileList::RefreshPerforceState( int nItemID, bool bFileExists, P4Fi
 	KeyValues *kv = GetItem( nItemID );
 
 	bool bIsSynched = false;
-	bool bIsFileInPerforce = (pFileInfo != NULL);
+	bool bIsFileInPerforce = (pFileInfo != nullptr);
 	if ( bIsFileInPerforce )
 	{
 		if ( pFileInfo->m_bDeleted != bFileExists )

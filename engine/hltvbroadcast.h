@@ -93,7 +93,7 @@ protected:
 		~CHttpCallback();
 		virtual void Run( void *pvParam ) OVERRIDE; // success; HTTPRequestCompleted_t
 		virtual void Run( void *pvParam, bool bIOFailure, SteamAPICall_t hSteamAPICall ) OVERRIDE; // result; HTTPRequestCompleted_t
-		void DetachFromParent() { m_pParent = NULL; }
+		void DetachFromParent() { m_pParent = nullptr; }
 
 		void SetProtobufMsgForGCUponSuccess( const CEngineGotvSyncPacket *pProtobufMsgForGCUponSuccess );
 
@@ -133,7 +133,7 @@ public:
 
 	void	ResetDemoInterpolation( void ) {};
 public:
-	void	WriteFrame( CHLTVFrame *pFrame, bf_write *additionaldata = NULL );
+	void	WriteFrame( CHLTVFrame *pFrame, bf_write *additionaldata = nullptr);
 	void	ResendStartup();
 
 	void RecordSnapshot( CHLTVFrame * pFrame, bf_write * additionaldata, bf_write &msg, int nDeltaTick );

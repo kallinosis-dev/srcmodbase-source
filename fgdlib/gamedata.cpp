@@ -25,7 +25,7 @@
 const int MAX_ERRORS = 5;
 
 
-static GameDataMessageFunc_t g_pMsgFunc = NULL;
+static GameDataMessageFunc_t g_pMsgFunc = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -51,7 +51,7 @@ static bool DoGetToken(TokenReader &tr, char **ppszStore, int nSize, trtoken_t t
 {
 	trtoken_t ttype;
 
-	if (*ppszStore != NULL)
+	if (*ppszStore != nullptr)
 	{
 		// Reads the token into the given buffer.
 		ttype = tr.NextToken(*ppszStore, nSize);
@@ -85,7 +85,7 @@ static bool DoGetToken(TokenReader &tr, char **ppszStore, int nSize, trtoken_t t
 		}
 	}
 
-	if (bBadTokenType && (pszExpecting == NULL))
+	if (bBadTokenType && (pszExpecting == nullptr))
 	{
 		//
 		// We didn't get the expected token type but no expected
@@ -123,7 +123,7 @@ static bool DoGetToken(TokenReader &tr, char **ppszStore, int nSize, trtoken_t t
 		GDError(tr, "expecting %s", pszTokenName);
 		return false;
 	}
-	else if (bBadTokenType || ((pszExpecting != NULL) && !IsToken(pszStore, pszExpecting)))
+	else if (bBadTokenType || ((pszExpecting != nullptr) && !IsToken(pszStore, pszExpecting)))
 	{
 		//
 		// An expected string was specified, and we got either the wrong type or
@@ -186,7 +186,7 @@ bool GDError(TokenReader &tr, char const* error, ...)
 bool GDGetToken(TokenReader &tr, char *pszStore, int nSize, trtoken_t ttexpecting, const char *pszExpecting)
 {
 	Assert(pszStore != NULL);
-	if (pszStore != NULL)
+	if (pszStore != nullptr)
 	{
 		return DoGetToken(tr, &pszStore, nSize, ttexpecting, pszExpecting);
 	}
@@ -228,12 +228,12 @@ bool GDSkipToken(TokenReader &tr, trtoken_t ttexpecting, const char *pszExpectin
 //-----------------------------------------------------------------------------
 bool GDGetTokenDynamic(TokenReader &tr, char **ppszStore, trtoken_t ttexpecting, const char *pszExpecting)
 {
-	if (ppszStore == NULL)
+	if (ppszStore == nullptr)
 	{
 		return false;
 	}
 
-	*ppszStore = NULL;
+	*ppszStore = nullptr;
 	return DoGetToken(tr, ppszStore, -1, ttexpecting, pszExpecting);
 }
 
@@ -246,7 +246,7 @@ GameData::GameData(void) :
 {
 	m_nMaxMapCoord = 8192;
 	m_nMinMapCoord = -8192;
-	m_InstanceClass = NULL;
+	m_InstanceClass = nullptr;
 
 	m_bGridNavActive = false;
 	m_nGridNavEdgeSize = 0;
@@ -376,7 +376,7 @@ BOOL GameData::Load(const char *pszFilename)
 				// Check and see if this new class matches an existing one. If so we will override the previous definition.
 				int nExistingClassIndex = 0;
 				GDclass *pExistingClass = ClassForName(pNewClass->GetName(), &nExistingClassIndex);
-				if (NULL != pExistingClass)
+				if (nullptr != pExistingClass)
 				{
 					m_Classes.InsertAfter(nExistingClassIndex, pNewClass);
 					m_Classes.Remove(nExistingClassIndex);
@@ -605,7 +605,7 @@ GDclass *GameData::ClassForName(const char *pszName, int *piIndex)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -633,7 +633,7 @@ static const char *RequiredKeys[] =
 {
 	"Origin",
 	"Angles",
-	NULL
+	nullptr
 };
 
 //-----------------------------------------------------------------------------
@@ -655,7 +655,7 @@ GDclass *GameData::BeginInstanceRemap( const char *pszClassName, const char *psz
 	if ( m_InstanceClass )
 	{
 		delete m_InstanceClass;
-		m_InstanceClass = NULL;
+		m_InstanceClass = nullptr;
 	}
 
 	if ( strcmpi( pszClassName, "info_overlay_accessor" ) == 0 )
@@ -672,7 +672,7 @@ GDclass *GameData::BeginInstanceRemap( const char *pszClassName, const char *psz
 
 		for( int i = 0; RequiredKeys[ i ]; i++ )
 		{
-			if ( m_InstanceClass->VarForName( RequiredKeys[ i ] ) == NULL )
+			if ( m_InstanceClass->VarForName( RequiredKeys[ i ] ) == nullptr)
 			{
 				BaseClass = ClassForName( RequiredKeys[ i ] );
 				if ( BaseClass )
@@ -684,7 +684,7 @@ GDclass *GameData::BeginInstanceRemap( const char *pszClassName, const char *psz
 	}
 	else
 	{
-		m_InstanceClass = NULL;
+		m_InstanceClass = nullptr;
 	}
 
 	return m_InstanceClass;

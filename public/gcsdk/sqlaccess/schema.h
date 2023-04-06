@@ -242,7 +242,7 @@ public:
 		m_nFillFactor = 0;
 
 		// null name is allowed for primary keys
-		if ( pstrIndexName != NULL )
+		if ( pstrIndexName != nullptr)
 			Q_strncpy( m_szIndexName, pstrIndexName, Q_ARRAYSIZE( m_szIndexName ) );
 		else
 			m_szIndexName[0] = 0;

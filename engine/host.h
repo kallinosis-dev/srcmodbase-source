@@ -28,7 +28,7 @@ class CMsg_CVars;
 class CCommonHostState
 {
 public:
-	CCommonHostState() : worldmodel( NULL ), worldbrush( NULL ), interval_per_tick( 0.0f ), max_splitscreen_players( 1 ), max_splitscreen_players_clientdll( 1 ) {}
+	CCommonHostState() : worldmodel(nullptr), worldbrush(nullptr), interval_per_tick( 0.0f ), max_splitscreen_players( 1 ), max_splitscreen_players_clientdll( 1 ) {}
 
 	// cl_entitites[0].model
 	model_t					*worldmodel;	
@@ -49,7 +49,7 @@ extern CCommonHostState host_state;
 // and the amount of memory available for the program to use
 struct engineparms_t
 {
-	engineparms_t() : basedir( NULL ), mod( NULL ), game( NULL ), memsize( 0u ) {}
+	engineparms_t() : basedir(nullptr), mod(nullptr), game(nullptr), memsize( 0u ) {}
 
 	char	*basedir;	// Executable directory ("c:/program files/half-life 2", for example)
 	char	*mod;		// Mod name ("cstrike", for example)

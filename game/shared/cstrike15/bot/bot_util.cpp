@@ -36,7 +36,7 @@ bool UTIL_IsNameTaken( const char *name, bool ignoreHumans )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (player->IsPlayer() && player->IsBot())
@@ -72,7 +72,7 @@ int UTIL_ClientsInGame( void )
 	{
 		CBaseEntity *player = UTIL_PlayerByIndex( i );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		count++;
@@ -93,7 +93,7 @@ int UTIL_HumansOnTeam( int teamID, bool isAlive )
 	{
 		CBaseEntity *entity = UTIL_PlayerByIndex( i );
 
-		if ( entity == NULL )
+		if ( entity == nullptr)
 			continue;
 
 		CBasePlayer *player = static_cast<CBasePlayer *>( entity );
@@ -123,7 +123,7 @@ int UTIL_BotsInGame( void )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>(UTIL_PlayerByIndex( i ));
 
-		if ( player == NULL )
+		if ( player == nullptr)
 			continue;
 
 		if ( !player->IsBot() )
@@ -148,7 +148,7 @@ bool UTIL_KickBotFromTeam( int kickTeam, bool bQueue )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (!player->IsBot())
@@ -186,7 +186,7 @@ bool UTIL_KickBotFromTeam( int kickTeam, bool bQueue )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (!player->IsBot())
@@ -233,7 +233,7 @@ bool UTIL_IsTeamAllBots( int team )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		// skip players on other teams
@@ -259,7 +259,7 @@ bool UTIL_IsTeamAllBots( int team )
  */
 extern CBasePlayer *UTIL_GetClosestPlayer( const Vector &pos, float *distance )
 {
-	CBasePlayer *closePlayer = NULL;
+	CBasePlayer *closePlayer = nullptr;
 	float closeDistSq = 999999999999.9f;
 
 	for ( int i = 1; i <= gpGlobals->maxClients; ++i )
@@ -294,7 +294,7 @@ extern CBasePlayer *UTIL_GetClosestPlayer( const Vector &pos, float *distance )
  */
 extern CBasePlayer *UTIL_GetClosestPlayer( const Vector &pos, int team, float *distance )
 {
-	CBasePlayer *closePlayer = NULL;
+	CBasePlayer *closePlayer = nullptr;
 	float closeDistSq = 999999999999.9f;
 
 	for ( int i = 1; i <= gpGlobals->maxClients; ++i )
@@ -329,14 +329,14 @@ extern CBasePlayer *UTIL_GetClosestPlayer( const Vector &pos, int team, float *d
 // Takes the bot pointer and constructs the net name using the current bot name prefix.
 void UTIL_ConstructBotNetName( char *name, int nameLength, const BotProfile *profile )
 {
-	if (profile == NULL)
+	if (profile == nullptr)
 	{
 		name[0] = 0;
 		return;
 	}
 
 	// if there is no bot prefix just use the profile name.
-	if ((cv_bot_prefix.GetString() == NULL) || (strlen(cv_bot_prefix.GetString()) == 0))
+	if ((cv_bot_prefix.GetString() == nullptr) || (strlen(cv_bot_prefix.GetString()) == 0))
 	{
 		Q_strncpy( name, profile->GetName(), nameLength );
 		return;
@@ -353,7 +353,7 @@ void UTIL_ConstructBotNetName( char *name, int nameLength, const BotProfile *pro
 		}
 	}
 
-	const char *weaponStr = NULL;
+	const char *weaponStr = nullptr;
 	if ( profile->GetWeaponPreferenceCount() )
 	{
 		weaponStr = profile->GetWeaponPreferenceAsString( 0 );
@@ -401,7 +401,7 @@ bool UTIL_IsVisibleToTeam( const Vector &spot, int team )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (!player->IsAlive())
@@ -436,7 +436,7 @@ bool UTIL_IsRandomSpawnFarEnoughAwayFromTeam( const Vector &spot, int team )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (!player->IsAlive())

@@ -152,21 +152,21 @@ NavErrorType CCSNavArea::PostLoad( void )
 	for ( int a = 0; a < m_approachCount; ++a )
 	{
 		m_approach[a].here.area = TheNavMesh->GetNavAreaByID( m_approach[a].here.id );
-		if (m_approach[a].here.id && m_approach[a].here.area == NULL)
+		if (m_approach[a].here.id && m_approach[a].here.area == nullptr)
 		{
 			Msg( "CNavArea::PostLoad: Corrupt navigation data. Missing Approach Area (here).\n" );
 			error = NAV_CORRUPT_DATA;
 		}
 
 		m_approach[a].prev.area = TheNavMesh->GetNavAreaByID( m_approach[a].prev.id );
-		if (m_approach[a].prev.id && m_approach[a].prev.area == NULL)
+		if (m_approach[a].prev.id && m_approach[a].prev.area == nullptr)
 		{
 			Msg( "CNavArea::PostLoad: Corrupt navigation data. Missing Approach Area (prev).\n" );
 			error = NAV_CORRUPT_DATA;
 		}
 
 		m_approach[a].next.area = TheNavMesh->GetNavAreaByID( m_approach[a].next.id );
-		if (m_approach[a].next.id && m_approach[a].next.area == NULL)
+		if (m_approach[a].next.id && m_approach[a].next.area == nullptr)
 		{
 			Msg( "CNavArea::PostLoad: Corrupt navigation data. Missing Approach Area (next).\n" );
 			error = NAV_CORRUPT_DATA;

@@ -24,7 +24,7 @@ public:
 
 public:
 	void Update();
-	void SendPacket( KeyValues *msg, char const *szAddress = NULL, INetSupport::NetworkSocket_t eSock
+	void SendPacket( KeyValues *msg, char const *szAddress = nullptr, INetSupport::NetworkSocket_t eSock
 #ifdef _X360
 		= INetSupport::NS_SOCK_SYSTEMLINK
 #else

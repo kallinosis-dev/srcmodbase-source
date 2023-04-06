@@ -70,14 +70,14 @@ inline float GetAlpha( BYTE byte )
 
 CMatPaintmaps::CMatPaintmaps( void )
 {
-	m_pDataManager = NULL;
+	m_pDataManager = nullptr;
 	m_nUpdatingPaintmapsStackDepth = 0;
 	m_nLockedPaintmap = -1;
 }
 
 bool CMatPaintmaps::IsEnabled( void )
 {
-	return (m_pDataManager != NULL);
+	return (m_pDataManager != nullptr);
 }
 
 
@@ -225,7 +225,7 @@ void CMatPaintmaps::UpdatePaintmap( int paintmap, BYTE* pPaintData, int numRects
 		return;
 	}
 
-	bool bLockSubRect = pRects != NULL;
+	bool bLockSubRect = pRects != nullptr;
 
 	Rect_t rect;
 	if ( bLockSubRect )

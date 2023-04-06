@@ -244,13 +244,13 @@ public:
 };
 }
 
-static ListPanel *s_pCurrentSortingListPanel = NULL;
-static const char *s_pCurrentSortingColumn = NULL;
+static ListPanel *s_pCurrentSortingListPanel = nullptr;
+static const char *s_pCurrentSortingColumn = nullptr;
 static bool	s_currentSortingColumnTypeIsText = false;
 
-static SortFunc *s_pSortFunc = NULL;
+static SortFunc *s_pSortFunc = nullptr;
 static bool s_bSortAscending = true;
-static SortFunc *s_pSortFuncSecondary = NULL;
+static SortFunc *s_pSortFuncSecondary = nullptr;
 static bool s_bSortAscendingSecondary = true;
 
 
@@ -351,8 +351,8 @@ static int __cdecl DefaultSortFunc(
 	}
 	else    // its an imagePanel column
 	{
-	   	const ImagePanel *s1 = (const ImagePanel *)p1->kv->GetPtr(col, NULL);
-		const ImagePanel *s2 = (const ImagePanel *)p2->kv->GetPtr(col, NULL);
+	   	const ImagePanel *s1 = (const ImagePanel *)p1->kv->GetPtr(col, nullptr);
+		const ImagePanel *s2 = (const ImagePanel *)p2->kv->GetPtr(col, nullptr);
 
 		if (s1 < s2)
 		{
@@ -459,13 +459,13 @@ ListPanel::ListPanel(Panel *parent, const char *panelName) : BaseClass(parent, p
 	m_vbar->SetVisible(false);
 	m_vbar->AddActionSignalTarget(this);
 
-	m_pLabel = new Label(this, NULL, "");
+	m_pLabel = new Label(this, nullptr, "");
 	m_pLabel->SetVisible(false);
 	m_pLabel->SetPaintBackgroundEnabled(false);
 	m_pLabel->SetContentAlignment(Label::a_west);
 
 	m_pTextImage = new TextImage( "" );
-	m_pImagePanel = new ImagePanel(NULL, "ListImage");
+	m_pImagePanel = new ImagePanel(nullptr, "ListImage");
 	m_pImagePanel->SetAutoDelete(false);
 
 	m_iSortColumn = -1;
@@ -478,7 +478,7 @@ ListPanel::ListPanel(Panel *parent, const char *panelName) : BaseClass(parent, p
 	m_bNeedsSort = false;
 	m_LastItemSelected = -1;
 
-	m_pImageList = NULL;
+	m_pImageList = nullptr;
 	m_bDeleteImageListWhenDone = false;
 	m_pEmptyListText = new TextImage("");
 }
@@ -622,7 +622,7 @@ void ListPanel::AddColumnHeader(int index, const char *columnName, const char *c
 	column.m_pResizer = dragger;
 
 	// add default sort function
-	column.m_pSortFunc = NULL;
+	column.m_pSortFunc = nullptr;
 	
 	// Set the SortedTree less than func to the generic RBTreeLessThanFunc
 	m_ColumnsData[columnDataIndex].m_SortedTree.SetLessFunc((IndexRBTree_t::LessFunc_t)RBTreeLessFunc);
@@ -667,7 +667,7 @@ void ListPanel::ResortColumnRBTree(int col)
 	}
 	s_pSortFunc = sortFunc;
 	s_bSortAscending = true;
-	s_pSortFuncSecondary = NULL;
+	s_pSortFuncSecondary = nullptr;
 
 	// sort all current data items for this column
 	FOR_EACH_LL( m_DataItems, i )
@@ -771,7 +771,7 @@ void ListPanel::SetColumnSortable(int col, bool sortable)
 	}
 	else
 	{
-		m_ColumnsData[m_CurrentColumns[col]].m_pHeader->SetCommand((const char *)NULL);
+		m_ColumnsData[m_CurrentColumns[col]].m_pHeader->SetCommand((const char *)nullptr);
 	}
 }
 
@@ -865,7 +865,7 @@ int ListPanel::AddItem( const KeyValues *item, uintp userData, bool bScrollToIte
 	FastSortListPanelItem *newitem = new FastSortListPanelItem;
 	newitem->kv = item->MakeCopy();
 	newitem->userData = userData;
-	newitem->m_pDragData = NULL;
+	newitem->m_pDragData = nullptr;
 	newitem->m_bImage = newitem->kv->GetBool( "image" );
 	newitem->m_nImageIndex = newitem->kv->GetInt( "image" );
 	newitem->m_nImageIndexSelected = newitem->kv->GetInt( "imageSelected" );
@@ -949,7 +949,7 @@ int ListPanel::GetItem(const char *itemName)
 KeyValues *ListPanel::GetItem(int itemID)
 {
 	if ( !m_DataItems.IsValidIndex(itemID) )
-		return NULL;
+		return nullptr;
 
 	return m_DataItems[itemID]->kv;
 }
@@ -1054,7 +1054,7 @@ bool ListPanel::IsValidItemID(int itemID)
 ListPanelItem *ListPanel::GetItemData( int itemID )
 {
 	if ( !m_DataItems.IsValidIndex(itemID) )
-		return NULL;
+		return nullptr;
 	
 	return m_DataItems[ itemID ];
 }
@@ -1133,7 +1133,7 @@ void ListPanel::IndexItem(int itemID)
 		}
 		s_pSortFunc = sortFunc;
 		s_bSortAscending = true;
-		s_pSortFuncSecondary = NULL;
+		s_pSortFuncSecondary = nullptr;
 
 		// insert index		
 		newitem->m_SortedTreeIndexes[i] = rbtree.Insert(item);
@@ -1428,7 +1428,7 @@ void ListPanel::GetCellText(int itemID, int col, wchar_t *wbuffer, int bufferSiz
 	if ( !val || !key[ 0 ] )
 		return;
 
-	const wchar_t *wval = NULL;
+	const wchar_t *wval = nullptr;
 
 	if ( val[ 0 ] == '#' )
 	{
@@ -1459,24 +1459,24 @@ IImage *ListPanel::GetCellImage(int itemID, int col) //, ImagePanel *&buffer)
 	KeyValues *itemData = GetItem( itemID );
 	if ( !itemData )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Look up column header
 	if ( col < 0 || col >= m_CurrentColumns.Count() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	const char *key = m_ColumnsData[m_CurrentColumns[col]].m_pHeader->GetName();
 	if ( !key || !key[ 0 ] )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( !m_pImageList )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int imageIndex = itemData->GetInt( key, 0 );
@@ -1487,7 +1487,7 @@ IImage *ListPanel::GetCellImage(int itemID, int col) //, ImagePanel *&buffer)
 			return m_pImageList->GetImage(imageIndex);
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1575,7 +1575,7 @@ Panel *ListPanel::GetCellRenderer(int itemID, int col)
 		if ( col == 0 &&
 			listItem->m_bImage && m_pImageList )
 		{
-			IImage *pImage = NULL;
+			IImage *pImage = nullptr;
 			if ( listItem->m_pIcon )
 			{
 				pImage = listItem->m_pIcon;
@@ -2652,7 +2652,7 @@ void ListPanel::SetSortFunc(int col, SortFunc *func)
 	Assert(col < m_CurrentColumns.Count());
 	unsigned char dataColumnIndex = m_CurrentColumns[col];
 
-	if ( !m_ColumnsData[dataColumnIndex].m_bTypeIsText && func != NULL)
+	if ( !m_ColumnsData[dataColumnIndex].m_bTypeIsText && func != nullptr)
 	{
 		m_ColumnsData[dataColumnIndex].m_pHeader->SetMouseClickEnabled(MOUSE_LEFT, 1);
 	}
@@ -3232,8 +3232,8 @@ void ListPanel::LeaveEditMode()
 	if (m_hEditModePanel.Get())
 	{
 		m_hEditModePanel->SetVisible(false);
-		m_hEditModePanel->SetParent((Panel *)NULL);
-		m_hEditModePanel = NULL;
+		m_hEditModePanel->SetParent((Panel *)nullptr);
+		m_hEditModePanel = nullptr;
 	}
 }
 
@@ -3242,7 +3242,7 @@ void ListPanel::LeaveEditMode()
 //-----------------------------------------------------------------------------
 bool ListPanel::IsInEditMode()
 {
-	return (m_hEditModePanel.Get() != NULL);
+	return (m_hEditModePanel.Get() != nullptr);
 }
 
 //-----------------------------------------------------------------------------

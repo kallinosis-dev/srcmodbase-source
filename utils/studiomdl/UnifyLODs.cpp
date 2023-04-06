@@ -316,7 +316,7 @@ s_source_t* GetModelLODSource( const char *pModelName,
 	}
 
 	*pFound = false;
-	return 0;
+	return nullptr;
 }
 
 
@@ -510,7 +510,7 @@ static s_mesh_t *FindMeshByMaterial( s_source_t *pSrc, int nMaterialID )
 	}
 	
 	// this mesh/material doesn't exist at this lod.
-	return NULL;
+	return nullptr;
 }
 
 
@@ -536,7 +536,7 @@ static s_mesh_t *FindOrCullMesh( int nLodID, s_source_t *pSrc, int nMaterialID )
 		if (!stricmp( baseRemovalName, baseMeshName ))
 		{
 			// mesh has been marked for removal
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -1354,7 +1354,7 @@ static void UnifyModelLODs( s_model_t *pSrcModel )
 		}
 		else
 		{
-			pMeshVertIndexMaps[nLodID] = NULL;
+			pMeshVertIndexMaps[nLodID] = nullptr;
 		}
 	}
 
@@ -1577,7 +1577,7 @@ void LoadLODSources( void )
 			g_model[modelID]->m_LodSources.SetCount( nNumLODs );
 			for ( int i = 0; i < nNumLODs; ++i )
 			{
-				g_model[modelID]->m_LodSources[i] = NULL;
+				g_model[modelID]->m_LodSources[i] = nullptr;
 			}
 			continue;
 		}

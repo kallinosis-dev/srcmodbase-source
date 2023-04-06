@@ -302,7 +302,7 @@ bool CServerLogDestination::SendUpdate( int32 iFromTick, int32 iToTick, CServerL
 			steamgameserverapicontext->SteamHTTP()->ReleaseHTTPRequest( m_hHTTPRequestHandle );
 		m_hHTTPRequestHandle = NULL;
 
-		Steam_OnHTTPRequestCompleted( NULL, true );
+		Steam_OnHTTPRequestCompleted(nullptr, true );
 		return false;
 	}
 

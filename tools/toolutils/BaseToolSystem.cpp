@@ -69,8 +69,8 @@ extern IGlobalFlexController *g_pGlobalFlexController;
 //-----------------------------------------------------------------------------
 // Singleton interfaces
 //-----------------------------------------------------------------------------
-IServerTools	*servertools = NULL;
-IClientTools	*clienttools = NULL;
+IServerTools	*servertools = nullptr;
+IClientTools	*clienttools = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -83,9 +83,9 @@ void RegisterTool( IToolSystem *tool );
 // Base tool system constructor
 //-----------------------------------------------------------------------------
 CBaseToolSystem::CBaseToolSystem( const char *pToolName /*="CBaseToolSystem"*/ ) :
-	BaseClass( NULL, pToolName ),
-	m_pBackground( 0 ),
-	m_pLogo( 0 )
+	BaseClass(nullptr, pToolName ),
+	m_pBackground( nullptr ),
+	m_pLogo( nullptr )
 {
 	RegisterTool( this );
 	SetAutoDelete( false );
@@ -93,7 +93,7 @@ CBaseToolSystem::CBaseToolSystem( const char *pToolName /*="CBaseToolSystem"*/ )
 	m_bFullscreenMode = false;
 	m_bIsActive = false;
 	m_bFullscreenToolModeEnabled = false;
-	m_MostRecentlyFocused = NULL;
+	m_MostRecentlyFocused = nullptr;
 	SetKeyBoardInputEnabled( true );
 	input()->RegisterKeyCodeUnhandledListener( GetVPanel() );
 
@@ -256,7 +256,7 @@ bool CBaseToolSystem::CanQuit( const char* /*pExitMsg*/ )
 //-----------------------------------------------------------------------------
 bool CBaseToolSystem::ServerInit( CreateInterfaceFn serverFactory )
 {
-	servertools = ( IServerTools * )serverFactory( VSERVERTOOLS_INTERFACE_VERSION, NULL );
+	servertools = ( IServerTools * )serverFactory( VSERVERTOOLS_INTERFACE_VERSION, nullptr);
 	if ( !servertools )
 	{
 		Error( "CBaseToolSystem::PostInit:  Unable to get '%s' interface from game .dll\n", VSERVERTOOLS_INTERFACE_VERSION );
@@ -267,7 +267,7 @@ bool CBaseToolSystem::ServerInit( CreateInterfaceFn serverFactory )
 
 bool CBaseToolSystem::ClientInit( CreateInterfaceFn clientFactory )
 {
-	clienttools = ( IClientTools * )clientFactory( VCLIENTTOOLS_INTERFACE_VERSION, NULL );
+	clienttools = ( IClientTools * )clientFactory( VCLIENTTOOLS_INTERFACE_VERSION, nullptr);
 	if ( !clienttools )
 	{
 		Error( "CBaseToolSystem::PostInit:  Unable to get '%s' interface from client .dll\n", VCLIENTTOOLS_INTERFACE_VERSION );
@@ -282,12 +282,12 @@ bool CBaseToolSystem::ClientInit( CreateInterfaceFn clientFactory )
 
 void CBaseToolSystem::ServerShutdown()
 {
-	servertools = NULL;
+	servertools = nullptr;
 }
 
 void CBaseToolSystem::ClientShutdown()
 {
-	clienttools = NULL;
+	clienttools = nullptr;
 }
 
 	
@@ -348,7 +348,7 @@ const char* CBaseToolSystem::GetEntityData( const char *pActualEntityData )
 
 void* CBaseToolSystem::QueryInterface( const char *pInterfaceName )
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -625,7 +625,7 @@ void CBaseToolSystem::RegisterToolWindow( vgui::PHandle hPanel )
 void CBaseToolSystem::UnregisterAllToolWindows()
 {
 	m_Tools.RemoveAll();
-	m_MostRecentlyFocused = NULL;
+	m_MostRecentlyFocused = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -824,7 +824,7 @@ bool CBaseToolSystem::IsToolRecording()
 
 IMaterialProxy *CBaseToolSystem::LookupProxy( const char *proxyName )
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1033,7 +1033,7 @@ void CBaseToolSystem::ShutdownActionMenu()
 	if ( m_hActionMenu.Get() )
 	{
 		m_hActionMenu->MarkForDeletion();
-		m_hActionMenu = NULL;
+		m_hActionMenu = nullptr;
 	}
 }
 

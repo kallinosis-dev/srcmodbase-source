@@ -39,7 +39,7 @@ extern CScratchPad g_scratchpad;
 CSosOperatorStack::CSosOperatorStack( SosStackType_t SosType, stack_data_t &stackData )
 {
 	m_SOSType = SosType;
-	m_pMemPool = NULL;
+	m_pMemPool = nullptr;
 	m_nMemSize = 0;
 	m_stopType = SOS_STOP_NONE;
 	m_flStopTime = -1.0;
@@ -115,7 +115,7 @@ CSosOperator *CSosOperatorStack::FindOperator( const char *pName, void **pStruct
 		else
 		{
 			// error!
-			return NULL;
+			return nullptr;
 		}
 	}
 	return m_vStack[nOpIndex];
@@ -436,8 +436,8 @@ void CSosOperatorStack::ParseKV( KeyValues *pOperatorsKV )
 				}
 				else if( !( testDict.IsValidIndex( nNewStackIndex ) && i == SND_SOS_MEMORY_ALLOCATION_PASS ) ) // do nothing if override of new op on first memory accumulating pass
 				{
-					CSosOperator *pNewOp = NULL;
-					const char *pOpType = NULL;
+					CSosOperator *pNewOp = nullptr;
+					const char *pOpType = nullptr;
 					if( pOperator->FindKey( "operator" ) )
 					{
 						pOpType = pOperator->GetString( "operator", "" );
@@ -520,24 +520,24 @@ KeyValues *S_GetStopTracksKV( KeyValues *pOperatorsKV )
 		{
 			Log_Warning( LOG_SND_OPERATORS, "Error: Sound Operator System has invalid operator KV\n" );
 		}
-		return NULL;
+		return nullptr;
 	}
 	KeyValues *pOperatorDataKV = pOperatorsKV->FindKey( "soundentry_operator_data" );
 	if( ! pOperatorDataKV )
 	{
 		//		Log_Warning( LOG_SND_OPERATORS, "Error: Sound Operator System cannot find \"soundentry_operator_data\"\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	KeyValues *pTrackDataKV = pOperatorDataKV->FindKey("track_data" );
 	if( ! pTrackDataKV )
 	{
-		return NULL;
+		return nullptr;
 	}
 	KeyValues *pStopTracksKV = pTrackDataKV->FindKey("stop_tracks_on_start" );
 	if( ! pStopTracksKV )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -573,7 +573,7 @@ KeyValues *S_GetStopTracksKV( HSOUNDSCRIPTHASH nSoundEntryHash )
 			return S_GetStopTracksKV( pOperatorKV );
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -585,24 +585,24 @@ KeyValues *CSosOperatorStack::GetSyncPointsKV( KeyValues *pOperatorsKV, const ch
 		{
 			Log_Warning( LOG_SND_OPERATORS, "Error: Sound Operator System has invalid operator KV\n" );
 		}
-		return NULL;
+		return nullptr;
 	}
 	KeyValues *pOperatorDataKV = pOperatorsKV->FindKey( "soundentry_operator_data" );
 	if( ! pOperatorDataKV )
 	{
 //		Log_Warning( LOG_SND_OPERATORS, "Error: Sound Operator System cannot find \"soundentry_operator_data\"\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	KeyValues *pTrackDataKV = pOperatorDataKV->FindKey("track_data" );
 	if( ! pTrackDataKV )
 	{
-		return NULL;
+		return nullptr;
 	}
 	KeyValues *pSyncPointsKV = pTrackDataKV->FindKey("syncpoints" );
 	if( ! pSyncPointsKV )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -623,7 +623,7 @@ KeyValues *CSosOperatorStack::GetSyncPointsKV( KeyValues *pOperatorsKV, const ch
 	}
 
 
-	return NULL;
+	return nullptr;
 }
 
 KeyValues *CSosOperatorStack::GetSyncPointsKV( const char *pListName )
@@ -755,9 +755,9 @@ bool S_TrackHasPriority( track_data_t &newTrackData, track_data_t &existingTrack
 
 CSosOperatorStackList::CSosOperatorStackList()
 {
-	m_vUpdateStack = NULL;
+	m_vUpdateStack = nullptr;
 // 	m_vStartStack = NULL;
-	m_vStopStack  = NULL;
+	m_vStopStack  = nullptr;
 // 	m_vCueStack = NULL;
 	m_stopType = SOS_STOP_NONE;
 	m_flStopTime = -1.0;
@@ -904,9 +904,9 @@ CSosOperatorStack *CSosOperatorStackList::GetStack( CSosOperatorStack::SosStackT
 // 		return m_vCueStack;
 // 		break;
 	default:
-		return NULL;
+		return nullptr;
 	}
-	return NULL;
+	return nullptr;
 }
 void CSosOperatorStackList::SetScriptHash( HSOUNDSCRIPTHASH nHash )
 {
@@ -1046,7 +1046,7 @@ void CSosOperatorStackList::StopStacks( SOSStopType_t stopType )
 		SetStopType( stopType );
 		SetStopTime( g_pSoundServices->GetHostTime() );
 		
-		Execute( CSosOperatorStack::SOS_STOP, NULL, &g_scratchpad );
+		Execute( CSosOperatorStack::SOS_STOP, nullptr, &g_scratchpad );
 	}
 }
 
@@ -1059,7 +1059,7 @@ void CSosOperatorStackList::ParseKV( stack_data_t &stackData )
 	{
 		CSosOperatorStack::SosStackType_t SosType = CSosOperatorStack::SOS_NONE;
 
-		const char *pDefaultStack = NULL;
+		const char *pDefaultStack = nullptr;
 		const char *pStackListTypeString = pStackListType->GetName();
 		if ( pStackListTypeString && *pStackListTypeString )
 		{
@@ -1172,15 +1172,15 @@ CSosOperatorStack *S_GetStack( CSosOperatorStack::SosStackType_t stackType, stac
 		pStackListType = pStackListType->GetNextKey();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CSosOperatorStackList *S_InitChannelOperators( stack_data_t &stackData )
 {
 
-	CSosOperatorStackList *pStackList = NULL;
+	CSosOperatorStackList *pStackList = nullptr;
 
-	if ( stackData.m_pOperatorsKV != NULL )
+	if ( stackData.m_pOperatorsKV != nullptr)
 	{
 		pStackList = S_ParseOperatorsKV( stackData );
 	}
@@ -1240,7 +1240,7 @@ CSosOperatorStack *CSosOperatorStackCollection::GetStack( const char *pStackName
 	{
 		return m_vAllStacks[nIndex];
 	}
-	return NULL;
+	return nullptr;
 }
 CSosOperatorStack *CSosOperatorStackCollection::GetStack( CSosOperatorStack::SosStackType_t SosType,  const char *pStackName )
 {
@@ -1252,7 +1252,7 @@ CSosOperatorStack *CSosOperatorStackCollection::GetStack( CSosOperatorStack::Sos
 			return pOpStack;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 void CSosOperatorStackCollection::ParseKV( CSosOperatorStack::SosStackType_t SosType, KeyValues *pStackType )
 {
@@ -1588,7 +1588,7 @@ channel_t *CSosOperatorSystem::GetChannelOnTrack( const char *pTrackName )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 HSOUNDSCRIPTHASH CSosOperatorSystem::GetSoundEntryOnTrack( const char *pTrackName )
@@ -1668,7 +1668,7 @@ void CSosOperatorSystem::RemoveChannelFromTracks( int nGuid )
 		{
 			if( pChannel->guid == nGuid )
 			{
-				m_vTrackDict[i] = NULL;
+				m_vTrackDict[i] = nullptr;
 			}
 		}
 	}
@@ -1687,7 +1687,7 @@ void CSosOperatorSystem::RemoveChannelFromTrack( const char *pTrackName, int nGu
 		channel_t *pChannelOnTrack = m_vTrackDict[ nTrackIndex ];
 		if( pChannelOnTrack && pChannelOnTrack->guid == nGuid )
 		{
-			m_vTrackDict[ nTrackIndex ] = NULL;
+			m_vTrackDict[ nTrackIndex ] = nullptr;
 		}
 	}
 }

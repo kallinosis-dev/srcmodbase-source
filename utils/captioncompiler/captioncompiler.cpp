@@ -40,7 +40,7 @@ struct AnalysisData
 
 static AnalysisData g_Analysis;
 
-IBaseFileSystem *filesystem = NULL;
+IBaseFileSystem *filesystem = nullptr;
 
 static bool spewed = false;
 
@@ -74,7 +74,7 @@ void vprint( int depth, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -118,7 +118,7 @@ void logprint( char const *logfile, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 	static bool first = true;
 	if ( first )
 	{
@@ -238,7 +238,7 @@ void CCompileCaptionsApp::Destroy()
 //-----------------------------------------------------------------------------
 bool CCompileCaptionsApp::SetupSearchPaths()
 {
-	if ( !BaseClass::SetupSearchPaths( NULL, false, true ) )
+	if ( !BaseClass::SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	// Set gamedir.
@@ -276,7 +276,7 @@ bool CCompileCaptionsApp::PreInit( )
 
 void CCompileCaptionsApp::PostShutdown()
 {
-	g_pFileSystem = NULL;
+	g_pFileSystem = nullptr;
 	BaseClass::PostShutdown();
 }
 
@@ -417,7 +417,7 @@ void CCompileCaptionsApp::CompileCaptionFile( char const *infile, char const *ou
 	out.Put( &header, sizeof( header ) );
 	out.SeekPut( CUtlBuffer::SEEK_HEAD, savePos );
 
-	g_pFullFileSystem->WriteFile( outfile, NULL, out );
+	g_pFullFileSystem->WriteFile( outfile, nullptr, out );
 
 	// Jeep: this function no longer exisits
 	/*if ( bX360 )
@@ -429,7 +429,7 @@ void CCompileCaptionsApp::CompileCaptionFile( char const *infile, char const *ou
 void CCompileCaptionsApp::DescribeCaptions( char const *file )
 {
 	CUtlBuffer buf;
-	if ( !g_pFullFileSystem->ReadFile( file, NULL, buf ) )
+	if ( !g_pFullFileSystem->ReadFile( file, nullptr, buf ) )
 	{
 		Error( "Unable to read '%s' into buffer\n", file );
 	}

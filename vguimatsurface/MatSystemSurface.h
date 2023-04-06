@@ -367,7 +367,7 @@ public:
 	
 	virtual const char *GetWebkitHTMLUserAgentString() { return "Valve Client"; }
 
-	virtual void *Deprecated_AccessChromeHTMLController() override { return NULL; }
+	virtual void *Deprecated_AccessChromeHTMLController() override { return nullptr; }
 
 	// Methods of ILocalizeTextQuery
 	//virtual int ComputeTextWidth( const wchar_t *pString );
@@ -426,7 +426,7 @@ private:
 	};
 
 	// material Setting method 
-	void InternalSetMaterial( IMaterial *material = NULL );
+	void InternalSetMaterial( IMaterial *material = nullptr);
 
 	// Draws the fullscreen buffer into the panel
 	void DrawFullScreenBuffer( int nLeft, int nTop, int nRight, int nBottom, int nOffscreenWidth, int nOffscreenHeight, bool bIgnoreAlphaWhenCompositing );

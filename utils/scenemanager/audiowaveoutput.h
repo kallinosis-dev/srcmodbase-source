@@ -94,8 +94,8 @@ public:
 
 private:
 	void	OpenDevice( void );
-	bool	ValidDevice( void ) { return m_deviceHandle != 0; }
-	void	ClearDevice( void ) { m_deviceHandle = NULL; }
+	bool	ValidDevice( void ) { return m_deviceHandle != nullptr; }
+	void	ClearDevice( void ) { m_deviceHandle = nullptr; }
 	CAudioBuffer *GetEmptyBuffer( void );
 	void	SilenceBuffer( short *pSamples, int sampleCount );
 

@@ -78,7 +78,7 @@ CPureServerWhitelist* CPureServerWhitelist::Create( IFileSystem *pFileSystem )
 
 CPureServerWhitelist::CPureServerWhitelist()
 {
-	m_pFileSystem = NULL;
+	m_pFileSystem = nullptr;
 	m_LoadCounter = 0;
 	m_AllowFromDiskList.m_pWhitelist = this;
 	m_ForceMatchList.m_pWhitelist = this;
@@ -105,7 +105,7 @@ void CPureServerWhitelist::Term()
 	m_FileCommands.PurgeAndDeleteElements();
 	m_RecursiveDirCommands.PurgeAndDeleteElements();
 	m_NonRecursiveDirCommands.PurgeAndDeleteElements();
-	m_pFileSystem = NULL;
+	m_pFileSystem = nullptr;
 	m_LoadCounter = 0;
 }
 
@@ -268,7 +268,7 @@ void CPureServerWhitelist::PrintWhitelistContents()
 		int iCommand = FindCommandByLoadOrder( m_FileCommands, iLoadOrder );
 		if ( iCommand != -1 )
 		{
-			PrintCommand( m_FileCommands.GetElementName( iCommand ), NULL, longestPathName, m_FileCommands[iCommand] );
+			PrintCommand( m_FileCommands.GetElementName( iCommand ), nullptr, longestPathName, m_FileCommands[iCommand] );
 		}
 		else
 		{
@@ -404,7 +404,7 @@ CPureServerWhitelist::CCommand* CPureServerWhitelist::GetBestEntry( const char *
 		
 		
 		// Check each of our dictionaries to see if there is an entry for this thing.
-		CCommand *pBestEntry = NULL;
+		CCommand *pBestEntry = nullptr;
 		
 		pBestEntry = CheckEntry( m_FileCommands, relativeFilename, pBestEntry );
 		if ( relativeDir[0] != 0 )
@@ -424,7 +424,7 @@ CPureServerWhitelist::CCommand* CPureServerWhitelist::GetBestEntry( const char *
 	}
 	
 	// Either we couldn't find an entry, or they specified an absolute path that we could not convert to a relative path.
-	return NULL;
+	return nullptr;
 }
 
 
@@ -680,7 +680,7 @@ bool CPureFileTracker::DoesFileMatch( const char *pPathID, const char *pRelative
 	{
 		// you managed to load a file outside a VPK that the server has in the VPK
 		// this is possible if the user explodes the VPKs into individual files and then deletes the VPKs
-		FileRenderHelper( userID, "file should be in VPK", pPathID, rgchFilenameFixed, pFileHash, nFileFraction, NULL );
+		FileRenderHelper( userID, "file should be in VPK", pPathID, rgchFilenameFixed, pFileHash, nFileFraction, nullptr);
 		return false;
 	}
 	// if the user sent us a full file hash, but we dont have one, hash it now
@@ -711,7 +711,7 @@ bool CPureFileTracker::DoesFileMatch( const char *pPathID, const char *pRelative
 		else
 		{
 			// what should we do if we couldn't open the file? should probably kick
-			FileRenderHelper( userID, "could not open file to hash ( benign for now )", pPathID, rgchFilenameFixed, pFileHash, nFileFraction, NULL );
+			FileRenderHelper( userID, "could not open file to hash ( benign for now )", pPathID, rgchFilenameFixed, pFileHash, nFileFraction, nullptr);
 		}
 	}
 	if ( eStatus == k_eFileCRCStatus_GotCRC )
@@ -739,7 +739,7 @@ bool CPureFileTracker::DoesFileMatch( const char *pPathID, const char *pRelative
 	if ( pFileHash->m_PackFileID )
 	{
 		AddUserReportedFileHash( idxFile, pFileHash, userID, false );
-		FileRenderHelper( userID, "unrecognized vpk file", pPathID, rgchFilenameFixed, pFileHash, nFileFraction, NULL );
+		FileRenderHelper( userID, "unrecognized vpk file", pPathID, rgchFilenameFixed, pFileHash, nFileFraction, nullptr);
 		return false;
 	}
 
@@ -768,7 +768,7 @@ bool CPureFileTracker::DoesFileMatch( const char *pPathID, const char *pRelative
 	// no master record, accumulate individual record so we can get a consensus
 	if ( sv_pure_trace.GetInt() == 3 )
 	{
-		FileRenderHelper( userID, "server does not have hash for this file. Waiting for consensus", pPathID, rgchFilenameFixed, pFileHash, nFileFraction, NULL );
+		FileRenderHelper( userID, "server does not have hash for this file. Waiting for consensus", pPathID, rgchFilenameFixed, pFileHash, nFileFraction, nullptr);
 	}
 
 	AddUserReportedFileHash( idxFile, pFileHash, userID, true );
@@ -810,7 +810,7 @@ int CPureFileTracker::ListUserFiles( bool bListAll, const char *pchFilenameFind 
 			if ( eStatus == k_eFileCRCStatus_GotCRC )
 			{
 				USERID_t useridFake = { 0, 0 };
-				FileRenderHelper( useridFake, "Found: ",ufile.m_path.String(),ufile.m_filename.String(), &filehashLocal, 0, NULL );
+				FileRenderHelper( useridFake, "Found: ",ufile.m_path.String(),ufile.m_filename.String(), &filehashLocal, 0, nullptr);
 				FindFileIndex_t ffi;
 				ffi.idxFindFile = idxFindFile;
 				m_vecReportedFiles.Insert( ffi );
@@ -856,7 +856,7 @@ int CPureFileTracker::ListUserFiles( bool bListAll, const char *pchFilenameFind 
 		UserReportedFile_t &ufile = m_treeAllReportedFiles[file.m_idxFile];
 
 		bool bOutput = false;
-		if ( Q_stristr( ufile.m_filename.String(), "bin\\pak01" )!=NULL || Q_stristr( ufile.m_filename.String(), ".vpk" )!=NULL )
+		if ( Q_stristr( ufile.m_filename.String(), "bin\\pak01" )!= nullptr || Q_stristr( ufile.m_filename.String(), ".vpk" )!= nullptr)
 			bOutput = true;
 		else
 		{
@@ -880,7 +880,7 @@ int CPureFileTracker::ListUserFiles( bool bListAll, const char *pchFilenameFind 
 		{
 			char rgch[256];
 			V_sprintf_safe( rgch, "reports=%d matches=%d Hash details:", ctFiles, ctMatches );
-			FileHash_t *pFileHashMaster = NULL;
+			FileHash_t *pFileHashMaster = nullptr;
 			if ( idxMaster != m_treeMasterFileHashes.InvalidIndex() )
 				pFileHashMaster = &m_treeMasterFileHashes[idxMaster].m_FileHash;
 			FileRenderHelper( file.m_userID, rgch, ufile.m_path.String(), ufile.m_filename.String(), &file.m_FileHash, 0, pFileHashMaster );
@@ -908,7 +908,7 @@ int CPureFileTracker::ListAllTrackedFiles( bool bListAll, const char *pchFilenam
 		if ( count && ( bListAll || ( pchFilenameFind && Q_stristr( rgUnverifiedFiles[0].m_Filename, pchFilenameFind ) && rgUnverifiedFiles[0].m_nFileFraction >= nFileFractionMin && rgUnverifiedFiles[0].m_nFileFraction <= nFileFractionMax ) ) )
 		{
 			USERID_t useridFake = { 0, 0 };
-			FileRenderHelper( useridFake, "", rgUnverifiedFiles[0].m_PathID, rgUnverifiedFiles[0].m_Filename, &rgUnverifiedFiles[0].m_FileHash, rgUnverifiedFiles[0].m_nFileFraction, NULL );
+			FileRenderHelper( useridFake, "", rgUnverifiedFiles[0].m_PathID, rgUnverifiedFiles[0].m_Filename, &rgUnverifiedFiles[0].m_FileHash, rgUnverifiedFiles[0].m_nFileFraction, nullptr);
 			if ( rgUnverifiedFiles[0].m_FileHash.m_PackFileID )
 			{
 				g_pFileSystem->CheckVPKFileHash( rgUnverifiedFiles[0].m_FileHash.m_PackFileID, rgUnverifiedFiles[0].m_FileHash.m_nPackFileNumber, rgUnverifiedFiles[0].m_nFileFraction, rgUnverifiedFiles[0].m_FileHash.m_md5contents );
@@ -933,7 +933,7 @@ void CC_ListPureServerFiles(const CCommand &args)
 {
 	if ( !sv.IsDedicated() )
 		return;
-	g_PureFileTracker.ListUserFiles( args.ArgC() > 1 && (atoi(args[1]) > 0), NULL );
+	g_PureFileTracker.ListUserFiles( args.ArgC() > 1 && (atoi(args[1]) > 0), nullptr);
 }
 
 static ConCommand svpurelistuserfiles("sv_pure_listuserfiles", CC_ListPureServerFiles, "ListPureServerFiles");
@@ -958,7 +958,7 @@ void CC_PureServerListTrackedFiles(const CCommand &args)
 	int nFileFractionMax = args.ArgC() >= 4 ? Q_atoi(args[3]) : nFileFractionMin;
 	if ( nFileFractionMax < 0 ) 
 		nFileFractionMax = 0x7FFFFFFF;
-	g_PureFileTracker.ListAllTrackedFiles( args.ArgC() <= 1, args.ArgC() >= 2 ? args[1] : NULL, nFileFractionMin, nFileFractionMax );
+	g_PureFileTracker.ListAllTrackedFiles( args.ArgC() <= 1, args.ArgC() >= 2 ? args[1] : nullptr, nFileFractionMin, nFileFractionMax );
 }
 
 static ConCommand svpurelistfiles("sv_pure_listfiles", CC_PureServerListTrackedFiles, "ListPureServerFiles");

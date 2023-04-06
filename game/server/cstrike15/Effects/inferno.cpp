@@ -127,7 +127,7 @@ static bool BCheckFirePointInSmokeCloud( const Vector &vecFirePoint, const Vecto
 
 //------------------------------------------------------------------------------------------
 CInferno::CInferno() :
-	m_pWeaponInfo( NULL )
+	m_pWeaponInfo(nullptr)
 {
 	// Set max flames to default in case the user doesn't ask for
 	// more or less max flames for this inferno.
@@ -144,7 +144,7 @@ CInferno::~CInferno()
 	for ( int i = 0; i < m_fireCount; i++ )
 	{
 		delete m_fire[i];
-		m_fire[i] = NULL;
+		m_fire[i] = nullptr;
 	}
 
 	
@@ -184,12 +184,12 @@ void CInferno::Precache( void )
 	PrecacheScriptSound( "FireworksCrate.Start" );
 	PrecacheScriptSound( "FireworksCrate.Stop" );
 
-	if( GetParticleEffectName() != NULL )
+	if( GetParticleEffectName() != nullptr)
 	{
 		PrecacheParticleSystem( GetParticleEffectName() );
 	}
 
-	if( GetImpactParticleEffectName() != NULL )
+	if( GetImpactParticleEffectName() != nullptr)
 	{
 		PrecacheParticleSystem( GetImpactParticleEffectName() );
 	}
@@ -279,7 +279,7 @@ void CInferno::StartBurning( const Vector &pos, const Vector &normal, const Vect
 	QAngle splashangle;
 	VectorAngles( velocity, splashangle );
 
-	if( GetImpactParticleEffectName() != NULL )
+	if( GetImpactParticleEffectName() != nullptr)
 	{
 		DispatchParticleEffect( GetImpactParticleEffectName(), pos, splashangle );
 	}
@@ -291,7 +291,7 @@ void CInferno::StartBurning( const Vector &pos, const Vector &normal, const Vect
 	}
 	
 	// create the initial bonfire that begins to spread
-	if ( k_ECreateFireResult_OK == CreateFire( m_startPos, normal, NULL, initialDepth ) )
+	if ( k_ECreateFireResult_OK == CreateFire( m_startPos, normal, nullptr, initialDepth ) )
 	{
 		switch( GetInfernoType() )
 		{
@@ -410,7 +410,7 @@ void CInferno::Spread( const Vector &spreadVelocity )
 		{
 			Vector out;
 
-			if (fire->m_parent == NULL)
+			if (fire->m_parent == nullptr)
 			{
 				// initial fire spreads outward in a circle
 				float angle = random->RandomFloat( -3.14159f, 3.14159f );
@@ -459,7 +459,7 @@ void CInferno::Spread( const Vector &spreadVelocity )
 			endPos.z = fire->m_pos.z - maxDrop;
 
 			// put fire on the ground
-			UTIL_TraceLine( pos + Vector( 0, 0, 50.0f ), endPos, INFERNO_MASK_TO_GROUND, NULL, COLLISION_GROUP_NONE, &tr );
+			UTIL_TraceLine( pos + Vector( 0, 0, 50.0f ), endPos, INFERNO_MASK_TO_GROUND, nullptr, COLLISION_GROUP_NONE, &tr );
 			traceCount--;
 			if (!tr.DidHit())
 			{
@@ -545,7 +545,7 @@ CInferno::ECreateFireResult_t CInferno::CreateFire( const Vector &pos, const Vec
 		return k_ECreateFireResult_LimitExceeded;
 	}
 
-	if ( IsTouching( pos, pos, NULL ) )
+	if ( IsTouching( pos, pos, nullptr) )
 	{
 		// we already created a fire here
 		return k_ECreateFireResult_AlreadyOnFire;
@@ -577,7 +577,7 @@ CInferno::ECreateFireResult_t CInferno::CreateFire( const Vector &pos, const Vec
 		Vector fireHeight( 0, 0, 30.0f );
 
 		int mask = MASK_SOLID_BRUSHONLY | CONTENTS_SLIME | CONTENTS_WATER;
-		UTIL_TraceLine( pos + fireHeight, pos, mask, NULL, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceLine( pos + fireHeight, pos, mask, nullptr, COLLISION_GROUP_NONE, &tr );
 		if ( tr.allsolid )
 		{
 			return k_ECreateFireResult_AllSolid;
@@ -648,7 +648,7 @@ CInferno::ECreateFireResult_t CInferno::CreateFire( const Vector &pos, const Vec
 	if( GetInfernoType() == INFERNO_TYPE_FIRE || GetInfernoType() == INFERNO_TYPE_INCGREN_FIRE )
 	{
 		CSoundParameters params;
-		if ( GetParametersForSound( "Inferno.Fire.Ignite", params, NULL ) )
+		if ( GetParametersForSound( "Inferno.Fire.Ignite", params, nullptr) )
 		{
 			EmitSound_t ep( params );
 			ep.m_pOrigin = &fire->m_pos;
@@ -662,7 +662,7 @@ CInferno::ECreateFireResult_t CInferno::CreateFire( const Vector &pos, const Vec
 			trace_t trace;
 			const float dist = 100.0f;
 			Vector dir( 0, 0, -1 );
-			UTIL_TraceLine( fire->m_pos, fire->m_pos + dir * dist, MASK_OPAQUE, NULL, COLLISION_GROUP_NONE, &trace );
+			UTIL_TraceLine( fire->m_pos, fire->m_pos + dir * dist, MASK_OPAQUE, nullptr, COLLISION_GROUP_NONE, &trace );
 			UTIL_DecalTrace( &trace, "MolotovScorch" );
 		}
 	}
@@ -742,7 +742,7 @@ bool CInferno::CheckExpired()
 {
 	VPROF_BUDGET( "CInferno::CheckExpired (check lifetimes)", "Fire" );
 
-	bool bIsAttachedToMovingObject = GetParent() != NULL;
+	bool bIsAttachedToMovingObject = GetParent() != nullptr;
 	Vector vecInfernoOrigin = GetAbsOrigin();
 
 	// check lifetime of flames
@@ -893,7 +893,7 @@ void CInferno::InfernoThink( void )
 
 		for( int i=0; i<count; ++i )
 		{
-			if (list[i] == NULL || !list[i]->IsAlive() || list[i] == this)
+			if (list[i] == nullptr || !list[i]->IsAlive() || list[i] == this)
 				continue;
 
 			if (IsTouching( list[i], flameRadius, list[i]->IsPlayer() ))
@@ -1028,7 +1028,7 @@ bool CInferno::BShouldExtinguishSmokeGrenadeBounce( CBaseEntity *entity, Vector 
  */
 bool CInferno::IsTouching( CBaseEntity *entity, float radius, bool checkLOS ) const
 {
-	if ( entity != NULL )
+	if ( entity != nullptr)
 	{
 		for ( int i = 0; i < m_fireCount; i++ )
 		{
@@ -1134,7 +1134,7 @@ bool CInferno::IsTouching( const Vector &from, const Vector &to, Vector *where )
  */
 bool CInferno::IsTouching( const CNavArea *area ) const	
 {
-	if ( area != NULL )
+	if ( area != nullptr)
 	{
 		float radius = 2.0f * InfernoFire_HalfWidth;
 

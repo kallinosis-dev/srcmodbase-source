@@ -83,7 +83,7 @@ private:
 	public:
 		Page_t()
 		{
-			pPackedFontTextureCache = NULL;
+			pPackedFontTextureCache = nullptr;
 		}
 
 		short textureID[FONT_DRAW_TYPE_COUNT];

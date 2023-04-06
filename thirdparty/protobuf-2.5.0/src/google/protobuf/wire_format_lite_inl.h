@@ -271,7 +271,7 @@ inline bool WireFormatLite::ReadRepeatedFixedSizePrimitive(
     int num_read = 0;
     while (num_read < elements_available &&
            (buffer = io::CodedInputStream::ExpectTagFromArray(
-               buffer, tag)) != NULL) {
+               buffer, tag)) != nullptr) {
       buffer = ReadPrimitiveFromArray<CType, DeclaredType>(buffer, &value);
       values->AddAlreadyReserved(value);
       ++num_read;

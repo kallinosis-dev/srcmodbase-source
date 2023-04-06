@@ -26,10 +26,10 @@ struct BMPResAnimData_t
 
 	BMPResAnimData_t()
 	{
-		m_pszName = NULL;
-		m_pszSequence = NULL;
-		m_pszActivity = NULL;
-		m_pPoseParameters = NULL;
+		m_pszName = nullptr;
+		m_pszSequence = nullptr;
+		m_pszActivity = nullptr;
+		m_pPoseParameters = nullptr;
 		m_bDefault = false;
 	}
 
@@ -38,25 +38,25 @@ struct BMPResAnimData_t
 		if ( m_pszName && m_pszName[0] )
 		{
 			delete [] m_pszName;
-			m_pszName = NULL;
+			m_pszName = nullptr;
 		}
 
 		if ( m_pszSequence && m_pszSequence[0] )
 		{
 			delete [] m_pszSequence;
-			m_pszSequence = NULL;
+			m_pszSequence = nullptr;
 		}
 
 		if ( m_pszActivity && m_pszActivity[0] )
 		{
 			delete [] m_pszActivity;
-			m_pszActivity = NULL;
+			m_pszActivity = nullptr;
 		}
 
 		if ( m_pPoseParameters )
 		{
 			m_pPoseParameters->deleteThis();
-			m_pPoseParameters = NULL;
+			m_pPoseParameters = nullptr;
 		}
 	}
 };
@@ -68,7 +68,7 @@ struct BMPResAttachData_t
 
 	BMPResAttachData_t()
 	{
-		m_pszModelName = NULL;
+		m_pszModelName = nullptr;
 		m_nSkin = 0;
 	}
 
@@ -77,7 +77,7 @@ struct BMPResAttachData_t
 		if ( m_pszModelName && m_pszModelName[0] )
 		{
 			delete [] m_pszModelName;
-			m_pszModelName = NULL;
+			m_pszModelName = nullptr;
 		}
 	}
 };
@@ -104,16 +104,16 @@ struct BMPResData_t
 	{
 		m_flFOV = 0.0f;
 
-		m_pszModelName = NULL;
-		m_pszModelName_HWM = NULL;
-		m_pszVCD = NULL;
+		m_pszModelName = nullptr;
+		m_pszModelName_HWM = nullptr;
+		m_pszVCD = nullptr;
 		m_angModelPoseRot.Init();
 		m_vecOriginOffset.Init();
 		m_vecFramedOriginOffset.Init();
 		m_vecViewportOffset.Init();
 		m_nSkin = 0;
 		m_bUseSpotlight = false;
-		m_pszModelCameraAttachment = NULL;
+		m_pszModelCameraAttachment = nullptr;
 	}
 
 	~BMPResData_t()
@@ -121,25 +121,25 @@ struct BMPResData_t
 		if ( m_pszModelCameraAttachment && m_pszModelCameraAttachment[0] )
 		{
 			delete [] m_pszModelCameraAttachment;
-			m_pszModelCameraAttachment = NULL;
+			m_pszModelCameraAttachment = nullptr;
 		}
 
 		if ( m_pszModelName && m_pszModelName[0] )
 		{
 			delete [] m_pszModelName;
-			m_pszModelName = NULL;
+			m_pszModelName = nullptr;
 		}
 
 		if ( m_pszModelName_HWM && m_pszModelName_HWM[0] )
 		{
 			delete [] m_pszModelName_HWM;
-			m_pszModelName_HWM = NULL;
+			m_pszModelName_HWM = nullptr;
 		}
 
 		if ( m_pszVCD && m_pszVCD[0] )
 		{
 			delete [] m_pszVCD;
-			m_pszVCD = NULL;
+			m_pszVCD = nullptr;
 		}
 
 		m_aAnimations.Purge();
@@ -168,8 +168,8 @@ public:
 	virtual ~CBaseModelPanel();
 
 	// Overridden mdlpanel.h
-	virtual void SetMDL( MDLHandle_t handle, CCustomMaterialOwner* pCustomMaterialOwner = NULL, void *pProxyData = NULL );
-	virtual void SetMDL( const char *pMDLName, CCustomMaterialOwner* pCustomMaterialOwner = NULL, void *pProxyData = NULL );
+	virtual void SetMDL( MDLHandle_t handle, CCustomMaterialOwner* pCustomMaterialOwner = nullptr, void *pProxyData = nullptr);
+	virtual void SetMDL( const char *pMDLName, CCustomMaterialOwner* pCustomMaterialOwner = nullptr, void *pProxyData = nullptr);
 
 	void SetMdlSkinIndex( int nNewSkinIndex );
 

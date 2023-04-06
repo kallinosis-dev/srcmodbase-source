@@ -38,7 +38,7 @@ using namespace vgui;
 
 struct PanelItem_t
 {
-	PanelItem_t() : m_EditLabel(NULL) {}
+	PanelItem_t() : m_EditLabel(nullptr) {}
 
 	Panel *m_EditLabel;
 	TextEntry *m_EditPanel;
@@ -116,13 +116,13 @@ class BuildModeLocalizedStringEditDialog : public Frame
 public:
 
 #pragma warning( disable : 4355 )
-	BuildModeLocalizedStringEditDialog() : Frame(this, NULL)
+	BuildModeLocalizedStringEditDialog() : Frame(this, nullptr)
 	{
-		m_pTokenEntry = new TextEntry(this, NULL);
-		m_pValueEntry = new TextEntry(this, NULL);
-		m_pFileCombo = new ComboBox(this, NULL, 12, false);
-		m_pOKButton = new Button(this, NULL, "OK");
-		m_pCancelButton = new Button(this, NULL, "Cancel");
+		m_pTokenEntry = new TextEntry(this, nullptr);
+		m_pValueEntry = new TextEntry(this, nullptr);
+		m_pFileCombo = new ComboBox(this, nullptr, 12, false);
+		m_pOKButton = new Button(this, nullptr, "OK");
+		m_pCancelButton = new Button(this, nullptr, "Cancel");
 
 		m_pCancelButton->SetCommand("Close");
 		m_pOKButton->SetCommand("OK");
@@ -130,7 +130,7 @@ public:
 		// add the files to the combo
 		for (int i = 0; i < g_pVGuiLocalize->GetLocalizationFileCount(); i++)
 		{
-			m_pFileCombo->AddItem(g_pVGuiLocalize->GetLocalizationFileName(i), NULL);
+			m_pFileCombo->AddItem(g_pVGuiLocalize->GetLocalizationFileName(i), nullptr);
 		}
 	}
 #pragma warning( default : 4355 )
@@ -233,14 +233,14 @@ BuildModeDialog::BuildModeDialog(BuildGroup *buildGroup) : Frame(buildGroup->Get
 {
 	SetMinimumSize(300, 256);
 	SetSize(300, 420);
-	m_pCurrentPanel = NULL;
-	m_pEditableParents = NULL;
-	m_pEditableChildren = NULL;
-	m_pNextChild = NULL;
-	m_pPrevChild = NULL;
+	m_pCurrentPanel = nullptr;
+	m_pEditableParents = nullptr;
+	m_pEditableChildren = nullptr;
+	m_pNextChild = nullptr;
+	m_pPrevChild = nullptr;
 	m_pBuildGroup = buildGroup;
-	_undoSettings = NULL;
-	_copySettings = NULL;
+	_undoSettings = nullptr;
+	_copySettings = nullptr;
 	_autoUpdate = false;
 	MakePopup();
 	SetTitle("VGUI Build Mode Editor", true);
@@ -352,7 +352,7 @@ void BuildModeDialog::CreateControls()
 	m_pFileSelectionCombo = new ComboBox(this, "FileSelectionCombo", 10, false);
 	for ( i = 0; i < m_pBuildGroup->GetRegisteredControlSettingsFileCount(); i++)
 	{
-		m_pFileSelectionCombo->AddItem(m_pBuildGroup->GetRegisteredControlSettingsFileByIndex(i), NULL);
+		m_pFileSelectionCombo->AddItem(m_pBuildGroup->GetRegisteredControlSettingsFileByIndex(i), nullptr);
 	}
 	if (m_pFileSelectionCombo->GetItemCount() < 2)
 	{
@@ -367,15 +367,15 @@ void BuildModeDialog::CreateControls()
 	m_pStatusLabel->SetTall( buttonH );
 	m_pDivider = new Divider(this, "Divider");
 	// drop-down combo box for adding new controls
-	m_pAddNewControlCombo = new ComboBox(this, NULL, 30, false);
+	m_pAddNewControlCombo = new ComboBox(this, nullptr, 30, false);
 	m_pAddNewControlCombo->SetSize(116, buttonH);
 	m_pAddNewControlCombo->SetOpenDirection(Menu::DOWN);
 
-	m_pEditableParents = new CBuildModeNavCombo( this, NULL, 15, false, true, m_pBuildGroup->GetContextPanel() );
+	m_pEditableParents = new CBuildModeNavCombo( this, nullptr, 15, false, true, m_pBuildGroup->GetContextPanel() );
 	m_pEditableParents->SetSize(116, buttonH);
 	m_pEditableParents->SetOpenDirection(Menu::DOWN);
 
-	m_pEditableChildren = new CBuildModeNavCombo( this, NULL, 15, false, false, m_pBuildGroup->GetContextPanel() );
+	m_pEditableChildren = new CBuildModeNavCombo( this, nullptr, 15, false, false, m_pBuildGroup->GetContextPanel() );
 	m_pEditableChildren->SetSize(116, buttonH);
 	m_pEditableChildren->SetOpenDirection(Menu::DOWN);
 
@@ -387,7 +387,7 @@ void BuildModeDialog::CreateControls()
 
 	// controls that can be added
 	// this list comes from controls EditablePanel can create by name.
-	int defaultItem = m_pAddNewControlCombo->AddItem("None", NULL);
+	int defaultItem = m_pAddNewControlCombo->AddItem("None", nullptr);
 
 	CUtlVector< char const * >	names;
 	CBuildFactoryHelper::GetFactoryNames( names );
@@ -401,7 +401,7 @@ void BuildModeDialog::CreateControls()
 
 	for ( i = sorted.FirstInorder(); i != sorted.InvalidIndex(); i = sorted.NextInorder( i ) )
 	{
-		m_pAddNewControlCombo->AddItem( sorted[ i ], NULL );
+		m_pAddNewControlCombo->AddItem( sorted[ i ], nullptr);
 	}
 
 	m_pAddNewControlCombo->ActivateItem(defaultItem);
@@ -440,7 +440,7 @@ void BuildModeDialog::CreateControls()
 		Menu *menu = new Menu(m_pVarsButton, "VarsMenu");
 
 		// set all the variables to be copied to the clipboard when selected
-		for (KeyValues *kv = vars->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+		for (KeyValues *kv = vars->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 		{
 			char buf[32];
 			_snprintf(buf, sizeof(buf), "%%%s%%", kv->GetName());
@@ -697,56 +697,56 @@ void BuildModeDialog::SetActiveControl(Panel *controlToEdit)
 		int itemHeight = 18;
 
 		// build a control & label
-		Label *label = new Label(this, NULL, fieldName);
+		Label *label = new Label(this, nullptr, fieldName);
 		label->SetSize(96, itemHeight);
 		label->SetContentAlignment(Label::a_east);
 
-		TextEntry *edit = NULL;
-		ComboBox *editCombo = NULL;
-		Button *editButton = NULL;
+		TextEntry *edit = nullptr;
+		ComboBox *editCombo = nullptr;
+		Button *editButton = nullptr;
 		if (datat == TYPE_ALIGNMENT)
 		{
 			// drop-down combo box
-			editCombo = new ComboBox(this, NULL, 9, false);
-			editCombo->AddItem("north-west", NULL);
-			editCombo->AddItem("north", NULL);
-			editCombo->AddItem("north-east", NULL);
-			editCombo->AddItem("west", NULL);
-			editCombo->AddItem("center", NULL);
-			editCombo->AddItem("east", NULL);
-			editCombo->AddItem("south-west", NULL);
-			editCombo->AddItem("south", NULL);
-			editCombo->AddItem("south-east", NULL);
+			editCombo = new ComboBox(this, nullptr, 9, false);
+			editCombo->AddItem("north-west", nullptr);
+			editCombo->AddItem("north", nullptr);
+			editCombo->AddItem("north-east", nullptr);
+			editCombo->AddItem("west", nullptr);
+			editCombo->AddItem("center", nullptr);
+			editCombo->AddItem("east", nullptr);
+			editCombo->AddItem("south-west", nullptr);
+			editCombo->AddItem("south", nullptr);
+			editCombo->AddItem("south-east", nullptr);
 		
 			edit = editCombo;
 		}
 		else if (datat == TYPE_AUTORESIZE)
 		{
 			// drop-down combo box
-			editCombo = new ComboBox(this, NULL, 4, false);
-			editCombo->AddItem( "0 - no auto-resize", NULL);
-			editCombo->AddItem( "1 - resize right", NULL);
-			editCombo->AddItem( "2 - resize down", NULL);
-			editCombo->AddItem( "3 - down & right", NULL);
+			editCombo = new ComboBox(this, nullptr, 4, false);
+			editCombo->AddItem( "0 - no auto-resize", nullptr);
+			editCombo->AddItem( "1 - resize right", nullptr);
+			editCombo->AddItem( "2 - resize down", nullptr);
+			editCombo->AddItem( "3 - down & right", nullptr);
 		
 			edit = editCombo;
 		}
 		else if (datat == TYPE_CORNER)
 		{
 			// drop-down combo box
-			editCombo = new ComboBox(this, NULL, 5, false);
-			editCombo->AddItem("0 - top-left", NULL);
-			editCombo->AddItem("1 - top-right", NULL);
-			editCombo->AddItem("2 - bottom-left", NULL);
-			editCombo->AddItem("3 - bottom-right", NULL);
-			editCombo->AddItem("4 - no pin", NULL);
+			editCombo = new ComboBox(this, nullptr, 5, false);
+			editCombo->AddItem("0 - top-left", nullptr);
+			editCombo->AddItem("1 - top-right", nullptr);
+			editCombo->AddItem("2 - bottom-left", nullptr);
+			editCombo->AddItem("3 - bottom-right", nullptr);
+			editCombo->AddItem("4 - no pin", nullptr);
 			editCombo->ActivateItemByRow( 4 );
 		
 			edit = editCombo;
 		}
 		else if (datat == TYPE_LOCALIZEDSTRING)
 		{
-			editButton = new Button(this, NULL, "...");
+			editButton = new Button(this, nullptr, "...");
 			editButton->SetParent(this);
 			editButton->AddActionSignalTarget(this);
 			editButton->SetTabPosition(tabPosition++);
@@ -756,7 +756,7 @@ void BuildModeDialog::SetActiveControl(Panel *controlToEdit)
 		else
 		{
 			// normal string edit
-			edit = new CSmallTextEntry(this, NULL);
+			edit = new CSmallTextEntry(this, nullptr);
 		}
 
 		if (edit)
@@ -941,7 +941,7 @@ void BuildModeDialog::OnDeletePanel()
 	SetActiveControl(m_pBuildGroup->GetCurrentPanel());
 
 	_undoSettings->deleteThis();
-	_undoSettings = NULL;
+	_undoSettings = nullptr;
 	m_pSaveButton->SetEnabled(true);
 }
 
@@ -1037,14 +1037,14 @@ void BuildModeDialog::StoreUndoSettings()
 	{
 		if (_undoSettings)
 			_undoSettings->deleteThis();
-		_undoSettings = NULL;
+		_undoSettings = nullptr;
 		return; 
 	}
 
 	if (_undoSettings)
 	{
 		_undoSettings->deleteThis();
-		_undoSettings = NULL;
+		_undoSettings = nullptr;
 	}
 
 	_undoSettings = StoreSettings();
@@ -1061,7 +1061,7 @@ void BuildModeDialog::DoUndo()
 		m_pCurrentPanel->ApplySettings( _undoSettings );
 		UpdateControlData(m_pCurrentPanel);
 		_undoSettings->deleteThis();
-		_undoSettings = NULL;
+		_undoSettings = nullptr;
 	}
 
 	m_pSaveButton->SetEnabled(true);
@@ -1075,7 +1075,7 @@ void BuildModeDialog::DoCopy()
 	if (_copySettings)
 	{
 		_copySettings->deleteThis();
-		_copySettings = NULL;
+		_copySettings = nullptr;
 	}
 
 	_copySettings = StoreSettings();
@@ -1172,7 +1172,7 @@ void BuildModeDialog::OnTextChanged( Panel *panel )
 		if (stricmp(newFile, m_pBuildGroup->GetResourceName()) != 0)
 		{
 			// file has changed, reload
-			SetActiveControl(NULL);
+			SetActiveControl(nullptr);
 			m_pBuildGroup->ChangeControlSettingsFile(newFile);
 		}
 		return;
@@ -1393,7 +1393,7 @@ void BuildModeDialog::OnChangeChild( int direction )
 
 	if ( !current || current == context )
 	{
-		current = NULL;
+		current = nullptr;
 		if ( context->GetChildCount() > 0 )
 		{
 			current = context->GetChild( 0 );

@@ -56,7 +56,7 @@ public:
 	{ 
 		if ( lhs == rhs	)
 			return true;
-		else if ( NULL == lhs || NULL == rhs )
+		else if (nullptr == lhs || nullptr == rhs )
 			return false;
 		else
 			return ( *lhs == *rhs );	

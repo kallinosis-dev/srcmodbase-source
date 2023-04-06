@@ -26,7 +26,7 @@ CFXStaticLine::CFXStaticLine( const char *name, const Vector& start, const Vecto
 : CClientSideEffect( name )
 {
 	assert( materials );
-	if ( materials == NULL )
+	if ( materials == nullptr)
 		return;
 
 	// Create a material...
@@ -70,7 +70,7 @@ void CFXStaticLine::Draw( double frametime )
 	CMatRenderContextPtr pRenderContext( materials );
 
 	//Bind the material
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, m_pMaterial );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, m_pMaterial );
 	CMeshBuilder meshBuilder;
 
 	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 1 );
@@ -148,10 +148,10 @@ bool CFXStaticLine::IsActive( void )
 void CFXStaticLine::Destroy( void )
 {
 	//Release the material
-	if ( m_pMaterial != NULL )
+	if ( m_pMaterial != nullptr)
 	{
 		m_pMaterial->DecrementReferenceCount();
-		m_pMaterial = NULL;
+		m_pMaterial = nullptr;
 	}
 }
 

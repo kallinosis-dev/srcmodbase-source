@@ -121,7 +121,7 @@ public:
 
     IVP_RETURN_TYPE normize();		// normize vector (-> real_length == 1.0f)
     IVP_RETURN_TYPE fast_normize();	// normize vector (0.1f% error)
-    void print(const char *comment = 0) const;
+    void print(const char *comment = nullptr) const;
 
     IVP_U_Float_Point(){;};
     IVP_U_Float_Point(IVP_DOUBLE x, IVP_DOUBLE y,IVP_DOUBLE z){ k[0] = (IVP_FLOAT)x; k[1] = (IVP_FLOAT)y; k[2] = (IVP_FLOAT)z;};
@@ -260,7 +260,7 @@ public:
     void line_min(const IVP_U_Point *p); // sets this to linewise min
     void line_max(const IVP_U_Point *p); // sets this to linewise max
     
-    void print(const char *comment = 0);
+    void print(const char *comment = nullptr);
 
     IVP_U_Point(){;};
     inline IVP_U_Point(const IVP_U_Float_Point &p);
@@ -559,8 +559,8 @@ public:
     
     void set_matrix(const IVP_U_Matrix *mat) { *this=*mat; }
     
-    void print(const char *headline = 0);
-    IVP_ERROR_STRING write_to_file(FILE *fp,const char *key = 0);
+    void print(const char *headline = nullptr);
+    IVP_ERROR_STRING write_to_file(FILE *fp,const char *key = nullptr);
     IVP_ERROR_STRING read_from_file(FILE *fp);
 
 	void byte_swap() { vv.byte_swap(); IVP_U_Matrix3::byte_swap(); }

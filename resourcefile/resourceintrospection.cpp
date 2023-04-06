@@ -34,7 +34,7 @@ CResourceIntrospection* CResourceIntrospection::AddToStream( CResourceStream *pS
 {
 	CResourceIntrospection* pResult = Resource_AllocateBlock< CResourceIntrospection >( pStream, pHeader, nBlockIndex );
 	pResult->m_nVersion = RESOURCE_INTROSPECTION_VERSION;
-	pResult->m_Metadata = NULL;
+	pResult->m_Metadata = nullptr;
 	return pResult;
 }
 
@@ -62,7 +62,7 @@ const CResourceStructIntrospection* CResourceIntrospection::FindStructIntrospect
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	/*
@@ -96,7 +96,7 @@ const CResourceStructIntrospection* CResourceIntrospection::FindPermanentStructI
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	/*
@@ -149,7 +149,7 @@ const CResourceStructIntrospection* CResourceIntrospection::FindStructIntrospect
 		if ( m_StructIntrospection[i].m_nId == id )
 			return &m_StructIntrospection[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 const CResourceStructIntrospection* CResourceIntrospection::FindStructIntrospection( const char *pStructName ) const
@@ -188,7 +188,7 @@ const CResourceEnumIntrospection* CResourceIntrospection::FindEnumIntrospection(
 		if ( m_EnumIntrospection[i].m_nId == id )
 			return &m_EnumIntrospection[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 const CResourceEnumIntrospection* CResourceIntrospection::FindEnumIntrospection( const char *pEnumName ) const
@@ -245,7 +245,7 @@ IntrospectionCompatibilityType_t CResourceIntrospection::CalculateCompatibility(
 		const CResourceStructIntrospection *pMine = &m_StructIntrospection[i];
 		const CResourceStructIntrospection *pGlobal = g_pResourceSystem->FindStructIntrospection( pMine->m_nId );
 
-		if ( pGlobal == NULL )
+		if ( pGlobal == nullptr)
 		{
 			Warning( "Resource introspection block contained a struct '%s' which doesn't exist anymore.\n", pMine->m_pName.GetPtr() );
 			return INTROSPECTION_COMPAT_REQUIRES_CONVERSION;
@@ -322,7 +322,7 @@ const CResourceFieldIntrospection* CResourceStructIntrospection::FindField( cons
 		if ( !Q_stricmp( m_FieldIntrospection[i].m_pFieldName, pFieldName ) )
 			return &m_FieldIntrospection[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -366,7 +366,7 @@ bool CResourceStructIntrospection::HasVTable() const
 
 void CResourceStructIntrospection::SetStructInfo( CResourceStream *pStream, const CResourceStructIntrospection *src )
 {
-	SetStructInfo( pStream, src->m_pName, NULL, NULL, src->m_nMemorySize, src->m_nDiskSize, src->m_nAlignment, src->m_pDmeElementType, (const char*)src->m_ResourceBlockType, src->m_pResourceType, src->HasVTable() );
+	SetStructInfo( pStream, src->m_pName, nullptr, nullptr, src->m_nMemorySize, src->m_nDiskSize, src->m_nAlignment, src->m_pDmeElementType, (const char*)src->m_ResourceBlockType, src->m_pResourceType, src->HasVTable() );
 	m_nBaseStructId = src->m_nBaseStructId;
 	m_nUncacheableStructId = src->m_nUncacheableStructId;
 }
@@ -506,9 +506,9 @@ int CResourceFieldIntrospection::GetElementMemorySize( int nTypeChainIndex, cons
 		// a struct must be at the end of a type chain
 		Assert( nTypeChainIndex == m_nTypeChainCount - 1 );
 
-		const CResourceStructIntrospection* pStructIntro = NULL;
+		const CResourceStructIntrospection* pStructIntro = nullptr;
 
-		if ( pIntroDct != NULL )
+		if ( pIntroDct != nullptr)
 		{
 			pStructIntro = pIntroDct->FindStructIntrospection( (ResourceStructureId_t)GetRootTypeData() );
 		}
@@ -536,9 +536,9 @@ int CResourceFieldIntrospection::GetElementDiskSize( int nTypeChainIndex, const 
 		// a struct must be at the end of a type chain
 		Assert( nTypeChainIndex == m_nTypeChainCount - 1 );
 
-		const CResourceStructIntrospection* pStructIntro = NULL;
+		const CResourceStructIntrospection* pStructIntro = nullptr;
 
-		if ( pIntroDct != NULL )
+		if ( pIntroDct != nullptr)
 		{
 			pStructIntro = pIntroDct->FindStructIntrospection( (ResourceStructureId_t)GetRootTypeData() );
 		}
@@ -579,9 +579,9 @@ int CResourceFieldIntrospection::GetElementAlignment( int nTypeChainIndex, const
 		// a struct must be at the end of a type chain
 		Assert( nTypeChainIndex == m_nTypeChainCount - 1 );
 
-		const CResourceStructIntrospection* pStructIntro = NULL;
+		const CResourceStructIntrospection* pStructIntro = nullptr;
 
-		if ( pIntroDct != NULL )
+		if ( pIntroDct != nullptr)
 		{
 			pStructIntro = pIntroDct->FindStructIntrospection( (ResourceStructureId_t)GetRootTypeData() );
 		}
@@ -632,7 +632,7 @@ const CResourceEnumValueIntrospection* CResourceEnumIntrospection::FindEnumValue
 		if ( !Q_stricmp( m_EnumValueIntrospection[i].m_pEnumValueName, pEnumValueName ) )
 			return &m_EnumValueIntrospection[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 const char *CResourceEnumIntrospection::FindEnumString( int nValue ) const
@@ -643,7 +643,7 @@ const char *CResourceEnumIntrospection::FindEnumString( int nValue ) const
 		if ( m_EnumValueIntrospection[i].m_nEnumValue == nValue )
 			return m_EnumValueIntrospection[i].m_pEnumValueName;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CResourceEnumIntrospection::SetEnumName( CResourceStream *pStream, const char *pEnumName )
@@ -737,7 +737,7 @@ void CResourceIntrospectionTraversal::TraverseRootField( const void *pField, con
 		return;
 	}
 
-	if ( pField == NULL )
+	if ( pField == nullptr)
 	{
 		return;
 	}
@@ -749,7 +749,7 @@ void CResourceIntrospectionTraversal::TraverseRootField( const void *pField, con
 	{
 		case RESOURCE_FIELD_TYPE_STRUCT:
 			{
-				const CResourceStructIntrospection* pStructIntro = NULL;
+				const CResourceStructIntrospection* pStructIntro = nullptr;
 				
 				if ( m_pResIntro )
 				{
@@ -765,7 +765,7 @@ void CResourceIntrospectionTraversal::TraverseRootField( const void *pField, con
 			}
 		case RESOURCE_FIELD_TYPE_ENUM:
 			{
-				const CResourceEnumIntrospection* pEnumIntro = NULL;
+				const CResourceEnumIntrospection* pEnumIntro = nullptr;
 
 				if ( m_pResIntro )
 				{

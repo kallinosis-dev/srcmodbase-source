@@ -580,7 +580,7 @@ void RunUndoTests( CUtlVector< DmElementHandle_t >& handles, CDmElement *pTest, 
 	CDmElement *pElement = pTest;
 	CDmElement *pElement2 = GetElement<CDmElement>( handles[ 1 ] );
 
-	RunSingleSetAttributeUndoTest( pTest, pOriginal, pElement, "element_test", (CDmElement *)NULL );
+	RunSingleSetAttributeUndoTest( pTest, pOriginal, pElement, "element_test", (CDmElement *)nullptr);
 	RunSingleSetAttributeUndoTest( pTest, pOriginal, pElement, "int_test", 55 );
 	RunSingleSetAttributeUndoTest( pTest, pOriginal, pElement, "float_test", 55.0f );
 	RunSingleSetAttributeUndoTest( pTest, pOriginal, pElement, "bool_test", false );
@@ -682,7 +682,7 @@ void RunUndoTestCreateElement()
 {
 	DmFileId_t fileid = g_pDataModel->FindOrCreateFileId( "<RunUndoTestCreateElement>" );
 
-	CDmElement *element = NULL;
+	CDmElement *element = nullptr;
 	{
 		CUndoScopeGuard guard( "create" );
 		element = CreateElement< CDmElement >( "test", fileid );
@@ -799,7 +799,7 @@ DEFINE_TESTCASE_NOSUITE( DmxExternalAttributeTest )
 
 	DmFileId_t fileid = g_pDataModel->FindOrCreateFileId( "<DmxExternalAttributeTest>" );
 
-	CDmeExternal *pOriginal = 0;
+	CDmeExternal *pOriginal = nullptr;
 
 #ifdef _DEBUG
 	int nStartingCount = g_pDataModel->GetAllocatedElementCount();
@@ -1005,7 +1005,7 @@ DEFINE_TESTCASE_NOSUITE( DmxReferenceCountingTest )
 		g_pDataModel->DestroyElement( hChild3 ); // grandchild3 is unref'ed to 0
 
 		CDmrElementArray<> children5( hChild5, "children" );
-		children5.Set( 0, NULL ); // grandchild5 is unref'ed to 0
+		children5.Set( 0, nullptr); // grandchild5 is unref'ed to 0
 
 		hStrong6 = DMELEMENT_HANDLE_INVALID; // grandchild6 is unref'ed to 0
 	}

@@ -24,7 +24,7 @@ IVP_Constraint_Car_Object::IVP_Constraint_Car_Object( IVP_Constraint_Solver_Car 
 {
     this->real_object = i_real_obj_app;
     this->solver_car = solver_car_;
-    this->fix_wheel_constraint = NULL;
+    this->fix_wheel_constraint = nullptr;
 
     i_real_obj_app->get_core()->car_wheel = this;
 
@@ -69,7 +69,7 @@ IVP_Constraint_Car_Object::IVP_Constraint_Car_Object( IVP_Constraint_Solver_Car 
 //-----------------------------------------------------------------------------
 IVP_Constraint_Car_Object::~IVP_Constraint_Car_Object()
 {
-    real_object->get_core()->car_wheel = NULL;
+    real_object->get_core()->car_wheel = nullptr;
 }
 
 //=============================================================================
@@ -133,14 +133,14 @@ IVP_RETURN_TYPE IVP_Constraint_Solver_Car::init_constraint_system( IVP_Environme
 { 
     environment = env;
 
-    body_object = new IVP_Constraint_Car_Object( this, body, 0, NULL );
+    body_object = new IVP_Constraint_Car_Object( this, body, nullptr, nullptr);
     cores_of_constraint_system.add( body->get_core() );
 
     for ( int i = 0; i < wheels.len(); i++ )
 	{
 		wheel_objects.add( new IVP_Constraint_Car_Object( this, wheels.element_at(i), body, p_Bos.element_at( i ) ) );
 		cores_of_constraint_system.add( wheels.element_at(i)->get_core() );
-		c_local_ballsocket[i] = NULL;
+		c_local_ballsocket[i] = nullptr;
     }
 
     env->get_controller_manager()->announce_controller_to_environment( this );
@@ -209,7 +209,7 @@ void IVP_Constraint_Solver_Car::do_simulation_controller_rotation( IVP_Event_Sim
 			m_world_f_A->get_col( IVP_COORDINATE_INDEX( z_idx ), &z_rot_axis_world2 );
 			
 			IVP_Solver_Core_Reaction tcb;
-			tcb.init_reaction_solver_rotation_ws( core_B, core_A, &y_rot_axis_world2, &z_rot_axis_world2, NULL );
+			tcb.init_reaction_solver_rotation_ws( core_B, core_A, &y_rot_axis_world2, &z_rot_axis_world2, nullptr);
 			
 			//// invert matrix
 			IVP_DOUBLE ia1, ia2, ib1, ib2;
@@ -348,7 +348,7 @@ void IVP_Constraint_Solver_Car::do_simulation_controller( IVP_Event_Sim *es,
 	      int app_nr;
 	      for(app_nr=0; app_nr< wheel_objects.len(); app_nr++){
 		P_DELETE(this->c_local_ballsocket[app_nr]);
-		this->c_local_ballsocket[app_nr] = NULL;
+		this->c_local_ballsocket[app_nr] = nullptr;
 	      }
 	      this->local_translation_in_use = IVP_FALSE;
 	      IVP_IF(1){

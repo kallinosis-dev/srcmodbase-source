@@ -77,7 +77,7 @@ static BOOL CALLBACK SoundLookupDialogProc( HWND hwndDlg, UINT uMsg, WPARAM wPar
 				int selindex = SendMessage( GetDlgItem( hwndDlg, IDC_SOUNDENTRYLIST ), LB_GETCURSEL, 0, 0 );
 				if ( selindex == LB_ERR )
 				{
-					mxMessageBox( NULL, "You must select an entry from the list", g_appTitle, MB_OK );
+					mxMessageBox(nullptr, "You must select an entry from the list", g_appTitle, MB_OK );
 					return TRUE;
 				}
 

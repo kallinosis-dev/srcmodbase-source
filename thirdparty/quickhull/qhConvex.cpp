@@ -288,7 +288,7 @@ void qhConvex::Construct( int VertexCount, const qhVector3* VertexBase, qhReal R
 	QH_ASSERT( mIterations.Size() == 0 );
 
 	// Validate passed arguments
-	if ( VertexCount < 4 || VertexBase == NULL )
+	if ( VertexCount < 4 || VertexBase == nullptr)
 	{
 		return;
 	}
@@ -311,7 +311,7 @@ void qhConvex::Construct( int VertexCount, const qhVector3* VertexBase, qhReal R
 
 	// Construct hull
 	qhVertex* Vertex = NextConflictVertex();
-	while ( Vertex != NULL )
+	while ( Vertex != nullptr)
 		{
 		AddVertexToHull( Vertex );
 		Vertex = NextConflictVertex();
@@ -331,7 +331,7 @@ void qhConvex::Construct( int PlaneCount, const qhPlane* PlaneBase, qhReal Relat
 	QH_ASSERT( mIterations.Size() == 0 );
 
 	// Validate passed arguments
-	if ( PlaneCount < 4 || PlaneBase == NULL )
+	if ( PlaneCount < 4 || PlaneBase == nullptr)
 		{
 		return;
 		}
@@ -646,13 +646,13 @@ qhVertex* qhConvex::CreateVertex( const qhVector3& Position )
 	qhVertex* Vertex = (qhVertex*)qhAlloc( sizeof( qhVertex ) );
 	new ( Vertex ) qhVertex;
 
-	Vertex->Prev = NULL;
-	Vertex->Next = NULL;
+	Vertex->Prev = nullptr;
+	Vertex->Next = nullptr;
 
 	Vertex->Mark = QH_MARK_CONFIRM;
 	Vertex->Position = Position;
-	Vertex->Edge = NULL;
-	Vertex->ConflictFace = NULL;
+	Vertex->Edge = nullptr;
+	Vertex->ConflictFace = nullptr;
 	
 	return Vertex;
 	}
@@ -683,8 +683,8 @@ qhFace* qhConvex::CreateFace( qhVertex* Vertex1, qhVertex* Vertex2, qhVertex* Ve
 	Plane.Normalize();
 
 	// Initialize face
-	Face->Prev = NULL;
-	Face->Next = NULL;
+	Face->Prev = nullptr;
+	Face->Next = nullptr;
 
 	Face->Edge = Edge1;
 
@@ -699,19 +699,19 @@ qhFace* qhConvex::CreateFace( qhVertex* Vertex1, qhVertex* Vertex2, qhVertex* Ve
 	Edge1->Next = Edge2;
 	Edge1->Origin = Vertex1;
 	Edge1->Face = Face;
-	Edge1->Twin = NULL;
+	Edge1->Twin = nullptr;
 
 	Edge2->Prev = Edge1;
 	Edge2->Next = Edge3;
 	Edge2->Origin = Vertex2;
 	Edge2->Face = Face;
-	Edge2->Twin = NULL;
+	Edge2->Twin = nullptr;
 
 	Edge3->Prev = Edge2;
 	Edge3->Next = Edge1;
 	Edge3->Origin = Vertex3;
 	Edge3->Face = Face;
-	Edge3->Twin = NULL;
+	Edge3->Twin = nullptr;
 
 	return Face;
 	}
@@ -724,7 +724,7 @@ void qhConvex::DestroyFace( qhFace* Face )
 	
 	// Edge can be null if face was merged
 	qhHalfEdge* Edge = Face->Edge;
-	if ( Edge != NULL )
+	if ( Edge != nullptr)
 		{
 		do 
 			{
@@ -844,7 +844,7 @@ bool qhConvex::BuildInitialHull( int VertexCount, const qhVector3* VertexBase )
 		const qhVector3& Point = VertexBase[ i ];
 
 		qhReal MaxDistance = mMinOutside;
-		qhFace* MaxFace = NULL;
+		qhFace* MaxFace = nullptr;
 
 		for ( qhFace* Face = mFaceList.Begin(); Face != mFaceList.End(); Face = Face->Next )
 			{
@@ -856,7 +856,7 @@ bool qhConvex::BuildInitialHull( int VertexCount, const qhVector3* VertexBase )
 				}
 			}
 
-		if ( MaxFace != NULL )
+		if ( MaxFace != nullptr)
 			{
 			qhVertex* Vertex = CreateVertex( Point );
 
@@ -872,7 +872,7 @@ bool qhConvex::BuildInitialHull( int VertexCount, const qhVector3* VertexBase )
 //--------------------------------------------------------------------------------------------------
 qhVertex* qhConvex::NextConflictVertex( void )
 	{
-	qhVertex* MaxVertex = NULL;
+	qhVertex* MaxVertex = nullptr;
 	qhReal MaxDistance = mMinOutside;
 
 	for ( qhFace* Face = mFaceList.Begin(); Face != mFaceList.End(); Face = Face->Next )
@@ -902,7 +902,7 @@ void qhConvex::AddVertexToHull( qhVertex* Vertex )
 	{
 	// Remove vertex from conflict face
 	qhFace* Face = Vertex->ConflictFace;
-	Vertex->ConflictFace = NULL;
+	Vertex->ConflictFace = nullptr;
 	Face->ConflictList.Remove( Vertex );
 	mVertexList.PushBack( Vertex );
 
@@ -979,7 +979,7 @@ void qhConvex::CleanHull( void )
 			{
 			Edge->Origin->Mark = QH_MARK_VISIBLE;
 
-			if ( Edge->Origin->Edge == NULL )
+			if ( Edge->Origin->Edge == nullptr)
 				{
 				Edge->Origin->Edge = Edge;
 				}
@@ -1037,7 +1037,7 @@ void qhConvex::BuildHorizon( qhArray< qhHalfEdge* >& Horizon, qhVertex* Apex, qh
 		qhVertex* Orphan = Vertex;
 		Vertex = Vertex->Next;
 
-		Orphan->ConflictFace = NULL;
+		Orphan->ConflictFace = nullptr;
 		Seed->ConflictList.Remove( Orphan );
 
 		mOrphanedList.PushBack( Orphan );
@@ -1045,7 +1045,7 @@ void qhConvex::BuildHorizon( qhArray< qhHalfEdge* >& Horizon, qhVertex* Apex, qh
 	QH_ASSERT( Seed->ConflictList.Empty() );
 
 	qhHalfEdge* Edge;
-	if ( Edge1 != NULL )
+	if ( Edge1 != nullptr)
 		{
 		Edge = Edge1->Next;
 		}
@@ -1115,7 +1115,7 @@ void qhConvex::MergeFaces( qhArray< qhFace* >& Cone )
 			if ( Face->Flipped )
 				{
 				qhReal BestArea = 0;
-				qhHalfEdge* BestEdge = NULL;
+				qhHalfEdge* BestEdge = nullptr;
 
 				qhHalfEdge* Edge = Face->Edge;
 
@@ -1179,7 +1179,7 @@ void qhConvex::ResolveVertices( qhArray< qhFace* >& Cone )
 		mOrphanedList.Remove( Vertex );
 	
 		qhReal MaxDistance = mMinOutside;
-		qhFace* MaxFace = NULL;
+		qhFace* MaxFace = nullptr;
 	
 		for ( int i = 0; i < Cone.Size(); ++i )
 			{
@@ -1195,7 +1195,7 @@ void qhConvex::ResolveVertices( qhArray< qhFace* >& Cone )
 				}
 			}
 	
-		if ( MaxFace != NULL )
+		if ( MaxFace != nullptr)
 			{
 			QH_ASSERT( MaxFace->Mark == QH_MARK_VISIBLE );
 			MaxFace->ConflictList.PushBack( Vertex );
@@ -1206,7 +1206,7 @@ void qhConvex::ResolveVertices( qhArray< qhFace* >& Cone )
 			// Vertex has been already removed from the orphaned list 
 			// and can be destroyed
 			DestroyVertex( Vertex );
-			Vertex = NULL;
+			Vertex = nullptr;
 			}
 	
 		Vertex = Next;
@@ -1368,7 +1368,7 @@ void qhConvex::ConnectFaces( qhHalfEdge* Edge )
 	qhArray< qhFace* > MergedFaces;
 	MergedFaces.PushBack( Twin->Face );
 	Twin->Face->Mark = QH_MARK_DELETE;
-	Twin->Face->Edge = NULL;
+	Twin->Face->Edge = nullptr;
 
 	for ( qhHalfEdge* Absorbed = TwinNext; Absorbed != TwinPrev->Next; Absorbed = Absorbed->Next )
 		{
@@ -1482,7 +1482,7 @@ void qhConvex::DestroyEdges( qhHalfEdge* Begin, qhHalfEdge* End )
 // 			}
 		
 		qhFree( Nuke );
-		Nuke = NULL;
+		Nuke = nullptr;
 		}
 	}
 

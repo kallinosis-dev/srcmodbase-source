@@ -52,11 +52,11 @@ class CEntityReportDlg : public CDialog
 {
 public:
 
-	static void ShowEntityReport(CMapDoc *pDoc, CWnd *pParent = NULL, EntityReportFilterParms_t *pParms = NULL );
+	static void ShowEntityReport(CMapDoc *pDoc, CWnd *pParent = nullptr, EntityReportFilterParms_t *pParms = nullptr);
 
 private:
 
-	CEntityReportDlg(CMapDoc *pDoc, CWnd* pParent = NULL);   // standard constructor
+	CEntityReportDlg(CMapDoc *pDoc, CWnd* pParent = nullptr);   // standard constructor
 	void GenerateReport();
 
 	void SaveToIni();

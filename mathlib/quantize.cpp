@@ -42,8 +42,8 @@ double SquaredError;
 static struct QuantizedValue *AllocQValue(void)
 {
 	struct QuantizedValue *ret=new QuantizedValue;
-	ret->Samples=0;
-	ret->Children[0]=ret->Children[1]=0;
+	ret->Samples=nullptr;
+	ret->Children[0]=ret->Children[1]=nullptr;
 	ret->NSamples=0;
   
 	ret->ErrorMeasure=new double[current_ndims];
@@ -288,7 +288,7 @@ static void SubdivideNode(struct QuantizedValue *n, int whichdim)
 	totsamps[0]=totsamps[1]=0;
 	uint8 minv=255;
 	uint8 maxv=0;
-	struct Sample *minS=0,*maxS=0;
+	struct Sample *minS=nullptr,*maxS=nullptr;
 	for(i=0;i<n->NSamples;i++)
 	{
 		uint8 v;
@@ -426,7 +426,7 @@ struct QuantizedValue *FindQNode(struct QuantizedValue const *q, int32 code)
 {
 	if (! (q->Children[0]))
 		if (code==q->value) return (struct QuantizedValue *) q;
-		else return 0;
+		else return nullptr;
 	else
 	{
 		struct QuantizedValue *found=FindQNode(q->Children[0],code);
@@ -563,7 +563,7 @@ void DownHeap(int k, struct FHeap *h)
 
 void *RemoveHeapItem(struct FHeap *h)
 {
-  void *ret=0;
+  void *ret=nullptr;
   if (h->heap_n!=0)
     {
       ret=h->heap[1];
@@ -588,7 +588,7 @@ struct QuantizedValue *FindMatch(uint8 const *sample, int ndims,
 								 uint8 *weights, struct QuantizedValue *q)
 {
 	InitHeap(&TheQueue);
-	struct QuantizedValue *bestmatch=0;
+	struct QuantizedValue *bestmatch=nullptr;
 	double besterror=1.0e63;
 	PUSHNODE(q);
 	for(;;)

@@ -116,7 +116,7 @@ AI_Waypoint_t *CAI_WaypointList::GetLast()
 {
 	AI_Waypoint_t *p = GetFirst();
 	if (!p)
-		return NULL;
+		return nullptr;
 	while ( p->GetNext() )
 		p = p->GetNext();
 

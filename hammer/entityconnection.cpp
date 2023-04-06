@@ -63,13 +63,13 @@ CEntityConnection::~CEntityConnection()
 	{
         m_pSourceEntityList->RemoveAll();
 		delete m_pSourceEntityList;
-		m_pSourceEntityList = NULL;
+		m_pSourceEntityList = nullptr;
 	}
 	if ( m_pTargetEntityList )
 	{
 		m_pTargetEntityList->RemoveAll();
 		delete m_pTargetEntityList;
-		m_pTargetEntityList = NULL;
+		m_pTargetEntityList = nullptr;
 	}
 }
 
@@ -231,9 +231,9 @@ bool CEntityConnection::ValidateOutput(const CMapEntity *pEntity, const char* ps
 	}
 
 	GDclass*	pClass	= pEntity->GetClass();
-	if (pClass != NULL)
+	if (pClass != nullptr)
 	{
-		if (pClass->FindOutput(pszOutput) == NULL)
+		if (pClass->FindOutput(pszOutput) == nullptr)
 		{
 			return false;
 		}
@@ -308,7 +308,7 @@ bool CEntityConnection::ValidateInput( const char *pszTarget, const char *pszInp
 		return true;
 	}
 
-	if ( pDoc == NULL )
+	if ( pDoc == nullptr)
 	{
 		pDoc = CMapDoc::GetActiveMapDoc();
 	}
@@ -349,7 +349,7 @@ void CEntityConnection::FindBadConnections( CMapEntity *pEntity, bool bVisibilit
 	}
 
 	// Get a list of all the entities in the world
-	const CMapEntityList *pAllWorldEntities = NULL;
+	const CMapEntityList *pAllWorldEntities = nullptr;
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 	if (pDoc)
 	{
@@ -365,7 +365,7 @@ void CEntityConnection::FindBadConnections( CMapEntity *pEntity, bool bVisibilit
 	for (int i = 0; i < nConnCount; i++)
 	{
 		CEntityConnection *pConnection = pEntity->Connections_Get(i);
-		if (pConnection != NULL)
+		if (pConnection != nullptr)
 		{
 			if ( bIgnoreHiddenTargets )
 			{
@@ -396,7 +396,7 @@ void CEntityConnection::FindBadConnections( CMapEntity *pEntity, bool bVisibilit
 				else
 				{
 					POSITION	pos = APP()->pMapDocTemplate->GetFirstDocPosition();
-					while( pos != NULL )
+					while( pos != nullptr)
 					{
 						CDocument *pDoc = APP()->pMapDocTemplate->GetNextDoc( pos );
 						CMapDoc *pMapDoc = dynamic_cast< CMapDoc * >( pDoc );
@@ -526,7 +526,7 @@ int CEntityConnection::ValidateInputConnections(CMapEntity *pEntity, bool bVisib
 	}
 
 	// Get a list of all the entities in the world
-	const CMapEntityList *pAllWorldEntities = NULL;
+	const CMapEntityList *pAllWorldEntities = nullptr;
 	CMapDoc	*pDoc = CMapDoc::GetActiveMapDoc();
 	if (pDoc)
 	{
@@ -544,7 +544,7 @@ int CEntityConnection::ValidateInputConnections(CMapEntity *pEntity, bool bVisib
 	{
 		const CMapEntity *pTestEntity = pAllWorldEntities->Element(pos).GetObject();
 		
-		if (pTestEntity == NULL)
+		if (pTestEntity == nullptr)
 			continue;
 
 		if ( bVisibilityCheck && !pTestEntity->IsVisible() )
@@ -564,7 +564,7 @@ int CEntityConnection::ValidateInputConnections(CMapEntity *pEntity, bool bVisib
 				}
 
 				// Validate input
-				if (pClass->FindInput(pConnection->GetInputName()) == NULL)
+				if (pClass->FindInput(pConnection->GetInputName()) == nullptr)
 				{
 					return CONNECTION_BAD;
 				}

@@ -251,7 +251,7 @@ void CMixerControls::Term()
 	if(m_hMixer)
 	{
 		mixerClose(m_hMixer);
-		m_hMixer = 0;
+		m_hMixer = nullptr;
 	}
 
 	Clear();
@@ -369,7 +369,7 @@ bool CMixerControls::SelectMicrophoneForWaveInput()
 
 void CMixerControls::Clear()
 { 
-	m_hMixer = 0;
+	m_hMixer = nullptr;
 	memset(m_ControlInfos, 0, sizeof(m_ControlInfos));
 }
 
@@ -535,7 +535,7 @@ void CMixerControls::FindMicSelectControl( DWORD dwLineID, DWORD nControls )
 }
 
 
-IMixerControls* g_pMixerControls = NULL;
+IMixerControls* g_pMixerControls = nullptr;
 void InitMixerControls()
 {
 	if ( !g_pMixerControls )
@@ -547,7 +547,7 @@ void InitMixerControls()
 void ShutdownMixerControls()
 {
 	delete g_pMixerControls;
-	g_pMixerControls = NULL;
+	g_pMixerControls = nullptr;
 }
 
 #endif

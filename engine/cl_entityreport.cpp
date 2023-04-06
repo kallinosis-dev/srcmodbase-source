@@ -49,7 +49,7 @@ public:
 		peaktime( 0.0f ),
 		flags( 0 ),
 		effectfinishtime( 0.0f ),
-		deletedclientclass( NULL )
+		deletedclientclass(nullptr)
 	{
 	}
 
@@ -250,7 +250,7 @@ private:
 	characterset_t		m_BreakSetVowels;
 };
 
-static CEntityReportPanel *g_pEntityReportPanel = NULL;
+static CEntityReportPanel *g_pEntityReportPanel = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Creates the CEntityReportPanel VGUI panel
@@ -526,7 +526,7 @@ void CEntityReportPanel::Paint()
 
 		effectactive = ( realtime <= entry->effectfinishtime ) ? true : false;
 
-		if ( pNet && ((pClientClass = pNet->GetClientClass())) != NULL )
+		if ( pNet && ((pClientClass = pNet->GetClientClass())) != nullptr)
 		{
 			inpvs = !pNet->IsDormant();
 			if ( inpvs )

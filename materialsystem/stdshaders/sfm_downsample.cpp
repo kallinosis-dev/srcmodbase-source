@@ -26,7 +26,7 @@ BEGIN_VS_SHADER_FLAGS( sfm_downsample_shader, "Help for Downsample", SHADER_NOT_
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -39,7 +39,7 @@ BEGIN_VS_SHADER_FLAGS( sfm_downsample_shader, "Help for Downsample", SHADER_NOT_
 			pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, false );
 			pShaderShadow->EnableSRGBWrite( false );
 
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
 			pShaderShadow->SetVertexShader( "downsample_vs20", 0 );
 

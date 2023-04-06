@@ -183,7 +183,7 @@ class CRecordVar : public CRecordBase
 public:
 	CRecordVar( )
 	{
-		m_pSchema = NULL;
+		m_pSchema = nullptr;
 		m_nFlags = 0;
 	}
 
@@ -257,7 +257,7 @@ class CRecordExternal : public CRecordVar
 public:
 	CRecordExternal()
 	{
-		m_pubRecordFixedExternal = NULL;
+		m_pubRecordFixedExternal = nullptr;
 		m_nFlags = 0;
 	}
 

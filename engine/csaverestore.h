@@ -110,8 +110,8 @@ public:
 	void					LoadAdjacentEnts( const char *pOldLevel, const char *pLandmarkName );
 	const char				*FindRecentSave( char *pNameBuf, int nameBufLen );
 	void					ForgetRecentSave( void );
-	int						SaveGameSlot( const char *pSaveName, const char *pSaveComment, bool onlyThisLevel, bool bSetMostRecent, const char *pszDestMap = NULL, const char *pszLandmark = NULL );
-	bool					SaveGameState( bool bTransition, ISaveRestoreDataCallback *pCallback = NULL, bool bOpenContainer = true, bool bIsAutosaveOrDangerous = false );
+	int						SaveGameSlot( const char *pSaveName, const char *pSaveComment, bool onlyThisLevel, bool bSetMostRecent, const char *pszDestMap = nullptr, const char *pszLandmark = nullptr);
+	bool					SaveGameState( bool bTransition, ISaveRestoreDataCallback *pCallback = nullptr, bool bOpenContainer = true, bool bIsAutosaveOrDangerous = false );
 	void					RestoreClientState( char const *fileName, bool adjacent );
 	void					RestoreAdjacenClientState( char const *map );
 	int						IsValidSave( void );

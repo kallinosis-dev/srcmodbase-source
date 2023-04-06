@@ -200,7 +200,7 @@ public:
 			void DrawPolyLine( int nPoints, const Vector *Points );
 			void DrawText( const char *text, int x, int y, int nFlags );	// Uses pixel coordinates
 			void DrawText( const char *text, const Vector2D &vPos, int nOffsetX, int nOffsetY, int nFlags );	// Uses "world" coordinates
-			void DrawHandle( const Vector &vPoint, const Vector2D *vOffset = NULL );
+			void DrawHandle( const Vector &vPoint, const Vector2D *vOffset = nullptr);
 			void DrawHandles( int nPoints, const Vector *Points );
 			void DrawArrow( Vector const &vStart, Vector const &vEnd );
 			void DrawPlane( const Vector &p0, const Vector &p1, const Vector &p2, const Vector &p3, bool bFill = false );

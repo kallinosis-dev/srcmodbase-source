@@ -93,9 +93,9 @@ class CMapWorld : public CMapClass, public CEditGameClass
 		virtual void RemoveChild(CMapClass *pChild, bool bUpdateBounds = true);
 		virtual bool IsWorld() { return true; }
 
-		virtual CMapEntity *FindChildByKeyValue( const char* key, const char* value, bool *bIsInInstance = NULL, VMatrix *InstanceMatrix = NULL );
+		virtual CMapEntity *FindChildByKeyValue( const char* key, const char* value, bool *bIsInInstance = nullptr, VMatrix *InstanceMatrix = nullptr);
 
-		void AddObjectToWorld(CMapClass *pObject, CMapClass *pParent = NULL);
+		void AddObjectToWorld(CMapClass *pObject, CMapClass *pParent = nullptr);
 		void RemoveObjectFromWorld(CMapClass *pObject, bool bRemoveChildren);
 
 		// Groups have to be treated as logical because they potentially have logical children
@@ -115,7 +115,7 @@ class CMapWorld : public CMapClass, public CEditGameClass
 		ChunkFileResult_t SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo, int saveFlags);
 		
 		virtual int SerializeRMF(std::fstream &file, BOOL fIsStoring);
-		virtual int SerializeMAP(std::fstream &file, BOOL fIsStoring, BoundBox *pIntersecting = NULL);
+		virtual int SerializeMAP(std::fstream &file, BOOL fIsStoring, BoundBox *pIntersecting = nullptr);
 
 		virtual void UpdateChild(CMapClass *pChild);
 
@@ -150,7 +150,7 @@ class CMapWorld : public CMapClass, public CEditGameClass
 		bool FindEntitiesByClassName(CMapEntityList &Found, const char *szClassName, bool bVisiblesOnly);
 		bool FindEntitiesByNameOrClassName(CMapEntityList &Found, const char *pszName, bool bVisiblesOnly);
 		
-		bool GenerateNewTargetname( const char *startName, char *newName, int newNameBufferSize, bool bMakeUnique, const char *szPrefix, CMapClass *pRoot = NULL );
+		bool GenerateNewTargetname( const char *startName, char *newName, int newNameBufferSize, bool bMakeUnique, const char *szPrefix, CMapClass *pRoot = nullptr);
 
 		// displacement management
 		inline IWorldEditDispMgr *GetWorldEditDispManager( void ) { return m_pWorldDispMgr; }

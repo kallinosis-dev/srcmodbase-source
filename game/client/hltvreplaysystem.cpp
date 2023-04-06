@@ -556,7 +556,7 @@ C_BasePlayer *CHltvReplaySystem::GetDemoPlaybackPlayer()
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -856,7 +856,7 @@ void CHltvReplaySystem::CacheRagdollBones()
 	C_BaseEntityIterator iterator;
 	C_BaseEntity *pEnt;
 	int nRagdollsCached = 0;
-	while ( ( pEnt = iterator.Next() ) != NULL )
+	while ( ( pEnt = iterator.Next() ) != nullptr)
 	{
 		if ( C_CSRagdoll * pRagdoll = dynamic_cast< C_CSRagdoll * >( pEnt ) )
 		{
@@ -908,10 +908,10 @@ void CHltvReplaySystem::CacheRagdollBones()
 CachedRagdollBones_t *CHltvReplaySystem::GetCachedRagdollBones( int nEntIndex, bool bTake )
 {
 	if ( gpGlobals->tickcount > m_nHltvReplayBeginTick + 5 )
-		return NULL; // this cache isn't useful anymore, we need to create ragdoll dynamically - otherwise it'll just teleport to the final position instantaneously
+		return nullptr; // this cache isn't useful anymore, we need to create ragdoll dynamically - otherwise it'll just teleport to the final position instantaneously
 
 	UtlHashHandle_t hFind = m_mapCachedRagdollBones.Find( nEntIndex );
-	CachedRagdollBones_t *pTakenBones = NULL;
+	CachedRagdollBones_t *pTakenBones = nullptr;
 
 	if ( hFind != m_mapCachedRagdollBones.InvalidHandle() )
 	{

@@ -68,8 +68,8 @@ bool CToolFrameworkClient::Init()
 	factorylist_t list;
 	FactoryList_Retrieve( list );
 
-	m_pTools = ( IClientEngineTools * )list.appSystemFactory( VCLIENTENGINETOOLS_INTERFACE_VERSION, NULL );
-	return ( m_pTools != NULL );
+	m_pTools = ( IClientEngineTools * )list.appSystemFactory( VCLIENTENGINETOOLS_INTERFACE_VERSION, nullptr);
+	return ( m_pTools != nullptr);
 }
 
 void CToolFrameworkClient::LevelInitPreEntity()

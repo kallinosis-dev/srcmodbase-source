@@ -333,7 +333,7 @@ void CUndoManager::Redo()
 	bool bEndOfStream = false;
 	while ( !bEndOfStream && m_RedoStack.Count() > 0 )
 	{
-		IUndoElement *action = NULL;
+		IUndoElement *action = nullptr;
 		m_RedoStack.Pop( action );
 		Assert( action );
 

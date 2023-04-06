@@ -205,7 +205,7 @@ private:
 // globals
 //-----------------------------------------------------------------------------
 
-CUtlSymbolTable* CUtlSymbol::s_pSymbolTable = 0; 
+CUtlSymbolTable* CUtlSymbol::s_pSymbolTable = nullptr; 
 bool CUtlSymbol::s_bAllowStaticSymbolTable = true;
 
 
@@ -238,7 +238,7 @@ public:
 	~CCleanupUtlSymbolTable()
 	{
 		delete CUtlSymbol::s_pSymbolTable;
-		CUtlSymbol::s_pSymbolTable = NULL;
+		CUtlSymbol::s_pSymbolTable = nullptr;
 	}
 };
 
@@ -292,7 +292,7 @@ struct LessCtx_t
 	char const* m_pUserString;
 	CUtlSymbolTable* m_pTable;
 	
-	LessCtx_t( ) : m_pUserString(0), m_pTable(0) {}
+	LessCtx_t( ) : m_pUserString(nullptr), m_pTable(nullptr) {}
 };
 
 static LessCtx_t g_LessCtx;
@@ -545,7 +545,7 @@ struct ReferencedFile
 
 static AnalysisData g_Analysis;
 
-IFileSystem *filesystem = NULL;
+IFileSystem *filesystem = nullptr;
 static CUniformRandomStream g_Random;
 IUniformRandomStream *random = &g_Random;
 
@@ -573,7 +573,7 @@ void vprint( int depth, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -617,7 +617,7 @@ void logprint( char const *logfile, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	UnusedContent::CUtlSymbol sym = g_Analysis.symbols.Find( logfile );
 	static CUtlRBTree< UnusedContent::CUtlSymbol, int >	previousfiles( 0, 0, DefLessFunc( UnusedContent::CUtlSymbol ) );
@@ -714,7 +714,7 @@ void BuildFileList_R( int depth, CUtlVector< FileEntry >& files, CUtlVector< Fil
 			{
 				sprintf( filename, "%s", wfd.cFileName );
 			}
-			BuildFileList_R( depth + 1, useOtherFiles ? *otherfiles: files, NULL, filename, wild, skipchars );
+			BuildFileList_R( depth + 1, useOtherFiles ? *otherfiles: files, nullptr, filename, wild, skipchars );
 		}
 		else
 		{
@@ -762,7 +762,7 @@ void BuildFileList( int depth, CUtlVector< FileEntry >& files, CUtlVector< FileE
 void BuildFileListWildcard( int depth, CUtlVector< FileEntry >& files, char const *rootdir, char const *wildcard, int skipchars )
 {
 	files.RemoveAll();
-	BuildFileList_R( depth, files, NULL, rootdir, wildcard, skipchars );
+	BuildFileList_R( depth, files, nullptr, rootdir, wildcard, skipchars );
 }
 
 
@@ -896,7 +896,7 @@ void AddToWhiteList( char const *path )
 	CUtlVector< FileEntry > files;
 
 	char *lastslash = strrchr( dir, '\\' );
-	if ( lastslash == 0 )
+	if ( lastslash == nullptr )
 	{
 		BuildFileListWildcard( 1, files, "", dir, 0 );
 	}
@@ -934,7 +934,7 @@ void RemoveFromWhiteList( char const *path )
 	CUtlVector< FileEntry > files;
 
 	char *lastslash = strrchr( dir, '\\' );
-	if ( lastslash == 0 )
+	if ( lastslash == nullptr )
 	{
 		BuildFileListWildcard( 1, files, "", dir, 0 );
 	}
@@ -973,7 +973,7 @@ void BuildWhiteList()
 	KeyValues *kv = new KeyValues( WHITELIST_FILE );
 	if ( kv )
 	{
-		if ( kv->LoadFromFile( g_pFileSystem, WHITELIST_FILE, NULL ) )
+		if ( kv->LoadFromFile( g_pFileSystem, WHITELIST_FILE, nullptr) )
 		{
 			for ( KeyValues *sub = kv->GetFirstSubKey(); sub; sub = sub->GetNextKey() )
 			{
@@ -1084,7 +1084,7 @@ void ParseFilesFromResList( UnusedContent::CUtlSymbol & resfilesymbol, CUtlRBTre
 
 				while ( 1 )
 				{
-					pFileList = ParseFile( pFileList, token, NULL );
+					pFileList = ParseFile( pFileList, token, nullptr);
 					if ( !pFileList )
 						break;
 
@@ -1666,7 +1666,7 @@ int main( int argc, char* argv[] )
 	// If they didn't specify -game on the command line, use VPROJECT.
 	CmdLib_InitFileSystem( workingdir );
 
-	filesystem = (IFileSystem *)(CmdLib_GetFileSystemFactory()( FILESYSTEM_INTERFACE_VERSION, NULL ));
+	filesystem = (IFileSystem *)(CmdLib_GetFileSystemFactory()( FILESYSTEM_INTERFACE_VERSION, nullptr));
 	if ( !filesystem )
 	{
 		AssertMsg( 0, "Failed to create/get IFileSystem" );

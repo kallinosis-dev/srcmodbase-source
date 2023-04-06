@@ -67,8 +67,8 @@ CSequencePicker::CSequencePicker( vgui::Panel *pParent, int nFlags ) : BaseClass
 	m_bSequenceParams = ( ( nFlags & nAdvSequenceFlags ) == nAdvSequenceFlags );
 	m_hSelectedMDL = MDLHANDLE_INVALID;
 
-	m_pRootMotionCheckBox = NULL;
-	m_pPoseDefaultButton = NULL;
+	m_pRootMotionCheckBox = nullptr;
+	m_pPoseDefaultButton = nullptr;
 	V_memset( m_pLayerSequenceSelectors, 0, sizeof( m_pLayerSequenceSelectors ) );
 	V_memset( m_pLayerSequenceSliders, 0, sizeof( m_pLayerSequenceSliders ) );
 	V_memset( m_pPoseValueSliders, 0, sizeof( m_pPoseValueSliders ) );
@@ -92,8 +92,8 @@ CSequencePicker::CSequencePicker( vgui::Panel *pParent, int nFlags ) : BaseClass
  	m_pViewsSheet->AddActionSignalTarget( this );
 
 	// sequences
-	m_pSequencesPage = NULL;
-	m_pSequencesList = NULL;
+	m_pSequencesPage = nullptr;
+	m_pSequencesList = nullptr;
 	if ( nFlags & PICK_SEQUENCES )
 	{		
 		m_pSequencesPage = new PropertyPage( m_pViewsSheet, "SequencesPage" );
@@ -184,8 +184,8 @@ CSequencePicker::CSequencePicker( vgui::Panel *pParent, int nFlags ) : BaseClass
 	}
 
 	// Activities
-	m_pActivitiesPage = NULL;
-	m_pActivitiesList = NULL;
+	m_pActivitiesPage = nullptr;
+	m_pActivitiesList = nullptr;
 	if ( nFlags & PICK_ACTIVITIES )
 	{
 		m_pActivitiesPage = new PropertyPage( m_pViewsSheet, "ActivitiesPage" );
@@ -235,16 +235,16 @@ void CSequencePicker::PerformLayout()
 	
 int CompareSequenceDesc( mstudioseqdesc_t *const *pDescA, mstudioseqdesc_t *const *pDescB )
 {
-	if ( ( pDescA == NULL ) || ( pDescB == NULL ) )
+	if ( ( pDescA == nullptr) || ( pDescB == nullptr) )
 		return 0;
 
-	if ( ( *pDescA == NULL ) || ( *pDescB == NULL ) ) 
+	if ( ( *pDescA == nullptr) || ( *pDescB == nullptr) ) 
 		return 0;
 
 	const char *pNameA = (*pDescA)->pszLabel();
 	const char *pNameB = (*pDescB)->pszLabel();
 	
-	if ( ( pNameA == NULL) || ( pNameB == NULL ) )
+	if ( ( pNameA == nullptr) || ( pNameB == nullptr) )
 		return 0;
 
 	return V_stricmp( pNameA, pNameB );
@@ -362,7 +362,7 @@ void CSequencePicker::RefreshActivitiesAndSequencesList()
 			mstudioseqdesc_t *pSeqDesc = sequenceList[ i ];
 
 			const char *pSequenceName = pSeqDesc->pszLabel();
-			if ( pSequenceName == NULL )
+			if ( pSequenceName == nullptr)
 				continue;
 			
 			for ( int i = 0; i < NUM_SEQUENCE_LAYERS; ++i )
@@ -400,7 +400,7 @@ const char *CSequencePicker::GetSelectedSequenceName()
 			if ( nIndex >= 0 )
 			{
 				KeyValues *pkv = m_pSequencesList->GetItem( nIndex );
-				return pkv->GetString( "sequence", NULL );
+				return pkv->GetString( "sequence", nullptr);
 			}
 		}
 		else if ( m_bSequenceParams )
@@ -417,7 +417,7 @@ const char *CSequencePicker::GetSelectedSequenceName()
 				}
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	if ( m_pActivitiesPage && ( m_pViewsSheet->GetActivePage() == m_pActivitiesPage ) )
@@ -426,12 +426,12 @@ const char *CSequencePicker::GetSelectedSequenceName()
 		if ( nIndex >= 0 )
 		{
 			KeyValues *pkv = m_pActivitiesList->GetItem( nIndex );
-			return pkv->GetString( "activity", NULL );
+			return pkv->GetString( "activity", nullptr);
 		}
-		return NULL;
+		return nullptr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -474,7 +474,7 @@ void CSequencePicker::GetSeqenceLayers( CUtlVector< MDLSquenceLayer_t > &sequenc
 //-----------------------------------------------------------------------------
 bool CSequencePicker::GetGenerateRootMotion() const
 {
-	if ( m_pRootMotionCheckBox == NULL )
+	if ( m_pRootMotionCheckBox == nullptr)
 		return false;
 
 	return m_pRootMotionCheckBox->IsSelected();
@@ -726,7 +726,7 @@ void CSequencePicker::UpdatePoseParameterControlsForMdl()
 void CSequencePicker::SetSequenceLayer( int nLayerIndex, int nSequenceIndex, float flWeight )
 {
 	studiohdr_t *pstudiohdr = vgui::MDLCache()->GetStudioHdr( m_hSelectedMDL );
-	if ( pstudiohdr == NULL )
+	if ( pstudiohdr == nullptr)
 		return;
 	
 	int nNumSequences = pstudiohdr->GetNumSeq();
@@ -862,7 +862,7 @@ void CSequencePicker::OnPageChanged( )
 //-----------------------------------------------------------------------------
 void CSequencePicker::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr("panel", NULL);
+	Panel *pPanel = (Panel *)kv->GetPtr("panel", nullptr);
 	if ( m_pSequencesList && (pPanel == m_pSequencesList ) )
 	{
 		const char *pSequenceName = GetSelectedSequenceName();
@@ -1073,8 +1073,8 @@ void CSequencePickerFrame::DoModal( const char *pMDLName )
 //-----------------------------------------------------------------------------
 void CSequencePickerFrame::OnSequencePreviewChanged( KeyValues *pKeyValues )
 {
-	const char *pSequence = pKeyValues->GetString( "sequence", NULL );
-	const char *pActivity = pKeyValues->GetString( "activity", NULL );
+	const char *pSequence = pKeyValues->GetString( "sequence", nullptr);
+	const char *pActivity = pKeyValues->GetString( "activity", nullptr);
 	m_pOpenButton->SetEnabled( pSequence || pActivity );
 }
 

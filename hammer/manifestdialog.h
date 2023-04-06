@@ -22,7 +22,7 @@ class CManifestMove : public CDialog
 	DECLARE_DYNAMIC(CManifestMove)
 
 public:
-	CManifestMove( bool bIsMove, CWnd* pParent = NULL );   // standard constructor
+	CManifestMove( bool bIsMove, CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CManifestMove();
 
 	void	GetFriendlyName( CString &Result ) { Result = m_FriendlyName; }
@@ -130,7 +130,7 @@ class CManifestMapDlg : public CDialog
 	DECLARE_DYNAMIC(CManifestMapDlg)
 
 public:
-	CManifestMapDlg( CManifestMap *pManifestMap, CWnd* pParent = NULL );   // standard constructor
+	CManifestMapDlg( CManifestMap *pManifestMap, CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CManifestMapDlg();
 
 	// Dialog Data
@@ -161,7 +161,7 @@ class CManifestCheckin : public CDialog
 	DECLARE_DYNAMIC(CManifestCheckin)
 
 public:
-	CManifestCheckin(CWnd* pParent = NULL);   // standard constructor
+	CManifestCheckin(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CManifestCheckin();
 
 	// Dialog Data

@@ -71,8 +71,8 @@ public:
 	{
 		file_t() 
 		{ 
-			pBuffer = NULL; 
-			pCompressedBuffer = NULL;
+			pBuffer = nullptr; 
+			pCompressedBuffer = nullptr;
 			nSize = 0;
 			nCompressedSize = NULL;
 		}
@@ -109,25 +109,25 @@ public:
 		delete m_pSaveDirectory;
 	}
 
-	bool			FileExists( const char *pFileName, const char *pPathID = NULL );
-	void			RenameFile( char const *pOldPath, char const *pNewPath, const char *pathID = NULL );
-	void			RemoveFile( char const* pRelativePath, const char *pathID = NULL );
+	bool			FileExists( const char *pFileName, const char *pPathID = nullptr);
+	void			RenameFile( char const *pOldPath, char const *pNewPath, const char *pathID = nullptr);
+	void			RemoveFile( char const* pRelativePath, const char *pathID = nullptr);
 
-	FileHandle_t	Open( const char *pFileName, const char *pOptions, const char *pathID = NULL );
+	FileHandle_t	Open( const char *pFileName, const char *pOptions, const char *pathID = nullptr);
 	void			Close( FileHandle_t );
 	int				Read( void *pOutput, int size, FileHandle_t file );
 	int				Write( void const* pInput, int size, FileHandle_t file );
 	void			Seek( FileHandle_t file, int pos, FileSystemSeek_t method );
 	unsigned int	Tell( FileHandle_t file );
 	unsigned int	Size( FileHandle_t file );
-	unsigned int	Size( const char *pFileName, const char *pPathID = NULL );
+	unsigned int	Size( const char *pFileName, const char *pPathID = nullptr);
 
 	void			AsyncFinishAllWrites( void );
 	void			AsyncRelease( FSAsyncControl_t hControl );
-	FSAsyncStatus_t	AsyncWrite( const char *pFileName, const void *pSrc, int nSrcBytes, bool bFreeMemory, bool bAppend, FSAsyncControl_t *pControl = NULL );
+	FSAsyncStatus_t	AsyncWrite( const char *pFileName, const void *pSrc, int nSrcBytes, bool bFreeMemory, bool bAppend, FSAsyncControl_t *pControl = nullptr);
 	FSAsyncStatus_t	AsyncFinish( FSAsyncControl_t hControl, bool wait = false );
-	FSAsyncStatus_t	AsyncAppend( const char *pFileName, const void *pSrc, int nSrcBytes, bool bFreeMemory, FSAsyncControl_t *pControl = NULL );
-	FSAsyncStatus_t	AsyncAppendFile( const char *pDestFileName, const char *pSrcFileName, FSAsyncControl_t *pControl = NULL );
+	FSAsyncStatus_t	AsyncAppend( const char *pFileName, const void *pSrc, int nSrcBytes, bool bFreeMemory, FSAsyncControl_t *pControl = nullptr);
+	FSAsyncStatus_t	AsyncAppendFile( const char *pDestFileName, const char *pSrcFileName, FSAsyncControl_t *pControl = nullptr);
 
 	void			DirectoryCopy( const char *pPath, const char *pDestFileName, bool bIsXSave );
 	void			DirectorCopyToMemory( const char *pPath, const char *pDestFileName );
@@ -229,7 +229,7 @@ void CSaveRestoreFileSystem::Compress( SaveFile_t *pFile )
 	CLZSS compressor( 2048 );
 	
 	unsigned char *pCompressedBuffer = compressor.Compress( (unsigned char *) pFile->pBuffer->Base(), pFile->nSize, &pFile->nCompressedSize );
-	if ( pCompressedBuffer == NULL )
+	if ( pCompressedBuffer == nullptr)
 	{
 		// Just copy the buffer uncompressed
 		pFile->pCompressedBuffer->Put( pFile->pBuffer->Base(), pFile->nSize );
@@ -318,7 +318,7 @@ FileHandle_t CSaveRestoreFileSystem::GetFileHandle( const char *filename )
 //-----------------------------------------------------------------------------
 bool CSaveRestoreFileSystem::FileExists( const char *pFileName, const char *pPathID )
 {
-	return ( GetFileHandle( pFileName ) != NULL );
+	return ( GetFileHandle( pFileName ) != nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -362,7 +362,7 @@ void CSaveRestoreFileSystem::RemoveFile( char const* pRelativePath, const char *
 //-----------------------------------------------------------------------------
 FileHandle_t CSaveRestoreFileSystem::Open( const char *pFullName, const char *pOptions, const char *pathID )
 {
-	SaveFile_t *pFile = NULL;
+	SaveFile_t *pFile = nullptr;
 	CUtlSymbol id = AddString( Q_UnqualifiedFileName( pFullName ) );
 	int idx = GetDirectory().Find( id );
 	if ( idx == INVALID_INDEX )
@@ -379,7 +379,7 @@ FileHandle_t CSaveRestoreFileSystem::Open( const char *pFullName, const char *pO
 		}
 		else
 		{
-			return (void*)0;
+			return (void*)nullptr;
 		}
 	}
 
@@ -410,7 +410,7 @@ FileHandle_t CSaveRestoreFileSystem::Open( const char *pFullName, const char *pO
 	{
 		Assert( 0 );
 		Warning( "CSaveRestoreFileSystem: Attempted to open %s with unsupported option %s\n", pFullName, pOptions );
-		return (void*)0;
+		return (void*)nullptr;
 	}
 
 	return (void*)(intp)idx;
@@ -769,7 +769,7 @@ void CSaveRestoreFileSystem::DirectoryCopy( const char *pPath, const char *pDest
 	g_pFileSystem->AsyncWriteFile( pDestFileName, saveFile.pBuffer, saveFile.nSize, true, false );
 
 	// AsyncWriteFile() takes control of the utlbuffer, so don't let RemoveFile() delete it.
-	saveFile.pBuffer = NULL;
+	saveFile.pBuffer = nullptr;
 	RemoveFile( pDestFileName );
 
 	// write the list of files to the save file
@@ -949,9 +949,9 @@ void CSaveRestoreFileSystem::LoadSaveDirectoryFromDisk( const char *pPath )
 	char const	*findfn;
 	char		szPath[ MAX_PATH ];
 
-	findfn = Sys_FindFirstEx( pPath, MOD_DIR, NULL, 0 );
+	findfn = Sys_FindFirstEx( pPath, MOD_DIR, nullptr, 0 );
 
-	while ( findfn != NULL )
+	while ( findfn != nullptr)
 	{
 		Q_snprintf( szPath, sizeof( szPath ), "%s%s", saverestore->GetSaveDir(), findfn );
 
@@ -966,7 +966,7 @@ void CSaveRestoreFileSystem::LoadSaveDirectoryFromDisk( const char *pPath )
 		}
 
 		// Any more save files
-		findfn = Sys_FindNext( NULL, 0 );
+		findfn = Sys_FindNext(nullptr, 0 );
 	}
 	Sys_FindClose();
 }

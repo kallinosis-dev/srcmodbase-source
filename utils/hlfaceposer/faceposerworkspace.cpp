@@ -49,14 +49,14 @@ static CWorkspaceFiles g_WorkspaceFiles;
 IWorkspaceFiles *workspacefiles = ( IWorkspaceFiles * )&g_WorkspaceFiles;
 
 CWorkspaceFiles::CWorkspaceFiles( void ) :
-	m_hKeyMain( (HKEY)0 )
+	m_hKeyMain( (HKEY)nullptr )
 {
 	memset( m_nStoredFiles, 0, sizeof( m_nStoredFiles ) );
 }
 
 CWorkspaceFiles::~CWorkspaceFiles( void )
 {
-	if ( (HKEY)0 != m_hKeyMain )
+	if ( (HKEY)nullptr != m_hKeyMain )
 	{
 		RegCloseKey( m_hKeyMain );
 	}
@@ -155,10 +155,10 @@ LONG CWorkspaceFiles::CreateWorkspaceKey( char const *pchGameName, PHKEY phKey )
 		HKEY_CURRENT_USER,	// handle of open key 
 		sz, //				address of name of subkey to open 
 		0,					// DWORD ulOptions,	  // reserved 
-		NULL,				// Type of value
+		nullptr,				// Type of value
 		REG_OPTION_NON_VOLATILE, // Store permanently in reg.
 		KEY_ALL_ACCESS,		// REGSAM samDesired, // security access mask 
-		NULL,
+		nullptr,
 		phKey,				// Key we are creating
 		&disp );			// Type of creation
 }
@@ -174,7 +174,7 @@ bool CWorkspaceFiles::ReadInt( const char *szSubKey, int *value )
 	lResult = RegQueryValueEx(
 		m_hKeyMain,		// handle to key
 		szSubKey,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(LPBYTE)value,    // data buffer
 		&dwSize );  // size of data buffer
@@ -221,7 +221,7 @@ bool CWorkspaceFiles::ReadString( const char *szSubKey, char *value, int buffers
 	lResult = RegQueryValueEx(
 		m_hKeyMain,		// handle to key
 		szSubKey,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(LPBYTE)value,    // data buffer
 		&dwSize );  // size of data buffer

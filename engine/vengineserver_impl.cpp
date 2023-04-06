@@ -68,8 +68,8 @@ extern ConVar host_timescale;
 
 CSharedEdictChangeInfo g_SharedEdictChangeInfo;
 CSharedEdictChangeInfo *g_pSharedChangeInfo = &g_SharedEdictChangeInfo;
-IAchievementMgr *g_pAchievementMgr = NULL;
-CGamestatsData *g_pGamestatsData = NULL;
+IAchievementMgr *g_pAchievementMgr = nullptr;
+CGamestatsData *g_pGamestatsData = nullptr;
 
 static ConVar sv_show_usermessage( "sv_show_usermessage", "0", 0, "Shows the user messages that the server is sending to clients. Setting this to 2 will show the contents of the message");
 
@@ -112,7 +112,7 @@ struct MsgData
 
 	void Reset()
 	{
-		filter			= NULL;
+		filter			= nullptr;
 		reliable		= false;
 		started			= false;
 		entityMsg.Clear();
@@ -405,7 +405,7 @@ public:
 		if ( entnum < 1 || entnum > sv.GetClientCount() )
 		{
 			Error( "Invalid client specified in GetPrevCheckTransmitInfo\n" );
-			return NULL;
+			return nullptr;
 		}
 		
 		CGameClient *client = sv.Client( entnum-1 );
@@ -608,7 +608,7 @@ public:
 	virtual const char *GetPlayerNetworkIDString( const edict_t *e )
 	{
 		if ( !sv.IsActive() || !e)
-			return NULL;
+			return nullptr;
 		
 		for ( int i = 0; i < sv.GetClientCount(); i++ )
 		{
@@ -621,7 +621,7 @@ public:
 		}
 		
 		// Couldn't find it
-		return NULL;
+		return nullptr;
 
 	}
 
@@ -674,7 +674,7 @@ public:
 	virtual INetChannelInfo* GetPlayerNetInfo( int playerIndex )
 	{
 		if ( playerIndex < 1 || playerIndex > sv.GetClientCount() )
-			return NULL;
+			return nullptr;
 
 		CGameClient *client = sv.Client( playerIndex - 1 );
 		
@@ -802,7 +802,7 @@ public:
 			CSVCMsg_Sounds_t sndmsg;
 
 			sndmsg.set_reliable_sound( true );
-			sound.WriteDelta( NULL, sndmsg, sv.GetFinalTickTime() );
+			sound.WriteDelta(nullptr, sndmsg, sv.GetFinalTickTime() );
 			
 			 // write into signon buffer
 			if ( !sndmsg.WriteToBuffer( sv.m_Signon ) )
@@ -1089,14 +1089,14 @@ public:
 		if ( s_MsgData.started )
 		{
 			Sys_Error( "EntityMessageBegin:  New message started before matching call to EndMessage.\n " );
-			return NULL;
+			return nullptr;
 		}
 		
 		s_MsgData.Reset();
 		
 		Assert( ent_class );
 				
-		s_MsgData.filter = NULL;
+		s_MsgData.filter = nullptr;
 		s_MsgData.reliable = reliable;
 		
 		s_MsgData.started = true;
@@ -1305,7 +1305,7 @@ public:
 		if ( !fcl )
 		{
 			// server is full
-			return NULL;		
+			return nullptr;		
 		}
 
 		fcl->UpdateUserSettings();
@@ -1387,13 +1387,13 @@ public:
 		if ( iClientIndex < 0 || iClientIndex >= sv.GetClientCount() )
 		{
 			Assert( false );
-			return NULL;
+			return nullptr;
 		}
 
 		CGameClient *pClient = sv.Client( iClientIndex );
 		CClientFrame *deltaFrame = pClient->GetClientFrame( pClient->m_nDeltaTick );
 		if ( !deltaFrame )
-			return NULL;
+			return nullptr;
 
 		return &deltaFrame->transmit_entity;
 	}
@@ -1557,15 +1557,15 @@ public:
 	edict_t *GetSplitScreenPlayerAttachToEdict( int ent_num )
 	{
 		if (ent_num < 1 || ent_num > sv.GetClientCount() )
-			return NULL;
+			return nullptr;
 
 		CGameClient *client = sv.Client(ent_num-1);
 		if ( !client->IsSplitScreenUser() )
-			return NULL;
+			return nullptr;
 
 		Assert( client->m_pAttachedTo );
 		if ( !client->m_pAttachedTo )
-			return NULL;
+			return nullptr;
 
 		return static_cast< CGameClient * >( client->m_pAttachedTo )->edict;
 	}
@@ -1628,7 +1628,7 @@ public:
 		hltv->GetRelayStats( info.m_numRelayProxies, info.m_numRelaySlots, info.m_numRelayClients );
 		hltv->GetExternalStats( info.m_numExternalTotalViewers, info.m_numExternalLinkedViewers );
 
-		const netadr_t *pRelayAdr = info.m_bMasterProxy ? NULL : hltv->GetRelayAddress();
+		const netadr_t *pRelayAdr = info.m_bMasterProxy ? nullptr : hltv->GetRelayAddress();
 		if ( pRelayAdr )
 		{
 			info.m_relayAddress = pRelayAdr->GetIPHostByteOrder();
@@ -1686,7 +1686,7 @@ public:
 	const CSteamID	*GetGameServerSteamID()
 	{
 		if ( !Steam3Server().GetGSSteamID().IsValid() )
-			return NULL;
+			return nullptr;
 
 		return &Steam3Server().GetGSSteamID();
 	}
@@ -1714,18 +1714,18 @@ public:
 	edict_t *GetSplitScreenPlayerForEdict( int ent_num, int nSlot )
 	{
 		if (ent_num < 1 || ent_num > sv.GetClientCount() )
-			return NULL;
+			return nullptr;
 
 		CGameClient *client = sv.Client(ent_num-1);
 		if ( client->IsSplitScreenUser() )
-			return NULL;
+			return nullptr;
 
 		if ( nSlot <= 0 || nSlot >= host_state.max_splitscreen_players )
-			return NULL;
+			return nullptr;
 
 		CBaseClient *cl = client->m_SplitScreenUsers[ nSlot ];
 		if ( !cl )
-			return NULL;
+			return nullptr;
 
 		return (( CGameClient * )cl)->edict;
 	}
@@ -1891,18 +1891,18 @@ public:
 	{
 		int entnum = NUM_FOR_EDICT( pPlayerEdict );
 		if (entnum < 1 || entnum > sv.GetClientCount() )
-			return NULL;
+			return nullptr;
 
 		// Entity numbers are offset by 1 from the player numbers
 		CGameClient *client = sv.Client(entnum-1);
 		if ( !client )
-			return NULL;
+			return nullptr;
 
 		if ( !client->m_SteamID.IsValid() )
-			return NULL;
+			return nullptr;
 
 		if ( bRequireFullyAuthenticated && !client->IsFullyAuthenticated() )
-			return NULL;
+			return nullptr;
 
 		return &client->m_SteamID;
 	}
@@ -2103,7 +2103,7 @@ static void WriteReliableEvent( const SendTable *pST, float delay, int classID, 
 	buffer.WriteUBitLong( classID, sv.serverclassbits ); // classID 
 
 	// write event properties
-	SendTable_WritePropList( pST, handle, &buffer, -1, NULL );
+	SendTable_WritePropList( pST, handle, &buffer, -1, nullptr);
 
 	// write message
 	if ( client )
@@ -2145,7 +2145,7 @@ void CVEngineServer::PlaybackTempEntity( IRecipientFilter& filter, float delay, 
 	SerializedEntityHandle_t handle = g_pSerializedEntities->AllocateSerializedEntity(__FILE__, __LINE__);
 
 	// write all properties, if init or reliable message delta against zero values
-	if( !SendTable_Encode( pST, handle, pSender, classID, NULL ) )
+	if( !SendTable_Encode( pST, handle, pSender, classID, nullptr) )
 	{
 		Host_Error( "PlaybackTempEntity: SendTable_Encode returned false (ent %d), overflow?\n", classID );
 		return;
@@ -2167,7 +2167,7 @@ void CVEngineServer::PlaybackTempEntity( IRecipientFilter& filter, float delay, 
 			if ( ( cl->IsFakeClient() && !cl->IsHLTV() ) || !cl->IsActive() )
 				continue;
 
-			WriteReliableEvent( pST, delay, classID, handle, cl, NULL );
+			WriteReliableEvent( pST, delay, classID, handle, cl, nullptr);
 		}
 
 		g_pSerializedEntities->ReleaseSerializedEntity( handle );
@@ -2302,7 +2302,7 @@ void CVEngineServer::BuildEntityClusterList( edict_t *pEdict, PVSInfo_t *pPVSInf
 	int		area;
 
 	CleanUpEntityClusterList( pPVSInfo );
-	pPVSInfo->m_pClusters = 0;
+	pPVSInfo->m_pClusters = nullptr;
 	pPVSInfo->m_nClusterCount = 0;
 	pPVSInfo->m_nAreaNum = 0;
 	pPVSInfo->m_nAreaNum2 = 0;
@@ -2401,7 +2401,7 @@ void CVEngineServer::BuildEntityClusterList( edict_t *pEdict, PVSInfo_t *pPVSInf
 			{
 				// assume we missed some leafs, and mark by headnode
 				s_PVSInfoAllocator.Free( pPVSInfo->m_pClusters );
-				pPVSInfo->m_pClusters = 0;
+				pPVSInfo->m_pClusters = nullptr;
 				pPVSInfo->m_nClusterCount = -1;
 				break;
 			}
@@ -2435,7 +2435,7 @@ void CVEngineServer::BuildEntityClusterList( edict_t *pEdict, PVSInfo_t *pPVSInf
 		{
 			// assume we missed some leafs, and mark by headnode
 			s_PVSInfoAllocator.Free( pPVSInfo->m_pClusters );
-			pPVSInfo->m_pClusters = 0;
+			pPVSInfo->m_pClusters = nullptr;
 			pPVSInfo->m_nClusterCount = -1;
 			break;
 		}
@@ -2453,7 +2453,7 @@ void CVEngineServer::CleanUpEntityClusterList( PVSInfo_t *pPVSInfo )
 	if ( pPVSInfo->m_nClusterCount > MAX_FAST_ENT_CLUSTERS )
 	{
 		s_PVSInfoAllocator.Free( pPVSInfo->m_pClusters );
-		pPVSInfo->m_pClusters = 0;
+		pPVSInfo->m_pClusters = nullptr;
 		pPVSInfo->m_nClusterCount = 0;
 	}
 }

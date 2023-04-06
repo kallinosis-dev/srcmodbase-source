@@ -34,7 +34,7 @@ void ComputeDispInfoBounds( int dispinfo, Vector& mins, Vector& maxs )
 	mapdispinfo_t *pMapDisp = &mapdispinfo[dispinfo];
 
 	CCoreDispInfo coreDispInfo;
-	DispMapToCoreDispInfo( pMapDisp, &coreDispInfo, NULL, NULL );
+	DispMapToCoreDispInfo( pMapDisp, &coreDispInfo, nullptr, nullptr);
 
 	GetDispBox( &coreDispInfo, box );	
 	mins = box.m_Min;
@@ -244,7 +244,7 @@ void DispMapToCoreDispInfo( mapdispinfo_t *pMapDisp, CCoreDispInfo *pCoreDispInf
 
 		// NOTE: This is here to help future-proof code, since there are codepaths where
 		// pTexInfo can be made invalid (texinfo.AddToTail above).
-		pTexInfo = NULL;
+		pTexInfo = nullptr;
 	}
 
 	// Setup the displacement vectors and offsets.
@@ -659,9 +659,9 @@ void DispGetFaceInfo( mapbrush_t *pBrush )
 			pSide->pMapDisp->face.w = CopyWinding( pSide->winding );
 			pSide->pMapDisp->face.contents = pBrush->contents;
 
-			pSide->pMapDisp->face.merged = FALSE;
-			pSide->pMapDisp->face.split[0] = FALSE;
-			pSide->pMapDisp->face.split[1] = FALSE;
+			pSide->pMapDisp->face.merged = nullptr;
+			pSide->pMapDisp->face.split[0] = nullptr;
+			pSide->pMapDisp->face.split[1] = nullptr;
 
 			pSide->pMapDisp->entitynum = pBrush->entitynum;
 			pSide->pMapDisp->brushSideID = pSide->id;

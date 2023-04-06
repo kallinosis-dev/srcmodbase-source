@@ -25,7 +25,7 @@ private:
 public:
 	CConsole( void )
 	{
-		conPanel = NULL;
+		conPanel = nullptr;
 	}
 	
 	void Create( vgui::VPANEL parent )

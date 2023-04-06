@@ -46,7 +46,7 @@ bool AvatarIndexLessFunc( const int &lhs, const int &rhs )
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CClientScoreBoardDialog::CClientScoreBoardDialog(IViewPort *pViewPort) : EditablePanel( NULL, PANEL_SCOREBOARD )
+CClientScoreBoardDialog::CClientScoreBoardDialog(IViewPort *pViewPort) : EditablePanel(nullptr, PANEL_SCOREBOARD )
 {
 	m_iPlayerIndexSymbol = KeyValuesSystem()->GetSymbolForString("playerIndex");
 	m_nCloseKey = BUTTON_CODE_INVALID;
@@ -82,7 +82,7 @@ CClientScoreBoardDialog::CClientScoreBoardDialog(IViewPort *pViewPort) : Editabl
 	ListenForGameEvent( "replay_status" );
 #endif
 
-	m_pImageList = NULL;
+	m_pImageList = nullptr;
 
 	m_mapAvatarsToImageList.SetLessFunc( AvatarIndexLessFunc );
 	m_mapAvatarsToImageList.RemoveAll();
@@ -94,10 +94,10 @@ CClientScoreBoardDialog::CClientScoreBoardDialog(IViewPort *pViewPort) : Editabl
 //-----------------------------------------------------------------------------
 CClientScoreBoardDialog::~CClientScoreBoardDialog()
 {
-	if ( NULL != m_pImageList )
+	if (nullptr != m_pImageList )
 	{
 		delete m_pImageList;
-		m_pImageList = NULL;
+		m_pImageList = nullptr;
 	}
 }
 
@@ -256,7 +256,7 @@ void CClientScoreBoardDialog::ShowPanel(bool bShow)
 {
 	// Catch the case where we call ShowPanel before ApplySchemeSettings, eg when
 	// going from windowed <-> fullscreen
-	if ( m_pImageList == NULL )
+	if ( m_pImageList == nullptr)
 	{
 		InvalidateLayout( true, true );
 	}

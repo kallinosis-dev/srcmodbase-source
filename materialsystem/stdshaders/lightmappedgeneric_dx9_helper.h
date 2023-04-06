@@ -148,13 +148,13 @@ public:
 		if ( m_pStaticCmds )
 		{
 			delete[] m_pStaticCmds;
-			m_pStaticCmds = NULL;
+			m_pStaticCmds = nullptr;
 		}
 	}
 
 	CLightmappedGeneric_DX9_Context( void )
 	{
-		m_pStaticCmds = NULL;
+		m_pStaticCmds = nullptr;
 	}
 
 	~CLightmappedGeneric_DX9_Context( void )

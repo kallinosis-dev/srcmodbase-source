@@ -71,7 +71,7 @@ void BotMeme::Transmit( CCSBot *sender ) const
 	{
 		CCSPlayer *player = static_cast<CCSPlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 //		if (FNullEnt( player->pev ))
@@ -314,7 +314,7 @@ void BotWarnSniperMeme::Interpret( CCSBot *sender, CCSBot *receiver ) const
 //---------------------------------------------------------------------------------------------------------------
 BotSpeakable::BotSpeakable()
 {
-	m_phrase = NULL;
+	m_phrase = nullptr;
 }
 
 //---------------------------------------------------------------------------------------------------------------
@@ -323,7 +323,7 @@ BotSpeakable::~BotSpeakable()
 	if ( m_phrase )
 	{
 		delete[] m_phrase;
-		m_phrase = NULL;
+		m_phrase = nullptr;
 	}
 }
 
@@ -332,7 +332,7 @@ BotSpeakable::~BotSpeakable()
 
 BotPhrase::BotPhrase( bool isPlace )
 {
-	m_name = NULL;
+	m_name = nullptr;
 	m_place = UNDEFINED_PLACE;
 	m_isPlace = isPlace;
 	m_radioEvent = RADIO_INVALID;
@@ -378,7 +378,7 @@ char *BotPhrase::GetSpeakable( int bankIndex, float *duration ) const
 		if (duration)
 			*duration = 0.0f;
 
-		return NULL;
+		return nullptr;
 	}
 
 	// find phrase that meets the current criteria
@@ -417,7 +417,7 @@ char *BotPhrase::GetSpeakable( int bankIndex, float *duration ) const
 			if (duration)
 				*duration = 0.0f;
 
-			return NULL;
+			return nullptr;
 		}
 	}
 }
@@ -450,7 +450,7 @@ void BotPhrase::Randomize( void )
 //---------------------------------------------------------------------------------------------------------------
 //---------------------------------------------------------------------------------------------------------------
 
-BotPhraseManager *TheBotPhrases = NULL;
+BotPhraseManager *TheBotPhrases = nullptr;
 
 BotPhraseManager::BotPhraseManager( void )
 {
@@ -487,8 +487,8 @@ void BotPhraseManager::Reset( void )
 	m_list.RemoveAll();
 	m_placeList.RemoveAll();
 
-	m_painPhrase = NULL;
-	m_agreeWithPlanPhrase = NULL;
+	m_painPhrase = nullptr;
+	m_agreeWithPlanPhrase = nullptr;
 }
 
 
@@ -607,7 +607,7 @@ bool BotPhraseManager::Initialize( const char *filename, int bankIndex )
 			bool isPlace = (stricmp( token, "Place" )) ? false : true;
 
 			// encountered a new phrase collection
-			BotPhrase *phrase = NULL;
+			BotPhrase *phrase = nullptr;
 			if ( isDefault )
 			{
 				phrase = new BotPhrase( isPlace );
@@ -826,7 +826,7 @@ const BotPhrase *BotPhraseManager::GetPhrase( const char *name ) const
 
 	//CONSOLE_ECHO( "GetPhrase: ERROR - Invalid phrase '%s'\n", name );
 
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -853,8 +853,8 @@ const BotPhrase *BotPhraseManager::GetPhrase( unsigned int place ) const
  */
 const BotPhrase *BotPhraseManager::GetPlace( const char *name ) const
 {
-	if (name == NULL)
-		return NULL;
+	if (name == nullptr)
+		return nullptr;
 
 	for( int i=0; i<m_placeList.Count(); ++i )
 	{
@@ -862,7 +862,7 @@ const BotPhrase *BotPhraseManager::GetPlace( const char *name ) const
 			return m_placeList[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /**
@@ -871,7 +871,7 @@ const BotPhrase *BotPhraseManager::GetPlace( const char *name ) const
 const BotPhrase *BotPhraseManager::GetPlace( PlaceCriteria place ) const
 {
 	if (place == UNDEFINED_PLACE)
-		return NULL;
+		return nullptr;
 
 	for( int i=0; i<m_placeList.Count(); ++i )
 	{
@@ -879,7 +879,7 @@ const BotPhrase *BotPhraseManager::GetPlace( PlaceCriteria place ) const
 			return m_placeList[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -890,15 +890,15 @@ BotStatement::BotStatement( BotChatterInterface *chatter, BotStatementType type,
 {
 	m_chatter = chatter;
 
-	m_next = NULL;
-	m_prev = NULL;
+	m_next = nullptr;
+	m_prev = nullptr;
 	m_timestamp = gpGlobals->curtime;
 	m_speakTimestamp = 0.0f;
 
 	m_type = type;
 	m_subject = UNDEFINED_SUBJECT;
 	m_place = UNDEFINED_PLACE;
-	m_meme = NULL;
+	m_meme = nullptr;
 
 	m_startTime = gpGlobals->curtime;
 	m_expireTime = gpGlobals->curtime + expireDuration;
@@ -1103,7 +1103,7 @@ void BotStatement::Convert( const BotStatement *say )
 //---------------------------------------------------------------------------------------------------------------
 void BotStatement::AppendPhrase( const BotPhrase *phrase )
 {
-	if (phrase == NULL)
+	if (phrase == nullptr)
 		return;
 
 	if (m_count < MAX_BOT_PHRASES)
@@ -1172,7 +1172,7 @@ bool BotStatement::Update( void )
 
 		// start next part of statement
 		float duration = 0.0f;
-		const BotPhrase *phrase = NULL;
+		const BotPhrase *phrase = nullptr;
 
 		if (m_statement[ m_index ].isPhrase)
 		{
@@ -1221,7 +1221,7 @@ bool BotStatement::Update( void )
 					// dont report if there are lots of enemies left
 					if (enemyCount < 0 || enemyCount > nMinEnemiesToNote )
 					{
-						phrase = NULL;
+						phrase = nullptr;
 					}
 					else
 					{
@@ -1424,7 +1424,7 @@ static int nextPitch = P_HI;
 BotChatterInterface::BotChatterInterface( CCSBot *me )
 {
 	m_me = me;
-	m_statementList = NULL;
+	m_statementList = nullptr;
 
 	switch( nextPitch )
 	{
@@ -1543,10 +1543,10 @@ void BotChatterInterface::AddStatement( BotStatement *statement, bool mustAdd )
 	// keep statements in order of start time
 
 	// check list is empty
-	if (m_statementList == NULL)
+	if (m_statementList == nullptr)
 	{
-		statement->m_next = NULL;
-		statement->m_prev = NULL;
+		statement->m_next = nullptr;
+		statement->m_prev = nullptr;
 		m_statementList = statement;
 		return;
 	}
@@ -1554,7 +1554,7 @@ void BotChatterInterface::AddStatement( BotStatement *statement, bool mustAdd )
 	// list has at least one statement on it
 
 	// insert into list in order
-	BotStatement *earlier = NULL;
+	BotStatement *earlier = nullptr;
 	for( s=m_statementList; s; s = s->m_next )
 	{
 		if (s->GetStartTime() > statement->GetStartTime())
@@ -1577,7 +1577,7 @@ void BotChatterInterface::AddStatement( BotStatement *statement, bool mustAdd )
 	else
 	{
 		// insert at head
-		statement->m_prev = NULL;
+		statement->m_prev = nullptr;
 		statement->m_next = m_statementList;
 		m_statementList->m_prev = statement;
 		m_statementList = statement;
@@ -1731,7 +1731,7 @@ void BotChatterInterface::Update( void )
 	//
 	const BotStatement *friendSay = GetActiveStatement();
 	if (friendSay && friendSay->GetOwner() == m_me)
-		friendSay = NULL;
+		friendSay = nullptr;
 
 	BotStatement *nextSay;
 	for( say = m_statementList; say; say = nextSay )
@@ -1782,14 +1782,14 @@ void BotChatterInterface::Update( void )
 BotStatement *BotChatterInterface::GetActiveStatement( void )
 {
 	// keep track of statement waiting longest to be spoken - it is next
-	BotStatement *earliest = NULL;
+	BotStatement *earliest = nullptr;
 	float earlyTime = 999999999.9f;
 
 	for( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
 		CCSPlayer *player = static_cast<CCSPlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		// ignore dead humans
@@ -1824,7 +1824,7 @@ BotStatement *BotChatterInterface::GetActiveStatement( void )
 
 	// make sure it is time to start this statement
 	if (earliest && earliest->GetStartTime() > gpGlobals->curtime)
-		return NULL;
+		return nullptr;
 
 	return earliest;
 }
@@ -1866,7 +1866,7 @@ inline const BotPhrase *GetPlacePhrase( CCSBot *me )
 	if (place != UNDEFINED_PLACE)
 		return TheBotPhrases->GetPlace( place );
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2404,7 +2404,7 @@ void BotChatterInterface::RequestBombLocation( void )
 void BotChatterInterface::BombsiteClear( int zoneIndex )
 {
 	const CCSBotManager::Zone *zone = TheCSBots()->GetZone( zoneIndex );
-	if (zone == NULL)
+	if (zone == nullptr)
 		return;
 
 	BotStatement *say = new BotStatement( this, REPORT_INFORMATION, 10.0f );
@@ -2421,7 +2421,7 @@ void BotChatterInterface::BombsiteClear( int zoneIndex )
 void BotChatterInterface::FoundPlantedBomb( int zoneIndex )
 {
 	const CCSBotManager::Zone *zone = TheCSBots()->GetZone( zoneIndex );
-	if (zone == NULL)
+	if (zone == nullptr)
 		return;
 
 	BotStatement *say = new BotStatement( this, REPORT_INFORMATION, 3.0f );

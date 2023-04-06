@@ -22,7 +22,7 @@ class CMapDocCheckin : public CDialog
 	DECLARE_DYNAMIC(CMapDocCheckin)
 
 public:
-	CMapDocCheckin(CWnd* pParent = NULL);   // standard constructor
+	CMapDocCheckin(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CMapDocCheckin();
 
 	// Dialog Data
@@ -55,7 +55,7 @@ class CMapDocStatus : public CDialog
 	DECLARE_DYNAMIC(CMapDocStatus)
 
 public:
-	CMapDocStatus(CWnd* pParent = NULL);   // standard constructor
+	CMapDocStatus(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CMapDocStatus();
 
 // Dialog Data

@@ -97,7 +97,7 @@ public:
 	// Gets the bound morph's vertex format; returns 0 if no morph is bound
 	virtual MorphFormat_t GetBoundMorphFormat() { return 0; }
 
-	virtual ITexture *GetRenderTargetEx( int nRenderTargetID ) { return 0; }
+	virtual ITexture *GetRenderTargetEx( int nRenderTargetID ) { return nullptr; }
 
 	// Tells the material system to draw a buffer clearing quad
 	virtual void DrawClearBufferQuad( unsigned char r, unsigned char g, unsigned char b, unsigned char a, bool bClearColor, bool bClearAlpha, bool bClearDepth ) override {}
@@ -282,7 +282,7 @@ bool CShaderAPITestApp::Create()
 	module = LoadModule( Sys_GetFactoryThis() );
 	AddSystem( module, SHADER_UTIL_INTERFACE_VERSION );
 
-	return ( g_pShaderDeviceMgr != NULL );
+	return ( g_pShaderDeviceMgr != nullptr);
 }
 
 void CShaderAPITestApp::Destroy()
@@ -321,7 +321,7 @@ bool CShaderAPITestApp::CreateAppWindow( const char *pTitle, bool bWindowed, int
     wc.lpfnWndProc   = ShaderAPITestWndProc;
     wc.hInstance     = (HINSTANCE)GetAppInstance();
     wc.lpszClassName = "Valve001";
-	wc.hIcon		 = NULL; //LoadIcon( s_HInstance, MAKEINTRESOURCE( IDI_LAUNCHER ) );
+	wc.hIcon		 = nullptr; //LoadIcon( s_HInstance, MAKEINTRESOURCE( IDI_LAUNCHER ) );
 	wc.hIconSm		 = wc.hIcon;
 
     RegisterClassEx( &wc );
@@ -364,7 +364,7 @@ bool CShaderAPITestApp::CreateAppWindow( const char *pTitle, bool bWindowed, int
 	CenterY = (CenterY < 0) ? 0: CenterY;
 
 	// In VCR modes, keep it in the upper left so mouse coordinates are always relative to the window.
-	SetWindowPos (m_HWnd, NULL, CenterX, CenterY, 0, 0,
+	SetWindowPos (m_HWnd, nullptr, CenterX, CenterY, 0, 0,
 				  SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW | SWP_DRAWFRAME);
 
 	return true;
@@ -376,7 +376,7 @@ bool CShaderAPITestApp::CreateAppWindow( const char *pTitle, bool bWindowed, int
 //-----------------------------------------------------------------------------
 bool CShaderAPITestApp::SetupSearchPaths()
 {
-	if ( !BaseClass::SetupSearchPaths( NULL, false, true ) )
+	if ( !BaseClass::SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	g_pFullFileSystem->AddSearchPath( GetGameInfoPath(), "SKIN", PATH_ADD_TO_HEAD );
@@ -402,7 +402,7 @@ bool CShaderAPITestApp::PreInit( )
 	const char *pArg;
 	int iWidth = 1024;
 	int iHeight = 768;
-	bool bWindowed = (CommandLine()->CheckParm( "-fullscreen" ) == NULL);
+	bool bWindowed = (CommandLine()->CheckParm( "-fullscreen" ) == nullptr);
 	if (CommandLine()->CheckParm( "-width", &pArg ))
 	{
 		iWidth = atoi( pArg );
@@ -429,10 +429,10 @@ void CShaderAPITestApp::PostShutdown( )
 //-----------------------------------------------------------------------------
 bool CShaderAPITestApp::WaitForKeypress()
 {
-	MSG msg = {0};
+	MSG msg = {nullptr};
 	while( WM_QUIT != msg.message )
 	{
-		if( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+		if( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
 		{
 			TranslateMessage( &msg );
 			DispatchMessage( &msg );
@@ -509,8 +509,8 @@ bool CShaderAPITestApp::SetMode()
 		return false;
 	}
 
-	m_pShaderAPI = (IShaderAPI*)shaderFactory( SHADERAPI_INTERFACE_VERSION, NULL );
-	m_pShaderDevice = (IShaderDevice*)shaderFactory( SHADER_DEVICE_INTERFACE_VERSION, NULL );
+	m_pShaderAPI = (IShaderAPI*)shaderFactory( SHADERAPI_INTERFACE_VERSION, nullptr);
+	m_pShaderDevice = (IShaderDevice*)shaderFactory( SHADER_DEVICE_INTERFACE_VERSION, nullptr);
 	if ( !m_pShaderAPI || !m_pShaderDevice )
 	{
 		Warning( "Unable to get IShaderAPI or IShaderDevice interface!\n" );
@@ -609,13 +609,13 @@ void CShaderAPITestApp::DestroyBuffers()
 	if ( m_pVertexBuffer )
 	{
 		m_pShaderDevice->DestroyVertexBuffer( m_pVertexBuffer );
-		m_pVertexBuffer = NULL;
+		m_pVertexBuffer = nullptr;
 	}
 
 	if ( m_pIndexBuffer )
 	{
 		m_pShaderDevice->DestroyIndexBuffer( m_pIndexBuffer );
-		m_pIndexBuffer = NULL;
+		m_pIndexBuffer = nullptr;
 	}
 }
 
@@ -712,8 +712,8 @@ void CShaderAPITestApp::TestColoredQuad( ShaderBufferType_t nVBType, ShaderBuffe
 	CreateSimpleBuffers( nVBType, nIBType, bBuffered );
 
 	// Draw a quad!
-	CreateShaders( s_pSimpleVertexShader, sizeof(s_pSimpleVertexShader), 
-		NULL, 0, s_pSimplePixelShader, sizeof(s_pSimplePixelShader) );
+	CreateShaders( s_pSimpleVertexShader, sizeof(s_pSimpleVertexShader),
+	               nullptr, 0, s_pSimplePixelShader, sizeof(s_pSimplePixelShader) );
 
 	m_pShaderAPI->Draw( MATERIAL_TRIANGLES, 0, 6 );
 	m_pShaderDevice->Present();
@@ -734,8 +734,8 @@ void CShaderAPITestApp::TestDynamicBuffers()
 	m_pIndexBuffer = m_pShaderDevice->CreateIndexBuffer( 
 		SHADER_BUFFER_TYPE_DYNAMIC, MATERIAL_INDEX_FORMAT_UNKNOWN, 30, "test" );
 
-	CreateShaders( s_pSimpleVertexShader, sizeof(s_pSimpleVertexShader), 
-		NULL, 0, s_pSimplePixelShader, sizeof(s_pSimplePixelShader) );
+	CreateShaders( s_pSimpleVertexShader, sizeof(s_pSimpleVertexShader),
+	               nullptr, 0, s_pSimplePixelShader, sizeof(s_pSimplePixelShader) );
 
 	// clear (so that we can make sure that we aren't getting results from the previous quad)
 	m_pShaderAPI->ClearColor3ub( RandomInt( 0, 100 ), RandomInt( 0, 100 ), RandomInt( 190, 255 ) );

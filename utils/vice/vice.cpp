@@ -149,7 +149,7 @@ int main(int argc, char* argv[])
 	{
 		Usage();
 	}
-	char *pInputBaseName = NULL;
+	char *pInputBaseName = nullptr;
 	int i = 1;
 	strcpy( g_Extension, ".dat" );
 	while( i < argc )
@@ -237,7 +237,7 @@ int main(int argc, char* argv[])
 			char	fname[ MAX_PATH ];
 			char	ext[_MAX_EXT];
 
-			_splitpath( pInputBaseName, NULL, NULL, fname, ext ); //find extension wanted
+			_splitpath( pInputBaseName, nullptr, nullptr, fname, ext ); //find extension wanted
 			fname[strlen(fname)-1] = 0; // remove *
 
 			sprintf( search, "%s\\*%s", gamedir, ext );

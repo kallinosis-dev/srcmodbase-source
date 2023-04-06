@@ -65,11 +65,11 @@ public:
 
 	void GetBoundingSphere( Vector &c, float &r, CDmeVertexData *pPassedBase, CDmeSingleIndexedComponent *pPassedSelection ) const;
 
-	virtual void GetBoundingSphere( Vector &c, float &r ) const { return GetBoundingSphere( c, r, NULL, NULL ); }
+	virtual void GetBoundingSphere( Vector &c, float &r ) const { return GetBoundingSphere( c, r, nullptr, nullptr); }
 
 	void GetBoundingBox( Vector &min, Vector &max, CDmeVertexData *pPassedBase /* = NULL */, CDmeSingleIndexedComponent *pPassedSelection /* = NULL */ ) const;
 	
-	virtual void GetBoundingBox( Vector &min, Vector &max ) const { return GetBoundingBox( min, max, NULL, NULL ); }
+	virtual void GetBoundingBox( Vector &min, Vector &max ) const { return GetBoundingBox( min, max, nullptr, nullptr); }
 
 	// accessors
 	int FaceSetCount() const;
@@ -98,7 +98,7 @@ public:
 	const CDmeVertexData *GetBindBaseState() const;
 
 	// Draws the mesh
-	void Draw( const matrix3x4_t &shapeToWorld, CDmeDrawSettings *pDrawSettings = NULL );
+	void Draw( const matrix3x4_t &shapeToWorld, CDmeDrawSettings *pDrawSettings = nullptr);
 
 	// Compute triangulated indices
 	void ComputeTriangulatedIndices( const CDmeVertexData *pBaseState, const CDmeFaceSet *pFaceSet, int nFirstIndex, int *pIndices, int nOutCount ) const;
@@ -119,16 +119,16 @@ public:
 	int FindDeltaStateIndex( const char *pDeltaName, bool bSortDeltaName = true ) const;
 	void SetDeltaStateWeight( int nDeltaIndex, MeshDeltaWeightType_t type, float flMorphWeight );
 	void SetDeltaStateWeight( int nDeltaIndex, MeshDeltaWeightType_t type, float flLeftWeight, float flRightWeight );
-	CDmeVertexDeltaData *ModifyOrCreateDeltaStateFromBaseState( const char *pDeltaName, CDmeVertexData *pPassedBase = NULL, bool absolute = false );
+	CDmeVertexDeltaData *ModifyOrCreateDeltaStateFromBaseState( const char *pDeltaName, CDmeVertexData *pPassedBase = nullptr, bool absolute = false );
 
 	// Sets all of the data in the current base state to be the bind state plus the corrected delta, if delta is NULL then it's set to the bind state
-	bool SetBaseStateToDelta( const CDmeVertexDeltaData *pDelta, CDmeVertexData *pPassedBase = NULL );
+	bool SetBaseStateToDelta( const CDmeVertexDeltaData *pDelta, CDmeVertexData *pPassedBase = nullptr);
 
 	// Selects the vertices from the delta that change position
 	void SelectVerticesFromDelta( CDmeVertexDeltaData *pDelta, CDmeSingleIndexedComponent *pSelection );
 
 	// Selects all the vertices in the mesh
-	void SelectAllVertices( CDmeSingleIndexedComponent *pSelection, CDmeVertexData *pPassedBase = NULL );
+	void SelectAllVertices( CDmeSingleIndexedComponent *pSelection, CDmeVertexData *pPassedBase = nullptr);
 
 	enum SelectHalfType_t
 	{
@@ -137,28 +137,28 @@ public:
 	};
 
 	// Selects all the vertices in the mesh
-	void SelectHalfVertices( SelectHalfType_t selectHalfType, CDmeSingleIndexedComponent *pSelection, CDmeVertexData *pPassedBase = NULL );
+	void SelectHalfVertices( SelectHalfType_t selectHalfType, CDmeSingleIndexedComponent *pSelection, CDmeVertexData *pPassedBase = nullptr);
 
 	// Add the delta into the vertex data state weighted by the weight and masked by the weight map
 	bool AddMaskedDelta(
 		CDmeVertexDeltaData *pDelta,
-		CDmeVertexData *pDst = NULL,
+		CDmeVertexData *pDst = nullptr,
 		float weight = 1.0f,
-		const CDmeSingleIndexedComponent *pMask = NULL );
+		const CDmeSingleIndexedComponent *pMask = nullptr);
 
 	// Add the delta into the vertex data state weighted by the weight and masked by the weight map
 	bool AddCorrectedMaskedDelta(
 		CDmeVertexDeltaData *pDelta,
-		CDmeVertexData *pDst = NULL,
+		CDmeVertexData *pDst = nullptr,
 		float weight = 1.0f,
-		const CDmeSingleIndexedComponent *pMask = NULL );
+		const CDmeSingleIndexedComponent *pMask = nullptr);
 
 	// Interpolate between the current state and the specified delta by the specified percentage masked by the selection
 	bool InterpMaskedDelta(
 		CDmeVertexDeltaData *pDelta,
-		CDmeVertexData *pDst = NULL,
+		CDmeVertexData *pDst = nullptr,
 		float weight = 1.0f,
-		const CDmeSingleIndexedComponent *pMask = NULL );
+		const CDmeSingleIndexedComponent *pMask = nullptr);
 
 	// Grows the selection by a specified amount
 	void GrowSelection( int nSize, CDmeSingleIndexedComponent *pSelection, CDmMeshComp *pPassedMeshComp );
@@ -207,12 +207,12 @@ public:
 
 	// Computes adds a delta to the passed data weighted by the passed weight
 	template < class T_t > void AddDelta(
-		const CDmeVertexDeltaData *pDelta, T_t *pFullData, int nFullData, FieldIndex_t fieldIndex, float weight = 1.0f, const CDmeSingleIndexedComponent *pMask = NULL );
+		const CDmeVertexDeltaData *pDelta, T_t *pFullData, int nFullData, FieldIndex_t fieldIndex, float weight = 1.0f, const CDmeSingleIndexedComponent *pMask = nullptr);
 
 	template < class T_t > void AddDelta(
-		const CDmeVertexDeltaData *pDelta, T_t *pFullData, int nFullData, CDmeVertexData::StandardFields_t standardField, float weight = 1.0f, const CDmeSingleIndexedComponent *pMask = NULL );
+		const CDmeVertexDeltaData *pDelta, T_t *pFullData, int nFullData, CDmeVertexData::StandardFields_t standardField, float weight = 1.0f, const CDmeSingleIndexedComponent *pMask = nullptr);
 
-	bool SetBaseStateToDeltas( CDmeVertexData *pPassedBase = NULL );
+	bool SetBaseStateToDeltas( CDmeVertexData *pPassedBase = nullptr);
 
 	template < class T_t >
 	bool SetBaseDataToDeltas( CDmeVertexData *pBase, CDmeVertexData::StandardFields_t nStandardField, CDmrArrayConst< T_t > &srcData, CDmrArray< T_t > &dstData, bool bDoStereo, bool bDoLag );
@@ -268,10 +268,10 @@ private:
 	IMesh *CreateHwMesh( CDmeFaceSet *pFaceSet );
 
 	// Draws the mesh when it uses too many bones
-	void DrawDynamicMesh( CDmeFaceSet *pFaceSet, matrix3x4_t *pPoseToWorld, bool bHasActiveDeltaStates, CDmeDrawSettings *pDrawSettings = NULL );
+	void DrawDynamicMesh( CDmeFaceSet *pFaceSet, matrix3x4_t *pPoseToWorld, bool bHasActiveDeltaStates, CDmeDrawSettings *pDrawSettings = nullptr);
 
 	// Build a map from vertex index to a list of triangles that share the vert.
-	void BuildTriangleMap( const CDmeVertexData *pBaseState, CDmeFaceSet* pFaceSet, CUtlVector<Triangle_t>& triangles, CUtlVector< CUtlVector<int> >* pVertToTriMap = NULL );
+	void BuildTriangleMap( const CDmeVertexData *pBaseState, CDmeFaceSet* pFaceSet, CUtlVector<Triangle_t>& triangles, CUtlVector< CUtlVector<int> >* pVertToTriMap = nullptr);
 
 	// Computes tangent space data for triangles
 	void ComputeTriangleTangets( const CDmeVertexData *pVertexData, CUtlVector<Triangle_t>& triangles );
@@ -327,7 +327,7 @@ private:
 	void ComputeDeltaStateComputationList( CUtlVector< DeltaComputation_t > &compList );
 
 	// Compute the number of combinations of n items taken k at a time nCk - Probably doesn't belong here but it useful for combos
-	static void Combinations( int n, int k, CUtlVector< CUtlVector< int > > &combos, int *pTmpArray = NULL, int start = 0, int currentK = 0 );
+	static void Combinations( int n, int k, CUtlVector< CUtlVector< int > > &combos, int *pTmpArray = nullptr, int start = 0, int currentK = 0 );
 
 	// Splits the passed delta state name on '_' and finds all of the control Delta states which make up the name
 	bool GetControlDeltaIndices( CDmeVertexDeltaData *pDeltaState, CUtlVector< int > &controlDeltaIndices ) const;
@@ -355,7 +355,7 @@ private:
 		const DeltaComputation_t &deltaComputation,
 		const char *pFieldName,
 		float weight = 1.0f,
-		const CDmeSingleIndexedComponent *pMask = NULL );
+		const CDmeSingleIndexedComponent *pMask = nullptr);
 
 	template < class T_t > void AddCorrectedDelta(
 		CUtlVector< T_t > &baseData,
@@ -363,21 +363,21 @@ private:
 		const DeltaComputation_t &deltaComputation,
 		const char *pFieldName,
 		float weight = 1.0f,
-		const CDmeSingleIndexedComponent *pMask = NULL );
+		const CDmeSingleIndexedComponent *pMask = nullptr);
 
 	template < class T_t > void AddRawDelta(
 		CDmeVertexDeltaData *pDelta,
 		CDmrArray< T_t > &baseDataArray,
 		FieldIndex_t nDeltaFieldIndex,
 		float weight = 1.0f,
-		const CDmeSingleIndexedComponent *pMask = NULL );
+		const CDmeSingleIndexedComponent *pMask = nullptr);
 
 	template < class T_t > void AddRawDelta(
 		CDmeVertexDeltaData *pDelta,
 		CUtlVector< T_t > &baseData,
 		FieldIndex_t nDeltaFieldIndex,
 		float weight = 1.0f,
-		const CDmeSingleIndexedComponent *pMask = NULL );
+		const CDmeSingleIndexedComponent *pMask = nullptr);
 
 	friend class CDmxEdit;
 	bool RemoveBaseState( CDmeVertexData *pBase ); 
@@ -447,10 +447,10 @@ private:
 		const CDmeSingleIndexedComponent *pMask ) const;
 
 	// Find the closest vertex in the specified selection to the passed vertex in the specified base state, if the passed base state is NULL is the current base state
-	int ClosestSelectedVertex( int vIndex, CDmeSingleIndexedComponent *pSelection, const CDmeVertexData *pPassedBase = NULL ) const;
+	int ClosestSelectedVertex( int vIndex, CDmeSingleIndexedComponent *pSelection, const CDmeVertexData *pPassedBase = nullptr) const;
 
 	// Return the distance between the two vertices in the specified base state, if the specified base state is NULL the current state is used
-	float DistanceBetween( int vIndex0, int vIndex1, const CDmeVertexData *pPassedBase = NULL ) const;
+	float DistanceBetween( int vIndex0, int vIndex1, const CDmeVertexData *pPassedBase = nullptr) const;
 
 	void DrawWireframeFaceSet( CDmeFaceSet *pFaceSet, matrix3x4_t *pPoseToWorld, bool bHasActiveDeltaStates, CDmeDrawSettings *pDrawSettings );
 

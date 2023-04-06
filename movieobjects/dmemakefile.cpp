@@ -28,7 +28,7 @@ IMPLEMENT_ELEMENT_FACTORY( DmeSource, CDmeSource );
 //-----------------------------------------------------------------------------
 void CDmeSource::OnConstruction()
 {
-	m_DependentMakefile = NULL;
+	m_DependentMakefile = nullptr;
 }
 
 void CDmeSource::OnDestruction()
@@ -74,15 +74,15 @@ IMPLEMENT_ELEMENT_FACTORY( DmeMakefile, CDmeMakefile );
 void CDmeMakefile::OnConstruction()
 {
 	m_Sources.Init( this, "sources" );
-	m_hOutput = NULL;
-	m_hCompileProcess = NULL;
+	m_hOutput = nullptr;
+	m_hCompileProcess = nullptr;
 	m_bIsDirty = false;
 }
 
 void CDmeMakefile::OnDestruction()
 {
 	DestroyOutputElement( m_hOutput.Get() );
-	m_hOutput = NULL;
+	m_hOutput = nullptr;
 }
 
 						   
@@ -98,7 +98,7 @@ void CDmeMakefile::PreCompile( )
 	// NOTE: Don't check for m_hOutput == 0; we always need to call DestroyOutputElement
 	// Sometimes makefiles have to do stuff even if m_hOutput == NULL
 	DestroyOutputElement( m_hOutput );
-	m_hOutput = NULL;
+	m_hOutput = nullptr;
 }
 
 void CDmeMakefile::PostCompile( )
@@ -115,7 +115,7 @@ CDmElement *CDmeMakefile::GetOutputElement( bool bCreateIfNecessary )
 		return m_hOutput.Get();
 
 	if ( !bCreateIfNecessary )
-		return NULL;
+		return nullptr;
 
 	if ( !g_pDmeMakefileUtils || !g_pDmeMakefileUtils->IsCurrentlyCompiling() )
 	{
@@ -207,7 +207,7 @@ bool CDmeMakefile::GetDefaultDirectory( const char *pDefaultDirectoryID, char *p
 		GetMakefilePath( pMakefilePath, sizeof(pMakefilePath) );
 
 		char pModContentDirectory[MAX_PATH];
-		GetModContentSubdirectory( NULL, pModContentDirectory, sizeof(pModContentDirectory) );
+		GetModContentSubdirectory(nullptr, pModContentDirectory, sizeof(pModContentDirectory) );
 
 		char pRelativePath[MAX_PATH];
 		if ( !Q_MakeRelativePath( pMakefilePath, pModContentDirectory, pRelativePath, sizeof(pRelativePath) ) )
@@ -217,7 +217,7 @@ bool CDmeMakefile::GetDefaultDirectory( const char *pDefaultDirectoryID, char *p
 		}
 
 		char pModDirectory[MAX_PATH];
-		GetModSubdirectory( NULL, pModDirectory, sizeof(pModDirectory) );
+		GetModSubdirectory(nullptr, pModDirectory, sizeof(pModDirectory) );
 
 		char pMakefileGamePath[MAX_PATH];
 		Q_ComposeFileName( pModDirectory, pRelativePath, pMakefileGamePath, sizeof(pMakefileGamePath) );
@@ -284,7 +284,7 @@ CDmeSource *CDmeMakefile::AddSource( const char *pSourceType, const char *pFullP
 	if ( pFullPath[0] && FindSource( pSourceType, pFullPath ) )
 	{
 		Warning( "Attempted to add the same source twice %s!\n", pFullPath );
-		return NULL;
+		return nullptr;
 	}
 
 	CDmElement *pElement = GetElement< CDmElement >( g_pDataModel->CreateElement( pSourceType, "", GetFileId() ) );
@@ -297,7 +297,7 @@ CDmeSource *CDmeMakefile::AddSource( const char *pSourceType, const char *pFullP
 		{
 			DestroyElement( pElement );
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	char pRelativePath[MAX_PATH];
@@ -324,7 +324,7 @@ CDmeSource *CDmeMakefile::FindSource( const char *pSourceType, const char *pFull
 		if ( !Q_stricmp( pRelativePath, m_Sources[i]->GetRelativeFileName() ) )
 			return m_Sources[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -352,7 +352,7 @@ void CDmeMakefile::SetSourceFullPath( CDmeSource *pSource, const char *pFullPath
 		pSource->SetRelativeFileName( pRelativePath );
 
 		// FIXME: Should we delete the dependent makefile?
-		pSource->SetDependentMakefile( NULL );
+		pSource->SetDependentMakefile(nullptr);
 	}
 }
 
@@ -595,7 +595,7 @@ void CDmeMakefile::SetAssociation( CDmeSource *pSource, CDmeMakefile *pSourceMak
 CDmeMakefile *CDmeMakefile::FindDependentMakefile( CDmeSource *pSource )
 {
 	if ( !pSource )
-		return NULL;
+		return nullptr;
 
 	int nCount = m_Sources.Count();
 	for ( int i = 0; i < nCount; ++i )
@@ -604,7 +604,7 @@ CDmeMakefile *CDmeMakefile::FindDependentMakefile( CDmeSource *pSource )
 			return m_Sources[i]->GetDependentMakefile();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -614,7 +614,7 @@ CDmeMakefile *CDmeMakefile::FindDependentMakefile( CDmeSource *pSource )
 CDmeSource *CDmeMakefile::FindAssociatedSource( CDmeMakefile *pChildMakefile )
 {
 	if ( !pChildMakefile )
-		return NULL;
+		return nullptr;
 
 	int nCount = m_Sources.Count();
 	for ( int i = 0; i < nCount; ++i )
@@ -623,6 +623,6 @@ CDmeSource *CDmeMakefile::FindAssociatedSource( CDmeMakefile *pChildMakefile )
 			return m_Sources[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 

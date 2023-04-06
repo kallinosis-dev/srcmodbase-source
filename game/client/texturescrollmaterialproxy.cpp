@@ -38,7 +38,7 @@ private:
 
 CTextureScrollMaterialProxy::CTextureScrollMaterialProxy()
 {
-	m_pTextureScrollVar = NULL;
+	m_pTextureScrollVar = nullptr;
 }
 
 CTextureScrollMaterialProxy::~CTextureScrollMaterialProxy()

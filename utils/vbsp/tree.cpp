@@ -57,7 +57,7 @@ void FreeTreePortals_r (node_t *node)
 		RemovePortalFromNode (p, p->nodes[!s]);
 		FreePortal (p);
 	}
-	node->portals = NULL;
+	node->portals = nullptr;
 }
 
 /*

@@ -77,7 +77,7 @@ void IVP_Simulation_Unit::add_controller_unit_sim( IVP_Controller *new_cntrl ) {
 void IVP_Simulation_Unit::split_sim_unit(IVP_Core *split_father) {
     IVP_ASSERT(split_father);
     IVP_Core *my_core;
-    IVP_Core *next_split_father=NULL;
+    IVP_Core *next_split_father= nullptr;
     IVP_BOOL next_split_necessary=IVP_FALSE;
     IVP_Simulation_Unit *split_new_unit=new IVP_Simulation_Unit();
     split_new_unit->sim_unit_movement_type=IVP_MT_MOVING;
@@ -91,7 +91,7 @@ void IVP_Simulation_Unit::split_sim_unit(IVP_Core *split_father) {
         my_core=sim_unit_cores.element_at(i);
         IVP_Core *test_core=my_core->union_find_get_father();
 	if( test_core != split_father ) {
-	  if( next_split_father != NULL ) {
+	  if( next_split_father != nullptr) {
 	      if( test_core!=next_split_father ) {
 		  next_split_necessary=IVP_TRUE;
 	      }
@@ -134,7 +134,7 @@ IVP_Core *IVP_Simulation_Unit::sim_unit_union_find_test()
     IVP_Core *my_core;
     for (int i = sim_unit_cores.len()-1; i>=0;i--){
 	my_core = sim_unit_cores.element_at(i);
-	my_core->tmp.union_find_father=NULL;
+	my_core->tmp.union_find_father= nullptr;
     }
 
     for(int  i2=controller_cores.len()-1; i2>=0; i2-- ) {
@@ -185,7 +185,7 @@ IVP_Core *IVP_Simulation_Unit::sim_unit_union_find_test()
 	    }
 	}
     }
-    return NULL;
+    return nullptr;
 }
 
 //clear redundant part
@@ -200,7 +200,7 @@ void IVP_Simulation_Unit::clean_sim_unit() {
 }
 
 void IVP_Simulation_Unit::throw_cores_into_my_sim_unit(IVP_Simulation_Unit *second_unit) {
-    IVP_Environment *env=NULL;
+    IVP_Environment *env= nullptr;
     int i;
     for ( i=0; i<second_unit->sim_unit_cores.len(); i++){
 	    IVP_Core *my_core = second_unit->sim_unit_cores.element_at(i);
@@ -399,7 +399,7 @@ void IVP_Controller_Manager::ensure_core_in_simulation(IVP_Core *core) {
 void IVP_Controller_Manager::remove_controller_from_environment( IVP_Controller_Dependent *cntrl, IVP_BOOL silently ) {
     IVP_U_Vector<IVP_Core> *controlled_cores=cntrl->get_associated_controlled_cores();
 
-    IVP_Simulation_Unit *reference_unit=NULL;
+    IVP_Simulation_Unit *reference_unit= nullptr;
     int i;
     for(i=controlled_cores->len()-1;i>=0;i--) {
         IVP_Core *my_core=controlled_cores->element_at(i);
@@ -434,7 +434,7 @@ void IVP_Controller_Manager::remove_controller_from_core(IVP_Controller_Independ
 void IVP_Controller_Manager::announce_controller_to_environment( IVP_Controller_Dependent *cntrl ) {
     IVP_U_Vector<IVP_Core> *controlled_cores=cntrl->get_associated_controlled_cores();
   
-    IVP_Simulation_Unit *reference_unit=NULL;
+    IVP_Simulation_Unit *reference_unit= nullptr;
     IVP_BOOL did_fusion=IVP_FALSE;
     IVP_Movement_Type mtype=IVP_MT_NOT_SIM;
     
@@ -445,7 +445,7 @@ void IVP_Controller_Manager::announce_controller_to_environment( IVP_Controller_
 	    
 	    mtype=(IVP_Movement_Type)((int)mtype & (int)test_core->movement_state);
 	    IVP_Simulation_Unit *test_sim_unit=test_core->sim_unit_of_core;
-	    if(reference_unit!=NULL) {
+	    if(reference_unit!= nullptr) {
 	        if(test_sim_unit!=reference_unit) {
 		    reference_unit->throw_cores_into_my_sim_unit(test_sim_unit); //
 		    P_DELETE(test_sim_unit);
@@ -542,8 +542,8 @@ void IVP_Simulation_Unit::sim_unit_exchange_controllers(int first,int second) {
 
 IVP_Sim_Units_Manager::IVP_Sim_Units_Manager(IVP_Environment *env) {
     l_environment=env;
-    sim_units_slots[0]=NULL;
-    still_slot=NULL;
+    sim_units_slots[0]= nullptr;
+    still_slot= nullptr;
     nb = IVP_Time(9.73f);
     bt = IVP_Time(0.3f);
 }
@@ -554,7 +554,7 @@ void IVP_Sim_Units_Manager::add_unit_to_slot(IVP_Simulation_Unit *sim_u,IVP_Simu
     if(s_u) {
         s_u->prev_sim_unit=sim_u;
     }
-    sim_u->prev_sim_unit=NULL;
+    sim_u->prev_sim_unit= nullptr;
     *slot=sim_u;    
 }
 
@@ -692,7 +692,7 @@ void IVP_Simulation_Unit::init_moving_core_for_psi(IVP_Core *core, const IVP_Tim
 
     IVP_IF(1) {
 	IVP_Friction_Info_For_Core *info=core->moveable_core_has_friction_info();
-	IVP_Friction_System *fs=NULL;
+	IVP_Friction_System *fs= nullptr;
 	if(info) {
 	  fs=info->l_friction_system;
 	}

@@ -44,7 +44,7 @@ public:
 	Morph3D();
 	virtual ~Morph3D();
 
-	BOOL IsMorphing(CMapSolid *pSolid, CSSolid **pStrucSolidRvl = NULL);
+	BOOL IsMorphing(CMapSolid *pSolid, CSSolid **pStrucSolidRvl = nullptr);
 
 	bool SplitFace();
 	bool CanSplitFace();
@@ -116,7 +116,7 @@ private:
 
 	void GetHandlePos(MORPHHANDLE *pInfo, Vector& pt);
 
-	SSHANDLE Get2DMatches(CMapView2D *pView, CSSolid *pStrucSolid, SSHANDLEINFO &hi, CUtlVector<SSHANDLE>*pSimilarList = NULL);
+	SSHANDLE Get2DMatches(CMapView2D *pView, CSSolid *pStrucSolid, SSHANDLEINFO &hi, CUtlVector<SSHANDLE>*pSimilarList = nullptr);
 
 	void StartTranslation(CMapView *pView, const Vector2D &vPoint, MORPHHANDLE *pInfo );
 

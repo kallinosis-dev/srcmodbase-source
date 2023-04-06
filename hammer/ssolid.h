@@ -186,8 +186,8 @@ class CSSolid
 	private:
 
 		// called by Convert():
-		void ToMapSolid(CMapSolid* = NULL);
-		void FromMapSolid(CMapSolid* = NULL, bool bSkipDisplacementFaces = false);
+		void ToMapSolid(CMapSolid* = nullptr);
+		void FromMapSolid(CMapSolid* = nullptr, bool bSkipDisplacementFaces = false);
 
 		void AssignFace(CSSEdge* pEdge, SSHANDLE hFace, BOOL = FALSE);
 
@@ -200,9 +200,9 @@ class CSSolid
 		BOOL CanMergeVertices();
 
 		// add face/edge/vertex:
-		CSSFace* AddFace(int* = NULL);
-		CSSEdge* AddEdge(int* = NULL);
-		CSSVertex* AddVertex(int* = NULL);
+		CSSFace* AddFace(int* = nullptr);
+		CSSEdge* AddEdge(int* = nullptr);
+		CSSVertex* AddVertex(int* = nullptr);
 
 		// get the index to the vertex at this point - 
 		//  return -1 if no matching vertex.
@@ -218,8 +218,8 @@ class CSSolid
 		CSSEdge ** FindAffectedEdges(SSHANDLE *pHandles, int iNumHandles, 
 								int& iNumEdges);
 		Vector * CreatePointList(CSSFace & face);
-		PINT CreatePointIndexList(CSSFace & face, PINT piPoints = NULL);
-		SSHANDLE* CreatePointHandleList(CSSFace & face, SSHANDLE* phPoints = NULL);
+		PINT CreatePointIndexList(CSSFace & face, PINT piPoints = nullptr);
+		SSHANDLE* CreatePointHandleList(CSSFace & face, SSHANDLE* phPoints = nullptr);
 		void SetVertexPosition(int iVertex, float x, float y, float z);
 		SSHANDLE* CreateNewVertexList(CSSFace *pFace, CSSEdge *pEdge1, 
 										   CSSEdge *pEdge2, int& nv1index, int& nv2index,

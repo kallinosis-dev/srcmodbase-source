@@ -162,7 +162,7 @@ WizardSubPanel(parent, panelName)
 //-----------------------------------------------------------------------------
 WizardSubPanel *CMoreSelections::GetNextSubPanel()
 {
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -238,7 +238,7 @@ private:
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CWonderfulWizard::CWonderfulWizard() : WizardPanel(NULL, "WonderfulWizard")
+CWonderfulWizard::CWonderfulWizard() : WizardPanel(nullptr, "WonderfulWizard")
 {
 	// The size of the Wizard.
 	//SetBounds(0, 0, 480, 360);

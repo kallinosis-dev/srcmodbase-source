@@ -16,7 +16,7 @@
 //-----------------------------------------------------------------------------
 CActBusyDoc::CActBusyDoc( IActBusyDocCallback *pCallback ) : m_pCallback( pCallback )
 {
-	m_hRoot = NULL;
+	m_hRoot = nullptr;
 	m_pFileName[0] = 0;
 	m_bDirty = false;
 	g_pDataModel->InstallNotificationCallback( this );
@@ -102,7 +102,7 @@ bool CActBusyDoc::LoadFromFile( const char *pFileName )
 	Assert( !m_hRoot.Get() );
 
 	SetDirty( false );
-	m_hRoot = NULL;
+	m_hRoot = nullptr;
 
 	Q_strncpy( m_pFileName, pFileName, sizeof( m_pFileName ) );
 	if ( !m_pFileName[0] )
@@ -111,8 +111,8 @@ bool CActBusyDoc::LoadFromFile( const char *pFileName )
 	// This is not undoable
 	CDisableUndoScopeGuard guard;
 
-	CDmElement *root = NULL;
-	g_pDataModel->RestoreFromFile( m_pFileName, NULL, "actbusy", &root );
+	CDmElement *root = nullptr;
+	g_pDataModel->RestoreFromFile( m_pFileName, nullptr, "actbusy", &root );
 	m_hRoot = root;
 	OnDataChanged( "CActBusyDoc::LoadFromFile", NOTIFY_SOURCE_APPLICATION, NOTIFY_CHANGE_TOPOLOGICAL );
 	SetDirty( false );
@@ -123,7 +123,7 @@ void CActBusyDoc::SaveToFile( )
 {
 	if ( m_hRoot.Get() && m_pFileName && m_pFileName[0] )
 	{
-		g_pDataModel->SaveToFile( m_pFileName, NULL, "keyvalues", "actbusy", m_hRoot );
+		g_pDataModel->SaveToFile( m_pFileName, nullptr, "keyvalues", "actbusy", m_hRoot );
 	}
 
 	SetDirty( false );

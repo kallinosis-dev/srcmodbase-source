@@ -172,13 +172,13 @@ void LoadEquipmentData()
 const CCSWeaponInfo* GetWeaponInfo( CSWeaponID weaponID )
 {
 	if ( weaponID == WEAPON_NONE )
-		return NULL;
+		return nullptr;
 
 	const char *weaponName = WeaponIdAsString( weaponID );
 	WEAPON_FILE_INFO_HANDLE	hWpnInfo = g_WeaponDatabase.FindWeaponInfo( weaponName );
 	if ( hWpnInfo == GetInvalidWeaponInfoHandle() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	CCSWeaponInfo *pWeaponInfo = dynamic_cast< CCSWeaponInfo* >( g_WeaponDatabase.GetFileWeaponInfoFromHandle( hWpnInfo ) );
@@ -197,7 +197,7 @@ const char* WeaponClassAsString( CSWeaponType weaponType )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -243,7 +243,7 @@ const char * WeaponIdAsString( CSWeaponID weaponID )
 			return s_weaponNameInfo[i].name;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -271,7 +271,7 @@ const char *WeaponIDToAlias( int id )
 			return ( strchr( s_weaponNameInfo[i].name, '_' ) + 1 );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------
@@ -340,7 +340,7 @@ struct EnumerationStringValue
 
 int ParseEnumeration( KeyValues* pKeyValuesData, const char* szKeyName, const EnumerationStringValue enumStringTable[], int iCount, int iDefaultValue )
 {
-	const char *pTeam = pKeyValuesData->GetString( "Team", NULL );
+	const char *pTeam = pKeyValuesData->GetString( "Team", nullptr);
 	if ( !pTeam )
 		return iDefaultValue;
 
@@ -723,7 +723,7 @@ const char* CCSWeaponInfo::GetAddonModel( const CEconItemView* pWepView ) const
 const CUtlVector< WeaponPaintableMaterial_t >* CCSWeaponInfo::GetPaintData( const CEconItemView* pWepView ) const
 {
 	if ( !pWepView || !pWepView->IsValid() )
-		return NULL;
+		return nullptr;
 
 	return pWepView->GetStaticData()->GetPaintData();
 }
@@ -1263,7 +1263,7 @@ void WeaponRecoilData::GenerateRecoilTable( RecoilData *data )
 	bool bHasAttrRecoilMagnitude[2] = {};
 	float flRecoilMagnitudeVariance[2] = {};
 	bool bHasAttrRecoilMagnitudeVariance[2] = {};
-	CCSWeaponInfo const *pWeaponInfo = NULL;
+	CCSWeaponInfo const *pWeaponInfo = nullptr;
 
 	if ( ( data->iItemDefIndex >= WEAPON_FIRST ) && ( data->iItemDefIndex <= WEAPON_LAST ) )
 	{
@@ -1284,10 +1284,10 @@ void WeaponRecoilData::GenerateRecoilTable( RecoilData *data )
 		bFullAuto = pWeaponInfo->IsFullAuto();
 		for ( int iMode = 0; iMode < 2; ++ iMode )
 		{
-			flRecoilAngle[iMode] = pWeaponInfo->GetRecoilAngle( NULL, iMode );
-			flRecoilAngleVariance[iMode] = pWeaponInfo->GetRecoilAngleVariance( NULL, iMode );
-			flRecoilMagnitude[iMode] = pWeaponInfo->GetRecoilMagnitude( NULL, iMode );
-			flRecoilMagnitudeVariance[iMode] = pWeaponInfo->GetRecoilMagnitudeVariance( NULL, iMode );
+			flRecoilAngle[iMode] = pWeaponInfo->GetRecoilAngle(nullptr, iMode );
+			flRecoilAngleVariance[iMode] = pWeaponInfo->GetRecoilAngleVariance(nullptr, iMode );
+			flRecoilMagnitude[iMode] = pWeaponInfo->GetRecoilMagnitude(nullptr, iMode );
+			flRecoilMagnitudeVariance[iMode] = pWeaponInfo->GetRecoilMagnitudeVariance(nullptr, iMode );
 		}
 	}
 
@@ -1396,7 +1396,7 @@ void WeaponRecoilData::GetRecoilOffsets( CWeaponCSBase *pWeapon, int iMode, int 
 
 	item_definition_index_t iDefIndex = pWeapon->GetEconItemView()->GetItemDefinition()->GetDefinitionIndex();
 
-	RecoilData *wepData = NULL;
+	RecoilData *wepData = nullptr;
 	CUtlMap< item_definition_index_t, RecoilData* >::IndexType_t iMapLocation = m_mapRecoilTables.Find( iDefIndex );
 	if ( iMapLocation == m_mapRecoilTables.InvalidIndex() )
 	{

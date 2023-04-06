@@ -215,8 +215,8 @@ public:
 
 	int ObjectsAt( float x, float y, float fWidth, float fHeight, HitInfo_t *pObjects, int nMaxObjects, unsigned nFlags = 0 );
 
-	void DebugHook1(void *pData = NULL);
-	void DebugHook2(void *pData = NULL);
+	void DebugHook1(void *pData = nullptr);
+	void DebugHook2(void *pData = nullptr);
 
 	// indicates we need to render an overlay pass...
 	bool NeedsOverlay() const;

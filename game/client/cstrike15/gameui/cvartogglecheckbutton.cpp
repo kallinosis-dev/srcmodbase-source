@@ -19,7 +19,7 @@ using namespace vgui;
 
 vgui::Panel *CvarToggleCheckButton_Factory()
 {
-	return new CCvarToggleCheckButton( NULL, NULL, "CvarToggleCheckButton", NULL );
+	return new CCvarToggleCheckButton(nullptr, nullptr, "CvarToggleCheckButton", nullptr);
 }
 DECLARE_BUILD_FACTORY_CUSTOM( CCvarToggleCheckButton, CvarToggleCheckButton_Factory );
 
@@ -27,7 +27,7 @@ CCvarToggleCheckButton::CCvarToggleCheckButton( Panel *parent, const char *panel
 	char const *cvarname )
  : CheckButton( parent, panelName, text )
 {
-	m_pszCvarName = cvarname ? strdup( cvarname ) : NULL;
+	m_pszCvarName = cvarname ? strdup( cvarname ) : nullptr;
 
 	if (m_pszCvarName)
 	{
@@ -139,7 +139,7 @@ void CCvarToggleCheckButton::ApplySettings( KeyValues *inResourceData )
 	if( m_pszCvarName )
 		free( m_pszCvarName );// got a "", not a NULL from the create-control call
 
-	m_pszCvarName = cvarName ? strdup( cvarName ) : NULL;
+	m_pszCvarName = cvarName ? strdup( cvarName ) : nullptr;
 
 	if( Q_stricmp( cvarValue, "1") == 0 )
 		m_bStartValue = true;

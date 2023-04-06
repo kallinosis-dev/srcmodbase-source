@@ -50,7 +50,7 @@ class CreateDirectoryDialog : public Frame
 	DECLARE_CLASS_SIMPLE(CreateDirectoryDialog, Frame);
 
 public:
-	CreateDirectoryDialog(Panel *parent, const char *defaultCreateDirName) : BaseClass(parent, NULL)
+	CreateDirectoryDialog(Panel *parent, const char *defaultCreateDirName) : BaseClass(parent, nullptr)
 	{
 		SetSize(320, 100);
 		SetSizeable(false);
@@ -117,7 +117,7 @@ private:
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-DirectorySelectDialog::DirectorySelectDialog(vgui::Panel *parent, const char *title) : Frame(parent, NULL)
+DirectorySelectDialog::DirectorySelectDialog(vgui::Panel *parent, const char *title) : Frame(parent, nullptr)
 {
 	SetTitle(title, true);
 	SetSize(320, 360);
@@ -191,7 +191,7 @@ inline const char *MoveToNextSubDir( const char *pStart, int *nCount )
 	}
 
 	// Give back a count if they've supplied a pointer
-	if ( nCount != NULL )
+	if ( nCount != nullptr)
 	{
 		*nCount = nMoved;
 	}
@@ -228,7 +228,7 @@ void DirectorySelectDialog::ExpandTreeToPath( const char *lpszPath, bool bSelect
 	// Move past the drive letter to the first subdir
 	int nPathPos = 0;
 	const char *lpszSubDirName = MoveToNextSubDir( workPath, &nPathPos ); 
-	const char *lpszLastSubDirName = NULL;
+	const char *lpszLastSubDirName = nullptr;
 	int nPathIncr = 0;
 	char subDirName[MAX_PATH];
 
@@ -386,7 +386,7 @@ void DirectorySelectDialog::ExpandTreeNode(const char *path, int parentNodeIndex
 	sprintf(searchString, "%s*.*", path);
 
 	FileFindHandle_t h;
-	const char *pFileName = g_pFullFileSystem->FindFirstEx( searchString, NULL, &h );
+	const char *pFileName = g_pFullFileSystem->FindFirstEx( searchString, nullptr, &h );
 	for ( ; pFileName; pFileName = g_pFullFileSystem->FindNext( h ) )
 	{
 		if ( !Q_stricmp( pFileName, ".." ) || !Q_stricmp( pFileName, "." ) )
@@ -412,7 +412,7 @@ bool DirectorySelectDialog::DoesDirectoryHaveSubdirectories(const char *path, co
 	sprintf(searchString, "%s%s\\*.*", path, dir);
 
 	FileFindHandle_t h;
-	const char *pFileName = g_pFullFileSystem->FindFirstEx( searchString, NULL, &h );
+	const char *pFileName = g_pFullFileSystem->FindFirstEx( searchString, nullptr, &h );
 	for ( ; pFileName; pFileName = g_pFullFileSystem->FindNext( h ) )
 	{
 		char szFullPath[ MAX_PATH ];
@@ -591,6 +591,6 @@ void DirectorySelectDialog::OnTreeViewItemSelected()
 	GenerateFullPathForNode(selectedIndex, fullPath, sizeof(fullPath));
 
 	int itemID = m_pDriveCombo->GetActiveItem();
-	m_pDriveCombo->UpdateItem(itemID, fullPath, NULL);
+	m_pDriveCombo->UpdateItem(itemID, fullPath, nullptr);
 	m_pDriveCombo->SetText(fullPath);
 }

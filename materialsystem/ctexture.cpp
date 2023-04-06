@@ -289,7 +289,7 @@ public:
 
 	// Sets the filtering modes on the texture we're modifying
 	void SetFilteringAndClampingMode();
-	void Download( Rect_t *pRect = NULL, int nAdditionalCreationFlags = 0 );
+	void Download( Rect_t *pRect = nullptr, int nAdditionalCreationFlags = 0 );
 
 	// Loads up information about the texture 
 	virtual void Precache();
@@ -309,8 +309,8 @@ public:
 	virtual int GetApproximateVidMemBytes( void ) const;
 
 	// Stretch blit the framebuffer into this texture.
-	virtual void CopyFrameBufferToMe( int nRenderTargetID = 0, Rect_t *pSrcRect = NULL, Rect_t *pDstRect = NULL );
-	virtual void CopyMeToFrameBuffer( int nRenderTargetID = 0, Rect_t *pSrcRect = NULL, Rect_t *pDstRect = NULL );
+	virtual void CopyFrameBufferToMe( int nRenderTargetID = 0, Rect_t *pSrcRect = nullptr, Rect_t *pDstRect = nullptr);
+	virtual void CopyMeToFrameBuffer( int nRenderTargetID = 0, Rect_t *pSrcRect = nullptr, Rect_t *pDstRect = nullptr);
 
 	virtual ITexture *GetEmbeddedTexture( int nIndex );
 
@@ -365,7 +365,7 @@ public:
 
 protected:
 	bool IsDepthTextureFormat( ImageFormat fmt );
-	void ReconstructTexture( void *pSourceData = NULL, int nSourceDataSize = 0 );
+	void ReconstructTexture( void *pSourceData = nullptr, int nSourceDataSize = 0 );
 	void ReconstructPartialTexture( const Rect_t *pRect );
 	bool HasBeenAllocated() const;
 	void WriteDataToShaderAPITexture( int nFrameCount, int nFaceCount, int nFirstFace, int nMipCount, IVTFTexture *pVTFTexture, ImageFormat fmt );
@@ -383,7 +383,7 @@ protected:
 
 	// Calculates info about whether we can make the texture smaller and by how much
 	// Returns the number of skipped mip levels
-	int ComputeActualSize( bool bIgnorePicmip = false, IVTFTexture *pVTFTexture = NULL );
+	int ComputeActualSize( bool bIgnorePicmip = false, IVTFTexture *pVTFTexture = nullptr);
 
 	// Computes the actual format of the texture given a desired src format
 	ImageFormat ComputeActualFormat( ImageFormat srcFormat );
@@ -396,7 +396,7 @@ protected:
 	virtual void FreeShaderAPITextures();
 
 	// Download bits
-	void DownloadTexture( Rect_t *pRect, void *pSourceData = NULL, int nSourceDataSize = 0 );
+	void DownloadTexture( Rect_t *pRect, void *pSourceData = nullptr, int nSourceDataSize = 0 );
 	bool DownloadAsyncTexture( AsyncTextureContext_t *pContext, void *pSourceData, int nSourceDataSize, float flMaxTimeMs );
 	void ReconstructTextureBits( Rect_t *pRect );
 
@@ -709,7 +709,7 @@ public:
 		if ( pCallQueue )
 		{
 			m_nQueuedActiveTarget = -1;
-			if( szName == NULL )
+			if( szName == nullptr)
 			{
 				return;
 			}
@@ -732,7 +732,7 @@ public:
 		else
 		{
 			m_nActiveTarget = -1;
-			if( szName == NULL )
+			if( szName == nullptr)
 			{
 				return;
 			}
@@ -893,7 +893,7 @@ public:
 	virtual bool SetRenderTarget( int nRenderTargetID )
 	{
 		Assert( materials->GetRenderContext()->GetCallQueue() == NULL );
-		return SetRenderTarget( nRenderTargetID, NULL );
+		return SetRenderTarget( nRenderTargetID, nullptr);
 	}
 
 	//-----------------------------------------------------------------------------
@@ -945,7 +945,7 @@ public:
 	}
 
 	// Stretch blit the framebuffer into this texture.
-	virtual void CopyFrameBufferToMe( int nRenderTargetID = 0, Rect_t *pSrcRect = NULL, Rect_t *pDstRect = NULL )
+	virtual void CopyFrameBufferToMe( int nRenderTargetID = 0, Rect_t *pSrcRect = nullptr, Rect_t *pDstRect = nullptr)
 	{
 		Assert( materials->GetRenderContext()->GetCallQueue() == NULL );
 		Assert( m_nActiveTarget < m_Targets.Count() );
@@ -1046,7 +1046,7 @@ public:
 
 	// Sets the filtering modes on the texture we're modifying
 	void SetFilteringAndClampingMode() { NULL; }
-	void Download( Rect_t *pRect = NULL, int nAdditionalCreationFlags = 0 ) { NULL; }
+	void Download( Rect_t *pRect = nullptr, int nAdditionalCreationFlags = 0 ) { NULL; }
 
 	// Loads up information about the texture 
 	virtual void Precache() { NULL; }
@@ -1061,15 +1061,15 @@ public:
 	// Returns:
 	//		pointer to the resource data, or NULL. Note that the data from this pointer can disappear when
 	// the texture goes away - you want to copy this data!
-	virtual void *GetResourceData( uint32 eDataType, size_t *pNumBytes ) const { return NULL; }
+	virtual void *GetResourceData( uint32 eDataType, size_t *pNumBytes ) const { return nullptr; }
 
 	virtual int GetApproximateVidMemBytes( void ) const { return 32; }
 
 	// Stretch blit the framebuffer into this texture.
-	virtual void CopyFrameBufferToMe( int nRenderTargetID = 0, Rect_t *pSrcRect = NULL, Rect_t *pDstRect = NULL ) { NULL; }
-	virtual void CopyMeToFrameBuffer( int nRenderTargetID = 0, Rect_t *pSrcRect = NULL, Rect_t *pDstRect = NULL ) { NULL; }
+	virtual void CopyFrameBufferToMe( int nRenderTargetID = 0, Rect_t *pSrcRect = nullptr, Rect_t *pDstRect = nullptr) { NULL; }
+	virtual void CopyMeToFrameBuffer( int nRenderTargetID = 0, Rect_t *pSrcRect = nullptr, Rect_t *pDstRect = nullptr) { NULL; }
 
-	virtual ITexture *GetEmbeddedTexture( int nIndex ) { return ( nIndex == 0 ) ? this : NULL; }
+	virtual ITexture *GetEmbeddedTexture( int nIndex ) { return ( nIndex == 0 ) ? this : nullptr; }
 
 	// Get the shaderapi texture handle associated w/ a particular frame
 	virtual ShaderAPITextureHandle_t GetTextureHandle( int nFrame, int nTextureChannel = 0 ) { return m_hTexture; }
@@ -1080,7 +1080,7 @@ public:
 	virtual void BindVertexTexture( VertexTextureSampler_t stage, int nFrame );
 
 	// Set this texture as a render target	
-	bool SetRenderTarget( int nRenderTargetID ) { return SetRenderTarget( nRenderTargetID, NULL ); }
+	bool SetRenderTarget( int nRenderTargetID ) { return SetRenderTarget( nRenderTargetID, nullptr); }
 
 	// Set this texture as a render target (optionally set depth texture as depth buffer as well)
 	bool SetRenderTarget( int nRenderTargetID, ITexture *pDepthTexture) { return false; }
@@ -1166,7 +1166,7 @@ public:
 CReferenceToHandleTexture::CReferenceToHandleTexture() :
 	m_hTexture( INVALID_SHADERAPI_TEXTURE_HANDLE ),
 #ifdef _DEBUG
-	m_pDebugName( NULL ),
+	m_pDebugName(nullptr),
 #endif
 	m_nRefCount( 0 ),
 	m_nActualWidth( 0 ),
@@ -1258,10 +1258,10 @@ void CReferenceToHandleTexture::DeleteIfUnreferenced()
 //-----------------------------------------------------------------------------
 // Static instance of VTF texture
 //-----------------------------------------------------------------------------
-static IVTFTexture *s_pVTFTexture = NULL;
-static IVTFTexture *s_pVTFAsyncTexture = NULL;
+static IVTFTexture *s_pVTFTexture = nullptr;
+static IVTFTexture *s_pVTFAsyncTexture = nullptr;
 
-static void *s_pOptimalReadBuffer = NULL;
+static void *s_pOptimalReadBuffer = nullptr;
 static int s_nOptimalReadBufferSize = 0;
 
 //-----------------------------------------------------------------------------
@@ -1354,11 +1354,11 @@ CTexture::CTexture() : m_ImageFormat( IMAGE_FORMAT_UNKNOWN )
 	m_nRefCount = 0;
 	m_nFlags = 0;
 	m_nInternalFlags = 0;
-	m_pTextureHandles = NULL;
-	m_pTempTextureHandles = NULL;
+	m_pTextureHandles = nullptr;
+	m_pTempTextureHandles = nullptr;
 	m_nFrameCount = 0;
 	VectorClear( m_vecReflectivity );
-	m_pTextureRegenerator = NULL;
+	m_pTextureRegenerator = nullptr;
 	m_nOriginalRenderTargetType = NO_RENDER_TARGET;
 	m_RenderTargetSizeMode = RT_SIZE_NO_CHANGE;
 	m_nOriginalRTWidth = m_nOriginalRTHeight = 1;
@@ -1366,7 +1366,7 @@ CTexture::CTexture() : m_ImageFormat( IMAGE_FORMAT_UNKNOWN )
 	m_LowResImageWidth = 0;
 	m_LowResImageHeight = 0;
 #if !defined( _GAMECONSOLE )
-	m_pLowResImage = NULL;
+	m_pLowResImage = nullptr;
 #else
 	*(unsigned int *)m_LowResImageSample = 0;
 #endif
@@ -1374,12 +1374,12 @@ CTexture::CTexture() : m_ImageFormat( IMAGE_FORMAT_UNKNOWN )
 	m_nDesiredDimensionLimit = 0;
 	m_nDesiredTempDimensionLimit = 0;
 	m_nActualDimensionLimit = 0;	
-	m_hAsyncControl = NULL;
+	m_hAsyncControl = nullptr;
 
 	m_nMipSkipCount = 0;
 
 #ifdef _DEBUG
-	m_pDebugName = NULL;
+	m_pDebugName = nullptr;
 #endif
 }
 
@@ -1446,7 +1446,7 @@ void CTexture::Shutdown()
 	// Clean up the low-res texture
 #if !defined( _GAMECONSOLE )
 	delete[] m_pLowResImage;
-	m_pLowResImage = 0;
+	m_pLowResImage = nullptr;
 #endif
 
 	FreeResourceData();
@@ -1455,7 +1455,7 @@ void CTexture::Shutdown()
 	if ( m_pTextureRegenerator )
 	{
 		m_pTextureRegenerator->Release();
-		m_pTextureRegenerator = NULL;
+		m_pTextureRegenerator = nullptr;
 	}
 
 	// This deletes the textures
@@ -1526,7 +1526,7 @@ void CTexture::FreeOptimalReadBuffer( int nMaxSize )
 			Msg( "Freeing optimal read buffer of %d bytes @ 0x%p\n", s_nOptimalReadBufferSize, s_pOptimalReadBuffer );
 		}
 		g_pFullFileSystem->FreeOptimalReadBuffer( s_pOptimalReadBuffer );
-		s_pOptimalReadBuffer = NULL;
+		s_pOptimalReadBuffer = nullptr;
 		s_nOptimalReadBufferSize = 0;
 	}
 }
@@ -1845,7 +1845,7 @@ void CTexture::AllocateTextureHandles()
 
 	m_pTextureHandles = new ShaderAPITextureHandle_t[m_nFrameCount];
 
-	if ( m_pTextureHandles == NULL )
+	if ( m_pTextureHandles == nullptr)
 	{
 		MemOutOfMemory( sizeof(ShaderAPITextureHandle_t) * m_nFrameCount );
 	}
@@ -1863,7 +1863,7 @@ void CTexture::ReleaseTextureHandles()
 	if ( m_pTextureHandles )
 	{
 		delete[] m_pTextureHandles;
-		m_pTextureHandles = NULL;
+		m_pTextureHandles = nullptr;
 	}
 }
 
@@ -2299,11 +2299,11 @@ int CTexture::ComputeActualSize( bool bIgnorePicmip, IVTFTexture *pVTFTexture )
 		// Fetch LOD settings from the VTF if available
 		TextureLODControlSettings_t lcs;
 		memset( &lcs, 0, sizeof( lcs ) );
-		TextureLODControlSettings_t const *pLODInfo = NULL;
+		TextureLODControlSettings_t const *pLODInfo = nullptr;
 		if ( pVTFTexture )
 		{
 			pLODInfo = reinterpret_cast<TextureLODControlSettings_t const *> (
-					pVTFTexture->GetResourceData( VTF_RSRC_TEXTURE_LOD_SETTINGS, NULL ) );
+					pVTFTexture->GetResourceData( VTF_RSRC_TEXTURE_LOD_SETTINGS, nullptr) );
 			if ( pLODInfo )
 				lcs = *pLODInfo;
 		}
@@ -2756,7 +2756,7 @@ void CTexture::DownloadTexture( Rect_t *pRect, void *pSourceData, int nSourceDat
 		}
 
 		delete[] m_pTempTextureHandles;
-		m_pTempTextureHandles = NULL;
+		m_pTempTextureHandles = nullptr;
 	}
 }
 
@@ -2795,7 +2795,7 @@ bool CTexture::DownloadAsyncTexture( AsyncTextureContext_t *pContext, void *pSou
 		int oldMipCount = m_nActualMipCount;
 		int oldFrameCount = m_nFrameCount;
 
-		pContext->m_pVTFTexture = LoadTexttureBitsFromFileOrData( pSourceData, nSourceDataSize, NULL );
+		pContext->m_pVTFTexture = LoadTexttureBitsFromFileOrData( pSourceData, nSourceDataSize, nullptr);
 
 		if (!HasBeenAllocated() ||
 			m_nActualWidth != oldWidth ||
@@ -2835,7 +2835,7 @@ bool CTexture::DownloadAsyncTexture( AsyncTextureContext_t *pContext, void *pSou
 	// Iterate over all the frames and set the appropriate wrapping + filtering state
 	SetFilteringAndClampingMode();
 
-	pContext->m_pVTFTexture = NULL;
+	pContext->m_pVTFTexture = nullptr;
 
 	return true;
 }
@@ -2941,7 +2941,7 @@ void CTexture::BindVertexTexture( VertexTextureSampler_t sampler, int nFrame )
 //-----------------------------------------------------------------------------
 bool CTexture::SetRenderTarget( int nRenderTargetID )
 {
-	return SetRenderTarget( nRenderTargetID, NULL );
+	return SetRenderTarget( nRenderTargetID, nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -3144,7 +3144,7 @@ void CTexture::ForceLODOverride( int iNumLodsOverrideUpOrDown )
 
 	TextureLodOverride::OverrideInfo oi( iNumLodsOverrideUpOrDown, iNumLodsOverrideUpOrDown );
 	TextureLodOverride::Add( GetName(), oi );
-	Download( NULL );
+	Download(nullptr);
 }
 
 void CTexture::ForceExcludeOverride( int iExcludeOverride )
@@ -3156,7 +3156,7 @@ void CTexture::ForceExcludeOverride( int iExcludeOverride )
 	}
 
 	TextureLodExclude::Add( GetName(), iExcludeOverride );
-	Download( NULL );
+	Download(nullptr);
 }
 
 
@@ -3252,7 +3252,7 @@ void CTexture::Precache()
 	int nHeaderSize = VTFFileHeaderSize( nVersion );
 	unsigned char *pMem = (unsigned char *)stackalloc( nHeaderSize );
 	CUtlBuffer buf( pMem, nHeaderSize );
-	if ( !g_pFullFileSystem->ReadFile( pCacheFileName, NULL, buf, nHeaderSize ) )	
+	if ( !g_pFullFileSystem->ReadFile( pCacheFileName, nullptr, buf, nHeaderSize ) )	
 	{
 		goto precacheFailed;
 	}
@@ -3303,7 +3303,7 @@ void CTexture::LoadLowResTexture( IVTFTexture *pTexture )
 {
 #if !defined( _GAMECONSOLE )
 	delete [] m_pLowResImage;
-	m_pLowResImage = NULL;
+	m_pLowResImage = nullptr;
 #endif
 
 	if ( pTexture->LowResWidth() == 0 || pTexture->LowResHeight() == 0 )
@@ -3354,8 +3354,8 @@ void *CTexture::GetResourceData( uint32 eDataType, size_t *pnumBytes ) const
 		}
 	}
 	if ( pnumBytes )
-		pnumBytes = 0;
-	return NULL;
+		pnumBytes = nullptr;
+	return nullptr;
 }
 
 void CTexture::FreeResourceData()
@@ -3376,7 +3376,7 @@ void CTexture::LoadResourceData( IVTFTexture *pVTFTexture )
 	FreeResourceData();
 
 	// Load the resources
-	if ( unsigned int uiRsrcCount = pVTFTexture->GetResourceTypes( NULL, 0 ) )
+	if ( unsigned int uiRsrcCount = pVTFTexture->GetResourceTypes(nullptr, 0 ) )
 	{
 		uint32 *arrRsrcTypes = ( uint32 * )stackalloc( uiRsrcCount * sizeof( unsigned int ) );
 		pVTFTexture->GetResourceTypes( arrRsrcTypes, uiRsrcCount );
@@ -3405,7 +3405,7 @@ void CTexture::LoadResourceData( IVTFTexture *pVTFTexture )
 						if ( numBytes == sizeof( dc.m_numBytes ) )
 						{
 							dc.m_eType |= RSRCF_HAS_NO_DATA_CHUNK;
-							dc.m_pvData = NULL;
+							dc.m_pvData = nullptr;
 							memcpy( &dc.m_numBytes, pvData, numBytes );
 						}
 						else
@@ -3854,7 +3854,7 @@ IVTFTexture *CTexture::LoadTextureBitsFromFile( char *pCacheFileName, char **ppR
 
 	IVTFTexture *pVTFTexture = ( m_nFlags & TEXTUREFLAGS_ASYNC_DOWNLOAD ) ? GetScratchVTFAsyncTexture() : GetScratchVTFTexture();
 
-	bool bIsCombinedImage = ( pCacheFileName[ 0 ] == '!' ) && g_pMDLCache != NULL;
+	bool bIsCombinedImage = ( pCacheFileName[ 0 ] == '!' ) && g_pMDLCache != nullptr;
 
 	CUtlBuffer buf;
 	FileHandle_t fileHandle = FILESYSTEM_INVALID_HANDLE;
@@ -4367,7 +4367,7 @@ IVTFTexture *CTexture::ReconstructPartialProceduralBits( const Rect_t *pRect, Re
 	if ( IsGameConsole() && !IsDebug() && !m_pTextureRegenerator )
 	{
 		// no checkerboards in 360 release
-		return NULL;
+		return nullptr;
 	}
 
 	bool bUsePreallocatedScratchTexture = m_pTextureRegenerator && m_pTextureRegenerator->HasPreallocatedScratchTexture();
@@ -4487,7 +4487,7 @@ IVTFTexture *CTexture::ReconstructProceduralBits()
 	if ( IsGameConsole() && !IsDebug() && !m_pTextureRegenerator )
 	{
 		// no checkerboards in 360 release
-		return NULL;
+		return nullptr;
 	}
 
 	bool bUsePreallocatedScratchTexture = m_pTextureRegenerator && m_pTextureRegenerator->HasPreallocatedScratchTexture();
@@ -4561,8 +4561,8 @@ void CTexture::ReconstructTexture( void *pSourceData, int nSourceDataSize )
 	int oldFrameCount = m_nFrameCount;
 
 	// FIXME: Should RenderTargets be a special case of Procedural?
-	char *pResolvedFilename = NULL;
-	IVTFTexture *pVTFTexture = NULL;
+	char *pResolvedFilename = nullptr;
+	IVTFTexture *pVTFTexture = nullptr;
 
 	if ( IsProcedural() )
 	{
@@ -4739,7 +4739,7 @@ ShaderAPITextureHandle_t CTexture::GetTextureHandle( int nFrame, int nTextureCha
 
 	// Make sure we've actually allocated the texture handles
 	Assert( HasBeenAllocated() );
-	if ( m_pTextureHandles == NULL || !HasBeenAllocated() )
+	if ( m_pTextureHandles == nullptr || !HasBeenAllocated() )
 	{
 		return INVALID_SHADERAPI_TEXTURE_HANDLE;
 	}
@@ -4860,7 +4860,7 @@ void CTexture::CopyMeToFrameBuffer( int nRenderTargetID, Rect_t *pSrcRect, Rect_
 
 ITexture *CTexture::GetEmbeddedTexture( int nIndex )
 {
-	return ( nIndex == 0 ) ? this : NULL;
+	return ( nIndex == 0 ) ? this : nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -4929,7 +4929,7 @@ void CTexture::DeleteIfUnreferenced()
 //Swap everything about a texture except the name. Created to support Portal mod's need for swapping out water render targets in recursive stencil views
 void CTexture::SwapContents( ITexture *pOther )
 {
-	if( (pOther == NULL) || (pOther == this) )
+	if( (pOther == nullptr) || (pOther == this) )
 		return;
 
 	ICallQueue *pCallQueue = materials->GetRenderContext()->GetCallQueue();
@@ -5188,7 +5188,7 @@ bool CTexture::ScheduleAsyncDownload()
 	pContext->m_nInternalFlags = m_nInternalFlags;
 	pContext->m_nDesiredTempDimensionLimit = m_nActualDimensionLimit;
 	pContext->m_nActualDimensionLimit = m_nActualDimensionLimit;
-	pContext->m_pVTFTexture = NULL;
+	pContext->m_pVTFTexture = nullptr;
 
 	// schedule the async using what should be the absolute path to the file
 	FileAsyncRequest_t asyncRequest;
@@ -5301,7 +5301,7 @@ bool CTexture::ScheduleExcludeAsyncDownload()
 	pContext->m_nInternalFlags = m_nInternalFlags;
 	pContext->m_nDesiredTempDimensionLimit = m_nDesiredTempDimensionLimit;
 	pContext->m_nActualDimensionLimit = m_nActualDimensionLimit;
-	pContext->m_pVTFTexture = NULL;
+	pContext->m_pVTFTexture = nullptr;
 
 	// schedule the async using what should be the absolute path to the file
 	FileAsyncRequest_t asyncRequest;
@@ -5359,7 +5359,7 @@ bool CTexture::FinishAsyncDownload( AsyncTextureContext_t *pContext, void *pData
 			}
 			else
 			{
-				DownloadTexture( NULL, pData, nNumReadBytes );
+				DownloadTexture(nullptr, pData, nNumReadBytes );
 			}
 			MaterialSystem()->Unlock( hLock );
 		}
@@ -5383,7 +5383,7 @@ bool CTexture::FinishAsyncDownload( AsyncTextureContext_t *pContext, void *pData
 		g_pFullFileSystem->FreeOptimalReadBuffer( pData );
 		g_pFullFileSystem->AsyncRelease( m_hAsyncControl );
 		// texture can be rescheduled
-		m_hAsyncControl = NULL;
+		m_hAsyncControl = nullptr;
 
 		delete pContext;
 
@@ -5413,7 +5413,7 @@ static bool SetBufferValue( char *chTxtFileBuffer, char const *szLookupKey, char
 	size_t nTxtFileBufferLen = strlen( chTxtFileBuffer );
 	
 	for ( char *pch = chTxtFileBuffer;
-		( NULL != ( pch = strstr( pch, szLookupKey ) ) );
+		(nullptr != ( pch = strstr( pch, szLookupKey ) ) );
 		++ pch )
 	{
 		char *val = pch + strlen( szLookupKey );
@@ -5464,7 +5464,7 @@ static char * BufferReplace( char *buf, char const *szFindData, char const *szNe
 		memmove( pBegin, szNewData, lNew );
 		return pBegin + lNew;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -5481,7 +5481,7 @@ protected:
 
 CP4Requirement::CP4Requirement() :
 	m_bLoadedModule( false ),
-	m_pP4Module( NULL )
+	m_pP4Module(nullptr)
 {
 	if ( p4 )
 		return;
@@ -5495,7 +5495,7 @@ CP4Requirement::CP4Requirement() :
 		CreateInterfaceFn factory = Sys_GetFactory( m_pP4Module );
 		if ( factory )
 		{
-			p4 = ( IP4 * )factory( P4_INTERFACE_VERSION, NULL );
+			p4 = ( IP4 * )factory( P4_INTERFACE_VERSION, nullptr);
 
 			if ( p4 )
 			{
@@ -5523,8 +5523,8 @@ CP4Requirement::~CP4Requirement()
 		}
 
 		Sys_UnloadModule( m_pP4Module );
-		m_pP4Module = NULL;
-		p4 = NULL;
+		m_pP4Module = nullptr;
+		p4 = nullptr;
 	}
 }
 
@@ -5629,7 +5629,7 @@ CON_COMMAND_F( mat_texture_list_txlod_sync, "'reset' - resets all run-time chang
 				sprintf( pExtPut, ".txt" );
 				
 				CUtlBuffer bufTxtFileBuffer( 0, 0, CUtlBuffer::TEXT_BUFFER );
-				g_pFullFileSystem->ReadFile( szTextureContentPath, 0, bufTxtFileBuffer );
+				g_pFullFileSystem->ReadFile( szTextureContentPath, nullptr, bufTxtFileBuffer );
 				for ( int k = 0; k < 1024; ++ k ) bufTxtFileBuffer.PutChar( 0 );
 
 				// Now fix maxwidth/maxheight settings
@@ -5642,7 +5642,7 @@ CON_COMMAND_F( mat_texture_list_txlod_sync, "'reset' - resets all run-time chang
 				CP4AutoEditFile autop4_edit( szTextureContentPath );
 
 				// Save the file contents
-				if ( g_pFullFileSystem->WriteFile( szTextureContentPath, 0, bufTxtFileBuffer ) )
+				if ( g_pFullFileSystem->WriteFile( szTextureContentPath, nullptr, bufTxtFileBuffer ) )
 				{
 					Msg(" '%s' : saved.\n", szTextureContentPath );
 					CP4AutoAddFile autop4_add( szTextureContentPath );
@@ -5664,11 +5664,11 @@ CON_COMMAND_F( mat_texture_list_txlod_sync, "'reset' - resets all run-time chang
 				char szTxtFileName[MAX_PATH] = {0};
 				GetModSubdirectory( "tmp_lod_psdinfo.txt", szTxtFileName, sizeof( szTxtFileName ) );
 				sprintf( chCommand, "/C psdinfo \"%s\" > \"%s\"", szTextureContentPath, szTxtFileName);
-				ShellExecute( NULL, NULL, "cmd.exe", chCommand, NULL, SW_HIDE );
+				ShellExecute(nullptr, nullptr, "cmd.exe", chCommand, nullptr, SW_HIDE );
 				Sleep( 200 );
 
 				CUtlBuffer bufTxtFileBuffer( 0, 0, CUtlBuffer::TEXT_BUFFER );
-				g_pFullFileSystem->ReadFile( szTxtFileName, 0, bufTxtFileBuffer );
+				g_pFullFileSystem->ReadFile( szTxtFileName, nullptr, bufTxtFileBuffer );
 				for ( int k = 0; k < 1024; ++ k ) bufTxtFileBuffer.PutChar( 0 );
 
 				// Now fix maxwidth/maxheight settings
@@ -5678,14 +5678,14 @@ CON_COMMAND_F( mat_texture_list_txlod_sync, "'reset' - resets all run-time chang
 
 				// Check out or add the file
 				// Save the file contents
-				if ( g_pFullFileSystem->WriteFile( szTxtFileName, 0, bufTxtFileBuffer ) )
+				if ( g_pFullFileSystem->WriteFile( szTxtFileName, nullptr, bufTxtFileBuffer ) )
 				{
 					g_p4factory->SetOpenFileChangeList( "Texture LOD Autocheckout" );
 					CP4AutoEditFile autop4_edit( szTextureContentPath );
 
 					sprintf( chCommand, "/C psdinfo -write \"%s\" < \"%s\"", szTextureContentPath, szTxtFileName );
 					Sleep( 200 );
-					ShellExecute( NULL, NULL, "cmd.exe", chCommand, NULL, SW_HIDE );
+					ShellExecute(nullptr, nullptr, "cmd.exe", chCommand, nullptr, SW_HIDE );
 					Sleep( 200 );
 
 					Msg(" '%s' : saved.\n", szTextureContentPath );
@@ -5746,7 +5746,7 @@ CON_COMMAND_F( mat_texture_list_exclude, "'load' - loads the exclude list file, 
 
 		// Read the file buffer
 		CUtlInplaceBuffer bufFile( 0, 0, CUtlBuffer::TEXT_BUFFER );
-		if ( !g_pFullFileSystem->ReadFile( szFile, NULL, bufFile ) )
+		if ( !g_pFullFileSystem->ReadFile( szFile, nullptr, bufFile ) )
 		{
 			Warning( "Error: failed to load exclude file '%s'!\n", szFile );
 			return;
@@ -5781,7 +5781,7 @@ CON_COMMAND_F( mat_texture_list_exclude, "'load' - loads the exclude list file, 
 
 			// Force the texture LOD override to get re-processed
 			if ( ITexture *pTx = materials->FindTexture( szTx, "" ) )
-				pTx->Download( NULL );
+				pTx->Download(nullptr);
 		}
 
 		Msg( "mat_texture_list_exclude loaded '%s'.\n", szFile );
@@ -5818,7 +5818,7 @@ CON_COMMAND_F( mat_texture_list_exclude, "'load' - loads the exclude list file, 
 
 			// Force the texture LOD override to get re-processed
 			if ( ITexture *pTx = materials->FindTexture( szTx, "" ) )
-				pTx->Download( NULL );
+				pTx->Download(nullptr);
 		}
 
 		Msg( "mat_texture_list_exclude reset : completed.\n" );
@@ -5864,7 +5864,7 @@ CON_COMMAND_F( mat_texture_list_exclude, "'load' - loads the exclude list file, 
 		}
 
 		// Save out the buffer to file
-		if ( !g_pFullFileSystem->WriteFile( szFile, NULL, bufFile ) )
+		if ( !g_pFullFileSystem->WriteFile( szFile, nullptr, bufFile ) )
 		{
 			Warning( "Error: failed to save exclude file '%s'!\n", szFile );
 			return;

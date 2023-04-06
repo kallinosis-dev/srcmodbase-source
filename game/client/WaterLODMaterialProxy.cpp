@@ -32,8 +32,8 @@ private:
 
 CWaterLODMaterialProxy::CWaterLODMaterialProxy()
 {
-	m_pCheapWaterStartDistanceVar = NULL;
-	m_pCheapWaterEndDistanceVar = NULL;
+	m_pCheapWaterStartDistanceVar = nullptr;
+	m_pCheapWaterEndDistanceVar = nullptr;
 }
 
 CWaterLODMaterialProxy::~CWaterLODMaterialProxy()

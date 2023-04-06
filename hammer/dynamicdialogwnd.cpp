@@ -20,15 +20,15 @@
 
 CDynamicDialogWnd::CDynamicDialogWnd(CWnd *pParent)
 {
-	m_pDialog = NULL;
-	Create(NULL, "DynamicDialogWnd", WS_BORDER | WS_CAPTION | WS_CHILD, 
-		CRect(0, 0, 50, 50), pParent, 1);
+	m_pDialog = nullptr;
+	Create(nullptr, "DynamicDialogWnd", WS_BORDER | WS_CAPTION | WS_CHILD, 
+	       CRect(0, 0, 50, 50), pParent, 1);
 	SetWindowPos(&wndTopMost, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE);
 }
 
 CDynamicDialogWnd::~CDynamicDialogWnd()
 {
-	SetDialogClass(0, NULL);
+	SetDialogClass(0, nullptr);
 }
 
 

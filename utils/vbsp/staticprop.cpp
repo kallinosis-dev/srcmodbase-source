@@ -39,7 +39,7 @@
 static void SetCurrentModel( studiohdr_t *pStudioHdr );
 static void FreeCurrentModelVertexes();
 
-IPhysicsCollision *s_pPhysCollision = NULL;
+IPhysicsCollision *s_pPhysCollision = nullptr;
 
 //-----------------------------------------------------------------------------
 // These puppies are used to construct the game lumps
@@ -174,7 +174,7 @@ static int AddStaticPropDictLump( char const* pModelName )
 bool LoadStudioModel( char const* pModelName, char const* pEntityType, CUtlBuffer& buf )
 {
 	if ( !GetMapDataFilesMgr()->ReadRegisteredFile( pModelName, buf ) &&
-		 !g_pFullFileSystem->ReadFile( pModelName, NULL, buf ) )
+		 !g_pFullFileSystem->ReadFile( pModelName, nullptr, buf ) )
 	{
 		if ( V_stristr( pModelName, "_autocombine_" ) && FileExistsInPak( GetPakFile(), pModelName ) )
 		{
@@ -219,8 +219,8 @@ bool LoadStudioModel( char const* pModelName, char const* pEntityType, CUtlBuffe
 	}
 
 	// ensure reset
-	pHdr->SetVertexBase( NULL );
-	pHdr->SetIndexBase( NULL );
+	pHdr->SetVertexBase(nullptr);
+	pHdr->SetIndexBase(nullptr);
 
 	return true;
 }
@@ -322,10 +322,10 @@ static CPhysCollide* GetCollisionModel( char const* pModelName )
 		Warning("Error loading studio model \"%s\"!\n", pModelName );
 
 		// This way we don't try to load it multiple times
-		lookup.m_pCollide = 0;
+		lookup.m_pCollide = nullptr;
 		s_ModelCollisionCache.Insert( lookup );
 
-		return 0;
+		return nullptr;
 	}
 
 	// Compute the convex hull of the model...
@@ -812,7 +812,7 @@ bool InitStaticPropCombinePeer( staticpropcombinepeer_t *newPeer )
 		V_SetExtension( szPhyPath, ".phy", sizeof( szPhyPath ) );
 
 		CUtlBuffer bufphy;
-		if ( g_pFullFileSystem->ReadFile( szPhyPath, NULL, bufphy ) )
+		if ( g_pFullFileSystem->ReadFile( szPhyPath, nullptr, bufphy ) )
 		{
 
 			const phyfileheader_t *pHeader = reinterpret_cast<const phyfileheader_t *>( bufphy.Base() );
@@ -830,7 +830,7 @@ bool InitStaticPropCombinePeer( staticpropcombinepeer_t *newPeer )
 		}
 
 		KeyValues *tempKeyValues = new KeyValues( "qc_path" );
-		if ( tempKeyValues->LoadFromBuffer( NULL, pStudioHdr->KeyValueText() ) )
+		if ( tempKeyValues->LoadFromBuffer(nullptr, pStudioHdr->KeyValueText() ) )
 		{
 			KeyValues *qc_path = tempKeyValues->FindKey( "qc_path", false );
 			if ( qc_path )
@@ -846,7 +846,7 @@ bool InitStaticPropCombinePeer( staticpropcombinepeer_t *newPeer )
 				}
 
 				CUtlBuffer bufQC( 0, 0, CUtlBuffer::TEXT_BUFFER );
-				if ( g_pFullFileSystem->ReadFile( szTempAbsQCPath, NULL, bufQC ) )
+				if ( g_pFullFileSystem->ReadFile( szTempAbsQCPath, nullptr, bufQC ) )
 				{
 
 					CUtlVector<CUtlString> vecTokens;
@@ -995,7 +995,7 @@ bool LoadSPCombineRules( void )
 
 		CUtlVector<CUtlString> vecUniqueModelNames;
 
-		for ( KeyValues *kGroup = kvSPCombineRules->GetFirstSubKey(); kGroup != NULL; kGroup = kGroup->GetNextKey() )
+		for ( KeyValues *kGroup = kvSPCombineRules->GetFirstSubKey(); kGroup != nullptr; kGroup = kGroup->GetNextKey() )
 		{
 			//if ( !V_stristr( kGroup->GetName(), "keep" ) )
 			//	continue;
@@ -1003,13 +1003,13 @@ bool LoadSPCombineRules( void )
 			staticpropcombinerule_t *pNewGroup = &g_vecCombineRules[ g_vecCombineRules.AddToTail() ];
 
 			pNewGroup->m_szGroupName.Set( kGroup->GetName() );
-			pNewGroup->m_szQcTemplatePath.Set( kGroup->GetString( "qc_template_path", NULL ) );
+			pNewGroup->m_szQcTemplatePath.Set( kGroup->GetString( "qc_template_path", nullptr) );
 
 			pNewGroup->m_nClusterLimit = kGroup->GetInt( "cluster_limit", DEFAULT_COMBINE_STATIC_PROP_COUNT );
 			pNewGroup->m_flDistanceLimit = kGroup->GetInt( "distance_limit", DEFAULT_COMBINE_STATIC_PROP_DISTANCE );
 
 			KeyValues *pPeers = kGroup->FindKey( "peers" );
-			for ( KeyValues *pPeer = pPeers->GetFirstSubKey(); pPeer != NULL; pPeer = pPeer->GetNextKey() )
+			for ( KeyValues *pPeer = pPeers->GetFirstSubKey(); pPeer != nullptr; pPeer = pPeer->GetNextKey() )
 			{
 				staticpropcombinepeer_t *newPeer = &pNewGroup->m_vecCombinePeers[ pNewGroup->m_vecCombinePeers.AddToTail() ];
 
@@ -1059,7 +1059,7 @@ bool LoadSPCombineRules( void )
 	else
 	{
 		delete kvSPCombineRules;
-		kvSPCombineRules = NULL;
+		kvSPCombineRules = nullptr;
 	}
 
 	return false;
@@ -1177,16 +1177,16 @@ bool CompileQC( const char *pFileName )
 	ZeroMemory( &pi, sizeof(pi) );
 
 	// Start the child process. 
-	if ( CreateProcess( NULL,	// No module name (use command line). 
-		cmdline,	// Command line. 
-		NULL,				// Process handle not inheritable. 
-		NULL,				// Thread handle not inheritable. 
-		FALSE,				// Set handle inheritance to FALSE. 
-		0,					// No creation flags. 
-		NULL,				// Use parent's environment block. 
-		NULL,				// Use parent's starting directory. 
-		&si,				// Pointer to STARTUPINFO structure.
-		&pi ) )				// Pointer to PROCESS_INFORMATION structure.
+	if ( CreateProcess(nullptr,	// No module name (use command line). 
+	                   cmdline,	// Command line. 
+	                   nullptr,				// Process handle not inheritable. 
+	                   nullptr,				// Thread handle not inheritable. 
+	                   FALSE,				// Set handle inheritance to FALSE. 
+	                   0,					// No creation flags. 
+	                   nullptr,				// Use parent's environment block. 
+	                   nullptr,				// Use parent's starting directory. 
+	                   &si,				// Pointer to STARTUPINFO structure.
+	                   &pi ) )				// Pointer to PROCESS_INFORMATION structure.
 	{
 
 		// Successfully created the process.  Wait for it to finish.
@@ -1240,7 +1240,7 @@ void CombineStaticProps( propBuildVector &vecGroup, int &nCombineIndex )
 	CUtlBuffer bufQCTemplate( 0, 0, CUtlBuffer::TEXT_BUFFER );
 	if ( bLoadQcTemplate )
 	{
-		if ( !g_pFullFileSystem->ReadFile( szQCPath, NULL, bufQCTemplate ) )
+		if ( !g_pFullFileSystem->ReadFile( szQCPath, nullptr, bufQCTemplate ) )
 		{
 			Error( "Couldn't load the temp qc from: %s!\n", szQCPath );
 		}
@@ -1924,7 +1924,7 @@ void EmitStaticProps()
 	CreateInterfaceFn physicsFactory = GetPhysicsFactory();
 	if ( physicsFactory )
 	{
-		s_pPhysCollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, NULL );
+		s_pPhysCollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, nullptr);
 		if( !s_pPhysCollision )
 			return;
 	}
@@ -1952,8 +1952,8 @@ void EmitStaticProps()
 			StaticPropBuild_t build;
 
 			build.m_bCombineDataWritten = false;
-			build.m_szRefName = NULL;
-			build.m_szPhyName = NULL;
+			build.m_szRefName = nullptr;
+			build.m_szPhyName = nullptr;
 			build.m_nHulls = 0;
 			build.m_bConcave = false;
 			build.m_bUpaxisY = false;
@@ -2082,7 +2082,7 @@ void EmitStaticProps()
 			}
 
 			// strip this ent from the .bsp file
-			entities[i].epairs = 0;
+			entities[i].epairs = nullptr;
 		}
 	}
 
@@ -2223,7 +2223,7 @@ void EmitStaticProps()
 	for ( i = s_LightingInfo.Count(); --i >= 0; )
 	{
 		// strip this ent from the .bsp file
-		entities[s_LightingInfo[i]].epairs = 0;
+		entities[s_LightingInfo[i]].epairs = nullptr;
 	}
 
 
@@ -2244,7 +2244,7 @@ static void FreeCurrentModelVertexes()
 	if ( g_pActiveStudioHdr->VertexBase() )
 	{
 		free( g_pActiveStudioHdr->VertexBase() );
-		g_pActiveStudioHdr->SetVertexBase( NULL );
+		g_pActiveStudioHdr->SetVertexBase(nullptr);
 	}
 }
 
@@ -2268,7 +2268,7 @@ const vertexFileHeader_t * mstudiomodel_t::CacheVertexData( void * pModelData )
 	// load the model
 	CUtlBuffer bufFileData;
 	if ( !GetMapDataFilesMgr()->ReadRegisteredFile( fileName, bufFileData ) &&
-		 !g_pFileSystem->ReadFile( fileName, NULL, bufFileData ) )
+		 !g_pFileSystem->ReadFile( fileName, nullptr, bufFileData ) )
 	{
 		if ( V_stristr( fileName, "_autocombine_" ) && FileExistsInPak( GetPakFile(), fileName ) )
 		{

@@ -202,9 +202,9 @@ first_try:
     //this->complex_failed(my_fs);
     
 finish_slp:
-    actives_matrix.desired_vector=NULL;
-    actives_matrix.result_vector=NULL;
-    actives_matrix.matrix_values=NULL;
+    actives_matrix.desired_vector= nullptr;
+    actives_matrix.result_vector= nullptr;
+    actives_matrix.matrix_values= nullptr;
 }
 
 void IVP_Friction_System::do_pushes_distance_keepers(const IVP_Event_Sim *es_in) {
@@ -538,7 +538,7 @@ void IVP_Friction_Solver::print_dist_velocity(IVP_Friction_System *fs)
     //int dist_counter=0;
     int dist_counter_two=0;
     int total_dist_counter=-1;
-    IVP_Contact_Point *my_dist,*next_dist=NULL;
+    IVP_Contact_Point *my_dist,*next_dist= nullptr;
     my_dist=fs->get_first_friction_dist();
     while(my_dist)
     {
@@ -811,7 +811,7 @@ void out_friction_info_obj(IVP_Core *obj)
 		IVP_Contact_Point *mindist = fr_info->friction_springs.element_at(i);
 		printf("  md %lx",(long)mindist&0x0000ffff);
 	    }
-	    fr_info=NULL;
+	    fr_info= nullptr;
 	    printf("\n");
 	}
     }

@@ -70,14 +70,14 @@ BuildGroup::BuildGroup(Panel *parentPanel, Panel *contextPanel)
 	_cursor_sizewe = dc_sizewe;
 	_cursor_sizens = dc_sizens;
 	_cursor_sizeall = dc_sizeall;
-	_currentPanel=0;
+	_currentPanel=nullptr;
 	_dragging=false;
-	m_pResourceName=NULL;
-	m_pResourcePathID = NULL;
-	m_hBuildDialog=NULL;
+	m_pResourceName= nullptr;
+	m_pResourcePathID = nullptr;
+	m_hBuildDialog= nullptr;
 	m_pParentPanel=parentPanel;
 	for (int i=0; i<4; ++i)
-		_rulerNumber[i] = NULL;
+		_rulerNumber[i] = nullptr;
 	SetContextPanel(contextPanel);
 	_showRulers = false;
 
@@ -94,7 +94,7 @@ BuildGroup::~BuildGroup()
 {
 	if (m_hBuildDialog)
 		delete m_hBuildDialog.Get();
-	m_hBuildDialog = NULL;
+	m_hBuildDialog = nullptr;
 
 	delete [] m_pResourceName;
 	delete [] m_pResourcePathID;
@@ -104,7 +104,7 @@ BuildGroup::~BuildGroup()
 		if (_rulerNumber[i])
 		{
 			delete _rulerNumber[i];
-			_rulerNumber[i]= NULL;
+			_rulerNumber[i]= nullptr;
 		}
 	}
 
@@ -120,7 +120,7 @@ void BuildGroup::SetEnabled(bool state)
 	if(_enabled != state)
 	{
 		_enabled = state;
-		_currentPanel = NULL;
+		_currentPanel = nullptr;
 
 		if ( state )
 		{
@@ -171,12 +171,12 @@ void BuildGroup::ToggleRulerDisplay()
 {
 	_showRulers = !_showRulers;
 
-	if (_rulerNumber[0] == NULL) // rulers haven't been initialized
+	if (_rulerNumber[0] == nullptr) // rulers haven't been initialized
 	{
-		_rulerNumber[0] = new Label(m_pBuildContext, NULL, "");
-		_rulerNumber[1] = new Label(m_pBuildContext, NULL, "");
-		_rulerNumber[2] = new Label(m_pBuildContext, NULL, "");
-		_rulerNumber[3] = new Label(m_pBuildContext, NULL, "");
+		_rulerNumber[0] = new Label(m_pBuildContext, nullptr, "");
+		_rulerNumber[1] = new Label(m_pBuildContext, nullptr, "");
+		_rulerNumber[2] = new Label(m_pBuildContext, nullptr, "");
+		_rulerNumber[3] = new Label(m_pBuildContext, nullptr, "");
 	}
 	SetRulerLabelsVisible(_showRulers);
 
@@ -439,7 +439,7 @@ bool BuildGroup::MousePressed(MouseCode code, Panel *panel)
 		// basepanel is the panel that all the deltas will be calculated from.
 		// it is the last panel we clicked in because if we move the panels  as a group
 		// it would be from that one
-		Panel *basePanel = NULL;
+		Panel *basePanel = nullptr;
 		// find the panel we clicked in, that is the base panel
 		// it might already be in the group
 		for (int i=0; i< _controlGroup.Count(); ++i)	
@@ -452,7 +452,7 @@ bool BuildGroup::MousePressed(MouseCode code, Panel *panel)
 		}
 
 		// if its not in the group we just added this panel. get it in the group 
-		if (basePanel == NULL)
+		if (basePanel == nullptr)
 		{
 			PHandle temp;
 			temp = panel;
@@ -745,7 +745,7 @@ bool BuildGroup::KeyCodeReleased(KeyCode code, Panel *panel )
 Panel *BuildGroup::CreateBuildDialog( void )
 {
 	// request the panel
-	Panel *buildDialog = NULL;
+	Panel *buildDialog = nullptr;
 	KeyValues *data = new KeyValues("BuildDialog");
 	data->SetPtr("BuildGroupPtr", this);
 	if (m_pBuildContext->RequestInfo(data))
@@ -990,13 +990,13 @@ void BuildGroup::ProcessConditionalKeys( KeyValues *pData, KeyValues *pCondition
 			return;
 		}
 
-		for ( ; pSubKey != NULL; pSubKey = pSubKey->GetNextKey() )
+		for ( ; pSubKey != nullptr; pSubKey = pSubKey->GetNextKey() )
 		{
 			// recursively descend each sub block
 			ProcessConditionalKeys( pSubKey, pConditions );
 
 			KeyValues *pCondition = pConditions->GetFirstSubKey();
-			for ( ; pCondition != NULL; pCondition = pCondition->GetNextKey() )
+			for ( ; pCondition != nullptr; pCondition = pCondition->GetNextKey() )
 			{
 				// if we match any conditions in this sub block, copy up
 				KeyValues *pConditionBlock = pSubKey->FindKey( pCondition->GetName() );
@@ -1008,7 +1008,7 @@ void BuildGroup::ProcessConditionalKeys( KeyValues *pData, KeyValues *pCondition
 				if ( pConditionBlock )
 				{
 					KeyValues *pOverridingKey;
-					for ( pOverridingKey = pConditionBlock->GetFirstSubKey(); pOverridingKey != NULL; pOverridingKey = pOverridingKey->GetNextKey() )
+					for ( pOverridingKey = pConditionBlock->GetFirstSubKey(); pOverridingKey != nullptr; pOverridingKey = pOverridingKey->GetNextKey() )
 					{
 						/*
 							Copy up all values under "folder1/?secret" into "folder1"
@@ -1066,7 +1066,7 @@ const char *BuildGroup::GetRegisteredControlSettingsFileByIndex(int index)
 void BuildGroup::ReloadControlSettings()
 {
 	delete m_hBuildDialog.Get(); 
-	m_hBuildDialog = NULL;
+	m_hBuildDialog = nullptr;
 
 	// loop though objects in the current control group and remove them all
 	// the 0th panel is always the contextPanel which is not deletable 
@@ -1152,7 +1152,7 @@ bool BuildGroup::SaveControlSettings( void )
 		g_pFullFileSystem->RelativePathToFullPath( m_pResourceName, m_pResourcePathID, fullpath, sizeof( fullpath ) );
 
 		// save the data out to a file
-		bSuccess = rDat->SaveToFile( g_pFullFileSystem, fullpath, NULL );
+		bSuccess = rDat->SaveToFile( g_pFullFileSystem, fullpath, nullptr);
 		if (!bSuccess)
 		{
 			MessageBox *dlg = new MessageBox("BuildMode - Error saving file", "Error: Could not save changes.  File is most likely read only.");
@@ -1204,7 +1204,7 @@ void BuildGroup::DeleteAllControlsCreatedByControlSettingsFile()
 void BuildGroup::ApplySettings( KeyValues *resourceData )
 {
 	// loop through all the keys, applying them wherever
-	for (KeyValues *controlKeys = resourceData->GetFirstSubKey(); controlKeys != NULL; controlKeys = controlKeys->GetNextKey())
+	for (KeyValues *controlKeys = resourceData->GetFirstSubKey(); controlKeys != nullptr; controlKeys = controlKeys->GetNextKey())
 	{
 		bool bFound = false;
 
@@ -1265,7 +1265,7 @@ Panel *BuildGroup::NewControl( const char *name, int x, int y)
 {
 	Assert (name);
 
-	Panel *newPanel = NULL;
+	Panel *newPanel = nullptr;
 	// returns NULL on failure
 	newPanel = static_cast<EditablePanel *>(m_pParentPanel)->CreateControlByName(name);
 
@@ -1300,7 +1300,7 @@ Panel *BuildGroup::NewControl( KeyValues *controlKeys, int x, int y)
 {
 	Assert (controlKeys);
 
-	Panel *newPanel = NULL;
+	Panel *newPanel = nullptr;
 	if (controlKeys)
 	{
 		KeyValues *keyVal = new KeyValues("ControlFactory", "ControlName", controlKeys->GetString("ControlName"));
@@ -1311,7 +1311,7 @@ Panel *BuildGroup::NewControl( KeyValues *controlKeys, int x, int y)
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if (newPanel)
@@ -1348,7 +1348,7 @@ void BuildGroup::GetNewFieldName(char *newFieldName, int newFieldNameSize, Panel
 	while (1)
 	{
 		Q_snprintf (newFieldName, newFieldNameSize, "%s%d", defaultName, fieldNameNumber);
-		if ( FieldNameTaken(newFieldName) == NULL)
+		if ( FieldNameTaken(newFieldName) == nullptr)
 			break;
 		++fieldNameNumber;
 	}	
@@ -1372,7 +1372,7 @@ Panel *BuildGroup::FieldNameTaken(const char *fieldName)
 			return panel;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1489,5 +1489,5 @@ KeyValues *BuildGroup::GetDialogVariables()
 		return edit->GetDialogVariables();
 	}
 
-	return NULL;
+	return nullptr;
 }

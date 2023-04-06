@@ -28,7 +28,7 @@ public:
 
 typedef LRESULT (CALLBACK * WndProc_t)(HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam);
 
-static WndProc_t s_OldWndProc = 0;
+static WndProc_t s_OldWndProc = nullptr;
 
 static LRESULT CALLBACK EditWndProc (HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM lParam)
 {
@@ -84,7 +84,7 @@ mxLineEdit::mxLineEdit (mxWindow *parent, int x, int y, int w, int h, const char
 	if (!s_OldWndProc)
 	{
 		WNDCLASSEX editClass;
-		GetClassInfoEx( (HINSTANCE) GetModuleHandle (NULL), "EDIT", &editClass );
+		GetClassInfoEx( (HINSTANCE) GetModuleHandle (nullptr), "EDIT", &editClass );
 		s_OldWndProc = editClass.lpfnWndProc;
 
 		editClass.cbSize = sizeof(WNDCLASSEX);
@@ -96,7 +96,7 @@ mxLineEdit::mxLineEdit (mxWindow *parent, int x, int y, int w, int h, const char
 
 	void *handle = (void *) CreateWindowEx (WS_EX_CLIENTEDGE, "mx_edit", label, dwStyle, //WS_VISIBLE | WS_CHILD | ES_AUTOHSCROLL,
 				x, y, w, h, hwndParent,
-				(HMENU) id, (HINSTANCE) GetModuleHandle (NULL), NULL);
+				(HMENU) id, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 	
 	SendMessage ((HWND) handle, WM_SETFONT, (WPARAM) (HFONT) GetStockObject (ANSI_VAR_FONT), MAKELPARAM (TRUE, 0));
 	SendMessage ((HWND) getHandle (), EM_LIMITTEXT, (WPARAM) 256, 0L);

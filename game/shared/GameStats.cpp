@@ -83,7 +83,7 @@ class CGamestatsData
 public:
 	CGamestatsData()
 	{
-		m_pKVData = NULL;
+		m_pKVData = nullptr;
 		m_bHaveData = false;
 		AllocData();
 	}
@@ -103,10 +103,10 @@ public:
 	}
 	void FreeData()
 	{
-		if ( m_pKVData != NULL )
+		if ( m_pKVData != nullptr)
 		{
 			m_pKVData->deleteThis();
-			m_pKVData = NULL;
+			m_pKVData = nullptr;
 		}
 	}
 
@@ -486,7 +486,7 @@ CBaseGameStats_Driver::CBaseGameStats_Driver( void ) :
 	m_bStationary( false ),
 	m_flLastMovementTime( 0.0f ),
 	m_bGamePaused( false ),
-	m_pGamestatsData( NULL ),
+	m_pGamestatsData(nullptr),
 	m_bBufferFull( false ),
 	m_nWriteIndex( 0 ),
 	m_flLastRealTime( -1 ),
@@ -1102,13 +1102,13 @@ void CBaseGameStats_Driver::Shutdown()
 		g_LogFileHandle = FILESYSTEM_INVALID_HANDLE;
 	}
 
-	if ( m_pGamestatsData != NULL )
+	if ( m_pGamestatsData != nullptr)
 	{
 #ifdef CLIENT_DLL 
 		engine->SetGamestatsData( NULL );
 #endif
 		delete m_pGamestatsData;
-		m_pGamestatsData = NULL;
+		m_pGamestatsData = nullptr;
 	}
 }
 
@@ -1248,7 +1248,7 @@ void CBaseGameStats_Driver::CollectData( StatSendType_t sendType )
 	return;
 #endif
 
-	CGamestatsData *pGamestatsData = NULL;
+	CGamestatsData *pGamestatsData = nullptr;
 #ifdef GAME_DLL
 	// for server, check with the engine to see if there already a gamestats data container registered.  (There will be if there is a client
 	// running in the same process.)
@@ -1256,10 +1256,10 @@ void CBaseGameStats_Driver::CollectData( StatSendType_t sendType )
 	if ( pGamestatsData )
 	{
 		// use the registered gamestats container, so free the one we allocated
-		if ( m_pGamestatsData != NULL )
+		if ( m_pGamestatsData != nullptr)
 		{
 			delete m_pGamestatsData;
-			m_pGamestatsData = NULL;
+			m_pGamestatsData = nullptr;
 		}
 	}
 	else
@@ -1394,7 +1394,7 @@ void CBaseGameStats_Driver::SendData()
 
 			V_strncat( szPathName + pathLen, szFileName, MAX_PATH - pathLen );
 
-			filesystem->WriteFile( szPathName, NULL, buf );
+			filesystem->WriteFile( szPathName, nullptr, buf );
 		}
 	}
 	else
@@ -1569,16 +1569,16 @@ void CBaseGameStats_Driver::ResetData()
 {
 #ifdef GAME_DLL
 	// on the server, if there is a gamestats data container registered (by a client in the same process), they're in charge of resetting it, nothing for us to do
-	if ( engine->GetGamestatsData() != NULL )
+	if ( engine->GetGamestatsData() != nullptr)
 		return;
 #endif
 
 	MEM_ALLOC_CREDIT();
 
-	if ( m_pGamestatsData != NULL )
+	if ( m_pGamestatsData != nullptr)
 	{
 		delete m_pGamestatsData;
-		m_pGamestatsData = NULL;
+		m_pGamestatsData = nullptr;
 	}
 
 	m_bBufferFull = false;

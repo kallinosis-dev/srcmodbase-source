@@ -21,7 +21,7 @@ class CTransformDlg : public CDialog
 {
 // Construction
 public:
-	CTransformDlg(CWnd* pParent = NULL);   // standard constructor
+	CTransformDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CTransformDlg)

@@ -31,11 +31,11 @@ struct AnalysisData
 
 static AnalysisData g_Analysis;
 
-IFileSystem *filesystem = NULL;
+IFileSystem *filesystem = nullptr;
 static CUniformRandomStream g_Random;
 IUniformRandomStream *random = &g_Random;
 
-ISoundEmitterSystemBase *soundemitter = NULL;
+ISoundEmitterSystemBase *soundemitter = nullptr;
 
 static bool spewed = false;
 static bool spewmoveto = false;
@@ -130,7 +130,7 @@ void vprint( int depth, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -174,7 +174,7 @@ void logprint( char const *logfile, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 	static bool first = true;
 	if ( first )
 	{
@@ -548,7 +548,7 @@ void ProcessVCD( CUtlDict< VCDList, int >& database, CUtlSymbol& vcdname )
 
 	LoadScriptFile( fullname );
 	
-	CChoreoScene *scene = ChoreoLoadScene( fullname, NULL, &g_TokenProcessor, Con_Printf );
+	CChoreoScene *scene = ChoreoLoadScene( fullname, nullptr, &g_TokenProcessor, Con_Printf );
 	if ( scene )
 	{
 		bool first = true;
@@ -568,7 +568,7 @@ void ProcessVCD( CUtlDict< VCDList, int >& database, CUtlSymbol& vcdname )
 				continue;
 
 			// Look up sound in sound emitter system
-			char const *wavename = soundemitter->GetWavFileForSound( e->GetParameters(), NULL );
+			char const *wavename = soundemitter->GetWavFileForSound( e->GetParameters(), nullptr);
 			if ( !wavename || !wavename[ 0 ] )
 			{
 				continue;
@@ -580,7 +580,7 @@ void ProcessVCD( CUtlDict< VCDList, int >& database, CUtlSymbol& vcdname )
 			Q_FixSlashes( fullwavename );
 
 			// Now add to proper slot
-			VCDList *entry = NULL;
+			VCDList *entry = nullptr;
 
 			// Add vcd to database
 			int slot = database.Find( fullwavename );
@@ -743,14 +743,14 @@ int main( int argc, char* argv[] )
 		return 0;
 	}
 
-	soundemitter = ( ISoundEmitterSystemBase * )hSoundEmitterFactory( SOUNDEMITTERSYSTEM_INTERFACE_VERSION, NULL );
+	soundemitter = ( ISoundEmitterSystemBase * )hSoundEmitterFactory( SOUNDEMITTERSYSTEM_INTERFACE_VERSION, nullptr);
 	if ( !soundemitter )
 	{
 		vprint( 0, "Couldn't get interface %s from soundemittersystem.dll!\n", SOUNDEMITTERSYSTEM_INTERFACE_VERSION );
 		return 0;
 	}
 
-	filesystem = (IFileSystem *)(CmdLib_GetFileSystemFactory()( FILESYSTEM_INTERFACE_VERSION, NULL ));
+	filesystem = (IFileSystem *)(CmdLib_GetFileSystemFactory()( FILESYSTEM_INTERFACE_VERSION, nullptr));
 	if ( !filesystem )
 	{
 		AssertMsg( 0, "Failed to create/get IFileSystem" );
@@ -792,7 +792,7 @@ int main( int argc, char* argv[] )
 	CorrelateWavsAndVCDs( vcdfiles, wavfiles );
 
 	soundemitter->Shutdown();
-	soundemitter = 0;
+	soundemitter = nullptr;
 	g_pFullFileSystem->UnloadModule( pSoundEmitterModule );
 
 	FileSystem_Term();

@@ -76,7 +76,7 @@ void CMapQuadBounds::PresaveWorld(void)
 	{
 		return;
 	}
-	CMapSolid *pSolid = pMapEntity->GetChildOfType((CMapSolid*)NULL);
+	CMapSolid *pSolid = pMapEntity->GetChildOfType((CMapSolid*)nullptr);
 
 	if (pSolid)
 	{
@@ -144,7 +144,7 @@ CMapClass *CMapQuadBounds::Copy(bool bUpdateDependencies)
 {
 	CMapQuadBounds *pCopy = new CMapQuadBounds;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}

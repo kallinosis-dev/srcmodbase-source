@@ -57,8 +57,8 @@ IVP_Actuator_Spring::IVP_Actuator_Spring(IVP_Environment *env,
 
     spring_values_factor = 1.0f;
     if (spring_templ->spring_values_are_relative){	
-	IVP_DOUBLE min_mass_0 = core_0->calc_virt_mass(&anchor_0->core_pos, NULL);
-	IVP_DOUBLE min_mass_1 = core_1->calc_virt_mass(&anchor_1->core_pos, NULL);
+	IVP_DOUBLE min_mass_0 = core_0->calc_virt_mass(&anchor_0->core_pos, nullptr);
+	IVP_DOUBLE min_mass_1 = core_1->calc_virt_mass(&anchor_1->core_pos, nullptr);
 	spring_values_factor = (min_mass_0 * min_mass_1) / (min_mass_0 + min_mass_1);
     }
 
@@ -308,7 +308,7 @@ void IVP_Actuator_Suspension::do_simulation_controller(IVP_Event_Sim *es,IVP_U_V
 	if (0){ // Version with new IVP_Solver_Core_Reaction
 	  IVP_Solver_Core_Reaction tcb;
 	  IVP_U_Float_Point direction(&dir_ws);
-	  tcb.init_reaction_solver_translation_ws(pc1,pc0, pos0_ws, &direction,0,0);
+	  tcb.init_reaction_solver_translation_ws(pc1,pc0, pos0_ws, &direction,nullptr,nullptr);
 	  printf("suspension new %f old %f\n", tcb.delta_velocity_ds.k[0], damp_speed);
 	}
 	/// SPECIAL Suspension treatment

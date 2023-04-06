@@ -152,7 +152,7 @@ void CMapReslistGenerator::BuildMapList()
 	Msg( "********************\n" );
 
 	// Get the maplist file, if any
-	const char *pMapFile = NULL;
+	const char *pMapFile = nullptr;
 	CommandLine()->CheckParm( "-usereslistfile", &pMapFile );
 
 	// -reslistmap argument precludes using a maplist file
@@ -171,7 +171,7 @@ bool BuildGeneralMapList( CUtlVector<maplist_map_t> *aMaps, bool bUseMapListFile
 	if ( !bUseMapListFile )
 	{
 		// If the user passed in a -reslistmap parameter, just use that single map
-		char const *pMapName = NULL;
+		char const *pMapName = nullptr;
 		if ( CommandLine()->CheckParm( "-reslistmap", &pMapName ) && pMapName )
 		{
 			// ensure validity
@@ -190,13 +190,13 @@ bool BuildGeneralMapList( CUtlVector<maplist_map_t> *aMaps, bool bUseMapListFile
 			// build the list of all the levels to scan
 			// Search the directory structure.
 			const char *mapwild = "maps/*.bsp";
-			char const *findfn = Sys_FindFirst( mapwild, NULL, 0 );
+			char const *findfn = Sys_FindFirst( mapwild, nullptr, 0 );
 			while ( findfn )
 			{
 				// make sure that it's in the mod filesystem
 				if ( !g_pFileSystem->FileExists( va("maps/%s", findfn), "MOD" ) )
 				{
-					findfn = Sys_FindNext( NULL, 0 );
+					findfn = Sys_FindNext(nullptr, 0 );
 					continue;
 				}
 
@@ -210,7 +210,7 @@ bool BuildGeneralMapList( CUtlVector<maplist_map_t> *aMaps, bool bUseMapListFile
 				}
 
 				// move to next item
-				findfn = Sys_FindNext( NULL, 0  );
+				findfn = Sys_FindNext(nullptr, 0  );
 
 				// ensure validity
 				if (!g_pVEngineServer->IsMapValid(sz))
@@ -300,7 +300,7 @@ bool BuildGeneralMapList( CUtlVector<maplist_map_t> *aMaps, bool bUseMapListFile
 
 	// Determine the current map (-startmap allows starts mid-maplist)
 	*iCurrentMap = 0;
-	char const *startmap = NULL;
+	char const *startmap = nullptr;
 	if ( CommandLine()->CheckParm( "-startmap", &startmap ) && startmap )
 	{
 		for ( int i = 0 ; i < c; ++i )
@@ -407,7 +407,7 @@ void CMapReslistGenerator::EnableReslistGeneration( bool usemaplistfile )
 
 	m_bLoggingEnabled = true;
 
-	char const *pszDir = NULL;
+	char const *pszDir = nullptr;
 	if ( CommandLine()->CheckParm( "-reslistdir", &pszDir ) && pszDir )
 	{
 		char szDir[ MAX_PATH ];

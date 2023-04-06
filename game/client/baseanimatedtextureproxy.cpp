@@ -58,8 +58,8 @@ bool CBaseAnimatedTextureProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValue
 
 void CBaseAnimatedTextureProxy::Cleanup()
 {
-	m_AnimatedTextureVar = NULL;
-	m_AnimatedTextureFrameNumVar = NULL;
+	m_AnimatedTextureVar = nullptr;
+	m_AnimatedTextureFrameNumVar = nullptr;
 }
 
 

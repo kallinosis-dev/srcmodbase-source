@@ -239,14 +239,14 @@ public:
 		if ( hData == INVALID_WAVECACHE_HANDLE )
 		{
 			// must trap, the 0 entry is a valid index
-			return NULL;
+			return nullptr;
 		}
 
 		AUTO_LOCK_FM( m_WaveCacheMutex );
 
 		WaveCache_t *pCacheData = m_HandleTable.GetHandle( hData );
 		if ( !pCacheData )
-			return NULL;
+			return nullptr;
 
 		pCacheData->m_nAgeStamp = m_nAgeStamp++;
 
@@ -258,14 +258,14 @@ public:
 		if ( hData == INVALID_WAVECACHE_HANDLE )
 		{
 			// must trap, the 0 entry is a valid index
-			return NULL;
+			return nullptr;
 		}
 
 		AUTO_LOCK_FM( m_WaveCacheMutex );
 
 		WaveCache_t *pCacheData = m_HandleTable.GetHandle( hData );
 		if ( !pCacheData )
-			return NULL;
+			return nullptr;
 
 		return pCacheData->m_pWaveData;
 	}
@@ -275,14 +275,14 @@ public:
 		if ( hData == INVALID_WAVECACHE_HANDLE )
 		{
 			// must trap, the 0 entry is a valid index
-			return NULL;
+			return nullptr;
 		}
 
 		AUTO_LOCK_FM( m_WaveCacheMutex );
 
 		WaveCache_t *pCacheData = m_HandleTable.GetHandle( hData );
 		if ( !pCacheData )
-			return NULL;
+			return nullptr;
 
 		pCacheData->m_nAgeStamp = m_nAgeStamp++;
 
@@ -577,11 +577,11 @@ CWaveCache s_WaveCache;
 CAsyncWaveData::CAsyncWaveData() :
 	m_nDataSize( 0 ),
 	m_nReadSize( 0 ),
-	m_pvData( 0 ),
-	m_pAlloc( 0 ),
+	m_pvData( nullptr ),
+	m_pAlloc( nullptr ),
 	m_hBuffer( INVALID_BUFFER_HANDLE ),
 	m_nBufferBytes( 0 ),
-	m_hAsyncControl( NULL ),
+	m_hAsyncControl(nullptr),
 	m_bLoaded( false ),
 	m_bMissing( false ),
 	m_start( 0.0 ),
@@ -589,7 +589,7 @@ CAsyncWaveData::CAsyncWaveData() :
 	m_bPostProcessed( false ),
 	m_bIsTransient( false ),
 	m_bIsStaticPooled( false ),
-	m_hFileNameHandle( 0 )
+	m_hFileNameHandle( nullptr )
 {
 }
 
@@ -612,7 +612,7 @@ void CAsyncWaveData::DestroyResource()
 			}
 			
 			g_pFileSystem->AsyncRelease( m_hAsyncControl );
-			m_hAsyncControl = NULL;
+			m_hAsyncControl = nullptr;
 		}
 	}
 
@@ -631,7 +631,7 @@ void CAsyncWaveData::DestroyResource()
 				}
 			}
 			g_pFileSystem->AsyncRelease( m_hAsyncControl );
-			m_hAsyncControl = NULL;
+			m_hAsyncControl = nullptr;
 		}
 		if ( m_hBuffer != INVALID_BUFFER_HANDLE )
 		{
@@ -726,12 +726,12 @@ CAsyncWaveData *CAsyncWaveData::CreateResource( const asyncwaveparams_t &params 
 {
 	MEM_ALLOC_CREDIT_( "CAsyncWaveData::CreateResource" );
 
-	CAsyncWaveData *pData = NULL;
+	CAsyncWaveData *pData = nullptr;
 
 	if ( IsGameConsole() )
 	{
 		// create buffers now for re-use during streaming process
-		void *pBuffer = NULL;
+		void *pBuffer = nullptr;
 		int bufferSize;
 		bool bIsStaticPooled = params.bIsStaticPooled;
 		if ( params.bIsTransient )
@@ -743,7 +743,7 @@ CAsyncWaveData *CAsyncWaveData::CreateResource( const asyncwaveparams_t &params 
 			{
 				// pool is empty, purge required
 				// failure case detected by create logic, will drive purge and retry
-				return NULL;
+				return nullptr;
 			}
 		}
 		else
@@ -847,7 +847,7 @@ void CAsyncWaveData::QueuedLoaderCallback( void *pContext, void *pContext2, cons
 	CAsyncWaveData *pObject = reinterpret_cast< CAsyncWaveData * >( pContext );
 	Assert( pObject );
 
-	pObject->OnAsyncCompleted( NULL, nSize, loaderError == LOADERERROR_NONE ? FSASYNC_OK : FSASYNC_ERR_FILEOPEN );
+	pObject->OnAsyncCompleted(nullptr, nSize, loaderError == LOADERERROR_NONE ? FSASYNC_OK : FSASYNC_ERR_FILEOPEN );
 }
 
 //-----------------------------------------------------------------------------
@@ -990,7 +990,7 @@ bool CAsyncWaveData::BlockingCopyData( void *destbuffer, int destbufsize, int st
 	Q_memcpy( destbuffer, (char *)m_pvData + ( startoffset - m_async.nOffset ), count );
 
 	g_pFileSystem->AsyncRelease( m_hAsyncControl );
-	m_hAsyncControl = NULL;
+	m_hAsyncControl = nullptr;
 	return true;
 }
 
@@ -1058,7 +1058,7 @@ bool CAsyncWaveData::BlockingGetDataPointer( void **ppData )
 	*ppData = m_pvData;
 
 	g_pFileSystem->AsyncRelease( m_hAsyncControl );
-	m_hAsyncControl = NULL;
+	m_hAsyncControl = nullptr;
 
 	return true;
 }
@@ -1100,7 +1100,7 @@ void CAsyncWaveData::StartAsyncLoading( const asyncwaveparams_t& params )
 
 	if ( !IsGameConsole() )
 	{
-		m_async.pData = NULL;
+		m_async.pData = nullptr;
 		if ( SndAlignReads() )
 		{
 			m_async.nOffset = 0;
@@ -1250,7 +1250,7 @@ private:
 	struct CacheEntry_t
 	{
 		CacheEntry_t() :
-			name( 0 ),
+			name( nullptr ),
 			handle( 0 )
 		{
 		}
@@ -1831,7 +1831,7 @@ void CAsyncWavDataCache::CleanupDeadBuffers( bool bSync )
 				else
 				{
 					// cause a sync operation to force the async operation to finish 
-					void *pData = NULL;
+					void *pData = nullptr;
 					pBuffer->BlockingGetDataPointer( &pData );
 				}
 			}
@@ -1976,7 +1976,7 @@ bool CAsyncWavDataCache::InitializeStreamData( const StreamedEntry_t &streamedEn
 	{
 		streamData.pWaveData[i] = s_WaveCache.CacheGetNoTouch( streamedEntry.m_hWaveData[i] );
 		Assert( streamData.pWaveData[i] );
-		if ( streamData.pWaveData[i] == NULL )
+		if ( streamData.pWaveData[i] == nullptr)
 		{
 			// oops, where are our locked buffers?
 			// The buffers can go away in midst of streaming if the streaming buffer pool is filled,
@@ -2028,7 +2028,7 @@ void CAsyncWavDataCache::CopyFromCurrentBuffers( StreamedEntry_t &streamedEntry,
 		if ( bCompleted && pFront->m_hAsyncControl && ( pFront->m_bLoaded || pFront->m_bMissing) )
 		{
 			g_pFileSystem->AsyncRelease( pFront->m_hAsyncControl );
-			pFront->m_hAsyncControl = NULL;
+			pFront->m_hAsyncControl = nullptr;
 		}
 
 		if ( bCompleted && pFront->m_bLoaded )
@@ -2254,7 +2254,7 @@ int CAsyncWavDataCache::CopyStreamedDataIntoMemory( StreamHandle_t hStream, void
 //-----------------------------------------------------------------------------
 void *CAsyncWavDataCache::GetStreamedDataPointer( StreamHandle_t hStream, bool bSync )
 {
-	void			*pData = NULL;
+	void			*pData = nullptr;
 	CAsyncWaveData	*pFront;
 	int				index;
 	StreamedEntry_t &streamedEntry = m_StreamedHandles[hStream];
@@ -2265,7 +2265,7 @@ void *CAsyncWavDataCache::GetStreamedDataPointer( StreamHandle_t hStream, bool b
 	if ( !pFront )
 	{
 		// shouldn't happen
-		return NULL;
+		return nullptr;
 	}
 
 	if ( !pFront->m_bMissing && pFront->m_bLoaded )
@@ -2278,7 +2278,7 @@ void *CAsyncWavDataCache::GetStreamedDataPointer( StreamHandle_t hStream, bool b
 		return pData;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2374,7 +2374,7 @@ bool CAsyncWavDataCache::GetDataPointer( WaveCacheHandle_t& handle, char const *
 	*pbPostProcessed = false;
 
 	bool bret = false;
-	*pData = NULL;
+	*pData = nullptr;
 
 	CAsyncWaveData *data = s_WaveCache.CacheLock( handle );
 	if ( !data )
@@ -2575,7 +2575,7 @@ void CAsyncWavDataCache::SpewMemoryUsage( MemoryUsageType level )
 					continue;
 				}
 
-				if ( level == SPEW_MUSIC_NONSTREAMING && V_stristr( name, "music" ) == NULL )
+				if ( level == SPEW_MUSIC_NONSTREAMING && V_stristr( name, "music" ) == nullptr)
 					continue;
 
 				WaveCacheHandle_t &handle = m_CacheHandles[ i ].handle;
@@ -2800,7 +2800,7 @@ private:
 		if ( !info )
 		{
 			Assert( !"CAudioSourceWave::GetCachedDataPointer info == NULL" );
-			return NULL;
+			return nullptr;
 		}
 
 		return (byte *)info->CachedData();
@@ -2852,9 +2852,9 @@ CWaveDataStreamAsync::CWaveDataStreamAsync
 	m_bValid( false ), 
 	m_hCache( 0 ),
 	m_hStream( INVALID_STREAM_HANDLE ),
-	m_hFileName( 0 ), 
+	m_hFileName( nullptr ), 
 	m_pSfx( sfx ),
-	m_pBuffer( NULL )
+	m_pBuffer(nullptr)
 {
 	soundError = SE_OK;
 	m_hFileName = g_pFileSystem->FindOrAddFileName( pFileName );
@@ -2955,7 +2955,7 @@ CWaveDataStreamAsync::CWaveDataStreamAsync
 		if ( source.IsLooped() )
 		{
 			int loopBlock;
-			loopStart = m_pStreamSource->GetLoopingInfo( &loopBlock, NULL, NULL ) * m_sampleSize;
+			loopStart = m_pStreamSource->GetLoopingInfo( &loopBlock, nullptr, nullptr) * m_sampleSize;
 
 			// Note that the loop start is inaccurate for some format (like WAVE_FORMAT_MP3).
 			// It is a bytes position in uncompressed samples, but this is not valid for MP3.
@@ -3317,7 +3317,7 @@ int CWaveDataStreamAsync::ReadSourceData( void **pData, int64 sampleIndex, int s
 							// This code is not optimized, but hopefully never executed.
 							int nSamplesToFill = imin( m_bufferCount, AUDIOSOURCE_COPYBUF_SIZE  / m_sampleSize );
 							nSamplesToFill = imin( nSamplesToFill, sampleCount );
-							if ( copyBuf != NULL )
+							if ( copyBuf != nullptr)
 							{
 								for ( int i = 0 ; i < nSamplesToFill ; ++i )
 								{
@@ -3477,7 +3477,7 @@ IWaveData *CreateWaveDataStream( CAudioSource &source, IWaveStreamSource *pStrea
 	if ( !pStream || !pStream->IsValid() )
 	{
 		delete pStream;
-		pStream = NULL;
+		pStream = nullptr;
 	}
 	return pStream;
 }
@@ -3506,7 +3506,7 @@ namespace
 	CThreadFastMutex g_phononMutex;
 
 	IPLAudioFormat g_phononInputFormat, g_phononOutputFormat;
-	IPLhandle g_phononContext = 0;
+	IPLhandle g_phononContext = nullptr;
 
 	static const int PHONON_SAMPLE_SIZE = 4;
 	struct PhononJob
@@ -3803,7 +3803,7 @@ void ShutdownPhononThread()
 		g_eventPhononThread.Set();
 		ThreadJoin(g_hPhononThread);
 		ReleaseThreadHandle(g_hPhononThread);
-		g_hPhononThread = NULL;
+		g_hPhononThread = nullptr;
 	}
 }
 

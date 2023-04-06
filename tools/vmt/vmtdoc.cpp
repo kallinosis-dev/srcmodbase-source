@@ -35,27 +35,27 @@ static StandardParam_t g_pStandardParams[] =
 {
 	{ "$surfaceprop", SHADER_PARAM_TYPE_STRING, "default", "surfacepropertypicker", "surfacePropertyName" },
 	{ "%detailtype", SHADER_PARAM_TYPE_STRING, "", "detailtypepicker", "detailTypeName" },
-	{ "%compilesky", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compilehint", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compileskip", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compileorigin", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compileclip", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%playerclip", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compilenpcclip", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compilenochop", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compiletrigger", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compilenolight", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compileplayercontrolclip", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compileladder", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compilewet", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compilenodraw", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compileinvisible", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compilenonsolid", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compiledetail", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compilewater", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compileslime", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ "%compilegrenadeclip", SHADER_PARAM_TYPE_BOOL, "0", NULL, NULL },
-	{ NULL, SHADER_PARAM_TYPE_BOOL, NULL, NULL, NULL }
+	{ "%compilesky", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compilehint", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compileskip", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compileorigin", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compileclip", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%playerclip", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compilenpcclip", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compilenochop", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compiletrigger", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compilenolight", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compileplayercontrolclip", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compileladder", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compilewet", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compilenodraw", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compileinvisible", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compilenonsolid", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compiledetail", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compilewater", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compileslime", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{ "%compilegrenadeclip", SHADER_PARAM_TYPE_BOOL, "0", nullptr, nullptr},
+	{nullptr, SHADER_PARAM_TYPE_BOOL, nullptr, nullptr, nullptr}
 };
 
 
@@ -64,10 +64,10 @@ static StandardParam_t g_pStandardParams[] =
 //-----------------------------------------------------------------------------
 CVMTDoc::CVMTDoc( IVMTDocCallback *pCallback ) : m_pCallback( pCallback )
 {
-	m_hRoot = NULL;
+	m_hRoot = nullptr;
 	m_pFileName[0] = 0;
 	m_bDirty = false;
-	m_pCurrentIShader = NULL;
+	m_pCurrentIShader = nullptr;
 
 	KeyValues *pKeyValues = new KeyValues( "Wireframe" );
 	m_pScratchMaterial.Init( "VMT Preview", pKeyValues );
@@ -344,8 +344,8 @@ bool CVMTDoc::LoadFromFile( const char *pFileName )
 	// This will allow us to edit in context!
 	SetupPreviewMaterial( );
 
-	CDmElement *pIVMT = NULL;
-	g_pDataModel->RestoreFromFile( m_pFileName, NULL, "vmt", &pIVMT );
+	CDmElement *pIVMT = nullptr;
+	g_pDataModel->RestoreFromFile( m_pFileName, nullptr, "vmt", &pIVMT );
 	CDmElement *pVMT = CastElement< CDmElement >( pIVMT );
 	if ( !pVMT )
 		return false;
@@ -373,7 +373,7 @@ CDmElement* CVMTDoc::ExtractDefaultParameters( )
 	CDmElement *pMaterial = m_hRoot->Copy( );
 
 	CDmAttribute* pAttribute = pMaterial->FirstAttribute();
-	CDmAttribute* pNextAttribute = NULL;
+	CDmAttribute* pNextAttribute = nullptr;
 	for ( ; pAttribute; pAttribute = pNextAttribute )
 	{
 		pNextAttribute = pAttribute->NextAttribute();
@@ -382,7 +382,7 @@ CDmElement* CVMTDoc::ExtractDefaultParameters( )
 
 		// Check for standard params
 		int i;
-		for ( i = 0; g_pStandardParams[i].m_pParamName != NULL; ++i )
+		for ( i = 0; g_pStandardParams[i].m_pParamName != nullptr; ++i )
 		{
 			if ( !Q_stricmp( g_pStandardParams[i].m_pParamName, pShaderParam ) )
 			{
@@ -475,7 +475,7 @@ bool CVMTDoc::SaveToFile( )
 	{
 		CDisableUndoScopeGuard guard;
 		CDmElement *pSaveRoot = ExtractDefaultParameters();
-		bool bOk = g_pDataModel->SaveToFile( m_pFileName, NULL, "keyvalues", "vmt", pSaveRoot );
+		bool bOk = g_pDataModel->SaveToFile( m_pFileName, nullptr, "keyvalues", "vmt", pSaveRoot );
 		DestroyElement( pSaveRoot, TD_DEEP );
 		if ( !bOk )
 			return false;
@@ -499,7 +499,7 @@ IShader *CVMTDoc::FindShader( const char *pShaderName )
 		if ( !Q_stricmp( pShaderName, ppShaderList[i]->GetName() ) )
 			return ppShaderList[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -543,7 +543,7 @@ bool CVMTDoc::IsShaderParam( CDmAttribute* pAttribute )
 void CVMTDoc::RemoveAllShaderParams( CDmElement *pMaterial )
 {
 	CDmAttribute* pAttribute;
-	CDmAttribute* pNextAttribute = NULL;
+	CDmAttribute* pNextAttribute = nullptr;
 	for ( pAttribute = pMaterial->FirstAttribute(); pAttribute; pAttribute = pNextAttribute )
 	{
 		pNextAttribute = pAttribute->NextAttribute();
@@ -564,7 +564,7 @@ void CVMTDoc::RemoveAllShaderParams( CDmElement *pMaterial )
 void CVMTDoc::RemoveUnusedShaderParams( CDmElement *pMaterial, IShader *pShader, IShader *pOldShader )
 {
 	CDmAttribute* pAttribute = pMaterial->FirstAttribute();
-	CDmAttribute* pNextAttribute = NULL;
+	CDmAttribute* pNextAttribute = nullptr;
 	for ( ; pAttribute; pAttribute = pNextAttribute )
 	{
 		pNextAttribute = pAttribute->NextAttribute();
@@ -650,7 +650,7 @@ void CVMTDoc::RemoveUnusedShaderParams( CDmElement *pMaterial, IShader *pShader,
 //-----------------------------------------------------------------------------
 CDmAttribute* CVMTDoc::AddAttributeForShaderParameter( CDmElement *pMaterial, const char *pParamName, ShaderParamType_t paramType )
 {
-	CDmAttribute *pAttribute = NULL;
+	CDmAttribute *pAttribute = nullptr;
 	switch ( paramType )
 	{
 	case SHADER_PARAM_TYPE_INTEGER:
@@ -908,7 +908,7 @@ void CVMTDoc::AddNewShaderParam( CDmElement *pMaterial, const char *pParamName, 
 	Q_strlower( temp );
 	pParamName = temp;
 
-	CDmAttribute* pAttribute = NULL;
+	CDmAttribute* pAttribute = nullptr;
 	for ( pAttribute = pMaterial->FirstAttribute(); pAttribute; pAttribute = pAttribute->NextAttribute() )
 	{
 		// Don't bother testing against name

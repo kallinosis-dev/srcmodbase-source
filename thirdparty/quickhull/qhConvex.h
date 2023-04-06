@@ -96,7 +96,7 @@ class qhConvex
 		void CleanHull( void );
 		void ShiftHull( const qhVector3& Translation );
 		
-		void BuildHorizon( qhArray< qhHalfEdge* >& Horizon, qhVertex* Apex, qhFace* Seed, qhHalfEdge* Edge1 = NULL );
+		void BuildHorizon( qhArray< qhHalfEdge* >& Horizon, qhVertex* Apex, qhFace* Seed, qhHalfEdge* Edge1 = nullptr);
 		void BuildCone( qhArray< qhFace* >& Cone, const qhArray< qhHalfEdge* >& Horizon, qhVertex* Apex );
 		void MergeFaces( qhArray< qhFace* >& Cone );
 		void ResolveVertices( qhArray< qhFace* >& Cone );

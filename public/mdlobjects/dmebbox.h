@@ -50,7 +50,7 @@ public:
 	CDmaVar< Vector > m_vMaxBounds;
 
 	// From CDmeShape
-	virtual void Draw( const matrix3x4_t &shapeToWorld, CDmeDrawSettings *pDrawSettings = NULL );
+	virtual void Draw( const matrix3x4_t &shapeToWorld, CDmeDrawSettings *pDrawSettings = nullptr);
 };
 
 

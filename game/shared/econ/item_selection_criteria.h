@@ -147,7 +147,7 @@ private:
 
 		EItemCriteriaOperator	GetEOp( void ) const { return m_EOp; }
 		virtual	const char		*GetField( void ) { return m_sField.Get(); }
-		virtual	const char		*GetValue( void ) { Assert(0); return NULL; }
+		virtual	const char		*GetValue( void ) { Assert(0); return nullptr; }
 
 	protected:
 		// Returns true if applying the element's operator on m_sField of

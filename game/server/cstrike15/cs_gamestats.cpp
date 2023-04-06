@@ -99,9 +99,9 @@ struct
 {
 	{ CSBreakWindows,			    CSSTAT_NUM_BROKEN_WINDOWS,		AchievementConsts::BreakWindowsInOfficeRound_Windows,	0,	"cs_office", false },
 	//{ CSBreakProps,			        CSSTAT_PROPSBROKEN_ALL,			AchievementConsts::BreakPropsInRound_Props,				0,	NULL },
-	{ CSUnstoppableForce,		    CSSTAT_KILLS,					AchievementConsts::UnstoppableForce_Kills,				0,	NULL, true },
-	{ CSHeadshotsInRound,	        CSSTAT_KILLS_HEADSHOT,			AchievementConsts::HeadshotsInRound_Kills,				0,	NULL, true },
-	{ CSDominationOverkillsMatch,	CSSTAT_DOMINATION_OVERKILLS,	0,				                                        10,	NULL, false },
+	{ CSUnstoppableForce,		    CSSTAT_KILLS,					AchievementConsts::UnstoppableForce_Kills,				0, nullptr, true },
+	{ CSHeadshotsInRound,	        CSSTAT_KILLS_HEADSHOT,			AchievementConsts::HeadshotsInRound_Kills,				0, nullptr, true },
+	{ CSDominationOverkillsMatch,	CSSTAT_DOMINATION_OVERKILLS,	0,				                                        10, nullptr, false },
 };
 
 // The struct below should be updated (along with the CSBombEventName enum table) whenever we write data for a new bomb-related event.
@@ -649,7 +649,7 @@ void CCSGameStats::UpdatePlayerRoundStats(int winner)
 void CCSGameStats::DumpMatchWeaponMetrics()
 {
 	// generate a filename
-	time_t t = time( NULL );
+	time_t t = time(nullptr);
 	struct tm *now = localtime( &t );
 	if ( !now )
 		return;
@@ -1196,7 +1196,7 @@ void CCSGameStats::IncrementStat( CCSPlayer* pPlayer, CSStatType_t statId, int i
 			if (ServerStatBasedAchievements[i].statId == statId)
 			{
 				// skip this if there is a map filter and it doesn't match
-				if (ServerStatBasedAchievements[i].mapFilter != NULL && V_strcmp(gpGlobals->mapname.ToCStr(), ServerStatBasedAchievements[i].mapFilter) != 0)
+				if (ServerStatBasedAchievements[i].mapFilter != nullptr && V_strcmp(gpGlobals->mapname.ToCStr(), ServerStatBasedAchievements[i].mapFilter) != 0)
 					continue;
 
 				if ( CSGameRules()->IsPlayingGunGameProgressive() && ServerStatBasedAchievements[i].disallowGunGameProgressive )
@@ -1235,7 +1235,7 @@ void CCSGameStats::SetStat( CCSPlayer *pPlayer, CSStatType_t statId, int iValue 
 			if (ServerStatBasedAchievements[i].statId == statId)
 			{
 				// skip this if there is a map filter and it doesn't match
-				if (ServerStatBasedAchievements[i].mapFilter != NULL && V_strcmp(gpGlobals->mapname.ToCStr(), ServerStatBasedAchievements[i].mapFilter) != 0)
+				if (ServerStatBasedAchievements[i].mapFilter != nullptr && V_strcmp(gpGlobals->mapname.ToCStr(), ServerStatBasedAchievements[i].mapFilter) != 0)
 					continue;
 
 				bool bWasMet = ServerStatBasedAchievements[i].IsMet(oldRoundValue, oldMatchValue);
@@ -1728,7 +1728,7 @@ CCSGameStats::StatContainerList_t* CCSGameStats::GetStatContainerList( void )
 #if !defined( NO_STEAM )
 	return s_StatLists;
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 

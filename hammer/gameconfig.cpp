@@ -56,7 +56,7 @@ CGameConfig *CGameConfig::GetActiveGame(void)
 //-----------------------------------------------------------------------------
 void CGameConfig::SetActiveGame(CGameConfig *pGame)
 {
-	if (pGame != NULL)
+	if (pGame != nullptr)
 	{
 		g_pGameConfig = pGame;
 		pGD = &pGame->GD;
@@ -77,7 +77,7 @@ void CGameConfig::SetActiveGame(CGameConfig *pGame)
 	else
 	{
 		g_pGameConfig = &g_DefaultGameConfig;
-		pGD = NULL;
+		pGD = nullptr;
 
 		g_MAX_MAP_COORD = 4096;
 		g_MIN_MAP_COORD = -4096;
@@ -487,7 +487,7 @@ void CGameConfig::LoadGDFiles(void)
 //-----------------------------------------------------------------------------
 bool FindFileInTree(const char *szFile, const char *szStartDir, char *szFoundPath)
 {
-	if ((szFile == NULL) || (szStartDir == NULL) || (szFoundPath == NULL))
+	if ((szFile == nullptr) || (szStartDir == nullptr) || (szFoundPath == nullptr))
 	{
 		return false;
 	}
@@ -524,7 +524,7 @@ bool FindFileInTree(const char *szFile, const char *szStartDir, char *szFoundPat
 //-----------------------------------------------------------------------------
 bool FindSteamUserDir(const char *szAppDir, const char *szSteamDir, char *szSteamUserDir)
 {
-	if ((szAppDir == NULL) || (szSteamDir == NULL) || (szSteamUserDir == NULL))
+	if ((szAppDir == nullptr) || (szSteamDir == nullptr) || (szSteamUserDir == nullptr))
 	{
 		return false;
 	}
@@ -575,7 +575,7 @@ void CGameConfig::ParseGameInfo()
 		strcpy(m_szSteamAppID, pKey->GetString("SteamAppId", ""));
 	}
 
-	const char *InstancePath = pkv->GetString( "InstancePath", NULL );
+	const char *InstancePath = pkv->GetString( "InstancePath", nullptr);
 	if ( InstancePath )
 	{
 		CMapInstance::SetInstancePath( InstancePath );

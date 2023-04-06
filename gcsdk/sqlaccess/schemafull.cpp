@@ -24,7 +24,7 @@ CSchemaFull & GSchemaFull()
 //-----------------------------------------------------------------------------
 CSchemaFull::CSchemaFull()
 {
-	m_pubScratchBuffer = NULL;
+	m_pubScratchBuffer = nullptr;
 	m_cubScratchBuffer = 0;
 	m_unCheckSum = 0;
 
@@ -93,10 +93,10 @@ void CSchemaFull::SetITable( CSchema* pSchema, int iTable )
 void CSchemaFull::Uninit()
 {
 	m_VecSchema.RemoveAll();
-	if ( NULL != m_pubScratchBuffer )
+	if (nullptr != m_pubScratchBuffer )
 	{
 		free( m_pubScratchBuffer );
-		m_pubScratchBuffer = NULL;
+		m_pubScratchBuffer = nullptr;
 	}
 }
 
@@ -174,7 +174,7 @@ int CSchemaFull::FindITable( const char *pchName )
 const char * CSchemaFull::PchTableFromITable( int iTable )
 {
 	if ( iTable < 0 || iTable >= m_VecSchema.Count() )
-		return NULL;
+		return nullptr;
 	else
 		return m_VecSchema[ iTable ].GetPchName();
 }

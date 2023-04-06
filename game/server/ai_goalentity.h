@@ -158,7 +158,7 @@ inline CAI_BaseNPC *CAI_GoalEntity::GetActor( int iActor )
 	UpdateActors();
 	if (  m_actors.Count() > iActor )
 		return m_actors[iActor];
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------

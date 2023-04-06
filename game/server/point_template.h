@@ -56,7 +56,7 @@ public:
 	int				GetTemplateIndexForTemplate( int iTemplate );
 
 	// Template instancing
-	bool			CreateInstance( const Vector &vecOrigin, const QAngle &vecAngles, CUtlVector<CBaseEntity*> *pEntities, CBaseEntity *pEntityMaker = NULL, bool bCreateTime = false );
+	bool			CreateInstance( const Vector &vecOrigin, const QAngle &vecAngles, CUtlVector<CBaseEntity*> *pEntities, CBaseEntity *pEntityMaker = nullptr, bool bCreateTime = false );
 	void			CreationComplete( const CUtlVector<CBaseEntity*> &entities );
 
 	// Inputs

@@ -99,8 +99,8 @@ static inline void RecordBloodSprite( const Vector &start, const Vector &directi
 	{
 		Color clr( r, g, b, a );
 
-		const model_t* pSprayModel = (nSprayModelIndex != 0) ? modelinfo->GetModel( nSprayModelIndex ) : NULL;
-		const model_t* pDropModel = (nDropModelIndex != 0) ? modelinfo->GetModel( nDropModelIndex ) : NULL;
+		const model_t* pSprayModel = (nSprayModelIndex != 0) ? modelinfo->GetModel( nSprayModelIndex ) : nullptr;
+		const model_t* pDropModel = (nDropModelIndex != 0) ? modelinfo->GetModel( nDropModelIndex ) : nullptr;
 		const char *pSprayModelName = pSprayModel ? modelinfo->GetModelName( pSprayModel ) : "";
 		const char *pDropModelName = pDropModel ? modelinfo->GetModelName( pDropModel ) : "";
 

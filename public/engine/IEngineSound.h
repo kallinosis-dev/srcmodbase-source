@@ -77,15 +77,15 @@ public:
 	// Will return the sound guid. If negative, the guid is unknown (call may be successful or not). 0 if the sound was not emitted. Positive if the guid is valid.
 	virtual int EmitSound( IRecipientFilter& filter, int iEntIndex, int iChannel, const char *pSoundEntry, HSOUNDSCRIPTHASH nSoundEntryHash, const char *pSample, 
 		float flVolume, float flAttenuation, int nSeed, int iFlags = 0, int iPitch = PITCH_NORM, 
-		const Vector *pOrigin = NULL, const Vector *pDirection = NULL, CUtlVector< Vector >* pUtlVecOrigins = NULL, bool bUpdatePositions = true, float soundtime = 0.0f, int speakerentity = -1 ) = 0;
+		const Vector *pOrigin = nullptr, const Vector *pDirection = nullptr, CUtlVector< Vector >* pUtlVecOrigins = nullptr, bool bUpdatePositions = true, float soundtime = 0.0f, int speakerentity = -1 ) = 0;
 
 	virtual int EmitSound( IRecipientFilter& filter, int iEntIndex, int iChannel, const char *pSoundEntry, HSOUNDSCRIPTHASH nSoundEntryHash, const char *pSample, 
 		float flVolume, soundlevel_t iSoundlevel, int nSeed, int iFlags = 0, int iPitch = PITCH_NORM, 
-		const Vector *pOrigin = NULL, const Vector *pDirection = NULL, CUtlVector< Vector >* pUtlVecOrigins = NULL, bool bUpdatePositions = true, float soundtime = 0.0f, int speakerentity = -1 ) = 0;
+		const Vector *pOrigin = nullptr, const Vector *pDirection = nullptr, CUtlVector< Vector >* pUtlVecOrigins = nullptr, bool bUpdatePositions = true, float soundtime = 0.0f, int speakerentity = -1 ) = 0;
 
 	virtual void EmitSentenceByIndex( IRecipientFilter& filter, int iEntIndex, int iChannel, int iSentenceIndex, 
 		float flVolume, soundlevel_t iSoundlevel, int nSeed, int iFlags = 0, int iPitch = PITCH_NORM,
-		const Vector *pOrigin = NULL, const Vector *pDirection = NULL, CUtlVector< Vector >* pUtlVecOrigins = NULL, bool bUpdatePositions = true, float soundtime = 0.0f, int speakerentity = -1 ) = 0;
+		const Vector *pOrigin = nullptr, const Vector *pDirection = nullptr, CUtlVector< Vector >* pUtlVecOrigins = nullptr, bool bUpdatePositions = true, float soundtime = 0.0f, int speakerentity = -1 ) = 0;
 
 	virtual void StopSound( int iEntIndex, int iChannel, const char *pSample, HSOUNDSCRIPTHASH nSoundEntryHash = SOUNDEMITTER_INVALID_HASH ) = 0;
 

@@ -37,7 +37,7 @@ BEGIN_VS_SHADER( Sky_HDR_DX9, "Help for Sky_HDR_DX9 shader" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT_PARAMS()
@@ -125,7 +125,7 @@ BEGIN_VS_SHADER( Sky_HDR_DX9, "Help for Sky_HDR_DX9 shader" )
 
 //			pShaderShadow->EnableAlphaWrites( true );
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, NULL, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( sky_vs20 );
 			SET_STATIC_VERTEX_SHADER( sky_vs20 );

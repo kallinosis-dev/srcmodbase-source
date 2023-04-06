@@ -34,7 +34,7 @@ public:
 	//---------------------------------
 
 	// Add a control to the group
-	void AddControl( CDmElement *pControl, const CDmElement *pInsertBeforeControl = NULL );
+	void AddControl( CDmElement *pControl, const CDmElement *pInsertBeforeControl = nullptr);
 
 	// Remove a control from the group
 	bool RemoveControl( const CDmElement *pControl );
@@ -43,7 +43,7 @@ public:
 	void GetControlsInGroup( CUtlVector< CDmElement* > &controlList, bool recursive ) const;
 
 	// Find a control with the specified name within the group
-	CDmElement *FindControlByName( const char *pchName, bool recursive, CDmeControlGroup **pParentGroup = NULL );
+	CDmElement *FindControlByName( const char *pchName, bool recursive, CDmeControlGroup **pParentGroup = nullptr);
 
 	// Find the group to which the specified control belongs, if any.
 	static CDmeControlGroup *FindGroupContainingControl( const CDmElement* pControl );
@@ -54,7 +54,7 @@ public:
 	//---------------------------------
 	
 	// Make the specified group a child of this group 
-	void AddChild( CDmeControlGroup *pGroup, const CDmeControlGroup *pInsertBeforeGroup = NULL );
+	void AddChild( CDmeControlGroup *pGroup, const CDmeControlGroup *pInsertBeforeGroup = nullptr);
 
 	// Remove the specified child group 
 	bool RemoveChild( const CDmeControlGroup *pGroup );
@@ -72,7 +72,7 @@ public:
 	bool HasChildGroup( const char *pchName, bool recursive );
 
 	// Find the child group with the specified name
-	CDmeControlGroup *FindChildByName( const char *pchName, bool recursive, CDmeControlGroup **pParentGroup = NULL );
+	CDmeControlGroup *FindChildByName( const char *pchName, bool recursive, CDmeControlGroup **pParentGroup = nullptr);
 
 	// Find the parent of the group
 	CDmeControlGroup *FindParent() const;

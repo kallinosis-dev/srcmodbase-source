@@ -199,7 +199,7 @@ void LoadGameTypes( void )
 
 	g_GameTypes.RemoveAll();
 
-	for ( KeyValues *pData = kv->GetFirstSubKey(); pData != NULL; pData = pData->GetNextKey() )
+	for ( KeyValues *pData = kv->GetFirstSubKey(); pData != nullptr; pData = pData->GetNextKey() )
 	{
 		gametypes_t& gametype = g_GameTypes[ g_GameTypes.AddToTail() ];
 
@@ -425,7 +425,7 @@ void CBaseGamesPage::SelectQuickListServers( void )
 
 						serverquality.iIndex = iListID;
 
-						KeyValues *kv = NULL;
+						KeyValues *kv = nullptr;
 						if ( m_pGameList->IsValidItemID( iListID ) )
 						{
 							kv = m_pGameList->GetItem( iListID );
@@ -532,7 +532,7 @@ void CBaseGamesPage::PrepareQuickListMap( const char *pMapName, int iListID )
 				pQuickListPanel->SetVisible( true );
 				pQuickListPanel->SetRefreshing();
 
-				servermap.iPanelIndex = m_pQuickList->AddItem( NULL,  pQuickListPanel );
+				servermap.iPanelIndex = m_pQuickList->AddItem(nullptr,  pQuickListPanel );
 			}
 
 			m_vecMapNamesFound.AddToTail( servermap );
@@ -541,7 +541,7 @@ void CBaseGamesPage::PrepareQuickListMap( const char *pMapName, int iListID )
 
 		//Now make sure that list is sorted.
 		// jms: TODO
-		CUtlVector<int> *pPanelSort = NULL; //m_pQuickList->GetSortedVector();
+		CUtlVector<int> *pPanelSort = nullptr; //m_pQuickList->GetSortedVector();
 
 		if ( pPanelSort )
 		{
@@ -574,7 +574,7 @@ void CBaseGamesPage::PrepareQuickListMap( const char *pMapName, int iListID )
 gameserveritem_t *CBaseGamesPage::GetServer( unsigned int serverID )
 {
 	if ( !steamapicontext->SteamMatchmakingServers() )
-		return NULL;
+		return nullptr;
 
 	if ( serverID >= 0 )
 	{
@@ -583,7 +583,7 @@ gameserveritem_t *CBaseGamesPage::GetServer( unsigned int serverID )
 	else
 	{
 		Assert( !"Unable to return a useful entry" );
-		return NULL; // bugbug Alfred: temp Favorites/History objects won't return a good value here...
+		return nullptr; // bugbug Alfred: temp Favorites/History objects won't return a good value here...
 	}
 }
 
@@ -592,7 +592,7 @@ gameserveritem_t *CBaseGamesPage::GetServer( unsigned int serverID )
 //-----------------------------------------------------------------------------
 bool CBaseGamesPage::TagsExclude( void )
 {
-	if ( m_pTagsIncludeFilter == NULL )
+	if ( m_pTagsIncludeFilter == nullptr)
 		return false;
 
 	return m_pTagsIncludeFilter->GetActiveItem() != NULL;
@@ -613,32 +613,32 @@ void CBaseGamesPage::CreateFilters()
 	m_pGameFilter = new ComboBox(this, "GameFilter", 6, false);
 
 	m_pLocationFilter = new ComboBox(this, "LocationFilter", 6, false);
-	m_pLocationFilter->AddItem("", NULL);
+	m_pLocationFilter->AddItem("", nullptr);
 
 	m_pMapFilter = new TextEntry(this, "MapFilter");
 
 	m_pWorkshopFilter = new ComboBox(this, "WorkshopFilter", 3, false);
-	m_pWorkshopFilter->AddItem("#ServerBrowser_All", NULL);
-	m_pWorkshopFilter->AddItem("#ServerBrowser_SubscribedOnly", NULL);
-	m_pWorkshopFilter->AddItem("#ServerBrowser_FeaturedOnly", NULL);
+	m_pWorkshopFilter->AddItem("#ServerBrowser_All", nullptr);
+	m_pWorkshopFilter->AddItem("#ServerBrowser_SubscribedOnly", nullptr);
+	m_pWorkshopFilter->AddItem("#ServerBrowser_FeaturedOnly", nullptr);
 
 	m_pPingFilter = new ComboBox(this, "PingFilter", 6, false);
-	m_pPingFilter->AddItem("#ServerBrowser_All", NULL);
-	m_pPingFilter->AddItem("#ServerBrowser_LessThan50", NULL);
-	m_pPingFilter->AddItem("#ServerBrowser_LessThan100", NULL);
-	m_pPingFilter->AddItem("#ServerBrowser_LessThan150", NULL);
-	m_pPingFilter->AddItem("#ServerBrowser_LessThan250", NULL);
-	m_pPingFilter->AddItem("#ServerBrowser_LessThan350", NULL);
-	m_pPingFilter->AddItem("#ServerBrowser_LessThan600", NULL);
+	m_pPingFilter->AddItem("#ServerBrowser_All", nullptr);
+	m_pPingFilter->AddItem("#ServerBrowser_LessThan50", nullptr);
+	m_pPingFilter->AddItem("#ServerBrowser_LessThan100", nullptr);
+	m_pPingFilter->AddItem("#ServerBrowser_LessThan150", nullptr);
+	m_pPingFilter->AddItem("#ServerBrowser_LessThan250", nullptr);
+	m_pPingFilter->AddItem("#ServerBrowser_LessThan350", nullptr);
+	m_pPingFilter->AddItem("#ServerBrowser_LessThan600", nullptr);
 
 	m_pSecureFilter = new ComboBox(this, "SecureFilter", 3, false);
-	m_pSecureFilter->AddItem("#ServerBrowser_All", NULL);
-	m_pSecureFilter->AddItem("#ServerBrowser_SecureOnly", NULL);
-	m_pSecureFilter->AddItem("#ServerBrowser_InsecureOnly", NULL);
+	m_pSecureFilter->AddItem("#ServerBrowser_All", nullptr);
+	m_pSecureFilter->AddItem("#ServerBrowser_SecureOnly", nullptr);
+	m_pSecureFilter->AddItem("#ServerBrowser_InsecureOnly", nullptr);
 
 	m_pTagsIncludeFilter = new ComboBox(this, "TagsInclude", 2, false);
-	m_pTagsIncludeFilter->AddItem("#ServerBrowser_TagsInclude", NULL);
-	m_pTagsIncludeFilter->AddItem("#ServerBrowser_TagsDoNotInclude", NULL);
+	m_pTagsIncludeFilter->AddItem("#ServerBrowser_TagsInclude", nullptr);
+	m_pTagsIncludeFilter->AddItem("#ServerBrowser_TagsDoNotInclude", nullptr);
 	m_pTagsIncludeFilter->SetVisible( false );
 
 	m_pNoEmptyServersFilterCheck = new CheckButton(this, "ServerEmptyFilterCheck", "");
@@ -646,7 +646,7 @@ void CBaseGamesPage::CreateFilters()
 	m_pNoPasswordFilterCheck = new CheckButton(this, "NoPasswordFilterCheck", "");
 //	m_pQuickListCheckButton = new CheckButton(this, "QuickListCheck", "");
 	
-	KeyValues *pkv = new KeyValues("mod", "gamedir", "", "appid", NULL );
+	KeyValues *pkv = new KeyValues("mod", "gamedir", "", "appid", nullptr);
 	m_pGameFilter->AddItem("#ServerBrowser_All", pkv);
 
 	for (int i = 0; i < ModList().ModCount(); i++)
@@ -1502,7 +1502,7 @@ bool CBaseGamesPage::CheckPrimaryFilters( gameserveritem_t &server )
 	}
 
 	// In CSGO we always want to filter out matchmaking servers from the server browser.
-	if ( Q_strnistr( server.m_szGameTags, "valve_ds", MAX_TAG_CHARACTERS ) != NULL )
+	if ( Q_strnistr( server.m_szGameTags, "valve_ds", MAX_TAG_CHARACTERS ) != nullptr)
 	{
 		return false;
 	}

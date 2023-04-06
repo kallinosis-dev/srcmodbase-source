@@ -53,7 +53,7 @@ bool CWorldItem::KeyValue( const char *szKeyName, const char *szValue )
 
 void CWorldItem::Spawn( void )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	switch (m_iType) 
 	{
@@ -113,7 +113,7 @@ CItem::~CItem()
 	if ( m_pConstraint )
 	{
 		physenv->DestroyConstraint( m_pConstraint );
-		m_pConstraint = NULL;
+		m_pConstraint = nullptr;
 	}
 }
 
@@ -126,7 +126,7 @@ bool CItem::CreateItemVPhysicsObject( void )
 		nSolidFlags |= FSOLID_TRIGGER;
 	}
 
-	if ( VPhysicsInitNormal( SOLID_VPHYSICS, nSolidFlags, false ) == NULL )
+	if ( VPhysicsInitNormal( SOLID_VPHYSICS, nSolidFlags, false ) == nullptr)
 	{
 		SetSolid( SOLID_BBOX );
 		AddSolidFlags( nSolidFlags );
@@ -199,7 +199,7 @@ void CItem::Spawn( void )
 			fixed.constraint.forceLimit	= lbs2kg( 10000 );
 			fixed.constraint.torqueLimit = lbs2kg( 10000 );
 
-			m_pConstraint = physenv->CreateFixedConstraint( pReferenceObject, pAttachedObject, NULL, fixed );
+			m_pConstraint = physenv->CreateFixedConstraint( pReferenceObject, pAttachedObject, nullptr, fixed );
 
 			m_pConstraint->SetGameData( (void *) this );
 		}
@@ -282,7 +282,7 @@ void CItem::ComeToRest( void )
 //-----------------------------------------------------------------------------
 bool UTIL_ItemCanBeTouchedByPlayer( CBaseEntity *pItem, CBasePlayer *pPlayer )
 {
-	if ( pItem == NULL || pPlayer == NULL )
+	if ( pItem == nullptr || pPlayer == nullptr)
 		return false;
 
 	// For now, always allow a vehicle riding player to pick up things they're driving over
@@ -292,7 +292,7 @@ bool UTIL_ItemCanBeTouchedByPlayer( CBaseEntity *pItem, CBasePlayer *pPlayer )
 	// Get our test positions
 	Vector vecStartPos;
 	IPhysicsObject *pPhysObj = pItem->VPhysicsGetObject();
-	if ( pPhysObj != NULL )
+	if ( pPhysObj != nullptr)
 	{
 		// Use the physics hull's center
 		QAngle vecAngles;
@@ -473,10 +473,10 @@ void CItem::OnPhysGunPickup( CBasePlayer *pPhysGunUser, PhysGunPickup_t reason )
 		// Expand the pickup box
 		CollisionProp()->UseTriggerBounds( true, ITEM_PICKUP_BOX_BLOAT * 2 );
 
-		if( m_pConstraint != NULL )
+		if( m_pConstraint != nullptr)
 		{
 			physenv->DestroyConstraint( m_pConstraint );
-			m_pConstraint = NULL;
+			m_pConstraint = nullptr;
 		}
 	}
 }

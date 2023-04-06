@@ -217,11 +217,11 @@ bool DoesAnyActorHaveAssociatedModelLoaded( CChoreoScene *scene )
 StudioModel *FindAssociatedModel( CChoreoScene *scene, CChoreoActor *a )
 {
 	if ( !a || !scene )
-		return NULL;
+		return nullptr;
 
 	Assert( models->GetActiveStudioModel() );
 
-	StudioModel *model = NULL;
+	StudioModel *model = nullptr;
 	if ( a->GetFacePoserModelName()[ 0 ] )
 	{
 		int idx = models->FindModelByFilename( a->GetFacePoserModelName() );
@@ -247,7 +247,7 @@ StudioModel *FindAssociatedModel( CChoreoScene *scene, CChoreoActor *a )
 	if ( DoesAnyActorHaveAssociatedModelLoaded( scene ) )
 	{
 		// Then return NULL here so we don't override with the default an actor who has a valid model going
-		return NULL;
+		return nullptr;
 	}
 
 	// Couldn't find it and nobody else has a loaded associated model, so just use the default model
@@ -259,7 +259,7 @@ StudioModel *FindAssociatedModel( CChoreoScene *scene, CChoreoActor *a )
 }
 
 
-CChoreoView		*g_pChoreoView = 0;
+CChoreoView		*g_pChoreoView = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -286,7 +286,7 @@ CChoreoView::CChoreoView( mxWindow *parent, int x, int y, int w, int h, int id )
 
 	m_flPlaybackRate	= 1.0f;
 
-	m_pScene = NULL;
+	m_pScene = nullptr;
 
 	m_flScrub			= 0.0f;
 	m_flScrubTarget		= 0.0f;
@@ -361,10 +361,10 @@ CChoreoView::CChoreoView( mxWindow *parent, int x, int y, int w, int h, int id )
 
 	ClearABPoints();
 
-	m_pClickedActor = NULL;
-	m_pClickedChannel = NULL;
-	m_pClickedEvent = NULL;
-	m_pClickedGlobalEvent = NULL;
+	m_pClickedActor = nullptr;
+	m_pClickedChannel = nullptr;
+	m_pClickedEvent = nullptr;
+	m_pClickedGlobalEvent = nullptr;
 	m_nClickedX = 0;
 	m_nClickedY = 0;
 	m_nSelectedEvents = 0;
@@ -376,7 +376,7 @@ CChoreoView::CChoreoView( mxWindow *parent, int x, int y, int w, int h, int id )
 	m_xStart			= 0;
 	m_yStart			= 0;
 	m_nDragType			= DRAGTYPE_NONE;
-	m_hPrevCursor		= 0;
+	m_hPrevCursor		= nullptr;
 
 	m_nMinX				= 0;
 	m_nMaxX				= 0;
@@ -405,7 +405,7 @@ bool CChoreoView::Close( void )
 {
 	if ( m_pScene && m_bDirty )
 	{
-		int retval = mxMessageBox( NULL, va( "Save changes to scene '%s'?", GetChoreoFile() ), g_appTitle, MX_MB_YESNOCANCEL );
+		int retval = mxMessageBox(nullptr, va( "Save changes to scene '%s'?", GetChoreoFile() ), g_appTitle, MX_MB_YESNOCANCEL );
 		if ( retval == 2 )
 		{
 			return false;
@@ -449,7 +449,7 @@ void CChoreoView::OnDelete()
 		UnloadScene();
 	}
 
-	CChoreoWidget::m_pView = NULL;
+	CChoreoWidget::m_pView = nullptr;
 
 	CChoreoEventWidget::DestroyImages();
 }
@@ -1020,12 +1020,12 @@ bool CChoreoView::IsMouseOverTimeline( int mx, int my )
 //-----------------------------------------------------------------------------
 void CChoreoView::ShowContextMenu( int mx, int my )
 {
-	CChoreoActorWidget		*a = NULL;
-	CChoreoChannelWidget	*c = NULL;
-	CChoreoEventWidget		*e = NULL;
-	CChoreoGlobalEventWidget *ge = NULL;
+	CChoreoActorWidget		*a = nullptr;
+	CChoreoChannelWidget	*c = nullptr;
+	CChoreoEventWidget		*e = nullptr;
+	CChoreoGlobalEventWidget *ge = nullptr;
 	int						ct = -1;
-	CEventAbsoluteTag		*at = NULL;
+	CEventAbsoluteTag		*at = nullptr;
 	int						clickedCloseCaptionButton = CChoreoChannelWidget::CLOSECAPTION_NONE;
 
 	GetObjectsUnderMouse( mx, my, &a, &c, &e, &ge, &ct, &at, &clickedCloseCaptionButton );
@@ -1562,7 +1562,7 @@ void CChoreoView::AssociateBSP( void )
 //-----------------------------------------------------------------------------
 void CChoreoView::DrawFocusRect( void )
 {
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 
 	for ( int i = 0; i < m_FocusRects.Count(); i++ )
 	{
@@ -1571,7 +1571,7 @@ void CChoreoView::DrawFocusRect( void )
 		::DrawFocusRect( dc, &rc );
 	}
 
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 }
 
 int CChoreoView::GetSelectedEventWidgets( CUtlVector< CChoreoEventWidget * >& events )
@@ -1836,7 +1836,7 @@ int CChoreoView::ComputeEventDragType( int mx, int my )
 	}
 
 	CEventAbsoluteTag *tag = GetAbsoluteTagUnderCursorPos( ew, mx, my );
-	if ( tag != NULL && CountSelectedEvents() <= 1 )
+	if ( tag != nullptr && CountSelectedEvents() <= 1 )
 	{
 		return DRAGTYPE_EVENTABSTAG_MOVE;
 	}
@@ -1927,7 +1927,7 @@ void CChoreoView::StartDraggingSceneEndTime( int mx, int my )
 
 	m_xStart = mx;
 	m_yStart = my;
-	m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+	m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 
 	DrawFocusRect();
 
@@ -2072,31 +2072,31 @@ void CChoreoView::StartDraggingEvent( int mx, int my )
 
 	m_xStart = mx;
 	m_yStart = my;
-	m_hPrevCursor = NULL;
+	m_hPrevCursor = nullptr;
 	switch ( m_nDragType )
 	{
 	default:
 		break;
 	case DRAGTYPE_EVENTTAG_MOVE:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		break;
 	case DRAGTYPE_EVENTABSTAG_MOVE:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_IBEAM ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_IBEAM ) );
 		break;
 	case DRAGTYPE_EVENT_MOVE:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEALL ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEALL ) );
 		break;
 	case DRAGTYPE_EVENT_STARTTIME:
 	case DRAGTYPE_EVENT_STARTTIME_RESCALE:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		break;
 	case DRAGTYPE_EVENT_ENDTIME:
 	case DRAGTYPE_EVENT_ENDTIME_RESCALE:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		break;
 	case DRAGTYPE_RESCALELEFT:
 	case DRAGTYPE_RESCALERIGHT:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		break;
 	}
 
@@ -2261,7 +2261,7 @@ void CChoreoView::MouseStartDrag( mxEvent *event, int mx, int my )
 			m_xStart = mx;
 			m_yStart = my;
 
-			m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+			m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 
 			DrawFocusRect();
 		}
@@ -2575,8 +2575,8 @@ void CChoreoView::MouseMove( int mx, int my )
 	int dragtype = ComputeEventDragType( mx, my );
 	if ( dragtype == DRAGTYPE_NONE )
 	{
-		CChoreoGlobalEventWidget *ge = NULL;
-		GetObjectsUnderMouse( mx, my, NULL, NULL, NULL, &ge, NULL, NULL, NULL );
+		CChoreoGlobalEventWidget *ge = nullptr;
+		GetObjectsUnderMouse( mx, my, nullptr, nullptr, nullptr, &ge, nullptr, nullptr, nullptr);
 		if ( ge )
 		{
 			dragtype = DRAGTYPE_EVENT_MOVE;
@@ -2594,20 +2594,20 @@ void CChoreoView::MouseMove( int mx, int my )
 	if ( m_hPrevCursor )
 	{
 		SetCursor( m_hPrevCursor );
-		m_hPrevCursor = NULL;
+		m_hPrevCursor = nullptr;
 	}
 	switch ( dragtype )
 	{
 	default:
 		break;
 	case DRAGTYPE_EVENTTAG_MOVE:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		break;
 	case DRAGTYPE_EVENTABSTAG_MOVE:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_IBEAM ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_IBEAM ) );
 		break;
 	case DRAGTYPE_EVENT_MOVE:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEALL ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEALL ) );
 		break;
 	case DRAGTYPE_EVENT_STARTTIME:
 	case DRAGTYPE_EVENT_STARTTIME_RESCALE:
@@ -2616,7 +2616,7 @@ void CChoreoView::MouseMove( int mx, int my )
 	case DRAGTYPE_SCENE_ENDTIME:
 	case DRAGTYPE_RESCALELEFT:
 	case DRAGTYPE_RESCALERIGHT:
-		m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+		m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		break;
 	}
 }
@@ -2781,7 +2781,7 @@ void CChoreoView::FinishDraggingSceneEndTime( mxEvent *event, int mx, int my )
 
 			int k;
 
-			CChoreoEvent *finalGesture = NULL;
+			CChoreoEvent *finalGesture = nullptr;
 			for ( k = channel->GetNumEvents() - 1; k >= 0; k-- )
 			{
 				CChoreoEventWidget *event = channel->GetEvent( k );
@@ -2864,7 +2864,7 @@ void CChoreoView::FinishDraggingSceneEndTime( mxEvent *event, int mx, int my )
 	if ( m_hPrevCursor )
 	{
 		SetCursor( m_hPrevCursor );
-		m_hPrevCursor = 0;
+		m_hPrevCursor = nullptr;
 	}
 
 	PushRedo( desc );
@@ -3103,7 +3103,7 @@ void CChoreoView::FinishDraggingEvent( mxEvent *event, int mx, int my )
 					case DRAGTYPE_EVENTABSTAG_MOVE:
 						{
 							// Get current x position
-							if ( m_pClickedAbsoluteTag != NULL )
+							if ( m_pClickedAbsoluteTag != nullptr)
 							{
 								CEventAbsoluteTag *tag = m_pClickedAbsoluteTag;
 								if ( tag )
@@ -3282,10 +3282,10 @@ void CChoreoView::FinishDraggingEvent( mxEvent *event, int mx, int my )
 	if ( m_hPrevCursor )
 	{
 		SetCursor( m_hPrevCursor );
-		m_hPrevCursor = 0;
+		m_hPrevCursor = nullptr;
 	}
 
-	CChoreoEvent *e = m_pClickedEvent ? m_pClickedEvent->GetEvent() : NULL;
+	CChoreoEvent *e = m_pClickedEvent ? m_pClickedEvent->GetEvent() : nullptr;
 
 	if ( e )
 	{		
@@ -3887,7 +3887,7 @@ int CChoreoView::handleEvent( mxEvent *event )
 					if ( processed )
 					{
 						m_pVertScrollBar->setValue( offset );
-						InvalidateRect( (HWND)m_pVertScrollBar->getHandle(), NULL, TRUE );
+						InvalidateRect( (HWND)m_pVertScrollBar->getHandle(), nullptr, TRUE );
 						m_nTopOffset = offset;
 						InvalidateLayout();
 					}
@@ -4410,7 +4410,7 @@ void CChoreoView::MoveTimeSliderToPos( int x )
 {
 	m_flLeftOffset = (float)x;
 	m_pHorzScrollBar->setValue( (int)m_flLeftOffset );
-	InvalidateRect( (HWND)m_pHorzScrollBar->getHandle(), NULL, TRUE );
+	InvalidateRect( (HWND)m_pHorzScrollBar->getHandle(), nullptr, TRUE );
 	InvalidateLayout();
 }
 
@@ -4461,7 +4461,7 @@ void CChoreoView::ProcessExpression( CChoreoScene *scene, CChoreoEvent *event )
 	if ( !a )
 		return;
 
-	CChoreoActorWidget *actor = NULL;
+	CChoreoActorWidget *actor = nullptr;
 
 	int i;
 	for ( i = 0; i < m_SceneActors.Count(); i++ )
@@ -4636,7 +4636,7 @@ void CChoreoView::ProcessFlexAnimation( CChoreoScene *scene, CChoreoEvent *event
 
 	CChoreoActor *a = event->GetActor();
 
-	CChoreoActorWidget *actor = NULL;
+	CChoreoActorWidget *actor = nullptr;
 
 	int i;
 	for ( i = 0; i < m_SceneActors.Count(); i++ )
@@ -5706,10 +5706,10 @@ void CChoreoView::DeleteSceneWidgets( void )
 	m_bCanDraw = oldcandraw;
 
 	// Make sure nobody is still pointing at us
-	m_pClickedActor = NULL;
-	m_pClickedChannel = NULL;
-	m_pClickedEvent = NULL;
-	m_pClickedGlobalEvent = NULL;
+	m_pClickedActor = nullptr;
+	m_pClickedChannel = nullptr;
+	m_pClickedEvent = nullptr;
+	m_pClickedGlobalEvent = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -5758,7 +5758,7 @@ void CChoreoView::CreateSceneWidgets( void )
 		if ( !a )
 			continue;
 
-		CChoreoActorWidget *actorWidget = new CChoreoActorWidget( NULL );
+		CChoreoActorWidget *actorWidget = new CChoreoActorWidget(nullptr);
 		Assert( actorWidget );
 
 		actorWidget->SetActor( a );
@@ -5776,7 +5776,7 @@ void CChoreoView::CreateSceneWidgets( void )
 		if ( !e || e->GetActor() )
 			continue;
 
-		CChoreoGlobalEventWidget *eventWidget = new CChoreoGlobalEventWidget( NULL );
+		CChoreoGlobalEventWidget *eventWidget = new CChoreoGlobalEventWidget(nullptr);
 		Assert( eventWidget );
 
 		eventWidget->SetEvent( e );
@@ -6104,7 +6104,7 @@ void CChoreoView::Load( void )
 
 void CChoreoView::LoadNext( void )
 {
-	if (GetChoreoFile() == NULL)
+	if (GetChoreoFile() == nullptr)
 		return;
 
 	char fixedupFile[ 512 ];
@@ -6228,11 +6228,11 @@ void CChoreoView::UnloadScene( void )
 	ClearStatusArea();
 
 	delete m_pScene;
-	m_pScene = NULL;
+	m_pScene = nullptr;
 	SetDirty( false );
 	SetChoreoFile( "" );
 	g_MDLViewer->InitGridSettings();
-	CChoreoWidget::m_pScene = NULL;
+	CChoreoWidget::m_pScene = nullptr;
 
 	DeleteSceneWidgets();
 
@@ -7604,7 +7604,7 @@ CChoreoScene *CChoreoView::LoadScene( char const *filename )
 	}
 
 	if ( !filesystem->FileExists( filename ) )
-		return NULL;
+		return nullptr;
 
 	LoadScriptFile( const_cast<char*>( filename ) );
 
@@ -7870,7 +7870,7 @@ void CChoreoView::EndEvent( float currenttime, CChoreoScene *scene, CChoreoEvent
 			{
 				sound->StopSound( mixer );
 			}
-			event->SetMixer( NULL );
+			event->SetMixer(nullptr);
 		}
 		break;
 	default:
@@ -7929,7 +7929,7 @@ CEventAbsoluteTag *CChoreoView::GetAbsoluteTagUnderCursorPos( CChoreoEventWidget
 {
 	if ( !event )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	for ( int i = 0; i < event->GetEvent()->GetNumAbsoluteTags( CChoreoEvent::PLAYBACK ); i++ )
@@ -7954,7 +7954,7 @@ CEventAbsoluteTag *CChoreoView::GetAbsoluteTagUnderCursorPos( CChoreoEventWidget
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8009,7 +8009,7 @@ void CChoreoView::GetObjectsUnderMouse( int mx, int my, CChoreoActorWidget **act
 		}
 		else
 		{
-			*absolutetag = NULL;
+			*absolutetag = nullptr;
 		}
 	}
 
@@ -8045,7 +8045,7 @@ CChoreoGlobalEventWidget *CChoreoView::GetGlobalEventUnderCursorPos( int mx, int
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8075,7 +8075,7 @@ CChoreoActorWidget *CChoreoView::GetActorUnderCursorPos( int mx, int my )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8089,7 +8089,7 @@ CChoreoChannelWidget *CChoreoView::GetChannelUnderCursorPos( int mx, int my )
 	CChoreoActorWidget *actor = GetActorUnderCursorPos( mx, my );
 	if ( !actor )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	POINT check;
@@ -8112,7 +8112,7 @@ CChoreoChannelWidget *CChoreoView::GetChannelUnderCursorPos( int mx, int my )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8125,7 +8125,7 @@ CChoreoEventWidget *CChoreoView::GetEventUnderCursorPos( int mx, int my )
 	CChoreoChannelWidget *channel = GetChannelUnderCursorPos( mx, my );
 	if ( !channel )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	POINT check;
@@ -8133,13 +8133,13 @@ CChoreoEventWidget *CChoreoView::GetEventUnderCursorPos( int mx, int my )
 	check.y = my;
 
 	if ( mx < GetLabelWidth() )
-		return NULL;
+		return nullptr;
 
 	if ( my < GetStartRow() )
-		return NULL;
+		return nullptr;
 
 	if ( my >= h2() - ( m_nInfoHeight + m_nScrollbarHeight ) )
-		return NULL;
+		return nullptr;
 
 	CChoreoEventWidget *event;
 	for ( int i = 0; i < channel->GetNumEvents(); i++ )
@@ -8160,7 +8160,7 @@ CChoreoEventWidget *CChoreoView::GetEventUnderCursorPos( int mx, int my )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8635,7 +8635,7 @@ CChoreoChannelWidget *CChoreoView::FindChannelForEvent( CChoreoEvent *event )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8671,7 +8671,7 @@ CChoreoEventWidget *CChoreoView::FindWidgetForEvent( CChoreoEvent *event )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8679,7 +8679,7 @@ CChoreoEventWidget *CChoreoView::FindWidgetForEvent( CChoreoEvent *event )
 //-----------------------------------------------------------------------------
 void CChoreoView::SelectAll( void )
 {
-	TraverseWidgets( &CChoreoView::SelectAllEvents, NULL );
+	TraverseWidgets( &CChoreoView::SelectAllEvents, nullptr);
 	redraw();
 }
 
@@ -8688,7 +8688,7 @@ void CChoreoView::SelectAll( void )
 //-----------------------------------------------------------------------------
 void CChoreoView::DeselectAll( void )
 {
-	TraverseWidgets( &CChoreoView::Deselect, NULL );
+	TraverseWidgets( &CChoreoView::Deselect, nullptr);
 	redraw();
 }
 
@@ -8883,10 +8883,10 @@ void CChoreoView::Undo( void )
 
 		ReportSceneClearToTools();
 		ClearStatusArea();
-		m_pClickedActor = NULL;
-		m_pClickedChannel = NULL;
-		m_pClickedEvent = NULL;
-		m_pClickedGlobalEvent = NULL; 
+		m_pClickedActor = nullptr;
+		m_pClickedChannel = nullptr;
+		m_pClickedEvent = nullptr;
+		m_pClickedGlobalEvent = nullptr; 
 	}
 
 	InvalidateLayout();
@@ -8908,10 +8908,10 @@ void CChoreoView::Redo( void )
 
 		ReportSceneClearToTools();
 		ClearStatusArea();
-		m_pClickedActor = NULL;
-		m_pClickedChannel = NULL;
-		m_pClickedEvent = NULL;
-		m_pClickedGlobalEvent = NULL; 
+		m_pClickedActor = nullptr;
+		m_pClickedChannel = nullptr;
+		m_pClickedEvent = nullptr;
+		m_pClickedGlobalEvent = nullptr; 
 
 		m_nUndoLevel++;
 	}
@@ -8938,9 +8938,9 @@ void CChoreoView::PushUndo( const char *description )
 	*u = *m_pScene;
 	CVUndo *undo = new CVUndo;
 	undo->undo = u;
-	undo->redo = NULL;
+	undo->redo = nullptr;
 	undo->udescription = CopyString( description );
-	undo->rdescription = NULL;
+	undo->rdescription = nullptr;
 	m_UndoStack.AddToTail( undo );
 	m_nUndoLevel++;
 }
@@ -10221,7 +10221,7 @@ void CChoreoView::SelectEvents( SelectionParams_t& params )
 		return;
 
 	//CChoreoActor *actor = m_pClickedActor->GetActor();
-	CChoreoChannel *channel = m_pClickedChannel ? m_pClickedChannel->GetChannel() : NULL;
+	CChoreoChannel *channel = m_pClickedChannel ? m_pClickedChannel->GetChannel() : nullptr;
 
 	for ( int i = 0; i < m_SceneActors.Count(); i++ )
 	{
@@ -10893,7 +10893,7 @@ void CChoreoView::OnCombineSpeakEvents()
 	if ( !m_pScene )
 		return;
 
-	CChoreoChannel *firstChannel = NULL;
+	CChoreoChannel *firstChannel = nullptr;
 
 	CUtlVector< CChoreoEvent * >	selected;
 	GetSelectedEvents( selected );
@@ -11197,7 +11197,7 @@ bool CChoreoView::AreSelectedEventsCombinable()
 	if ( GetSelectedEvents( events ) <= 0 )
 		return false;
 
-	CChoreoChannel *firstChannel = NULL;
+	CChoreoChannel *firstChannel = nullptr;
 
 	CUtlVector< CChoreoEvent * >	selected;
 	GetSelectedEvents( selected );

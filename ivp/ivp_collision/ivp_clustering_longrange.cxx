@@ -36,18 +36,18 @@ void ivp_indent_output()
 
 IVP_OV_Element::IVP_OV_Element(IVP_Real_Object *obj): collision_fvector(16)
 {
-    this->node = NULL;
+    this->node = nullptr;
     this->center.set_to_zero();
     this->radius = -1.0f;
     this->real_object = obj;
-    this->hull_manager = NULL;
+    this->hull_manager = nullptr;
     return;
 }
 
 IVP_OV_Element::~IVP_OV_Element(){
     if (hull_manager){
 	hull_manager->remove_synapse(this);
-	hull_manager = NULL;
+	hull_manager = nullptr;
     }
     this->real_object->get_environment()->fire_object_is_removed_from_collision_detection(real_object);
     IVP_ASSERT( collision_fvector.len() == 0);
@@ -92,7 +92,7 @@ void IVP_OV_Element::remove_oo_collision(IVP_Collision *connector){
 
 IVP_OV_Node::IVP_OV_Node()
 {
-    this->parent = 0;
+    this->parent = nullptr;
     return;
 }
 
@@ -116,8 +116,8 @@ IVP_OV_Node::~IVP_OV_Node()
 IVP_OV_Tree_Manager::IVP_OV_Tree_Manager()
 {
     
-    this->environment = NULL;
-    this->root = NULL;
+    this->environment = nullptr;
+    this->root = nullptr;
     this->hash_table = new IVP_ov_tree_hash(256);
 
     IVP_DOUBLE y = 1.0f;
@@ -654,7 +654,7 @@ IVP_DOUBLE IVP_OV_Tree_Manager::insert_ov_element(IVP_OV_Element *element,
                          IVP_DOUBLE max_radius,
                          IVP_U_Vector<IVP_OV_Element> *colliding_balls)
 {
-    if ( element == NULL ) {
+    if ( element == nullptr) {
         return(0);
     }
     
@@ -669,10 +669,10 @@ IVP_DOUBLE IVP_OV_Tree_Manager::insert_ov_element(IVP_OV_Element *element,
 #endif
 
     // check if node (in terms of coordinates and size) is already present
-    IVP_OV_Node *new_node=NULL;
+    IVP_OV_Node *new_node= nullptr;
     new_node = this->hash_table->find_node(&this->search_node);
     
-    if ( new_node != NULL ) {
+    if ( new_node != nullptr) {
 
 	// ------------------------------------------------
 	// node already present in tree. Lets re-use it...
@@ -769,11 +769,11 @@ IVP_DOUBLE IVP_OV_Tree_Manager::insert_ov_element(IVP_OV_Element *element,
 
 IVP_OV_Node *IVP_OV_Tree_Manager::cleanup_node(IVP_OV_Node *node)
 {
-    if ( node->elements.n_elems != 0 ) return(NULL); // still elements left in node!
-    if ( node->children.n_elems != 0 ) return(NULL); // still children left!
+    if ( node->elements.n_elems != 0 ) return(nullptr); // still elements left in node!
+    if ( node->children.n_elems != 0 ) return(nullptr); // still children left!
 
-    if ( node->parent == NULL ) {
-	this->root = NULL;
+    if ( node->parent == nullptr) {
+	this->root = nullptr;
     }
     
     this->hash_table->remove_node(node);
@@ -796,10 +796,10 @@ void IVP_OV_Tree_Manager::remove_ov_element(IVP_OV_Element *element)
     ivp_global_clustering_visualizer.longrange.remove_object(element->real_object);
 #endif
 
-    element->node = NULL;
+    element->node = nullptr;
     node->elements.remove(element);
 
-    while ( (node = cleanup_node(node)) != NULL ) { ; }
+    while ( (node = cleanup_node(node)) != nullptr) { ; }
 
     return;
 }

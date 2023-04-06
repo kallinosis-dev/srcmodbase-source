@@ -94,7 +94,7 @@ CMapPathNode *CMapPath::NodeForID(DWORD dwID, int* piIndex)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -478,9 +478,9 @@ CMapEntity *CMapPath::CreateEntityForNode(DWORD dwNodeID)
 {
 	int iIndex;
 	CMapPathNode *pNode = NodeForID(dwNodeID, &iIndex);
-	if (pNode == NULL)
+	if (pNode == nullptr)
 	{
-		return NULL;	// no node, no entity!
+		return nullptr;	// no node, no entity!
 	}
 
 	CMapEntity *pEntity = new CMapEntity;

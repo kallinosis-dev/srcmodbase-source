@@ -26,7 +26,7 @@
 #pragma warning (disable:4701)				// disable warning that variable *may* not be initialized 
 #endif
 
-CBotManager *TheBots = NULL;
+CBotManager *TheBots = nullptr;
 
 bool CCSBotManager::m_isMapDataLoaded = false;
 
@@ -67,7 +67,7 @@ inline bool AreBotsAllowed()
 //--------------------------------------------------------------------------------------------------------------
 void InstallBotControl( void )
 {
-	if ( TheBots != NULL )
+	if ( TheBots != nullptr)
 		delete TheBots;
 
 	TheBots = new CCSBotManager;
@@ -77,10 +77,10 @@ void InstallBotControl( void )
 //--------------------------------------------------------------------------------------------------------------
 void RemoveBotControl( void )
 {
-	if ( TheBots != NULL )
+	if ( TheBots != nullptr)
 		delete TheBots;
 
-	TheBots = NULL;
+	TheBots = nullptr;
 }
 
 
@@ -102,11 +102,11 @@ CBasePlayer* ClientPutInServerOverride_Bot( edict_t *pEdict, const char *playern
 CCSBotManager::CCSBotManager()
 {
 	m_zoneCount = 0;
-	SetLooseBomb( NULL );
+	SetLooseBomb(nullptr);
 	m_serverActive = false;
 
 	m_isBombPlanted = false;
-	m_bombDefuser = NULL;
+	m_bombDefuser = nullptr;
 	m_roundStartTimestamp = 0.0f;
 
 	m_eventListenersEnabled = true;
@@ -150,7 +150,7 @@ const CCSBotManager::Zone* Helper_GetZoneForPlaceName( const char* szName )
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -162,7 +162,7 @@ void CCSBotManager::RestartRound( void )
 	// extend
 	CBotManager::RestartRound();
 
-	SetLooseBomb( NULL );
+	SetLooseBomb(nullptr);
 	m_isBombPlanted = false;
 
 	if ( CSGameRules()->IsPlayingGunGameTRBomb() )
@@ -174,7 +174,7 @@ void CCSBotManager::RestartRound( void )
 	{
 		m_earliestBombPlantTimestamp = gpGlobals->curtime + RandomFloat( 10.0f, 30.0f ); // 60
 	}
-	m_bombDefuser = NULL;
+	m_bombDefuser = nullptr;
 
 	ResetRadioMessageTimestamps();
 
@@ -371,7 +371,7 @@ void CCSBotManager::StartFrame( void )
  */
 bool CCSBotManager::IsWeaponUseable( const CWeaponCSBase *weapon ) const
 {
-	if (weapon == NULL)
+	if (weapon == nullptr)
 		return false;
 
 	if (weapon->IsA( WEAPON_C4 ))
@@ -547,7 +547,7 @@ void CCSBotManager::ClientDisconnect( CBaseEntity *entity )
 /**
 * Parses out bot name/template/etc params from the current ConCommand
 */
-void BotArgumentsFromArgv( const CCommand &args, const char **name, CSWeaponType *weaponType, BotDifficultyType *difficulty, int *team = NULL, bool *all = NULL )
+void BotArgumentsFromArgv( const CCommand &args, const char **name, CSWeaponType *weaponType, BotDifficultyType *difficulty, int *team = nullptr, bool *all = nullptr)
 {
 	static char s_name[MAX_PLAYER_NAME_LENGTH];
 
@@ -938,7 +938,7 @@ static void BotGotoArea( CNavArea *pArea )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (player->IsBot())
@@ -1059,11 +1059,11 @@ bool CCSBotManager::BotAddCommand( int team, bool isFromConsole, const char *pro
 	if (TheNavMesh->IsGenerating())
 		return false;
 
-	const BotProfile *profile = NULL;
+	const BotProfile *profile = nullptr;
 
 	if ( !isFromConsole )
 	{
-		profileName = NULL;
+		profileName = nullptr;
 		difficulty = GetDifficultyLevel();
 	}
 	else
@@ -1151,7 +1151,7 @@ bool CCSBotManager::BotAddCommand( int team, bool isFromConsole, const char *pro
 			for ( int i = 1; i <= gpGlobals->maxClients; ++i )
 			{
 				CCSBot *player = dynamic_cast< CCSBot * >( UTIL_PlayerByIndex( i ) );
-				if ( player == NULL )
+				if ( player == nullptr)
 					continue;
 
 				const BotProfile *pExistingBotProfile = player->GetProfile();
@@ -1186,7 +1186,7 @@ bool CCSBotManager::BotAddCommand( int team, bool isFromConsole, const char *pro
 		if ( !profile )
 			profile = TheBotProfiles->GetRandomProfile( difficulty, team, weaponType );
 
-		if (profile == NULL)
+		if (profile == nullptr)
 		{
 			if ( isFromConsole )
 			{
@@ -1226,7 +1226,7 @@ bool CCSBotManager::BotAddCommand( int team, bool isFromConsole, const char *pro
 	// create the actual bot
 	CCSBot *bot = CreateBot<CCSBot>( profile, team );
 
-	if (bot == NULL)
+	if (bot == nullptr)
 	{
 		if ( isFromConsole )
 		{
@@ -1295,7 +1295,7 @@ bool CCSBotManager::BotPlaceCommand( uint nTeamMask )
 	for ( int i = 1; i <= gpGlobals->maxClients; ++i )
 	{
 		CCSBot *bot = dynamic_cast<CCSBot *>(UTIL_PlayerByIndex( i ));
-		if ( NULL != bot )
+		if (nullptr != bot )
 		{
 			numBots++;
 		}
@@ -1310,11 +1310,11 @@ bool CCSBotManager::BotPlaceCommand( uint nTeamMask )
 	// See which bot is the next one to be placed.
 	int nextBotToPlace = (lastBotPlaced+1) % numBots;
 	int botCount = 0;
-	CCSPlayer *botToMove = NULL;
-	for ( int i = 1; i <= gpGlobals->maxClients && botToMove == NULL; ++i )
+	CCSPlayer *botToMove = nullptr;
+	for ( int i = 1; i <= gpGlobals->maxClients && botToMove == nullptr; ++i )
 	{
 		CCSBot *bot = dynamic_cast<CCSBot *>(UTIL_PlayerByIndex( i ));
-		if ( NULL != bot )
+		if (nullptr != bot )
 		{
 			if ( nextBotToPlace == botCount )
 			{
@@ -1334,19 +1334,19 @@ bool CCSBotManager::BotPlaceCommand( uint nTeamMask )
 
 	CBasePlayer* localPlayer = UTIL_GetCommandClient();
 
-	if ( NULL == localPlayer )
+	if (nullptr == localPlayer )
 	{
 		Msg( "Error: BotPlaceCommand() could not find a human player to move a bot to.\n" );
 		return false;
 	}
-	if ( NULL == botToMove )
+	if (nullptr == botToMove )
 	{
 		Msg( "Error: BotPlaceCommand() could not find a bot to move to player's location.\n" );
 		return false;
 	}
 
 	Vector forward;
-	localPlayer->EyeVectors( &forward, NULL, NULL );
+	localPlayer->EyeVectors( &forward, nullptr, nullptr);
 	trace_t tr;
 	UTIL_ClearTrace( tr );
 	// trace forward from the eye
@@ -1377,7 +1377,7 @@ int UTIL_CSSBotsInGame()
 	{
 		CCSBot *player = dynamic_cast<CCSBot *>(UTIL_PlayerByIndex( i ));
 
-		if ( player == NULL )
+		if ( player == nullptr)
 			continue;
 
 		count++;
@@ -1395,7 +1395,7 @@ bool UTIL_CSSKickBotFromTeam( int kickTeam )
 	{
 		CCSBot *player = dynamic_cast<CCSBot *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (!player->IsAlive() && player->GetTeamNumber() == kickTeam)
@@ -1412,7 +1412,7 @@ bool UTIL_CSSKickBotFromTeam( int kickTeam )
 	{
 		CCSBot *player = dynamic_cast<CCSBot *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (player->GetTeamNumber() == kickTeam)
@@ -1667,7 +1667,7 @@ void CCSBotManager::ExtractScenarioData( void )
 	{
 		entity = CBaseEntity::Instance( INDEXENT( i ) );
 
-		if (entity == NULL)
+		if (entity == nullptr)
 			continue;
 
 		bool found = false;
@@ -1735,7 +1735,7 @@ void CCSBotManager::ExtractScenarioData( void )
 	//
 	if (m_zoneCount == 0 && m_gameScenario == SCENARIO_RESCUE_HOSTAGES)
 	{
-		for( entity = gEntList.FindEntityByClassname( NULL, "info_player_start" );
+		for( entity = gEntList.FindEntityByClassname(nullptr, "info_player_start" );
 			 entity && !FNullEnt( entity->edict() );
 			 entity = gEntList.FindEntityByClassname( entity, "info_player_start" ) )
 		{
@@ -1805,7 +1805,7 @@ const CCSBotManager::Zone *CCSBotManager::GetZone( const Vector &pos ) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -1814,7 +1814,7 @@ const CCSBotManager::Zone *CCSBotManager::GetZone( const Vector &pos ) const
  */
 const CCSBotManager::Zone *CCSBotManager::GetClosestZone( const Vector &pos ) const
 {
-	const Zone *close = NULL;
+	const Zone *close = nullptr;
 	float closeRangeSq = 999999999.9f;
 
 	for( int z=0; z<m_zoneCount; ++z )
@@ -1842,11 +1842,11 @@ const Vector *CCSBotManager::GetRandomPositionInZone( const Zone *zone ) const
 {
 	static Vector pos;
 
-	if (zone == NULL)
-		return NULL;
+	if (zone == nullptr)
+		return nullptr;
 
 	if (zone->m_areaCount == 0)
-		return NULL;
+		return nullptr;
 
 	// pick a random overlapping area
 	CNavArea *area = GetRandomAreaInZone(zone);
@@ -1887,7 +1887,7 @@ CNavArea *CCSBotManager::GetRandomAreaInZone( const Zone *zone ) const
 	if( areaCount == 0 )
 	{
 		Assert( false && "CCSBotManager::GetRandomAreaInZone: No areas for this zone" );
-		return NULL;
+		return nullptr;
 	}
 
 	// Random, but weighted.  Jump areas score zero, since you aren't ever meant to stop on one of those.
@@ -1907,7 +1907,7 @@ CNavArea *CCSBotManager::GetRandomAreaInZone( const Zone *zone ) const
 	if( totalWeight == 0 )
 	{
 		Assert( false && "CCSBotManager::GetRandomAreaInZone: No real areas for this zone" );
-		return NULL;
+		return nullptr;
 	}
 
 	int randomPick = RandomInt( 1, totalWeight );
@@ -2028,7 +2028,7 @@ void CCSBotManager::OnPlayerFallDamage( IGameEvent *event )
 void CCSBotManager::OnBombPickedUp( IGameEvent *event )
 {
 	// bomb no longer loose
-	SetLooseBomb( NULL );
+	SetLooseBomb(nullptr);
 
 	CCSBOTMANAGER_ITERATE_BOTS( OnBombPickedUp, event );
 }
@@ -2064,7 +2064,7 @@ void CCSBotManager::OnBombDefuseBegin( IGameEvent *event )
 void CCSBotManager::OnBombDefused( IGameEvent *event )
 {
 	m_isBombPlanted = false;
-	m_bombDefuser = NULL;
+	m_bombDefuser = nullptr;
 
 	CCSBOTMANAGER_ITERATE_BOTS( OnBombDefused, event );
 }
@@ -2073,7 +2073,7 @@ void CCSBotManager::OnBombDefused( IGameEvent *event )
 //--------------------------------------------------------------------------------------------------------------
 void CCSBotManager::OnBombDefuseAbort( IGameEvent *event )
 {
-	m_bombDefuser = NULL;
+	m_bombDefuser = nullptr;
 
 	CCSBOTMANAGER_ITERATE_BOTS( OnBombDefuseAbort, event );
 }
@@ -2107,12 +2107,12 @@ void CCSBotManager::OnRoundStart( IGameEvent *event )
 //--------------------------------------------------------------------------------------------------------------
 static CBaseEntity * SelectSpawnSpot( const char *pEntClassName )
 {
-	CBaseEntity* pSpot = NULL;
+	CBaseEntity* pSpot = nullptr;
 
 	// Find the next spawn spot.
 	pSpot = gEntList.FindEntityByClassname( pSpot, pEntClassName );
 
-	if ( pSpot == NULL ) // skip over the null point
+	if ( pSpot == nullptr) // skip over the null point
 		pSpot = gEntList.FindEntityByClassname( pSpot, pEntClassName );
 
 	CBaseEntity *pFirstSpot = pSpot;
@@ -2134,7 +2134,7 @@ static CBaseEntity * SelectSpawnSpot( const char *pEntClassName )
 		pSpot = gEntList.FindEntityByClassname( pSpot, pEntClassName );
 	} while ( pSpot != pFirstSpot ); // loop if we're not back to the start
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2423,7 +2423,7 @@ void CCSBotManager::SetLooseBomb( CBaseEntity *bomb )
 	}
 	else
 	{
-		m_looseBombArea = NULL;
+		m_looseBombArea = nullptr;
 	}
 }
 
@@ -2536,7 +2536,7 @@ CBaseEntity *CCSBotManager::GetRandomSpawn( int team ) const
 			szTSpawnEntName = "info_enemy_terrorist_spawn";
 
 		// collect T spawns
-		for( spot = gEntList.FindEntityByClassname( NULL, szTSpawnEntName );
+		for( spot = gEntList.FindEntityByClassname(nullptr, szTSpawnEntName );
 			 spot;
 			 spot = gEntList.FindEntityByClassname( spot, szTSpawnEntName ) )
 		{
@@ -2547,7 +2547,7 @@ CBaseEntity *CCSBotManager::GetRandomSpawn( int team ) const
 	if (team == TEAM_CT || team == TEAM_MAXCOUNT)
 	{
 		// collect CT spawns
-		for( spot = gEntList.FindEntityByClassname( NULL, "info_player_counterterrorist" );
+		for( spot = gEntList.FindEntityByClassname(nullptr, "info_player_counterterrorist" );
 			 spot;
 			 spot = gEntList.FindEntityByClassname( spot, "info_player_counterterrorist" ) )
 		{
@@ -2557,7 +2557,7 @@ CBaseEntity *CCSBotManager::GetRandomSpawn( int team ) const
 
 	if (spawnSet.Count() == 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// select one at random

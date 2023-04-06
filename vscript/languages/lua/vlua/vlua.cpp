@@ -115,13 +115,13 @@ class CLuaVM : public IScriptVM
 
 
 public:
-	CLuaVM( lua_State *pState = NULL )
+	CLuaVM( lua_State *pState = nullptr)
 	{
 		m_LuaState = pState;
 		m_iUniqueIdSerialNumber = 0;
 
-		m_OutputFunc = NULL;
-		m_ErrorFunc = NULL;
+		m_OutputFunc = nullptr;
+		m_ErrorFunc = nullptr;
 
 //		m_TypeMap.Init( 256 );
 	}
@@ -137,12 +137,12 @@ public:
 		lua_getglobal( pState, "tostring" );
 		for ( i=1; i <= n; i++ ) 
 		{
-			const char *s = NULL;
+			const char *s = nullptr;
 			lua_pushvalue( pState, -1 );  /* function to be called */
 			lua_pushvalue( pState, i );   /* value to print */
 			lua_call( pState, 1, 1 );
 			s = lua_tostring( pState, -1 );  /* get result */
-			if ( s == NULL )
+			if ( s == nullptr)
 			{
 				return luaL_error( pState, LUA_QL( "tostring" ) " must return a string to " LUA_QL( "print" ) );
 			}
@@ -277,7 +277,7 @@ public:
 				}
 
 			case FIELD_HSCRIPT:		
-				if ( value.m_hScript == NULL )
+				if ( value.m_hScript == nullptr)
 				{
 					lua_pushnil( pState );
 				}
@@ -363,7 +363,7 @@ public:
 
 		lua_atpanic( m_LuaState, FatalErrorHandler );
 
-		SetOutputCallback( NULL );
+		SetOutputCallback(nullptr);
 
 		return true;
 	}
@@ -373,7 +373,7 @@ public:
 		if ( m_LuaState )
 		{
 			lua_close( m_LuaState );
-			m_LuaState = NULL;
+			m_LuaState = nullptr;
 		}
 
 //		m_TypeMap.Purge();
@@ -457,7 +457,7 @@ public:
 		return SCRIPT_ERROR;
 	}
 
-	virtual HSCRIPT CompileScript( const char *pszScript, const char *pszId = NULL )
+	virtual HSCRIPT CompileScript( const char *pszScript, const char *pszId = nullptr)
 	{
 		int nResult = luaL_loadbuffer( m_LuaState, pszScript, strlen( pszScript ), pszId );
 
@@ -484,7 +484,7 @@ public:
 		luaL_unref( m_LuaState, LUA_REGISTRYINDEX, size_cast< int > ( ( intp )hScript ) );
 	}
 
-	virtual ScriptStatus_t Run( HSCRIPT hScript, HSCRIPT hScope = NULL, bool bWait = true )
+	virtual ScriptStatus_t Run( HSCRIPT hScript, HSCRIPT hScope = nullptr, bool bWait = true )
 	{
 		lua_rawgeti( m_LuaState, LUA_REGISTRYINDEX, size_cast< int >( ( intp )hScript ) );
 		int nResult = lua_pcall( m_LuaState, 0, LUA_MULTRET, 0 );
@@ -523,9 +523,9 @@ public:
 	}
 
 	// stack good
-	virtual HSCRIPT CreateScope( const char *pszScope, HSCRIPT hParent = NULL )
+	virtual HSCRIPT CreateScope( const char *pszScope, HSCRIPT hParent = nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	virtual void ReleaseScope( HSCRIPT hScript )
@@ -533,7 +533,7 @@ public:
 	}
 
 	// stack good
-	virtual HSCRIPT LookupFunction( const char *pszFunction, HSCRIPT hScope = NULL )
+	virtual HSCRIPT LookupFunction( const char *pszFunction, HSCRIPT hScope = nullptr)
 	{
 		if ( hScope )
 		{
@@ -542,14 +542,14 @@ public:
 			{
 				Assert( 0 );
 				lua_pop( m_LuaState, 1 );
-				return NULL;
+				return nullptr;
 			}
 
 			lua_getfield( m_LuaState, -1, pszFunction );
 			if ( lua_isnil( m_LuaState, -1 ) || !lua_isfunction( m_LuaState, -1 ) )
 			{
 				lua_pop( m_LuaState, 2 );
-				return NULL;
+				return nullptr;
 			}
 
 			int func_ref = luaL_ref( m_LuaState, LUA_REGISTRYINDEX );
@@ -563,7 +563,7 @@ public:
 			if ( lua_isnil( m_LuaState, -1 ) || !lua_isfunction( m_LuaState, -1 ) )
 			{
 				lua_pop( m_LuaState, 1 );
-				return NULL;
+				return nullptr;
 			}
 
 			int func_ref = luaL_ref( m_LuaState, LUA_REGISTRYINDEX );
@@ -657,7 +657,7 @@ public:
 
 		params.SetSize( nFormalParams );
 
-		void *pObject = NULL;
+		void *pObject = nullptr;
 
 		if ( nActualParams )
 		{
@@ -731,7 +731,7 @@ public:
 			}
 		}
 
-		(*pVMScriptFunction->m_pfnBinding)( pVMScriptFunction->m_pFunction, pObject, params.Base(), params.Count(), ( pVMScriptFunction->m_desc.m_ReturnType != FIELD_VOID ) ? &returnValue : NULL );
+		(*pVMScriptFunction->m_pfnBinding)( pVMScriptFunction->m_pFunction, pObject, params.Base(), params.Count(), ( pVMScriptFunction->m_desc.m_ReturnType != FIELD_VOID ) ? &returnValue : nullptr);
 
 		if ( pVMScriptFunction->m_desc.m_ReturnType != FIELD_VOID )
 		{
@@ -754,7 +754,7 @@ public:
 	//
 	//-------------------------------------------------------------
 	// stack good
-	void RegisterFunctionGuts( ScriptFunctionBinding_t *pScriptFunction, HSCRIPT pOwningClass = NULL )
+	void RegisterFunctionGuts( ScriptFunctionBinding_t *pScriptFunction, HSCRIPT pOwningClass = nullptr)
 	{
 		char szTypeMask[ 64 ];
 
@@ -952,11 +952,11 @@ public:
 	// stack good
 	virtual HSCRIPT RegisterInstance( ScriptClassDesc_t *pClassDesc, void *pInstance )
 	{
-		HSCRIPT		Instance = NULL;
+		HSCRIPT		Instance = nullptr;
 
 		if ( !RegisterClass( pClassDesc ) )
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		InstanceContext_t *pInstanceContext = ( InstanceContext_t * )lua_newuserdata( m_LuaState, sizeof( InstanceContext_t ) );
@@ -1021,10 +1021,10 @@ public:
 		Assert( 0 );
 	}
 
-	virtual void *GetInstanceValue( HSCRIPT hInstance, ScriptClassDesc_t *pExpectedType = NULL )
+	virtual void *GetInstanceValue( HSCRIPT hInstance, ScriptClassDesc_t *pExpectedType = nullptr)
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 
 	virtual bool GenerateUniqueKey( const char *pszRoot, char *pBuf, int nBufSize )

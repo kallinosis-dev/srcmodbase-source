@@ -471,7 +471,7 @@ RumbleChannel_t *CRumbleEffects::FindExistingChannel( int userID, int index )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //---------------------------------------------------------
@@ -493,7 +493,7 @@ RumbleChannel_t	*CRumbleEffects::FindAvailableChannel( int userID, int priority 
 	}
 
 	int lowestPriority = priority;
-	RumbleChannel_t	*pBestChannel = NULL;
+	RumbleChannel_t	*pBestChannel = nullptr;
 	float oldestChannel = FLT_MAX;
 
 	// All channels already in use. Find a channel to slam. Make sure it belongs to this userID
@@ -574,7 +574,7 @@ void CRumbleEffects::StartEffect( int userID, unsigned char effectIndex, unsigne
 		return;
 
 	int priority = 1;
-	RumbleChannel_t *pChannel = NULL;
+	RumbleChannel_t *pChannel = nullptr;
 
 	if( (rumbleFlags & RUMBLE_FLAG_RESTART) )
 	{

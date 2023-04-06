@@ -221,7 +221,7 @@ CRadioStatus* RadioManager()
 
 CRadioStatus::CRadioStatus()
 {
-	m_pHeadLabelMaterial = NULL;
+	m_pHeadLabelMaterial = nullptr;
 	Q_memset(m_radioUntil, 0, sizeof(m_radioUntil));
 	Q_memset(m_voiceUntil, 0, sizeof(m_voiceUntil));
 }
@@ -246,7 +246,7 @@ void CRadioStatus::Shutdown()
 	if ( m_pHeadLabelMaterial )
 		m_pHeadLabelMaterial->DecrementReferenceCount();
 
-	m_pHeadLabelMaterial = NULL;		
+	m_pHeadLabelMaterial = nullptr;		
 }
 
 void CRadioStatus::LevelInitPostEntity()

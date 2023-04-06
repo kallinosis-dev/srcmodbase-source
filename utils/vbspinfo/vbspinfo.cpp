@@ -127,7 +127,7 @@ void DrawTreeToScratchPad()
 		0,	// start on level 0
 		-flXSpace/2,
 		flXSpace/2,
-		NULL );
+	nullptr);
 	
 	pPad->Release();
 }
@@ -323,8 +323,8 @@ void PrintModelStats( FILE *fp )
 	{
 		const entity_t *pEnt = &entities[i];
 		const epair_t *pEPair = pEnt->epairs;
-		const char *pClassName = NULL;
-		const char *pModelName = NULL;
+		const char *pClassName = nullptr;
+		const char *pModelName = nullptr;
 		for( ; pEPair; pEPair = pEPair->next )
 		{
 			if ( Q_stricmp( pEPair->key, "classname" ) == 0 )

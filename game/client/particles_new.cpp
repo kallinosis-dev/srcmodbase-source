@@ -90,11 +90,11 @@ CNewParticleEffect *CNewParticleEffect::CreateOrAggregate( CBaseEntity *pOwner, 
 																	 Vector const &vecAggregatePosition, const char *pDebugName,
 																	 int nSplitScreenSlot )
 {
-	if (!pDef) { return NULL; }
+	if (!pDef) { return nullptr; }
 
-	CNewParticleEffect *pAggregateTarget = NULL;
+	CNewParticleEffect *pAggregateTarget = nullptr;
 	// see if we should aggregate
-	bool bCanAggregate = ( pOwner == NULL ) && ( pDef->m_flAggregateRadius > 0.0 ) && ( cl_aggregate_particles.GetInt() != 0 );
+	bool bCanAggregate = ( pOwner == nullptr) && ( pDef->m_flAggregateRadius > 0.0 ) && ( cl_aggregate_particles.GetInt() != 0 );
 	if ( bCanAggregate )
 	{
 		CParticleSystemDefinition *pDefFallback = pDef;
@@ -145,7 +145,7 @@ void CNewParticleEffect::RemoveParticleEffect( int nPrecacheIndex )
 {
 	CParticleSystemDefinition* pDef = g_pParticleSystemMgr->FindPrecachedParticleSystem( nPrecacheIndex );
 
-	if ( pDef == NULL )
+	if ( pDef == nullptr)
 		return;
 
 	for( CParticleCollection *pSystem = pDef->FirstCollection(); pSystem; pSystem = pSystem->GetNextCollectionUsingSameDef() )
@@ -213,7 +213,7 @@ void CNewParticleEffect::Construct()
 	m_LastMin = Vector( 1.0e6, 1.0e6, 1.0e6 );
 	m_MinBounds = Vector( 1.0e6, 1.0e6, 1.0e6 );
 	m_MaxBounds = Vector( -1.0e6, -1.0e6, -1.0e6 );
-	m_pDebugName = NULL;
+	m_pDebugName = nullptr;
 	m_nSplitScreenUser = -1;
 
 	SetRenderable( this );
@@ -361,7 +361,7 @@ void CNewParticleEffect::SetControlPointEntity( int nWhichPoint, CBaseEntity *pE
 		m_hControlPointOwners[ nWhichPoint ] = pEntity;
 	}
 	else
-		CParticleCollection::SetControlPointObject( nWhichPoint, NULL );
+		CParticleCollection::SetControlPointObject( nWhichPoint, nullptr);
 }
 
 
@@ -487,11 +487,11 @@ CNewParticleEffect* CNewParticleEffect::ReplaceWith( const char *pParticleSystem
 {
 	StopEmission( false, true, true );
 	if ( !pParticleSystemName || !pParticleSystemName[0] )
-		return NULL;
+		return nullptr;
 
 	CNewParticleEffect *pNewEffect = CNewParticleEffect::Create( GetOwner(), pParticleSystemName, pParticleSystemName );
 	if ( !pNewEffect )
-		return NULL;
+		return nullptr;
 
 	// Copy over the control point data
 	for ( int i = 0; i < MAX_PARTICLE_CONTROL_POINTS; ++i )
@@ -778,6 +778,6 @@ CON_COMMAND( cl_particles_dumplist, "Dump all new particles, optional name subst
 	}
 	else
 	{
-		g_pParticleSystemMgr->DumpParticleList( NULL );
+		g_pParticleSystemMgr->DumpParticleList(nullptr);
 	}
 }

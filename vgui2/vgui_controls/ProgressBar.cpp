@@ -30,7 +30,7 @@ DECLARE_BUILD_FACTORY( ProgressBar );
 ProgressBar::ProgressBar(Panel *parent, const char *panelName) : Panel(parent, panelName)
 {
 	_progress = 0.0f;
-	m_pszDialogVar = NULL;
+	m_pszDialogVar = nullptr;
 	SetSegmentInfo( 4, 8 );
 	SetBarInset( 4 );
 	SetMargin( 0 );

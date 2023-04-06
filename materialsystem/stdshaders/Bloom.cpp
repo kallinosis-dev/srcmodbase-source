@@ -35,7 +35,7 @@ BEGIN_VS_SHADER_FLAGS( Bloom, "Help for Bloom", SHADER_NOT_EDITABLE )
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -47,7 +47,7 @@ BEGIN_VS_SHADER_FLAGS( Bloom, "Help for Bloom", SHADER_NOT_EDITABLE )
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 			pShaderShadow->EnableTexture( SHADER_SAMPLER1, true );
 			int fmt = VERTEX_POSITION;
-			pShaderShadow->VertexShaderVertexFormat( fmt, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 
 			// Pre-cache shaders
 			DECLARE_STATIC_VERTEX_SHADER( screenspaceeffect_vs20 );

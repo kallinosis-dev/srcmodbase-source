@@ -18,10 +18,10 @@
 #include <tier0/memdbgon.h>
 
 
-static IEditorTexture* g_pAxisTexture = 0;
-static IEditorTexture* g_pRotateHandleTexture = 0;
-static IEditorTexture* g_pScaleHandleTexture = 0;
-static IEditorTexture* g_pTranslateHandleTexture = 0;
+static IEditorTexture* g_pAxisTexture = nullptr;
+static IEditorTexture* g_pRotateHandleTexture = nullptr;
+static IEditorTexture* g_pScaleHandleTexture = nullptr;
+static IEditorTexture* g_pTranslateHandleTexture = nullptr;
 
 
 //-----------------------------------------------------------------------------

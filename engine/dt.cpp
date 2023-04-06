@@ -229,7 +229,7 @@ void CDeltaBitsWriter::Finish()
 	m_pBuf->WriteOneBit( 0 );
 	::WritePropIndex( m_pBuf, PROPINDEX_END_MARKER, m_bUsingNewScheme );
 	LogDeltaBitsEnd();
-	m_pBuf = NULL;
+	m_pBuf = nullptr;
 }
 
 void CDeltaBitsWriter::WritePropIndex( int iProp )
@@ -333,7 +333,7 @@ int CDeltaBitsReader::ReadNextPropIndex()
 void CDeltaBitsReader::ForceFinished()
 {
 	m_bFinished = true;
-	m_pBuf = NULL;
+	m_pBuf = nullptr;
 }
 
 
@@ -344,7 +344,7 @@ void CDeltaBitsReader::ForceFinished()
 CSendNode::CSendNode()
 {
 	m_iDatatableProp = -1;
-	m_pTable = NULL;
+	m_pTable = nullptr;
 	
 	m_iFirstRecursiveProp = m_nRecursiveProps = 0;
 
@@ -373,8 +373,8 @@ bool PropOffsetLT( const unsigned short &a, const unsigned short &b )
 CSendTablePrecalc::CSendTablePrecalc() : 
 	m_PropOffsetToIndexMap( 0, 0, PropOffsetLT )
 {
-	m_pDTITable = NULL;
-	m_pSendTable = 0;
+	m_pDTITable = nullptr;
+	m_pSendTable = nullptr;
 	m_nDataTableProxies = 0;
 }
 
@@ -382,7 +382,7 @@ CSendTablePrecalc::CSendTablePrecalc() :
 CSendTablePrecalc::~CSendTablePrecalc()
 {
 	if ( m_pSendTable )
-		m_pSendTable->m_pPrecalc = 0;
+		m_pSendTable->m_pPrecalc = nullptr;
 }
 
 
@@ -398,7 +398,7 @@ const ExcludeProp* FindExcludeProp(
 			return &pExcludeProps[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -721,7 +721,7 @@ void SendTable_GenerateProxyPaths( CSendTablePrecalc *pPrecalc, int nProxyIndice
 	// 
 	int iCurEntry = 0;
 	pPrecalc->m_ProxyPathEntries.SetSize( totalPathLengths );
-	FillPathEntries_R( pPrecalc, pPrecalc->GetRootNode(), NULL, iCurEntry );
+	FillPathEntries_R( pPrecalc, pPrecalc->GetRootNode(), nullptr, iCurEntry );
 }
 
 

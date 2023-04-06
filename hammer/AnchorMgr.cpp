@@ -27,12 +27,12 @@ static int ProcessAnchorVert( int originalCoord, int originalParentSize[2], EAnc
 
 CAnchorDef::CAnchorDef( int dlgItemID, ESimpleAnchor eSimpleAnchor )
 {
-	Init( NULL, dlgItemID, eSimpleAnchor );
+	Init(nullptr, dlgItemID, eSimpleAnchor );
 }
 
 CAnchorDef::CAnchorDef( int dlgItemID, EAnchorHorz eLeftSide, EAnchorVert eTopSide, EAnchorHorz eRightSide, EAnchorVert eBottomSide )
 {
-	Init( NULL, dlgItemID, eLeftSide, eTopSide, eRightSide, eBottomSide );
+	Init(nullptr, dlgItemID, eLeftSide, eTopSide, eRightSide, eBottomSide );
 }
 
 CAnchorDef::CAnchorDef( HWND hWnd, ESimpleAnchor eSimpleAnchor )
@@ -144,8 +144,8 @@ void CAnchorMgr::OnSize()
 		rcNew.top    = ProcessAnchorVert( pAnchor->m_OriginalPos[1], m_OriginalParentSize, pAnchor->m_AnchorTop, width, height );
 		rcNew.bottom = ProcessAnchorVert( pAnchor->m_OriginalPos[3], m_OriginalParentSize, pAnchor->m_AnchorBottom, width, height );
 	
-		SetWindowPos( pAnchor->m_hWnd, NULL, rcNew.left, rcNew.top, rcNew.right-rcNew.left, rcNew.bottom-rcNew.top, SWP_NOZORDER );
-		InvalidateRect( pAnchor->m_hWnd, NULL, false );
+		SetWindowPos( pAnchor->m_hWnd, nullptr, rcNew.left, rcNew.top, rcNew.right-rcNew.left, rcNew.bottom-rcNew.top, SWP_NOZORDER );
+		InvalidateRect( pAnchor->m_hWnd, nullptr, false );
 	}
 }
 

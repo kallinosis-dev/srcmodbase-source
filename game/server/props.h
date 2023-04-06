@@ -500,7 +500,7 @@ public:
 // pModelName should not include the "models/" prefix.
 CPhysicsProp* CreatePhysicsProp( const char *pModelName, const Vector &vTraceStart, const Vector &vTraceEnd, const IHandleEntity *pTraceIgnore, bool bRequireVCollide, const char *pClassName="physics_prop" );
 
-float GetBreakableDamage( const CTakeDamageInfo &inputInfo, IBreakableWithPropData *pProp = NULL );
+float GetBreakableDamage( const CTakeDamageInfo &inputInfo, IBreakableWithPropData *pProp = nullptr);
 int PropBreakablePrecacheAll( string_t modelName );
 
 extern ConVar func_breakdmg_bullet;

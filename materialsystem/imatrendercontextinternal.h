@@ -20,7 +20,7 @@ abstract_class IMatRenderContextInternal : public IMatRenderContext
 	// For now, stuck implementing these until IMaterialSystem is reworked
 	bool Connect(CreateInterfaceFn) { return true; }
 	void Disconnect(void) {}
-	void *QueryInterface(const char *pszInterface) { return NULL;	}
+	void *QueryInterface(const char *pszInterface) { return nullptr;	}
 	InitReturnVal_t Init(void) { return INIT_OK; }
 	void Shutdown(void) {}
 

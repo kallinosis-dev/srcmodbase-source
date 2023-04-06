@@ -64,8 +64,8 @@ bool WriteBonusMapSavedData( KeyValues *data )
 
 void GetBooleanStatus( KeyValues *pBonusFilesKey, BonusMapDescription_t &map )
 {
-	KeyValues *pFileKey = NULL;
-	KeyValues *pBonusKey = NULL;
+	KeyValues *pFileKey = nullptr;
+	KeyValues *pBonusKey = nullptr;
 
 	for ( pFileKey = pBonusFilesKey->GetFirstSubKey(); pFileKey; pFileKey = pFileKey->GetNextTrueSubKey() )
 	{
@@ -101,8 +101,8 @@ bool SetBooleanStatus( KeyValues *pBonusFilesKey, const char *pchName, const cha
 
 	bool bChanged = false;
 
-	KeyValues *pFileKey = NULL;
-	KeyValues *pBonusKey = NULL;
+	KeyValues *pFileKey = nullptr;
+	KeyValues *pBonusKey = nullptr;
 
 	for ( pFileKey = pBonusFilesKey->GetFirstSubKey(); pFileKey; pFileKey = pFileKey->GetNextTrueSubKey() )
 	{
@@ -146,11 +146,11 @@ bool SetBooleanStatus( KeyValues *pBonusFilesKey, const char *pchName, const cha
 float GetChallengeBests( KeyValues *pBonusFilesKey, BonusMapDescription_t &challenge )
 {
 	// There's no challenges, so bail and assume 0% challenge completion
-	if ( challenge.m_pChallenges == NULL || challenge.m_pChallenges->Count() == 0 )
+	if ( challenge.m_pChallenges == nullptr || challenge.m_pChallenges->Count() == 0 )
 		return 0.0f;
 
-	KeyValues *pFileKey = NULL;
-	KeyValues *pBonusKey = NULL;
+	KeyValues *pFileKey = nullptr;
+	KeyValues *pBonusKey = nullptr;
 
 	for ( pFileKey = pBonusFilesKey->GetFirstSubKey(); pFileKey; pFileKey = pFileKey->GetNextTrueSubKey() )
 	{
@@ -200,8 +200,8 @@ bool UpdateChallengeBest( KeyValues *pBonusFilesKey, const BonusMapChallenge_t &
 
 	bool bChanged = false;
 
-	KeyValues *pFileKey = NULL;
-	KeyValues *pBonusKey = NULL;
+	KeyValues *pFileKey = nullptr;
+	KeyValues *pBonusKey = nullptr;
 
 	for ( pFileKey = pBonusFilesKey->GetFirstSubKey(); pFileKey; pFileKey = pFileKey->GetNextTrueSubKey() )
 	{
@@ -282,7 +282,7 @@ void GetChallengeMedals( ChallengeDescription_t *pChallengeDescription, int &iBe
 }
 
 
-CBonusMapsDatabase *g_pBonusMapsDatabase = NULL;
+CBonusMapsDatabase *g_pBonusMapsDatabase = nullptr;
 
 CBonusMapsDatabase *BonusMapsDatabase( void )
 {
@@ -304,7 +304,7 @@ CBonusMapsDatabase::CBonusMapsDatabase( void )
 	RootPath();
 
 	m_pBonusMapsManifest = new KeyValues( "bonus_maps_manifest" );
-	m_pBonusMapsManifest->LoadFromFile( g_pFullFileSystem, "scripts/bonus_maps_manifest.txt", NULL );
+	m_pBonusMapsManifest->LoadFromFile( g_pFullFileSystem, "scripts/bonus_maps_manifest.txt", nullptr);
 
 	m_iX360BonusesUnlocked = -1;	// Only used on X360
 	m_bHasLoadedSaveData = false;
@@ -319,7 +319,7 @@ CBonusMapsDatabase::~CBonusMapsDatabase()
 {
 	WriteSaveData();
 
-	g_pBonusMapsDatabase = NULL;
+	g_pBonusMapsDatabase = nullptr;
 }
 
 extern bool g_bIsCreatingNewGameMenuForPreFetching;
@@ -349,7 +349,7 @@ bool CBonusMapsDatabase::ReadBonusMapSaveData( void )
 	else
 		Q_snprintf( szFilename, sizeof( szFilename ), "save/bonus_maps_data.bmd" );
 
-	m_pBonusMapSavedData->LoadFromFile( g_pFullFileSystem, szFilename, NULL );
+	m_pBonusMapSavedData->LoadFromFile( g_pFullFileSystem, szFilename, nullptr);
 
 	m_bSavedDataChanged = false;
 	m_bHasLoadedSaveData = true;
@@ -432,7 +432,7 @@ void CBonusMapsDatabase::ScanBonusMaps( void )
 	if ( Q_strcmp( m_szCurrentPath, "." ) == 0 )
 	{
 		// We're at the root, so look at the directories in the manifest
-		KeyValues *pKey = NULL;
+		KeyValues *pKey = nullptr;
 		for ( pKey = m_pBonusMapsManifest->GetFirstSubKey(); pKey; pKey = pKey->GetNextKey() )
 		{
 			const char *pchType = pKey->GetName();
@@ -648,7 +648,7 @@ int CBonusMapsDatabase::NumAdvancedComplete( void )
 	{
 		BonusMapDescription_t *pMap = BonusMapsDatabase()->GetBonusData( iBonusMap );
 
-		if ( pMap && Q_strstr( pMap->szMapName, "Advanced" ) != NULL )
+		if ( pMap && Q_strstr( pMap->szMapName, "Advanced" ) != nullptr)
 		{
 			// It's an advanced map, so check if it's complete
 			if ( pMap->bComplete )
@@ -809,7 +809,7 @@ void CBonusMapsDatabase::ParseBonusMapData( char const *pszFileName, char const 
 	}
 
 	KeyValues *kv = new KeyValues( pszShortName );
-	if ( !kv->LoadFromFile( g_pFullFileSystem, szMapInfo, NULL ) )
+	if ( !kv->LoadFromFile( g_pFullFileSystem, szMapInfo, nullptr) )
 		DevMsg( "Unable to load bonus map info file\n" );
 
 	while ( kv )
@@ -874,7 +874,7 @@ void CBonusMapsDatabase::ParseBonusMapData( char const *pszFileName, char const 
 			kv = kv->GetNextTrueSubKey();
 		}
 		else
-			kv = NULL;
+			kv = nullptr;
 	}
 }
 

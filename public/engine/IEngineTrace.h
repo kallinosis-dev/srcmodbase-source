@@ -147,10 +147,10 @@ public:
 	CBrushQuery( void )
 	{
 		m_iCount = 0;
-		m_pBrushes = NULL;
+		m_pBrushes = nullptr;
 		m_iMaxBrushSides = 0;
-		m_pReleaseFunc = NULL;
-		m_pData = NULL;
+		m_pReleaseFunc = nullptr;
+		m_pData = nullptr;
 	}		
 	~CBrushQuery( void )
 	{
@@ -164,10 +164,10 @@ public:
 		}
 
 		m_iCount = 0;
-		m_pBrushes = NULL;
+		m_pBrushes = nullptr;
 		m_iMaxBrushSides = 0;
-		m_pReleaseFunc = NULL;
-		m_pData = NULL;
+		m_pReleaseFunc = nullptr;
+		m_pData = nullptr;
 	}
 
 	inline int Count( void ) const { return m_iCount; }
@@ -195,7 +195,7 @@ abstract_class IEngineTrace
 {
 public:
 	// Returns the contents mask + entity at a particular world-space position
-	virtual int		GetPointContents( const Vector &vecAbsPosition, int contentsMask = MASK_ALL, IHandleEntity** ppEntity = NULL ) = 0;
+	virtual int		GetPointContents( const Vector &vecAbsPosition, int contentsMask = MASK_ALL, IHandleEntity** ppEntity = nullptr) = 0;
 	
 	// Returns the contents mask of the world only @ the world-space position (static props are ignored)
 	virtual int		GetPointContents_WorldOnly( const Vector &vecAbsPosition, int contentsMask = MASK_ALL ) = 0;

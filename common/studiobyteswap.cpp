@@ -653,7 +653,7 @@ void ByteswapRLEAnimData( mstudioanimdesc_t *pAnimDesc, int section, byte *&pDat
 	if ( pAnimation->bone == 255 )
 	{
 		// No animation data
-		pAnimation = 0;
+		pAnimation = nullptr;
 	}
 
 	while( pAnimation )
@@ -770,7 +770,7 @@ void ByteswapRLEAnimData( mstudioanimdesc_t *pAnimDesc, int section, byte *&pDat
 		}
 		else
 		{
-			pAnimation = 0;
+			pAnimation = nullptr;
 			pDataSrc += sizeof( mstudio_rle_anim_t );
 			pDataDest += sizeof( mstudio_rle_anim_t );
 		}
@@ -1511,7 +1511,7 @@ int ByteswapMDL( void *pDestBase, int destBaseSize, const void *pSrcBase, const 
 	SET_OBJECT_POINTERS( pAnimDesc, pData, mstudioanimdesc_t )
 	ITERATE_BLOCK( pAnimDesc, pHdr->numlocalanim )
 	{
-		if ( pAnimDesc->pZeroFrameData( ) != NULL )
+		if ( pAnimDesc->pZeroFrameData( ) != nullptr)
 		{
 			int offset = pAnimDesc->pZeroFrameData( ) - (byte *)pAnimDesc;
 

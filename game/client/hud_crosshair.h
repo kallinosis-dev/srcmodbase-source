@@ -32,7 +32,7 @@ public:
 	void			SetCrosshair( CHudTexture *texture, const Color& clr );
 	void			ResetCrosshair();
 	void			DrawCrosshair( void );
-  	bool			HasCrosshair( void ) { return ( m_pCrosshair != NULL ); }
+  	bool			HasCrosshair( void ) { return ( m_pCrosshair != nullptr); }
 	bool			ShouldDraw();
 
 protected:

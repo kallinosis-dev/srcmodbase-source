@@ -365,7 +365,7 @@ void CEconEntity::DebugDescribe( void )
 //-----------------------------------------------------------------------------
 void CEconEntity::UpdateOnRemove( void )
 {
-	SetOwnerEntity( NULL );
+	SetOwnerEntity(nullptr);
 	ReapplyProvision();
 #ifdef CLIENT_DLL
 	if ( m_hViewmodelAttachment )
@@ -1610,7 +1610,7 @@ bool CEconEntity::HasCustomParticleSystems( void )
 
 	int iCustomParticleEffect = GetCustomParticleEffectId( this );
 
-	return ( iCustomParticleEffect > 0 && GetItemSchema()->GetAttributeControlledParticleSystem( iCustomParticleEffect ) != NULL );
+	return ( iCustomParticleEffect > 0 && GetItemSchema()->GetAttributeControlledParticleSystem( iCustomParticleEffect ) != nullptr);
 }
 
 //-----------------------------------------------------------------------------

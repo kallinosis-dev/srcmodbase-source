@@ -143,7 +143,7 @@ protected:
 	{
 		char *m_pString;
 		int m_nOffset;
-		StringTableElement_t(): m_pString( NULL ), m_nOffset( NULL ) {}
+		StringTableElement_t(): m_pString(nullptr), m_nOffset( NULL ) {}
 	};
 	CUtlStringMap<StringTableElement_t> m_stringTable; // each string offset
 

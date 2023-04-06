@@ -60,7 +60,7 @@ void CEnvLaser::Spawn( void )
 	}
 	else
 	{
-		m_pSprite = NULL;
+		m_pSprite = nullptr;
 	}
 
 	if ( m_pSprite )
@@ -242,7 +242,7 @@ void CEnvLaser::StrikeThink( void )
 
 	trace_t tr;
 
-	UTIL_TraceLine( GetAbsOrigin(), vecFireAt, MASK_SOLID, NULL, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceLine( GetAbsOrigin(), vecFireAt, MASK_SOLID, nullptr, COLLISION_GROUP_NONE, &tr );
 	FireAtPoint( tr );
 	SetNextThink( gpGlobals->curtime );
 }

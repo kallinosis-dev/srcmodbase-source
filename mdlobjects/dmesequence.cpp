@@ -434,7 +434,7 @@ CDmeChannelsClip *CDmeSequence::GetDmeChannelsClip() const
 {
 	CDmeAnimationList *pDmeAnimationList = m_eAnimationList.GetElement();
 	if ( !pDmeAnimationList )
-		return NULL;
+		return nullptr;
 
 	for ( int i = 0; i < pDmeAnimationList->GetAnimationCount(); ++i )
 	{
@@ -443,7 +443,7 @@ CDmeChannelsClip *CDmeSequence::GetDmeChannelsClip() const
 			return pDmeChannelsClip;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

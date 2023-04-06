@@ -62,7 +62,7 @@ int FacePoser_GetSceneFPS( void );
 bool FacePoser_IsSnapping( void );
 
 class StudioModel;
-char const *FacePoser_TranslateSoundName( char const *soundname, StudioModel *model = NULL );
+char const *FacePoser_TranslateSoundName( char const *soundname, StudioModel *model = nullptr);
 class CChoreoEvent;
 
 char const *FacePoser_TranslateSoundName( CChoreoEvent *event );

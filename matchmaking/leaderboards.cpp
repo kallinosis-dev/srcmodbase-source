@@ -86,7 +86,7 @@ CLeaderboardRequestQueue::CLeaderboardRequestQueue() :
 #if !defined( _X360 ) && !defined( NO_STEAM )
 	m_pViewDescription( NULL ),
 #endif
-	m_pFinishedRequest( NULL )
+	m_pFinishedRequest(nullptr)
 {
 }
 
@@ -163,7 +163,7 @@ void CLeaderboardRequestQueue::OnQueryFinished()
 		XUID xuid = g_pPlayerManager->GetLocalPlayer( iCtrlr )->GetXUID();
 #endif
 
-		KeyValues *pUserViews = NULL;
+		KeyValues *pUserViews = nullptr;
 		if ( xuid )
 			pUserViews = m_pFinishedRequest->FindKey( CFmtStr( "%llx", xuid ) );
 
@@ -209,7 +209,7 @@ void CLeaderboardRequestQueue::Cleanup()
 	// Clear finished result
 	if ( m_pFinishedRequest )
 		m_pFinishedRequest->deleteThis();
-	m_pFinishedRequest = NULL;
+	m_pFinishedRequest = nullptr;
 }
 
 void CLeaderboardRequestQueue::OnStartNewQuery()
@@ -217,7 +217,7 @@ void CLeaderboardRequestQueue::OnStartNewQuery()
 	// When we are starting a new query we need to get rid of the old finished result
 	if ( m_pFinishedRequest )
 		m_pFinishedRequest->deleteThis();
-	m_pFinishedRequest = NULL;
+	m_pFinishedRequest = nullptr;
 
 #if !defined( NO_STEAM ) && !defined( SWDS )
 	extern CInterlockedInt g_numSteamLeaderboardWriters;

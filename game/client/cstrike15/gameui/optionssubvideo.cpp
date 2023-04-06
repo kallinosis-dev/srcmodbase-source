@@ -129,7 +129,7 @@ class CGammaDialog : public vgui::Frame
 {
 	DECLARE_CLASS_SIMPLE( CGammaDialog, vgui::Frame );
 public:
-	explicit CGammaDialog( vgui::VPANEL hParent ) : BaseClass( NULL, "OptionsSubVideoGammaDlg" )
+	explicit CGammaDialog( vgui::VPANEL hParent ) : BaseClass(nullptr, "OptionsSubVideoGammaDlg" )
 	{
 		// parent is ignored, since we want look like we're steal focus from the parent (we'll become modal below)
 		SetTitle("#GameUI_AdjustGamma_Title", true);
@@ -277,15 +277,15 @@ public:
 		pKeyValues->deleteThis();
 
 		m_pModelDetail = new ComboBox( this, "ModelDetail", 6, false );
-		m_pModelDetail->AddItem("#gameui_low", NULL);
-		m_pModelDetail->AddItem("#gameui_medium", NULL);
-		m_pModelDetail->AddItem("#gameui_high", NULL);
+		m_pModelDetail->AddItem("#gameui_low", nullptr);
+		m_pModelDetail->AddItem("#gameui_medium", nullptr);
+		m_pModelDetail->AddItem("#gameui_high", nullptr);
 
 		m_pTextureDetail = new ComboBox( this, "TextureDetail", 6, false );
-		m_pTextureDetail->AddItem("#gameui_low", NULL);
-		m_pTextureDetail->AddItem("#gameui_medium", NULL);
-		m_pTextureDetail->AddItem("#gameui_high", NULL);
-		m_pTextureDetail->AddItem("#gameui_ultra", NULL);
+		m_pTextureDetail->AddItem("#gameui_low", nullptr);
+		m_pTextureDetail->AddItem("#gameui_medium", nullptr);
+		m_pTextureDetail->AddItem("#gameui_high", nullptr);
+		m_pTextureDetail->AddItem("#gameui_ultra", nullptr);
 
 		// Build list of MSAA and CSAA modes, based upon those which are supported by the device
 		//
@@ -301,14 +301,14 @@ public:
 		//
 		m_nNumAAModes = 0;
 		m_pAntialiasingMode = new ComboBox( this, "AntialiasingMode", 10, false );
-		m_pAntialiasingMode->AddItem("#GameUI_None", NULL);
+		m_pAntialiasingMode->AddItem("#GameUI_None", nullptr);
 		m_nAAModes[m_nNumAAModes].m_nNumSamples = 1;
 		m_nAAModes[m_nNumAAModes].m_nQualityLevel = 0;
 		m_nNumAAModes++;
 
 		if ( materials->SupportsMSAAMode(2) )
 		{
-			m_pAntialiasingMode->AddItem("#GameUI_2X", NULL);
+			m_pAntialiasingMode->AddItem("#GameUI_2X", nullptr);
 			m_nAAModes[m_nNumAAModes].m_nNumSamples = 2;
 			m_nAAModes[m_nNumAAModes].m_nQualityLevel = 0;
 			m_nNumAAModes++;
@@ -316,7 +316,7 @@ public:
 
 		if ( materials->SupportsMSAAMode(4) )
 		{
-			m_pAntialiasingMode->AddItem("#GameUI_4X", NULL);
+			m_pAntialiasingMode->AddItem("#GameUI_4X", nullptr);
 			m_nAAModes[m_nNumAAModes].m_nNumSamples = 4;
 			m_nAAModes[m_nNumAAModes].m_nQualityLevel = 0;
 			m_nNumAAModes++;
@@ -324,7 +324,7 @@ public:
 
 		if ( materials->SupportsMSAAMode(6) )
 		{
-			m_pAntialiasingMode->AddItem("#GameUI_6X", NULL);
+			m_pAntialiasingMode->AddItem("#GameUI_6X", nullptr);
 			m_nAAModes[m_nNumAAModes].m_nNumSamples = 6;
 			m_nAAModes[m_nNumAAModes].m_nQualityLevel = 0;
 			m_nNumAAModes++;
@@ -332,7 +332,7 @@ public:
 
 		if ( materials->SupportsCSAAMode(4, 2) )							// nVidia CSAA			"8x"
 		{
-			m_pAntialiasingMode->AddItem("#GameUI_8X_CSAA", NULL);
+			m_pAntialiasingMode->AddItem("#GameUI_8X_CSAA", nullptr);
 			m_nAAModes[m_nNumAAModes].m_nNumSamples = 4;
 			m_nAAModes[m_nNumAAModes].m_nQualityLevel = 2;
 			m_nNumAAModes++;
@@ -340,7 +340,7 @@ public:
 
 		if ( materials->SupportsCSAAMode(4, 4) )							// nVidia CSAA			"16x"
 		{
-			m_pAntialiasingMode->AddItem("#GameUI_16X_CSAA", NULL);
+			m_pAntialiasingMode->AddItem("#GameUI_16X_CSAA", nullptr);
 			m_nAAModes[m_nNumAAModes].m_nNumSamples = 4;
 			m_nAAModes[m_nNumAAModes].m_nQualityLevel = 4;
 			m_nNumAAModes++;
@@ -348,7 +348,7 @@ public:
 
 		if ( materials->SupportsMSAAMode(8) )
 		{
-			m_pAntialiasingMode->AddItem("#GameUI_8X", NULL);
+			m_pAntialiasingMode->AddItem("#GameUI_8X", nullptr);
 			m_nAAModes[m_nNumAAModes].m_nNumSamples = 8;
 			m_nAAModes[m_nNumAAModes].m_nQualityLevel = 0;
 			m_nNumAAModes++;
@@ -356,37 +356,37 @@ public:
 
 		if ( materials->SupportsCSAAMode(8, 2) )							// nVidia CSAA			"16xQ"
 		{
-			m_pAntialiasingMode->AddItem("#GameUI_16XQ_CSAA", NULL);
+			m_pAntialiasingMode->AddItem("#GameUI_16XQ_CSAA", nullptr);
 			m_nAAModes[m_nNumAAModes].m_nNumSamples = 8;
 			m_nAAModes[m_nNumAAModes].m_nQualityLevel = 2;
 			m_nNumAAModes++;
 		}
 
 		m_pFilteringMode = new ComboBox( this, "FilteringMode", 6, false );
-		m_pFilteringMode->AddItem("#GameUI_Bilinear", NULL);
-		m_pFilteringMode->AddItem("#GameUI_Trilinear", NULL);
-		m_pFilteringMode->AddItem("#GameUI_Anisotropic2X", NULL);
-		m_pFilteringMode->AddItem("#GameUI_Anisotropic4X", NULL);
-		m_pFilteringMode->AddItem("#GameUI_Anisotropic8X", NULL);
-		m_pFilteringMode->AddItem("#GameUI_Anisotropic16X", NULL);
+		m_pFilteringMode->AddItem("#GameUI_Bilinear", nullptr);
+		m_pFilteringMode->AddItem("#GameUI_Trilinear", nullptr);
+		m_pFilteringMode->AddItem("#GameUI_Anisotropic2X", nullptr);
+		m_pFilteringMode->AddItem("#GameUI_Anisotropic4X", nullptr);
+		m_pFilteringMode->AddItem("#GameUI_Anisotropic8X", nullptr);
+		m_pFilteringMode->AddItem("#GameUI_Anisotropic16X", nullptr);
 
 		m_pShadowDetail = new ComboBox( this, "ShadowDetail", 6, false );
-		m_pShadowDetail->AddItem("#gameui_low", NULL);
-		m_pShadowDetail->AddItem("#gameui_medium", NULL);
+		m_pShadowDetail->AddItem("#gameui_low", nullptr);
+		m_pShadowDetail->AddItem("#gameui_medium", nullptr);
 		if ( g_pMaterialSystemHardwareConfig->SupportsShadowDepthTextures() )
 		{
-			m_pShadowDetail->AddItem("#gameui_high", NULL);
+			m_pShadowDetail->AddItem("#gameui_high", nullptr);
 		}
 
 		ConVarRef mat_dxlevel( "mat_dxlevel" );
 
 		m_pHDR = new ComboBox( this, "HDR", 6, false );
-		m_pHDR->AddItem("#GameUI_hdr_level0", NULL);
-		m_pHDR->AddItem("#GameUI_hdr_level1", NULL);
+		m_pHDR->AddItem("#GameUI_hdr_level0", nullptr);
+		m_pHDR->AddItem("#GameUI_hdr_level1", nullptr);
 
 		if ( materials->SupportsHDRMode( HDR_TYPE_INTEGER ) )
 		{
-			m_pHDR->AddItem("#GameUI_hdr_level2", NULL);
+			m_pHDR->AddItem("#GameUI_hdr_level2", nullptr);
 		}
 #if 0
 		if ( materials->SupportsHDRMode( HDR_TYPE_FLOAT ) )
@@ -398,25 +398,25 @@ public:
 		m_pHDR->SetEnabled( mat_dxlevel.GetInt() >= 80 );
 
 		m_pWaterDetail = new ComboBox( this, "WaterDetail", 6, false );
-		m_pWaterDetail->AddItem("#gameui_noreflections", NULL);
-		m_pWaterDetail->AddItem("#gameui_reflectonlyworld", NULL);
-		m_pWaterDetail->AddItem("#gameui_reflectall", NULL);
+		m_pWaterDetail->AddItem("#gameui_noreflections", nullptr);
+		m_pWaterDetail->AddItem("#gameui_reflectonlyworld", nullptr);
+		m_pWaterDetail->AddItem("#gameui_reflectall", nullptr);
 
 		m_pVSync = new ComboBox( this, "VSync", 2, false );
-		m_pVSync->AddItem("#gameui_disabled", NULL);
-		m_pVSync->AddItem("#gameui_enabled", NULL);
+		m_pVSync->AddItem("#gameui_disabled", nullptr);
+		m_pVSync->AddItem("#gameui_enabled", nullptr);
 
 		m_pShaderDetail = new ComboBox( this, "ShaderDetail", 6, false );
-		m_pShaderDetail->AddItem("#gameui_low", NULL);
-		m_pShaderDetail->AddItem("#gameui_high", NULL);
+		m_pShaderDetail->AddItem("#gameui_low", nullptr);
+		m_pShaderDetail->AddItem("#gameui_high", nullptr);
 
 		m_pColorCorrection = new ComboBox( this, "ColorCorrection", 2, false );
-		m_pColorCorrection->AddItem("#gameui_disabled", NULL);
-		m_pColorCorrection->AddItem("#gameui_enabled", NULL);
+		m_pColorCorrection->AddItem("#gameui_disabled", nullptr);
+		m_pColorCorrection->AddItem("#gameui_enabled", nullptr);
 
 		m_pMotionBlur = new ComboBox( this, "MotionBlur", 2, false );
-		m_pMotionBlur->AddItem("#gameui_disabled", NULL);
-		m_pMotionBlur->AddItem("#gameui_enabled", NULL);
+		m_pMotionBlur->AddItem("#gameui_disabled", nullptr);
+		m_pMotionBlur->AddItem("#gameui_enabled", nullptr);
 
 		LoadControlSettings( "resource/OptionsSubVideoAdvancedDlg.res" );
 		MoveToCenterOfScreen();
@@ -427,7 +427,7 @@ public:
 		m_pColorCorrection->SetEnabled( mat_dxlevel.GetInt() >= 90 );
 		m_pMotionBlur->SetEnabled( mat_dxlevel.GetInt() >= 90 );
 		
-		if ( g_pCVar->FindVar( "fov_desired" ) == NULL )
+		if ( g_pCVar->FindVar( "fov_desired" ) == nullptr)
 		{
 			Panel *pFOV = FindChildByName( "FovSlider" );
 			if ( pFOV )
@@ -471,7 +471,7 @@ public:
 		_snwprintf( newText, sizeof(newText) / sizeof(wchar_t), L"%s *", text );
 
 		// reset
-		combo->UpdateItem(iItem, newText, NULL);
+		combo->UpdateItem(iItem, newText, nullptr);
 	}
 
 	int FindMSAAMode( int nAASamples, int nAAQuality )
@@ -953,7 +953,7 @@ private:
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-COptionsSubVideo::COptionsSubVideo(vgui::Panel *parent) : PropertyPage(parent, NULL)
+COptionsSubVideo::COptionsSubVideo(vgui::Panel *parent) : PropertyPage(parent, nullptr)
 {
 	m_bRequireRestart = false;
 
@@ -976,9 +976,9 @@ COptionsSubVideo::COptionsSubVideo(vgui::Panel *parent) : PropertyPage(parent, N
     unicodeText = g_pVGuiLocalize->Find("#GameUI_AspectWide16x10");
     g_pVGuiLocalize->ConvertUnicodeToANSI(unicodeText, pszAspectName[2], 32);
 
-	int iNormalItemID = m_pAspectRatio->AddItem( pszAspectName[0], NULL );
-	int i16x9ItemID = m_pAspectRatio->AddItem( pszAspectName[1], NULL );
-	int i16x10ItemID = m_pAspectRatio->AddItem( pszAspectName[2], NULL );
+	int iNormalItemID = m_pAspectRatio->AddItem( pszAspectName[0], nullptr);
+	int i16x9ItemID = m_pAspectRatio->AddItem( pszAspectName[1], nullptr);
+	int i16x10ItemID = m_pAspectRatio->AddItem( pszAspectName[2], nullptr);
 	
 	const MaterialSystem_Config_t &config = materials->GetCurrentConfigForVideoCard();
 	
@@ -998,8 +998,8 @@ COptionsSubVideo::COptionsSubVideo(vgui::Panel *parent) : PropertyPage(parent, N
 	}
 
 	m_pWindowed = new vgui::ComboBox( this, "DisplayModeCombo", 6, false );
-	m_pWindowed->AddItem( "#GameUI_Fullscreen", NULL );
-	m_pWindowed->AddItem( "#GameUI_Windowed", NULL );
+	m_pWindowed->AddItem( "#GameUI_Fullscreen", nullptr);
+	m_pWindowed->AddItem( "#GameUI_Windowed", nullptr);
 
 	LoadControlSettings("Resource\\OptionsSubVideo.res");
 
@@ -1031,7 +1031,7 @@ void COptionsSubVideo::PrepareResolutionList()
 	m_pAspectRatio->SetItemEnabled(2, false);
 
 	// get full video mode list
-	vmode_t *plist = NULL;
+	vmode_t *plist = nullptr;
 	int count = 0;
 	gameuifuncs->GetVideoModes( &plist, &count );
 
@@ -1064,7 +1064,7 @@ void COptionsSubVideo::PrepareResolutionList()
 		// filter the list for those matching the current aspect
 		if ( iAspectMode == m_pAspectRatio->GetActiveItem() )
 		{
-			itemID = m_pMode->AddItem( sz, NULL);
+			itemID = m_pMode->AddItem( sz, nullptr);
 		}
 
 		// try and find the best match for the resolution to be selected
@@ -1130,7 +1130,7 @@ void COptionsSubVideo::OnResetData()
 //-----------------------------------------------------------------------------
 void COptionsSubVideo::SetCurrentResolutionComboItem()
 {
-	vmode_t *plist = NULL;
+	vmode_t *plist = nullptr;
 	int count = 0;
 	gameuifuncs->GetVideoModes( &plist, &count );
 
@@ -1345,7 +1345,7 @@ void COptionsSubVideo::OpenThirdPartyVideoCreditsDialog()
 
 
 
-COptionsSubVideoThirdPartyCreditsDlg::COptionsSubVideoThirdPartyCreditsDlg( vgui::VPANEL hParent ) : BaseClass( NULL, NULL )
+COptionsSubVideoThirdPartyCreditsDlg::COptionsSubVideoThirdPartyCreditsDlg( vgui::VPANEL hParent ) : BaseClass(nullptr, nullptr)
 {
 	SetProportional( true );
 

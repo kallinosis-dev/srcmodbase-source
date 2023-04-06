@@ -28,7 +28,7 @@
 //-----------------------------------------------------------------------------
 CToolSweptPlayerHull::CToolSweptPlayerHull(void)
 {
-	m_pSweptHull = NULL;
+	m_pSweptHull = nullptr;
 	m_nPointIndex = 0;
 }
 
@@ -38,7 +38,7 @@ CToolSweptPlayerHull::CToolSweptPlayerHull(void)
 //-----------------------------------------------------------------------------
 void CToolSweptPlayerHull::Attach(CMapSweptPlayerHull *pSweptHull, int nPointIndex)
 {
-	if ((pSweptHull != NULL) && (nPointIndex < 2))
+	if ((pSweptHull != nullptr) && (nPointIndex < 2))
 	{
 		m_pSweptHull = pSweptHull;
 		m_nPointIndex = nPointIndex;

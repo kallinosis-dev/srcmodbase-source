@@ -34,15 +34,15 @@ public:
 	// title - Text to be displayed in the title bar of the window
 	// text - Text message in the message box
 	// parent - parent panel of the message box, by default it has no parent.
-	ProgressBox(const char *title, const char *text, const char *pszUnknownTimeString, Panel *parent = NULL);
-	ProgressBox(const wchar_t *wszTitle, const wchar_t *wszText, const wchar_t *wszUnknownTimeString, Panel *parent = NULL);
+	ProgressBox(const char *title, const char *text, const char *pszUnknownTimeString, Panel *parent = nullptr);
+	ProgressBox(const wchar_t *wszTitle, const wchar_t *wszText, const wchar_t *wszUnknownTimeString, Panel *parent = nullptr);
 	~ProgressBox();
 
 	// Put the message box into a modal state
-	virtual void DoModal(Frame *pFrameOver = NULL);
+	virtual void DoModal(Frame *pFrameOver = nullptr);
 
 	// make the message box appear and in a modeless state
-	virtual void ShowWindow(Frame *pFrameOver = NULL);
+	virtual void ShowWindow(Frame *pFrameOver = nullptr);
 
 	// updates progress bar, range [0, 1]
 	virtual void SetProgress(float progress);

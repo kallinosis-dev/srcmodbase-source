@@ -914,7 +914,7 @@ bool CVRADDispColl::InitPatch( int iPatch, int iParentPatch, int iChild, Vector 
 	pPatch->staticPropIdx = -1;
 
 	// Setup the parent if we are not the parent.
-	CPatch *pParentPatch = NULL;
+	CPatch *pParentPatch = nullptr;
 	if ( iParentPatch != g_Patches.InvalidIndex() )
 	{
 		// Get the parent patch.

@@ -65,12 +65,12 @@ CGameSavePanel::CGameSavePanel( CSaveGameBrowserDialog *parent, SaveGameDescript
 	}
 
 	// Setup our basic settings
-	KeyValues *pKeys = NULL;
+	KeyValues *pKeys = nullptr;
 	if ( GameUI().IsConsoleUI() )
 	{
 		pKeys = BasePanel()->GetConsoleControlSettings()->FindKey( "SaveGamePanel.res" );
 	}
-	LoadControlSettings( "Resource/SaveGamePanel.res", NULL, pKeys );
+	LoadControlSettings( "Resource/SaveGamePanel.res", nullptr, pKeys );
 
 	int px, py;
 	m_pLevelPicBorder->GetPos( px, py );
@@ -213,13 +213,13 @@ CSaveGameBrowserDialog::CSaveGameBrowserDialog( vgui::Panel *parent )
 	m_pFooter = new vgui::CFooterPanel( parent, "SaveGameFooter" );
 
 	// Load our res files from the keyvalue we're holding
-	KeyValues *pKeys = NULL;
+	KeyValues *pKeys = nullptr;
 	if ( GameUI().IsConsoleUI() )
 	{
 		pKeys = BasePanel()->GetConsoleControlSettings()->FindKey( "SaveGameDialog.res" );
 	}
 	
-	LoadControlSettings( "Resource/SaveGameDialog.res", NULL, pKeys );
+	LoadControlSettings( "Resource/SaveGameDialog.res", nullptr, pKeys );
 }
 
 //-----------------------------------------------------------------------------
@@ -234,13 +234,13 @@ CSaveGameBrowserDialog::~CSaveGameBrowserDialog( void )
 	if ( m_pFooter )
 	{
 		delete m_pFooter;
-		m_pFooter = NULL;
+		m_pFooter = nullptr;
 	}
 
 	if ( m_pCenterBg )
 	{
 		delete m_pCenterBg;
-		m_pCenterBg = NULL;
+		m_pCenterBg = nullptr;
 	}
 }
 
@@ -1216,7 +1216,7 @@ bool CSaveGameBrowserDialog::ParseSaveData( char const *pszFileName, char const 
 
 		// Chop elapsed out of comment.
 		char *pChop = Q_stristr( szComment, " " );
-		if ( pChop != NULL )
+		if ( pChop != nullptr)
 		{
 			(*pChop) = '\0';
 		}
@@ -1382,7 +1382,7 @@ void CSaveGameBrowserDialog::ScanSavedGames( bool bIgnoreAutosave )
 CGameSavePanel *CSaveGameBrowserDialog::GetActivePanel( void )
 {
 	if ( IsValidPanel( m_iSelectedSave ) == false )
-		return NULL;
+		return nullptr;
 
 	return m_SavePanels[ m_iSelectedSave ];
 }

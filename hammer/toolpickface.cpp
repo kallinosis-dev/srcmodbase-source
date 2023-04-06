@@ -26,7 +26,7 @@
 //-----------------------------------------------------------------------------
 CToolPickFace::CToolPickFace(void)
 {
-	m_pNotifyTarget = NULL;
+	m_pNotifyTarget = nullptr;
 	m_bAllowMultiSelect = false;
 }
 
@@ -101,10 +101,10 @@ bool CToolPickFace::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2
 
 	unsigned long uFace;
 	CMapClass *pObject = pView->NearestObjectAt( vPoint, uFace);
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		CMapSolid *pSolid = dynamic_cast <CMapSolid *>(pObject);
-		if (pSolid != NULL)
+		if (pSolid != nullptr)
 		{
 			//
 			// We clicked on a solid.
@@ -117,7 +117,7 @@ bool CToolPickFace::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2
 				CMapFace *pFace = pSolid->GetFace(uFace);
 				Assert(pFace != NULL);
 
-				if (pFace != NULL)
+				if (pFace != nullptr)
 				{
 					if ((!m_bAllowMultiSelect) || (!bControl))
 					{
@@ -240,7 +240,7 @@ bool CToolPickFace::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D
 //-----------------------------------------------------------------------------
 void CToolPickFace::SetEyedropperCursor(void)
 {
-	static HCURSOR hcurEyedropper = NULL;
+	static HCURSOR hcurEyedropper = nullptr;
 	
 	if (!hcurEyedropper)
 	{

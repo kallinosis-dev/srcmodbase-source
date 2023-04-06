@@ -143,7 +143,7 @@ BEGIN_VS_SHADER( Blob_dx9, "Blob" )
 			return "Wireframe";
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

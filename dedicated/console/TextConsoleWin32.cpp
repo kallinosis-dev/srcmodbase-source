@@ -50,7 +50,7 @@ HWND GetConsoleHwnd(void)
 	Sleep(40);
 
 	// Look for NewWindowTitle.
-	hwndFound = FindWindow( NULL, pszNewWindowTitle );
+	hwndFound = FindWindow(nullptr, pszNewWindowTitle );
 
 	// Restore original window title.
 
@@ -116,7 +116,7 @@ char * CTextConsoleWin32::GetLine( void )
 		{
 			Error("CTextConsoleWin32::GetLine: !GetNumberOfConsoleInputEvents");
 
-			return NULL;
+			return nullptr;
 		}
 
 		if ( numevents <= 0 )
@@ -126,11 +126,11 @@ char * CTextConsoleWin32::GetLine( void )
 		{
 			Error("CTextConsoleWin32::GetLine: !ReadConsoleInput");
 
-			return NULL;
+			return nullptr;
 		}
 
 		if ( numread == 0 )
-			return NULL;
+			return nullptr;
 
 		for ( int i=0; i < (int)numread; i++ )
 		{
@@ -193,7 +193,7 @@ char * CTextConsoleWin32::GetLine( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -206,11 +206,11 @@ void CTextConsoleWin32::PrintRaw( char * pszMsg, int nChars )
 
 	if ( nChars == 0 )
 	{
-		WriteFile( houtput, pszMsg, strlen( pszMsg ), &dummy, NULL );
+		WriteFile( houtput, pszMsg, strlen( pszMsg ), &dummy, nullptr);
 	}
 	else
 	{
-		WriteFile( houtput, pszMsg, nChars, &dummy, NULL );
+		WriteFile( houtput, pszMsg, nChars, &dummy, nullptr);
 	}
 }
 

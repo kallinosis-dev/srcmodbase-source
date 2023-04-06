@@ -41,10 +41,10 @@ bool CShellMessageWnd::Create(void)
     wndcls.style         = 0;
     wndcls.lpfnWndProc   = AfxWndProc;
     wndcls.hInstance     = AfxGetInstanceHandle();
-    wndcls.hIcon         = NULL;
-    wndcls.hCursor       = NULL;
-    wndcls.hbrBackground = NULL;
-    wndcls.lpszMenuName  = NULL;
+    wndcls.hIcon         = nullptr;
+    wndcls.hCursor       = nullptr;
+    wndcls.hbrBackground = nullptr;
+    wndcls.lpszMenuName  = nullptr;
 	wndcls.cbWndExtra    = 0;
     wndcls.lpszClassName = g_pszClassName;
 
@@ -54,7 +54,7 @@ bool CShellMessageWnd::Create(void)
 		return(false);
 	}
 
-	return(CWnd::CreateEx(0, g_pszClassName, g_pszClassName, 0, CRect(0, 0, 10, 10), NULL, 0) == TRUE);
+	return(CWnd::CreateEx(0, g_pszClassName, g_pszClassName, 0, CRect(0, 0, 10, 10), nullptr, 0) == TRUE);
 }
 
 
@@ -79,9 +79,9 @@ void CShellMessageWnd::SetShell(CShell *pShell)
 //-----------------------------------------------------------------------------
 BOOL CShellMessageWnd::OnCopyData(CWnd *pWnd, COPYDATASTRUCT *pCopyData)
 {
-	if (m_pShell != NULL)
+	if (m_pShell != nullptr)
 	{
-		if (pCopyData->lpData != NULL)
+		if (pCopyData->lpData != nullptr)
 		{
 			return(m_pShell->RunCommand((const char *)pCopyData->lpData) ? TRUE : FALSE);
 		}

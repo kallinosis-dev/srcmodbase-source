@@ -32,7 +32,7 @@
 CToolOverlay::CToolOverlay()
 {
 	m_bDragging = false;
-	m_pActiveOverlay = NULL;
+	m_pActiveOverlay = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -47,7 +47,7 @@ CToolOverlay::~CToolOverlay()
 void CToolOverlay::OnActivate()
 {
 	m_bDragging = false;
-	m_pActiveOverlay = NULL;
+	m_pActiveOverlay = nullptr;
 }
     
 //-----------------------------------------------------------------------------
@@ -126,8 +126,8 @@ bool CToolOverlay::OnLMouseDown3D( CMapView3D *pView, UINT nFlags, const Vector2
 
 	// Handle the overlay creation and placement (if we hit a solid).
 	ULONG ulFace;
-	CMapClass *pObject = NULL;
-	if ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != NULL )
+	CMapClass *pObject = nullptr;
+	if ( ( pObject = pView->NearestObjectAt( vPoint, ulFace ) ) != nullptr)
 	{
 		CMapSolid *pSolid = dynamic_cast<CMapSolid*>( pObject );
 		if ( pSolid )
@@ -184,7 +184,7 @@ bool CToolOverlay::CreateOverlay( CMapSolid *pSolid, ULONG iFace, CMapView3D *pV
 		m_pDocument->AddObjectToWorld( pEntity );
 		
 		// Setup "history."
-		GetHistory()->MarkUndoPosition( NULL, "Create Overlay" );
+		GetHistory()->MarkUndoPosition(nullptr, "Create Overlay" );
 		GetHistory()->KeepNew( pEntity );
 				
 		// Initialize the overlay.
@@ -199,7 +199,7 @@ bool CToolOverlay::CreateOverlay( CMapSolid *pSolid, ULONG iFace, CMapView3D *pV
 		// Set modified and update views.
 		m_pDocument->SetModifiedFlag();
 		
-		m_pShoreline = NULL;
+		m_pShoreline = nullptr;
 
 		return true;
 	}
@@ -260,8 +260,8 @@ void CToolOverlay::OverlaySelection( CMapView3D *pView, UINT nFlags, const Vecto
 	// Did we hit anything?
 	if ( !aSelectionList.Count() )
 	{
-		m_pDocument->SelectFace( NULL, 0, scClear );
-		m_pDocument->SelectObject( NULL, scClear|scSaveChanges );
+		m_pDocument->SelectFace(nullptr, 0, scClear );
+		m_pDocument->SelectObject(nullptr, scClear|scSaveChanges );
 		SetEmpty();
 		return;
 	}
@@ -382,7 +382,7 @@ void CToolOverlay::HandlesReset( void )
 bool CToolOverlay::HandleSelection( CMapView *pView, const Vector2D &vPoint )
 {
 	// Reset the hit overlay.
-	m_pActiveOverlay = NULL;
+	m_pActiveOverlay = nullptr;
 
 	// Go through selection list and test all overlay's handles and set the
 	// "hit" overlay current.
@@ -504,7 +504,7 @@ void CToolOverlay::OnDrag( Vector const &vecRayStart, Vector const &vecRayEnd, b
 	// Get a list of faces and test for "impact."
 	Vector vecImpact( 0.0f, 0.0f, 0.0f );
 	Vector vecImpactNormal( 0.0f, 0.0f, 0.0f );
-	CMapFace *pFace = NULL;
+	CMapFace *pFace = nullptr;
 		
 	int nFaceCount = pOverlay->GetFaceCount();
 	int iFace;

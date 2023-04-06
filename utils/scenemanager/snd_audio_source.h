@@ -109,7 +109,7 @@ public:
 	virtual bool				IsStreaming( void ) = 0;
 	virtual float				GetRunningLength( void ) = 0;
 
-	virtual CSentence			*GetSentence( void ) { return NULL; };
+	virtual CSentence			*GetSentence( void ) { return nullptr; };
 
 };
 

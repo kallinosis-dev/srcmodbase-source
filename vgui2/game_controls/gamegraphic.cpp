@@ -29,7 +29,7 @@ CGameGraphic::CGameGraphic() :
 	g_mapScriptHandles.InsertOrReplace( m_iScriptHandle, this );
 
 	m_pName = "";
-	m_pGroup = NULL;
+	m_pGroup = nullptr;
 	m_bCanAcceptInput = false;
 	m_CurrentState = -1;
 	m_flAnimTime = DMETIME_ZERO;
@@ -46,7 +46,7 @@ CGameGraphic::~CGameGraphic()
 	for ( int i = 0; i < nCount; ++i )
 	{
 		delete m_Anims[i];
-		m_Anims[i] = NULL;
+		m_Anims[i] = nullptr;
 	}
 	m_Anims.RemoveAll();
 
@@ -56,7 +56,7 @@ CGameGraphic::~CGameGraphic()
 CGameGraphic * CGameGraphic::FromScriptHandle( int32 iScriptHandle )
 {
 	unsigned short usIdx = g_mapScriptHandles.Find( iScriptHandle );
-	return ( usIdx == g_mapScriptHandles.InvalidIndex() ) ? NULL : g_mapScriptHandles.Element( usIdx );
+	return ( usIdx == g_mapScriptHandles.InvalidIndex() ) ? nullptr : g_mapScriptHandles.Element( usIdx );
 }
 
 //-----------------------------------------------------------------------------
@@ -79,22 +79,22 @@ KeyValues * CGameGraphic::HandleScriptCommand( KeyValues *args )
 	if ( !Q_stricmp( "SetCenter", szCommand ) )
 	{
 		SetCenter( args->GetFloat( "x" ), args->GetFloat( "y" ) );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetScale", szCommand ) )
 	{
 		SetScale( args->GetFloat( "x" ), args->GetFloat( "y" ) );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetRotation", szCommand ) )
 	{
 		m_Geometry.m_Rotation = args->GetFloat( "rotation", 0.0f );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetVisible", szCommand ) )
 	{
 		SetVisible( args->GetBool( "visible", true ) );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "GetVisible", szCommand ) )
 	{
@@ -103,7 +103,7 @@ KeyValues * CGameGraphic::HandleScriptCommand( KeyValues *args )
 	else if ( !Q_stricmp( "SetHorizGradient", szCommand ) )
 	{
 		m_Geometry.m_bHorizontalGradient = args->GetBool( "horizgradient", true );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetColor", szCommand ) )
 	{
@@ -114,7 +114,7 @@ KeyValues * CGameGraphic::HandleScriptCommand( KeyValues *args )
 		color.b = c[2];
 		color.a = c[3];
 		SetColor( color );
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -124,7 +124,7 @@ KeyValues * CGameGraphic::HandleScriptCommand( KeyValues *args )
 	{
 		SetState( args->GetString( "state" ), args->GetBool( "play", true ) );
 		SetAnimationTimePassed( DmeTime_t( args->GetFloat( "time" ) ) );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "GetState", szCommand ) )
 	{
@@ -137,7 +137,7 @@ KeyValues * CGameGraphic::HandleScriptCommand( KeyValues *args )
 	
 
 	DevWarning( "CGameGraphic::HandleScriptCommand for unknown command %s!\n", args->GetName() );
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -316,6 +316,6 @@ bool CGameGraphic::IsGraphicNamed( const char *pName )
 //-----------------------------------------------------------------------------
 CGameGraphic *CGameGraphic::FindGraphicByName( const char *pName ) const
 {
-	return NULL;
+	return nullptr;
 }
 

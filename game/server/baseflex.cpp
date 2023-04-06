@@ -52,7 +52,7 @@ void* SendProxy_FlexWeights( const SendProp *pProp, const void *pStruct, const v
 	if ( !g_bClientFlex )
 		return (void*)pVarData;
 	else
-		return NULL;	
+		return nullptr;	
 }	
 
 REGISTER_SEND_PROXY_NON_MODIFIED_POINTER( SendProxy_FlexWeights );
@@ -298,8 +298,8 @@ void CBaseFlex::ClearSceneEvents( CChoreoScene *scene, bool canceled )
 		}
 
 		// Free this slot
-		info->m_pEvent		= NULL;
-		info->m_pScene		= NULL;
+		info->m_pEvent		= nullptr;
+		info->m_pScene		= nullptr;
 		info->m_bStarted	= false;
 
 		m_SceneEvents.Remove( i );
@@ -812,8 +812,8 @@ void CBaseFlex::RemoveSceneEvent( CChoreoScene *scene, CChoreoEvent *event, bool
 		if (ClearSceneEvent( info, fastKill, false ))
 		{
 			// Free this slot
-			info->m_pEvent		= NULL;
-			info->m_pScene		= NULL;
+			info->m_pEvent		= nullptr;
+			info->m_pScene		= nullptr;
 			info->m_bStarted	= false;
 
 			m_SceneEvents.Remove( i );
@@ -972,7 +972,7 @@ public:
 
 	virtual bool InitRecursive( const char *pFolder )
 	{
-		if ( pFolder == NULL )
+		if ( pFolder == nullptr)
 		{
 			pFolder = "expressions";
 
@@ -1021,7 +1021,7 @@ public:
 			V_StripExtension( &fullFileName[index], vfeName, sizeof( vfeName ) );
 			V_FixSlashes( vfeName );
 
-			FindSceneFile( NULL, vfeName, true );
+			FindSceneFile(nullptr, vfeName, true );
 		}
 		return true;
 	}
@@ -1029,15 +1029,15 @@ public:
 	virtual bool Init()
 	{
 		// Trakcer 16692:  Preload these at startup to avoid hitch first time we try to load them during actual gameplay
-		FindSceneFile( NULL, "phonemes", true );
-		FindSceneFile( NULL, "phonemes_weak", true );
-		FindSceneFile( NULL, "phonemes_strong", true );
+		FindSceneFile(nullptr, "phonemes", true );
+		FindSceneFile(nullptr, "phonemes_weak", true );
+		FindSceneFile(nullptr, "phonemes_strong", true );
 #if defined( HL2_DLL )
 		FindSceneFile( NULL, "random", true );
 		FindSceneFile( NULL, "randomAlert", true );
 #endif
 
-		InitRecursive( NULL );
+		InitRecursive(nullptr);
 		return true;
 	}
 
@@ -1087,15 +1087,15 @@ public:
 
 		if ( !allowBlockingIO )
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		// Load file into memory
-		void *buffer = NULL;
+		void *buffer = nullptr;
 		int len = filesystem->ReadFileEx( UTIL_VarArgs( "expressions/%s.vfe", szFilename ), "GAME", &buffer, false, true );
 
 		if ( !len )
-			return NULL;
+			return nullptr;
 
 		// Create scene entry
 		CFlexSceneFile *pfile = new CFlexSceneFile;
@@ -1256,7 +1256,7 @@ const void *CBaseFlex::FindSceneFile( const char *filename )
 	V_StripExtension( szExtendedPath, szExtendedPath, sizeof( szExtendedPath ) );
 	V_FixupPathName( szExtendedPath, sizeof( szExtendedPath ), szExtendedPath );
 
-	const void *pSceneFile = NULL;
+	const void *pSceneFile = nullptr;
 	// FIXME: V_StripLastDir returns "./" path when it strips out the last one.  That don't resolve on FindSceneFile 
 	while ( V_strlen( szExtendedPath ) > 2 )
 	{
@@ -1351,7 +1351,7 @@ bool CBaseFlex::ProcessFlexSettingSceneEvent( CSceneEventInfo *info, CChoreoScen
 	// Have to find both strings
 	if ( scenefile && name )
 	{
-		if ( info->m_pExpHdr == NULL) 
+		if ( info->m_pExpHdr == nullptr) 
 		{
 			info->m_pExpHdr = ( const flexsettinghdr_t * )FindSceneFile( scenefile );
 		}
@@ -1373,7 +1373,7 @@ bool CBaseFlex::ProcessFlexSettingSceneEvent( CSceneEventInfo *info, CChoreoScen
 bool CBaseFlex::ProcessFacingSceneEvent( CSceneEventInfo *info, CChoreoScene *scene, CChoreoEvent *event )
 {
 	// make sure target exists
-	if (info->m_hTarget == NULL)
+	if (info->m_hTarget == nullptr)
 		return false;
 
 	VPROF( "CBaseFlex::ProcessFacingSceneEvent" );
@@ -1480,7 +1480,7 @@ static Activity DetermineExpressionMoveActivity( CChoreoEvent *event, CAI_BaseNP
 bool CBaseFlex::ProcessMoveToSceneEvent( CSceneEventInfo *info, CChoreoScene *scene, CChoreoEvent *event )
 {
 	// make sure target exists
-	if (info->m_hTarget == NULL)
+	if (info->m_hTarget == nullptr)
 		return false;
 
 	// FIXME: move to CBaseActor or BaseNPC
@@ -1634,7 +1634,7 @@ bool CBaseFlex::ProcessLookAtSceneEvent( CSceneEventInfo *info, CChoreoScene *sc
 {
 	VPROF( "CBaseFlex::ProcessLookAtSceneEvent" );
 	CAI_BaseNPC *myNpc = MyNPCPointer( );
-	if (myNpc && info->m_hTarget != NULL)
+	if (myNpc && info->m_hTarget != nullptr)
 	{
 		float intensity = event->GetIntensity( scene->GetTime() );
 
@@ -1718,7 +1718,7 @@ bool CBaseFlex::IsRunningSceneMoveToEvent()
 flexsetting_t const *CBaseFlex::FindNamedSetting( flexsettinghdr_t const *pSettinghdr, const char *expr )
 {
 	int i;
-	const flexsetting_t *pSetting = NULL;
+	const flexsetting_t *pSetting = nullptr;
 
 	for ( i = 0; i < pSettinghdr->numflexsettings; i++ )
 	{
@@ -1734,7 +1734,7 @@ flexsetting_t const *CBaseFlex::FindNamedSetting( flexsettinghdr_t const *pSetti
 
 	if ( i>=pSettinghdr->numflexsettings )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return pSetting;
@@ -1875,7 +1875,7 @@ void CBaseFlex::AddFlexSetting( const char *expr, float scale,
 	const flexsettinghdr_t *pSettinghdr, bool newexpression )
 {
 	int i;
-	const flexsetting_t *pSetting = NULL;
+	const flexsetting_t *pSetting = nullptr;
 
 	// Find the named setting in the base
 	for ( i = 0; i < pSettinghdr->numflexsettings; i++ )
@@ -1895,7 +1895,7 @@ void CBaseFlex::AddFlexSetting( const char *expr, float scale,
 		return;
 	}
 
-	flexweight_t *pWeights = NULL;
+	flexweight_t *pWeights = nullptr;
 	int truecount = pSetting->psetting( (byte *)pSettinghdr, 0, &pWeights );
 	if ( !pWeights )
 		return;
@@ -2115,12 +2115,12 @@ void CBaseFlex::SetPermitResponse( float endtime )
 //-----------------------------------------------------------------------------
 float CBaseFlex::PlayScene( const char *pszScene, float flDelay, AI_Response *response, IRecipientFilter *filter /* = NULL */ )
 {
-	return InstancedScriptedScene( this, pszScene, NULL, flDelay, false, response, false, filter );
+	return InstancedScriptedScene( this, pszScene, nullptr, flDelay, false, response, false, filter );
 }
 
 float CBaseFlex::ScriptPlayScene( const char* pszScene, float flDelay )
 {
-	return InstancedScriptedScene( this, pszScene, NULL, flDelay );
+	return InstancedScriptedScene( this, pszScene, nullptr, flDelay );
 }
 
 //-----------------------------------------------------------------------------
@@ -2146,7 +2146,7 @@ HSCRIPT CBaseFlex::ScriptGetOldestScene( void )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -2162,7 +2162,7 @@ HSCRIPT CBaseFlex::ScriptGetSceneByIndex( int index )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -2469,8 +2469,9 @@ const char *predef_flexcontroller_names[] = {
 	"jaw_clencher",
 	"jaw_drop",
 	"right_mouth_drop",
-	"left_mouth_drop", 
-	NULL };
+	"left_mouth_drop",
+	nullptr
+};
 
 float predef_flexcontroller_values[7][30] = {
 /* 0 */	{ 0.700,0.560,0.650,0.650,0.650,0.585,0.000,0.000,0.400,0.040,0.000,0.000,0.450,0.450,0.000,0.000,0.000,0.750,0.000,0.000,0.000,0.000,0.000,0.000,0.000,0.150,1.000,0.000,0.000,0.000 }, 
@@ -2673,7 +2674,7 @@ void CFlexCycler::Think( void )
 			}
 			else if (stricmp( GetFlexControllerType( m_flexnum ), "phoneme" ) != 0)
 			{
-				if (strstr( GetFlexControllerName( m_flexnum ), "upper_raiser" ) == NULL)
+				if (strstr( GetFlexControllerName( m_flexnum ), "upper_raiser" ) == nullptr)
 				{
 					Msg( "%s:%s\n", GetFlexControllerType( m_flexnum ), GetFlexControllerName( m_flexnum ) );
 					SetFlexTarget( m_flexnum );

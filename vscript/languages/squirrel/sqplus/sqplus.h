@@ -303,7 +303,7 @@ struct VarRef {
   short size;                 // Currently for debugging only (size of item when pointer to item is dereferenced). Could be used for variable max string buffer length.
   short access;               // VarAccessType.
   const SQChar * typeName;    // Type name string (to create instances by name).
-  VarRef() : offsetOrAddrOrConst(0), type(VAR_TYPE_NONE), instanceType((SQUserPointer)-1), copyFunc(0), size(0), access(VAR_ACCESS_READ_WRITE) {}
+  VarRef() : offsetOrAddrOrConst(nullptr), type(VAR_TYPE_NONE), instanceType((SQUserPointer)-1), copyFunc(nullptr), size(0), access(VAR_ACCESS_READ_WRITE) {}
   VarRef(void * _offsetOrAddrOrConst, ScriptVarType _type, SQUserPointer _instanceType, CopyVarFunc _copyFunc, int _size,VarAccessType _access,const SQChar * _typeName) : 
          offsetOrAddrOrConst(_offsetOrAddrOrConst), type(_type), instanceType(_instanceType), copyFunc(_copyFunc), size(_size), access(_access), typeName(_typeName) {
 #ifdef SQ_SUPPORT_INSTANCE_TYPE_INFO
@@ -359,7 +359,7 @@ inline void createTableSetGetHandlers(SquirrelObject & so) {
 } // createTableSetGetHandlers
 
 inline VarRefPtr createVarRef(SquirrelObject & so,const SQChar * scriptVarName) {
-  VarRefPtr pvr=0;
+  VarRefPtr pvr=nullptr;
   ScriptStringVar256 scriptVarTagName; getVarNameTag(scriptVarTagName,sizeof(scriptVarTagName),scriptVarName);
   if (!so.GetUserData(scriptVarTagName,(SQUserPointer *)&pvr)) {
     so.NewUserData(scriptVarTagName,sizeof(*pvr));
@@ -498,7 +498,7 @@ inline BOOL CreateCopyInstance(const SQChar * className,const T & classToCopy) {
   if (!CreateConstructNativeClassInstance(v,className)) {
     return FALSE;
   } // if
-  SQUserPointer up=0;
+  SQUserPointer up=nullptr;
   sq_getinstanceup(v,-1,&up,ClassType<T>::type());
   if (!up) return FALSE;
   T * newClass = (T *)up;
@@ -531,7 +531,7 @@ inline int ReturnCopy(HSQUIRRELVM v,const T & classToCopy) {
 // Get an instance of type T from the stack at idx (for function calls).
 template<typename T,bool ExceptionOnError>
 T * GetInstance(HSQUIRRELVM v,SQInteger idx) {
-  SQUserPointer up=0;
+  SQUserPointer up=nullptr;
   sq_getinstanceup(v,idx,&up,ClassType<T>::type());
   if (ExceptionOnError) { // This code block should be compiled out when ExceptionOnError is false. In any case, the compiler should not generate a test condition (include or exclude the enclosed code block).
     if (!up) throw SquirrelError(_T("GetInstance: Invalid argument type"));
@@ -1221,7 +1221,7 @@ class DirectCallInstanceMemberFunction {
 public:
   static inline int Dispatch(HSQUIRRELVM v) {
     StackHandler sa(v);
-    Callee * instance = (Callee *)sa.GetInstanceUp(1,0);
+    Callee * instance = (Callee *)sa.GetInstanceUp(1,nullptr);
     int paramCount = sa.GetParamCount();
     Func * func = (Func *)sa.GetUserData(paramCount);
 #ifdef SQ_USE_CLASS_INHERITANCE
@@ -1248,7 +1248,7 @@ public:
   typedef int (Callee::*FuncType)(HSQUIRRELVM);
   static inline int Dispatch(HSQUIRRELVM v) {
     StackHandler sa(v);
-    Callee * instance = (Callee *)sa.GetInstanceUp(1,0);
+    Callee * instance = (Callee *)sa.GetInstanceUp(1,nullptr);
     int paramCount = sa.GetParamCount();
     FuncType func = *(FuncType *)sa.GetUserData(paramCount);
 #ifdef SQ_USE_CLASS_INHERITANCE
@@ -1409,7 +1409,7 @@ inline void RegisterInstanceVarArgs(HSQUIRRELVM v,HSQOBJECT hclass,Callee & call
   int numParams = SQ_MATCHTYPEMASKSTRING;
   if (typeMask) {
     if (typeMask[0] == '*') {
-      ptm       = 0; // Variable args: don't check parameters.
+      ptm       = nullptr; // Variable args: don't check parameters.
 //      numParams = 0; // Clear SQ_MATCHTYPEMASKSTRING (does not mean match 0 params. See sq_setparamscheck()).
     } else {
       if (SCSNPRINTF(tm,sizeof(tm),_T("x%s"),typeMask) < 0) { // Must be an instance.
@@ -1445,7 +1445,7 @@ struct SquirrelFunction {
   HSQUIRRELVM v;
   SquirrelObject object; // Table or class.
   SquirrelObject func;
-  SquirrelFunction() : v(0) {}
+  SquirrelFunction() : v(nullptr) {}
   SquirrelFunction(HSQUIRRELVM _v,const SquirrelObject & _object,const SquirrelObject & _func) : v(_v), object(_object), func(_func) {}
   SquirrelFunction(const SquirrelObject & _object,const SquirrelObject & _func) : v(SquirrelVM::GetVMPtr()), object(_object), func(_func) {}
   SquirrelFunction(const SquirrelObject & _object,const SQChar * name) {
@@ -1590,7 +1590,7 @@ struct ReleaseClassPtr {
   } // release
 };
 
-BOOL CreateClass(HSQUIRRELVM v,SquirrelObject & newClass,SQUserPointer classType,const SQChar * name,const SQChar * baseName=0);
+BOOL CreateClass(HSQUIRRELVM v,SquirrelObject & newClass,SQUserPointer classType,const SQChar * name,const SQChar * baseName=nullptr);
 
 #define SQ_ANCESTOR_CLASS_INDEX _T("__ci")
 
@@ -1683,7 +1683,7 @@ inline void setupClassHierarchy(SquirrelObject newClass) {
 } // setupClassHierarchy
 
 template<typename T>
-inline SquirrelObject RegisterClassType(HSQUIRRELVM v,const SQChar * scriptClassName,const SQChar * baseScriptClassName=0) {
+inline SquirrelObject RegisterClassType(HSQUIRRELVM v,const SQChar * scriptClassName,const SQChar * baseScriptClassName=nullptr) {
   int top = sq_gettop(v);
   SquirrelObject newClass;
   if (CreateClass(v,newClass,(SQUserPointer)ClassType<T>::type(),scriptClassName,baseScriptClassName)) {
@@ -1697,7 +1697,7 @@ inline SquirrelObject RegisterClassType(HSQUIRRELVM v,const SQChar * scriptClass
 } // RegisterClassType
 
 template<typename T>
-inline SquirrelObject RegisterClassTypeNoConstructor(HSQUIRRELVM v,const SQChar * scriptClassName,const SQChar * baseScriptClassName=0) {
+inline SquirrelObject RegisterClassTypeNoConstructor(HSQUIRRELVM v,const SQChar * scriptClassName,const SQChar * baseScriptClassName=nullptr) {
   int top = sq_gettop(v);
   SquirrelObject newClass;
   if (CreateClass(v,newClass,(SQUserPointer)ClassType<T>::type(),scriptClassName,baseScriptClassName)) {
@@ -1724,9 +1724,9 @@ struct SQClassDefBase {
 #ifdef SQ_USE_CLASS_INHERITANCE
   const SQChar * base;
   // Optional base arg is the name of a base class to inherit from (must already be defined in the Squirrel VM).
-  SQClassDefBase(HSQUIRRELVM _v,const SQChar * _name,const SQChar * _base=0) : v(_v), name(_name), base(_base) {}
+  SQClassDefBase(HSQUIRRELVM _v,const SQChar * _name,const SQChar * _base=nullptr) : v(_v), name(_name), base(_base) {}
   // Optional base arg is the name of a base class to inherit from (must already be defined in the Squirrel VM).
-  SQClassDefBase(const SQChar * _name,const SQChar * _base=0) : v(SquirrelVM::GetVMPtr()), name(_name), base(_base) {}
+  SQClassDefBase(const SQChar * _name,const SQChar * _base=nullptr) : v(SquirrelVM::GetVMPtr()), name(_name), base(_base) {}
 #else
   SQClassDefBase(HSQUIRRELVM _v,const SQChar * _name) : v(_v), name(_name) {}
   SQClassDefBase(const SQChar * _name) : v(SquirrelVM::GetVMPtr()), name(_name) {}
@@ -1735,7 +1735,7 @@ struct SQClassDefBase {
   // Register a member function.
   template<typename Func>
   SQClassDefBase & func(Func pfunc,const SQChar * name) {
-    RegisterInstance(v,newClass.GetObjectHandle(),*(TClassType *)0,pfunc,name);
+    RegisterInstance(v,newClass.GetObjectHandle(),*(TClassType *)nullptr,pfunc,name);
     return *this;
   } // func
 
@@ -1744,7 +1744,7 @@ struct SQClassDefBase {
   // All the other Squirrel type-masks are passed normally.
   template<typename Func>
   SQClassDefBase & funcVarArgs(Func pfunc,const SQChar * name,const SQChar * typeMask=_T("*")) {
-    RegisterInstanceVarArgs(v,newClass.GetObjectHandle(),*(TClassType *)0,pfunc,name,typeMask);
+    RegisterInstanceVarArgs(v,newClass.GetObjectHandle(),*(TClassType *)nullptr,pfunc,name,typeMask);
     return *this;
   } // funcVarArgs
 
@@ -1834,11 +1834,11 @@ template<typename TClassType>
 struct SQClassDef : public SQClassDefBase<TClassType> {
 #ifdef SQ_USE_CLASS_INHERITANCE
   // Optional base arg is the name of a base class to inherit from (must already be defined in the Squirrel VM).
-  SQClassDef(HSQUIRRELVM _v,const SQChar * _name,const SQChar * _base=0) : SQClassDefBase<TClassType>(_v,_name,_base) {
+  SQClassDef(HSQUIRRELVM _v,const SQChar * _name,const SQChar * _base=nullptr) : SQClassDefBase<TClassType>(_v,_name,_base) {
     this->newClass = RegisterClassType<TClassType>(this->v,this->name,this->base);
   }
   // Optional base arg is the name of a base class to inherit from (must already be defined in the Squirrel VM).
-  SQClassDef(const SQChar * _name,const SQChar * _base=0) : SQClassDefBase<TClassType>(_name,_base) {
+  SQClassDef(const SQChar * _name,const SQChar * _base=nullptr) : SQClassDefBase<TClassType>(_name,_base) {
     this->newClass = RegisterClassType<TClassType>(this->v,this->name,this->base);
   }
 #else
@@ -1855,11 +1855,11 @@ template<typename TClassType>
 struct SQClassDefNoConstructor : public SQClassDefBase<TClassType> {
 #ifdef SQ_USE_CLASS_INHERITANCE
   // Optional base arg is the name of a base class to inherit from (must already be defined in the Squirrel VM).
-  SQClassDefNoConstructor(HSQUIRRELVM _v,const SQChar * _name,const SQChar * _base=0) : SQClassDefBase<TClassType>(_v,_name,_base) {
+  SQClassDefNoConstructor(HSQUIRRELVM _v,const SQChar * _name,const SQChar * _base=nullptr) : SQClassDefBase<TClassType>(_v,_name,_base) {
     this->newClass = RegisterClassTypeNoConstructor<TClassType>(this->v,this->name,this->base);
   }
   // Optional base arg is the name of a base class to inherit from (must already be defined in the Squirrel VM).
-  SQClassDefNoConstructor(const SQChar * _name,const SQChar * _base=0) : SQClassDefBase<TClassType>(_name,_base) {
+  SQClassDefNoConstructor(const SQChar * _name,const SQChar * _base=nullptr) : SQClassDefBase<TClassType>(_name,_base) {
     this->newClass = RegisterClassTypeNoConstructor<TClassType>(this->v,this->name,this->base);
   }
 #else

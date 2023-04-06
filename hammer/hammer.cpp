@@ -118,7 +118,7 @@ COptions Options;
 
 CShell g_Shell;
 CShellMessageWnd g_ShellMessageWnd;
-CMessageWnd *g_pwndMessage = NULL;
+CMessageWnd *g_pwndMessage = nullptr;
 
 // IPC structures for lighting preview thread
 CMessageQueue<MessageToLPreview> g_HammerToLPreviewMsgQueue;
@@ -150,7 +150,7 @@ bool g_bHDR = true;
 
 bool IsRunningInEngine()
 {
-	return g_pEngineAPI != NULL;
+	return g_pEngineAPI != nullptr;
 }
 
 
@@ -294,7 +294,7 @@ void CHammerDocTemplate::CloseAllDocuments( BOOL bEndSession )
 		bFound = false;
 
 		POSITION pos = GetFirstDocPosition();
-		while( pos != NULL )
+		while( pos != nullptr)
 		{
 			CDocument *pDoc = GetNextDoc( pos );
 			CMapDoc *pMapDoc = dynamic_cast< CMapDoc * >( pDoc );
@@ -357,7 +357,7 @@ void CHammerDocTemplate::InitialUpdateFrame( CFrameWnd* pFrame, CDocument* pDoc,
 void CHammerDocTemplate::UpdateInstanceMap( CMapDoc *pInstanceMapDoc )
 {
 	POSITION pos = GetFirstDocPosition();
-	while( pos != NULL )
+	while( pos != nullptr)
 	{
 		CDocument *pDoc = GetNextDoc( pos );
 		CMapDoc *pMapDoc = dynamic_cast< CMapDoc * >( pDoc );
@@ -500,7 +500,7 @@ CHammer::CHammer(void)
 	m_bForceRenderNextFrame = false;
 	m_bClosing = false;
 	m_bFoundryMode = false;
-	m_CustomAcceleratorWindow = NULL;
+	m_CustomAcceleratorWindow = nullptr;
 }
 
 
@@ -522,11 +522,11 @@ bool CHammer::Connect( CreateInterfaceFn factory )
 		return false;
 
 //	bool bCVarOk = ConnectStudioRenderCVars( factory );
-	g_pFileSystem = ( IBaseFileSystem * )factory( BASEFILESYSTEM_INTERFACE_VERSION, NULL );
-	g_pStudioRender = ( IStudioRender * )factory( STUDIO_RENDER_INTERFACE_VERSION, NULL );
-	g_pEngineAPI = ( IEngineAPI * )factory( VENGINE_LAUNCHER_API_VERSION, NULL );
-	g_pMDLCache = (IMDLCache*)factory( MDLCACHE_INTERFACE_VERSION, NULL );
-	p4 = ( IP4 * )factory( P4_INTERFACE_VERSION, NULL );
+	g_pFileSystem = ( IBaseFileSystem * )factory( BASEFILESYSTEM_INTERFACE_VERSION, nullptr);
+	g_pStudioRender = ( IStudioRender * )factory( STUDIO_RENDER_INTERFACE_VERSION, nullptr);
+	g_pEngineAPI = ( IEngineAPI * )factory( VENGINE_LAUNCHER_API_VERSION, nullptr);
+	g_pMDLCache = (IMDLCache*)factory( MDLCACHE_INTERFACE_VERSION, nullptr);
+	p4 = ( IP4 * )factory( P4_INTERFACE_VERSION, nullptr);
     g_Factory = factory;
 
 	if ( !g_pMDLCache || !g_pFileSystem || !g_pFullFileSystem || !materials || !g_pMaterialSystemHardwareConfig || !g_pStudioRender )
@@ -536,7 +536,7 @@ bool CHammer::Connect( CreateInterfaceFn factory )
 
 	// ensure we're in the same directory as the .EXE
 	char *p;
-	GetModuleFileName(NULL, m_szAppDir, MAX_PATH);
+	GetModuleFileName(nullptr, m_szAppDir, MAX_PATH);
 	p = strrchr(m_szAppDir, '\\');
 	if(p)
 	{
@@ -587,10 +587,10 @@ bool CHammer::Connect( CreateInterfaceFn factory )
 
 void CHammer::Disconnect()
 {
-	g_pStudioRender = NULL;
-	g_pFileSystem = NULL;
-	g_pEngineAPI = NULL;
-	g_pMDLCache = NULL;
+	g_pStudioRender = nullptr;
+	g_pFileSystem = nullptr;
+	g_pEngineAPI = nullptr;
+	g_pMDLCache = nullptr;
 	BaseClass::Disconnect();
 }
 
@@ -600,7 +600,7 @@ void *CHammer::QueryInterface( const char *pInterfaceName )
 	if (!Q_strncmp(	pInterfaceName, INTERFACEVERSION_HAMMER, Q_strlen(INTERFACEVERSION_HAMMER) + 1))
 		return (IHammer*)this;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -625,7 +625,7 @@ void CHammer::InitFoundryMode( CreateInterfaceFn factory, void *hGameWnd, const 
 void CHammer::NoteEngineGotFocus()
 {
 	// Release focus on all our vgui stuff so the engine can own it.
-	HammerVGui()->SetFocus( NULL );
+	HammerVGui()->SetFocus(nullptr);
 	
 	// Deactivate all CMapViews.
 	CMapDoc::NoteEngineGotFocus();
@@ -721,7 +721,7 @@ static void EnsureTrailingBackslash(char *psz)
 // Purpose: Tweaks our data members to enable us to import old Hammer settings
 //			from the registry.
 //-----------------------------------------------------------------------------
-static const char *s_pszOldAppName = NULL;
+static const char *s_pszOldAppName = nullptr;
 void CHammer::BeginImportWCSettings(void)
 {
 	s_pszOldAppName = m_pszAppName;
@@ -786,7 +786,7 @@ void CHammer::GetDirectory(DirIndex_t dir, char *p)
 			//
 			if ((_access( p, 0 )) == -1)
 			{
-				CreateDirectory(p, NULL);
+				CreateDirectory(p, nullptr);
 			}
 
 			break;
@@ -904,7 +904,7 @@ COLORREF CHammer::GetProfileColor(const char *pszSection, const char *pszKey, in
 //-----------------------------------------------------------------------------
 void CHammer::OpenURL(const char *pszURL, HWND hwnd)
 {
-	if (HINSTANCE(32) > ::ShellExecute(hwnd, "open", pszURL, NULL, NULL, 0))
+	if (HINSTANCE(32) > ::ShellExecute(hwnd, "open", pszURL, nullptr, nullptr, 0))
 	{
 		AfxMessageBox("The website couldn't be opened.");
 	}
@@ -974,13 +974,13 @@ static CHammerMessageLoggingListener s_HammerMessageLoggingListener;
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-static HANDLE dwChangeHandle = NULL;
+static HANDLE dwChangeHandle = nullptr;
 void UpdatePrefabs_Init()
 {
  
 	// Watch the prefabs tree for file or directory creation
 	// and deletion. 
-	if (dwChangeHandle == NULL)
+	if (dwChangeHandle == nullptr)
 	{
 		char szPrefabDir[MAX_PATH];
 		APP()->GetDirectory(DIR_PREFABS, szPrefabDir);
@@ -1048,7 +1048,7 @@ CGameConfig *CHammer::PromptForGameConfig()
 	CEditGameConfigs dlg(TRUE, GetMainWnd());
 	if (dlg.DoModal() != IDOK)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return dlg.GetSelectedGame();
@@ -1061,7 +1061,7 @@ CGameConfig *CHammer::PromptForGameConfig()
 //-----------------------------------------------------------------------------
 bool CHammer::InitSessionGameConfig(const char *szGame)
 {
-	CGameConfig *pConfig = NULL;
+	CGameConfig *pConfig = nullptr;
 	bool bManualChoice = false;
 
 	if ( CommandLine()->FindParm( "-chooseconfig" ) )
@@ -1096,7 +1096,7 @@ bool CHammer::InitSessionGameConfig(const char *szGame)
 		}
 	}
 
-	if (pConfig == NULL)
+	if (pConfig == nullptr)
 	{
 		// Nothing useful was passed in or found in VPROJECT.
 
@@ -1128,7 +1128,7 @@ bool CHammer::InitSessionGameConfig(const char *szGame)
 bool CHammer::Check16BitColor()
 {
 	// Check for 15-bit color or higher.
-	HDC hDC = ::CreateCompatibleDC(NULL);
+	HDC hDC = ::CreateCompatibleDC(nullptr);
 	if (hDC)
 	{
 		int bpp = GetDeviceCaps(hDC, BITSPIXEL);
@@ -1169,7 +1169,7 @@ void HammerFileSystem_ReportSearchPath( const char *szPathID )
 	while ( pszOnePath )
 	{
 		Msg( mwStatus, "Search Path (%s): %s", szPathID, pszOnePath );
-		pszOnePath = strtok( NULL, ";" );
+		pszOnePath = strtok(nullptr, ";" );
 	}
 }
 
@@ -1202,7 +1202,7 @@ InitReturnVal_t CHammer::HammerInternalInit()
     wndcls.hInstance     = AfxGetInstanceHandle();
     wndcls.hIcon         = LoadIcon(IDR_MAINFRAME);
     wndcls.hCursor       = LoadCursor( IDC_ARROW );
-    wndcls.hbrBackground = (HBRUSH)0; //  (COLOR_WINDOW + 1);
+    wndcls.hbrBackground = (HBRUSH)nullptr; //  (COLOR_WINDOW + 1);
     wndcls.lpszMenuName  = "IDR_MAINFRAME";
 	wndcls.cbWndExtra    = 0;
 	 
@@ -1216,7 +1216,7 @@ InitReturnVal_t CHammer::HammerInternalInit()
 		return INIT_FAILED;
 	}
 
-	srand(time(NULL));
+	srand(time(nullptr));
 
 	WriteProfileString("General", "Directory", m_szAppDir);
 
@@ -1316,15 +1316,15 @@ InitReturnVal_t CHammer::HammerInternalInit()
 
 		// Move the engine to the right side of the screen.
 		int nEngineWndX = rcDesktop.Width() - rcEngineWnd.Width();
-		SetWindowPos( hEngineWnd, NULL, nEngineWndX, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
+		SetWindowPos( hEngineWnd, nullptr, nEngineWndX, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
 		
 		// Move Hammer to the left and make it square.
 		int nHammerWndWidth = nEngineWndX;
 		int nHammerWndHeight = min( nHammerWndWidth, rcDesktop.Height() - 100 );
-		pMainFrame->SetWindowPos( NULL, 0, 0, nHammerWndWidth, nHammerWndHeight, SWP_NOZORDER | SWP_SHOWWINDOW );
+		pMainFrame->SetWindowPos(nullptr, 0, 0, nHammerWndWidth, nHammerWndHeight, SWP_NOZORDER | SWP_SHOWWINDOW );
 
 		// Move the properties dialog below the engine window.
-		pMainFrame->pObjectProperties->SetWindowPos( NULL, nEngineWndX, rcEngineWnd.Height(), 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
+		pMainFrame->pObjectProperties->SetWindowPos(nullptr, nEngineWndX, rcEngineWnd.Height(), 0, 0, SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW );
 	}
 	else
 	{
@@ -1392,7 +1392,7 @@ InitReturnVal_t CHammer::HammerInternalInit()
 	//
 	// Initialize the particle system manager
 	//
-	g_pParticleSystemMgr->Init( NULL, true );
+	g_pParticleSystemMgr->Init(nullptr, true );
 	g_pParticleSystemMgr->AddBuiltinSimulationOperators();
 	g_pParticleSystemMgr->AddBuiltinRenderingOperators();
 	
@@ -1459,7 +1459,7 @@ InitReturnVal_t CHammer::HammerInternalInit()
 	CSplashWnd::HideSplashScreen();
 
 	// create the lighting preview thread
-	g_LPreviewThread = CreateSimpleThread( LightingPreviewThreadFN, 0 );
+	g_LPreviewThread = CreateSimpleThread( LightingPreviewThreadFN, nullptr );
 
 	return INIT_OK;
 }
@@ -1516,7 +1516,7 @@ int CHammer::InternalMainLoop()
 		//
 		// Pump messages until the message queue is empty.
 		//
-		while (::PeekMessage(&msg, NULL, NULL, NULL, PM_REMOVE))
+		while (::PeekMessage(&msg, nullptr, NULL, NULL, PM_REMOVE))
 		{
 			if ( msg.message == WM_QUIT )
 				return 1;
@@ -1557,7 +1557,7 @@ void CHammer::Shutdown()
 		MessageToLPreview StopMsg( LPREVIEW_MSG_EXIT );
 		g_HammerToLPreviewMsgQueue.QueueMessage( StopMsg );
 		ThreadJoin( g_LPreviewThread );
-		g_LPreviewThread = 0;
+		g_LPreviewThread = nullptr;
 	}
 
 	// Execute the pre-shutdown registered callbacks
@@ -1582,10 +1582,10 @@ void CHammer::Shutdown()
 	for (int i = 0; i < nSequenceCount; i++)
 	{
 		CCommandSequence *pSeq = m_CmdSequences[i];
-		if ( pSeq != NULL )
+		if ( pSeq != nullptr)
 		{
 			delete pSeq;
-			m_CmdSequences[i] = NULL;
+			m_CmdSequences[i] = nullptr;
 		}
 	}
 
@@ -1699,7 +1699,7 @@ void CHammer::SetCustomAccelerator( HWND hWnd, WORD nID )
 
 void CHammer::ClearCustomAccelerator( )
 {
-	m_CustomAcceleratorWindow = NULL;
+	m_CustomAcceleratorWindow = nullptr;
 }
 
 
@@ -1843,7 +1843,7 @@ BOOL CAboutDlg::OnInitDialog(void)
 	// Display the build number.
 	//
 	CWnd *pWnd = GetDlgItem(IDC_BUILD_NUMBER);
-	if (pWnd != NULL)
+	if (pWnd != nullptr)
 	{
 		char szTemp1[MAX_PATH];
 		char szTemp2[MAX_PATH];
@@ -1897,7 +1897,7 @@ void CHammer::OnAppAbout(void)
 //-----------------------------------------------------------------------------
 void CHammer::OnFileNew(void)
 {
-	pMapDocTemplate->OpenDocumentFile(NULL);
+	pMapDocTemplate->OpenDocumentFile(nullptr);
 	if(Options.general.bLoadwinpos && Options.general.bIndependentwin)
 	{
 		::GetMainWnd()->LoadWindowStates();
@@ -1930,7 +1930,7 @@ void CHammer::OnFileOpen(void)
 	ofn.nMaxFile = sizeof( szFileNameBuffer );
 	ofn.lpstrFilter = "Valve Map Files (*.vmf;*.vmm)\0*.vmf;*.vmm\0Valve Map Files Autosave (*.vmf_autosave)\0*.vmf_autosave\0Worldcraft RMFs (*.rmf)\0*.rmf\0Worldcraft Maps (*.map)\0*.map\0All\0*.*\0";
 	ofn.nFilterIndex =1;
-	ofn.lpstrFileTitle = NULL ;
+	ofn.lpstrFileTitle = nullptr;
 	ofn.nMaxFileTitle = 0 ;
 	ofn.lpstrInitialDir=szInitialDir;
 	ofn.Flags = OFN_LONGNAMES | OFN_HIDEREADONLY | OFN_NOCHANGEDIR;
@@ -2015,7 +2015,7 @@ CDocument *CHammer::OpenDocumentOrInstanceFile(LPCTSTR lpszFileName)
 		Message = "The file " + SaveFileName + " does not exist.";
 		AfxMessageBox( Message );
 
-		return NULL;
+		return nullptr;
 	}
 
 	CheckForFileSync( SaveFileName, CHammer::m_bIsNewDocumentVisible );
@@ -2139,7 +2139,7 @@ BOOL CHammer::PreTranslateMessage(MSG* pMsg)
 			return FALSE;
 		}
 
-		if ( m_CustomAcceleratorWindow != NULL )
+		if ( m_CustomAcceleratorWindow != nullptr)
 		{
 			if ( TranslateAccelerator( m_CustomAcceleratorWindow, m_CustomAccelerator, pMsg ) != 0 )
 			{
@@ -2461,7 +2461,7 @@ void CHammer::ReleaseVideoMemory()
       while (pos2)
       {
          CDocument * pDocument;
-         if ((pDocument=pTemplate->GetNextDoc(pos2)) != NULL)
+         if ((pDocument=pTemplate->GetNextDoc(pos2)) != nullptr)
 		 {
 			 static_cast<CMapDoc*>(pDocument)->ReleaseVideoMemory();
 		 }
@@ -2746,16 +2746,16 @@ bool CHammer::VerifyAutosaveDirectory( char *szAutosaveDirectory ) const
 		strAutosaveDirectory,
 		GENERIC_READ,
 		FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,
-		NULL,
+		nullptr,
 		OPEN_EXISTING,
 		FILE_FLAG_BACKUP_SEMANTICS,
-		NULL
-		);
+		nullptr
+	);
 
 	if ( hDir == INVALID_HANDLE_VALUE )
 	{
 
-		bool bDirResult = CreateDirectory( strAutosaveDirectory, NULL ) ? true : false;
+		bool bDirResult = CreateDirectory( strAutosaveDirectory, nullptr) ? true : false;
 		if ( !bDirResult )
 		{
 			AfxMessageBox( "The current autosave directory does not exist and could not be created.  \nThe autosave feature will be disabled until a new directory is entered.", MB_OK );
@@ -2769,11 +2769,11 @@ bool CHammer::VerifyAutosaveDirectory( char *szAutosaveDirectory ) const
 		hTestFile = CreateFile( strAutosaveDirectory + "test.txt", 
 			GENERIC_READ,
 			FILE_SHARE_READ|FILE_SHARE_WRITE|FILE_SHARE_DELETE,
-			NULL,
+			nullptr,
 			CREATE_NEW,
 			FILE_FLAG_BACKUP_SEMANTICS,
-			NULL
-			);
+			nullptr
+		);
 		
 		if ( hTestFile == INVALID_HANDLE_VALUE )
 		{

@@ -42,7 +42,7 @@ using namespace vgui;
 class CPetParticleSystemQuery : public CBaseAppSystem< IParticleSystemQuery >
 {
 public:
-	CPetParticleSystemQuery() : m_pQuery( NULL ) {}
+	CPetParticleSystemQuery() : m_pQuery(nullptr) {}
 
 	virtual void LevelShutdown( ) { }
 
@@ -171,7 +171,7 @@ public:
 
 	//Not Yet Implemented
 	virtual int GetActivityCount() { return 0; }
-	virtual const char *GetActivityNameFromIndex( int nActivityIndex ) { return 0; }
+	virtual const char *GetActivityNameFromIndex( int nActivityIndex ) { return nullptr; }
 	virtual int GetActivityNumber( void *pModel, const char *m_pszActivityName ); 
 
 	virtual float GetPixelVisibility( int *pQueryHandle, const Vector &vecOrigin, float flScale )
@@ -311,7 +311,7 @@ const char *GetVGuiControlsModuleName()
 bool ConnectTools( CreateInterfaceFn factory )
 {
 	// Attach to the dmserializers instance of the particle system
-	return (materials != NULL) && (g_pMatSystemSurface != NULL) && (g_pMDLCache != NULL) && (studiorender != NULL) && (g_pMaterialSystemHardwareConfig != NULL);
+	return (materials != nullptr) && (g_pMatSystemSurface != nullptr) && (g_pMDLCache != nullptr) && (studiorender != nullptr) && (g_pMaterialSystemHardwareConfig != nullptr);
 }
 
 void DisconnectTools( )
@@ -322,7 +322,7 @@ void DisconnectTools( )
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
-CPetTool	*g_pPetTool = NULL;
+CPetTool	*g_pPetTool = nullptr;
 
 
 void CreateTools()
@@ -336,8 +336,8 @@ void CreateTools()
 //-----------------------------------------------------------------------------
 CPetTool::CPetTool()
 {
-	m_pMenuBar = NULL;
-	m_pDoc = NULL;
+	m_pMenuBar = nullptr;
+	m_pDoc = nullptr;
 }
 
 
@@ -346,8 +346,8 @@ CPetTool::CPetTool()
 //-----------------------------------------------------------------------------
 bool CPetTool::Init( )
 {
-	m_hCurrentParticleSystem = NULL;
-	m_pDoc = NULL;
+	m_hCurrentParticleSystem = nullptr;
+	m_pDoc = nullptr;
 	m_RecentFiles.LoadFromRegistry( GetRegistryName() );
 
 	// NOTE: This has to happen before BaseClass::Init
@@ -358,7 +358,7 @@ bool CPetTool::Init( )
 
 	CreateInterfaceFn factory;
 	enginetools->GetClientFactory( factory );
-	IParticleSystemQuery *pQuery = (IParticleSystemQuery*)factory( PARTICLE_SYSTEM_QUERY_INTERFACE_VERSION, NULL );
+	IParticleSystemQuery *pQuery = (IParticleSystemQuery*)factory( PARTICLE_SYSTEM_QUERY_INTERFACE_VERSION, nullptr);
 	s_PetParticleSystemQuery.SetChainQuery( pQuery );
 
 	g_pParticleSystemMgr->Init( g_pPetParticleSystemQuery, true );
@@ -580,9 +580,9 @@ vgui::MenuBar *CPetTool::CreateMenuBar( CBaseToolSystem *pParent )
 	CPetViewMenuButton *pViewButton = new CPetViewMenuButton( this, "View", "&View", GetActionTarget() );
 	CToolMenuButton *pSwitchButton = CreateToolSwitchMenuButton( m_pMenuBar, "Switcher", "&Tools", GetActionTarget() );
 
-	pEditButton->AddMenuItem( "copySystem", "Copy Systems", new KeyValues( "OnCopySystems" ), GetActionTarget(), NULL );
+	pEditButton->AddMenuItem( "copySystem", "Copy Systems", new KeyValues( "OnCopySystems" ), GetActionTarget(), nullptr);
 	pEditButton->AddMenuItem( "copyFunctions", "Copy Functions", new KeyValues( "OnCopyFunctions" ), GetActionTarget() );
-	pEditButton->AddMenuItem( "paste", "#BxEditPaste", new KeyValues( "OnPaste" ), GetActionTarget(), NULL, "edit_paste" );
+	pEditButton->AddMenuItem( "paste", "#BxEditPaste", new KeyValues( "OnPaste" ), GetActionTarget(), nullptr, "edit_paste" );
 
 	pEditButton->MoveMenuItem( pEditButton->FindMenuItem( "paste" ), pEditButton->FindMenuItem( "editkeybindings" ) );
 	pEditButton->MoveMenuItem( pEditButton->FindMenuItem( "copySystem" ), pEditButton->FindMenuItem( "paste" ) );
@@ -828,7 +828,7 @@ void CPetTool::CreateTools( CPetDoc *doc )
 
 	if ( !m_hParticlePreview.Get() )
 	{
-		m_hParticlePreview = new CParticleSystemPreviewPanel( NULL, "Particle System Preview" );
+		m_hParticlePreview = new CParticleSystemPreviewPanel(nullptr, "Particle System Preview" );
 	}
 
 	/*
@@ -871,7 +871,7 @@ void CPetTool::DestroyTools()
 		m_hParticlePreview->ClearParticleSystemLock();
 	}
 
-	SetCurrentParticleSystem( NULL );
+	SetCurrentParticleSystem(nullptr);
 
 	int c = ToolWindow::GetToolWindowCount();
 	for ( int i = c - 1; i >= 0 ; --i )
@@ -886,21 +886,21 @@ void CPetTool::DestroyTools()
 	{
 		windowposmgr->UnregisterPanel( m_hProperties.Get() );
 		delete m_hProperties.Get();
-		m_hProperties = NULL;
+		m_hProperties = nullptr;
 	}
 
 	if ( m_hParticleSystemDefinitionBrowser.Get() )
 	{
 		windowposmgr->UnregisterPanel( m_hParticleSystemDefinitionBrowser.Get() );
 		delete m_hParticleSystemDefinitionBrowser.Get();
-		m_hParticleSystemDefinitionBrowser = NULL;
+		m_hParticleSystemDefinitionBrowser = nullptr;
 	}
 
 	if ( m_hParticlePreview.Get() )
 	{
 		windowposmgr->UnregisterPanel( m_hParticlePreview.Get() );
 		delete m_hParticlePreview.Get();
-		m_hParticlePreview = NULL;
+		m_hParticlePreview = nullptr;
 	}
 
 	/*
@@ -918,7 +918,7 @@ void CPetTool::ShowToolWindow( Panel *tool, char const *toolName, bool visible )
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL && visible )
+	if ( tool->GetParent() == nullptr && visible )
 	{
 		m_ToolWindowFactory.InstanceToolWindow( this, false, tool, toolName, false );
 	}
@@ -934,7 +934,7 @@ void CPetTool::ToggleToolWindow( Panel *tool, char const *toolName )
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL )
+	if ( tool->GetParent() == nullptr)
 	{
 		ShowToolWindow( tool, toolName, true );
 	}
@@ -1064,7 +1064,7 @@ void CPetTool::OnNew()
 void CPetTool::OnOpen( )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc && m_pDoc->IsDirty() )
 	{
 		nFlags = FOSM_SHOW_PERFORCE_DIALOGS | FOSM_SHOW_SAVE_QUERY;
@@ -1099,7 +1099,7 @@ void CPetTool::OnSaveAs()
 {
 	if ( m_pDoc )
 	{
-		SaveFile( NULL, PET_FILE_FORMAT, FOSM_SHOW_PERFORCE_DIALOGS );
+		SaveFile(nullptr, PET_FILE_FORMAT, FOSM_SHOW_PERFORCE_DIALOGS );
 	}
 }
 
@@ -1157,11 +1157,11 @@ void CPetTool::OnCloseNoSave()
 		CAppNotifyScopeGuard sg( "CPetTool::OnCloseNoSave", NOTIFY_CHANGE_OTHER );
 
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 
 		if ( m_hProperties )
 		{
-			m_hProperties->SetParticleSystem( NULL );
+			m_hProperties->SetParticleSystem(nullptr);
 		}
 	}
 
@@ -1183,7 +1183,7 @@ void CPetTool::OnMarkNotDirty()
 void CPetTool::OpenSpecificFile( const char *pFileName )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc )
 	{
 		// File is already open
@@ -1339,7 +1339,7 @@ void CPetTool::OnDescribeUndo()
 //-----------------------------------------------------------------------------
 const char *CPetTool::GetLogoTextureName()
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1421,7 +1421,7 @@ bool CPetTool::LoadDocument( const char *pDocName )
 	if ( !m_pDoc->LoadFromFile( pDocName ) )
 	{
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 		Warning( "Fatal error loading '%s'\n", pDocName );
 		return false;
 	}

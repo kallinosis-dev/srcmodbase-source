@@ -116,7 +116,7 @@ void ResetLog( CDmeFloatLog *log, bool useCurveTypes, int startIndex = 0, int en
 	else if ( !useCurveTypes && pCurveInfo )
 	{
 		g_pDataModel->DestroyElement( pCurveInfo->GetHandle() );
-		log->SetCurveInfo( NULL );
+		log->SetCurveInfo(nullptr);
 	}
 
 	int i;
@@ -314,7 +314,7 @@ void RunDmeChoreoComparisons( CDmeFloatLog *log )
 	ResetLog( log, true );
 	log->SetRightEdgeTime( DmeTime_t( 15.0f ) );
 
-	CChoreoScene *scene = new CChoreoScene( NULL );
+	CChoreoScene *scene = new CChoreoScene(nullptr);
 	CChoreoEvent *event = new CChoreoEvent( scene, CChoreoEvent::FLEXANIMATION, "test" );
 	event->SetStartTime( 0.0f );
 	event->SetEndTime( 15.0f );

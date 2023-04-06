@@ -194,7 +194,7 @@ static CAI_Expresser *InferExpresserFromBaseEntity(CBaseEntity * RESTRICT pEnt)
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -208,9 +208,9 @@ void CResponseQueue::CDeferredResponse::Quash()
 bool CResponseQueue::DispatchOneResponse(CDeferredResponse &response)
 {
 	// find the target.
-	CBaseEntity * RESTRICT pTarget = NULL;
+	CBaseEntity * RESTRICT pTarget = nullptr;
 	AI_CriteriaSet &deferredCriteria = response.m_contexts;
-	CAI_Expresser * RESTRICT pEx = NULL;
+	CAI_Expresser * RESTRICT pEx = nullptr;
 	CBaseEntity * RESTRICT pIssuer = response.m_hIssuer.Get(); // MAY BE NULL
 	float followupMaxDistSq;
 	{
@@ -274,7 +274,7 @@ bool CResponseQueue::DispatchOneResponse(CDeferredResponse &response)
 				if ( !pEx || pTarget == pIssuer ) 
 					continue;
 				AI_CriteriaSet characterCriteria;
-				pEx->GatherCriteria(&characterCriteria, response.m_concept, NULL);
+				pEx->GatherCriteria(&characterCriteria, response.m_concept, nullptr);
 				characterCriteria.Merge(&deferredCriteria);
 				if ( pIssuer ) 
 				{
@@ -308,7 +308,7 @@ bool CResponseQueue::DispatchOneResponse(CDeferredResponse &response)
 	
 
 	AI_CriteriaSet characterCriteria;
-	pEx->GatherCriteria(&characterCriteria, response.m_concept, NULL);
+	pEx->GatherCriteria(&characterCriteria, response.m_concept, nullptr);
 	characterCriteria.Merge(&deferredCriteria);
 	pEx->Speak( response.m_concept, &characterCriteria );
 	
@@ -320,8 +320,8 @@ ConVar rr_thenany_score_slop( "rr_thenany_score_slop", "0.0", FCVAR_CHEAT, "When
 #define EXARRAYMAX 32 // maximum number of prospective expressers in the array (hardcoded for simplicity)
 bool CResponseQueue::DispatchOneResponse_ThenANY( CDeferredResponse &response, AI_CriteriaSet * RESTRICT pDeferredCriteria, CBaseEntity *  const RESTRICT pIssuer, float followupMaxDistSq )
 {
-	CBaseEntity * RESTRICT pTarget = NULL;
-	CAI_Expresser * RESTRICT pEx = NULL;
+	CBaseEntity * RESTRICT pTarget = nullptr;
+	CAI_Expresser * RESTRICT pEx = nullptr;
 	float bestScore = 0;
 	float slop = rr_thenany_score_slop.GetFloat();
 	Vector issuerLocation;
@@ -367,7 +367,7 @@ bool CResponseQueue::DispatchOneResponse_ThenANY( CDeferredResponse &response, A
 			continue;
 
 		AI_CriteriaSet characterCriteria;
-		pEx->GatherCriteria(&characterCriteria, response.m_concept, NULL);
+		pEx->GatherCriteria(&characterCriteria, response.m_concept, nullptr);
 		characterCriteria.Merge( pDeferredCriteria );
 		pTarget->ModifyOrAppendDerivedCriteria( characterCriteria );
 		if ( pIssuer )
@@ -410,7 +410,7 @@ bool CResponseQueue::DispatchOneResponse_ThenANY( CDeferredResponse &response, A
 		// get a random number between 0 and the responses found
 		int iSelect = numExFound > 1 ? RandomInt( 0, numExFound - 1 ) : 0;
 
-		if ( pBestEx[iSelect] != NULL )
+		if ( pBestEx[iSelect] != nullptr)
 		{
 			return pBestEx[iSelect]->SpeakDispatchResponse( response.m_concept, responseToSay + iSelect, pDeferredCriteria );
 		}
@@ -443,7 +443,7 @@ void CResponseQueue::Evacuate()
 
 void CResponseQueueManager::LevelInitPreEntity( void )
 {
-	if (m_pQueue == NULL)
+	if (m_pQueue == nullptr)
 	{
 		m_pQueue = new CResponseQueue(AI_RESPONSE_QUEUE_SIZE);
 	}
@@ -451,19 +451,19 @@ void CResponseQueueManager::LevelInitPreEntity( void )
 
 CResponseQueueManager::~CResponseQueueManager()
 {
-	if (m_pQueue != NULL)
+	if (m_pQueue != nullptr)
 	{
 		delete m_pQueue;
-		m_pQueue = NULL;
+		m_pQueue = nullptr;
 	}
 }
 
 void CResponseQueueManager::Shutdown()
 {
-	if (m_pQueue != NULL)
+	if (m_pQueue != nullptr)
 	{
 		delete m_pQueue;
-		m_pQueue = NULL;
+		m_pQueue = nullptr;
 	}
 }
 

@@ -159,7 +159,7 @@ UNITLIB_INTERFACE	ITestCase* GetUnitTest( int i );
 class UNITLIB_CLASS_INTERFACE CTestCase : public ITestCase
 {
 public:
-	CTestCase( char const* pName, ITestSuite* pParent = 0 );
+	CTestCase( char const* pName, ITestSuite* pParent = nullptr );
 	~CTestCase();
 
 	// Returns the test name
@@ -176,7 +176,7 @@ private:
 class UNITLIB_CLASS_INTERFACE CTestSuite : public ITestSuite
 {
 public:
-	CTestSuite( char const* pName, ITestSuite* pParent = 0 );
+	CTestSuite( char const* pName, ITestSuite* pParent = nullptr );
 	~CTestSuite();
 
 	// This runs the test

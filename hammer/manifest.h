@@ -116,7 +116,7 @@ public:
 	void			ClearSelection( void );
 
 	virtual void	UpdateInstanceMap( CMapDoc *pInstanceMapDoc );
-	virtual void	AddObjectToWorld(CMapClass *pObject, CMapClass *pParent = NULL);
+	virtual void	AddObjectToWorld(CMapClass *pObject, CMapClass *pParent = nullptr);
 
 	CMapWorld		*GetManifestWorld( void ) { return m_ManifestWorld; }
 
@@ -131,7 +131,7 @@ protected:
 	virtual void DeleteContents( void );
 
 private:
-	void			AddManifestObjectToWorld( CMapClass *pObject, CMapClass *pParent = NULL );
+	void			AddManifestObjectToWorld( CMapClass *pObject, CMapClass *pParent = nullptr);
 	void			RemoveManifestObjectFromWorld( CMapClass *pObject, bool bRemoveChildren );
 	bool			LoadVMFManifest( const char *pszFileName );
 	bool			LoadVMFManifestUserPrefs( const char *pszFileName );

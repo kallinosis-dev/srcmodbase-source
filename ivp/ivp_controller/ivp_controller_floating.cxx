@@ -77,7 +77,7 @@ void IVP_Controller_Floating::do_simulation_controller(IVP_Event_Sim *es, IVP_U_
     co->transform_position_to_world_coords(&position_os, &position_ws);
 
     IVP_Solver_Core_Reaction tcb;
-    tcb.init_reaction_solver_translation_ws( object->get_core(), NULL, position_ws,  &ray_direction_ws, NULL, NULL);
+    tcb.init_reaction_solver_translation_ws( object->get_core(), nullptr, position_ws,  &ray_direction_ws, nullptr, nullptr);
     IVP_DOUBLE a = (current_distance - target_distance) * es->i_delta_time - tcb.delta_velocity_ds.k[0];
     IVP_DOUBLE impulse = a / tcb.get_m_velocity_ds_f_impulse_ds()->get_elem(0,0);
     if ( impulse * es->i_delta_time > max_adhesive_force){
@@ -89,7 +89,7 @@ void IVP_Controller_Floating::do_simulation_controller(IVP_Event_Sim *es, IVP_U_
     co->remove_reference();
     
     IVP_U_Float_Point impulse_ds( impulse, 0,0);
-    tcb.exert_impulse_dim1(object->get_core(),NULL, impulse_ds);
+    tcb.exert_impulse_dim1(object->get_core(), nullptr, impulse_ds);
 }
 
 void IVP_Controller_Floating::core_is_going_to_be_deleted_event(IVP_Core *core_i)

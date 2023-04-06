@@ -29,17 +29,17 @@ public:
 
 	virtual void Save( const SaveRestoreFieldInfo_t &fieldInfo, ISave *pSave )
 	{		
-		datamap_t *pArrayTypeDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLVECTOR *)NULL );
+		datamap_t *pArrayTypeDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLVECTOR *)nullptr);
 		typedescription_t dataDesc = 
 		{
 			(fieldtype_t)FIELD_TYPE, 
 			"elems", 
 			0,
 			1, 
-			FTYPEDESC_SAVE, 
-			NULL, 
-			NULL, 
-			NULL,
+			FTYPEDESC_SAVE,
+			nullptr,
+			nullptr,
+			nullptr,
 			pArrayTypeDatamap,
 			-1,
 		};
@@ -49,9 +49,9 @@ public:
 			&dataDesc,
 			1,
 			"uv",
-			NULL,
+			nullptr,
 			0,
-			NULL,
+			nullptr,
 #ifdef _DEBUG
 			true
 #endif
@@ -61,7 +61,7 @@ public:
 		int nElems = pUtlVector->Count();
 		
 		pSave->WriteInt( &nElems, 1 );
-		if ( pArrayTypeDatamap == NULL )
+		if ( pArrayTypeDatamap == nullptr)
 		{
 			if ( nElems )
 			{
@@ -81,17 +81,17 @@ public:
 	
 	virtual void Restore( const SaveRestoreFieldInfo_t &fieldInfo, IRestore *pRestore )
 	{
-		datamap_t *pArrayTypeDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLVECTOR *)NULL );
+		datamap_t *pArrayTypeDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLVECTOR *)nullptr);
 		typedescription_t dataDesc = 
 		{
 			(fieldtype_t)FIELD_TYPE, 
 			"elems", 
 			0,
 			1, 
-			FTYPEDESC_SAVE, 
-			NULL, 
-			NULL, 
-			NULL,
+			FTYPEDESC_SAVE,
+			nullptr,
+			nullptr,
+			nullptr,
 			pArrayTypeDatamap,
 			-1,
 		};
@@ -101,9 +101,9 @@ public:
 			&dataDesc,
 			1,
 			"uv",
-			NULL,
+			nullptr,
 			0,
-			NULL,
+			nullptr,
 #ifdef _DEBUG
 			true
 #endif
@@ -114,7 +114,7 @@ public:
 		int nElems = pRestore->ReadInt();
 		
 		pUtlVector->SetCount( nElems );
-		if ( pArrayTypeDatamap == NULL )
+		if ( pArrayTypeDatamap == nullptr)
 		{
 			if ( nElems )
 			{

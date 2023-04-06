@@ -85,10 +85,10 @@ void CAI_TrackPather::InitPathingData( float flTrackArrivalTolerance, float flTa
 	m_flTargetDistanceThreshold = flTargetDistance;
 	m_flAvoidDistance = flAvoidDistance;
 
-	m_pCurrentPathTarget = NULL;
-	m_pDestPathTarget = NULL;
-	m_pLastPathTarget = NULL;
-	m_pTargetNearestPath = NULL;
+	m_pCurrentPathTarget = nullptr;
+	m_pDestPathTarget = nullptr;
+	m_pLastPathTarget = nullptr;
+	m_pTargetNearestPath = nullptr;
 	m_bLeading = false;
 
 	m_flEnemyPathUpdateTime	= gpGlobals->curtime;
@@ -115,41 +115,41 @@ void CAI_TrackPather::OnRestore( void )
 	// Restore current path
 	if ( m_strCurrentPathName != NULL_STRING )
 	{
-		m_pCurrentPathTarget = (CPathTrack *) gEntList.FindEntityByName( NULL, m_strCurrentPathName );
+		m_pCurrentPathTarget = (CPathTrack *) gEntList.FindEntityByName(nullptr, m_strCurrentPathName );
 	}
 	else
 	{
-		m_pCurrentPathTarget = NULL;
+		m_pCurrentPathTarget = nullptr;
 	}
 
 	// Restore destination path
 	if ( m_strDestPathName != NULL_STRING )
 	{
-		m_pDestPathTarget = (CPathTrack *) gEntList.FindEntityByName( NULL, m_strDestPathName );
+		m_pDestPathTarget = (CPathTrack *) gEntList.FindEntityByName(nullptr, m_strDestPathName );
 	}
 	else
 	{
-		m_pDestPathTarget = NULL;
+		m_pDestPathTarget = nullptr;
 	}
 
 	// Restore last path
 	if ( m_strLastPathName != NULL_STRING )
 	{
-		m_pLastPathTarget = (CPathTrack *) gEntList.FindEntityByName( NULL, m_strLastPathName );
+		m_pLastPathTarget = (CPathTrack *) gEntList.FindEntityByName(nullptr, m_strLastPathName );
 	}
 	else
 	{
-		m_pLastPathTarget = NULL;
+		m_pLastPathTarget = nullptr;
 	}
 
 	// Restore target nearest path
 	if ( m_strTargetNearestPathName != NULL_STRING )
 	{
-		m_pTargetNearestPath = (CPathTrack *) gEntList.FindEntityByName( NULL, m_strTargetNearestPathName );
+		m_pTargetNearestPath = (CPathTrack *) gEntList.FindEntityByName(nullptr, m_strTargetNearestPathName );
 	}
 	else
 	{
-		m_pTargetNearestPath = NULL;
+		m_pTargetNearestPath = nullptr;
 	}
 }
 
@@ -162,10 +162,10 @@ void CAI_TrackPather::OnSave( IEntitySaveUtils *pUtils )
 	BaseClass::OnSave( pUtils );
 
 	// Stash all the paths into strings for restoration later
-	m_strCurrentPathName = ( m_pCurrentPathTarget != NULL ) ? m_pCurrentPathTarget->GetEntityName() : NULL_STRING;
-	m_strDestPathName = ( m_pDestPathTarget != NULL ) ? m_pDestPathTarget->GetEntityName() : NULL_STRING;
-	m_strLastPathName = ( m_pLastPathTarget != NULL ) ? m_pLastPathTarget->GetEntityName() : NULL_STRING;
-	m_strTargetNearestPathName = ( m_pTargetNearestPath != NULL ) ? m_pTargetNearestPath->GetEntityName() : NULL_STRING;
+	m_strCurrentPathName = ( m_pCurrentPathTarget != nullptr) ? m_pCurrentPathTarget->GetEntityName() : NULL_STRING;
+	m_strDestPathName = ( m_pDestPathTarget != nullptr) ? m_pDestPathTarget->GetEntityName() : NULL_STRING;
+	m_strLastPathName = ( m_pLastPathTarget != nullptr) ? m_pLastPathTarget->GetEntityName() : NULL_STRING;
+	m_strTargetNearestPathName = ( m_pTargetNearestPath != nullptr) ? m_pTargetNearestPath->GetEntityName() : NULL_STRING;
 }
 
 
@@ -233,7 +233,7 @@ CBaseEntity *CAI_TrackPather::FindTrackBlocker( const Vector &vecViewPoint, cons
 {
 	trace_t	tr;
 	AI_TraceHull( vecViewPoint, vecTargetPos, -Vector(4,4,4), Vector(4,4,4), MASK_SHOT, this, COLLISION_GROUP_NONE, &tr );
-	return (tr.fraction != 1.0f) ? tr.m_pEnt : NULL;
+	return (tr.fraction != 1.0f) ? tr.m_pEnt : nullptr;
 }
 
 
@@ -245,26 +245,26 @@ CBaseEntity *CAI_TrackPather::FindTrackBlocker( const Vector &vecViewPoint, cons
 CPathTrack *CAI_TrackPather::BestPointOnPath( CPathTrack *pPath, const Vector &targetPos, float flAvoidRadius, bool visible, bool bFarthestPoint )
 {
 	// Find the node nearest to the destination path target if a path is not specified
-	if ( pPath == NULL )
+	if ( pPath == nullptr)
 	{
 		pPath = m_pDestPathTarget;
 	}
 
 	// If the path node we're trying to use is not valid, then we're done.
-	if ( CPathTrack::ValidPath( pPath ) == NULL )
+	if ( CPathTrack::ValidPath( pPath ) == nullptr)
 	{
 		//FIXME: Implement
 		Assert(0);
-		return NULL;
+		return nullptr;
 	}
 
 	// Our target may be in a vehicle
-	CBaseEntity *pVehicle = NULL;
+	CBaseEntity *pVehicle = nullptr;
 	CBaseEntity *pTargetEnt = GetTrackPatherTargetEnt();	
-	if ( pTargetEnt != NULL )
+	if ( pTargetEnt != nullptr)
 	{
 		CBaseCombatCharacter *pCCTarget = pTargetEnt->MyCombatCharacterPointer();
-		if ( pCCTarget != NULL && pCCTarget->IsInAVehicle() )
+		if ( pCCTarget != nullptr && pCCTarget->IsInAVehicle() )
 		{
 			pVehicle = pCCTarget->GetVehicleEntity();
 		}
@@ -274,7 +274,7 @@ CPathTrack *CAI_TrackPather::BestPointOnPath( CPathTrack *pPath, const Vector &t
 	flAvoidRadius *= flAvoidRadius;
 
 	// Find the nearest node to the target (going forward)
-	CPathTrack *pNearestPath	= NULL;
+	CPathTrack *pNearestPath	= nullptr;
 	float		flNearestDist	= bFarthestPoint ? 0 : 999999999;
 	float		flPathDist;
 
@@ -329,7 +329,7 @@ CPathTrack *CAI_TrackPather::BestPointOnPath( CPathTrack *pPath, const Vector &t
 
 				// If we hit something, and it wasn't the target or his vehicle, then no dice
 				// If we hit the target and forced move was set, *still* no dice
-				if ( (pBlocker != NULL) && ( !bHitTarget || m_bForcedMove ) )
+				if ( (pBlocker != nullptr) && ( !bHitTarget || m_bForcedMove ) )
 					continue;
 			}
 
@@ -383,7 +383,7 @@ CPathTrack *CAI_TrackPather::ComputeLeadingPointAlongPath( const Vector &vecStar
 		return bMovingForward ? pTravPath : pTravPath->GetNext();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -491,9 +491,9 @@ bool CAI_TrackPather::HasLOSToTarget( CPathTrack *pTrack )
 		return true;
 
 	// Translate driver into vehicle for testing
-	CBaseEntity *pVehicle = NULL;
+	CBaseEntity *pVehicle = nullptr;
 	CBaseCombatCharacter *pCCTarget = pTargetEnt->MyCombatCharacterPointer();
-	if ( pCCTarget != NULL && pCCTarget->IsInAVehicle() )
+	if ( pCCTarget != nullptr && pCCTarget->IsInAVehicle() )
 	{
 		pVehicle = pCCTarget->GetVehicleEntity();
 	}
@@ -505,7 +505,7 @@ bool CAI_TrackPather::HasLOSToTarget( CPathTrack *pTrack )
 	bool bHitTarget = ( pTargetEnt && ( pTargetEnt == pBlocker ) ) ||
 						( pVehicle && ( pVehicle == pBlocker ) );
 
-	return (pBlocker == NULL) || bHitTarget;
+	return (pBlocker == nullptr) || bHitTarget;
 }
 
 
@@ -785,21 +785,21 @@ CPathTrack *CAI_TrackPather::FindClosestPointOnPath( CPathTrack *pPath,
 	const Vector &targetPos, Vector *pVecClosestPoint, Vector *pVecPathDir, float *pDistanceFromPath )
 {
 	// Find the node nearest to the destination path target if a path is not specified
-	if ( pPath == NULL )
+	if ( pPath == nullptr)
 	{
 		pPath = m_pDestPathTarget;
 	}
 
 	// If the path node we're trying to use is not valid, then we're done.
-	if ( CPathTrack::ValidPath( pPath ) == NULL )
+	if ( CPathTrack::ValidPath( pPath ) == nullptr)
 	{
 		//FIXME: Implement
 		Assert(0);
-		return NULL;
+		return nullptr;
 	}
 
 	// Find the nearest node to the target (going forward)
-	CPathTrack *pNearestPath	= NULL;
+	CPathTrack *pNearestPath	= nullptr;
 	float		flNearestDist2D	= 999999999;
 	float		flNearestDist	= 999999999;
 	float		flPathDist, flPathDist2D;
@@ -976,7 +976,7 @@ void CAI_TrackPather::SelectNewDestTarget()
 			}
 		}
 
-		if ( bIsCircular || (NextAlongCurrentPath( m_pDestPathTarget ) == NULL) )
+		if ( bIsCircular || (NextAlongCurrentPath( m_pDestPathTarget ) == nullptr) )
 		{
 			m_bMovingForward = !m_bMovingForward;
 		}
@@ -1134,7 +1134,7 @@ void CAI_TrackPather::UpdateTargetPositionLeading( void )
 		targetPos, &vecClosestPoint, &vecPathDir, &flTargetDistanceFromPath );
 
 	// This means that a valid path could not be found to our target!
-	if ( CPathTrack::ValidPath( pNextPath ) == NULL )
+	if ( CPathTrack::ValidPath( pNextPath ) == nullptr)
 		return;
 
 //	NDebugOverlay::Cross3D( vecClosestPoint, -Vector(24,24,24), Vector(24,24,24), 0, 255, 255, true, 0.1f );
@@ -1227,7 +1227,7 @@ void CAI_TrackPather::UpdateTargetPosition( void )
 	// Find the best position to be on our path
 	CPathTrack *pDest = BestPointOnPath( m_pCurrentPathTarget, targetPos, m_flAvoidDistance, true, m_bChooseFarthestPoint );
 
-	if ( CPathTrack::ValidPath( pDest ) == NULL )
+	if ( CPathTrack::ValidPath( pDest ) == nullptr)
 	{
 		// This means that a valid path could not be found to our target!
 //		Assert(0);
@@ -1332,7 +1332,7 @@ float CAI_TrackPather::MaxDistanceFromCurrentPath() const
 void CAI_TrackPather::UpdateTrackNavigation( void )
 {
 	// No target? Use the string specified. We have no spawn method (sucky!!) so this is how that works
-	if ( ( CPathTrack::ValidPath( m_pDestPathTarget ) == NULL ) && ( m_target != NULL_STRING ) )
+	if ( ( CPathTrack::ValidPath( m_pDestPathTarget ) == nullptr) && ( m_target != NULL_STRING ) )
 	{
 		FlyToPathTrack( m_target );
 		m_target = NULL_STRING;
@@ -1393,7 +1393,7 @@ void CAI_TrackPather::MoveToTrackPoint( CPathTrack *pTrack )
 	if ( IsOnSameTrack( pTrack, m_pDestPathTarget ) )
 	{
 		// The track must be valid
-		if ( CPathTrack::ValidPath( pTrack ) == NULL )
+		if ( CPathTrack::ValidPath( pTrack ) == nullptr)
 			return;
 
 		m_pDestPathTarget = pTrack;
@@ -1405,7 +1405,7 @@ void CAI_TrackPather::MoveToTrackPoint( CPathTrack *pTrack )
 		CPathTrack *pClosestTrack = BestPointOnPath( pTrack, WorldSpaceCenter(), 0.0f, false, false );
 
 		// The track must be valid
-		if ( CPathTrack::ValidPath( pClosestTrack ) == NULL )
+		if ( CPathTrack::ValidPath( pClosestTrack ) == nullptr)
 			return;
 
 		SetupNewCurrentTarget( pClosestTrack );
@@ -1427,7 +1427,7 @@ void CAI_TrackPather::MoveToClosestTrackPoint( CPathTrack *pTrack )
 	CPathTrack *pClosestTrack = BestPointOnPath( pTrack, WorldSpaceCenter(), 0.0f, false, false );
 
 	// The track must be valid
-	if ( CPathTrack::ValidPath( pClosestTrack ) == NULL )
+	if ( CPathTrack::ValidPath( pClosestTrack ) == nullptr)
 		return;
 
 	SetupNewCurrentTarget( pClosestTrack );
@@ -1497,7 +1497,7 @@ void CAI_TrackPather::Teleported()
 {
 	// This updates the paths so they are reasonable
 	CPathTrack *pClosestTrack = BestPointOnPath( GetDestPathTarget(), WorldSpaceCenter(), 0.0f, false, false );
-	m_pDestPathTarget = NULL;
+	m_pDestPathTarget = nullptr;
 	MoveToClosestTrackPoint( pClosestTrack );
 }
 
@@ -1638,8 +1638,8 @@ void CAI_TrackPather::SetTrack( CBaseEntity *pGoalEnt )
 void CAI_TrackPather::SetTrack( string_t strTrackName )
 {
 	// Find our specified target
-	CBaseEntity *pGoalEnt = gEntList.FindEntityByName( NULL, strTrackName );
-	if ( pGoalEnt == NULL )
+	CBaseEntity *pGoalEnt = gEntList.FindEntityByName(nullptr, strTrackName );
+	if ( pGoalEnt == nullptr)
 	{
 		DevWarning( "%s: Could not find path_track '%s'!\n", GetClassname(), STRING( strTrackName ) );
 		return;
@@ -1666,8 +1666,8 @@ void CAI_TrackPather::InputSetTrack( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 void CAI_TrackPather::FlyToPathTrack( string_t strTrackName )
 {
-	CBaseEntity *pGoalEnt = gEntList.FindEntityByName( NULL, strTrackName );
-	if ( pGoalEnt == NULL )
+	CBaseEntity *pGoalEnt = gEntList.FindEntityByName(nullptr, strTrackName );
+	if ( pGoalEnt == nullptr)
 	{
 		DevWarning( "%s: Could not find path_track '%s'!\n", GetClassname(), STRING( strTrackName ) );
 		return;

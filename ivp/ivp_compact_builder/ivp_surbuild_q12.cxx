@@ -664,10 +664,10 @@ void IVP_SurfaceBuilder_Q12::unload_q12bsp()
 
 IVP_SurfaceBuilder_Q12::IVP_SurfaceBuilder_Q12()
 {
-    this->dmodels = NULL;
-    this->dplanes = NULL;
-    this->dnodes = NULL;
-    this->dclipnodes = NULL;
+    this->dmodels = nullptr;
+    this->dplanes = nullptr;
+    this->dnodes = nullptr;
+    this->dclipnodes = nullptr;
     this->scale = 1.0f;
     this->shrink_value = 0.0f;
     this->bsptree_loaded_from_disk = IVP_FALSE;

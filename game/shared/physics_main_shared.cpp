@@ -106,7 +106,7 @@ CCallQueue CPortalTouchScope::m_CallQueue;
 
 CCallQueue *GetPortalCallQueue()
 {
-	return ( CPortalTouchScope::m_nDepth > 0 ) ? &CPortalTouchScope::m_CallQueue : NULL;
+	return ( CPortalTouchScope::m_nDepth > 0 ) ? &CPortalTouchScope::m_CallQueue : nullptr;
 }
 
 CPortalTouchScope::CPortalTouchScope()
@@ -163,7 +163,7 @@ public:
 		for ( int i = 0; i < MAX_ACCESSORS; i++ )
 		{
 			delete m_Accessors[ i ];
-			m_Accessors[ i ]  = 0;
+			m_Accessors[ i ]  = nullptr;
 		}
 	}
 
@@ -172,7 +172,7 @@ public:
 		if ( !IsValidType( type ) )
 		{
 			Assert( !"Bogus type" );
-			return NULL;
+			return nullptr;
 		}
 		return m_Accessors[ type ]->GetDataObject( instance );
 	}
@@ -182,7 +182,7 @@ public:
 		if ( !IsValidType( type ) )
 		{
 			Assert( !"Bogus type" );
-			return NULL;
+			return nullptr;
 		}
 
 		return m_Accessors[ type ]->CreateDataObject( instance );
@@ -206,7 +206,7 @@ private:
 		if ( type < 0 || type >= MAX_ACCESSORS )
 			return false;
 
-		if ( m_Accessors[ type ] == NULL )
+		if ( m_Accessors[ type ] == nullptr)
 			return false;
 		return true;
 	}
@@ -221,7 +221,7 @@ private:
 
 		Assert( instantiator );
 
-		if ( m_Accessors[ type ] != NULL )
+		if ( m_Accessors[ type ] != nullptr)
 		{
 			Assert( !"AddDataAccessor, duplicate adds!!!\n" );
 			return;
@@ -257,7 +257,7 @@ void *CBaseEntity::GetDataObject( int type )
 {
 	Assert( type >= 0 && type < NUM_DATAOBJECT_TYPES );
 	if ( !HasDataObjectType( type ) )
-		return NULL;
+		return nullptr;
 	return g_DataObjectAccessSystem.GetDataObject( type, this );
 }
 
@@ -466,7 +466,7 @@ void CBaseEntity::DestroyAllDataObjects( void )
 void SpewLinks()
 {
 	int nCount = 0;
-	for ( CBaseEntity *pClass = gEntList.FirstEnt(); pClass != NULL; pClass = gEntList.NextEnt(pClass) )
+	for ( CBaseEntity *pClass = gEntList.FirstEnt(); pClass != nullptr; pClass = gEntList.NextEnt(pClass) )
 	{
 		if ( pClass /*&& !pClass->IsDormant()*/ )
 		{
@@ -523,7 +523,7 @@ inline touchlink_t *AllocTouchLink( void )
 	return link;
 }
 
-static touchlink_t *g_pNextLink = NULL;
+static touchlink_t *g_pNextLink = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -539,7 +539,7 @@ inline void FreeTouchLink( touchlink_t *link )
 			g_pNextLink = link->nextLink;
 		}
 		--linksallocated;
-		link->prevLink = link->nextLink = NULL;
+		link->prevLink = link->nextLink = nullptr;
 	}
 
 	// Necessary to catch crashes
@@ -655,7 +655,7 @@ void CBaseEntity::PhysicsCheckForEntityUntouch( void )
 		}
 	}
 
-	g_pNextLink = NULL;
+	g_pNextLink = nullptr;
 
 	SetCheckUntouch( false );
 }
@@ -704,8 +704,8 @@ void CBaseEntity::PhysicsRemoveToucher( CBaseEntity *otherEntity, touchlink_t *l
 {
 	// Every start Touch gets a corresponding end touch
 	if ( (link->flags & FTOUCHLINK_START_TOUCH) && 
-		link->entityTouched != NULL &&
-		otherEntity != NULL )
+		link->entityTouched != nullptr &&
+		otherEntity != nullptr)
 	{
 		otherEntity->EndTouch( link->entityTouched );
 	}
@@ -766,11 +766,11 @@ groundlink_t *CBaseEntity::AddEntityToGroundList( CBaseEntity *other )
 	groundlink_t *link;
 
 	if ( this == other )
-		return NULL;
+		return nullptr;
 
 	if ( other->IsMarkedForDeletion() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// check if the edict is already in the list
@@ -798,7 +798,7 @@ groundlink_t *CBaseEntity::AddEntityToGroundList( CBaseEntity *other )
 	// build new link
 	link = AllocGroundLink();
 	if ( !link )
-		return NULL;
+		return nullptr;
 
 	link->entity = other;
 	// add it to the list
@@ -868,7 +868,7 @@ void CBaseEntity::PhysicsNotifyOtherOfGroundRemoval( CBaseEntity *ent, CBaseEnti
 void CBaseEntity::PhysicsRemoveGround( CBaseEntity *other, groundlink_t *link )
 {
 	// Every start Touch gets a corresponding end touch
-	if ( link->entity != NULL )
+	if ( link->entity != nullptr)
 	{
 		CBaseEntity *linkEntity = link->entity;
 		CBaseEntity *otherEntity = other;
@@ -957,32 +957,32 @@ touchlink_t *CBaseEntity::PhysicsMarkEntityAsTouched( CBaseEntity *other )
 	touchlink_t *link;
 
 	if ( this == other )
-		return NULL;
+		return nullptr;
 
 	// Entities in hierarchy should not interact
 	if ( (this->GetMoveParent() == other) || (this == other->GetMoveParent()) )
-		return NULL;
+		return nullptr;
 
 	// check if either entity doesn't generate touch functions
 	if ( (GetFlags() | other->GetFlags()) & FL_DONTTOUCH )
-		return NULL;
+		return nullptr;
 
 	// Pure triggers should not touch each other
 	if ( IsSolidFlagSet( FSOLID_TRIGGER ) && other->IsSolidFlagSet( FSOLID_TRIGGER ) )
 	{
 		if (!IsSolid() && !other->IsSolid())
-			return NULL;
+			return nullptr;
 	}
 
 	// Don't do touching if marked for deletion
 	if ( other->IsMarkedForDeletion() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( IsMarkedForDeletion() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 #ifdef PORTAL
@@ -1025,7 +1025,7 @@ touchlink_t *CBaseEntity::PhysicsMarkEntityAsTouched( CBaseEntity *other )
 	if ( DebugTouchlinks() )
 		Msg( "add 0x%p: %s-%s (%d-%d) [%d in play, %d max]\n", link, GetDebugName(), other->GetDebugName(), entindex(), other->entindex(), linksallocated, g_EdictTouchLinks.PeakCount() );
 	if ( !link )
-		return NULL;
+		return nullptr;
 
 	link->touchStamp = touchStamp;
 	link->entityTouched = other;
@@ -1335,7 +1335,7 @@ void CBaseEntity::ResolveFlyCollisionBounce( trace_t &trace, Vector &vecVelocity
 {
 	// Get the impact surface's elasticity.
 	float flSurfaceElasticity;
-	physprops->GetPhysicsProperties( trace.surface.surfaceProps, NULL, NULL, NULL, &flSurfaceElasticity );
+	physprops->GetPhysicsProperties( trace.surface.surfaceProps, nullptr, nullptr, nullptr, &flSurfaceElasticity );
 	
 	float flTotalElasticity = GetElasticity() * flSurfaceElasticity;
 	if ( flMinTotalElasticity > 0.9f )
@@ -1419,7 +1419,7 @@ void CBaseEntity::ResolveFlyCollisionSlide( trace_t &trace, Vector &vecVelocity 
 {
 	// Get the impact surface's friction.
 	float flSurfaceFriction;
-	physprops->GetPhysicsProperties( trace.surface.surfaceProps, NULL, NULL, &flSurfaceFriction, NULL );
+	physprops->GetPhysicsProperties( trace.surface.surfaceProps, nullptr, nullptr, &flSurfaceFriction, nullptr);
 
 	// A backoff of 1.0 is a slide.
 	float flBackOff = 1.0f;	
@@ -1609,7 +1609,7 @@ void CBaseEntity::PhysicsToss( void )
 	// Moving upward, off the ground, or  resting on a client/monster, remove FL_ONGROUND
 	if ( GetAbsVelocity()[2] > 0 || !GetGroundEntity() || !GetGroundEntity()->IsStandable() )
 	{
-		SetGroundEntity( NULL );
+		SetGroundEntity(nullptr);
 	}
 
 	// Check to see if entity is on the ground at rest

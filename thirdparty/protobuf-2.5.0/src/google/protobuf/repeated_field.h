@@ -353,7 +353,7 @@ inline const MessageLite& GenericTypeHandler<MessageLite>::default_instance() {
   // Yes, the behavior of the code is undefined, but this function is only
   // called when we're already deep into the world of undefined, because the
   // caller called Get(index) out of bounds.
-  MessageLite* null = NULL;
+  MessageLite* null = nullptr;
   return *null;
 }
 
@@ -362,7 +362,7 @@ inline const Message& GenericTypeHandler<Message>::default_instance() {
   // Yes, the behavior of the code is undefined, but this function is only
   // called when we're already deep into the world of undefined, because the
   // caller called Get(index) out of bounds.
-  Message* null = NULL;
+  Message* null = nullptr;
   return *null;
 }
 
@@ -549,14 +549,14 @@ class RepeatedPtrField : public internal::RepeatedPtrFieldBase {
 
 template <typename Element>
 inline RepeatedField<Element>::RepeatedField()
-  : elements_(NULL),
+  : elements_(nullptr),
     current_size_(0),
     total_size_(kInitialSize) {
 }
 
 template <typename Element>
 inline RepeatedField<Element>::RepeatedField(const RepeatedField& other)
-  : elements_(NULL),
+  : elements_(nullptr),
     current_size_(0),
     total_size_(kInitialSize) {
   CopyFrom(other);
@@ -565,7 +565,7 @@ inline RepeatedField<Element>::RepeatedField(const RepeatedField& other)
 template <typename Element>
 template <typename Iter>
 inline RepeatedField<Element>::RepeatedField(Iter begin, const Iter& end)
-  : elements_(NULL),
+  : elements_(nullptr),
     current_size_(0),
     total_size_(kInitialSize) {
   for (; begin != end; ++begin) {
@@ -652,7 +652,7 @@ void RepeatedField<Element>::ExtractSubrange(
   GOOGLE_DCHECK_LE(start + num, this->size());
 
   // Save the values of the removed elements if requested.
-  if (elements != NULL) {
+  if (elements != nullptr) {
     for (int i = 0; i < num; ++i)
       elements[i] = this->Get(i + start);
   }
@@ -740,7 +740,7 @@ RepeatedField<Element>::end() const {
 
 template <typename Element>
 inline int RepeatedField<Element>::SpaceUsedExcludingSelf() const {
-  return (elements_ != NULL) ? total_size_ * sizeof(elements_[0]) : 0;
+  return (elements_ != nullptr) ? total_size_ * sizeof(elements_[0]) : 0;
 }
 
 // Avoid inlining of Reserve(): new, copy, and delete[] lead to a significant
@@ -753,7 +753,7 @@ void RepeatedField<Element>::Reserve(int new_size) {
   total_size_ = max(google::protobuf::internal::kMinRepeatedFieldAllocationSize,
                     max(total_size_ * 2, new_size));
   elements_ = new Element[total_size_];
-  if (old_elements != NULL) {
+  if (old_elements != nullptr) {
     MoveArray(elements_, old_elements, current_size_);
     delete [] old_elements;
   }
@@ -800,7 +800,7 @@ struct ElementCopier<Element, true> {
 namespace internal {
 
 inline RepeatedPtrFieldBase::RepeatedPtrFieldBase()
-  : elements_(NULL),
+  : elements_(nullptr),
     current_size_(0),
     allocated_size_(0),
     total_size_(kInitialSize) {
@@ -907,7 +907,7 @@ inline void RepeatedPtrFieldBase::SwapElements(int index1, int index2) {
 template <typename TypeHandler>
 inline int RepeatedPtrFieldBase::SpaceUsedExcludingSelf() const {
   int allocated_bytes =
-      (elements_ != NULL) ? total_size_ * sizeof(elements_[0]) : 0;
+      (elements_ != nullptr) ? total_size_ * sizeof(elements_[0]) : 0;
   for (int i = 0; i < allocated_size_; ++i) {
     allocated_bytes += TypeHandler::SpaceUsed(*cast<TypeHandler>(elements_[i]));
   }
@@ -919,7 +919,7 @@ inline typename TypeHandler::Type* RepeatedPtrFieldBase::AddFromCleared() {
   if (current_size_ < allocated_size_) {
     return cast<TypeHandler>(elements_[current_size_++]);
   } else {
-    return NULL;
+    return nullptr;
   }
 }
 
@@ -1060,7 +1060,7 @@ inline void RepeatedPtrField<Element>::DeleteSubrange(int start, int num) {
   GOOGLE_DCHECK_LE(start + num, size());
   for (int i = 0; i < num; ++i)
     delete RepeatedPtrFieldBase::Mutable<TypeHandler>(start + i);
-  ExtractSubrange(start, num, NULL);
+  ExtractSubrange(start, num, nullptr);
 }
 
 template <typename Element>
@@ -1072,7 +1072,7 @@ inline void RepeatedPtrField<Element>::ExtractSubrange(
 
   if (num > 0) {
     // Save the values of the removed elements if requested.
-    if (elements != NULL) {
+    if (elements != nullptr) {
       for (int i = 0; i < num; ++i)
         elements[i] = RepeatedPtrFieldBase::Mutable<TypeHandler>(i + start);
     }
@@ -1188,7 +1188,7 @@ class RepeatedPtrIterator
   typedef typename superclass::pointer pointer;
   typedef typename superclass::difference_type difference_type;
 
-  RepeatedPtrIterator() : it_(NULL) {}
+  RepeatedPtrIterator() : it_(nullptr) {}
   explicit RepeatedPtrIterator(void* const* it) : it_(it) {}
 
   // Allow "upcasting" from RepeatedPtrIterator<T**> to
@@ -1198,7 +1198,7 @@ class RepeatedPtrIterator
       : it_(other.it_) {
     // Force a compiler error if the other type is not convertible to ours.
     if (false) {
-      implicit_cast<Element*, OtherElement*>(0);
+      implicit_cast<Element*, OtherElement*>(nullptr);
     }
   }
 
@@ -1279,7 +1279,7 @@ class RepeatedPtrOverPtrsIterator
   typedef typename superclass::pointer pointer;
   typedef typename superclass::difference_type difference_type;
 
-  RepeatedPtrOverPtrsIterator() : it_(NULL) {}
+  RepeatedPtrOverPtrsIterator() : it_(nullptr) {}
   explicit RepeatedPtrOverPtrsIterator(VoidPtr* it) : it_(it) {}
 
   // dereferenceable

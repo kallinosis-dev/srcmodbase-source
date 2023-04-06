@@ -236,8 +236,8 @@ struct PanelMessageMap
 {
 	PanelMessageMap()
 	{
-		baseMap = NULL;
-		pfnClassName = NULL;
+		baseMap = nullptr;
+		pfnClassName = nullptr;
 		processed = false;
 	}
 
@@ -340,7 +340,7 @@ public:
 
 	// DMX serializer fxns
 	static bool Serialize( CUtlBuffer &buf, vgui::Panel *pPanel );
-	static bool Unserialize( Panel **ppPanel, CUtlBuffer &buf, const char *pFileName = NULL );
+	static bool Unserialize( Panel **ppPanel, CUtlBuffer &buf, const char *pFileName = nullptr);
 
 
 private:

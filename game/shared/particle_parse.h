@@ -52,14 +52,14 @@ void PrecacheStandardParticleSystems( );
 //-----------------------------------------------------------------------------
 // Particle spawning methods
 //-----------------------------------------------------------------------------
-void DispatchParticleEffect( const char *pszParticleName, ParticleAttachment_t iAttachType, CBaseEntity *pEntity, const char *pszAttachmentName, bool bResetAllParticlesOnEntity = false, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = NULL );
-void DispatchParticleEffect( const char *pszParticleName, ParticleAttachment_t iAttachType, CBaseEntity *pEntity = NULL, int iAttachmentPoint = -1, bool bResetAllParticlesOnEntity = false, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = NULL, bool bAllowDormantSpawn = false );
-void DispatchParticleEffect( const char *pszParticleName, Vector vecOrigin, QAngle vecAngles, CBaseEntity *pEntity = NULL, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = NULL );
-void DispatchParticleEffect( const char *pszParticleName, const Vector &vecOrigin, const QAngle &vecAngles, ParticleAttachment_t iAttachType, CBaseEntity *pEntity = NULL, int nSplitScreenPlayerSlot = -1 );
-void DispatchParticleEffect( const char *pszParticleName, Vector vecOrigin, Vector vecStart, QAngle vecAngles, CBaseEntity *pEntity = NULL, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = NULL );
-void DispatchParticleEffect( int iEffectIndex, Vector vecOrigin, Vector vecStart, QAngle vecAngles, CBaseEntity *pEntity = NULL, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = NULL );
-void DispatchParticleEffectLink( const char *pszParticleName, ParticleAttachment_t iAttachType, CBaseEntity *pEntity = NULL, CBaseEntity *pOtherEntity = NULL, int iAttachmentPoint = -1, bool bResetAllParticlesOnEntity = false, int nSplitScreenPlayerSlot = -1 );
-void DispatchParticleEffect( int iEffectIndex, const Vector &vecOrigin, const QAngle &vecAngles, ParticleAttachment_t iAttachType, CBaseEntity *pEntity = NULL, int nSplitScreenPlayerSlot = -1 );
+void DispatchParticleEffect( const char *pszParticleName, ParticleAttachment_t iAttachType, CBaseEntity *pEntity, const char *pszAttachmentName, bool bResetAllParticlesOnEntity = false, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = nullptr);
+void DispatchParticleEffect( const char *pszParticleName, ParticleAttachment_t iAttachType, CBaseEntity *pEntity = nullptr, int iAttachmentPoint = -1, bool bResetAllParticlesOnEntity = false, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = nullptr, bool bAllowDormantSpawn = false );
+void DispatchParticleEffect( const char *pszParticleName, Vector vecOrigin, QAngle vecAngles, CBaseEntity *pEntity = nullptr, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = nullptr);
+void DispatchParticleEffect( const char *pszParticleName, const Vector &vecOrigin, const QAngle &vecAngles, ParticleAttachment_t iAttachType, CBaseEntity *pEntity = nullptr, int nSplitScreenPlayerSlot = -1 );
+void DispatchParticleEffect( const char *pszParticleName, Vector vecOrigin, Vector vecStart, QAngle vecAngles, CBaseEntity *pEntity = nullptr, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = nullptr);
+void DispatchParticleEffect( int iEffectIndex, Vector vecOrigin, Vector vecStart, QAngle vecAngles, CBaseEntity *pEntity = nullptr, int nSplitScreenPlayerSlot = -1, IRecipientFilter *filter = nullptr);
+void DispatchParticleEffectLink( const char *pszParticleName, ParticleAttachment_t iAttachType, CBaseEntity *pEntity = nullptr, CBaseEntity *pOtherEntity = nullptr, int iAttachmentPoint = -1, bool bResetAllParticlesOnEntity = false, int nSplitScreenPlayerSlot = -1 );
+void DispatchParticleEffect( int iEffectIndex, const Vector &vecOrigin, const QAngle &vecAngles, ParticleAttachment_t iAttachType, CBaseEntity *pEntity = nullptr, int nSplitScreenPlayerSlot = -1 );
 void StopParticleEffects( CBaseEntity *pEntity );
 void StopParticleEffect( CBaseEntity *pEntity, const char *pszParticleName );
 

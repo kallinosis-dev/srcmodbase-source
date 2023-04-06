@@ -62,7 +62,7 @@ void CScaleVerticesDlg::OnChangeScale()
 	}
 
 	// send command to document
-	CMapDoc::GetActiveMapDoc()->OnCmdMsg(ID_VSCALE_CHANGED, CN_COMMAND, NULL, NULL);
+	CMapDoc::GetActiveMapDoc()->OnCmdMsg(ID_VSCALE_CHANGED, CN_COMMAND, nullptr, nullptr);
 }
 
 void CScaleVerticesDlg::OnDeltaposScalespin(NMHDR* pNMHDR, LRESULT* pResult) 

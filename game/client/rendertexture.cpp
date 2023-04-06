@@ -275,7 +275,7 @@ ITexture *GetTeenyTexture( int which )
 	if ( IsGameConsole() )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 
 	Assert( which < MAX_TEENY_TEXTURES );

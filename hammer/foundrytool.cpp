@@ -68,11 +68,11 @@ const char *GetVGuiControlsModuleName()
 //-----------------------------------------------------------------------------
 // Connect, disconnect
 //-----------------------------------------------------------------------------
-CreateInterfaceFn g_MainFactory = NULL;
+CreateInterfaceFn g_MainFactory = nullptr;
 bool ConnectTools( CreateInterfaceFn factory )
 {
 	g_MainFactory = factory;
-	return (materials != NULL) && (g_pMatSystemSurface != NULL);
+	return (materials != nullptr) && (g_pMatSystemSurface != nullptr);
 }
 
 void DisconnectTools( )
@@ -257,8 +257,8 @@ private:
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
-CFoundryTool	*g_pFoundryToolImp = NULL;
-IFoundryTool	*g_pFoundryTool = NULL;
+CFoundryTool	*g_pFoundryToolImp = nullptr;
+IFoundryTool	*g_pFoundryTool = nullptr;
 
 void CreateTools()
 {
@@ -285,7 +285,7 @@ CON_COMMAND( foundry_sync_engine_view, "Move engine's 3D view to the same positi
 		return;
 
 	POSITION p = pDoc->GetFirstViewPosition();
-	while (p != NULL)
+	while (p != nullptr)
 	{
 		CMapView3D *pView = dynamic_cast< CMapView3D* >( pDoc->GetNextView(p) );
 		if ( pView )
@@ -418,15 +418,15 @@ CFoundryTool::CFoundryTool()
 {
 	m_pBSPFileName[0] = 0;
 
-	m_pMenuBar = NULL;
-	m_pMapDoc = NULL;
+	m_pMenuBar = nullptr;
+	m_pMapDoc = nullptr;
 	
-	m_pHammer = NULL;
+	m_pHammer = nullptr;
 	m_v3dViewOrigin.Init();
 	m_v3dViewAngles.Init();
 	m_fl3dViewFOV = 90;
 
-	m_pViewMenuButton = NULL;
+	m_pViewMenuButton = nullptr;
 }
 
 
@@ -436,7 +436,7 @@ CFoundryTool::CFoundryTool()
 
 bool CFoundryTool::Init( )
 {
-	m_pMapDoc = NULL;
+	m_pMapDoc = nullptr;
 	m_RecentFiles.LoadFromRegistry( GetRegistryName() );
 
 	// NOTE: This has to happen before BaseClass::Init
@@ -448,14 +448,14 @@ bool CFoundryTool::Init( )
 	enginetools->InstallQuitHandler( this, &CFoundryTool::StaticQuitHandler );
 
 	// Startup Hammer.
-	m_pHammer = (IHammer*)Sys_GetFactoryThis()( INTERFACEVERSION_HAMMER, NULL );
+	m_pHammer = (IHammer*)Sys_GetFactoryThis()( INTERFACEVERSION_HAMMER, nullptr);
 	if ( !m_pHammer )
 		Error( "Unable to load hammer_dll.dll" );
 
 	char gamedir[MAX_PATH];
 	enginetools->GetGameDir( gamedir, sizeof( gamedir ) );
 
-	m_pHammer->InitFoundryMode( g_MainFactory, NULL, gamedir );
+	m_pHammer->InitFoundryMode( g_MainFactory, nullptr, gamedir );
 	return true;
 }
 
@@ -472,7 +472,7 @@ void CFoundryTool::Shutdown()
 		}
 	}
 
-	m_pMapDoc = NULL;
+	m_pMapDoc = nullptr;
 
 	BaseClass::Shutdown();
 }
@@ -650,13 +650,13 @@ void CFoundryToolMenuButton::OnShowMenu(vgui::Menu *menu)
 	CMapDoc *pDoc = m_pTool->GetDocument();
 	
 	id = m_Items.Find( "reload" );
-	m_pMenu->SetItemEnabled( id, pDoc != NULL );
+	m_pMenu->SetItemEnabled( id, pDoc != nullptr);
 	
 	id = m_Items.Find( "reloadsave" );
-	m_pMenu->SetItemEnabled( id, pDoc != NULL  );
+	m_pMenu->SetItemEnabled( id, pDoc != nullptr);
 
 	id = m_Items.Find( "reloadsaveslaments" );
-	m_pMenu->SetItemEnabled( id, pDoc != NULL  );
+	m_pMenu->SetItemEnabled( id, pDoc != nullptr);
 }
 
 
@@ -937,7 +937,7 @@ void CFoundryTool::ShowToolWindow( Panel *tool, char const *toolName, bool visib
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL && visible )
+	if ( tool->GetParent() == nullptr && visible )
 	{
 		m_ToolWindowFactory.InstanceToolWindow( this, false, tool, toolName, false );
 	}
@@ -953,7 +953,7 @@ void CFoundryTool::ToggleToolWindow( Panel *tool, char const *toolName )
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL )
+	if ( tool->GetParent() == nullptr)
 	{
 		ShowToolWindow( tool, toolName, true );
 	}
@@ -1080,7 +1080,7 @@ void CFoundryTool::OnNew()
 void CFoundryTool::OnOpen( )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( IsDocumentDirty() )
 	{
 		nFlags = FOSM_SHOW_PERFORCE_DIALOGS | FOSM_SHOW_SAVE_QUERY;
@@ -1105,7 +1105,7 @@ void CFoundryTool::OnSave()
 {
 	if ( m_pMapDoc )
 	{
-		SaveFile( NULL, "vmf", FOSM_SHOW_PERFORCE_DIALOGS );
+		SaveFile(nullptr, "vmf", FOSM_SHOW_PERFORCE_DIALOGS );
 	}
 }
 
@@ -1162,11 +1162,11 @@ void CFoundryTool::OpenSpecificFile( const char *pFileName )
 	if ( m_pMapDoc )
 	{
 		// TODO: close the MFC document here.
-		m_pMapDoc = NULL;
+		m_pMapDoc = nullptr;
 	}
 
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 
 	OpenFile( pFileName, "bsp", pSaveFileName, "vmf", nFlags );
 }
@@ -1338,7 +1338,7 @@ void CFoundryTool::OnReloadFromSaveSlamEnts()
 const char *CFoundryTool::GetLogoTextureName()
 {
 	//return "vgui/tools/sampletool/sampletool_logo";
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1365,7 +1365,7 @@ static const char *s_pUseOriginalClasses[] =
 {
 	"worldspawn",
 	"func_occluder",
-	NULL
+	nullptr
 };
 
 
@@ -1517,7 +1517,7 @@ void* CFoundryTool::QueryInterface( const char *pInterfaceName )
 	if ( V_stricmp( pInterfaceName, VSERVERFOUNDRY_INTERFACE_VERSION ) == 0 )
 		return (IServerFoundry*)this;
 	
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1778,7 +1778,7 @@ bool CFoundryTool::UpdateEntity( int iHammerID, CUtlVector<char*> &keys, CUtlVec
 {
 	// Find the entity to be updated 
 	void *pServerEntity = servertools->FindEntityByHammerID( iHammerID );
-	if ( pServerEntity != NULL)
+	if ( pServerEntity != nullptr)
 	{
 		// Set updated properties
 		for ( int i = 0; i < keys.Count(); i++ )
@@ -1870,7 +1870,7 @@ void CFoundryTool::MoveHammerViewTo( const Vector &vPos, const QAngle &vAngles )
 		return;
 
 	POSITION p = pDoc->GetFirstViewPosition();
-	while (p != NULL)
+	while (p != nullptr)
 	{
 		CMapView3D *pView = dynamic_cast< CMapView3D* >( pDoc->GetNextView(p) );
 		if ( pView )
@@ -1932,9 +1932,9 @@ void CFoundryTool::SelectionClickInCenterOfView( const Vector &vPos, const QAngl
 	if ( !pDoc )
 		return;
 
-	CMapView3D *pView = NULL;
+	CMapView3D *pView = nullptr;
 	POSITION p = pDoc->GetFirstViewPosition();
-	while (p != NULL)
+	while (p != nullptr)
 	{
 		pView = dynamic_cast< CMapView3D* >( pDoc->GetNextView(p) );
 		if ( pView )
@@ -1990,6 +1990,6 @@ bool CFoundryTool::StaticQuitHandler( void *pvUserData )
 void CFoundryTool::OnMapDocDestroy( CMapDoc *pDoc )
 {
 	if ( m_pMapDoc == pDoc )
-		m_pMapDoc = NULL;
+		m_pMapDoc = nullptr;
 }
 

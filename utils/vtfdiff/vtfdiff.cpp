@@ -369,8 +369,8 @@ int main( int argc, char **argv )
 
 	// Check other resources
 	{
-		int numRes1 = pTexture1->GetResourceTypes( NULL, 0 );
-		int numRes2 = pTexture2->GetResourceTypes( NULL, 0 );
+		int numRes1 = pTexture1->GetResourceTypes(nullptr, 0 );
+		int numRes2 = pTexture2->GetResourceTypes(nullptr, 0 );
 
 		// List of resource types checked or insignificant diffs
 		typedef CUtlMap< int, bool > MapResTypes;

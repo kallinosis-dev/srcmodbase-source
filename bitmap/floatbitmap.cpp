@@ -29,7 +29,7 @@
 //-----------------------------------------------------------------------------
 // Globals
 //-----------------------------------------------------------------------------
-IThreadPool *FloatBitMap_t::sm_pFBMThreadPool = NULL;
+IThreadPool *FloatBitMap_t::sm_pFBMThreadPool = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -1159,7 +1159,7 @@ void FloatBitMap_t::DownsampleNiceFiltered( const DownsampleInfo_t& downsampleIn
 	info.m_nSrcDepth = NumSlices();
 	info.m_flAlphaThreshhold = ( downsampleInfo.m_flAlphaThreshhold >= 0.0f ) ? downsampleInfo.m_flAlphaThreshhold : 0.4f;
 	info.m_flAlphaHiFreqThreshhold = ( downsampleInfo.m_flAlphaHiFreqThreshhold >= 0.0f ) ? downsampleInfo.m_flAlphaHiFreqThreshhold : 0.4f;
-	info.m_pAlphaResult = NULL;
+	info.m_pAlphaResult = nullptr;
 
 	KernelInfo_t kernel;
 	ImageLoader::ComputeNiceFilterKernel( info.m_nWRatio, info.m_nHRatio, info.m_nDRatio, &kernel );

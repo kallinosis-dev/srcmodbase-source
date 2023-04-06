@@ -39,14 +39,14 @@ public:
 	virtual bool Unserialize( CUtlBuffer &buf, const char *pEncodingName, int nEncodingVersion,
 							  const char *pSourceFormatName, int nSourceFormatVersion,
 							  DmFileId_t fileid, DmConflictResolution_t idConflictResolution, CDmElement **ppRoot );
-	virtual const char *GetImportedFormat() const { return NULL; }
+	virtual const char *GetImportedFormat() const { return nullptr; }
 	virtual int GetImportedVersion() const { return 1; }
 
-	CDmElement *ReadOBJ( const char *pFilename, CDmeMesh **ppCreatedMesh = NULL, bool bLoadAllDeltas = true, bool bAbsolute = true );
+	CDmElement *ReadOBJ( const char *pFilename, CDmeMesh **ppCreatedMesh = nullptr, bool bLoadAllDeltas = true, bool bAbsolute = true );
 
-	bool WriteOBJ( const char *pFilename, CDmElement *pRoot, bool bWriteDeltas, const char *pDeltaName = NULL, bool absolute = true );
+	bool WriteOBJ( const char *pFilename, CDmElement *pRoot, bool bWriteDeltas, const char *pDeltaName = nullptr, bool absolute = true );
 
-	void MeshToObj( CUtlBuffer &b, const matrix3x4_t &parentWorldMatrix, CDmeMesh *pMesh, const char *pDeltaName = NULL, bool absolute = true );
+	void MeshToObj( CUtlBuffer &b, const matrix3x4_t &parentWorldMatrix, CDmeMesh *pMesh, const char *pDeltaName = nullptr, bool absolute = true );
 
 	CDmeVertexDeltaData *GetDelta( const char *pDeltaName, bool bAbsolute );
 
@@ -55,16 +55,16 @@ private:
 		CUtlBuffer &buf,
 		DmFileId_t dmFileId,
 		const char *pName,
-		const char *pFilename = NULL,
-		CDmeMesh *pBaseMesh = NULL,
-		CDmeMesh **ppCreatedMesh = NULL,
+		const char *pFilename = nullptr,
+		CDmeMesh *pBaseMesh = nullptr,
+		CDmeMesh **ppCreatedMesh = nullptr,
 		bool bAbsolute = true );
 
 	static int OutputVectors( CUtlBuffer &b, const char *pPrefix, const CUtlVector< Vector > &vData, const matrix3x4_t &matrix );
 
 	static int OutputVectors( CUtlBuffer &b, const char *pPrefix, const CUtlVector< Vector2D > &vData );
 
-	static void DeltaToObj( CUtlBuffer &b, const matrix3x4_t &parentWorldMatrix, CDmeMesh *pMesh, const char *pDeltaName = NULL );
+	static void DeltaToObj( CUtlBuffer &b, const matrix3x4_t &parentWorldMatrix, CDmeMesh *pMesh, const char *pDeltaName = nullptr);
 
 	void ParseMtlLib( CUtlBuffer &buf );
 
@@ -74,7 +74,7 @@ private:
 
 	static const char *SkipSpace( const char *pBuf );
 
-	void DagToObj( CUtlBuffer &b, const matrix3x4_t &parentWorldMatrix, CDmeDag *pDag, const char *pDeltaName = NULL, bool absolute = true );
+	void DagToObj( CUtlBuffer &b, const matrix3x4_t &parentWorldMatrix, CDmeDag *pDag, const char *pDeltaName = nullptr, bool absolute = true );
 
 	static void FindDeltaMeshes( CDmeDag *pDag, CUtlVector< CDmeMesh * > &meshes );
 
@@ -93,9 +93,9 @@ private:
 	struct DeltaInfo_t
 	{
 		DeltaInfo_t()
-		: m_pComboOp( NULL )
-		, m_pMesh( NULL )
-		, m_pDeltaData( NULL )
+		: m_pComboOp(nullptr)
+		, m_pMesh(nullptr)
+		, m_pDeltaData(nullptr)
 		{}
 
 		CUtlString m_filename;

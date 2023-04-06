@@ -191,7 +191,7 @@ CPhysicsFluidController *CreateFluidController( IVP_Environment *pEnvironment, C
 
 	IVP_Controller_Phantom *pPhantom = pFluidObject->GetObject()->get_controller_phantom();
 	if ( !pPhantom )
-		return NULL;
+		return nullptr;
 
     IVP_Liquid_Surface_Descriptor *lsd = new CLiquidSurfaceDescriptor( pFluidObject, pParams->surfacePlane, pParams->currentVelocity );
 	int surfaceprops = pFluidObject->GetMaterialIndex();

@@ -17,8 +17,8 @@ CHardwareMatrixState::CHardwareMatrixState()
 {
 	m_LRUCounter = 0;
 	m_NumMatrices = 0;
-	m_matrixState = NULL;
-	m_savedMatrixState = NULL;
+	m_matrixState = nullptr;
+	m_savedMatrixState = nullptr;
 }
 
 void CHardwareMatrixState::Init( int numHardwareMatrices )

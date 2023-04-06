@@ -110,7 +110,7 @@ public:
 	virtual int					GetNumChannels() = 0;
 	virtual bool				IsStereoWav( void ) = 0;
 
-	virtual CSentence			*GetSentence( void ) { return NULL; };
+	virtual CSentence			*GetSentence( void ) { return nullptr; };
 };
 
 

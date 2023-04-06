@@ -54,7 +54,7 @@ extern ConVar cl_npc_speedmod_intime;
 bool NPC_IsImportantNPC( C_BaseAnimating *pAnimating )
 {
 	C_AI_BaseNPC *pBaseNPC = pAnimating->MyNPCPointer();
-	if ( pBaseNPC == NULL )
+	if ( pBaseNPC == nullptr)
 		return false;
 
 	return pBaseNPC->ImportantRagdoll();

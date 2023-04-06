@@ -27,8 +27,8 @@ class QueryBox : public MessageBox
 	DECLARE_CLASS_SIMPLE( QueryBox, MessageBox );
 
 public:
-	QueryBox(const char *title, const char *queryText,vgui::Panel *parent = NULL );
-	QueryBox(const wchar_t *wszTitle, const wchar_t *wszQueryText,vgui::Panel *parent = NULL);
+	QueryBox(const char *title, const char *queryText,vgui::Panel *parent = nullptr);
+	QueryBox(const wchar_t *wszTitle, const wchar_t *wszQueryText,vgui::Panel *parent = nullptr);
 	~QueryBox();
 
 	// Layout the window for drawing 

@@ -96,7 +96,7 @@ protected:
 
 	FbxScene *LoadFbxScene( FbxTime::EMode &eFbxTimeMode, const char *pszFilename );
 	void LoadModelAndSkeleton_R( FbxToDmxMap_t &fbxToDmxMap, CDmeModel *pDmeModel, CDmeDag *pDmeDagParent, FbxNode *pFbxNode, bool bAnimation, int nDepth ) const;
-	CDmeDag *FbxNodeToDmeDag( CDmeDag *pDmeDagParent, FbxNode *pFbxNode, const char *pszDmeType, FbxMatrix *pmOutScale = NULL ) const;
+	CDmeDag *FbxNodeToDmeDag( CDmeDag *pDmeDagParent, FbxNode *pFbxNode, const char *pszDmeType, FbxMatrix *pmOutScale = nullptr) const;
 	CDmeMesh *FbxShapeToDmeMesh( CDmeDag *pDmeDag, FbxNode *pFbxNode, const FbxMatrix &mScale ) const;
 	bool FbxMeshToDmeFaceSets( CDmeDag *pDmeDag, CDmeMesh *pDmeMesh, FbxMesh *pFbxMesh, CUtlVector< int > &nPolygonToFaceSetMap ) const;
 	bool FindMaterialResource( CUtlString &sOutMaterialPath, const char *pszInMaterialName, CUtlVector< CUtlString > &materialSearchErrorList ) const;

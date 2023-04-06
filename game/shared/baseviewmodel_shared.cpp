@@ -155,7 +155,7 @@ void CBaseViewModel::SpawnControlPanels()
 
 	CBaseCombatWeapon *weapon = m_hWeapon.Get();
 
-	if ( weapon == NULL )
+	if ( weapon == nullptr)
 	{
 		return;
 	}
@@ -343,7 +343,7 @@ void CBaseViewModel::SetWeaponModel( const char *modelname, CBaseCombatWeapon *w
 	SetModel( modelname );
 #else
 	string_t str;
-	if ( modelname != NULL )
+	if ( modelname != nullptr)
 	{
 		str = MAKE_STRING( modelname );
 	}
@@ -532,7 +532,7 @@ void CBaseViewModel::CalcViewModelLag( Vector& origin, QAngle& angles, QAngle& o
 
 	// Calculate our drift
 	Vector	forward;
-	AngleVectors( angles, &forward, NULL, NULL );
+	AngleVectors( angles, &forward, nullptr, nullptr);
 
 	if ( gpGlobals->frametime != 0.0f )
 	{

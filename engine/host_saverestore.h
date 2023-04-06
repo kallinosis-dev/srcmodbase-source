@@ -37,8 +37,8 @@ public:
 	virtual void					LoadAdjacentEnts( const char *pOldLevel, const char *pLandmarkName ) = 0;
 	virtual const char				*FindRecentSave( char *pNameBuf, int nameBufLen ) = 0;
 	virtual void					ForgetRecentSave() = 0;
-	virtual int						SaveGameSlot( const char *pSaveName, const char *pSaveComment, bool onlyThisLevel = false, bool bSetMostRecent = true, const char *pszDestMap = NULL, const char *pszLandmark = NULL ) = 0;
-	virtual bool					SaveGameState( bool bTransition, ISaveRestoreDataCallback *pCallback = NULL, bool bOpenContainer = true, bool bIsAutosaveOrDangerous = false ) = 0;
+	virtual int						SaveGameSlot( const char *pSaveName, const char *pSaveComment, bool onlyThisLevel = false, bool bSetMostRecent = true, const char *pszDestMap = nullptr, const char *pszLandmark = nullptr) = 0;
+	virtual bool					SaveGameState( bool bTransition, ISaveRestoreDataCallback *pCallback = nullptr, bool bOpenContainer = true, bool bIsAutosaveOrDangerous = false ) = 0;
 	virtual int						IsValidSave( void ) = 0; // returns true if this is a valid time to make a save. (it doesn't ask if a particular save file is valid.)
 	virtual void					Finish( CSaveRestoreData *save ) = 0;
 

@@ -133,7 +133,7 @@ public:
 		if ( !pMP3->Init( pEventHandler ) )
 		{
 			delete pMP3;
-			return NULL;
+			return nullptr;
 		}
 		return pMP3;
 	}

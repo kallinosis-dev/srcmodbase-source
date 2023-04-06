@@ -1284,11 +1284,11 @@ bool CGame::CreateGameWindow( void )
 		if ( g_pFileSystem->GetLocalPath( "resource/game.ico", localPath, sizeof(localPath) ) )
 		{
 			g_pFileSystem->GetLocalCopy( localPath );
-			wc.hIcon = (HICON)::LoadImage(NULL, localPath, IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
+			wc.hIcon = (HICON)::LoadImage(nullptr, localPath, IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE);
 		}
 		else
 		{
-			wc.hIcon = (HICON)LoadIcon( GetModuleHandle( 0 ), MAKEINTRESOURCE( DEFAULT_EXE_ICON ) );
+			wc.hIcon = (HICON)LoadIcon( GetModuleHandle( nullptr ), MAKEINTRESOURCE( DEFAULT_EXE_ICON ) );
 		}
 	}
 	
@@ -1306,7 +1306,7 @@ bool CGame::CreateGameWindow( void )
 	}
 
 	modinfo->deleteThis();
-	modinfo = NULL;
+	modinfo = nullptr;
 	// Oops, we didn't clean up the class registration from last cycle which
 	// might mean that the wndproc pointer is bogus
 #ifndef _X360
@@ -1349,7 +1349,7 @@ bool CGame::CreateGameWindow( void )
 
 #if !defined( _X360 )
 	HWND hwnd = CreateWindowExW( exFlags, CLASSNAME, uc, style, 
-		0, 0, w, h, NULL, NULL, m_hInstance, NULL );
+		0, 0, w, h, nullptr, nullptr, m_hInstance, nullptr);
 	// NOTE: On some cards, CreateWindowExW slams the FPU control word
 	SetupFPUControlWord();
 #else
@@ -1414,7 +1414,7 @@ void CGame::DestroyGameWindow()
 		if ( m_hWindow )
 		{
 			DestroyWindow( m_hWindow );
-			m_hWindow = (HWND)0;
+			m_hWindow = (HWND)nullptr;
 		}
 
 #if !defined( _X360 )
@@ -1425,7 +1425,7 @@ void CGame::DestroyGameWindow()
 	}
 	else
 	{
-		m_hWindow = (HWND)0;
+		m_hWindow = (HWND)nullptr;
 		m_bExternallySuppliedWindow = false;
 	}
 
@@ -1492,7 +1492,7 @@ void CGame::DetachFromWindow()
 #if defined( WIN32 ) && !defined( USE_SDL )
 	if ( !m_hWindow || !m_ChainedWindowProc )
 	{
-		m_ChainedWindowProc = NULL;
+		m_ChainedWindowProc = nullptr;
 		return;
 	}
 #endif
@@ -1774,7 +1774,7 @@ public:
 	const char *GetCurrentCaption( int *pColorOut )
 	{
 		if ( m_bCaptions == false )
-			return NULL;
+			return nullptr;
 
 		if ( m_CaptionStartTime )
 		{
@@ -1813,7 +1813,7 @@ public:
 			}
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 private:
@@ -2411,7 +2411,7 @@ void CGame::PlayVideoAndWait( const char *filename, bool bNeedHealthWarning )
 CGame::CGame()
 {
 #ifndef LINUX
-	m_hWindow = 0;
+	m_hWindow = nullptr;
 #endif
 	m_x = m_y = 0;
 	m_width = m_height = 0;
@@ -2422,8 +2422,8 @@ CGame::CGame()
 	m_iDesktopRefreshRate = 0;
 	m_hInputContext = INPUT_CONTEXT_HANDLE_INVALID;
 #if defined( WIN32 ) && !defined( USE_SDL )
-	m_hInstance = 0;
-	m_ChainedWindowProc = NULL;
+	m_hInstance = nullptr;
+	m_ChainedWindowProc = nullptr;
 #endif
 
 }
@@ -2477,7 +2477,7 @@ bool CGame::Shutdown( void )
 	}
 
 #if defined( WIN32 ) && !defined( USE_SDL )
-	m_hInstance = 0;
+	m_hInstance = nullptr;
 #endif
 
 #ifdef _PS3
@@ -2546,11 +2546,11 @@ void CGame::GetDesktopInfo( int &width, int &height, int &refreshrate )
 	// we need to do this when initializing the base list of video modes, for example
 	if ( m_iDesktopWidth == 0 )
 	{
-		HDC dc = ::GetDC( NULL );
+		HDC dc = ::GetDC(nullptr);
 		width = ::GetDeviceCaps(dc, HORZRES);
 		height = ::GetDeviceCaps(dc, VERTRES);
 		refreshrate = ::GetDeviceCaps(dc, VREFRESH);
-		::ReleaseDC( NULL, dc );
+		::ReleaseDC(nullptr, dc );
 		return;
 	}
 	width = m_iDesktopWidth;

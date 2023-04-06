@@ -127,7 +127,7 @@ void CChoreoWidgetDrawHelper::Init( mxWindow *widget, int x, int y, int w, int h
 		DeleteObject( br );
 	}
 
-	m_ClipRegion = (HRGN)0;
+	m_ClipRegion = (HRGN)nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ void CChoreoWidgetDrawHelper::Init( mxWindow *widget, int x, int y, int w, int h
 //-----------------------------------------------------------------------------
 CChoreoWidgetDrawHelper::~CChoreoWidgetDrawHelper( void )
 {
-	SelectClipRgn( m_dcMemory, NULL );
+	SelectClipRgn( m_dcMemory, nullptr);
 
 	while ( m_ClipRects.Count() > 0 )
 	{
@@ -274,7 +274,7 @@ int CChoreoWidgetDrawHelper::CalcTextWidth( const char *font, int pointsize, int
 		 DEFAULT_PITCH,
 		 font );
 
-	HDC screen = GetDC( NULL );
+	HDC screen = GetDC(nullptr);
 
 	HFONT oldFont = (HFONT)SelectObject( screen, fnt );
 
@@ -288,7 +288,7 @@ int CChoreoWidgetDrawHelper::CalcTextWidth( const char *font, int pointsize, int
 	SelectObject( screen, oldFont );
 	DeleteObject( fnt );
 
-	ReleaseDC( NULL, screen );
+	ReleaseDC(nullptr, screen );
 
 	return rcText.right;
 }
@@ -327,7 +327,7 @@ int CChoreoWidgetDrawHelper::CalcTextWidthW( const char *font, int pointsize, in
 		 DEFAULT_PITCH,
 		 font );
 
-	HDC screen = GetDC( NULL );
+	HDC screen = GetDC(nullptr);
 
 	HFONT oldFont = (HFONT)SelectObject( screen, fnt );
 
@@ -341,7 +341,7 @@ int CChoreoWidgetDrawHelper::CalcTextWidthW( const char *font, int pointsize, in
 	SelectObject( screen, oldFont );
 	DeleteObject( fnt );
 
-	ReleaseDC( NULL, screen );
+	ReleaseDC(nullptr, screen );
 
 	return rcText.right;
 }
@@ -361,7 +361,7 @@ int CChoreoWidgetDrawHelper::CalcTextWidth( HFONT fnt, const char *fmt, ... )
 	vprintf( fmt, args );
 	vsprintf( output, fmt, args );
 
-	HDC screen = GetDC( NULL );
+	HDC screen = GetDC(nullptr);
 
 	HFONT oldFont = (HFONT)SelectObject( screen, fnt );
 
@@ -374,7 +374,7 @@ int CChoreoWidgetDrawHelper::CalcTextWidth( HFONT fnt, const char *fmt, ... )
 
 	SelectObject( screen, oldFont );
 
-	ReleaseDC( NULL, screen );
+	ReleaseDC(nullptr, screen );
 
 	return rcText.right;
 }
@@ -388,7 +388,7 @@ int CChoreoWidgetDrawHelper::CalcTextWidthW( HFONT fnt, const wchar_t *fmt, ... 
 	vwprintf( fmt, args );
 	vswprintf( output, fmt, args );
 
-	HDC screen = GetDC( NULL );
+	HDC screen = GetDC(nullptr);
 
 	HFONT oldFont = (HFONT)SelectObject( screen, fnt );
 
@@ -401,7 +401,7 @@ int CChoreoWidgetDrawHelper::CalcTextWidthW( HFONT fnt, const wchar_t *fmt, ... 
 
 	SelectObject( screen, oldFont );
 
-	ReleaseDC( NULL, screen );
+	ReleaseDC(nullptr, screen );
 
 	return rcText.right;
 }
@@ -678,7 +678,7 @@ void CChoreoWidgetDrawHelper::DrawColoredLine( const Color& clr, int style, int 
 {
 	HPEN pen = CreatePen( style, width, ColorToRGB( clr ) );
 	HPEN oldPen = (HPEN)SelectObject( m_dcMemory, pen );
-	MoveToEx( m_dcMemory, x1-m_x, y1-m_y, NULL );
+	MoveToEx( m_dcMemory, x1-m_x, y1-m_y, nullptr);
 	LineTo( m_dcMemory, x2-m_x, y2-m_y );
 	SelectObject( m_dcMemory, oldPen );
 	DeleteObject( pen );
@@ -734,7 +734,7 @@ POINTL CChoreoWidgetDrawHelper::DrawColoredRamp( const Color& clr, int style, in
 {
 	HPEN pen = CreatePen( style, width, ColorToRGB( clr ) );
 	HPEN oldPen = (HPEN)SelectObject( m_dcMemory, pen );
-	MoveToEx( m_dcMemory, x1-m_x, y1-m_y, NULL );
+	MoveToEx( m_dcMemory, x1-m_x, y1-m_y, nullptr);
 	int dx = x2 - x1;
 	int dy = y2 - y1;
 
@@ -867,7 +867,7 @@ void CChoreoWidgetDrawHelper::DrawLine( int x1, int y1, int x2, int y2, const Co
 	y1 -= m_y;
 	y2 -= m_y;
 
-	MoveToEx( m_dcMemory, x1, y1, NULL );
+	MoveToEx( m_dcMemory, x1, y1, nullptr);
 	LineTo( m_dcMemory, x2, y2 );
 
 	SelectObject( m_dcMemory, oldbrush );
@@ -948,11 +948,11 @@ void CChoreoWidgetDrawHelper::StopClipping( void )
 
 void CChoreoWidgetDrawHelper::ClipToRects( void )
 {
-	SelectClipRgn( m_dcMemory, NULL );
+	SelectClipRgn( m_dcMemory, nullptr);
 	if ( m_ClipRegion )
 	{
 		DeleteObject( m_ClipRegion );
-		m_ClipRegion = HRGN( 0 );
+		m_ClipRegion = HRGN( nullptr );
 	}
 
 	if ( m_ClipRects.Count() > 0 )

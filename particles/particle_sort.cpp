@@ -163,10 +163,10 @@ int CParticleCollection::GenerateSortedIndexList( ParticleRenderData_t *pOut, Ve
 	int nParticles = m_nActiveParticles;
 	if ( bSorted )
 	{
-		s_GenerateData<SORT_KEY_DISTANCE, false>( pOut, vecCamera, NULL, pVisibilityData, this );
+		s_GenerateData<SORT_KEY_DISTANCE, false>( pOut, vecCamera, nullptr, pVisibilityData, this );
 	}
 	else
-		s_GenerateData<SORT_KEY_NONE, false>( pOut, vecCamera, NULL, pVisibilityData, this );
+		s_GenerateData<SORT_KEY_NONE, false>( pOut, vecCamera, nullptr, pVisibilityData, this );
 
 	if ( bSorted )
 	{
@@ -473,11 +473,11 @@ int GenerateExtendedSortedIndexList( Vector vecCamera, Vector *pCameraFwd, CPart
 		float t = ( pParticles->m_flTargetDrawTime - pParticles->m_flPrevSimTime ) /
 			( pParticles->m_flCurTime - pParticles->m_flPrevSimTime );
 		Assert( ( t >= 0.0 ) && ( t <= 1.0 ) );
-		s_GenerateExtendedData<false, true, ParticleFullRenderData_SIMD_View, false, false>( pOutBuf, pParticlePtrs, vecCamera, NULL, pVisibilityData, pParticles, t, bSorted );
+		s_GenerateExtendedData<false, true, ParticleFullRenderData_SIMD_View, false, false>( pOutBuf, pParticlePtrs, vecCamera, nullptr, pVisibilityData, pParticles, t, bSorted );
 	}
 	else
 	{
-		s_GenerateExtendedData<false, false, ParticleFullRenderData_SIMD_View, false, false>( pOutBuf, pParticlePtrs, vecCamera, NULL, pVisibilityData, pParticles, 0., bSorted );
+		s_GenerateExtendedData<false, false, ParticleFullRenderData_SIMD_View, false, false>( pOutBuf, pParticlePtrs, vecCamera, nullptr, pVisibilityData, pParticles, 0., bSorted );
 	}
 	int nParticles = pParticles->m_nActiveParticles;
 	if ( bSorted )
@@ -501,12 +501,12 @@ int GenerateExtendedSortedIndexListWithPerParticleGlow(
 			( pParticles->m_flCurTime - pParticles->m_flPrevSimTime );
 		Assert( ( t >= 0.0 ) && ( t <= 1.0 ) );
 		s_GenerateExtendedData<false, true, ParticleRenderDataWithOutlineInformation_SIMD_View, true, false>(
-			pOutBuf, ( ParticleFullRenderData_Scalar_View **) pParticlePtrs, vecCamera, NULL, pVisibilityData, pParticles, t, bSorted );
+			pOutBuf, ( ParticleFullRenderData_Scalar_View **) pParticlePtrs, vecCamera, nullptr, pVisibilityData, pParticles, t, bSorted );
 	}
 	else
 	{
 		s_GenerateExtendedData<false, false, ParticleRenderDataWithOutlineInformation_SIMD_View, true, false>(
-			pOutBuf, ( ParticleFullRenderData_Scalar_View **) pParticlePtrs, vecCamera, NULL, pVisibilityData, pParticles, 0., bSorted );
+			pOutBuf, ( ParticleFullRenderData_Scalar_View **) pParticlePtrs, vecCamera, nullptr, pVisibilityData, pParticles, 0., bSorted );
 	}
 	int nParticles = pParticles->m_nActiveParticles;
 	if ( bSorted )
@@ -530,12 +530,12 @@ int GenerateExtendedSortedIndexListWithNormals(
 			( pParticles->m_flCurTime - pParticles->m_flPrevSimTime );
 		Assert( ( t >= 0.0 ) && ( t <= 1.0 ) );
 		s_GenerateExtendedData<false, true, ParticleRenderDataWithNormal_SIMD_View, false, true>(
-			pOutBuf, ( ParticleFullRenderData_Scalar_View **) pParticlePtrs, vecCamera, NULL, pVisibilityData, pParticles, t, bSorted );
+			pOutBuf, ( ParticleFullRenderData_Scalar_View **) pParticlePtrs, vecCamera, nullptr, pVisibilityData, pParticles, t, bSorted );
 	}
 	else
 	{
 		s_GenerateExtendedData<false, false, ParticleRenderDataWithNormal_SIMD_View, false, true>(
-			pOutBuf, ( ParticleFullRenderData_Scalar_View **) pParticlePtrs, vecCamera, NULL, pVisibilityData, pParticles, 0., bSorted );
+			pOutBuf, ( ParticleFullRenderData_Scalar_View **) pParticlePtrs, vecCamera, nullptr, pVisibilityData, pParticles, 0., bSorted );
 	}
 	int nParticles = pParticles->m_nActiveParticles;
 	if ( bSorted )
@@ -561,7 +561,7 @@ ParticleFullRenderData_Scalar_View **GetExtendedRenderList( CParticleCollection 
 
 	Vector vecCamera;
 	pRenderContext->GetWorldSpaceCameraPosition( &vecCamera );
-	int nParticles = GenerateExtendedSortedIndexList( vecCamera, NULL, pVisibilityData, pParticles, bSorted, s_SortBuffer, s_pParticlePtrs );
+	int nParticles = GenerateExtendedSortedIndexList( vecCamera, nullptr, pVisibilityData, pParticles, bSorted, s_SortBuffer, s_pParticlePtrs );
 	*pNparticles = nParticles;
 	return s_pParticlePtrs + nParticles;
 }
@@ -579,7 +579,7 @@ ParticleRenderDataWithOutlineInformation_Scalar_View **GetExtendedRenderListWith
 	Vector vecCamera;
 	pRenderContext->GetWorldSpaceCameraPosition( &vecCamera );
 	int nParticles = GenerateExtendedSortedIndexListWithPerParticleGlow(
-		vecCamera, NULL, pVisibilityData, pParticles, bSorted, s_SortBuffer, 
+		vecCamera, nullptr, pVisibilityData, pParticles, bSorted, s_SortBuffer, 
 		( ParticleRenderDataWithOutlineInformation_Scalar_View ** ) s_pParticlePtrs );
 	*pNparticles = nParticles;
 	return ( ParticleRenderDataWithOutlineInformation_Scalar_View ** ) ( s_pParticlePtrs + nParticles );
@@ -599,7 +599,7 @@ ParticleRenderDataWithNormal_Scalar_View **GetExtendedRenderListWithNormals(
 	Vector vecCamera;
 	pRenderContext->GetWorldSpaceCameraPosition( &vecCamera );
 	int nParticles = GenerateExtendedSortedIndexListWithNormals(
-		vecCamera, NULL, pVisibilityData, pParticles, bSorted, s_SortBuffer, 
+		vecCamera, nullptr, pVisibilityData, pParticles, bSorted, s_SortBuffer, 
 		( ParticleRenderDataWithNormal_Scalar_View ** ) s_pParticlePtrs );
 	*pNparticles = nParticles;
 	return ( ParticleRenderDataWithNormal_Scalar_View ** ) ( s_pParticlePtrs + nParticles );

@@ -34,7 +34,7 @@ BEGIN_SHADER_FLAGS( DebugDepth, "Help for DebugDepth", SHADER_NOT_EDITABLE )
 	   
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -45,7 +45,7 @@ BEGIN_SHADER_FLAGS( DebugDepth, "Help for DebugDepth", SHADER_NOT_EDITABLE )
 			unsigned int flags = VERTEX_POSITION | VERTEX_FORMAT_COMPRESSED;
 			int nTexCoordCount = 1;
 			int userDataSize = 0;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 			DECLARE_STATIC_VERTEX_SHADER( debugdrawdepth_vs20 );
 			SET_STATIC_VERTEX_SHADER( debugdrawdepth_vs20 );

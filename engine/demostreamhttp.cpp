@@ -10,7 +10,7 @@
 #include "engine_gcmessages.pb.h"
 
 
-static ISteamHTTP *s_pSteamHTTP = NULL;
+static ISteamHTTP *s_pSteamHTTP = nullptr;
 ConVar demo_debug( "demo_debug", "0", 0, "Demo debug info." );
 ConVar tv_playcast_origin_auth( "tv_playcast_origin_auth", "", FCVAR_RELEASE | FCVAR_HIDDEN, "Get request X-Origin-Auth string" );
 ConVar tv_playcast_max_rcvage( "tv_playcast_max_rcvage", "15", FCVAR_RELEASE | FCVAR_HIDDEN );
@@ -19,8 +19,8 @@ ConVar tv_playcast_delay_prediction( "tv_playcast_delay_prediction", "1", FCVAR_
 
 CDemoStreamHttp::CDemoStreamHttp() :
 	m_nState( STATE_IDLE ),
-	m_pStreamSignup( NULL ),
-	m_pClient( NULL ),
+	m_pStreamSignup(nullptr),
+	m_pClient(nullptr),
 	m_bSyncFromGc( false ),
 	m_flBroadcastKeyframeInterval( 3 )
 {
@@ -249,7 +249,7 @@ bool CDemoStreamHttp::OnSync( const char *pBuffer, int nBufferSize, int nResync 
 		m_SyncResponse.dPlatTimeReceived = Plat_FloatTime();
 		m_nDemoProtocol = pSync->GetInt( "protocol", 4 ); // DEMO_PROTOCOL == 4 is where I started writing this
 		
-		delete pSync; pSync = NULL;
+		delete pSync; pSync = nullptr;
 
 		return OnSync( nResync );
 	}
@@ -423,7 +423,7 @@ void CDemoStreamHttp::StopStreaming()
 	while ( m_PendingRequests.Count() )
 		m_PendingRequests.Tail()->Cancel();
 	
-	m_pStreamSignup = NULL; // delete start Buffer_t
+	m_pStreamSignup = nullptr; // delete start Buffer_t
 	FOR_EACH_HASHTABLE( m_FragmentCache, it )
 	{
 		m_FragmentCache.Element( it ).ResetBuffers();
@@ -435,7 +435,7 @@ CDemoStreamHttp::Buffer_t * CDemoStreamHttp::GetFragmentBuffer( int nFragment , 
 {
 	UtlHashHandle_t hFind = m_FragmentCache.Find( nFragment );
 	if ( hFind == m_FragmentCache.InvalidHandle() )
-		return NULL;
+		return nullptr;
 	return m_FragmentCache[ hFind ].GetField( nFragmentType );
 }
 
@@ -497,14 +497,14 @@ CDemoStreamHttp::Buffer_t * CDemoStreamHttp::MakeBuffer( HTTPRequestHandle hRequ
 	uint32 nBodySize;
 	if ( !s_pSteamHTTP->GetHTTPResponseBodySize( hRequest, &nBodySize ) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	uint8 *pMemory = new uint8[ sizeof( Buffer_t ) + nBodySize + 1 ];
 	if ( !s_pSteamHTTP->GetHTTPResponseBodyData( hRequest, pMemory + sizeof( Buffer_t ), nBodySize ) )
 	{
 		delete[] pMemory;
-		return NULL;
+		return nullptr;
 	}
 	pMemory[ sizeof( Buffer_t ) + nBodySize ] = '\0'; // in case we need to receive and parse some text-only packets in the future
 	Buffer_t* pBuffer = ( Buffer_t* )pMemory;
@@ -537,7 +537,7 @@ void CDemoStreamHttp::SendGet( const char *pPath, CPendingRequest *pRequest )
 	{
 		s_pSteamHTTP->ReleaseHTTPRequest( hRequest );
 		DevMsg( "Broadcast streaming: unexpected failure getting %s\n", pPath );
-		pRequest->OnFailure( NULL ); // IO failure
+		pRequest->OnFailure(nullptr); // IO failure
 	}
 }
 
@@ -549,7 +549,7 @@ CDemoStreamHttp::Fragment_t & CDemoStreamHttp::Fragment( int nFragment )
 
 
 CDemoStreamHttp::CPendingRequest::CPendingRequest() :
-	m_pParent( NULL ),
+	m_pParent(nullptr),
 	m_hRequest( INVALID_HTTPREQUEST_HANDLE ),
 	m_hCall( k_uAPICallInvalid )
 {
@@ -581,7 +581,7 @@ void CDemoStreamHttp::CPendingRequest::Run( void *pvParam, bool bIOFailure, Stea
 	m_pParent->m_PendingRequests.FindAndFastRemove( this );
 	if ( bIOFailure )
 	{
-		OnFailure( NULL );
+		OnFailure(nullptr);
 	}
 	else
 	{
@@ -604,7 +604,7 @@ void CDemoStreamHttp::CPendingRequest::Cancel()
 	SteamAPI_UnregisterCallResult( this, m_hCall );
 	s_pSteamHTTP->ReleaseHTTPRequest( m_hRequest );
 	m_pParent->m_PendingRequests.FindAndFastRemove( this );
-	OnFailure( NULL );
+	OnFailure(nullptr);
 	delete this;
 }
 
@@ -634,7 +634,7 @@ void CDemoStreamHttp::Fragment_t::ResetBuffers()
 		if ( m_pField[ i ] )
 		{
 			Buffer_t::Release( m_pField[ i ] );
-			m_pField[ i ] = NULL;
+			m_pField[ i ] = nullptr;
 		}
 	}
 }

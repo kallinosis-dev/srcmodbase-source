@@ -24,7 +24,7 @@ public:
 	CCStrike15ItemDefinition();
 	
 	// CCStrike15ItemDefinition interface.
-	virtual bool	BInitFromKV( KeyValues *pKVItem, CEconItemSchema &schemaa, CUtlVector<CUtlString> *pVecErrors = NULL );
+	virtual bool	BInitFromKV( KeyValues *pKVItem, CEconItemSchema &schemaa, CUtlVector<CUtlString> *pVecErrors = nullptr);
 #ifndef GC_DLL
 	virtual bool	BInitFromTestItemKVs( int iNewDefIndex, KeyValues *pKVItem, CEconItemSchema &schemaa );
 #endif
@@ -98,7 +98,7 @@ public:
 	// CEconItemSchema interface.
 	virtual CEconItemDefinition *CreateEconItemDefinition() { return new CCStrike15ItemDefinition; }
 
-	virtual bool BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlString> *pVecErrors = NULL );
+	virtual bool BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 private:
 	void InitializeStringTable( const char **ppStringTable, unsigned int unStringCount, CUtlVector<const char *> *out_pvecStringTable );

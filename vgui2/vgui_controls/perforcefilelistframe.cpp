@@ -50,11 +50,11 @@ static int __cdecl FileBrowserSortFunc( vgui::ListPanel *pPanel, const vgui::Lis
 COperationFileListFrame::COperationFileListFrame( vgui::Panel *pParent, const char *pTitle, const char *pColumnHeader, bool bShowDescription, bool bShowOkOnly, int nDialogID ) :
 	BaseClass( pParent, "PerforceFileList" )
 {
-	m_pText = NULL;
+	m_pText = nullptr;
 	vgui::Panel *pBrowserParent = this;
 
-	m_pDescription = NULL;
-	m_pSplitter = NULL;
+	m_pDescription = nullptr;
+	m_pSplitter = nullptr;
 	if ( bShowDescription )
 	{
 		m_pSplitter = new vgui::Splitter( this, "Splitter", vgui::SPLITTER_MODE_HORIZONTAL, 1 );
@@ -102,7 +102,7 @@ COperationFileListFrame::COperationFileListFrame( vgui::Panel *pParent, const ch
 		m_pNoButton->SetVisible( false );
 	}
 
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 
 	SetTitle( pTitle, false );
 }
@@ -126,7 +126,7 @@ void COperationFileListFrame::CleanUpMessage()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -280,7 +280,7 @@ void COperationFileListFrame::OnCommand( const char *pCommand )
 		if ( m_pContextKeyValues )
 		{
 			pActionKeys->AddSubKey( m_pContextKeyValues );
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 		CloseModal();
 		PostActionSignal( pActionKeys );
@@ -293,7 +293,7 @@ void COperationFileListFrame::OnCommand( const char *pCommand )
 		if ( m_pContextKeyValues )
 		{
 			pActionKeys->AddSubKey( m_pContextKeyValues );
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 		CloseModal();
 		PostActionSignal( pActionKeys );
@@ -405,7 +405,7 @@ void CPerforceFileListFrame::AddFile( const char *pFullPath )
 	if ( m_Action < PERFORCE_ACTION_FILE_REVERT )
 	{
 		// If the file wasn't found on the disk, then abort
-		if ( g_pFullFileSystem->FileExists( pFullPath, NULL ) )
+		if ( g_pFullFileSystem->FileExists( pFullPath, nullptr) )
 		{
 			AddFileForOpen( pFullPath );
 		}
@@ -413,7 +413,7 @@ void CPerforceFileListFrame::AddFile( const char *pFullPath )
 	}
 
 	// Deal with submit, revert
-	bool bFileExists = g_pFullFileSystem->FileExists( pFullPath, NULL );
+	bool bFileExists = g_pFullFileSystem->FileExists( pFullPath, nullptr);
 	P4FileState_t state = p4->GetFileState( pFullPath );
 	if ( bFileExists || (state == P4FILE_OPENED_FOR_DELETE) )
 	{
@@ -587,7 +587,7 @@ void ShowPerforceQuery( vgui::Panel *pParent, const char *pFileName, vgui::Panel
 	p4->RefreshActiveClient();
 
 	PerforceAction_t action = PERFORCE_ACTION_NONE;
-	const char *pTitle = NULL;
+	const char *pTitle = nullptr;
 	if ( !p4->IsFileInPerforce( pFileName )	)
 	{
 		// If the file isn't in perforce, ask to add it

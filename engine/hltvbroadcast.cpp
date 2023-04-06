@@ -34,7 +34,7 @@
 
 extern CNetworkStringTableContainer *networkStringTableContainerServer;
 
-static ISteamHTTP *s_pSteamHTTP = NULL;
+static ISteamHTTP *s_pSteamHTTP = nullptr;
 
 ConVar tv_broadcast_keyframe_interval( "tv_broadcast_keyframe_interval", "3", FCVAR_RELEASE, "The frequency, in seconds, of sending keyframes and delta fragments to the broadcast relay server" );
 ConVar tv_broadcast_startup_resend_interval( "tv_broadcast_startup_resend_interval", "10", FCVAR_RELEASE, "The interval, in seconds, of re-sending startup data to the broadcast relay server (useful in case relay crashes, restarts or startup data http request fails)" );
@@ -50,7 +50,7 @@ ConVar tv_broadcast_origin_auth( "tv_broadcast_origin_auth", "gocastauth" /*use 
 CHLTVBroadcast::CHLTVBroadcast(CHLTVServer *pHltvServer) :m_pHltvServer( pHltvServer )
 {
 	m_flTimeout = 30;
-	m_pFile = NULL;
+	m_pFile = nullptr;
 	m_bIsRecording = false;
 	m_nHttpRequestBacklogHighWatermark = 0;
 	m_nMatchFragmentCounter = 0;
@@ -60,7 +60,7 @@ CHLTVBroadcast::CHLTVBroadcast(CHLTVServer *pHltvServer) :m_pHltvServer( pHltvSe
 CHLTVBroadcast::CMemoryStream::CMemoryStream() : m_Buffer( NET_MAX_PAYLOAD, NET_MAX_PAYLOAD )
 {
 	m_nCommitted = 0;
-	m_pReserved = NULL;
+	m_pReserved = nullptr;
 }
 
 CHLTVBroadcast::~CHLTVBroadcast()
@@ -300,7 +300,7 @@ void CHLTVBroadcast::WriteSignonData()
 			CSteamID steamIdUser( 1, steamIdGs.GetEUniverse(), k_EAccountTypeIndividual );
 			CUtlVector< AccountID_t > arrAvatarsToAddFromDisk;
 			for ( char const *pszPrev = sv_mmqueue_reservation.GetString(), *pszNext = pszPrev;
-				( pszNext = strchr( pszPrev, '[' ) ) != NULL; ( pszPrev = pszNext + 1 ) )
+				( pszNext = strchr( pszPrev, '[' ) ) != nullptr; ( pszPrev = pszNext + 1 ) )
 			{
 				uint32 uiAccountId = 0;
 				sscanf( pszNext, "[%x]", &uiAccountId );
@@ -312,7 +312,7 @@ void CHLTVBroadcast::WriteSignonData()
 				}
 			}
 			for ( char const *pszPrev = sv_mmqueue_reservation.GetString(), *pszNext = pszPrev;
-				( pszNext = strchr( pszPrev, '{' ) ) != NULL; ( pszPrev = pszNext + 1 ) )
+				( pszNext = strchr( pszPrev, '{' ) ) != nullptr; ( pszPrev = pszNext + 1 ) )
 			{
 				uint32 uiAccountId = 0;
 				sscanf( pszNext, "{%x}", &uiAccountId );
@@ -331,7 +331,7 @@ void CHLTVBroadcast::WriteSignonData()
 				//
 				CUtlBuffer bufAvatarData;
 				CUtlBuffer bufAvatarDataDefault;
-				CUtlBuffer *pbufUseRgb = NULL;
+				CUtlBuffer *pbufUseRgb = nullptr;
 				if ( !pbufUseRgb &&
 					g_pFullFileSystem->ReadFile( CFmtStr( "avatars/%llu.rgb", steamIdUser.ConvertToUint64() ), "MOD", bufAvatarData ) &&
 					( bufAvatarData.TellPut() == 64 * 64 * 3 ) )
@@ -539,7 +539,7 @@ void CHLTVBroadcast::RecordSnapshot( CHLTVFrame * pFrame, bf_write * additionald
 
 #ifndef SHARED_NET_STRING_TABLES
 	// Update shared client/server string tables. Must be done before sending entities
-	m_pHltvServer->m_StringTables->WriteUpdateMessage( NULL, MAX( m_nSignonTick, nDeltaTick ), msg );
+	m_pHltvServer->m_StringTables->WriteUpdateMessage(nullptr, MAX( m_nSignonTick, nDeltaTick ), msg );
 #endif
 
 	// get delta frame
@@ -552,7 +552,7 @@ void CHLTVBroadcast::RecordSnapshot( CHLTVFrame * pFrame, bf_write * additionald
 
 	// send all unreliable temp ents between last and current frame
 	CSVCMsg_TempEntities_t tempentsmsg;
-	CFrameSnapshot * fromSnapshot = deltaFrame ? deltaFrame->GetSnapshot() : NULL;
+	CFrameSnapshot * fromSnapshot = deltaFrame ? deltaFrame->GetSnapshot() : nullptr;
 	sv.WriteTempEntities( m_pHltvServer->m_MasterClient, pFrame->GetSnapshot(), fromSnapshot, tempentsmsg, 255 );
 	if ( tempentsmsg.num_entries() )
 	{
@@ -592,7 +592,7 @@ void CHLTVBroadcast::CMemoryStream::Commit( uint nCommitBytes )
 {
 	Assert( m_pReserved && m_nCommitted + nCommitBytes <= uint( m_Buffer.NumAllocated() ) );
 	m_nCommitted += nCommitBytes;
-	m_pReserved = NULL;
+	m_pReserved = nullptr;
 }
 
 
@@ -601,7 +601,7 @@ void CHLTVBroadcast::CMemoryStream::Purge()
 	Assert( !m_nCommitted && !m_pReserved ); // we should not have anything waiting to be committed
 	m_Buffer.Purge();
 	m_nCommitted = 0;
-	m_pReserved = NULL;
+	m_pReserved = nullptr;
 }
 
 void CHLTVBroadcast::CMemoryStream::WriteCmdHeader( unsigned char cmd, int tick, int nPlayerSlot )
@@ -636,12 +636,12 @@ CHLTVBroadcast::CHttpCallback * CHLTVBroadcast::Send( const char* pPath, const v
 	if ( !s_pSteamHTTP )
 	{
 		Warning( "HLTV Broadcast cannot send data because steam http is not available. Are you logged into Steam?\n" );
-		return NULL;
+		return nullptr;
 	}
 	if ( tv_broadcast_drop_fragments.GetInt() > 0 && ( rand() % tv_broadcast_drop_fragments.GetInt() ) == 0 )
 	{
 		Msg( "Dropping %d bytes to %s%s\n", nSize, GetUrl(), pPath );
-		return NULL;
+		return nullptr;
 	}
 
 	return LowLevelSend( m_Url + pPath, pBase, nSize );
@@ -656,7 +656,7 @@ CHLTVBroadcast::CHttpCallback * CHLTVBroadcast::LowLevelSend( const CUtlString &
 	if ( !hRequest )
 	{
 		Warning( "Cannot create http put: %s, %u bytes lost\n", path.Get(), nSize );
-		return NULL;
+		return nullptr;
 	}
 	s_pSteamHTTP->SetHTTPRequestNetworkActivityTimeout( hRequest, m_flTimeout );
 	const char *pOriginAuth = tv_broadcast_origin_auth.GetString();
@@ -671,11 +671,11 @@ CHLTVBroadcast::CHttpCallback * CHLTVBroadcast::LowLevelSend( const CUtlString &
 	{
 		Warning( "Cannot set http post body for %s, %u bytes\n", path.Get(), nSize );
 		s_pSteamHTTP->ReleaseHTTPRequest( hRequest );
-		return NULL;
+		return nullptr;
 	}
 
 	SteamAPICall_t hCall;
-	CHttpCallback *pResult = NULL;
+	CHttpCallback *pResult = nullptr;
 	if ( s_pSteamHTTP->SendHTTPRequest( hRequest, &hCall ) && hCall )
 	{
 		pResult = new CHttpCallback( this, hRequest, path.Get() );

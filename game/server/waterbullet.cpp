@@ -100,7 +100,7 @@ void CWaterBullet::Touch( CBaseEntity *pOther )
 	Vector	vecEnd = GetAbsOrigin() + ( vecDir * speed );
 
 	trace_t	tr;
-	UTIL_TraceLine( vecStart, vecEnd, MASK_SHOT, NULL, &tr );
+	UTIL_TraceLine( vecStart, vecEnd, MASK_SHOT, nullptr, &tr );
 	UTIL_ImpactTrace( &tr, DMG_BULLET );
 
 	UTIL_Remove( this );

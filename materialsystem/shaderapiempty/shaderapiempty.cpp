@@ -48,7 +48,7 @@ public:
 	virtual int GetRoomRemaining() const { return 0; }
 	virtual MaterialIndexFormat_t IndexFormat() const { return MATERIAL_INDEX_FORMAT_UNKNOWN; }
 
-	void LockMesh( int numVerts, int numIndices, MeshDesc_t& desc, MeshBuffersAllocationSettings_t *pSettings = 0 );
+	void LockMesh( int numVerts, int numIndices, MeshDesc_t& desc, MeshBuffersAllocationSettings_t *pSettings = nullptr );
 	void UnlockMesh( int numVerts, int numIndices, MeshDesc_t& desc );
 
 	void ModifyBeginEx( bool bReadOnly, int firstVertex, int numVerts, int firstIndex, int numIndices, MeshDesc_t& desc );
@@ -109,9 +109,9 @@ public:
 
 	virtual unsigned int ComputeMemoryUsed() { return 0; }
 
-	virtual void * AccessRawHardwareDataStream( uint8 nRawStreamIndex, uint32 numBytes, uint32 uiFlags, void *pvContext ) { return NULL; }
+	virtual void * AccessRawHardwareDataStream( uint8 nRawStreamIndex, uint32 numBytes, uint32 uiFlags, void *pvContext ) { return nullptr; }
 
-	virtual ICachedPerFrameMeshData *GetCachedPerFrameMeshData() { return NULL; }
+	virtual ICachedPerFrameMeshData *GetCachedPerFrameMeshData() { return nullptr; }
 	virtual void ReconstructFromCachedPerFrameMeshData( ICachedPerFrameMeshData *pData ) {}
 
 private:
@@ -258,9 +258,9 @@ public:
 	virtual void SetView( void* hwnd );
 	virtual void ReleaseResources( bool bReleaseManagedResources = true );
 	virtual void ReacquireResources();
-	virtual IMesh* CreateStaticMesh( VertexFormat_t fmt, const char *pTextureBudgetGroup, IMaterial * pMaterial = NULL, VertexStreamSpec_t *pStreamSpec = NULL );
+	virtual IMesh* CreateStaticMesh( VertexFormat_t fmt, const char *pTextureBudgetGroup, IMaterial * pMaterial = nullptr, VertexStreamSpec_t *pStreamSpec = nullptr);
 	virtual void DestroyStaticMesh( IMesh* mesh );
-	virtual IShaderBuffer* CompileShader( const char *pProgram, size_t nBufLen, const char *pShaderVersion ) { return NULL; }
+	virtual IShaderBuffer* CompileShader( const char *pProgram, size_t nBufLen, const char *pShaderVersion ) { return nullptr; }
 	virtual VertexShaderHandle_t CreateVertexShader( IShaderBuffer* pShaderBuffer ) { return VERTEX_SHADER_HANDLE_INVALID; }
 	virtual void DestroyVertexShader( VertexShaderHandle_t hShader ) {}
 	virtual GeometryShaderHandle_t CreateGeometryShader( IShaderBuffer* pShaderBuffer ) { return GEOMETRY_SHADER_HANDLE_INVALID; }
@@ -347,9 +347,9 @@ public:
 	virtual bool SetDebugTextureRendering( bool bEnable ) { return false; }
 	virtual void EnableDebugTextureList( bool bEnable ) {}
 	virtual void EnableGetAllTextures( bool bEnable ) {}
-	virtual KeyValues* LockDebugTextureList( void ) { return NULL; }
+	virtual KeyValues* LockDebugTextureList( void ) { return nullptr; }
 	virtual void UnlockDebugTextureList( void ) {}
-	virtual KeyValues* GetDebugTextureList() { return NULL; }
+	virtual KeyValues* GetDebugTextureList() { return nullptr; }
 	virtual int GetTextureMemoryUsed( TextureMemoryType eTextureMemory ) { return 0; }
 	virtual void SetVertexShaderViewProj() {}
 	virtual void UpdateVertexShaderMatrix( int m ) {}
@@ -484,7 +484,7 @@ public:
 	void CopyRenderTargetToTexture( ShaderAPITextureHandle_t texID ){}
 
 	void CopyRenderTargetToTextureEx( ShaderAPITextureHandle_t texID, int nRenderTargetID, Rect_t *pSrcRect, Rect_t *pDstRect ){}
-	void CopyRenderTargetToTextureEx( ShaderAPITextureHandle_t textureHandle, int nRenderTargetID, Rect_t *pSrcRect = NULL, Rect_t *pDstRect = NULL, bool bUseBackBuffer = false ) {}
+	void CopyRenderTargetToTextureEx( ShaderAPITextureHandle_t textureHandle, int nRenderTargetID, Rect_t *pSrcRect = nullptr, Rect_t *pDstRect = nullptr, bool bUseBackBuffer = false ) {}
 
 	void CopyTextureToRenderTargetEx( int nRenderTargetID, ShaderAPITextureHandle_t textureHandle, Rect_t *pSrcRect, Rect_t *pDstRect )
 	{
@@ -638,7 +638,7 @@ public:
 	void *LockTex( ShaderAPITextureHandle_t hTexture );
 	void UnlockTex( ShaderAPITextureHandle_t hTexture );
 
-	void* GetD3DTexturePtr( ShaderAPITextureHandle_t hTexture ) { return NULL; }
+	void* GetD3DTexturePtr( ShaderAPITextureHandle_t hTexture ) { return nullptr; }
 	bool IsStandardTextureHandleValid( StandardTextureId_t textureId ) { return false; }
 
 	// These are bound to the texture, not the texture environment
@@ -679,9 +679,9 @@ public:
 	void ClearBuffersObeyStencil( bool bClearColor, bool bClearDepth );
 	void ClearBuffersObeyStencilEx( bool bClearColor, bool bClearAlpha, bool bClearDepth );
 	void PerformFullScreenStencilOperation( void );
-	void ReadPixels( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = NULL );
-	void ReadPixelsAsync( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = NULL, CThreadEvent *pPixelsReadEvent = NULL );
-	void ReadPixelsAsyncGetResult( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, CThreadEvent *pGetResultEvent = NULL );
+	void ReadPixels( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = nullptr);
+	void ReadPixelsAsync( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = nullptr, CThreadEvent *pPixelsReadEvent = nullptr);
+	void ReadPixelsAsyncGetResult( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, CThreadEvent *pGetResultEvent = nullptr);
 	virtual void ReadPixels( Rect_t *pSrcRect, Rect_t *pDstRect, unsigned char *data, ImageFormat dstFormat, int nDstStride );
 
 	// Selection mode methods
@@ -1036,7 +1036,7 @@ public:
 	// NOTE: Stuff after this is added after shipping HL2.
 	ITexture *GetRenderTargetEx( int nRenderTargetID ) const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	void SetToneMappingScaleLinear( const Vector &scale )
@@ -1089,7 +1089,7 @@ public:
 
 	ITexture *GetTextureRenderingParameter(int parm_number) const
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Vector GetVectorRenderingParameter(int parm_number) const
@@ -1232,7 +1232,7 @@ public:
 
 	void PrintfVA( char *fmt, va_list vargs ) {}
 	void Printf( char *fmt, ... ) {}
-	float Knob( char *knobname, float *setvalue = NULL ) { return 0.0f; };
+	float Knob( char *knobname, float *setvalue = nullptr) { return 0.0f; };
 	void AddShaderComboInformation( const ShaderComboSemantics_t *pSemantics ) {}
 	
 	virtual void SpinPresent( uint nFrames ){}
@@ -1321,7 +1321,7 @@ static void* ShaderInterfaceFactory( const char *pInterfaceName, int *pReturnCod
 	{
 		*pReturnCode = IFACE_FAILED;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1333,14 +1333,14 @@ static void* ShaderInterfaceFactory( const char *pInterfaceName, int *pReturnCod
 bool CShaderDeviceMgrEmpty::Connect( CreateInterfaceFn factory )
 {
 	// So others can access it
-	g_pShaderUtil = (IShaderUtil*)factory( SHADER_UTIL_INTERFACE_VERSION, NULL );
+	g_pShaderUtil = (IShaderUtil*)factory( SHADER_UTIL_INTERFACE_VERSION, nullptr);
 
 	return true;
 }
 
 void CShaderDeviceMgrEmpty::Disconnect()
 {
-	g_pShaderUtil = NULL;
+	g_pShaderUtil = nullptr;
 }
 
 void *CShaderDeviceMgrEmpty::QueryInterface( const char *pInterfaceName )
@@ -1349,7 +1349,7 @@ void *CShaderDeviceMgrEmpty::QueryInterface( const char *pInterfaceName )
 		return static_cast< IShaderDeviceMgr* >( this );
 	if ( !Q_stricmp( pInterfaceName, MATERIALSYSTEM_HARDWARECONFIG_INTERFACE_VERSION ) )
 		return static_cast< IMaterialSystemHardwareConfig* >( &g_ShaderAPIEmpty );
-	return NULL;
+	return nullptr;
 }
 
 InitReturnVal_t CShaderDeviceMgrEmpty::Init()
@@ -1699,7 +1699,7 @@ IMaterial* CEmptyMesh::GetMaterial()
 {
 	// umm. this don't work none
 	Assert(0);
-	return 0;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1815,7 +1815,7 @@ void CShaderShadowEmpty::VertexShaderVertexFormat( unsigned int nFlags,
 // Sets the vertex and pixel shaders
 void CShaderShadowEmpty::SetVertexShader( const char *pShaderName, int vshIndex )
 {
-	m_bUsesVertexAndPixelShaders = ( pShaderName != NULL );
+	m_bUsesVertexAndPixelShaders = ( pShaderName != nullptr);
 }
 
 void CShaderShadowEmpty::EnableBlendingSeparateAlpha( bool bEnable )
@@ -1823,7 +1823,7 @@ void CShaderShadowEmpty::EnableBlendingSeparateAlpha( bool bEnable )
 }
 void CShaderShadowEmpty::SetPixelShader( const char *pShaderName, int pshIndex )
 {
-	m_bUsesVertexAndPixelShaders = ( pShaderName != NULL );
+	m_bUsesVertexAndPixelShaders = ( pShaderName != nullptr);
 }
 
 void CShaderShadowEmpty::BlendFuncSeparateAlpha( ShaderBlendFactor_t srcFactor, ShaderBlendFactor_t dstFactor )
@@ -2045,7 +2045,7 @@ bool CShaderAPIEmpty::SupportsGLMixedSizeTargets() const
 
 const char *CShaderAPIEmpty::GetHWSpecificShaderDLLName() const
 {
-	return 0;
+	return nullptr;
 }
 
 // Sets the default *dynamic* state
@@ -2461,7 +2461,7 @@ void CShaderAPIEmpty::UpdateTexture( int xOffset, int yOffset, int w, int h, Sha
 }
 void *CShaderAPIEmpty::LockTex( ShaderAPITextureHandle_t hTexture )
 {
-	return NULL;
+	return nullptr;
 }
 void CShaderAPIEmpty::UnlockTex( ShaderAPITextureHandle_t hTexture )
 {
@@ -2626,7 +2626,7 @@ void CShaderAPIEmpty::PopSelectionName()
 // Use this to get the mesh builder that allows us to modify vertex data
 CMeshBuilder* CShaderAPIEmpty::GetVertexModifyBuilder()
 {
-	return 0;
+	return nullptr;
 }
 
 // Board-independent calls, here to unify how shaders set state

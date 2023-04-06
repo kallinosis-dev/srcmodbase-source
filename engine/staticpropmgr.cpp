@@ -95,14 +95,14 @@ enum
 //-----------------------------------------------------------------------------
 static const objectparams_t g_PhysDefaultObjectParams =
 {
-	NULL,
+	nullptr,
 		1.0, //mass
 		1.0, // inertia
 		0.1f, // damping
 		0.1f, // rotdamping
 		0.05f, // rotIntertiaLimit
 		"DEFAULT",
-		NULL,// game data
+	nullptr,// game data
 		0.f, // volume (leave 0 if you don't have one or call physcollision->CollideVolume() to compute it)
 		1.0f, // drag coefficient
 		true,// enable collisions?
@@ -141,11 +141,11 @@ public:
 public:
 	virtual IClientUnknown*		GetIClientUnknown()		{ return this; }
 	virtual ICollideable*		GetCollideable()		{ return this; }
-	virtual IClientNetworkable*	GetClientNetworkable()	{ return NULL; }
+	virtual IClientNetworkable*	GetClientNetworkable()	{ return nullptr; }
 	virtual IClientRenderable*	GetClientRenderable()	{ return this; }
-	virtual IClientEntity*		GetIClientEntity()		{ return NULL; }
-	virtual C_BaseEntity*		GetBaseEntity()			{ return NULL; }
-	virtual IClientThinkable*	GetClientThinkable()	{ return NULL; }
+	virtual IClientEntity*		GetIClientEntity()		{ return nullptr; }
+	virtual C_BaseEntity*		GetBaseEntity()			{ return nullptr; }
+	virtual IClientThinkable*	GetClientThinkable()	{ return nullptr; }
 	virtual IClientAlphaProperty*	GetClientAlphaProperty()	{ return m_pClientAlphaProperty; }
 
 public:
@@ -182,8 +182,8 @@ public:
 	virtual void			WorldSpaceTriggerBounds( Vector* pVecWorldMins, Vector *pVecWorldMaxs ) const;
 	virtual void			WorldSpaceSurroundingBounds( Vector* pVecWorldMins, Vector *pVecWorldMaxs );
 	virtual uint			GetRequiredTriggerFlags() const { return 0; }
-	virtual const matrix3x4_t	*GetRootParentToWorldTransform() const { return NULL; }
-	virtual IPhysicsObject	*GetVPhysicsObject() const { return NULL; }
+	virtual const matrix3x4_t	*GetRootParentToWorldTransform() const { return nullptr; }
+	virtual IPhysicsObject	*GetVPhysicsObject() const { return nullptr; }
 
 
 	// IClientRenderable overrides.
@@ -228,9 +228,9 @@ public:
 	virtual void	MarkShadowDirty( bool bDirty ) {}
 
 	// Iteration over shadow hierarchy
-	virtual IClientRenderable *GetShadowParent() { return NULL; }
-	virtual IClientRenderable *FirstShadowChild() { return NULL; }
-	virtual IClientRenderable *NextShadowPeer() { return NULL; }
+	virtual IClientRenderable *GetShadowParent() { return nullptr; }
+	virtual IClientRenderable *FirstShadowChild() { return nullptr; }
+	virtual IClientRenderable *NextShadowPeer() { return nullptr; }
 
 	// Returns the shadow cast type
 	virtual ShadowType_t ShadowCastType() { return SHADOWS_NONE; }
@@ -246,7 +246,7 @@ public:
 	virtual bool ComputeLightingOrigin( int nAttachmentIndex, Vector modelLightingCenter, const matrix3x4_t &matrix, Vector &transformedLightingCenter );
 
 	// Rendering clip plane, should be 4 floats, return value of NULL indicates a disabled render clip plane
-	virtual float *GetRenderClipPlane( void ) { return NULL; }
+	virtual float *GetRenderClipPlane( void ) { return nullptr; }
 
 	// Returns the transform from RenderOrigin/RenderAngles to world
 	virtual const matrix3x4_t &RenderableToWorldTransform()
@@ -297,7 +297,7 @@ private:
 		sInfo.pRenderable = this;
 		sInfo.pModel = m_pModel;
 		sInfo.pModelToWorld = &m_ModelToWorld;
-		sInfo.pLightingOffset = NULL;
+		sInfo.pLightingOffset = nullptr;
 		sInfo.pLightingOrigin = &m_LightingOrigin;
 		sInfo.flags = flags;
 		sInfo.entity_index = -1;
@@ -392,7 +392,7 @@ public:
 	// methods of IStaticPropMgrClient
 	virtual void TraceRayAgainstStaticProp( const Ray_t& ray, int staticPropIndex, trace_t& tr );
 	virtual void AddDecalToStaticProp( Vector const& rayStart, Vector const& rayEnd,
-		int staticPropIndex, int decalIndex, bool doTrace, trace_t& tr, void *pvProxyUserData = NULL, const Vector* saxis = NULL, int32 nAdditionalDecalFlags = 0 ) OVERRIDE;
+		int staticPropIndex, int decalIndex, bool doTrace, trace_t& tr, void *pvProxyUserData = nullptr, const Vector* saxis = nullptr, int32 nAdditionalDecalFlags = 0 ) OVERRIDE;
 	virtual void AddShadowToStaticProp( unsigned short shadowHandle, IClientRenderable* pRenderable );
 	virtual void RemoveAllShadowsFromStaticProp( IClientRenderable* pRenderable );
 	virtual void GetStaticPropMaterialColorAndLighting( trace_t* pTrace,
@@ -465,7 +465,7 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR(CStaticPropMgr, IStaticPropMgrServer, INTERFAC
 // Static prop
 //
 //-----------------------------------------------------------------------------
-CStaticProp::CStaticProp() : m_pModel(0), m_Alpha(255)
+CStaticProp::CStaticProp() : m_pModel(nullptr), m_Alpha(255)
 {
 #ifdef _GAMECONSOLE
 	m_bIsStaticProp = true;
@@ -474,7 +474,7 @@ CStaticProp::CStaticProp() : m_pModel(0), m_Alpha(255)
 	m_Partition = PARTITION_INVALID_HANDLE;
 	m_EntHandle = INVALID_EHANDLE;
 	m_RenderHandle = INVALID_CLIENT_RENDER_HANDLE;
-	m_pClientAlphaProperty = NULL;
+	m_pClientAlphaProperty = nullptr;
 }
 
 CStaticProp::~CStaticProp()
@@ -745,11 +745,11 @@ IClientModelRenderable* CStaticProp::GetClientModelRenderable()
 	// Don't bother using fast path if proxies are happening
 #ifndef DEDICATED
 	if ( !m_pModel || modelinfoclient->ModelHasMaterialProxy( m_pModel ) )
-		return NULL;
+		return nullptr;
 #endif
 
 	if ( IsUsingStaticPropDebugModes() )
-		return NULL;
+		return nullptr;
 
 	return this;
 }
@@ -852,7 +852,7 @@ void CStaticProp::CleanUpAlphaProperty()
 #ifndef DEDICATED
 		g_pClientAlphaPropertyMgr->DestroyClientAlphaProperty( m_pClientAlphaProperty );
 #endif
-		m_pClientAlphaProperty = NULL;
+		m_pClientAlphaProperty = nullptr;
 	}
 }
 
@@ -961,7 +961,7 @@ ClientRenderHandle_t& CStaticProp::RenderHandle()
 
 IPVSNotify* CStaticProp::GetPVSNotifyInterface()
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1141,7 +1141,7 @@ int	CStaticProp::DrawModelSlow( int flags, const RenderableInstance_t &instance 
 			if ( pCollide && pCollide->solidCount == 1 )
 			{
 				static color32 debugColor = {0,255,255,0};
-				DebugDrawPhysCollide( pCollide->solids[0], NULL, m_ModelToWorld, debugColor, false );
+				DebugDrawPhysCollide( pCollide->solids[0], nullptr, m_ModelToWorld, debugColor, false );
 			}
 		}
 		else if ( m_nSolidType == SOLID_BBOX )
@@ -1285,9 +1285,9 @@ void CStaticProp::CreateVPhysics( IPhysicsEnvironment *pPhysEnv, IVPhysicsKeyHan
 	if ( m_nSolidType == SOLID_NONE )
 		return;
 
-	vcollide_t *pVCollide = NULL;
+	vcollide_t *pVCollide = nullptr;
 	solid_t solid;
-	CPhysCollide* pPhysCollide = NULL;
+	CPhysCollide* pPhysCollide = nullptr;
 	unsigned int iContents = MASK_ALL;
 
 	if ( m_pModel )
@@ -1784,7 +1784,7 @@ void CStaticPropMgr::LevelShutdownClient()
 	{
 		m_StaticProps[i].CleanUpAlphaProperty();
 		m_StaticProps[i].CleanUpRenderHandle( );
-		modelrender->SetStaticLighting( m_StaticProps[i].GetModelInstance(), NULL );
+		modelrender->SetStaticLighting( m_StaticProps[i].GetModelInstance(), nullptr);
 	}
 
 #ifndef DEDICATED
@@ -1822,13 +1822,13 @@ ICollideable *CStaticPropMgr::GetStaticProp( IHandleEntity *pHandleEntity )
 {
 	if ( !IsStaticProp_Inline( pHandleEntity ) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int nIndex = pHandleEntity ? pHandleEntity->GetRefEHandle().GetEntryIndex() : -1;
 	if ( nIndex < 0 || nIndex > m_StaticProps.Count() )
 	{
-		return NULL;
+		return nullptr;
 	}
 	return &m_StaticProps[nIndex];
 }
@@ -1841,7 +1841,7 @@ ICollideable *CStaticPropMgr::GetStaticPropByIndex( int propIndex )
 		return &m_StaticProps[propIndex];
 	}
 	Assert(0);
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1851,7 +1851,7 @@ ICollideable *CStaticPropMgr::GetStaticPropByIndex( int propIndex )
 //-----------------------------------------------------------------------------
 void CStaticPropMgr::GetAllStaticProps( CUtlVector<ICollideable *> *pOutput )
 {
-	if ( pOutput == NULL ) return;
+	if ( pOutput == nullptr) return;
 	int iPropVectorSize = m_StaticProps.Count();
 
 	int counter;
@@ -1863,7 +1863,7 @@ void CStaticPropMgr::GetAllStaticProps( CUtlVector<ICollideable *> *pOutput )
 
 void CStaticPropMgr::GetAllStaticPropsInAABB( const Vector &vMins, const Vector &vMaxs, CUtlVector<ICollideable *> *pOutput )
 {
-	if ( pOutput == NULL ) return;
+	if ( pOutput == nullptr) return;
 	int iPropVectorSize = m_StaticProps.Count();
 
 	int counter;
@@ -1888,7 +1888,7 @@ void CStaticPropMgr::GetAllStaticPropsInAABB( const Vector &vMins, const Vector 
 
 void CStaticPropMgr::GetAllStaticPropsInOBB( const Vector &ptOrigin, const Vector &vExtent1, const Vector &vExtent2, const Vector &vExtent3, CUtlVector<ICollideable *> *pOutput )
 {
-	if ( pOutput == NULL ) 
+	if ( pOutput == nullptr) 
 		return;
 	int counter;
 
@@ -2163,7 +2163,7 @@ void CStaticPropMgr::DrawStaticProps_Fast( IClientRenderable **pProps, const Ren
 	sInfo.entity_index = -1;
 	sInfo.body = 0;
 	sInfo.hitboxset = 0;
-	sInfo.pLightingOffset = NULL;
+	sInfo.pLightingOffset = nullptr;
 	for ( int i = 0; i < count; i++ )
 	{
 		MDLCACHE_CRITICAL_SECTION_( g_pMDLCache );
@@ -2347,7 +2347,7 @@ void CStaticPropMgr::AddDecalToStaticProp( Vector const& rayStart, Vector const&
 		up = (*saxis).Cross( rayEnd - rayStart );
 	}
 
-	modelrender->AddDecal( prop.GetModelInstance(), ray, up, decalIndex, 0, noPokethru, ADDDECAL_TO_ALL_LODS, NULL, 1.0f, 1.0f, pvProxyUserData, nAdditionalDecalFlags );
+	modelrender->AddDecal( prop.GetModelInstance(), ray, up, decalIndex, 0, noPokethru, ADDDECAL_TO_ALL_LODS, nullptr, 1.0f, 1.0f, pvProxyUserData, nAdditionalDecalFlags );
 #endif
 }
 

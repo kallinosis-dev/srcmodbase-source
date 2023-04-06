@@ -38,7 +38,7 @@ mxListBox::mxListBox (mxWindow *parent, int x, int y, int w, int h, int id, int 
 
 	void *handle = (void *) CreateWindowEx (WS_EX_CLIENTEDGE, "LISTBOX", "", WS_VISIBLE | WS_CHILD | LBS_NOTIFY | WS_VSCROLL,
 				x, y, w, h, hwndParent,
-				(HMENU) id, (HINSTANCE) GetModuleHandle (NULL), NULL);
+				(HMENU) id, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 	
 	SendMessage ((HWND) handle, WM_SETFONT, (WPARAM) (HFONT) GetStockObject (ANSI_VAR_FONT), MAKELPARAM (TRUE, 0));
 	SetWindowLong ((HWND) handle, GWL_USERDATA, (LONG) this);

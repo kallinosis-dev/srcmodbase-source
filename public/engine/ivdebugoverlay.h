@@ -42,7 +42,7 @@ public:
 	virtual void AddScreenTextOverlay(float flXPos, float flYPos,float flDuration, int r, int g, int b, int a, const char *text) = 0;
 	virtual void AddSweptBoxOverlay(const Vector& start, const Vector& end, const Vector& mins, const Vector& max, const QAngle & angles, int r, int g, int b, int a, float flDuration) = 0;
 	virtual void AddGridOverlay(const Vector& origin) = 0;
-	virtual void AddCoordFrameOverlay(const matrix3x4_t& frame, float flScale, int vColorTable[3][3] = NULL) = 0;
+	virtual void AddCoordFrameOverlay(const matrix3x4_t& frame, float flScale, int vColorTable[3][3] = nullptr) = 0;
 
 	virtual int ScreenPosition(const Vector& point, Vector& screen) = 0;
 	virtual int ScreenPosition(float flXPos, float flYPos, Vector& screen) = 0;

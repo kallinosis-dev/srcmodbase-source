@@ -154,7 +154,7 @@ bool CAI_PlaneSolver::DetectUnsolvable( const AILocalMoveGoal_t &goal )
 
 float CAI_PlaneSolver::AdjustRegulationWeight( CBaseEntity *pEntity, float weight )
 {
-	if ( pEntity->MyNPCPointer() != NULL )
+	if ( pEntity->MyNPCPointer() != nullptr)
 	{
 		// @TODO (toml 10-03-02): How to do this with non-NPC entities. Should be using intended solve velocity...
 		Vector2D velOwner = GetNpc()->GetMotor()->GetCurVel().AsVector2D();
@@ -229,7 +229,7 @@ void CAI_PlaneSolver::GenerateSuggestionFromTrace( const AILocalMoveGoal_t &goal
 		default:					type = AIMST_NO_KNOWLEDGE;	AssertMsg( 0, "Unexpected mode status" ); break; 
 	}
 
-	if ( goal.pMoveTarget != NULL && goal.pMoveTarget == moveTrace.pObstruction )
+	if ( goal.pMoveTarget != nullptr && goal.pMoveTarget == moveTrace.pObstruction )
 	{
 		suggestion.Set( type, 0,
 						arcCenter, arcSpan, 
@@ -779,7 +779,7 @@ bool CAI_PlaneSolver::IsSegmentBlockedByGlobalObstacles( const Vector &vecStart,
 bool CAI_PlaneSolver::GenerateCircleObstacleSuggestion( const CircleObstacles_t &obstacle, 
 	const AILocalMoveGoal_t &moveGoal, float probeDist, const Vector& npcLoc, float radiusNpc )
 {
-	CBaseEntity *pObstacleEntity = NULL;
+	CBaseEntity *pObstacleEntity = nullptr;
 
 	float zDistTooFar;
 	if ( obstacle.hEntity && obstacle.hEntity->CollisionProp() )
@@ -865,7 +865,7 @@ bool CAI_PlaneSolver::GenerateCircleObstacleSuggestion( const CircleObstacles_t 
 		weight = 1.0;
 	}
 
-	if ( obstacle.hEntity != NULL )
+	if ( obstacle.hEntity != nullptr)
 	{
 		weight = AdjustRegulationWeight( obstacle.hEntity, weight );
 	}

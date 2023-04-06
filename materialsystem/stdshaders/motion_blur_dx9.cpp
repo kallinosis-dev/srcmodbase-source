@@ -29,7 +29,7 @@ BEGIN_VS_SHADER_FLAGS( MotionBlur_dx9, "Motion Blur", SHADER_NOT_EDITABLE )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -45,7 +45,7 @@ BEGIN_VS_SHADER_FLAGS( MotionBlur_dx9, "Motion Blur", SHADER_NOT_EDITABLE )
 		bool bForceSRGBReadsAndWrites = IsOSXOpenGL() && g_pHardwareConfig->CanDoSRGBReadFromRTs();
 		SHADOW_STATE
 		{
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
 			// On OSX OpenGL, we must do sRGB reads and writes since these render targets are tagged as such
 			bool bForceSRGBReadsAndWrites = IsOSX() && g_pHardwareConfig->CanDoSRGBReadFromRTs();

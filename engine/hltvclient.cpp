@@ -138,12 +138,12 @@ bool CHLTVClient::CLCMsg_VoiceData(const CCLCMsg_VoiceData& msg)
 
 void CHLTVClient::ConnectionClosing(const char *reason)
 {
-	Disconnect ( (reason!=NULL)?reason:"Connection closing" );	
+	Disconnect ( (reason!= nullptr)?reason:"Connection closing" );	
 }
 
 void CHLTVClient::ConnectionCrashed(const char *reason)
 {
-	Disconnect ( (reason!=NULL)?reason:"Connection lost" );	
+	Disconnect ( (reason!= nullptr)?reason:"Connection lost" );	
 }
 
 void CHLTVClient::PacketStart(int incoming_sequence, int outgoing_acknowledged)
@@ -544,7 +544,7 @@ bool CHLTVClient::SendSnapshot( CClientFrame * pFrame )
 	tickmsg.WriteToBuffer( msg );
 
 	// Update shared client/server string tables. Must be done before sending entities
-	m_Server->m_StringTables->WriteUpdateMessage( NULL, GetMaxAckTickCount(), msg );
+	m_Server->m_StringTables->WriteUpdateMessage(nullptr, GetMaxAckTickCount(), msg );
 
 	// TODO delta cache whole snapshots, not just packet entities. then use net_Align
 	// send entity update, delta compressed if deltaFrame != NULL

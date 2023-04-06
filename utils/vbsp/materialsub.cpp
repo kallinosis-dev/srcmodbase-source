@@ -13,9 +13,9 @@
 
 bool g_ReplaceMaterials	= false;
 
-static KeyValues *kv			= 0;
-static KeyValues *allMapKeys	= 0;
-static KeyValues *curMapKeys	= 0;
+static KeyValues *kv			= nullptr;
+static KeyValues *allMapKeys	= nullptr;
+static KeyValues *curMapKeys	= nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Loads the KeyValues file for materials replacements
@@ -26,12 +26,12 @@ void LoadMaterialReplacementKeys( const char *gamedir, const char *mapname )
 	if( kv )
 	{
 		kv->deleteThis();
-		kv = 0;
+		kv = nullptr;
 	}
 	if( allMapKeys )
-		allMapKeys = 0;
+		allMapKeys = nullptr;
 	if( curMapKeys )
-		curMapKeys = 0;
+		curMapKeys = nullptr;
 
 	Msg( "Loading Replacement Keys\n" );
 
@@ -48,7 +48,7 @@ void LoadMaterialReplacementKeys( const char *gamedir, const char *mapname )
 		Msg( "Failed to load KeyValues file!\n" );
 		g_ReplaceMaterials = false;
 		kv->deleteThis();
-		kv = 0;
+		kv = nullptr;
 		return;
 	}
 
@@ -69,7 +69,7 @@ void DeleteMaterialReplacementKeys( void )
 	if( kv )
 	{
 		kv->deleteThis();
-		kv = 0;
+		kv = nullptr;
 	}
 }
 

@@ -234,7 +234,7 @@ bool CNetworkStringTableDictionaryManager::OnLevelLoadStart( char const *pchMapN
 	m_bForceRebuildDictionaries = stringtable_alwaysrebuilddictionaries.GetBool() || CommandLine()->FindParm( "-stringtables" );
 
 	if ( pchMapName )
-		LoadMapStrings( pchMapName, pStringTableCRC == NULL );
+		LoadMapStrings( pchMapName, pStringTableCRC == nullptr);
 	else
 		return true;	// assume that stringtables will match since we will download the map later
 
@@ -446,14 +446,14 @@ bool CNetworkStringTableDictionaryManager::WriteDictionaryToBSP( char const *pch
 	}
 
 	// load the bsppack dll
-	IBSPPack *iBSPPack = NULL;
+	IBSPPack *iBSPPack = nullptr;
 	CSysModule *pModule = FileSystem_LoadModule( "bsppack" );
 	if ( pModule )
 	{
 		CreateInterfaceFn factory = Sys_GetFactory( pModule );
 		if ( factory )
 		{
-			iBSPPack = ( IBSPPack * )factory( IBSPPACK_VERSION_STRING, NULL );
+			iBSPPack = ( IBSPPack * )factory( IBSPPACK_VERSION_STRING, nullptr);
 		}
 	}
 
@@ -655,7 +655,7 @@ void CNetworkStringTable::CheckDictionary( int stringNumber )
 //-----------------------------------------------------------------------------
 CNetworkStringTable::CNetworkStringTable( TABLEID id, const char *tableName, int maxentries, int userdatafixedsize, int userdatanetworkbits, int flags ) :
 	m_bAllowClientSideAddString( false ),
-	m_pItemsClientSide( NULL ),
+	m_pItemsClientSide(nullptr),
 	m_nFlags( flags )
 {
 	if ( maxentries < 0 || userdatafixedsize < 0 || userdatanetworkbits < 0 )
@@ -671,11 +671,11 @@ CNetworkStringTable::CNetworkStringTable( TABLEID id, const char *tableName, int
 	Assert( tableName );
 	Q_strncpy( m_pszTableName, tableName, len );
 
-	m_changeFunc = NULL;
-	m_pObject = NULL;
+	m_changeFunc = nullptr;
+	m_pObject = nullptr;
 	m_nTickCount = 0;
 	for ( int i = 0; i < MIRROR_TABLE_MAX_COUNT; ++i )
-		m_pMirrorTable[ i ] = NULL;
+		m_pMirrorTable[ i ] = nullptr;
 	m_nLastChangedTick = 0;
 	m_bChangeHistoryEnabled = false;
 	m_bLocked = false;
@@ -719,7 +719,7 @@ void CNetworkStringTable::SetAllowClientSideAddString( bool state )
 	if ( m_pItemsClientSide )
 	{
 		delete m_pItemsClientSide; 
-		m_pItemsClientSide = NULL;
+		m_pItemsClientSide = nullptr;
 	}
 
 	if ( m_bAllowClientSideAddString )
@@ -924,7 +924,7 @@ void CNetworkStringTable::UpdateMirrorTable( int tick_ack  )
 			if ( !nBytes || !pUserData )
 			{
 				nBytes = 0;
-				pUserData = NULL;
+				pUserData = nullptr;
 			}
 
 			// Check if we are updating an old entry or adding a new one
@@ -1141,7 +1141,7 @@ void CNetworkStringTable::ParseUpdate( bf_read &buf, int entries )
 			Host_Error( "Server sent bogus string index %i for table %s\n", entryIndex, GetTableName() );
 		}
 
-		const char *pEntry = NULL;
+		const char *pEntry = nullptr;
 		char entry[ 1024 ]; 
 		char substr[ 1024 ];
 
@@ -1187,7 +1187,7 @@ void CNetworkStringTable::ParseUpdate( bf_read &buf, int entries )
 		// Read in the user data.
 		unsigned char tempbuf[ CNetworkStringTableItem::MAX_USERDATA_SIZE ];
 		memset( tempbuf, 0, sizeof( tempbuf ) );
-		const void *pUserData = NULL;
+		const void *pUserData = nullptr;
 		int nBytes = 0;
 
 		if ( buf.ReadOneBit() )
@@ -1230,7 +1230,7 @@ void CNetworkStringTable::ParseUpdate( bf_read &buf, int entries )
 			// Grow the table (entryindex must be the next empty slot)
 			Assert( (entryIndex == GetNumStrings()) && (pEntry != NULL) );
 				
-			if ( pEntry == NULL )
+			if ( pEntry == nullptr)
 			{
 				Msg("CNetworkStringTable::ParseUpdate: NULL pEntry, table %s, index %i\n", GetTableName(), entryIndex );
 				pEntry = "";// avoid crash because of NULL strings
@@ -1268,7 +1268,7 @@ void CNetworkStringTable::CopyStringTable(CNetworkStringTable * table)
 
 void CNetworkStringTable::TriggerCallbacks( int tick_ack )
 {
-	if ( m_changeFunc == NULL )
+	if ( m_changeFunc == nullptr)
 		return;
 
 	COM_TimestampedLog( "Change(%s):Start", GetTableName() );
@@ -1492,7 +1492,7 @@ const char *CNetworkStringTable::GetString( int stringNumber ) const
 	{
 		return dict->String( stringNumber );
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1548,7 +1548,7 @@ void CNetworkStringTable::DataChanged( int stringNumber, CNetworkStringTableItem
 	
 #ifndef SHARED_NET_STRING_TABLES // but not if client & server share the same containers, we trigger that later
 
-	if ( m_changeFunc != NULL )
+	if ( m_changeFunc != nullptr)
 	{
 		int userDataSize;
 		const void *pUserData = item->GetUserData( &userDataSize );
@@ -1816,7 +1816,7 @@ bool CNetworkStringTable::WriteBaselines( CSVCMsg_CreateStringTable_t &msg )
 	msg.set_user_data_size_bits( GetUserDataSizeBits() );
 
 	// tick = -1 ensures that all entries are updated = baseline
-	int entries = WriteUpdate( NULL, string_data_buf, -1 );
+	int entries = WriteUpdate(nullptr, string_data_buf, -1 );
 
 	// resize the buffer to the actual byte size
 	msg.mutable_string_data()->resize( Bits2Bytes( string_data_buf.GetNumBitsWritten() ) );
@@ -1894,21 +1894,21 @@ INetworkStringTable *CNetworkStringTableContainer::CreateStringTable( const char
 	if ( !m_bAllowCreation )
 	{
 		Sys_Error( "Tried to create string table '%s' at wrong time\n", tableName );
-		return NULL;
+		return nullptr;
 	}
 
 	CNetworkStringTable *pTable = (CNetworkStringTable*) FindTable( tableName );
 
-	if ( pTable != NULL )
+	if ( pTable != nullptr)
 	{
 		Sys_Error( "Tried to create string table '%s' twice\n", tableName );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( m_Tables.Count() >= MAX_TABLES )
 	{
 		Sys_Error( "Only %i string tables allowed, can't create'%s'", MAX_TABLES, tableName);
-		return NULL;
+		return nullptr;
 	}
 
 	TABLEID id = m_Tables.Count();
@@ -1943,7 +1943,7 @@ INetworkStringTable *CNetworkStringTableContainer::FindTable( const char *tableN
 			return m_Tables[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1955,7 +1955,7 @@ INetworkStringTable *CNetworkStringTableContainer::FindTable( const char *tableN
 INetworkStringTable *CNetworkStringTableContainer::GetTable( TABLEID stringTable ) const
 {
 	if ( stringTable < 0 || stringTable >= m_Tables.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_Tables[ stringTable ];
 }

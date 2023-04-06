@@ -43,13 +43,13 @@ struct BaseEntityRecordingState_t
 {
 	BaseEntityRecordingState_t() :	
 		m_flTime( 0.0f ),
-		m_pModelName( 0 ),
+		m_pModelName( nullptr ),
 		m_nOwner( -1 ),
 		m_fEffects( 0 ),
 		m_bVisible( false ),
 		m_bRecordFinalVisibleSample( false ),
 		m_numEffects( 0 ),
-		m_pEffects( NULL ),
+		m_pEffects(nullptr),
 		m_nFollowEntity( -1 )
 	{
 		m_vecRenderOrigin.Init();

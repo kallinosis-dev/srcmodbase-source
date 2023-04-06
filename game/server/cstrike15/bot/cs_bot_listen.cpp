@@ -92,7 +92,7 @@ bool CCSBot::CanHearNearbyEnemyGunfire( float range ) const
 	if (!CanSeeNoisePosition())
 		return false;
 
-	if (IsAttacking() && m_enemy != NULL && GetTimeSinceLastSawEnemy() < 1.0f)
+	if (IsAttacking() && m_enemy != nullptr && GetTimeSinceLastSawEnemy() < 1.0f)
 	{
 		// gunfire is only threatening if it is closer than our current enemy
 		float gunfireDistSq = (m_noisePosition - myOrigin).LengthSqr();

@@ -58,7 +58,7 @@ void CC_LoadCommentary_Test( void )
 {
 	OpenLoadCommentaryDialog();
 }
-static ConCommand commentary_testfirstrun("loadcommentary", CC_LoadCommentary_Test, 0 );
+static ConCommand commentary_testfirstrun("loadcommentary", CC_LoadCommentary_Test, nullptr );
 
 //-----------------------------------------------------------------------------
 // Purpose: Describes the layout of a commentary map list item
@@ -80,7 +80,7 @@ public:
 		// description
 		m_pDescriptionLabel = new Label( this, "Description", "" );
 
-		CMouseMessageForwardingPanel *panel = new CMouseMessageForwardingPanel(this, NULL);
+		CMouseMessageForwardingPanel *panel = new CMouseMessageForwardingPanel(this, nullptr);
 		panel->SetZPos(2);
 
 		SetSize( 200, 140 );
@@ -300,7 +300,7 @@ void CLoadCommentaryDialog::ScanCommentaryFiles()
 	{
 		vgui::Label *pNoCommentaryItemsLabel = SETUP_PANEL(new Label(m_pGameList, "NoCommentaryItemsLabel", "#GameUI_NoCommentaryItemsToDisplay"));
 		pNoCommentaryItemsLabel->SetTextColorState(vgui::Label::CS_DULL);
-		m_pGameList->AddItem( NULL, pNoCommentaryItemsLabel );
+		m_pGameList->AddItem(nullptr, pNoCommentaryItemsLabel );
 	}
 
 	SetControlEnabled( "loadcommentary", false );
@@ -314,7 +314,7 @@ void CLoadCommentaryDialog::AddCommentaryItemToList( int itemIndex )
 	// create the new panel and add to the list
 	CCommentaryItemPanel *commentaryItemPanel = new CCommentaryItemPanel( m_pGameList, "CommentaryItemPanel", itemIndex );
 	commentaryItemPanel->SetCommentaryInfo( m_CommentaryItems[itemIndex] );
-	m_pGameList->AddItem( NULL, commentaryItemPanel );
+	m_pGameList->AddItem(nullptr, commentaryItemPanel );
 }
 
 //-----------------------------------------------------------------------------
@@ -338,7 +338,7 @@ void CLoadCommentaryDialog::ParseCommentaryFile( char const *pszFileName, char c
 	KeyValues *menuKeys = pData->FindKey("trackinfo", false);
 	if ( menuKeys )
 	{
-		for (KeyValues *track = menuKeys->GetFirstSubKey(); track != NULL; track = track->GetNextKey())
+		for (KeyValues *track = menuKeys->GetFirstSubKey(); track != nullptr; track = track->GetNextKey())
 		{
 			//Msg( "track found: %s %s\n", track->GetString("map", "?"), track->GetString( "description", "asdf" ) );
 

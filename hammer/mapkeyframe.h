@@ -61,7 +61,7 @@ public:
 
 	CMapEntity *GetParentEntity( void );
 
-	float GetRemainingTime( CMapObjectList *pVisited = NULL );
+	float GetRemainingTime( CMapObjectList *pVisited = nullptr);
 	float MoveTime( void ) { return m_flMoveTime; }
 
 	IPositionInterpolator*	SetupPositionInterpolator( int iInterpolator );

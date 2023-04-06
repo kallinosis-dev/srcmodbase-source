@@ -755,10 +755,10 @@ dleaf_t		*dleafs;
 
 CUtlVector<dleafambientindex_t> g_LeafAmbientIndexLDR;
 CUtlVector<dleafambientindex_t> g_LeafAmbientIndexHDR;
-CUtlVector<dleafambientindex_t> *g_pLeafAmbientIndex = NULL;
+CUtlVector<dleafambientindex_t> *g_pLeafAmbientIndex = nullptr;
 CUtlVector<dleafambientlighting_t> g_LeafAmbientLightingLDR;
 CUtlVector<dleafambientlighting_t> g_LeafAmbientLightingHDR;
-CUtlVector<dleafambientlighting_t> *g_pLeafAmbientLighting = NULL;
+CUtlVector<dleafambientlighting_t> *g_pLeafAmbientLighting = nullptr;
 
 unsigned short  g_LeafMinDistToWater[MAX_MAP_LEAFS];
 
@@ -870,14 +870,14 @@ dwateroverlay_t		g_WaterOverlays[MAX_MAP_WATEROVERLAYS];
 CUtlVector<char>	g_TexDataStringData;
 CUtlVector<int>		g_TexDataStringTable;
 
-byte				*g_pPhysCollide = NULL;
+byte				*g_pPhysCollide = nullptr;
 int					g_PhysCollideSize = 0;
 int					g_MapRevision = 0;
 
-byte               *g_pPhysLevel = NULL;
+byte               *g_pPhysLevel = nullptr;
 int                 g_PhysLevelSize = 0;
 
-byte				*g_pPhysDisp = NULL;
+byte				*g_pPhysDisp = nullptr;
 int					g_PhysDispSize = 0;
 
 CUtlVector<doccluderdata_t>	g_OccluderData( 256, 256 );
@@ -902,7 +902,7 @@ struct Lumps_t
 
 CGameLump	g_GameLumps;
 
-static IZip *s_pakFile = 0;
+static IZip *s_pakFile = nullptr;
 
 //-----------------------------------------------------------------------------
 // Keep the file position aligned to an arbitrary boundary.
@@ -964,7 +964,7 @@ void ReleasePakFileLumps( void )
 {
 	// Release the pak files
 	IZip::ReleaseZip( s_pakFile );
-	s_pakFile = NULL;
+	s_pakFile = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1734,14 +1734,14 @@ END_BYTESWAP_DATADESC()
 
 static void SwapPhyscollideLump( byte *pDestBase, byte *pSrcBase, unsigned int &count )
 {
-	IPhysicsCollision *physcollision = NULL;
+	IPhysicsCollision *physcollision = nullptr;
 	CSysModule *pPhysicsModule = g_pFullFileSystem->LoadModule( "vphysics.dll" );
 	if ( pPhysicsModule )
 	{
 		CreateInterfaceFn physicsFactory = Sys_GetFactory( pPhysicsModule );
 		if ( physicsFactory )
 		{
-			physcollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, NULL );
+			physcollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, nullptr);
 		}
 	}
 
@@ -1886,7 +1886,7 @@ static void SwapPhyscollideLump( byte *pDestBase, byte *pSrcBase, unsigned int &
 					// The PC still unserializes these, but we don't support them 
 					if ( g_bSwapOnWrite )
 					{
-						collide.solids[i] = NULL;
+						collide.solids[i] = nullptr;
 					}
 
 					headerSize = sizeof(swapmoppsurfaceheader_t);
@@ -2387,7 +2387,7 @@ void Lumps_Write( void )
 		if ( g_Lumps.pLumps[i] )
 		{
 			free( g_Lumps.pLumps[i] );
-			g_Lumps.pLumps[i] = NULL;
+			g_Lumps.pLumps[i] = nullptr;
 		}
 	}
 }
@@ -2473,7 +2473,7 @@ void LoadLeafAmbientLighting( int numLeafs )
 		}
 
 		void *pSrcBase = ( ( byte * )g_pBSPHeader + g_pBSPHeader->lumps[LUMP_LEAF_AMBIENT_LIGHTING].fileofs );
-		CompressedLightCube *pSrc = NULL;
+		CompressedLightCube *pSrc = nullptr;
 		if ( HasLump( LUMP_LEAF_AMBIENT_LIGHTING ) )
 		{
 			pSrc = (CompressedLightCube*)pSrcBase;
@@ -2482,7 +2482,7 @@ void LoadLeafAmbientLighting( int numLeafs )
 		g_LeafAmbientLightingLDR.SetCount( numLeafs );
 
 		void *pSrcBaseHDR = ( ( byte * )g_pBSPHeader + g_pBSPHeader->lumps[LUMP_LEAF_AMBIENT_LIGHTING_HDR].fileofs );
-		CompressedLightCube *pSrcHDR = NULL;
+		CompressedLightCube *pSrcHDR = nullptr;
 		if ( HasLump( LUMP_LEAF_AMBIENT_LIGHTING_HDR ) )
 		{
 			pSrcHDR = (CompressedLightCube*)pSrcBaseHDR;
@@ -2641,7 +2641,7 @@ void OpenBSPFile( const char *filename )
 void CloseBSPFile( void )
 {
 	free( g_pBSPHeader );
-	g_pBSPHeader = NULL;
+	g_pBSPHeader = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2745,7 +2745,7 @@ void LoadBSPFile( const char *filename )
 	*/
 		
 	// Load PAK file lump into appropriate data structure
-	byte *pakbuffer = NULL;
+	byte *pakbuffer = nullptr;
 	int paksize = CopyVariableLump<byte>( FIELD_CHARACTER, LUMP_PAKFILE, ( void ** )&pakbuffer );
 	if ( paksize > 0 )
 	{
@@ -2839,14 +2839,14 @@ void UnloadBSPFile()
 	if ( g_pPhysCollide )
 	{
 		free( g_pPhysCollide );
-		g_pPhysCollide = NULL;
+		g_pPhysCollide = nullptr;
 	}
 	g_PhysCollideSize = 0;
 
 	if ( g_pPhysDisp )
 	{
 		free( g_pPhysDisp );
-		g_pPhysDisp = NULL;
+		g_pPhysDisp = nullptr;
 	}
 	g_PhysDispSize = 0;
 
@@ -2875,7 +2875,7 @@ void UnloadBSPFile()
 		if ( g_Lumps.pLumps[i] )
 		{
 			free( g_Lumps.pLumps[i] );
-			g_Lumps.pLumps[i] = NULL;
+			g_Lumps.pLumps[i] = nullptr;
 		}
 	}
 
@@ -2896,7 +2896,7 @@ void LoadBSPFile_FileSystemOnly( const char *filename )
 	ValidateHeader( filename, g_pBSPHeader );
 
 	// Load PAK file lump into appropriate data structure
-	byte *pakbuffer = NULL;
+	byte *pakbuffer = nullptr;
 	int paksize = CopyVariableLump<byte>( FIELD_CHARACTER, LUMP_PAKFILE, ( void ** )&pakbuffer, 1 );
 	if ( paksize > 0 )
 	{
@@ -2911,7 +2911,7 @@ void LoadBSPFile_FileSystemOnly( const char *filename )
 
 	// everything has been copied out
 	free( g_pBSPHeader );
-	g_pBSPHeader = NULL;
+	g_pBSPHeader = nullptr;
 }
 
 void ExtractZipFileFromBSP( char *pBSPFileName, char *pZipFileName )
@@ -2924,7 +2924,7 @@ void ExtractZipFileFromBSP( char *pBSPFileName, char *pZipFileName )
 	LoadFile( pBSPFileName, (void **)&g_pBSPHeader);
 	ValidateHeader( pBSPFileName, g_pBSPHeader );
 
-	byte *pakbuffer = NULL;
+	byte *pakbuffer = nullptr;
 	int paksize = CopyVariableLump<byte>( FIELD_CHARACTER, LUMP_PAKFILE, ( void ** )&pakbuffer );
 	if ( paksize > 0 )
 	{
@@ -2986,7 +2986,7 @@ void LoadBSPFileTexinfo( const char *filename )
 
 	// everything has been copied out
 	free( g_pBSPHeader );
-	g_pBSPHeader = NULL;
+	g_pBSPHeader = nullptr;
 }
 
 static void AddLumpInternal( int lumpnum, void *data, int len, int version, int nAlignment = 1 )
@@ -3467,7 +3467,7 @@ epair_t *ParseEpair (void)
 void RemoveKey( entity_t *pMapEnt, const char *pKey )
 {
 	epair_t **pPrev = &pMapEnt->epairs;
-	for ( epair_t *pSearch = pMapEnt->epairs; pSearch != NULL; pPrev = &pSearch->next, pSearch = pSearch->next)
+	for ( epair_t *pSearch = pMapEnt->epairs; pSearch != nullptr; pPrev = &pSearch->next, pSearch = pSearch->next)
 	{
 		if (!Q_stricmp( pSearch->key, pKey ) )
 		{
@@ -3776,8 +3776,8 @@ void CalcFaceExtents(dface_t *s, int lightmapTextureMinsInLuxels[2], int lightma
 {
 	vec_t	    mins[2], maxs[2], val=0;
 	int		    i,j, e=0;
-	dvertex_t	*v=NULL;
-	texinfo_t	*tex=NULL;
+	dvertex_t	*v= nullptr;
+	texinfo_t	*tex= nullptr;
 	
 	mins[0] = mins[1] = 1e24;
 	maxs[0] = maxs[1] = -1e24;
@@ -4418,7 +4418,7 @@ const char *ResolveStaticPropToModel( const char *pPropName )
 	// filename should be sp_???.vhv or sp_hdr_???.vhv
 	if ( V_strnicmp( pPropName, "sp_", 3 ) )
 	{
-		return NULL;
+		return nullptr;
 	}
 	const char *pPropNumber = V_strrchr( pPropName, '_' );
 	if ( pPropNumber )
@@ -4427,20 +4427,20 @@ const char *ResolveStaticPropToModel( const char *pPropName )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// look up the prop to get to the actual model
 	if ( iProp < 0 || iProp >= g_StaticPropInstances.Count() )
 	{
 		// prop out of range
-		return NULL;
+		return nullptr;
 	}
 	int iModel = g_StaticPropInstances[iProp];
 	if ( iModel < 0 || iModel >= g_StaticPropNames.Count() )
 	{
 		// model out of range
-		return NULL;
+		return nullptr;
 	}
 
 	return g_StaticPropNames[iModel].String();
@@ -4454,7 +4454,7 @@ void ConvertPakFileContents( const char *pInFilename, char const *szPlatform )
 {
 	bool bIsXbox360 = ( V_stricmp( szPlatform, "360" ) == 0 );
 
-	IZip *newPakFile = IZip::CreateZip( NULL );
+	IZip *newPakFile = IZip::CreateZip(nullptr);
 
 	CUtlBuffer sourceBuf;
 	CUtlBuffer targetBuf;
@@ -4475,7 +4475,7 @@ void ConvertPakFileContents( const char *pInFilename, char const *szPlatform )
 		targetBuf.Purge();
 
 		const char* pExtension = V_GetFileExtension( relativeName );
-		const char* pExt = 0;
+		const char* pExt = nullptr;
 
 		bool bOK = ReadFileFromPak( GetPakFile(), relativeName, false, sourceBuf );
 		if ( !bOK )
@@ -4947,7 +4947,7 @@ void SwapPakfileLumpToDisk( const char *pInFilename, char const *szPlatform )
 {
 	DevMsg( "Swapping %s\n", GetLumpName( LUMP_PAKFILE ) );
 
-	byte *pakbuffer = NULL;
+	byte *pakbuffer = nullptr;
 	int paksize = CopyVariableLump<byte>( FIELD_CHARACTER, LUMP_PAKFILE, ( void ** )&pakbuffer );
 	if ( paksize > 0 )
 	{
@@ -4985,7 +4985,7 @@ void SwapWorldLightsToDisk()
 	DevMsg( "Swapping %s\n", GetLumpName( lumpnum ) );
 
 	dworldlight_version0_t *pOldWorldlights;
-	dworldlight_t *pWorldlights = NULL;
+	dworldlight_t *pWorldlights = nullptr;
 	int count = 0;
 
 	// handle version difference
@@ -5742,7 +5742,7 @@ bool SwapBSPFile( const char *pInFilename, const char *pOutFilename, bool bSwapO
 	g_pFileSystem->Seek( g_hBSPFile, 0, FILESYSTEM_SEEK_HEAD );
 	WriteData( g_pBSPHeader );
 	g_pFileSystem->Close( g_hBSPFile );
-	g_hBSPFile = 0;
+	g_hBSPFile = nullptr;
 
 	// Cleanup
 	g_Swap.ActivateByteSwapping( false );
@@ -5758,7 +5758,7 @@ bool SwapBSPFile( const char *pInFilename, const char *pOutFilename, bool bSwapO
 	if ( pCompressFunc )
 	{
 		CUtlBuffer inputBuffer;
-		if ( !g_pFileSystem->ReadFile( pOutFilename, NULL, inputBuffer ) )
+		if ( !g_pFileSystem->ReadFile( pOutFilename, nullptr, inputBuffer ) )
 		{
 			Warning( "Error! Couldn't read file %s - final BSP compression failed!\n", pOutFilename ); 
 			return false;
@@ -5779,7 +5779,7 @@ bool SwapBSPFile( const char *pInFilename, const char *pOutFilename, bool bSwapO
 		}
 		SafeWrite( g_hBSPFile, outputBuffer.Base(), outputBuffer.TellPut() );
 		g_pFileSystem->Close( g_hBSPFile );
-		g_hBSPFile = 0;			
+		g_hBSPFile = nullptr;			
 	}
 
 	return true;
@@ -5790,7 +5790,7 @@ bool SwapBSPFile( const char *pInFilename, const char *pOutFilename, bool bSwapO
 //-----------------------------------------------------------------------------
 bool GetPakFileLump( const char *pBSPFilename, void **pPakData, int *pPakSize )
 {
-	*pPakData = NULL;
+	*pPakData = nullptr;
 	*pPakSize = 0;
 
 	if ( !g_pFileSystem->FileExists( pBSPFilename ) )

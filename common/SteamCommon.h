@@ -633,7 +633,7 @@ typedef enum
 
 const SteamHandle_t										STEAM_INVALID_HANDLE = 0;
 const SteamCallHandle_t									STEAM_INVALID_CALL_HANDLE = 0;
-const SteamUserIDTicketValidationHandle_t				STEAM_INACTIVE_USERIDTICKET_VALIDATION_HANDLE = 0;
+const SteamUserIDTicketValidationHandle_t				STEAM_INACTIVE_USERIDTICKET_VALIDATION_HANDLE = nullptr;
 const unsigned int										STEAM_USE_LATEST_VERSION = 0xFFFFFFFF;
 
 #else

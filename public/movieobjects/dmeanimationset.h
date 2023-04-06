@@ -125,10 +125,10 @@ public:
 	CDmaVar< bool > m_bIsReadOnly;
 
 	// Exports this preset group to a faceposer .txt expression file
-	bool ExportToTXT( const char *pFilename, CDmeAnimationSet *pAnimationSet = NULL, CDmeCombinationOperator *pComboOp = NULL ) const;
+	bool ExportToTXT( const char *pFilename, CDmeAnimationSet *pAnimationSet = nullptr, CDmeCombinationOperator *pComboOp = nullptr) const;
 
 	// Exports this preset group to a faceposer .vfe expression file
-	bool ExportToVFE( const char *pFilename, CDmeAnimationSet *pAnimationSet = NULL, CDmeCombinationOperator *pComboOp = NULL ) const;
+	bool ExportToVFE( const char *pFilename, CDmeAnimationSet *pAnimationSet = nullptr, CDmeCombinationOperator *pComboOp = nullptr) const;
 
 private:
 	int FindPresetIndex( CDmePreset *pPreset );
@@ -274,7 +274,7 @@ static const char DEFAULT_FLOAT_ATTR[] = "defaultValue";
 #define MULTI_CONTROL_FORMAT_STRING "multi_%s"
 
 typedef int ControlIndex_t;
-ControlIndex_t FindComboOpControlIndexForAnimSetControl( CDmeCombinationOperator *pComboOp, const char *pControlName, bool *pIsMulti = NULL );
+ControlIndex_t FindComboOpControlIndexForAnimSetControl( CDmeCombinationOperator *pComboOp, const char *pControlName, bool *pIsMulti = nullptr);
 
 
 inline bool IsMonoControl( const CDmElement *pControl )

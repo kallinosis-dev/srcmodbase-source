@@ -44,12 +44,12 @@ ConVar	sv_duplicate_playernames_ok( "sv_duplicate_playernames_ok", "0", FCVAR_RE
 CBaseClient::CBaseClient()
 {
 	// init all pointers
-	m_NetChannel = NULL;
-	m_ConVars = NULL;
-	m_Server = NULL;
-	m_pBaseline = NULL;
+	m_NetChannel = nullptr;
+	m_ConVars = nullptr;
+	m_Server = nullptr;
+	m_pBaseline = nullptr;
 	m_bIsHLTV = false;
-	m_pHltvSlaveServer = NULL;
+	m_pHltvSlaveServer = nullptr;
 #if defined( REPLAY_ENABLED )
 	m_bIsReplay = false;
 #endif
@@ -61,7 +61,7 @@ CBaseClient::CBaseClient()
 	m_bSplitAllowFastDisconnect = false;
 	m_bSplitPlayerDisconnecting = false;
 	m_nSplitScreenPlayerSlot = 0;
-	m_pAttachedTo = NULL;
+	m_pAttachedTo = nullptr;
 	Q_memset( m_SplitScreenUsers, 0, sizeof( m_SplitScreenUsers ) );
 	m_SplitScreenUsers[ 0 ] = this;
 	m_ClientPlatform = CROSSPLAYPLATFORM_THISPLATFORM;
@@ -176,7 +176,7 @@ CHLTVServer	* CBaseClient::GetHltvServer()
 	else
 	{
 		Assert( !m_bIsHLTV || m_pHltvSlaveServer ); // if we have m_bIsHLTV mark, it means we connect to HLTV data source, either as a client listening to the HLTV port, or as a master client of HLTV Slave server. We can't be m_bIsHLTV and not be connected to any HLTV server from any end
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -249,7 +249,7 @@ void CBaseClient::FreeBaselines()
 	if ( m_pBaseline )
 	{
 		m_pBaseline->ReleaseReference();
-		m_pBaseline = NULL;
+		m_pBaseline = nullptr;
 	}
 
 	m_nBaselineUpdateTick = -1;
@@ -278,13 +278,13 @@ void CBaseClient::Clear()
 	if ( m_NetChannel )
 	{
 		m_NetChannel->Shutdown("Disconnect by server.\n");
-		m_NetChannel = NULL;
+		m_NetChannel = nullptr;
 	}
 
 	if ( m_ConVars )
 	{
 		m_ConVars->deleteThis();
-		m_ConVars = NULL;
+		m_ConVars = nullptr;
 	}
 
 	FreeBaselines();
@@ -295,7 +295,7 @@ void CBaseClient::Clear()
 	m_nDeltaTick = -1;
 	m_nSignonTick = 0;
 	m_nStringTableAckTick = 0;
-	m_pLastSnapshot = NULL;
+	m_pLastSnapshot = nullptr;
 	m_nForceWaitForTick = -1;
 	m_bFakePlayer = false;
 	m_bLowViolence = false;
@@ -303,7 +303,7 @@ void CBaseClient::Clear()
 	m_bSplitAllowFastDisconnect = false;
 	m_bSplitPlayerDisconnecting = false;
 	m_nSplitScreenPlayerSlot = 0;
-	m_pAttachedTo = NULL;
+	m_pAttachedTo = nullptr;
 	m_bIsHLTV = false;
 	//???TODO: do we need to disconnect slave hltv server?
 	//m_pHltvSlaveServer = NULL;
@@ -389,7 +389,7 @@ bool CBaseClient::ProcessSignonStateMsg(int state, int spawncount)
 												//
 												CUtlBuffer bufAvatarData;
 												CUtlBuffer bufAvatarDataDefault;
-												CUtlBuffer *pbufUseRgb = NULL;
+												CUtlBuffer *pbufUseRgb = nullptr;
 												if ( !pbufUseRgb &&
 													g_pFullFileSystem->ReadFile( CFmtStr( "avatars/%llu.rgb", m_SteamID.ConvertToUint64() ), "MOD", bufAvatarData ) &&
 													( bufAvatarData.TellPut() == 64*64*3 ) )
@@ -462,7 +462,7 @@ void CBaseClient::Inactivate( void )
 	m_nDeltaTick = -1;
 	m_nSignonTick = 0;
 	m_nStringTableAckTick = 0;
-	m_pLastSnapshot = NULL;
+	m_pLastSnapshot = nullptr;
 	m_nForceWaitForTick = -1;
 
 	SetSignonState( SIGNONSTATE_CHANGELEVEL );
@@ -533,7 +533,7 @@ void CBaseClient::SetName(const char * name)
 	// is reconnecting after crashing, and we don't want to ever show the (X) then.
 	// We also don't care for tournaments to use (1) in names since names are baked into the GC schema
 	// also don't care in coop because bots can have the same names
-	static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * ) NULL );
+	static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * )nullptr);
 	if ( !s_pchTournamentServer && !IsX360() && !NET_IsDedicatedForXbox() && !sv_duplicate_playernames_ok.GetBool() )
 	{
 		// Check to see if another user by the same name exists
@@ -739,14 +739,14 @@ void CBaseClient::PerformDisconnection( const char *pReason )
 	if ( m_pAttachedTo && m_pAttachedTo->GetNetChannel() )
 	{
 		m_pAttachedTo->GetNetChannel()->DetachSplitPlayer( m_nSplitScreenPlayerSlot );
-		m_pAttachedTo = NULL;
+		m_pAttachedTo = nullptr;
 	}
 
 	// Send the remaining reliable buffer so the client finds out the server is shutting down.
 	if ( m_NetChannel )
 	{
 		m_NetChannel->Shutdown( pReason );
-		m_NetChannel = NULL;
+		m_NetChannel = nullptr;
 	}
 
 	Clear(); // clear state
@@ -784,7 +784,7 @@ void CBaseClient::Disconnect( const char *fmt )
 				continue;
 
 			m_SplitScreenUsers[ j ]->PerformDisconnection( "leaving splitscreen" );
-			m_SplitScreenUsers[ j ] = NULL;
+			m_SplitScreenUsers[ j ] = nullptr;
 		}
 	}
 
@@ -961,7 +961,7 @@ void CBaseClient::OnSteamServerLogonSuccess( uint32 externalIP )
 CClientFrame *CBaseClient::GetDeltaFrame( int nTick )
 {
 	Assert( 0 ); // derive moe
-	return NULL; // CBaseClient has no delta frames
+	return nullptr; // CBaseClient has no delta frames
 }
 
 void CBaseClient::WriteGameSounds(bf_write &buf, int nMaxSounds )
@@ -1205,7 +1205,7 @@ bool CBaseClient::CLCMsg_BaselineAck( const CCLCMsg_BaselineAck& msg )
 
 	// copy ents send as full updates this frame into baseline stuff
 	CClientFrame *frame = GetDeltaFrame( m_nBaselineUpdateTick );
-	if ( frame == NULL )
+	if ( frame == nullptr)
 	{
 		// Will get here if we have a lot of packet loss and finally receive a stale ack from 
 		//  remote client.  Our "window" could be well beyond what it's acking, so just ignore the ack.
@@ -1215,7 +1215,7 @@ bool CBaseClient::CLCMsg_BaselineAck( const CCLCMsg_BaselineAck& msg )
 
 	CFrameSnapshot *pSnapshot = frame->GetSnapshot();
 
-	if ( pSnapshot == NULL )
+	if ( pSnapshot == nullptr)
 	{
 		// TODO if client lags for a couple of seconds the snapshot is lost
 		// fix: don't remove snapshots that are labled a possible basline candidates
@@ -1434,7 +1434,7 @@ bool CBaseClient::SendSnapshot( CClientFrame *pFrame )
 	TRACE_PACKET( ( "SendSnapshot(%d)\n", pFrame->tick_count ) );
 
 	// now create client snapshot packet
-	CClientFrame * deltaFrame = m_nDeltaTick < 0 ? NULL : GetDeltaFrame( m_nDeltaTick ); // NULL if delta_tick is not found
+	CClientFrame * deltaFrame = m_nDeltaTick < 0 ? nullptr : GetDeltaFrame( m_nDeltaTick ); // NULL if delta_tick is not found
 	if ( !deltaFrame )
 	{
 		// We need to send a full update and reset the instanced baselines
@@ -1692,7 +1692,7 @@ void CBaseClient::UpdateUserSettings()
 void CBaseClient::OnRequestFullUpdate( char const *pchReason )
 {
 	// client requests a full update 
-	m_pLastSnapshot = NULL;
+	m_pLastSnapshot = nullptr;
 
 	// free old baseline snapshot
 	FreeBaselines();
@@ -1882,7 +1882,7 @@ const char *CBaseClient::GetNetworkIDString() const
 uint64 CBaseClient::GetClientXuid() const
 {
 	// For 2nd SS player IsFakeClient() == true, so need to short-circuit it straight into forced network_id -- Vitaliy
-	const char * value = NULL;
+	const char * value = nullptr;
 
 #if defined( _X360 )
 	if ( m_ConVars )
@@ -1892,11 +1892,11 @@ uint64 CBaseClient::GetClientXuid() const
 	if ( 0 )
 #endif
 	{
-		value = m_ConVars->GetString( "networkid_force", NULL );
+		value = m_ConVars->GetString( "networkid_force", nullptr);
 	}
 
 	if ( value && *value && strlen( value ) > 10 )
-		return ( uint64( strtoul( value, NULL, 16 ) ) << 32 ) | uint64( strtoul( value + 9, NULL, 16 ) );
+		return ( uint64( strtoul( value, nullptr, 16 ) ) << 32 ) | uint64( strtoul( value + 9, nullptr, 16 ) );
 
 	if ( IsFakeClient() )
 		return 0ull;
@@ -2184,7 +2184,7 @@ void CBaseClient::SplitScreenDisconnect( const CCommand &args )
 	if ( nSlot <= 0 )
 		nSlot = 1;
 
-	if ( m_SplitScreenUsers[ nSlot ] != NULL )
+	if ( m_SplitScreenUsers[ nSlot ] != nullptr)
 	{
 		CBaseClient *pSplitClient = m_SplitScreenUsers[ nSlot ];
 		DisconnectSplitScreenUser( pSplitClient );

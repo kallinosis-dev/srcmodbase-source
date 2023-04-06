@@ -129,10 +129,10 @@ private:
 //Singleton static member definition
 C_BaseExplosionEffect	C_BaseExplosionEffect::m_instance;
 
-C_BaseExplosionEffect::C_BaseExplosionEffect( void ) : m_Material_Smoke( NULL ), m_Material_FireCloud( NULL )
+C_BaseExplosionEffect::C_BaseExplosionEffect( void ) : m_Material_Smoke(nullptr), m_Material_FireCloud(nullptr)
 {
-	m_Material_Embers[0] = NULL;
-	m_Material_Embers[1] = NULL;
+	m_Material_Embers[0] = nullptr;
+	m_Material_Embers[1] = nullptr;
 }
 
 //Singleton accessor
@@ -156,7 +156,7 @@ float C_BaseExplosionEffect::ScaleForceByDeviation( Vector &deviant, Vector &sou
 	
 	dot = spread * fabs( dot );	
 
-	if ( force != NULL )
+	if ( force != nullptr)
 	{
 		(*force) *= dot;
 	}
@@ -248,7 +248,7 @@ void C_BaseExplosionEffect::CreateCore( void )
 
 	pSimple->GetBinding().SetBBox( m_vecOrigin - Vector( 128, 128, 128 ), m_vecOrigin + Vector( 128, 128, 128 ) );
 	
-	if ( m_Material_Smoke == NULL )
+	if ( m_Material_Smoke == nullptr)
 	{
 		m_Material_Smoke = g_Mat_DustPuff[1];
 	}
@@ -287,7 +287,7 @@ void C_BaseExplosionEffect::CreateCore( void )
 		{
 			pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_Smoke, m_vecOrigin );
 
-			if ( pParticle != NULL )
+			if ( pParticle != nullptr)
 			{
 				pParticle->m_flLifetime = 0.0f;
 
@@ -342,7 +342,7 @@ void C_BaseExplosionEffect::CreateCore( void )
 
 			pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_Smoke, offset );
 
-			if ( pParticle != NULL )
+			if ( pParticle != nullptr)
 			{
 				pParticle->m_flLifetime = 0.0f;
 
@@ -411,7 +411,7 @@ void C_BaseExplosionEffect::CreateCore( void )
 
 			pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_Smoke, offset );
 
-			if ( pParticle != NULL )
+			if ( pParticle != nullptr)
 			{
 				pParticle->m_flLifetime = 0.0f;
 				pParticle->m_flDieTime	= random->RandomFloat( 0.5f, 1.5f );
@@ -452,12 +452,12 @@ void C_BaseExplosionEffect::CreateCore( void )
 	// Embers
 	//
 
-	if ( m_Material_Embers[0] == NULL )
+	if ( m_Material_Embers[0] == nullptr)
 	{
 		m_Material_Embers[0] = pSimple->GetPMaterial( "effects/fire_embers1" );
 	}
 
-	if ( m_Material_Embers[1] == NULL )
+	if ( m_Material_Embers[1] == nullptr)
 	{
 		m_Material_Embers[1] = pSimple->GetPMaterial( "effects/fire_embers2" );
 	}
@@ -470,7 +470,7 @@ void C_BaseExplosionEffect::CreateCore( void )
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_Embers[random->RandomInt(0,1)], offset );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			pParticle->m_flLifetime = 0.0f;
 			pParticle->m_flDieTime	= random->RandomFloat( 2.0f, 3.0f );
@@ -513,7 +513,7 @@ void C_BaseExplosionEffect::CreateCore( void )
 	// Fireballs
 	//
 
-	if ( m_Material_FireCloud == NULL )
+	if ( m_Material_FireCloud == nullptr)
 	{
 		m_Material_FireCloud = pSimple->GetPMaterial( "effects/fire_cloud2" );
 	}
@@ -528,7 +528,7 @@ void C_BaseExplosionEffect::CreateCore( void )
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_FireCloud, offset );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			pParticle->m_flLifetime = 0.0f;
 			pParticle->m_flDieTime	= random->RandomFloat( 0.2f, 0.4f );
@@ -581,13 +581,13 @@ void C_BaseExplosionEffect::CreateDebris( void )
 	//
 
 	CSmartPtr<CTrailParticles> pSparkEmitter	= CTrailParticles::Create( "CreateDebris 1" );
-	if ( pSparkEmitter == NULL )
+	if ( pSparkEmitter == nullptr)
 	{
 		assert(0);
 		return;
 	}
 
-	if ( m_Material_FireCloud == NULL )
+	if ( m_Material_FireCloud == nullptr)
 	{
 		m_Material_FireCloud = pSparkEmitter->GetPMaterial( "effects/fire_cloud2" );
 	}
@@ -613,7 +613,7 @@ void C_BaseExplosionEffect::CreateDebris( void )
 	{
 		tParticle = (TrailParticle *) pSparkEmitter->AddParticle( sizeof(TrailParticle), m_Material_FireCloud, m_vecOrigin );
 
-		if ( tParticle == NULL )
+		if ( tParticle == nullptr)
 			break;
 
 		tParticle->m_flLifetime	= 0.0f;
@@ -659,7 +659,7 @@ void C_BaseExplosionEffect::CreateDebris( void )
 
 		FleckParticle *pParticle = (FleckParticle *) fleckEmitter->AddParticle( sizeof(FleckParticle), g_Mat_Fleck_Cement[random->RandomInt(0,1)], offset );
 
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			break;
 
 		pParticle->m_flLifetime	= 0.0f;
@@ -750,7 +750,7 @@ float C_BaseExplosionEffect::Probe( const Vector &origin, Vector *vecDirection, 
 
 	//Trace into the world
 	trace_t	tr;
-	UTIL_TraceLine( origin, endpos, CONTENTS_SOLID, NULL, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceLine( origin, endpos, CONTENTS_SOLID, nullptr, COLLISION_GROUP_NONE, &tr );
 
 	//Push back a proportional amount to the probe
 	(*vecDirection) = -(*vecDirection) * (1.0f-tr.fraction);
@@ -917,14 +917,14 @@ void C_WaterExplosionEffect::Create( const Vector &position, float force, float 
 	// Find our water surface by tracing up till we're out of the water
 	trace_t tr;
 	Vector vecTrace( 0, 0, MAX_WATER_SURFACE_DISTANCE );
-	UTIL_TraceLine( m_vecOrigin, m_vecOrigin + vecTrace, MASK_WATER, NULL, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceLine( m_vecOrigin, m_vecOrigin + vecTrace, MASK_WATER, nullptr, COLLISION_GROUP_NONE, &tr );
 	
 	// If we didn't start in water, we're above it
 	if ( tr.startsolid == false )
 	{
 		// Look downward to find the surface
 		vecTrace.Init( 0, 0, -MAX_WATER_SURFACE_DISTANCE );
-		UTIL_TraceLine( m_vecOrigin, m_vecOrigin + vecTrace, MASK_WATER, NULL, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceLine( m_vecOrigin, m_vecOrigin + vecTrace, MASK_WATER, nullptr, COLLISION_GROUP_NONE, &tr );
 
 		// If we hit it, setup the explosion
 		if ( tr.fraction < 1.0f )
@@ -1023,7 +1023,7 @@ void C_WaterExplosionEffect::CreateCore( void )
 	lineData.m_flStartScale = radius*0.5f;
 	lineData.m_flEndScale = radius*2; 
 
-	lineData.m_pMaterial = materials->FindMaterial( "effects/splash3", 0, 0 );
+	lineData.m_pMaterial = materials->FindMaterial( "effects/splash3", nullptr, 0 );
 
 	lineData.m_vecStart = start;
 	lineData.m_vecStartVelocity = vec3_origin;
@@ -1054,7 +1054,7 @@ void C_WaterExplosionEffect::CreateCore( void )
 	lineData.m_flStartScale = radius;
 	lineData.m_flEndScale = radius*2; 
 
-	lineData.m_pMaterial = materials->FindMaterial( "effects/splash3", 0, 0 );
+	lineData.m_pMaterial = materials->FindMaterial( "effects/splash3", nullptr, 0 );
 
 	lineData.m_vecStart = start;
 	lineData.m_vecStartVelocity = vec3_origin;
@@ -1103,7 +1103,7 @@ void C_WaterExplosionEffect::CreateDebris( void )
 
 	//Find area ambient light color and use it to tint bubbles
 	Vector	worldLight;
-	FX_GetSplashLighting( offset, &worldLight, NULL );
+	FX_GetSplashLighting( offset, &worldLight, nullptr);
 
 	//
 	// Smoke
@@ -1121,7 +1121,7 @@ void C_WaterExplosionEffect::CreateDebris( void )
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), pMaterial[random->RandomInt(0,1)], offset );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			pParticle->m_flLifetime = 0.0f;
 
@@ -1202,7 +1202,7 @@ void C_WaterExplosionEffect::CreateMisc( void )
 
 		tParticle = (TrailParticle *) sparkEmitter->AddParticle( sizeof(TrailParticle), hMaterial, offset );
 
-		if ( tParticle == NULL )
+		if ( tParticle == nullptr)
 			break;
 
 		tParticle->m_flLifetime	= 0.0f;
@@ -1230,7 +1230,7 @@ void C_WaterExplosionEffect::CreateMisc( void )
 
 		tParticle = (TrailParticle *) sparkEmitter->AddParticle( sizeof(TrailParticle), hMaterial, offset );
 
-		if ( tParticle == NULL )
+		if ( tParticle == nullptr)
 			break;
 
 		tParticle->m_flLifetime	= 0.0f;
@@ -1260,7 +1260,7 @@ void C_WaterExplosionEffect::CreateMisc( void )
 	{
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), hMaterial, m_vecWaterSurface );
 
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			break;
 
 		pParticle->m_flLifetime = 0.0f;
@@ -1359,7 +1359,7 @@ void C_MegaBombExplosionEffect::CreateCore( void )
 
 	SimpleParticle	*pParticle;
 
-	if ( m_Material_FireCloud == NULL )
+	if ( m_Material_FireCloud == nullptr)
 	{
 		m_Material_FireCloud = pSimple->GetPMaterial( "effects/fire_cloud2" );
 	}
@@ -1375,7 +1375,7 @@ void C_MegaBombExplosionEffect::CreateCore( void )
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_FireCloud, offset );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			pParticle->m_flLifetime = 0.0f;
 			pParticle->m_flDieTime	= random->RandomFloat( 0.2f, 0.4f );

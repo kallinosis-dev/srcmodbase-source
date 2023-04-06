@@ -111,7 +111,7 @@ public:
 	CHitArea *GetMouseFocus( int x, int y );
 	CHitArea *GetKeyFocus();
 	CHitArea *GetRequestedKeyFocus();
-	void RequestKeyFocus( CHitArea *pGraphic, KeyValues *args = NULL );
+	void RequestKeyFocus( CHitArea *pGraphic, KeyValues *args = nullptr);
 
 	void GetScreenHeightForFontLoading( int &nTall );
 	void SetScheme( IGameUIScheme * scheme );

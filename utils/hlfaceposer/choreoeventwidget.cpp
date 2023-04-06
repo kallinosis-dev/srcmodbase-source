@@ -29,9 +29,9 @@ mxbitmapdata_t CChoreoEventWidget::m_LockBodyFacingBitmap;
 CChoreoEventWidget::CChoreoEventWidget( CChoreoWidget *parent )
  : CChoreoWidget( parent )
 {
-	m_pEvent			= NULL;
+	m_pEvent			= nullptr;
 	m_pParent			= parent;
-	m_pWaveFile			= NULL;
+	m_pWaveFile			= nullptr;
 	m_nDurationRightEdge= 0;
 }
 
@@ -41,7 +41,7 @@ CChoreoEventWidget::CChoreoEventWidget( CChoreoWidget *parent )
 CChoreoEventWidget::~CChoreoEventWidget( void )
 {
 	delete m_pWaveFile;
-	m_pWaveFile = NULL;
+	m_pWaveFile = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -665,7 +665,7 @@ void CChoreoEventWidget::SetEvent( CChoreoEvent *event )
 	sound->StopAll();
 
 	delete m_pWaveFile;
-	m_pWaveFile = NULL;
+	m_pWaveFile = nullptr;
 
 	m_pEvent = event;
 
@@ -737,7 +737,7 @@ void CChoreoEventWidget::DestroyImages( void )
 		{
 			m_Bitmaps[ i ].valid = false;
 			DeleteObject( m_Bitmaps[ i ].image );
-			m_Bitmaps[ i ].image = NULL;
+			m_Bitmaps[ i ].image = nullptr;
 		}
 	}
 
@@ -745,14 +745,14 @@ void CChoreoEventWidget::DestroyImages( void )
 	{
 		m_ResumeConditionBitmap.valid = false;
 		DeleteObject( m_ResumeConditionBitmap.image );
-		m_ResumeConditionBitmap.image = NULL;
+		m_ResumeConditionBitmap.image = nullptr;
 	}
 
 	if ( m_LockBodyFacingBitmap.valid )
 	{
 		m_LockBodyFacingBitmap.valid = false;
 		DeleteObject( m_LockBodyFacingBitmap.image );
-		m_LockBodyFacingBitmap.image = NULL;
+		m_LockBodyFacingBitmap.image = nullptr;
 	}
 
 }

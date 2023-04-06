@@ -37,7 +37,7 @@
 #include "mathlib/vmatrix.h"
 #include "vstdlib/cvar.h"
 
-IFileSystem *filesystem = NULL;
+IFileSystem *filesystem = nullptr;
 
 extern char g_appTitle[];
 
@@ -46,9 +46,9 @@ extern char g_appTitle[];
 class DummyMaterialProxyFactory : public IMaterialProxyFactory
 {
 public:
-	virtual IMaterialProxy *CreateProxy( const char *proxyName )	{return NULL;}
+	virtual IMaterialProxy *CreateProxy( const char *proxyName )	{return nullptr;}
 	virtual void DeleteProxy( IMaterialProxy *pProxy )				{}
-	virtual CreateInterfaceFn GetFactory()							{return NULL;}
+	virtual CreateInterfaceFn GetFactory()							{return nullptr;}
 };
 DummyMaterialProxyFactory	g_DummyMaterialProxyFactory;
 
@@ -72,23 +72,23 @@ void InitMaterialSystemConfig(MaterialSystem_Config_t *pConfig)
 
 Vector g_vright( 50, 50, 0 );		// needs to be set to viewer's right in order for chrome to work
 
-IMaterial *g_materialBackground = NULL;
-IMaterial *g_materialWireframe = NULL;
-IMaterial *g_materialWireframeVertexColor = NULL;
-IMaterial *g_materialWireframeVertexColorNoCull = NULL;
-IMaterial *g_materialDebugCopyBaseTexture = NULL;
-IMaterial *g_materialFlatshaded = NULL;
-IMaterial *g_materialSmoothshaded = NULL;
-IMaterial *g_materialBones = NULL;
-IMaterial *g_materialLines = NULL;
-IMaterial *g_materialFloor = NULL;
-IMaterial *g_materialVertexColor = NULL;
-IMaterial *g_materialShadow = NULL;
-IMaterial *g_materialArcActive = NULL;
-IMaterial *g_materialArcInActive = NULL;
-IMaterial *g_materialDebugText = NULL;
+IMaterial *g_materialBackground = nullptr;
+IMaterial *g_materialWireframe = nullptr;
+IMaterial *g_materialWireframeVertexColor = nullptr;
+IMaterial *g_materialWireframeVertexColorNoCull = nullptr;
+IMaterial *g_materialDebugCopyBaseTexture = nullptr;
+IMaterial *g_materialFlatshaded = nullptr;
+IMaterial *g_materialSmoothshaded = nullptr;
+IMaterial *g_materialBones = nullptr;
+IMaterial *g_materialLines = nullptr;
+IMaterial *g_materialFloor = nullptr;
+IMaterial *g_materialVertexColor = nullptr;
+IMaterial *g_materialShadow = nullptr;
+IMaterial *g_materialArcActive = nullptr;
+IMaterial *g_materialArcInActive = nullptr;
+IMaterial *g_materialDebugText = nullptr;
 
-MatSysWindow		*g_pMatSysWindow = 0;
+MatSysWindow		*g_pMatSysWindow = nullptr;
 
 #define MATSYSWIN_NAME "3D View"
 
@@ -125,7 +125,7 @@ MatSysWindow::MatSysWindow (mxWindow *parent, int x, int y, int w, int h, const 
 
 	Con_Printf( "Loading debug materials\n" );
 
-	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "hlmv/cubemap", NULL, true );
+	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "hlmv/cubemap", nullptr, true );
 	pCubemapTexture->IncrementReferenceCount();
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	pRenderContext->BindLocalCubemap( pCubemapTexture );
@@ -174,7 +174,7 @@ MatSysWindow::MatSysWindow (mxWindow *parent, int x, int y, int w, int h, const 
 
 MatSysWindow::~MatSysWindow ()
 {
-	mx::setIdleWindow (0);
+	mx::setIdleWindow (nullptr);
 }
 
 void MatSysWindow::redraw()
@@ -640,7 +640,7 @@ void MatSysWindow::PushSnapshotMode( int nSnapShotSize )
 				return;
 
 			m_bIsSticky = true;
-			m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_WAIT ) );
+			m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_WAIT ) );
 		}
 
 		SuppressResize( true );
@@ -687,7 +687,7 @@ void MatSysWindow::TakeSnapshotRect( const char *pFilename, int x, int y, int w,
 
 	imageSize = w * h * 3;
 	// Create the file
-	hf = CreateFile( pFilename, GENERIC_READ | GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
+	hf = CreateFile( pFilename, GENERIC_READ | GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if( hf == INVALID_HANDLE_VALUE )
 	{
 		return;
@@ -700,7 +700,7 @@ void MatSysWindow::TakeSnapshotRect( const char *pFilename, int x, int y, int w,
 	hdr.bfReserved2 = 0;
 	hdr.bfOffBits = (DWORD) ( sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER) );
 
-	if( !WriteFile( hf, (LPVOID) &hdr, sizeof(BITMAPFILEHEADER), (LPDWORD) &dwTmp, NULL ) )
+	if( !WriteFile( hf, (LPVOID) &hdr, sizeof(BITMAPFILEHEADER), (LPDWORD) &dwTmp, nullptr) )
 		Error( "Couldn't write file header to snapshot.\n" );
 
 	// bitmap header
@@ -716,13 +716,13 @@ void MatSysWindow::TakeSnapshotRect( const char *pFilename, int x, int y, int w,
 	bi.biClrUsed = 0;
 	bi.biClrImportant = 0;
 
-	if( !WriteFile( hf, (LPVOID) &bi, sizeof(BITMAPINFOHEADER), (LPDWORD) &dwTmp, NULL ) )
+	if( !WriteFile( hf, (LPVOID) &bi, sizeof(BITMAPINFOHEADER), (LPDWORD) &dwTmp, nullptr) )
 		Error( "Couldn't write bitmap header to snapshot.\n" );
 
 	// bitmap bits
 	hp = (byte *) malloc(imageSize);
 	
-	if (hp == NULL)
+	if (hp == nullptr)
 		Error( "Couldn't allocate bitmap header to snapshot.\n" );
 
 	// Get Bits from the renderer
@@ -756,7 +756,7 @@ void MatSysWindow::TakeSnapshotRect( const char *pFilename, int x, int y, int w,
 		pRed += 3;
 	}
 
-	if( !WriteFile( hf, (LPVOID)hp, imageSize, (LPDWORD) &dwTmp, NULL ) )
+	if( !WriteFile( hf, (LPVOID)hp, imageSize, (LPDWORD) &dwTmp, nullptr) )
 		Error( "Couldn't write bitmap data snapshot.\n" );
 
 	free(hp);

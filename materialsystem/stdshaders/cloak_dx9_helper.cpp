@@ -107,7 +107,7 @@ void DrawCloak_DX9( CBaseVSShader *pShader, IMaterialVar** params, IShaderDynami
 		// This shader supports compressed vertices, so OR in that flag:
 		flags |= VERTEX_FORMAT_COMPRESSED;
 
-		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 #if !defined( _X360 ) && !defined( _PS3 )
 		if ( !g_pHardwareConfig->HasFastVertexTextures() )

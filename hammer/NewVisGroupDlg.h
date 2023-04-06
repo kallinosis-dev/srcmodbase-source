@@ -17,7 +17,7 @@
 class CNewVisGroupDlg : public CDialog
 {
 public:
-	CNewVisGroupDlg(CString &str, CWnd *pParent = NULL);
+	CNewVisGroupDlg(CString &str, CWnd *pParent = nullptr);
 
 	void GetName(CString &str);
 	CVisGroup *GetPickedVisGroup(void);

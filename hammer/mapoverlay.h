@@ -179,7 +179,7 @@ private:
 		
 		ClipFace_t()
 		{
-			m_pBuildFace = NULL;
+			m_pBuildFace = nullptr;
 			m_nPointCount = 0;
 		}
 

@@ -99,7 +99,7 @@ class CDmeMatSysDMXDag : public IDmeMatSysModel, public CDmeDag
 
 public:
 	// From CDmeDag
-	virtual void Draw( CDmeDrawSettings *pDrawSettings = NULL );
+	virtual void Draw( CDmeDrawSettings *pDrawSettings = nullptr);
 
 	// From IDmeMatSysModel
 	virtual void GetSequenceList( CUtlVector< CUtlString > *pOutList );
@@ -122,7 +122,7 @@ class CDmeMatSysMPPDag : public IDmeMatSysModel, public CDmeDag
 
 public:
 	// From CDmeDag
-	virtual void Draw( CDmeDrawSettings *pDrawSettings = NULL );
+	virtual void Draw( CDmeDrawSettings *pDrawSettings = nullptr);
 
 	// From IDmeMatSysModel
 	virtual void GetSequenceList( CUtlVector< CUtlString > *pOutList );

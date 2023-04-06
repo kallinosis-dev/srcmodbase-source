@@ -130,7 +130,7 @@ public:
 	inline CMapDoc *GetDocument(void);
 
 	// mark undo position:
-	void MarkUndoPosition(const CMapObjectList* pSelection = NULL, LPCTSTR pszName = NULL, BOOL = FALSE);
+	void MarkUndoPosition(const CMapObjectList* pSelection = nullptr, LPCTSTR pszName = nullptr, BOOL = FALSE);
 
 	//
 	// Keep this object so we can undo changes to it:

@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 CToolSphere::CToolSphere()
 {
-	m_pSphere = NULL;
+	m_pSphere = nullptr;
 }
 
 

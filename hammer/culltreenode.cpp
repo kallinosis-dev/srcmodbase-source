@@ -168,13 +168,13 @@ CCullTreeNode *CCullTreeNode::FindCullTreeObjectRecurse(CMapClass *pObject)
 	{
 		CCullTreeNode *pChild = GetCullTreeChild(nChild);
 		CCullTreeNode *pFound = pChild->FindCullTreeObjectRecurse(pObject);
-		if (pFound != NULL)
+		if (pFound != nullptr)
 		{
 			return(pFound);
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 

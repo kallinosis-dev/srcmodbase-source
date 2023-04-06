@@ -81,8 +81,8 @@ public:
 	virtual void DestroyPixelShader( PixelShaderHandle_t hShader ) = 0;
 
 	// Creates vertex, pixel shaders
-	virtual VertexShader_t CreateVertexShader( const char *pVertexShaderFile, int nStaticVshIndex = 0, char *debugLabel = NULL  ) = 0;
-	virtual PixelShader_t CreatePixelShader( const char *pPixelShaderFile, int nStaticPshIndex = 0, char *debugLabel = NULL ) = 0;
+	virtual VertexShader_t CreateVertexShader( const char *pVertexShaderFile, int nStaticVshIndex = 0, char *debugLabel = nullptr) = 0;
+	virtual PixelShader_t CreatePixelShader( const char *pPixelShaderFile, int nStaticPshIndex = 0, char *debugLabel = nullptr) = 0;
 
 	// Sets which dynamic version of the vertex + pixel shader to use
 	FORCEINLINE void SetVertexShaderIndex( int vshIndex );

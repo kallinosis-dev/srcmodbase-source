@@ -56,7 +56,7 @@ const char* Helper_PickBotGrenade()
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ static bool HasDefaultPistol( CCSBot *me )
 {
 	CWeaponCSBase *pistol = (CWeaponCSBase *)me->Weapon_GetSlot( WEAPON_SLOT_PISTOL );
 
-	if (pistol == NULL)
+	if (pistol == nullptr)
 		return false;
 
 	if (me->GetTeamNumber() == TEAM_TERRORIST && pistol->IsA( WEAPON_GLOCK ))
@@ -459,7 +459,7 @@ void BuyState::OnUpdate( CCSBot *me )
 				return;
 			}
 
-			const char *buyAlias = NULL;
+			const char *buyAlias = nullptr;
 
 			buyAlias = WeaponIDToAlias( weaponPreference );
 			WeaponType type = GetWeaponType( buyAlias );
@@ -467,32 +467,32 @@ void BuyState::OnUpdate( CCSBot *me )
 			{
 			case PISTOL:
 				if (!TheCSBots()->AllowPistols())
-					buyAlias = NULL;
+					buyAlias = nullptr;
 				break;
 
 			case SHOTGUN:
 				if (!TheCSBots()->AllowShotguns())
-					buyAlias = NULL;
+					buyAlias = nullptr;
 				break;
 
 			case SUB_MACHINE_GUN:
 				if (!TheCSBots()->AllowSubMachineGuns())
-					buyAlias = NULL;
+					buyAlias = nullptr;
 				break;
 
 			case RIFLE:
 				if (!TheCSBots()->AllowRifles())
-					buyAlias = NULL;
+					buyAlias = nullptr;
 				break;
 
 			case MACHINE_GUN:
 				if (!TheCSBots()->AllowMachineGuns())
-					buyAlias = NULL;
+					buyAlias = nullptr;
 				break;
 
 			case SNIPER_RIFLE:
 				if (!TheCSBots()->AllowSnipers())
-					buyAlias = NULL;
+					buyAlias = nullptr;
 				break;
 			}
 
@@ -628,7 +628,7 @@ void BuyState::OnUpdate( CCSBot *me )
 				{
 					int which = RandomInt( 0, SECONDARY_WEAPON_BUY_COUNT-1 );
 					
-					const char *what = NULL;
+					const char *what = nullptr;
 
 					if (me->GetTeamNumber() == TEAM_TERRORIST)
 						what = secondaryWeaponBuyInfoT[ which ].buyAlias;

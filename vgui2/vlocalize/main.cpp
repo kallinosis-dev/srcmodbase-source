@@ -63,9 +63,9 @@ bool CVLocalizeApp::PreInit()
 	if ( !BaseClass::PreInit() )
 		return false;
 
-	if ( !BaseClass::SetupSearchPaths( NULL, false, true ) )
+	if ( !BaseClass::SetupSearchPaths(nullptr, false, true ) )
 	{
-		::MessageBox( NULL, "Error", "Unable to initialize file system\n", MB_OK );
+		::MessageBox(nullptr, "Error", "Unable to initialize file system\n", MB_OK );
 		return false;
 	}
 
@@ -83,7 +83,7 @@ int CVLocalizeApp::Main()
 		return 1;
 
 	// Init the surface
-	vgui::Panel *panel = new vgui::Panel(NULL, "TopPanel");
+	vgui::Panel *panel = new vgui::Panel(nullptr, "TopPanel");
 	vgui::surface()->SetEmbeddedPanel(panel->GetVPanel());
 
 	// Start vgui

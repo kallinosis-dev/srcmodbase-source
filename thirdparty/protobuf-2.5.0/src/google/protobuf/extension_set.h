@@ -91,7 +91,7 @@ struct ExtensionInfo {
   inline ExtensionInfo() {}
   inline ExtensionInfo(FieldType type_param, bool isrepeated, bool ispacked)
       : type(type_param), is_repeated(isrepeated), is_packed(ispacked),
-        descriptor(NULL) {}
+        descriptor(nullptr) {}
 
   FieldType type;
   bool is_repeated;
@@ -692,11 +692,11 @@ class LIBPROTOBUF_EXPORT StringTypeTraits {
   }
   static inline void Set(int number, FieldType field_type,
                          const string& value, ExtensionSet* set) {
-    set->SetString(number, field_type, value, NULL);
+    set->SetString(number, field_type, value, nullptr);
   }
   static inline string* Mutable(int number, FieldType field_type,
                                 ExtensionSet* set) {
-    return set->MutableString(number, field_type, NULL);
+    return set->MutableString(number, field_type, nullptr);
   }
 };
 
@@ -719,11 +719,11 @@ class LIBPROTOBUF_EXPORT RepeatedStringTypeTraits {
   static inline void Add(int number, FieldType field_type,
                          bool /*is_packed*/, const string& value,
                          ExtensionSet* set) {
-    set->AddString(number, field_type, value, NULL);
+    set->AddString(number, field_type, value, nullptr);
   }
   static inline string* Add(int number, FieldType field_type,
                             ExtensionSet* set) {
-    return set->AddString(number, field_type, NULL);
+    return set->AddString(number, field_type, nullptr);
   }
 };
 

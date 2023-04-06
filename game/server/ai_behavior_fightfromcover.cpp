@@ -43,7 +43,7 @@ void CAI_FightFromCoverBehavior::SetGoal( CAI_FightFromCoverGoal *pGoal )
 //-----------------------------------------------------------------------------
 void CAI_FightFromCoverBehavior::ClearGoal()
 {
-	m_hGoal = NULL;
+	m_hGoal = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -99,7 +99,7 @@ bool CAI_FightFromCoverBehavior::HintSearchFilter( void *pContext, CAI_Hint *pCa
 	Vector vHintDir;
 	if ( pThis->m_hGoal->GetFrontDirection().IsValid() )
 	{
-		pCandidate->GetVectors( &vHintDir, NULL, NULL );
+		pCandidate->GetVectors( &vHintDir, nullptr, nullptr);
 		if ( vHintDir.Dot( pThis->m_hGoal->GetFrontDirection() ) < DOT_45DEGREE )
 		{
 			return false;
@@ -130,7 +130,7 @@ void CAI_FightFromCoverBehavior::GatherConditions()
 		if ( ( GetHintNode()->GetAbsOrigin() - m_hGoal->GetFrontPosition() ).LengthSqr() > Square( flFastRejectDist ) || !IsPointInZone( GetHintNode()->GetAbsOrigin() ) )
 		{
 			GetHintNode()->Unlock();
-			SetHintNode( NULL );
+			SetHintNode(nullptr);
 			SetCondition( COND_FFC_HINT_CHANGE );
 		}
 	}
@@ -142,7 +142,7 @@ void CAI_FightFromCoverBehavior::GatherConditions()
 //-----------------------------------------------------------------------------
 bool CAI_FightFromCoverBehavior::CanSelectSchedule()
 {
-	return ( m_hGoal != NULL );
+	return ( m_hGoal != nullptr);
 }
 
 
@@ -643,11 +643,11 @@ CAI_FightFromCoverGoal::CAI_FightFromCoverGoal()
 
 const Vector &CAI_FightFromCoverGoal::GetFrontPosition()
 {
-	if ( m_hDirectionalMarker != NULL )
+	if ( m_hDirectionalMarker != nullptr)
 	{
 		return m_vFront;
 	}
-	else if ( m_hGoalEntity != NULL )
+	else if ( m_hGoalEntity != nullptr)
 	{
 		return m_hGoalEntity->GetAbsOrigin();
 	}
@@ -666,7 +666,7 @@ const Vector &CAI_FightFromCoverGoal::GetFrontDirection()
 
 const QAngle &CAI_FightFromCoverGoal::GetFrontAngles()
 {
-	if ( m_hDirectionalMarker != NULL )
+	if ( m_hDirectionalMarker != nullptr)
 	{
 		return m_hDirectionalMarker->GetAbsAngles();
 	}
@@ -678,9 +678,9 @@ const QAngle &CAI_FightFromCoverGoal::GetFrontAngles()
 
 void CAI_FightFromCoverGoal::BeginMovingFront()
 {
-	if ( m_hDirectionalMarker != NULL )
+	if ( m_hDirectionalMarker != nullptr)
 	{
-		if ( m_hGoalEntity != NULL )
+		if ( m_hGoalEntity != nullptr)
 		{
 			if ( !m_pfnThink )
 			{
@@ -724,7 +724,7 @@ void CAI_FightFromCoverGoal::OnDeactivate()
 
 void CAI_FightFromCoverGoal::FrontThink()
 {
-	if ( m_hDirectionalMarker != NULL && m_hGoalEntity != NULL )
+	if ( m_hDirectionalMarker != nullptr && m_hGoalEntity != nullptr)
 	{
 		Vector vClosest;
 		AngleVectors( m_hDirectionalMarker->GetAbsAngles(), &m_vDir );
@@ -771,17 +771,17 @@ void CAI_FightFromCoverGoal::ResolveNames()
 {
 	BaseClass::ResolveNames();
 
-	if ( m_hGoalEntity == NULL && AI_IsSinglePlayer() )
+	if ( m_hGoalEntity == nullptr && AI_IsSinglePlayer() )
 	{
 		m_hGoalEntity = UTIL_GetLocalPlayer();
 	}
 
 	if ( m_DirectionalMarker != NULL_STRING )
 	{
-		EHANDLE hDirectionalMarker = gEntList.FindEntityByName( NULL, STRING(m_DirectionalMarker) );
+		EHANDLE hDirectionalMarker = gEntList.FindEntityByName(nullptr, STRING(m_DirectionalMarker) );
 		if ( m_hDirectionalMarker != hDirectionalMarker )
 		{
-			m_hDirectionalMarker = gEntList.FindEntityByName( NULL, STRING(m_DirectionalMarker) );
+			m_hDirectionalMarker = gEntList.FindEntityByName(nullptr, STRING(m_DirectionalMarker) );
 			m_vFront = m_hDirectionalMarker->GetAbsOrigin();
 			AngleVectors( m_hDirectionalMarker->GetAbsAngles(), &m_vDir );
 		}
@@ -789,7 +789,7 @@ void CAI_FightFromCoverGoal::ResolveNames()
 	}
 	else
 	{
-		m_hDirectionalMarker = NULL;
+		m_hDirectionalMarker = nullptr;
 		m_vDir.Invalidate();
 		EndMovingFront();
 	}
@@ -800,7 +800,7 @@ void CAI_FightFromCoverGoal::ResolveNames()
 void CAI_FightFromCoverGoal::InputSetDirectionalMarker( inputdata_t &inputdata )
 {
 	m_hDirectionalMarker = inputdata.value.Entity();
-	if ( m_hDirectionalMarker != NULL )
+	if ( m_hDirectionalMarker != nullptr)
 	{
 		m_DirectionalMarker = m_hDirectionalMarker->GetEntityName();
 		m_vFront = m_hDirectionalMarker->GetAbsOrigin();
@@ -824,7 +824,7 @@ int CAI_FightFromCoverGoal::DrawDebugTextOverlays()
 	if ( m_debugOverlays & OVERLAY_TEXT_BIT )
 	{
 		CFmtStr str;
-		if ( m_hDirectionalMarker != NULL )
+		if ( m_hDirectionalMarker != nullptr)
 		{
 			EntityText( text_offset++, str.sprintf( "Dir ent: %s", m_hDirectionalMarker->GetEntityNameAsCStr() ), 0 );
 			NDebugOverlay::YawArrow( m_hDirectionalMarker->GetAbsOrigin() + Vector( 0, 0, 6 ), m_hDirectionalMarker->GetAbsAngles().y, 60, 6, 255, 255, 255, 0, true, 0 );
@@ -838,14 +838,14 @@ int CAI_FightFromCoverGoal::DrawDebugTextOverlays()
 
 			for ( int i = 0; i < m_actors.Count(); i++ )
 			{
-				if ( m_actors[i] != NULL )
+				if ( m_actors[i] != nullptr)
 				{
 					NDebugOverlay::Line( m_vFront, m_actors[i]->WorldSpaceCenter(), 0, 0, 127, true, 0 );
 				}
 			}
 		}
 
-		if ( m_hGoalEntity != NULL )
+		if ( m_hGoalEntity != nullptr)
 		{
 			EntityText( text_offset++, str.sprintf( "Front ent: %s", m_hGoalEntity->GetEntityNameAsCStr() ), 0 );
 		}

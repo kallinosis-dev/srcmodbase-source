@@ -163,7 +163,7 @@ public:
 	};
 
 	CElementPropertiesTreeInternal( vgui::Panel *parent, IDmNotify *pNotify, 
-		CDmElement *pObject, bool autoApply = true, CDmeEditorTypeDictionary *pDict = NULL );
+		CDmElement *pObject, bool autoApply = true, CDmeEditorTypeDictionary *pDict = nullptr);
 	~CElementPropertiesTreeInternal();
 
 	virtual void Init( );
@@ -230,9 +230,9 @@ protected:
 	struct TreeItem_t
 	{
 		TreeItem_t() :
-			m_pElement( 0 ),
+			m_pElement( nullptr ),
 			m_pAttributeName(),
-			m_pArrayElement( 0 )
+			m_pArrayElement( nullptr )
 		{
 		}
 		CDmElement *m_pElement;
@@ -302,7 +302,7 @@ protected:
 	void CreateTreeEntry( int parentNodeIndex, CDmElement* obj, CDmAttribute *pAttribute, int nArrayIndex, AttributeWidgets_t &entry );
 
 	// populate the menu with the element hierarchy of "element_<elementtype>" commands
-	void PopulateMenuWithElementHierarchy_R( vgui::Menu *pMenu, const char *pElementType, CDmElementFactoryHelper *pChildFactory = NULL );
+	void PopulateMenuWithElementHierarchy_R( vgui::Menu *pMenu, const char *pElementType, CDmElementFactoryHelper *pChildFactory = nullptr);
 	void PopulateMenuWithElementHierarchy_R( vgui::Menu *pMenu, CDmElementFactoryHelper *pFactory );
 
 	// Sets up the attribute widget init info for a particular attribute
@@ -458,7 +458,7 @@ class CElementPropertiesTree : public vgui::Frame
 	DECLARE_CLASS_SIMPLE( CElementPropertiesTree, vgui::Frame );
 public:
 
-	CElementPropertiesTree( vgui::Panel *parent, IDmNotify *pNotify, CDmElement *pObject, CDmeEditorTypeDictionary *pDict = NULL );
+	CElementPropertiesTree( vgui::Panel *parent, IDmNotify *pNotify, CDmElement *pObject, CDmeEditorTypeDictionary *pDict = nullptr);
 
 	virtual void Init( );
 	virtual void Refresh( CElementPropertiesTreeInternal::RefreshType_t rebuild = CElementPropertiesTreeInternal::REFRESH_REBUILD, bool preservePrevSelectedItem = false );

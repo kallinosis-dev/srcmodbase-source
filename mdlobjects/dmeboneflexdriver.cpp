@@ -86,7 +86,7 @@ void CDmeBoneFlexDriver::OnDestruction()
 //-----------------------------------------------------------------------------
 CDmeBoneFlexDriverControl *CDmeBoneFlexDriver::FindOrCreateControl( const char *pszControlName )
 {
-	CDmeBoneFlexDriverControl *pDmeBoneFlexDriverControl = NULL;
+	CDmeBoneFlexDriverControl *pDmeBoneFlexDriverControl = nullptr;
 
 	for ( int i = 0; i < m_eControlList.Count(); ++i )
 	{
@@ -100,7 +100,7 @@ CDmeBoneFlexDriverControl *CDmeBoneFlexDriver::FindOrCreateControl( const char *
 
 	pDmeBoneFlexDriverControl = CreateElement< CDmeBoneFlexDriverControl >( "", GetFileId() );	// Nameless
 	if ( !pDmeBoneFlexDriverControl )
-		return NULL;
+		return nullptr;
 
 	pDmeBoneFlexDriverControl->m_sFlexControllerName = pszControlName;
 	m_eControlList.AddToTail( pDmeBoneFlexDriverControl );
@@ -140,7 +140,7 @@ void CDmeBoneFlexDriverList::OnDestruction()
 //-----------------------------------------------------------------------------
 CDmeBoneFlexDriver *CDmeBoneFlexDriverList::FindOrCreateBoneFlexDriver( const char *pszBoneName )
 {
-	CDmeBoneFlexDriver *pDmeBoneFlexDriver = NULL;
+	CDmeBoneFlexDriver *pDmeBoneFlexDriver = nullptr;
 
 	for ( int i = 0; i < m_eBoneFlexDriverList.Count(); ++i )
 	{
@@ -154,7 +154,7 @@ CDmeBoneFlexDriver *CDmeBoneFlexDriverList::FindOrCreateBoneFlexDriver( const ch
 
 	pDmeBoneFlexDriver = CreateElement< CDmeBoneFlexDriver >( "", GetFileId() );	// Nameless
 	if ( !pDmeBoneFlexDriver )
-		return NULL;
+		return nullptr;
 
 	pDmeBoneFlexDriver->m_sBoneName = pszBoneName;
 	m_eBoneFlexDriverList.AddToTail( pDmeBoneFlexDriver );

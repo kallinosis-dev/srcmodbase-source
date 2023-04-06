@@ -22,7 +22,7 @@ void IVP_OO_Watcher::hull_limit_exceeded_event(){
     env->get_statistic_manager()->range_intra_exceeded++;
     env->get_range_manager()->get_coll_range_intra_objects(obj0,obj1,&dist0,&dist1);
 
-    env->get_mindist_manager()->create_exact_mindists(obj0,obj1,  dist0 + dist1, &mindists, NULL, NULL, NULL, NULL, this);
+    env->get_mindist_manager()->create_exact_mindists(obj0,obj1,  dist0 + dist1, &mindists, nullptr, nullptr, nullptr, nullptr, this);
     IVP_Time t_now = env->get_current_time();
     obj0->get_hull_manager()->update_synapse( get_synapse(0), t_now, dist0);
     obj1->get_hull_manager()->update_synapse( get_synapse(1), t_now, dist1);    
@@ -73,8 +73,8 @@ void IVP_OO_Watcher::get_objects( IVP_Real_Object *objects_out[2] ){
 }
 
 void IVP_OO_Watcher::get_ledges( const IVP_Compact_Ledge *ledges_out[2] ){
-    ledges_out[0] = NULL;
-    ledges_out[1] = NULL;
+    ledges_out[0] = nullptr;
+    ledges_out[1] = nullptr;
 }
 
 

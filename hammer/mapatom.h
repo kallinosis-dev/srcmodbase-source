@@ -271,7 +271,7 @@ protected:
 	CMapAtom(void)
 	{
 		m_eSelectionState = SELECT_NONE;
-		m_pParent = NULL;
+		m_pParent = nullptr;
 		m_nObjectID = s_nObjectIDCtr++;
 	}
 

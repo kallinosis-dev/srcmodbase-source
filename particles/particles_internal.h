@@ -50,7 +50,7 @@ struct CWorldCollideContextData
 	void SetBaseTrace(  int nIndex, Vector const &rayStart, Vector const &traceDir, int nCollisionGroup, bool bKeepMisses );
 
 	void CalculatePlanes( CParticleCollection *pParticles, int nCollisionMode, int nCollisionGroupNumber,
-						  Vector const *pCpOffset = NULL, float flMovementTolerance = 0.  );
+						  Vector const *pCpOffset = nullptr, float flMovementTolerance = 0.  );
 };
 
 // This is defined in the owner DLL

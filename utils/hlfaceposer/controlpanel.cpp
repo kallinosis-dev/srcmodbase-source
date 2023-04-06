@@ -36,7 +36,7 @@
 #include "tier0/memdbgon.h"
 extern char g_appTitle[];
 
-ControlPanel *g_pControlPanel = 0;
+ControlPanel *g_pControlPanel = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: A simple subclass so we can paint the window background
@@ -63,7 +63,7 @@ public:
 };
 
 ControlPanel::ControlPanel (mxWindow *parent)
-: IFacePoserToolWindow( "ControlPanel", "Control Panel" ), mxWindow( parent, 0, 0, 0, 0 ), tab( 0 )
+: IFacePoserToolWindow( "ControlPanel", "Control Panel" ), mxWindow( parent, 0, 0, 0, 0 ), tab( nullptr )
 {
 	// create tabcontrol with subdialog windows
 	tab = new mxTab (this, 0, 0, 0, 0, IDC_TAB);
@@ -337,7 +337,7 @@ void ControlPanel::dumpModelInfo() { }
 
 void ControlPanel::ChangeModel( const char *filename )
 {
-	HCURSOR hPrevCursor = SetCursor( LoadCursor( NULL, IDC_WAIT ) );
+	HCURSOR hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_WAIT ) );
 
 	// init all the selection tabs based on the current model
 	initSequenceChoices();

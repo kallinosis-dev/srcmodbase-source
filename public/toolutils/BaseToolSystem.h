@@ -161,7 +161,7 @@ public:
 
 	// Derived classes implement this to create an action menu
 	// that appears if you right-click in the tool workspace
-	virtual vgui::Menu *CreateActionMenu( vgui::Panel *pParent ) { return NULL; }
+	virtual vgui::Menu *CreateActionMenu( vgui::Panel *pParent ) { return nullptr; }
 
 	// Derived classes implement this to create a custom menubar
 	virtual vgui::MenuBar *CreateMenuBar( CBaseToolSystem *pParent );
@@ -215,13 +215,13 @@ protected:
 	virtual void OnFileOperationCompleted( const char *pFileType, bool bWroteFile, vgui::FileOpenStateMachine::CompletionState_t state, KeyValues *pContextKeyValues ) {}
 
 	// Used to open a specified file, and deal with all the lovely dialogs
-	void OpenFile( const char *pOpenFileType, const char *pSaveFileName = NULL, const char *pSaveFileType = NULL, int nFlags = 0, KeyValues *pKeyValues = NULL );
-	void OpenFile( const char *pOpenFileName, const char *pOpenFileType, const char *pSaveFileName = NULL, const char *pSaveFileType = NULL, int nFlags = 0, KeyValues *pKeyValues = NULL );
+	void OpenFile( const char *pOpenFileType, const char *pSaveFileName = nullptr, const char *pSaveFileType = nullptr, int nFlags = 0, KeyValues *pKeyValues = nullptr);
+	void OpenFile( const char *pOpenFileName, const char *pOpenFileType, const char *pSaveFileName = nullptr, const char *pSaveFileType = nullptr, int nFlags = 0, KeyValues *pKeyValues = nullptr);
 	
 	// Used to save a specified file, and deal with all the lovely dialogs
 	// Pass in NULL to get a dialog to choose a filename to save
 	// Posts the keyvalues
-	void SaveFile( const char *pFileName, const char *pFileType, int nFlags, KeyValues *pKeyValues = NULL );
+	void SaveFile( const char *pFileName, const char *pFileType, int nFlags, KeyValues *pKeyValues = nullptr);
 	
 	KEYBINDING_FUNC_NODECLARE( editkeybindings, KEY_E, vgui::MODIFIER_SHIFT | vgui::MODIFIER_CONTROL | vgui::MODIFIER_ALT, OnEditKeyBindings, "#editkeybindings_help", 0 );
 	KEYBINDING_FUNC( keybindinghelp, KEY_H, 0, OnKeyBindingHelp, "#keybindinghelp_help", 0 );

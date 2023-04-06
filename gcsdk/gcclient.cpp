@@ -19,7 +19,7 @@ namespace GCSDK
 // Purpose: Constructor
 //------------------------------------------------------------------------------
 CGCClient::CGCClient( ISteamGameCoordinator *pSteamGameCoordinator, bool bGameserver )
-: m_pSteamGameCoordinator( NULL ),
+: m_pSteamGameCoordinator(nullptr),
 	m_memMsg( 0, 1024 ),
 #ifndef STEAM
 	m_callbackGCMessageAvailable( NULL, NULL ),
@@ -171,7 +171,7 @@ void CGCClient::OnGCMessageAvailable( GCMessageAvailable_t *pCallback )
 				CIMsgNetPacketAutoRelease pMsgNetPacket( pGCPacket );
 
 				// Safety check against malformed packet
-				if ( pMsgNetPacket.Get() != NULL )
+				if ( pMsgNetPacket.Get() != nullptr)
 				{
 
 					// dispatch the packet
@@ -200,7 +200,7 @@ void CGCClient::OnGCMessageAvailable( GCMessageAvailable_t *pCallback )
 				CIMsgNetPacketAutoRelease pMsgNetPacket( pGCPacket );
 
 				// Safety check against malformed packet
-				if ( pMsgNetPacket.Get() != NULL )
+				if ( pMsgNetPacket.Get() != nullptr)
 				{
 
 					// dispatch the packet
@@ -238,7 +238,7 @@ bool CGCClient::BInit( ISteamGameCoordinator *pSteamGameCoordinator )
 	// process any messages that are already waiting
 	if( m_pSteamGameCoordinator )
 	{
-		OnGCMessageAvailable( NULL );
+		OnGCMessageAvailable(nullptr);
 	}
 	
 	return true;
@@ -253,7 +253,7 @@ void CGCClient::Uninit( )
 #ifndef STEAM
 	m_callbackGCMessageAvailable.Unregister();
 #endif
-	m_pSteamGameCoordinator = NULL;
+	m_pSteamGameCoordinator = nullptr;
 
 	// Clear and remove the SO caches
 	unsigned short nMapIndex = m_mapSOCache.FirstInorder();
@@ -296,7 +296,7 @@ CGCClientSharedObjectCache *CGCClient::FindSOCache( const CSteamID & steamID, bo
 		{
 			Assert( steamID.IsValid() );
 			if ( !steamID.IsValid() )
-				return NULL;
+				return nullptr;
 
 			CGCClientSharedObjectCache *pCache = new CGCClientSharedObjectCache( steamID );
 			m_mapSOCache.Insert( steamID, pCache );
@@ -304,7 +304,7 @@ CGCClientSharedObjectCache *CGCClient::FindSOCache( const CSteamID & steamID, bo
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 }
@@ -328,7 +328,7 @@ bool CGCClient::RemoveSOCacheListener( const CSteamID &ownerID, ISharedObjectLis
 	Assert ( this != NULL );		// Damn people - check your pointers before calling!
 	Assert( ownerID.IsValid() );
 	CGCClientSharedObjectCache *pCache = FindSOCache( ownerID, false );
-	if ( pCache == NULL )
+	if ( pCache == nullptr)
 		return false; // cache doesn't exist, so we could't have ben listening
 	return pCache->RemoveListener( pListener );
 }
@@ -382,7 +382,7 @@ CSharedObject *CGCClient::FindSharedObject( const CSteamID & ownerID, const CSha
 	if( pCache )
 		return pCache->FindSharedObject( soIndex ); 
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -573,7 +573,7 @@ public:
 		CGCClientSharedObjectCache *pSOCache = m_pGCClient->FindSOCache( msg.Body().owner(), false );
 
 		// if we do not have the cache or it is out-of-date, request a refresh
-		if ( pSOCache == NULL || !pSOCache->BIsInitialized() || pSOCache->GetVersion() != msg.Body().version() )
+		if ( pSOCache == nullptr || !pSOCache->BIsInitialized() || pSOCache->GetVersion() != msg.Body().version() )
 		{
 			SOCDebug( "CGCSOCacheSubscriptionCheck(owner=%s) -- need refresh\n", CSteamID( msg.Body().owner() ).Render() );
 			CProtoBufMsg< CMsgSOCacheSubscriptionRefresh > msg_response( k_ESOMsg_CacheSubscriptionRefresh );

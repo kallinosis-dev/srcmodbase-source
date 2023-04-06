@@ -64,7 +64,7 @@ class IVP_Poly_Point : public IVP_U_Point
 {
     friend class IVP_Tri_Edge;
 public:
-    IVP_Poly_Point() { tmp.tetra_point = NULL; };    
+    IVP_Poly_Point() { tmp.tetra_point = nullptr; };    
     inline IVP_Real_Object *get_real_object2() const; // @@@@@ returns 0
     IVP_Object_Polygon_Tetra *l_tetras;
     union {			// temporary pointers
@@ -73,7 +73,7 @@ public:
     } tmp;
     
     int point_num();
-    void print(const char *text=0);
+    void print(const char *text=nullptr);
     int p();    
 };
 
@@ -107,7 +107,7 @@ public:
     
     IVP_Tri_Edge *other_side();
     IVP_BOOL is_concav(){ return (IVP_BOOL)(concavity < -1E-10f); };
-    void print(const char *text = 0);
+    void print(const char *text = nullptr);
     
 
     int p(); /// for debugger
@@ -145,7 +145,7 @@ public:
     IVP_Triangle();
     virtual ~IVP_Triangle();
 
-    int print(const char *comment = NULL);
+    int print(const char *comment = nullptr);
 };
 
 class IVP_U_Min_Hash;
@@ -194,8 +194,8 @@ private:
          
     void calc_concavities(); // calcs and counts all concav edges
     IVP_ERROR_STRING total_breakivp_edge(IVP_Tri_Edge *edge);
-    IVP_ERROR_STRING breakivp_triangle(IVP_Triangle *triangle, IVP_Triangle *no_break_a=NULL,
-			     IVP_Triangle *no_break_b = NULL, IVP_Triangle *no_break_c = NULL);
+    IVP_ERROR_STRING breakivp_triangle(IVP_Triangle *triangle, IVP_Triangle *no_break_a= nullptr,
+			     IVP_Triangle *no_break_b = nullptr, IVP_Triangle *no_break_c = nullptr);
     IVP_ERROR_STRING breakivp_random_triangle(IVP_Tri_Edge *edge);
     IVP_DOUBLE rate_tri_edge(IVP_Tri_Edge *edge);
     void move_edge_to_problem_hash(IVP_Tri_Edge *edge);
@@ -272,7 +272,7 @@ public:
     static IVP_Triangle *generate_double_triangle(IVP_Poly_Point *p1, IVP_Poly_Point *p2, IVP_Poly_Point *p3);
 };
 
-inline IVP_Real_Object *IVP_Poly_Point::get_real_object2() const { return NULL; } // l_tetras->real_object
+inline IVP_Real_Object *IVP_Poly_Point::get_real_object2() const { return nullptr; } // l_tetras->real_object
 //inline IVP_Polygon *IVP_Poly_Point::get_polygon() const { return (IVP_Polygon *)l_tetras->real_object; };
 
 

@@ -89,7 +89,7 @@ CTEParticleRenderer::CTEParticleRenderer( const char *pDebugName ) :
 	CParticleEffect( pDebugName )
 {
 	m_ParticleSize = 1.5f;
-	m_MaterialHandle = INVALID_MATERIAL_HANDLE;
+	m_MaterialHandle = nullptr;
 }
 
 
@@ -113,7 +113,7 @@ CSmartPtr<CTEParticleRenderer> CTEParticleRenderer::Create( const char *pDebugNa
 
 StandardParticle_t* CTEParticleRenderer::AddParticle()
 {
-	if(m_MaterialHandle == INVALID_MATERIAL_HANDLE)
+	if(m_MaterialHandle == nullptr)
 	{
 		m_MaterialHandle = m_ParticleEffect.FindOrAddMaterial("particle/particledefault");
 	}

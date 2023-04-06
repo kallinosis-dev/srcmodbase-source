@@ -54,7 +54,7 @@ DECLARE_HUD_MESSAGE( CHudGeiger, Geiger );
 // Purpose: 
 //-----------------------------------------------------------------------------
 CHudGeiger::CHudGeiger( const char *pElementName ) :
-	CHudElement( pElementName ), BaseClass( NULL, "HudGeiger" )
+	CHudElement( pElementName ), BaseClass(nullptr, "HudGeiger" )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
@@ -205,7 +205,7 @@ void CHudGeiger::Paint()
 
 		CSoundParameters params;
 
-		if ( C_BaseEntity::GetParametersForSound( sz, params, NULL ) )
+		if ( C_BaseEntity::GetParametersForSound( sz, params, nullptr) )
 		{
 			CLocalPlayerFilter filter;
 

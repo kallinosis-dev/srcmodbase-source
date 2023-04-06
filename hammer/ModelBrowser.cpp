@@ -23,7 +23,7 @@ class CModelBrowserPanel : public vgui::EditablePanel
 {
 public:
 	CModelBrowserPanel( CModelBrowser *pBrowser, const char *panelName, vgui::HScheme hScheme ) : 
-	  vgui::EditablePanel( NULL, panelName, hScheme )
+	  vgui::EditablePanel(nullptr, panelName, hScheme )
 	{
 		m_pBrowser = pBrowser;
 	}
@@ -81,11 +81,11 @@ IMPLEMENT_DYNAMIC(CModelBrowser, CDialog)
 CModelBrowser::CModelBrowser(CWnd* pParent /*=NULL*/)
 	: CDialog(CModelBrowser::IDD, pParent)
 {
-	m_pPicker = new CMDLPicker( NULL );
-	m_pStatusLine = new vgui::TextEntry( NULL, "StatusLine" );
+	m_pPicker = new CMDLPicker(nullptr);
+	m_pStatusLine = new vgui::TextEntry(nullptr, "StatusLine" );
 
-	m_pButtonOK = new vgui::Button( NULL, "OpenButton", "OK" );
-	m_pButtonCancel = new vgui::Button( NULL, "CancelButton", "Cancel" );
+	m_pButtonOK = new vgui::Button(nullptr, "OpenButton", "OK" );
+	m_pButtonCancel = new vgui::Button(nullptr, "CancelButton", "Cancel" );
 }
 
 CModelBrowser::~CModelBrowser()
@@ -235,7 +235,7 @@ BOOL CModelBrowser::OnInitDialog()
 {
 	CDialog::OnInitDialog();
 
-	m_VGuiWindow.Create( NULL, _T("ModelViewer"), WS_VISIBLE|WS_CHILD, CRect(0,0,100,100), this, 1001);
+	m_VGuiWindow.Create(nullptr, _T("ModelViewer"), WS_VISIBLE|WS_CHILD, CRect(0,0,100,100), this, 1001);
 
 	vgui::EditablePanel *pMainPanel = new CModelBrowserPanel( this, "ModelBrowerPanel", HammerVGui()->GetHammerScheme() );
 	

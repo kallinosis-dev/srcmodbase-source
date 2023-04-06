@@ -24,7 +24,7 @@
 //-----------------------------------------------------------------------------
 // External interfaces
 //-----------------------------------------------------------------------------
-IAudioDevice *g_pAudioDevice = NULL;
+IAudioDevice *g_pAudioDevice = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -93,15 +93,15 @@ bool CSoundSystem::Connect( CreateInterfaceFn factory )
 	if ( !BaseClass::Connect( factory ) )
 		return false;
 
-	g_pDataCache = (IDataCache*)factory( DATACACHE_INTERFACE_VERSION, NULL );
+	g_pDataCache = (IDataCache*)factory( DATACACHE_INTERFACE_VERSION, nullptr);
 	g_pSoundSystem = this;
-	return (g_pFullFileSystem != NULL) && (g_pDataCache != NULL);
+	return (g_pFullFileSystem != nullptr) && (g_pDataCache != nullptr);
 }
 
 void CSoundSystem::Disconnect()
 {
-	g_pSoundSystem = NULL;
-	g_pDataCache = NULL;
+	g_pSoundSystem = nullptr;
+	g_pDataCache = nullptr;
 	BaseClass::Disconnect();
 }
 
@@ -114,7 +114,7 @@ void *CSoundSystem::QueryInterface( const char *pInterfaceName )
 	if (!Q_strncmp(	pInterfaceName, SOUNDSYSTEM_INTERFACE_VERSION, Q_strlen(SOUNDSYSTEM_INTERFACE_VERSION) + 1))
 		return (ISoundSystem*)this;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -196,7 +196,7 @@ CAudioSource *CSoundSystem::FindOrAddSound( const char *filename )
 CAudioSource *CSoundSystem::LoadSound( const char *wavfile )
 {
 	if ( !m_pAudioDevice )
-		return NULL;
+		return nullptr;
 
 	CAudioSource *wave = AudioSource_Create( wavfile );
 	return wave;
@@ -206,7 +206,7 @@ void CSoundSystem::PlaySound( CAudioSource *source, float volume, CAudioMixer **
 {
 	if ( ppMixer )
 	{
-		*ppMixer = NULL;
+		*ppMixer = nullptr;
 	}
 
 	if ( m_pAudioDevice )
@@ -300,7 +300,7 @@ bool CSoundSystem::IsSoundPlaying( CAudioMixer *pMixer )
 CAudioMixer *CSoundSystem::FindMixer( CAudioSource *source )
 {
 	if ( !m_pAudioDevice )
-		return NULL;
+		return nullptr;
 
 	return m_pAudioDevice->GetMixerForSource( source );
 }

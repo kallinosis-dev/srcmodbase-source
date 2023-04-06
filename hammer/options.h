@@ -160,7 +160,7 @@ public:
 	inline CGameConfig *GetGameConfig(int nIndex);
 
 	// find a game config based on ID:
-	CGameConfig *FindConfig(DWORD dwID, int *piIndex = NULL);
+	CGameConfig *FindConfig(DWORD dwID, int *piIndex = nullptr);
 	CGameConfig *FindConfigForGame(const char *szGame);
 
 	int nConfigs;

@@ -43,7 +43,7 @@ struct delayed_player_swap_t
 
 	delayed_player_swap_t( void )
 	{
-		phHandleToChange = NULL;
+		phHandleToChange = nullptr;
 		iNewUserID = -1;
 	}
 };

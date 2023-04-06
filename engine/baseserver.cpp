@@ -273,7 +273,7 @@ static void SetMasterServerKeyValue( ISteamGameServer *pGameServer, IConVar *pCo
 	}
 }
 
-static KeyValues *g_pKVrulesConvars = NULL;
+static KeyValues *g_pKVrulesConvars = nullptr;
 
 static void ServerNotifyVarChangeCallback( IConVar *pConVar, const char *pOldValue, float flOldValue )
 {
@@ -307,12 +307,12 @@ CBaseServer::CBaseServer() :
 	// Just get a unique ID to talk to the steam master server updater.
 	m_bRestartOnLevelChange = false;
 	
-	m_StringTables = NULL;
-	m_pInstanceBaselineTable = NULL;
-	m_pLightStyleTable = NULL;
-	m_pUserInfoTable = NULL;
-	m_pServerStartupTable = NULL;
-	m_pDownloadableFileTable = NULL;
+	m_StringTables = nullptr;
+	m_pInstanceBaselineTable = nullptr;
+	m_pLightStyleTable = nullptr;
+	m_pUserInfoTable = nullptr;
+	m_pServerStartupTable = nullptr;
+	m_pDownloadableFileTable = nullptr;
 
 	m_fLastCPUCheckTime = 0;
 	m_fStartTime = 0;
@@ -344,7 +344,7 @@ CBaseServer::CBaseServer() :
 	m_flLastMasterServerUpdateTime = 0;
 
 	m_nReservationCookie = 0;
-	m_pnReservationCookieSession = NULL;
+	m_pnReservationCookieSession = nullptr;
 	m_flReservationExpiryTime = -1.0f;
 	m_flTimeLastClientLeft = -1.0f;
 	m_numGameSlots = 0;
@@ -433,7 +433,7 @@ const char *CBaseServer::GetPassword() const
 	// if password is empty or "none", return NULL
 	if ( !password[0] || !Q_stricmp(password, "none" ) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return password;
@@ -442,7 +442,7 @@ const char *CBaseServer::GetPassword() const
 
 void CBaseServer::SetPassword(const char *password)
 {
-	if ( password != NULL )
+	if ( password != nullptr)
 	{
 		Q_strncpy( m_Password, password, sizeof(m_Password) );
 	}
@@ -541,27 +541,27 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 	if ( !IsActive() )
 	{
 		DevMsg( "Server not active, ignoring %s\n", sAdr.String() );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( !name || !password || !hashedCDkey )
 	{
 		DevMsg( "Bad auth data from %s\n", sAdr.String() );
-		return NULL;
+		return nullptr;
 	}
 
 	// Make sure protocols match up
 	if ( !CheckProtocol( adr, protocol ) )
 	{
 		DevMsg( "Protocol error from %s\n", sAdr.String() );
-		return NULL;
+		return nullptr;
 	}
 
 
 	if ( !CheckChallengeNr( adr, challenge ) )
 	{
 		RejectConnection( adr, "Bad challenge.\n");
-		return NULL;
+		return nullptr;
 	}
 
 	bool bIsLocalConnection = adr.IsLocalhost() || adr.IsLoopback();
@@ -583,18 +583,18 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 		if ( sv.IsLevelMainMenuBackground() )
 		{
 			RejectConnection( adr, "#Valve_Reject_Background_Map" );
-			return NULL;
+			return nullptr;
 		}
 		if ( IsSinglePlayerGame() )
 		{
 			RejectConnection( adr, "#Valve_Reject_Single_Player" );
-			return NULL;
+			return nullptr;
 		}
 		if ( ShouldHideServer() )
 		{
 			// Right now, hidden means commentary, "solo" or background map (l4d), the former of which are covered above.
 			RejectConnection( adr, "#Valve_Reject_Hidden_Game" );
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -617,7 +617,7 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 			ConMsg ( "%s:  password failed.\n", sAdr.String() );
 			// Special rejection handler.
 			RejectConnection( adr, "#Valve_Reject_Bad_Password" );
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -648,7 +648,7 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 			else
 			{
 				RejectConnection( adr, "#Valve_Reject_Server_Full" );
-				return NULL;	// cannot accept, exceeding game mode slot count
+				return nullptr;	// cannot accept, exceeding game mode slot count
 			}
 		}
 	}
@@ -661,7 +661,7 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 	{
 		if ( netAdrRedirect.IsValid() )
 			RejectConnection( adr, "ConnectRedirectAddress:%s\n", ns_address_render( netAdrRedirect ).String() );
-		return NULL;
+		return nullptr;
 	}
 
 	COM_TimestampedLog( "CBaseServer::ConnectClient:  GetFreeClient" );
@@ -671,20 +671,20 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 	if ( !client )
 	{
 		RejectConnection( adr, "#Valve_Reject_Server_Full" );
-		return NULL;	// no free slot found
+		return nullptr;	// no free slot found
 	}
 
 	int nNextUserID = GetNextUserID();
 	if ( !CheckChallengeType( client, nNextUserID, adr, authProtocol, hashedCDkey, cdKeyLen ) ) // we use the client pointer to track steam requests
 	{
-		return NULL;
+		return nullptr;
 	}
 
 #ifndef _HLTVTEST
 #ifndef _REPLAYTEST
 	if ( !FinishCertificateCheck( adr, authProtocol, hashedCDkey	) )
 	{
-		return NULL;
+		return nullptr;
 	}
 #endif
 #endif
@@ -728,14 +728,14 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 	if ( !bValidatedUserInfo )
 	{
 		RejectConnection( adr, "Invalid user info.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	// Final validation chance by server.dll
 	if ( char const *szGameServerError = serverGameDLL->ClientConnectionValidatePreNetChan( ( this == &sv ), sAdr.String(), authProtocol, client->m_SteamID.ConvertToUint64() ) )
 	{
 		RejectConnection( adr, "%s", szGameServerError );
-		return NULL;
+		return nullptr;
 	}
 
 	COM_TimestampedLog( "CBaseServer::ConnectClient:  NET_CreateNetChannel" );
@@ -766,7 +766,7 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 	if ( !netchan )
 	{
 		RejectConnection( adr, "Failed to create net channel.\n");
-		return NULL;
+		return nullptr;
 	}
 
 	// setup netchannl settings
@@ -791,7 +791,7 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 	client->m_nDeltaTick = -1;
 	client->m_nSignonTick = 0;
 	client->m_nStringTableAckTick = 0;
-	client->m_pLastSnapshot = NULL;
+	client->m_pLastSnapshot = nullptr;
 	
 	// Tell client connection worked, now use netchannels
 	NET_OutOfBandPrintf ( m_Socket, adr, "%c.%08X.0000.0000.0000.0000.", S2C_CONNECTION, nEncryptionKeyIndex );
@@ -1065,16 +1065,16 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 								//
 								// Get client certificate
 								//
-								const byte *pbNetEncryptPrivateKey = NULL;
+								const byte *pbNetEncryptPrivateKey = nullptr;
 								int cbNetEncryptPrivateKey = 0;
 								bool bNetEncryptPrivateKey = NET_CryptGetNetworkCertificate( k_ENetworkCertificate_PrivateKey, &pbNetEncryptPrivateKey, &cbNetEncryptPrivateKey );
 								
 								// Read whether the client would like to use encryption key?
-								byte *pbClientPlainKey = NULL;
+								byte *pbClientPlainKey = nullptr;
 								int nEncryptionKeyIndex = msg.ReadLong();
 
 								// Peek into client-supplied speculative accountid
-								static bool s_bExternalCryptKeys = ( CommandLine()->CheckParm( "-externalnetworkcryptkey" ) != NULL );
+								static bool s_bExternalCryptKeys = ( CommandLine()->CheckParm( "-externalnetworkcryptkey" ) != nullptr);
 								AccountID_t unAccountIDfor3rdParties = 0;
 								if ( s_bExternalCryptKeys && splitScreenPlayers.Count() )
 								{
@@ -1200,7 +1200,7 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 					msg.WriteLong( GetHostVersion() );
 					msg.WriteLong( token );
 
-					NET_SendPacket( NULL, m_Socket, packet->from, msg.GetData(), msg.GetNumBytesWritten() );
+					NET_SendPacket(nullptr, m_Socket, packet->from, msg.GetData(), msg.GetNumBytesWritten() );
 				}
 
 				break;
@@ -1294,7 +1294,7 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 						  // 					nNewFlags |= S2A_EXTRA_DATA_HAS_STEAMID;
 
 						  extern bool CanShowHostTvStatus();
-						  CHLTVServer *hltv = NULL;
+						  CHLTVServer *hltv = nullptr;
 						  for ( CActiveHltvServerIterator it; it; it.Next() )
 						  {
 							  if ( CanShowHostTvStatus() )
@@ -1338,7 +1338,7 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 							  buf.PutInt64( LittleQWord( CGameID( appIdResponse ).ToUint64() ) );
 						  }
 
-						  NET_SendPacket( NULL, m_Socket, packet->from, ( unsigned char * ) buf.Base(), buf.TellPut() );
+						  NET_SendPacket(nullptr, m_Socket, packet->from, ( unsigned char * ) buf.Base(), buf.TellPut() );
 					}
 					break;
 				}
@@ -1375,7 +1375,7 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 						LittleFloat( &flLittleTime, &flTime );
 						buf.PutFloat( flLittleTime );
 
-						NET_SendPacket( NULL, m_Socket, packet->from, ( unsigned char * ) buf.Base(), buf.TellPut() );
+						NET_SendPacket(nullptr, m_Socket, packet->from, ( unsigned char * ) buf.Base(), buf.TellPut() );
 					}
 					break;
 				}
@@ -1495,7 +1495,7 @@ int CBaseServer::GetNumPlayers()
 
 	for ( int i=0; i < maxPlayers; i++ )
 	{
-		const player_info_t *pi = (const player_info_t *) m_pUserInfoTable->GetStringUserData( i, NULL );
+		const player_info_t *pi = (const player_info_t *) m_pUserInfoTable->GetStringUserData( i, nullptr);
 		// WARNING: using raw bytes access to player info instead of GetPlayerInfo to save server CPU when
 		// responding to server info queries. Structure not byteswapped, must use GetPlayerInfo.
 
@@ -1522,7 +1522,7 @@ bool CBaseServer::GetPlayerInfo( int nClientIndex, player_info_t *pinfo )
 		return false;
 	}
 
-	player_info_t *pi = (player_info_t*) GetUserInfoTable()->GetStringUserData( nClientIndex, NULL );
+	player_info_t *pi = (player_info_t*) GetUserInfoTable()->GetStringUserData( nClientIndex, nullptr);
 
 	if ( !pi )
 	{
@@ -1562,7 +1562,7 @@ void CBaseServer::UserInfoChanged( int nClientIndex )
 	else
 	{
 		// delete user data settings
-		m_pUserInfoTable->SetStringUserData( nClientIndex, 0, NULL );
+		m_pUserInfoTable->SetStringUserData( nClientIndex, 0, nullptr);
 	}
 	networkStringTableContainerServer->Lock( oldlock );
 	
@@ -1684,7 +1684,7 @@ void CBaseServer::ReplyChallenge( const ns_address &adr, bf_read &inmsg )
 	{
 		bool bIsLocalConnection = adr.IsLoopback() || adr.IsLocalhost();
 		// A local player never has to enter a PW
-		bool bWillRequirePassword = ( GetPassword() != NULL ) && 
+		bool bWillRequirePassword = ( GetPassword() != nullptr) && 
 			!bIsLocalConnection;
 
 		// Validate the challenge if the challenge was passed as part of connect
@@ -1695,7 +1695,7 @@ void CBaseServer::ReplyChallenge( const ns_address &adr, bf_read &inmsg )
 		{
 			char chValidateChallenge[ 9 ] = {0};
 			Q_strncpy( chValidateChallenge, pszValidate + 2, sizeof( chValidateChallenge ) );
-			nChallenge = strtoul( chValidateChallenge, NULL, 16 );
+			nChallenge = strtoul( chValidateChallenge, nullptr, 16 );
 		}
 
 		bool bAllowDC = !serverGameDLL->IsValveDS();	// Official DS direct connect disabled
@@ -1849,9 +1849,9 @@ void CBaseServer::ReplyChallenge( const ns_address &adr, bf_read &inmsg )
 		//
 		// Server will send the certificate and its signature down to the client
 		//
-		const byte *pbNetEncryptPublic = NULL;
+		const byte *pbNetEncryptPublic = nullptr;
 		int cbNetEncryptPublic = 0;
-		const byte *pbNetEncryptSignature = NULL;
+		const byte *pbNetEncryptSignature = nullptr;
 		int cbNetEncryptSignature = 0;
 		bool bServerRequiresEncryptedChannels = ( ( this == &sv ) &&
 			NET_CryptGetNetworkCertificate( k_ENetworkCertificate_PublicKey, &pbNetEncryptPublic, &cbNetEncryptPublic ) &&
@@ -1870,7 +1870,7 @@ void CBaseServer::ReplyChallenge( const ns_address &adr, bf_read &inmsg )
 		msg.WriteString( context );
 	}
 
-	NET_SendPacket( NULL, m_Socket, adr, msg.GetData(), msg.GetNumBytesWritten() );
+	NET_SendPacket(nullptr, m_Socket, adr, msg.GetData(), msg.GetNumBytesWritten() );
 
 	//
 	// Force the map to be reloaded upon first connection
@@ -1905,7 +1905,7 @@ void CBaseServer::ReplyServerChallenge(const ns_address &adr)
 	msg.WriteLong( CONNECTIONLESS_HEADER );
 	msg.WriteByte( S2C_CHALLENGE );
 	msg.WriteLong( challengeNr );
-	NET_SendPacket( NULL, m_Socket, adr, msg.GetData(), msg.GetNumBytesWritten() );
+	NET_SendPacket(nullptr, m_Socket, adr, msg.GetData(), msg.GetNumBytesWritten() );
 }
 
 //-----------------------------------------------------------------------------
@@ -1947,7 +1947,7 @@ void CBaseServer::ReplyReservationRequest( const ns_address &adr, bf_read &msgIn
 	byte decrypted[ 1024 ];
 
 	bool bAccepted = false;
-	static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * ) NULL );
+	static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * )nullptr);
 	if ( s_pchTournamentServer )
 	{
 		DevMsg( "Reservation request from %s rejected: server running in tournament mode for '%s'\n", 
@@ -2217,7 +2217,7 @@ void CBaseServer::ReplyReservationCheckRequest( const ns_address &adr, bf_read &
 	msg.WriteLong( uiReservationStage );
 	msg.WriteByte( uiAwaitingClients );
 	
-	NET_SendPacket( NULL, m_Socket, adr, msg.GetData(), msg.GetNumBytesWritten() );
+	NET_SendPacket(nullptr, m_Socket, adr, msg.GetData(), msg.GetNumBytesWritten() );
 
 	//
 	// Send response to all clients too when this packet is really important
@@ -2238,7 +2238,7 @@ void CBaseServer::ReplyReservationCheckRequest( const ns_address &adr, bf_read &
 			msg.WriteLong( uiReservationStage );
 			msg.WriteByte( uiAwaitingClients );
 
-			NET_SendPacket( NULL, m_Socket, m_arrReservationPlayers[jj].m_adr, msg.GetData(), msg.GetNumBytesWritten() );
+			NET_SendPacket(nullptr, m_Socket, m_arrReservationPlayers[jj].m_adr, msg.GetData(), msg.GetNumBytesWritten() );
 		}
 	}
 }
@@ -2273,7 +2273,7 @@ void CBaseServer::SendReservationStatus( EReservationStatus_t kEReservationStatu
 	DevMsg( "Reservation response to %s: %u, server reserved for %d more seconds\n", 
 		ns_address_render( m_ReservationStatus.m_Remote ).String(), kEReservationStatus, (int) ( m_flReservationExpiryTime - net_time ) );
 
-	NET_SendPacket( NULL, m_Socket, m_ReservationStatus.m_Remote, msg.GetData(), msg.GetNumBytesWritten() );
+	NET_SendPacket(nullptr, m_Socket, m_ReservationStatus.m_Remote, msg.GetData(), msg.GetNumBytesWritten() );
 
 	if ( kEReservationStatus != kEReservationStatusPending )
 		ClearReservationStatus();
@@ -2878,13 +2878,13 @@ void CBaseServer::Clear( void )
 	if ( m_StringTables )
 	{
 		m_StringTables->RemoveAllTables();
-		m_StringTables = NULL;
+		m_StringTables = nullptr;
 	}
 
-	m_pInstanceBaselineTable = NULL;
-	m_pLightStyleTable = NULL;
-	m_pUserInfoTable = NULL;
-	m_pServerStartupTable = NULL;
+	m_pInstanceBaselineTable = nullptr;
+	m_pLightStyleTable = nullptr;
+	m_pUserInfoTable = nullptr;
+	m_pServerStartupTable = nullptr;
 
 	ClearBaselineHandles();
 	
@@ -3004,7 +3004,7 @@ void CBaseServer::Init( bool bIsDedicated )
 
 INetworkStringTable *CBaseServer::GetInstanceBaselineTable( void )
 {
-	if ( m_pInstanceBaselineTable == NULL )
+	if ( m_pInstanceBaselineTable == nullptr)
 	{
 		m_pInstanceBaselineTable = m_StringTables->FindTable( INSTANCE_BASELINE_TABLENAME );
 	}
@@ -3014,7 +3014,7 @@ INetworkStringTable *CBaseServer::GetInstanceBaselineTable( void )
 
 INetworkStringTable *CBaseServer::GetLightStyleTable( void )
 {
-	if ( m_pLightStyleTable == NULL )
+	if ( m_pLightStyleTable == nullptr)
 	{
 		m_pLightStyleTable= m_StringTables->FindTable( LIGHT_STYLES_TABLENAME );
 	}
@@ -3024,11 +3024,11 @@ INetworkStringTable *CBaseServer::GetLightStyleTable( void )
 
 INetworkStringTable *CBaseServer::GetUserInfoTable( void )
 {
-	if ( m_pUserInfoTable == NULL )
+	if ( m_pUserInfoTable == nullptr)
 	{
-		if ( m_StringTables == NULL )
+		if ( m_StringTables == nullptr)
 		{
-			return NULL;
+			return nullptr;
 		}
 		m_pUserInfoTable = m_StringTables->FindTable( USER_INFO_TABLENAME );
 	}
@@ -3226,7 +3226,7 @@ void CBaseServer::ForwardPacketsFromMasterServerUpdater()
 		
 		// Send this packet for them..
 		netadr_t adr( netadrAddress, netadrPort );
-		NET_SendPacket( NULL, m_Socket, adr, packetData, len );
+		NET_SendPacket(nullptr, m_Socket, adr, packetData, len );
 	}
 }
 
@@ -3313,7 +3313,7 @@ CBaseClient * CBaseServer::GetFreeClient( const ns_address &adr )
 //-----------------------------------------------------------------------------
 CBaseClient * CBaseServer::GetFreeClientInternal( const ns_address &adr )
 {
-	CBaseClient *freeclient = NULL;
+	CBaseClient *freeclient = nullptr;
 	
 	for ( int slot = 0 ; slot < m_Clients.Count() ; slot++ )
 	{
@@ -3339,20 +3339,20 @@ CBaseClient * CBaseServer::GetFreeClientInternal( const ns_address &adr )
 					RemoveClientFromGame( pSsUser );
 
 					// perform a silent netchannel shutdown, don't send disconnect msg
-					pSsUser->m_NetChannel->Shutdown( NULL );
-					pSsUser->m_NetChannel = NULL;
+					pSsUser->m_NetChannel->Shutdown(nullptr);
+					pSsUser->m_NetChannel = nullptr;
 
 					pSsUser->Clear();
 
 					// Mark the split screen slot as empty
-					pSsUser = NULL;
+					pSsUser = nullptr;
 				}
 
 				RemoveClientFromGame( client );
 
 				// perform a silent netchannel shutdown, don't send disconnect msg
-				client->m_NetChannel->Shutdown( NULL );
-				client->m_NetChannel = NULL;
+				client->m_NetChannel->Shutdown(nullptr);
+				client->m_NetChannel = nullptr;
 		
 				client->Clear();
 				return client;
@@ -3374,7 +3374,7 @@ CBaseClient * CBaseServer::GetFreeClientInternal( const ns_address &adr )
 
 		if ( count >= m_nMaxclients )
 		{
-			return NULL; // server full
+			return nullptr; // server full
 		}
 
 		// we have to create a new client slot
@@ -3423,13 +3423,13 @@ CBaseClient *CBaseServer::CreateFakeClient(const char *name)
 	if ( !fakeclient )
 	{
 		// server is full
-		return NULL;		
+		return nullptr;		
 	}
 
-	INetChannel *netchan = NULL;
+	INetChannel *netchan = nullptr;
 	if ( sv_stressbots.GetBool() )
 	{
-		netchan = NET_CreateNetChannel( m_Socket, &adr, ns_address_render( adr ).String(), fakeclient, NULL, true );
+		netchan = NET_CreateNetChannel( m_Socket, &adr, ns_address_render( adr ).String(), fakeclient, nullptr, true );
 	}
 
 	// a NULL netchannel signals a fakeclient
@@ -3671,7 +3671,7 @@ void CBaseServer::WriteTempEntities( CBaseClient *client, CFrameSnapshot *pCurre
 
 	//keep count of the number of entities that we write out (since some can be omitted by the client)
 	int32 nNumEntitiesWritten = 0;
-	CEventInfo *pLastEvent = NULL;
+	CEventInfo *pLastEvent = nullptr;
 
 	// Build list of events sorted by send table classID (makes the delta work better in cases with a lot of the same message type )
 	for ( int nSnapShotIndex = 0; 
@@ -3958,12 +3958,12 @@ CBaseClient *CBaseServer::CreateSplitClient( const CMsg_CVars& vecUserInfo, CBas
 	if ( !pSplitClient )
 	{
 		// server is full
-		return NULL;		
+		return nullptr;		
 	}
 
-	INetChannel *netchan = NULL;
+	INetChannel *netchan = nullptr;
 	// [ NET ENCRYPT ] Split clients don't configure an encryption key because the master channel will network
-	netchan = NET_CreateNetChannel( m_Socket, &adr, ns_address_render( adr ).String(), pSplitClient, NULL, true );
+	netchan = NET_CreateNetChannel( m_Socket, &adr, ns_address_render( adr ).String(), pSplitClient, nullptr, true );
 
 	m_nUserid = GetNextUserID();
 
@@ -3981,7 +3981,7 @@ CBaseClient *CBaseServer::CreateSplitClient( const CMsg_CVars& vecUserInfo, CBas
 	if ( !pSplitClient->CheckConnect() )
 	{
 		pSplitClient->m_bSplitAllowFastDisconnect = false;
-		return NULL;
+		return nullptr;
 	}
 
 	pSplitClient->m_bSplitAllowFastDisconnect = false;
@@ -4018,7 +4018,7 @@ void CBaseServer::ProcessSplitScreenDisconnects()
 			if ( pClient->m_SplitScreenUsers[ j ] != disc.m_pSplit )
 				continue;
 
-			pClient->m_SplitScreenUsers[ j ] = NULL;
+			pClient->m_SplitScreenUsers[ j ] = nullptr;
 			disc.m_pSplit->m_bSplitAllowFastDisconnect = true;
 			disc.m_pSplit->Disconnect( "leaving splitscreen" );
 			disc.m_pSplit->m_bSplitScreenUser = false;
@@ -4129,7 +4129,7 @@ void CBaseServer::SetReservationCookie( uint64 uiCookie, char const *pchReasonFo
 			// Set reservation players
 			m_arrReservationPlayers.RemoveAll();
 			for ( char const *pszPrev = sv_mmqueue_reservation.GetString(), *pszNext = pszPrev;
-				( pszNext = strchr( pszPrev, '[' ) ) != NULL; pszPrev = pszNext + 1 )
+				( pszNext = strchr( pszPrev, '[' ) ) != nullptr; pszPrev = pszNext + 1 )
 			{
 				uint32 uiAccountId = 0;
 				sscanf( pszNext, "[%x]", &uiAccountId );
@@ -4147,12 +4147,12 @@ void CBaseServer::SetReservationCookie( uint64 uiCookie, char const *pchReasonFo
 			m_numGameSlots = m_arrReservationPlayers.Count();
 
 			// Tournament servers need additional slots for casters
-			static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * ) NULL );
+			static char const * s_pchTournamentServer = CommandLine()->ParmValue( "-tournament", ( char const * )nullptr);
 			if ( s_pchTournamentServer )
 			{
 				int numCasters = 0;
 				for ( char const *pszPrev = sv_mmqueue_reservation.GetString(), *pszNext = pszPrev;
-					( pszNext = strchr( pszPrev, '{' ) ) != NULL; pszPrev = pszNext + 1 )
+					( pszNext = strchr( pszPrev, '{' ) ) != nullptr; pszPrev = pszNext + 1 )
 				{
 					uint32 uiAccountId = 0;
 					sscanf( pszNext, "{%x}", &uiAccountId );

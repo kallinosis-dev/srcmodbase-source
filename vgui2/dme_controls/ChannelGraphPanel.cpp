@@ -167,7 +167,7 @@ void CChannelGraphPanel::PerformLayout()
 }
 
 
-float GetDisplayIncrement( int windowpixels, int fontpixels, float valuerange, int *pDecimalPlaces = NULL )
+float GetDisplayIncrement( int windowpixels, int fontpixels, float valuerange, int *pDecimalPlaces = nullptr)
 {
 	float ratio = valuerange * fontpixels / ( windowpixels );
 	int nPower = ( int )ceil( log10( ratio ) );

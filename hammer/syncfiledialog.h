@@ -22,7 +22,7 @@ class CSyncFileDialog : public CDialog
 	DECLARE_DYNAMIC(CSyncFileDialog)
 
 public:
-	CSyncFileDialog( P4File_t *pFileInfo, CWnd* pParent = NULL );   // standard constructor
+	CSyncFileDialog( P4File_t *pFileInfo, CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CSyncFileDialog();
 
 // Dialog Data

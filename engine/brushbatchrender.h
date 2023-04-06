@@ -61,10 +61,10 @@ public:
 			delete[] pMeshes;
 			delete[] pBatches;
 			delete[] pSurfaces;
-			pPlanes = NULL;
-			pMeshes = NULL;
-			pBatches = NULL;
-			pSurfaces = NULL;
+			pPlanes = nullptr;
+			pMeshes = nullptr;
+			pBatches = nullptr;
+			pSurfaces = nullptr;
 		}
 
 		cplane_t				**pPlanes;

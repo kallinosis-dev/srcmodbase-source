@@ -32,7 +32,7 @@ static ContextValue_t g_MapGroupContexts[] =
 	{ "mg_de_sugarcane",	CONTEXT_CSS_MAP_GROUP_SUGARCANE_MG },
 	{ "mg_de_train",		CONTEXT_CSS_MAP_GROUP_TRAIN_MG },
 	{ "mg_training",		CONTEXT_CSS_MAP_GROUP_TRAINING_MG },
-	{ NULL,				0xFFFF },
+	{nullptr,				0xFFFF },
 };
 
 static ContextValue_t g_LevelContexts[] =
@@ -54,7 +54,7 @@ static ContextValue_t g_LevelContexts[] =
 	{ "de_shorttrain",	CONTEXT_CSS_LEVEL_SHORTTRAIN },
 	{ "de_train",		CONTEXT_CSS_LEVEL_TRAIN },
 	{ "training1",		CONTEXT_CSS_LEVEL_TRAINING },
-	{ NULL,				0xFFFF },
+	{nullptr,				0xFFFF },
 };
 
 static ContextValue_t g_GameModeContexts[] =
@@ -63,7 +63,7 @@ static ContextValue_t g_GameModeContexts[] =
 	{ "competitive",		CONTEXT_CSS_GAME_MODE_COMPETITIVE },
 	{ "gungameprogressive",	CONTEXT_CSS_GAME_MODE_GUNGAMEPROGRESSIVE },
 	{ "gungametrbomb",		CONTEXT_CSS_GAME_MODE_GUNGAMEBOMB },
-	{ NULL,					0xFFFF },
+	{nullptr,					0xFFFF },
 };
 
 static ContextValue_t g_GameModeAsNumberContexts[] =
@@ -75,14 +75,14 @@ static ContextValue_t g_GameModeAsNumberContexts[] =
 	{ "gungameprogressive",	10 },
 	{ "gungameselect",		20 },
 	{ "gungametrbomb",		30 },
-	{ NULL,				0xFFFF },
+	{nullptr,				0xFFFF },
 };
 
 static ContextValue_t g_GameTypeContexts[] =
 {
 	{ "classic",		CONTEXT_CSS_GAME_TYPE_CLASSIC },
 	{ "gungame",		CONTEXT_CSS_GAME_TYPE_GUNGAME },
-	{ NULL,				0xFFFF },
+	{nullptr,				0xFFFF },
 };
 
 static ContextValue_t g_PrivacyContexts[] =
@@ -90,7 +90,7 @@ static ContextValue_t g_PrivacyContexts[] =
 	{ "public",			CONTEXT_CSS_PRIVACY_PUBLIC },
 	{ "private",		CONTEXT_CSS_PRIVACY_INVITE_ONLY },
 	{ "friends",		CONTEXT_CSS_PRIVACY_FRIENDS },
-	{ NULL,				0xFFFF },
+	{nullptr,				0xFFFF },
 };
 
 #endif // _MM_TITLE_CONTEXTVALUES_H

@@ -35,7 +35,7 @@ END_DATADESC()
 //-----------------------------------------------------------------------------
 CServerNetworkProperty::CServerNetworkProperty()
 {
-	Init( NULL );
+	Init(nullptr);
 }
 
 
@@ -60,9 +60,9 @@ CServerNetworkProperty::~CServerNetworkProperty()
 void CServerNetworkProperty::Init( CBaseEntity *pEntity )
 {
 	// NOTE: We're in pEntity's constructor so we can't call virtual methods of pEntity here
-	m_pPev = NULL;
+	m_pPev = nullptr;
 	m_pOuter = pEntity;
-	m_pServerClass = NULL;
+	m_pServerClass = nullptr;
 //	m_pTransmitProxy = NULL;
 	m_bPendingStateChange = false;
 	m_PVSInfo.m_nClusterCount = 0;
@@ -96,9 +96,9 @@ void CServerNetworkProperty::DetachEdict()
 {
 	if ( m_pPev )
 	{
-		m_pPev->SetEdict( NULL, false );
+		m_pPev->SetEdict(nullptr, false );
 		engine->RemoveEdict( m_pPev );
-		m_pPev = NULL;
+		m_pPev = nullptr;
 	}
 }
 
@@ -123,7 +123,7 @@ void CServerNetworkProperty::Release()
 CServerNetworkProperty* CServerNetworkProperty::GetNetworkParent()
 {
 	CBaseEntity *pParent = m_hParent.Get();
-	return pParent ? pParent->NetworkProp() : NULL;
+	return pParent ? pParent->NetworkProp() : nullptr;
 }
 
 

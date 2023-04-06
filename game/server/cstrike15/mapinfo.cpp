@@ -21,7 +21,7 @@ BEGIN_DATADESC( CMapInfo )
 
 END_DATADESC()
 
-CMapInfo *g_pMapInfo = NULL;
+CMapInfo *g_pMapInfo = nullptr;
 
 
 CMapInfo::CMapInfo()
@@ -45,7 +45,7 @@ CMapInfo::CMapInfo()
 CMapInfo::~CMapInfo()
 {
 	if ( g_pMapInfo == this )
-		g_pMapInfo = NULL;
+		g_pMapInfo = nullptr;
 }
  
 

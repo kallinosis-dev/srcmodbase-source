@@ -136,9 +136,9 @@ bool g_bReceivedMasterExeName = false;
 
 
 // Change our window text.
-HINSTANCE g_hKernel32DLL = NULL;
+HINSTANCE g_hKernel32DLL = nullptr;
 typedef HWND (*GetConsoleWndFn)();
-GetConsoleWndFn g_pConsoleWndFn = NULL;
+GetConsoleWndFn g_pConsoleWndFn = nullptr;
 
 
 // ---------------------------------------------------------------------------------------- //
@@ -174,7 +174,7 @@ public:
 			if ( stricmp( pFilename, m_Files[i]->m_Name ) == 0 )
 				return m_Files[i];
 		}
-		return NULL;
+		return nullptr;
 	}
 };
 
@@ -185,7 +185,7 @@ public:
 	CVMPIConnection( int iConnection )
 	{
 		m_iConnection = iConnection;
-		m_pSocket = NULL;
+		m_pSocket = nullptr;
 		m_bIsAService = false;
 
 		char str[512];
@@ -222,7 +222,7 @@ public:
 			
 			// Free our socket.
 			m_pSocket->Release();
-			m_pSocket = NULL;
+			m_pSocket = nullptr;
 		}
 	}
 
@@ -346,7 +346,7 @@ const char* VMPI_FindArg( int argc, char **argv, const char *pName, const char *
 				return pDefault;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -395,7 +395,7 @@ void ParseOptions( int argc, char **argv )
 void SetupDependencyFilename( CDependencyInfo *pInfo, const char *pPatchDirectory )
 {
 	char baseExeFilename[512];
-	if ( !GetModuleFileName( GetModuleHandle( NULL ), baseExeFilename, sizeof( baseExeFilename ) ) )
+	if ( !GetModuleFileName( GetModuleHandle(nullptr), baseExeFilename, sizeof( baseExeFilename ) ) )
 		Error( "GetModuleFileName failed." );
 	
 	// If they're in patch mode, then the dependency files come out of a directory they've passed in.
@@ -507,7 +507,7 @@ void SetupDependencyInfo( CDependencyInfo *pInfo, const char *pDependencyFilenam
 	}
 	else
 	{
-		SetupDependencyFilename( pInfo, NULL );
+		SetupDependencyFilename( pInfo, nullptr);
 		
 		// Parse the dependency file.
 		char depFilename[MAX_PATH];
@@ -590,7 +590,7 @@ static CVMPIConnection* FindConnectionBySocket( IThreadedTCPSocket *pSocket, boo
 		if ( g_Connections[i]->GetSocket() == pSocket )
 			return g_Connections[i];
 	
-	return NULL;
+	return nullptr;
 }
 
 static char* CopyString( const char *pStr )
@@ -709,7 +709,7 @@ void VMPI_SendExeName()
 	mb.write( cPacketHeader, sizeof( cPacketHeader ) );
 
 	char baseExeFilename[MAX_PATH], fileBase[MAX_PATH];
-	if ( !GetModuleFileName( GetModuleHandle( NULL ), baseExeFilename, sizeof( baseExeFilename ) ) )
+	if ( !GetModuleFileName( GetModuleHandle(nullptr), baseExeFilename, sizeof( baseExeFilename ) ) )
 		Error( "VMPI_CheckSDKMode -> GetModuleFileName failed." );
 
 	V_FileBase( baseExeFilename, fileBase, sizeof( fileBase ) );
@@ -731,7 +731,7 @@ void VMPI_ReceiveExeName()
 	
 	// Now compare the exe name we got with our own.
 	char baseExeFilename[MAX_PATH], fileBase[MAX_PATH];
-	if ( !GetModuleFileName( GetModuleHandle( NULL ), baseExeFilename, sizeof( baseExeFilename ) ) )
+	if ( !GetModuleFileName( GetModuleHandle(nullptr), baseExeFilename, sizeof( baseExeFilename ) ) )
 		Error( "VMPI_CheckSDKMode -> GetModuleFileName failed." );
 
 	// Unless we're a vmpi_transfer.. vmpi_transfer can always connect.
@@ -827,9 +827,9 @@ private:
 
 CMasterBroadcaster::CMasterBroadcaster()
 {
-	m_pListenSocket = NULL;
-	m_pDownloaderListenSocket = NULL;
-	m_pSocket = NULL;
+	m_pListenSocket = nullptr;
+	m_pDownloaderListenSocket = nullptr;
+	m_pSocket = nullptr;
 	m_iListenPort = -1;
 	m_iDownloaderListenPort = -1;
 }
@@ -885,8 +885,8 @@ bool CMasterBroadcaster::Init(
 		SetupDependencyInfo( &dependencyInfo, pDependencyFilename, bPatchMode );
 	}
 
-	m_pListenSocket = NULL;
-	m_pDownloaderListenSocket = NULL;
+	m_pListenSocket = nullptr;
+	m_pDownloaderListenSocket = nullptr;
 
 	const char *pPortStr = VMPI_FindArg( argc, argv, VMPI_GetParamString( mpi_Port ) );
 	if ( pPortStr )
@@ -948,7 +948,7 @@ bool CMasterBroadcaster::Init(
 		if ( bPatchMode )
 		{
 			m_bPatching = true;
-			if ( VMPI_FindArg( argc, argv, "-mpi_ForcePatch", NULL ) )
+			if ( VMPI_FindArg( argc, argv, "-mpi_ForcePatch", nullptr) )
 				m_BroadcastInfo.m_bForcePatch = true;
 		
 			const char *pArg = VMPI_FindArg( argc, argv, "-mpi_PatchVersion", "0" );
@@ -1013,8 +1013,8 @@ bool CMasterBroadcaster::Init(
 	m_hShutdownReply.Init( false, false );
 
 	DWORD dwThreadID = 0;
-	m_hThread = CreateThread( 
-		NULL,
+	m_hThread = CreateThread(
+		nullptr,
 		0,
 		&CMasterBroadcaster::StaticThreadFn,
 		this,
@@ -1116,7 +1116,7 @@ bool CMasterBroadcaster::Update()
 	}
 
 	// First look for normal workers.
-	IThreadedTCPSocket *pNewConn = NULL;
+	IThreadedTCPSocket *pNewConn = nullptr;
 	bool bRet = m_pListenSocket->Update( &pNewConn, 0 );
 
 	// Now look for downloaders.
@@ -1190,25 +1190,25 @@ void CMasterBroadcaster::Term()
 		m_hShutdownEvent.SetEvent();
 		WaitForSingleObject( m_hThread, INFINITE );
 		CloseHandle( m_hThread );
-		m_hThread = 0;
+		m_hThread = nullptr;
 	}
 	
 	if ( m_pSocket )
 	{
 		m_pSocket->Release();
-		m_pSocket = NULL;
+		m_pSocket = nullptr;
 	}
 
 	if ( m_pListenSocket )
 	{
 		m_pListenSocket->Release();
-		m_pListenSocket = NULL;
+		m_pListenSocket = nullptr;
 	}
 
 	if ( m_pDownloaderListenSocket )
 	{
 		m_pDownloaderListenSocket->Release();
-		m_pDownloaderListenSocket = NULL;
+		m_pDownloaderListenSocket = nullptr;
 	}
 
 	m_iListenPort = -1;
@@ -1328,7 +1328,7 @@ bool MPI_Init_Worker( int &argc, char **&argv, const CIPAddr &masterAddr, bool b
 	int nAttempts = 1;
 Retry:;
 
-	ITCPConnectSocket *pConnectSocket = NULL;
+	ITCPConnectSocket *pConnectSocket = nullptr;
 	int iPort;
 	for ( iPort=iFirstPort; iPort <= iLastPort; iPort++ )
 	{
@@ -1349,7 +1349,7 @@ Retry:;
 	CWaitTimer wait( 3 );
 	while ( 1 )
 	{
-		IThreadedTCPSocket *pSocket = NULL;
+		IThreadedTCPSocket *pSocket = nullptr;
 		if ( pConnectSocket->Update( &pSocket, 100 ) )
 		{
 			if ( pSocket )
@@ -1449,14 +1449,14 @@ bool SpawnLocalWorker( int argc, char **argv, int iListenPort, bool bShowConsole
 	PROCESS_INFORMATION pi;
 	memset( &pi, 0, sizeof( pi ) );
 
-	if ( CreateProcess( 
-		NULL, 
-		commandLine, 
-		NULL,							// security
-		NULL,
+	if ( CreateProcess(
+		nullptr, 
+		commandLine,
+		nullptr,							// security
+		nullptr,
 		TRUE,
 		(bShowConsoleWindow ? CREATE_NEW_CONSOLE : CREATE_NO_WINDOW) | IDLE_PRIORITY_CLASS,	// flags
-		NULL,							// environment
+		nullptr,							// environment
 		workingDir,						// current directory (use c:\\ because we don't want it to accidentally share
 										// DLLs like vstdlib with us).
 		&si,
@@ -1565,7 +1565,7 @@ void VMPI_InitGlobals( int argc, char **argv, VMPIRunMode runMode )
 bool VMPI_CheckForNonSDKExecutables()
 {
 	char baseExeFilename[512];
-	if ( !GetModuleFileName( GetModuleHandle( NULL ), baseExeFilename, sizeof( baseExeFilename ) ) )
+	if ( !GetModuleFileName( GetModuleHandle(nullptr), baseExeFilename, sizeof( baseExeFilename ) ) )
 		Error( "VMPI_CheckSDKMode -> GetModuleFileName failed." );
 	
 	V_StripLastDir( baseExeFilename, sizeof( baseExeFilename ) );
@@ -1662,7 +1662,7 @@ void VerifyValidSDKMode()
 {
 	// Make sure we're running out of the SourceSDK directory and that our SDK directories are filled out.
 	char baseExeFilename[MAX_PATH];
-	if ( !GetModuleFileName( GetModuleHandle( NULL ), baseExeFilename, sizeof( baseExeFilename ) ) )
+	if ( !GetModuleFileName( GetModuleHandle(nullptr), baseExeFilename, sizeof( baseExeFilename ) ) )
 		Error( "VerifyValidSDKMode: GetModuleFileName failed." );
 	V_FixSlashes( baseExeFilename );
 
@@ -1745,15 +1745,15 @@ bool VMPI_HandleAutoRestart()
 	PROCESS_INFORMATION pi;
 	memset( &pi, 0, sizeof( pi ) );
 
-	if ( CreateProcess( 
-		NULL, 
-		commandLine, 
-		NULL,							// security
-		NULL,
+	if ( CreateProcess(
+		nullptr, 
+		commandLine,
+		nullptr,							// security
+		nullptr,
 		TRUE,
 		CREATE_NEW_CONSOLE | curPriority,	// flags
-		NULL,							// environment
-		NULL,
+		nullptr,							// environment
+		nullptr,
 		&si,
 		&pi ) )
 	{
@@ -1788,7 +1788,7 @@ bool VMPI_Init(
 	VMPI_InitGlobals( argc, argv, runMode );
 
 	// Were we launched by the vmpi service as a worker?
-	const char *pMasterIP = VMPI_FindArg( argc, argv, VMPI_GetParamString( mpi_Worker ), NULL );
+	const char *pMasterIP = VMPI_FindArg( argc, argv, VMPI_GetParamString( mpi_Worker ), nullptr);
 	if ( pMasterIP )
 	{
 		CIPAddr addr;
@@ -1813,7 +1813,7 @@ bool VMPI_Init(
 
 void VMPI_Init_PatchMaster( int argc, char **argv )
 {
-	const char *pPatchDirectory = VMPI_FindArg( argc, argv, "-mpi_PatchDirectory", NULL );
+	const char *pPatchDirectory = VMPI_FindArg( argc, argv, "-mpi_PatchDirectory", nullptr);
 	if ( !pPatchDirectory )
 		Error( "-mpi_PatchDirectory <dir> must be specified if using -PatchHost mode." );
 
@@ -1850,7 +1850,7 @@ void VMPI_Finalize()
 	if ( g_hKernel32DLL )
 	{
 		FreeLibrary( g_hKernel32DLL );
-		g_hKernel32DLL = NULL;
+		g_hKernel32DLL = nullptr;
 	}
 	
 	g_WorkerCommandLine.PurgeAndDeleteElements();
@@ -2036,7 +2036,7 @@ bool VMPI_InternalDispatch( MessageBuffer *pBuf, int iSource )
 
 bool VMPI_DispatchNextMessage( unsigned long timeout )
 {
-	MessageBuffer *pBuf = NULL;
+	MessageBuffer *pBuf = nullptr;
 	if ( !g_DispatchBuffers.PopItem( &pBuf ) )
 	{
 		pBuf = new MessageBuffer();
@@ -2310,7 +2310,7 @@ bool VMPI_IsProcConnected( int procID )
 		return false;
 	}
 
-	return g_Connections[procID]->GetSocket() != NULL;
+	return g_Connections[procID]->GetSocket() != nullptr;
 }
 
 bool VMPI_IsProcAService( int procID )

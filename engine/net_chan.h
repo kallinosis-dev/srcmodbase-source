@@ -248,7 +248,7 @@ public:
 private:
 	struct SplitPlayer_t
 	{
-		SplitPlayer_t() : m_nSlot( -1 ), m_pChannel( NULL ) {}
+		SplitPlayer_t() : m_nSlot( -1 ), m_pChannel(nullptr) {}
 		int			m_nSlot;
 		INetChannel *m_pChannel;
 

@@ -216,7 +216,7 @@ class gmGCRoot
 public:
 
   /// Empty Constructor.  Equals NULL.
-  gmGCRoot()                                      { m_ptrToHolder = NULL; }
+  gmGCRoot()                                      { m_ptrToHolder = nullptr; }
   
   // NOTE: Currently not very safe since holder and controller are not typed.
   /// Construct from holder
@@ -232,7 +232,7 @@ public:
   /// Construct from pointers
   gmGCRoot(TYPE* a_object, gmMachine* a_machine)
   {
-    m_ptrToHolder = NULL;
+    m_ptrToHolder = nullptr;
     Set(a_object, a_machine);
   }
 
@@ -246,7 +246,7 @@ public:
 
     if( !a_object ) // Handle null assignment
     {
-      m_ptrToHolder = NULL;
+      m_ptrToHolder = nullptr;
       return;
     }
    
@@ -260,7 +260,7 @@ public:
   gmGCRoot(const gmGCRoot<TYPE>& a_ref)
   {
     m_ptrToHolder = a_ref.m_ptrToHolder;
-    if (m_ptrToHolder != NULL)
+    if (m_ptrToHolder != nullptr)
     {
       m_ptrToHolder->AddReference();
     }
@@ -296,7 +296,7 @@ public:
   {
     if( m_ptrToHolder != a_ref.GetHolder() )
     {
-      if( m_ptrToHolder != NULL )
+      if( m_ptrToHolder != nullptr)
       {
         m_ptrToHolder->ReleaseReference();
       }
@@ -313,11 +313,11 @@ public:
   gmGCRoot<TYPE>& operator = (int a_null)
   {
     GM_ASSERT(a_null == 0);
-    if( m_ptrToHolder != NULL )
+    if( m_ptrToHolder != nullptr)
     {
       m_ptrToHolder->ReleaseReference();
     }
-    m_ptrToHolder = NULL;
+    m_ptrToHolder = nullptr;
     return *this;
   }
   
@@ -329,20 +329,20 @@ public:
       return true;
     }
     // Both holders cannot be NULL at this point, but one maybe.
-    if( (a_ref.GetHolder() == NULL) && (m_ptrToHolder->GetPtr() == NULL) )
+    if( (a_ref.GetHolder() == nullptr) && (m_ptrToHolder->GetPtr() == nullptr) )
     {
         return true;
     }
-    if( m_ptrToHolder == NULL )
+    if( m_ptrToHolder == nullptr)
     {
-      if( a_ref.GetHolder()->GetPtr() == NULL )
+      if( a_ref.GetHolder()->GetPtr() == nullptr)
       {
         return true;
       }
     }
     else
     {
-      if( a_ref.GetHolder() != NULL )
+      if( a_ref.GetHolder() != nullptr)
       {
         if( a_ref.GetHolder()->GetPtr()  == m_ptrToHolder->GetPtr() )
         {
@@ -359,11 +359,11 @@ public:
   /// Less than comparison for use in Containers
   int operator < (const gmGCRoot<TYPE>& a_ref) const
   {
-    if( a_ref.GetHolder() == NULL )
+    if( a_ref.GetHolder() == nullptr)
     {
       return false;
     }
-    if( m_ptrToHolder == NULL )
+    if( m_ptrToHolder == nullptr)
     {
       return true;
     }
@@ -373,11 +373,11 @@ public:
   /// Greater than comparison for use in Containers
   int operator > (const gmGCRoot<TYPE>& a_ref) const
   {
-    if( m_ptrToHolder == NULL )
+    if( m_ptrToHolder == nullptr)
     {
       return false;
     }
-    if( a_ref.GetHolder() == NULL )
+    if( a_ref.GetHolder() == nullptr)
     {
       return true;
     }

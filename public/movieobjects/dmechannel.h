@@ -71,10 +71,10 @@ struct LayerChannelInfo_t
 		, m_TransformWriteMode( TRANSFORM_WRITE_MODE_OVERWRITE )
 		, m_bManipulateInFalloff( false )
 		, m_ComponentFlags( LOG_COMPONENTS_ALL )
-		, m_pPresetValue( 0 )
-		, m_pPresetTimes( 0 )
-		, m_pRoot( 0 )
-		, m_pShot( 0 )
+		, m_pPresetValue( nullptr )
+		, m_pPresetTimes( nullptr )
+		, m_pRoot( nullptr )
+		, m_pShot( nullptr )
 	{
 		SetIdentityMatrix( m_Transform );
 	}
@@ -140,7 +140,7 @@ class ModifyChannel
 {	
 public:
 
-	explicit ModifyChannel( CDmeChannel *pChannel = NULL, LogComponents_t nComponentFlags = LOG_COMPONENTS_ALL ) 
+	explicit ModifyChannel( CDmeChannel *pChannel = nullptr, LogComponents_t nComponentFlags = LOG_COMPONENTS_ALL ) 
 		: m_pChannel( pChannel ), m_nComponentFlags( nComponentFlags ) { }	
 
 	static bool IsChannelInList( CUtlVector< ModifyChannel > const &modifyList, CDmeChannel *pChannel );
@@ -221,19 +221,19 @@ public:
 
 	// Start and complete a modification layer. All recording layers must be placed within a modification
 	// layer, so a modification layer must be active before starting a recording layer.
-	void StartModificationLayer( const DmeLog_TimeSelection_t *pTimeSelection = NULL, bool createLayer = true );
+	void StartModificationLayer( const DmeLog_TimeSelection_t *pTimeSelection = nullptr, bool createLayer = true );
 	void FinishModificationLayer( bool bSaveChanges = true, bool bFlattenLayers = true );
 
 	// Enable or disable use of the modification layer.
 	void EnableModificationLayer( bool enable );
 
 	// Activates, deactivates layer recording.
-	void StartLayerRecording( const char * const pUndoRedoDesc, AttributeDict_t *pPresetValuesDict = NULL, DmeTime_t tHeadShotTime = DMETIME_INVALID, int proceduralType = PROCEDURAL_PRESET_NOT, int recordFlags = 0, FnRecordChannelCallback pfnAddChannel = NULL, FnRecordChannelCallback pfnFinishChannel = NULL );
+	void StartLayerRecording( const char * const pUndoRedoDesc, AttributeDict_t *pPresetValuesDict = nullptr, DmeTime_t tHeadShotTime = DMETIME_INVALID, int proceduralType = PROCEDURAL_PRESET_NOT, int recordFlags = 0, FnRecordChannelCallback pfnAddChannel = nullptr, FnRecordChannelCallback pfnFinishChannel = nullptr);
 	void FinishLayerRecording( float flThreshold, bool bFlattenLayers = true, bool bAllowFinishModification = true );
 	void CancelLayerRecording();
 
 	// Adds a channel to the recording layer
-	int AddChannelToRecordingLayer( CDmeChannel *pChannel, LogComponents_t componentWriteFlags = LOG_COMPONENTS_ALL, CDmeClip *pRoot = NULL, CDmeClip *pShot = NULL );
+	int AddChannelToRecordingLayer( CDmeChannel *pChannel, LogComponents_t componentWriteFlags = LOG_COMPONENTS_ALL, CDmeClip *pRoot = nullptr, CDmeClip *pShot = nullptr);
 
 	// Explicitly set the clipboard data for the active recording layer
 	void CopyClipboardDataForRecordingLayer( const CUtlVector< KeyValues * > &keyValuesList );

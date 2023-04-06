@@ -36,7 +36,7 @@ public:
 	BOOL Create(CWnd *pParentWnd);
 
 	void UpdateList();
-	void UpdateCordonList( Cordon_t *pSelectCordon = NULL, BoundBox *pSelectBox = NULL );
+	void UpdateCordonList( Cordon_t *pSelectCordon = nullptr, BoundBox *pSelectBox = nullptr);
 	void SelectCordon( Cordon_t *pSelectCordon, BoundBox *pSelectBox );
 	void UpdateGroupList();
 	void UpdateGroupListChecks();

@@ -76,7 +76,7 @@ BEGIN_VS_SHADER( ShatteredGlass,
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -184,7 +184,7 @@ BEGIN_VS_SHADER( ShatteredGlass,
 				flags |= VERTEX_COLOR;
 			}
 
-			pShaderShadow->VertexShaderVertexFormat( flags, 3, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( flags, 3, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( shatteredglass_vs20 );
 			SET_STATIC_VERTEX_SHADER_COMBO( ENVMAP_MASK,  bHasEnvmapMask );

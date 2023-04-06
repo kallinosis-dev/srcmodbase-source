@@ -239,7 +239,7 @@ void Splitter::RecreateSplitters( int nCount )
 		m_Splitters[i].m_pHandle = pHandle;
 		pHandle->MoveToFront();
 	}
-	m_Splitters[nCount].m_pHandle = NULL;
+	m_Splitters[nCount].m_pHandle = nullptr;
 }
 
 

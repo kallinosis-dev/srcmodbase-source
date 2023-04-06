@@ -11,14 +11,14 @@
 
 static CRITICAL_SECTION g_CtrlHandlerMutex;
 
-static void (*g_pInternalServiceFn)( void *pParam ) = NULL;
-static void *g_pInternalServiceParam = NULL;
+static void (*g_pInternalServiceFn)( void *pParam ) = nullptr;
+static void *g_pInternalServiceParam = nullptr;
 
 static volatile bool g_bShouldExit = false;
 
 
 SERVICE_STATUS          MyServiceStatus; 
-SERVICE_STATUS_HANDLE   MyServiceStatusHandle = NULL;
+SERVICE_STATUS_HANDLE   MyServiceStatusHandle = nullptr;
 
 
 void WINAPI MyServiceCtrlHandler( DWORD Opcode )
@@ -73,7 +73,7 @@ void WINAPI MyServiceStart( DWORD argc, LPTSTR *argv )
     MyServiceStatus.dwWaitHint           = 0; 
  
     MyServiceStatusHandle = RegisterServiceCtrlHandler( "MyService", MyServiceCtrlHandler ); 
-    if ( MyServiceStatusHandle == (SERVICE_STATUS_HANDLE)0 ) 
+    if ( MyServiceStatusHandle == (SERVICE_STATUS_HANDLE)nullptr ) 
     { 
         Msg("[MY_SERVICE] RegisterServiceCtrlHandler failed %d\n", GetLastError() );
         return; 
@@ -117,7 +117,7 @@ bool ServiceHelpers_StartService( const char *pServiceName, void (*pFn)( void *p
 	const SERVICE_TABLE_ENTRY DispatchTable[2] = 
 	{
 		{ (char*)pServiceName, MyServiceStart },
-		{ NULL, NULL }
+		{nullptr, nullptr}
 	};
 
 	g_pInternalServiceFn = pFn;
@@ -162,12 +162,12 @@ char* GetLastErrorString()
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 		FORMAT_MESSAGE_FROM_SYSTEM | 
 		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		GetLastError(),
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 		(LPTSTR) &lpMsgBuf,
 		0,
-		NULL 
+		nullptr
 	);
 
 	strncpy( err, (char*)lpMsgBuf, sizeof( err ) );

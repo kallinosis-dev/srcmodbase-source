@@ -113,7 +113,7 @@ void * gmVariable::GetUserSafe(int a_userType) const
   {
     return ((gmUserObject *)m_value.m_ref)->m_user;
   }
-  return NULL;
+  return nullptr;
 }
 
 gmUserObject* gmVariable::GetUserObjectSafe(int a_userType) const
@@ -122,6 +122,6 @@ gmUserObject* gmVariable::GetUserObjectSafe(int a_userType) const
 	{
 		return ((gmUserObject *)m_value.m_ref);
 	}
-	return NULL;
+	return nullptr;
 }
 

@@ -187,7 +187,7 @@ void C_LightGlow::OnDataChanged( DataUpdateType_t updateType )
 	
 
 	Vector forward;
-	AngleVectors( GetAbsAngles(), &forward, NULL, NULL );
+	AngleVectors( GetAbsAngles(), &forward, nullptr, nullptr);
 	
 	m_Glow.SetDirection( forward );
 }

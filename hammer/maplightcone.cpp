@@ -36,14 +36,14 @@ IMPLEMENT_MAPCLASS(CMapLightCone)
 CMapClass *CMapLightCone::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 {
 	CMapLightCone *new1=new CMapLightCone;
-	if( new1 != NULL )
+	if( new1 != nullptr)
 	{
 		//
 		// The first parameter should be the inner fov key name. If it isn't
 		// there we assume "_inner_cone".
 		//
 		const char *pszKeyName = pHelperInfo->GetParameter(0);
-		if (pszKeyName != NULL)
+		if (pszKeyName != nullptr)
 		{
 			strcpy(new1->m_szInnerConeKeyName, pszKeyName);
 		}
@@ -57,7 +57,7 @@ CMapClass *CMapLightCone::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 		// there we assume "_cone".
 		//
 		pszKeyName = pHelperInfo->GetParameter(1);
-		if (pszKeyName != NULL)
+		if (pszKeyName != nullptr)
 		{
 			strcpy(new1->m_szOuterConeKeyName, pszKeyName);
 		}
@@ -71,7 +71,7 @@ CMapClass *CMapLightCone::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 		// there we assume "_light".
 		//
 		pszKeyName = pHelperInfo->GetParameter(2);
-		if (pszKeyName != NULL)
+		if (pszKeyName != nullptr)
 		{
 			strcpy(new1->m_szColorKeyName, pszKeyName);
 		}
@@ -81,7 +81,7 @@ CMapClass *CMapLightCone::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 		}
 
 		pszKeyName = pHelperInfo->GetParameter(3);
-		if (pszKeyName != NULL)
+		if (pszKeyName != nullptr)
 		{
 			new1->m_flPitchScale = Q_atof( pszKeyName );
 		}
@@ -359,7 +359,7 @@ void CMapLightCone::CalcBounds(BOOL bFullUpdate)
 	//
 	// HACK: Update our origin to stick to our parent.
 	//
-	if (m_pParent != NULL)
+	if (m_pParent != nullptr)
 	{
 		GetParent()->GetOrigin(m_Origin);
 	}
@@ -398,7 +398,7 @@ CMapClass *CMapLightCone::Copy(bool bUpdateDependencies)
 {
 	CMapLightCone *pCopy = new CMapLightCone;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -679,5 +679,5 @@ bool CMapLightCone::SolveQuadratic(float &x, float y, float A, float B, float C)
 //-----------------------------------------------------------------------------
 CMapClass *CMapLightCone::PrepareSelection(SelectMode_t eSelectMode)
 {
-	return NULL;
+	return nullptr;
 }

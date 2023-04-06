@@ -37,9 +37,9 @@ char *CEditGameClass::g_pszEmpty = "";
 //-----------------------------------------------------------------------------
 CEditGameClass::CEditGameClass(void)
 {
-	m_pClass = NULL;
+	m_pClass = nullptr;
 	m_szClass[0] = '\0';
-	m_pszComments = NULL;
+	m_pszComments = nullptr;
 }
 
 
@@ -324,7 +324,7 @@ CEditGameClass *CEditGameClass::CopyFrom(CEditGameClass *pFrom)
 //-----------------------------------------------------------------------------
 void CEditGameClass::GetDefaultKeys( void )
 {
-	if ( m_pClass != NULL )
+	if ( m_pClass != nullptr)
 	{
 		//
 		// For each variable from the base class...
@@ -335,7 +335,7 @@ void CEditGameClass::GetDefaultKeys( void )
 			GDinputvariable *pVar = m_pClass->GetVariableAt(i);
 			Assert(pVar != NULL);
 
-			if (pVar != NULL)
+			if (pVar != nullptr)
 			{
 				int iIndex;
 				LPCTSTR p = m_KeyValues.GetValue(pVar->GetName(), &iIndex);
@@ -343,7 +343,7 @@ void CEditGameClass::GetDefaultKeys( void )
 				//
 				// If the variable is not present in this object, set the default value.
 				//
-				if (p == NULL) 
+				if (p == nullptr) 
 				{
 					MDkeyvalue tmpkv;
 					pVar->ResetDefaults();
@@ -371,7 +371,7 @@ void CEditGameClass::GetAngles(QAngle &vecAngles)
 {
 	vecAngles = vec3_angle;
 	const char *pszAngles = GetKeyValue("angles");
-	if (pszAngles != NULL)
+	if (pszAngles != nullptr)
 	{
 		sscanf(pszAngles, "%f %f %f", &vecAngles[PITCH], &vecAngles[YAW], &vecAngles[ROLL]);
 	}
@@ -439,8 +439,8 @@ ChunkFileResult_t CEditGameClass::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInf
 	// Determine whether we have a game data class. This will help us decide which keys
 	// to write.
 	//
-	GDclass *pGameDataClass = NULL;
-	if (pGD != NULL)
+	GDclass *pGameDataClass = nullptr;
+	if (pGD != nullptr)
 	{
 		pGameDataClass = pGD->ClassForName(m_szClass);
 	}
@@ -481,7 +481,7 @@ ChunkFileResult_t CEditGameClass::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInf
 	// If we have a game data class, for each keyvalue in the class definition, write out all keys
 	// that are not present in the object and whose defaults are nonzero in the class definition.
 	//
-	if (pGameDataClass != NULL)
+	if (pGameDataClass != nullptr)
 	{
 		//
 		// For each variable from the base class...
@@ -492,7 +492,7 @@ ChunkFileResult_t CEditGameClass::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInf
 			GDinputvariable *pVar = pGameDataClass->GetVariableAt(i);
 			Assert(pVar != NULL);
 
-			if (pVar != NULL)
+			if (pVar != nullptr)
 			{
 				int iIndex;
 				LPCTSTR p = m_KeyValues.GetValue(pVar->GetName(), &iIndex);
@@ -500,7 +500,7 @@ ChunkFileResult_t CEditGameClass::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInf
 				//
 				// If the variable is not present in this object, write out the default value.
 				//
-				if (p == NULL) 
+				if (p == nullptr) 
 				{
 					MDkeyvalue TempKey;
 					pVar->ResetDefaults();
@@ -534,7 +534,7 @@ ChunkFileResult_t CEditGameClass::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInf
 			for (int i = 0; i < nConnCount; i++)
 			{
 				CEntityConnection *pConnection = Connections_Get(i);
-				if (pConnection != NULL)
+				if (pConnection != nullptr)
 				{
 					char szTemp[512];
 
@@ -576,7 +576,7 @@ static const char *nexttoken_gameclass(char *token, const char *str, char sep)
 {
 	if (*str == '\0')
 	{
-		return(NULL);
+		return(nullptr);
 	}
 
 	//
@@ -630,7 +630,7 @@ ChunkFileResult_t CEditGameClass::LoadKeyCallback(const char *szKey, const char 
 	// Figure out what delimiter to use. We switched from commas to the nonprintable
 	// character 0x07 when we added the ability to execute vscript code in an input.
 	char chDelim = VMF_IOPARAM_STRING_DELIMITER;
-	if (strchr(szValue, VMF_IOPARAM_STRING_DELIMITER) == NULL)
+	if (strchr(szValue, VMF_IOPARAM_STRING_DELIMITER) == nullptr)
 	{
 		chDelim = ',';
 	}
@@ -706,7 +706,7 @@ ChunkFileResult_t CEditGameClass::LoadConnectionsCallback(CChunkFile *pFile, CEd
 unsigned long CEditGameClass::GetSpawnFlags(void)
 {
 	LPCTSTR pszVal = GetKeyValue("spawnflags");
-	if (pszVal == NULL)
+	if (pszVal == nullptr)
 	{
 		return(0);
 	}

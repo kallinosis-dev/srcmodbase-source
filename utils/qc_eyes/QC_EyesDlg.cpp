@@ -24,7 +24,7 @@ CQC_EyesDlg::CQC_EyesDlg(CWnd* pParent /*=NULL*/)
 	//}}AFX_DATA_INIT
 	// Note that LoadIcon does not require a subsequent DestroyIcon in Win32
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
-	m_pBitmapHead = NULL;
+	m_pBitmapHead = nullptr;
 }
 
 void CQC_EyesDlg::DoDataExchange(CDataExchange* pDX)
@@ -669,7 +669,7 @@ void CQC_EyesDlg::OnAdvancedControls()
 	for ( int i=0; i < NUM_ADVANCED_CONTROLS; i++ )
 	{
 		GetDlgItem( g_AdvancedControls[i] )->ShowWindow( SW_SHOW );
-		GetDlgItem( g_AdvancedControls[i] )->InvalidateRect( NULL );
+		GetDlgItem( g_AdvancedControls[i] )->InvalidateRect(nullptr);
 	}
 
 	if ( IsIndependentLeftLidControlEnabled() )
@@ -691,7 +691,7 @@ void CQC_EyesDlg::OnLeftLidControl()
 		for ( int i=0; i < NUM_LEFT_LID_POSITION_CONTROLS; i++ )
 		{
 			GetDlgItem( g_LeftLidPositionControls[i] )->ShowWindow( SW_SHOW );
-			GetDlgItem( g_LeftLidPositionControls[i] )->InvalidateRect( NULL );
+			GetDlgItem( g_LeftLidPositionControls[i] )->InvalidateRect(nullptr);
 		}
 	}
 	else
@@ -699,7 +699,7 @@ void CQC_EyesDlg::OnLeftLidControl()
 		for ( int i=0; i < NUM_LEFT_LID_POSITION_CONTROLS; i++ )
 		{
 			GetDlgItem( g_LeftLidPositionControls[i] )->ShowWindow( SW_HIDE );
-			GetDlgItem( g_LeftLidPositionControls[i] )->InvalidateRect( NULL );
+			GetDlgItem( g_LeftLidPositionControls[i] )->InvalidateRect(nullptr);
 		}
 	}	
 }

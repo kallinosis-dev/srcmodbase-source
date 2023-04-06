@@ -89,7 +89,7 @@ CParticleFunctionPickerFrame::CParticleFunctionPickerFrame( vgui::Panel *pParent
 {
 
 	SetDeleteSelfOnClose( true );
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 
 	m_pFunctionList = new vgui::ListPanel( this, "ParticleFunctionList" );
 	m_pFunctionList->AddColumnHeader( 0, "name", "Particle Function Name", 52, 0 );
@@ -237,7 +237,7 @@ void CParticleFunctionPickerFrame::CleanUpMessage()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -281,7 +281,7 @@ void CParticleFunctionPickerFrame::OnCommand( const char *pCommand )
 			pActionKeys->AddSubKey( m_pContextKeyValues );
 
 			// This prevents them from being deleted later
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 
 		PostActionSignal( pActionKeys );
@@ -340,7 +340,7 @@ CParticleChildrenPickerFrame::CParticleChildrenPickerFrame( vgui::Panel *pParent
 	BaseClass( pParent, "ParticleChildrenPickerFrame" ), m_pQuery( pQuery )
 {
 	SetDeleteSelfOnClose( true );
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 
 	m_pChildrenList = new vgui::ListPanel( this, "ParticleChildrenList" );
 	m_pChildrenList->AddColumnHeader( 0, "name", "Particle System Name", 52, 0 );
@@ -412,7 +412,7 @@ void CParticleChildrenPickerFrame::CleanUpMessage()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -453,7 +453,7 @@ void CParticleChildrenPickerFrame::OnCommand( const char *pCommand )
 			pActionKeys->AddSubKey( m_pContextKeyValues );
 
 			// This prevents them from being deleted later
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 
 		PostActionSignal( pActionKeys );
@@ -576,7 +576,7 @@ void CParticleFunctionBrowser::CleanupContextMenu()
 	if ( m_hContextMenu.Get() )
 	{
 		m_hContextMenu->MarkForDeletion();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 }
 
@@ -701,11 +701,11 @@ void CParticleFunctionBrowser::RefreshParticleFunctionList()
 CDmeParticleFunction* CParticleFunctionBrowser::GetSelectedFunction( int nIndex )
 {
 	if ( !m_hParticleSystem.Get() )
-		return NULL;
+		return nullptr;
 
 	int nSelectedItemCount = m_pFunctionTree->GetSelectedItemCount();
 	if ( nSelectedItemCount <= nIndex )
-		return NULL;
+		return nullptr;
 
 	int nItemID = m_pFunctionTree->GetSelectedItem(nIndex);
 	KeyValues *pKeyValues = m_pFunctionTree->GetItemData( nItemID );
@@ -752,7 +752,7 @@ CDmeParticleFunction* CParticleFunctionBrowser::GetSelectedFunction( )
 {
 	int nSelectedItemCount = m_pFunctionTree->GetSelectedItemCount();
 	if ( nSelectedItemCount != 1 )
-		return NULL;
+		return nullptr;
 
 	return GetSelectedFunction(0);
 }
@@ -855,12 +855,12 @@ void CParticleFunctionBrowser::OnAdd( KeyValues *pKeyValues )
 	if ( nParticleFuncType != FUNCTION_CHILDREN )
 	{
 		CParticleFunctionPickerFrame *pPicker = new CParticleFunctionPickerFrame( this, "Select Particle Function" );
-		pPicker->DoModal( m_hParticleSystem, nParticleFuncType, NULL );
+		pPicker->DoModal( m_hParticleSystem, nParticleFuncType, nullptr);
 	}
 	else
 	{
 		CParticleChildrenPickerFrame *pPicker = new CParticleChildrenPickerFrame( this, "Select Child Particle Systems", m_pQuery );
-		pPicker->DoModal( m_hParticleSystem, NULL );
+		pPicker->DoModal( m_hParticleSystem, nullptr);
 	}
 }
 
@@ -974,7 +974,7 @@ void CParticleFunctionBrowser::RefreshParticleFunctionProperties( )
 //-----------------------------------------------------------------------------
 void CParticleFunctionBrowser::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pFunctionTree )
 	{
 		RefreshParticleFunctionProperties();
@@ -988,7 +988,7 @@ void CParticleFunctionBrowser::OnItemSelected( KeyValues *kv )
 //-----------------------------------------------------------------------------
 void CParticleFunctionBrowser::OnItemDeselected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pFunctionTree )
 	{
 		RefreshParticleFunctionProperties();
@@ -1023,7 +1023,7 @@ void CParticleFunctionBrowser::OnOpenContextMenu( KeyValues *kv )
 	if ( !m_hParticleSystem.Get() )
 		return;
 
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel != m_pFunctionTree )
 		return;
 
@@ -1285,7 +1285,7 @@ CParticleSystemDmePanel::CParticleSystemDmePanel( vgui::Panel *pParent, const ch
 	vgui::Panel *pSplitterBottomSide = m_Splitter->GetChild( 1 );
 	m_Splitter->SetAutoResize( PIN_TOPLEFT, AUTORESIZE_DOWNANDRIGHT, 0, 0, 0, 0 );
 
-	m_pProperties = new CParticleSystemPropertiesPanel( NULL, pSplitterBottomSide );
+	m_pProperties = new CParticleSystemPropertiesPanel(nullptr, pSplitterBottomSide );
 	m_pProperties->AddActionSignalTarget( this );
 	m_pProperties->SetAutoResize( PIN_TOPLEFT, AUTORESIZE_DOWNANDRIGHT, 0, 0, 0, 0 );
 

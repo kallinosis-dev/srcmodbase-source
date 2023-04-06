@@ -36,15 +36,15 @@ enum SoundQuality_e
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-COptionsSubAudio::COptionsSubAudio(vgui::Panel *parent) : PropertyPage(parent, NULL)
+COptionsSubAudio::COptionsSubAudio(vgui::Panel *parent) : PropertyPage(parent, nullptr)
 {
 	m_pSFXSlider = new CCvarSlider( this, "SFXSlider", "#GameUI_SoundEffectVolume", 0.0f, 1.0f, "volume" );
 	m_pMusicSlider = new CCvarSlider( this, "MusicSlider", "#GameUI_MusicVolume", 0.0f, 1.0f, "Snd_MusicVolume" );
 	
 	m_pCloseCaptionCombo = new ComboBox( this, "CloseCaptionCheck", 6, false );
-	m_pCloseCaptionCombo->AddItem( "#GameUI_NoClosedCaptions", NULL );
-	m_pCloseCaptionCombo->AddItem( "#GameUI_SubtitlesAndSoundEffects", NULL );
-	m_pCloseCaptionCombo->AddItem( "#GameUI_Subtitles", NULL );
+	m_pCloseCaptionCombo->AddItem( "#GameUI_NoClosedCaptions", nullptr);
+	m_pCloseCaptionCombo->AddItem( "#GameUI_SubtitlesAndSoundEffects", nullptr);
+	m_pCloseCaptionCombo->AddItem( "#GameUI_Subtitles", nullptr);
 
 	m_pSoundQualityCombo = new ComboBox( this, "SoundQuality", 6, false );
 	m_pSoundQualityCombo->AddItem( "#GameUI_High", new KeyValues("SoundQuality", "quality", SOUNDQUALITY_HIGH) );
@@ -280,7 +280,7 @@ void COptionsSubAudio::OnApplyChanges()
       
       // Inform user that they need to restart in order change language at this time
       QueryBox *qb = new QueryBox( "#GameUI_ChangeLanguageRestart_Title", "#GameUI_ChangeLanguageRestart_Info", GetParent()->GetParent()->GetParent() );
-      if (qb != NULL)
+      if (qb != nullptr)
       {
          qb->SetOKCommand( new KeyValues( "Command", "command", "RestartWithNewLanguage" ) );
          qb->SetOKButtonText( "#GameUI_ChangeLanguageRestart_OkButton" );
@@ -319,7 +319,7 @@ void COptionsSubAudio::OnCommand( const char *command )
 		if (engine->IsConnected())
 		{
 			QueryBox *qb = new QueryBox("#GameUI_TestSpeakersWarning_Title", "#GameUI_TestSpeakersWarning_Info" );
-			if (qb != NULL)
+			if (qb != nullptr)
 			{
 				qb->SetOKCommand(new KeyValues("RunTestSpeakers"));
 				qb->SetOKButtonText("#GameUI_TestSpeakersWarning_OkButton");
@@ -369,7 +369,7 @@ void COptionsSubAudio::OpenThirdPartySoundCreditsDialog()
 }
 
 
-COptionsSubAudioThirdPartyCreditsDlg::COptionsSubAudioThirdPartyCreditsDlg( vgui::VPANEL hParent ) : BaseClass( NULL, NULL )
+COptionsSubAudioThirdPartyCreditsDlg::COptionsSubAudioThirdPartyCreditsDlg( vgui::VPANEL hParent ) : BaseClass(nullptr, nullptr)
 {
 	SetProportional( true );
 

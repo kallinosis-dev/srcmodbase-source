@@ -49,7 +49,7 @@ class CQC_EyesDlg : public CDialog
 {
 // Construction
 public:
-	CQC_EyesDlg(CWnd* pParent = NULL);	// standard constructor
+	CQC_EyesDlg(CWnd* pParent = nullptr);	// standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CQC_EyesDlg)

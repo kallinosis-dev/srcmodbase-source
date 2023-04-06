@@ -41,11 +41,11 @@ public:
 	{
 		d_head = new mxListNode;
 		d_tail = new mxListNode;
-		d_head->d_data = 0;
+		d_head->d_data = nullptr;
 		d_head->d_next = d_tail;
-		d_head->d_prev = 0;
-		d_tail->d_data = 0;
-		d_tail->d_next = 0;
+		d_head->d_prev = nullptr;
+		d_tail->d_data = nullptr;
+		d_tail->d_next = nullptr;
 		d_tail->d_prev = d_head;
 		d_nodeCount = 0;
 	}
@@ -115,7 +115,7 @@ public:
 		if (node)
 			return node->d_data;
 
-		return 0;
+		return nullptr;
 	}
 
 	mxListNode *getFirst () const
@@ -123,7 +123,7 @@ public:
 		if (d_head->d_next != d_tail)
 			return d_head->d_next;
 
-		return 0;
+		return nullptr;
 	}
 
 	mxListNode *getNext (mxListNode *node) const
@@ -133,10 +133,10 @@ public:
 			if (node->d_next != d_tail)
 				return node->d_next;
 
-			return 0;
+			return nullptr;
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	mxListNode *getLast () const
@@ -144,7 +144,7 @@ public:
 		if (d_tail->d_prev != d_head)
 			return d_tail->d_prev;
 
-		return 0;
+		return nullptr;
 	}
 
 	mxListNode *getPrev (mxListNode *node) const
@@ -154,10 +154,10 @@ public:
 			if (node->d_prev != d_head)
 				return node->d_prev;
 
-			return 0;
+			return nullptr;
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	mxListNode *at (int pos) const
@@ -172,7 +172,7 @@ public:
 		if (node != d_tail)
 			return node;
 
-		return 0;
+		return nullptr;
 	}
 
 	bool isEmpty () const

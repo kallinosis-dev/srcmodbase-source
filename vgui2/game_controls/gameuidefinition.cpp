@@ -48,8 +48,8 @@ CGameUIDefinition::CGameUIDefinition( IGameUISystem *pGameUISystem /* = NULL */ 
 	m_pName = "";
 	m_bVisible = true;
 	m_bCanAcceptInput = false;
-	m_hScheme = 0;
-	m_pGameStage = NULL;
+	m_hScheme = nullptr;
+	m_pGameStage = nullptr;
 
 	// All menus currently default so that
 	// if mouse focus changes then keyboard focus will match it.
@@ -76,7 +76,7 @@ void CGameUIDefinition::Shutdown()
 		if ( m_Groups[i] ) 
 		{
 			delete m_Groups[i];
-			m_Groups[i] = NULL;
+			m_Groups[i] = nullptr;
 		}
 	}
 	m_Groups.RemoveAll();
@@ -86,7 +86,7 @@ void CGameUIDefinition::Shutdown()
 	{	
 		m_Layers[i]->Shutdown();
 		delete m_Layers[i];
-		m_Layers[i] = NULL;
+		m_Layers[i] = nullptr;
 	}
 	m_Layers.RemoveAll();
 
@@ -95,7 +95,7 @@ void CGameUIDefinition::Shutdown()
 	{	
 		m_Scripts[i]->Shutdown();
 		delete m_Scripts[i];
-		m_Scripts[i] = NULL;
+		m_Scripts[i] = nullptr;
 	}
 	m_Scripts.RemoveAll();
 }
@@ -581,7 +581,7 @@ CGameGraphic *CGameUIDefinition::GetGraphic( int x, int y )
 			return pGraphic;
 		}		
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -602,7 +602,7 @@ CHitArea *CGameUIDefinition::GetMouseFocus( int x, int y )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -613,11 +613,11 @@ CHitArea *CGameUIDefinition::GetMouseFocus( int x, int y )
 CHitArea *CGameUIDefinition::GetNextFocus( CHitArea *pCurrentGraphic )
 {	
 	if ( !CanAcceptInput() )
-		return NULL; 
+		return nullptr; 
 
 	bool bGetNext = false;
 
-	if ( pCurrentGraphic == NULL )
+	if ( pCurrentGraphic == nullptr)
 	{
 		bGetNext = true;
 	}
@@ -643,7 +643,7 @@ CHitArea *CGameUIDefinition::GetNextFocus( CHitArea *pCurrentGraphic )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -731,7 +731,7 @@ CGameGraphic *CGameUIDefinition::GraphicExists( const char *pName ) const
 	CSplitString nameparts( pName, ":");
 
 	CGameGraphic *parent = m_pGameStage;
-	CGameGraphic *pGraphic = NULL;
+	CGameGraphic *pGraphic = nullptr;
 	for ( int i = 0; i < nameparts.Count(); ++i )
 	{
 		pGraphic = parent->FindGraphicByName( nameparts[i] );
@@ -741,7 +741,7 @@ CGameGraphic *CGameUIDefinition::GraphicExists( const char *pName ) const
 		}
 		else
 		{
-			return NULL; // couldn't find it.
+			return nullptr; // couldn't find it.
 		}		
 	}
 
@@ -762,7 +762,7 @@ CGameGraphic *CGameUIDefinition::FindGraphicByName( const char *pName ) const
 	else
 	{
 		Warning( "FindGraphicByName: Unable to find graphic named %s\n", pName );
-		return NULL; // couldn't find it.
+		return nullptr; // couldn't find it.
 	}	
 }
 

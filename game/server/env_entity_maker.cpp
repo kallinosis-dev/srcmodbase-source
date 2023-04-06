@@ -113,8 +113,8 @@ void CEnvEntityMaker::Spawn( void )
 {
 	m_vecEntityMins = vec3_origin;
 	m_vecEntityMaxs = vec3_origin;
-	m_hCurrentInstance = NULL;
-	m_hCurrentBlocker = NULL;
+	m_hCurrentInstance = nullptr;
+	m_hCurrentBlocker = nullptr;
 	m_vecBlockerOrigin = vec3_origin;
 }
 
@@ -147,7 +147,7 @@ void CEnvEntityMaker::Activate( void )
 CPointTemplate *CEnvEntityMaker::FindTemplate()
 {
 	// Find our point_template
-	CPointTemplate *pTemplate = dynamic_cast<CPointTemplate *>(gEntList.FindEntityByName( NULL, STRING(m_iszTemplate) ));
+	CPointTemplate *pTemplate = dynamic_cast<CPointTemplate *>(gEntList.FindEntityByName(nullptr, STRING(m_iszTemplate) ));
 	if ( !pTemplate )
 	{
 		Warning( "env_entity_maker %s failed to find template %s.\n", GetEntityName().ToCStr(), STRING(m_iszTemplate) );
@@ -245,7 +245,7 @@ void CEnvEntityMaker::SpawnEntity( Vector vecAlternateOrigin, QAngle vecAlternat
 			IPhysicsObject *pPhysicsObject = pEntity->VPhysicsGetObject();
 			if ( pPhysicsObject )
 			{
-				pPhysicsObject->AddVelocity(&vecShootDir, NULL);
+				pPhysicsObject->AddVelocity(&vecShootDir, nullptr);
 			}
 			else
 			{
@@ -283,7 +283,7 @@ void CEnvEntityMaker::SpawnEntityAtEntityOriginFromScript( HSCRIPT hEntity )
 //-----------------------------------------------------------------------------
 void CEnvEntityMaker::SpawnEntityAtNamedEntityOriginFromScript( const char *pszName )
 {
-	CBaseEntity *pTargetEntity = gEntList.FindEntityByName( NULL, pszName, this, NULL, NULL );
+	CBaseEntity *pTargetEntity = gEntList.FindEntityByName(nullptr, pszName, this, nullptr, nullptr);
 
 	if( pTargetEntity )
 	{
@@ -415,7 +415,7 @@ void CEnvEntityMaker::InputForceSpawn( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 void CEnvEntityMaker::InputForceSpawnAtEntityOrigin( inputdata_t &inputdata )
 {
-	CBaseEntity *pTargetEntity = gEntList.FindEntityByName( NULL, inputdata.value.String(), this, inputdata.pActivator, inputdata.pCaller );
+	CBaseEntity *pTargetEntity = gEntList.FindEntityByName(nullptr, inputdata.value.String(), this, inputdata.pActivator, inputdata.pCaller );
 		
 	if( pTargetEntity )
 	{

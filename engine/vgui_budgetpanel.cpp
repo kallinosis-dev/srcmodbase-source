@@ -42,7 +42,7 @@ void IN_BudgetDown(void)
 {
 	CBudgetPanelEngine *panel = GetBudgetPanel();
 	Assert( panel != NULL );
-	if( panel != NULL )
+	if( panel != nullptr)
 	{
 		panel->UserCmd_ShowBudgetPanel();
 	}
@@ -52,7 +52,7 @@ void IN_BudgetUp(void)
 {
 	CBudgetPanelEngine *panel = GetBudgetPanel();
 	Assert( panel != NULL );
-	if( panel != NULL )
+	if( panel != nullptr)
 	{
 		panel->UserCmd_HideBudgetPanel();
 	}
@@ -64,7 +64,7 @@ static ConCommand endshowbudget("-showbudget", IN_BudgetUp, "", FCVAR_CHEAT);
 
 
 // Globals.
-static CBudgetPanelEngine *g_pBudgetPanel = NULL;
+static CBudgetPanelEngine *g_pBudgetPanel = nullptr;
 
 
 CBudgetPanelEngine *GetBudgetPanel( void )
@@ -84,7 +84,7 @@ CBudgetPanelEngine::CBudgetPanelEngine( vgui::Panel *pParent, const char *pEleme
 CBudgetPanelEngine::~CBudgetPanelEngine()
 {
 	Assert( g_pBudgetPanel == this );
-	g_pBudgetPanel = NULL;
+	g_pBudgetPanel = nullptr;
 }
 
 

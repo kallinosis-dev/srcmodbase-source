@@ -65,7 +65,7 @@ public:
 	void			GameMovementTraceHull( const Vector& start, const Vector& end, const Vector &mins, const Vector &maxs, unsigned int fMask, ITraceFilter *pFilter, trace_t *pTrace );
 
 #define BRUSH_ONLY true
-	virtual unsigned int PlayerSolidMask( bool brushOnly = false, CBasePlayer *testPlayer = NULL ) const;	///< returns the solid mask for the given player, so bots can have a more-restrictive set
+	virtual unsigned int PlayerSolidMask( bool brushOnly = false, CBasePlayer *testPlayer = nullptr) const;	///< returns the solid mask for the given player, so bots can have a more-restrictive set
 	CBasePlayer		*player;
 	CMoveData *GetMoveData() { return mv; }
 protected:
@@ -170,7 +170,7 @@ protected:
 	virtual void	FullLadderMove();
 
 	// The basic solid body movement clip that slides along multiple planes
-	virtual int		TryPlayerMove( Vector *pFirstDest=NULL, trace_t *pFirstTrace=NULL );
+	virtual int		TryPlayerMove( Vector *pFirstDest= nullptr, trace_t *pFirstTrace= nullptr);
 	
 	virtual bool	LadderMove( void );
 	virtual bool	OnLadder( trace_t &trace );

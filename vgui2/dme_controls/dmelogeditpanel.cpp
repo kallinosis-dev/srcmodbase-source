@@ -405,7 +405,7 @@ void CDmeLogEditPanel::SetVerticalRange( float flMin, float flMax )
 CDmeLogEditFrame::CDmeLogEditFrame( vgui::Panel *pParent, const char *pTitle ) : 
 	BaseClass( pParent, "DmeLogEditFrame" )
 {
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 	SetDeleteSelfOnClose( true );
 	m_pCurveEditor = new CDmeLogEditPanel( this, "DmeLogEditPanel" );
 	m_pOkButton = new Button( this, "OkButton", "#GameUI_OK", this, "Ok" );
@@ -432,7 +432,7 @@ void CDmeLogEditFrame::CleanUpMessage()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -524,7 +524,7 @@ void CDmeLogEditFrame::OnCommand( const char *pCommand )
 			pActionKeys->AddSubKey( m_pContextKeyValues );
 
 			// This prevents them from being deleted later
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 
 		PostActionSignal( pActionKeys );

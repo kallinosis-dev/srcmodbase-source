@@ -310,13 +310,13 @@ int Menu::AddMenuItem( const char *itemText, Panel *target , const KeyValues *us
 //-----------------------------------------------------------------------------
 int Menu::AddCheckableMenuItem( const char *itemName, const char *itemText, const char *command, Panel *target, const KeyValues *userData )
 {
-	MenuItem *item = new MenuItem(this, itemName, itemText, NULL, true);
+	MenuItem *item = new MenuItem(this, itemName, itemText, nullptr, true);
 	return AddMenuItemCharCommand(item, command, target, userData);
 }
 
 int Menu::AddCheckableMenuItem( const char *itemName, const wchar_t *wszItemText, const char *command, Panel *target, const KeyValues *userData )
 {
-	MenuItem *item = new MenuItem(this, itemName, wszItemText, NULL, true);
+	MenuItem *item = new MenuItem(this, itemName, wszItemText, nullptr, true);
 	return AddMenuItemCharCommand(item, command, target, userData);
 }
 
@@ -345,13 +345,13 @@ int Menu::AddCheckableMenuItem( const char *itemText, const char *command, Panel
 //-----------------------------------------------------------------------------
 int Menu::AddCheckableMenuItem( const char *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData  )
 {
-	MenuItem *item = new MenuItem(this, itemName, itemText, NULL, true);
+	MenuItem *item = new MenuItem(this, itemName, itemText, nullptr, true);
 	return AddMenuItemKeyValuesCommand(item, message, target, userData);
 }
 
 int Menu::AddCheckableMenuItem( const char *itemName, const wchar_t *wszItemText, KeyValues *message, Panel *target, const KeyValues *userData  )
 {
-	MenuItem *item = new MenuItem(this, itemName, wszItemText, NULL, true);
+	MenuItem *item = new MenuItem(this, itemName, wszItemText, nullptr, true);
 	return AddMenuItemKeyValuesCommand(item, message, target, userData);
 }
 
@@ -753,7 +753,7 @@ int Menu::ComputeFullMenuHeightWithInsets()
 void Menu::PerformLayout()
 {
 	MenuItem *parent = GetParentMenuItem();
-	bool cascading =  parent != NULL ? true : false;
+	bool cascading =  parent != nullptr ? true : false;
 
 	// make sure we factor in insets
 	int ileft, iright, itop, ibottom;
@@ -1199,7 +1199,7 @@ void Menu::SetNumberOfVisibleItems( int numItems )
 MenuItem *Menu::GetMenuItem(int itemID)
 {
 	if ( !m_MenuItems.IsValidIndex(itemID) )
-		return NULL;
+		return nullptr;
 	
 	return m_MenuItems[itemID];
 }
@@ -1826,7 +1826,7 @@ void Menu::SetVisible(bool state)
 	if ( state == false )
 	{
 		PostActionSignal(new KeyValues("MenuClose"));
-		CloseOtherMenus(NULL);
+		CloseOtherMenus(nullptr);
 
 		// Clearing the selected item when hiding the menu caused keyboard selection
 		// of items within the combo box to not work properly because the combo box
@@ -2005,7 +2005,7 @@ KeyValues *Menu::GetItemUserData(int itemID)
 			return menuItem->GetUserData();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2187,7 +2187,7 @@ void Menu::RemoveScrollBar()
 //-----------------------------------------------------------------------------
 void Menu::OnSliderMoved()
 {
-	CloseOtherMenus(NULL); // close any cascading menus
+	CloseOtherMenus(nullptr); // close any cascading menus
 
 	// Invalidate so we redraw the menu!
 	InvalidateLayout();

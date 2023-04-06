@@ -426,9 +426,9 @@ struct ScriptedNPCInteraction_t
 //
 //=============================================================================
 
-Vector VecCheckToss ( CBaseEntity *pEdict, Vector vecSpot1, Vector vecSpot2, float flHeightMaxRatio, float flGravityAdj, bool bRandomize, Vector *vecMins = NULL, Vector *vecMaxs = NULL );
-Vector VecCheckToss ( CBaseEntity *pEntity, ITraceFilter *pFilter, Vector vecSpot1, Vector vecSpot2, float flHeightMaxRatio, float flGravityAdj, bool bRandomize, Vector *vecMins = NULL, Vector *vecMaxs = NULL );
-Vector VecCheckThrow( CBaseEntity *pEdict, const Vector &vecSpot1, Vector vecSpot2, float flSpeed, float flGravityAdj = 1.0f, Vector *vecMins = NULL, Vector *vecMaxs = NULL );
+Vector VecCheckToss ( CBaseEntity *pEdict, Vector vecSpot1, Vector vecSpot2, float flHeightMaxRatio, float flGravityAdj, bool bRandomize, Vector *vecMins = nullptr, Vector *vecMaxs = nullptr);
+Vector VecCheckToss ( CBaseEntity *pEntity, ITraceFilter *pFilter, Vector vecSpot1, Vector vecSpot2, float flHeightMaxRatio, float flGravityAdj, bool bRandomize, Vector *vecMins = nullptr, Vector *vecMaxs = nullptr);
+Vector VecCheckThrow( CBaseEntity *pEdict, const Vector &vecSpot1, Vector vecSpot2, float flSpeed, float flGravityAdj = 1.0f, Vector *vecMins = nullptr, Vector *vecMaxs = nullptr);
 
 extern Vector g_vecAttackDir;
 
@@ -546,7 +546,7 @@ public:
 	virtual void		StartNPC( void );
 	virtual bool		IsTemplate( void );
 
-	virtual void		CleanupOnDeath( CBaseEntity *pCulprit = NULL, bool bFireDeathOutput = true );
+	virtual void		CleanupOnDeath( CBaseEntity *pCulprit = nullptr, bool bFireDeathOutput = true );
 	virtual void		UpdateOnRemove( void );
 
 	virtual int			UpdateTransmitState();
@@ -862,7 +862,7 @@ public:
 	{ 
 		if (m_Behaviors.Count())
 			return m_Behaviors.Base();
-		return NULL;
+		return nullptr;
 	}
 
 	virtual int	NumBehaviors()		
@@ -988,7 +988,7 @@ public:
 	// 
 	//-----------------------------------------------------
 	
-	Activity			TranslateActivity( Activity idealActivity, Activity *pIdealWeaponActivity = NULL );
+	Activity			TranslateActivity( Activity idealActivity, Activity *pIdealWeaponActivity = nullptr);
 	Activity			NPC_TranslateActivity( Activity eNewActivity );
 	Activity			GetActivity( void ) { return m_Activity; }
 	virtual void		SetActivity( Activity NewActivity );
@@ -1129,7 +1129,7 @@ protected:
 	virtual float 		GetGoalRepathTolerance( CBaseEntity *pGoalEnt, GoalType_t type, const Vector &curGoal, const Vector &curTargetPos );
 
 private:
-	void *				CheckEnemy( CBaseEntity *pEnemy ) { return NULL; } // OBSOLETE, replaced by GatherEnemyConditions(), left here to make derived code not compile
+	void *				CheckEnemy( CBaseEntity *pEnemy ) { return nullptr; } // OBSOLETE, replaced by GatherEnemyConditions(), left here to make derived code not compile
 
 	// Updates the goal position in case of GOALTYPE_ENEMY
 	void				UpdateEnemyPos();
@@ -1159,7 +1159,7 @@ public:
 	//
 	//-----------------------------------------------------
 	virtual bool IsCommandable()										{ return false; }
-	virtual bool IsPlayerAlly( CBasePlayer *pPlayer = NULL );
+	virtual bool IsPlayerAlly( CBasePlayer *pPlayer = nullptr);
 	virtual bool IsMedic()												{ return false; }
 	virtual bool IsCommandMoving()										{ return false; }
 	virtual bool ShouldAutoSummon()										{ return false; }
@@ -1172,7 +1172,7 @@ public:
 	virtual void OnMoveToCommandGoalFailed()							{}
 	string_t GetPlayerSquadName() const									{ Assert( gm_iszPlayerSquad != NULL_STRING ); return gm_iszPlayerSquad; }
 	bool IsInPlayerSquad() const;
-	virtual CAI_BaseNPC *GetSquadCommandRepresentative()				{ return NULL; }
+	virtual CAI_BaseNPC *GetSquadCommandRepresentative()				{ return nullptr; }
 
 	virtual bool TargetOrder( CBaseEntity *pTarget, CAI_BaseNPC **Allies, int numAllies ) { OnTargetOrder(); return true; }
 	virtual void MoveOrder( const Vector &vecDest, CAI_BaseNPC **Allies, int numAllies ) { SetCommandGoal( vecDest ); SetCondition( COND_RECEIVED_ORDERS ); OnMoveOrder(); }
@@ -1205,8 +1205,8 @@ protected:
 	void CheckForcedNPCInteractions( void );
 	bool InteractionCouldStart( CAI_BaseNPC *pOtherNPC, ScriptedNPCInteraction_t *pInteraction, Vector &vecOrigin, QAngle &angAngles );
 	virtual bool CanRunAScriptedNPCInteraction( bool bForced = false );
-	bool IsRunningDynamicInteraction( void ) { return (m_iInteractionState != NPCINT_NOT_RUNNING && (m_hCine != NULL)); }
-	bool IsActiveDynamicInteraction( void ) { return (m_iInteractionState == NPCINT_RUNNING_ACTIVE && (m_hCine != NULL)); }
+	bool IsRunningDynamicInteraction( void ) { return (m_iInteractionState != NPCINT_NOT_RUNNING && (m_hCine != nullptr)); }
+	bool IsActiveDynamicInteraction( void ) { return (m_iInteractionState == NPCINT_RUNNING_ACTIVE && (m_hCine != nullptr)); }
 	ScriptedNPCInteraction_t *GetRunningDynamicInteraction( void ) { return &(m_ScriptedInteractions[m_iInteractionPlaying]); }
 	void SetInteractionCantDie( bool bCantDie ) { m_bCannotDieDuringInteraction = bCantDie; }
 	bool HasInteractionCantDie( void );
@@ -1242,7 +1242,7 @@ public:
 	virtual CanPlaySequence_t CanPlaySequence( bool fDisregardState, int interruptLevel );
 
 	virtual bool		CanPlaySentence( bool fDisregardState ) { return IsAlive(); }
-	virtual int			PlaySentence( const char *pszSentence, float delay, float volume, soundlevel_t soundlevel, CBaseEntity *pListener = NULL );
+	virtual int			PlaySentence( const char *pszSentence, float delay, float volume, soundlevel_t soundlevel, CBaseEntity *pListener = nullptr);
 	virtual int			PlayScriptedSentence( const char *pszSentence, float delay, float volume, soundlevel_t soundlevel, bool bConcurrent, CBaseEntity *pListener );
 
 	virtual bool		FOkToMakeSound( int soundPriority = 0 );
@@ -1264,7 +1264,7 @@ public:
 
 	//---------------------------------
 
-	virtual CAI_Expresser *GetExpresser() { AssertMsg(false, "Called GetExpresser() on something that has no expresser!\n"); return NULL; }
+	virtual CAI_Expresser *GetExpresser() { AssertMsg(false, "Called GetExpresser() on something that has no expresser!\n"); return nullptr; }
 	const CAI_Expresser *GetExpresser() const { return const_cast<CAI_BaseNPC *>(this)->GetExpresser(); }
 
 	//---------------------------------
@@ -1498,7 +1498,7 @@ public:
 	virtual void		AimGun();
 	virtual void		SetAim( const Vector &aimDir );
 	virtual	void		RelaxAim( void );
-	virtual CBaseEntity *GetAlternateMoveShootTarget() { return NULL; }
+	virtual CBaseEntity *GetAlternateMoveShootTarget() { return nullptr; }
 
 protected:
 	Vector				m_vDefaultEyeOffset;
@@ -1575,8 +1575,8 @@ public:
 	static void			ForceSelectedGo(CBaseEntity *pPlayer, const Vector &targetPos, const Vector &traceDir, bool bRun);
 	static void			ForceSelectedGoRandom(void);
 
-	bool				AutoMovement( CBaseEntity *pTarget = NULL, AIMoveTrace_t *pTraceResult = NULL );
-	bool				AutoMovement( float flInterval, CBaseEntity *pTarget = NULL, AIMoveTrace_t *pTraceResult = NULL );
+	bool				AutoMovement( CBaseEntity *pTarget = nullptr, AIMoveTrace_t *pTraceResult = nullptr);
+	bool				AutoMovement( float flInterval, CBaseEntity *pTarget = nullptr, AIMoveTrace_t *pTraceResult = nullptr);
 	bool				TaskRanAutomovement( void ) { return m_ScheduleState.bTaskRanAutomovement; }
 
 	SCRIPTSTATE			m_scriptState;		// internal cinematic state
@@ -1613,7 +1613,7 @@ public:
 
 	virtual void		ChangeFaction( int nNewFaction );
 
-	virtual bool		UpdateEnemyMemory( CBaseEntity *pEnemy, const Vector &position, CBaseEntity *pInformer = NULL );
+	virtual bool		UpdateEnemyMemory( CBaseEntity *pEnemy, const Vector &position, CBaseEntity *pInformer = nullptr);
 	virtual float		GetReactionDelay( CBaseEntity *pEnemy );
 	
 	void				SetLastAttackTime( float time)	{ m_flLastAttackTime = time; }
@@ -1689,7 +1689,7 @@ public:
 	void				RemoveFromSquad();
 	void				CheckSquad();
 	void				SetSquadName( string_t name )	{ m_SquadName = name; 	}
-	bool				IsInSquad() const				{ return m_pSquad != NULL; }
+	bool				IsInSquad() const				{ return m_pSquad != nullptr; }
 	virtual bool		IsSilentSquadMember() const 	{ return false; }
 
 	int					NumWeaponsInSquad( const char *pszWeaponClassname );
@@ -1771,7 +1771,7 @@ public:
 
 	//---------------------------------
 	
-	virtual	CBaseEntity *FindNamedEntity( const char *pszName, IEntityFindFilter *pFilter = NULL );
+	virtual	CBaseEntity *FindNamedEntity( const char *pszName, IEntityFindFilter *pFilter = nullptr);
 
 	//---------------------------------
 	//  States
@@ -1844,7 +1844,7 @@ public:
 	virtual Vector		GetShootEnemyDir( const Vector &shootOrigin, bool bNoisy = true );
 	virtual Vector		GetActualShootPosition( const Vector &shootOrigin );
 	virtual Vector		GetActualShootTrajectory( const Vector &shootOrigin );
-	virtual	Vector		GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget = NULL );
+	virtual	Vector		GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget = nullptr);
 	virtual	float		GetSpreadBias( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget );
 	virtual void		CollectShotStats( const Vector &vecShootOrigin, const Vector &vecShootDir );
 	virtual Vector		BodyTarget( const Vector &posSrc, bool bNoisy = true );
@@ -1855,7 +1855,7 @@ public:
 	void FireBullets( int cShots, const Vector &vecSrc, const Vector &vecDirShooting, 
 		const Vector &vecSpread, float flDistance, int iAmmoType, int iTracerFreq = 4, 
 		int firingEntID = -1, int attachmentID = -1, float flDamage = 0, 
-		CBaseEntity *pAttacker = NULL, bool bFirstShotAccurate = false );
+		CBaseEntity *pAttacker = nullptr, bool bFirstShotAccurate = false );
 
 	virtual	bool		ShouldMoveAndShoot( void );
 
@@ -2143,7 +2143,7 @@ public:
 	virtual int			DrawDebugTextOverlays(void);
 
 	void				ToggleFreeze(void);
-	virtual void		Freeze( float flFreezeAmount = -1.0f, CBaseEntity *pFreezer = NULL, Ray_t *pFreezeRay = NULL );
+	virtual void		Freeze( float flFreezeAmount = -1.0f, CBaseEntity *pFreezer = nullptr, Ray_t *pFreezeRay = nullptr);
 	virtual bool		ShouldBecomeStatue();
 	virtual bool		IsMovementFrozen( void ) { return m_flMovementFrozen > m_flFrozenMoveBlock; }
 	virtual bool		IsAttackFrozen( void ) { return m_flAttackFrozen > 0.0f; }
@@ -2225,7 +2225,7 @@ public:
 
 inline bool CAI_BaseNPC::IsRunningBehavior() const
 {
-	return ( m_pPrimaryBehavior != NULL );
+	return ( m_pPrimaryBehavior != nullptr);
 }
 
 //-------------------------------------

@@ -89,7 +89,7 @@ void CMapInstance::SetInstancePath( const char *pszInstancePath )
 //-----------------------------------------------------------------------------
 bool CMapInstance::IsMapInVersionControl( const char *pszFileName )
 {
-	if ( p4 != NULL && Options.general.bEnablePerforceIntegration == TRUE )
+	if ( p4 != nullptr && Options.general.bEnablePerforceIntegration == TRUE )
 	{
 		if ( p4->IsFileInPerforce( pszFileName ) == true )
 		{
@@ -161,7 +161,7 @@ CMapInstance::~CMapInstance(void)
 	if ( m_pInstancedMap )
 	{
 		m_pInstancedMap->RemoveReference();
-		m_pInstancedMap = NULL;
+		m_pInstancedMap = nullptr;
 	}
 }
 
@@ -180,7 +180,7 @@ GDIV_TYPE CMapInstance::GetFieldType( const char *pInstanceValue )
 	CMapEntity *pInstanceParmsEntity = entityList.Element( 0 );
 
 	const char *InstancePos = strchr( pInstanceValue, ' ' );
-	if ( InstancePos == NULL )
+	if ( InstancePos == nullptr)
 	{
 		return ivBadType;
 	}
@@ -194,7 +194,7 @@ GDIV_TYPE CMapInstance::GetFieldType( const char *pInstanceValue )
 		if ( strnicmp( pKey, "parm", strlen( "parm" ) ) == 0 )
 		{
 			const char *InstanceParmsPos = strchr( pValue, ' ' );
-			if ( InstanceParmsPos == NULL )
+			if ( InstanceParmsPos == nullptr)
 			{
 				continue;
 			}
@@ -258,7 +258,7 @@ void CMapInstance::ReplaceTargetname( const char *szOldName, const char *szNewNa
 		if ( strnicmp( pInstanceKey, "replace", strlen( "replace" ) ) == 0 )
 		{
 			const char *InstancePos = strchr( pInstanceValue, ' ' );
-			if ( InstancePos == NULL )
+			if ( InstancePos == nullptr)
 			{
 				continue;
 			}
@@ -318,10 +318,10 @@ bool CMapInstance::OnApply( void )
 	}
 	else
 	{
-		m_pInstancedMap = NULL;
+		m_pInstancedMap = nullptr;
 	}
 
-	if ( m_pInstancedMap == NULL )
+	if ( m_pInstancedMap == nullptr)
 	{
 		m_FileName[ 0 ] = 0;
 	}
@@ -440,7 +440,7 @@ CMapEntity *CMapInstance::FindChildByKeyValue( const char* key, const char* valu
 		return result;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -464,7 +464,7 @@ CMapClass *CMapInstance::Copy(bool bUpdateDependencies)
 {
 	CMapInstance *pCopy = new CMapInstance;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -483,7 +483,7 @@ CMapClass *CMapInstance::CopyFrom(CMapClass *pObject, bool bUpdateDependencies)
 	CMapInstance *pFrom = dynamic_cast<CMapInstance *>(pObject);
 	Assert(pObject != NULL);
 
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		CMapClass::CopyFrom(pObject, bUpdateDependencies);
 
@@ -517,9 +517,9 @@ void CMapInstance::GetAngles(QAngle &Angles)
 void CMapInstance::Initialize(void)
 {
 	m_Angles.Init();
-	m_pInstancedMap = NULL;
+	m_pInstancedMap = nullptr;
 	m_FileName[ 0 ] = 0;
-	m_pManifestMap = NULL;
+	m_pManifestMap = nullptr;
 }
 
 
@@ -668,7 +668,7 @@ void CMapInstance::DoTransform(const VMatrix &matrix)
 	MatrixAngles(fMatrixNew, m_Angles);
 
 	CMapEntity *pEntity = dynamic_cast< CMapEntity * >( m_pParent );
-	if (pEntity != NULL)
+	if (pEntity != nullptr)
 	{
 		char szValue[ 80 ];
 		sprintf( szValue, "%g %g %g", m_Angles[ 0 ], m_Angles[ 1 ], m_Angles[ 2 ] );

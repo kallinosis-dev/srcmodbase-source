@@ -26,7 +26,7 @@
 
 
 IVP_DOUBLE get_float(){
-	return p_atof(p_str_tok(NULL, IVP_WHITESPACE));
+	return p_atof(p_str_tok(nullptr, IVP_WHITESPACE));
 }
 
 
@@ -289,7 +289,7 @@ IVP_RETURN_TYPE IVP_U_Point::set_crossing(IVP_U_Hesse *h0, IVP_U_Hesse *h1, IVP_
     IVP_RETURN_TYPE rval;
     
     IVP_U_Matrix lin_equ_matrix;
-    lin_equ_matrix.init_rows4(h0, h1, h2,0);
+    lin_equ_matrix.init_rows4(h0, h1, h2,nullptr);
 
     rval = lin_equ_matrix.real_invert();
 
@@ -1141,7 +1141,7 @@ IVP_ERROR_STRING IVP_U_Matrix::write_to_file(FILE *fp, const char *key)
 
     // mark end
     fprintf(fp,"\t\tMATRIX_END\n");
-    return IVP_NO_ERROR;
+    return nullptr;
 }
 
 
@@ -1191,7 +1191,7 @@ IVP_ERROR_STRING IVP_U_Matrix::read_from_file(FILE *fp)
 	return "ERROR in read Matrix";
 
     }
-    return IVP_NO_ERROR;
+    return nullptr;
 }
 
 

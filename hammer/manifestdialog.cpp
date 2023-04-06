@@ -130,7 +130,7 @@ CManifestListBox::CManifestListBox( void ) :
 	m_ManifestFilterPrimaryMenu.Attach( ::GetSubMenu( m_ManifestFilterMenu.m_hMenu, 1 ) );
 	m_ManifestFilterBlankMenu.Attach( ::GetSubMenu( m_ManifestFilterMenu.m_hMenu, 2 ) );
 
-	m_pTrackerManifestMap = NULL;
+	m_pTrackerManifestMap = nullptr;
 }
 
 
@@ -157,7 +157,7 @@ void CManifestListBox::DrawItem(LPDRAWITEMSTRUCT lpDrawItemStruct)
 	int iBackIndex = COLOR_WINDOW;
 	int iForeIndex = COLOR_WINDOWTEXT;
 
-	CManifestMap	*pManifestMap = NULL;
+	CManifestMap	*pManifestMap = nullptr;
 	CMapDoc			*activeDoc = CMapDoc::GetActiveMapDoc();
 	if ( activeDoc && activeDoc->GetManifest() )
 	{
@@ -294,7 +294,7 @@ void CManifestListBox::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	BOOL	bOutside;
 
-	m_pTrackerManifestMap = NULL;
+	m_pTrackerManifestMap = nullptr;
 
 	int index = ItemFromPoint( point, bOutside );
 	if ( bOutside == false )
@@ -334,7 +334,7 @@ void CManifestListBox::OnLButtonDblClk(UINT nFlags, CPoint point)
 {
 	BOOL	bOutside;
 
-	m_pTrackerManifestMap = NULL;
+	m_pTrackerManifestMap = nullptr;
 
 //	int index = 
 		ItemFromPoint( point, bOutside );
@@ -369,7 +369,7 @@ void CManifestListBox::OnRButtonUp(UINT nFlags, CPoint point)
 	}
 
 	CManifest		*pManifest = activeDoc->GetManifest();
-	m_pTrackerManifestMap = NULL;
+	m_pTrackerManifestMap = nullptr;
 
 	CPoint ptScreen( point.x, point.y );
 	ClientToScreen(& ptScreen );
@@ -464,7 +464,7 @@ void CManifestListBox::OnMoveSelectionToSubMap()
 
 	pManifest->MoveSelectionToSubmap( m_pTrackerManifestMap, false );
 
-	m_pTrackerManifestMap = NULL;
+	m_pTrackerManifestMap = nullptr;
 }
 
 
@@ -690,7 +690,7 @@ void CManifestListBox::OnManifestRemove()
 
 	pManifest->RemoveSubMap( m_pTrackerManifestMap );
 	pManifest->SetPrimaryMap( pManifest->GetMap( 0 ) );
-	m_pTrackerManifestMap = NULL;
+	m_pTrackerManifestMap = nullptr;
 
 	AfxMessageBox( "The sub map has been removed from the manifest, but the file has not been deleted.", MB_OK | MB_ICONASTERISK );
 }
@@ -1027,7 +1027,7 @@ BOOL CManifestCheckin::OnInitDialog()
 	m_CheckinListCtrl.InsertColumn( 2, "Name", LVCFMT_LEFT, 100, -1 );
 	m_CheckinListCtrl.InsertColumn( 3, "Folder", LVCFMT_LEFT, 350, -1 );
 
-	if ( p4 == NULL ) 
+	if ( p4 == nullptr) 
 	{
 		return TRUE;
 	}
@@ -1147,7 +1147,7 @@ void CManifestCheckin::OnBnClickedOk()
 			{
 				CManifestMap	*pManifestMap = ( CManifestMap * )m_CheckinListCtrl.GetItemData( i );
 
-				if ( pManifestMap == NULL )
+				if ( pManifestMap == nullptr)
 				{
 					ppFileNames[ nFileCount ] = pManifest->GetPathName();
 					pManifest->SaveVMFManifest( pManifest->GetPathName() );

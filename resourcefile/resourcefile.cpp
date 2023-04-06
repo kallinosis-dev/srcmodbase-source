@@ -41,7 +41,7 @@ const void *Resource_GetBlock( const ResourceFileHeader_t *pHeader, ResourceBloc
 {
 	Assert( pHeader->m_nVersion == RESOURCE_FILE_HEADER_VERSION );
 	if ( pHeader->m_nVersion != RESOURCE_FILE_HEADER_VERSION )
-		return NULL;
+		return nullptr;
 
 	for ( int i = 0; i < pHeader->m_ResourceBlocks.Count(); ++i )
 	{
@@ -49,5 +49,5 @@ const void *Resource_GetBlock( const ResourceFileHeader_t *pHeader, ResourceBloc
 		if ( block.m_nBlockType == id )
 			return block.m_pBlockData;
 	}
-	return NULL;
+	return nullptr;
 }

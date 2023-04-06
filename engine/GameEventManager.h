@@ -37,7 +37,7 @@ public:
 	CGameEventDescriptor()
 	{
 		eventid = -1;
-		keys = NULL;
+		keys = nullptr;
 		local = false;
 		reliable = true;
 		elementIndex = -1;
@@ -70,17 +70,17 @@ public:
 	virtual ~CGameEvent();
 
 	virtual const char *GetName() const OVERRIDE;
-	virtual bool  IsEmpty(const char *keyName = NULL) const OVERRIDE;
+	virtual bool  IsEmpty(const char *keyName = nullptr) const OVERRIDE;
 	virtual bool  IsLocal() const OVERRIDE;
 	virtual bool  IsReliable() const OVERRIDE;
 
-	virtual bool  GetBool( const char *keyName = NULL, bool defaultValue = false ) const OVERRIDE;
-	virtual int   GetInt( const char *keyName = NULL, int defaultValue = 0 ) const OVERRIDE;
-	virtual uint64 GetUint64( const char *keyName = NULL, uint64 defaultValue = 0 ) const OVERRIDE;
-	virtual float GetFloat( const char *keyName = NULL, float defaultValue = 0.0f ) const OVERRIDE;
-	virtual const char *GetString( const char *keyName = NULL, const char *defaultValue = "" ) const OVERRIDE;
-	virtual const wchar_t *GetWString( const char *keyName = NULL, const wchar_t *defaultValue = L"" ) const OVERRIDE;
-	virtual const void *GetPtr( const char *keyName = NULL ) const OVERRIDE;
+	virtual bool  GetBool( const char *keyName = nullptr, bool defaultValue = false ) const OVERRIDE;
+	virtual int   GetInt( const char *keyName = nullptr, int defaultValue = 0 ) const OVERRIDE;
+	virtual uint64 GetUint64( const char *keyName = nullptr, uint64 defaultValue = 0 ) const OVERRIDE;
+	virtual float GetFloat( const char *keyName = nullptr, float defaultValue = 0.0f ) const OVERRIDE;
+	virtual const char *GetString( const char *keyName = nullptr, const char *defaultValue = "" ) const OVERRIDE;
+	virtual const wchar_t *GetWString( const char *keyName = nullptr, const wchar_t *defaultValue = L"" ) const OVERRIDE;
+	virtual const void *GetPtr( const char *keyName = nullptr) const OVERRIDE;
 
 	virtual void SetBool( const char *keyName, bool value ) OVERRIDE;
 	virtual void SetInt( const char *keyName, int value ) OVERRIDE;
@@ -140,7 +140,7 @@ public:	// IGameEventManager functions
 
 	virtual bool AddListenerGlobal( IGameEventListener2 *listener, bool bServerSide );
 		
-	IGameEvent *CreateEvent( const char *name, bool bForce = false, int *pCookie = NULL );
+	IGameEvent *CreateEvent( const char *name, bool bForce = false, int *pCookie = nullptr);
 	IGameEvent *DuplicateEvent( IGameEvent *event);
 	bool FireEvent( IGameEvent *event, bool bDontBroadcast = false );
 	bool FireEventClientSide( IGameEvent *event );
@@ -159,7 +159,7 @@ public:
 	void ReloadEventDefinitions();	// called by server on new map
 	bool AddListener( void *listener, CGameEventDescriptor *descriptor, int nListenerType );
 
-    CGameEventDescriptor *GetEventDescriptor( const char *name, int *pCookie = NULL );
+    CGameEventDescriptor *GetEventDescriptor( const char *name, int *pCookie = nullptr);
 	CGameEventDescriptor *GetEventDescriptor( IGameEvent *event );
 	CGameEventDescriptor *GetEventDescriptor( int eventid );
 

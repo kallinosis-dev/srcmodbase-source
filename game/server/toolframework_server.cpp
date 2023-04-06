@@ -60,7 +60,7 @@ bool CToolFrameworkServer::Init()
 	FactoryList_Retrieve( list );
 
 	// Latch onto internal interface
-	m_pTools = ( IServerEngineTools * )list.engineFactory( VSERVERENGINETOOLS_INTERFACE_VERSION, NULL );
+	m_pTools = ( IServerEngineTools * )list.engineFactory( VSERVERENGINETOOLS_INTERFACE_VERSION, nullptr);
 
 	if ( !m_pTools && !engine->IsDedicatedServer() )
 	{

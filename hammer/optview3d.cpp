@@ -194,7 +194,7 @@ void COPTView3D::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)
 		m_cBackText.SetWindowText(str);
 
 		CMainFrame *pMainWnd = GetMainWnd();
-		if (pMainWnd != NULL)
+		if (pMainWnd != nullptr)
 		{
 			Options.view3d.iBackPlane = m_cBackPlane.GetPos();
 			pMainWnd->UpdateAllDocViews( MAPVIEW_OPTIONS_CHANGED | MAPVIEW_RENDER_NOW );
@@ -213,7 +213,7 @@ void COPTView3D::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)
 		m_ModelDistanceText.SetWindowText(str);
 
 		CMainFrame *pMainWnd = GetMainWnd();
-		if (pMainWnd != NULL)
+		if (pMainWnd != nullptr)
 		{
 			Options.view3d.nModelDistance = m_ModelDistance.GetPos();
 			pMainWnd->UpdateAllDocViews(MAPVIEW_UPDATE_ONLY_3D | MAPVIEW_OPTIONS_CHANGED | MAPVIEW_RENDER_NOW );
@@ -232,7 +232,7 @@ void COPTView3D::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)
 		m_DetailDistanceText.SetWindowText(str);
 
 		CMainFrame *pMainWnd = GetMainWnd();
-		if (pMainWnd != NULL)
+		if (pMainWnd != nullptr)
 		{
 			Options.view3d.nDetailDistance = m_DetailDistance.GetPos();
 			pMainWnd->UpdateAllDocViews(MAPVIEW_UPDATE_ONLY_3D | MAPVIEW_OPTIONS_CHANGED | MAPVIEW_RENDER_NOW );

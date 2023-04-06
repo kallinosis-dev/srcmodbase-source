@@ -138,7 +138,7 @@ public:
 	// Number for appending the current material name
 	virtual int GetGlobalMaterialAllocationNumber( void ) = 0;
 
-	virtual bool PrecacheMovie( const char *pFileName, const char *pPathID = NULL ) = 0;
+	virtual bool PrecacheMovie( const char *pFileName, const char *pPathID = nullptr) = 0;
 	virtual void *GetPrecachedMovie( const char *pFileName ) = 0;
 	virtual void EvictPrecachedMovie( const char *pFileName ) = 0;
 	virtual void EvictAllPrecachedMovies() = 0;

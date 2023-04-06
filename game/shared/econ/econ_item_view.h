@@ -518,7 +518,7 @@ public:
 	int						GetSkin() const;
 
 #if defined(CSTRIKE_CLIENT_DLL)
-	IVisualsDataProcessor	*GetVisualsDataProcessor( int nIndex ) { return ( nIndex < m_ppVisualsDataProcessors.Count() ) ? m_ppVisualsDataProcessors[ nIndex ] : NULL; }
+	IVisualsDataProcessor	*GetVisualsDataProcessor( int nIndex ) { return ( nIndex < m_ppVisualsDataProcessors.Count() ) ? m_ppVisualsDataProcessors[ nIndex ] : nullptr; }
 	IVisualsDataProcessor	*GetVisualsDataProcessorByName( const char* szName ) const;
 
 	static CEconItemView * FindOrCreateEconItemViewForItemID( uint64 uiItemId );

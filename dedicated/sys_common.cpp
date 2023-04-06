@@ -29,9 +29,9 @@ static long		hDLLThirdParty	= 0L;
 //-----------------------------------------------------------------------------
 // Modules...
 //-----------------------------------------------------------------------------
-CSysModule *s_hMatSystemModule = NULL;	
-CSysModule *s_hEngineModule = NULL;
-CSysModule *s_hSoundEmitterModule = NULL;
+CSysModule *s_hMatSystemModule = nullptr;	
+CSysModule *s_hEngineModule = nullptr;
+CSysModule *s_hSoundEmitterModule = nullptr;
 
 CreateInterfaceFn s_MaterialSystemFactory;
 CreateInterfaceFn s_EngineFactory;
@@ -221,7 +221,7 @@ EXPOSE_SINGLE_INTERFACE( CDedicatedExports, IDedicatedExports, VENGINE_DEDICATED
 int Sys_GetExecutableName( char *out )
 {
 #ifdef _WIN32
-	if ( !::GetModuleFileName( ( HINSTANCE )GetModuleHandle( NULL ), out, 256 ) )
+	if ( !::GetModuleFileName( ( HINSTANCE )GetModuleHandle(nullptr), out, 256 ) )
 	{
 		return 0;
 	}
@@ -242,7 +242,7 @@ const char *UTIL_GetExecutableDir( )
 
 	exedir[ 0 ] = 0;
 	if ( !Sys_GetExecutableName(exedir) )
-		return NULL;
+		return nullptr;
 
 	char *pSlash;
 	char *pSlash2;

@@ -25,11 +25,11 @@ class CNavLadder
 public:
 	CNavLadder( void )
 	{
-		m_topForwardArea = NULL;
-		m_topRightArea = NULL;
-		m_topLeftArea = NULL;
-		m_topBehindArea = NULL;
-		m_bottomArea = NULL;
+		m_topForwardArea = nullptr;
+		m_topRightArea = nullptr;
+		m_topLeftArea = nullptr;
+		m_topBehindArea = nullptr;
+		m_bottomArea = nullptr;
 
 		// set an ID for interactive editing - loads will overwrite this
 		m_id = m_nextID++;
@@ -81,7 +81,7 @@ public:
 
 	void UpdateDangling( void );					///< Checks if the ladder is dangling (bots cannot go up)
 
-	bool IsInUse( const CBasePlayer *ignore = NULL ) const;	///< return true if someone is on this ladder (other than 'ignore')
+	bool IsInUse( const CBasePlayer *ignore = nullptr) const;	///< return true if someone is on this ladder (other than 'ignore')
 
 	void SetDir( NavDirType dir );
 	NavDirType GetDir( void ) const;
@@ -122,7 +122,7 @@ typedef CUtlVector< CNavLadder * > NavLadderVector;
 //--------------------------------------------------------------------------------------------------------------
 inline bool CNavLadder::IsUsableByTeam( int teamNumber ) const
 {
-	if ( m_ladderEntity.Get() == NULL )
+	if ( m_ladderEntity.Get() == nullptr)
 		return true;
 
 	int ladderTeamNumber = m_ladderEntity->GetTeamNumber();

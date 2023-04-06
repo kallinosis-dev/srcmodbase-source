@@ -24,7 +24,7 @@ BEGIN_VS_SHADER( worldimposter, "Help for worldimposter" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -44,7 +44,7 @@ BEGIN_VS_SHADER( worldimposter, "Help for worldimposter" )
 			//		"ERROR: shader asking for a too-narrow vertex format - you will see errors if running with debug D3D DLLs!\n\tPadding the vertex format with extra texcoords"
 			int nTexCoordCount = 1;
 			int userDataSize = 0;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 			pShaderShadow->EnableTexture( SHADER_SAMPLER1, true );

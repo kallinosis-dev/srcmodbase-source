@@ -94,7 +94,7 @@ char * TokenLine::GetLine()
 char * TokenLine::GetToken(int i)
 {
 	if (i >= m_tokenNumber)
-		return NULL;
+		return nullptr;
 	return m_token[i];
 
 }
@@ -118,7 +118,7 @@ char* TokenLine::CheckToken(char * parm)
 			
 	}
 		
-	return NULL;
+	return nullptr;
 }
 
 int TokenLine::CountToken()
@@ -135,7 +135,7 @@ int TokenLine::CountToken()
 char* TokenLine::GetRestOfLine(int i)
 {
 	if (i >= m_tokenNumber)
-		return NULL;
+		return nullptr;
 	return m_fullLine + (m_token[i] - m_tokenBuffer);
 }
 

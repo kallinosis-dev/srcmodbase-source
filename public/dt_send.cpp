@@ -20,7 +20,7 @@
 #if !defined(_STATIC_LINKED) || defined(GAME_DLL)
 
 
-static CNonModifiedPointerProxy *s_pNonModifiedPointerProxyHead = NULL;
+static CNonModifiedPointerProxy *s_pNonModifiedPointerProxyHead = nullptr;
 
 
 void SendProxy_UInt8ToInt32( const SendProp *pProp, const void *pStruct, const void *pData, DVariant *pOut, int iElement, int objectID);
@@ -810,7 +810,7 @@ SendProp InternalSendPropArray(
 	ret.m_ElementStride = elementStride;
 	ret.m_pVarName = pName;
 	ret.SetProxyFn( SendProxy_Empty );
-	ret.m_pArrayProp = NULL;	// This gets set in SendTable_InitTable. It always points at the property that precedes
+	ret.m_pArrayProp = nullptr;	// This gets set in SendTable_InitTable. It always points at the property that precedes
 								// this one in the datatable's list.
 	ret.SetArrayLengthProxy( arrayLengthFn );
 	ret.SetPriority( priority );
@@ -840,12 +840,12 @@ SendProp SendPropExclude(
 // ---------------------------------------------------------------------- //
 SendProp::SendProp()
 {
-	m_pVarName = NULL;
+	m_pVarName = nullptr;
 	m_Offset = 0;
-	m_pDataTable = NULL;
-	m_ProxyFn = NULL;
-	m_pExcludeDTName = NULL;
-	m_pParentArrayPropName = NULL;
+	m_pDataTable = nullptr;
+	m_ProxyFn = nullptr;
+	m_pExcludeDTName = nullptr;
+	m_pParentArrayPropName = nullptr;
 
 	
 	m_Type = DPT_Int;
@@ -855,12 +855,12 @@ SendProp::SendProp()
 	m_fLowValue = 0.0f;
 	m_fHighValue = 0.0f;
 	m_fHighLowMul = 0.0f;
-	m_pArrayProp = 0;
-	m_ArrayLengthProxy = 0;
+	m_pArrayProp = nullptr;
+	m_ArrayLengthProxy = nullptr;
 	m_nElements = 1;
 	m_ElementStride = -1;
-	m_DataTableProxyFn = NULL;
-	m_pMatchingRecvProp	= NULL;
+	m_DataTableProxyFn = nullptr;
+	m_pMatchingRecvProp	= nullptr;
 
 	m_priority = SENDPROP_DEFAULT_PRIORITY;
 }
@@ -890,7 +890,7 @@ int SendProp::GetNumArrayLengthBits() const
 // ---------------------------------------------------------------------- //
 SendTable::SendTable()
 {
-	Construct( NULL, 0, NULL );
+	Construct(nullptr, 0, nullptr);
 }
 
 
@@ -911,7 +911,7 @@ void SendTable::Construct( SendProp *pProps, int nProps, char *pNetTableName )
 	m_pProps = pProps;
 	m_nProps = nProps;
 	m_pNetTableName = pNetTableName;
-	m_pPrecalc = 0;
+	m_pPrecalc = nullptr;
 	m_bInitialized = false;
 	m_bHasBeenWritten = false;
 	m_bHasPropsEncodedAgainstCurrentTickCount = false;

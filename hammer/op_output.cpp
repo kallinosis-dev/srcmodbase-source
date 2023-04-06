@@ -104,7 +104,7 @@ END_MESSAGE_MAP()
 // Static data.
 //
 CEntityConnectionList *COP_Output::m_pConnectionBuffer = new CEntityConnectionList;
-CImageList *COP_Output::m_pImageList = NULL;
+CImageList *COP_Output::m_pImageList = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -257,10 +257,10 @@ COP_Output::COP_Output(void)
 	: CObjectPage(COP_Output::IDD), m_ComboTarget( this )
 {
 	m_bIgnoreTextChanged = false;
-	m_pObjectList = NULL;
+	m_pObjectList = nullptr;
 	m_pEditObjectRuntimeClass = RUNTIME_CLASS(editCMapClass);
 	m_nSortColumn = OUTPUT_NAME_COLUMN;
-	m_pMapEntityList = NULL;
+	m_pMapEntityList = nullptr;
 	m_fDelay = 0;
 	m_bPickingEntities = false;
 
@@ -342,7 +342,7 @@ void COP_Output::UpdateItemValidity(int nItem)
 			pOutputConn->m_bIsValid = false;
 		}
 	}
-	m_ListCtrl.SetItem(nItem,0,LVIF_IMAGE, 0, nIcon, 0, 0, 0 );
+	m_ListCtrl.SetItem(nItem,0,LVIF_IMAGE, nullptr, nIcon, 0, 0, 0 );
 }
 
 
@@ -385,7 +385,7 @@ bool COP_Output::ValidateConnections(COutputConnection *pOutputConn, bool bVisib
 	for (int i = 0; i < nCount; i++)
 	{
 		CEntityConnection *pConnection = pOutputConn->m_pConnList->Element(i);
-		if (pConnection != NULL)
+		if (pConnection != nullptr)
 		{
 			// Check validity of output for the list of entities
 			if (!CEntityConnection::ValidateOutput(pOutputConn->m_pEntityList,pConnection->GetOutputName()))
@@ -420,7 +420,7 @@ bool COP_Output::ValidateExternalConnections(COutputConnection *pOutputConn, boo
 	for (int i = 0; i < nCount; i++)
 	{
 		CEntityConnection *pConnection = pOutputConn->m_pConnList->Element(i);
-		if (pConnection != NULL)
+		if (pConnection != nullptr)
 		{
 			// Check validity of output for the list of entities
 			if (!CEntityConnection::ValidateOutput(pOutputConn->m_pEntityList,pConnection->GetOutputName()))
@@ -429,7 +429,7 @@ bool COP_Output::ValidateExternalConnections(COutputConnection *pOutputConn, boo
 			}
 
 			POSITION	pos = APP()->pMapDocTemplate->GetFirstDocPosition();
-			while( pos != NULL )
+			while( pos != nullptr)
 			{
 				CDocument *pDoc = APP()->pMapDocTemplate->GetNextDoc( pos );
 				CMapDoc *pMapDoc = dynamic_cast< CMapDoc * >( pDoc );
@@ -470,7 +470,7 @@ void COP_Output::AddEntityConnections(CMapEntity *pEntity, bool bFirst)
 	{
 		CEntityConnection *pConnection = pEntity->Connections_Get(i);
 
-		if (pConnection != NULL)
+		if (pConnection != nullptr)
 		{
 			// First check if the connection already exists, if so just add to it
 			bool bFound = false;
@@ -699,7 +699,7 @@ void COP_Output::OnAdd(void)
 	FOR_EACH_OBJ( m_EntityList, pos)
 	{
 		CMapEntity *pEntity = m_EntityList.Element(pos);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			CEntityConnection *pConnection = new CEntityConnection;
 			pEntity->Connections_Add(pConnection);
@@ -727,7 +727,7 @@ void COP_Output::EmptyCopyBuffer(void)
 	for (int i = 0; i < nConnCount; i++)
 	{
 		CEntityConnection *pConnection = m_pConnectionBuffer->Element(i);
-		if (pConnection != NULL)
+		if (pConnection != nullptr)
 		{
 			delete pConnection;
 		}
@@ -759,7 +759,7 @@ void COP_Output::OnCopy(void)
 					//
 					COutputConnection *pOutputConn = (COutputConnection *)m_ListCtrl.GetItemData(nItem);
 					CEntityConnectionList *pConnList = pOutputConn->m_pConnList;
-					if (pConnList != NULL)
+					if (pConnList != nullptr)
 					{
 						CEntityConnection *pConnection = pConnList->Element(0);
 						if (pConnection)
@@ -793,13 +793,13 @@ void COP_Output::OnPaste(void)
 	FOR_EACH_OBJ( m_EntityList, pos )
 	{
 		CMapEntity *pEntity = m_EntityList.Element(pos);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			int nConnCount = m_pConnectionBuffer->Count();
 			for (int i = 0; i < nConnCount; i++)
 			{
 				CEntityConnection *pConnection = m_pConnectionBuffer->Element(i);
-				if (pConnection != NULL)
+				if (pConnection != nullptr)
 				{
 					CEntityConnection *pNewConnection = new CEntityConnection;
 					*pNewConnection = *pConnection;
@@ -825,7 +825,7 @@ void COP_Output::OnPickEntity(void)
 	CButton *pButton = (CButton *)GetDlgItem(IDC_PICK_ENTITY);
 	Assert(pButton != NULL);
 
-	if (pButton != NULL)
+	if (pButton != nullptr)
 	{
 		if (pButton->GetCheck())
 		{
@@ -855,7 +855,7 @@ void COP_Output::OnPickEntityParam(void)
 	CButton *pButton = (CButton *)GetDlgItem(IDC_PICK_ENTITY_PARAM);
 	Assert(pButton != NULL);
 
-	if (pButton != NULL)
+	if (pButton != nullptr)
 	{
 		if (pButton->GetCheck())
 		{
@@ -902,13 +902,13 @@ void COP_Output::OnDelete(void)
 					CEntityConnectionList *pConnList = pOutputConn->m_pConnList;
 					m_ListCtrl.DeleteItem(nItem);
 
-					if (pConnList != NULL)
+					if (pConnList != nullptr)
 					{
 						int nConnCount = pConnList->Count();
 						for (int nConn = 0; nConn < nConnCount; nConn++)
 						{
 							CEntityConnection *pConnection = pConnList->Element(nConn);
-							if (pConnection != NULL)
+							if (pConnection != nullptr)
 							{
 								//
 								// Remove the connection from all entities being edited.
@@ -916,7 +916,7 @@ void COP_Output::OnDelete(void)
 								FOR_EACH_OBJ( m_EntityList, pos )
 								{
 									CMapEntity *pEntity = m_EntityList.Element(pos);
-									if (pEntity != NULL)
+									if (pEntity != nullptr)
 									{
 										pEntity->Connections_Remove(pConnection);
 									}
@@ -977,10 +977,10 @@ void COP_Output::OnMark(void)
 {
 	int					nCount	= m_ListCtrl.GetItemCount();
 	CMapDoc				*pActiveDoc = CMapDoc::GetActiveMapDoc();
-	CMapDoc				*pExternalDoc = NULL;
+	CMapDoc				*pExternalDoc = nullptr;
 	bool				bMultipleDocs = false;
 	bool				bFoundInActive = false;
-	CEntityConnection	*pConnection = NULL; 
+	CEntityConnection	*pConnection = nullptr; 
 
 	if ( nCount > 0 )
 	{
@@ -994,7 +994,7 @@ void COP_Output::OnMark(void)
 				pConnection = pOutputConn->m_pConnList->Element(0);
 
 				POSITION	pos = APP()->pMapDocTemplate->GetFirstDocPosition();
-				while( pos != NULL )
+				while( pos != nullptr)
 				{
 					CDocument *pDoc = APP()->pMapDocTemplate->GetNextDoc( pos );
 					CMapDoc *pMapDoc = dynamic_cast< CMapDoc * >( pDoc );
@@ -1326,13 +1326,13 @@ void COP_Output::UpdateEntityList(void)
 	// Clear old entity list
 	m_EntityList.RemoveAll();
 
-	if (m_pObjectList != NULL)
+	if (m_pObjectList != nullptr)
 	{
 		FOR_EACH_OBJ( *m_pObjectList, pos )
 		{
 			const CMapClass *pObject = m_pObjectList->Element(pos);
 	
-			if ((pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))) )
+			if ((pObject != nullptr) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))) )
 			{
 				CMapEntity *pEntity = (CMapEntity *)pObject;
 				m_EntityList.AddToTail(pEntity);
@@ -1380,7 +1380,7 @@ void COP_Output::SetSortColumn(int nColumn, SortDirection_t eDirection)
 //-----------------------------------------------------------------------------
 void COP_Output::SortListByColumn(int nColumn, SortDirection_t eDirection)
 {
-	PFNLVCOMPARE pfnSort = NULL;
+	PFNLVCOMPARE pfnSort = nullptr;
 
 	switch (nColumn)
 	{
@@ -1427,7 +1427,7 @@ void COP_Output::SortListByColumn(int nColumn, SortDirection_t eDirection)
 		}
 	}
 
-	if (pfnSort != NULL)
+	if (pfnSort != nullptr)
 	{
 		m_ListCtrl.SortItems(pfnSort, (DWORD)eDirection);
 	}
@@ -1477,7 +1477,7 @@ void COP_Output::UpdateConnectionList(void)
 	FOR_EACH_OBJ( m_EntityList, pos )
 	{
 		CMapEntity *pEntity = m_EntityList.Element(pos);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			AddEntityConnections(pEntity, bFirst);
 			bFirst = false;
@@ -1671,7 +1671,7 @@ void COP_Output::UpdateEditedFireOnce(void)
 		for (int nConn = 0; nConn < nConnCount; nConn++)
 		{
 			CEntityConnection *pConnection = m_EditList.Element(nConn);
-			if (pConnection != NULL)
+			if (pConnection != nullptr)
 			{
 				pConnection->SetTimesToFire(nChecked?1:EVENT_FIRE_ALWAYS);
 			}
@@ -1709,7 +1709,7 @@ void COP_Output::UpdateEditedDelays(void)
 		for (int nConn = 0; nConn < nConnCount; nConn++)
 		{
 			CEntityConnection *pConnection = m_EditList.Element(nConn);
-			if (pConnection != NULL)
+			if (pConnection != nullptr)
 			{
 				pConnection->SetDelay(flDelay);
 			}
@@ -1749,7 +1749,7 @@ void COP_Output::UpdateEditedParams(void)
 		for (int nConn = 0; nConn < nConnCount; nConn++)
 		{
 			CEntityConnection *pConnection = m_EditList.Element(nConn);
-			if (pConnection != NULL)
+			if (pConnection != nullptr)
 			{
 				pConnection->SetParam(strParam);
 			}
@@ -1782,7 +1782,7 @@ void COP_Output::UpdateEditedInputs(void)
 	for (int nConn = 0; nConn < nConnCount; nConn++)
 	{
 		CEntityConnection *pConnection = m_EditList.Element(nConn);
-		if (pConnection != NULL)
+		if (pConnection != nullptr)
 		{
 			pConnection->SetInputName(strInput);
 		}
@@ -1816,7 +1816,7 @@ void COP_Output::UpdateEditedOutputs()
 	for (int nConn = 0; nConn < nConnCount; nConn++)
 	{
 		CEntityConnection *pConnection = m_EditList.Element(nConn);
-		if (pConnection != NULL)
+		if (pConnection != nullptr)
 		{
 			pConnection->SetOutputName(strOutput);
 		}
@@ -1850,7 +1850,7 @@ void COP_Output::UpdateEditedTargets(void)
 	for (int nConn = 0; nConn < nConnCount; nConn++)
 	{
 		CEntityConnection *pConnection = m_EditList.Element(nConn);
-		if (pConnection != NULL)
+		if (pConnection != nullptr)
 		{
 			pConnection->SetTargetName(strTarget);
 		}
@@ -1907,7 +1907,7 @@ void COP_Output::SetConnection(CEntityConnectionList *pConnectionList)
 	for (int nConn = 0; nConn < nConnCount; nConn++)
 	{
 		CEntityConnection *pConnection = (CEntityConnection *)pConnectionList->Element(nConn);
-		if (pConnection == NULL)
+		if (pConnection == nullptr)
 			continue;
 
 		// Fill in output name, disable for non-compatible connections
@@ -2019,9 +2019,9 @@ void COP_Output::AddEntityOutputs(CMapEntity *pEntity)
 
 	if ( pEntity && stricmp( pEntity->GetClassName(), "func_instance" ) == 0 )
 	{
-		CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
+		CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )nullptr);
 
-		if ( pMapInstance == NULL || pMapInstance->GetInstancedMap() == NULL )
+		if ( pMapInstance == nullptr || pMapInstance->GetInstancedMap() == nullptr)
 		{
 			return;
 		}
@@ -2043,7 +2043,7 @@ void COP_Output::AddEntityOutputs(CMapEntity *pEntity)
 		FOR_EACH_OBJ( *pEntityList, pos2 )
 		{
 			const CMapEntity *pTestEntity = pEntityList->Element( pos2 ).GetObject();
-			if (pTestEntity != NULL)
+			if (pTestEntity != nullptr)
 			{
 				int nConnectionsCount = pTestEntity->Connections_GetCount();
 				for (int nConnection = 0; nConnection < nConnectionsCount; nConnection++)
@@ -2063,7 +2063,7 @@ void COP_Output::AddEntityOutputs(CMapEntity *pEntity)
 	else
 	{
 		GDclass *pClass = pEntity->GetClass();
-		if (pClass != NULL)
+		if (pClass != nullptr)
 		{
 			int nCount = pClass->GetOutputCount();
 			for (int i = 0; i < nCount; i++)
@@ -2101,7 +2101,7 @@ void COP_Output::FillInputList(void)
 	SetDefLessFunc( classCache );
 	
 	CMapEntity *pInstanceParmsEntity = GetTargetInstanceIOProxy();
-	if ( pInstanceParmsEntity != NULL )
+	if ( pInstanceParmsEntity != nullptr)
 	{
 		m_bIsInstanceIOProxy = true;
 
@@ -2124,7 +2124,7 @@ void COP_Output::FillInputList(void)
 			const CMapEntity *pEntity = m_pMapEntityList->Element(pos).GetObject();
 			Assert(pEntity != NULL);
 
-			if (pEntity == NULL)
+			if (pEntity == nullptr)
 				continue;
 			
 			//
@@ -2132,7 +2132,7 @@ void COP_Output::FillInputList(void)
 			//
 			GDclass *pClass = pEntity->GetClass();
 
-			if (pClass == NULL)
+			if (pClass == nullptr)
 				continue;
 
 			// check if class was already added
@@ -2201,7 +2201,7 @@ void COP_Output::FillOutputList(void)
 	}
 	else
 	{
-		pSelectedOutput = NULL;
+		pSelectedOutput = nullptr;
 	}
 
 	//
@@ -2265,7 +2265,7 @@ void COP_Output::FilterEntityOutputs(CMapEntity *pEntity)
 	// Make sure that this entity has a valid class to use for filtering.
 	//
 	GDclass *pClass = pEntity->GetClass();
-	if (pClass == NULL)
+	if (pClass == nullptr)
 	{
 		return;
 	}
@@ -2282,7 +2282,7 @@ void COP_Output::FilterEntityOutputs(CMapEntity *pEntity)
 		{
 			if (m_ComboOutput.GetLBText(i, szText) != CB_ERR)
 			{
-				if (pClass->FindOutput(szText) == NULL)
+				if (pClass->FindOutput(szText) == nullptr)
 				{
 					m_ComboOutput.DeleteString(i);
 				}
@@ -2308,7 +2308,7 @@ CMapEntity *COP_Output::GetTargetInstanceIOProxy()
 	char szTarget[MAX_ENTITY_NAME_LEN];
 	CMapEntityList *pTargets = GetTarget(szTarget, sizeof(szTarget));
 
-	if (pTargets != NULL)
+	if (pTargets != nullptr)
 	{
 		if ( pTargets->Count() == 1 )
 		{
@@ -2316,9 +2316,9 @@ CMapEntity *COP_Output::GetTargetInstanceIOProxy()
 
 			if ( stricmp( pEntity->GetClassName(), "func_instance" ) == 0 )
 			{
-				CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
+				CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )nullptr);
 
-				if ( pMapInstance != NULL && pMapInstance->GetInstancedMap() != NULL )
+				if ( pMapInstance != nullptr && pMapInstance->GetInstancedMap() != nullptr)
 				{
 					CMapEntityList entityList;
 
@@ -2332,7 +2332,7 @@ CMapEntity *COP_Output::GetTargetInstanceIOProxy()
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2344,7 +2344,7 @@ void COP_Output::FilterInputList(void)
 	char szTarget[MAX_ENTITY_NAME_LEN];
 	CMapEntityList *pTargets = GetTarget(szTarget, sizeof(szTarget));
 
-	if (pTargets != NULL)
+	if (pTargets != nullptr)
 	{
 		//
 		// Remove all items from the inputs combo that:
@@ -2421,7 +2421,7 @@ CClassInput *COP_Output::GetInput(char *szInput, int nSize)
 		}
 	}
 
-	CClassInput *pInput = NULL;
+	CClassInput *pInput = nullptr;
 	if (nCurSel != CB_ERR)
 	{
 		m_ComboInput.GetLBText(nCurSel, szInput);
@@ -2450,7 +2450,7 @@ CClassOutput *COP_Output::GetOutput(char *szOutput, int nSize)
 		}
 	}
 
-	CClassOutput *pOutput = NULL;
+	CClassOutput *pOutput = nullptr;
 	if (nCurSel != CB_ERR)
 	{
 		m_ComboOutput.GetLBText(nCurSel, szOutput);
@@ -2642,7 +2642,7 @@ void COP_Output::UpdateCombosForSelectedInput(CClassInput *pInput)
 		GetDlgItem(IDC_PICK_ENTITY_PARAM)->EnableWindow( m_bEntityParamTarget );
 	}
 
-	if (pInput != NULL)
+	if (pInput != nullptr)
 	{
 		//
 		// Known input, render it in black.
@@ -2667,7 +2667,7 @@ void COP_Output::UpdateCombosForSelectedInput(CClassInput *pInput)
 //-----------------------------------------------------------------------------
 void COP_Output::UpdateCombosForSelectedOutput(CClassOutput *pOutput)
 {
-	if (pOutput != NULL)
+	if (pOutput != nullptr)
 	{
 		//
 		// Known output, render it in black.

@@ -24,7 +24,7 @@ void EscapeFromFlamesState::OnEnter( CCSBot *me )
 	me->DestroyPath();
 	me->EquipKnife();
 
-	m_safeArea = NULL;
+	m_safeArea = nullptr;
 	m_searchTimer.Invalidate();
 }
 
@@ -35,7 +35,7 @@ class CNonDamagingScan : public ISearchSurroundingAreasFunctor
 public:
 	CNonDamagingScan( void )
 	{
-		m_safeArea = NULL;
+		m_safeArea = nullptr;
 		m_safeAreaTravelRange = FLT_MAX;
 	}
 
@@ -67,7 +67,7 @@ CNavArea *EscapeFromFlamesState::FindNearestNonDamagingArea( CCSBot *me ) const
 
 	if ( !myArea )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	CNonDamagingScan scan;

@@ -21,7 +21,7 @@ gmByteCodeGen::gmByteCodeGen(void * a_context)
 {
   m_tos = 0;
   m_maxTos = 0;
-  m_emitCallback = NULL;
+  m_emitCallback = nullptr;
   m_context = a_context;
 }
 
@@ -32,7 +32,7 @@ void gmByteCodeGen::Reset(void * a_context)
   gmStreamBufferDynamic::Reset();
   m_tos = 0;
   m_maxTos = 0;
-  m_emitCallback = NULL;
+  m_emitCallback = nullptr;
   m_context = a_context;
 }
 

@@ -33,7 +33,7 @@ BEGIN_VS_SHADER_FLAGS( MorphWeight_DX9, "Help for morphweight", SHADER_NOT_EDITA
 		{
 			return "Wireframe";
 		}
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

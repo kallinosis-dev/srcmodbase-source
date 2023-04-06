@@ -318,7 +318,7 @@ int CMapEntities::Count( void )
 char const *CMapEntities::GetName( int number )
 {
 	if ( number < 0 || number >= (int)m_Entities.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_Entities.GetElementName( number );
 }
@@ -369,7 +369,7 @@ void CBaseEventPropertiesDialog::InitControlData( CEventParams *params )
 		( WPARAM ) params->m_bHasEndTime ? BST_CHECKED : BST_UNCHECKED,
 		( LPARAM )0 );
 
-	if ( GetControl( IDC_CHECK_RESUMECONDITION ) != (HWND)0 )
+	if ( GetControl( IDC_CHECK_RESUMECONDITION ) != (HWND)nullptr )
 	{
 		SendMessage( GetControl( IDC_CHECK_RESUMECONDITION ), BM_SETCHECK, 
 			( WPARAM ) params->m_bResumeCondition ? BST_CHECKED : BST_UNCHECKED,
@@ -411,7 +411,7 @@ void CBaseEventPropertiesDialog::PopulateNamedActorList( HWND wnd, CEventParams 
 {
 	int i;
 
-	char const *mapname = NULL;
+	char const *mapname = nullptr;
 	if ( params->m_pScene )
 	{
 		mapname = params->m_pScene->GetMapname();
@@ -597,7 +597,7 @@ void CBaseEventPropertiesDialog::DrawSpline( HDC hdc, HWND placeholder, CChoreoE
 
 		if ( i == 0 )
 		{
-			MoveToEx( hdc, rcOut.left + i, rcOut.top + h, NULL );
+			MoveToEx( hdc, rcOut.left + i, rcOut.top + h, nullptr);
 		}
 		else
 		{

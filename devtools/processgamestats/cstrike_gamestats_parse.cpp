@@ -90,7 +90,7 @@ static const char * s_WeaponAliasInfo[] =
 	"kevlar",
 	"assaultsuit",
 	"nightvision",
-	NULL,		// WEAPON_NONE
+	nullptr,		// WEAPON_NONE
 };
 
 void DescribeData( cs_gamestats_t &stats )
@@ -138,7 +138,7 @@ void DescribeData( cs_gamestats_t &stats )
 
 int CS_ParseCustomGameStatsData( ParseContext_t *ctx )
 {
-	if ( g_pFullFileSystem == NULL )
+	if ( g_pFullFileSystem == nullptr)
 		return CUSTOMDATA_FAILED;
 
 	FileHandle_t FileHandle = g_pFullFileSystem->Open( ctx->file, "rb" );
@@ -148,7 +148,7 @@ int CS_ParseCustomGameStatsData( ParseContext_t *ctx )
 		return CUSTOMDATA_FAILED;
 	}
 
-	if ( ctx->mysql == NULL && ctx->describeonly == false )
+	if ( ctx->mysql == nullptr && ctx->describeonly == false )
 		return CUSTOMDATA_FAILED;
 
 	char q[ 512 ];

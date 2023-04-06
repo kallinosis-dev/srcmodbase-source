@@ -198,7 +198,7 @@ public:
 	virtual void GetRagdollInitBoneArrays( matrix3x4a_t *pDeltaBones0, matrix3x4a_t *pDeltaBones1, matrix3x4a_t *pCurrentBones, float boneDt );
 
 	// Returns eye vectors
-	void			EyeVectors( Vector *pForward, Vector *pRight = NULL, Vector *pUp = NULL );
+	void			EyeVectors( Vector *pForward, Vector *pRight = nullptr, Vector *pUp = nullptr);
 	void			CacheVehicleView( void );	// Calculate and cache the position of the player in the vehicle
 
 
@@ -211,7 +211,7 @@ public:
 	void	Flashlight( void );
 	void	UpdateFlashlight( void );
 	void	TurnOffFlashlight( void );	// TERROR
-	virtual const char *GetFlashlightTextureName( void ) const { return NULL; } // TERROR
+	virtual const char *GetFlashlightTextureName( void ) const { return nullptr; } // TERROR
 	virtual float GetFlashlightFOV( void ) const { return 0.0f; } // TERROR
 	virtual float GetFlashlightFarZ( void ) const { return 0.0f; } // TERROR
 	virtual float GetFlashlightLinearAtten( void ) const { return 0.0f; } // TERROR
@@ -314,7 +314,7 @@ public:
 	bool						HasPhysicsFlag( unsigned int flag ) { return (m_afPhysicsFlags & flag) != 0; }
 	void						SetVCollisionState( const Vector &vecAbsOrigin, const Vector &vecAbsVelocity, int collisionState );
 	virtual unsigned int		PhysicsSolidMaskForEntity( void ) const { return MASK_PLAYERSOLID; }
-	void						PhysicsTouchTriggers( const Vector *pPrevAbsOrigin = NULL ); // prediction calls it on C_BasePlayer object
+	void						PhysicsTouchTriggers( const Vector *pPrevAbsOrigin = nullptr); // prediction calls it on C_BasePlayer object
 
 	// Prediction stuff
 	virtual bool				ShouldPredict( void );
@@ -385,7 +385,7 @@ public:
 	IClientVehicle			*GetVehicle();
 	const IClientVehicle	*GetVehicle() const;
 
-	bool			IsInAVehicle() const	{ return ( NULL != m_hVehicle.Get() ) ? true : false; }
+	bool			IsInAVehicle() const	{ return (nullptr != m_hVehicle.Get() ) ? true : false; }
 	virtual void	SetVehicleRole( int nRole );
 	void					LeaveVehicle( void );
 
@@ -485,7 +485,7 @@ public:
 	int GetLadderSurfaceProps( void ) const { return m_ladderSurfaceProps; }
 
 	// Hints
-	virtual CHintSystem		*Hints( void ) { return NULL; }
+	virtual CHintSystem		*Hints( void ) { return nullptr; }
 	bool					ShouldShowHints( void ) { return Hints() ? Hints()->ShouldShowHints() : false; }
 	bool 					HintMessage( int hint, bool bForce = false, bool bOnlyIfClear = false ) { return Hints() ? Hints()->HintMessage( hint, bForce, bOnlyIfClear ) : false; }
 	void 					HintMessage( const char *pMessage ) { if (Hints()) Hints()->HintMessage( pMessage ); }
@@ -926,7 +926,7 @@ EXTERN_RECV_TABLE(DT_BasePlayer);
 inline C_BasePlayer *ToBasePlayer( C_BaseEntity *pEntity )
 {
 	if ( !pEntity || !pEntity->IsPlayer() )
-		return NULL;
+		return nullptr;
 
 #if _DEBUG
 	Assert( dynamic_cast<C_BasePlayer *>( pEntity ) != NULL );
@@ -938,7 +938,7 @@ inline C_BasePlayer *ToBasePlayer( C_BaseEntity *pEntity )
 inline const C_BasePlayer *ToBasePlayer( const C_BaseEntity *pEntity )
 {
 	if ( !pEntity || !pEntity->IsPlayer() )
-		return NULL;
+		return nullptr;
 
 #if _DEBUG
 	Assert( dynamic_cast<const C_BasePlayer *>( pEntity ) != NULL );
@@ -952,7 +952,7 @@ inline const C_BasePlayer *ToBasePlayer( const C_BaseEntity *pEntity )
 inline IClientVehicle *C_BasePlayer::GetVehicle() 
 { 
 	C_BaseEntity *pVehicleEnt = m_hVehicle.Get();
-	return pVehicleEnt ? pVehicleEnt->GetClientVehicle() : NULL;
+	return pVehicleEnt ? pVehicleEnt->GetClientVehicle() : nullptr;
 }
 
 inline bool C_BasePlayer::IsObserver() const 

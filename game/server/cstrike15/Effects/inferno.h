@@ -51,7 +51,7 @@ public:
 	void InfernoThink( void );
 
 	bool BShouldExtinguishSmokeGrenadeBounce( CBaseEntity *entity, Vector &posDropSmoke ) const;
-	bool IsTouching( const Vector &from, const Vector &to, Vector *where = NULL ) const;	// return true if given ray intersects any fires, point of intersection in "where" if non-NULL
+	bool IsTouching( const Vector &from, const Vector &to, Vector *where = nullptr) const;	// return true if given ray intersects any fires, point of intersection in "where" if non-NULL
 	bool IsTouching( const CNavArea *area ) const;	// return true if given area overlaps any fires
 
 	bool WasCreatedInSmoke( void ) const { return m_bWasCreatedInSmoke; }

@@ -62,7 +62,7 @@ char *strrchrcount(char *string, int character, int count )
 			return string + i-1;
 		}
 	}
-	return 0;
+	return nullptr;
 }
 
 
@@ -216,9 +216,9 @@ void QCInfo::SyncToControls()
 CBrowseButton::CBrowseButton( vgui::Panel *pParent ) : BaseClass( pParent, "Browse Button", "...", pParent, "browse" )
 {	
 	SetParent( pParent );
-	pszStartingDirectory = NULL;
-	pszFileFilter = NULL;
-	pszTargetField = NULL;
+	pszStartingDirectory = nullptr;
+	pszFileFilter = nullptr;
+	pszTargetField = nullptr;
 }
 
 CBrowseButton::~CBrowseButton()
@@ -235,7 +235,7 @@ void CBrowseButton::SetCharVar( char **pVar, const char *pszNewText )
     if ( *pVar )
 	{
 		delete [] *pVar;
-		*pVar = NULL;
+		*pVar = nullptr;
 	}
 
 	if ( pszNewText )
@@ -268,7 +268,7 @@ const char *ParseKeyvalue( const char *pBuffer, char *key, char *value )
 {
 	char com_token[1024];
 
-	pBuffer = (const char *)ParseFile( pBuffer, com_token, NULL );
+	pBuffer = (const char *)ParseFile( pBuffer, com_token, nullptr);
 	if ( Q_strlen( com_token ) < MAX_KEYVALUE )
 	{
 		Q_strncpy( key, com_token, MAX_KEYVALUE );
@@ -281,7 +281,7 @@ const char *ParseKeyvalue( const char *pBuffer, char *key, char *value )
 		return pBuffer;
 	}
 
-	pBuffer = (const char *)ParseFile( pBuffer, com_token, NULL );
+	pBuffer = (const char *)ParseFile( pBuffer, com_token, nullptr);
 	if ( Q_strlen( com_token ) < MAX_KEYVALUE )
 	{
 		Q_strncpy( value, com_token, MAX_KEYVALUE );
@@ -358,7 +358,7 @@ CQCGenerator::CQCGenerator( vgui::Panel *pParent, const char *pszPath, const cha
 	while ( szSurfacePropContents )
 	{
 		szSurfacePropContents = ParseKeyvalue( szSurfacePropContents, key, value );
-		((ComboBox *)pSurfacePropDropDown)->AddItem( key, NULL );							
+		((ComboBox *)pSurfacePropDropDown)->AddItem( key, nullptr);							
 		while ( szSurfacePropContents )
 		{
 			szSurfacePropContents = ParseKeyvalue( szSurfacePropContents, key, value );
@@ -370,7 +370,7 @@ CQCGenerator::CQCGenerator( vgui::Panel *pParent, const char *pszPath, const cha
 	}	
     m_QCInfo_t.SyncToControls();
 
-	m_pLODEdit = 0;
+	m_pLODEdit = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -573,7 +573,7 @@ bool CQCGenerator::GenerateQCFile()
 	char szGamePath[MAX_PATH];
 	
 	char studiomdlPath[512];
-	g_pFullFileSystem->RelativePathToFullPath( "studiomdl.bat", NULL, studiomdlPath, sizeof( studiomdlPath ));
+	g_pFullFileSystem->RelativePathToFullPath( "studiomdl.bat", nullptr, studiomdlPath, sizeof( studiomdlPath ));
 
 	GetVConfigRegistrySetting( GAMEDIR_TOKEN, szGamePath, sizeof( szGamePath ) );	
 
@@ -587,7 +587,7 @@ bool CQCGenerator::GenerateQCFile()
 
 	
 	sprintf( szCommand, "%s -game %s %s", studiomdlPath, szGamePath, szName);
-	bool bReturn = CreateProcess( NULL, szCommand, NULL, NULL, TRUE, CREATE_NEW_CONSOLE, NULL, NULL, &startup, &process) ? true : false;
+	bool bReturn = CreateProcess(nullptr, szCommand, nullptr, nullptr, TRUE, CREATE_NEW_CONSOLE, nullptr, nullptr, &startup, &process) ? true : false;
 #else
 	Assert( !"Implement me, why aren't we using a thread tool abstraction?" );
 	bool bReturn = false;
@@ -693,7 +693,7 @@ void CQCGenerator::EditLOD()
 		if ( m_pLODEdit )
 		{
 			m_pLODEdit->DeletePanel();
-			m_pLODEdit = 0;
+			m_pLODEdit = nullptr;
 		}
 		m_pLODEdit = new vgui::TextEntry( this, "Edit" );
 		m_pLODEdit->SendNewLine( true );

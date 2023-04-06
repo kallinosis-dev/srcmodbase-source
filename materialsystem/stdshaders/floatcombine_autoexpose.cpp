@@ -49,7 +49,7 @@ BEGIN_VS_SHADER( floatcombine_autoexpose, "Help for floatcombine_autoexpose" )
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -62,7 +62,7 @@ BEGIN_VS_SHADER( floatcombine_autoexpose, "Help for floatcombine_autoexpose" )
 			pShaderShadow->EnableTexture( SHADER_SAMPLER1, true );
 			pShaderShadow->EnableTexture( SHADER_SAMPLER2, true );
 			int fmt = VERTEX_POSITION;
-			pShaderShadow->VertexShaderVertexFormat( fmt, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 
 			// convert from linear to gamma on write.
 			pShaderShadow->EnableSRGBWrite( true );

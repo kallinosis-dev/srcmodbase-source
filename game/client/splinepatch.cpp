@@ -32,7 +32,7 @@ static VMatrix s_CatmullRom( -0.5,  1.5, -1.5,  0.5,
 //-----------------------------------------------------------------------------
 
 CSplinePatch::CSplinePatch( ) : m_ChannelCount(0),
-	m_Width(0), m_Height(0), m_ppPositions(0), m_LinearFactor(1.0f)
+	m_Width(0), m_Height(0), m_ppPositions(nullptr), m_LinearFactor(1.0f)
 {
 }
 

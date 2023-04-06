@@ -177,7 +177,7 @@ void CStudioRender::DestroyDecalList( StudioDecalHandle_t hDecal )
 	}
 
 	delete[] m_DecalList[h].m_pLod;
-	m_DecalList[h].m_pLod = NULL;
+	m_DecalList[h].m_pLod = nullptr;
 
 	m_DecalMutex.Lock();
 	m_DecalList.Remove( h );
@@ -316,7 +316,7 @@ bool CStudioRender::ProjectDecalOntoMesh( DecalBuildInfo_t& build, DecalBuildVer
 	float invRadius = (build.m_Radius != 0.0f) ? 1.0f / build.m_Radius : 1.0f;
 
 	const mstudio_meshvertexdata_t	*vertData		= pMesh->GetVertexData( build.m_pStudioHdr );
-	const thinModelVertices_t		*thinVertData	= NULL;
+	const thinModelVertices_t		*thinVertData	= nullptr;
 
 	if ( !vertData )
 	{
@@ -843,7 +843,7 @@ bool CStudioRender::AddDecalToModel( DecalBuildInfo_t& buildInfo )
 		Assert(buildInfo.m_pMeshData);
 		// Grab either fat or thin vertex data
 		buildInfo.m_pMeshVertexData = buildInfo.m_pMesh->GetVertexData( buildInfo.m_pStudioHdr );
-		if ( buildInfo.m_pMeshVertexData == NULL )
+		if ( buildInfo.m_pMeshVertexData == nullptr)
 		{
 			buildInfo.m_pMeshThinVertexData = buildInfo.m_pMesh->GetThinVertexData( buildInfo.m_pStudioHdr );
 			if ( !buildInfo.m_pMeshThinVertexData )
@@ -1249,9 +1249,9 @@ void CStudioRender::AddDecal( StudioDecalHandle_t hDecal, const StudioRenderCont
 	// Compute transforms from pose space to decal plane space
 	if (!ComputePoseToDecal( ray, decalUp ))
 	{
-		m_pStudioHdr = NULL;
-		m_pRC = NULL;
-		m_pBoneToWorld = NULL;
+		m_pStudioHdr = nullptr;
+		m_pRC = nullptr;
+		m_pBoneToWorld = nullptr;
 		return;
 	}
 
@@ -1301,7 +1301,7 @@ void CStudioRender::AddDecal( StudioDecalHandle_t hDecal, const StudioRenderCont
 	buildInfo.m_pStudioHdr = pStudioHdr;
  	buildInfo.m_UseClipVert = ( m_pStudioHdr->numbones <= 1 ) && ( m_pStudioHdr->numflexdesc == 0 );
 	buildInfo.m_nGlobalMeshIndex = 0;
-	buildInfo.m_pMeshVertexData = NULL;
+	buildInfo.m_pMeshVertexData = nullptr;
 	buildInfo.m_AllowBehindPointOfImpact = !isSplatterDecal;
 	buildInfo.m_bEnforceProjectionRadiusZ = isPlayerSpray;	// <vitaliy> not sure why we don't always enforce Z depth restriction when projecting?
 
@@ -1324,9 +1324,9 @@ void CStudioRender::AddDecal( StudioDecalHandle_t hDecal, const StudioRenderCont
 	if ( nMeshCount >= 255 )
 	{
 		Warning("Unable to apply decals to model (%s), it has more than 255 unique meshes!\n", m_pStudioHdr->pszName() );
-		m_pStudioHdr = NULL;
-		m_pRC = NULL;
-		m_pBoneToWorld = NULL;
+		m_pStudioHdr = nullptr;
+		m_pRC = nullptr;
+		m_pBoneToWorld = nullptr;
 		return;
 	}
 
@@ -1520,9 +1520,9 @@ void CStudioRender::AddDecal( StudioDecalHandle_t hDecal, const StudioRenderCont
 		free( buildInfo.m_pVertexBuffer );
 	}
 
-	m_pStudioHdr = NULL;
-	m_pRC = NULL;
-	m_pBoneToWorld = NULL;
+	m_pStudioHdr = nullptr;
+	m_pRC = nullptr;
+	m_pBoneToWorld = nullptr;
 }
 
 
@@ -1643,9 +1643,9 @@ void CStudioRender::DrawSingleBoneFlexedDecals( IMatRenderContext *pRenderContex
 //-----------------------------------------------------------------------------
 bool CStudioRender::DrawMultiBoneDecals( CMeshBuilder& meshBuilder, DecalMaterial_t& decalMaterial, studiohdr_t *pStudioHdr )
 {
-	const thinModelVertices_t		*thinVertData	= NULL;
-	const mstudio_meshvertexdata_t	*vertData		= NULL;
-	mstudiomesh_t					*pLastMesh		= NULL;
+	const thinModelVertices_t		*thinVertData	= nullptr;
+	const mstudio_meshvertexdata_t	*vertData		= nullptr;
+	mstudiomesh_t					*pLastMesh		= nullptr;
 
 	DecalVertexList_t& verts = decalMaterial.m_Vertices; 
 	for ( DecalVertexList_t::IndexLocalType_t i = verts.Head(); i != verts.InvalidIndex(); i = verts.Next(i) )
@@ -1678,7 +1678,7 @@ bool CStudioRender::DrawMultiBoneDecals( CMeshBuilder& meshBuilder, DecalMateria
 				pLastMesh = pMesh;
 				vertData  = pMesh->GetVertexData( pStudioHdr );
 				if ( vertData )
-					thinVertData = NULL;
+					thinVertData = nullptr;
 				else
 					thinVertData = pMesh->GetThinVertexData( pStudioHdr );
 			}
@@ -1759,10 +1759,10 @@ bool CStudioRender::DrawMultiBoneDecals( CMeshBuilder& meshBuilder, DecalMateria
 bool CStudioRender::DrawMultiBoneFlexedDecals( IMatRenderContext *pRenderContext, CMeshBuilder& meshBuilder, 
 	DecalMaterial_t& decalMaterial, studiohdr_t *pStudioHdr, studioloddata_t *pStudioLOD )
 {
-	int *pBoneRemap = pStudioLOD ? pStudioLOD->m_pHWMorphDecalBoneRemap : NULL;
+	int *pBoneRemap = pStudioLOD ? pStudioLOD->m_pHWMorphDecalBoneRemap : nullptr;
 
-	mstudiomesh_t *pLastMesh = NULL;
-	const mstudio_meshvertexdata_t *vertData = NULL;
+	mstudiomesh_t *pLastMesh = nullptr;
+	const mstudio_meshvertexdata_t *vertData = nullptr;
 
 	DecalVertexList_t& verts = decalMaterial.m_Vertices; 
 	for ( DecalVertexList_t::IndexLocalType_t i = verts.Head(); i != verts.InvalidIndex(); i = verts.Next(i) )
@@ -1784,7 +1784,7 @@ bool CStudioRender::DrawMultiBoneFlexedDecals( IMatRenderContext *pRenderContext
 		if ( !vertData )
 			return false;
 
-		IMorph *pMorph = pBoneRemap ? vertex.GetMorph( m_pStudioHdr, m_pStudioMeshes ) : NULL;
+		IMorph *pMorph = pBoneRemap ? vertex.GetMorph( m_pStudioHdr, m_pStudioMeshes ) : nullptr;
 		Vector2D morphUV;
 		if ( pMorph )
 		{
@@ -1792,7 +1792,7 @@ bool CStudioRender::DrawMultiBoneFlexedDecals( IMatRenderContext *pRenderContext
 			Assert( vertex.m_GroupIndex != 0xFFFF );
 			if ( !pRenderContext->GetMorphAccumulatorTexCoord( &morphUV, pMorph, vertex.m_GroupIndex ) )
 			{
-				pMorph = NULL;
+				pMorph = nullptr;
 			}
 		}
 
@@ -1953,9 +1953,9 @@ void CStudioRender::DrawInstancedMultiBoneDecals( CMeshBuilder& meshBuilder, con
 	Vector4DAligned vecWorldPosition[ DECAL_BATCH_SIZE ];
 	Vector4DAligned vecWorldNormal[ DECAL_BATCH_SIZE ];
 
-	const thinModelVertices_t		*thinVertData	= NULL;
-	const mstudio_meshvertexdata_t	*vertData		= NULL;
-	mstudiomesh_t					*pLastMesh		= NULL;
+	const thinModelVertices_t		*thinVertData	= nullptr;
+	const mstudio_meshvertexdata_t	*vertData		= nullptr;
+	mstudiomesh_t					*pLastMesh		= nullptr;
 	mstudioboneweight_t				boneWeights;
 
 	const DecalVertexList_t& verts = decalMaterial.m_Vertices; 
@@ -2201,10 +2201,10 @@ void CStudioRender::DrawDecalMaterial( IMatRenderContext *pRenderContext, DecalM
 
 	if ( !m_pRC->m_Config.m_bEnableHWMorph )
 	{
-		pStudioLOD = NULL;
+		pStudioLOD = nullptr;
 	}
 
-	bool bUseHWMorphing = ( pStudioLOD && ( pStudioLOD->m_pHWMorphDecalBoneRemap != NULL ) );
+	bool bUseHWMorphing = ( pStudioLOD && ( pStudioLOD->m_pHWMorphDecalBoneRemap != nullptr) );
 	if ( bUseHWMorphing )
 	{
 		pRenderContext->BindMorph( MATERIAL_MORPH_DECAL );
@@ -2277,7 +2277,7 @@ void CStudioRender::DrawDecalMaterial( IMatRenderContext *pRenderContext, DecalM
 
 	if ( bUseHWMorphing )
 	{
-		pRenderContext->BindMorph( NULL );
+		pRenderContext->BindMorph(nullptr);
 	}
 }
 
@@ -2350,7 +2350,7 @@ void CStudioRender::DrawDecal( const DrawModelInfo_t &drawInfo, int lod, int bod
 	m_pStudioHdr = drawInfo.m_pStudioHdr;
 
 	// Add this fix after I fix the other problem.
-	studioloddata_t *pStudioLOD = NULL;
+	studioloddata_t *pStudioLOD = nullptr;
 	Assert( m_pStudioHdr->numbones != 0 );
 	if ( m_pStudioHdr->numbones <= 1 )
 	{
@@ -2434,10 +2434,10 @@ void CStudioRender::DrawStaticPropDecals( const DrawModelInfo_t &drawInfo, const
 	for ( ; mat != m_DecalMaterial.InvalidIndex(); mat = m_DecalMaterial.Next(mat))
 	{
 		DecalMaterial_t& decalMaterial = m_DecalMaterial[mat];
-		DrawDecalMaterial( pRenderContext, decalMaterial, drawInfo.m_pStudioHdr, NULL );
+		DrawDecalMaterial( pRenderContext, decalMaterial, drawInfo.m_pStudioHdr, nullptr);
 	}
 
-	m_pRC = NULL;
+	m_pRC = nullptr;
 }
 
 void CStudioRender::CleanupDecals()

@@ -35,7 +35,7 @@ public:
 	bool HasFocus( CVGuiWnd *pWnd );
 	void SetFocus( CVGuiWnd *pWnd );
 
-	bool IsInitialized() { return m_hMainWindow != NULL; };
+	bool IsInitialized() { return m_hMainWindow != nullptr; };
 
 	vgui::HScheme GetHammerScheme()	{ return m_hHammerScheme; }
 

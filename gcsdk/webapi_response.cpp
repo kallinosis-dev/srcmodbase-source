@@ -149,7 +149,7 @@ uint32 Base64EncodeMaxOutput( const uint32 cubData, const char *pszLineBreak )
 
 bool Base64Encode( const uint8 *pubData, uint32 cubData, char *pchEncodedData, uint32 *pcchEncodedData, const char *pszLineBreak )
 {
-	if ( pchEncodedData == NULL )
+	if ( pchEncodedData == nullptr)
 	{
 		AssertMsg( *pcchEncodedData == 0, "NULL output buffer with non-zero size passed to Base64Encode" );
 		*pcchEncodedData = Base64EncodeMaxOutput( cubData, pszLineBreak );
@@ -250,7 +250,7 @@ bool Base64Decode( const char *pchData, uint32 cchDataMax, uint8 *pubDecodedData
 	uint32 cubDecodedData = *pcubDecodedData;
 	uint32 cubDecodedDataOrig = cubDecodedData;
 
-	if ( pubDecodedData == NULL )
+	if ( pubDecodedData == nullptr)
 	{
 		AssertMsg( *pcubDecodedData == 0, "NULL output buffer with non-zero size passed to Base64Decode" );
 		cubDecodedDataOrig = cubDecodedData = ~0u;
@@ -357,7 +357,7 @@ decode_failed:
 //-----------------------------------------------------------------------------
 CWebAPIResponse::CWebAPIResponse()
 {
-	m_pValues = NULL;
+	m_pValues = nullptr;
 	m_unExpirationSeconds = 0;
 	m_rtLastModified = 0;
 	m_bExtendedArrays = false;
@@ -373,7 +373,7 @@ CWebAPIResponse::~CWebAPIResponse()
 {
 	if ( m_pValues)
 		delete m_pValues;
-	m_pValues = NULL;
+	m_pValues = nullptr;
 }
 
 
@@ -475,7 +475,7 @@ bool CWebAPIResponse::BEmitParameterEncoding( CUtlBuffer &outputBuffer )
 		return true;
 
 	CWebAPIValues *pValue = m_pValues->GetFirstChild();
-	while ( pValue != NULL )
+	while ( pValue != nullptr)
 	{
 		outputBuffer.Put( pValue->GetName(), Q_strlen( pValue->GetName() ) );
 		outputBuffer.Put( "=", 1 );
@@ -532,7 +532,7 @@ void CWebAPIResponse::Clear()
 	if ( m_pValues )
 		delete m_pValues;
 
-	m_pValues = NULL;
+	m_pValues = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -609,7 +609,7 @@ CWebAPIValues::CWebAPIValues( CWebAPIValues *pParent, int nNamePos, EWebAPIValue
 //-----------------------------------------------------------------------------
 void CWebAPIValues::InitInternal( CWebAPIValues *pParent, int nNamePos, EWebAPIValueType eValueType, const char *pchArrayElementNames )
 {
-	if ( NULL == pParent )
+	if (nullptr == pParent )
 	{
 #ifdef GC
 		m_pStringBuffer = GetBufferPool().GetBuffer();
@@ -632,9 +632,9 @@ void CWebAPIValues::InitInternal( CWebAPIValues *pParent, int nNamePos, EWebAPIV
 		m_pStringBuffer->PutString( pchArrayElementNames );
 	}
 
-	m_pFirstChild = NULL;
-	m_pLastChild = NULL;
-	m_pNextPeer = NULL;
+	m_pFirstChild = nullptr;
+	m_pLastChild = nullptr;
+	m_pNextPeer = nullptr;
 	m_pParent = pParent;
 }
 
@@ -653,10 +653,10 @@ CWebAPIValues::~CWebAPIValues()
 		pChild = pChild->m_pNextPeer;
 		delete pDelete;
 	}
-	m_pFirstChild = NULL;
-	m_pNextPeer = NULL;
+	m_pFirstChild = nullptr;
+	m_pNextPeer = nullptr;
 
-	if ( NULL == m_pParent )
+	if (nullptr == m_pParent )
 	{
 #ifdef GC
 		GetBufferPool().ReturnBuffer( m_pStringBuffer );
@@ -667,8 +667,8 @@ CWebAPIValues::~CWebAPIValues()
 
 	// This two ptrs are just for optimized traversal at runtime, deleting just
 	// our first child and next peer will lead to the full tree being deleted correctly.
-	m_pLastChild = NULL;
-	m_pParent = NULL;
+	m_pLastChild = nullptr;
+	m_pParent = nullptr;
 }
 
 
@@ -677,7 +677,7 @@ CWebAPIValues::~CWebAPIValues()
 //-----------------------------------------------------------------------------
 void CWebAPIValues::SetName( const char * pchName ) 
 {
-	if ( pchName == NULL )
+	if ( pchName == nullptr)
 	{
 		AssertMsg( false, "CWebAPIValues constructed with NULL name, breaks some output serialization.  Shouldn't do this." );
 		m_nNamePos = -1;
@@ -730,7 +730,7 @@ void CWebAPIValues::SetStringValue( const char *pchValue )
 	ClearValue();
 	AssertNoChildren();
 	m_eValueType = k_EWebAPIValueType_String;
-	if ( pchValue == NULL )
+	if ( pchValue == nullptr)
 	{
 		m_nStrValuePos = -1;
 	}
@@ -833,7 +833,7 @@ void CWebAPIValues::SetBinaryValue( const uint8 *pValue, uint32 unBytes )
 	ClearValue();
 	AssertNoChildren();
 	m_eValueType = k_EWebAPIValueType_BinaryBlob;
-	if ( pValue == NULL || unBytes < 1 )
+	if ( pValue == nullptr || unBytes < 1 )
 	{
 		m_BinaryValue.m_nDataPos = 0;
 		m_BinaryValue.m_unBytes = 0;
@@ -927,7 +927,7 @@ int64 CWebAPIValues::GetInt64Value() const
 #if defined(_PS3) || defined(POSIX)
 			return strtoll( (const char *)m_pStringBuffer->Base() +  m_nStrValuePos, NULL, 10);
 #else
-			return _strtoi64( (const char *)m_pStringBuffer->Base() +  m_nStrValuePos, NULL, 10);
+			return _strtoi64( (const char *)m_pStringBuffer->Base() +  m_nStrValuePos, nullptr, 10);
 #endif
 		}
 	default:
@@ -959,7 +959,7 @@ uint64 CWebAPIValues::GetUInt64Value() const
 #if defined(_PS3) || defined(POSIX)
 			return strtoull( (const char *)m_pStringBuffer->Base() +  m_nStrValuePos, NULL, 10);
 #else
-			return _strtoui64( (const char *)m_pStringBuffer->Base() +  m_nStrValuePos, NULL, 10);
+			return _strtoui64( (const char *)m_pStringBuffer->Base() +  m_nStrValuePos, nullptr, 10);
 #endif
 		}
 	default:
@@ -1119,11 +1119,11 @@ CWebAPIValues * CWebAPIValues::AddChildObjectToArray()
 	if ( m_eValueType != k_EWebAPIValueType_NumericArray )
 	{
 		AssertMsg( m_eValueType == k_EWebAPIValueType_NumericArray, "Can't add array elements to CWebAPIVAlues unless type is of numeric array." );
-		return NULL;
+		return nullptr;
 	}
 
 	// Use child element array name as name of all children of arrays
-	return CreateChildInternal( NULL, k_EWebAPIValueType_Object );
+	return CreateChildInternal(nullptr, k_EWebAPIValueType_Object );
 }
 
 
@@ -1135,11 +1135,11 @@ CWebAPIValues * CWebAPIValues::AddChildArrayToArray( const char * pchArrayElemen
 	if ( m_eValueType != k_EWebAPIValueType_NumericArray )
 	{
 		AssertMsg( m_eValueType == k_EWebAPIValueType_NumericArray, "Can't add array elements to CWebAPIVAlues unless type is of numeric array." );
-		return NULL;
+		return nullptr;
 	}
 
 	// Use child element array name as name of all children of arrays
-	return CreateChildInternal( NULL, k_EWebAPIValueType_NumericArray, pchArrayElementNames );
+	return CreateChildInternal(nullptr, k_EWebAPIValueType_NumericArray, pchArrayElementNames );
 }
 
 //-----------------------------------------------------------------------------
@@ -1446,7 +1446,7 @@ CWebAPIValues * CWebAPIValues::FindChild( const char *pchName )
 		pCurLastChild = pCurLastChild->m_pNextPeer;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1482,10 +1482,10 @@ CWebAPIValues * CWebAPIValues::GetParent()
 //-----------------------------------------------------------------------------
 void CWebAPIValues::DeleteChild( const char *pchName )
 {
-	CWebAPIValues *pChild = NULL;	// child we're examining, could be NULL at exit if we don't find it
-	CWebAPIValues *pPrev = NULL;	// previous sibling, or NULL
+	CWebAPIValues *pChild = nullptr;	// child we're examining, could be NULL at exit if we don't find it
+	CWebAPIValues *pPrev = nullptr;	// previous sibling, or NULL
 
-	for ( pChild = m_pFirstChild; pChild != NULL; pPrev = pChild, pChild = pChild->m_pNextPeer )
+	for ( pChild = m_pFirstChild; pChild != nullptr; pPrev = pChild, pChild = pChild->m_pNextPeer )
 	{
 		if ( !Q_stricmp( pChild->GetName(), pchName ) )
 		{
@@ -1503,7 +1503,7 @@ void CWebAPIValues::DeleteChild( const char *pchName )
 			}
 
 			// clean up next ptr on child so we don't double free
-			pChild->m_pNextPeer = NULL;
+			pChild->m_pNextPeer = nullptr;
 
 			// fixup last child pointer if pChild is the last child
 			if ( pChild == m_pLastChild )
@@ -1713,7 +1713,7 @@ bool CWebAPIValues::BEmitJSONRecursive( const CWebAPIValues *pCurrent, CUtlBuffe
 		else
 		{
 			// We're done, or failing early
-			pCurrent = NULL;
+			pCurrent = nullptr;
 		}
 	}
 
@@ -1897,7 +1897,7 @@ bool CWebAPIValues::BEmitVDFRecursive( const CWebAPIValues *pCurrent, CUtlBuffer
 		else
 		{
 			// We're done, or failing early
-			pCurrent = NULL;
+			pCurrent = nullptr;
 		}
 	}
 
@@ -2044,7 +2044,7 @@ bool CWebAPIValues::BEmitXMLRecursive( const CWebAPIValues *pCurrent, CUtlBuffer
 		else
 		{
 			// We're done, or failing early
-			pCurrent = NULL;
+			pCurrent = nullptr;
 		}
 	}
 
@@ -2063,7 +2063,7 @@ struct JSONParserContext_t
 static int JSONParserCallback(void* void_ctx, int type, const JSON_value* value)
 {
 	JSONParserContext_t *ctx = (JSONParserContext_t *)void_ctx;
-	CWebAPIValues *pCreatedNode = NULL;
+	CWebAPIValues *pCreatedNode = nullptr;
 	switch(type) 
 	{
 		case JSON_T_ARRAY_BEGIN:
@@ -2209,7 +2209,7 @@ CWebAPIValues *CWebAPIValues::ParseJSON( CUtlBuffer &inputBuffer )
 	// if there's nothing to parse, just early out
 	inputBuffer.EatWhiteSpace();
 	if( inputBuffer.GetBytesRemaining() == 0 )
-		return NULL;
+		return nullptr;
 
 	// if the first character is the start of a string,
 	// wrap the whole thing in an object so we can parse it.
@@ -2219,13 +2219,13 @@ CWebAPIValues *CWebAPIValues::ParseJSON( CUtlBuffer &inputBuffer )
 
 	JSON_config config;
 
-	struct JSON_parser_struct* jc = NULL;
+	struct JSON_parser_struct* jc = nullptr;
 
 	init_JSON_config(&config);
 
 	JSONParserContext_t context;
-	context.m_pCurrentNode = NULL;
-	context.m_pRootNode = NULL;
+	context.m_pCurrentNode = nullptr;
+	context.m_pRootNode = nullptr;
 	context.m_bIsKey = false;
 
 	config.depth                  = 19;
@@ -2288,8 +2288,8 @@ CWebAPIValues *CWebAPIValues::ParseJSON( CUtlBuffer &inputBuffer )
 				}
 				else
 				{
-					pWrapRoot->m_pFirstChild = NULL;
-					pRealRoot->m_pParent = NULL;
+					pWrapRoot->m_pFirstChild = nullptr;
+					pRealRoot->m_pParent = nullptr;
 					context.m_pRootNode = pRealRoot;
 
 					delete pWrapRoot;
@@ -2305,7 +2305,7 @@ CWebAPIValues *CWebAPIValues::ParseJSON( CUtlBuffer &inputBuffer )
 	else
 	{
 		delete context.m_pRootNode;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -2462,32 +2462,32 @@ bool ProtoBufHelper::RecursiveAddProtoBufToWebAPIValues( CWebAPIValues *pWebAPIR
 			{
 				switch ( pField->cpp_type() )
 				{
-				case FieldDescriptor::CPPTYPE_INT32:	pContainer->SetChildInt32Value( NULL, pReflection->GetRepeatedInt32( msg, pField, iRepeated ) );			break;
-				case FieldDescriptor::CPPTYPE_INT64:	pContainer->SetChildInt64Value( NULL, pReflection->GetRepeatedInt64( msg, pField, iRepeated ) );			break;
-				case FieldDescriptor::CPPTYPE_UINT32:	pContainer->SetChildUInt32Value( NULL, pReflection->GetRepeatedUInt32( msg, pField, iRepeated ) );			break;
-				case FieldDescriptor::CPPTYPE_UINT64:	pContainer->SetChildUInt64Value( NULL, pReflection->GetRepeatedUInt64( msg, pField, iRepeated ) );			break;
-				case FieldDescriptor::CPPTYPE_DOUBLE:	pContainer->SetChildDoubleValue( NULL, pReflection->GetRepeatedDouble( msg, pField, iRepeated ) );			break;
-				case FieldDescriptor::CPPTYPE_FLOAT:	pContainer->SetChildDoubleValue( NULL, pReflection->GetRepeatedFloat( msg, pField, iRepeated ) );			break;
-				case FieldDescriptor::CPPTYPE_BOOL:		pContainer->SetChildBoolValue( NULL, pReflection->GetRepeatedBool( msg, pField, iRepeated ) );				break;
-				case FieldDescriptor::CPPTYPE_ENUM:		pContainer->SetChildInt32Value( NULL, pReflection->GetRepeatedEnum( msg, pField, iRepeated )->number() );	break;
+				case FieldDescriptor::CPPTYPE_INT32:	pContainer->SetChildInt32Value(nullptr, pReflection->GetRepeatedInt32( msg, pField, iRepeated ) );			break;
+				case FieldDescriptor::CPPTYPE_INT64:	pContainer->SetChildInt64Value(nullptr, pReflection->GetRepeatedInt64( msg, pField, iRepeated ) );			break;
+				case FieldDescriptor::CPPTYPE_UINT32:	pContainer->SetChildUInt32Value(nullptr, pReflection->GetRepeatedUInt32( msg, pField, iRepeated ) );			break;
+				case FieldDescriptor::CPPTYPE_UINT64:	pContainer->SetChildUInt64Value(nullptr, pReflection->GetRepeatedUInt64( msg, pField, iRepeated ) );			break;
+				case FieldDescriptor::CPPTYPE_DOUBLE:	pContainer->SetChildDoubleValue(nullptr, pReflection->GetRepeatedDouble( msg, pField, iRepeated ) );			break;
+				case FieldDescriptor::CPPTYPE_FLOAT:	pContainer->SetChildDoubleValue(nullptr, pReflection->GetRepeatedFloat( msg, pField, iRepeated ) );			break;
+				case FieldDescriptor::CPPTYPE_BOOL:		pContainer->SetChildBoolValue(nullptr, pReflection->GetRepeatedBool( msg, pField, iRepeated ) );				break;
+				case FieldDescriptor::CPPTYPE_ENUM:		pContainer->SetChildInt32Value(nullptr, pReflection->GetRepeatedEnum( msg, pField, iRepeated )->number() );	break;
 				case FieldDescriptor::CPPTYPE_STRING:
 					{
 						const std::string &strValue = pReflection->GetRepeatedString( msg, pField, iRepeated );
 						if ( pField->type() == FieldDescriptor::TYPE_STRING )
 						{
-							pContainer->SetChildStringValue( NULL, strValue.c_str() );
+							pContainer->SetChildStringValue(nullptr, strValue.c_str() );
 						}
 						else
 						{
 							// Binary blobs are automatically encoded in Base64 when converted to string by Web request
-							pContainer->SetChildBinaryValue( NULL, (const uint8 *)strValue.c_str(), strValue.size() );
+							pContainer->SetChildBinaryValue(nullptr, (const uint8 *)strValue.c_str(), strValue.size() );
 						}
 						break;
 					}
 				case FieldDescriptor::CPPTYPE_MESSAGE:
 					{
 						const ::google::protobuf::Message &subMsg = pReflection->GetRepeatedMessage( msg, pField, iRepeated );
-						CWebAPIValues *pChild = pContainer->CreateChildObject( NULL );
+						CWebAPIValues *pChild = pContainer->CreateChildObject(nullptr);
 						if ( RecursiveAddProtoBufToWebAPIValues( pChild, subMsg ) == false )
 						{
 							return false;

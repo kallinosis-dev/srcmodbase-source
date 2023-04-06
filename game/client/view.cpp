@@ -89,7 +89,7 @@ ConVar zoom_sensitivity_ratio_mouse( "zoom_sensitivity_ratio_mouse", "1.0", FCVA
 
 
 // Each MOD implements GetViewRenderInstance() and provides either a default object or a subclassed object!!!
-IViewRender *view = NULL;	// set in cldll_client_init.cpp if no mod creates their own
+IViewRender *view = nullptr;	// set in cldll_client_init.cpp if no mod creates their own
 
 #if _DEBUG
 bool g_bRenderingCameraView = false;
@@ -330,7 +330,7 @@ void CViewRender::LevelInit( void )
 	}
 
 	// Clear our overlay materials
-	m_ScreenOverlayMaterial.Init( NULL );
+	m_ScreenOverlayMaterial.Init(nullptr);
 
 	// Init all IScreenSpaceEffects
 	g_pScreenSpaceEffects->InitScreenSpaceEffects( );
@@ -417,7 +417,7 @@ void CViewRender::DriftPitch (void)
 #if defined( REPLAY_ENABLED )
 	if ( g_bEngineIsHLTV || engine->IsReplay() || ( player->GetGroundEntity() == NULL ) || engine->IsPlayingDemo() )
 #else
-	if ( g_bEngineIsHLTV || ( player->GetGroundEntity() == NULL ) || engine->IsPlayingDemo() )
+	if ( g_bEngineIsHLTV || ( player->GetGroundEntity() == nullptr) || engine->IsPlayingDemo() )
 #endif
 	{
 		m_PitchDrift.driftmove = 0;
@@ -687,7 +687,7 @@ void CViewRender::SetUpView()
 	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
 
 	bool bNoViewEnt = false;
-	if( pPlayer == NULL )
+	if( pPlayer == nullptr)
 	{
 		pPlayer = GetSplitScreenViewPlayer( nSlot );
 		bNoViewEnt = true;
@@ -741,7 +741,7 @@ void CViewRender::SetUpView()
 	}
 
 #if defined ( CSTRIKE15 )
-	CBasePlayer *pCameraMan = NULL;
+	CBasePlayer *pCameraMan = nullptr;
 	if ( g_bEngineIsHLTV )
 		pCameraMan = HLTVCamera()->GetCameraMan();
 
@@ -824,7 +824,7 @@ void CViewRender::WriteSaveGameScreenshotOfSize( const char *pFilename, int widt
 		pRenderContext->PushMatrix();
 				
 		// Push back buffer on the stack with small viewport
-		pRenderContext->PushRenderTargetAndViewport( NULL, 0, 0, width, height );
+		pRenderContext->PushRenderTargetAndViewport(nullptr, 0, 0, width, height );
 
 		// render out to the backbuffer
 		CViewSetup viewSetup = GetView();
@@ -1139,7 +1139,7 @@ void CViewRender::Render( vrect_t *rect )
 
 		render->SetMainView( view.origin, view.angles );
 
-		int flags = (pPlayer == NULL) ? 0 : RENDERVIEW_DRAWHUD;
+		int flags = (pPlayer == nullptr) ? 0 : RENDERVIEW_DRAWHUD;
 		if ( drawViewModel )
 		{
 			flags |= RENDERVIEW_DRAWVIEWMODEL;
@@ -1201,7 +1201,7 @@ void CViewRender::Render( vrect_t *rect )
 			view2d.y				= rect->y;
 			view2d.width			= rect->width;
 			view2d.height			= rect->height;
-			render->Push2DView( pRenderContext, view2d, 0, NULL, GetFrustum() );
+			render->Push2DView( pRenderContext, view2d, 0, nullptr, GetFrustum() );
 			render->VGui_Paint( PAINT_UIPANELS );
 			{
 				// The engine here is trying to access CurrentView() etc. which is bogus

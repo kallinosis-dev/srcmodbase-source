@@ -28,7 +28,7 @@
 #include "tier0/memdbgon.h"
 
 
-static CStringRegistry *g_pClassnameSpawnPriority = NULL;
+static CStringRegistry *g_pClassnameSpawnPriority = nullptr;
 extern edict_t *g_pForceAttachEdict;
 
 #if defined( CSTRIKE15 )
@@ -46,10 +46,10 @@ CBaseEntity *CreateEntityByName( const char *className, int iForceEdictIndex, bo
 	}
 
 	IServerNetworkable *pNetwork = EntityFactoryDictionary()->Create( className );
-	g_pForceAttachEdict = NULL;
+	g_pForceAttachEdict = nullptr;
 
 	if ( !pNetwork )
-		return NULL;
+		return nullptr;
 
 	CBaseEntity *pEntity = pNetwork->GetBaseEntity();
 	Assert( pEntity );
@@ -64,7 +64,7 @@ CBaseNetworkable *CreateNetworkableByName( const char *className )
 {
 	IServerNetworkable *pNetwork = EntityFactoryDictionary()->Create( className );
 	if ( !pNetwork )
-		return NULL;
+		return nullptr;
 
 	CBaseNetworkable *pNetworkable = pNetwork->GetBaseNetworkable();
 	Assert( pNetworkable );
@@ -78,7 +78,7 @@ void FreeContainingEntity( edict_t *ed )
 		CBaseEntity *ent = GetContainingEntity( ed );
 		if ( ent )
 		{
-			ed->SetEdict( NULL, false );
+			ed->SetEdict(nullptr, false );
 			CBaseEntity::PhysicsRemoveTouchedList( ent );
 			CBaseEntity::PhysicsRemoveGroundList( ent );
 			UTIL_RemoveImmediate( ent );
@@ -138,7 +138,7 @@ static int ComputeSpawnHierarchyDepth_r( CBaseEntity *pEntity )
 	if (pEntity->m_iParent == NULL_STRING)
 		return 1;
 
-	CBaseEntity *pParent = gEntList.FindEntityByName( NULL, ExtractParentName(pEntity->m_iParent) );
+	CBaseEntity *pParent = gEntList.FindEntityByName(nullptr, ExtractParentName(pEntity->m_iParent) );
 	if (!pParent)
 		return 1;
 	
@@ -201,7 +201,7 @@ static void SortSpawnListByHierarchy( int nEntities, HierarchicalSpawn_t *pSpawn
 	qsort(&pSpawnList[0], nEntities, sizeof(pSpawnList[0]), (int (*)(const void *, const void *))CompareSpawnOrder);
 #endif
 	delete g_pClassnameSpawnPriority;
-	g_pClassnameSpawnPriority = NULL;
+	g_pClassnameSpawnPriority = nullptr;
 }
 
 void SetupParentsForSpawnList( int nEntities, HierarchicalSpawn_t *pSpawnList )
@@ -217,7 +217,7 @@ void SetupParentsForSpawnList( int nEntities, HierarchicalSpawn_t *pSpawnList )
 				char szToken[256];
 				const char *pAttachmentName = nexttoken(szToken, STRING(pEntity->m_iParent), ',');
 				pEntity->m_iParent = AllocPooledString(szToken);
-				CBaseEntity *pParent = gEntList.FindEntityByName( NULL, pEntity->m_iParent );
+				CBaseEntity *pParent = gEntList.FindEntityByName(nullptr, pEntity->m_iParent );
 
 				// setparent in the spawn pass instead - so the model will have been set & loaded
 				pSpawnList[nEntity].m_pDeferredParent = pParent;
@@ -225,9 +225,9 @@ void SetupParentsForSpawnList( int nEntities, HierarchicalSpawn_t *pSpawnList )
 			}
 			else
 			{
-				CBaseEntity *pParent = gEntList.FindEntityByName( NULL, pEntity->m_iParent );
+				CBaseEntity *pParent = gEntList.FindEntityByName(nullptr, pEntity->m_iParent );
 
-				if ((pParent != NULL) && (pParent->edict() != NULL))
+				if ((pParent != nullptr) && (pParent->edict() != nullptr))
 				{
 					pEntity->SetParent( pParent ); 
 				}
@@ -283,13 +283,13 @@ void SpawnAllEntities( int nEntities, HierarchicalSpawn_t *pSpawnList, bool bAct
 					// this is a child object that will be deleted now
 					if ( pSpawnList[i].m_pEntity && pSpawnList[i].m_pEntity->IsMarkedForDeletion() )
 					{
-						pSpawnList[i].m_pEntity = NULL;
+						pSpawnList[i].m_pEntity = nullptr;
 					}
 				}
 				// Spawn failed.
 				gEntList.CleanupDeleteList();
 				// Remove the entity from the spawn list
-				pSpawnList[nEntity].m_pEntity = NULL;
+				pSpawnList[nEntity].m_pEntity = nullptr;
 			}
 		}
 	}
@@ -406,8 +406,8 @@ void CMapEntitySpawner::AddEntity( CBaseEntity *pEntity, const char *pCurMapData
 		// Queue up this entity for spawning
 		m_pSpawnList[m_nEntities].m_pEntity = pEntity;
 		m_pSpawnList[m_nEntities].m_nDepth = 0;
-		m_pSpawnList[m_nEntities].m_pDeferredParentAttachment = NULL;
-		m_pSpawnList[m_nEntities].m_pDeferredParent = NULL;
+		m_pSpawnList[m_nEntities].m_pDeferredParentAttachment = nullptr;
+		m_pSpawnList[m_nEntities].m_pDeferredParent = nullptr;
 
 		m_pSpawnMapData[m_nEntities].m_pMapData = pCurMapData;
 		m_pSpawnMapData[m_nEntities].m_iMapDataLength = iMapDataLength;
@@ -453,7 +453,7 @@ void MapEntity_ParseAllEntites_SpawnTemplates( CPointTemplate **pTemplates, int 
 						gEntList.CleanupDeleteList();
 
 						// Remove the entity from the spawn list
-						pSpawnedEntities[iEntNum] = NULL;
+						pSpawnedEntities[iEntNum] = nullptr;
 					}
 					break;
 				}
@@ -500,12 +500,12 @@ void CMapEntitySpawner::PurgeRemovedEntities()
 		{
 #ifdef _DEBUG
 			// Catch a specific error that bit us
-			if ( dynamic_cast< CGameRulesProxy * >( m_pSpawnList[i].m_pEntity ) != NULL )
+			if ( dynamic_cast< CGameRulesProxy * >( m_pSpawnList[i].m_pEntity ) != nullptr)
 			{
 				Warning( "Map-placed game rules entity is being deleted; does the map contain more than one?\n" );
 			}
 #endif
-			m_pSpawnList[i].m_pEntity = NULL;
+			m_pSpawnList[i].m_pEntity = nullptr;
 		}
 	}
 
@@ -558,7 +558,7 @@ void MapEntity_ParseAllEntities(const char *pMapData, IMapEntityFilter *pFilter,
 		CBaseEntity *pEntity;
 		const char *pCurMapData = pMapData;
 		pMapData = MapEntity_ParseEntity(pEntity, pMapData, pFilter);
-		if (pEntity == NULL)
+		if (pEntity == nullptr)
 			continue;
 
 		spawner.AddEntity( pEntity, pCurMapData, pMapData - pCurMapData + 2 );
@@ -612,7 +612,7 @@ void MapEntity_PrecacheEntity( const char *pEntData, int &nStringSize )
 	//
 	// Set up keyvalues, which can set the model name, which is why we don't just do UTIL_PrecacheOther here...
 	//
-	if ( pEntity != NULL )
+	if ( pEntity != nullptr)
 	{
 		pEntity->ParseMapData(&entData);
 		pEntity->Precache();
@@ -638,7 +638,7 @@ const char *MapEntity_ParseEntity(CBaseEntity *&pEntity, const char *pEntData, I
 	
 	bool skipForGameType = false;
 
-	pEntity = NULL;
+	pEntity = nullptr;
 	if ( !pFilter || ( pFilter->ShouldCreateEntity( className ) && !skipForGameType ) )
 	{
 		//
@@ -656,7 +656,7 @@ const char *MapEntity_ParseEntity(CBaseEntity *&pEntity, const char *pEntData, I
 		//
 		// Set up keyvalues.
 		//
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			pEntity->ParseMapData(&entData);
 		}

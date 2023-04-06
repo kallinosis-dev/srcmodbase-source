@@ -143,7 +143,7 @@ void CMolotovGrenade::UpdateParticles( void )
 			//DevMsg( 1, "---------->Stopping Molotov.IdleLoop 1\n" );
 			m_molotovParticleEffect->StopEmission( false, false );
 			m_molotovParticleEffect->SetRemoveFlag();
-			m_molotovParticleEffect = NULL;
+			m_molotovParticleEffect = nullptr;
 		}
 	}
 }
@@ -159,7 +159,7 @@ void CMolotovGrenade::OnParticleEffectDeleted( CNewParticleEffect *pParticleEffe
 {
 	if ( m_molotovParticleEffect() == pParticleEffect )
 	{
-		m_molotovParticleEffect = NULL;
+		m_molotovParticleEffect = nullptr;
 	}
 }
 

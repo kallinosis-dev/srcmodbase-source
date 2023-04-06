@@ -52,7 +52,7 @@ BEGIN_VS_SHADER( Aftershock_dx9, "Aftershock" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

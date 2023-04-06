@@ -19,7 +19,7 @@ bool CGameTrace::DidHitWorld() const
 
 bool CGameTrace::DidHitNonWorldEntity() const
 {
-	return m_pEnt != NULL && !DidHitWorld();
+	return m_pEnt != nullptr && !DidHitWorld();
 }
 
 

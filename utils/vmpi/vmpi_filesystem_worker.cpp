@@ -231,7 +231,7 @@ public:
 		// If we get -1 back, it means the file doesn't exist.
 		int fileID = response.m_Response;
 		if ( fileID == -1 )
-			return NULL;
+			return nullptr;
 
 		CWorkerFile *pTestFile = new CWorkerFile;
 		
@@ -350,7 +350,7 @@ public:
 			// tell the master we'd like this file.
 			pFile = RequestFileFromServer( pFilename, pPathID );
 			if ( !pFile )
-				return NULL;
+				return nullptr;
 
 			// If it's zero-length, we can return right now.
 			if ( pFile->m_bZeroLength )
@@ -377,7 +377,7 @@ public:
 		// Now start listening to the stream.
 		// Note: no need to setup anything when in TCP mode - we just use the regular
 		// VMPI dispatch stuff to handle that.
-		ISocket *pSocket = NULL;
+		ISocket *pSocket = nullptr;
 		if ( VMPI_GetFileSystemMode() == VMPI_FILESYSTEM_MULTICAST )
 		{
 			pSocket = CreateMulticastListenSocket( m_MulticastAddr );
@@ -387,7 +387,7 @@ public:
 				char str[512];
 				IP_GetLastErrorString( str, sizeof( str ) );
 				Warning( "CreateMulticastListenSocket (%d.%d.%d.%d:%d) failed\n%s\n", EXPAND_ADDR( m_MulticastAddr ), str );
-				return NULL;
+				return nullptr;
 			}
 		}
 		else if ( VMPI_GetFileSystemMode() == VMPI_FILESYSTEM_BROADCAST )
@@ -396,7 +396,7 @@ public:
 			if ( !pSocket->BindToAny( m_MulticastAddr.port ) )
 			{
 				pSocket->Release();
-				pSocket = NULL;
+				pSocket = nullptr;
 			}
 		}
 
@@ -556,7 +556,7 @@ public:
 							pSocket->Release();
 						FlushAckChunks( chunksToAck, nChunksToAck, lastAckTime );
 						Error( "ZLibDecompress failed.\n" );
-						return NULL;
+						return nullptr;
 					}
 
 					char str[512];
@@ -592,7 +592,7 @@ public:
 			if ( stricmp( pWorkerFile->GetFilename(), pFilename ) == 0 && stricmp( pWorkerFile->GetPathID(), pPathID ) == 0 )
 				return pWorkerFile;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	CWorkerFile* FindWorkerFile( int fileID ) 
@@ -602,7 +602,7 @@ public:
 			if ( m_WorkerFiles[i]->m_FileID == fileID )
 				return m_WorkerFiles[i];
 		}
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -657,8 +657,8 @@ CBaseVMPIFileSystem* CreateWorkerVMPIFileSystem()
 	else
 	{
 		delete pRet;
-		g_pBaseVMPIFileSystem = NULL;
-		return NULL;
+		g_pBaseVMPIFileSystem = nullptr;
+		return nullptr;
 	}
 }
 
@@ -691,7 +691,7 @@ FileHandle_t CWorkerVMPIFileSystem::Open( const char *pFilename, const char *pOp
 		Error( "Open( %s, %s ) - file access has been disabled.", pFilename, pOptions );
 
 	// Workers can't open anything for write access.
-	bool bWriteAccess = (Q_stristr( pOptions, "w" ) != 0);
+	bool bWriteAccess = (Q_stristr( pOptions, "w" ) != nullptr);
 	if ( bWriteAccess )
 		return FILESYSTEM_INVALID_HANDLE;
 

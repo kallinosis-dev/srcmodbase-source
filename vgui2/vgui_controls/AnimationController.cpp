@@ -37,7 +37,7 @@ namespace vgui
 {
 AnimationController *GetAnimationController()
 {
-	static AnimationController *s_pAnimationController = new AnimationController(NULL);
+	static AnimationController *s_pAnimationController = new AnimationController(nullptr);
 	return s_pAnimationController;
 }
 }
@@ -45,7 +45,7 @@ AnimationController *GetAnimationController()
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-AnimationController::AnimationController(Panel *parent) : BaseClass(parent, NULL)
+AnimationController::AnimationController(Panel *parent) : BaseClass(parent, nullptr)
 {
 	m_hSizePanel = 0;
 	m_nScreenBounds[ 0 ] = m_nScreenBounds[ 1 ] = -1;
@@ -296,7 +296,7 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 
 	// start by getting the first token
 	char token[512];
-	pMem = ParseFile(pMem, token, NULL);
+	pMem = ParseFile(pMem, token, nullptr);
 	while (token[0])
 	{
 		bool bAccepted = true;
@@ -309,7 +309,7 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 		}
 
 		// get the event name
-		pMem = ParseFile(pMem, token, NULL);
+		pMem = ParseFile(pMem, token, nullptr);
 		if (strlen(token) < 1)
 		{
 			Warning("Couldn't parse script file: expected <event name>, found nothing\n");
@@ -326,13 +326,13 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 		seq.duration = 0.0f;
 
 		// get the open brace or a conditional
-		pMem = ParseFile(pMem, token, NULL);
+		pMem = ParseFile(pMem, token, nullptr);
 		if ( Q_stristr( token, "[$" ) )
 		{
 			ExpressionHandler.Evaluate( bAccepted, token );
 
 			// now get the open brace
-			pMem = ParseFile(pMem, token, NULL);
+			pMem = ParseFile(pMem, token, nullptr);
 		}
 
 		if (stricmp(token, "{"))
@@ -345,7 +345,7 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 		while (token && token[0])
 		{
 			// get the command type
-			pMem = ParseFile(pMem, token, NULL);
+			pMem = ParseFile(pMem, token, nullptr);
 
 			// skip out when we hit the end of the sequence
 			if (token[0] == '}')
@@ -361,13 +361,13 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 				// parse out the animation commands
 				AnimCmdAnimate_t &cmdAnimate = animCmd.cmdData.animate;
 				// panel to manipulate
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				cmdAnimate.panel = g_ScriptSymbols.AddString(token);
 				// variable to change
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				cmdAnimate.variable = g_ScriptSymbols.AddString(token);
 				// target value
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				if (cmdAnimate.variable == m_sPosition)
 				{
 					// Get first token
@@ -375,8 +375,8 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 
 					// Get second token from "token"
 					char token2[32];
-					char *psz = ParseFile(token, token2, NULL);
-					psz = ParseFile(psz, token2, NULL);
+					char *psz = ParseFile(token, token2, nullptr);
+					psz = ParseFile(psz, token2, nullptr);
 					psz = token2;
 
 					// Position Y goes into ".b"
@@ -452,7 +452,7 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 				}
 				
 				// interpolation function
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				if (!stricmp(token, "Accel"))
 				{
 					cmdAnimate.interpolationFunction = INTERPOLATOR_ACCEL;
@@ -469,14 +469,14 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 				{
 					cmdAnimate.interpolationFunction = INTERPOLATOR_PULSE;
 					// frequencey
-					pMem = ParseFile(pMem, token, NULL);
+					pMem = ParseFile(pMem, token, nullptr);
 					cmdAnimate.interpolationParameter = (float)atof(token);
 				}
 				else if ( !stricmp( token, "Flicker"))
 				{
 					cmdAnimate.interpolationFunction = INTERPOLATOR_FLICKER;
 					// noiseamount
-					pMem = ParseFile(pMem, token, NULL);
+					pMem = ParseFile(pMem, token, nullptr);
 					cmdAnimate.interpolationParameter = (float)atof(token);
 				}
 				else if (!stricmp(token, "Bounce"))
@@ -488,10 +488,10 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 					cmdAnimate.interpolationFunction = INTERPOLATOR_LINEAR;
 				}
 				// start time
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				cmdAnimate.startTime = (float)atof(token);
 				// duration
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				cmdAnimate.duration = (float)atof(token);
 				// check max duration
 				if (cmdAnimate.startTime + cmdAnimate.duration > seq.duration)
@@ -502,86 +502,86 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 			else if (!stricmp(token, "runevent"))
 			{
 				animCmd.commandType = CMD_RUNEVENT;
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.event = g_ScriptSymbols.AddString(token);
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.timeDelay = (float)atof(token);
 			}
 			else if (!stricmp(token, "stopevent"))
 			{
 				animCmd.commandType = CMD_STOPEVENT;
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.event = g_ScriptSymbols.AddString(token);
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.timeDelay = (float)atof(token);
 			}
 			else if (!stricmp(token, "StopPanelAnimations"))
 			{
 				animCmd.commandType = CMD_STOPPANELANIMATIONS;
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.event = g_ScriptSymbols.AddString(token);
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.timeDelay = (float)atof(token);
 			}
 			else if (!stricmp(token, "stopanimation"))
 			{
 				animCmd.commandType = CMD_STOPANIMATION;
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.event = g_ScriptSymbols.AddString(token);
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.variable = g_ScriptSymbols.AddString(token);
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.timeDelay = (float)atof(token);
 			}
 			else if ( !stricmp( token, "SetFont" ))
 			{
 				animCmd.commandType = CMD_SETFONT;
 				// Panel name
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.event = g_ScriptSymbols.AddString(token);
 				// Font parameter
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.variable = g_ScriptSymbols.AddString(token);
 				// Font name from scheme
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.variable2 = g_ScriptSymbols.AddString(token);
 
 				// Set time
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.timeDelay = (float)atof(token);
 			}
 			else if ( !stricmp( token, "SetTexture" ))
 			{
 				animCmd.commandType = CMD_SETTEXTURE;
 				// Panel name
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.event = g_ScriptSymbols.AddString(token);
 				// Texture Id
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.variable = g_ScriptSymbols.AddString(token);
 				// material name
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.variable2 = g_ScriptSymbols.AddString(token);
 
 				// Set time
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.timeDelay = (float)atof(token);
 			}
 			else if ( !stricmp( token, "SetString" ))
 			{
 				animCmd.commandType = CMD_SETSTRING;
 				// Panel name
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.event = g_ScriptSymbols.AddString(token);
 				// String variable name
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.variable = g_ScriptSymbols.AddString(token);
 				// String value to set
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.variable2 = g_ScriptSymbols.AddString(token);
 
 				// Set time
-				pMem = ParseFile(pMem, token, NULL);
+				pMem = ParseFile(pMem, token, nullptr);
 				animCmd.cmdData.runEvent.timeDelay = (float)atof(token);
 			}
 			else
@@ -591,7 +591,7 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 			}
 			
 			// Look ahead one token for a conditional
-			char *peek = ParseFile(pMem, token, NULL);
+			char *peek = ParseFile(pMem, token, nullptr);
 			if ( Q_stristr( token, "[$" ) )
 			{
 				bool bCondition = false;
@@ -625,7 +625,7 @@ bool AnimationController::ParseScriptFile(char *pMem, int length)
 		}
 
 		// get the next token, if any
-		pMem = ParseFile(pMem, token, NULL);
+		pMem = ParseFile(pMem, token, nullptr);
 	}
 
 	return true;
@@ -1550,7 +1550,7 @@ PanelAnimationMap *CPanelAnimationDictionary::FindPanelAnimationMap( char const 
 	{
 		return m_AnimationMaps[ lookup ].map;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1599,7 +1599,7 @@ void CPanelAnimationDictionary::PanelAnimationDumpMap( PanelAnimationMap *map, b
 void CPanelAnimationDictionary::PanelAnimationDumpVars( char const *className )
 {
 #if !defined( _CERT )
-	if ( className == NULL )
+	if ( className == nullptr)
 	{
 		for ( int i = 0; i < (int)m_AnimationMaps.Count(); i++ )
 		{

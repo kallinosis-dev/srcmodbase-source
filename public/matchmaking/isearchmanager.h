@@ -36,7 +36,7 @@ public:
 	// EnableResultsUpdate
 	//	controls whether server data is being updated in the background
 	//
-	virtual void EnableResultsUpdate( bool bEnable, KeyValues *pSearchParams = NULL ) = 0;
+	virtual void EnableResultsUpdate( bool bEnable, KeyValues *pSearchParams = nullptr) = 0;
 
 	//
 	// GetNumResults

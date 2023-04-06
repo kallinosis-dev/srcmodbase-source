@@ -225,7 +225,7 @@ int Load_OBJ( s_source_t *psource )
 
 			char pFullMtlLibPath[MAX_PATH];
 			Q_ComposeFileName( pFullDir, cmd, pFullMtlLibPath, sizeof(pFullMtlLibPath) );
-			if ( g_pFullFileSystem->ReadFile( pFullMtlLibPath, NULL, buf ) )
+			if ( g_pFullFileSystem->ReadFile( pFullMtlLibPath, nullptr, buf ) )
 			{
 				ParseMtlLib( buf );
 			}

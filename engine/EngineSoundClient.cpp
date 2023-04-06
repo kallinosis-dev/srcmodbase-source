@@ -359,7 +359,7 @@ void CEngineSoundClient::EmitSentenceByIndex( IRecipientFilter& filter, int iEnt
 	{
 		char pName[8];
 		Q_snprintf( pName, sizeof(pName), "!%d", iSentenceIndex );
-		EmitSoundInternal( filter, iEntIndex, iChannel, NULL, SOUNDEMITTER_INVALID_HASH, pName, flVolume, iSoundLevel, nSeed,
+		EmitSoundInternal( filter, iEntIndex, iChannel, nullptr, SOUNDEMITTER_INVALID_HASH, pName, flVolume, iSoundLevel, nSeed,
 			iFlags, iPitch, pOrigin, pDirection, pUtlVecOrigins, bUpdatePosition, soundtime, speakerentity );
 	}
 }
@@ -415,7 +415,7 @@ void CEngineSoundClient::StopSound( int iEntIndex, int iChannel, const char *pSa
 
 	CEngineSingleUserFilter filter( GetLocalClient().m_nPlayerSlot + 1 );
 	EmitSound( filter, iEntIndex, iChannel, pSample, nSoundEntryHash, pSample, 0, SNDLVL_NONE, 0, SND_STOP, PITCH_NORM,
-		NULL, NULL, NULL, true );
+	           nullptr, nullptr, nullptr, true );
 }
 
 

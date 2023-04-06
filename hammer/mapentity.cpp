@@ -191,8 +191,8 @@ static void ReplaceNodeIDRefs(CMapObjectList &newList, int nOldNodeID, int nNewN
 //-----------------------------------------------------------------------------
 CMapEntity::CMapEntity(void) : flags(0)
 {
-	m_pMoveParent = NULL;
-	m_pAnimatorChild = NULL;
+	m_pMoveParent = nullptr;
+	m_pAnimatorChild = nullptr;
 	m_vecLogicalPosition.Init( COORD_NOTINIT, COORD_NOTINIT );
 	CalculateTypeFlags();
 }
@@ -220,7 +220,7 @@ void CMapEntity::AddBoundBoxForClass(GDclass *pClass, bool bLoading)
 	//
 	// If we have a class and it specifies a class, use that bounding box.
 	//
-	if ((pClass != NULL) && (pClass->HasBoundBox()))
+	if ((pClass != nullptr) && (pClass->HasBoundBox()))
 	{
 		pClass->GetBoundBox(Mins, Maxs);
 	}
@@ -249,7 +249,7 @@ void CMapEntity::AddBoundBoxForClass(GDclass *pClass, bool bLoading)
 	// OnAddToWorld during VMF load. We update our helpers during PostloadWorld.
 	//
 	CMapWorld *pWorld = (CMapWorld *)GetWorldObject(this);
-	if ((!bLoading) && (pWorld != NULL))
+	if ((!bLoading) && (pWorld != nullptr))
 	{
 		pWorld->AddObjectToWorld(pBox, this);
 	}
@@ -271,7 +271,7 @@ void CMapEntity::AddChild(CMapClass *pChild)
 	//
 	// Notify the new child of all our keys. Don't bother for solids.
 	//
-	if (dynamic_cast<CMapSolid*>(pChild) == NULL)
+	if (dynamic_cast<CMapSolid*>(pChild) == nullptr)
 	{
 		for ( int i=GetFirstKeyValue(); i != GetInvalidKeyValue(); i=GetNextKeyValue( i ) )
 		{
@@ -328,7 +328,7 @@ void CMapEntity::AddHelper(CMapClass *pHelper, bool bLoading)
 	// OnAddToWorld during VMF load. We update our helpers during PostloadWorld.
 	//
 	CMapWorld *pWorld = (CMapWorld *)GetWorldObject(this);
-	if ((!bLoading) && (pWorld != NULL))
+	if ((!bLoading) && (pWorld != nullptr))
 	{
 		pWorld->AddObjectToWorld(pHelper, this);
 	}
@@ -343,7 +343,7 @@ void CMapEntity::AddHelper(CMapClass *pHelper, bool bLoading)
 	//		that CMapEntity has about its animator child.
 	//
 	CMapAnimator *pAnim = dynamic_cast<CMapAnimator *>(pHelper);
-	if (pAnim != NULL)
+	if (pAnim != nullptr)
 	{
 		m_pAnimatorChild = pAnim;
 	}
@@ -364,7 +364,7 @@ void CMapEntity::AddHelpersForClass(GDclass *pClass, bool bLoading)
 {
 	bool bAddedOneVisual = false;
 
-	if (((pClass != NULL) && (pClass->HasBoundBox())))
+	if (((pClass != nullptr) && (pClass->HasBoundBox())))
 	{
 		AddBoundBoxForClass(pClass, bLoading);
 		bAddedOneVisual = true;
@@ -374,7 +374,7 @@ void CMapEntity::AddHelpersForClass(GDclass *pClass, bool bLoading)
 	// If we have a game class from the FGD, add whatever helpers are declared in that
 	// class definition.
 	//
-	if (pClass != NULL)
+	if (pClass != nullptr)
 	{
 		//
 		// Add all the helpers that this class declares in the FGD.
@@ -393,7 +393,7 @@ void CMapEntity::AddHelpersForClass(GDclass *pClass, bool bLoading)
 			// Create the helper and attach it to this entity.
 			//
 			CMapClass *pHelper = CHelperFactory::CreateHelper(pHelperInfo, this);
-			if (pHelper != NULL)
+			if (pHelper != nullptr)
 			{
 				AddHelper(pHelper, bLoading);
 				if (pHelper->IsVisualElement())
@@ -452,7 +452,7 @@ void CMapEntity::AddHelpersForClass(GDclass *pClass, bool bLoading)
 			if (bCreate)
 			{
 				CMapClass *pHelper = CHelperFactory::CreateHelper(&HelperInfo, this);
-				if (pHelper != NULL)
+				if (pHelper != nullptr)
 				{
 					AddHelper(pHelper, bLoading);
 					if (pHelper->IsVisualElement())
@@ -475,14 +475,14 @@ void CMapEntity::AddHelpersForClass(GDclass *pClass, bool bLoading)
 	// If we have no game class and we are a point entity, add an "obsolete" sprite helper
 	// so level designers know to update the entity.
 	//
-	else if (pClass == NULL)
+	else if (pClass == nullptr)
 	{
 		CHelperInfo HelperInfo;
 		HelperInfo.SetName("iconsprite");
 		HelperInfo.AddParameter("sprites/obsolete.vmt");
 
 		CMapClass *pSprite = CHelperFactory::CreateHelper(&HelperInfo, this);
-		if (pSprite != NULL)
+		if (pSprite != nullptr)
 		{
 			AddHelper(pSprite, bLoading);
 			bAddedOneVisual = true;
@@ -541,7 +541,7 @@ CMapClass *CMapEntity::CopyFrom(CMapClass *pobj, bool bUpdateDependencies)
 	//
 	const char *pszOldTargetName = CEditGameClass::GetKeyValue("targetname");
 	char szOldTargetName[MAX_IO_NAME_LEN];
-	if (pszOldTargetName != NULL)
+	if (pszOldTargetName != nullptr)
 	{
 		strcpy(szOldTargetName, pszOldTargetName);
 	}
@@ -549,7 +549,7 @@ CMapClass *CMapEntity::CopyFrom(CMapClass *pobj, bool bUpdateDependencies)
 	CEditGameClass::CopyFrom(pFrom);
 	const char *pszNewTargetName = CEditGameClass::GetKeyValue("targetname");
 
-	if ((bUpdateDependencies) && (pszNewTargetName != NULL))
+	if ((bUpdateDependencies) && (pszNewTargetName != nullptr))
 	{
 		if (stricmp(szOldTargetName, pszNewTargetName) != 0)
 		{
@@ -602,7 +602,7 @@ const char* CMapEntity::GetDescription(void)
 	static char szBuf[128];
 	const char *pszName = GetKeyValue("targetname");
 
-	if (pszName != NULL)
+	if (pszName != nullptr)
 	{
 		sprintf(szBuf, "%s - %s", pszName, GetClassName());
 	}
@@ -835,7 +835,7 @@ void CMapEntity::RemoveHelpers(bool bRemoveSolids)
 	for( int pos=m_Children.Count()-1; pos>=0; pos-- )
 	{
 		CMapClass *pChild = m_Children[pos];
-		if (bRemoveSolids || ((dynamic_cast <CMapSolid *> (pChild)) == NULL))
+		if (bRemoveSolids || ((dynamic_cast <CMapSolid *> (pChild)) == nullptr))
 		{
 			m_Children.FastRemove(pos);
 		}
@@ -1024,7 +1024,7 @@ void CMapEntity::CalculateTypeFlags( void )
 {
 	m_EntityTypeFlags = 0;
 	const char *pszClassName = GetClassName();
-	if (pszClassName != NULL)
+	if (pszClassName != nullptr)
 		for(int i=0; i<NELEMS( s_ClassFlagsTable ); i++)
 			if ( ! stricmp( pszClassName, s_ClassFlagsTable[i].m_pClassname ) )
 				m_EntityTypeFlags |= s_ClassFlagsTable[i].m_nFlagsToOR;
@@ -1054,10 +1054,10 @@ void CMapEntity::EnsureUniqueNodeID(CMapWorld *pWorld)
 
 		EnumChildrenPos_t pos;
 		CMapClass *pChild = pWorld->GetFirstDescendent(pos);
-		while (pChild != NULL)
+		while (pChild != nullptr)
 		{
 			CMapEntity *pEntity = dynamic_cast <CMapEntity *> (pChild);
-			if ((pEntity != NULL) && (pEntity != this))
+			if ((pEntity != nullptr) && (pEntity != this))
 			{
 				int nThisNodeID = pEntity->GetNodeID();
 				if (nThisNodeID)
@@ -1094,7 +1094,7 @@ void CMapEntity::PostloadWorld(CMapWorld *pWorld)
 	// Set our origin from our "origin" key and discard the key.
 	//
 	const char *pszValue = m_KeyValues.GetValue("origin", &nIndex);
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		Vector Origin;
 		sscanf(pszValue, "%f %f %f", &Origin[0], &Origin[1], &Origin[2]);
@@ -1105,7 +1105,7 @@ void CMapEntity::PostloadWorld(CMapWorld *pWorld)
 	// Set our angle from our "angle" key and discard the key.
 	//
 	pszValue = m_KeyValues.GetValue("angle", &nIndex);
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		ImportAngle(atoi(pszValue));
 		RemoveKey(nIndex);
@@ -1116,7 +1116,7 @@ void CMapEntity::PostloadWorld(CMapWorld *pWorld)
 	// This also adds the helpers appropriate for the class.
 	//
 	pszValue = m_KeyValues.GetValue("classname", &nIndex);
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		//
 		// Copy the classname to a temp buffer because SetClass mucks with the
@@ -1131,7 +1131,7 @@ void CMapEntity::PostloadWorld(CMapWorld *pWorld)
 		// as a result of the above SetClass call.
 		//
 		pszValue = m_KeyValues.GetValue("classname", &nIndex);
-		if (pszValue != NULL)
+		if (pszValue != nullptr)
 		{
 			RemoveKey(nIndex);
 		}
@@ -1141,10 +1141,10 @@ void CMapEntity::PostloadWorld(CMapWorld *pWorld)
 	// Now that we have set the class, remove the origin key if this entity isn't
 	// supposed to expose it in the keyvalues list.
 	//
-	if (IsPlaceholder() && (!IsClass() || GetClass()->VarForName("origin") == NULL))
+	if (IsPlaceholder() && (!IsClass() || GetClass()->VarForName("origin") == nullptr))
 	{
 		const char *pszValue = m_KeyValues.GetValue("origin", &nIndex);
-		if (pszValue != NULL)
+		if (pszValue != nullptr)
 		{
 			RemoveKey(nIndex);
 		}
@@ -1153,7 +1153,7 @@ void CMapEntity::PostloadWorld(CMapWorld *pWorld)
 	//
 	// Must do this after assigning the class.
 	//
-	if (IsNodeClass() && (GetKeyValue("nodeid") == NULL))
+	if (IsNodeClass() && (GetKeyValue("nodeid") == nullptr))
 	{
 		AssignNodeID();
 	}
@@ -1204,14 +1204,14 @@ void CMapEntity::SetMoveParent( CMapEntity *pEnt )
 	CMapEntity *pCur = pEnt;
 	for ( int i=0; i < 300; i++ )
 	{
-		if ( pCur == NULL )
+		if ( pCur == nullptr)
 		{
 			break;
 		}
 		else if ( pCur == this )
 		{
 			Assert( !"SetMoveParent: recursive parenting!" );
-			m_pMoveParent = NULL;
+			m_pMoveParent = nullptr;
 			return;
 		}
 		
@@ -1239,7 +1239,7 @@ void CMapEntity::NotifyChildKeyChanged(CMapClass *pChild, const char *szKey, con
 	FOR_EACH_OBJ( m_Children, pos )
 	{
 		CMapClass *pObject = m_Children.Element(pos);
-		if ((pObject != pChild) && (pChild != NULL) && (dynamic_cast<CMapSolid *>(pObject) == NULL))
+		if ((pObject != pChild) && (pChild != nullptr) && (dynamic_cast<CMapSolid *>(pObject) == nullptr))
 		{
 			pObject->OnParentKeyChanged(szKey, szValue);
 		}
@@ -1258,7 +1258,7 @@ void CMapEntity::DeleteKeyValue(LPCSTR pszKey)
 {
 	char szOldValue[KEYVALUE_MAX_VALUE_LENGTH];
 	const char *pszOld = GetKeyValue(pszKey);
-	if (pszOld != NULL)
+	if (pszOld != nullptr)
 	{
 		strcpy(szOldValue, pszOld);
 	}
@@ -1285,7 +1285,7 @@ void CMapEntity::SetKeyValue(LPCSTR pszKey, LPCSTR pszValue)
 	//
 	char szOldValue[KEYVALUE_MAX_VALUE_LENGTH];
 	const char *pszOld = GetKeyValue(pszKey);
-	if (pszOld != NULL)
+	if (pszOld != nullptr)
 	{
 		strcpy(szOldValue, pszOld);
 	}
@@ -1329,7 +1329,7 @@ void CMapEntity::OnPreClone(CMapClass *pClone, CMapWorld *pWorld, const CMapObje
 			if (!oldName || oldName[0] == 0)
 				oldName = "path";
 
-			pWorld->GenerateNewTargetname(oldName, newName, sizeof(newName), true, NULL);
+			pWorld->GenerateNewTargetname(oldName, newName, sizeof(newName), true, nullptr);
 			pNewEntity->SetKeyValue("targetname", newName);
 		}
 	}
@@ -1437,7 +1437,7 @@ void CMapEntity::OnKeyValueChanged(const char *pszKey, const char *pszOldValue, 
 	FOR_EACH_OBJ( m_Children, pos )
 	{
 		CMapClass *pChild = m_Children.Element( pos );
-		if ( pChild != NULL )
+		if ( pChild != nullptr)
 		{
 			pChild->OnParentKeyChanged( pszKey, pszValue );
 		}
@@ -1450,7 +1450,7 @@ void CMapEntity::OnKeyValueChanged(const char *pszKey, const char *pszOldValue, 
 	if ( !stricmp(pszKey, "parentname") )
 	{
 		CMapWorld *pWorld = (CMapWorld *)GetWorldObject( this );
-		if (pWorld != NULL)
+		if (pWorld != nullptr)
 		{
 			CMapEntity *pMoveParent = (CMapEntity *)UpdateDependency(m_pMoveParent, pWorld->FindEntityByName( pszValue));
 			SetMoveParent( pMoveParent );
@@ -1490,7 +1490,7 @@ bool CMapEntity::HasSolidChildren(void)
 	FOR_EACH_OBJ( m_Children, pos )
 	{
 		CMapClass *pChild = m_Children.Element(pos);
-		if ((dynamic_cast <CMapSolid *> (pChild)) != NULL)
+		if ((dynamic_cast <CMapSolid *> (pChild)) != nullptr)
 		{
 			return(true);
 		}
@@ -1540,7 +1540,7 @@ void CMapEntity::OnAddToWorld(CMapWorld *pWorld)
 	// If we have a targetname, relink all the targetname pointers in the world
 	// because someone might be looking for our targetname.
 	//
-	if (GetKeyValue("targetname") != NULL)
+	if (GetKeyValue("targetname") != nullptr)
 	{
 		UpdateAllDependencies(this);
 	}
@@ -1578,14 +1578,14 @@ void CMapEntity::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotif
 		{
 			CMapWorld *pWorld = (CMapWorld *)GetWorldObject(this);
 			const char *pszParentName = CEditGameClass::GetKeyValue("parentname");
-			if ((pWorld != NULL) && (pszParentName != NULL))
+			if ((pWorld != nullptr) && (pszParentName != nullptr))
 			{
 				CMapEntity *pMoveParent = (CMapEntity *)UpdateDependency(m_pMoveParent, pWorld->FindEntityByName( pszParentName));
 				SetMoveParent( pMoveParent );
 			}
 			else
 			{
-				CMapEntity *pMoveParent = (CMapEntity *)UpdateDependency(m_pMoveParent, NULL);
+				CMapEntity *pMoveParent = (CMapEntity *)UpdateDependency(m_pMoveParent, nullptr);
 				SetMoveParent( pMoveParent );
 			}
 		}
@@ -1602,9 +1602,9 @@ void CMapEntity::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotif
 //-----------------------------------------------------------------------------
 CMapEntity *CMapEntity::FindChildByKeyValue( LPCSTR key, LPCSTR value, bool *bIsInInstance, VMatrix *InstanceMatrix )
 {
-	if ((key == NULL) || (value == NULL))
+	if ((key == nullptr) || (value == nullptr))
 	{
-		return(NULL);
+		return(nullptr);
 	}
 
 	int index;
@@ -1740,7 +1740,7 @@ ChunkFileResult_t CMapEntity::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo)
 	// If this is a point entity of an unknown type or a point entity that doesn't
 	// declare an origin key, save our origin.
 	//
-	if (IsPlaceholder() && (!IsClass() || GetClass()->VarForName("origin") == NULL))
+	if (IsPlaceholder() && (!IsClass() || GetClass()->VarForName("origin") == nullptr))
 	{
 		char szOrigin[80];
 		sprintf(szOrigin, "%g %g %g", (double)m_Origin[0], (double)m_Origin[1], (double)m_Origin[2]);
@@ -1753,7 +1753,7 @@ ChunkFileResult_t CMapEntity::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo)
 	eResult = ChunkFile_Ok;
 	EnumChildrenPos_t pos;
 	CMapClass *pChild = GetFirstDescendent(pos);
-	while ((pChild != NULL) && (eResult == ChunkFile_Ok))
+	while ((pChild != nullptr) && (eResult == ChunkFile_Ok))
 	{
 		if ( pChild->ShouldSerialize() )
 		{
@@ -1832,14 +1832,14 @@ void CMapEntity::UpdateDependencies(CMapWorld *pWorld, CMapClass *pObject)
 	// If we have a movement parent, relink to our movement parent.
 	//
 	const char *pszParentName = CEditGameClass::GetKeyValue("parentname");
-	if (pszParentName != NULL)
+	if (pszParentName != nullptr)
 	{
 		CMapEntity *pMoveParent = (CMapEntity *)UpdateDependency(m_pMoveParent, pWorld->FindEntityByName( pszParentName));
 		SetMoveParent( pMoveParent );
 	}
 	else
 	{
-		CMapEntity *pMoveParent = (CMapEntity *)UpdateDependency(m_pMoveParent, NULL);
+		CMapEntity *pMoveParent = (CMapEntity *)UpdateDependency(m_pMoveParent, nullptr);
 		SetMoveParent( pMoveParent );
 	}
 
@@ -1897,13 +1897,13 @@ void CMapEntity::AlignOnPlane( Vector& pos, PLANE *plane, alignType_e align )
 //-----------------------------------------------------------------------------
 bool MapEntityList_HasInput(const CMapEntityList *pList, const char *szInput, InputOutputType_t eType)
 {
-	GDclass *pLastClass = NULL;
+	GDclass *pLastClass = nullptr;
 	FOR_EACH_OBJ( *pList, pos )
 	{
 		const CMapEntity *pEntity = pList->Element(pos).GetObject();
-		GDclass *pClass = pEntity ? pEntity->GetClass() : NULL;
+		GDclass *pClass = pEntity ? pEntity->GetClass() : nullptr;
 
-		if ((pClass != pLastClass) && (pClass != NULL))
+		if ((pClass != pLastClass) && (pClass != nullptr))
 		{
 			CClassInput *pInput = pClass->FindInput(szInput);
 			if (!pInput)
@@ -1937,7 +1937,7 @@ CMapClass *CMapEntity::PrepareSelection(SelectMode_t eSelectMode)
 	//
 	// Select up the hierarchy when in Groups selection mode if we belong to a group.
 	//
-	if ((eSelectMode == selectGroups) && (m_pParent != NULL) && !IsWorldObject(m_pParent))
+	if ((eSelectMode == selectGroups) && (m_pParent != nullptr) && !IsWorldObject(m_pParent))
 	{
 		return GetParent()->PrepareSelection(eSelectMode);
 	}
@@ -1948,7 +1948,7 @@ CMapClass *CMapEntity::PrepareSelection(SelectMode_t eSelectMode)
 	//
 	if ((eSelectMode == selectSolids) && !IsPlaceholder())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return this;
@@ -1991,13 +1991,13 @@ void CMapEntity::Render2D(CRender2D *pRender)
  		pRender->SetTextColor( rgbColor.r, rgbColor.g, rgbColor.b );
 
 		const char *pszTargetName = GetKeyValue("targetname");
-		if (pszTargetName != NULL)
+		if (pszTargetName != nullptr)
 		{
 			pRender->DrawText(pszTargetName, pt.x, pt.y + 2, CRender2D::TEXT_JUSTIFY_BOTTOM );
 		}
 
 		const char *pszClassName = GetClassName();
-		if (pszClassName != NULL)
+		if (pszClassName != nullptr)
 		{
 			pRender->DrawText(pszClassName, pt.x, pt2.y - 2, CRender2D::TEXT_JUSTIFY_TOP );
 		}
@@ -2011,7 +2011,7 @@ void CMapEntity::Render2D(CRender2D *pRender)
 	{
 		LPCTSTR pszTarget = GetKeyValue("target");
 		
-		if (pszTarget != NULL)
+		if (pszTarget != nullptr)
 		{
 			CMapWorld *pWorld = GetWorldObject(this);
 			MDkeyvalue kv("targetname", pszTarget);
@@ -2037,7 +2037,7 @@ void CMapEntity::Render2D(CRender2D *pRender)
 	// HACK: don't draw the forward vector for lights, they negate pitch. The model helper will handle it.
 	if ((GetSelectionState() != SELECT_NONE) &&
 		(!GetClassName() || (strnicmp(GetClassName(), "light_", 6) != 0)) && 
-		(GetKeyValue("angles") != NULL))
+		(GetKeyValue("angles") != nullptr))
 	{
 		Vector vecOrigin;
 		GetOrigin(vecOrigin);
@@ -2205,7 +2205,7 @@ void CMapEntity::RenderLogical( CRender2D *pRender )
 
 	// Draw the inputs and outputs
 	const char *pszTargetName = GetKeyValue("targetname");
-	if (pszTargetName != NULL)
+	if (pszTargetName != nullptr)
 	{
 		pRender->DrawText( pszTargetName, Vector2D( (vecMins.x+vecMaxs.x)/2, vecMaxs.y ), 0, -1, CRender2D::TEXT_JUSTIFY_TOP | CRender2D::TEXT_JUSTIFY_HORZ_CENTER );
 	}
@@ -2214,7 +2214,7 @@ void CMapEntity::RenderLogical( CRender2D *pRender )
 		return;
 	
 	const char *pszClassName = GetClassName();
-	if (pszClassName != NULL)
+	if (pszClassName != nullptr)
 	{
 		pRender->DrawText( pszClassName, Vector2D( (vecMins.x+vecMaxs.x)/2, vecMins.y ), 0, 1, CRender2D::TEXT_JUSTIFY_BOTTOM | CRender2D::TEXT_JUSTIFY_HORZ_CENTER );
 	}

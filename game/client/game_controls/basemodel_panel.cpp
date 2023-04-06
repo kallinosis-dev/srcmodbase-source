@@ -52,7 +52,7 @@ void CBaseModelPanel::ApplySettings( KeyValues *inResourceData )
 	m_bAllowRotation = ( inResourceData->GetInt( "allow_rot", 0 ) == 1 );
 
 	// Parse our resource file and apply all necessary updates to the MDL.
- 	for ( KeyValues *pData = inResourceData->GetFirstSubKey() ; pData != NULL ; pData = pData->GetNextKey() )
+ 	for ( KeyValues *pData = inResourceData->GetFirstSubKey() ; pData != nullptr; pData = pData->GetNextKey() )
  	{
  		if ( !Q_stricmp( pData->GetName(), "model" ) )
  		{
@@ -83,7 +83,7 @@ void CBaseModelPanel::ParseModelResInfo( KeyValues *inResourceData )
 	m_angPlayer = m_BMPResData.m_angModelPoseRot;
 	m_vecPlayerPos = m_BMPResData.m_vecOriginOffset;
 
-	for ( KeyValues *pData = inResourceData->GetFirstSubKey(); pData != NULL; pData = pData->GetNextKey() )
+	for ( KeyValues *pData = inResourceData->GetFirstSubKey(); pData != nullptr; pData = pData->GetNextKey() )
 	{
 		if ( !Q_stricmp( pData->GetName(), "animation" ) )
 		{
@@ -113,7 +113,7 @@ void CBaseModelPanel::ParseModelAnimInfo( KeyValues *inResourceData )
 	m_BMPResData.m_aAnimations[iAnim].m_pszActivity = ReadAndAllocStringValue( inResourceData, "activity" );
 	m_BMPResData.m_aAnimations[iAnim].m_bDefault = ( inResourceData->GetInt( "default", 0 ) == 1 );
 
-	for ( KeyValues *pAnimData = inResourceData->GetFirstSubKey(); pAnimData != NULL; pAnimData = pAnimData->GetNextKey() )
+	for ( KeyValues *pAnimData = inResourceData->GetFirstSubKey(); pAnimData != nullptr; pAnimData = pAnimData->GetNextKey() )
 	{
 		if ( !Q_stricmp( pAnimData->GetName(), "pose_parameters" ) )
 		{
@@ -147,7 +147,7 @@ void CBaseModelPanel::SetupModelDefaults( void )
 
 	// if the res file wants the model to control the camera position, apply that setting
 	// now that the model is loaded and attachments are available.
-	if ( m_BMPResData.m_pszModelCameraAttachment != NULL && m_BMPResData.m_pszModelCameraAttachment[0] )
+	if ( m_BMPResData.m_pszModelCameraAttachment != nullptr && m_BMPResData.m_pszModelCameraAttachment[0] )
 	{
 		SetCameraAttachment( m_BMPResData.m_pszModelCameraAttachment );
 	}

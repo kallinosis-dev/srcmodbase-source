@@ -263,7 +263,7 @@ BEGIN_VS_SHADER_FLAGS( Engine_Post_dx9, "Engine post-processing effects (softwar
 	SHADER_FALLBACK
 	{
 		// This shader should not be *used* unless we're >= DX9  (bloomadd.vmt/screenspace_general_dx8 should be used for DX8)
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -356,7 +356,7 @@ BEGIN_VS_SHADER_FLAGS( Engine_Post_dx9, "Engine post-processing effects (softwar
 
 			int		format				= VERTEX_POSITION;
 			int		numTexCoords		= 1;
-			int *	pTexCoordDimensions	= NULL;
+			int *	pTexCoordDimensions	= nullptr;
 			int		userDataSize		= 0;
 			pShaderShadow->VertexShaderVertexFormat( format, numTexCoords, pTexCoordDimensions, userDataSize );
 

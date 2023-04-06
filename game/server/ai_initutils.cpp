@@ -37,7 +37,7 @@ LINK_ENTITY_TO_CLASS( aitesthull, CAI_TestHull );
 //-----------------------------------------------------------------------------
 // Init static variables
 //-----------------------------------------------------------------------------
-CAI_TestHull*	CAI_TestHull::pTestHull			= NULL;
+CAI_TestHull*	CAI_TestHull::pTestHull			= nullptr;
 
 #ifdef CSTRIKE_DLL
 #define PLAYER_MODEL "models/player/ct_urban.mdl"
@@ -117,7 +117,7 @@ void CAI_TestHull::ReturnTestHull(void)
 	UTIL_SetSize(CAI_TestHull::pTestHull, vec3_origin, vec3_origin);
 
 	UTIL_RemoveImmediate( pTestHull );
-	pTestHull = NULL;
+	pTestHull = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -141,7 +141,7 @@ bool CAI_TestHull::IsJumpLegal(const Vector &startPos, const Vector &apex, const
 //-----------------------------------------------------------------------------
 CAI_TestHull::~CAI_TestHull(void)
 {
-	CAI_TestHull::pTestHull = NULL;
+	CAI_TestHull::pTestHull = nullptr;
 }
 
 //###########################################################
@@ -191,7 +191,7 @@ END_DATADESC()
 //=========================================================
 void CNodeEnt::Spawn( void )
 {
-	Spawn( NULL );
+	Spawn(nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -227,7 +227,7 @@ int CNodeEnt::Spawn( const char *pMapData )
 	// ---------------------------------------------------------------------------------
 	//  First check if this node has a hint.  If so create a hint entity
 	// ---------------------------------------------------------------------------------
-	CAI_Hint *pHint = NULL;
+	CAI_Hint *pHint = nullptr;
 
 	if ( ClassMatches( "info_node_hint" ) || ClassMatches( "info_node_air_hint" ) )
 	{

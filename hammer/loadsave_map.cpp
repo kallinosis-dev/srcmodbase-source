@@ -117,7 +117,7 @@ static void GetLine(std::fstream& file, char *buf)
 //			pIntersecting - 
 // Output : int
 //-----------------------------------------------------------------------------
-static int SaveSolidChildrenOf(CMapClass *pObject, std::fstream& file, BoundBox *pIntersecting = NULL)
+static int SaveSolidChildrenOf(CMapClass *pObject, std::fstream& file, BoundBox *pIntersecting = nullptr)
 {
 	CMapWorld *pWorld = (CMapWorld*) CMapClass::GetWorldObject(pObject);
 
@@ -344,7 +344,7 @@ int CMapFace::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 				*pszTexture = 0;
 			}
 			pszTexture = strstr(szTexture, "textures\\");
-			if (pszTexture == NULL)
+			if (pszTexture == nullptr)
 			{
 				pszTexture = szTexture;
 			}
@@ -684,7 +684,7 @@ int CMapSolid::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 			Faces[i].CalcPlane();
 		}
 
-		GetLine(file, NULL);	// ignore line
+		GetLine(file, nullptr);	// ignore line
 
 		if (!file.fail())
 		{
@@ -789,7 +789,7 @@ int CMapEntity::SerializeMAP(std::fstream &file, BOOL fIsStoring)
 		}
 
 		// skip delimiter
-		GetLine(file, NULL);
+		GetLine(file, nullptr);
 	}
 
 	return file.fail() ? fileOsError : fileOk;
@@ -844,7 +844,7 @@ int CEditGameClass::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 		// save keyvalues
 		MDkeyvalue tmpkv;
 
-		if (GetKeyValue("classname") == NULL)
+		if (GetKeyValue("classname") == nullptr)
 		{
 			tmpkv.Set("classname", m_szClass);
 			tmpkv.SerializeMAP(file, fIsStoring);
@@ -854,8 +854,8 @@ int CEditGameClass::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 		// Determine whether we have a game data class. This will help us decide which keys
 		// to write.
 		//
-		GDclass *pGameDataClass = NULL;
-		if (pGD != NULL)
+		GDclass *pGameDataClass = nullptr;
+		if (pGD != nullptr)
 		{
 			pGameDataClass = pGD->ClassForName(m_szClass);
 		}
@@ -878,7 +878,7 @@ int CEditGameClass::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 		// If we have a base class, for each keyvalue in the class definition, write out all keys
 		// that are not present in the object and whose defaults are nonzero in the class definition.
 		//
-		if (pGameDataClass != NULL)
+		if (pGameDataClass != nullptr)
 		{
 			//
 			// For each variable from the base class...
@@ -889,7 +889,7 @@ int CEditGameClass::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 				GDinputvariable *pVar = pGameDataClass->GetVariableAt(i);
 				Assert(pVar != NULL);
 
-				if (pVar != NULL)
+				if (pVar != nullptr)
 				{
 					int iIndex;
 					MDkeyvalue *pKey;
@@ -898,7 +898,7 @@ int CEditGameClass::SerializeMAP(std::fstream& file, BOOL fIsStoring)
 					//
 					// If the variable is not present in this object, write out the default value.
 					//
-					if (p == NULL) 
+					if (p == nullptr) 
 					{
 						pKey = &tmpkv;
 						pVar->ResetDefaults();
@@ -1070,13 +1070,13 @@ int CMapWorld::SerializeMAP(std::fstream &file, BOOL fIsStoring, BoundBox *pInte
 		m_Render2DBox.ResetBounds();
 
 		// load world
-		GetLine(file, NULL);	// ignore delimiter
+		GetLine(file, nullptr);	// ignore delimiter
 		CEditGameClass::SerializeMAP(file, fIsStoring);
 
 		const char* pszMapVersion;
 
 		pszMapVersion = m_KeyValues.GetValue("mapversion");
-		if (pszMapVersion != NULL)
+		if (pszMapVersion != nullptr)
 		{
 			uMapVersion = atoi(pszMapVersion);
 		}
@@ -1092,7 +1092,7 @@ int CMapWorld::SerializeMAP(std::fstream &file, BOOL fIsStoring, BoundBox *pInte
 		}
 
 		// skip end-of-entity marker
-		GetLine(file, NULL);
+		GetLine(file, nullptr);
 
 		char szBuf[128];
 
@@ -1167,7 +1167,7 @@ int CMapWorld::SerializeMAP(std::fstream &file, BOOL fIsStoring, BoundBox *pInte
 	{
 		pProgDlg->DestroyWindow();
 		delete pProgDlg;
-		pProgDlg = NULL;
+		pProgDlg = nullptr;
 	}
 
 	return (bErrors && fIsStoring) ? -1 : 0;
@@ -1179,11 +1179,11 @@ FatalError:
 	str.Format("The OS reported an error %s the file: %s", fIsStoring ? "saving" : "loading", strerror(errno));
 	AfxMessageBox(str);
 
-	if (pProgDlg != NULL)
+	if (pProgDlg != nullptr)
 	{
 		pProgDlg->DestroyWindow();
 		delete pProgDlg;
-		pProgDlg = NULL;
+		pProgDlg = nullptr;
 	}
 
 	return -1;

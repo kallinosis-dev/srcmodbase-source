@@ -63,7 +63,7 @@ CMapDisp::CMapDisp()
 	m_bSubdiv = false;
 	m_bReSubdiv = false;
 
-	m_CoreDispInfo.InitDispInfo( 4, 0, 0, NULL, NULL, NULL, 0, NULL ); 
+	m_CoreDispInfo.InitDispInfo( 4, 0, 0, nullptr, nullptr, nullptr, 0, nullptr); 
 	Paint_Init( DISPPAINT_CHANNEL_POSITION );
 
 	m_CoreDispInfo.AllowedVerts_Clear();
@@ -230,8 +230,8 @@ void CMapDisp::PostCreate( void )
 
 	CFoW	*pFoW = CMapDoc::GetActiveMapDoc()->GetFoW();
 
-	CMapFace *pParent = NULL;
-	CMapSolid *pParent2 = NULL;
+	CMapFace *pParent = nullptr;
+	CMapSolid *pParent2 = nullptr;
 
 	pParent = dynamic_cast< CMapFace * >( GetParent() );
 	if ( pParent )
@@ -271,7 +271,7 @@ CMapDisp *CMapDisp::CopyFrom( CMapDisp *pMapDisp, bool bUpdateDependencies )
 	// check for valid displacement to copy from
 	//
     if( !pMapDisp )
-        return NULL;
+        return nullptr;
 
 	//
 	// copy the base surface data - positions, normals, texture coords, etc...
@@ -2761,11 +2761,11 @@ ChunkFileResult_t CMapDisp::LoadDispDistancesKeyCallback(const char *szKey, cons
 		char *pszNext = strtok(szBuf, " ");
 		int nIndex = nRow * nCols;
 
-		while (pszNext != NULL)
+		while (pszNext != nullptr)
 		{
 			dispDistance = (float)atof(pszNext);
 			pDisp->m_CoreDispInfo.SetFieldDistance( nIndex, dispDistance );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			nIndex++;
 		}
 	}
@@ -2806,12 +2806,12 @@ ChunkFileResult_t CMapDisp::LoadDispOffsetsKeyCallback(const char *szKey, const 
 		int nRow = atoi( &szKey[3] );
 
 		char *pszNext0 = strtok( szBuf, " " );
-		char *pszNext1 = strtok( NULL, " " );
-		char *pszNext2 = strtok( NULL, " " );
+		char *pszNext1 = strtok(nullptr, " " );
+		char *pszNext2 = strtok(nullptr, " " );
 
 		int nIndex = nRow * nCols;
 
-		while( ( pszNext0 != NULL ) && ( pszNext1 != NULL ) && ( pszNext2 != NULL ) )
+		while( ( pszNext0 != nullptr) && ( pszNext1 != nullptr) && ( pszNext2 != nullptr) )
 		{
 			subdivVector[0] = ( float )atof( pszNext0 );
 			subdivVector[1] = ( float )atof( pszNext1 );
@@ -2819,9 +2819,9 @@ ChunkFileResult_t CMapDisp::LoadDispOffsetsKeyCallback(const char *szKey, const 
 
 			pDisp->m_CoreDispInfo.SetSubdivPosition( nIndex, subdivVector );
 
-			pszNext0 = strtok( NULL, " " );
-			pszNext1 = strtok( NULL, " " );
-			pszNext2 = strtok( NULL, " " );
+			pszNext0 = strtok(nullptr, " " );
+			pszNext1 = strtok(nullptr, " " );
+			pszNext2 = strtok(nullptr, " " );
 
 			nIndex++;
 		}
@@ -2864,12 +2864,12 @@ ChunkFileResult_t CMapDisp::LoadDispOffsetNormalsKeyCallback(const char *szKey, 
 		int nRow = atoi( &szKey[3] );
 
 		char *pszNext0 = strtok( szBuf, " " );
-		char *pszNext1 = strtok( NULL, " " );
-		char *pszNext2 = strtok( NULL, " " );
+		char *pszNext1 = strtok(nullptr, " " );
+		char *pszNext2 = strtok(nullptr, " " );
 
 		int nIndex = nRow * nCols;
 
-		while( ( pszNext0 != NULL ) && ( pszNext1 != NULL ) && ( pszNext2 != NULL ) )
+		while( ( pszNext0 != nullptr) && ( pszNext1 != nullptr) && ( pszNext2 != nullptr) )
 		{
 			normalVector[0] = ( float )atof( pszNext0 );
 			normalVector[1] = ( float )atof( pszNext1 );
@@ -2877,9 +2877,9 @@ ChunkFileResult_t CMapDisp::LoadDispOffsetNormalsKeyCallback(const char *szKey, 
 
 			pDisp->m_CoreDispInfo.SetSubdivNormal( nIndex, normalVector );
 
-			pszNext0 = strtok( NULL, " " );
-			pszNext1 = strtok( NULL, " " );
-			pszNext2 = strtok( NULL, " " );
+			pszNext0 = strtok(nullptr, " " );
+			pszNext1 = strtok(nullptr, " " );
+			pszNext2 = strtok(nullptr, " " );
 
 			nIndex++;
 		}
@@ -3007,13 +3007,13 @@ ChunkFileResult_t CMapDisp::LoadDispAlphasKeyCallback(const char *szKey, const c
 
 		int nIndex = nRow * nCols;
 
-		while (pszNext != NULL) 
+		while (pszNext != nullptr) 
 		{
 			alpha = (float)atof(pszNext);
 
 			pDisp->m_CoreDispInfo.SetAlpha( nIndex, alpha );
 
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 
 			nIndex++;
 		}
@@ -3055,18 +3055,18 @@ ChunkFileResult_t CMapDisp::LoadDispMultiBlendKeyCallback(const char *szKey, con
 
 		int nIndex = nRow * nCols;
 
-		while (pszNext != NULL) 
+		while (pszNext != nullptr) 
 		{
 			Vector4D	vMultiBlend;
 
 			vMultiBlend.x = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlend.y = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlend.z = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlend.w = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 
 			pDisp->m_CoreDispInfo.SetMultiBlend( nIndex, vMultiBlend );
 
@@ -3110,18 +3110,18 @@ ChunkFileResult_t CMapDisp::LoadDispAlphaBlendKeyCallback(const char *szKey, con
 
 		int nIndex = nRow * nCols;
 
-		while (pszNext != NULL) 
+		while (pszNext != nullptr) 
 		{
 			Vector4D	vMultiBlend;
 
 			vMultiBlend.x = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlend.y = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlend.z = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlend.w = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 
 			pDisp->m_CoreDispInfo.SetAlphaBlend( nIndex, vMultiBlend );
 
@@ -3212,16 +3212,16 @@ ChunkFileResult_t CMapDisp::LoadDispMultiBlendColorKeyCallback(const char *szKey
 
 		int nIndex = nRow * nCols;
 
-		while (pszNext != NULL) 
+		while (pszNext != nullptr) 
 		{
 			Vector	vMultiBlendColor;
 
 			vMultiBlendColor.x = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlendColor.y = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlendColor.z = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 
 			pDisp->m_CoreDispInfo.SetMultiBlendColor( nIndex, nMultiBlendColorIndex, vMultiBlendColor );
 
@@ -3259,11 +3259,11 @@ ChunkFileResult_t CMapDisp::LoadDispTriangleTagsKeyCallback(const char *szKey, c
 		int nIndex = nRow * nCols;
 		int iTri = nIndex * 2;
 
-		while ( pszNext != NULL ) 
+		while ( pszNext != nullptr) 
 		{
 			nTriTag = ( unsigned int )atoi( pszNext );
 			pDisp->m_CoreDispInfo.SetTriTagValue( iTri, nTriTag );
-			pszNext = strtok( NULL, " " );
+			pszNext = strtok(nullptr, " " );
 			iTri++;
 		}
 	}
@@ -3290,12 +3290,12 @@ ChunkFileResult_t CMapDisp::LoadDispAllowedVertsKeyCallback( const char *szKey, 
 		int iValue = 0;
 
 		char *pszNext = strtok( szBuf, " " );
-		while ( pszNext != NULL ) 
+		while ( pszNext != nullptr) 
 		{
 			unsigned int nValue = ( unsigned int )atoi( pszNext );
 			unsigned long ulValue = ( unsigned long )nValue;
 			pDisp->m_CoreDispInfo.AllowedVerts_SetDWord( iValue, ulValue );
-			pszNext = strtok( NULL, " " );
+			pszNext = strtok(nullptr, " " );
 			iValue++;
 		}
 	}
@@ -3334,12 +3334,12 @@ ChunkFileResult_t CMapDisp::LoadDispNormalsKeyCallback(const char *szKey, const 
 		int nRow = atoi(&szKey[3]);
 
 		char *pszNext0 = strtok(szBuf, " ");
-		char *pszNext1 = strtok(NULL, " ");
-		char *pszNext2 = strtok(NULL, " ");
+		char *pszNext1 = strtok(nullptr, " ");
+		char *pszNext2 = strtok(nullptr, " ");
 
 		int nIndex = nRow * nCols;
 
-		while ((pszNext0 != NULL) && (pszNext1 != NULL) && (pszNext2 != NULL))
+		while ((pszNext0 != nullptr) && (pszNext1 != nullptr) && (pszNext2 != nullptr))
 		{
 			vectorFieldVector[0] = (float)atof(pszNext0);
 			vectorFieldVector[1] = (float)atof(pszNext1);
@@ -3347,9 +3347,9 @@ ChunkFileResult_t CMapDisp::LoadDispNormalsKeyCallback(const char *szKey, const 
 
 			pDisp->m_CoreDispInfo.SetFieldVector( nIndex, vectorFieldVector );
 
-			pszNext0 = strtok(NULL, " ");
-			pszNext1 = strtok(NULL, " ");
-			pszNext2 = strtok(NULL, " ");
+			pszNext0 = strtok(nullptr, " ");
+			pszNext1 = strtok(nullptr, " ");
+			pszNext2 = strtok(nullptr, " ");
 
 			nIndex++;
 		}
@@ -4333,7 +4333,7 @@ void EditDisp_ForUndo( EditDispHandle_t editHandle, char *pszPositionName,
 	//
 	if( pszPositionName )
 	{
-		GetHistory()->MarkUndoPosition( NULL, pszPositionName );
+		GetHistory()->MarkUndoPosition(nullptr, pszPositionName );
 	}
 
 	//

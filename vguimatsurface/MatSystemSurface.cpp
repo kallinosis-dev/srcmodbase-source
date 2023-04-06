@@ -131,8 +131,8 @@ public:
 	{
 		IMaterialVar *pMaterialVar = m_pMaterial->FindVar( varName, found );
 
-		if ( pMaterialVar == NULL )
-			return NULL;
+		if ( pMaterialVar == nullptr)
+			return nullptr;
 		return new CVguiMatInfoVar( pMaterialVar );
 	}
 
@@ -171,7 +171,7 @@ CUtlDict< CMatSystemSurface::font_entry, unsigned short > CMatSystemSurface::m_F
 //-----------------------------------------------------------------------------
 // Make sure the panel is the same size as the viewport
 //-----------------------------------------------------------------------------
-CMatEmbeddedPanel::CMatEmbeddedPanel() : BaseClass( NULL, "MatSystemTopPanel" )
+CMatEmbeddedPanel::CMatEmbeddedPanel() : BaseClass(nullptr, "MatSystemTopPanel" )
 {
 	SetPaintBackgroundEnabled( false );
 
@@ -203,13 +203,13 @@ VPANEL CMatEmbeddedPanel::IsWithinTraverse(int x, int y, bool traversePopups)
 //-----------------------------------------------------------------------------
 // Constructor, destructor
 //-----------------------------------------------------------------------------
-CMatSystemSurface::CMatSystemSurface() : m_pEmbeddedPanel(NULL), m_pWhite(NULL), m_ContextAbsPos( 0, 0, ContextAbsPos_t::Less )
+CMatSystemSurface::CMatSystemSurface() : m_pEmbeddedPanel(NULL), m_pWhite(nullptr), m_ContextAbsPos( 0, 0, ContextAbsPos_t::Less )
 {
 	m_iBoundTexture = -1; 
 	m_nCurrReferenceValue = 0;
 	m_bIn3DPaintMode = false;
 	m_bDrawingIn3DWorld = false;
-	m_PlaySoundFunc = NULL;
+	m_PlaySoundFunc = nullptr;
 	m_bInThink = false;
 	m_bAllowJavaScript = false;
 	m_bAppDrivesInput = false;
@@ -265,7 +265,7 @@ bool CMatSystemSurface::Connect( CreateInterfaceFn factory )
 		return false;
 	}
 
-	g_pIInput = (IInputInternal *)factory( VGUI_INPUTINTERNAL_INTERFACE_VERSION, NULL );
+	g_pIInput = (IInputInternal *)factory( VGUI_INPUTINTERNAL_INTERFACE_VERSION, nullptr);
 	if ( !g_pIInput )
 	{
 		Warning( "MatSystemSurface requires the vgui::IInput system to run!\n" );
@@ -295,7 +295,7 @@ bool CMatSystemSurface::Connect( CreateInterfaceFn factory )
 
 void CMatSystemSurface::Disconnect()
 {
-	g_pIInput = NULL;
+	g_pIInput = nullptr;
 	BaseClass::Disconnect();
 }
 
@@ -329,7 +329,7 @@ static AppSystemInfo_t s_Dependencies[] =
 	{ "localize" DLL_EXT_STRING,		LOCALIZE_INTERFACE_VERSION },
 	{ "inputsystem" DLL_EXT_STRING,		INPUTSTACKSYSTEM_INTERFACE_VERSION },
 	{ "materialsystem" DLL_EXT_STRING,	MATERIAL_SYSTEM_INTERFACE_VERSION },
-	{ NULL, NULL }
+	{nullptr, nullptr}
 };
 
 const AppSystemInfo_t* CMatSystemSurface::GetDependencies()
@@ -426,7 +426,7 @@ InitReturnVal_t CMatSystemSurface::Init( void )
 
 	m_bIn3DPaintMode = false;
 	m_bDrawingIn3DWorld = false;
-	m_PlaySoundFunc = NULL;
+	m_PlaySoundFunc = nullptr;
 
 	// Input system
 	EnableWindowsMessages( true );
@@ -531,7 +531,7 @@ void CMatSystemSurface::Shutdown( void )
 
 #if defined( WIN32 ) && !defined( _X360 )
 
-	HMODULE gdiModule = NULL;
+	HMODULE gdiModule = nullptr;
 
 #ifdef SUPPORT_CUSTOM_FONT_FORMAT
 	// On custom font format Windows takes care of cleaning up the font when the process quits.
@@ -601,7 +601,7 @@ void CMatSystemSurface::Shutdown( void )
 	}
 #endif
 
-	g_pLocalize->SetTextQuery( NULL );
+	g_pLocalize->SetTextQuery(nullptr);
 
 	BaseClass::Shutdown();
 }
@@ -812,11 +812,11 @@ void CMatSystemSurface::StartDrawing( void )
 	{
 		g_bCheckedCommandLine = true;
 		
-		const char *pX = CommandLine()->ParmValue( "-pixel_offset_x", (const char*)NULL );
+		const char *pX = CommandLine()->ParmValue( "-pixel_offset_x", (const char*)nullptr);
 		if ( pX )
 			g_flPixelOffsetX = atof( pX );
 
-		const char *pY = CommandLine()->ParmValue( "-pixel_offset_y", (const char*)NULL );
+		const char *pY = CommandLine()->ParmValue( "-pixel_offset_y", (const char*)nullptr);
 		if ( pY )
 			g_flPixelOffsetY = atof( pY );
 	}
@@ -1084,7 +1084,7 @@ void CMatSystemSurface::InternalSetMaterial( IMaterial *pMaterial )
 	}
 
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	m_pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+	m_pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 }
 
 
@@ -1792,12 +1792,12 @@ bool CMatSystemSurface::DrawGetTextureFile(int id, char *filename, int maxlen )
 IVguiMatInfo *CMatSystemSurface::DrawGetTextureMatInfoFactory(int id)
 {
 	if ( !TextureDictionary()->IsValidId( id ) )
-		return NULL;
+		return nullptr;
 
 	IMaterial *texture = TextureDictionary()->GetTextureMaterial(id);
 
-	if ( texture == NULL )
-		return NULL;
+	if ( texture == nullptr)
+		return nullptr;
 
 	return new CVguiMatInfo(texture);
 }
@@ -1958,7 +1958,7 @@ void CMatSystemSurface::DrawTexturedPolygon(int n, Vertex_t *pVertices, bool bCl
 	if ( bClipVertices )
 	{
 		int iCount;
-		Vertex_t **ppClippedVerts = NULL;
+		Vertex_t **ppClippedVerts = nullptr;
 		iCount = ClipPolygon( n, pVertices, m_nTranslateX, m_nTranslateY, &ppClippedVerts );
 		if (iCount <= 0)
 			return;
@@ -2327,7 +2327,7 @@ bool CMatSystemSurface::AddCustomFontFile( const char *fontFileName )
 #ifdef SUPPORT_CUSTOM_FONT_FORMAT
 	// Just load the font data, decrypt in memory and register for this process
 	CUtlBuffer buf;
-	if ( !g_pFullFileSystem->ReadFile( fontFileName, NULL, buf ) )
+	if ( !g_pFullFileSystem->ReadFile( fontFileName, nullptr, buf ) )
 	{
 		Msg( "Failed to load custom font file '%s'\n", fontFileName );
 		return false;
@@ -2340,8 +2340,8 @@ bool CMatSystemSurface::AddCustomFontFile( const char *fontFileName )
 	}
 
 	DWORD dwNumFontsRegistered = 0;
-	HANDLE hRegistered = NULL;
-	hRegistered = ::AddFontMemResourceEx( buf.Base(), buf.TellPut(), NULL, &dwNumFontsRegistered );
+	HANDLE hRegistered = nullptr;
+	hRegistered = ::AddFontMemResourceEx( buf.Base(), buf.TellPut(), nullptr, &dwNumFontsRegistered );
 
 	if ( !hRegistered )
 	{
@@ -2350,7 +2350,7 @@ bool CMatSystemSurface::AddCustomFontFile( const char *fontFileName )
 	}
 	
 	m_CustomFontHandles.AddToTail( hRegistered );
-	return hRegistered != NULL;
+	return hRegistered != nullptr;
 #else
 	// try and use the optimal custom font loader, will makes sure fonts are unloaded properly
 	// this function is in a newer version of the gdi library (win2k+), so need to try get it directly
@@ -2496,7 +2496,7 @@ bool CMatSystemSurface::AddBitmapFontFile( const char *fontFileName )
 	MAT_FUNC;
 
 	bool bFound = false;
-	bFound = ( ( g_pFullFileSystem->GetDVDMode() == DVDMODE_STRICT ) || g_pFullFileSystem->FileExists( fontFileName, IsGameConsole() ? "GAME" : NULL ) );
+	bFound = ( ( g_pFullFileSystem->GetDVDMode() == DVDMODE_STRICT ) || g_pFullFileSystem->FileExists( fontFileName, IsGameConsole() ? "GAME" : nullptr) );
 	if ( !bFound )
 	{
 		Msg( "Couldn't find bitmap font file '%s'\n", fontFileName );
@@ -2762,7 +2762,7 @@ bool CMatSystemSurface::DrawGetUnicodeCharRenderInfo( wchar_t ch, FontCharRender
 
 	// get the character texture from the cache
 	info.textureId = 0;
-	float *texCoords = NULL;
+	float *texCoords = nullptr;
 	if (!g_FontTextureCache.GetTextureForChar(m_hCurrentFont, info.drawType, ch, &info.textureId, &texCoords))
 	{
 		info.valid = false;
@@ -2896,7 +2896,7 @@ void CMatSystemSurface::DrawPrintText(const wchar_t *text, int iTextLen, FontDra
 		{
 			// get the character texture from the cache
 			int iTexId = 0;
-			float *texCoords = NULL;
+			float *texCoords = nullptr;
 			if (!g_FontTextureCache.GetTextureForChar(m_hCurrentFont, drawType, ch, &iTexId, &texCoords))
 				continue;
 
@@ -3191,7 +3191,7 @@ wchar_t const *CMatSystemSurface::GetTitle( VPANEL panel )
 		return e->title;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3875,7 +3875,7 @@ void CMatSystemSurface::End3DPaint( bool bIgnoreAlphaWhenCompositing )
 	DrawFullScreenBuffer( m_n3DLeft, m_n3DTop, m_n3DRight, m_n3DBottom, m_n3DViewportWidth, m_n3DViewportHeight, bIgnoreAlphaWhenCompositing );
 
 	// ReSet the material state
-	InternalSetMaterial( NULL );
+	InternalSetMaterial(nullptr);
 }
 
 
@@ -4374,7 +4374,7 @@ IHTML *CMatSystemSurface::CreateHTMLWindow(vgui::IHTMLEvents *events,VPANEL cont
 	return dynamic_cast<IHTML *>(IE);
 #else
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 #endif
 }
 
@@ -4848,10 +4848,10 @@ static bool ShouldMakeUnique( char const *extension )
 
 vgui::IImage *CMatSystemSurface::GetIconImageForFullPath( char const *pFullPath )
 {
-	vgui::IImage *newIcon = NULL;
+	vgui::IImage *newIcon = nullptr;
 
 #if defined( WIN32 ) && !defined( _X360 )
-	SHFILEINFO info = { 0 };
+	SHFILEINFO info = { nullptr };
 	DWORD_PTR dwResult = SHGetFileInfo( 
 		pFullPath,
 		0,
@@ -4881,7 +4881,7 @@ vgui::IImage *CMatSystemSurface::GetIconImageForFullPath( char const *pFullPath 
 					
 					HDC hdc = ::GetDC(reinterpret_cast<HWND>( GetAttachedWindow() ));
 
-					if ( GetIconBits( hdc, iconInfo, w, h, NULL, bufsize ) )
+					if ( GetIconBits( hdc, iconInfo, w, h, nullptr, bufsize ) )
 					{
 						byte *bits = new byte[ bufsize ];
 						if ( bits && GetIconBits( hdc, iconInfo, w, h, bits, bufsize ) )

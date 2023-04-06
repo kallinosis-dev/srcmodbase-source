@@ -339,12 +339,12 @@ public:
 
 	//---------------------------------
 
-	void Save( void *pField, ISave *pSave )				{ SaveRestoreFieldInfo_t fieldInfo = { pField, NULL, NULL }; Save( fieldInfo, pSave ); }
-	void Restore( void *pField, IRestore *pRestore )	{ SaveRestoreFieldInfo_t fieldInfo = { pField, NULL, NULL }; Restore( fieldInfo, pRestore ); }
+	void Save( void *pField, ISave *pSave )				{ SaveRestoreFieldInfo_t fieldInfo = { pField, nullptr, nullptr}; Save( fieldInfo, pSave ); }
+	void Restore( void *pField, IRestore *pRestore )	{ SaveRestoreFieldInfo_t fieldInfo = { pField, nullptr, nullptr}; Restore( fieldInfo, pRestore ); }
 
-	bool IsEmpty( void *pField)							{ SaveRestoreFieldInfo_t fieldInfo = { pField, NULL, NULL }; return IsEmpty( fieldInfo ); }
-	void MakeEmpty( void *pField)						{ SaveRestoreFieldInfo_t fieldInfo = { pField, NULL, NULL }; MakeEmpty( fieldInfo ); }
-	bool Parse( void *pField, char const *pszValue )	{ SaveRestoreFieldInfo_t fieldInfo = { pField, NULL, NULL }; return Parse( fieldInfo, pszValue ); }
+	bool IsEmpty( void *pField)							{ SaveRestoreFieldInfo_t fieldInfo = { pField, nullptr, nullptr}; return IsEmpty( fieldInfo ); }
+	void MakeEmpty( void *pField)						{ SaveRestoreFieldInfo_t fieldInfo = { pField, nullptr, nullptr}; MakeEmpty( fieldInfo ); }
+	bool Parse( void *pField, char const *pszValue )	{ SaveRestoreFieldInfo_t fieldInfo = { pField, nullptr, nullptr}; return Parse( fieldInfo, pszValue ); }
 };
 
 //-------------------------------------
@@ -374,7 +374,7 @@ public:
 		int nObjects = fieldInfo.pTypeDesc->fieldSize;
 		for ( int i = 0; i < nObjects; i++ )
 		{
-			if ( ppClassPtr[i] != NULL )
+			if ( ppClassPtr[i] != nullptr)
 				return false;
 		}
 		return true;

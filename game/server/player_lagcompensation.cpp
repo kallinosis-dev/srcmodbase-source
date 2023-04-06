@@ -361,8 +361,8 @@ bool CLagCompensationManager::BacktrackEntity( CBaseEntity *entity, float flTarg
 
 	intp curr = track->Head();
 
-	LagRecord *prevRecord = NULL;
-	LagRecord *record = NULL;
+	LagRecord *prevRecord = nullptr;
+	LagRecord *record = nullptr;
 
 	Vector prevOrg = entity->GetAbsOrigin();
 	

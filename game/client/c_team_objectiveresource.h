@@ -183,19 +183,19 @@ public:
 	{
 		// You need to implement this in your game's objective resource.
 		Assert(0);
-		return NULL;
+		return nullptr;
 	}
 	virtual const char *GetGameSpecificCPBarFG( int index, int iOwningTeam )
 	{
 		// You need to implement this in your game's objective resource.
 		Assert(0);
-		return NULL;
+		return nullptr;
 	}
 	virtual const char *GetGameSpecificCPBarBG( int index, int iCappingTeam )
 	{
 		// You need to implement this in your game's objective resource.
 		Assert(0);
-		return NULL;
+		return nullptr;
 	}
 
 	bool CapIsBlocked( int index );

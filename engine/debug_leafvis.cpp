@@ -73,9 +73,9 @@ struct leafvis_t
 const int MAX_LEAF_PVERTS = 128;
 
 // Only allocate this after it is turned on
-leafvis_t *g_LeafVis = NULL;
+leafvis_t *g_LeafVis = nullptr;
 
-leafvis_t *g_FrustumVis = NULL, *g_ClipVis[4] = {NULL,NULL,NULL,NULL};
+leafvis_t *g_FrustumVis = nullptr, *g_ClipVis[4] = {nullptr, nullptr, nullptr, nullptr};
 
 static void AddPlaneToList( CUtlVector<cplane_t> &list, const Vector& normal, float dist, int invert )
 {
@@ -204,13 +204,13 @@ void LeafvisChanged( IConVar *pLeafvisVar, const char *pOld, float flOldValue )
 	if ( g_LeafVis )
 	{
 		delete g_LeafVis;
-		g_LeafVis = NULL;
+		g_LeafVis = nullptr;
 	}
 
 	if ( g_FrustumVis )
 	{
 		delete g_FrustumVis;
-		g_FrustumVis = NULL;
+		g_FrustumVis = nullptr;
 	}
 }
 
@@ -489,7 +489,7 @@ void RecomputeClipbrushes( bool bEnabled )
 	for ( int v = 0; v < 4; v++ )
 	{
 		delete g_ClipVis[v];
-		g_ClipVis[v] = NULL;
+		g_ClipVis[v] = nullptr;
 	}
 
 	if ( !bEnabled )

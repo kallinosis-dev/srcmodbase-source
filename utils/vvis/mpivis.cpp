@@ -50,10 +50,10 @@ CCycleCount g_CPUTime;
 
 
 // This stuff is all for the multicast channel the master uses to send out the portal results.
-ISocket *g_pPortalMCSocket = NULL;
+ISocket *g_pPortalMCSocket = nullptr;
 CIPAddr g_PortalMCAddr;
 bool g_bGotMCAddr = false;
-HANDLE g_hMCThread = NULL;
+HANDLE g_hMCThread = nullptr;
 CEvent g_MCThreadExitEvent;
 unsigned long g_PortalMCThreadUniqueID = 0;
 int g_nMulticastPortalsReceived = 0;
@@ -116,13 +116,13 @@ void VMPI_DeletePortalMCSocket()
 		g_MCThreadExitEvent.SetEvent();
 		WaitForSingleObject( g_hMCThread, INFINITE );
 		CloseHandle( g_hMCThread );
-		g_hMCThread = NULL;
+		g_hMCThread = nullptr;
 	}
 
 	if ( g_pPortalMCSocket )
 	{
 		g_pPortalMCSocket->Release();
-		g_pPortalMCSocket = NULL;
+		g_pPortalMCSocket = nullptr;
 	}
 }
 
@@ -176,7 +176,7 @@ void ProcessBasePortalVis( int iThread, uint64 iPortal, MessageBuffer *pBuf )
 void ReceiveBasePortalVis( uint64 iWorkUnit, MessageBuffer *pBuf, int iWorker )
 {
 	portal_t * p = &portals[iWorkUnit];
-	if ( p->portalflood != 0 || p->portalfront != 0 || p->portalvis != 0) 
+	if ( p->portalflood != nullptr || p->portalfront != nullptr || p->portalvis != nullptr) 
 	{
 		Msg("Duplicate portal %d\n", iWorkUnit);
 	}
@@ -579,11 +579,11 @@ void RunMPIPortalFlow()
 		// Make sure we kill the MC thread if the app exits ungracefully.
 		CmdLib_AtCleanup( MCThreadCleanupFn );
 		
-		g_hMCThread = CreateThread( 
-			NULL,
+		g_hMCThread = CreateThread(
+			nullptr,
 			0,
 			PortalMCThreadFn,
-			NULL,
+			nullptr,
 			0,
 			&dwDummy );
 
@@ -605,7 +605,7 @@ void RunMPIPortalFlow()
 		ReceivePortalFlow		// Master function to receive work results
 		);
 		
-	g_pDistributeWorkCallbacks = NULL;
+	g_pDistributeWorkCallbacks = nullptr;
 
 	CheckExitedEarly();
 

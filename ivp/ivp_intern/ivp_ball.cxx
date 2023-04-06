@@ -74,7 +74,7 @@ public:
 static IVP_SurfaceManager_Ball ivp_surface_manager_ball_global;
 
 IVP_Ball::IVP_Ball(IVP_Cluster *father, const IVP_Template_Ball *tball, const IVP_Template_Real_Object *templ, const IVP_U_Quat *rotation, const IVP_U_Point *position):
-    IVP_Real_Object(father, NULL, templ, rotation, position)
+    IVP_Real_Object(father, nullptr, templ, rotation, position)
 {
   this->set_type(IVP_BALL);
   this->extra_radius = (IVP_FLOAT)tball->radius + templ->extra_radius;

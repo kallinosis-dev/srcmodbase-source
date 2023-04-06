@@ -27,7 +27,7 @@ extern ConVar mp_guardian_target_site;
 void IdleState::OnEnter( CCSBot *me )
 {
 	me->DestroyPath();
-	me->SetBotEnemy( NULL );
+	me->SetBotEnemy(nullptr);
 
 	// lurking death
 	if (me->IsUsingKnife() && me->IsWellPastSafe() && !me->IsHurrying())
@@ -47,7 +47,7 @@ void IdleState::OnEnter( CCSBot *me )
 void IdleState::OnUpdate( CCSBot *me )
 {
 	// all other states assume GetLastKnownArea() is valid, ensure that it is
-	if (me->GetLastKnownArea() == NULL && me->StayOnNavMesh() == false)
+	if (me->GetLastKnownArea() == nullptr && me->StayOnNavMesh() == false)
 		return;
 
 	// zombies never leave the Idle state
@@ -305,7 +305,7 @@ void IdleState::OnUpdate( CCSBot *me )
 						// we dont know where the bomb is - we must search the bombsites
 
 						// find closest un-cleared bombsite
-						const CCSBotManager::Zone *zone = NULL;
+						const CCSBotManager::Zone *zone = nullptr;
 						float travelDistance = 9999999.9f;
 
 						for( int z=0; z<TheCSBots()->GetZoneCount(); ++z )
@@ -336,12 +336,12 @@ void IdleState::OnUpdate( CCSBot *me )
 							const float farAwayRange = 2000.0f;
 							if (travelDistance > farAwayRange)
 							{
-								zone = NULL;
+								zone = nullptr;
 							}
 						}
 
 						// if closest bombsite is "far away", pick one at random
-						if (zone == NULL)
+						if (zone == nullptr)
 						{
 							int zoneIndex = me->GetGameState()->GetNextBombsiteToSearch();
 							zone = TheCSBots()->GetZone( zoneIndex );
@@ -368,7 +368,7 @@ void IdleState::OnUpdate( CCSBot *me )
 				{
 					if (RandomFloat( 0, 100 ) <= defenseSniperCampChance)
 					{
-						CNavArea *snipingArea = NULL;
+						CNavArea *snipingArea = nullptr;
 
 						// if the bomb is loose, snipe near it
 						const Vector *bombPos = me->GetGameState()->GetBombPosition();
@@ -520,7 +520,7 @@ void IdleState::OnUpdate( CCSBot *me )
 				{
 					// if early in round, pick a random zone, otherwise pick closest zone
 					const float earlyTime = 20.0f;
-					const CCSBotManager::Zone *zone = NULL;
+					const CCSBotManager::Zone *zone = nullptr;
 
 					if (TheCSBots()->GetElapsedRoundTime() < earlyTime)
 					{
@@ -794,8 +794,8 @@ void IdleState::OnUpdate( CCSBot *me )
 
 				bool fetchHostages = false;
 				bool rescueHostages = false;
-				const CCSBotManager::Zone *zone = NULL;
-				me->SetGoalEntity( NULL );
+				const CCSBotManager::Zone *zone = nullptr;
+				me->SetGoalEntity(nullptr);
 
 				// if we are escorting hostages, determine where to take them
 				if (me->GetHostageEscortCount())
@@ -886,7 +886,7 @@ void IdleState::OnUpdate( CCSBot *me )
 						continue;
 					}
 
-					me->OnAudibleEvent( NULL, playerVector[i], 9999999.9f, PRIORITY_HIGH, true );
+					me->OnAudibleEvent(nullptr, playerVector[i], 9999999.9f, PRIORITY_HIGH, true );
 				}
 			}
 

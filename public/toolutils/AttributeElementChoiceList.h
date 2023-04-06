@@ -30,13 +30,13 @@ const char *GetChoiceString( CDmElement *pElement );
 //-----------------------------------------------------------------------------
 // Recursively adds all elements of the specified type under pElement into the choice list
 //-----------------------------------------------------------------------------
-void AddElementsRecursively( CDmElement *pElement, ElementChoiceList_t &list, const char *pElementType = NULL );
+void AddElementsRecursively( CDmElement *pElement, ElementChoiceList_t &list, const char *pElementType = nullptr);
 
 
 //-----------------------------------------------------------------------------
 // Recursively adds all elements of the specified type under pElement into the vector
 //-----------------------------------------------------------------------------
-void AddElementsRecursively( CDmElement *pElement, DmeHandleVec_t &list, const char *pElementType = NULL );
+void AddElementsRecursively( CDmElement *pElement, DmeHandleVec_t &list, const char *pElementType = nullptr);
 
 
 #endif // ATTRIBUTEELEMENTCHOICELIST_H

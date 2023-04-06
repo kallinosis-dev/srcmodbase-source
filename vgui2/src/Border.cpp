@@ -31,7 +31,7 @@ Border::Border()
 	_inset[1]=0;
 	_inset[2]=0;
 	_inset[3]=0;
-	_name = NULL;
+	_name = nullptr;
 	m_eBackgroundType = IBorder::BACKGROUND_FILLED;
 
 	memset(_sides, 0, sizeof(_sides));
@@ -202,7 +202,7 @@ void Border::ParseSideSettings(int side_index, KeyValues *inResourceData, ISchem
 	// count the numeber of lines in the side
 	int count = 0;
 	KeyValues *kv;
-	for (kv = inResourceData->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+	for (kv = inResourceData->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 	{
 		count++;
 	}
@@ -214,15 +214,15 @@ void Border::ParseSideSettings(int side_index, KeyValues *inResourceData, ISchem
 	// iterate through the keys
 	//!! this loads in order, ignoring key names
 	int index = 0;
-	for (kv = inResourceData->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+	for (kv = inResourceData->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 	{
 		line_t *line = &(_sides[side_index].lines[index]);
 
 		// this is the color name, get that from the color table
-		const char *col = kv->GetString("color", NULL);
+		const char *col = kv->GetString("color", nullptr);
 		line->col = pScheme->GetColor(col, Color(0, 0, 0, 0));
 
-		col = kv->GetString("offset", NULL);
+		col = kv->GetString("offset", nullptr);
 		int Start = 0, end = 0;
 		if (col)
 		{

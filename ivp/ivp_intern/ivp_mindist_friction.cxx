@@ -433,7 +433,7 @@ void IVP_Contact_Point::recalc_friction_s_vals(){
 	    IVP_U_Float_Point hp; hp.set_pairwise_mult( &info->contact_cross_nomal_cs[0], core0->get_inv_rot_inertia());
 	    info->inv_virtual_mass = info->contact_cross_nomal_cs[0].dot_product( &hp) + core0->get_inv_mass();
 	}else{
-	    core0 = NULL;
+	    core0 = nullptr;
 	    delta_velocity_ws.set_to_zero();
 	    info->inv_virtual_mass = 0.0f;
 	    info->contact_point_cs[0].set_to_zero();
@@ -461,7 +461,7 @@ void IVP_Contact_Point::recalc_friction_s_vals(){
 	}else{
 	    info->contact_point_cs[1].set_to_zero();
 	    info->contact_cross_nomal_cs[1].set_to_zero();
-	    core1 = NULL;
+	    core1 = nullptr;
 	}
 	info->contact_core[1] = core1;
     }
@@ -496,7 +496,7 @@ IVP_Contact_Point *IVP_Friction_Manager::get_associated_contact_point(IVP_Mindis
 	    }
 	}
     }
-    return NULL;
+    return nullptr;
 }
 
 void IVP_Friction_Manager::delete_all_contact_points_of_object(IVP_Real_Object *obj0) {
@@ -520,7 +520,7 @@ IVP_Contact_Point *IVP_Friction_Manager::generate_contact_point(IVP_Mindist *min
 	if ( mindist->mindist_status != IVP_MD_EXACT )
 	{
 		*successful = IVP_FALSE;
-		return NULL;
+		return nullptr;
 	}
 
     // at this time, only polygon PF is allowed for friction mindists

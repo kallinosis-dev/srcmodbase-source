@@ -187,7 +187,7 @@ BEGIN_VS_SHADER( CustomClothing, "Help for CustomClothing" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -282,7 +282,7 @@ BEGIN_VS_SHADER( CustomClothing, "Help for CustomClothing" )
 			{
 				flags |= VERTEX_COLOR;
 			}
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 			
 			if ( g_pHardwareConfig->SupportsPixelShaders_3_0() )
 			{
@@ -533,7 +533,7 @@ BEGIN_VS_SHADER( CustomClothing, "Help for CustomClothing" )
 			bool bCSMEnabled = pShaderAPI->IsCascadedShadowMapping() && (iCompositeMode != MODE_2D_COMPOSITE);
 			if ( bCSMEnabled && !bAOPrePass )
 			{
-				ITexture *pDepthTextureAtlas = NULL;
+				ITexture *pDepthTextureAtlas = nullptr;
 				const CascadedShadowMappingState_t &cascadeState = pShaderAPI->GetCascadedShadowMappingState( &pDepthTextureAtlas );
 
 				if ( pDepthTextureAtlas )

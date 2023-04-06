@@ -157,7 +157,7 @@ void CVertexBufferBase::ComputeVertexDescription( unsigned char *pBuffer,
 int CVertexBufferBase::VertexFormatSize( VertexFormat_t vertexFormat )
 {
 	VertexDesc_t desc;
-	return ComputeVertexDesc< true >( NULL, vertexFormat, desc );
+	return ComputeVertexDesc< true >(nullptr, vertexFormat, desc );
 }
 
 

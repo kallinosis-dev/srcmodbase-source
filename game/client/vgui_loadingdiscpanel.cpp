@@ -225,7 +225,7 @@ private:
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CLoadingDiscPanel::CLoadingDiscPanel( vgui::VPANEL parent ) : BaseClass( NULL, "CLoadingDiscPanel" )
+CLoadingDiscPanel::CLoadingDiscPanel( vgui::VPANEL parent ) : BaseClass(nullptr, "CLoadingDiscPanel" )
 {
 	int w, h;
 	w = ScreenWidth();
@@ -273,9 +273,9 @@ private:
 public:
 	CLoadingDisc( void )
 	{
-		loadingDiscPanel = NULL;
-		m_pPauseDiscPanel = NULL;
-		m_pFastForwardDiscPanel = NULL;
+		loadingDiscPanel = nullptr;
+		m_pPauseDiscPanel = nullptr;
+		m_pFastForwardDiscPanel = nullptr;
 	}
 
 	void Create( vgui::VPANEL parent )
@@ -288,19 +288,19 @@ public:
 	{
 		if ( loadingDiscPanel )
 		{
-			loadingDiscPanel->SetParent( (vgui::Panel *)NULL );
+			loadingDiscPanel->SetParent( (vgui::Panel *)nullptr);
 			delete loadingDiscPanel;
 		}
 
 		if ( m_pPauseDiscPanel )
 		{
-			m_pPauseDiscPanel->SetParent( (vgui::Panel *)NULL );
+			m_pPauseDiscPanel->SetParent( (vgui::Panel *)nullptr);
 			delete m_pPauseDiscPanel;
 		}
 
 		if ( m_pFastForwardDiscPanel )
 		{
-			m_pFastForwardDiscPanel->SetParent( (vgui::Panel *)NULL );
+			m_pFastForwardDiscPanel->SetParent( (vgui::Panel *)nullptr);
 			delete m_pFastForwardDiscPanel;
 		}
 	}

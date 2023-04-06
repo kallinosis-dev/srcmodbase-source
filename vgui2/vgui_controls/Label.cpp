@@ -87,9 +87,9 @@ void Label::Init()
 	_textInset[0] = 0;
 	_textInset[1] = 0;
 	_hotkey = 0;
-	_associate = NULL;
-	_associateName = NULL;
-	_fontOverrideName = NULL;
+	_associate = nullptr;
+	_associateName = nullptr;
+	_fontOverrideName = nullptr;
 	m_bNoShortcutSyntax = false;
 	m_bWrap = false;
 	m_bCenterWrap = false;
@@ -236,7 +236,7 @@ Panel *Label::HasHotkey(wchar_t key)
 		return this;
 #endif
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -514,7 +514,7 @@ void Label::Paint()
 	{
 		SetAssociatedControl(FindSiblingByName(_associateName));
 		delete [] _associateName;
-		_associateName = NULL;
+		_associateName = nullptr;
 	}
 
 	int labelWide, labelTall;
@@ -903,7 +903,7 @@ IImage *Label::GetImageAtIndex(int index)
 {
 	if ( _imageDar.IsValidIndex( index ) )
 		return _imageDar[index].image;
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -930,7 +930,7 @@ int Label::SetTextImageIndex(int newIndex)
 	int oldIndex = _textImageIndex;
 	if ( _textImageIndex >= 0 )
 	{
-		_imageDar[_textImageIndex].image = NULL;
+		_imageDar[_textImageIndex].image = nullptr;
 	}
 	if (newIndex > -1)
 	{
@@ -947,7 +947,7 @@ void Label::EnsureImageCapacity(int maxIndex)
 {
 	while (_imageDar.Count() <= maxIndex)
 	{
-		AddImage(NULL, 0);
+		AddImage(nullptr, 0);
 	}
 }
 
@@ -987,7 +987,7 @@ void Label::SetAssociatedControl(Panel *control)
 	else
 	{
 		// don't let the associate ever be set to be ourself
-		_associate = NULL;
+		_associate = nullptr;
 	}
 }
 
@@ -1058,7 +1058,7 @@ void Label::ApplySchemeSettings(IScheme *pScheme)
 		if (i == _textImageIndex)
 			continue;
 
-		_imageDar[i].image = NULL;
+		_imageDar[i].image = nullptr;
 	}
 
 	SetDisabledFgColor1(GetSchemeColor("Label.DisabledFgColor1", pScheme));
@@ -1161,7 +1161,7 @@ void Label::ApplySettings( KeyValues *inResourceData )
 	BaseClass::ApplySettings( inResourceData );
 
 	// label settings
-	const char *labelText =	inResourceData->GetString( "labelText", NULL );
+	const char *labelText =	inResourceData->GetString( "labelText", nullptr);
 	if ( labelText )
 	{
 		if (labelText[0] == '%' && labelText[strlen(labelText) - 1] == '%')
@@ -1265,7 +1265,7 @@ void Label::ApplySettings( KeyValues *inResourceData )
 	else if (_fontOverrideName)
 	{
 		delete [] _fontOverrideName;
-		_fontOverrideName = NULL;
+		_fontOverrideName = nullptr;
 		SetFont(pScheme->GetFont("Default", IsProportional()));
 	}
 

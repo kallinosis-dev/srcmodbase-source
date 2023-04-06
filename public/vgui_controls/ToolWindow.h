@@ -45,7 +45,7 @@ class ToolWindow : public Frame
 	DECLARE_CLASS_SIMPLE( ToolWindow, Frame );
 
 public:
-	ToolWindow(Panel *parent, bool contextLabel, IToolWindowFactory *factory = 0, Panel *page = NULL, char const *title = NULL, bool contextMenu = false, bool inGlobalList = true );
+	ToolWindow(Panel *parent, bool contextLabel, IToolWindowFactory *factory = nullptr, Panel *page = nullptr, char const *title = nullptr, bool contextMenu = false, bool inGlobalList = true );
 
 	~ToolWindow();
 

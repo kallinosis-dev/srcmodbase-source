@@ -44,7 +44,7 @@ int CBaseAutoCompleteFileList::AutoCompletionFunc( char const *partial, char com
 	CUtlSymbolTable entries( 0, 0, true );
 	CUtlVector< CUtlSymbol > symbols;
 
-	char const *findfn = Sys_FindFirst( searchpath, NULL, 0 );
+	char const *findfn = Sys_FindFirst( searchpath, nullptr, 0 );
 	while ( findfn )
 	{
 		char sz[ MAX_QPATH ];
@@ -75,7 +75,7 @@ int CBaseAutoCompleteFileList::AutoCompletionFunc( char const *partial, char com
 			}
 		}
 
-		findfn = Sys_FindNext( NULL, 0 );
+		findfn = Sys_FindNext(nullptr, 0 );
 
 		// Too many
 		if ( symbols.Count() >= COMMAND_COMPLETION_MAXITEMS )

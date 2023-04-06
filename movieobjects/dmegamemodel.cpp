@@ -132,7 +132,7 @@ void CDmeGlobalFlexControllerOperator::GetOutputAttributes( CUtlVector< CDmAttri
 void CDmeGlobalFlexControllerOperator::SetupToAttribute()
 {
 	CDmElement *pObject = m_gameModel.GetElement();
-	if ( pObject == NULL)
+	if ( pObject == nullptr)
 		return;
 
 	CDmAttribute *pAttr = pObject->GetAttribute( "flexWeights" );
@@ -246,7 +246,7 @@ CDmeGlobalFlexControllerOperator *CDmeGameModel::AddGlobalFlexController( const 
 		CDmeGlobalFlexControllerOperator *newOperator = CreateElement< CDmeGlobalFlexControllerOperator >( controllerName, GetFileId() );
 		Assert( newOperator );
 		if ( !newOperator )
-			return NULL;
+			return nullptr;
 
 		i = m_globalFlexControllers.AddToTail( newOperator );
 	}
@@ -284,14 +284,14 @@ CDmeGlobalFlexControllerOperator *CDmeGameModel::FindGlobalFlexController( int n
 			return op;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 studiohdr_t* CDmeGameModel::GetStudioHdr() const
 {
 	const char *pModelName = GetModelName();
 	MDLHandle_t h = pModelName && pModelName[0] ? g_pMDLCache->FindMDL( pModelName ) : MDLHANDLE_INVALID;
-	return ( h != MDLHANDLE_INVALID ) ? g_pMDLCache->GetStudioHdr( h ) : NULL;
+	return ( h != MDLHANDLE_INVALID ) ? g_pMDLCache->GetStudioHdr( h ) : nullptr;
 }
 
 
@@ -335,7 +335,7 @@ bool CDmeGameModel::GetBoneDefaultPosition( int nBoneIndex, Vector &position ) c
 		return false;
 		
 	const mstudiobone_t *pBone = pStudioHdr->pBone( nBoneIndex );
-	if ( pBone == NULL )
+	if ( pBone == nullptr)
 		return false;
 
 	position = pBone->pos;
@@ -356,7 +356,7 @@ bool CDmeGameModel::GetBoneDefaultOrientation( int nBoneIndex, Quaternion &orien
 		return false;
 
 	const mstudiobone_t *pBone = pStudioHdr->pBone( nBoneIndex );
-	if ( pBone == NULL )
+	if ( pBone == nullptr)
 		return false;
 
 	orientation = pBone->quat;
@@ -421,7 +421,7 @@ void CDmeGameModel::AppendGlobalFlexControllerOperators( CUtlVector< IDmeOperato
 void CDmeGameModel::FindFlexControllerDependencies( CUtlVector< CUtlVector< int > > &dependencyList ) const
 {
 	studiohdr_t *hdr = GetStudioHdr();
-	if ( hdr == NULL )
+	if ( hdr == nullptr)
 		return;
 
 	
@@ -463,7 +463,7 @@ void CDmeGameModel::FindFlexControllerDependencies( CUtlVector< CUtlVector< int 
 	{
 		mstudioflexrule_t *pRule = studioHdr.pFlexRule( iRule );
 
-		if ( pRule == NULL )
+		if ( pRule == nullptr)
 			return;
 
 		for ( int iOp = 0; iOp < pRule->numops; ++iOp )
@@ -595,13 +595,13 @@ void CDmeGameModel::PopulateExistingDagList( CDmeDag** pDags, int nCount )
 	{
 		if ( i >= nCurrentBoneCount )
 		{
-			pDags[ i ] = NULL;
+			pDags[ i ] = nullptr;
 			continue;
 		}
 
 		CDmeTransform *pTransform = GetBone( i );
 		Assert( pTransform );
-		pDags[ i ] = pTransform ? pTransform->GetDag() : NULL;
+		pDags[ i ] = pTransform ? pTransform->GetDag() : nullptr;
 	}
 }
 
@@ -798,7 +798,7 @@ int CDmeGameModel::FindAttachment( const char *pchAttachmentName ) const
 Vector CDmeGameModel::ComputeAttachmentPosition( const char *pchAttachmentName ) const
 {
 	studiohdr_t *pStudioHdr = GetStudioHdr();
-	if ( pStudioHdr == NULL )
+	if ( pStudioHdr == nullptr)
 		return vec3_origin;
 
 	// Find the index of the attachment by its name and verify 
@@ -813,7 +813,7 @@ Vector CDmeGameModel::ComputeAttachmentPosition( const char *pchAttachmentName )
 	int boneIndex = studioHdr.GetAttachmentBone( attachmentIndex );
 	CDmeTransform *pBoneTranform = GetBone( boneIndex );
 	CDmeDag *pBoneDag = pBoneTranform->GetDag();
-	if ( pBoneDag  == NULL )
+	if ( pBoneDag  == nullptr)
 		return vec3_origin;
 
 	// Get the local offset position of the attachment and then transform 
@@ -838,23 +838,23 @@ Vector CDmeGameModel::ComputeAttachmentPosition( const char *pchAttachmentName )
 CDmeDag *CDmeGameModel::CreateDagForAttachment( const char *pchAttachmentName ) const
 {
 	studiohdr_t *pStudioHdr = GetStudioHdr();
-	if ( pStudioHdr == NULL )
-		return NULL;
+	if ( pStudioHdr == nullptr)
+		return nullptr;
 
 	// Find the index of the attachment by its name and verify 
 	// that the attachment was found and that the index is valid.
 	CStudioHdr studioHdr( pStudioHdr );
 	int attachmentIndex = Studio_FindAttachment( &studioHdr, pchAttachmentName );
 	if ( ( attachmentIndex < 0 ) || ( attachmentIndex > studioHdr.GetNumAttachments() ) )
-		return NULL;
+		return nullptr;
 
 	// Get the bone in which the attachment position is defined
 	// and then find the dag node using the bone transform.
 	int boneIndex = studioHdr.GetAttachmentBone( attachmentIndex );
 	CDmeTransform *pBoneTranform = GetBone( boneIndex );
 	CDmeDag *pBoneDag = pBoneTranform->GetDag();
-	if ( pBoneDag == NULL )
-		return NULL;
+	if ( pBoneDag == nullptr)
+		return nullptr;
 	
 	CDmeDag *pDagNode = CreateElement< CDmeDag >( CFmtStr( "attach_%s", pchAttachmentName ), GetFileId() );
 

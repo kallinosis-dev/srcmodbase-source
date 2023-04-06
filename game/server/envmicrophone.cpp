@@ -124,17 +124,17 @@ void CEnvMicrophone::Activate(void)
 	// Get a handle to my filter entity if there is one
 	if (m_iszListenFilter != NULL_STRING)
 	{
-		m_hListenFilter = dynamic_cast<CBaseFilter *>(gEntList.FindEntityByName( NULL, m_iszListenFilter ));
+		m_hListenFilter = dynamic_cast<CBaseFilter *>(gEntList.FindEntityByName(nullptr, m_iszListenFilter ));
 	}
 
 	if (m_target != NULL_STRING)
 	{
-		m_hMeasureTarget = gEntList.FindEntityByName(NULL, STRING(m_target) );
+		m_hMeasureTarget = gEntList.FindEntityByName(nullptr, STRING(m_target) );
 
 		//
 		// If we were given a bad measure target, just measure sound where we are.
 		//
-		if ((m_hMeasureTarget == NULL) || (m_hMeasureTarget->edict() == NULL))
+		if ((m_hMeasureTarget == nullptr) || (m_hMeasureTarget->edict() == nullptr))
 		{
 			// We've decided to disable this warning since this seems to be the 90% case.
 			//Warning( "EnvMicrophone - Measure target not found or measure target with no origin. Using Self.!\n");
@@ -302,7 +302,7 @@ bool CEnvMicrophone::CanHearSound( int entindex, soundlevel_t soundlevel, float 
 	}
 
 	// Sound might be coming from an origin or from an entity.
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 	if ( entindex )
 	{
 		pEntity = CBaseEntity::Instance( INDEXENT(entindex) );
@@ -376,7 +376,7 @@ void CEnvMicrophone::SetSpeakerName( string_t iszSpeakerName )
 	m_iszSpeakerName = iszSpeakerName;
 
 	// Set the speaker to null. This will force it to find the speaker next time a sound is routed.
-	m_hSpeaker = NULL;
+	m_hSpeaker = nullptr;
 	ActivateSpeaker();
 }
 
@@ -474,7 +474,7 @@ MicrophoneResult_t CEnvMicrophone::SoundPlayed( int entindex, const char *soundn
 		// find players, and we need to be able to specify !player for a speaker.
 		if ( m_iszSpeakerName != NULL_STRING )
 		{
-			m_hSpeaker = gEntList.FindEntityByName(NULL, STRING(m_iszSpeakerName) );
+			m_hSpeaker = gEntList.FindEntityByName(nullptr, STRING(m_iszSpeakerName) );
 
 			if ( !m_hSpeaker )
 			{

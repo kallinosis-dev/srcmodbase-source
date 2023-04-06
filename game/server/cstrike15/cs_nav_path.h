@@ -37,8 +37,8 @@ public:
 		const CNavLadder *ladder;								///< if "how" refers to a ladder, this is it
 	};
 
-	const PathSegment * operator[] ( int i ) const		{ return (i >= 0 && i < m_segmentCount) ? &m_path[i] : NULL; }
-	const PathSegment *GetSegment( int i ) const		{ return (i >= 0 && i < m_segmentCount) ? &m_path[i] : NULL; }
+	const PathSegment * operator[] ( int i ) const		{ return (i >= 0 && i < m_segmentCount) ? &m_path[i] : nullptr; }
+	const PathSegment *GetSegment( int i ) const		{ return (i >= 0 && i < m_segmentCount) ? &m_path[i] : nullptr; }
 	int GetSegmentCount( void ) const					{ return m_segmentCount; }
 	const Vector &GetEndpoint( void ) const				{ return m_path[ m_segmentCount-1 ].pos; }
 	bool IsAtEnd( const Vector &pos ) const;					///< return true if position is at the end of the path
@@ -71,7 +71,7 @@ public:
 		Invalidate();
 
 		CNavArea *startArea = TheNavMesh->GetNearestNavArea( start + Vector( 0.0f, 0.0f, 1.0f ) );
-		if (startArea == NULL)
+		if (startArea == nullptr)
 		{
 			return false;
 		}
@@ -151,7 +151,7 @@ public:
 		// append path end position
 		m_path[ m_segmentCount ].area = closestArea;
 		m_path[ m_segmentCount ].pos = pathEndPosition;
-		m_path[ m_segmentCount ].ladder = NULL;
+		m_path[ m_segmentCount ].ladder = nullptr;
 		m_path[ m_segmentCount ].how = NUM_TRAVERSE_TYPES;
 		++m_segmentCount;
 

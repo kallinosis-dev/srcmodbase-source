@@ -42,7 +42,7 @@ void ComputePDControllerCoefficients( float *coefficientsOut, const float freque
 	// speed += (coefficientsOut[0] * (targetPos - currentPos) + coefficientsOut[1] * (targetSpeed - currentSpeed)) * dt
 }
 
-void ComputeController( IVP_U_Float_Point &currentSpeed, const IVP_U_Float_Point &delta, float maxSpeed, float maxDampSpeed, float scaleDelta, float damping, IVP_U_Float_Point *pOutImpulse = NULL )
+void ComputeController( IVP_U_Float_Point &currentSpeed, const IVP_U_Float_Point &delta, float maxSpeed, float maxDampSpeed, float scaleDelta, float damping, IVP_U_Float_Point *pOutImpulse = nullptr)
 {
 	if ( currentSpeed.quad_length() < 1e-6 )
 	{
@@ -214,7 +214,7 @@ public:
 	virtual void event_object_deleted( IVP_Event_Object *pEvent)
 	{
 		Assert( pEvent->real_object == m_pGround->GetObject() );
-		m_pGround = NULL;
+		m_pGround = nullptr;
 	}
 	virtual void event_object_created( IVP_Event_Object *) {}
 	virtual void event_object_revived( IVP_Event_Object *) {}
@@ -250,9 +250,9 @@ private:
 
 CPlayerController::CPlayerController( CPhysicsObject *pObject )
 {
-	m_pGround = NULL;
+	m_pGround = nullptr;
 	m_pObject = pObject;
-	m_handler = NULL;
+	m_handler = nullptr;
 	m_maxDeltaPosition = ConvertDistanceToIVP( 24 );
 	m_dampFactor = 1.0f;
 	m_targetPosition.k[0] = m_targetPosition.k[1] = m_targetPosition.k[2] = 0;
@@ -307,9 +307,9 @@ void CPlayerController::DetachObject( void )
 	pCore->rot_speed_damp_factor = m_saveRot;
 	pCore->calc_calc();
 	m_pObject->RemoveCallbackFlags( CALLBACK_IS_PLAYER_CONTROLLER );
-	m_pObject = NULL;
+	m_pObject = nullptr;
 	pivp->get_environment()->get_controller_manager()->remove_controller_from_core( this, pCore );
-	SetGround(NULL);
+	SetGround(nullptr);
 }
 
 void CPlayerController::SetObject( IPhysicsObject *pObject )
@@ -524,7 +524,7 @@ void CPlayerController::do_simulation_controller( IVP_Event_Sim *es,IVP_U_Vector
 		// cap the max speed to the length of the last known good impulse
 		IVP_U_Float_Point tmp;
 		tmp.set( len, len, len );
-		ComputeController( pCore->speed, delta_position, tmp, fraction / es->delta_time, m_dampFactor, NULL );
+		ComputeController( pCore->speed, delta_position, tmp, fraction / es->delta_time, m_dampFactor, nullptr);
 	}
 	else
 	{
@@ -645,7 +645,7 @@ void CPlayerController::Update( const Vector& position, const Vector& velocity, 
 	{
 		// no input velocity, just go where physics takes you.
 		m_enable = false;
-		ground = NULL;
+		ground = nullptr;
 	}
 	else
 	{
@@ -879,7 +879,7 @@ float ComputeShadowControllerIVP( IVP_Real_Object *pivp, shadowcontrol_params_t 
 	deltaAngles.k[1] = axis.y * angle;
 	deltaAngles.k[2] = axis.z * angle;
 
-	ComputeController( pCore->rot_speed, deltaAngles, params.maxAngular, params.maxDampAngular, fraction * invDt, params.dampFactor, NULL );
+	ComputeController( pCore->rot_speed, deltaAngles, params.maxAngular, params.maxDampAngular, fraction * invDt, params.dampFactor, nullptr);
 
 	return secondsToArrival;
 }
@@ -1088,7 +1088,7 @@ void CShadowController::DetachObject( void )
 		UseShadowMaterial( false );
 		pCore->set_rotation_inertia( &m_savedRI ); // this calls calc_calc()
 	}
-	m_pObject = NULL;
+	m_pObject = nullptr;
 	pivp->get_environment()->get_controller_manager()->remove_controller_from_core( this, pCore );
 }
 

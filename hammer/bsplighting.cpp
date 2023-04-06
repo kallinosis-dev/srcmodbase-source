@@ -52,7 +52,7 @@ void InitLMSamplesRed( Vector4D *pSamples, int nSamples )
 CBSPLighting::CMaterialBuf::CMaterialBuf()
 {
 	m_nVerts = m_nIndices = 0;
-	m_pMesh = NULL;
+	m_pMesh = nullptr;
 }
 
 
@@ -78,9 +78,9 @@ CBSPLighting::CFaceMaterial::~CFaceMaterial()
 CBSPLighting::CBSPLighting()
 {
 	m_nTotalTris = 0;
-	m_hVRadDLL = 0;
-	m_pVRadDLL = 0;
-	m_pBSPLightingThread = 0;
+	m_hVRadDLL = nullptr;
+	m_pVRadDLL = nullptr;
+	m_pBSPLightingThread = nullptr;
 	m_bLightingInProgress = false;
 }
 
@@ -326,7 +326,7 @@ void CBSPLighting::Term()
 	if( m_pBSPLightingThread )
 	{
 		m_pBSPLightingThread->Release();
-		m_pBSPLightingThread = 0;
+		m_pBSPLightingThread = nullptr;
 	}
 
 	m_nTotalTris = 0;
@@ -339,11 +339,11 @@ void CBSPLighting::Term()
 			m_pVRadDLL->Serialize();
 
 			m_pVRadDLL->Release();
-			m_pVRadDLL = 0;
+			m_pVRadDLL = nullptr;
 		}
 
 		Sys_UnloadModule( m_hVRadDLL );
-		m_hVRadDLL = 0;
+		m_hVRadDLL = nullptr;
 	}
 
 	m_StoredFaces.Purge();
@@ -424,7 +424,7 @@ bool CBSPLighting::CheckForNewLightmaps()
 		int lightmapPageWidth, lightmapPageHeight;
 
 		CMatRenderContextPtr pRenderContext( materialSystemInterface );
-		IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, g_materialDebugLightmap );
+		IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, g_materialDebugLightmap );
 
 		materialSystemInterface->GetLightmapPageSize( lightmapPageID, &lightmapPageWidth, &lightmapPageHeight );
 		pRenderContext->BindLightmapPage( lightmapPageID );
@@ -829,7 +829,7 @@ void CBSPLighting::ReloadLightmaps()
 				pFace->m_LightmapPageID,
 				pFace->m_LightmapSize,
 				pFace->m_OffsetIntoLightmapPage,
-				(float*)blocklights[0], NULL, NULL, NULL );
+				(float*)blocklights[0], nullptr, nullptr, nullptr);
 		}
 	}
 }
@@ -918,7 +918,7 @@ void CBSPLighting::InitMaterialLUT( CBSPInfo &file )
 {
 	m_StringTableIDToMaterial.SetSize( file.nTexDataStringTable );
 	for( int i=0; i < m_StringTableIDToMaterial.Count(); i++ )
-		m_StringTableIDToMaterial[i] = 0;
+		m_StringTableIDToMaterial[i] = nullptr;
 }
 
 
@@ -927,7 +927,7 @@ CBSPLighting::CFaceMaterial* CBSPLighting::FindOrAddMaterial( CBSPInfo &file, in
 	if( stringTableID >= m_StringTableIDToMaterial.Count() )
 	{
 		Assert( false );
-		return 0;
+		return nullptr;
 	}
 
 	if( m_StringTableIDToMaterial[stringTableID] )
@@ -936,14 +936,14 @@ CBSPLighting::CFaceMaterial* CBSPLighting::FindOrAddMaterial( CBSPInfo &file, in
 	}
 	else
 	{
-		IMaterial *pMaterial = 0;
+		IMaterial *pMaterial = nullptr;
 		char *pMaterialName = &file.texDataStringData[ file.texDataStringTable[ stringTableID ] ];
 		if( pMaterialName )
 			pMaterial = MaterialSystemInterface()->FindMaterial( pMaterialName, TEXTURE_GROUP_OTHER );
 
 		// Don't add CFaceMaterials without a material.
 		if( !pMaterial )
-			return 0;
+			return nullptr;
 
 		// This is lovely. We have to call this stuff to get it to precalculate the data it needs.
 		pMaterial->GetMappingHeight();

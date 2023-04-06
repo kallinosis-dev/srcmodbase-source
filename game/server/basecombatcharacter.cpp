@@ -119,8 +119,8 @@ END_DATADESC()
 // Init static variables
 //-----------------------------------------------------------------------------
 int					CBaseCombatCharacter::m_lastInteraction   = 0;
-Relationship_t**	CBaseCombatCharacter::m_DefaultRelationship	= NULL;
-Relationship_t**	CBaseCombatCharacter::m_FactionRelationship	= NULL;
+Relationship_t**	CBaseCombatCharacter::m_DefaultRelationship	= nullptr;
+Relationship_t**	CBaseCombatCharacter::m_FactionRelationship	= nullptr;
 CUtlVector< CUtlVector< EHANDLE> > CBaseCombatCharacter::m_aFactions;
 
 //-----------------------------------------------------------------------------
@@ -135,7 +135,7 @@ public:
 
 	virtual void Shutdown()
 	{
-		if ( CBaseCombatCharacter::m_DefaultRelationship != NULL )
+		if ( CBaseCombatCharacter::m_DefaultRelationship != nullptr)
 		{
 			int iNumClasses = GameRules() ? GameRules()->NumEntityClasses() : LAST_SHARED_ENTITY_CLASS;
 			for ( int i=0; i<iNumClasses; ++i )
@@ -144,10 +144,10 @@ public:
 			}
 
 			delete[] CBaseCombatCharacter::m_DefaultRelationship;
-			CBaseCombatCharacter::m_DefaultRelationship = NULL;
+			CBaseCombatCharacter::m_DefaultRelationship = nullptr;
 		}
 
-		if ( CBaseCombatCharacter::m_FactionRelationship != NULL )
+		if ( CBaseCombatCharacter::m_FactionRelationship != nullptr)
 		{
 			for( int i = 0; i < CBaseCombatCharacter::m_aFactions.Count(); i++ )
 			{
@@ -156,7 +156,7 @@ public:
 			}
 			CBaseCombatCharacter::m_aFactions.Purge();
 			delete[] CBaseCombatCharacter::m_FactionRelationship;
-			CBaseCombatCharacter::m_FactionRelationship = NULL;
+			CBaseCombatCharacter::m_FactionRelationship = nullptr;
 		}
 	}
 };
@@ -169,7 +169,7 @@ void *SendProxy_SendBaseCombatCharacterLocalDataTable( const SendProp *pProp, co
 	pRecipients->ClearAllRecipients();
 	
 	CBaseCombatCharacter *pBCC = ( CBaseCombatCharacter * )pStruct;
-	if ( pBCC != NULL)
+	if ( pBCC != nullptr)
 	{
 		if ( pBCC->IsPlayer() )
 		{
@@ -179,10 +179,10 @@ void *SendProxy_SendBaseCombatCharacterLocalDataTable( const SendProp *pProp, co
 		{
 			// If it's a vehicle, send to "driver" (e.g., operator of tf2 manned guns)
 			IServerVehicle *pVehicle = pBCC->GetServerVehicle();
-			if ( pVehicle != NULL )
+			if ( pVehicle != nullptr)
 			{
 				CBaseCombatCharacter *pDriver = pVehicle->GetPassenger();
-				if ( pDriver != NULL )
+				if ( pDriver != nullptr)
 				{
 					pRecipients->SetOnly( pDriver->entindex() - 1 );
 				}
@@ -197,7 +197,7 @@ void *SendProxy_SendBaseCombatCharacterNonLocalDataTable( const SendProp *pProp,
 {
 	// Send to all players except itself
 	CBaseCombatCharacter *pBCC = ( CBaseCombatCharacter * )pStruct;
-	if ( pBCC != NULL)
+	if ( pBCC != nullptr)
 	{
 		if ( pBCC->IsPlayer() )
 		{
@@ -383,7 +383,7 @@ bool CBaseCombatCharacter::FVisible( CBaseEntity *pEntity, int traceMask, CBaseE
 			{
 				if ( ppBlocker )
 				{
-					*ppBlocker = NULL;
+					*ppBlocker = nullptr;
 				}
 			}
 
@@ -402,8 +402,8 @@ bool CBaseCombatCharacter::FVisible( CBaseEntity *pEntity, int traceMask, CBaseE
 		}
 	}
 
-	CBaseEntity *pBlocker = NULL;
-	if ( ppBlocker == NULL )
+	CBaseEntity *pBlocker = nullptr;
+	if ( ppBlocker == nullptr)
 	{
 		ppBlocker = &pBlocker;
 	}
@@ -416,7 +416,7 @@ bool CBaseCombatCharacter::FVisible( CBaseEntity *pEntity, int traceMask, CBaseE
 	}
 	else
 	{
-		g_VisibilityCache[iCache].pBlocker = NULL;
+		g_VisibilityCache[iCache].pBlocker = nullptr;
 	}
 
 	g_VisibilityCache[iCache].time = gpGlobals->curtime;
@@ -711,7 +711,7 @@ CBaseCombatCharacter::CBaseCombatCharacter( void )
 	m_flDamageAccumulator = 0.0f;
 
 	// Init weapon and Ammo data
-	m_hActiveWeapon			= NULL;
+	m_hActiveWeapon			= nullptr;
 	m_uiLastDamageTypeFlags = 0;
 
 	// Init faction
@@ -732,7 +732,7 @@ CBaseCombatCharacter::CBaseCombatCharacter( void )
 	m_flTimeOfLastInjury = 0.0f;
 
 	// not standing on a nav area yet
-	m_lastNavArea = NULL;
+	m_lastNavArea = nullptr;
 	m_registeredNavTeam = TEAM_INVALID;
 
 	m_LastHitGroup = HITGROUP_GENERIC;
@@ -861,7 +861,7 @@ void CBaseCombatCharacter::UpdateOnRemove( void )
 	if ( pOwner )
 	{
 		pOwner->DeathNotice( this );
-		SetOwnerEntity( NULL );
+		SetOwnerEntity(nullptr);
 	}
 
 	RemoveAllWearables();
@@ -1244,7 +1244,7 @@ CBaseEntity *CBaseCombatCharacter::CheckTraceHullAttack( const Vector &vStart, c
 
 	CBaseEntity *pEntity = traceFilter.m_pHit;
 	
-	if ( pEntity == NULL )
+	if ( pEntity == nullptr)
 	{
 		// See if perhaps I'm trying to claw/bash someone who is standing on my head.
 		Vector vecTopCenter;
@@ -1267,7 +1267,7 @@ CBaseEntity *CBaseCombatCharacter::CheckTraceHullAttack( const Vector &vStart, c
 	if( pEntity && !pEntity->CanBeHitByMeleeAttack(this) )
 	{
 		// If we touched something, but it shouldn't be hit, return nothing.
-		pEntity = NULL;
+		pEntity = nullptr;
 	}
 
 	return pEntity;
@@ -1434,7 +1434,7 @@ Vector CBaseCombatCharacter::CalcDeathForceVector( const CTakeDamageInfo &info )
 					{
 						pPhysics = pForce->VPhysicsGetObject();
 					}
-					pPhysics->GetVelocity( &forceVector, NULL );
+					pPhysics->GetVelocity( &forceVector, nullptr);
 					forceScale = pPhysics->GetMass();
 				}
 				else
@@ -1462,7 +1462,7 @@ void CBaseCombatCharacter::FixupBurningServerRagdoll( CBaseEntity *pRagdoll )
 	CEntityFlame *pFireChild = dynamic_cast<CEntityFlame *>( GetEffectEntity() );
 	if ( pFireChild )
 	{
-		SetEffectEntity( NULL );
+		SetEffectEntity(nullptr);
 		pRagdoll->AddFlag( FL_ONFIRE );
 		pFireChild->SetAbsOrigin( pRagdoll->GetAbsOrigin() );
 		pFireChild->AttachToEntity( pRagdoll );
@@ -1587,7 +1587,7 @@ void CBaseCombatCharacter::Event_Killed( const CTakeDamageInfo &info )
 		forceVector += pMagnet->GetForceVector( this );
 	}
 
-	CBaseCombatWeapon *pDroppedWeapon = NULL;
+	CBaseCombatWeapon *pDroppedWeapon = nullptr;
 
 	if ( ShouldDropActiveWeaponWhenKilled() )
 	{
@@ -1597,7 +1597,7 @@ void CBaseCombatCharacter::Event_Killed( const CTakeDamageInfo &info )
 		if ( VPhysicsGetObject() )
 		{
 			Vector weaponForce = forceVector * VPhysicsGetObject()->GetInvMass();
-			Weapon_Drop( m_hActiveWeapon, NULL, &weaponForce );
+			Weapon_Drop( m_hActiveWeapon, nullptr, &weaponForce );
 		}
 		else
 		{
@@ -1633,12 +1633,12 @@ void CBaseCombatCharacter::Event_Killed( const CTakeDamageInfo &info )
 				nDissolveType = ENTITY_DISSOLVE_ELECTRICAL;
 			}
 
-			bRagdollCreated = Dissolve( NULL, gpGlobals->curtime, false, nDissolveType );
+			bRagdollCreated = Dissolve(nullptr, gpGlobals->curtime, false, nDissolveType );
 
 			// Also dissolve any weapons we dropped
 			if ( pDroppedWeapon )
 			{
-				pDroppedWeapon->Dissolve( NULL, gpGlobals->curtime, false, nDissolveType );
+				pDroppedWeapon->Dissolve(nullptr, gpGlobals->curtime, false, nDissolveType );
 			}
 		}
 #ifdef HL2_DLL
@@ -1686,7 +1686,7 @@ bool CBaseCombatCharacter::Weapon_Detach( CBaseCombatWeapon *pWeapon )
 					break;
 				}
 			}
-			pWeapon->SetOwner( NULL );
+			pWeapon->SetOwner(nullptr);
 
 			if ( pWeapon == m_hActiveWeapon )
 				ClearActiveWeapon();
@@ -1813,7 +1813,7 @@ void CBaseCombatCharacter::Weapon_DropAll( bool bDisallowWeaponPickup )
 	VectorAngles( BodyDirection2D(), gunAngles );
 
 	Vector vecForward;
-	AngleVectors( gunAngles, &vecForward, NULL, NULL );
+	AngleVectors( gunAngles, &vecForward, nullptr, nullptr);
 
 	float flDiameter = sqrt( CollisionProp()->OBBSize().x * CollisionProp()->OBBSize().x +
 		CollisionProp()->OBBSize().y * CollisionProp()->OBBSize().y );
@@ -1841,7 +1841,7 @@ void CBaseCombatCharacter::Weapon_DropAll( bool bDisallowWeaponPickup )
 			
 			IPhysicsObject *pObj = pWeapon->VPhysicsGetObject();
 			
-			if ( pObj != NULL )
+			if ( pObj != nullptr)
 			{	
 				pObj->SetGameFlags( FVPHYSICS_NO_PLAYER_PICKUP );
 			}
@@ -1858,7 +1858,7 @@ void CBaseCombatCharacter::Weapon_DropAll( bool bDisallowWeaponPickup )
 		// Throw a little more vigorously; it starts closer to the player
 		vecThrow *= random->RandomFloat( 800.0f, 1000.0f );
 
-		Weapon_Drop( pActiveWeapon, NULL, &vecThrow );
+		Weapon_Drop( pActiveWeapon, nullptr, &vecThrow );
 		pActiveWeapon->SetRemoveable( false );
 
 		// HACK: This hack is required to allow weapons to be disintegrated
@@ -1984,7 +1984,7 @@ void CBaseCombatCharacter::Weapon_Drop( CBaseCombatWeapon *pWeapon, const Vector
 			ConcatTransforms( transform, rootInvLocal, weaponMatrix );
 			MatrixAngles( weaponMatrix, angles, origin );
 			
-			pWeapon->Teleport( &origin, &angles, NULL );
+			pWeapon->Teleport( &origin, &angles, nullptr);
 		}
 		// Otherwise just set in front of me.
 		else 
@@ -2083,7 +2083,7 @@ void CBaseCombatCharacter::Weapon_Equip( CBaseCombatWeapon *pWeapon )
 #endif // HL2_DLL
 		{
 			// non-clip, exhaustible ammo ( such as grenades ) is still held on player.
-			CBaseCombatCharacter * pOwner = NULL;
+			CBaseCombatCharacter * pOwner = nullptr;
 
 			if ( pWeapon->GetWpnData().iFlags & ITEM_FLAG_EXHAUSTIBLE )
 			{
@@ -2107,7 +2107,7 @@ void CBaseCombatCharacter::Weapon_Equip( CBaseCombatWeapon *pWeapon )
 	if ( !pWeapon->UsesClipsForAmmo2() )
 	{
 		// non-clip, exhaustible ammo ( such as grenades ) is still held on player.
-		CBaseCombatCharacter * pOwner = NULL;
+		CBaseCombatCharacter * pOwner = nullptr;
 
 		if ( pWeapon->GetWpnData().iFlags & ITEM_FLAG_EXHAUSTIBLE )
 		{
@@ -2183,7 +2183,7 @@ bool CBaseCombatCharacter::Weapon_EquipAmmoOnly( CBaseCombatWeapon *pWeapon )
 #if defined (CSTRIKE15)
 			bSuppressSound = ShouldPickupItemSilently( this );
 #endif
-			CBaseCombatCharacter * pOwner = NULL;
+			CBaseCombatCharacter * pOwner = nullptr;
 
 			if ( pWeapon->GetWpnData().iFlags & ITEM_FLAG_EXHAUSTIBLE )
 				pOwner = this;
@@ -2244,11 +2244,11 @@ bool CBaseCombatCharacter::Weapon_EquipAmmoOnly( CBaseCombatWeapon *pWeapon )
 //-----------------------------------------------------------------------------
 bool CBaseCombatCharacter::Weapon_SlotOccupied( CBaseCombatWeapon *pWeapon )
 {
-	if ( pWeapon == NULL )
+	if ( pWeapon == nullptr)
 		return false;
 
 	//Check to see if there's a resident weapon already in this slot
-	if ( Weapon_GetSlot( pWeapon->GetSlot() ) == NULL )
+	if ( Weapon_GetSlot( pWeapon->GetSlot() ) == nullptr)
 		return false;
 
 	return true;
@@ -2272,7 +2272,7 @@ CBaseCombatWeapon *CBaseCombatCharacter::Weapon_GetWpnForAmmo( int iAmmoIndex )
 			return weapon;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2451,11 +2451,11 @@ int CBaseCombatCharacter::OnTakeDamage( const CTakeDamageInfo &info )
 		Vector vForward, vRight;
 		if( IsPlayer() )
 		{
-			AngleVectors( EyeAngles(), &vForward, &vRight, NULL );
+			AngleVectors( EyeAngles(), &vForward, &vRight, nullptr);
 		}
 		else
 		{
-			GetVectors( &vForward, &vRight, NULL );
+			GetVectors( &vForward, &vRight, nullptr);
 		}
 
 		// Try front and back
@@ -2703,7 +2703,7 @@ void CBaseCombatCharacter::AddClassRelationship ( Class_T class_type, Dispositio
 	int index = m_Relationship.AddToTail();
 	// Add the new class relationship to our relationship table
 	m_Relationship[index].classType		= class_type;
-	m_Relationship[index].entity		= NULL;
+	m_Relationship[index].entity		= nullptr;
 	m_Relationship[index].faction		= FACTION_NONE;
 	m_Relationship[index].disposition	= disposition;
 	m_Relationship[index].priority		= ( priority != DEF_RELATIONSHIP_PRIORITY ) ? priority : 0;
@@ -2782,7 +2782,7 @@ void CBaseCombatCharacter::AddFactionRelationship(int nFaction, Disposition_t di
 	int index = m_Relationship.AddToTail();
 	// Add the new class relationship to our relationship table
 	m_Relationship[index].classType		= CLASS_NONE;
-	m_Relationship[index].entity		= NULL;
+	m_Relationship[index].entity		= nullptr;
 	m_Relationship[index].faction		= nFaction;
 	m_Relationship[index].disposition	= disposition;
 	m_Relationship[index].priority		= ( priority != DEF_RELATIONSHIP_PRIORITY ) ? priority : 0;
@@ -2854,7 +2854,7 @@ int CBaseCombatCharacter::GetNumFactions( void ) {
 CUtlVector<EHANDLE> *CBaseCombatCharacter::GetEntitiesInFaction( int nFaction ) {
 	if ( !m_aFactions.Count() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &m_aFactions[ nFaction ];
@@ -3061,7 +3061,7 @@ CBaseEntity *CBaseCombatCharacter::FindHealthItem( const Vector &vecPosition, co
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3109,7 +3109,7 @@ CBaseEntity *CBaseCombatCharacter::Weapon_FindUsable( const Vector &range )
 #endif
 
 	CBaseCombatWeapon *weaponList[64];
-	CBaseCombatWeapon *pBestWeapon = NULL;
+	CBaseCombatWeapon *pBestWeapon = nullptr;
 
 	Vector mins = GetAbsOrigin() - range;
 	Vector maxs = GetAbsOrigin() + range;
@@ -3124,7 +3124,7 @@ CBaseEntity *CBaseCombatCharacter::Weapon_FindUsable( const Vector &range )
 
 		CBaseCombatWeapon *pWeapon = weaponList[i];
 		Assert(pWeapon);
-		pWeapon->GetVelocity( &velocity, NULL );
+		pWeapon->GetVelocity( &velocity, nullptr);
 
 		if ( pWeapon->CanBePickedUpByNPCs() == false )
 			continue;
@@ -3392,7 +3392,7 @@ void CBaseCombatCharacter::VPhysicsShadowCollision( int index, gamevcollisioneve
 	if ( vehicleOther )
 	{
 		CBaseCombatCharacter *pPassenger = vehicleOther->GetPassenger();
-		if ( pPassenger != NULL )
+		if ( pPassenger != nullptr)
 		{
 			// flag as vehicle damage
 			damageType |= DMG_VEHICLE;
@@ -3519,7 +3519,7 @@ CBaseEntity *CBaseCombatCharacter::FindMissTarget( void )
 
 	for ( int i = 0; i < numEnts; i++ )
 	{
-		if ( pEnts[i] == NULL )
+		if ( pEnts[i] == nullptr)
 			continue;
 
 		// New rule for this system. Don't shoot what the player won't see.
@@ -3540,7 +3540,7 @@ CBaseEntity *CBaseCombatCharacter::FindMissTarget( void )
 	}
 
 	if( numMissCandidates == 0 )
-		return NULL;
+		return nullptr;
 
 	return pMissCandidates[ random->RandomInt( 0, numMissCandidates - 1 ) ];
 }
@@ -3557,7 +3557,7 @@ bool CBaseCombatCharacter::ShouldShootMissTarget( CBaseCombatCharacter *pAttacke
 //-----------------------------------------------------------------------------
 void CBaseCombatCharacter::InputKilledNPC( inputdata_t &inputdata )
 {
-	OnKilledNPC( inputdata.pActivator ? inputdata.pActivator->MyCombatCharacterPointer() : NULL );
+	OnKilledNPC( inputdata.pActivator ? inputdata.pActivator->MyCombatCharacterPointer() : nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -3600,12 +3600,12 @@ void CBaseCombatCharacter::OnFogTriggerEndTouch( CBaseEntity *fogTrigger )
 CBaseEntity *CBaseCombatCharacter::GetFogTrigger( void )
 {
 	float bestDist = 999999.0f;
-	CBaseEntity *bestTrigger = NULL;
+	CBaseEntity *bestTrigger = nullptr;
 
 	for ( int i=0; i<m_hTriggerFogList.Count(); ++i )
 	{
 		CBaseEntity *fogTrigger = m_hTriggerFogList[i];
-		if ( fogTrigger != NULL )
+		if ( fogTrigger != nullptr)
 		{
 			float dist = WorldSpaceCenter().DistTo( fogTrigger->WorldSpaceCenter() );
 			if ( dist < bestDist )
@@ -3786,17 +3786,17 @@ bool CBaseCombatCharacter::IsAreaTraversable( const CNavArea *area ) const
 //-----------------------------------------------------------------------------
 void CBaseCombatCharacter::ClearLastKnownArea( void )
 {
-	OnNavAreaChanged( NULL, m_lastNavArea );
+	OnNavAreaChanged(nullptr, m_lastNavArea );
 
 	if ( m_lastNavArea )
 	{
 		if ( m_registeredNavTeam != TEAM_INVALID )
 		{
 			m_lastNavArea->DecrementPlayerCount( m_registeredNavTeam, entindex() );
-			m_lastNavArea->OnExit( this, NULL );
+			m_lastNavArea->OnExit( this, nullptr);
 			m_registeredNavTeam = TEAM_INVALID;
 		}
-		m_lastNavArea = NULL;
+		m_lastNavArea = nullptr;
 	}
 }
 

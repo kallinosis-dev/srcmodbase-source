@@ -163,7 +163,7 @@ void DrawWeaponDecal(  CBaseVSShader *pShader, IMaterialVar** params, IShaderDyn
 			unsigned int flags = VERTEX_POSITION | VERTEX_NORMAL | VERTEX_FORMAT_COMPRESSED;
 
 			int nTexCoordCount = 1;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 			// Vertex Shader
 			if ( g_pHardwareConfig->SupportsPixelShaders_3_0() )
@@ -482,7 +482,7 @@ void DrawWeaponDecal(  CBaseVSShader *pShader, IMaterialVar** params, IShaderDyn
 
 		if ( bCSMEnabled )
 		{
-			ITexture *pDepthTextureAtlas = NULL;
+			ITexture *pDepthTextureAtlas = nullptr;
 			const CascadedShadowMappingState_t &cascadeState = pShaderAPI->GetCascadedShadowMappingState( &pDepthTextureAtlas );
 
 			if ( pDepthTextureAtlas )

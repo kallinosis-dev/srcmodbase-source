@@ -41,11 +41,11 @@ Slider::Slider(Panel *parent, const char *panelName ) : BaseClass(parent, panelN
 	_range[0] = 0;
 	_range[1] = 0;
 	_buttonOffset = 0;
-	_sliderBorder = NULL;
-	_insetBorder = NULL;
+	_sliderBorder = nullptr;
+	_insetBorder = nullptr;
 	m_nNumTicks = 10;
-	_leftCaption = NULL;
-	_rightCaption = NULL;
+	_leftCaption = nullptr;
+	_rightCaption = nullptr;
 
 	SetThumbWidth( 8 );
 	RecomputeNobPosFromValue();
@@ -328,8 +328,8 @@ void Slider::ApplySettings(KeyValues *inResourceData)
 {
 	BaseClass::ApplySettings(inResourceData);
 
-	const char *left = inResourceData->GetString("leftText", NULL);
-	const char *right = inResourceData->GetString("rightText", NULL);
+	const char *left = inResourceData->GetString("leftText", nullptr);
+	const char *right = inResourceData->GetString("rightText", nullptr);
 
 	int thumbWidth = inResourceData->GetInt("thumbwidth", 0);
 	if (thumbWidth != 0)
@@ -446,7 +446,7 @@ void Slider::DrawTickLabels()
 	    surface()->DrawSetTextColor( m_DisabledTextColor1 ); //vgui::Color( 127, 140, 127, 255 ) );
 
 
-	if ( _leftCaption != NULL )
+	if ( _leftCaption != nullptr)
 	{
 		_leftCaption->SetPos(0, y);
         if (IsEnabled())
@@ -461,7 +461,7 @@ void Slider::DrawTickLabels()
 		_leftCaption->Paint();
 	}
 
-	if ( _rightCaption != NULL)
+	if ( _rightCaption != nullptr)
 	{
 		int rwide, rtall;
 		_rightCaption->GetSize(rwide, rtall);

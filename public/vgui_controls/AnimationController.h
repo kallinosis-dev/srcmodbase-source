@@ -230,7 +230,7 @@ private:
 	// runs a single line of the script
 	void ExecAnimationCommand(UtlSymId_t seqName, AnimCommand_t &animCommand, Panel *pWithinParent);
 	// removes all commands belonging to a script
-	void RemoveQueuedAnimationCommands(UtlSymId_t seqName, vgui::Panel *panel = NULL);
+	void RemoveQueuedAnimationCommands(UtlSymId_t seqName, vgui::Panel *panel = nullptr);
 	// removes an existing instance of a command
 	void RemoveQueuedAnimationByType(vgui::Panel *panel, UtlSymId_t variable, UtlSymId_t sequenceToIgnore);
 

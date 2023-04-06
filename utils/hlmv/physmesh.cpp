@@ -49,11 +49,11 @@ class CStudioPhysics : public IStudioPhysics
 public:
 	CStudioPhysics( void )
 	{
-		m_pList = NULL;
+		m_pList = nullptr;
 		m_listCount = 0;
 		m_mass = 0;
 		m_noselfCollisions = false;
-		m_pCollisionPairs = NULL;
+		m_pCollisionPairs = nullptr;
 		memset( &m_edit, 0, sizeof(editparams_t) );
 	}
 
@@ -80,7 +80,7 @@ public:
 		if ( index < m_listCount )
 			return m_pList + index;
 
-		return NULL;
+		return nullptr;
 	}
 
 	float	GetMass( void ) { return m_mass; }
@@ -149,7 +149,7 @@ void CStudioPhysics::Load( MDLHandle_t mdlHandle )
 	vcollide_t *pVCollide = GetVCollide( );
 	if ( !pVCollide )
 	{
-		m_pList = NULL;
+		m_pList = nullptr;
 		m_listCount = 0;
 		return;
 	}
@@ -221,7 +221,7 @@ public:
 			Q_strncpy( tmp, pValue, 1024 );
 			char *pWord = strtok( tmp, "," );
 			Q_strncpy( parentName, pWord, sizeof(parentName) );
-			pWord = strtok( NULL, "," );
+			pWord = strtok(nullptr, "," );
 			Q_strncpy( childName, pWord, sizeof(childName) );
 			if ( pEdit->mergeCount < ARRAYSIZE(pEdit->mergeList) )
 			{
@@ -263,7 +263,7 @@ public:
 				Q_strncpy( tmp, pValue, 1024 );
 				char *pWord = strtok( tmp, "," );
 				int index0 = atoi(pWord);
-				pWord = strtok( NULL, "," );
+				pWord = strtok(nullptr, "," );
 				int index1 = atoi(pWord);
 				m_pStudio->AddCollisionPair( index0, index1 );
 			}
@@ -325,7 +325,7 @@ void CStudioPhysics::ParseKeydata( void )
 		else if ( !stricmp( pBlock, "ragdollconstraint" ) )
 		{
 			constraint_ragdollparams_t constraint;
-			pParser->ParseRagdollConstraint( &constraint, NULL );
+			pParser->ParseRagdollConstraint( &constraint, nullptr);
 			if ( constraint.childIndex >= 0 && constraint.childIndex < m_listCount )
 			{
 				// In the editor / qc these show up as 5X so that 1.0 is the default
@@ -344,7 +344,7 @@ void CStudioPhysics::ParseKeydata( void )
 		else if ( !strcmpi( pBlock, "collisionrules" ) )
 		{
 			CRagdollCollisionRulesParse rules(this);
-			pParser->ParseCustom( NULL, &rules );
+			pParser->ParseCustom(nullptr, &rules );
 		}
 		else
 		{
@@ -475,7 +475,7 @@ static void DumpModelProperties( CTextBuffer &out, float mass, physdefaults_t &d
 char *CStudioPhysics::DumpQC( void )
 {
 	if ( !m_listCount )
-		return NULL;
+		return nullptr;
 
 	CTextBuffer out;
 	physdefaults_t defs;
@@ -591,7 +591,7 @@ char *CStudioPhysics::DumpQC( void )
 		return pOutput;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static bool LoadSurfaceProps( const char *pMaterialFilename )
@@ -630,7 +630,7 @@ void LoadPhysicsProperties( void )
 	{
 		Msg("Loaded %s\n", SURFACEPROP_MANIFEST_FILE );
 		bIsLoaded = true;
-		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 		{
 			if ( !Q_stricmp( sub->GetName(), "file" ) )
 			{

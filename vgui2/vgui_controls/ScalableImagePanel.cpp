@@ -33,9 +33,9 @@ ScalableImagePanel::ScalableImagePanel(Panel *parent, const char *name) : Panel(
 	m_iCornerHeight = 0;
 	m_iCornerWidth = 0;
 
-	m_pszImageName = NULL;
+	m_pszImageName = nullptr;
 
-	m_pszDrawColorName = NULL;
+	m_pszDrawColorName = nullptr;
 	m_DrawColor = Color(255,255,255,255);
 
 	m_iTextureID = surface()->CreateNewTextureID();
@@ -56,7 +56,7 @@ ScalableImagePanel::~ScalableImagePanel()
 void ScalableImagePanel::SetImage(const char *imageName)
 {
 	delete [] m_pszImageName;
-	m_pszImageName = NULL;
+	m_pszImageName = nullptr;
 
 	if (*imageName)
 	{
@@ -178,7 +178,7 @@ void ScalableImagePanel::ApplySettings(KeyValues *inResourceData)
 	BaseClass::ApplySettings(inResourceData);
 
 	delete [] m_pszDrawColorName;
-	m_pszDrawColorName = NULL;
+	m_pszDrawColorName = nullptr;
 
 	const char *pszDrawColor = inResourceData->GetString("drawcolor", "");
 	if (*pszDrawColor)

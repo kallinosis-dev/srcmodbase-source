@@ -98,7 +98,7 @@ void CDmxConvertApp::PostShutdown()
 int CDmxConvertApp::Main()
 {
 	g_pDataModel->OnlyCreateUntypedElements( true );
-	g_pDataModel->SetDefaultElementFactory( NULL );
+	g_pDataModel->SetDefaultElementFactory(nullptr);
 
 	// This bit of hackery allows us to access files on the harddrive
 	g_pFullFileSystem->AddSearchPath( "", "LOCAL", PATH_ADD_TO_HEAD ); 
@@ -132,7 +132,7 @@ int CDmxConvertApp::Main()
 	// and also append a couple 0s to the end of the buffer.
 	DmxHeader_t header;
 	CDmElement *pRoot;
-	if ( g_pDataModel->RestoreFromFile( pInFileName, NULL, pInFormat, &pRoot, CR_DELETE_NEW, &header ) == DMFILEID_INVALID )
+	if ( g_pDataModel->RestoreFromFile( pInFileName, nullptr, pInFormat, &pRoot, CR_DELETE_NEW, &header ) == DMFILEID_INVALID )
 	{
 		Error( "Encountered an error reading file \"%s\"!\n", pInFileName );
 		return -1;
@@ -166,7 +166,7 @@ int CDmxConvertApp::Main()
 	// TODO - in theory, at some point, we may have converters from pInFormat to pOutFormat
 	//		  until then, treat it as a noop, and hope for the best
 
-	if ( !g_pDataModel->SaveToFile( pOutFileName, NULL, pOutEncoding, pOutFormat, pRoot ) )
+	if ( !g_pDataModel->SaveToFile( pOutFileName, nullptr, pOutEncoding, pOutFormat, pRoot ) )
 	{
 		Error( "Encountered an error writing file \"%s\"!\n", pOutFileName );
 		return -1;

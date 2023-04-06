@@ -61,7 +61,7 @@ unsigned long Sys_GetLastError()
 WHANDLE Sys_CreateMutex(const char *mutexName)
 {
 #if !defined( _PS3 ) && !defined( _OSX ) && !defined (LINUX)
-	return (WHANDLE)::CreateMutex(NULL, FALSE, TEXT(mutexName));
+	return (WHANDLE)::CreateMutex(nullptr, FALSE, TEXT(mutexName));
 #else
 	return 0;
 #endif

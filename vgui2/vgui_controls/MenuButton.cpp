@@ -30,9 +30,9 @@ DECLARE_BUILD_FACTORY_DEFAULT_TEXT( MenuButton, MenuButton );
 //-----------------------------------------------------------------------------
 MenuButton::MenuButton(Panel *parent, const char *panelName, const char *text) : Button(parent, panelName, text)
 {
-	m_pMenu = NULL;
+	m_pMenu = nullptr;
 	m_iDirection = Menu::DOWN;
-	m_pDropMenuImage = NULL;
+	m_pDropMenuImage = nullptr;
 	m_nImageIndex = -1;
 	_openOffsetY = 0;
 
@@ -263,7 +263,7 @@ void MenuButton::SetDropMenuButtonStyle( bool state )
 	{
 		ResetToSimpleTextImage();
 		delete m_pDropMenuImage;
-		m_pDropMenuImage = NULL;
+		m_pDropMenuImage = nullptr;
 		m_nImageIndex = -1;
 	}
 }

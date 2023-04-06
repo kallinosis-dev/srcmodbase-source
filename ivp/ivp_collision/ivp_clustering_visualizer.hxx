@@ -166,7 +166,7 @@ public:
 
     IVP_Clustering_Visualizer_Shortrange_Callback() {
 
-	this->user_data = NULL;
+	this->user_data = nullptr;
 	return;
     };
 

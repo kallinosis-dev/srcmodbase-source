@@ -20,9 +20,9 @@
 #define STRLEN(n) strlen(n)
 #endif
 
-HSQUIRRELVM SquirrelVM::_VM = NULL;
+HSQUIRRELVM SquirrelVM::_VM = nullptr;
 int SquirrelVM::_CallState = -1;
-SquirrelObject * SquirrelVM::_root = NULL;
+SquirrelObject * SquirrelVM::_root = nullptr;
 
 SquirrelError::SquirrelError() 
 {
@@ -75,9 +75,9 @@ void SquirrelVM::Shutdown()
     sq_resetobject(&_root->_o);
 #endif
     delete _root;
-    _root = NULL;
+    _root = nullptr;
     HSQUIRRELVM v = _VM;
-    _VM = NULL;
+    _VM = nullptr;
     sq_close(v);
   } // if
 }
@@ -301,7 +301,7 @@ SquirrelObject SquirrelVM::CreateFunction(SQFUNCTION func,const SQChar * scriptF
   int numParams = SQ_MATCHTYPEMASKSTRING;
   if (typeMask) {
     if (typeMask[0] == '*') {
-      ptm       = 0; // Variable args: don't check parameters.
+      ptm       = nullptr; // Variable args: don't check parameters.
       numParams = 0; // Clear SQ_MATCHTYPEMASKSTRING (does not mean match 0 params. See sq_setparamscheck()).
     } else {
       if (SCSNPRINTF(tm,sizeof(tm),_T("t|y|x%s"),typeMask) < 0) {

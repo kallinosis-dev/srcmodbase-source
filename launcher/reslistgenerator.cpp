@@ -221,7 +221,7 @@ void CResListGenerator::Init( char const *pchBaseDir, char const *pchGameDir )
 	Q_strlower( path );
 	m_sFullGamePath = path;
 
-	const char *pchCommandFile = NULL;
+	const char *pchCommandFile = nullptr;
 	if ( CommandLine()->CheckParm( "-makereslists", &pchCommandFile ) && pchCommandFile )
 	{
 		// base path setup, now can get and parse command file
@@ -323,7 +323,7 @@ bool CResListGenerator::TickAndFixupCommandLine()
 			g_pFullFileSystem->CreateDirHierarchy( szFullWorkingDir, "GAME" );
 
 			// Preserve startmap
-			char const *pszStartMap = NULL;
+			char const *pszStartMap = nullptr;
 			CommandLine()->CheckParm( "-startmap", &pszStartMap );
 			char szMap[ MAX_PATH ] = { 0 };
 			if ( pszStartMap )
@@ -338,7 +338,7 @@ bool CResListGenerator::TickAndFixupCommandLine()
 			CommandLine()->CreateCmdLine( szCmd );
 
 			// Never rebuild caches by default, inly do it in STATE_GENERATINGCACHES
-			CommandLine()->AppendParm( "-norebuildaudio", NULL );
+			CommandLine()->AppendParm( "-norebuildaudio", nullptr);
 			if ( szMap[ 0 ] )
 			{
 				CommandLine()->AppendParm( "-startmap", szMap );
@@ -346,7 +346,7 @@ bool CResListGenerator::TickAndFixupCommandLine()
 
 			if ( m_bCreatingForXbox )
 			{
-				CommandLine()->AppendParm( "-xboxreslist", NULL );
+				CommandLine()->AppendParm( "-xboxreslist", nullptr);
 			}
 
 			Warning( "Generating Reslists: Setting command line:\n'%s'\n", CommandLine()->GetCmdLine() );
@@ -380,7 +380,7 @@ bool CResListGenerator::TickAndFixupCommandLine()
 	{
 		// no further processing required, make the engine shut down cleanly in this pass
 		CommandLine()->RemoveParm( "-makereslists" );
-		CommandLine()->AppendParm( "-autoquit", NULL );
+		CommandLine()->AppendParm( "-autoquit", nullptr);
 	}
 
 	// continue
@@ -471,7 +471,7 @@ bool CResListGenerator::InitCommandFile( char const *pchGameDir, char const *pch
 		return false;
 	}
 
-	char const *pszSolo = NULL;
+	char const *pszSolo = nullptr;
 	if ( CommandLine()->CheckParm( "-reslistmap", &pszSolo ) && pszSolo )
 	{
 		m_MapList.Purge();
@@ -483,7 +483,7 @@ bool CResListGenerator::InitCommandFile( char const *pchGameDir, char const *pch
 	
 	m_nCurrentWorkItem = CommandLine()->ParmValue( "-startstage", 0 );
 
-	char const *pszStartMap = NULL;
+	char const *pszStartMap = nullptr;
 	CommandLine()->CheckParm( "-startmap", &pszStartMap );
 	if ( pszStartMap )
 	{

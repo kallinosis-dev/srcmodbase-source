@@ -441,8 +441,8 @@ namespace ImageLoader
 	void CleanupNiceFilterKernel( KernelInfo_t *pKernel );
 
 	// adjustedheight received the height adjusted for compression (/4 for dxt)
-	int  GetMemRequired( int width, int height, int depth, ImageFormat imageFormat, bool mipmap, int *pAdjustedHeightOut = NULL );
-	int  GetMemRequired( int width, int height, int depth, int nMipmapCount, ImageFormat imageFormat, int *pAdjustedHeightOut = NULL );
+	int  GetMemRequired( int width, int height, int depth, ImageFormat imageFormat, bool mipmap, int *pAdjustedHeightOut = nullptr);
+	int  GetMemRequired( int width, int height, int depth, int nMipmapCount, ImageFormat imageFormat, int *pAdjustedHeightOut = nullptr);
 
 	// This version is for mipmaps which are stored biggest level to smallest level in memory
 	int  GetMipMapLevelByteOffset( int width, int height, ImageFormat imageFormat, int skipMipLevels, int nDepth = 1 );

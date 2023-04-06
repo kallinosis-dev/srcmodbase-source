@@ -148,7 +148,7 @@ void CEntitySprinkleDlg::SetSprinkleTypes( KeyValues *pSprinkleInfo )
 
 	m_SprinkleTypeControl.ResetContent();
 
-	for ( KeyValues *pSub = pSprinkleInfo->GetFirstSubKey() ; pSub != NULL; pSub = pSub->GetNextKey() )
+	for ( KeyValues *pSub = pSprinkleInfo->GetFirstSubKey() ; pSub != nullptr; pSub = pSub->GetNextKey() )
 	{
 		int nIndex = m_SprinkleTypeControl.AddString( pSub->GetName() );
 		m_SprinkleTypeControl.SetItemDataPtr( nIndex, pSub );
@@ -192,7 +192,7 @@ KeyValues *CEntitySprinkleDlg::GetSprinkleType( )
 	
 	if ( nIndex == CB_ERR )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return ( KeyValues * )( m_SprinkleTypeControl.GetItemDataPtr( nIndex ) );

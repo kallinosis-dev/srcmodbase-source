@@ -110,11 +110,11 @@ void CEnvPlayerSurfaceTrigger::UpdateMaterialThink( void )
 {
 	if ( m_iCurrentGameMaterial == m_iTargetGameMaterial )
 	{
-		m_OnSurfaceChangedToTarget.FireOutput( NULL, this );
+		m_OnSurfaceChangedToTarget.FireOutput(nullptr, this );
 	}
 	else 
 	{
-		m_OnSurfaceChangedFromTarget.FireOutput( NULL, this );
+		m_OnSurfaceChangedFromTarget.FireOutput(nullptr, this );
 	}
 }
 

@@ -124,7 +124,7 @@ BEGIN_VS_SHADER( SolidEnergy_dx9, "SolidEnergy" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

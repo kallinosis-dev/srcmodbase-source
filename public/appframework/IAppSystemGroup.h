@@ -111,7 +111,7 @@ public:
 
 public:
 	// constructor
-	CAppSystemGroup( CAppSystemGroup *pParentAppSystem = NULL );
+	CAppSystemGroup( CAppSystemGroup *pParentAppSystem = nullptr);
 
 	// Runs the app system group.
 	// First, modules are loaded, next they are connected, followed by initialization
@@ -226,7 +226,7 @@ private:
 class CSteamAppSystemGroup : public CAppSystemGroup
 {
 public:
-	CSteamAppSystemGroup( IFileSystem *pFileSystem = NULL, CAppSystemGroup *pParentAppSystem = NULL );
+	CSteamAppSystemGroup( IFileSystem *pFileSystem = nullptr, CAppSystemGroup *pParentAppSystem = nullptr);
 
 	// Used by CSteamApplication to set up necessary pointers if we can't do it in the constructor
 	void Setup( IFileSystem *pFileSystem, CAppSystemGroup *pParentAppSystem );

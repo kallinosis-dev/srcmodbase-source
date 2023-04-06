@@ -44,7 +44,7 @@ public:
 class CCSEmbroiderVisualsDataProcessor : public CBaseVisualsDataProcessor< CCSEmbroiderVisualsDataCompare >
 {
 public:
-	CCSEmbroiderVisualsDataProcessor( CCSEmbroiderVisualsDataCompare &&compareObject, CCSEmbroiderData_t visualsData, const char *pCompositingShaderName = NULL );
+	CCSEmbroiderVisualsDataProcessor( CCSEmbroiderVisualsDataCompare &&compareObject, CCSEmbroiderData_t visualsData, const char *pCompositingShaderName = nullptr);
 
 	virtual KeyValues* GenerateCustomMaterialKeyValues();
 	virtual KeyValues* GenerateCompositeMaterialKeyValues( int nMaterialParamId );
@@ -53,7 +53,7 @@ public:
 	virtual const char* GetOriginalMaterialBaseName() const;
 	virtual void Refresh();
 
-	virtual void SetVisualsData( const char *pCompositingShaderName = NULL );
+	virtual void SetVisualsData( const char *pCompositingShaderName = nullptr);
 
 private:
 	virtual ~CCSEmbroiderVisualsDataProcessor();

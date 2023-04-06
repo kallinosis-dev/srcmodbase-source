@@ -45,7 +45,7 @@ bool UploadBugReport(
 	unsigned int attachedfilesize
 );
 
-IBaseFileSystem *g_pFileSystem = NULL;
+IBaseFileSystem *g_pFileSystem = nullptr;
 
 class CBug
 {
@@ -176,8 +176,8 @@ public:
 	virtual int			GetReportTypeCount();
 	virtual char const	*GetReportType( int index );
 
-	virtual char const *GetRepositoryURL( void ) { return NULL; }
-	virtual char const *GetSubmissionURL( void ) { return NULL; }
+	virtual char const *GetRepositoryURL( void ) { return nullptr; }
+	virtual char const *GetSubmissionURL( void ) { return nullptr; }
 
 	virtual int			GetLevelCount(int area) { return 0; }
 	virtual char const	*GetLevel(int area, int index ) { return ""; }
@@ -191,7 +191,7 @@ public:
 	virtual void		SetDescription( char const *description );
 
 	// NULL for current user
-	virtual void		SetSubmitter( char const *username = 0 );
+	virtual void		SetSubmitter( char const *username = nullptr );
 	virtual void		SetOwner( char const *username );
 	virtual void		SetSeverity( char const *severity );
 	virtual void		SetPriority( char const *priority );
@@ -250,7 +250,7 @@ private:
 CBugReporter::CBugReporter()
 {
 	Q_memset( &m_cserIP, 0, sizeof( m_cserIP ) );
-	m_pBug = NULL;
+	m_pBug = nullptr;
 
 	m_Severity.AddToTail( m_BugStrings.AddString( "Zero" ) );
 	m_Severity.AddToTail( m_BugStrings.AddString( "Low" ) );
@@ -286,7 +286,7 @@ CBugReporter::~CBugReporter()
 //-----------------------------------------------------------------------------
 bool CBugReporter::Init( CreateInterfaceFn engineFactory )
 {
-	g_pFileSystem = (IFileSystem *)engineFactory( FILESYSTEM_INTERFACE_VERSION, NULL );
+	g_pFileSystem = (IFileSystem *)engineFactory( FILESYSTEM_INTERFACE_VERSION, nullptr);
 	if ( !g_pFileSystem )
 	{
 		AssertMsg( 0, "Failed to create/get IFileSystem" );

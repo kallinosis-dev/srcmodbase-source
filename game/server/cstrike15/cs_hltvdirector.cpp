@@ -50,9 +50,9 @@ void CCSHLTVDirector::CreateShotFromEvent( CHLTVGameEvent *event )
 {
 	// show event at least for 2 more seconds after it occured
 	const char *name = event->m_Event->GetName();
-	IGameEvent *shot = NULL;
+	IGameEvent *shot = nullptr;
 
-	CBaseEntity *player = NULL;
+	CBaseEntity *player = nullptr;
 
 	if ( !Q_strcmp( "hostage_rescued", name ) ||
 		 !Q_strcmp( "hostage_hurt", name ) ||
@@ -205,7 +205,7 @@ const char** CCSHLTVDirector::GetModEvents()
 		"hostage_rescued_all",
 		"round_officially_ended",
 		"round_prestart",
-		NULL
+		nullptr
 	};
 
 	return s_modevents;

@@ -107,7 +107,7 @@ void CBasePlatTrain::StopMovingSound()
 		CSoundEnvelopeController &controller = CSoundEnvelopeController::GetController();
 
 		controller.SoundDestroy( m_pMovementSound );
-		m_pMovementSound = NULL;
+		m_pMovementSound = nullptr;
 	}
 }
 
@@ -816,7 +816,7 @@ void CFuncTrain::Next( void )
 	CBaseEntity	*pTarg = GetNextTarget();
 
     //If none, we're done
-	if ( pTarg == NULL )
+	if ( pTarg == nullptr)
 	{
 		//Stop the moving sound
 		StopMovingSound();
@@ -896,7 +896,7 @@ void CFuncTrain::Activate( void )
 
 		m_activated = true;
 
-		if ( m_hCurrentTarget.Get() == NULL )
+		if ( m_hCurrentTarget.Get() == nullptr)
 			return;
 
 		// This is supposed to place the center of the func_train at the target's origin.
@@ -928,9 +928,9 @@ void CFuncTrain::SetupTarget( void )
 	// Find our target whenever we don't have one (level transition)
 	if ( !m_hCurrentTarget )
 	{
-		CBaseEntity	*pTarg = gEntList.FindEntityByName( NULL, m_target );
+		CBaseEntity	*pTarg = gEntList.FindEntityByName(nullptr, m_target );
 
-		if ( pTarg == NULL )
+		if ( pTarg == nullptr)
 		{
 			Msg( "Can't find target of train %s\n", STRING(m_target) );
 			return;
@@ -1439,7 +1439,7 @@ void CFuncTrackTrain::InputMoveToPathNode( inputdata_t &inputdata )
 {
 	m_strPathTarget = MAKE_STRING( inputdata.value.String() );
 
-	CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, inputdata.value.StringID() );
+	CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, inputdata.value.StringID() );
 	CPathTrack *pTrack, *pNext;
 	pTrack = m_ppath;
 	
@@ -1524,7 +1524,7 @@ void CFuncTrackTrain::InputTeleportToPathNode( inputdata_t &inputdata )
 {
 	m_strPathTarget = MAKE_STRING( inputdata.value.String() );
 
-	CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, inputdata.value.StringID() );
+	CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, inputdata.value.StringID() );
 	if (pEntity)
 	{
 		m_ppath = (CPathTrack *)pEntity;
@@ -1620,7 +1620,7 @@ static CBaseEntity *FindPhysicsBlockerForHierarchy( CBaseEntity *pParentEntity )
 {
 	CUtlVector<CBaseEntity *> list;
 	GetAllInHierarchy( pParentEntity, list );
-	CBaseEntity *pPhysicsBlocker = NULL;
+	CBaseEntity *pPhysicsBlocker = nullptr;
 	float maxForce = 0;
 	for ( int i = 0; i < list.Count(); i++ )
 	{
@@ -1894,7 +1894,7 @@ void CFuncTrackTrain::ArriveAtNode( CPathTrack *pNode )
 	// Do we have a node move target?
 	if (m_strPathTarget != NULL_STRING) 
 	{
-		CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, STRING(m_strPathTarget) );
+		CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, STRING(m_strPathTarget) );
 		if (pEntity && pNode == pEntity)
 		{
 			m_OnArrivedAtDestinationNode.FireOutput(pNode, this);
@@ -2081,7 +2081,7 @@ void CFuncTrackTrain::UpdateOrientationAtPathTracks( CPathTrack *pPrev, CPathTra
 
 	Vector nextFront = GetLocalOrigin();
 
-	CPathTrack *pNextNode = NULL;
+	CPathTrack *pNextNode = nullptr;
 
 	nextFront.z -= m_height;
 	if ( m_length > 0 )
@@ -2303,7 +2303,7 @@ void CFuncTrackTrain::TeleportToPathTrack( CPathTrack *pTeleport )
 		}
 	}
 
-	Teleport( &pTeleport->GetLocalOrigin(), &nextAngles, NULL );
+	Teleport( &pTeleport->GetLocalOrigin(), &nextAngles, nullptr);
 	SetLocalAngularVelocity( vec3_angle );
 }
 
@@ -2338,7 +2338,7 @@ void CFuncTrackTrain::Next( void )
 	float flSpeed = m_flSpeed;
 
 	nextPos.z -= m_height;
-	CPathTrack *pNextNext = NULL;
+	CPathTrack *pNextNext = nullptr;
 	CPathTrack *pNext = m_ppath->LookAhead( nextPos, flSpeed * 0.1, 1, &pNextNext );
 	//Assert( pNext != NULL );
 
@@ -2352,14 +2352,14 @@ void CFuncTrackTrain::Next( void )
 
 	if (m_debugOverlays & OVERLAY_BBOX_BIT) 
 	{
-		if ( pNext != NULL )
+		if ( pNext != nullptr)
 		{
 			NDebugOverlay::Line( GetAbsOrigin(), pNext->GetAbsOrigin(), 255, 0, 0, true, 0.1 );
 			NDebugOverlay::Line( pNext->GetAbsOrigin(), pNext->GetAbsOrigin() + Vector( 0,0,32), 255, 0, 0, true, 0.1 );
 			NDebugOverlay::Box( pNext->GetAbsOrigin(), Vector( -8, -8, -8 ), Vector( 8, 8, 8 ), 255, 0, 0, 0, 0.1 );
 		}
 
-		if ( pNextNext != NULL )
+		if ( pNextNext != nullptr)
 		{
 			NDebugOverlay::Line( GetAbsOrigin(), pNextNext->GetAbsOrigin(), 0, 255, 0, true, 0.1 );
 			NDebugOverlay::Line( pNextNext->GetAbsOrigin(), pNextNext->GetAbsOrigin() + Vector( 0,0,32), 0, 255, 0, true, 0.1 );
@@ -2390,7 +2390,7 @@ void CFuncTrackTrain::Next( void )
 			// See if we should teleport to the next path track.
 			//
 			CPathTrack *pTeleport = pNext->GetNext();
-			if ( ( pTeleport != NULL ) && pTeleport->HasSpawnFlags( SF_PATH_TELEPORT ) )
+			if ( ( pTeleport != nullptr) && pTeleport->HasSpawnFlags( SF_PATH_TELEPORT ) )
 			{
 				TeleportToPathTrack( pTeleport );
 			}
@@ -2445,7 +2445,7 @@ Vector CFuncTrackTrain::ScriptGetFuturePosition( float flSeconds, float flMinSpe
 	float flSpeed = flMinSpeed;
 
 	nextPos.z -= m_height;
-	CPathTrack *pNextNext = NULL; 
+	CPathTrack *pNextNext = nullptr; 
 	CPathTrack *pNext = m_ppath->LookAhead( nextPos, flSpeed * flSeconds, 1, &pNextNext );
 
 	// If we're moving towards a dead end, but our desired speed goes in the opposite direction
@@ -2528,7 +2528,7 @@ void CFuncTrackTrain::DeadEnd( void )
 		// also check to see if we were assigned to move here.
 		if (m_strPathTarget != NULL_STRING )
 		{
-			CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, STRING(m_strPathTarget) );
+			CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, STRING(m_strPathTarget) );
 			if (pEntity && pTrack == pEntity)
 			{
 				m_OnArrivedAtDestinationNode.FireOutput(pTrack, this);
@@ -2585,7 +2585,7 @@ bool CFuncTrackTrain::OnControls( CBaseEntity *pTest )
 
 void CFuncTrackTrain::Find( void )
 {
-	m_ppath = (CPathTrack *)gEntList.FindEntityByName( NULL, m_target );
+	m_ppath = (CPathTrack *)gEntList.FindEntityByName(nullptr, m_target );
 	if ( !m_ppath )
 		return;
 
@@ -2597,7 +2597,7 @@ void CFuncTrackTrain::Find( void )
 	{
 		Warning( "func_track_train must be on a path of path_track\n" );
 		Assert(0);
-		m_ppath = NULL;
+		m_ppath = nullptr;
 		return;
 	}
 
@@ -2623,7 +2623,7 @@ void CFuncTrackTrain::Find( void )
 		}
 	}
 
-	Teleport( &nextPos, &nextAngles, NULL );
+	Teleport( &nextPos, &nextAngles, nullptr);
 
 	ArriveAtNode( m_ppath );
 
@@ -2638,13 +2638,13 @@ void CFuncTrackTrain::Find( void )
 
 void CFuncTrackTrain::NearestPath( void )
 {
-	CBaseEntity *pTrack = NULL;
-	CBaseEntity *pNearest = NULL;
+	CBaseEntity *pTrack = nullptr;
+	CBaseEntity *pNearest = nullptr;
 	float dist, closest;
 
 	closest = 1024;
 
-	for ( CEntitySphereQuery sphere( GetAbsOrigin(), 1024 ); ( pTrack = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+	for ( CEntitySphereQuery sphere( GetAbsOrigin(), 1024 ); ( pTrack = sphere.GetCurrentEntity() ) != nullptr; sphere.NextEntity() )
 	{
 		// filter out non-tracks
 		if ( !(pTrack->GetFlags() & (FL_CLIENT|FL_NPC)) && FClassnameIs( pTrack, "path_track" ) )
@@ -2699,7 +2699,7 @@ CFuncTrackTrain *CFuncTrackTrain::Instance( edict_t *pent )
 	CBaseEntity *pEntity = CBaseEntity::Instance( pent );
 	if ( FClassnameIs( pEntity, "func_tracktrain" ) )
 		return (CFuncTrackTrain *)pEntity;
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2850,7 +2850,7 @@ LINK_ENTITY_TO_CLASS( func_traincontrols, CFuncTrainControls );
 
 void CFuncTrainControls::Find( void )
 {
-	CBaseEntity *pTarget = NULL;
+	CBaseEntity *pTarget = nullptr;
 
 	do 
 	{
@@ -3008,18 +3008,18 @@ void CFuncTrackChange::Find( void )
 	// Find track entities
 	CBaseEntity *target;
 
-	target = gEntList.FindEntityByName( NULL, m_trackTopName );
+	target = gEntList.FindEntityByName(nullptr, m_trackTopName );
 	if ( target )
 	{
 		m_trackTop = (CPathTrack*) target;
-		target = gEntList.FindEntityByName( NULL, m_trackBottomName );
+		target = gEntList.FindEntityByName(nullptr, m_trackBottomName );
 		if ( target )
 		{
 			m_trackBottom = (CPathTrack*) target;
-			target = gEntList.FindEntityByName( NULL, m_trainName );
+			target = gEntList.FindEntityByName(nullptr, m_trainName );
 			if ( target )
 			{
-				m_train = (CFuncTrackTrain *)gEntList.FindEntityByName( NULL, m_trainName );
+				m_train = (CFuncTrackTrain *)gEntList.FindEntityByName(nullptr, m_trainName );
 				if ( !m_train )
 				{
 					Warning( "Can't find train for track change! %s\n", STRING(m_trainName) );
@@ -3037,7 +3037,7 @@ void CFuncTrackChange::Find( void )
 			{
 				Warning( "Can't find train for track change! %s\n", STRING(m_trainName) );
 				Assert(0);
-				target = gEntList.FindEntityByName( NULL, m_trainName );
+				target = gEntList.FindEntityByName(nullptr, m_trainName );
 			}
 		}
 		else
@@ -3135,7 +3135,7 @@ void CFuncTrackChange::GoDown( void )
 	if ( m_code == TRAIN_FOLLOWING )
 	{
 		UpdateTrain( m_start );
-		m_train->m_ppath = NULL;
+		m_train->m_ppath = nullptr;
 	}
 }
 
@@ -3172,7 +3172,7 @@ void CFuncTrackChange::GoUp( void )
 	if ( m_code == TRAIN_FOLLOWING )
 	{
 		UpdateTrain( m_end );
-		m_train->m_ppath = NULL;
+		m_train->m_ppath = nullptr;
 	}
 }
 
@@ -3342,7 +3342,7 @@ void CFuncTrackAuto::TriggerTrackChange ( inputdata_t &inputdata )
 	else if ( m_toggle_state == TS_AT_BOTTOM )
 		pTarget = m_trackBottom;
 	else
-		pTarget = NULL;
+		pTarget = nullptr;
 
 	if ( inputdata.pActivator && FClassnameIs( inputdata.pActivator, "func_tracktrain" ) )
 	{
@@ -3386,7 +3386,7 @@ void CFuncTrackAuto::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYP
 	else if ( m_toggle_state == TS_AT_BOTTOM )
 		pTarget = m_trackBottom;
 	else
-		pTarget = NULL;
+		pTarget = nullptr;
 
 	if ( FClassnameIs( pActivator, "func_tracktrain" ) )
 	{

@@ -1151,7 +1151,7 @@ void DrawPhong_DX9( CBaseVSShader *pShader, IMaterialVar** params, IShaderDynami
 
 			if ( bCSMEnabled )
 			{
-				ITexture *pDepthTextureAtlas = NULL;
+				ITexture *pDepthTextureAtlas = nullptr;
 				const CascadedShadowMappingState_t &cascadeState = pShaderAPI->GetCascadedShadowMappingState( &pDepthTextureAtlas );
 
 				DynamicCmdsOut.BindTexture( pShader, SHADER_SAMPLER15, TEXTURE_BINDFLAGS_SHADOWDEPTH, pDepthTextureAtlas, 0 );
@@ -1238,7 +1238,7 @@ void DrawPhong_DX9_ExecuteFastPath( int *vsDynIndex, int *psDynIndex,
 	pShaderAPI->SetBooleanPixelShaderConstant( 0, (BOOL*)&bCSMEnabled, 1 );
 	if ( bCSMEnabled )
 	{
-		ITexture *pDepthTextureAtlas = NULL;
+		ITexture *pDepthTextureAtlas = nullptr;
 		const CascadedShadowMappingState_t &cascadeState = pShaderAPI->GetCascadedShadowMappingState( &pDepthTextureAtlas );
 		pShader->BindTexture( SHADER_SAMPLER15, TEXTURE_BINDFLAGS_SHADOWDEPTH, pDepthTextureAtlas, 0 );
 		pShaderAPI->SetPixelShaderConstant( 64, &cascadeState.m_vLightColor.x, CASCADED_SHADOW_MAPPING_CONSTANT_BUFFER_SIZE );
@@ -1250,7 +1250,7 @@ void DrawPhong_DX9_ExecuteFastPath( int *vsDynIndex, int *psDynIndex,
 
 	if( IsGameConsole() )
 	{
-		ITexture *pDepthTextureAtlas = NULL;
+		ITexture *pDepthTextureAtlas = nullptr;
 		const CascadedShadowMappingState_t &cascadeState = pShaderAPI->GetCascadedShadowMappingState( &pDepthTextureAtlas );
 
 		if ( pDepthTextureAtlas )

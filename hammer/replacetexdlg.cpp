@@ -89,7 +89,7 @@ void CReplaceTexDlg::BrowseTex(int iEdit)
 	{
 		IEditorTexture *pTex = g_Textures.FindActiveTexture(pBrowser->m_cTextureWindow.szCurTexture);
 		char szName[MAX_PATH];
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			pTex->GetShortName(szName);
 		}

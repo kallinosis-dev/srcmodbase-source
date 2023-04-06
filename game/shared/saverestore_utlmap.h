@@ -28,8 +28,8 @@ public:
 
 	virtual void Save( const SaveRestoreFieldInfo_t &fieldInfo, ISave *pSave )
 	{		
-		datamap_t *pKeyDatamap = CTypedescDeducer<KEY_TYPE>::Deduce( (UTLMAP *)NULL );
-		datamap_t *pFieldDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLMAP *)NULL );
+		datamap_t *pKeyDatamap = CTypedescDeducer<KEY_TYPE>::Deduce( (UTLMAP *)nullptr);
+		datamap_t *pFieldDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLMAP *)nullptr);
 		typedescription_t dataDesc[] = 
 		{
 			{
@@ -37,10 +37,10 @@ public:
 				"K", 
 				0,
 				1, 
-				FTYPEDESC_SAVE, 
-				NULL, 
-				NULL, 
-				NULL,
+				FTYPEDESC_SAVE,
+				nullptr,
+				nullptr,
+				nullptr,
 				pKeyDatamap,
 				sizeof(KEY_TYPE),
 			},
@@ -50,10 +50,10 @@ public:
 				"T", 
 				offsetof(typename UTLMAP::Node_t, elem),
 				1, 
-				FTYPEDESC_SAVE, 
-				NULL, 
-				NULL, 
-				NULL,
+				FTYPEDESC_SAVE,
+				nullptr,
+				nullptr,
+				nullptr,
 				pFieldDatamap,
 				sizeof(FIELD_TYPE),
 			}
@@ -64,9 +64,9 @@ public:
 			dataDesc,
 			2,
 			"um",
-			NULL,
+			nullptr,
 			0,
-			NULL,
+			nullptr,
 #ifdef _DEBUG
 			true
 #endif
@@ -93,8 +93,8 @@ public:
 	
 	virtual void Restore( const SaveRestoreFieldInfo_t &fieldInfo, IRestore *pRestore )
 	{
-		datamap_t *pKeyDatamap = CTypedescDeducer<KEY_TYPE>::Deduce( (UTLMAP *)NULL );
-		datamap_t *pFieldDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLMAP *)NULL );
+		datamap_t *pKeyDatamap = CTypedescDeducer<KEY_TYPE>::Deduce( (UTLMAP *)nullptr);
+		datamap_t *pFieldDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLMAP *)nullptr);
 		typedescription_t dataDesc[] = 
 		{
 			{
@@ -102,10 +102,10 @@ public:
 				"K", 
 				0,
 				1, 
-				FTYPEDESC_SAVE, 
-				NULL, 
-				NULL, 
-				NULL,
+				FTYPEDESC_SAVE,
+				nullptr,
+				nullptr,
+				nullptr,
 				pKeyDatamap,
 				sizeof(KEY_TYPE),
 			},
@@ -115,10 +115,10 @@ public:
 				"T", 
 				offsetof(typename UTLMAP::Node_t, elem),
 				1, 
-				FTYPEDESC_SAVE, 
-				NULL, 
-				NULL, 
-				NULL,
+				FTYPEDESC_SAVE,
+				nullptr,
+				nullptr,
+				nullptr,
 				pFieldDatamap,
 				sizeof(FIELD_TYPE),
 			}
@@ -129,9 +129,9 @@ public:
 			dataDesc,
 			2,
 			"um",
-			NULL,
+			nullptr,
 			0,
-			NULL,
+			nullptr,
 #ifdef _DEBUG
 			true
 #endif

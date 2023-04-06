@@ -35,7 +35,7 @@ DECLARE_BUILD_FACTORY( AnalogBar );
 AnalogBar::AnalogBar(Panel *parent, const char *panelName) : Panel(parent, panelName)
 {
 	_analogValue = 0.0f;
-	m_pszDialogVar = NULL;
+	m_pszDialogVar = nullptr;
 	SetSegmentInfo( 2, 6 );
 	SetBarInset( 0 );
 	m_iAnalogValueDirection = PROGRESS_EAST;

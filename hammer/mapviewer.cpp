@@ -37,14 +37,14 @@ IMPLEMENT_MAPCLASS(CMapViewer)
 CMapClass *CMapViewer::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 {
 	CMapViewer *pViewer = new CMapViewer;
-	if (pViewer != NULL)
+	if (pViewer != nullptr)
 	{
 		//
 		// The first parameter should be the key name to represent. If it isn't
 		// there we assume "radius".
 		//
 		const char *pszKeyName = pHelperInfo->GetParameter(0);
-		if (pszKeyName != NULL)
+		if (pszKeyName != nullptr)
 		{
 			strcpy(pViewer->m_szKeyName, pszKeyName);
 		}
@@ -61,19 +61,19 @@ CMapClass *CMapViewer::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 		unsigned char chBlue = 255;
 
 		const char *pszParam = pHelperInfo->GetParameter(1);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			chRed = atoi(pszParam);
 		}
 
 		pszParam = pHelperInfo->GetParameter(2);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			chGreen = atoi(pszParam);
 		}
 
 		pszParam = pHelperInfo->GetParameter(3);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			chBlue = atoi(pszParam);
 		}
@@ -172,7 +172,7 @@ CMapClass *CMapViewer::Copy(bool bUpdateDependencies)
 {
 	CMapViewer *pCopy = new CMapViewer( false );
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -287,7 +287,7 @@ bool CMapViewer::HitTest2D(CMapView2D *pView, const Vector2D &point, HitInfo_t &
 		return true;
 	}
 
-	HitData.pObject = NULL;
+	HitData.pObject = nullptr;
 	return false;
 }
 

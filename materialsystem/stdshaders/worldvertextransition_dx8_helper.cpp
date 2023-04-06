@@ -43,7 +43,7 @@ void DrawWorldVertexTransitionEditor_DX8( CBaseVSShader *pShader, IMaterialVar**
 		pShaderShadow->EnableTexture( SHADER_SAMPLER2, true );
 
 		int fmt = VERTEX_POSITION | VERTEX_COLOR;
-		pShaderShadow->VertexShaderVertexFormat( fmt, 2, 0, 0 );
+		pShaderShadow->VertexShaderVertexFormat( fmt, 2, nullptr, 0 );
 
 		worldvertextransition_Static_Index vshIndex;
 		pShaderShadow->SetVertexShader( "WorldVertexTransition", vshIndex.GetIndex() );

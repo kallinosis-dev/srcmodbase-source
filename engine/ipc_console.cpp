@@ -162,7 +162,7 @@ void CIpcConsoleMgr::DisableAll()
 
 		pConsole->EnsureStoppedAndUnregistered();
 		delete pConsole;
-		pConsole = NULL;
+		pConsole = nullptr;
 		
 		Msg( "IPC: disabled console \"%s\"\n", szConsoleName );
 		++ numActiveConsoles;
@@ -202,7 +202,7 @@ void CIpcConsoleMgr::ShowAll()
 CIpcConsoleImpl * CIpcConsoleMgr::FindConsole( char const *szConsoleName )
 {
 	if ( m_mapConsoles.Find( szConsoleName ) == m_mapConsoles.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	CIpcConsoleImpl *&pConsole = m_mapConsoles[ szConsoleName ];
 	return pConsole;
@@ -228,7 +228,7 @@ bool CIpcConsoleMgr::RemoveConsole( CIpcConsoleImpl *pConsoleRemove )
 			continue;
 
 		delete pConsole;
-		pConsole = NULL;
+		pConsole = nullptr;
 		return true;
 	}
 

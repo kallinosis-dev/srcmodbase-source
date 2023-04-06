@@ -67,7 +67,7 @@ public:
 	virtual bool			FileExists( const char *pFileName, const char *pPathID );
 	virtual void			Flush( FileHandle_t file );
 	virtual bool			Precache( const char* pFileName, const char *pPathID );
-	virtual bool			ReadFile( const char *pFileName, const char *pPath, CUtlBuffer &buf, int nMaxBytes = 0, int nStartingByte = 0, FSAllocFunc_t pfnAlloc = 0 );
+	virtual bool			ReadFile( const char *pFileName, const char *pPath, CUtlBuffer &buf, int nMaxBytes = 0, int nStartingByte = 0, FSAllocFunc_t pfnAlloc = nullptr );
 	virtual bool			WriteFile( const char *pFileName, const char *pPath, CUtlBuffer &buf );
 
 // All the IFileSystem-specific ones pass the calls through.

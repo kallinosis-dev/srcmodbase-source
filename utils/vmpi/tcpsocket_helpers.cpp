@@ -44,5 +44,5 @@ ITCPSocket* TCPSocket_ListenForOneConnection( ITCPListenSocket *pSocket, CIPAddr
 			break;
 	}
 
-	return NULL;
+	return nullptr;
 }

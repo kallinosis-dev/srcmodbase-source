@@ -76,7 +76,7 @@ static eventlist_t *ListFromString( const char *pString )
 	// just use the string registry to do this search/map
 	int stringID = g_EventStrings.GetStringID( pString );
 	if ( stringID < 0 )
-		return NULL;
+		return nullptr;
 
 	return &g_EventList[stringID];
 }
@@ -93,7 +93,7 @@ static eventlist_t *ListFromEvent( int eventIndex )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int EventList_GetEventType( int eventIndex )
@@ -189,7 +189,7 @@ const char *EventList_NameForIndex( int eventIndex )
 	{
 		return g_EventStrings.GetStringForKey( pList->stringKey );
 	}
-	return NULL;
+	return nullptr;
 }
 
 void EventList_RegisterSharedEvents( void )

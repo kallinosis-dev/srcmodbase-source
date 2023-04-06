@@ -57,7 +57,7 @@ class coerciblevariant_t
 public:
 
 	// constructor
-	coerciblevariant_t() : fieldType(FIELD_VOID), iVal(0), bVal(false), szVal(NULL), flVal(0), m_bvInitFields(0) {}
+	coerciblevariant_t() : fieldType(FIELD_VOID), iVal(0), bVal(false), szVal(nullptr), flVal(0), m_bvInitFields(0) {}
 	~coerciblevariant_t();
 	// assignment ctors (private because not used yet, please don't use them
 private:
@@ -115,7 +115,7 @@ void coerciblevariant_t::Void( void )
 	if (szVal)
 	{
 		delete[] szVal;
-		szVal = NULL;
+		szVal = nullptr;
 	}
 }
 

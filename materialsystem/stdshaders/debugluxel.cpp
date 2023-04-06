@@ -60,7 +60,7 @@ BEGIN_SHADER_FLAGS( DebugLuxels, "Help for DebugLuxels", SHADER_NOT_EDITABLE )
 
 			SetDefaultBlendingShadowState( BASETEXTURE );
 			DisableFog();
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 2, NULL, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 2, nullptr, 0 );
 		}
 		DYNAMIC_STATE
 		{

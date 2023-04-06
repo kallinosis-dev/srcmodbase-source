@@ -474,9 +474,9 @@ public:
 
 	bool Load( const char *pFilename, const CObjType &loadType = ABSOLUTE );
 
-	bool Import( const char *pFilename, const char *pParentName = NULL );
+	bool Import( const char *pFilename, const char *pParentName = nullptr);
 
-	operator bool() const { return m_pMesh != NULL; }
+	operator bool() const { return m_pMesh != nullptr; }
 
 	void DoIt();
 
@@ -494,17 +494,17 @@ public:
 
 	bool SetState( const char *pDeltaName );
 
-	bool Select( const char *selectString, CDmeSingleIndexedComponent *pPassedSelection = NULL, CDmeMesh *pPassedMesh = NULL );
+	bool Select( const char *selectString, CDmeSingleIndexedComponent *pPassedSelection = nullptr, CDmeMesh *pPassedMesh = nullptr);
 
-	bool Select( const CSelectType &selectType, CDmeSingleIndexedComponent *pPassedSelection = NULL, CDmeMesh *pPassedMesh = NULL );
+	bool Select( const CSelectType &selectType, CDmeSingleIndexedComponent *pPassedSelection = nullptr, CDmeMesh *pPassedMesh = nullptr);
 
-	bool Select( const CSelectOp &selectOp, const char *pSelectTypeString, CDmeSingleIndexedComponent *pPassedSelection = NULL, CDmeMesh *pPassedMesh = NULL );
+	bool Select( const CSelectOp &selectOp, const char *pSelectTypeString, CDmeSingleIndexedComponent *pPassedSelection = nullptr, CDmeMesh *pPassedMesh = nullptr);
 
-	bool Select( const CSelectOp &selectOp, const CSelectType &selectType, CDmeSingleIndexedComponent *pPassedSelection = NULL, CDmeMesh *pPassedMesh = NULL );
+	bool Select( const CSelectOp &selectOp, const CSelectType &selectType, CDmeSingleIndexedComponent *pPassedSelection = nullptr, CDmeMesh *pPassedMesh = nullptr);
 
-	bool SelectHalf( const CSelectOp &selectOp, const CHalfType &halfType, CDmeSingleIndexedComponent *pPassedSelection = NULL, CDmeMesh *pPassedMesh = NULL );
+	bool SelectHalf( const CSelectOp &selectOp, const CHalfType &halfType, CDmeSingleIndexedComponent *pPassedSelection = nullptr, CDmeMesh *pPassedMesh = nullptr);
 
-	bool SelectHalf( const CHalfType &halfType, CDmeSingleIndexedComponent *pPassedSelection = NULL, CDmeMesh *pPassedMesh = NULL );
+	bool SelectHalf( const CHalfType &halfType, CDmeSingleIndexedComponent *pPassedSelection = nullptr, CDmeMesh *pPassedMesh = nullptr);
 
 	bool GrowSelection( int nSize = 1 );
 
@@ -556,7 +556,7 @@ public:
 
 	bool DeleteDelta( const delta &d );
 
-	bool Save( const char *pFilename, const CObjType &saveType = ABSOLUTE, const char *pDeltaName = NULL );
+	bool Save( const char *pFilename, const CObjType &saveType = ABSOLUTE, const char *pDeltaName = nullptr);
 
 	bool Save() { return Save( m_filename ); }
 
@@ -577,13 +577,13 @@ public:
 
 	bool ComputeNormals();
 
-	bool CreateDeltasFromPresets( const char *pPresetFilename, bool bDeleteNonPresetDeltas = true, const CUtlVector< CUtlString > *pPurgeAllButThese = NULL, const char *pExpressionFilename = NULL );
+	bool CreateDeltasFromPresets( const char *pPresetFilename, bool bDeleteNonPresetDeltas = true, const CUtlVector< CUtlString > *pPurgeAllButThese = nullptr, const char *pExpressionFilename = nullptr);
 
-	bool CachePreset( const char *pPresetFilename, const char *pExpressionFilename = NULL );
+	bool CachePreset( const char *pPresetFilename, const char *pExpressionFilename = nullptr);
 
 	bool ClearPresetCache();
 
-	bool CreateDeltasFromCachedPresets( bool bDeleteNonPresetDeltas = true, const CUtlVector< CUtlString > *pPurgeAllButThese = NULL ) const;
+	bool CreateDeltasFromCachedPresets( bool bDeleteNonPresetDeltas = true, const CUtlVector< CUtlString > *pPurgeAllButThese = nullptr) const;
 
 	bool CreateExpressionFileFromPresets( const char *pPresetFilename, const char *pExpressionFilename );
 
@@ -602,9 +602,9 @@ public:
 		float featherDistance = 0.0f,
 		const CFalloffType &falloffType = STRAIGHT,
 		const CDistanceType &distanceType = DIST_DEFAULT,
-		CDmeMesh *pPassedMesh = NULL,
-		CDmeVertexData *pPassedBase = NULL,
-		CDmeSingleIndexedComponent *pPassedSelection = NULL );
+		CDmeMesh *pPassedMesh = nullptr,
+		CDmeVertexData *pPassedBase = nullptr,
+		CDmeSingleIndexedComponent *pPassedSelection = nullptr);
 
 	bool Translate( Vector t, float featherDistance, const CFalloffType &falloffType = STRAIGHT )
 	{
@@ -617,9 +617,9 @@ public:
 		float featherDistance = 0.0f,
 		const CFalloffType &falloffType = STRAIGHT,
 		const CDistanceType &passedDistanceType = DIST_DEFAULT,
-		CDmeMesh *pPassedMesh = NULL,
-		CDmeVertexData *pPassedBase = NULL,
-		CDmeSingleIndexedComponent *pPassedSelection = NULL );
+		CDmeMesh *pPassedMesh = nullptr,
+		CDmeVertexData *pPassedBase = nullptr,
+		CDmeSingleIndexedComponent *pPassedSelection = nullptr);
 
 	bool FixPresetFile( const char *pPresetFilename );
 
@@ -807,11 +807,11 @@ protected:
 
 	CUtlString m_scriptFilename;
 
-	bool Select( CDmeVertexDeltaData *pDelta, CDmeSingleIndexedComponent *pPassedSelection = NULL, CDmeMesh *pPassedMesh = NULL );
+	bool Select( CDmeVertexDeltaData *pDelta, CDmeSingleIndexedComponent *pPassedSelection = nullptr, CDmeMesh *pPassedMesh = nullptr);
 
 	bool Select( const CSelectOp &selectOp, CDmeSingleIndexedComponent *pOriginal, const CDmeSingleIndexedComponent *pNew );
 
-	bool Select( const CSelectOp &selectOp, CDmeVertexDeltaData *pDelta, CDmeSingleIndexedComponent *pPassedSelection = NULL, CDmeMesh *pPassedMesh = NULL );
+	bool Select( const CSelectOp &selectOp, CDmeVertexDeltaData *pDelta, CDmeSingleIndexedComponent *pPassedSelection = nullptr, CDmeMesh *pPassedMesh = nullptr);
 
 	void ImportCombinationControls( CDmeCombinationOperator *pSrcComboOp, CDmeCombinationOperator *pDstComboOp, bool bOverwrite );
 
@@ -837,20 +837,20 @@ protected:
 		return pPassedSelection ? pPassedSelection : m_pCurrentSelection;
 	}
 
-	CDmeVertexDeltaData *FindDeltaState( const char *pDeltaName, const CDmeMesh *pPassedMesh = NULL ) const
+	CDmeVertexDeltaData *FindDeltaState( const char *pDeltaName, const CDmeMesh *pPassedMesh = nullptr) const
 	{
 		const CDmeMesh *pMesh = pPassedMesh ? pPassedMesh : m_pMesh;
 		if ( !pMesh )
-			return NULL;
+			return nullptr;
 
 		return pMesh->FindDeltaState( pDeltaName );
 	}
 
-	CDmeVertexData *GetBindState( const CDmeMesh *pPassedMesh = NULL ) const
+	CDmeVertexData *GetBindState( const CDmeMesh *pPassedMesh = nullptr) const
 	{
 		const CDmeMesh *pMesh = pPassedMesh ? pPassedMesh : m_pMesh;
 		if ( !pMesh )
-			return NULL;
+			return nullptr;
 
 		return pMesh->FindBaseState( "bind" );
 	}

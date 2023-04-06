@@ -54,10 +54,10 @@ class FileOpenDialog : public vgui::Frame
 
 public:
 	// NOTE: Backward compat constructor
-	FileOpenDialog( Panel *parent, const char *title, bool bOpenFile, KeyValues *pContextKeyValues = 0 );
+	FileOpenDialog( Panel *parent, const char *title, bool bOpenFile, KeyValues *pContextKeyValues = nullptr );
 
 	// The context keyvalues are added to all messages sent by this dialog if they are specified
-	FileOpenDialog( Panel *parent, const char *title, FileOpenDialogType_t type, KeyValues *pContextKeyValues = 0 );
+	FileOpenDialog( Panel *parent, const char *title, FileOpenDialogType_t type, KeyValues *pContextKeyValues = nullptr );
 	~FileOpenDialog();
 
 	// Set the directory the file search starts in
@@ -71,7 +71,7 @@ public:
 
 	// Add filters for the drop down combo box
 	// The filter info, if specified, gets sent back to the app in the FileSelected message
-	void AddFilter( const char *filter, const char *filterName, bool bActive, const char *pFilterInfo = NULL );
+	void AddFilter( const char *filter, const char *filterName, bool bActive, const char *pFilterInfo = nullptr);
 
 	// Activate the dialog
 	// NOTE: The argument is there for backward compat

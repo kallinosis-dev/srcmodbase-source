@@ -31,9 +31,9 @@ public:
 	virtual CGameGraphic *CreateNewGraphicClass( KeyValues *kvRequest, CGameUIDefinition *pMenu )
 	{
 		Assert( pMenu );
-		CDynamicRect *pNewGraphic = NULL;
+		CDynamicRect *pNewGraphic = nullptr;
 
-		const char *pName = kvRequest->GetString( "name", NULL );
+		const char *pName = kvRequest->GetString( "name", nullptr);
 		if ( pName )
 		{
 			pNewGraphic = new CDynamicRect( pName );
@@ -42,7 +42,7 @@ public:
 			pMenu->AddGraphicToLayer( pNewGraphic, SUBLAYER_DYNAMIC );
 
 			// Now set the attributes.
-			for ( KeyValues *arg = kvRequest->GetFirstSubKey(); arg != NULL; arg = arg->GetNextKey() )
+			for ( KeyValues *arg = kvRequest->GetFirstSubKey(); arg != nullptr; arg = arg->GetNextKey() )
 			{
 				pNewGraphic->HandleScriptCommand( arg );	
 			}
@@ -163,7 +163,7 @@ KeyValues *CDynamicRect::HandleScriptCommand( KeyValues *args )
 		g_pGameUISystemMgrImpl->ReleaseImageAlias( m_ImageAlias );
 		m_ImageAlias = args->GetString( "alias", "defaultImageAlias" );
 		g_pGameUISystemMgrImpl->InitImageAlias( m_ImageAlias );
-		return NULL;
+		return nullptr;
 	}
 
 	return CGameRect::HandleScriptCommand( args );

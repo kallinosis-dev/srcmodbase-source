@@ -289,7 +289,7 @@ BOOL COPTGeneral::BrowseForFolder(char *pszTitle, char *pszDirectory)
 
 	LPITEMIDLIST idl = SHBrowseForFolder(&bi);
 
-	if(idl == NULL)
+	if(idl == nullptr)
 		return FALSE;
 
 	SHGetPathFromIDList(idl, pszDirectory);

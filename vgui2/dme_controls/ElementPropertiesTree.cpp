@@ -86,7 +86,7 @@ private:
 //-----------------------------------------------------------------------------
 CElementTree::CElementTree( CElementPropertiesTreeInternal *parent, const char *panelName ) :
 	BaseClass( (Panel *)parent, panelName ),
-	m_pEditMenu( 0 ),
+	m_pEditMenu( nullptr ),
 	m_pParent( parent )
 {
 	SetAllowLabelEditing( true );
@@ -265,7 +265,7 @@ void CElementTreeViewListControl::RemoveItem_R( int nItemIndex )
 		{
 			if ( info.m_Columns[i] )
 			{
-				info.m_Columns[i]->SetParent( (Panel*)NULL );
+				info.m_Columns[i]->SetParent( (Panel*)nullptr);
 				info.m_Columns[i]->MarkForDeletion();
 			}
 		}
@@ -1213,11 +1213,11 @@ void CElementPropertiesTreeInternal::OnEstimateMemory()
 
 		// Check to see if this attribute refers to an element
 		CDmElement *pOwner = GetElementKeyValue<CDmElement>( item, "ownerelement" );
-		if ( pOwner == NULL )
+		if ( pOwner == nullptr)
 			continue;
 
 		CDmAttribute *pAttr = pOwner->GetAttribute( item->GetString( "attributeName" ) );
-		if ( pAttr == NULL )
+		if ( pAttr == nullptr)
 			continue;
 
 		DmAttributeType_t attrType = pAttr->GetType();
@@ -1294,7 +1294,7 @@ void CElementPropertiesTreeInternal::GetPathToItem( CUtlVector< TreeItem_t > &pa
 		TreeItem_t treeitem;
 		treeitem.m_pElement = GetElementKeyValue< CDmElement >( itemData, "ownerelement" );
 		treeitem.m_pAttributeName = itemData->GetString( "attributeName", "" );
-		treeitem.m_pArrayElement = isArrayElement ? GetElementKeyValue< CDmElement >( itemData, "dmeelement" ) : NULL;
+		treeitem.m_pArrayElement = isArrayElement ? GetElementKeyValue< CDmElement >( itemData, "dmeelement" ) : nullptr;
 		path.AddToTail( treeitem );
 	}
 }
@@ -1839,7 +1839,7 @@ void CElementPropertiesTreeInternal::OnShowSearchResults()
 
 void CElementPropertiesTreeInternal::OnNavUp( int item )
 {
-	CDmElement *pParent = NULL;
+	CDmElement *pParent = nullptr;
 	CDmElement *pChild = m_hObject;
 
 	if ( item == -1 )
@@ -2264,7 +2264,7 @@ void CElementPropertiesTreeInternal::OnNavSearch( const char *text )
 
 		CUtlRBTree< CDmElement *, int > visited( 0, 0, DefLessFunc( CDmElement * ) );
 
-		const DmObjectId_t *pSearchForId = NULL;
+		const DmObjectId_t *pSearchForId = nullptr;
 
 		DmObjectId_t searchId;
 		if ( UniqueIdFromString( &searchId, m_szSearchStr, Q_strlen( m_szSearchStr ) ) )
@@ -2972,7 +2972,7 @@ void CElementPropertiesTreeInternal::OnShowFileDialog( KeyValues *params )
 	FileOpenDialog *pDialog = new FileOpenDialog( this, pTitle, bOpenOnly, pContext->MakeCopy() );
 
 	char pStartingDir[ MAX_PATH ];
-	GetModSubdirectory( NULL, pStartingDir, sizeof( pStartingDir ) );
+	GetModSubdirectory(nullptr, pStartingDir, sizeof( pStartingDir ) );
 	Q_StripTrailingSlash( pStartingDir );
 
 	pDialog->SetStartDirectoryContext( pTitle, pStartingDir );
@@ -2989,11 +2989,11 @@ void CElementPropertiesTreeInternal::OnShowFileDialog( KeyValues *params )
 
 void CElementPropertiesTreeInternal::OnImportElement( const char *pFullPath, KeyValues *pContext )
 {
-	CDmElement *pRoot = NULL;
+	CDmElement *pRoot = nullptr;
 	DmFileId_t tempFileid;
 	{
 		CDisableUndoScopeGuard guard;
-		tempFileid = g_pDataModel->RestoreFromFile( pFullPath, NULL, NULL, &pRoot, CR_FORCE_COPY );
+		tempFileid = g_pDataModel->RestoreFromFile( pFullPath, nullptr, nullptr, &pRoot, CR_FORCE_COPY );
 	}
 	if ( !pRoot )
 		return;
@@ -3081,7 +3081,7 @@ void CElementPropertiesTreeInternal::CollectSelectedElements< CUtlVector< CDmEle
 
 void CElementPropertiesTreeInternal::OnExportElement( const char *pFullPath, KeyValues *pContext )
 {
-	CDmElement *pRoot = NULL;
+	CDmElement *pRoot = nullptr;
 
 	CUtlVector< KeyValues * > selection;
 	m_pTree->GetTree()->GetSelectedItemData( selection );
@@ -3106,7 +3106,7 @@ void CElementPropertiesTreeInternal::OnExportElement( const char *pFullPath, Key
 	// if this control is ever moved to vgui_controls, change the default format to "dmx", the generic dmx format
 	const char *pFileFormat = "movieobjects";
 	const char *pFileEncoding = g_pDataModel->GetDefaultEncoding( pFileFormat );
-	g_pDataModel->SaveToFile( pFullPath, NULL, pFileEncoding, pFileFormat, pRoot );
+	g_pDataModel->SaveToFile( pFullPath, nullptr, pFileEncoding, pFileFormat, pRoot );
 
 	if ( nSelected > 1 )
 	{
@@ -3144,8 +3144,8 @@ vgui::Panel *CElementPropertiesTreeInternal::CreateAttributeDataWidget( CDmEleme
 	SetupWidgetInfo( &info, pElement, pAttribute, nArrayIndex );
 	IAttributeWidgetFactory *pFactory = attributewidgetfactorylist->GetWidgetFactory( pWidgetName );
 	if ( !pFactory )
-		return NULL;
-	vgui::Panel *returnPanel = pFactory->Create( NULL, info );
+		return nullptr;
+	vgui::Panel *returnPanel = pFactory->Create(nullptr, info );
 
 	CBaseAttributePanel *attrPanel = dynamic_cast< CBaseAttributePanel * >( returnPanel );
 	if ( attrPanel )
@@ -3179,10 +3179,10 @@ void CElementPropertiesTreeInternal::UpdateTree()
 		kv->SetInt( "editablelabel", editableLabel ? 1 : 0 );
 
 		CDmElement *pElement = m_hObject.Get();
-		vgui::Panel *widget = CreateAttributeDataWidget( pElement, "element", pElement, NULL );
+		vgui::Panel *widget = CreateAttributeDataWidget( pElement, "element", pElement, nullptr);
 
 		CUtlVector< Panel * >	columns;
-		columns.AddToTail( NULL );
+		columns.AddToTail(nullptr);
 		columns.AddToTail( widget );
 		int rootIndex = m_pTree->AddItem( kv, editableLabel, -1, columns );
 
@@ -3199,7 +3199,7 @@ void CElementPropertiesTreeInternal::UpdateTree()
 			// Expand "results" too
 			TreeItem_t item;
 
-			item.m_pArrayElement = NULL;
+			item.m_pArrayElement = nullptr;
 			item.m_pElement = m_SearchResultsRoot.Get();
 			item.m_pAttributeName = "results";
 
@@ -3305,7 +3305,7 @@ void CElementPropertiesTreeInternal::GenerateContextMenu( int itemIndex, int x, 
 	if ( m_hContextMenu.Get() )
 	{
 		delete m_hContextMenu.Get();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 
 	m_hContextMenu = new Menu( this, "ActionMenu" );
@@ -3336,7 +3336,7 @@ void CElementPropertiesTreeInternal::GenerateContextMenu( int itemIndex, int x, 
 	bool bIsElementAttribute = bIsAttribute && ( attributeType == AT_ELEMENT );
 	bool bIsElementArrayAttribute = bIsArrayAttribute && ( attributeType == AT_ELEMENT_ARRAY );
 	bool bIsElementArrayItem = bIsArrayItem && ( attributeType == AT_ELEMENT_ARRAY );
-	bool bIsElementAttributeNull = bIsElementAttribute && ( pElement == NULL );
+	bool bIsElementAttributeNull = bIsElementAttribute && ( pElement == nullptr);
 
 	// ----------------------------------------------------
 	// menu title == what's my context? ( 3 x 2 )
@@ -3720,7 +3720,7 @@ HCursor CElementPropertiesTreeInternal::GetItemDropCursor( int itemIndex, CUtlVe
 
 struct ArrayItem_t
 {
-	ArrayItem_t( CDmAttribute *pAttr = NULL, int nIndex = -1 ) : m_pAttr( pAttr ), m_nIndex( nIndex ) {}
+	ArrayItem_t( CDmAttribute *pAttr = nullptr, int nIndex = -1 ) : m_pAttr( pAttr ), m_nIndex( nIndex ) {}
 
 	static bool LessFunc( const ArrayItem_t &lhs, const ArrayItem_t &rhs )
 	{
@@ -4161,7 +4161,7 @@ int CElementPropertiesTreeInternal::FindTreeItem( int nParentIndex, const TreeIt
 
 		CDmElement *pElement = GetElementKeyValue< CDmElement >( data, "ownerelement" );
 		const char *pAttributeName = data->GetString( "attributeName" );
-		CDmElement *pArrayElement = NULL;
+		CDmElement *pArrayElement = nullptr;
 		if ( data->GetInt( "arrayIndex", -1 ) != -1 )
 		{
 			// Only arrays of element pointers should refer to this
@@ -4280,7 +4280,7 @@ void CElementPropertiesTreeInternal::FillInDataForItem( TreeItem_t &item, int nI
 	}
 	else
 	{
-		item.m_pArrayElement = NULL;
+		item.m_pArrayElement = nullptr;
 	}
 }
 
@@ -4379,7 +4379,7 @@ void CElementPropertiesTreeInternal::SetTreeItemColor( int nItemID, CDmElement *
 	// dim any element tree items if they are muted or not visible
 	bool bIsDim = false;
 	int dimAlpha = 128;
-	if ( pEntryElement != NULL )
+	if ( pEntryElement != nullptr)
 	{
 		if ( ( pEntryElement->HasAttribute( "visible" ) && !pEntryElement->GetValue< bool >( "visible" ) )
 			|| ( pEntryElement->HasAttribute( "mute" ) && pEntryElement->GetValue< bool >( "mute" ) ) )
@@ -4454,7 +4454,7 @@ void CElementPropertiesTreeInternal::CreateTreeEntry( int parentNodeIndex, CDmEl
 	char pText[ 512 ];
 	bool bEditableLabel = false;
 	bool bIsExpandable = false;
-	CDmElement *pEntryElement = NULL;
+	CDmElement *pEntryElement = nullptr;
 
 	GetTreeViewText( obj, pAttribute, nArrayIndex, pText, sizeof(pText), bEditableLabel );
 
@@ -4478,7 +4478,7 @@ void CElementPropertiesTreeInternal::CreateTreeEntry( int parentNodeIndex, CDmEl
 	else if ( bIsElementAttribute )
 	{
 		pEntryElement = obj->GetValueElement< CDmElement>( pAttributeName );
-		bIsExpandable = ( pEntryElement != NULL );
+		bIsExpandable = ( pEntryElement != nullptr);
 	}
 	else if ( bIsArrayAttribute )
 	{
@@ -4511,7 +4511,7 @@ void CElementPropertiesTreeInternal::CreateTreeEntry( int parentNodeIndex, CDmEl
 	}
 
 	CUtlVector< vgui::Panel * >	columns;
-	columns.AddToTail( NULL );
+	columns.AddToTail(nullptr);
 	columns.AddToTail( widgets.m_pValueWidget );
 	int itemIndex = m_pTree->AddItem( kv, bEditableLabel, parentNodeIndex, columns );
 	SetTreeItemColor( itemIndex, pEntryElement, bIsElementArrayItem, bEditableLabel );
@@ -4531,7 +4531,7 @@ void CElementPropertiesTreeInternal::SetupWidgetInfo( AttributeWidgetInfo_t *pIn
 	pInfo->m_pAttributeName = pAttributeName;
 	pInfo->m_nArrayIndex = nArrayIndex;
 	pInfo->m_pEditorTypeDictionary = m_hTypeDictionary;
-	pInfo->m_pEditorInfo = NULL;
+	pInfo->m_pEditorInfo = nullptr;
 	pInfo->m_bShowMemoryUsage = m_bShowMemoryUsage;
 	pInfo->m_bShowUniqueID = m_bShowUniqueID;
 
@@ -4560,7 +4560,7 @@ void CElementPropertiesTreeInternal::InsertSingleAttribute( int parentNodeIndex,
 
 	// Get information about the widget to create
 
-	IAttributeWidgetFactory *pFactory = NULL;
+	IAttributeWidgetFactory *pFactory = nullptr;
 	if ( nArrayIndex >= 0 )
 	{
 		pFactory = attributewidgetfactorylist->GetArrayWidgetFactory( obj, pAttribute, m_hTypeDictionary );
@@ -4577,7 +4577,7 @@ void CElementPropertiesTreeInternal::InsertSingleAttribute( int parentNodeIndex,
 	SetupWidgetInfo( &info, obj, pAttribute, nArrayIndex );
 
 	AttributeWidgets_t attributeWidget;
-	attributeWidget.m_pValueWidget = pFactory->Create( NULL, info );
+	attributeWidget.m_pValueWidget = pFactory->Create(nullptr, info );
 
 	// set it to the current font size
 	CBaseAttributePanel *attrPanel = dynamic_cast< CBaseAttributePanel * >( attributeWidget.m_pValueWidget );
@@ -4666,7 +4666,7 @@ void CElementPropertiesTreeInternal::RemoveItem_R( int nItemIndex )
 	if ( data )
 	{
 		AttributeWidgets_t search;
-		search.m_pValueWidget = static_cast<vgui::Panel*>( data->GetPtr( "widget", NULL ) );
+		search.m_pValueWidget = static_cast<vgui::Panel*>( data->GetPtr( "widget", nullptr) );
 		if ( search.m_pValueWidget )
 		{
 			m_AttributeWidgets.FindAndRemove( search );
@@ -4853,7 +4853,7 @@ IMPLEMENT_DMEPANEL_FACTORY( CDmeElementPanel, DmElement, "DmeElementDefault", "D
 //-----------------------------------------------------------------------------
 #pragma warning (disable:4355)
 CDmeElementPanel::CDmeElementPanel( vgui::Panel *pParent, const char *pPanelName ) :
-	BaseClass( pParent, this, NULL )
+	BaseClass( pParent, this, nullptr)
 {
 }
 #pragma warning (default:4355)

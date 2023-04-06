@@ -42,7 +42,7 @@ CSheet::CSheet( CUtlBuffer &buf )
 	for ( int i = 0; i < nNumToAllocate; ++i )
 	{
 		m_SheetInfo.AddToTail();
-		m_SheetInfo[i].m_pSamples = NULL;
+		m_SheetInfo[i].m_pSamples = nullptr;
 		m_SheetInfo[i].m_SeqFlags = 0;
 		m_SheetInfo[i].m_bSequenceIsCopyOfAnotherSequence = 0;
 		m_SheetInfo[i].m_nNumFrames = 0;
@@ -66,7 +66,7 @@ CSheet::CSheet( CUtlBuffer &buf )
 			while ( i < nSequenceIndex )
 			{
 				i = m_SheetInfo.AddToTail();
-				m_SheetInfo[i].m_pSamples = NULL;
+				m_SheetInfo[i].m_pSamples = nullptr;
 				m_SheetInfo[i].m_SeqFlags = 0;
 				m_SheetInfo[i].m_bSequenceIsCopyOfAnotherSequence = 0;
 				m_SheetInfo[i].m_nNumFrames = 0;
@@ -161,7 +161,7 @@ CSheet::CSheet( CUtlBuffer &buf )
 	{
 		for(int i=0 ; i < m_SheetInfo.Count(); i++)
 		{
-			if ( m_SheetInfo[i].m_pSamples == NULL )
+			if ( m_SheetInfo[i].m_pSamples == nullptr)
 			{
 				m_SheetInfo[i].m_pSamples = m_SheetInfo[nFirstSequence].m_pSamples;
 				m_SheetInfo[i].m_SeqFlags = m_SheetInfo[nFirstSequence].m_SeqFlags;
@@ -210,7 +210,7 @@ const SheetSequenceSample_t *CSheet::GetSampleForSequence( float flAge, float fl
 CSheetExtended::CSheetExtended( IMaterial* pMaterial )
 {
 	m_Material.Init( pMaterial );
-	m_pSheetData = NULL;
+	m_pSheetData = nullptr;
 	LoadFromMaterial(pMaterial);
 }
 
@@ -221,7 +221,7 @@ CSheetExtended::~CSheetExtended()
 
 void CSheetExtended::LoadFromMaterial( IMaterial* pMaterial )
 {
-	if ( pMaterial == NULL )
+	if ( pMaterial == nullptr)
 		return;
 
 	bool bFound = false;
@@ -250,7 +250,7 @@ void CSheetExtended::LoadFromBuffer( CUtlBuffer& buf )
 
 int CSheetExtended::GetSheetSequenceCount()
 {
-	if ( m_pSheetData == NULL )
+	if ( m_pSheetData == nullptr)
 	{
 		return 0;
 	}
@@ -270,7 +270,7 @@ int CSheetExtended::GetSheetSequenceCount()
 
 int CSheetExtended::GetNthSequenceIndex( int nSequenceNumber )
 {
-	if ( m_pSheetData == NULL )
+	if ( m_pSheetData == nullptr)
 	{
 		return 0;
 	}
@@ -306,14 +306,14 @@ static SheetSequenceSample_t s_DefaultSheetSequence =
 
 const SheetSequenceSample_t *CSheetExtended::GetSampleForSequence( float flAge, float flAgeScale, int nSequence, bool bForceLoop )
 {
-	if ( m_pSheetData == NULL )
+	if ( m_pSheetData == nullptr)
 		return &s_DefaultSheetSequence;
 	return m_pSheetData->GetSampleForSequence( flAge, flAgeScale, nSequence, bForceLoop );
 }
 
 float CSheetExtended::GetSequenceTimeSpan( int nSequenceIndex )
 {
-	if ( m_pSheetData == NULL )
+	if ( m_pSheetData == nullptr)
 	{
 		return 0.f;
 	}
@@ -323,7 +323,7 @@ float CSheetExtended::GetSequenceTimeSpan( int nSequenceIndex )
 
 bool CSheetExtended::ValidSheetData()
 {
-	return (m_pSheetData != NULL);
+	return (m_pSheetData != nullptr);
 }
 
 bool CSheetExtended::SequenceHasAlphaData( int nSequenceIndex )
@@ -381,8 +381,8 @@ void CSheetExtended::DrawSheet( IMesh *pMesh, const Vector &vCenter, float flRad
 	const SheetSequenceSample_t *pSample = GetSampleForSequence( flAge, flSheetPreviewSpeed, nSheetSequence, bLoopSheetPreview );
 	const SequenceSampleTextureCoords_t *pSample0 = &(pSample->m_TextureCoordData[0]);
 	const SequenceSampleTextureCoords_t *pSecondTexture0 = &(pSample->m_TextureCoordData[1]);
-	const SheetSequenceSample_t *pSample1Data = NULL;
-	const SequenceSampleTextureCoords_t *pSample1 = NULL;
+	const SheetSequenceSample_t *pSample1Data = nullptr;
+	const SequenceSampleTextureCoords_t *pSample1 = nullptr;
 	
 	if ( (nSecondarySequence != -1) && IsMaterialDualSequence( m_Material ) )
 	{

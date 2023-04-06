@@ -87,11 +87,11 @@ enum AI_MoveSuggestionFlags_t
 struct AI_MoveSuggestion_t
 {
 	AI_MoveSuggestion_t();
-	AI_MoveSuggestion_t( AI_MoveSuggType_t newType, float newWeight, float newDir, float newSpan, CBaseEntity *pEntity = NULL );
-	AI_MoveSuggestion_t( AI_MoveSuggType_t newType, float newWeight, const AI_Arc_t &arc, CBaseEntity *pEntity = NULL );
+	AI_MoveSuggestion_t( AI_MoveSuggType_t newType, float newWeight, float newDir, float newSpan, CBaseEntity *pEntity = nullptr);
+	AI_MoveSuggestion_t( AI_MoveSuggType_t newType, float newWeight, const AI_Arc_t &arc, CBaseEntity *pEntity = nullptr);
 
-	void Set( AI_MoveSuggType_t newType, float newWeight, float newDir, float newSpan, CBaseEntity *pEntity = NULL );
-	void Set( AI_MoveSuggType_t newType, float newWeight, const AI_Arc_t &arc, CBaseEntity *pEntity = NULL );
+	void Set( AI_MoveSuggType_t newType, float newWeight, float newDir, float newSpan, CBaseEntity *pEntity = nullptr);
+	void Set( AI_MoveSuggType_t newType, float newWeight, const AI_Arc_t &arc, CBaseEntity *pEntity = nullptr);
 
 	//---------------------------------
 

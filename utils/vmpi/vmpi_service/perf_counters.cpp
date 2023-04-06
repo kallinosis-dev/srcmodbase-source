@@ -19,10 +19,10 @@ public:
 
 	CPerfTracker()
 	{
-		m_hProcessorTimeCounter = NULL;
+		m_hProcessorTimeCounter = nullptr;
 		m_dwProcessID = 0;
-		if ( PdhOpenQuery( NULL, 0, &m_hQuery ) != ERROR_SUCCESS )
-			m_hQuery = NULL;
+		if ( PdhOpenQuery(nullptr, 0, &m_hQuery ) != ERROR_SUCCESS )
+			m_hQuery = nullptr;
 
 		SYSTEM_INFO info;
 		GetSystemInfo( &info );
@@ -49,13 +49,13 @@ public:
 			V_snprintf( str, sizeof( str ), "\\Process(%s)\\%% Processor Time", instanceName );
 			if ( PdhAddCounter( m_hQuery, str, 0, &m_hProcessorTimeCounter ) != ERROR_SUCCESS )
 			{
-				m_hProcessorTimeCounter = NULL;
+				m_hProcessorTimeCounter = nullptr;
 			}
 			
 			V_snprintf( str, sizeof( str ), "\\Process(%s)\\Private Bytes", instanceName );
 			if ( PdhAddCounter( m_hQuery, str, 0, &m_hPrivateBytesCounter ) != ERROR_SUCCESS )
 			{
-				m_hPrivateBytesCounter = NULL;
+				m_hPrivateBytesCounter = nullptr;
 			}
 		}
 	}
@@ -68,8 +68,8 @@ public:
 		if ( m_hPrivateBytesCounter )
 			PdhRemoveCounter( m_hPrivateBytesCounter );
 			
-		m_hProcessorTimeCounter = NULL;
-		m_hPrivateBytesCounter = NULL;
+		m_hProcessorTimeCounter = nullptr;
+		m_hPrivateBytesCounter = nullptr;
 	}
 	
 	virtual void Release()
@@ -118,13 +118,13 @@ private:
 
 		// This refreshes the object list. If we don't do this, it won't get new process IDs correctly.
 		DWORD dummy = 0;
-		PdhEnumObjects( NULL, NULL, NULL, &dummy, PERF_DETAIL_NOVICE, true );
+		PdhEnumObjects(nullptr, nullptr, nullptr, &dummy, PERF_DETAIL_NOVICE, true );
 
 		// Find out how much data we need.
 		DWORD counterListLen=2, instanceListLen=2;
 		char *counterList = new char[counterListLen];
 		char *instanceList = new char[instanceListLen];
-		PDH_STATUS stat = PdhEnumObjectItems( NULL, NULL, "Process", counterList, &counterListLen, instanceList, &instanceListLen, PERF_DETAIL_NOVICE, 0 );
+		PDH_STATUS stat = PdhEnumObjectItems(nullptr, nullptr, "Process", counterList, &counterListLen, instanceList, &instanceListLen, PERF_DETAIL_NOVICE, 0 );
 		if ( stat == PDH_MORE_DATA )
 		{
 			delete [] counterList;
@@ -132,7 +132,7 @@ private:
 			char *counterList = new char[counterListLen];
 			char *instanceList = new char[instanceListLen];
 
-			stat = PdhEnumObjectItems( NULL, NULL, "Process", counterList, &counterListLen, instanceList, &instanceListLen, PERF_DETAIL_NOVICE, 0 );
+			stat = PdhEnumObjectItems(nullptr, nullptr, "Process", counterList, &counterListLen, instanceList, &instanceListLen, PERF_DETAIL_NOVICE, 0 );
 			if ( stat == ERROR_SUCCESS )
 			{
 				// We need the # of each one..
@@ -163,7 +163,7 @@ private:
 						V_snprintf( testInstanceName, sizeof( testInstanceName ), "%s#%d", pInstanceName, iInstance );
 						V_snprintf( fullObjectName, sizeof( fullObjectName ), "\\Process(%s)\\ID Process", testInstanceName );
 						
-						HCOUNTER hCounter = NULL;
+						HCOUNTER hCounter = nullptr;
 						stat = PdhAddCounter( m_hQuery, fullObjectName, 0, &hCounter );
 						if ( stat == ERROR_SUCCESS )
 						{

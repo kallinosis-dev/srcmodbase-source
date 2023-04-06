@@ -41,7 +41,7 @@ public:
 	inline void constraint_system_deleted_event( hk_Local_Constraint_System *pSystem )
 	{
 		if ( m_constraint_system == pSystem )
-			m_constraint_system = NULL;
+			m_constraint_system = nullptr;
 	}
 	inline void set_client_data( void *client_data ) { m_client_data = client_data; }
 	inline void *get_client_data() const { return m_client_data; }

@@ -18,11 +18,11 @@
 
 CShellIconMgr::CShellIconMgr()
 {
-	m_hWnd = NULL;
+	m_hWnd = nullptr;
 	m_hWndClass = NULL;
 	m_uTaskbarRestart = (UINT)-1;
 	m_iCurIconResourceID = 0;
-	m_pHelper = NULL;
+	m_pHelper = nullptr;
 }
 
 
@@ -49,10 +49,10 @@ bool CShellIconMgr::Init(
 	memset( &wndclass, 0, sizeof( wndclass ) );
 	wndclass.lpfnWndProc = &CShellIconMgr::StaticWindowProc;
 	wndclass.hInstance = (HINSTANCE)pHelper->GetHInstance();
-	wndclass.hIcon = NULL;
-	wndclass.hCursor = LoadCursor( NULL, IDC_ARROW );
+	wndclass.hIcon = nullptr;
+	wndclass.hCursor = LoadCursor(nullptr, IDC_ARROW );
 	wndclass.hbrBackground = (HBRUSH)GetStockObject( BLACK_BRUSH );
-	wndclass.lpszMenuName = NULL;
+	wndclass.lpszMenuName = nullptr;
 	wndclass.lpszClassName = SHELLICONMGR_CLASSNAME;
 	m_hWndClass = RegisterClass( &wndclass );
 	if ( !m_hWndClass )
@@ -112,7 +112,7 @@ void CShellIconMgr::Term()
 		Shell_NotifyIcon( NIM_DELETE, &data );
 		
 		DestroyWindow( m_hWnd );
-		m_hWnd = NULL;
+		m_hWnd = nullptr;
 	}
 }
 

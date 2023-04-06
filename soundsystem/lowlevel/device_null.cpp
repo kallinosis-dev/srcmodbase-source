@@ -102,7 +102,7 @@ audio_device_description_t *CAudioDeviceList::FindDeviceById( const char *pId )
 	int nDevice = FindDeviceById( tempName, FIND_AVAILABLE_DEVICE_ONLY );
 	if ( nDevice >= 0 && nDevice < m_list.Count() )
 		return &m_list[nDevice];
-	return NULL;
+	return nullptr;
 }
 
 

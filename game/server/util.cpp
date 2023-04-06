@@ -59,7 +59,7 @@ void DBG_AssertFunction( bool fExpr, const char *szExpr, const char *szFile, int
 	if (fExpr)
 		return;
 	char szOut[512];
-	if (szMessage != NULL)
+	if (szMessage != nullptr)
 		Q_snprintf(szOut,sizeof(szOut), "ASSERT FAILED:\n %s \n(%s@%d)\n%s", szExpr, szFile, szLine, szMessage);
 	else
 		Q_snprintf(szOut,sizeof(szOut), "ASSERT FAILED:\n %s \n(%s@%d)\n", szExpr, szFile, szLine);
@@ -142,7 +142,7 @@ IEntityFactory *CEntityFactoryDictionary::FindFactory( const char *pClassName )
 {
 	unsigned short nIndex = m_Factories.Find( pClassName );
 	if ( nIndex == m_Factories.InvalidIndex() )
-		return NULL;
+		return nullptr;
 	return m_Factories[nIndex];
 }
 
@@ -166,7 +166,7 @@ IServerNetworkable *CEntityFactoryDictionary::Create( const char *pClassName )
 	if ( !pFactory )
 	{
 		Warning("Attempted to create unknown entity type %s!\n", pClassName );
-		return NULL;
+		return nullptr;
 	}
 #if defined(TRACK_ENTITY_MEMORY) && defined(USE_MEM_DEBUG)
 	MEM_ALLOC_CREDIT_( m_Factories.GetElementName( m_Factories.Find( pClassName ) ) );
@@ -263,7 +263,7 @@ CBaseEntity *CEntitySphereQuery::GetCurrentEntity()
 {
 	if ( m_listIndex < m_listCount )
 		return m_pList[m_listIndex];
-	return NULL;
+	return nullptr;
 }
 
 
@@ -297,7 +297,7 @@ private:
 int UTIL_DropToFloor( CBaseEntity *pEntity, unsigned int mask, CBaseEntity *pIgnore)
 {
 	// Assume no ground
-	pEntity->SetGroundEntity( NULL );
+	pEntity->SetGroundEntity(nullptr);
 
 	Assert( pEntity );
 
@@ -509,7 +509,7 @@ void UTIL_RemoveImmediate( CBaseEntity *oldObj )
 // Index is 1 based
 CBasePlayer	*UTIL_PlayerByIndex( int playerIndex )
 {
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 
 	if ( playerIndex > 0 && playerIndex <= gpGlobals->maxClients )
 	{
@@ -526,7 +526,7 @@ CBasePlayer	*UTIL_PlayerByIndex( int playerIndex )
 CBasePlayer* UTIL_PlayerByName( const char *name )
 {
 	if ( !name || !name[0] )
-		return NULL;
+		return nullptr;
 
 	for (int i = 1; i<=gpGlobals->maxClients; i++ )
 	{
@@ -544,7 +544,7 @@ CBasePlayer* UTIL_PlayerByName( const char *name )
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 CBasePlayer* UTIL_PlayerByUserId( int userID )
@@ -565,7 +565,7 @@ CBasePlayer* UTIL_PlayerByUserId( int userID )
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 CBasePlayer* UTIL_PlayerByAccountID( AccountID_t accountID )
@@ -587,7 +587,7 @@ CBasePlayer* UTIL_PlayerByAccountID( AccountID_t accountID )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -609,7 +609,7 @@ CBasePlayer *UTIL_GetLocalPlayer( void )
 #endif
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	return UTIL_PlayerByIndex( 1 );
@@ -625,7 +625,7 @@ CBasePlayer *UTIL_GetListenServerHost( void )
 	{
 		Assert( !"UTIL_GetListenServerHost" );
 		Warning( "UTIL_GetListenServerHost() called from a dedicated server or single-player game.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	return UTIL_PlayerByIndex( 1 );
@@ -662,7 +662,7 @@ bool UTIL_IsCommandIssuedByServerAdmin( void )
  */
 CBaseEntity	*UTIL_EntityByIndex( int entityIndex )
 {
-	CBaseEntity *entity = NULL;
+	CBaseEntity *entity = nullptr;
 
 	if ( entityIndex > 0 )
 	{
@@ -1145,7 +1145,7 @@ void UTIL_HudMessage( CBasePlayer *pToPlayer, const hudtextparms_t &textparms, c
 
 void UTIL_HudMessageAll( const hudtextparms_t &textparms, const char *pMessage )
 {
-	UTIL_HudMessage( NULL, textparms, pMessage );
+	UTIL_HudMessage(nullptr, textparms, pMessage );
 }
 
 void UTIL_HudHintText( CBaseEntity *pEntity, const char *pMessage )
@@ -1308,7 +1308,7 @@ void UTIL_ShowMessage( const char *pString, CBasePlayer *pPlayer )
 
 void UTIL_ShowMessageAll( const char *pString )
 {
-	UTIL_ShowMessage( pString, NULL );
+	UTIL_ShowMessage( pString, nullptr);
 }
 
 
@@ -1516,7 +1516,7 @@ bool UTIL_IsMasterTriggered(string_t sMaster, CBaseEntity *pActivator)
 {
 	if (sMaster != NULL_STRING)
 	{
-		CBaseEntity *pMaster = gEntList.FindEntityByName( NULL, sMaster, NULL, pActivator );
+		CBaseEntity *pMaster = gEntList.FindEntityByName(nullptr, sMaster, nullptr, pActivator );
 	
 		if ( pMaster && (pMaster->ObjectCaps() & FCAP_MASTER) )
 		{
@@ -1620,7 +1620,7 @@ void UTIL_AxisStringToPointPoint( Vector &start, Vector &end, const char *pStrin
 	Q_strncpy( tmpstr, pString, sizeof(tmpstr) );
 	char *pVec = strtok( tmpstr, "," );
 	int i = 0;
-	while ( pVec != NULL && *pVec )
+	while ( pVec != nullptr && *pVec )
 	{
 		if ( i == 0 )
 		{
@@ -1631,7 +1631,7 @@ void UTIL_AxisStringToPointPoint( Vector &start, Vector &end, const char *pStrin
 		{
 			UTIL_StringToVector( end.Base(), pVec );
 		}
-		pVec = strtok( NULL, "," );
+		pVec = strtok(nullptr, "," );
 	}
 }
 
@@ -2009,7 +2009,7 @@ int DispatchSpawn( CBaseEntity *pEntity, bool bRunVScripts )
 		// UNDONE: Spawn() should really return a code to ask that the entity be deleted, but
 		// that would touch too much code for me to do that right now.
 
-		if ( pEntSafe == NULL || pEntity->IsMarkedForDeletion() )
+		if ( pEntSafe == nullptr || pEntity->IsMarkedForDeletion() )
 			return -1;
 
 		if ( pEntity->m_iGlobalname != NULL_STRING ) 
@@ -2281,7 +2281,7 @@ static edict_t *UTIL_GetCurrentCheckClient()
 	// "in" their PVS
 	if ( !ent || ent->IsFree() || !ent->GetUnknown())
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return ent;
@@ -2357,12 +2357,12 @@ CBaseEntity *UTIL_FindClientInPVS( const Vector &vecBoxMins, const Vector &vecBo
 	edict_t	*ent = UTIL_GetCurrentCheckClient();
 	if ( !ent )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( !engine->CheckBoxInPVS( vecBoxMins, vecBoxMaxs, g_CheckClient.m_checkPVS, sizeof( g_CheckClient.m_checkPVS ) ) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// might be able to see it
@@ -2385,13 +2385,13 @@ edict_t *UTIL_FindClientInPVSGuts(edict_t *pEdict, unsigned char *pvs, unsigned 
 	edict_t	*ent = UTIL_GetCurrentCheckClient();
 	if ( !ent )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	CBaseEntity *pPlayerEntity = GetContainingEntity( ent );
 	if( (!pPlayerEntity || (pPlayerEntity->GetFlags() & FL_NOTARGET)) && sv_strict_notarget.GetBool() )
 	{
-		return NULL;
+		return nullptr;
 	}
 	// if current entity can't possibly see the check entity, return 0
 	// UNDONE: Build a box for this and do it over that box
@@ -2403,7 +2403,7 @@ edict_t *UTIL_FindClientInPVSGuts(edict_t *pEdict, unsigned char *pvs, unsigned 
 		
 		if ( !engine->CheckOriginInPVS( view, pvs, pvssize ) )
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -2446,7 +2446,7 @@ CBaseEntity *UTIL_EntitiesInPVS( CBaseEntity *pPVSEntity, CBaseEntity *pStarting
 	static int		lastCluster = -1;
 
 	if ( !pPVSEntity )
-		return NULL;
+		return nullptr;
 
 	// NOTE: These used to be caching code here to prevent this from
 	// being called over+over which breaks when you go back + forth
@@ -2478,7 +2478,7 @@ CBaseEntity *UTIL_EntitiesInPVS( CBaseEntity *pPVSEntity, CBaseEntity *pStarting
 		return pEntity;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2491,7 +2491,7 @@ CBaseEntity *UTIL_EntitiesInPVS( CBaseEntity *pPVSEntity, CBaseEntity *pStarting
 //-----------------------------------------------------------------------------
 void UTIL_PredictedPosition( CBaseEntity *pTarget, float flTimeDelta, Vector *vecPredictedPosition )
 {
-	if ( ( pTarget == NULL ) || ( vecPredictedPosition == NULL ) )
+	if ( ( pTarget == nullptr) || ( vecPredictedPosition == nullptr) )
 		return;
 
 	Vector	vecPredictedVel;
@@ -2502,7 +2502,7 @@ void UTIL_PredictedPosition( CBaseEntity *pTarget, float flTimeDelta, Vector *ve
 	CBasePlayer	*pPlayer = ToBasePlayer( pTarget );
 
 	//Player works differently than other entities
-	if ( pPlayer != NULL )
+	if ( pPlayer != nullptr)
 	{
 		if ( pPlayer->IsInAVehicle() )
 		{
@@ -2519,7 +2519,7 @@ void UTIL_PredictedPosition( CBaseEntity *pTarget, float flTimeDelta, Vector *ve
 	{
 		// See if we're a combat character in a vehicle
 		CBaseCombatCharacter *pCCTarget = pTarget->MyCombatCharacterPointer();
-		if ( pCCTarget != NULL && pCCTarget->IsInAVehicle() )
+		if ( pCCTarget != nullptr && pCCTarget->IsInAVehicle() )
 		{
 			//Calculate the predicted position in this vehicle
 			vecPredictedVel = pCCTarget->GetVehicleEntity()->GetSmoothedVelocity();
@@ -2528,7 +2528,7 @@ void UTIL_PredictedPosition( CBaseEntity *pTarget, float flTimeDelta, Vector *ve
 		{
 			// See if we're an animating entity
 			CBaseAnimating *pAnimating = dynamic_cast<CBaseAnimating *>(pTarget);
-			if ( pAnimating != NULL )
+			if ( pAnimating != nullptr)
 			{
 				vecPredictedVel = pAnimating->GetGroundSpeedVelocity();
 			}
@@ -2551,7 +2551,7 @@ void UTIL_PredictedPosition( CBaseEntity *pTarget, float flTimeDelta, Vector *ve
 //-----------------------------------------------------------------------------
 bool UTIL_PointAtEntity( CBaseEntity *pDest, CBaseEntity *pTarget )
 {
-	if ( ( pDest == NULL ) || ( pTarget == NULL ) )
+	if ( ( pDest == nullptr) || ( pTarget == nullptr) )
 	{
 		return false;
 	}
@@ -2576,7 +2576,7 @@ bool UTIL_PointAtEntity( CBaseEntity *pDest, CBaseEntity *pTarget )
 void UTIL_PointAtNamedEntity( CBaseEntity *pDest, string_t strTarget )
 {
 	//Attempt to find the entity
-	if ( !UTIL_PointAtEntity( pDest, gEntList.FindEntityByName( NULL, strTarget ) ) )
+	if ( !UTIL_PointAtEntity( pDest, gEntList.FindEntityByName(nullptr, strTarget ) ) )
 	{
 		DevMsg( 1, "%s (%s) was unable to point at an entity named: %s\n", pDest->GetClassname(), pDest->GetDebugName(), STRING( strTarget ) );
 	}
@@ -2665,7 +2665,7 @@ AngularImpulse WorldToLocalRotation( const VMatrix &localToWorld, const Vector &
 //-----------------------------------------------------------------------------
 byte *UTIL_LoadFileForMe( const char *filename, int *pLength )
 {
-	void *buffer = NULL;
+	void *buffer = nullptr;
 
 	int length = filesystem->ReadFileEx( filename, "GAME", &buffer, true, true );
 
@@ -2702,11 +2702,11 @@ bool UTIL_IsFacingWithinTolerance( CBaseEntity *pViewer, const Vector &vecPositi
 	}
 
 	// Required elements
-	if ( pViewer == NULL )
+	if ( pViewer == nullptr)
 		return false;
 
 	Vector forward;
-	pViewer->GetVectors( &forward, NULL, NULL );
+	pViewer->GetVectors( &forward, nullptr, nullptr);
 
 	Vector dir = vecPosition - pViewer->GetAbsOrigin();
 	VectorNormalize( dir );
@@ -2737,7 +2737,7 @@ bool UTIL_IsFacingWithinTolerance( CBaseEntity *pViewer, const Vector &vecPositi
 //-----------------------------------------------------------------------------
 bool UTIL_IsFacingWithinTolerance( CBaseEntity *pViewer, CBaseEntity *pTarget, float flDotTolerance, float *pflDot /*= NULL*/ )
 {
-	if ( pViewer == NULL || pTarget == NULL )
+	if ( pViewer == nullptr || pTarget == nullptr)
 		return false;
 
 	return UTIL_IsFacingWithinTolerance( pViewer, pTarget->GetAbsOrigin(), flDotTolerance, pflDot );
@@ -2870,7 +2870,7 @@ bool UTIL_LoadAndSpawnEntitiesFromScript( CUtlVector <CBaseEntity*> &entities, c
 //-----------------------------------------------------------------------------
 void UTIL_ParentToWorldSpace( CBaseEntity *pEntity, Vector &vecPosition, QAngle &vecAngles )
 {
-	if ( pEntity == NULL )
+	if ( pEntity == nullptr)
 		return;
 
 	// Construct the entity-to-world matrix
@@ -2883,7 +2883,7 @@ void UTIL_ParentToWorldSpace( CBaseEntity *pEntity, Vector &vecPosition, QAngle 
 	matrix3x4_t matScratch, matResult;
 	matrix3x4_t matParentToWorld;
 	
-	if ( pEntity->GetParent() != NULL )
+	if ( pEntity->GetParent() != nullptr)
 	{
 		matParentToWorld = pEntity->GetParentToWorldTransform( matScratch );
 	}
@@ -2905,7 +2905,7 @@ void UTIL_ParentToWorldSpace( CBaseEntity *pEntity, Vector &vecPosition, QAngle 
 //-----------------------------------------------------------------------------
 void UTIL_ParentToWorldSpace( CBaseEntity *pEntity, Vector &vecPosition, Quaternion &quat )
 {
-	if ( pEntity == NULL )
+	if ( pEntity == nullptr)
 		return;
 
 	QAngle vecAngles;
@@ -2920,7 +2920,7 @@ void UTIL_ParentToWorldSpace( CBaseEntity *pEntity, Vector &vecPosition, Quatern
 //-----------------------------------------------------------------------------
 void UTIL_WorldToParentSpace( CBaseEntity *pEntity, Vector &vecPosition, QAngle &vecAngles )
 {
-	if ( pEntity == NULL )
+	if ( pEntity == nullptr)
 		return;
 
 	// Construct the entity-to-world matrix
@@ -2933,7 +2933,7 @@ void UTIL_WorldToParentSpace( CBaseEntity *pEntity, Vector &vecPosition, QAngle 
 	matrix3x4_t matScratch, matResult;
 	matrix3x4_t matWorldToParent;
 	
-	if ( pEntity->GetParent() != NULL )
+	if ( pEntity->GetParent() != nullptr)
 	{
 		matScratch = pEntity->GetParentToWorldTransform( matScratch );
 	}
@@ -2956,7 +2956,7 @@ void UTIL_WorldToParentSpace( CBaseEntity *pEntity, Vector &vecPosition, QAngle 
 //-----------------------------------------------------------------------------
 void UTIL_WorldToParentSpace( CBaseEntity *pEntity, Vector &vecPosition, Quaternion &quat )
 {
-	if ( pEntity == NULL )
+	if ( pEntity == nullptr)
 		return;
 
 	QAngle vecAngles;
@@ -3112,7 +3112,7 @@ void CC_KDTreeTest( const CCommand &args )
 	CBasePlayer *pPlayer = static_cast<CBasePlayer*>( UTIL_GetLocalPlayer() );
 	Vector vecStart = pPlayer->GetAbsOrigin();
 
-	static Vector *vecTargets = NULL;
+	static Vector *vecTargets = nullptr;
 	static bool bFirst = true;
 
 	// Generate the targets - rays (1K long).
@@ -3177,7 +3177,7 @@ void CC_KDTreeTest( const CCommand &args )
 			trace_t trace;
 			for ( int iTest = 0; iTest < NUM_KDTREE_TESTS; ++iTest )
 			{
-				UTIL_TraceLine( vecStart, vecTargets[iTest], MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &trace );
+				UTIL_TraceLine( vecStart, vecTargets[iTest], MASK_SOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &trace );
 			}
 			break;
 		}
@@ -3406,9 +3406,9 @@ void CC_CollisionTest( const CCommand &args )
 	Msg( "Testing collision system\n" );
 	::partition->ReportStats( "" );
 	int i;
-	CBaseEntity *pSpot = gEntList.FindEntityByClassname( NULL, "info_player_start");
+	CBaseEntity *pSpot = gEntList.FindEntityByClassname(nullptr, "info_player_start");
 	Vector start = pSpot->GetAbsOrigin();
-	static Vector *targets = NULL;
+	static Vector *targets = nullptr;
 	static bool first = true;
 	static float test[2] = {1,1};
 	if ( first )
@@ -3463,7 +3463,7 @@ void CC_CollisionTest( const CCommand &args )
 			trace_t tr;
 			for ( i = 0; i < NUM_COLLISION_TESTS; i++ )
 			{
-				UTIL_TraceHull( start, targets[i], -size[1], size[1], nMask, NULL, COLLISION_GROUP_NONE, &tr );
+				UTIL_TraceHull( start, targets[i], -size[1], size[1], nMask, nullptr, COLLISION_GROUP_NONE, &tr );
 			}
 		}
 		else
@@ -3478,7 +3478,7 @@ void CC_CollisionTest( const CCommand &args )
 					::partition->RenderLeafsForRayTraceStart( 10.0f );
 				}
 
-				UTIL_TraceLine( start, targets[i], nMask, NULL, COLLISION_GROUP_NONE, &tr );
+				UTIL_TraceLine( start, targets[i], nMask, nullptr, COLLISION_GROUP_NONE, &tr );
 
 				if ( i == 0 )
 				{

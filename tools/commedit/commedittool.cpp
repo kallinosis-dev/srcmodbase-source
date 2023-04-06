@@ -47,7 +47,7 @@ const char *GetVGuiControlsModuleName()
 //-----------------------------------------------------------------------------
 bool ConnectTools( CreateInterfaceFn factory )
 {
-	return (materials != NULL) && (g_pMatSystemSurface != NULL) && (g_pMDLCache != NULL) && (studiorender != NULL) && (g_pMaterialSystemHardwareConfig != NULL);
+	return (materials != nullptr) && (g_pMatSystemSurface != nullptr) && (g_pMDLCache != nullptr) && (studiorender != nullptr) && (g_pMaterialSystemHardwareConfig != nullptr);
 }
 
 void DisconnectTools( )
@@ -58,7 +58,7 @@ void DisconnectTools( )
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
-CCommEditTool	*g_pCommEditTool = NULL;
+CCommEditTool	*g_pCommEditTool = nullptr;
 
 void CreateTools()
 {
@@ -72,8 +72,8 @@ void CreateTools()
 CCommEditTool::CCommEditTool()
 {
 	m_bInNodeDropMode = false;
-	m_pMenuBar = NULL;
-	m_pDoc = NULL;
+	m_pMenuBar = nullptr;
+	m_pDoc = nullptr;
 }
 
 
@@ -91,7 +91,7 @@ bool CCommEditTool::Init( )
 {
 	COMPILE_TIME_ASSERT( ARRAYSIZE( s_pDropClassName ) == DROP_MODE_COUNT );
 
-	m_pDoc = NULL;
+	m_pDoc = nullptr;
 	m_RecentFiles.LoadFromRegistry( GetRegistryName() );
 
 	// NOTE: This has to happen before BaseClass::Init
@@ -118,7 +118,7 @@ void CCommEditTool::Shutdown()
 	for ( int i = 0; i < DROP_MODE_COUNT; ++i )
 	{
 		g_pDataModel->DestroyElement( m_hPreviewEntity[i] );
-		m_hPreviewEntity[i] = NULL;
+		m_hPreviewEntity[i] = nullptr;
 	}
 
 	BaseClass::Shutdown();
@@ -185,7 +185,7 @@ void CCommEditTool::LeaveNodeDropMode()
 			m_hPreviewEntity[i]->DrawInEngine( false );
 		}
 	}
-	SetMiniViewportText( NULL );
+	SetMiniViewportText(nullptr);
 	enginetools->Command( "noclip\n" );
 }
 
@@ -460,7 +460,7 @@ CCommEditToolMenuButton::CCommEditToolMenuButton( CCommEditTool *parent, const c
 {
 	m_pTool = parent;
 
-	AddMenuItem( "addnewnodes", "#CommEditAddNewNodes", new KeyValues( "AddNewNodes" ), pActionSignalTarget, NULL, "CommEditAddNewNodes" );
+	AddMenuItem( "addnewnodes", "#CommEditAddNewNodes", new KeyValues( "AddNewNodes" ), pActionSignalTarget, nullptr, "CommEditAddNewNodes" );
 
 	SetMenu(m_pMenu);
 }
@@ -474,7 +474,7 @@ void CCommEditToolMenuButton::OnShowMenu(vgui::Menu *menu)
 
 	CCommEditDoc *pDoc = m_pTool->GetDocument();
 	id = m_Items.Find( "addnewnodes" );
-	m_pMenu->SetItemEnabled( id, pDoc != NULL );
+	m_pMenu->SetItemEnabled( id, pDoc != nullptr);
 }
 
 
@@ -661,7 +661,7 @@ void CCommEditTool::BringConsoleToFront()
 {
 	CConsolePage *p = GetConsole();
 	Panel *pPage = p->GetParent();
-	if ( pPage == NULL )
+	if ( pPage == nullptr)
 	{
 		OnToggleConsole();
 	}
@@ -711,7 +711,7 @@ void CCommEditTool::CreateTools( CCommEditDoc *doc )
 
 	if ( !m_hConsole.Get() )
 	{
-		m_hConsole = new CConsolePage( NULL, false );
+		m_hConsole = new CConsolePage(nullptr, false );
 	}
 
 	RegisterToolWindow( m_hProperties );
@@ -742,7 +742,7 @@ void CCommEditTool::InitTools()
 
 void CCommEditTool::DestroyTools()
 {
-	m_hCurrentEntity = NULL;
+	m_hCurrentEntity = nullptr;
 
 	int c = ToolWindow::GetToolWindowCount();
 	for ( int i = c - 1; i >= 0 ; --i )
@@ -757,21 +757,21 @@ void CCommEditTool::DestroyTools()
 	{
 		windowposmgr->UnregisterPanel( m_hProperties.Get() );
 		delete m_hProperties.Get();
-		m_hProperties = NULL;
+		m_hProperties = nullptr;
 	}
 
 	if ( m_hCommentaryNodeBrowser.Get() )
 	{
 		windowposmgr->UnregisterPanel( m_hCommentaryNodeBrowser.Get() );
 		delete m_hCommentaryNodeBrowser.Get();
-		m_hCommentaryNodeBrowser = NULL;
+		m_hCommentaryNodeBrowser = nullptr;
 	}
 
 	if ( m_hConsole.Get() )
 	{
 		windowposmgr->UnregisterPanel( m_hConsole.Get() );
 		delete m_hConsole.Get();
-		m_hConsole = NULL;
+		m_hConsole = nullptr;
 	}
 }
 
@@ -780,7 +780,7 @@ void CCommEditTool::ShowToolWindow( Panel *tool, char const *toolName, bool visi
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL && visible )
+	if ( tool->GetParent() == nullptr && visible )
 	{
 		m_ToolWindowFactory.InstanceToolWindow( this, false, tool, toolName, false );
 	}
@@ -796,7 +796,7 @@ void CCommEditTool::ToggleToolWindow( Panel *tool, char const *toolName )
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL )
+	if ( tool->GetParent() == nullptr)
 	{
 		ShowToolWindow( tool, toolName, true );
 	}
@@ -904,7 +904,7 @@ void CCommEditTool::OnCommand( const char *cmd )
 void CCommEditTool::OnNew()
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc && m_pDoc->IsDirty() )
 	{
 		nFlags = FOSM_SHOW_PERFORCE_DIALOGS | FOSM_SHOW_SAVE_QUERY;
@@ -922,7 +922,7 @@ void CCommEditTool::OnNew()
 void CCommEditTool::OnOpen( )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc && m_pDoc->IsDirty() )
 	{
 		nFlags = FOSM_SHOW_PERFORCE_DIALOGS | FOSM_SHOW_SAVE_QUERY;
@@ -956,7 +956,7 @@ void CCommEditTool::OnSaveAs()
 {
 	if ( m_pDoc )
 	{
-		SaveFile( NULL, "txt", FOSM_SHOW_PERFORCE_DIALOGS );
+		SaveFile(nullptr, "txt", FOSM_SHOW_PERFORCE_DIALOGS );
 	}
 }
 
@@ -1023,11 +1023,11 @@ void CCommEditTool::OnCloseNoSave()
 		CAppNotifyScopeGuard sg( "CCommEditTool::OnCloseNoSave", 0 );
 
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 
 		if ( m_hProperties )
 		{
-			m_hProperties->SetObject( NULL );
+			m_hProperties->SetObject(nullptr);
 		}
 	}
 
@@ -1064,7 +1064,7 @@ void CCommEditTool::AttachAllEngineEntities()
 	if ( !clienttools || !m_pDoc )
 		return;
 
-	for ( EntitySearchResult sr = clienttools->FirstEntity(); sr != NULL; sr = clienttools->NextEntity( sr ) )
+	for ( EntitySearchResult sr = clienttools->FirstEntity(); sr != nullptr; sr = clienttools->NextEntity( sr ) )
 	{
 		if ( !sr )
 			continue;
@@ -1093,7 +1093,7 @@ void CCommEditTool::AttachAllEngineEntities()
 void CCommEditTool::OpenSpecificFile( const char *pFileName )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc )
 	{
 		// File is already open
@@ -1261,7 +1261,7 @@ void CCommEditTool::OnAddNewNodes()
 //-----------------------------------------------------------------------------
 const char *CCommEditTool::GetLogoTextureName()
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1299,7 +1299,7 @@ bool CCommEditTool::LoadDocument( const char *pDocName )
 	if ( !m_pDoc->LoadFromFile( pDocName ) )
 	{
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 		Warning( "Fatal error loading '%s'\n", pDocName );
 		return false;
 	}

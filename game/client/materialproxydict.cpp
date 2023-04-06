@@ -38,7 +38,7 @@ IMaterialProxy *CMaterialProxyDict::CreateProxy( const char *pMaterialProxyName 
 	UtlSymId_t sym = m_StringToProxyFactoryMap.Find( pMaterialProxyName );
 	if ( sym == m_StringToProxyFactoryMap.InvalidIndex() )
 	{
-		return NULL;
+		return nullptr;
 	}
 	MaterialProxyFactory_t *pMaterialProxyFactory = m_StringToProxyFactoryMap[sym];
 	Assert( pMaterialProxyFactory );

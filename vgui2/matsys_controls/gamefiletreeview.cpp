@@ -41,7 +41,7 @@ CGameFileTreeView::CGameFileTreeView( Panel *parent, const char *name, const cha
 	m_RootDir = pRootDir;
 	
 	m_Ext = pExtension;
-	m_bUseExt = ( pExtension != NULL );
+	m_bUseExt = ( pExtension != nullptr);
 	
 	m_RootFolderName = pRootFolderName;
 
@@ -98,8 +98,8 @@ const char *CGameFileTreeView::GetRootDirectory( int nIndex )
 	int nItemIndex = GetChild( GetRootItemIndex(), nIndex );
 	KeyValues *kv = GetItemData( nItemIndex );
 	if ( !kv )
-		return NULL;
-	return kv->GetString( "path", NULL );
+		return nullptr;
+	return kv->GetString( "path", nullptr);
 }
 
 

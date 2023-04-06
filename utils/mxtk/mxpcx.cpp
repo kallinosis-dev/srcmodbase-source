@@ -22,13 +22,13 @@ mxPcxRead (const char *filename)
 {
     FILE *file = fopen (filename, "rb");
     if (!file)
-        return 0;
+        return nullptr;
 
 	mxPcxHeader header;
     if (fread (&header, sizeof (mxPcxHeader), 1, file) == -1)
 	{
         fclose (file);
-        return 0;
+        return nullptr;
     }
 /*
     if (header.bitsPerPixel != 8 ||
@@ -54,13 +54,13 @@ mxPcxRead (const char *filename)
 	{
 		delete image;
 		fclose (file);
-		return 0;
+		return nullptr;
 	}
 
     if (fread ((byte *) image->palette, sizeof (byte), 768, file) == -1)
 	{
         fclose (file);
-        return 0;
+        return nullptr;
     }
 
     (void) fseek(file, sizeof (mxPcxHeader), SEEK_SET);

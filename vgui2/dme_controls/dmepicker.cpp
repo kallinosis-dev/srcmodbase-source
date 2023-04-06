@@ -173,7 +173,7 @@ void CDmePicker::OnTextChanged( )
 CDmElement *CDmePicker::GetSelectedDme( )
 {
 	if ( m_pDmeBrowser->GetSelectedItemsCount() == 0 )
-		return NULL;
+		return nullptr;
 
 	int nIndex = m_pDmeBrowser->GetSelectedItem( 0 );
 	KeyValues *pItemKeyValues = m_pDmeBrowser->GetItem( nIndex );
@@ -189,7 +189,7 @@ CDmElement *CDmePicker::GetSelectedDme( )
 CDmePickerFrame::CDmePickerFrame( vgui::Panel *pParent, const char *pTitle ) : 
 BaseClass( pParent, "DmePickerFrame" )
 {
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 	SetDeleteSelfOnClose( true );
 	m_pPicker = new CDmePicker( this );
 	m_pPicker->AddActionSignalTarget( this );
@@ -216,7 +216,7 @@ void CDmePickerFrame::CleanUpMessage()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -250,7 +250,7 @@ void CDmePickerFrame::OnCommand( const char *pCommand )
 			pActionKeys->AddSubKey( m_pContextKeyValues );
 
 			// This prevents them from being deleted later
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 
 		PostActionSignal( pActionKeys );
@@ -266,7 +266,7 @@ void CDmePickerFrame::OnCommand( const char *pCommand )
 			pActionKeys->AddSubKey( m_pContextKeyValues );
 
 			// This prevents them from being deleted later
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 
 		PostActionSignal( pActionKeys );

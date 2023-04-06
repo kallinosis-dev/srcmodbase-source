@@ -66,7 +66,7 @@ void R_Surface_LevelInit();
 void R_Surface_LevelShutdown();
 void R_SceneBegin( void );
 void R_SceneEnd( void );
-void R_BuildWorldLists( IWorldRenderList *pRenderList, WorldListInfo_t* pInfo, int iForceViewLeaf, const struct VisOverrideData_t* pVisData, bool bShadowDepth = false, float *pWaterReflectionHeight = NULL );
+void R_BuildWorldLists( IWorldRenderList *pRenderList, WorldListInfo_t* pInfo, int iForceViewLeaf, const struct VisOverrideData_t* pVisData, bool bShadowDepth = false, float *pWaterReflectionHeight = nullptr);
 void R_DrawWorldLists( IMatRenderContext *pRenderContext, IWorldRenderList *pRenderList, unsigned long flags, float waterZAdjust );
 
 #if defined(_PS3)

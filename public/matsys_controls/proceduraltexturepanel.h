@@ -54,7 +54,7 @@ public:
 	void DownloadTexture();
 
 	// Sets the rectangle to paint. Use null to fill the entire panel
-	void SetPaintRect( const Rect_t *pPaintRect = NULL );
+	void SetPaintRect( const Rect_t *pPaintRect = nullptr);
 
 	// Sets the texcoords to use with the procedural texture
 	void SetTextureSubRect( const Rect_t &subRect );

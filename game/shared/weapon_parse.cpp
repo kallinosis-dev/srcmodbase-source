@@ -141,7 +141,7 @@ KeyValues* ReadEncryptedKVFile( IFileSystem *filesystem, const char *szFilenameW
 			if (!f)
 			{
 				pKV->deleteThis();
-				return NULL;
+				return nullptr;
 			}
 			// load file into a null-terminated buffer
 			int fileSize = filesystem->Size(f);
@@ -162,13 +162,13 @@ KeyValues* ReadEncryptedKVFile( IFileSystem *filesystem, const char *szFilenameW
 			if ( !retOK )
 			{
 				pKV->deleteThis();
-				return NULL;
+				return nullptr;
 			}
 		}
 		else
 		{
 			pKV->deleteThis();
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -228,14 +228,14 @@ FileWeaponInfo_t::FileWeaponInfo_t()
 	iAmmo2Type = 0;
 	m_bMeleeWeapon = false;
 	iSpriteCount = 0;
-	iconActive = 0;
-	iconInactive = 0;
-	iconAmmo = 0;
-	iconAmmo2 = 0;
-	iconCrosshair = 0;
-	iconAutoaim = 0;
-	iconZoomedCrosshair = 0;
-	iconZoomedAutoaim = 0;
+	iconActive = nullptr;
+	iconInactive = nullptr;
+	iconAmmo = nullptr;
+	iconAmmo2 = nullptr;
+	iconCrosshair = nullptr;
+	iconAutoaim = nullptr;
+	iconZoomedCrosshair = nullptr;
+	iconZoomedAutoaim = nullptr;
 	bShowUsageHint = false;
 	m_bAllowFlipping = true;
 	m_bBuiltRightHanded = true;
@@ -537,7 +537,7 @@ bool CWeaponDatabase::LoadManifest()
 	manifest->UsesEscapeSequences( true );
 	if ( manifest->LoadFromFile( filesystem, "scripts/weapon_manifest.txt", "GAME" ) )
 	{
-		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL ; sub = sub->GetNextKey() )
+		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 		{
 			if ( !Q_stricmp( sub->GetName(), "file" ) )
 			{

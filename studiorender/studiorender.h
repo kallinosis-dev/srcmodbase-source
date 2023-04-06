@@ -128,7 +128,7 @@ struct DecalVertex_t
 	mstudiomesh_t *GetMesh( studiohdr_t *pHdr ) const
 	{
 		if ((m_Body == 0xFFFF) || (m_Model == 0xFFFF) || (m_Mesh == 0xFFFF))
-			return NULL;
+			return nullptr;
 
 		mstudiobodyparts_t * RESTRICT pBody = pHdr->pBodypart( m_Body );
 		mstudiomodel_t * RESTRICT pModel = pBody->pModel( m_Model );
@@ -138,7 +138,7 @@ struct DecalVertex_t
 	IMorph *GetMorph( studiohdr_t *pHdr, studiomeshdata_t *pStudioMeshes )
 	{
 		if ( (m_Body == 0xFFFF) || (m_Model == 0xFFFF) || (m_Mesh == 0xFFFF) || (m_Group == 0xFFFF) )
-			return NULL;
+			return nullptr;
 
 		mstudiobodyparts_t *pBody = pHdr->pBodypart( m_Body );
 		mstudiomodel_t *pModel = pBody->pModel( m_Model );
@@ -248,7 +248,7 @@ public:
 	// Add decals to a decal list by doing a planar projection along the ray
 	void AddDecal( StudioDecalHandle_t handle, const StudioRenderContext_t& rc, matrix3x4_t *pBoneToWorld, studiohdr_t *pStudioHdr, 
 			const Ray_t & ray, const Vector& decalUp, IMaterial* pDecalMaterial, 
-			float radius, int body, bool noPokethru, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, void *pvProxyUserData = NULL, int nAdditionalDecalFlags = 0 );
+			float radius, int body, bool noPokethru, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, void *pvProxyUserData = nullptr, int nAdditionalDecalFlags = 0 );
 
 	// Shadow state (affects the models as they are rendered)
 	void AddShadow( IMaterial* pMaterial, void* pProxyData, FlashlightState_t *pFlashlightState, VMatrix *pWorldToTexture, ITexture *pFlashlightDepthTexture );
@@ -424,7 +424,7 @@ private:
 	void SetLightingRenderState();
 
 	int R_StudioRenderModel( IMatRenderContext *pRenderContext, int skin, int body, int hitboxset, void /*IClientEntity*/ *pEntity, 
-		IMaterial **ppMaterials, int *pMaterialFlags, int flags, int boneMask, int lod, ColorMeshInfo_t *pColorMeshes = NULL );
+		IMaterial **ppMaterials, int *pMaterialFlags, int flags, int boneMask, int lod, ColorMeshInfo_t *pColorMeshes = nullptr);
 	IMaterial* R_StudioSetupSkinAndLighting( IMatRenderContext *pRenderContext, int index, IMaterial **ppMaterials, int materialFlags,
 		void /*IClientEntity*/ *pClientEntity, ColorMeshInfo_t *pColorMeshes, StudioModelLighting_t &lighting );
 	int R_StudioDrawEyeball( IMatRenderContext *pRenderContext, mstudiomesh_t* pmesh,  studiomeshdata_t* pMeshData,
@@ -435,14 +435,14 @@ private:
 		  				   StudioModelLighting_t lighting, IMaterial *pMaterial, ColorMeshInfo_t *pColorMeshes, int lod );
 	int R_StudioRenderFinal( IMatRenderContext *pRenderContext, 
 		int skin, int nBodyPartCount, BodyPartInfo_t *pBodyPartInfo, void /*IClientEntity*/ *pClientEntity,
-		IMaterial **ppMaterials, int *pMaterialFlags, int boneMask, int lod, ColorMeshInfo_t *pColorMeshes = NULL );
+		IMaterial **ppMaterials, int *pMaterialFlags, int boneMask, int lod, ColorMeshInfo_t *pColorMeshes = nullptr);
 	int R_StudioDrawStaticMesh( IMatRenderContext *pRenderContext, mstudiomesh_t* pmesh, 
 		studiomeshgroup_t* pGroup, StudioModelLighting_t lighting, float r_blend, IMaterial* pMaterial,
 		int lod, ColorMeshInfo_t *pColorMeshes );
 	int R_StudioDrawDynamicMesh( IMatRenderContext *pRenderContext, mstudiomesh_t* pmesh, 
 				studiomeshgroup_t* pGroup, StudioModelLighting_t lighting, 
 				float r_blend, IMaterial* pMaterial, int lod );
-	int R_StudioDrawGroupHWSkin( IMatRenderContext *pRenderContext, studiomeshgroup_t* pGroup, IMesh* pMesh, ColorMeshInfo_t *pColorMeshInfo = NULL );
+	int R_StudioDrawGroupHWSkin( IMatRenderContext *pRenderContext, studiomeshgroup_t* pGroup, IMesh* pMesh, ColorMeshInfo_t *pColorMeshInfo = nullptr);
 	int R_StudioDrawGroupSWSkin( studiomeshgroup_t* pGroup, IMesh* pMesh );
 	void R_StudioDrawHulls( int hitboxset, bool translucent );
 	void R_StudioDrawBones (void);

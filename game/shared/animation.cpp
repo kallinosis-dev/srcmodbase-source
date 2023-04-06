@@ -59,7 +59,7 @@ extern int g_nEventListVersion;
 
 void SetEventIndexForSequence( mstudioseqdesc_t &seqdesc )
 {
-	if ( &seqdesc == NULL )
+	if ( &seqdesc == nullptr)
 		 return;
 
 	if ( seqdesc.numevents == 0 )
@@ -248,7 +248,7 @@ bool DebugValidateActivityIndexes( CStudioHdr *pstudiohdr )
 
 		// test 			SetEventIndexForSequence( pstudiohdr->pSeqdesc( i ) );
 		{	
-			if ( &seqdesc == NULL )
+			if ( &seqdesc == nullptr)
 				return bGood;
 
 			if ( seqdesc.numevents == 0 )
@@ -305,7 +305,7 @@ void VerifySequenceIndex( CStudioHdr *pstudiohdr )
 #if !defined( MAKEXVCD )
 bool IsInPrediction()
 {
-	return CBaseEntity::GetPredictionPlayer() != NULL;
+	return CBaseEntity::GetPredictionPlayer() != nullptr;
 }
 
 int SelectWeightedSequence( CStudioHdr *pstudiohdr, int activity, int curSequence )
@@ -328,7 +328,7 @@ int SelectWeightedSequence( CStudioHdr *pstudiohdr, int activity, int curSequenc
 	int numSeq = pstudiohdr->GetNumSeq();
 	if ( numSeq == 1 )
 	{
-		return ( GetSequenceActivity( pstudiohdr, 0, NULL ) == activity ) ? 0 : ACTIVITY_NOT_AVAILABLE;
+		return ( GetSequenceActivity( pstudiohdr, 0, nullptr) == activity ) ? 0 : ACTIVITY_NOT_AVAILABLE;
 	}
 
 	return pstudiohdr->SelectWeightedSequence( activity, curSequence );
@@ -441,7 +441,7 @@ int CStudioHdr::CActivityToSequenceMapping::SelectWeightedSequenceFromModifiers(
 
 	if ( pstudiohdr->GetNumSeq() == 1 )
 	{
-		return ( ::GetSequenceActivity( pstudiohdr, 0, NULL ) == activity ) ? 0 : ACTIVITY_NOT_AVAILABLE;
+		return ( ::GetSequenceActivity( pstudiohdr, 0, nullptr) == activity ) ? 0 : ACTIVITY_NOT_AVAILABLE;
 	}
 
 	if (!ValidateAgainst(pstudiohdr))
@@ -837,7 +837,7 @@ float GetFirstSequenceAnimTag( CStudioHdr *pstudiohdr, int sequence, int nDesire
 	if (seqdesc.numanimtags == 0 )
 		return flStart;
 
-	mstudioanimtag_t *panimtag = NULL;
+	mstudioanimtag_t *panimtag = nullptr;
 
 	int index;
 	for ( index = 0; index < (int)seqdesc.numanimtags; index++ )
@@ -870,7 +870,7 @@ float GetAnySequenceAnimTag( CStudioHdr *pstudiohdr, int sequence, int nDesiredT
 	if (seqdesc.numanimtags == 0 )
 		return flDefault;
 
-	mstudioanimtag_t *panimtag = NULL;
+	mstudioanimtag_t *panimtag = nullptr;
 
 	int index;
 	for ( index = 0; index < (int)seqdesc.numanimtags; index++ )
@@ -933,7 +933,7 @@ int GetAnimationEvent( CStudioHdr *pstudiohdr, int sequence, animevent_t *pNPCEv
 
 		if (bOverlapEvent)
 		{
-			pNPCEvent->pSource = NULL;
+			pNPCEvent->pSource = nullptr;
 			pNPCEvent->cycle = pevent[index].cycle;
 #if !defined( MAKEXVCD )
 			pNPCEvent->eventtime = gpGlobals->curtime;

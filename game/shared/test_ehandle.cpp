@@ -90,7 +90,7 @@
 			Msg( "Created EHANDLE test entity. Run this command again to transmit the second ent.\n" );
 		}
 	}
-	ConCommand Test_EHandle( "Test_EHandle", CC_Test_EHandle, 0, FCVAR_CHEAT );
+	ConCommand Test_EHandle( "Test_EHandle", CC_Test_EHandle, nullptr, FCVAR_CHEAT );
 	
 
 #else

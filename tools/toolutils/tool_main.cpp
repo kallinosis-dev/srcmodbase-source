@@ -28,11 +28,11 @@
 //-----------------------------------------------------------------------------
 // Singleton interfaces
 //-----------------------------------------------------------------------------
-IEngineTool	*enginetools = NULL;
-IEngineVGui	*enginevgui = NULL;
-IFileSystem *g_pFileSystem = NULL;
-IVDebugOverlay *debugoverlay = NULL;
-IVModelInfoClient *modelinfoclient = NULL;
+IEngineTool	*enginetools = nullptr;
+IEngineVGui	*enginevgui = nullptr;
+IFileSystem *g_pFileSystem = nullptr;
+IVDebugOverlay *debugoverlay = nullptr;
+IVModelInfoClient *modelinfoclient = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -132,10 +132,10 @@ bool CToolDictionary::Connect( CreateInterfaceFn factory )
 	// FIXME: This interface pointer is taken care of in tier2 + tier1
 	g_pFileSystem = g_pFullFileSystem;
 
-	enginevgui = ( IEngineVGui * )factory( VENGINE_VGUI_VERSION, NULL );
-	enginetools = ( IEngineTool * )factory( VENGINETOOL_INTERFACE_VERSION, NULL );
-	debugoverlay = ( IVDebugOverlay * )factory( VDEBUG_OVERLAY_INTERFACE_VERSION, NULL );
-	modelinfoclient = ( IVModelInfoClient *)factory( VMODELINFO_CLIENT_INTERFACE_VERSION, NULL );
+	enginevgui = ( IEngineVGui * )factory( VENGINE_VGUI_VERSION, nullptr);
+	enginetools = ( IEngineTool * )factory( VENGINETOOL_INTERFACE_VERSION, nullptr);
+	debugoverlay = ( IVDebugOverlay * )factory( VDEBUG_OVERLAY_INTERFACE_VERSION, nullptr);
+	modelinfoclient = ( IVModelInfoClient *)factory( VMODELINFO_CLIENT_INTERFACE_VERSION, nullptr);
 
 	if ( !enginevgui || !debugoverlay || !g_pCVar || !enginetools || !g_pFileSystem || ( !p4 && !CommandLine()->FindParm( "-nop4" ) ) || !modelinfoclient )
 		return false;
@@ -149,10 +149,10 @@ bool CToolDictionary::Connect( CreateInterfaceFn factory )
 void CToolDictionary::Disconnect()
 {
 	DisconnectTools();
-	enginevgui = NULL;
-	enginetools = NULL;
-	debugoverlay = NULL;
-	g_pFileSystem = NULL;
+	enginevgui = nullptr;
+	enginetools = nullptr;
+	debugoverlay = nullptr;
+	g_pFileSystem = nullptr;
 
 	BaseClass::Disconnect( );
 }
@@ -162,7 +162,7 @@ void *CToolDictionary::QueryInterface( const char *pInterfaceName )
 	if ( !V_strcmp( pInterfaceName, VTOOLDICTIONARY_INTERFACE_VERSION ) )
 		return (IToolDictionary*)this;
 
-	return NULL;
+	return nullptr;
 }
 
 InitReturnVal_t CToolDictionary::Init()
@@ -214,7 +214,7 @@ IToolSystem	*CToolDictionary::GetTool( int index )
 {
 	if ( index < 0 || index >= m_Tools.Count() )
 	{
-		return NULL;
+		return nullptr;
 	}
 	return m_Tools[ index ];
 }

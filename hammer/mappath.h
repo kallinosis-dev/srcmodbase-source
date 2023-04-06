@@ -59,7 +59,7 @@ class CMapPath
 		DWORD AddNode(DWORD dwAfterID, const Vector &vecPos);
 		void DeleteNode(DWORD dwID);
 		void SetNodePosition(DWORD dwID, Vector& pt);
-		CMapPathNode * NodeForID(DWORD dwID, int* piIndex = NULL);
+		CMapPathNode * NodeForID(DWORD dwID, int* piIndex = nullptr);
 		void GetNodeName(int iIndex, int iName, CString& str);
 
 		// set name/class
@@ -73,7 +73,7 @@ class CMapPath
 		// save/load to/from RMF:
 		void SerializeRMF(std::fstream&, BOOL fIsStoring);
 		// save to map: (no load!!)
-		void SerializeMAP(std::fstream&, BOOL fIsStoring, BoundBox *pIntersecting = NULL);
+		void SerializeMAP(std::fstream&, BOOL fIsStoring, BoundBox *pIntersecting = nullptr);
 
 		//void SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo);
 		//void LoadVMF(CChunkFile *pFile);

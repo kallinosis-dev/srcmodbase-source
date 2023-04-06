@@ -53,7 +53,7 @@ public:
 			m_capabilities = m_pNPC->CapabilitiesGet();
 	}
 
-	CNodeFilter( const Vector &pos ) : m_pNPC(NULL), m_pos(pos) 
+	CNodeFilter( const Vector &pos ) : m_pNPC(nullptr), m_pos(pos) 
 	{
 	}
 
@@ -107,7 +107,7 @@ public:
 CAI_Network::CAI_Network()
 {
 	m_iNumNodes				= 0;		// Number of nodes in this network
-	m_pAInode				= NULL;		// Array of all nodes in this network
+	m_pAInode				= nullptr;		// Array of all nodes in this network
 
 	m_iNearestCacheNext	= NEARNODE_CACHE_SIZE - 1;
 	// Force empty node caches to be rebuild
@@ -156,7 +156,7 @@ CAI_Network::~CAI_Network()
 						{
 							if ( pDestNode->m_Links[destLink] == pLink )
 							{
-								pDestNode->m_Links[destLink] = NULL;
+								pDestNode->m_Links[destLink] = nullptr;
 							}
 						}
 					}
@@ -167,7 +167,7 @@ CAI_Network::~CAI_Network()
 		}
 	}
 	delete[] m_pAInode;
-	m_pAInode = NULL;
+	m_pAInode = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -383,7 +383,7 @@ int	CAI_Network::NearestNodeToPoint( CAI_BaseNPC *pNPC, const Vector &vecOrigin,
 
 int	CAI_Network::NearestNodeToPoint(const Vector &vPosition, bool bCheckVisibility )
 {
-	return NearestNodeToPoint( NULL, vPosition, bCheckVisibility );
+	return NearestNodeToPoint(nullptr, vPosition, bCheckVisibility );
 }
 	
 //-----------------------------------------------------------------------------
@@ -481,7 +481,7 @@ Vector CAI_Network::GetNodePosition( Hull_t hull, int nodeID )
 
 Vector CAI_Network::GetNodePosition( CBaseCombatCharacter *pNPC, int nodeID )
 {
-	if ( pNPC == NULL )
+	if ( pNPC == nullptr)
 	{
 		Assert( 0 );
 		return vec3_origin;
@@ -563,25 +563,25 @@ CAI_Link *CAI_Network::CreateLink( int srcID, int destID, CAI_DynamicLink *pDyna
 	if ( !pSrcNode || !pDestNode )
 	{
 		DevMsg( "Attempted to create link to node that doesn't exist\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( pSrcNode == pDestNode )
 	{
 		DevMsg( "Attempted to link a node to itself\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( pSrcNode->NumLinks() == AI_MAX_NODE_LINKS )
 	{
 		DevMsg( "Node %d has too many links\n", srcID );
-		return NULL;
+		return nullptr;
 	}
 		
 	if ( pDestNode->NumLinks() == AI_MAX_NODE_LINKS )
 	{
 		DevMsg( "Node %d has too many links\n", destID );
-		return NULL;
+		return nullptr;
 	}
 
 	CAI_Link *pLink = new CAI_Link;
@@ -660,8 +660,8 @@ CAI_Node *CAI_Network::FindNodeDistanceAwayFromStart( CAI_Node * RESTRICT pStart
 {
 	VPROF("CAI_Network::FindNodeDistanceAwayFromStart()");
 	AssertMsg( pStartNode, "FindNodeDistanceAwayFromStart called with NULL start\n" );
-	if ( pStartNode == NULL ) 
-		return NULL;
+	if ( pStartNode == nullptr) 
+		return nullptr;
 
 
 	// get origin of start point and squared distance to origin
@@ -677,7 +677,7 @@ CAI_Node *CAI_Network::FindNodeDistanceAwayFromStart( CAI_Node * RESTRICT pStart
 		}
 		else
 		{
-			return NULL; // we've gone too far.
+			return nullptr; // we've gone too far.
 		}
 	}
 
@@ -738,6 +738,6 @@ CAI_Node *CAI_Network::FindNodeDistanceAwayFromStart( CAI_Node * RESTRICT pStart
 	}
 
 	// didn't find anything
-	return NULL;
+	return nullptr;
 }
 //=============================================================================

@@ -61,7 +61,7 @@ KeyValues* CacheKeyValuesForFile( const char *pFilename )
 	if ( i == g_KeyValuesCache.InvalidIndex() )
 	{
 		KeyValues *rDat = new KeyValues( pFilename );
-		rDat->LoadFromFile( filesystem, pFilename, NULL );
+		rDat->LoadFromFile( filesystem, pFilename, nullptr);
 		g_KeyValuesCache.Insert( pFilename, rDat );
 		return rDat;		
 	}
@@ -216,7 +216,7 @@ void C_VGuiScreen::CreateVguiScreen( const char *pTypeName )
 
 	// Create the new screen...
 	VGuiScreenInitData_t initData( this );
-	m_PanelWrapper.Activate( pTypeName, NULL, 0, &initData );
+	m_PanelWrapper.Activate( pTypeName, nullptr, 0, &initData );
 
 	// Retrieve the panel dimensions
 	vgui::Panel *pPanel = m_PanelWrapper.GetPanel();
@@ -431,7 +431,7 @@ void C_VGuiScreen::ClientThink( void )
 	VectorMA( vecEyePosition, 1000.0f, viewDir, endPos );
 	lookDir.Init( vecEyePosition, endPos );
 
-	if (!IntersectWithRay( lookDir, &u, &v, NULL ))
+	if (!IntersectWithRay( lookDir, &u, &v, nullptr))
 		return;
 
 	if ( ((u < 0) || (v < 0) || (u > 1) || (v > 1)) && !m_bLoseThinkNextFrame)
@@ -494,7 +494,7 @@ void C_VGuiScreen::ComputeEdges( Vector *pUpperLeft, Vector *pUpperRight, Vector
 {
 	Vector vecOrigin = GetAbsOrigin();
 	Vector xaxis, yaxis;
-	AngleVectors( GetAbsAngles(), &xaxis, &yaxis, NULL );
+	AngleVectors( GetAbsAngles(), &xaxis, &yaxis, nullptr);
 
 	// NOTE: Have to multiply by -1 here because yaxis goes out the -y axis in AngleVectors actually...
 	yaxis *= -1.0f;
@@ -529,7 +529,7 @@ bool C_VGuiScreen::IsBackfacing( const Vector &viewOrigin )
 
 	// Figure out the face normal
 	Vector zaxis;
-	GetVectors( NULL, NULL, &zaxis );
+	GetVectors(nullptr, nullptr, &zaxis );
 
 	// The actual backface cull
 	return (DotProduct( zaxis, cameraToScreen ) > 0.0f);
@@ -558,7 +558,7 @@ void C_VGuiScreen::DrawScreenOverlay()
 	unsigned char pColor[4] = {255, 255, 255, 255};
 
 	CMeshBuilder meshBuilder;
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, m_OverlayMaterial );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, m_OverlayMaterial );
 	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 1 );
 
 	meshBuilder.Position3f( 0.0f, 0.0f, 0 );
@@ -721,7 +721,7 @@ private:
 IterationRetval_t CVGuiScreenEnumerator::EnumElement( IHandleEntity *pHandleEntity )
 {
 	C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle( pHandleEntity->GetRefEHandle() );
-	if ( pEnt == NULL )
+	if ( pEnt == nullptr)
 		return ITERATION_CONTINUE;
 
 	// FIXME.. pretty expensive...
@@ -756,7 +756,7 @@ C_BaseEntity *FindNearbyVguiScreen( const Vector &viewPosition, const QAngle &vi
 	if ( IsGameConsole() )
 	{
 		// X360TBD: Turn this on if feature actually used
-		return NULL;
+		return nullptr;
 	}
 
 	C_BasePlayer *pLocalPlayer = C_BasePlayer::GetLocalPlayer();
@@ -764,7 +764,7 @@ C_BaseEntity *FindNearbyVguiScreen( const Vector &viewPosition, const QAngle &vi
 	Assert( pLocalPlayer );
 
 	if ( !pLocalPlayer )
-		return NULL;
+		return nullptr;
 
 	// Get the view direction...
 	Vector lookDir;
@@ -784,7 +784,7 @@ C_BaseEntity *FindNearbyVguiScreen( const Vector &viewPosition, const QAngle &vi
 	Vector vecOut, vecViewDelta;
 
 	float flBestDist = 2.0f;
-	C_VGuiScreen *pBestScreen = NULL;
+	C_VGuiScreen *pBestScreen = nullptr;
 	for (int i = localScreens.GetScreenCount(); --i >= 0; )
 	{
 		C_VGuiScreen *pScreen = localScreens.GetVGuiScreen(i);
@@ -815,7 +815,7 @@ C_BaseEntity *FindNearbyVguiScreen( const Vector &viewPosition, const QAngle &vi
 			continue;
 
 		// Test perpendicular distance from the screen...
-		pScreen->GetVectors( NULL, NULL, &vecOut );
+		pScreen->GetVectors(nullptr, nullptr, &vecOut );
 		VectorSubtract( viewPosition, pScreen->GetAbsOrigin(), vecViewDelta );
 		float flPerpDist = DotProduct(vecViewDelta, vecOut);
 		if ( (flPerpDist < 0) || (flPerpDist > VGUI_SCREEN_MODE_RADIUS) )
@@ -874,13 +874,13 @@ void DeactivateVguiScreen( C_BaseEntity *pVguiScreenEnt )
 CVGuiScreenPanel::CVGuiScreenPanel( vgui::Panel *parent, const char *panelName )
 	: BaseClass( parent, panelName )
 {
-	m_hEntity = NULL;
+	m_hEntity = nullptr;
 }
 
 CVGuiScreenPanel::CVGuiScreenPanel( vgui::Panel *parent, const char *panelName, vgui::HScheme hScheme )
 	: BaseClass( parent, panelName, hScheme )
 {
-	m_hEntity = NULL;
+	m_hEntity = nullptr;
 }
 
 
@@ -890,7 +890,7 @@ bool CVGuiScreenPanel::Init( KeyValues* pKeyValues, VGuiScreenInitData_t* pInitD
 	if (pResFile[0] != 0)
 	{
 		KeyValues *pCachedKeyValues = CacheKeyValuesForFile( pResFile );
-		LoadControlSettings( pResFile, NULL, pCachedKeyValues );
+		LoadControlSettings( pResFile, nullptr, pCachedKeyValues );
 	}
 
 	// Dimensions in pixels
@@ -923,12 +923,12 @@ vgui::Panel *CVGuiScreenPanel::CreateControlByName(const char *controlName)
 	// Check the panel metaclass manager to make these controls...
 	if ( StringHasPrefixCaseSensitive( controlName, "MaterialImage" ) )
 	{
-		return new CBitmapPanel(NULL, "BitmapPanel");
+		return new CBitmapPanel(nullptr, "BitmapPanel");
 	}
 
 	if ( StringHasPrefixCaseSensitive( controlName, "MaterialButton" ) )
 	{
-		return new CBitmapButton(NULL, "BitmapButton", "");
+		return new CBitmapButton(nullptr, "BitmapButton", "");
 	}
 
 	// Didn't find it? Just use the default stuff

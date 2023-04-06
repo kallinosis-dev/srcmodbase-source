@@ -501,8 +501,8 @@ public:
 		{
 			if ( m_pParent && m_pParent->m_pServerReservationOperation == this )
 			{
-				m_pParent->m_pServerReservationOperation = NULL;
-				m_pParent->m_pServerReservationCallback = NULL;
+				m_pParent->m_pServerReservationOperation = nullptr;
+				m_pParent->m_pServerReservationCallback = nullptr;
 			}
 			delete this;
 		}

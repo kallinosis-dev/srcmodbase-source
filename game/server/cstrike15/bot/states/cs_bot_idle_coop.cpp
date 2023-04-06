@@ -124,7 +124,7 @@ void MakeAwareOfCTs( CCSBot * me )
 	if ( vecCTs.Count() == 0 )
 		return;
 
-	CCSPlayer *pTargetPlayer = NULL;
+	CCSPlayer *pTargetPlayer = nullptr;
 	float flClosePlayer = 1e6;
 	FOR_EACH_VEC( vecCTs, iter )
 	{
@@ -138,7 +138,7 @@ void MakeAwareOfCTs( CCSBot * me )
 			}
 		}
 
-		me->OnAudibleEvent( NULL, vecCTs[ iter ], MAX_COORD_FLOAT, PRIORITY_HIGH, true );
+		me->OnAudibleEvent(nullptr, vecCTs[ iter ], MAX_COORD_FLOAT, PRIORITY_HIGH, true );
 	}
 
 	if ( !pTargetPlayer )

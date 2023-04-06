@@ -76,7 +76,7 @@ void CLogicPlayerProxy::Activate( void )
 {
 	BaseClass::Activate();
 
-	if ( m_hPlayer == NULL )
+	if ( m_hPlayer == nullptr)
 	{
 		m_hPlayer = AI_GetSinglePlayer();
 	}
@@ -95,7 +95,7 @@ bool CLogicPlayerProxy::PassesDamageFilter( const CTakeDamageInfo &info )
 
 void CLogicPlayerProxy::InputSetPlayerHealth( inputdata_t &inputdata )
 {
-	if ( m_hPlayer == NULL )
+	if ( m_hPlayer == nullptr)
 		return;
 
 	m_hPlayer->SetHealth( inputdata.value.Int() );
@@ -104,7 +104,7 @@ void CLogicPlayerProxy::InputSetPlayerHealth( inputdata_t &inputdata )
 
 void CLogicPlayerProxy::InputRequestPlayerHealth( inputdata_t &inputdata )
 {
-	if ( m_hPlayer == NULL )
+	if ( m_hPlayer == nullptr)
 		return;
 
 	m_RequestedPlayerHealth.Set( m_hPlayer->GetHealth(), inputdata.pActivator, inputdata.pCaller );

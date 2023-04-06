@@ -149,17 +149,17 @@ CMDL::CMDL()
 	m_vecViewTarget.Init( 0, 0, 0 );
 	m_bWorldSpaceViewTarget = false;
 	memset( m_pFlexControls, 0, sizeof(m_pFlexControls) );
-	m_pProxyData = NULL;
+	m_pProxyData = nullptr;
 	m_bUseSequencePlaybackFPS = false;
 	m_flTimeBasisAdjustment = 0.0f;
 
 	// Deal with the default cubemap
-	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap", NULL, true );
+	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap", nullptr, true );
 	m_DefaultEnvCubemap.Init( pCubemapTexture );
-	pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap.hdr", NULL, true );
+	pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap.hdr", nullptr, true );
 	m_DefaultHDREnvCubemap.Init( pCubemapTexture );
 
-	m_pSimpleMaterialOverride = NULL;
+	m_pSimpleMaterialOverride = nullptr;
 }
 
 CMDL::~CMDL()
@@ -167,10 +167,10 @@ CMDL::~CMDL()
 	m_DefaultEnvCubemap.Shutdown( );
 	m_DefaultHDREnvCubemap.Shutdown();
 
-	if ( m_pSimpleMaterialOverride != NULL )
+	if ( m_pSimpleMaterialOverride != nullptr)
 	{
 		m_pSimpleMaterialOverride.Shutdown();
-		m_pSimpleMaterialOverride = NULL;
+		m_pSimpleMaterialOverride = nullptr;
 	}
 
 	UnreferenceMDL();
@@ -254,7 +254,7 @@ void CMDL::UnreferenceMDL()
 studiohdr_t *CMDL::GetStudioHdr()
 {
 	if ( !g_pMDLCache )
-		return NULL;
+		return nullptr;
 	return g_pMDLCache->GetStudioHdr( m_MDLHandle );
 }
 
@@ -289,7 +289,7 @@ void CMDL::Draw( const matrix3x4_t& rootToWorld, const matrix3x4_t *pBoneToWorld
 	info.m_Body = m_nBody;
 	info.m_HitboxSet = 0;
 	info.m_pClientEntity = m_pProxyData;
-	info.m_pColorMeshes = NULL;
+	info.m_pColorMeshes = nullptr;
 	info.m_bStaticLighting = false;
 	info.m_Lod = m_nLOD;
 
@@ -308,7 +308,7 @@ void CMDL::Draw( const matrix3x4_t& rootToWorld, const matrix3x4_t *pBoneToWorld
 	CMatRenderData< float > rdFlexWeights( pRenderContext );
 
 	// Set default flex values
-	float *pFlexWeights = NULL;
+	float *pFlexWeights = nullptr;
 	const int nFlexDescCount = info.m_pStudioHdr->numflexdesc;
 	if ( nFlexDescCount )
 	{
@@ -335,18 +335,18 @@ void CMDL::Draw( const matrix3x4_t& rootToWorld, const matrix3x4_t *pBoneToWorld
 		}
 	}
 
-	if ( m_pSimpleMaterialOverride != NULL )
+	if ( m_pSimpleMaterialOverride != nullptr)
 	{
 		bOverride = true;
 		g_pStudioRender->ForcedMaterialOverride( m_pSimpleMaterialOverride );
 	}
 
-	g_pStudioRender->DrawModel( NULL, info, const_cast<matrix3x4_t*>( pBoneToWorld ), 
-		pFlexWeights, NULL, vecModelOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL | flags );
+	g_pStudioRender->DrawModel(nullptr, info, const_cast<matrix3x4_t*>( pBoneToWorld ), 
+	                           pFlexWeights, nullptr, vecModelOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL | flags );
 
 	if ( bOverride )
 	{
-		g_pStudioRender->ForcedMaterialOverride( NULL );
+		g_pStudioRender->ForcedMaterialOverride(nullptr);
 	}
 }
 
@@ -375,7 +375,7 @@ void CMDL::SetUpBones( const matrix3x4_t& rootToWorld, int nMaxBoneCount, matrix
 
 	// Default to middle of the pose parameter range
 	float defaultPoseParameters[MAXSTUDIOPOSEPARAM];
-	if ( pPoseParameters == NULL )
+	if ( pPoseParameters == nullptr)
 	{
 		Studio_CalcDefaultPoseParameters( &studioHdr, defaultPoseParameters, MAXSTUDIOPOSEPARAM );
 		pPoseParameters = defaultPoseParameters;
@@ -420,9 +420,9 @@ void CMDL::SetUpBones( const matrix3x4_t& rootToWorld, int nMaxBoneCount, matrix
 	BoneVector		pos[MAXSTUDIOBONES];
 	BoneQuaternionAligned	q[MAXSTUDIOBONES];
 
-	IBoneSetup boneSetup( &studioHdr, BONE_USED_BY_ANYTHING_AT_LOD( m_nLOD ), pPoseParameters, NULL );
+	IBoneSetup boneSetup( &studioHdr, BONE_USED_BY_ANYTHING_AT_LOD( m_nLOD ), pPoseParameters, nullptr);
 	boneSetup.InitPose( pos, q );
-	boneSetup.AccumulatePose( pos, q, m_nSequence, flCycle, 1.0f, flAdjustedTime, NULL );
+	boneSetup.AccumulatePose( pos, q, m_nSequence, flCycle, 1.0f, flAdjustedTime, nullptr);
 
 	// Accumulate the additional layers if specified.
 	if ( pSequenceLayers )
@@ -441,7 +441,7 @@ void CMDL::SetUpBones( const matrix3x4_t& rootToWorld, int nMaxBoneCount, matrix
 				// FIXME: We're always wrapping; may want to determing if we should clamp
 				flLayerCycle = SubtractIntegerPart(flLayerCycle);
 
-				boneSetup.AccumulatePose( pos, q, nSeqIndex, flLayerCycle, flWeight, flAdjustedTime, NULL );
+				boneSetup.AccumulatePose( pos, q, nSeqIndex, flLayerCycle, flWeight, flAdjustedTime, nullptr);
 			}
 		}
 	}
@@ -553,7 +553,7 @@ void CMDL::SetupBonesWithBoneMerge( const CStudioHdr *pMergeHdr, matrix3x4_t *pM
 
 	IBoneSetup boneSetup( pMergeHdr,  BONE_USED_BY_ANYTHING_AT_LOD( m_nLOD ), flPoseParameter );
 	boneSetup.InitPose( pos, q );
-	boneSetup.AccumulatePose( pos, q, m_nSequence, flCycle, 1.0f, flAdjustedTime, NULL );
+	boneSetup.AccumulatePose( pos, q, m_nSequence, flCycle, 1.0f, flAdjustedTime, nullptr);
 
 	// Get the merge bone list.
 	const mstudiobone_t *pMergeBones = pMergeHdr->pBone( 0 );
@@ -714,10 +714,10 @@ void CMergedMDL::SetMDL( MDLHandle_t handle, CCustomMaterialOwner* pCustomMateri
 	}
 
 	// Set the pose parameters to the default for the mdl
-	SetPoseParameters( NULL, 0 );
+	SetPoseParameters(nullptr, 0 );
 	
 	// Clear any sequence layers
-	SetSequenceLayers( NULL, 0 );
+	SetSequenceLayers(nullptr, 0 );
 }
 
 //-----------------------------------------------------------------------------
@@ -850,7 +850,7 @@ void CMergedMDL::Draw()
 	OnModelDrawPassFinished( 0, pRootStudioHdr, nFlags );
 
 	// Draw the merge MDLs.
-	matrix3x4_t *pStackCopyOfRootMergeHdrModelToWorld = NULL;
+	matrix3x4_t *pStackCopyOfRootMergeHdrModelToWorld = nullptr;
 	matrix3x4_t matMergeBoneToWorld[MAXSTUDIOBONES];
 	int nMergeCount = m_aMergeMDLs.Count();
 	for ( int iMerge = 0; iMerge < nMergeCount; ++iMerge )
@@ -1001,7 +1001,7 @@ void CMergedMDL::SetMergeMDL( MDLHandle_t handle, CCustomMaterialOwner* pCustomM
 //-----------------------------------------------------------------------------
 MDLHandle_t CMergedMDL::SetMergeMDL( const char *pMDLName, CCustomMaterialOwner* pCustomMaterialOwner, void *pProxyData, bool bRequestBonemergeTakeover )
 {
-	if ( g_pMDLCache == NULL )
+	if ( g_pMDLCache == nullptr)
 		return MDLHANDLE_INVALID;
 
 	MDLHandle_t hMDL = pMDLName ? g_pMDLCache->FindMDL( pMDLName ) : MDLHANDLE_INVALID;
@@ -1041,7 +1041,7 @@ CMDL *CMergedMDL::GetMergeMDL( MDLHandle_t handle )
 			return (&m_aMergeMDLs[iMerge].m_MDL);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1057,7 +1057,7 @@ void CMergedMDL::ClearMergeMDLs( void )
 //-----------------------------------------------------------------------------
 void CMergedMDL::UpdateModelCustomMaterials( MDLHandle_t handle, CCustomMaterialOwner* pCustomMaterialOwner )
 {
-	CMDL* pMDL = (handle != MDLHANDLE_INVALID) ? GetMergeMDL( handle ) : NULL;
+	CMDL* pMDL = (handle != MDLHANDLE_INVALID) ? GetMergeMDL( handle ) : nullptr;
 
 	if ( pMDL )
 	{

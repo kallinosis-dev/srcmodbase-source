@@ -33,7 +33,7 @@ void RunSceneToDmxTests( CChoreoScene *scene )
 	bool success = ConvertSceneToDmx( scene, dmx );
 	Assert( success );
 
-	CChoreoScene *scene2 = new CChoreoScene( NULL );
+	CChoreoScene *scene2 = new CChoreoScene(nullptr);
 	scene2->SetFileName( scene->GetFilename() );
 	
 	success = ConvertDmxToScene( dmx, scene2 );
@@ -72,10 +72,10 @@ DEFINE_TESTCASE_NOSUITE( DmxTestVcdToDme )
 	}
 
 	CUtlBuffer buf;
-	if ( g_pFullFileSystem->ReadFile( pFileName, NULL, buf ) )
+	if ( g_pFullFileSystem->ReadFile( pFileName, nullptr, buf ) )
 	{
 		SetTokenProcessorBuffer( (char *)buf.Base() );
-		CChoreoScene *scene = ChoreoLoadScene( pFileName, NULL, GetTokenProcessor(), NULL );
+		CChoreoScene *scene = ChoreoLoadScene( pFileName, nullptr, GetTokenProcessor(), nullptr);
 		if ( scene )
 		{
 			RunSceneToDmxTests( scene );

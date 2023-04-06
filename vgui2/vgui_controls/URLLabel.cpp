@@ -23,7 +23,7 @@ using namespace vgui;
 
 vgui::Panel *URLLabel_Factory()
 {
-	return new URLLabel(NULL, NULL, "URLLabel", NULL);
+	return new URLLabel(nullptr, nullptr, "URLLabel", nullptr);
 }
 
 DECLARE_BUILD_FACTORY_CUSTOM( URLLabel, URLLabel_Factory );
@@ -32,7 +32,7 @@ DECLARE_BUILD_FACTORY_CUSTOM( URLLabel, URLLabel_Factory );
 //-----------------------------------------------------------------------------
 URLLabel::URLLabel(Panel *parent, const char *panelName, const char *text, const char *pszURL) : Label(parent, panelName, text)
 {
-    m_pszURL = NULL;
+    m_pszURL = nullptr;
 	m_bUnderline = false;
     m_iURLSize = 0;
     if (pszURL && strlen(pszURL) > 0)
@@ -46,7 +46,7 @@ URLLabel::URLLabel(Panel *parent, const char *panelName, const char *text, const
 //-----------------------------------------------------------------------------
 URLLabel::URLLabel(Panel *parent, const char *panelName, const wchar_t *wszText, const char *pszURL) : Label(parent, panelName, wszText)
 {
-    m_pszURL = NULL;
+    m_pszURL = nullptr;
 	m_bUnderline = false;
     m_iURLSize = 0;
     if (pszURL && strlen(pszURL) > 0)
@@ -100,7 +100,7 @@ void URLLabel::ApplySettings(KeyValues *inResourceData)
 {
 	BaseClass::ApplySettings(inResourceData);
 
-	const char *pszURL = inResourceData->GetString("URLText", NULL);
+	const char *pszURL = inResourceData->GetString("URLText", nullptr);
 	if (pszURL)
 	{
 		if (pszURL[0] == '#')

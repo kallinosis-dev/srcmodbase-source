@@ -93,7 +93,7 @@ void CAttributeSheetSequencePickerPanel::UpdateSheetPanel()
 		m_pSequenceSelection->SetText( "sq2" );
 	}
 
-	if ( pMaterialAttr == NULL )
+	if ( pMaterialAttr == nullptr)
 	{
 		pElement = FindReferringElement< CDmeParticleSystemDefinition >( pElement, "initializers" );
 

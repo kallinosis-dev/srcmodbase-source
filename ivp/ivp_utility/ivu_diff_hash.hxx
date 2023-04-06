@@ -71,7 +71,7 @@ public:
 	    index &= buffersize_minus_one;
 	    int vector_index = hash_to_vector_index[index];
 	    if (vector_index == -1){
-		return NULL;
+		return nullptr;
 	    }
 	    BASE *base_elem = base_vector->element_at(vector_index);
 	    if ( !CMP::are_equal( base_elem, elem )){

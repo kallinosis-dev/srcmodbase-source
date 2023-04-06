@@ -65,7 +65,7 @@ struct BonusMapDescription_t
 		bLocked = false;
 		bComplete = false;
 
-		m_pChallenges = NULL;
+		m_pChallenges = nullptr;
 	}
 };
 

@@ -74,7 +74,7 @@ class CServicesDlg : public CIdleDialog
 {
 // Construction
 public:
-	CServicesDlg(CWnd* pParent = NULL);   // standard constructor
+	CServicesDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CServicesDlg)

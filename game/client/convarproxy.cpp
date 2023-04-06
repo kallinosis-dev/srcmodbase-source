@@ -22,7 +22,7 @@ class CConVarMaterialProxy: public IMaterialProxy
 {
 public:
 	CConVarMaterialProxy()
-	: m_pResult( NULL ),
+	: m_pResult(nullptr),
 	  m_conVarRef( "", true )
 	{
 	}
@@ -41,7 +41,7 @@ public:
 		m_pResult = pMaterial->FindVar( pResult, &found );
 		if ( !found )
 		{
-			m_pResult = NULL;
+			m_pResult = nullptr;
 			return false;
 		}
 

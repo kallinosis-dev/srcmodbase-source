@@ -41,8 +41,8 @@ CHistory *GetHistory(void)
 CHistory::CHistory(void)
 {
 	static BOOL bFirst = TRUE;	// fake history is always first
-	Opposite = NULL;
-	CurTrack = NULL;
+	Opposite = nullptr;
+	CurTrack = nullptr;
 	bPaused = bFirst ? 2 : FALSE;	// if 2, never unpaused
 	bFirst = FALSE;
 	m_bActive = TRUE;
@@ -147,7 +147,7 @@ void CHistory::Undo(CMapObjectList *pNewSelection)
 	}
 	else
 	{
-		CurTrack = NULL;
+		CurTrack = nullptr;
 	}
 }
 
@@ -173,7 +173,7 @@ void CHistory::MarkUndoPosition( const CMapObjectList *pSelection, LPCTSTR pszNa
 		}
 
 		Opposite->Tracks.RemoveAll();
-		Opposite->CurTrack = NULL;
+		Opposite->CurTrack = nullptr;
 	}
 
 	// create a new track
@@ -214,7 +214,7 @@ void CHistory::MarkUndoPosition( const CMapObjectList *pSelection, LPCTSTR pszNa
 //-----------------------------------------------------------------------------
 void CHistory::Keep(CMapClass *pObject)
 {
-	if (CurTrack == NULL)
+	if (CurTrack == nullptr)
 	{
 		MarkUndoPosition();
 	}
@@ -226,7 +226,7 @@ void CHistory::Keep(CMapClass *pObject)
 	//
 	EnumChildrenPos_t pos;
 	CMapClass *pChild = pObject->GetFirstDescendent(pos);
-	while (pChild != NULL)
+	while (pChild != nullptr)
 	{
 		CurTrack->Keep(pChild, true);
 		pChild = pObject->GetNextDescendent(pos);
@@ -240,7 +240,7 @@ void CHistory::Keep(CMapClass *pObject)
 //-----------------------------------------------------------------------------
 void CHistory::KeepNoChildren(CMapClass *pObject)
 {
-	if (CurTrack == NULL)
+	if (CurTrack == nullptr)
 	{
 		MarkUndoPosition();
 	}
@@ -269,7 +269,7 @@ void CHistory::Keep(const CMapObjectList *pList)
 //-----------------------------------------------------------------------------
 void CHistory::KeepForDestruction(CMapClass *pObject)
 {
-	if (CurTrack == NULL)
+	if (CurTrack == nullptr)
 	{
 		MarkUndoPosition();
 	}
@@ -284,7 +284,7 @@ void CHistory::KeepForDestruction(CMapClass *pObject)
 //-----------------------------------------------------------------------------
 void CHistory::KeepNew(CMapClass *pObject, bool bKeepChildren)
 {
-	if (CurTrack == NULL)
+	if (CurTrack == nullptr)
 	{
 		MarkUndoPosition();
 	}
@@ -296,7 +296,7 @@ void CHistory::KeepNew(CMapClass *pObject, bool bKeepChildren)
 	{
 		EnumChildrenPos_t pos;
 		CMapClass *pChild = pObject->GetFirstDescendent(pos);
-		while (pChild != NULL)
+		while (pChild != nullptr)
 		{
 			CurTrack->KeepNew(pChild);
 			pChild = pObject->GetNextDescendent(pos);
@@ -522,7 +522,7 @@ void CTrackEntry::Undo(CHistory *Opposite)
 			// Delete the copy of the kept object.
 			//
 			delete m_Copy.pKeptObject;
-			m_Copy.pKeptObject = NULL;
+			m_Copy.pKeptObject = nullptr;
 			break;
 		}
 
@@ -561,7 +561,7 @@ void CTrackEntry::Undo(CHistory *Opposite)
 			// were new to the world they were kept seperately.
 			//
 			Opposite->GetDocument()->RemoveObjectFromWorld(m_Create.pCreated, false);
-			m_Create.pCreated = NULL; // dvs: why do we do this?
+			m_Create.pCreated = nullptr; // dvs: why do we do this?
 			break;
 		}
 	}

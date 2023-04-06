@@ -483,7 +483,7 @@ void CSoundBrowser::LoadAllSounds()
 	for ( i = g_pSoundEmitterSystem->First(); i != g_pSoundEmitterSystem->InvalidIndex(); i = g_pSoundEmitterSystem->Next( i ) )
 	{
 		char const *name = g_pSoundEmitterSystem->GetSoundName( i );
-		CSoundEntry *se = new CSoundEntry( NULL, name );
+		CSoundEntry *se = new CSoundEntry(nullptr, name );
 		m_AllSounds.AddToTail( se );
 
 		char filebase [ 512 ];
@@ -532,17 +532,17 @@ void CSoundBrowser::PopulateTree( bool voiceonly, char const *scriptonly )
 	CUtlRBTree< CSoundEntry *, int >		m_Sorted( 0, 0, NameLessFunc );
 
 	bool textsearch = false;
-	char const *texttofind = NULL;
+	char const *texttofind = nullptr;
 
 	if ( scriptonly )
 	{
 		if ( !Q_stricmp( scriptonly, ENTRY_ALLSOUNDS ) )
 		{
-			scriptonly = NULL;
+			scriptonly = nullptr;
 		}
 		else if ( !Q_stricmp( scriptonly, ENTRY_SEARCHRESULTS ) )
 		{
-			scriptonly = NULL;
+			scriptonly = nullptr;
 			textsearch = true;
 			texttofind = GetSearchString();
 		}
@@ -680,7 +680,7 @@ void CSoundBrowser::RepopulateTree()
 
 	if ( 0 >= slot )
 	{
-		PopulateTree( voiceonly, NULL );
+		PopulateTree( voiceonly, nullptr);
 	}
 	else
 	{
@@ -767,7 +767,7 @@ void CSoundBrowser::JumpToItem( CSoundEntry *se )
 
 	if ( !script || !script[ 0 ] )
 	{
-		PopulateTree( voiceonly, NULL );
+		PopulateTree( voiceonly, nullptr);
 	}
 	else
 	{

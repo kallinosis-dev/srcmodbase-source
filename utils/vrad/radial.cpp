@@ -300,7 +300,7 @@ radial_t *BuildPatchRadial( int facenum )
 		for( patch = &g_Patches.Element( g_FacePatches.Element( rad->facenum ) ); patch; patch = pNextPatch )
 		{
 			// next patch
-			pNextPatch = NULL;
+			pNextPatch = nullptr;
 			if( patch->ndxNext != g_Patches.InvalidIndex() )
 			{
 				pNextPatch = &g_Patches.Element( patch->ndxNext );
@@ -347,7 +347,7 @@ radial_t *BuildPatchRadial( int facenum )
 			for( patch = &g_Patches.Element( g_FacePatches.Element( fn->neighbor[j] ) ); patch; patch = pNextPatch )
 			{
 				// next patch
-				pNextPatch = NULL;
+				pNextPatch = nullptr;
 				if( patch->ndxNext != g_Patches.InvalidIndex() )
 				{
 					pNextPatch = &g_Patches.Element( patch->ndxNext );
@@ -594,7 +594,7 @@ void DumpLuxels( facelight_t *pFaceLight, Vector *luxelColors, int ndxFace )
 #endif
 
 
-static FileHandle_t pFileLuxels[4] = { NULL, NULL, NULL, NULL };
+static FileHandle_t pFileLuxels[4] = {nullptr, nullptr, nullptr, nullptr};
 
 void DumpDispLuxels( int iFace, Vector &color, int iLuxel, int nBump )
 {
@@ -608,7 +608,7 @@ void DumpDispLuxels( int iFace, Vector &color, int iLuxel, int nBump )
 	char szFileName[512];
 	for ( int iBump = 0; iBump < ( NUM_BUMP_VECTS+1 ); ++iBump )
 	{
-		if ( pFileLuxels[iBump] == NULL )
+		if ( pFileLuxels[iBump] == nullptr)
 		{
 			sprintf( szFileName, "luxels_bump%d.txt", iBump );
 			pFileLuxels[iBump] = g_pFileSystem->Open( szFileName, "w" );
@@ -649,8 +649,8 @@ void FinalLightFace( int iThread, int facenum )
 	LightingValue_t lb[NUM_BUMP_VECTS + 1], v[NUM_BUMP_VECTS + 1];
 	unsigned char   *pdata[NUM_BUMP_VECTS + 2]; // +2 is for flat and additional lightmap alpha data
 	int				bumpSample;
-	radial_t	    *rad = NULL;
-	radial_t	    *prad = NULL;
+	radial_t	    *rad = nullptr;
+	radial_t	    *prad = nullptr;
 
    	f = &g_pFaces[facenum];
 
@@ -859,7 +859,7 @@ void FinalLightFace( int iThread, int facenum )
 		if (prad)
 		{
 			FreeRadial( prad );
-			prad = NULL;
+			prad = nullptr;
 		}
 
 		// Compute the median color for this lightstyle

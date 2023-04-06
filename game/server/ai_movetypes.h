@@ -266,7 +266,7 @@ class CAI_ProxyMovementSink : public CAI_DefMovementSink
 {
 public:
 	CAI_ProxyMovementSink()
-	 :	m_pProxied( NULL )
+	 :	m_pProxied(nullptr)
 	{
 	}
 	

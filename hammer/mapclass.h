@@ -262,7 +262,7 @@ public:
 	virtual bool HitTestLogical(CMapViewLogical *pView, const Vector2D &point, HitInfo_t &HitData);
 
 	// Objects that can be clicked on and activated as tools implement this and return a CBaseTool-derived object.
-	virtual CBaseTool *GetToolObject(int nHitData, bool bAttachObject) { return NULL; }
+	virtual CBaseTool *GetToolObject(int nHitData, bool bAttachObject) { return nullptr; }
 
 	//
 	// Can be serialized:
@@ -287,16 +287,16 @@ public:
 	virtual bool IsSolid( ) { return false; }
 
 	// searching
-	virtual CMapEntity *FindChildByKeyValue( const char* key, const char* value, bool *bIsInInstance = NULL, VMatrix *InstanceMatrix = NULL );
+	virtual CMapEntity *FindChildByKeyValue( const char* key, const char* value, bool *bIsInInstance = nullptr, VMatrix *InstanceMatrix = nullptr);
 
 	// HACK: get the world that this object is contained within.
 	static CMapWorld *GetWorldObject(CMapAtom *pStart);
     
 	virtual const char* GetDescription() { return ""; }
 
-	BOOL EnumChildren(ENUMMAPCHILDRENPROC pfn, unsigned int dwParam = 0, MAPCLASSTYPE Type = NULL);
-	BOOL EnumChildrenRecurseGroupsOnly(ENUMMAPCHILDRENPROC pfn, unsigned int dwParam, MAPCLASSTYPE Type = NULL);
-	BOOL EnumChildrenAndInstances( ENUMMAPCHILDRENPROC pfn, unsigned int dwParam, MAPCLASSTYPE Type = NULL );
+	BOOL EnumChildren(ENUMMAPCHILDRENPROC pfn, unsigned int dwParam = 0, MAPCLASSTYPE Type = nullptr);
+	BOOL EnumChildrenRecurseGroupsOnly(ENUMMAPCHILDRENPROC pfn, unsigned int dwParam, MAPCLASSTYPE Type = nullptr);
+	BOOL EnumChildrenAndInstances( ENUMMAPCHILDRENPROC pfn, unsigned int dwParam, MAPCLASSTYPE Type = nullptr);
 
 	BOOL IsChildOf(CMapAtom *pObject);
 

@@ -97,9 +97,9 @@ class CMatQueuedRenderContext : public CMatRenderContextBase
 	typedef CMatRenderContextBase BaseClass;
 public:
 	CMatQueuedRenderContext()
-	 :	m_pHardwareContext( NULL ), 
+	 :	m_pHardwareContext(nullptr), 
 		m_iRenderDepth( 0 ), 
-		m_pQueuedMesh( NULL ),
+		m_pQueuedMesh(nullptr),
 		m_WidthBackBuffer( 0 ), 
 		m_HeightBackBuffer( 0 ),
 		m_FogMode( MATERIAL_FOG_NONE ),
@@ -118,9 +118,9 @@ public:
 
 	void									CompactMemory();
 
-	bool									IsInitialized() const { return ( m_pHardwareContext != NULL ); }
+	bool									IsInitialized() const { return ( m_pHardwareContext != nullptr); }
 
-	void									BeginQueue( CMatRenderContextBase *pInitialState = NULL );
+	void									BeginQueue( CMatRenderContextBase *pInitialState = nullptr);
 	void									EndQueue( bool bCallQueued = false );
 
 	void									BeginRender();
@@ -156,9 +156,9 @@ public:
 	DEFINE_QUEUED_CALL_2(					DepthRange, float, float, IMatRenderContext, m_pHardwareContext );
 	DEFINE_QUEUED_CALL_3(					ClearBuffers, bool, bool, bool, IMatRenderContext, m_pHardwareContext );
 
-	void									ReadPixels( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = NULL );
-	void									ReadPixelsAsync( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = NULL, CThreadEvent *pPixelsReadEvent = NULL );
-	void									ReadPixelsAsyncGetResult( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, CThreadEvent *pGetResultEvent = NULL );
+	void									ReadPixels( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = nullptr);
+	void									ReadPixelsAsync( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, ITexture *pRenderTargetTexture = nullptr, CThreadEvent *pPixelsReadEvent = nullptr);
+	void									ReadPixelsAsyncGetResult( int x, int y, int width, int height, unsigned char *data, ImageFormat dstFormat, CThreadEvent *pGetResultEvent = nullptr);
 
 	void									SetLightingState( const MaterialLightingState_t &desc );
 	void									SetLights( int nCount, const LightDesc_t *pLights );
@@ -281,7 +281,7 @@ public:
 	IMorph *CreateMorph( MorphFormat_t format, const char *pDebugName )
 	{
 		CannotSupport();
-		return NULL;
+		return nullptr;
 	}
 
 	DEFINE_QUEUED_CALL_1(					DestroyMorph, IMorph *, IMatRenderContext, m_pHardwareContext );
@@ -299,7 +299,7 @@ public:
 																		float src_texture_x1, float src_texture_y1,			// which texel you want to appear at
 																															// destx+width-1, desty+height-1
 																		int src_texture_width, int src_texture_height,		// needed for fixup
-																		void *pClientRenderable = NULL,
+																		void *pClientRenderable = nullptr,
 																		int nXDice = 1,
 																		int nYDice = 1 );
 
@@ -339,7 +339,7 @@ public:
 	ITexture *GetTextureRenderingParameter(int parm_number) const
 	{
 		CannotSupport();
-		return 0;
+		return nullptr;
 	}
 
 	Vector GetVectorRenderingParameter(int parm_number) const
@@ -541,7 +541,7 @@ public:
 	virtual float* LockSubDBuffer( int nNumRows )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 
 	virtual void UnlockSubDBuffer()
@@ -597,7 +597,7 @@ public:
 #endif // _PS3
 
 	void BeginBatch( IMesh* pIndices );
-	void BindBatch( IMesh* pVertices, IMaterial *pAutoBind = NULL );
+	void BindBatch( IMesh* pVertices, IMaterial *pAutoBind = nullptr);
 	void DrawBatch( MaterialPrimitiveType_t primType, int firstIndex, int numIndices );
 	void EndBatch();
 
@@ -704,7 +704,7 @@ public:
 	//--------------------------------------------------------
 	virtual void							Printf( char *fmt, ... ) {};
 	virtual void							PrintfVA( char *fmt, va_list vargs ){};
-	virtual float							Knob( char *knobname, float *setvalue=NULL ) { return 0.0f; };	
+	virtual float							Knob( char *knobname, float *setvalue= nullptr) { return 0.0f; };	
 
 #if defined( DX_TO_GL_ABSTRACTION ) && !defined( _GAMECONSOLE )
 	void									DoStartupShaderPreloading( void ) {}

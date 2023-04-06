@@ -22,8 +22,8 @@
 #include "tier0/memdbgon.h"
 
 int g_DispCollTreeCount = 0;
-CDispCollTree *g_pDispCollTrees = NULL;
-alignedbbox_t *g_pDispBounds = NULL;
+CDispCollTree *g_pDispCollTrees = nullptr;
+alignedbbox_t *g_pDispBounds = nullptr;
 class CVirtualTerrain;
 
 //csurface_t dispSurf = { "terrain", 0, 0 };
@@ -233,7 +233,7 @@ class CVirtualTerrain : public IVirtualMeshEvent
 public:
 	CVirtualTerrain()
 	{
-		m_pDispHullData =  NULL;
+		m_pDispHullData = nullptr;
 	}
 	// Fill out the meshlist for this terrain patch
 	virtual void GetVirtualMesh( void *userData, virtualmeshlist_t *pList )
@@ -241,7 +241,7 @@ public:
 		int index = size_cast< int >( (intp) userData );
 		Assert(index >= 0 && index < g_DispCollTreeCount );
 		g_pDispCollTrees[index].GetVirtualMeshList( pList );
-		pList->pHull = NULL;
+		pList->pHull = nullptr;
 		if ( m_pDispHullData )
 		{
 			if ( m_dispHullOffset[index] >= 0 )
@@ -267,7 +267,7 @@ public:
 	{
 		if ( !pLump )
 		{
-			m_pDispHullData = NULL;
+			m_pDispHullData = nullptr;
 			return;
 		}
 		int totalHullData = 0;
@@ -297,7 +297,7 @@ public:
 	{
 		m_dispHullOffset.Purge();
 		delete[] m_pDispHullData;
-		m_pDispHullData = NULL;
+		m_pDispHullData = nullptr;
 	}
 
 private:
@@ -314,7 +314,7 @@ static CUtlVector<CPhysCollide *> g_TerrainList;
 CPhysCollide *CM_PhysCollideForDisp( int index )
 {
 	if ( index < 0 || index >= g_DispCollTreeCount )
-		return NULL;
+		return nullptr;
 
 	return g_TerrainList[index];
 }
@@ -334,7 +334,7 @@ void CM_CreateDispPhysCollide( dphysdisp_t *pDispLump, int dispLumpSize )
 		CDispCollTree *pDispTree = &g_pDispCollTrees[i];
 		if ( pDispTree && pDispTree->CheckFlags( CCoreDispInfo::SURF_NOPHYSICS_COLL ) )
 		{
-			g_TerrainList[i] = NULL;
+			g_TerrainList[i] = nullptr;
 			continue;
 		}
 		virtualmeshparams_t params;

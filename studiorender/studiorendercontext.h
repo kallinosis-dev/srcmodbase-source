@@ -148,13 +148,13 @@ public:
 	virtual bool IsForcedMaterialOverride();
 	DELEGATE_TO_OBJECT_1( StudioDecalHandle_t, CreateDecalList, studiohwdata_t *, g_pStudioRenderImp );
 	virtual void DestroyDecalList( StudioDecalHandle_t handle );
-	virtual void AddDecal( StudioDecalHandle_t handle, studiohdr_t *pStudioHdr, matrix3x4_t *pBoneToWorld, const Ray_t & ray, const Vector& decalUp, IMaterial* pDecalMaterial, float radius, int body, bool noPokethru, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, void *pvProxyUserData = NULL, int nAdditionalDecalFlags = 0 );
+	virtual void AddDecal( StudioDecalHandle_t handle, studiohdr_t *pStudioHdr, matrix3x4_t *pBoneToWorld, const Ray_t & ray, const Vector& decalUp, IMaterial* pDecalMaterial, float radius, int body, bool noPokethru, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, void *pvProxyUserData = nullptr, int nAdditionalDecalFlags = 0 );
 	virtual void ComputeLighting( const Vector* pAmbient, int lightCount, LightDesc_t* pLights, const Vector& pt, const Vector& normal, Vector& lighting );
 	virtual void ComputeLightingConstDirectional( const Vector* pAmbient, int lightCount, LightDesc_t* pLights, const Vector& pt, const Vector& normal, Vector& lighting, float flDirectionalAmount );
 	virtual void AddShadow( IMaterial* pMaterial, void* pProxyData, FlashlightState_t *pFlashlightState, VMatrix *pWorldToTexture, ITexture *pFlashlightDepthTexture );
 	virtual void ClearAllShadows();
-	virtual int ComputeModelLod( studiohwdata_t* pHardwareData, float flUnitSphereSize, float *pMetric = NULL );
-	virtual void GetPerfStats( DrawModelResults_t *pResults, const DrawModelInfo_t &info, CUtlBuffer *pSpewBuf = NULL ) const;
+	virtual int ComputeModelLod( studiohwdata_t* pHardwareData, float flUnitSphereSize, float *pMetric = nullptr);
+	virtual void GetPerfStats( DrawModelResults_t *pResults, const DrawModelInfo_t &info, CUtlBuffer *pSpewBuf = nullptr) const;
 	virtual void GetTriangles( const DrawModelInfo_t& info, matrix3x4_t *pBoneToWorld, GetTriangles_Output_t &out );
 	virtual int GetMaterialList( studiohdr_t *pStudioHdr, int count, IMaterial** ppMaterials );
 	virtual int GetMaterialListFromBodyAndSkin( MDLHandle_t studio, int nSkin, int nBody, int nCountOutputMaterials, IMaterial** ppOutputMaterials );

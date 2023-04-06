@@ -41,7 +41,7 @@ using namespace vgui;
 
 CSheetEditorPanel::CSheetEditorPanel( vgui::Panel *pParent, const char *pName ) :
 	BaseClass( pParent, pName ),
-	m_pSheetInfo(NULL)
+	m_pSheetInfo(nullptr)
 {
 	m_pTitleLabel = new vgui::Label( this, "TestLabel", "<Title>" );
 	m_pTitleLabel->SetPinCorner( Panel::PIN_TOPLEFT, 12, 12 );
@@ -70,7 +70,7 @@ void CSheetEditorPanel::SetParticleSystem( CDmeParticleSystemDefinition *pPartic
 	const char *pSystemName = "<no system>";
 	const char *pVMTName = "<no vmt>";
 	
-	if ( pParticleSystem != NULL )
+	if ( pParticleSystem != nullptr)
 	{
 		pSystemName = pParticleSystem->GetName();
 		if ( !pSystemName || !pSystemName[0] )
@@ -79,7 +79,7 @@ void CSheetEditorPanel::SetParticleSystem( CDmeParticleSystemDefinition *pPartic
 		}
 	}
 
-	if ( pParticleSystem != NULL )
+	if ( pParticleSystem != nullptr)
 	{
 		pVMTName = pParticleSystem->GetValueString( "material" );
 	}

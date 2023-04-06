@@ -59,15 +59,15 @@ public:
 class CCSEpidermisVisualsDataProcessor : public CBaseVisualsDataProcessor< CCSEpidermisVisualsDataCompare >
 {
 public:
-	CCSEpidermisVisualsDataProcessor( CCSEpidermisVisualsDataCompare &&compareObject, const char *pCompositingShaderName = NULL );
+	CCSEpidermisVisualsDataProcessor( CCSEpidermisVisualsDataCompare &&compareObject, const char *pCompositingShaderName = nullptr);
 
-	void SetVisualsData( const char *pCompositingShaderName = NULL );
+	void SetVisualsData( const char *pCompositingShaderName = nullptr);
 
 	virtual KeyValues *GenerateCustomMaterialKeyValues();
 	virtual KeyValues *GenerateCompositeMaterialKeyValues( int nMaterialParamId );
 	virtual bool HasCustomMaterial() const { return ( m_visualsData.nStyle > 0 && m_visualsData.nStyle <= CUSTOM_EPIDERMIS_MAX_VALID_STYLE ); }
 	virtual const char* GetOriginalMaterialName() const;
-	virtual const char* GetOriginalMaterialBaseName() const { return NULL; }
+	virtual const char* GetOriginalMaterialBaseName() const { return nullptr; }
 
 	int GetStyle() const { return  m_visualsData.nStyle; }
 

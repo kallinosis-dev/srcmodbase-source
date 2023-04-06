@@ -298,7 +298,7 @@ inline ScriptFunctionBindingStorageType_t ScriptConvertFuncPtrToVoid( FUNCPTR_TY
 #endif
 	else
 		AssertMsg( 0, "Member function pointer not supported. Why on earth are you using virtual inheritance!?" );
-	return NULL;
+	return nullptr;
 #endif
 }
 

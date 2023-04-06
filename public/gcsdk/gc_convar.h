@@ -46,11 +46,11 @@ protected:
 class GCConCommand : public ConCommand
 {
 public:
-	GCConCommand( const char *pName, FnCommandCallbackV1_t callback, const char *pHelpString = 0, int flags = 0, FnCommandCompletionCallback completionFunc = 0 )
+	GCConCommand( const char *pName, FnCommandCallbackV1_t callback, const char *pHelpString = nullptr, int flags = 0, FnCommandCompletionCallback completionFunc = nullptr )
 		: ConCommand( pName, callback, pHelpString, flags, completionFunc ) {}
-	GCConCommand( const char *pName, FnCommandCallback_t callback, const char *pHelpString = 0, int flags = 0, FnCommandCompletionCallback completionFunc = 0 )
+	GCConCommand( const char *pName, FnCommandCallback_t callback, const char *pHelpString = nullptr, int flags = 0, FnCommandCompletionCallback completionFunc = nullptr )
 		: ConCommand( pName, callback, pHelpString, flags, completionFunc ) {}
-	GCConCommand( const char *pName, ICommandCallback *pCallback, const char *pHelpString = 0, int flags = 0, ICommandCompletionCallback *pCommandCompletionCallback = 0 )
+	GCConCommand( const char *pName, ICommandCallback *pCallback, const char *pHelpString = nullptr, int flags = 0, ICommandCompletionCallback *pCommandCompletionCallback = nullptr )
 		: ConCommand( pName, pCallback, pHelpString, flags, pCommandCompletionCallback ) {}
 
 	virtual const char *GetName( void ) const;

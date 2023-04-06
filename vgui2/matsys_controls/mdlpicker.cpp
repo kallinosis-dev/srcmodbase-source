@@ -67,14 +67,14 @@ CMDLPicker::CMDLPicker( vgui::Panel *pParent, int nFlags ) :
 
 	m_nFlags = nFlags;	// remember what we show and what not
 
-	m_pRenderPage = NULL;
-	m_pSequencesPage = NULL;
-	m_pActivitiesPage = NULL;
-	m_pSkinsPage = NULL;
-	m_pInfoPage = NULL;
+	m_pRenderPage = nullptr;
+	m_pSequencesPage = nullptr;
+	m_pActivitiesPage = nullptr;
+	m_pSkinsPage = nullptr;
+	m_pInfoPage = nullptr;
 
-	m_pSequencesList = NULL;
-	m_pActivitiesList = NULL;
+	m_pSequencesList = nullptr;
+	m_pActivitiesList = nullptr;
 
 	// Horizontal splitter for mdls
 	m_pFileBrowserSplitter = new Splitter( this, "FileBrowserSplitter", SPLITTER_MODE_VERTICAL, 1 );
@@ -284,7 +284,7 @@ void CMDLPicker::OnAssetSelected( KeyValues *pParams )
 	Q_snprintf( pProbeBuf, sizeof(pProbeBuf), "materials/lightprobes/%s", pAsset );
 
 	BeginDMXContext();
-	CDmxElement *pLightProbe = NULL; 
+	CDmxElement *pLightProbe = nullptr; 
 	bool bOk = UnserializeDMX( pProbeBuf, "GAME", true, &pLightProbe );
 	if ( !pLightProbe || !bOk )
 	{
@@ -392,7 +392,7 @@ void CMDLPicker::OnSelectedAssetPicked( const char *pMDLName )
 	}
 	else
 	{
-		SelectMDL( NULL );
+		SelectMDL(nullptr);
 	}
 }
 
@@ -492,30 +492,30 @@ int CMDLPicker::GetSelectedPage( )
 const char *CMDLPicker::GetSelectedSequenceName()
 {
 	if ( !m_pSequencesPage  )
-		return NULL;
+		return nullptr;
 
 	int nIndex = m_pSequencesList->GetSelectedItem( 0 );
 	if ( nIndex >= 0 )
 	{
 		KeyValues *pkv = m_pSequencesList->GetItem( nIndex );
-		return pkv->GetString( "sequence", NULL );
+		return pkv->GetString( "sequence", nullptr);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const char *CMDLPicker::GetSelectedActivityName()
 {
 	if ( !m_pActivitiesPage  )
-		return NULL;
+		return nullptr;
 
 	int nIndex = m_pActivitiesList->GetSelectedItem( 0 );
 	if ( nIndex >= 0 )
 	{
 		KeyValues *pkv = m_pActivitiesList->GetItem( nIndex );
-		return pkv->GetString( "activity", NULL );
+		return pkv->GetString( "activity", nullptr);
 	}
-	return NULL;
+	return nullptr;
 }
 
 int	CMDLPicker::GetSelectedSkin()
@@ -583,7 +583,7 @@ void CMDLPicker::SelectSkin( int nSkin )
 //-----------------------------------------------------------------------------
 void CMDLPicker::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr("panel", NULL);
+	Panel *pPanel = (Panel *)kv->GetPtr("panel", nullptr);
 	if ( m_pSequencesList && (pPanel == m_pSequencesList ) )
 	{
 		const char *pSequenceName = GetSelectedSequenceName();

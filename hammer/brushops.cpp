@@ -82,14 +82,14 @@ void FreeWinding (winding_t *w)
 	if (w->p)
 	{
 	    free (w->p);
-		w->p = NULL;
+		w->p = nullptr;
 	}
 	free (w);
 }
 
 size_t WindingSize(int points)
 {
-	return (size_t)(&((winding_t *)0)->p[points]);
+	return (size_t)(&((winding_t *)nullptr)->p[points]);
 }
 
 
@@ -190,7 +190,7 @@ winding_t *ClipWinding (winding_t *in, PLANE *split)
 	if (!counts[0])
 	{
 		free (in);
-		return NULL;
+		return nullptr;
 	}
 	if (!counts[1])
 		return in;
@@ -345,7 +345,7 @@ error3d * Enum3dErrors(BOOL bStart)
 		iCurrent = 0;
 
 	if(iCurrent == nErrors)
-		return NULL;
+		return nullptr;
 
 	return & Errors.GetData()[iCurrent++];
 }

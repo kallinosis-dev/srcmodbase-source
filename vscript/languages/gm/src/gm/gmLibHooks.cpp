@@ -157,7 +157,7 @@ gmptr gmLibHooks::GetFunctionId()
 
 gmptr gmLibHooks::GetSymbolId(const char * a_symbol)
 {
-  if(a_symbol == NULL) a_symbol = "";
+  if(a_symbol == nullptr) a_symbol = "";
 
   // see if we already have sybmol
   USymbol * symbol = m_symbols.GetFirst();
@@ -238,12 +238,12 @@ gmFunctionObject * gmLibHooks::BindLib(gmMachine &a_machine, gmStream &a_stream,
   gmlStrings strings;
   gmlSource source;
   gmlFunction function;
-  gmFunctionObject * functionObject = NULL;
-  gmFunctionObject ** functionObjects = NULL;
+  gmFunctionObject * functionObject = nullptr;
+  gmFunctionObject ** functionObjects = nullptr;
   bool error = true, debug = false;
-  char * stringTable = NULL;
-  char * sourceCode = NULL;
-  char * byteCode = NULL;
+  char * stringTable = nullptr;
+  char * sourceCode = nullptr;
+  char * byteCode = nullptr;
   unsigned int i, j;
   gmuint32 numFunctions = 0;
   gmuint32 sourceCodeId = 0;
@@ -276,7 +276,7 @@ gmFunctionObject * gmLibHooks::BindLib(gmMachine &a_machine, gmStream &a_stream,
     if(a_stream.Read(sourceCode, source.m_size) != source.m_size) { goto done; }
     sourceCodeId = a_machine.AddSourceCode(sourceCode, a_filename);
     delete[] sourceCode;
-    sourceCode = NULL;
+    sourceCode = nullptr;
   }
 
   // Read in the functions
@@ -371,8 +371,8 @@ gmFunctionObject * gmLibHooks::BindLib(gmMachine &a_machine, gmStream &a_stream,
     functionInfo.m_numParams = function.m_numParams;
     functionInfo.m_numLocals = function.m_numLocals;
     functionInfo.m_maxStackSize = function.m_maxStackSize;
-    functionInfo.m_symbols = NULL;
-    functionInfo.m_lineInfo = NULL;
+    functionInfo.m_symbols = nullptr;
+    functionInfo.m_lineInfo = nullptr;
 
     // We have now loaded all objects into the byte code....  Load the debug info
     if(debug)
@@ -440,7 +440,7 @@ done:
   if(error)
   {
     a_machine.GetLog().LogEntry("Error loading library");
-    return NULL;
+    return nullptr;
   }
   return functionObject;
 }

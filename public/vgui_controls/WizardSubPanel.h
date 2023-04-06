@@ -59,7 +59,7 @@ public:
 	// returns a pointer to the panel to return to
 	// it must be a panel that is already in the wizards panel history
 	// returning NULL tells it to use the immediate previous panel in the history
-	virtual WizardSubPanel *GetPrevSubPanel() { return NULL; }
+	virtual WizardSubPanel *GetPrevSubPanel() { return nullptr; }
 
 	virtual WizardPanel *GetWizardPanel() { return _wizardPanel; }
 	virtual void SetWizardPanel(WizardPanel *wizardPanel) { _wizardPanel = wizardPanel; }

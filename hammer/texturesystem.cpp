@@ -107,12 +107,12 @@ void CMaterialFileChangeWatcher::Update()
 //-----------------------------------------------------------------------------
 CTextureSystem::CTextureSystem(void)
 {
-	m_pLastTex = NULL;
+	m_pLastTex = nullptr;
 	m_nLastIndex = 0;
-	m_pActiveContext = NULL;
-	m_pActiveGroup = NULL;
-	m_pCubemapTexture = NULL;
-	m_pNoDrawTexture = NULL;
+	m_pActiveContext = nullptr;
+	m_pActiveGroup = nullptr;
+	m_pCubemapTexture = nullptr;
+	m_pNoDrawTexture = nullptr;
 }
 
 
@@ -132,7 +132,7 @@ void CTextureSystem::FreeAllTextures()
 	if ( m_pCubemapTexture )
 	{
 	 	m_pCubemapTexture->DecrementReferenceCount();
-		m_pCubemapTexture = NULL;
+		m_pCubemapTexture = nullptr;
 	}
 
 	int nContextCount = m_TextureContexts.Count();
@@ -170,7 +170,7 @@ void CTextureSystem::FreeAllTextures()
 	}
 	m_Textures.RemoveAll();
 
-	m_pLastTex = NULL;
+	m_pLastTex = nullptr;
 	m_nLastIndex = -1;
 
 
@@ -219,16 +219,16 @@ IEditorTexture *CTextureSystem::EnumActiveTextures(int *piIndex, TEXTUREFORMAT e
 {
 	Assert(piIndex != NULL);
 	
-	if (piIndex != NULL)
+	if (piIndex != nullptr)
 	{
-		if (m_pActiveGroup != NULL)
+		if (m_pActiveGroup != nullptr)
 		{
-			IEditorTexture *pTex = NULL;
+			IEditorTexture *pTex = nullptr;
 
 			do
 			{
 				pTex = m_pActiveGroup->GetTexture(*piIndex);
-				if (pTex != NULL)
+				if (pTex != nullptr)
 				{
 					(*piIndex)++;
 
@@ -237,11 +237,11 @@ IEditorTexture *CTextureSystem::EnumActiveTextures(int *piIndex, TEXTUREFORMAT e
 						return(pTex);
 					}
 				}
-			} while (pTex != NULL);
+			} while (pTex != nullptr);
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -284,7 +284,7 @@ IEditorTexture *CTextureSystem::FindActiveTexture(LPCSTR pszInputName, int *piIn
 	char szName[MAX_PATH];
 	Q_StrSubst( pszInputName, "\\", "/", szName, sizeof( szName ) );
 	const char *pszName = szName;
-	IEditorTexture *pTex = NULL;
+	IEditorTexture *pTex = nullptr;
 	//
 	// Check the cache first.
 	//
@@ -354,7 +354,7 @@ IEditorTexture *CTextureSystem::FindActiveTexture(LPCSTR pszInputName, int *piIn
 	//
 	if (!bDummy)
 	{
-		return(NULL);
+		return(nullptr);
 	}
 
 	Assert(!piIndex);
@@ -382,7 +382,7 @@ IEditorTexture *CTextureSystem::FindActiveTexture(LPCSTR pszInputName, int *piIn
 		pTex = AddDummy(pszName, g_pGameConfig->GetTextureFormat());
 	}
 
-	if (pTex != NULL)
+	if (pTex != nullptr)
 	{
 		m_pLastTex = pTex;
 		m_nLastIndex = -1;
@@ -444,7 +444,7 @@ TextureContext_t *CTextureSystem::FindTextureContextForConfig(CGameConfig *pConf
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -461,7 +461,7 @@ void CTextureSystem::SetActiveConfig(CGameConfig *pConfig)
 	}
 	else
 	{
-		m_pActiveContext = NULL;
+		m_pActiveContext = nullptr;
 	}
 }
 
@@ -577,7 +577,7 @@ void CTextureSystem::LoadMaterials(CGameConfig *pConfig)
 
 	Assert( m_pCubemapTexture == NULL );
 
-	m_pCubemapTexture = MaterialSystemInterface()->FindTexture( "editor/cubemap", NULL, true );
+	m_pCubemapTexture = MaterialSystemInterface()->FindTexture( "editor/cubemap", nullptr, true );
 
 	if ( m_pCubemapTexture )
 	{
@@ -587,7 +587,7 @@ void CTextureSystem::LoadMaterials(CGameConfig *pConfig)
 	}
 	
 	// Get the nodraw texture.
-	m_pNoDrawTexture = NULL;
+	m_pNoDrawTexture = nullptr;
 	for ( int i=0; i < m_Textures.Count(); i++ )
 	{
 		if ( V_stricmp( m_Textures[i]->GetName(), "tools/toolsnodraw" ) == 0 || V_stricmp( m_Textures[i]->GetName(), "tools/toolsnodraw" ) == 0 )
@@ -637,7 +637,7 @@ void CTextureSystem::OnFileChange( const char *pFilename, int context, CTextureS
 	// Handle it based on what type of file we've got.
 	if ( eFileType == k_eFileTypeVMT )
 	{
-		IEditorTexture *pTex = FindActiveTexture( fixedSlashes, NULL, FALSE );
+		IEditorTexture *pTex = FindActiveTexture( fixedSlashes, nullptr, FALSE );
 		if ( pTex )
 		{
 			pTex->Reload( true );
@@ -645,7 +645,7 @@ void CTextureSystem::OnFileChange( const char *pFilename, int context, CTextureS
 		else
 		{
 			EnumMaterial( fixedSlashes, context );
-			IEditorTexture *pTex = FindActiveTexture( fixedSlashes, NULL, FALSE );
+			IEditorTexture *pTex = FindActiveTexture( fixedSlashes, nullptr, FALSE );
 			if ( pTex )
 			{
 				GetMainWnd()->m_TextureBar.NotifyNewMaterial( pTex );
@@ -659,7 +659,7 @@ void CTextureSystem::OnFileChange( const char *pFilename, int context, CTextureS
 		ITexture *pTexture = materials->FindTexture( fixedSlashes, TEXTURE_GROUP_UNACCOUNTED, false );
 		if ( pTexture )
 		{
-			pTexture->Download( NULL );
+			pTexture->Download(nullptr);
 			ReloadMaterialsUsingTexture( pTexture );
 		}
 	}
@@ -747,7 +747,7 @@ void CTextureSystem::ReloadTextures( const char *pFilterName )
 IEditorTexture *CTextureSystem::AddDummy(LPCTSTR pszName, TEXTUREFORMAT eFormat)
 {
 	if (!m_pActiveContext)
-		return NULL;
+		return nullptr;
 
 	IEditorTexture *pTex = new CDummyTexture(pszName, eFormat);
 	m_pActiveContext->Dummies.AddToTail(pTex);
@@ -768,7 +768,7 @@ static int __cdecl SortTexturesProc(IEditorTexture * const *elem1, IEditorTextur
 	IEditorTexture *pElem2 = *((IEditorTexture **)elem2);
 
 	Assert((pElem1 != NULL) && (pElem2 != NULL));
-	if ((pElem1 == NULL) || (pElem2 == NULL))
+	if ((pElem1 == nullptr) || (pElem2 == nullptr))
 	{
 		return(0);
 	}
@@ -890,7 +890,7 @@ bool CTextureSystem::FindGraphicsFile(GRAPHICSFILESTRUCT *pFileInfo, DWORD id, i
 				piIndex[0] = i;
 			}
 
-			if (pFileInfo != NULL)
+			if (pFileInfo != nullptr)
 			{
 				*pFileInfo = m_GraphicsFiles[i];
 			}
@@ -932,7 +932,7 @@ void CTextureSystem::LoadGraphicsFileWAD3(GRAPHICSFILESTRUCT *pFile, int fd, CTe
 			_lseek(fd, dir[i].filepos, SEEK_SET);
 
 			CWADTexture *pNew = new CWADTexture;
-			if (pNew != NULL)
+			if (pNew != nullptr)
 			{
 				if (pNew->Init(fd, pFile->id, FALSE, dir[i].name))
 				{
@@ -1101,7 +1101,7 @@ bool CTextureSystem::EnumMaterial( const char *pMaterialName, int nContext )
 {
 	CTextureGroup *pGroup = (CTextureGroup *)nContext;
 	CMaterial *pMaterial = CMaterial::CreateMaterial(pMaterialName, false);
-	if (pMaterial != NULL)
+	if (pMaterial != nullptr)
 	{
 		// Add it to the master list of textures.
 		AddTexture(pMaterial);
@@ -1130,7 +1130,7 @@ void CTextureSystem::RegisterTextureKeywords( IEditorTexture *pTexture )
 	if (szKeywords[0] != '\0')
 	{
 		char *pch = strtok(szKeywords, " ,;");
-		while (pch != NULL)
+		while (pch != nullptr)
 		{
 			// dvs: hide in a Find function
 			bool bFound = false;
@@ -1152,7 +1152,7 @@ void CTextureSystem::RegisterTextureKeywords( IEditorTexture *pTexture )
 				m_Keywords.AddToTail(pszKeyword);
 			}
 
-			pch = strtok(NULL, " ,;");
+			pch = strtok(nullptr, " ,;");
 		}
 	}
 }
@@ -1199,7 +1199,7 @@ void CTextureSystem::OpenSource( const char *pMaterialName )
 	char pFullPath[MAX_PATH];
 	if ( g_pFullFileSystem->GetLocalPath( pRelativePath, pFullPath, MAX_PATH ) )
 	{
-		ShellExecute( NULL, "open", pFullPath, NULL, NULL, SW_SHOWNORMAL );
+		ShellExecute(nullptr, "open", pFullPath, nullptr, nullptr, SW_SHOWNORMAL );
 	}
 }
 
@@ -1220,7 +1220,7 @@ void CTextureSystem::ExploreToSource( const char *pMaterialName )
 		CString strSel = "/select, ";
 		strSel += pFullPath;
 
-		ShellExecute(NULL, "open", "explorer", strSel, NULL, SW_SHOWNORMAL );
+		ShellExecute(nullptr, "open", "explorer", strSel, nullptr, SW_SHOWNORMAL );
 	}
 }
 
@@ -1276,7 +1276,7 @@ IEditorTexture *CTextureGroup::GetTexture(int nIndex)
 {
 	if ((nIndex >= m_Textures.Count()) || (nIndex < 0))
 	{
-		return(NULL);
+		return(nullptr);
 	}
 
 	return(m_Textures[nIndex]);
@@ -1294,7 +1294,7 @@ IEditorTexture *CTextureGroup::GetTexture( char const* pName )
 			return m_Textures[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1306,7 +1306,7 @@ IEditorTexture* CTextureGroup::FindTextureByName( const char *pName, int *piInde
 	int iMapEntry = m_TextureNameMap.Find( pName );
 	if ( iMapEntry == m_TextureNameMap.InvalidIndex() )
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -1314,7 +1314,7 @@ IEditorTexture* CTextureGroup::FindTextureByName( const char *pName, int *piInde
 		if ((eDesiredFormat == tfNone) || (pTex->GetTextureFormat() == eDesiredFormat))
 			return pTex;
 		else
-			return NULL;
+			return nullptr;
 	}		
 }
 

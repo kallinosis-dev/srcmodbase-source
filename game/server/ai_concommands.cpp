@@ -253,12 +253,12 @@ void CC_AI_Hull( const CCommand &args )
 		return;
 
 	bool bSpawned = false;
-	CBaseEntity *pEnt = NULL;
+	CBaseEntity *pEnt = nullptr;
 
 	if ( !args[1] || !args[1][0] )
 	{		
 		// No arg means the entity under the crosshair.
-		pEnt = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : NULL;
+		pEnt = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : nullptr;
 		if ( !pEnt )
 		{
 			DevMsg( "No entity under the crosshair.\n" );
@@ -268,7 +268,7 @@ void CC_AI_Hull( const CCommand &args )
 	else
 	{
 		// Find the entity specified on the command line.
-		pEnt = gEntList.FindEntityGeneric( NULL, args[1] );
+		pEnt = gEntList.FindEntityGeneric(nullptr, args[1] );
 
 		if ( !pEnt )
 		{
@@ -352,7 +352,7 @@ void CC_AI_ShowVisibility( const CCommand &args )
 	g_pAINetworkManager->GetEditOps()->SetDebugBits("BigNet",bits_debugOverlayVisibility);
 
 	CAI_Node* pAINode = UTIL_GetCommandClient()->FindPickerAINode( NODE_ANY );
-	if (pAINode != NULL)
+	if (pAINode != nullptr)
 	{
 		g_pAINetworkManager->GetEditOps()->m_iVisibilityNode = pAINode->GetId();
 	}
@@ -381,7 +381,7 @@ void CC_AI_GraphConnect( const CCommand &args )
 	//Q_strncpy( entName, args[1],sizeof(entName) );
 	g_pAINetworkManager->GetEditOps()->SetDebugBits("BigNet",bits_debugOverlayGraphConnect);
 	CAI_Node* pAINode = UTIL_GetCommandClient()->FindPickerAINode( NODE_ANY );
-	if (pAINode != NULL)
+	if (pAINode != nullptr)
 	{
 		g_pAINetworkManager->GetEditOps()->m_iGConnectivityNode = pAINode->GetId();
 	}
@@ -478,13 +478,13 @@ void CC_NPC_Create( const CCommand &args )
 			if (baseNPC->CapabilitiesGet() & bits_CAP_MOVE_FLY)
 			{
 				Vector pos = tr.endpos - forward * 36;
-				baseNPC->Teleport( &pos, NULL, NULL );
+				baseNPC->Teleport( &pos, nullptr, nullptr);
 			}
 			else
 			{
 				// Raise the end position a little up off the floor, place the npc and drop him down
 				tr.endpos.z += 12;
-				baseNPC->Teleport( &tr.endpos, NULL, NULL );
+				baseNPC->Teleport( &tr.endpos, nullptr, nullptr);
 				UTIL_DropToFloor( baseNPC, baseNPC->GetAITraceMask() );
 			}
 
@@ -570,13 +570,13 @@ void CC_NPC_Create_Aimed( const CCommand &args )
 			if (baseNPC->CapabilitiesGet() & bits_CAP_MOVE_FLY)
 			{
 				Vector pos = tr.endpos - forward * 36;
-				baseNPC->Teleport( &pos, &angles, NULL );
+				baseNPC->Teleport( &pos, &angles, nullptr);
 			}
 			else
 			{
 				// Raise the end position a little up off the floor, place the npc and drop him down
 				tr.endpos.z += 12;
-				baseNPC->Teleport( &tr.endpos, &angles, NULL );
+				baseNPC->Teleport( &tr.endpos, &angles, nullptr);
 				UTIL_DropToFloor( baseNPC, baseNPC->GetAITraceMask() );
 			}
 
@@ -595,7 +595,7 @@ void CC_NPC_Create_Aimed( const CCommand &args )
 		}
 		else
 		{
-			baseNPC->Teleport( NULL, &angles, NULL );
+			baseNPC->Teleport(nullptr, &angles, nullptr);
 		}
 
 		baseNPC->Activate();
@@ -609,7 +609,7 @@ static ConCommand npc_create_aimed("npc_create_aimed", CC_NPC_Create_Aimed, "Cre
 //------------------------------------------------------------------------------
 void CC_NPC_DestroyUnselected( void )
 {
-	CAI_BaseNPC *pNPC = gEntList.NextEntByClass( (CAI_BaseNPC *)NULL );
+	CAI_BaseNPC *pNPC = gEntList.NextEntByClass( (CAI_BaseNPC *)nullptr);
 
 	while (pNPC)
 	{
@@ -635,7 +635,7 @@ void CC_NPC_Freeze( const CCommand &args )
 		// No NPC was specified, try to freeze selected NPCs.
 		//
 		bool bFound = false;
-		CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)NULL );
+		CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)nullptr);
 		while (npc)
 		{
 			if (npc->m_debugOverlays & OVERLAY_NPC_SELECTED_BIT) 
@@ -651,7 +651,7 @@ void CC_NPC_Freeze( const CCommand &args )
 			//	
 			// No selected NPCs, look for the NPC under the crosshair.
 			//
-			CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : NULL;
+			CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : nullptr;
 			if ( pEntity )
 			{
 				CAI_BaseNPC *pNPC = pEntity->MyNPCPointer();
@@ -681,7 +681,7 @@ void CC_NPC_Set_Freeze( const CCommand &args )
 	bool bFound = false;
 	bool bFreeze = ( atoi( args[1] ) != 0 );
 	
-	CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)NULL );
+	CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)nullptr);
 	while (npc)
 	{
 		if (npc->m_debugOverlays & OVERLAY_NPC_SELECTED_BIT) 
@@ -704,7 +704,7 @@ void CC_NPC_Set_Freeze( const CCommand &args )
 		//	
 		// No selected NPCs, look for the NPC under the crosshair.
 		//
-		CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : NULL;
+		CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : nullptr;
 		if ( pEntity )
 		{
 			CAI_BaseNPC *pNPC = pEntity->MyNPCPointer();
@@ -730,7 +730,7 @@ CON_COMMAND( npc_freeze_unselected, "Freeze all NPCs not selected" )
 	if ( !UTIL_IsCommandIssuedByServerAdmin() )
 		return;
 
-	CAI_BaseNPC *pNPC = gEntList.NextEntByClass( (CAI_BaseNPC *)NULL );
+	CAI_BaseNPC *pNPC = gEntList.NextEntByClass( (CAI_BaseNPC *)nullptr);
 
 	while (pNPC)
 	{
@@ -747,7 +747,7 @@ CON_COMMAND( npc_set_freeze_unselected, "Freeze all NPCs not selected" )
 	if ( !UTIL_IsCommandIssuedByServerAdmin() )
 		return;
 
-	CAI_BaseNPC *pNPC = gEntList.NextEntByClass( (CAI_BaseNPC *)NULL );
+	CAI_BaseNPC *pNPC = gEntList.NextEntByClass( (CAI_BaseNPC *)nullptr);
 
 	while (pNPC)
 	{
@@ -772,7 +772,7 @@ CON_COMMAND(npc_thinknow, "Trigger NPC to think")
 	if ( !UTIL_IsCommandIssuedByServerAdmin() )
 		return;
 
-	CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : NULL;
+	CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : nullptr;
 	if ( pEntity )
 	{
 		CAI_BaseNPC *pNPC = pEntity->MyNPCPointer();
@@ -800,14 +800,14 @@ void CC_NPC_Teleport( void )
 
 	if ( tr.fraction != 1.0)
 	{
-		CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)NULL );
+		CAI_BaseNPC *npc = gEntList.NextEntByClass( (CAI_BaseNPC *)nullptr);
 
 		while (npc)
 		{
 			//Only Teleport one NPC if more than one is selected.
 			if (npc->m_debugOverlays & OVERLAY_NPC_SELECTED_BIT) 
 			{
-                npc->Teleport( &tr.endpos, NULL, NULL );
+                npc->Teleport( &tr.endpos, nullptr, nullptr);
 				break;
 			}
 
@@ -953,7 +953,7 @@ static ConCommand npc_steering("npc_steering", CC_NPC_ViewSteeringRegulations, "
 
 void CC_NPC_ViewSteeringRegulationsAll( void )
 {
-	CAI_BaseNPC *pNPC = gEntList.NextEntByClass( (CAI_BaseNPC *)NULL );
+	CAI_BaseNPC *pNPC = gEntList.NextEntByClass( (CAI_BaseNPC *)nullptr);
 
 	while (pNPC)
 	{
@@ -977,7 +977,7 @@ CON_COMMAND( npc_heal, "Heals the target back to full health" )
 	if ( !UTIL_IsCommandIssuedByServerAdmin() )
 		return;
 
-	CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : NULL;
+	CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : nullptr;
 	if ( pEntity )
 	{
 		CAI_BaseNPC *pNPC = pEntity->MyNPCPointer();
@@ -993,7 +993,7 @@ CON_COMMAND( npc_ammo_deplete, "Subtracts half of the target's ammo" )
 	if ( !UTIL_IsCommandIssuedByServerAdmin() )
 		return;
 
-	CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : NULL;
+	CBaseEntity *pEntity = UTIL_GetCommandClient() ? UTIL_GetCommandClient()->FindPickerEntity() : nullptr;
 	if ( pEntity )
 	{
 		CAI_BaseNPC *pNPC = pEntity->MyNPCPointer();

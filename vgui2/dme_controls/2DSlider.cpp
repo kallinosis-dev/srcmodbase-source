@@ -57,8 +57,8 @@ C2DSlider::C2DSlider( Panel *pParent, const char *pName )
 	m_fRange[ kYAxis ][ 0 ] = 1.0f;
 	m_fRange[ kYAxis ][ 1 ] = 0.0f;
 
-	m_pNobBorder = NULL;
-	m_pInsetBorder = NULL;
+	m_pNobBorder = nullptr;
+	m_pInsetBorder = nullptr;
 
 	SetNobSize( 7, 7 );
 	RecomputeNobPosFromValue();

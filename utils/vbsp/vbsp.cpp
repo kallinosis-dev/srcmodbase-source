@@ -102,7 +102,7 @@ int			block_xl = BLOCKS_MIN, block_xh = BLOCKS_MAX, block_yl = BLOCKS_MIN, block
 int			entity_num;
 
 
-node_t		**ppBlockNodes = NULL;
+node_t		**ppBlockNodes = nullptr;
 
 //-----------------------------------------------------------------------------
 // Assign occluder areas (must happen *after* the world model is processed)
@@ -224,7 +224,7 @@ void SplitSubdividedFaces( node_t *headnode ); // garymcthack
 void ProcessWorldModel (void)
 {
 	entity_t	*e;
-	tree_t		*tree = NULL;
+	tree_t		*tree = nullptr;
 	qboolean	leaked;
 	int	optimize;
 	int			start;
@@ -235,7 +235,7 @@ void ProcessWorldModel (void)
 	brush_end = brush_start + e->numbrushes;
 	leaked = false;
 
-	if ( ppBlockNodes == NULL )
+	if ( ppBlockNodes == nullptr)
 	{
 		ppBlockNodes = new node_t *[ BLOCKS_ARRAY_WIDTH * BLOCKS_ARRAY_WIDTH ]; 
 		Q_memset( ppBlockNodes, 0, BLOCKS_ARRAY_WIDTH * BLOCKS_ARRAY_WIDTH * sizeof( node_t* ) );
@@ -360,7 +360,7 @@ void ProcessWorldModel (void)
 
 	AssignOccluderAreas( tree );
 	Compute3DSkyboxAreas( tree->headnode, g_SkyAreas );
-	face_t *pLeafFaceList = NULL;
+	face_t *pLeafFaceList = nullptr;
 	if ( !nodetail )
 	{
 		pLeafFaceList = MergeDetailTree( tree, brush_start, brush_end );
@@ -442,8 +442,8 @@ void ProcessSubModel( )
 	MarkVisibleSides (tree, start, end, FULL_DETAIL);
 	MakeFaces (tree->headnode);
 
-	FixTjuncs( tree->headnode, NULL );
-	WriteBSP( tree->headnode, NULL );
+	FixTjuncs( tree->headnode, nullptr);
+	WriteBSP( tree->headnode, nullptr);
 	
 #if DEBUG_BRUSHMODEL
 	if ( entity_num == DEBUG_BRUSHMODEL )
@@ -717,7 +717,7 @@ static tree_t *ClipOccluderBrushes( )
 
 	int nBrushCount = mapBrushes.Count();
 	if ( nBrushCount == 0 )
-		return NULL;
+		return nullptr;
 
 	Vector mins, maxs;
 	mins[0] = mins[1] = mins[2] = MIN_COORD_INTEGER;
@@ -733,7 +733,7 @@ static tree_t *ClipOccluderBrushes( )
 	MakeFaces( tree->headnode );
 
 	// NOTE: This will output the occluder face vertices + planes
-	FixTjuncs( tree->headnode, NULL );
+	FixTjuncs( tree->headnode, nullptr);
 
 	return tree;
 }
@@ -1038,7 +1038,7 @@ void AddDefaultStringtableDictionaries()
 	Q_snprintf( reslistsPath, sizeof( reslistsPath ), "%s%s/%s.dict", gamedir, RESLISTS_FOLDER, mapbase );
 
 	// Add PC default file
-	if ( g_pFileSystem->ReadFile( reslistsPath, NULL, buf ) )
+	if ( g_pFileSystem->ReadFile( reslistsPath, nullptr, buf ) )
 	{
 		// Add to BSP pack file
 		::AddBufferToPak( GetPakFile(), BSPPACK_STRINGTABLE_DICTIONARY_FALLBACK, buf.Base(), buf.TellPut(), false );
@@ -1048,7 +1048,7 @@ void AddDefaultStringtableDictionaries()
 
 	// Add 360 default file
 	Q_snprintf( reslistsPath, sizeof( reslistsPath ), "%s%s/%s.dict", gamedir, RESLISTS_FOLDER_X360, mapbase );
-	if ( g_pFileSystem->ReadFile( reslistsPath, NULL, buf ) )
+	if ( g_pFileSystem->ReadFile( reslistsPath, nullptr, buf ) )
 	{
 		// Add to BSP pack file
 		::AddBufferToPak( GetPakFile(), BSPPACK_STRINGTABLE_DICTIONARY_X360_FALLBACK, buf.Base(), buf.TellPut(), false );

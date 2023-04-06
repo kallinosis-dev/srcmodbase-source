@@ -17,7 +17,7 @@ public:
 	classentry_t()
 	{
 		mapname[ 0 ] = 0;
-		factory = 0;
+		factory = nullptr;
 		size = -1;
 	}
 
@@ -55,7 +55,7 @@ IClassMap& GetClassMap( void )
 	return g_Classmap;
 }
 
-void CClassMap::Add( const char *mapname, const char *classname, int size, DISPATCHFUNCTION factory = 0 )
+void CClassMap::Add( const char *mapname, const char *classname, int size, DISPATCHFUNCTION factory = nullptr )
 {
 	const char *map = Lookup( classname );
 	if ( map && !Q_strcasecmp( mapname, map ) )
@@ -82,7 +82,7 @@ const char *CClassMap::Lookup( const char *classname )
 
 	index = m_ClassDict.Find( classname );
 	if ( index == m_ClassDict.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	lookup = m_ClassDict.Element( index );
 	return lookup.GetMapName();
@@ -113,7 +113,7 @@ C_BaseEntity *CClassMap::CreateEntity( const char *mapname )
 		return ( *lookup->factory )();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int CClassMap::GetClassSize( const char *classname )

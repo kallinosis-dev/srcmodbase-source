@@ -50,7 +50,7 @@ mxGetOpenFileName (mxWindow *parent, const char *path, const char *filter)
 	ofn.lStructSize = sizeof (ofn);
 	if (parent)
 		ofn.hwndOwner = (HWND) parent->getHandle ();
-	ofn.hInstance = (HINSTANCE) GetModuleHandle (NULL);
+	ofn.hInstance = (HINSTANCE) GetModuleHandle (nullptr);
 	ofn.lpstrFilter = szFilter;
 	ofn.nFilterIndex = 1;
 	ofn.lpstrFile = sd_path;
@@ -62,7 +62,7 @@ mxGetOpenFileName (mxWindow *parent, const char *path, const char *filter)
 	if (GetOpenFileName (&ofn))
 			return sd_path;
 		else
-			return 0;
+			return nullptr;
 }
 
 
@@ -93,7 +93,7 @@ mxGetSaveFileName (mxWindow *parent, const char *path, const char *filter)
 	ofn.lStructSize = sizeof (ofn);
 	if (parent)
 		ofn.hwndOwner = (HWND) parent->getHandle ();
-	ofn.hInstance = (HINSTANCE) GetModuleHandle (NULL);
+	ofn.hInstance = (HINSTANCE) GetModuleHandle (nullptr);
 	ofn.lpstrFilter = szFilter;
 	ofn.lpstrFile = sd_path;
 	ofn.nMaxFile = _MAX_PATH;
@@ -104,5 +104,5 @@ mxGetSaveFileName (mxWindow *parent, const char *path, const char *filter)
 	if (GetSaveFileName (&ofn))
 			return sd_path;
 		else
-			return 0;
+			return nullptr;
 }

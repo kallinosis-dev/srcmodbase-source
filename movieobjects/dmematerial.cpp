@@ -79,10 +79,10 @@ IMaterial *CDmeMaterial::GetCachedMTL()
 	if ( !m_mtlRef.IsValid() )
 	{
 		const char *mtlName = m_mtlName.Get();
-		if ( mtlName == NULL )
-			return NULL;
+		if ( mtlName == nullptr)
+			return nullptr;
 
-		m_mtlRef.Init( g_pMaterialSystem->FindMaterial( mtlName, NULL, false ) );
+		m_mtlRef.Init( g_pMaterialSystem->FindMaterial( mtlName, nullptr, false ) );
 	}
 
 	return (IMaterial * )m_mtlRef;

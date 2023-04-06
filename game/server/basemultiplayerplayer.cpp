@@ -23,7 +23,7 @@ CBaseMultiplayerPlayer::CBaseMultiplayerPlayer()
 	m_flLastForcedChangeTeamTime = -1;
 	m_iBalanceScore = 0;
 	m_flConnectionTime = gpGlobals->curtime;
-	m_pExpresser = NULL;
+	m_pExpresser = nullptr;
 
 	// per life achievement counters
 	m_pAchievementKV = new KeyValues( "achievement_counts" );
@@ -48,7 +48,7 @@ CAI_Expresser *CBaseMultiplayerPlayer::CreateExpresser( void )
 {
 	m_pExpresser = new CMultiplayer_Expresser(this);
 	if ( !m_pExpresser)
-		return NULL;
+		return nullptr;
 
 	m_pExpresser->Connect(this);
 	return m_pExpresser;

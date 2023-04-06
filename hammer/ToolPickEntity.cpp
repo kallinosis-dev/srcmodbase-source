@@ -23,7 +23,7 @@
 //-----------------------------------------------------------------------------
 CToolPickEntity::CToolPickEntity(void)
 {
-	m_pNotifyTarget = NULL;
+	m_pNotifyTarget = nullptr;
 	m_bAllowMultiSelect = false;
 }
 
@@ -91,11 +91,11 @@ bool CToolPickEntity::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vecto
 
 	unsigned long uEntity;
 	CMapClass *pObject = pView->NearestObjectAt( vPoint, uEntity);
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		CMapClass *pSelObject = pObject->PrepareSelection(selectObjects);
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *>(pSelObject);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			//
 			// We clicked on an entity.
@@ -140,7 +140,7 @@ bool CToolPickEntity::OnLMouseDownLogical(CMapViewLogical *pView, UINT nFlags, c
 	{
 		CMapClass *pSelObject = hitData.pObject->PrepareSelection( selectObjects );
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *>( pSelObject );
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			//
 			// We clicked on an entity.
@@ -233,7 +233,7 @@ bool CToolPickEntity::OnMouseMoveLogical(CMapViewLogical *pView, UINT nFlags, co
 //-----------------------------------------------------------------------------
 void CToolPickEntity::SetEyedropperCursor(void)
 {
-	static HCURSOR hcurEyedropper = NULL;
+	static HCURSOR hcurEyedropper = nullptr;
 	
 	if (!hcurEyedropper)
 	{

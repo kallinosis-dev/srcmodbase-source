@@ -154,7 +154,7 @@ void *IVP_VHash::remove_elem(const void *elem, unsigned int hash_index){
   IVP_VHash_Elem *e;
   for ( ; ; pos = (pos+1)&size_mm ){
     e = &elems[pos];
-    if (e->elem == 0) CORE; //return 0;
+    if (e->elem == nullptr) CORE; //return 0;
     if ( (e->hash_index  | IVP_VHASH_TOUCH_BIT) != hash_index) continue;
     if ( compare((void *)e->elem, (void *)elem)== IVP_TRUE ){
 	break;
@@ -195,7 +195,7 @@ void *IVP_VHash::remove_elem(const void *elem, unsigned int hash_index){
       elems[last_pos] = *en;         // shift elem
       last_pos = pos;
   }
-  elems[last_pos].elem = 0;// remove elem
+  elems[last_pos].elem = nullptr;// remove elem
   elems[last_pos].hash_index = 0;// untouch elem
   IVP_IF(0){
       check();
@@ -255,7 +255,7 @@ void *IVP_VHash::find_elem(const void *elem, unsigned int hash_index)const {
 	  CORE;
       }
   }
-  return 0; // not found
+  return nullptr; // not found
 }
 
 void *IVP_VHash::touch_element(const void *elem, unsigned int hash_index) {
@@ -270,7 +270,7 @@ void *IVP_VHash::touch_element(const void *elem, unsigned int hash_index) {
     e->hash_index |= IVP_VHASH_TOUCH_BIT;
     return (void *)e->elem;
   }
-  return 0; // not found
+  return nullptr; // not found
 }
 
 
@@ -299,7 +299,7 @@ IVP_VHash_Store::IVP_VHash_Store(int size_i){
   size = size_i;
   size_mm = size_i-1;
   nelems = 0;
-  dont_free = 0;
+  dont_free = nullptr;
   elems_store = (IVP_VHash_Store_Elem *)p_calloc(size_i, sizeof(IVP_VHash_Store_Elem));
 }
 
@@ -459,7 +459,7 @@ void *IVP_VHash_Store::remove_elem(void *key_elem, unsigned int hash_index){
       elems_store[last_pos] = *en;         // shift elem
       last_pos = pos;
   }
-  elems_store[last_pos].key_elem = 0;// remove elem
+  elems_store[last_pos].key_elem = nullptr;// remove elem
   elems_store[last_pos].hash_index = 0;// untouch elem
   IVP_IF(0){
       check();
@@ -527,7 +527,7 @@ void *IVP_VHash_Store::find_elem(void *key_elem, unsigned int hash_index) {
 	  CORE;
       }
   }
-  return 0; // not found
+  return nullptr; // not found
 }
 
 void IVP_VHash_Store::change_elem(void *key_elem, void *new_value){
@@ -565,7 +565,7 @@ void *IVP_VHash_Store::touch_element(void *key_elem, unsigned int hash_index) {
     e->hash_index |= IVP_VHASH_TOUCH_BIT;
     return e->elem; //maybe it is e->key_elem ??
   }
-  return 0; // not found
+  return nullptr; // not found
 }
 
 

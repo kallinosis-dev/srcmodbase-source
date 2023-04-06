@@ -41,12 +41,12 @@ public:
 	// Creation/Init.
 	CTonemapSystem( char const *name ) : CAutoGameSystem( name ) 
 	{
-		m_hMasterController = NULL;
+		m_hMasterController = nullptr;
 	}
 
 	~CTonemapSystem()
 	{
-		m_hMasterController = NULL;
+		m_hMasterController = nullptr;
 	}
 
 	virtual void LevelInitPreEntity();

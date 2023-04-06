@@ -141,7 +141,7 @@ class UpdateBox : public CObject
 {
 	public:
 
-		UpdateBox(void) { Objects = NULL; }
+		UpdateBox(void) { Objects = nullptr; }
 
 		CMapObjectList *Objects;
 		BoundBox Box;
@@ -315,7 +315,7 @@ class CMapDoc : public CDocument
 		void Cordon_GetIndices( Cordon_t *pCordon, BoundBox *pBox, int *pnCordon, int *pnBox );
 		void Cordon_GetBounds( Vector &mins, Vector &maxs );
 		void Cordon_Activate( int nIndex, bool bActive );
-		Cordon_t *Cordon_CreateNewCordon( const char *name = NULL, BoundBox **ppBox = NULL );
+		Cordon_t *Cordon_CreateNewCordon( const char *name = nullptr, BoundBox **ppBox = nullptr);
 		Cordon_t *Cordon_AddCordon( const char *szName );
 		BoundBox *Cordon_AddBox( Cordon_t *cordon );
 		void Cordon_RemoveCordon( Cordon_t *cordon );
@@ -323,7 +323,7 @@ class CMapDoc : public CDocument
 		void Cordon_CombineCordons( Cordon_t *pSourceCordon, BoundBox *pSourceBox, Cordon_t *pDestCordon );
 
 		// We can only edit one of our cordon bounds at a time
-		Cordon_t *Cordon_GetSelectedCordonForEditing( BoundBox **pBox = NULL );
+		Cordon_t *Cordon_GetSelectedCordonForEditing( BoundBox **pBox = nullptr);
 		void Cordon_SelectCordonForEditing( Cordon_t *cordon, BoundBox *box, int nFlags = 0 ); // NULL cordon here means use current edit cordon
 		void Cordon_GetEditCordon( Vector &mins, Vector &maxs );
 		void Cordon_SetEditCordon( const Vector &mins, const Vector &maxs );
@@ -395,7 +395,7 @@ class CMapDoc : public CDocument
 		bool DropTraceOnDisplacementsAndClips( const Vector &vPosition, Vector *pHitPosition, bool *pHitClip );
 	
 		void Cut( IHammerClipboard *pClipboard );
-		void Copy( IHammerClipboard *pClipboard = NULL );
+		void Copy( IHammerClipboard *pClipboard = nullptr);
 		void Paste(CMapObjectList &Objects, CMapWorld *pSourceWorld, CMapWorld *pDestWorld, Vector vecOffset, QAngle vecRotate, CMapClass *pParent, bool bMakeEntityNamesUnique, const char *pszEntityNamePrefix);
 		void PasteInstance(CMapObjectList &Objects, CMapWorld *pSourceWorld, CMapWorld *pDestWorld, Vector vecOffset, QAngle vecRotate, CMapClass *pParent, bool bMakeEntityNamesUnique, const char *pszEntityNamePrefix);
 		void Paste( IHammerClipboard *pClipboard, CMapWorld *pDestWorld, Vector vecOffset, QAngle vecRotate, CMapClass *pParent, bool bMakeEntityNamesUnique, const char *pszEntityNamePrefix );
@@ -466,7 +466,7 @@ class CMapDoc : public CDocument
 		//
 		// Call these when modifying the document contents.
 		//
-		virtual void AddObjectToWorld(CMapClass *pObject, CMapClass *pParent = NULL);
+		virtual void AddObjectToWorld(CMapClass *pObject, CMapClass *pParent = nullptr);
 		BOOL FindObject(CMapClass *pObject);
 		void RemoveObjectFromWorld(CMapClass *pMapClass, bool bNotifyChildren);
 		void RenderPreloadObject(CMapClass *pObject);
@@ -607,7 +607,7 @@ class CMapDoc : public CDocument
 		#endif
 
 		void UpdateAllCameras(const Vector *vecViewPos, const Vector *vecLookAt, const float *fZoom);
-		void UpdateAllViews(int nFlags, UpdateBox *ub = NULL );
+		void UpdateAllViews(int nFlags, UpdateBox *ub = nullptr);
 
 		void SetSmoothingGroupVisual( int iGroup )		{ m_SmoothingGroupVisual = iGroup; }
 		int GetSmoothingGroupVisual( void )				{ return m_SmoothingGroupVisual; }
@@ -1065,7 +1065,7 @@ CHistory *CMapDoc::GetDocHistory(void)
 //-----------------------------------------------------------------------------
 MAPFORMAT CMapDoc::GetMapFormat(void)
 {
-	if (m_pGame != NULL)
+	if (m_pGame != nullptr)
 	{
 		return(m_pGame->mapformat);
 	}

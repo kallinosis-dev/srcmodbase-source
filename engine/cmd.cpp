@@ -58,7 +58,7 @@ struct cmdalias_t
 	char		*value;
 };
 
-static cmdalias_t	*cmd_alias = NULL;
+static cmdalias_t	*cmd_alias = nullptr;
 
 static CCommandBuffer s_CommandBuffer[ CBUF_COUNT ];
 static CThreadFastMutex s_CommandBufferMutex;
@@ -312,7 +312,7 @@ void Cbuf_Execute()
 static char const *Cmd_TranslateFileAssociation(char const *param )
 {
 	static char sz[ 512 ];
-	char *retval = NULL;
+	char *retval = nullptr;
 
 	char temp[ 512 ];
 	V_strcpy_safe( temp, param );
@@ -386,7 +386,7 @@ CON_COMMAND( stuffcmds, "Parses and stuffs command line + commands to command bu
 			if (szValue)
 			{
 				// Special case for +map parameter on the command line to support a second argument
-				char const *szSecondParameterUsed = NULL;
+				char const *szSecondParameterUsed = nullptr;
 				if ( !Q_stricmp( "+map", szParm ) &&
 					( CommandLine()->ParmCount() > ( i + 2 ) ) &&
 					CommandLine()->GetParm( i + 2 ) )
@@ -515,7 +515,7 @@ void _Cmd_Exec_f( const CCommand &args, bool bOnlyIfExists, bool bUseWhitelist =
 	DevMsg( "Execing config: %s\n", s );
 
 	// Optional path ID. * means no path ID.
-	const char *pPathID = NULL;
+	const char *pPathID = nullptr;
 	if ( argc >= 3 )
 	{
 		pPathID = args[ 2 ];
@@ -642,7 +642,7 @@ void _Cmd_Exec_f( const CCommand &args, bool bOnlyIfExists, bool bUseWhitelist =
 	if ( pKV_wl )
 	{
 		pKV_wl->deleteThis();
-		pKV_wl = NULL;
+		pKV_wl = nullptr;
 	}
 
 	if ( f != buf )
@@ -930,7 +930,7 @@ const ConCommandBase *Cmd_ExecuteCommand( ECommandTarget_t eTarget, const CComma
 {	
 	// execute the command line
 	if ( !command.ArgC() )
-		return NULL;		// no tokens
+		return nullptr;		// no tokens
 	
 	// First, check for execution markers.
 	if ( Q_strcmp( command[0], CMDSTR_ADD_EXECUTION_MARKER ) == 0 )
@@ -944,7 +944,7 @@ const ConCommandBase *Cmd_ExecuteCommand( ECommandTarget_t eTarget, const CComma
 			Warning( "WARNING: INVALID EXECUTION MARKER.\n" );
 		}
 		
-		return NULL;
+		return nullptr;
 	}
 
 	// check alias
@@ -954,7 +954,7 @@ const ConCommandBase *Cmd_ExecuteCommand( ECommandTarget_t eTarget, const CComma
 		if ( !Q_strcasecmp( command[0], a->name ) )
 		{
 			Cbuf_InsertText( Cbuf_GetCurrentPlayer(), a->value, command.Source() );
-			return NULL;
+			return nullptr;
 		}
 	}
 	
@@ -965,7 +965,7 @@ const ConCommandBase *Cmd_ExecuteCommand( ECommandTarget_t eTarget, const CComma
 
 	// If we prevent a server command due to FCVAR_SERVER_CAN_EXECUTE not being set, then we get out immediately.
 	if ( ShouldPreventServerCommand( command, pCommand ) )
-		return NULL;
+		return nullptr;
 
 	// FIXME: Why do we treat convars differently than commands here?
 	if ( pCommand && pCommand->IsCommand() )
@@ -1013,11 +1013,11 @@ const ConCommandBase *Cmd_ExecuteCommand( ECommandTarget_t eTarget, const CComma
 					if ( GetBaseLocalClient().IsConnected() )
 					{
 						Cmd_ForwardToServer( command );
-						return NULL;
+						return nullptr;
 					}
 	#endif
 					// It's a server command, but we're not connected to a server.  Don't try to execute it.
-					return NULL;
+					return nullptr;
 				}
 			}
 
@@ -1038,7 +1038,7 @@ const ConCommandBase *Cmd_ExecuteCommand( ECommandTarget_t eTarget, const CComma
 						{
 							Msg( "Can't use cheat command %s in multiplayer, unless the server has sv_cheats set to 1.\n", pCommand->GetName() );
 						}
-						return NULL;
+						return nullptr;
 					}
 				}
 			}
@@ -1048,14 +1048,14 @@ const ConCommandBase *Cmd_ExecuteCommand( ECommandTarget_t eTarget, const CComma
 				if ( !Host_IsSinglePlayerGame() )
 				{
 					Msg( "Can't use command %s in multiplayer.\n", pCommand->GetName() );
-					return NULL;
+					return nullptr;
 				}
 			}
 
 			if ( pCommand->IsFlagSet( FCVAR_DEVELOPMENTONLY ) )
 			{
 				Msg( "Unknown command \"%s\"\n", pCommand->GetName() );
-				return NULL;
+				return nullptr;
 			}
 
 			Cmd_Dispatch( pCommand, command );
@@ -1074,19 +1074,19 @@ const ConCommandBase *Cmd_ExecuteCommand( ECommandTarget_t eTarget, const CComma
 		if ( GetBaseLocalClient().IsConnected() )
 		{
 			Cmd_ForwardToServer( command );
-			return NULL;
+			return nullptr;
 		}
 	}
 	#endif
 
 	Msg( "Unknown command \"%s\"\n", command[0] );
-	return NULL;
+	return nullptr;
 }
 
 const char* Cmd_AliasToCommandString( const char* szAliasName )
 {
 	if ( !szAliasName )
-		return NULL;
+		return nullptr;
 
 	for ( cmdalias_t* a = cmd_alias; a; a = a->next )
 	{
@@ -1095,7 +1095,7 @@ const char* Cmd_AliasToCommandString( const char* szAliasName )
 			return a->value;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 

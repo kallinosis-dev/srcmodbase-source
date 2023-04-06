@@ -405,7 +405,7 @@ void CFlextalkActor::ProcessSceneEvents( void )
 			}
 			else if (stricmp( GetFlexControllerType( m_flexnum ), "phoneme" ) != 0)
 			{
-				if (strstr( GetFlexControllerName( m_flexnum ), "upper_raiser" ) == NULL)
+				if (strstr( GetFlexControllerName( m_flexnum ), "upper_raiser" ) == nullptr)
 				{
 					Msg( "%s:%s\n", GetFlexControllerType( m_flexnum ), GetFlexControllerName( m_flexnum ) );
 					SetFlexTarget( m_flexnum, random->RandomFloat( 0.5, 1.0 ) );

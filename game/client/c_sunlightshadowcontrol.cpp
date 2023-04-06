@@ -196,7 +196,7 @@ void C_SunlightShadowControl::ClientThink()
 		state.m_flShadowDepthBias = cl_sunlight_depthbias.GetFloat();
 		state.m_bEnableShadows = m_bEnableShadows;
 		state.m_pSpotlightTexture = m_SpotlightTexture;
-		state.m_pProjectedMaterial = NULL;
+		state.m_pProjectedMaterial = nullptr;
 		state.m_nSpotlightTextureFrame = 0;
 		extern ConVar r_flashlightdepthres;
 		state.m_flShadowMapResolution = r_flashlightdepthres.GetFloat();

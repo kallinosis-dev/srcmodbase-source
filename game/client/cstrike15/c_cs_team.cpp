@@ -34,10 +34,10 @@ C_CSTeam::~C_CSTeam()
 const char* Helper_GetLocalPlayerAssassinationQuestLocToken( const CEconQuestDefinition *pQuest )
 {
 	if ( !pQuest )
-		return NULL;
+		return nullptr;
 
 	KeyValues *pTargetKV = pQuest->GetStringTokens()->FindKey( "target" );
-	return pTargetKV ? pTargetKV->GetString() : NULL;
+	return pTargetKV ? pTargetKV->GetString() : nullptr;
 }
 
 bool Helper_GetDecoratedAssassinationTargetName( const CEconQuestDefinition *pQuest, wchar_t* pszBuffer, size_t nBuffSizeInCharacters )

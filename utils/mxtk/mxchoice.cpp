@@ -34,7 +34,7 @@ mxChoice::mxChoice (mxWindow *parent, int x, int y, int w, int h, int id)
 
 	void *handle = (void *) CreateWindowEx (0, "COMBOBOX", "", WS_VISIBLE | WS_CHILD | WS_VSCROLL | CBS_DROPDOWNLIST,
 				x, y, w, h + 500, hwndParent,
-				(HMENU) id, (HINSTANCE) GetModuleHandle (NULL), NULL);
+				(HMENU) id, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 	
 	SendMessage ((HWND) handle, WM_SETFONT, (WPARAM) (HFONT) GetStockObject (ANSI_VAR_FONT), MAKELPARAM (TRUE, 0));
 	SetWindowLong ((HWND) handle, GWL_USERDATA, (LONG) this);

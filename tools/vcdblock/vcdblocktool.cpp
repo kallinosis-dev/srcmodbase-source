@@ -41,8 +41,8 @@ const char *GetVGuiControlsModuleName()
 //-----------------------------------------------------------------------------
 bool ConnectTools( CreateInterfaceFn factory )
 {
-	return (materials != NULL) && (g_pMatSystemSurface != NULL) && (mdlcache != NULL) && 
-		(studiorender != NULL) && (g_pMaterialSystemHardwareConfig != NULL);
+	return (materials != nullptr) && (g_pMatSystemSurface != nullptr) && (mdlcache != nullptr) && 
+		(studiorender != nullptr) && (g_pMaterialSystemHardwareConfig != nullptr);
 }
 
 void DisconnectTools( )
@@ -53,7 +53,7 @@ void DisconnectTools( )
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
-CVcdBlockTool	*g_pVcdBlockTool = NULL;
+CVcdBlockTool	*g_pVcdBlockTool = nullptr;
 
 void CreateTools()
 {
@@ -67,8 +67,8 @@ void CreateTools()
 CVcdBlockTool::CVcdBlockTool()
 {
 	m_bInNodeDropMode = false;
-	m_pMenuBar = NULL;
-	m_pDoc = NULL;
+	m_pMenuBar = nullptr;
+	m_pDoc = nullptr;
 }
 
 
@@ -77,7 +77,7 @@ CVcdBlockTool::CVcdBlockTool()
 //-----------------------------------------------------------------------------
 bool CVcdBlockTool::Init( )
 {
-	m_pDoc = NULL;
+	m_pDoc = nullptr;
 	m_RecentFiles.LoadFromRegistry( GetRegistryName() );
 
 	// NOTE: This has to happen before BaseClass::Init
@@ -159,7 +159,7 @@ void CVcdBlockTool::LeaveTargetDropMode()
 		CDisableUndoScopeGuard guard;
 		m_hPreviewTarget->DrawInEngine( false );
 	}
-	SetMiniViewportText( NULL );
+	SetMiniViewportText(nullptr);
 	enginetools->Command( "noclip\n" );
 }
 
@@ -465,12 +465,12 @@ CVcdBlockToolMenuButton::CVcdBlockToolMenuButton( CVcdBlockTool *parent, const c
 {
 	m_pTool = parent;
 
-	AddMenuItem( "addnewnodes", "#VcdBlockAddNewNodes", new KeyValues( "AddNewNodes" ), pActionSignalTarget, NULL, "VcdBlockAddNewNodes" );
-	AddMenuItem( "copyeditstovmf", "#VcdBlockCopyEditsToVMF", new KeyValues( "CopyEditsToVMF" ), pActionSignalTarget, NULL, "VcdBlockCopyEditsToVMF" );
+	AddMenuItem( "addnewnodes", "#VcdBlockAddNewNodes", new KeyValues( "AddNewNodes" ), pActionSignalTarget, nullptr, "VcdBlockAddNewNodes" );
+	AddMenuItem( "copyeditstovmf", "#VcdBlockCopyEditsToVMF", new KeyValues( "CopyEditsToVMF" ), pActionSignalTarget, nullptr, "VcdBlockCopyEditsToVMF" );
 
 	AddSeparator();
 
-	AddCheckableMenuItem( "rememberposition", "#VcdBlockRememberPosition", new KeyValues( "RememberPosition" ), pActionSignalTarget, NULL, "VcdBlockRememberPosition" );
+	AddCheckableMenuItem( "rememberposition", "#VcdBlockRememberPosition", new KeyValues( "RememberPosition" ), pActionSignalTarget, nullptr, "VcdBlockRememberPosition" );
 
 	SetMenu(m_pMenu);
 }
@@ -485,7 +485,7 @@ void CVcdBlockToolMenuButton::OnShowMenu(vgui::Menu *menu)
 	CVcdBlockDoc *pDoc = m_pTool->GetDocument();
 
 	id = m_Items.Find( "addnewnodes" );
-	m_pMenu->SetItemEnabled( id, pDoc != NULL );
+	m_pMenu->SetItemEnabled( id, pDoc != nullptr);
 
 	id = m_Items.Find( "rememberposition" );
 	m_pMenu->SetMenuItemChecked( id, m_pTool->GetRememberPlayerPosition() );
@@ -697,7 +697,7 @@ void CVcdBlockTool::InitTools()
 
 void CVcdBlockTool::DestroyTools()
 {
-	m_hCurrentEntity = NULL;
+	m_hCurrentEntity = nullptr;
 
 	if ( m_hProperties.Get() && m_hInfoTargetBrowser.Get() )
 	{
@@ -717,14 +717,14 @@ void CVcdBlockTool::DestroyTools()
 	{
 		windowposmgr->UnregisterPanel( m_hProperties.Get() );
 		delete m_hProperties.Get();
-		m_hProperties = NULL;
+		m_hProperties = nullptr;
 	}
 
 	if ( m_hInfoTargetBrowser.Get() )
 	{
 		windowposmgr->UnregisterPanel( m_hInfoTargetBrowser.Get() );
 		delete m_hInfoTargetBrowser.Get();
-		m_hInfoTargetBrowser = NULL;
+		m_hInfoTargetBrowser = nullptr;
 	}
 }
 
@@ -733,7 +733,7 @@ void CVcdBlockTool::ShowToolWindow( Panel *tool, char const *toolName, bool visi
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL && visible )
+	if ( tool->GetParent() == nullptr && visible )
 	{
 		m_ToolWindowFactory.InstanceToolWindow( this, false, tool, toolName, false );
 	}
@@ -749,7 +749,7 @@ void CVcdBlockTool::ToggleToolWindow( Panel *tool, char const *toolName )
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL )
+	if ( tool->GetParent() == nullptr)
 	{
 		ShowToolWindow( tool, toolName, true );
 	}
@@ -855,7 +855,7 @@ void CVcdBlockTool::OnCommand( const char *cmd )
 void CVcdBlockTool::OnNew()
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc && m_pDoc->IsDirty() )
 	{
 		nFlags = FOSM_SHOW_PERFORCE_DIALOGS | FOSM_SHOW_SAVE_QUERY;
@@ -873,7 +873,7 @@ void CVcdBlockTool::OnNew()
 void CVcdBlockTool::OnOpen( )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc && m_pDoc->IsDirty() )
 	{
 		nFlags = FOSM_SHOW_PERFORCE_DIALOGS | FOSM_SHOW_SAVE_QUERY;
@@ -909,7 +909,7 @@ void CVcdBlockTool::OnSaveAs()
 {
 	if ( m_pDoc )
 	{
-		SaveFile( NULL, "vle", FOSM_SHOW_PERFORCE_DIALOGS );
+		SaveFile(nullptr, "vle", FOSM_SHOW_PERFORCE_DIALOGS );
 	}
 }
 
@@ -989,11 +989,11 @@ void CVcdBlockTool::OnCloseNoSave()
 		CAppNotifyScopeGuard sg( "CVcdBlockTool::OnCloseNoSave", NOTIFY_CHANGE_OTHER );
 
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 
 		if ( m_hProperties )
 		{
-			m_hProperties->SetObject( NULL );
+			m_hProperties->SetObject(nullptr);
 		}
 	}
 
@@ -1062,7 +1062,7 @@ void CVcdBlockTool::AttachAllEngineEntities()
 void CVcdBlockTool::OpenSpecificFile( const char *pFileName )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc )
 	{
 		// File is already open
@@ -1222,7 +1222,7 @@ void CVcdBlockTool::OnAddNewNodes()
 //-----------------------------------------------------------------------------
 const char *CVcdBlockTool::GetLogoTextureName()
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1267,7 +1267,7 @@ bool CVcdBlockTool::LoadDocument( const char *pDocName )
 	if ( !m_pDoc->LoadFromFile( pDocName ) )
 	{
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 		Warning( "Fatal error loading '%s'\n", pDocName );
 		return false;
 	}

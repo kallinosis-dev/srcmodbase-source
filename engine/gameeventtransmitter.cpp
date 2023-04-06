@@ -94,7 +94,7 @@ bool CGameEventTransmitter::Init()
 void CGameEventTransmitter::TransmitGameEvent( IGameEvent *event )
 {
 	// Don't bother doing anything if we don't have a transmit address, bad event, or a non-networked event
-	if ( !m_Adr.IsValid() || NULL == event || ( event && event->IsLocal() ) )
+	if ( !m_Adr.IsValid() || nullptr == event || ( event && event->IsLocal() ) )
 	{
 		return;
 	}
@@ -114,7 +114,7 @@ void CGameEventTransmitter::TransmitGameEvent( IGameEvent *event )
 
 		eventData.WriteToBuffer( buffer );
 
-		NET_SendPacket( NULL, NS_CLIENT, m_Adr, buffer_data, buffer.GetNumBytesWritten() );		
+		NET_SendPacket(nullptr, NS_CLIENT, m_Adr, buffer_data, buffer.GetNumBytesWritten() );		
 	}
 	else
 	{

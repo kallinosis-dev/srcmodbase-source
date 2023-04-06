@@ -113,7 +113,7 @@ void CAI_DynamicLinkController::InputTurnOn( inputdata_t &inputdata )
 {
 	for ( int i = 0; i < m_ControlledLinks.Count(); i++ )
 	{
-		if ( m_ControlledLinks[i] == NULL )
+		if ( m_ControlledLinks[i] == nullptr)
 		{
 			m_ControlledLinks.FastRemove(i);
 			if ( i >= m_ControlledLinks.Count() )
@@ -129,7 +129,7 @@ void CAI_DynamicLinkController::InputTurnOff( inputdata_t &inputdata )
 {
 	for ( int i = 0; i < m_ControlledLinks.Count(); i++ )
 	{
-		if ( m_ControlledLinks[i] == NULL )
+		if ( m_ControlledLinks[i] == nullptr)
 		{
 			m_ControlledLinks.FastRemove(i);
 			if ( i >= m_ControlledLinks.Count() )
@@ -146,7 +146,7 @@ void CAI_DynamicLinkController::InputSetAllowed( inputdata_t &inputdata )
 	m_strAllowUse = inputdata.value.StringID();
 	for ( int i = 0; i < m_ControlledLinks.Count(); i++ )
 	{
-		if ( m_ControlledLinks[i] == NULL )
+		if ( m_ControlledLinks[i] == nullptr)
 		{
 			m_ControlledLinks.FastRemove(i);
 			if ( i >= m_ControlledLinks.Count() )
@@ -161,7 +161,7 @@ void CAI_DynamicLinkController::InputSetInvert( inputdata_t &inputdata )
 	m_bInvertAllow = inputdata.value.Bool();
 	for ( int i = 0; i < m_ControlledLinks.Count(); i++ )
 	{
-		if ( m_ControlledLinks[i] == NULL )
+		if ( m_ControlledLinks[i] == nullptr)
 		{
 			m_ControlledLinks.FastRemove(i);
 			if ( i >= m_ControlledLinks.Count() )
@@ -199,7 +199,7 @@ END_DATADESC()
 //-----------------------------------------------------------------------------
 // Init static variables
 //-----------------------------------------------------------------------------
-CAI_DynamicLink *CAI_DynamicLink::m_pAllDynamicLinks = NULL;
+CAI_DynamicLink *CAI_DynamicLink::m_pAllDynamicLinks = nullptr;
 bool CAI_DynamicLink::gm_bInitialized;
 
 
@@ -207,8 +207,8 @@ bool CAI_DynamicLink::gm_bInitialized;
 
 void CAI_DynamicLink::GenerateControllerLinks()
 {
-	CAI_DynamicLinkController *pController = NULL;
-	while ( ( pController = gEntList.NextEntByClass( pController ) ) != NULL )
+	CAI_DynamicLinkController *pController = nullptr;
+	while ( ( pController = gEntList.NextEntByClass( pController ) ) != nullptr)
 	{
 		pController->GenerateLinksFromVolume();
 	}
@@ -393,7 +393,7 @@ bool CAI_DynamicLink::IsLinkValid( void )
 {
 	CAI_Node *pNode = g_pBigAINet->GetNode(m_nSrcID);
 
-	return ( pNode->GetLink( m_nDestID ) != NULL );
+	return ( pNode->GetLink( m_nDestID ) != nullptr);
 }
 
 
@@ -445,7 +445,7 @@ CAI_Link *CAI_DynamicLink::FindLink()
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //------------------------------------------------------------------------------
@@ -547,7 +547,7 @@ CAI_DynamicLink* CAI_DynamicLink::GetDynamicLink(int nSrcID, int nDstID)
 		// Go on to the next dynamic link
 		pDynamicLink = pDynamicLink->m_pNextDynamicLink;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -635,7 +635,7 @@ void CAI_RadialLinkController::Activate()
 	// Spread think times out.
 	SetNextThink( gpGlobals->curtime + random->RandomFloat( 0.0f, 1.0f) );
 
-	if( GetParent() != NULL )
+	if( GetParent() != nullptr)
 	{
 		float flDist = GetAbsOrigin().DistTo( GetParent()->GetAbsOrigin() );
 

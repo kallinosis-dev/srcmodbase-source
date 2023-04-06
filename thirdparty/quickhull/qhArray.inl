@@ -10,9 +10,9 @@
 //--------------------------------------------------------------------------------------------------
 template < typename T > inline
 qhArray< T >::qhArray( void )
-	: mBegin( NULL )
-	, mEnd( NULL )
-	, mCapacity( NULL )
+	: mBegin(nullptr)
+	, mEnd(nullptr)
+	, mCapacity(nullptr)
 	{
 
 	}

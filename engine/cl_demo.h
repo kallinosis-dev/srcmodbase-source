@@ -95,10 +95,10 @@ public:	// other public functions
 	void	SetImportantEventData( const KeyValues *pData ) OVERRIDE;
 	void	GetImportantGameEventIDs();
 	void	ScanForImportantTicks( void );
-	int		FindNextImportantTick( int nCurrentTick, const char *pEventName = NULL ) OVERRIDE; // -1 = no next important tick
-	int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = NULL ) OVERRIDE; // -1 = no previous important tick
-	int		FindNextImportantTickByXuidAndEvent( int nCurrentTick, const CSteamID &steamID, const char *pKeyWithXuid, const char *pEventName = NULL ); // -1 = no next important tick
-	int		FindPreviousImportantTickByXuidAndEvent( int nCurrentTick, const CSteamID &steamID, const char *pKeyWithXuid, const char *pEventName = NULL ); // -1 = no next important tick
+	int		FindNextImportantTick( int nCurrentTick, const char *pEventName = nullptr) OVERRIDE; // -1 = no next important tick
+	int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = nullptr) OVERRIDE; // -1 = no previous important tick
+	int		FindNextImportantTickByXuidAndEvent( int nCurrentTick, const CSteamID &steamID, const char *pKeyWithXuid, const char *pEventName = nullptr); // -1 = no next important tick
+	int		FindPreviousImportantTickByXuidAndEvent( int nCurrentTick, const CSteamID &steamID, const char *pKeyWithXuid, const char *pEventName = nullptr); // -1 = no next important tick
 	int		FindNextImportantTickByXuid( int nCurrentTick, const CSteamID &steamID ); // -1 = no next important tick
 
 	const DemoImportantTick_t *GetImportantTick( int nIndex ) OVERRIDE;
@@ -183,7 +183,7 @@ public:
 	bool	IsRecording( void );
 	void	PauseRecording( void );
 	void	ResumeRecording( void );
-	void	StopRecording( const CGameInfo *pGameInfo = NULL );
+	void	StopRecording( const CGameInfo *pGameInfo = nullptr);
 	
 	void	RecordCommand( const char *cmdstring );  // record a console command
 	void	RecordUserInput( int cmdnumber );  // record a user input command

@@ -55,8 +55,8 @@ public:
 	void Reset()
 	{
 		m_nPVSSize = 0;
-		m_pTransmitEdict = NULL;
-		m_pTransmitAlways = NULL;
+		m_pTransmitEdict = nullptr;
+		m_pTransmitAlways = nullptr;
 		m_AreasNetworked = 0;
 		m_nMapAreas = 0;
 	}

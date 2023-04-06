@@ -76,7 +76,7 @@ public:
 	const Vector *GetBombPosition( void ) const;				///< return where we think the bomb is, or NULL if we don't know
 	
 	// hostage rescue scenario ------------------------------------------------------------------------
-	CHostage *GetNearestFreeHostage( Vector *knowPos = NULL ) const;	///< return the closest free hostage, and where we think it is (knowPos)
+	CHostage *GetNearestFreeHostage( Vector *knowPos = nullptr) const;	///< return the closest free hostage, and where we think it is (knowPos)
 	const Vector *GetRandomFreeHostagePosition( void ) const;
 	bool AreAllHostagesBeingRescued( void ) const;				///< return true if there are no free hostages
 	bool AreAllHostagesGone( void ) const;						///< all hostages have been rescued or are dead

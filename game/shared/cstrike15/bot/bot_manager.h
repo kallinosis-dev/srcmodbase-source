@@ -173,7 +173,7 @@ inline int CBotManager::GetDebugMessageCount( void ) const
 inline const CBotManager::DebugMessage *CBotManager::GetDebugMessage( int which ) const
 {
 	if (which >= m_debugMessageCount)
-		return NULL;
+		return nullptr;
 
 	int i = m_currentDebugMessage - which;
 	if (i < 0)

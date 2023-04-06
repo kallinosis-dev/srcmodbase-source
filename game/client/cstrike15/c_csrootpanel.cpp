@@ -20,7 +20,7 @@
 // Input  : *parent - 
 //-----------------------------------------------------------------------------
 C_CSRootPanel::C_CSRootPanel( vgui::VPANEL parent, int slot, const char *panelName /*= "CounterStrike Root Panel"*/ )
-	: BaseClass( NULL, panelName ), m_nSplitSlot( slot )
+	: BaseClass(nullptr, panelName ), m_nSplitSlot( slot )
 {
 	SetParent( parent );
 	SetPaintEnabled( false );

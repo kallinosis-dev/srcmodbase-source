@@ -91,7 +91,7 @@ void SV_EnsureInstanceBaseline( ServerClass *pServerClass, int iEdict, Serialize
 			bf_write buf( "SV_EnsureInstanceBaseline", packedData, sizeof( packedData ) );
 
 			// Write all fields (NULL) change list
-			SendTable_WritePropList( pServerClass->m_pTable, handle, &buf, iEdict, NULL );
+			SendTable_WritePropList( pServerClass->m_pTable, handle, &buf, iEdict, nullptr);
 
 			char idString[32];
 			Q_snprintf( idString, sizeof( idString ), "%d", pClass->m_ClassID );
@@ -150,7 +150,7 @@ static inline bool DoesEdictChangeInfoContainPropIndex( SendTable *pSendTable, c
 static inline CChangeFrameList * GetMergedChangeFrameList( PackedEntity* pPrevFrame, uint32 nNumProps, const CalcDeltaResultsList_t& ChangeList, uint32 nTick )
 {
 	//if we have a previous frame, we need to try and reuse it's change list, either as a copy or a baseline
-	CChangeFrameList *pChangeFrame = NULL;
+	CChangeFrameList *pChangeFrame = nullptr;
 
 	if( pPrevFrame )
 	{
@@ -388,7 +388,7 @@ static inline void SV_PackEntity(
 		//and setup our packed entity to hold all of our data
 		PackedEntity *pPackedEntity = framesnapshotmanager->CreatePackedEntity( pSnapshot, edictIdx );
 		pPackedEntity->SetChangeFrameList( pChangeFrame );
-		pPackedEntity->SetServerAndClientClass( pServerClass, NULL );
+		pPackedEntity->SetServerAndClientClass( pServerClass, nullptr);
 		pPackedEntity->SetPackedData( newPackedProps );
 		pPackedEntity->SetRecipients( recip );
 	}
@@ -472,7 +472,7 @@ SendTable* GetEntSendTable(edict_t *pEdict)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -644,7 +644,7 @@ void SV_ComputeClientPacks(
 	if ( g_pLocalNetworkBackdoor )
 	{
 #if !defined( DEDICATED )
-		if ( GetBaseLocalClient().m_pServerClasses == NULL )
+		if ( GetBaseLocalClient().m_pServerClasses == nullptr)
 		{
 			// Edge case - the local client has been cleaned up but we have a deferred tick to execute.
 			// As far as I know, this can only happen if the player quits the game with a synchronous cbuf_execute while a server tick is in flight.
@@ -870,7 +870,7 @@ const tokenset_t< SendPropType > gSendPropTypeTokenSet[] =
 	{ "Quaternion,DPT_Quaternion },
 #endif               
 	{ "Int64",     DPT_Int64 },
-	{ NULL, (SendPropType)0 }
+	{nullptr, (SendPropType)0 }
 };
 
 //-----------------------------------------------------------------------------
@@ -942,7 +942,7 @@ CON_COMMAND( sv_dump_class_table, "Dump server class table matching the pattern 
 	{
 		for ( ServerClass *pCount=pClasses; pCount; pCount=pCount->m_pNext )
 		{
-			if ( pCount->m_pTable->m_pPrecalc && Q_stristr( pCount->GetName(), args[a] ) != NULL )
+			if ( pCount->m_pTable->m_pPrecalc && Q_stristr( pCount->GetName(), args[a] ) != nullptr)
 			{
 				Msg( "%s:\n", pCount->GetName() );
 				Msg( "\tIndex,Name,Offset,Bits,Type,Flags,Priority\n" );

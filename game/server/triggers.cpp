@@ -234,7 +234,7 @@ void CBaseTrigger::Activate( void )
 	// Get a handle to my filter entity if there is one
 	if (m_iFilterName != NULL_STRING)
 	{
-		m_hFilter = dynamic_cast<CBaseFilter *>(gEntList.FindEntityByName( NULL, m_iFilterName ));
+		m_hFilter = dynamic_cast<CBaseFilter *>(gEntList.FindEntityByName(nullptr, m_iFilterName ));
 	}
 
 	BaseClass::Activate();
@@ -403,7 +403,7 @@ bool CBaseTrigger::PassesTriggerFilters(CBaseEntity *pOther)
 
 			// Make sure we're also not exiting the vehicle at the moment
 			IServerVehicle *pVehicleServer = ((CBasePlayer*)pOther)->GetVehicle();
-			if ( pVehicleServer == NULL )
+			if ( pVehicleServer == nullptr)
 				return false;
 			
 			if ( pVehicleServer->IsPassengerExiting() )
@@ -557,7 +557,7 @@ CBaseEntity *CBaseTrigger::GetTouchedEntityOfType( const char *sClassName )
 			return pEntity;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1086,7 +1086,7 @@ END_DATADESC()
 //------------------------------------------------------------------------------
 void CTriggerLook::Spawn( void )
 {
-	m_hLookTarget = NULL;
+	m_hLookTarget = nullptr;
 	m_flLookTimeTotal = -1;
 	m_bTimeoutFired = false;
 
@@ -1100,10 +1100,10 @@ void CTriggerLook::Activate( void )
 {
 	BaseClass::Activate();
 
-	m_hLookTarget = gEntList.FindEntityByName( NULL, STRING( m_target ) );
-	if (m_hLookTarget == NULL)
+	m_hLookTarget = gEntList.FindEntityByName(nullptr, STRING( m_target ) );
+	if (m_hLookTarget == nullptr)
 	{
-		Warning ( "CTriggerLook '%s' has a bad look target (%s)\n", GetDebugName(), ( STRING( m_target ) != NULL )?( STRING(m_target)):("<unnamed>") );
+		Warning ( "CTriggerLook '%s' has a bad look target (%s)\n", GetDebugName(), ( STRING( m_target ) != nullptr)?( STRING(m_target)):("<unnamed>") );
 	}
 }
 //-----------------------------------------------------------------------------
@@ -1164,7 +1164,7 @@ void CTriggerLook::Touch(CBaseEntity *pOther)
 	// --------------------------------
 	// Make sure we have a look target
 	// --------------------------------
-	if (m_hLookTarget == NULL)
+	if (m_hLookTarget == nullptr)
 	{
 		return;
 	}
@@ -1495,7 +1495,7 @@ void CChangeLevel::Activate( void )
 
 		if ( g_debug_transitions.GetInt() )
 		{
-			if ( !gEntList.FindEntityByClassname( NULL, "trigger_transition" ) )
+			if ( !gEntList.FindEntityByClassname(nullptr, "trigger_transition" ) )
 			{
 				Warning( "Map has no trigger_transition volumes for landmark %s\n", m_szLandmarkName );
 			}
@@ -1516,7 +1516,7 @@ CBaseEntity *CChangeLevel::FindLandmark( const char *pLandmarkName )
 {
 	CBaseEntity *pentLandmark;
 
-	pentLandmark = gEntList.FindEntityByName( NULL, pLandmarkName );
+	pentLandmark = gEntList.FindEntityByName(nullptr, pLandmarkName );
 	while ( pentLandmark )
 	{
 		// Found the landmark
@@ -1526,7 +1526,7 @@ CBaseEntity *CChangeLevel::FindLandmark( const char *pLandmarkName )
 			pentLandmark = gEntList.FindEntityByName( pentLandmark, pLandmarkName );
 	}
 	Warning( "Can't find landmark %s\n", pLandmarkName );
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1699,7 +1699,7 @@ void CChangeLevel::ChangeLevelNow( CBaseEntity *pActivator )
 	// If we're debugging, don't actually change level
 	if ( g_debug_transitions.GetInt() == 0 )
 	{
-		g_pGameRules->OnBeginChangeLevel( st_szNextMap, NULL );
+		g_pGameRules->OnBeginChangeLevel( st_szNextMap, nullptr);
 		engine->ChangeLevel( st_szNextMap, st_szNextSpot );
 	}
 	else
@@ -1878,7 +1878,7 @@ int CChangeLevel::InTransitionVolume( CBaseEntity *pEntity, const char *pVolumeN
 
 	int inVolume = TRANSITION_VOLUME_NOT_FOUND;	// Unless we find a trigger_transition, everything is in the volume
 
-	pVolume = gEntList.FindEntityByName( NULL, pVolumeName );
+	pVolume = gEntList.FindEntityByName(nullptr, pVolumeName );
 	while ( pVolume )
 	{
 		if ( pVolume && FClassnameIs( pVolume, "trigger_transition" ) )
@@ -1925,7 +1925,7 @@ int CChangeLevel::BuildChangeLevelList( levellist_t *pLevelList, int maxList )
 #endif
 
 	int nCount = 0;
-	CBaseEntity *pentChangelevel = gEntList.FindEntityByClassname( NULL, "trigger_changelevel" );
+	CBaseEntity *pentChangelevel = gEntList.FindEntityByClassname(nullptr, "trigger_changelevel" );
 	while ( pentChangelevel )
 	{
 		CChangeLevel *pTrigger = dynamic_cast<CChangeLevel *>(pentChangelevel);
@@ -2043,8 +2043,8 @@ int CChangeLevel::BuildEntityTransitionList( CBaseEntity *pLandmarkEntity, const
 	}
 
 	// Follow the linked list of entities in the PVS of the transition landmark
-	CBaseEntity *pEntity = NULL; 
-	while ( (pEntity = UTIL_EntitiesInPVS( pLandmarkEntity, pEntity)) != NULL )
+	CBaseEntity *pEntity = nullptr; 
+	while ( (pEntity = UTIL_EntitiesInPVS( pLandmarkEntity, pEntity)) != nullptr)
 	{
 		int flags = ComputeEntitySaveFlags( pEntity );
 		if ( !flags )
@@ -2565,7 +2565,7 @@ void CTriggerPush::Touch( CBaseEntity *pOther )
 
 		if ( vecAbsDir.z > 0 )
 		{
-			pOther->SetGroundEntity( NULL );
+			pOther->SetGroundEntity(nullptr);
 		}
 		UTIL_Remove( this );
 		return;
@@ -2628,7 +2628,7 @@ void CTriggerPush::Touch( CBaseEntity *pOther )
 			}
 			if ( vecPush.z > 0 && (pOther->GetFlags() & FL_ONGROUND) )
 			{
-				pOther->SetGroundEntity( NULL );
+				pOther->SetGroundEntity(nullptr);
 				Vector origin = pOther->GetAbsOrigin();
 				origin.z += 1.0f;
 				pOther->SetAbsOrigin( origin );
@@ -2751,7 +2751,7 @@ void CTriggerTeleport::Spawn( void )
 {
 	InitTrigger();
 
-	m_pentTarget = NULL;
+	m_pentTarget = nullptr;
 }
 
 //------------------------------------------------------------------------------
@@ -2781,11 +2781,11 @@ void CTriggerTeleport::Touch( CBaseEntity *pOther )
 		return;
 	}
 
-	m_pentTarget = gEntList.FindEntityByName( m_pentTarget, m_target, NULL, pOther, pOther );
+	m_pentTarget = gEntList.FindEntityByName( m_pentTarget, m_target, nullptr, pOther, pOther );
 
 	// the first NULL may signify the end of the list. Search one more time to confirm that there are no valid targets.
 	if (!m_pentTarget && 
-		( ( m_pentTarget = gEntList.FindEntityByName( m_pentTarget, m_target, NULL, pOther, pOther ) ) == NULL ) )
+		( ( m_pentTarget = gEntList.FindEntityByName( m_pentTarget, m_target, nullptr, pOther, pOther ) ) == nullptr) )
 	{
 	   Warning("Teleport trigger '%s' cannot find destination named '%s'!\n", this->GetEntityName().ToCStr(), m_target.ToCStr() );
 	   return;
@@ -2797,7 +2797,7 @@ void CTriggerTeleport::Touch( CBaseEntity *pOther )
 
 		while ( m_pentTarget && !g_pGameRules->IsSpawnPointValid( m_pentTarget, pPlayer ) )
 		{
-			m_pentTarget = gEntList.FindEntityByName( m_pentTarget, m_target, NULL, pOther, pOther );
+			m_pentTarget = gEntList.FindEntityByName( m_pentTarget, m_target, nullptr, pOther, pOther );
 		}
 	}
 
@@ -2810,19 +2810,19 @@ void CTriggerTeleport::Touch( CBaseEntity *pOther )
 	//
 	// If a landmark was specified, offset the player relative to the landmark.
 	//
-	CBaseEntity	*pentLandmark = NULL;
+	CBaseEntity	*pentLandmark = nullptr;
 	Vector vecLandmarkOffset(0, 0, 0);
 	if (m_iLandmark != NULL_STRING)
 	{
 		// The activator and caller are the same
-		pentLandmark = gEntList.FindEntityByName(pentLandmark, m_iLandmark, NULL, pOther, pOther );
+		pentLandmark = gEntList.FindEntityByName(pentLandmark, m_iLandmark, nullptr, pOther, pOther );
 		if (pentLandmark)
 		{
 			vecLandmarkOffset = pOther->GetAbsOrigin() - pentLandmark->GetAbsOrigin();
 		}
 	}
 
-	pOther->SetGroundEntity( NULL );
+	pOther->SetGroundEntity(nullptr);
 	
 	
 	// collect the teleporting object's angles, origin, and velocity
@@ -3132,15 +3132,15 @@ END_DATADESC()
 
 void CAI_ChangeTarget::InputActivate( inputdata_t &inputdata )
 {
-	CBaseEntity *pTarget = NULL;
+	CBaseEntity *pTarget = nullptr;
 
-	while ((pTarget = gEntList.FindEntityByName( pTarget, m_target, NULL, inputdata.pActivator, inputdata.pCaller )) != NULL)
+	while ((pTarget = gEntList.FindEntityByName( pTarget, m_target, nullptr, inputdata.pActivator, inputdata.pCaller )) != nullptr)
 	{
 		pTarget->m_target = m_iszNewTarget;
 		CAI_BaseNPC *pNPC = pTarget->MyNPCPointer( );
 		if (pNPC)
 		{
-			pNPC->SetGoalEnt( NULL );
+			pNPC->SetGoalEnt(nullptr);
 		}
 	}
 }
@@ -3193,7 +3193,7 @@ END_DATADESC()
 CAI_BaseNPC *CAI_ChangeHintGroup::FindQualifiedNPC( CAI_BaseNPC *pPrev, CBaseEntity *pActivator, CBaseEntity *pCaller )
 {
 	CBaseEntity *pEntity = pPrev;
-	CAI_BaseNPC *pResult = NULL;
+	CAI_BaseNPC *pResult = nullptr;
 	const char *pszSearchName = STRING(m_strSearchName);
 	while ( !pResult )
 	{
@@ -3202,7 +3202,7 @@ CAI_BaseNPC *CAI_ChangeHintGroup::FindQualifiedNPC( CAI_BaseNPC *pPrev, CBaseEnt
 		{
 			case 0:
 			{
-				pEntity = gEntList.FindEntityByNameWithin( pEntity, pszSearchName, GetLocalOrigin(), m_flRadius, NULL, pActivator, pCaller );
+				pEntity = gEntList.FindEntityByNameWithin( pEntity, pszSearchName, GetLocalOrigin(), m_flRadius, nullptr, pActivator, pCaller );
 				break;
 			}
 			
@@ -3220,13 +3220,13 @@ CAI_BaseNPC *CAI_ChangeHintGroup::FindQualifiedNPC( CAI_BaseNPC *pPrev, CBaseEnt
 		}
 
 		if ( !pEntity )
-			return NULL;
+			return nullptr;
 
 		// Qualify
 		pResult = pEntity->MyNPCPointer();
 		if ( pResult && m_iSearchType == 2 && (!FStrEq( STRING(pResult->GetHintGroup()), pszSearchName ) ) )
 		{
-			pResult = NULL;
+			pResult = nullptr;
 		}
 	}
 
@@ -3235,9 +3235,9 @@ CAI_BaseNPC *CAI_ChangeHintGroup::FindQualifiedNPC( CAI_BaseNPC *pPrev, CBaseEnt
 
 void CAI_ChangeHintGroup::InputActivate( inputdata_t &inputdata )
 {
-	CAI_BaseNPC *pTarget = NULL;
+	CAI_BaseNPC *pTarget = nullptr;
 
-	while((pTarget = FindQualifiedNPC( pTarget, inputdata.pActivator, inputdata.pCaller )) != NULL)
+	while((pTarget = FindQualifiedNPC( pTarget, inputdata.pActivator, inputdata.pCaller )) != nullptr)
 	{
 		pTarget->SetHintGroup( m_strNewHintGroup, m_bHintGroupNavLimiting );
 	}
@@ -3440,7 +3440,7 @@ void CTriggerCamera::InputSetTrackSpeed( inputdata_t &inputdata )
 void CTriggerCamera::InputSetTarget( inputdata_t &inputdata )
 { 
 	m_target = MAKE_STRING( inputdata.value.String() );
-	m_hTarget = gEntList.FindEntityByName( NULL, inputdata.value.String() );
+	m_hTarget = gEntList.FindEntityByName(nullptr, inputdata.value.String() );
 	m_iAttachmentIndex = 0;
 
 	// Only track if we have a target
@@ -3466,7 +3466,7 @@ void CTriggerCamera::InputSetTargetAttachment( inputdata_t &inputdata )
 //------------------------------------------------------------------------------
 void CTriggerCamera::InputSetPath( inputdata_t &inputdata )
 { 
-	m_pPath = gEntList.FindEntityByName( NULL, inputdata.value.String() );
+	m_pPath = gEntList.FindEntityByName(nullptr, inputdata.value.String() );
 
 	m_flStopTime = gpGlobals->curtime;
 	if ( m_pPath )
@@ -3527,7 +3527,7 @@ void CTriggerCamera::Enable( void )
 	}
 
 	Assert( m_hPlayer->IsPlayer() );
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 
 	if ( m_hPlayer->IsPlayer() )
 	{
@@ -3621,11 +3621,11 @@ void CTriggerCamera::Enable( void )
 
 	if ( m_sPath != NULL_STRING )
 	{
-		m_pPath = gEntList.FindEntityByName( NULL, m_sPath, NULL, m_hPlayer );
+		m_pPath = gEntList.FindEntityByName(nullptr, m_sPath, nullptr, m_hPlayer );
 	}
 	else
 	{
-		m_pPath = NULL;
+		m_pPath = nullptr;
 	}
 
 	m_flStopTime = gpGlobals->curtime;
@@ -3733,7 +3733,7 @@ void CTriggerCamera::Disable( void )
 				pBasePlayer->RemoveSolidFlags( FSOLID_NOT_SOLID );
 			}
 
-			pBasePlayer->SetViewEntity( NULL );
+			pBasePlayer->SetViewEntity(nullptr);
 			pBasePlayer->EnableControl(TRUE);
 			pBasePlayer->m_Local.m_bDrawViewmodel = true;
 		}
@@ -3782,7 +3782,7 @@ void CTriggerCamera::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYP
 //-----------------------------------------------------------------------------
 void CTriggerCamera::MoveViewTo( QAngle vecGoalView )
 {
-	if (m_hPlayer == NULL)
+	if (m_hPlayer == nullptr)
 		return;
 
 	QAngle angles = GetLocalAngles();
@@ -3834,8 +3834,8 @@ void CTriggerCamera::InputTeleportToView( inputdata_t &inputdata )
 			vecTeleportPosition = tr.endpos;
 		}
 
-		pBasePlayer->SetGroundEntity( NULL );		
-		pBasePlayer->Teleport( &vecTeleportPosition, &vecPlayerView, NULL );
+		pBasePlayer->SetGroundEntity(nullptr);		
+		pBasePlayer->Teleport( &vecTeleportPosition, &vecPlayerView, nullptr);
 	}
 	Disable();
 }
@@ -3845,7 +3845,7 @@ void CTriggerCamera::InputTeleportToView( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 void CTriggerCamera::ReturnToEyes( void )
 {
-	if (m_hPlayer == NULL)
+	if (m_hPlayer == nullptr)
 		return;
 
 	// get back to our original position
@@ -3879,10 +3879,10 @@ void CTriggerCamera::ReturnToEyes( void )
 //-----------------------------------------------------------------------------
 void CTriggerCamera::FollowTarget( )
 {
-	if (m_hPlayer == NULL)
+	if (m_hPlayer == nullptr)
 		return;
 
-	if ( m_hTarget == NULL )
+	if ( m_hTarget == nullptr)
 	{
 		Disable();
 		return;
@@ -3944,7 +3944,7 @@ void CTriggerCamera::StartCameraShot( const char *pszShotType, CBaseEntity *pSce
 	// called from SceneEntity in response to a CChoreoEvent::CAMERA sent from a VCD.
 	// talk to vscript, start a camera move
 
-	HSCRIPT hStartCameraShot = NULL;
+	HSCRIPT hStartCameraShot = nullptr;
 	
 	// switch to this camera
 	// Enable();
@@ -3958,7 +3958,7 @@ void CTriggerCamera::StartCameraShot( const char *pszShotType, CBaseEntity *pSce
 	// call the script function to begin the camera move
 	if ( hStartCameraShot )
 	{
-		g_pScriptVM->Call( hStartCameraShot, m_ScriptScope, true, NULL, pszShotType, ToHScript(pSceneEntity), ToHScript(pActor1), ToHScript(pActor2), duration );
+		g_pScriptVM->Call( hStartCameraShot, m_ScriptScope, true, nullptr, pszShotType, ToHScript(pSceneEntity), ToHScript(pActor1), ToHScript(pActor2), duration );
 		g_pScriptVM->ReleaseFunction( hStartCameraShot );
 	}
 }
@@ -4137,14 +4137,14 @@ Vector CMoveableCamera::GetEndPos( EHANDLE hTarget )
 //------------------------------------------------------------------------------
 void CMoveableCamera::StartMovement( void )
 {
-	if ( m_hTargetEnt == NULL )
+	if ( m_hTargetEnt == nullptr)
 	{
 		Disable();
 		return;
 	}
 
 	// Detach us before moving
-	SetParent( NULL );
+	SetParent(nullptr);
 	SetMoveType( MOVETYPE_NOCLIP );
 
 	// initialize the values we'll spline between
@@ -4347,7 +4347,7 @@ int CTriggerCameraMultiplayer::UpdateTransmitState( void )
 //--------------------------------------------------------------------------------------------------------
 void CTriggerCameraMultiplayer::InputEnable( inputdata_t &inputdata )
 { 
-	CBaseEntity *pTargetEnt = gEntList.FindEntityByName( NULL, m_targetEntName );
+	CBaseEntity *pTargetEnt = gEntList.FindEntityByName(nullptr, m_targetEntName );
 	SetTarget( pTargetEnt );
 
 	Enable();
@@ -4422,7 +4422,7 @@ void CTriggerCameraMultiplayer::RemovePlayer( CBasePlayer *player )
 {
 	player->EnableControl( true );
 	player->m_Local.m_bDrawViewmodel = true;
-	player->SetViewEntity( NULL );
+	player->SetViewEntity(nullptr);
 
 	player->SetFOV( this, 0, m_fovSpeed );
 	player->ClearZoomOwner();
@@ -4439,7 +4439,7 @@ void CTriggerCameraMultiplayer::Enable( void )
 	{
 		CBasePlayer *pPlayer = ToBasePlayer( UTIL_PlayerByIndex( i ) );
 
-		if( pPlayer == NULL )
+		if( pPlayer == nullptr)
 			continue;
 
 		if( !pPlayer->IsConnected() )
@@ -4545,7 +4545,7 @@ void CTriggerViewProxy::Spawn( void )
 	m_nRenderMode = kRenderTransTexture;
 
 	m_vecInitialPosition = GetAbsOrigin();
-	m_pProxy = gEntList.FindEntityByName( NULL, m_sProxy );
+	m_pProxy = gEntList.FindEntityByName(nullptr, m_sProxy );
 
 	m_state = USE_OFF;
 	m_flTiltFraction = clamp( m_flTiltFraction, 0.f, 1.f );
@@ -4668,7 +4668,7 @@ void CTriggerViewProxy::Enable( void )
 	}
 
 	Assert( m_hPlayer->IsPlayer() );
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 
 	if ( m_hPlayer->IsPlayer() )
 	{
@@ -4743,7 +4743,7 @@ void CTriggerViewProxy::Disable( void )
 				pBasePlayer->RemoveSolidFlags( FSOLID_NOT_SOLID );
 			}
 
-			pBasePlayer->SetViewEntity( NULL );
+			pBasePlayer->SetViewEntity(nullptr);
 			pBasePlayer->EnableControl(TRUE);
 			((CBasePlayer*)m_hPlayer.Get())->RemoveFlag( FL_ATCONTROLS );
 			pBasePlayer->m_Local.m_bDrawViewmodel = true;
@@ -4767,7 +4767,7 @@ void CTriggerViewProxy::Disable( void )
 //-----------------------------------------------------------------------------
 void CTriggerViewProxy::TranslateViewToProxy( )
 {
-	if (m_hPlayer == NULL || m_pProxy == NULL )
+	if (m_hPlayer == nullptr || m_pProxy == nullptr)
 		return;
 
 	QAngle qGoal, qProxyAngles;
@@ -5106,12 +5106,12 @@ void CTriggerProximity::Spawn(void)
 void CTriggerProximity::Activate(void)
 {
 	BaseClass::Activate();
-	m_hMeasureTarget = gEntList.FindEntityByName(NULL, m_iszMeasureTarget );
+	m_hMeasureTarget = gEntList.FindEntityByName(nullptr, m_iszMeasureTarget );
 
 	//
 	// Disable our Touch function if we were given a bad measure target.
 	//
-	if ((m_hMeasureTarget == NULL) || (m_hMeasureTarget->edict() == NULL))
+	if ((m_hMeasureTarget == nullptr) || (m_hMeasureTarget->edict() == nullptr))
 	{
 		Warning( "TriggerProximity - Missing measure target or measure target with no origin!\n");
 	}
@@ -5166,7 +5166,7 @@ void CTriggerProximity::EndTouch(CBaseEntity *pOther)
 //-----------------------------------------------------------------------------
 void CTriggerProximity::MeasureThink( void )
 {
-	if ( ( m_hMeasureTarget == NULL ) || ( m_hMeasureTarget->edict() == NULL ) )
+	if ( ( m_hMeasureTarget == nullptr) || ( m_hMeasureTarget->edict() == nullptr) )
 	{
 		SetThink(NULL);
 		SetNextThink( TICK_NEVER_THINK );
@@ -5178,7 +5178,7 @@ void CTriggerProximity::MeasureThink( void )
 	// measure target.
 	//
 	float fMinDistance = m_fRadius + 100;
-	CBaseEntity *pNearestEntity = NULL;
+	CBaseEntity *pNearestEntity = nullptr;
 
 	touchlink_t *root = ( touchlink_t * )GetDataObject( TOUCHLINK );
 	if ( root )
@@ -5189,7 +5189,7 @@ void CTriggerProximity::MeasureThink( void )
 			CBaseEntity *pEntity = pLink->entityTouched;
 
 			// If this is an entity that we care about, check its distance.
-			if ( ( pEntity != NULL ) && PassesTriggerFilters( pEntity ) )
+			if ( ( pEntity != nullptr) && PassesTriggerFilters( pEntity ) )
 			{
 				float flDistance = (pEntity->GetLocalOrigin() - m_hMeasureTarget->GetLocalOrigin()).Length();
 				if (flDistance < fMinDistance)
@@ -5397,7 +5397,7 @@ void CTriggerWind::UpdateOnRemove()
 	if ( m_pWindController )
 	{
 		physenv->DestroyMotionController( m_pWindController );
-		m_pWindController = NULL;
+		m_pWindController = nullptr;
 	}
 
 	BaseClass::UpdateOnRemove();
@@ -5593,7 +5593,7 @@ void CTriggerHierarchy::Activate( void )
 
 	if ( m_iChildFilterName != NULL_STRING )
 	{
-		m_hChildFilter = dynamic_cast<CBaseFilter *>( gEntList.FindEntityByName( NULL, m_iChildFilterName ) );
+		m_hChildFilter = dynamic_cast<CBaseFilter *>( gEntList.FindEntityByName(nullptr, m_iChildFilterName ) );
 	}
 }
 
@@ -5725,7 +5725,7 @@ void CTriggerImpact::InputImpact( inputdata_t &inputdata )
 void CTriggerImpact::StartTouch(CBaseEntity *pOther)
 {
 	//If the entity is valid and has physics, hit it
-	if ( ( pOther != NULL  ) && ( pOther->VPhysicsGetObject() != NULL ) )
+	if ( ( pOther != nullptr) && ( pOther->VPhysicsGetObject() != nullptr) )
 	{
 		Vector vDir;
 		AngleVectors( GetLocalAngles(),&vDir );
@@ -6030,7 +6030,7 @@ void CBaseVPhysicsTrigger::Activate( void )
 	// Get a handle to my filter entity if there is one
 	if (m_iFilterName != NULL_STRING)
 	{
-		m_hFilter = dynamic_cast<CBaseFilter *>(gEntList.FindEntityByName( NULL, m_iFilterName ));
+		m_hFilter = dynamic_cast<CBaseFilter *>(gEntList.FindEntityByName(nullptr, m_iFilterName ));
 	}
 
 	BaseClass::Activate();
@@ -6283,7 +6283,7 @@ void CTriggerVPhysicsMotion::UpdateOnRemove()
 	if ( m_pController )
 	{
 		physenv->DestroyMotionController( m_pController );
-		m_pController = NULL;
+		m_pController = nullptr;
 	}
 
 	BaseClass::UpdateOnRemove();
@@ -6637,13 +6637,13 @@ void CTriggerCallback::StartTouch( CBaseEntity *pOther )
 
 bool IsTriggerClass( CBaseEntity *pEntity )
 {
-	if ( NULL != dynamic_cast<CBaseTrigger *>(pEntity) )
+	if (nullptr != dynamic_cast<CBaseTrigger *>(pEntity) )
 		return true;
 
-	if ( NULL != dynamic_cast<CTriggerVPhysicsMotion *>(pEntity) )
+	if (nullptr != dynamic_cast<CTriggerVPhysicsMotion *>(pEntity) )
 		return true;
 
-	if ( NULL != dynamic_cast<CTriggerVolume *>(pEntity) )
+	if (nullptr != dynamic_cast<CTriggerVolume *>(pEntity) )
 		return true;
 	
 	return false;

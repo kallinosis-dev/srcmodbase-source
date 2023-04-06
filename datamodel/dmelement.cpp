@@ -120,7 +120,7 @@ CDmElementFactoryHelper g_CDmeElement_Helper( "DmeElement", &g_CDmeElement_Facto
 //-----------------------------------------------------------------------------
 CDmElement::CDmElement( DmElementHandle_t handle, const char *pElementType, const DmObjectId_t &id, const char *pElementName, DmFileId_t fileid ) : 
 	m_ref( handle ), m_Type( g_pDataModel->GetSymbol( pElementType ) ), m_fileId( fileid ),
-	m_pAttributes( NULL ), m_bDirty( false ), m_bOnChangedCallbacksEnabled( false ), m_nParityBits( 0 ), m_bOnlyInUndo( false )
+	m_pAttributes(nullptr), m_bDirty( false ), m_bOnChangedCallbacksEnabled( false ), m_nParityBits( 0 ), m_bOnlyInUndo( false )
 {
 	MEM_ALLOC_CREDIT();
 	g_pDataModelImp->AddElementToFile( m_ref.m_hElement, m_fileId );
@@ -352,7 +352,7 @@ void CDmElement::SetParity( bool bParity, TraversalDepth_t depth, int bit /*=0*/
 
 	SetParity( bParity, bit );
 
-	for ( const CDmAttribute *pAttr = FirstAttribute(); pAttr != NULL; pAttr = pAttr->NextAttribute() )
+	for ( const CDmAttribute *pAttr = FirstAttribute(); pAttr != nullptr; pAttr = pAttr->NextAttribute() )
 	{
 		if ( !ShouldTraverse( pAttr, depth ) )
 			continue;
@@ -410,7 +410,7 @@ bool CDmElement::FindElement( const CDmElement *pElement, CUtlVector< ElementPat
 	int idx = elementPath.AddToTail( search );
 	ElementPathItem_t &pathItem = elementPath[ idx ];
 
-	for ( const CDmAttribute *pAttr = FirstAttribute(); pAttr != NULL; pAttr = pAttr->NextAttribute() )
+	for ( const CDmAttribute *pAttr = FirstAttribute(); pAttr != nullptr; pAttr = pAttr->NextAttribute() )
 	{
 		if ( !ShouldTraverse( pAttr, depth ) )
 			continue;
@@ -489,7 +489,7 @@ bool CDmElement::FindReferer( DmElementHandle_t hElement, CUtlVector< ElementPat
 
 void CDmElement::RemoveAllReferencesToElement( CDmElement *pElement )
 {
-	for ( CDmAttribute *pAttr = FirstAttribute(); pAttr != NULL; pAttr = pAttr->NextAttribute() )
+	for ( CDmAttribute *pAttr = FirstAttribute(); pAttr != nullptr; pAttr = pAttr->NextAttribute() )
 	{
 		if ( pAttr->GetType() == AT_ELEMENT )
 		{
@@ -566,7 +566,7 @@ void CDmElement::CopyElementAttribute( const CDmAttribute *pSrcAttr, CDmAttribut
 	DmElementHandle_t hSrc = pSrcAttr->GetValue<DmElementHandle_t>();
 	CDmElement *pSrc = GetElement< CDmElement >( hSrc );
 
-	if ( pSrc == NULL )
+	if ( pSrc == nullptr)
 	{
 		pDestAttr->SetValue( DMELEMENT_HANDLE_INVALID );
 		return;
@@ -622,7 +622,7 @@ void CDmElement::CopyElementArrayAttribute( const CDmAttribute *pAttr, CDmAttrib
 		DmElementHandle_t hSrc = srcAttr.GetHandle( i );
 		CDmElement *pSrc = srcAttr[i];
 
-		if ( pSrc == NULL )
+		if ( pSrc == nullptr)
 		{
 			destAttr.AddToTail( DMELEMENT_HANDLE_INVALID );
 			continue;
@@ -664,13 +664,13 @@ void CDmElement::CopyAttributesTo( CDmElement *pCopy, CRefMap &refmap, Traversal
 	refmap.Insert( this->GetHandle(), pCopy->GetHandle() );
 
 	// loop attrs, copying - element (and element array) attrs can be marked to always copy deep(er)
-	for ( const CDmAttribute *pAttr = FirstAttribute(); pAttr != NULL; pAttr = pAttr->NextAttribute() )
+	for ( const CDmAttribute *pAttr = FirstAttribute(); pAttr != nullptr; pAttr = pAttr->NextAttribute() )
 	{
 		DmAttributeType_t type = pAttr->GetType();
 		const char *pAttrName = pAttr->GetName();
 		CDmAttribute *pCopyAttr = pCopy->GetAttribute( pAttrName );
 
-		if ( pCopyAttr == NULL )
+		if ( pCopyAttr == nullptr)
 		{
 			pCopyAttr = pCopy->AddAttribute( pAttrName, type );
 
@@ -725,7 +725,7 @@ void CDmElement::FixupReferences( CUtlHashFast< DmElementHandle_t > &visited, co
 	visited.Insert( GetHandle(), DMELEMENT_HANDLE_INVALID ); // ignore data arguement - we're just using it as a set
 
 	// loop attrs, copying - element (and element array) attrs can be marked to always copy deep(er)
-	for ( CDmAttribute *pAttr = FirstAttribute(); pAttr != NULL; pAttr = pAttr->NextAttribute() )
+	for ( CDmAttribute *pAttr = FirstAttribute(); pAttr != nullptr; pAttr = pAttr->NextAttribute() )
 	{
 		DmAttributeType_t type = pAttr->GetType();
 		bool bCopy = ShouldTraverse( pAttr, depth );
@@ -737,7 +737,7 @@ void CDmElement::FixupReferences( CUtlHashFast< DmElementHandle_t > &visited, co
 			if ( idx == refmap.InvalidIndex() )
 			{
 				CDmElement *pElement = GetElement< CDmElement >( handle );
-				if ( pElement == NULL || !bCopy )
+				if ( pElement == nullptr || !bCopy )
 					continue;
 
 				pElement->FixupReferences( visited, refmap, depth );
@@ -758,7 +758,7 @@ void CDmElement::FixupReferences( CUtlHashFast< DmElementHandle_t > &visited, co
 				if ( idx == refmap.InvalidIndex() )
 				{
 					CDmElement *pElement = GetElement< CDmElement >( handle );
-					if ( pElement == NULL || !bCopy )
+					if ( pElement == nullptr || !bCopy )
 						continue;
 
 					pElement->FixupReferences( visited, refmap, depth );
@@ -828,7 +828,7 @@ void CDmElement::SetFileId_R( CUtlHashFast< DmElementHandle_t > &visited, DmFile
 
 	SetFileId( fileid );
 
-	for ( CDmAttribute *pAttr = FirstAttribute(); pAttr != NULL; pAttr = pAttr->NextAttribute() )
+	for ( CDmAttribute *pAttr = FirstAttribute(); pAttr != nullptr; pAttr = pAttr->NextAttribute() )
 	{
 		DmAttributeType_t type = pAttr->GetType();
 		if ( !ShouldTraverse( pAttr, depth ) )
@@ -958,7 +958,7 @@ private:
 	void AddOrRemoveAttributeFromElement( bool bAdd )
 	{
 		CDmElement *pElement = GetElement();
-		if ( pElement == NULL )
+		if ( pElement == nullptr)
 			return;
 		
 		if ( bAdd )
@@ -1129,7 +1129,7 @@ CDmAttribute *CDmElement::CreateAttribute( const char *pAttributeName, DmAttribu
 	Assert( !HasAttribute( pAttributeName ) );
 	MarkDirty( );
 
-	CDmAttribute *pAttribute = NULL;
+	CDmAttribute *pAttribute = nullptr;
 	{
 		CDisableUndoScopeGuard guard;
 		pAttribute = CDmAttribute::CreateAttribute( this, type, pAttributeName );
@@ -1164,11 +1164,11 @@ CDmAttribute* CDmElement::AddExternalAttribute( const char *pAttributeName, DmAt
 		if ( HasAttribute( pAttributeName ) )
 		{
 			Assert( 0 );
-			return NULL;
+			return nullptr;
 		}
 	}
 
-	CDmAttribute *pAttribute = NULL;
+	CDmAttribute *pAttribute = nullptr;
 	{
 		CDisableUndoScopeGuard guard;
 		{
@@ -1209,7 +1209,7 @@ CDmAttribute *CDmElement::FindAttribute( const char *pAttributeName ) const
 			return pAttr;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1335,7 +1335,7 @@ CDmElement *CElementTreeTraversal::Next( bool bSkipChildren /*= false*/ )
 		State_t &state = m_state[ nCount - 1 ];
 		Assert( state.pElement );
 		if ( !state.pElement )
-			return NULL;
+			return nullptr;
 
 		CDmrElementArray<> children( state.pElement, m_pAttrName );
 		if ( children.IsValid() )
@@ -1354,23 +1354,23 @@ CDmElement *CElementTreeTraversal::Next( bool bSkipChildren /*= false*/ )
 		m_state.Remove( nCount - 1 );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CDmElement *CElementTreeTraversal::GetElement()
 {
 	int nCount = m_state.Count();
 	if ( nCount < 1 )
-		return NULL;
+		return nullptr;
 
 	State_t &state = m_state[ nCount - 1 ];
 	Assert( state.nIndex == NOT_VISITED || state.nIndex == VISITING );
-	return state.nIndex == NOT_VISITED ? NULL : state.pElement;
+	return state.nIndex == NOT_VISITED ? nullptr : state.pElement;
 }
 
 CDmElement *CElementTreeTraversal::GetParent( int i = 0 )
 {
-	return i + 1 < m_state.Count() ? m_state[ m_state.Count() - i - 1 ].pElement : NULL;
+	return i + 1 < m_state.Count() ? m_state[ m_state.Count() - i - 1 ].pElement : nullptr;
 }
 
 int CElementTreeTraversal::GetChildIndex( int i )

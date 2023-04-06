@@ -39,7 +39,7 @@ void *VGuiFactory( const char *pName, int *pReturnCode )
 		if ( pInterface )
 			return pInterface;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -85,9 +85,9 @@ bool CPanelZooApp::PreInit()
 	if ( !BaseClass::PreInit() )
 		return false;
 
-	if ( !BaseClass::SetupSearchPaths( NULL, false, true ) )
+	if ( !BaseClass::SetupSearchPaths(nullptr, false, true ) )
 	{
-		::MessageBox( NULL, "Error", "Unable to initialize file system\n", MB_OK );
+		::MessageBox(nullptr, "Error", "Unable to initialize file system\n", MB_OK );
 		return false;
 	}
 
@@ -108,7 +108,7 @@ int CPanelZooApp::Main()
 //	vgui::surface()->Init();
 
 	// Make a embedded panel
-	vgui::Panel *panel = new vgui::Panel(NULL, "TopPanel");
+	vgui::Panel *panel = new vgui::Panel(nullptr, "TopPanel");
 	vgui::surface()->SetEmbeddedPanel( panel->GetVPanel() );
 
 	// Load the scheme

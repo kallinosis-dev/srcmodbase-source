@@ -187,7 +187,7 @@ IExpressionManager *expressions = &g_ExpressionManager;
 //-----------------------------------------------------------------------------
 CExpressionManager::CExpressionManager( void )
 {
-	m_pActiveClass = NULL;
+	m_pActiveClass = nullptr;
 	Reset();
 }
 
@@ -211,7 +211,7 @@ void CExpressionManager::Reset( void )
 		delete p;
 	}
 
-	m_pActiveClass = NULL;
+	m_pActiveClass = nullptr;
 
 	memset( &m_CopyBuffer, 0, sizeof( m_CopyBuffer ) );
 }
@@ -246,7 +246,7 @@ CExpClass * CExpressionManager::AddCExpClass( const char *classname, const char 
 
 	CExpClass *pclass = new CExpClass( classname );
 	if ( !pclass )
-		return NULL;
+		return nullptr;
 	
 	m_Classes.AddToTail( pclass );
 
@@ -278,7 +278,7 @@ void CExpressionManager::RemoveCExpClass( CExpClass *cl )
 	}
 	else
 	{
-		ActivateExpressionClass( NULL );
+		ActivateExpressionClass(nullptr);
 	}
 }
 
@@ -342,7 +342,7 @@ CExpClass *CExpressionManager::FindClass( const char *classname, bool bMatchBase
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -629,7 +629,7 @@ bool CExpressionManager::CloseClass( CExpClass *cl )
 
 	if ( cl->GetDirty() )
 	{
-		int retval = mxMessageBox( NULL, va( "Save changes to class '%s'?", cl->GetName() ), g_appTitle, MX_MB_YESNOCANCEL );
+		int retval = mxMessageBox(nullptr, va( "Save changes to class '%s'?", cl->GetName() ), g_appTitle, MX_MB_YESNOCANCEL );
 		if ( retval == 2 )
 		{
 			return false;
@@ -652,7 +652,7 @@ bool CExpressionManager::CloseClass( CExpClass *cl )
 	CExpClass *active = GetActiveClass();
 	if ( !active )
 	{
-		PopulateClassCB( NULL );
+		PopulateClassCB(nullptr);
 		g_pExpressionTrayTool->redraw();
 		return true;
 	}

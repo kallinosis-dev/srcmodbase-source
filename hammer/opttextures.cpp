@@ -26,7 +26,7 @@ COPTTextures::COPTTextures() : CPropertyPage(COPTTextures::IDD)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
 
-	m_pMaterialConfig = NULL;
+	m_pMaterialConfig = nullptr;
 	m_bDeleted = FALSE;
 }
 
@@ -105,7 +105,7 @@ void COPTTextures::OnAddtexfile(void)
 {
 	static char szInitialDir[MAX_PATH] = "\0";
 
-	CFileDialog dlg(TRUE, "wad", NULL, OFN_ALLOWMULTISELECT | OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST, "Texture files (*.wad;*.pak)|*.wad; *.pak||");
+	CFileDialog dlg(TRUE, "wad", nullptr, OFN_ALLOWMULTISELECT | OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST, "Texture files (*.wad;*.pak)|*.wad; *.pak||");
 
 	if (szInitialDir[0] == '\0')
 	{
@@ -124,7 +124,7 @@ void COPTTextures::OnAddtexfile(void)
 	//
 	POSITION pos = dlg.GetStartPosition();
 	CString str;
-	while (pos != NULL)
+	while (pos != nullptr)
 	{
 		str = dlg.GetNextPathName(pos);
 		str.MakeLower();
@@ -215,11 +215,11 @@ void COPTTextures::OnAddtexfile2()
 	char szDisplayName[MAX_PATH];
 
 	bi.hwndOwner = m_hWnd;
-	bi.pidlRoot = NULL;
+	bi.pidlRoot = nullptr;
 	bi.pszDisplayName = szDisplayName;
 	bi.lpszTitle = "Select your Quake II directory.";
 	bi.ulFlags = BIF_RETURNONLYFSDIRS;
-	bi.lpfn = NULL;
+	bi.lpfn = nullptr;
 	bi.lParam = 0;
 	
 	LPITEMIDLIST pidlNew = SHBrowseForFolder(&bi);
@@ -310,15 +310,15 @@ BOOL COPTTextures::BrowseForFolder( char *pszTitle, char *pszDirectory )
 		s_bFirst = false;
 	}
 
-	LPITEMIDLIST pidlStartFolder = NULL;
+	LPITEMIDLIST pidlStartFolder = nullptr;
 
-	IShellFolder *pshDesktop = NULL;
+	IShellFolder *pshDesktop = nullptr;
 	SHGetDesktopFolder( &pshDesktop );
 	if ( pshDesktop )
 	{
 		ULONG ulEaten;
 		ULONG ulAttributes;
-		pshDesktop->ParseDisplayName( NULL, NULL, A2OLE( s_szStartFolder ), &ulEaten, &pidlStartFolder, &ulAttributes );
+		pshDesktop->ParseDisplayName(nullptr, nullptr, A2OLE( s_szStartFolder ), &ulEaten, &pidlStartFolder, &ulAttributes );
 	}	
 	
 	char szTmp[MAX_PATH];
@@ -334,7 +334,7 @@ BOOL COPTTextures::BrowseForFolder( char *pszTitle, char *pszDirectory )
 
 	LPITEMIDLIST idl = SHBrowseForFolder( &bi );
 
-	if ( idl == NULL )
+	if ( idl == nullptr)
 	{
 		return FALSE;
 	}
@@ -404,7 +404,7 @@ void COPTTextures::MaterialExcludeUpdate( void )
 		if( ( result == LB_ERR ) || ( result == LB_ERRSPACE ) )
 			return;
 	}
-	if (pGD != NULL)	
+	if (pGD != nullptr)	
 	{
 		for( int i = 0; i < pGD->m_FGDMaterialExclusions.Count(); i++ )
 		{

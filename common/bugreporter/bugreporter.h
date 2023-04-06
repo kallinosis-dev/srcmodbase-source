@@ -70,7 +70,7 @@ public:
 	virtual void		SetDescription( char const *description ) = 0;
 
 	// NULL for current user
-	virtual void		SetSubmitter( char const *username = 0 ) = 0;
+	virtual void		SetSubmitter( char const *username = nullptr ) = 0;
 	virtual void		SetOwner( char const *username ) = 0;
 	virtual void		SetSeverity( char const *severity ) = 0;
 	virtual void		SetPriority( char const *priority ) = 0;

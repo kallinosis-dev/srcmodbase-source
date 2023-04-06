@@ -68,11 +68,11 @@ int MapEntity_GetNumKeysInEntity( const char *pEntData )
 const char *MapEntity_SkipToNextEntity( const char *pMapData, char *pWorkBuffer )
 {
 	if ( !pMapData )
-		return NULL;
+		return nullptr;
 
 	// search through the map string for the next matching '{'
 	int openBraceCount = 1;
-	while ( pMapData != NULL )
+	while ( pMapData != nullptr)
 	{
 		pMapData = MapEntity_ParseToken( pMapData, pWorkBuffer );
 
@@ -91,7 +91,7 @@ const char *MapEntity_SkipToNextEntity( const char *pMapData, char *pWorkBuffer 
 	}
 
 	// eof hit
-	return NULL;
+	return nullptr;
 }
 
 
@@ -114,7 +114,7 @@ const char *MapEntity_ParseToken( const char *data, char *newToken )
 	newToken[0] = 0;
 	
 	if (!data)
-		return NULL;
+		return nullptr;
 
 	// build the new table if we have to
 	if ( s_BuildReverseMap )
@@ -134,7 +134,7 @@ skipwhite:
 	while ( (c = *data) <= ' ')
 	{
 		if (c == 0)
-			return NULL;                    // end of file;
+			return nullptr;                    // end of file;
 		data++;
 	}
 	

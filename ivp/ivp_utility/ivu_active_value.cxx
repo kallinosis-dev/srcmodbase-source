@@ -58,8 +58,8 @@ IVP_U_Active_Value_Manager::IVP_U_Active_Value_Manager(IVP_BOOL delete_on_env_de
     // init name hash
     this->floats_name_hash = new IVP_Active_Value_Hash(IVP_U_MOD_NAME_HASH_SIZE);
     this->ints_name_hash = new IVP_Active_Value_Hash(IVP_U_MOD_NAME_HASH_SIZE);
-    this->search_active_value = new IVP_U_Active_Value(NULL);
-    this->mod_current_time = NULL;
+    this->search_active_value = new IVP_U_Active_Value(nullptr);
+    this->mod_current_time = nullptr;
     this->init_active_values_generic();
 }
 
@@ -178,13 +178,13 @@ void IVP_U_Active_Value_Manager::refresh_psi_active_values(IVP_Environment *env)
 
 IVP_U_Active_Float *IVP_U_Active_Value_Manager::get_active_float_by_name(const char *i_name)
 {
-    if(!i_name) return 0;
+    if(!i_name) return nullptr;
     // check module hash first
     search_active_value->name = (char *)i_name;// bad hack, thats ok
     
     IVP_U_Active_Float *mod = (IVP_U_Active_Float *)floats_name_hash->find_active_value(search_active_value);
 
-    search_active_value->name = NULL;
+    search_active_value->name = nullptr;
     
     if (mod) return mod;
 
@@ -198,17 +198,17 @@ IVP_U_Active_Float *IVP_U_Active_Value_Manager::get_active_float_by_name(const c
 	this->insert_active_float(mod);
 	return mod;
     }
-    return NULL;
+    return nullptr;
 }
 
 IVP_U_Active_Int *IVP_U_Active_Value_Manager::get_active_int_by_name(const char *i_name)
 {
-    if(!i_name) return 0;
+    if(!i_name) return nullptr;
     // check module hash first
     search_active_value->name = (char *)i_name;// bad hack, thats ok
 
     IVP_U_Active_Int *mod = (IVP_U_Active_Int *)ints_name_hash->find_active_value(search_active_value);
-    search_active_value->name = NULL;
+    search_active_value->name = nullptr;
     
     if (mod) return mod;
 
@@ -222,7 +222,7 @@ IVP_U_Active_Int *IVP_U_Active_Value_Manager::get_active_int_by_name(const char 
 	this->insert_active_int(mod);
 	return mod;
     }
-    return NULL;
+    return nullptr;
 }
 
 IVP_U_Active_Float *IVP_U_Active_Value_Manager::install_active_float(const char *i_name, IVP_DOUBLE value)
@@ -230,7 +230,7 @@ IVP_U_Active_Float *IVP_U_Active_Value_Manager::install_active_float(const char 
     // check module hash first
     search_active_value->name = (char *)i_name;// bad hack, thats ok
     IVP_U_Active_Float *mod = (IVP_U_Active_Float *)floats_name_hash->find_active_value(search_active_value);
-    search_active_value->name = NULL;
+    search_active_value->name = nullptr;
 
     if (mod) return mod;
 
@@ -244,9 +244,9 @@ IVP_U_Active_Terminal_Double *IVP_U_Active_Value_Manager::create_active_float(co
     // check module hash first
     search_active_value->name = (char *)i_name;// bad hack, thats ok
     IVP_U_Active_Float *mod = (IVP_U_Active_Float *)floats_name_hash->find_active_value(search_active_value);
-    search_active_value->name = NULL;
+    search_active_value->name = nullptr;
 
-    if (mod) return NULL;
+    if (mod) return nullptr;
 
     IVP_U_Active_Terminal_Double *atd = new IVP_U_Active_Terminal_Double(i_name, value);
     this->insert_active_float(atd);
@@ -258,8 +258,8 @@ IVP_U_Active_Terminal_Int *IVP_U_Active_Value_Manager::create_active_int(const c
     // check module hash first
     search_active_value->name = (char *)i_name;// bad hack, thats ok
     IVP_U_Active_Int *mod = (IVP_U_Active_Int *)ints_name_hash->find_active_value(search_active_value);
-    search_active_value->name = NULL;
-    if (mod) return NULL;
+    search_active_value->name = nullptr;
+    if (mod) return nullptr;
 
     IVP_U_Active_Terminal_Int *atd = new IVP_U_Active_Terminal_Int(i_name, value);
     this->insert_active_int(atd);
@@ -273,7 +273,7 @@ IVP_U_Active_Int *IVP_U_Active_Value_Manager::install_active_int(const char *i_n
     // check module hash first
     search_active_value->name = (char *)i_name;// bad hack, thats ok
     IVP_U_Active_Int *mod = (IVP_U_Active_Int *)ints_name_hash->find_active_value(search_active_value);
-    search_active_value->name = NULL;
+    search_active_value->name = nullptr;
     if (mod) return mod;
 
     IVP_U_Active_Terminal_Int *atd = new IVP_U_Active_Terminal_Int(i_name, value);
@@ -297,7 +297,7 @@ IVP_U_Active_Float::IVP_U_Active_Float(const char *i_name) : IVP_U_Active_Value(
 {
     // memclear not allowed because of virt. functions
     this->last_update = 0; // should be updated
-    this->l_mod_manager = NULL; // link is done by manager
+    this->l_mod_manager = nullptr; // link is done by manager
     this->double_value = 0.0f;
 }
 
@@ -305,7 +305,7 @@ IVP_U_Active_Int::IVP_U_Active_Int(const char *i_name): IVP_U_Active_Value(i_nam
 {
     // memclear not allowed because of virt. functions
     this->last_update = 0; // should be updated
-    this->l_mod_manager = NULL; // link is done by manager
+    this->l_mod_manager = nullptr; // link is done by manager
     this->int_value = 0;
 }
 
@@ -953,7 +953,7 @@ void IVP_U_Active_Switch::active_float_changed(IVP_U_Active_Float *)
 }
 
 void IVP_U_Active_Switch::active_int_changed(IVP_U_Active_Int *){
-    active_float_changed(NULL);
+    active_float_changed(nullptr);
 
 }
 

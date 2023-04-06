@@ -60,14 +60,14 @@ static const char* _parse_num(const char* s, int low, int high, int* value) {
 		*value = (*value) * 10 + static_cast<int>(*p) - static_cast<int>('0');
 	}
 
-	if (p == s || *value < low || *value > high) return NULL;
+	if (p == s || *value < low || *value > high) return nullptr;
 	return p;
 }
 
 static char* _strptime(const char *s, const char *format, struct tm *tm) {
 	while (*format != NULL && *s != NULL) {
 		if (*format != '%') {
-			if (*s != *format) return NULL;
+			if (*s != *format) return nullptr;
 
 			++format;
 			++s;
@@ -94,7 +94,7 @@ static char* _strptime(const char *s, const char *format, struct tm *tm) {
 				  break;
 			  }
 		  }
-		  if (tm->tm_wday == -1) return NULL;
+		  if (tm->tm_wday == -1) return nullptr;
 		  s += len;
 		  break;
 
@@ -116,14 +116,14 @@ static char* _strptime(const char *s, const char *format, struct tm *tm) {
 				  break;
 			  }
 		  }
-		  if (tm->tm_mon == -1) return NULL;
+		  if (tm->tm_mon == -1) return nullptr;
 		  s += len;
 		  break;
 
 		  // month [1, 12].
 	  case 'm':
 		  s = _parse_num(s, 1, 12, &tm->tm_mon);
-		  if (s == NULL) return NULL;
+		  if (s == nullptr) return nullptr;
 		  --tm->tm_mon;
 		  break;
 
@@ -131,38 +131,38 @@ static char* _strptime(const char *s, const char *format, struct tm *tm) {
 	  case 'd':
 	  case 'e':
 		  s = _parse_num(s, 1, 31, &tm->tm_mday);
-		  if (s == NULL) return NULL;
+		  if (s == nullptr) return nullptr;
 		  break;
 
 		  // hour [0, 23].
 	  case 'H':
 		  s = _parse_num(s, 0, 23, &tm->tm_hour);
-		  if (s == NULL) return NULL;
+		  if (s == nullptr) return nullptr;
 		  break;
 
 		  // minute [0, 59]
 	  case 'M':
 		  s = _parse_num(s, 0, 59, &tm->tm_min);
-		  if (s == NULL) return NULL;
+		  if (s == nullptr) return nullptr;
 		  break;
 
 		  // seconds [0, 60]. 60 is for leap year.
 	  case 'S':
 		  s = _parse_num(s, 0, 60, &tm->tm_sec);
-		  if (s == NULL) return NULL;
+		  if (s == nullptr) return nullptr;
 		  break;
 
 		  // year [1900, 9999].
 	  case 'Y':
 		  s = _parse_num(s, 1900, 9999, &tm->tm_year);
-		  if (s == NULL) return NULL;
+		  if (s == nullptr) return nullptr;
 		  tm->tm_year -= 1900;
 		  break;
 
 		  // year [0, 99].
 	  case 'y':
 		  s = _parse_num(s, 0, 99, &tm->tm_year);
-		  if (s == NULL) return NULL;
+		  if (s == nullptr) return nullptr;
 		  if (tm->tm_year <= 68) {
 			  tm->tm_year += 100;
 		  }
@@ -175,20 +175,20 @@ static char* _strptime(const char *s, const char *format, struct tm *tm) {
 
 		  // '%'.
 	  case '%':
-		  if (*s != '%') return NULL;
+		  if (*s != '%') return nullptr;
 		  ++s;
 		  break;
 
 		  // All the other format are not supported.
 	  default:
 		  AssertMsg( false, "Invalid format string to strptime!" );
-		  return NULL;
+		  return nullptr;
 		}
 		++format;
 	}
 
 	if (*format != NULL) {
-		return NULL;
+		return nullptr;
 	} else {
 		return const_cast<char*>(s);
 	}
@@ -216,7 +216,7 @@ CRTime::CRTime()
 {
 	if ( sm_nTimeCur == 0 )
 	{
-		sm_nTimeCur = time(NULL);
+		sm_nTimeCur = time(nullptr);
 	}
 
 	m_nStartTime = sm_nTimeCur;
@@ -245,7 +245,7 @@ void CRTime::UpdateRealTime()
 {
 	// BUGBUG Alfred: update this less often than once per frame?
 	RTime32 nTimePrev = sm_nTimeCur;
-	sm_nTimeCur = time(NULL);
+	sm_nTimeCur = time(nullptr);
 
 	if ( sm_nTimeCur < nTimePrev )
 	{
@@ -336,7 +336,7 @@ const char* CRTime::Render( const RTime32 rTime32, char (&buf)[k_RTimeRenderBuff
 	time_t tTime = rTime32;
 	char pchTime[32];
 	if ( !Plat_ctime( &tTime, pchTime, Q_ARRAYSIZE( pchTime ) ) )
-		return 0;
+		return nullptr;
 
 	// Remove '\n'
 	Assert( Q_strlen( pchTime ) == 25 );
@@ -518,13 +518,13 @@ RTime32 CRTime::RTime32FromFmtString( const char *pchFmt, const char* pchValue )
 	{
 		pchYYYY = rgchValue + ( pchYYYY - pchFmt );
 		Q_strncpy( rgchNum, pchYYYY, 5 );
-		tm.tm_year = strtol( rgchNum, 0, 10 ) - 1900;
+		tm.tm_year = strtol( rgchNum, nullptr, 10 ) - 1900;
 	}
 	else if ( pchYY )
 	{
 		pchYY = rgchValue + ( pchYY - pchFmt );
 		Q_strncpy( rgchNum, pchYY, 3 );
-		tm.tm_year = strtol( rgchNum, 0, 10 ) + 100;
+		tm.tm_year = strtol( rgchNum, nullptr, 10 ) + 100;
 	}
 	else
 		return k_RTime32Nil;	// must have a year
@@ -533,7 +533,7 @@ RTime32 CRTime::RTime32FromFmtString( const char *pchFmt, const char* pchValue )
 	{
 		pchMM = rgchValue + ( pchMM - pchFmt );
 		Q_strncpy( rgchNum, pchMM, 3 );
-		tm.tm_mon = strtol( rgchNum, 0, 10 ) - 1;
+		tm.tm_mon = strtol( rgchNum, nullptr, 10 ) - 1;
 	}
 	if ( pchMnt )
 	{
@@ -552,32 +552,32 @@ RTime32 CRTime::RTime32FromFmtString( const char *pchFmt, const char* pchValue )
 	{
 		pchDD = rgchValue + (pchDD - pchFmt );
 		Q_strncpy( rgchNum, pchDD, 3 );
-		tm.tm_mday = strtol( rgchNum, 0, 10 );
+		tm.tm_mday = strtol( rgchNum, nullptr, 10 );
 	}
 	if ( pchThh )
 	{
 		pchThh = rgchValue + ( pchThh - pchFmt );
 		Q_strncpy( rgchNum, pchThh, 3 );
-		tm.tm_hour = strtol( rgchNum, 0, 10 );
+		tm.tm_hour = strtol( rgchNum, nullptr, 10 );
 	}
 	if ( pchTmm )
 	{
 		pchTmm = rgchValue + ( pchTmm - pchFmt );
 		Q_strncpy( rgchNum, pchTmm, 3 );
-		tm.tm_min = strtol( rgchNum, 0, 10 );
+		tm.tm_min = strtol( rgchNum, nullptr, 10 );
 	}
 	if ( pchTss )
 	{
 		pchTss = rgchValue + (pchTss - pchFmt );
 		Q_strncpy( rgchNum, pchTss, 3 );
-		tm.tm_sec = strtol( rgchNum, 0, 10 );
+		tm.tm_sec = strtol( rgchNum, nullptr, 10 );
 	}
 	if ( pchTzone )
 	{
 		long nOffset = 0;
 		pchTzone = rgchValue + (pchTzone - pchFmt);
 		Q_strncpy( rgchNum, pchTzone, 6 );
-		nOffset = strtol( rgchNum, 0, 10 );
+		nOffset = strtol( rgchNum, nullptr, 10 );
 		tm.tm_hour -= nOffset / 100; // to go from -0700 to UTC, need to ADD seven
 
 		// is this a sub-hour timezone? eg +0545 Kathmandu
@@ -706,13 +706,13 @@ RTime32 CRTime::RTime32FromString( const char* pszValue )
 	const char *str= szValue;
 
 	num[0] =*str++; num[1] =*str++; num[2] =*str++; num[3] =*str++; num[4] = 0;
-	tm.tm_year = strtol( num, 0, 10 ) - 1900;
+	tm.tm_year = strtol( num, nullptr, 10 ) - 1900;
 	if (*str == '-') str++;
 	num[0] = *str++; num[1] = *str++; num[2] = 0;
-	tm.tm_mon = strtol( num, 0, 10 ) - 1;
+	tm.tm_mon = strtol( num, nullptr, 10 ) - 1;
 	if (*str == '-') str++;
 	num[0] = *str++; num[1] = *str++; num[2] = 0;
-	tm.tm_mday = strtol( num, 0, 10 );
+	tm.tm_mday = strtol( num, nullptr, 10 );
 
 	if ( *str != 0 )
 	{
@@ -722,13 +722,13 @@ RTime32 CRTime::RTime32FromString( const char* pszValue )
 
 		// time is given too
 		num[0] = *str++; num[1] = *str++; num[2] = 0;
-		tm.tm_hour = strtol( num, 0, 10 );
+		tm.tm_hour = strtol( num, nullptr, 10 );
 		if (*str == ':') str++;
 		num[0] = *str++; num[1] = *str++; num[2] = 0;
-		tm.tm_min = strtol( num, 0, 10 );
+		tm.tm_min = strtol( num, nullptr, 10 );
 		if (*str == ':') str++;
 		num[0] = *str++; num[1] = *str++; num[2] = 0;
-		tm.tm_sec = strtol( num, 0, 10 );
+		tm.tm_sec = strtol( num, nullptr, 10 );
 	}
 	tm.tm_isdst = -1;
 

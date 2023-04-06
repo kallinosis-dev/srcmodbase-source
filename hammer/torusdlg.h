@@ -23,7 +23,7 @@ class CTorusDlg : public CDialog
 {
 // Construction
 public:
-	CTorusDlg(Vector& bmins, Vector& bmaxs, CWnd* pParent = NULL);   // standard constructor
+	CTorusDlg(Vector& bmins, Vector& bmaxs, CWnd* pParent = nullptr);   // standard constructor
 	~CTorusDlg();   // standard constructor
 
 	void DrawTorusTopView( CDC *pDC );

@@ -37,7 +37,7 @@ public:
 	}
 
 
-	T *FindByKey(K nMatchKey, int *pChainNumber = NULL)
+	T *FindByKey(K nMatchKey, int *pChainNumber = nullptr)
 	{
 		unsigned int nChain=(unsigned int) nMatchKey ;
 		nChain %= HASHSIZE;
@@ -46,7 +46,7 @@ public:
 		for( T * pNode = m_HashChains[ nChain ].m_pHead; pNode; pNode = pNode->m_pNext )
 			if ( pNode->Key() == nMatchKey )
 				return pNode;
-		return NULL;
+		return nullptr;
 	}
 
 	void Add( T * pNode )

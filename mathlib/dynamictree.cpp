@@ -199,7 +199,7 @@ void CDynamicTree::InsertLeaf( int32 nLeaf )
 	m_NodePool[ nNewParent ].m_nChild1 = nNode;
 	m_NodePool[ nNewParent ].m_nChild2 = nLeaf;
 	m_NodePool[ nNewParent ].m_nHeight = m_NodePool[ nNode ].m_nHeight + 1;
-	m_NodePool[ nNewParent ].m_pUserData = NULL; 
+	m_NodePool[ nNewParent ].m_pUserData = nullptr; 
 
 	int32 nOldParent = m_NodePool[ nNode ].m_nParent;
 	if ( nOldParent != NULL_NODE )
@@ -560,7 +560,7 @@ float CDynamicTree::ClosestProxies( CProxyVector& proxies, const Vector &vQuery 
 CDynamicTree::CNodePool::CNodePool()
 {
 	m_nCapacity = 0;
-	m_pObjects = NULL;
+	m_pObjects = nullptr;
 	m_nNext = - 1;
 }
 
@@ -578,7 +578,7 @@ void CDynamicTree::CNodePool::Clear()
 	delete m_pObjects;
 
 	m_nCapacity = 0;
-	m_pObjects = NULL;
+	m_pObjects = nullptr;
 	m_nNext = - 1;
 }
 
@@ -592,7 +592,7 @@ void CDynamicTree::CNodePool::Reserve( int nCapacity )
 		m_pObjects = new Node_t[ nCapacity ];
 		V_memcpy( m_pObjects, pObjects, m_nCapacity * sizeof( Node_t ) );
 		delete pObjects;
-		pObjects = NULL;
+		pObjects = nullptr;
 
 		for ( int32 i = m_nCapacity; i < nCapacity - 1; ++i )
 		{

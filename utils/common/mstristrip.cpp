@@ -718,10 +718,10 @@ CStripper::~CStripper()
 {
     // free stuff
     delete [] m_pused;
-    m_pused = NULL;
+    m_pused = nullptr;
 
     delete [] m_ptriinfo;
-    m_ptriinfo = NULL;
+    m_ptriinfo = nullptr;
 }
 
 //=========================================================================

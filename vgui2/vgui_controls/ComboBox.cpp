@@ -58,7 +58,7 @@ void ComboBoxButton::ApplySchemeSettings(IScheme *pScheme)
 
 IBorder * ComboBoxButton::GetBorder(bool depressed, bool armed, bool selected, bool keyfocus)
 {
-	return NULL;
+	return nullptr;
 	//		return Button::GetBorder(depressed, armed, selected, keyfocus);
 }
 
@@ -76,7 +76,7 @@ void ComboBoxButton::OnCursorExited()
 
 vgui::Panel *ComboBox_Factory()
 {
-	return new ComboBox( NULL, NULL, 5, true );
+	return new ComboBox(nullptr, nullptr, 5, true );
 }
 DECLARE_BUILD_FACTORY_CUSTOM( ComboBox, ComboBox_Factory );
 
@@ -93,12 +93,12 @@ ComboBox::ComboBox(Panel *parent, const char *panelName, int numLines, bool allo
 	SetHorizontalScrolling(false); // do not scroll, always Start at the beginning of the text.
 
 	// create the drop-down menu
-	m_pDropDown = new Menu(this, NULL);
+	m_pDropDown = new Menu(this, nullptr);
 	m_pDropDown->AddActionSignalTarget(this);
 	m_pDropDown->SetTypeAheadMode( Menu::TYPE_AHEAD_MODE );
 
 	// button to Activate menu
-	m_pButton = new ComboBoxButton(this, NULL, "u");
+	m_pButton = new ComboBoxButton(this, nullptr, "u");
 	m_pButton->SetCommand("ButtonClicked");
 	m_pButton->AddActionSignalTarget(this);
 

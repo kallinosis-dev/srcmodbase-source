@@ -112,7 +112,7 @@ void CDmeSourceDCCFilePanel::SetDmeElement( CDmeSourceDCCFile *pSourceDCCFile )
 {
 	m_hSourceDCCFile = pSourceDCCFile;
 
-	bool bEnabled = ( pSourceDCCFile != NULL );
+	bool bEnabled = ( pSourceDCCFile != nullptr);
 	m_pDCCObjectBrowser->SetEnabled( bEnabled );
 	m_pAddDCCObject->SetEnabled( bEnabled );
 	m_pRemoveDCCObject->SetEnabled( bEnabled );
@@ -157,7 +157,7 @@ void CDmeSourceDCCFilePanel::OnItemSelectionChanged( )
 //-----------------------------------------------------------------------------
 void CDmeSourceDCCFilePanel::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pRootDCCObjects )
 	{
 		OnItemSelectionChanged();
@@ -171,7 +171,7 @@ void CDmeSourceDCCFilePanel::OnItemSelected( KeyValues *kv )
 //-----------------------------------------------------------------------------
 void CDmeSourceDCCFilePanel::OnItemDeselected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pRootDCCObjects )
 	{
 		OnItemSelectionChanged();
@@ -188,7 +188,7 @@ void CDmeSourceDCCFilePanel::OnTextNewLine( KeyValues *kv )
 	if ( !m_hSourceDCCFile.Get() )
 		return;
 
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pDCCObjectName )
 	{
 		OnDCCObjectNameChanged();
@@ -248,7 +248,7 @@ void CDmeSourceDCCFilePanel::OnDCCObjectAdded( const char *pDCCObjectName, KeyVa
 //-----------------------------------------------------------------------------
 void CDmeSourceDCCFilePanel::OnInputCompleted( KeyValues *kv )
 {
-	const char *pDCCObjectName = kv->GetString( "text", NULL );
+	const char *pDCCObjectName = kv->GetString( "text", nullptr);
 	if ( !pDCCObjectName )						  
 		return;
 

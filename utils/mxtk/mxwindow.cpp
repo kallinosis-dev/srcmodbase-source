@@ -42,7 +42,7 @@ mxWindow::mxWindow (mxWindow *parent, int x, int y, int w, int h, const char *la
 	else if (style == Dialog || style == ModalDialog)
 		dwStyle = WS_CAPTION | WS_SYSMENU;
 
-	void *parentHandle = 0;
+	void *parentHandle = nullptr;
 	if (parent)
 	{
 		parentHandle = parent->getHandle ();
@@ -51,7 +51,7 @@ mxWindow::mxWindow (mxWindow *parent, int x, int y, int w, int h, const char *la
 
 	void *handle = (void *) CreateWindowEx (0, "mx_class", label, dwStyle,
 					x, y, w, h, (HWND) parentHandle,
-					(HMENU) NULL, (HINSTANCE) GetModuleHandle (NULL), NULL);
+					(HMENU)nullptr, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 
 	SetWindowLong ((HWND) handle, GWL_USERDATA, reinterpret_cast< LONG >( this ) );
 
@@ -100,7 +100,7 @@ mxWindow::setTimer (int milliSeconds)
 	if (milliSeconds > 0)
 	{
 		d_this->d_uTimer = 21001;
-		d_this->d_uTimer = (UINT)SetTimer ((HWND) getHandle (), d_this->d_uTimer, milliSeconds, NULL);
+		d_this->d_uTimer = (UINT)SetTimer ((HWND) getHandle (), d_this->d_uTimer, milliSeconds, nullptr);
 	}
 }
 

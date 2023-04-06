@@ -33,7 +33,7 @@ public:
 	enum { FormatDouble, FormatSingle };
 
 	// CREATORS
-	mxMatSysWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = 0, int style = 0);
+	mxMatSysWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr, int style = 0);
 	virtual ~mxMatSysWindow ();
 
 	// IMaterialSystem *Init( const char *szGamedir, const char *szMaterialSystem, const char *szShader, const char *szProxy );

@@ -244,7 +244,7 @@ template<> void* CDmAttributeOp< DmUnknownAttribute_t >::CreateAttributeData()
 {
 	// Fail if someone tries to create an AT_UNKNOWN attribute
 	Assert(0);
-	return NULL;
+	return nullptr;
 }
 
 template< class T >
@@ -622,7 +622,7 @@ public:
 	void OnUnserializationFinished( CDmAttribute *pAttribute ) override;
 
 	// Other methods used by CDmaArrayBase
-	CDmArrayAttributeOp() : m_pAttribute( NULL ), m_pData( NULL ) {}
+	CDmArrayAttributeOp() : m_pAttribute(nullptr), m_pData(nullptr) {}
 	CDmArrayAttributeOp( CDmAttribute *pAttribute ) : m_pAttribute( pAttribute ), m_pData( (D*)m_pAttribute->GetAttributeData() ) {}
 
 	// Count
@@ -804,7 +804,7 @@ private:
 			const char *pAttributeName = m_symAttribute.String();
 			return pOwner->GetAttribute( pAttributeName );
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	typedef typename CDmAttributeUndoStorageType< T >::UndoStorageType StorageType_t;
@@ -852,7 +852,7 @@ protected:
 		if ( pOwner )
 			return pOwner->GetAttribute( pAttributeName );
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 
 private:
@@ -1202,7 +1202,7 @@ public:
 		CDmrArray< T > att( pAttribute );
 		Assert( att.IsValid() );
 
-		if ( pNewValues != NULL && nNewSize > 0 )
+		if ( pNewValues != nullptr && nNewSize > 0 )
 		{
 			m_pNewValues = new typename CUndoAttributeArrayBase<T>::StorageType_t[ nNewSize ];
 			for ( int i = 0; i < nNewSize; ++i )
@@ -1219,7 +1219,7 @@ public:
 
 		int nOldSize = att.Count();
 		const T *pOldValues = att.Base();
-		if ( pOldValues != NULL && nOldSize > 0 )
+		if ( pOldValues != nullptr && nOldSize > 0 )
 		{
 			m_pOldValues = new typename CUndoAttributeArrayBase<T>::StorageType_t[ nOldSize ];
 			for ( int i = 0; i < nOldSize; ++i )
@@ -1967,11 +1967,11 @@ CDmAttribute *CDmAttribute::CreateAttribute( CDmElement *pOwner, DmAttributeType
 	{
 	case AT_UNKNOWN:
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 
 	default:
 		{
-			void *pMem = 0;
+			void *pMem = nullptr;
 			{
 				DMX_PROFILE_SCOPE( CreateAttribute_Alloc );
 				pMem = g_AttrAlloc.Alloc( sizeof( CDmAttribute ) );
@@ -1990,11 +1990,11 @@ CDmAttribute *CDmAttribute::CreateExternalAttribute( CDmElement *pOwner, DmAttri
 	{
 	case AT_UNKNOWN:
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 
 	default:
 		{
-			void *pMem = 0;
+			void *pMem = nullptr;
 			{
 				DMX_PROFILE_SCOPE( CreateExternalAttribute_Alloc );
 				pMem = g_AttrAlloc.Alloc( sizeof( CDmAttribute ) );
@@ -2037,7 +2037,7 @@ void CDmAttribute::DestroyAttribute( CDmAttribute *pAttribute )
 // Constructor, destructor
 //-----------------------------------------------------------------------------
 CDmAttribute::CDmAttribute( CDmElement *pOwner, DmAttributeType_t type, const char *pAttributeName ) :
-	m_pData( NULL )
+	m_pData(nullptr)
 {
 	{
 		DMX_PROFILE_SCOPE( CDmAttribute_Init );
@@ -2074,7 +2074,7 @@ void CDmAttribute::Init( CDmElement *pOwner, DmAttributeType_t type, const char 
 	}
 	m_nFlags = type;
 	m_Handle = DMATTRIBUTE_HANDLE_INVALID;
-	m_pNext = NULL;
+	m_pNext = nullptr;
 
 	switch ( type )
 	{
@@ -2133,7 +2133,7 @@ void CDmAttribute::DeleteAttributeData()
 	if ( m_pData && !IsFlagSet( FATTRIB_EXTERNAL ) )
 	{
 		s_pAttrInfo[ GetType() ]->DestroyAttributeData( m_pData );
-		m_pData = NULL;
+		m_pData = nullptr;
 	}
 }
 
@@ -2665,13 +2665,13 @@ void CDmAttribute::SetValue( const T &value )
 template< class T > T& 
 CDmAttribute::BeginModifyValueInPlace( DmAttributeModifyHandle_t *pHandle )
 {
-	*pHandle = NULL;
+	*pHandle = nullptr;
 
 	// Type conversion is not allowed
 	if ( (int)GetType() != (int)CDmAttributeInfo< T >::ATTRIBUTE_TYPE )
 	{
 		Assert( 0 );
-		return *( T* )NULL;
+		return *( T* )nullptr;
 	}
 
 	// UNDO Hook
@@ -2907,7 +2907,7 @@ unsigned int HandleHash( const DmElementHandle_t &h )
 int CDmAttribute::EstimateMemoryUsage( TraversalDepth_t depth ) const
 {
 	CUtlHash< DmElementHandle_t > visited( 1024, 0, 0, HandleCompare, HandleHash );
-	return EstimateMemoryUsageInternal( visited, depth, 0 ) ;
+	return EstimateMemoryUsageInternal( visited, depth, nullptr ) ;
 }
 
 int CDmAttribute::EstimateMemoryUsageInternal( CUtlHash< DmElementHandle_t > &visited, TraversalDepth_t depth, int *pCategories ) const
@@ -3013,7 +3013,7 @@ int CDmAttribute::EstimateMemoryUsageInternal( CUtlHash< DmElementHandle_t > &vi
 template< class T, class B >
 CDmaArrayConstBase<T,B>::CDmaArrayConstBase( )
 {
-	m_pAttribute = NULL;
+	m_pAttribute = nullptr;
 }
 
 
@@ -3216,7 +3216,7 @@ void CDmrDecoratorConst<T,BaseClass>::Init( const CDmAttribute* pAttribute )
 template< class T, class BaseClass >
 void CDmrDecoratorConst<T,BaseClass>::Init( const CDmElement *pElement, const char *pAttributeName )
 {
-	const CDmAttribute *pAttribute = NULL;
+	const CDmAttribute *pAttribute = nullptr;
 	if ( pElement && pAttributeName && pAttributeName[0] )
 	{
 		pAttribute = pElement->GetAttribute( pAttributeName );
@@ -3249,7 +3249,7 @@ void CDmrDecorator<T,BaseClass>::Init( CDmAttribute* pAttribute )
 template< class T, class BaseClass >
 void CDmrDecorator<T,BaseClass>::Init( CDmElement *pElement, const char *pAttributeName, bool bAddAttribute )
 {
-	CDmAttribute *pAttribute = NULL;
+	CDmAttribute *pAttribute = nullptr;
 	if ( pElement && pAttributeName && pAttributeName[0] )
 	{
 		if ( bAddAttribute )
@@ -3341,7 +3341,7 @@ bool CDmrDecorator<T,BaseClass>::IsValid() const
 			break;										\
 	}
 
-CDmrGenericArrayConst::CDmrGenericArrayConst() : m_pAttribute( NULL )
+CDmrGenericArrayConst::CDmrGenericArrayConst() : m_pAttribute(nullptr)
 {
 }
 
@@ -3363,13 +3363,13 @@ void CDmrGenericArrayConst::Init( const CDmAttribute *pAttribute )
 	}
 	else
 	{
-		m_pAttribute = NULL;
+		m_pAttribute = nullptr;
 	}
 }
 
 void CDmrGenericArrayConst::Init( const CDmElement *pElement, const char *pAttributeName )
 {
-	const CDmAttribute *pAttribute = ( pElement && pAttributeName && pAttributeName[0] ) ? pElement->GetAttribute( pAttributeName ) : NULL;
+	const CDmAttribute *pAttribute = ( pElement && pAttributeName && pAttributeName[0] ) ? pElement->GetAttribute( pAttributeName ) : nullptr;
 	Init( pAttribute );
 }
 
@@ -3382,7 +3382,7 @@ int CDmrGenericArrayConst::Count() const
 const void* CDmrGenericArrayConst::GetUntyped( int i ) const
 {
 	APPLY_ARRAY_METHOD_RET( GetUntyped( i ) );
-	return NULL;
+	return nullptr;
 }
 
 const char* CDmrGenericArrayConst::GetAsString( int i, char *pBuffer, size_t nBufLen ) const

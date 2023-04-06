@@ -57,7 +57,7 @@ public:
 		_lex.Init(_ss(v), rg, up,ThrowError,this);
 		_sourcename = SQString::Create(_ss(v), sourcename);
 		_lineinfo = lineinfo;_raiseerror = raiseerror;
-		compilererror = NULL;
+		compilererror = nullptr;
 	}
 	static void ThrowError(void *ud, const SQChar *s) {
 		SQCompiler *c = (SQCompiler *)ud;
@@ -161,7 +161,7 @@ public:
 		_debugline = 1;
 		_debugop = 0;
 
-		SQFuncState funcstate(_ss(_vm), NULL,ThrowError,this);
+		SQFuncState funcstate(_ss(_vm), nullptr,ThrowError,this);
 		funcstate._name = SQString::Create(_ss(_vm), _SC("main"));
 		_fs = &funcstate;
 		_fs->AddParameter(_fs->CreateString(_SC("this")));

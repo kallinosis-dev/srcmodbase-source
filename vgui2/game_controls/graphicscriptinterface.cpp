@@ -19,7 +19,7 @@ END_SCRIPTDESC()
 CGraphicScriptInterface::CGraphicScriptInterface( IScriptVM *pScriptVM )
 {
 	m_pScriptVM = pScriptVM;
-	m_pGraphic = NULL;
+	m_pGraphic = nullptr;
 
 	HSCRIPT Scope = m_pScriptVM->RegisterInstance( this, "Graphic" );
 	SetScope( Scope );

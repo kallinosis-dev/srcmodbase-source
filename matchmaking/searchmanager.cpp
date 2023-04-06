@@ -52,7 +52,7 @@ public:
 public:
 	virtual XUID GetOnlineId() { return m_xuid; }
 	virtual KeyValues * GetGameDetails() { return m_pDetails; }
-	virtual bool IsJoinable() { return m_pDetails != NULL; }
+	virtual bool IsJoinable() { return m_pDetails != nullptr; }
 	virtual void Join();
 
 protected:
@@ -91,8 +91,8 @@ void CSearchManager::UpdateAll()
 //
 
 CSearchManager::CSearchManager( KeyValues *pSearchParams ) :
-	m_pSettings( pSearchParams ? pSearchParams->MakeCopy() : NULL ),
-	m_pSearcher( NULL ),
+	m_pSettings( pSearchParams ? pSearchParams->MakeCopy() : nullptr),
+	m_pSearcher(nullptr),
 	m_eState( STATE_IDLE )
 {
 	GetSearchManagerPool().AddToTail( this );
@@ -110,11 +110,11 @@ CSearchManager::~CSearchManager()
 
 	if ( m_pSearcher )
 		m_pSearcher->Destroy();
-	m_pSearcher = NULL;
+	m_pSearcher = nullptr;
 
 	if ( m_pSettings )
 		m_pSettings->deleteThis();
-	m_pSettings = NULL;
+	m_pSettings = nullptr;
 
 	ClearResults( m_arrResults );
 }
@@ -164,7 +164,7 @@ int CSearchManager::GetNumResults()
 
 IMatchSearchResult * CSearchManager::GetResultByIndex( int iResultIdx )
 {
-	return m_arrResults.IsValidIndex( iResultIdx ) ? m_arrResults[ iResultIdx ] : NULL;
+	return m_arrResults.IsValidIndex( iResultIdx ) ? m_arrResults[ iResultIdx ] : nullptr;
 }
 
 IMatchSearchResult * CSearchManager::GetResultByOnlineId( XUID xuidResultOnline )
@@ -180,14 +180,14 @@ IMatchSearchResult * CSearchManager::GetResultById( CUtlVector< IMatchSearchResu
 		if ( pResult && ( pResult->GetOnlineId() == id ) )
 			return pResult;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CSearchManager::Destroy()
 {
 	if ( m_pSearcher )
 		m_pSearcher->Destroy();
-	m_pSearcher = NULL;
+	m_pSearcher = nullptr;
 
 	delete this;
 }
@@ -254,7 +254,7 @@ void CSearchManager::OnSearchDone()
 			continue;
 
 		// Determine the rollup key
-		KeyValues *pRollupKey = mgr->RollupGameDetails( pDetails, NULL, m_pSearcher->GetSearchSettings() );
+		KeyValues *pRollupKey = mgr->RollupGameDetails( pDetails, nullptr, m_pSearcher->GetSearchSettings() );
 		KeyValues::AutoDelete autodelete_pRollupKey( pRollupKey );
 		if ( !pRollupKey )
 			continue;
@@ -283,7 +283,7 @@ void CSearchManager::OnSearchDone()
 		if ( GetResultById( arrResults, uidKey ) )
 			continue; // have fresh data
 
-		if ( !mgr->RollupGameDetails( NULL, pOldResult->GetGameDetails(), m_pSearcher->GetSearchSettings() ) )
+		if ( !mgr->RollupGameDetails(nullptr, pOldResult->GetGameDetails(), m_pSearcher->GetSearchSettings() ) )
 			continue; // cannot keep this result
 
 		arrResults.AddToTail( pOldResult );
@@ -346,7 +346,7 @@ void CMatchSearcher_SearchMgr::OnSearchDone()
 
 CMatchSearchResultItem::CMatchSearchResultItem( XUID xuid, KeyValues *pDetails ) :
 	m_xuid( xuid ),
-	m_pDetails( pDetails ? pDetails->MakeCopy() : NULL )
+	m_pDetails( pDetails ? pDetails->MakeCopy() : nullptr)
 {
 }
 
@@ -354,7 +354,7 @@ CMatchSearchResultItem::~CMatchSearchResultItem()
 {
 	if ( m_pDetails )
 		m_pDetails->deleteThis();
-	m_pDetails = NULL;
+	m_pDetails = nullptr;
 }
 
 void CMatchSearchResultItem::Join()
@@ -364,7 +364,7 @@ void CMatchSearchResultItem::Join()
 
 	// Detach details
 	KeyValues *pSettings = m_pDetails;
-	m_pDetails = NULL;
+	m_pDetails = nullptr;
 
 	// Trigger matchmaking
 	g_pMatchFramework->MatchSession( pSettings );

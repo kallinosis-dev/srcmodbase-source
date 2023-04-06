@@ -367,13 +367,13 @@ inline CEconItemView * CCSBuyMenuLoadout::GetWeaponView( loadout_positions_t pos
 
 
 	if ( ( nPos < 0 ) || ( nPos >= LOADOUT_POSITION_COUNT ) )
-		return NULL;
+		return nullptr;
 
 	if ( !CSInventoryManager() || !CSInventoryManager()->GetLocalCSInventory() )
-		return NULL;
+		return nullptr;
 
 	if ( m_WeaponID[ nPos ] == INVALID_ITEM_ID )
-		return NULL;
+		return nullptr;
 
 	CEconItemView * pItemView = CSInventoryManager()->GetLocalCSInventory()->GetInventoryItemByItemID( m_WeaponID[ nPos ] );
 
@@ -390,7 +390,7 @@ inline CEconItemView * CCSBuyMenuLoadout::GetWeaponView( loadout_positions_t pos
 		return pItemView;
 	}
 	else
-		return NULL;
+		return nullptr;
 }
 
 extern CCSLoadout* GetBuyMenuLoadoutData( int in_teamID );

@@ -31,7 +31,7 @@ coordT *qh_copypoints (coordT *points, int numpoints, int dimension) {
   if (!(newpoints=(coordT*)malloc(size))) {
     fprintf(qh ferr, "qhull error: insufficient memory to copy %d points\n",
         numpoints);
-    qh_errexit(qh_ERRmem, NULL, NULL);
+    qh_errexit(qh_ERRmem, nullptr, nullptr);
   }
   memcpy ((char *)newpoints, (char *)points, size);
   return newpoints;
@@ -84,7 +84,7 @@ realT qh_determinant (realT **rows, int dim, boolT *nearzero) {
   *nearzero= False;
   if (dim < 2) {
     ivp_message( "qhull internal error (qh_determinate): only implemented for dimension >= 2\n");
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }else if (dim == 2) {
     det= det2_(rows[0][0], rows[0][1],
 		 rows[1][0], rows[1][1]);
@@ -188,12 +188,12 @@ realT qh_detjoggle (pointT *points, int numpoints, int dimension) {
 */
 void qh_detroundoff (void) {
 
-  qh_option ("_max-width", NULL, &qh MAXwidth);
+  qh_option ("_max-width", nullptr, &qh MAXwidth);
   if (!qh SETroundoff) {
     qh DISTround= qh_distround (qh hull_dim, qh MAXabs_coord, qh MAXsumcoord);
     if (qh RANDOMdist)
       qh DISTround += qh RANDOMfactor * qh MAXabs_coord;
-    qh_option ("Error-roundoff", NULL, &qh DISTround);
+    qh_option ("Error-roundoff", nullptr, &qh DISTround);
   }
   qh MINdenom_1= fmax_(1.0/REALmax, REALmin);
   qh MINdenom= qh MINdenom_1 * qh MAXabs_coord;
@@ -206,19 +206,19 @@ void qh_detroundoff (void) {
   if (qh premerge_cos < REALmax/2) {
     qh premerge_cos -= qh ANGLEround;
     if (qh RANDOMdist) 
-      qh_option ("Angle-premerge-with-random", NULL, &qh premerge_cos);
+      qh_option ("Angle-premerge-with-random", nullptr, &qh premerge_cos);
   }
   if (qh postmerge_cos < REALmax/2) {
     qh postmerge_cos -= qh ANGLEround;
     if (qh RANDOMdist)
-      qh_option ("Angle-postmerge-with-random", NULL, &qh postmerge_cos);
+      qh_option ("Angle-postmerge-with-random", nullptr, &qh postmerge_cos);
   }
   qh premerge_centrum += 2 * qh DISTround;    /*2 for centrum and distplane()*/
   qh postmerge_centrum += 2 * qh DISTround;
   if (qh RANDOMdist && (qh MERGEexact || qh PREmerge))
-    qh_option ("Centrum-premerge-with-random", NULL, &qh premerge_centrum);
+    qh_option ("Centrum-premerge-with-random", nullptr, &qh premerge_centrum);
   if (qh RANDOMdist && qh POSTmerge)
-    qh_option ("Centrum-postmerge-with-random", NULL, &qh postmerge_centrum);
+    qh_option ("Centrum-postmerge-with-random", nullptr, &qh postmerge_centrum);
   { /* compute ONEmerge, max vertex offset for merging simplicial facets */
     realT maxangle= 1.0, maxrho;
     
@@ -232,7 +232,7 @@ void qh_detroundoff (void) {
     maxrho= qh hull_dim * qh postmerge_centrum + qh DISTround;
     maximize_(qh ONEmerge, maxrho);
     if (qh MERGING)
-      qh_option ("_one-merge", NULL, &qh ONEmerge);
+      qh_option ("_one-merge", nullptr, &qh ONEmerge);
   }
   qh NEARinside= qh ONEmerge * qh_RATIOnearinside; /* only used if qh KEEPnearinside */
   if (qh JOGGLEmax < REALmax/2 && (qh KEEPcoplanar || qh KEEPinside)) {
@@ -244,11 +244,11 @@ void qh_detroundoff (void) {
     maximize_(qh NEARinside, maxdist);  /* must agree with qh_nearcoplanar() */
   }
   if (qh KEEPnearinside)
-    qh_option ("_near-inside", NULL, &qh NEARinside);
+    qh_option ("_near-inside", nullptr, &qh NEARinside);
   if (qh JOGGLEmax < qh DISTround) {
     ivp_message( "qhull error: the joggle for 'QJn', %.2g, is below roundoff for distance computations, %.2g\n",
          qh JOGGLEmax, qh DISTround);
-    qh_errexit (qh_ERRinput, NULL, NULL);
+    qh_errexit (qh_ERRinput, nullptr, nullptr);
   }
   if (qh MINvisible > REALmax/2) {
     if (!qh MERGING)
@@ -259,22 +259,22 @@ void qh_detroundoff (void) {
       qh MINvisible= qh_COPLANARratio * qh premerge_centrum;
     if (qh APPROXhull && qh MINvisible > qh MINoutside)
       qh MINvisible= qh MINoutside;
-    qh_option ("Visible-distance", NULL, &qh MINvisible);
+    qh_option ("Visible-distance", nullptr, &qh MINvisible);
   }
   if (qh MAXcoplanar > REALmax/2) {
     qh MAXcoplanar= qh MINvisible;
-    qh_option ("U-coplanar-distance", NULL, &qh MAXcoplanar);
+    qh_option ("U-coplanar-distance", nullptr, &qh MAXcoplanar);
   }
   if (!qh APPROXhull) {             /* user may specify qh MINoutside */
     qh MINoutside= 2 * qh MINvisible;
     if (qh premerge_cos < REALmax/2) 
       maximize_(qh MINoutside, (1- qh premerge_cos) * qh MAXabs_coord);
-    qh_option ("Width-outside", NULL, &qh MINoutside);
+    qh_option ("Width-outside", nullptr, &qh MINoutside);
   }
   qh WIDEfacet= qh MINoutside;
   maximize_(qh WIDEfacet, qh_WIDEcoplanar * qh MAXcoplanar); 
   maximize_(qh WIDEfacet, qh_WIDEcoplanar * qh MINvisible); 
-  qh_option ("_wide-facet", NULL, &qh WIDEfacet);
+  qh_option ("_wide-facet", nullptr, &qh WIDEfacet);
   if (qh MINvisible > qh MINoutside + 3 * REALepsilon 
   && !qh BESToutside && !qh FORCEoutput)
     ivp_message( "qhull input warning: minimum visibility V%.2g is greater than \nminimum outside W%.2g.  Flipped facets are likely.\n",
@@ -321,7 +321,7 @@ realT qh_detsimplex(pointT *apex, setT *points, int dim, boolT *nearzero) {
   if (i < dim) {
     ivp_message( "qhull internal error (qh_detsimplex): #points %d < dimension %d\n", 
                i, dim);
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }
   det= qh_determinant (rows, dim, nearzero);
   trace2((qh ferr, "qh_detsimplex: det=%2.2g for point p%d, dim %d, nearzero? %d\n",
@@ -469,8 +469,8 @@ realT qh_facetarea (facetT *facet) {
     else
       centrum= qh_getcentrum (facet);
     FOREACHridge_(facet->ridges) 
-      area += qh_facetarea_simplex (qh hull_dim, centrum, ridge->vertices, 
-                 NULL, (ridge->top == facet),  facet->normal, &facet->offset);
+      area += qh_facetarea_simplex (qh hull_dim, centrum, ridge->vertices,
+                                    nullptr, (ridge->top == facet),  facet->normal, &facet->offset);
     if (qh CENTERtype != qh_AScentrum)
       qh_memfree (centrum, qh normal_size);
   }
@@ -550,7 +550,7 @@ realT qh_facetarea_simplex (int dim, coordT *apex, setT *vertices,
   if (i != dim-1) {
     ivp_message( "qhull internal error (qh_facetarea_simplex): #points %d != dim %d -1\n", 
                i, dim);
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }
   rows[i]= gmcoord;
   if (qh DELAUNAY) {
@@ -686,7 +686,7 @@ boolT qh_findbestsharp (pointT *point, facetT **bestfacet,
 facetT *qh_findgooddist (pointT *point, facetT *facetA, realT *distp, 
                facetT **facetlist) {
   realT bestdist= -REALmax, dist;
-  facetT *neighbor, **neighborp, *bestfacet=NULL, *facet;
+  facetT *neighbor, **neighborp, *bestfacet= nullptr, *facet;
   boolT goodseen= False;  
 
   if (facetA->good) {
@@ -729,7 +729,7 @@ facetT *qh_findgooddist (pointT *point, facetT *facetA, realT *distp,
   }
   trace4((qh ferr, "qh_findgooddist: no good facet for p%d above f%d\n", 
       qh_pointid(point), facetA->id));
-  return NULL;
+  return nullptr;
 }  /* findgooddist */
     
 /*-<a                             href="qh-c.htm#geom"
@@ -928,12 +928,12 @@ void qh_joggleinput (void) {
     if (!(qh first_point=(coordT*)malloc(size))) {
       fprintf(qh ferr, "qhull error: insufficient memory to joggle %d points\n",
           qh num_points);
-      qh_errexit(qh_ERRmem, NULL, NULL);
+      qh_errexit(qh_ERRmem, nullptr, nullptr);
     }
     qh POINTSmalloc= True;
     if (qh JOGGLEmax == 0.0) {
       qh JOGGLEmax= qh_detjoggle (qh input_points, qh num_points, qh hull_dim);
-      qh_option ("QJoggle", NULL, &qh JOGGLEmax);
+      qh_option ("QJoggle", nullptr, &qh JOGGLEmax);
     }
   }else {                 /* repeated call */
     if (!qh RERUN && qh build_cnt > qh_JOGGLEretry) {
@@ -945,15 +945,15 @@ void qh_joggleinput (void) {
 	}
       }
     }
-    qh_option ("QJoggle", NULL, &qh JOGGLEmax);
+    qh_option ("QJoggle", nullptr, &qh JOGGLEmax);
   }
   if (qh build_cnt > 1 && qh JOGGLEmax > fmax_(qh MAXwidth/4, 0.1)) {
       ivp_message( "qhull error: the current joggle for 'QJn', %.2g, is too large for the width\nof the input.  If possible, recompile Qhull with higher-precision reals.\n",
 	        qh JOGGLEmax);
-      qh_errexit (qh_ERRqhull, NULL, NULL);
+      qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }
   seed= qh_RANDOMint;
-  qh_option ("_joggle-seed", &seed, NULL);
+  qh_option ("_joggle-seed", &seed, nullptr);
   trace0((qh ferr, "qh_joggleinput: joggle input by %2.2g with seed %d\n", 
     qh JOGGLEmax, seed));
   inputp= qh input_points;
@@ -980,7 +980,7 @@ void qh_joggleinput (void) {
 */
 realT *qh_maxabsval (realT *normal, int dim) {
   realT maxval= -REALmax;
-  realT *maxp= NULL, *colp, absval;
+  realT *maxp= nullptr, *colp, absval;
   int k;
 
   for (k= dim, colp= normal; k--; colp++) {
@@ -1041,7 +1041,7 @@ setT *qh_maxmin(pointT *points, int numpoints, int dimension) {
     ivp_message( "qhull error: floating point constants in user.h are wrong\n\
 REALepsilon %g REALmin %g REALmax %g -REALmax %g\n",
 	     REALepsilon, REALmin, REALmax, -REALmax);
-    qh_errexit (qh_ERRinput, NULL, NULL);
+    qh_errexit (qh_ERRinput, nullptr, nullptr);
   }
   set= qh_settemp(2*dimension);
   for(k= 0; k < dimension; k++) {
@@ -1139,7 +1139,7 @@ realT qh_maxouter (void) {
         (use points from maxpoints first)    
 */
 void qh_maxsimplex (int dim, setT *maxpoints, pointT *points, int numpoints, setT **simplex) {
-  pointT *point, **pointp, *pointtemp, *maxpoint, *minx=NULL, *maxx=NULL;
+  pointT *point, **pointp, *pointtemp, *maxpoint, *minx= nullptr, *maxx= nullptr;
   boolT nearzero, maxnearzero= False;
   int k, sizinit;
   realT maxdet= -REALmax, det, mincoord= REALmax, maxcoord= -REALmax;
@@ -1182,17 +1182,17 @@ void qh_maxsimplex (int dim, setT *maxpoints, pointT *points, int numpoints, set
 	  if (qh ferr){
 		ivp_message( "qhull precision error (qh_maxsimplex for voronoi_center):\n%d points with the same x coordinate.\n",	 qh_setsize(maxpoints)+numpoints);
 	  }
-	qh_errexit (qh_ERRprec, NULL, NULL);
+	qh_errexit (qh_ERRprec, nullptr, nullptr);
       }else {
 	if (qh ferr){
 	    ivp_message( "qhull input error: input is less than %d-dimensional since it has the same x coordinate\n", qh hull_dim);
 	}
-	qh_errexit (qh_ERRinput, NULL, NULL);
+	qh_errexit (qh_ERRinput, nullptr, nullptr);
       }
     }
   }
   for(k= sizinit; k < dim+1; k++) {
-    maxpoint= NULL;
+    maxpoint= nullptr;
     maxdet= -REALmax;
     FOREACHpoint_(maxpoints) {
       if (!qh_setin (*simplex, point)) {
@@ -1227,7 +1227,7 @@ void qh_maxsimplex (int dim, setT *maxpoints, pointT *points, int numpoints, set
     } /* !maxpoint */
     if (!maxpoint) {
       ivp_message( "qhull internal error (qh_maxsimplex): not enough points available\n");
-      qh_errexit (qh_ERRqhull, NULL, NULL);
+      qh_errexit (qh_ERRqhull, nullptr, nullptr);
     }
     qh_setappend(simplex, maxpoint);
     trace1((qh ferr, "qh_maxsimplex: selected point p%d for %d`th initial vertex, det=%2.2g\n",
@@ -1489,12 +1489,12 @@ void qh_projectinput (void) {
   }
   if (newdim != qh hull_dim) {
     fprintf(qh ferr, "qhull internal error (qh_projectinput): dimension after projection %d != hull_dim %d\n", newdim, qh hull_dim);
-    qh_errexit(qh_ERRqhull, NULL, NULL);
+    qh_errexit(qh_ERRqhull, nullptr, nullptr);
   }
   if (!(newpoints=(coordT*)p_malloc(newnum*newdim*sizeof(coordT)))){
     fprintf(qh ferr, "qhull error: insufficient memory to project %d points\n",
            qh num_points);
-    qh_errexit(qh_ERRmem, NULL, NULL);
+    qh_errexit(qh_ERRmem, nullptr, nullptr);
   }
   qh_projectpoints (project, qh input_dim+1, qh first_point,
                     qh num_points, qh input_dim, newpoints, newdim);
@@ -1569,7 +1569,7 @@ void qh_projectpoints (signed char *project, int n, realT *points,
   if (testdim != newdim) {
     ivp_message( "qhull internal error (qh_projectpoints): newdim %d should be %d after projection\n",
       newdim, testdim);
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }
   for (j= 0; j<n; j++) {
     if (project[j] == -1)
@@ -1730,7 +1730,7 @@ void qh_rotateinput (realT **rows) {
         rotate by partial inner product
 */
 void qh_rotatepoints (realT *points, int numpoints, int dim, realT **row) {
-  realT *point, *rowi, *coord= NULL, sum, *newval;
+  realT *point, *rowi, *coord= nullptr, sum, *newval;
   int i,j,k;
 
   if (qh IStracing >= 1)
@@ -1811,7 +1811,7 @@ void qh_scalelast (coordT *points, int numpoints, int dim, coordT low,
   if (nearzero) {
     ivp_message( "qhull input error: last coordinate's new bounds [0, %2.2g] too wide for\nexisting bounds [%2.2g, %2.2g] with width %2.2g\n",
               newhigh, low, high, high-low);
-    qh_errexit (qh_ERRinput, NULL, NULL);
+    qh_errexit (qh_ERRinput, nullptr, nullptr);
   }
   shift= - low * newhigh / (high-low);
   coord= points + dim - 1;
@@ -1861,14 +1861,14 @@ void qh_scalepoints (pointT *points, int numpoints, int dim,
     if (qh DELAUNAY && k == dim-1 && newhigh < newlow) {
       ivp_message( "qhull input error: 'Qb%d' or 'QB%d' inverts paraboloid since high bound %.2g < low bound %.2g\n",
 	       k, k, newhigh, newlow);
-      qh_errexit (qh_ERRinput, NULL, NULL);
+      qh_errexit (qh_ERRinput, nullptr, nullptr);
     }
     scale= qh_divzero (newhigh - newlow, high - low,
                   qh MINdenom_1, &nearzero);
     if (nearzero) {
       ivp_message( "qhull input error: %d'th dimension's new bounds [%2.2g, %2.2g] too wide for\nexisting bounds [%2.2g, %2.2g]\n",
               k, newlow, newhigh, low, high);
-      qh_errexit (qh_ERRinput, NULL, NULL);
+      qh_errexit (qh_ERRinput, nullptr, nullptr);
     }
     shift= (newlow * high - low * newhigh)/(high-low);
     coord= points+k;
@@ -2041,7 +2041,7 @@ coordT *qh_sethalfspace_all (int dim, int count, coordT *halfspaces, pointT *fea
   if (!(newpoints=(coordT*)malloc(count*newdim*sizeof(coordT)))){
     fprintf(qh ferr, "qhull error: insufficient memory to compute dual of %d halfspaces\n",
           count);
-    qh_errexit(qh_ERRmem, NULL, NULL);
+    qh_errexit(qh_ERRmem, nullptr, nullptr);
   }
   coordp= newpoints;
   normalp= halfspaces;
@@ -2049,7 +2049,7 @@ coordT *qh_sethalfspace_all (int dim, int count, coordT *halfspaces, pointT *fea
     offsetp= normalp + newdim;
     if (!qh_sethalfspace (newdim, coordp, &coordp, normalp, offsetp, feasible)) {
       ivp_message( "The halfspace was at index %d\n", i);
-      qh_errexit (qh_ERRinput, NULL, NULL);
+      qh_errexit (qh_ERRinput, nullptr, nullptr);
     }
     normalp= offsetp + 1;
   }
@@ -2095,10 +2095,10 @@ pointT *qh_voronoi_center (int dim, setT *points) {
   else if (size < dim+1) {
     ivp_message( "qhull internal error (qh_voronoi_center):\n  need at least %d points to construct a Voronoi center\n",
 	     dim+1);
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }else {
     simplex= qh_settemp (dim+1);
-    qh_maxsimplex (dim, points, NULL, 0, &simplex);
+    qh_maxsimplex (dim, points, nullptr, 0, &simplex);
   }
   point0= SETfirstt_(simplex, pointT);
   gmcoord= qh gm_matrix;

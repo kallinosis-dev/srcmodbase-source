@@ -193,7 +193,7 @@ template < class T >
 T *FindSelectionInfoForControl( CUtlVector< T* > &controlList, const CDmElement *pControl )
 {
 	if ( !pControl )
-		return NULL;
+		return nullptr;
 
 	int nControls = controlList.Count();
 	for ( int i = 0; i < nControls; ++i )
@@ -203,7 +203,7 @@ T *FindSelectionInfoForControl( CUtlVector< T* > &controlList, const CDmElement 
 			return pT;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 template < class T >

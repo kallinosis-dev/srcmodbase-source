@@ -18,9 +18,9 @@ class CSendPropExtra_UtlVector
 {
 public:
 	CSendPropExtra_UtlVector() :
-		m_DataTableProxyFn( NULL ),
-		m_ProxyFn( NULL ),
-		m_EnsureCapacityFn( NULL ),
+		m_DataTableProxyFn(nullptr),
+		m_ProxyFn(nullptr),
+		m_EnsureCapacityFn(nullptr),
 		m_ElementStride( 0 ),
 		m_Offset( 0 ),
 		m_nMaxElements( 0 )	

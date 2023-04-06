@@ -23,7 +23,7 @@
 //-----------------------------------------------------------------------------
 // Constructor
 //-----------------------------------------------------------------------------
-CBitmapPanel::CBitmapPanel( ) :	BaseClass( NULL, "CBitmapPanel" ), m_pImage( NULL )
+CBitmapPanel::CBitmapPanel( ) :	BaseClass(nullptr, "CBitmapPanel" ), m_pImage(nullptr)
 {
 	SetPaintBackgroundEnabled( false );
 	m_szMouseOverText[ 0 ] = 0;
@@ -32,7 +32,7 @@ CBitmapPanel::CBitmapPanel( ) :	BaseClass( NULL, "CBitmapPanel" ), m_pImage( NUL
 }
 
 CBitmapPanel::CBitmapPanel( vgui::Panel *pParent, const char *pName ) : 
-	BaseClass( pParent, pName ), m_pImage( NULL )
+	BaseClass( pParent, pName ), m_pImage(nullptr)
 {
 	SetPaintBackgroundEnabled( false );
 	m_szMouseOverText[ 0 ] = 0;
@@ -45,7 +45,7 @@ CBitmapPanel::~CBitmapPanel()
 	if (m_pImage && m_bOwnsImage)
 	{
 		delete m_pImage;
-		m_pImage = NULL;
+		m_pImage = nullptr;
 	}
 }
 
@@ -97,7 +97,7 @@ void CBitmapPanel::ApplySettings(KeyValues *pInitData)
 	if (m_pImage && m_bOwnsImage)
 	{
 		delete m_pImage;
-		m_pImage = NULL;
+		m_pImage = nullptr;
 	}
 
 	// modulation color. Can't use ParseRGBA since this uses a vgui::KeyValues (feh)
@@ -194,7 +194,7 @@ void CBitmapPanel::SetImage( BitmapImage *pImage )
 		delete m_pImage;
 	}
 	m_pImage = pImage;
-	m_bOwnsImage = (pImage == NULL);
+	m_bOwnsImage = (pImage == nullptr);
 
 	// Get the color from the image
 	if ( m_pImage )

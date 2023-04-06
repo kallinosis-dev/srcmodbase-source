@@ -33,10 +33,10 @@ static bool ReduceToComponentAreas( CNavArea *area, bool addToSelectedSet )
 	float sizeX = area->GetSizeX();
 	float sizeY = area->GetSizeY();
 
-	CNavArea *first = NULL;
-	CNavArea *second = NULL;
-	CNavArea *third = NULL;
-	CNavArea *fourth = NULL;
+	CNavArea *first = nullptr;
+	CNavArea *second = nullptr;
+	CNavArea *third = nullptr;
+	CNavArea *fourth = nullptr;
 
 	bool didSplit = false;
 
@@ -95,7 +95,7 @@ CON_COMMAND_F( nav_chop_selected, "Chops all selected areas into their component
 		return;
 
 	TheNavMesh->StripNavigationAreas();
-	TheNavMesh->SetMarkedArea( NULL );
+	TheNavMesh->SetMarkedArea(nullptr);
 
 	NavAreaCollector collector;
 	TheNavMesh->ForAllSelectedAreas( collector );
@@ -155,7 +155,7 @@ void CNavMesh::SimplifySelectedAreas( void )
 	nav_snap_to_grid.SetValue( 1 );
 
 	StripNavigationAreas();
-	SetMarkedArea( NULL );
+	SetMarkedArea(nullptr);
 
 	NavAreaCollector collector;
 	ForAllSelectedAreas( collector );

@@ -39,7 +39,7 @@ class CheckButtonDemo: public DemoPage
 //-----------------------------------------------------------------------------
 CheckButtonDemo::CheckButtonDemo(Panel *parent, const char *name) : DemoPage(parent, name)
 {
-	SetBorder(NULL);
+	SetBorder(nullptr);
 
 	// Check buttons are a little checkable box with a label attached.
 	// You can have as many check buttons checked at one time as you want.

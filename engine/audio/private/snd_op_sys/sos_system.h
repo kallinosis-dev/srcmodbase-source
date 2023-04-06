@@ -44,8 +44,8 @@ struct track_data_t
 {
 	void SetDefaults( )
 	{
-		m_pTrackName = NULL;
-		m_pSyncTrackName = NULL;
+		m_pTrackName = nullptr;
+		m_pSyncTrackName = nullptr;
 		m_nTrackNumber = SOS_INVALID_TRACK_NUMBER;
 		m_nTrackPriority = 0;
 		m_bPriorityOverride = false;
@@ -74,7 +74,7 @@ struct stack_data_t
 	{
 		m_nGuid = -1;
 		m_flStartTime = -1.0;
-		m_pOperatorsKV = NULL;
+		m_pOperatorsKV = nullptr;
 		m_nSoundScriptHash = SOUNDEMITTER_INVALID_HASH;
 	};
 
@@ -147,7 +147,7 @@ public:
 			m_nEmitterInfoSpeakerEntity = pChannel->speakerentity;
 			m_nEmitterInfoRadius = pChannel->radius;
 			
-			CAudioSource *pSource = pChannel->sfx ? pChannel->sfx->pSource : NULL;
+			CAudioSource *pSource = pChannel->sfx ? pChannel->sfx->pSource : nullptr;
 			if ( pSource )
 			{
 				m_bIsLooping = pSource->IsLooped();
@@ -171,7 +171,7 @@ public:
 			m_flEmitterInfoMasterVolume = pStartParams->fvol;
 			m_nEmitterInfoRadius = dB_To_Radius( m_vEmitterInfoSoundLevel );
 
-			CAudioSource *pSource = pStartParams->pSfx ? pStartParams->pSfx->pSource : NULL;
+			CAudioSource *pSource = pStartParams->pSfx ? pStartParams->pSfx->pSource : nullptr;
 			if ( pSource )
 			{
 				m_bIsLooping = pSource->IsLooped();

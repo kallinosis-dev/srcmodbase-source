@@ -177,7 +177,7 @@ inline int CheckDeclareClass_Access( T *, const char *pShouldBe )
 	public:
 		CAutoInitEntPtr()
 		{
-			m_pEnt = NULL;
+			m_pEnt = nullptr;
 		}
 		CBaseEntity *m_pEnt;
 	};

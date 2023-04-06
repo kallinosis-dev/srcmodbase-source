@@ -192,7 +192,7 @@ void V_RenderView( void )
 	VPROF( "V_RenderView" );
 	MDLCACHE_COARSE_LOCK_(g_pMDLCache);
 
-	bool bCanRenderWorld = ( host_state.worldmodel != NULL ) && GetBaseLocalClient().IsActive();
+	bool bCanRenderWorld = ( host_state.worldmodel != nullptr) && GetBaseLocalClient().IsActive();
 
 	bCanRenderWorld = bCanRenderWorld && !EngineVGui()->IsPlayingFullScreenVideo();
 
@@ -563,7 +563,7 @@ public:
 			unsigned char chAreaBits[MAX_AREA_STATE_BYTES],
 			unsigned char chAreaPortalBits[MAX_AREA_PORTAL_STATE_BYTES] )
 	{
-		*GetBaseLocalClient().GetAreaBits_BackwardCompatibility() = 0; // Clear the b/w compatibiltiy thing.
+		*GetBaseLocalClient().GetAreaBits_BackwardCompatibility() = nullptr; // Clear the b/w compatibiltiy thing.
 		memcpy( GetBaseLocalClient().m_chAreaBits, chAreaBits, MAX_AREA_STATE_BYTES );
 		memcpy( GetBaseLocalClient().m_chAreaPortalBits, chAreaPortalBits, MAX_AREA_PORTAL_STATE_BYTES );
 		GetBaseLocalClient().m_bAreaBitsValid = true;
@@ -611,7 +611,7 @@ public:
 	// Push, pop views
 	virtual void Push3DView( IMatRenderContext *pRenderContext, const CViewSetup &view, int nFlags, ITexture* pRenderTarget, Frustum frustumPlanes )
 	{
-		g_EngineRenderer->Push3DView( pRenderContext, view, nFlags, pRenderTarget, frustumPlanes, NULL );
+		g_EngineRenderer->Push3DView( pRenderContext, view, nFlags, pRenderTarget, frustumPlanes, nullptr);
 	}
 
 	virtual void Push2DView( IMatRenderContext *pRenderContext, const CViewSetup &view, int nFlags, ITexture* pRenderTarget, Frustum frustumPlanes )

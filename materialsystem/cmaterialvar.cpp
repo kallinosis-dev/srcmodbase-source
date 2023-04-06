@@ -376,7 +376,7 @@ public:
 	{
 		m_nNumVectorComps = 4;
 		m_VecVal.Init();
-		m_pStringVal = NULL;
+		m_pStringVal = nullptr;
 		m_intVal = 0;
 		m_nTempIndex = 0xFF;
 		m_bFakeMaterialVar = false;
@@ -637,7 +637,7 @@ inline CMaterialVar::FourCC_t *CMaterialVar::AllocFourCC()
 CMaterialVar::CMaterialVar()
 {
 	Init();
-	m_pMaterial = NULL;
+	m_pMaterial = nullptr;
 	m_bFakeMaterialVar = true;
 }
 
@@ -769,7 +769,7 @@ void CMaterialVar::CleanUpData()
 		break;
 
 	case MATERIAL_VAR_TYPE_MATERIAL:
-		if( m_pMaterialValue != NULL )
+		if( m_pMaterialValue != nullptr)
 		{
 			m_pMaterialValue->DecrementReferenceCount();
 		}
@@ -1177,7 +1177,7 @@ void CMaterialVar::GetFourCCValue( FourCC *type, void **ppData )
 	else
 	{
 		*type = FOURCC_UNKNOWN;
-		*ppData = 0;
+		*ppData = nullptr;
 
 		static int bitchCount;
 		if( bitchCount < 10 )
@@ -1235,7 +1235,7 @@ ITexture *CMaterialVar::GetTextureValue( void )
 			return s_pTempMaterialVar[m_nTempIndex].GetTextureValue( );
 	}
 
-	ITexture *retVal = NULL;
+	ITexture *retVal = nullptr;
 	
 	if( m_pMaterial )
 	{
@@ -1342,7 +1342,7 @@ IMaterial *CMaterialVar::GetMaterialValue( void )
 			return s_pTempMaterialVar[m_nTempIndex].GetMaterialValue( );
 	}
 
-	IMaterial *retVal = NULL;
+	IMaterial *retVal = nullptr;
 	
 	if( m_pMaterial )
 	{
@@ -1401,7 +1401,7 @@ void CMaterialVar::SetMaterialValue( IMaterial *pMaterial )
 		return;
 	}
 
-	if( pMaterialImp != NULL )
+	if( pMaterialImp != nullptr)
 	{
 		pMaterialImp->IncrementReferenceCount();
 	}

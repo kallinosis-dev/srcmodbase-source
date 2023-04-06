@@ -198,7 +198,7 @@ public:
 
     T *get_next_element( IVP_VHash *vec){
 	while (1){
-	    if (index < 0) return NULL;
+	    if (index < 0) return nullptr;
 	    T *res = (T*)vec->element_at(index--);
 	    if (res) return res;
 	}

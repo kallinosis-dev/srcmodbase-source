@@ -147,7 +147,7 @@ private:
 //-----------------------------------------------------------------------------
 // Purpose: constructor
 //-----------------------------------------------------------------------------
-CPluginGameUIDialog::CPluginGameUIDialog() : vgui::Frame( NULL, "Plugins" )
+CPluginGameUIDialog::CPluginGameUIDialog() : vgui::Frame(nullptr, "Plugins" )
 {
 	// initialize dialog
 	SetTitle( "Plugins", true );
@@ -320,7 +320,7 @@ private:
 //-----------------------------------------------------------------------------
 // Purpose: constructor
 //-----------------------------------------------------------------------------
-CPluginHudMessage::CPluginHudMessage( vgui::VPANEL parent ) : vgui::Frame( NULL, "PluginHudMessage" ) 
+CPluginHudMessage::CPluginHudMessage( vgui::VPANEL parent ) : vgui::Frame(nullptr, "PluginHudMessage" ) 
 {
 	SetParent( parent );
 	SetVisible( false );
@@ -340,7 +340,7 @@ CPluginHudMessage::CPluginHudMessage( vgui::VPANEL parent ) : vgui::Frame( NULL,
 	m_Message = new CMessage( this, "Msg", "");
 	m_Message->SetVisible( false );
 
-	m_pAnimationController = new vgui::AnimationController( NULL );
+	m_pAnimationController = new vgui::AnimationController(nullptr);
 	m_pAnimationController->SetParent( parent );
 	m_pAnimationController->SetScriptFile( parent, "scripts/plugin_animations.txt" );
 	m_pAnimationController->SetProportional( false );
@@ -457,7 +457,7 @@ void CPluginHudMessage::ShowMessage( const wchar_t *text, int time, Color clr, b
 //-----------------------------------------------------------------------------
 // Purpose: constructor
 //-----------------------------------------------------------------------------
-CPluginUIManager::CPluginUIManager() : vgui::Panel( NULL, "PluginManager" )
+CPluginUIManager::CPluginUIManager() : vgui::Panel(nullptr, "PluginManager" )
 {
 	m_iCurPriority = INT_MAX;
 	m_iMessageDisplayUntil = 0;
@@ -530,7 +530,7 @@ void CPluginUIManager::Show( DIALOG_TYPE type, KeyValues *kv )
 	{
 		// Do the askconnect dialog.
 		float flDuration = kv->GetFloat( "time", 4.0f );
-		const char *pIP = kv->GetString( "title", NULL );
+		const char *pIP = kv->GetString( "title", nullptr);
 		if ( !pIP )
 		{
 			DevMsg( "Ignoring DIALOG_ASKCONNECT message. No IP specified." );
@@ -598,7 +598,7 @@ void CPluginUIManager::GetHudMessagePosition( int &x, int &y, int &wide, int &ta
 	}
 }
 
-CPluginUIManager *g_PluginManager = NULL;
+CPluginUIManager *g_PluginManager = nullptr;
 
 
 //=============================================================================

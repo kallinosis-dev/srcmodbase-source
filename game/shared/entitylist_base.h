@@ -96,8 +96,8 @@ private:
 		const CEntInfo	*Tail() const { return m_pTail; }
 		CEntInfo		*Head() { return m_pHead; }
 		CEntInfo		*Tail() { return m_pTail; }
-		void			AddToHead( CEntInfo *pElement ) { LinkAfter( NULL, pElement ); }
-		void			AddToTail( CEntInfo *pElement ) { LinkBefore( NULL, pElement ); }
+		void			AddToHead( CEntInfo *pElement ) { LinkAfter(nullptr, pElement ); }
+		void			AddToTail( CEntInfo *pElement ) { LinkBefore(nullptr, pElement ); }
 
 		void LinkBefore( CEntInfo *pBefore, CEntInfo *pElement );
 		void LinkAfter( CEntInfo *pBefore, CEntInfo *pElement );
@@ -144,7 +144,7 @@ inline CBaseHandle CBaseEntityList::GetNetworkableHandle( int iEntity ) const
 inline IHandleEntity* CBaseEntityList::LookupEntity( const CBaseHandle &handle ) const
 {
 	if ( handle.m_Index == INVALID_EHANDLE_INDEX )
-		return NULL;
+		return nullptr;
 
 	// You can use this to determine when something is trying to resolve
 	// handles to static props as if they were handles to ordinary props,
@@ -159,7 +159,7 @@ inline IHandleEntity* CBaseEntityList::LookupEntity( const CBaseHandle &handle )
 	if ( pInfo->m_SerialNumber == handle.GetSerialNumber() )
 		return pInfo->m_pEntity;
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -167,7 +167,7 @@ inline IHandleEntity* CBaseEntityList::LookupEntityByNetworkIndex( int edictInde
 {
 	// (Legacy support).
 	if ( edictIndex < 0 )
-		return NULL;
+		return nullptr;
 
 	Assert( edictIndex < NUM_ENT_ENTRIES );
 	return m_EntPtrArray[edictIndex].m_pEntity;

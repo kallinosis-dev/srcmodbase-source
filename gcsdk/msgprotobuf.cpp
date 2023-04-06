@@ -96,7 +96,7 @@ bool CProtoBufNetPacket::GetMsgBody( const uint8*& pubData, uint32& cubData ) co
 {
 	if ( !IsValid() )
 	{
-		pubData = NULL;
+		pubData = nullptr;
 		cubData = 0;
 		return false;
 	}
@@ -200,7 +200,7 @@ uint32 CProtoBufMsgMemoryPoolBase::GetEstimatedSize()
 	// is updated
 	while ( m_pTSQueueFreeObjects->Count() > 0 )
 	{	
-		::google::protobuf::Message *pObject = NULL;
+		::google::protobuf::Message *pObject = nullptr;
 		m_pTSQueueFreeObjects->PopItem( &pObject );
 		vecTemp.AddToTail( pObject );
 	}
@@ -299,9 +299,9 @@ void CProtoBufMsgMemoryPoolMgr::DumpPoolInfo()
 //	a header in this case
 //-----------------------------------------------------------------------------
 CProtoBufMsgBase::CProtoBufMsgBase()
-	: m_pNetPacket( NULL )
+	: m_pNetPacket(nullptr)
 	, m_eMsg( 0 )
-	, m_pProtoBufHdr( NULL )
+	, m_pProtoBufHdr(nullptr)
 { 
 }
 
@@ -310,9 +310,9 @@ CProtoBufMsgBase::CProtoBufMsgBase()
 // Purpose: Constructor - Has an eMsg, so it's a send constructor. Alloc a header
 //-----------------------------------------------------------------------------
 CProtoBufMsgBase::CProtoBufMsgBase( MsgType_t eMsg )
-	: m_pNetPacket( NULL )
+	: m_pNetPacket(nullptr)
 	, m_eMsg( eMsg )
-	, m_pProtoBufHdr( NULL )
+	, m_pProtoBufHdr(nullptr)
 { 
 	m_pProtoBufHdr = GProtoBufMsgMemoryPoolMgr()->AllocProtoBufHdr();
 }
@@ -328,7 +328,7 @@ CProtoBufMsgBase::~CProtoBufMsgBase()
 	if ( m_pNetPacket )
 	{
 		m_pNetPacket->Release();
-		m_pNetPacket = NULL;
+		m_pNetPacket = nullptr;
 	}
 	else if ( m_pProtoBufHdr )
 	{

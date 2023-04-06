@@ -136,7 +136,7 @@ static const matrix3x4_t *ComputeSkinMatrix( int nBoneCount, const float *pJoint
 	}
 
 	Assert(0);
-	return NULL;
+	return nullptr;
 }
 
 
@@ -356,7 +356,7 @@ void CDmeMesh::CleanupHWMesh()
 		if ( m_hwFaceSets[i].m_pMesh )
 		{
 			pRenderContext->DestroyStaticMesh( m_hwFaceSets[i].m_pMesh );
-			m_hwFaceSets[i].m_pMesh = NULL;
+			m_hwFaceSets[i].m_pMesh = nullptr;
 		}
 		m_hwFaceSets[i].m_bBuilt = false;
 	}
@@ -621,17 +621,17 @@ Color *BuildDeltaColorMap( CUtlVector< Color > &colorMapDelta, CDmeMesh *pDmeMes
 {
 	CDmeVertexData *pDmeBind = pDmeMesh->GetBindBaseState();
 	if ( !pDmeBind )
-		return NULL;
+		return nullptr;
 
 	const FieldIndex_t nBasePosField = pDmeBind->FindFieldIndex( CDmeVertexData::FIELD_POSITION );
 	if ( nBasePosField < 0 )
-		return NULL;
+		return nullptr;
 
 	const CUtlVector< Vector > &basePosData = CDmrArrayConst< Vector >( pDmeBind->GetVertexData( nBasePosField ) ).Get();
 
 	const int nBasePosCount = basePosData.Count();
 	if ( nBasePosCount <= 0 )
-		return NULL;
+		return nullptr;
 
 	float *pflDeltaLengths = reinterpret_cast< float * >( stackalloc( nBasePosCount * sizeof( float ) ) );
 	Q_memset( pflDeltaLengths, 0, nBasePosCount * sizeof( float ) );
@@ -665,7 +665,7 @@ Color *BuildDeltaColorMap( CUtlVector< Color > &colorMapDelta, CDmeMesh *pDmeMes
 	}
 
 	if ( flMaxDeltaLen <= 0.0f )
-		return NULL;
+		return nullptr;
 
 	flMaxDeltaLen = 1.0f / flMaxDeltaLen;
 
@@ -807,7 +807,7 @@ void CDmeMesh::DrawDynamicMesh( CDmeFaceSet *pFaceSet, matrix3x4_t *pPoseToWorld
 
 	CUtlVector< RenderVertexDelta_t > vertexDelta( 0, nVertices );
 	CUtlVector< Color > deltaColorMap;
-	Color *pDeltaColorMap = NULL;
+	Color *pDeltaColorMap = nullptr;
 	if ( pDrawSettings && pDrawSettings->GetDeltaHighlight() )
 	{
 		pDeltaColorMap = BuildDeltaColorMap( deltaColorMap, this, pDrawSettings->m_cHighlightColor );
@@ -821,7 +821,7 @@ void CDmeMesh::DrawDynamicMesh( CDmeFaceSet *pFaceSet, matrix3x4_t *pPoseToWorld
 	}
 	else
 	{
-		pVertexDelta = NULL;
+		pVertexDelta = nullptr;
 	}
 
 	CDmeMeshRenderInfo renderInfo( pBindBase );
@@ -837,7 +837,7 @@ void CDmeMesh::DrawDynamicMesh( CDmeFaceSet *pFaceSet, matrix3x4_t *pPoseToWorld
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	IMesh *pMesh = pRenderContext->GetDynamicMesh( );
 
-	const CDmrArrayConst<int> pUVIndices = bHasTexCoords ? pBindBase->GetIndexData( uvField ) : NULL;
+	const CDmrArrayConst<int> pUVIndices = bHasTexCoords ? pBindBase->GetIndexData( uvField ) : nullptr;
 
 	if ( bHasActiveWrinkle && bHasTexCoords )
 	{
@@ -865,9 +865,9 @@ void CDmeMesh::DrawDynamicMesh( CDmeFaceSet *pFaceSet, matrix3x4_t *pPoseToWorld
 	CMeshBuilder meshBuilder;
 	meshBuilder.Begin( pMesh, MATERIAL_TRIANGLES, nVertices, nIndices );
 
-	const CDmrArrayConst<Vector2D> pUVData = bHasTexCoords ? pBindBase->GetVertexData( uvField ) : NULL;
-	const CDmrArrayConst<int> pColorIndices = bHasColors ? pBindBase->GetIndexData( colorField ) : NULL;
-	const CDmrArrayConst<Color> pColorData = bHasColors ? pBindBase->GetVertexData( colorField ) : NULL;
+	const CDmrArrayConst<Vector2D> pUVData = bHasTexCoords ? pBindBase->GetVertexData( uvField ) : nullptr;
+	const CDmrArrayConst<int> pColorIndices = bHasColors ? pBindBase->GetIndexData( colorField ) : nullptr;
+	const CDmrArrayConst<Color> pColorData = bHasColors ? pBindBase->GetVertexData( colorField ) : nullptr;
 	const CUtlVector< int > &basePosIndices = pBindBase->GetVertexIndexData( CDmeVertexData::FIELD_POSITION );
 
 	Vector vecPosition, vecNormal;
@@ -929,7 +929,7 @@ void CDmeMesh::DrawDynamicMesh( CDmeFaceSet *pFaceSet, matrix3x4_t *pPoseToWorld
 
 	if ( pDrawSettings && pDrawSettings->GetNormals() )
 	{
-		RenderNormals( pPoseToWorld, bHasActiveDeltaStates ? pVertexDelta : NULL );
+		RenderNormals( pPoseToWorld, bHasActiveDeltaStates ? pVertexDelta : nullptr);
 	}
 
 //	CacheHighlightVerts( pPoseToWorld, bHasActiveDeltaStates ? pVertexDelta : NULL, pDrawSettings );
@@ -1105,7 +1105,7 @@ void CDmeMesh::DrawWireframeFaceSet(
 
 	const CUtlVector< int > &posIndices( CDmrArrayConst< int >( pBind->GetIndexData( posField ) ).Get() );
 
-	Vector *pDeltaVertices = bHasActiveDeltaStates ? pDeltaVertices = reinterpret_cast< Vector * >( alloca( nPosCount * sizeof( Vector ) ) ) : NULL;
+	Vector *pDeltaVertices = bHasActiveDeltaStates ? pDeltaVertices = reinterpret_cast< Vector * >( alloca( nPosCount * sizeof( Vector ) ) ) : nullptr;
 
 	if ( bHasActiveDeltaStates )
 	{
@@ -1378,7 +1378,7 @@ CDmeVertexData *CDmeMesh::FindBaseState( const char *pStateName ) const
 			return pBaseState;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1505,7 +1505,7 @@ int CDmeMesh::DeltaStateCount() const
 CDmeVertexDeltaData *CDmeMesh::GetDeltaState( int nDeltaIndex ) const
 {
 	if ( nDeltaIndex < 0 || nDeltaIndex >= m_DeltaStates.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_DeltaStates[ nDeltaIndex ];
 }
@@ -1674,7 +1674,7 @@ IMesh *CDmeMesh::CreateHwMesh( CDmeFaceSet *pFaceSet )
 {
 	const CDmeVertexData *pBind = GetBindBaseState();
 	if ( !pBind )
-		return NULL;
+		return nullptr;
 
 	// NOTE: This is memory inefficient. We create a copy of all vertices
 	// for each face set, even if those vertices aren't used by the face set
@@ -1706,14 +1706,14 @@ IMesh *CDmeMesh::CreateHwMesh( CDmeFaceSet *pFaceSet )
 
 	const CDmrArrayConst<int> pPositionIndices = pBind->GetIndexData( posField );
 	const CDmrArrayConst<Vector> pPositionData = pBind->GetVertexData( posField );
-	const CDmrArrayConst<int> pNormalIndices = bHasNormals ? pBind->GetIndexData( normalField ) : NULL;
-	const CDmrArrayConst<Vector> pNormalData = bHasNormals ? pBind->GetVertexData( normalField ) : NULL;
-	const CDmrArrayConst<int> pTangentIndices = bHasTangent ? pBind->GetIndexData( tangentField ) : NULL;
-	const CDmrArrayConst<Vector4D> pTangentData = bHasTangent ? pBind->GetVertexData( tangentField ) : NULL;
-	const CDmrArrayConst<int> pUVIndices = bHasTexCoords ? pBind->GetIndexData( uvField ) : NULL;
-	const CDmrArrayConst<Vector2D> pUVData = bHasTexCoords ? pBind->GetVertexData( uvField ) : NULL;
-	const CDmrArrayConst<int> pColorIndices = bHasColors ? pBind->GetIndexData( colorField ) : NULL;
-	const CDmrArrayConst<Color> pColorData = bHasColors ? pBind->GetVertexData( colorField ) : NULL;
+	const CDmrArrayConst<int> pNormalIndices = bHasNormals ? pBind->GetIndexData( normalField ) : nullptr;
+	const CDmrArrayConst<Vector> pNormalData = bHasNormals ? pBind->GetVertexData( normalField ) : nullptr;
+	const CDmrArrayConst<int> pTangentIndices = bHasTangent ? pBind->GetIndexData( tangentField ) : nullptr;
+	const CDmrArrayConst<Vector4D> pTangentData = bHasTangent ? pBind->GetVertexData( tangentField ) : nullptr;
+	const CDmrArrayConst<int> pUVIndices = bHasTexCoords ? pBind->GetIndexData( uvField ) : nullptr;
+	const CDmrArrayConst<Vector2D> pUVData = bHasTexCoords ? pBind->GetVertexData( uvField ) : nullptr;
+	const CDmrArrayConst<int> pColorIndices = bHasColors ? pBind->GetIndexData( colorField ) : nullptr;
+	const CDmrArrayConst<Color> pColorData = bHasColors ? pBind->GetVertexData( colorField ) : nullptr;
 
 	Vector4D defaultTangentS( 1.0f, 0.0f, 0.0f, 1.0f );
 	for ( int vi = 0; vi < nVertices; ++vi )
@@ -3487,11 +3487,11 @@ CDmeVertexDeltaData *CDmeMesh::ModifyOrCreateDeltaStateFromBaseState( const char
 	// Find All States Which Have This Guy 
 	CDmeVertexData *pBase = pPassedBase ? pPassedBase : GetCurrentBaseState();
 	if ( !pBase )
-		return NULL;
+		return nullptr;
 
 	CDmeVertexData *pBind = GetBindBaseState();
 	if ( !pBind )
-		return NULL;
+		return nullptr;
 
 	// It's ok if pBase == pBind
 
@@ -3504,17 +3504,17 @@ CDmeVertexDeltaData *CDmeMesh::ModifyOrCreateDeltaStateFromBaseState( const char
 		UniqueId_t id;
 		char idBuf[ MAX_PATH ];
 
-		CDmeVertexData *pTmpBaseState = NULL;
+		CDmeVertexData *pTmpBaseState = nullptr;
 		do 
 		{
 			CreateUniqueId( &id );
 			UniqueIdToString( id, idBuf, sizeof( idBuf ) );
 			pTmpBaseState = FindBaseState( idBuf );
-		} while( pTmpBaseState != NULL );
+		} while( pTmpBaseState != nullptr);
 
 		pTmpBaseState = FindOrCreateBaseState( idBuf );
 		if ( !pTmpBaseState )
-			return NULL;
+			return nullptr;
 
 		for ( int i = 0; i < nSuperior; ++i )
 		{
@@ -3524,10 +3524,10 @@ CDmeVertexDeltaData *CDmeMesh::ModifyOrCreateDeltaStateFromBaseState( const char
 			{
 				// Only fiddle with states that are "corrected"
 				if ( !SetBaseStateToDelta( pSuperiorDelta, pTmpBaseState ) )
-					return NULL;
+					return nullptr;
 
 				if ( !ModifyOrCreateDeltaStateFromBaseState( CUtlString( pSuperiorDelta->GetName() ), pTmpBaseState, true ) )
-					return NULL;
+					return nullptr;
 			}
 		}
 
@@ -3537,7 +3537,7 @@ CDmeVertexDeltaData *CDmeMesh::ModifyOrCreateDeltaStateFromBaseState( const char
 	ResetDeltaState( pDeltaName );
 	CDmeVertexDeltaData *pDelta = FindOrCreateDeltaState( pDeltaName );
 	if ( !pDelta )
-		return NULL;
+		return nullptr;
 
 	CDmeVertexData::StandardFields_t deltaFields[] =
 	{
@@ -3930,7 +3930,7 @@ CDmeSingleIndexedComponent *CDmeMesh::FeatherSelection(
 {
 	// TODO: Support feathering inward instead of just outward
 	if ( fDistance <= 0.0f || !pSelection )
-		return NULL;
+		return nullptr;
 
 	// Make a new CDmeSingleIndexedComponent to do all of the dirty work
 	CDmeSingleIndexedComponent *pNewSelection = CreateElement< CDmeSingleIndexedComponent >( "feather", pSelection->GetFileId() );
@@ -3951,7 +3951,7 @@ CDmeSingleIndexedComponent *CDmeMesh::FeatherSelection(
 	const int nPositions = positions.Count();
 
 	if ( !pBase )
-		return NULL;
+		return nullptr;
 
 	CUtlVector< int > sIndices;
 
@@ -4312,7 +4312,7 @@ bool CDmeMesh::InterpMaskedDelta(
 	if ( !pDstBase || !pBind || pDstBase == pBind )
 		return false;
 
-	if ( pDelta == NULL )
+	if ( pDelta == nullptr)
 	{
 		// Interpolate between specified state and bind state
 		return InterpMaskedData( pDstBase, pBind, weight, pMask );
@@ -4919,7 +4919,7 @@ void CDmeMesh::ReplaceMaterial( const char *pOldMaterialName, const char *pNewMa
 		Q_FixupPathName( pOldFixedName, sizeof(pOldFixedName), pOldMaterialName );
 	}
 	Q_FixupPathName( pNewFixedName, sizeof(pNewFixedName), pNewMaterialName );
-	CDmeMaterial *pReplacementMaterial = NULL;
+	CDmeMaterial *pReplacementMaterial = nullptr;
 
 	int nCount = m_FaceSets.Count();
 	for ( int i = 0; i < nCount; ++i )

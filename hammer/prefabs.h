@@ -134,7 +134,7 @@ public:
 
 	virtual int Load(LPCTSTR pszFilename) = 0;
 	virtual bool DeleteFile(void) = 0;
-	virtual int Save(LPCTSTR pszFilename = NULL, BOOL bIndexOnly = FALSE) = 0;
+	virtual int Save(LPCTSTR pszFilename = nullptr, BOOL bIndexOnly = FALSE) = 0;
 	virtual bool IsFile(const char *szFile) = 0;
 
 	void SetNameFromFilename(LPCTSTR pszFilename);
@@ -190,7 +190,7 @@ public:
 	bool IsFile(const char *szFile);
 	int Load(LPCTSTR pszFilename);
 	bool DeleteFile(void);
-	int Save(LPCTSTR pszFilename = NULL, BOOL bIndexOnly = FALSE);
+	int Save(LPCTSTR pszFilename = nullptr, BOOL bIndexOnly = FALSE);
 	int SetName(const char *pszName);
 
 	std::fstream m_file;
@@ -213,7 +213,7 @@ public:
 	bool IsFile(const char *szFile);
 	int Load(LPCTSTR pszFilename);
 	bool DeleteFile(void);
-	int Save(LPCTSTR pszFilename = NULL, BOOL bIndexOnly = FALSE);
+	int Save(LPCTSTR pszFilename = nullptr, BOOL bIndexOnly = FALSE);
 	int SetName(const char *pszName);
 
 protected:

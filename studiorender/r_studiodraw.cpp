@@ -461,7 +461,7 @@ void CStudioRender::PushScissor( FlashlightState_t *state )
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 
 	// Only scissor into the backbuffer
-	if ( r_flashlightscissor.GetBool() && state->DoScissor() && ( pRenderContext->GetRenderTarget() == NULL ) )
+	if ( r_flashlightscissor.GetBool() && state->DoScissor() && ( pRenderContext->GetRenderTarget() == nullptr) )
 	{
 		pRenderContext->PushScissorRect( state->GetLeft(), state->GetTop(), state->GetRight(), state->GetBottom() );
 	}
@@ -472,7 +472,7 @@ void CStudioRender::PopScissor( FlashlightState_t *state )
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 
 	// Only scissor into the backbuffer
-	if ( r_flashlightscissor.GetBool() && state->DoScissor() && ( pRenderContext->GetRenderTarget() == NULL ) )
+	if ( r_flashlightscissor.GetBool() && state->DoScissor() && ( pRenderContext->GetRenderTarget() == nullptr) )
 	{
 		pRenderContext->PopScissorRect();
 	}
@@ -521,7 +521,7 @@ void CStudioRender::DrawShadows( const DrawModelInfo_t& info, int flags, int bon
 
 				PopScissor( m_ShadowState[i].m_pFlashlightState );
 
-				m_pCurrentFlashlight = NULL;
+				m_pCurrentFlashlight = nullptr;
 			}
 		}
 	}
@@ -535,7 +535,7 @@ void CStudioRender::DrawShadows( const DrawModelInfo_t& info, int flags, int bon
 			m_pRC->m_pForcedMaterial[ 0 ] = m_ShadowState[i].m_pMaterial;
 			m_pRC->m_nForcedMaterialType = OVERRIDE_NORMAL;
 			R_StudioRenderModel( pRenderContext, 0, info.m_Body, 0, m_ShadowState[i].m_pProxyData,
-				NULL, NULL, flags, boneMask, info.m_Lod, NULL );
+			                     nullptr, nullptr, flags, boneMask, info.m_Lod, nullptr);
 		}
 	}
 
@@ -555,11 +555,11 @@ void CStudioRender::DrawStaticPropShadows( const DrawModelInfo_t &info, const St
 	m_pStudioMeshes = info.m_pHardwareData->m_pLODs[info.m_Lod].m_pMeshData;
 	m_pStudioHWData = info.m_pHardwareData;
 	DrawShadows( info, flags, BONE_USED_BY_ANYTHING );
-	m_pRC = NULL;
-	m_pBoneToWorld = NULL;
-	m_pStudioHdr = NULL;
-	m_pStudioMeshes = NULL;
-	m_pStudioHWData = NULL;
+	m_pRC = nullptr;
+	m_pBoneToWorld = nullptr;
+	m_pStudioHdr = nullptr;
+	m_pStudioMeshes = nullptr;
+	m_pStudioHWData = nullptr;
 }
 
 // Draw flashlight lighting on decals.
@@ -658,7 +658,7 @@ matrix3x4_t *ComputeSkinMatrix( mstudioboneweight_t &boneweights, matrix3x4_t *p
 	}
 
 	Assert(0);
-	return NULL;
+	return nullptr;
 }
 
 static void ComputeSkinMatrixToMemory( mstudioboneweight_t &boneweights, matrix3x4_t *pPoseToWorld, matrix3x4_t &result )
@@ -1159,7 +1159,7 @@ return ComputeSkinMatrix( boneweights, pPoseToWorld, scratchMatrix );
 #endif
 
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1338,7 +1338,7 @@ public:
 		Vector4DAligned tangentS;
 		Vector *pSrcPos;
 		Vector *pSrcNorm;
-		Vector4D *pSrcTangentS = NULL;
+		Vector4D *pSrcTangentS = nullptr;
 
 		ALIGN16 ModelVertexDX8_t dstVertex;
 		dstVertex.m_vecUserData.Init( 1.0f, 0.0f, 0.0f, 1.0f );
@@ -1375,7 +1375,7 @@ public:
 		// the last setup for R_ComputeLightForPoint3.
 		else
 		{
-			g_StudioRender.R_LightEffectsWorld3 = NULL;
+			g_StudioRender.R_LightEffectsWorld3 = nullptr;
 		}
 #endif
 
@@ -1588,7 +1588,7 @@ inline const mstudio_meshvertexdata_t * GetFatVertexData( mstudiomesh_t * pMesh,
 	if ( !pMesh->pModel()->CacheVertexData( pStudioHdr ) )
 	{
 		// not available yet
-		return NULL;
+		return nullptr;
 	}
 	const mstudio_meshvertexdata_t *pVertData = pMesh->GetVertexData( pStudioHdr );
 	Assert( pVertData );
@@ -1696,9 +1696,9 @@ void CStudioRender::R_StudioSoftwareProcessMesh_Normals( mstudiomesh_t* pmesh, C
 	ALIGN16 matrix3x4_t temp;
 	ALIGN16 matrix3x4_t *pSkinMat;
 
-	Vector *pSrcPos = NULL;
-	Vector *pSrcNorm = NULL;
-	Vector4D *pSrcTangentS = NULL;
+	Vector *pSrcPos = nullptr;
+	Vector *pSrcNorm = nullptr;
+	Vector4D *pSrcTangentS = nullptr;
 	VectorAligned norm, pos, tangentS, tangentT;
 
 	// Gets at the vertex data
@@ -1717,7 +1717,7 @@ void CStudioRender::R_StudioSoftwareProcessMesh_Normals( mstudiomesh_t* pmesh, C
 
 	mstudiovertex_t *pVertices = vertData->Vertex( 0 );
 
-	Vector4D *pTangentS = NULL;
+	Vector4D *pTangentS = nullptr;
 	Vector4D tang;
 	if ( bShowTangentS || bShowTangentT )
 	{
@@ -1759,7 +1759,7 @@ void CStudioRender::R_StudioSoftwareProcessMesh_Normals( mstudiomesh_t* pmesh, C
 		}
 
 		// Transform the vert into world space
-		if ( ( bShowTangentS || bShowTangentT ) && ( pSrcTangentS != NULL ) )
+		if ( ( bShowTangentS || bShowTangentT ) && ( pSrcTangentS != nullptr) )
 		{
 			R_SlowTransformVert( pSrcPos, pSrcNorm, pSrcTangentS, pSkinMat, pos, norm, tangentS );
 		}
@@ -1781,7 +1781,7 @@ void CStudioRender::R_StudioSoftwareProcessMesh_Normals( mstudiomesh_t* pmesh, C
 			meshBuilder.AdvanceVertex();
 		}
 
-		if ( ( bShowTangentS || bShowTangentT ) && ( pSrcTangentS != NULL) )
+		if ( ( bShowTangentS || bShowTangentT ) && ( pSrcTangentS != nullptr) )
 		{
 			if ( bShowTangentS )
 			{
@@ -2086,7 +2086,7 @@ template<VertexCompressionType_t T> void CStudioRender::R_StudioRestoreMesh( mst
 	}
 	else
 	{
-		pStudioTangentS = NULL;
+		pStudioTangentS = nullptr;
 	}
 
 	CMeshBuilder meshBuilder;
@@ -2145,7 +2145,7 @@ int CStudioRender::R_StudioDrawGroupHWSkin( IMatRenderContext *pRenderContext, s
 	if ( pColorMeshInfo )
 		pMesh->SetColorMesh( pColorMeshInfo->m_pMesh, pColorMeshInfo->m_nVertOffsetInBytes );
 	else
-		pMesh->SetColorMesh( NULL, 0 );
+		pMesh->SetColorMesh(nullptr, 0 );
 
 	Vector4D vecDiffuseModulation;
 	ComputeDiffuseModulation( &vecDiffuseModulation );
@@ -2174,7 +2174,7 @@ int CStudioRender::R_StudioDrawGroupHWSkin( IMatRenderContext *pRenderContext, s
 		pMesh->DrawModulated( vecDiffuseModulation, pStrip->indexOffset, pStrip->numIndices );
 		numFacesRendered += pGroup->m_pUniqueFaces[j];
 	}
-	pMesh->SetColorMesh( NULL, 0 );
+	pMesh->SetColorMesh(nullptr, 0 );
 
 	return numFacesRendered;
 }
@@ -2265,7 +2265,7 @@ int CStudioRender::R_StudioDrawStaticMesh( IMatRenderContext *pRenderContext, ms
 		Assert( ( pGroup->m_Flags & MESHGROUP_IS_DELTA_FLEXED ) == 0 );
 
 		CMeshBuilder meshBuilder;
-		IMesh* pMesh = pRenderContext->GetDynamicMeshEx( fmt, false, 0, pGroup->m_pMesh );
+		IMesh* pMesh = pRenderContext->GetDynamicMeshEx( fmt, false, nullptr, pGroup->m_pMesh );
 		meshBuilder.Begin( pMesh, MATERIAL_HETEROGENOUS, pGroup->m_NumVertices, 0 );
 
 		R_StudioSoftwareProcessMesh( pmesh, meshBuilder, 
@@ -2323,14 +2323,14 @@ int CStudioRender::R_StudioDrawStaticMesh( IMatRenderContext *pRenderContext, ms
 	}
 	else
 	{
-		numFacesRendered = R_StudioDrawGroupHWSkin( pRenderContext, pGroup, pGroup->m_pMesh, NULL );
+		numFacesRendered = R_StudioDrawGroupHWSkin( pRenderContext, pGroup, pGroup->m_pMesh, nullptr);
 	}
 
 	if ( ( pGroup->m_Flags & MESHGROUP_IS_DELTA_FLEXED ) && m_pRC->m_Config.bFlex )
 	{
 		if ( bUseHWFlex )
 		{
-			pRenderContext->BindMorph( NULL );
+			pRenderContext->BindMorph(nullptr);
 		}
 		if ( bUseSOFlex )
 		{
@@ -2366,7 +2366,7 @@ int CStudioRender::R_StudioDrawDynamicMesh( IMatRenderContext *pRenderContext, m
 
 	if ( !bDoFlex && !bSWSkin )
 	{
-		return R_StudioDrawStaticMesh( pRenderContext, pmesh, pGroup, lighting, r_blend, pMaterial, lod, NULL );
+		return R_StudioDrawStaticMesh( pRenderContext, pmesh, pGroup, lighting, r_blend, pMaterial, lod, nullptr);
 	}
 
 	// ----  Drawers before this might not need the vertices, so don't pay the penalty of getting them ----
@@ -2383,7 +2383,7 @@ int CStudioRender::R_StudioDrawDynamicMesh( IMatRenderContext *pRenderContext, m
 	int numFacesRendered = 0;
 
 #ifdef _DEBUG
-	const char *pDebugMaterialName = NULL;
+	const char *pDebugMaterialName = nullptr;
 	if ( pMaterial )
 	{
 		pDebugMaterialName = pMaterial->GetName();
@@ -2410,7 +2410,7 @@ int CStudioRender::R_StudioDrawDynamicMesh( IMatRenderContext *pRenderContext, m
 	VertexFormat_t fmt = bQuadList ? VERTEX_FORMAT_SUBDQUAD : VERTEX_FORMAT_STANDARD;
 
 	CMeshBuilder meshBuilder;
-	pMesh = pRenderContext->GetDynamicMeshEx( fmt, false, 0, pGroup->m_pMesh);
+	pMesh = pRenderContext->GetDynamicMeshEx( fmt, false, nullptr, pGroup->m_pMesh);
 	
 	if ( bQuadList )
 	{
@@ -2601,7 +2601,7 @@ int CStudioRender::R_StudioDrawEyeball( IMatRenderContext *pRenderContext, mstud
 		for ( j = 0; j < pMeshData->m_NumGroup; ++j )
 		{
 			studiomeshgroup_t* pGroup = &pMeshData->m_pMeshGroup[j];
-			numFacesRendered += R_StudioDrawStaticMesh( pRenderContext, pmesh, pGroup, lighting, m_pRC->m_AlphaMod, pMaterial, lod, NULL );
+			numFacesRendered += R_StudioDrawStaticMesh( pRenderContext, pmesh, pGroup, lighting, m_pRC->m_AlphaMod, pMaterial, lod, nullptr);
 		}
 
 		return numFacesRendered;
@@ -2642,7 +2642,7 @@ int CStudioRender::R_StudioDrawEyeball( IMatRenderContext *pRenderContext, mstud
 	{
 		studiomeshgroup_t* pGroup = &pMeshData->m_pMeshGroup[j];
 
-		IMesh* pMesh = pRenderContext->GetDynamicMeshEx( fmt, false, 0, pGroup->m_pMesh );
+		IMesh* pMesh = pRenderContext->GetDynamicMeshEx( fmt, false, nullptr, pGroup->m_pMesh );
 
 		if ( bQuadList )
 		{
@@ -2890,7 +2890,7 @@ int CStudioRender::R_StudioDrawPoints( IMatRenderContext *pRenderContext, int sk
 #endif
 
 	// happens when there's a model load failure
-	if ( m_pStudioMeshes == 0 )
+	if ( m_pStudioMeshes == nullptr )
 		return 0;
 
 	if ( m_pRC->m_Config.bWireframe && m_bDrawTranslucentSubModels )

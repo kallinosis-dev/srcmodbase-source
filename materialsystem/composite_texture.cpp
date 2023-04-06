@@ -33,7 +33,7 @@ int CCompositeTexture::m_nTextureCount = 0;
 
 int s_nCompositeMaterialIndex = 0;
 
-static ConVar *s_mat_picmip = NULL;
+static ConVar *s_mat_picmip = nullptr;
 
 int GetMatPicMip()
 {
@@ -50,12 +50,12 @@ static SCompositeTextureRTData_t s_compositeTextureRTData[COMPOSITE_TEXTURE_RT_C
 {
 	// these should be sorted in descending size order
 #if !defined( PLATFORM_OSX )
-	{ "_rt_CustomMaterial2048", 2048, true,  false, NULL },
+	{ "_rt_CustomMaterial2048", 2048, true,  false, nullptr},
 #endif
-	{ "_rt_CustomMaterial1024", 1024, true,  false, NULL },
-	{ "_rt_CustomMaterial512",   512, true,  false, NULL },
-	{ "_rt_CustomMaterial256",   256, false, false, NULL },
-	{ "_rt_CustomMaterial128",   128, false, false, NULL }
+	{ "_rt_CustomMaterial1024", 1024, true,  false, nullptr},
+	{ "_rt_CustomMaterial512",   512, true,  false, nullptr},
+	{ "_rt_CustomMaterial256",   256, false, false, nullptr},
+	{ "_rt_CustomMaterial128",   128, false, false, nullptr}
 };
 
 int GetRTIndex( int nSize )
@@ -90,7 +90,7 @@ void CCompositeTextureResult::RegenerateTextureBits( ITexture *pTexture, IVTFTex
 		IVTFTexture *pResultVTF = m_pOwner->GetResultVTF();
 
 		// we have already generated once, if we have results of an appropriate size, then copy them over, else signal regeneration
-		if ( pResultVTF != NULL && ( pVTFTexture->Width() == ( m_pOwner->ActualSize() ) ) && ( pVTFTexture->Width() <= pResultVTF->Width() ) )
+		if ( pResultVTF != nullptr && ( pVTFTexture->Width() == ( m_pOwner->ActualSize() ) ) && ( pVTFTexture->Width() <= pResultVTF->Width() ) )
 		{
 			// handle the case where the destination texture is smaller than our result (can happen with mat_picmip change to values lower than we have RTs for)
 			int nMipOffset = 0;
@@ -125,14 +125,14 @@ void CCompositeTextureResult::RegenerateTextureBits( ITexture *pTexture, IVTFTex
 
 void CCompositeTextureResult::Release()
 {
-	if ( m_pTexture != NULL )
+	if ( m_pTexture != nullptr)
 	{
-		m_pTexture->SetTextureRegenerator( NULL, false );
+		m_pTexture->SetTextureRegenerator(nullptr, false );
 		m_pTexture->DecrementReferenceCount();
 		m_pTexture->DeleteIfUnreferenced();
-		m_pTexture = NULL;
+		m_pTexture = nullptr;
 	}
-	m_pOwner = NULL;
+	m_pOwner = nullptr;
 }
 
 //
@@ -145,20 +145,20 @@ CCompositeTexture::CCompositeTexture( const CUtlBuffer &compareBlob, KeyValues *
 	, m_nMaterialParamNameId( nMaterialParamNameId )
 	, m_bSRGB( bSRGB )
 	, m_nRegenerateStage( COMPOSITE_TEXTURE_STATE_NOT_STARTED )
-	, m_pResultVTF( NULL )
+	, m_pResultVTF(nullptr)
 	, m_ResultTexture( this )
 	, m_bNeedsRegenerate( false )
 	, m_bNeedsFinalize( true )
-	, m_pScratchVTF( NULL )
-	, m_pCustomMaterialRT( NULL )
-	, m_pCompositingMaterial( NULL )
+	, m_pScratchVTF(nullptr)
+	, m_pCustomMaterialRT(nullptr)
+	, m_pCompositingMaterial(nullptr)
 	, m_nLastFrameCount( 0 )
-	, m_pPixelsReadEvent( NULL )
+	, m_pPixelsReadEvent(nullptr)
 	, m_bIgnorePicMip( bIgnorePicMip )
 {
 	for ( int i = 0; i < NUM_PRELOAD_TEXTURES; i++ )
 	{
-		m_pPreLoadTextures[ i ] = NULL;
+		m_pPreLoadTextures[ i ] = nullptr;
 	}
 
 	m_compareBlob.CopyBuffer( compareBlob );
@@ -186,7 +186,7 @@ bool CCompositeTexture::Init()
 	{
 		// release the error texture
 		m_pCustomMaterialRT->Release();
-		m_pCustomMaterialRT = NULL;
+		m_pCustomMaterialRT = nullptr;
 
 		Warning( "Error creating composite tex8ture! Could not find render target texture. \n" );
 		m_nRegenerateStage = COMPOSITE_TEXTURE_STATE_COMPLETE;
@@ -194,10 +194,10 @@ bool CCompositeTexture::Init()
 	}
 
 	// it's possible for the result vtf to exist already in the case of regeneration, so we clean up the old one before making a new one
-	if ( m_pResultVTF != NULL )
+	if ( m_pResultVTF != nullptr)
 	{
 		DestroyVTFTexture( m_pResultVTF );
-		m_pResultVTF = NULL;
+		m_pResultVTF = nullptr;
 	}
 
 	{
@@ -213,39 +213,39 @@ bool CCompositeTexture::Init()
 CCompositeTexture::~CCompositeTexture()
 {
 	ReleasePreloadedTextures();
-	if ( m_pCompositingMaterial != NULL )
+	if ( m_pCompositingMaterial != nullptr)
 	{
 		m_pCompositingMaterial->DecrementReferenceCount();
 		m_pCompositingMaterial->DeleteIfUnreferenced();
-		m_pCompositingMaterial = NULL;
+		m_pCompositingMaterial = nullptr;
 	}
 
-	if ( m_pCompositingMaterialKeyValues != NULL )
+	if ( m_pCompositingMaterialKeyValues != nullptr)
 	{
 		m_pCompositingMaterialKeyValues->deleteThis();
-		m_pCompositingMaterialKeyValues = NULL;
+		m_pCompositingMaterialKeyValues = nullptr;
 	}
 
 	m_ResultTexture.Release();
 
-	if ( m_pResultVTF != NULL )
+	if ( m_pResultVTF != nullptr)
 	{
 		DestroyVTFTexture(m_pResultVTF);
-		m_pResultVTF = NULL;
+		m_pResultVTF = nullptr;
 	}
 
-	m_pScratchVTF = NULL;
+	m_pScratchVTF = nullptr;
 
-	if ( m_pCustomMaterialRT != NULL )
+	if ( m_pCustomMaterialRT != nullptr)
 	{
 		m_pCustomMaterialRT->Release();
-		m_pCustomMaterialRT = NULL;
+		m_pCustomMaterialRT = nullptr;
 	}
 
-	if ( m_pPixelsReadEvent != NULL )
+	if ( m_pPixelsReadEvent != nullptr)
 	{
 		delete m_pPixelsReadEvent;
-		m_pPixelsReadEvent = NULL;
+		m_pPixelsReadEvent = nullptr;
 	}
 }
 
@@ -253,11 +253,11 @@ void CCompositeTexture::ReleasePreloadedTextures()
 {
 	for ( int i = 0; i < NUM_PRELOAD_TEXTURES; i++ )
 	{
-		if ( m_pPreLoadTextures[ i ] != NULL )
+		if ( m_pPreLoadTextures[ i ] != nullptr)
 		{
 			m_pPreLoadTextures[ i ]->DecrementReferenceCount();
 			m_pPreLoadTextures[ i ]->DeleteIfUnreferenced();
-			m_pPreLoadTextures[ i ] = NULL;
+			m_pPreLoadTextures[ i ] = nullptr;
 		}
 	}
 }
@@ -270,15 +270,15 @@ void CCompositeTexture::GenerateComposite( void )
 		TEX_GEN_LOG( "Loading texture for %s\n", GetName() );
 		m_nRegenerateStage = COMPOSITE_TEXTURE_STATE_ASYNC_TEXTURE_LOAD;
 	}
-	else if ( m_pScratchVTF != NULL )
+	else if ( m_pScratchVTF != nullptr)
 	{
 		if ( m_nRegenerateStage == COMPOSITE_TEXTURE_STATE_COPY_TO_VTF_COMPLETE )
 		{
 			// no longer need the RT
-			if ( m_pCustomMaterialRT != NULL )
+			if ( m_pCustomMaterialRT != nullptr)
 			{
 				m_pCustomMaterialRT->Release();
-				m_pCustomMaterialRT = NULL;
+				m_pCustomMaterialRT = nullptr;
 			}
 			
 			{
@@ -314,7 +314,7 @@ void CCompositeTexture::GenerateComposite( void )
 			}
 
 			// done with the scratch VTF
-			m_pScratchVTF = NULL;
+			m_pScratchVTF = nullptr;
 
 			m_nRegenerateStage = COMPOSITE_TEXTURE_STATE_WAITING_FOR_MATERIAL_CLEANUP;
 		}
@@ -341,7 +341,7 @@ void CCompositeTexture::GenerationStep( void )
 		if ( m_pPixelsReadEvent->Wait( 20 ) )
 		{
 			delete m_pPixelsReadEvent;
-			m_pPixelsReadEvent = NULL;
+			m_pPixelsReadEvent = nullptr;
 
 			m_nRegenerateStage = COMPOSITE_TEXTURE_STATE_COPY_TO_VTF_COMPLETE;
 		}
@@ -352,7 +352,7 @@ void CCompositeTexture::GenerationStep( void )
 		bool bDone = true;
 		for ( int i = 0; i < NUM_PRELOAD_TEXTURES; i++ )
 		{
-			if ( ( m_pPreLoadTextures[ i ] != NULL ) && !m_pPreLoadTextures[ i ]->IsAsyncDone() )
+			if ( ( m_pPreLoadTextures[ i ] != nullptr) && !m_pPreLoadTextures[ i ]->IsAsyncDone() )
 			{
 				bDone = false;
 				break;
@@ -432,7 +432,7 @@ void CCompositeTexture::DoAsyncTextureLoad( void )
 			}
 			else
 			{
-				m_pPreLoadTextures[ i ] = NULL;
+				m_pPreLoadTextures[ i ] = nullptr;
 				DevMsg( "DoAsyncTextureLoad: Failed to preload texture: %s (%s)\n", pszTexture, materialParams[ i ].m_pParamName );
 			}
 		}
@@ -456,7 +456,7 @@ void CCompositeTexture::CreateCompositingMaterial( void )
 			m_pCompositingMaterial->Release();
 
 			// we do not call DeleteIfUnreferenced here because it's the error material
-			m_pCompositingMaterial = NULL;
+			m_pCompositingMaterial = nullptr;
 
 			Warning( "Error creating compositing material! Marking composite complete and not rendering to RT...\n" );
 			m_nRegenerateStage = COMPOSITE_TEXTURE_STATE_COMPLETE;
@@ -554,12 +554,12 @@ void CCompositeTexture::CleanupCompositingMaterial( void )
 {
 	if ( m_nRegenerateStage == COMPOSITE_TEXTURE_STATE_WAITING_FOR_MATERIAL_CLEANUP )
 	{
-		if ( m_pCompositingMaterial != NULL )
+		if ( m_pCompositingMaterial != nullptr)
 		{
 			TM_ZONE( TELEMETRY_LEVEL1, TMZF_NONE, "CleanupCompositingMat" );
 			m_pCompositingMaterial->DecrementReferenceCount();
 			m_pCompositingMaterial->DeleteIfUnreferenced();
-			m_pCompositingMaterial = NULL;
+			m_pCompositingMaterial = nullptr;
 		}
 		ReleasePreloadedTextures(); // no longer need these
 
@@ -569,15 +569,15 @@ void CCompositeTexture::CleanupCompositingMaterial( void )
 
 void CCompositeTexture::Usage( int &nTextures, int &nBackingTextures )
 {
-	nTextures += ( m_ResultTexture.m_pTexture != NULL ) ? m_ResultTexture.m_pTexture->GetApproximateVidMemBytes() : 0;
-	nBackingTextures += ( m_pResultVTF != NULL ) ? m_pResultVTF->ComputeTotalSize() : 0;
+	nTextures += ( m_ResultTexture.m_pTexture != nullptr) ? m_ResultTexture.m_pTexture->GetApproximateVidMemBytes() : 0;
+	nBackingTextures += ( m_pResultVTF != nullptr) ? m_pResultVTF->ComputeTotalSize() : 0;
 }
 
 void CCompositeTexture::Finalize()
 {
 	TM_ZONE( TELEMETRY_LEVEL1, TMZF_NONE, "Finalize" );
 
-	if ( m_ResultTexture.m_pTexture == NULL )
+	if ( m_ResultTexture.m_pTexture == nullptr)
 	{
 		m_ResultTexture.m_pTexture = materials->CreateProceduralTexture( m_szTextureName, TEXTURE_GROUP_COMPOSITE, ( 1 << Size() ), ( 1 << Size() ), 
 																		 ( Format() == COMPOSITE_TEXTURE_FORMAT_DXT5 ) ? IMAGE_FORMAT_DXT5_RUNTIME : IMAGE_FORMAT_DXT1_RUNTIME, 
@@ -621,9 +621,9 @@ bool CCompositeTexture::Compare( const SCompositeTextureInfo &textureInfo )
 
 CCompositeTextureGenerator::CCompositeTextureGenerator( void )
 	: m_bGenerateThreadExit( false )
-	, m_hGenerateThread( NULL )
-	, m_pGunGrimeTexture( NULL )
-	, m_pPaintWearTexture( NULL )
+	, m_hGenerateThread(nullptr)
+	, m_pGunGrimeTexture(nullptr)
+	, m_pPaintWearTexture(nullptr)
 {
 #ifndef DEDICATED
 	m_pCompositeTextures.EnsureCapacity( 256 );
@@ -746,10 +746,10 @@ bool CCompositeTextureGenerator::Init( void )
 		if ( pRT->IsError() )
 		{
 			pRT->Release();
-			pRT = NULL;
+			pRT = nullptr;
 		}
 
-		if ( pRT == NULL )
+		if ( pRT == nullptr)
 		{
 			Warning( "Failed to create %d x %d render target for composite texturing!\n", s_compositeTextureRTData[i].nSize, s_compositeTextureRTData[i].nSize );
 		}
@@ -771,7 +771,7 @@ bool CCompositeTextureGenerator::Init( void )
 	}
 	else
 	{
-		m_pGunGrimeTexture = NULL;
+		m_pGunGrimeTexture = nullptr;
 	}
 	m_pPaintWearTexture = TextureManager()->FindOrLoadTexture( "models/weapons/customization/shared/paint_wear.vtf", TEXTURE_GROUP_COMPOSITE );
 	if ( !m_pPaintWearTexture->IsError() )
@@ -780,7 +780,7 @@ bool CCompositeTextureGenerator::Init( void )
 	}
 	else
 	{
-		m_pPaintWearTexture = NULL;
+		m_pPaintWearTexture = nullptr;
 	}
 
 	MaterialSystem()->AddEndFramePriorToNextContextFunc( ::ProcessCompositeTextureGenerator );
@@ -800,10 +800,10 @@ void CCompositeTextureGenerator::Shutdown( void )
 		if ( s_compositeTextureRTData[i].bAvailable )
 		{
 			s_compositeTextureRTData[i].bAvailable = false;
-			if ( s_compositeTextureRTData[i].pScratch != NULL )
+			if ( s_compositeTextureRTData[i].pScratch != nullptr)
 			{
 				DestroyVTFTexture( s_compositeTextureRTData[i].pScratch );
-				s_compositeTextureRTData[i].pScratch = NULL;
+				s_compositeTextureRTData[i].pScratch = nullptr;
 			}
 			m_CompositeTextureManagerRTs[i].Shutdown();
 		}
@@ -813,13 +813,13 @@ void CCompositeTextureGenerator::Shutdown( void )
 	{
 		m_pPaintWearTexture->DecrementReferenceCount();
 		m_pPaintWearTexture->DeleteIfUnreferenced();
-		m_pPaintWearTexture = NULL;
+		m_pPaintWearTexture = nullptr;
 	}
 	if ( m_pGunGrimeTexture )
 	{
 		m_pGunGrimeTexture->DecrementReferenceCount();
 		m_pGunGrimeTexture->DeleteIfUnreferenced();
-		m_pGunGrimeTexture = NULL;
+		m_pGunGrimeTexture = nullptr;
 	}
 #endif
 }
@@ -837,10 +837,10 @@ ICompositeTexture *CCompositeTextureGenerator::GetCompositeTexture( IVisualsData
 
 	if ( !pVisualsDataProcessor->HasCustomMaterial() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	CCompositeTexture *pTexture = NULL;
+	CCompositeTexture *pTexture = nullptr;
 	
 	// Look for an existing material match
 	for ( int i = 0; i < m_pCompositeTextures.Count(); ++i )
@@ -875,7 +875,7 @@ ICompositeTexture *CCompositeTextureGenerator::GetCompositeTexture( IVisualsData
 		KeyValues *pCompositeMaterialKeyValues = pVisualsDataProcessor->GenerateCompositeMaterialKeyValues( nMaterialParamNameId );
 		if ( !pCompositeMaterialKeyValues )
 		{
-			return NULL;
+			return nullptr;
 		}
 		pTexture = new CCompositeTexture( pVisualsDataProcessor->GetCompareObject()->GetCompareBlob(), pCompositeMaterialKeyValues, size, format, nMaterialParamNameId, bSRGB, bIgnorePicMip );
 		pCompositeMaterialKeyValues->deleteThis(); // copied inside CCompositeTexture(), no longer needed
@@ -892,7 +892,7 @@ ICompositeTexture *CCompositeTextureGenerator::GetCompositeTexture( IVisualsData
 		else
 		{
 			pTexture->Release();
-			pTexture = NULL;
+			pTexture = nullptr;
 		}
 	}
 
@@ -975,7 +975,7 @@ void CCompositeTextureGenerator::DestroyGenerateThread()
 		m_bGenerateThreadExit = true;
 		ThreadJoin( m_hGenerateThread );
 		ReleaseThreadHandle( m_hGenerateThread );
-		m_hGenerateThread = NULL;
+		m_hGenerateThread = nullptr;
 	}
 }
 
@@ -983,7 +983,7 @@ void CCompositeTextureGenerator::GenerateThread()
 {
 	while ( !m_bGenerateThreadExit )
 	{
-		CCompositeTexture *pTexture = NULL;
+		CCompositeTexture *pTexture = nullptr;
 
 		// pull a material that needs generation off the queue (if any exist)
 		m_GenerateQueueMutex.Lock();

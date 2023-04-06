@@ -359,7 +359,7 @@ int FindOrigFace( face_t *f )
     {
         for( i = 0; i < MAX_MAP_PLANES; i++ )
         {
-            pOrigFaceSideList[i] = NULL;
+            pOrigFaceSideList[i] = nullptr;
         }
         bClear = 1;
     }
@@ -1000,7 +1000,7 @@ void WriteBSP (node_t *headnode, face_t *pLeafFaceList )
 		int entityIndex = GetDispInfoEntityNum( &mapdispinfo[i] );
 		if( entityIndex == entity_num )
 		{
-			EmitFaceVertexes( NULL, &mapdispinfo[i].face );
+			EmitFaceVertexes(nullptr, &mapdispinfo[i].face );
 			EmitFace( &mapdispinfo[i].face, FALSE );
 		}
 	}
@@ -1252,7 +1252,7 @@ void DiscoverMacroTextures()
 		dtexdata_t *pTexData = &dtexdata[pTexInfo->texdata];
 		const char *pMaterialName = &g_TexDataStringData[ g_TexDataStringTable[pTexData->nameStringTableID] ];
 		
-		MaterialSystemMaterial_t hMaterial = FindMaterial( pMaterialName, NULL, false );
+		MaterialSystemMaterial_t hMaterial = FindMaterial( pMaterialName, nullptr, false );
 
 		const char *pMacroTextureName = GetMaterialVar( hMaterial, "$macro_texture" );
 		if ( pMacroTextureName )

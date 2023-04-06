@@ -115,7 +115,7 @@ inline CDmAttribute *ElementTree_GetAttribute( KeyValues *itemData )
 {
 	CDmElement *pOwner = GetElementKeyValue< CDmElement >( itemData, "ownerelement" );
 	if ( !pOwner )
-		return NULL;
+		return nullptr;
 
 	const char *pAttributeName = itemData->GetString( "attributeName", "" );
 	return pOwner->GetAttribute( pAttributeName );

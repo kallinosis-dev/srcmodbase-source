@@ -32,7 +32,7 @@ IMPLEMENT_ELEMENT_FACTORY( DmeCommentaryNodeEntity, CDmeCommentaryNodeEntity );
 //-----------------------------------------------------------------------------
 void CDmeCommentaryNodeEntity::OnConstruction()
 {
-	m_ClassName.InitAndSet( this, "classname", false, FATTRIB_HAS_CALLBACK );
+	m_ClassName.InitAndSet( this, "classname", nullptr, FATTRIB_HAS_CALLBACK );
 	m_TargetName.Init( this, "targetname" );
 	m_bIsPlaceholder.InitAndSet( this, "_placeholder", false, FATTRIB_DONTSAVE );
 	m_vecLocalOrigin.Init( this, "origin" );
@@ -98,7 +98,7 @@ void CDmeCommentaryNodeEntity::OnAttributeChanged( CDmAttribute *pAttribute )
 		}
 		else
 		{
-			SetModelName( NULL );
+			SetModelName(nullptr);
 		}
 		OnTranslucencyTypeChanged();
 		return;
@@ -154,7 +154,7 @@ CDmAttribute *CDmeCommentaryNodeEntity::FirstEntityKey()
 		if ( IsEntityKey( pAttribute ) )
 			return pAttribute;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -163,14 +163,14 @@ CDmAttribute *CDmeCommentaryNodeEntity::FirstEntityKey()
 CDmAttribute *CDmeCommentaryNodeEntity::NextEntityKey( CDmAttribute *pEntityKey )
 {
 	if ( !pEntityKey )
-		return NULL;
+		return nullptr;
 
 	for ( CDmAttribute *pAttribute = pEntityKey->NextAttribute(); pAttribute; pAttribute = pAttribute->NextAttribute() )
 	{
 		if ( IsEntityKey( pAttribute ) )
 			return pAttribute;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

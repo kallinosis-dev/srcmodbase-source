@@ -66,7 +66,7 @@ class CDummyTexture : public IEditorTexture
 
 		CPalette *GetPalette() const
 		{
-			return(NULL);
+			return(nullptr);
 		}
 
 		inline int GetWidth() const

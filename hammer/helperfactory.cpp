@@ -105,6 +105,6 @@ CMapClass *CHelperFactory::CreateHelper(CHelperInfo *pHelperInfo, CMapEntity *pP
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 

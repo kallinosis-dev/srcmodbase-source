@@ -32,7 +32,7 @@ BEGIN_VS_SHADER( WindowImposter_DX90,
 
 	SHADER_FALLBACK
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -63,7 +63,7 @@ BEGIN_VS_SHADER( WindowImposter_DX90,
 				SET_STATIC_PIXEL_SHADER( windowimposter_ps20 );
 			}
 
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 			pShaderShadow->EnableBlending( true );
 			pShaderShadow->BlendFunc( SHADER_BLEND_SRC_ALPHA, SHADER_BLEND_ONE_MINUS_SRC_ALPHA );
 			pShaderShadow->EnableDepthWrites( false );

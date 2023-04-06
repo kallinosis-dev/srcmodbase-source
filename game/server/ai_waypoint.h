@@ -47,14 +47,14 @@ public:
 	{
 		memcpy( this, &from, sizeof(*this) );
 		flPathDistGoal = -1;
-		pNext = pPrev = NULL;
+		pNext = pPrev = nullptr;
 	}
 
 	AI_Waypoint_t &operator=( const AI_Waypoint_t &from )
 	{
 		memcpy( this, &from, sizeof(*this) );
 		flPathDistGoal = -1;
-		pNext = pPrev = NULL;
+		pNext = pPrev = nullptr;
 		return *this;
 	}
 
@@ -179,7 +179,7 @@ inline void AI_Waypoint_t::SetNext( AI_Waypoint_t *p )
 { 
 	if (pNext) 
 	{
-		pNext->pPrev = NULL; 
+		pNext->pPrev = nullptr; 
 	}
 
 	pNext = p; 
@@ -187,7 +187,7 @@ inline void AI_Waypoint_t::SetNext( AI_Waypoint_t *p )
 	if ( pNext ) 
 	{
 		if ( pNext->pPrev )
-			pNext->pPrev->pNext = NULL;
+			pNext->pPrev->pNext = nullptr;
 
 		pNext->pPrev = this; 
 	}
@@ -197,7 +197,7 @@ inline void AI_Waypoint_t::SetPrev( AI_Waypoint_t *p )
 { 
 	if ( pPrev ) 
 	{
-		pPrev->pNext = NULL; 
+		pPrev->pNext = nullptr; 
 	}
 
 	pPrev = p; 
@@ -205,7 +205,7 @@ inline void AI_Waypoint_t::SetPrev( AI_Waypoint_t *p )
 	if ( pPrev ) 
 	{
 		if ( pPrev->pNext )
-			pPrev->pNext->pPrev = NULL;
+			pPrev->pNext->pPrev = nullptr;
 
 		pPrev->pNext = this; 
 	}
@@ -219,7 +219,7 @@ class CAI_WaypointList
 {
 public:
 	CAI_WaypointList()
-	 :	m_pFirstWaypoint( NULL )
+	 :	m_pFirstWaypoint(nullptr)
 	{
 	}
 
@@ -233,7 +233,7 @@ public:
 	void 			PrependWaypoints( AI_Waypoint_t *pWaypoints );
 	void 			PrependWaypoint( const Vector &newPoint, Navigation_t navType, unsigned waypointFlags, float flYaw = 0 );
 	
-	bool 			IsEmpty() const				{ return ( m_pFirstWaypoint == NULL ); }
+	bool 			IsEmpty() const				{ return ( m_pFirstWaypoint == nullptr); }
 	
 	AI_Waypoint_t *		 GetFirst()				{ return m_pFirstWaypoint; }
 	const AI_Waypoint_t *GetFirst() const	{ return m_pFirstWaypoint; }
@@ -265,7 +265,7 @@ void DeleteAll( AI_Waypoint_t *pWaypointList );
 inline void DeleteAll( AI_Waypoint_t **ppWaypointList )
 {
 	DeleteAll( *ppWaypointList );
-	*ppWaypointList = NULL;
+	*ppWaypointList = nullptr;
 }
 
 // ------------------------------------

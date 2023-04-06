@@ -105,7 +105,7 @@ class CPickEntityTarget : public IPickEntityTarget
 CPickEntityTarget::CPickEntityTarget()
 {
 	m_szKey[0] = '\0';
-	m_pDlg = NULL;
+	m_pDlg = nullptr;
 }
 
 
@@ -337,7 +337,7 @@ class COP_Entity : public CObjectPage, CFilteredComboBox::ICallbacks, public CCo
 		
 		int GetKeyValueRowByShortName( const char *pShortName );		// Find the row in the listctrl that the var is at. Returns -1 if not found.
 		
-		void RefreshKVListValues( const char *pOnlyThisVar = NULL );
+		void RefreshKVListValues( const char *pOnlyThisVar = nullptr);
 		void PresentProperties();
 		void ClearVarList();
 		void SetReadOnly(bool bReadOnly);

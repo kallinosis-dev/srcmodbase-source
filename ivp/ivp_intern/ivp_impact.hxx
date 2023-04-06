@@ -53,7 +53,7 @@ IVP_BOOL IVP_Impact_System::core_was_already_pushed_in_system(IVP_Core *test_cor
 
 IVP_BOOL IVP_Impact_System::core_is_already_known_to_system(IVP_Core *test_core) {
     void *p=test_core->tmp_null.old_sync_info;
-    return (IVP_BOOL)(p != 0);
+    return (IVP_BOOL)(p != nullptr);
 }
 
 

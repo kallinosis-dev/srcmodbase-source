@@ -141,7 +141,7 @@ CMaterialImageCache::CMaterialImageCache(int maxNumGraphicsLoaded)
 {
 	cacheSize = maxNumGraphicsLoaded;
 	pool = new CMaterialPtr[cacheSize];
-	if (pool != NULL)
+	if (pool != nullptr)
 	{
 		memset(pool, 0, sizeof(CMaterialPtr) * cacheSize);
 	}
@@ -154,7 +154,7 @@ CMaterialImageCache::CMaterialImageCache(int maxNumGraphicsLoaded)
 //-----------------------------------------------------------------------------
 CMaterialImageCache::~CMaterialImageCache(void)
 {
-	if (pool != NULL)
+	if (pool != nullptr)
 	{
 		delete [] pool;
 	}
@@ -167,7 +167,7 @@ CMaterialImageCache::~CMaterialImageCache(void)
 //-----------------------------------------------------------------------------
 void CMaterialImageCache::EnCache( CMaterial *pMaterial )
 {
-	if (pMaterial->m_pData != NULL)
+	if (pMaterial->m_pData != nullptr)
 	{
 		// Already cached.
 		return;
@@ -191,7 +191,7 @@ void CMaterialImageCache::EnCache( CMaterial *pMaterial )
 }
 
 
-static CMaterialImageCache *g_pMaterialImageCache = NULL;
+static CMaterialImageCache *g_pMaterialImageCache = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -199,7 +199,7 @@ static CMaterialImageCache *g_pMaterialImageCache = NULL;
 //-----------------------------------------------------------------------------
 CMaterialCache::CMaterialCache(void)
 {
-	m_pCache = NULL;
+	m_pCache = nullptr;
 	m_nMaxEntries = 0;
 }
 
@@ -209,7 +209,7 @@ CMaterialCache::CMaterialCache(void)
 //-----------------------------------------------------------------------------
 CMaterialCache::~CMaterialCache(void)
 {
-	if (m_pCache != NULL)
+	if (m_pCache != nullptr)
 	{
 		delete m_pCache;
 	}
@@ -225,10 +225,10 @@ bool CMaterialCache::Create(int nMaxEntries)
 {
 	Assert((m_pCache == NULL) && (m_nMaxEntries == 0));
 
-	if (m_pCache != NULL)
+	if (m_pCache != nullptr)
 	{
 		delete m_pCache;
-		m_pCache = NULL;
+		m_pCache = nullptr;
 		m_nMaxEntries = 0;
 	}
 
@@ -239,13 +239,13 @@ bool CMaterialCache::Create(int nMaxEntries)
 
 	m_pCache = new MaterialCacheEntry_t[nMaxEntries];
 
-	if (m_pCache != NULL)
+	if (m_pCache != nullptr)
 	{
 		memset(m_pCache, 0, sizeof(m_pCache[0]) * nMaxEntries);
 		m_nMaxEntries = nMaxEntries;
 	}
 
-	return(m_pCache != NULL);
+	return(m_pCache != nullptr);
 }
 
 
@@ -257,21 +257,21 @@ bool CMaterialCache::Create(int nMaxEntries)
 //-----------------------------------------------------------------------------
 CMaterial *CMaterialCache::CreateMaterial(const char *pszMaterialName)
 {
-	CMaterial *pMaterial = NULL;
+	CMaterial *pMaterial = nullptr;
 
-	if (pszMaterialName != NULL)
+	if (pszMaterialName != nullptr)
 	{
 		//
 		// Find this material in the cache. If it is here, return it.
 		//
 		pMaterial = FindMaterial(pszMaterialName);
-		if (pMaterial == NULL)
+		if (pMaterial == nullptr)
 		{
 			//
 			// Not found in the cache, try to create it.
 			//
 			pMaterial = CMaterial::CreateMaterial(pszMaterialName, true);
-			if (pMaterial != NULL)
+			if (pMaterial != nullptr)
 			{
 				//
 				// Success. Add the newly created material to the cache.
@@ -300,7 +300,7 @@ CMaterial *CMaterialCache::CreateMaterial(const char *pszMaterialName)
 //-----------------------------------------------------------------------------
 void CMaterialCache::AddMaterial(CMaterial *pMaterial)
 {
-	if (pMaterial != NULL)
+	if (pMaterial != nullptr)
 	{
 		Assert(m_nEntries < m_nMaxEntries);
 
@@ -340,7 +340,7 @@ void CMaterialCache::AddRef(CMaterial *pMaterial)
 //-----------------------------------------------------------------------------
 CMaterial *CMaterialCache::FindMaterial(const char *pszMaterialName)
 {
-	if (pszMaterialName != NULL)
+	if (pszMaterialName != nullptr)
 	{
 		for (int i = 0; i < m_nEntries; i++)
 		{
@@ -351,7 +351,7 @@ CMaterial *CMaterialCache::FindMaterial(const char *pszMaterialName)
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -362,7 +362,7 @@ CMaterial *CMaterialCache::FindMaterial(const char *pszMaterialName)
 //-----------------------------------------------------------------------------
 void CMaterialCache::Release(CMaterial *pMaterial)
 {
-	if (pMaterial != NULL)
+	if (pMaterial != nullptr)
 	{
 		for (int i = 0; i < m_nEntries; i++)
 		{
@@ -399,9 +399,9 @@ CMaterial::CMaterial(void)
 	m_nPreviewImageHeight = 0;
 
     m_nTextureID = 0;
-	m_pData = NULL;
+	m_pData = nullptr;
 	m_bLoaded = false;
-	m_pMaterial = NULL;
+	m_pMaterial = nullptr;
 	m_TranslucentBaseTexture = false;
 }
 
@@ -414,10 +414,10 @@ CMaterial::~CMaterial(void)
 	//
 	// Free image data.
 	//
-	if (m_pData != NULL)
+	if (m_pData != nullptr)
 	{
 		free(m_pData);
-		m_pData = NULL;
+		m_pData = nullptr;
 	}
 
 	/* FIXME: Texture manager shuts down after the material system
@@ -574,7 +574,7 @@ bool CMaterial::ShouldSkipMaterial(const char *pszName, int nFlags)
 			return true;
 	}
 	// also check against any FGD-defined exclusions
-	if (pGD != NULL)	
+	if (pGD != nullptr)	
 	{
 		for( int i = 0; i < pGD->m_FGDMaterialExclusions.Count(); i++ )
 		{
@@ -797,11 +797,11 @@ void CMaterial::DrawIcon( CDC *pDC, CMaterial* pIcon, RECT& dstRect )
 //-----------------------------------------------------------------------------
 void CMaterial::DrawBrowserIcons( CDC *pDC, RECT& dstRect, bool detectErrors )
 {
-	static CMaterial* pTranslucentIcon = 0;
-	static CMaterial* pOpaqueIcon = 0;
-	static CMaterial* pSelfIllumIcon = 0;
-	static CMaterial* pBaseAlphaEnvMapMaskIcon = 0;
-	static CMaterial* pErrorIcon = 0;
+	static CMaterial* pTranslucentIcon = nullptr;
+	static CMaterial* pOpaqueIcon = nullptr;
+	static CMaterial* pSelfIllumIcon = nullptr;
+	static CMaterial* pBaseAlphaEnvMapMaskIcon = nullptr;
+	static CMaterial* pErrorIcon = nullptr;
 
 	if (!pTranslucentIcon)
 	{
@@ -1026,7 +1026,7 @@ NoData:
 void CMaterial::FreeData( void )
 {
 	free( m_pData );
-	m_pData = NULL;
+	m_pData = nullptr;
 }
 
 
@@ -1040,7 +1040,7 @@ int CMaterial::GetKeywords(char *pszKeywords) const
 {
 	// To access keywords, we have to have the header loaded
 	const_cast<CMaterial*>(this)->Load();
-	if (pszKeywords != NULL)
+	if (pszKeywords != nullptr)
 	{
 		strcpy(pszKeywords, m_szKeywords);
 	}
@@ -1056,7 +1056,7 @@ int CMaterial::GetKeywords(char *pszKeywords) const
 //-----------------------------------------------------------------------------
 int CMaterial::GetShortName(char *pszName) const
 {
-	if (pszName != NULL)
+	if (pszName != nullptr)
 	{
 		strcpy(pszName, m_szName);
 	}
@@ -1138,7 +1138,7 @@ int CMaterial::GetImageDataRGB( void *pImageRGB )
 {
 	Assert( m_nPreviewImageWidth > 0 );
 
-	if ( pImageRGB != NULL )
+	if ( pImageRGB != nullptr)
 	{
 		Load();
 
@@ -1176,7 +1176,7 @@ int CMaterial::GetImageDataRGBA(void *pImageRGBA)
 {
 	Assert( m_nPreviewImageWidth > 0 );
 
-	if (pImageRGBA != NULL)
+	if (pImageRGBA != nullptr)
 	{
 		Load();
 
@@ -1377,10 +1377,10 @@ bool CMaterial::Initialize( HWND hwnd )
 	}
 
 	// Create a cache for material images (for browsing and uploading to the driver).
-	if (g_pMaterialImageCache == NULL)
+	if (g_pMaterialImageCache == nullptr)
 	{
 		g_pMaterialImageCache = new CMaterialImageCache(500);
-		if (g_pMaterialImageCache == NULL)
+		if (g_pMaterialImageCache == nullptr)
 			return false ;
 	}
 
@@ -1417,13 +1417,13 @@ void CMaterial::ShutDown(void)
 		sg_ExtraFP16Targets[i].Shutdown();
 	}
 
-	if (materials != NULL)
+	if (materials != nullptr)
 	{
 		materials->UncacheAllMaterials();
 	}
 
 	delete g_pMaterialImageCache;
-	g_pMaterialImageCache = NULL;
+	g_pMaterialImageCache = nullptr;
 }
 
 

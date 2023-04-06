@@ -72,7 +72,7 @@ int LoadFileIntoBuffer(CUtlBuffer &buf, char *pszFilename)
 {
 	// Open the file
 	FILE *fh = fopen ( pszFilename, "rb" );
-	if (fh == NULL)
+	if (fh == nullptr)
 	{
 		printf ("Unable to open datafile. Check path/name.");
 		exit( 0 );
@@ -106,7 +106,7 @@ void WriteOutputToFile( CUtlBuffer &buf, char *pszFilename, char *pszCardtype )
 	strcat ( pszOutFilename, ".txt\0" );
 
 	FILE *fh = fopen ( pszOutFilename, "w" );
-	if ( fh == NULL )
+	if ( fh == nullptr)
 	{
 		printf ( "Unable to open outputfile." );
 		exit(0);
@@ -176,7 +176,7 @@ void ParseFile( CUtlBuffer &inbuf, CUtlBuffer &outbuf, char *pszSearchString, in
 			continue;
 
 		// if card is our type
-		if ( nofilter || Q_stristr ( pszCard, pszSearchString ) != NULL )
+		if ( nofilter || Q_stristr ( pszCard, pszSearchString ) != nullptr)
 		{	  
 			InsertResult(nCpu, nCpuList, nQuantity);
 		}
@@ -513,15 +513,15 @@ void TimeSeriesCPU( CUtlBuffer &inbuf, CUtlBuffer &outbuf, char *pszSearchString
 		pszCard[i] = '\0';
 
 		int cpuIndex=2; // default is unknown
-		if ( Q_stristr ( pszCard, "SSE" ) != NULL )
+		if ( Q_stristr ( pszCard, "SSE" ) != nullptr)
 		{
 		   cpuIndex=1; // intel
 		}
-		else if ( Q_stristr ( pszCard, "KNI" ) != NULL )
+		else if ( Q_stristr ( pszCard, "KNI" ) != nullptr)
 		{
 			cpuIndex=1; // intel
 		}
-		else if ( Q_stristr ( pszCard, "3DNOW" ) != NULL )
+		else if ( Q_stristr ( pszCard, "3DNOW" ) != nullptr)
 		{
 			cpuIndex=0;
 		}
@@ -644,35 +644,35 @@ void TimeSeriesVCard( CUtlBuffer &inbuf, CUtlBuffer &outbuf, char *pszSearchStri
 		// 6=GeForce3
 		// 7=All others
 		int cardIndex=7; // default is other
-		if ( Q_stristr ( pszCard, "RIVA TNT2" ) != NULL )
+		if ( Q_stristr ( pszCard, "RIVA TNT2" ) != nullptr)
 		{
 			//printf ("%s", pszCard);
 			cardIndex=0; 
 		}
-		else if ( Q_stristr ( pszCard, "GeForce2 MX" ) != NULL )
+		else if ( Q_stristr ( pszCard, "GeForce2 MX" ) != nullptr)
 		{
 			cardIndex=1; 
 		}
-		else if ( Q_stristr ( pszCard, "Microsoft Corporation GDI Generic" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Microsoft Corporation GDI Generic" ) != nullptr)
 		{
 			cardIndex=2;
 		}
-		else if ( Q_stristr ( pszCard, "GeForce2 GTS" ) != NULL )
+		else if ( Q_stristr ( pszCard, "GeForce2 GTS" ) != nullptr)
 		{
 			cardIndex=3;
 		}
 
-		else if ( Q_stristr ( pszCard, "Voodoo3" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Voodoo3" ) != nullptr)
 		{
 			cardIndex=4;
 		}
 
-		else if ( Q_stristr ( pszCard, "Intel 810" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Intel 810" ) != nullptr)
 		{
 			cardIndex=5;
 		}
 
-		else if ( Q_stristr ( pszCard, "GeForce3" ) != NULL )
+		else if ( Q_stristr ( pszCard, "GeForce3" ) != nullptr)
 		{
 			cardIndex=6;
 		}
@@ -792,62 +792,62 @@ void HistogramVidCards( CUtlBuffer &inbuf, CUtlBuffer &outbuf, char *pszSearchSt
 		// 14=All others
 		
 		int cardIndex=14; // default is other
-		if ( Q_stristr ( pszCard, "RIVA TNT2" ) != NULL )
+		if ( Q_stristr ( pszCard, "RIVA TNT2" ) != nullptr)
 		{
 			//printf ("%s", pszCard);
 			cardIndex=0; 
 		}
-		else if ( Q_stristr ( pszCard, "GeForce2 MX" ) != NULL )
+		else if ( Q_stristr ( pszCard, "GeForce2 MX" ) != nullptr)
 		{
 			cardIndex=1; 
 		}
-		else if ( Q_stristr ( pszCard, "Microsoft Corporation GDI Generic" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Microsoft Corporation GDI Generic" ) != nullptr)
 		{
 			cardIndex=2;
 		}
-		else if ( Q_stristr ( pszCard, "GeForce2 GTS" ) != NULL )
+		else if ( Q_stristr ( pszCard, "GeForce2 GTS" ) != nullptr)
 		{
 			cardIndex=3;
 		}
 
-		else if ( Q_stristr ( pszCard, "Voodoo3" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Voodoo3" ) != nullptr)
 		{
 			cardIndex=4;
 		}
 
-		else if ( Q_stristr ( pszCard, "Intel 810" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Intel 810" ) != nullptr)
 		{
 			cardIndex=5;
 		}
-		else if ( Q_stristr ( pszCard, "GeForce3" ) != NULL )
+		else if ( Q_stristr ( pszCard, "GeForce3" ) != nullptr)
 		{
 			cardIndex=6;
 		}
-		else if ( Q_stristr ( pszCard, "Riva TNT" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Riva TNT" ) != nullptr)
 		{
 				cardIndex=7;
 		}
-		else if ( Q_stristr ( pszCard, "GeForce 256" ) != NULL )
+		else if ( Q_stristr ( pszCard, "GeForce 256" ) != nullptr)
 		{
 			cardIndex=8;
 		}
-		else if ( Q_stristr ( pszCard, "Rage 128 Pro" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Rage 128 Pro" ) != nullptr)
 		{
 			cardIndex=13;
 		}
-		else if ( Q_stristr ( pszCard, "Rage 128" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Rage 128" ) != nullptr)
 		{
 			cardIndex=9;
 		}
-		else if ( Q_stristr ( pszCard, "S3 Savage4" ) != NULL )
+		else if ( Q_stristr ( pszCard, "S3 Savage4" ) != nullptr)
 		{
 			cardIndex=10;
 		}
-		else if ( Q_stristr ( pszCard, "SiS 630" ) != NULL )
+		else if ( Q_stristr ( pszCard, "SiS 630" ) != nullptr)
 		{
 			cardIndex=11;
 		}
-		else if ( Q_stristr ( pszCard, "Radeon DDR" ) != NULL )
+		else if ( Q_stristr ( pszCard, "Radeon DDR" ) != nullptr)
 		{
 			cardIndex=12;
 		}

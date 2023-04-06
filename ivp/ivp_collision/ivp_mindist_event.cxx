@@ -494,7 +494,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_KK(const IVP_Compact_Edge *K,
 	IVP_DOUBLE found =
 	    solver_kk_coll.find_first_t_for_value_coll(   mindist->get_coll_dist() ,ivp_mindist_settings.real_coll_dist, 
 							   t_now, event_time_out,  
-							   &cache_K, &cache_L, 0, &event_time_out );
+							   &cache_K, &cache_L, nullptr, &event_time_out );
 	if (found){
 	    event_type_out = IVP_COLL_KK_COLL;
 	}
@@ -513,7 +513,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_KK(const IVP_Compact_Edge *K,
 	IVP_DOUBLE found =
 	    solver_kk_parallel.find_first_t_for_value_max_dev( P_DOUBLE_EPS, 
 							       t_now, event_time_out, 0, 
-							       &cache_K, &cache_L , 0, &event_time_out );
+							       &cache_K, &cache_L , nullptr, &event_time_out );
 	if (found){
 	    event_type_out = IVP_COLL_KK_PARALLEL;
 	}
@@ -583,7 +583,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_KK(const IVP_Compact_Edge *K,
        	IVP_DOUBLE sec_dist = -ivp_mindist_settings.mindist_change_force_dist * cache_e->core->inv_object_diameter;
 	ivp_u_bool found = solver_KK_PF.find_first_t_for_value_max_dev( sec_dist, 
 									t_now, event_time_out, 0, 
-									cache_e, cache_F , 0, &event_time_out );
+									cache_e, cache_F , nullptr, &event_time_out );
 	if (found){
 	    event_type_out = IVP_COLL_KK_PF;
 	}
@@ -641,7 +641,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_PP(const IVP_Compact_Edge *P,
 	    solver_pp_coll.find_first_t_for_value_coll( mindist->get_coll_dist() + radius,
 							ivp_mindist_settings.real_coll_dist + radius * 0.5f, 
 							t_now, t_max,  
-							&cache_P, &cache_P2, 0, &event_time_out );
+							&cache_P, &cache_P2, nullptr, &event_time_out );
 	if (found){
 	    event_type_out = IVP_COLL_PP_COLL;
 	}    
@@ -703,7 +703,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_PP(const IVP_Compact_Edge *P,
 		IVP_DOUBLE sec_dist = neg_maximal_safe_s_value  * qlen * inv_len;
 
 		if (	solver_pp_pk.find_first_t_for_value_max_dev( sec_dist,   t_now, event_time_out, 0, 
-								     cache[j], cache[1-j], 0 , &event_time_out ))
+								     cache[j], cache[1-j], nullptr , &event_time_out ))
 		{
 		    event_type_out = IVP_COLL_PP_PK;
 		}	
@@ -762,7 +762,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_BP(IVP_Ball * ball,const  IVP_Com
 	    solver_pp_coll.find_first_t_for_value_coll( mindist->get_coll_dist() + radius,
 							ivp_mindist_settings.real_coll_dist + radius * 0.5f, 
 							t_now, t_max,  
-							&cache_P, &cache_P2, 0, &event_time_out );
+							&cache_P, &cache_P2, nullptr, &event_time_out );
 	    if (found){
 		event_type_out = IVP_COLL_PP_COLL;
 	    }    
@@ -804,7 +804,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_BP(IVP_Ball * ball,const  IVP_Com
 	      IVP_DOUBLE sec_dist = neg_maximal_safe_s_value * qlen * inv_len;
 
 	      if (	solver_pp_pk.find_first_t_for_value_max_dev( sec_dist,   t_now, event_time_out, 0, 
-								     &cache_P, &cache_P2, 0 , &event_time_out ))
+								     &cache_P, &cache_P2, nullptr , &event_time_out ))
 		{
 		    event_type_out = IVP_COLL_PP_PK;
 		}	
@@ -846,7 +846,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_BB(IVP_Cache_Object *m_cache_A,
 	    solver_pp_coll.find_first_t_for_value_coll( mindist->get_coll_dist() + radius,
 							ivp_mindist_settings.real_coll_dist + radius * 0.5f, 
 							t_now, t_max,  
-							&cache_A, &cache_B, 0, &event_time_out );
+							&cache_A, &cache_B, nullptr, &event_time_out );
 	    if (found){
 		event_type_out = IVP_COLL_PP_COLL;
 	    }    
@@ -913,7 +913,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_PK(const IVP_Compact_Edge *P,
 	    solver_pk_coll.find_first_t_for_value_coll( mindist->get_coll_dist() + radius,
 							ivp_mindist_settings.real_coll_dist + radius * 0.9f, 
 							t_now, t_max,  
-							&cache_P, &cache_K, 0, &event_time_out );
+							&cache_P, &cache_K, nullptr, &event_time_out );
 	    if (found){
 		event_type_out = IVP_COLL_PK_COLL;
 	    }    
@@ -954,7 +954,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_PK(const IVP_Compact_Edge *P,
 	    IVP_DOUBLE sec_dist = -ivp_mindist_settings.mindist_change_force_dist;
 	    ivp_u_bool found_flag =
 		solver_pk_pf.find_first_t_for_value_max_dev( sec_dist,   t_now, event_time_out, 0, 
-							     &cache_P, &cache_K, 0 , &event_time_out );
+							     &cache_P, &cache_K, nullptr , &event_time_out );
 	    if (found_flag){
 		event_type_out = IVP_COLL_PK_PF;
 	    }	
@@ -1017,7 +1017,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_PK(const IVP_Compact_Edge *P,
 
 	    ivp_u_bool found_flag =
 		solver_pk_kk.find_first_t_for_value_max_dev( sec_dist,   t_now, event_time_out, 0, 
-							     &cache_P, &cache_K, 0 , &event_time_out );
+							     &cache_P, &cache_K, nullptr , &event_time_out );
 	    if (found_flag){
 		event_type_out = IVP_COLL_PK_KK;
 	    }	
@@ -1081,7 +1081,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_BK(IVP_Ball * ball,const  IVP_Com
 	    solver_pk_coll.find_first_t_for_value_coll( mindist->get_coll_dist() + radius,
 							ivp_mindist_settings.real_coll_dist + radius * 0.9f,
  							t_now, t_max,  
-							&cache_P, &cache_K, 0, &event_time_out );
+							&cache_P, &cache_K, nullptr, &event_time_out );
 	    if (found){
 		event_type_out = IVP_COLL_PK_COLL;
 	    }    
@@ -1123,7 +1123,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_BK(IVP_Ball * ball,const  IVP_Com
 	    IVP_DOUBLE sec_dist = -ivp_mindist_settings.mindist_change_force_dist;
 	    ivp_u_bool found_flag =
 		solver_pk_pf.find_first_t_for_value_max_dev( sec_dist,   t_now, event_time_out, 0, 
-							     &cache_P, &cache_K, 0 , &event_time_out );
+							     &cache_P, &cache_K, nullptr , &event_time_out );
 	    if (found_flag){
 		event_type_out = IVP_COLL_PK_PF;
 	    }	
@@ -1147,7 +1147,7 @@ void IVP_Mindist_Event_Solver::next_event_B_POLY(IVP_Mindist_Event_Solver *mim)
     
     mim->event_type_out = IVP_COLL_NONE;
 #ifdef DEBUG    
-    m_cache_1.tmp.synapse = NULL;
+    m_cache_1.tmp.synapse = nullptr;
 #endif    
 
     
@@ -1205,8 +1205,8 @@ void IVP_Mindist_Event_Solver::next_event_default_poly_poly(IVP_Mindist_Event_So
     IVP_Cache_Ledge_Point m_cache_1(syn1->get_object()->to_poly(),e1->get_compact_ledge());
 
 #ifdef DEBUG    
-    m_cache_0.tmp.synapse = NULL;	// remember order of synapses
-    m_cache_1.tmp.synapse = NULL;
+    m_cache_0.tmp.synapse = nullptr;	// remember order of synapses
+    m_cache_1.tmp.synapse = nullptr;
 #endif    
     
     mim->event_type_out = IVP_COLL_NONE;

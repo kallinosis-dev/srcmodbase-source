@@ -457,7 +457,7 @@ CWeaponCSBase::CWeaponCSBase()
 	SetPredictionEligible( true );
 	m_nextOwnerTouchTime = 0.0f;
 	m_nextPrevOwnerTouchTime = 0.0f;
-	m_hPrevOwner = NULL;
+	m_hPrevOwner = nullptr;
 	AddSolidFlags( FSOLID_TRIGGER ); // Nothing collides with these but it gets touches.
 
 	m_bCanBePickedUp = true;
@@ -507,7 +507,7 @@ CWeaponCSBase::CWeaponCSBase()
 	
 #ifdef IRONSIGHT
 	m_iIronSightMode = IronSight_should_approach_unsighted;
-	m_IronSightController = NULL;
+	m_IronSightController = nullptr;
 	UpdateIronSightController();
 #endif //IRONSIGHT
 	
@@ -519,7 +519,7 @@ CWeaponCSBase::~CWeaponCSBase()
 
 #ifdef IRONSIGHT
 	delete m_IronSightController;
-	m_IronSightController = NULL;
+	m_IronSightController = nullptr;
 #endif //IRONSIGHT
 
 #ifndef CLIENT_DLL
@@ -1323,7 +1323,7 @@ const char *CWeaponCSBase::GetViewModel( int /*viewmodelindex = 0 -- this is ign
 {
 	CCSPlayer *pOwner = GetPlayerOwner();
 
-	if ( pOwner == NULL )
+	if ( pOwner == nullptr)
 	{
 		 return BaseClass::GetViewModel();
 	}
@@ -1462,7 +1462,7 @@ void CWeaponCSBase::UpdateShieldState( void )
 	//empty by default.
 	CCSPlayer *pOwner = GetPlayerOwner();
 
-	if ( pOwner == NULL )
+	if ( pOwner == nullptr)
 		 return;
 
 	//ADRIANTODO
@@ -1685,7 +1685,7 @@ void CWeaponCSBase::Drop( const Vector &vecVelocity )
 	SetGravity( 1.0 );
 	m_iState = WEAPON_NOT_CARRIED;
 	RemoveEffects( EF_NODRAW );
-	SetGroundEntity( NULL );
+	SetGroundEntity(nullptr);
 
 	m_bInReload = false; // stop reloading 
 	m_bReloadVisuallyComplete = false;
@@ -1698,8 +1698,8 @@ void CWeaponCSBase::Drop( const Vector &vecVelocity )
 	m_nextOwnerTouchTime = gpGlobals->curtime + 0.1f;
 	m_hPrevOwner = GetPlayerOwner();
 
-	SetOwnerEntity( NULL );
-	SetOwner( NULL );
+	SetOwnerEntity(nullptr);
+	SetOwner(nullptr);
 
 	VerifyAndSetContextSensitiveWeaponModel();
 
@@ -1723,7 +1723,7 @@ void CWeaponCSBase::Drop( const Vector &vecVelocity )
 	}
 
 	IPhysicsObject *pObj = VPhysicsGetObject();
-	if ( pObj != NULL )
+	if ( pObj != nullptr)
 	{
 		AngularImpulse	angImp( 100, 100, 100 );
 		pObj->AddVelocity( &vecVelocity, &angImp );
@@ -1767,7 +1767,7 @@ void CWeaponCSBase::DefaultTouch( CBaseEntity *pOther )
 		return;
 	}
 
-	if ( ( m_hPrevOwner != NULL ) && ( pOther == m_hPrevOwner ) && ( gpGlobals->curtime < m_nextPrevOwnerTouchTime ) )
+	if ( ( m_hPrevOwner != nullptr) && ( pOther == m_hPrevOwner ) && ( gpGlobals->curtime < m_nextPrevOwnerTouchTime ) )
 	{
 		return;
 	}
@@ -3078,16 +3078,16 @@ void CWeaponCSBase::Spawn()
 	m_nextOwnerTouchTime = 0.0f;
 	m_nextPrevOwnerTouchTime = 0.0f;
 
-	m_hPrevOwner = NULL;
+	m_hPrevOwner = nullptr;
 
 	// [tj] initialize donor of this weapon
-	m_donor = NULL;
+	m_donor = nullptr;
 	m_donated = false;
 
 	m_bSilencerOn = HasSilencer();
 	m_weaponMode = HasSilencer() ? Secondary_Mode : Primary_Mode;
 
-	VisibilityMonitor_AddEntity( this, 400.0f, NULL, NULL );
+	VisibilityMonitor_AddEntity( this, 400.0f, nullptr, nullptr);
 
 #ifdef IRONSIGHT
 	UpdateIronSightController();
@@ -3649,7 +3649,7 @@ void CWeaponCSBase::OnPickedUp( CBaseCombatCharacter *pNewOwner )
 		SetName( NULL_STRING );
 
 		CEconEntity *pEconEntity = dynamic_cast< CEconEntity* >( this );
-		if ( pEconEntity && m_hPrevOwner == NULL )
+		if ( pEconEntity && m_hPrevOwner == nullptr)
 		{
 			CCSPlayer *pPlayer = ToCSPlayer( pNewOwner );
 			// set the original owner XUID
@@ -3872,7 +3872,7 @@ CIronSightController *CWeaponCSBase::GetIronSightController( void )
 	{
 		return m_IronSightController;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CWeaponCSBase::UpdateIronSightController()
@@ -3912,5 +3912,5 @@ CCSPlayer * CWeaponCSBase::GetOriginalOwner()
 	if ( m_PriorOwners.Count() )
 		return m_PriorOwners.Element( 0 );
 
-	return NULL;
+	return nullptr;
 }

@@ -24,7 +24,7 @@ void CCSWeaponVisualsDataCompare::SerializeToBuffer( CUtlBuffer &buf )
 
 CCSWeaponVisualsDataProcessor::CCSWeaponVisualsDataProcessor( CCSWeaponVisualsDataCompare &&compareObject, const WeaponPaintableMaterial_t *pWeaponPaintableMaterialData, const char *pCompositingShaderName )
 	: m_pWeaponPaintableMaterialData( pWeaponPaintableMaterialData )
-	, m_pCompositingShaderName( NULL )
+	, m_pCompositingShaderName(nullptr)
 	, m_bIgnoreWeaponSizeScale( false )
 	, m_flPhongAlbedoFactor( 1.0f )
 	, m_nPhongIntensity( 0 )
@@ -39,7 +39,7 @@ CCSWeaponVisualsDataProcessor::~CCSWeaponVisualsDataProcessor()
 	if ( m_pCompositingShaderName )
 	{
 		delete [] m_pCompositingShaderName;
-		m_pCompositingShaderName = NULL;
+		m_pCompositingShaderName = nullptr;
 	}
 }
 
@@ -67,7 +67,7 @@ void CCSWeaponVisualsDataProcessor::SetVisualsData( const char *pCompositingShad
 	if ( m_pCompositingShaderName )
 	{
 		delete [] m_pCompositingShaderName;
-		m_pCompositingShaderName = NULL;
+		m_pCompositingShaderName = nullptr;
 	}
 
 	if ( pCompositingShaderName )
@@ -197,7 +197,7 @@ KeyValues *CCSWeaponVisualsDataProcessor::GenerateCustomMaterialKeyValues()
 {
 	// load the VMT key values for the compositing material, then adjust them based on visuals data
 
-	KeyValues *pVMTKeyValues = NULL;
+	KeyValues *pVMTKeyValues = nullptr;
 	bool bVMTExists = materials->GetCustomMaterialManager()->GetVMTKeyValues( GetOriginalMaterialName(), &pVMTKeyValues ); 
 
 	if (!bVMTExists)
@@ -265,7 +265,7 @@ KeyValues *CCSWeaponVisualsDataProcessor::GenerateCustomMaterialKeyValues()
 	{
 		m_flPhongAlbedoFactor = 1.0f;
 		delete pVMTKeyValues;
-		pVMTKeyValues = NULL;
+		pVMTKeyValues = nullptr;
 	}
 
 	pVMTKeyValues->SetString("$envmaptint", "[0 0 0]");

@@ -480,7 +480,7 @@ const char *CTeamplayRules::TeamWithFewestPlayers( void )
 	int i;
 	int minPlayers = MAX_TEAMS;
 	int teamCount[ MAX_TEAMS ];
-	char *pTeamName = NULL;
+	char *pTeamName = nullptr;
 
 	memset( teamCount, 0, MAX_TEAMS * sizeof(int) );
 	
@@ -526,14 +526,14 @@ void CTeamplayRules::RecountTeams( void )
 	Q_strncpy( teamlist, m_szTeamList, sizeof(teamlist) );
 	pName = teamlist;
 	pName = strtok( pName, ";" );
-	while ( pName != NULL && *pName )
+	while ( pName != nullptr && *pName )
 	{
 		if ( GetTeamIndex( pName ) < 0 )
 		{
 			Q_strncpy( team_names[num_teams], pName, sizeof(team_names[num_teams]));
 			num_teams++;
 		}
-		pName = strtok( NULL, ";" );
+		pName = strtok(nullptr, ";" );
 	}
 
 	if ( num_teams < 2 )

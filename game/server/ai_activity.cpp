@@ -15,7 +15,7 @@
 //=============================================================================
 // Init static variables
 //=============================================================================
-CStringRegistry* CAI_BaseNPC::m_pActivitySR	= NULL;
+CStringRegistry* CAI_BaseNPC::m_pActivitySR	= nullptr;
 int				 CAI_BaseNPC::m_iNumActivities = 0;
 
 //-----------------------------------------------------------------------------

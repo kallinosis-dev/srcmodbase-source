@@ -59,7 +59,7 @@ float IntersectRayWithTriangle( const Ray_t& ray,
 //-----------------------------------------------------------------------------
 bool ComputeIntersectionBarycentricCoordinates( const Ray_t& ray, 
 		const Vector& v1, const Vector& v2, const Vector& v3, float& u, float& v,
-		float *t = 0 );
+		float *t = nullptr );
 
 //-----------------------------------------------------------------------------
 //
@@ -124,8 +124,8 @@ float IntersectRayWithAAPlane( const Vector& vecStart, const Vector& vecEnd, int
 // Purpose: Computes the intersection of a ray with a box (AABB)
 // Output : Returns true if there is an intersection + trace information
 //-----------------------------------------------------------------------------
-bool IntersectRayWithBox( const Vector &rayStart, const Vector &rayDelta, const Vector &boxMins, const Vector &boxMaxs, float epsilon, CBaseTrace *pTrace, float *pFractionLeftSolid = NULL );
-bool IntersectRayWithBox( const Ray_t &ray, const Vector &boxMins, const Vector &boxMaxs, float epsilon, CBaseTrace *pTrace, float *pFractionLeftSolid = NULL );
+bool IntersectRayWithBox( const Vector &rayStart, const Vector &rayDelta, const Vector &boxMins, const Vector &boxMaxs, float epsilon, CBaseTrace *pTrace, float *pFractionLeftSolid = nullptr);
+bool IntersectRayWithBox( const Ray_t &ray, const Vector &boxMins, const Vector &boxMaxs, float epsilon, CBaseTrace *pTrace, float *pFractionLeftSolid = nullptr);
 
 //-----------------------------------------------------------------------------
 // Intersects a ray against a box

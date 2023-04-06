@@ -154,7 +154,7 @@ static bool __MsgFunc_VGUIMenu( const CCSUsrMsg_VGUIMenu &msg )
 
 	ASSERT_LOCAL_PLAYER_RESOLVABLE();
 
-	KeyValues *keys = NULL;
+	KeyValues *keys = nullptr;
 
 	if ( msg.subkeys_size() > 0 )
 	{
@@ -190,9 +190,9 @@ static bool __MsgFunc_VGUIMenu( const CCSUsrMsg_VGUIMenu &msg )
 //-----------------------------------------------------------------------------
 ClientModeShared::ClientModeShared()
 {
-	m_pViewport = NULL;
-	m_pChatElement = NULL;
-	m_pWeaponSelection = NULL;
+	m_pViewport = nullptr;
+	m_pChatElement = nullptr;
+	m_pWeaponSelection = nullptr;
 	m_nRootSize[ 0 ] = m_nRootSize[ 1 ] = -1;
 }
 
@@ -293,7 +293,7 @@ void ClientModeShared::InitViewport()
 void ClientModeShared::VGui_Shutdown()
 {
 	delete m_pViewport;
-	m_pViewport = NULL;
+	m_pViewport = nullptr;
 }
 
 
@@ -410,7 +410,7 @@ bool ClientModeShared::ShouldDrawParticles( )
 void ClientModeShared::OverrideMouseInput( float *x, float *y )
 {
 	C_BasePlayer *pPlayer = C_BasePlayer::GetLocalPlayer();
-	C_BaseCombatWeapon *pWeapon = pPlayer ? pPlayer->GetActiveWeapon() : NULL;;
+	C_BaseCombatWeapon *pWeapon = pPlayer ? pPlayer->GetActiveWeapon() : nullptr;;
 	if ( pWeapon )
 	{
 		pWeapon->OverrideMouseInput( x, y );
@@ -568,7 +568,7 @@ int	ClientModeShared::KeyInput( int down, ButtonCode_t keynum, const char *pszCu
 		return 0;
 	}
 
-	C_BaseCombatWeapon *pWeapon = pPlayer ? pPlayer->GetActiveWeapon() : NULL;
+	C_BaseCombatWeapon *pWeapon = pPlayer ? pPlayer->GetActiveWeapon() : nullptr;
 	if ( pWeapon )
 	{
 		return pWeapon->KeyInput( down, keynum, pszCurrentBinding );
@@ -738,7 +738,7 @@ vgui::Panel *ClientModeShared::GetMessagePanel()
 	if ( m_pChatElement && m_pChatElement->GetInputPanel() && m_pChatElement->GetInputPanel()->IsVisible() )
 		return m_pChatElement->GetInputPanel();
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -945,7 +945,7 @@ vgui::Panel *ClientModeShared::GetPanelFromViewport( const char *pchNamePath )
 
 	// Find the child
 	int nCurrentInstance = 0;
-	vgui::Panel *pPanel = NULL;
+	vgui::Panel *pPanel = nullptr;
 
 	for ( int i = 0; i < GetViewport()->GetChildCount(); i++ )
 	{
@@ -995,7 +995,7 @@ vgui::Panel *ClientModeShared::GetPanelFromViewport( const char *pchNamePath )
 
 		// Find the child
 		nCurrentInstance = 0;
-		vgui::Panel *pNextPanel = NULL;
+		vgui::Panel *pNextPanel = nullptr;
 
 		for ( int i = 0; i < pPanel->GetChildCount(); i++ )
 		{
@@ -1283,7 +1283,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 			}
 		}
 
-		if ( team == 0 && GetLocalTeam() > 0 )
+		if ( team == 0 && GetLocalTeam() > nullptr )
 		{
 			bValidTeam = false;
 		}
@@ -1368,7 +1368,7 @@ void ClientModeShared::FireGameEvent( IGameEvent *event )
 
 		if ( !IsInCommentaryMode() )
 		{
-			char const *szAchievementName = NULL; // should arrive as part of event instead of achievement ID
+			char const *szAchievementName = nullptr; // should arrive as part of event instead of achievement ID
 			if ( szAchievementName )
 			{
 				if ( !pPlayer->IsDormant() )

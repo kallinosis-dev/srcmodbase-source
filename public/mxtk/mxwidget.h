@@ -60,7 +60,7 @@ protected:
 
 public:
 	// CREATORS
-	mxWidget (mxWindow *parent, int x, int y, int w, int h, const char *label = 0);
+	mxWidget (mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr);
 	virtual ~mxWidget ();
 
 	// Called just before deletion during shutdown

@@ -32,7 +32,7 @@ template< class PARTICLE_EFFECT, class PARTICLE_MERGE >
 class CParticleMergeList
 {
 public:
-	CParticleMergeList() : m_pHead(NULL) {}
+	CParticleMergeList() : m_pHead(nullptr) {}
 	void AddParticleSystem( PARTICLE_EFFECT *pSystem );
 	void RemoveParticleSystem( PARTICLE_EFFECT *pRemove );
 	PARTICLE_EFFECT *FindAndMergeParticleSystem( const char *pEffectName, const Vector &center, const Vector &extents );
@@ -87,12 +87,12 @@ PARTICLE_EFFECT *CParticleMergeList<PARTICLE_EFFECT,PARTICLE_MERGE>::FindAndMerg
 		return NULL;
 #endif
 
-	for ( PARTICLE_EFFECT *pMerge = m_pHead; pMerge != NULL; pMerge = pMerge->m_pNextParticleSystem )
+	for ( PARTICLE_EFFECT *pMerge = m_pHead; pMerge != nullptr; pMerge = pMerge->m_pNextParticleSystem )
 	{
 		if ( m_merge.MergeParticleSystems( pMerge, pEffectName, center, extents ) )
 			return pMerge;
 	}
-	return NULL;
+	return nullptr;
 }
 
 // merge anything within 10 feet
@@ -147,7 +147,7 @@ CSmartPtr<CFleckParticles> CFleckParticles::Create( const char *pDebugName, cons
 }
 
 
-CFleckParticles::CFleckParticles( const char *pDebugName ) : CSimpleEmitter( pDebugName ), m_pNextParticleSystem(NULL)
+CFleckParticles::CFleckParticles( const char *pDebugName ) : CSimpleEmitter( pDebugName ), m_pNextParticleSystem(nullptr)
 {
 	g_FleckMergeList.AddParticleSystem(this);
 }

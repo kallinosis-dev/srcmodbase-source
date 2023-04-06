@@ -134,14 +134,14 @@ void CTankTargetChange::Precache( void )
 
 void CTankTargetChange::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useType, float value )
 {
-	CBaseEntity *pTarget = gEntList.FindEntityByName( NULL, m_target, NULL, pActivator, pCaller );
+	CBaseEntity *pTarget = gEntList.FindEntityByName(nullptr, m_target, nullptr, pActivator, pCaller );
 
 	// UNDONE: This should use more of the event system
 	while ( pTarget )
 	{
 		// Change the target over
 		pTarget->AcceptInput( "TargetEntity", this, this, m_newTarget, 0 );
-		pTarget = gEntList.FindEntityByName( pTarget, m_target, NULL, pActivator, pCaller );
+		pTarget = gEntList.FindEntityByName( pTarget, m_target, nullptr, pActivator, pCaller );
 	}
 }
 
@@ -226,7 +226,7 @@ void CTankTrainAI::InputTargetEntity( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 CBaseEntity *CTankTrainAI::FindTarget( string_t target, CBaseEntity *pActivator )
 {
-	return gEntList.FindEntityGeneric( NULL, STRING( target ), this, pActivator );
+	return gEntList.FindEntityGeneric(nullptr, STRING( target ), this, pActivator );
 }
 
 
@@ -347,16 +347,16 @@ void CTankTrainAI::Spawn( void )
 {
 	Precache();
 	m_soundPlaying = false;
-	m_hTargetEntity = NULL;
+	m_hTargetEntity = nullptr;
 }
 
 void CTankTrainAI::Activate( void )
 {
 	BaseClass::Activate();
 	
-	CBaseEntity *pTarget = NULL;
+	CBaseEntity *pTarget = nullptr;
 
-	CFuncTrackTrain *pTrain = NULL;
+	CFuncTrackTrain *pTrain = nullptr;
 
 	if ( m_target != NULL_STRING )
 	{

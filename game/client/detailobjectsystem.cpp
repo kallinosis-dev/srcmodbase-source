@@ -156,14 +156,14 @@ public:
 	// IClientUnknown overrides.
 public:
 	virtual IClientUnknown*		GetIClientUnknown()		{ return this; }
-	virtual ICollideable*		GetCollideable()		{ return 0; }		// Static props DO implement this.
-	virtual IClientNetworkable*	GetClientNetworkable()	{ return 0; }
+	virtual ICollideable*		GetCollideable()		{ return nullptr; }		// Static props DO implement this.
+	virtual IClientNetworkable*	GetClientNetworkable()	{ return nullptr; }
 	virtual IClientRenderable*	GetClientRenderable()	{ return this; }
-	virtual IClientEntity*		GetIClientEntity()		{ return 0; }
-	virtual C_BaseEntity*		GetBaseEntity()			{ return 0; }
-	virtual IClientThinkable*	GetClientThinkable()	{ return 0; }
-	virtual IClientModelRenderable*	GetClientModelRenderable()	{ return 0; }
-	virtual IClientAlphaProperty*	GetClientAlphaProperty()	{ return 0; }
+	virtual IClientEntity*		GetIClientEntity()		{ return nullptr; }
+	virtual C_BaseEntity*		GetBaseEntity()			{ return nullptr; }
+	virtual IClientThinkable*	GetClientThinkable()	{ return nullptr; }
+	virtual IClientModelRenderable*	GetClientModelRenderable()	{ return nullptr; }
+	virtual IClientAlphaProperty*	GetClientAlphaProperty()	{ return nullptr; }
 	// IClientRenderable overrides.
 public:
 
@@ -195,9 +195,9 @@ public:
 	virtual void				GetShadowRenderBounds( Vector &mins, Vector &maxs, ShadowType_t shadowType );
 	virtual bool IsShadowDirty( )			     { return false; }
 	virtual void MarkShadowDirty( bool bDirty )  {}
-	virtual IClientRenderable *GetShadowParent() { return NULL; }
-	virtual IClientRenderable *FirstShadowChild(){ return NULL; }
-	virtual IClientRenderable *NextShadowPeer()  { return NULL; }
+	virtual IClientRenderable *GetShadowParent() { return nullptr; }
+	virtual IClientRenderable *FirstShadowChild(){ return nullptr; }
+	virtual IClientRenderable *NextShadowPeer()  { return nullptr; }
 	virtual ShadowType_t		ShadowCastType() { return SHADOWS_NONE; }
 	virtual void CreateModelInstance()			 {}
 	virtual ModelInstanceHandle_t GetModelInstance() { return MODEL_INSTANCE_INVALID; }
@@ -206,7 +206,7 @@ public:
 	virtual	bool				GetAttachment( int number, Vector &origin, QAngle &angles );
 	virtual bool				ComputeLightingOrigin( int nAttachmentIndex, Vector modelLightingCenter, const matrix3x4_t &matrix, Vector &transformedLightingCenter );
 
-	virtual float *				GetRenderClipPlane() { return NULL; }
+	virtual float *				GetRenderClipPlane() { return nullptr; }
 	virtual int					GetSkin() { return 0; }
 	virtual void				RecordToolMessage() {}
 	virtual bool				ShouldDrawForSplitScreenUser( int nSlot ) { return true; }
@@ -248,7 +248,7 @@ public:
 	// IHandleEntity stubs.
 public:
 	virtual void SetRefEHandle( const CBaseHandle &handle )	{ Assert( false ); }
-	virtual const CBaseHandle& GetRefEHandle() const		{ Assert( false ); return *((CBaseHandle*)0); }
+	virtual const CBaseHandle& GetRefEHandle() const		{ Assert( false ); return *((CBaseHandle*)nullptr); }
 
 	//---------------------------------
 	struct LightStyleInfo_t
@@ -686,7 +686,7 @@ void CDetailModel::GetRenderBounds( Vector& mins, Vector& maxs )
 
 IPVSNotify* CDetailModel::GetPVSNotifyInterface()
 {
-	return NULL;
+	return nullptr;
 }
 
 void CDetailModel::GetRenderBoundsWorldspace( Vector& mins, Vector& maxs )
@@ -718,7 +718,7 @@ ClientShadowHandle_t CDetailModel::GetShadowHandle() const
 ClientRenderHandle_t& CDetailModel::RenderHandle()
 {
 	AssertMsg( 0, "CDetailModel has no render handle" );
-	return *((ClientRenderHandle_t*)NULL);
+	return *((ClientRenderHandle_t*)nullptr);
 }	
 
 
@@ -800,7 +800,7 @@ CDetailModel::CDetailModel()
 	m_bIsTranslucent = false;
 
 #ifdef USE_DETAIL_SHAPES
-	m_pAdvInfo = NULL;
+	m_pAdvInfo = nullptr;
 #endif
 }
 
@@ -814,7 +814,7 @@ CDetailModel::~CDetailModel()
 	if ( m_pAdvInfo )
 	{
 		delete m_pAdvInfo;
-		m_pAdvInfo = NULL;
+		m_pAdvInfo = nullptr;
 	}
 #endif
 
@@ -868,7 +868,7 @@ bool CDetailModel::InitSprite( int index, bool bFlipped, const Vector& org, cons
 	m_bIsTranslucent = true;
 
 #ifdef USE_DETAIL_SHAPES
-	m_pAdvInfo = NULL;
+	m_pAdvInfo = nullptr;
 	Assert( type <= 3 );
 	// precalculate angles for shapes
 	if ( type == DETAIL_PROP_TYPE_SHAPE_TRI || type == DETAIL_PROP_TYPE_SHAPE_CROSS || swayAmount > 0 )
@@ -1374,7 +1374,7 @@ void CDetailModel::UpdatePlayerAvoid( void )
 	if ( flForce < 0.1 )
 		return;
 
-	if ( m_pAdvInfo == NULL )
+	if ( m_pAdvInfo == nullptr)
 		return;
 
 	// get players in a radius
@@ -1469,12 +1469,12 @@ void CDetailModel::DrawSwayingQuad( CMeshBuilder &meshBuilder, Vector vecOrigin,
 //-----------------------------------------------------------------------------
 CDetailObjectSystem::CDetailObjectSystem() : m_DetailSpriteDict( 0, 32 ), m_DetailObjectDict( 0, 32 ), m_DetailSpriteDictFlipped( 0, 32 )
 {
-	m_pFastSpriteData = NULL;
-	m_pSortInfo = NULL;
-	m_pFastSortInfo = NULL;
-	m_pBuildoutBuffer = NULL;
+	m_pFastSpriteData = nullptr;
+	m_pSortInfo = nullptr;
+	m_pFastSortInfo = nullptr;
+	m_pBuildoutBuffer = nullptr;
 
-	m_pCachedSpriteMesh[MAX_MAP_LEAFS][CACHED_SPRITE_SUB_SPLIT_COUNT] = {NULL};
+	m_pCachedSpriteMesh[MAX_MAP_LEAFS][CACHED_SPRITE_SUB_SPLIT_COUNT] = {nullptr};
 	m_nCachedSpriteMeshPtrs.RemoveAll();
 }
 
@@ -1487,7 +1487,7 @@ void CDetailObjectSystem::DestroyCachedSpriteMeshes( void )
 		{
 			Assert( m_nCachedSpriteMeshPtrs[n] );
 			pRenderContext->DestroyStaticMesh( *m_nCachedSpriteMeshPtrs[n] );
-			*m_nCachedSpriteMeshPtrs[n] = NULL;
+			*m_nCachedSpriteMeshPtrs[n] = nullptr;
 		}
 		m_nCachedSpriteMeshPtrs.Purge();
 	}
@@ -1498,17 +1498,17 @@ void CDetailObjectSystem::FreeSortBuffers( void )
 	if ( m_pSortInfo )
 	{
 		MemAlloc_FreeAligned(  m_pSortInfo );
-		m_pSortInfo = NULL;
+		m_pSortInfo = nullptr;
 	}
 	if ( m_pFastSortInfo )
 	{
 		MemAlloc_FreeAligned(  m_pFastSortInfo );
-		m_pFastSortInfo = NULL;
+		m_pFastSortInfo = nullptr;
 	}
 	if ( m_pBuildoutBuffer )
 	{
 		MemAlloc_FreeAligned(  m_pBuildoutBuffer );
-		m_pBuildoutBuffer = NULL;
+		m_pBuildoutBuffer = nullptr;
 	}
 }
 
@@ -1517,7 +1517,7 @@ CDetailObjectSystem::~CDetailObjectSystem()
 	if ( m_pFastSpriteData )
 	{
 		MemAlloc_FreeAligned( m_pFastSpriteData );
-		m_pFastSpriteData = NULL;
+		m_pFastSpriteData = nullptr;
 	}
 	FreeSortBuffers();
 	DestroyCachedSpriteMeshes();
@@ -1532,7 +1532,7 @@ void CDetailObjectSystem::LevelInitPreEntity()
 	if ( m_pFastSpriteData )
 	{
 		MemAlloc_FreeAligned( m_pFastSpriteData );
-		m_pFastSpriteData = NULL;
+		m_pFastSpriteData = nullptr;
 	}
 	FreeSortBuffers();
 	DestroyCachedSpriteMeshes();
@@ -1699,7 +1699,7 @@ IClientRenderable* CDetailObjectSystem::GetDetailModel( int idx )
 	// FIXME: This is necessary because we have intermixed models + sprites
 	// in a single list (m_DetailObjects)
 	if (m_DetailObjects[idx].GetType() != DETAIL_PROP_TYPE_MODEL)
-		return NULL;
+		return nullptr;
 	
 	return &m_DetailObjects[idx];
 }
@@ -2048,7 +2048,7 @@ Vector CDetailObjectSystem::GetSpriteMiddleBottomPosition( DetailObjectLump_t co
 	VectorAngles( vecDir, Angles );
 
 	Vector vecOrigin, dx, dy;
-	AngleVectors( Angles, NULL, &dx, &dy );
+	AngleVectors( Angles, nullptr, &dx, &dy );
 
 	Vector2D ul, lr;
 	float scale = lump.m_flScale;
@@ -2398,7 +2398,7 @@ void CDetailObjectSystem::RenderFastSprites( const DistanceFadeInfo_t &info, con
 		pMaterial = m_DetailWireframeMaterial;
 	}
 
-	if(pMaterial == NULL)
+	if(pMaterial == nullptr)
 	{
 		// Should never happen, but we crash if this fails so abort here as a failsafe.
 		// (I believe this bug is fixed elsewhere but I like to be thorough, especially
@@ -2415,7 +2415,7 @@ void CDetailObjectSystem::RenderFastSprites( const DistanceFadeInfo_t &info, con
 	
 	//DetailPropFlashlightMode_t flashlightMode = DetailPropFlashlightMode();
 
-	IMesh *pMesh = NULL;
+	IMesh *pMesh = nullptr;
 
 	// render detail sprites per leaf in cached batches
 	for ( int i = 0; i < nLeafCount; ++i )
@@ -2424,9 +2424,9 @@ void CDetailObjectSystem::RenderFastSprites( const DistanceFadeInfo_t &info, con
 
 		int nSubSplit = 0;
 
-		if ( m_pCachedSpriteMesh[nLeaf][0] != NULL )
+		if ( m_pCachedSpriteMesh[nLeaf][0] != nullptr)
 		{
-			for ( int n = 0; m_pCachedSpriteMesh[nLeaf][n] != NULL && n < CACHED_SPRITE_SUB_SPLIT_COUNT; n++ )
+			for ( int n = 0; m_pCachedSpriteMesh[nLeaf][n] != nullptr && n < CACHED_SPRITE_SUB_SPLIT_COUNT; n++ )
 			{
 				m_pCachedSpriteMesh[nLeaf][n]->Draw();
 			}
@@ -2576,7 +2576,7 @@ void CDetailObjectSystem::RenderTranslucentDetailObjects( const DistanceFadeInfo
 	}
 
 	CMeshBuilder meshBuilder;
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( flashlightMode != DPFM_MULTIPASS, NULL, NULL, pMaterial );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( flashlightMode != DPFM_MULTIPASS, nullptr, nullptr, pMaterial );
 
 	int nMaxVerts, nMaxIndices;
 	pRenderContext->GetMaxToRender( pMesh, false, &nMaxVerts, &nMaxIndices );
@@ -2689,7 +2689,7 @@ void CDetailObjectSystem::RenderFastTranslucentDetailObjectsInLeaf( CFastDetailL
 		
 	CMeshBuilder meshBuilder;
 	DetailPropFlashlightMode_t flashlightMode = DetailPropFlashlightMode();
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( false /*flashlightMode != DPFM_MULTIPASS*/, NULL, NULL, pMaterial );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( false /*flashlightMode != DPFM_MULTIPASS*/, nullptr, nullptr, pMaterial );
 
 
 
@@ -2881,7 +2881,7 @@ void CDetailObjectSystem::RenderTranslucentDetailObjectsInLeaf( const DistanceFa
 	}
 
 	CMeshBuilder meshBuilder;
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( flashlightMode != DPFM_MULTIPASS, NULL, NULL, pMaterial );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( flashlightMode != DPFM_MULTIPASS, nullptr, nullptr, pMaterial );
 
 	shadowmgr->PushSinglePassFlashlightStateEnabled( flashlightMode == DPFM_SINGLEPASS );
 

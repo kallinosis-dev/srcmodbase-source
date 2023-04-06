@@ -221,12 +221,12 @@ bool CSaveRestoreFileSystemPassthrough::DirectoryExtract( FileHandle_t pFile, in
 int CSaveRestoreFileSystemPassthrough::DirectoryCount( const char *pPath )
 {
 	int count = 0;
-	const char *findfn = Sys_FindFirstEx( pPath, MOD_DIR, NULL, 0 );
+	const char *findfn = Sys_FindFirstEx( pPath, MOD_DIR, nullptr, 0 );
 
-	while ( findfn != NULL )
+	while ( findfn != nullptr)
 	{
 		count++;
-		findfn = Sys_FindNext(NULL, 0 );
+		findfn = Sys_FindNext(nullptr, 0 );
 	}
 	Sys_FindClose();
 
@@ -241,8 +241,8 @@ void CSaveRestoreFileSystemPassthrough::DirectoryClear( const char *pPath, bool 
 	char const	*findfn;
 	char		szPath[ MAX_PATH ];
 
-	findfn = Sys_FindFirstEx( pPath, MOD_DIR, NULL, 0 );
-	while ( findfn != NULL )
+	findfn = Sys_FindFirstEx( pPath, MOD_DIR, nullptr, 0 );
+	while ( findfn != nullptr)
 	{
 		if ( !bIsXSave )
 		{
@@ -257,7 +257,7 @@ void CSaveRestoreFileSystemPassthrough::DirectoryClear( const char *pPath, bool 
 		g_pFileSystem->RemoveFile( szPath, MOD_DIR );
 
 		// Any more save files
-		findfn = Sys_FindNext( NULL, 0 );
+		findfn = Sys_FindNext(nullptr, 0 );
 	}
 	Sys_FindClose();
 }

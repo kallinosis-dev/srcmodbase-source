@@ -11,7 +11,7 @@
 #include "tier0/memdbgon.h"
 
 // Start with empty list
-CHudElementHelper *CHudElementHelper::m_sHelpers = NULL;
+CHudElementHelper *CHudElementHelper::m_sHelpers = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructs a technology factory
@@ -25,7 +25,7 @@ CHudElementHelper::CHudElementHelper( CHudElement *( *pfnCreate )( void ), int d
 	//Insert into the list based on depth
 
 	//List is empty, or element belongs at front, insert here
-	if( m_sHelpers == NULL || depth >= m_sHelpers->m_iDepth )
+	if( m_sHelpers == nullptr || depth >= m_sHelpers->m_iDepth )
 	{
 		m_pNext	= m_sHelpers;
 		m_sHelpers = this;
@@ -36,7 +36,7 @@ CHudElementHelper::CHudElementHelper( CHudElement *( *pfnCreate )( void ), int d
 		CHudElementHelper *pPrev = m_sHelpers;
 		CHudElementHelper *pCurrent = m_sHelpers->m_pNext;
 
-		while( pCurrent != NULL && depth < pCurrent->m_iDepth )
+		while( pCurrent != nullptr && depth < pCurrent->m_iDepth )
 		{
 			pPrev = pCurrent;
 			pCurrent = pCurrent->m_pNext;

@@ -56,7 +56,7 @@ public:
 		NoFrame
 	};
 
-	CMPAException( ErrorIDs ErrorID, const char *szFile, const char *szFunction = NULL, bool bGetLastError=false );
+	CMPAException( ErrorIDs ErrorID, const char *szFile, const char *szFunction = nullptr, bool bGetLastError=false );
 	// copy constructor (necessary because of LPSTR members)
 	CMPAException(const CMPAException& Source);
 	~CMPAException(void);

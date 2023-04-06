@@ -53,7 +53,7 @@ public:
 	};
 	typedef CUtlSortVector<RuleAndScorePair_t, RuleAndScorePair_t::LessFunc> FindAllRulesRetval_t;
 	void FindAllRulesMatchingCriteria(  FindAllRulesRetval_t* RESTRICT outputList, 
-		const ResponseRules::CriteriaSet& set, ResponseRules::IResponseFilter *pFilter = NULL );
+		const ResponseRules::CriteriaSet& set, ResponseRules::IResponseFilter *pFilter = nullptr);
 	
 };
 

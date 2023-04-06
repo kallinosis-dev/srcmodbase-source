@@ -97,8 +97,8 @@ void CEntityFreezing::InputFreeze( inputdata_t &inputdata )
 		strTarget = m_target;
 	}
 
-	CBaseEntity *pTarget = NULL;
-	while ((pTarget = gEntList.FindEntityGeneric(pTarget, STRING(strTarget), this, inputdata.pActivator)) != NULL)
+	CBaseEntity *pTarget = nullptr;
+	while ((pTarget = gEntList.FindEntityGeneric(pTarget, STRING(strTarget), this, inputdata.pActivator)) != nullptr)
 	{
 		CBaseAnimating *pBaseAnim = pTarget->GetBaseAnimating();
 		if ( pBaseAnim )
@@ -125,14 +125,14 @@ CEntityFreezing *CEntityFreezing::Create( CBaseAnimating *pTarget )
 			pPlayer->SetArmorValue( 0 );
 			CTakeDamageInfo info( pPlayer, pPlayer, pPlayer->GetHealth(), DMG_GENERIC | DMG_REMOVENORAGDOLL | DMG_PREVENT_PHYSICS_FORCE );
 			pPlayer->TakeDamage( info );
-			return NULL;
+			return nullptr;
 		}
 	}
 
 	CEntityFreezing *pFreezing = (CEntityFreezing *) CreateEntityByName( "env_entity_freezing" );
 
-	if ( pFreezing == NULL )
-		return NULL;
+	if ( pFreezing == nullptr)
+		return nullptr;
 
 	if ( pTarget )
 	{

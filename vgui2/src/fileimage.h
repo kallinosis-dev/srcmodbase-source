@@ -72,7 +72,7 @@ public:
 	void			Clear()
 	{
 		m_Width = m_Height = 0;
-		m_pData = NULL;
+		m_pData = nullptr;
 	}
 	
 	int				m_Width, m_Height;

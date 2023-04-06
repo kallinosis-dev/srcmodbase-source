@@ -50,9 +50,9 @@ CBaseAnimationSetControl *CBaseAnimationSetEditor::GetController()
 
 void CBaseAnimationSetEditor::CreateToolsSubPanels()
 {
-	m_hControlGroup = new CBaseAnimSetControlGroupPanel( (Panel *)NULL, "AnimSetControlGroup", this, false );
-	m_hPresetFader = new CBaseAnimSetPresetFaderPanel( (Panel *)NULL, "AnimSetPresetFader", this );
-	m_hAttributeSlider = new CBaseAnimSetAttributeSliderPanel( (Panel *)NULL, "AnimSetAttributeSliderPanel", this );
+	m_hControlGroup = new CBaseAnimSetControlGroupPanel( (Panel *)nullptr, "AnimSetControlGroup", this, false );
+	m_hPresetFader = new CBaseAnimSetPresetFaderPanel( (Panel *)nullptr, "AnimSetPresetFader", this );
+	m_hAttributeSlider = new CBaseAnimSetAttributeSliderPanel( (Panel *)nullptr, "AnimSetAttributeSliderPanel", this );
 }
 
 void CBaseAnimationSetEditor::ChangeLayout( EAnimSetLayout_t newLayout )
@@ -60,19 +60,19 @@ void CBaseAnimationSetEditor::ChangeLayout( EAnimSetLayout_t newLayout )
 	m_Layout = newLayout;
 
 	// Make sure these don't get blown away...
-	m_hControlGroup->SetParent( (Panel *)NULL );
-	m_hPresetFader->SetParent( (Panel *)NULL );
-	m_hAttributeSlider->SetParent( (Panel *)NULL );
+	m_hControlGroup->SetParent( (Panel *)nullptr);
+	m_hPresetFader->SetParent( (Panel *)nullptr);
+	m_hAttributeSlider->SetParent( (Panel *)nullptr);
 
 	delete m_Splitter.Get();
-	m_Splitter = NULL;
+	m_Splitter = nullptr;
 
 	CUtlVector< Panel * > list;
 	list.AddToTail( m_hControlGroup.Get() );
 	list.AddToTail( m_hPresetFader.Get() );
 	list.AddToTail( m_hAttributeSlider.Get() );
 
-	Splitter *sub = NULL;
+	Splitter *sub = nullptr;
 
 	switch ( m_Layout )
 	{
@@ -207,7 +207,7 @@ void CBaseAnimationSetEditor::OnOpenContextMenu( KeyValues *params )
 	if ( m_hContextMenu.Get() )
 	{
 		delete m_hContextMenu.Get();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 
 	m_hContextMenu = new Menu( this, "ActionMenu" );

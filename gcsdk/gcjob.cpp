@@ -58,8 +58,8 @@ public:
 	};
 
 	//different reports that can be provided
-	void DumpTotalCallers( EDumpCaller eFilter, const char* pszFunctionFilter = NULL ) const;
-	void DumpTotalIPs( EDumpCaller eFilter, const char* pszFunctionFilter = NULL ) const;
+	void DumpTotalCallers( EDumpCaller eFilter, const char* pszFunctionFilter = nullptr) const;
+	void DumpTotalIPs( EDumpCaller eFilter, const char* pszFunctionFilter = nullptr) const;
 	void DumpCaller( AccountID_t nID ) const;
 	void DumpIP( uint32 nIP ) const;
 	void DumpFunctions() const;
@@ -716,7 +716,7 @@ void CWebAPIAccountTracker::DumpTotalCallers( EDumpCaller eFilter, const char* p
 	{
 		//handle filtering out functions we don't care about
 		const char* pszFunctionName = ( const char* )m_Functions.Key( nCurrFunction );
-		if( pszFunctionFilter && ( V_stristr( pszFunctionName, pszFunctionFilter ) == NULL ) )
+		if( pszFunctionFilter && ( V_stristr( pszFunctionName, pszFunctionFilter ) == nullptr) )
 			continue;
 
 		const SFunctionStats& function = *m_Functions[ nCurrFunction ];
@@ -766,7 +766,7 @@ void CWebAPIAccountTracker::DumpTotalCallers( EDumpCaller eFilter, const char* p
 			continue;
 
 		const AccountID_t accountID = m_AccountCallers.Key( nCurrCaller );
-		const SCallerReportStats* pStats = NULL;
+		const SCallerReportStats* pStats = nullptr;
 		int nCollectedStats = mapCallers.Find( accountID );
 		if( nCollectedStats != mapCallers.InvalidIndex() )
 		{
@@ -809,7 +809,7 @@ void CWebAPIAccountTracker::DumpTotalIPs( EDumpCaller eFilter, const char* pszFu
 	{
 		//handle filtering out functions we don't care about
 		const char* pszFunctionName = ( const char* )m_Functions.Key( nCurrFunction );
-		if( pszFunctionFilter && ( V_stristr( pszFunctionName, pszFunctionFilter ) == NULL ) )
+		if( pszFunctionFilter && ( V_stristr( pszFunctionName, pszFunctionFilter ) == nullptr) )
 			continue;
 
 		const SFunctionStats& function = *m_Functions[ nCurrFunction ];
@@ -857,7 +857,7 @@ void CWebAPIAccountTracker::DumpTotalIPs( EDumpCaller eFilter, const char* pszFu
 			continue;
 
 		const uint32 nIP = m_IPCallers.Key( nCurrCaller );
-		const SCallerReportStats* pStats = NULL;
+		const SCallerReportStats* pStats = nullptr;
 		int nCollectedStats = mapIPs.Find( nIP );
 		if( nCollectedStats != mapIPs.InvalidIndex() )
 		{
@@ -1079,7 +1079,7 @@ GC_CON_COMMAND( webapi_profile_dump_total, "Displays stats collected while web a
 //-----------------------------------------------------------------------------
 bool CGCJob::BYldSendMessageAndGetReply( CSteamID &steamIDTarget, CGCMsgBase &msgOut, uint nTimeoutSec, CGCMsgBase *pMsgIn, MsgType_t eMsg )
 {
-	IMsgNetPacket *pNetPacket = NULL;
+	IMsgNetPacket *pNetPacket = nullptr;
 
 	if ( !BYldSendMessageAndGetReply( steamIDTarget, msgOut, nTimeoutSec, &pNetPacket ) )
 		return false;
@@ -1119,7 +1119,7 @@ bool CGCJob::BYldSendMessageAndGetReply( CSteamID &steamIDTarget, CGCMsgBase &ms
 //-----------------------------------------------------------------------------
 bool CGCJob::BYldSendMessageAndGetReply( CSteamID &steamIDTarget, CProtoBufMsgBase &msgOut, uint nTimeoutSec, CProtoBufMsgBase *pMsgIn, MsgType_t eMsg )
 {
-	IMsgNetPacket *pNetPacket = NULL;
+	IMsgNetPacket *pNetPacket = nullptr;
 
 	if ( !BYldSendMessageAndGetReply( steamIDTarget, msgOut, nTimeoutSec, &pNetPacket ) )
 		return false;
@@ -1150,7 +1150,7 @@ bool CGCJob::BYldSendMessageAndGetReply( CSteamID &steamIDTarget, CProtoBufMsgBa
 CGCWGJob::CGCWGJob( CGCBase *pGCBase ) 
 : CGCJob( pGCBase ), 
 	m_steamID( k_steamIDNil ),
-	m_pWebApiFunc( NULL )
+	m_pWebApiFunc(nullptr)
 {
 }
 
@@ -1291,9 +1291,9 @@ static void ThreadedEmitFormattedOutputWrapperAndFreeResponse( CWebAPIResponse *
 {
 	// parse the output type that we want the result to be in
 	EWebAPIOutputFormat eOutputFormat = eDefaultFormat; 
-	const char *pszParamOutput = pEmitData->m_Request.GetGETParamString( "format", NULL ); 
+	const char *pszParamOutput = pEmitData->m_Request.GetGETParamString( "format", nullptr); 
 	if ( !pszParamOutput ) 
-		pszParamOutput = pEmitData->m_Request.GetPOSTParamString( "format", NULL ); 
+		pszParamOutput = pEmitData->m_Request.GetPOSTParamString( "format", nullptr); 
 
 	if  ( pszParamOutput ) 
 	{ 

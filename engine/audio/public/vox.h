@@ -30,8 +30,8 @@ extern void				VOX_ReadSentenceFile( const char *psentenceFileName );
 extern int				VOX_SentenceCount( void );
 extern void				VOX_LoadSound( channel_t *pchan, const char *psz );
 // UNDONE: Improve the interface of this call, it returns sentence data AND the sentence index
-extern char				*VOX_LookupString( const char *pSentenceName, int *psentencenum, bool *pbEmitCaption = NULL, CUtlSymbol *pCaptionSymbol = NULL, float * pflDuration = NULL );
-extern void				VOX_PrecacheSentenceGroup( class IEngineSound *pSoundSystem, const char *pGroupName, const char *pPathOverride = NULL );
+extern char				*VOX_LookupString( const char *pSentenceName, int *psentencenum, bool *pbEmitCaption = nullptr, CUtlSymbol *pCaptionSymbol = nullptr, float * pflDuration = nullptr);
+extern void				VOX_PrecacheSentenceGroup( class IEngineSound *pSoundSystem, const char *pGroupName, const char *pPathOverride = nullptr);
 extern const char		*VOX_SentenceNameFromIndex( int sentencenum );
 extern float			VOX_SentenceLength( int sentence_num );
 extern const char		*VOX_GroupNameFromIndex( int groupIndex );

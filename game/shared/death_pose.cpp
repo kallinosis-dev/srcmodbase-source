@@ -95,7 +95,7 @@ Activity GetDeathPoseActivity( CBaseAnimating *entity, const CTakeDamageInfo &in
 	Activity aActivity;
 
 	Vector vForward, vRight;
-	entity->GetVectors( &vForward, &vRight, NULL );
+	entity->GetVectors( &vForward, &vRight, nullptr);
 
 	Vector vDir = -info.GetDamageForce();
 	VectorNormalize( vDir );

@@ -24,9 +24,9 @@ static CRenderToRTHelper s_RenderToRTHelper;
 EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CRenderToRTHelper, IRenderToRTHelper, RENDER_TO_RT_HELPER_INTERFACE_VERSION, s_RenderToRTHelper );
 
 CRenderToRTHelper::CRenderToRTHelper()
-	: m_pCurrentObjectToRender( NULL )
-	, m_pPixelsReadEvent( NULL )
-	, m_pRenderTarget( NULL )
+	: m_pCurrentObjectToRender(nullptr)
+	, m_pPixelsReadEvent(nullptr)
+	, m_pRenderTarget(nullptr)
 {
 }
 
@@ -36,7 +36,7 @@ CRenderToRTHelper::~CRenderToRTHelper()
 
 bool ProcessRenderToRTHelper()
 {
-	return ( g_pRenderToRTHelper != NULL ) ? g_pRenderToRTHelper->Process() : false;
+	return ( g_pRenderToRTHelper != nullptr) ? g_pRenderToRTHelper->Process() : false;
 }
 
 bool CRenderToRTHelper::Init()
@@ -75,7 +75,7 @@ void CRenderToRTHelper::Shutdown( void )
 	if ( m_pRenderTarget )
 	{
 		m_pRenderTarget->Release();
-		m_pRenderTarget = NULL;
+		m_pRenderTarget = nullptr;
 	}
 }
 
@@ -134,12 +134,12 @@ void CRenderToRTHelper::DestroyRenderToRTData( RenderToRTData_t *pRenderToRTData
 	{
 		m_pPixelsReadEvent->Wait();
 		delete m_pPixelsReadEvent;
-		m_pPixelsReadEvent = NULL;
+		m_pPixelsReadEvent = nullptr;
 	}
 
 	if ( m_pCurrentObjectToRender == pRenderToRTData )
 	{
-		m_pCurrentObjectToRender = NULL;
+		m_pCurrentObjectToRender = nullptr;
 	}
 
 	pRenderToRTData->m_stage = RENDER_TO_RT_STAGE_UNDEFINED;
@@ -196,7 +196,7 @@ bool CRenderToRTHelper::Process()
 
 	if ( m_pCurrentObjectToRender )
 	{	
-		if ( m_pCurrentObjectToRender->m_stage == RENDER_TO_RT_STAGE_STARTED && m_pRenderTarget != NULL && materials->CanDownloadTextures() )
+		if ( m_pCurrentObjectToRender->m_stage == RENDER_TO_RT_STAGE_STARTED && m_pRenderTarget != nullptr && materials->CanDownloadTextures() )
 		{
 			// render it and save
 
@@ -286,7 +286,7 @@ bool CRenderToRTHelper::Process()
 				g_pFullFileSystem->Close(f);
 			}
 #endif
-			m_pCurrentObjectToRender = NULL;
+			m_pCurrentObjectToRender = nullptr;
 		}
 	}
 

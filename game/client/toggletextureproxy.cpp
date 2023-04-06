@@ -66,8 +66,8 @@ bool CBaseToggleTextureProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValues 
 
 void CBaseToggleTextureProxy::Cleanup()
 {
-	m_TextureVar = NULL;
-	m_TextureFrameNumVar = NULL;
+	m_TextureVar = nullptr;
+	m_TextureFrameNumVar = nullptr;
 }
 
 
@@ -86,16 +86,16 @@ void CBaseToggleTextureProxy::OnBind( void *pC_BaseEntity )
 		return;
 	}
 
-	ITexture *pTexture = NULL;
+	ITexture *pTexture = nullptr;
 
 	pTexture = m_TextureVar->GetTextureValue();
 
-	if ( pTexture == NULL )
+	if ( pTexture == nullptr)
 		 return;
 
 	C_BaseEntity *pEntity = BindArgToEntity( pC_BaseEntity );
 
-	if ( pEntity == NULL )
+	if ( pEntity == nullptr)
 		 return;
 	
 	int numFrames = pTexture->GetNumAnimationFrames();

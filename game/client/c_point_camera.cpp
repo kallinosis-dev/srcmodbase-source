@@ -28,7 +28,7 @@ IMPLEMENT_CLIENTCLASS_DT( C_PointCamera, DT_PointCamera, CPointCamera )
 END_RECV_TABLE()
 
 C_EntityClassList<C_PointCamera> g_PointCameraList;
-template<> C_PointCamera *C_EntityClassList<C_PointCamera>::m_pClassList = NULL;
+template<> C_PointCamera *C_EntityClassList<C_PointCamera>::m_pClassList = nullptr;
 
 C_PointCamera* GetPointCameraList()
 {

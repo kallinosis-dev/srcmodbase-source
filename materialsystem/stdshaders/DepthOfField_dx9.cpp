@@ -119,7 +119,7 @@ BEGIN_VS_SHADER_FLAGS( DepthOfField_dx9, "Depth of Field", SHADER_NOT_EDITABLE )
 			return "Wireframe";
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -138,7 +138,7 @@ BEGIN_VS_SHADER_FLAGS( DepthOfField_dx9, "Depth of Field", SHADER_NOT_EDITABLE )
 	{
 		SHADOW_STATE
 		{
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 			pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, false );
@@ -211,7 +211,7 @@ BEGIN_VS_SHADER_FLAGS( DepthOfField_dx9, "Depth of Field", SHADER_NOT_EDITABLE )
 
 			// set up poisson sample location constants pre-divided by screen res
 			int nNumPoissonSamples = 0;
-			const float *pPoissonSrc = NULL;
+			const float *pPoissonSrc = nullptr;
 			switch ( params[QUALITY]->GetIntValue() )
 			{
 			case 0:

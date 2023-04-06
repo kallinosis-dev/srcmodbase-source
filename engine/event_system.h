@@ -43,8 +43,8 @@ public:
 		classID = 0;
 		fire_delay = 0.0f;
 		flags = 0;
-		pSendTable = NULL;
-		pClientClass = NULL;
+		pSendTable = nullptr;
+		pClientClass = nullptr;
 		m_Packed = SERIALIZED_ENTITY_HANDLE_INVALID;
 	}
 

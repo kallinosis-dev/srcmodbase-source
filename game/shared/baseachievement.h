@@ -89,7 +89,7 @@ public:
 	virtual void SetShowOnHUD( bool bShow );
 	virtual void SetUserSlot( int nUserSlot ) { m_nUserSlot = nUserSlot; }
 	virtual void ClearAchievementData();
-	virtual const char *GetIconPath() { return NULL; }
+	virtual const char *GetIconPath() { return nullptr; }
 	void SetDisplayOrder( int iDisplayOrder ) { m_iDisplayOrder = iDisplayOrder; }
 	int GetDisplayOrder( ) { return m_iDisplayOrder; }
 

@@ -130,7 +130,7 @@ public:
 		for( int i = 0; i < SOS_BLOCKSYS_MAX_ENTRIES; i++ )
 		{
 			delete m_vEntryMatchList[i];
-			m_vEntryMatchList[i] = NULL;
+			m_vEntryMatchList[i] = nullptr;
 		}
 	}
 	CSosEntryMatchList()

@@ -510,7 +510,7 @@ bool CPhysicsPushedEntities::SpeculativelyCheckLinearPush( const Vector &vecAbsP
 	m_nBlocker = -1;
 	for (int i = m_rgMoved.Count(); --i >= 0; )
 	{
-		if (!SpeculativelyCheckPush( m_rgMoved[i], vecAbsPush, false, NULL ))
+		if (!SpeculativelyCheckPush( m_rgMoved[i], vecAbsPush, false, nullptr))
 		{
 			m_nBlocker = i;
 			return false;
@@ -816,18 +816,18 @@ private:
 	{
 		CBaseEntity *pCheck = gEntList.GetBaseEntity( pHandleEntity->GetRefEHandle() );
 		if ( !pCheck )
-			return NULL;
+			return nullptr;
 
 		// Don't bother if we've already seen this one...
 		if (pCheck->m_nPushEnumCount == s_nEnumCount)
-			return NULL;
+			return nullptr;
 
 		if ( !pCheck->IsSolid() )
-			return NULL;
+			return nullptr;
 
 		int nMovetype = pCheck->GetMoveType();
 		if ( !IsPushableMoveType( nMovetype ) )
-			return NULL;
+			return nullptr;
 
 		pCheck->m_nPushEnumCount = s_nEnumCount;
 		bool bCollide = false;
@@ -840,11 +840,11 @@ private:
 			}
 		}
 		if ( !bCollide )
-			return NULL;
+			return nullptr;
 		// We're not pushing stuff we're hierarchically attached to
 		CBaseEntity *pCheckHighestParent = pCheck->GetRootMoveParent();
 		if (pCheckHighestParent == m_pRootHighestParent)
-			return NULL;
+			return nullptr;
 
 		// If we're standing on the pusher or any rigidly attached child
 		// of the pusher, we don't need to bother checking for interpenetration
@@ -853,7 +853,7 @@ private:
 			// Our surrounding boxes are touching. But we may well not be colliding....
 			// see if the ent's bbox is inside the pusher's final position
 			if ( !IntersectsPushers( pCheck ) )
-				return NULL;
+				return nullptr;
 		}
 
 		// NOTE: This is pretty tricky here. If a rigidly attached child comes into
@@ -965,7 +965,7 @@ void CPhysicsPushedEntities::SetupAllInHierarchy( CBaseEntity *pRoot )
 
 	do
 	{
-		for ( CBaseEntity *pChild = pEntity->FirstMoveChild(); pChild != NULL; pChild = pChild->NextMovePeer() )
+		for ( CBaseEntity *pChild = pEntity->FirstMoveChild(); pChild != nullptr; pChild = pChild->NextMovePeer() )
 		{
 			i = m_rgPusher.AddToTail();
 			m_rgPusher[i].m_pEntity = pChild;
@@ -1048,7 +1048,7 @@ CBaseEntity *CPhysicsPushedEntities::PerformRotatePush( CBaseEntity *pRoot, floa
 	}
 
 	FinishPush( true, &rotPushMove );
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1108,7 +1108,7 @@ CBaseEntity *CPhysicsPushedEntities::PerformLinearPush( CBaseEntity *pRoot, floa
 	}
 
 	FinishPush( );
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1543,7 +1543,7 @@ CBaseEntity *CBaseEntity::PhysicsPushMove( float movetime )
 
 	if ( GetLocalVelocity() == vec3_origin )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Now check that the entire hierarchy can rotate into the new location
@@ -1570,7 +1570,7 @@ CBaseEntity *CBaseEntity::PhysicsPushRotate( float movetime )
 	// Not rotating
 	if ( GetLocalAngularVelocity() == vec3_angle )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Now check that the entire hierarchy can rotate into the new location
@@ -1772,7 +1772,7 @@ void CBaseEntity::PhysicsCustom()
 	// Moving upward, off the ground, or  resting on a client/monster, remove FL_ONGROUND
 	if ( m_vecVelocity[2] > 0 || !GetGroundEntity() || !GetGroundEntity()->IsStandable() )
 	{
-		SetGroundEntity( NULL );
+		SetGroundEntity(nullptr);
 	}
 
 	// NOTE: The entity must set the position, angles, velocity in its custom movement
@@ -1894,7 +1894,7 @@ void CBaseEntity::StepSimulationThink( float dt )
 		PhysicsRunThink( THINK_FIRE_BASE_ONLY );
 
 		// do any local processing that's needed
-		if (GetBaseAnimating() != NULL)
+		if (GetBaseAnimating() != nullptr)
 		{
 			GetBaseAnimating()->UpdateStepOrigin();
 		}
@@ -1991,7 +1991,7 @@ void CBaseEntity::PhysicsStep()
 		else
 		{
 			float maxAngular;
-			VPhysicsGetObject()->GetShadowController()->GetMaxSpeed( NULL, &maxAngular );
+			VPhysicsGetObject()->GetShadowController()->GetMaxSpeed(nullptr, &maxAngular );
 			VPhysicsGetObject()->GetShadowController()->MaxSpeed( pUpdate->savedShadowControllerMaxSpeed, maxAngular );
 			DestroyDataObject(VPHYSICSUPDATEAI);
 		}
@@ -2000,7 +2000,7 @@ void CBaseEntity::PhysicsStep()
 	if ( updateFromVPhysics && VPhysicsGetObject() && !GetParent() )
 	{
 		Vector position;
-		VPhysicsGetObject()->GetShadowPosition( &position, NULL );
+		VPhysicsGetObject()->GetShadowPosition( &position, nullptr);
 		float delta = (GetAbsOrigin() - position).LengthSqr();
 		// for now, use a tolerance of 1 inch for these tests
 		if ( delta < 1 )
@@ -2143,7 +2143,7 @@ void CBaseEntity::PhysicsStepRunTimestep( float timestep )
 	{
 		Vector vecAbsVelocity = GetAbsVelocity();
 
-		SetGroundEntity( NULL );
+		SetGroundEntity(nullptr);
 		// apply friction
 		// let dead monsters who aren't completely onground slide
 		if ( wasonground )
@@ -2173,7 +2173,7 @@ void CBaseEntity::PhysicsStepRunTimestep( float timestep )
 
 		PhysicsCheckVelocity();
 
-		PhysicsTryMove( timestep, NULL );
+		PhysicsTryMove( timestep, nullptr);
 
 		PhysicsCheckVelocity();
 

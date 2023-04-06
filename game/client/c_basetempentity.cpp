@@ -17,10 +17,10 @@ END_RECV_TABLE()
 
 
 // Global list of temp entity classes
-C_BaseTempEntity *C_BaseTempEntity::s_pTempEntities = NULL;
+C_BaseTempEntity *C_BaseTempEntity::s_pTempEntities = nullptr;
 
 // Global list of dynamic temp entities
-C_BaseTempEntity *C_BaseTempEntity::s_pDynamicEntities = NULL;
+C_BaseTempEntity *C_BaseTempEntity::s_pDynamicEntities = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns head of list
@@ -50,7 +50,7 @@ C_BaseTempEntity::C_BaseTempEntity( void )
 	m_pNext			= s_pTempEntities;
 	s_pTempEntities = this;
 	
-	m_pNextDynamic = NULL;
+	m_pNextDynamic = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -114,7 +114,7 @@ void C_BaseTempEntity::ClearDynamicTempEnts( void )
 		te = next;
 	}
 
-	s_pDynamicEntities = NULL;
+	s_pDynamicEntities = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -122,7 +122,7 @@ void C_BaseTempEntity::ClearDynamicTempEnts( void )
 //-----------------------------------------------------------------------------
 void C_BaseTempEntity::CheckDynamicTempEnts( void )
 {
-	C_BaseTempEntity *next, *newlist = NULL;
+	C_BaseTempEntity *next, *newlist = nullptr;
 	C_BaseTempEntity *te = s_pDynamicEntities;
 	while ( te )
 	{

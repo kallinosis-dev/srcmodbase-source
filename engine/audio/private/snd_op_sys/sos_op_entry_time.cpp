@@ -49,7 +49,7 @@ void CSosOperatorEntryTime::Execute( void *pVoidMem, channel_t *pChannel, CScrat
 {
 	CSosOperatorEntryTime_t *pStructMem = (CSosOperatorEntryTime_t *)pVoidMem;
 
-	channel_t *pTimeChannel = NULL;
+	channel_t *pTimeChannel = nullptr;
 
 	if( pStructMem->m_nScriptHash != SOUNDEMITTER_INVALID_HASH )
 	{
@@ -68,7 +68,7 @@ void CSosOperatorEntryTime::Execute( void *pVoidMem, channel_t *pChannel, CScrat
 	
 	if( pTimeChannel->m_pStackList )
 	{
-		CSosOperatorStack *pTheStack = NULL;
+		CSosOperatorStack *pTheStack = nullptr;
 		pTheStack = pTimeChannel->m_pStackList->GetStack( CSosOperatorStack::SOS_UPDATE );
 
 		if( pTheStack )

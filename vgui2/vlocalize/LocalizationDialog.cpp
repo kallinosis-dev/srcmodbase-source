@@ -28,7 +28,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CLocalizationDialog::CLocalizationDialog(const char *fileName) : Frame(NULL, "LocalizationDialog")
+CLocalizationDialog::CLocalizationDialog(const char *fileName) : Frame(nullptr, "LocalizationDialog")
 {
 	m_iCurrentToken = -1;
 
@@ -211,13 +211,13 @@ void CLocalizationDialog::OnFileSave()
 	if (g_pVGuiLocalize->SaveToFile( m_szFileName ) )
 	{
 		// success
-		MessageBox *box = new MessageBox("Save Successful - VLocalize", "File was successfully saved.", false);
+		MessageBox *box = new MessageBox("Save Successful - VLocalize", "File was successfully saved.", nullptr);
 		box->DoModal();
 	}
 	else
 	{
 		// failure
-		MessageBox *box = new MessageBox("Error during save - VLocalize", "Error - File was not successfully saved.", false);
+		MessageBox *box = new MessageBox("Error during save - VLocalize", "Error - File was not successfully saved.", nullptr);
 		box->DoModal();
 	}
 }

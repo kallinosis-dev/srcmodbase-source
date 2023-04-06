@@ -45,10 +45,10 @@ class ListViewItem : public Label
 	DECLARE_CLASS_SIMPLE( ListViewItem, Label );
 
 public:
-	ListViewItem(Panel *parent) : Label(parent, NULL, "")
+	ListViewItem(Panel *parent) : Label(parent, nullptr, "")
 	{
 		m_pListViewPanel = (ListViewPanel*) parent;
-		m_pData = NULL;
+		m_pData = nullptr;
 		m_bSelected = false;
 		SetPaintBackgroundEnabled(true);
 	}
@@ -58,7 +58,7 @@ public:
 		if (m_pData)
 		{
 			m_pData->deleteThis();
-			m_pData = NULL;
+			m_pData = nullptr;
 		}
 	}
 
@@ -232,7 +232,7 @@ ListViewPanel::ListViewPanel(Panel *parent, const char *panelName) : Panel(paren
 	m_iRowHeight = 20;
 	m_bNeedsSort = false;
 	m_hFont = NULL;
-	m_pImageList = NULL;
+	m_pImageList = nullptr;
 	m_bDeleteImageListWhenDone = false;
 	m_pSortFunc = DefaultSortFunc;
 	m_ShiftStartItemID = -1;
@@ -254,7 +254,7 @@ ListViewPanel::~ListViewPanel()
 	if ( m_bDeleteImageListWhenDone )
 	{
 		delete m_pImageList;
-		m_pImageList = NULL;
+		m_pImageList = nullptr;
 	}
 }
 
@@ -330,7 +330,7 @@ int ListViewPanel::GetItemCount()
 KeyValues *ListViewPanel::GetItem(int itemID)
 {
 	if ( !m_DataItems.IsValidIndex(itemID) )
-		return NULL;
+		return nullptr;
 
 	return m_DataItems[itemID]->GetData();
 }
@@ -479,7 +479,7 @@ void ListViewPanel::SetImageList(ImageList *imageList, bool deleteImageListWhenD
 	if ( m_pImageList && m_bDeleteImageListWhenDone )
 	{
 		delete m_pImageList;
-		m_pImageList = NULL;
+		m_pImageList = nullptr;
 	}
 
 	m_bDeleteImageListWhenDone = deleteImageListWhenDone;

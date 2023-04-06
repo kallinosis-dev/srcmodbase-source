@@ -39,11 +39,11 @@ namespace vgui
 struct FaderPreview_t
 {
 	FaderPreview_t() :
-		name( 0 ),
+		name( nullptr ),
 		amount( 0 ),
 		isbeingdragged( false ),
 		holdingPreviewKey( false ),
-		values( 0 ),
+		values( nullptr ),
 		nProceduralType( PROCEDURAL_PRESET_NOT )
 	{
 	}

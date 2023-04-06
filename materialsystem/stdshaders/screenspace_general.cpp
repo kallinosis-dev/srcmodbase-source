@@ -158,7 +158,7 @@ BEGIN_VS_SHADER_FLAGS( screenspace_general_dx9, "Help for screenspace_general", 
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW

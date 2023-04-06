@@ -421,7 +421,7 @@ bool PSDReadFileRGBA8888( CUtlBuffer &buf, Bitmap_t &bitmap )
 	Assert( nColorModeSize % 3 == 0 );
 	unsigned char *pPaletteBits = (unsigned char*)stackalloc( nColorModeSize );
 	PSDPalette_t palette;
-	palette.m_pRed = palette.m_pGreen = palette.m_pBlue = 0;
+	palette.m_pRed = palette.m_pGreen = palette.m_pBlue = nullptr;
 	if ( nColorModeSize )
 	{
 		int nPaletteSize = nColorModeSize / 3;

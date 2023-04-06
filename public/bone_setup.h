@@ -71,7 +71,7 @@ class CBoneSetup;
 class IBoneSetup
 {
 public:
-	IBoneSetup( const CStudioHdr *pStudioHdr, int boneMask, const float poseParameter[], IPoseDebugger *pPoseDebugger = NULL );
+	IBoneSetup( const CStudioHdr *pStudioHdr, int boneMask, const float poseParameter[], IPoseDebugger *pPoseDebugger = nullptr);
 	~IBoneSetup( void );
 	void InitPose( BoneVector pos[], BoneQuaternionAligned q[] );
 	void AccumulatePose( BoneVector pos[], BoneQuaternion q[], int sequence, float cycle, float flWeight, float flTime, CIKContext *pIKContext );

@@ -48,7 +48,7 @@ bool g_bSetTCPSocketThreadPriorities = true;
 static SOCKET TCPBind( const CIPAddr *pAddr )
 {
 	// Create a socket to send and receive through.
-	SOCKET sock = WSASocket( AF_INET, SOCK_STREAM, IPPROTO_TCP, NULL, 0, WSA_FLAG_OVERLAPPED );
+	SOCKET sock = WSASocket( AF_INET, SOCK_STREAM, IPPROTO_TCP, nullptr, 0, WSA_FLAG_OVERLAPPED );
 	if ( sock == INVALID_SOCKET )
 	{
 		Assert( false );
@@ -110,7 +110,7 @@ public:
 		else
 		{
 			pRet->Release();
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -154,14 +154,14 @@ private:
 	CThreadedTCPSocket()
 	{
 		m_Socket = INVALID_SOCKET;
-		m_pHandler = NULL;
+		m_pHandler = nullptr;
 		memset( &m_SendOverlapped, 0, sizeof( m_SendOverlapped ) );
 		memset( &m_RecvOverlapped, 0, sizeof( m_RecvOverlapped ) );
 		m_bWaitingForSendCompletion = false;
 		m_nBytesToReceive = -1;
 		m_bWaitingForSize = false;
 		m_bErrorSignal = false;
-		m_pRecvBuffer = NULL;
+		m_pRecvBuffer = nullptr;
 	}
 
 	virtual ~CThreadedTCPSocket()
@@ -188,8 +188,8 @@ private:
 
 		// Create our threads.
 		DWORD dwSendThreadID, dwRecvThreadID;
-		m_hSendThread = CreateThread( NULL, 0, &CThreadedTCPSocket::StaticSendThreadFn, this, CREATE_SUSPENDED, &dwSendThreadID );
-		m_hRecvThread = CreateThread( NULL, 0, &CThreadedTCPSocket::StaticRecvThreadFn, this, CREATE_SUSPENDED, &dwRecvThreadID );
+		m_hSendThread = CreateThread(nullptr, 0, &CThreadedTCPSocket::StaticSendThreadFn, this, CREATE_SUSPENDED, &dwSendThreadID );
+		m_hRecvThread = CreateThread(nullptr, 0, &CThreadedTCPSocket::StaticRecvThreadFn, this, CREATE_SUSPENDED, &dwRecvThreadID );
 		if ( !m_hSendThread || !m_hRecvThread )
 		{
 			return false;
@@ -221,14 +221,14 @@ private:
 		{
 			WaitForSingleObject( m_hSendThread, INFINITE );
 			CloseHandle( m_hSendThread );
-			m_hSendThread = NULL;
+			m_hSendThread = nullptr;
 		}
 		
 		if ( m_hRecvThread )
 		{
 			WaitForSingleObject( m_hRecvThread, INFINITE );
 			CloseHandle( m_hRecvThread );
-			m_hRecvThread = NULL;
+			m_hRecvThread = nullptr;
 		}
 		m_hExitThreadsEvent.ResetEvent();
 
@@ -376,7 +376,7 @@ private:
 		csLock.Unlock();
 
 		DWORD dwNumBytesSent = 0;
-		DWORD ret = WSASend( m_Socket, &buf, 1, &dwNumBytesSent, 0, &m_SendOverlapped, NULL );
+		DWORD ret = WSASend( m_Socket, &buf, 1, &dwNumBytesSent, 0, &m_SendOverlapped, nullptr);
 		DWORD err = WSAGetLastError();
 		if ( ret == 0 || ( ret == SOCKET_ERROR && err == WSA_IO_PENDING ) )
 		{
@@ -534,7 +534,7 @@ private:
 		{
 			// Got a packet! Give it to the app.
 			m_pHandler->OnPacketReceived( m_pRecvBuffer );
-			m_pRecvBuffer = NULL;
+			m_pRecvBuffer = nullptr;
 
 			return RecvThread_WaitToReceiveSize();
 		}
@@ -567,7 +567,7 @@ private:
 
 		DWORD dwFlags = 0;
 		DWORD nBytesReceived = 0;
-		DWORD ret = WSARecv( m_Socket, &buf, 1, &nBytesReceived, &dwFlags, &m_RecvOverlapped, NULL );
+		DWORD ret = WSARecv( m_Socket, &buf, 1, &nBytesReceived, &dwFlags, &m_RecvOverlapped, nullptr);
 		DWORD dwLastError = WSAGetLastError();
 		if ( ret == 0 || ( ret == SOCKET_ERROR && dwLastError == WSA_IO_PENDING ) )
 		{
@@ -670,12 +670,12 @@ private:
 			FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 			FORMAT_MESSAGE_FROM_SYSTEM | 
 			FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL,
+			nullptr,
 			GetLastError(),
 			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 			(char*)&lpMsgBuf,
 			0,
-			NULL 
+			nullptr
 		);
 		
 		// Windows likes to stick a carriage return in there and we don't want it so get rid of it.
@@ -785,7 +785,7 @@ public:
 	{
 		CTCPConnectSocket_Listener *pRet = new CTCPConnectSocket_Listener;
 		if ( !pRet )
-			return NULL;
+			return nullptr;
 
 		if ( nQueueLength < 0 )
 		{
@@ -799,7 +799,7 @@ public:
 			listen( pRet->m_Socket, nQueueLength == -1 ? SOMAXCONN : nQueueLength ) != 0 )
 		{
 			pRet->Release();
-			return false;
+			return nullptr;
 		}
 
 		pRet->m_pHandler = pHandlerCreator;
@@ -817,7 +817,7 @@ public:
 	
 	virtual bool Update( IThreadedTCPSocket **pSocket, unsigned long milliseconds )
 	{
-		*pSocket = NULL;
+		*pSocket = nullptr;
 		if ( m_Socket == INVALID_SOCKET )
 			return false;
 
@@ -828,7 +828,7 @@ public:
 		TIMEVAL timeVal = {0, milliseconds*1000};
 
 		// Wait until it connects.
-		int status = select( 0, &readSet, NULL, NULL, &timeVal );
+		int status = select( 0, &readSet, nullptr, nullptr, &timeVal );
 		if ( status > 0 )
 		{
 			sockaddr_in addr;
@@ -925,7 +925,7 @@ public:
 		if ( pRet->m_Socket == INVALID_SOCKET )
 		{
 			pRet->Release();
-			return NULL;
+			return nullptr;
 		}
 
 		sockaddr_in addr;
@@ -938,7 +938,7 @@ public:
 		{
 			Assert( false );
 			pRet->Release();
-			return NULL;
+			return nullptr;
 		}
 
 		pRet->m_RemoteAddr = connectAddr;
@@ -958,7 +958,7 @@ public:
 		{
 			Assert( false );
 			pRet->Release();
-			return NULL;
+			return nullptr;
 		}		
 	}	
 
@@ -974,7 +974,7 @@ public:
 
 	virtual bool Update( IThreadedTCPSocket **pSocket, unsigned long milliseconds )
 	{
-		*pSocket = NULL;
+		*pSocket = nullptr;
 
 		// If we got an error previously, keep returning false.
 		if ( m_bError )
@@ -993,7 +993,7 @@ public:
 			writeSet.fd_count = 1;
 			writeSet.fd_array[0] = m_Socket;
 
-			int ret = select( 0, NULL, &writeSet, NULL, &timeVal );
+			int ret = select( 0, nullptr, &writeSet, nullptr, &timeVal );
 			if ( ret > 0 )
 			{
 				m_bConnected = true;

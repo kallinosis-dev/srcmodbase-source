@@ -97,7 +97,7 @@ public:
 protected:
 	virtual void PlayerMove();
 
-	virtual unsigned int PlayerSolidMask( bool brushOnly = false, CBasePlayer *testPlayer = NULL ) const;	///< returns the solid mask for the given player, so bots can have a more-restrictive set
+	virtual unsigned int PlayerSolidMask( bool brushOnly = false, CBasePlayer *testPlayer = nullptr) const;	///< returns the solid mask for the given player, so bots can have a more-restrictive set
 
 public:
 	CCSPlayer *m_pCSPlayer;
@@ -658,7 +658,7 @@ bool CCSGameMovement::CheckJumpButton( void )
 	if ( m_pCSPlayer->GetWaterLevel() >= WL_Waist )
 	{	
 		// swimming, not jumping
-		SetGroundEntity( NULL );
+		SetGroundEntity(nullptr);
 
 		if(m_pCSPlayer->GetWaterType() == CONTENTS_WATER)    // We move up a certain amount
 			mv->m_vecVelocity[2] = 100;
@@ -683,7 +683,7 @@ bool CCSGameMovement::CheckJumpButton( void )
 	if ( groundEntity && !groundEntity->IsWorld() && groundEntity->IsPlayer() )
 	{
 		bStandingOnOtherPlayer = true;
-		if ( groundEntity->GetGroundEntity() == NULL )
+		if ( groundEntity->GetGroundEntity() == nullptr)
 		{
 			bStandingOnFallingPlayer = true;
 		}
@@ -693,7 +693,7 @@ bool CCSGameMovement::CheckJumpButton( void )
 	player->m_bHasWalkMovedSinceLastJump = false;
 
 	// No more effect
- 	if (m_pCSPlayer->GetGroundEntity() == NULL)
+ 	if (m_pCSPlayer->GetGroundEntity() == nullptr)
 	{
 		mv->m_nOldButtons |= IN_JUMP;
 		return false;		// in air, so no effect
@@ -708,7 +708,7 @@ bool CCSGameMovement::CheckJumpButton( void )
 	}
 
 	// In the air now.
-	SetGroundEntity( NULL );
+	SetGroundEntity(nullptr);
 
 	// if we're walking or standing still, play only a local sounds
 	if ( mv->m_vecVelocity.Length() > 126 )
@@ -863,7 +863,7 @@ bool CCSGameMovement::CanUnduck()
 
 	VectorCopy( mv->GetAbsOrigin(), newOrigin );
 
-	if ( player->GetGroundEntity() != NULL )
+	if ( player->GetGroundEntity() != nullptr)
 	{
 		newOrigin += VEC_DUCK_HULL_MIN - VEC_HULL_MIN;
 	}
@@ -891,7 +891,7 @@ bool CCSGameMovement::CanUnduck()
 void CCSGameMovement::FinishUnDuck( void )
 {
 	Vector newOrigin = mv->GetAbsOrigin();
-	if ( player->GetGroundEntity() != NULL || player->GetMoveType() == MOVETYPE_LADDER )
+	if ( player->GetGroundEntity() != nullptr || player->GetMoveType() == MOVETYPE_LADDER )
 	{
 		Vector hullMinDelta = VEC_DUCK_HULL_MIN - VEC_HULL_MIN;
 		newOrigin += hullMinDelta;
@@ -929,7 +929,7 @@ void CCSGameMovement::FinishDuck( void )
 
 	Vector newOrigin = mv->GetAbsOrigin();
 
-	if ( player->GetGroundEntity() != NULL || player->GetMoveType() == MOVETYPE_LADDER )
+	if ( player->GetGroundEntity() != nullptr || player->GetMoveType() == MOVETYPE_LADDER )
 	{
 		Vector hullMinDelta = VEC_DUCK_HULL_MIN - VEC_HULL_MIN;
 		newOrigin -= hullMinDelta;
@@ -963,7 +963,7 @@ void CCSGameMovement::FinishDuck( void )
 //-----------------------------------------------------------------------------
 void CCSGameMovement::Duck( void )
 {
-	const bool playerTouchingGround = player->GetGroundEntity() != NULL;
+	const bool playerTouchingGround = player->GetGroundEntity() != nullptr;
 
 	// Check to see if we are in the air.
 	const bool bInAir = !playerTouchingGround && player->GetMoveType() != MOVETYPE_LADDER;

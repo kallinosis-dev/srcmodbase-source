@@ -24,7 +24,7 @@ BEGIN_VS_SHADER_FLAGS( DebugMRTTexture, "Help for DebugMRTTexture", SHADER_NOT_E
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT_PARAMS()
@@ -60,7 +60,7 @@ BEGIN_VS_SHADER_FLAGS( DebugMRTTexture, "Help for DebugMRTTexture", SHADER_NOT_E
 			}
 
 			int numTexCoords = 2;
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, numTexCoords, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, numTexCoords, nullptr, 0 );
 		}
 		DYNAMIC_STATE
 		{

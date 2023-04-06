@@ -145,9 +145,9 @@ public:
 	int					TakeHealth( float flHealth, int bitsDamageType );
 	void				CauseDeath( const CTakeDamageInfo &info );
 
-	virtual	bool		FVisible ( CBaseEntity *pEntity, int traceMask = MASK_BLOCKLOS, CBaseEntity **ppBlocker = NULL ); // true iff the parameter can be seen by me.
-	virtual bool		FVisible( const Vector &vecTarget, int traceMask = MASK_BLOCKLOS, CBaseEntity **ppBlocker = NULL )	{ return BaseClass::FVisible( vecTarget, traceMask, ppBlocker ); }
-	static void			ResetVisibilityCache( CBaseCombatCharacter *pBCC = NULL );
+	virtual	bool		FVisible ( CBaseEntity *pEntity, int traceMask = MASK_BLOCKLOS, CBaseEntity **ppBlocker = nullptr); // true iff the parameter can be seen by me.
+	virtual bool		FVisible( const Vector &vecTarget, int traceMask = MASK_BLOCKLOS, CBaseEntity **ppBlocker = nullptr)	{ return BaseClass::FVisible( vecTarget, traceMask, ppBlocker ); }
+	static void			ResetVisibilityCache( CBaseCombatCharacter *pBCC = nullptr);
 
 #ifdef PORTAL
 	virtual	bool		FVisibleThroughPortal( const CPortal_Base2D *pPortal, CBaseEntity *pEntity, int traceMask = MASK_BLOCKLOS, CBaseEntity **ppBlocker = NULL );
@@ -218,7 +218,7 @@ public:
 		IGNORE_ACTORS
 	};
 	virtual bool IsLineOfSightClear( CBaseEntity *entity, LineOfSightCheckType checkType = IGNORE_NOTHING ) const;// strictly LOS check with no other considerations
-	virtual bool IsLineOfSightClear( const Vector &pos, LineOfSightCheckType checkType = IGNORE_NOTHING, CBaseEntity *entityToIgnore = NULL ) const;
+	virtual bool IsLineOfSightClear( const Vector &pos, LineOfSightCheckType checkType = IGNORE_NOTHING, CBaseEntity *entityToIgnore = nullptr) const;
 
 	// -----------------------
 	// Footsteps
@@ -243,7 +243,7 @@ public:
 	// Weapons
 	// -----------------------
 	CBaseCombatWeapon*	Weapon_Create( const char *pWeaponName );
-	virtual Activity	Weapon_TranslateActivity( Activity baseAct, bool *pRequired = NULL );
+	virtual Activity	Weapon_TranslateActivity( Activity baseAct, bool *pRequired = nullptr);
 	void				Weapon_SetActivity( Activity newActivity, float duration );
 	virtual void		Weapon_FrameUpdate( void );
 	virtual void		Weapon_HandleAnimEvent( animevent_t *pEvent );
@@ -252,7 +252,7 @@ public:
 	virtual void		Weapon_Equip( CBaseCombatWeapon *pWeapon );			// Adds weapon to player
 	virtual bool		Weapon_EquipAmmoOnly( CBaseCombatWeapon *pWeapon );	// Adds weapon ammo to player, leaves weapon
 	bool				Weapon_Detach( CBaseCombatWeapon *pWeapon );		// Clear any pointers to the weapon.
-	virtual void		Weapon_Drop( CBaseCombatWeapon *pWeapon, const Vector *pvecTarget = NULL, const Vector *pVelocity = NULL );
+	virtual void		Weapon_Drop( CBaseCombatWeapon *pWeapon, const Vector *pvecTarget = nullptr, const Vector *pVelocity = nullptr);
 	virtual	bool		Weapon_Switch( CBaseCombatWeapon *pWeapon, int viewmodelindex = 0 );		// Switch to given weapon if has ammo (false if failed)
 	virtual	Vector		Weapon_ShootPosition( );		// gun position at current position/orientation
 	bool				Weapon_IsOnGround( CBaseCombatWeapon *pWeapon );
@@ -366,8 +366,8 @@ public:
 	
 	// Vehicle queries
 	virtual bool IsInAVehicle( void ) const { return false; }
-	virtual IServerVehicle *GetVehicle( void ) { return NULL; }
-	virtual CBaseEntity *GetVehicleEntity( void ) { return NULL; }
+	virtual IServerVehicle *GetVehicle( void ) { return nullptr; }
+	virtual CBaseEntity *GetVehicleEntity( void ) { return nullptr; }
 	virtual bool ExitVehicle( void ) { return false; }
 
 	// Blood color (see BLOOD_COLOR_* macros in baseentity.h)
@@ -384,7 +384,7 @@ public:
 	WeaponProficiency_t GetCurrentWeaponProficiency() { return m_CurrentWeaponProficiency; }
 	void				SetCurrentWeaponProficiency( WeaponProficiency_t iProficiency ) { m_CurrentWeaponProficiency = iProficiency; }
 	virtual WeaponProficiency_t CalcWeaponProficiency( CBaseCombatWeapon *pWeapon );
-	virtual	Vector		GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget = NULL );
+	virtual	Vector		GetAttackSpread( CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget = nullptr);
 	virtual	float		GetSpreadBias(  CBaseCombatWeapon *pWeapon, CBaseEntity *pTarget );
 	virtual void		DoMuzzleFlash();
 
@@ -423,7 +423,7 @@ public:
 	// This is a hack to blat out the current active weapon...
 	// Used by weapon_slam + game_ui
 	void SetActiveWeapon( CBaseCombatWeapon *pNewWeapon );
-	void ClearActiveWeapon() { SetActiveWeapon( NULL ); }
+	void ClearActiveWeapon() { SetActiveWeapon(nullptr); }
 	virtual void OnChangeActiveWeapon( CBaseCombatWeapon *pOldWeapon, CBaseCombatWeapon *pNewWeapon ) {}
 
 	// I can't use my current weapon anymore. Switch me to the next best weapon.
@@ -589,7 +589,7 @@ public:
 	DECLARE_CLASS_NOBASE( CTraceFilterMelee );
 	
 	CTraceFilterMelee( const IHandleEntity *passentity, int collisionGroup, CTakeDamageInfo *dmgInfo, float flForceScale, bool bDamageAnyNPC )
-		: m_pPassEnt(passentity), m_collisionGroup(collisionGroup), m_dmgInfo(dmgInfo), m_pHit(NULL), m_flForceScale(flForceScale), m_bDamageAnyNPC(bDamageAnyNPC)
+		: m_pPassEnt(passentity), m_collisionGroup(collisionGroup), m_dmgInfo(dmgInfo), m_pHit(nullptr), m_flForceScale(flForceScale), m_bDamageAnyNPC(bDamageAnyNPC)
 	{
 	}
 	

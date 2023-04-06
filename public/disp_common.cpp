@@ -233,7 +233,7 @@ CDispUtilsHelper* SetupEdgeIncrements(
 	CDispNeighbor *pSide = pDisp->GetEdgeNeighbor( iEdge );
 	CDispSubNeighbor *pSub = &pSide->m_SubNeighbors[iSub];
 	if ( !pSub->IsValid() )
-		return NULL;
+		return nullptr;
 
 	CDispUtilsHelper *pNeighbor = pDisp->GetDispUtilsByIndex( pSub->m_iNeighbor );
 
@@ -403,7 +403,7 @@ CDispUtilsHelper* TransformIntoNeighbor(
 	
 	int iSub = GetSubNeighborIndex( pDisp, iEdge, nodeIndex );
 	if ( iSub == -1 )
-		return NULL;
+		return nullptr;
 
 	CDispUtilsHelper *pRet = TransformIntoSubNeighbor( pDisp, iEdge, iSub, nodeIndex, out );
 	
@@ -470,7 +470,7 @@ bool DoesPointHaveAnyNeighbors(
 
 CDispSubEdgeIterator::CDispSubEdgeIterator()
 {
-	m_pNeighbor = 0;
+	m_pNeighbor = nullptr;
 	m_FreeDim = m_Index.x = m_Inc.x = m_End = 0;	// Setup so Next returns false.
 }
 
@@ -1028,8 +1028,8 @@ bool VerifyNeighborVertConnection( CDispUtilsHelper *pDisp, const CVertIndex &no
 								   int mySide )
 {
 	CVertIndex nbIndex( -1, -1 );
-	CDispUtilsHelper *pNeighbor = NULL;
-	if( (pNeighbor = TransformIntoNeighbor( pDisp, mySide, nodeIndex, nbIndex ) ) != NULL )
+	CDispUtilsHelper *pNeighbor = nullptr;
+	if( (pNeighbor = TransformIntoNeighbor( pDisp, mySide, nodeIndex, nbIndex ) ) != nullptr)
 	{
 		if ( pTestNeighbor != pNeighbor || nbIndex != testNeighborIndex )
 			return false;

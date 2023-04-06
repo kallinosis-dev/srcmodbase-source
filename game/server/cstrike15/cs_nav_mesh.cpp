@@ -159,7 +159,7 @@ void CSNavMesh::MaintainChickenPopulation( void )
 		int actualCount = 0;
 		for( int i=0; i<m_chickenVector.Count(); ++i )
 		{
-			if ( m_chickenVector[i] != NULL )
+			if ( m_chickenVector[i] != nullptr)
 			{
 				++actualCount;
 			}
@@ -172,7 +172,7 @@ void CSNavMesh::MaintainChickenPopulation( void )
 			for( int k=0; k<need; ++k )
 			{
 				// find a good spot to spawn a chicken
-				CBaseEntity *chicken = NULL;
+				CBaseEntity *chicken = nullptr;
 
 				for( int attempts=0; attempts<10; ++attempts )
 				{
@@ -191,7 +191,7 @@ void CSNavMesh::MaintainChickenPopulation( void )
 							int n;
 							for( n=0; n<m_chickenVector.Count(); ++n )
 							{
-								if ( m_chickenVector[n] == NULL )
+								if ( m_chickenVector[n] == nullptr)
 									continue;
 
 								const float tooClose = 50.0f;
@@ -260,8 +260,8 @@ NavErrorType CSNavMesh::PostLoad( unsigned int version )
 	if ( CSGameRules() && CSGameRules()->IsPlayingCooperativeGametype() )
 	{
 		// in Guardian mode, remove all of the mapper placed DM spawn points
-		CBaseEntity *pEntity = NULL;
-		while ( ( pEntity = gEntList.FindEntityByClassname( pEntity, "info_deathmatch_spawn" ) ) != NULL )
+		CBaseEntity *pEntity = nullptr;
+		while ( ( pEntity = gEntList.FindEntityByClassname( pEntity, "info_deathmatch_spawn" ) ) != nullptr)
 		{
 			UTIL_Remove( pEntity );
 		}
@@ -310,7 +310,7 @@ void CSNavMesh::MaintainDMSpawnPopulation( void )
 		int actualCount = 0;
 		for( int i=0; i<m_DMSpawnVector.Count(); ++i )
 		{
-			if ( m_DMSpawnVector[i] != NULL )
+			if ( m_DMSpawnVector[i] != nullptr)
 			{
 				++actualCount;
 			}
@@ -338,14 +338,14 @@ void CSNavMesh::MaintainDMSpawnPopulation( void )
 			for( int k=0; k < spawnsToTry; k++ )
 			{
 				// find a good spot to spawn a Deathmatch spawnpoint
-				CBaseEntity *DMSpawn = NULL;
+				CBaseEntity *DMSpawn = nullptr;
 
 				m_consecutiveFailedAttempts++;
 
 				for( int attempts = 0; attempts < 10; attempts++ )
 				{
 
-					CNavArea *testArea = NULL;
+					CNavArea *testArea = nullptr;
 					if ( mp_guardian_target_site.GetInt() >= 0 )
 					{
 						const CCSBotManager::Zone *zone = TheCSBots()->GetZone( mp_guardian_target_site.GetInt() );
@@ -368,7 +368,7 @@ void CSNavMesh::MaintainDMSpawnPopulation( void )
 						// don't spawn a DMSpawn too close to another DMSpawn
 						for( int n = 0; n < m_DMSpawnVector.Count(); n++ )
 						{
-							if ( m_DMSpawnVector[n] == NULL )
+							if ( m_DMSpawnVector[n] == nullptr)
 								continue;
 
 							float tooClose = ( mp_guardian_target_site.GetInt() >= 0 ) ? 50.0f : 300.0f;
@@ -387,7 +387,7 @@ void CSNavMesh::MaintainDMSpawnPopulation( void )
 							continue;
 
 						// check that we can path from the nav area to a ct spawner to confirm it isn't orphaned.
-						CBaseEntity *CTSpawn = gEntList.FindEntityByClassname( NULL, "info_player_counterterrorist" );
+						CBaseEntity *CTSpawn = gEntList.FindEntityByClassname(nullptr, "info_player_counterterrorist" );
 
 						if ( CTSpawn )
 						{
@@ -395,7 +395,7 @@ void CSNavMesh::MaintainDMSpawnPopulation( void )
 
 							ShortestPathCost cost;
 
-							bool bNotOrphaned = NavAreaBuildPath( testArea, CTSpawnArea, NULL, cost );
+							bool bNotOrphaned = NavAreaBuildPath( testArea, CTSpawnArea, nullptr, cost );
 
 							if ( !bNotOrphaned )
 							{
@@ -404,12 +404,12 @@ void CSNavMesh::MaintainDMSpawnPopulation( void )
 									szTSpawnEntName = "info_enemy_terrorist_spawn";
 
 								// double check that we can path from the nav area to a t spawner to confirm it isn't orphaned.
-								CBaseEntity *TSpawn = gEntList.FindEntityByClassname( NULL, szTSpawnEntName );
+								CBaseEntity *TSpawn = gEntList.FindEntityByClassname(nullptr, szTSpawnEntName );
 								if ( TSpawn )
 								{
 									CNavArea *TSpawnArea = GetNearestNavArea( TSpawn->GetAbsOrigin() );
 									ShortestPathCost cost2;
-									bNotOrphaned = NavAreaBuildPath( testArea, TSpawnArea, NULL, cost2 );
+									bNotOrphaned = NavAreaBuildPath( testArea, TSpawnArea, nullptr, cost2 );
 
 									if ( !bNotOrphaned )
 										continue;

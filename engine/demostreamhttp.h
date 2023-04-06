@@ -195,7 +195,7 @@ protected:
 		Fragment_t()
 		{
 			for ( int i = 0; i < FRAGMENT_COUNT; ++i )
-				m_pField[ i ] = NULL;
+				m_pField[ i ] = nullptr;
 			m_nStreaming = 0;
 		}
 
@@ -206,9 +206,9 @@ protected:
 		//uint StartSize()const { return pField[ FRAGMENT_START ] ? pField[ FRAGMENT_START ]->nSize : 0; }
 		void SetField( FragmentTypeEnum_t nFragment, Buffer_t *pBuffer );
 		Buffer_t *GetField( FragmentTypeEnum_t nFragment ) { return m_pField[ nFragment ]; }
-		const uint8 *Delta() const { return m_pField[ FRAGMENT_DELTA ] ? m_pField[ FRAGMENT_DELTA ]->Base() : NULL; }
+		const uint8 *Delta() const { return m_pField[ FRAGMENT_DELTA ] ? m_pField[ FRAGMENT_DELTA ]->Base() : nullptr; }
 		uint DeltaSize()const { return m_pField[ FRAGMENT_DELTA ] ? m_pField[ FRAGMENT_DELTA ]->m_nSize : 0; }
-		const uint8 *Full() const { return m_pField[ FRAGMENT_FULL ] ? m_pField[ FRAGMENT_FULL ]->Base() : NULL; }
+		const uint8 *Full() const { return m_pField[ FRAGMENT_FULL ] ? m_pField[ FRAGMENT_FULL ]->Base() : nullptr; }
 		uint FullSize()const { return m_pField[ FRAGMENT_FULL ] ? m_pField[ FRAGMENT_FULL ]->m_nSize : 0; }
 
 		uint IsStreaming( FragmentTypeEnum_t nType ){ return ( m_nStreaming >> nType ) & 1; }

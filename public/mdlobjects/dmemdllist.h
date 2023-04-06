@@ -30,7 +30,7 @@ class CDmeMdlList : public CDmElement
 	DEFINE_ELEMENT( CDmeMdlList, CDmElement );
 
 public:
-	virtual CDmAttribute *GetListAttr() { return NULL; }
+	virtual CDmAttribute *GetListAttr() { return nullptr; }
 
 };
 

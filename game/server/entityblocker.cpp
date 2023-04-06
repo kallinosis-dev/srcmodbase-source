@@ -24,7 +24,7 @@ CEntityBlocker *CEntityBlocker::Create( const Vector &origin, const Vector &mins
 {
 	CEntityBlocker *pBlocker = (CEntityBlocker *) CBaseEntity::Create( "entity_blocker", origin, vec3_angle, pOwner );
 	
-	if ( pBlocker != NULL )
+	if ( pBlocker != nullptr)
 	{
 		pBlocker->SetSize( mins, maxs );
 		if ( bBlockPhysics )
@@ -62,14 +62,14 @@ void CC_Test_Entity_Blocker( void )
 {
 	CBasePlayer *pPlayer = UTIL_GetCommandClient();
 	Vector vecForward;
-	pPlayer->GetVectors( &vecForward, NULL, NULL );
+	pPlayer->GetVectors( &vecForward, nullptr, nullptr);
 
 	trace_t tr;
 	Vector vecOrigin = pPlayer->GetAbsOrigin() + (vecForward * 256);
 	UTIL_TraceHull( vecOrigin + Vector(0,0,256), vecOrigin - Vector(0,0,256), VEC_HULL_MIN, VEC_HULL_MAX, MASK_SOLID, pPlayer, COLLISION_GROUP_NONE, &tr );
 	if ( !tr.allsolid && !tr.startsolid )
 	{
-		CEntityBlocker::Create( tr.endpos, VEC_HULL_MIN, VEC_HULL_MAX, NULL, true );
+		CEntityBlocker::Create( tr.endpos, VEC_HULL_MIN, VEC_HULL_MAX, nullptr, true );
 		NDebugOverlay::Box( tr.endpos, VEC_HULL_MIN, VEC_HULL_MAX, 0, 255, 0, 64, 1000.0 );
 	}
 }

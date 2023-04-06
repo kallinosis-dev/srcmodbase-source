@@ -99,7 +99,7 @@ int LoadFile( const char *filename, void **bufferptr )
 	}
 	else
 	{
-		*bufferptr = NULL;
+		*bufferptr = nullptr;
 		return 0;
 	}
 }
@@ -110,11 +110,11 @@ CChoreoScene* HammerLoadScene( const char *pFilename )
 	if ( g_pFullFileSystem->FileExists( pFilename ) )
 	{
 		LoadScriptFile( (char*)pFilename );
-		CChoreoScene *scene = ChoreoLoadScene( pFilename, NULL, &g_TokenProcessor, Msg );
+		CChoreoScene *scene = ChoreoLoadScene( pFilename, nullptr, &g_TokenProcessor, Msg );
 		return scene;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

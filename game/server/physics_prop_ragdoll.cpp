@@ -218,7 +218,7 @@ void CRagdollProp::OnSave( IEntitySaveUtils *pUtils )
 	Assert( m_ragdoll.list[0].pConstraint == NULL );
 	Assert( m_ragdoll.list[0].originParentSpace == vec3_origin );
 	Assert( m_ragdoll.list[0].pObject != NULL );
-	VPhysicsSetObject( NULL );	// squelch a warning message
+	VPhysicsSetObject(nullptr);	// squelch a warning message
 	VPhysicsSetObject( m_ragdoll.list[0].pObject );	// make sure object zero is saved by CBaseEntity
 	BaseClass::OnSave( pUtils );
 }
@@ -258,7 +258,7 @@ void CRagdollProp::UpdateOnRemove( void )
 
 	// Set to null so that the destructor's call to DestroyObject won't destroy
 	//  m_pObjects[ 0 ] twice since that's the physics object for the prop
-	VPhysicsSetObject( NULL );
+	VPhysicsSetObject(nullptr);
 
 	RagdollDestroy( m_ragdoll );
 	// Chain to base after doing our own cleanup to mimic
@@ -426,7 +426,7 @@ void CRagdollProp::OnPhysGunDrop( CBasePlayer *pPhysGunUser, PhysGunDrop_t Reaso
 		for ( j = 0; j < pRagdollPhys->listCount; ++j )
 		{
 			Vector vecCenter;
-			pRagdollPhys->list[j].pObject->GetPosition( &vecCenter, NULL );
+			pRagdollPhys->list[j].pObject->GetPosition( &vecCenter, nullptr);
 			vecAverageCenter += vecCenter;
 		}
 
@@ -436,13 +436,13 @@ void CRagdollProp::OnPhysGunDrop( CBasePlayer *pPhysGunUser, PhysGunDrop_t Reaso
 		for ( j = 0; j < pRagdollPhys->listCount; ++j )
 		{
 			Vector vecDelta;
-			pRagdollPhys->list[j].pObject->GetPosition( &vecDelta, NULL );
+			pRagdollPhys->list[j].pObject->GetPosition( &vecDelta, nullptr);
 			vecDelta -= vecAverageCenter;
 
 			Vector vecDir;
 			CrossProduct( vecZAxis, vecDelta, vecDir );
 			vecDir *= 100;
-			pRagdollPhys->list[j].pObject->AddVelocity( &vecDir, NULL );
+			pRagdollPhys->list[j].pObject->AddVelocity( &vecDir, nullptr);
 		}
 	}
 
@@ -460,7 +460,7 @@ CBasePlayer *CRagdollProp::HasPhysicsAttacker( float dt )
 	{
 		return m_hPhysicsAttacker;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -579,8 +579,8 @@ void CRagdollProp::HandleFirstCollisionInteractions( int index, gamevcollisionev
 		Vector vecPosition;
 		Vector vecVelocity;
 
-		VPhysicsGetObject()->GetVelocity( &vecVelocity, NULL );
-		VPhysicsGetObject()->GetPosition( &vecPosition, NULL );
+		VPhysicsGetObject()->GetVelocity( &vecVelocity, nullptr);
+		VPhysicsGetObject()->GetPosition( &vecPosition, nullptr);
 
 		info.SetDamageForce( vecVelocity );
 		info.SetDamagePosition( vecPosition );
@@ -594,7 +594,7 @@ void CRagdollProp::HandleFirstCollisionInteractions( int index, gamevcollisionev
 		IPhysicsObject *pObj = VPhysicsGetObject();
  
 		Vector vecPos;
-		pObj->GetPosition( &vecPos, NULL );
+		pObj->GetPosition( &vecPos, nullptr);
  
 		trace_t tr;
 		UTIL_TraceLine( vecPos, vecPos + pEvent->preVelocity[0] * 1.5, MASK_SHOT, this, COLLISION_GROUP_NONE, &tr );
@@ -621,7 +621,7 @@ void CRagdollProp::HandleFirstCollisionInteractions( int index, gamevcollisionev
 		IPhysicsObject *pObj = VPhysicsGetObject();
  
 		Vector vecPos;
-		pObj->GetPosition( &vecPos, NULL );
+		pObj->GetPosition( &vecPos, nullptr);
  
 		trace_t tr;
 		UTIL_TraceLine( vecPos, vecPos + pEvent->preVelocity[0] * 1.5, MASK_SHOT, this, COLLISION_GROUP_NONE, &tr );
@@ -1155,7 +1155,7 @@ int CRagdollProp::DrawDebugTextOverlays(void)
 			float mass = 0;
 			for ( int i = 0; i < m_ragdoll.listCount; i++ )
 			{
-				if ( m_ragdoll.list[i].pObject != NULL )
+				if ( m_ragdoll.list[i].pObject != nullptr)
 				{
 					mass += m_ragdoll.list[i].pObject->GetMass();
 				}
@@ -1185,7 +1185,7 @@ void CRagdollProp::DrawDebugGeometryOverlays()
 			{
 				float mass = m_ragdoll.list[i].pObject->GetMass();
 				Vector pos;
-				m_ragdoll.list[i].pObject->GetPosition( &pos, NULL );
+				m_ragdoll.list[i].pObject->GetPosition( &pos, nullptr);
 				CFmtStr str("mass %.1f", mass );
 				NDebugOverlay::EntityTextAtPosition( pos, 0, str.Access(), 0, 0, 255, 0, 255 );
 			}
@@ -1219,7 +1219,7 @@ public:
 	~CRagdollPropAttached()
 	{
 		physenv->DestroyConstraint( m_pAttachConstraint );
-		m_pAttachConstraint = NULL;
+		m_pAttachConstraint = nullptr;
 	}
 
 	void InitRagdollAttached( IPhysicsObject *pAttached, const Vector &forceVector, int forceBone, matrix3x4_t *pPrevBones, matrix3x4_t *pBoneToWorld, float dt, int collisionGroup, CBaseAnimating *pFollow, int boneIndexRoot, const Vector &boneLocalOrigin, int parentBoneAttach, const Vector &worldAttachOrigin );
@@ -1265,7 +1265,7 @@ static void SyncAnimatingWithPhysics( CBaseAnimating *pAnimating )
 	if ( pPhysics )
 	{
 		Vector pos;
-		pPhysics->GetShadowPosition( &pos, NULL );
+		pPhysics->GetShadowPosition( &pos, nullptr);
 		pAnimating->SetAbsOrigin( pos );
 	}
 }
@@ -1284,7 +1284,7 @@ CBaseAnimating *CreateServerRagdollSubmodel( CBaseAnimating *pOwner, const char 
 	pRagdoll->SetParent( pOwner );
 	pRagdoll->SetupBones( pBoneToWorld, BONE_USED_BY_ANYTHING );
 	// HACKHACK: don't want this parent anymore
-	pRagdoll->SetParent( NULL );
+	pRagdoll->SetParent(nullptr);
 
 	memcpy( pBoneToWorldNext, pBoneToWorld, sizeof(pBoneToWorld) );
 
@@ -1300,7 +1300,7 @@ CBaseEntity *CreateServerRagdoll( CBaseAnimating *pAnimating, int forceBone, con
 		// if the entity was killed by physics or a vehicle, move to the vphysics shadow position before creating the ragdoll.
 		SyncAnimatingWithPhysics( pAnimating );
 	}
-	CRagdollProp *pRagdoll = (CRagdollProp *)CBaseEntity::CreateNoSpawn( "prop_ragdoll", pAnimating->GetAbsOrigin(), vec3_angle, NULL );
+	CRagdollProp *pRagdoll = (CRagdollProp *)CBaseEntity::CreateNoSpawn( "prop_ragdoll", pAnimating->GetAbsOrigin(), vec3_angle, nullptr);
 	pRagdoll->CopyAnimationDataFrom( pAnimating );
 	pRagdoll->SetOwnerEntity( pAnimating );
 
@@ -1464,13 +1464,13 @@ void CRagdollPropAttached::VPhysicsUpdate( IPhysicsObject *pPhysics )
 
 void CRagdollPropAttached::Detach()
 {
-	SetParent(NULL);
-	SetOwnerEntity( NULL );
+	SetParent(nullptr);
+	SetOwnerEntity(nullptr);
 	SetAbsAngles( vec3_angle );
 	SetMoveType( MOVETYPE_VPHYSICS );
 	RemoveSolidFlags( FSOLID_NOT_SOLID );
 	physenv->DestroyConstraint( m_pAttachConstraint );
-	m_pAttachConstraint = NULL;
+	m_pAttachConstraint = nullptr;
 	const float dampingScale = 1.0f / ATTACHED_DAMPING_SCALE;
 	for ( int i = 0; i < m_ragdoll.listCount; i++ )
 	{
@@ -1574,10 +1574,10 @@ void CRagdollPropAttached::InitRagdollAttached(
 CRagdollProp *CreateServerRagdollAttached( CBaseAnimating *pAnimating, const Vector &vecForce, int forceBone, int collisionGroup, IPhysicsObject *pAttached, CBaseAnimating *pParentEntity, int boneAttach, const Vector &originAttached, int parentBoneAttach, const Vector &boneOrigin )
 {
 	// Return immediately if the model doesn't have a vcollide
-	if ( modelinfo->GetVCollide( pAnimating->GetModelIndex() ) == NULL )
-		return NULL;
+	if ( modelinfo->GetVCollide( pAnimating->GetModelIndex() ) == nullptr)
+		return nullptr;
 
-	CRagdollPropAttached *pRagdoll = (CRagdollPropAttached *)CBaseEntity::CreateNoSpawn( "prop_ragdoll_attached", pAnimating->GetAbsOrigin(), vec3_angle, NULL );
+	CRagdollPropAttached *pRagdoll = (CRagdollPropAttached *)CBaseEntity::CreateNoSpawn( "prop_ragdoll_attached", pAnimating->GetAbsOrigin(), vec3_angle, nullptr);
 	pRagdoll->CopyAnimationDataFrom( pAnimating );
 
 	pRagdoll->InitRagdollAnimation();
@@ -1610,7 +1610,7 @@ void DetachAttachedRagdollsForEntity( CBaseEntity *pRagdollParent )
 
 bool Ragdoll_IsPropRagdoll( CBaseEntity *pEntity )
 {
-	if ( dynamic_cast<CRagdollProp *>(pEntity) != NULL )
+	if ( dynamic_cast<CRagdollProp *>(pEntity) != nullptr)
 		return true;
 	return false;
 }
@@ -1620,7 +1620,7 @@ ragdoll_t *Ragdoll_GetRagdoll( CBaseEntity *pEntity )
 	CRagdollProp *pProp = dynamic_cast<CRagdollProp *>(pEntity);
 	if ( pProp )
 		return pProp->GetRagdoll();
-	return NULL;
+	return nullptr;
 }
 
 void CRagdollProp::GetAngleOverrideFromCurrentState( char *pOut, int size )
@@ -1643,7 +1643,7 @@ void CRagdollProp::DisableMotion( void )
 	for ( int iRagdoll = 0; iRagdoll < m_ragdoll.listCount; ++iRagdoll )
 	{
 		IPhysicsObject *pPhysicsObject = m_ragdoll.list[ iRagdoll ].pObject;
-		if ( pPhysicsObject != NULL )
+		if ( pPhysicsObject != nullptr)
 		{
 			pPhysicsObject->EnableMotion( false );
 		}
@@ -1670,7 +1670,7 @@ void CRagdollProp::InputEnableMotion( inputdata_t &inputdata )
 	for ( int iRagdoll = 0; iRagdoll < m_ragdoll.listCount; ++iRagdoll )
 	{
 		IPhysicsObject *pPhysicsObject = m_ragdoll.list[ iRagdoll ].pObject;
-		if ( pPhysicsObject != NULL )
+		if ( pPhysicsObject != nullptr)
 		{
 			pPhysicsObject->EnableMotion( true );
 			pPhysicsObject->Wake();

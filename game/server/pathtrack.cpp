@@ -70,8 +70,8 @@ void CPathTrack::Spawn( void )
 	SetSolid( SOLID_NONE );
 	UTIL_SetSize(this, Vector(-8, -8, -8), Vector(8, 8, 8));
 
-	m_pnext = NULL;
-	m_pprevious = NULL;
+	m_pnext = nullptr;
+	m_pprevious = nullptr;
 }
 
 
@@ -98,7 +98,7 @@ void CPathTrack::Link( void  )
 
 	if ( m_target != NULL_STRING )
 	{
-		pTarget = gEntList.FindEntityByName( NULL, m_target );
+		pTarget = gEntList.FindEntityByName(nullptr, m_target );
 
 		if ( pTarget == this)
 		{
@@ -128,7 +128,7 @@ void CPathTrack::Link( void  )
 	// Find "alternate" path
 	if ( m_altName != NULL_STRING )
 	{
-		pTarget = gEntList.FindEntityByName( NULL, m_altName );
+		pTarget = gEntList.FindEntityByName(nullptr, m_altName );
 		if ( pTarget )
 		{
 			m_paltpath = dynamic_cast<CPathTrack*>( pTarget );
@@ -170,7 +170,7 @@ bool CPathTrack::HasBeenVisited() const
 //-----------------------------------------------------------------------------
 bool CPathTrack::HasAlternathPath() const
 {
-	return ( m_paltpath != NULL ); 
+	return ( m_paltpath != nullptr); 
 }
 
 
@@ -180,7 +180,7 @@ bool CPathTrack::HasAlternathPath() const
 void CPathTrack::ToggleAlternatePath( void )
 {
 	// Use toggles between two paths
-	if ( m_paltpath != NULL )
+	if ( m_paltpath != nullptr)
 	{
 		if ( FBitSet( m_spawnflags, SF_PATH_ALTERNATE ) == false )
 		{
@@ -198,7 +198,7 @@ void CPathTrack::ToggleAlternatePath( void )
 //-----------------------------------------------------------------------------
 void CPathTrack::EnableAlternatePath( void )
 {
-	if ( m_paltpath != NULL )
+	if ( m_paltpath != nullptr)
 	{
 		SETBITS( m_spawnflags, SF_PATH_ALTERNATE );
 	}
@@ -209,7 +209,7 @@ void CPathTrack::EnableAlternatePath( void )
 //-----------------------------------------------------------------------------
 void CPathTrack::DisableAlternatePath( void )
 {
-	if ( m_paltpath != NULL )
+	if ( m_paltpath != nullptr)
 	{
 		CLEARBITS( m_spawnflags, SF_PATH_ALTERNATE );
 	}
@@ -320,10 +320,10 @@ void CPathTrack::DrawDebugGeometryOverlays()
 CPathTrack	*CPathTrack::ValidPath( CPathTrack	*ppath, int testFlag )
 {
 	if ( !ppath )
-		return NULL;
+		return nullptr;
 
 	if ( testFlag && FBitSet( ppath->m_spawnflags, SF_PATH_DISABLED ) )
-		return NULL;
+		return nullptr;
 
 	return ppath;
 }
@@ -408,7 +408,7 @@ CPathTrack *CPathTrack::LookAhead( Vector &origin, float dist, int move, CPathTr
 				Project( pcurrent->GetNextInDir( !bForward ), pcurrent, origin, dist );
 			}
 
-			return NULL;
+			return nullptr;
 		}
 
 		// The next path track is valid. How far are we from it?
@@ -420,13 +420,13 @@ CPathTrack *CPathTrack::LookAhead( Vector &origin, float dist, int move, CPathTr
 		{
 			if ( pNextNext )
 			{
-				*pNextNext = NULL;
+				*pNextNext = nullptr;
 			}
 
 			if ( dist == originalDist )
 			{
 				// Didn't move at all, must be in a dead end.
-				return NULL;
+				return nullptr;
 			}
 
 			return pcurrent->GetNextInDir( bForward );
@@ -485,7 +485,7 @@ CPathTrack *CPathTrack::Nearest( const Vector &origin )
 		{
 			Warning( "Bad sequence of path_tracks from %s\n", GetDebugName() );
 			Assert(0);
-			return NULL;
+			return nullptr;
 		}
 		delta = origin - ppath->GetLocalOrigin();
 		delta.z = 0;
@@ -548,7 +548,7 @@ CPathTrack *CPathTrack::Instance( edict_t *pent )
 	CBaseEntity *pEntity = CBaseEntity::Instance( pent );
 	if ( FClassnameIs( pEntity, "path_track" ) )
 		return (CPathTrack *)pEntity;
-	return NULL;
+	return nullptr;
 }
 
 

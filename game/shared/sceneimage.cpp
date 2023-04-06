@@ -262,7 +262,7 @@ bool UpdateTargetFile_VCD( SceneFile_t *pEntry, const char *pSourceName, const c
 #ifndef DBGFLAG_STRINGS_STRIP
 	pfnMsgLoad = Msg;
 #endif
-	CChoreoScene *pChoreoScene = ChoreoLoadScene( pSourceName, NULL, &g_SceneTokenProcessor, pfnMsgLoad );
+	CChoreoScene *pChoreoScene = ChoreoLoadScene( pSourceName, nullptr, &g_SceneTokenProcessor, pfnMsgLoad );
 	if ( !pChoreoScene )
 	{
 		return false;
@@ -355,7 +355,7 @@ bool CSceneImage::CreateSceneImageFile( CUtlBuffer &targetBuffer, char const *pc
 		currentCount = vcdFileList.Count();
 		Msg( "Scenes: Searching '%s' - Found %d scenes.\n", szPath, vcdFileList.Count() - currentCount );
 
-		pPath = strtok( NULL, ";" );
+		pPath = strtok(nullptr, ";" );
 	}
 
 	if ( !vcdFileList.Count() )
@@ -365,7 +365,7 @@ bool CSceneImage::CreateSceneImageFile( CUtlBuffer &targetBuffer, char const *pc
 	}
 
 	// iterate and convert all the VCD files
-	bool bGameIsTF = V_stristr( pchModPath, "\\tf" ) != NULL;
+	bool bGameIsTF = V_stristr( pchModPath, "\\tf" ) != nullptr;
 	for ( int i=0; i<vcdFileList.Count(); i++ )
 	{
 		const char *pFilename = vcdFileList[i].fileName.String();
@@ -742,7 +742,7 @@ bool CSceneImage::UpdateSceneImageFile( CUtlBuffer &targetBuffer, char const *pc
 	}
 
 	// Now add the additional files
-	bool bGameIsTF = V_stristr( pchModPath, "\\tf" ) != NULL;
+	bool bGameIsTF = V_stristr( pchModPath, "\\tf" ) != nullptr;
 	for ( int i = 0; i < nUpdateCount; ++i )
 	{
 		const char *pFilename = pFilesToUpdate[i].String();

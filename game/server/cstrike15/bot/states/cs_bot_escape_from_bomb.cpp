@@ -34,7 +34,7 @@ void EscapeFromBombState::OnUpdate( CCSBot *me )
 	const Vector *bombPos = me->GetGameState()->GetBombPosition();
 
 	// if we don't know where the bomb is, we shouldn't be in this state
-	if (bombPos == NULL)
+	if (bombPos == nullptr)
 	{
 		me->Idle();
 		return;

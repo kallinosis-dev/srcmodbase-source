@@ -25,7 +25,7 @@ COP_Flags::COP_Flags() : CObjectPage(COP_Flags::IDD)
 	//}}AFX_DATA_INIT
 	m_pEditObjectRuntimeClass = RUNTIME_CLASS(editCEditGameClass);
 	m_nNumSelectedObjects = 0;
-	m_pEntityPage = NULL;
+	m_pEntityPage = nullptr;
 }
 
 COP_Flags::~COP_Flags()
@@ -101,7 +101,7 @@ bool COP_Flags::SaveData( SaveData_Reason_t reason )
 		CEditGameClass *pEdit = dynamic_cast <CEditGameClass *>(pObject);
 		Assert(pEdit != NULL);
 
-		if ( pEdit != NULL )
+		if ( pEdit != nullptr)
 		{
 			for ( int i = 0; i < m_CheckListItems.Count(); i++ )
 			{

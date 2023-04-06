@@ -81,7 +81,7 @@ static void CreateEditorAttributeInfo( CDmeEditorType *pEditorType, const char *
 
 	if ( parse.ArgC() == 2 )
 	{
-		CDmeEditorChoicesInfo *pInfo = NULL;
+		CDmeEditorChoicesInfo *pInfo = nullptr;
 		if ( !Q_stricmp( parse[0], "intchoice" ) )
 		{
 			pInfo = CreateElement< CDmeEditorIntChoicesInfo >( "field info", DMFILEID_INVALID );
@@ -416,7 +416,7 @@ static void CompactElement( CDmElement *pElement, const DmxElementUnpackStructur
 		if ( pAttr->IsStandard() || pAttr->IsFlagSet( FATTRIB_EXTERNAL ) )
 			continue;
 
-		const DmxElementUnpackStructure_t *pFoundUnpack = NULL;
+		const DmxElementUnpackStructure_t *pFoundUnpack = nullptr;
 		for ( const DmxElementUnpackStructure_t *pTrav = pUnpack; pTrav->m_pAttributeName; ++pTrav )
 		{
 			if ( !Q_stricmp( pTrav->m_pAttributeName, pAttr->GetName() ) )
@@ -521,12 +521,12 @@ CDmeParticleFunction* CDmeParticleSystemDefinition::AddOperator( ParticleFunctio
 		pFunction->SetFunction( list[i] );
 		return pFunction;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CDmeParticleSystemDefinition::OverrideAttributesFromOtherDefinition( CDmeParticleSystemDefinition *pDef )
 {
-	for ( const CDmAttribute *pAttr = pDef->FirstAttribute(); pAttr != NULL; pAttr = pAttr->NextAttribute() )
+	for ( const CDmAttribute *pAttr = pDef->FirstAttribute(); pAttr != nullptr; pAttr = pAttr->NextAttribute() )
 	{
 		DmAttributeType_t type = pAttr->GetType();
 		const char *pAttrName = pAttr->GetName();
@@ -535,7 +535,7 @@ void CDmeParticleSystemDefinition::OverrideAttributesFromOtherDefinition( CDmePa
 		if ( !V_stricmp( pAttrName, "name" ) )
 			continue;
 
-		if ( pCopyAttr == NULL )
+		if ( pCopyAttr == nullptr)
 		{
 			pCopyAttr = AddAttribute( pAttrName, type );
 
@@ -604,7 +604,7 @@ CDmeParticleFunction* CDmeParticleSystemDefinition::AddCopyOfOperator( CDmeParti
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -734,7 +734,7 @@ void CDmeParticleSystemDefinition::RemoveInvalidFunctions()
 		for ( int i = 0; i < m_ParticleFunction[f].Count(); )
 		{
 			CDmeParticleFunction* pFunc = m_ParticleFunction[f].Element(i);
-			if ( pFunc == NULL )
+			if ( pFunc == nullptr)
 			{
 				m_ParticleFunction[f].Remove(i);
 			}

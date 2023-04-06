@@ -406,7 +406,7 @@ ResourceStructureId_t ComputeStructureNameHash( const char *pStructName );
 class CResourceIntrospectionTraversal
 {
 public:
-	CResourceIntrospectionTraversal( const CResourceIntrospection *pResIntro = NULL );
+	CResourceIntrospectionTraversal( const CResourceIntrospection *pResIntro = nullptr);
 
 	virtual void TraverseStruct( const void *pStruct, const CResourceStructIntrospection *pStructIntro );
 

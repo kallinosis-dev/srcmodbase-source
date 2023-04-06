@@ -59,7 +59,7 @@ const char *GetVGuiControlsModuleName()
 //-----------------------------------------------------------------------------
 bool ConnectTools( CreateInterfaceFn factory )
 {
-	return (g_pMDLCache != NULL) && (studiorender != NULL) && (materials != NULL) && (g_pMatSystemSurface != NULL);
+	return (g_pMDLCache != nullptr) && (studiorender != nullptr) && (materials != nullptr) && (g_pMatSystemSurface != nullptr);
 }
 
 void DisconnectTools( )
@@ -195,7 +195,7 @@ private:
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
-CActBusyTool	*g_pActBusyTool = NULL;
+CActBusyTool	*g_pActBusyTool = nullptr;
 
 void CreateTools()
 {
@@ -208,8 +208,8 @@ void CreateTools()
 //-----------------------------------------------------------------------------
 CActBusyTool::CActBusyTool()
 {
-	m_pMenuBar = NULL;
-	m_pDoc = NULL;
+	m_pMenuBar = nullptr;
+	m_pDoc = nullptr;
 }
 
 
@@ -218,7 +218,7 @@ CActBusyTool::CActBusyTool()
 //-----------------------------------------------------------------------------
 bool CActBusyTool::Init( )
 {
-	m_pDoc = NULL;
+	m_pDoc = nullptr;
 	m_RecentFiles.LoadFromRegistry( GetRegistryName() );
 
 	// NOTE: This has to happen before BaseClass::Init
@@ -804,7 +804,7 @@ void CActBusyTool::OnNew()
 void CActBusyTool::OnOpen()
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc && m_pDoc->IsDirty() )
 	{
 		nFlags = FOSM_SHOW_PERFORCE_DIALOGS | FOSM_SHOW_SAVE_QUERY;
@@ -826,7 +826,7 @@ void CActBusyTool::OnSaveAs()
 {
 	if ( m_pDoc )
 	{
-		SaveFile( NULL, "actbusy", FOSM_SHOW_PERFORCE_DIALOGS );
+		SaveFile(nullptr, "actbusy", FOSM_SHOW_PERFORCE_DIALOGS );
 	}
 }
 
@@ -851,11 +851,11 @@ void CActBusyTool::OnCloseNoSave()
 		CAppNotifyScopeGuard( "CActBusyTool::OnCloseNoSave", 0 );
 
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 
 		if ( m_hProperties )
 		{
-			m_hProperties->SetObject( NULL );
+			m_hProperties->SetObject(nullptr);
 		}
 	}
 	
@@ -877,7 +877,7 @@ void CActBusyTool::OnMarkNotDirty()
 void CActBusyTool::OpenSpecificFile( const char *pFileName )
 {
 	int nFlags = 0;
-	const char *pSaveFileName = NULL;
+	const char *pSaveFileName = nullptr;
 	if ( m_pDoc )
 	{
 		// File is already open
@@ -1047,7 +1047,7 @@ bool CActBusyTool::LoadDocument( const char *pDocName )
 	if ( !m_pDoc->LoadFromFile( pDocName ) )
 	{
 		delete m_pDoc;
-		m_pDoc = NULL;
+		m_pDoc = nullptr;
 		Warning( "Fatal error loading '%s'\n", pDocName );
 		return false;
 	}
@@ -1116,13 +1116,13 @@ void CActBusyTool::DestroyTools()
 	{
 		windowposmgr->UnregisterPanel( m_hProperties.Get() );
 		delete m_hProperties.Get();
-		m_hProperties = NULL;
+		m_hProperties = nullptr;
 	}
 	if ( m_hMDLSequencePicker.Get() )
 	{
 		windowposmgr->UnregisterPanel( m_hMDLSequencePicker.Get() );
 		delete m_hMDLSequencePicker.Get();
-		m_hMDLSequencePicker = NULL;
+		m_hMDLSequencePicker = nullptr;
 	}
 }
 
@@ -1130,11 +1130,11 @@ void CActBusyTool::CreateTools( CActBusyDoc *doc )
 {
 	if ( !m_hProperties.Get() )
 	{
-		m_hProperties = new CBasePropertiesContainer( NULL, m_pDoc, g_pEditorTypeDict );
+		m_hProperties = new CBasePropertiesContainer(nullptr, m_pDoc, g_pEditorTypeDict );
 	}
 	if ( !m_hMDLSequencePicker.Get() )
 	{
-		m_hMDLSequencePicker = new CMDLSequencePicker( NULL );
+		m_hMDLSequencePicker = new CMDLSequencePicker(nullptr);
 		SETUP_PANEL( m_hMDLSequencePicker.Get() );
 		m_hMDLSequencePicker->Activate();
 	}
@@ -1147,7 +1147,7 @@ void CActBusyTool::ShowToolWindow( Panel *tool, const char *toolName, bool visib
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL && visible )
+	if ( tool->GetParent() == nullptr && visible )
 	{
 		m_ToolWindowFactory.InstanceToolWindow( this, false, tool, toolName, false );
 	}
@@ -1163,7 +1163,7 @@ void CActBusyTool::ToggleToolWindow( Panel *tool, const char *toolName )
 {
 	Assert( tool );
 
-	if ( tool->GetParent() == NULL )
+	if ( tool->GetParent() == nullptr)
 	{
 		ShowToolWindow( tool, toolName, true );
 	}

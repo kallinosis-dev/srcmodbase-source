@@ -42,7 +42,7 @@ public:
 	virtual void SetStartupDelaySamples( int delaySamples );
 	virtual int GetMixSampleSize() { return CalcSampleSize( 16, m_channelCount ); }
 
-	bool IsValid() { return m_pStream != NULL; }
+	bool IsValid() { return m_pStream != nullptr; }
 
 	virtual int GetStreamOutputRate() { return m_pStream->GetOutputRate(); }
 
@@ -69,7 +69,7 @@ CAudioMixerWaveMP3::CAudioMixerWaveMP3( IWaveData *data ) : CAudioMixerWave( dat
 	m_offset = 0;
 	m_delaySamples = 0;
 	m_headerOffset = 0;
-	m_pStream = NULL;
+	m_pStream = nullptr;
 	if ( vaudio )
 		m_pStream = vaudio->CreateMP3StreamDecoder( static_cast<IAudioStreamEvent *>(this) );
 	if ( m_pStream )
@@ -85,7 +85,7 @@ CAudioMixerWaveMP3::~CAudioMixerWaveMP3( void )
 	if ( m_pStream )
 	{
 		vaudio->DestroyMP3StreamDecoder( m_pStream );
-		m_pStream = NULL;
+		m_pStream = nullptr;
 	}
 }
 
@@ -157,7 +157,7 @@ int CAudioMixerWaveMP3::StreamRequestData( void *pBuffer, int bytesRequested, in
 		char *pOutputBuffer = (char *)pBuffer;
 		pOutputBuffer += totalBytesRead;
 
-		void *pData = NULL;
+		void *pData = nullptr;
 		int bytesRead = m_pData->ReadSourceData( &pData, offset + totalBytesRead, bytesRequested, pOutputBuffer );
 		
 		if ( !bytesRead )
@@ -269,5 +269,5 @@ CAudioMixer *CreateMP3Mixer( IWaveData *data, int *pSampleRate )
 	}
 
 	delete pMixer;
-	return NULL;
+	return nullptr;
 }

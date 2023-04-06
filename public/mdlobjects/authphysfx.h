@@ -147,7 +147,7 @@ public:
 	const CAuthPhysCollisionAttributes &GetCollAttrPaletteEntry( int i ) { return m_CollAttrPalette[i]; }
 	CResourceStream *GetStream() { return m_pStream; }
 
-	CLockedResource<char> WriteString( const char *pString, uint32 *pHashOut = NULL ); // writes a non-unique string (saving space) , returns its hash
+	CLockedResource<char> WriteString( const char *pString, uint32 *pHashOut = nullptr); // writes a non-unique string (saving space) , returns its hash
 	template <typename T> CLockedResource< T > FindOrWrite( const T *pData, uint nElements )
 	{
 		CLockedResource< char > res( ( char* ) pData, nElements * sizeof( T ) );
@@ -353,7 +353,7 @@ public:
 	{
 		PurgeAndDeleteElements();
 		SetCount( nNodes );
-		FillWithValue( NULL );
+		FillWithValue(nullptr);
 	}
 
 	void Append( int nNodeA, int nNodeB )
@@ -880,7 +880,7 @@ public:
 	int GetBoneCount() const { return m_Nodes.Count(); }
 	int GetSimParticleCount()const;
 	int GetStaticParticleCount( )const { return m_Nodes.Count( ) - GetSimParticleCount( ); }
-	CLockedResource< PhysFeModelDesc_t > Compile( CResourceStream *pStream, const CVClothProxyMeshOptions *pOptions = NULL )const;
+	CLockedResource< PhysFeModelDesc_t > Compile( CResourceStream *pStream, const CVClothProxyMeshOptions *pOptions = nullptr)const;
 	bool IsSimilarTo( const CFeModel *pFeModel )const;
 	bool IsConstraintSimulated( int nConstraint ) const ;
 	bool IsSpringSimulated( int nSpring ) const;

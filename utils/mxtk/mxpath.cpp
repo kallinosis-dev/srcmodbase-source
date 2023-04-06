@@ -54,7 +54,7 @@ mx_getpath (const char *filename)
 {
 	static char path[256];
 #ifdef WIN32
-	_splitpath (filename, 0, path, 0, 0);
+	_splitpath (filename, nullptr, path, nullptr, nullptr);
 #else
 	strcpy (path, filename);
 	char *ptr = strrchr (path, '/');
@@ -71,7 +71,7 @@ mx_getextension (const char *filename)
 {
 	static char ext[256];
 #ifdef WIN32	
-	_splitpath (filename, 0, 0, 0, ext);
+	_splitpath (filename, nullptr, nullptr, nullptr, ext);
 #else
 	char *ptr = strrchr (filename, '.');
 	if (ptr)

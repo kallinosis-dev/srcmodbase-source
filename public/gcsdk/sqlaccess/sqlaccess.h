@@ -35,12 +35,12 @@ public:
 	void RollbackTransaction();
 	bool BInTransaction( ) const { return m_bInTransaction; }
 
-	bool BYieldingExecute( const char *pchName, const char *pchSQLCommand, uint32 *pcRowsAffected = NULL, bool bSpewOnError = true );
-	bool BYieldingExecuteString( const char *pchName, const char *pchSQLCommand, CFmtStr1024 *psResult, uint32 *pcRowsAffected = NULL );
-	bool BYieldingExecuteScalarInt( const char *pchName, const char *pchSQLCommand, int *pnResult, uint32 *pcRowsAffected = NULL );
-	bool BYieldingExecuteScalarIntWithDefault( const char *pchName, const char *pchSQLCommand, int *pnResult, int iDefaultValue, uint32 *pcRowsAffected = NULL );
-	bool BYieldingExecuteScalarUint32( const char *pchName, const char *pchSQLCommand, uint32 *punResult, uint32 *pcRowsAffected = NULL );
-	bool BYieldingExecuteScalarUint32WithDefault( const char *pchName, const char *pchSQLCommand, uint32 *punResult, uint32 unDefaultValue, uint32 *pcRowsAffected = NULL );
+	bool BYieldingExecute( const char *pchName, const char *pchSQLCommand, uint32 *pcRowsAffected = nullptr, bool bSpewOnError = true );
+	bool BYieldingExecuteString( const char *pchName, const char *pchSQLCommand, CFmtStr1024 *psResult, uint32 *pcRowsAffected = nullptr);
+	bool BYieldingExecuteScalarInt( const char *pchName, const char *pchSQLCommand, int *pnResult, uint32 *pcRowsAffected = nullptr);
+	bool BYieldingExecuteScalarIntWithDefault( const char *pchName, const char *pchSQLCommand, int *pnResult, int iDefaultValue, uint32 *pcRowsAffected = nullptr);
+	bool BYieldingExecuteScalarUint32( const char *pchName, const char *pchSQLCommand, uint32 *punResult, uint32 *pcRowsAffected = nullptr);
+	bool BYieldingExecuteScalarUint32WithDefault( const char *pchName, const char *pchSQLCommand, uint32 *punResult, uint32 unDefaultValue, uint32 *pcRowsAffected = nullptr);
 	bool BYieldingWipeTable( int iTable );
 
 	template <typename TReturn, typename TCast>
@@ -56,11 +56,11 @@ public:
 	template< typename SchClass_t >
 	bool BYieldingReadRecordFromPK( SchClass_t *pRecord );
 	template< typename SchClass_t>
-	bool BYieldingReadMultipleRecordsWithWhereColumns( CUtlVector< SchClass_t > *pvecRecords, const CColumnSet & whereSet, CUtlVector< SchClass_t > *pvecUnmatchedRecords = NULL );
+	bool BYieldingReadMultipleRecordsWithWhereColumns( CUtlVector< SchClass_t > *pvecRecords, const CColumnSet & whereSet, CUtlVector< SchClass_t > *pvecUnmatchedRecords = nullptr);
 	template< typename SchClass_t>
-	bool BYieldingReadMultipleRecordsWithWhereColumns( CUtlVector< SchClass_t > *pvecRecords, const CColumnSet & readSet, const CColumnSet & whereSet, CUtlVector< SchClass_t > *pvecUnmatchedRecords = NULL );
+	bool BYieldingReadMultipleRecordsWithWhereColumns( CUtlVector< SchClass_t > *pvecRecords, const CColumnSet & readSet, const CColumnSet & whereSet, CUtlVector< SchClass_t > *pvecUnmatchedRecords = nullptr);
 	template< typename SchClass_t>
-	bool BYieldingReadRecordsWithWhereClause( CUtlVector< SchClass_t > *pvecRecords, const char *pchWhereClause, const CColumnSet & readSet, const char *pchTopClause = NULL );
+	bool BYieldingReadRecordsWithWhereClause( CUtlVector< SchClass_t > *pvecRecords, const char *pchWhereClause, const CColumnSet & readSet, const char *pchTopClause = nullptr);
 	template< typename SchClass_t>
 	bool BYieldingReadRecordsWithQuery( CUtlVector< SchClass_t > *pvecRecords, const char *sQuery, const CColumnSet & readSet );
 	bool BYieldingUpdateRecord( const CRecordBase &record, const CColumnSet & whereColumns, const CColumnSet & updateColumns );
@@ -231,7 +231,7 @@ bool CSQLAccess::BYieldingReadMultipleRecordsWithWhereColumns( CUtlVector< SchCl
 	FOR_EACH_VEC( *pvecRecords, i )
 	{
 		AddRecordParameters( pvecRecords->Element( i ), whereSet );
-		if( !BYieldingExecute( NULL, sStatement ) )
+		if( !BYieldingExecute(nullptr, sStatement ) )
 			return false;
 	}
 
@@ -335,7 +335,7 @@ bool CSQLAccess::BYieldingReadRecordsWithQuery( CUtlVector< SchClass_t > *pvecRe
 		return false;
 
 	Assert(!readSet.IsEmpty() );
-	if( !BYieldingExecute( NULL, sQuery ) )
+	if( !BYieldingExecute(nullptr, sQuery ) )
 		return false;
 
 	Assert( GetResultSetCount() == 1 );

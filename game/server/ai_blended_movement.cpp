@@ -369,7 +369,7 @@ void CAI_BlendedMotor::SetMoveScriptAnim( float flNewSpeed )
 		if (m_nGoalSequence != ACT_INVALID && m_nPrimarySequence != m_nGoalSequence)
 		{
 			// Msg("From %s to %s\n", GetOuter()->GetSequenceName( m_nPrimarySequence ), GetOuter()->GetSequenceName( m_nGoalSequence ) );
-			m_nSecondarySequence = GetOuter()->FindTransitionSequence(m_nPrimarySequence, m_nGoalSequence, NULL);
+			m_nSecondarySequence = GetOuter()->FindTransitionSequence(m_nPrimarySequence, m_nGoalSequence, nullptr);
 			if (m_nSecondarySequence == ACT_INVALID)
 				m_nSecondarySequence = m_nGoalSequence;
 		}
@@ -639,7 +639,7 @@ AIMotorMoveResult_t CAI_BlendedMotor::MoveFlyExecute( const AILocalMoveGoal_t &m
 	VectorMA( vecStart, flTotalDist, move.dir, vecEnd );
 
 	AIMoveTrace_t moveTrace;
-	GetMoveProbe()->MoveLimit( NAV_FLY, vecStart, vecEnd, GetOuter()->GetAITraceMask(), NULL, &moveTrace );
+	GetMoveProbe()->MoveLimit( NAV_FLY, vecStart, vecEnd, GetOuter()->GetAITraceMask(), nullptr, &moveTrace );
 	if ( pTraceResult )
 		*pTraceResult = moveTrace;
 	
@@ -1548,7 +1548,7 @@ void CAI_BlendedMotor::InsertSlowdown( float distToObstruction, float idealAccel
 			}
 
 			script.flMaxVelocity = 1.0; // as much as reasonable
-			script.pWaypoint = NULL;
+			script.pWaypoint = nullptr;
 			script.flDist = m_scriptMove[i].flDist - distToObstruction;
 			m_scriptMove[i].flDist = distToObstruction;
 			m_scriptMove.InsertAfter( i, script );

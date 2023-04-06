@@ -26,7 +26,7 @@
 class CExpressionCalculator
 {
 public:
-	CExpressionCalculator( const char *expr = NULL ) : m_expr( expr ) {}
+	CExpressionCalculator( const char *expr = nullptr) : m_expr( expr ) {}
 
 	CExpressionCalculator( const CExpressionCalculator& x );
 	CExpressionCalculator& operator=( const CExpressionCalculator& x );

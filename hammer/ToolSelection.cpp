@@ -65,7 +65,7 @@ Selection3D::Selection3D(void)
 	m_clrLogicalBox = Options.colors.clrToolSelection;
 	m_vLDownLogicalClient.Init();
 
-	m_pSelection = NULL;
+	m_pSelection = nullptr;
 }
 
 
@@ -146,10 +146,10 @@ GDinputvariable *Selection3D::ChooseEyedropperVar(CMapView *pView, CUtlVector<GD
 	//
 	CPoint point;
 	GetCursorPos(&point);
-	int nID = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD, point.x, point.y, NULL, NULL);
+	int nID = menu.TrackPopupMenu(TPM_LEFTALIGN | TPM_LEFTBUTTON | TPM_NONOTIFY | TPM_RETURNCMD, point.x, point.y, nullptr, nullptr);
 	if (nID == 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return VarList.Element(nID - 1);
@@ -201,7 +201,7 @@ void Selection3D::SetEmpty(void)
 {
 	m_vTranslation.Init();
 	m_bIsTranslating = false;
-	m_pSelection->SelectObject(NULL,scClear);
+	m_pSelection->SelectObject(nullptr,scClear);
 	UpdateSelectionBounds();
 }
 
@@ -532,14 +532,14 @@ CBaseTool *Selection3D::GetToolObject( CMapView2D *pView, const Vector2D &vPoint
 			// tool associated with what we clicked on.
 			//
 			CBaseTool *pToolHit = HitData.pObject->GetToolObject(HitData.uData, bAttach );
-			if ( pToolHit != NULL )
+			if ( pToolHit != nullptr)
 			{
 				return pToolHit;
 			}
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CBaseTool *Selection3D::GetToolObjectLogical( CMapViewLogical *pView, const Vector2D &vPoint, bool bAttach )
@@ -561,14 +561,14 @@ CBaseTool *Selection3D::GetToolObjectLogical( CMapViewLogical *pView, const Vect
 			// tool associated with what we clicked on.
 			//
 			CBaseTool *pToolHit = HitData.pObject->GetToolObject(HitData.uData, bAttach );
-			if ( pToolHit != NULL )
+			if ( pToolHit != nullptr)
 			{
 				return pToolHit;
 			}
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -777,19 +777,19 @@ bool Selection3D::OnKeyDown2D(CMapView2D *pView, UINT nChar, UINT nRepCnt, UINT 
 		// TODO: do we want this here or in the view?
 		case VK_DELETE:
 		{
-			m_pDocument->OnCmdMsg(ID_EDIT_DELETE, CN_COMMAND, NULL, NULL);
+			m_pDocument->OnCmdMsg(ID_EDIT_DELETE, CN_COMMAND, nullptr, nullptr);
 			break;
 		}
 
 		case VK_NEXT:
 		{
-			m_pDocument->OnCmdMsg(ID_EDIT_SELNEXT, CN_COMMAND, NULL, NULL);
+			m_pDocument->OnCmdMsg(ID_EDIT_SELNEXT, CN_COMMAND, nullptr, nullptr);
 			break;
 		}
 
 		case VK_PRIOR:
 		{
-			m_pDocument->OnCmdMsg(ID_EDIT_SELPREV, CN_COMMAND, NULL, NULL);
+			m_pDocument->OnCmdMsg(ID_EDIT_SELPREV, CN_COMMAND, nullptr, nullptr);
 			break;
 		}
 
@@ -843,15 +843,15 @@ bool Selection3D::OnKeyDownLogical(CMapViewLogical *pView, UINT nChar, UINT nRep
 	{
 	// TODO: do we want this here or in the view?
 	case VK_DELETE:
-		m_pDocument->OnCmdMsg(ID_EDIT_DELETE, CN_COMMAND, NULL, NULL);
+		m_pDocument->OnCmdMsg(ID_EDIT_DELETE, CN_COMMAND, nullptr, nullptr);
 		break;
 
 	case VK_NEXT:
-		m_pDocument->OnCmdMsg( bAlt ? ID_EDIT_SELNEXT_CASCADING : ID_EDIT_SELNEXT, CN_COMMAND, NULL, NULL);
+		m_pDocument->OnCmdMsg( bAlt ? ID_EDIT_SELNEXT_CASCADING : ID_EDIT_SELNEXT, CN_COMMAND, nullptr, nullptr);
 		break;
 
 	case VK_PRIOR:
-		m_pDocument->OnCmdMsg( bAlt ? ID_EDIT_SELPREV_CASCADING : ID_EDIT_SELPREV, CN_COMMAND, NULL, NULL);
+		m_pDocument->OnCmdMsg( bAlt ? ID_EDIT_SELPREV_CASCADING : ID_EDIT_SELPREV, CN_COMMAND, nullptr, nullptr);
 		break;
 
 	case VK_ESCAPE:
@@ -1109,7 +1109,7 @@ void Selection3D::FinishTranslation(bool bSave, bool bClone )
 void Selection3D::StartTranslation(CMapView *pView, const Vector2D &vPoint, const Vector &vHandleOrigin )
 {
 	Vector refPoint;
-    Vector *pRefPoint = NULL; 
+    Vector *pRefPoint = nullptr; 
 
 	// use single object origin as translation origin
 	if (m_pSelection->GetCount() == 1)
@@ -1133,7 +1133,7 @@ void Selection3D::StartTranslation(CMapView *pView, const Vector2D &vPoint, cons
 	// If translating, redo our bounds temporarily to use the entity origins rather than their bounds
 	// so things will stay on the grid correctly.
 	Vector vCustomHandleBox[2];
-	Vector *pCustomHandleBox = NULL;
+	Vector *pCustomHandleBox = nullptr;
 	if ( vHandleOrigin.IsZero() )
 	{
 		pCustomHandleBox = vCustomHandleBox;
@@ -1493,7 +1493,7 @@ bool Selection3D::OnKeyDown3D(CMapView3D *pView, UINT nChar, UINT nRepCnt, UINT 
 
 		case VK_DELETE:
 		{
-			m_pDocument->OnCmdMsg(ID_EDIT_DELETE, CN_COMMAND, NULL, NULL);
+			m_pDocument->OnCmdMsg(ID_EDIT_DELETE, CN_COMMAND, nullptr, nullptr);
 			return true;
 		}
 
@@ -1581,7 +1581,7 @@ void Selection3D::EyedropperPick3D(CMapView3D *pView, const Vector2D &vPoint)
 	//
 	if ( !m_pSelection->IsAnEntitySelected() )
 	{
-		MessageBox( NULL, "No entities are selected, so the eyedropper has nothing to assign to.", "No selected entities", MB_OK);
+		MessageBox(nullptr, "No entities are selected, so the eyedropper has nothing to assign to.", "No selected entities", MB_OK);
 		return;
 	}
 
@@ -1590,7 +1590,7 @@ void Selection3D::EyedropperPick3D(CMapView3D *pView, const Vector2D &vPoint)
 	//
 	ULONG ulFace;
 	CMapClass *pClickObject = pView->NearestObjectAt( vPoint, ulFace);
-	if (pClickObject != NULL)
+	if (pClickObject != nullptr)
 	{
 		EyedropperPick(pView, pClickObject);
 	}
@@ -1608,7 +1608,7 @@ void Selection3D::EyedropperPick(CMapView *pView, CMapClass *pObject)
 	// TODO: consider using this to fill out face lists if they click on a solid
 	//
 	CMapEntity *pEntity = FindEntityInTree(pObject);
-	if (pEntity == NULL)
+	if (pEntity == nullptr)
 	{
 		// They clicked on something that is not an entity.
 		return;
@@ -1617,14 +1617,14 @@ void Selection3D::EyedropperPick(CMapView *pView, CMapClass *pObject)
 	//
 	// Get the name of the clicked on entity.
 	//
-	const char *pszClickName = NULL;
+	const char *pszClickName = nullptr;
 	pszClickName = pEntity->GetKeyValue("targetname");
-	if (pszClickName == NULL)
+	if (pszClickName == nullptr)
 	{
 		//
 		// They clicked on an entity with no name.
 		//
-		MessageBox( NULL, "The chosen entity has no name.", "No name to pick", MB_OK );
+		MessageBox(nullptr, "The chosen entity has no name.", "No name to pick", MB_OK );
 		return;
 	}
 
@@ -1641,7 +1641,7 @@ void Selection3D::EyedropperPick(CMapView *pView, CMapClass *pObject)
 	{
 		CMapClass *pObject = (CUtlReference< CMapClass>)pSelList->Element(i);
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *> (pObject);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			nEntityCount++;
 			GDclass *pClass = pEntity->GetClass();
@@ -1667,7 +1667,7 @@ void Selection3D::EyedropperPick(CMapView *pView, CMapClass *pObject)
 		//
 		// No selected entities have keys of the appropriate type, so there's nothing we can do.
 		//
-		MessageBox( NULL, "No selected entities have keyvalues that accept an entity name, so the eyedropper has nothing to assign to.", "No eligible keyvalues", MB_OK );
+		MessageBox(nullptr, "No selected entities have keyvalues that accept an entity name, so the eyedropper has nothing to assign to.", "No eligible keyvalues", MB_OK );
 		return;
 	}
 
@@ -1695,7 +1695,7 @@ void Selection3D::EyedropperPick(CMapView *pView, CMapClass *pObject)
 		CMapClass *pObject = (CUtlReference< CMapClass>)pSelList->Element(i);
 	
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *> (pObject);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			GDclass *pClass = pEntity->GetClass();
 			GDinputvariable *pVar = pClass->VarForName(pszVarName);
@@ -1708,7 +1708,7 @@ void Selection3D::EyedropperPick(CMapView *pView, CMapClass *pObject)
 	}
 
 	CMapDoc *pDoc = pView->GetMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pDoc->SetModifiedFlag();
 	}
@@ -1725,17 +1725,17 @@ CMapEntity *Selection3D::FindEntityInTree(CMapClass *pObject)
 	do
 	{
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *> (pObject);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			return pEntity;
 		}
 
 		pObject = pObject->GetParent();
 
-	} while (pObject != NULL);
+	} while (pObject != nullptr);
 
 	// No entity in this branch of the object tree.
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1930,7 +1930,7 @@ bool Selection3D::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &
 //-----------------------------------------------------------------------------
 void Selection3D::SetEyedropperCursor(void)
 {
-	static HCURSOR hcurEyedropper = NULL;
+	static HCURSOR hcurEyedropper = nullptr;
 	
 	if (!hcurEyedropper)
 	{

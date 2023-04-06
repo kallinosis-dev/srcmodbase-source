@@ -21,7 +21,7 @@ const studiohdr_t *studiohdr_t::FindModel( void **cache, char const *modelname )
 virtualmodel_t *studiohdr_t::GetVirtualModel( void ) const
 {
 	if ( numincludemodels == 0 )
-		return NULL;
+		return nullptr;
 	return modelinfo->GetVirtualModel( this );
 }
 

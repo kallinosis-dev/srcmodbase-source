@@ -146,7 +146,7 @@ void RevertAllModifiedLocalState()
 		// Reload all materials in case the user has tried to cheat by using mat_suppress.
 		if ( materials )
 		{
-			materials->ReloadMaterials( NULL );
+			materials->ReloadMaterials(nullptr);
 		}
 		g_bHasIssuedMatSuppressOrDebug = false;
 	}
@@ -540,24 +540,24 @@ void SV_Shutdown( void )
 
 void CGameServer::Clear( void )
 {
-	m_pModelPrecacheTable = NULL;
-	m_pDynamicModelTable = NULL;
-	m_pGenericPrecacheTable = NULL;
-	m_pSoundPrecacheTable = NULL;
-	m_pDecalPrecacheTable = NULL;
+	m_pModelPrecacheTable = nullptr;
+	m_pDynamicModelTable = nullptr;
+	m_pGenericPrecacheTable = nullptr;
+	m_pSoundPrecacheTable = nullptr;
+	m_pDecalPrecacheTable = nullptr;
 	m_bIsLevelMainMenuBackground = false;
 
     m_bLoadgame = false;
     
-    host_state.SetWorldModel( NULL );	
+    host_state.SetWorldModel(nullptr);	
 
     Q_memset( m_szStartspot, 0, sizeof( m_szStartspot ) );
     
     num_edicts = 0;
     max_edicts = 0;
-    edicts = NULL;
+    edicts = nullptr;
     g_ServerGlobalVariables.maxEntities = 0;
-    g_ServerGlobalVariables.pEdicts = NULL;
+    g_ServerGlobalVariables.pEdicts = nullptr;
 
     // Clear the instance baseline indices in the ServerClasses.
     if ( serverGameDLL )
@@ -1002,7 +1002,7 @@ bool ServerDLL_Load( bool bServerOnly )
 {
     // Load in the game .dll
     LoadEntityDLLs( GetBaseDirectory(), bServerOnly );
-    return g_ServerFactory != NULL;
+    return g_ServerFactory != nullptr;
 }
 
 void ServerDLL_Unload()
@@ -1216,7 +1216,7 @@ ServerClass* SV_FindServerClass( const char *pName )
         pCur = pCur->m_pNext;
     }
     
-    return NULL;
+    return nullptr;
 }
 
 ServerClass* SV_FindServerClass( int index )
@@ -1224,7 +1224,7 @@ ServerClass* SV_FindServerClass( int index )
     ServerClass *pCur = serverGameDLL->GetAllServerClasses();
     int count = 0;
 
-    while ( (count < index) && (pCur != NULL) )
+    while ( (count < index) && (pCur != nullptr) )
     {
         count++;
         pCur = pCur->m_pNext;
@@ -1465,7 +1465,7 @@ void SV_DetermineMulticastRecipients( bool usepas, const Vector& origin, CPlayer
             continue;
 
         // HACK:  Should above also check pClient->spawned instead of this
-        if ( !pClient->edict || pClient->edict->IsFree() || pClient->edict->GetUnknown() == NULL )
+        if ( !pClient->edict || pClient->edict->IsFree() || pClient->edict->GetUnknown() == nullptr)
             continue;
         
         // Always add the HLTV or Replay client
@@ -1552,7 +1552,7 @@ CGameServer::CGameServer()
 {
     m_nMinClientsLimit = 0;
     m_nMaxClientsLimit = 0;
-    m_pPureServerWhitelist = NULL;
+    m_pPureServerWhitelist = nullptr;
     m_bHibernating = false;
     m_bLoadedPlugins = false;
 	m_bUpdateHibernationStateDeferred = false;
@@ -1591,7 +1591,7 @@ CBaseClient *CGameServer::CreateNewClient(int slot )
 {
     CBaseClient *cl = new CGameClient( slot, this );
 
-    const char *pszValue = NULL;
+    const char *pszValue = nullptr;
     if ( cl && CommandLine()->CheckParm( "-netspike", &pszValue ) && 
         pszValue )
     {
@@ -1678,7 +1678,7 @@ crosses a waterline.
 */
 
 static int		s_FatBytes;
-static byte*	s_pFatPVS = 0;
+static byte*	s_pFatPVS = nullptr;
 
 CUtlVector<int> g_AreasNetworked;
 CUtlVector<int> g_ClustersNetworked;
@@ -1780,7 +1780,7 @@ void CGameServer::BroadcastSound( SoundInfo_t &sound, IRecipientFilter &filter )
 
 bool CGameServer::IsInPureServerMode() const
 {
-    return (m_pPureServerWhitelist != NULL);
+    return (m_pPureServerWhitelist != nullptr);
 }
 
 CPureServerWhitelist * CGameServer::GetPureServerWhitelist() const
@@ -2096,7 +2096,7 @@ void CGameServer::FinishRestore()
 
     saverestore->OnFinishedClientRestore();
 
-    g_ServerGlobalVariables.pSaveData = NULL;
+    g_ServerGlobalVariables.pSaveData = nullptr;
 
     // Reset
     m_bLoadgame = false;
@@ -2509,7 +2509,7 @@ void SV_CreateBaseline (void)
             if ( edict->IsFree() || !edict->GetUnknown() )
                 continue;
 
-            ServerClass *pClass   = edict->GetNetworkable() ? edict->GetNetworkable()->GetServerClass() : 0;
+            ServerClass *pClass   = edict->GetNetworkable() ? edict->GetNetworkable()->GetServerClass() : nullptr;
 
             if ( !pClass )
             {
@@ -2536,8 +2536,8 @@ void SV_CreateBaseline (void)
                 handle,
                 edict->GetUnknown(), 
                 entnum,
-                NULL
-                ) )
+                nullptr
+            ) )
             {
                 Host_Error("SV_CreateBaseline: SendTable_Encode returned false (ent %d).\n", entnum);
             }
@@ -2785,7 +2785,7 @@ void CGameServer::ReloadWhitelist( const char *pMapName )
     if ( m_pPureServerWhitelist )
     {
         m_pPureServerWhitelist->Release();
-        m_pPureServerWhitelist = NULL;
+        m_pPureServerWhitelist = nullptr;
     }
 
     // Don't do sv_pure stuff in SP games.
@@ -2796,7 +2796,7 @@ void CGameServer::ReloadWhitelist( const char *pMapName )
     if ( m_pPureServerWhitelist )
     {
         m_pPureServerWhitelist->Release();
-        m_pPureServerWhitelist = NULL;
+        m_pPureServerWhitelist = nullptr;
     }
 
     // Don't use the whitelist if sv_pure is not set.
@@ -3395,7 +3395,7 @@ void SV_FrameExecuteThreadDeferred()
     {
         (*g_pDeferredServerWork)();
         delete g_pDeferredServerWork;
-        g_pDeferredServerWork = NULL;
+        g_pDeferredServerWork = nullptr;
     }
 }
 

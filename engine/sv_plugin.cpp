@@ -56,8 +56,8 @@ QueryCvarCookie_t SendCvarValueQueryToClient( IClient *client, const char *pCvar
 //---------------------------------------------------------------------------------
 CPlugin::CPlugin()
 {
-	m_pPlugin = NULL;
-	m_pPluginModule = NULL;
+	m_pPlugin = nullptr;
+	m_pPluginModule = nullptr;
 	m_bDisable = false;
 	m_szName[0] = 0;
 }
@@ -68,13 +68,13 @@ CPlugin::~CPlugin()
 	{
 		Unload();
 	}
-	m_pPlugin = NULL;
+	m_pPlugin = nullptr;
 
 	if ( m_pPluginModule )
 	{
 		g_pFileSystem->UnloadModule( m_pPluginModule );
 	}
-	m_pPluginModule = NULL;
+	m_pPluginModule = nullptr;
 }
 
 //---------------------------------------------------------------------------------
@@ -116,19 +116,19 @@ bool CPlugin::Load( const char *fileName )
 		if ( pluginFactory )
 		{
 			m_iPluginInterfaceVersion = 4;
-			m_pPlugin = ( IServerPluginCallbacks * ) pluginFactory( INTERFACEVERSION_ISERVERPLUGINCALLBACKS, NULL );
+			m_pPlugin = ( IServerPluginCallbacks * ) pluginFactory( INTERFACEVERSION_ISERVERPLUGINCALLBACKS, nullptr);
 			if ( !m_pPlugin )
 			{
 				m_iPluginInterfaceVersion = 3;
-				m_pPlugin = ( IServerPluginCallbacks * ) pluginFactory( INTERFACEVERSION_ISERVERPLUGINCALLBACKS_VERSION_3, NULL );
+				m_pPlugin = ( IServerPluginCallbacks * ) pluginFactory( INTERFACEVERSION_ISERVERPLUGINCALLBACKS_VERSION_3, nullptr);
 				if ( !m_pPlugin )
 				{
 					m_iPluginInterfaceVersion = 2;
-					m_pPlugin = ( IServerPluginCallbacks * ) pluginFactory( INTERFACEVERSION_ISERVERPLUGINCALLBACKS_VERSION_2, NULL );
+					m_pPlugin = ( IServerPluginCallbacks * ) pluginFactory( INTERFACEVERSION_ISERVERPLUGINCALLBACKS_VERSION_2, nullptr);
 					if ( !m_pPlugin )
 					{
 						m_iPluginInterfaceVersion = 1;
-						m_pPlugin = ( IServerPluginCallbacks * ) pluginFactory( INTERFACEVERSION_ISERVERPLUGINCALLBACKS_VERSION_1, NULL );
+						m_pPlugin = ( IServerPluginCallbacks * ) pluginFactory( INTERFACEVERSION_ISERVERPLUGINCALLBACKS_VERSION_1, nullptr);
 						if ( !m_pPlugin )
 						{
 							Warning( "Could not get IServerPluginCallbacks interface from plugin \"%s\"", fileName );
@@ -165,10 +165,10 @@ void CPlugin::Unload()
 	{
 		m_pPlugin->Unload();
 	}
-	m_pPlugin = NULL;
+	m_pPlugin = nullptr;
 
 	g_pFileSystem->UnloadModule( m_pPluginModule );
-	m_pPluginModule = NULL;
+	m_pPluginModule = nullptr;
 }
 
 //---------------------------------------------------------------------------------
@@ -201,7 +201,7 @@ IServerPluginCallbacks *CPlugin::GetCallback()
 	{
 		Assert( !"Unable to get plugin callback interface" );
 		Warning( "Unable to get callback interface for \"%s\"\n", GetName() );
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -228,7 +228,7 @@ void CPlugin::Disable( bool state )
 //---------------------------------------------------------------------------------
 CServerPlugin::CServerPlugin()
 {
-	m_PluginHelperCheck = NULL;
+	m_PluginHelperCheck = nullptr;
 }
 
 CServerPlugin::~CServerPlugin()
@@ -247,20 +247,20 @@ void CServerPlugin::LoadPlugins()
 
 	m_Plugins.PurgeAndDeleteElements();
 
-	char const *findfn = Sys_FindFirst( "addons/*.vdf", NULL, 0 );
+	char const *findfn = Sys_FindFirst( "addons/*.vdf", nullptr, 0 );
 	while ( findfn )
 	{
 		DevMsg( "Plugins: found file \"%s\"\n", findfn );
 		if ( !g_pFileSystem->FileExists( va("addons/%s", findfn), "MOD" ) ) // verify its in the mods directory
 		{
-			findfn = Sys_FindNext( NULL, 0 );
+			findfn = Sys_FindNext(nullptr, 0 );
 			continue;
 		}
 	
 		KeyValues *pluginsFile = new KeyValues("Plugins");
 		pluginsFile->LoadFromFile( g_pFileSystem, va("addons/%s", findfn), "MOD" );
 
-		if ( pluginsFile->GetString("file", NULL) ) 
+		if ( pluginsFile->GetString("file", nullptr) ) 
 		{
 			LoadPlugin(pluginsFile->GetString("file"));
 		}
@@ -268,13 +268,13 @@ void CServerPlugin::LoadPlugins()
 		pluginsFile->deleteThis();
 
 		// move to next item
-		findfn = Sys_FindNext( NULL, 0  );
+		findfn = Sys_FindNext(nullptr, 0  );
 	}
 
 	Sys_FindClose();
 
 	CreateInterfaceFn gameServerFactory = Sys_GetFactory( g_GameDLL );
-	m_PluginHelperCheck = (IPluginHelpersCheck *)gameServerFactory( INTERFACEVERSION_PLUGINHELPERSCHECK, NULL );
+	m_PluginHelperCheck = (IPluginHelpersCheck *)gameServerFactory( INTERFACEVERSION_PLUGINHELPERSCHECK, nullptr);
 }
 
 //---------------------------------------------------------------------------------

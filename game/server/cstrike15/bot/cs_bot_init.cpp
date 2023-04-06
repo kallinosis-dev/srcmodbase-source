@@ -108,7 +108,7 @@ void Bot_ServerCommand( void )
 CCSBot::CCSBot( void ) :
 m_gameState( this ),
 m_hasJoined( false ),
-m_pLocalProfile( NULL )
+m_pLocalProfile(nullptr)
 {
 	if ( CSGameRules()->IsPlayingCoopMission() )
 	{
@@ -145,7 +145,7 @@ bool CCSBot::Initialize( const BotProfile *profile, int team )
 	preserved_name[0] = 0;
 
 	AssertMsg( profile != NULL, "You cannot pass in null for a bot profile." );
-	if ( NULL == profile ) return false;
+	if (nullptr == profile ) return false;
 
 	if ( m_pLocalProfile )
 	{
@@ -296,7 +296,7 @@ void CCSBot::ResetValues( void )
 	m_pChatter->Reset();
 	m_gameState.Reset();
 
-	m_avoid = NULL;
+	m_avoid = nullptr;
 	m_avoidTimestamp = 0.0f;
 
 	m_hurryTimer.Invalidate();
@@ -314,8 +314,8 @@ void CCSBot::ResetValues( void )
 	m_pathLength = 0;
 	m_pathIndex = 0;
 	m_areaEnteredTimestamp = 0.0f;
-	m_currentArea = NULL;
-	m_lastKnownArea = NULL;
+	m_currentArea = nullptr;
+	m_lastKnownArea = nullptr;
 	m_isStopping = false;
 
 	m_avoidFriendTimer.Invalidate();
@@ -327,18 +327,18 @@ void CCSBot::ResetValues( void )
 
 	m_disposition = ENGAGE_AND_INVESTIGATE;
 
-	m_enemy = NULL;
+	m_enemy = nullptr;
 
 	m_grenadeTossState = NOT_THROWING;
-	m_initialEncounterArea = NULL;
+	m_initialEncounterArea = nullptr;
 
 	m_wasSafe = true;
 
 	m_nearbyEnemyCount = 0;
 	m_enemyPlace = 0;
 	m_nearbyFriendCount = 0;
-	m_closestVisibleFriend = NULL;
-	m_closestVisibleHumanFriend = NULL;
+	m_closestVisibleFriend = nullptr;
+	m_closestVisibleHumanFriend = nullptr;
 
 	for( int w=0; w<MAX_PLAYERS; ++w )
 	{
@@ -358,7 +358,7 @@ void CCSBot::ResetValues( void )
 	m_firstSawEnemyTimestamp = 0.0f;
 	m_currentEnemyAcquireTimestamp = 0.0f;
 	m_isLastEnemyDead = true;
-	m_attacker = NULL;
+	m_attacker = nullptr;
 	m_attackedTimestamp = 0.0f;
 	m_enemyDeathTimestamp = 0.0f;
 	m_friendDeathTimestamp = 0.0f;
@@ -369,14 +369,14 @@ void CCSBot::ResetValues( void )
 	m_zoomTimer.Invalidate();
 
 	m_isFollowing = false;
-	m_leader = NULL;
+	m_leader = nullptr;
 	m_followTimestamp = 0.0f;
 	m_allowAutoFollowTime = 0.0f;
 
 	m_enemyQueueIndex = 0;
 	m_enemyQueueCount = 0;
 	m_enemyQueueAttendIndex = 0;
-	m_bomber = NULL;
+	m_bomber = nullptr;
 
 	m_bIsSleeping = false;
 
@@ -408,7 +408,7 @@ void CCSBot::ResetValues( void )
 		m_partInfo[p].m_validFrame = 0;
 	}
 
-	m_spotEncounter = NULL;
+	m_spotEncounter = nullptr;
 	m_spotCheckTimestamp = 0.0f;
 	m_peripheralTimestamp = 0.0f;
 
@@ -420,7 +420,7 @@ void CCSBot::ResetValues( void )
 	m_lastRadioCommand = RADIO_INVALID;
 	m_lastRadioRecievedTimestamp = 0.0f;
 	m_lastRadioSentTimestamp = 0.0f;
-	m_radioSubject = NULL;
+	m_radioSubject = nullptr;
 	m_voiceEndTimestamp = 0.0f;
 
 	m_hostageEscortCount = 0;
@@ -431,7 +431,7 @@ void CCSBot::ResetValues( void )
 
 	m_stateTimestamp = 0.0f;
 	m_task = SEEK_AND_DESTROY;
-	m_taskEntity = NULL;
+	m_taskEntity = nullptr;
 
 	m_approachPointCount = 0;
 	m_approachPointViewPosition.x = 99999999999.9f;
@@ -444,7 +444,7 @@ void CCSBot::ResetValues( void )
 	Run();
 	m_mustRunTimer.Invalidate();
 	m_waitTimer.Invalidate();
-	m_pathLadder = NULL;
+	m_pathLadder = nullptr;
 
 	m_repathTimer.Invalidate();
 
@@ -466,13 +466,13 @@ void CCSBot::ResetValues( void )
 	m_surpriseTimer.Invalidate();
 
 	// even though these are EHANDLEs, they need to be NULL-ed
-	m_goalEntity = NULL;
-	m_avoid = NULL;
-	m_enemy = NULL;
+	m_goalEntity = nullptr;
+	m_avoid = nullptr;
+	m_enemy = nullptr;
 
 	for ( int i=0; i<MAX_ENEMY_QUEUE; ++i )
 	{
-		m_enemyQueue[i].player = NULL;
+		m_enemyQueue[i].player = nullptr;
 		m_enemyQueue[i].isReloading = false;
 		m_enemyQueue[i].isProtectedByShield = false;
 	}
@@ -499,7 +499,7 @@ void CCSBot::ResetValues( void )
 void CCSBot::Spawn( void )
 {
 	if ( CSGameRules() && CSGameRules()->IsPlayingCoopMission() && GetTeamNumber() == TEAM_TERRORIST )
-		SetLastCoopSpawnPoint( NULL );
+		SetLastCoopSpawnPoint(nullptr);
 
 	// do the normal player spawn process
 	BaseClass::Spawn();

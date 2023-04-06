@@ -70,5 +70,5 @@ const econ_item_description_line_t *IEconItemDescription::GetFirstLineWithMetaTy
 			return &pLine;
 	}
 
-	return NULL;
+	return nullptr;
 }

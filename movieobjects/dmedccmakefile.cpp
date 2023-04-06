@@ -159,8 +159,8 @@ CDmElement *CDmeDCCMakefile::CreateOutputElement( )
 			DmFileId_t fileId = GetFileId(); 
 			g_pDataModel->UnloadFile( fileId );
 
-			CDmElement *pRoot = NULL;
-			if ( g_pDataModel->RestoreFromFile( g_pDataModel->GetFileName( fileId ), NULL, NULL, &pRoot, CR_DELETE_OLD ) != DMFILEID_INVALID )
+			CDmElement *pRoot = nullptr;
+			if ( g_pDataModel->RestoreFromFile( g_pDataModel->GetFileName( fileId ), nullptr, nullptr, &pRoot, CR_DELETE_OLD ) != DMFILEID_INVALID )
 			{
 				// NOTE: Unload/restore kills the this pointer, we need to redo this
 				if ( hMakefileOld.Get() )
@@ -174,7 +174,7 @@ CDmElement *CDmeDCCMakefile::CreateOutputElement( )
 			// This case happens if the file failed to load. In this case, we must use
 			// the copy of the makefile
 			Assert( 0 );
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -230,7 +230,7 @@ void CDmeMayaAnimationMakefile::OnDestruction()
 static DmeMakefileType_t s_pMayaModelSourceTypes[] = 
 {
 	{ "DmeSourceMayaModelFile", "Maya Model File", true, "makefiledir:../maya", "*.ma;*.mb", "Maya File (*.ma,*.mb)" },
-	{ NULL, NULL, false, NULL, NULL, NULL },
+	{nullptr, nullptr, false, nullptr, nullptr, nullptr},
 };
 
 DmeMakefileType_t* CDmeMayaModelMakefile::GetSourceTypes()
@@ -241,7 +241,7 @@ DmeMakefileType_t* CDmeMayaModelMakefile::GetSourceTypes()
 static DmeMakefileType_t s_pMayaAnimationSourceTypes[] = 
 {
 	{ "DmeSourceMayaAnimationFile", "Maya Animation File", true, "makefiledir:../maya", "*.ma;*.mb", "Maya File (*.ma,*.mb)" },
-	{ NULL, NULL, false, NULL, NULL, NULL },
+	{nullptr, nullptr, false, nullptr, nullptr, nullptr},
 };
 
 DmeMakefileType_t* CDmeMayaAnimationMakefile::GetSourceTypes()
@@ -298,7 +298,7 @@ void CDmeXSIMakefile::OnDestruction()
 static DmeMakefileType_t s_pXSISourceTypes[] = 
 {
 	{ "DmeSourceXSIFile", "XSI File", true, "makefiledir:../xsi", "*.xsi", "XSI File (*.xsi)" },
-	{ NULL, NULL, false, NULL, NULL, NULL },
+	{nullptr, nullptr, false, nullptr, nullptr, nullptr},
 };
 
 DmeMakefileType_t* CDmeXSIMakefile::GetSourceTypes()

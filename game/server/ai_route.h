@@ -99,7 +99,7 @@ public:
 	// Target of this path
 	//---------------------------------
 	void			SetTarget(CBaseEntity * pTarget )	{ m_target = pTarget;				}
-	void			ClearTarget()						{ m_target = NULL; m_vecTargetOffset = vec3_origin;	}
+	void			ClearTarget()						{ m_target = nullptr; m_vecTargetOffset = vec3_origin;	}
 	void			SetTargetOffset( const Vector &vecOffset)	{ m_vecTargetOffset = vecOffset;	}
 	CBaseEntity *	GetTarget()							{ return m_target;					}
 

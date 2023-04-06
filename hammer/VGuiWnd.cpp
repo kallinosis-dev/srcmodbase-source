@@ -60,8 +60,8 @@ END_MESSAGE_MAP()
 
 CVGuiWnd::CVGuiWnd(void)
 {
-	m_pMainPanel = NULL;
-	m_pParentWnd = NULL;
+	m_pMainPanel = nullptr;
+	m_pParentWnd = nullptr;
 	m_hVGuiContext = vgui::DEFAULT_VGUI_CONTEXT;
 	m_bIsDrawing = false;
 	m_ClearColor.SetColor( 0,0,0,255 );
@@ -72,7 +72,7 @@ CVGuiWnd::~CVGuiWnd(void)
 {
 	if ( HammerVGui()->HasFocus( this )	)
 	{
-		HammerVGui()->SetFocus( NULL );
+		HammerVGui()->SetFocus(nullptr);
 	}
 
 	if ( m_hVGuiContext != vgui::DEFAULT_VGUI_CONTEXT )
@@ -138,7 +138,7 @@ void CVGuiWnd::SetMainPanel( vgui::EditablePanel * pPanel )
 
 vgui::EditablePanel *CVGuiWnd::CreateDefaultPanel()
 {
-	return new CBaseMainPanel( NULL, "mainpanel" );
+	return new CBaseMainPanel(nullptr, "mainpanel" );
 }
 
 vgui::EditablePanel	*CVGuiWnd::GetMainPanel()
@@ -153,7 +153,7 @@ CWnd *CVGuiWnd::GetParentWnd()
 
 void CVGuiWnd::SetRepaintInterval( int msecs )
 {
-	::SetTimer( m_pParentWnd->GetSafeHwnd(), REPAINT_TIMER_ID, msecs, NULL );
+	::SetTimer( m_pParentWnd->GetSafeHwnd(), REPAINT_TIMER_ID, msecs, nullptr);
 }
 
 void CVGuiWnd::DrawVGuiPanel()

@@ -124,7 +124,7 @@ CMapClass *CWorldTextHelper::Copy( bool bUpdateDependencies )
 {
 	CWorldTextHelper *pCopy = new CWorldTextHelper;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -143,7 +143,7 @@ CMapClass *CWorldTextHelper::CopyFrom( CMapClass *pObject, bool bUpdateDependenc
 	CWorldTextHelper *pFrom = dynamic_cast<CWorldTextHelper*>( pObject );
 	Assert( pFrom != NULL );
 
-	if ( pFrom != NULL )
+	if ( pFrom != nullptr)
 	{
 		CMapClass::CopyFrom(pObject, bUpdateDependencies);
 

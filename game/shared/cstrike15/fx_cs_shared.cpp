@@ -333,8 +333,8 @@ void FX_FireBullets(
 
 	iSeed++;
 
-	CWeaponCSBase* pWeapon = pPlayer ? pPlayer->GetActiveCSWeapon() : NULL;
-	CEconItemView* pItem = pWeapon ? pWeapon->GetEconItemView() : NULL;
+	CWeaponCSBase* pWeapon = pPlayer ? pPlayer->GetActiveCSWeapon() : nullptr;
+	CEconItemView* pItem = pWeapon ? pWeapon->GetEconItemView() : nullptr;
 
 	int		iDamage = pWeaponInfo->GetDamage( pItem );
 	float	flRange = pWeaponInfo->GetRange( pItem );

@@ -139,7 +139,7 @@ CPropFadeUIPanel::CPropFadeUIPanel( vgui::Panel *parent ) : BaseClass( parent, "
 	int i;
 	for ( i = 0; i < ARRAYSIZE(s_pFadeVisualizeLabel); i++ )
 	{
-		m_pVisualization->AddItem( s_pFadeVisualizeLabel[i], NULL );
+		m_pVisualization->AddItem( s_pFadeVisualizeLabel[i], nullptr);
 	}
 	m_pVisualization->AddActionSignalTarget( this );
 	m_pVisualization->ActivateItem( 0 );
@@ -324,7 +324,7 @@ COcclusionUIPanel::COcclusionUIPanel( vgui::Panel *parent ) : BaseClass( parent,
 	int i;
 	for ( i = 0; i < VISUALIZE_TYPE_COUNT; i++ )
 	{
-		m_pVisualization->AddItem( s_pOccVisualizeLabel[i], NULL );
+		m_pVisualization->AddItem( s_pOccVisualizeLabel[i], nullptr);
 	}
 	m_pVisualization->AddActionSignalTarget( this );
 	m_pVisualization->ActivateItem( 0 );
@@ -513,7 +513,7 @@ CPerfUIPanel::CPerfUIPanel( vgui::Panel *parent ) : BaseClass( parent, "PerfUIPa
 	}
 
 	m_nPerfTool = PERF_TOOL_COUNT;
-	m_pCurrentToolPanel = NULL;
+	m_pCurrentToolPanel = nullptr;
 	PopulateControls();
 }
 
@@ -548,7 +548,7 @@ void CPerfUIPanel::PopulateControls()
 	int i;
 	for ( i = 0; i < PERF_TOOL_COUNT; i++ )
 	{
-		m_pPerformanceTool->AddItem( s_pPerfToolNames[i], NULL );
+		m_pPerformanceTool->AddItem( s_pPerfToolNames[i], nullptr);
 	}
 	m_pPerformanceTool->AddActionSignalTarget( this );
 	m_pPerformanceTool->ActivateItem( 0 );
@@ -650,7 +650,7 @@ void CPerfUIPanel::OnKeyCodeTyped(KeyCode code)
 //-----------------------------------------------------------------------------
 // Main interface to the performance tools 
 //-----------------------------------------------------------------------------
-static CPerfUIPanel *g_pPerfUI = NULL;
+static CPerfUIPanel *g_pPerfUI = nullptr;
 
 class CEnginePerfTools : public IEnginePerfTools
 {

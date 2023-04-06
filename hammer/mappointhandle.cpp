@@ -46,7 +46,7 @@ CMapClass *CMapPointHandle::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent
 	bool bDrawLineToParent = !stricmp(pHelperInfo->GetName(), "vecline");
 
 	const char *pszKey = pHelperInfo->GetParameter(0);
-	if (pszKey == NULL)
+	if (pszKey == nullptr)
 	{
 		pszKey = pszDefaultKeyName;
 	}
@@ -129,7 +129,7 @@ CMapClass *CMapPointHandle::Copy(bool bUpdateDependencies)
 {
 	CMapPointHandle *pCopy = new CMapPointHandle;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -223,7 +223,7 @@ void CMapPointHandle::Render2D(CRender2D *pRender)
 	pRender->DrawHandle( m_Origin );
 	
 	// Draw a line from origin helpers to their parent while they are being dragged.
-	if ((m_pParent != NULL) && (m_bDrawLineToParent || (eState == SELECT_MODIFY)))
+	if ((m_pParent != nullptr) && (m_bDrawLineToParent || (eState == SELECT_MODIFY)))
 	{
 		if (eState == SELECT_MODIFY)
 		{
@@ -272,7 +272,7 @@ void CMapPointHandle::Render3D(CRender3D *pRender)
 
 		pRender->RenderSphere(m_Origin, 0.04 * flDist, 12, 12, 128, 128, 255);
 
-		if ((m_pParent != NULL) && (m_bDrawLineToParent))
+		if ((m_pParent != nullptr) && (m_bDrawLineToParent))
 		{
 			Vector vecOrigin;
 			GetParent()->GetOrigin(vecOrigin);
@@ -362,7 +362,7 @@ void CMapPointHandle::UpdateParentKey(void)
 	if (m_szKeyName[0])
 	{
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *> (m_pParent);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			char szValue[KEYVALUE_MAX_VALUE_LENGTH];
 			sprintf(szValue, "%g %g %g", (double)m_Origin.x, (double)m_Origin.y, (double)m_Origin.z);

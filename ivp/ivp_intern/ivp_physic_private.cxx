@@ -54,7 +54,7 @@ void IVP_Cluster_Manager::fire_event_object_deleted(IVP_Event_Object *event_obj)
     IVP_Object_Callback_Table *obj_table;
     IVP_Real_Object *ro = event_obj->real_object;
     obj_table = this->obj_callback_hash->find_table(ro);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	int i;
 	for (i=obj_table->listeners.len()-1; i>=0; i--) {
 	    IVP_Listener_Object *lis = obj_table->listeners.element_at(i);
@@ -69,7 +69,7 @@ void IVP_Cluster_Manager::fire_event_object_frozen(IVP_Event_Object *event_obj)
     IVP_Object_Callback_Table *obj_table;
     IVP_Real_Object *ro = event_obj->real_object;
     obj_table = this->obj_callback_hash->find_table(ro);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	int i;
 	for (i=obj_table->listeners.len()-1; i>=0; i--) {
 	    IVP_Listener_Object *lis = obj_table->listeners.element_at(i);
@@ -84,7 +84,7 @@ void IVP_Cluster_Manager::fire_event_object_created(IVP_Event_Object *event_obj)
     IVP_Object_Callback_Table *obj_table;
     IVP_Real_Object *ro = event_obj->real_object;
     obj_table = this->obj_callback_hash->find_table(ro);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	int i;
 	for (i=obj_table->listeners.len()-1; i>=0; i--) {
 	    IVP_Listener_Object *lis = obj_table->listeners.element_at(i);
@@ -99,7 +99,7 @@ void IVP_Cluster_Manager::fire_event_object_revived(IVP_Event_Object *event_obj)
     IVP_Object_Callback_Table *obj_table;
     IVP_Real_Object *ro = event_obj->real_object;
     obj_table = this->obj_callback_hash->find_table(ro);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	int i;
 	for (i=obj_table->listeners.len()-1; i>=0; i--) {
 	    IVP_Listener_Object *lis = obj_table->listeners.element_at(i);
@@ -113,7 +113,7 @@ void IVP_Cluster_Manager::fire_event_pre_collision(IVP_Real_Object *real_object,
 {
     IVP_Collision_Callback_Table *obj_table;
     obj_table = this->collision_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	int i;
 	for (i=obj_table->listeners.len()-1; i>=0; i--) {
 	    IVP_Listener_Collision *lis = obj_table->listeners.element_at(i);
@@ -129,7 +129,7 @@ void IVP_Cluster_Manager::fire_event_post_collision(IVP_Real_Object *real_object
 {
     IVP_Collision_Callback_Table *obj_table;
     obj_table = this->collision_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	int i;
 	for (i=obj_table->listeners.len()-1; i>=0; i--) {
 	    IVP_Listener_Collision *lis = obj_table->listeners.element_at(i);
@@ -145,7 +145,7 @@ void IVP_Cluster_Manager::fire_event_collision_object_deleted(IVP_Real_Object *r
 {
     IVP_Collision_Callback_Table *obj_table;
     obj_table = this->collision_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	int i;
 	for (i=obj_table->listeners.len()-1; i>=0; i--) {
 	    IVP_Listener_Collision *lis = obj_table->listeners.element_at(i);
@@ -161,7 +161,7 @@ void IVP_Cluster_Manager::fire_event_friction_created(IVP_Real_Object *real_obje
 {
     IVP_Collision_Callback_Table *obj_table;
     obj_table = this->collision_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	int i;
 	for (i=obj_table->listeners.len()-1; i>=0; i--) {
 	    IVP_Listener_Collision *lis = obj_table->listeners.element_at(i);
@@ -176,7 +176,7 @@ void IVP_Cluster_Manager::fire_event_friction_deleted(IVP_Real_Object *real_obje
 {
     IVP_Collision_Callback_Table *obj_table;
     obj_table = this->collision_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	int i;
 	for (i=obj_table->listeners.len()-1; i>=0; i--) {
 	    IVP_Listener_Collision *lis = obj_table->listeners.element_at(i);
@@ -194,12 +194,12 @@ void IVP_Cluster_Manager::fire_event_friction_deleted(IVP_Real_Object *real_obje
 IVP_Real_Object *IVP_Cluster_Manager::get_next_real_object_in_cluster_tree(IVP_Object *object){
 
     IVP_Object *next_object;
-    if (number_of_real_objects == 0) return NULL;
-    if (object == NULL){
+    if (number_of_real_objects == 0) return nullptr;
+    if (object == nullptr){
     	IVP_Cluster *root = get_root_cluster();
 	object = root->get_first_object_of_cluster();
 	next_object = object; // no object supplied: we get the root cluster and we want the first object in root cluster!
-	if (!object) return NULL;
+	if (!object) return nullptr;
     }
     else {
 	next_object = object->next_in_cluster; // object supplied: just get the next object in cluster
@@ -231,14 +231,14 @@ IVP_Real_Object *IVP_Cluster_Manager::get_next_real_object_in_cluster_tree(IVP_O
 	object = object->father_cluster;
 	if (!object){
     	    IVP_Cluster *root = get_root_cluster();
-	    if ( root == old_father ) return(NULL); /* necessary to avoid endless loop caused by the last object
+	    if ( root == old_father ) return(nullptr); /* necessary to avoid endless loop caused by the last object
 						    *	(ball's father is cluster; cluster has no father,
 						    *   therefore we would "get_root_cluster()" which is the same as
 						    *   the old cluster and whose first object is the "static ball" 
 						    *    --> perfect endless loop :-) [SF, 25 nov 1999]
 						    */
 	    object = root->get_first_object_of_cluster();
-	    if (!object) return NULL;
+	    if (!object) return nullptr;
 	}
     }
 
@@ -315,7 +315,7 @@ void IVP_Cluster_Manager::add_listener_object(IVP_Real_Object *real_object, IVP_
 {
     IVP_Object_Callback_Table *obj_table;
     obj_table = this->obj_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	obj_table->listeners.add(listener);
     }
     else {
@@ -332,7 +332,7 @@ void IVP_Cluster_Manager::add_listener_collision(IVP_Real_Object *real_object, I
 {
     IVP_Collision_Callback_Table *obj_table;
     obj_table = this->collision_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	obj_table->listeners.add(listener);
     }
     else {
@@ -349,7 +349,7 @@ void IVP_Cluster_Manager::remove_listener_object(IVP_Real_Object *real_object, I
 {
     IVP_Object_Callback_Table *obj_table;
     obj_table = this->obj_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	obj_table->listeners.remove(listener);
 	if ( obj_table->listeners.len() == 0 ) {
 	    this->obj_callback_hash->remove_table(real_object);
@@ -364,7 +364,7 @@ void IVP_Cluster_Manager::remove_listener_collision(IVP_Real_Object *real_object
 {
     IVP_Collision_Callback_Table *obj_table;
     obj_table = this->collision_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	obj_table->listeners.remove(listener);
 	if ( obj_table->listeners.len() == 0 ) {
 	    this->collision_callback_hash->remove_table(real_object);
@@ -385,14 +385,14 @@ void IVP_Cluster_Manager::remove_object(IVP_Real_Object *real_object)
     this->number_of_real_objects--;
     IVP_Object_Callback_Table *obj_table;
     obj_table = this->obj_callback_hash->find_table(real_object);
-    if ( obj_table != NULL ) {
+    if ( obj_table != nullptr) {
 	this->obj_callback_hash->remove_table(real_object);
 	delete obj_table;
     }
 
     IVP_Collision_Callback_Table *coll_table;
     coll_table = this->collision_callback_hash->find_table(real_object);
-    if ( coll_table != NULL ) {
+    if ( coll_table != nullptr) {
 	this->collision_callback_hash->remove_table(real_object);
 	delete coll_table;
     }
@@ -400,7 +400,7 @@ void IVP_Cluster_Manager::remove_object(IVP_Real_Object *real_object)
     if (real_object == an_object_to_be_checked){
         an_object_to_be_checked = get_next_real_object_in_cluster_tree(an_object_to_be_checked);
 		if (real_object == an_object_to_be_checked){
-			an_object_to_be_checked = NULL;
+			an_object_to_be_checked = nullptr;
 		}
     }
 
@@ -443,7 +443,7 @@ IVP_BOOL IVP_Core::revive_simulation_core()
     }
 
     IVP_IF(IVP_DEBUG_OBJECT0){
-	const char *search0 = IVP_DEBUG_OBJECT0;
+	const char *search0 = nullptr;
 	const char *name0 = core->objects.element_at(0)->get_name();
 	if (	!P_String::string_cmp(name0, search0, IVP_FALSE)){
 	    if ( core->environment->get_current_time().get_time() >= IVP_DEBUG_TIME){
@@ -452,7 +452,7 @@ IVP_BOOL IVP_Core::revive_simulation_core()
 	}
     }
     IVP_IF(IVP_DEBUG_OBJECT1){
-	const char *search0 = IVP_DEBUG_OBJECT1;
+	const char *search0 = nullptr;
 	const char *name0 = core->objects.element_at(0)->get_name();
 	if (	!P_String::string_cmp(name0, search0, IVP_FALSE)){
 	    if ( core->environment->get_current_time().get_time() >= IVP_DEBUG_TIME){
@@ -515,7 +515,7 @@ void IVP_Core::freeze_simulation_core(){
     
     /// deactivate all mindists
     IVP_IF(IVP_DEBUG_OBJECT0){
-	const char *search0 = IVP_DEBUG_OBJECT0;
+	const char *search0 = nullptr;
 	const char *name0 = r_core->objects.element_at(0)->get_name();
 	if (	!P_String::string_cmp(name0, search0, IVP_FALSE)){
 	    if ( r_core->environment->get_current_time().get_time() >= IVP_DEBUG_TIME){
@@ -524,7 +524,7 @@ void IVP_Core::freeze_simulation_core(){
 	}
     }
     IVP_IF(IVP_DEBUG_OBJECT1){
-	const char *search0 = IVP_DEBUG_OBJECT1;
+	const char *search0 = nullptr;
 	const char *name0 = r_core->objects.element_at(0)->get_name();
 	if (	!P_String::string_cmp(name0, search0, IVP_FALSE)){
 	    if ( r_core->environment->get_current_time().get_time() >= IVP_DEBUG_TIME){
@@ -587,7 +587,7 @@ IVP_Friction_System::IVP_Friction_System(IVP_Environment *env)
     l_environment=env;
     //first_friction_obj=NULL;
     union_find_necessary=IVP_FALSE;
-    first_friction_dist=NULL;
+    first_friction_dist= nullptr;
     friction_obj_number=0;
     friction_dist_number=0;
 
@@ -665,7 +665,7 @@ void IVP_Friction_System::remove_dist_from_system(IVP_Contact_Point *old_dist)
     {
 	IVP_Contact_Point *previous=old_dist->prev_dist_in_friction;
 	IVP_Contact_Point *following=old_dist->next_dist_in_friction;
-	if(following!=NULL)
+	if(following!= nullptr)
 	{
 	    following->prev_dist_in_friction=previous;
 	}
@@ -711,7 +711,7 @@ void IVP_Friction_System::add_dist_to_system(IVP_Contact_Point *new_dist)
     //manage list of all dists
     {
 	IVP_Contact_Point *first=this->first_friction_dist;
-	new_dist->prev_dist_in_friction=NULL;
+	new_dist->prev_dist_in_friction= nullptr;
 	new_dist->next_dist_in_friction=first;
 	this->first_friction_dist=new_dist;
 	if(first)
@@ -817,7 +817,7 @@ void IVP_Universe_Manager::event_object_deleted(IVP_Real_Object *) {
 }
 
 const IVP_Universe_Manager_Settings *IVP_Universe_Manager::provide_universe_settings() {
-    return NULL;
+    return nullptr;
 }
 
 

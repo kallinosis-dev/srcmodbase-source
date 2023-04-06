@@ -94,9 +94,9 @@ portable_samplepair_t *g_paintbuffer;
 // NOTE: this paintbuffer is also used as a copy buffer by interpolating pitch
 // shift routines.  Decreasing TEMP_COPY_BUFFER_SIZE (or PAINTBUFFER_MEM_SIZE)
 // will decrease the maximum pitch level (current 4.0)!
-portable_samplepair_t *g_temppaintbuffer = NULL;
+portable_samplepair_t *g_temppaintbuffer = nullptr;
 
-paintbuffer_t *g_paintBuffers = NULL;
+paintbuffer_t *g_paintBuffers = nullptr;
 
 #define IPAINTBUFFER			0
 #define IROOMBUFFER				1
@@ -106,9 +106,9 @@ paintbuffer_t *g_paintBuffers = NULL;
 #define ISPEAKERBUFFER			5
 
 // pointer to current paintbuffer (front and rear), used by all mixing, upsampling and dsp routines
-portable_samplepair_t *g_curpaintbuffer = NULL;
-portable_samplepair_t *g_currearpaintbuffer = NULL;	
-portable_samplepair_t *g_curcenterpaintbuffer = NULL;
+portable_samplepair_t *g_curpaintbuffer = nullptr;
+portable_samplepair_t *g_currearpaintbuffer = nullptr;	
+portable_samplepair_t *g_curcenterpaintbuffer = nullptr;
 
 bool g_bdirectionalfx;
 bool g_bDspOff;
@@ -183,7 +183,7 @@ void MIX_FreeAllPaintbuffers(void)
 		if ( g_temppaintbuffer )
 		{
 			_aligned_free( g_temppaintbuffer );
-			g_temppaintbuffer = NULL;
+			g_temppaintbuffer = nullptr;
 		}
 
 		for ( int i = 0; i < CPAINTBUFFERS; i++ )
@@ -203,7 +203,7 @@ void MIX_FreeAllPaintbuffers(void)
 		}
 
 		free( g_paintBuffers );
-		g_paintBuffers = NULL;
+		g_paintBuffers = nullptr;
 	}
 }
 
@@ -389,7 +389,7 @@ CHANNEL MIXING
 // Works for static, dynamic, sentence and stream sounds
 
 extern ConVar snd_find_channel;
-void PrintChannel( const char *pText1, const char *pFileName, channel_t * pChannel, const char *pText2 = NULL );
+void PrintChannel( const char *pText1, const char *pFileName, channel_t * pChannel, const char *pText2 = nullptr);
 
 void S_FreeChannel(channel_t *ch)
 {
@@ -400,11 +400,11 @@ void S_FreeChannel(channel_t *ch)
 
 	if ( (*snd_find_channel.GetString()) != '\0' )
 	{
-		if ( ch->sfx != NULL )
+		if ( ch->sfx != nullptr)
 		{
 			char sndname[MAX_PATH];
 			ch->sfx->GetFileName( sndname, sizeof( sndname ) );
-			if ( Q_stristr( sndname, snd_find_channel.GetString() ) != 0 )
+			if ( Q_stristr( sndname, snd_find_channel.GetString() ) != nullptr )
 			{
 				PrintChannel( "FreeChannel", sndname, ch, "from ConVar snd_find_channel." );
 			}
@@ -423,15 +423,15 @@ void S_FreeChannel(channel_t *ch)
 //	Msg("End sound %s\n", ch->sfx->getname() );
 	
 	delete ch->pMixer;
-	ch->pMixer = NULL;
-	ch->sfx = NULL;
+	ch->pMixer = nullptr;
+	ch->sfx = nullptr;
 
 	ch->m_nSoundScriptHash = SOUNDEMITTER_INVALID_HASH;
 
 	if( ch->m_pStackList )
 	{
 		delete ch->m_pStackList;
-		ch->m_pStackList = NULL;
+		ch->m_pStackList = nullptr;
 
 	}
 
@@ -987,15 +987,15 @@ void MIX_SetCurrentPaintbuffer(int ipaintbuffer)
 	{
 		g_currearpaintbuffer = g_paintBuffers[ipaintbuffer].pbufrear;
 		
-		g_curcenterpaintbuffer = NULL;
+		g_curcenterpaintbuffer = nullptr;
 
 		if ( g_paintBuffers[ipaintbuffer].fsurround_center )
 			g_curcenterpaintbuffer = g_paintBuffers[ipaintbuffer].pbufcenter;
 	}
 	else
 	{
-		g_currearpaintbuffer = NULL;
-		g_curcenterpaintbuffer = NULL;
+		g_currearpaintbuffer = nullptr;
+		g_curcenterpaintbuffer = nullptr;
 	}
 
 	Assert(g_curpaintbuffer != NULL);
@@ -1052,7 +1052,7 @@ inline portable_samplepair_t *MIX_GetPRearFromIPaint(int ipaintbuffer)
 	if ( g_paintBuffers[ipaintbuffer].fsurround )
 		return g_paintBuffers[ipaintbuffer].pbufrear;
 
-	return NULL;
+	return nullptr;
 }
 
 // return pointer to center buffer, given index.
@@ -1063,7 +1063,7 @@ inline portable_samplepair_t *MIX_GetPCenterFromIPaint(int ipaintbuffer)
 	if ( g_paintBuffers[ipaintbuffer].fsurround_center )
 		return g_paintBuffers[ipaintbuffer].pbufcenter;
 
-	return NULL;
+	return nullptr;
 }
 
 // return index to paintbuffer, given buffer pointer
@@ -1252,13 +1252,13 @@ void MIX_ClearAllPaintBuffers( int SampleCount, bool clearFilters )
 
 	for (i = 0; i < CPAINTBUFFERS; i++)
 	{
-		if (g_paintBuffers[i].pbuf != NULL)
+		if (g_paintBuffers[i].pbuf != nullptr)
 			ZeroBuffer(g_paintBuffers[i].pbuf, (count+1) * sizeof(portable_samplepair_t));
 
-		if (g_paintBuffers[i].pbufrear != NULL)
+		if (g_paintBuffers[i].pbufrear != nullptr)
 			ZeroBuffer(g_paintBuffers[i].pbufrear, (count+1) * sizeof(portable_samplepair_t));
 
-		if (g_paintBuffers[i].pbufcenter != NULL)
+		if (g_paintBuffers[i].pbufcenter != nullptr)
 			ZeroBuffer(g_paintBuffers[i].pbufcenter, (count+1) * sizeof(portable_samplepair_t));
 
 		if ( clearFilters )
@@ -2609,7 +2609,7 @@ void MIX_BuildChannelList( CChannelList &list )
 		bool bRemove = false;
 		// Certain async loaded sounds lazily load into memory in the background, use this to determine
 		//  if the sound is ready for mixing
-		CAudioSource *pSource = NULL;
+		CAudioSource *pSource = nullptr;
 		if ( ch->pMixer->IsReadyToMix() )
 		{
 			SoundError soundError;
@@ -2627,7 +2627,7 @@ void MIX_BuildChannelList( CChannelList &list )
 			{
 				// NOTE: Since we've loaded the sound, check to see if it's a sentence.  Play them at zero anyway
 				// to keep the character's lips moving and the captions happening.
-				if ( !pSource || pSource->GetSentence() == NULL )
+				if ( !pSource || pSource->GetSentence() == nullptr)
 				{
 					S_FreeChannel( ch );
 					bRemove = true;
@@ -5034,7 +5034,7 @@ static CMouthInfo *GetMouthInfoForChannel( channel_t *pChannel )
 	IClientEntity *pClientEntity = entitylist->GetClientEntity( mouthentity );
 	
 	if( !pClientEntity )
-		return NULL;
+		return nullptr;
 
 	return pClientEntity->GetMouth();
 }
@@ -5160,11 +5160,11 @@ void SND_MouthUpdateAll()
 		}
 
 		int idx = pMouth->GetIndexForSource( rec.pSource );
-		CVoiceData *vd = NULL;
+		CVoiceData *vd = nullptr;
 		if ( idx == UNKNOWN_VOICE_SOURCE )
 		{
 			vd = pMouth->AddSource( rec.pSource, false );
-			if ( vd == NULL )
+			if ( vd == nullptr)
 			{
 				// clear, any sources still playing will re-add themselves within a frame
 				pMouth->ClearVoiceSources();
@@ -5264,7 +5264,7 @@ void SND_MouthEnvelopeFollower( channel_t *pChannel, char *pData, int count )
 	if ( !pChannel->flags.m_bMouthEnvelope )
 		return;
 
-	if ( pData == NULL || count == 0 )
+	if ( pData == nullptr || count == 0 )
 		return;
 
 	int mouthentity = pChannel->speakerentity == -1 ? pChannel->soundsource : pChannel->speakerentity;

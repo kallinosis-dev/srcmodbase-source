@@ -37,9 +37,9 @@ CDialogAddBan::CDialogAddBan(vgui::Panel *parent) : Frame(parent, "DialogAddBan"
 
 	m_pTimeTextEntry = new TextEntry(this, "TimeTextEntry");
 	m_pTimeCombo = new ComboBox(this, "TimeCombo",3,false);
-	int defaultItem = m_pTimeCombo->AddItem("#Add_Ban_Period_Minutes", NULL);
-	m_pTimeCombo->AddItem("#Add_Ban_Period_Hours", NULL);
-	m_pTimeCombo->AddItem("#Add_Ban_Period_Days", NULL);
+	int defaultItem = m_pTimeCombo->AddItem("#Add_Ban_Period_Minutes", nullptr);
+	m_pTimeCombo->AddItem("#Add_Ban_Period_Hours", nullptr);
+	m_pTimeCombo->AddItem("#Add_Ban_Period_Days", nullptr);
 	m_pTimeCombo->ActivateItem(defaultItem);
 
 	LoadControlSettings("Admin\\DialogAddBan.res", "PLATFORM");

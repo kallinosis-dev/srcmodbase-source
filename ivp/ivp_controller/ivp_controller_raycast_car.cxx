@@ -142,7 +142,7 @@ bool IVP_Controller_Raycast_Car::DoSimulationWheels( IVP_Ray_Solver_Template *pR
 
 			// Set default non-impact data.
 			pTempWheel->inv_normal_dot_dir = 1.0f;	    
-			pTempWheel->moveable_object_hit_by_ray = NULL;
+			pTempWheel->moveable_object_hit_by_ray = nullptr;
 			pTempWheel->ground_normal_ws.set_multiple( &pTempWheel->spring_direction_ws, -1 );
 		}
 
@@ -374,8 +374,8 @@ void IVP_Controller_Raycast_Car::CalcSteeringForces( IVP_Raycast_Car_Wheel_Temp 
 	}
 	    
 	// Initialize the reaction solvers (for the core) front and back wheels.
-	coreReactionSolver[0].init_reaction_solver_translation_ws( pCarCore, NULL, frontPosWS, &pTempWheels[IVP_FRONT_LEFT].axis_direction_ws, NULL, NULL );
-	coreReactionSolver[1].init_reaction_solver_translation_ws( pCarCore, NULL, backPosWS, &pTempWheels[iRearWheel].axis_direction_ws, NULL, NULL );
+	coreReactionSolver[0].init_reaction_solver_translation_ws( pCarCore, nullptr, frontPosWS, &pTempWheels[IVP_FRONT_LEFT].axis_direction_ws, nullptr, nullptr);
+	coreReactionSolver[1].init_reaction_solver_translation_ws( pCarCore, nullptr, backPosWS, &pTempWheels[iRearWheel].axis_direction_ws, nullptr, nullptr);
 
 	// How does a push at the front/back wheel influence the back/front wheel?
 	IVP_FLOAT front_back; 

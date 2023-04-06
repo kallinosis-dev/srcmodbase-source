@@ -171,8 +171,8 @@ void CPointSpotlight::Spawn(void)
 	// ------------------------------------
 	m_vSpotlightTargetPos	= vec3_origin;
 	m_vSpotlightCurrentPos	= vec3_origin;
-	m_hSpotlight			= NULL;
-	m_hSpotlightTarget		= NULL;
+	m_hSpotlight			= nullptr;
+	m_hSpotlightTarget		= nullptr;
 	m_vSpotlightDir			= vec3_origin;
 	m_flSpotlightCurLength	= m_flSpotlightMaxLength;
 
@@ -228,7 +228,7 @@ void CPointSpotlight::ComputeRenderInfo()
 //-----------------------------------------------------------------------------
 void CPointSpotlight::CreateEfficientSpotlight()
 {
-	if ( m_hSpotlightTarget.Get() != NULL )
+	if ( m_hSpotlightTarget.Get() != nullptr)
 		return;
 
 	SpotlightCreate();
@@ -329,7 +329,7 @@ void CPointSpotlight::SpotlightThink( void )
 //------------------------------------------------------------------------------
 void CPointSpotlight::SpotlightCreate(void)
 {
-	if ( m_hSpotlightTarget.Get() != NULL )
+	if ( m_hSpotlightTarget.Get() != nullptr)
 		return;
 
 	AngleVectors( GetAbsAngles(), &m_vSpotlightDir );

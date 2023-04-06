@@ -43,7 +43,7 @@ CCommentaryPropertiesPanel::CCommentaryPropertiesPanel( CCommEditDoc *pDoc, vgui
 	SetPaintBackgroundEnabled( true );
 	SetKeyBoardInputEnabled( true );
 
-	m_pCommentaryNode = new vgui::EditablePanel( (vgui::Panel*)NULL, "CommentaryNode" );
+	m_pCommentaryNode = new vgui::EditablePanel( (vgui::Panel*)nullptr, "CommentaryNode" );
 
 	m_pNodeName = new vgui::TextEntry( m_pCommentaryNode, "CommentaryNodeName" );
 	m_pNodeName->AddActionSignalTarget( this );
@@ -96,7 +96,7 @@ CCommentaryPropertiesPanel::CCommentaryPropertiesPanel( CCommEditDoc *pDoc, vgui
 
 	m_pCommentaryNode->LoadControlSettings( "resource/commentarypropertiessubpanel_node.res" );
 
-	m_pInfoTarget = new vgui::EditablePanel( (vgui::Panel*)NULL, "InfoTarget" );
+	m_pInfoTarget = new vgui::EditablePanel( (vgui::Panel*)nullptr, "InfoTarget" );
 
 	m_pTargetName = new vgui::TextEntry( m_pInfoTarget, "TargetName" );
 	m_pTargetName->AddActionSignalTarget( this );
@@ -117,7 +117,7 @@ CCommentaryPropertiesPanel::CCommentaryPropertiesPanel( CCommEditDoc *pDoc, vgui
 
 	m_pInfoTarget->LoadControlSettings( "resource/commentarypropertiessubpanel_target.res" );
 
-	m_pInfoRemarkable = new vgui::EditablePanel( (vgui::Panel*)NULL, "InfoRemarkable" );
+	m_pInfoRemarkable = new vgui::EditablePanel( (vgui::Panel*)nullptr, "InfoRemarkable" );
 
 	m_pInfoRemarkableName = new vgui::TextEntry( m_pInfoRemarkable, "RemarkableName" );
 	m_pInfoRemarkableName->AddActionSignalTarget( this );
@@ -389,7 +389,7 @@ void CCommentaryPropertiesPanel::PickSound()
 {
 	CSoundPickerFrame *pSoundPickerDialog = new CSoundPickerFrame( g_pCommEditTool->GetRootPanel(), "Select commentary audio file", CSoundPicker::PICK_WAVFILES );
 	pSoundPickerDialog->AddActionSignalTarget( this );
-	pSoundPickerDialog->DoModal( CSoundPicker::PICK_NONE, NULL );
+	pSoundPickerDialog->DoModal( CSoundPicker::PICK_NONE, nullptr);
 }
 
 			
@@ -432,7 +432,7 @@ void CCommentaryPropertiesPanel::PickInfoTarget( vgui::TextEntry *pControl )
 		}
 	}
 
-	CPickerFrame *pInfoTargetPickerDialog = new CPickerFrame( g_pCommEditTool->GetRootPanel(), "Select Target", "InfoTarget", NULL );
+	CPickerFrame *pInfoTargetPickerDialog = new CPickerFrame( g_pCommEditTool->GetRootPanel(), "Select Target", "InfoTarget", nullptr);
 	KeyValues *pContextKeyValues = new KeyValues( "context" );
 	pContextKeyValues->SetPtr( "widget", pControl );
 	pInfoTargetPickerDialog->AddActionSignalTarget( this );

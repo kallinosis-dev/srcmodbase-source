@@ -64,7 +64,7 @@ Return Value:
         exit(1);
     }
 
-    if(!SetSecurityDescriptorDacl(&sd, TRUE, (PACL)NULL, FALSE)) {
+    if(!SetSecurityDescriptorDacl(&sd, TRUE, (PACL)nullptr, FALSE)) {
         fprintf(stderr,"unable to SetSecurityDescriptorDacl, err == %d\n",
             GetLastError());
         exit(1);

@@ -243,7 +243,7 @@ vec_t BrushVolume (bspbrush_t *brush)
 
 	// grab the first valid point as the corner
 
-	w = NULL;
+	w = nullptr;
 	for (i=0 ; i<brush->numsides ; i++)
 	{
 		w = brush->sides[i].winding;
@@ -337,7 +337,7 @@ bspbrush_t *AllocBrush (int numsides)
 	bspbrush_t	*bb;
 	int			c;
 
-	c = (int)&(((bspbrush_t *)0)->sides[numsides]);
+	c = (int)&(((bspbrush_t *)nullptr)->sides[numsides]);
 	bb = (bspbrush_t*)malloc(c);
 	memset (bb, 0, c);
 	bb->id = s_BrushId++;
@@ -394,7 +394,7 @@ bspbrush_t *CopyBrush (bspbrush_t *brush)
 	int			size;
 	int			i;
 	
-	size = (int)&(((bspbrush_t *)0)->sides[brush->numsides]);
+	size = (int)&(((bspbrush_t *)nullptr)->sides[brush->numsides]);
 
 	newbrush = AllocBrush (brush->numsides);
 	memcpy (newbrush, brush, size);
@@ -863,7 +863,7 @@ side_t *SelectSplitSide (bspbrush_t *brushes, node_t *node)
 	int			epsilonbrush;
 	qboolean	hintsplit = false;
 
-	bestside = NULL;
+	bestside = nullptr;
 	bestvalue = -99999;
 	bestsplits = 0;
 
@@ -1054,7 +1054,7 @@ void SplitBrush( bspbrush_t *brush, int planenum, bspbrush_t **front, bspbrush_t
 	side_t		*s, *cs;
 	float		d, d_front, d_back;
 
-	*front = *back = NULL;
+	*front = *back = nullptr;
 	plane = &g_MainMap->mapplanes[planenum];
 
 	// check all points
@@ -1193,7 +1193,7 @@ void SplitBrush( bspbrush_t *brush, int planenum, bspbrush_t **front, bspbrush_t
 		if (b[i]->numsides < 3 || j < 3)
 		{
 			FreeBrush (b[i]);
-			b[i] = NULL;
+			b[i] = nullptr;
 		}
 	}
 
@@ -1226,7 +1226,7 @@ void SplitBrush( bspbrush_t *brush, int planenum, bspbrush_t **front, bspbrush_t
 		cs->texinfo = TEXINFO_NODE;
 
         // initialize the displacement map index
-		cs->pMapDisp = NULL;
+		cs->pMapDisp = nullptr;
 
         cs->visible = false;
 		cs->tested = false;
@@ -1246,7 +1246,7 @@ void SplitBrush( bspbrush_t *brush, int planenum, bspbrush_t **front, bspbrush_t
 		if (v1 < 1.0)
 		{
 			FreeBrush (b[i]);
-			b[i] = NULL;
+			b[i] = nullptr;
 //			qprintf ("tiny volume after clip\n");
 		}
 	}
@@ -1270,7 +1270,7 @@ void SplitBrushList (bspbrush_t *brushes,
 	int			sides;
 	int			i;
 
-	*front = *back = NULL;
+	*front = *back = nullptr;
 
 	for (brush = brushes ; brush ; brush=brush->next)
 	{
@@ -1347,7 +1347,7 @@ node_t *BuildTree_r (node_t *node, bspbrush_t *brushes)
 	if (!bestside)
 	{
 		// leaf node
-		node->side = NULL;
+		node->side = nullptr;
 		node->planenum = -1;
 		LeafNode (node, brushes);
 		return node;

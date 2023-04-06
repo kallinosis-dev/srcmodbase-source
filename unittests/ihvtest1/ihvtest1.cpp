@@ -42,10 +42,10 @@
 //-----------------------------------------------------------------------------
 // Main system interfaces
 //-----------------------------------------------------------------------------
-IMaterialSystem					*g_pMaterialSystem = NULL;
-IStudioRender					*g_pStudioRender = NULL;
-IFileSystem						*g_pFileSystem = NULL;
-IMDLCache						*g_pMDLCache = NULL;
+IMaterialSystem					*g_pMaterialSystem = nullptr;
+IStudioRender					*g_pStudioRender = nullptr;
+IFileSystem						*g_pFileSystem = nullptr;
+IMDLCache						*g_pMDLCache = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -77,8 +77,8 @@ static int	g_NumCols = 10;
 static int	g_dxLevel = 0;
 static int	g_LightingCombination = -1;
 
-static FILE					*g_IHVTestFP = NULL;
-static IMaterial			*g_pForceMaterial = NULL;
+static FILE					*g_IHVTestFP = nullptr;
+static IMaterial			*g_pForceMaterial = nullptr;
 
 static bool g_bInError = false;
 
@@ -161,7 +161,7 @@ bool CIHVTestApp::CreateAppWindow( const char* pAppName, int width, int height )
     wc.lpfnWndProc   = WinAppWindowProc;
     wc.hInstance     = (HINSTANCE)GetAppInstance();
     wc.lpszClassName = pAppName;
-	wc.hIcon		 = NULL;
+	wc.hIcon		 = nullptr;
 	wc.hIconSm		 = wc.hIcon;
 
     RegisterClassEx( &wc );
@@ -174,7 +174,7 @@ bool CIHVTestApp::CreateAppWindow( const char* pAppName, int width, int height )
 	
     ShowWindow (m_hWnd, SW_SHOWDEFAULT);
 	
-	return (m_hWnd != 0);
+	return (m_hWnd != nullptr);
 }
 
 //#define TREES
@@ -342,7 +342,7 @@ SpewRetval_t IHVTestSpewFunc( SpewType_t spewType, char const *pMsg )
 	case SPEW_ASSERT:
 	case SPEW_ERROR:
 	default:
-		::MessageBox( NULL, pMsg, "Error!", MB_OK );
+		::MessageBox(nullptr, pMsg, "Error!", MB_OK );
 		g_bInError = false;
 		return SPEW_DEBUGGER;
 	}
@@ -368,7 +368,7 @@ SpewRetval_t IHVTestVProfSpewFunc( SpewType_t spewType, char const *pMsg )
 	case SPEW_ASSERT:
 	case SPEW_ERROR:
 	default:
-		::MessageBox( NULL, pMsg, "Error!", MB_OK );
+		::MessageBox(nullptr, pMsg, "Error!", MB_OK );
 		g_bInError = false;
 		return SPEW_DEBUGGER;
 	}
@@ -389,7 +389,7 @@ void DisplayError( const char* pError, ... )
 	Q_vsnprintf( msg, sizeof( msg ), pError, argptr );
 	va_end( argptr );
 
-	MessageBox( 0, msg, 0, MB_OK );
+	MessageBox( nullptr, msg, nullptr, MB_OK );
 
 	exit( -1 );
 }
@@ -430,7 +430,7 @@ static void MaterialSystem_Error( char *fmt, ... )
 	Q_vsnprintf( msg, sizeof( msg ), fmt, argptr );
 	va_end( argptr );
 
-	MessageBox( NULL, (LPCTSTR)msg, "MaterialSystem Fatal Error", MB_OK | MB_ICONINFORMATION );
+	MessageBox(nullptr, (LPCTSTR)msg, "MaterialSystem Fatal Error", MB_OK | MB_ICONINFORMATION );
 
 #ifdef _DEBUG
 	Assert( 0 );	
@@ -675,7 +675,7 @@ static void SetupLighting( int lightingCombination, Vector &lightOffset )
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	if( lightingCombination == 0 )
 	{
-		g_pStudioRender->SetLocalLights( 0, NULL );
+		g_pStudioRender->SetLocalLights( 0, nullptr);
 		pRenderContext->SetAmbientLight( 1.0, 1.0, 1.0 );
 
 		static Vector white[6] = 
@@ -735,7 +735,7 @@ static float s_Cycle[9] = { 0.0f };
 virtualmodel_t *studiohdr_t::GetVirtualModel( void ) const
 {
 	if ( numincludemodels == 0 )
-		return NULL;
+		return nullptr;
 	return g_pMDLCache->GetVirtualModelFast( this, (MDLHandle_t)virtualModel );
 }
 
@@ -777,7 +777,7 @@ matrix3x4_t* CIHVTestApp::SetUpBones( studiohdr_t *pStudioHdr, const matrix3x4_t
 
 	IBoneSetup boneSetup( &studioHdr, boneMask, flPoseParameter );
 	boneSetup.InitPose( pos, q );
-	boneSetup.AccumulatePose( pos, q, g_BenchRuns[iRun].sequence1[model], s_Cycle[model], 1.0f, 0.0, NULL );
+	boneSetup.AccumulatePose( pos, q, g_BenchRuns[iRun].sequence1[model], s_Cycle[model], 1.0f, 0.0, nullptr);
 
 	// FIXME: Try enabling this?
 //	CalcAutoplaySequences( pStudioHdr, NULL, pos, q, flPoseParameter, BoneMask( ), flTime );
@@ -965,7 +965,7 @@ LONG WINAPI CIHVTestApp::WinAppWindowProc( HWND hWnd, UINT uMsg, WPARAM wParam, 
 void CIHVTestApp::AppPumpMessages()
 {
 	MSG msg;
-	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) == TRUE) 
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) == TRUE) 
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
@@ -1003,7 +1003,7 @@ void AdvanceFrame( CStudioHdr *pStudioHdr, int iRun, int model, float dt )
 void CIHVTestApp::RenderFrame( void )
 {
 	VPROF( "RenderFrame" );
-	IHVTestModel *pModel = NULL;
+	IHVTestModel *pModel = nullptr;
 	static int currentRun = 0;
 	static int currentFrame = 0;
 	static int currentLightCombo = 0;
@@ -1151,13 +1151,13 @@ void CIHVTestApp::RenderFrame( void )
 			modelInfo.m_Skin = 0;
 			modelInfo.m_Body = g_BodyGroup;
 			modelInfo.m_HitboxSet = 0;
-			modelInfo.m_pClientEntity = NULL;
+			modelInfo.m_pClientEntity = nullptr;
 			modelInfo.m_Lod = lod;
-			modelInfo.m_pColorMeshes = NULL;
-			g_pStudioRender->DrawModel( NULL, modelInfo, pBoneToWorld, NULL, NULL, modelOrigin );
+			modelInfo.m_pColorMeshes = nullptr;
+			g_pStudioRender->DrawModel(nullptr, modelInfo, pBoneToWorld, nullptr, nullptr, modelOrigin );
 
 			DrawModelResults_t results;
-			g_pStudioRender->GetPerfStats( &results, modelInfo, NULL );
+			g_pStudioRender->GetPerfStats( &results, modelInfo, nullptr);
 			trisRendered += results.m_ActualTriCount;
 
 			pRenderContext->MatrixMode( MATERIAL_MODEL );
@@ -1336,7 +1336,7 @@ bool CIHVTestApp::PreInit( void )
 	ConnectTier1Libraries( &factory, 1 );
 
 	// Add paths...
-	if ( !SetupSearchPaths( NULL, false, true ) )
+	if ( !SetupSearchPaths(nullptr, false, true ) )
 	{
 		Error( "Failed to setup search paths\n" );
 		return false;

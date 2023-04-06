@@ -67,14 +67,14 @@ CAudioMixer *CreateSentenceMixer( voxword_t *pWords )
 		return new CSentenceMixer( pWords );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CSentenceMixer::CSentenceMixer( voxword_t *pWords )
 {
 	// count the expected number of words
 	m_nNumWords = 0;
-	while ( pWords[m_nNumWords].sfx != NULL )
+	while ( pWords[m_nNumWords].sfx != nullptr)
 	{
 		// get a private copy of the words
 		m_VoxWords[m_nNumWords] = pWords[m_nNumWords++];
@@ -97,7 +97,7 @@ CSentenceMixer::CSentenceMixer( voxword_t *pWords )
 
 	// find first valid word mixer
 	m_currentWordIndex = 0;
-	m_pCurrentWordMixer = NULL;
+	m_pCurrentWordMixer = nullptr;
 	for ( int nWord = 0; nWord < m_nNumWords; nWord++ )
 	{
 		if ( m_pWordMixers[nWord] )
@@ -108,7 +108,7 @@ CSentenceMixer::CSentenceMixer( voxword_t *pWords )
 		}
 	}
 
-	m_bNewWord = ( m_pCurrentWordMixer != NULL );	
+	m_bNewWord = ( m_pCurrentWordMixer != nullptr);	
 }
 
 CSentenceMixer::~CSentenceMixer( void )
@@ -190,7 +190,7 @@ CAudioSource *CSentenceMixer::GetSource( void )
 		return m_pCurrentWordMixer->GetSource();
 	}
 
-	return NULL;
+	return nullptr;
 }
 	
 // get the current position (next sample to be mixed)
@@ -242,7 +242,7 @@ void CSentenceMixer::FreeWord( int nWord )
 	if ( m_pWordMixers[nWord] )
 	{
 		delete m_pWordMixers[nWord];
-		m_pWordMixers[nWord] = NULL;
+		m_pWordMixers[nWord] = nullptr;
 	}	
 
 	if ( m_VoxWords[nWord].sfx )
@@ -255,7 +255,7 @@ void CSentenceMixer::FreeWord( int nWord )
 			{
 				// free the source
 				delete m_VoxWords[nWord].sfx->pSource;
-				m_VoxWords[nWord].sfx->pSource = NULL;
+				m_VoxWords[nWord].sfx->pSource = nullptr;
 			}
 		}
 	}
@@ -266,11 +266,11 @@ void CSentenceMixer::FreeWord( int nWord )
 //-----------------------------------------------------------------------------
 CAudioMixer *CSentenceMixer::LoadWord( int nWord )
 {
-	CAudioMixer *pMixer = NULL;
+	CAudioMixer *pMixer = nullptr;
 	if ( m_VoxWords[nWord].sfx )
 	{
 		SoundError soundError;
-		CAudioSource *pSource = S_LoadSound( m_VoxWords[nWord].sfx, NULL, soundError );
+		CAudioSource *pSource = S_LoadSound( m_VoxWords[nWord].sfx, nullptr, soundError );
 		if ( pSource )
 		{
 			pSource->SetSentenceWord( true );
@@ -345,12 +345,12 @@ int CSentenceMixer::MixDataToDevice( channel_t *pChannel, int sampleCount, int o
 				if ( m_currentWordIndex >= m_nNumWords )
 				{
 					// end of sentence
-					m_pCurrentWordMixer = NULL;
+					m_pCurrentWordMixer = nullptr;
 					break;
 				}
 				m_pCurrentWordMixer = m_pWordMixers[m_currentWordIndex];
 			}
-			while ( m_pCurrentWordMixer == NULL );
+			while ( m_pCurrentWordMixer == nullptr);
 
 			if ( m_pCurrentWordMixer )
 			{

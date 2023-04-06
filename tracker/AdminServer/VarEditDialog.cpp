@@ -30,7 +30,7 @@ CVarEditDialog::CVarEditDialog(vgui::Panel *parent, const char *name) : Frame(pa
 	m_pCancelButton = new Button(this, "CancelButton", "Cancel");
 	m_pStringEdit = new TextEntry(this, "StringEdit");
 	m_pComboEdit = new ComboBox(this, "ComboEdit", 12, false);
-	m_pRules = NULL;
+	m_pRules = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -61,12 +61,12 @@ void CVarEditDialog::Activate(vgui::Panel *actionSignalTarget, KeyValues *rules)
 		m_pStringEdit->SetVisible(false);
 
 		// fill in the combo box
-		for (KeyValues *kv = m_pRules->FindKey("list", true)->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+		for (KeyValues *kv = m_pRules->FindKey("list", true)->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 		{
 			Assert( 0 );
 			// FIXME: This Assert doesn't compile
 //			Assert(index++ == atoi(kv->GetName()));
-			m_pComboEdit->AddItem(kv->GetString(), NULL);
+			m_pComboEdit->AddItem(kv->GetString(), nullptr);
 		}
 
 		// activate the current item
@@ -108,7 +108,7 @@ void CVarEditDialog::Activate(vgui::Panel *actionSignalTarget, KeyValues *rules)
 			parse = end;
 
 			// add to dropdown
-			int itemID = m_pComboEdit->AddItem(customString, NULL);
+			int itemID = m_pComboEdit->AddItem(customString, nullptr);
 			index++;
 
 			// activate the current item

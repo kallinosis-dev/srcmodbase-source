@@ -57,7 +57,7 @@ bool CPlayerVoiceListener::IsPlayerSpeaking( CBasePlayer *pPlayer )
 {
 	// Validate the player
 	Assert( pPlayer );
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 		return false;
 
 	return IsPlayerSpeaking( pPlayer->entindex() );
@@ -108,7 +108,7 @@ void CPlayerVoiceListener::AddPlayerSpeakTime( CBasePlayer *pPlayer )
 {
 	// Validate the player
 	Assert( pPlayer );
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 		return;
 
 	return AddPlayerSpeakTime( pPlayer->entindex() );
@@ -132,7 +132,7 @@ float CPlayerVoiceListener::GetPlayerLastSpeechTime( CBasePlayer *pPlayer )
 {
 	// Validate the player
 	Assert( pPlayer );
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 		return -1.0f;
 
 	return GetPlayerLastSpeechTime( pPlayer->entindex() );
@@ -156,7 +156,7 @@ float CPlayerVoiceListener::GetPlayerSilenceDuration( CBasePlayer *pPlayer )
 {
 	// Validate the player
 	Assert( pPlayer );
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 		return -1.0f;
 
 	return GetPlayerSilenceDuration( pPlayer->entindex() );
@@ -180,7 +180,7 @@ float CPlayerVoiceListener::GetPlayerSpeechDuration( CBasePlayer *pPlayer )
 {
 	// Validate the player
 	Assert( pPlayer );
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 		return -1.0f;
 
 	return GetPlayerSpeechDuration( pPlayer->entindex() );

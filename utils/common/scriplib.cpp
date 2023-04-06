@@ -42,7 +42,7 @@ typedef struct
 
 #define	MAX_INCLUDES	16
 script_t	scriptstack[MAX_INCLUDES];
-script_t	*script = NULL;
+script_t	*script = nullptr;
 int			scriptline;
 
 char    token[MAXTOKEN];
@@ -100,7 +100,7 @@ void AddScriptToStack (char *filename, ScriptPathMode_t pathMode = SCRIPT_USE_AB
 	if ( g_pfnCallback )
 	{
 		if ( script == scriptstack + 1 )
-			g_pfnCallback( script->filename, NULL, 0 );
+			g_pfnCallback( script->filename, nullptr, 0 );
 		else
 			g_pfnCallback( script->filename, script[-1].filename, script[-1].line );
 	}
@@ -509,7 +509,7 @@ void ParseFromMemory (char *buffer, int size)
 //-----------------------------------------------------------------------------
 void PushMemoryScript( char *pszBuffer, const int nSize )
 {
-	if ( script == NULL )
+	if ( script == nullptr)
 	{
 		script = scriptstack;
 	}
@@ -587,7 +587,7 @@ qboolean EndOfScript (qboolean crossline)
 	}
 
 	free (script->buffer);
-	script->buffer = NULL;
+	script->buffer = nullptr;
 	if (script == scriptstack+1)
 	{
 		endofscript = true;
@@ -1023,7 +1023,7 @@ bool CScriptLib::ReadFileToBuffer( const char *pSourceName, CUtlBuffer &buffer, 
 {
 	bool bSuccess = true;
 
-	if ( !g_pFullFileSystem->ReadFile( pSourceName, NULL, buffer ) )
+	if ( !g_pFullFileSystem->ReadFile( pSourceName, nullptr, buffer ) )
 	{
 		if ( !bNoOpenFailureWarning )
 		{
@@ -1085,7 +1085,7 @@ bool CScriptLib::WriteBufferToFile( const char *pTargetName, CUtlBuffer &buffer,
 
 	if ( bDoWrite )
 	{
-		bSuccess = g_pFullFileSystem->WriteFile( pTargetName, NULL, buffer );
+		bSuccess = g_pFullFileSystem->WriteFile( pTargetName, nullptr, buffer );
 	}
 
 	return bSuccess;

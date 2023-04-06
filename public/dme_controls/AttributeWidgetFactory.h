@@ -82,10 +82,10 @@ public:
 	virtual IAttributeWidgetFactory *GetArrayWidgetFactory( CDmElement *object, CDmAttribute *pAttribute, CDmeEditorTypeDictionary *pTypeDictionary ) = 0;
 
 	// Applies changes to a widget
-	virtual void ApplyChanges( vgui::Panel *pWidget, vgui::Panel *pSender = NULL ) = 0;
+	virtual void ApplyChanges( vgui::Panel *pWidget, vgui::Panel *pSender = nullptr) = 0;
 
 	// Refreshes a widget when attributes change
-	virtual void Refresh( vgui::Panel *pWidget, vgui::Panel *pSender = NULL ) = 0;
+	virtual void Refresh( vgui::Panel *pWidget, vgui::Panel *pSender = nullptr) = 0;
 };
 
 extern IAttributeWidgetFactoryList *attributewidgetfactorylist;

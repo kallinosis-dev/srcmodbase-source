@@ -243,14 +243,14 @@ private:
 	int					m_nServerFramerateSample;
 };
 
-CNetGraphPanel *g_pNetGraphPanel = NULL;
+CNetGraphPanel *g_pNetGraphPanel = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
 // Input  : *parent - 
 //-----------------------------------------------------------------------------
 CNetGraphPanel::CNetGraphPanel( VPANEL parent )
-: BaseClass( NULL, "CNetGraphPanel" )
+: BaseClass(nullptr, "CNetGraphPanel" )
 {
 	int w, h;
 	surface()->GetScreenSize( w, h );
@@ -335,7 +335,7 @@ CNetGraphPanel::CNetGraphPanel( VPANEL parent )
 //-----------------------------------------------------------------------------
 CNetGraphPanel::~CNetGraphPanel( void )
 {
-	g_pNetGraphPanel = NULL;
+	g_pNetGraphPanel = nullptr;
 }
 
 extern ConVar sv_max_allowed_net_graph;
@@ -1180,7 +1180,7 @@ void CNetGraphPanel::DrawServerType( int xright, int y )
 	char const *psz = "offline";
 
 	bool bPlayingDemo = engine->IsPlayingDemo();
-	CDemoPlaybackParameters_t const *pParams = bPlayingDemo ? engine->GetDemoPlaybackParameters() : NULL;
+	CDemoPlaybackParameters_t const *pParams = bPlayingDemo ? engine->GetDemoPlaybackParameters() : nullptr;
 	bool bLiveBroadcast = bPlayingDemo && pParams && pParams->m_bPlayingLiveRemoteBroadcast;
 	if ( bPlayingDemo && !bLiveBroadcast )
 	{
@@ -1578,7 +1578,7 @@ void CNetGraphPanel::DrawLineSegments()
 		int consume = MIN( 5000, c - start );
 
 		CMatRenderContextPtr pRenderContext( materials );
-		IMesh* m_pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, m_WhiteMaterial );
+		IMesh* m_pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, m_WhiteMaterial );
 		CMeshBuilder		meshBuilder;
 		meshBuilder.Begin( m_pMesh, MATERIAL_LINES, c );
 
@@ -1705,7 +1705,7 @@ private:
 public:
 	CNetGraphPanelInterface( void )
 	{
-		netGraphPanel = NULL;
+		netGraphPanel = nullptr;
 	}
 	void Create( VPANEL parent )
 	{
@@ -1715,7 +1715,7 @@ public:
 	{
 		if ( netGraphPanel )
 		{
-			netGraphPanel->SetParent( (Panel *)NULL );
+			netGraphPanel->SetParent( (Panel *)nullptr);
 			delete netGraphPanel;
 		}
 	}

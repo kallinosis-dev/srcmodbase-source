@@ -88,7 +88,7 @@ void CTEBeamEntPoint::Test( const Vector& current_origin, const QAngle& current_
 
 	m_vecEndPoint += Vector( 0, 0, 24 );
 
-	AngleVectors( current_angles, &forward, &right, 0 );
+	AngleVectors( current_angles, &forward, &right, nullptr );
 	forward[2] = 0.0;
 	VectorNormalize( forward );
 

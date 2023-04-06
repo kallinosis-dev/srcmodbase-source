@@ -292,8 +292,8 @@ static void SetBuyData( ConVar &buyVar, const char *filename )
 		return;
 
 	// read in the auto buy string file and construct the string we will send to the mp.dll.
-	const char *pfile = (char*)UTIL_LoadFileForMe( filename, NULL );
-	if (pfile == NULL)
+	const char *pfile = (char*)UTIL_LoadFileForMe( filename, nullptr);
+	if (pfile == nullptr)
 	{
 		return;
 	}
@@ -305,7 +305,7 @@ static void SetBuyData( ConVar &buyVar, const char *filename )
 
 	bool first = true;
 
-	while (pfile != NULL)
+	while (pfile != nullptr)
 	{
 		if (first)
 		{
@@ -503,7 +503,7 @@ ClientModeCSNormal::ClientModeCSNormal()
 
 	m_activePostProcessEffect = POST_EFFECT_DEFAULT;
 	m_lastPostProcessEffect = POST_EFFECT_DEFAULT;
-	m_pActivePostProcessController = NULL;
+	m_pActivePostProcessController = nullptr;
 	m_postProcessLerpStartParams = ms_postProcessParams[ POST_EFFECT_DEFAULT ];
 	m_postProcessLerpEndParams = ms_postProcessParams[ POST_EFFECT_DEFAULT ];
 	m_postProcessCurrentParams = ms_postProcessParams[ POST_EFFECT_DEFAULT ];
@@ -668,7 +668,7 @@ void ClientModeCSNormal::Init()
 	*/
 	LoadPostProcessParamsFromFile();
 
-	m_hCurrentColorCorrection = NULL;
+	m_hCurrentColorCorrection = nullptr;
 
 #if !defined(NO_STEAM) && !defined (_PS3)
 	m_CallbackScreenshotRequested.Register( this, &ClientModeCSNormal::OnScreenshotRequested );
@@ -727,7 +727,7 @@ void ClientModeCSNormal::SetupStaticCameras()
 	KeyValues *m_pCamKV = new KeyValues( "Cameras" );
 	if ( m_pCamKV->LoadFromFile( g_pFullFileSystem, szFileName ) )
 	{
-		for ( KeyValues *entry = m_pCamKV->GetFirstSubKey(); entry != NULL; entry = entry->GetNextKey() )
+		for ( KeyValues *entry = m_pCamKV->GetFirstSubKey(); entry != nullptr; entry = entry->GetNextKey() )
 		{
 			CUtlVector< char* > coordNum;
 			V_SplitString( entry->GetString(), " ", coordNum );
@@ -752,10 +752,10 @@ void ClientModeCSNormal::SetupStaticCameras()
 
 int ClientModeCSNormalCameraSortFunction( const SpecCameraPosition_t* entry1, const SpecCameraPosition_t* entry2 )
 {
-	if ( entry1 == NULL )
+	if ( entry1 == nullptr)
 		return 1;
 
-	if ( entry2 == NULL )
+	if ( entry2 == nullptr)
 		return -1;
 
 	if ( entry1->flWeight < entry2->flWeight )
@@ -786,7 +786,7 @@ bool ClientModeCSNormal::GetIdealCameraPosForPlayer( int playerindex )
 			// build a list of cameras that can see the target player
 			Vector vecCam = Vector( m_SpecCameraPositions[i].vecPosition[0], m_SpecCameraPositions[i].vecPosition[1], m_SpecCameraPositions[i].vecPosition[2] );
 			Vector forward;
-			AngleVectors( QAngle(m_SpecCameraPositions[i].vecAngles[0],m_SpecCameraPositions[i].vecAngles[1],0.0f) , &forward, NULL, NULL );
+			AngleVectors( QAngle(m_SpecCameraPositions[i].vecAngles[0],m_SpecCameraPositions[i].vecAngles[1],0.0f) , &forward, nullptr, nullptr);
 			Vector toAimSpot = pPlayer->EyePosition() - vecCam;
 			toAimSpot.NormalizeInPlace();
 			float flCone = DotProduct( toAimSpot, forward );
@@ -846,7 +846,7 @@ bool ClientModeCSNormal::GetIdealCameraPosForPlayer( int playerindex )
 				{
 					Vector vecOtherPos = pOther->IsPlayer() ? pOther->EyePosition() : pOther->GetAbsOrigin();
 					Vector forward;
-					AngleVectors( QAngle(m_IdealCameras[i].vecAngles[0],m_IdealCameras[i].vecAngles[1],0.0f) , &forward, NULL, NULL );
+					AngleVectors( QAngle(m_IdealCameras[i].vecAngles[0],m_IdealCameras[i].vecAngles[1],0.0f) , &forward, nullptr, nullptr);
 					Vector toAimSpot = pOther->EyePosition() - vecCam;
 					toAimSpot.NormalizeInPlace();
 					float flCone = DotProduct( toAimSpot, forward );
@@ -922,7 +922,7 @@ void ClientModeCSNormal::LevelShutdown( void )
 	// reset all of the post process effects
 	m_lastPostProcessEffect = POST_EFFECT_DEFAULT;
 	m_activePostProcessEffect = POST_EFFECT_DEFAULT;
-	m_pActivePostProcessController = NULL;
+	m_pActivePostProcessController = nullptr;
 	m_postProcessEffectCountdown.Reset();
 	m_postProcessLerpEndParams = ms_postProcessParams[POST_EFFECT_DEFAULT];
 	m_postProcessLerpStartParams = ms_postProcessParams[POST_EFFECT_DEFAULT];
@@ -1327,7 +1327,7 @@ void ClientModeCSNormal::OnColorCorrectionWeightsReset( void )
 			}
 			if ( pCC )
 			{
-				pCC->EnableOnClient( true, m_hCurrentColorCorrection == NULL );
+				pCC->EnableOnClient( true, m_hCurrentColorCorrection == nullptr);
 			}
 			m_hCurrentColorCorrection = pCC;
 		}
@@ -1416,7 +1416,7 @@ void ClientModeCSNormal::UpdatePostProcessingEffects()
 	{
 		PostProcessLerpTo( POST_EFFECT_DEFAULT );
 	}
-	else if ( pPlayer->GetViewEntity() != NULL )
+	else if ( pPlayer->GetViewEntity() != nullptr)
 	{
 		// Our view is on a camera
 		PostProcessLerpTo( POST_EFFECT_DEFAULT );
@@ -1464,7 +1464,7 @@ void ClientModeCSNormal::UpdatePostProcessingEffects()
 			PostProcessLerpTo( POST_EFFECT_DEATH_CAM_HEADSHOT, 1.0f );
 		}
 	}
-	else if ( !pPlayer->IsAlive() && pPlayer->GetObserverTarget() == NULL && pPlayer->GetObserverMode() == OBS_MODE_DEATHCAM )
+	else if ( !pPlayer->IsAlive() && pPlayer->GetObserverTarget() == nullptr && pPlayer->GetObserverMode() == OBS_MODE_DEATHCAM )
 	{
 		PostProcessLerpTo( POST_EFFECT_DEATH_CAM );
 	}
@@ -1542,7 +1542,7 @@ void ClientModeCSNormal::PostProcessLerpTo( PostProcessEffect_t effectID, float 
 
 	m_lastPostProcessEffect = m_activePostProcessEffect;
 	m_activePostProcessEffect = effectID;
-	m_pActivePostProcessController = NULL;
+	m_pActivePostProcessController = nullptr;
 	m_postProcessEffectCountdown.Start( fFadeDuration );
 	m_postProcessLerpStartParams = m_postProcessCurrentParams;
 	if ( pTargetParams )
@@ -1635,7 +1635,7 @@ void ClientModeCSNormal::GetDefaultPostProcessingParams( C_CSPlayer* pPlayer, Po
 {
 	Assert( pParams );
 
-	C_PostProcessController* pPPCtrl = NULL;
+	C_PostProcessController* pPPCtrl = nullptr;
 	if ( pPlayer )
 	{
 		pPPCtrl = pPlayer->GetActivePostProcessController();
@@ -2370,12 +2370,12 @@ void ClientModeCSNormal::FireGameEvent( IGameEvent *event )
 				// Play "Bomb has been defused" announcement
 				C_BaseEntity::EmitSound(filter, SOUND_FROM_LOCAL_PLAYER, s_arrAnnouncementLines[nAnnouncementLine]);
 				// Queue up the CT Win audio to play after the bomb defused audio completes
-				m_fDelayedCTWinTime = gpGlobals->curtime + C_BaseEntity::GetSoundDuration( s_arrAnnouncementLines[nAnnouncementLine], NULL) + ( nAnnouncementLine ? 0.7 : 0.3 );
+				m_fDelayedCTWinTime = gpGlobals->curtime + C_BaseEntity::GetSoundDuration( s_arrAnnouncementLines[nAnnouncementLine], nullptr) + ( nAnnouncementLine ? 0.7 : 0.3 );
 			}
 			else if ( reason == All_Hostages_Rescued )
 			{
 				// Queue up the CT Win audio to play after the hostage rescue audio completes
-				m_fDelayedCTWinTime = gpGlobals->curtime + C_BaseEntity::GetSoundDuration( "Event.HostageRescued", NULL );
+				m_fDelayedCTWinTime = gpGlobals->curtime + C_BaseEntity::GetSoundDuration( "Event.HostageRescued", nullptr);
 			}
 			else
 			{
@@ -2753,7 +2753,7 @@ void ClientModeCSNormal::FireGameEvent( IGameEvent *event )
 				}
 
 				const char *pszLocString = g_pszItemFoundMethodStrings[iMethod];
-				wchar_t const *wszItemFound = pszLocString ? g_pVGuiLocalize->Find( pszLocString ) : NULL;
+				wchar_t const *wszItemFound = pszLocString ? g_pVGuiLocalize->Find( pszLocString ) : nullptr;
 				if ( wszItemFound )
 				{
 					// TODO: Update the localization strings to only have two format parameters since that's all we need.
@@ -2841,11 +2841,11 @@ void ClientModeCSNormal::FireGameEvent( IGameEvent *event )
 			{
 				// Local player is the gifter!
 				CSteamID steamID;
-				CBasePlayer *pFoundRecipient = NULL;
+				CBasePlayer *pFoundRecipient = nullptr;
 				for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 				{
 					C_BasePlayer *pPlayer = ToBasePlayer( UTIL_PlayerByIndex( i ) );
-					if ( pPlayer == NULL )
+					if ( pPlayer == nullptr)
 						continue;
 
 					if ( pPlayer->GetSteamID( &steamID ) == false )
@@ -2971,7 +2971,7 @@ bool __MsgFunc_SendPlayerItemFound( const CCSUsrMsg_SendPlayerItemFound &msg )
 		}
 
 		const char *pszLocString = g_pszItemFoundMethodStrings[ iMethod ];
-		wchar_t *wszItemFound = pszLocString ? g_pVGuiLocalize->Find( pszLocString ) : NULL;
+		wchar_t *wszItemFound = pszLocString ? g_pVGuiLocalize->Find( pszLocString ) : nullptr;
 		if ( wszItemFound )
 		{
 			wchar_t wszLocalizedString[ 2 * MAX_DECORATED_PLAYER_NAME_LENGTH ] = {};
@@ -3086,14 +3086,14 @@ void RemoveClassImageEntity()
 	if ( pEnt )
 	{
 		pEnt->Remove();
-		g_ClassImagePlayer = NULL;
+		g_ClassImagePlayer = nullptr;
 	}
 
 	pEnt = g_ClassImageWeapon.Get();
 	if ( pEnt )
 	{
 		pEnt->Remove();
-		g_ClassImagePlayer = NULL;
+		g_ClassImagePlayer = nullptr;
 	}
 }
 
@@ -3419,7 +3419,7 @@ bool ClientModeCSNormal::CanRecordDemo( char *errorMsg, int length ) const
 	// don't start recording while smoke grenades are spewing smoke, as the existing smoke would be destroyed
 	C_BaseEntityIterator it;
 	C_BaseEntity *ent;
-	while ( (ent = it.Next()) != NULL )
+	while ( (ent = it.Next()) != nullptr)
 	{
 		if ( Q_strcmp( ent->GetClassname(), "class C_ParticleSmokeGrenade" ) == 0 )
 		{
@@ -3741,7 +3741,7 @@ CEG_NOINLINE void ClientModeCSFullscreen::OnEvent( KeyValues *pEvent )
 
 		char const *szReason = pEvent->GetString( "reason", "" );
 
-		if ( char const *szDisconnectHdlr = pEvent->GetString( "disconnecthdlr", NULL ) )
+		if ( char const *szDisconnectHdlr = pEvent->GetString( "disconnecthdlr", nullptr) )
 		{
 			// If a disconnect handler was set during the event, then we don't interfere with
 			// the dialog explaining disconnection, just let the disconnect handler do everything.
@@ -3774,7 +3774,7 @@ CEG_NOINLINE void ClientModeCSFullscreen::OnEvent( KeyValues *pEvent )
 #ifdef _GAMECONSOLE
 			{ "", "#SFUI_DisconnectReason_Unknown", RemapText_t::MATCH_START },	// Catch all cases for X360
 #endif
-			{ NULL, NULL, RemapText_t::MATCH_FULL }
+			{nullptr, nullptr, RemapText_t::MATCH_FULL }
 		};
 
 		// For any disconnection reason other than unknown:
@@ -3785,7 +3785,7 @@ CEG_NOINLINE void ClientModeCSFullscreen::OnEvent( KeyValues *pEvent )
 
 		szReason = RemapText_t::RemapRawText( arrText, szReason );
 
-		const char *okCommand = NULL;
+		const char *okCommand = nullptr;
 		if ( !V_strcmp( szReason, "#SFUI_DisconnectReason_VAC" ) )
 			okCommand = "error_message_explain_vac";
 		else if ( !V_strcmp( szReason, "#GameUI_Disconnect_PureServer_Mismatch" ) )
@@ -3833,10 +3833,10 @@ void ClientModeCSFullscreen::FireGameEvent( IGameEvent *event )
 			"#TR_Finish_All_MsgBox_Body", 
 			true, 
 			false, 
-			"disconnect\n", 
-			NULL, 
-			NULL, 
-			NULL );
+			"disconnect\n",
+			nullptr,
+			nullptr,
+		nullptr);
 	}
 	else if ( Q_strcmp( "tr_show_exit_msgbox", eventname ) == 0 )
 	{
@@ -3847,9 +3847,9 @@ void ClientModeCSFullscreen::FireGameEvent( IGameEvent *event )
 			true, 
 			true, 
 			"tr_map_show_exit_door_msg",
-			NULL, 
-			NULL, 
-			NULL );
+			nullptr,
+			nullptr,
+		nullptr);
 	}
 	else if ( V_strcmp( "smokegrenade_detonate", eventname ) == 0 )
 	{

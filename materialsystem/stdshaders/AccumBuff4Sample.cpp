@@ -40,7 +40,7 @@ BEGIN_VS_SHADER_FLAGS( accumbuff4sample, "Help for AccumBuff4Sample", SHADER_NOT
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -58,7 +58,7 @@ BEGIN_VS_SHADER_FLAGS( accumbuff4sample, "Help for AccumBuff4Sample", SHADER_NOT
 			pShaderShadow->EnableTexture( SHADER_SAMPLER2, true );
 			pShaderShadow->EnableTexture( SHADER_SAMPLER3, true );
 			int fmt = VERTEX_POSITION;
-			pShaderShadow->VertexShaderVertexFormat( fmt, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( screenspaceeffect_vs20 );
 			SET_STATIC_VERTEX_SHADER( screenspaceeffect_vs20 );

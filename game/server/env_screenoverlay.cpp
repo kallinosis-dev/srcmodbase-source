@@ -143,8 +143,8 @@ void CEnvScreenOverlay::InputStartOverlay( inputdata_t &inputdata )
 	m_bIsActive = true;
 
 	// Turn off any other screen overlays out there
-	CBaseEntity *pEnt = NULL;
-	while ( (pEnt = gEntList.FindEntityByClassname( pEnt, "env_screenoverlay" )) != NULL )
+	CBaseEntity *pEnt = nullptr;
+	while ( (pEnt = gEntList.FindEntityByClassname( pEnt, "env_screenoverlay" )) != nullptr)
 	{
 		if ( pEnt != this )
 		{

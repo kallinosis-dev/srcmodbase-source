@@ -112,11 +112,11 @@ void CBaseEntity::SetPlayerSimulated( CBasePlayer *pOwner )
 
 void CBaseEntity::UnsetPlayerSimulated( void )
 {
-	if ( m_hPlayerSimulationOwner != NULL )
+	if ( m_hPlayerSimulationOwner != nullptr)
 	{
 		m_hPlayerSimulationOwner->RemoveFromPlayerSimulationList( this );
 	}
-	m_hPlayerSimulationOwner = NULL;
+	m_hPlayerSimulationOwner = nullptr;
 	m_bIsPlayerSimulated = false;
 }
 #endif
@@ -532,7 +532,7 @@ bool CBaseEntity::KeyValue( const char *szKeyName, const char *szValue )
 	// loop through the data description, and try and place the keys in
 	if ( !*ent_debugkeys.GetString() )
 	{
-		for ( datamap_t *dmap = GetDataDescMap(); dmap != NULL; dmap = dmap->baseMap )
+		for ( datamap_t *dmap = GetDataDescMap(); dmap != nullptr; dmap = dmap->baseMap )
 		{
 			if ( ::ParseKeyvalue(this, dmap->dataDesc, dmap->dataNumFields, szKeyName, szValue) )
 			{
@@ -557,7 +557,7 @@ bool CBaseEntity::KeyValue( const char *szKeyName, const char *szValue )
 		}
 
 		// loop through the data description, and try and place the keys in
-		for ( datamap_t *dmap = GetDataDescMap(); dmap != NULL; dmap = dmap->baseMap )
+		for ( datamap_t *dmap = GetDataDescMap(); dmap != nullptr; dmap = dmap->baseMap )
 		{
 			if ( !printKeyHits && *ent_debugkeys.GetString() && !Q_stricmp(dmap->dataClassName, ent_debugkeys.GetString()) )
 			{
@@ -734,7 +734,7 @@ bool CBaseEntity::GetKeyValue( const char *szKeyName, char *szValue, int iMaxLen
 		return true;
 	}
 
-	for ( datamap_t *dmap = GetDataDescMap(); dmap != NULL; dmap = dmap->baseMap )
+	for ( datamap_t *dmap = GetDataDescMap(); dmap != nullptr; dmap = dmap->baseMap )
 	{
 		if ( ::ExtractKeyvalue( this, dmap->dataDesc, dmap->dataNumFields, szKeyName, szValue, iMaxLen ) )
 			return true;
@@ -885,7 +885,7 @@ int CBaseEntity::RegisterThinkContext( const char *szContext )
 	// Make a new think func
 	thinkfunc_t sNewFunc;
 	Q_memset( &sNewFunc, 0, sizeof( sNewFunc ) );
-	sNewFunc.m_pfnThink = NULL;
+	sNewFunc.m_pfnThink = nullptr;
 	sNewFunc.m_nNextThinkTick = 0;
 	sNewFunc.m_iszContext = AllocPooledString(szContext);
 
@@ -1395,7 +1395,7 @@ void CBaseEntity::VPhysicsUpdate( IPhysicsObject *pPhysics )
 IPhysicsObject *CBaseEntity::VPhysicsInitStatic( void )
 {
 	if ( !VPhysicsInitSetup() )
-		return NULL;
+		return nullptr;
 
 #ifndef CLIENT_DLL
 	// If this entity has a move parent, it needs to be shadow, not static
@@ -1413,10 +1413,10 @@ IPhysicsObject *CBaseEntity::VPhysicsInitStatic( void )
 
 	// No physics
 	if ( GetSolid() == SOLID_NONE )
-		return NULL;
+		return nullptr;
 
 	// create a static physics objct
-	IPhysicsObject *pPhysicsObject = NULL;
+	IPhysicsObject *pPhysicsObject = nullptr;
 	if ( GetSolid() == SOLID_BBOX )
 	{
 		pPhysicsObject = PhysModelCreateBox( this, WorldAlignMins(), WorldAlignMaxs(), GetAbsOrigin(), true );
@@ -1488,7 +1488,7 @@ void CBaseEntity::VPhysicsDestroyObject( void )
 		PhysRemoveShadow( this );
 #endif
 		PhysDestroyObject( m_pPhysicsObject, this );
-		m_pPhysicsObject = NULL;
+		m_pPhysicsObject = nullptr;
 	}
 }
 
@@ -1521,7 +1521,7 @@ bool CBaseEntity::VPhysicsInitSetup()
 IPhysicsObject *CBaseEntity::VPhysicsInitNormal( SolidType_t solidType, int nSolidFlags, bool createAsleep, solid_t *pSolid )
 {
 	if ( !VPhysicsInitSetup() )
-		return NULL;
+		return nullptr;
 
 	// NOTE: This has to occur before PhysModelCreate because that call will
 	// call back into ShouldCollide(), which uses solidtype for rules.
@@ -1531,7 +1531,7 @@ IPhysicsObject *CBaseEntity::VPhysicsInitNormal( SolidType_t solidType, int nSol
 	// No physics
 	if ( solidType == SOLID_NONE )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// create a normal physics object
@@ -1554,15 +1554,15 @@ IPhysicsObject *CBaseEntity::VPhysicsInitNormal( SolidType_t solidType, int nSol
 IPhysicsObject *CBaseEntity::VPhysicsInitShadow( bool allowPhysicsMovement, bool allowPhysicsRotation, solid_t *pSolid )
 {
 	if ( !VPhysicsInitSetup() )
-		return NULL;
+		return nullptr;
 
 	// No physics
 	if ( GetSolid() == SOLID_NONE )
-		return NULL;
+		return nullptr;
 
 	const Vector &origin = GetAbsOrigin();
 	QAngle angles = GetAbsAngles();
-	IPhysicsObject *pPhysicsObject = NULL;
+	IPhysicsObject *pPhysicsObject = nullptr;
 
 	if ( GetSolid() == SOLID_BBOX )
 	{
@@ -1583,7 +1583,7 @@ IPhysicsObject *CBaseEntity::VPhysicsInitShadow( bool allowPhysicsMovement, bool
 		pPhysicsObject = PhysModelCreate( this, GetModelIndex(), origin, angles, pSolid );
 	}
 	if ( !pPhysicsObject )
-		return NULL;
+		return nullptr;
 
 	VPhysicsSetObject( pPhysicsObject );
 	// UNDONE: Tune these speeds!!!
@@ -1881,7 +1881,7 @@ void CBaseEntity::FireBullets( const FireBulletsInfo_t &info )
 	CBaseEntity *pAttacker = info.m_pAttacker ? info.m_pAttacker : this;
 
 	// Make sure we don't have a dangling damage target from a recursive call
-	if ( g_MultiDamage.GetTarget() != NULL )
+	if ( g_MultiDamage.GetTarget() != nullptr)
 	{
 		ApplyMultiDamage();
 	}
@@ -2160,11 +2160,11 @@ void CBaseEntity::FireBullets( const FireBulletsInfo_t &info )
 		}
 
 		// See if we hit glass
-		if ( tr.m_pEnt != NULL )
+		if ( tr.m_pEnt != nullptr)
 		{
 #ifdef GAME_DLL
 			surfacedata_t *psurf = physprops->GetSurfaceData( tr.surface.surfaceProps );
-			if ( ( psurf != NULL ) && ( psurf->game.material == CHAR_TEX_GLASS ) && ( tr.m_pEnt->ClassMatches( "func_breakable" ) ) )
+			if ( ( psurf != nullptr) && ( psurf->game.material == CHAR_TEX_GLASS ) && ( tr.m_pEnt->ClassMatches( "func_breakable" ) ) )
 			{
 				// Query the func_breakable for whether it wants to allow for bullet penetration
 				if ( tr.m_pEnt->HasSpawnFlags( SF_BREAK_NO_BULLET_PENETRATION ) == false )
@@ -2321,7 +2321,7 @@ bool CBaseEntity::HandleShotImpactingWater( const FireBulletsInfo_t &info,
 
 ITraceFilter* CBaseEntity::GetBeamTraceFilter( void )
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2385,7 +2385,7 @@ void CBaseEntity::ComputeTracerStartPosition( const Vector &vecShotSrc, Vector *
 		// adjust tracer position for player
 		Vector forward, right;
 		CBasePlayer *pPlayer = ToBasePlayer( this );
-		pPlayer->EyeVectors( &forward, &right, NULL );
+		pPlayer->EyeVectors( &forward, &right, nullptr);
 		*pVecTracerStart = vecShotSrc + Vector ( 0 , 0 , -4 ) + right * 2 + forward * 16;
 	}
 	else
@@ -2393,11 +2393,11 @@ void CBaseEntity::ComputeTracerStartPosition( const Vector &vecShotSrc, Vector *
 		*pVecTracerStart = vecShotSrc;
 
 		CBaseCombatCharacter *pBCC = MyCombatCharacterPointer();
-		if ( pBCC != NULL )
+		if ( pBCC != nullptr)
 		{
 			CBaseCombatWeapon *pWeapon = pBCC->GetActiveWeapon();
 
-			if ( pWeapon != NULL )
+			if ( pWeapon != nullptr)
 			{
 				Vector vecMuzzle;
 				QAngle vecMuzzleAngles;
@@ -2539,7 +2539,7 @@ void CBaseEntity::TraceBleed( float flDamage, const Vector &vecDir, trace_t *ptr
 
 const char* CBaseEntity::GetTracerType()
 {
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2612,7 +2612,7 @@ void CBaseEntity::ApplyLocalVelocityImpulse( const Vector &inVecImpulse )
 			{
 				Vector worldVel;
 				ppPhysObjs[ i ]->LocalToWorld( &worldVel, vecImpulse );
-				ppPhysObjs[ i ]->AddVelocity(  &worldVel, NULL );
+				ppPhysObjs[ i ]->AddVelocity(  &worldVel, nullptr);
 			}
 		}
 		else
@@ -2654,7 +2654,7 @@ void CBaseEntity::ApplyAbsVelocityImpulse( const Vector &inVecImpulse )
 			int nNumPhysObjs = VPhysicsGetObjectList( ppPhysObjs, VPHYSICS_MAX_OBJECT_LIST_COUNT );
 			for ( int i = 0; i < nNumPhysObjs; i++ )
 			{
-				ppPhysObjs[ i ]->AddVelocity( &vecImpulse, NULL );
+				ppPhysObjs[ i ]->AddVelocity( &vecImpulse, nullptr);
 			}
 		}
 		else
@@ -2688,7 +2688,7 @@ void CBaseEntity::ApplyLocalAngularVelocityImpulse( const AngularImpulse &angImp
 			int nNumPhysObjs = VPhysicsGetObjectList( ppPhysObjs, VPHYSICS_MAX_OBJECT_LIST_COUNT );
 			for ( int i = 0; i < nNumPhysObjs; i++ )
 			{
-				ppPhysObjs[ i ]->AddVelocity( NULL, &angImpulse );
+				ppPhysObjs[ i ]->AddVelocity(nullptr, &angImpulse );
 			}
 		}
 		else
@@ -2727,7 +2727,7 @@ void CBaseEntity::CollisionRulesChanged()
 		int count = VPhysicsGetObjectList( pList, ARRAYSIZE(pList) );
 		for ( int i = 0; i < count; i++ )
 		{
-			if ( pList[i] != NULL ) //this really shouldn't happen, but it does >_<
+			if ( pList[i] != nullptr) //this really shouldn't happen, but it does >_<
 				pList[i]->RecheckCollisionFilter();
 		}
 	}

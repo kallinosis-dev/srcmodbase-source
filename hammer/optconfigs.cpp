@@ -39,7 +39,7 @@ bool GetPersistentEnvironmentVariable( const char *pName, char *pReturn, int siz
 	
 	// Get the value
 	DWORD dwSize = size;
-	if ( RegQueryValueEx( hregkey, pName, NULL, NULL,(LPBYTE) pReturn, &dwSize ) != ERROR_SUCCESS )
+	if ( RegQueryValueEx( hregkey, pName, nullptr, nullptr,(LPBYTE) pReturn, &dwSize ) != ERROR_SUCCESS )
 		return false;
 	
 	// Close the key
@@ -161,8 +161,8 @@ COPTConfigs::COPTConfigs(void) : CPropertyPage(COPTConfigs::IDD)
 	//{{AFX_DATA_INIT(COPTConfigs)
 	//}}AFX_DATA_INIT
 
-	m_pLastSelConfig = NULL;
-	m_pInitialSelectedConfig = NULL;
+	m_pLastSelConfig = nullptr;
+	m_pInitialSelectedConfig = nullptr;
 }
 
 
@@ -230,14 +230,14 @@ void COPTConfigs::OnEditconfigs(void)
 //-----------------------------------------------------------------------------
 void COPTConfigs::OnGdfileAdd(void)
 {
-	if (m_pLastSelConfig == NULL)
+	if (m_pLastSelConfig == nullptr)
 		return;
 
 	char szAppDir[MAX_PATH];
 	APP()->GetDirectory(DIR_PROGRAM, szAppDir);
 
 	// browse for .FGD files
-	CFileDialog dlg(TRUE, ".fgd", NULL, OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST, "Game Data Files (*.fgd)|*.fgd||");
+	CFileDialog dlg(TRUE, ".fgd", nullptr, OFN_HIDEREADONLY | OFN_NOCHANGEDIR | OFN_FILEMUSTEXIST, "Game Data Files (*.fgd)|*.fgd||");
 	dlg.m_ofn.lpstrInitialDir = szAppDir;
 	if (dlg.DoModal() != IDOK)
 		return;
@@ -257,7 +257,7 @@ void COPTConfigs::OnGdfileAdd(void)
 //-----------------------------------------------------------------------------
 void COPTConfigs::OnGdfileEdit(void)
 {
-	if(m_pLastSelConfig == NULL)
+	if(m_pLastSelConfig == nullptr)
 		return;
 
 	// edit the selected FGD file
@@ -285,7 +285,7 @@ void COPTConfigs::OnGdfileEdit(void)
 //-----------------------------------------------------------------------------
 void COPTConfigs::OnGdfileRemove(void)
 {
-	if(m_pLastSelConfig == NULL)
+	if(m_pLastSelConfig == nullptr)
 		return;
 
 	int iCurSel = m_cGDFiles.GetCurSel();
@@ -306,7 +306,7 @@ void COPTConfigs::OnGdfileRemove(void)
 //-----------------------------------------------------------------------------
 void COPTConfigs::SaveInfo(CGameConfig *pConfig)
 {
-	if (pConfig == NULL)
+	if (pConfig == nullptr)
 	{
 		return;
 	}
@@ -388,7 +388,7 @@ void COPTConfigs::SaveInfo(CGameConfig *pConfig)
 	//
 	// Default lightmap scale.
 	//
-	int nLightmapScale = GetDlgItemInt(IDC_DEFAULT_LIGHTMAP_SCALE, NULL, FALSE);
+	int nLightmapScale = GetDlgItemInt(IDC_DEFAULT_LIGHTMAP_SCALE, nullptr, FALSE);
 	pConfig->SetDefaultLightmapScale(nLightmapScale);
 }
 
@@ -401,14 +401,14 @@ void COPTConfigs::OnSelchangeConfigurations(void)
 	// save info from controls into last selected config
 	SaveInfo(m_pLastSelConfig);
 
-	m_pLastSelConfig = NULL;
+	m_pLastSelConfig = nullptr;
 
 	// load info from newly selected config into controls
 	int iCurSel = m_cConfigs.GetCurSel();
 	CGameConfig *pConfig = Options.configs.FindConfig(m_cConfigs.GetItemData(iCurSel));
 
 	BOOL bKillFields = FALSE;
-	if (pConfig == NULL)
+	if (pConfig == nullptr)
 	{
 		bKillFields = TRUE;
 	}
@@ -424,7 +424,7 @@ void COPTConfigs::OnSelchangeConfigurations(void)
 	m_cPrefabDir.EnableWindow(!bKillFields);
 	m_cCordonTexture.EnableWindow(!bKillFields);
 
-	if (pConfig == NULL)
+	if (pConfig == nullptr)
 	{
 		return;
 	}
@@ -491,7 +491,7 @@ void COPTConfigs::OnSelchangeConfigurations(void)
 //-----------------------------------------------------------------------------
 void COPTConfigs::UpdateEntityLists(void)
 {
-	if(m_pLastSelConfig == NULL)
+	if(m_pLastSelConfig == nullptr)
 		return;
 
 	m_cDefaultPoint.ResetContent();
@@ -621,7 +621,7 @@ void SelectActiveConfig(CComboBox &combo)
 //-----------------------------------------------------------------------------
 void COPTConfigs::UpdateConfigList()
 {
-	m_pLastSelConfig = NULL;
+	m_pLastSelConfig = nullptr;
 
 	::UpdateConfigList(m_cConfigs);
 	::SelectActiveConfig(m_cConfigs);
@@ -707,7 +707,7 @@ BOOL COPTConfigs::OnApply(void)
 	int nCurSel = m_cConfigs.GetCurSel();
 	CGameConfig *pConfig = Options.configs.FindConfig(m_cConfigs.GetItemData(nCurSel));
 
-	if ( pConfig != NULL && ConfigChanged( pConfig ) )
+	if ( pConfig != nullptr && ConfigChanged( pConfig ) )
 	{
 		SetPersistentEnvironmentVariable("vproject", pConfig->m_szModDir);
 		AfxMessageBox("Your changes to the active configuration will not take effect until the next time you run Hammer.");
@@ -738,7 +738,7 @@ BOOL COPTConfigs::BrowseForFolder(char *pszTitle, char *pszDirectory)
 
 	LPITEMIDLIST idl = SHBrowseForFolder(&bi);
 
-	if(idl == NULL)
+	if(idl == nullptr)
 		return FALSE;
 
 	SHGetPathFromIDList(idl, pszDirectory);
@@ -754,7 +754,7 @@ BOOL COPTConfigs::BrowseForFolder(char *pszTitle, char *pszDirectory)
 void COPTConfigs::OnBrowseCordonTexture(void)
 {
 	CTextureBrowser *pBrowser = new CTextureBrowser(this);
-	if (pBrowser != NULL)
+	if (pBrowser != nullptr)
 	{
 		//
 		// Use the currently selected texture format for browsing.

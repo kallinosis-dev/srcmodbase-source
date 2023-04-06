@@ -317,7 +317,7 @@ void CPhysicsCannister::InputExplode(inputdata_t &data)
 void CPhysicsCannister::InputWake( inputdata_t &data )
 {
 	IPhysicsObject *pPhys = VPhysicsGetObject();
-	if ( pPhys != NULL )
+	if ( pPhys != nullptr)
 	{
 		pPhys->Wake();
 	}
@@ -334,7 +334,7 @@ void CPhysicsCannister::Deactivate(void)
 
 	m_pController->DetachObject( VPhysicsGetObject() );
 	physenv->DestroyMotionController( m_pController );
-	m_pController = NULL;
+	m_pController = nullptr;
 	SetNextThink( TICK_NEVER_THINK );
 	m_thrustTime = 0;
 	m_active = false;
@@ -407,11 +407,11 @@ void CPhysicsCannister::VPhysicsCollision( int index, gamevcollisionevent_t *pEv
 //-----------------------------------------------------------------------------
 void CPhysicsCannister::ShutdownJet( void )
 {
-	g_EventQueue.AddEvent( m_pJet, "kill", 5, NULL, NULL );
+	g_EventQueue.AddEvent( m_pJet, "kill", 5, nullptr, nullptr);
 
 	m_pJet->m_bEmit = false;
 	m_pJet->m_Rate = 0;
-	m_pJet = NULL;
+	m_pJet = nullptr;
 	SetNextThink( TICK_NEVER_THINK );
 }
 
@@ -462,7 +462,7 @@ CBasePlayer *CPhysicsCannister::HasPhysicsAttacker( float dt )
 	{
 		return m_hPhysicsAttacker;
 	}
-	return NULL;
+	return nullptr;
 }
 //-----------------------------------------------------------------------------
 // Purpose: Update the visible representation of the physic system's representation of this object

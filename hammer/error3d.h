@@ -16,7 +16,7 @@ typedef struct
 	PVOID pInfo;
 } error3d;
 
-void Add3dError(DWORD dwObjectID, LPCTSTR pszReason, PVOID pInfo = NULL);
+void Add3dError(DWORD dwObjectID, LPCTSTR pszReason, PVOID pInfo = nullptr);
 error3d * Enum3dErrors(BOOL bStart = FALSE);
 int Get3dErrorCount();
 

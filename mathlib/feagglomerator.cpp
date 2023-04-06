@@ -6,7 +6,7 @@ CFeAgglomerator::CFeAgglomerator( uint nReserveNodes )
 {
 	m_Clusters.EnsureCapacity( nReserveNodes * 2 );
 	m_Clusters.SetCount( nReserveNodes );
-	m_Clusters.FillWithValue( NULL ); // client needs to set all the nodes
+	m_Clusters.FillWithValue(nullptr); // client needs to set all the nodes
 /*
 	for ( uint i = 0; i < nReserveNodes; ++i )
 	{
@@ -70,7 +70,7 @@ const CFeAgglomerator::CLink *CFeAgglomerator::CCluster::FindLink( CCluster *pOt
 			return &link;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //

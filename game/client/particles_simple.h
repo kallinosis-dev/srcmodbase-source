@@ -182,7 +182,7 @@ public:
 
 // Overridables for variants like CEmberEffect.
 protected:
-	explicit		CSimpleEmitter( const char *pDebugName = NULL );
+	explicit		CSimpleEmitter( const char *pDebugName = nullptr);
 	virtual			~CSimpleEmitter();
 
 	virtual	float	UpdateAlpha( const SimpleParticle *pParticle );

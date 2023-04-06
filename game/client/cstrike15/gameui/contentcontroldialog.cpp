@@ -114,7 +114,7 @@ void CContentControlDialog::ResetPassword()
 		DWORD type;
 		DWORD bufSize = sizeof(m_szGorePW);
 
-		RegQueryValueEx(key, "User Token 2", NULL, &type, (unsigned char *)m_szGorePW, &bufSize );
+		RegQueryValueEx(key, "User Token 2", nullptr, &type, (unsigned char *)m_szGorePW, &bufSize );
 		RegCloseKey( key );
 	}
     else

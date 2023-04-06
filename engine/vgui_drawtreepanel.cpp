@@ -269,7 +269,7 @@ public:
 };
 
 
-CDrawTreeFrame *g_pDrawTreeFrame = 0;
+CDrawTreeFrame *g_pDrawTreeFrame = nullptr;
 
 
 void VGui_RecursivePrintTree( 

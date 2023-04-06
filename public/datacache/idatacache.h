@@ -195,7 +195,7 @@ public:
 	//--------------------------------------------------------
 	// Purpose: Get the current state of the section
 	//--------------------------------------------------------
-	virtual void GetStatus( DataCacheStatus_t *pStatus, DataCacheLimits_t *pLimits = NULL ) = 0;
+	virtual void GetStatus( DataCacheStatus_t *pStatus, DataCacheLimits_t *pLimits = nullptr) = 0;
 
 
 	//--------------------------------------------------------
@@ -218,8 +218,8 @@ public:
 	//--------------------------------------------------------
 	// Purpose: Get an item out of the cache and remove it. No callbacks are executed unless explicity specified.
 	//--------------------------------------------------------
-	virtual DataCacheRemoveResult_t Remove( DataCacheHandle_t handle, const void **ppItemData, unsigned *pItemSize = NULL, bool bNotify = false ) = 0;
-	DataCacheRemoveResult_t Remove( DataCacheHandle_t handle, bool bNotify = false )	{ return Remove( handle, NULL, NULL, bNotify ); }
+	virtual DataCacheRemoveResult_t Remove( DataCacheHandle_t handle, const void **ppItemData, unsigned *pItemSize = nullptr, bool bNotify = false ) = 0;
+	DataCacheRemoveResult_t Remove( DataCacheHandle_t handle, bool bNotify = false )	{ return Remove( handle, nullptr, nullptr, bNotify ); }
 
 
 	//--------------------------------------------------------
@@ -391,7 +391,7 @@ public:
 	//--------------------------------------------------------
 	// Purpose: Get the current state of the cache
 	//--------------------------------------------------------
-	virtual void GetStatus( DataCacheStatus_t *pStatus, DataCacheLimits_t *pLimits = NULL ) = 0;
+	virtual void GetStatus( DataCacheStatus_t *pStatus, DataCacheLimits_t *pLimits = nullptr) = 0;
 
 
 	//--------------------------------------------------------
@@ -427,7 +427,7 @@ public:
 	//--------------------------------------------------------
 	// Purpose: Output the state of the cache
 	//--------------------------------------------------------
-	virtual void OutputReport( DataCacheReportType_t reportType = DC_SUMMARY_REPORT, const char *pszSection = NULL ) = 0;
+	virtual void OutputReport( DataCacheReportType_t reportType = DC_SUMMARY_REPORT, const char *pszSection = nullptr) = 0;
 
 	virtual int GetSectionCount() = 0;
 	virtual const char *GetSectionName( int iIndex ) = 0;
@@ -444,7 +444,7 @@ public:
 	typedef CManagedDataCacheClient<STORAGE_TYPE, CREATE_PARAMS, LOCK_TYPE> CCacheClientBaseClass;
 
 	CManagedDataCacheClient()
-		: m_pCache( NULL )
+		: m_pCache(nullptr)
 	{
 	}
 
@@ -461,7 +461,7 @@ public:
 		if ( m_pCache )
 		{
 			m_pCache->GetSharedCache()->RemoveSection( m_pCache );
-			m_pCache = NULL;
+			m_pCache = nullptr;
 		}
 	}
 

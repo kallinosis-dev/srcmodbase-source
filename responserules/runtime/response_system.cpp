@@ -47,7 +47,7 @@ namespace ResponseRules
 	const char *ResponseCopyString( const char *in )
 	{
 		if ( !in )
-			return NULL;
+			return nullptr;
 		if ( !*in )
 			return "";
 
@@ -1218,7 +1218,7 @@ bool CResponseSystem::FindBestResponse( const CriteriaSet& set, CRR_Response& re
 	bool bcontexttoworld;
 	ruleName[ 0 ] = 0;
 	responseName[ 0 ] = 0;
-	context = NULL;
+	context = nullptr;
 	bcontexttoworld = false;
 	if ( m_RulePartitions.IsValid( bestRule ) )
 	{
@@ -1314,7 +1314,7 @@ void CResponseSystem::GetAllResponses( CUtlVector<CRR_Response> *pResponses )
 				pResponse->Init( response.GetType(), response.value, CriteriaSet(), response.params, NULL, NULL, false );
 				pResponses->AddToTail(pResponse);
 				*/
-				pResponses->Element(pResponses->AddToTail()).Init( response.GetType(), response.value, response.params, NULL, NULL, false );
+				pResponses->Element(pResponses->AddToTail()).Init( response.GetType(), response.value, response.params, nullptr, nullptr, false );
 			}
 		}
 	}
@@ -1327,7 +1327,7 @@ void CResponseSystem::ParseInclude()
 	Q_snprintf( includefile, sizeof( includefile ), "scripts/%s", token );
 
 	// check if the file is already included
-	if ( m_IncludedFiles.Find( includefile ) != NULL )
+	if ( m_IncludedFiles.Find( includefile ) != nullptr)
 	{
 		return;
 	}
@@ -1808,7 +1808,7 @@ int CResponseSystem::ParseOneCriterion( const char *criterionName )
 	char key[ 128 ];
 	char value[ 128 ];
 
-	Criteria *pNewCriterion = NULL;
+	Criteria *pNewCriterion = nullptr;
 
 	int idx;
 	if ( m_Criteria.Find( criterionName ) != m_Criteria.InvalidIndex() )
@@ -1977,7 +1977,7 @@ void CResponseSystem::ParseRule_ApplyContextToWorld( Rule &newRule )
 void CResponseSystem::ParseRule_ApplyContext( Rule &newRule )
 		{
 			ParseToken();
-			if ( newRule.GetContext() == NULL )
+			if ( newRule.GetContext() == nullptr)
 			{
 				newRule.SetContext( token );
 			}
@@ -2481,12 +2481,12 @@ unsigned int ResponseRulePartition::GetBucketForSpeakerAndConcept( const char *p
 
 const char *Rule::GetValueForRuleCriterionByName( CResponseSystem * RESTRICT pSystem, const CUtlSymbol &pCritNameSym )
 {
-	const char * retval = NULL;
+	const char * retval = nullptr;
 	// for each rule criterion...
 	for ( int i = 0 ; i < m_Criteria.Count() ; ++i )
 	{
 		retval = RecursiveGetValueForRuleCriterionByName( pSystem, &pSystem->m_Criteria[m_Criteria[i]], pCritNameSym );
-		if ( retval != NULL )
+		if ( retval != nullptr)
 		{
 			// we found a result, early out
 			break;
@@ -2498,12 +2498,12 @@ const char *Rule::GetValueForRuleCriterionByName( CResponseSystem * RESTRICT pSy
 
 const Criteria *Rule::GetPointerForRuleCriterionByName( CResponseSystem *pSystem, const CUtlSymbol &pCritNameSym )
 {
-	const Criteria * retval = NULL;
+	const Criteria * retval = nullptr;
 	// for each rule criterion...
 	for ( int i = 0 ; i < m_Criteria.Count() ; ++i )
 	{
 		retval = RecursiveGetPointerForRuleCriterionByName( pSystem, &pSystem->m_Criteria[m_Criteria[i]], pCritNameSym );
-		if ( retval != NULL )
+		if ( retval != nullptr)
 		{
 			// we found a result, early out
 			break;
@@ -2517,11 +2517,11 @@ const char *Rule::RecursiveGetValueForRuleCriterionByName( CResponseSystem * RES
 														    const Criteria * RESTRICT pCrit, const CUtlSymbol &pCritNameSym )
 {
 	Assert( pCrit );
-	if ( !pCrit ) return NULL;
+	if ( !pCrit ) return nullptr;
 	if ( pCrit->IsSubCriteriaType() )
 	{
 		// test each of the children (depth first)
-		const char *pRet = NULL;
+		const char *pRet = nullptr;
 		for ( int i = 0 ; i < pCrit->subcriteria.Count() ; ++i )
 		{
 			pRet = RecursiveGetValueForRuleCriterionByName( pSystem, &pSystem->m_Criteria[pCrit->subcriteria[i]], pCritNameSym );
@@ -2537,22 +2537,22 @@ const char *Rule::RecursiveGetValueForRuleCriterionByName( CResponseSystem * RES
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
 const Criteria *Rule::RecursiveGetPointerForRuleCriterionByName( CResponseSystem *pSystem, const Criteria *pCrit, const CUtlSymbol &pCritNameSym )
 {
 	Assert( pCrit );
-	if ( !pCrit ) return NULL;
+	if ( !pCrit ) return nullptr;
 	if ( pCrit->IsSubCriteriaType() )
 	{
 		// test each of the children (depth first)
-		const Criteria *pRet = NULL;
+		const Criteria *pRet = nullptr;
 		for ( int i = 0 ; i < pCrit->subcriteria.Count() ; ++i )
 		{
 			pRet = RecursiveGetPointerForRuleCriterionByName( pSystem, &pSystem->m_Criteria[pCrit->subcriteria[i]], pCritNameSym );
@@ -2568,11 +2568,11 @@ const Criteria *Rule::RecursiveGetPointerForRuleCriterionByName( CResponseSystem
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

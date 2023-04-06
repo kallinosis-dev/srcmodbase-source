@@ -123,7 +123,7 @@ public:
 
 	virtual bool Connect( CreateInterfaceFn factory )
 	{
-		ICvar *pCVar = (ICvar*)factory( CVAR_INTERFACE_VERSION, 0 );
+		ICvar *pCVar = (ICvar*)factory( CVAR_INTERFACE_VERSION, nullptr );
 		if ( !pCVar )
 			return false;
 
@@ -155,7 +155,7 @@ public:
 	{
 		if ( !Q_stricmp( pInterfaceName, CVAR_QUERY_INTERFACE_VERSION ) )
 			return (ICvarQuery*)this;
-		return NULL;
+		return nullptr;
 
 	}
 
@@ -953,7 +953,7 @@ void CCvarUtilities::CvarList( const CCommand &args )
 {
 	const ConCommandBase	*var;	// Temporary Pointer to cvars
 	int iArgs;						// Argument count
-	const char *partial = NULL;		// Partial cvar to search for...
+	const char *partial = nullptr;		// Partial cvar to search for...
 									// E.eg
 	int ipLen = 0;					// Length of the partial cvar
 

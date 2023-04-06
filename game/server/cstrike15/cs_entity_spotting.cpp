@@ -36,7 +36,7 @@ bool ForEachEntitySpotter( SpotFunctor &func )
 	{
 		CBasePlayer *player = static_cast< CBasePlayer * >( UTIL_PlayerByIndex( i ) );
 
-		if ( player == NULL )
+		if ( player == nullptr)
 			continue;
 
 		if ( FNullEnt( player->edict() ) )
@@ -60,7 +60,7 @@ bool ForEachEntitySpotter( SpotFunctor &func )
 			continue;
 
 		CBaseGrenade *grenade = ag->GetEntity();
-		if ( grenade == NULL )
+		if ( grenade == nullptr)
 			continue;
 		
 		if ( FNullEnt( grenade->edict() ) )
@@ -165,7 +165,7 @@ public:
 		if ( (csPlayer && csPlayer->IsAlive() == false ) || spotter->GetTeamNumber() != m_team )
 			return true;
 
-		CCSPlayer *csPlayerSpotter = NULL;
+		CCSPlayer *csPlayerSpotter = nullptr;
 
 		bool doTrace = false;
 		Vector eye, forward;
@@ -176,7 +176,7 @@ public:
 			if ( csPlayer->IsBlind() )
 				return true;
 	
-			csPlayer->EyePositionAndVectors( &eye, &forward, NULL, NULL );
+			csPlayer->EyePositionAndVectors( &eye, &forward, nullptr, nullptr);
 			Vector path( m_target - eye );
 			float distance = path.Length();
 			path.NormalizeInPlace();

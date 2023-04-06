@@ -40,7 +40,7 @@ struct StringChoice_t
 struct ElementChoice_t
 {
 	ElementChoice_t() {}
-	ElementChoice_t( CDmElement *pValue, const char *pChoiceString = NULL ) : m_pValue( pValue ), m_pChoiceString( pChoiceString ) {}
+	ElementChoice_t( CDmElement *pValue, const char *pChoiceString = nullptr) : m_pValue( pValue ), m_pChoiceString( pChoiceString ) {}
 	CDmElement *m_pValue;
 	const char *m_pChoiceString;
 };
@@ -127,7 +127,7 @@ public:
 	virtual const char *GetElementChoiceString( const char *pChoiceListType, CDmElement *pElement, 
 		const char *pAttributeName, bool bArrayElement, CDmElement *pValue )
 	{
-		return NULL;
+		return nullptr;
 	}
 };
 

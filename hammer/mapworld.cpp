@@ -57,7 +57,7 @@ static BOOL AddUsedTextures(CMapSolid *pSolid, CUsedTextureList *pList)
 		return TRUE;
 
 	int nFaces = pSolid->GetFaceCount();
-	IEditorTexture *pLastTex = NULL;
+	IEditorTexture *pLastTex = nullptr;
 	int nLastElement = 0;
 
 	for (int i = 0; i < nFaces; i++)
@@ -68,7 +68,7 @@ static BOOL AddUsedTextures(CMapSolid *pSolid, CUsedTextureList *pList)
 		Tex.pTex = pFace->GetTexture();
 		Tex.nUsageCount = 0;
 
-		if (Tex.pTex != NULL)
+		if (Tex.pTex != nullptr)
 		{
 			if (Tex.pTex != pLastTex)
 			{
@@ -99,7 +99,7 @@ static BOOL AddOverlayTextures(CMapOverlay *pOverlay, CUsedTextureList *pList)
 	Tex.pTex = pOverlay->GetMaterial();
 	Tex.nUsageCount = 0;
 
-	if (Tex.pTex != NULL)
+	if (Tex.pTex != nullptr)
 	{
 		int nElement = pList->Find(Tex.pTex);
 		if (nElement == -1)
@@ -145,7 +145,7 @@ void CMapWorld::Init()
 	m_Render2DBox.UpdateBounds(pt);
 
 	SetClass("worldspawn");
-	m_pCullTree = NULL;
+	m_pCullTree = nullptr;
 
 	m_nNextFaceID = 1;			// Face IDs start at 1. An ID of 0 means no ID.
 
@@ -214,7 +214,7 @@ void CMapWorld::AddChild(CMapClass *pChild)
 	//
 	// Add the object to the culling tree.
 	//
-	if (m_pCullTree != NULL)
+	if (m_pCullTree != nullptr)
 	{
 		m_pCullTree->AddCullTreeObjectRecurse(pChild);
 	}
@@ -233,7 +233,7 @@ void CMapWorld::AddChild(CMapClass *pChild)
 void CMapWorld::AddObjectToWorld(CMapClass *pObject, CMapClass *pParent)
 {
 	Assert(pObject != NULL);
-	if (pObject == NULL)
+	if (pObject == nullptr)
 	{
 		return;
 	}
@@ -241,7 +241,7 @@ void CMapWorld::AddObjectToWorld(CMapClass *pObject, CMapClass *pParent)
 	//
 	// Link the object into the tree.
 	//
-	if (pParent == NULL)
+	if (pParent == nullptr)
 	{
 		pParent = this;
 	}
@@ -269,21 +269,21 @@ void CMapWorld::AddObjectToWorld(CMapClass *pObject, CMapClass *pParent)
 BOOL CMapWorld::BuildSaveListsCallback(CMapClass *pObject, SaveLists_t *pSaveLists)
 {
 	CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pObject);
-	if (pEntity != NULL)
+	if (pEntity != nullptr)
 	{
 		pSaveLists->Entities.AddToTail(pEntity);
 		return(TRUE);
 	}
 
 	CMapSolid *pSolid = dynamic_cast<CMapSolid *>(pObject);
-	if (pSolid != NULL)
+	if (pSolid != nullptr)
 	{
 		pSaveLists->Solids.AddToTail(pSolid);
 		return(TRUE);
 	}
 
 	CMapGroup *pGroup = dynamic_cast<CMapGroup *>(pObject);
-	if (pGroup != NULL)
+	if (pGroup != nullptr)
 	{
 		pSaveLists->Groups.AddToTail(pGroup);
 		return(TRUE);
@@ -323,7 +323,7 @@ CMapClass *CMapWorld::CopyFrom(CMapClass *pobj, bool bUpdateDependencies)
 	//
 	const char *pszOldTargetName = CEditGameClass::GetKeyValue("targetname");
 	char szOldTargetName[MAX_IO_NAME_LEN];
-	if (pszOldTargetName != NULL)
+	if (pszOldTargetName != nullptr)
 	{
 		strcpy(szOldTargetName, pszOldTargetName);
 	}
@@ -331,7 +331,7 @@ CMapClass *CMapWorld::CopyFrom(CMapClass *pobj, bool bUpdateDependencies)
 	CEditGameClass::CopyFrom(pFrom);
 
 	const char *pszNewTargetName = CEditGameClass::GetKeyValue("targetname");
-	if ((bUpdateDependencies) && (pszNewTargetName != NULL))
+	if ((bUpdateDependencies) && (pszNewTargetName != nullptr))
 	{
 		if (stricmp(szOldTargetName, pszNewTargetName) != 0)
 		{
@@ -408,17 +408,17 @@ void CMapWorld::AddEntity( CMapEntity *pEntity )
 void CMapWorld::EntityList_Add(CMapClass *pObject)
 {
 	CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pObject);
-	if (pEntity != NULL)
+	if (pEntity != nullptr)
 	{
 		AddEntity(pEntity);
 	}
 
 	EnumChildrenPos_t pos;	
 	CMapClass *pChild = pObject->GetFirstDescendent(pos);
-	while (pChild != NULL)
+	while (pChild != nullptr)
 	{
 		CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pChild);
-		if ((pEntity != NULL) && (m_EntityList.Find(pEntity) == -1))
+		if ((pEntity != nullptr) && (m_EntityList.Find(pEntity) == -1))
 		{
 			AddEntity(pEntity);
 		}
@@ -439,7 +439,7 @@ void CMapWorld::EntityList_Remove(CMapClass *pObject, bool bRemoveChildren)
 	// Remove the object itself.
 	//
 	CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pObject);
-	if (pEntity != NULL)
+	if (pEntity != nullptr)
 	{
 		// Remove the entity from the flat list.
 		int nIndex = m_EntityList.Find( pEntity );
@@ -465,10 +465,10 @@ void CMapWorld::EntityList_Remove(CMapClass *pObject, bool bRemoveChildren)
 	{
 		EnumChildrenPos_t pos;
 		CMapClass *pChild = pObject->GetFirstDescendent(pos);
-		while (pChild != NULL)
+		while (pChild != nullptr)
 		{
 			CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pChild);
-			if (pEntity != NULL)
+			if (pEntity != nullptr)
 			{
 				m_EntityList.FindAndFastRemove( CUtlReference<CMapEntity>(pEntity) );
 			}
@@ -490,7 +490,7 @@ void CMapWorld::RemoveChild(CMapClass *pChild, bool bUpdateBounds)
 	//
 	// Remove the object from the culling tree because it is no longer a root-level child.
 	//
-	if (m_pCullTree != NULL)
+	if (m_pCullTree != nullptr)
 	{
 		m_pCullTree->RemoveCullTreeObjectRecurse(pChild);
 	}
@@ -525,7 +525,7 @@ CMapEntity *CMapWorld::FindChildByKeyValue( const char* key, const char* value, 
 void CMapWorld::RemoveObjectFromWorld(CMapClass *pObject, bool bRemoveChildren)
 {
 	Assert(pObject != NULL);
-	if (pObject == NULL)
+	if (pObject == nullptr)
 	{
 		return;
 	}
@@ -535,7 +535,7 @@ void CMapWorld::RemoveObjectFromWorld(CMapClass *pObject, bool bRemoveChildren)
 	//
 	CMapClass *pParent = pObject->GetParent();
 	Assert(pParent != NULL);
-	if (pParent != NULL)
+	if (pParent != nullptr)
 	{
 		pParent->RemoveChild(pObject);
 	}
@@ -575,7 +575,7 @@ void CMapWorld::UpdateChild(CMapClass *pChild)
 	//
 	// Relink the child in the culling tree.
 	//
-	if (m_pCullTree != NULL)
+	if (m_pCullTree != nullptr)
 	{
 		m_pCullTree->UpdateCullTreeObjectRecurse(pChild);
 	}
@@ -586,7 +586,7 @@ void CMapWorld::UpdateChild(CMapClass *pChild)
 	if (!IsTemporary()) // HACK: check to avoid prefab objects ending up in the doc's update list
 	{
 		CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-		if (pDoc != NULL)
+		if (pDoc != nullptr)
 		{
 			pDoc->UpdateObject(pChild);
 		}
@@ -643,10 +643,10 @@ void CMapWorld::CullTree_FreeNode(CCullTreeNode *pNode)
 //-----------------------------------------------------------------------------
 void CMapWorld::CullTree_Free(void)
 {
-	if (m_pCullTree != NULL)
+	if (m_pCullTree != nullptr)
 	{
 		CullTree_FreeNode(m_pCullTree);
-		m_pCullTree = NULL;
+		m_pCullTree = nullptr;
 	}
 }
 
@@ -851,7 +851,7 @@ int CMapWorld::GetGroupList(CUtlVector<CMapGroup *> &GroupList)
 	GroupList.RemoveAll();
 	EnumChildrenPos_t pos;
 	CMapClass *pChild = GetFirstDescendent(pos);
-	while (pChild != NULL)
+	while (pChild != nullptr)
 	{
 		if (pChild->IsGroup())
 		{
@@ -880,7 +880,7 @@ void CMapWorld::PostloadWorld(void)
 	//
 	int nIndex;
 	const char *pszValue = pszValue = m_KeyValues.GetValue("classname", &nIndex);
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		SetClass(pszValue);
 		RemoveKey(nIndex);
@@ -907,7 +907,7 @@ void CMapWorld::PostloadWorld(void)
 		//
 		// Relink the child in the culling tree.
 		//
-		if (m_pCullTree != NULL)
+		if (m_pCullTree != nullptr)
 		{
 			m_pCullTree->UpdateCullTreeObjectRecurse(pChild);
 		}
@@ -1004,11 +1004,11 @@ ChunkFileResult_t CMapWorld::LoadVMF(CChunkFile *pFile)
 	pFile->PopHandlers();
 
 	const char *pszValue = GetKeyValue( "fow" );
-	if ( pszValue != NULL )
+	if ( pszValue != nullptr)
 	{
 		CFoW	*pFoW = CMapDoc::GetActiveMapDoc()->GetFoW();
 
-		if ( pFoW != NULL )
+		if ( pFoW != nullptr)
 		{
 			Vector	vWorldMins, vWorldMaxs;
 			int		nHorizontalGridSize, nVerticalGridSize;
@@ -1060,7 +1060,7 @@ ChunkFileResult_t CMapWorld::LoadSolidCallback(CChunkFile *pFile, CMapWorld *pWo
 
 		// HAMMER CONSOLE TODO:
 		bool g_bDebugLoadCordonBrushes = false;
-		if ( (pszValue == NULL) || g_bDebugLoadCordonBrushes )
+		if ( (pszValue == nullptr) || g_bDebugLoadCordonBrushes )
 		{
 			pWorld->AddChild(pSolid);
 		}
@@ -1081,7 +1081,7 @@ void CMapWorld::PresaveWorld(void)
 {
 	EnumChildrenPos_t pos;
 	CMapClass *pChild = GetFirstDescendent(pos);
-	while (pChild != NULL)
+	while (pChild != nullptr)
 	{
 		pChild->PresaveWorld();
 		pChild = GetNextDescendent(pos);
@@ -1252,7 +1252,7 @@ ChunkFileResult_t CMapWorld::SaveObjectListVMF(CChunkFile *pFile, CSaveInfo *pSa
 		}
 
 		
-		if (pObject != NULL)
+		if (pObject != nullptr)
 		{
 			ChunkFileResult_t eResult = pObject->SaveVMF(pFile, pSaveInfo);
 			if (eResult != ChunkFile_Ok)
@@ -1303,10 +1303,10 @@ CMapFace *CMapWorld::FaceID_FaceForID(int nFaceID)
 {
 	EnumChildrenPos_t pos;
 	CMapClass *pChild = GetFirstDescendent(pos);
-	while (pChild != NULL)
+	while (pChild != nullptr)
 	{
 		CMapSolid *pSolid = dynamic_cast <CMapSolid *>(pChild);
-		if (pSolid != NULL)
+		if (pSolid != nullptr)
 		{
 			int nFaceCount = pSolid->GetFaceCount();
 			for (int nFace = 0; nFace < nFaceCount; nFace++)
@@ -1322,7 +1322,7 @@ CMapFace *CMapWorld::FaceID_FaceForID(int nFaceID)
 		pChild = GetNextDescendent(pos);
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -1371,7 +1371,7 @@ static bool AppendString(char *szDest, char const *szSrc, int nDestSize)
 //-----------------------------------------------------------------------------
 bool CMapWorld::FaceID_FaceIDListsToString(char *pszList, int nSize, CMapFaceIDList *pFullFaceIDList, CMapFaceIDList *pPartialFaceIDList)
 {
-	if (pszList == NULL)
+	if (pszList == nullptr)
 	{
 		return(false);
 	}
@@ -1381,7 +1381,7 @@ bool CMapWorld::FaceID_FaceIDListsToString(char *pszList, int nSize, CMapFaceIDL
 	//
 	// Add the fully selected faces, space delimited.
 	//
-	if (pFullFaceIDList != NULL)
+	if (pFullFaceIDList != nullptr)
 	{
 		for (int i = 0; i < pFullFaceIDList->Count(); i++)
 		{
@@ -1399,7 +1399,7 @@ bool CMapWorld::FaceID_FaceIDListsToString(char *pszList, int nSize, CMapFaceIDL
 	//
 	// Add the partially selected faces inside of parentheses.
 	//
-	if (pPartialFaceIDList != NULL)
+	if (pPartialFaceIDList != nullptr)
 	{
 		if (pPartialFaceIDList->Count() > 0)
 		{
@@ -1450,7 +1450,7 @@ bool CMapWorld::FaceID_FaceIDListsToString(char *pszList, int nSize, CMapFaceIDL
 //-----------------------------------------------------------------------------
 bool CMapWorld::FaceID_FaceListsToString(char *pszList, int nSize, CMapFaceList *pFullFaceList, CMapFaceList *pPartialFaceList)
 {
-	if (pszList == NULL)
+	if (pszList == nullptr)
 	{
 		return(false);
 	}
@@ -1460,7 +1460,7 @@ bool CMapWorld::FaceID_FaceListsToString(char *pszList, int nSize, CMapFaceList 
 	//
 	// Add the fully selected faces, space delimited.
 	//
-	if (pFullFaceList != NULL)
+	if (pFullFaceList != nullptr)
 	{
 		for (int i = 0; i < pFullFaceList->Count(); i++)
 		{
@@ -1478,7 +1478,7 @@ bool CMapWorld::FaceID_FaceListsToString(char *pszList, int nSize, CMapFaceList 
 	//
 	// Add the partially selected faces inside of parentheses.
 	//
-	if (pPartialFaceList != NULL)
+	if (pPartialFaceList != nullptr)
 	{
 		if (pPartialFaceList->Count() > 0)
 		{
@@ -1529,17 +1529,17 @@ bool CMapWorld::FaceID_FaceListsToString(char *pszList, int nSize, CMapFaceList 
 //-----------------------------------------------------------------------------
 void CMapWorld::FaceID_StringToFaceIDLists(CMapFaceIDList *pFullFaceList, CMapFaceIDList *pPartialFaceList, const char *pszValue)
 {
-	if (pFullFaceList != NULL)
+	if (pFullFaceList != nullptr)
 	{
 		pFullFaceList->RemoveAll();
 	}
 
-	if (pPartialFaceList != NULL)
+	if (pPartialFaceList != nullptr)
 	{
 		pPartialFaceList->RemoveAll();
 	}
 
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		char szVal[KEYVALUE_MAX_VALUE_LENGTH];
 		strcpy(szVal, pszValue);
@@ -1548,7 +1548,7 @@ void CMapWorld::FaceID_StringToFaceIDLists(CMapFaceIDList *pFullFaceList, CMapFa
 		bool bInParens = false;
 
 		char *psz = strtok(szVal, " ");
-		while (psz != NULL)
+		while (psz != nullptr)
 		{
 			//
 			// Strip leading or trailing parentheses from the substring.
@@ -1594,14 +1594,14 @@ void CMapWorld::FaceID_StringToFaceIDLists(CMapFaceIDList *pFullFaceList, CMapFa
 			int nFaceID = atoi(psz);
 			if (bInParens)
 			{
-				if (pPartialFaceList != NULL)
+				if (pPartialFaceList != nullptr)
 				{
 					pPartialFaceList->AddToTail(nFaceID);
 				}
 			}
 			else
 			{
-				if (pFullFaceList != NULL)
+				if (pFullFaceList != nullptr)
 				{
 					pFullFaceList->AddToTail(nFaceID);
 				}
@@ -1610,7 +1610,7 @@ void CMapWorld::FaceID_StringToFaceIDLists(CMapFaceIDList *pFullFaceList, CMapFa
 			//
 			// Get the next substring.
 			//
-			psz = strtok(NULL, " ");
+			psz = strtok(nullptr, " ");
 		}
 	}
 }
@@ -1633,7 +1633,7 @@ void CMapWorld::FaceID_StringToFaceLists(CMapFaceList *pFullFaceList, CMapFaceLi
 
 	FaceID_StringToFaceIDLists(&FullFaceIDList, &PartialFaceIDList, pszValue);
 
-	if (pFullFaceList != NULL)
+	if (pFullFaceList != nullptr)
 	{
 		pFullFaceList->RemoveAll();
 
@@ -1644,14 +1644,14 @@ void CMapWorld::FaceID_StringToFaceLists(CMapFaceList *pFullFaceList, CMapFaceLi
 			//
 			// FACEID TODO: fix so we only interate the world objects once
 			CMapFace *pFace = FaceID_FaceForID(FullFaceIDList.Element(i));
-			if (pFace != NULL)
+			if (pFace != nullptr)
 			{
 				pFullFaceList->AddToTail(pFace);
 			}
 		}
 	}
 
-	if (pPartialFaceList != NULL)
+	if (pPartialFaceList != nullptr)
 	{
 		pPartialFaceList->RemoveAll();
 
@@ -1662,7 +1662,7 @@ void CMapWorld::FaceID_StringToFaceLists(CMapFaceList *pFullFaceList, CMapFaceLi
 			//
 			// FACEID TODO: fix so we only interate the world objects once
 			CMapFace *pFace = FaceID_FaceForID(PartialFaceIDList.Element(i));
-			if (pFace != NULL)
+			if (pFace != nullptr)
 			{
 				pPartialFaceList->AddToTail(pFace);
 			}
@@ -1745,7 +1745,7 @@ bool CMapWorld::GenerateNewTargetname( const char *startName, char *outputName, 
 	if ( bMakeUnique && FindEntityByName( outputName, false, true ) )
 	{
 		// try to find entities that match the name
-		CMapEntity *pEnt = NULL;
+		CMapEntity *pEnt = nullptr;
 		do
 		{
 			// increment the entity name
@@ -1818,7 +1818,7 @@ void CMapWorld::PostloadVisGroups()
 CMapEntity *CMapWorld::FindEntityByName( const char *pszName, bool bVisiblesOnly, bool bSearchInstanceParms )
 {
 	if ( !pszName )
-		return NULL;
+		return nullptr;
 
 	CMapEntityList *pList = &m_EntityList;
 
@@ -1865,7 +1865,7 @@ CMapEntity *CMapWorld::FindEntityByName( const char *pszName, bool bVisiblesOnly
 					if ( strnicmp( pInstanceKey, "replace", strlen( "replace" ) ) == 0 )
 					{
 						const char *InstancePos = strchr( pInstanceValue, ' ' );
-						if ( InstancePos == NULL )
+						if ( InstancePos == nullptr)
 						{
 							continue;
 						}
@@ -1880,7 +1880,7 @@ CMapEntity *CMapWorld::FindEntityByName( const char *pszName, bool bVisiblesOnly
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1931,14 +1931,14 @@ bool CMapWorld::FindEntitiesByKeyValue(CMapEntityList &Found, const char *pszKey
 		{
 			const char *pszThisValue = pEntity->GetKeyValue( pszKey );
 
-			if ( pszThisValue != NULL )
+			if ( pszThisValue != nullptr)
 			{
-				if (( pszValue != NULL ) && ( !stricmp( pszValue, pszThisValue )))
+				if (( pszValue != nullptr) && ( !stricmp( pszValue, pszThisValue )))
 				{
 					Found.AddToTail( pEntity );
 				}
 			}
-			else if (pszValue == NULL)
+			else if (pszValue == nullptr)
 			{
 				Found.AddToTail( pEntity );
 			}

@@ -92,7 +92,7 @@ public:
 	int32 GetScriptHandle() { return m_iScriptHandle; }
 	static CGameGraphic * FromScriptHandle( int32 iScriptHandle );
 
-	virtual const char *GetMaterialAlias(){ return NULL; }
+	virtual const char *GetMaterialAlias(){ return nullptr; }
 
 	virtual void SetCenter( float x, float y ) { m_Geometry.m_Center = Vector2D( x, y ); }
 	virtual void SetScale( float xScale, float yScale ) { m_Geometry.m_Scale = Vector2D( xScale, yScale); }

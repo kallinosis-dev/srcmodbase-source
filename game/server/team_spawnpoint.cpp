@@ -55,8 +55,8 @@ void CTeamSpawnPoint::Activate( void )
 //-----------------------------------------------------------------------------
 bool CTeamSpawnPoint::IsValid( CBasePlayer *pPlayer )
 {
-	CBaseEntity *ent = NULL;
-	for ( CEntitySphereQuery sphere( GetAbsOrigin(), 128 ); ( ent = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+	CBaseEntity *ent = nullptr;
+	for ( CEntitySphereQuery sphere( GetAbsOrigin(), 128 ); ( ent = sphere.GetCurrentEntity() ) != nullptr; sphere.NextEntity() )
 	{
 		// if ent is a client, don't spawn on 'em
 		CBaseEntity *plent = ent;
@@ -102,8 +102,8 @@ END_DATADESC()
 //-----------------------------------------------------------------------------
 bool CTeamVehicleSpawnPoint::IsValid( void )
 {
-	CBaseEntity *ent = NULL;
-	for ( CEntitySphereQuery sphere( GetAbsOrigin(), 128 ); ( ent = sphere.GetCurrentEntity() ) != NULL; sphere.NextEntity() )
+	CBaseEntity *ent = nullptr;
+	for ( CEntitySphereQuery sphere( GetAbsOrigin(), 128 ); ( ent = sphere.GetCurrentEntity() ) != nullptr; sphere.NextEntity() )
 	{
 		// if ent is a client, don't spawn on 'em
 		CBaseEntity *plent = ent;

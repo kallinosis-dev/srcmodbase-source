@@ -21,7 +21,7 @@ void CCSEpidermisVisualsDataCompare::SerializeToBuffer( CUtlBuffer &buf )
 //
 
 CCSEpidermisVisualsDataProcessor::CCSEpidermisVisualsDataProcessor( CCSEpidermisVisualsDataCompare &&compareObject, const char *pCompositingShaderName )
-	: m_pCompositingShaderName( NULL )
+	: m_pCompositingShaderName(nullptr)
 {
 	m_compareObject = Move( compareObject );
 	m_compareObject.FillCompareBlob();
@@ -37,7 +37,7 @@ CCSEpidermisVisualsDataProcessor::~CCSEpidermisVisualsDataProcessor()
 	if ( m_pCompositingShaderName )
 	{
 		delete [] m_pCompositingShaderName;
-		m_pCompositingShaderName = NULL;
+		m_pCompositingShaderName = nullptr;
 	}
 }
 
@@ -52,7 +52,7 @@ void CCSEpidermisVisualsDataProcessor::SetVisualsData( const char *pCompositingS
 	if ( m_pCompositingShaderName )
 	{
 		delete [] m_pCompositingShaderName;
-		m_pCompositingShaderName = NULL;
+		m_pCompositingShaderName = nullptr;
 	}
 
 	if ( pCompositingShaderName )
@@ -63,7 +63,7 @@ void CCSEpidermisVisualsDataProcessor::SetVisualsData( const char *pCompositingS
 
 	//read in paint kit
 	const CPaintKit *pPaintKit = GetItemSchema()->GetPaintKitDefinition( m_compareObject.m_nIndex );
-	m_visualsData.bUsed = ( pPaintKit != NULL );
+	m_visualsData.bUsed = ( pPaintKit != nullptr);
 
 	if ( !m_visualsData.bUsed )
 		return;
@@ -125,7 +125,7 @@ KeyValues *CCSEpidermisVisualsDataProcessor::GenerateCustomMaterialKeyValues()
 	else
 	{
 		delete pVMTKeyValues;
-		pVMTKeyValues = NULL;
+		pVMTKeyValues = nullptr;
 	}
 
 	return pVMTKeyValues;

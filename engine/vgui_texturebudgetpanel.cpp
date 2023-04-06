@@ -18,7 +18,7 @@
 #ifdef VPROF_ENABLED
 
 // Globals.
-static CTextureBudgetPanel *g_pTextureBudgetPanel = NULL;
+static CTextureBudgetPanel *g_pTextureBudgetPanel = nullptr;
 
 static void TextureCVarChangedCallBack( IConVar *pConVar, const char *pOldString, float flOldValue );
 
@@ -99,11 +99,11 @@ CTextureBudgetPanel::CTextureBudgetPanel( vgui::Panel *pParent, const char *pEle
 CTextureBudgetPanel::~CTextureBudgetPanel()
 {
 	Assert( g_pTextureBudgetPanel == this );
-	g_pTextureBudgetPanel = NULL;
+	g_pTextureBudgetPanel = nullptr;
 	if ( m_pModeLabel )
 	{
 		delete m_pModeLabel;
-		m_pModeLabel = NULL;
+		m_pModeLabel = nullptr;
 	}
 }
 

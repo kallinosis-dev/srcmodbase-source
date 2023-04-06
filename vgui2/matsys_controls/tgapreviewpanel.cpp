@@ -42,7 +42,7 @@ void CTGAPreviewPanel::SetTGA( const char *pFullPath )
 	float flGamma;
 
 	CUtlBuffer buf;
-	if ( !g_pFullFileSystem->ReadFile( pFullPath, NULL, buf ) )
+	if ( !g_pFullFileSystem->ReadFile( pFullPath, nullptr, buf ) )
 	{
 		Warning( "Can't open TGA file: %s\n", pFullPath );
 		return;

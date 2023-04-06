@@ -25,9 +25,9 @@ ConVar cl_showhelp( "cl_showhelp", "1", FCVAR_ARCHIVE, "Set to 0 to not show on-
 //-----------------------------------------------------------------------------
 CHintSystem::CHintSystem( void )
 {
-	Init( NULL, 0, NULL );
-	m_pHintMessageQueue = NULL;
-	m_pHintMessageTimers = NULL;
+	Init(nullptr, 0, nullptr);
+	m_pHintMessageQueue = nullptr;
+	m_pHintMessageTimers = nullptr;
 	m_flLastHintPlayedAt = 0;
 }
 
@@ -39,13 +39,13 @@ CHintSystem::~CHintSystem( void )
 	if ( m_pHintMessageTimers )
 	{
 		delete m_pHintMessageTimers;
-		m_pHintMessageTimers = NULL;
+		m_pHintMessageTimers = nullptr;
 	}
 
 	if ( m_pHintMessageQueue )
 	{
 		delete m_pHintMessageQueue;
-		m_pHintMessageQueue = NULL;
+		m_pHintMessageQueue = nullptr;
 	}
 }
 

@@ -86,7 +86,7 @@ public:
 	// Purpose: Activate the dialog
 	// the message "DmeSelected" will be sent if one was picked
 	// Pass in a message to add as a subkey to the DmeSelected message
-	void DoModal( const CUtlVector< DmePickerInfo_t >& vec, KeyValues *pContextKeyValues = NULL );
+	void DoModal( const CUtlVector< DmePickerInfo_t >& vec, KeyValues *pContextKeyValues = nullptr);
 
 private:
 	void CleanUpMessage();

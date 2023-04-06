@@ -55,7 +55,7 @@ void DecrementRefMiles()
 // CProvider functions.
 // ------------------------------------------------------------------------ //
 
-CProvider *CProvider::s_pHead = NULL;
+CProvider *CProvider::s_pHead = nullptr;
 
 
 CProvider::CProvider( HPROVIDER hProvider )
@@ -96,7 +96,7 @@ CProvider* CProvider::FindProvider( HPROVIDER hProvider )
 			return pCur;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -135,7 +135,7 @@ ASISTRUCT::~ASISTRUCT()
 
 void ASISTRUCT::Clear()
 {
-	m_pProvider = NULL;
+	m_pProvider = nullptr;
 	ASI_stream_open = NULL;
 	ASI_stream_process = NULL;
 	ASI_stream_close = NULL;
@@ -224,7 +224,7 @@ void ASISTRUCT::Shutdown()
 		}
 
 		//m_pProvider->Release();
-		m_pProvider = NULL;
+		m_pProvider = nullptr;
 	}
 
 	Clear();

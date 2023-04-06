@@ -30,7 +30,7 @@
 //-----------------------------------------------------------------------------
 CPetDoc::CPetDoc( IPetDocCallback *pCallback ) : m_pCallback( pCallback )
 {
-	m_hRoot = NULL;
+	m_hRoot = nullptr;
 	m_pFileName[0] = 0;
 	m_bDirty = false;
 	g_pDataModel->InstallNotificationCallback( this );
@@ -42,10 +42,10 @@ CPetDoc::~CPetDoc()
 	if ( m_hRoot.Get() )
 	{
 		g_pDataModel->RemoveFileId( m_hRoot->GetFileId() );
-		m_hRoot = NULL;
+		m_hRoot = nullptr;
 	}
 	g_pDataModel->RemoveNotificationCallback( this );
-	SetElementPropertiesChoices( NULL );
+	SetElementPropertiesChoices(nullptr);
 }
 
 
@@ -240,8 +240,8 @@ bool CPetDoc::LoadFromFile( const char *pFileName )
 
 	Q_strncpy( m_pFileName, pFileName, sizeof( m_pFileName ) );
 
-	CDmElement *pRoot = NULL;
-	DmFileId_t fileid = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pRoot, CR_DELETE_OLD );
+	CDmElement *pRoot = nullptr;
+	DmFileId_t fileid = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pRoot, CR_DELETE_OLD );
 
 	if ( fileid == DMFILEID_INVALID )
 	{
@@ -283,7 +283,7 @@ void CPetDoc::SaveToFile( )
 		}
 
 		// save the copy, and kill it
-		g_pDataModel->SaveToFile( m_pFileName, NULL, "binary", PET_FILE_FORMAT, pRootCopy );
+		g_pDataModel->SaveToFile( m_pFileName, nullptr, "binary", PET_FILE_FORMAT, pRootCopy );
 		DestroyElement( pRootCopy, TD_ALL );
 	}
 
@@ -333,7 +333,7 @@ CDmeParticleSystemDefinition *CPetDoc::GetParticleSystem( int nIndex )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -438,7 +438,7 @@ CDmeParticleSystemDefinition *CPetDoc::FindParticleSystemDefinition( const char 
 		if ( !Q_stricmp( pName, pParticleSystem->GetName() ) ) 
 			return pParticleSystem;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -504,7 +504,7 @@ void CPetDoc::ReplaceParticleSystemDefinition( CDmeParticleSystemDefinition *pPa
 //-----------------------------------------------------------------------------
 bool CPetDoc::IsParticleSystemDefined( const char *pName )
 {
-	return FindParticleSystemDefinition( pName ) != NULL;
+	return FindParticleSystemDefinition( pName ) != nullptr;
 }
 
 

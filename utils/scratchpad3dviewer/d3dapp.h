@@ -65,7 +65,7 @@ void Sys_Sleep( int ms );
 // Does the app have the focus?
 bool Sys_HasFocus();
 
-char const* Sys_FindArg( char const *pArg, char const *pDefault=NULL );
+char const* Sys_FindArg( char const *pArg, char const *pDefault= nullptr);
 int Sys_FindArgInt( char const *pArg, int defaultVal = -1 );
 
 int Sys_ScreenWidth();

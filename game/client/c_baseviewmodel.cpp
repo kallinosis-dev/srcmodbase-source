@@ -167,7 +167,7 @@ void C_BaseViewModel::OnParticleEffectDeleted( CNewParticleEffect *pParticleEffe
 
 	if ( m_viewmodelParticleEffect == pParticleEffect )
 	{
-		m_viewmodelParticleEffect = NULL;
+		m_viewmodelParticleEffect = nullptr;
 	}
 }
 
@@ -230,7 +230,7 @@ void C_BaseViewModel::UpdateParticles( int nSlot )
 			//DevMsg( 1, "---------->Stopping Molotov.IdleLoop 3\n" );
 			m_viewmodelParticleEffect->StopEmission( false, true );
 			m_viewmodelParticleEffect->SetRemoveFlag();
-			m_viewmodelParticleEffect = NULL;
+			m_viewmodelParticleEffect = nullptr;
 		}
 	}
 }
@@ -271,7 +271,7 @@ void C_BaseViewModel::FireEvent( const Vector& origin, const QAngle& angles, int
 	if ( ( eventNum == AE_CL_PLAYSOUND ) || ( eventNum == CL_EVENT_SOUND ) )
 	{
 		// Only do this if we're owned by someone
-		if ( GetOwner() != NULL && GetOwner()->IsAlive() )
+		if ( GetOwner() != nullptr && GetOwner()->IsAlive() )
 		{
 			// playing the same sound near-instantly is assumed to be an error and duplicates are skipped. This does NOT apply to weapon firing sounds.
 			if ( !IsSoundSameAsPreviousSound( options, 0.1f ) )
@@ -490,7 +490,7 @@ bool C_BaseViewModel::ShouldDraw()
 
 		C_BasePlayer *pLocalPlayer = C_BasePlayer::GetLocalPlayer();
 
-		C_BasePlayer *pObsTarget = NULL;
+		C_BasePlayer *pObsTarget = nullptr;
 
 		if ( pLocalPlayer )
 		{
@@ -564,7 +564,7 @@ int C_BaseViewModel::DrawModel( int flags, const RenderableInstance_t &instance 
 	if ( (flags & STUDIO_RENDER) && mat_preview.GetString()[0] )
 	{
 		int nMatRet = 0;
-		if ( m_pMaterialPreviewShape == NULL )
+		if ( m_pMaterialPreviewShape == nullptr)
 		{
 			MDLCACHE_CRITICAL_SECTION();
 			const char *pszMatLibraryModel = "models/matlibrary/matlibrary_default.mdl";
@@ -611,7 +611,7 @@ int C_BaseViewModel::DrawModel( int flags, const RenderableInstance_t &instance 
 				m_pMaterialPreviewShape->SetAbsAngles( QAngle(0,gpGlobals->curtime*8.0f,0) );
 				nMatRet = m_pMaterialPreviewShape->DrawModel( flags | STUDIO_DONOTMODIFYSTENCILSTATE, instance );
 
-				g_pStudioRender->ForcedMaterialOverride( NULL );
+				g_pStudioRender->ForcedMaterialOverride(nullptr);
 			}
 		}
 
@@ -677,7 +677,7 @@ int C_BaseViewModel::DrawModel( int flags, const RenderableInstance_t &instance 
 			
 			m_viewmodelScopeStencilMask->DrawModel( flags | STUDIO_DONOTMODIFYSTENCILSTATE, instance );
 
-			g_pStudioRender->ForcedMaterialOverride( NULL );
+			g_pStudioRender->ForcedMaterialOverride(nullptr);
 		}
 	}
 	else
@@ -973,7 +973,7 @@ void C_BaseViewModel::UpdateAllViewmodelAddons( void )
 	}
 
 
-	if ( pPlayer->m_pViewmodelArmConfig == NULL )
+	if ( pPlayer->m_pViewmodelArmConfig == nullptr)
 	{
 		RemoveViewmodelArmModels();
 
@@ -985,7 +985,7 @@ void C_BaseViewModel::UpdateAllViewmodelAddons( void )
 	}
 	
 	// add gloves and sleeves
-	if ( pPlayer->m_pViewmodelArmConfig != NULL && m_vecViewmodelArmModels.Count() == 0 )
+	if ( pPlayer->m_pViewmodelArmConfig != nullptr && m_vecViewmodelArmModels.Count() == 0 )
 	{
 		{
 			AddViewmodelArmModel( pPlayer->m_pViewmodelArmConfig->szAssociatedGloveModel, atoi(pPlayer->m_pViewmodelArmConfig->szSkintoneIndex) );
@@ -1039,13 +1039,13 @@ void C_BaseViewModel::UpdateAllViewmodelAddons( void )
 C_ViewmodelAttachmentModel* C_BaseViewModel::FindArmModelForLoadoutPosition( loadout_positions_t nPosition ) const
 {
 	/* Removed for partner depot */
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------
 C_ViewmodelAttachmentModel* C_BaseViewModel::AddViewmodelArmModel( const char *pszArmsModel, int nSkintoneIndex )
 {
-	if ( pszArmsModel == NULL || pszArmsModel[ 0 ] == '\0' || modelinfo->GetModelIndex( pszArmsModel ) == -1 )
+	if ( pszArmsModel == nullptr || pszArmsModel[ 0 ] == '\0' || modelinfo->GetModelIndex( pszArmsModel ) == -1 )
 	{
 		//pszArmsModel = //g_pGameTypes->GetCTViewModelArmsForMap( engine->GetLevelNameShort() );
 		C_CSPlayer *pPlayer = ToCSPlayer( GetOwner() );
@@ -1053,8 +1053,8 @@ C_ViewmodelAttachmentModel* C_BaseViewModel::AddViewmodelArmModel( const char *p
 	}
 
 	// Only create the view model attachment if we have a valid arm model
-	if ( pszArmsModel == NULL || pszArmsModel[0] == '\0' || modelinfo->GetModelIndex( pszArmsModel ) == -1 )
-		return NULL;
+	if ( pszArmsModel == nullptr || pszArmsModel[0] == '\0' || modelinfo->GetModelIndex( pszArmsModel ) == -1 )
+		return nullptr;
 
 	C_ViewmodelAttachmentModel *pEnt = new class C_ViewmodelAttachmentModel;
 	if ( pEnt && pEnt->InitializeAsClientEntity( pszArmsModel, true ) )
@@ -1076,7 +1076,7 @@ C_ViewmodelAttachmentModel* C_BaseViewModel::AddViewmodelArmModel( const char *p
 		return pEnt;
 	}	
 
-	return NULL;
+	return nullptr;
 }
 
 void C_BaseViewModel::AddViewmodelLabel( CEconItemView *pItem )

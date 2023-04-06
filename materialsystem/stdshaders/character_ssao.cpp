@@ -41,7 +41,7 @@ BEGIN_VS_SHADER( CharacterSSAO, "Help for CharacterSSAO" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -79,7 +79,7 @@ BEGIN_VS_SHADER( CharacterSSAO, "Help for CharacterSSAO" )
 			unsigned int flags = VERTEX_POSITION;
 			int nTexCoordCount = 1;
 			int userDataSize = 0;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 			
 			DECLARE_STATIC_VERTEX_SHADER( character_ssao_vs20 );
 			SET_STATIC_VERTEX_SHADER( character_ssao_vs20 );

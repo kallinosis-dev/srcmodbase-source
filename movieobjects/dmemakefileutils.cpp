@@ -33,7 +33,7 @@ IDmeMakefileUtils *GetDefaultDmeMakefileUtils()
 CDmeMakefileUtils::CDmeMakefileUtils()
 {
 	m_CompilationStep = NOT_COMPILING;
-	m_hCompileProcess = NULL;
+	m_hCompileProcess = nullptr;
 	m_nCurrentCompileTask = -1;
 	m_nExitCode = 0;
 }
@@ -52,7 +52,7 @@ void *CDmeMakefileUtils::QueryInterface( const char *pInterfaceName )
 	if ( !V_strcmp( pInterfaceName, DMEMAKEFILE_UTILS_INTERFACE_VERSION ) )
 		return (IDmeMakefileUtils*)this;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -72,7 +72,7 @@ InitReturnVal_t CDmeMakefileUtils::Init()
 CCompileFuncAdapterBase *CDmeMakefileUtils::DetermineCompileAdapter( CDmElement *pElement )
 {
 	int nBestInheritanceDepth = -1;
-	CCompileFuncAdapterBase *pBestAdapter = NULL;
+	CCompileFuncAdapterBase *pBestAdapter = nullptr;
 
 	CompileFuncTree_t *pTree = GetCompileTree();
 	while ( pTree )
@@ -113,7 +113,7 @@ CCompileFuncAdapterBase *CDmeMakefileUtils::DetermineCompileAdapter( CDmElement 
 COpenEditorFuncAdapterBase *CDmeMakefileUtils::DetermineOpenEditorAdapter( CDmElement *pElement )
 {
 	int nBestInheritanceDepth = -1;
-	COpenEditorFuncAdapterBase *pBestAdapter = NULL;
+	COpenEditorFuncAdapterBase *pBestAdapter = nullptr;
 	OpenEditorFuncTree_t *pTree = GetOpenEditorTree();
 	while ( pTree )
 	{
@@ -186,7 +186,7 @@ void CDmeMakefileUtils::SetCompileProcess( IProcess *hProcess )
 {
 	Assert( m_CompilationStep == PERFORMING_COMPILATION );
 	m_hCompileProcess = hProcess;
-	if ( m_hCompileProcess == NULL )
+	if ( m_hCompileProcess == nullptr)
 	{
 		m_CompilationStep = AFTER_COMPILATION_FAILED;
 	}
@@ -297,13 +297,13 @@ void CDmeMakefileUtils::StartNextCompileTask( )
 		return;
 	}
 
-	m_hCompileProcess = NULL;
+	m_hCompileProcess = nullptr;
 
 	// NOTE: PerformCompilationStep is expected to call SetCompileProcess to set m_hCompileProcess
 	CompileInfo_t &info = m_CompileTasks[m_nCurrentCompileTask];
 	bool bOk = info.m_pAdapter->PerformCompilationStep( info.m_hElement, PERFORMING_COMPILATION );
 
-	if ( !bOk || ( m_hCompileProcess == NULL ) )
+	if ( !bOk || ( m_hCompileProcess == nullptr) )
 	{
 		AbortCurrentCompilation();
 		return;
@@ -389,11 +389,11 @@ bool CDmeMakefileUtils::IsCurrentlyCompiling()
 //-----------------------------------------------------------------------------
 void CDmeMakefileUtils::AbortCurrentCompilation()
 {
-	if ( m_hCompileProcess != NULL )
+	if ( m_hCompileProcess != nullptr)
 	{
 		m_hCompileProcess->Abort();
 		m_hCompileProcess->Release();
-		m_hCompileProcess = NULL;
+		m_hCompileProcess = nullptr;
 	}
 
 	if ( IsCurrentlyCompiling() )
@@ -419,7 +419,7 @@ int CDmeMakefileUtils::GetExitCode()
 //-----------------------------------------------------------------------------
 int CDmeMakefileUtils::GetCompileOutputSize()
 {
-	if ( m_hCompileProcess == NULL )
+	if ( m_hCompileProcess == nullptr)
 		return 0;
 	return m_hCompileProcess->GetStdout()->GetNumBytesAvailable();
 }
@@ -446,7 +446,7 @@ CompilationState_t CDmeMakefileUtils::UpdateCompilation( char *pOutputBuf, int n
 
 	// FIXME: Check return codes from compile process..
 	// fail if compilation process had a problem
-	if ( m_hCompileProcess == NULL )
+	if ( m_hCompileProcess == nullptr)
 	{
 		if ( nBufLen > 0 )
 		{
@@ -469,7 +469,7 @@ CompilationState_t CDmeMakefileUtils::UpdateCompilation( char *pOutputBuf, int n
 	m_nExitCode = m_hCompileProcess->GetExitCode();
 	bool bCompileSucceeded = ( m_nExitCode == 0 );
 	m_hCompileProcess->Release();
-	m_hCompileProcess = NULL;
+	m_hCompileProcess = nullptr;
 
 	if ( !bCompileSucceeded )
 	{

@@ -82,7 +82,7 @@ public:
 
 	virtual bool Compare( const CUtlBuffer &otherBuf ) { return GetCompareObject()->Compare( otherBuf ); }
 	virtual IVisualsDataCompare *GetCompareObject() { return &m_compareObject; }
-	virtual const char *GetPatternVTFName() const { return NULL; }
+	virtual const char *GetPatternVTFName() const { return nullptr; }
 
 protected:
 	T m_compareObject;

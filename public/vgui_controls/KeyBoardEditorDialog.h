@@ -30,7 +30,7 @@ public:
 	CKeyBoardEditorPage( Panel *parent, Panel *panelToEdit, KeyBindingContextHandle_t handle );
 	~CKeyBoardEditorPage();
 
-	void	SetKeybindingsSaveFile( char const *filename, char const *pathID = 0 );
+	void	SetKeybindingsSaveFile( char const *filename, char const *pathID = nullptr );
 
 	virtual void	OnKeyCodeTyped(vgui::KeyCode code);
 
@@ -94,7 +94,7 @@ class CKeyBoardEditorSheet : public PropertySheet
 public:
 	CKeyBoardEditorSheet( Panel *parent, Panel *panelToEdit, KeyBindingContextHandle_t handle );
 
-	void	SetKeybindingsSaveFile( char const *filename, char const *pathID = 0 );
+	void	SetKeybindingsSaveFile( char const *filename, char const *pathID = nullptr );
 
 	void			OnSaveChanges();
 	void			OnRevert();
@@ -120,7 +120,7 @@ class CKeyBoardEditorDialog : public Frame
 public:
 	CKeyBoardEditorDialog( Panel *parent, Panel *panelToEdit, KeyBindingContextHandle_t handle );
 
-	void			SetKeybindingsSaveFile( char const *filename, char const *pathID = 0 );
+	void			SetKeybindingsSaveFile( char const *filename, char const *pathID = nullptr );
 
 	virtual void	OnCommand( char const *cmd );
 

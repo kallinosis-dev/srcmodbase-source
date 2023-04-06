@@ -35,7 +35,7 @@ public:
 struct PanelEntry_t
 	{
 		PanelEntry_t() :
-			label( 0 ),
+			label( nullptr ),
 			dataname( UTL_INVAL_SYMBOL )
 		{
 		}

@@ -200,9 +200,9 @@ void DispatchAsyncSave()
 	g_bSaveInProgress = true;
 
 	const char *pLastSavePath;
-	bool bValid = g_SaveRestore.GetMostRecentSaveInfo( &pLastSavePath, NULL, NULL );
-	g_bAutoSaveInProgress = bValid && ( V_stristr( pLastSavePath, "autosave" ) != NULL );
-	g_bAutoSaveDangerousInProgress = bValid && ( V_stristr( pLastSavePath, "autosavedangerous" ) != NULL );
+	bool bValid = g_SaveRestore.GetMostRecentSaveInfo( &pLastSavePath, nullptr, nullptr);
+	g_bAutoSaveInProgress = bValid && ( V_stristr( pLastSavePath, "autosave" ) != nullptr);
+	g_bAutoSaveDangerousInProgress = bValid && ( V_stristr( pLastSavePath, "autosavedangerous" ) != nullptr);
 
 	if ( !IsGameConsole() && !g_bAutoSaveDangerousInProgress && !g_bAutoSaveInProgress )
 	{
@@ -356,7 +356,7 @@ const char *CSaveRestore::FindRecentSave( char *pNameBuf, int nameBufLen )
 	Q_strncpy( pNameBuf, m_szMostRecentSaveLoadGame, nameBufLen );
 
 	if ( !m_szMostRecentSaveLoadGame[0] )
-		return NULL;
+		return nullptr;
 
 	return pNameBuf;
 }
@@ -624,7 +624,7 @@ int CSaveRestore::SaveGameSlot( const char *pSaveName, const char *pSaveComment,
 	}
 
 	S_ExtraUpdate();
-	if (!SaveGameState( (pszDestMap != NULL ), NULL, false, ( bIsAutosave || bIsAutosaveDangerous )  ) )
+	if (!SaveGameState( (pszDestMap != nullptr), nullptr, false, ( bIsAutosave || bIsAutosaveDangerous )  ) )
 	{
 		m_szSaveGameName[ 0 ] = 0;
 		return 0;	
@@ -658,7 +658,7 @@ int CSaveRestore::SaveGameSlot( const char *pSaveName, const char *pSaveComment,
 	}
 
 	gameHeader.mapCount = 0; // No longer used. The map packer will place the map count at the head of the compound files (toml 7/18/2007)
-	serverGameDLL->SaveWriteFields( pSaveData, "GameHeader", &gameHeader, NULL, GAME_HEADER::m_DataMap.dataDesc, GAME_HEADER::m_DataMap.dataNumFields );
+	serverGameDLL->SaveWriteFields( pSaveData, "GameHeader", &gameHeader, nullptr, GAME_HEADER::m_DataMap.dataDesc, GAME_HEADER::m_DataMap.dataNumFields );
 	serverGameDLL->SaveGlobalState( pSaveData );
 
 	// Write entity string token table
@@ -719,7 +719,7 @@ int CSaveRestore::SaveGameSlot( const char *pSaveName, const char *pSaveComment,
 	saveHeader.Put( pSaveData->GetBuffer(), pSaveData->GetCurPos() );
 	
 	// Create the save game container before the directory copy 
-	g_AsyncSaveCallQueue.QueueCall( g_pSaveRestoreFileSystem, &ISaveRestoreFileSystem::AsyncWrite, CUtlEnvelope<const char *>(name), saveHeader.Base(), saveHeader.TellPut(), true, false, (FSAsyncControl_t *) NULL );
+	g_AsyncSaveCallQueue.QueueCall( g_pSaveRestoreFileSystem, &ISaveRestoreFileSystem::AsyncWrite, CUtlEnvelope<const char *>(name), saveHeader.Base(), saveHeader.TellPut(), true, false, (FSAsyncControl_t *)nullptr);
 	g_AsyncSaveCallQueue.QueueCall( this, &CSaveRestore::DirectoryCopy, CUtlEnvelope<const char *>(hlPath), CUtlEnvelope<const char *>(name), m_bIsXSave );
 
 	// Finish all writes and close the save game container
@@ -796,7 +796,7 @@ int CSaveRestore::SaveReadHeader( FileHandle_t pFile, GAME_HEADER *pHeader, int 
 {
 	int					i, tag, size, tokenCount, tokenSize;
 	char				*pszTokenList;
-	CSaveRestoreData	*pSaveData = NULL;
+	CSaveRestoreData	*pSaveData = nullptr;
 
 	if( g_pSaveRestoreFileSystem->Read( &tag, sizeof(int), pFile ) != sizeof(int) )
 		return 0;
@@ -867,7 +867,7 @@ int CSaveRestore::SaveReadHeader( FileHandle_t pFile, GAME_HEADER *pHeader, int 
 	}
 	else
 	{
-		pSaveData->InitSymbolTable( NULL, 0 );
+		pSaveData->InitSymbolTable(nullptr, 0 );
 	}
 
 
@@ -882,7 +882,7 @@ int CSaveRestore::SaveReadHeader( FileHandle_t pFile, GAME_HEADER *pHeader, int 
 		return 0;
 	}
 	
-	serverGameDLL->SaveReadFields( pSaveData, "GameHeader", pHeader, NULL, GAME_HEADER::m_DataMap.dataDesc, GAME_HEADER::m_DataMap.dataNumFields );
+	serverGameDLL->SaveReadFields( pSaveData, "GameHeader", pHeader, nullptr, GAME_HEADER::m_DataMap.dataDesc, GAME_HEADER::m_DataMap.dataNumFields );
 	if ( g_szMapLoadOverride[0] )
 	{
 		V_strncpy( pHeader->mapName, g_szMapLoadOverride, sizeof( pHeader->mapName ) );
@@ -1102,7 +1102,7 @@ bool CSaveRestore::LoadGame( const char *pName, bool bLetToolsOverrideLoadGameEn
 
 	m_bOverrideLoadGameEntsOn = bLetToolsOverrideLoadGameEnts;
 
-	bool retval = Host_NewGame( gameHeader.mapName, NULL, true, false, false, ( bIsTransitionSave ) ? gameHeader.originMapName : NULL, ( bIsTransitionSave ) ? gameHeader.landmark : NULL );
+	bool retval = Host_NewGame( gameHeader.mapName, nullptr, true, false, false, ( bIsTransitionSave ) ? gameHeader.originMapName : nullptr, ( bIsTransitionSave ) ? gameHeader.landmark : nullptr);
 
 	m_bOverrideLoadGameEntsOn = false;
 
@@ -1249,30 +1249,30 @@ void CSaveRestore::SaveGameStateGlobals( CSaveRestoreData *pSaveData )
 	int i;
 	for ( i = 0; i < MAX_LIGHTSTYLES; i++ )
 	{
-		const char * ligthStyle = (const char*) table->GetStringUserData( i, NULL );
+		const char * ligthStyle = (const char*) table->GetStringUserData( i, nullptr);
 		if ( ligthStyle && ligthStyle[0] )
 			header.lightStyleCount++;
 	}
 
 	pSaveData->levelInfo.time = 0; // prohibits rebase of header.time (why not just save time as a field_float and ditch this hack?)
-	serverGameDLL->SaveWriteFields( pSaveData, "Save Header", &header, NULL, SAVE_HEADER::m_DataMap.dataDesc, SAVE_HEADER::m_DataMap.dataNumFields );
+	serverGameDLL->SaveWriteFields( pSaveData, "Save Header", &header, nullptr, SAVE_HEADER::m_DataMap.dataDesc, SAVE_HEADER::m_DataMap.dataNumFields );
 	pSaveData->levelInfo.time = header.time;
 
 	// Write adjacency list
 	for ( i = 0; i < pSaveData->levelInfo.connectionCount; i++ )
-		serverGameDLL->SaveWriteFields( pSaveData, "ADJACENCY", pSaveData->levelInfo.levelList + i, NULL, levellist_t::m_DataMap.dataDesc, levellist_t::m_DataMap.dataNumFields );
+		serverGameDLL->SaveWriteFields( pSaveData, "ADJACENCY", pSaveData->levelInfo.levelList + i, nullptr, levellist_t::m_DataMap.dataDesc, levellist_t::m_DataMap.dataNumFields );
 
 	// Write the lightstyles
 	SAVELIGHTSTYLE	light;
 	for ( i = 0; i < MAX_LIGHTSTYLES; i++ )
 	{
-		const char * ligthStyle = (const char*) table->GetStringUserData( i, NULL );
+		const char * ligthStyle = (const char*) table->GetStringUserData( i, nullptr);
 
 		if ( ligthStyle && ligthStyle[0] )
 		{
 			light.index = i;
 			Q_strncpy( light.style, ligthStyle, sizeof( light.style ) );
-			serverGameDLL->SaveWriteFields( pSaveData, "LIGHTSTYLE", &light, NULL, SAVELIGHTSTYLE::m_DataMap.dataDesc, SAVELIGHTSTYLE::m_DataMap.dataNumFields );
+			serverGameDLL->SaveWriteFields( pSaveData, "LIGHTSTYLE", &light, nullptr, SAVELIGHTSTYLE::m_DataMap.dataDesc, SAVELIGHTSTYLE::m_DataMap.dataNumFields );
 		}
 	}
 }
@@ -1418,8 +1418,8 @@ bool CSaveRestore::SaveGameState( bool bTransition, ISaveRestoreDataCallback *pC
 	S_ExtraUpdate();
 
 	SaveMsg( "Queue AsyncWrite (%s)\n", name );
-	g_AsyncSaveCallQueue.QueueCall( g_pSaveRestoreFileSystem, &ISaveRestoreFileSystem::AsyncWrite, CUtlEnvelope<const char *>(name), pBuffer, nBytesStateFile, true, false, (FSAsyncControl_t *)NULL );
-	pBuffer = NULL;
+	g_AsyncSaveCallQueue.QueueCall( g_pSaveRestoreFileSystem, &ISaveRestoreFileSystem::AsyncWrite, CUtlEnvelope<const char *>(name), pBuffer, nBytesStateFile, true, false, (FSAsyncControl_t *)nullptr);
+	pBuffer = nullptr;
 	
 	//---------------------------------
 	
@@ -1478,7 +1478,7 @@ void CSaveRestore::Finish( CSaveRestoreData *save )
 	SaveFreeMemory( save );
 
 
-	g_ServerGlobalVariables.pSaveData = NULL;
+	g_ServerGlobalVariables.pSaveData = nullptr;
 }
 
 BEGIN_SIMPLE_DATADESC( musicsave_t )
@@ -1613,7 +1613,7 @@ void CSaveRestore::ReapplyDecal( bool adjacent, RestoreLookupTable *table, decal
 			{
 				// Hack, have to use server traceline stuff to get at an actuall index here
 				edict_t *hit = tr.GetEdict();
-				if ( hit != NULL )
+				if ( hit != nullptr)
 				{
 					// Looks like a good match for original splat plane, reapply the decal
 					int entityToHit = NUM_FOR_EDICT( hit );
@@ -1640,7 +1640,7 @@ void CSaveRestore::ReapplyDecal( bool adjacent, RestoreLookupTable *table, decal
 							clientEntity->GetModel(), 
 							clientEntity->GetAbsOrigin(), 
 							clientEntity->GetAbsAngles(),
-							entry->position, 0, flags, &tr.plane.normal );
+							entry->position, nullptr, flags, &tr.plane.normal );
 					}
 				}
 			}
@@ -1657,7 +1657,7 @@ void CSaveRestore::ReapplyDecal( bool adjacent, RestoreLookupTable *table, decal
 			Vector vecOrigin( 0.0f, 0.0f, 0.0f );
 			QAngle vecAngle( 0.0f, 0.0f, 0.0f );
 
-			const model_t *pModel = NULL;
+			const model_t *pModel = nullptr;
 			IClientEntity *clientEntity = entitylist->GetClientEntity( entityToHit );
 			if ( clientEntity )
 			{
@@ -1690,7 +1690,7 @@ void CSaveRestore::ReapplyDecal( bool adjacent, RestoreLookupTable *table, decal
 					Draw_DecalSetName( decalIndex, entry->name );
 				}
 				
-				g_pEfx->DecalShoot( decalIndex, entityToHit, pModel, vecOrigin, vecAngle, entry->position, 0, flags );
+				g_pEfx->DecalShoot( decalIndex, entityToHit, pModel, vecOrigin, vecAngle, entry->position, nullptr, flags );
 			}
 		}
 	}
@@ -1798,7 +1798,7 @@ void CSaveRestore::RestoreClientState( char const *fileName, bool adjacent )
 	}
 	else
 	{
-		pSaveData->InitSymbolTable( NULL, 0 );
+		pSaveData->InitSymbolTable(nullptr, 0 );
 	}
 
 	Assert( pszTokenList - (char *)(pSaveData + 1) == sections.symbolsize );
@@ -1867,7 +1867,7 @@ void CSaveRestore::RestoreClientState( char const *fileName, bool adjacent )
 		for ( int i = 0; i < sections.decalcount; i++ )
 		{
 			decallist_t entry;
-			g_ClientDLL->SaveReadFields( pSaveData, "DECALLIST", &entry, NULL, decallist_t::m_DataMap.dataDesc, decallist_t::m_DataMap.dataNumFields );
+			g_ClientDLL->SaveReadFields( pSaveData, "DECALLIST", &entry, nullptr, decallist_t::m_DataMap.dataDesc, decallist_t::m_DataMap.dataNumFields );
 
 			ReapplyDecal( adjacent, table, &entry );
 		}
@@ -1877,7 +1877,7 @@ void CSaveRestore::RestoreClientState( char const *fileName, bool adjacent )
 	{
 		// Read the saved fields
 		channelsave channel;
-		g_ClientDLL->SaveReadFields( pSaveData, "CHANNELLIST", &channel, NULL, channelsave::m_DataMap.dataDesc, channelsave::m_DataMap.dataNumFields );
+		g_ClientDLL->SaveReadFields( pSaveData, "CHANNELLIST", &channel, nullptr, channelsave::m_DataMap.dataDesc, channelsave::m_DataMap.dataNumFields );
 
 		// Translate entity index
 		channel.soundSource = LookupRestoreSpotSaveIndex( table, channel.soundSource );
@@ -1945,7 +1945,7 @@ bool CSaveRestore::SaveClientState( const char *name )
 	{
 		decallist_t *entry = &decalList[ i ];
 
-		g_ClientDLL->SaveWriteFields( pSaveData, "DECALLIST", entry, NULL, decallist_t::m_DataMap.dataDesc, decallist_t::m_DataMap.dataNumFields );
+		g_ClientDLL->SaveWriteFields( pSaveData, "DECALLIST", entry, nullptr, decallist_t::m_DataMap.dataDesc, decallist_t::m_DataMap.dataNumFields );
 	}
 
 	sections.decalsize = pSaveData->AccessCurPos() - sections.decaldata;
@@ -1960,7 +1960,7 @@ bool CSaveRestore::SaveClientState( const char *name )
 	{
 		channelsave* channel = &channels[i];
 
-		g_ClientDLL->SaveWriteFields( pSaveData, "CHANNELLIST", channel, NULL, channelsave::m_DataMap.dataDesc, channelsave::m_DataMap.dataNumFields );
+		g_ClientDLL->SaveWriteFields( pSaveData, "CHANNELLIST", channel, nullptr, channelsave::m_DataMap.dataDesc, channelsave::m_DataMap.dataNumFields );
 	}
 	sections.channelsize = pSaveData->AccessCurPos() - sections.channeldata;
 
@@ -2008,7 +2008,7 @@ bool CSaveRestore::SaveClientState( const char *name )
 	buffer.Put( sections.channeldata, sections.channelsize );
 
 	SaveMsg( "Queue AsyncWrite (%s)\n", name );
-	g_AsyncSaveCallQueue.QueueCall( g_pSaveRestoreFileSystem, &ISaveRestoreFileSystem::AsyncWrite, CUtlEnvelope<const char *>(name), pBuffer, nBytes, true, false, (FSAsyncControl_t *)NULL );
+	g_AsyncSaveCallQueue.QueueCall( g_pSaveRestoreFileSystem, &ISaveRestoreFileSystem::AsyncWrite, CUtlEnvelope<const char *>(name), pBuffer, nBytes, true, false, (FSAsyncControl_t *)nullptr);
 
 	Finish( pSaveData );
 
@@ -2023,9 +2023,9 @@ bool CSaveRestore::SaveClientState( const char *name )
 int CSaveRestore::SaveReadNameAndComment( FileHandle_t f, char *name, char *comment )
 {
 	int i, tag, size, tokenSize, tokenCount;
-	char *pSaveData = NULL;
-	char *pFieldName = NULL;
-	char **pTokenList = NULL;
+	char *pSaveData = nullptr;
+	char *pFieldName = nullptr;
+	char **pTokenList = nullptr;
 
 	// Make sure we can at least read in the first five fields
 	unsigned int tagsize = sizeof(int) * 5;
@@ -2086,12 +2086,12 @@ int CSaveRestore::SaveReadNameAndComment( FileHandle_t f, char *name, char *comm
 		// Make sure the token strings pointed to by the pToken hashtable.
 		for( i=0; i<tokenCount; i++ )
 		{
-			pTokenList[i] = *pData ? pData : NULL;	// Point to each string in the pToken table
+			pTokenList[i] = *pData ? pData : nullptr;	// Point to each string in the pToken table
 			while( *pData++ );				// Find next token (after next null)
 		}
 	}
 	else
-		pTokenList = NULL;
+		pTokenList = nullptr;
 
 	// short, short (size, index of field name)
 	nFieldSize = *(short *)pData;
@@ -2171,18 +2171,18 @@ CSaveRestoreData *CSaveRestore::LoadSaveData( const char *level )
 	if (!pFile)
 	{
 		ConMsg ("ERROR: couldn't open.\n");
-		return NULL;
+		return nullptr;
 	}
 
 	//---------------------------------
 	// Read the header
 	SaveFileHeaderTag_t tag;
 	if ( g_pSaveRestoreFileSystem->Read( &tag, sizeof(tag), pFile ) != sizeof(tag) )
-		return NULL;
+		return nullptr;
 
 	// Is this a valid save?
 	if ( tag != CURRENT_SAVEFILE_HEADER_TAG )
-		return NULL;
+		return nullptr;
 
 	//---------------------------------
 	// Read the sections info and the data
@@ -2190,12 +2190,12 @@ CSaveRestoreData *CSaveRestore::LoadSaveData( const char *level )
 	SaveFileSectionsInfo_t sectionsInfo;
 	
 	if ( g_pSaveRestoreFileSystem->Read( &sectionsInfo, sizeof(sectionsInfo), pFile ) != sizeof(sectionsInfo) )
-		return NULL;
+		return nullptr;
 
 	void *pSaveMemory = SaveAllocMemory( sizeof(CSaveRestoreData) + sectionsInfo.SumBytes(), sizeof(char) );
 	if ( !pSaveMemory )
 	{
-		return 0;
+		return nullptr;
 	}
 
 	CSaveRestoreData *pSaveData = MakeSaveRestoreData( pSaveMemory );
@@ -2205,7 +2205,7 @@ CSaveRestoreData *CSaveRestore::LoadSaveData( const char *level )
 	{
 		// Free the memory and give up
 		Finish( pSaveData );
-		return NULL;
+		return nullptr;
 	}
 
 	g_pSaveRestoreFileSystem->Close( pFile );
@@ -2220,7 +2220,7 @@ CSaveRestoreData *CSaveRestore::LoadSaveData( const char *level )
 		if ( !pSaveMemory )
 		{
 			SaveFreeMemory( pSaveData );
-			return 0;
+			return nullptr;
 		}
 
 		pSaveData->InitSymbolTable( (char**)pSaveMemory, sectionsInfo.nSymbols );
@@ -2237,7 +2237,7 @@ CSaveRestoreData *CSaveRestore::LoadSaveData( const char *level )
 	}
 	else
 	{
-		pSaveData->InitSymbolTable( NULL, 0 );
+		pSaveData->InitSymbolTable(nullptr, 0 );
 	}
 
 	Assert( pszTokenList - (char *)(pSaveData + 1) == sectionsInfo.nBytesSymbols );
@@ -2271,7 +2271,7 @@ void CSaveRestore::ParseSaveTables( CSaveRestoreData *pSaveData, SAVE_HEADER *pH
 	// Re-base the savedata since we re-ordered the entity/table / restore fields
 	pSaveData->Rebase();
 	// Process SAVE_HEADER
-	serverGameDLL->SaveReadFields( pSaveData, "Save Header", pHeader, NULL, SAVE_HEADER::m_DataMap.dataDesc, SAVE_HEADER::m_DataMap.dataNumFields );
+	serverGameDLL->SaveReadFields( pSaveData, "Save Header", pHeader, nullptr, SAVE_HEADER::m_DataMap.dataDesc, SAVE_HEADER::m_DataMap.dataNumFields );
 //	header.version = ENGINE_VERSION;
 
 	pSaveData->levelInfo.mapVersion = pHeader->mapVersion;
@@ -2282,7 +2282,7 @@ void CSaveRestore::ParseSaveTables( CSaveRestoreData *pSaveData, SAVE_HEADER *pH
 
 	// Read adjacency list
 	for ( i = 0; i < pSaveData->levelInfo.connectionCount; i++ )
-		serverGameDLL->SaveReadFields( pSaveData, "ADJACENCY", pSaveData->levelInfo.levelList + i, NULL, levellist_t::m_DataMap.dataDesc, levellist_t::m_DataMap.dataNumFields );
+		serverGameDLL->SaveReadFields( pSaveData, "ADJACENCY", pSaveData->levelInfo.levelList + i, nullptr, levellist_t::m_DataMap.dataDesc, levellist_t::m_DataMap.dataNumFields );
 	
 	if ( updateGlobals )
   	{
@@ -2293,7 +2293,7 @@ void CSaveRestore::ParseSaveTables( CSaveRestoreData *pSaveData, SAVE_HEADER *pH
 
 	for ( i = 0; i < pHeader->lightStyleCount; i++ )
 	{
-		serverGameDLL->SaveReadFields( pSaveData, "LIGHTSTYLE", &light, NULL, SAVELIGHTSTYLE::m_DataMap.dataDesc, SAVELIGHTSTYLE::m_DataMap.dataNumFields );
+		serverGameDLL->SaveReadFields( pSaveData, "LIGHTSTYLE", &light, nullptr, SAVELIGHTSTYLE::m_DataMap.dataDesc, SAVELIGHTSTYLE::m_DataMap.dataNumFields );
 		if ( updateGlobals )
 		{
 			table->SetStringUserData( light.index, Q_strlen(light.style)+1, light.style );
@@ -2349,7 +2349,7 @@ void CSaveRestore::EntityPatchWrite( CSaveRestoreData *pSaveData, const char *le
 	else
 	{
 		SaveMsg( "Queue AsyncWrite (%s)\n", name );
-		g_AsyncSaveCallQueue.QueueCall( g_pSaveRestoreFileSystem, &ISaveRestoreFileSystem::AsyncWrite, CUtlEnvelope<const char *>(name), pBuffer, nBytesEntityPatch, true, false, (FSAsyncControl_t *)NULL );
+		g_AsyncSaveCallQueue.QueueCall( g_pSaveRestoreFileSystem, &ISaveRestoreFileSystem::AsyncWrite, CUtlEnvelope<const char *>(name), pBuffer, nBytesEntityPatch, true, false, (FSAsyncControl_t *)nullptr);
 	}
 }
 
@@ -2604,7 +2604,7 @@ void CSaveRestore::LoadAdjacentEnts( const char *pOldLevel, const char *pLandmar
 			Finish( pSaveData );
 		}
 	}
-	g_ServerGlobalVariables.pSaveData = NULL;
+	g_ServerGlobalVariables.pSaveData = nullptr;
 	if ( !foundprevious )
 	{
 		// Host_Error( "Level transition ERROR\nCan't find connection to %s from %s\n", pOldLevel, sv.GetMapName() );
@@ -3323,7 +3323,7 @@ void CSaveRestore::Shutdown( void )
 	{
 		g_pSaveThread->Stop();
 		g_pSaveThread->Release();
-		g_pSaveThread = NULL;
+		g_pSaveThread = nullptr;
 	}
 	m_szSaveGameScreenshotFile[0] = 0;
 }
@@ -3485,7 +3485,7 @@ void CSaveRestore::SetMostRecentSaveInfo( const char *pMostRecentSavePath, const
 	V_strncpy( m_MostRecentSaveInfo.m_MostRecentSavePath, pMostRecentSavePath, sizeof( m_MostRecentSaveInfo.m_MostRecentSavePath ) );
 	V_strncpy( m_MostRecentSaveInfo.m_MostRecentSaveComment, pMostRecentSaveComment, sizeof( m_MostRecentSaveInfo.m_MostRecentSaveComment ) );
 
-	bool bIsAutoSaveDangerous = ( V_stristr( pMostRecentSavePath, "autosavedangerous" ) != NULL );
+	bool bIsAutoSaveDangerous = ( V_stristr( pMostRecentSavePath, "autosavedangerous" ) != nullptr);
 	if ( bIsAutoSaveDangerous )
 	{
 		V_strncpy( m_MostRecentSaveInfo.m_LastAutosaveDangerousComment, pMostRecentSaveComment, sizeof( m_MostRecentSaveInfo.m_LastAutosaveDangerousComment ) );

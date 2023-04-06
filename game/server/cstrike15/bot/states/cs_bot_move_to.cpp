@@ -67,7 +67,7 @@ void MoveToState::OnUpdate( CCSBot *me )
 	{
 		/// @todo Account for reaction time so we take some time to realized the enemy is dead
 		CBasePlayer *victim = static_cast<CBasePlayer *>( me->GetTaskEntity() );
-		if (victim == NULL || !victim->IsAlive())
+		if (victim == nullptr || !victim->IsAlive())
 		{
 			me->PrintIfWatched( "The enemy I was chasing was killed - giving up.\n" );
 			me->Idle();
@@ -255,7 +255,7 @@ void MoveToState::OnUpdate( CCSBot *me )
 
 				// check if someone else collected our hostage, or the hostage died or was rescued
 				CHostage *hostage = static_cast<CHostage *>( me->GetGoalEntity() );
-				if (hostage == NULL || !hostage->IsValid() || hostage->IsFollowingSomeone() )
+				if (hostage == nullptr || !hostage->IsValid() || hostage->IsFollowingSomeone() )
 				{
 					me->Idle();
 					return;
@@ -313,7 +313,7 @@ void MoveToState::OnUpdate( CCSBot *me )
 									{
 										CCSBot *player = dynamic_cast< CCSBot * >( UTIL_PlayerByIndex( i ) );
 
-										if ( player == NULL || !player->IsAlive() ||
+										if ( player == nullptr || !player->IsAlive() ||
 											 me->IsOtherEnemy( player ) || player->entindex() == me->entindex() )
 											 continue;
 
@@ -330,7 +330,7 @@ void MoveToState::OnUpdate( CCSBot *me )
 									me->PickupHostage( me->GetGoalEntity() );
 								else
 								{
-									if ( hostage && me->IsVisible( hostage->GetAbsOrigin(), false, NULL ) )
+									if ( hostage && me->IsVisible( hostage->GetAbsOrigin(), false, nullptr) )
 									{
 										// if we can see the hostage, guard it
 										me->GetChatter()->Say( "CoveringFriend" );

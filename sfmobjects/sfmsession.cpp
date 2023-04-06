@@ -20,7 +20,7 @@
 //-----------------------------------------------------------------------------
 CSFMSession::CSFMSession()
 {
-	m_hRoot = NULL;
+	m_hRoot = nullptr;
 }
 
 
@@ -38,7 +38,7 @@ void CSFMSession::SetRoot( CDmElement *pRoot )
 //-----------------------------------------------------------------------------
 void CSFMSession::Init()
 {
-	m_hRoot = NULL;
+	m_hRoot = nullptr;
 
 	// a movie currently consists of: (this is all just temporary until clips take over more completely)
 	// a generic "root" node
@@ -87,7 +87,7 @@ void CSFMSession::Shutdown()
 		if ( m_hRoot->GetFileId() != DMFILEID_INVALID )
 		{
 			g_pDataModel->RemoveFileId( m_hRoot->GetFileId() );
-			m_hRoot = NULL;
+			m_hRoot = nullptr;
 		}
 	}
 }
@@ -112,7 +112,7 @@ void CSFMSession::CreateSessionSettings()
 
 	Assert( pSettings );
 
-	CDmeTimeSelection *ts = NULL;
+	CDmeTimeSelection *ts = nullptr;
 	if ( !pSettings->HasAttribute( "timeSelection" ) )
 	{
 		ts = CreateElement< CDmeTimeSelection >( "timeSelection", m_hRoot->GetFileId() );

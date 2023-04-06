@@ -444,7 +444,7 @@ class LIBPROTOBUF_EXPORT Reflection {
   // See MutableMessage() for the meaning of the "factory" parameter.
   virtual const Message& GetMessage(const Message& message,
                                     const FieldDescriptor* field,
-                                    MessageFactory* factory = NULL) const = 0;
+                                    MessageFactory* factory = nullptr) const = 0;
 
   // Get a string value without copying, if possible.
   //
@@ -501,7 +501,7 @@ class LIBPROTOBUF_EXPORT Reflection {
   // compiled-in class for this type, NOT DynamicMessage.
   virtual Message* MutableMessage(Message* message,
                                   const FieldDescriptor* field,
-                                  MessageFactory* factory = NULL) const = 0;
+                                  MessageFactory* factory = nullptr) const = 0;
   // Releases the message specified by 'field' and returns the pointer,
   // ReleaseMessage() will return the message the message object if it exists.
   // Otherwise, it may or may not return NULL.  In any case, if the return value
@@ -511,7 +511,7 @@ class LIBPROTOBUF_EXPORT Reflection {
   // This function has the same effect as ClearField().
   virtual Message* ReleaseMessage(Message* message,
                                   const FieldDescriptor* field,
-                                  MessageFactory* factory = NULL) const = 0;
+                                  MessageFactory* factory = nullptr) const = 0;
 
 
   // Repeated field getters ------------------------------------------
@@ -616,7 +616,7 @@ class LIBPROTOBUF_EXPORT Reflection {
   // See MutableMessage() for comments on the "factory" parameter.
   virtual Message* AddMessage(Message* message,
                               const FieldDescriptor* field,
-                              MessageFactory* factory = NULL) const = 0;
+                              MessageFactory* factory = nullptr) const = 0;
 
 
   // Repeated field accessors  -------------------------------------------------
@@ -801,7 +801,7 @@ inline const RepeatedPtrField<Message>& Reflection::GetRepeatedPtrField(
   return *static_cast<RepeatedPtrField<Message>* >(
       MutableRawRepeatedField(const_cast<Message*>(&message), field,
           FieldDescriptor::CPPTYPE_MESSAGE, -1,
-          NULL));
+      nullptr));
 }
 
 template<>
@@ -810,7 +810,7 @@ inline RepeatedPtrField<Message>* Reflection::MutableRepeatedPtrField(
   return static_cast<RepeatedPtrField<Message>* >(
       MutableRawRepeatedField(message, field,
           FieldDescriptor::CPPTYPE_MESSAGE, -1,
-          NULL));
+      nullptr));
 }
 
 template<typename PB>

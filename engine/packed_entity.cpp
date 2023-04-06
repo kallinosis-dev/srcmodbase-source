@@ -25,7 +25,7 @@
 PackedEntity::PackedEntity()
 {
 	m_SerializedEntity = SERIALIZED_ENTITY_HANDLE_INVALID;
-	m_pChangeFrameList = NULL;
+	m_pChangeFrameList = nullptr;
 	m_nSnapshotCreationTick = 0;
 	m_nShouldCheckCreationTick = 0;
 }
@@ -37,7 +37,7 @@ PackedEntity::~PackedEntity()
 	if ( m_pChangeFrameList )
 	{
 		m_pChangeFrameList->Release();
-		m_pChangeFrameList = NULL;
+		m_pChangeFrameList = nullptr;
 	}
 }
 

@@ -180,7 +180,7 @@ CAudioWaveOutput::CAudioWaveOutput( void )
 	{
 		CAudioBuffer *buffer = &m_buffers[ i ];
 		Assert( buffer );
-		buffer->hdr = NULL;
+		buffer->hdr = nullptr;
 		buffer->submitted = false;
 		buffer->submit_sample_count = false;
 	}
@@ -283,7 +283,7 @@ CAudioWaveOutput::~CAudioWaveOutput( void )
 				delete[] m_buffers[i].hdr->lpData;
 				delete m_buffers[i].hdr;
 			}
-			m_buffers[i].hdr = NULL;
+			m_buffers[i].hdr = nullptr;
 			m_buffers[i].submitted = false;
 			m_buffers[i].submit_sample_count = 0;
 			m_buffers[i].m_Referenced.Purge();
@@ -297,7 +297,7 @@ CAudioWaveOutput::~CAudioWaveOutput( void )
 
 CAudioBuffer *CAudioWaveOutput::GetEmptyBuffer( void )
 {
-	CAudioBuffer *pOutput = NULL;
+	CAudioBuffer *pOutput = nullptr;
 	if ( ValidDevice() )
 	{
 		for ( int i = 0; i < OUTPUT_BUFFER_COUNT; i++ )
@@ -414,7 +414,7 @@ CAudioMixer *CAudioWaveOutput::GetMixerForSource( CAudioSource *source )
 			return m_sourceList[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CAudioWaveOutput::AddSource( CAudioMixer *pSource )
@@ -469,7 +469,7 @@ void CAudioWaveOutput::FreeChannel( int channelIndex )
 		RemoveMixerChannelReferences( m_sourceList[channelIndex] );
 
 		delete m_sourceList[channelIndex];
-		m_sourceList[channelIndex] = NULL;
+		m_sourceList[channelIndex] = nullptr;
 	}
 }
 
@@ -535,7 +535,7 @@ void CAudioWaveOutput::OpenDevice( void )
 CAudioOutput *CAudioOutput::Create( void )
 {
 	// sound device is a singleton for now
-	static CAudioOutput *pWaveOut = NULL;
+	static CAudioOutput *pWaveOut = nullptr;
 
 	if ( !pWaveOut )
 	{
@@ -604,7 +604,7 @@ static CFacePoserSound g_FacePoserSound;
 IFacePoserSound *sound = ( IFacePoserSound * )&g_FacePoserSound;
 
 CFacePoserSound::CFacePoserSound() :
-	m_pAudio( 0 )
+	m_pAudio( nullptr )
 {
 }
 
@@ -644,7 +644,7 @@ int CFacePoserSound::GetNumberofSamplesAhead( void )
 CAudioSource *CFacePoserSound::LoadSound( const char *wavfile )
 {
 	if ( !m_pAudio )
-		return NULL;
+		return nullptr;
 
 	CAudioSource *wave = AudioSource_Create( wavfile );
 	return wave;
@@ -691,7 +691,7 @@ bool CFacePoserSound::IsSoundPlaying( CAudioMixer *pMixer )
 
 CAudioMixer *CFacePoserSound::FindMixer( CAudioSource *source )
 {
-	return NULL;
+	return nullptr;
 }
 
 

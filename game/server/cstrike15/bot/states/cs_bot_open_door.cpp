@@ -56,7 +56,7 @@ void OpenDoorState::OnUpdate( CCSBot *me )
 	// look at the door
 	Vector pos;
 	bool isDoorMoving = false;
-	CBaseEntity *door = NULL;
+	CBaseEntity *door = nullptr;
 
 	if ( m_funcDoor.Get() )
 	{

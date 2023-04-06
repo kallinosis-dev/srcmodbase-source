@@ -99,7 +99,7 @@ enum FunFactId
 };
 
 
-CFunFactHelper *CFunFactHelper::s_pFirst = NULL;
+CFunFactHelper *CFunFactHelper::s_pFirst = nullptr;
 
 
 
@@ -539,7 +539,7 @@ float GetTeamAccuracy( int teamNumber )
 	int teamHits = 0;
 
 	//Add up hits and shots
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
 		pPlayer = UTIL_PlayerByIndex( i );
@@ -616,7 +616,7 @@ int FFEVAL_DAMAGE_NO_KILLS( CCSPlayer* pPlayer )
 bool FFEVAL_FIRST_KILL( int &iPlayer, int &data1, int &data2, int &data3 )
 {
 	const int timeRequired = CSGameRules()->IsPlayingClassic() ? kFirstKillTimeClassic : kFirstKillTimeDemolition;
-	if ( CSGameRules()->m_pFirstKill != NULL && CSGameRules()->m_firstKillTime <= timeRequired )
+	if ( CSGameRules()->m_pFirstKill != nullptr && CSGameRules()->m_firstKillTime <= timeRequired )
 	{
 		iPlayer = CSGameRules()->m_pFirstKill->entindex();
 		data1 = CSGameRules()->m_firstKillTime;
@@ -628,7 +628,7 @@ bool FFEVAL_FIRST_KILL( int &iPlayer, int &data1, int &data2, int &data3 )
 bool FFEVAL_FIRST_BLOOD( int &iPlayer, int &data1, int &data2, int &data3 )
 {
 	const int timeRequired = CSGameRules()->IsPlayingClassic() ? kFirstBloodTimeClassic : kFirstBloodTimeDemolition;
-	if ( CSGameRules()->m_pFirstBlood != NULL && CSGameRules()->m_firstBloodTime < timeRequired )
+	if ( CSGameRules()->m_pFirstBlood != nullptr && CSGameRules()->m_firstBloodTime < timeRequired )
 	{
 		iPlayer = CSGameRules()->m_pFirstBlood->entindex();
 		data1 = CSGameRules()->m_firstKillTime;
@@ -739,7 +739,7 @@ int FFEVAL_KILL_STREAK_BEFORE_DYING( CCSPlayer* pPlayer )
 
 void GetTeamRoundScore( int teamNumber, int* num_players,int* contribution_sum )
 {
-	CBasePlayer *basePlayer = NULL;
+	CBasePlayer *basePlayer = nullptr;
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
 		basePlayer = UTIL_PlayerByIndex( i );
@@ -760,7 +760,7 @@ bool FFEVAL_FAILED_BOMB_PLANTS( int &iPlayer, int &data1, int &data2, int &data3
 {
 	data1 = 0;
 	
-	CBasePlayer *basePlayer = NULL;
+	CBasePlayer *basePlayer = nullptr;
 
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
@@ -789,7 +789,7 @@ bool FFEVAL_BOMB_PLANTED_BEFORE_KILL( int &iPlayer, int &data1, int &data2, int 
 {
 	float fBombPlantedTime = -1.0f;
 	float fFirstKillTime = -1.0f;
-	CBasePlayer *basePlayer = NULL;
+	CBasePlayer *basePlayer = nullptr;
 
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
@@ -829,7 +829,7 @@ bool FFEVAL_PICKUP_BOMB( int &iPlayer, int &data1, int &data2, int &data3 )
 {
 	// count number of picker-upers as data1
 	data1 = 0;
-	CBasePlayer *basePlayer = NULL;
+	CBasePlayer *basePlayer = nullptr;
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
 		basePlayer = UTIL_PlayerByIndex( i );
@@ -842,7 +842,7 @@ bool FFEVAL_PICKUP_BOMB( int &iPlayer, int &data1, int &data2, int &data3 )
 	if( data1 > 2 ) // enough guys picked up the bomb to be interesting
 	{
 		// find someone who placed a bomb
-		CBasePlayer *basePlayer = NULL;
+		CBasePlayer *basePlayer = nullptr;
 		for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 		{
 			basePlayer = UTIL_PlayerByIndex( i );
@@ -867,7 +867,7 @@ bool FFEVAL_TICKING_TIME( int &iPlayer, int &data1, int &data2, int &data3 )
 		return false;
 
 	data1 = 0;
-	CBasePlayer *basePlayer = NULL;
+	CBasePlayer *basePlayer = nullptr;
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
 		basePlayer = UTIL_PlayerByIndex( i );
@@ -886,12 +886,12 @@ bool FFEVAL_TICKING_TIME( int &iPlayer, int &data1, int &data2, int &data3 )
 
 bool FFEVAL_KNIFE_LEVEL_REACHED( int &iPlayer, int &data1, int &data2, int &data3 )
 {
-	CBasePlayer *basePlayer = NULL;
+	CBasePlayer *basePlayer = nullptr;
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
 		basePlayer = UTIL_PlayerByIndex( i );
 		CCSPlayer* pPlayer = ToCSPlayer( basePlayer );
-		CWeaponCSBase* attackerWeapon = pPlayer ? pPlayer->GetActiveCSWeapon() : 0;
+		CWeaponCSBase* attackerWeapon = pPlayer ? pPlayer->GetActiveCSWeapon() : nullptr;
 		CSWeaponID attackerWeaponID = attackerWeapon ? attackerWeapon->GetCSWeaponID() : WEAPON_NONE; 
 		if( attackerWeaponID == WEAPON_KNIFE )
 			data1++;
@@ -906,7 +906,7 @@ bool FFEVAL_KNIFE_LEVEL_REACHED( int &iPlayer, int &data1, int &data2, int &data
 
 bool FFEVAL_WON_AS_LAST_MEMBER( int &iPlayer, int &data1, int &data2, int &data3 )
 {
-	CCSPlayer *pCSPlayer = NULL;
+	CCSPlayer *pCSPlayer = nullptr;
 	int winningTeam = CSGameRules()->m_iRoundWinStatus;
 
 	if (winningTeam != TEAM_TERRORIST && winningTeam != TEAM_CT)
@@ -1006,7 +1006,7 @@ int FFEVAL_DEFUSED_WITH_DROPPED_KIT( CCSPlayer* pPlayer )
 
 bool funfact_helper_defuse_close_call( int &iPlayer, int &data1, int &data2, int &data3, float flThreshold, float flFractionalMultiplier )
 {
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
     for ( int i = 1; i <= gpGlobals->maxClients; i++ )
     {
         pPlayer = UTIL_PlayerByIndex( i );
@@ -1075,7 +1075,7 @@ bool FFEVAL_CT_ACCURACY( int &iPlayer, int &data1, int &data2, int &data3 )
 bool FFEVAL_BEST_TERRORIST_ACCURACY( int &iPlayer, int &data1, int &data2, int &data3 )
 {
     float fAccuracy = 0.0f, fBestAccuracy = 0.0f;
-    CBasePlayer *pPlayer = NULL;
+    CBasePlayer *pPlayer = nullptr;
     for ( int i = 1; i <= gpGlobals->maxClients; i++ )
     {
         pPlayer = UTIL_PlayerByIndex( i );
@@ -1113,7 +1113,7 @@ bool FFEVAL_BEST_TERRORIST_ACCURACY( int &iPlayer, int &data1, int &data2, int &
 bool FFEVAL_BEST_COUNTERTERRORIST_ACCURACY( int &iPlayer, int &data1, int &data2, int &data3 )
 {
 	float fAccuracy = 0.0f, fBestAccuracy = 0.0f;
-    CBasePlayer *pPlayer = NULL;
+    CBasePlayer *pPlayer = nullptr;
     for ( int i = 1; i <= gpGlobals->maxClients; i++ )
     {
         pPlayer = UTIL_PlayerByIndex( i );

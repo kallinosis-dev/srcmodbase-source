@@ -28,7 +28,7 @@ void CCSBot::FireWeaponAtEnemy( void )
 	}
 
 	CBasePlayer *enemy = GetBotEnemy();
-	if (enemy == NULL)
+	if (enemy == nullptr)
 	{
 		return;
 	}
@@ -185,7 +185,7 @@ void CCSBot::FireWeaponAtEnemy( void )
 void CCSBot::PickNewAimSpot()
 {
 	// aim at enemy, if he's still alive
-	if (m_enemy != NULL && m_enemy->IsAlive())
+	if (m_enemy != nullptr && m_enemy->IsAlive())
 	{
 		Vector enemyOrigin = GetCentroid( m_enemy );
 
@@ -389,7 +389,7 @@ bool CCSBot::IsUsing( CSWeaponID weaponID ) const
 {
 	CWeaponCSBase *weapon = GetActiveCSWeapon();
 
-	if (weapon == NULL)
+	if (weapon == nullptr)
 		return false;
 
 	if (weapon->IsA( weaponID ))
@@ -406,7 +406,7 @@ bool CCSBot::DoesActiveWeaponHaveRemoveableSilencer( void ) const
 {
 	CWeaponCSBase *weapon = GetActiveCSWeapon();
 
-	if (weapon == NULL)
+	if (weapon == nullptr)
 		return false;
 	
 	if ( weapon->IsA( WEAPON_USP ) )
@@ -463,7 +463,7 @@ bool CCSBot::IsUsingShotgun( void ) const
 {
 	CWeaponCSBase *weapon = GetActiveCSWeapon();
 
-	if (weapon == NULL)
+	if (weapon == nullptr)
 		return false;
 
 	return weapon->IsKindOf(WEAPONTYPE_SHOTGUN);
@@ -491,7 +491,7 @@ bool CCSBot::IsPrimaryWeaponEmpty( void ) const
 {
 	CWeaponCSBase *weapon = static_cast<CWeaponCSBase *>( Weapon_GetSlot( WEAPON_SLOT_RIFLE ) );
 
-	if (weapon == NULL)
+	if (weapon == nullptr)
 		return true;
 
 	// check if gun has any ammo left
@@ -509,7 +509,7 @@ bool CCSBot::IsPistolEmpty( void ) const
 {
 	CWeaponCSBase *weapon = static_cast<CWeaponCSBase *>( Weapon_GetSlot( WEAPON_SLOT_PISTOL ) );
 
-	if (weapon == NULL)
+	if (weapon == nullptr)
 		return true;
 
 	// check if gun has any ammo left
@@ -525,7 +525,7 @@ bool CCSBot::IsPistolEmpty( void ) const
  */
 bool CCSBot::DoEquip( CWeaponCSBase *weapon )
 {
-	if (weapon == NULL)
+	if (weapon == nullptr)
 		return false;
 
 	// check if weapon has any ammo left
@@ -859,7 +859,7 @@ void CCSBot::LookForGrenadeTargets( void )
 	}
 
 	const CNavArea *tossArea = GetInitialEncounterArea();
-	if (tossArea == NULL)
+	if (tossArea == nullptr)
 	{
 		return;
 	}
@@ -887,7 +887,7 @@ void CCSBot::LookForGrenadeTargets( void )
 		// don't worry so much about smokes
 		ThrowGrenade( tossTarget );
 		PrintIfWatched( "Throwing smoke grenade!" );
-		SetInitialEncounterArea( NULL );
+		SetInitialEncounterArea(nullptr);
 		return;
 	}
 	else	// explosive and flashbang grenades
@@ -994,7 +994,7 @@ void CCSBot::LookForGrenadeTargets( void )
 			}
 
 			ThrowGrenade( tossTarget + Vector( 0, 0, tossHeight ) );
-			SetInitialEncounterArea( NULL );
+			SetInitialEncounterArea(nullptr);
 			return;
 		}
 	}
@@ -1326,7 +1326,7 @@ void CCSBot::SilencerCheck( void )
 	if (GetNearbyEnemyCount() == 0)
 	{
 		CWeaponCSBase *weapon = GetActiveCSWeapon();
-		if (weapon == NULL)
+		if (weapon == nullptr)
 			return;
 
 		bool isSilencerOn = weapon->IsSilenced();

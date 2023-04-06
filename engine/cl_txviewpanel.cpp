@@ -37,7 +37,7 @@
 using namespace vgui;
 
 
-TxViewPanel *g_pTxViewPanel = NULL;
+TxViewPanel *g_pTxViewPanel = nullptr;
 
 void TxViewPanel::Install( vgui::Panel *parent )
 {

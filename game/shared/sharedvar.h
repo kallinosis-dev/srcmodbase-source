@@ -171,7 +171,7 @@ class CSharedVarBase : public ISharedVarBase
 public:
 	CSharedVarBase( void )
 	{
-		m_pSharedMemory = NULL;
+		m_pSharedMemory = nullptr;
 		m_pValue = NULL;
 	}
 
@@ -180,7 +180,7 @@ public:
 		if ( m_pSharedMemory )
 		{
 			m_pSharedMemory->Release();
-			m_pSharedMemory = NULL;
+			m_pSharedMemory = nullptr;
 		}
 		m_pValue = NULL;
 	}
@@ -563,7 +563,7 @@ class CSharedVarBase< CHandle<Type>, Changer > : public ISharedVarBase
 public:
 	CSharedVarBase( void )
 	{
-		m_pSharedMemory = NULL;
+		m_pSharedMemory = nullptr;
 		m_pValue = NULL;
 	}
 
@@ -572,7 +572,7 @@ public:
 		if ( m_pSharedMemory )
 		{
 			m_pSharedMemory->Release();
-			m_pSharedMemory = NULL;
+			m_pSharedMemory = nullptr;
 		}
 		m_pValue = NULL;
 	}
@@ -592,8 +592,8 @@ class CSharedVarBase< CBaseHandle, Changer > : public ISharedVarBase
 public:
 	CSharedVarBase( void )
 	{
-		m_pSharedMemory = NULL;
-		m_pValue = NULL;
+		m_pSharedMemory = nullptr;
+		m_pValue = nullptr;
 	}
 
 	~CSharedVarBase( void )
@@ -601,9 +601,9 @@ public:
 		if ( m_pSharedMemory )
 		{
 			m_pSharedMemory->Release();
-			m_pSharedMemory = NULL;
+			m_pSharedMemory = nullptr;
 		}
-		m_pValue = NULL;
+		m_pValue = nullptr;
 	}
 
 protected:
@@ -913,7 +913,7 @@ class CSharedVarBase< CUtlVector<Type>, Changer > : public ISharedVarBase
 public:
 	CSharedVarBase( void )
 	{
-		m_pSharedMemory = NULL;
+		m_pSharedMemory = nullptr;
 		m_pValue = NULL;
 	}
 
@@ -922,7 +922,7 @@ public:
 		if ( m_pSharedMemory )
 		{
 			m_pSharedMemory->Release();
-			m_pSharedMemory = NULL;
+			m_pSharedMemory = nullptr;
 		}
 		m_pValue = NULL;
 	}

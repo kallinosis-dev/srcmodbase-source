@@ -116,7 +116,7 @@ bool LoadEntsFromMapFile( char const *pFilename )
 		// Set up handlers for the subchunks that we are interested in.
 		//
 		CChunkHandlerMap Handlers;
-		Handlers.AddHandler("entity", (ChunkHandler_t)LoadEntityCallback, 0);
+		Handlers.AddHandler("entity", (ChunkHandler_t)LoadEntityCallback, nullptr);
 
 		File.PushHandlers(&Handlers);
 

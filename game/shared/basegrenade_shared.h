@@ -75,7 +75,7 @@ public:
 	virtual float		GetShakeAmplitude( void ) { return 25.0; }
 	virtual float		GetShakeRadius( void ) { return 750.0; }
 
-	virtual const char *GetParticleSystemName( int pointContents, surfacedata_t *pdata = NULL ) { return NULL; }
+	virtual const char *GetParticleSystemName( int pointContents, surfacedata_t *pdata = nullptr) { return nullptr; }
 
 	virtual GrenadeType_t GetGrenadeType( void ) { return GRENADE_TYPE_EXPLOSIVE; }
 

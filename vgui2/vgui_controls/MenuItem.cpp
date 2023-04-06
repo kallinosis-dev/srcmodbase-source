@@ -84,8 +84,8 @@ MenuItem::MenuItem(Menu *parent, const char *panelName, const char *text, Menu *
 	m_pCascadeMenu = cascadeMenu;
 	m_bCheckable = checkable;
 	SetButtonActivationType(ACTIVATE_ONRELEASED);
-	m_pUserData = NULL;
-	m_pCurrentKeyBinding = NULL;
+	m_pUserData = nullptr;
+	m_pCurrentKeyBinding = nullptr;
 
 	// only one arg should be passed in.
 	Assert (!(cascadeMenu && checkable));
@@ -106,8 +106,8 @@ MenuItem::MenuItem(Menu *parent, const char *panelName, const wchar_t *wszText, 
 	m_pCascadeMenu = cascadeMenu;
 	m_bCheckable = checkable;
 	SetButtonActivationType(ACTIVATE_ONRELEASED);
-	m_pUserData = NULL;
-	m_pCurrentKeyBinding = NULL;
+	m_pUserData = nullptr;
+	m_pCurrentKeyBinding = nullptr;
 
 	// only one arg should be passed in.
 	Assert (!(cascadeMenu && checkable));
@@ -135,8 +135,8 @@ MenuItem::~MenuItem()
 //-----------------------------------------------------------------------------
 void MenuItem::Init( void )
 {
-	m_pCascadeArrow	= NULL;
-	m_pCheck = NULL;
+	m_pCascadeArrow	= nullptr;
+	m_pCheck = nullptr;
 
 	if (m_pCascadeMenu)
 	{
@@ -369,7 +369,7 @@ void MenuItem::OpenCascadeMenu()
 //-----------------------------------------------------------------------------
 bool MenuItem::HasMenu()
 {
-	return (m_pCascadeMenu != NULL);
+	return (m_pCascadeMenu != nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -487,7 +487,7 @@ Menu *MenuItem::GetMenu()
 //-----------------------------------------------------------------------------
 IBorder *MenuItem::GetBorder(bool depressed, bool armed, bool selected, bool keyfocus)
 {
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -560,7 +560,7 @@ void MenuItem::SetUserData(const KeyValues *kv)
 	if (m_pUserData)
 	{
 		m_pUserData->deleteThis();
-		m_pUserData = NULL;
+		m_pUserData = nullptr;
 	}
 	
 	if ( kv )
@@ -578,7 +578,7 @@ void MenuItem::SetCurrentKeyBinding( char const *keyName )
 	if ( !keyName )
 	{
 		delete m_pCurrentKeyBinding;
-		m_pCurrentKeyBinding = NULL;
+		m_pCurrentKeyBinding = nullptr;
 		return;
 	}
 

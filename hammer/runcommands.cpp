@@ -108,7 +108,7 @@ void CCommandExecuter::EncodeCommand( const char *pCommand, CString &out )
 void CCommandExecuter::Launch()
 {
 	char szFilename[MAX_PATH];
-	GetModuleFileName( NULL, szFilename, sizeof( szFilename ) );
+	GetModuleFileName(nullptr, szFilename, sizeof( szFilename ) );
 	V_StripLastDir( szFilename, sizeof( szFilename ) );
 	V_AppendSlash( szFilename, sizeof( szFilename ) );
 	if ( APP()->IsFoundryMode() )
@@ -139,15 +139,15 @@ void CCommandExecuter::Launch()
 	memset( &si, 0, sizeof( si ) );
 	si.cb = sizeof( si );
 	
-	CreateProcess( 
-		NULL,
+	CreateProcess(
+		nullptr,
 		(char*)(const char*)fullCommand,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		FALSE,
 		CREATE_NEW_CONSOLE,
-		NULL,
-		NULL,
+		nullptr,
+		nullptr,
 		&si,
 		&pi );	
 }
@@ -276,8 +276,8 @@ static void RemoveQuotes(char *pBuf)
 LPCTSTR GetErrorString()
 {
 	static char szBuf[200];
-	FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, GetLastError(), 0, 
-		szBuf, 200, NULL);
+	FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, GetLastError(), 0, 
+		szBuf, 200, nullptr);
 	char *p = strchr(szBuf, '\r');	// get rid of \r\n
 	if(p) p[0] = 0;
 	return szBuf;
@@ -300,7 +300,7 @@ bool RunCommands(CCommandArray& Commands, LPCTSTR pszOrigDocName, bool bWaitForK
 	char szDocShortPath[MAX_PATH] = {0}, szDocShortName[MAX_PATH] = {0}, 
 		szDocShortExt[MAX_PATH] = {0};
 
-	GetFullPathName(pszOrigDocName, MAX_PATH, szDocLongPath, NULL);
+	GetFullPathName(pszOrigDocName, MAX_PATH, szDocLongPath, nullptr);
 	GetShortPathName(pszOrigDocName, szDocShortPath, MAX_PATH);
 
 	// split them up
@@ -419,7 +419,7 @@ bool RunCommands(CCommandArray& Commands, LPCTSTR pszOrigDocName, bool bWaitForK
 				break;	// done.
 		}
 
-		ppParms[iArg] = NULL;
+		ppParms[iArg] = nullptr;
 
 		if(cmd.iSpecialCmd)
 		{

@@ -26,7 +26,7 @@ CPDumpPanel *GetPDumpPanel()
 DECLARE_HUDELEMENT_FLAGS( CPDumpPanel, HUDELEMENT_SS_FULLSCREEN_ONLY );
 
 CPDumpPanel::CPDumpPanel( const char *pElementName ) :
-	CHudElement( pElementName ), BaseClass( NULL, "HudPredictionDump" ), m_nCurrentIndex( 0 )
+	CHudElement( pElementName ), BaseClass(nullptr, "HudPredictionDump" ), m_nCurrentIndex( 0 )
 {
 	vgui::Panel *pParent = GetFullscreenClientMode()->GetViewport();
 	SetParent( pParent );
@@ -195,7 +195,7 @@ static char const *CleanupZeros( char const *value, char *buf, size_t bufsize )
 void CPDumpPanel::DumpComparision( const char *classname, const char *fieldname, const char *fieldtype,
 	bool networked, bool noterrorchecked, bool differs, bool withintolerance, const char *value )
 {
-	if ( fieldname == NULL )
+	if ( fieldname == nullptr)
 		return;
 
 	DumpInfo slot;
@@ -335,8 +335,8 @@ void CPDumpPanel::DumpEntity( C_BaseEntity *ent, int commands_acknowledged )
 #else
 	Assert( ent );
 
-	const byte *original_state_data = NULL;	
-	const byte *predicted_state_data	= NULL;
+	const byte *original_state_data = nullptr;	
+	const byte *predicted_state_data	= nullptr;
 	
 	bool data_type_original		= TD_OFFSET_PACKED;
 	bool data_type_predicted	= TD_OFFSET_PACKED;

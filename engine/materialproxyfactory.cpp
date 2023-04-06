@@ -36,7 +36,7 @@ IMaterialProxy *CMaterialProxyFactory::CreateProxy( const char *proxyName )
 	if( !materialProxy && !sv.IsDedicated() )
 	{
 		ConDMsg( "Can't find material proxy \"%s\"\n", proxyName );
-		return NULL;
+		return nullptr;
 	}
 	return materialProxy;
 #else

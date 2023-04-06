@@ -40,7 +40,7 @@ const char *GetVGuiControlsModuleName()
 //-----------------------------------------------------------------------------
 bool ConnectTools( CreateInterfaceFn factory )
 {
-	return (materials != NULL) && (g_pMatSystemSurface != NULL);
+	return (materials != nullptr) && (g_pMatSystemSurface != nullptr);
 }
 
 void DisconnectTools( )
@@ -111,7 +111,7 @@ private:
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
-CSampleTool	*g_pSampleTool = NULL;
+CSampleTool	*g_pSampleTool = nullptr;
 
 void CreateTools()
 {
@@ -277,7 +277,7 @@ void CSampleTool::OnSave()
 
 void CSampleTool::OnSaveAs()
 {
-	SaveFile( NULL, NULL, 0 );
+	SaveFile(nullptr, nullptr, 0 );
 }
 
 bool CSampleTool::OnWriteFileToDisk( const char *pFileName, const char *pFileFormat, KeyValues *pContextKeyValues )
@@ -310,7 +310,7 @@ void CSampleTool::OnMarkNotDirty()
 void CSampleTool::OpenFileFromHistory( int slot )
 {
 	const char *pFileName = m_RecentFiles.GetFile( slot );
-	OnReadFileFromDisk( pFileName, NULL, 0 );
+	OnReadFileFromDisk( pFileName, nullptr, nullptr );
 }
 
 
@@ -329,7 +329,7 @@ void CSampleTool::OnFileOperationCompleted( const char *pFileType, bool bWroteFi
 void CSampleTool::SetupFileOpenDialog( vgui::FileOpenDialog *pDialog, bool bOpenFile, const char *pFileFormat, KeyValues *pContextKeyValues )
 {
 	char pStartingDir[ MAX_PATH ];
-	GetModSubdirectory( NULL, pStartingDir, sizeof(pStartingDir) );
+	GetModSubdirectory(nullptr, pStartingDir, sizeof(pStartingDir) );
 
 	pDialog->SetTitle( "Choose SampleTool .txt file", true );
 	pDialog->SetStartDirectoryContext( "sample_session", pStartingDir );

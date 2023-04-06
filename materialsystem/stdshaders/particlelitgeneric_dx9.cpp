@@ -43,7 +43,7 @@ BEGIN_VS_SHADER( ParticleLitGeneric_DX9,
 
 	SHADER_FALLBACK
 	{	
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

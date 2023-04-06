@@ -100,7 +100,7 @@ void StripEndNewlineFromString( wchar_t *str );
 
 char* ConvertCRtoNL( char *str );
 wchar_t* ConvertCRtoNL( wchar_t *str );
-wchar_t* ReadLocalizedString( const char *szString, OUT_Z_BYTECAP(outSizeInBytes) wchar_t *pOut, int outSizeInBytes, bool bStripNewline, char *originalString = NULL, int originalSize = 0 );
+wchar_t* ReadLocalizedString( const char *szString, OUT_Z_BYTECAP(outSizeInBytes) wchar_t *pOut, int outSizeInBytes, bool bStripNewline, char *originalString = nullptr, int originalSize = 0 );
 wchar_t* ReadChatTextString( const char *szString, OUT_Z_BYTECAP(outSizeInBytes) wchar_t *pOut, int outSizeInBytes, bool stripBugData = false );
 char* RemoveColorMarkup( char *str );
 

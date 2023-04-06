@@ -21,7 +21,7 @@
 //=============================================================================
 CDmMeshComp::CDmMeshComp( CDmeMesh *pMesh, CDmeVertexData *pPassedBase )
 : m_pMesh( pMesh )
-, m_pBase( NULL )
+, m_pBase(nullptr)
 {
 	m_pBase = pPassedBase ? pPassedBase : pMesh->GetCurrentBaseState();
 	if ( !m_pBase )
@@ -192,8 +192,8 @@ bool CDmMeshComp::CVert::operator==( const CVert &rhs ) const
 //
 //-----------------------------------------------------------------------------
 CDmMeshComp::CEdge::CEdge()
-: m_pVert0( NULL )
-, m_pVert1( NULL )
+: m_pVert0(nullptr)
+, m_pVert1(nullptr)
 , m_faceCount( 0 )
 {
 }
@@ -225,7 +225,7 @@ CDmMeshComp::CVert *CDmMeshComp::CEdge::GetVert( int edgeRelativeVertexIndex ) c
 	if ( edgeRelativeVertexIndex == 1 )
 		return m_pVert1;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -263,12 +263,12 @@ CDmMeshComp::CEdge *CDmMeshComp::FindOrCreateEdge( int vIndex0, int vIndex1, boo
 		return pEdge;
 
 	CVert *pVert0 = m_verts[ vIndex0 ];
-	if ( pVert0 == NULL )
-		return NULL;
+	if ( pVert0 == nullptr)
+		return nullptr;
 
 	CVert *pVert1 = m_verts[ vIndex1 ];
-	if ( pVert1 == NULL )
-		return NULL;
+	if ( pVert1 == nullptr)
+		return nullptr;
 
 	pEdge = m_edges[ m_edges.AddToTail( new CEdge() ) ];
 	pEdge->m_pVert0 = pVert0;
@@ -315,7 +315,7 @@ CDmMeshComp::CEdge *CDmMeshComp::FindEdge( int vIndex0, int vIndex1, bool *pReve
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

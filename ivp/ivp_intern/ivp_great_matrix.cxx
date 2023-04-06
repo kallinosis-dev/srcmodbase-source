@@ -651,9 +651,9 @@ IVP_Great_Matrix_Many_Zero::IVP_Great_Matrix_Many_Zero(int n) {
 
 IVP_Great_Matrix_Many_Zero::IVP_Great_Matrix_Many_Zero() {
     MATRIX_EPS=1.0f/10E8f; 
-    matrix_values=NULL;
-    desired_vector=NULL;
-    result_vector=NULL;
+    matrix_values= nullptr;
+    desired_vector= nullptr;
+    result_vector= nullptr;
     columns=0;
 }
 
@@ -983,19 +983,19 @@ IVP_RETURN_TYPE IVP_Linear_Constraint_Solver::init_and_solve_lc(IVP_DOUBLE *A_in
 	}
     }
     
-    full_solver_mat.result_vector = NULL;
-    full_solver_mat.desired_vector = NULL;
-    full_solver_mat.matrix_values = NULL;
-    sub_solver_mat.result_vector = NULL;
-    sub_solver_mat.desired_vector = NULL;
-    sub_solver_mat.matrix_values = NULL;
-    inv_mat.result_vector = NULL;
-    inv_mat.desired_vector = NULL;
-    inv_mat.matrix_values = NULL;
+    full_solver_mat.result_vector = nullptr;
+    full_solver_mat.desired_vector = nullptr;
+    full_solver_mat.matrix_values = nullptr;
+    sub_solver_mat.result_vector = nullptr;
+    sub_solver_mat.desired_vector = nullptr;
+    sub_solver_mat.matrix_values = nullptr;
+    inv_mat.result_vector = nullptr;
+    inv_mat.desired_vector = nullptr;
+    inv_mat.matrix_values = nullptr;
     IVP_IF(1) {
-	debug_mat.result_vector = NULL;
-	debug_mat.desired_vector = NULL;
-	debug_mat.matrix_values = NULL;
+	debug_mat.result_vector = nullptr;
+	debug_mat.desired_vector = nullptr;
+	debug_mat.matrix_values = nullptr;
     }
     
     return ret_val;

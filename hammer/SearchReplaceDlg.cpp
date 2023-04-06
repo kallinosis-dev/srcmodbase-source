@@ -67,10 +67,10 @@ bool MatchString(const char *pszString, FindObject_t &FindObject)
 
 	if (FindObject.bCaseSensitive)
 	{
-		return (strstr(pszString, FindObject.strFindText) != NULL);
+		return (strstr(pszString, FindObject.strFindText) != nullptr);
 	}
 
-	return (Q_stristr(pszString, FindObject.strFindText) != NULL);
+	return (Q_stristr(pszString, FindObject.strFindText) != nullptr);
 }
 
 
@@ -103,7 +103,7 @@ bool ReplaceString(char *pszOut, const char *pszIn, FindObject_t &FindObject, co
 	//
 	// Partial matches are a little tougher.
 	//
-	const char *pszStart = NULL;
+	const char *pszStart = nullptr;
 	if (FindObject.bCaseSensitive)
 	{
 		pszStart = strstr(pszIn, FindObject.strFindText);
@@ -113,7 +113,7 @@ bool ReplaceString(char *pszOut, const char *pszIn, FindObject_t &FindObject, co
 		pszStart = Q_stristr(pszIn, FindObject.strFindText);
 	}
 
-	if (pszStart != NULL)
+	if (pszStart != nullptr)
 	{
 		int nOffset = pszStart - pszIn;
 
@@ -138,7 +138,7 @@ bool ReplaceString(char *pszOut, const char *pszIn, FindObject_t &FindObject, co
 //-----------------------------------------------------------------------------
 CMapClass *FindFirstObject(FindObject_t &FindObject)
 {
-	CMapClass *pObject = NULL;
+	CMapClass *pObject = nullptr;
 
 	if (FindObject.eFindIn == FindInWorld)
 	{
@@ -157,7 +157,7 @@ CMapClass *FindFirstObject(FindObject_t &FindObject)
 
 	if (!pObject)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if (FindCheck(pObject, FindObject))
@@ -177,7 +177,7 @@ CMapClass *FindNextObject(FindObject_t &FindObject)
 {
 	while (true)
 	{
-		CMapClass *pObject = NULL;
+		CMapClass *pObject = nullptr;
 		if (FindObject.eFindIn == FindInWorld)
 		{
 			// Search the entire world.
@@ -436,7 +436,7 @@ BOOL CSearchReplaceDlg::OnFindReplace(UINT uCmd)
 	}
 
 	static FindObject_t FindObject;
-	static CMapClass *pLastFound = NULL;
+	static CMapClass *pLastFound = nullptr;
 	static int nReplaceCount = 0;
 	FindObject_t TempFindObject;
 
@@ -452,7 +452,7 @@ BOOL CSearchReplaceDlg::OnFindReplace(UINT uCmd)
 
 	do
 	{
-		CMapClass *pObject = NULL;
+		CMapClass *pObject = nullptr;
 		
 		if (m_bNewSearch)
 		{
@@ -466,7 +466,7 @@ BOOL CSearchReplaceDlg::OnFindReplace(UINT uCmd)
 			// We have to keep track of the last object in the iteration for replacement,
 			// because replacement is done when me advance to the next object.
 			//
-			pLastFound = NULL;
+			pLastFound = nullptr;
 			nReplaceCount = 0;
 
 			pObject = FindFirstObject(FindObject);
@@ -493,7 +493,7 @@ BOOL CSearchReplaceDlg::OnFindReplace(UINT uCmd)
 			if (uCmd == IDC_REPLACE)
 			{
 				// Allow for undo each time we do a Replace.
-				GetHistory()->MarkUndoPosition(NULL, "Replace Text");
+				GetHistory()->MarkUndoPosition(nullptr, "Replace Text");
 			}
 
 			//

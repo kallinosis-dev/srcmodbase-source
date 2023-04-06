@@ -68,7 +68,7 @@ ISearchManager * CMatchSystem::CreateGameSearchManager( KeyValues *pParams )
 #ifndef SWDS
 	return new CSearchManager( pParams );
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 

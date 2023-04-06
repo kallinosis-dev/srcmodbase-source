@@ -146,7 +146,7 @@ bool IEconItemInterface::IsTradable() const
 
 bool IEconItemInterface::IsPotentiallyTradable() const
 {
-	if ( GetItemDefinition() == NULL )
+	if ( GetItemDefinition() == nullptr)
 		return false;
 
 	// check attributes
@@ -158,7 +158,7 @@ bool IEconItemInterface::IsPotentiallyTradable() const
 	Assert( pAttrDef_AlwaysTradableAndUsableInCrafting != NULL );
 	Assert( pAttrib_CannotTrade != NULL );
 
-	if ( pAttrDef_AlwaysTradableAndUsableInCrafting == NULL || pAttrib_CannotTrade == NULL )
+	if ( pAttrDef_AlwaysTradableAndUsableInCrafting == nullptr || pAttrib_CannotTrade == nullptr)
 		return false;
 
 // NOTE: we are not checking the time delay on trade restriction here - the item is considered potentially tradable in future = true
@@ -233,12 +233,12 @@ bool IEconItemInterface::IsMarketable() const
 bool IEconItemInterface::IsCommodity() const
 {
 	const CEconItemDefinition *pItemDef = GetItemDefinition();
-	if ( pItemDef == NULL )
+	if ( pItemDef == nullptr)
 		return false;
 
 	static CSchemaAttributeDefHandle pAttrib_IsCommodity( "is commodity" );
 	Assert( pAttrib_IsCommodity != NULL );
-	if ( pAttrib_IsCommodity == NULL )
+	if ( pAttrib_IsCommodity == nullptr)
 		return false;
 
 	attrib_value_t unAttribValue;
@@ -251,12 +251,12 @@ bool IEconItemInterface::IsCommodity() const
 bool IEconItemInterface::IsHiddenFromDropList() const
 {
 	const CEconItemDefinition *pItemDef = GetItemDefinition();
-	if ( pItemDef == NULL )
+	if ( pItemDef == nullptr)
 		return false;
 
 	static CSchemaAttributeDefHandle pAttrib_HideFromDropList( "hide from drop list" );
 	Assert( pAttrib_HideFromDropList != NULL );
-	if ( pAttrib_HideFromDropList == NULL )
+	if ( pAttrib_HideFromDropList == nullptr)
 		return false;
 
 	attrib_value_t unAttribValue;
@@ -272,7 +272,7 @@ bool IEconItemInterface::IsHiddenFromDropList() const
 // --------------------------------------------------------------------------
 bool IEconItemInterface::IsUsableInCrafting() const
 {
-	if ( GetItemDefinition() == NULL )
+	if ( GetItemDefinition() == nullptr)
 		return false;
 
 	// check attribute

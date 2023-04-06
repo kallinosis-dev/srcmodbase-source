@@ -61,7 +61,7 @@ static const char *gBugPriorityTable[] = {
 	"TODAY", 
 	"ASAP", 
 	"NONE",
-	NULL
+	nullptr
 };
 
 static const char *gBugTokenTable[] = {
@@ -76,7 +76,7 @@ static const char *gBugTokenTable[] = {
 	"none", "feature",
 	"sugg", "feature",
 	"feat", "feature",
-	NULL
+	nullptr
 };
 
 // removes all color markup characters, so Msg can deal with the string properly
@@ -195,7 +195,7 @@ static const char *TranslatePriorityToken( const char *pToken)
 		}
 		pKey++;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -217,7 +217,7 @@ static CUtlLinkedList<const char *> *ParseTokens( char *szString)
 	{
 		if ( *pEnd == ')')
 		{		
-			char *pToken = NULL;
+			char *pToken = nullptr;
 
 			// skip any spaces
 			char *pTemp = pEnd - 1;
@@ -314,7 +314,7 @@ CBaseHudChatLine::CBaseHudChatLine( vgui::Panel *parent, const char *panelName )
 	m_flExpireTime = 0.0f;
 	m_flStartTime = 0.0f;
 	m_iNameLength	= 0;
-	m_text = NULL;
+	m_text = nullptr;
 
 	SetPaintBackgroundEnabled( true );
 	
@@ -326,7 +326,7 @@ CBaseHudChatLine::~CBaseHudChatLine()
 	if ( m_text )
 	{
 		delete[] m_text;
-		m_text = NULL;
+		m_text = nullptr;
 	}
 }
 
@@ -723,7 +723,7 @@ void CHudChatHistory::Paint()
 #endif
 }
 
-CBaseHudChat *g_pHudChat = NULL;
+CBaseHudChat *g_pHudChat = nullptr;
 
 CBaseHudChat *CBaseHudChat::GetHudChat( void )
 {
@@ -736,7 +736,7 @@ int CBaseHudChat::m_nLineCounter = 1;
 // Purpose: Text chat input/output hud element
 //-----------------------------------------------------------------------------
 CBaseHudChat::CBaseHudChat( const char *pElementName )
-: CHudElement( pElementName ), BaseClass( NULL, "HudChat" )
+: CHudElement( pElementName ), BaseClass(nullptr, "HudChat" )
 {
 	Assert( g_pHudChat == NULL );
 	g_pHudChat = this;
@@ -783,7 +783,7 @@ CBaseHudChat::CBaseHudChat( const char *pElementName )
 
 CBaseHudChat::~CBaseHudChat()
 {
-	g_pHudChat = NULL;
+	g_pHudChat = nullptr;
 }
 
 void CBaseHudChat::CreateChatInputLine( void )
@@ -809,7 +809,7 @@ void CBaseHudChat::CreateChatLines( void )
 
 CHudChatFilterPanel *CBaseHudChat::GetChatFilterPanel( void )
 {
-	if ( m_pFilterPanel == NULL )
+	if ( m_pFilterPanel == nullptr)
 	{
 		m_pFilterPanel = new CHudChatFilterPanel( this, "HudChatFilterPanel"  );
 		if ( m_pFilterPanel )
@@ -1529,7 +1529,7 @@ void CBaseHudChatLine::InsertAndColorizeText( wchar_t *buf, int clientIndex )
 	if ( m_text )
 	{
 		delete[] m_text;
-		m_text = NULL;
+		m_text = nullptr;
 	}
 	m_textRanges.RemoveAll();
 
@@ -1537,7 +1537,7 @@ void CBaseHudChatLine::InsertAndColorizeText( wchar_t *buf, int clientIndex )
 
 	CBaseHudChat *pChat = dynamic_cast<CBaseHudChat*>( GetParent() );
 
-	if ( pChat == NULL )
+	if ( pChat == nullptr)
 		return;
 
 	wchar_t *txt = m_text;

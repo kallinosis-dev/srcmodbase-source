@@ -25,7 +25,7 @@ using namespace vgui;
 struct VideoPlaybackInfo_t
 {
 	VideoPlaybackInfo_t( void ) : 
-		m_pMaterial ( NULL ), 
+		m_pMaterial (nullptr), 
 		m_nSourceHeight(0), m_nSourceWidth(0),
 		m_flU(0.0f),m_flV(0.0f) {}
 
@@ -168,7 +168,7 @@ bool CMovieDisplayScreen::Init( KeyValues* pKeyValues, VGuiScreenInitData_t* pIn
 
 	// Save this for simplicity later on
 	m_hVGUIScreen = dynamic_cast<C_VGuiScreen *>( GetEntity() );
-	if ( m_hVGUIScreen != NULL )
+	if ( m_hVGUIScreen != nullptr)
 	{
 		// Also get the associated entity
 		m_hScreenEntity = dynamic_cast<C_MovieDisplay *>(m_hVGUIScreen->GetOwnerEntity());
@@ -183,7 +183,7 @@ bool CMovieDisplayScreen::Init( KeyValues* pKeyValues, VGuiScreenInitData_t* pIn
 bool CMovieDisplayScreen::IsActive( void )
 {
 	bool bScreenActive = false;
-	if ( m_hVGUIScreen != NULL )
+	if ( m_hVGUIScreen != nullptr)
 	{
 		bScreenActive = m_hVGUIScreen->IsActive();
 	}
@@ -207,7 +207,7 @@ void CMovieDisplayScreen::SetupMovie( void )
 	if ( !bik )
 		return;
 
-	CMovieDisplayScreen *pMasterScreen = NULL;
+	CMovieDisplayScreen *pMasterScreen = nullptr;
 	for ( int i = 0; i < g_MovieDisplays.Count(); i++ )
 	{
 		// Must be a valid peer and not be us
@@ -236,18 +236,18 @@ void CMovieDisplayScreen::SetupMovie( void )
 	}
 
 	// We need to try again, we have no screen entity!
-	if ( m_hScreenEntity == NULL )
+	if ( m_hScreenEntity == nullptr)
 		return;
 
 	// No master found, become one
-	if ( pMasterScreen == NULL && !m_hScreenEntity->IsForcedSlave() )
+	if ( pMasterScreen == nullptr && !m_hScreenEntity->IsForcedSlave() )
 	{
 		const char *szFilename = m_hScreenEntity->GetMovieFilename();
 		BeginPlayback( szFilename );
 		m_bSlaved = false;
 		m_bInitialized = true;			// we are the new master - we are done
 	}
-	else if ( pMasterScreen != NULL )	// we are a slave then we are done.
+	else if ( pMasterScreen != nullptr)	// we are a slave then we are done.
 	{
 		m_bInitialized = true;
 	}
@@ -256,11 +256,11 @@ void CMovieDisplayScreen::SetupMovie( void )
 bool CMovieDisplayScreen::IsAGroupPeer( CMovieDisplayScreen* pScreen )
 {
 	// Must be valid 
-	if ( pScreen == NULL )
+	if ( pScreen == nullptr)
 		return false;
 
 	// Must have an associated movie entity
-	if ( pScreen->m_hScreenEntity == NULL )
+	if ( pScreen->m_hScreenEntity == nullptr)
 		return false;
 
 	// Must have a group name to care
@@ -495,8 +495,8 @@ void CMovieDisplayScreen::Paint( void )
 	int xpos, ypos;
 	GetPanelPos( xpos, ypos );
 
-	bool bStretchToFill = ( m_hScreenEntity != NULL ) ? m_hScreenEntity->IsStretchingToFill() : false;
-	bool bUsingCustomUVs = ( m_hScreenEntity != NULL ) ? m_hScreenEntity->IsUsingCustomUVs() : false;
+	bool bStretchToFill = ( m_hScreenEntity != nullptr) ? m_hScreenEntity->IsStretchingToFill() : false;
+	bool bUsingCustomUVs = ( m_hScreenEntity != nullptr) ? m_hScreenEntity->IsUsingCustomUVs() : false;
 
 	// Black out the background (we could omit drawing under the video surface, but this is straight-forward)
 	if ( m_bBlackBackground && !bStretchToFill )

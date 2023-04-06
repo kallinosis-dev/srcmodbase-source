@@ -315,12 +315,12 @@ uint CModelRenderSystem::AddModelToLists( int &nModelTypeCountInOut, ModelListBy
 		list.m_pStudioHdr = pStudioHdr;
 		list.m_pHardwareData = pHardwareData;
 		list.m_nFlashlightCount = 0;
-		list.m_pFlashlights = NULL;
+		list.m_pFlashlights = nullptr;
 		list.m_nCount = 0;
-		list.m_pFirstNode = 0;
-		list.m_pRenderModels = 0;
+		list.m_pFirstNode = nullptr;
+		list.m_pRenderModels = nullptr;
 		list.m_nParentDepth = 0;
-		list.m_pNextLightingModel = NULL;
+		list.m_pNextLightingModel = nullptr;
 		j = nModelTypeCount++;
 	}
 
@@ -341,7 +341,7 @@ uint CModelRenderSystem::AddModelToLists( int &nModelTypeCountInOut, ModelListBy
 	}
 	else
 	{
-		node.m_pStencilState = NULL;
+		node.m_pStencilState = nullptr;
 	}
 
 	node.m_pNext = list.m_pFirstNode;
@@ -610,7 +610,7 @@ void CModelRenderSystem::SortModels( RenderModelInfo_t *pRenderModelInfo, int nL
 			pCurrInfo->m_Decals = STUDIORENDER_DECAL_INVALID;
 			pCurrInfo->m_nInitialListIndex = pNode->m_nInitialListIndex;
 			pCurrInfo->m_bBoneMerge = pNode->m_bBoneMerge;
-			pCurrInfo->m_bSetupBonesOnly = ( pNode->m_Entry.m_pModelRenderable == NULL );
+			pCurrInfo->m_bSetupBonesOnly = ( pNode->m_Entry.m_pModelRenderable == nullptr);
 			pCurrInfo->m_pStencilState = pNode->m_pStencilState;
 			list.m_nSetupBoneCount += pCurrInfo->m_bSetupBonesOnly;
 			++pCurrInfo;
@@ -1199,7 +1199,7 @@ void CModelRenderSystem::SetupFlashlightsAndDecals( StudioModelArrayInfo2_t *pIn
 	}
 	else
 	{
-		pInfo->m_pFlashlights = NULL;
+		pInfo->m_pFlashlights = nullptr;
 	}
 
 	// FIXME: Hack!
@@ -1310,7 +1310,7 @@ void CModelRenderSystem::RenderModels( StudioModelArrayInfo2_t *pInfo, int nMode
 			// PS/3 renders all models in one go because models have a lot of vertices and few pixels (as of Portal2). So we end Z Pass earlier, before we RenderModels()
 			g_pStudioRender->DrawModelArray( *pInfo, nModelTypeCount, rdArray.Base(), sizeof(RenderModelInfo_t), nFlags );
 		}
-		g_pStudioRender->ForcedMaterialOverride( NULL );
+		g_pStudioRender->ForcedMaterialOverride(nullptr);
 	}
 	else if ( renderMode == MODEL_RENDER_MODE_SHADOW_DEPTH )
 	{
@@ -1413,7 +1413,7 @@ void CModelRenderSystem::RenderVCollideDebugOverlay( int nModelTypeCount, ModelL
 				if ( pCollide && pCollide->solidCount == 1 )
 				{
 					static color32 debugColor = {0,255,255,0};
-					engine->DebugDrawPhysCollide( pCollide->solids[0], NULL, pCollideable->CollisionToWorldTransform(), debugColor );
+					engine->DebugDrawPhysCollide( pCollide->solids[0], nullptr, pCollideable->CollisionToWorldTransform(), debugColor );
 
 					C_BaseEntity *pEntity = pRenderable->GetIClientUnknown()->GetBaseEntity();
 					if ( pEntity && pEntity->VPhysicsGetObject() )
@@ -1421,7 +1421,7 @@ void CModelRenderSystem::RenderVCollideDebugOverlay( int nModelTypeCount, ModelL
 						static color32 debugColorPhys = {255,0,0,0};
 						matrix3x4_t matrix;
 						pEntity->VPhysicsGetObject()->GetPositionMatrix( &matrix );
-						engine->DebugDrawPhysCollide( pCollide->solids[0], NULL, matrix, debugColorPhys );
+						engine->DebugDrawPhysCollide( pCollide->solids[0], nullptr, matrix, debugColorPhys );
 					}
 				}
 				continue;
@@ -1432,7 +1432,7 @@ void CModelRenderSystem::RenderVCollideDebugOverlay( int nModelTypeCount, ModelL
 				if ( pCollide && pCollide->solidCount == 1 )
 				{
 					static color32 debugColor = {0,255,0,0};
-					engine->DebugDrawPhysCollide( pCollide->solids[0], NULL, pAnim->RenderableToWorldTransform(), debugColor );
+					engine->DebugDrawPhysCollide( pCollide->solids[0], nullptr, pAnim->RenderableToWorldTransform(), debugColor );
 				}
 				continue;
 			}
@@ -1514,7 +1514,7 @@ void CModelRenderSystem::DrawModels( ModelRenderSystemData_t *pEntities, int nCo
 
 	// FIXME: This is infected-specific for perf test reasons.
 	// Will break into a more fixed pipeline at a later date
-	DataCacheHandle_t *pColorMeshHandles = NULL;
+	DataCacheHandle_t *pColorMeshHandles = nullptr;
 	if ( renderMode == MODEL_RENDER_MODE_NORMAL )
 	{
 		pColorMeshHandles = (DataCacheHandle_t*)stackalloc( nCount * sizeof(DataCacheHandle_t) );
@@ -1580,7 +1580,7 @@ void CModelRenderSystem::DrawModels( ModelRenderSystemData_t *pEntities, int nCo
 
 	RenderDebugOverlays( nModelTypeCount, pModelList, renderMode );
 
-	m_pRenderContext = NULL;
+	m_pRenderContext = nullptr;
 }
 
 
@@ -1657,7 +1657,7 @@ void CModelRenderSystem::ComputeTranslucentRenderData( ModelRenderSystemData_t *
 
 	RenderDebugOverlays( nModelTypeCount, pModelList, renderMode );
 
-	m_pRenderContext = NULL;
+	m_pRenderContext = nullptr;
 }
 
 void CModelRenderSystem::CleanupTranslucentTempData( TranslucentTempData_t *pTempData )
@@ -1691,7 +1691,7 @@ void CModelRenderSystem::AddBrushModelToList( int nInitialListIndex, ModelRender
 	brushToWorld = data.m_pRenderable->RenderableToWorldTransform();
 	instance.m_pBrushToWorld = &brushToWorld;
 	instance.m_pBrushModel = pModel;
-	instance.m_pStencilState = NULL;
+	instance.m_pStencilState = nullptr;
 
 	uint bWantsStencil = 0;
 	if ( data.m_pModelRenderable )
@@ -1782,5 +1782,5 @@ void CModelRenderSystem::DrawBrushModels( ModelRenderSystemData_t *pModels, int 
 
 //	RenderDebugOverlays( nModelTypeCount, pModelList, renderMode );
 
-	m_pRenderContext = NULL;
+	m_pRenderContext = nullptr;
 }

@@ -26,7 +26,7 @@ static const char* gTypeMap[] =
 	"VCD",
 	"WAV",
 	"BOT",
-	NULL
+	nullptr
 };
 
 struct CBlackBoxRecord
@@ -137,7 +137,7 @@ void CBlackBox::SetLimit(int type, unsigned int count)
 const char *CBlackBox::Get( int type, unsigned int index )
 {
 	if ( !ValidType( type ))
-		return NULL;
+		return nullptr;
 	
 	return (*m_records[type][index]);
 }
@@ -145,7 +145,7 @@ const char *CBlackBox::Get( int type, unsigned int index )
 const char *CBlackBox::GetTypeName( int type )
 {
 	if ( !ValidType( type ))
-		return NULL;
+		return nullptr;
 
 	return gTypeMap[type];
 }

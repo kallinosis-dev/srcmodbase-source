@@ -89,7 +89,7 @@ public:
 
 	~CEconItemRarityDefinition( void ) { }
 
-	bool		BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	int32		GetDBValue( void ) const			{ return m_nValue; }
 	const char	*GetName( void ) const				{ return !m_strName.IsEmpty() ? m_strName.String() : "unknown"; }
@@ -155,7 +155,7 @@ struct static_attrib_t
 	static_attrib_t()
 	{
 		iDefIndex = 0;
-		m_value.asBlobPointer = NULL;
+		m_value.asBlobPointer = nullptr;
 		m_bForceGCToGenerate = false;
 
 	}
@@ -252,7 +252,7 @@ public:
 
 	~CEconItemQualityDefinition( void ) { }
 
-	bool		BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 
 	int32		GetDBValue( void ) const			{ return m_nValue; }
@@ -289,7 +289,7 @@ private:
 class CEconColorDefinition
 {
 public:
-	bool		BInitFromKV( KeyValues *pKVColor, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVColor, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	const char *GetName( void ) const			{ return m_strName.Get(); }
 	const char *GetColorName( void ) const		{ return m_strColorName.Get(); }		// meant for passing into VGUI styles, etc.
@@ -313,7 +313,7 @@ private:
 class CEconGraffitiTintDefinition
 {
 public:
-	bool		BInitFromKV( KeyValues *pKVColor, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVColor, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	int GetID( void ) const			{ return m_nID; }
 	const char *GetColorName( void ) const		{ return m_strColorName.Get(); }		// meant for passing into VGUI styles, etc.
@@ -338,7 +338,7 @@ private:
 class CEconMusicDefinition
 {
 public:
-	bool		BInitFromKV( KeyValues *pKVMusicDef, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVMusicDef, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	uint32		GetID( void ) const						{ return nID; }
 	const char *GetName( void ) const					{ return m_strName.Get(); }
@@ -399,7 +399,7 @@ typedef CUtlMap< RTime32, quest_event_t*, int, CDefLess< RTime32 > > QuestEvents
 class CEconQuestDefinition
 {
 public:
-	bool		BInitFromKV( KeyValues *pKVQuestDef, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVQuestDef, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	uint32									GetID( void ) const						{ return nID; }
 	const char *							GetName( void ) const					{ return m_strName.Get(); }
@@ -528,7 +528,7 @@ public:
 	public:
 #endif
 
-		bool		BInitFromKV( int nCampaignIndex, KeyValues *pKVCampaignNodeDef, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+		bool		BInitFromKV( int nCampaignIndex, KeyValues *pKVCampaignNodeDef, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 		const uint32					GetID( void ) const					{ return m_nID; }
 		const uint32					GetQuestIndex( void ) const			{ return m_nQuestIndex; }
@@ -550,7 +550,7 @@ public:
 
 	typedef CUtlMap<int, CEconCampaignNodeDefinition*, int, CDefLess<int> >	CampaignNodeDefinitionsList_t;
 
-	bool		BInitFromKV( KeyValues *pKVCampaignDef, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVCampaignDef, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	const uint32							GetID( void ) const						{ return m_nID; }
 	const char*								GetNameLocToken( void ) const			{ return m_strNameLocToken.Get(); }
@@ -638,7 +638,7 @@ public:
 
 	~CEconItemSetDefinition( void ) {}
 
-	virtual bool BInitFromKV( KeyValues *pKVItemSet, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	virtual bool BInitFromKV( KeyValues *pKVItemSet, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	virtual const char* GetName( void )	const { return m_pszName; }
 //	virtual const char* GetSetName( void )	const { return m_pszSetName; }
@@ -705,8 +705,8 @@ public:
 
 	~CEconLootListDefinition( void );
 
-	bool AddRandomAtrributes( KeyValues *pRandomAttributesKV, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
-	bool	BInitFromKV( KeyValues *pKVLootList, KeyValues *pKVRandomAttributeTemplates, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL, bool bServerList = false );
+	bool AddRandomAtrributes( KeyValues *pRandomAttributesKV, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
+	bool	BInitFromKV( KeyValues *pKVLootList, KeyValues *pKVRandomAttributeTemplates, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr, bool bServerList = false );
 	virtual const char *GetName() const { return m_pszName; }
 	const CUtlVector<item_list_entry_t>& GetLootListContents() const { return m_ItemEntries; }
 	virtual float GetWeight( int iIdx ) const { return m_flWeights[iIdx]; }
@@ -789,8 +789,8 @@ public:
 	CEconCraftingRecipeDefinition( void );
 	virtual ~CEconCraftingRecipeDefinition( void ) { }
 
-	bool		BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
-	bool		BInitFromSet( const IEconItemSetDefinition *pSet, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
+	bool		BInitFromSet( const IEconItemSetDefinition *pSet, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	virtual void CopyPolymorphic( const CEconCraftingRecipeDefinition *pSourceDef ) { *this = *pSourceDef; }
 
@@ -926,7 +926,7 @@ public:
 
 	~CEconItemAttributeDefinition( void );
 
-	bool	BInitFromKV( KeyValues *pKVAttribute, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool	BInitFromKV( KeyValues *pKVAttribute, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	virtual attrib_definition_index_t GetDefinitionIndex( void ) const	{ return m_nDefIndex; }
 	// Attribute name referenced in the db.
@@ -1031,7 +1031,7 @@ public:
 
 	~CEconSoundMaterialDefinition( void ) { }
 
-	bool		BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	int32		GetID( void ) const					{ return m_nID; }
 	const char	*GetName( void ) const				{ return !m_strName.IsEmpty() ? m_strName.String() : "unknown"; }
@@ -1172,12 +1172,12 @@ public:
 		m_iIndex = 0;
 		m_iSkin = 0;
 		m_iIcon = 0;
-		m_pszName = NULL;
-		m_pszBasePlayerModel = NULL;
-		m_UnlockInfo.pszItemName = NULL;
+		m_pszName = nullptr;
+		m_pszBasePlayerModel = nullptr;
+		m_UnlockInfo.pszItemName = nullptr;
 		m_UnlockInfo.iPrice = 0;
 		m_UnlockInfo.iStylePreReq = 0;
-		m_UnlockInfo.pszAttrib = NULL;
+		m_UnlockInfo.pszAttrib = nullptr;
 		m_UnlockInfo.iAttribValue = 0;
 	}
 
@@ -1278,17 +1278,17 @@ struct AssetInfo
 
 		iSkin = 0;
 		bUsePerClassBodygroups = false;
-		m_pszMaterialOverride = NULL;
-		m_pszParticleEffect = NULL;
-		m_pszParticleSnapshot = NULL;
+		m_pszMaterialOverride = nullptr;
+		m_pszParticleEffect = nullptr;
+		m_pszParticleSnapshot = nullptr;
 		for ( int i = 0; i < MAX_VISUALS_CUSTOM_SOUNDS; i++ )
 		{
-			m_pszCustomSounds[i] = NULL;
+			m_pszCustomSounds[i] = nullptr;
 		}
 
 		for ( int i = 0; i < NUM_SHOOT_SOUND_TYPES; i++ )
 		{
-			m_pszWeaponSoundReplacements[i] = NULL;
+			m_pszWeaponSoundReplacements[i] = nullptr;
 		}
 
 		m_iViewModelBodyGroupOverride = -1;
@@ -1296,33 +1296,33 @@ struct AssetInfo
 		m_iWorldModelBodyGroupOverride = -1;
 		m_iWorldModelBodyGroupStateOverride = -1;
 
-		m_pszSpeechConcept = NULL;
-		m_pszChatMessage = NULL;
+		m_pszSpeechConcept = nullptr;
+		m_pszChatMessage = nullptr;
 		m_pszAnnouncerName.Clear();
 		m_pszAnnouncerResource.Clear();
-		m_pszEntityModel = NULL;
-		m_pszViewModel = NULL;
-		m_pszEntityClass = NULL;
+		m_pszEntityModel = nullptr;
+		m_pszViewModel = nullptr;
+		m_pszEntityClass = nullptr;
 //		m_pszHeroModelFrom = NULL;
 //		m_pszHeroModelTo = NULL;
 		m_flScaleSize = 1.f;
-		m_pszScaleClass = NULL;
+		m_pszScaleClass = nullptr;
 		m_bSkipModelCombine = false;
 
-		m_pszPrimaryAmmo = NULL;
-		m_pszWeaponTypeString = NULL;
-		m_pszAddonLocation = NULL;
-		m_pszEjectBrassEffect = NULL;
-		m_pszTracerEffect = NULL;
-		m_pszMuzzleFlashEffect1stPerson = NULL;
-		m_pszMuzzleFlashEffect1stPersonAlt = NULL;
-		m_pszMuzzleFlashEffect3rdPerson = NULL;
-		m_pszMuzzleFlashEffect3rdPersonAlt = NULL;
-		m_pszHeatEffect = NULL;
-		m_pszPlayerAnimationExtension = NULL;
+		m_pszPrimaryAmmo = nullptr;
+		m_pszWeaponTypeString = nullptr;
+		m_pszAddonLocation = nullptr;
+		m_pszEjectBrassEffect = nullptr;
+		m_pszTracerEffect = nullptr;
+		m_pszMuzzleFlashEffect1stPerson = nullptr;
+		m_pszMuzzleFlashEffect1stPersonAlt = nullptr;
+		m_pszMuzzleFlashEffect3rdPerson = nullptr;
+		m_pszMuzzleFlashEffect3rdPersonAlt = nullptr;
+		m_pszHeatEffect = nullptr;
+		m_pszPlayerAnimationExtension = nullptr;
 
-		m_pszOriginalIcon = NULL;
-		m_pszNewIcon = NULL;
+		m_pszOriginalIcon = nullptr;
+		m_pszNewIcon = nullptr;
 
 		m_mapAssetModifiers.SetLessFunc( DefLessFunc(int) );
 
@@ -1522,7 +1522,7 @@ public:
 	virtual IEconConsumable* CreateEconConsumable() const
 	{
 		Assert( !"IEconTool::CreateEconConsumable(): unimplemented call!" );
-		return NULL; 
+		return nullptr; 
 	}
 
 #ifdef CLIENT_DLL
@@ -1605,7 +1605,7 @@ public:
 
 public:
 	// BInitFromKV can be implemented on subclasses to parse additional values.
-	virtual bool	BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	virtual bool	BInitFromKV( KeyValues *pKVItem, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 #if defined(CLIENT_DLL) || defined(GAME_DLL)
 	virtual bool	BInitFromTestItemKVs( int iNewDefIndex, KeyValues *pKVItem, CEconItemSchema &pschema );
 	virtual void	GeneratePrecacheModelStrings( bool bDynamicLoad, CUtlVector<const char *> *out_pVecModelStrings ) const;
@@ -1616,7 +1616,7 @@ public:
 
 	bool		BInitItemMappings( CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors );
 
-	virtual void BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	virtual void BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 	void		BInitStylesBlockFromKV( KeyValues *pKVStyles, CEconItemSchema &pschema, AssetInfo *pAssetInfo, CUtlVector<CUtlString> *pVecErrors );
 	bool		BInitAlternateIconsFromKV( KeyValues *pKVAlternateIcons, CEconItemSchema &pschema, AssetInfo *pAssetInfo, CUtlVector<CUtlString> *pVecErrors );
 
@@ -1651,7 +1651,7 @@ public:
 	bool		IsAllowedInMatch( void ) const		{ return m_bAllowedInThisMatch; }
 	virtual bool IsBaseItem( void ) const			{ return m_bBaseItem; }
 	virtual bool IsDefaultSlotItem( void ) const	{ return m_bDefaultSlotItem; }
-	virtual bool IsBundle( void ) const				{ return m_BundleInfo != NULL; }
+	virtual bool IsBundle( void ) const				{ return m_BundleInfo != nullptr; }
 	bool		HasProperName( void ) const			{ return m_bProperName; }
 	const char	*GetClassToken( void ) const		{ return m_pszClassToken; }
 	const char	*GetSlotToken( void ) const			{ return m_pszSlotToken; }
@@ -1675,7 +1675,7 @@ public:
 
 	AssetInfo	*GetAssetInfo() const				{ return m_pAssetInfo; }
 
-	bool IsTool() const									{ return m_pTool != NULL; }
+	bool IsTool() const									{ return m_pTool != nullptr; }
 	bool IsToolAndNotACrate() const							{ return ( IsTool() && GetEconTool() && V_strcmp( GetEconTool()->GetTypeName(), "supply_crate" ) != 0 ); }
 	const IEconTool	*GetEconTool() const				{ return m_pTool; }
 	template < class T >
@@ -1702,7 +1702,7 @@ public:
 	const char	*GetLogClassname( void ) const		{ return m_pszItemLogClassname; }
 	const char	*GetInventoryModel( void ) const	{ return m_pszInventoryModel; }
 	virtual const char	*GetInventoryImage( void ) const	{ return m_pszInventoryImage; }
-	const char	*GetInventoryOverlayImage( int idx ) const	{ if ( m_pszInventoryOverlayImages.IsValidIndex( idx ) ) return m_pszInventoryOverlayImages[idx]; else return NULL; }
+	const char	*GetInventoryOverlayImage( int idx ) const	{ if ( m_pszInventoryOverlayImages.IsValidIndex( idx ) ) return m_pszInventoryOverlayImages[idx]; else return nullptr; }
 	int			GetInventoryOverlayImageCount( void ) const { return m_pszInventoryOverlayImages.Count(); }
 	const char  *GetIconURLSmall() const			{ return m_sIconURLSmall; }
 	const char  *GetIconURLLarge() const			{ return m_sIconURLLarge; }
@@ -1747,7 +1747,7 @@ public:
 	bool		IsActingAsAWearable( void ) const	{ return m_bActAsWearable; }
 	bool		GetHideBodyGroupsDeployedOnly( void ) const { return m_bHideBodyGroupsDeployedOnly; }
 	virtual bool	IsPackBundle( void ) const			{ return m_bIsPackBundle; }
-	virtual bool	IsPackItem( void ) const			{ return NULL != m_pOwningPackBundle; }
+	virtual bool	IsPackItem( void ) const			{ return nullptr != m_pOwningPackBundle; }
 	CEconItemDefinition	*GetOwningPackBundle()		{ return m_pOwningPackBundle; }
 	const CEconItemDefinition	*GetOwningPackBundle() const	{ return m_pOwningPackBundle; }
 #if ECONITEM_DATABASE_AUDIT_TABLES_FEATURE
@@ -1764,7 +1764,7 @@ public:
 
 	// Functions to deal with the case where an item definition is actually a proxy for 
 	// a random selection
-	bool		BRandomProxy( void ) const			{ return NULL != m_pProxyCriteria; }
+	bool		BRandomProxy( void ) const			{ return nullptr != m_pProxyCriteria; }
 	CItemSelectionCriteria *PProxyCriteria( void ) const { return m_pProxyCriteria; }
 
 	// Generate and return a random level according to whatever leveling curve this definition uses.
@@ -2160,7 +2160,7 @@ inline const CEconStyleInfo *CEconItemDefinition::GetStyleInfo( style_index_t un
 {
 	const AssetInfo *pAssetInfo = GetAssetInfo();
 	if ( !pAssetInfo || !pAssetInfo->m_Styles.IsValidIndex( unStyle ) )
-		return NULL;
+		return nullptr;
 
 	return pAssetInfo->m_Styles[unStyle];
 }
@@ -2180,11 +2180,11 @@ inline int CEconItemDefinition::GetNumAttachedModels() const
 inline attachedmodel_t *CEconItemDefinition::GetAttachedModelData( int iIdx ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	Assert( iIdx < GetAssetInfo()->m_AttachedModels.Count() );
 	if ( iIdx >= GetAssetInfo()->m_AttachedModels.Count() )
-		return NULL;
+		return nullptr;
 
 	return &GetAssetInfo()->m_AttachedModels[iIdx];
 }
@@ -2203,11 +2203,11 @@ inline int CEconItemDefinition::GetNumAnimations() const
 inline animation_on_wearable_t *CEconItemDefinition::GetAnimationData( int iIdx ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	Assert( iIdx < GetAssetInfo()->m_Animations.Count() );
 	if ( iIdx < 0 || iIdx >= GetAssetInfo()->m_Animations.Count() )
-		return NULL;
+		return nullptr;
 
 	return &GetAssetInfo()->m_Animations[iIdx];
 }
@@ -2226,10 +2226,10 @@ inline int CEconItemDefinition::GetNumAnimationModifiers() const
 inline const char* CEconItemDefinition::GetAnimationModifier( int iIdx ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	if ( iIdx < 0 || iIdx >= GetAssetInfo()->m_vecAnimationModifiers.Count() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_vecAnimationModifiers[iIdx];
 }
@@ -2240,7 +2240,7 @@ inline const char* CEconItemDefinition::GetAnimationModifier( int iIdx ) const
 inline const char *CEconItemDefinition::GetAnnouncerName() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszAnnouncerName;
 }
@@ -2251,7 +2251,7 @@ inline const char *CEconItemDefinition::GetAnnouncerName() const
 inline const char *CEconItemDefinition::GetAnnouncerResource() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszAnnouncerResource;
 }
@@ -2262,7 +2262,7 @@ inline const char *CEconItemDefinition::GetAnnouncerResource() const
 inline const char *CEconItemDefinition::GetUIOverrideIcon() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszNewIcon;
 }
@@ -2273,7 +2273,7 @@ inline const char *CEconItemDefinition::GetUIOverrideIcon() const
 inline const char *CEconItemDefinition::GetUIOverrideOriginalIcon() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszOriginalIcon;
 }
@@ -2284,10 +2284,10 @@ inline const char *CEconItemDefinition::GetUIOverrideOriginalIcon() const
 inline const char *CEconItemDefinition::GetUIOverrideAbilityIcon( const char *pszAbilityName ) const
 {
 	if ( !pszAbilityName )
-		return NULL;
+		return nullptr;
 
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	FOR_EACH_VEC( GetAssetInfo()->m_vecAbilityIconReplacements, i )
 	{
@@ -2301,7 +2301,7 @@ inline const char *CEconItemDefinition::GetUIOverrideAbilityIcon( const char *ps
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2310,25 +2310,25 @@ inline const char *CEconItemDefinition::GetUIOverrideAbilityIcon( const char *ps
 inline const char *CEconItemDefinition::GetEntityOverrideModel() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	CUtlVector<AssetModifier*>* pAssetModifierList = GetAssetInfo()->GetAssetModifiers( AM_EntityModel );
 	if ( pAssetModifierList && pAssetModifierList->Count() > 0 )
 		return pAssetModifierList->Element(0)->m_strModifier.String();
 
-	return NULL;
+	return nullptr;
 }
 
 inline const char *CEconItemDefinition::GetViewOverrideModel() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	CUtlVector<AssetModifier*>* pAssetModifierList = GetAssetInfo()->GetAssetModifiers( AM_ViewModel );
 	if ( pAssetModifierList && pAssetModifierList->Count() > 0 )
 		return pAssetModifierList->Element(0)->m_strModifier.String();
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2337,13 +2337,13 @@ inline const char *CEconItemDefinition::GetViewOverrideModel() const
 inline const char *CEconItemDefinition::GetEntityOverrideClass() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	CUtlVector<AssetModifier*>* pAssetModifierList = GetAssetInfo()->GetAssetModifiers( AM_EntityModel );
 	if ( pAssetModifierList && pAssetModifierList->Count() > 0 )
 		return pAssetModifierList->Element(0)->m_strAsset.String();
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2352,7 +2352,7 @@ inline const char *CEconItemDefinition::GetEntityOverrideClass() const
 inline const char *CEconItemDefinition::GetScaleOverrideClass() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszScaleClass;
 }
@@ -2363,13 +2363,13 @@ inline const char *CEconItemDefinition::GetScaleOverrideClass() const
 inline const char *CEconItemDefinition::GetHeroModelChangeModel() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	CUtlVector<AssetModifier*>* pAssetModifierList = GetAssetInfo()->GetAssetModifiers( AM_HeroModelChange );
 	if ( pAssetModifierList && pAssetModifierList->Count() > 0 )
 		return pAssetModifierList->Element(0)->m_strModifier.String();
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2408,11 +2408,11 @@ inline int CEconItemDefinition::GetNumSounds() const
 inline sound_on_wearable_t *CEconItemDefinition::GetSoundData( int iIdx ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	Assert( iIdx < GetAssetInfo()->m_Sounds.Count() );
 	if ( iIdx >= GetAssetInfo()->m_Sounds.Count() )
-		return NULL;
+		return nullptr;
 
 	return &GetAssetInfo()->m_Sounds[iIdx];
 }
@@ -2431,11 +2431,11 @@ inline int CEconItemDefinition::GetNumParticles() const
 inline particle_on_wearable_t *CEconItemDefinition::GetParticleData( int iIdx ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	Assert( iIdx < GetAssetInfo()->m_Particles.Count() );
 	if ( iIdx >= GetAssetInfo()->m_Particles.Count() )
-		return NULL;
+		return nullptr;
 
 	return &GetAssetInfo()->m_Particles[iIdx];
 }
@@ -2454,11 +2454,11 @@ inline int CEconItemDefinition::GetNumParticleSnapshots() const
 inline particlesnapshot_on_wearable_t *CEconItemDefinition::GetParticleSnapshotData( int iIdx ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	Assert( iIdx < GetAssetInfo()->m_ParticleSnapshots.Count() );
 	if ( iIdx >= GetAssetInfo()->m_ParticleSnapshots.Count() )
-		return NULL;
+		return nullptr;
 
 	return &GetAssetInfo()->m_ParticleSnapshots[iIdx];
 }
@@ -2477,11 +2477,11 @@ inline int CEconItemDefinition::GetNumParticleControlPoints() const
 inline particle_control_point_on_wearable_t *CEconItemDefinition::GetParticleControlPointData( int iIdx ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	Assert( iIdx < GetAssetInfo()->m_ParticleControlPoints.Count() );
 	if ( iIdx >= GetAssetInfo()->m_ParticleControlPoints.Count() )
-		return NULL;
+		return nullptr;
 
 	return &GetAssetInfo()->m_ParticleControlPoints[iIdx];
 }
@@ -2503,7 +2503,7 @@ inline int CEconItemDefinition::GetNumAttachedParticles() const
 inline const char *CEconItemDefinition::GetMaterialOverride() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszMaterialOverride;
 }
@@ -2515,7 +2515,7 @@ inline const char *CEconItemDefinition::GetMaterialOverride() const
 inline const char *CEconItemDefinition::GetMuzzleFlash() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 		
 	return GetAssetInfo()->m_pszMuzzleFlash;
 }
@@ -2526,7 +2526,7 @@ inline const char *CEconItemDefinition::GetMuzzleFlash() const
 inline const char *CEconItemDefinition::GetTracerEffect() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 		
 	return GetAssetInfo()->m_pszTracerEffect;
 }
@@ -2537,7 +2537,7 @@ inline const char *CEconItemDefinition::GetTracerEffect() const
 inline const char *CEconItemDefinition::GetParticleEffect() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszParticleEffect;
 }
@@ -2548,7 +2548,7 @@ inline const char *CEconItemDefinition::GetParticleEffect() const
 inline const char *CEconItemDefinition::GetParticleSnapshot() const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszParticleSnapshot;
 }
@@ -2581,7 +2581,7 @@ inline int CEconItemDefinition::GetNumModifiedBodyGroups() const
 inline const char* CEconItemDefinition::GetModifiedBodyGroup( int i, int& body ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	body = GetAssetInfo()->m_ModifiedBodyGroupNames[i];
 	return GetAssetInfo()->m_ModifiedBodyGroupNames.Key(i);
@@ -2604,7 +2604,7 @@ inline int CEconItemDefinition::GetNumCodeControlledBodyGroups() const
 inline const char* CEconItemDefinition::GetCodeControlledBodyGroup( int i, codecontrolledbodygroupdata_t &ccbgd ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	ccbgd = GetAssetInfo()->m_CodeControlledBodyGroupNames[i];
 	return GetAssetInfo()->m_CodeControlledBodyGroupNames.Key(i);
@@ -2686,9 +2686,9 @@ inline bool CEconItemDefinition::UsesPerClassBodygroups() const
 inline const char *CEconItemDefinition::GetCustomSound( int iSound ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 	if ( iSound < 0 || iSound >= MAX_VISUALS_CUSTOM_SOUNDS )
-		return NULL;
+		return nullptr;
 	return GetAssetInfo()->m_pszCustomSounds[iSound];
 }
 
@@ -2698,9 +2698,9 @@ inline const char *CEconItemDefinition::GetCustomSound( int iSound ) const
 inline const char *CEconItemDefinition::GetWeaponReplacementSound( /* WeaponSound_t */ int iSound ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 	if ( iSound < 0 || iSound >= NUM_SHOOT_SOUND_TYPES )
-		return NULL;
+		return nullptr;
 	return GetAssetInfo()->m_pszWeaponSoundReplacements[iSound];
 }
 
@@ -2710,7 +2710,7 @@ inline const char *CEconItemDefinition::GetWeaponReplacementSound( /* WeaponSoun
 inline const char *CEconItemDefinition::GetPrimaryAmmo( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszPrimaryAmmo;
 }
@@ -2721,7 +2721,7 @@ inline const char *CEconItemDefinition::GetPrimaryAmmo( void ) const
 inline const char *CEconItemDefinition::GetWeaponTypeString( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszWeaponTypeString;
 }
@@ -2732,7 +2732,7 @@ inline const char *CEconItemDefinition::GetWeaponTypeString( void ) const
 inline const char *CEconItemDefinition::GetAddonLocation( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszAddonLocation;
 }
@@ -2743,7 +2743,7 @@ inline const char *CEconItemDefinition::GetAddonLocation( void ) const
 inline const char *CEconItemDefinition::GetEjectBrassEffect( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszEjectBrassEffect;
 }
@@ -2754,7 +2754,7 @@ inline const char *CEconItemDefinition::GetEjectBrassEffect( void ) const
 inline const char *CEconItemDefinition::GetMuzzleFlashEffect1stPerson( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszMuzzleFlashEffect1stPerson;
 }
@@ -2765,7 +2765,7 @@ inline const char *CEconItemDefinition::GetMuzzleFlashEffect1stPerson( void ) co
 inline const char *CEconItemDefinition::GetMuzzleFlashEffect1stPersonAlt( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszMuzzleFlashEffect1stPersonAlt;
 }
@@ -2776,7 +2776,7 @@ inline const char *CEconItemDefinition::GetMuzzleFlashEffect1stPersonAlt( void )
 inline const char *CEconItemDefinition::GetMuzzleFlashEffect3rdPerson( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszMuzzleFlashEffect3rdPerson;
 }
@@ -2787,7 +2787,7 @@ inline const char *CEconItemDefinition::GetMuzzleFlashEffect3rdPerson( void ) co
 inline const char *CEconItemDefinition::GetMuzzleFlashEffect3rdPersonAlt( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszMuzzleFlashEffect3rdPersonAlt;
 }
@@ -2798,7 +2798,7 @@ inline const char *CEconItemDefinition::GetMuzzleFlashEffect3rdPersonAlt( void )
 inline const char *CEconItemDefinition::GetHeatEffect( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszHeatEffect;
 }
@@ -2809,7 +2809,7 @@ inline const char *CEconItemDefinition::GetHeatEffect( void ) const
 inline const char *CEconItemDefinition::GetPlayerAnimationExtension( void ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	return GetAssetInfo()->m_pszPlayerAnimationExtension;
 }
@@ -2829,7 +2829,7 @@ public:
 
 	~CTimedItemRewardDefinition( void );
 
-	bool		BInitFromKV( KeyValues *pKVTimedReward, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVTimedReward, CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	uint32		GetRandomFrequency( void ) const	{ return RandomFloat( m_unMinFreq, m_unMaxFreq ); }
 	uint32		GetMinFrequency( void ) const		{ return m_unMinFreq; }
@@ -2878,7 +2878,7 @@ public:
 
 	const CItemSelectionCriteria &GetCriteria( void ) const		{ return m_criteria; }
 	int GetLootListCount( void ) const							{ return m_arrLootLists.Count(); }
-	const CEconLootListDefinition *GetLootList( int iLootListIdx = 0 ) const { return m_arrLootLists.IsValidIndex( iLootListIdx ) ? m_arrLootLists[iLootListIdx] : NULL; }
+	const CEconLootListDefinition *GetLootList( int iLootListIdx = 0 ) const { return m_arrLootLists.IsValidIndex( iLootListIdx ) ? m_arrLootLists[iLootListIdx] : nullptr; }
 private:
 	// Frequency of how often the item is awarded
 	uint32		m_unMinFreq;
@@ -2918,7 +2918,7 @@ public:
 
 	~CItemLevelingDefinition( void );
 
-	bool		BInitFromKV( KeyValues *pKVItemLevel, CEconItemSchema &pschema, const char *pszLevelBlockName, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool		BInitFromKV( KeyValues *pKVItemLevel, CEconItemSchema &pschema, const char *pszLevelBlockName, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	uint32		GetLevel( void ) const { return m_unLevel; }
 	uint32		GetRequiredScore( void ) const { return m_unRequiredScore; }
@@ -2980,7 +2980,7 @@ struct kill_eater_score_type_t
 class CWebResource
 {
 public:
-	CWebResource() : m_bOnDemand( false ), m_pKeyValues( NULL ), m_fnLoadCallback( NULL ) {}
+	CWebResource() : m_bOnDemand( false ), m_pKeyValues(nullptr), m_fnLoadCallback(nullptr) {}
 	CWebResource( const CWebResource& other )
 	{
 		m_strName = other.m_strName;
@@ -3165,7 +3165,7 @@ public:
 		m_nEventTeamID = rhs.m_nEventTeamID;
 		m_nPlayerID = rhs.m_nPlayerID;
 
-		m_pKVItem = rhs.m_pKVItem ? rhs.m_pKVItem->MakeCopy() : NULL;
+		m_pKVItem = rhs.m_pKVItem ? rhs.m_pKVItem->MakeCopy() : nullptr;
 	}
 
 	CStickerKit( void )
@@ -3183,17 +3183,17 @@ public:
 		m_nEventTeamID = 0;
 		m_nPlayerID = 0;
 
-		m_pKVItem = NULL;
+		m_pKVItem = nullptr;
 	}
 
 	~CStickerKit()
 	{
 		if ( m_pKVItem )
 			m_pKVItem->deleteThis();
-		m_pKVItem = NULL;
+		m_pKVItem = nullptr;
 	}
 
-	bool InitFromKeyValues( KeyValues *pKVEntry, const CStickerKit *pDefault, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool InitFromKeyValues( KeyValues *pKVEntry, const CStickerKit *pDefault, CUtlVector<CUtlString> *pVecErrors = nullptr);
 	bool GenerateStickerApplicationInfo( CAppliedStickerInfo_t *pInfo ) const;
 
 	int nID;
@@ -3254,7 +3254,7 @@ public:
 		flTotalWeight = 0.0f;
 	}
 
-	bool InitFromKeyValues( KeyValues *pKVEntry, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool InitFromKeyValues( KeyValues *pKVEntry, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	bool GenerateStickerApplicationInfo( CAppliedStickerInfo_t *pInfo ) const;
 
@@ -3441,24 +3441,24 @@ public:
 		m_rtDOB = rhs.m_rtDOB;
 		m_sGeo = rhs.m_sGeo;
 
-		m_pKVItem = rhs.m_pKVItem ? rhs.m_pKVItem->MakeCopy() : NULL;
+		m_pKVItem = rhs.m_pKVItem ? rhs.m_pKVItem->MakeCopy() : nullptr;
 	}
 
 	CProPlayerData( void )
 	{
 		m_nAccountID = 0;
 		m_rtDOB = 0;
-		m_pKVItem = NULL;
+		m_pKVItem = nullptr;
 	}
 
 	~CProPlayerData()
 	{
 		if ( m_pKVItem )
 			m_pKVItem->deleteThis();
-		m_pKVItem = NULL;
+		m_pKVItem = nullptr;
 	}
 
-	bool BInitFromKeyValues( KeyValues *pDef, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool BInitFromKeyValues( KeyValues *pDef, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	KeyValues	*GetRawDefinition( void ) const		{ return m_pKVItem; }
 	uint32 GetAccountID() const { return m_nAccountID; }
@@ -3525,9 +3525,9 @@ public:
 	virtual ~CEconItemSchema( void ) { Reset(); };
 
 	// Setup & parse in the item data files.
-	virtual bool BInit( const char *fileName, const char *pathID, CUtlVector<CUtlString> *pVecErrors = NULL );
-	bool		BInitBinaryBuffer( CUtlBuffer &buffer, CUtlVector<CUtlString> *pVecErrors = NULL );
-	bool		BInitTextBuffer( CUtlBuffer &buffer, CUtlVector<CUtlString> *pVecErrors = NULL );
+	virtual bool BInit( const char *fileName, const char *pathID, CUtlVector<CUtlString> *pVecErrors = nullptr);
+	bool		BInitBinaryBuffer( CUtlBuffer &buffer, CUtlVector<CUtlString> *pVecErrors = nullptr);
+	bool		BInitTextBuffer( CUtlBuffer &buffer, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 	uint32		GetVersion() const { return m_unVersion; }
 	uint32		GetResetCount() const { return m_unResetCount; }
@@ -3608,17 +3608,17 @@ public:
 
 	const CTimedItemRewardDefinition* GetTimedReward( eTimedRewardType type ) const;
 
-	const CEconLootListDefinition* GetLootListByName( const char* pListName, int *out_piIndex = NULL ) const;
-	const CEconLootListDefinition* GetLootListByIndex( int iIdx ) const { return m_dictLootLists.IsValidIndex(iIdx) ? &(m_dictLootLists[iIdx]) : NULL; }
+	const CEconLootListDefinition* GetLootListByName( const char* pListName, int *out_piIndex = nullptr) const;
+	const CEconLootListDefinition* GetLootListByIndex( int iIdx ) const { return m_dictLootLists.IsValidIndex(iIdx) ? &(m_dictLootLists[iIdx]) : nullptr; }
 
 	virtual void PurgeLootLists( void ) { m_dictLootLists.Purge(); }
-	virtual const IEconLootListDefinition* GetLootListInterfaceByName( const char* pListName, int *out_piIndex = NULL ) { return GetLootListByName( pListName, out_piIndex ); }
+	virtual const IEconLootListDefinition* GetLootListInterfaceByName( const char* pListName, int *out_piIndex = nullptr) { return GetLootListByName( pListName, out_piIndex ); }
 	virtual const IEconLootListDefinition* GetLootListInterfaceByIndex( int iIdx ) const { return GetLootListByIndex( iIdx ); }
 	virtual const int GetLootListIndex( const char* pListName ) {  return m_dictLootLists.Find( pListName ); }
 	virtual const int GetLootListInterfaceCount( void ) const { return m_dictLootLists.Count(); }
 
-	const CEconItemSetDefinition* GetItemSet( const char* pSetName, int *piIndex = NULL ) const;
-	const CEconItemSetDefinition* GetItemSetByIndex( int iIdx ) const { return m_mapItemSets.IsValidIndex(iIdx) ? &(m_mapItemSets[iIdx]) : NULL; }
+	const CEconItemSetDefinition* GetItemSet( const char* pSetName, int *piIndex = nullptr) const;
+	const CEconItemSetDefinition* GetItemSetByIndex( int iIdx ) const { return m_mapItemSets.IsValidIndex(iIdx) ? &(m_mapItemSets[iIdx]) : nullptr; }
 
 	uint8 GetDefaultQuality() const { return AE_UNIQUE; }
 
@@ -3745,7 +3745,7 @@ public:
 
 	attachedparticlesystem_t* GetAttributeControlledParticleSystem( int id );
 	attachedparticlesystem_t* GetAttributeControlledParticleSystemByIndex( int id );
-	attachedparticlesystem_t* FindAttributeControlledParticleSystem( const char *pchSystemName, int *outID = NULL );
+	attachedparticlesystem_t* FindAttributeControlledParticleSystem( const char *pchSystemName, int *outID = nullptr);
 	typedef CUtlMap<int, attachedparticlesystem_t, int, CDefLess<int> > ParticleDefinitionMap_t;
 	const ParticleDefinitionMap_t& GetAttributeControlledParticleSystems() const { return m_mapAttributeControlledParticleSystems; }
 	virtual int GetNumAttributeControlledParticleSystems() const { return GetAttributeControlledParticleSystems().Count(); }
@@ -3766,7 +3766,7 @@ public:
 	{
 		LevelBlockDict_t::IndexType_t i = m_vecItemLevelingData.Find( pszLevelBlockName );
 		if ( i == LevelBlockDict_t::InvalidIndex() )
-			return NULL;
+			return nullptr;
 
 		return m_vecItemLevelingData[i];
 	}
@@ -3807,14 +3807,14 @@ protected:
 	virtual KeyValues*	GetRawDefinition( void ) const { return m_pKVRawDefinition; }
 	virtual IEconItemDefinition* GetItemDefinitionInterface( int iDefIndex ) { return GetItemDefinitionMutable( iDefIndex, true ); }
 	virtual int GetLoadoutSlotCount() { return 0; }
-	virtual const char* GetLoadoutSlotName( int iSlot ) { return NULL; }
+	virtual const char* GetLoadoutSlotName( int iSlot ) { return nullptr; }
 	virtual int GetLoadoutSlot( const char* pszSlotName ) { return 0; }
 	virtual int GetCharacterSlotType( int iCharacter, int iSlot ) { return 0; }
 	virtual int GetCharacterID( const char* pszCharacterName ) { return 0; }
 	virtual bool DeleteItemDefinition( int iDefIndex );
 	virtual int GetCharacterCount( void ) { return 0; }
-	virtual const char* GetCharacterName( int iCharacter ) { return NULL; }
-	virtual const char* GetCharacterModel( int iCharacter ) { return NULL; }
+	virtual const char* GetCharacterName( int iCharacter ) { return nullptr; }
+	virtual const char* GetCharacterModel( int iCharacter ) { return nullptr; }
 
 	virtual int CalculateNumberOfConcreteItems( const CEconItemDefinition *pItemDef );	// Let derived classes handle custom item types
 
@@ -3883,7 +3883,7 @@ private:
 #endif
 
 protected:
-	virtual bool BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlString> *pVecErrors = NULL );
+	virtual bool BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlString> *pVecErrors = nullptr);
 private:
 	bool			m_bSchemaUpdatesEnabled;
 

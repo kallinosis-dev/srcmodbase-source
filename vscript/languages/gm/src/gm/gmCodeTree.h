@@ -44,7 +44,7 @@ public:
   /// \param a_script is a null terminated script string.
   /// \return the number of errors encounted when parsing.
   /// \sa Unlock()
-  int Lock(const char * a_script, gmLog * a_log = NULL);
+  int Lock(const char * a_script, gmLog * a_log = nullptr);
 
   /// \brief Unlock() will unlock the singleton code tree such that it may be used again.
   /// \return 0 on success

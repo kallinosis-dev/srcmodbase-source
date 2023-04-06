@@ -23,20 +23,20 @@ template< typename CostFunctor >
 float NavAreaTravelDistance( const Vector &startPos, const Vector &goalPos, CostFunctor &costFunc )
 {
 	CNavArea *startArea = TheNavMesh->GetNearestNavArea( startPos );
-	if (startArea == NULL)
+	if (startArea == nullptr)
 	{
 		return -1.0f;
 	}
 
 	// compute path between areas using given cost heuristic
-	CNavArea *goalArea = NULL;
+	CNavArea *goalArea = nullptr;
 	if (NavAreaBuildPath( startArea, NULL, &goalPos, costFunc, &goalArea ) == false)
 	{
 		return -1.0f;
 	}
 
 	// compute distance along path
-	if (goalArea->GetParent() == NULL)
+	if (goalArea->GetParent() == nullptr)
 	{
 		// both points are in the same area - return euclidean distance
 		return (goalPos - startPos).Length();

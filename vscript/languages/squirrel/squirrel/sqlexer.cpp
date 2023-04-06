@@ -105,7 +105,7 @@ const SQChar *SQLexer::Tok2Str(SQInteger tok)
 		if(((SQInteger)_integer(val)) == tok)
 			return _stringval(key);
 	}
-	return NULL;
+	return nullptr;
 }
 
 void SQLexer::LexBlockComment()

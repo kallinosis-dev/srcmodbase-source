@@ -50,7 +50,7 @@ static AggregateSkillProperty g_AggregateSkillProperties[] =
 	{ "skill2",		PROPERTY_CSS_AGGREGATE_SKILL2,		PROPERTY_CSS_SEARCH_SKILL2_MIN,		PROPERTY_CSS_SEARCH_SKILL2_MAX },
 	{ "skill3",		PROPERTY_CSS_AGGREGATE_SKILL3,		PROPERTY_CSS_SEARCH_SKILL3_MIN,		PROPERTY_CSS_SEARCH_SKILL3_MAX },
 	{ "skill4",		PROPERTY_CSS_AGGREGATE_SKILL4,		PROPERTY_CSS_SEARCH_SKILL4_MIN,		PROPERTY_CSS_SEARCH_SKILL4_MAX },
-	NULL,
+	nullptr,
 };
 
 #define MATCH_MAX_SKILL_FIELDS	5
@@ -67,7 +67,7 @@ public:
 
 	CMatchTitleGameSettingsMgr()
 	{
-		m_pMatchSystemData = NULL;
+		m_pMatchSystemData = nullptr;
 	}
 
 	~CMatchTitleGameSettingsMgr()
@@ -147,7 +147,7 @@ public:
 	// has been made that local machine will be elected as new "host"
 	// Returns NULL if migration should proceed normally
 	// Returns [ kvroot { "error" "n/a" } ] if migration should be aborted.
-	virtual KeyValues * PrepareClientLobbyForMigration( KeyValues *pSettingsLocal, KeyValues *pMigrationInfo ) { return NULL; }
+	virtual KeyValues * PrepareClientLobbyForMigration( KeyValues *pSettingsLocal, KeyValues *pMigrationInfo ) { return nullptr; }
 
 	// Prepares the session for server disconnect
 	// this function is called when the session is still in the active gameplay
@@ -413,7 +413,7 @@ void CMatchTitleGameSettingsMgr::ExtendDatacenterReport( KeyValues *cmd, char co
 KeyValues * CMatchTitleGameSettingsMgr::RollupGameDetails( KeyValues *pDetails, KeyValues *pRollup, KeyValues *pQuery )
 {
 	// TODO: keep each individual results, roll up to the party leader XUID
-	return NULL;
+	return nullptr;
 }
 
 // Defines dedicated server search key
@@ -439,7 +439,7 @@ KeyValues * CMatchTitleGameSettingsMgr::DefineDedicatedSearchKeys( KeyValues *pS
 	{
 		pKeys->SetString( "gametype", "empty" );
 
-		if ( char const *szMapGroup = pSettings->GetString( "game/mapgroupname", NULL ) )
+		if ( char const *szMapGroup = pSettings->GetString( "game/mapgroupname", nullptr) )
 		{
 			if ( char const *szWorkshop = Q_stristr( szMapGroup, "@workshop" ) )
 			{
@@ -644,8 +644,8 @@ KeyValues * CMatchTitleGameSettingsMgr::DefineSessionSearchKeys( KeyValues *pSet
 		bMatchmakingQueryForGameInProgress = true;
 		// If a mapgroup is specified use the player match query, but if no mapgroup is specified,
 		// use the player query that doesn't filter based on mapgroup name.
-		const char *pszMapGroupName = pSettings->GetString( "game/mapgroupname", NULL );
-		if ( pszMapGroupName != NULL && Q_strlen( pszMapGroupName ) > 0 )
+		const char *pszMapGroupName = pSettings->GetString( "game/mapgroupname", nullptr);
+		if ( pszMapGroupName != nullptr && Q_strlen( pszMapGroupName ) > 0 )
 		{
 		}
 		else
@@ -784,12 +784,12 @@ void CMatchTitleGameSettingsMgr::InitializeGameSettings( KeyValues *pSettings, c
 		kv->SetString( "state", "lobby" );
 	}
 
-	const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", NULL );
+	const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", nullptr);
 	// if no mapgroup specified, randomly select a mapgroup based on type and mode
 	if ( !pMapGroupName )
 	{
-		const char *pGameTypeName = pSettings->GetString( "game/type", NULL );
-		const char *pGameModeName = pSettings->GetString( "game/mode", NULL );
+		const char *pGameTypeName = pSettings->GetString( "game/type", nullptr);
+		const char *pGameModeName = pSettings->GetString( "game/mode", nullptr);
 		if ( pGameTypeName && pGameModeName )
 		{
 			pMapGroupName = g_pGameTypes->GetRandomMapGroup( pGameTypeName, pGameModeName );
@@ -804,7 +804,7 @@ void CMatchTitleGameSettingsMgr::InitializeGameSettings( KeyValues *pSettings, c
 	SetBspnameFromMapgroup( pSettings );
 
 	// Set the number of slots and the rich presence context based on the map.
-	const char *szMap = pSettings->GetString( "game/map", NULL );
+	const char *szMap = pSettings->GetString( "game/map", nullptr);
 	int numSlots = pSettings->GetInt( "members/numSlots", 10 );
 	uint32 dwRichPresenceContext = 0xFFFF;
 
@@ -950,8 +950,8 @@ void CMatchTitleGameSettingsMgr::InitializeGameSettings( KeyValues *pSettings, c
 
 void CMatchTitleGameSettingsMgr::SetBspnameFromMapgroup( KeyValues *pSettings )
 {
-	const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", NULL );
-	const char *pMapName = pSettings->GetString( "game/map", NULL );
+	const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", nullptr);
+	const char *pMapName = pSettings->GetString( "game/map", nullptr);
 	if ( !pMapName && pMapGroupName )
 	{
 		pMapName = g_pGameTypes->GetRandomMap( pMapGroupName );
@@ -966,7 +966,7 @@ void CMatchTitleGameSettingsMgr::SetBspnameFromMapgroup( KeyValues *pSettings )
 // session settings and networked to remote clients
 void CMatchTitleGameSettingsMgr::ExtendGameSettingsUpdateKeys( KeyValues *pSettings, KeyValues *pUpdateDeleteKeys )
 {
-	if ( char const *szClanIdUpdate = pUpdateDeleteKeys->GetString( "update/game/clanid", NULL ) )
+	if ( char const *szClanIdUpdate = pUpdateDeleteKeys->GetString( "update/game/clanid", nullptr) )
 	{	// Ensure that clantag is also set when setting clanid
 		if ( uint64 xuid = V_atoui64( szClanIdUpdate ) )
 		{
@@ -985,12 +985,12 @@ void CMatchTitleGameSettingsMgr::ExtendGameSettingsUpdateKeys( KeyValues *pSetti
 		}
 	}
 
-	if ( char const *szClanIdUpdate = pUpdateDeleteKeys->GetString( "delete/game/clanid", NULL ) )
+	if ( char const *szClanIdUpdate = pUpdateDeleteKeys->GetString( "delete/game/clanid", nullptr) )
 	{
 		pUpdateDeleteKeys->SetString( "delete/game/clantag", "" );
 	}
 
-	if ( char const *szMmQueueUpdate = pUpdateDeleteKeys->GetString( "update/game/mmqueue", NULL ) )
+	if ( char const *szMmQueueUpdate = pUpdateDeleteKeys->GetString( "update/game/mmqueue", nullptr) )
 	{
 		int nAPR = pSettings->GetInt( "game/apr" );
 		int nUpdateAlready = pUpdateDeleteKeys->GetInt( "update/game/apr", -1 );
@@ -999,7 +999,7 @@ void CMatchTitleGameSettingsMgr::ExtendGameSettingsUpdateKeys( KeyValues *pSetti
 		pUpdateDeleteKeys->SetInt( "update/game/apr", nAPR | 0x2 );
 	}
 
-	if ( char const *szMmQueueUpdate = pUpdateDeleteKeys->GetString( "delete/game/mmqueue", NULL ) )
+	if ( char const *szMmQueueUpdate = pUpdateDeleteKeys->GetString( "delete/game/mmqueue", nullptr) )
 	{
 		int nAPR = pSettings->GetInt( "game/apr" );
 		int nUpdateAlready = pUpdateDeleteKeys->GetInt( "update/game/apr", -1 );
@@ -1029,9 +1029,9 @@ KeyValues *CMatchTitleGameSettingsMgr::ExtendTeamLobbyToGame( KeyValues *pSettin
 	);
 
 	// Add in bsp name from map group name
-	const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", NULL );
+	const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", nullptr);
 	Assert( pMapGroupName );
-	const char *pMapName = pSettings->GetString( "game/map", NULL );
+	const char *pMapName = pSettings->GetString( "game/map", nullptr);
 	Assert( pMapName );
 	if ( !pMapName )
 	{
@@ -1069,7 +1069,7 @@ void CMatchTitleGameSettingsMgr::PrepareLobbyForGame( KeyValues *pSettings, KeyV
 // and pushed to dependent two sesssion of the two teams.
 KeyValues * CMatchTitleGameSettingsMgr::PrepareTeamLinkForGame( KeyValues *pSettingsLocal, KeyValues *pSettingsRemote )
 {
-	return NULL;
+	return nullptr;
 }
 
 void UpdateAggregateMembersSettings( KeyValues *pFullGameSettings, KeyValues *pUpdate )
@@ -1234,7 +1234,7 @@ void CMatchTitleGameSettingsMgr::LoadMatchSettings( void )
 	if ( !m_pMatchSystemData->LoadFromFile( g_pFullFileSystem, "resource\\MatchSystem.res", "GAME" ) )
 	{
 		m_pMatchSystemData->deleteThis();
-		m_pMatchSystemData = NULL;
+		m_pMatchSystemData = nullptr;
 	}
 
 	if ( !m_pMatchSystemData )
@@ -1262,7 +1262,7 @@ void CMatchTitleGameSettingsMgr::LoadMatchSettings( void )
 		// Search for keys that are a number that corresponds to the skill number they should be used for.
 		for ( int nSkillIndex=0; ; ++nSkillIndex )
 		{
-			char const *pszFormula = pExperienceFormula->GetString( CFmtStr( "%d", nSkillIndex ), NULL );
+			char const *pszFormula = pExperienceFormula->GetString( CFmtStr( "%d", nSkillIndex ), nullptr);
 			if ( !pszFormula || !*pszFormula )
 			{
 				// No more formulas specified.
@@ -1298,7 +1298,7 @@ void CMatchTitleGameSettingsMgr::LoadMatchSettings( void )
 		// Search for keys that are a number that corresponds to the skill number they should be used for.
 		for ( int nSkillIndex=0; ; ++nSkillIndex )
 		{
-			char const *pszFormula = pSkillFormulaInfo->GetString( CFmtStr( "%d", nSkillIndex ), NULL );
+			char const *pszFormula = pSkillFormulaInfo->GetString( CFmtStr( "%d", nSkillIndex ), nullptr);
 			if ( !pszFormula || !*pszFormula )
 			{
 				// No more formulas specified.
@@ -1321,7 +1321,7 @@ void CMatchTitleGameSettingsMgr::LoadMatchSettings( void )
 		// Search for keys that are a number that corresponds to the skill number they should be used for.
 		for ( int nSkillIndex=0; ; ++nSkillIndex )
 		{
-			char const *pszFormula = pAverageFormula->GetString( CFmtStr( "%d", nSkillIndex ), NULL );
+			char const *pszFormula = pAverageFormula->GetString( CFmtStr( "%d", nSkillIndex ), nullptr);
 			if ( !pszFormula || !*pszFormula )
 			{
 				// No more formulas specified.
@@ -1400,7 +1400,7 @@ void CMatchTitleGameSettingsMgr::AddSteamMatchmakingRule( KeyValues *pResult, bo
 	// must pass the check due to comparing it against default zero value
 
 	// Check for sv_search_key
-	char const *searchKey = pSettings->GetString( "game/search_key", NULL );
+	char const *searchKey = pSettings->GetString( "game/search_key", nullptr);
 	if ( searchKey )
 	{
 		pResult->SetString( "Filter=/game:search_key", searchKey );
@@ -1410,7 +1410,7 @@ void CMatchTitleGameSettingsMgr::AddSteamMatchmakingRule( KeyValues *pResult, bo
 	// and SESSION_MATCH_QUERY_PLAYER_MATCH_ANY_LEVEL
 	if ( !bAllSessions )
 	{
-		const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", NULL );
+		const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", nullptr);
 		if ( pMapGroupName && strstr( pMapGroupName, "@workshop" ) && pSettings->GetBool( "options/anytypemode" ) )
 		{
 			bCssGameMode = false;
@@ -1420,7 +1420,7 @@ void CMatchTitleGameSettingsMgr::AddSteamMatchmakingRule( KeyValues *pResult, bo
 		// Game mode
 		if (bCssGameMode)
 		{
-			char const *gameMode = pSettings->GetString( "game/mode", NULL );
+			char const *gameMode = pSettings->GetString( "game/mode", nullptr);
 			AssertMsg(gameMode, "Matchmaking: Rule SESSION_MATCH_QUERY_PLAYER_MATCH - no game mode; ignoring this filter");
 			if ( gameMode )
 			{
@@ -1437,7 +1437,7 @@ void CMatchTitleGameSettingsMgr::AddSteamMatchmakingRule( KeyValues *pResult, bo
 #endif
 
 		// Privacy
-		char const *privacy = pSettings->GetString( "system/access", NULL );
+		char const *privacy = pSettings->GetString( "system/access", nullptr);
 		AssertMsg(privacy, "Matchmaking: Rule SESSION_MATCH_QUERY_PLAYER_MATCH - no access mode; ignoring this filter");
 		if ( privacy )
 		{
@@ -1447,7 +1447,7 @@ void CMatchTitleGameSettingsMgr::AddSteamMatchmakingRule( KeyValues *pResult, bo
 		// Game type
 		if (bCssGameType)
 		{
-			char const *gameType = pSettings->GetString( "game/type", NULL );
+			char const *gameType = pSettings->GetString( "game/type", nullptr);
 			//AssertMsg(gameType, "Matchmaking: Rule SESSION_MATCH_QUERY_PLAYER_MATCH - no game type; ignoring this filter");
 			if (gameType)
 			{
@@ -1459,7 +1459,7 @@ void CMatchTitleGameSettingsMgr::AddSteamMatchmakingRule( KeyValues *pResult, bo
 	// Map name
 	if (bCssLevel)
 	{
-		const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", NULL );
+		const char *pMapGroupName = pSettings->GetString( "game/mapgroupname", nullptr);
 		//AssertMsg(pMapGroupName, "Matchmaking: Rule SESSION_MATCH_QUERY_PLAYER_MATCH - no mapgroup name; ignoring this filter");
 		if ( pMapGroupName )
 		{
@@ -1486,7 +1486,7 @@ void CMatchTitleGameSettingsMgr::AddSteamMatchmakingRule( KeyValues *pResult, bo
 		pResult->SetInt( "Filter</members:numPlayers", 5 );	// always look for lobbies that are not full
 	}
 
-	if ( const char *pGameState = pSettings->GetString( "game/state", NULL ) )
+	if ( const char *pGameState = pSettings->GetString( "game/state", nullptr) )
 	{
 		pResult->SetString( "Filter=/game:state", pGameState );
 	}
@@ -1513,12 +1513,12 @@ void CMatchTitleGameSettingsMgr::AddSteamMatchmakingRule( KeyValues *pResult, bo
 		pResult->SetInt( "Near/members:numPlayers", 5 );	// always look for lobbies that are close to full
 	}
 
-	if ( const char *pMMQueue = pSettings->GetString( "game/mmqueue", NULL ) )
+	if ( const char *pMMQueue = pSettings->GetString( "game/mmqueue", nullptr) )
 	{
 		pResult->SetString( "Filter=/game:mmqueue", pMMQueue );
 	}
 
-	if ( const char *szClanID = pSettings->GetString( "game/clanid", NULL ) )
+	if ( const char *szClanID = pSettings->GetString( "game/clanid", nullptr) )
 	{
 		pResult->SetString( "Filter=/game:clanid", szClanID );
 	}

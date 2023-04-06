@@ -46,7 +46,7 @@ class IVP_U_Memory {
 #endif    
 
         //for usage with transactions
-        void init_mem_transaction_usage(char *external_mem = 0, int size = 0); //alloc first block, that block is never freed (except whole memory is destroyed)
+        void init_mem_transaction_usage(char *external_mem = nullptr, int size = 0); //alloc first block, that block is never freed (except whole memory is destroyed)
         inline void end_memory_transaction(); //free all memory blocks except first one, reset memory pointer
         inline void start_memory_transaction(); //only one transaction at a time
         inline void *get_mem_transaction(unsigned int size);

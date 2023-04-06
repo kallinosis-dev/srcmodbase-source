@@ -255,19 +255,19 @@ static void OverwriteFileDialog( vgui::Panel *pActionTarget, const char *pFileNa
 //-----------------------------------------------------------------------------
 // Utility to load a makefile
 //-----------------------------------------------------------------------------
-static CDmeMakefile *ReadMakefile( const char *pFileName, CDmElement **ppRoot = NULL ) 
+static CDmeMakefile *ReadMakefile( const char *pFileName, CDmElement **ppRoot = nullptr) 
 {
 	if ( ppRoot )
 	{
-		*ppRoot = NULL;
+		*ppRoot = nullptr;
 	}
 
 	CDmElement *pRoot;
-	DmFileId_t fileid = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pRoot, CR_DELETE_OLD ); 
+	DmFileId_t fileid = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pRoot, CR_DELETE_OLD ); 
 	if ( fileid == DMFILEID_INVALID || !pRoot )
 	{
 		Warning( "Unable to read makefile \"%s\"!\n", pFileName );
-		return NULL;
+		return nullptr;
 	}
 
 	CDmeMakefile *pMakeFile = CastElement< CDmeMakefile >( pRoot );
@@ -283,7 +283,7 @@ static CDmeMakefile *ReadMakefile( const char *pFileName, CDmElement **ppRoot = 
 			{
 				g_pDataModel->RemoveFileId( fileId );
 			}
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -344,8 +344,8 @@ static int __cdecl FileSortFunc( vgui::ListPanel *pPanel, const ListPanelItem &i
 CAssetBuilder::CAssetBuilder( vgui::Panel *pParent, const char *pPanelName ) : 
 	BaseClass( pParent, pPanelName )
 {
-	m_hContextMenu = NULL;
-	m_hRootMakefile = NULL;
+	m_hContextMenu = nullptr;
+	m_hRootMakefile = nullptr;
 	m_bIsCompiling = false;
 	m_bDestroyMakefileOnClose = true;
 
@@ -474,8 +474,8 @@ void CAssetBuilder::BuildFileIDList( CDmeMakefile *pMakeFile, CUtlVector<DmFileI
 void CAssetBuilder::CleanupMakefile()
 {
 	m_hMakefileStack.Clear();
-	m_pDmePanel->SetDmeElement( NULL );
-	m_pOututPreviewPanel->SetDmeElement( NULL );
+	m_pDmePanel->SetDmeElement(nullptr);
+	m_pOututPreviewPanel->SetDmeElement(nullptr);
 
 	if ( !m_hRootMakefile.Get() )
 		return;
@@ -486,7 +486,7 @@ void CAssetBuilder::CleanupMakefile()
 
 	CDisableUndoScopeGuard guard;
 
-	m_hRootMakefile = NULL;
+	m_hRootMakefile = nullptr;
 
 	int nCount = fileIds.Count();
 	for ( int i = 0; i < nCount; ++i )
@@ -554,7 +554,7 @@ void CAssetBuilder::SetRootMakefile( CDmeMakefile *pMakeFile )
 void CAssetBuilder::SetCurrentMakefile( CDmeMakefile *pMakeFile )
 {
 	m_hMakefile = pMakeFile;
-	m_pDmePanel->SetDmeElement( NULL );
+	m_pDmePanel->SetDmeElement(nullptr);
 	m_pOututPreviewPanel->SetDmeElement( pMakeFile, true, "DmeMakeFileOutputPreview" );
 	RefreshSourceList();
 	RefreshOutputList();
@@ -628,7 +628,7 @@ void CAssetBuilder::RefreshOutputList()
 		m_pOutputList->AddItem( pItemKeys, 0, false, false );
 	}
 
-	bool bEnabled = ( nCount > 0 ) && ( g_pDmeMakefileUtils != NULL );
+	bool bEnabled = ( nCount > 0 ) && ( g_pDmeMakefileUtils != nullptr);
 	m_pCompile->SetEnabled( bEnabled );
 	m_pPublish->SetEnabled( bEnabled );
 
@@ -879,7 +879,7 @@ void CAssetBuilder::OnKeyCodeTyped( vgui::KeyCode code )
 //-----------------------------------------------------------------------------
 void CAssetBuilder::OnSourceFileAdded( const char *pFileName, const char *pTypeName )
 {
-	CDmeSource *pSource = NULL;
+	CDmeSource *pSource = nullptr;
 	{
 		CDisableUndoScopeGuard guard;
 		pSource = m_hMakefile->AddSource( pTypeName, pFileName );
@@ -930,7 +930,7 @@ void CAssetBuilder::OnNewSourceFileSelected( const char *pFileName, KeyValues *k
 //-----------------------------------------------------------------------------
 void CAssetBuilder::OnFileSelected( KeyValues *kv )
 {
-	const char *pFileName = kv->GetString( "fullpath", NULL );
+	const char *pFileName = kv->GetString( "fullpath", nullptr);
 	if ( !pFileName )
 		return;
 
@@ -1029,7 +1029,7 @@ void CAssetBuilder::CleanupContextMenu()
 	if ( m_hContextMenu.Get() )
 	{
 		m_hContextMenu->MarkForDeletion();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 }
 
@@ -1043,7 +1043,7 @@ void CAssetBuilder::OnOpenContextMenu( KeyValues *kv )
 	if ( !m_hMakefile.Get() )
 		return;
 
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	int nItemID = kv->GetInt( "itemID", -1 );
 
 	if ( pPanel != m_pSourcesList )
@@ -1119,7 +1119,7 @@ void CAssetBuilder::OnSourceItemSelectionChanged( )
 	int nCount = m_pSourcesList->GetSelectedItemsCount();
 	if ( nCount != 1 )
 	{
-		m_pDmePanel->SetDmeElement( NULL );
+		m_pDmePanel->SetDmeElement(nullptr);
 		return;
 	}
 
@@ -1135,7 +1135,7 @@ void CAssetBuilder::OnSourceItemSelectionChanged( )
 //-----------------------------------------------------------------------------
 void CAssetBuilder::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pSourcesList )
 	{
 		OnSourceItemSelectionChanged();
@@ -1149,7 +1149,7 @@ void CAssetBuilder::OnItemSelected( KeyValues *kv )
 //-----------------------------------------------------------------------------
 void CAssetBuilder::OnItemDeselected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pSourcesList )
 	{
 		OnSourceItemSelectionChanged();
@@ -1165,7 +1165,7 @@ CDmeSource *CAssetBuilder::GetSelectedSource( )
 {
 	int nCount = m_pSourcesList->GetSelectedItemsCount();
 	if ( nCount != 1 || !m_hMakefile.Get() )
-		return NULL;
+		return nullptr;
 
 	int nItemID = m_pSourcesList->GetSelectedItem( 0 );
 	KeyValues *pKeyValues = m_pSourcesList->GetItem( nItemID );
@@ -1176,7 +1176,7 @@ KeyValues *CAssetBuilder::GetSelectedSourceKeyvalues( )
 {
 	int nCount = m_pSourcesList->GetSelectedItemsCount();
 	if ( nCount != 1 || !m_hMakefile.Get() )
-		return NULL;
+		return nullptr;
 
 	int nItemID = m_pSourcesList->GetSelectedItem( 0 );
 	return m_pSourcesList->GetItem( nItemID );
@@ -1261,7 +1261,7 @@ void CAssetBuilder::FinishCompilation( CompilationState_t state )
 	// rebuilt if it's sitting in the output file. Therefore,
 	// Detach the source preview panel from the source and refresh the
 	// source list to get it to correctly reconnect to the new source elements
-	m_pDmePanel->SetDmeElement( NULL );
+	m_pDmePanel->SetDmeElement(nullptr);
 	int nRow = GetSelectedRow();
 
 	m_pOututPreviewPanel->SetDmeElement( m_hMakefile, true, "DmeMakeFileOutputPreview" );
@@ -1390,7 +1390,7 @@ CAssetBuilderFrame::CAssetBuilderFrame( vgui::Panel *pParent, const char *pTitle
 	m_pAssetBuilder = new CAssetBuilder( this, "AssetBuilder" );
 	m_pAssetBuilder->AddActionSignalTarget( this );
 
-	vgui::Menu *pMenu = new vgui::Menu( NULL, "FileMenu" );
+	vgui::Menu *pMenu = new vgui::Menu(nullptr, "FileMenu" );
 	pMenu->AddMenuItem( "new", "#AssetBuilder_FileNew", new KeyValues( "FileNew" ), this );
 	pMenu->AddMenuItem( "open", "#AssetBuilder_FileOpen", new KeyValues( "FileOpen" ), this );
 	pMenu->AddMenuItem( "save", "#AssetBuilder_FileSave", new KeyValues( "FileSave" ), this );
@@ -1423,7 +1423,7 @@ void CAssetBuilderFrame::SetupFileOpenDialog( vgui::FileOpenDialog *pDialog, boo
 	if ( bOpenFile )
 	{
 		// Clear out the existing makefile if we're opening a file
-		m_pAssetBuilder->SetRootMakefile( NULL );
+		m_pAssetBuilder->SetRootMakefile(nullptr);
 		pDialog->SetTitle( "Open Asset MakeFile", true );
 	}
 	else
@@ -1469,7 +1469,7 @@ bool CAssetBuilderFrame::OnWriteFileToDisk( const char *pFileName, const char *p
 	{
 		pRoot = pMakefile;
 	}
-	bOk = g_pDataModel->SaveToFile( pFileName, NULL, g_pDataModel->GetDefaultEncoding( pFileFormat ), pFileFormat, pRoot ); 
+	bOk = g_pDataModel->SaveToFile( pFileName, nullptr, g_pDataModel->GetDefaultEncoding( pFileFormat ), pFileFormat, pRoot ); 
 	m_pAssetBuilder->Refresh();
 	return bOk;
 }
@@ -1572,7 +1572,7 @@ void CAssetBuilderFrame::OnPerformFileNew( KeyValues *kv )
 //-----------------------------------------------------------------------------
 void CAssetBuilderFrame::OnFileSelected( KeyValues *kv )
 {
-	const char *pFileName = kv->GetString( "fullpath", NULL );
+	const char *pFileName = kv->GetString( "fullpath", nullptr);
 	if ( !pFileName )
 		return;
 
@@ -1687,7 +1687,7 @@ void CAssetBuilderFrame::OnFileNew( )
 void CAssetBuilderFrame::OnFileOpen( )
 {
 	int nFlags = 0;
-	const char *pFileName = NULL;
+	const char *pFileName = nullptr;
 	CDmeMakefile *pMakeFile = m_pAssetBuilder->GetMakeFile();
 	if ( pMakeFile && pMakeFile->IsDirty() )
 	{
@@ -1695,7 +1695,7 @@ void CAssetBuilderFrame::OnFileOpen( )
 		pFileName = g_pDataModel->GetFileName( pMakeFile->GetFileId() );
 	}
 	KeyValues *pContextKeyValues = new KeyValues( "FileOpen" );
-	m_pFileOpenStateMachine->OpenFile( ASSET_FILE_FORMAT, pContextKeyValues, pFileName, NULL, nFlags );
+	m_pFileOpenStateMachine->OpenFile( ASSET_FILE_FORMAT, pContextKeyValues, pFileName, nullptr, nFlags );
 }
 
 void CAssetBuilderFrame::OnFileSave( )
@@ -1716,7 +1716,7 @@ void CAssetBuilderFrame::OnFileSaveAs( )
 		return;
 
 	KeyValues *pContextKeyValues = new KeyValues( "FileSave" );
-	m_pFileOpenStateMachine->SaveFile( pContextKeyValues, NULL, ASSET_FILE_FORMAT, FOSM_SHOW_PERFORCE_DIALOGS );
+	m_pFileOpenStateMachine->SaveFile( pContextKeyValues, nullptr, ASSET_FILE_FORMAT, FOSM_SHOW_PERFORCE_DIALOGS );
 }
 
 

@@ -58,7 +58,7 @@ public:
 	virtual void OnRestore();
 
 	CStudioHdr *GetModelPtr( void );
-	virtual void InvalidateMdlCache() { UnlockStudioHdr(); delete m_pStudioHdr; m_pStudioHdr = NULL; }
+	virtual void InvalidateMdlCache() { UnlockStudioHdr(); delete m_pStudioHdr; m_pStudioHdr = nullptr; }
 
 	virtual CBaseAnimating*	GetBaseAnimating() { return this; }
 
@@ -215,8 +215,8 @@ public:
 	bool GetAttachmentLocal( int iAttachment, matrix3x4_t &attachmentToLocal );
 	
 	// Non-angle versions of the attachments in world space
-	bool GetAttachment(  const char *szName, Vector &absOrigin, Vector *forward = NULL, Vector *right = NULL, Vector *up = NULL );
-	bool GetAttachment( int iAttachment, Vector &absOrigin, Vector *forward = NULL, Vector *right = NULL, Vector *up = NULL );
+	bool GetAttachment(  const char *szName, Vector &absOrigin, Vector *forward = nullptr, Vector *right = nullptr, Vector *up = nullptr);
+	bool GetAttachment( int iAttachment, Vector &absOrigin, Vector *forward = nullptr, Vector *right = nullptr, Vector *up = nullptr);
 
 	void SetBodygroup( int iGroup, int iValue );
 	int GetBodygroup( int iGroup );
@@ -336,7 +336,7 @@ public:
 	float			GetFrozenThawRate( void ) { return m_flFrozenThawRate; }
 	void			Thaw( float flThawAmount );
 	void			ToggleFreeze(void);
-	virtual void	Freeze( float flFreezeAmount = -1.0f, CBaseEntity *pFreezer = NULL, Ray_t *pFreezeRay = NULL );
+	virtual void	Freeze( float flFreezeAmount = -1.0f, CBaseEntity *pFreezer = nullptr, Ray_t *pFreezeRay = nullptr);
 	virtual void	Unfreeze();
 
 	// Dissolve, returns true if the ragdoll has been created
@@ -508,7 +508,7 @@ inline CStudioHdr *CBaseAnimating::GetModelPtr( void )
 	{
 		LockStudioHdr();
 	}
-	return ( m_pStudioHdr && m_pStudioHdr->IsValid() ) ? m_pStudioHdr : NULL;
+	return ( m_pStudioHdr && m_pStudioHdr->IsValid() ) ? m_pStudioHdr : nullptr;
 }
 
 //-----------------------------------------------------------------------------

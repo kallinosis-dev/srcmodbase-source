@@ -64,11 +64,11 @@ IMaterial *Draw_DecalMaterial( int index )
 		return materials->FindMaterial( "decals/playerlogo01", TEXTURE_GROUP_DECAL, true );
 
 	if ( index < 0 || index >= g_DecalLookup.Count() )
-		return NULL;
+		return nullptr;
 
 	int slot = g_DecalLookup[index];
 	if ( slot < 0 || slot >= (int)g_DecalDictionary.MaxElement() )
-		return NULL;
+		return nullptr;
 
 	DecalEntry * entry = &g_DecalDictionary[slot];
 	
@@ -78,7 +78,7 @@ IMaterial *Draw_DecalMaterial( int index )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 

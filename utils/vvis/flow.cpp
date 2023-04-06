@@ -85,7 +85,7 @@ winding_t *AllocStackWinding (pstack_t *stack)
 
 	Error ("Out of memory. AllocStackWinding: failed");
 
-	return NULL;
+	return nullptr;
 }
 
 void FreeStackWinding (winding_t *w, pstack_t *stack)
@@ -148,7 +148,7 @@ winding_t	*ChopWinding (winding_t *in, pstack_t *stack, plane_t *split)
 	if (!counts[0])
 	{
 		FreeStackWinding (in, stack);
-		return NULL;
+		return nullptr;
 	}
 
 	sides[i] = sides[0];
@@ -362,7 +362,7 @@ winding_t	*ClipToSeperators (winding_t *source, winding_t *pass, winding_t *targ
 		//
 			target = ChopWinding (target, stack, &plane);
 			if (!target)
-				return NULL;		// target is not visible
+				return nullptr;		// target is not visible
 
 			// JAY: End the loop, no need to find additional separators on this edge ?
 //			j = pass->numpoints;
@@ -420,7 +420,7 @@ void DumpPortalTrace( pstack_t *pStack )
 	Vector	mid;
 	mid = ClusterCenter( g_TraceClusterStart );
 	g_PortalTrace.m_list.AddToTail(mid);
-	for ( ; pStack != NULL; pStack = pStack->next )
+	for ( ; pStack != nullptr; pStack = pStack->next )
 	{
 		winding_t *w = pStack->pass ? pStack->pass : pStack->portal->winding;
 		WindingCenter (w, mid);
@@ -502,9 +502,9 @@ void RecursiveLeafFlow (int leafnum, threaddata_t *thread, pstack_t *prevstack)
 
 	prevstack->next = &stack;
 
-	stack.next = NULL;
+	stack.next = nullptr;
 	stack.leaf = leaf;
-	stack.portal = NULL;
+	stack.portal = nullptr;
 
 	might = (long *)stack.mightsee;
 	vis = (long *)thread->base->portalvis;
@@ -549,7 +549,7 @@ void RecursiveLeafFlow (int leafnum, threaddata_t *thread, pstack_t *prevstack)
 		backplane.dist = -p->plane.dist;
 		
 		stack.portal = p;
-		stack.next = NULL;
+		stack.next = nullptr;
 		stack.freewindings[0] = 1;
 		stack.freewindings[1] = 1;
 		stack.freewindings[2] = 1;

@@ -40,7 +40,7 @@ static ConVar vprof_warningmsec( "vprof_warningmsec", "10", FCVAR_ARCHIVE, "Abov
 //-----------------------------------------------------------------------------
 // Singleton accessor
 //-----------------------------------------------------------------------------
-static CVProfPanel *g_pVProfPanel = NULL;
+static CVProfPanel *g_pVProfPanel = nullptr;
 CVProfPanel *GetVProfPanel( void )
 {
 	return g_pVProfPanel;
@@ -154,7 +154,7 @@ private:
 
 CProfileTree::CProfileTree( CVProfPanel *parent, const char *panelName ) :
 	BaseClass( (Panel *)parent, panelName ),
-	m_pEditMenu( 0 ),
+	m_pEditMenu( nullptr ),
 	m_pParent( parent )
 {
 }
@@ -408,7 +408,7 @@ void CProfileHierarchyPanel::PerformLayout()
 				
 				bool vis = ( top + offset - 20 ) >= 0 && ( bottom + offset ) < tall;
 
-				p->SetParent( vis ? this : NULL );
+				p->SetParent( vis ? this : nullptr);
 				p->SetVisible( vis );
 				p->SetBounds( left, top + offset, right - left, bottom - top );
 				p->InvalidateLayout();
@@ -525,14 +525,14 @@ CVProfPanel::CVProfPanel( vgui::Panel *pParent, const char *pElementName )
 
 	// Mode selection used to populate the tree view + lists
 	m_pVProfCategory = new ComboBox(this, "CategoryCombo", 5, false);
-	m_pVProfCategory->AddItem( "All Categories", NULL );
+	m_pVProfCategory->AddItem( "All Categories", nullptr);
 	m_pVProfCategory->AddActionSignalTarget( this );
 	m_pVProfCategory->ActivateItem( 0 );
 
 	m_pVProfSort = new ComboBox( this, "SortCombo", 5, false );
-	m_pVProfSort->AddItem( "By Time", NULL );
-	m_pVProfSort->AddItem( "By Name", NULL );
-	m_pVProfSort->AddItem( "By Budget Group", NULL );
+	m_pVProfSort->AddItem( "By Time", nullptr);
+	m_pVProfSort->AddItem( "By Name", nullptr);
+	m_pVProfSort->AddItem( "By Budget Group", nullptr);
 	m_pVProfSort->AddActionSignalTarget( this );
 	m_pVProfSort->ActivateItem( 0 );
 
@@ -579,7 +579,7 @@ CVProfPanel::CVProfPanel( vgui::Panel *pParent, const char *pElementName )
 CVProfPanel::~CVProfPanel( void )
 {
 	Assert( g_pVProfPanel == this );
-	g_pVProfPanel = NULL;
+	g_pVProfPanel = nullptr;
 }
 
 #define DATA_FMT_STR "%-30.30s %-30.30s %-45.45s %-10.10s"
@@ -771,7 +771,7 @@ void CVProfPanel::OnCheckButtonChecked(Panel *panel)
 		if ( bSelected != m_bHierarchicalView )
 		{
 			m_bHierarchicalView = bSelected;
-			m_pHierarchy->GetTree()->SetSortFunc( m_bHierarchicalView ? NULL : ChildCostSortFunc );
+			m_pHierarchy->GetTree()->SetSortFunc( m_bHierarchicalView ? nullptr : ChildCostSortFunc );
 			m_pRedoSort->SetVisible( !m_bHierarchicalView );
 			Reset();
 		}
@@ -866,7 +866,7 @@ public:
 
 Label *AllocateVprofLabel( const char *panelName )
 {
-	CVProfLabel *l = new CVProfLabel( NULL, panelName );
+	CVProfLabel *l = new CVProfLabel(nullptr, panelName );
 	l->SetContentAlignment( Label::a_west );
 	return l;
 }
@@ -1006,7 +1006,7 @@ void CVProfPanel::PopulateBudgetGroupComboBox()
 	int nBudgetGroupCount = m_pVProfile->GetNumBudgetGroups();
 	while( m_nLastBudgetGroupCount < nBudgetGroupCount )
 	{
-		m_pVProfCategory->AddItem( m_pVProfile->GetBudgetGroupName(m_nLastBudgetGroupCount), NULL );
+		m_pVProfCategory->AddItem( m_pVProfile->GetBudgetGroupName(m_nLastBudgetGroupCount), nullptr);
 		++m_nLastBudgetGroupCount;
 	}
 }

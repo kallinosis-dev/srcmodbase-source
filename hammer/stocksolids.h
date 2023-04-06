@@ -30,7 +30,7 @@ class StockSolid
 		void Serialize(std::fstream& file, BOOL bIsStoring);
 		int GetFieldCount() const;
 		void SetFieldData(int iIndex, int iData);
-		int GetFieldData(int iIndex, int *piData = NULL) const;
+		int GetFieldData(int iIndex, int *piData = nullptr) const;
 		void GetFieldRange(int iIndex, int *piRangeLower, int *piRangeUpper);
 		void SetOrigin(const Vector &o);
 		void SetCenterOffset(const Vector &ofs);

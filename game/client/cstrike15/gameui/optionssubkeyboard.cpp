@@ -41,7 +41,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-COptionsSubKeyboard::COptionsSubKeyboard(vgui::Panel *parent) : PropertyPage(parent, NULL)
+COptionsSubKeyboard::COptionsSubKeyboard(vgui::Panel *parent) : PropertyPage(parent, nullptr)
 {
 	Q_memset( m_Bindings, 0, sizeof( m_Bindings ));
 
@@ -212,7 +212,7 @@ void COptionsSubKeyboard::ParseActionDescriptions( void )
 
 	// Load the default keys list
 	CUtlBuffer buf( 0, 0, CUtlBuffer::TEXT_BUFFER );
-	if ( !g_pFullFileSystem->ReadFile( "scripts/kb_act.lst", NULL, buf ) )
+	if ( !g_pFullFileSystem->ReadFile( "scripts/kb_act.lst", nullptr, buf ) )
 		return;
 
 	const char *data = (const char*)buf.Base();
@@ -296,7 +296,7 @@ KeyValues *COptionsSubKeyboard::GetItemForBinding( const char *binding )
 			return item;
 	}
 	// Didn't find it
-	return NULL;
+	return nullptr;
 }
 
 
@@ -485,7 +485,7 @@ void COptionsSubKeyboard::DeleteSavedBindings( void )
 		if ( m_Bindings[ i ].binding )
 		{
 			delete[] m_Bindings[ i ].binding;
-			m_Bindings[ i ].binding = NULL;
+			m_Bindings[ i ].binding = nullptr;
 		}
 	}
 }
@@ -594,7 +594,7 @@ void COptionsSubKeyboard::ApplyAllBindings( void )
 void COptionsSubKeyboard::FillInDefaultBindings( void )
 {
 	CUtlBuffer buf( 0, 0, CUtlBuffer::TEXT_BUFFER );
-	if ( !g_pFullFileSystem->ReadFile( "cfg/config_default.cfg", NULL, buf ) )
+	if ( !g_pFullFileSystem->ReadFile( "cfg/config_default.cfg", nullptr, buf ) )
 		return;
 
 	// L4D: also unbind other keys
@@ -606,7 +606,7 @@ void COptionsSubKeyboard::FillInDefaultBindings( void )
 	const char *data = (const char*)buf.Base();
 
 	// loop through all the binding
-	while ( data != NULL )
+	while ( data != nullptr)
 	{
 		char cmd[64];
 		data = UTIL_Parse( data, cmd, sizeof(cmd) );
@@ -691,7 +691,7 @@ void COptionsSubKeyboard::ItemSelected(int itemID)
 		KeyValues *kv = m_pKeyBindList->GetItemData(itemID);
 		if (kv)
 		{
-			const char *key = kv->GetString("Key", NULL);
+			const char *key = kv->GetString("Key", nullptr);
 			if (key && *key)
 			{
 				m_pClearBindingButton->SetEnabled(true);
@@ -782,10 +782,10 @@ void COptionsSubKeyboard::OnKeyCodePressed(vgui::KeyCode code)
 				// find the current binding and remove it
 				KeyValues *kv = m_pKeyBindList->GetItemData(r);
 
-				const char *key = kv->GetString("Key", NULL);
+				const char *key = kv->GetString("Key", nullptr);
 				if (key && *key)
 				{
-					RemoveKeyFromBindItems(NULL, key);
+					RemoveKeyFromBindItems(nullptr, key);
 				}
 
 				m_pClearBindingButton->SetEnabled(false);
@@ -810,7 +810,7 @@ class COptionsSubKeyboardAdvancedDlg : public vgui::Frame
 {
 	DECLARE_CLASS_SIMPLE( COptionsSubKeyboardAdvancedDlg, vgui::Frame );
 public:
-	explicit COptionsSubKeyboardAdvancedDlg( vgui::VPANEL hParent ) : BaseClass( NULL, NULL )
+	explicit COptionsSubKeyboardAdvancedDlg( vgui::VPANEL hParent ) : BaseClass(nullptr, nullptr)
 	{
 		// parent is ignored, since we want look like we're steal focus from the parent (we'll become modal below)
 

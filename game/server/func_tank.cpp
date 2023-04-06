@@ -263,7 +263,7 @@ void CFuncTank::InputSetTargetEntityName( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 void CFuncTank::InputSetTargetEntity( inputdata_t &inputdata )
 {
-	if ( inputdata.value.Entity() != NULL )
+	if ( inputdata.value.Entity() != nullptr)
 	{
 		m_targetEntityName = inputdata.value.Entity()->GetEntityName();
 	}
@@ -283,7 +283,7 @@ void CFuncTank::InputSetTargetEntity( inputdata_t &inputdata )
 void CFuncTank::InputClearTargetEntity( inputdata_t &inputdata )
 {
 	m_targetEntityName = NULL_STRING;
-	m_hTarget = NULL;
+	m_hTarget = nullptr;
 
 	// No longer aim at target position if have one
 	m_spawnflags &= ~SF_TANK_AIM_AT_POS; 
@@ -311,7 +311,7 @@ void CFuncTank::InputSetDamage( inputdata_t &inputdata )
 void CFuncTank::InputSetTargetPosition( inputdata_t &inputdata )
 {
 	m_spawnflags |= SF_TANK_AIM_AT_POS; 
-	m_hTarget = NULL;
+	m_hTarget = nullptr;
 
 	inputdata.value.Vector3D( m_vTargetPosition );
 }
@@ -322,7 +322,7 @@ void CFuncTank::InputSetTargetPosition( inputdata_t &inputdata )
 void CFuncTank::InputSetTargetDir( inputdata_t &inputdata )
 {
 	m_spawnflags |= SF_TANK_AIM_AT_POS; 
-	m_hTarget = NULL;
+	m_hTarget = nullptr;
 
 	Vector vecTargetDir;
 	inputdata.value.Vector3D( vecTargetDir );
@@ -555,7 +555,7 @@ int CFuncTank::DrawDebugTextOverlays(void)
 		// --------------
 		// Print Target
 		// --------------
-		if (m_hTarget!=NULL) 
+		if (m_hTarget!= nullptr) 
 		{
 			Q_snprintf(tempstr,sizeof(tempstr),"Target: %s",m_hTarget->GetDebugName());
 		}
@@ -744,7 +744,7 @@ void CFuncTank::Spawn( void )
 		AddSolidFlags( FSOLID_NOT_SOLID );
 	}
 
-	m_hControlVolume	= NULL;
+	m_hControlVolume	= nullptr;
 
 	if ( GetParent() && GetParent()->GetBaseAnimating() )
 	{
@@ -970,7 +970,7 @@ bool CFuncTank::OnControls( CBaseEntity *pTest )
 		// Find our control volume
 		if ( m_iszControlVolume != NULL_STRING )
 		{
-			m_hControlVolume = dynamic_cast<CBaseTrigger*>( gEntList.FindEntityByName( NULL, m_iszControlVolume, NULL ) );
+			m_hControlVolume = dynamic_cast<CBaseTrigger*>( gEntList.FindEntityByName(nullptr, m_iszControlVolume, nullptr) );
 		}
 
 		if (( !m_hControlVolume ) && IsControllable() )
@@ -1091,7 +1091,7 @@ void CFuncTank::StopControl()
 		m_spawnflags &= ~SF_TANK_NPC;
 	}
 
-	m_hController = NULL;
+	m_hController = nullptr;
 
 	// Set think, if the func_tank can think on its own.
 	if ( IsActive() || (IsControllable() && !HasController()) )
@@ -1177,7 +1177,7 @@ void CFuncTank::ControllerPostFrame( void )
 //-----------------------------------------------------------------------------
 bool CFuncTank::HasController( void )
 { 
-	return (m_hController != NULL); 
+	return (m_hController != nullptr); 
 }
 
 //-----------------------------------------------------------------------------
@@ -1196,7 +1196,7 @@ bool CFuncTank::NPC_FindManPoint( Vector &vecPos )
 {
 	if ( m_iszNPCManPoint != NULL_STRING )
 	{	
-		CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, m_iszNPCManPoint, NULL );
+		CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, m_iszNPCManPoint, nullptr);
 		if ( pEntity )
 		{
 			vecPos = pEntity->GetAbsOrigin();
@@ -1306,7 +1306,7 @@ bool CFuncTank::NPC_HasEnemy( void )
 	CAI_BaseNPC *pNPC = m_hController->MyNPCPointer();
 	Assert( pNPC );
 
-	return ( pNPC->GetEnemy() != NULL );
+	return ( pNPC->GetEnemy() != nullptr);
 }
 
 
@@ -1367,7 +1367,7 @@ bool CFuncTank::NPC_InterruptController( void )
 		pBehavior->Dismount();
 	}
 #endif
-	m_hController = NULL;
+	m_hController = nullptr;
 	return true;
 }
 
@@ -1422,7 +1422,7 @@ void CFuncTank::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 			// Find our control volume
 			if ( m_iszControlVolume != NULL_STRING )
 			{
-				m_hControlVolume = dynamic_cast<CBaseTrigger*>( gEntList.FindEntityByName( NULL, m_iszControlVolume, NULL ) );
+				m_hControlVolume = dynamic_cast<CBaseTrigger*>( gEntList.FindEntityByName(nullptr, m_iszControlVolume, nullptr) );
 			}
 
 			if (( !m_hControlVolume ) && IsControllable() )
@@ -1493,7 +1493,7 @@ bool CFuncTank::InRange2( float flRange2 )
 //-----------------------------------------------------------------------------
 void CFuncTank::Think( void )
 {
-	m_hFuncTankTarget = NULL;
+	m_hFuncTankTarget = nullptr;
 
 	// Look for a new controller?
 	if ( IsControllable() && !HasController() && (m_flNextControllerSearch <= gpGlobals->curtime) )
@@ -1787,12 +1787,12 @@ void CFuncTank::ComputeLeadingPosition( const Vector &vecShootPosition, CBaseEnt
 void CFuncTank::AimFuncTankAtTarget( void )
 {
 	// Get world target position
-	CBaseEntity *pTarget = NULL;
+	CBaseEntity *pTarget = nullptr;
 	trace_t tr;
 	QAngle angles;
 	bool bUpdateTime = false;
 
-	CBaseEntity *pTargetVehicle = NULL;
+	CBaseEntity *pTargetVehicle = nullptr;
 	Vector barrelEnd = WorldBarrelPosition();
 	Vector worldTargetPosition;
 	if (m_spawnflags & SF_TANK_AIM_AT_POS)
@@ -1806,7 +1806,7 @@ void CFuncTank::AimFuncTankAtTarget( void )
 		{
 			if( m_targetEntityName != NULL_STRING )
 			{
-				m_hTarget = FindTarget( m_targetEntityName, NULL );
+				m_hTarget = FindTarget( m_targetEntityName, nullptr);
 			}
 			
 			LostTarget();
@@ -1833,7 +1833,7 @@ void CFuncTank::AimFuncTankAtTarget( void )
 	{
 		if ( m_hTarget )
 		{
-			m_hTarget = NULL;
+			m_hTarget = nullptr;
 			LostTarget();
 		}
 		return;
@@ -2052,7 +2052,7 @@ const char *CFuncTank::GetTracerType( void )
 	if ( m_iEffectHandling == EH_AR2 )
 		return "AR2Tracer";
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2470,7 +2470,7 @@ CEnvLaser *CFuncTankLaser::GetLaser( void )
 	if ( m_pLaser )
 		return m_pLaser;
 
-	CBaseEntity *pLaser = gEntList.FindEntityByName( NULL, m_iszLaserName, NULL );
+	CBaseEntity *pLaser = gEntList.FindEntityByName(nullptr, m_iszLaserName, nullptr);
 	while ( pLaser )
 	{
 		// Found the landmark
@@ -2481,7 +2481,7 @@ CEnvLaser *CFuncTankLaser::GetLaser( void )
 		}
 		else
 		{
-			pLaser = gEntList.FindEntityByName( pLaser, m_iszLaserName, NULL );
+			pLaser = gEntList.FindEntityByName( pLaser, m_iszLaserName, nullptr);
 		}
 	}
 
@@ -2659,7 +2659,7 @@ void CFuncTankAirboatGun::Activate()
 
 	if ( m_iszAirboatGunModel != NULL_STRING )
 	{
-		m_hAirboatGunModel = dynamic_cast<CBaseAnimating*>( gEntList.FindEntityByName( NULL, m_iszAirboatGunModel, NULL ) );
+		m_hAirboatGunModel = dynamic_cast<CBaseAnimating*>( gEntList.FindEntityByName(nullptr, m_iszAirboatGunModel, nullptr) );
 		if ( m_hAirboatGunModel )
 		{
 			m_nGunBarrelAttachment = m_hAirboatGunModel->LookupAttachment( "muzzle" );
@@ -2688,7 +2688,7 @@ void CFuncTankAirboatGun::DestroySounds()
 	CSoundEnvelopeController &controller = CSoundEnvelopeController::GetController();
 
 	controller.SoundDestroy( m_pGunFiringSound );
-	m_pGunFiringSound = NULL;
+	m_pGunFiringSound = nullptr;
 }
 
 
@@ -2926,7 +2926,7 @@ void CFuncTankAPCRocket::UpdateOnRemove( void )
 	if ( m_hLaserDot )
 	{
 		UTIL_Remove( m_hLaserDot );
-		m_hLaserDot = NULL;
+		m_hLaserDot = nullptr;
 	}
 	BaseClass::UpdateOnRemove();
 }

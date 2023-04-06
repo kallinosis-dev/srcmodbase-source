@@ -60,7 +60,7 @@ private:
 CAudioMixerWaveADPCM::CAudioMixerWaveADPCM( CWaveData *data ) : CAudioMixerWave( data ) 
 {
 	m_currentBlock = -1;
-	m_pSamples = NULL;
+	m_pSamples = nullptr;
 	m_sampleCount = 0;
 	m_samplePosition = 0;
 	m_offset = 0;

@@ -62,7 +62,7 @@ const char * WINAPI GetDllVersion( void );
 void* CgMalloc( void* arg, size_t size );  // Memory allocation callback
 void CgFree( void* arg, void* ptr );    // Memory freeing callback
 
-HANDLE g_mutexDebug = NULL;
+HANDLE g_mutexDebug = nullptr;
 
 void DebugLog( const char * pMsg, ...) 
 {
@@ -140,7 +140,7 @@ BOOL WINAPI DllMain(
 	{
 	case DLL_PROCESS_ATTACH:
 		{
-			g_mutexDebug  = CreateMutex( NULL, FALSE, "DxProxyPs3DebugLog" );
+			g_mutexDebug  = CreateMutex(nullptr, FALSE, "DxProxyPs3DebugLog" );
 		}
 		// Process is attaching - make sure it can find the dependencies
 		return ExtractDependencies();
@@ -176,7 +176,7 @@ const char * WINAPI GetDllVersion( void )
 #endif
 }
 
-LPD3DXINCLUDE                   g_pInclude = NULL;
+LPD3DXINCLUDE                   g_pInclude = nullptr;
 
 uint g_nCgAllocated = 0;
 
@@ -189,7 +189,7 @@ int CgcIncludeOpen( SCECGC_INCLUDE_TYPE type,
 	if( type == SCECGC_SYSTEM_INCLUDE )
 		typeD3d = D3D10_INCLUDE_SYSTEM;
 	
-	HRESULT hr = g_pInclude->Open( typeD3d, filename, NULL, (LPCVOID*)data, size );
+	HRESULT hr = g_pInclude->Open( typeD3d, filename, nullptr, (LPCVOID*)data, size );
 	
 	
 	return ( S_OK == hr );
@@ -252,7 +252,7 @@ public:
 
 	BlobAdaptor()
 	{
-		m_pMemory = NULL;
+		m_pMemory = nullptr;
 		m_nSize = 0;
 		CGCmem mem;
 		mem.malloc = CgMalloc;
@@ -290,7 +290,7 @@ public:
 			*ppv = this;
 			return S_OK;
 		}
-		*ppv = NULL;
+		*ppv = nullptr;
 		return E_NOINTERFACE;
 	}
 	
@@ -349,7 +349,7 @@ static uint64 CreateGUID64()
 	uint64 nResult = 0;
 
 	HCRYPTPROV hCryptProv; 
-	if ( CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_MACHINE_KEYSET ) )
+	if ( CryptAcquireContext(&hCryptProv, nullptr, nullptr, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_MACHINE_KEYSET ) )
 	{
 		CryptGenRandom( hCryptProv, sizeof( nResult ), (BYTE*)&nResult );
 		
@@ -366,7 +366,7 @@ static bool HashBuffer( const void *pBuf, uint nLen, uint64 &nHashLow, uint64 &n
 	nHashHigh = 0;
 		
 	HCRYPTPROV hCryptProv; 
-	if ( CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_MACHINE_KEYSET ) )
+	if ( CryptAcquireContext(&hCryptProv, nullptr, nullptr, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT | CRYPT_MACHINE_KEYSET ) )
 	{
 		HCRYPTHASH hHash;
 		if ( CryptCreateHash( hCryptProv, CALG_MD5, 0, 0, &hHash ) ) 
@@ -433,8 +433,8 @@ static void WriteToCompileLogFile( const char *pMsg )
 	if ( !GetEnvironmentVariableA( "PS3COMPILELOG", szLogFilename, sizeof( szLogFilename ) ) )
 		return;
 
-	HANDLE hMutex = CreateMutex( NULL, FALSE, "PS3COMPILELOGMUTEX" );
-	if ( ( hMutex == NULL ) || ( WaitForSingleObject( hMutex, 10000 ) != WAIT_OBJECT_0 ) )
+	HANDLE hMutex = CreateMutex(nullptr, FALSE, "PS3COMPILELOGMUTEX" );
+	if ( ( hMutex == nullptr) || ( WaitForSingleObject( hMutex, 10000 ) != WAIT_OBJECT_0 ) )
 		return;
 	
 	FILE *pFile = fopen( szLogFilename, "a+" );
@@ -612,8 +612,8 @@ class CCompiledShader
 
 public:
 	CCompiledShader() : 
-		m_pShader( NULL ), 
-		m_pErrorMsgs( NULL ),
+		m_pShader(nullptr), 
+		m_pErrorMsgs(nullptr),
 		m_last_hres( E_FAIL ),
 		m_nSchedule( -1 ),
 		m_nSeed( 0 ),
@@ -633,13 +633,13 @@ public:
 		if ( m_pShader )
 		{
 			m_pShader->Release();
-			m_pShader = NULL;
+			m_pShader = nullptr;
 		}
 
 		if ( m_pErrorMsgs )
 		{
 			m_pErrorMsgs->Release();
-			m_pErrorMsgs = NULL;
+			m_pErrorMsgs = nullptr;
 		}
 
 		memset( &m_Statistics, 0, sizeof( m_Statistics ) );
@@ -655,8 +655,8 @@ public:
 	LPD3DXBUFFER GetShader() { return m_pShader; }
 	LPD3DXBUFFER GetErrorMsgs() { return m_pErrorMsgs; }
 	
-	LPD3DXBUFFER GetShaderAndReleaseOwnership() { LPD3DXBUFFER pShader = m_pShader; m_pShader = NULL; return pShader; }
-	LPD3DXBUFFER GetErrorMsgsAndReleaseOwnership() { LPD3DXBUFFER pErrorMsgs = m_pErrorMsgs; m_pErrorMsgs = NULL; return pErrorMsgs; }
+	LPD3DXBUFFER GetShaderAndReleaseOwnership() { LPD3DXBUFFER pShader = m_pShader; m_pShader = nullptr; return pShader; }
+	LPD3DXBUFFER GetErrorMsgsAndReleaseOwnership() { LPD3DXBUFFER pErrorMsgs = m_pErrorMsgs; m_pErrorMsgs = nullptr; return pErrorMsgs; }
 
 	const SceSpMeasurementResult &GetStatistics() const { return m_Statistics; }
 	HRESULT GetLastHRESULT() const { return m_last_hres; }
@@ -675,7 +675,7 @@ public:
 		int nRandSched = -1, 
 		int nRandSeed = -1, 
 		int nOptLevel = 1,
-		int *pDbgStatusIndex = NULL )
+		int *pDbgStatusIndex = nullptr)
 	{
 		Clear();
 
@@ -704,7 +704,7 @@ public:
 		// Open the top-level file via our include interface
 		LPCVOID lpcvData;
 		UINT numBytes;
-		HRESULT hr = pInclude->Open( ( D3DXINCLUDE_TYPE ) 0, pSrcFile, NULL, &lpcvData, &numBytes );
+		HRESULT hr = pInclude->Open( ( D3DXINCLUDE_TYPE ) 0, pSrcFile, nullptr, &lpcvData, &numBytes );
 		if ( FAILED( hr ) )
 		{
 			m_last_hres = hr;
@@ -766,7 +766,7 @@ public:
 		const char ** ppOptions = (const char**)stackalloc( sizeof(char*) * ( options.size() + 1 ) );
 		for( uint i = 0; i < options.size(); ++i )
 			ppOptions[i] = options[i].c_str();
-		ppOptions[options.size()] = NULL;
+		ppOptions[options.size()] = nullptr;
 
 		DebugLog("%s:%s/%s", pSrcFile, pProfile, pRsxProfile );	
 
@@ -777,7 +777,7 @@ public:
 
 		if ( ( !status ) && ( pCompiledShader ) && ( pCompiledShader->m_bin ) )
 		{
-			const char* optStr[] = { NULL };
+			const char* optStr[] = {nullptr};
 			char *pBinData = static_cast< char * >( sceCgcGetBinData( pCompiledShader->m_bin ) );
 			int nBinSize = sceCgcGetBinSize( pCompiledShader->m_bin );
 
@@ -825,10 +825,10 @@ public:
 		m_last_hres = src.m_last_hres;
 
 		m_pShader = src.m_pShader; 
-		src.m_pShader = NULL;
+		src.m_pShader = nullptr;
 
 		m_pErrorMsgs = src.m_pErrorMsgs; 
-		src.m_pErrorMsgs = NULL;
+		src.m_pErrorMsgs = nullptr;
 
 		m_Statistics = src.m_Statistics;
 		m_nSchedule = src.m_nSchedule;
@@ -863,9 +863,9 @@ Proxy_D3DXCompileShaderFromFile(LPCSTR                          pSrcFile,
 								LPD3DXBUFFER*                   ppErrorMsgs,
 								LPD3DXCONSTANTTABLE*            ppConstantTable )
 {
-	*ppShader = NULL;
-	*ppErrorMsgs = NULL;
-	if ( ppConstantTable ) *ppConstantTable = NULL;
+	*ppShader = nullptr;
+	*ppErrorMsgs = nullptr;
+	if ( ppConstantTable ) *ppConstantTable = nullptr;
 
 	static bool bInitializedShaderPerfLib;
 	if ( !bInitializedShaderPerfLib )

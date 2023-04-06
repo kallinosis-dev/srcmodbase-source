@@ -39,7 +39,7 @@ private:
 ImageDemo::ImageDemo(Panel *parent, const char *name) : DemoPage(parent, name)
 {
 	// now insert an image
-	m_pImage = NULL;
+	m_pImage = nullptr;
 }
 
 //-----------------------------------------------------------------------------

@@ -14,12 +14,12 @@ DEFINE_FIXEDSIZE_ALLOCATOR_MT( CSerializedEntity, 2048, CUtlMemoryPool::GROW_FAS
 
 //-----------------------------------------------------------------------------
 CSerializedEntity::CSerializedEntity()	
-: m_pFields( NULL )
-, m_pFieldDataOffsets( NULL )
+: m_pFields(nullptr)
+, m_pFieldDataOffsets(nullptr)
 , m_nFieldCount( 0 )
 , m_nNumReservedFields( 0 )
 , m_nFieldDataBits( 0 )
-, m_pFieldData( NULL )
+, m_pFieldData(nullptr)
 {
 }
 
@@ -51,9 +51,9 @@ void CSerializedEntity::SetupPackMemory( int nNumFields, int nDataBits )
 	else
 	{
 		// NOTE: We can't rely on the Source 1 XBox allocator returning NULL for a zero byte allocation
-		m_pFields			= NULL;
-		m_pFieldDataOffsets = NULL;
-		m_pFieldData		= NULL;
+		m_pFields			= nullptr;
+		m_pFieldDataOffsets = nullptr;
+		m_pFieldData		= nullptr;
 	}
 
 	m_nFieldCount			= nNumFields;
@@ -111,9 +111,9 @@ void CSerializedEntity::Clear()
 	}
 
 	m_nFieldDataBits = 0;
-	m_pFields = NULL;
-	m_pFieldDataOffsets = NULL;
-	m_pFieldData = NULL;
+	m_pFields = nullptr;
+	m_pFieldDataOffsets = nullptr;
+	m_pFieldData = nullptr;
 	m_nFieldCount = 0;
 	m_nNumReservedFields = 0;
 }
@@ -152,8 +152,8 @@ void CSerializedEntity::ReservePathAndOffsetMemory( uint32 nNumElements )
 	else
 	{
 		// NOTE: We can't rely on the Source 1 XBox allocator returning NULL for a zero byte allocation
-		m_pFields			= NULL;
-		m_pFieldDataOffsets = NULL;
+		m_pFields			= nullptr;
+		m_pFieldDataOffsets = nullptr;
 	}
 
 	//cleanup the old (which is over allocated)

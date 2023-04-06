@@ -51,5 +51,5 @@ void* FileSystemFactory(const char *pName, int *pReturnCode)
 	{
 		*pReturnCode = IFACE_FAILED;
 	}
-	return NULL;
+	return nullptr;
 }

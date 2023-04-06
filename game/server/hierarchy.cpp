@@ -34,11 +34,11 @@ void UnlinkChild( CBaseEntity *pParent, CBaseEntity *pChild )
 			pPrev->Set( pNext );
 
 			// Clear hierarchy bits for this guy
-			pList->m_hMoveParent.Set( NULL );
-			pList->m_hMovePeer.Set( NULL );
+			pList->m_hMoveParent.Set(nullptr);
+			pList->m_hMovePeer.Set(nullptr);
 			pList->NetworkProp()->SetNetworkParent( INVALID_EHANDLE );
 			pList->DispatchUpdateTransmitState();	
-			pList->OnEntityEvent( ENTITY_EVENT_PARENT_CHANGED, NULL );
+			pList->OnEntityEvent( ENTITY_EVENT_PARENT_CHANGED, nullptr);
 			
 			pParent->RecalcHasPlayerChildBit();
 			return;
@@ -63,7 +63,7 @@ void LinkChild( CBaseEntity *pParent, CBaseEntity *pChild )
 	pChild->m_hMoveParent = hParent;
 	pChild->NetworkProp()->SetNetworkParent( hParent );
 	pChild->DispatchUpdateTransmitState();
-	pChild->OnEntityEvent( ENTITY_EVENT_PARENT_CHANGED, NULL );
+	pChild->OnEntityEvent( ENTITY_EVENT_PARENT_CHANGED, nullptr);
 	pParent->RecalcHasPlayerChildBit();
 }
 
@@ -155,7 +155,7 @@ bool EntityIsParentOf( CBaseEntity *pParent, CBaseEntity *pEntity )
 
 static void GetAllChildren_r( CBaseEntity *pEntity, CUtlVector<CBaseEntity *> &list )
 {
-	for ( ; pEntity != NULL; pEntity = pEntity->NextMovePeer() )
+	for ( ; pEntity != nullptr; pEntity = pEntity->NextMovePeer() )
 	{
 		list.AddToTail( pEntity );
 		GetAllChildren_r( pEntity->FirstMoveChild(), list );

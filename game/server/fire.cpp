@@ -298,7 +298,7 @@ bool FireSystem_IsFireInWall( Vector &position, fireType_e type )
 		return false;
 
 	trace_t tr;
-	UTIL_TraceHull( position, position+Vector(0,0,0.1), FIRE_MINS,FIRE_MAXS,MASK_SOLID, NULL, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceHull( position, position+Vector(0,0,0.1), FIRE_MINS,FIRE_MAXS,MASK_SOLID, nullptr, COLLISION_GROUP_NONE, &tr );
 	if (tr.fraction != 1.0 || tr.startsolid)
 	{
 		//NDebugOverlay::Box(position,FIRE_MINS,FIRE_MAXS,255,0,0,50,10);
@@ -331,7 +331,7 @@ bool FireSystem_CanAddFire( Vector *position, float separationRadius, fireType_e
 		startpos[2] += 1;
 		endpos[2] -= FIRE_MAX_GROUND_OFFSET;
 
-		UTIL_TraceLine( startpos, endpos, MASK_SOLID, NULL, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceLine( startpos, endpos, MASK_SOLID, nullptr, COLLISION_GROUP_NONE, &tr );
 
 		//See if we're floating too high 
 		if ( ( tr.allsolid ) || ( tr.startsolid) || ( tr.fraction == 1.0f ) )
@@ -412,7 +412,7 @@ bool FireSystem_StartFire( const Vector &position, float fireHeight, float attac
 	//Create a new fire entity
 	CFire *fire = (CFire *) CreateEntityByName( "env_fire" );
 	
-	if ( fire == NULL )
+	if ( fire == nullptr)
 		return false;
 
 	//Spawn the fire
@@ -461,7 +461,7 @@ bool FireSystem_StartFire( CBaseAnimating *pEntity, float fireHeight, float atta
 
 	// Create a new fire entity
 	CFire *fire = (CFire *) CreateEntityByName( "env_fire" );
-	if ( fire == NULL )
+	if ( fire == nullptr)
 	{
 		return false;
 	}
@@ -695,7 +695,7 @@ void CFire::InputExtinguishTemporary( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 void CFire::StartFire( void )
 {
-	if ( m_hEffect != NULL )
+	if ( m_hEffect != nullptr)
 		return;
 
 	// Trace down and start a fire there. Nothing fancy yet.
@@ -777,7 +777,7 @@ void CFire::Activate( void )
 //-----------------------------------------------------------------------------
 void CFire::SpawnEffect( fireType_e type, float scale )
 {
-	CBaseFire *pEffect = NULL;
+	CBaseFire *pEffect = nullptr;
 	switch ( type )
 	{
 	default:
@@ -1050,7 +1050,7 @@ void CFire::Update( float simTime )
 void CFire::DestroyEffect()
 {
 	CBaseFire *pEffect = m_hEffect;
-	if ( pEffect != NULL )
+	if ( pEffect != nullptr)
 	{
 		//disable the graphics and remove the entity
 		pEffect->Enable( false );
@@ -1153,7 +1153,7 @@ void CFire::AddHeat( float heat, bool selfHeat )
 		}
 
 		m_flHeatLevel += heat;
-		if ( start && m_flHeatLevel > 0 && m_hEffect == NULL )
+		if ( start && m_flHeatLevel > 0 && m_hEffect == nullptr)
 		{
 			StartFire();
 		}

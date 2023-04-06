@@ -130,7 +130,7 @@ int main(int argc, char* argv[])
 			CreateInterfaceFn factory = Sys_GetFactory( sql );
 			if ( factory )
 			{
-				IMySQL *mysql = ( IMySQL * )factory( MYSQL_WRAPPER_VERSION_NAME, NULL );
+				IMySQL *mysql = ( IMySQL * )factory( MYSQL_WRAPPER_VERSION_NAME, nullptr);
 				if ( mysql )
 				{
 					if ( mysql->InitMySQL( argv[ 4 ], argv[ 3 ], argv[ 5 ], argv[ 6 ] ) )

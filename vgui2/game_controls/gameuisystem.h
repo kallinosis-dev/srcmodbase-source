@@ -50,7 +50,7 @@ public:
 
 	CGameUIDefinition &Definition() { return m_GameUIDef; }
 
-	virtual bool ExecuteScript( KeyValues *kvEvent, KeyValues **ppResult = NULL );
+	virtual bool ExecuteScript( KeyValues *kvEvent, KeyValues **ppResult = nullptr);
 
 	virtual void SetStageSize( int nWide, int nTall );
 	virtual void GetStageSize( Vector2D &stageSize );

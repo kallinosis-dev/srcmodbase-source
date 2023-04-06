@@ -127,15 +127,15 @@ next_line:
 static void LoadConfigFile( const char *pFileName, float *bumpScale, int *startFrame, int *endFrame )
 {
 	CUtlBuffer buf( 0, 0, CUtlBuffer::TEXT_BUFFER );
-	if ( !g_pFullFileSystem->ReadFile( pFileName, NULL, buf ) )
+	if ( !g_pFullFileSystem->ReadFile( pFileName, nullptr, buf ) )
 	{
 		fprintf( stderr, "Can't open: %s\n", pFileName );
 		Pause();
 		exit( -1 );
 	}
 
-	char *key = NULL;
-	char *val = NULL;
+	char *key = nullptr;
+	char *val = nullptr;
 	while( GetKeyValueFromBuffer( buf, &key, &val ) )
 	{
 		if( stricmp( key, "bumpscale" ) == 0 )
@@ -208,7 +208,7 @@ void ProcessFiles( const char *pNormalFileNameWithoutExtension,
 		int width, height;
 		float sourceGamma;
 		CUtlBuffer buf;
-		if ( !g_pFullFileSystem->ReadFile( heightTGAFileName, NULL, buf ) )
+		if ( !g_pFullFileSystem->ReadFile( heightTGAFileName, nullptr, buf ) )
 		{
 			fprintf( stderr, "%s not found\n", heightTGAFileName );
 			return;
@@ -245,7 +245,7 @@ void ProcessFiles( const char *pNormalFileNameWithoutExtension,
 			TGAWriter::WriteToBuffer( pImageRGB888, normalBuf, width, height, IMAGE_FORMAT_RGB888, IMAGE_FORMAT_RGB888 );
 			delete [] pImageRGB888;
 		}
-		if ( !g_pFullFileSystem->WriteFile( normalTGAFileName, NULL, normalBuf ) )
+		if ( !g_pFullFileSystem->WriteFile( normalTGAFileName, nullptr, normalBuf ) )
 		{
 			fprintf( stderr, "unable to write %s\n", normalTGAFileName );
 			return;
@@ -285,7 +285,7 @@ int main( int argc, char **argv )
 	}
 
 	char pCurrentDirectory[MAX_PATH];
-	if ( _getcwd( pCurrentDirectory, sizeof(pCurrentDirectory) ) == NULL )
+	if ( _getcwd( pCurrentDirectory, sizeof(pCurrentDirectory) ) == nullptr)
 	{
 		fprintf( stderr, "Unable to get the current directory\n" );
 		return -1;

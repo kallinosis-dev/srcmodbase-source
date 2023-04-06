@@ -50,7 +50,7 @@ static void ExecuteDeferredOp()
 	if ( g_pfnDeferredOp )
 	{
 		(*g_pfnDeferredOp)();
-		g_pfnDeferredOp = NULL;
+		g_pfnDeferredOp = nullptr;
 	}
 }
 
@@ -177,7 +177,7 @@ void PreUpdateProfile( float filteredtime )
 				if ( vprof_dump_spikes_hierarchy.GetBool() )
 				{
 					g_VProfCurrentProfile.OutputReport( VPRT_HIERARCHY_TIME_PER_FRAME_AND_COUNT_ONLY,
-						( vprof_dump_spikes_node.GetString()[0] ) ? vprof_dump_spikes_node.GetString() : NULL,
+						( vprof_dump_spikes_node.GetString()[0] ) ? vprof_dump_spikes_node.GetString() : nullptr,
 						( vprof_dump_spikes_budget_group.GetString()[0] ) ? g_VProfCurrentProfile.BudgetGroupNameToBudgetGroupID( vprof_dump_spikes_budget_group.GetString() ) : -1 );
 				}
 				else
@@ -192,7 +192,7 @@ void PreUpdateProfile( float filteredtime )
 						flags = VPRT_LIST_BY_TIME | VPRT_LIST_TOP_ITEMS_ONLY;
 					}
 					g_VProfCurrentProfile.OutputReport( flags,
-						( vprof_dump_spikes_node.GetString()[0] ) ? vprof_dump_spikes_node.GetString() : NULL,
+						( vprof_dump_spikes_node.GetString()[0] ) ? vprof_dump_spikes_node.GetString() : nullptr,
 						( vprof_dump_spikes_budget_group.GetString()[0] ) ? g_VProfCurrentProfile.BudgetGroupNameToBudgetGroupID( vprof_dump_spikes_budget_group.GetString() ) : -1 );
 				}
 
@@ -543,7 +543,7 @@ DEFERRED_CON_COMMAND( vprof_off, "Turn off VProf profiler" )
 		if ( g_szDefferedArg1[0] && stricmp("infested",g_szDefferedArg1) == 0 )
 		{
 			ConsoleLogger consoleLog;
-			g_VProfCurrentProfile.OutputReport( VPRT_FULL & ~VPRT_HIERARCHY, NULL );
+			g_VProfCurrentProfile.OutputReport( VPRT_FULL & ~VPRT_HIERARCHY, nullptr);
 		}
 
 #if defined( _X360 )
@@ -576,7 +576,7 @@ DEFERRED_CON_COMMAND(vprof_generate_report, "Generate a report to the console.")
 {
 	g_VProfCurrentProfile.Pause();
 	ConsoleLogger consoleLog;
-	g_VProfCurrentProfile.OutputReport( VPRT_FULL & ~VPRT_HIERARCHY, (g_szDefferedArg1[0]) ? g_szDefferedArg1 : NULL );
+	g_VProfCurrentProfile.OutputReport( VPRT_FULL & ~VPRT_HIERARCHY, (g_szDefferedArg1[0]) ? g_szDefferedArg1 : nullptr);
 	g_VProfCurrentProfile.Resume();
 }
 
@@ -588,7 +588,7 @@ DEFERRED_CON_COMMAND(vprof_generate_report_budget, "Generate a report to the con
 	}
 	g_VProfCurrentProfile.Pause();
 	ConsoleLogger consoleLog;
-	g_VProfCurrentProfile.OutputReport( VPRT_FULL & ~VPRT_HIERARCHY, NULL, g_VProfCurrentProfile.BudgetGroupNameToBudgetGroupID( g_szDefferedArg1 ) );
+	g_VProfCurrentProfile.OutputReport( VPRT_FULL & ~VPRT_HIERARCHY, nullptr, g_VProfCurrentProfile.BudgetGroupNameToBudgetGroupID( g_szDefferedArg1 ) );
 	g_VProfCurrentProfile.Resume();
 }
 
@@ -596,7 +596,7 @@ DEFERRED_CON_COMMAND(vprof_generate_report_hierarchy, "Generate a report to the 
 {
 	g_VProfCurrentProfile.Pause();
 	ConsoleLogger consoleLog;
-	g_VProfCurrentProfile.OutputReport( VPRT_HIERARCHY, (g_szDefferedArg1[0]) ? g_szDefferedArg1 : NULL );
+	g_VProfCurrentProfile.OutputReport( VPRT_HIERARCHY, (g_szDefferedArg1[0]) ? g_szDefferedArg1 : nullptr);
 	g_VProfCurrentProfile.Resume();
 }
 

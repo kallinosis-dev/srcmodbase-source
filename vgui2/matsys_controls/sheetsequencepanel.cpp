@@ -46,8 +46,8 @@ const int SEQUENCE_PANEL_MAX_SIZE = 256;
 
 CSheetSequencePanel::CSheetSequencePanel( vgui::Panel *pParent, const char *pPanelName ):
 	BaseClass(pParent,pPanelName),
-	m_pSheet(NULL),
-	m_Material(NULL)
+	m_pSheet(nullptr),
+	m_Material(nullptr)
 {
 	m_nHighlightedSequence = -1;
 	m_bSeparateAlphaColorMaterial = false;
@@ -80,7 +80,7 @@ void CSheetSequencePanel::EnsureMaterialsExist()
 CSheetSequencePanel::~CSheetSequencePanel()
 {
 	delete m_pSheet;
-	m_pSheet = NULL;
+	m_pSheet = nullptr;
 }
 
 void CSheetSequencePanel::PrepareMaterials()
@@ -177,7 +177,7 @@ void CSheetSequencePanel::OnCursorMoved(int x, int y)
 {
 	BaseClass::OnCursorMoved(x,y);
 
-	if ( m_pSheet == NULL || m_pSheet->GetSheetSequenceCount() == 0 )
+	if ( m_pSheet == nullptr || m_pSheet->GetSheetSequenceCount() == 0 )
 	{
 		m_nHighlightedSequence = -1;
 		return;
@@ -270,7 +270,7 @@ void CSheetSequencePanel::Paint( void )
 	vgui::surface()->DrawSetColor( Color(0,0,0,255) );
 	vgui::surface()->DrawOutlinedRect( 1, 1, w-1, h-1 );
 
-	if ( m_pSheet == NULL || !m_pSheet->ValidSheetData() )
+	if ( m_pSheet == nullptr || !m_pSheet->ValidSheetData() )
 	{
 		return;
 	}

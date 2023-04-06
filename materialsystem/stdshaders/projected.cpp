@@ -36,7 +36,7 @@ BEGIN_VS_SHADER( Projected_DX90, "Help for Projected" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

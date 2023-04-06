@@ -243,7 +243,7 @@ T *_CreateEntity( T *newClass, const char *className )
 #define CREATE_UNSAVED_ENTITY( newClass, className ) _CreateEntityTemplate( (newClass*)NULL, className )
 
 // creates an entity and calls all the necessary spawn functions
-extern void SpawnEntityByName( const char *className, CEntityMapData *mapData = NULL );
+extern void SpawnEntityByName( const char *className, CEntityMapData *mapData = nullptr);
 
 // calls the spawn functions for an entity
 extern int DispatchSpawn( CBaseEntity *pEntity, bool bRunVScripts = true );
@@ -677,7 +677,7 @@ public:
 	void		SetClassname( const char *className );
 	const char* GetClassname();
 
-	virtual const char *GetPlayerName() const { return NULL; }
+	virtual const char *GetPlayerName() const { return nullptr; }
 
 	// Debug Overlays
 	void		 EntityText( int text_offset, const char *text, float flDuration, int r = 255, int g = 255, int b = 255, int a = 255 );
@@ -760,12 +760,12 @@ public:
 
 	// Think functions with contexts
 	int		RegisterThinkContext( const char *szContext );
-	BASEPTR	ThinkSet( BASEPTR func, float flNextThinkTime = 0, const char *szContext = NULL );
-	void	SetNextThink( float nextThinkTime, const char *szContext = NULL );
-	float	GetNextThink( const char *szContext = NULL );
-	float	GetLastThink( const char *szContext = NULL );
-	int		GetNextThinkTick( const char *szContext = NULL );
-	int		GetLastThinkTick( const char *szContext = NULL );
+	BASEPTR	ThinkSet( BASEPTR func, float flNextThinkTime = 0, const char *szContext = nullptr);
+	void	SetNextThink( float nextThinkTime, const char *szContext = nullptr);
+	float	GetNextThink( const char *szContext = nullptr);
+	float	GetLastThink( const char *szContext = nullptr);
+	int		GetNextThinkTick( const char *szContext = nullptr);
+	int		GetLastThinkTick( const char *szContext = nullptr);
 
 	float				GetAnimTime() const;
 	void				SetAnimTime( float at );
@@ -868,8 +868,8 @@ private:
 public:
 
 	// Returns a CBaseAnimating if the entity is derived from CBaseAnimating.
-	virtual CBaseAnimating*	GetBaseAnimating() { return 0; }
-	virtual CBaseAnimatingOverlay *	GetBaseAnimatingOverlay() { return NULL; }
+	virtual CBaseAnimating*	GetBaseAnimating() { return nullptr; }
+	virtual CBaseAnimatingOverlay *	GetBaseAnimatingOverlay() { return nullptr; }
 
 	virtual ResponseRules::IResponseSystem *GetResponseSystem();
 	virtual void	DispatchResponse( const char *conceptName );
@@ -920,14 +920,14 @@ public:
 	virtual bool			IsTriggered( CBaseEntity *pActivator ) {return true;}
 	virtual bool			IsNPC( void ) const { return false; }
 	virtual CAI_BaseNPC		*MyNPCPointer( void ); 
-	virtual CBaseCombatCharacter *MyCombatCharacterPointer( void ) { return NULL; }
-	virtual INextBot		*MyNextBotPointer( void ) { return NULL; }
+	virtual CBaseCombatCharacter *MyCombatCharacterPointer( void ) { return nullptr; }
+	virtual INextBot		*MyNextBotPointer( void ) { return nullptr; }
 	virtual float			GetDelay( void ) { return 0; }
 	virtual bool			IsMoving( void );
 	bool					IsWorld() const { extern CWorld *g_WorldEntity; return (void *)this == (void *)g_WorldEntity; }
 	virtual char const		*DamageDecal( int bitsDamageType, int gameMaterial );
 	virtual void			DecalTrace( trace_t *pTrace, char const *decalName );
-	virtual void			ImpactTrace( trace_t *pTrace, int iDamageType, char *pCustomImpactName = NULL );
+	virtual void			ImpactTrace( trace_t *pTrace, int iDamageType, char *pCustomImpactName = nullptr);
 
 	void			AddPoints( int score, bool bAllowNegativeScore );
 	void			AddPointsToTeam( int score, bool bAllowNegativeScore );
@@ -944,11 +944,11 @@ public:
 	bool			IsInWorld( void ) const;
 
 	virtual bool	IsBaseCombatWeapon( void ) const { return false; }
-	virtual CBaseCombatWeapon *MyCombatWeaponPointer( void ) { return NULL; }
+	virtual CBaseCombatWeapon *MyCombatWeaponPointer( void ) { return nullptr; }
 	//virtual bool					IsGrenadeProjectile( void ) { return false; };
 
 	// If this is a vehicle, returns the vehicle interface
-	virtual IServerVehicle*			GetServerVehicle() { return NULL; }
+	virtual IServerVehicle*			GetServerVehicle() { return nullptr; }
 
 	// UNDONE: Make this data instead of procedural?
 	virtual bool	IsViewable( void );					// is this something that would be looked at (model, sprite, etc.)?
@@ -973,8 +973,8 @@ public:
 	// UNDONE: Do these three functions actually need to be virtual???
 	virtual bool	CanStandOn( CBaseEntity *pSurface ) const { return (pSurface && !pSurface->IsStandable()) ? false : true; }
 	virtual bool	CanStandOn( edict_t	*ent ) const { return CanStandOn( GetContainingEntity( ent ) ); }
-	virtual CBaseEntity		*GetEnemy( void ) { return NULL; }
-	virtual CBaseEntity		*GetEnemy( void ) const { return NULL; }
+	virtual CBaseEntity		*GetEnemy( void ) { return nullptr; }
+	virtual CBaseEntity		*GetEnemy( void ) const { return nullptr; }
 
 	// Paint helper
 	// Should never be called on anything that doesn't use PropPaintPowerUser, which overrides this.
@@ -1007,7 +1007,7 @@ public:
 	void					PhysicsImpact( CBaseEntity *other, trace_t &trace );
  	void					PhysicsMarkEntitiesAsTouching( CBaseEntity *other, trace_t &trace );
 	void					PhysicsMarkEntitiesAsTouchingEventDriven( CBaseEntity *other, trace_t &trace );
-	virtual void			PhysicsTouchTriggers( const Vector *pPrevAbsOrigin = NULL );
+	virtual void			PhysicsTouchTriggers( const Vector *pPrevAbsOrigin = nullptr);
 	virtual void			PhysicsLandedOnGround( float flFallingSpeed ) { return; }
 
 	// Physics helper
@@ -1064,9 +1064,9 @@ public:
 	void FireBullets( int cShots, const Vector &vecSrc, const Vector &vecDirShooting, 
 		const Vector &vecSpread, float flDistance, int iAmmoType, int iTracerFreq = 4, 
 		int firingEntID = -1, int attachmentID = -1, float flDamage = 0, 
-		CBaseEntity *pAttacker = NULL, bool bFirstShotAccurate = false, bool bPrimaryAttack = true );
+		CBaseEntity *pAttacker = nullptr, bool bFirstShotAccurate = false, bool bPrimaryAttack = true );
 
-	virtual CBaseEntity *Respawn( void ) { return NULL; }
+	virtual CBaseEntity *Respawn( void ) { return nullptr; }
 
 	// Method used to deal with attacks passing through triggers
 	void TraceAttackToTriggers( const CTakeDamageInfo &info, const Vector& start, const Vector& end, const Vector& dir );
@@ -1150,8 +1150,8 @@ public:
 	// virtual functions used by a few classes
 	
 	// creates an entity of a specified class, by name
-	static CBaseEntity *Create( const char *szName, const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner = NULL );
-	static CBaseEntity *CreateNoSpawn( const char *szName, const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner = NULL );
+	static CBaseEntity *Create( const char *szName, const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner = nullptr);
+	static CBaseEntity *CreateNoSpawn( const char *szName, const Vector &vecOrigin, const QAngle &vecAngles, CBaseEntity *pOwner = nullptr);
 
 	// Collision group accessors
 	int				GetCollisionGroup() const;
@@ -1214,7 +1214,7 @@ public:
 	virtual Vector	GetSmoothedVelocity( void );
 
 	// FIXME: Figure out what to do about this
-	virtual void	GetVelocity(Vector *vVelocity, AngularImpulse *vAngVelocity = NULL);
+	virtual void	GetVelocity(Vector *vVelocity, AngularImpulse *vAngVelocity = nullptr);
 
 	float			GetGravity( void ) const;
 	void			SetGravity( float gravity );
@@ -1224,8 +1224,8 @@ public:
 	// Mechanism for overriding friction for a short duration
 	void			OverrideFriction( float duration, float friction );
 
-	virtual	bool FVisible ( CBaseEntity *pEntity, int traceMask = MASK_BLOCKLOS, CBaseEntity **ppBlocker = NULL );
-	virtual bool FVisible( const Vector &vecTarget, int traceMask = MASK_BLOCKLOS, CBaseEntity **ppBlocker = NULL );
+	virtual	bool FVisible ( CBaseEntity *pEntity, int traceMask = MASK_BLOCKLOS, CBaseEntity **ppBlocker = nullptr);
+	virtual bool FVisible( const Vector &vecTarget, int traceMask = MASK_BLOCKLOS, CBaseEntity **ppBlocker = nullptr);
 
 	virtual bool CanBeSeenBy( CAI_BaseNPC *pNPC ) { return true; } // allows entities to be 'invisible' to NPC senses.
 
@@ -1346,8 +1346,8 @@ public:
 
 	// See CSoundEmitterSystem
 	// Will return the sound guid. If negative, the guid is unknown (call may be successful or not). 0 if the sound was not emitted. Positive if the guid is valid.
-	int						EmitSound( const char *soundname, float soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter filter( this ), and EmitSound( filter, entindex(), etc. );
-	int						EmitSound( const char *soundname, HSOUNDSCRIPTHASH& handle, float soundtime = 0.0f, float *duration = NULL );  // Override for doing the general case of CPASAttenuationFilter filter( this ), and EmitSound( filter, entindex(), etc. );
+	int						EmitSound( const char *soundname, float soundtime = 0.0f, float *duration = nullptr);  // Override for doing the general case of CPASAttenuationFilter filter( this ), and EmitSound( filter, entindex(), etc. );
+	int						EmitSound( const char *soundname, HSOUNDSCRIPTHASH& handle, float soundtime = 0.0f, float *duration = nullptr);  // Override for doing the general case of CPASAttenuationFilter filter( this ), and EmitSound( filter, entindex(), etc. );
 	void					ScriptEmitSound( const char *soundname );
 	void					ScriptStopSound( const char *soundname );
 	float					ScriptSoundDuration( const char *soundname, const char *actormodel );
@@ -1357,15 +1357,15 @@ public:
 
 	void					SetPendingTeamNum( int nTeamID );
 
-	void UpdateLastMadeNoiseTime( const char* pszSoundName = NULL );
+	void UpdateLastMadeNoiseTime( const char* pszSoundName = nullptr);
 
 	static float GetSoundDuration( const char *soundname, char const *actormodel );
 
 	static bool	GetParametersForSound( const char *soundname, CSoundParameters &params, char const *actormodel );
 	static bool	GetParametersForSound( const char *soundname, HSOUNDSCRIPTHASH& handle, CSoundParameters &params, char const *actormodel );
 
-	static int EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, const Vector *pOrigin = NULL, float soundtime = 0.0f, float *duration = NULL );
-	static int EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, HSOUNDSCRIPTHASH& handle, const Vector *pOrigin = NULL, float soundtime = 0.0f, float *duration = NULL );
+	static int EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, const Vector *pOrigin = nullptr, float soundtime = 0.0f, float *duration = nullptr);
+	static int EmitSound( IRecipientFilter& filter, int iEntIndex, const char *soundname, HSOUNDSCRIPTHASH& handle, const Vector *pOrigin = nullptr, float soundtime = 0.0f, float *duration = nullptr);
 	static void StopSound( int iEntIndex, const char *soundname );
 	static soundlevel_t LookupSoundLevel( const char *soundname );
 	static soundlevel_t LookupSoundLevel( const char *soundname, HSOUNDSCRIPTHASH& handle );
@@ -1375,7 +1375,7 @@ public:
 
 	static void StopSound( int iEntIndex, int iChannel, const char *pSample, bool bIsStoppingSpeakerSound = false );
 
-	static void EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, int flags = 0, float soundtime = 0.0f, float *duration = NULL );
+	static void EmitAmbientSound( int entindex, const Vector& origin, const char *soundname, int flags = 0, float soundtime = 0.0f, float *duration = nullptr);
 
 	// keep track of other-player audible sounds.
 	CNetworkVar( float, m_flLastMadeNoiseTime );
@@ -1391,7 +1391,7 @@ public:
 	static void EmitCloseCaption( IRecipientFilter& filter, int entindex, char const *token, CUtlVector< Vector >& soundorigins, float duration, bool warnifmissing = false );
 	static void	EmitSentenceByIndex( IRecipientFilter& filter, int iEntIndex, int iChannel, int iSentenceIndex, 
 		float flVolume, soundlevel_t iSoundlevel, int iFlags = 0, int iPitch = PITCH_NORM,
-		const Vector *pOrigin = NULL, const Vector *pDirection = NULL, bool bUpdatePositions = true, float soundtime = 0.0f );
+		const Vector *pOrigin = nullptr, const Vector *pDirection = nullptr, bool bUpdatePositions = true, float soundtime = 0.0f );
 
 	static bool IsPrecacheAllowed();
 	static void SetAllowPrecache( bool allow );
@@ -1417,11 +1417,11 @@ public:
 
 	// This creates a normal vphysics simulated object - physics determines where it goes (gravity, friction, etc)
 	// and the entity receives updates from vphysics.  SetAbsOrigin(), etc do not affect the object!
-	IPhysicsObject *VPhysicsInitNormal( SolidType_t solidType, int nSolidFlags, bool createAsleep, solid_t *pSolid = NULL );
+	IPhysicsObject *VPhysicsInitNormal( SolidType_t solidType, int nSolidFlags, bool createAsleep, solid_t *pSolid = nullptr);
 
 	// This creates a vphysics object with a shadow controller that follows the AI
 	// Move the object to where it should be and call UpdatePhysicsShadowToCurrentPosition()
-	IPhysicsObject *VPhysicsInitShadow( bool allowPhysicsMovement, bool allowPhysicsRotation, solid_t *pSolid = NULL );
+	IPhysicsObject *VPhysicsInitShadow( bool allowPhysicsMovement, bool allowPhysicsRotation, solid_t *pSolid = nullptr);
 
 	// Force a non-solid (ie. solid_trigger) physics object to collide with other entities.
 	virtual bool	ForceVPhysicsCollide( CBaseEntity *pEntity ) { return false; }
@@ -1467,7 +1467,7 @@ public:
 	void					PhysicsCheckForEntityUntouch( void );
  	bool					PhysicsRunThink( thinkmethods_t thinkMethod = THINK_FIRE_ALL_FUNCTIONS );
 	bool					PhysicsRunSpecificThink( int nContextIndex, BASEPTR thinkFunc );
-	bool					PhysicsTestEntityPosition( CBaseEntity **ppEntity = NULL );
+	bool					PhysicsTestEntityPosition( CBaseEntity **ppEntity = nullptr);
 	void					PhysicsPushEntity( const Vector& push, trace_t *pTrace );
 	bool					PhysicsCheckWater( void );
 	void					PhysicsCheckWaterTransition( void );
@@ -1478,7 +1478,7 @@ public:
 	virtual bool			CanPushEntity( CBaseEntity *other ) const {return true;}	//Any special reason we can't push this other thing while moving?
 
 	// Callbacks for the physgun/cannon picking up an entity
-	virtual	CBasePlayer		*HasPhysicsAttacker( float dt ) { return NULL; }
+	virtual	CBasePlayer		*HasPhysicsAttacker( float dt ) { return nullptr; }
 
 	// UNDONE: Make this data?
 	virtual unsigned int	PhysicsSolidMaskForEntity( void ) const;
@@ -1564,7 +1564,7 @@ private:
 	void					ComputeStepSimulationNetwork( StepSimulationData *step );
 
 public:
-	bool					UseStepSimulationNetworkOrigin( const Vector **out_v, int cell[3] = NULL ); // cell should be a 3 int array
+	bool					UseStepSimulationNetworkOrigin( const Vector **out_v, int cell[3] = nullptr); // cell should be a 3 int array
 	bool					UseStepSimulationNetworkAngles( const QAngle **out_a );
 
 public:
@@ -1905,17 +1905,17 @@ public:
 	HSCRIPT ScriptNextMovePeer( void );
 
 	const Vector &ScriptEyePosition( void ) { static Vector vec; vec = EyePosition(); return vec;}
-	void ScriptSetAngles( float fPitch, float fYaw, float fRoll ) {QAngle angles(fPitch,fYaw,fRoll); Teleport(NULL, &angles, NULL);}
+	void ScriptSetAngles( float fPitch, float fYaw, float fRoll ) {QAngle angles(fPitch,fYaw,fRoll); Teleport(nullptr, &angles, nullptr);}
 	const Vector &ScriptGetAngles( void ) { static Vector vec; QAngle qa = GetAbsAngles(); vec.x = qa.x; vec.y = qa.y; vec.z = qa.z; return vec;}
 	
 	void ScriptSetSize( const Vector &mins, const Vector &maxs ) { UTIL_SetSize( this, mins, maxs ); }
 	void ScriptUtilRemove( void ) { UTIL_Remove( this ); }
 	void ScriptSetOwner( HSCRIPT hEntity ) { SetOwnerEntity( ToEnt( hEntity ) ); }
-	void ScriptSetOrigin( const Vector &v ) { Teleport( &v, NULL, NULL ); }
-	void ScriptSetForward( const Vector &v ) { QAngle angles; VectorAngles( v, angles ); Teleport( NULL, &angles, NULL ); }
-	const Vector &ScriptGetForward( void ) { static Vector vecForward; GetVectors( &vecForward, NULL, NULL ); return vecForward; }
-	const Vector &ScriptGetLeft( void ) { static Vector vecLeft; GetVectors( NULL, &vecLeft, NULL ); return vecLeft; }
-	const Vector &ScriptGetUp( void ) { static Vector vecUp; GetVectors( NULL, NULL, &vecUp ); return vecUp; }
+	void ScriptSetOrigin( const Vector &v ) { Teleport( &v, nullptr, nullptr); }
+	void ScriptSetForward( const Vector &v ) { QAngle angles; VectorAngles( v, angles ); Teleport(nullptr, &angles, nullptr); }
+	const Vector &ScriptGetForward( void ) { static Vector vecForward; GetVectors( &vecForward, nullptr, nullptr); return vecForward; }
+	const Vector &ScriptGetLeft( void ) { static Vector vecLeft; GetVectors(nullptr, &vecLeft, nullptr); return vecLeft; }
+	const Vector &ScriptGetUp( void ) { static Vector vecUp; GetVectors(nullptr, nullptr, &vecUp ); return vecUp; }
 
 	HSCRIPT ScriptGetModelKeyValues( void );
 
@@ -1999,7 +1999,7 @@ inline CBaseEntity *GetContainingEntity( edict_t *pent )
 		return pent->GetUnknown()->GetBaseEntity();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2277,7 +2277,7 @@ inline bool CBaseEntity::GetCheckUntouch() const
 inline CBaseCombatCharacter *ToBaseCombatCharacter( CBaseEntity *pEntity )
 {
 	if ( !pEntity )
-		return NULL;
+		return nullptr;
 
 	return pEntity->MyCombatCharacterPointer();
 }
@@ -2380,7 +2380,7 @@ inline void CBaseEntity::WorldToEntitySpace( const Vector &in, Vector *pOut ) co
 inline Vector CBaseEntity::GetSmoothedVelocity( void )
 {
 	Vector vel;
-	GetVelocity( &vel, NULL );
+	GetVelocity( &vel, nullptr);
 	return vel;
 }
 
@@ -2785,7 +2785,7 @@ inline Vector	CBaseEntity::EarPosition( void ) const			// position of ears
 
 inline float CBaseEntity::GetDistanceToEntity( const CBaseEntity *other ) const
 {
-	if( other == NULL )
+	if( other == nullptr)
 		return -1.0f;
 
 	return ( GetAbsOrigin() - other->GetAbsOrigin() ).Length();

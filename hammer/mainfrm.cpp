@@ -219,15 +219,15 @@ static CMainFrame *g_pMainWnd;
 //-----------------------------------------------------------------------------
 CMainFrame::CMainFrame(void)
 {
-	pTextureBrowser = NULL;
-	pObjectProperties = NULL;
-	m_pModelBrowser = NULL;
+	pTextureBrowser = nullptr;
+	pObjectProperties = nullptr;
+	m_pModelBrowser = nullptr;
 	m_bUndoActive = TRUE;
 	m_bShellSessionActive = false;
-	m_pFaceEditSheet = NULL;
+	m_pFaceEditSheet = nullptr;
 	m_bMinimized = false;
-	m_pSearchReplaceDlg = NULL;
-	m_pLightingPreviewOutputWindow = NULL;
+	m_pSearchReplaceDlg = nullptr;
+	m_pLightingPreviewOutputWindow = nullptr;
 	m_bLightingPreviewOutputWindowShowing = false;
 }
 
@@ -244,7 +244,7 @@ CMainFrame::~CMainFrame(void)
 	delete m_pLightingPreviewOutputWindow;
 	delete m_pModelBrowser;
 	
-	g_pMainWnd = NULL;
+	g_pMainWnd = nullptr;
 
 	CPrefabLibrary::FreeAllLibraries();
 }
@@ -381,7 +381,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//
 	// Status bar.
 	//
-	if (!m_wndStatusBar.Create(this) || !m_wndStatusBar.SetIndicators(NULL, NUMSTATUSPANES))
+	if (!m_wndStatusBar.Create(this) || !m_wndStatusBar.SetIndicators(nullptr, NUMSTATUSPANES))
 	{
 		TRACE0("Failed to create status bar\n");
 		return -1;      // fail to create
@@ -447,7 +447,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_pFaceEditSheet->Create( this );
 	m_pFaceEditSheet->SetVisibility( false );
 
-	m_pLightingPreviewOutputWindow = NULL;
+	m_pLightingPreviewOutputWindow = nullptr;
 
 
 	//
@@ -474,7 +474,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	
 	CWnd *pPropertiesParent = this;
 	if ( APP()->IsFoundryMode() )
-		pPropertiesParent = NULL;
+		pPropertiesParent = nullptr;
 		
 	pObjectProperties->Create(pPropertiesParent, WS_SYSMENU | WS_POPUP | WS_CAPTION | DS_MODALFRAME | WS_THICKFRAME);
 
@@ -639,7 +639,7 @@ IToolHandlerInfo * _ToolToHanderInfo(UINT uMsg)
 		return g_pToolHandlerSyncMesh;
 	
 	default:
-		return NULL;
+		return nullptr;
 
 		// return &g_ToolHandlerDisabled to make a control look disabled
 	}
@@ -784,7 +784,7 @@ void CMainFrame::UpdateAllDocViews(DWORD dwCmd)
 	{
 		CMapDoc *pDoc = CMapDoc::GetDocument(i);
 
-		if (pDoc->GetGame() != NULL)
+		if (pDoc->GetGame() != nullptr)
 		{
 			pDoc->UpdateAllViews( dwCmd );
 		}
@@ -870,7 +870,7 @@ void CMainFrame::OnSize(UINT nType, int cx, int cy)
 	//
 	// Resize the message window if it exists.
 	//
-	if ( g_pwndMessage != NULL )
+	if ( g_pwndMessage != nullptr)
 	{
 		CRect clientrect;
 		wndMDIClient.GetClientRect(clientrect);
@@ -906,7 +906,7 @@ void SetStatusText(int nIndex, LPCTSTR pszText)
 //-----------------------------------------------------------------------------
 void CMainFrame::Configure(void)
 {
-	COptionProperties dlg("Configure Hammer", NULL, 0);
+	COptionProperties dlg("Configure Hammer", nullptr, 0);
 	if (dlg.DoModal() == IDOK)
 	{
 		Options.Write( TRUE, TRUE );
@@ -935,7 +935,7 @@ void CMainFrame::OnClose()
 
 	// Note: only queries the active document
 	CDocument *pDocument = GetActiveDocument();
-	if (pDocument != NULL && !pDocument->CanCloseFrame(this))
+	if (pDocument != nullptr && !pDocument->CanCloseFrame(this))
 	{
 		// document can't close right now -- don't close it
 		return;
@@ -944,17 +944,17 @@ void CMainFrame::OnClose()
 	//
 	// Save the splitter configuration of the first child window in our list.
 	//
-	CChildFrame *pChild = GetNextMDIChildWnd(NULL);
-	if (pChild != NULL)
+	CChildFrame *pChild = GetNextMDIChildWnd(nullptr);
+	if (pChild != nullptr)
 	{
 		pChild->SaveOptions();
 	}
 	
 	CWinApp *pApp = AfxGetApp();
-	if (pApp != NULL && pApp->m_pMainWnd == this)
+	if (pApp != nullptr && pApp->m_pMainWnd == this)
 	{
 		// attempt to save all documents
-		if (pDocument == NULL && !pApp->SaveAllModified())
+		if (pDocument == nullptr && !pApp->SaveAllModified())
 		{
 			// don't close it
 			return;
@@ -1004,7 +1004,7 @@ void CMainFrame::OnPaint(void)
 	if (bFirst)
 	{
 		bFirst = false;
-		SetTimer(FIRST_TIMER, 500, NULL);
+		SetTimer(FIRST_TIMER, 500, nullptr);
 	}
 }
 
@@ -1043,7 +1043,7 @@ void CMainFrame::OnTimer(UINT nIDEvent)
 		//when hammer is ready, start the autosave timer.		
 		if ( Options.general.iMaxAutosavesPerMap != 0 )
 		{
-			SetTimer( AUTOSAVE_TIMER, Options.general.iTimeBetweenSaves * 60 * 1000, NULL );  			  
+			SetTimer( AUTOSAVE_TIMER, Options.general.iTimeBetweenSaves * 60 * 1000, nullptr);  			  
 		}		  
 	}
 }
@@ -1056,7 +1056,7 @@ void CMainFrame::ResetAutosaveTimer( void )
 {
 	if ( Options.general.iMaxAutosavesPerMap != 0 )
 	{
-		SetTimer( AUTOSAVE_TIMER, Options.general.iTimeBetweenSaves * 60 * 1000, NULL );
+		SetTimer( AUTOSAVE_TIMER, Options.general.iTimeBetweenSaves * 60 * 1000, nullptr);
 	}
 	else 
 	{
@@ -1132,9 +1132,9 @@ BOOL CMainFrame::OnSoundBrowser(UINT nID)
 CModelBrowser *CMainFrame::GetModelBrowser()
 {
 	delete m_pModelBrowser;
-	m_pModelBrowser = NULL;
+	m_pModelBrowser = nullptr;
 
-	if (m_pModelBrowser == NULL)
+	if (m_pModelBrowser == nullptr)
 	{
 		m_pModelBrowser = new CModelBrowser( this );
 	}
@@ -1380,12 +1380,12 @@ void CMainFrame::GlobalNotify(int nCode)
 			// If the Object Properties dialog has a Groups tab, update
 			// the groups tab.
 			//
-			if (pObjectProperties != NULL)
+			if (pObjectProperties != nullptr)
 			{
 				pObjectProperties->UpdateGrouplist();
 			}
 
-			if (pDoc != NULL)
+			if (pDoc != nullptr)
 			{
 				pDoc->UpdateStatusbar();
 				//m_AnimationDlg.SelectionChanged(*pDoc->Selection_GetList());
@@ -1404,7 +1404,7 @@ void CMainFrame::GlobalNotify(int nCode)
 			m_TextureBar.NotifyGraphicsChanged();
 			m_pFaceEditSheet->NotifyGraphicsChanged();
 
-			if (pDoc != NULL)
+			if (pDoc != nullptr)
 				m_ObjectBar.UpdateListForTool( pDoc->GetTools()->GetActiveToolID());
 			break;
 		}
@@ -1455,7 +1455,7 @@ void CMainFrame::SaveWindowStates(std::fstream *pFile)
 	std::fstream file(szFullPath, std::ios::out | std::ios::binary);
 
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		return;
 	}
@@ -1468,7 +1468,7 @@ void CMainFrame::SaveWindowStates(std::fstream *pFile)
 
 	// write out each view
 	POSITION p = pDoc->GetFirstViewPosition();
-	while (p != NULL)
+	while (p != nullptr)
 	{
 		CView *pView = pDoc->GetNextView(p);
 		
@@ -1589,11 +1589,11 @@ void CMainFrame::LoadWindowStates(std::fstream *pFile)
 		int iDrawType;
 		file.read((char *)&iDrawType, sizeof iDrawType);
 
-		CView *pView = NULL;
+		CView *pView = nullptr;
 
 		// find a view we haven't used
 		POSITION p = pDoc->GetFirstViewPosition();
-		while (p != NULL)
+		while (p != nullptr)
 		{
 			CView *pThisView = pDoc->GetNextView(p);
 
@@ -1617,9 +1617,9 @@ void CMainFrame::LoadWindowStates(std::fstream *pFile)
 			break;
 		}
 
-		CChildFrame *pFrame = NULL;
+		CChildFrame *pFrame = nullptr;
 		BOOL bNew = FALSE;
-		CDocTemplate *pTemplate = NULL;
+		CDocTemplate *pTemplate = nullptr;
 
 		if(!pView)
 		{
@@ -1841,9 +1841,9 @@ CChildFrame *CMainFrame::GetNextMDIChildWnd(CChildFrame *pCurChild)
 //-----------------------------------------------------------------------------
 CChildFrame *CMainFrame::GetNextMDIChildWndRecursive(CWnd *pCurChild)
 {
-	CWnd *pNextChild = NULL;
+	CWnd *pNextChild = nullptr;
 
-	if (pCurChild == NULL)
+	if (pCurChild == nullptr)
 	{
 		// Get the first child window.
 		pNextChild = wndMDIClient.GetWindow(GW_CHILD);
@@ -1857,7 +1857,7 @@ CChildFrame *CMainFrame::GetNextMDIChildWndRecursive(CWnd *pCurChild)
 			// No child windows exist in the MDIClient,
 			// or you are at the end of the list. This check
 			// will terminate any recursion.
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -1918,7 +1918,7 @@ void CMainFrame::ShowFaceEditSheetOrTextureBar( bool bShowFaceEditSheet )
 //-----------------------------------------------------------------------------
 void CMainFrame::ShowSearchReplaceDialog(void)
 {
-	if (m_pSearchReplaceDlg == NULL)
+	if (m_pSearchReplaceDlg == nullptr)
 	{
 		m_pSearchReplaceDlg = new CSearchReplaceDlg;
 		m_pSearchReplaceDlg->Create(this);
@@ -1967,7 +1967,7 @@ bool CMainFrame::VerifyBarState(void)
                     nID &= 0xFFFF; // placeholder - get the ID
 				}
 
-                if (GetControlBar(nID) == NULL)
+                if (GetControlBar(nID) == nullptr)
 				{
                     return false;
 				}
@@ -1976,7 +1976,7 @@ bool CMainFrame::VerifyBarState(void)
         
         if (!pInfo->m_bFloating) // floating dockbars can be created later
 		{
-            if (GetControlBar(pInfo->m_nBarID) == NULL)
+            if (GetControlBar(pInfo->m_nBarID) == nullptr)
 			{
                 return false; // invalid bar ID
 			}

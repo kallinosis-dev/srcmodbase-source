@@ -109,8 +109,8 @@ END_PREDICTION_DATA()
 		g_PlantedC4s.AddToTail( this );
 
 		// [tj] No planter initially
-		m_pPlanter = NULL;
-		m_pBombDefuser = NULL; //No Defuser Initially
+		m_pPlanter = nullptr;
+		m_pBombDefuser = nullptr; //No Defuser Initially
 
 		// [tj] Assume this is the original owner
 		m_bPlantedAfterPickup = false;
@@ -163,7 +163,7 @@ END_PREDICTION_DATA()
 
 		SpawnControlPanels();
 
-		VisibilityMonitor_AddEntity( this, 600.0f, NULL, NULL );
+		VisibilityMonitor_AddEntity( this, 600.0f, nullptr, nullptr);
 	}
 
 	int CPlantedC4::UpdateTransmitState()
@@ -329,7 +329,7 @@ END_PREDICTION_DATA()
 		else
 		{
 			Warning( "Can't create planted_c4 entity!\n" );
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -380,7 +380,7 @@ END_PREDICTION_DATA()
 					m_pBombDefuser->m_bIsDefusing = false;
 					m_pBombDefuser->SetProgressBarTime( 0 );
 					m_pBombDefuser->OnCanceledDefuse();
-					m_pBombDefuser = NULL;
+					m_pBombDefuser = nullptr;
 				}
 
 				m_bBeingDefused = false;
@@ -412,8 +412,8 @@ END_PREDICTION_DATA()
 		// 4 seconds before the bomb blows up, have anyone close by on each team say something about it going to blow
 		if (m_flC4Blow - 3.0 <= gpGlobals->curtime && !m_bVoiceAlertFired)
 		{
-			CCSPlayer *pCT = NULL;
-			CCSPlayer *pT = NULL;
+			CCSPlayer *pCT = nullptr;
+			CCSPlayer *pT = nullptr;
 			for ( int i = 1; i <= MAX_PLAYERS; i++ )
 			{
 				CCSPlayer *pPlayer = ToCSPlayer( UTIL_PlayerByIndex( i ) );
@@ -458,7 +458,7 @@ END_PREDICTION_DATA()
 				m_pBombDefuser->m_bIsDefusing = false;
 				m_pBombDefuser->SetProgressBarTime( 0 );
 				m_pBombDefuser->OnCanceledDefuse();
-				m_pBombDefuser = NULL;
+				m_pBombDefuser = nullptr;
 				m_bBeingDefused = false;
 			}
 
@@ -508,14 +508,14 @@ END_PREDICTION_DATA()
 
 
 		// make sure our defuser exists
-		if ( m_bBeingDefused && (m_pBombDefuser == NULL) )
+		if ( m_bBeingDefused && (m_pBombDefuser == nullptr) )
 		{
 			m_bBeingDefused = false;
 		}
 
 
 		//if the defusing process has started
-		if ( m_bBeingDefused && (m_pBombDefuser != NULL) && mp_c4_cannot_be_defused.GetBool() == false )
+		if ( m_bBeingDefused && (m_pBombDefuser != nullptr) && mp_c4_cannot_be_defused.GetBool() == false )
 		{
 			//if the defusing process has not ended yet
 			if ( gpGlobals->curtime < m_flDefuseCountDown )
@@ -581,7 +581,7 @@ END_PREDICTION_DATA()
 				// Clear their progress bar.
 				m_pBombDefuser->SetProgressBarTime( 0 );
 
-				m_pBombDefuser = NULL;
+				m_pBombDefuser = nullptr;
 				m_bBeingDefused = false;
 
 				m_flDefuseLength = 10;
@@ -749,7 +749,7 @@ END_PREDICTION_DATA()
 
 				// Reset the MVP hook
 				if ( !roundWasAlreadyWon )
-					CSGameRules()->m_pfnCalculateEndOfRoundMVPHook = NULL;
+					CSGameRules()->m_pfnCalculateEndOfRoundMVPHook = nullptr;
 
 //				NOTE[pmf]: removed by design decision
 // 				// give the defuser credit for defusing the bomb
@@ -761,7 +761,7 @@ END_PREDICTION_DATA()
 				// Clear their progress bar.
 				m_pBombDefuser->SetProgressBarTime( 0 );
 
-				m_pBombDefuser = NULL;
+				m_pBombDefuser = nullptr;
 				m_bBeingDefused = false;
 				m_bBombDefused = true;
 
@@ -787,7 +787,7 @@ END_PREDICTION_DATA()
 			// release the player from being frozen
 			m_pBombDefuser->m_bIsDefusing = false;
 			m_bBeingDefused = false;
-			m_pBombDefuser = NULL;
+			m_pBombDefuser = nullptr;
 		}
 	}
 
@@ -862,7 +862,7 @@ END_PREDICTION_DATA()
 		}
 
 		if ( !roundWasAlreadyWon )
-			CSGameRules()->m_pfnCalculateEndOfRoundMVPHook = NULL;
+			CSGameRules()->m_pfnCalculateEndOfRoundMVPHook = nullptr;
 
 
 		// Do the Damage
@@ -881,9 +881,9 @@ END_PREDICTION_DATA()
 			flBombRadius = g_pMapInfo->m_flBombRadius;
 
 		// Output to the bomb target ent
-		CBaseEntity *pTarget = NULL;
+		CBaseEntity *pTarget = nullptr;
 		variant_t emptyVariant;
-		while ((pTarget = gEntList.FindEntityByClassname( pTarget, "func_bomb_target" )) != NULL)
+		while ((pTarget = gEntList.FindEntityByClassname( pTarget, "func_bomb_target" )) != nullptr)
 		{
 			//Adrian - But only to the one we want!
 			if ( pTarget->entindex() != m_iBombSiteIndex )
@@ -907,7 +907,7 @@ END_PREDICTION_DATA()
 
 			// Try using the new particle system instead of temp ents
 			QAngle	vecAngles;
-			DispatchParticleEffect( "explosion_c4_500", pos, vecAngles, ( CBaseEntity * ) NULL, int( -1 ), &filterBombExplodeReliable );
+			DispatchParticleEffect( "explosion_c4_500", pos, vecAngles, ( CBaseEntity * )nullptr, int( -1 ), &filterBombExplodeReliable );
 		}
 
 		// Sound! for everyone
@@ -922,7 +922,7 @@ END_PREDICTION_DATA()
 		UTIL_ScreenShake( pTrace->endpos, 25.0, 150.0, 1.0, 3000, SHAKE_START );
 
 
-		SetOwnerEntity( NULL ); // can't traceline attack owner if this is set
+		SetOwnerEntity(nullptr); // can't traceline attack owner if this is set
 
 		CSGameRules()->RadiusDamage( 
 			CTakeDamageInfo( this, GetOwnerEntity(), flBombRadius, bitsDamageType ),
@@ -1139,7 +1139,7 @@ END_PREDICTION_DATA()
 		// Shake!
 		//UTIL_ScreenShake( pTrace->endpos, 25.0, 150.0, 1.0, 3000, SHAKE_START );
 
-		SetOwnerEntity( NULL ); // can't traceline attack owner if this is set
+		SetOwnerEntity(nullptr); // can't traceline attack owner if this is set
 
 		m_OnBombExploded.FireOutput(this, this);
 	}
@@ -1387,7 +1387,7 @@ void CC4::PhysicsTouchTriggers(const Vector *pPrevAbsOrigin)
 
 		//Dropped bombs are both solid and have no owner. In this state, unlike other weapons, they can  
 		//now touch triggers so long they haven't had their position reset by a bomb reset trigger.
-		if ( IsSolid() && (GetPlayerOwner() == NULL) )
+		if ( IsSolid() && (GetPlayerOwner() == nullptr) )
 		{
 			SetCheckUntouch(true);
 			engine->SolidMoved(pEntity, CollisionProp(), pPrevAbsOrigin, sm_bAccurateTriggerBboxChecks);
@@ -1424,13 +1424,13 @@ void CC4::PhysicsTouchTriggers(const Vector *pPrevAbsOrigin)
 
 			// trace to ground
 			trace_t c4TeleportTrace;
-			UTIL_TraceHull( vecResetPos, vecResetPos + Vector(0,0,-8), Vector(-3,-3,-1), Vector(3,3,1), MASK_PLAYERSOLID, NULL, COLLISION_GROUP_PLAYER_MOVEMENT, &c4TeleportTrace );
+			UTIL_TraceHull( vecResetPos, vecResetPos + Vector(0,0,-8), Vector(-3,-3,-1), Vector(3,3,1), MASK_PLAYERSOLID, nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, &c4TeleportTrace );
 			if ( !c4TeleportTrace.startsolid && c4TeleportTrace.DidHit() )
 			{
 				vecResetPos += ( c4TeleportTrace.fraction * Vector(0,0,-8) );
 			}
 
-			Teleport( &vecResetPos, &angResetAng, NULL );
+			Teleport( &vecResetPos, &angResetAng, nullptr);
 
 			// Set the physics object asleep so it doesn't tumble off precarious ledges and keep resetting.
 			IPhysicsObject *pObj = VPhysicsGetObject();
@@ -1540,7 +1540,7 @@ void CC4::PrimaryAttack()
 		return;
 
 	int onGround = FBitSet( pPlayer->GetFlags(), FL_ONGROUND );
-	CBaseEntity *groundEntity = (onGround) ? pPlayer->GetGroundEntity() : NULL;
+	CBaseEntity *groundEntity = (onGround) ? pPlayer->GetGroundEntity() : nullptr;
 	trace_t trPlant;
 	if ( groundEntity )
 	{
@@ -1744,7 +1744,7 @@ void CC4::PrimaryAttack()
 				
 				if ( pBombTarget )
 				{
-					CBaseEntity *pAttachPoint = gEntList.FindEntityByName( NULL, pBombTarget->GetBombMountTarget() );
+					CBaseEntity *pAttachPoint = gEntList.FindEntityByName(nullptr, pBombTarget->GetBombMountTarget() );
 
 					if ( pAttachPoint )
 					{
@@ -1773,7 +1773,7 @@ void CC4::PrimaryAttack()
 				pPlayer->AwardAchievement( CSPlantBombWithin25Seconds );
 			}
 
-			pPlayer->SetLastWeaponBeforeAutoSwitchToC4( NULL ); // completed a bomb plant, this clears out our saved value for switching back to a saved weapon
+			pPlayer->SetLastWeaponBeforeAutoSwitchToC4(nullptr); // completed a bomb plant, this clears out our saved value for switching back to a saved weapon
 			pPlayer->SetBombPlacedTime( gpGlobals->curtime );
 			CCS_GameStats.Event_BombPlanted( pPlayer );
 			CSGameRules()->ScoreBombPlant( pPlayer );
@@ -1826,7 +1826,7 @@ void CC4::PrimaryAttack()
 			EmitSound( filter, 0, "c4.plantquiet", &GetAbsOrigin() );
 
 			// No more c4!
-			pPlayer->Weapon_Drop( this, NULL, NULL );
+			pPlayer->Weapon_Drop( this, nullptr, nullptr);
 			UTIL_Remove( this );
 
 			pPlayer->m_bDuckOverride = false;
@@ -2105,7 +2105,7 @@ void CC4::AbortBombPlant()
 		gameeventmanager->FireEvent( event );
 	}
 
-	if( pPlayer->GetLastWeaponBeforeAutoSwitchToC4() != NULL )
+	if( pPlayer->GetLastWeaponBeforeAutoSwitchToC4() != nullptr)
 	{
 		CBaseViewModel *vm = pPlayer->GetViewModel();
 		if ( vm )
@@ -2114,7 +2114,7 @@ void CC4::AbortBombPlant()
 		}
 
 		pPlayer->Weapon_Switch( pPlayer->GetLastWeaponBeforeAutoSwitchToC4() );
-		pPlayer->SetLastWeaponBeforeAutoSwitchToC4( NULL );
+		pPlayer->SetLastWeaponBeforeAutoSwitchToC4(nullptr);
 	}
 
 #else

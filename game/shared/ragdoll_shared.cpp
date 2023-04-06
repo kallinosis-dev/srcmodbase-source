@@ -129,7 +129,7 @@ void RagdollSetupAnimatedFriction( IPhysicsEnvironment *pPhysEnv, ragdoll_t *rag
 
 			if ( !strcmpi( pBlock, "animatedfriction") ) 
 			{
-				pParse->ParseRagdollAnimatedFriction( &ragdoll->animfriction, NULL );
+				pParse->ParseRagdollAnimatedFriction( &ragdoll->animfriction, nullptr);
 			}
 			else
 			{
@@ -268,7 +268,7 @@ static cache_ragdoll_t *ParseRagdollIntoCache( CStudioHdr *pStudioHdr, vcollide_
 		else if ( !strcmpi( pBlock, "ragdollconstraint" ) )
 		{
 			constraint_ragdollparams_t constraint;
-			pParse->ParseRagdollConstraint( &constraint, NULL );
+			pParse->ParseRagdollConstraint( &constraint, nullptr);
 			if( constraint.childIndex != constraint.parentIndex && constraint.childIndex >= 0 && constraint.parentIndex >= 0)
 			{
 				cache_ragdollconstraint_t *pOut = &constraintList[constraintCount];
@@ -284,12 +284,12 @@ static cache_ragdoll_t *ParseRagdollIntoCache( CStudioHdr *pStudioHdr, vcollide_
 			ragdollcollisionrules_t rules;
 			IPhysicsCollisionSet *pSet = physics->FindOrCreateCollisionSet( modelIndex, pCollide->solidCount );
 			rules.Defaults(physics, pSet);
-			pParse->ParseCollisionRules( &rules, NULL );
+			pParse->ParseCollisionRules( &rules, nullptr);
 			cache.pCollisionSet = rules.pCollisionSet;
 		}
 		else if ( !strcmpi( pBlock, "animatedfriction") ) 
 		{
-			pParse->ParseRagdollAnimatedFriction( &cache.animfriction, NULL );
+			pParse->ParseRagdollAnimatedFriction( &cache.animfriction, nullptr);
 		}
 		else
 		{
@@ -305,7 +305,7 @@ static cache_ragdoll_t *ParseRagdollIntoCache( CStudioHdr *pStudioHdr, vcollide_
 static void RagdollCreateObjects( IPhysicsEnvironment *pPhysEnv, ragdoll_t &ragdoll, const ragdollparams_t &params )
 {
 	ragdoll.listCount = 0;
-	ragdoll.pGroup = NULL;
+	ragdoll.pGroup = nullptr;
 	ragdoll.allowStretch = params.allowStretch;
 	memset( ragdoll.list, 0, sizeof(ragdoll.list) );
 	memset( &ragdoll.animfriction, 0, sizeof(ragdoll.animfriction) );
@@ -361,7 +361,7 @@ void RagdollSetupCollisions( ragdoll_t &ragdoll, vcollide_t *pCollide, int model
 			{
 				ragdollcollisionrules_t rules;
 				rules.Defaults(physics, pSet);
-				pParse->ParseCollisionRules( &rules, NULL );
+				pParse->ParseCollisionRules( &rules, nullptr);
 				Assert(rules.pCollisionSet == pSet);
 				bFoundRules = true;
 			}
@@ -459,7 +459,7 @@ bool RagdollCreate( ragdoll_t &ragdoll, const ragdollparams_t &params, IPhysicsE
 	{
 		ragdoll.list[forceBone].pObject->ApplyForceCenter( nudgeForce );
 		//nudgeForce *= 0.5;
-		ragdoll.list[forceBone].pObject->GetPosition( &forcePosition, NULL );
+		ragdoll.list[forceBone].pObject->GetPosition( &forcePosition, nullptr);
 	}
 	if ( forcePosition != vec3_origin )
 	{
@@ -531,7 +531,7 @@ void RagdollDestroy( ragdoll_t &ragdoll )
 	for ( i = 0; i < ragdoll.listCount; i++ )
 	{
 		physenv->DestroyConstraint( ragdoll.list[i].pConstraint );
-		ragdoll.list[i].pConstraint = NULL;
+		ragdoll.list[i].pConstraint = nullptr;
 	}
 	for ( i = 0; i < ragdoll.listCount; i++ )
 	{
@@ -543,10 +543,10 @@ void RagdollDestroy( ragdoll_t &ragdoll )
 		{
 			physenv->DestroyObject( ragdoll.list[i].pObject );
 		}
-		ragdoll.list[i].pObject = NULL;
+		ragdoll.list[i].pObject = nullptr;
 	}
 	physenv->DestroyConstraintGroup( ragdoll.pGroup );
-	ragdoll.pGroup = NULL;
+	ragdoll.pGroup = nullptr;
 	ragdoll.listCount = 0;
 }
 
@@ -563,7 +563,7 @@ int RagdollExtractBoneIndices( int *boneIndexOut, CStudioHdr *pStudioHdr, vcolli
 		if ( !strcmpi( pBlock, "solid" ) )
 		{
 			solid_t solid;
-			pParse->ParseSolid( &solid, NULL );
+			pParse->ParseSolid( &solid, nullptr);
 			if ( elementCount < RAGDOLL_MAX_ELEMENTS )
 			{
 				boneIndexOut[elementCount] = Studio_BoneIndexByName( pStudioHdr, solid.name );
@@ -638,7 +638,7 @@ void RagdollComputeApproximateBbox( const ragdoll_t &ragdoll, const Vector &orig
 	for ( int i = 0; i < ragdoll.listCount; i++ )
 	{
 		Vector objectOrg;
-		ragdoll.list[i].pObject->GetPosition( &objectOrg, NULL );
+		ragdoll.list[i].pObject->GetPosition( &objectOrg, nullptr);
 		float radius = physcollision->CollideGetRadius( ragdoll.list[i].pObject->GetCollide() );
 		for ( int k = 0; k < 3; k++ )
 		{
@@ -675,7 +675,7 @@ void RagdollSolveSeparation( ragdoll_t &ragdoll, CBaseEntity *pEntity )
 		if ( element.pConstraint && element.parentIndex >= 0 )
 		{
 			Vector start, target;
-			element.pObject->GetPosition( &start, NULL );
+			element.pObject->GetPosition( &start, nullptr);
 			ragdoll.list[element.parentIndex].pObject->LocalToWorld( &target, element.originParentSpace );
 			if ( needsFix[element.parentIndex] )
 			{

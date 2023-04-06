@@ -61,7 +61,7 @@ protected:
 public:
 	IVP_Environment *get_environment(){ return l_environment; };
 	void set_prime_position_Ros( const IVP_U_Point * position_Ros, const IVP_U_Float_Point *velocity_Ros, const IVP_Time &current_time );
-	void set_prime_orientation_Ros( const IVP_U_Quat * orientation0_Ros, const IVP_Time & time0, const IVP_U_Quat * orientation1 = NULL, IVP_FLOAT dt = 1.0f );
+	void set_prime_orientation_Ros( const IVP_U_Quat * orientation0_Ros, const IVP_Time & time0, const IVP_U_Quat * orientation1 = nullptr, IVP_FLOAT dt = 1.0f );
 
 	IVP_Constraint_Fixed_Keyframed(IVP_Real_Object *reference_object, IVP_Real_Object *attached_object,
 					const IVP_Template_Constraint_Fixed_Keyframed *);

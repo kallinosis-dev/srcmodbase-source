@@ -34,7 +34,7 @@ void CL_SetupLocalNetworkBackDoor( bool bUseBackDoor )
 		{
 			// stop using localbackdooor mode
 			g_pLocalNetworkBackdoor->StopBackdoorMode();
-			g_pLocalNetworkBackdoor = NULL;
+			g_pLocalNetworkBackdoor = nullptr;
 			GetBaseLocalClient().ForceFullUpdate( "cl_localnetworkbackdoor state change" ); // clear baselines, request full packet update
 		}
 	}

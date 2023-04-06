@@ -107,7 +107,7 @@ CDialogGameInfo::CDialogGameInfo( vgui::Panel *browser, vgui::Panel *parent, int
 	RegisterControlSettingsFile( "Servers/DialogGameInfo_AutoRetry.res" );
 	MoveToCenterOfScreen();
 
-	m_szJoinType = NULL;
+	m_szJoinType = nullptr;
 }
 
 //-----------------------------------------------------------------------------

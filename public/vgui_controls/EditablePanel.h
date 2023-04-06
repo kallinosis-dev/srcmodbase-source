@@ -34,7 +34,7 @@ public:
 	// Load the control settings - should be done after all the children are added
 	// If you pass in pPreloadedKeyValues, it won't actually load the file. That way, you can cache
 	// the keyvalues outside of here if you want to prevent file accesses in the middle of the game.
-	virtual void LoadControlSettings(const char *dialogResourceName, const char *pathID = NULL, KeyValues *pPreloadedKeyValues = NULL, KeyValues *pConditions = NULL);
+	virtual void LoadControlSettings(const char *dialogResourceName, const char *pathID = nullptr, KeyValues *pPreloadedKeyValues = nullptr, KeyValues *pConditions = nullptr);
 	virtual void ApplySettings(KeyValues *inResourceData);
 
 	virtual void PerformLayout();
@@ -113,7 +113,7 @@ public:
 				"PanelPtr" - pointer to the newly created panel, or NULL if no such class exists
 	*/	
 	// registers a file in the list of control settings, so the vgui dialog can choose between them to edit
-	virtual void RegisterControlSettingsFile(const char *dialogResourceName, const char *pathID = NULL);
+	virtual void RegisterControlSettingsFile(const char *dialogResourceName, const char *pathID = nullptr);
 
 	// localization variables - only use this if you need to iterate the variables, use the SetLoc*() to set them
 	KeyValues *GetDialogVariables();

@@ -432,7 +432,7 @@ void CServerGameDLL::OnPureServerFileValidationFailure( edict_t *edictClient, co
 char const * CServerGameDLL::ClientConnectionValidatePreNetChan( bool bGameServer, char const *adr, int nAuthProtocol, uint64 ullSteamID )
 {
 	/** Removed for partner depot **/
-	return NULL;	// allow connections by default
+	return nullptr;	// allow connections by default
 }
 
 // Network channel notification from engine to game server code
@@ -474,12 +474,12 @@ void CServerGameDLL::ApplyGameSettings( KeyValues *pKV )
 		DevMsg( "CServerGameDLL::ApplyGameSettings game settings payload received:\n" );
 		KeyValuesDumpAsDevMsg( pKV, 1 );
 
-		const char* pMapName = NULL;
+		const char* pMapName = nullptr;
 		const char* pMapNameFromKV = pKV->GetString( "game/map" );
 		const char* pGameType = pKV->GetString( "game/type" );
 		const char* pGameMode = pKV->GetString( "game/mode" );
-		const char* pMapGroupName = pKV->GetString( "game/mapgroupname", NULL );
-		const char* pMapGroupNameToValidate = NULL;		// pMapGroupName is ok to be NULL; this variable lets us easily use a non null pMapGroupName or gpGlobals->mapGroupName
+		const char* pMapGroupName = pKV->GetString( "game/mapgroupname", nullptr);
+		const char* pMapGroupNameToValidate = nullptr;		// pMapGroupName is ok to be NULL; this variable lets us easily use a non null pMapGroupName or gpGlobals->mapGroupName
 
 		if ( !IsValveDS() &&
 			pMapNameFromKV && StringHasPrefix( pMapNameFromKV, "workshop" ) &&
@@ -567,13 +567,13 @@ void CServerGameDLL::ApplyGameSettings( KeyValues *pKV )
 				g_pGameTypes->SetGameTypeAndMode( pGameType, pGameMode );
 
 				extern ConVar game_online;
-				if ( char const *szOnline = pKV->GetString( "system/network", NULL ) )
+				if ( char const *szOnline = pKV->GetString( "system/network", nullptr) )
 				{
 					game_online.SetValue( ( !V_stricmp( szOnline, "LIVE" ) ) ? 1 : 0 );
 				}
 				
 				extern ConVar game_public;
-				if ( char const *szAccess = pKV->GetString( "system/access", NULL ) )
+				if ( char const *szAccess = pKV->GetString( "system/access", nullptr) )
 				{
 					game_public.SetValue( ( !V_stricmp( szAccess, "public" ) ) ? 1 : 0 );
 				}

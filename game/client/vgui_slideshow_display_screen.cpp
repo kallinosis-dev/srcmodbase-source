@@ -100,7 +100,7 @@ void CSlideshowDisplayScreen::OnTick()
 	if ( g_SlideshowDisplays.Count() <= 0 )
 		return;
 
-	C_SlideshowDisplay *pSlideshowDisplay = NULL;
+	C_SlideshowDisplay *pSlideshowDisplay = nullptr;
 
 	for ( int iDisplayScreens = 0; iDisplayScreens < g_SlideshowDisplays.Count(); ++iDisplayScreens  )
 	{

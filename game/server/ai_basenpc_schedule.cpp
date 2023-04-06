@@ -79,7 +79,7 @@ void CAI_BaseNPC::DumpTaskTimings()
 //=========================================================
 bool CAI_BaseNPC::FHaveSchedule( void )
 {
-	if ( GetCurSchedule() == NULL )
+	if ( GetCurSchedule() == nullptr)
 	{
 		return false;
 	}
@@ -107,7 +107,7 @@ void CAI_BaseNPC::ClearSchedule( const char *szReason )
 	m_ScheduleState.bScheduleWasInterrupted = true;
 	SetTaskStatus( TASKSTATUS_NEW );
 	m_IdealSchedule = SCHED_NONE;
-	m_pSchedule =  NULL;
+	m_pSchedule = nullptr;
 	ResetScheduleCurTaskIndex();
 	m_InverseIgnoreConditions.SetAll();
 }
@@ -136,7 +136,7 @@ bool CAI_BaseNPC::SetSchedule( int localScheduleID )
 	if ( pNewSchedule )
 	{
 		// ken: I'm don't know of any remaining cases, but if you find one, hunt it down as to why the schedule is getting slammed while they're in the middle of script
-		if (m_hCine != NULL)
+		if (m_hCine != nullptr)
 		{
 			if (!(localScheduleID == SCHED_SLEEP || localScheduleID == SCHED_WAIT_FOR_SCRIPT || localScheduleID == SCHED_SCRIPTED_WALK || localScheduleID == SCHED_SCRIPTED_RUN || localScheduleID == SCHED_SCRIPTED_CUSTOM_MOVE || localScheduleID == SCHED_SCRIPTED_WAIT || localScheduleID == SCHED_SCRIPTED_FACE) )
 			{
@@ -196,9 +196,9 @@ void CAI_BaseNPC::SetSchedule( CAI_Schedule *pNewSchedule )
 	{
 		DevMsg(this, AIMF_IGNORE_SELECTED, "Schedule: %s (time: %.2f)\n", pNewSchedule->GetName(), gpGlobals->curtime );
 	}
-	if ( m_pEvent != NULL )
+	if ( m_pEvent != nullptr)
 	{
-		if ( m_pScheduleEvent != NULL )
+		if ( m_pScheduleEvent != nullptr)
 		{
 			GlobalEventLog.RemoveEvent( m_pScheduleEvent );
 		}
@@ -265,8 +265,8 @@ void CAI_BaseNPC::NextScheduledTask ( void )
 	if ( FScheduleDone() )
 	{
 		// Reset memory of failed schedule 
-		m_failedSchedule   = NULL;
-		m_interuptSchedule = NULL;
+		m_failedSchedule   = nullptr;
+		m_interuptSchedule = nullptr;
 
 		// just completed last task in schedule, so make it invalid by clearing it.
 		SetCondition( COND_SCHEDULE_DONE );
@@ -299,7 +299,7 @@ void CAI_BaseNPC::BuildScheduleTestBits( void )
 //=========================================================
 bool CAI_BaseNPC::IsScheduleValid()
 {
-	if ( GetCurSchedule() == NULL || GetCurSchedule()->NumTasks() == 0 )
+	if ( GetCurSchedule() == nullptr || GetCurSchedule()->NumTasks() == 0 )
 	{
 		return false;
 	}
@@ -328,7 +328,7 @@ bool CAI_BaseNPC::IsScheduleValid()
 		if (g_pDeveloper->GetInt()) 
 		{
 			// Reset memory of failed schedule 
-			m_failedSchedule   = NULL;
+			m_failedSchedule   = nullptr;
 			m_interuptSchedule = GetCurSchedule();
 
 			// Find the first non-zero bit
@@ -453,10 +453,10 @@ bool CAI_BaseNPC::ShouldSelectIdealState( void )
 	// we need to change state immediately because something unexpected happened to the enemy 
 	// entity (it was blown apart by someone else, for example), and we need the NPC to change
 	// state. THE REST OF OUR CODE should be robust enough that this can go away!!
-	if ( (m_NPCState == NPC_STATE_COMBAT) && (GetEnemy() == NULL) )
+	if ( (m_NPCState == NPC_STATE_COMBAT) && (GetEnemy() == nullptr) )
 		return true;
 
-	if ( (m_NPCState == NPC_STATE_IDLE || m_NPCState == NPC_STATE_ALERT) && (GetEnemy() != NULL) )
+	if ( (m_NPCState == NPC_STATE_IDLE || m_NPCState == NPC_STATE_ALERT) && (GetEnemy() != nullptr) )
 		return true;
 
 	return false;
@@ -608,7 +608,7 @@ void CAI_BaseNPC::MaintainSchedule ( void )
 	bool bStopProcessing = false;
 	for ( i = 0; i < MAX_TASKS_RUN && !bStopProcessing; i++ )
 	{
-		if ( GetCurSchedule() != NULL && TaskIsComplete() )
+		if ( GetCurSchedule() != nullptr && TaskIsComplete() )
 		{
 			// Schedule is valid, so advance to the next task if the current is complete.
 			NextScheduledTask();
@@ -732,7 +732,7 @@ void CAI_BaseNPC::MaintainSchedule ( void )
 			{
 				DevMsg(this, AIMF_IGNORE_SELECTED, "  Task: %s\n", pszTaskName );
 			}
-			if ( m_pScheduleEvent != NULL )
+			if ( m_pScheduleEvent != nullptr)
 			{
 				CGlobalEvent	*pEvent = GlobalEventLog.CreateTempEvent( "New Task", m_pScheduleEvent );
 
@@ -879,7 +879,7 @@ bool CAI_BaseNPC::FindCoverPosInRadius( CBaseEntity *pEntity, const Vector &goal
 {
 	AI_PROFILE_SCOPE(CAI_BaseNPC_FindCoverPosInRadius);
 
-	if ( pEntity == NULL )
+	if ( pEntity == nullptr)
 	{
 		// Find cover from self if no enemy available
 		pEntity = this;
@@ -892,7 +892,7 @@ bool CAI_BaseNPC::FindCoverPosInRadius( CBaseEntity *pEntity, const Vector &goal
 
 	if( ( !GetSquad() || GetSquad()->GetFirstMember() == this ) &&
 		IsCoverPosition( enemyEyePos, goalPos + GetViewOffset() ) && 
-		IsValidCover( goalPos, NULL ) )
+		IsValidCover( goalPos, nullptr) )
 	{
 		coverPos = goalPos;
 	}
@@ -957,7 +957,7 @@ void CAI_BaseNPC::ClearHintNode( float reuseDelay )
 	{
 		if ( m_pHintNode->IsLockedBy(this) )
 			m_pHintNode->Unlock(reuseDelay);
-		m_pHintNode = NULL;
+		m_pHintNode = nullptr;
 	}
 }
 
@@ -975,7 +975,7 @@ bool CAI_BaseNPC::FindCoverFromEnemy( bool bNodesOnly, float flMinDistance, floa
 	CBaseEntity *pEntity = GetEnemy();
 
 	// Find cover from self if no enemy available
-	if ( pEntity == NULL )
+	if ( pEntity == nullptr)
 		pEntity = this;
 
 	Vector coverPos = vec3_invalid;
@@ -1078,7 +1078,7 @@ float CAI_BaseNPC::CalcReasonableFacing( bool bIgnoreOriginalFacing )
 			for ( int j = -1; j <= 1; j += 2)
 			{
 				angles.y = idealYaw + ( offset * j );
-				AngleVectors( angles, &forward, NULL, NULL );
+				AngleVectors( angles, &forward, nullptr, nullptr);
 				float curTrace;
 				if( ( curTrace = LineOfSightDist( forward, zEye ) ) > longestTrace && IsValidReasonableFacing(forward, curTrace) )
 				{
@@ -1127,7 +1127,7 @@ void CAI_BaseNPC::StartScriptMoveToTargetTask( int task )
 {
 	Activity newActivity;
 
-	if ( m_hTargetEnt == NULL)
+	if ( m_hTargetEnt == nullptr)
 	{
 		TaskFail(FAIL_NO_TARGET);
 	}
@@ -1160,7 +1160,7 @@ void CAI_BaseNPC::StartScriptMoveToTargetTask( int task )
 		}
 		else 
 		{
-			if (m_hTargetEnt == NULL)
+			if (m_hTargetEnt == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}
@@ -1306,7 +1306,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 		else
 		{
 			TaskFail(FAIL_ALREADY_LOCKED);
-			SetHintNode( NULL );
+			SetHintNode(nullptr);
 		}
 		break;
 	}
@@ -1336,7 +1336,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 				if ( pSoundEnt )
 				{
 					Vector vel;
-					pSoundEnt->GetVelocity( &vel, NULL );
+					pSoundEnt->GetVelocity( &vel, nullptr);
 					// HACKHACK: run away from cars in the right direction
 					m_vSavePosition += vel * 2;	// add in 2 seconds of velocity
 				}
@@ -1367,7 +1367,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 		break;
 
 	case TASK_STORE_ENEMY_POSITION_IN_SAVEPOSITION:
-		if ( GetEnemy() != NULL )
+		if ( GetEnemy() != nullptr)
 		{
 			m_vSavePosition = GetEnemy()->GetAbsOrigin();
 			TaskComplete();
@@ -1482,7 +1482,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 
 	case TASK_FIND_BACKAWAY_FROM_SAVEPOSITION:
 		{
-			if ( GetEnemy() != NULL )
+			if ( GetEnemy() != nullptr)
 			{
 				Vector backPos;
 				if ( !GetTacticalServices()->FindBackAwayPos( m_vSavePosition, &backPos ) )
@@ -1593,7 +1593,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 		break;
 
 	case TASK_FACE_TARGET:
-		if ( m_hTargetEnt != NULL )
+		if ( m_hTargetEnt != nullptr)
 		{
 			GetMotor()->SetIdealYawToTarget( m_hTargetEnt->GetAbsOrigin() );
 			SetTurnActivity(); 
@@ -1689,7 +1689,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 		{
 			// Identical tasks, except that target_range uses m_hTargetEnt, 
 			// and Goal range uses the nav goal
-			CBaseEntity *pTarget = NULL;
+			CBaseEntity *pTarget = nullptr;
 			if ( task == TASK_MOVE_TO_GOAL_RANGE )
 			{
 				pTarget = GetNavigator()->GetGoalTarget();
@@ -1699,7 +1699,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 				pTarget = m_hTargetEnt.Get();
 			}
 
-			if ( pTarget == NULL)
+			if ( pTarget == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}
@@ -1731,7 +1731,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 
 	case TASK_TARGET_PLAYER:
 		{
-			CBaseEntity *pPlayer = gEntList.FindEntityByName( NULL, "!player" );
+			CBaseEntity *pPlayer = gEntList.FindEntityByName(nullptr, "!player" );
 			if ( pPlayer )
 			{
 				SetTarget( pPlayer );
@@ -1917,7 +1917,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 	case TASK_GET_FLANK_ARC_PATH_TO_ENEMY_LOS:
 	case TASK_GET_PATH_TO_ENEMY_LKP_LOS:
 		{
-			if ( GetEnemy() == NULL )
+			if ( GetEnemy() == nullptr)
 			{
 				TaskFail(FAIL_NO_ENEMY);
 				return;
@@ -2007,7 +2007,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 		{
 		case GOAL_ENEMY:	//Enemy
 			
-			if ( GetEnemy() == NULL )
+			if ( GetEnemy() == nullptr)
 			{
 				TaskFail( FAIL_NO_ENEMY );
 				return;
@@ -2023,7 +2023,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 		
 		case GOAL_ENEMY_LKP:		//Enemy's last known position
 
-			if ( GetEnemy() == NULL )
+			if ( GetEnemy() == nullptr)
 			{
 				TaskFail( FAIL_NO_ENEMY );
 				return;
@@ -2033,13 +2033,13 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 			m_vecStoredPathGoal = GetEnemyLKP();
 			m_nStoredPathType	= GOALTYPE_LOCATION;
 			m_fStoredPathFlags	= 0;
-			m_hStoredPathTarget	= NULL;
+			m_hStoredPathTarget	= nullptr;
 			GetNavigator()->SetMovementActivity(ACT_RUN);
 			break;
 		
 		case GOAL_TARGET:			//Target entity
 			
-			if ( m_hTargetEnt == NULL )
+			if ( m_hTargetEnt == nullptr)
 			{
 				TaskFail( FAIL_NO_TARGET );
 				return;
@@ -2059,7 +2059,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 			m_vecStoredPathGoal = m_vSavePosition;
 			m_nStoredPathType	= GOALTYPE_LOCATION;
 			m_fStoredPathFlags	= 0;
-			m_hStoredPathTarget	= NULL;
+			m_hStoredPathTarget	= nullptr;
 			GetNavigator()->SetMovementActivity(ACT_RUN);
 			break;
 		}
@@ -2112,7 +2112,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 						flMaxRange = m_flDistTooFar;
 					}
 
-					Vector	eyePosition = ( m_hStoredPathTarget != NULL ) ? m_hStoredPathTarget->EyePosition() : m_vecStoredPathGoal;
+					Vector	eyePosition = ( m_hStoredPathTarget != nullptr) ? m_hStoredPathTarget->EyePosition() : m_vecStoredPathGoal;
 
 					Vector posLos;
 
@@ -2198,7 +2198,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 
 			CBaseEntity *pEnemy = GetEnemy();
 
-			if ( pEnemy == NULL )
+			if ( pEnemy == nullptr)
 			{
 				TaskFail(FAIL_NO_ENEMY);
 				return;
@@ -2229,7 +2229,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 
 	case TASK_GET_PATH_TO_PLAYER:
 		{
-			CBaseEntity *pPlayer = gEntList.FindEntityByName( NULL, "!player" );
+			CBaseEntity *pPlayer = gEntList.FindEntityByName(nullptr, "!player" );
 
 			AI_NavGoal_t goal;
 
@@ -2243,7 +2243,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 
 	case TASK_GET_PATH_TO_SAVEPOSITION_LOS:
 	{
-		if ( GetEnemy() == NULL )
+		if ( GetEnemy() == nullptr)
 		{
 			TaskFail(FAIL_NO_ENEMY);
 			return;
@@ -2289,7 +2289,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 			const float XY_LENIENCY = 64.0;
 			const float Z_LENIENCY	= 72.0;
 
-			if (m_hTargetEnt == NULL)
+			if (m_hTargetEnt == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}
@@ -2380,7 +2380,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 
 	case TASK_GET_PATH_TO_TARGET:
 		{
-			if (m_hTargetEnt == NULL)
+			if (m_hTargetEnt == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}
@@ -2632,7 +2632,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 
 			// to start strafing, we have to first figure out if the target is on the left side or right side
 			Vector right;
-			AngleVectors( GetLocalAngles(), NULL, &right, NULL );
+			AngleVectors( GetLocalAngles(), nullptr, &right, nullptr);
 
 			vec2DirToPoint = ( GetNavigator()->GetCurWaypointPos() - GetLocalOrigin() ).AsVector2D();
 			Vector2DNormalize(vec2DirToPoint);
@@ -2849,7 +2849,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 			if ( HasMovement( GetSequence() ) || m_hCine->m_bIgnoreGravity )
 			{
 				AddFlag( FL_FLY );
-				SetGroundEntity( NULL );
+				SetGroundEntity(nullptr);
 			}
 
 			if (m_hCine)
@@ -2936,7 +2936,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 		}
 	case TASK_PLANT_ON_SCRIPT:
 		{
-			if ( m_hTargetEnt != NULL )
+			if ( m_hTargetEnt != nullptr)
 			{
 				SetLocalOrigin( m_hTargetEnt->GetAbsOrigin() );	// Plant on target
 			}
@@ -2946,7 +2946,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 		}
 	case TASK_FACE_SCRIPT:
 		{
-			if ( m_hTargetEnt != NULL )
+			if ( m_hTargetEnt != nullptr)
 			{
 				GetMotor()->SetIdealYaw( UTIL_AngleMod( m_hTargetEnt->GetLocalAngles().y ) );
 			}
@@ -3064,7 +3064,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 					}
 				}
 			}
-			SetTarget( NULL );
+			SetTarget(nullptr);
 			TaskComplete();
 		}
 		break;
@@ -3119,7 +3119,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 
 			Assert( pNewEnemy != GetEnemy() );
 
-			if( pNewEnemy != NULL )
+			if( pNewEnemy != nullptr)
 			{
 				// New enemy! Clear the timers and set conditions.
 				SetEnemy( pNewEnemy );
@@ -3127,7 +3127,7 @@ void CAI_BaseNPC::StartTask( const Task_t *pTask )
 			}
 			else
 			{
-				SetEnemy( NULL );
+				SetEnemy(nullptr);
 				ClearAttackConditions();
 			}
 		}
@@ -3545,7 +3545,7 @@ void CAI_BaseNPC::RunTask( const Task_t *pTask )
 		{
 			// Identical tasks, except that target_range uses m_hTargetEnt, 
 			// and Goal range uses the nav goal
-			CBaseEntity *pTarget = NULL;
+			CBaseEntity *pTarget = nullptr;
 			if ( pTask->iTask == TASK_MOVE_TO_GOAL_RANGE )
 			{
 				pTarget = GetNavigator()->GetGoalTarget();
@@ -3557,7 +3557,7 @@ void CAI_BaseNPC::RunTask( const Task_t *pTask )
 
 			float distance;
 
-			if ( pTarget == NULL )
+			if ( pTarget == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}
@@ -3645,7 +3645,7 @@ void CAI_BaseNPC::RunTask( const Task_t *pTask )
 	case TASK_GET_FLANK_ARC_PATH_TO_ENEMY_LOS:
 	case TASK_GET_PATH_TO_ENEMY_LKP_LOS:
 		{
-			if ( GetEnemy() == NULL )
+			if ( GetEnemy() == nullptr)
 			{
 				TaskFail(FAIL_NO_ENEMY);
 				return;
@@ -4029,7 +4029,7 @@ void CAI_BaseNPC::RunTask( const Task_t *pTask )
 			//
 			// Playing a scripted post idle sequence. Quit early if another sequence has grabbed the NPC.
 			//
-			if ( IsSequenceFinished() || ( m_hCine->m_hNextCine != NULL ) )
+			if ( IsSequenceFinished() || ( m_hCine->m_hNextCine != nullptr) )
 			{
 				m_hCine->PostIdleDone( this );
 			}
@@ -4333,7 +4333,7 @@ Activity CAI_BaseNPC::GetScriptCustomMoveActivity( void )
 {
 	Activity eActivity = ACT_WALK;
 
-	if ( ( m_hCine != NULL ) && ( m_hCine->m_iszCustomMove != NULL_STRING ) )
+	if ( ( m_hCine != nullptr) && ( m_hCine->m_iszCustomMove != NULL_STRING ) )
 	{
 		// We have a valid script. Look up the custom movement activity.
 		eActivity = ( Activity )LookupActivity( STRING( m_hCine->m_iszCustomMove ) );
@@ -4368,7 +4368,7 @@ int CAI_BaseNPC::GetScriptCustomMoveSequence( void )
 	int iSequence = ACTIVITY_NOT_AVAILABLE;
 
 	// If we have a scripted sequence entity, use it's custom move
-	if ( m_hCine != NULL )
+	if ( m_hCine != nullptr)
 	{
 		iSequence = LookupSequence( STRING( m_hCine->m_iszCustomMove ) );
 		if ( iSequence == ACTIVITY_NOT_AVAILABLE )
@@ -4404,7 +4404,7 @@ const Task_t *CAI_BaseNPC::GetTask( void )
 	int iScheduleIndex = GetScheduleCurTaskIndex();
 	if ( !GetCurSchedule() ||  iScheduleIndex < 0 || iScheduleIndex >= GetCurSchedule()->NumTasks() )
 		// iScheduleIndex is not within valid range for the NPC's current schedule.
-		return NULL;
+		return nullptr;
 
 	return &GetCurSchedule()->GetTaskList()[ iScheduleIndex ];
 }
@@ -4580,7 +4580,7 @@ int CAI_BaseNPC::SelectCombatSchedule()
 	if ( HasCondition( COND_ENEMY_DEAD ) )
 	{
 		// clear the current (dead) enemy and try to find another.
-		SetEnemy( NULL );
+		SetEnemy(nullptr);
 		 
 		if ( ChooseEnemy() )
 		{
@@ -4828,7 +4828,7 @@ int CAI_BaseNPC::SelectSchedule( void )
 	if ( HasCondition( COND_FLOATING_OFF_GROUND ) )
 	{
 		SetGravity( 1.0 );
-		SetGroundEntity( NULL );
+		SetGroundEntity(nullptr);
 		return SCHED_FALL_TO_GROUND;
 	}
 

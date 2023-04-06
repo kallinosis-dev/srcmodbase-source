@@ -5,4 +5,4 @@
 //=============================================================================
 #include "movieobjects_interfaces.h"
 
-IGlobalFlexController *g_pGlobalFlexController = 0;
+IGlobalFlexController *g_pGlobalFlexController = nullptr;

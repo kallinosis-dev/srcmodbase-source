@@ -116,9 +116,9 @@ C_BeamSpotLight::C_BeamSpotLight()
 , m_vSpotlightDir( vec3_origin )
 , m_flSpotlightCurLength( 0.0f )
 , m_flLightScale( 100.0f )
-, m_pDynamicLight( NULL )
+, m_pDynamicLight(nullptr)
 , m_lastTime( 0.0f )
-, m_pCache(NULL)
+, m_pCache(nullptr)
 {
 }
 
@@ -269,7 +269,7 @@ void C_BeamSpotLight::SpotlightDestroy(void)
 Vector C_BeamSpotLight::SpotlightCurrentPos(void)
 {
 	QAngle angles = GetAbsAngles();
-	GetVectors( &m_vSpotlightDir, NULL, NULL );
+	GetVectors( &m_vSpotlightDir, nullptr, nullptr);
 	Vector position = GetAbsOrigin();
 	int cacheIndex = -1;
 	if ( m_pCache )

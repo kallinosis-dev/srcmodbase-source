@@ -55,7 +55,7 @@ static CCycleCount g_TotalServerDTICycles;
 static CUtlLinkedList<CDTISendTable*, unsigned short> g_DTISendTables;
 
 bool g_bServerDTIEnabled = false;
-static char const *g_pServerDTIFilename = 0;
+static char const *g_pServerDTIFilename = nullptr;
 
 static bool g_bFirstHookTimer = true;
 static CCycleCount g_ServerDTITimer;
@@ -77,7 +77,7 @@ void ServerDTI_Term()
 		return;
 	ServerDTI_Flush();
 	g_DTISendTables.PurgeAndDeleteElements();
-	g_pServerDTIFilename = 0;
+	g_pServerDTIFilename = nullptr;
 	g_bServerDTIEnabled = false;
 }
 
@@ -276,7 +276,7 @@ void ServerDTI_Flush()
 CDTISendTable* ServerDTI_HookTable( SendTable *pTable )
 {
 	if ( !g_bServerDTIEnabled )
-		return NULL;
+		return nullptr;
 
 	CDTISendTable *pRet = new CDTISendTable;
 	memset( pRet, 0, sizeof( *pRet ) );

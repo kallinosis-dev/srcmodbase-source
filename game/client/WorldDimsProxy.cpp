@@ -33,7 +33,7 @@ public:
 
 CWorldDimsProxy::CWorldDimsProxy()
 {
-	m_pMinsVar = m_pMaxsVar = NULL;
+	m_pMinsVar = m_pMaxsVar = nullptr;
 }
 
 CWorldDimsProxy::~CWorldDimsProxy()
@@ -42,8 +42,8 @@ CWorldDimsProxy::~CWorldDimsProxy()
 
 bool CWorldDimsProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValues )
 {
-	m_pMinsVar = pMaterial->FindVar( "$world_mins", NULL, false );
-	m_pMaxsVar = pMaterial->FindVar( "$world_maxs", NULL, false );
+	m_pMinsVar = pMaterial->FindVar( "$world_mins", nullptr, false );
+	m_pMaxsVar = pMaterial->FindVar( "$world_maxs", nullptr, false );
 	return true;
 }
 

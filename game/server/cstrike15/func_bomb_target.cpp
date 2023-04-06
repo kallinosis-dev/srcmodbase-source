@@ -36,7 +36,7 @@ CBombTarget::CBombTarget( void )
 	m_bIsHeistBombTarget = false;
 	m_bBombPlantedHere = false;
 	m_szMountTarget = NULL_STRING;
-	m_hInstructorHint = NULL;
+	m_hInstructorHint = nullptr;
 }
 
 void CBombTarget::Spawn()
@@ -54,7 +54,7 @@ void CBombTarget::ReInitOnRoundStart( void )
 	{
 		CPointEntity *pEnt = static_cast< CPointEntity* >( m_hInstructorHint.Get() );
 		UTIL_Remove( pEnt );
-		m_hInstructorHint = NULL;
+		m_hInstructorHint = nullptr;
 	}
 
 	m_bBombPlantedHere = false;
@@ -147,7 +147,7 @@ void CBombTarget::OnBombDefused( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 void CInfoInstructorHintBombTargetA::Spawn( void )
 {
-	VisibilityMonitor_AddEntity( this, 5000.0f, NULL, NULL );
+	VisibilityMonitor_AddEntity( this, 5000.0f, nullptr, nullptr);
 }
 
 LINK_ENTITY_TO_CLASS( info_bomb_target_hint_A, CInfoInstructorHintBombTargetA );
@@ -162,7 +162,7 @@ END_DATADESC()
 //-----------------------------------------------------------------------------
 void CInfoInstructorHintBombTargetB::Spawn( void )
 {
-	VisibilityMonitor_AddEntity( this, 5000.0f, NULL, NULL );
+	VisibilityMonitor_AddEntity( this, 5000.0f, nullptr, nullptr);
 }
 
 LINK_ENTITY_TO_CLASS( info_bomb_target_hint_B, CInfoInstructorHintBombTargetB );

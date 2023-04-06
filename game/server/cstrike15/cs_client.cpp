@@ -66,7 +66,7 @@ void FinishClientPutInServer( CCSPlayer *pPlayer )
 	Q_strncpy( sName, pPlayer->GetPlayerName(), sizeof( sName ) );
 	
 	// First parse the name and remove any %'s
-	for ( char *pApersand = sName; pApersand != NULL && *pApersand != 0; pApersand++ )
+	for ( char *pApersand = sName; pApersand != nullptr && *pApersand != 0; pApersand++ )
 	{
 		// Replace it with a space
 		if ( *pApersand == '%' )

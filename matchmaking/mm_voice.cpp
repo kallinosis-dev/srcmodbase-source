@@ -214,7 +214,7 @@ XUID CMatchVoice::RemapTalkerXuid( XUID xuidTalker )
 
 	KeyValues *pSettings = pMatchSession->GetSessionSettings();
 
-	KeyValues *pMachine = NULL;
+	KeyValues *pMachine = nullptr;
 	KeyValues *pTalker = SessionMembersFindPlayer( pSettings, xuidTalker, &pMachine );
 	if ( !pTalker || !pMachine )
 		return xuidTalker;
@@ -344,14 +344,14 @@ bool CMatchVoice::IsMachineMutingLocalTalkers( XUID xuidPlayer )
 
 	KeyValues *pSettings = pMatchSession->GetSessionSettings();
 
-	KeyValues *pMachine = NULL;
+	KeyValues *pMachine = nullptr;
 	SessionMembersFindPlayer( pSettings, xuidPlayer, &pMachine );
 	if ( !pMachine )
 		return false;
 
 	// Find the local player record in the session
 	XUID xuidLocalId = g_pPlayerManager->GetLocalPlayer( XBX_GetPrimaryUserId() )->GetXUID();
-	KeyValues *pLocalMachine = NULL;
+	KeyValues *pLocalMachine = nullptr;
 	SessionMembersFindPlayer( pSettings, xuidLocalId, &pLocalMachine );
 	if ( !pLocalMachine || pLocalMachine == pMachine )
 		return false;

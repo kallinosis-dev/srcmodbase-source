@@ -111,7 +111,7 @@ void SCR_BeginLoadingPlaque( const char *levelName /*= NULL*/ )
 		if ( g_ClientDLL )
 		{
 			g_ClientDLL->CenterStringOff();
-			g_ClientDLL->HudText( NULL );
+			g_ClientDLL->HudText(nullptr);
 		}
 
 		// let everybody know we're starting loading

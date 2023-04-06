@@ -48,7 +48,7 @@ friend class CFileSystemOpenDialogWrapper;
 
 // Construction
 public:
-	CFileSystemOpenDlg(CreateInterfaceFn factory, CWnd* pParent = NULL);   // standard constructor
+	CFileSystemOpenDlg(CreateInterfaceFn factory, CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CFileSystemOpenDlg)
@@ -61,7 +61,7 @@ public:
 
 	void AddFileMask( const char *pMask );
 	
-	void SetInitialDir( const char *pDir, const char *pPathID = NULL );
+	void SetInitialDir( const char *pDir, const char *pPathID = nullptr);
 
 	void SetFilterMdlAndJpgFiles( bool bFilter );
 	CString GetFilename() const;	// Get the filename they chose.
@@ -71,7 +71,7 @@ public:
 	// ClassWizard generated virtual function overrides
 	//{{AFX_VIRTUAL(CFileSystemOpenDlg)
 	public:
-	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = NULL);
+	virtual BOOL Create(LPCTSTR lpszClassName, LPCTSTR lpszWindowName, DWORD dwStyle, const RECT& rect, CWnd* pParentWnd, UINT nID, CCreateContext* pContext = nullptr);
 	protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	//}}AFX_VIRTUAL

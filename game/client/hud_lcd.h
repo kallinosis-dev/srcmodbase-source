@@ -44,7 +44,7 @@ public:
 		m_bActive( true ),
 		m_nSubPage( 0 ),
 		m_Type( LCDITEM_UNKNOWN ),
-		m_Handle( 0 ),
+		m_Handle( nullptr ),
 		x( 0 ),
 		y( 0 ),
 		w( 0 ),
@@ -93,7 +93,7 @@ class CLCDItemIcon : public CLCDItem
 
 public:
 	CLCDItemIcon() : 
-	  m_icon( NULL )
+	  m_icon(nullptr)
 	{
 		m_Type = LCDITEM_ICON;
 	}
@@ -153,7 +153,7 @@ public:
 
 	CLCDItem *Alloc( int type )
 	{
-		CLCDItem *item = NULL;
+		CLCDItem *item = nullptr;
 
 		switch ( type )
 		{
@@ -179,7 +179,7 @@ public:
 		}
 
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 
 	void InitFromKeyValues( KeyValues *kv );

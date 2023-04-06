@@ -18,7 +18,7 @@ template class CInterpolatedVar<float>;
 template class CInterpolatedVar<Vector>;
 template class CInterpolatedVar<QAngle>;
 
-CInterpolationContext *CInterpolationContext::s_pHead = NULL;
+CInterpolationContext *CInterpolationContext::s_pHead = nullptr;
 bool CInterpolationContext::s_bAllowExtrapolation = false;
 float CInterpolationContext::s_flLastTimeStamp = 0;
 

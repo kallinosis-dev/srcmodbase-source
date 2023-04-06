@@ -469,7 +469,7 @@ public:
 	void AddCustomAttribute( uint16 usDefinitionIndex, float flValue );
 	void AddOrSetCustomAttribute( uint16 usDefinitionIndex, float flValue );
 	
-	bool BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = NULL );
+	bool BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors = nullptr);
 
 
 	virtual bool BParseFromMessage( const CUtlBuffer &buffer ) OVERRIDE;
@@ -574,10 +574,10 @@ public:
 	virtual int GetTypeID() const { return k_nTypeID; }
 };
 
-void YieldingAddAuditRecord( GCSDK::CSQLAccess *sqlAccess, const CEconItem *pItem, uint32 unOwnerID, EItemAction eAction, uint32 unData, CEconSessionItemAudit* pItemAudit = NULL );
-void YieldingAddAuditRecord( GCSDK::CSQLAccess *sqlAccess, uint64 ulItemID, uint32 unOwnerID, EItemAction eAction, uint32 unData, CEconSessionItemAudit* pItemAudit = NULL );
+void YieldingAddAuditRecord( GCSDK::CSQLAccess *sqlAccess, const CEconItem *pItem, uint32 unOwnerID, EItemAction eAction, uint32 unData, CEconSessionItemAudit* pItemAudit = nullptr);
+void YieldingAddAuditRecord( GCSDK::CSQLAccess *sqlAccess, uint64 ulItemID, uint32 unOwnerID, EItemAction eAction, uint32 unData, CEconSessionItemAudit* pItemAudit = nullptr);
 void YieldingAddAttributeChangeAuditRecord( GCSDK::CSQLAccess *sqlAccess, uint64 ulItemID, uint32 unOwnerID, uint16 unAttributeDefIndex, uint32 uiOriginalValue, EItemAction eAction, uint32 unData );
-bool YieldingAddItemToDatabase( CEconItem *pItem, const CSteamID & steamID, EItemAction eAction, uint32 unData, CEconSessionItemAudit* pItemAudit = NULL );
+bool YieldingAddItemToDatabase( CEconItem *pItem, const CSteamID & steamID, EItemAction eAction, uint32 unData, CEconSessionItemAudit* pItemAudit = nullptr);
 
 template < typename TAttribInMemoryType >
 void ISchemaAttributeTypeBase<TAttribInMemoryType>::LoadEconAttributeValue( CEconItem *pTargetItem, const CEconItemAttributeDefinition *pAttrDef, const union attribute_data_union_t& value ) const

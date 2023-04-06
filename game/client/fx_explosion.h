@@ -42,7 +42,7 @@ protected:
 	virtual void	CreateMisc( void );
 	virtual void	CreateDynamicLight( void );
 
-	float			ScaleForceByDeviation( Vector &deviant, Vector &source, float spread, float *force = NULL );
+	float			ScaleForceByDeviation( Vector &deviant, Vector &source, float spread, float *force = nullptr);
 
 	float			Probe( const Vector &origin, Vector *direction, float strength );
 	void			GetForceDirection( const Vector &origin, float magnitude, Vector *resultDirection, float *resultForce );

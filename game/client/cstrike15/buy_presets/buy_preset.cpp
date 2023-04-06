@@ -279,8 +279,8 @@ void WeaponSet::GetCurrent( int& cost, WeaponSet& ws ) const
 	int ammo[MAX_AMMO_TYPES];
 	memset( ammo, 0, sizeof(ammo) );
 	FillClientAmmo( ammo );
-	const BuyPresetWeapon *primaryWeaponToBuy = NULL;
-	const BuyPresetWeapon *secondaryWeaponToBuy = NULL;
+	const BuyPresetWeapon *primaryWeaponToBuy = nullptr;
+	const BuyPresetWeapon *secondaryWeaponToBuy = nullptr;
 	int primaryClipsToBuy = 0;
 	int secondaryClipsToBuy = 0;
 	int currentNonWeaponCost = currentCost;
@@ -294,7 +294,7 @@ void WeaponSet::GetCurrent( int& cost, WeaponSet& ws ) const
 	for ( i=0; i<primaryWeapons.Count() && !doneBuyingWeapons; ++i )
 	{
 		const BuyPresetWeapon *primaryWeapon = &primaryWeapons[i];
-		primaryWeaponToBuy = NULL;
+		primaryWeaponToBuy = nullptr;
 		int primaryClips = 0;
 		primaryClipsToBuy = 0;
 		currentCost = currentNonWeaponCost;
@@ -352,7 +352,7 @@ void WeaponSet::GetCurrent( int& cost, WeaponSet& ws ) const
 			const BuyPresetWeapon *secondaryWeapon = &secondaryWeapons[j];
 
 			// reset ammo counts and cost
-			secondaryWeaponToBuy = NULL;
+			secondaryWeaponToBuy = nullptr;
 			secondaryClipsToBuy = 0;
 			currentCost = currentNonWeaponCost;
 			FillClientAmmo( ammo );
@@ -871,9 +871,9 @@ void BuyPreset::Parse( KeyValues *data )
 		return;
 	}
 
-	const char *primaryString = data->GetString( "Primary", NULL );
-	const char *secondaryString = data->GetString( "Secondary", NULL );
-	const char *equipmentString = data->GetString( "Equipment", NULL );
+	const char *primaryString = data->GetString( "Primary", nullptr);
+	const char *secondaryString = data->GetString( "Secondary", nullptr);
+	const char *equipmentString = data->GetString( "Equipment", nullptr);
 
 	CUtlVector< BuyPresetWeapon > weapons;
 	ParseWeaponString( primaryString, weapons, true );
@@ -1053,7 +1053,7 @@ int BuyPreset::FullCost() const
 const WeaponSet * BuyPreset::GetSet( int index ) const
 {
 	if ( index < 0 || index >= m_weaponList.Count() )
-		return NULL;
+		return nullptr;
 
 	return &(m_weaponList[index]);
 }

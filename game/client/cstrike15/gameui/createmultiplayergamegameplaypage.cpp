@@ -53,7 +53,7 @@ CCreateMultiplayerGameGameplayPage::CCreateMultiplayerGameGameplayPage(vgui::Pan
 	m_pDescription = new CServerDescription(m_pOptionsList);
 	m_pDescription->InitFromFile( DEFAULT_OPTIONS_FILE );
 	m_pDescription->InitFromFile( OPTIONS_FILE );
-	m_pList = NULL;
+	m_pList = nullptr;
 
 	LoadControlSettings("Resource/CreateMultiplayerGameGameplayPage.res");
 
@@ -97,7 +97,7 @@ const char *CCreateMultiplayerGameGameplayPage::GetHostName()
 //-----------------------------------------------------------------------------
 const char *CCreateMultiplayerGameGameplayPage::GetValue(const char *cvarName, const char *defaultValue)
 {
-	for (mpcontrol_t *mp = m_pList; mp != NULL; mp = mp->next)
+	for (mpcontrol_t *mp = m_pList; mp != nullptr; mp = mp->next)
 	{
 		Panel *control = mp->pControl;
 		if (control && !stricmp(mp->GetName(), cvarName))
@@ -173,7 +173,7 @@ void CCreateMultiplayerGameGameplayPage::LoadGameOptionsList()
 		p = n;
 	}
 
-	m_pList = NULL;
+	m_pList = nullptr;
 
 
 	// Go through desciption creating controls
@@ -221,7 +221,7 @@ void CCreateMultiplayerGameGameplayPage::LoadGameOptionsList()
 			pListItem = pObj->pListItems;
 			while ( pListItem )
 			{
-				pCombo->AddItem(pListItem->szItemText, NULL);
+				pCombo->AddItem(pListItem->szItemText, nullptr);
 				pListItem = pListItem->pNext;
 			}
 
@@ -250,7 +250,7 @@ void CCreateMultiplayerGameGameplayPage::LoadGameOptionsList()
 		if ( !m_pList )
 		{
 			m_pList = pCtrl;
-			pCtrl->next = NULL;
+			pCtrl->next = nullptr;
 		}
 		else
 		{
@@ -261,7 +261,7 @@ void CCreateMultiplayerGameGameplayPage::LoadGameOptionsList()
 				if ( !p->next )
 				{
 					p->next = pCtrl;
-					pCtrl->next = NULL;
+					pCtrl->next = nullptr;
 					break;
 				}
 				p = p->next;
@@ -330,7 +330,7 @@ void CCreateMultiplayerGameGameplayPage::GatherCurrentValues()
 
 			while ( pItem )
 			{
-				wchar_t *wLocalizedString = NULL;
+				wchar_t *wLocalizedString = nullptr;
 				wchar_t w_szStrTemp[256];
 				
 				// Localized string?

@@ -296,7 +296,7 @@ bool NET_StringToSockaddr( const char *s, struct sockaddr *sadr )
 			return false;	// DNS names disabled
 
 		struct hostent	*h;
-		if ( (h = gethostbyname(copy)) == NULL )
+		if ( (h = gethostbyname(copy)) == nullptr)
 			return false;
 		*(int *)&((struct sockaddr_in *)sadr)->sin_addr = *(int *)h->h_addr_list[0];
 	}
@@ -331,13 +331,13 @@ void NET_ClearLaggedList(netpacket_t **pList)
 		if ( p->data )
 		{
 			delete[] p->data;
-			p->data = NULL;
+			p->data = nullptr;
 		}
 		delete p;
 		p = n;
 	}
 
-	(*pList) = NULL;
+	(*pList) = nullptr;
 }
 
 void NET_ClearLagData( int sock )
@@ -412,7 +412,7 @@ CNetChan *NET_FindNetChannel(int socket, const ns_address &adr )
 		}
 	}
 
-	return NULL;	// no channel found
+	return nullptr;	// no channel found
 }
 
 void NET_CloseSocket( int hSocket, int sock = -1)
@@ -754,12 +754,12 @@ int NET_ReceiveStream( int nSock, char * buf, int len, int flags )
 
 INetChannel *NET_CreateNetChannel( int socket, const ns_address *adr, const char * name, INetChannelHandler * handler, const byte *pbEncryptionKey, bool bForceNewChannel )
 {
-	CNetChan *chan = NULL;
+	CNetChan *chan = nullptr;
 
-	if ( !bForceNewChannel && adr != NULL )
+	if ( !bForceNewChannel && adr != nullptr)
 	{
 		// try to find real network channel if already existing
-		if ( ( chan = NET_FindNetChannel( socket, *adr ) ) != NULL )
+		if ( ( chan = NET_FindNetChannel( socket, *adr ) ) != nullptr)
 		{
 			// channel already known, clear any old stuff before Setup wipes all
 			chan->Clear();
@@ -904,10 +904,10 @@ void NET_AddToLagged( netpacket_t **pList, netpacket_t *pPacket )
 	(*newPacket) = (*pPacket);  // copy packet infos
 	newPacket->data = new unsigned char[ pPacket->size ];	// create new data buffer
 	Q_memcpy( newPacket->data, pPacket->data, pPacket->size ); // copy packet data
-	newPacket->pNext = NULL;
+	newPacket->pNext = nullptr;
 
 	// if list is empty, this is our first element
-	if ( (*pList) == NULL )
+	if ( (*pList) == nullptr)
 	{
 		(*pList) = newPacket;	// put packet in top of list
 	}
@@ -1072,7 +1072,7 @@ bool NET_LagPacket (bool newdata, netpacket_t * packet)
 	// copy & adjust content
 	packet->source	= p->source;	
 	packet->from	= p->from;		
-	packet->pNext	= NULL;			// no next
+	packet->pNext	= nullptr;			// no next
 	packet->received = net_time;	// new time
 	packet->size	= p->size;		
 	packet->wiresize = p->wiresize;
@@ -1150,7 +1150,7 @@ CSplitPacketEntry *NET_FindOrCreateSplitPacketEntry( const int sock, const ns_ad
 {
 	vecSplitPacketEntries_t &splitPacketEntries = net_splitpackets[sock];
 	int i, count = splitPacketEntries.Count();
-	CSplitPacketEntry *entry = NULL;
+	CSplitPacketEntry *entry = nullptr;
 	for ( i = 0; i < count; i++ )
 	{
 		entry = &splitPacketEntries[ i ];
@@ -1188,7 +1188,7 @@ static const tokenset_t< ESocketIndex_t > s_SocketDescMap[] =
 #if defined( REPLAY_ENABLED )
 	{ "rply",	NS_REPLAY		},
 #endif
-	{ NULL,		(ESocketIndex_t)-1 }
+	{nullptr,		(ESocketIndex_t)-1 }
 };
 
 static char const *DescribeSocket( int sock )
@@ -1337,7 +1337,7 @@ bool NET_GetLoopPacket ( netpacket_t * packet )
 {
 	Assert ( packet );
 
-	loopback_t	*loop = NULL;
+	loopback_t	*loop = nullptr;
 
 	if ( packet->source > NS_SERVER )
 		return false;
@@ -1765,7 +1765,7 @@ bool NET_ReceiveDatagram ( const int sock, netpacket_t * packet )
 netpacket_t *NET_GetPacket (int sock, byte *scratch )
 {
 	if ( !net_packets.IsValidIndex( sock ) )
-		return NULL;
+		return nullptr;
 	
 	// Each socket has its own netpacket to allow multithreading
 	netpacket_t &inpacket = net_packets[sock];
@@ -1780,7 +1780,7 @@ netpacket_t *NET_GetPacket (int sock, byte *scratch )
 	inpacket.data = scratch;
 	inpacket.size = 0;
 	inpacket.wiresize = 0;
-	inpacket.pNext = NULL;
+	inpacket.pNext = nullptr;
 	inpacket.message.SetDebugName("inpacket.message");
 
 	// Check loopback first
@@ -1795,7 +1795,7 @@ netpacket_t *NET_GetPacket (int sock, byte *scratch )
 		if ( !NET_IsMultiplayer() )
 #endif // !PORTAL2
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		// then check UDP data 
@@ -1804,7 +1804,7 @@ netpacket_t *NET_GetPacket (int sock, byte *scratch )
 			// at last check if the lag system has a packet for us
 			if ( !NET_LagPacket (false, &inpacket) )
 			{
-				return NULL;	// we don't have any new packet
+				return nullptr;	// we don't have any new packet
 			}
 		}
 	}
@@ -2000,7 +2000,7 @@ void NET_ProcessSocket( int sock, IConnectionlessPacketHandler *handler )
 
 	// now get datagrams from sockets
 	net_scratchbuffer_t scratch;
-	while ( ( packet = NET_GetPacket ( sock, scratch.GetBuffer() ) ) != NULL )
+	while ( ( packet = NET_GetPacket ( sock, scratch.GetBuffer() ) ) != nullptr)
 	{
 		if ( Filter_ShouldDiscard ( packet->from ) )	// filtering is done by network layer
 		{
@@ -2179,7 +2179,7 @@ int NET_SendToImpl( SOCKET s, const char * buf, int len, const ns_address &to, i
 			Msg( "* NET_SendToImpl: sending voice to %s (%d bytes)\n", ns_address_render( to ).String(), len - nDataBytes );
 		}
 
-		WSASendTo( s, buffers, 2, (DWORD*)&nSend, 0, &sadrto, sizeof(sadrto), NULL, NULL );
+		WSASendTo( s, buffers, 2, (DWORD*)&nSend, 0, &sadrto, sizeof(sadrto), nullptr, nullptr);
 #else
 		//!!perf!! use linux sendmsg for gather similar to WSASendTo http://linux.die.net/man/3/sendmsg
 		uint8 *pData = ( uint8 * ) stackalloc( nVDPHeaderBytes + len );
@@ -2273,7 +2273,7 @@ char const *NET_GetDebugFilename( char const *prefix )
 		return filename;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2300,7 +2300,7 @@ void NET_StorePacket( char const *filename, byte const *buf, int len )
 struct SendQueueItem_t
 {
 	SendQueueItem_t() :
-		m_pChannel( NULL ),
+		m_pChannel(nullptr),
 		m_Socket( (SOCKET)-1 )
 	{
 	}
@@ -2626,7 +2626,7 @@ int NET_SendPacket ( INetChannel *chan, int sock,  const ns_address &to, const u
 		pVoice += sizeof( unsigned short );
 		
 		unsigned int nCompressedLength = pVoicePayload->GetNumBytesWritten();
-		byte *pOutput = NULL;
+		byte *pOutput = nullptr;
 		if ( net_compressvoice.GetBool() )
 		{
 			CLZSS lzss;
@@ -2688,7 +2688,7 @@ int NET_SendPacket ( INetChannel *chan, int sock,  const ns_address &to, const u
 	}
 
 	// If the network channel has encryption key then we should encrypt
-	if ( const unsigned char *pubEncryptionKey = chan ? chan->GetChannelEncryptionKey() : NULL )
+	if ( const unsigned char *pubEncryptionKey = chan ? chan->GetChannelEncryptionKey() : nullptr)
 	{
 		IceKey iceKey( 2 );
 		iceKey.set( pubEncryptionKey );
@@ -2791,7 +2791,7 @@ void NET_OutOfBandPrintf(int sock, const ns_address &adr, const char *format, ..
 
 	int length = Q_strlen(string+4) + 5;
 
-	NET_SendPacket ( NULL, sock, adr, (byte *)string, length );
+	NET_SendPacket (nullptr, sock, adr, (byte *)string, length );
 }
 
 void NET_OutOfBandDelayedPrintf(int sock, const ns_address &adr, uint32 unMillisecondsDelay, const char *format, ...)
@@ -2807,7 +2807,7 @@ void NET_OutOfBandDelayedPrintf(int sock, const ns_address &adr, uint32 unMillis
 
 	int length = Q_strlen(string+4) + 5;
 
-	NET_SendPacket ( NULL, sock, adr, (byte *)string, length, 0, false, unMillisecondsDelay );
+	NET_SendPacket (nullptr, sock, adr, (byte *)string, length, nullptr, false, unMillisecondsDelay );
 }
 
 /*
@@ -2849,7 +2849,7 @@ void NET_CloseAllSockets (void)
 	if ( g_pSteamDatagramGameserver )
 	{
 		g_pSteamDatagramGameserver->Destroy();
-		g_pSteamDatagramGameserver = NULL;
+		g_pSteamDatagramGameserver = nullptr;
 	}
 
 	// Shutdown steam datagram client, if we have one
@@ -2924,7 +2924,7 @@ private:
 
 		if ( GetAdaptersInfo( infos, &len ) == NO_ERROR )
 		{
-			for ( IP_ADAPTER_INFO *info = infos; info != NULL; info = info->Next ) 
+			for ( IP_ADAPTER_INFO *info = infos; info != nullptr; info = info->Next ) 
 			{
 				if ( info->Type == MIB_IF_TYPE_LOOPBACK )
 					continue;
@@ -2991,7 +2991,7 @@ void NET_PrintSteamdatagramClientStatus()
 	}
 	ISteamDatagramTransportClient::ConnectionStatus status;
 	g_pSteamDatagramClient->GetConnectionStatus( status );
-	int sz = status.Print( NULL, 0 );
+	int sz = status.Print(nullptr, 0 );
 	CUtlMemory<char> buf;
 	buf.EnsureCapacity( sz );
 	char *p = buf.Base();
@@ -3062,7 +3062,7 @@ static void OpenSocketInternal( int nModule, int nSetPort, int nDefaultPort, con
 #endif
 
 	int port = nSetPort ? nSetPort : nDefaultPort;
-	int *handle = NULL;
+	int *handle = nullptr;
 	if( nProtocol == IPPROTO_TCP )
 	{
 		handle = &net_sockets[nModule].hTCP;
@@ -3685,7 +3685,7 @@ void NET_ClearLoopbackBuffers()
 {
 	for (int i = 0; i < LOOPBACK_SOCKETS; i++)
 	{
-		loopback_t *loop = NULL;
+		loopback_t *loop = nullptr;
 
 		while ( s_LoopBacks[i].PopItem( &loop ) )
 		{
@@ -4121,7 +4121,7 @@ void NET_Init( bool bIsDedicated )
 
 	for ( int i = 0; i < MAX_SOCKETS; ++i )
 	{
-		s_pLagData[i] = NULL;
+		s_pLagData[i] = nullptr;
 		Q_memset( &net_sockets[i], 0, sizeof(netsocket_t) );
 	}
 
@@ -4420,7 +4420,7 @@ void NET_SleepUntilMessages( int nMilliseconds )
 	FD_SET( nSocket, &fdset );
 	struct timeval tv = { 0 };
 	tv.tv_usec = nMilliseconds * 1000;
-	select( nSocket + 1, &fdset, NULL, NULL, &tv );
+	select( nSocket + 1, &fdset, nullptr, nullptr, &tv );
 }
 
 bool NET_GetPublicAdr( netadr_t &adr )
@@ -4806,7 +4806,7 @@ bool NET_CryptVerifyClientSessionKey( bool bOfficial,
 
 bool NET_CryptGetNetworkCertificate( ENetworkCertificate_t eType, const byte **pbData, int *pnumBytes )
 {
-	static char const *s_szCertificateFile = CommandLine()->ParmValue( "-certificate", ( char const * ) NULL );
+	static char const *s_szCertificateFile = CommandLine()->ParmValue( "-certificate", ( char const * )nullptr);
 	if ( !s_szCertificateFile )
 		return false;
 
@@ -4818,7 +4818,7 @@ bool NET_CryptGetNetworkCertificate( ENetworkCertificate_t eType, const byte **p
 	{
 		s_bCertificateFilesLoaded = true;
 
-		if ( !g_pFullFileSystem->ReadFile( s_szCertificateFile, NULL, bufCertificate ) ||
+		if ( !g_pFullFileSystem->ReadFile( s_szCertificateFile, nullptr, bufCertificate ) ||
 			!bufCertificate.Base() || ( bufCertificate.Size() < ( k_ENetworkCertificate_Max + 1 ) * 3 * sizeof( int ) ) )
 		{
 			Warning( "NET_CryptGetNetworkCertificate failed to load certificate '%s'\n", s_szCertificateFile );
@@ -4908,7 +4908,7 @@ CON_COMMAND( net_encrypt_key_generate, "Generate a public/private keypair" )
 		
 		CUtlBuffer bufPrivate( strPrivateKey.c_str(), strPrivateKey.length(), CUtlBuffer::READ_ONLY );
 		V_sprintf_safe( chFile, "%s.private", args.Arg( 2 ) );
-		if ( !g_pFullFileSystem->WriteFile( chFile, NULL, bufPrivate ) )
+		if ( !g_pFullFileSystem->WriteFile( chFile, nullptr, bufPrivate ) )
 		{
 			Warning( "net_encrypt_key_generate: failed to write %u bits keypair file '%s'\n", cKeyBits, chFile );
 			return;
@@ -4916,7 +4916,7 @@ CON_COMMAND( net_encrypt_key_generate, "Generate a public/private keypair" )
 
 		CUtlBuffer bufPublic( strPublicKey.c_str(), strPublicKey.length(), CUtlBuffer::READ_ONLY );
 		V_sprintf_safe( chFile, "%s.public", args.Arg( 2 ) );
-		if ( !g_pFullFileSystem->WriteFile( chFile, NULL, bufPublic ) )
+		if ( !g_pFullFileSystem->WriteFile( chFile, nullptr, bufPublic ) )
 		{
 			Warning( "net_encrypt_key_generate: failed to write %u bits keypair file '%s'\n", cKeyBits, chFile );
 			return;
@@ -4943,14 +4943,14 @@ CON_COMMAND( net_encrypt_key_signature, "Compute key signature for the payloads"
 	try           // handle any exceptions crypto++ may throw
 	{
 		CUtlBuffer bufPrivateKey;
-		if ( !g_pFullFileSystem->ReadFile( args.Arg( 1 ), NULL, bufPrivateKey ) )
+		if ( !g_pFullFileSystem->ReadFile( args.Arg( 1 ), nullptr, bufPrivateKey ) )
 		{
 			Warning( "net_encrypt_key_signature: failed to read private key file '%s'\n", args.Arg( 1 ) );
 			return;
 		}
 
 		CUtlBuffer bufDataFile;
-		if ( !g_pFullFileSystem->ReadFile( args.Arg( 2 ), NULL, bufDataFile ) )
+		if ( !g_pFullFileSystem->ReadFile( args.Arg( 2 ), nullptr, bufDataFile ) )
 		{
 			Warning( "net_encrypt_key_signature: failed to read data file '%s'\n", args.Arg( 2 ) );
 			return;
@@ -4985,7 +4985,7 @@ CON_COMMAND( net_encrypt_key_signature, "Compute key signature for the payloads"
 
 	if ( bRet )
 	{
-		if ( !g_pFullFileSystem->WriteFile( args.Arg( 4 ), NULL, bufSignature ) )
+		if ( !g_pFullFileSystem->WriteFile( args.Arg( 4 ), nullptr, bufSignature ) )
 		{
 			Warning( "net_encrypt_key_signature: failed to write file '%s'\n", args.Arg( 4 ) );
 			return;
@@ -5015,7 +5015,7 @@ CON_COMMAND( net_encrypt_key_compress, "Compress all key signatures into a singl
 	{
 		char chFile[ 1024 ] = {};
 		V_sprintf_safe( chFile, "%s.%s", args.Arg( 1 ), arrFiles[j] );
-		if ( !g_pFullFileSystem->ReadFile( chFile, NULL, bufData[j] ) )
+		if ( !g_pFullFileSystem->ReadFile( chFile, nullptr, bufData[j] ) )
 		{
 			Warning( "net_encrypt_key_compress: failed to read data file '%s'\n", chFile );
 			return;
@@ -5043,7 +5043,7 @@ CON_COMMAND( net_encrypt_key_compress, "Compress all key signatures into a singl
 		bufComposite.Put( bufData[j].Base(), bufData[j].TellPut() );
 	}
 
-	if ( !g_pFullFileSystem->WriteFile( args.Arg( 1 ), NULL, bufComposite ) )
+	if ( !g_pFullFileSystem->WriteFile( args.Arg( 1 ), nullptr, bufComposite ) )
 	{
 		Warning( "net_encrypt_key_compress: failed to write file '%s'\n", args.Arg( 1 ) );
 		return;

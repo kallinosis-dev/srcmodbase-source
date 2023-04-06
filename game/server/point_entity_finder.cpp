@@ -72,7 +72,7 @@ void CPointEntityFinder::Activate( void )
 	// Get the filter, if it exists.
 	if (m_iFilterName != NULL_STRING)
 	{
-		m_hFilter = dynamic_cast<CBaseFilter *>(gEntList.FindEntityByName( NULL, m_iFilterName ));
+		m_hFilter = dynamic_cast<CBaseFilter *>(gEntList.FindEntityByName(nullptr, m_iFilterName ));
 	}
 
 	BaseClass::Activate();
@@ -84,7 +84,7 @@ void CPointEntityFinder::FindEntity( void )
 	// Get the reference entity, if it exists.
 	if (m_iRefName != NULL_STRING)
 	{
-		m_hReference = gEntList.FindEntityByName( NULL, m_iRefName );
+		m_hReference = gEntList.FindEntityByName(nullptr, m_iRefName );
 	}
 
 	switch ( m_FindMethod )
@@ -104,7 +104,7 @@ void CPointEntityFinder::FindEntity( void )
 
 void CPointEntityFinder::FindByDistance( void )
 {
-	m_hEntity = NULL;
+	m_hEntity = nullptr;
 	CBaseFilter *pFilter = m_hFilter.Get();
 
 // go through each entity and determine whether it's closer or farther from the current entity.  Pick according to Method selected.
@@ -137,7 +137,7 @@ void CPointEntityFinder::FindByDistance( void )
 		}
 
 		// init m_hEntity with a valid entity.
-		if (m_hEntity == NULL )
+		if (m_hEntity == nullptr)
 		{
 			m_hEntity = pEntity;
 			flBestDist = ( pEntity->GetAbsOrigin() - vecStart ).LengthSqr();
@@ -176,7 +176,7 @@ void CPointEntityFinder::FindByDistance( void )
 void CPointEntityFinder::FindByRandom( void )
 {
 	// TODO: optimize the case where there is no filter
-	m_hEntity = NULL;
+	m_hEntity = nullptr;
 	CBaseFilter *pFilter = m_hFilter.Get();
 	CUtlVector<CBaseEntity *> ValidEnts;
 

@@ -165,7 +165,7 @@ CVoiceBanMgr::BannedPlayer* CVoiceBanMgr::InternalFindPlayerSquelch(char const p
 			return pCur;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -173,7 +173,7 @@ CVoiceBanMgr::BannedPlayer* CVoiceBanMgr::AddBannedPlayer(char const playerID[SI
 {
 	BannedPlayer *pNew = new BannedPlayer;
 	if(!pNew)
-		return NULL;
+		return nullptr;
 
 	int index = HashPlayerID(playerID);
 	memcpy(pNew->m_PlayerID, playerID, SIGNED_GUID_LEN);

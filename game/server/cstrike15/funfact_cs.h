@@ -9,7 +9,7 @@ struct FunFact
 {
 	FunFact() :
 		id(-1),
-		szLocalizationToken(NULL),
+		szLocalizationToken(nullptr),
 		iPlayer(0),
 		iData1(0),
 		iData2(0),

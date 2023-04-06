@@ -80,7 +80,7 @@ public:
 
 	// Create/Release additional instances
 	// Disk Caching is necessary for large zips
-	static IZip *CreateZip( const char *pDiskCacheWritePath = NULL, bool bSortByName = false );
+	static IZip *CreateZip( const char *pDiskCacheWritePath = nullptr, bool bSortByName = false );
 	static void ReleaseZip( IZip *zip );
 };
 

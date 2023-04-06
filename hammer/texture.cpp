@@ -22,7 +22,7 @@ CTexture::CTexture( void )
 
 	m_bHasAlpha = false;
 
-	m_pImageData = NULL;
+	m_pImageData = nullptr;
 
 	m_nTextureID = TEXTURE_ID_NONE;
 
@@ -35,7 +35,7 @@ CTexture::CTexture( void )
 //-----------------------------------------------------------------------------
 CTexture::~CTexture( void )
 {
-	if ( m_pImageData != NULL )
+	if ( m_pImageData != nullptr)
 	{
 		delete [] m_pImageData;
 	}
@@ -55,11 +55,11 @@ CTexture::~CTexture( void )
 //-----------------------------------------------------------------------------
 bool CTexture::Allocate( int nWidth, int nHeight, int nFlags )
 {
-	if ( m_pImageData != NULL )
+	if ( m_pImageData != nullptr)
 	{
 		delete [] m_pImageData;
 
-		m_pImageData = NULL;
+		m_pImageData = nullptr;
 		m_nWidth = 0;
 		m_nHeight = 0;
 	}
@@ -80,13 +80,13 @@ bool CTexture::Allocate( int nWidth, int nHeight, int nFlags )
 		m_bHasAlpha = false;
 	}
 
-	if ( m_pImageData != NULL )
+	if ( m_pImageData != nullptr)
 	{
 		m_nWidth = nWidth;
 		m_nHeight = nHeight;
 	}
 
-	return( m_pImageData != NULL );
+	return( m_pImageData != nullptr);
 }
 		
 
@@ -132,7 +132,7 @@ int CTexture::GetImageDataRGB( void *pData )
 	{
 		nSize = m_nWidth * m_nHeight * 3;
 
-		if (( pData != NULL ) && ( nSize > 0 ))
+		if (( pData != nullptr) && ( nSize > 0 ))
 		{
 			memcpy( pData, m_pImageData, nSize );
 		}
@@ -157,7 +157,7 @@ int CTexture::GetImageDataRGBA( void *pData )
 	{
 		nSize = m_nWidth * m_nHeight * 4;
 
-		if (( pData != NULL ) && ( nSize > 0 ))
+		if (( pData != nullptr) && ( nSize > 0 ))
 		{
 			memcpy( pData, m_pImageData, nSize );
 		}
@@ -180,7 +180,7 @@ int CTexture::GetImageDataRGBA( void *pData )
 //-----------------------------------------------------------------------------
 int CTexture::GetKeywords(char *pszKeywords) const
 {
-	if (pszKeywords != NULL)
+	if (pszKeywords != nullptr)
 	{
 		*pszKeywords = '\0';
 	}
@@ -196,7 +196,7 @@ int CTexture::GetKeywords(char *pszKeywords) const
 //-----------------------------------------------------------------------------
 int CTexture::GetShortName(char *pszName) const
 {
-	if (pszName != NULL)
+	if (pszName != nullptr)
 	{
 		strcpy(pszName, m_szName);
 	}

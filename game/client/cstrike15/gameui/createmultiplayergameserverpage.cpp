@@ -33,7 +33,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 CCreateMultiplayerGameServerPage::CCreateMultiplayerGameServerPage(vgui::Panel *parent, const char *name) : PropertyPage(parent, name)
 {
-	m_pSavedData = NULL;
+	m_pSavedData = nullptr;
 
 	// we can use this if we decide we want to put "listen server" at the end of the game name
 	m_pMapList = new ComboBox(this, "MapList", 12, false);
@@ -215,7 +215,7 @@ void CCreateMultiplayerGameServerPage::LoadMapList()
 	const char *pathID = "MOD";
 	if ( !stricmp(ModInfo().GetGameName(), "Half-Life" ) ) 
 	{
-		pathID = NULL; // hl is the base dir
+		pathID = nullptr; // hl is the base dir
 	}
 
 	// Load the GameDir maps
@@ -255,7 +255,7 @@ const char *CCreateMultiplayerGameServerPage::GetMapName()
 
 	// if there is only one entry it's the special "select random map" entry
 	if( count <= 1 )
-		return NULL;
+		return nullptr;
 
 	const char *mapname = m_pMapList->GetActiveItemUserData()->GetString("mapname");
 	if (!strcmp( mapname, RANDOM_MAP ))

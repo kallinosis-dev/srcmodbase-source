@@ -52,15 +52,15 @@ IMPLEMENT_CLIENTCLASS_DT(C_SceneEntity, DT_SceneEntity, CSceneEntity)
 	RecvPropUtlVector( 
 		RECVINFO_UTLVECTOR( m_hActorList ), 
 		MAX_ACTORS_IN_SCENE,
-		RecvPropEHandle(NULL, 0, 0)),
+		RecvPropEHandle(nullptr, 0, 0)),
 END_RECV_TABLE()
 
 C_SceneEntity::C_SceneEntity( void )
 {
-	m_pScene = NULL;
+	m_pScene = nullptr;
 	m_bMultiplayer = false;
 
-	m_hOwner = NULL;
+	m_hOwner = nullptr;
 	m_bClientOnly = false;
 }
 
@@ -119,7 +119,7 @@ bool C_SceneEntity::GetHWMorphSceneFileName( const char *pFilename, char *pHWMFi
 		return false;
 
 	// Check to see if we already have an player/hwm/* filename.
-	if ( ( V_strstr( pFilename, "/high" ) != NULL ) || ( V_strstr( pFilename, "\\high" ) != NULL ) )
+	if ( ( V_strstr( pFilename, "/high" ) != nullptr) || ( V_strstr( pFilename, "\\high" ) != nullptr) )
 	{
 		V_strcpy( pHWMFilename, pFilename );
 		return true;
@@ -133,7 +133,7 @@ bool C_SceneEntity::GetHWMorphSceneFileName( const char *pFilename, char *pHWMFi
 	szSceneHWM[0] = '\0';
 
 	char *pszToken = strtok( szScene, "/\\" );
-	while ( pszToken != NULL )
+	while ( pszToken != nullptr)
 	{
 		if ( !V_stricmp( pszToken, "low" ) )
 		{
@@ -144,8 +144,8 @@ bool C_SceneEntity::GetHWMorphSceneFileName( const char *pFilename, char *pHWMFi
 			V_strcat( szSceneHWM, pszToken, sizeof( szSceneHWM ) );
 		}
 
-		pszToken = strtok( NULL, "/\\" );
-		if ( pszToken != NULL )
+		pszToken = strtok(nullptr, "/\\" );
+		if ( pszToken != nullptr)
 		{
 			V_strcat( szSceneHWM, "\\", sizeof( szSceneHWM ) );
 		}
@@ -437,16 +437,16 @@ bool C_SceneEntity::CheckEvent( float currenttime, CChoreoScene *scene, CChoreoE
 C_BaseFlex *C_SceneEntity::FindNamedActor( CChoreoActor *pChoreoActor )
 {
 	if ( !m_pScene )
-		return NULL;
+		return nullptr;
 
-	if ( m_hOwner.Get() != NULL )
+	if ( m_hOwner.Get() != nullptr)
 	{
 		return m_hOwner.Get();
 	}
 
 	int idx = m_pScene->FindActorIndex( pChoreoActor );
 	if ( idx < 0 || idx >= m_hActorList.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_hActorList[ idx ].Get();
 }
@@ -467,12 +467,12 @@ void C_SceneEntity::StartEvent( float currenttime, CChoreoScene *scene, CChoreoE
  	}
  
 
-	C_BaseFlex *pActor = NULL;
+	C_BaseFlex *pActor = nullptr;
 	CChoreoActor *actor = event->GetActor();
 	if ( actor )
 	{
 		pActor = FindNamedActor( actor );
-		if ( NULL == pActor )
+		if (nullptr == pActor )
 		{
 			// This can occur if we haven't been networked an actor yet... we need to queue it so that we can 
 			//  fire off the start event as soon as we have the actor resident on the client.
@@ -624,7 +624,7 @@ void C_SceneEntity::DispatchStartSpeak( CChoreoScene *scene, C_BaseFlex *actor, 
 		es.m_pSoundName = event->GetParameters();
 
 		EmitSound( filter, actor->entindex(), es );
-		actor->AddSceneEvent( scene, event, NULL, IsClientOnly(), this );
+		actor->AddSceneEvent( scene, event, nullptr, IsClientOnly(), this );
 
 		// Close captioning only on master token no matter what...
 		if ( event->GetCloseCaptionType() == CChoreoEvent::CC_MASTER )
@@ -681,7 +681,7 @@ void C_SceneEntity::EndEvent( float currenttime, CChoreoScene *scene, CChoreoEve
  		return;
  	}
 
-	C_BaseFlex *pActor = NULL;
+	C_BaseFlex *pActor = nullptr;
 	CChoreoActor *actor = event->GetActor();
 	if ( actor )
 	{
@@ -772,16 +772,16 @@ CChoreoScene *C_SceneEntity::LoadScene( const char *filename )
 	Q_SetExtension( loadfile, ".vcd", sizeof( loadfile ) );
 	Q_FixSlashes( loadfile );
 
-	char *pBuffer = NULL;
+	char *pBuffer = nullptr;
 	size_t bufsize = scenefilecache->GetSceneBufferSize( loadfile );
 	if ( bufsize <= 0 )
-		return NULL;
+		return nullptr;
 
 	pBuffer = new char[ bufsize ];
 	if ( !scenefilecache->GetSceneData( filename, (byte *)pBuffer, bufsize ) )
 	{
 		delete[] pBuffer;
-		return NULL;
+		return nullptr;
 	}
 
 	CChoreoScene *pScene;
@@ -793,7 +793,7 @@ CChoreoScene *C_SceneEntity::LoadScene( const char *filename )
 		{
 			Warning( "Unable to restore binary scene '%s'\n", loadfile );
 			delete pScene;
-			pScene = NULL;
+			pScene = nullptr;
 		}
 		else
 		{
@@ -892,7 +892,7 @@ void C_SceneEntity::UnloadScene( void )
 		}
 	}
 	delete m_pScene;
-	m_pScene = NULL;
+	m_pScene = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -902,7 +902,7 @@ void C_SceneEntity::UnloadScene( void )
 //-----------------------------------------------------------------------------
 void C_SceneEntity::DispatchStartFlexAnimation( CChoreoScene *scene, C_BaseFlex *actor, CChoreoEvent *event )
 {
-	actor->AddSceneEvent( scene, event, NULL, IsClientOnly() || IsMultiplayer(), this );
+	actor->AddSceneEvent( scene, event, nullptr, IsClientOnly() || IsMultiplayer(), this );
 }
 
 //-----------------------------------------------------------------------------
@@ -922,7 +922,7 @@ void C_SceneEntity::DispatchEndFlexAnimation( CChoreoScene *scene, C_BaseFlex *a
 //-----------------------------------------------------------------------------
 void C_SceneEntity::DispatchStartExpression( CChoreoScene *scene, C_BaseFlex *actor, CChoreoEvent *event )
 {
-	actor->AddSceneEvent( scene, event, NULL, IsClientOnly() || IsMultiplayer(), this );
+	actor->AddSceneEvent( scene, event, nullptr, IsClientOnly() || IsMultiplayer(), this );
 }
 
 //-----------------------------------------------------------------------------
@@ -946,7 +946,7 @@ void C_SceneEntity::DispatchStartGesture( CChoreoScene *scene, C_BaseFlex *actor
 	if ( !Q_stricmp( event->GetName(), "NULL" ) )
 		return;
 
-	actor->AddSceneEvent( scene, event, NULL, IsClientOnly() || IsMultiplayer(), this ); 
+	actor->AddSceneEvent( scene, event, nullptr, IsClientOnly() || IsMultiplayer(), this ); 
 }
 
 //-----------------------------------------------------------------------------
@@ -955,7 +955,7 @@ void C_SceneEntity::DispatchStartGesture( CChoreoScene *scene, C_BaseFlex *actor
 //-----------------------------------------------------------------------------
 void C_SceneEntity::DispatchStartSequence( CChoreoScene *scene, CBaseFlex *actor, CChoreoEvent *event )
 {
-	actor->AddSceneEvent( scene, event, NULL, IsClientOnly() || IsMultiplayer(), this );
+	actor->AddSceneEvent( scene, event, nullptr, IsClientOnly() || IsMultiplayer(), this );
 }
 
 //-----------------------------------------------------------------------------
@@ -1101,7 +1101,7 @@ void C_SceneEntity::PrefetchAnimBlocks( CChoreoScene *pScene )
 				CChoreoActor *pActor = pEvent->GetActor();
 				if ( pActor )
 				{
-					CBaseFlex *pFlex = NULL;
+					CBaseFlex *pFlex = nullptr;
 					int idx = actorMap.Find( pActor );
 					if ( idx == actorMap.InvalidIndex() )
 					{

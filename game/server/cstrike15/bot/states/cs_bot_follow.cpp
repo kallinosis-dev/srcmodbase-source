@@ -172,7 +172,7 @@ public:
 void FollowState::OnUpdate( CCSBot *me )
 {
 	// if we lost our leader, give up
-	if (m_leader == NULL || !m_leader->IsAlive())
+	if (m_leader == nullptr || !m_leader->IsAlive())
 	{
 		me->Idle();
 		return;
@@ -262,7 +262,7 @@ void FollowState::OnUpdate( CCSBot *me )
 		if ((leaderOrigin - myOrigin).IsLengthLessThan( nearLeaderRange ))
 		{
 			const float hideRange = 250.0f;
-			if (me->TryToHide( NULL, -1.0f, hideRange, false, USE_NEAREST ))
+			if (me->TryToHide(nullptr, -1.0f, hideRange, false, USE_NEAREST ))
 			{
 				me->ResetStuckMonitor();
 				return;
@@ -314,7 +314,7 @@ void FollowState::OnUpdate( CCSBot *me )
 		// move to one of the collected areas
 		if (collector.m_targetAreaCount)
 		{
-			CNavArea *target = NULL;
+			CNavArea *target = nullptr;
 			Vector targetPos;
 
 			// if we are idle, pick a random area
@@ -349,7 +349,7 @@ void FollowState::OnUpdate( CCSBot *me )
 				}
 			}
 						
-			if (target == NULL || me->ComputePath( target->GetCenter(), FASTEST_ROUTE ) == NULL)
+			if (target == nullptr || me->ComputePath( target->GetCenter(), FASTEST_ROUTE ) == NULL)
 				me->PrintIfWatched( "Pathfind to leader failed.\n" );
 
 			// throttle how often we repath

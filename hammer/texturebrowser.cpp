@@ -134,7 +134,7 @@ void CTextureBrowser::OnSize(UINT nType, int cx, int cy)
 		CWnd *pWnd = GetDlgItem(iIDList[i]);
 		Assert(pWnd != NULL);
 
-		if (pWnd != NULL)
+		if (pWnd != nullptr)
 		{
 			pWnd->GetWindowRect(&CtrlRect);
 			ScreenToClient(CtrlRect);
@@ -168,7 +168,7 @@ void CTextureBrowser::OnSize(UINT nType, int cx, int cy)
 		CWnd *pWnd = GetDlgItem(iIDList2[i]);
 		Assert(pWnd != NULL);
 
-		if (pWnd != NULL)
+		if (pWnd != nullptr)
 		{
 			pWnd->GetWindowRect(&CtrlRect);
 			ScreenToClient(CtrlRect);
@@ -210,7 +210,7 @@ void CTextureBrowser::SetUsed(BOOL bUsed)
 	}
 	else
 	{
-		m_cTextureWindow.SetSpecificList(NULL);
+		m_cTextureWindow.SetSpecificList(nullptr);
 	}
 }
 
@@ -406,7 +406,7 @@ BOOL CTextureBrowser::OnInitDialog()
 
 	m_cTextureWindow.ShowWindow(SW_SHOW);
 
-	SetTimer(1, 500, NULL);
+	SetTimer(1, 500, nullptr);
 
 	m_cFilter.SetFocus();
 
@@ -422,7 +422,7 @@ void CTextureBrowser::OnChangeFilterOrKeywords()
 	//
 	// Start a timer to repaint the texture window using the new filters.
 	//
-	m_uLastFilterChange = time(NULL);
+	m_uLastFilterChange = time(nullptr);
 	m_bFilterChanged = TRUE;
 }
 
@@ -432,7 +432,7 @@ void CTextureBrowser::OnChangeFilterOrKeywords()
 //-----------------------------------------------------------------------------
 void CTextureBrowser::OnUpdateFiltersNOW() 
 {
-	m_uLastFilterChange = time(NULL);
+	m_uLastFilterChange = time(nullptr);
 	m_bFilterChanged = FALSE;
 
 	CString str;
@@ -447,7 +447,7 @@ void CTextureBrowser::OnUpdateFiltersNOW()
 //-----------------------------------------------------------------------------
 void CTextureBrowser::OnUpdateKeywordsNOW() 
 {
-	m_uLastFilterChange = time(NULL);
+	m_uLastFilterChange = time(nullptr);
 	m_bFilterChanged = FALSE;
 
 	CString str;
@@ -468,7 +468,7 @@ void CTextureBrowser::OnTimer(UINT nIDEvent)
 		return;
 	}
 
-	if ((time(NULL) - m_uLastFilterChange) > 0)
+	if ((time(nullptr) - m_uLastFilterChange) > 0)
 	{
 		KillTimer(nIDEvent);
 		m_bFilterChanged = FALSE;
@@ -484,7 +484,7 @@ void CTextureBrowser::OnTimer(UINT nIDEvent)
 		m_cKeywords.GetWindowText(str);
 		m_cTextureWindow.SetKeywords(str);
 
-		SetTimer(nIDEvent, 500, NULL);
+		SetTimer(nIDEvent, 500, nullptr);
 	}
 
 	CDialog::OnTimer(nIDEvent);
@@ -517,7 +517,7 @@ LRESULT CTextureBrowser::OnTexturewindowSelchange(WPARAM wParam, LPARAM lParam)
 	CString str;
 	char szName[MAX_PATH];
 
-	if (pTex != NULL)
+	if (pTex != nullptr)
 	{
 		// create description of texture
 		str.Format("%dx%d", pTex->GetWidth(), pTex->GetHeight());
@@ -678,7 +678,7 @@ void CTextureBrowser::OnReload()
 void CTextureBrowser::OnMark(void)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pDoc->ReplaceTextures(m_cTextureWindow.szCurTexture, "", TRUE, 0x100, FALSE, FALSE);
 		EndDialog(IDOK);
@@ -707,7 +707,7 @@ void CTextureBrowser::OnReplace(void)
 
 	if(dlg.m_bMarkOnly)
 	{
-		pDoc->SelectObject(NULL, scClear);	// clear selection first
+		pDoc->SelectObject(nullptr, scClear);	// clear selection first
 	}
 
 	dlg.DoReplaceTextures();

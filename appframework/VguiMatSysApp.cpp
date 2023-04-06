@@ -94,7 +94,7 @@ bool CVguiMatSysApp::PostInit()
 void CVguiMatSysApp::PreShutdown()
 {
 	g_pMatSystemSurface->EnableWindowsMessages( false );
-	g_pMatSystemSurface->SetInputContext( NULL );
+	g_pMatSystemSurface->SetInputContext(nullptr);
 	if ( m_hAppInputContext != INPUT_CONTEXT_HANDLE_INVALID )
 	{
 		g_pInputStackSystem->PopInputContext();	// Vgui

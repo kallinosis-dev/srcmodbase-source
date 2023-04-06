@@ -319,7 +319,7 @@ CHitArea *CGraphicGroup::GetKeyFocusRequestGraphic()
 			return ( CHitArea * )m_MemberList[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -339,7 +339,7 @@ CGameGraphic *CGraphicGroup::FindGraphicByName( const char *pName )	const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

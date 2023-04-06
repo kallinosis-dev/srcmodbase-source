@@ -40,7 +40,7 @@ BEGIN_VS_SHADER_FLAGS( ShadowBuild_DX9, "Help for ShadowBuild", SHADER_NOT_EDITA
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -57,8 +57,8 @@ BEGIN_VS_SHADER_FLAGS( ShadowBuild_DX9, "Help for ShadowBuild", SHADER_NOT_EDITA
 		
 		// Snack important parameters from the original material
 		// FIXME: What about alpha modulation? Need a solution for that
-		ITexture *pTexture = NULL;
-		IMaterialVar **ppTranslucentParams = NULL;
+		ITexture *pTexture = nullptr;
+		IMaterialVar **ppTranslucentParams = nullptr;
 		if (params[TRANSLUCENT_MATERIAL]->IsDefined())
 		{
 			IMaterial *pMaterial = params[TRANSLUCENT_MATERIAL]->GetMaterialValue();
@@ -96,7 +96,7 @@ BEGIN_VS_SHADER_FLAGS( ShadowBuild_DX9, "Help for ShadowBuild", SHADER_NOT_EDITA
 			unsigned int flags = VERTEX_POSITION | VERTEX_FORMAT_COMPRESSED;
 			unsigned int nTexCoordCount = 1;
 			unsigned int userDataSize = 0;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 #if !defined( _X360 ) && !defined( _PS3 )
 			if ( !g_pHardwareConfig->HasFastVertexTextures() )

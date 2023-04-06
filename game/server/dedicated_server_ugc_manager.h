@@ -110,7 +110,7 @@ public:
 	
 	const CUtlVector<DedicatedServerUGCFileInfo_t*>& GetFileInfoList( void ) const { return m_vecFileInfos; }
 
-	HTTPRequestHandle CreateHTTPRequest( const char* szAuthKey = NULL );
+	HTTPRequestHandle CreateHTTPRequest( const char* szAuthKey = nullptr);
 	virtual void ProcessHTTPResponse( KeyValues *pResponseKV ) OVERRIDE;
 
 protected:
@@ -125,7 +125,7 @@ public:
 	CCollectionInfoHTTPRequest( const CUtlVector<PublishedFileId_t>& vecFileIDs );
 	virtual ~CCollectionInfoHTTPRequest();
 
-	HTTPRequestHandle CreateHTTPRequest( const char* szAuthKey = NULL );
+	HTTPRequestHandle CreateHTTPRequest( const char* szAuthKey = nullptr);
 	virtual void ProcessHTTPResponse( KeyValues *pResponseKV ) OVERRIDE;
 
 	KeyValues* GetResponseKV( void ) { return m_pResponseKV; } 

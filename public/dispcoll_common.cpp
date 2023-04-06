@@ -597,7 +597,7 @@ bool CDispCollTree::AABBTree_Ray( const Ray_t &ray, const Vector &vecInvDelta, R
 		return false;
 
 	// Pre-calc the inverse delta for perf.
-	CDispCollTri *pImpactTri = NULL;
+	CDispCollTri *pImpactTri = nullptr;
 
 	AABBTree_TreeTrisRayBarycentricTest( ray, vecInvDelta, DISPCOLL_ROOTNODE_INDEX, output, &pImpactTri );
 
@@ -684,7 +684,7 @@ bool CDispCollTree::AABBTree_Ray( const Ray_t &ray, const Vector &vecInvDelta, C
 		return false;
 
 	// Pre-calc the inverse delta for perf.
-	CDispCollTri *pImpactTri = NULL;
+	CDispCollTri *pImpactTri = nullptr;
 
 	AABBTree_TreeTrisRayTest( ray, vecInvDelta, DISPCOLL_ROOTNODE_INDEX, pTrace, bSide, &pImpactTri );
 
@@ -1505,7 +1505,7 @@ void CDispCollTree::GetVirtualMeshList( virtualmeshlist_t *pList )
 	pList->triangleCount = triangleCount;
 	pList->vertexCount = m_aVerts.Count();
 	pList->pVerts = m_aVerts.Base();
-	pList->pHull = NULL;
+	pList->pHull = nullptr;
 	pList->surfacePropsIndex = GetSurfaceProps(0);
 	int index = 0;
 	for ( i = 0 ; i < triangleCount; i++ )
@@ -1524,7 +1524,7 @@ static int g_nTrees;
 #endif
 CDispCollTree *DispCollTrees_Alloc( int count )
 {
-	CDispCollTree *pTrees = NULL;
+	CDispCollTree *pTrees = nullptr;
 #ifdef ENGINE_DLL
 	pTrees = (CDispCollTree *)Hunk_AllocName( count * sizeof(CDispCollTree), "DispCollTrees_Alloc", false );
 	g_nTrees = count;
@@ -1536,7 +1536,7 @@ CDispCollTree *DispCollTrees_Alloc( int count )
 	pTrees = new CDispCollTree[count];
 #endif
 	if( !pTrees )
-		return NULL;
+		return nullptr;
 
 	for ( int i = 0; i < count; i++ )
 	{
@@ -1559,7 +1559,7 @@ void DispCollTrees_Free( CDispCollTree *pTrees )
 	if( pTrees )
 	{
 		delete [] pTrees;
-		pTrees = NULL;
+		pTrees = nullptr;
 	}
 #endif
 }

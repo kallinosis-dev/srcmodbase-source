@@ -276,15 +276,15 @@ public:
 	// NOTE: For the utlbuffer version, use a binary buffer for a compiled shader
 	// and a text buffer for a source-code (.fxc) shader
 	VertexShaderHandle_t CreateVertexShader( const char *pProgram, size_t nBufLen, const char *pShaderVersion );
-	VertexShaderHandle_t CreateVertexShader( CUtlBuffer &buf, const char *pShaderVersion = NULL );
+	VertexShaderHandle_t CreateVertexShader( CUtlBuffer &buf, const char *pShaderVersion = nullptr);
 	GeometryShaderHandle_t CreateGeometryShader( const char *pProgram, size_t nBufLen, const char *pShaderVersion );
-	GeometryShaderHandle_t CreateGeometryShader( CUtlBuffer &buf, const char *pShaderVersion = NULL );
+	GeometryShaderHandle_t CreateGeometryShader( CUtlBuffer &buf, const char *pShaderVersion = nullptr);
 	PixelShaderHandle_t CreatePixelShader( const char *pProgram, size_t nBufLen, const char *pShaderVersion );
-	PixelShaderHandle_t CreatePixelShader( CUtlBuffer &buf, const char *pShaderVersion = NULL );
+	PixelShaderHandle_t CreatePixelShader( CUtlBuffer &buf, const char *pShaderVersion = nullptr);
 
 	// NOTE: Deprecated!! Use CreateVertexBuffer/CreateIndexBuffer instead
 	// Creates/destroys Mesh
-	virtual IMesh* CreateStaticMesh( VertexFormat_t vertexFormat, const char *pTextureBudgetGroup, IMaterial * pMaterial = NULL, VertexStreamSpec_t *pStreamSpec = NULL ) = 0;
+	virtual IMesh* CreateStaticMesh( VertexFormat_t vertexFormat, const char *pTextureBudgetGroup, IMaterial * pMaterial = nullptr, VertexStreamSpec_t *pStreamSpec = nullptr) = 0;
 	virtual void DestroyStaticMesh( IMesh* mesh ) = 0;
 
 	// Creates/destroys static vertex + index buffers
@@ -299,7 +299,7 @@ public:
 	virtual IIndexBuffer *GetDynamicIndexBuffer() = 0;
 
 	// A special path used to tick the front buffer while loading on the 360
-	virtual void EnableNonInteractiveMode( MaterialNonInteractiveMode_t mode, ShaderNonInteractiveInfo_t *pInfo = NULL ) = 0;
+	virtual void EnableNonInteractiveMode( MaterialNonInteractiveMode_t mode, ShaderNonInteractiveInfo_t *pInfo = nullptr) = 0;
 	virtual void RefreshFrontBufferNonInteractive( ) = 0;
 	virtual void HandleThreadEvent( uint32 threadEvent ) = 0;
 

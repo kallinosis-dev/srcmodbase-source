@@ -31,7 +31,7 @@ public:
     // temporary variables
     int		tmp_side_of_triangle_bits;
     void init(IVP_Tetra_Intrude *ti);		// call after opoint is set
-    void print(const char *text = 0);
+    void print(const char *text = nullptr);
     int p();
 };
 
@@ -41,7 +41,7 @@ public:
     int		cover_area_bits[3];
     IVP_Tetra_Point	*tetra_points[2];
     IVP_Tri_Edge		*source_tri_edge;
-    void print(const char *text = 0);
+    void print(const char *text = nullptr);
     int p();
 };
 
@@ -110,7 +110,7 @@ public:
     IVP_INTRUSION_CHECK_RESULTS check_intrusion(IVP_Tri_Edge *old_pop_edge_a, IVP_Tri_Edge *old_pop_edge_b,
 			IVP_Tri_Edge *pop_edge_a, IVP_Tri_Edge *pop_edge_b,
 			IVP_Extra_Point *first_extra_point,int n_new_triangles,
-			IVP_Intrusion_Status *status = 0);
+			IVP_Intrusion_Status *status = nullptr);
     IVP_Intrusion_Status *calc_intrusion_status(
 	IVP_Tri_Edge *old_pop_edge_a, IVP_Tri_Edge *old_pop_edge_b,
 	IVP_Tri_Edge *pop_edge_a, IVP_Tri_Edge *pop_edge_b,

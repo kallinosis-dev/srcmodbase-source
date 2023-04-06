@@ -83,7 +83,7 @@ CCascadeLight::CCascadeLight() :
 
 CCascadeLight::~CCascadeLight()
 {
-	g_pCascadeLight = NULL;
+	g_pCascadeLight = nullptr;
 
 	CsmDbgMsg( "CCascadeLight::~CCascadeLight\n" );
 }
@@ -178,7 +178,7 @@ void CCascadeLight::Spawn( void )
 
 void CCascadeLight::Release( void )
 {
-	g_pCascadeLight = NULL;
+	g_pCascadeLight = nullptr;
 }
 
 
@@ -360,7 +360,7 @@ CCSMLightManager g_CSMLightManager;
 
 void C_CSM_Server_Status( const CCommand& args )
 {
-	Msg( "Entity exists: %u\n", g_pCascadeLight != NULL );
+	Msg( "Entity exists: %u\n", g_pCascadeLight != nullptr);
 }
 
 static ConCommand cl_csm_server_status("cl_csm_server_status", C_CSM_Server_Status, "Usage:\n cl_csm_server_status\n", 0);

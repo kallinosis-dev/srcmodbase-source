@@ -130,7 +130,7 @@ public:
 		char *p = sz;
 
 		// Start at root
-		mxTreeViewItem *cur = NULL;
+		mxTreeViewItem *cur = nullptr;
 
 		// Tokenize path
 		while ( p && p[0] )
@@ -152,7 +152,7 @@ public:
 			}
 			else
 			{
-				p = NULL;
+				p = nullptr;
 			}
 
 			Assert( check );
@@ -184,7 +184,7 @@ public:
 			_PopulateTree( i, m_Paths[ i ].path );
 		}
 
-		mxTreeViewItem *p = getFirstChild( NULL );
+		mxTreeViewItem *p = getFirstChild(nullptr);
 		setOpen( p, true );
 	}
 
@@ -360,7 +360,7 @@ CWaveBrowser::CWaveBrowser( mxWindow *parent, CWorkspaceManager *manager, int id
 
 	LoadAllSounds();
 
-	PopulateTree( NULL );
+	PopulateTree(nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -535,7 +535,7 @@ bool CWaveBrowser::LoadWaveFilesInDirectory( CUtlDict< CWaveFile *, int >& sound
 			Q_snprintf(	pFileNameWithPath, nAllocSize, "%s/%s", &pDirectoryName[SOUND_PREFIX_LEN], pFileName ); 
 			Q_strnlwr( pFileNameWithPath, nAllocSize );
 
-			CWaveFile *wav = new CWaveFile( NULL, NULL, pFileNameWithPath );
+			CWaveFile *wav = new CWaveFile(nullptr, nullptr, pFileNameWithPath );
 			soundlist.Insert( pFileNameWithPath, wav );
 
 			/*
@@ -640,11 +640,11 @@ void CWaveBrowser::PopulateTree( char const *subdirectory, bool textsearch /*= f
 	
 	bool check_load_sentence_data = false;
 
-	char const *texttofind = NULL;
+	char const *texttofind = nullptr;
 
 	if ( textsearch )
 	{
-		subdirectory = NULL;
+		subdirectory = nullptr;
 		texttofind = GetSearchString();
 	}
 
@@ -900,7 +900,7 @@ CWaveFile	*CWaveBrowser::FindEntry( char const *wavname, bool jump /*= false*/ )
 		return wav;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CWaveBrowser::OnWaveProperties()
@@ -936,7 +936,7 @@ int	 CWaveBrowser::GetSoundCount() const
 CWaveFile *CWaveBrowser::GetSound( int index )
 {
 	if ( index < 0 || index >= m_AllSounds.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_AllSounds[ index ];
 }

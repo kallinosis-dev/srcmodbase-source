@@ -122,7 +122,7 @@ void CGameUISystemSurface::Shutdown( void )
 
 #if !defined( _GAMECONSOLE )
 
-	HMODULE gdiModule = NULL;
+	HMODULE gdiModule = nullptr;
 
 #ifdef SUPPORT_CUSTOM_FONT_FORMAT
 	; // on custom font format Windows takes care of cleaning up the font when the process quits
@@ -235,7 +235,7 @@ bool CGameUISystemSurface::AddCustomFontFile( const char *fontFileName )
 #ifdef SUPPORT_CUSTOM_FONT_FORMAT
 	// Just load the font data, decrypt in memory and register for this process
 	CUtlBuffer buf;
-	if ( !g_pFullFileSystem->ReadFile( fontFileName, NULL, buf ) )
+	if ( !g_pFullFileSystem->ReadFile( fontFileName, nullptr, buf ) )
 	{
 		Msg( "Failed to load custom font file '%s'\n", fontFileName );
 		return false;
@@ -248,8 +248,8 @@ bool CGameUISystemSurface::AddCustomFontFile( const char *fontFileName )
 	}
 
 	DWORD dwNumFontsRegistered = 0;
-	HANDLE hRegistered = NULL;
-	hRegistered = ::AddFontMemResourceEx( buf.Base(), buf.TellPut(), NULL, &dwNumFontsRegistered );
+	HANDLE hRegistered = nullptr;
+	hRegistered = ::AddFontMemResourceEx( buf.Base(), buf.TellPut(), nullptr, &dwNumFontsRegistered );
 
 	if ( !hRegistered )
 	{
@@ -257,7 +257,7 @@ bool CGameUISystemSurface::AddCustomFontFile( const char *fontFileName )
 		return false;
 	}
 
-	return hRegistered != NULL;
+	return hRegistered != nullptr;
 #else
 	// try and use the optimal custom font loader, will makes sure fonts are unloaded properly
 	// this function is in a newer version of the gdi library (win2k+), so need to try get it directly
@@ -299,7 +299,7 @@ bool CGameUISystemSurface::AddCustomFontFile( const char *fontFileName )
 bool CGameUISystemSurface::AddBitmapFontFile( const char *fontFileName )
 {
 	bool bFound = false;
-	bFound = ( ( g_pFullFileSystem->GetDVDMode() == DVDMODE_STRICT ) || g_pFullFileSystem->FileExists( fontFileName, IsGameConsole() ? "GAME" : NULL ) );
+	bFound = ( ( g_pFullFileSystem->GetDVDMode() == DVDMODE_STRICT ) || g_pFullFileSystem->FileExists( fontFileName, IsGameConsole() ? "GAME" : nullptr) );
 	if ( !bFound )
 	{
 		Msg( "Couldn't find bitmap font file '%s'\n", fontFileName );
@@ -467,7 +467,7 @@ void CGameUISystemSurface::DrawFontTexture( int textureId, int xPos, int yPos )
 	}
 
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 
 	if ( !pMesh )
 		return;
@@ -584,7 +584,7 @@ IMaterial *CGameUISystemSurface::GetTextureForChar( FontCharRenderInfo &info, fl
 	bool bSuccess = g_FontTextureCache.GetTextureForChar( info.currentFont, info.drawType, info.ch, &info.textureId, texCoords );
 	if ( !bSuccess )
 	{															   
-		return NULL; 
+		return nullptr; 
 	}
 
 	return TextureDictionary()->GetTextureMaterial( info.textureId );
@@ -600,7 +600,7 @@ IMaterial *CGameUISystemSurface::GetTextureAndCoordsForChar( FontCharRenderInfo 
 	bool bSuccess = g_FontTextureCache.GetTextureAndCoordsForChar( info.currentFont, info.drawType, info.ch, &info.textureId, texCoords );
 	if ( !bSuccess )
 	{															   
-		return NULL; 
+		return nullptr; 
 	}
 
 	return TextureDictionary()->GetTextureMaterial( info.textureId );
@@ -632,7 +632,7 @@ bool CGameUISystemSurface::GetUnicodeCharRenderPositions( FontCharRenderInfo& in
 
 	// get the character texture from the cache
 	info.textureId = 0;
-	float *texCoords = NULL;
+	float *texCoords = nullptr;
 	if ( !g_FontTextureCache.GetTextureForChar( info.currentFont, info.drawType, info.ch, &info.textureId, &texCoords ) )
 	{
 		info.valid = false;

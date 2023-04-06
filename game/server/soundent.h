@@ -204,7 +204,7 @@ inline int CSound::SoundChannel( void ) const
 //		-The sound was assigned an owner and that owner still exists
 inline bool CSound::ValidateOwner( void ) const
 {
-	return ( !m_bHasOwner || (m_hOwner.Get() != NULL) );
+	return ( !m_bHasOwner || (m_hOwner.Get() != nullptr) );
 }
 
 //=========================================================
@@ -233,7 +233,7 @@ public:
 	void Initialize ( void );
 	int ObjectCaps( void ) { return BaseClass::ObjectCaps() & ~FCAP_ACROSS_TRANSITION; }
 
-	static int		InsertSound ( int iType, const Vector &vecOrigin, int iVolume, float flDuration, CBaseEntity *pOwner = NULL, int soundChannelIndex = SOUNDENT_CHANNEL_UNSPECIFIED, CBaseEntity *pSoundTarget = NULL );
+	static int		InsertSound ( int iType, const Vector &vecOrigin, int iVolume, float flDuration, CBaseEntity *pOwner = nullptr, int soundChannelIndex = SOUNDENT_CHANNEL_UNSPECIFIED, CBaseEntity *pSoundTarget = nullptr);
 	static int		ActiveList( void );// return the head of the active list
 	static CSound*	SoundPointerForIndex( int iIndex );// return a pointer for this index in the sound list
 	static CSound*	GetLoudestSoundOfType( int iType, const Vector &vecEarPosition );

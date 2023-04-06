@@ -32,7 +32,7 @@
 #include "choreoviewcolors.h"
 #include "MatSysWin.h"
 
-GestureTool *g_pGestureTool = 0;
+GestureTool *g_pGestureTool = nullptr;
 
 #define TRAY_HEIGHT 20
 #define TRAY_ITEM_INSET 10
@@ -62,12 +62,12 @@ GestureTool::GestureTool( mxWindow *parent )
 	m_nClickedX			= 0;
 	m_nClickedY			= 0;
 
-	m_hPrevCursor		= 0;
+	m_hPrevCursor		= nullptr;
 	
 	m_nStartX			= 0;
 	m_nStartY			= 0;
 
-	m_pLastEvent		= NULL;
+	m_pLastEvent		= nullptr;
 
 	m_nMousePos[ 0 ] = m_nMousePos[ 1 ] = 0;
 
@@ -148,14 +148,14 @@ void GestureTool::SetEvent( CChoreoEvent *event )
 CChoreoEvent *GestureTool::GetSafeEvent( void )
 {
 	if ( m_nFocusEventGlobalID == -1 )
-		return NULL;
+		return nullptr;
 
 	if ( !g_pChoreoView )
-		return NULL;
+		return nullptr;
 
 	CChoreoScene *scene = g_pChoreoView->GetScene();
 	if ( !scene )
-		return NULL;
+		return nullptr;
 
 	// Find event by name
 	for ( int i = 0; i < scene->GetNumEvents() ; i++ )
@@ -170,7 +170,7 @@ CChoreoEvent *GestureTool::GetSafeEvent( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -591,7 +591,7 @@ void GestureTool::GetWorkspaceLeftRight( int& left, int& right )
 //-----------------------------------------------------------------------------
 void GestureTool::DrawFocusRect( void )
 {
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 
 	for ( int i = 0; i < m_FocusRects.Count(); i++ )
 	{
@@ -600,7 +600,7 @@ void GestureTool::DrawFocusRect( void )
 		::DrawFocusRect( dc, &rc );
 	}
 
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 }
 
 void GestureTool::SetClickedPos( int x, int y )
@@ -636,7 +636,7 @@ void GestureTool::StartDragging( int dragtype, int startx, int starty, HCURSOR c
 	if ( m_hPrevCursor )
 	{
 		SetCursor( m_hPrevCursor );
-		m_hPrevCursor = NULL;
+		m_hPrevCursor = nullptr;
 	}
 	m_hPrevCursor = SetCursor( cursor );
 
@@ -727,16 +727,16 @@ void GestureTool::OnMouseMove( mxEvent *event )
 		if ( m_hPrevCursor )
 		{
 			SetCursor( m_hPrevCursor );
-			m_hPrevCursor = NULL;
+			m_hPrevCursor = nullptr;
 		}
 
 		if ( IsMouseOverScrubHandle( event ) )
 		{
-			m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+			m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		}
 		else if ( IsMouseOverTag( mx, my ) )
 		{
-			m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+			m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		}
 	}
 
@@ -826,11 +826,11 @@ int	GestureTool::handleEvent( mxEvent *event )
 						ForceScrubPosition( t );
 					}
 
-					StartDragging( DRAGTYPE_SCRUBBER, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_SIZEWE ) );
+					StartDragging( DRAGTYPE_SCRUBBER, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_SIZEWE ) );
 				}
 				else if ( IsMouseOverTag( mx, my ) )
 				{
-					StartDragging( DRAGTYPE_ABSOLUTE_TIMING_TAG, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_SIZEWE ) );
+					StartDragging( DRAGTYPE_ABSOLUTE_TIMING_TAG, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_SIZEWE ) );
 				}
 				else
 				{
@@ -878,7 +878,7 @@ int	GestureTool::handleEvent( mxEvent *event )
 			if ( m_hPrevCursor )
 			{
 				SetCursor( m_hPrevCursor );
-				m_hPrevCursor = 0;
+				m_hPrevCursor = nullptr;
 			}
 
 			switch ( m_nDragType )
@@ -1079,7 +1079,7 @@ void GestureTool::CalcBounds( int movetype )
 				{
 					CChoreoEvent::AbsTagType tagtype = (CChoreoEvent::AbsTagType)t;
 
-					CEventAbsoluteTag *prevTag = NULL, *nextTag = NULL;
+					CEventAbsoluteTag *prevTag = nullptr, *nextTag = nullptr;
 					int c = e->GetNumAbsoluteTags( tagtype );
 					int i;
 					for ( i = 0; i < c; i++ )
@@ -1089,8 +1089,8 @@ void GestureTool::CalcBounds( int movetype )
 
 						if ( t == tag )
 						{
-							prevTag = i > 0 ?  e->GetAbsoluteTag( tagtype, i-1 ) : NULL;
-							nextTag = i < c - 1 ? e->GetAbsoluteTag( tagtype, i+1 ) : NULL;
+							prevTag = i > 0 ?  e->GetAbsoluteTag( tagtype, i-1 ) : nullptr;
+							nextTag = i < c - 1 ? e->GetAbsoluteTag( tagtype, i+1 ) : nullptr;
 							break;
 						}
 					}
@@ -1487,7 +1487,7 @@ CEventAbsoluteTag *GestureTool::IsMouseOverTag( int mx, int my )
 {
 	CChoreoEvent *event = GetSafeEvent();
 	if ( !event )
-		return NULL;
+		return nullptr;
 
 	RECT rcClient;
 	GetClientRect( (HWND)getHandle(), &rcClient );
@@ -1521,7 +1521,7 @@ CEventAbsoluteTag *GestureTool::IsMouseOverTag( int mx, int my )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1827,7 +1827,7 @@ void GestureTool::MoveTimeSliderToPos( int x )
 {
 	m_flLeftOffset = (float)x;
 	m_pHorzScrollBar->setValue( (int)m_flLeftOffset );
-	InvalidateRect( (HWND)m_pHorzScrollBar->getHandle(), NULL, TRUE );
+	InvalidateRect( (HWND)m_pHorzScrollBar->getHandle(), nullptr, TRUE );
 	InvalidateLayout();
 }
 

@@ -83,7 +83,7 @@ BEGIN_VS_SHADER( LightShafts_dx9, "LightShafts" )
 			return "Wireframe";
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

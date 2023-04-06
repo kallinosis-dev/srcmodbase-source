@@ -279,14 +279,14 @@ inline bool CBaseEntity::IsEffectActive( int nEffects ) const
 
 inline HSCRIPT ToHScript( CBaseEntity *pEnt )
 {
-	return ( pEnt ) ? pEnt->GetScriptInstance() : NULL;
+	return ( pEnt ) ? pEnt->GetScriptInstance() : nullptr;
 }
 
 template <> ScriptClassDesc_t *GetScriptDesc<CBaseEntity>( CBaseEntity * );
 inline CBaseEntity *ToEnt( HSCRIPT hScript )
 {
 
-	return ( hScript ) ? (CBaseEntity *)g_pScriptVM->GetInstanceValue( hScript, GetScriptDescForClass(CBaseEntity) ) : NULL;
+	return ( hScript ) ? (CBaseEntity *)g_pScriptVM->GetInstanceValue( hScript, GetScriptDescForClass(CBaseEntity) ) : nullptr;
 }
 
 // convenience functions for fishing out the vectors of this object

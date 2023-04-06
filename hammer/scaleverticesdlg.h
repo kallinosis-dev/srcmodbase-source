@@ -21,7 +21,7 @@ class CScaleVerticesDlg : public CDialog
 {
 // Construction
 public:
-	CScaleVerticesDlg(CWnd* pParent = NULL);   // standard constructor
+	CScaleVerticesDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CScaleVerticesDlg)

@@ -29,7 +29,7 @@ void CDmeImage::OnConstruction()
 	m_bInModification = false;
 	m_bInFloatBitmapModification = false;
 	m_bIgnoreChangedBitsAttribute = false;
-	m_hModify = NULL;
+	m_hModify = nullptr;
 }
 
 void CDmeImage::OnDestruction()
@@ -90,7 +90,7 @@ void CDmeImage::Init( int nWidth, int nHeight, int nDepth, ImageFormat fmt, floa
 	{
 		m_ComputeBits.Shutdown();
 	}
-	m_Bits.Set( NULL, 0 );
+	m_Bits.Set(nullptr, 0 );
 
 	m_nWidth = nWidth;
 	m_nHeight = nHeight;
@@ -374,7 +374,7 @@ void CDmeImage::EndModification( )
 	m_bIgnoreChangedBitsAttribute = true;
 	m_Bits.GetAttribute()->EndModifyValueInPlace< CUtlBinaryBlock >( m_hModify );
 	m_bIgnoreChangedBitsAttribute = false;
-	m_hModify = NULL;
+	m_hModify = nullptr;
 }
 
 

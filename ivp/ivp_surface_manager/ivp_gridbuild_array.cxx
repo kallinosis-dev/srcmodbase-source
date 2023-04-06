@@ -739,7 +739,7 @@ void IVP_GridBuilder_Array::convert_array_to_compact_ledges( const IVP_Template_
 
 /* merge everything into the final compact grid thing */
 IVP_Compact_Grid *IVP_GridBuilder_Array::compile_ledges_into_compact_grid(const IVP_Template_Compact_Grid *gp,IVP_U_Vector<IVP_Compact_Ledge> *ledges){
-	IVP_Compact_Grid *cg = NULL;
+	IVP_Compact_Grid *cg = nullptr;
 	int buffer_size = (char *)&cg->offset_compact_ledge_array[0] - (char *)cg;	// size for base compact ledge
 
 	buffer_size += ledges->len() * sizeof(int); // add buffersize for ledge index array

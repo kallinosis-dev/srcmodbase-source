@@ -24,7 +24,7 @@ class CEditGameConfigs : public CDialog
 // Construction
 public:
 	CEditGameConfigs(BOOL bSelectOnly = FALSE,
-		CWnd* pParent = NULL);   // standard constructor
+		CWnd* pParent = nullptr);   // standard constructor
 
 	CGameConfig *GetSelectedGame()
 	{ return m_pSelectedGame; }	// get selected game config after dialog is run

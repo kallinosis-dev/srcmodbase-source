@@ -66,9 +66,9 @@ public:
 
 			~CGameConfigManager( void );
 
-	bool	LoadConfigs( const char *baseDir = NULL );
-	bool	SaveConfigs( const char *baseDir = NULL );
-	bool	ResetConfigs( const char *baseDir = NULL );
+	bool	LoadConfigs( const char *baseDir = nullptr);
+	bool	SaveConfigs( const char *baseDir = nullptr);
+	bool	ResetConfigs( const char *baseDir = nullptr);
 	
 	int		GetNumConfigs( void );
 
@@ -76,7 +76,7 @@ public:
 	KeyValues	*GetGameSubBlock( const char *keyName );
 	bool		GetDefaultGameBlock( KeyValues *pIn );
 
-	bool	IsLoaded( void ) const { return m_pData != NULL; }
+	bool	IsLoaded( void ) const { return m_pData != nullptr; }
 
 	bool	WasConvertedOnLoad( void ) const { return m_LoadStatus == LOADSTATUS_CONVERTED; }
 	bool	WasCreatedOnLoad( void ) const { return m_LoadStatus == LOADSTATUS_CREATED; }
@@ -102,7 +102,7 @@ public:
 			// Check to see whether 'steamapps/common' is part of the path to this EXE
 			g_pFullFileSystem->GetCurrentDirectory( szBaseDirectory, sizeof( szBaseDirectory ) );
 			V_FixSlashes( szBaseDirectory, '/' );
-			bRetVal = ( V_stristr( szBaseDirectory, "steamapps/common" ) != NULL );
+			bRetVal = ( V_stristr( szBaseDirectory, "steamapps/common" ) != nullptr);
 			bInitialized = true;
 		}
 

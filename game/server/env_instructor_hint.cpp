@@ -98,11 +98,11 @@ void CEnvInstructorHint::InputShowHint( inputdata_t &inputdata )
 	IGameEvent * event = gameeventmanager->CreateEvent( "instructor_server_hint_create", false, &s_InstructorServerHintEventCreate );
 	if ( event )
 	{
-		CBaseEntity *pTargetEntity = gEntList.FindEntityByName( NULL, m_iszHintTargetEntity );
-		if( pTargetEntity == NULL )
+		CBaseEntity *pTargetEntity = gEntList.FindEntityByName(nullptr, m_iszHintTargetEntity );
+		if( pTargetEntity == nullptr)
 			pTargetEntity = inputdata.pActivator;
 
-		if( pTargetEntity == NULL )
+		if( pTargetEntity == nullptr)
 			pTargetEntity = GetWorldEntity();
 
 		char szColorString[128];
@@ -115,7 +115,7 @@ void CEnvInstructorHint::InputShowHint( inputdata_t &inputdata )
 		iFlags |= (m_iShakeOption == 0) ? 0 : (LOCATOR_ICON_FX_SHAKE_NARROW << (m_iShakeOption - 1));
 		iFlags |= m_bStatic ? LOCATOR_ICON_FX_STATIC : 0;
 
-		CBasePlayer *pActivator = NULL;
+		CBasePlayer *pActivator = nullptr;
 		bool bFilterByActivator = m_bLocalPlayerOnly;
 		if ( bFilterByActivator )
 			pActivator = dynamic_cast<CBasePlayer*>( inputdata.pActivator );
@@ -129,7 +129,7 @@ void CEnvInstructorHint::InputShowHint( inputdata_t &inputdata )
 #else
 		if ( inputdata.value.StringID() != NULL_STRING )
 		{
-			CBaseEntity *pTarget = gEntList.FindEntityByName( NULL, inputdata.value.String() );
+			CBaseEntity *pTarget = gEntList.FindEntityByName(nullptr, inputdata.value.String() );
 			pActivator = dynamic_cast<CBasePlayer*>( pTarget );
 			if ( pActivator )
 			{

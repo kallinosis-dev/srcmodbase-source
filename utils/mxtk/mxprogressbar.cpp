@@ -32,14 +32,14 @@ mxProgressBar::mxProgressBar (mxWindow *parent, int x, int y, int w, int h, int 
 	d_this = new mxProgressBar_i;
 
 	DWORD dwStyle = WS_VISIBLE | WS_CHILD;
-	HWND hwndParent = parent ? (HWND) ((mxWidget *) parent)->getHandle () : NULL;
+	HWND hwndParent = parent ? (HWND) ((mxWidget *) parent)->getHandle () : nullptr;
 
 	if (style == Smooth)
 		dwStyle |= PBS_SMOOTH;
 
 	void *handle = (void *) CreateWindowEx (0, PROGRESS_CLASS, "", dwStyle,
 				x, y, w, h, hwndParent,
-				(HMENU) NULL, (HINSTANCE) GetModuleHandle (NULL), NULL);
+				(HMENU)nullptr, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 	
 	SendMessage ((HWND) handle, WM_SETFONT, (WPARAM) (HFONT) GetStockObject (ANSI_VAR_FONT), MAKELPARAM (TRUE, 0));
 

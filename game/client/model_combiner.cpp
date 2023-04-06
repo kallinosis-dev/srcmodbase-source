@@ -220,7 +220,7 @@ model_combine_t	*CModelCombiner::FindCombineRequestForIndex( int iCombineIndex )
 			return m_vecCombines[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

@@ -52,13 +52,13 @@ const char *g_pTokenSeparators[] = { " ", "\t", "\n", "\r", ",", ";", "|" };
 static CDmeModel* LoadModelFromDMX( const char* pDMXFile )
 {
 	CDmElement* pRoot;
-	if ( g_pDataModel->RestoreFromFile( pDMXFile, "CONTENT", NULL, &pRoot ) == DMFILEID_INVALID )
+	if ( g_pDataModel->RestoreFromFile( pDMXFile, "CONTENT", nullptr, &pRoot ) == DMFILEID_INVALID )
 	{
-		return false;
+		return nullptr;
 	}
 
 	// If this isn't a DME Model
-	CDmeModel* pModel = NULL;
+	CDmeModel* pModel = nullptr;
 	if ( pRoot->IsA< CDmeModel >() )
 	{
 		pModel = dynamic_cast<CDmeModel*>( pRoot );
@@ -151,7 +151,7 @@ void CAuthPhysFx::AddRod( const CUtlVector< CBone > &nodes, uint nNode0, uint nN
 }
 
 
-static float GetClothFloat( KeyValues *pKeyValues, const char *keyName = NULL, float defaultValue = 0.0f )
+static float GetClothFloat( KeyValues *pKeyValues, const char *keyName = nullptr, float defaultValue = 0.0f )
 {
 	if ( keyName )
 	{
@@ -170,7 +170,7 @@ static bool FindKey( KeyValues *pParent, const char *pSubkey, float *pFloatOut )
 {
 	if ( KeyValues *pChild = pParent->FindKey( pSubkey ) )
 	{
-		*pFloatOut = pChild->GetFloat( ( const char * )NULL, *pFloatOut );
+		*pFloatOut = pChild->GetFloat( ( const char * )nullptr, *pFloatOut );
 		return true;
 	}
 	return false;
@@ -180,7 +180,7 @@ static bool FindKey( KeyValues *pParent, const char *pSubkey, float *pFloatOut )
 
 
 
-static int GetClothInt( KeyValues *pKeyValues, const char *keyName = NULL, int defaultValue = 0 )
+static int GetClothInt( KeyValues *pKeyValues, const char *keyName = nullptr, int defaultValue = 0 )
 {
 	if ( keyName )
 	{
@@ -196,7 +196,7 @@ static int GetClothInt( KeyValues *pKeyValues, const char *keyName = NULL, int d
 
 
 
-static const char *GetClothString( KeyValues *pKeyValues, const char *keyName = NULL, const char *defaultValue = "" )
+static const char *GetClothString( KeyValues *pKeyValues, const char *keyName = nullptr, const char *defaultValue = "" )
 {
 	if ( keyName )
 	{
@@ -269,7 +269,7 @@ void CAuthPhysFx::Load( const CFeModel *pFeModel )
 
 bool CAuthPhysFx::ImportDotaCloth( const char *pFileName, CPhysModelSource &physicsModel/*CUtlStringMap< int, CUtlSymbolTable > *pBoneToIndex*/ )
 {
-	const char *pContentPath = V_IsAbsolutePath( pFileName ) ? NULL : "CONTENT";
+	const char *pContentPath = V_IsAbsolutePath( pFileName ) ? nullptr : "CONTENT";
 	if ( !g_pFullFileSystem->FileExists( pFileName, pContentPath ) )
 	{
 		return false;
@@ -375,7 +375,7 @@ bool CAuthClothParser::Parse( KeyValues *kv )
 	m_bFollowTheLead = kv->GetBool( "followTheLead", true );
 	m_nNodeNameMapNodes = 0;
 
-	for ( KeyValues *pSubKey = kv->GetFirstSubKey( ); pSubKey != NULL; pSubKey = pSubKey->GetNextKey( ) )
+	for ( KeyValues *pSubKey = kv->GetFirstSubKey( ); pSubKey != nullptr; pSubKey = pSubKey->GetNextKey( ) )
 	{
 		const char *pSubkeyName = pSubKey->GetName( );
 		if ( !V_stricmp( pSubkeyName, "Defaults" ) )
@@ -460,7 +460,7 @@ CBoneParseParams::CBoneParseParams( KeyValues *pSubKey, int nCompatibilityMode )
 
 	float flDefaultGravity = nCompatibilityMode >= 1 ? 20 : 380;
 	m_flGravityScale = GetClothFloat( pSubKey, "gravity_scale", 0.0f );
-	if ( const char *pGravityString = GetClothString( pSubKey, "gravity", NULL ) )
+	if ( const char *pGravityString = GetClothString( pSubKey, "gravity", nullptr) )
 	{
 		Vector vGravityDirection = Vector( 0, 0, -flDefaultGravity );
 		if ( 3 == sscanf( pGravityString, "%g %g %g", &vGravityDirection.x, &vGravityDirection.y, &vGravityDirection.z ) )
@@ -487,7 +487,7 @@ CBoneParseParams::CBoneParseParams( KeyValues *pSubKey, int nCompatibilityMode )
 		m_flGravityScale = flDefaultGravity;
 	}
 
-	if ( const char *pStabilizeAnim = GetClothString( pSubKey, "stabilizeAnim", NULL ) )
+	if ( const char *pStabilizeAnim = GetClothString( pSubKey, "stabilizeAnim", nullptr) )
 	{
 		switch ( sscanf( pStabilizeAnim, "%g %g", &m_flFollowRootBegin, &m_flFollowRootEnd ) )
 		{
@@ -592,10 +592,10 @@ bool Preparse( KeyValues *kv, CAuthPhysFx::CCollisionSphere &sphere )
 
 	FindKey( kv, "radius", &sphere.m_flRadius );
 
-	const char *pCenter = kv->GetString( "center", NULL );
+	const char *pCenter = kv->GetString( "center", nullptr);
 	if ( !pCenter )
 	{
-		pCenter = kv->GetString( "offset", NULL );
+		pCenter = kv->GetString( "offset", nullptr);
 	}
 	if ( pCenter )
 	{
@@ -617,7 +617,7 @@ bool Preparse( KeyValues *kv, CAuthPhysFx::CCollisionPlane &plane )
 {
 	FindKey( kv, "offset", &plane.m_Plane.m_flOffset );
 
-	if ( const char *pNormal = kv->GetString( "normal", NULL ) )
+	if ( const char *pNormal = kv->GetString( "normal", nullptr) )
 	{
 		if ( 3 != sscanf( pNormal, "%g %g %g", &plane.m_Plane.m_vNormal.x, &plane.m_Plane.m_vNormal.y, &plane.m_Plane.m_vNormal.z ) )
 		{
@@ -640,7 +640,7 @@ void CAuthClothParser::ParseExplicitColl( KeyValues *kv, CBoneParseParams &parse
 
 	if ( !Preparse( kv, coll ) )
 		return;
-	if ( const char *pParent = kv->GetString( "parent", NULL ) )
+	if ( const char *pParent = kv->GetString( "parent", nullptr) )
 	{
 		coll.m_nParentBone = FindNodeByName( pParent );
 		if ( coll.m_nParentBone < 0 )
@@ -649,7 +649,7 @@ void CAuthClothParser::ParseExplicitColl( KeyValues *kv, CBoneParseParams &parse
 			return;
 		}
 	}
-	if ( const char *pChild = kv->GetString( "child", NULL ) )
+	if ( const char *pChild = kv->GetString( "child", nullptr) )
 	{
 		coll.m_nChildBone = FindNodeByName( pChild );
 		if ( coll.m_nChildBone < 0 )
@@ -670,7 +670,7 @@ void CAuthClothParser::ParseExplicitColl( KeyValues *kv, CBoneParseParams &parse
 	}
 
 
-	if ( const char *pChildren = kv->GetString( "children", NULL ) )
+	if ( const char *pChildren = kv->GetString( "children", nullptr) )
 	{
 		CUtlStringList tokens( pChildren, g_pTokenSeparators, ARRAYSIZE( g_pTokenSeparators ) );
 		for ( int i = 0; i < tokens.Count( ); ++i )
@@ -701,7 +701,7 @@ void CAuthClothParser::ParseExplicitColl( KeyValues *kv, CBoneParseParams &parse
 
 void CAuthClothParser::ParseExplicitDefinitions( KeyValues *pCloth, CBoneParseParams &parseParm )
 {
-	for ( KeyValues *pSubKey = pCloth->GetFirstSubKey( ); pSubKey != NULL; pSubKey = pSubKey->GetNextKey( ) )
+	for ( KeyValues *pSubKey = pCloth->GetFirstSubKey( ); pSubKey != nullptr; pSubKey = pSubKey->GetNextKey( ) )
 	{
 		const char *pSubkeyName = pSubKey->GetName( );
 		if ( !V_stricmp( pSubkeyName, "node" ) )
@@ -736,7 +736,7 @@ void CAuthClothParser::ParseExplicitNode( KeyValues *kv, CBoneParseParams &parse
 	FindKey( kv, "gravity", &bone.m_Integrator.flGravity );
 	FindKey( kv, "damping", &bone.m_Integrator.flPointDamping );
 
-	if ( const char *pParent = kv->GetString( "parent", NULL ) )
+	if ( const char *pParent = kv->GetString( "parent", nullptr) )
 	{
 		bone.m_nParent = FindNodeByName( pParent );
 		if ( bone.m_nParent < 0 )
@@ -745,7 +745,7 @@ void CAuthClothParser::ParseExplicitNode( KeyValues *kv, CBoneParseParams &parse
 		}
 	}
 
-	if ( const char *pFollowParent = kv->GetString( "followParent", NULL ) )
+	if ( const char *pFollowParent = kv->GetString( "followParent", nullptr) )
 	{
 		bone.m_nFollowParent = FindNodeByName( pFollowParent );
 		if ( bone.m_nFollowParent < 0 )
@@ -760,7 +760,7 @@ void CAuthClothParser::ParseExplicitNode( KeyValues *kv, CBoneParseParams &parse
 		bone.m_nFollowParent = bone.m_nParent;
 	}
 
-	if ( const char *pOffset = kv->GetString( "offset", NULL ) )
+	if ( const char *pOffset = kv->GetString( "offset", nullptr) )
 	{
 		Vector vOffset;
 		if ( sscanf( pOffset, "%g %g %g", &vOffset.x, &vOffset.y, &vOffset.z ) != 3 )
@@ -779,7 +779,7 @@ void CAuthClothParser::ParseExplicitNode( KeyValues *kv, CBoneParseParams &parse
 		}
 	}
 
-	if ( const char *pFlags = kv->GetString( "flags", NULL ) )
+	if ( const char *pFlags = kv->GetString( "flags", nullptr) )
 	{
 		parseParm.ApplyDotaFlags( bone, pFlags );
 	}
@@ -790,7 +790,7 @@ void CAuthClothParser::ParseExplicitNode( KeyValues *kv, CBoneParseParams &parse
 		bone.m_bFreeRotation = false;
 	}
 
-	if ( const char *pLock = kv->GetString( "lock", NULL ) )
+	if ( const char *pLock = kv->GetString( "lock", nullptr) )
 	{
 		CUtlStringList tokens( pLock, g_pTokenSeparators, ARRAYSIZE( g_pTokenSeparators ) );
 		for ( int i = 0; i < tokens.Count( ); ++i )
@@ -825,7 +825,7 @@ void CAuthClothParser::ParseExplicitNode( KeyValues *kv, CBoneParseParams &parse
 
 void CAuthClothParser::ParseExplicitElem( KeyValues *kv, CBoneParseParams &parseParm )
 {
-	const char *pNodes = kv->GetString( "nodes", NULL );
+	const char *pNodes = kv->GetString( "nodes", nullptr);
 	if ( !pNodes )
 	{
 		pNodes = kv->GetString( );
@@ -1099,7 +1099,7 @@ static const char	*s_pszTokenDelimiter = " ,|\t\r\n";
 
 bool FloatToken( float &x )
 {
-	const char *pToken = strtok( NULL, s_pszTokenDelimiter );
+	const char *pToken = strtok(nullptr, s_pszTokenDelimiter );
 	if ( !pToken )
 		return false;
 	x = atof( pToken );
@@ -1113,7 +1113,7 @@ bool VectorToken( Vector &v )
 
 bool KeywordToken( const char *pKeyword )
 {
-	const char *pToken = strtok( NULL, s_pszTokenDelimiter );
+	const char *pToken = strtok(nullptr, s_pszTokenDelimiter );
 	if ( !pToken )
 		return false;
 	return V_stricmp( pToken, pKeyword ) == 0;
@@ -1136,12 +1136,12 @@ bool CBoneParseParams::ApplyDotaFlags( CAuthPhysFx::CBone &bone, const char *psz
 	}
 
 	char *pszParmsCopy = ( char * ) stackalloc( nParamLength + 1 );
-	if ( pszParmsCopy != NULL )
+	if ( pszParmsCopy != nullptr)
 	{
 		V_strcpy( pszParmsCopy, pszParms );
 
 		char *pszToken = strtok( pszParmsCopy, s_pszTokenDelimiter );
-		while ( pszToken != NULL )
+		while ( pszToken != nullptr)
 		{
 			if ( V_stricmp( pszToken, "fixed" ) == 0 )
 			{
@@ -1280,7 +1280,7 @@ bool CBoneParseParams::ApplyDotaFlags( CAuthPhysFx::CBone &bone, const char *psz
 			
 			if ( pszToken )
 			{
-				pszToken = strtok( NULL, s_pszTokenDelimiter );
+				pszToken = strtok(nullptr, s_pszTokenDelimiter );
 			}
 		}
 	}

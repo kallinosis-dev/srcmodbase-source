@@ -93,7 +93,7 @@ CDmeDag *CDmeShape::GetParent( int nParentIndex /*= 0 */ ) const
 		i = g_pDataModel->NextAttributeReferencingElement( i );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

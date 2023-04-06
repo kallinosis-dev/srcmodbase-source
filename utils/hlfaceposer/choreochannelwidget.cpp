@@ -33,7 +33,7 @@
 CChoreoChannelWidget::CChoreoChannelWidget( CChoreoActorWidget *parent )
 : CChoreoWidget( parent )
 {
-	m_pChannel = NULL;
+	m_pChannel = nullptr;
 	m_pParent = parent;
 	m_bHasAudio = false;
 	m_nBaseHeight = 0;
@@ -223,7 +223,7 @@ int CChoreoChannelWidget::GetVerticalStackingCount( bool layout, RECT *rc )
 int	CChoreoChannelWidget::GetItemHeight( void )
 {
 	int itemHeight = BaseClass::GetItemHeight();
-	int stackCount = GetVerticalStackingCount( false, NULL );
+	int stackCount = GetVerticalStackingCount( false, nullptr);
 
 	CheckHasAudio();
 
@@ -760,10 +760,10 @@ void CChoreoChannelWidget::SetUsingCombinedFieldByTokenName( char const *token, 
 CChoreoEvent *CChoreoChannelWidget::GetCaptionClickedEvent()
 {
 	if ( m_nSelectorEventIndex < 0 )
-		return NULL;
+		return nullptr;
 
 	if ( m_nSelectorEventIndex >= m_Events.Count() )
-		return NULL;
+		return nullptr;
 
 	CChoreoEvent *event = GetEvent( m_nSelectorEventIndex )->GetEvent();
 	return event;

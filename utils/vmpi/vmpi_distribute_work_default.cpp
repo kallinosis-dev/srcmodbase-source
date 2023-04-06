@@ -211,7 +211,7 @@ public:
 
 	virtual bool HandleWorkUnitResults( WUIndexType iWorkUnit )
 	{
-		CWULookupInfo *pLookup = NULL;
+		CWULookupInfo *pLookup = nullptr;
 		if ( iWorkUnit >= m_WULookup.FirstPossibleIndex() && iWorkUnit < m_WULookup.PastVisibleIndex() )
 			pLookup = &m_WULookup.Get( iWorkUnit );
 
@@ -295,7 +295,7 @@ public:
 		}
 		else				// Specially transfer a partition with too few work units
 		{
-			*ppFirstHalf = NULL;
+			*ppFirstHalf = nullptr;
 			*ppSecondHalf = AddPartition( iSecondHalfWorker );
 		}
 
@@ -431,7 +431,7 @@ public:
 			{
 				CPartitionInfo *pPartition = m_Partitions[ iPartToSplit ];
 
-				CPartitionInfo *pOldHalf = NULL, *pNewHalf = NULL;
+				CPartitionInfo *pOldHalf = nullptr, *pNewHalf = nullptr;
 				int iOldWorker = pPartition->m_iWorker, iNewWorker = iWorker;
 				if ( SplitWUsPartition( pPartition, &pOldHalf, &pNewHalf, iOldWorker, iNewWorker ) )
 				{

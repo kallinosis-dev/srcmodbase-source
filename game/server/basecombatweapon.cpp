@@ -127,11 +127,11 @@ void CBaseCombatWeapon::Operator_FrameUpdate( CBaseCombatCharacter *pOperator )
 	}
 
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
-	if ( pOwner == NULL )
+	if ( pOwner == nullptr)
 		return;
 
 	CBaseViewModel *vm = pOwner->GetViewModel( m_nViewModelIndex );
-	if ( vm == NULL )
+	if ( vm == nullptr)
 		return;
 
 	// HACK: Player weapon and view model often use the same mdl, which results
@@ -146,7 +146,7 @@ void CBaseCombatWeapon::Operator_FrameUpdate( CBaseCombatCharacter *pOperator )
 	}
 
 	// Update and dispatch the viewmodel events
-	if ( vm != NULL )
+	if ( vm != nullptr)
 	{
 		vm->StudioFrameAdvance();
 		vm->DispatchAnimEvents( this );
@@ -187,7 +187,7 @@ void CBaseCombatWeapon::HandleAnimEvent( animevent_t *pEvent )
 	//If the player is receiving this message, pass it through
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
 
-	if ( pOwner != NULL )
+	if ( pOwner != nullptr)
 	{
 		Operator_HandleAnimEvent( pEvent, pOwner );
 	}
@@ -230,13 +230,13 @@ class CWeaponLOSFilter : public CTraceFilterSkipTwoEntities
 	DECLARE_CLASS( CWeaponLOSFilter, CTraceFilterSkipTwoEntities );
 public:
 	CWeaponLOSFilter( IHandleEntity *pHandleEntity, IHandleEntity *pHandleEntity2, int collisionGroup ) :
-	  CTraceFilterSkipTwoEntities( pHandleEntity, pHandleEntity2, collisionGroup ), m_pVehicle( NULL )
+	  CTraceFilterSkipTwoEntities( pHandleEntity, pHandleEntity2, collisionGroup ), m_pVehicle(nullptr)
 	{
 		// If the tracing entity is in a vehicle, then ignore it
-		if ( pHandleEntity != NULL )
+		if ( pHandleEntity != nullptr)
 		{
 			CBaseCombatCharacter *pBCC = ((CBaseEntity *)pHandleEntity)->MyCombatCharacterPointer();
-			if ( pBCC != NULL )
+			if ( pBCC != nullptr)
 			{
 				m_pVehicle = pBCC->GetVehicleEntity();
 			}
@@ -509,7 +509,7 @@ void CBaseCombatWeapon::FallInit( void )
 				fixed.constraint.forceLimit	= lbs2kg( 10000 );
 				fixed.constraint.torqueLimit = lbs2kg( 10000 );
 
-				m_pConstraint = physenv->CreateFixedConstraint( pReferenceObject, pAttachedObject, NULL, fixed );
+				m_pConstraint = physenv->CreateFixedConstraint( pReferenceObject, pAttachedObject, nullptr, fixed );
 
 				m_pConstraint->SetGameData( (void *) this );
 			}
@@ -694,7 +694,7 @@ void CBaseCombatWeapon::SetWeaponModules( void )
 
 		for ( int n=0; n<GetNumBodyGroups(); n++ )
 		{
-			if ( V_strstr( GetBodygroupName( n ), "module_slot" ) != NULL )
+			if ( V_strstr( GetBodygroupName( n ), "module_slot" ) != nullptr)
 			{
 				if ( !RandomInt( 0, 4 ) ) // each bodygroup gets a 20% chance to roll
 				{

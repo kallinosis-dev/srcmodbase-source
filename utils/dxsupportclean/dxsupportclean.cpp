@@ -44,10 +44,10 @@ static void GrabSurveyData( char const *pInputFilename, char const *pOutputFilen
 		if ( !strncmp( linebuffer, goodLine, strlen( goodLine ) ) ) // specific pattern on the line we want
 		{
 			V_strncpy( szDummy, strtok( linebuffer, ",()\"" ), sizeof( szDummy ) );
-			V_strncpy( szVendorID, strtok( NULL, ",()\"" ), sizeof( szVendorID ) );
-			V_strncpy( szDeviceID, strtok( NULL, ",()\"" ), sizeof( szDeviceID ) );
-			V_strncpy( szDummy, strtok( NULL, ",()\"" ), sizeof( szDummy ) );
-			V_strncpy( szPartName, strtok( NULL, ",()\"" ), sizeof( szPartName ) );
+			V_strncpy( szVendorID, strtok(nullptr, ",()\"" ), sizeof( szVendorID ) );
+			V_strncpy( szDeviceID, strtok(nullptr, ",()\"" ), sizeof( szDeviceID ) );
+			V_strncpy( szDummy, strtok(nullptr, ",()\"" ), sizeof( szDummy ) );
+			V_strncpy( szPartName, strtok(nullptr, ",()\"" ), sizeof( szPartName ) );
 
 			// Convert to hex from decimal
 			sprintf( szVendorID, "%04x", atoi( szVendorID ) );
@@ -77,7 +77,7 @@ char *CopyTokenUntilComma( char *pOut, char *pIn )
 	if ( !pIn || !pOut )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 
 	while ( ( *pIn != ',' ) && ( *pIn != '\0' ) && ( *pIn != '\n' ) )
@@ -202,7 +202,7 @@ void ParseColumnHeadings( char *pHeadings )
 			g_nDeviceMaxIDIndex = i-1;
 		}
 
-		pToken = strtok( NULL, "," );
+		pToken = strtok(nullptr, "," );
 		i++;
 	}
 

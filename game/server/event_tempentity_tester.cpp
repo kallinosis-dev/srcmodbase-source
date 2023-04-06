@@ -38,7 +38,7 @@ CBaseEntity *CTempEntTester::Create( const Vector &vecOrigin, const QAngle &vecA
 	else
 	{
 		Msg( "Usage:  te <lifetime> <entname>\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( single_te && single_te[0] )
@@ -49,13 +49,13 @@ CBaseEntity *CTempEntTester::Create( const Vector &vecOrigin, const QAngle &vecA
 	else
 	{
 		Msg( "Usage:  te <lifetime> <entname>\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	CTempEntTester *p = ( CTempEntTester * )CBaseEntity::CreateNoSpawn( "te_tester", vecOrigin, vecAngles );
 	if ( !p )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	Q_strncpy( p->m_szClass, classname ,sizeof(p->m_szClass));

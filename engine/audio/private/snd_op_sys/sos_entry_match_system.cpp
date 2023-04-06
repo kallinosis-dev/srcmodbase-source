@@ -31,7 +31,7 @@ bool CSosEntryMatch::IsAMatch( CSosEntryMatch *pEntryMatch )
 	{
 		if( m_bMatchSubString )
 		{
-			if ( V_stristr( pEntryMatch->m_nMatchString1, m_nMatchString1 ) == NULL )
+			if ( V_stristr( pEntryMatch->m_nMatchString1, m_nMatchString1 ) == nullptr)
 			{
 				bMatchString1 = false;
 			}
@@ -50,7 +50,7 @@ bool CSosEntryMatch::IsAMatch( CSosEntryMatch *pEntryMatch )
 	{
 		if ( m_bMatchSubString )
 		{
-			if ( V_stristr( pEntryMatch->m_nMatchString2, m_nMatchString2 ) == NULL )
+			if ( V_stristr( pEntryMatch->m_nMatchString2, m_nMatchString2 ) == nullptr)
 			{
 				bMatchString2 = false;
 			}
@@ -172,7 +172,7 @@ CSosManagedEntryMatch *CSosEntryMatchList::GetEntryFromIndex( int nIndex ) const
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 CSosManagedEntryMatch *CSosEntryMatchList::GetFreeEntry( int &nIndex ) const
@@ -184,7 +184,7 @@ CSosManagedEntryMatch *CSosEntryMatchList::GetFreeEntry( int &nIndex ) const
 	{
 		Log_Warning( LOG_SND_OPERATORS, "Error: EntryMatchList has no free slots!\n" );
 		nIndex = -1;
-		return NULL;
+		return nullptr;
 	}
 	return pSosEntryMatch;
 

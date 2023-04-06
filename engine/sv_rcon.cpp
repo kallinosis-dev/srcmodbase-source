@@ -536,7 +536,7 @@ bool CRConServer::HandleFailedRconAuth( const netadr_t & adr )
 	}
 
 	int i;
-	FailedRCon_t *failedRcon = NULL;
+	FailedRCon_t *failedRcon = nullptr;
 	int nCount = m_failedRcons.Count();
 	for ( i=0; i < nCount; ++i )
 	{

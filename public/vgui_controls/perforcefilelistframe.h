@@ -62,7 +62,7 @@ public:
 	void SetOperationColumnHeaderText( const char *pText );
 
 	// Shows the panel
-	void DoModal( KeyValues *pContextKeyValues = NULL, const char *pMessage = NULL );
+	void DoModal( KeyValues *pContextKeyValues = nullptr, const char *pMessage = nullptr);
 
 	// Retrieves the number of files, the file names, and operations
 	int GetOperationCount();
@@ -118,7 +118,7 @@ public:
 	void AddFile( const char *pFullPath );
 	void AddFile( const char *pRelativePath, const char *pPathId );
 
-	void DoModal( KeyValues *pContextKeys = NULL, const char *pMessage = NULL );
+	void DoModal( KeyValues *pContextKeys = nullptr, const char *pMessage = nullptr);
 
 private:
 	virtual bool PerformOperation();

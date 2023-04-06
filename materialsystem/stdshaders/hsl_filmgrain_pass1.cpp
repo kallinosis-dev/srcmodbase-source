@@ -39,7 +39,7 @@ BEGIN_VS_SHADER( hsl_filmgrain_pass1, "Help for Film Grain" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -56,7 +56,7 @@ BEGIN_VS_SHADER( hsl_filmgrain_pass1, "Help for Film Grain" )
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 			pShaderShadow->EnableTexture( SHADER_SAMPLER1, true );
 			int fmt = VERTEX_POSITION;
-			pShaderShadow->VertexShaderVertexFormat( fmt, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( filmgrain_vs20 );
 			SET_STATIC_VERTEX_SHADER( filmgrain_vs20 );

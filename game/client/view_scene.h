@@ -58,7 +58,7 @@ inline void UpdateRefractTexture( int x, int y, int w, int h, bool bForceUpdate 
 		rect.y = y;
 		rect.width = w;
 		rect.height = h;
-		pRenderContext->CopyRenderTargetToTextureEx( pTexture, 0, &rect, IsPC() ? NULL : &rect );
+		pRenderContext->CopyRenderTargetToTextureEx( pTexture, 0, &rect, IsPC() ? nullptr : &rect );
 
 #ifdef PORTAL2
 		g_nRefractUpdatePortalRender = g_nCurrentPortalRender;
@@ -79,7 +79,7 @@ inline void UpdateRefractTexture( bool bForceUpdate = false )
 	UpdateRefractTexture( x, y, w, h, bForceUpdate );
 }
 
-inline void UpdateScreenEffectTexture( int textureIndex, int x, int y, int w, int h, bool bDestFullScreen = false, Rect_t *pActualRect = NULL )
+inline void UpdateScreenEffectTexture( int textureIndex, int x, int y, int w, int h, bool bDestFullScreen = false, Rect_t *pActualRect = nullptr)
 {
 	Rect_t srcRect;
 	srcRect.x = x;
@@ -111,7 +111,7 @@ inline void UpdateScreenEffectTexture( int textureIndex, int x, int y, int w, in
 		destRect.height = clamp( destRect.height, 0, nDestHeight - destRect.y );
 	}
 
-	pRenderContext->CopyRenderTargetToTextureEx( pTexture, 0, &srcRect, bDestFullScreen ? NULL : &destRect );
+	pRenderContext->CopyRenderTargetToTextureEx( pTexture, 0, &srcRect, bDestFullScreen ? nullptr : &destRect );
 	pRenderContext->SetFrameBufferCopyTexture( pTexture, textureIndex );
 
 	if ( pActualRect )

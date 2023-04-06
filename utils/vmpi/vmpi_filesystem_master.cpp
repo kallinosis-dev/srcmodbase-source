@@ -554,13 +554,13 @@ private:
 
 CMasterMulticastThread::CMasterMulticastThread()
 {
-	m_hThread = m_hMainThread = NULL;
+	m_hThread = m_hMainThread = nullptr;
 	m_Socket = INVALID_SOCKET;
 	m_nTotalActiveChunks = 0;
 	m_iCurFile = m_iCurActiveChunk = -1;
-	m_pPassThru = NULL;
+	m_pPassThru = nullptr;
 	
-	m_hTermEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
+	m_hTermEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	InitializeCriticalSection( &m_CS );
 	m_nCurMemoryUsage = m_nMaxMemoryUsage = 0;
 }
@@ -630,7 +630,7 @@ bool CMasterMulticastThread::Init( IBaseFileSystem *pPassThru, unsigned short lo
 
 		// Now create our thread.
 		DWORD dwThreadID = 0;
-		m_hThread = CreateThread( NULL, 0, &CMasterMulticastThread::StaticMulticastThread, this, 0, &dwThreadID );
+		m_hThread = CreateThread(nullptr, 0, &CMasterMulticastThread::StaticMulticastThread, this, 0, &dwThreadID );
 		if ( !m_hThread )
 		{
 			Term();
@@ -658,7 +658,7 @@ void CMasterMulticastThread::Term()
 		WaitForSingleObject( m_hThread, INFINITE );
 		CloseHandle( m_hThread );
 
-		m_hThread = NULL;
+		m_hThread = nullptr;
 	}
 
 	// Close the socket.
@@ -770,7 +770,7 @@ void CMasterMulticastThread::OnChunkReceived( int fileID, int clientID, int iChu
 	}
 
 	CMulticastFile *pFile = m_Files[fileID];
-	CClientFileInfo *pClient = NULL;
+	CClientFileInfo *pClient = nullptr;
 	FOR_EACH_LL( pFile->m_Clients, iClient )
 	{
 		if ( pFile->m_Clients[iClient]->m_ClientID == clientID )
@@ -987,8 +987,8 @@ inline bool CMasterMulticastThread::Thread_SendFileChunk_Multicast( int *pnBytes
 			0, 
 			(sockaddr*)&m_MulticastAddr, 
 			sizeof( m_MulticastAddr ),
-			NULL,
-			NULL );
+			nullptr,
+		nullptr);
 		bSuccess = (nBytesSent == nWantedBytes);
 	}
 
@@ -1010,12 +1010,12 @@ inline bool CMasterMulticastThread::Thread_SendFileChunk_Multicast( int *pnBytes
 				FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 				FORMAT_MESSAGE_FROM_SYSTEM | 
 				FORMAT_MESSAGE_IGNORE_INSERTS,
-				NULL,
+				nullptr,
 				GetLastError(),
 				MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 				(char*)&lpMsgBuf,
 				0,
-				NULL 
+				nullptr
 			) )
 			{
 				Warning( "%s", lpMsgBuf );
@@ -1233,7 +1233,7 @@ void CMasterMulticastThread::AddWarningSuppression( const char *pFilename )
 
 int CMasterMulticastThread::FindOrAddFile( const char *pFilename, const char *pPathID )
 {
-	CMulticastFile *pFile = NULL;
+	CMulticastFile *pFile = nullptr;
 	bool bFileAlreadyExisted = false;
 
 	// See if we've already opened this file.
@@ -1259,7 +1259,7 @@ int CMasterMulticastThread::FindOrAddFile( const char *pFilename, const char *pP
 
 	// When the worker originally asked for the path ID, they could pass NULL and it would come through as "".
 	// Now set it back to null for the filesystem we're passing the call to.
-	FileHandle_t fp = m_pPassThru->Open( pFilename, "rb", pPathID[0] == 0 ? NULL : pPathID );
+	FileHandle_t fp = m_pPassThru->Open( pFilename, "rb", pPathID[0] == 0 ? nullptr : pPathID );
 	if ( !fp )
 	{
 		if ( bFileAlreadyExisted )
@@ -1404,7 +1404,7 @@ private:
 };
 
 
-CMasterVMPIFileSystem *CMasterVMPIFileSystem::s_pMasterVMPIFileSystem = NULL;
+CMasterVMPIFileSystem *CMasterVMPIFileSystem::s_pMasterVMPIFileSystem = nullptr;
 
 
 CBaseVMPIFileSystem* CreateMasterVMPIFileSystem( int maxMemoryUsage, IFileSystem *pPassThru )
@@ -1418,8 +1418,8 @@ CBaseVMPIFileSystem* CreateMasterVMPIFileSystem( int maxMemoryUsage, IFileSystem
 	else
 	{
 		delete pRet;
-		g_pBaseVMPIFileSystem = NULL;
-		return NULL;
+		g_pBaseVMPIFileSystem = nullptr;
+		return nullptr;
 	}
 }
 
@@ -1434,7 +1434,7 @@ CMasterVMPIFileSystem::CMasterVMPIFileSystem()
 CMasterVMPIFileSystem::~CMasterVMPIFileSystem()
 {
 	Assert( s_pMasterVMPIFileSystem == this );
-	s_pMasterVMPIFileSystem = NULL;
+	s_pMasterVMPIFileSystem = nullptr;
 }
 
 

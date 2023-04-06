@@ -39,7 +39,7 @@ const char *EconQuality_GetQualityString( EEconItemQuality eQuality )
 	if ( eQuality >= 0 && eQuality < AE_MAX_TYPES )
 		return g_szQualityStrings[ eQuality ];
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -70,7 +70,7 @@ const char *EconQuality_GetColorString( EEconItemQuality eQuality )
 	if ( eQuality >= 0 && eQuality < AE_MAX_TYPES )
 		return g_szQualityColorStrings[ eQuality ];
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -101,7 +101,7 @@ const char *EconQuality_GetLocalizationString( EEconItemQuality eQuality )
 	if ( eQuality >= 0 && eQuality < AE_MAX_TYPES )
 		return g_szQualityLocalizationStrings[ eQuality ];
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -356,11 +356,11 @@ const char *g_pszItemFoundMethodStrings[] =
 	"#Item_Found",				// UNACK_ITEM_DROPPED = 1,
 	"#Item_Crafted",			// UNACK_ITEM_CRAFTED,
 	"#Item_Traded",				// UNACK_ITEM_TRADED,
-	NULL,						// UNACK_ITEM_PURCHASED,
+	nullptr,						// UNACK_ITEM_PURCHASED,
 	"#Item_FoundInCrate",		// UNACK_ITEM_FOUND_IN_CRATE,
 	"#Item_Gifted",				// UNACK_ITEM_GIFTED,
-	NULL,						// UNACK_ITEM_SUPPORT,
-	NULL,						// UNACK_ITEM_PROMOTION
+	nullptr,						// UNACK_ITEM_SUPPORT,
+	nullptr,						// UNACK_ITEM_PROMOTION
 	"#Item_Earned",				// UNACK_ITEM_EARNED
 	"#Item_Refunded",			// UNACK_ITEM_REFUNDED
 	"#Item_GiftWrapped",		// UNACK_ITEM_GIFT_WRAPPED

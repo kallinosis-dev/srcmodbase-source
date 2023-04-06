@@ -25,7 +25,7 @@ inline CBasePlayer *AI_GetSinglePlayer()
 {
 	if ( gpGlobals->maxClients > 1 )
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	return UTIL_GetLocalPlayer();
@@ -103,7 +103,7 @@ public:
 
 	bool TargetMoved( CBaseEntity *pEntity )
 	{
-		if ( pEntity == NULL )
+		if ( pEntity == nullptr)
 		{
 			return false;
 		}
@@ -112,7 +112,7 @@ public:
 
 	bool TargetMoved2D( CBaseEntity *pEntity )
 	{
-		if ( pEntity == NULL )
+		if ( pEntity == nullptr)
 		{
 			return false;
 		}

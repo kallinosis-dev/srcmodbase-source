@@ -136,7 +136,7 @@ bool RegReadVector( HKEY hKey, const char *szSubKey, Vector& value )
 	lResult = RegQueryValueEx(
 		hKey,		// handle to key
 		szSubKey,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(LPBYTE)szBuff,    // data buffer
 		&dwSize );  // size of data buffer
@@ -174,7 +174,7 @@ bool RegReadColor( HKEY hKey, const char *szSubKey, float value[4] )
 	lResult = RegQueryValueEx(
 		hKey,		// handle to key
 		szSubKey,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(LPBYTE)szBuff,    // data buffer
 		&dwSize );  // size of data buffer
@@ -256,7 +256,7 @@ bool RegReadBool( HKEY hKey, const char *szSubKey, bool *value )
 	lResult = RegQueryValueEx(
 		hKey,		// handle to key
 		szSubKey,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(LPBYTE)&dwTemp,    // data buffer
 		&dwSize );  // size of data buffer
@@ -283,7 +283,7 @@ bool RegReadInt( HKEY hKey, const char *szSubKey, int *value )
 	lResult = RegQueryValueEx(
 		hKey,		// handle to key
 		szSubKey,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(LPBYTE)value,    // data buffer
 		&dwSize );  // size of data buffer
@@ -334,7 +334,7 @@ bool RegReadFloat( HKEY hKey, const char *szSubKey, float *value )
 	lResult = RegQueryValueEx(
 		hKey,		// handle to key
 		szSubKey,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(LPBYTE)szBuff,    // data buffer
 		&dwSize );  // size of data buffer
@@ -384,7 +384,7 @@ bool RegReadString( HKEY hKey, const char *szSubKey, char *string, int size )
 	lResult = RegQueryValueEx(
 		hKey,		// handle to key
 		szSubKey,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(LPBYTE)string,    // data buffer
 		&dwSize );  // size of data buffer
@@ -452,10 +452,10 @@ LONG RegViewerSettingsKey( const char *filename, PHKEY phKey, LPDWORD lpdwDispos
 		HKEY_CURRENT_USER,	// handle of open key 
 		szModelKey,			// address of name of subkey to open 
 		0,					// DWORD ulOptions,	  // reserved 
-		NULL,			// Type of value
+		nullptr,			// Type of value
 		REG_OPTION_NON_VOLATILE, // Store permanently in reg.
 		KEY_ALL_ACCESS,		// REGSAM samDesired, // security access mask 
-		NULL,
+		nullptr,
 		phKey,				// Key we are creating
 		lpdwDisposition);    // Type of creation
 }
@@ -471,10 +471,10 @@ LONG RegViewerRootKey( PHKEY phKey, LPDWORD lpdwDisposition )
 		HKEY_CURRENT_USER,	// handle of open key 
 		szRootKey,			// address of name of subkey to open 
 		0,					// DWORD ulOptions,	  // reserved 
-		NULL,			// Type of value
+		nullptr,			// Type of value
 		REG_OPTION_NON_VOLATILE, // Store permanently in reg.
 		KEY_ALL_ACCESS,		// REGSAM samDesired, // security access mask 
-		NULL,
+		nullptr,
 		phKey,				// Key we are creating
 		lpdwDisposition);    // Type of creation
 }
@@ -525,7 +525,7 @@ bool LoadViewerSettings (const char *filename, StudioModel *pModel )
 
 	HKEY hModelKey;
 
-	if (filename == NULL || pModel == NULL)
+	if (filename == nullptr || pModel == nullptr)
 		return false;
 
 	lResult = RegViewerSettingsKey( filename, &hModelKey, &dwDisposition);
@@ -650,7 +650,7 @@ bool SaveViewerSettings (const char *filename, StudioModel *pModel )
 	LONG lResult;           // Registry function result code
 	DWORD dwDisposition;    // Type of key opening event
 
-	if (filename == NULL || pModel == NULL)
+	if (filename == nullptr || pModel == nullptr)
 		return false;
 
 	HKEY hModelKey;

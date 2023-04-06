@@ -17,7 +17,7 @@
 
 // Hack, sort of. These interpolators don't get to hold state, but the ones
 // that need state (like the rope simulator) should NOT be used as paths here.
-IPositionInterpolator *g_pPositionInterpolators[8] = {0,0,0,0,0,0,0,0};
+IPositionInterpolator *g_pPositionInterpolators[8] = {nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr,nullptr};
 
 IPositionInterpolator* GetPositionInterpolator( int iInterp )
 {
@@ -163,7 +163,7 @@ void CPathKeyFrame::CalculateFrameDuration( void )
 //-----------------------------------------------------------------------------
 void CPathKeyFrame::Link( void )
 {
-	m_pNextKey = dynamic_cast<CPathKeyFrame*>( gEntList.FindEntityByName(NULL, m_iNextKey ) );
+	m_pNextKey = dynamic_cast<CPathKeyFrame*>( gEntList.FindEntityByName(nullptr, m_iNextKey ) );
 
 	if ( m_pNextKey )
 	{
@@ -237,7 +237,7 @@ CPathKeyFrame *CPathKeyFrame::InsertNewKey( Vector newPos, QAngle newAngles )
 	newKey->SetEFlags( GetEFlags() );
 	if ( m_iParent != NULL_STRING )
 	{
-		newKey->SetParent( m_iParent, NULL );
+		newKey->SetParent( m_iParent, nullptr);
 	}
 
 	// link forward
@@ -556,7 +556,7 @@ void CBaseMoveBehavior::StopMoving( void )
 	m_iDirection = 0;
 	m_flAnimStartTime = 0;
 	m_flAnimEndTime = 0;
-	m_pTargetKeyFrame = NULL;
+	m_pTargetKeyFrame = nullptr;
 	SetAbsVelocity(vec3_origin);
 	SetLocalAngularVelocity( vec3_angle );
 }

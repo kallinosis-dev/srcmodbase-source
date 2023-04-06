@@ -86,7 +86,7 @@ struct AnalysisData
 	CUtlSymbolTable				symbols;
 };
 
-IFileSystem *filesystem = NULL;
+IFileSystem *filesystem = nullptr;
 
 static AnalysisData g_Analysis;
 
@@ -225,7 +225,7 @@ void logprint( char const *logfile, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 	static bool first = true;
 	if ( first )
 	{
@@ -263,7 +263,7 @@ void nuke_print( int depth, const char *fmt, ... )
 	static bool first = false;
 
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 	
 	char const *nukefile = "nuke.bat";
 
@@ -310,7 +310,7 @@ void vprint( int depth, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -549,7 +549,7 @@ static void ParseSentence( CSentence& sentence, IterateRIFF &walk )
 	sentence.InitFromDataChunk( buf.Base(), buf.TellPut() );
 }
 
-bool LoadSentenceFromWavFileUsingIO( char const *wavfile, CSentence& sentence, IFileReadBinary& io, void *formatbuffer = NULL, int* formatsize = NULL, int *datasize = NULL )
+bool LoadSentenceFromWavFileUsingIO( char const *wavfile, CSentence& sentence, IFileReadBinary& io, void *formatbuffer = nullptr, int* formatsize = nullptr, int *datasize = nullptr)
 {
 	int insize = 0;
 
@@ -621,7 +621,7 @@ bool LoadSentenceFromWavFileUsingIO( char const *wavfile, CSentence& sentence, I
 	return true;
 }
 
-bool LoadSentenceFromWavFile( char const *wavfile, CSentence& sentence, void *formatbuffer = NULL, int* formatsize = NULL, int *dataSize = NULL )
+bool LoadSentenceFromWavFile( char const *wavfile, CSentence& sentence, void *formatbuffer = nullptr, int* formatsize = nullptr, int *dataSize = nullptr)
 {
 	return LoadSentenceFromWavFileUsingIO( wavfile, sentence, io_in, formatbuffer, formatsize, dataSize );
 }
@@ -869,7 +869,7 @@ void ParseVCDFilesFromResList( CUtlVector< CUtlSymbol >& vcdsinreslist, char con
 
 				while ( 1 )
 				{
-					pFileList = ParseFile( pFileList, tokenFile, NULL );
+					pFileList = ParseFile( pFileList, tokenFile, nullptr);
 					if ( !pFileList )
 						break;
 
@@ -894,7 +894,7 @@ void ParseVCDFilesFromResList( CUtlVector< CUtlSymbol >& vcdsinreslist, char con
 						{
 							// Ack
 							//vprint( 1, "File %s not under game directory but in reslist, skipping!!!\n", szFileName );
-							pFileList = ParseFile( pFileList, tokenFile, NULL );
+							pFileList = ParseFile( pFileList, tokenFile, nullptr);
 							continue;
 						}
 
@@ -985,7 +985,7 @@ void BuildVCDAndMapNameListsFromReslists( CUtlVector< CUtlSymbol >& vcdsinreslis
 					{
 						char szMap[ 512 ];
 
-						pFileList = ParseFile( pFileList, com_token, NULL );
+						pFileList = ParseFile( pFileList, com_token, nullptr);
 
 						if ( strlen( com_token ) <= 0 )
 							break;
@@ -1105,7 +1105,7 @@ void ParseUsedSoundsFromSndFile( CUtlRBTree< int, int >& usedsounds, char const 
 
 				while ( 1 )
 				{
-					pFileList = ParseFile( pFileList, tokenFile, NULL );
+					pFileList = ParseFile( pFileList, tokenFile, nullptr);
 					if ( !pFileList )
 						break;
 
@@ -1689,7 +1689,7 @@ void CheckLocalizationEntries( CUtlVector< CUtlSymbol >& vcdfiles, CUtlRBTree< C
 
 		LoadScriptFile( fullname );
 	
-		CChoreoScene *scene = ChoreoLoadScene( fullname, NULL, &g_TokenProcessor, Con_Printf );
+		CChoreoScene *scene = ChoreoLoadScene( fullname, nullptr, &g_TokenProcessor, Con_Printf );
 		if ( !scene )
 		{
 			vprint( 0, "Warning:  Unable to load %s\n", fullname );
@@ -2518,7 +2518,7 @@ int LoadPhonemeExtractors()
 			continue;
 		}
 
-		e.extractor = ( IPhonemeExtractor * )factory( VPHONEME_EXTRACTOR_INTERFACE, NULL );
+		e.extractor = ( IPhonemeExtractor * )factory( VPHONEME_EXTRACTOR_INTERFACE, nullptr);
 		if ( !e.extractor )
 		{
 			Warning( "Unable to get IPhonemeExtractor interface version %s from %s\n", VPHONEME_EXTRACTOR_INTERFACE, fullpath );
@@ -2622,7 +2622,7 @@ void CheckForLoops( CUtlVector< CUtlSymbol >& wavfiles )
 //-----------------------------------------------------------------------------
 int ConvertUnicodeToANSI(const wchar_t *unicode, char *ansi, int ansiBufferSize)
 {
-	int result = ::WideCharToMultiByte(CP_UTF8, 0, unicode, -1, ansi, ansiBufferSize, NULL, NULL);
+	int result = ::WideCharToMultiByte(CP_UTF8, 0, unicode, -1, ansi, ansiBufferSize, nullptr, nullptr);
 	ansi[ansiBufferSize - 1] = 0;
 	return result;
 }
@@ -2631,8 +2631,8 @@ struct OrderedCaption_t
 {
 	OrderedCaption_t() :
 		sym( UTL_INVAL_SYMBOL ),
-		commands( NULL ),
-		english( NULL ),
+		commands(nullptr),
+		english(nullptr),
 		blankenglish( false )
 	{
 	}
@@ -2649,7 +2649,7 @@ struct OrderedCaption_t
 		}
 		else
 		{
-			commands = NULL;
+			commands = nullptr;
 		}
 
 		if ( src.english )
@@ -2660,7 +2660,7 @@ struct OrderedCaption_t
 		}
 		else
 		{
-			english = NULL;
+			english = nullptr;
 		}
 		blankenglish = src.blankenglish;
 	}
@@ -2746,7 +2746,7 @@ wchar_t *GetStartupCommands( const wchar_t *str )
 		return cmds;
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 wchar_t *CopyUnicode( const wchar_t *in )
@@ -2879,8 +2879,8 @@ void BuildOrderedCaptionList( CUtlVector< OrderedCaption_t >& list )
 struct LookupData_t
 {
 	LookupData_t() :
-		unicode( 0 ),
-		caption( 0 )
+		unicode( nullptr ),
+		caption( nullptr )
 		{
 		}
 
@@ -2949,7 +2949,7 @@ void LoadImportData( char const *filename, CUtlDict< LookupData_t, int >& lookup
 
 		LookupData_t ld;
 		ld.unicode = vcopy;
-		ld.caption = NULL;
+		ld.caption = nullptr;
 
 		lookup.Insert( key, ld );
 	}
@@ -3275,7 +3275,7 @@ bool CLocalizationCheckApp::PreInit( )
 
 void CLocalizationCheckApp::PostShutdown( )
 {
-	g_pFileSystem = filesystem = NULL;
+	g_pFileSystem = filesystem = nullptr;
 	BaseClass::PostShutdown();
 }
 

@@ -45,8 +45,8 @@ CGameLayer::CGameLayer( SublayerTypes_t layerType )
 	m_LayerType = layerType;
 	m_pTextureName = "";
 	m_hTexture = RENDER_TEXTURE_HANDLE_INVALID;
-	m_Material = NULL;
-	m_Sheet = NULL;
+	m_Material = nullptr;
+	m_Sheet = nullptr;
 	m_SheetSymbol = UTL_INVAL_SYMBOL;
 	m_bSheetSymbolCached = false;
 }
@@ -72,7 +72,7 @@ void CGameLayer::Shutdown()
 	{
 		Assert( !m_LayerGraphics[j]->IsGroup() );
 		delete m_LayerGraphics[j];
-		m_LayerGraphics[j] = NULL;
+		m_LayerGraphics[j] = nullptr;
 	}
 	m_LayerGraphics.RemoveAll();
 }
@@ -228,7 +228,7 @@ static HRenderTexture CreateTextureFromVTFFile( const char *pFileName, CSheet **
 {
 	static intp s_UniqueID = 0x4000000;
 
-	*ppSheet = NULL;
+	*ppSheet = nullptr;
 
 	char pTemp[MAX_PATH];
 	Q_ComposeFileName( "materials/", pFileName, pTemp, sizeof(pTemp) );
@@ -354,7 +354,7 @@ bool CGameLayer::InitSheetTexture( const char *pBaseTextureName )
 CSheet *CGameLayer::LoadSheet( IMaterial *pMaterial )
 {
 	if ( !pMaterial )
-		return NULL;
+		return nullptr;
 
 	bool bFoundVar = false;
 	IMaterialVar *pVar = pMaterial->FindVar( "$basetexture", &bFoundVar, true );
@@ -368,7 +368,7 @@ CSheet *CGameLayer::LoadSheet( IMaterial *pMaterial )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CGameLayer::GetSheetTextureSize( int &nWidth, int &nHeight )
@@ -401,7 +401,7 @@ CSheet *CGameLayer::LoadSheet( char const *pszFname, ITexture *pTexture )
 	//if ( m_SheetList.Defined( pszFname ) )
 	//	return m_SheetList[ pszFname ];
 
-	CSheet *pNewSheet = NULL;
+	CSheet *pNewSheet = nullptr;
 
 	// get compact sheet representation held by texture
 	size_t numBytes;
@@ -629,7 +629,7 @@ void CGameLayer::UpdateRenderData( CGameUIDefinition &gameUIDef, color32 parentC
 				listIndex = renderLists[layerIndex].m_RenderGeometryLists.AddToTail();
 				renderLists[layerIndex].m_LayerType = m_LayerType;
 				renderLists[layerIndex].m_pMaterial = pAliasMaterial;
-				renderLists[layerIndex].m_pSheet = NULL;
+				renderLists[layerIndex].m_pSheet = nullptr;
 				renderLists[layerIndex].m_hTexture = m_hTexture;
 			}
 			
@@ -750,7 +750,7 @@ CGameGraphic *CGameLayer::GetGraphic( int x, int y )
 			return pGraphic;
 	}	
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -766,7 +766,7 @@ CGameGraphic *CGameLayer::GetMouseFocus( int x, int y )
 			return pGraphic;
 	}	
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -790,7 +790,7 @@ CGameGraphic *CGameLayer::GetNextFocus( bool &bGetNext, CGameGraphic *pCurrentGr
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -810,7 +810,7 @@ CGameGraphic *CGameLayer::FindGraphicByName( const char *pName )
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 

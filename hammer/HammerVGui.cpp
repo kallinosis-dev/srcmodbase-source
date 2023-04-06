@@ -38,9 +38,9 @@ CHammerVGui *HammerVGui()
 
 CHammerVGui::CHammerVGui(void)
 {
-	m_pActiveWindow = NULL;
-	m_hMainWindow = NULL;
-	m_pDummyPopup = NULL;
+	m_pActiveWindow = nullptr;
+	m_hMainWindow = nullptr;
+	m_pDummyPopup = nullptr;
 	m_bCurrentDialogIsModal = false;
 	m_hHammerScheme = NULL;
 	m_hVguiInputContext = INPUT_CONTEXT_HANDLE_INVALID;
@@ -148,7 +148,7 @@ void CHammerVGui::SetFocus( CVGuiWnd *pVGuiWnd )
 			g_pMatSystemSurface->SetAppDrivesInput( true );
 		}
 
-		m_pActiveWindow = NULL;
+		m_pActiveWindow = nullptr;
 		vgui::ivgui()->ActivateContext( vgui::DEFAULT_VGUI_CONTEXT );
 	}
 }
@@ -183,12 +183,12 @@ void CHammerVGui::Shutdown()
 	if ( m_pDummyPopup )
 	{
 		delete m_pDummyPopup;
-		m_pDummyPopup = NULL;
+		m_pDummyPopup = nullptr;
 	}
 
 	if ( m_hVguiInputContext != INPUT_CONTEXT_HANDLE_INVALID )
 	{
-		g_pMatSystemSurface->SetInputContext( NULL );
+		g_pMatSystemSurface->SetInputContext(nullptr);
 		g_pInputStackSystem->PopInputContext();
 		m_hVguiInputContext = INPUT_CONTEXT_HANDLE_INVALID;
 	}

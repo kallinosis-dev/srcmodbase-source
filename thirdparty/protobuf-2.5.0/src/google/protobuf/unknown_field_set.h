@@ -220,13 +220,13 @@ class LIBPROTOBUF_EXPORT UnknownField {
 // inline implementations
 
 inline void UnknownFieldSet::Clear() {
-  if (fields_ != NULL) {
+  if (fields_ != nullptr) {
     ClearFallback();
   }
 }
 
 inline bool UnknownFieldSet::empty() const {
-  return fields_ == NULL || fields_->empty();
+  return fields_ == nullptr || fields_->empty();
 }
 
 inline void UnknownFieldSet::Swap(UnknownFieldSet* x) {
@@ -234,7 +234,7 @@ inline void UnknownFieldSet::Swap(UnknownFieldSet* x) {
 }
 
 inline int UnknownFieldSet::field_count() const {
-  return (fields_ == NULL) ? 0 : ( int )fields_->size();
+  return (fields_ == nullptr) ? 0 : ( int )fields_->size();
 }
 inline const UnknownField& UnknownFieldSet::field(int index) const {
   return (*fields_)[index];

@@ -96,8 +96,8 @@ int __cdecl ModeCompare( ListPanel *pPanel, const ListPanelItem &p1, const ListP
 	// HACK: If we start looking at things other than prefix to determine mode (eg tags) this will break... 
 	// should make a 'GetModeForServerItem' shared func in that case...
 	// ALSOHACK: Compare icons, not prefixes. Some game modes have alternate names (ba_ and jb_ are both jailbreak).
-	const char* szIcon1 = NULL;
-	const char* szIcon2 = NULL;
+	const char* szIcon1 = nullptr;
+	const char* szIcon2 = nullptr;
 	FOR_EACH_VEC( g_GameTypes, i )
 	{
 		const gametypes_t& type = g_GameTypes[ i ];

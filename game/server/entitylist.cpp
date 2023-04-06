@@ -337,7 +337,7 @@ private:
 
 static CPostClientMessageManager g_PostClientManager;
 
-static CBaseEntityClassList *s_pClassLists = NULL;
+static CBaseEntityClassList *s_pClassLists = nullptr;
 CBaseEntityClassList::CBaseEntityClassList()
 {
 	m_pNextClassList = s_pClassLists;
@@ -518,7 +518,7 @@ CBaseEntity *CGlobalEntityList::NextEnt( CBaseEntity *pCurrentEnt )
 	{
 		const CEntInfo *pInfo = FirstEntInfo();
 		if ( !pInfo )
-			return NULL;
+			return nullptr;
 
 		return (CBaseEntity *)pInfo->m_pEntity;
 	}
@@ -544,7 +544,7 @@ CBaseEntity *CGlobalEntityList::NextEnt( CBaseEntity *pCurrentEnt )
 		pList = pList->m_pNext;
 	}
 	
-	return NULL; 
+	return nullptr; 
 
 }
 
@@ -621,7 +621,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassname( CBaseEntity *pStartEntity
 			return pEntity;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CBaseEntity *CGlobalEntityList::FindEntityByClassnameFast( CBaseEntity *pStartEntity, string_t iszClassname )
@@ -638,7 +638,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameFast( CBaseEntity *pStartEn
 		return g_EntsByClassname[hEntry].pHead;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -693,7 +693,7 @@ CBaseEntity *CGlobalEntityList::FindEntityProcedural( const char *szName, CBaseE
 		}
 		else if ( FStrEq( pName, "picker" ) )
 		{
-			return UTIL_PlayerByIndex(1) ? UTIL_PlayerByIndex(1)->FindPickerEntity() : NULL;
+			return UTIL_PlayerByIndex(1) ? UTIL_PlayerByIndex(1)->FindPickerEntity() : nullptr;
 		}
 		else if ( FStrEq( pName, "self" ) )
 		{
@@ -738,7 +738,7 @@ CBaseEntity *CGlobalEntityList::FindEntityProcedural( const char *szName, CBaseE
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -752,17 +752,17 @@ CBaseEntity *CGlobalEntityList::FindEntityProcedural( const char *szName, CBaseE
 CBaseEntity *CGlobalEntityList::FindEntityByName( CBaseEntity *pStartEntity, const char *szName, CBaseEntity *pSearchingEntity, CBaseEntity *pActivator, CBaseEntity *pCaller, IEntityFindFilter *pFilter )
 {
 	if ( !szName || szName[0] == 0 )
-		return NULL;
+		return nullptr;
 
 	if ( szName[0] == '!' )
 	{
 		//
 		// Avoid an infinite loop, only find one match per procedural search!
 		//
-		if (pStartEntity == NULL)
+		if (pStartEntity == nullptr)
 			return FindEntityProcedural( szName, pSearchingEntity, pActivator, pCaller );
 
-		return NULL;
+		return nullptr;
 	}
 	
 	const CEntInfo *pInfo = pStartEntity ? GetEntInfoPtr( pStartEntity->GetRefEHandle() )->m_pNext : FirstEntInfo();
@@ -788,13 +788,13 @@ CBaseEntity *CGlobalEntityList::FindEntityByName( CBaseEntity *pStartEntity, con
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 CBaseEntity *CGlobalEntityList::FindEntityByNameFast( CBaseEntity *pStartEntity, string_t iszName )
 {
 	if ( iszName == NULL_STRING || STRING(iszName)[0] == 0 )
-		return NULL;
+		return nullptr;
 
 	const CEntInfo *pInfo = pStartEntity ? GetEntInfoPtr( pStartEntity->GetRefEHandle() )->m_pNext : FirstEntInfo();
 
@@ -816,7 +816,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByNameFast( CBaseEntity *pStartEntity,
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -844,7 +844,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByModel( CBaseEntity *pStartEntity, co
 			return ent;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -874,7 +874,7 @@ CBaseEntity	*CGlobalEntityList::FindEntityByTarget( CBaseEntity *pStartEntity, c
 			return ent;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -916,7 +916,7 @@ CBaseEntity	*CGlobalEntityList::FindEntityByOutputTarget( CBaseEntity *pStartEnt
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -951,7 +951,7 @@ CBaseEntity *CGlobalEntityList::FindEntityInSphere( CBaseEntity *pStartEntity, c
 	}
 
 	// nothing found
-	return NULL; 
+	return nullptr; 
 }
 
 
@@ -967,7 +967,7 @@ CBaseEntity *CGlobalEntityList::FindEntityInSphere( CBaseEntity *pStartEntity, c
 //-----------------------------------------------------------------------------
 CBaseEntity *CGlobalEntityList::FindEntityByNameNearest( const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity, CBaseEntity *pActivator, CBaseEntity *pCaller )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	//
 	// Check for matching class names within the search radius.
@@ -978,8 +978,8 @@ CBaseEntity *CGlobalEntityList::FindEntityByNameNearest( const char *szName, con
 		flMaxDist2 = MAX_TRACE_LENGTH * MAX_TRACE_LENGTH;
 	}
 
-	CBaseEntity *pSearch = NULL;
-	while ((pSearch = gEntList.FindEntityByName( pSearch, szName, pSearchingEntity, pActivator, pCaller )) != NULL)
+	CBaseEntity *pSearch = nullptr;
+	while ((pSearch = gEntList.FindEntityByName( pSearch, szName, pSearchingEntity, pActivator, pCaller )) != nullptr)
 	{
 		if ( !pSearch->edict() )
 			continue;
@@ -1021,7 +1021,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByNameWithin( CBaseEntity *pStartEntit
 		return gEntList.FindEntityByName( pEntity, szName, pSearchingEntity, pActivator, pCaller );
 	}
 
-	while ((pEntity = gEntList.FindEntityByName( pEntity, szName, pSearchingEntity, pActivator, pCaller )) != NULL)
+	while ((pEntity = gEntList.FindEntityByName( pEntity, szName, pSearchingEntity, pActivator, pCaller )) != nullptr)
 	{
 		if ( !pEntity->edict() )
 			continue;
@@ -1034,7 +1034,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByNameWithin( CBaseEntity *pStartEntit
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1048,7 +1048,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByNameWithin( CBaseEntity *pStartEntit
 //-----------------------------------------------------------------------------
 CBaseEntity *CGlobalEntityList::FindEntityByClassnameNearest( const char *szName, const Vector &vecSrc, float flRadius )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	//
 	// Check for matching class names within the search radius.
@@ -1059,8 +1059,8 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameNearest( const char *szName
 		flMaxDist2 = MAX_TRACE_LENGTH * MAX_TRACE_LENGTH;
 	}
 
-	CBaseEntity *pSearch = NULL;
-	while ((pSearch = gEntList.FindEntityByClassname( pSearch, szName )) != NULL)
+	CBaseEntity *pSearch = nullptr;
+	while ((pSearch = gEntList.FindEntityByClassname( pSearch, szName )) != nullptr)
 	{
 		if ( !pSearch->edict() )
 			continue;
@@ -1080,7 +1080,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameNearest( const char *szName
 
 CBaseEntity *CGlobalEntityList::FindEntityByClassnameNearestFast( string_t iszName, const Vector &vecSrc, float flRadius )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	//
 	// Check for matching class names within the search radius.
@@ -1091,8 +1091,8 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameNearestFast( string_t iszNa
 		flMaxDist2 = MAX_TRACE_LENGTH * MAX_TRACE_LENGTH;
 	}
 
-	CBaseEntity *pSearch = NULL;
-	while ((pSearch = gEntList.FindEntityByClassnameFast( pSearch, iszName )) != NULL)
+	CBaseEntity *pSearch = nullptr;
+	while ((pSearch = gEntList.FindEntityByClassnameFast( pSearch, iszName )) != nullptr)
 	{
 		if ( !pSearch->edict() )
 			continue;
@@ -1120,7 +1120,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameNearestFast( string_t iszNa
 //-----------------------------------------------------------------------------
 CBaseEntity *CGlobalEntityList::FindEntityByClassnameNearest2D( const char *szName, const Vector &vecSrc, float flRadius )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	//
 	// Check for matching class names within the search radius.
@@ -1131,8 +1131,8 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameNearest2D( const char *szNa
 		flMaxDist2 = MAX_TRACE_LENGTH * MAX_TRACE_LENGTH;
 	}
 
-	CBaseEntity *pSearch = NULL;
-	while ((pSearch = gEntList.FindEntityByClassname( pSearch, szName )) != NULL)
+	CBaseEntity *pSearch = nullptr;
+	while ((pSearch = gEntList.FindEntityByClassname( pSearch, szName )) != nullptr)
 	{
 		if ( !pSearch->edict() )
 			continue;
@@ -1171,7 +1171,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameWithin( CBaseEntity *pStart
 		return gEntList.FindEntityByClassname( pEntity, szName );
 	}
 
-	while ((pEntity = gEntList.FindEntityByClassname( pEntity, szName )) != NULL)
+	while ((pEntity = gEntList.FindEntityByClassname( pEntity, szName )) != nullptr)
 	{
 		if ( !pEntity->edict() && !pEntity->IsEFlagSet( EFL_SERVER_ONLY ) )
 			continue;
@@ -1185,7 +1185,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameWithin( CBaseEntity *pStart
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1204,7 +1204,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameWithin( CBaseEntity *pStart
 	//
 	CBaseEntity *pEntity = pStartEntity;
 
-	while ((pEntity = gEntList.FindEntityByClassname( pEntity, szName )) != NULL)
+	while ((pEntity = gEntList.FindEntityByClassname( pEntity, szName )) != nullptr)
 	{
 		if ( !pEntity->edict() && !pEntity->IsEFlagSet( EFL_SERVER_ONLY ) )
 			continue;
@@ -1218,7 +1218,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameWithin( CBaseEntity *pStart
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1236,7 +1236,7 @@ CBaseEntity *CGlobalEntityList::FindEntityByClassnameWithin( CBaseEntity *pStart
 //-----------------------------------------------------------------------------
 CBaseEntity *CGlobalEntityList::FindEntityGeneric( CBaseEntity *pStartEntity, const char *szName, CBaseEntity *pSearchingEntity, CBaseEntity *pActivator, CBaseEntity *pCaller )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	pEntity = gEntList.FindEntityByName( pStartEntity, szName, pSearchingEntity, pActivator, pCaller );
 	if (!pEntity)
@@ -1262,7 +1262,7 @@ CBaseEntity *CGlobalEntityList::FindEntityGeneric( CBaseEntity *pStartEntity, co
 //-----------------------------------------------------------------------------
 CBaseEntity *CGlobalEntityList::FindEntityGenericWithin( CBaseEntity *pStartEntity, const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity, CBaseEntity *pActivator, CBaseEntity *pCaller )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	pEntity = gEntList.FindEntityByNameWithin( pStartEntity, szName, vecSrc, flRadius, pSearchingEntity, pActivator, pCaller );
 	if (!pEntity)
@@ -1287,7 +1287,7 @@ CBaseEntity *CGlobalEntityList::FindEntityGenericWithin( CBaseEntity *pStartEnti
 //-----------------------------------------------------------------------------
 CBaseEntity *CGlobalEntityList::FindEntityGenericNearest( const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity, CBaseEntity *pActivator, CBaseEntity *pCaller )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 
 	pEntity = gEntList.FindEntityByNameNearest( szName, vecSrc, flRadius, pSearchingEntity, pActivator, pCaller );
 	if (!pEntity)
@@ -1311,7 +1311,7 @@ CBaseEntity *CGlobalEntityList::FindEntityGenericNearest( const char *szName, co
 CBaseEntity *CGlobalEntityList::FindEntityClassNearestFacing( const Vector &origin, const Vector &facing, float threshold, char *classname)
 {
 	float bestDot = threshold;
-	CBaseEntity *best_ent = NULL;
+	CBaseEntity *best_ent = nullptr;
 
 	const CEntInfo *pInfo = FirstEntInfo();
 
@@ -1360,7 +1360,7 @@ CBaseEntity *CGlobalEntityList::FindEntityClassNearestFacing( const Vector &orig
 CBaseEntity *CGlobalEntityList::FindEntityNearestFacing( const Vector &origin, const Vector &facing, float threshold)
 {
 	float bestDot = threshold;
-	CBaseEntity *best_ent = NULL;
+	CBaseEntity *best_ent = nullptr;
 
 	const CEntInfo *pInfo = FirstEntInfo();
 
@@ -1456,7 +1456,7 @@ void CGlobalEntityList::NotifyCreateEntity( CBaseEntity *pEnt )
 
 	Assert( pEnt->m_pPrevByClass == NULL && pEnt->m_pNextByClass == NULL && pEnt->m_ListByClass == g_EntsByClassname.InvalidHandle() );
 
-	EntsByStringList_t dummyEntry = { MAKE_STRING( pEnt->GetClassname() ), 0 };
+	EntsByStringList_t dummyEntry = { MAKE_STRING( pEnt->GetClassname() ), nullptr };
 	UtlHashHandle_t hEntry = g_EntsByClassname.Insert( dummyEntry );
 
 	EntsByStringList_t *pEntry = &g_EntsByClassname[hEntry];
@@ -1523,7 +1523,7 @@ void CGlobalEntityList::NotifyRemoveEntity( CBaseEntity *pBaseEnt )
 			pBaseEnt->m_pPrevByClass->m_pNextByClass = pBaseEnt->m_pNextByClass;
 		}
 
-		pBaseEnt->m_pPrevByClass = pBaseEnt->m_pNextByClass = NULL;
+		pBaseEnt->m_pPrevByClass = pBaseEnt->m_pNextByClass = nullptr;
 		pBaseEnt->m_ListByClass = g_EntsByClassname.InvalidHandle();
 	}
 }
@@ -1964,7 +1964,7 @@ CON_COMMAND(report_touchlinks, "Lists all touchlinks")
 
 	CSortedEntityList list;
 	CBaseEntity *pEntity = gEntList.FirstEnt();
-	const char *pClassname = NULL;
+	const char *pClassname = nullptr;
 	if ( args.ArgC() > 1 )
 	{
 		pClassname = args.Arg(1);

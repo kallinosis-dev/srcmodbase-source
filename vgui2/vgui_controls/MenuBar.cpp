@@ -150,7 +150,7 @@ void MenuBar::Paint()
 	for ( int i = 0; i < m_pMenuButtons.Count(); i++)
 	{
 		if (!m_pMenuButtons[i]->IsArmed())
-			m_pMenuButtons[i]->SetDefaultBorder(NULL);
+			m_pMenuButtons[i]->SetDefaultBorder(nullptr);
 		else
 		{
 			m_pMenuButtons[i]->SetDefaultBorder(pScheme->GetBorder( "ButtonBorder"));

@@ -24,7 +24,7 @@ BEGIN_VS_SHADER( ParallaxTest,
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	// Set up anything that is necessary to make decisions in SHADER_FALLBACK.
@@ -44,7 +44,7 @@ BEGIN_VS_SHADER( ParallaxTest,
 		{
 			unsigned int flags = VERTEX_POSITION | VERTEX_NORMAL | VERTEX_TANGENT_S | VERTEX_TANGENT_T;
 			int numTexCoords = 1;
-			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, 0 );
 
 			// base
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );

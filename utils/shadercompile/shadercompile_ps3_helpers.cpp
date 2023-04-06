@@ -79,7 +79,7 @@ static void WritePS3DebugInfo( const char *pFullPath, byte *pFileData, DWORD nFi
 		Q_snprintf( filename, MAX_PATH, "ps3shaderdebug_pack%02d.bin", g_nCurrentPS3DebugInfoFile );
 		Q_ComposeFileName( g_pShaderPath, filename, g_PS3DebugInfoPackFilenames[ g_nCurrentPS3DebugInfoFile ], MAX_PATH );
 
-		g_hPS3DebugInfoCurrentPackFile = CreateFile( g_PS3DebugInfoPackFilenames[ g_nCurrentPS3DebugInfoFile ], GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );		
+		g_hPS3DebugInfoCurrentPackFile = CreateFile( g_PS3DebugInfoPackFilenames[ g_nCurrentPS3DebugInfoFile ], GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);		
 	}
 
 	if ( g_hPS3DebugInfoCurrentPackFile == INVALID_HANDLE_VALUE )
@@ -89,7 +89,7 @@ static void WritePS3DebugInfo( const char *pFullPath, byte *pFileData, DWORD nFi
 	}
 
 	DWORD nBytesWritten = 0;
-	WriteFile( g_hPS3DebugInfoCurrentPackFile, pFileData, nFileSize, &nBytesWritten, NULL );
+	WriteFile( g_hPS3DebugInfoCurrentPackFile, pFileData, nFileSize, &nBytesWritten, nullptr);
 	if ( nBytesWritten != nFileSize )
 	{
 		Error( "Error writing to PS3 debug info file.  Make sure you have enough disk space, these things can be huuuge." );
@@ -104,14 +104,14 @@ static void WritePS3DebugInfo( const char *pFullPath, byte *pFileData, DWORD nFi
 
 	g_nPS3DebugInfoPackFileSizes[ g_nCurrentPS3DebugInfoFile ] += nBytesWritten;
 
-	WriteFile( g_hPS3DebugTOCFile, &tocEntry, sizeof( tocEntry ), &nBytesWritten, NULL );
+	WriteFile( g_hPS3DebugTOCFile, &tocEntry, sizeof( tocEntry ), &nBytesWritten, nullptr);
 	if ( nBytesWritten != sizeof ( tocEntry ) )
 	{
 		Error( "Error writing to PS3 debug TOC file.  Make sure you have enough disk space, these things can be huuuge." );
 		return;
 	}
 
-	WriteFile( g_hPS3DebugTOCFile, pFullPath, tocEntry.m_nFilenameLength, &nBytesWritten, NULL );
+	WriteFile( g_hPS3DebugTOCFile, pFullPath, tocEntry.m_nFilenameLength, &nBytesWritten, nullptr);
 	if ( nBytesWritten != ( DWORD )tocEntry.m_nFilenameLength )
 	{
 		Error( "Error writing to PS3 debug TOC file.  Make sure you have enough disk space, these things can be huuuge." );
@@ -152,7 +152,7 @@ void InitializePS3ShaderDebugPackFiles()
 {
 	// Create files for debug information being returned from workers
 	Q_ComposeFileName( g_pShaderPath, "ps3shaderdebug_toc.bin", g_PS3DebugTOCFilename, MAX_PATH );
-	g_hPS3DebugTOCFile = CreateFile( g_PS3DebugTOCFilename, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
+	g_hPS3DebugTOCFile = CreateFile( g_PS3DebugTOCFilename, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 }
 
 static void DisplayFileUnpackProgress( unsigned int nTotalSize, unsigned int nLast, unsigned int nCurrent )
@@ -188,7 +188,7 @@ void ExpandPS3DebugInfo()
 			CloseHandle( g_hPS3DebugInfoCurrentPackFile );
 		}
 
-		g_hPS3DebugTOCFile = CreateFile( g_PS3DebugTOCFilename, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
+		g_hPS3DebugTOCFile = CreateFile( g_PS3DebugTOCFilename, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 		DWORD nTocFileSizeHigh;
 		DWORD nTocFileSize = GetFileSize( g_hPS3DebugTOCFile, &nTocFileSizeHigh );
 		if ( nTocFileSizeHigh != 0 )
@@ -215,12 +215,12 @@ void ExpandPS3DebugInfo()
 
 			DWORD nBytesRead = 0;
 			PS3DebugFileTOCEntry_t tocEntry;
-			ReadFile( g_hPS3DebugTOCFile, &tocEntry, sizeof( PS3DebugFileTOCEntry_t ), &nBytesRead, NULL );
+			ReadFile( g_hPS3DebugTOCFile, &tocEntry, sizeof( PS3DebugFileTOCEntry_t ), &nBytesRead, nullptr);
 			Assert( nBytesRead == sizeof( PS3DebugFileTOCEntry_t ) );
 
 			char fileNameBuffer[ MAX_PATH ];
 			Assert( tocEntry.m_nFilenameLength < MAX_PATH );
-			ReadFile( g_hPS3DebugTOCFile, fileNameBuffer, MIN( tocEntry.m_nFilenameLength, MAX_PATH ), &nBytesRead, NULL );
+			ReadFile( g_hPS3DebugTOCFile, fileNameBuffer, MIN( tocEntry.m_nFilenameLength, MAX_PATH ), &nBytesRead, nullptr);
 			Assert( nBytesRead == (DWORD)tocEntry.m_nFilenameLength );
 
 			// Create any necessary directories recursively
@@ -231,14 +231,14 @@ void ExpandPS3DebugInfo()
 			if ( ( UtlSymLargeId_t )createdPS3DebugInfoDirectories.Find( dirToCreate ) == UTL_INVAL_SYMBOL_LARGE )
 			{
 				const char *pNextDir = strchr( fileNameBuffer, '\\' );
-				while ( pNextDir != NULL )
+				while ( pNextDir != nullptr)
 				{
 					size_t nCharsToCopy = pNextDir - fileNameBuffer;
 					memcpy( dirToCreate, fileNameBuffer, nCharsToCopy );
 					dirToCreate[nCharsToCopy] = '\0';
 					if ( ( UtlSymLargeId_t )createdPS3DebugInfoDirectories.Find( dirToCreate ) == UTL_INVAL_SYMBOL_LARGE )
 					{
-						CreateDirectory( dirToCreate, NULL );
+						CreateDirectory( dirToCreate, nullptr);
 						createdPS3DebugInfoDirectories.AddString( dirToCreate );
 					}
 					pNextDir = strchr( pNextDir + 1, '\\' );
@@ -256,22 +256,22 @@ void ExpandPS3DebugInfo()
 				}
 				nCurrentDebugInfoOffset = 0;
 				nCurrentDebugInfoFile = tocEntry.m_nFileIndex;
-				g_hPS3DebugInfoCurrentPackFile = CreateFile( g_PS3DebugInfoPackFilenames[ nCurrentDebugInfoFile ], GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
+				g_hPS3DebugInfoCurrentPackFile = CreateFile( g_PS3DebugInfoPackFilenames[ nCurrentDebugInfoFile ], GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 			}
 
 			Assert( nCurrentDebugInfoOffset == (DWORD)tocEntry.m_nFileOffset );
 			scratchSpace.EnsureCount( tocEntry.m_nFileSize );
-			ReadFile( g_hPS3DebugInfoCurrentPackFile, scratchSpace.Base(), tocEntry.m_nFileSize, &nBytesRead, NULL );
+			ReadFile( g_hPS3DebugInfoCurrentPackFile, scratchSpace.Base(), tocEntry.m_nFileSize, &nBytesRead, nullptr);
 			Assert( nBytesRead == (DWORD)tocEntry.m_nFileSize );
 			nCurrentDebugInfoOffset += nBytesRead;
 
 			DWORD nBytesWritten = 0;
-			HANDLE hNewFile = CreateFile( fileNameBuffer, GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL );
+			HANDLE hNewFile = CreateFile( fileNameBuffer, GENERIC_WRITE, 0, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 			if ( hNewFile == INVALID_HANDLE_VALUE )
 			{
 				Error( "Unable to create PS3 shader debug info file: %s.  Ensure you have enoug disk space.\n", fileNameBuffer );
 			}
-			WriteFile( hNewFile, scratchSpace.Base(), tocEntry.m_nFileSize, &nBytesWritten, NULL );
+			WriteFile( hNewFile, scratchSpace.Base(), tocEntry.m_nFileSize, &nBytesWritten, nullptr);
 			Assert( nBytesWritten == (DWORD)tocEntry.m_nFileSize );
 			CloseHandle( hNewFile );
 
@@ -295,13 +295,13 @@ void ExpandPS3DebugInfo()
 
 static void SendFileContentsToMaster( const char *pFilename )
 {
-	HANDLE fileHandle = CreateFile( pFilename, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
+	HANDLE fileHandle = CreateFile( pFilename, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if ( fileHandle != INVALID_HANDLE_VALUE )
 	{
-		DWORD fileSize = GetFileSize( fileHandle, NULL );
+		DWORD fileSize = GetFileSize( fileHandle, nullptr);
 		byte *pFileData = new byte[fileSize];
 		DWORD bytesRead;
-		ReadFile( fileHandle, pFileData, fileSize, &bytesRead, NULL );
+		ReadFile( fileHandle, pFileData, fileSize, &bytesRead, nullptr);
 		if ( bytesRead == fileSize )
 		{
 			PS3ShaderDebugInfoPacket_t filePacket;
@@ -412,7 +412,7 @@ void PS3SendShaderCompileLogContentsToMaster()
 	char szLogFilename[MAX_PATH];
 	if ( GetEnvironmentVariableA( "PS3COMPILELOG", szLogFilename, sizeof( szLogFilename ) ) )
 	{
-		HANDLE hMutex = CreateMutex( NULL, FALSE, "PS3COMPILELOGMUTEX" );
+		HANDLE hMutex = CreateMutex(nullptr, FALSE, "PS3COMPILELOGMUTEX" );
 		if ( ( hMutex ) && ( WaitForSingleObject( hMutex, 10000 ) == WAIT_OBJECT_0 ) )
 		{
 			SendShaderCompileLogContentsToMaster( szLogFilename );

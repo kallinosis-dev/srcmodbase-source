@@ -59,7 +59,7 @@ IWindowPositionMgr *windowposmgr = &g_WindowPositionMgr;
 CWindowPositionMgr::LoadInfo_t *CWindowPositionMgr::Find( Panel *panel )
 {
 	if ( !panel )
-		return NULL;
+		return nullptr;
 
 	int c = m_Panels.Count();
 	for ( int i = 0; i < c; ++i )
@@ -68,13 +68,13 @@ CWindowPositionMgr::LoadInfo_t *CWindowPositionMgr::Find( Panel *panel )
 		if ( info->m_hPanel.Get() == panel )
 			return info;
 	}
-	return NULL;
+	return nullptr;
 }
 
 CWindowPositionMgr::LoadInfo_t *CWindowPositionMgr::Find( char const *panelName )
 {
 	if ( !panelName )
-		return NULL;
+		return nullptr;
 
 	int c = m_Panels.Count();
 	for ( int i = 0; i < c; ++i )
@@ -83,7 +83,7 @@ CWindowPositionMgr::LoadInfo_t *CWindowPositionMgr::Find( char const *panelName 
 		if ( !Q_stricmp( info->m_Name.String(), panelName ) )
 			return info;
 	}
-	return NULL;
+	return nullptr;
 }
 
 static void BufPrint( CUtlBuffer& buf, int level, char const *fmt, ... )
@@ -194,7 +194,7 @@ bool CWindowPositionMgr::LoadPositions( char const *filename, vgui::Panel *paren
 	if ( kv->LoadFromFile( g_pFullFileSystem, filename, "GAME" ) )
 	{
 		// Walk through tools
-		for ( KeyValues *tw = kv->GetFirstSubKey(); tw != NULL; tw = tw->GetNextKey() )
+		for ( KeyValues *tw = kv->GetFirstSubKey(); tw != nullptr; tw = tw->GetNextKey() )
 		{
 			if ( Q_stricmp( tw->GetName(), "toolwindow" ) )
 				continue;
@@ -222,10 +222,10 @@ bool CWindowPositionMgr::LoadPositions( char const *filename, vgui::Panel *paren
 			if ( !pages )
 				continue;
 
-			ToolWindow *newTool = factory->InstanceToolWindow( parent, true, NULL, NULL, false );
+			ToolWindow *newTool = factory->InstanceToolWindow( parent, true, nullptr, nullptr, false );
 			newTool->SetBounds( x, y, w, h );
 
-			for ( KeyValues *page = pages->GetFirstSubKey(); page != NULL; page = page->GetNextKey() )
+			for ( KeyValues *page = pages->GetFirstSubKey(); page != nullptr; page = page->GetNextKey() )
 			{
 				if ( Q_stricmp( page->GetName(), "panel" ) )
 					continue;

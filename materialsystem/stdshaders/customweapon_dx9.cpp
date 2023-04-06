@@ -113,7 +113,7 @@ SHADER_INIT_PARAMS()
 
 SHADER_FALLBACK
 {
-	return 0;
+	return nullptr;
 }
 
 SHADER_INIT

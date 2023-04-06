@@ -82,7 +82,7 @@ void CAI_GoalEntity::PruneActors()
 {
 	for ( int i = m_actors.Count() - 1; i >= 0; i-- )
 	{
-		if ( m_actors[i] == NULL || m_actors[i]->IsMarkedForDeletion() || m_actors[i]->GetState() == NPC_STATE_DEAD )
+		if ( m_actors[i] == nullptr || m_actors[i]->IsMarkedForDeletion() || m_actors[i]->GetState() == NPC_STATE_DEAD )
 			m_actors.FastRemove( i );
 	}
 }
@@ -93,7 +93,7 @@ void CAI_GoalEntity::ResolveNames()
 {
 	m_actors.SetCount( 0 );
 	
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 	for (;;)
 	{
 		switch ( m_SearchType )
@@ -124,7 +124,7 @@ void CAI_GoalEntity::ResolveNames()
 		}
 	}
 		
-	m_hGoalEntity = gEntList.FindEntityByName( NULL, m_iszGoal );
+	m_hGoalEntity = gEntList.FindEntityByName(nullptr, m_iszGoal );
 }
 
 //-------------------------------------

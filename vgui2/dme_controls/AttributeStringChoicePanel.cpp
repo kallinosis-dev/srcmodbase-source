@@ -59,11 +59,11 @@ const char *CDmeEditorStringChoicesInfo::GetChoiceValue( int nIndex ) const
 	Assert( ( nIndex < GetChoiceCount() ) && ( nIndex >= 0 ) );
 	CDmElement *pChoice = m_Choices[nIndex];
 	if ( !pChoice )
-		return 0;
+		return nullptr;
 
 	CUtlSymbolLarge symbol = pChoice->GetValue< CUtlSymbolLarge >( "value" );
 	if ( symbol == UTL_INVAL_SYMBOL_LARGE )
-		return NULL;
+		return nullptr;
 
 	return symbol.String();
 }

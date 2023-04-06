@@ -32,7 +32,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-ProgressBox::ProgressBox(const char *title, const char *text, const char *pszUnknownTimeString, Panel *parent) : Frame(parent, NULL, parent ? false : true)
+ProgressBox::ProgressBox(const char *title, const char *text, const char *pszUnknownTimeString, Panel *parent) : Frame(parent, nullptr, parent ? false : true)
 {	
 	// save off the non-localized title, since we may need to dynamically localize it (on progress updates)
 	const wchar_t *ws = g_pVGuiLocalize->Find(title);
@@ -45,7 +45,7 @@ ProgressBox::ProgressBox(const char *title, const char *text, const char *pszUnk
 		g_pVGuiLocalize->ConvertANSIToUnicode(title, m_wszTitleString, sizeof(m_wszTitleString));
 	}
 
-	m_pMessageLabel = new Label(this, NULL, pszUnknownTimeString);
+	m_pMessageLabel = new Label(this, nullptr, pszUnknownTimeString);
 
 	ws = g_pVGuiLocalize->Find(text);
 	if (ws)
@@ -72,10 +72,10 @@ ProgressBox::ProgressBox(const char *title, const char *text, const char *pszUnk
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-ProgressBox::ProgressBox(const wchar_t *wszTitle, const wchar_t *wszText, const wchar_t *wszUnknownTimeString, Panel *parent) : Frame(parent, NULL, parent ? false : true)
+ProgressBox::ProgressBox(const wchar_t *wszTitle, const wchar_t *wszText, const wchar_t *wszUnknownTimeString, Panel *parent) : Frame(parent, nullptr, parent ? false : true)
 {
 	wcsncpy(m_wszTitleString, wszTitle, sizeof(m_wszTitleString) / sizeof(wchar_t));
-	m_pMessageLabel = new Label(this, NULL, wszUnknownTimeString);
+	m_pMessageLabel = new Label(this, nullptr, wszUnknownTimeString);
 	wcsncpy(m_wcsInfoString, wszText, sizeof(m_wcsInfoString) / sizeof(wchar_t));
 	wcsncpy(m_wszUnknownTimeString, wszUnknownTimeString, sizeof(m_wszUnknownTimeString) / sizeof(wchar_t));
 	Init();
@@ -86,10 +86,10 @@ ProgressBox::ProgressBox(const wchar_t *wszTitle, const wchar_t *wszText, const 
 //-----------------------------------------------------------------------------
 void ProgressBox::Init()
 {
-	m_pProgressBar = new ProgressBar(this, NULL);
+	m_pProgressBar = new ProgressBar(this, nullptr);
 	m_pProgressBar->SetVisible(false);
 
-	m_pCancelButton = new Button(this, NULL, "#VGui_Cancel");
+	m_pCancelButton = new Button(this, nullptr, "#VGui_Cancel");
 	m_pCancelButton->SetSize(72, 24);
 	m_pCancelButton->SetCommand("Cancel");
 

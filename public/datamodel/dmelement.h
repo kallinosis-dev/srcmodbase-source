@@ -77,7 +77,7 @@ struct ElementPathItem_t
 //-----------------------------------------------------------------------------
 struct DmAttributeList_t
 {
-	DmAttributeList_t() : m_hAttribute( DMATTRIBUTE_HANDLE_INVALID ), m_pNext( NULL ) {}
+	DmAttributeList_t() : m_hAttribute( DMATTRIBUTE_HANDLE_INVALID ), m_pNext(nullptr) {}
 	DmAttributeHandle_t m_hAttribute;
 	DmAttributeList_t *m_pNext;
 
@@ -400,7 +400,7 @@ inline E *CastElement( CDmElement *pElement )
 {
 	if ( pElement && pElement->IsA( E::GetStaticTypeSymbol() ) )
 		return static_cast< E* >( pElement );
-	return NULL;
+	return nullptr;
 }
 
 template< class E >
@@ -408,7 +408,7 @@ inline const E *CastElement( const CDmElement *pElement )
 {
 	if ( pElement && pElement->IsA( E::GetStaticTypeSymbol() ) )
 		return static_cast< const E* >( pElement );
-	return NULL;
+	return nullptr;
 }
 
 
@@ -420,7 +420,7 @@ const inline E *CastElementConst( const CDmElement *pElement )
 {
 	if ( pElement && pElement->IsA( E::GetStaticTypeSymbol() ) )
 		return static_cast< const E* >( pElement );
-	return NULL;
+	return nullptr;
 }
 
 
@@ -439,13 +439,13 @@ inline E *GetElement( DmElementHandle_t hElement )
 // Typesafe element creation + destruction
 //-----------------------------------------------------------------------------
 template< class E >
-inline E *CreateElement( const char *pObjectName, DmFileId_t fileid, const DmObjectId_t *pObjectID = NULL )
+inline E *CreateElement( const char *pObjectName, DmFileId_t fileid, const DmObjectId_t *pObjectID = nullptr)
 {
 	return GetElement< E >( g_pDataModel->CreateElement( E::GetStaticTypeSymbol(), pObjectName, fileid, pObjectID ) );
 }
 
 template< class E >
-inline E *CreateElement( const char *pElementType, const char *pObjectName, DmFileId_t fileid, const DmObjectId_t *pObjectID = NULL )
+inline E *CreateElement( const char *pElementType, const char *pObjectName, DmFileId_t fileid, const DmObjectId_t *pObjectID = nullptr)
 {
 	return GetElement< E >( g_pDataModel->CreateElement( pElementType, pObjectName, fileid, pObjectID ) );
 }
@@ -474,7 +474,7 @@ inline CDmAttribute *CDmElement::GetAttribute( const char *pAttributeName, DmAtt
 {
 	CDmAttribute *pAttribute = FindAttribute( pAttributeName );
 	if ( ( type != AT_UNKNOWN ) && pAttribute && ( pAttribute->GetType() != type ) )
-		return NULL;
+		return nullptr;
 	return pAttribute;
 }
 
@@ -482,7 +482,7 @@ inline const CDmAttribute *CDmElement::GetAttribute( const char *pAttributeName,
 {
 	CDmAttribute *pAttribute = FindAttribute( pAttributeName );
 	if ( ( type != AT_UNKNOWN ) && pAttribute && ( pAttribute->GetType() != type ) )
-		return NULL;
+		return nullptr;
 	return pAttribute;
 }
 
@@ -494,7 +494,7 @@ inline CDmAttribute *CDmElement::AddAttribute( const char *pAttributeName, DmAtt
 {
 	CDmAttribute *pAttribute = FindAttribute( pAttributeName );
 	if ( pAttribute )
-		return ( pAttribute->GetType() == type ) ? pAttribute : NULL;
+		return ( pAttribute->GetType() == type ) ? pAttribute : nullptr;
 	pAttribute = CreateAttribute( pAttributeName, type );
 	return pAttribute;
 }
@@ -503,7 +503,7 @@ template< class E > inline CDmAttribute *CDmElement::AddAttributeElement( const 
 {
 	CDmAttribute *pAttribute = AddAttribute( pAttributeName, AT_ELEMENT );
 	if ( !pAttribute )
-		return NULL;
+		return nullptr;
 
 	// FIXME: If the attribute exists but has a different element type symbol, should we complain?
 	pAttribute->SetElementTypeSymbol( E::GetStaticTypeSymbol() );
@@ -514,7 +514,7 @@ template< class E > inline CDmAttribute *CDmElement::AddAttributeElementArray( c
 {
 	CDmAttribute *pAttribute = AddAttribute( pAttributeName, AT_ELEMENT_ARRAY );
 	if ( !pAttribute )
-		return NULL;
+		return nullptr;
 
 	// FIXME: If the attribute exists but has a different element type symbol, should we complain?
 	pAttribute->SetElementTypeSymbol( E::GetStaticTypeSymbol() );
@@ -529,7 +529,7 @@ template< class T >
 inline const T& CDmElement::GetValue( const char *pAttributeName, const T& defaultVal ) const
 {
 	const CDmAttribute *pAttribute = FindAttribute( pAttributeName );
-	if ( pAttribute != NULL )
+	if ( pAttribute != nullptr)
 		return pAttribute->GetValue<T>();
 	return defaultVal;
 }
@@ -545,7 +545,7 @@ inline const char *CDmElement::GetValueString( const char *pAttributeName ) cons
 {
 	CUtlSymbolLarge symbol = GetValue<CUtlSymbolLarge>( pAttributeName );
 	if ( symbol == UTL_INVAL_SYMBOL_LARGE )
-		return NULL;
+		return nullptr;
 
 	return symbol.String();
 }
@@ -574,7 +574,7 @@ inline CDmAttribute* CDmElement::SetValue( const char *pAttributeName, const T& 
 		pAttribute->SetValue( value );
 		return pAttribute;
 	}
-	return NULL;
+	return nullptr;
 }
 
 template< class E >
@@ -592,7 +592,7 @@ inline CDmAttribute* CDmElement::SetValue( const char *pAttributeName, const cha
 	if ( !bCreateIfNotFound )
 	{
 		if ( HasAttribute( pAttributeName, AT_STRING ) == false )
-			return NULL;
+			return nullptr;
 	}
 
 	CUtlSymbolLarge symbol = g_pDataModel->GetSymbol( pValue );
@@ -758,7 +758,7 @@ public:
 	CDmAttribute* operator*() const { return GetAttribute(); }
 
 	CDmAttribute *GetAttribute() const { return g_pDataModel->GetAttribute( m_curr ); }
-	CDmElement *GetOwner() const { if ( CDmAttribute *pAttr = GetAttribute() ) return pAttr->GetOwner(); return NULL; }
+	CDmElement *GetOwner() const { if ( CDmAttribute *pAttr = GetAttribute() ) return pAttr->GetOwner(); return nullptr; }
 
 	CAttributeReferenceIterator& operator++() // prefix
 	{
@@ -778,20 +778,20 @@ public:
 		CDmAttribute *pAttribute = g_pDataModel->GetAttribute( m_curr );
 		Assert( pAttribute );
 		if ( !pAttribute )
-			return NULL;
+			return nullptr;
 
 		if ( !ShouldTraverse( pAttribute, depth ) )
-			return NULL;
+			return nullptr;
 
 		T *pParent = CastElement< T >( pAttribute->GetOwner() );
 		if ( !pParent )
-			return NULL;
+			return nullptr;
 
 		if ( symAttrName != UTL_INVAL_SYMBOL_LARGE && pAttribute->GetNameSymbol() != symAttrName )
-			return NULL;
+			return nullptr;
 
 		if ( bMustBeInSameFile && ( pParent->GetFileId() != m_fileid ) )
-			return NULL;
+			return nullptr;
 
 		return pParent;
 	}
@@ -802,7 +802,7 @@ private:
 };
 
 template< class T >
-T *FindReferringElement( const CDmElement *pElement, const char *pAttrName = NULL, bool bMustBeInSameFile = true, TraversalDepth_t depth = TD_ALL )
+T *FindReferringElement( const CDmElement *pElement, const char *pAttrName = nullptr, bool bMustBeInSameFile = true, TraversalDepth_t depth = TD_ALL )
 {
 	CUtlSymbolLarge sym = pAttrName ? g_pDataModel->GetSymbol( pAttrName ) : (CUtlSymbolLarge)UTL_INVAL_SYMBOL_LARGE;
 	return FindReferringElement< T >( pElement, sym, bMustBeInSameFile, depth );
@@ -817,7 +817,7 @@ T *FindReferringElement( const CDmElement *pElement, CUtlSymbolLarge symAttrName
 			return pParent;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 template< class T >
@@ -854,7 +854,7 @@ template< class T >
 T *FindAncestorReferencingElement_R_Impl( CUtlRBTree< CDmElement * >& visited, CDmElement *check )
 {
 	if ( visited.Find( check ) != visited.InvalidIndex() )
-		return NULL;
+		return nullptr;
 		
 	visited.Insert( check );
 
@@ -874,14 +874,14 @@ T *FindAncestorReferencingElement_R_Impl( CUtlRBTree< CDmElement * >& visited, C
 				return found;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 template< class T >
 T *FindAncestorReferencingElement_R( CDmElement *target )
 {
 	if ( !target )
-		return NULL;
+		return nullptr;
 
 	CUtlRBTree< CDmElement * > visited( 0, 0, DefLessFunc( CDmElement * ) );
 	return FindAncestorReferencingElement_R_Impl< T >( visited, target );
@@ -977,7 +977,7 @@ struct ElementArrayNameAccessor
 	const char *operator[]( int i ) const
 	{
 		CDmElement *pElement = GetElement< CDmElement >( m_array[ i ] );
-		return pElement ? pElement->GetName() : NULL;
+		return pElement ? pElement->GetName() : nullptr;
 	}
 private:
 	const CUtlVector< T > &m_array;
@@ -1048,7 +1048,7 @@ void CopyElements( const CUtlVector< T* > &from, CUtlVector< T* > &to, Traversal
 	int c = from.Count();
 	for ( int i = 0; i < c; ++i )
 	{
-		T *pCopy = NULL;
+		T *pCopy = nullptr;
 
 		if ( CDmElement *pFrom = from[ i ] )
 		{

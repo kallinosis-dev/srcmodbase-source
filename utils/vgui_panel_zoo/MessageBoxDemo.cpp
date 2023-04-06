@@ -89,7 +89,7 @@ void MessageBoxDemo::ShowMessageBox()
 	// The second arg is the text that will appear in the message box.
 	// The third arg is if the box starts minimized (yes since we want the button to open it)
 	// The fourth arg is a parent window arg.
-	MessageBox *pMessage = new MessageBox ("Message Window", "Here is some message box text\n You must click OK to continue.", NULL);
+	MessageBox *pMessage = new MessageBox ("Message Window", "Here is some message box text\n You must click OK to continue.", nullptr);
 
 
 	// This command will pop up the message box and hold it there until we click

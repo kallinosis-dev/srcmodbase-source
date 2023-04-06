@@ -91,7 +91,7 @@ static BOOL CALLBACK GetMainApplicationWindowHWND_EnumProc( HWND hWnd, LPARAM lP
 
 static HWND GetMainApplicationWindowHWND()
 {
-	HWND hWnd = NULL;
+	HWND hWnd = nullptr;
 
 	//
 	// Pass 1: calling on a GUI thread
@@ -119,7 +119,7 @@ static HWND GetMainApplicationWindowHWND()
 		return hWnd;
 
 	// Failed to find the window by all means...
-	return NULL;
+	return nullptr;
 }
 
 
@@ -230,12 +230,12 @@ vgui::ISystem *g_pSystem = &g_System;
 CSystem::CSystem()
 {
 	m_bStaticWatchForComputerUse = false;
-	m_hStaticKeyboardHook = NULL;
-	m_hStaticMouseHook = NULL;
+	m_hStaticKeyboardHook = nullptr;
+	m_hStaticMouseHook = nullptr;
 	m_StaticLastComputerUseTime = 0.0;
 	m_iStaticMouseOldX = m_iStaticMouseOldY = -1;
 	m_flFrameTime = 0.0;
-	m_pUserConfigData = NULL;
+	m_pUserConfigData = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -253,7 +253,7 @@ void CSystem::Shutdown()
 	if (m_pUserConfigData)
 	{
 		m_pUserConfigData->deleteThis();
-		m_pUserConfigData = NULL;
+		m_pUserConfigData = nullptr;
 	}
 }
 
@@ -308,14 +308,14 @@ long CSystem::GetTimeMillis()
 void CSystem::ShellExecute( const char *command, const char *file )
 {
 #ifndef _GAMECONSOLE
-	::ShellExecuteA(NULL, command, file, NULL, NULL, SW_SHOWNORMAL);
+	::ShellExecuteA(nullptr, command, file, nullptr, nullptr, SW_SHOWNORMAL);
 #endif
 }
 
 void CSystem::ShellExecuteEx( const char *command, const char *file, const char *pParams )
 {
 #ifndef _GAMECONSOLE
-	::ShellExecuteA(NULL, command, file, pParams, NULL, SW_SHOWNORMAL);
+	::ShellExecuteA(nullptr, command, file, pParams, nullptr, SW_SHOWNORMAL);
 #endif
 }
 
@@ -334,7 +334,7 @@ void CSystem::SetClipboardImage( void *pWnd, int x1, int y1, int x2, int y2 )
 		return;
 
 	// Prepare the blit
-	HBITMAP hBmMem = NULL;
+	HBITMAP hBmMem = nullptr;
 	{
 		// Device contexts
 		HDC hDc = GetDC( hWnd );
@@ -380,7 +380,7 @@ void CSystem::SetClipboardText(const char *text, int textLen)
 	if (hmem)
 	{
 		void *ptr = GlobalLock(hmem);
-		if (ptr != 0)
+		if (ptr != nullptr)
 		{
 			memset(ptr, 0, textLen + 1);
 			memcpy(ptr, text, textLen);
@@ -416,7 +416,7 @@ void CSystem::SetClipboardText(const wchar_t *text, int textLen)
 	if (hmem)
 	{
 		void *ptr = GlobalLock(hmem);
-		if (ptr != 0)
+		if (ptr != nullptr)
 		{
 			memset(ptr, 0, (textLen + 1) * sizeof(wchar_t));
 			memcpy(ptr, text, textLen * sizeof(wchar_t));
@@ -538,7 +538,7 @@ int CSystem::GetClipboardText(int offset, wchar_t *buf, int bufLen)
 
 static bool staticSplitRegistryKey(const char *key, char *key0, int key0Len, char *key1, int key1Len)
 {
-	if(key==0)
+	if(key==nullptr)
 	{
 		return false;
 	}
@@ -596,7 +596,7 @@ bool CSystem::SetRegistryString(const char *key, const char *value)
 		return false;
 	}
 
-	if ( RegCreateKeyEx( hSlot,key0,0,0,REG_OPTION_NON_VOLATILE, value ? KEY_WRITE : KEY_ALL_ACCESS,0,&hKey,0 ) != ERROR_SUCCESS )
+	if ( RegCreateKeyEx( hSlot,key0,0,nullptr,REG_OPTION_NON_VOLATILE, value ? KEY_WRITE : KEY_ALL_ACCESS,nullptr,&hKey,nullptr ) != ERROR_SUCCESS )
 	{
 		return false;
 	}
@@ -646,7 +646,7 @@ bool CSystem::GetRegistryString(const char *key, char *value, int valueLen)
 	}
 
 	ulong len=valueLen;
-	if ( RegQueryValueEx( hKey,key1,0,0,(uchar*)value,&len ) == ERROR_SUCCESS )
+	if ( RegQueryValueEx( hKey,key1,nullptr,nullptr,(uchar*)value,&len ) == ERROR_SUCCESS )
 	{		
 		RegCloseKey(hKey);
 		return true;
@@ -680,7 +680,7 @@ bool CSystem::SetRegistryInteger(const char *key, int value)
 		return false;
 	}
 
-	if ( RegCreateKeyEx( hSlot,key0,0,0,REG_OPTION_NON_VOLATILE,KEY_WRITE,0,&hKey,0 ) != ERROR_SUCCESS )
+	if ( RegCreateKeyEx( hSlot,key0,0,nullptr,REG_OPTION_NON_VOLATILE,KEY_WRITE,nullptr,&hKey,nullptr ) != ERROR_SUCCESS )
 	{
 		return false;
 	}
@@ -724,7 +724,7 @@ bool CSystem::GetRegistryInteger(const char *key, int &value)
 	}
 
 	ulong len=4;
-	if ( RegQueryValueEx( hKey,key1,0,0,(uchar*)&value,&len ) == ERROR_SUCCESS )
+	if ( RegQueryValueEx( hKey,key1,nullptr,nullptr,(uchar*)&value,&len ) == ERROR_SUCCESS )
 	{		
 		RegCloseKey(hKey);
 		return true;
@@ -838,7 +838,7 @@ double CSystem::GetFreeDiskSpace(const char *path)
 KeyValues *CSystem::GetUserConfigFileData(const char *dialogName, int dialogID)
 {
 	if (!m_pUserConfigData)
-		return NULL;
+		return nullptr;
 
 	Assert(dialogName && *dialogName);
 
@@ -888,7 +888,7 @@ bool CSystem::CommandLineParamExists(const char *paramName)
 {
 	const char *cmdLine = GetFullCommandLine();
 	const char *loc = strstr(cmdLine, paramName);
-	return (loc != NULL);
+	return (loc != nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -904,7 +904,7 @@ bool CSystem::GetCommandLineParamValue(const char *paramName, char *value, int v
 	loc += strlen(paramName);
 
 	char token[512];
-	ParseFile(loc, token, NULL);
+	ParseFile(loc, token, nullptr);
 
 	strncpy(value, token, valueBufferSize - 1);
 	value[valueBufferSize - 1] = 0;
@@ -987,7 +987,7 @@ bool CSystem::CreateShortcut(const char *linkFileName, const char *targetPath, c
 
 	// Create the ShellLink object
 	IShellLink *psl;
-	HRESULT hres = ::CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*) &psl);
+	HRESULT hres = ::CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*) &psl);
 	if (SUCCEEDED(hres))
 	{
 		// Set the target information from the link object
@@ -1040,7 +1040,7 @@ bool CSystem::GetShortcutTarget(const char *linkFileName, char *targetPath, char
 
 	// Create the ShellLink object
 	IShellLink *psl;
-	HRESULT hres = ::CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*) &psl);
+	HRESULT hres = ::CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*) &psl);
 	if (SUCCEEDED(hres))
 	{
 		IPersistFile *ppf;
@@ -1059,7 +1059,7 @@ bool CSystem::GetShortcutTarget(const char *linkFileName, char *targetPath, char
 			{
 				//Read the target information from the link object
 				//UNC paths are supported (SLGP_UNCPRIORITY)
-				psl->GetPath(targetPath, destBufferSizes, NULL, SLGP_UNCPRIORITY);
+				psl->GetPath(targetPath, destBufferSizes, nullptr, SLGP_UNCPRIORITY);
 
 				//Read the arguments from the link object
 				psl->GetArguments(arguments, destBufferSizes);
@@ -1087,7 +1087,7 @@ bool CSystem::ModifyShortcutTarget(const char *linkFileName, const char *targetP
 
 	// Create the ShellLink object
 	IShellLink *psl;
-	HRESULT hres = ::CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*) &psl);
+	HRESULT hres = ::CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_IShellLink, (LPVOID*) &psl);
 	if (SUCCEEDED(hres))
 	{
 		IPersistFile *ppf;
@@ -1139,11 +1139,11 @@ const char *CSystem::GetDesktopFolderPath()
 
 
 	// try the default 
-	if ( ::SHGetSpecialFolderPath( NULL, folderPath, CSIDL_DESKTOP, false ) 
+	if ( ::SHGetSpecialFolderPath(nullptr, folderPath, CSIDL_DESKTOP, false ) 
 		&& strlen(folderPath) > 6 )
 	{
 		return folderPath;
 	}
 #endif
-	return NULL;
+	return nullptr;
 }

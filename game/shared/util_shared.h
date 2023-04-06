@@ -90,7 +90,7 @@ inline const CBaseEntity *EntityFromEntityHandle( const IHandleEntity *pConstHan
 	return pUnk->GetBaseEntity();
 #else
 	if ( staticpropmgr->IsStaticProp( pHandleEntity ) )
-		return NULL;
+		return nullptr;
 
 	IServerUnknown *pUnk = (IServerUnknown*)pHandleEntity;
 	return pUnk->GetBaseEntity();
@@ -105,7 +105,7 @@ inline CBaseEntity *EntityFromEntityHandle( IHandleEntity *pHandleEntity )
 #else
 #ifndef _GAMECONSOLE
 	if ( staticpropmgr->IsStaticProp( pHandleEntity ) )
-		return NULL;
+		return nullptr;
 #else
 	if ( !pHandleEntity || pHandleEntity->m_bIsStaticProp )
 		return NULL;
@@ -129,7 +129,7 @@ public:
 	// It does have a base, but we'll never network anything below here..
 	DECLARE_CLASS_NOBASE( CTraceFilterSimple );
 	
-	CTraceFilterSimple( const IHandleEntity *passentity, int collisionGroup, ShouldHitFunc_t pExtraShouldHitCheckFn = NULL );
+	CTraceFilterSimple( const IHandleEntity *passentity, int collisionGroup, ShouldHitFunc_t pExtraShouldHitCheckFn = nullptr);
 	virtual bool ShouldHitEntity( IHandleEntity *pHandleEntity, int contentsMask );
 	virtual void SetPassEntity( const IHandleEntity *pPassEntity ) { m_pPassEnt = pPassEntity; }
 	virtual void SetCollisionGroup( int iCollisionGroup ) { m_collisionGroup = iCollisionGroup; }
@@ -150,7 +150,7 @@ public:
 	// It does have a base, but we'll never network anything below here..
 	DECLARE_CLASS( CTraceFilterSkipTwoEntities, CTraceFilterSimple );
 	
-	CTraceFilterSkipTwoEntities( const IHandleEntity *passentity = NULL, const IHandleEntity *passentity2 = NULL, int collisionGroup = COLLISION_GROUP_NONE );
+	CTraceFilterSkipTwoEntities( const IHandleEntity *passentity = nullptr, const IHandleEntity *passentity2 = nullptr, int collisionGroup = COLLISION_GROUP_NONE );
 	virtual bool ShouldHitEntity( IHandleEntity *pHandleEntity, int contentsMask );
 	virtual void SetPassEntity2( const IHandleEntity *pPassEntity2 ) { m_pPassEnt2 = pPassEntity2; }
 
@@ -203,7 +203,7 @@ public:
 class CTraceFilterNoNPCsOrPlayer : public CTraceFilterSimple
 {
 public:
-	CTraceFilterNoNPCsOrPlayer( const IHandleEntity *passentity = NULL, int collisionGroup = COLLISION_GROUP_NONE )
+	CTraceFilterNoNPCsOrPlayer( const IHandleEntity *passentity = nullptr, int collisionGroup = COLLISION_GROUP_NONE )
 		: CTraceFilterSimple( passentity, collisionGroup )
 	{
 	}
@@ -214,7 +214,7 @@ public:
 class CTraceFilterNoPlayers : public CTraceFilterSimple
 {
 public:
-	CTraceFilterNoPlayers( const IHandleEntity *passentity = NULL, int collisionGroup = COLLISION_GROUP_NONE )
+	CTraceFilterNoPlayers( const IHandleEntity *passentity = nullptr, int collisionGroup = COLLISION_GROUP_NONE )
 		: CTraceFilterSimple( passentity, collisionGroup )
 	{
 	}
@@ -228,7 +228,7 @@ public:
 class CTraceFilterLOS : public CTraceFilterSkipTwoEntities
 {
 public:
-	CTraceFilterLOS( IHandleEntity *pHandleEntity, int collisionGroup, IHandleEntity *pHandleEntity2 = NULL );
+	CTraceFilterLOS( IHandleEntity *pHandleEntity, int collisionGroup, IHandleEntity *pHandleEntity2 = nullptr);
 	bool ShouldHitEntity( IHandleEntity *pHandleEntity, int contentsMask );
 };
 
@@ -482,7 +482,7 @@ void UTIL_ClipTraceToPlayers( const Vector& vecAbsStart, const Vector& vecAbsEnd
 void		UTIL_ParticleTracer( const char *pszTracerEffectName, const Vector &vecStart, const Vector &vecEnd, int iEntIndex = 0, int iAttachment = 0, bool bWhiz = false );
 
 // Old style, non-particle system, tracers
-void		UTIL_Tracer( const Vector &vecStart, const Vector &vecEnd, int iEntIndex = 0, int iAttachment = TRACER_DONT_USE_ATTACHMENT, float flVelocity = 0, bool bWhiz = false, const char *pCustomTracerName = NULL, int iParticleID = 0 );
+void		UTIL_Tracer( const Vector &vecStart, const Vector &vecEnd, int iEntIndex = 0, int iAttachment = TRACER_DONT_USE_ATTACHMENT, float flVelocity = 0, bool bWhiz = false, const char *pCustomTracerName = nullptr, int iParticleID = 0 );
 
 bool		UTIL_IsLowViolence( void );
 bool		UTIL_ShouldShowBlood( int bloodColor );
@@ -536,8 +536,8 @@ struct FindClosestPassableSpace_TraceAdapter_t
 
 bool		UTIL_FindClosestPassableSpace( const Vector &vCenter, const Vector &vExtents, const Vector &vIndecisivePush, unsigned int iIterations, Vector &vCenterOut, int nAxisRestrictionFlags, FindClosestPassableSpace_TraceAdapter_t *pTraceAdapter );
 bool		UTIL_FindClosestPassableSpace( const Vector &vCenter, const Vector &vExtents, const Vector &vIndecisivePush, ITraceFilter *pTraceFilter, unsigned int fMask, unsigned int iIterations, Vector &vCenterOut, int nAxisRestrictionFlags = FL_AXIS_DIRECTION_NONE );
-bool		UTIL_FindClosestPassableSpace( CBaseEntity *pEntity, const Vector &vIndecisivePush, unsigned int fMask, unsigned int iIterations, Vector &vOriginOut, Vector *pStartingPosition = NULL, int nAxisRestrictionFlags = FL_AXIS_DIRECTION_NONE );
-bool		UTIL_FindClosestPassableSpace( CBaseEntity *pEntity, const Vector &vIndecisivePush, unsigned int fMask, Vector *pStartingPosition = NULL, int nAxisRestrictionFlags = FL_AXIS_DIRECTION_NONE );
+bool		UTIL_FindClosestPassableSpace( CBaseEntity *pEntity, const Vector &vIndecisivePush, unsigned int fMask, unsigned int iIterations, Vector &vOriginOut, Vector *pStartingPosition = nullptr, int nAxisRestrictionFlags = FL_AXIS_DIRECTION_NONE );
+bool		UTIL_FindClosestPassableSpace( CBaseEntity *pEntity, const Vector &vIndecisivePush, unsigned int fMask, Vector *pStartingPosition = nullptr, int nAxisRestrictionFlags = FL_AXIS_DIRECTION_NONE );
 
 
 //--------------------------------------------------------------------------------------------------------------
@@ -545,7 +545,7 @@ bool		UTIL_FindClosestPassableSpace( CBaseEntity *pEntity, const Vector &vIndeci
  * Given a position and a ray, return the shortest distance between the two.
  * If 'pos' is beyond either end of the ray, the returned distance is negated.
  */
-inline float DistanceToRay( const Vector &pos, const Vector &rayStart, const Vector &rayEnd, float *along = NULL, Vector *pointOnRay = NULL )
+inline float DistanceToRay( const Vector &pos, const Vector &rayStart, const Vector &rayEnd, float *along = nullptr, Vector *pointOnRay = nullptr)
 {
 	Vector to = pos - rayStart;
 	Vector dir = rayEnd - rayStart;
@@ -996,7 +996,7 @@ EXTERN_RECV_TABLE(DT_Timeline);
 EXTERN_SEND_TABLE(DT_Timeline);
 #endif
 
-char* ReadAndAllocStringValue( KeyValues *pSub, const char *pName, const char *pFilename = NULL );
+char* ReadAndAllocStringValue( KeyValues *pSub, const char *pName, const char *pFilename = nullptr);
 
 int UTIL_StringFieldToInt( const char *szValue, const char **pValueStrings, int iNumStrings );
 

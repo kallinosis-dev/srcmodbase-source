@@ -499,7 +499,7 @@ bool Studio_IKAnimationError( const CStudioHdr *pStudioHdr, mstudioikrule_t *pRu
 		return false;
 
 	mstudioikerror_t *pError = pRule->pError( iFrame );
-	if (pError != NULL)
+	if (pError != nullptr)
 	{
 		if (fraq < 0.001)
 		{
@@ -515,7 +515,7 @@ bool Studio_IKAnimationError( const CStudioHdr *pStudioHdr, mstudioikrule_t *pRu
 	}
 
 	mstudiocompressedikerror_t *pCompressed = pRule->pCompressedError();
-	if (pCompressed != NULL)
+	if (pCompressed != nullptr)
 	{
 		CalcDecompressedAnimation( pCompressed, iFrame - pRule->iStart, fraq, pos, q );
 		return true;
@@ -555,7 +555,7 @@ bool Studio_IKSequenceError( const CStudioHdr *pStudioHdr, mstudioseqdesc_t &seq
 			}
 
 			mstudioikrule_t *pRule = panim[i]->pIKRule( iRule );
-			if (pRule != NULL)
+			if (pRule != nullptr)
 			{
 				float dt = 0.0f;
 				if (prevStart != 0.0f)
@@ -635,7 +635,7 @@ bool Studio_IKSequenceError( const CStudioHdr *pStudioHdr, mstudioseqdesc_t &seq
 		// go ahead and allow IK_GROUND rules a virtual looping section
 		if ( weight[0] )
 		{
-			if ( panim[ 0 ]->pIKRule( iRule ) == NULL )
+			if ( panim[ 0 ]->pIKRule( iRule ) == nullptr)
 				return false;
 			if ( ( panim[ 0 ]->flags & STUDIO_LOOPING ) && panim[ 0 ]->pIKRule( iRule )->type == IK_GROUND && ikRule.end - ikRule.start > 0.75 )
 			{
@@ -669,7 +669,7 @@ bool Studio_IKSequenceError( const CStudioHdr *pStudioHdr, mstudioseqdesc_t &seq
 			float w;
 
 			mstudioikrule_t *pRule = panim[i]->pIKRule( iRule );
-			if (pRule != NULL)
+			if (pRule != nullptr)
 			{
 				ikRule.chain = pRule->chain;	// FIXME: this is anim local
 				ikRule.bone = pRule->bone;		// FIXME: this is anim local
@@ -769,7 +769,7 @@ CIKContext::CIKContext()
 {
 	m_target.EnsureCapacity( 12 ); // FIXME: this sucks, shouldn't it be grown?
 	m_iFramecounter = -1;
-	m_pStudioHdr = NULL;
+	m_pStudioHdr = nullptr;
 	m_flTime = -1.0f;
 	m_target.SetSize( 0 );
 }
@@ -1347,7 +1347,7 @@ void CIKContext::UpdateTargets( BoneVector pos[], BoneQuaternion q[], matrix3x4a
 					}
 					else
 					{
-						pTarget->offset.pAttachmentName = NULL;
+						pTarget->offset.pAttachmentName = nullptr;
 					}
 
 					if (pRule->flRuleWeight == 1.0f || pTarget->est.flWeight == 0.0f)
@@ -1586,13 +1586,13 @@ void CIKContext::AutoIKRelease( void )
 				if ( pTarget->chain >= 0 && pTarget->chain < m_pStudioHdr->numikchains())
 				{
 					mstudioikchain_t *pchain = m_pStudioHdr->pIKChain( pTarget->chain );
-					if (pchain != NULL)
+					if (pchain != nullptr)
 					{
 						int bone = pchain->pLink( 2 )->bone;
 						if (bone >= 0 && bone < m_pStudioHdr->numbones())
 						{
 							const mstudiobone_t *pBone = m_pStudioHdr->pBone( bone );
-							if (pBone != NULL)
+							if (pBone != nullptr)
 							{
 								if ( !(m_pStudioHdr->boneFlags( bone ) & m_boneMask))
 								{
@@ -2191,7 +2191,7 @@ void CIKContext::CopyTo( CIKContext* pOther, const unsigned short * iRemapping  
 		FOR_EACH_VEC( m_ikChainRule[n], m )
 		{
 			int nIKChainBone = m_ikChainRule[n][m].bone;
-			if ( iRemapping != NULL && m_ikChainRule[ n ][ m ].type != IK_RELEASE )
+			if ( iRemapping != nullptr && m_ikChainRule[ n ][ m ].type != IK_RELEASE )
 			{
 				int nIKChainBoneRemapped = iRemapping[ nIKChainBone ];
 				if ( nIKChainBoneRemapped < 0 || nIKChainBoneRemapped >= MAXSTUDIOBONES )
@@ -2209,7 +2209,7 @@ void CIKContext::CopyTo( CIKContext* pOther, const unsigned short * iRemapping  
 	FOR_EACH_VEC( m_ikLock, n )
 	{
 		int nIKChainBone = m_ikLock[n].bone;
-		if ( iRemapping != NULL && m_ikLock[ n ].type != IK_RELEASE )
+		if ( iRemapping != nullptr && m_ikLock[ n ].type != IK_RELEASE )
 		{
 			int nIKChainBoneRemapped = iRemapping[ nIKChainBone ];
 			if ( nIKChainBoneRemapped < 0 || nIKChainBoneRemapped >= MAXSTUDIOBONES )

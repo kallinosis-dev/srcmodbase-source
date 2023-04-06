@@ -27,8 +27,8 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-IPhysicsSurfaceProps *physprops = NULL;
-IPhysicsCollision	 *physcollision = NULL;
+IPhysicsSurfaceProps *physprops = nullptr;
+IPhysicsCollision	 *physcollision = nullptr;
 
 // local forward declarations
 void CollisionBSPData_LoadTextures( CCollisionBSPData *pBSPData );
@@ -61,7 +61,7 @@ void CollisionBSPData_LoadDispInfo( CCollisionBSPData *pBSPData, texinfo_t *pTex
 bool CollisionBSPData_Init( CCollisionBSPData *pBSPData )
 {
 	pBSPData->numleafs = 1;
-	pBSPData->map_vis = NULL;
+	pBSPData->map_vis = nullptr;
 	pBSPData->numareas = 1;
 	pBSPData->numclusters = 1;
 	pBSPData->map_nullname = "**empty**";
@@ -84,8 +84,8 @@ void CollisionBSPData_Destroy( CCollisionBSPData *pBSPData )
 	DispCollTrees_FreeLeafList( pBSPData );
 	CM_DestroyDispPhysCollide();
 	DispCollTrees_Free( g_pDispCollTrees );
-	g_pDispCollTrees = NULL;
-	g_pDispBounds = NULL;
+	g_pDispCollTrees = nullptr;
+	g_pDispBounds = nullptr;
 	g_DispCollTreeCount = 0;
 
 	if ( pBSPData->map_planes.Base() )
@@ -95,7 +95,7 @@ void CollisionBSPData_Destroy( CCollisionBSPData *pBSPData )
 
 	if ( pBSPData->map_texturenames )
 	{
-		pBSPData->map_texturenames = NULL;
+		pBSPData->map_texturenames = nullptr;
 	}
 
 	if ( pBSPData->map_surfaces.Base() )
@@ -163,7 +163,7 @@ void CollisionBSPData_Destroy( CCollisionBSPData *pBSPData )
 
 	if ( pBSPData->map_vis )
 	{
-		pBSPData->map_vis = NULL;
+		pBSPData->map_vis = nullptr;
 	}
 
 	pBSPData->numplanes = 0;
@@ -185,7 +185,7 @@ void CollisionBSPData_Destroy( CCollisionBSPData *pBSPData )
 	pBSPData->numentitychars = 0;
 	pBSPData->numportalopen = 0;
 	pBSPData->mapPathName[0] = 0;
-	pBSPData->map_rootnode = NULL;
+	pBSPData->map_rootnode = nullptr;
 
 }
 
@@ -196,7 +196,7 @@ void CollisionBSPData_Destroy( CCollisionBSPData *pBSPData )
 CDispCollTree* CollisionBSPData_GetCollisionTree( int i )
 {
 	if ((i < 0) || (i >= g_DispCollTreeCount))
-		return 0;
+		return nullptr;
 
 	return &g_pDispCollTrees[i];
 }
@@ -210,8 +210,8 @@ void CollisionBSPData_LinkPhysics( void )
 	//
 	if( !physprops )
 	{
-		physprops = ( IPhysicsSurfaceProps* )g_AppSystemFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, NULL );
-		physcollision = ( IPhysicsCollision* )g_AppSystemFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, NULL );
+		physprops = ( IPhysicsSurfaceProps* )g_AppSystemFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, nullptr);
+		physcollision = ( IPhysicsCollision* )g_AppSystemFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, nullptr);
 
 		if ( !physprops || !physcollision )
 		{
@@ -981,7 +981,7 @@ void CollisionBSPData_LoadVisibility( CCollisionBSPData *pBSPData )
 	int visDataSize = lh.LumpSize();
 	if ( visDataSize == 0 )
 	{
-		pBSPData->map_vis = NULL;
+		pBSPData->map_vis = nullptr;
 	}
 	else
 	{

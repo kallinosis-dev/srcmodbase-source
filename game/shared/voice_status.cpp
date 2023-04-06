@@ -71,7 +71,7 @@ ConVar cl_mute_all_but_friends_and_party( "cl_mute_all_but_friends_and_party", "
 // ---------------------------------------------------------------------- //
 // The voice manager for the client.
 // ---------------------------------------------------------------------- //
-static CVoiceStatus *g_VoiceStatus = NULL;
+static CVoiceStatus *g_VoiceStatus = nullptr;
 
 CVoiceStatus* GetClientVoiceMgr()
 {
@@ -94,7 +94,7 @@ void ClientVoiceMgr_Init()
 void ClientVoiceMgr_Shutdown()
 {
 	delete g_VoiceStatus;
-	g_VoiceStatus = NULL;
+	g_VoiceStatus = nullptr;
 }
 
 void ClientVoiceMgr_LevelInit()
@@ -117,7 +117,7 @@ void ClientVoiceMgr_LevelShutdown()
 // CVoiceStatus.
 // ---------------------------------------------------------------------- //
 
-static CVoiceStatus *g_pInternalVoiceStatus = NULL;
+static CVoiceStatus *g_pInternalVoiceStatus = nullptr;
 
 bool __MsgFunc_VoiceMask(const CCSUsrMsg_VoiceMask &msg)
 {
@@ -157,7 +157,7 @@ CVoiceStatus::CVoiceStatus()
 
 	m_bServerModEnable = -1;
 
-	m_pHeadLabelMaterial = NULL;
+	m_pHeadLabelMaterial = nullptr;
 
 	m_bHeadLabelsDisabled = false;
 }
@@ -170,7 +170,7 @@ CVoiceStatus::~CVoiceStatus()
 		m_pHeadLabelMaterial->DecrementReferenceCount();
 	}
 
-	g_pInternalVoiceStatus = NULL;			
+	g_pInternalVoiceStatus = nullptr;			
 
 	const char *pGameDir = engine->GetGameDirectory();
 	if( pGameDir )
@@ -723,7 +723,7 @@ bool IsPartyMember( XUID xuidPlayer )
 {
 	if ( IMatchSession *pMatchSession = g_pMatchFramework->GetMatchSession() )
 	{
-		return SessionMembersFindPlayer( pMatchSession->GetSessionSettings(), xuidPlayer ) != NULL;
+		return SessionMembersFindPlayer( pMatchSession->GetSessionSettings(), xuidPlayer ) != nullptr;
 	}
 	return false;
 }
@@ -804,7 +804,7 @@ void CVoiceStatus::SetHeadLabelMaterial( const char *pszMaterial )
 	if ( m_pHeadLabelMaterial )
 	{
 		m_pHeadLabelMaterial->DecrementReferenceCount();
-		m_pHeadLabelMaterial = NULL;
+		m_pHeadLabelMaterial = nullptr;
 	}
 
 	m_pHeadLabelMaterial = materials->FindMaterial( pszMaterial, TEXTURE_GROUP_VGUI );

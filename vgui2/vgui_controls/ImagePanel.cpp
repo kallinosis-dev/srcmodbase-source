@@ -29,10 +29,10 @@ DECLARE_BUILD_FACTORY( ImagePanel );
 //-----------------------------------------------------------------------------
 ImagePanel::ImagePanel(Panel *parent, const char *name) : Panel(parent, name)
 {
-	m_pImage = NULL;
-	m_pszImageName = NULL;
-	m_pszFillColorName = NULL;
-	m_pszDrawColorName = NULL;
+	m_pImage = nullptr;
+	m_pszImageName = nullptr;
+	m_pszFillColorName = nullptr;
+	m_pszDrawColorName = nullptr;
 	m_bScaleImage = false;
 	m_bTileImage = false;
 	m_bTileHorizontally = false;
@@ -271,9 +271,9 @@ void ImagePanel::ApplySettings(KeyValues *inResourceData)
 	delete [] m_pszImageName;
 	delete [] m_pszFillColorName;
 	delete [] m_pszDrawColorName;
-	m_pszImageName = NULL;
-	m_pszFillColorName = NULL;
-	m_pszDrawColorName = NULL;
+	m_pszImageName = nullptr;
+	m_pszFillColorName = nullptr;
+	m_pszDrawColorName = nullptr;
 
 	m_bScaleImage = inResourceData->GetBool("scaleImage", false);
 	m_fScaleAmount = inResourceData->GetFloat("scaleAmount", 0.0f);
@@ -446,9 +446,9 @@ bool ImagePanel::EvictImage()
 	// clear out our cached concept of it
 	// as it may change
 	// the next SetImage() will re-establish
-	m_pImage = NULL;
+	m_pImage = nullptr;
 	delete [] m_pszImageName;
-	m_pszImageName = NULL;
+	m_pszImageName = nullptr;
 
 	return true;
 }

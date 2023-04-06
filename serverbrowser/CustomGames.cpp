@@ -47,7 +47,7 @@ DECLARE_BUILD_FACTORY( TagInfoLabel );
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-TagInfoLabel::TagInfoLabel(Panel *parent, const char *panelName) : BaseClass(parent,panelName, (const char *)NULL, NULL)
+TagInfoLabel::TagInfoLabel(Panel *parent, const char *panelName) : BaseClass(parent,panelName, (const char *)nullptr, nullptr)
 {
 }
 
@@ -69,7 +69,7 @@ void TagInfoLabel::OnMousePressed(MouseCode code)
 		{
 			// Pop up the dialog with the url in it
 			CCustomServerInfoURLQuery *qb = new CCustomServerInfoURLQuery( "#ServerBrowser_CustomServerURLWarning", "#ServerBrowser_CustomServerURLOpen", this );
-			if (qb != NULL)
+			if (qb != nullptr)
 			{
 				qb->SetOKCommand( new KeyValues("DoOpenCustomServerInfoURL") );
 				qb->AddActionSignalTarget(this);
@@ -189,7 +189,7 @@ bool CCustomGames::CheckTagFilter( gameserveritem_t &server )
 		CSplitString TagList( m_szTagFilter, "," );
 		for ( int i = 0; i < TagList.Count(); i++ )
 		{
-			if ( ( Q_strnistr( server.m_szGameTags, TagList[i], MAX_TAG_CHARACTERS ) > 0 ) == TagsExclude() )
+			if ( ( Q_strnistr( server.m_szGameTags, TagList[i], MAX_TAG_CHARACTERS ) > nullptr ) == TagsExclude() )
 			{
 				bRetVal = false;
 				break;

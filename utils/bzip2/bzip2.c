@@ -426,7 +426,7 @@ Bool myfeof ( FILE* f )
 static 
 void compressStream ( FILE *stream, FILE *zStream )
 {
-   BZFILE* bzf = NULL;
+   BZFILE* bzf = nullptr;
    UChar   ibuf[5000];
    Int32   nIbuf;
    UInt32  nbytes_in_lo32, nbytes_in_hi32;
@@ -465,10 +465,10 @@ void compressStream ( FILE *stream, FILE *zStream )
    if (ret == EOF) goto errhandler_io;
    if (zStream != stdout) {
       ret = fclose ( zStream );
-      outputHandleJustInCase = NULL;
+      outputHandleJustInCase = nullptr;
       if (ret == EOF) goto errhandler_io;
    }
-   outputHandleJustInCase = NULL;
+   outputHandleJustInCase = nullptr;
    if (ferror(stream)) goto errhandler_io;
    ret = fclose ( stream );
    if (ret == EOF) goto errhandler_io;
@@ -527,7 +527,7 @@ void compressStream ( FILE *stream, FILE *zStream )
 static 
 Bool uncompressStream ( FILE *zStream, FILE *stream )
 {
-   BZFILE* bzf = NULL;
+   BZFILE* bzf = nullptr;
    Int32   bzerr, bzerr_dummy, ret, nread, streamNo, i;
    UChar   obuf[5000];
    UChar   unused[BZ_MAX_UNUSED];
@@ -549,7 +549,7 @@ Bool uncompressStream ( FILE *zStream, FILE *stream )
                &bzerr, zStream, verbosity, 
                (int)smallMode, unused, nUnused
             );
-      if (bzf == NULL || bzerr != BZ_OK) goto errhandler;
+      if (bzf == nullptr || bzerr != BZ_OK) goto errhandler;
       streamNo++;
 
       while (bzerr == BZ_OK) {
@@ -582,10 +582,10 @@ Bool uncompressStream ( FILE *zStream, FILE *stream )
    if (ret != 0) goto errhandler_io;
    if (stream != stdout) {
       ret = fclose ( stream );
-      outputHandleJustInCase = NULL;
+      outputHandleJustInCase = nullptr;
       if (ret == EOF) goto errhandler_io;
    }
-   outputHandleJustInCase = NULL;
+   outputHandleJustInCase = nullptr;
    if (verbosity >= 2) fprintf ( stderr, "\n    " );
    return True;
 
@@ -641,7 +641,7 @@ Bool uncompressStream ( FILE *zStream, FILE *stream )
 static 
 Bool testStream ( FILE *zStream )
 {
-   BZFILE* bzf = NULL;
+   BZFILE* bzf = nullptr;
    Int32   bzerr, bzerr_dummy, ret, nread, streamNo, i;
    UChar   obuf[5000];
    UChar   unused[BZ_MAX_UNUSED];
@@ -660,7 +660,7 @@ Bool testStream ( FILE *zStream )
                &bzerr, zStream, verbosity, 
                (int)smallMode, unused, nUnused
             );
-      if (bzf == NULL || bzerr != BZ_OK) goto errhandler;
+      if (bzf == nullptr || bzerr != BZ_OK) goto errhandler;
       streamNo++;
 
       while (bzerr == BZ_OK) {
@@ -790,7 +790,7 @@ void cleanUpAndFail ( Int32 ec )
             fprintf ( stderr, 
                       "%s: Deleting output file %s, if it exists.\n",
                       progName, outName );
-         if (outputHandleJustInCase != NULL)
+         if (outputHandleJustInCase != nullptr)
             fclose ( outputHandleJustInCase );
          retVal = remove ( outName );
          if (retVal != 0)
@@ -1026,8 +1026,8 @@ static
 Bool fileExists ( Char* name )
 {
    FILE *tmp   = fopen ( name, "rb" );
-   Bool exists = (tmp != NULL);
-   if (tmp != NULL) fclose ( tmp );
+   Bool exists = (tmp != nullptr);
+   if (tmp != nullptr) fclose ( tmp );
    return exists;
 }
 
@@ -1218,14 +1218,14 @@ Bool mapSuffix ( Char* name,
 static 
 void compress ( Char *name )
 {
-   FILE  *inStr = NULL;
-   FILE  *outStr = NULL;
+   FILE  *inStr = nullptr;
+   FILE  *outStr = nullptr;
    Int32 n, i;
    struct MY_STAT statBuf;
 
    deleteOutputOnInterrupt = False;
 
-   if (name == NULL && srcMode != SM_I2O)
+   if (name == nullptr && srcMode != SM_I2O)
       panic ( "compress: bad modes\n" );
 
    switch (srcMode) {
@@ -1338,12 +1338,12 @@ void compress ( Char *name )
                       progName );
             fprintf ( stderr, "%s: For help, type: `%s --help'.\n",
                               progName, progName );
-            if ( inStr != NULL ) fclose ( inStr );
+            if ( inStr != nullptr) fclose ( inStr );
             setExit(1);
             return;
          };
 #endif
-         if ( inStr == NULL ) {
+         if ( inStr == nullptr) {
             fprintf ( stderr, "%s: Can't open input file %s: %s.\n",
                       progName, inName, strerror(errno) );
             setExit(1);
@@ -1354,17 +1354,17 @@ void compress ( Char *name )
       case SM_F2F:
          inStr = fopen ( inName, "rb" );
          outStr = fopen_output_safely ( outName, "wb" );
-         if ( outStr == NULL) {
+         if ( outStr == nullptr) {
             fprintf ( stderr, "%s: Can't create output file %s: %s.\n",
                       progName, outName, strerror(errno) );
-            if ( inStr != NULL ) fclose ( inStr );
+            if ( inStr != nullptr) fclose ( inStr );
             setExit(1);
             return;
          }
-         if ( inStr == NULL ) {
+         if ( inStr == nullptr) {
             fprintf ( stderr, "%s: Can't open input file %s: %s.\n",
                       progName, inName, strerror(errno) );
-            if ( outStr != NULL ) fclose ( outStr );
+            if ( outStr != nullptr) fclose ( outStr );
             setExit(1);
             return;
          };
@@ -1385,7 +1385,7 @@ void compress ( Char *name )
    outputHandleJustInCase = outStr;
    deleteOutputOnInterrupt = True;
    compressStream ( inStr, outStr );
-   outputHandleJustInCase = NULL;
+   outputHandleJustInCase = nullptr;
 
    /*--- If there was an I/O error, we won't get here. ---*/
    if ( srcMode == SM_F2F ) {
@@ -1405,8 +1405,8 @@ void compress ( Char *name )
 static 
 void uncompress ( Char *name )
 {
-   FILE  *inStr = NULL;
-   FILE  *outStr = NULL;
+   FILE  *inStr = nullptr;
+   FILE  *outStr = nullptr;
    Int32 n, i;
    Bool  magicNumberOK;
    Bool  cantGuess;
@@ -1414,7 +1414,7 @@ void uncompress ( Char *name )
 
    deleteOutputOnInterrupt = False;
 
-   if (name == NULL && srcMode != SM_I2O)
+   if (name == nullptr && srcMode != SM_I2O)
       panic ( "uncompress: bad modes\n" );
 
    cantGuess = False;
@@ -1523,10 +1523,10 @@ void uncompress ( Char *name )
       case SM_F2O:
          inStr = fopen ( inName, "rb" );
          outStr = stdout;
-         if ( inStr == NULL ) {
+         if ( inStr == nullptr) {
             fprintf ( stderr, "%s: Can't open input file %s:%s.\n",
                       progName, inName, strerror(errno) );
-            if ( inStr != NULL ) fclose ( inStr );
+            if ( inStr != nullptr) fclose ( inStr );
             setExit(1);
             return;
          };
@@ -1535,17 +1535,17 @@ void uncompress ( Char *name )
       case SM_F2F:
          inStr = fopen ( inName, "rb" );
          outStr = fopen_output_safely ( outName, "wb" );
-         if ( outStr == NULL) {
+         if ( outStr == nullptr) {
             fprintf ( stderr, "%s: Can't create output file %s: %s.\n",
                       progName, outName, strerror(errno) );
-            if ( inStr != NULL ) fclose ( inStr );
+            if ( inStr != nullptr) fclose ( inStr );
             setExit(1);
             return;
          }
-         if ( inStr == NULL ) {
+         if ( inStr == nullptr) {
             fprintf ( stderr, "%s: Can't open input file %s: %s.\n",
                       progName, inName, strerror(errno) );
-            if ( outStr != NULL ) fclose ( outStr );
+            if ( outStr != nullptr) fclose ( outStr );
             setExit(1);
             return;
          };
@@ -1566,7 +1566,7 @@ void uncompress ( Char *name )
    outputHandleJustInCase = outStr;
    deleteOutputOnInterrupt = True;
    magicNumberOK = uncompressStream ( inStr, outStr );
-   outputHandleJustInCase = NULL;
+   outputHandleJustInCase = nullptr;
 
    /*--- If there was an I/O error, we won't get here. ---*/
    if ( magicNumberOK ) {
@@ -1607,13 +1607,13 @@ void uncompress ( Char *name )
 static 
 void testf ( Char *name )
 {
-   FILE *inStr = NULL;
+   FILE *inStr = nullptr;
    Bool allOK;
    struct MY_STAT statBuf;
 
    deleteOutputOnInterrupt = False;
 
-   if (name == NULL && srcMode != SM_I2O)
+   if (name == nullptr && srcMode != SM_I2O)
       panic ( "testf: bad modes\n" );
 
    copyFileName ( outName, "(none)" );
@@ -1668,7 +1668,7 @@ void testf ( Char *name )
 
       case SM_F2O: case SM_F2F:
          inStr = fopen ( inName, "rb" );
-         if ( inStr == NULL ) {
+         if ( inStr == nullptr) {
             fprintf ( stderr, "%s: Can't open input file %s:%s.\n",
                       progName, inName, strerror(errno) );
             setExit(1);
@@ -1688,7 +1688,7 @@ void testf ( Char *name )
    }
 
    /*--- Now the input handle is sane.  Do the Biz. ---*/
-   outputHandleJustInCase = NULL;
+   outputHandleJustInCase = nullptr;
    allOK = testStream ( inStr );
 
    if (allOK && verbosity >= 1) fprintf ( stderr, "ok\n" );
@@ -1806,7 +1806,7 @@ void *myMalloc ( Int32 n )
    void* p;
 
    p = malloc ( (size_t)n );
-   if (p == NULL) outOfMemory ();
+   if (p == nullptr) outOfMemory ();
    return p;
 }
 
@@ -1818,8 +1818,8 @@ Cell *mkCell ( void )
    Cell *c;
 
    c = (Cell*) myMalloc ( sizeof ( Cell ) );
-   c->name = NULL;
-   c->link = NULL;
+   c->name = nullptr;
+   c->link = nullptr;
    return c;
 }
 
@@ -1828,14 +1828,14 @@ Cell *mkCell ( void )
 static 
 Cell *snocString ( Cell *root, Char *name )
 {
-   if (root == NULL) {
+   if (root == nullptr) {
       Cell *tmp = mkCell();
       tmp->name = (Char*) myMalloc ( 5 + strlen(name) );
       strcpy ( tmp->name, name );
       return tmp;
    } else {
       Cell *tmp = root;
-      while (tmp->link != NULL) tmp = tmp->link;
+      while (tmp->link != nullptr) tmp = tmp->link;
       tmp->link = snocString ( tmp->link, name );
       return root;
    }
@@ -1851,7 +1851,7 @@ void addFlagsFromEnvVar ( Cell** argList, Char* varName )
    Char *envbase, *p;
 
    envbase = getenv(varName);
-   if (envbase != NULL) {
+   if (envbase != nullptr) {
       p = envbase;
       i = 0;
       while (True) {
@@ -1890,7 +1890,7 @@ IntNative main ( IntNative argc, Char *argv[] )
       configError();
 
    /*-- Initialise --*/
-   outputHandleJustInCase  = NULL;
+   outputHandleJustInCase  = nullptr;
    smallMode               = False;
    keepInputFiles          = False;
    forceOverwrite          = False;
@@ -1930,7 +1930,7 @@ IntNative main ( IntNative argc, Char *argv[] )
    /*-- Copy flags from env var BZIP2, and 
         expand filename wildcards in arg list.
    --*/
-   argList = NULL;
+   argList = nullptr;
    addFlagsFromEnvVar ( &argList,  "BZIP2" );
    addFlagsFromEnvVar ( &argList,  "BZIP" );
    for (i = 1; i <= argc-1; i++)
@@ -1941,7 +1941,7 @@ IntNative main ( IntNative argc, Char *argv[] )
    longestFileName = 7;
    numFileNames    = 0;
    decode          = True;
-   for (aa = argList; aa != NULL; aa = aa->link) {
+   for (aa = argList; aa != nullptr; aa = aa->link) {
       if (ISFLAG("--")) { decode = False; continue; }
       if (aa->name[0] == '-' && decode) continue;
       numFileNames++;
@@ -1959,21 +1959,21 @@ IntNative main ( IntNative argc, Char *argv[] )
    /*-- Note that subsequent flag handling may change this. --*/
    opMode = OM_Z;
 
-   if ( (strstr ( progName, "unzip" ) != 0) ||
-        (strstr ( progName, "UNZIP" ) != 0) )
+   if ( (strstr ( progName, "unzip" ) != nullptr) ||
+        (strstr ( progName, "UNZIP" ) != nullptr) )
       opMode = OM_UNZ;
 
-   if ( (strstr ( progName, "z2cat" ) != 0) ||
-        (strstr ( progName, "Z2CAT" ) != 0) ||
-        (strstr ( progName, "zcat" ) != 0)  ||
-        (strstr ( progName, "ZCAT" ) != 0) )  {
+   if ( (strstr ( progName, "z2cat" ) != nullptr) ||
+        (strstr ( progName, "Z2CAT" ) != nullptr) ||
+        (strstr ( progName, "zcat" ) != nullptr)  ||
+        (strstr ( progName, "ZCAT" ) != nullptr) )  {
       opMode = OM_UNZ;
       srcMode = (numFileNames == 0) ? SM_I2O : SM_F2O;
    }
 
 
    /*-- Look at the flags. --*/
-   for (aa = argList; aa != NULL; aa = aa->link) {
+   for (aa = argList; aa != nullptr; aa = aa->link) {
       if (ISFLAG("--")) break;
       if (aa->name[0] == '-' && aa->name[1] != '-') {
          for (j = 1; aa->name[j] != '\0'; j++) {
@@ -2012,7 +2012,7 @@ IntNative main ( IntNative argc, Char *argv[] )
    }
    
    /*-- And again ... --*/
-   for (aa = argList; aa != NULL; aa = aa->link) {
+   for (aa = argList; aa != nullptr; aa = aa->link) {
       if (ISFLAG("--")) break;
       if (ISFLAG("--stdout"))            srcMode          = SM_F2O;  else
       if (ISFLAG("--decompress"))        opMode           = OM_UNZ;  else
@@ -2066,10 +2066,10 @@ IntNative main ( IntNative argc, Char *argv[] )
 
    if (opMode == OM_Z) {
      if (srcMode == SM_I2O) {
-        compress ( NULL );
+        compress (nullptr);
      } else {
         decode = True;
-        for (aa = argList; aa != NULL; aa = aa->link) {
+        for (aa = argList; aa != nullptr; aa = aa->link) {
            if (ISFLAG("--")) { decode = False; continue; }
            if (aa->name[0] == '-' && decode) continue;
            numFilesProcessed++;
@@ -2082,10 +2082,10 @@ IntNative main ( IntNative argc, Char *argv[] )
    if (opMode == OM_UNZ) {
       unzFailsExist = False;
       if (srcMode == SM_I2O) {
-         uncompress ( NULL );
+         uncompress (nullptr);
       } else {
          decode = True;
-         for (aa = argList; aa != NULL; aa = aa->link) {
+         for (aa = argList; aa != nullptr; aa = aa->link) {
             if (ISFLAG("--")) { decode = False; continue; }
             if (aa->name[0] == '-' && decode) continue;
             numFilesProcessed++;
@@ -2101,10 +2101,10 @@ IntNative main ( IntNative argc, Char *argv[] )
    else {
       testFailsExist = False;
       if (srcMode == SM_I2O) {
-         testf ( NULL );
+         testf (nullptr);
       } else {
          decode = True;
-         for (aa = argList; aa != NULL; aa = aa->link) {
+         for (aa = argList; aa != nullptr; aa = aa->link) {
 	    if (ISFLAG("--")) { decode = False; continue; }
             if (aa->name[0] == '-' && decode) continue;
             numFilesProcessed++;
@@ -2126,9 +2126,9 @@ IntNative main ( IntNative argc, Char *argv[] )
       (eg) Purify, Checker.  Serves no other useful purpose.
    */
    aa = argList;
-   while (aa != NULL) {
+   while (aa != nullptr) {
       Cell* aa2 = aa->link;
-      if (aa->name != NULL) free(aa->name);
+      if (aa->name != nullptr) free(aa->name);
       free(aa);
       aa = aa2;
    }

@@ -58,7 +58,7 @@ public:
 	virtual int					GetCacheStatus( void ) { return AUDIO_IS_LOADED; }
 	virtual void				CacheLoad( void ) {}
 	virtual void				CacheUnload( void ) {}
-	virtual CSentence			*GetSentence( void ) { return NULL; }
+	virtual CSentence			*GetSentence( void ) { return nullptr; }
 	virtual int					GetQuality( void ) { return 0; }
 
 	virtual int					ZeroCrossingBefore( int sample ) { return sample; }
@@ -99,7 +99,7 @@ protected:
 		if ( !info )
 		{
 			Assert( !"CAudioSourceMP3::GetCachedDataPointer info == NULL" );
-			return NULL;
+			return nullptr;
 		}
 
 		return (byte *)info->CachedData();

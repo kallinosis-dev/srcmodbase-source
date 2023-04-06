@@ -18,13 +18,13 @@ class SquirrelVM
 	friend struct SquirrelError;
 public:
 	static void Init();
-	static BOOL IsInitialized(){return _VM == NULL?FALSE:TRUE;}
+	static BOOL IsInitialized(){return _VM == nullptr ?FALSE:TRUE;}
 	static void Shutdown();
 	static void Cleanup();
 	static BOOL Update(); //debugger and maybe GC later
 	static SquirrelObject CompileScript(const SQChar *s);
 	static SquirrelObject CompileBuffer(const SQChar *s,const SQChar * debugInfo=_T("console_buffer"));
-	static SquirrelObject RunScript(const SquirrelObject &o,SquirrelObject *_this = NULL);
+	static SquirrelObject RunScript(const SquirrelObject &o,SquirrelObject *_this = nullptr);
 	static void PrintFunc(HSQUIRRELVM v,const SQChar* s,...);
 	static BOOL BeginCall(const SquirrelObject &func);
 	static BOOL BeginCall(const SquirrelObject &func,SquirrelObject &_this);
@@ -87,11 +87,11 @@ public:
   } // Pop
   static void PushRootTable(void);
   // Create/bind a function on the table currently on the stack.
-  static SquirrelObject CreateFunction(SQFUNCTION func,const SQChar * scriptFuncName,const SQChar * typeMask=0);
+  static SquirrelObject CreateFunction(SQFUNCTION func,const SQChar * scriptFuncName,const SQChar * typeMask=nullptr);
   // Create/bind a function on the table so. typeMask: standard Squirrel types plus: no typemask means no args, "*" means any type of args.
-  static SquirrelObject CreateFunction(SquirrelObject & so,SQFUNCTION func,const SQChar * scriptFuncName,const SQChar * typeMask=0);
+  static SquirrelObject CreateFunction(SquirrelObject & so,SQFUNCTION func,const SQChar * scriptFuncName,const SQChar * typeMask=nullptr);
   // Create/bind a function to the root table. typeMask: standard Squirrel types plus: no typemask means no args, "*" means any type of args.
-  static SquirrelObject CreateFunctionGlobal(SQFUNCTION func,const SQChar * scriptFuncName,const SQChar * typeMask=0);
+  static SquirrelObject CreateFunctionGlobal(SQFUNCTION func,const SQChar * scriptFuncName,const SQChar * typeMask=nullptr);
 
 private:
 	static HSQUIRRELVM _VM;

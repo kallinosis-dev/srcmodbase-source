@@ -78,12 +78,12 @@ void CMPAException::ShowError()
         // get error message of last system error id
         LPVOID pMsgBuf;
         if ( FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
-                            NULL,
+                            nullptr,
                             GetLastError(),
                             MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
                             (LPTSTR) &pMsgBuf,
                             0,
-                            NULL ))
+        nullptr))
         {
             strcat( szErrorMsg, "\n" );
             strcat( szErrorMsg, (const char *)pMsgBuf );
@@ -100,9 +100,9 @@ const uint32 CMPAFile::m_dwInitBufferSize = 1024;
 
 
 CMPAFile::CMPAFile( const char * szFile, uint32 dwFileOffset, FileHandle_t hFile ) :
-m_pBuffer(NULL), m_dwBufferSize(0), m_dwBegin( dwFileOffset ), m_dwEnd(0),
-m_dwNumTimesRead(0), m_bVBRFile( false ), m_pVBRHeader(NULL), m_bMustReleaseFile( false ),
-m_pMPAHeader(NULL), m_hFile( hFile ), m_szFile(NULL), m_dwFrameNo(1)
+m_pBuffer(nullptr), m_dwBufferSize(0), m_dwBegin( dwFileOffset ), m_dwEnd(0),
+m_dwNumTimesRead(0), m_bVBRFile( false ), m_pVBRHeader(nullptr), m_bMustReleaseFile( false ),
+m_pMPAHeader(nullptr), m_hFile( hFile ), m_szFile(nullptr), m_dwFrameNo(1)
 {
     // open file, if not already done
     if( m_hFile == FILESYSTEM_INVALID_HANDLE )

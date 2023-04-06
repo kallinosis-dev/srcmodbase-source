@@ -17,7 +17,7 @@
 #endif
 
 CClipboardManager::CClipboardManager( ) :
-	m_pfnCleanup( NULL )
+	m_pfnCleanup(nullptr)
 {
 }
 
@@ -39,7 +39,7 @@ void CClipboardManager::EmptyClipboard( bool bClearWindowsClipboard )
 		m_Data[ i ]->deleteThis();
 	}
 	m_Data.RemoveAll();
-	m_pfnCleanup = NULL;
+	m_pfnCleanup = nullptr;
 
 #if defined( USE_WINDOWS_CLIPBOARD )
 	if ( bClearWindowsClipboard )

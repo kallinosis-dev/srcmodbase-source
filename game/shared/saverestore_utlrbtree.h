@@ -28,17 +28,17 @@ public:
 
 	virtual void Save( const SaveRestoreFieldInfo_t &fieldInfo, ISave *pSave )
 	{		
-		datamap_t *pTreeTypeDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLRBTREE *)NULL );
+		datamap_t *pTreeTypeDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLRBTREE *)nullptr);
 		typedescription_t dataDesc = 
 		{
 			(fieldtype_t)FIELD_TYPE, 
 			"elem", 
 			0,
 			1, 
-			FTYPEDESC_SAVE, 
-			NULL, 
-			NULL, 
-			NULL,
+			FTYPEDESC_SAVE,
+			nullptr,
+			nullptr,
+			nullptr,
 			pTreeTypeDatamap,
 			-1,
 		};
@@ -48,9 +48,9 @@ public:
 			&dataDesc,
 			1,
 			"urb",
-			NULL,
+			nullptr,
 			0,
-			NULL,
+			nullptr,
 #ifdef _DEBUG
 			true
 #endif
@@ -77,17 +77,17 @@ public:
 	
 	virtual void Restore( const SaveRestoreFieldInfo_t &fieldInfo, IRestore *pRestore )
 	{
-		datamap_t *pTreeTypeDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLRBTREE *)NULL );
+		datamap_t *pTreeTypeDatamap = CTypedescDeducer<FIELD_TYPE>::Deduce( (UTLRBTREE *)nullptr);
 		typedescription_t dataDesc = 
 		{
 			(fieldtype_t)FIELD_TYPE, 
 			"elems", 
 			0,
 			1, 
-			FTYPEDESC_SAVE, 
-			NULL, 
-			NULL, 
-			NULL,
+			FTYPEDESC_SAVE,
+			nullptr,
+			nullptr,
+			nullptr,
 			pTreeTypeDatamap,
 			-1,
 		};
@@ -97,9 +97,9 @@ public:
 			&dataDesc,
 			1,
 			"uv",
-			NULL,
+			nullptr,
 			0,
-			NULL,
+			nullptr,
 #ifdef _DEBUG
 			true
 #endif

@@ -76,7 +76,7 @@ bool CHammerApp::Create()
 	LoggingSystem_RegisterLoggingListener( &s_SimpleWindowsLoggingListener );
 
 	// Save some memory so engine/hammer isn't so painful
-	CommandLine()->AppendParm( "-disallowhwmorph", NULL );
+	CommandLine()->AppendParm( "-disallowhwmorph", nullptr);
 
 	IAppSystem *pSystem;
 
@@ -147,11 +147,11 @@ void CHammerApp::Destroy()
 {
 	LoggingSystem_PopLoggingState();
 
-	g_pFileSystem = NULL;
-	g_pMaterialSystem = NULL;
-	g_pDataCache = NULL;
-	g_pHammer = NULL;
-	g_pInputSystem = NULL;
+	g_pFileSystem = nullptr;
+	g_pMaterialSystem = nullptr;
+	g_pDataCache = nullptr;
+	g_pHammer = nullptr;
+	g_pInputSystem = nullptr;
 }
 
 
@@ -174,7 +174,7 @@ bool CHammerApp::PreInit( )
 		steamInfo.m_bSteam = g_pFileSystem->IsSteam();
 		if ( FileSystem_SetupSteamEnvironment( steamInfo ) != FS_OK )
 		{
-			MessageBox( NULL, "Failed to setup steam environment.", "Error", MB_OK );
+			MessageBox(nullptr, "Failed to setup steam environment.", "Error", MB_OK );
 			return false;
 		}
 
@@ -195,7 +195,7 @@ bool CHammerApp::PreInit( )
 		{
 			char str[512];
 			Q_snprintf( str, sizeof( str ), "%s", FileSystem_GetLastErrorString() );
-			MessageBox( NULL, str, "Warning", MB_OK );
+			MessageBox(nullptr, str, "Warning", MB_OK );
 
 			if ( g_pHammer->RequestNewConfig() == REQUEST_QUIT )
 				return false;

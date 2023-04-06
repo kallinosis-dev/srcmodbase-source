@@ -1939,11 +1939,11 @@ void CInput::JoyStickApplyMovement( CUserCmd *cmd, float joyForwardMove, float j
 		CCommand tmp;
 		if ( FloatMakePositive(joyForwardMove) >= joy_autosprint.GetFloat() || FloatMakePositive(joySideMove) >= joy_autosprint.GetFloat() )
 		{
-			KeyDown( &in_joyspeed, NULL );
+			KeyDown( &in_joyspeed, nullptr);
 		}
 		else
 		{
-			KeyUp( &in_joyspeed, NULL );
+			KeyUp( &in_joyspeed, nullptr);
 		}
 	}
 }

@@ -18,7 +18,7 @@
 //
 // system IO
 //
-void Sys_mkdir (const char *path, const char *pPathID = 0 );
+void Sys_mkdir (const char *path, const char *pPathID = nullptr );
 int Sys_CompareFileTime(long ft1, long ft2);
 char const* Sys_FindFirst(const char *path, char *basename, int namelength );
 char const* Sys_FindNext(char *basename, int namelength);

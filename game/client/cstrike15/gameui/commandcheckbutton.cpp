@@ -16,8 +16,8 @@ using namespace vgui;
 CCommandCheckButton::CCommandCheckButton( Panel *parent, const char *panelName, const char *text, const char *downcmd, const char *upcmd )
  : CheckButton( parent, panelName, text )
 {
-	m_pszDown = downcmd ? strdup( downcmd ) : NULL;
-	m_pszUp = upcmd ? strdup( upcmd ) : NULL;
+	m_pszDown = downcmd ? strdup( downcmd ) : nullptr;
+	m_pszUp = upcmd ? strdup( upcmd ) : nullptr;
 }
 
 CCommandCheckButton::~CCommandCheckButton()

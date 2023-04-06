@@ -85,16 +85,16 @@ public:
 
 	virtual bool  IsReliable() const = 0; // if event handled reliable
 	virtual bool  IsLocal() const = 0; // if event is never networked
-	virtual bool  IsEmpty(const char *keyName = NULL) const = 0; // check if data field exists
+	virtual bool  IsEmpty(const char *keyName = nullptr) const = 0; // check if data field exists
 	
 	// Data access
-	virtual bool  GetBool( const char *keyName = NULL, bool defaultValue = false ) const = 0;
-	virtual int   GetInt( const char *keyName = NULL, int defaultValue = 0 ) const = 0;
-	virtual uint64 GetUint64( const char *keyName = NULL, uint64 defaultValue = 0 ) const = 0;
-	virtual float GetFloat( const char *keyName = NULL, float defaultValue = 0.0f ) const = 0;
-	virtual const char *GetString( const char *keyName = NULL, const char *defaultValue = "" ) const = 0;
-	virtual const wchar_t *GetWString( const char *keyName = NULL, const wchar_t *defaultValue = L"" ) const = 0;
-	virtual const void *GetPtr( const char *keyName = NULL ) const = 0;	// LOCAL only
+	virtual bool  GetBool( const char *keyName = nullptr, bool defaultValue = false ) const = 0;
+	virtual int   GetInt( const char *keyName = nullptr, int defaultValue = 0 ) const = 0;
+	virtual uint64 GetUint64( const char *keyName = nullptr, uint64 defaultValue = 0 ) const = 0;
+	virtual float GetFloat( const char *keyName = nullptr, float defaultValue = 0.0f ) const = 0;
+	virtual const char *GetString( const char *keyName = nullptr, const char *defaultValue = "" ) const = 0;
+	virtual const wchar_t *GetWString( const char *keyName = nullptr, const wchar_t *defaultValue = L"" ) const = 0;
+	virtual const void *GetPtr( const char *keyName = nullptr) const = 0;	// LOCAL only
 
 	virtual void SetBool( const char *keyName, bool value ) = 0;
 	virtual void SetInt( const char *keyName, int value ) = 0;
@@ -148,7 +148,7 @@ public:
 
 	// create an event by name, but doesn't fire it. returns NULL is event is not
 	// known or no listener is registered for it. bForce forces the creation even if no listener is active
-	virtual IGameEvent *CreateEvent( const char *name, bool bForce = false, int *pCookie = NULL ) = 0;
+	virtual IGameEvent *CreateEvent( const char *name, bool bForce = false, int *pCookie = nullptr) = 0;
 
 	// fires a server event created earlier, if bDontBroadcast is set, event is not send to clients
 	virtual bool FireEvent( IGameEvent *event, bool bDontBroadcast = false ) = 0;
@@ -214,7 +214,7 @@ public:
 	virtual bool FireEventClientOnly( KeyValues * event ) = 0;
 
 	// write/read event to/from bitbuffer
-	virtual bool SerializeKeyValues( KeyValues *event, bf_write *buf, CGameEvent *eventtype = NULL ) = 0;
+	virtual bool SerializeKeyValues( KeyValues *event, bf_write *buf, CGameEvent *eventtype = nullptr) = 0;
 	virtual KeyValues *UnserializeKeyValue( bf_read *msg ) = 0; // create new KeyValues, must be deleted
 };
 

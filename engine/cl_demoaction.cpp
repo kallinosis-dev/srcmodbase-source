@@ -198,7 +198,7 @@ CBaseDemoAction	*CBaseDemoAction::CreateDemoAction( DEMOACTION actionType )
 	if ( idx < 0 || idx >= NUM_DEMO_ACTIONS )
 	{
 		Sys_Error( "CBaseDemoAction::AddFactory: Bogus factory type %i\n", idx );
-		return NULL;
+		return nullptr;
 	}
 
 	DEMOACTIONFACTORY_FUNC pfn = g_rgDemoTypeNames[ idx ].func;
@@ -206,7 +206,7 @@ CBaseDemoAction	*CBaseDemoAction::CreateDemoAction( DEMOACTION actionType )
 	{
 		ConMsg( "CBaseDemoAction::CreateDemoAction:  Missing factory for %s\n",
 			NameForType( actionType ) );
-		return NULL;
+		return nullptr;
 	}
 
 	return (*pfn)();
@@ -243,7 +243,7 @@ CBaseActionEditDialog *CBaseDemoAction::CreateActionEditor( DEMOACTION actionTyp
 	if ( idx < 0 || idx >= NUM_DEMO_ACTIONS )
 	{
 		Sys_Error( "CBaseDemoAction::AddFactory: Bogus factory type %i\n", idx );
-		return NULL;
+		return nullptr;
 	}
 
 	DEMOACTIONEDIT_FUNC pfn = g_rgDemoTypeNames[ idx ].editfunc;
@@ -251,7 +251,7 @@ CBaseActionEditDialog *CBaseDemoAction::CreateActionEditor( DEMOACTION actionTyp
 	{
 		ConMsg( "CBaseDemoAction::CreateActionEditor:  Missing edit factory for %s\n",
 			NameForType( actionType ) );
-		return NULL;
+		return nullptr;
 	}
 
 	return (*pfn)( parent, action, newaction );

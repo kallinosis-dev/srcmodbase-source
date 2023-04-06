@@ -58,13 +58,13 @@ ComboBox2Demo::ComboBox2Demo(Panel *parent, const char *name) : DemoPage(parent,
 	m_pComboBox->SetWide(150);
 
 	// Add some text selections to the menu list
-	m_pComboBox->AddItem("Right", NULL );
-	m_pComboBox->AddItem("Left", NULL );
-	m_pComboBox->AddItem("Up", NULL );
-	m_pComboBox->AddItem("Down", NULL );
-	m_pComboBox->AddItem("Forward", NULL );
-	m_pComboBox->AddItem("Backward", NULL );
-	m_pComboBox->AddItem("Backward and really long", NULL );
+	m_pComboBox->AddItem("Right", nullptr);
+	m_pComboBox->AddItem("Left", nullptr);
+	m_pComboBox->AddItem("Up", nullptr);
+	m_pComboBox->AddItem("Down", nullptr);
+	m_pComboBox->AddItem("Forward", nullptr);
+	m_pComboBox->AddItem("Backward", nullptr);
+	m_pComboBox->AddItem("Backward and really long", nullptr);
 
 
 	// Create a button. Clicking this button will send a command back to us.
@@ -112,7 +112,7 @@ void ComboBox2Demo::AddItemToComboBoxMenu()
 	// Add this item to the combo box menu
 	// If you wanted to check for uniqueness you would have to keep a 
 	// list of the items in the menu and check it.
-	m_pComboBox->AddItem(boxText, NULL);
+	m_pComboBox->AddItem(boxText, nullptr);
 
 	// Reset the combo box to empty
 	m_pComboBox->SetText("");

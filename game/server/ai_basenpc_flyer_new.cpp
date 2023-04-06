@@ -104,7 +104,7 @@ void CAI_BaseNPCFlyerNew::StartTask( const Task_t *pTask )
 		case TASK_SCRIPT_RUN_TO_TARGET:
 		case TASK_SCRIPT_WALK_TO_TARGET:
 		{
-			if (GetTarget() == NULL)
+			if (GetTarget() == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}

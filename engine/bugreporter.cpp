@@ -181,7 +181,7 @@ const char *GetInternalBugReporterDLL( void )
 	if ( CommandLine()->CheckParm("-remotebug" ) )
 		return "bugreporter_remote";
 
-	char const *pBugReportedDLL = NULL;
+	char const *pBugReportedDLL = nullptr;
 	if ( CommandLine()->CheckParm("-bugreporterdll", &pBugReportedDLL ) )
 		return pBugReportedDLL;
 
@@ -755,12 +755,12 @@ CBugUIPanel::CBugUIPanel( bool bIsPublic, vgui::Panel *parent ) :
 		BUG_REPORTER_PUBLIC_DLLNAME : 
 		GetInternalBugReporterDLL();
 
-	m_hZip = (HZIP)0;
+	m_hZip = (HZIP)nullptr;
 
-	m_hDirectorySelectDialog = NULL;
-	m_hFileOpenDialog = NULL;
-	m_pBugReporter = NULL;
-	m_hBugReporter = 0;
+	m_hDirectorySelectDialog = nullptr;
+	m_hFileOpenDialog = nullptr;
+	m_pBugReporter = nullptr;
+	m_hBugReporter = nullptr;
 	m_bQueryingSteamForCSER = false;
 
 	memset( &m_SteamID, 0x00, sizeof(m_SteamID) );
@@ -794,7 +794,7 @@ CBugUIPanel::CBugUIPanel( bool bIsPublic, vgui::Panel *parent ) :
 	m_bLoggedIn = false;
 	m_bCanSeeRepository = false;
 
-	m_pProgressDialog = NULL;
+	m_pProgressDialog = nullptr;
 	m_flPauseTime = 0.0f;
 	m_bWaitForFinish = false;
 	m_bUseNameForSubmitter = false;
@@ -908,7 +908,7 @@ void CBugUIPanel::Init()
 		CreateInterfaceFn factory = Sys_GetFactory( m_hBugReporter );
 		if ( factory )
 		{
-			m_pBugReporter = (IBugReporter *)factory( INTERFACEVERSION_BUGREPORTER, NULL );
+			m_pBugReporter = (IBugReporter *)factory( INTERFACEVERSION_BUGREPORTER, nullptr);
 			if( m_pBugReporter )
 			{    
 				extern CreateInterfaceFn g_AppSystemFactory;
@@ -919,7 +919,7 @@ void CBugUIPanel::Init()
 				}
 				else
 				{
-					m_pBugReporter = NULL;
+					m_pBugReporter = nullptr;
 					ConColorMsg( clr, "m_pBugReporter->Init() failed\n" );
 				}
 			}
@@ -988,11 +988,11 @@ void CBugUIPanel::Shutdown()
 		m_pBugReporter->Shutdown();
 	}
 
-	m_pBugReporter = NULL;
+	m_pBugReporter = nullptr;
 	if ( m_hBugReporter )
 	{
 		Sys_UnloadModule( m_hBugReporter );
-		m_hBugReporter = 0;
+		m_hBugReporter = nullptr;
 	}
 }
 
@@ -1086,7 +1086,7 @@ void CBugUIPanel::OnTick()
 			{
 				m_pProgressDialog->Close();
 			}
-			m_pProgressDialog = NULL;
+			m_pProgressDialog = nullptr;
 
 			OnFinishBugReport();
 
@@ -1094,7 +1094,7 @@ void CBugUIPanel::OnTick()
 
 			if ( !m_hFinishedDialog.Get() )
 			{
-				m_hFinishedDialog = new CBugReportFinishedDialog(NULL, "FinishDialog", "#Steam_FinishedBug_WorkingTitle", "#Steam_FinishedBug_Text"  );
+				m_hFinishedDialog = new CBugReportFinishedDialog(nullptr, "FinishDialog", "#Steam_FinishedBug_WorkingTitle", "#Steam_FinishedBug_Text"  );
 				m_hFinishedDialog->Activate();
 				vgui::input()->SetAppModalSurface(m_hFinishedDialog->GetVPanel());
 			}
@@ -1248,7 +1248,7 @@ void CBugUIPanel::OnSaveVMF()
 	// See if .vmf exists in assumed location
 	char localfile[ 512 ];
 	Q_snprintf( localfile, sizeof( localfile ), "%s/%s.vmf", m_szVMFContentDirFullpath, level );
-	if ( !g_pFileSystem->FileExists( localfile, NULL ) )
+	if ( !g_pFileSystem->FileExists( localfile, nullptr) )
 	{
 		if ( !m_hDirectorySelectDialog.Get() )
 		{
@@ -1286,7 +1286,7 @@ void CBugUIPanel::RepopulateMaps(int area_index, const char *default_level)
 	for ( int i = 0; i < c; i++ )
 	{
 		const char *level = m_pBugReporter->GetLevel(area_index, i );
-		int id = m_pMapNumber->AddItem( level, NULL );
+		int id = m_pMapNumber->AddItem( level, nullptr);
 		if (!Q_stricmp(default_level, level))
 		{
 			item = id;
@@ -1734,7 +1734,7 @@ bool CBugUIPanel::AddBugTextToZip( char const *textfilename, char const *text, i
 	if ( !m_hZip )
 	{
 		// Create using OS pagefile memory...
-		m_hZip = CreateZipZ( 0, MAX_ZIP_SIZE, ZIP_MEMORY );
+		m_hZip = CreateZipZ( nullptr, MAX_ZIP_SIZE, ZIP_MEMORY );
 		Assert( m_hZip );
 		if ( !m_hZip )
 		{
@@ -1753,7 +1753,7 @@ bool CBugUIPanel::AddFileToZip( char const *relative )
 	if ( !m_hZip )
 	{
 		// Create using OS pagefile memory...
-		m_hZip = CreateZipZ( 0, MAX_ZIP_SIZE, ZIP_MEMORY );
+		m_hZip = CreateZipZ( nullptr, MAX_ZIP_SIZE, ZIP_MEMORY );
 		Assert( m_hZip );
 		if ( !m_hZip )
 		{
@@ -2331,12 +2331,12 @@ void CBugUIPanel::OnSubmit()
 		if ( m_hZip && ( attachedSave || attachedScreenshot ) )
 		{
 			Assert( m_hZip );
-			void *mem = NULL;
+			void *mem = nullptr;
 			unsigned long len;
 
 			ZipGetMemory( m_hZip, &mem, &len );
-			if ( mem != NULL 
-				 && len > 0 )
+			if ( mem != nullptr
+				&& len > 0 )
 			{
 				// Store .zip file
 				FileHandle_t fh = g_pFileSystem->Open( "bug.zip", "wb" );
@@ -2353,7 +2353,7 @@ void CBugUIPanel::OnSubmit()
 		if ( m_hZip )
 		{
 			CloseZip( m_hZip );
-			m_hZip = (HZIP)0;
+			m_hZip = (HZIP)nullptr;
 		}
 
 		m_pBugReporter->SetSteamUserID( &m_SteamID, sizeof( m_SteamID ) );
@@ -2412,7 +2412,7 @@ void CBugUIPanel::OnSubmit()
 
 	if ( m_pBugReporter->IsPublicUI() )
 	{
-		m_pProgressDialog = new CBugReportUploadProgressDialog(NULL, "ProgressDialog", "#Steam_SubmittingBug_WorkingTitle", "#Steam_SubmittingBug_WorkingText"  );
+		m_pProgressDialog = new CBugReportUploadProgressDialog(nullptr, "ProgressDialog", "#Steam_SubmittingBug_WorkingTitle", "#Steam_SubmittingBug_WorkingText"  );
 		m_pProgressDialog->Activate();
 		vgui::input()->SetAppModalSurface(m_pProgressDialog->GetVPanel());
 		m_flPauseTime = (float)system()->GetFrameTime() + PUBLIC_BUGREPORT_WAIT_TIME;
@@ -2480,7 +2480,7 @@ void CBugUIPanel::PauseGame( bool bPause )
 	ACTIVE_SPLITSCREEN_PLAYER_GUARD( 0 );
 
 	// Don't pause the game or display 'paused by' text when submitting from a remote machine
-	if ( CommandLine()->CheckParm( "-remotebug" ) == NULL )
+	if ( CommandLine()->CheckParm( "-remotebug" ) == nullptr)
 	{
 		Cbuf_AddText( sv.IsActive() ? CBUF_SERVER : CBUF_FIRST_PLAYER, bPause ? "cmd bugpause\n" : "cmd bugunpause\n" );
 	}
@@ -2630,7 +2630,7 @@ bool CBugUIPanel::UploadBugSubmission( char const *levelname, int bugId, char co
 	{
 		Q_snprintf( localfile, sizeof( localfile ), "maps/%s.bsp", levelname );
 		char *pszMapPath;
-		FileHandle_t hBsp = g_pFileSystem->OpenEx( localfile, "rb", 0, 0, &pszMapPath );
+		FileHandle_t hBsp = g_pFileSystem->OpenEx( localfile, "rb", 0, nullptr, &pszMapPath );
 		if ( !hBsp )
 		{
 			Q_snprintf( localfile, sizeof( localfile ), "%s/maps/%s.bsp", com_gamedir, levelname );
@@ -2651,7 +2651,7 @@ bool CBugUIPanel::UploadBugSubmission( char const *levelname, int bugId, char co
 	if ( vmf && vmf[ 0 ] )
 	{
 		Q_snprintf( localfile, sizeof( localfile ), "%s/%s.vmf", m_szVMFContentDirFullpath, levelname );
-		if ( g_pFileSystem->FileExists( localfile, NULL ) )
+		if ( g_pFileSystem->FileExists( localfile, nullptr) )
 		{
 			Q_snprintf( remotefile, sizeof( remotefile ), "%s/%s.vmf", GetSubmissionURL(bugId), vmf );
 			Q_FixSlashes( localfile );
@@ -2843,7 +2843,7 @@ void CBugUIPanel::PopulateControls()
 		char const *userName = m_pBugReporter->GetUserNameForDisplayName( name );
 		if (!V_strcasecmp( userName, submitter ))
 			defitem = i;
-		m_pSubmitter->AddItem( name, NULL );
+		m_pSubmitter->AddItem( name, nullptr);
 	}
 	m_pSubmitter->ActivateItem( defitem );
 	m_pSubmitter->SetText( m_pBugReporter->GetDisplayName( defitem ) );
@@ -2857,7 +2857,7 @@ void CBugUIPanel::PopulateControls()
 		char const *userName = m_pBugReporter->GetUserNameForDisplayName( name );
 		if (!V_strcasecmp( userName, submitter ))
 			defitem = i;
-		m_pAssignTo->AddItem(name , NULL );
+		m_pAssignTo->AddItem(name , nullptr);
 	}
 	m_pAssignTo->ActivateItem( defitem );
 	
@@ -2869,7 +2869,7 @@ void CBugUIPanel::PopulateControls()
 		char const  *severity = m_pBugReporter->GetSeverity( i );
 		if (!V_strcasecmp(severity, "Zero"))
 			defitem = i;
-		m_pSeverity->AddItem( severity, NULL );
+		m_pSeverity->AddItem( severity, nullptr);
 	}
 	m_pSeverity->ActivateItem( defitem );
 
@@ -2877,7 +2877,7 @@ void CBugUIPanel::PopulateControls()
 	c = m_pBugReporter->GetReportTypeCount();
 	for ( i = 0; i < c; i++ )
 	{
-		m_pReportType->AddItem( m_pBugReporter->GetReportType( i ), NULL );
+		m_pReportType->AddItem( m_pBugReporter->GetReportType( i ), nullptr);
 	}
 	m_pReportType->ActivateItem( 0 );
 
@@ -2888,7 +2888,7 @@ void CBugUIPanel::PopulateControls()
 		char const  *priority = m_pBugReporter->GetPriority( i );
 		if (!V_strcasecmp(priority, "None"))
 			defitem = i;
-		m_pPriority->AddItem( priority, NULL );
+		m_pPriority->AddItem( priority, nullptr);
 	}
 	m_pPriority->ActivateItem( defitem );
 
@@ -2896,7 +2896,7 @@ void CBugUIPanel::PopulateControls()
 	c = m_pBugReporter->GetAreaCount();
 	for ( i = 0; i < c; i++ )
 	{
-		m_pGameArea->AddItem( m_pBugReporter->GetArea( i ), NULL );
+		m_pGameArea->AddItem( m_pBugReporter->GetArea( i ), nullptr);
 	}
 
 	int area_index = GetArea();
@@ -2996,7 +2996,7 @@ void CBugUIPanel::OnKeyCodeTyped(KeyCode code)
 void CBugUIPanel::ParseDefaultParams( void )
 {
 	CUtlBuffer buffer( 0, 0, CUtlBuffer::TEXT_BUFFER );
-	if ( !g_pFileSystem->ReadFile( "scripts/bugreporter_defaults.txt", NULL, buffer ) )
+	if ( !g_pFileSystem->ReadFile( "scripts/bugreporter_defaults.txt", nullptr, buffer ) )
 	{
 		return;
 	}
@@ -3306,7 +3306,7 @@ bool CBugUIPanel::CopyInfoFromRemoteBug()
 }
 
 
-static CBugUIPanel *g_pBugUI = NULL;
+static CBugUIPanel *g_pBugUI = nullptr;
 
 class CEngineBugReporter : public IEngineBugReporter
 {
@@ -3356,7 +3356,7 @@ CON_COMMAND( _bugreporter_restart, "Restarts bug reporter .dll" )
 
 void CEngineBugReporter::Init( void )
 {
-	m_ParentPanel = 0;
+	m_ParentPanel = nullptr;
 }
 
 void CEngineBugReporter::Shutdown( void )
@@ -3364,7 +3364,7 @@ void CEngineBugReporter::Shutdown( void )
 	if ( g_pBugUI )
 	{
 		g_pBugUI->Shutdown();
-		g_pBugUI = NULL;
+		g_pBugUI = nullptr;
 	}
 }
 

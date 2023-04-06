@@ -90,7 +90,7 @@ public:
 	virtual bool		IsEnabledInQueuedMatchmaking( void ) { return true; } // Query if the issue is supported in queued matchmaking mode
 
 private:
-	void				ExtractDataFromDetails( const char *pszDetails, CCSPlayer **pSubject, uint32 *pReason = NULL );
+	void				ExtractDataFromDetails( const char *pszDetails, CCSPlayer **pSubject, uint32 *pReason = nullptr);
 	void				NotifyGC( CCSPlayer *pSubject, bool bKickedSuccessfully, uint32 unReason );
 
 	CSteamID			m_steamIDVoteCaller;

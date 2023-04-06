@@ -344,7 +344,7 @@ bool CSFMGenApp::PreInit( )
 	}
 
 	// Add paths...
-	if ( !SetupSearchPaths( NULL, false, true ) )
+	if ( !SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	return true;
@@ -548,7 +548,7 @@ void CSFMGenApp::SaveSFMFile( CDmElement *pRoot, const char *pOutputDir, const c
 
 	CP4AutoEditAddFile checkout( pFullPath );
 
-	if ( !g_pDataModel->SaveToFile( pFullPath, NULL, g_pDataModel->GetDefaultEncoding( "sfm_session" ), "sfm_session", pRoot ) )
+	if ( !g_pDataModel->SaveToFile( pFullPath, nullptr, g_pDataModel->GetDefaultEncoding( "sfm_session" ), "sfm_session", pRoot ) )
 	{
 		Warning( "sfmgen: Unable to write file %s\n", pFullPath );
 		return;
@@ -563,7 +563,7 @@ void CSFMGenApp::SaveSFMFile( CDmElement *pRoot, const char *pOutputDir, const c
 //-----------------------------------------------------------------------------
 CDmeSoundClip *CSFMGenApp::CreateSoundClip( CDmeFilmClip *pShot, const char *pAnimationSetName, const char *pGameSound, studiohdr_t *pStudioHdr, CDmeGameSound **ppGameSound )
 {
-	*ppGameSound = NULL;
+	*ppGameSound = nullptr;
 
 	CDmeTrackGroup *pTrackGroup = pShot->FindOrAddTrackGroup( "audio" );
 	CDmeTrack *pTrack = pTrackGroup->FindOrAddTrack( pAnimationSetName, DMECLIP_SOUND );
@@ -576,7 +576,7 @@ CDmeSoundClip *CSFMGenApp::CreateSoundClip( CDmeFilmClip *pShot, const char *pAn
 	if ( !g_pSoundEmitterSystem->GetParametersForSound( pGameSound, params, actorGender ) )
 	{
 		Warning( "Unable to determine .wav file for gamesound %s!\n", pGameSound );
-		return NULL;
+		return nullptr;
 	}
 
 	// Get the sound duration
@@ -639,7 +639,7 @@ void CSFMGenApp::BuildFacialControlList( CDmeFilmClip *pShot, CDmeAnimationSet *
 		else
 		{
 			preview.m_hChannels[ LOG_PREVIEW_VALUE ] = pControl->GetValueElement< CDmeChannel >( "channel" );
-			preview.m_hChannels[ LOG_PREVIEW_BALANCE ] = NULL;
+			preview.m_hChannels[ LOG_PREVIEW_BALANCE ] = nullptr;
 		}
 
 		if ( pControl->GetValue< bool >( "multi" ) )
@@ -648,7 +648,7 @@ void CSFMGenApp::BuildFacialControlList( CDmeFilmClip *pShot, CDmeAnimationSet *
 		}
 		else
 		{
-			preview.m_hChannels[ LOG_PREVIEW_MULTILEVEL ] = NULL;
+			preview.m_hChannels[ LOG_PREVIEW_MULTILEVEL ] = nullptr;
 		}
 
 		preview.m_hOwner = preview.m_hChannels[ LOG_PREVIEW_VALUE ]->FindOwnerClipForChannel( pShot );
@@ -704,7 +704,7 @@ void CSFMGenApp::GenerateSFMFile( const SFMGenInfo_t& sfmGenInfo, const SFMInfo_
 		pMovie->SetDuration( pSoundClip->GetDuration() );
 
 		// Create an animation set
-		CDmeAnimationSet *pAnimationSet = CreateAnimationSet( pMovie, pShot, pGameModel, pAnimationSetName, 0, false );
+		CDmeAnimationSet *pAnimationSet = CreateAnimationSet( pMovie, pShot, pGameModel, pAnimationSetName, 0, nullptr );
 
 		// Extract phonemes
 		CExtractInfo extractInfo;
@@ -811,7 +811,7 @@ void CSFMGenApp::GenerateSFMFiles( SFMGenInfo_t& info )
 	}
 
 	CUtlBuffer buf( 0, 0, CUtlBuffer::TEXT_BUFFER );
-	if ( !g_pFullFileSystem->ReadFile( info.m_pCSVFile, NULL, buf ) )
+	if ( !g_pFullFileSystem->ReadFile( info.m_pCSVFile, nullptr, buf ) )
 	{
 		Warning( "sfmgen: Unable to load file %s\n", info.m_pCSVFile );
 		return;
@@ -832,7 +832,7 @@ void CSFMGenApp::GenerateSFMFiles( SFMGenInfo_t& info )
 	// Construct full path to the output directories
 	char pFullPath[MAX_PATH];
 	char pFullFacPathBuf[MAX_PATH];
-	const char *pExportFacPath = NULL;
+	const char *pExportFacPath = nullptr;
 	if ( info.m_pExportFacDirectory )
 	{
 		ComputeFullPath( info.m_pExportFacDirectory, pFullFacPathBuf, sizeof( pFullFacPathBuf ) );

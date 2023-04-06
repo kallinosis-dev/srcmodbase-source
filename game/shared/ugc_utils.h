@@ -18,7 +18,7 @@ void V_SafeComposeFilename( const char *pPathIn, const char *pFilenameIn, char *
 
 // Unzip a file. If output dir is omitted, unzips to zip file's directory.
 // Use paths relative to GetCurrentDirectory, or absolute paths.
-bool UnzipFile( const char* szPathToZipFile, const char* szOutputDir = NULL );
+bool UnzipFile( const char* szPathToZipFile, const char* szOutputDir = nullptr);
 
 bool UGCUtil_IsOfficialMap( PublishedFileId_t id );
 

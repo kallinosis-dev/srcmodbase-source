@@ -62,7 +62,7 @@ ConVar sv_soundemitter_trace( "sv_soundemitter_trace", "-1", FCVAR_REPLICATED, "
 ConVar cc_showmissing( "cc_showmissing", "0", FCVAR_REPLICATED, "Show missing closecaption entries." );
 
 extern ISoundEmitterSystemBase *soundemitterbase;
-static ConVar *g_pClosecaption = NULL;
+static ConVar *g_pClosecaption = nullptr;
 
 static bool g_bPermitDirectSoundPrecache = false;
 
@@ -186,9 +186,9 @@ EmitSound_t::EmitSound_t( const CSoundParameters &src )
 	m_SoundLevel = src.soundlevel;
 	m_nFlags = 0;
 	m_nPitch = src.pitch;
-	m_pOrigin = 0;
+	m_pOrigin = nullptr;
 	m_flSoundTime = ( src.delay_msec == 0 ) ? 0.0f : gpGlobals->curtime + ( (float)src.delay_msec / 1000.0f );
-	m_pflSoundDuration = 0;
+	m_pflSoundDuration = nullptr;
 	m_bEmitCloseCaption = true;
 	m_bWarnOnMissingCloseCaption = false;
 	m_bWarnOnDirectWaveReference = false;
@@ -352,11 +352,11 @@ public:
 #if !defined( CLIENT_DLL )
 	void AddCaptionFile( const char *filename )
 	{
-		int searchPathLen = filesystem->GetSearchPath( "GAME", true, NULL, 0 );
+		int searchPathLen = filesystem->GetSearchPath( "GAME", true, nullptr, 0 );
 		char *searchPaths = (char *)stackalloc( searchPathLen + 1 );
 		filesystem->GetSearchPath( "GAME", true, searchPaths, searchPathLen );
 
-		for ( char *path = strtok( searchPaths, ";" ); path; path = strtok( NULL, ";" ) )
+		for ( char *path = strtok( searchPaths, ";" ); path; path = strtok(nullptr, ";" ) )
 		{
 			if ( IsGameConsole() && ( filesystem->GetDVDMode() == DVDMODE_STRICT ) && !V_stristr( path, ".zip" ) )
 			{
@@ -793,7 +793,7 @@ public:
 			nFlags,
 			params.pitch,
 			ep.m_pOrigin,
-			NULL,
+			nullptr,
 			&ep.m_UtlVecSoundOrigin,
 			true,
 			st,
@@ -940,7 +940,7 @@ public:
 			nFlags, 
 			ep.m_nPitch, 
 			ep.m_pOrigin,
-			NULL, 
+			nullptr, 
 			&ep.m_UtlVecSoundOrigin,
 			true, 
 			ep.m_flSoundTime,
@@ -1323,7 +1323,7 @@ public:
 			return;
 		}
 
-		const char *pSoundEntryName = NULL;
+		const char *pSoundEntryName = nullptr;
 		if( params->GetSoundEntryVersion() > 1 &&
 			sv_soundemitter_version.GetInt() > 1 )
 		{
@@ -1968,7 +1968,7 @@ int CBaseEntity::EmitSound( IRecipientFilter& filter, int iEntIndex, const char 
 
 static void Helper_UpdateLastMadeNoiseTime( const IRecipientFilter &filter, int iEntIndex, const EmitSound_t &params )
 {
-	CBaseEntity * pEnt = NULL;
+	CBaseEntity * pEnt = nullptr;
 
 #ifdef GAME_DLL
 	if ( ( filter.GetRecipientCount() > 1 ) ||

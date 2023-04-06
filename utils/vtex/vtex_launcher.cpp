@@ -32,7 +32,7 @@ int main( int argc, char **argv )
 		return false;
 	}
 
-	ILaunchableDLL *pInterface = (ILaunchableDLL*)fn( LAUNCHABLE_DLL_INTERFACE_VERSION, NULL );
+	ILaunchableDLL *pInterface = (ILaunchableDLL*)fn( LAUNCHABLE_DLL_INTERFACE_VERSION, nullptr);
 	if ( !pInterface )
 	{
 		printf( "Can't get '%s' interface from %s.", LAUNCHABLE_DLL_INTERFACE_VERSION, pModuleName );

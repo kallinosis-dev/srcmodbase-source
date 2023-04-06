@@ -93,7 +93,7 @@ private:
 
 		enum { BUILD_NOT_STARTED, BUILD_UNDERWAY, BUILD_DONE, };
 
-		ThreadedGraphBuildData() : pBuildingNetwork(NULL), nBuildStage(BUILD_NOT_STARTED), job(NULL) {}
+		ThreadedGraphBuildData() : pBuildingNetwork(nullptr), nBuildStage(BUILD_NOT_STARTED), job(nullptr) {}
 	} m_ThreadedBuild;
 	static uintp ThreadedBuildJob( /* (ThreadedGraphBuildData *) */ void *pBuildData );
 };

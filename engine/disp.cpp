@@ -238,14 +238,14 @@ void CDispInfo::TestAddDecalTri( int iIndexStart, unsigned short decalHandle, CD
 		}
 		// garymcthack - what about m_ParentTexCoords?
 		Vector tmp;
-		DecalProjectVert( pOutVert->m_vPos, pDispDecal, 0, tmp );
+		DecalProjectVert( pOutVert->m_vPos, pDispDecal, nullptr, tmp );
 		pOutVert->m_ctCoords.x = tmp.x;
 		pOutVert->m_ctCoords.y = tmp.y;
 	}
 
 	// Clip them.
 	CDecalVert *pClipped;
-	CDecalVert *pOutVerts = NULL;
+	CDecalVert *pOutVerts = nullptr;
 	pClipped = R_DoDecalSHClip( &verts[0], pOutVerts, pDecal, 3, vec3_origin );
 	int outCount = pDecal->clippedVertCount;
 
@@ -442,7 +442,7 @@ void CDispInfo::SpecifyWalkableDynamicMesh( void )
 #ifdef DEDICATED
 	IMesh *pMesh = pRenderContext->GetDynamicMesh( false, NULL, NULL, NULL );
 #else
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( false, NULL, NULL, g_materialTranslucentSingleColor );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( false, nullptr, nullptr, g_materialTranslucentSingleColor );
 	g_materialTranslucentSingleColor->ColorModulate( 1.0f, 1.0f, 0.0f );
 	g_materialTranslucentSingleColor->AlphaModulate( 0.33f );
 #endif
@@ -477,7 +477,7 @@ void CDispInfo::SpecifyBuildableDynamicMesh( void )
 #else
 	g_materialTranslucentSingleColor->ColorModulate( 0.0f, 1.0f, 1.0f );
 	g_materialTranslucentSingleColor->AlphaModulate( 0.33f );
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( false, NULL, NULL, g_materialTranslucentSingleColor );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( false, nullptr, nullptr, g_materialTranslucentSingleColor );
 #endif
 	CMeshBuilder builder;
 	builder.Begin( pMesh, MATERIAL_TRIANGLES, NumVerts(), m_nBuildIndexCount );

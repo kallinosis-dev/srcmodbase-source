@@ -44,7 +44,7 @@ struct FXQuadData_t
 	{ 
 		m_pMaterial = materials->FindMaterial( shader, TEXTURE_GROUP_CLIENT_EFFECTS );
 
-		if ( m_pMaterial != NULL )
+		if ( m_pMaterial != nullptr)
 		{
 			m_pMaterial->IncrementReferenceCount();
 		}

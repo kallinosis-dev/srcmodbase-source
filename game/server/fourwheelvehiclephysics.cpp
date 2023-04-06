@@ -155,8 +155,8 @@ END_DATADESC()
 CFourWheelVehiclePhysics::CFourWheelVehiclePhysics( CBaseAnimating *pOuter )
 {
 	m_flVehicleVolume = 0.5;
-	m_pOuter = NULL;
-	m_pOuterServerVehicle = NULL;
+	m_pOuter = nullptr;
+	m_pOuterServerVehicle = nullptr;
 	m_flMaxSpeed = 30;
 }
 
@@ -226,7 +226,7 @@ void CFourWheelVehiclePhysics::InitializePoseParameters()
 bool CFourWheelVehiclePhysics::ParseVehicleScript( const char *pScriptName, solid_t &solid, vehicleparams_t &vehicle)
 {
 	// Physics keeps a cache of these to share among spawns of vehicles or flush for debugging
-	PhysFindOrAddVehicleScript( pScriptName, &vehicle, NULL );
+	PhysFindOrAddVehicleScript( pScriptName, &vehicle, nullptr);
 
 	m_debugRadius = vehicle.axles[0].wheels.radius;
 	CalcWheelData( vehicle );
@@ -679,7 +679,7 @@ void CFourWheelVehiclePhysics::PlaceWheelDust( int wheelIndex, bool ignoreSpeed 
 
 	// Old dust
 	Vector	vecPos, vecVel;
-	m_pVehicle->GetWheelContactPoint( wheelIndex, &vecPos, NULL );
+	m_pVehicle->GetWheelContactPoint( wheelIndex, &vecPos, nullptr);
 
 	vecVel.Random( -1.0f, 1.0f );
 	vecVel.z = random->RandomFloat( 0.3f, 1.0f );

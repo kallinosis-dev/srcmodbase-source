@@ -62,18 +62,18 @@ CGraphPanel::CGraphPanel(vgui::Panel *parent, const char *name) : PropertyPage(p
 	m_pPlayerButton = new CheckButton(this,"PlayersCheck","#Graph_Players");
 
 	m_pTimeCombo = new ComboBox(this, "TimeCombo",3,false);
-	m_pTimeCombo->AddItem("#Graph_Minutes", NULL);
-	int defaultItem = m_pTimeCombo->AddItem("#Graph_Hours", NULL);
-	m_pTimeCombo->AddItem("#Graph_Day", NULL);
+	m_pTimeCombo->AddItem("#Graph_Minutes", nullptr);
+	int defaultItem = m_pTimeCombo->AddItem("#Graph_Hours", nullptr);
+	m_pTimeCombo->AddItem("#Graph_Day", nullptr);
 	m_pTimeCombo->ActivateItem(defaultItem);
 
 	m_pVertCombo = new ComboBox(this, "VertCombo",6,false);
-	m_pVertCombo->AddItem("#Graph_In", NULL);
-	m_pVertCombo->AddItem("#Graph_Out", NULL);
-	m_pVertCombo->AddItem("#Graph_FPS", NULL);
-	defaultItem = m_pVertCombo->AddItem("#Graph_CPU", NULL);
-	m_pVertCombo->AddItem("#Graph_Ping", NULL);
-	m_pVertCombo->AddItem("#Graph_Players", NULL);
+	m_pVertCombo->AddItem("#Graph_In", nullptr);
+	m_pVertCombo->AddItem("#Graph_Out", nullptr);
+	m_pVertCombo->AddItem("#Graph_FPS", nullptr);
+	defaultItem = m_pVertCombo->AddItem("#Graph_CPU", nullptr);
+	m_pVertCombo->AddItem("#Graph_Ping", nullptr);
+	m_pVertCombo->AddItem("#Graph_Players", nullptr);
 	m_pVertCombo->ActivateItem(defaultItem);
 
 	// now setup defaults
@@ -205,12 +205,12 @@ void CGraphPanel::CGraphsImage::Paint()
 	int bottom=5; // be 5 pixels above the bottom
 	int left=2;
 
-	int *pCpuX=NULL, *pCpuY=NULL;
-	int *pInX=NULL, *pInY=NULL;
-	int *pOutX=NULL, *pOutY=NULL;
-	int *pFPSX=NULL, *pFPSY=NULL;
-	int *pPingX=NULL, *pPingY=NULL;
-	int *pPlayersX=NULL, *pPlayersY=NULL;
+	int *pCpuX= nullptr, *pCpuY= nullptr;
+	int *pInX= nullptr, *pInY= nullptr;
+	int *pOutX= nullptr, *pOutY= nullptr;
+	int *pFPSX= nullptr, *pFPSY= nullptr;
+	int *pPingX= nullptr, *pPingY= nullptr;
+	int *pPlayersX= nullptr, *pPlayersY= nullptr;
 
 	GetSize(x,y);
 

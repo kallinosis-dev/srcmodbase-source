@@ -61,7 +61,7 @@ CTextConsoleUnix console;
 
 extern char *gpszCvars;
 
-IDedicatedServerAPI *engine = NULL;
+IDedicatedServerAPI *engine = nullptr;
 
 int g_nSubProcessId = 0;
 
@@ -95,7 +95,7 @@ public:
 #ifdef _WIN32
 			if ( g_bVGui )
 			{
-				MessageBox( NULL, pMessage, "Error", MB_OK | MB_TASKMODAL );
+				MessageBox(nullptr, pMessage, "Error", MB_OK | MB_TASKMODAL );
 			}
 			TerminateProcess( GetCurrentProcess(), 1 );
 #elif POSIX
@@ -158,7 +158,7 @@ bool RunServerIteration( bool bSupressStdIOBecauseWeAreAForkedChild )
 #if defined ( _WIN32 )
 	MSG msg;
 
-	while( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+	while( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
 	{
 		//if (!GetMessage( &msg, NULL, 0, 0))
 		if ( msg.message == WM_QUIT )
@@ -331,13 +331,13 @@ bool CDedicatedAppSystemGroup::Create( )
 bool CDedicatedAppSystemGroup::PreInit( )
 {
 	// A little hack needed because dedicated links directly to filesystem .cpp files
-	g_pFullFileSystem = NULL;
+	g_pFullFileSystem = nullptr;
 
 	if ( !BaseClass::PreInit() )
 		return false;
 
 	CFSSteamSetupInfo steamInfo;
-	steamInfo.m_pDirectoryName = NULL;
+	steamInfo.m_pDirectoryName = nullptr;
 	steamInfo.m_bOnlyUseDirectoryName = false;
 	steamInfo.m_bToolsMode = false;
 	steamInfo.m_bSetSteamDLLPath = false;
@@ -444,7 +444,7 @@ void CDedicatedAppSystemGroup::Destroy()
 bool GetExecutableName( char *out, int nMaxLen )
 {
 #ifdef _WIN32
-	if ( !::GetModuleFileName( ( HINSTANCE )GetModuleHandle( NULL ), out, nMaxLen ) )
+	if ( !::GetModuleFileName( ( HINSTANCE )GetModuleHandle(nullptr), out, nMaxLen ) )
 	{
 		return false;
 	}
@@ -463,7 +463,7 @@ bool GetExecutableName( char *out, int nMaxLen )
 void UTIL_ComputeBaseDir( char *pBaseDir, int nMaxLen )
 {
 	int j;
-	char *pBuffer = NULL;
+	char *pBuffer = nullptr;
 
 	pBaseDir[ 0 ] = 0;
 

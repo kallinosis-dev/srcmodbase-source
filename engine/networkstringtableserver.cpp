@@ -36,7 +36,7 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR(CNetworkStringTableContainer, INetworkStringTa
 void SV_CreateNetworkStringTables( char const *pchMapName )
 {
 	// Gather the string table dictionary from the .bsp file
-	g_pStringTableDictionary->OnLevelLoadStart( pchMapName, NULL );
+	g_pStringTableDictionary->OnLevelLoadStart( pchMapName, nullptr);
 
 	// Remove any existing tables
 	s_NetworkStringTableServer.RemoveAllTables();

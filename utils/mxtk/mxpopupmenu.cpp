@@ -25,7 +25,7 @@ public:
 
 
 mxPopupMenu::mxPopupMenu ()
-: mxWidget (0, 0, 0, 0, 0)
+: mxWidget (nullptr, 0, 0, 0, 0)
 {
 	void *handle = (void *) CreatePopupMenu ();
 	setHandle (handle);
@@ -48,7 +48,7 @@ mxPopupMenu::popup (mxWidget *widget, int x, int y)
 	pt.y = y;
 
 	ClientToScreen ((HWND) widget->getHandle (), &pt);
-	return (int) TrackPopupMenu ((HMENU) getHandle (), /*TPM_NONOTIFY | TPM_RETURNCMD | */ TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, (HWND) widget->getHandle (), NULL);
+	return (int) TrackPopupMenu ((HMENU) getHandle (), /*TPM_NONOTIFY | TPM_RETURNCMD | */ TPM_LEFTALIGN | TPM_TOPALIGN, pt.x, pt.y, 0, (HWND) widget->getHandle (), nullptr);
 }
 
 
@@ -72,7 +72,7 @@ mxPopupMenu::addMenu (const char *item, mxPopupMenu *menu)
 void
 mxPopupMenu::addSeparator ()
 {
-	AppendMenu ((HMENU) getHandle (), MF_SEPARATOR, 0, 0);
+	AppendMenu ((HMENU) getHandle (), MF_SEPARATOR, 0, nullptr);
 }
 
 

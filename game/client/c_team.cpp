@@ -262,7 +262,7 @@ C_Team *GetLocalTeam( void )
 	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
 
 	if ( !player )
-		return NULL;
+		return nullptr;
 	
 	return GetPlayersTeam( player->index );
 }
@@ -278,7 +278,7 @@ C_Team *GetGlobalTeam( int iTeamNumber )
 			return g_Teams[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -300,7 +300,7 @@ C_Team *GetPlayersTeam( int iPlayerIndex )
 			return g_Teams[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

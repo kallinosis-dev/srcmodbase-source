@@ -50,7 +50,7 @@ public:
 	//-----------------------------------------------------------------------------
 	virtual void Smoke( const Vector &origin, int modelIndex, float scale, float framerate ) = 0;
 
-	virtual void Sparks( const Vector &position, int nMagnitude = 1, int nTrailLength = 1, const Vector *pvecDir = NULL ) = 0;
+	virtual void Sparks( const Vector &position, int nMagnitude = 1, int nTrailLength = 1, const Vector *pvecDir = nullptr) = 0;
 
 	virtual void Dust( const Vector &pos, const Vector &dir, float size, float speed ) = 0;
 

@@ -12,7 +12,7 @@ public:
     
     inline int hash_index(const char *key)const;
     
-    IVP_U_String_Hash(int size, void *not_found_value = 0);
+    IVP_U_String_Hash(int size, void *not_found_value = nullptr);
     ~IVP_U_String_Hash();
     void add(const char *key,void *value);
     void remove(const char *key);

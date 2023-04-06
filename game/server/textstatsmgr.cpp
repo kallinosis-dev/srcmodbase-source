@@ -72,7 +72,7 @@ void CTextStatsMgr::SetStatsFilename( char *sFilename )
 CTextStat::CTextStat()
 {
 	m_pPrev = m_pNext = this;
-	m_pMgr = NULL;
+	m_pMgr = nullptr;
 }
 
 
@@ -109,7 +109,7 @@ void CTextStat::Term()
 	m_pPrev->m_pNext = m_pNext;
 	m_pNext->m_pPrev = m_pPrev;
 	m_pPrev = m_pNext = this;
-	m_pMgr = NULL;
+	m_pMgr = nullptr;
 }
 
 
@@ -158,7 +158,7 @@ void CTextStatInt::PrintFn( IFileSystem *pFileSys, FileHandle_t hFile, void *pUs
 // CTextStatFile functions.
 // ------------------------------------------------------------------------------------------ //
 
-CTextStatFile *CTextStatFile::s_pHead = NULL;
+CTextStatFile *CTextStatFile::s_pHead = nullptr;
 
 
 CTextStatFile::CTextStatFile( TextStatFileFn fn )

@@ -71,8 +71,8 @@ CSoundPicker::CSoundPicker( vgui::Panel *pParent, int nFlags ) :
  	m_pViewsSheet->AddActionSignalTarget( this );
 
 	// game sounds
-	m_pGameSoundPage = NULL;
-	m_pGameSoundList = NULL;
+	m_pGameSoundPage = nullptr;
+	m_pGameSoundList = nullptr;
 	if ( nFlags & PICK_GAMESOUNDS )
 	{
 		m_pGameSoundPage = new PropertyPage( m_pViewsSheet, "GameSoundPage" );
@@ -97,7 +97,7 @@ CSoundPicker::CSoundPicker( vgui::Panel *pParent, int nFlags ) :
 	}
 
 	// wav files
-	m_pWavPage = NULL;
+	m_pWavPage = nullptr;
 	if ( nFlags & PICK_WAVFILES )
 	{
 		m_pWavPage = new PropertyPage( m_pViewsSheet, "WavPage" );
@@ -410,7 +410,7 @@ void CSoundPicker::OnSelectedAssetPicked( const char *pAssetName )
 //-----------------------------------------------------------------------------
 void CSoundPicker::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( m_pGameSoundList && (pPanel == m_pGameSoundList ) )
 	{
 		bool bPlaySounds = true;
@@ -474,7 +474,7 @@ const char *CSoundPicker::GetSelectedSoundName( int nSelectionIndex )
 	{
 		int nCount = m_pGameSoundList->GetSelectedItemsCount();
 		if ( nCount == 0 )
-			return NULL;
+			return nullptr;
 
 		if ( nSelectionIndex < 0 )
 		{
@@ -484,15 +484,15 @@ const char *CSoundPicker::GetSelectedSoundName( int nSelectionIndex )
 		if ( nIndex >= 0 )
 		{
 			KeyValues *pkv = m_pGameSoundList->GetItem( nIndex );
-			return pkv->GetString( "gamesound", NULL );
+			return pkv->GetString( "gamesound", nullptr);
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	if ( m_pWavPage && ( m_pViewsSheet->GetActivePage() == m_pWavPage ) )
 		return GetSelectedAsset( nSelectionIndex );
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -563,7 +563,7 @@ void CSoundPickerFrame::OnCommand( const char *pCommand )
 
 			KeyValues *pActionKeys = new KeyValues( "SoundSelected" );
 			pActionKeys->SetInt( "count", nSoundCount );
-			KeyValues *pSoundList = NULL;
+			KeyValues *pSoundList = nullptr;
 			if ( type == CSoundPicker::PICK_GAMESOUNDS )
 			{
 				pActionKeys->SetString( "gamesound", soundname );

@@ -1543,7 +1543,7 @@ void C_INIT_PositionPlaceOnGround::InitNewParticlesScalar(
 		SetVectorFromAttribute( vecStartPos, xyz );
 
 		CBaseTrace tr;
-		g_pParticleSystemMgr->Query()->TraceLine( vecStartPos, ( vecStartPos + ( TraceDir * m_flMaxTraceLength ) ), m_CollisionMask, NULL, m_nCollisionGroupNumber, &tr );
+		g_pParticleSystemMgr->Query()->TraceLine( vecStartPos, ( vecStartPos + ( TraceDir * m_flMaxTraceLength ) ), m_CollisionMask, nullptr, m_nCollisionGroupNumber, &tr );
 		if ( tr.fraction == 1.0  && m_bKill )
 		{
 			*plife = -1.0f;
@@ -5194,7 +5194,7 @@ void C_INIT_InitialRepulsionVelocity::InitNewParticlesScalar(
 
 				//Trace into the world
 				CBaseTrace tr;
-				g_pParticleSystemMgr->Query()->TraceLine( vecCurrentPos, endpos, CONTENTS_SOLID, NULL, m_nCollisionGroupNumber, &tr );
+				g_pParticleSystemMgr->Query()->TraceLine( vecCurrentPos, endpos, CONTENTS_SOLID, nullptr, m_nCollisionGroupNumber, &tr );
 
 				//Push back a proportional amount to the probe
 				d[i] = -d[i] * (1.0f-tr.fraction);
@@ -5280,7 +5280,7 @@ void C_INIT_InitialRepulsionVelocity::InitNewParticlesScalar(
 
 				//Trace into the world
 				CBaseTrace tr;
-				g_pParticleSystemMgr->Query()->TraceLine( vecCurrentPos, endpos, CONTENTS_SOLID, NULL, m_nCollisionGroupNumber, &tr );
+				g_pParticleSystemMgr->Query()->TraceLine( vecCurrentPos, endpos, CONTENTS_SOLID, nullptr, m_nCollisionGroupNumber, &tr );
 
 				//Push back a proportional amount to the probe
 				d[i] = -d[i] * (1.0f-tr.fraction);
@@ -6183,7 +6183,7 @@ void C_INIT_DistanceToCPInit::InitNewParticlesScalar(
 				vecEndPoint += vecControlPoint1;
 			}
 			CBaseTrace tr;
-			g_pParticleSystemMgr->Query()->TraceLine( vecControlPoint1, vecEndPoint, MASK_OPAQUE_AND_NPCS, NULL , m_nCollisionGroupNumber, &tr );
+			g_pParticleSystemMgr->Query()->TraceLine( vecControlPoint1, vecEndPoint, MASK_OPAQUE_AND_NPCS, nullptr, m_nCollisionGroupNumber, &tr );
 			if (tr.fraction != 1.0f)
 			{
 				flDistance *= tr.fraction * m_flLOSScale;
@@ -6286,7 +6286,7 @@ void C_INIT_LifespanFromVelocity::InitNewParticlesScalar(
 	else
 		ppCtx = &( pParticles->m_pCollisionCacheData[COLLISION_MODE_INITIAL_TRACE_DOWN] );
 
-	CWorldCollideContextData *pCtx = NULL;
+	CWorldCollideContextData *pCtx = nullptr;
 	if ( ! *ppCtx )
 	{
 		*ppCtx = new CWorldCollideContextData;
@@ -6366,7 +6366,7 @@ void C_INIT_LifespanFromVelocity::InitNewParticlesScalar(
 			{
 				//replace this with fast raycaster when available
 				CBaseTrace tr;
-				g_pParticleSystemMgr->Query()->TraceLine( vecStartPnt, vecEndPnt, m_CollisionMask, NULL , m_nCollisionGroupNumber, &tr );
+				g_pParticleSystemMgr->Query()->TraceLine( vecStartPnt, vecEndPnt, m_CollisionMask, nullptr, m_nCollisionGroupNumber, &tr );
 
 				Vector vNormal = tr.plane.normal;
 				Vector vPointOnPlane =  tr.endpos;
@@ -6433,7 +6433,7 @@ void C_INIT_LifespanFromVelocity::InitNewParticlesBlock( CParticleCollection *pP
 	else
 		ppCtx = &( pParticles->m_pCollisionCacheData[COLLISION_MODE_INITIAL_TRACE_DOWN] );
 
-	CWorldCollideContextData *pCtx = NULL;
+	CWorldCollideContextData *pCtx = nullptr;
 	if ( ! *ppCtx )
 	{
 		*ppCtx = new CWorldCollideContextData;
@@ -6533,7 +6533,7 @@ void C_INIT_LifespanFromVelocity::InitNewParticlesBlock( CParticleCollection *pP
 
 						//replace this with fast raycaster when available
 						CBaseTrace tr;
-						g_pParticleSystemMgr->Query()->TraceLine( start, end, m_CollisionMask, NULL , m_nCollisionGroupNumber, &tr );  
+						g_pParticleSystemMgr->Query()->TraceLine( start, end, m_CollisionMask, nullptr, m_nCollisionGroupNumber, &tr );  
 
 						Vector vNormal = tr.plane.normal;
 						Vector vPointOnPlane =  tr.endpos;
@@ -6662,7 +6662,7 @@ void C_INIT_CreateFromPlaneCache::InitNewParticlesScalar(
 	else
 		ppCtx = &( pParticles->m_pCollisionCacheData[COLLISION_MODE_INITIAL_TRACE_DOWN] );
 
-	CWorldCollideContextData *pCtx = NULL;
+	CWorldCollideContextData *pCtx = nullptr;
 	if ( ! *ppCtx )
 	{
 		*ppCtx = new CWorldCollideContextData;

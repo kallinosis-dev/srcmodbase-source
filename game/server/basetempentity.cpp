@@ -24,7 +24,7 @@ END_SEND_TABLE()
 
 
 // Global list of temp entity event classes
-CBaseTempEntity *CBaseTempEntity::s_pTempEntities = NULL;
+CBaseTempEntity *CBaseTempEntity::s_pTempEntities = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Returns head of list

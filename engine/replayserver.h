@@ -144,7 +144,7 @@ public:
 	void	LinkInstanceBaselines();
 	void	BroadcastEventLocal( IGameEvent *event, bool bReliable ); // broadcast event but not to relay proxies
 	void	BroadcastLocalChat( const char *pszChat, const char *pszGroup ); // broadcast event but not to relay proxies
-	void	BroadcastLocalTitle( CReplayClient *client = NULL ); // NULL = broadcast to all
+	void	BroadcastLocalTitle( CReplayClient *client = nullptr); // NULL = broadcast to all
 	bool	DispatchToRelay( CReplayClient *pClient);
 	bf_write *GetBuffer( int nBuffer);
 	CClientFrame *GetDeltaFrame( int nTick );

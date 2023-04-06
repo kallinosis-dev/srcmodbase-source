@@ -91,7 +91,7 @@ END_RECV_TABLE();
 // Purpose: 
 //-----------------------------------------------------------------------------
 C_ParticleSystem::C_ParticleSystem( void )
- :	m_pSnapshot( NULL )
+ :	m_pSnapshot(nullptr)
 {
 	memset( m_szSnapshotFileName, 0, sizeof( m_szSnapshotFileName ) );
 }
@@ -104,7 +104,7 @@ C_ParticleSystem::~C_ParticleSystem( void )
 	if ( m_pSnapshot )
 	{
 		delete m_pSnapshot;
-		m_pSnapshot = NULL;
+		m_pSnapshot = nullptr;
 	}
 }
 
@@ -137,7 +137,7 @@ void C_ParticleSystem::PostDataUpdate( DataUpdateType_t updateType )
 			if ( !m_pSnapshot->Unserialize( CFmtStr( "particles/%s.psf", m_szSnapshotFileName ) ) )
 			{
 				delete m_pSnapshot;
-				m_pSnapshot = NULL;
+				m_pSnapshot = nullptr;
 			}
 		}
 
@@ -172,7 +172,7 @@ void C_ParticleSystem::PostDataUpdate( DataUpdateType_t updateType )
 					break;
 				case STOP_PLAY_ENDCAP:
 					{
-						ParticleProp()->StopEmission( NULL, false, false, false, true);
+						ParticleProp()->StopEmission(nullptr, false, false, false, true);
 					}
 					break;
 				}
@@ -320,7 +320,7 @@ void StartParticleEffect( const CEffectData &data, int nSplitScreenPlayerSlot /*
 					
 						if ( pOtherEnt )
 						{
-							pEnt->ParticleProp()->AddControlPoint( pEffect, 1, pOtherEnt, PATTACH_ABSORIGIN_FOLLOW, NULL, Vector( 0, 0, 50 ) );
+							pEnt->ParticleProp()->AddControlPoint( pEffect, 1, pOtherEnt, PATTACH_ABSORIGIN_FOLLOW, nullptr, Vector( 0, 0, 50 ) );
 						}
 					}
 				}
@@ -332,7 +332,7 @@ void StartParticleEffect( const CEffectData &data, int nSplitScreenPlayerSlot /*
 		CParticleSystemDefinition *pDef = g_pParticleSystemMgr->FindPrecachedParticleSystem( data.m_nHitBox );
 		if ( pDef )
 		{
-			CUtlReference<CNewParticleEffect> pEffect = CNewParticleEffect::CreateOrAggregate( NULL, pDef, data.m_vOrigin, NULL, nSplitScreenPlayerSlot );
+			CUtlReference<CNewParticleEffect> pEffect = CNewParticleEffect::CreateOrAggregate(nullptr, pDef, data.m_vOrigin, nullptr, nSplitScreenPlayerSlot );
 			if ( pEffect.IsValid() && pEffect->IsValid() )
 			{
 				pEffect->SetSortOrigin( data.m_vOrigin );
@@ -398,7 +398,7 @@ void ParticleEffectStopCallback( const CEffectData &data )
 			}
 			else
 			{
-				pEnt->ParticleProp()->StopEmission( NULL, true, true, false, true );
+				pEnt->ParticleProp()->StopEmission(nullptr, true, true, false, true );
 			}
 		}
 	}

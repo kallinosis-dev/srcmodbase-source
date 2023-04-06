@@ -496,7 +496,7 @@ void C_CS_PlayerResource::UpdatePlayerName( int slot )
 
 	C_BasePlayer *pLocalPlayer = C_BasePlayer::GetLocalPlayer( );
 
-	char const *pchPlayerName = NULL;
+	char const *pchPlayerName = nullptr;
 	player_info_t sPlayerInfo;
 
 	bool bUseTournamentContentStandards = cl_spec_use_tournament_content_standards.GetBool( ) || sv_spec_use_tournament_content_standards.GetBool( );
@@ -616,7 +616,7 @@ const wchar_t* C_CS_PlayerResource::GetDecoratedPlayerName( int index, wchar_t* 
 		}
 		else if ( GetCoachingTeam( index ) != 0 )
 		{
-			char const *szCoach = NULL;
+			char const *szCoach = nullptr;
 			switch( GetCoachingTeam( index ) )
 			{
 			case TEAM_TERRORIST:

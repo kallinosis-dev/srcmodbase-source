@@ -13,7 +13,7 @@ static CMeshVertexAttribute g_PositionAttribute = {0,VERTEX_ELEMENT_POSITION};
 
 // CMesh - utility mesh class implementation
 CMesh::CMesh() : 
-	m_pVerts(NULL), m_pAttributes(NULL), m_pIndices(NULL), m_nVertexCount(0), m_nVertexStrideFloats(0),
+	m_pVerts(nullptr), m_pAttributes(nullptr), m_pIndices(nullptr), m_nVertexCount(0), m_nVertexStrideFloats(0),
 	m_nAttributeCount(0), m_nIndexCount(0), m_bAllocatedMeshData(false)
 {
 }
@@ -33,9 +33,9 @@ void CMesh::FreeAllMemory()
 		delete[] m_pAttributes;
 		delete[] m_pIndices;
 	}
-	m_pVerts = NULL;
-	m_pAttributes = NULL;
-	m_pIndices = NULL;
+	m_pVerts = nullptr;
+	m_pAttributes = nullptr;
+	m_pIndices = nullptr;
 	m_bAllocatedMeshData = false;
 	m_nAttributeCount = 0;
 	m_nVertexStrideFloats = 0;
@@ -835,7 +835,7 @@ bool ConcatMeshes( CMesh *pMeshOut, CMesh **ppMeshIn, int nInputMeshes,
 	int nTotalVertices = 0;
 	int nAttributes = 0;
 	int nStrideFloats = 0;
-	CMeshVertexAttribute *pAttributes = NULL;
+	CMeshVertexAttribute *pAttributes = nullptr;
 	for ( int m=0; m<nInputMeshes; ++m )
 	{
 		CMesh *pMesh = ppMeshIn[m];

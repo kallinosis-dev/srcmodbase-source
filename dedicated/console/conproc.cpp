@@ -361,9 +361,9 @@ InitConProc
 void InitConProc ( void )
 {
 	unsigned	threadAddr;
-	HANDLE		hFile			= (HANDLE)0;
-	HANDLE		heventParent	= (HANDLE)0;
-	HANDLE		heventChild		= (HANDLE)0;
+	HANDLE		hFile			= (HANDLE)nullptr;
+	HANDLE		heventParent	= (HANDLE)nullptr;
+	HANDLE		heventChild		= (HANDLE)nullptr;
 	int			WantHeight = 50;
 	const char		*p;
 
@@ -397,14 +397,14 @@ void InitConProc ( void )
 	heventChildSend		= heventChild;
 
 	// So we'll know when to go away.
-	heventDone = CreateEvent (NULL, FALSE, FALSE, NULL);
+	heventDone = CreateEvent (nullptr, FALSE, FALSE, nullptr);
 	if (!heventDone)
 	{
 		sys->Printf ("InitConProc:  Couldn't create heventDone\n");
 		return;
 	}
 
-	if (!_beginthreadex (NULL, 0, RequestProc, NULL, 0, &threadAddr))
+	if (!_beginthreadex (nullptr, 0, RequestProc, nullptr, 0, &threadAddr))
 	{
 		CloseHandle (heventDone);
 		sys->Printf ("InitConProc:  Couldn't create third party thread\n");

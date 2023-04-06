@@ -60,11 +60,11 @@ private:
 	AnimationController *m_pAnimationController;
 };
 
-CAskConnectPanel *CAskConnectPanel::s_pAskConnectPanel = NULL;
+CAskConnectPanel *CAskConnectPanel::s_pAskConnectPanel = nullptr;
 
 
 CAskConnectPanel::CAskConnectPanel( VPANEL parent ) 
-	: BaseClass( NULL, "AskConnectPanel" ), m_bgColor( 0, 0, 0, 192 )
+	: BaseClass(nullptr, "AskConnectPanel" ), m_bgColor( 0, 0, 0, 192 )
 {
 	SetParent( parent );
 	Assert( s_pAskConnectPanel == NULL );
@@ -83,7 +83,7 @@ CAskConnectPanel::CAskConnectPanel( VPANEL parent )
 	vgui::ivgui()->AddTickSignal( GetVPanel() );
 	SetAutoDelete( true );
 
-	m_pAnimationController = new vgui::AnimationController( NULL );
+	m_pAnimationController = new vgui::AnimationController(nullptr);
 	m_pAnimationController->SetParent( parent );
 	m_pAnimationController->SetScriptFile( parent, "scripts/plugin_animations.txt" );
 	m_pAnimationController->SetProportional( false );
@@ -99,7 +99,7 @@ CAskConnectPanel::CAskConnectPanel( VPANEL parent )
 
 CAskConnectPanel::~CAskConnectPanel()
 {
-	s_pAskConnectPanel = NULL;
+	s_pAskConnectPanel = nullptr;
 }
 
 void CAskConnectPanel::GetHostName( char *pOut, int maxOutBytes )
@@ -135,7 +135,7 @@ void CAskConnectPanel::ApplySettings(KeyValues *inResourceData)
 {
 	BaseClass::ApplySettings(inResourceData);
 	
-	const char *pStr = inResourceData->GetString( "BgColor", NULL );
+	const char *pStr = inResourceData->GetString( "BgColor", nullptr);
 	if ( pStr )
 	{
 		int r, g, b, a;

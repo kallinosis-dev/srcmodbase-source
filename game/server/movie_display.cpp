@@ -476,7 +476,7 @@ void CMovieDisplay::RestoreControlPanels( void )
 		if ( !pScreenClassname )
 			continue;
 
-		CVGuiScreen *pScreen = (CVGuiScreen *)gEntList.FindEntityByClassname( NULL, pScreenClassname );
+		CVGuiScreen *pScreen = (CVGuiScreen *)gEntList.FindEntityByClassname(nullptr, pScreenClassname );
 
 		while ( ( pScreen && pScreen->GetOwnerEntity() != this ) || Q_strcmp( pScreen->GetPanelName(), pScreenName ) != 0 )
 		{

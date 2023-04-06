@@ -34,7 +34,7 @@ BEGIN_VS_SHADER_FLAGS( showz, "Help for ShowZ", SHADER_NOT_EDITABLE )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -66,7 +66,7 @@ BEGIN_VS_SHADER_FLAGS( showz, "Help for ShowZ", SHADER_NOT_EDITABLE )
 				SET_STATIC_PIXEL_SHADER( showz_ps20 );
 			}
 
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
 			pShaderShadow->EnableSRGBWrite( true );  // The back buffer is sRGB, we should always set this true!
 		}

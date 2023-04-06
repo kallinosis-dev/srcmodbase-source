@@ -133,12 +133,12 @@ void *CThreadSafeMemoryPool::Alloc( unsigned int amount )
 
 		// don't grow if we're told not to
 		if ( m_nGrowMode == GROW_NONE && m_vecBlockSets.Count() == 1 )
-			return NULL;
+			return nullptr;
 
 		// allocate, but we can fail
 		byte *pBlobBase = (byte *)MemAlloc_AllocAligned( cubBlob, TSLIST_NODE_ALIGNMENT /*, (m_nGrowMode == GROW_TIL_YOU_CANT)*/ );
 		if ( !pBlobBase )
-			return NULL;
+			return nullptr;
 
 		byte *pBlobEnd = pBlobBase + cubBlob;
 		// add all the items to the pool
@@ -152,7 +152,7 @@ void *CThreadSafeMemoryPool::Alloc( unsigned int amount )
 		m_vecBlockSets.AddToTail( blockSet );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

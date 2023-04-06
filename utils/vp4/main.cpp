@@ -20,7 +20,7 @@
 #include "vgui_controls/controls.h"
 
 // root panel
-vgui::Panel *g_pMainPanel = NULL;
+vgui::Panel *g_pMainPanel = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -30,7 +30,7 @@ void AddFileSystemSearchPaths(const char *pszExeName)
 {
 	// search locally first
 	char pExeName[MAX_PATH];
-    if ( ::GetModuleFileName( ( HINSTANCE )GetModuleHandle( NULL ), pExeName, sizeof(pExeName) ) )
+    if ( ::GetModuleFileName( ( HINSTANCE )GetModuleHandle(nullptr), pExeName, sizeof(pExeName) ) )
 	{
 		char pPlatform[MAX_PATH];
 		Q_StripFilename( pExeName );
@@ -57,10 +57,10 @@ void AddFileSystemSearchPaths(const char *pszExeName)
 bool InitializeVGui( )
 {
 	// add in the search paths
-	AddFileSystemSearchPaths(NULL);
+	AddFileSystemSearchPaths(nullptr);
 
 	// Init the surface
-	g_pMainPanel = new vgui::Panel(NULL, NULL);
+	g_pMainPanel = new vgui::Panel(nullptr, nullptr);
 	vgui::surface()->SetEmbeddedPanel( g_pMainPanel->GetVPanel() );
 
 	// load the scheme
@@ -122,7 +122,7 @@ int CVP4App::Main()
 {
 	if ( !InitializeVGui( ) )
 	{
-		::MessageBoxA( NULL, "Fatal Error: Could not initialize vgui.", "Steam - Fatal Error", MB_OK | MB_ICONERROR );
+		::MessageBoxA(nullptr, "Fatal Error: Could not initialize vgui.", "Steam - Fatal Error", MB_OK | MB_ICONERROR );
 		return 0;
 	}
 

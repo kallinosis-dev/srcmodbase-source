@@ -30,8 +30,8 @@ class URLButton : public Label
 
 public:
 	// You can optionally pass in the panel to send the click message to and the name of the command to send to that panel.
-	URLButton(Panel *parent, const char *panelName, const char *text, Panel *pActionSignalTarget=NULL, const char *pCmd=NULL);
-	URLButton(Panel *parent, const char *panelName, const wchar_t *text, Panel *pActionSignalTarget=NULL, const char *pCmd=NULL);
+	URLButton(Panel *parent, const char *panelName, const char *text, Panel *pActionSignalTarget= nullptr, const char *pCmd= nullptr);
+	URLButton(Panel *parent, const char *panelName, const wchar_t *text, Panel *pActionSignalTarget= nullptr, const char *pCmd= nullptr);
 	~URLButton();
 private:
 	void Init();

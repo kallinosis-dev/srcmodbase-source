@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 CPrefab3D::CPrefab3D()
 {
-	m_pWorld = NULL;
+	m_pWorld = nullptr;
 }
 
 
@@ -44,7 +44,7 @@ CPrefab3D::~CPrefab3D()
 void CPrefab3D::FreeData()
 {
 	delete m_pWorld;
-	m_pWorld = NULL;
+	m_pWorld = nullptr;
 }
 
 
@@ -55,7 +55,7 @@ CMapClass *CPrefab3D::Create(void)
 {
 	if (!IsLoaded() && (Load() == -1))
 	{
-		return(NULL);
+		return(nullptr);
 	}
 
 	CMapClass *pCopy;
@@ -104,7 +104,7 @@ CMapClass *CPrefab3D::CreateAtPoint(const Vector &point)
 	//
 	CMapClass *pObject = Create();
 
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		//
 		// Move the prefab center to match the given point.
@@ -140,7 +140,7 @@ CMapClass *CPrefab3D::CreateAtPointAroundOrigin( Vector const &point )
 	CMapClass *pObject = Create();
 
 	if( !pObject )
-		return NULL;
+		return nullptr;
 
 	Vector move = point;
 
@@ -165,7 +165,7 @@ CMapClass *CPrefab3D::CreateInBox(BoundBox *pBox)
 	//
 	CMapClass *pObject = Create();
 
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		//
 		// Scale the prefab to match the box bounds.
@@ -229,7 +229,7 @@ void CPrefab3D::CenterOnZero()
 //-----------------------------------------------------------------------------
 bool CPrefab3D::IsLoaded(void)
 {
-	return (m_pWorld != NULL);
+	return (m_pWorld != nullptr);
 }
 
 
@@ -265,7 +265,7 @@ int CPrefabRMF::DoLoad(std::fstream& file, DWORD dwFlags)
 
 	if(m_pWorld)
 		delete m_pWorld;
-	m_pWorld = new CMapWorld( NULL );
+	m_pWorld = new CMapWorld(nullptr);
 
 	// read data
 	if(dwFlags & lsMAP)
@@ -424,7 +424,7 @@ CPrefabVMF::~CPrefabVMF()
 //-----------------------------------------------------------------------------
 bool CPrefabVMF::IsLoaded(void)
 {
-	if (m_pWorld == NULL)
+	if (m_pWorld == nullptr)
 	{
 		return false;
 	}
@@ -456,12 +456,12 @@ int CPrefabVMF::Load(DWORD dwFlags)
 	//
 	// Create a new world to hold the loaded objects.
 	//
-	if (m_pWorld != NULL)
+	if (m_pWorld != nullptr)
 	{
 		delete m_pWorld;
 	}
 
-	m_pWorld = new CMapWorld( NULL );
+	m_pWorld = new CMapWorld(nullptr);
 
 	//
 	// Open the file.
@@ -586,7 +586,7 @@ void CPrefabVMF::SetFilename(const char *szFilename)
 	//
 	// Extract the file name without the path or extension as the prefab name.
 	//
-	_splitpath(szFilename, NULL, NULL, szName, NULL);
+	_splitpath(szFilename, nullptr, nullptr, szName, nullptr);
 
 	strcpy(m_szFilename, szFilename);
 }

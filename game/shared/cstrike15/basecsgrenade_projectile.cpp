@@ -264,7 +264,7 @@ END_NETWORK_TABLE()
 		SetSolid( SOLID_BBOX );	// So it will collide with physics props!
 		AddFlag( FL_GRENADE );
 
-		m_lastHitPlayer = NULL;
+		m_lastHitPlayer = nullptr;
 
 		// smaller, cube bounding box so we rest on the ground
 		Vector min = Vector( -GRENADE_DEFAULT_SIZE, -GRENADE_DEFAULT_SIZE, -GRENADE_DEFAULT_SIZE );
@@ -432,10 +432,10 @@ END_NETWORK_TABLE()
 		}
 
 		//Don't bounce twice on a selection of problematic entities
-		bool bIsProjectile = dynamic_cast< CBaseCSGrenadeProjectile* >( pEntity ) != NULL;
+		bool bIsProjectile = dynamic_cast< CBaseCSGrenadeProjectile* >( pEntity ) != nullptr;
 		if ( pEntity && !pEntity->IsWorld() && m_lastHitPlayer.Get() == pEntity )
 		{
-			bool bIsHostage = dynamic_cast< CHostage* >( pEntity ) != NULL;
+			bool bIsHostage = dynamic_cast< CHostage* >( pEntity ) != nullptr;
 			if (  pEntity->IsPlayer() || bIsHostage || bIsProjectile )
 			{
 				//DevMsg( "Setting %s to DEBRIS, it is in group %i, it hit %s in group %i\n", this->GetClassname(), this->GetCollisionGroup(), pEntity->GetClassname(), pEntity->GetCollisionGroup() );
@@ -465,7 +465,7 @@ END_NETWORK_TABLE()
 		VectorAdd( vecAbsVelocity, GetBaseVelocity(), vecMove );
 		float flSpeedSqr = DotProduct( vecMove, vecMove );
 
-		bool bIsWeapon = dynamic_cast< CBaseCombatWeapon* >( pEntity ) != NULL;
+		bool bIsWeapon = dynamic_cast< CBaseCombatWeapon* >( pEntity ) != nullptr;
 		
 		// Stop if on ground or if we bounce and our velocity is really low (keeps it from bouncing infinitely)
 		if ( pEntity &&
@@ -578,14 +578,14 @@ END_NETWORK_TABLE()
 		// Find our water surface by tracing up till we're out of the water
 		trace_t tr;
 		Vector vecTrace( 0, 0, MAX_WATER_SURFACE_DISTANCE );
-		UTIL_TraceLine( centerPoint, centerPoint + vecTrace, MASK_WATER, NULL, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceLine( centerPoint, centerPoint + vecTrace, MASK_WATER, nullptr, COLLISION_GROUP_NONE, &tr );
 
 		// If we didn't start in water, we're above it
 		if ( tr.startsolid == false )
 		{
 			// Look downward to find the surface
 			vecTrace.Init( 0, 0, -MAX_WATER_SURFACE_DISTANCE );
-			UTIL_TraceLine( centerPoint, centerPoint + vecTrace, MASK_WATER, NULL, COLLISION_GROUP_NONE, &tr );
+			UTIL_TraceLine( centerPoint, centerPoint + vecTrace, MASK_WATER, nullptr, COLLISION_GROUP_NONE, &tr );
 
 			// If we hit it, setup the explosion
 			if ( tr.fraction < 1.0f )

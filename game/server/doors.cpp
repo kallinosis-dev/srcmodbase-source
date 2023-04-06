@@ -640,8 +640,8 @@ void CBaseDoor::UpdateAreaPortals( bool isOpen )
 	if ( !name )
 		return;
 	
-	CBaseEntity *pPortal = NULL;
-	while ( ( pPortal = gEntList.FindEntityByClassname( pPortal, "func_areaportal" ) ) != NULL )
+	CBaseEntity *pPortal = nullptr;
+	while ( ( pPortal = gEntList.FindEntityByClassname( pPortal, "func_areaportal" ) ) != nullptr)
 	{
 		if ( pPortal->HasTarget( name ) )
 		{
@@ -667,7 +667,7 @@ void CBaseDoor::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 		ChainUse();
 
 	// We can't +use this if it can't be +used
-	if ( m_hActivator != NULL && m_hActivator->IsPlayer() && HasSpawnFlags( SF_DOOR_PUSE ) == false )
+	if ( m_hActivator != nullptr && m_hActivator->IsPlayer() && HasSpawnFlags( SF_DOOR_PUSE ) == false )
 	{
 		PlayLockSounds( this, &m_ls, TRUE, FALSE );
 		return;
@@ -715,8 +715,8 @@ void CBaseDoor::ChainUse( void )
 	if ( m_isChaining )
 		return;
 
-	CBaseEntity *ent = NULL;
-	while ( ( ent = gEntList.FindEntityByName( ent, m_ChainTarget, NULL ) ) != NULL )
+	CBaseEntity *ent = nullptr;
+	while ( ( ent = gEntList.FindEntityByName( ent, m_ChainTarget, nullptr) ) != nullptr)
 	{
 		if ( ent == this )
 			continue;
@@ -725,7 +725,7 @@ void CBaseDoor::ChainUse( void )
 		if ( door )
 		{
 			door->SetChaining( true );
-			door->Use( m_hActivator, NULL, USE_TOGGLE, 0.0f ); // only the first param is used
+			door->Use( m_hActivator, nullptr, USE_TOGGLE, 0.0f ); // only the first param is used
 			door->SetChaining( false );
 		}
 	}
@@ -740,8 +740,8 @@ void CBaseDoor::ChainTouch( CBaseEntity *pOther )
 	if ( m_isChaining )
 		return;
 
-	CBaseEntity *ent = NULL;
-	while ( ( ent = gEntList.FindEntityByName( ent, m_ChainTarget, NULL ) ) != NULL )
+	CBaseEntity *ent = nullptr;
+	while ( ( ent = gEntList.FindEntityByName( ent, m_ChainTarget, nullptr) ) != nullptr)
 	{
 		if ( ent == this )
 			continue;
@@ -908,7 +908,7 @@ void CBaseDoor::DoorGoUp( void )
 	{
 		float	sign = 1.0;
 
-		if ( m_hActivator != NULL )
+		if ( m_hActivator != nullptr)
 		{
 			pevActivator = m_hActivator->edict();
 			
@@ -1106,14 +1106,14 @@ void CBaseDoor::DoorHitBottom( void )
 int CBaseDoor::GetDoorMovementGroup( CBaseDoor *pDoorList[], int listMax )
 {
 	int count = 0;
-	CBaseEntity	*pTarget = NULL;
+	CBaseEntity	*pTarget = nullptr;
 
 	// Block all door pieces with the same targetname here.
 	if ( GetEntityName() != NULL_STRING )
 	{
 		for (;;)
 		{
-			pTarget = gEntList.FindEntityByName( pTarget, GetEntityName(), NULL );
+			pTarget = gEntList.FindEntityByName( pTarget, GetEntityName(), nullptr);
 
 			if ( pTarget != this )
 			{
@@ -1346,7 +1346,7 @@ void CRotDoor::Spawn( void )
 
 		// We've already had our physics setup in BaseClass::Spawn, so teleport to our
 		// current position. If we don't do this, our vphysics shadow will not update.
-		Teleport( NULL, &m_vecAngle1, NULL );
+		Teleport(nullptr, &m_vecAngle1, nullptr);
 
 		m_toggle_state = TS_AT_BOTTOM;
 	}
@@ -1354,7 +1354,7 @@ void CRotDoor::Spawn( void )
 	{	
 		// We've already had our physics setup in BaseClass::Spawn, so teleport to our
 		// current position. If we don't do this, our vphysics shadow will not update.
-		Teleport( NULL, &m_vecAngle2, NULL );
+		Teleport(nullptr, &m_vecAngle2, nullptr);
 		m_toggle_state = TS_AT_TOP;
 	}
 	else

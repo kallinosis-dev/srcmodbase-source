@@ -45,11 +45,11 @@ public:
 	void				EnsureSentence();
 
 
-	virtual CWorkspace	*GetWorkspace() { return NULL; }
-	virtual CProject	*GetProject() { return NULL; }
-	virtual CScene		*GetScene() { return NULL; }
-	virtual CVCDFile	*GetVCDFile() { return NULL; }
-	virtual CSoundEntry	*GetSoundEntry() { return NULL; }
+	virtual CWorkspace	*GetWorkspace() { return nullptr; }
+	virtual CProject	*GetProject() { return nullptr; }
+	virtual CScene		*GetScene() { return nullptr; }
+	virtual CVCDFile	*GetVCDFile() { return nullptr; }
+	virtual CSoundEntry	*GetSoundEntry() { return nullptr; }
 	virtual CWaveFile	*GetWaveFile() { return this; }
 
 	void		Play();

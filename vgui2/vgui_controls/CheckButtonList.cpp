@@ -19,7 +19,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 CheckButtonList::CheckButtonList(Panel *parent, const char *name) : BaseClass(parent, name)
 {
-	m_pScrollBar = new ScrollBar(this, NULL, true);
+	m_pScrollBar = new ScrollBar(this, nullptr, true);
 }
 
 //-----------------------------------------------------------------------------
@@ -36,7 +36,7 @@ CheckButtonList::~CheckButtonList()
 int CheckButtonList::AddItem(const char *itemText, bool startsSelected, KeyValues *userData)
 {
 	CheckItem_t newItem;
-	newItem.checkButton = new vgui::CheckButton(this, NULL, itemText);
+	newItem.checkButton = new vgui::CheckButton(this, nullptr, itemText);
 	newItem.checkButton->SetSilentMode( true );
 	newItem.checkButton->SetSelected(startsSelected);
 	newItem.checkButton->SetSilentMode( false );

@@ -17,7 +17,7 @@ DECLARE_BUILD_FACTORY( CIconPanel );
 CIconPanel::CIconPanel( vgui::Panel *parent, const char *name ) : vgui::Panel( parent, name )
 {
 	m_szIcon[0] = '\0';
-	m_icon = NULL;
+	m_icon = nullptr;
 	m_bScaleImage = false;
 }
 

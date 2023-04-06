@@ -91,7 +91,7 @@ CInfoTargetPropertiesPanel::CInfoTargetPropertiesPanel( CVcdBlockDoc *pDoc, vgui
 	SetPaintBackgroundEnabled( true );
 	SetKeyBoardInputEnabled( true );
 
-	m_pInfoTarget = new vgui::EditablePanel( (vgui::Panel*)NULL, "InfoTarget" );
+	m_pInfoTarget = new vgui::EditablePanel( (vgui::Panel*)nullptr, "InfoTarget" );
 
 	m_pTargetName = new vgui::TextEntry( m_pInfoTarget, "TargetName" );
 	m_pTargetName->AddActionSignalTarget( this );

@@ -16,7 +16,7 @@ class CArchDlg : public CDialog
 {
 // Construction
 public:
-	CArchDlg(Vector& bmins, Vector& bmaxs, CWnd* pParent = NULL);   // standard constructor
+	CArchDlg(Vector& bmins, Vector& bmaxs, CWnd* pParent = nullptr);   // standard constructor
 	~CArchDlg();   // standard constructor
 
 	void DrawArch(CDC *pDC);

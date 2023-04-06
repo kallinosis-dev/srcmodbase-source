@@ -45,7 +45,7 @@ using namespace vgui;
 //
 //////////////////////////////////////////////////////////////////////////
 
-CDemoUIPanel *g_pDemoUI = NULL;
+CDemoUIPanel *g_pDemoUI = nullptr;
 
 void CDemoUIPanel::InstallDemoUI( vgui::Panel *parent )
 {

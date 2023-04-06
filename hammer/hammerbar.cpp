@@ -40,10 +40,10 @@ BOOL CHammerBar::OnSetCursor(CWnd *pWnd, UINT nHitTest, UINT message)
 	{
 		// The control bar window is actually our grandparent.
 		CWnd *pwnd = GetParent();
-		if (pwnd != NULL)
+		if (pwnd != nullptr)
 		{
 			pwnd = pwnd->GetParent();
-			if (pwnd != NULL)
+			if (pwnd != nullptr)
 			{
 				pwnd->BringWindowToTop();
 			}
@@ -204,26 +204,26 @@ void CHammerBar::AdjustControls( void )
 		DWORD dwPlacement = currentControl.m_dwPlacementFlag;
 
 		CWnd* pControl = GetDlgItem( nDialogID );
-		if ( pControl != NULL )
+		if ( pControl != nullptr)
 		{
 			if ( dwPlacement & GROUP_BOX  )
 			{
-				pControl->SetWindowPos( NULL, 0, 0, nHammerBarWidth - nControlWidthDifference , 
-					nHammerBarHeight - nControlHeightDifference, SWP_NOMOVE|SWP_NOZORDER );			
+				pControl->SetWindowPos(nullptr, 0, 0, nHammerBarWidth - nControlWidthDifference , 
+				                       nHammerBarHeight - nControlHeightDifference, SWP_NOMOVE|SWP_NOZORDER );			
 			}
 			if ( dwPlacement & BOTTOM_JUSTIFY )
 			{
 				CRect controlPos;
 				pControl->GetWindowRect( &controlPos );
-				pControl->SetWindowPos( NULL, controlPos.left - HammerBarPos.left,
-					HammerBarPos.Height() - currentControl.m_nPosY, 0, 0, SWP_NOSIZE|SWP_NOZORDER );
+				pControl->SetWindowPos(nullptr, controlPos.left - HammerBarPos.left,
+				                       HammerBarPos.Height() - currentControl.m_nPosY, 0, 0, SWP_NOSIZE|SWP_NOZORDER );
 			}
 			if ( dwPlacement & RIGHT_JUSTIFY )
 			{
 				CRect controlPos;
 				pControl->GetWindowRect( &controlPos );
-				pControl->SetWindowPos( NULL, HammerBarPos.Width() - currentControl.m_nPosX,
-					controlPos.top - HammerBarPos.top, 0, 0, SWP_NOSIZE|SWP_NOZORDER );
+				pControl->SetWindowPos(nullptr, HammerBarPos.Width() - currentControl.m_nPosX,
+				                       controlPos.top - HammerBarPos.top, 0, 0, SWP_NOSIZE|SWP_NOZORDER );
 			}
 		}
 
@@ -247,7 +247,7 @@ void CHammerBar::AddControl( int nIDTemplate, DWORD dwPlacementFlag )
 	newControl.m_dwPlacementFlag = dwPlacementFlag;
 
 	CWnd *pControl = GetDlgItem( nIDTemplate );
-	if ( pControl != NULL )
+	if ( pControl != nullptr)
 	{
 		CRect controlPos, hammerBarPos;
 		pControl->GetWindowRect( &controlPos );

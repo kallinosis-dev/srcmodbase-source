@@ -466,7 +466,7 @@ void CPropJeep::AimGunAt( Vector *endPos, float flInterval )
 
 		// Make the gun go limp and look "down"
 		Vector	v_forward, v_up;
-		AngleVectors( GetLocalAngles(), NULL, &v_forward, &v_up );
+		AngleVectors( GetLocalAngles(), nullptr, &v_forward, &v_up );
 		aimPos = WorldSpaceCenter() + ( v_forward * -32.0f ) - Vector( 0, 0, 128.0f );
 	}
 
@@ -609,7 +609,7 @@ bool CPropJeep::CheckWater( void )
 			continue;
 
 		// Check to see if we hit water.
-		if ( pWheel->GetContactPoint( &m_WaterData.m_vecWheelContactPoints[iWheel], NULL ) )
+		if ( pWheel->GetContactPoint( &m_WaterData.m_vecWheelContactPoints[iWheel], nullptr) )
 		{
 			m_WaterData.m_bWheelInWater[iWheel] = ( UTIL_PointContents( m_WaterData.m_vecWheelContactPoints[iWheel], MASK_WATER ) & MASK_WATER ) ? true : false;
 			if ( m_WaterData.m_bWheelInWater[iWheel] )
@@ -675,7 +675,7 @@ void CPropJeep::CheckWaterLevel( void )
 
 		// Add the jeep's Z view offset
 		Vector vecUp;
-		AngleVectors( vecAttachAngles, NULL, NULL, &vecUp );
+		AngleVectors( vecAttachAngles, nullptr, nullptr, &vecUp );
 		vecUp.z = clamp( vecUp.z, 0.0f, vecUp.z );
 		vecAttachPoint.z += r_JeepViewZHeight.GetFloat() * vecUp.z;
 
@@ -814,7 +814,7 @@ void CPropJeep::Think(void)
 	if ( m_hPlayer && !m_bExitAnimOn && !m_bEnterAnimOn )
 	{
 		Vector vecEyeDir, vecEyePos;
-		m_hPlayer->EyePositionAndVectors( &vecEyePos, &vecEyeDir, NULL, NULL );
+		m_hPlayer->EyePositionAndVectors( &vecEyePos, &vecEyeDir, nullptr, nullptr);
 
 		// Trace out from the player's eye point.
 		Vector	vecEndPos = vecEyePos + ( vecEyeDir * MAX_TRACE_LENGTH );
@@ -1094,7 +1094,7 @@ void CPropJeep::ChargeCannon( void )
 		m_sndCannonCharge = (CSoundEnvelopeController::GetController()).SoundCreate( filter, entindex(), CHAN_STATIC, "Jeep.GaussCharge", ATTN_NORM );
 
 		assert(m_sndCannonCharge!=NULL);
-		if ( m_sndCannonCharge != NULL )
+		if ( m_sndCannonCharge != nullptr)
 		{
 			(CSoundEnvelopeController::GetController()).Play( m_sndCannonCharge, 1.0f, 50 );
 			(CSoundEnvelopeController::GetController()).SoundChangePitch( m_sndCannonCharge, 250, 3.0f );
@@ -1113,7 +1113,7 @@ void CPropJeep::ChargeCannon( void )
 //-----------------------------------------------------------------------------
 void CPropJeep::StopChargeSound( void )
 {
-	if ( m_sndCannonCharge != NULL )
+	if ( m_sndCannonCharge != nullptr)
 	{
 		(CSoundEnvelopeController::GetController()).SoundFadeOut( m_sndCannonCharge, 0.1f );
 	}
@@ -1141,12 +1141,12 @@ void CPropJeep::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE use
 {
 	CBasePlayer *pPlayer = ToBasePlayer( pActivator );
 	
-	if ( pPlayer == NULL)
+	if ( pPlayer == nullptr)
 		return;
 
 	// Find out if the player's looking at our ammocrate hitbox 
 	Vector vecForward;
-	pPlayer->EyeVectors( &vecForward, NULL, NULL );
+	pPlayer->EyeVectors( &vecForward, nullptr, nullptr);
 
 	trace_t tr;
 	Vector vecStart = pPlayer->EyePosition();
@@ -1277,7 +1277,7 @@ void CPropJeep::DampenUpMotion( Vector &vecVehicleEyePos, QAngle &vecVehicleEyeA
 {
 	// Get up vector.
 	Vector vecUp;
-	AngleVectors( vecVehicleEyeAngles, NULL, NULL, &vecUp );
+	AngleVectors( vecVehicleEyeAngles, nullptr, nullptr, &vecUp );
 	vecUp.z = clamp( vecUp.z, 0.0f, vecUp.z );
 	vecVehicleEyePos.z += r_JeepViewZHeight.GetFloat() * vecUp.z;
 
@@ -1298,7 +1298,7 @@ void CPropJeep::SetupMove( CBasePlayer *player, CUserCmd *ucmd, IMoveHelper *pHe
 			if ( !CanExitVehicle(player) )
 				return;
 
-			if ( !GetServerVehicle()->HandlePassengerExit( m_hPlayer ) && ( m_hPlayer != NULL ) )
+			if ( !GetServerVehicle()->HandlePassengerExit( m_hPlayer ) && ( m_hPlayer != nullptr) )
 			{
 				m_hPlayer->PlayUseDenySound();
 			}
@@ -1397,7 +1397,7 @@ void CPropJeep::CreateDangerSounds( void )
 	Vector vecStart = GetAbsOrigin();
 	Vector vecDir, vecRight;
 
-	GetVectors( &vecDir, &vecRight, NULL );
+	GetVectors( &vecDir, &vecRight, nullptr);
 
 	const float soundDuration = 0.25;
 	float speed = m_VehiclePhysics.GetHLSpeed();
@@ -1506,7 +1506,7 @@ void CPropJeep::InputFinishRemoveTauCannon( inputdata_t &inputdata )
 void CPropJeep::OnRestore( void )
 {
 	IServerVehicle *pServerVehicle = GetServerVehicle();
-	if ( pServerVehicle != NULL )
+	if ( pServerVehicle != nullptr)
 	{
 		// Restore the passenger information we're holding on to
 		pServerVehicle->RestorePassengerInfo();
@@ -1557,7 +1557,7 @@ int CJeepFourWheelServerVehicle::GetExitAnimToUse( Vector &vecEyeExitEndpoint, b
 		Vector vecMove = Vector(0,0,64);
 		Vector vecStart = vehicleExitOrigin + vecMove;
 		Vector vecEnd = vehicleExitOrigin - vecMove;
-  		UTIL_TraceHull( vecStart, vecEnd, VEC_HULL_MIN, VEC_HULL_MAX, MASK_SOLID, NULL, COLLISION_GROUP_NONE, &tr );
+  		UTIL_TraceHull( vecStart, vecEnd, VEC_HULL_MIN, VEC_HULL_MAX, MASK_SOLID, nullptr, COLLISION_GROUP_NONE, &tr );
 
 		Assert( !tr.startsolid && tr.fraction < 1.0 );
 		m_vecCurrentExitEndPoint = vecStart + ((vecEnd - vecStart) * tr.fraction);

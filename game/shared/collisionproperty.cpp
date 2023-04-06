@@ -205,7 +205,7 @@ void CDirtySpatialPartitionEntityList::OnPreQuery( SpatialPartitionListMask_t li
 		m_partitionMutex.LockForWrite();
 		m_partitionWriteId = nThreadID + 1;
 		CTSListWithFreeList<CBaseHandle>::Node_t *pCurrent, *pNext;
-		while ( ( pCurrent = m_DirtyEntities.Detach() ) != NULL )
+		while ( ( pCurrent = m_DirtyEntities.Detach() ) != nullptr)
 		{
 			while ( pCurrent )
 			{
@@ -406,7 +406,7 @@ END_NETWORK_TABLE()
 CCollisionProperty::CCollisionProperty()
 {
 	m_Partition = PARTITION_INVALID_HANDLE;
-	Init( NULL );
+	Init(nullptr);
 }
 
 CCollisionProperty::~CCollisionProperty()
@@ -483,7 +483,7 @@ const matrix3x4_t *CCollisionProperty::GetRootParentToWorldTransform() const
 			return &pEntity->CollisionProp()->CollisionToWorldTransform();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 IPhysicsObject *CCollisionProperty::GetVPhysicsObject() const
@@ -499,7 +499,7 @@ IClientUnknown* CCollisionProperty::GetIClientUnknown()
 #ifdef CLIENT_DLL
 	return ( m_pOuter != NULL ) ? m_pOuter->GetIClientUnknown() : NULL;
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 

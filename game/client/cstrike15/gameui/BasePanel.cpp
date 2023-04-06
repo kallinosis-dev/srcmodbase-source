@@ -115,7 +115,7 @@ ConVar vgui_message_dialog_modal( "vgui_message_dialog_modal", "1", FCVAR_ARCHIV
 
 ConVar ui_test_community_matchmaking( "ui_test_community_matchmaking", "0", FCVAR_DEVELOPMENTONLY );
 
-static CBaseModPanel	*g_pBasePanel = NULL;
+static CBaseModPanel	*g_pBasePanel = nullptr;
 static float		g_flAnimationPadding = 0.01f;
 
 extern const char *COM_GetModDirectory( void );
@@ -142,10 +142,10 @@ void CGameMenuItem::ApplySchemeSettings(IScheme *pScheme)
 	SetArmedColor(GetSchemeColor("MainMenu.ArmedTextColor", pScheme), Color(0, 0, 0, 0));
 	SetDepressedColor(GetSchemeColor("MainMenu.DepressedTextColor", pScheme), Color(0, 0, 0, 0));
 	SetContentAlignment(Label::a_west);
-	SetBorder(NULL);
-	SetDefaultBorder(NULL);
-	SetDepressedBorder(NULL);
-	SetKeyFocusBorder(NULL);
+	SetBorder(nullptr);
+	SetDefaultBorder(nullptr);
+	SetDepressedBorder(nullptr);
+	SetKeyFocusBorder(nullptr);
 
 	vgui::HFont hMainMenuFont = pScheme->GetFont( "MainMenuFont", false);
 	if ( hMainMenuFont )
@@ -235,7 +235,7 @@ public:
 		}
 		else
 		{
-			m_pConsoleFooter = NULL;
+			m_pConsoleFooter = nullptr;
 		}
 	}
 
@@ -246,7 +246,7 @@ public:
 		// make fully transparent
 		SetMenuItemHeight(atoi(pScheme->GetResourceString("MainMenu.MenuItemHeight")));
 		SetBgColor(Color(0, 0, 0, 0));
-		SetBorder(NULL);
+		SetBorder(nullptr);
 	}
 
 	virtual void LayoutMenuBorder()
@@ -264,7 +264,7 @@ public:
 		}
 	}
 
-	virtual int AddMenuItem(const char *itemName, const char *itemText, const char *command, Panel *target, KeyValues *userData = NULL)
+	virtual int AddMenuItem(const char *itemName, const char *itemText, const char *command, Panel *target, KeyValues *userData = nullptr)
 	{
 		MenuItem *item = new CGameMenuItem(this, itemName);
 		item->AddActionSignalTarget(target);
@@ -274,7 +274,7 @@ public:
 		return BaseClass::AddMenuItem(item);
 	}
 
-	virtual int AddMenuItem(const char *itemName, const char *itemText, KeyValues *command, Panel *target, KeyValues *userData = NULL)
+	virtual int AddMenuItem(const char *itemName, const char *itemText, KeyValues *command, Panel *target, KeyValues *userData = nullptr)
 	{
 		CGameMenuItem *item = new CGameMenuItem(this, itemName);
 		item->AddActionSignalTarget(target);
@@ -520,7 +520,7 @@ bool g_bIsCreatingNewGameMenuForPreFetching = false;
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CBaseModPanel::CBaseModPanel( const char *panelName ) : Panel(NULL, panelName )
+CBaseModPanel::CBaseModPanel( const char *panelName ) : Panel(nullptr, panelName )
 {	
 	g_pBasePanel = this;
 	m_bLevelLoading = false;
@@ -537,8 +537,8 @@ CBaseModPanel::CBaseModPanel( const char *panelName ) : Panel(NULL, panelName )
 	m_bHaveDarkenedTitleText = true;
 	m_bForceTitleTextUpdate = true;
 	m_BackdropColor = Color(0, 0, 0, 128);
-	m_pConsoleAnimationController = NULL;
-	m_pConsoleControlSettings = NULL;
+	m_pConsoleAnimationController = nullptr;
+	m_pConsoleControlSettings = nullptr;
 	m_bCopyFrameBuffer = false;
 	m_bUseRenderTargetImage = false;
 	m_ExitingFrameCount = 0;
@@ -566,8 +566,8 @@ CBaseModPanel::CBaseModPanel( const char *panelName ) : Panel(NULL, panelName )
 	m_bNeedStorageDeviceHandle = false;
 	m_bStorageBladeShown = false;
 	m_iStorageID = XBX_INVALID_STORAGE_ID;
-	m_pAsyncJob = NULL;
-	m_pStorageDeviceValidatedNotify = NULL;
+	m_pAsyncJob = nullptr;
+	m_pStorageDeviceValidatedNotify = nullptr;
 	m_bStartScreenPlayerSigninCompleted = false;
 	m_bMainMenuShown = true;
 	
@@ -631,8 +631,8 @@ CBaseModPanel::CBaseModPanel( const char *panelName ) : Panel(NULL, panelName )
 	}
 #endif // CS_BETA
 
-	m_pGameMenu = NULL;
-	m_pGameLogo = NULL;
+	m_pGameMenu = nullptr;
+	m_pGameLogo = nullptr;
 
 // 2016-Apr-18 <vitaliy> -- this looks like a bunch of legacy code, we cannot run with any version of Steam Client, but the latest
 // 	if ( SteamClient() )
@@ -748,7 +748,7 @@ void CBaseModPanel::ArmFirstMenuItem( void )
 
 CBaseModPanel::~CBaseModPanel()
 {
-	g_pBasePanel = NULL;
+	g_pBasePanel = nullptr;
 }
 
 static char *g_rgValidCommands[] =
@@ -1385,7 +1385,7 @@ void CBaseModPanel::CreateGameLogo()
 	}
 	else
 	{
-		m_pGameLogo = NULL;
+		m_pGameLogo = nullptr;
 	}
 }
 
@@ -1431,10 +1431,10 @@ CGameMenu *CBaseModPanel::RecursiveLoadGameMenu(KeyValues *datafile)
 	CGameMenu *menu = new CGameMenu(this, datafile->GetName());
 
 	// loop through all the data adding items to the menu
-	for (KeyValues *dat = datafile->GetFirstSubKey(); dat != NULL; dat = dat->GetNextKey())
+	for (KeyValues *dat = datafile->GetFirstSubKey(); dat != nullptr; dat = dat->GetNextKey())
 	{
 		const char *label = dat->GetString("label", "<unknown>");
-		const char *cmd = dat->GetString("command", NULL);
+		const char *cmd = dat->GetString("command", nullptr);
 		const char *name = dat->GetString("name", label);
 
 		if ( cmd && !Q_stricmp( cmd, "OpenFriendsDialog" ) && bSteamCommunityFriendsVersion )
@@ -1796,7 +1796,7 @@ void CBaseModPanel::RunFrame()
 	{
 		m_pAsyncJob->Completed();
 		delete m_pAsyncJob;
-		m_pAsyncJob = NULL;
+		m_pAsyncJob = nullptr;
 	}
 }
 
@@ -2706,7 +2706,7 @@ void CBaseModPanel::RunMenuCommand(const char *command)
 		if ( m_pStorageDeviceValidatedNotify )
 		{
 			*m_pStorageDeviceValidatedNotify = 2;
-			m_pStorageDeviceValidatedNotify = NULL;
+			m_pStorageDeviceValidatedNotify = nullptr;
 		}
 	}
 	else if ( !Q_stricmp( command, "clear_storage_deviceID" ) )
@@ -2852,7 +2852,7 @@ static uintp PanelJobWrapperFn( void *pvContext )
 	}
 
 	ReleaseThreadHandle( ( ThreadHandle_t ) pAsync->m_hThreadHandle );
-	pAsync->m_hThreadHandle = NULL;
+	pAsync->m_hThreadHandle = nullptr;
 
 	return 0;
 }
@@ -3027,7 +3027,7 @@ void CBaseModPanel::OnCompletedAsyncDeviceAttached( CAsyncCtxOnDeviceAttached *j
 	if ( m_pStorageDeviceValidatedNotify )
 	{
 		*m_pStorageDeviceValidatedNotify = 1;
-		m_pStorageDeviceValidatedNotify = NULL;
+		m_pStorageDeviceValidatedNotify = nullptr;
 	}
 
 	// Finish their command
@@ -3074,7 +3074,7 @@ bool CBaseModPanel::ValidateStorageDevice( int *pStorageDeviceValidated )
 		if ( pStorageDeviceValidated != m_pStorageDeviceValidatedNotify )
 		{
 			*m_pStorageDeviceValidatedNotify = -1;
-			m_pStorageDeviceValidatedNotify = NULL;
+			m_pStorageDeviceValidatedNotify = nullptr;
 		}
 		else
 		{
@@ -3778,7 +3778,7 @@ bool CBaseModPanel::InTeamLobby( void )
 		if ( pMatchSession )
 		{
 			KeyValues *pSettings = pMatchSession->GetSessionSettings();
-			const char *pszNetflag = pSettings->GetString( "system/netflag", NULL );
+			const char *pszNetflag = pSettings->GetString( "system/netflag", nullptr);
 			if ( pszNetflag && !V_stricmp( pszNetflag, "teamlobby" ) )
 				return true;
 		}
@@ -4101,7 +4101,7 @@ void CBaseModPanel::OnMakeGamePublic( void )
 	KeyValues* kv = pMatchSession->GetSessionSettings();
 	if ( kv )
 	{
-		char const *szAccess = kv->GetString( "system/access", NULL );
+		char const *szAccess = kv->GetString( "system/access", nullptr);
 		if ( szAccess )
 		{
 			if ( !Q_stricmp( "public", szAccess ) )
@@ -4237,7 +4237,7 @@ void CBaseModPanel::PositionDialog(vgui::PHandle dlg)
 //-----------------------------------------------------------------------------
 void CBaseModPanel::ShowMessageDialog( const uint nType, vgui::Panel *pOwner )
 {
-	if ( pOwner == NULL )
+	if ( pOwner == nullptr)
 	{
 		pOwner = this;
 	}
@@ -4395,7 +4395,7 @@ void CBaseModPanel::SystemNotification( const int notification )
 					if ( m_pStorageDeviceValidatedNotify )
 					{
 						*m_pStorageDeviceValidatedNotify = 2;
-						m_pStorageDeviceValidatedNotify = NULL;
+						m_pStorageDeviceValidatedNotify = nullptr;
 					}
 					else if ( m_bNeedStorageDeviceHandle )
 					{
@@ -4615,7 +4615,7 @@ bool CBaseModPanel::LoadVersionNumber( const char *fileNameA, const char *fileNa
 	Assert( pVersionBuffer != NULL );
 	Assert( versionBufferSizeBytes > 0 );
 
-	const char *fileName = NULL;
+	const char *fileName = nullptr;
 
 	long timeA = g_pFullFileSystem->GetFileTime( (char*)fileNameA );
 	long timeB = g_pFullFileSystem->GetFileTime( (char*)fileNameB );
@@ -5135,9 +5135,9 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 	{
 	case MD_SEARCHING_FOR_GAMES:
 		CreateMessageDialog( MD_CANCEL|MD_RESTRICTPAINT,
-							NULL, 
-							"#TF_Dlg_SearchingForGames", 
-							NULL,
+		                     nullptr, 
+							"#TF_Dlg_SearchingForGames",
+		                     nullptr,
 							"CancelOperation",
 							pOwner,
 							true ); 
@@ -5145,17 +5145,17 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 
 	case MD_CREATING_GAME:
 		CreateMessageDialog( MD_RESTRICTPAINT,
-							NULL, 
-							"#TF_Dlg_CreatingGame", 
-							NULL,
-							NULL,
+		                     nullptr, 
+							"#TF_Dlg_CreatingGame",
+		                     nullptr,
+		                     nullptr,
 							pOwner,
 							true ); 
 		break;
 
 	case MD_SESSION_SEARCH_FAILED:
-		CreateMessageDialog( MD_YESNO|MD_RESTRICTPAINT, 
-							NULL, 
+		CreateMessageDialog( MD_YESNO|MD_RESTRICTPAINT,
+		                     nullptr, 
 							"#TF_Dlg_NoGamesFound", 
 							"ShowSessionOptionsDialog",
 							"ReturnToMainMenu",
@@ -5163,75 +5163,75 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		break;
 
 	case MD_SESSION_CREATE_FAILED:
-		CreateMessageDialog( MD_OK, 
-							NULL, 
+		CreateMessageDialog( MD_OK,
+		                     nullptr, 
 							"#TF_Dlg_CreateFailed", 
-							"ReturnToMainMenu", 
-							NULL,
+							"ReturnToMainMenu",
+		                     nullptr,
 							pOwner );
 		break;
 
 	case MD_SESSION_CONNECTING:
-		CreateMessageDialog( 0, 
-							NULL, 
-							"#TF_Dlg_Connecting", 
-							NULL, 
-							NULL,
+		CreateMessageDialog( 0,
+		                     nullptr, 
+							"#TF_Dlg_Connecting",
+		                     nullptr,
+		                     nullptr,
 							pOwner,
 							true );
 		break;
 
 	case MD_SESSION_CONNECT_NOTAVAILABLE:
-		CreateMessageDialog( MD_OK, 
-							NULL, 
+		CreateMessageDialog( MD_OK,
+		                     nullptr, 
 							"#TF_Dlg_JoinRefused", 
-							"ReturnToMainMenu", 
-							NULL,
+							"ReturnToMainMenu",
+		                     nullptr,
 							pOwner );
 		break;
 
 	case MD_SESSION_CONNECT_SESSIONFULL:
-		CreateMessageDialog( MD_OK, 
-							NULL, 
+		CreateMessageDialog( MD_OK,
+		                     nullptr, 
 							"#TF_Dlg_GameFull", 
-							"ReturnToMainMenu", 
-							NULL,
+							"ReturnToMainMenu",
+		                     nullptr,
 							pOwner );
 		break;
 
 	case MD_SESSION_CONNECT_FAILED:
-		CreateMessageDialog( MD_OK, 
-							NULL, 
+		CreateMessageDialog( MD_OK,
+		                     nullptr, 
 							"#TF_Dlg_JoinFailed", 
-							"ReturnToMainMenu", 
-							NULL,
+							"ReturnToMainMenu",
+		                     nullptr,
 							pOwner );
 		break;
 
 	case MD_LOST_HOST:
-		CreateMessageDialog( MD_OK|MD_RESTRICTPAINT, 
-							NULL, 
+		CreateMessageDialog( MD_OK|MD_RESTRICTPAINT,
+		                     nullptr, 
 							"#TF_Dlg_LostHost", 
-							"ReturnToMainMenu", 
-							NULL,
+							"ReturnToMainMenu",
+		                     nullptr,
 							pOwner );
 		break;
 
 	case MD_LOST_SERVER:
-		CreateMessageDialog( MD_OK|MD_RESTRICTPAINT, 
-							NULL, 
+		CreateMessageDialog( MD_OK|MD_RESTRICTPAINT,
+		                     nullptr, 
 							"#TF_Dlg_LostServer", 
-							"ReturnToMainMenu", 
-							NULL,
+							"ReturnToMainMenu",
+		                     nullptr,
 							pOwner );
 		break;
 
 	case MD_MODIFYING_SESSION:
-		CreateMessageDialog( MD_RESTRICTPAINT, 
-							NULL, 
-							"#TF_Dlg_ModifyingSession", 
-							NULL, 
-							NULL,
+		CreateMessageDialog( MD_RESTRICTPAINT,
+		                     nullptr, 
+							"#TF_Dlg_ModifyingSession",
+		                     nullptr,
+		                     nullptr,
 							pOwner,
 							true );
 		break;
@@ -5294,8 +5294,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK|MD_RESTRICTPAINT, 
 							"", 
 							"#TF_Dlg_ClientKicked", 
-							"close_dialog", 
-							NULL,
+							"close_dialog",
+							nullptr,
 							pOwner );
 		break;
 
@@ -5402,8 +5402,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK|MD_WARNING|iSimpleFrame|MD_RESTRICTPAINT, 
 							 "#GameUI_ConfirmNewGame_Title", 
 							 "#GameUI_AutoSave_Console_Explanation", 
-							 "StartNewGameNoCommentaryExplanation", 
-							 NULL,
+							 "StartNewGameNoCommentaryExplanation",
+							 nullptr,
 							 pOwner );
 		break;
 
@@ -5411,8 +5411,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK|MD_WARNING|iSimpleFrame|MD_RESTRICTPAINT, 
 							 "#GameUI_CommentaryDialogTitle", 
 							 "#GAMEUI_Commentary_Console_Explanation", 
-							 "StartNewGameNoCommentaryExplanation", 
-							 NULL,
+							 "StartNewGameNoCommentaryExplanation",
+							 nullptr,
 							 pOwner );
 		break;
 
@@ -5420,8 +5420,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK|MD_WARNING, 
 							 "#GameUI_CommentaryDialogTitle", 
 							 "#GAMEUI_Commentary_Console_Explanation", 
-							 "StartNewGameNoCommentaryExplanation", 
-							 NULL,
+							 "StartNewGameNoCommentaryExplanation",
+							 nullptr,
 							 pOwner );
 		break;
 
@@ -5429,8 +5429,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK|MD_WARNING|iSimpleFrame|MD_RESTRICTPAINT, 
 							 "#GameUI_CommentaryDialogTitle", 
 							 "#GameUI_CommentaryUnlock", 
-							 "close_dialog", 
-							 NULL,
+							 "close_dialog",
+							 nullptr,
 							 pOwner );
 		break;
 		
@@ -5482,8 +5482,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_WARNING|iSimpleFrame|MD_COMMANDONFORCECLOSE, 
 							 "",
 							 "#GameUI_SavingWarning", 
-							 "SaveSuccess", 
-							 NULL,
+							 "SaveSuccess",
+							 nullptr,
 							 pOwner,
 							 true);
 		break;
@@ -5492,8 +5492,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK|iSimpleFrame|MD_COMMANDAFTERCLOSE, 
 							 "#GameUI_ConfirmOverwriteSaveGame_Title", 
 							 "#GameUI_GameSaved", 
-							 "CloseAndSelectResume", 
-							 NULL,
+							 "CloseAndSelectResume",
+							 nullptr,
 							 pOwner );
 		break;
 
@@ -5501,8 +5501,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK |MD_WARNING|iSimpleFrame, 
 			"#GameUI_LoadFailed", 
 			"#GameUI_LoadFailed_Description", 
-			"close_dialog", 
-			NULL,
+			"close_dialog",
+			nullptr,
 			pOwner );
 		break;
 
@@ -5510,8 +5510,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK|iSimpleFrame|MD_RESTRICTPAINT, 
 							 "#GameUI_SettingChangeFromX360Dashboard_Title", 
 							 "#GameUI_SettingChangeFromX360Dashboard_Info", 
-							 "close_dialog", 
-							 NULL,
+							 "close_dialog",
+							 nullptr,
 							 pOwner );
 		break;
 
@@ -5519,8 +5519,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK, 
 							"Standard Dialog", 
 							"This is a standard dialog", 
-							"close_dialog", 
-							NULL,
+							"close_dialog",
+							nullptr,
 							pOwner );
 		break;
 
@@ -5528,8 +5528,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK | MD_WARNING,
 							"#GameUI_Dialog_Warning", 
 							"This is a warning dialog", 
-							"close_dialog", 
-							NULL,
+							"close_dialog",
+							nullptr,
 							pOwner );
 		break;
 
@@ -5537,8 +5537,8 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK | MD_ERROR, 
 							"Error Dialog", 
 							"This is an error dialog", 
-							"close_dialog", 
-							NULL,
+							"close_dialog",
+							nullptr,
 							pOwner );
 		break;
 
@@ -5546,17 +5546,17 @@ void CMessageDialogHandler::ShowMessageDialog( int nType, vgui::Panel *pOwner )
 		CreateMessageDialog( MD_OK | MD_WARNING | iSimpleFrame | MD_RESTRICTPAINT,
 			"", 
 			"#GameUI_Console_FileCorrupt", 
-			"close_dialog", 
-			NULL,
+			"close_dialog",
+			nullptr,
 			pOwner );
 		break;
 
 	case MD_CHECKING_STORAGE_DEVICE:
 		CreateMessageDialog( iSimpleFrame | MD_RESTRICTPAINT,
-			NULL, 
+		                     nullptr, 
 			"#GameUI_Dlg_CheckingStorageDevice",
-			NULL,
-			NULL,
+		                     nullptr,
+		                     nullptr,
 			pOwner,
 			true ); 
 		break;
@@ -5580,7 +5580,7 @@ void CMessageDialogHandler::CloseAllMessageDialogs()
 			}
 
 			pDlg->Close();
-			m_hMessageDialogs[i] = NULL;
+			m_hMessageDialogs[i] = nullptr;
 		}
 	}
 }
@@ -5607,7 +5607,7 @@ void CMessageDialogHandler::CloseMessageDialog( const uint nType )
 		}
 
 		pDlg->Close();
-		m_hMessageDialogs[nStackIdx] = NULL;
+		m_hMessageDialogs[nStackIdx] = nullptr;
 	}
 }
 

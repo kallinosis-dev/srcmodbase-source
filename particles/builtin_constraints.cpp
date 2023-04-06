@@ -442,7 +442,7 @@ void CWorldCollideContextData::SetBaseTrace(  int nIndex, Vector const &rayStart
 {
 	CBaseTrace tr;
 	Vector rayEnd = rayStart + traceDir;
-	g_pParticleSystemMgr->Query()->TraceLine( rayStart, rayEnd, MASK_SOLID, NULL, nCollisionGroup, &tr );
+	g_pParticleSystemMgr->Query()->TraceLine( rayStart, rayEnd, MASK_SOLID, nullptr, nCollisionGroup, &tr );
 	if ( tr.fraction < 1.0 )
 	{
 		m_bPlaneActive[nIndex] = true;
@@ -754,7 +754,7 @@ static void WorldIntersectTNew( FourVectors const *pStartPnt, FourVectors const 
 
 						CBaseTrace tr;
 						g_pParticleSystemMgr->Query()->TraceLine( start, end,
-																  nContentsMask, NULL, nCollisionGroup, &tr );
+																  nContentsMask, nullptr, nCollisionGroup, &tr );
 		
 						if ( tr.fraction < 1.0 )
 						{
@@ -856,7 +856,7 @@ static void WorldIntersectT( FourVectors const *pStartPnt, FourVectors const *pE
 
 				CBaseTrace tr;
 				g_pParticleSystemMgr->Query()->TraceLine( start, end,
-														  nContentsMask, NULL, nCollisionGroup, &tr );
+														  nContentsMask, nullptr, nCollisionGroup, &tr );
 			
 				SubFloat( pISectData->m_ISectT, i ) = tr.fraction;
 				if ( tr.startsolid )
@@ -941,7 +941,7 @@ template<bool bKillonContact, bool bCached> bool C_OP_WorldTraceConstraint::Enfo
 	else
 		ppCtx = &( pParticles->m_pCollisionCacheData[m_nCollisionMode] );
 
-	CWorldCollideContextData *pCtx = NULL;
+	CWorldCollideContextData *pCtx = nullptr;
 	if ( ( m_nCollisionMode == COLLISION_MODE_PER_FRAME_PLANESET ) ||
 		 ( m_nCollisionMode == COLLISION_MODE_USE_NEAREST_TRACE ) ||
 		 ( m_nCollisionMode == COLLISION_MODE_INITIAL_TRACE_DOWN ) )

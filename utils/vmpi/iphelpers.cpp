@@ -406,9 +406,9 @@ public:
 			0,
 			(sockaddr*)&addr,
 			sizeof( addr ),
-			NULL,
-			NULL
-			);
+			nullptr,
+			nullptr
+		);
 
 		return ret == 0 && (int)dwNumBytesSent == nTotalBytes;
 	}
@@ -424,7 +424,7 @@ public:
 		TIMEVAL timeVal = SetupTimeVal( 0 );
 
 		// See if it has a packet waiting.
-		int status = select( 0, &readSet, NULL, NULL, &timeVal );
+		int status = select( 0, &readSet, nullptr, nullptr, &timeVal );
 		if ( status == 0 || status == SOCKET_ERROR )
 			return -1;
 
@@ -513,7 +513,7 @@ ISocket* CreateMulticastListenSocket(
 	else
 	{
 		pSocket->Release();
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -598,12 +598,12 @@ void IP_GetLastErrorString( char *pStr, int maxLen )
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 		FORMAT_MESSAGE_FROM_SYSTEM | 
 		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		GetLastError(),
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 		(LPTSTR) &lpMsgBuf,
 		0,
-		NULL 
+		nullptr
 	);
 
 	Q_strncpy( pStr, lpMsgBuf, maxLen );

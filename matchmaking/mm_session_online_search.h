@@ -23,7 +23,7 @@ class CMatchSessionOnlineSearch : public IMatchSessionInternal
 	// Methods of IMatchSession
 public:
 	// Get an internal pointer to session system-specific data
-	virtual KeyValues * GetSessionSystemData() { return NULL; }
+	virtual KeyValues * GetSessionSystemData() { return nullptr; }
 	
 	// Get an internal pointer to session settings
 	virtual KeyValues * GetSessionSettings();

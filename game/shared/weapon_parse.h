@@ -167,19 +167,19 @@ public:
 
 
 
-	virtual int		GetPrimaryClipSize( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const { return 0; }
-	virtual int		GetSecondaryClipSize( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const { return 0; }
-	virtual int		GetDefaultPrimaryClipSize( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const { return 0; }
-	virtual int		GetDefaultSecondaryClipSize( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const{ return 0; }
-	virtual int		GetPrimaryReserveAmmoMax( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const{ return 0; }
-	virtual int		GetSecondaryReserveAmmoMax( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const{ return 0; }
+	virtual int		GetPrimaryClipSize( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const { return 0; }
+	virtual int		GetSecondaryClipSize( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const { return 0; }
+	virtual int		GetDefaultPrimaryClipSize( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const { return 0; }
+	virtual int		GetDefaultSecondaryClipSize( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const{ return 0; }
+	virtual int		GetPrimaryReserveAmmoMax( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const{ return 0; }
+	virtual int		GetSecondaryReserveAmmoMax( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const{ return 0; }
 
-	const char* GetWorldModel( const CEconItemView* pWepView = NULL, int iTeam = 0 ) const;
-	const char* GetViewModel( const CEconItemView* pWepView = NULL, int iTeam = 0 ) const;
-	const char* GetWorldDroppedModel( const CEconItemView* pWepView = NULL, int iTeam = 0 ) const;
-	const char* GetPrimaryAmmo( const CEconItemView* pWepView = NULL ) const;
+	const char* GetWorldModel( const CEconItemView* pWepView = nullptr, int iTeam = 0 ) const;
+	const char* GetViewModel( const CEconItemView* pWepView = nullptr, int iTeam = 0 ) const;
+	const char* GetWorldDroppedModel( const CEconItemView* pWepView = nullptr, int iTeam = 0 ) const;
+	const char* GetPrimaryAmmo( const CEconItemView* pWepView = nullptr) const;
 	
-	int GetPrimaryAmmoType( const CEconItemView* pWepView = NULL ) const;
+	int GetPrimaryAmmoType( const CEconItemView* pWepView = nullptr) const;
 
 // CLIENT DLL
 	// Sprite data, read from the data file

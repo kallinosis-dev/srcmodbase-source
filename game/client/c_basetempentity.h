@@ -37,17 +37,17 @@ public:
 public:
 
 	virtual void SetRefEHandle( const CBaseHandle &handle )	{ Assert( false ); }
-	virtual const CBaseHandle& GetRefEHandle() const		{ Assert( false ); return *( ( CBaseHandle* )0 ); }
+	virtual const CBaseHandle& GetRefEHandle() const		{ Assert( false ); return *( ( CBaseHandle* )nullptr ); }
 
 	virtual IClientUnknown*		GetIClientUnknown()		{ return this; }
-	virtual ICollideable*		GetCollideable()		{ return 0; }
+	virtual ICollideable*		GetCollideable()		{ return nullptr; }
 	virtual IClientNetworkable*	GetClientNetworkable()	{ return this; }
-	virtual IClientRenderable*	GetClientRenderable()	{ return 0; }
-	virtual IClientEntity*		GetIClientEntity()		{ return 0; }
-	virtual C_BaseEntity*		GetBaseEntity()			{ return 0; }
-	virtual IClientThinkable*	GetClientThinkable()	{ return 0; }
-	virtual IClientModelRenderable*	GetClientModelRenderable()	{ return 0; }
-	virtual IClientAlphaProperty*	GetClientAlphaProperty()	{ return 0; }
+	virtual IClientRenderable*	GetClientRenderable()	{ return nullptr; }
+	virtual IClientEntity*		GetIClientEntity()		{ return nullptr; }
+	virtual C_BaseEntity*		GetBaseEntity()			{ return nullptr; }
+	virtual IClientThinkable*	GetClientThinkable()	{ return nullptr; }
+	virtual IClientModelRenderable*	GetClientModelRenderable()	{ return nullptr; }
+	virtual IClientAlphaProperty*	GetClientAlphaProperty()	{ return nullptr; }
 
 // IClientNetworkable overrides.
 public:

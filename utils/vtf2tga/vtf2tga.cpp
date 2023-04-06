@@ -51,7 +51,7 @@ int main( int argc, char **argv )
 
 	const char *pVTFFileName = CommandLine()->ParmValue( "-i" );
 	const char *pTGAFileName = CommandLine()->ParmValue( "-o" );
-	bool bGenerateMipLevels = CommandLine()->CheckParm( "-mip" ) != NULL;
+	bool bGenerateMipLevels = CommandLine()->CheckParm( "-mip" ) != nullptr;
 	if ( !pVTFFileName )
 	{
 		Usage();
@@ -63,7 +63,7 @@ int main( int argc, char **argv )
 	}
 
 	char pCurrentDirectory[MAX_PATH];
-	if ( _getcwd( pCurrentDirectory, sizeof(pCurrentDirectory) ) == NULL )
+	if ( _getcwd( pCurrentDirectory, sizeof(pCurrentDirectory) ) == nullptr)
 	{
 		fprintf( stderr, "Unable to get the current directory\n" );
 		return -1;
@@ -183,7 +183,7 @@ int main( int argc, char **argv )
 					char *pExt = Q_strrchr( pTempNameBuf, '.' );
 					if ( pExt )
 					{
-						pExt = 0;
+						pExt = nullptr;
 					}
 
 					if ( bIsCubeMap )
@@ -288,7 +288,7 @@ int main( int argc, char **argv )
 						CUtlBuffer outBuffer;
 						TGAWriter::WriteToBuffer( pDstImage, outBuffer, iWidth, iHeight,
 							dstFormat, dstFormat );
-						if ( !g_pFullFileSystem->WriteFile( pTempNameBuf, NULL, outBuffer ) )
+						if ( !g_pFullFileSystem->WriteFile( pTempNameBuf, nullptr, outBuffer ) )
 						{
 							fprintf( stderr, "unable to write %s\n", pTempNameBuf );
 						}

@@ -91,8 +91,8 @@ void SpewPerfStats( studiohdr_t *pStudioHdr, const char *pFilename, unsigned int
 {
 	char							fileName[260];
 	vertexFileHeader_t				*pNewVvdHdr;
-	vertexFileHeader_t				*pVvdHdr = 0;
-	OptimizedModel::FileHeader_t	*pVtxHdr = 0;
+	vertexFileHeader_t				*pVvdHdr = nullptr;
+	OptimizedModel::FileHeader_t	*pVtxHdr = nullptr;
 	studiohwdata_t					studioHWData;
 	int								vvdSize = 0;
 	
@@ -215,8 +215,8 @@ void SpewPerfStats( studiohdr_t *pStudioHdr, const char *pFilename, unsigned int
 				drawModelInfo.m_Skin = 0;
 				drawModelInfo.m_Body = 0;
 				drawModelInfo.m_HitboxSet = 0;
-				drawModelInfo.m_pClientEntity = 0;
-				drawModelInfo.m_pColorMeshes = 0;
+				drawModelInfo.m_pClientEntity = nullptr;
+				drawModelInfo.m_pColorMeshes = nullptr;
 				drawModelInfo.m_pStudioHdr = pStudioHdr;
 				drawModelInfo.m_pHardwareData = &studioHWData;	
 				CUtlBuffer statsOutput( 0, 0, CUtlBuffer::TEXT_BUFFER );

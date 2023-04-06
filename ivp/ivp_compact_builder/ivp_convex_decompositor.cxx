@@ -101,9 +101,9 @@ int IVP_Convex_Decompositor::perform_convex_decomposition_on_concave_polyhedron(
     int      nface_out; // total number of faces in convex subparts; currently unused!
     int      nvert_out; // total number of entries in 'fvl_out'
     int      npolh_out; // total number of convex subparts
-    int *    facep_out = NULL; // stores all faces of all convex subparts
-    int *    fvl_out = NULL;   // stores relationship between points and faces
-    double * vcl_out = NULL;   // stores all points of all convex subparts
+    int *    facep_out = nullptr; // stores all faces of all convex subparts
+    int *    fvl_out = nullptr;   // stores relationship between points and faces
+    double * vcl_out = nullptr;   // stores all points of all convex subparts
 
     // ----------------------------------------------
     // prepare 'vertex coordinates list' for GEOMPACK

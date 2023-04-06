@@ -157,10 +157,10 @@ bool CAI_TacticalServices::TestLateralCover( const Vector &vecCheckStart, const 
 	{
 		if (GetOuter()->IsCoverPosition(vecCheckStart, vecCheckEnd + GetOuter()->GetViewOffset()))
 		{
-			if ( GetOuter()->IsValidCover ( vecCheckEnd, NULL ) )
+			if ( GetOuter()->IsValidCover ( vecCheckEnd, nullptr) )
 			{
 				AIMoveTrace_t moveTrace;
-				GetOuter()->GetMoveProbe()->MoveLimit( NAV_GROUND, GetLocalOrigin(), vecCheckEnd, GetOuter()->GetAITraceMask(), NULL, &moveTrace );
+				GetOuter()->GetMoveProbe()->MoveLimit( NAV_GROUND, GetLocalOrigin(), vecCheckEnd, GetOuter()->GetAITraceMask(), nullptr, &moveTrace );
 				if (moveTrace.fStatus == AIMR_OK)
 				{
 					DebugFindCover( NO_NODE, vecCheckEnd + GetOuter()->GetViewOffset(), vecCheckStart, 0, 255, 0 );
@@ -416,7 +416,7 @@ int CAI_TacticalServices::FindCoverNode(const Vector &vNearPos, const Vector &vT
 						if ( GetOuter()->GetHintNode() )
 						{
 							GetOuter()->GetHintNode()->Unlock(GetOuter()->GetHintDelay(GetOuter()->GetHintNode()->HintType()));
-							GetOuter()->SetHintNode( NULL );
+							GetOuter()->SetHintNode(nullptr);
 						}
 
 						GetOuter()->SetHintNode( pNode->GetHint() );
@@ -684,16 +684,16 @@ bool CAI_TacticalServices::TestLateralLos( const Vector &vecCheckStart, const Ve
 	trace_t	tr;
 
 	// it's faster to check the SightEnt's visibility to the potential spot than to check the local move, so we do that first.
-	AI_TraceLOS(  vecCheckStart, vecCheckEnd + GetOuter()->GetViewOffset(), NULL, &tr );
+	AI_TraceLOS(  vecCheckStart, vecCheckEnd + GetOuter()->GetViewOffset(), nullptr, &tr );
 
 	if (tr.fraction == 1.0)
 	{
-		if ( GetOuter()->IsValidShootPosition( vecCheckEnd, NULL, NULL ) )
+		if ( GetOuter()->IsValidShootPosition( vecCheckEnd, nullptr, nullptr) )
 			{
 				if (GetOuter()->TestShootPosition(vecCheckEnd,vecCheckStart))
 				{
 					AIMoveTrace_t moveTrace;
-					GetOuter()->GetMoveProbe()->MoveLimit( NAV_GROUND, GetLocalOrigin(), vecCheckEnd, GetOuter()->GetAITraceMask(), NULL, &moveTrace );
+					GetOuter()->GetMoveProbe()->MoveLimit( NAV_GROUND, GetLocalOrigin(), vecCheckEnd, GetOuter()->GetAITraceMask(), nullptr, &moveTrace );
 					if (moveTrace.fStatus == AIMR_OK)
 					{
 						return true;
@@ -756,7 +756,7 @@ bool CAI_TacticalServices::FindLateralLos( const Vector &vecThreat, Vector *pRes
 	}
 
 	Vector right;
-	AngleVectors( GetLocalAngles(), NULL, &right, NULL );
+	AngleVectors( GetLocalAngles(), nullptr, &right, nullptr);
 	vecStepRight = right * iDelta;
 	vecStepRight.z = 0;
 

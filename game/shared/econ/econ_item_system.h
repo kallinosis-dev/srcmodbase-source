@@ -32,7 +32,7 @@ struct randomattributecriteria_t
 	{
 		entityType = AE_MAX_TYPES;
 		iAttributeLevel = 0;
-		pItem = NULL;
+		pItem = nullptr;
 	}
 
 	entityquality_t		entityType;
@@ -120,7 +120,7 @@ CEconItemSystem *ItemSystem( void );
 class CGCFetchWebResource : public GCSDK::CGCClientJob
 {
 public:
-	CGCFetchWebResource( GCSDK::CGCClient *pClient, CUtlString strName, CUtlString strURL, bool bForceSkipCache = false, KeyValues *pkvGETParams = NULL );
+	CGCFetchWebResource( GCSDK::CGCClient *pClient, CUtlString strName, CUtlString strURL, bool bForceSkipCache = false, KeyValues *pkvGETParams = nullptr);
 	virtual ~CGCFetchWebResource();
 
 	bool BYieldingRunGCJob();

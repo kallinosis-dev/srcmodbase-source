@@ -104,7 +104,7 @@ CChoreoChannel *CChoreoActor::GetChannel( int channel )
 {
 	if ( channel < 0 || channel >= m_Channels.Count() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_Channels[ channel ];
@@ -237,7 +237,7 @@ CChoreoChannel *CChoreoActor::FindChannel( const char *name )
 			return channel;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CChoreoActor::SaveToBuffer( CUtlBuffer& buf, CChoreoScene *pScene, IChoreoStringPool *pStringPool )

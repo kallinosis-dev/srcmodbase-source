@@ -384,7 +384,7 @@ void CSoundPatch::Init( IRecipientFilter *pFilter, CBaseEntity *pEnt, int channe
 	// if not a direct wave reference, crack the script
 	CSoundParameters params;
 	if ( !Q_stristr( pSoundName, ".wav" ) && !Q_stristr( pSoundName, ".mp3" ) &&
-		CBaseEntity::GetParametersForSound( pSoundName, params, NULL ) )
+		CBaseEntity::GetParametersForSound( pSoundName, params, nullptr) )
 	{
 		m_flScriptVolume = params.volume;
 		// This has to be the actual .wav because rndwave would cause a bunch of new .wavs to play... bad...
@@ -935,7 +935,7 @@ void CSoundControllerImp::ProcessCommand( SoundCommand_t *pCmd )
 	case SOUNDCTRL_DESTROY:
 		RemoveFromList( pCmd->m_pPatch );
 		delete pCmd->m_pPatch;
-		pCmd->m_pPatch = NULL;
+		pCmd->m_pPatch = nullptr;
 		break;
 	}
 }
@@ -1190,7 +1190,7 @@ CSoundPatch *CSoundControllerImp::SoundCreate( IRecipientFilter& filter, int nEn
 
 	// FIXME: This is done so we don't have to futz with the public interface
 	IHandleEntity* pEnt = ( nEntIndex != -1 ) ? g_pEntityList->LookupEntityByNetworkIndex( nEntIndex ) : nullptr;
-	pSound->Init( &filter, static_cast<CBaseEntity*>(pEnt), CHAN_AUTO, pSoundName, SNDLVL_NORM, NULL );
+	pSound->Init( &filter, static_cast<CBaseEntity*>(pEnt), CHAN_AUTO, pSoundName, SNDLVL_NORM, nullptr);
 
 	return pSound;
 }
@@ -1200,7 +1200,7 @@ CSoundPatch *CSoundControllerImp::SoundCreate( IRecipientFilter& filter, int nEn
 {
 	CSoundPatch *pSound = new CSoundPatch;
 	IHandleEntity* pEnt = ( nEntIndex != -1 ) ? g_pEntityList->LookupEntityByNetworkIndex( nEntIndex ) : nullptr;
-	pSound->Init( &filter, static_cast<CBaseEntity*>(pEnt), channel, pSoundName, ATTN_TO_SNDLVL( attenuation ), NULL, scriptVolume );
+	pSound->Init( &filter, static_cast<CBaseEntity*>(pEnt), channel, pSoundName, ATTN_TO_SNDLVL( attenuation ), nullptr, scriptVolume );
 
 	return pSound;
 }
@@ -1219,7 +1219,7 @@ CSoundPatch *CSoundControllerImp::SoundCreate( IRecipientFilter& filter, int nEn
 {
 	CSoundPatch *pSound = new CSoundPatch;
 	IHandleEntity* pEnt = ( nEntIndex != -1 ) ? g_pEntityList->LookupEntityByNetworkIndex( nEntIndex ) : nullptr;
-	pSound->Init( &filter, static_cast<CBaseEntity*>(pEnt), channel, pSoundName, soundlevel, NULL );
+	pSound->Init( &filter, static_cast<CBaseEntity*>(pEnt), channel, pSoundName, soundlevel, nullptr);
 
 	return pSound;
 }

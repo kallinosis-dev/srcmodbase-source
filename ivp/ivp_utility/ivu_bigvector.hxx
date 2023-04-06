@@ -44,7 +44,7 @@ public:
 	if (size){		// will be optimized by most compilers
 	    elems = (void **)p_malloc(size*sizeof(void *));
 	}else{	
-	    elems = NULL;
+	    elems = nullptr;
 	}
     };
     
@@ -52,7 +52,7 @@ public:
 	if ( elems != (void **) (this+1)){
 	    void *dummy=(void *)elems;
 	    P_FREE(dummy);
-	    elems=0;
+	    elems=nullptr;
 	    memsize = 0;
 	}
 	n_elems = 0;
@@ -138,7 +138,7 @@ public:
     }
 
     T *get_next_element( IVP_U_BigVector<T> *vec){
-	if (index >= vec->n_elems) return NULL;
+	if (index >= vec->n_elems) return nullptr;
 	//if (index < 0) return NULL;
 	return vec->element_at(index--);
     }

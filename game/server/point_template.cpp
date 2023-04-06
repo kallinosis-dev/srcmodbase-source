@@ -160,10 +160,10 @@ void CPointTemplate::StartBuildingTemplates( void )
 	{
 		if ( m_iszTemplateEntityNames[i] != NULL_STRING )
 		{
-			CBaseEntity	*pEntity = NULL;
+			CBaseEntity	*pEntity = nullptr;
 			int iOldNum = m_hTemplateEntities.Count();
 			// Add all the entities with the matching targetname
-			while ( (pEntity = gEntList.FindEntityByName( pEntity, STRING(m_iszTemplateEntityNames[i]) )) != NULL )
+			while ( (pEntity = gEntList.FindEntityByName( pEntity, STRING(m_iszTemplateEntityNames[i]) )) != nullptr)
 			{
 				m_hTemplateEntities.AddToTail( pEntity );
 			}
@@ -336,7 +336,7 @@ bool CPointTemplate::CreateInstance( const Vector &vecOrigin, const QAngle &vecA
 	int i;
 	for ( i = 0; i < iTemplates; i++ )
 	{
-		CBaseEntity *pEntity = NULL;
+		CBaseEntity *pEntity = nullptr;
 		char *pMapData;
 		int iTemplateIndex = m_hTemplates[i].iTemplateIndex;
 
@@ -356,8 +356,8 @@ bool CPointTemplate::CreateInstance( const Vector &vecOrigin, const QAngle &vecA
 		}
 
 		// Create the entity from the mapdata
-		MapEntity_ParseEntity( pEntity, pMapData, NULL );
-		if ( pEntity == NULL )
+		MapEntity_ParseEntity( pEntity, pMapData, nullptr);
+		if ( pEntity == nullptr)
 		{
 			Msg("Failed to initialize templated entity with mapdata: %s\n", pMapData );
 			return false;
@@ -389,11 +389,11 @@ bool CPointTemplate::CreateInstance( const Vector &vecOrigin, const QAngle &vecA
 		}
 		else
 		{
-			pSpawnList[i].m_pEntity = NULL;
+			pSpawnList[i].m_pEntity = nullptr;
 			UTIL_RemoveImmediate( pEntity );
 		}
 		pSpawnList[i].m_nDepth = 0;
-		pSpawnList[i].m_pDeferredParent = NULL;
+		pSpawnList[i].m_pDeferredParent = nullptr;
 	}
 
 	SpawnHierarchicalList( iTemplates, pSpawnList, true );
@@ -518,7 +518,7 @@ void ScriptPostSpawn( CScriptScope *pScriptScope, CBaseEntity **ppEntities, int 
 					*pAmpersand = 0;
 				g_pScriptVM->SetValue( hEntityMakerResultTable, szEntName, ToHScript( ppEntities[i] ) );
 			}
-			pScriptScope->Call( hPostSpawnFunc, NULL, hEntityMakerResultTable );
+			pScriptScope->Call( hPostSpawnFunc, nullptr, hEntityMakerResultTable );
 			pScriptScope->Call( "__FinishSpawn" );
 		}
 		g_pScriptVM->ReleaseValue( varEntityMakerResultTable );

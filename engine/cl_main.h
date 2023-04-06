@@ -49,7 +49,7 @@ struct SoundInfo_t;
 
 #define DEFAULT_JPEG_QUALITY 50
 
-void CL_TakeJpeg( const char *name = NULL, int quality = DEFAULT_JPEG_QUALITY );
+void CL_TakeJpeg( const char *name = nullptr, int quality = DEFAULT_JPEG_QUALITY );
 
 struct MovieInfo_t
 {

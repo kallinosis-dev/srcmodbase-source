@@ -77,7 +77,7 @@ void C_EnvScreenOverlay::PostDataUpdate( DataUpdateType_t updateType )
 	BaseClass::PostDataUpdate( updateType );
 
 	// If we have a start time now, start the overlays going
-	if ( m_bIsActive && m_flStartTime > 0 && view->GetScreenOverlayMaterial() == NULL )
+	if ( m_bIsActive && m_flStartTime > 0 && view->GetScreenOverlayMaterial() == nullptr)
 	{
 		StartOverlays();
 	}
@@ -111,7 +111,7 @@ void C_EnvScreenOverlay::StopOverlays( void )
 
 	if ( m_bWasActive && !m_bIsActive )
 	{
-		view->SetScreenOverlayMaterial( NULL );
+		view->SetScreenOverlayMaterial(nullptr);
 	}
 }
 
@@ -238,7 +238,7 @@ void C_EnvScreenEffect::ReceiveMessage( int classID, bf_read &msg )
 			{		
 				// Create a keyvalue block to set these params
 				KeyValues *pKeys = new KeyValues( "keys" );
-				if ( pKeys == NULL )
+				if ( pKeys == nullptr)
 					return;
 
 				if ( m_nType == SCREENEFFECT_EP1_INTRO )
@@ -279,7 +279,7 @@ void C_EnvScreenEffect::ReceiveMessage( int classID, bf_read &msg )
 			{
 				// Create a keyvalue block to set these params
 				KeyValues *pKeys = new KeyValues( "keys" );
-				if ( pKeys == NULL )
+				if ( pKeys == nullptr)
 					return;
 
 				// Set our keys
@@ -296,7 +296,7 @@ void C_EnvScreenEffect::ReceiveMessage( int classID, bf_read &msg )
 			{
 				// Create a keyvalue block to set these params
 				KeyValues *pKeys = new KeyValues( "keys" );
-				if ( pKeys == NULL )
+				if ( pKeys == nullptr)
 					return;
 
 				// Set our keys

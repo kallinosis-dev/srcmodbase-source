@@ -70,7 +70,7 @@ KeyValues * CMatchNetworkMsgControllerBase::GetActiveServerGameDetails( KeyValue
 	INetSupport::ServerInfo_t si;
 	g_pMatchExtensions->GetINetSupport()->GetServerInfo( &si );
 
-	KeyValues *pDetails = NULL;
+	KeyValues *pDetails = nullptr;
 	
 	if ( si.m_bActive )
 	{
@@ -129,18 +129,18 @@ KeyValues * CMatchNetworkMsgControllerBase::GetActiveServerGameDetails( KeyValue
 	else if ( IVEngineClient *pIVEngineClient = g_pMatchExtensions->GetIVEngineClient() )
 	{
 		if ( pIVEngineClient->IsLevelMainMenuBackground() )
-			return NULL;
+			return nullptr;
 
 		char const *szLevelName = pIVEngineClient->GetLevelNameShort();
 		if ( !szLevelName || !*szLevelName )
-			return NULL;
+			return nullptr;
 
 		MEM_ALLOC_CREDIT();
 		pDetails = new KeyValues( "GameDetailsClient" );
 	}
 
 	if ( !pDetails )
-		return NULL;
+		return nullptr;
 
 	// Allow title to add game-specific settings
 	g_pMMF->GetMatchTitleGameSettingsMgr()->ExtendServerDetails( pDetails, pRequest );
@@ -148,7 +148,7 @@ KeyValues * CMatchNetworkMsgControllerBase::GetActiveServerGameDetails( KeyValue
 	return pDetails;
 }
 
-static KeyValues * GetLobbyDetailsTemplate( char const *szReason = "", KeyValues *pSettings = NULL )
+static KeyValues * GetLobbyDetailsTemplate( char const *szReason = "", KeyValues *pSettings = nullptr)
 {
 	KeyValues *pDetails = KeyValues::FromString(
 		"settings",
@@ -183,9 +183,9 @@ KeyValues * CMatchNetworkMsgControllerBase::UnpackGameDetailsFromQOS( MM_GameDet
 	int iVersion = bufQos.GetInt();
 
 	if ( iProtocol != g_pMatchExtensions->GetINetSupport()->GetEngineBuildNumber() )
-		return NULL;
+		return nullptr;
 	if ( 0 != iVersion )
-		return NULL;
+		return nullptr;
 
 	//
 	// Read the game details that we have received
@@ -195,7 +195,7 @@ KeyValues * CMatchNetworkMsgControllerBase::UnpackGameDetailsFromQOS( MM_GameDet
 	if ( !pDetails->ReadAsBinary( bufQos ) )
 	{
 		pDetails->deleteThis();
-		return NULL;
+		return nullptr;
 	}
 
 	// Read the terminator
@@ -288,7 +288,7 @@ KeyValues * CMatchNetworkMsgControllerBase::UnpackGameDetailsFromSteamLobby( uin
 	return pDetails;
 #endif
 	
-	return NULL;
+	return nullptr;
 }
 
 KeyValues * CMatchNetworkMsgControllerBase::PackageGameDetailsForReservation( KeyValues *pSettings )

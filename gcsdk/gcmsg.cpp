@@ -59,7 +59,7 @@ IMsgNetPacket *IMsgNetPacketFromCNetPacket( CNetPacket *pNetPacket )
 		if ( !pMsgNetPacket->IsValid() )
 		{
 			pMsgNetPacket->Release();
-			return NULL;
+			return nullptr;
 		}
 
 		return pMsgNetPacket;
@@ -89,6 +89,6 @@ IMsgNetPacket *IMsgNetPacketFromCNetPacket( CNetPacket *pNetPacket )
 	}
 
 	AssertMsg( false, "IMsgNetPacketFromCNetPacket couldn't detect any appropriate msg format, returning NULL." );
-	return NULL;
+	return nullptr;
 }
 } // namespace GCSDK

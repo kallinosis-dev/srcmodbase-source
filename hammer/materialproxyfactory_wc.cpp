@@ -37,7 +37,7 @@ IMaterialProxy *CMaterialProxyFactory::CreateProxy( const char *proxyName )
 	// allocate exactly enough memory for the versioned name on the stack.
 	char proxyVersionedName[512];
 	Q_snprintf( proxyVersionedName, sizeof( proxyVersionedName ), "%s%s", proxyName, IMATERIAL_PROXY_INTERFACE_VERSION );
-	return ( IMaterialProxy * )clientFactory( proxyVersionedName, NULL );
+	return ( IMaterialProxy * )clientFactory( proxyVersionedName, nullptr);
 }
 
 void CMaterialProxyFactory::DeleteProxy( IMaterialProxy *pProxy )
@@ -82,7 +82,7 @@ public:
 
 CWorldDimsProxy::CWorldDimsProxy()
 {
-	m_pMinsVar = m_pMaxsVar = NULL;
+	m_pMinsVar = m_pMaxsVar = nullptr;
 }
 
 CWorldDimsProxy::~CWorldDimsProxy()
@@ -91,8 +91,8 @@ CWorldDimsProxy::~CWorldDimsProxy()
 
 bool CWorldDimsProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValues )
 {
-	m_pMinsVar = pMaterial->FindVar( "$world_mins", NULL, false );
-	m_pMaxsVar = pMaterial->FindVar( "$world_maxs", NULL, false );
+	m_pMinsVar = pMaterial->FindVar( "$world_mins", nullptr, false );
+	m_pMaxsVar = pMaterial->FindVar( "$world_maxs", nullptr, false );
 	return true;
 }
 
@@ -111,7 +111,7 @@ IMaterial *CWorldDimsProxy::GetMaterial()
 {
 	if ( m_pMinsVar && m_pMaxsVar )
 		return m_pMinsVar->GetOwningMaterial();
-	return NULL;
+	return nullptr;
 }
 
 EXPOSE_INTERFACE( CWorldDimsProxy, IMaterialProxy, "WorldDims" IMATERIAL_PROXY_INTERFACE_VERSION );

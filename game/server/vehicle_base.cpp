@@ -121,7 +121,7 @@ void CPropVehicle::Spawn( )
 CON_COMMAND(vehicle_flushscript, "Flush and reload all vehicle scripts")
 {
 	PhysFlushVehicleScripts();
-	for ( CBaseEntity *pEnt = gEntList.FirstEnt(); pEnt != NULL; pEnt = gEntList.NextEnt(pEnt) )
+	for ( CBaseEntity *pEnt = gEntList.FirstEnt(); pEnt != nullptr; pEnt = gEntList.NextEnt(pEnt) )
 	{
 		IServerVehicle *pServerVehicle = pEnt->GetServerVehicle();
 		if ( pServerVehicle )
@@ -191,7 +191,7 @@ CBasePlayer *CPropVehicle::HasPhysicsAttacker( float dt )
 	{
 		return m_hPhysicsAttacker;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -264,7 +264,7 @@ void CPropVehicle::VPhysicsUpdate( IPhysicsObject *pPhysics )
 		return;
 
 	Vector	velocity;
-	VPhysicsGetObject()->GetVelocity( &velocity, NULL );
+	VPhysicsGetObject()->GetVelocity( &velocity, nullptr);
 
 	//Update our smoothed velocity
 	m_vecSmoothedVelocity = m_vecSmoothedVelocity * SMOOTHING_FACTOR + velocity * ( 1 - SMOOTHING_FACTOR );
@@ -388,7 +388,7 @@ LINK_ENTITY_TO_CLASS( prop_vehicle_driveable, CPropVehicleDriveable );
 // Purpose: 
 //-----------------------------------------------------------------------------
 CPropVehicleDriveable::CPropVehicleDriveable( void ) :
-	m_pServerVehicle( NULL ),
+	m_pServerVehicle(nullptr),
 	m_hKeepUpright( INVALID_EHANDLE ),
 	m_flTurnOffKeepUpright( 0 ),
 	m_flNoImpactDamageTime( 0 )
@@ -423,7 +423,7 @@ void CPropVehicleDriveable::DestroyServerVehicle()
 	if ( m_pServerVehicle )
 	{
 		delete m_pServerVehicle;
-		m_pServerVehicle = NULL;
+		m_pServerVehicle = nullptr;
 	}
 }
 
@@ -436,7 +436,7 @@ void CPropVehicleDriveable::Precache( void )
 
 	// This step is needed because if we're precaching from a templated instance, we'll miss our vehicle 
 	// script sounds unless we do the parse below.  This instance of the vehicle will be nuked when we're actually created.
-	if ( m_pServerVehicle == NULL )
+	if ( m_pServerVehicle == nullptr)
 	{
 		CreateServerVehicle();
 	}
@@ -511,7 +511,7 @@ void CPropVehicleDriveable::OnRestore( void )
 	m_flNoImpactDamageTime = gpGlobals->curtime + 5.0f;
 
 	IServerVehicle *pServerVehicle = GetServerVehicle();
-	if ( pServerVehicle != NULL )
+	if ( pServerVehicle != nullptr)
 	{
 		// Restore the passenger information we're holding on to
 		pServerVehicle->RestorePassengerInfo();
@@ -527,17 +527,17 @@ void CPropVehicleDriveable::GetVectors(Vector* pForward, Vector* pRight, Vector*
 	// This call is necessary to cause m_rgflCoordinateFrame to be recomputed
 	const matrix3x4_t &entityToWorld = EntityToWorldTransform();
 
-	if (pForward != NULL)
+	if (pForward != nullptr)
 	{
 		MatrixGetColumn( entityToWorld, 1, *pForward ); 
 	}
 
-	if (pRight != NULL)
+	if (pRight != nullptr)
 	{
 		MatrixGetColumn( entityToWorld, 0, *pRight ); 
 	}
 
-	if (pUp != NULL)
+	if (pUp != nullptr)
 	{
 		MatrixGetColumn( entityToWorld, 2, *pUp ); 
 	}
@@ -587,11 +587,11 @@ CBaseEntity *CPropVehicleDriveable::GetDriver( void )
 //-----------------------------------------------------------------------------
 void CPropVehicleDriveable::EnterVehicle( CBaseCombatCharacter *pPassenger )
 {
-	if ( pPassenger == NULL )
+	if ( pPassenger == nullptr)
 		return;
 
 	CBasePlayer *pPlayer = ToBasePlayer( pPassenger	);
-	if ( pPlayer != NULL )
+	if ( pPlayer != nullptr)
 	{
 		// Remove any player who may be in the vehicle at the moment
 		if ( m_hPlayer )
@@ -635,7 +635,7 @@ void CPropVehicleDriveable::ExitVehicle( int nRole )
 	if ( !pPlayer )
 		return;
 
-	m_hPlayer = NULL;
+	m_hPlayer = nullptr;
 	ResetUseKey( pPlayer );
 	
 	m_playerOff.FireOutput( pPlayer, this, 0 );
@@ -728,7 +728,7 @@ void CPropVehicleDriveable::DriveVehicle( float flFrameTime, CUserCmd *ucmd, int
 bool CPropVehicleDriveable::IsOverturned( void )
 {
 	Vector	vUp;
-	VehicleAngleVectors( GetAbsAngles(), NULL, NULL, &vUp );
+	VehicleAngleVectors( GetAbsAngles(), nullptr, nullptr, &vUp );
 
 	float	upDot = DotProduct( Vector(0,0,1), vUp );
 
@@ -763,7 +763,7 @@ void CPropVehicleDriveable::Think()
 		SetNextThink( gpGlobals->curtime );
 
 		// Time up?
-		if ( m_hKeepUpright != NULL && m_flTurnOffKeepUpright < gpGlobals->curtime )
+		if ( m_hKeepUpright != nullptr && m_flTurnOffKeepUpright < gpGlobals->curtime )
 		{
 			variant_t emptyVariant;
 			m_hKeepUpright->AcceptInput( "TurnOff", this, this, emptyVariant, USE_TOGGLE );
@@ -910,7 +910,7 @@ void CPropVehicleDriveable::VPhysicsCollision( int index, gamevcollisionevent_t 
 //=============================================================================
 
 	// Don't care if we don't have a driver
-	CBaseCombatCharacter *pDriver = GetDriver() ? GetDriver()->MyCombatCharacterPointer() : NULL;
+	CBaseCombatCharacter *pDriver = GetDriver() ? GetDriver()->MyCombatCharacterPointer() : nullptr;
 	if ( !pDriver )
 		return;
 
@@ -1060,7 +1060,7 @@ bool CPropVehicleDriveable::NPC_AddPassenger( CAI_BaseNPC *pPassenger, string_t 
 		return false;
 
 	IServerVehicle *pVehicleServer = GetServerVehicle();
-	if ( pVehicleServer != NULL )
+	if ( pVehicleServer != nullptr)
 		return pVehicleServer->NPC_AddPassenger( pPassenger, strRoleName, nSeatID );
 
 	return true;
@@ -1078,7 +1078,7 @@ bool CPropVehicleDriveable::NPC_RemovePassenger( CAI_BaseNPC *pPassenger )
 		return false;
 
 	IServerVehicle *pVehicleServer = GetServerVehicle();
-	if ( pVehicleServer != NULL )
+	if ( pVehicleServer != nullptr)
 		return pVehicleServer->NPC_RemovePassenger( pPassenger );
 
 	return true;
@@ -1092,7 +1092,7 @@ bool CPropVehicleDriveable::NPC_RemovePassenger( CAI_BaseNPC *pPassenger )
 void CPropVehicleDriveable::Event_KilledOther( CBaseEntity *pVictim, const CTakeDamageInfo &info )
 { 
 	CBaseEntity *pDriver = GetDriver();
-	if ( pDriver != NULL )
+	if ( pDriver != nullptr)
 	{
 		pDriver->Event_KilledOther( pVictim, info );
 	}
@@ -1142,7 +1142,7 @@ void CFourWheelServerVehicle::SetVehicle( CBaseEntity *pVehicle )
 	BaseClass::SetVehicle( pVehicle );
 	
 	// Save this for view smoothing
-	if ( pVehicle != NULL )
+	if ( pVehicle != nullptr)
 	{
 		m_ViewSmoothing.pVehicle = pVehicle->GetBaseAnimating();
 	}
@@ -1267,9 +1267,9 @@ void CFourWheelServerVehicle::NPC_SetDriver( CNPC_VehicleDriver *pDriver )
 	}
 	else
 	{
-		GetFourWheelVehicle()->m_hNPCDriver = NULL;
+		GetFourWheelVehicle()->m_hNPCDriver = nullptr;
 		GetFourWheelVehicle()->StopEngine();
-		GetFourWheelVehicle()->SetOwnerEntity( NULL );
+		GetFourWheelVehicle()->SetOwnerEntity(nullptr);
 		SetVehicleVolume( 0.5 );
 	}
 }
@@ -1347,7 +1347,7 @@ bool CFourWheelServerVehicle::GetWheelContactPoint( int nWheelIndex, Vector &vec
 		IPhysicsVehicleController *pVehicleController = pVehiclePhysics->GetVehicle();
 		if ( pVehicleController )
 		{
-			return pVehicleController->GetWheelContactPoint( nWheelIndex, &vecPos, NULL );
+			return pVehicleController->GetWheelContactPoint( nWheelIndex, &vecPos, nullptr);
 		}
 	}
 	return false;

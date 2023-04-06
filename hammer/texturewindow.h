@@ -73,7 +73,7 @@ public:
 	void UpdateScrollSizes();
 	BOOL EnumTexturePositions(TWENUMPOS *pTE, BOOL bStart = FALSE);
 	void SetDisplaySize(int iSize);
-	void HighlightCurTexture(CDC *pDC = NULL);
+	void HighlightCurTexture(CDC *pDC = nullptr);
 	void SetNameFilter(LPCTSTR pszFilter);
 	void SetKeywords(const char *pszKeywords);
 	void SetTextureFormat(TEXTUREFORMAT eTextureFormat);

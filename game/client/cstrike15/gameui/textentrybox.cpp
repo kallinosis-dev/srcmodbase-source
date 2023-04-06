@@ -28,7 +28,7 @@ CTextEntryBox::CTextEntryBox(const char *title, const char *queryText, const cha
 	else
 	{
 		m_pEntry = new TextEntry( this, "TextEntry" );
-		m_pCvarEntry = NULL;
+		m_pCvarEntry = nullptr;
 	}
 	m_pEntry->SetTabPosition(3);
 	m_pEntry->RequestFocus();

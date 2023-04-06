@@ -45,7 +45,7 @@ IMPLEMENT_CLIENTCLASS_DT( C_TriggerPlayerMovement, DT_TriggerPlayerMovement, CTr
 END_RECV_TABLE()
 
 C_EntityClassList< C_TriggerPlayerMovement > g_TriggerPlayerMovementList;
-template<> C_TriggerPlayerMovement *C_EntityClassList<C_TriggerPlayerMovement>::m_pClassList = NULL;
+template<> C_TriggerPlayerMovement *C_EntityClassList<C_TriggerPlayerMovement>::m_pClassList = nullptr;
 
 C_TriggerPlayerMovement::C_TriggerPlayerMovement()
 {
@@ -248,7 +248,7 @@ IMPLEMENT_CLIENTCLASS_DT( C_TriggerSoundOperator, DT_TriggerSoundOperator, CTrig
 END_RECV_TABLE()
 
 C_EntityClassList< C_TriggerSoundOperator > g_TriggerSoundOperators;
-template<> C_TriggerSoundOperator *C_EntityClassList<C_TriggerSoundOperator>::m_pClassList = NULL;
+template<> C_TriggerSoundOperator *C_EntityClassList<C_TriggerSoundOperator>::m_pClassList = nullptr;
 
 C_TriggerSoundOperator::C_TriggerSoundOperator()
 {

@@ -38,7 +38,7 @@ struct net_threaded_buffer_t
 	inline byte *MoveAppend( net_threaded_buffer_t *pOther )
 	{
 		if ( pOther->len > Capacity() )
-			return NULL;
+			return nullptr;
 
 		byte *pBase = Base();
 		Q_memcpy( pBase, pOther->buf, pOther->len );
@@ -93,7 +93,7 @@ private:
 	class CSocketThread
 	{
 	public:
-		explicit CSocketThread( int s, int nsSock ) : m_s( s ), m_nsSock( nsSock ), m_hThread( NULL ), m_pDataQueueBufferCollect( NULL )
+		explicit CSocketThread( int s, int nsSock ) : m_s( s ), m_nsSock( nsSock ), m_hThread(nullptr), m_pDataQueueBufferCollect(nullptr)
 		{
 #if IsPlatformWindows()
 			m_wsaEvents[0] = ::WSACreateEvent();
@@ -128,7 +128,7 @@ private:
 			// wait for it to die
 			ThreadJoin( m_hThread );
 			ReleaseThreadHandle( m_hThread );
-			m_hThread = NULL;
+			m_hThread = nullptr;
 
 			// Shutdown resources
 #if IsPlatformWindows()
@@ -148,7 +148,7 @@ private:
 				if ( m_pDataQueueBufferCollect )
 				{
 					g_NetThreadedBuffers.PutObject( m_pDataQueueBufferCollect );
-					m_pDataQueueBufferCollect = NULL;
+					m_pDataQueueBufferCollect = nullptr;
 				}
 			} while ( m_tslstBuffers.PopItem( &m_pDataQueueBufferCollect ) );
 		}
@@ -178,7 +178,7 @@ private:
 			else
 			{	// The returned data is ahead in the list, previous buffer can go back in the pool
 				g_NetThreadedBuffers.PutObject( m_pDataQueueBufferCollect );
-				m_pDataQueueBufferCollect = NULL;
+				m_pDataQueueBufferCollect = nullptr;
 			}
 
 			return data.len;
@@ -195,8 +195,8 @@ private:
 		void ThreadProc()
 		{
 			// Where are we getting new data?
-			net_threaded_buffer_t *pThreadBufferSyscall = NULL;
-			net_threaded_buffer_t *pThreadBufferCollect = NULL;
+			net_threaded_buffer_t *pThreadBufferSyscall = nullptr;
+			net_threaded_buffer_t *pThreadBufferCollect = nullptr;
 			
 			struct sockaddr	from;
 			int	fromlen = sizeof( from );
@@ -349,20 +349,20 @@ private:
 				if ( ret > 0 )
 				{
 					ReceivedData_t recvData;
-					recvData.buf = NULL;
+					recvData.buf = nullptr;
 					recvData.len = ret;
 					Q_memcpy( &recvData.from, &from, sizeof( recvData.from ) );
 
 					// Check if we still have more room in pending recv buffer
 					pThreadBufferSyscall->len = ret;
-					if ( byte *pbMoveAppend = pThreadBufferCollect ? pThreadBufferCollect->MoveAppend( pThreadBufferSyscall ) : NULL )
+					if ( byte *pbMoveAppend = pThreadBufferCollect ? pThreadBufferCollect->MoveAppend( pThreadBufferSyscall ) : nullptr)
 					{
 						recvData.buf = pbMoveAppend;
 					}
 					else
 					{
 						pThreadBufferCollect = pThreadBufferSyscall;
-						pThreadBufferSyscall = NULL;
+						pThreadBufferSyscall = nullptr;
 
 						recvData.buf = pThreadBufferCollect->buf;
 					}
@@ -407,7 +407,7 @@ private:
 			m_mapSocketThreads.Insert( s, pNew );
 			return pNew;
 		}
-		return NULL;
+		return nullptr;
 	}
 	CUtlMap< int, CSocketThread * > m_mapSocketThreads;
 };

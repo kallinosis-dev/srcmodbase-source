@@ -163,7 +163,7 @@ void C_PhysPropClientside::DestroyAll()
 {
 	C_BaseEntityIterator iterator;
 	C_BaseEntity *pEnt;
-	while ( (pEnt = iterator.Next()) != NULL )	
+	while ( (pEnt = iterator.Next()) != nullptr)	
 	{
 		C_PhysPropClientside *pProp = dynamic_cast<C_PhysPropClientside *>(pEnt);
 		if ( pProp )
@@ -311,7 +311,7 @@ void C_PhysPropClientside::Spawn()
 	// If we have no custom breakable chunks, see if we're breaking into generic ones
 	if ( !m_iNumBreakableChunks )
 	{
-		if ( GetBreakableModel() != NULL_STRING && GetBreakableCount() )
+		if ( GetBreakableModel() != nullptr && GetBreakableCount() )
 		{
 			m_iNumBreakableChunks = GetBreakableCount();
 		}
@@ -490,7 +490,7 @@ void C_PhysPropClientside::Clone( Vector &velocity )
 		float rndf = RandomFloat( -0.025, 0.025 );
 		Vector rndVel = velocity + rndf*velocity;
 
-		pPhysicsObject->AddVelocity( &rndVel, NULL );
+		pPhysicsObject->AddVelocity( &rndVel, nullptr);
 	}
 	else
 	{
@@ -662,17 +662,17 @@ CBaseAnimating *BreakModelCreate_Ragdoll( CBaseEntity *pOwnerEnt, breakmodel_t *
 {
 	C_BaseAnimating *pOwner = dynamic_cast<C_BaseAnimating *>( pOwnerEnt );
 	if ( !pOwner )
-		return NULL;
+		return nullptr;
 
 	C_ClientRagdoll *pRagdoll = new C_ClientRagdoll( false );
-	if ( pRagdoll == NULL )
-		return NULL;
+	if ( pRagdoll == nullptr)
+		return nullptr;
 
 	const char *pModelName = pModel->modelName;
 	if ( pRagdoll->InitializeAsClientEntity( pModelName, false ) == false )
 	{
 		pRagdoll->Release();
-		return NULL;
+		return nullptr;
 	}	
 
 	pRagdoll->SetAbsOrigin( position );
@@ -687,7 +687,7 @@ CBaseAnimating *BreakModelCreate_Ragdoll( CBaseEntity *pOwnerEnt, breakmodel_t *
 	pRagdoll->ForceSetupBonesAtTime( boneDelta0, gpGlobals->curtime - boneDt );
 	pRagdoll->ForceSetupBonesAtTime( boneDelta1, gpGlobals->curtime );
 	pRagdoll->ForceSetupBonesAtTime( currentBones, gpGlobals->curtime );
-	pRagdoll->SetParent( NULL );
+	pRagdoll->SetParent(nullptr);
 
 	// We need to take these from the entity
 	//pRagdoll->SetAbsOrigin( position );
@@ -723,7 +723,7 @@ CBaseAnimating *BreakModelCreate_Ragdoll( CBaseEntity *pOwnerEnt, breakmodel_t *
 	if ( !hdr )
 	{
 		pRagdoll->Release();
-		return NULL;
+		return nullptr;
 	}
 
 	pRagdoll->m_pRagdoll = CreateRagdoll( 
@@ -785,7 +785,7 @@ CBaseEntity *BreakModelCreateSingle( CBaseEntity *pOwner, breakmodel_t *pModel, 
 	C_PhysPropClientside *pEntity = C_PhysPropClientside::CreateNew();
 
 	if ( !pEntity )
-		return NULL;
+		return nullptr;
 
 	// UNDONE: Allow .qc to override spawnflags for child pieces
 	C_PhysPropClientside *pBreakableOwner = dynamic_cast<C_PhysPropClientside *>(pOwner);
@@ -818,7 +818,7 @@ CBaseEntity *BreakModelCreateSingle( CBaseEntity *pOwner, breakmodel_t *pModel, 
 	if ( !pEntity->Initialize() )
 	{
 		pEntity->Release();
-		return NULL;
+		return nullptr;
 	}
 
 	pEntity->SetSkin( nSkin );
@@ -861,7 +861,7 @@ CBaseEntity *BreakModelCreateSingle( CBaseEntity *pOwner, breakmodel_t *pModel, 
 	{
 		// failed to create a physics object
 		pEntity->Release();
-		return NULL;
+		return nullptr;
 	}
 
 	return pEntity;

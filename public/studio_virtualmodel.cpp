@@ -107,7 +107,7 @@ void virtualmodel_t::AppendModels( int group, const studiohdr_t *pStudioHdr )
 	for (j = 0; j < pStudioHdr->numincludemodels; j++)
 	{
 		// find model (increases ref count)
-		void *tmp = NULL;
+		void *tmp = nullptr;
 		const studiohdr_t *pTmpHdr = pStudioHdr->FindModel( &tmp, pStudioHdr->pModelGroup( j )->pszName() );
 		if ( pTmpHdr )
 		{

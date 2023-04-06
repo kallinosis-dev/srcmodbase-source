@@ -39,14 +39,14 @@ mxWidget::mxWidget (mxWindow *parent, int x, int y, int w, int h, const char *la
 {
 	d_this = new mxWidget_i;
 
-	setHandle (0);
+	setHandle (nullptr);
 	setType (-1);
 	setParent (parent);
 	setBounds (x, y, w, h);
 	setVisible (true);
 	setEnabled (true);
 	setId (0);
-	setUserData (0);
+	setUserData (nullptr);
 	setLabel (label);
 
 	mx_addWidget (this);
@@ -123,11 +123,11 @@ mxWidget::setBounds (int x, int y, int w, int h)
 void
 mxWidget::setLabel (const char *format, ... )
 {
-	if (format == NULL)
+	if (format == nullptr)
 	{
 		if (d_this->d_hwnd)
 		{
-			SetWindowText (d_this->d_hwnd, NULL);
+			SetWindowText (d_this->d_hwnd, nullptr);
 		}
 		return;
 	}

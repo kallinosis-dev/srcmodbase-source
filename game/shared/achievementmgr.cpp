@@ -499,7 +499,7 @@ CBaseAchievement *CAchievementMgr::GetAchievementByID( int iAchievementID, int n
 	Assert(nUserSlot < MAX_SPLITSCREEN_PLAYERS);
 	if( nUserSlot >= MAX_SPLITSCREEN_PLAYERS )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int iAchievement = m_mapAchievement[nUserSlot].Find( iAchievementID );
@@ -507,7 +507,7 @@ CBaseAchievement *CAchievementMgr::GetAchievementByID( int iAchievementID, int n
 	{
 		return m_mapAchievement[nUserSlot][iAchievement];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -522,7 +522,7 @@ CBaseAchievement *CAchievementMgr::GetAchievementByName( const char *pchName, in
 	Assert(nUserSlot < MAX_SPLITSCREEN_PLAYERS);
 	if( nUserSlot >= MAX_SPLITSCREEN_PLAYERS )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -532,7 +532,7 @@ CBaseAchievement *CAchievementMgr::GetAchievementByName( const char *pchName, in
 		if ( pAchievement && 0 == ( Q_stricmp( pchName, pAchievement->GetName() ) ) )
 			return pAchievement;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1801,17 +1801,17 @@ void CAchievementMgr::OnKillEvent( CBaseEntity *pVictim, CBaseEntity *pAttacker,
 
 			// if this achievement only looks for a particular inflictor class name and this inflictor is a different class, skip this achievement
 			const char *pInflictorClassNameFilter = pAchievement->m_pInflictorClassNameFilter;
-			if ( pInflictorClassNameFilter &&  ( ( NULL == pInflictor ) || !pInflictor->ClassMatches( pInflictorClassNameFilter ) ) )
+			if ( pInflictorClassNameFilter &&  ( (nullptr == pInflictor ) || !pInflictor->ClassMatches( pInflictorClassNameFilter ) ) )
 				continue;
 
 			// if this achievement only looks for a particular attacker class name and this attacker is a different class, skip this achievement
 			const char *pAttackerClassNameFilter = pAchievement->m_pAttackerClassNameFilter;
-			if ( pAttackerClassNameFilter && ( ( NULL == pAttacker ) || !pAttacker->ClassMatches( pAttackerClassNameFilter ) ) )
+			if ( pAttackerClassNameFilter && ( (nullptr == pAttacker ) || !pAttacker->ClassMatches( pAttackerClassNameFilter ) ) )
 				continue;
 
 			// if this achievement only looks for a particular inflictor entity name and this inflictor has a different name, skip this achievement
 			const char *pInflictorEntityNameFilter = pAchievement->m_pInflictorEntityNameFilter;
-			if ( pInflictorEntityNameFilter && ( ( NULL == pInflictor ) || !pInflictor->NameMatches( pInflictorEntityNameFilter ) ) )
+			if ( pInflictorEntityNameFilter && ( (nullptr == pInflictor ) || !pInflictor->NameMatches( pInflictorEntityNameFilter ) ) )
 				continue;
 #endif // GAME_DLL
 

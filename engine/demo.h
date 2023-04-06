@@ -78,7 +78,7 @@ public:
 	// It seems its purpose is to attach some extra metadata about the game that wasn't
 	// known at the start of recording to the header of the demo.  This lets you populate
 	// the playback interface with information about when kills happened, towers died, etc.
-	virtual void	StopRecording( const CGameInfo* pGameInfo = NULL ) = 0;
+	virtual void	StopRecording( const CGameInfo* pGameInfo = nullptr) = 0;
 
 	// True between StartRecording and StopRecording
 	virtual bool	IsRecording( void ) = 0;
@@ -141,8 +141,8 @@ public:
 	virtual void SetPacketReadSuspended( bool bSuspendPacketReading ) = 0;
 
 	virtual void	SetImportantEventData( const KeyValues *pData ) = 0;
-	virtual int		FindNextImportantTick( int nCurrentTick, const char *pEventName = NULL ) = 0; // -1 = no next important tick
-	virtual int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = NULL ) = 0; // -1 = no previous important tick
+	virtual int		FindNextImportantTick( int nCurrentTick, const char *pEventName = nullptr) = 0; // -1 = no next important tick
+	virtual int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = nullptr) = 0; // -1 = no previous important tick
 	virtual const DemoImportantTick_t *GetImportantTick( int nIndex ) = 0;
 	virtual const DemoImportantGameEvent_t *GetImportantGameEvent( const char *pszEventName ) = 0;
 	virtual void	ListImportantTicks( void ) = 0;

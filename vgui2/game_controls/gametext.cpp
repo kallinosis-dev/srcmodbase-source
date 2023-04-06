@@ -33,16 +33,16 @@ public:
 	virtual CGameGraphic *CreateNewGraphicClass( KeyValues *kvRequest, CGameUIDefinition *pMenu )
 	{
 		Assert( pMenu );
-		CGameText *pNewGraphic = NULL;
+		CGameText *pNewGraphic = nullptr;
 
-		const char *pName = kvRequest->GetString( "name", NULL );
+		const char *pName = kvRequest->GetString( "name", nullptr);
 		if ( pName )
 		{
 			pNewGraphic = new CGameText( pName );
 			pMenu->AddGraphicToLayer( pNewGraphic, SUBLAYER_FONT );
 
 			// Now set the attributes.
-			for ( KeyValues *arg = kvRequest->GetFirstSubKey(); arg != NULL; arg = arg->GetNextKey() )
+			for ( KeyValues *arg = kvRequest->GetFirstSubKey(); arg != nullptr; arg = arg->GetNextKey() )
 			{
 				pNewGraphic->HandleScriptCommand( arg );	
 			}
@@ -82,7 +82,7 @@ END_DMXELEMENT_UNPACK( CGameText, s_GameTextUnpack )
 //-----------------------------------------------------------------------------
 CGameText::CGameText( const char *pName )
 {
-	m_UnicodeText = NULL;
+	m_UnicodeText = nullptr;
 	m_TextBufferLen = 0;
 	m_UnlocalizedTextSymbol = vgui::INVALID_STRING_INDEX;
 	m_Font = vgui::INVALID_FONT;
@@ -129,7 +129,7 @@ CGameText::~CGameText()
 	if ( m_UnicodeText )
 	{
 		delete[] m_UnicodeText;
-		m_UnicodeText = NULL;
+		m_UnicodeText = nullptr;
 	}
 };
 
@@ -183,23 +183,23 @@ KeyValues *CGameText::HandleScriptCommand( KeyValues *args )
 	{
 		const char *text = args->GetString( "text" );
 		SetText( text );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetAllCaps", szCommand ) )
 	{
 		m_bAllCaps = args->GetBool( "allcaps", false );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetFont", szCommand ) )
 	{
 		SetFont( args->GetString( "fontname" ) );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetJustification", szCommand ) )
 	{
 		// FIXME
 		m_Justification = args->GetInt( "justfication", 0 );
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetTopColor", szCommand ) )
 	{
@@ -208,7 +208,7 @@ KeyValues *CGameText::HandleScriptCommand( KeyValues *args )
 		m_Geometry.m_TopColor.g = c[1];
 		m_Geometry.m_TopColor.b = c[2];
 		m_Geometry.m_TopColor.a = c[3];
-		return NULL;
+		return nullptr;
 	}
 	else if ( !Q_stricmp( "SetBottomColor", szCommand ) )
 	{
@@ -217,7 +217,7 @@ KeyValues *CGameText::HandleScriptCommand( KeyValues *args )
 		m_Geometry.m_BottomColor.g = c[1];
 		m_Geometry.m_BottomColor.b = c[2];
 		m_Geometry.m_BottomColor.a = c[3];
-		return NULL;
+		return nullptr;
 	}
 	
 	
@@ -321,7 +321,7 @@ void CGameText::SetText( const wchar_t *unicode, bool bClearUnlocalizedSymbol )
 		if ( m_UnicodeText )
 		{
 			delete [] m_UnicodeText;
-			m_UnicodeText = NULL;
+			m_UnicodeText = nullptr;
 		}
 		m_TextBufferLen = (short)( textLen + 1 );
 		m_UnicodeText = new wchar_t[ m_TextBufferLen ];
@@ -394,7 +394,7 @@ void CGameText::GetStartingTextPosition( int &x, int &y )
 //-----------------------------------------------------------------------------
 CRenderGeometry *CGameText::GetGeometryEntry( CUtlVector< RenderGeometryList_t > &renderGeometryLists, int firstListIndex, int fontTextureID )
 {	
-	CRenderGeometry *pRenderGeometry = NULL;
+	CRenderGeometry *pRenderGeometry = nullptr;
 	if ( renderGeometryLists[firstListIndex].Count() != 0 )
 	{ 
 		for ( int j = firstListIndex; j < renderGeometryLists.Count(); ++j )
@@ -409,7 +409,7 @@ CRenderGeometry *CGameText::GetGeometryEntry( CUtlVector< RenderGeometryList_t >
 	}
 
 	// Didn't find a match for this textureID, time to make a new list of quads for this texture.
-	if ( pRenderGeometry == NULL )
+	if ( pRenderGeometry == nullptr)
 	{   
 		int newListIndex;
 		if ( renderGeometryLists[firstListIndex].Count() == 0 )	// This is the first quad we are adding to this font layer.
@@ -498,7 +498,7 @@ void CGameText::UpdateRenderData( color32 parentColor, CUtlVector< RenderGeometr
 		g_pGameUISystemSurface->GetUnicodeCharRenderPositions( info, relPositions );
 
 		// get the character texture from the cache and the char's texture coords.
-		float *texCoords = NULL;  // note this returns the static from the fonttexturecache... FIXME?
+		float *texCoords = nullptr;  // note this returns the static from the fonttexturecache... FIXME?
 		g_pGameUISystemSurface->GetTextureForChar( info, &texCoords );
 
 		x += g_pGameUISystemSurface->GetCharacterWidth( m_Font, info.ch );
@@ -547,7 +547,7 @@ void CGameText::UpdateRenderData( color32 parentColor, CUtlVector< RenderGeometr
 		pRenderGeometry->m_AnimationRate = m_Geometry.m_AnimationRate;
 		pRenderGeometry->m_AnimStartTime = m_Geometry.m_AnimStartTime;
 		pRenderGeometry->m_bAnimate = m_Geometry.m_bAnimate;
-		pRenderGeometry->m_pImageAlias = NULL;
+		pRenderGeometry->m_pImageAlias = nullptr;
 	}
 
 

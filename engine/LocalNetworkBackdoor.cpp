@@ -14,7 +14,7 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-CLocalNetworkBackdoor *g_pLocalNetworkBackdoor = NULL;
+CLocalNetworkBackdoor *g_pLocalNetworkBackdoor = nullptr;
 
 #ifndef DEDICATED
 // This is called 
@@ -121,7 +121,7 @@ void CLocalNetworkBackdoor::EndEntityStateUpdate()
 						if ( m_CachedEntState[iEdict].m_pNetworkable )
 						{
 							m_CachedEntState[iEdict].m_pNetworkable->Release();
-							m_CachedEntState[iEdict].m_pNetworkable = NULL;
+							m_CachedEntState[iEdict].m_pNetworkable = nullptr;
 						}
 						else
 						{
@@ -192,7 +192,7 @@ void CLocalNetworkBackdoor::EntityDormant( int iEnt, int iSerialNum )
 		else
 		{
 			pNet->Release();
-			pCached->m_pNetworkable = NULL;
+			pCached->m_pNetworkable = nullptr;
 			m_PrevEntsAlive.Clear( iEnt ); 
 		}
 	}
@@ -269,8 +269,8 @@ void CLocalNetworkBackdoor::EntState(
 			else
 			{
 				pNet->Release();
-				pNet = NULL;
-				pCached->m_pNetworkable = NULL;
+				pNet = nullptr;
+				pCached->m_pNetworkable = nullptr;
 				// Since we set this above, need to clear it now to avoid assertion in EndEntityStateUpdate()
 				m_EntsAlive.Clear(iEnt);
 				m_PrevEntsAlive.Clear( iEnt ); 
@@ -295,7 +295,7 @@ void CLocalNetworkBackdoor::EntState(
 		else
 		{
 			pNet->Release();
-			pNet = NULL;
+			pNet = nullptr;
 			m_PrevEntsAlive.Clear(iEnt);
 		}
 	}
@@ -363,10 +363,10 @@ void CLocalNetworkBackdoor::ClearState()
 	{
 		CCachedEntState &ces = m_CachedEntState[i];
 
-		ces.m_pNetworkable = NULL;
+		ces.m_pNetworkable = nullptr;
 		ces.m_iSerialNumber = -1;
 		ces.m_bDormant = false;
-		ces.m_pDataPointer = NULL;
+		ces.m_pDataPointer = nullptr;
 	}
 
 	m_PrevEntsAlive.ClearAll();
@@ -406,9 +406,9 @@ void CLocalNetworkBackdoor::ForceFlushEntity( int iEntity )
 	if ( pCached->m_pNetworkable )
 		pCached->m_pNetworkable->Release();
 
-	pCached->m_pNetworkable = NULL;
+	pCached->m_pNetworkable = nullptr;
 	pCached->m_iSerialNumber = -1;
 	pCached->m_bDormant = false;
-	pCached->m_pDataPointer = NULL;
+	pCached->m_pDataPointer = nullptr;
 }
 

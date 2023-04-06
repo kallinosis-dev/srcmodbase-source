@@ -49,7 +49,7 @@ class CMapInstance : public CMapHelper
 		virtual bool OnApply( void );
 		virtual void CalcBounds(BOOL bFullUpdate = FALSE);
 		virtual void UpdateChild(CMapClass *pChild);
-		virtual CMapEntity *FindChildByKeyValue( const char* key, const char* value, bool *bIsInInstance = NULL, VMatrix *InstanceMatrix = NULL );
+		virtual CMapEntity *FindChildByKeyValue( const char* key, const char* value, bool *bIsInInstance = nullptr, VMatrix *InstanceMatrix = nullptr);
 		virtual void InstanceMoved( void );
 
 		virtual CMapClass *Copy(bool bUpdateDependencies);
@@ -81,7 +81,7 @@ class CMapInstance : public CMapHelper
 		const char		*GetDescription( void ) { return( "Instance" ); }
 		CMapDoc			*GetInstancedMap( void ) { return m_pInstancedMap; }
 		CManifestMap	*GetManifestMap( void ) { return m_pManifestMap; }
-		bool			IsInstance( void ) { return ( m_pManifestMap == NULL ); }
+		bool			IsInstance( void ) { return ( m_pManifestMap == nullptr); }
 		void			UpdateInstanceMap( void );
 
 		void OnParentKeyChanged(const char* szKey, const char* szValue);

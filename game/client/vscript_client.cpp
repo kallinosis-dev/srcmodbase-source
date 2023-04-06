@@ -76,7 +76,7 @@ bool VScriptClientInit()
 {
 	VMPROF_START
 
-	if( scriptmanager != NULL )
+	if( scriptmanager != nullptr)
 	{
 		ScriptLanguage_t scriptLanguage = SL_DEFAULT;
 
@@ -104,7 +104,7 @@ bool VScriptClientInit()
 		}
 		if( scriptLanguage != SL_NONE )
 		{
-			if ( g_pScriptVM == NULL )
+			if ( g_pScriptVM == nullptr)
 				g_pScriptVM = scriptmanager->CreateVM( scriptLanguage );
 
 			if( g_pScriptVM )
@@ -143,18 +143,18 @@ bool VScriptClientInit()
 	{
 		Log_Msg( LOG_VScript, "\nVSCRIPT: Scripting is disabled.\n" );
 	}
-	g_pScriptVM = NULL;
+	g_pScriptVM = nullptr;
 	return false;
 }
 
 void VScriptClientTerm()
 {
-	if( g_pScriptVM != NULL )
+	if( g_pScriptVM != nullptr)
 	{
 		if( g_pScriptVM )
 		{
 			scriptmanager->DestroyVM( g_pScriptVM );
-			g_pScriptVM = NULL;
+			g_pScriptVM = nullptr;
 		}
 	}
 }

@@ -52,7 +52,7 @@ CVGuiSystemModuleLoader::CVGuiSystemModuleLoader()
 {
 	m_bModulesInitialized = false;
 	m_bPlatformShouldRestartAfterExit = false;
-	m_pPlatformModuleData = NULL;
+	m_pPlatformModuleData = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -150,7 +150,7 @@ bool CVGuiSystemModuleLoader::LoadPlatformModules(CreateInterfaceFn *factorylist
 
 	// walk the platform menu loading all the interfaces
 	KeyValues *menuKeys = kv->FindKey("Menu", true);
-	for (KeyValues *it = menuKeys->GetFirstSubKey(); it != NULL; it = it->GetNextKey())
+	for (KeyValues *it = menuKeys->GetFirstSubKey(); it != nullptr; it = it->GetNextKey())
 	{
 		// see if we should skip steam modules
 		if (!useSteamModules && it->GetInt("SteamApp"))
@@ -163,7 +163,7 @@ bool CVGuiSystemModuleLoader::LoadPlatformModules(CreateInterfaceFn *factorylist
 			continue;
 
 		// get copy out of steam cache
-		const char *dllPath = NULL;
+		const char *dllPath = nullptr;
 		if ( IsOSX() )
 		{
 			dllPath = it->GetString("dll_osx");
@@ -188,7 +188,7 @@ bool CVGuiSystemModuleLoader::LoadPlatformModules(CreateInterfaceFn *factorylist
 		}
 
 		// make sure we get the right version
-		IVGuiModule *moduleInterface = (IVGuiModule *)Sys_GetFactory(mod)(pchInterface, NULL);
+		IVGuiModule *moduleInterface = (IVGuiModule *)Sys_GetFactory(mod)(pchInterface, nullptr);
 		if (!moduleInterface)
 		{
 			Warning("Platform Error: module version ('%s, %s) invalid, not loading\n", it->GetString("dll"), it->GetString("interface"));
@@ -280,7 +280,7 @@ void CVGuiSystemModuleLoader::UnloadPlatformModules()
 	if (m_pPlatformModuleData)
 	{
 		m_pPlatformModuleData->deleteThis();
-		m_pPlatformModuleData = NULL;
+		m_pPlatformModuleData = nullptr;
 	}
 }
 

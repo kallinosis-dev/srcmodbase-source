@@ -24,7 +24,7 @@ CSQLRecord::CSQLRecord( uint32 unRow, IGCSQLResultSet *pResultSet )
 	Init( unRow, pResultSet );
 }
 CSQLRecord::CSQLRecord()
-: m_pResultSet( NULL ), m_unRow( 0 )
+: m_pResultSet(nullptr), m_unRow( 0 )
 {
 }
 
@@ -45,7 +45,7 @@ void CSQLRecord::Init( uint32 unRow, IGCSQLResultSet *pResultSet )
 {
 	if( unRow >= pResultSet->GetRowCount() )
 	{
-		m_pResultSet = NULL;
+		m_pResultSet = nullptr;
 		m_unRow = 0;
 	}
 	else
@@ -82,7 +82,7 @@ bool CSQLRecord::BGetColumnData( uint32 unColumn, uint8 **ppubField, size_t *pcu
 {
 	Assert( ppubField );
 	Assert( pcubField );
-	*ppubField = NULL;
+	*ppubField = nullptr;
 	*pcubField = 0;
 
 	Assert( m_pResultSet );
@@ -104,9 +104,9 @@ bool CSQLRecord::BGetColumnData( uint32 unColumn, uint8 **ppubField, size_t *pcu
 bool CSQLRecord::BGetStringValue( uint32 unColumn, const char **ppchVal )
 {
 	Assert( ppchVal );
-	*ppchVal = NULL;
+	*ppchVal = nullptr;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;
 	Assert( k_EGCSQLType_String == m_pResultSet->GetColumnType( unColumn ) );
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
@@ -128,7 +128,7 @@ bool CSQLRecord::BGetStringValue( uint32 unColumn, CFmtStr1024 *psVal )
 	Assert( psVal );
 	*psVal = "";
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;
 	Assert( k_EGCSQLType_String == m_pResultSet->GetColumnType( unColumn ) );
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
@@ -150,7 +150,7 @@ bool CSQLRecord::BGetIntValue( uint32 unColumn, int *pnVal )
 	Assert( pnVal );
 	*pnVal = 0;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -206,7 +206,7 @@ bool CSQLRecord::BGetFloatValue( uint32 unColumn, float *pfVal )
 	Assert( pfVal );
 	*pfVal = 0.0f;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -233,7 +233,7 @@ bool CSQLRecord::BGetDoubleValue( uint32 unColumn, double *pdVal )
 	Assert( pdVal );
 	*pdVal = 0.0f;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -260,7 +260,7 @@ bool CSQLRecord::BGetByteValue( uint32 unColumn, byte *pVal )
 	Assert( pVal );
 	*pVal = 0;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -305,7 +305,7 @@ bool CSQLRecord::BGetInt16Value( uint32 unColumn, int16 *pnVal )
 	Assert( pnVal );
 	*pnVal = 0;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -331,7 +331,7 @@ bool CSQLRecord::BGetInt64Value( uint32 unColumn, int64 *puVal )
 	Assert( puVal );
 	*puVal = 0;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -358,7 +358,7 @@ bool CSQLRecord::BGetUint64Value( uint32 unColumn, uint64 *puVal )
 	Assert( puVal );
 	*puVal = 0;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -385,7 +385,7 @@ bool CSQLRecord::BGetUint32Value( uint32 unColumn, uint32 *puVal )
 	Assert( puVal );
 	*puVal = 0;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -412,7 +412,7 @@ bool CSQLRecord::BGetUint16Value( uint32 unColumn, uint16 *puVal )
 	Assert( puVal );
 	*puVal = 0;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -439,7 +439,7 @@ bool CSQLRecord::BGetUint8Value( uint32 unColumn, uint8 *puVal )
 	Assert( puVal );
 	*puVal = 0;
 
-	uint8 *pubData = NULL;
+	uint8 *pubData = nullptr;
 	int cubData = 0;	
 	bool bRet = BGetColumnData( unColumn, &pubData, &cubData );
 	if ( bRet )
@@ -483,7 +483,7 @@ bool CSQLRecord::NextRow()
 	m_unRow++;
 	
 	if( m_unRow >= m_pResultSet->GetRowCount() )
-		m_pResultSet = NULL;
+		m_pResultSet = nullptr;
 	return IsValid();
 }
 

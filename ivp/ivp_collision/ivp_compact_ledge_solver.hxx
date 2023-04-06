@@ -202,13 +202,13 @@ public:
 				       IVP_U_Point *min_extents_out, IVP_U_Point *max_extents_out);
 
     IVP_STATIC void calc_radius_to_given_center( const IVP_Compact_Surface *c_surface_in, const IVP_U_Point *center_in,
-						 IVP_DOUBLE *radius_out ,IVP_DOUBLE *radius_dev_out=0);
+						 IVP_DOUBLE *radius_out ,IVP_DOUBLE *radius_dev_out=nullptr);
 #ifdef HAVOK_MOPP
     IVP_STATIC void calc_radius_to_given_center( const class IVP_Compact_Mopp* c_mopp_in, const IVP_U_Point *center_in,
-						 IVP_DOUBLE *radius_out ,IVP_DOUBLE *radius_dev_out=0);
+						 IVP_DOUBLE *radius_out ,IVP_DOUBLE *radius_dev_out=nullptr);
 #endif // HAVOK_MOPP
     IVP_STATIC void calc_radius_to_given_center( const IVP_Compact_Ledge *c_ledge, const IVP_U_Point *center_in,	// note does not init radius_out and radius_dev_out
-						 IVP_DOUBLE *radius_out ,IVP_DOUBLE *radius_dev_out=0);
+						 IVP_DOUBLE *radius_out ,IVP_DOUBLE *radius_dev_out=nullptr);
 
     IVP_STATIC void calc_geom_center_and_radius( const IVP_Compact_Ledge *c_ledge_in,
 						 IVP_U_Point *geom_center_out, IVP_DOUBLE *geom_radius_out);

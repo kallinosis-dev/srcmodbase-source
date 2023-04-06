@@ -39,12 +39,12 @@ public:
 
 	void		ValidateTree( mxTreeView *tree, mxTreeViewItem* parent );
 
-	virtual CWorkspace	*GetWorkspace() { return NULL; }
-	virtual CProject	*GetProject() { return NULL; }
-	virtual CScene		*GetScene() { return NULL; }
-	virtual CVCDFile	*GetVCDFile() { return NULL; }
+	virtual CWorkspace	*GetWorkspace() { return nullptr; }
+	virtual CProject	*GetProject() { return nullptr; }
+	virtual CScene		*GetScene() { return nullptr; }
+	virtual CVCDFile	*GetVCDFile() { return nullptr; }
 	virtual CSoundEntry	*GetSoundEntry() { return this; }
-	virtual CWaveFile	*GetWaveFile() { return NULL; }
+	virtual CWaveFile	*GetWaveFile() { return nullptr; }
 
 	void		Play();
 

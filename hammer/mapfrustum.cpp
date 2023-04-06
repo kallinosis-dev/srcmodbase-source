@@ -34,7 +34,7 @@ IMPLEMENT_MAPCLASS(CMapFrustum)
 CMapClass *CMapFrustum::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 {
 	CMapFrustum *new1 = new CMapFrustum;
-	if( new1 != NULL )
+	if( new1 != nullptr)
 	{
 		const char *pszKeyName;
 		
@@ -54,13 +54,13 @@ CMapClass *CMapFrustum::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 			V_strncpy( new1->m_szFarPlaneKeyName, pszKeyName, sizeof( new1->m_szFarPlaneKeyName ) );
 
 		pszKeyName = pHelperInfo->GetParameter(3);
-		if (pszKeyName != NULL)
+		if (pszKeyName != nullptr)
 		{
 			V_strncpy( new1->m_szColorKeyName, pszKeyName, sizeof( new1->m_szColorKeyName ) );
 		}
 
 		pszKeyName = pHelperInfo->GetParameter(4);
-		if (pszKeyName != NULL)
+		if (pszKeyName != nullptr)
 		{
 			new1->m_flPitchScale = Q_atof( pszKeyName );
 		}
@@ -187,7 +187,7 @@ void CMapFrustum::CalcBounds(BOOL bFullUpdate)
 	//
 	// HACK: Update our origin to stick to our parent.
 	//
-	if (m_pParent != NULL)
+	if (m_pParent != nullptr)
 	{
 		GetParent()->GetOrigin(m_Origin);
 	}
@@ -210,7 +210,7 @@ CMapClass *CMapFrustum::Copy(bool bUpdateDependencies)
 {
 	CMapFrustum *pCopy = new CMapFrustum;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}

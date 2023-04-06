@@ -103,7 +103,7 @@ static CUtlLinkedList< CEnvWindShared * > s_windControllers;
 
 CEnvWindShared::CEnvWindShared() : m_WindAveQueue(10), m_WindVariationQueue(10)
 {
-	m_pWindSound = NULL;
+	m_pWindSound = nullptr;
 	s_windControllers.AddToTail( this );
 }
 
@@ -304,7 +304,7 @@ float CEnvWindShared::WindThink( float flTime )
 			m_flSwitchTime += m_flMinGustDelay + m_Stream.RandomFloat( 0, m_flMaxGustDelay );
 
 #ifndef CLIENT_DLL
-			m_OnGustEnd.FireOutput( NULL, NULL );
+			m_OnGustEnd.FireOutput(nullptr, nullptr);
 #endif
 		}
 		else
@@ -319,7 +319,7 @@ float CEnvWindShared::WindThink( float flTime )
 			m_bGusting = true;
 
 #ifndef CLIENT_DLL
-			m_OnGustStart.FireOutput( NULL, NULL );
+			m_OnGustStart.FireOutput(nullptr, nullptr);
 #endif
 
 			// !!!HACKHACK - gust duration tied to the length of a particular wave file

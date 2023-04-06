@@ -44,7 +44,7 @@ ConVar r_visualizeproplightcaching( "r_visualizeproplightcaching", "0" );
 //-----------------------------------------------------------------------------
 C_PhysicsProp::C_PhysicsProp( void )
 {
-	m_pPhysicsObject = NULL;
+	m_pPhysicsObject = nullptr;
 	m_takedamage = DAMAGE_YES;
 
 	// default true so static lighting will get recomputed when we go to sleep
@@ -111,10 +111,10 @@ IClientModelRenderable*	C_PhysicsProp::GetClientModelRenderable()
 	// Can't do this debug mode through the fast path since it uses 
 	// color modulation, which we don't support yet.
 	if ( !BaseClass::GetClientModelRenderable() )
-		return NULL;
+		return nullptr;
 
 	if ( ( m_bAwakeLastTime != m_bAwake ) && r_visualizeproplightcaching.GetBool() )
-		return NULL;
+		return nullptr;
 
 	// NOTE: This works because GetClientModelRenderable() is only queried
 	// if the prop is known by the viewrender system to be opaque already

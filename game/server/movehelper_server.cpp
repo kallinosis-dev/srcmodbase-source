@@ -104,13 +104,13 @@ static inline edict_t* GetEdict( EntityHandle_t handle )
 
 CMoveHelperServer::CMoveHelperServer( void ) : m_TouchList( 0, 128 )
 {
-	m_pHost = 0;
+	m_pHost = nullptr;
 	SetSingleton( this );
 }
 
 CMoveHelperServer::~CMoveHelperServer( void )
 {
-	SetSingleton( 0 );
+	SetSingleton( nullptr );
 }
 
 //-----------------------------------------------------------------------------
@@ -143,7 +143,7 @@ char const* CMoveHelperServer::GetName( EntityHandle_t handle ) const
 	if ( ent && ent->GetModelName() != NULL_STRING )
 		return STRING( ent->GetModelName() );
 
-	if ( ent->GetClassname() != NULL )
+	if ( ent->GetClassname() != nullptr)
 	{
 		return ent->GetClassname();
 	}

@@ -210,7 +210,7 @@ int ConvertANSIToUnicode(const char *ansi, wchar_t *unicode, int unicodeBufferSi
 //-----------------------------------------------------------------------------
 int ConvertUnicodeToANSI(const wchar_t *unicode, char *ansi, int ansiBufferSize)
 {
-	return ::WideCharToMultiByte(CP_ACP, 0, unicode, -1, ansi, ansiBufferSize, NULL, NULL);
+	return ::WideCharToMultiByte(CP_ACP, 0, unicode, -1, ansi, ansiBufferSize, nullptr, nullptr);
 }
 
 int Sys_Exec( const char *pProgName, const char *pCmdLine, bool verbose )
@@ -700,7 +700,7 @@ bool SceneManager_SaveSentenceToWavFile( char const *wavfile, CSentence& sentenc
 	}
 
 	// Remove temp file
-	filesystem->RemoveFile( tempfile, NULL );
+	filesystem->RemoveFile( tempfile, nullptr);
 
 	return true;
 }
@@ -793,7 +793,7 @@ char *Q_stristr_slash( char const *pStr, char const *pSearch )
 	AssertValidStringPtr(pSearch);
 
 	if (!pStr || !pSearch) 
-		return 0;
+		return nullptr;
 
 	char const* pLetter = pStr;
 
@@ -810,7 +810,7 @@ char *Q_stristr_slash( char const *pStr, char const *pSearch )
 			{
 				// We've run off the end; don't bother.
 				if (*pMatch == 0)
-					return 0;
+					return nullptr;
 
 				if ( !charsmatch( *pMatch, *pTest ) )
 					break;
@@ -827,7 +827,7 @@ char *Q_stristr_slash( char const *pStr, char const *pSearch )
 		++pLetter;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

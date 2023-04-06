@@ -39,7 +39,7 @@ public:
 
 	virtual	void	ApplySchemeSettings( IScheme *pScheme );
 	
-	bool IsAutoSaveType( void ) { return ( Q_stristr( m_SaveInfo.szType, "autosave" ) != 0 ); }
+	bool IsAutoSaveType( void ) { return ( Q_stristr( m_SaveInfo.szType, "autosave" ) != nullptr ); }
 
 	const SaveGameDescription_t *GetSaveInfo( void ) { return ( const SaveGameDescription_t * ) &m_SaveInfo; }
 	void SetDescription( SaveGameDescription_t *pDesc );
@@ -109,7 +109,7 @@ public:
 	CGameSavePanel	*GetActivePanel( void );
 	int				GetActivePanelIndex( void ) { return m_iSelectedSave; }
 	CFooterPanel	*GetFooterPanel( void ) { return m_pFooter; }
-	const SaveGameDescription_t *GetPanelSaveDecription( int idx ) { return ( IsValidPanel(idx) ? m_SavePanels[idx]->GetSaveInfo() : NULL ); }
+	const SaveGameDescription_t *GetPanelSaveDecription( int idx ) { return ( IsValidPanel(idx) ? m_SavePanels[idx]->GetSaveInfo() : nullptr); }
 	const SaveGameDescription_t *GetActivePanelSaveDescription( void ) { return GetPanelSaveDecription( m_iSelectedSave ); }
 
 	uint			GetStorageSpaceUsed( void ) { return m_nUsedStorageSpace; }

@@ -58,7 +58,7 @@ IFaceposerModels::CFacePoserModel::~CFacePoserModel()
 
 void IFaceposerModels::CFacePoserModel::LoadBitmaps()
 {
-	CStudioHdr *hdr = m_pModel ? m_pModel->GetStudioHdr() : NULL;
+	CStudioHdr *hdr = m_pModel ? m_pModel->GetStudioHdr() : nullptr;
 	if ( hdr )
 	{
 		for ( int i = 0 ;i < hdr->GetNumSeq(); i++ )
@@ -79,7 +79,7 @@ void IFaceposerModels::CFacePoserModel::LoadBitmaps()
 
 CRC32_t IFaceposerModels::CFacePoserModel::GetBitmapCRC( int sequence )
 {
-	CStudioHdr *hdr = m_pModel ? m_pModel->GetStudioHdr() : NULL;
+	CStudioHdr *hdr = m_pModel ? m_pModel->GetStudioHdr() : nullptr;
 	if ( !hdr )
 		return (CRC32_t)-1;
 
@@ -187,7 +187,7 @@ void IFaceposerModels::CFacePoserModel::LoadBitmapForSequence( mxbitmapdata_t *b
 
 	if ( !LoadBitmapFromFile( filename, *bitmap ) )
 	{
-		CreateNewBitmap( filename, sequence, 256, false, NULL, bitmap );
+		CreateNewBitmap( filename, sequence, 256, false, nullptr, bitmap );
 	}
 }
 
@@ -426,7 +426,7 @@ void IFaceposerModels::CFacePoserModel::CreateNewBitmap( char const *pchBitmapFi
 	if ( bitmap->valid )
 	{
 		DeleteObject( bitmap->image );
-		bitmap->image = 0;
+		bitmap->image = nullptr;
 		bitmap->valid = false;
 	}
 
@@ -587,7 +587,7 @@ void IFaceposerModels::CFacePoserModel::RecreateAnimationBitmap( int sequence, b
 	if ( slot->bitmap->valid )
 	{
 		DeleteObject( slot->bitmap->image );
-		slot->bitmap->image = 0;
+		slot->bitmap->image = nullptr;
 		slot->bitmap->valid = false;
 	}
 
@@ -654,11 +654,11 @@ IFaceposerModels::~IFaceposerModels()
 IFaceposerModels::CFacePoserModel *IFaceposerModels::GetEntry( int index )
 {
 	if ( index < 0 || index >= Count() )
-		return NULL;
+		return nullptr;
 
 	CFacePoserModel *m = m_Models[ index ];
 	if ( !m )
-		return NULL;
+		return nullptr;
 	return m;
 }
 
@@ -709,7 +709,7 @@ int IFaceposerModels::GetActiveModelIndex( void ) const
 char const *IFaceposerModels::GetActiveModelName( void )
 {
 	if ( !g_MDLViewer )
-		return NULL;
+		return nullptr;
 
 	return GetModelName( GetActiveModelIndex() );
 }
@@ -821,10 +821,10 @@ StudioModel *IFaceposerModels::GetStudioModel( int index )
 {
 	CFacePoserModel *m = GetEntry( index );
 	if ( !m )
-		return NULL;
+		return nullptr;
 
 	if ( !m->GetModel() )
-		return NULL;
+		return nullptr;
 
 	return m->GetModel();
 }
@@ -833,11 +833,11 @@ CStudioHdr *IFaceposerModels::GetStudioHeader( int index )
 {
 	StudioModel *m = GetStudioModel( index );
 	if ( !m )
-		return NULL;
+		return nullptr;
 
 	CStudioHdr *hdr = m->GetStudioHdr();
 	if ( !hdr )
-		return NULL;
+		return nullptr;
 	return hdr;
 }
 
@@ -870,7 +870,7 @@ StudioModel *IFaceposerModels::GetModelForActor( char const *actorname )
 			return m->GetModel();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 char const *IFaceposerModels::GetActorNameForModel( int modelindex )

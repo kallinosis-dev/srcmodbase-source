@@ -68,7 +68,7 @@ public:
 	virtual void Release() = 0;
 
 	virtual bool HasPreallocatedScratchTexture() const { return false; }
-	virtual IVTFTexture *GetPreallocatedScratchTexture() { return NULL; }
+	virtual IVTFTexture *GetPreallocatedScratchTexture() { return nullptr; }
 };
 
 abstract_class ITexture
@@ -108,7 +108,7 @@ public:
 
 	// If rect is not specified, reconstruct all bits, otherwise just
 	// reconstruct a subrect.
-	virtual void Download( Rect_t *pRect = 0, int nAdditionalCreationFlags = 0 ) = 0;
+	virtual void Download( Rect_t *pRect = nullptr, int nAdditionalCreationFlags = 0 ) = 0;
 
 	// Uses for stats. . .get the approximate size of the texture in it's current format.
 	virtual int GetApproximateVidMemBytes( void ) const = 0;

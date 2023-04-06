@@ -58,7 +58,7 @@ namespace physicssound
 				const char *pSound = physprops->GetString( soundName );
 
 				CSoundParameters params;
-				if ( !CBaseEntity::GetParametersForSound( pSound, params, NULL ) )
+				if ( !CBaseEntity::GetParametersForSound( pSound, params, nullptr) )
 					break;
 
 				if ( sound.volume > 1 )
@@ -96,7 +96,7 @@ namespace physicssound
 				// UNDONE: Store instance volume separate from aggregate volume and compare that?
 				if ( volume > sound.volume )
 				{
-					pObject->GetPosition( &sound.origin, NULL );
+					pObject->GetPosition( &sound.origin, nullptr);
 					sound.pGameData = pGameData;
 					sound.entityIndex = entityIndex;
 					sound.soundChannel = soundChannel;
@@ -112,7 +112,7 @@ namespace physicssound
 		sound.pGameData = pGameData;
 		sound.entityIndex = entityIndex;
 		sound.soundChannel = soundChannel;
-		pObject->GetPosition( &sound.origin, NULL );
+		pObject->GetPosition( &sound.origin, nullptr);
 		sound.surfaceProps = surfaceProps;
 		sound.surfacePropsHit = surfacePropsHit;
 		sound.volume = volume;
@@ -157,7 +157,7 @@ namespace physicssound
 			const surfacedata_t *psurf = physprops->GetSurfaceData( sound.surfacePropsBreak );
 			const char *pSound = physprops->GetString( psurf->sounds.breakSound );
 			CSoundParameters params;
-			if ( !CBaseEntity::GetParametersForSound( pSound, params, NULL ) )
+			if ( !CBaseEntity::GetParametersForSound( pSound, params, nullptr) )
 				return;
 
 			// Play from the world, because the entity is breaking, so it'll be destroyed soon

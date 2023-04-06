@@ -24,8 +24,8 @@ class COptionProperties : public CPropertySheet
 
 // Construction
 public:
-	COptionProperties(UINT nIDCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
-	COptionProperties(LPCTSTR pszCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
+	COptionProperties(UINT nIDCaption, CWnd* pParentWnd = nullptr, UINT iSelectPage = 0);
+	COptionProperties(LPCTSTR pszCaption, CWnd* pParentWnd = nullptr, UINT iSelectPage = 0);
 
 // Attributes
 public:

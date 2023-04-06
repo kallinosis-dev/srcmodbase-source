@@ -140,7 +140,7 @@ IVP_Time_Event *IVP_Time_Manager::get_next_event()
 	this->min_hash->remove_minlist_elem(event->index);
 	return event;
     }
-    return NULL;
+    return nullptr;
 }
 
 IVP_Time_Event *IVP_Time_Manager::get_next_event(IVP_Time ttime)
@@ -152,7 +152,7 @@ IVP_Time_Event *IVP_Time_Manager::get_next_event(IVP_Time ttime)
 	this->min_hash->remove_minlist_elem(event->index);
 	return event;
     }
-    return NULL;
+    return nullptr;
 }
 
 int IVP_Time_Manager::get_event_count()
@@ -161,8 +161,8 @@ int IVP_Time_Manager::get_event_count()
 }
 
 void IVP_Event_Manager::simulate_time_events(IVP_Time_Manager *tman,IVP_Environment *env, IVP_Time time) {
-    tman=NULL;
-    env=NULL;
+    tman= nullptr;
+    env= nullptr;
     time=IVP_Time(0.0);
 };
 

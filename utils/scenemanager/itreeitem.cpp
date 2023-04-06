@@ -24,7 +24,7 @@
 mxTreeViewItem *ITreeItem::FindItem( mxTreeView *tree, mxTreeViewItem *parent, bool recurse )
 {
 	if ( !tree )
-		return NULL;
+		return nullptr;
 
 	mxTreeViewItem *child = tree->getFirstChild( parent );
 	while ( child )
@@ -50,7 +50,7 @@ mxTreeViewItem *ITreeItem::FindItem( mxTreeView *tree, mxTreeViewItem *parent, b
 		child = tree->getNextChild( child );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 ITreeItem *ITreeItem::GetParentItem()
@@ -80,5 +80,5 @@ ITreeItem *ITreeItem::GetParentItem()
 		return GetWaveFile()->GetOwnerSoundEntry();
 	}
 
-	return NULL;
+	return nullptr;
 }

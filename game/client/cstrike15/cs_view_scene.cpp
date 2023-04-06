@@ -61,7 +61,7 @@ IViewRender *GetViewRenderInstance()
 
 CCSViewRender::CCSViewRender()
 {
-	m_pFlashTexture = NULL;
+	m_pFlashTexture = nullptr;
 }
 
 void CCSViewRender::Init( void )
@@ -127,7 +127,7 @@ void CCSViewRender::PerformNightVisionEffect( const CViewSetup &view )
 void CCSViewRender::PerformFlashbangEffect( const CViewSetup &view )
 {
 	C_CSPlayer *pLocalPlayer = C_CSPlayer::GetLocalCSPlayer();
-	if ( pLocalPlayer == NULL )
+	if ( pLocalPlayer == nullptr)
 		 return;
 
 	C_CSPlayer *pFlashBangPlayer = pLocalPlayer;
@@ -223,7 +223,7 @@ void CCSViewRender::PerformFlashbangEffect( const CViewSetup &view )
 			srcRect.width = nScreenWidth;
 			srcRect.height = nScreenHeight;
 			m_BaseTextureVar->SetTextureValue( m_pFlashTexture );
-			pRenderContext->CopyRenderTargetToTextureEx( m_pFlashTexture, 0, &srcRect, NULL );
+			pRenderContext->CopyRenderTargetToTextureEx( m_pFlashTexture, 0, &srcRect, nullptr);
 			pRenderContext->SetFrameBufferCopyTexture( m_pFlashTexture );
 
 			pFlashBangPlayer->m_bFlashScreenshotHasBeenGrabbed = true;
@@ -233,7 +233,7 @@ void CCSViewRender::PerformFlashbangEffect( const CViewSetup &view )
 		if ( !CanSeeSpectatorOnlyTools() )
 		{
 			overlaycolor[0] = overlaycolor[1] = overlaycolor[2] = pFlashBangPlayer->m_flFlashScreenshotAlpha * flAlphaScale;
-			if ( m_pFlashTexture != NULL )
+			if ( m_pFlashTexture != nullptr)
 			{
 				static int NUM_AFTER_IMAGE_PASSES = 4;
 				for ( int pass = 0; pass < NUM_AFTER_IMAGE_PASSES; ++pass )
@@ -540,16 +540,16 @@ void CCSViewRender::Render2DEffectsPostHUD( const CViewSetup &view )
 		IMaterial *pMatReplay = materials->FindMaterial( "dev/replay", TEXTURE_GROUP_OTHER, true );
 		if ( pMatReplay )
 		{
-			IMaterialVar* pVar = pMatReplay->FindVar( "$c0_x", NULL );
+			IMaterialVar* pVar = pMatReplay->FindVar( "$c0_x", nullptr);
 			pVar->SetFloatValue( 1.0f / w );
 	
-			pVar = pMatReplay->FindVar( "$c0_y", NULL );
+			pVar = pMatReplay->FindVar( "$c0_y", nullptr);
 			pVar->SetFloatValue( 1.0f / h );
 
-			pVar = pMatReplay->FindVar( "$c0_z", NULL );
+			pVar = pMatReplay->FindVar( "$c0_z", nullptr);
 			pVar->SetFloatValue( gpGlobals->realtime );
 
-			pVar = pMatReplay->FindVar( "$c0_w", NULL );
+			pVar = pMatReplay->FindVar( "$c0_w", nullptr);
 			pVar->SetFloatValue( flFade );
 			//if( flFade > 0 && g_HltvReplaySystem.GetHltvReplayDelay() ) Msg( "%.2f dev/replay fade %.2f\n", Plat_FloatTime(), flFade );	   // replayfade
 
@@ -567,7 +567,7 @@ void CCSViewRender::Render2DEffectsPostHUD( const CViewSetup &view )
 		//bars
 		if ( IMaterial *pMatFade = materials->FindMaterial( "dev/replay_bars", TEXTURE_GROUP_OTHER, true ) )
 		{
-			if ( IMaterialVar* pVar = pMatFade->FindVar( "$alpha", NULL ) )
+			if ( IMaterialVar* pVar = pMatFade->FindVar( "$alpha", nullptr) )
 			{
 				pVar->SetFloatValue( flFadeAdj );
 				pRenderContext->DrawScreenSpaceRectangle( pMatFade, 0, 0, w, h, 0, 0, 0, 0, 1, 1 );

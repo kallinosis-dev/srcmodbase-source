@@ -446,7 +446,7 @@ void delete_JSON_parser(JSON_parser jc)
 
 int JSON_parser_reset(JSON_parser jc)
 {
-    if (NULL == jc) {
+    if (nullptr == jc) {
         return false;
     }
     
@@ -454,7 +454,7 @@ int JSON_parser_reset(JSON_parser jc)
     jc->top = -1;
 
     /* parser has been used previously? */
-    if (NULL == jc->parse_buffer) {
+    if (nullptr == jc->parse_buffer) {
     
         /* Do we want non-bound stack? */
         if (jc->depth > 0) {
@@ -464,7 +464,7 @@ int JSON_parser_reset(JSON_parser jc)
             } else {
                 const size_t bytes_to_alloc = jc->stack_capacity * sizeof(jc->stack[0]);
                 jc->stack = (signed char*)JSON_parser_malloc(jc->malloc, bytes_to_alloc, "stack");
-                if (jc->stack == NULL) {
+                if (jc->stack == nullptr) {
                     return false;
                 }
             }
@@ -505,21 +505,21 @@ new_JSON_parser(JSON_config const * config)
     JSON_malloc_t alloc;
     
     /* set to default configuration if none was provided */
-    if (NULL == config) {
+    if (nullptr == config) {
         /* initialize configuration */
         init_JSON_config(&default_config);
         config = &default_config;
     }
     
     /* use std malloc if either the allocator or deallocator function isn't set */
-    use_std_malloc = NULL == config->malloc || NULL == config->free;
+    use_std_malloc = nullptr == config->malloc || nullptr == config->free;
     
     alloc = use_std_malloc ? malloc : config->malloc;
     
     jc = (JSON_parser)JSON_parser_malloc(alloc, sizeof(*jc), "parser");    
     
-    if (NULL == jc) {
-        return NULL;
+    if (nullptr == jc) {
+        return nullptr;
     }
     
     /* configure the parser */
@@ -537,7 +537,7 @@ new_JSON_parser(JSON_config const * config)
     /* reset the parser */
     if (!JSON_parser_reset(jc)) {
         jc->free(jc);
-        return NULL;
+        return nullptr;
     }
     
     return jc;
@@ -550,7 +550,7 @@ static int parse_buffer_grow(JSON_parser jc)
     const size_t bytes_to_allocate = new_capacity * sizeof(jc->parse_buffer[0]);
     void* mem = JSON_parser_malloc(jc->malloc, bytes_to_allocate, "parse buffer");
     
-    if (mem == NULL) {
+    if (mem == nullptr) {
         jc->error = JSON_E_OUT_OF_MEMORY;
         return false;
     }
@@ -603,7 +603,7 @@ static int parse_buffer_reserve_for(JSON_parser jc, unsigned chars)
 static int parse_parse_buffer(JSON_parser jc)
 {
     if (jc->callback) {
-        JSON_value value, *arg = NULL;
+        JSON_value value, *arg = nullptr;
         
         if (jc->type != JSON_T_NONE) {
             assert_is_non_container_type(jc);
@@ -616,7 +616,7 @@ static int parse_parse_buffer(JSON_parser jc)
                         value.vu.str.length = jc->parse_buffer_count;
                     } else { 
                         /* not checking with end pointer b/c there may be trailing ws */
-                        value.vu.float_value = strtod(jc->parse_buffer, NULL);
+                        value.vu.float_value = strtod(jc->parse_buffer, nullptr);
                     }
                     break;
                 case JSON_T_INTEGER:
@@ -962,7 +962,7 @@ JSON_parser_char(JSON_parser jc, int next_char)
 /* empty } */
         case -9:        
             parse_buffer_clear(jc);
-            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_OBJECT_END, NULL)) {
+            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_OBJECT_END, nullptr)) {
                 return false;
             }
             if (!pop(jc, MODE_KEY)) {
@@ -976,7 +976,7 @@ JSON_parser_char(JSON_parser jc, int next_char)
             if (!parse_parse_buffer(jc)) {
                 return false;
             }
-            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_OBJECT_END, NULL)) {
+            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_OBJECT_END, nullptr)) {
                 return false;
             }
             if (!pop(jc, MODE_OBJECT)) {
@@ -992,7 +992,7 @@ JSON_parser_char(JSON_parser jc, int next_char)
             if (!parse_parse_buffer(jc)) {
                 return false;
             }
-            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_ARRAY_END, NULL)) {
+            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_ARRAY_END, nullptr)) {
                 return false;
             }
             if (!pop(jc, MODE_ARRAY)) {
@@ -1006,7 +1006,7 @@ JSON_parser_char(JSON_parser jc, int next_char)
 
 /* { */ case -6:
             parse_buffer_pop_back_char(jc);
-            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_OBJECT_BEGIN, NULL)) {
+            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_OBJECT_BEGIN, nullptr)) {
                 return false;
             }
             if (!push(jc, MODE_KEY)) {
@@ -1018,7 +1018,7 @@ JSON_parser_char(JSON_parser jc, int next_char)
 
 /* [ */ case -5:
             parse_buffer_pop_back_char(jc);
-            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_ARRAY_BEGIN, NULL)) {
+            if (jc->callback && !(*jc->callback)(jc->ctx, JSON_T_ARRAY_BEGIN, nullptr)) {
                 return false;
             }
             if (!push(jc, MODE_ARRAY)) {
@@ -1126,7 +1126,7 @@ int JSON_parser_is_legal_white_space_string(const char* s)
 {
     int c, char_class;
     
-    if (s == NULL) {
+    if (s == nullptr) {
         return false;
     }
     

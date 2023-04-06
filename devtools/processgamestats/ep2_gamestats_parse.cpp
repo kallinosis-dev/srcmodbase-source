@@ -34,7 +34,7 @@ static CUtlDict<Ep2LevelStats_t, unsigned short>		g_dictMapStats;
 extern CUtlDict< int, unsigned short > g_mapOrder;
 
 void DescribeData( BasicGameStats_t &stats, const char *szStatsFileUserID, int iStatsFileVersion );
-void InsertData( CUtlDict< int, unsigned short >& mapOrder, IMySQL *sql, BasicGameStats_t &gs, const char *szStatsFileUserID, int iStatsFileVersion, const char *gamename, char const *tag = NULL );
+void InsertData( CUtlDict< int, unsigned short >& mapOrder, IMySQL *sql, BasicGameStats_t &gs, const char *szStatsFileUserID, int iStatsFileVersion, const char *gamename, char const *tag = nullptr);
 
 struct CounterInfo_t
 {

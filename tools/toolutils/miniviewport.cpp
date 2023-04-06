@@ -175,7 +175,7 @@ void CMiniViewportEngineRenderArea::InitSceneMaterials()
 		g_pMaterialSystem->EndRenderTargetAllocation();									// End allocating RTs which IFM can scribble into
 	}
 
-	KeyValues *pVMTKeyValues = NULL;
+	KeyValues *pVMTKeyValues = nullptr;
 	pVMTKeyValues= new KeyValues( "UnlitGeneric" );
 	pVMTKeyValues->SetString( "$basetexture", m_ScreenBuffer->GetName() );
 	pVMTKeyValues->SetInt( "$nofog", 1 );

@@ -337,8 +337,8 @@ public:
 	void PrintAllPlaces( void ) const;									// output a list of names to the console
 	int PlaceNameAutocomplete( char const *partial, char commands[ COMMAND_COMPLETION_MAXITEMS ][ COMMAND_COMPLETION_ITEM_LENGTH ] );	// Given a partial place name, fill in possible place names for ConCommand autocomplete
 
-	bool GetGroundHeight( const Vector &pos, float *height, Vector *normal = NULL ) const;		// get the Z coordinate of the topmost ground level below the given point
-	bool GetSimpleGroundHeight( const Vector &pos, float *height, Vector *normal = NULL ) const;// get the Z coordinate of the ground level directly below the given point
+	bool GetGroundHeight( const Vector &pos, float *height, Vector *normal = nullptr) const;		// get the Z coordinate of the topmost ground level below the given point
+	bool GetSimpleGroundHeight( const Vector &pos, float *height, Vector *normal = nullptr) const;// get the Z coordinate of the ground level directly below the given point
 
 
 	/// increase "danger" weights in the given nav area and nearby ones
@@ -767,7 +767,7 @@ public:
 	void SetEditMode( EditModeType mode );						// change the edit mode
 	bool IsEditMode( EditModeType mode ) const;					// return true if current mode matches given mode
 
-	bool FindNavAreaOrLadderAlongRay( const Vector &start, const Vector &end, CNavArea **area, CNavLadder **ladder, CNavArea *ignore = NULL );
+	bool FindNavAreaOrLadderAlongRay( const Vector &start, const Vector &end, CNavArea **area, CNavLadder **ladder, CNavArea *ignore = nullptr);
 
 	void PostProcessCliffAreas();
 	void SimplifySelectedAreas( void );	// Simplifies the selected set by reducing to 1x1 areas and re-merging them up with loosened tolerances

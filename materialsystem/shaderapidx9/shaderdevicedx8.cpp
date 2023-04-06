@@ -127,7 +127,7 @@ ConVar mat_debugalttab( "mat_debugalttab", "0", FCVAR_CHEAT );
 //-----------------------------------------------------------------------------
 CShaderDeviceMgrDx8::CShaderDeviceMgrDx8()
 {
-	m_pD3D = NULL;
+	m_pD3D = nullptr;
 	m_bAdapterInfoIntialized = false;
 
 #if defined( PIX_INSTRUMENTATION ) && defined ( DX_TO_GL_ABSTRACTION ) && defined( _WIN32 )
@@ -219,7 +219,7 @@ void CShaderDeviceMgrDx8::Disconnect()
 	if ( m_pD3D )
 	{
 		m_pD3D->Release();
-		m_pD3D = 0;
+		m_pD3D = nullptr;
 	}
 
 #if defined ( DX_TO_GL_ABSTRACTION )
@@ -263,7 +263,7 @@ void CShaderDeviceMgrDx8::Shutdown( )
 	if ( g_pShaderDevice )
 	{
 		g_pShaderDevice->ShutdownDevice();
-		g_pMaterialSystemHardwareConfig = NULL;
+		g_pMaterialSystemHardwareConfig = nullptr;
 	}
 
 //	EndPIXEvent();
@@ -388,7 +388,7 @@ void CShaderDeviceMgrDx8::CheckVendorDependentShadowMappingSupport( HardwareCaps
 
 	if ( IsPC() )
 	{
-		bool bToolsMode = IsPlatformWindows() && ( CommandLine()->CheckParm( "-tools" ) != NULL );
+		bool bToolsMode = IsPlatformWindows() && ( CommandLine()->CheckParm( "-tools" ) != nullptr);
 
 		if ( ( pCaps->m_VendorID == VENDORID_NVIDIA ) && ( pCaps->m_SupportsShaderModel_3_0  ) )	// ps_3_0 parts from nVidia
 		{
@@ -691,7 +691,7 @@ bool CShaderDeviceMgrDx8::ComputeCapsFromD3D( HardwareCaps_t *pCaps, int nAdapte
 		if ( pVendorID )
 		{
 			int nVendorID = V_atoi( pVendorID );	// use V_atoi for hex support
-			if ( pVendorID > 0 )
+			if ( pVendorID > nullptr )
 			{
 				ident.VendorId = nVendorID;
 			}
@@ -1584,7 +1584,7 @@ CreateInterfaceFn CShaderDeviceMgrDx8::SetMode( void *hWnd, int nAdapter, const 
 	nDXLevel = GetClosestActualDXLevel( nDXLevel );
 
 	if ( nDXLevel > 100 )
-		return NULL;
+		return nullptr;
 
 	bool bReacquireResourcesNeeded = false;
 	if ( g_pShaderDevice )
@@ -1596,24 +1596,24 @@ CreateInterfaceFn CShaderDeviceMgrDx8::SetMode( void *hWnd, int nAdapter, const 
 	if ( g_pShaderAPI )
 	{
 		g_pShaderAPI->OnDeviceShutdown();
-		g_pShaderAPI = NULL;
+		g_pShaderAPI = nullptr;
 	}
 
 	if ( g_pShaderDevice )
 	{
 		g_pShaderDevice->ShutdownDevice();
-		g_pShaderDevice = NULL;
+		g_pShaderDevice = nullptr;
 	}
 
-	g_pShaderShadow = NULL;
+	g_pShaderShadow = nullptr;
 
 	ShaderDeviceInfo_t adjustedMode = mode;
 	adjustedMode.m_nDXLevel = nDXLevel;
 	if ( !g_pShaderDeviceDx8->InitDevice( hWnd, nAdapter, adjustedMode ) )
-		return NULL;
+		return nullptr;
 
 	if ( !g_pShaderAPIDX8->OnDeviceInit() )
-		return NULL;
+		return nullptr;
 
 	g_pShaderDevice = g_pShaderDeviceDx8;
 	g_pShaderAPI = g_pShaderAPIDX8;
@@ -1695,13 +1695,13 @@ IDirect3DDevice *m_pD3DDevice;
 //-----------------------------------------------------------------------------
 CShaderDeviceDx8::CShaderDeviceDx8()
 {
-	m_pD3DDevice = NULL;
+	m_pD3DDevice = nullptr;
 	for ( int i = 0; i < ARRAYSIZE(m_pFrameSyncQueryObject); i++ )
 	{
-		m_pFrameSyncQueryObject[i] = NULL;
+		m_pFrameSyncQueryObject[i] = nullptr;
 		m_bQueryIssued[i] = false;
 	}
-	m_pFrameSyncTexture = NULL;
+	m_pFrameSyncTexture = nullptr;
 	m_bQueuedDeviceLost = false;
 	m_DeviceState = DEVICE_STATE_OK;
 	m_bOtherAppInitializing = false;
@@ -1712,11 +1712,11 @@ CShaderDeviceDx8::CShaderDeviceDx8()
 	m_bResourcesReleased = false;
 	m_iStencilBufferBits = 0;
 	m_NonInteractiveRefresh.m_Mode = MATERIAL_NON_INTERACTIVE_MODE_NONE;
-	m_NonInteractiveRefresh.m_pVertexShader = NULL;
-	m_NonInteractiveRefresh.m_pPixelShader = NULL;
-	m_NonInteractiveRefresh.m_pPixelShaderStartup = NULL;
-	m_NonInteractiveRefresh.m_pPixelShaderStartupPass2 = NULL;
-	m_NonInteractiveRefresh.m_pVertexDecl = NULL;
+	m_NonInteractiveRefresh.m_pVertexShader = nullptr;
+	m_NonInteractiveRefresh.m_pPixelShader = nullptr;
+	m_NonInteractiveRefresh.m_pPixelShaderStartup = nullptr;
+	m_NonInteractiveRefresh.m_pPixelShaderStartupPass2 = nullptr;
+	m_NonInteractiveRefresh.m_pVertexDecl = nullptr;
 	m_NonInteractiveRefresh.m_nPacifierFrame = 0;
 	m_numReleaseResourcesRefCount = 0;
 }
@@ -2144,7 +2144,7 @@ void CShaderDeviceDx8::ShutdownDevice()
 #endif
 
 		RemoveWindowHook( (VD3DHWND)m_hWnd );
-		m_hWnd = 0;
+		m_hWnd = nullptr;
 	}
 }
 
@@ -2348,7 +2348,7 @@ void CShaderDeviceDx8::DetectQuerySupport( IDirect3DDevice9 *pD3DDevice )
 	if ( m_DeviceSupportsCreateQuery != -1 )
 		return;
 
-	IDirect3DQuery9 *pQueryObject = NULL;
+	IDirect3DQuery9 *pQueryObject = nullptr;
 
 	// Detect whether query is supported by creating and releasing:
 	HRESULT hr = pD3DDevice->CreateQuery( D3DQUERYTYPE_EVENT, &pQueryObject );
@@ -2390,7 +2390,7 @@ void GPUHangCallback( const char *pDescription )
 //-----------------------------------------------------------------------------
 IDirect3DDevice9* CShaderDeviceDx8::InvokeCreateDevice( void* hWnd, int nAdapter, DWORD deviceCreationFlags )
 {
-	IDirect3DDevice9 *pD3DDevice = NULL;
+	IDirect3DDevice9 *pD3DDevice = nullptr;
 	D3DDEVTYPE devType = DX8_DEVTYPE;
 
 #if NVPERFHUD
@@ -2428,7 +2428,7 @@ IDirect3DDevice9* CShaderDeviceDx8::InvokeCreateDevice( void* hWnd, int nAdapter
 	if (FAILED(hr) || !pD3DDevice)
 	{
 		if ( !IsPC() )
-			return NULL;
+			return nullptr;
 
 		// try again, other applications may be taking their time
 		Sleep( 1000 );
@@ -2458,7 +2458,7 @@ IDirect3DDevice9* CShaderDeviceDx8::InvokeCreateDevice( void* hWnd, int nAdapter
 	else
 	{
 		// Otherwise we failed, show a message and shutdown
-		pD3DDevice = NULL;
+		pD3DDevice = nullptr;
 		Log_Warning( LOG_EngineInitialization, "Failed to create %s device! Please see the following for more info.\n"
 			"http://support.steampowered.com/cgi-bin/steampowered.cfg/php/enduser/std_adp.php?p_faqid=772\n", IsOpenGL() ? "OpenGL" : "D3D"  );
 	}
@@ -2642,10 +2642,10 @@ void CShaderDeviceDx8::AllocFrameSyncTextureObject()
 		D3DFMT_A8R8G8B8,	// format
 		D3DPOOL_DEFAULT,
 		&m_pFrameSyncTexture,
-		NULL );
+	nullptr);
 	if ( FAILED( hr ) )
 	{
-		m_pFrameSyncTexture = NULL;
+		m_pFrameSyncTexture = nullptr;
 	}
 }
 
@@ -2657,7 +2657,7 @@ void CShaderDeviceDx8::FreeFrameSyncTextureObject()
 	if ( m_pFrameSyncTexture )
 	{
 		m_pFrameSyncTexture->Release();
-		m_pFrameSyncTexture = NULL;
+		m_pFrameSyncTexture = nullptr;
 	}
 }
 void CShaderDeviceDx8::AllocFrameSyncObjects( void )
@@ -2677,7 +2677,7 @@ void CShaderDeviceDx8::AllocFrameSyncObjects( void )
 	{
 		for ( int i = 0; i < ARRAYSIZE(m_pFrameSyncQueryObject); i++ )
 		{
-			m_pFrameSyncQueryObject[i] = NULL;
+			m_pFrameSyncQueryObject[i] = nullptr;
 			m_bQueryIssued[i] = false;
 		}
 		return;
@@ -2742,7 +2742,7 @@ void CShaderDeviceDx8::FreeFrameSyncObjects( void )
 #endif
 			m_pFrameSyncQueryObject[i]->Release();
 			Assert( nRetVal == 0 );
-			m_pFrameSyncQueryObject[i] = NULL;
+			m_pFrameSyncQueryObject[i] = nullptr;
 			m_bQueryIssued[i] = false;
 		}
 	}
@@ -3449,31 +3449,31 @@ void CShaderDeviceDx8::FreeNonInteractiveRefreshObjects()
 	if ( m_NonInteractiveRefresh.m_pVertexShader )
 	{
 		m_NonInteractiveRefresh.m_pVertexShader->Release();
-		m_NonInteractiveRefresh.m_pVertexShader = NULL;
+		m_NonInteractiveRefresh.m_pVertexShader = nullptr;
 	}
 
 	if ( m_NonInteractiveRefresh.m_pPixelShader )
 	{
 		m_NonInteractiveRefresh.m_pPixelShader->Release();
-		m_NonInteractiveRefresh.m_pPixelShader = NULL;
+		m_NonInteractiveRefresh.m_pPixelShader = nullptr;
 	}
 
 	if ( m_NonInteractiveRefresh.m_pPixelShaderStartup )
 	{
 		m_NonInteractiveRefresh.m_pPixelShaderStartup->Release();
-		m_NonInteractiveRefresh.m_pPixelShaderStartup = NULL;
+		m_NonInteractiveRefresh.m_pPixelShaderStartup = nullptr;
 	}
 
 	if ( m_NonInteractiveRefresh.m_pPixelShaderStartupPass2 )
 	{
 		m_NonInteractiveRefresh.m_pPixelShaderStartupPass2->Release();
-		m_NonInteractiveRefresh.m_pPixelShaderStartupPass2 = NULL;
+		m_NonInteractiveRefresh.m_pPixelShaderStartupPass2 = nullptr;
 	}
 
 	if ( m_NonInteractiveRefresh.m_pVertexDecl )
 	{
 		m_NonInteractiveRefresh.m_pVertexDecl->Release();
-		m_NonInteractiveRefresh.m_pVertexDecl = NULL;
+		m_NonInteractiveRefresh.m_pVertexDecl = nullptr;
 	}
 }
 
@@ -3891,7 +3891,7 @@ void CShaderDeviceDx8::Present()
 	// Copy the back buffer into the non-interactive temp buffer
 	if ( m_NonInteractiveRefresh.m_Mode == MATERIAL_NON_INTERACTIVE_MODE_LEVEL_LOAD )
 	{
-		g_pShaderAPI->CopyRenderTargetToTextureEx( m_NonInteractiveRefresh.m_Info.m_hTempFullscreenTexture, 0, NULL, NULL );
+		g_pShaderAPI->CopyRenderTargetToTextureEx( m_NonInteractiveRefresh.m_Info.m_hTempFullscreenTexture, 0, nullptr, nullptr);
 	}
 
 	// If we're not iconified, try to present (without this check, we can flicker when Alt-Tabbed away)
@@ -3920,13 +3920,13 @@ void CShaderDeviceDx8::Present()
 			srcRect.bottom = viewport.m_nTopLeftY + viewport.m_nHeight;
 
 			MICRO_PROFILE( g_mp_Present );
-			hr = Dx9Device()->Present( &srcRect, &destRect, (VD3DHWND)m_ViewHWnd, 0 );
+			hr = Dx9Device()->Present( &srcRect, &destRect, (VD3DHWND)m_ViewHWnd, nullptr );
 		}
 		else
 		{
 			g_pShaderAPI->OwnGPUResources( false );
 			MICRO_PROFILE( g_mp_Present );
-			hr = Dx9Device()->Present( 0, 0, 0, 0 );
+			hr = Dx9Device()->Present( nullptr, nullptr, nullptr, nullptr );
 		}
 	}
 

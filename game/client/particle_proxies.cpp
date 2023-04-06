@@ -32,8 +32,8 @@ public:
 	
 	virtual bool Init( IMaterial *pMaterial, KeyValues *pKeyValues )
 	{
-		m_pLightPosition = pMaterial->FindVar( "$light_position", NULL, false );
-		m_pLightColor = pMaterial->FindVar( "$light_color", NULL, false );
+		m_pLightPosition = pMaterial->FindVar( "$light_position", nullptr, false );
+		m_pLightColor = pMaterial->FindVar( "$light_color", nullptr, false );
 		return true;
 	}
 
@@ -64,7 +64,7 @@ public:
 	{
 		IMaterialVar *pVar = m_pLightPosition ? m_pLightPosition : m_pLightColor;
 		if ( !pVar )
-			return NULL;
+			return nullptr;
 		return pVar->GetOwningMaterial();
 	}
 

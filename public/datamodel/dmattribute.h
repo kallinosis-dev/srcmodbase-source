@@ -273,7 +273,7 @@ inline const char *CDmAttribute::GetValueString() const
 {
 	Assert( GetType() == AT_STRING );
 	if ( GetType() != AT_STRING )
-		return NULL;
+		return nullptr;
 
 	CUtlSymbolLarge symbol = GetValue< CUtlSymbolLarge >();
 	return symbol.String();
@@ -292,7 +292,7 @@ inline E* CDmAttribute::GetValueElement() const
 	Assert( GetType() == AT_ELEMENT );
 	if ( GetType() == AT_ELEMENT )
 		return GetElement<E>( this->GetValue<DmElementHandle_t>( ) );
-	return NULL;
+	return nullptr;
 }
 #endif
 

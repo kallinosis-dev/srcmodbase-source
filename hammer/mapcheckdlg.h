@@ -25,7 +25,7 @@ public:
 
 private:
 
-	CMapCheckDlg(CWnd *pParent = NULL);
+	CMapCheckDlg(CWnd *pParent = nullptr);
 	enum { IDD = IDD_MAPCHECK };
 	bool DoCheck();
 	

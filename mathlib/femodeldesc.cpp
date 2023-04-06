@@ -209,12 +209,12 @@ void Clone( const PhysFeModelDesc_t *pFeDesc, intp nOffsetBytes, char **pCtrlNam
 	pFeModel->m_pSimdQuads = ConstCastOffsetPointer( pFeDesc->m_SimdQuads.Base(), nOffsetBytes );
 	pFeModel->m_pQuads = ConstCastOffsetPointer( pFeDesc->m_Quads.Base(), nOffsetBytes );
 	pFeModel->m_pSimdTris = ConstCastOffsetPointer( pFeDesc->m_SimdTris.Base(), nOffsetBytes );
-	pFeModel->m_pTris = NULL;
+	pFeModel->m_pTris = nullptr;
 	pFeModel->m_pRods = ConstCastOffsetPointer( pFeDesc->m_Rods.Base(), nOffsetBytes );;
 	pFeModel->m_pSimdRods = ConstCastOffsetPointer( pFeDesc->m_SimdRods.Base(), nOffsetBytes );
 	pFeModel->m_pAxialEdges = ConstCastOffsetPointer( pFeDesc->m_AxialEdges.Base(), nOffsetBytes );
-	pFeModel->m_pNodeToCtrl = NULL;
-	pFeModel->m_pCtrlToNode = NULL;
+	pFeModel->m_pNodeToCtrl = nullptr;
+	pFeModel->m_pCtrlToNode = nullptr;
 	pFeModel->m_pCtrlHash = ConstCastOffsetPointer( pFeDesc->m_CtrlHash.Base(), nOffsetBytes );
 	pFeModel->m_pRopes = ConstCastOffsetPointer( pFeDesc->m_Ropes.Base(), nOffsetBytes );
 	pFeModel->m_pNodeBases = ConstCastOffsetPointer( pFeDesc->m_NodeBases.Base(), nOffsetBytes );
@@ -256,10 +256,10 @@ void Clone( const PhysFeModelDesc_t *pFeDesc, intp nOffsetBytes, char **pCtrlNam
 	Assert( pFeDesc->m_TreeParents.Count() == pFeDesc->m_TreeCollisionMasks.Count() );
 	pFeModel->m_pTreeCollisionMasks = ConstCastOffsetPointer( pFeDesc->m_TreeCollisionMasks.Base(), nOffsetBytes );
 	Assert( pFeDesc->m_NodeInvMasses.Count() == 0 || pFeDesc->m_NodeInvMasses.Count() == pFeDesc->m_nNodeCount );
-	pFeModel->m_pNodeInvMasses = pFeDesc->m_NodeInvMasses.Count() ? ConstCastOffsetPointer( pFeDesc->m_NodeInvMasses.Base(), nOffsetBytes ) : NULL;
+	pFeModel->m_pNodeInvMasses = pFeDesc->m_NodeInvMasses.Count() ? ConstCastOffsetPointer( pFeDesc->m_NodeInvMasses.Base(), nOffsetBytes ) : nullptr;
 	if ( pFeDesc->m_CtrlName.IsEmpty() || !pCtrlNames )
 	{
-		pFeModel->m_pCtrlName = NULL;
+		pFeModel->m_pCtrlName = nullptr;
 	}
 	else
 	{

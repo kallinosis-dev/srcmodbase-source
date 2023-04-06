@@ -41,10 +41,10 @@ class CHullHalfEdge
 public:
 	CHullHalfEdge()
 	{
-		m_pTri = NULL;
-		m_pNext = NULL;
-		m_pPrev = NULL;
-		m_pOpposite = NULL;
+		m_pTri = nullptr;
+		m_pNext = nullptr;
+		m_pPrev = nullptr;
+		m_pOpposite = nullptr;
 	}
 	void SetNext( CHullHalfEdge *pNext )
 	{
@@ -82,7 +82,7 @@ public:
 
 		// Part of the list of vertices in front of the plane
 		m_flMaxDist = 0;
-		m_pMaxVert = NULL;
+		m_pMaxVert = nullptr;
 		
 		// mailbox for mesh walking
 		m_nVisitCount = 0;
@@ -186,7 +186,7 @@ public:
 
 	bool IsValid()
 	{
-		for ( CHullTri *pTri = m_faceListVerts.Head(); pTri != NULL; pTri = pTri->m_pNext )
+		for ( CHullTri *pTri = m_faceListVerts.Head(); pTri != nullptr; pTri = pTri->m_pNext )
 		{
 			if ( !pTri->IsValid() )
 				return false;
@@ -194,10 +194,10 @@ public:
 				return false;
 			if ( pTri->m_pPrev && pTri->m_pPrev->m_pNext != pTri )
 				return false;
-			if ( pTri->m_pMaxVert == NULL || pTri->m_pVerts.Count() <= 0 )
+			if ( pTri->m_pMaxVert == nullptr || pTri->m_pVerts.Count() <= 0 )
 				return false;
 		}
-		for ( CHullTri *pTri = m_faceListNoVerts.Head(); pTri != NULL; pTri = pTri->m_pNext )
+		for ( CHullTri *pTri = m_faceListNoVerts.Head(); pTri != nullptr; pTri = pTri->m_pNext )
 		{
 			if ( !pTri->IsValid() )
 				return false;
@@ -205,7 +205,7 @@ public:
 				return false;
 			if ( pTri->m_pPrev && pTri->m_pPrev->m_pNext != pTri )
 				return false;
-			if ( pTri->m_pMaxVert != NULL || pTri->m_pVerts.Count() > 0 )
+			if ( pTri->m_pMaxVert != nullptr || pTri->m_pVerts.Count() > 0 )
 				return false;
 		}
 		return true;
@@ -219,7 +219,7 @@ private:
 	void BuildSilhouette( CHullTri *pTri, const Vector &vNormal );
 	void TransferVerts( CHullTri *pRemove, CHullTri *pNewTri );
 	float SupportExtents( const Vector &vDirection, float *pMin, float *pMax ) const;
-	float SupportExtents_Silhouette( const Vector &vDirection, float *pMin = NULL, float *pMax = NULL );
+	float SupportExtents_Silhouette( const Vector &vDirection, float *pMin = nullptr, float *pMax = nullptr);
 	void FitOBBToFace( CHullTri *pTri, matrix3x4_t &xform, Vector &vExtents );
 
 	inline const float *GetVertex( int nIndex ) { return m_pVerts + nIndex * m_nVertexStrideFloats; }
@@ -327,7 +327,7 @@ void CConvexHullBuilder::BuildInitialTetrahedron()
 	const float flFrontDist = m_flCoplanarEpsilon;
 	for ( int i = 0; i < m_nVertexCount; i++ )
 	{
-		for ( CHullTri *pTri = m_faceListVerts.Head(); pTri != NULL; pTri = pTri->m_pNext )
+		for ( CHullTri *pTri = m_faceListVerts.Head(); pTri != nullptr; pTri = pTri->m_pNext )
 		{
 			const float *pVert = GetVertex(i);
 			float flDist = pTri->VertDist( pVert );
@@ -345,7 +345,7 @@ void CConvexHullBuilder::BuildInitialTetrahedron()
 		}
 	}
 
-	for ( CHullTri *pNext = NULL, *pTri = m_faceListVerts.Head(); pTri != NULL; pTri = pNext )
+	for ( CHullTri *pNext = nullptr, *pTri = m_faceListVerts.Head(); pTri != nullptr; pTri = pNext )
 	{
 		pNext = pTri->m_pNext;
 		if ( !pTri->m_pMaxVert )
@@ -532,7 +532,7 @@ void CConvexHullBuilder::BuildHull()
 	BuildInitialTetrahedron();
 
 	// process each face that has vertices in front of it until all are done
-	while ( m_faceListVerts.Head() != NULL )
+	while ( m_faceListVerts.Head() != nullptr)
 	{
 		CHullTri *pTri = m_faceListVerts.Head();
 
@@ -599,7 +599,7 @@ void CConvexHullBuilder::GenerateOutputMesh( CMesh *pOutMesh )
 	vertexMap.FillWithValue( -1 );
 	int nOutVert = 0;
 	int nOutTri = 0;
-	for ( CHullTri *pTri = m_faceListNoVerts.Head(); pTri != NULL; pTri = pTri->m_pNext )
+	for ( CHullTri *pTri = m_faceListNoVerts.Head(); pTri != nullptr; pTri = pTri->m_pNext )
 	{
 		for ( int j = 0; j < 3; j++ )
 		{
@@ -612,10 +612,10 @@ void CConvexHullBuilder::GenerateOutputMesh( CMesh *pOutMesh )
 		nOutTri++;
 	}
 	vertexMap.FillWithValue(-1);
-	pOutMesh->AllocateMesh( nOutVert, nOutTri * 3, m_nVertexStrideFloats, NULL, 0 );
+	pOutMesh->AllocateMesh( nOutVert, nOutTri * 3, m_nVertexStrideFloats, nullptr, 0 );
 	nOutVert = 0;
 	nOutTri = 0;
-	for ( CHullTri *pTri = m_faceListNoVerts.Head(); pTri != NULL; pTri = pTri->m_pNext )
+	for ( CHullTri *pTri = m_faceListNoVerts.Head(); pTri != nullptr; pTri = pTri->m_pNext )
 	{
 		for ( int j = 0; j < 3; j++ )
 		{
@@ -691,7 +691,7 @@ void CConvexHullBuilder::FitOBBFast( matrix3x4_t &xform, Vector &vExtents )
 	float flExtentX = SupportExtents( pTri->m_vNormal, &flMinX, &flMaxX );
 	pTri = pTri->m_pNext;
 
-	for ( ; pTri != NULL; pTri = pTri->m_pNext )
+	for ( ; pTri != nullptr; pTri = pTri->m_pNext )
 	{
 		float flMinTest = 0, flMaxTest = 0;
 		float flExtentTest = SupportExtents( pTri->m_vNormal, &flMinTest, &flMaxTest );
@@ -709,11 +709,11 @@ void CConvexHullBuilder::FitOBBFast( matrix3x4_t &xform, Vector &vExtents )
 void CConvexHullBuilder::FitOBB( matrix3x4_t &xform, Vector &vExtents )
 {
 	// try all faces, return minimum surface area box
-	CHullTri *pMinTri = NULL;
+	CHullTri *pMinTri = nullptr;
 	Vector vTmpExtents;
 	matrix3x4_t tmpXform;
 	float flMinSurfacearea = 1e24;
-	for ( CHullTri *pTri = m_faceListNoVerts.Head(); pTri != NULL; pTri = pTri->m_pNext )
+	for ( CHullTri *pTri = m_faceListNoVerts.Head(); pTri != nullptr; pTri = pTri->m_pNext )
 	{
 		FitOBBToFace( pTri, tmpXform, vTmpExtents );
 		float flSurfaceArea = vTmpExtents.x * vTmpExtents.y + vTmpExtents.x * vTmpExtents.z + vTmpExtents.y * vTmpExtents.z;
@@ -1106,7 +1106,7 @@ void HullFromPlanes( CMesh *pOutMesh, CUtlVector<uint32> *pTrianglePlaneIndices,
 	CSGPlaneList( verts, index, trianglePlaneIndices, planes.Base(), planes.Count(), flCoplanarEpsilon );
 	if ( verts.Count() )
 	{
-		pOutMesh->AllocateAndCopyMesh( verts.Count(), (float *)verts.Base(), index.Count(), index.Base(), 3, 0, 0 );
+		pOutMesh->AllocateAndCopyMesh( verts.Count(), (float *)verts.Base(), index.Count(), index.Base(), 3, nullptr, 0 );
 	}
 	
 	// If the caller wants the index of the originating plane of each triangle, put it in the output.
@@ -1167,7 +1167,7 @@ void HullFromPlanes_SIMD( CMesh *pOutMesh, CUtlVector<uint16> *pTrianglePlaneInd
 	// Do we really need a mesh in our use case?
 	if ( verts.Count() )
 	{
-		pOutMesh->AllocateAndCopyMesh( verts.Count(), (float *)verts.Base(), index.Count(), index.Base(), 4, 0, 0 );
+		pOutMesh->AllocateAndCopyMesh( verts.Count(), (float *)verts.Base(), index.Count(), index.Base(), 4, nullptr, 0 );
 	}
 
 	// If the caller wants the index of the originating plane of each triangle, put it in the output.

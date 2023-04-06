@@ -25,7 +25,7 @@ class CvarToggleCheckButton : public CheckButton
 
 public:
 	CvarToggleCheckButton( Panel *parent, const char *panelName, const char *text = "", 
-		char const *cvarname = NULL, bool ignoreMissingCvar = false );
+		char const *cvarname = nullptr, bool ignoreMissingCvar = false );
 	~CvarToggleCheckButton();
 
 	virtual void	SetSelected( bool state );

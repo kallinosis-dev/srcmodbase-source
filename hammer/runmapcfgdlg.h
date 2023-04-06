@@ -15,7 +15,7 @@ class CRunMapCfgDlg : public CDialog
 {
 // Construction
 public:
-	CRunMapCfgDlg(CWnd* pParent = NULL);   // standard constructor
+	CRunMapCfgDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CRunMapCfgDlg)

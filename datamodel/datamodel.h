@@ -206,8 +206,8 @@ public:
 	virtual int					GetNextFactory( int index ) const;
 	virtual bool				IsValidFactory( int index ) const;
 	virtual char const			*GetFactoryName( int index ) const;
-	virtual DmElementHandle_t	CreateElement( CUtlSymbolLarge typeSymbol, const char *pElementName, DmFileId_t fileid, const DmObjectId_t *pObjectID = NULL );
-	virtual DmElementHandle_t	CreateElement( const char *pTypeName, const char *pElementName, DmFileId_t fileid, const DmObjectId_t *pObjectID = NULL );
+	virtual DmElementHandle_t	CreateElement( CUtlSymbolLarge typeSymbol, const char *pElementName, DmFileId_t fileid, const DmObjectId_t *pObjectID = nullptr);
+	virtual DmElementHandle_t	CreateElement( const char *pTypeName, const char *pElementName, DmFileId_t fileid, const DmObjectId_t *pObjectID = nullptr);
 	virtual void				DestroyElement( DmElementHandle_t hElement );
 	virtual	CDmElement*			GetElement( DmElementHandle_t hElement ) const;
 	virtual CUtlSymbolLarge			GetElementType( DmElementHandle_t hElement ) const;
@@ -241,7 +241,7 @@ public:
 	virtual IDmLegacyUpdater*	FindLegacyUpdater( const char *pLegacyFormatName ) const;
 	virtual IDmFormatUpdater*	FindFormatUpdater( const char *pFormatName ) const;
 	virtual bool				SaveToFile( char const *pFileName, char const *pPathID, const char *pEncodingName, const char *pFormatName, CDmElement *pRoot );
-	virtual DmFileId_t			RestoreFromFile( char const *pFileName, char const *pPathID, const char *pFormatHint, CDmElement **ppRoot, DmConflictResolution_t idConflictResolution = CR_DELETE_NEW, DmxHeader_t *pHeaderOut = NULL );
+	virtual DmFileId_t			RestoreFromFile( char const *pFileName, char const *pPathID, const char *pFormatHint, CDmElement **ppRoot, DmConflictResolution_t idConflictResolution = CR_DELETE_NEW, DmxHeader_t *pHeaderOut = nullptr);
 	virtual bool				IsDMXFormat( CUtlBuffer &buf ) const;
 
 	virtual void				SetKeyValuesElementCallback( IElementForKeyValueCallback *pCallbackInterface );
@@ -276,7 +276,7 @@ public:
 	virtual CUtlSymbolLarge			GetUndoDescInternal( const char *context );
 	virtual CUtlSymbolLarge			GetRedoDescInternal( const char *context );
 	virtual void				EmptyClipboard();
-	virtual void				SetClipboardData( CUtlVector< KeyValues * >& data, IClipboardCleanup *pfnOptionalCleanuFunction = 0 );
+	virtual void				SetClipboardData( CUtlVector< KeyValues * >& data, IClipboardCleanup *pfnOptionalCleanuFunction = nullptr );
 	virtual void				AddToClipboardData( KeyValues *add );
 	virtual void				GetClipboardData( CUtlVector< KeyValues * >& data );
 	virtual bool				HasClipboardData() const;
@@ -356,7 +356,7 @@ public:
 	// changes an element's id and associated mappings - generally during unserialization
 	DmElementHandle_t ChangeElementId( DmElementHandle_t hElement, const DmObjectId_t &oldId, const DmObjectId_t &newId );
 
-	DmElementReference_t *FindElementReference( DmElementHandle_t hElement, DmObjectId_t **ppId = NULL );
+	DmElementReference_t *FindElementReference( DmElementHandle_t hElement, DmObjectId_t **ppId = nullptr);
 
 	void RemoveUnreferencedElements();
 

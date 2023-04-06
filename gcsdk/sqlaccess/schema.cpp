@@ -73,7 +73,7 @@ CSchema::CSchema()
 	m_bHasVarFields = false;
 	m_nHasPrimaryKey = k_EPrimaryKeyTypeNone;
 	m_iPKIndex = -1;
-	m_pRecordInfo = NULL;
+	m_pRecordInfo = nullptr;
 	m_wipePolicy = k_EWipePolicyPreserveAlways;
 	m_bAllowWipeInProd = false;
 	m_bPrepopulatedTable = false;
@@ -140,7 +140,7 @@ void CSchema::PrepareForUse()
 VarFieldBlockInfo_t* CSchema::PVarFieldBlockInfoFromRecord( const void *pvRecord ) const
 {
 	if ( !m_bHasVarFields )
-		return NULL;
+		return nullptr;
 
 	uint8 *pubRecord = ( uint8* )pvRecord;
 	return ( VarFieldBlockInfo_t * )( pubRecord + m_cubRecord ) - 1;
@@ -222,7 +222,7 @@ void CSchema::RenderRecord( uint8 *pubRecord )
 //-----------------------------------------------------------------------------
 bool CSchema::BGetFieldData( const void *pvRecord, int iField, uint8 **ppubField, uint32 *pcubField ) const
 {
-	*ppubField = NULL;
+	*ppubField = nullptr;
 	*pcubField = 0;
 	const Field_t &field = m_VecField[iField];
 	if ( field.BIsVariableLength() )
@@ -303,7 +303,7 @@ bool CSchema::BGetVarField( const void *pvRecord, const VarField_t *pVarField, u
 {
 	Assert( m_bHasVarFields );
 
-	*ppubField = 0;
+	*ppubField = nullptr;
 	*pcubField = 0;
 
 	VarFieldBlockInfo_t *pVarFieldBlockInfo = PVarFieldBlockInfoFromRecord( pvRecord );
@@ -311,7 +311,7 @@ bool CSchema::BGetVarField( const void *pvRecord, const VarField_t *pVarField, u
 	if ( !pVarField->m_cubField )
 	{
 		*pcubField = 0;
-		*ppubField = NULL;
+		*ppubField = nullptr;
 		return true;
 	}
 
@@ -406,7 +406,7 @@ bool CSchema::BSetVarField( void *pvRecord, VarField_t *pVarField, const void *p
 				return false;
 			}
 
-			void *pvBlockNew = NULL;
+			void *pvBlockNew = nullptr;
 
 			if ( cubBlockNew )
 			{
@@ -508,7 +508,7 @@ bool CSchema::BSetVarField( void *pvRecord, VarField_t *pVarField, const void *p
 
 				// ... update the block info
 				pVarFieldBlockInfo->m_cubBlock = 0;
-				pVarFieldBlockInfo->m_pubBlock = NULL;
+				pVarFieldBlockInfo->m_pubBlock = nullptr;
 				pVarFieldBlockInfo->m_cubBlockFree = 0;
 
 				// ... and update this field
@@ -736,7 +736,7 @@ int CSchema::PrimaryKey( bool bClustered, int nFillFactor, const char *pchName )
 	CUtlVector<int> vecColumns;
 	vecColumns.AddToTail( iField );
 
-	FieldSet_t vecIndex( true /* unique */ , bClustered, vecColumns, NULL );
+	FieldSet_t vecIndex( true /* unique */ , bClustered, vecColumns, nullptr);
 	vecIndex.SetFillFactor( nFillFactor );
 	m_iPKIndex =  m_VecIndexes.AddToTail( vecIndex );
 
@@ -761,7 +761,7 @@ int CSchema::PrimaryKeys( bool bClustered, int nFillFactor, const char *pchNames
 		nFlags |= k_nColFlagClustered;
 
 	// go add all those fields as Indexed
-	int nNewIndex = AddIndexToFieldList( pchNames, NULL, nFlags, nFillFactor );
+	int nNewIndex = AddIndexToFieldList( pchNames, nullptr, nFlags, nFillFactor );
 	if ( nNewIndex != k_iFieldNil )
 	{
 		m_nHasPrimaryKey = k_EPrimaryKeyTypeMulti;				// remember that we have multiple keys
@@ -786,7 +786,7 @@ int CSchema::AddIndexToFieldList( const char *pchNames, const char *pchIndexName
 	char* pchNamesCopy = (char*) PvAlloc( cNamesLen );
 	Q_strncpy( pchNamesCopy, pchNames, cNamesLen );
 
-	if (pchNames == NULL)
+	if (pchNames == nullptr)
 	{
 		// not enough memory!
 		AssertFatal( false );
@@ -800,7 +800,7 @@ int CSchema::AddIndexToFieldList( const char *pchNames, const char *pchIndexName
 	{
 		// find next token
 		char* pchEnd = strchr(pchCurrent, ',');
-		if ( pchEnd != NULL )
+		if ( pchEnd != nullptr)
 		{
 			*pchEnd++ = 0;
 		}
@@ -821,7 +821,7 @@ int CSchema::AddIndexToFieldList( const char *pchNames, const char *pchIndexName
 
 		// move past the end of this token in the string
 		pchCurrent = pchEnd;
-	} while ( pchCurrent != NULL );
+	} while ( pchCurrent != nullptr);
 
 	// release our copy
 	FreePv(pchNamesCopy);
@@ -909,7 +909,7 @@ void CSchema::AddIncludedFields( const char *pchIndexName, const char *pchNames 
 	{
 		// find next token
 		char* pchEnd = strchr(pchCurrent, ',');
-		if ( pchEnd != NULL )
+		if ( pchEnd != nullptr)
 		{
 			*pchEnd++ = 0;
 		}
@@ -927,7 +927,7 @@ void CSchema::AddIncludedFields( const char *pchIndexName, const char *pchNames 
 
 		// move past the end of this token in the string
 		pchCurrent = pchEnd;
-	} while ( pchCurrent != NULL );
+	} while ( pchCurrent != nullptr);
 
 	// release our copy
 	FreePv( pchNamesCopy );
@@ -1021,7 +1021,7 @@ void CSchema::AddFullTextIndex( CSchemaFull *pSchemaFull, const char *pchCatalog
 	char* pchNamesCopy = (char*) PvAlloc( cNamesLen );
 	Q_strncpy( pchNamesCopy, pchColumnName, cNamesLen );
 
-	if ( pchNamesCopy == NULL )
+	if ( pchNamesCopy == nullptr)
 	{
 		// not enough memory!
 		AssertFatal( false );
@@ -1033,7 +1033,7 @@ void CSchema::AddFullTextIndex( CSchemaFull *pSchemaFull, const char *pchCatalog
 	{
 		// find next token
 		char* pchEnd = strchr(pchCurrent, ',');
-		if ( pchEnd != NULL )
+		if ( pchEnd != nullptr)
 		{
 			*pchEnd++ = 0;
 		}
@@ -1051,7 +1051,7 @@ void CSchema::AddFullTextIndex( CSchemaFull *pSchemaFull, const char *pchCatalog
 
 		// move past the end of this token in the string
 		pchCurrent = pchEnd;
-	} while ( pchCurrent != NULL );
+	} while ( pchCurrent != nullptr);
 
 	// release our copy
 	FreePv(pchNamesCopy);
@@ -1219,7 +1219,7 @@ void CSchema::AddAlterField( const char *pchFieldNameOld, const char *pchFieldNa
 //-----------------------------------------------------------------------------
 bool CSchema::BCanConvertField( const char *pchFieldName, int *piFieldDst, PfnAlterField_t *ppfnAlterField )
 {
-	*ppfnAlterField = NULL;
+	*ppfnAlterField = nullptr;
 
 	// Should this field be deleted?
 	for ( int iDeleteField = 0; iDeleteField < m_VecDeleteField.Count(); iDeleteField++ )

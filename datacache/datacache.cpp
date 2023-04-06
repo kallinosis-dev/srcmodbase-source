@@ -100,7 +100,7 @@ CDataCacheSection::CDataCacheSection( CDataCache *pSharedCache, IDataCacheClient
 CDataCacheSection::~CDataCacheSection()
 {
 	FrameLock_t *pFrameLock;
-	while ( ( pFrameLock = m_FreeFrameLocks.Pop() ) != NULL )
+	while ( ( pFrameLock = m_FreeFrameLocks.Pop() ) != nullptr)
 	{
 		delete pFrameLock;
 	}
@@ -351,7 +351,7 @@ DataCacheRemoveResult_t CDataCacheSection::Remove( DataCacheHandle_t handle, con
 //-----------------------------------------------------------------------------
 bool CDataCacheSection::IsPresent( DataCacheHandle_t handle )
 {
-	return ( m_LRU.GetResource_NoLockNoLRUTouch( (memhandle_t)handle ) != NULL );
+	return ( m_LRU.GetResource_NoLockNoLRUTouch( (memhandle_t)handle ) != nullptr);
 }
 
 
@@ -371,7 +371,7 @@ void CDataCacheSection::GetAndLockMultiple( void **ppData, int nCount, DataCache
 	{
 		if ( pHandles[i] == DC_INVALID_HANDLE )
 		{
-			ppData[i] = NULL;
+			ppData[i] = nullptr;
 			continue;
 		}
 
@@ -379,7 +379,7 @@ void CDataCacheSection::GetAndLockMultiple( void **ppData, int nCount, DataCache
 		DataCacheItem_t *pItem = m_LRU.LockResourceReturnCount( &nLockCount, (memhandle_t)pHandles[i] );
 		if ( !pItem )
 		{
-			ppData[i] = NULL;
+			ppData[i] = nullptr;
 			continue;
 		}
 
@@ -417,7 +417,7 @@ void *CDataCacheSection::Lock( DataCacheHandle_t handle )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -493,7 +493,7 @@ void *CDataCacheSection::Get( DataCacheHandle_t handle, bool bFrameLock )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -517,7 +517,7 @@ void *CDataCacheSection::GetNoTouch( DataCacheHandle_t handle, bool bFrameLock )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -535,13 +535,13 @@ int CDataCacheSection::BeginFrameLocking()
 	}
 	else
 	{
-		while ( ( pFrameLock = m_FreeFrameLocks.Pop() ) == NULL )
+		while ( ( pFrameLock = m_FreeFrameLocks.Pop() ) == nullptr)
 		{
 			ThreadPause();
 			ThreadSleep( 1 );
 		}
 		pFrameLock->m_iLock = 1;
-		pFrameLock->m_pFirst = NULL;
+		pFrameLock->m_pFirst = nullptr;
 		m_FrameLocks[nThreadID] = pFrameLock;
 
 	}
@@ -555,7 +555,7 @@ int CDataCacheSection::BeginFrameLocking()
 bool CDataCacheSection::IsFrameLocking()
 {
 	FrameLock_t *pFrameLock = m_FrameLocks[g_nThreadID];
-	return ( pFrameLock != NULL );
+	return ( pFrameLock != nullptr);
 }
 
 
@@ -570,7 +570,7 @@ void *CDataCacheSection::FrameLock( DataCacheHandle_t handle )
 	ForceFlushDebug( !g_iDontForceFlush );
 #endif
 
-	void *pResult = NULL;
+	void *pResult = nullptr;
 	FrameLock_t *pFrameLock = m_FrameLocks[g_nThreadID];
 	if ( pFrameLock )
 	{
@@ -625,7 +625,7 @@ int CDataCacheSection::EndFrameLocking()
 		}
 
 		m_FreeFrameLocks.Push( pFrameLock );
-		m_FrameLocks[nThread] = NULL;
+		m_FrameLocks[nThread] = nullptr;
 		return 0;
 	}
 	else
@@ -943,7 +943,7 @@ bool CDataCacheSection::DiscardItem( memhandle_t hItem, DataCacheNotificationTyp
 		}
 #endif
 
-		pItem->pSection = NULL; // inhibit callbacks from lower level resource system
+		pItem->pSection = nullptr; // inhibit callbacks from lower level resource system
 		m_LRU.DestroyResource( hItem );
 		return true;
 	}
@@ -983,8 +983,8 @@ bool CDataCacheSection::DiscardItemData( DataCacheItem_t *pItem, DataCacheNotifi
 
 		OnRemove( pItem->clientId );
 
-		pItem->pSection = NULL;
-		pItem->pItemData = NULL,
+		pItem->pSection = nullptr;
+		pItem->pItemData = nullptr,
 		pItem->clientId = 0;
 
 		NoteRemove( pItem->size );
@@ -1092,7 +1092,7 @@ bool CDataCache::Connect( CreateInterfaceFn factory )
 
 void CDataCache::Disconnect()
 {
-	g_pDataCache = NULL;
+	g_pDataCache = nullptr;
 	BaseClass::Disconnect();
 }
 
@@ -1120,7 +1120,7 @@ void *CDataCache::QueryInterface( const char *pInterfaceName )
 	// Loading the datacache DLL mounts *all* interfaces
 	// This includes the backward-compatible interfaces + IStudioDataCache
 	CreateInterfaceFn factory = Sys_GetFactoryThis();	// This silly construction is necessary
-	return factory( pInterfaceName, NULL );				// to prevent the LTCG compiler from crashing.
+	return factory( pInterfaceName, nullptr);				// to prevent the LTCG compiler from crashing.
 }
 
 
@@ -1254,7 +1254,7 @@ IDataCacheSection *CDataCache::FindSection( const char *pszClientName )
 	{
 		return m_Sections[iSection];
 	}
-	return NULL;	
+	return nullptr;	
 }
 
 
@@ -1328,7 +1328,7 @@ void CDataCache::OutputReport( DataCacheReportType_t reportType, const char *psz
 	m_LRU.GetLockHandleList( lockedlist );
 	m_LRU.GetLRUHandleList( lruList );
 
-	CDataCacheSection *pSection = NULL;
+	CDataCacheSection *pSection = nullptr;
 	if ( pszSection )
 	{
 		pSection = (CDataCacheSection *)FindSection( pszSection );

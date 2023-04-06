@@ -109,7 +109,7 @@ void CVisibilityMonitor::FrameUpdatePostEntityThink()
 	// Cleanup, dump entities that have been removed since we last polled.
 	for ( int i = 0 ; i < m_Entities.Count() ; i++ )
 	{
-		if ( m_Entities[i].entity == NULL )
+		if ( m_Entities[i].entity == nullptr)
 		{
 			m_Entities.FastRemove(i);
 			if ( i >= m_Entities.Count() )
@@ -143,13 +143,13 @@ void CVisibilityMonitor::FrameUpdatePostEntityThink()
 		{
 			CBasePlayer *pPlayer =UTIL_PlayerByIndex( j );
 
-			if( pPlayer != NULL && pPlayer->IsAlive() && !pPlayer->IsBot() )
+			if( pPlayer != nullptr && pPlayer->IsAlive() && !pPlayer->IsBot() )
 			{
 				int memoryBit = 1 << j; // The bit that is used to remember whether a given entity has been seen by a given player.
 
 				CBaseEntity *pSeeEntity = m_Entities[ i ].entity.Get();
 
-				if( pSeeEntity == NULL )
+				if( pSeeEntity == nullptr)
 				{
 					continue;
 				}
@@ -161,7 +161,7 @@ void CVisibilityMonitor::FrameUpdatePostEntityThink()
 					{
 						bool bIgnore = false;
 
-						if( m_Entities[i].pfnEvaluator != NULL && !m_Entities[i].pfnEvaluator( m_Entities[i].entity, pPlayer ) )
+						if( m_Entities[i].pfnEvaluator != nullptr && !m_Entities[i].pfnEvaluator( m_Entities[i].entity, pPlayer ) )
 						{
 							bIgnore = true;
 						}
@@ -185,7 +185,7 @@ void CVisibilityMonitor::FrameUpdatePostEntityThink()
 						{
 							bool bGenerateEvent = true;
 
-							if( m_Entities[i].pfnCallback != NULL )
+							if( m_Entities[i].pfnCallback != nullptr)
 							{
 								// Make the callback, and let it determine whether to generate the simple event.
 								bGenerateEvent = m_Entities[i].pfnCallback( m_Entities[i].entity, pPlayer );

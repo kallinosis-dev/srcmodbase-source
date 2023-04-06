@@ -17,7 +17,7 @@
 
 CResourceStream::CResourceStream(  )
 {
-	m_pData = NULL;
+	m_pData = nullptr;
 	m_nCommitted = 0;
 	m_nUsed = 0;
 	m_nAlignBits = 3;
@@ -27,7 +27,7 @@ CResourceStream::CResourceStream(  )
 										   
 CResourceStreamVM::CResourceStreamVM( uint nReserveSize )
 {
-	m_pData = NULL;
+	m_pData = nullptr;
 	m_nReserved = 0;
 	ReserveVirtualMemory( nReserveSize );
 	m_nAlignBits = 3;			// alignment 4 is default
@@ -66,7 +66,7 @@ CResourceStreamFixed::CResourceStreamFixed( uint nPreallocatedDataSize ):
 CResourceStreamFixed::~CResourceStreamFixed()
 {
 	// prevent the parent class from trying to deallocate the buffer that doesn't belong to it
-	m_pData = NULL;
+	m_pData = nullptr;
 	m_nCommitted = 0;
 }
 
@@ -81,7 +81,7 @@ void CResourceStreamFixed::Commit( uint nNewCommit )
 
 CResourceStreamGrowable::CResourceStreamGrowable( uint nReserveDataSize )
 {
-	m_pData = nReserveDataSize ? new uint8[ nReserveDataSize ] : NULL;
+	m_pData = nReserveDataSize ? new uint8[ nReserveDataSize ] : nullptr;
 	m_nCommitted = nReserveDataSize;
 }
 
@@ -117,7 +117,7 @@ void CResourceStreamVM::ReserveVirtualMemory( uint nAddressSize )
 	for ( ;; )
 	{
 #if defined( PLATFORM_WINDOWS )
-		m_pData = ( uint8* )VirtualAlloc( NULL, m_nReserved, MEM_RESERVE, PAGE_READWRITE );
+		m_pData = ( uint8* )VirtualAlloc(nullptr, m_nReserved, MEM_RESERVE, PAGE_READWRITE );
 #else
 #ifdef PLATFORM_OSX
 		int nFlags = MAP_ANON | MAP_PRIVATE;
@@ -144,7 +144,7 @@ void CResourceStreamVM::ReserveVirtualMemory( uint nAddressSize )
 
 void CResourceStreamVM::ReleaseVirtualMemory()
 {
-	if ( m_pData != NULL )
+	if ( m_pData != nullptr)
 	{
 #if defined( PLATFORM_WINDOWS )
 		VirtualFree( m_pData, m_nReserved, MEM_RELEASE );
@@ -153,7 +153,7 @@ void CResourceStreamVM::ReleaseVirtualMemory()
 #endif
 	}
 
-	m_pData = NULL;	
+	m_pData = nullptr;	
 	m_nReserved = 0;
 	m_nUsed = 0;
 	m_nCommitted = 0;

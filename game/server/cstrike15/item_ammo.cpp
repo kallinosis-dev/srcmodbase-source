@@ -40,7 +40,7 @@ public:
 		return true;
 	}
 
-	virtual const char * GetAmmoName( void ) const { return NULL; }
+	virtual const char * GetAmmoName( void ) const { return nullptr; }
 };
 
 //-----------------------------------------------------------------------------

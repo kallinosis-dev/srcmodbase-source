@@ -192,7 +192,7 @@ CPropData::CPropData( void ) :
 	CAutoGameSystem( "CPropData" )
 {
 	m_bPropDataLoaded = false;
-	m_pKVPropData = NULL;
+	m_pKVPropData = nullptr;
 	for ( int i = 0; i < PROPINTER_NUM_INTERACTIONS; i++ )
 	{
 		sPropdataInteractionSections[i].m_keySection = KeyValuesSystem()->GetSymbolForString( sPropdataInteractionSections[i].pszSectionName );
@@ -217,7 +217,7 @@ void CPropData::LevelShutdownPostEntity( void )
 	if ( m_pKVPropData )
 	{
 		m_pKVPropData->deleteThis();
-		m_pKVPropData = NULL;
+		m_pKVPropData = nullptr;
 	}
 }
 
@@ -230,7 +230,7 @@ void CPropData::ParsePropDataFile( void )
 	if ( !m_pKVPropData->LoadFromFile( filesystem, "scripts/propdata.txt" ) )
 	{
 		m_pKVPropData->deleteThis();
-		m_pKVPropData = NULL;
+		m_pKVPropData = nullptr;
 		return;
 	}
 
@@ -329,7 +329,7 @@ int CPropData::ParsePropFromKV( CBaseEntity *pProp, IBreakableWithPropData *pBre
 	const char *pszTableName;
 	if ( pBreakableInterface->GetPhysicsDamageTable() == NULL_STRING )
 	{
-		pszTableName = pSection->GetString( keyDamageTable, NULL );
+		pszTableName = pSection->GetString( keyDamageTable, nullptr);
 	}
 	else
 	{
@@ -347,7 +347,7 @@ int CPropData::ParsePropFromKV( CBaseEntity *pProp, IBreakableWithPropData *pBre
 	// Get multiplayer physics mode if not set by map
 	pBreakableInterface->SetPhysicsMode( pSection->GetInt( keyPhysicsMode, pBreakableInterface->GetPhysicsMode() ) );
 
-	const char *multiplayer_break = pSection->GetString( keyMultiplayerBreak, NULL );
+	const char *multiplayer_break = pSection->GetString( keyMultiplayerBreak, nullptr);
 	if ( multiplayer_break )
 	{
 		mp_break_t mode = MULTIPLAYER_BREAK_DEFAULT;
@@ -392,7 +392,7 @@ int CPropData::ParsePropFromKV( CBaseEntity *pProp, IBreakableWithPropData *pBre
 	const char *pszBreakableModel;
 	if ( pBreakableInterface->GetBreakableModel() == NULL_STRING )
 	{
-		pszBreakableModel = pSection->GetString( keyBreakableModel, NULL );
+		pszBreakableModel = pSection->GetString( keyBreakableModel, nullptr);
 	}
 	else
 	{
@@ -444,7 +444,7 @@ int CPropData::ParsePropFromKV( CBaseEntity *pProp, IBreakableWithPropData *pBre
 	KeyValues *pkvContexts = pInteractionSection->FindKey( "prop_contexts" );
 	if ( pkvContexts )
 	{
-		for ( KeyValues *pContext = pkvContexts->GetFirstSubKey(); pContext != NULL; pContext = pContext->GetNextKey() )
+		for ( KeyValues *pContext = pkvContexts->GetFirstSubKey(); pContext != nullptr; pContext = pContext->GetNextKey() )
 		{
 			const char *pName = pContext->GetName();
 			const char *pValue = pContext->GetString();
@@ -506,7 +506,7 @@ int CPropData::ParsePropFromBase( CBaseEntity *pProp, IBreakableWithPropData *pB
 const char *CPropData::GetRandomChunkModel( const char *pszBreakableSection, int iMaxSize )
 {
 	if ( !m_bPropDataLoaded )
-		return NULL;
+		return nullptr;
 
 	// Find the right section
 	int iCount = m_BreakableChunks.Count();
@@ -517,7 +517,7 @@ const char *CPropData::GetRandomChunkModel( const char *pszBreakableSection, int
 			break;
 	}
 	if ( i == iCount )
-		return NULL;
+		return nullptr;
 
 	// Now pick a random one and return it
 	int iRandom;
@@ -807,7 +807,7 @@ private:
 	int			m_iLastFrame;
 };
 
-static CGameGibManager *g_pGibManager = NULL;
+static CGameGibManager *g_pGibManager = nullptr;
 CGameGibManager::CGameGibManager() : m_iCurrentMaxPieces(-1), m_iMaxPieces(-1) 
 {
 	g_pGibManager = this;
@@ -817,7 +817,7 @@ CGameGibManager::~CGameGibManager()
 {
 	if ( g_pGibManager == this )
 	{
-		g_pGibManager = NULL;
+		g_pGibManager = nullptr;
 	}
 }
 
@@ -889,7 +889,7 @@ void CGameGibManager::AddGibToLRU( CBaseAnimating *pEntity )
 {
 	int i, next;
 
-	if ( pEntity == NULL )
+	if ( pEntity == nullptr)
 		return;
 
 	//Find stale gibs.
@@ -897,7 +897,7 @@ void CGameGibManager::AddGibToLRU( CBaseAnimating *pEntity )
 	{
 		next = m_LRU.Next(i);
 
-		if ( m_LRU[i].Get() == NULL )
+		if ( m_LRU[i].Get() == nullptr)
 		{
 			m_LRU.Remove(i);
 		}
@@ -963,7 +963,7 @@ void PropBreakableCreateAll( int modelindex, IPhysicsObject *pPhysics, const bre
 
 	int nSkin = 0;
 	CBaseEntity *pOwnerEntity = pEntity;
-	CBaseAnimating *pOwnerAnim = NULL;
+	CBaseAnimating *pOwnerAnim = nullptr;
 	if ( pPhysics )
 	{
 		pOwnerEntity = static_cast<CBaseEntity *>(pPhysics->GetGameData());
@@ -1126,10 +1126,10 @@ void PropBreakableCreateAll( int modelindex, IPhysicsObject *pPhysics, const bre
 			if ( nActualSkin > studioHdr.numskinfamilies() )
 				nActualSkin = 0;
 
-			CBaseEntity *pBreakable = NULL;
+			CBaseEntity *pBreakable = nullptr;
 			
 #ifdef GAME_DLL
-			if ( GetGibManager() == NULL || GetGibManager()->AllowedToSpawnGib() )
+			if ( GetGibManager() == nullptr || GetGibManager()->AllowedToSpawnGib() )
 #endif
 			{
 				pBreakable = BreakModelCreateSingle( pOwnerEntity, &list[i], position, angles, objectVelocity, params.angularVelocity, nActualSkin, params );
@@ -1169,7 +1169,7 @@ void PropBreakableCreateAll( int modelindex, IPhysicsObject *pPhysics, const bre
 				if ( list[i].isMotionDisabled )
 				{
 					IPhysicsObject *pPhysicsObject = pBreakable->VPhysicsGetObject();
-					if ( pPhysicsObject != NULL )
+					if ( pPhysicsObject != nullptr)
 					{
 						pPhysicsObject->EnableMotion( false );
 					}
@@ -1229,10 +1229,10 @@ void PropBreakableCreateAll( int modelindex, IPhysicsObject *pPhysics, const bre
 				QAngle vecAngles = pEntity->GetAbsAngles();
 				int iSkin = pBreakableInterface->GetBreakableSkin();
 
-				CBaseEntity *pBreakable = NULL;
+				CBaseEntity *pBreakable = nullptr;
 
 #ifdef GAME_DLL
-				if ( GetGibManager() == NULL || GetGibManager()->AllowedToSpawnGib() )
+				if ( GetGibManager() == nullptr || GetGibManager()->AllowedToSpawnGib() )
 #endif
 				{
 					pBreakable = BreakModelCreateSingle( pOwnerEntity, &breakModel, breakModel.offset, vecAngles, vecVelocity, vec3_origin/*params.angularVelocity*/, iSkin, params );
@@ -1261,7 +1261,7 @@ void PropBreakableCreateAll( int modelindex, IPhysicsObject *pPhysics, const bre
 					if ( pBreakable->VPhysicsGetObject() )
 					{
 						Vector pos;
-						pBreakable->VPhysicsGetObject()->GetPosition( &pos, NULL );
+						pBreakable->VPhysicsGetObject()->GetPosition( &pos, nullptr);
 						pBreakable->VPhysicsGetObject()->SetPosition( pos, vecAngles, true );
 					}
 
@@ -1362,7 +1362,7 @@ CBaseEntity *CreateGibsFromList( CUtlVector<breakmodel_t> &list, int modelindex,
       
 		// Check for max breakable count for the frame. 
 		if ( nPropBreakablesPerFrameCount >= nPropCount ) 
-			return NULL; 
+			return nullptr; 
 	} 
 
 	int iMaxBreakCount = bIgnoreGibLimit ? -1 : props_break_max_pieces.GetInt();
@@ -1383,17 +1383,17 @@ CBaseEntity *CreateGibsFromList( CUtlVector<breakmodel_t> &list, int modelindex,
 	if ( !PropBreakableCapEdictsOnCreateAll( list, pPhysics, params, pEntity, iPrecomputedBreakableCount ) )
 	{
 		DevMsg( "Failed to create PropBreakable: would exceed MAX_EDICTS\n" );
-		return NULL;
+		return nullptr;
 	}
 #endif
 	
 	vcollide_t *pCollide = modelinfo->GetVCollide( modelindex );
 	if ( !pCollide )
-		return NULL;
+		return nullptr;
 
 	int nSkin = 0;
 	CBaseEntity *pOwnerEntity = pEntity;
-	CBaseAnimating *pOwnerAnim = NULL;
+	CBaseAnimating *pOwnerAnim = nullptr;
 	if ( pPhysics )
 	{
 		pOwnerEntity = static_cast<CBaseEntity *>(pPhysics->GetGameData());
@@ -1430,7 +1430,7 @@ CBaseEntity *CreateGibsFromList( CUtlVector<breakmodel_t> &list, int modelindex,
 //	CUtlVector<breakmodel_t> list;
 //	BreakModelList( list, modelindex, params.defBurstScale, params.defCollisionGroup );
 
-	CBaseEntity *pFirstBreakable = NULL;
+	CBaseEntity *pFirstBreakable = nullptr;
 
 	if ( list.Count() )
 	{
@@ -1532,10 +1532,10 @@ CBaseEntity *CreateGibsFromList( CUtlVector<breakmodel_t> &list, int modelindex,
 			if ( nActualSkin > studioHdr.numskinfamilies() )
 				nActualSkin = 0;
 
-			CBaseEntity *pBreakable = NULL;
+			CBaseEntity *pBreakable = nullptr;
 			
 #ifdef GAME_DLL
-			if ( GetGibManager() == NULL || GetGibManager()->AllowedToSpawnGib() )
+			if ( GetGibManager() == nullptr || GetGibManager()->AllowedToSpawnGib() )
 #endif
 			{
 				pBreakable = BreakModelCreateSingle( pOwnerEntity, &list[i], position, angles, objectVelocity, params.angularVelocity, nActualSkin, params );
@@ -1582,7 +1582,7 @@ CBaseEntity *CreateGibsFromList( CUtlVector<breakmodel_t> &list, int modelindex,
 				if ( list[i].isMotionDisabled )
 				{
 					IPhysicsObject *pPhysicsObject = pBreakable->VPhysicsGetObject();
-					if ( pPhysicsObject != NULL )
+					if ( pPhysicsObject != nullptr)
 					{
 						pPhysicsObject->EnableMotion( false );
 					}
@@ -1644,10 +1644,10 @@ CBaseEntity *CreateGibsFromList( CUtlVector<breakmodel_t> &list, int modelindex,
 				QAngle vecAngles = pEntity->GetAbsAngles();
 				int iSkin = pBreakableInterface->GetBreakableSkin();
 
-				CBaseEntity *pBreakable = NULL;
+				CBaseEntity *pBreakable = nullptr;
 
 #ifdef GAME_DLL
-				if ( GetGibManager() == NULL || GetGibManager()->AllowedToSpawnGib() )
+				if ( GetGibManager() == nullptr || GetGibManager()->AllowedToSpawnGib() )
 #endif
 				{
 					pBreakable = BreakModelCreateSingle( pOwnerEntity, &breakModel, breakModel.offset, vecAngles, vecVelocity, vec3_origin/*params.angularVelocity*/, iSkin, params );
@@ -1672,7 +1672,7 @@ CBaseEntity *CreateGibsFromList( CUtlVector<breakmodel_t> &list, int modelindex,
 					if ( pBreakable->VPhysicsGetObject() )
 					{
 						Vector pos;
-						pBreakable->VPhysicsGetObject()->GetPosition( &pos, NULL );
+						pBreakable->VPhysicsGetObject()->GetPosition( &pos, nullptr);
 						pBreakable->VPhysicsGetObject()->SetPosition( pos, vecAngles, true );
 					}
 

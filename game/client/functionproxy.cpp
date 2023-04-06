@@ -19,7 +19,7 @@
 //-----------------------------------------------------------------------------
 bool CFloatInput::Init( IMaterial *pMaterial, KeyValues *pKeyValues, const char *pKeyName, float flDefault )
 {
-	m_pFloatVar = NULL;
+	m_pFloatVar = nullptr;
 	KeyValues *pSection = pKeyValues->FindKey( pKeyName );
 	if (pSection)
 	{
@@ -98,7 +98,7 @@ float CFloatInput::GetFloat() const
 //
 //-----------------------------------------------------------------------------
 
-CResultProxy::CResultProxy() : m_pResult(0)
+CResultProxy::CResultProxy() : m_pResult(nullptr)
 {
 }
 
@@ -207,7 +207,7 @@ IMaterial *CResultProxy::GetMaterial()
 //
 //-----------------------------------------------------------------------------
 
-CFunctionProxy::CFunctionProxy() : m_pSrc1(0), m_pSrc2(0)
+CFunctionProxy::CFunctionProxy() : m_pSrc1(nullptr), m_pSrc2(nullptr)
 {
 }
 
@@ -240,7 +240,7 @@ bool CFunctionProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValues )
 	}
 	else
 	{
-		m_pSrc2 = 0;
+		m_pSrc2 = nullptr;
 	}
 
 	return true;

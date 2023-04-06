@@ -27,7 +27,7 @@ public:
 
 
 mxMenu::mxMenu ()
-: mxWidget (0, 0, 0, 0, 0)
+: mxWidget (nullptr, 0, 0, 0, 0)
 {
 	void *handle = (void *) CreateMenu ();
 
@@ -62,7 +62,7 @@ mxMenu::addMenu (const char *item, mxMenu *menu)
 void
 mxMenu::addSeparator ()
 {
-	AppendMenu ((HMENU) getHandle (), MF_SEPARATOR, 0, 0);
+	AppendMenu ((HMENU) getHandle (), MF_SEPARATOR, 0, nullptr);
 }
 
 

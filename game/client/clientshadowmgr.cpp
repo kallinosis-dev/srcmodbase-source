@@ -838,7 +838,7 @@ public:
 
 	virtual void ReprojectShadows();
 
-	virtual ClientShadowHandle_t CreateShadow( ClientEntityHandle_t entity, int nEntIndex, int flags, CBitVec< MAX_SPLITSCREEN_PLAYERS > *pSplitScreenBits = NULL );
+	virtual ClientShadowHandle_t CreateShadow( ClientEntityHandle_t entity, int nEntIndex, int flags, CBitVec< MAX_SPLITSCREEN_PLAYERS > *pSplitScreenBits = nullptr);
 	virtual void DestroyShadow( ClientShadowHandle_t handle );
 
 	// Create flashlight (projected texture light source)
@@ -1420,7 +1420,7 @@ int CVisibleShadowList::FindShadows( const CViewSetup *pView, int nLeafCount, Wo
 // sniff the command line parameters, etc. to determine how many shadow rt's and their dimensions
 void CClientShadowMgr::CalculateRenderTargetsAndSizes( void )
 {
-	bool bTools = CommandLine()->CheckParm( "-tools" ) != NULL;
+	bool bTools = CommandLine()->CheckParm( "-tools" ) != nullptr;
 		
 	m_nDepthTextureResolution = r_flashlightdepthres.GetInt();
 	m_nDepthTextureResolutionHigh = r_flashlightdepthreshigh.GetInt();
@@ -1599,7 +1599,7 @@ void CClientShadowMgr::InitRenderTargets()
 
 	if ( m_DepthTextureCache.Count() )
 	{
-		bool bTools = CommandLine()->CheckParm( "-tools" ) != NULL;
+		bool bTools = CommandLine()->CheckParm( "-tools" ) != nullptr;
 		int nNumShadows = bTools ? MAX_DEPTH_TEXTURE_SHADOWS_TOOLS : MAX_DEPTH_TEXTURE_SHADOWS;
 		m_nLowResStart = bTools ? MAX_DEPTH_TEXTURE_HIGHRES_SHADOWS_TOOLS : MAX_DEPTH_TEXTURE_HIGHRES_SHADOWS;
 
@@ -2432,8 +2432,8 @@ ClientShadowHandle_t CClientShadowMgr::CreateProjectedTexture( ClientEntityHandl
 
 	if( ( flags & SHADOW_FLAGS_USE_DEPTH_TEXTURE ) || ( flags & ( SHADOW_FLAGS_FLASHLIGHT | SHADOW_FLAGS_SIMPLE_PROJECTION ) ) )
 	{
-		pShadowMaterial = NULL;		// these materials aren't used for shadow depth texture shadows.
-		pShadowModelMaterial = NULL;
+		pShadowMaterial = nullptr;		// these materials aren't used for shadow depth texture shadows.
+		pShadowModelMaterial = nullptr;
 		pShadowProxyData = (void*)(uintp)h;
 	}
 
@@ -2479,7 +2479,7 @@ ClientShadowHandle_t CClientShadowMgr::CreateFlashlight( const FlashlightState_t
 		shadowFlags |= SHADOW_FLAGS_USE_DEPTH_TEXTURE;
 	}
 
-	ClientShadowHandle_t shadowHandle = CreateProjectedTexture( invalidHandle, -1, shadowFlags, NULL, lightState.m_bShareBetweenSplitscreenPlayers );
+	ClientShadowHandle_t shadowHandle = CreateProjectedTexture( invalidHandle, -1, shadowFlags, nullptr, lightState.m_bShareBetweenSplitscreenPlayers );
 
 	UpdateFlashlightState( shadowHandle, lightState );
 	UpdateProjectedTexture( shadowHandle, true );
@@ -2556,7 +2556,7 @@ ClientShadowHandle_t CClientShadowMgr::CreateProjection( const FlashlightState_t
 
 	int shadowFlags = SHADOW_FLAGS_SIMPLE_PROJECTION;
 
-	ClientShadowHandle_t shadowHandle = CreateProjectedTexture( invalidHandle, -1, shadowFlags, NULL, lightState.m_bShareBetweenSplitscreenPlayers );
+	ClientShadowHandle_t shadowHandle = CreateProjectedTexture( invalidHandle, -1, shadowFlags, nullptr, lightState.m_bShareBetweenSplitscreenPlayers );
 
 	UpdateFlashlightState( shadowHandle, lightState );
 	UpdateProjectedTexture( shadowHandle, true );
@@ -4030,17 +4030,17 @@ void CClientShadowMgr::BuildFlashlight( ClientShadowHandle_t handle )
 	if ( shadowmgr->SinglePassFlashlightModeEnabled() && !pRenderContext->IsCullingEnabledForSinglePassFlashlight() )
 	{
 		// This will update the matrices, but not do work to add the flashlight to surfaces
-		shadowmgr->ProjectFlashlight( shadow.m_ShadowHandle, shadow.m_WorldToShadow, 0, NULL );
+		shadowmgr->ProjectFlashlight( shadow.m_ShadowHandle, shadow.m_WorldToShadow, 0, nullptr);
 		return;
 	}
 
 	VPROF_BUDGET( "CClientShadowMgr::BuildFlashlight", VPROF_BUDGETGROUP_SHADOW_DEPTH_TEXTURING );
 
 	bool bLightModels = r_flashlightmodels.GetBool();
-	bool bLightSpecificEntity = shadow.m_hTargetEntity.Get() != NULL;
+	bool bLightSpecificEntity = shadow.m_hTargetEntity.Get() != nullptr;
 	bool bLightWorld = ( shadow.m_Flags & SHADOW_FLAGS_LIGHT_WORLD ) != 0;
 	int nCount = 0;
-	const int *pLeafList = 0;
+	const int *pLeafList = nullptr;
 
 	CShadowLeafEnum leafList;
 	if ( bLightWorld || ( bLightModels && !bLightSpecificEntity ) )
@@ -4527,7 +4527,7 @@ IClientRenderable *CClientShadowMgr::GetParentShadowEntity( ClientShadowHandle_t
 			return pParent;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -4769,7 +4769,7 @@ void CClientShadowMgr::UpdateProjectedTextureInternal( ClientShadowHandle_t hand
 		shadowmgr->EnableShadow( shadow.m_ShadowHandle, true );
 
 		// FIXME: What's the difference between brush and model shadows for light projectors? Answer: nothing.
-		UpdateBrushShadow( NULL, handle );
+		UpdateBrushShadow(nullptr, handle );
 	}
 	else
 	{
@@ -5523,7 +5523,7 @@ int CClientShadowMgr::BuildActiveShadowDepthList( const CViewSetup &viewSetup, i
 			// If it's not in the view frustum, move on
 			if ( !flashlightState.m_bOrtho && viewFrustum.CullBox( vecAbsMins, vecAbsMaxs ) )
 			{
-				shadowmgr->SetFlashlightDepthTexture( shadow.m_ShadowHandle, NULL, 0 );
+				shadowmgr->SetFlashlightDepthTexture( shadow.m_ShadowHandle, nullptr, 0 );
 				continue;
 			}
 		}
@@ -5540,7 +5540,7 @@ int CClientShadowMgr::BuildActiveShadowDepthList( const CViewSetup &viewSetup, i
 					Assert( 0 );
 					s_bOverflowWarning = true;
 				}
-				shadowmgr->SetFlashlightDepthTexture( shadow.m_ShadowHandle, NULL, 0 );
+				shadowmgr->SetFlashlightDepthTexture( shadow.m_ShadowHandle, nullptr, 0 );
 				continue;
 			}
 			else
@@ -5778,7 +5778,7 @@ void CClientShadowMgr::ComputeShadowDepthTextures( const CViewSetup &viewSetup, 
 				}
 
 				AssertOnce(0);
-				shadowmgr->SetFlashlightDepthTexture( shadow.m_ShadowHandle, NULL, 0 );
+				shadowmgr->SetFlashlightDepthTexture( shadow.m_ShadowHandle, nullptr, 0 );
 
 				if ( bPrintFlashlightInfo )
 				{
@@ -5864,7 +5864,7 @@ void CClientShadowMgr::ComputeShadowDepthTextures( const CViewSetup &viewSetup, 
 		else
 		{
 			// just build world/renderable lists
-			view->UpdateShadowDepthTexture( NULL, NULL, shadowView );
+			view->UpdateShadowDepthTexture(nullptr, nullptr, shadowView );
 		}
 
 
@@ -5884,7 +5884,7 @@ void CClientShadowMgr::ComputeShadowDepthTextures( const CViewSetup &viewSetup, 
 //-----------------------------------------------------------------------------
 static void SetupBonesOnBaseAnimating( C_BaseAnimating *&pBaseAnimating )
 {
-	pBaseAnimating->SetupBones( NULL, -1, -1, gpGlobals->curtime );
+	pBaseAnimating->SetupBones(nullptr, -1, -1, gpGlobals->curtime );
 }
 
 
@@ -6347,42 +6347,42 @@ void CClientShadowMgr::DownsampleDepthBuffer( IMatRenderContext* pRenderContext,
 	IMaterial* pMat = materials->FindMaterial( "dev/downsampledepth", TEXTURE_GROUP_OTHER );
 	
 	// yes, this is stupid
-	IMaterialVar* pVar = pMat->FindVar( "$c0_x", NULL );
+	IMaterialVar* pVar = pMat->FindVar( "$c0_x", nullptr);
 	pVar->SetFloatValue( invViewProjMat[0][0] );
-	pVar = pMat->FindVar( "$c0_y", NULL );
+	pVar = pMat->FindVar( "$c0_y", nullptr);
 	pVar->SetFloatValue( invViewProjMat[0][1] );
-	pVar = pMat->FindVar( "$c0_z", NULL );
+	pVar = pMat->FindVar( "$c0_z", nullptr);
 	pVar->SetFloatValue( invViewProjMat[0][2] );
-	pVar = pMat->FindVar( "$c0_w", NULL );
+	pVar = pMat->FindVar( "$c0_w", nullptr);
 	pVar->SetFloatValue( invViewProjMat[0][3] );
-	pVar = pMat->FindVar( "$c1_x", NULL );
+	pVar = pMat->FindVar( "$c1_x", nullptr);
 	pVar->SetFloatValue( invViewProjMat[1][0] );
-	pVar = pMat->FindVar( "$c1_y", NULL );
+	pVar = pMat->FindVar( "$c1_y", nullptr);
 	pVar->SetFloatValue( invViewProjMat[1][1] );
-	pVar = pMat->FindVar( "$c1_z", NULL );
+	pVar = pMat->FindVar( "$c1_z", nullptr);
 	pVar->SetFloatValue( invViewProjMat[1][2] );
-	pVar = pMat->FindVar( "$c1_w", NULL );
+	pVar = pMat->FindVar( "$c1_w", nullptr);
 	pVar->SetFloatValue( invViewProjMat[1][3] );
-	pVar = pMat->FindVar( "$c2_x", NULL );
+	pVar = pMat->FindVar( "$c2_x", nullptr);
 	pVar->SetFloatValue( invViewProjMat[2][0] );
-	pVar = pMat->FindVar( "$c2_y", NULL );
+	pVar = pMat->FindVar( "$c2_y", nullptr);
 	pVar->SetFloatValue( invViewProjMat[2][1] );
-	pVar = pMat->FindVar( "$c2_z", NULL );
+	pVar = pMat->FindVar( "$c2_z", nullptr);
 	pVar->SetFloatValue( invViewProjMat[2][2] );
-	pVar = pMat->FindVar( "$c2_w", NULL );
+	pVar = pMat->FindVar( "$c2_w", nullptr);
 	pVar->SetFloatValue( invViewProjMat[2][3] );
-	pVar = pMat->FindVar( "$c3_x", NULL );
+	pVar = pMat->FindVar( "$c3_x", nullptr);
 	pVar->SetFloatValue( invViewProjMat[3][0] );
-	pVar = pMat->FindVar( "$c3_y", NULL );
+	pVar = pMat->FindVar( "$c3_y", nullptr);
 	pVar->SetFloatValue( invViewProjMat[3][1] );
-	pVar = pMat->FindVar( "$c3_z", NULL );
+	pVar = pMat->FindVar( "$c3_z", nullptr);
 	pVar->SetFloatValue( invViewProjMat[3][2] );
-	pVar = pMat->FindVar( "$c3_w", NULL );
+	pVar = pMat->FindVar( "$c3_w", nullptr);
 	pVar->SetFloatValue( invViewProjMat[3][3] );
 
-	pVar = pMat->FindVar( "$c4_x", NULL );
+	pVar = pMat->FindVar( "$c4_x", nullptr);
 	pVar->SetFloatValue( 1.0f / float( nScreenWidth ) );
-	pVar = pMat->FindVar( "$c4_y", NULL );
+	pVar = pMat->FindVar( "$c4_y", nullptr);
 	pVar->SetFloatValue( 1.0f / float( nScreenHeight ) );
 
 	pRenderContext->DrawScreenSpaceRectangle( pMat, 0, 0, nWidth, nHeight,
@@ -6391,8 +6391,8 @@ void CClientShadowMgr::DownsampleDepthBuffer( IMatRenderContext* pRenderContext,
 
 	if ( IsGameConsole() )
 	{
-		pRenderContext->CopyRenderTargetToTextureEx( m_downSampledNormals, 0, NULL, NULL );
-		pRenderContext->CopyRenderTargetToTextureEx( m_downSampledDepth, -1, NULL, NULL );
+		pRenderContext->CopyRenderTargetToTextureEx( m_downSampledNormals, 0, nullptr, nullptr);
+		pRenderContext->CopyRenderTargetToTextureEx( m_downSampledDepth, -1, nullptr, nullptr);
 	}
 
 	pRenderContext->PopRenderTargetAndViewport();
@@ -6506,19 +6506,19 @@ void CClientShadowMgr::DrawDeferredShadows( const CViewSetup &view, int leafCoun
 	pRenderContext->PushMatrix();
 	pRenderContext->LoadIdentity();
 	
-	IMaterialVar* pTextureVar = m_RenderDeferredShadowMat->FindVar( "$basetexture", NULL, false );
+	IMaterialVar* pTextureVar = m_RenderDeferredShadowMat->FindVar( "$basetexture", nullptr, false );
 	if( pTextureVar )
 	{
 		pTextureVar->SetTextureValue( s_ClientShadowMgr.GetShadowTexture( CLIENTSHADOW_INVALID_HANDLE ) );
 	}
-	pTextureVar = m_RenderDeferredShadowMat->FindVar( "$depthtexture", NULL, false );
+	pTextureVar = m_RenderDeferredShadowMat->FindVar( "$depthtexture", nullptr, false );
 	if( pTextureVar )
 	{
 		//pTextureVar->SetTextureValue( s_ClientShadowMgr.GetShadowTexture( CLIENTSHADOW_INVALID_HANDLE ) );
 		pTextureVar->SetTextureValue( GetFullFrameDepthTexture() );
 	}
 
-	IMaterialVar* pZFailVar = m_RenderDeferredShadowMat->FindVar( "$zfailenable", NULL, false );
+	IMaterialVar* pZFailVar = m_RenderDeferredShadowMat->FindVar( "$zfailenable", nullptr, false );
 
 	if( pZFailVar )
 	{
@@ -6586,7 +6586,7 @@ void CClientShadowMgr::DrawDeferredShadows( const CViewSetup &view, int leafCoun
 	if ( s_VisibleShadowList.GetVisibleBlobbyShadowCount() > 0 )
 	{
 		pRenderContext->Bind( m_RenderDeferredSimpleShadowMat );
-		pTextureVar = m_RenderDeferredSimpleShadowMat->FindVar( "$depthtexture", NULL, false );
+		pTextureVar = m_RenderDeferredSimpleShadowMat->FindVar( "$depthtexture", nullptr, false );
 		if( pTextureVar )
 		{
 			pTextureVar->SetTextureValue( GetFullFrameDepthTexture() );
@@ -6686,7 +6686,7 @@ void CClientShadowMgr::DrawDeferredShadows( const CViewSetup &view, int leafCoun
 
 	if ( r_shadow_deferred_downsample.GetBool() )
 	{
-		pRenderContext->CopyRenderTargetToTextureEx( m_downSampledNormals, 0, NULL, NULL );
+		pRenderContext->CopyRenderTargetToTextureEx( m_downSampledNormals, 0, nullptr, nullptr);
 		pRenderContext->PopRenderTargetAndViewport();
 
 		pRenderContext->SetStencilState( state );
@@ -6745,7 +6745,7 @@ void CClientShadowMgr::UpdateSplitscreenLocalPlayerShadowSkip()
 			}
 			else if ( pPlayer->GetObserverMode() != OBS_MODE_NONE )
 			{
-				pFirstPersonEnt = NULL;
+				pFirstPersonEnt = nullptr;
 			}
 		}
 
@@ -6784,8 +6784,8 @@ private:
 };
 
 CShadowProxy::CShadowProxy()
-: m_BaseTextureVar( NULL ),
-  m_MaxFalloffAmountVar( NULL )
+: m_BaseTextureVar(nullptr),
+  m_MaxFalloffAmountVar(nullptr)
 {
 }
 
@@ -6846,13 +6846,13 @@ private:
 
 CShadowModelProxy::CShadowModelProxy()
 {
-	m_BaseTextureVar = NULL;
-	m_BaseTextureOffsetVar = NULL;
-	m_BaseTextureScaleVar = NULL;
-	m_BaseTextureMatrixVar = NULL;
-	m_FalloffOffsetVar = NULL;
-	m_FalloffDistanceVar = NULL;
-	m_FalloffAmountVar = NULL;
+	m_BaseTextureVar = nullptr;
+	m_BaseTextureOffsetVar = nullptr;
+	m_BaseTextureScaleVar = nullptr;
+	m_BaseTextureMatrixVar = nullptr;
+	m_FalloffOffsetVar = nullptr;
+	m_FalloffDistanceVar = nullptr;
+	m_FalloffAmountVar = nullptr;
 }
 
 CShadowModelProxy::~CShadowModelProxy()

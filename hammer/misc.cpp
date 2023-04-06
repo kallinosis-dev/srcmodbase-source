@@ -20,7 +20,7 @@ static DWORD holdrand;
 
 void randomize()
 {
-	holdrand = DWORD(time(NULL));
+	holdrand = DWORD(time(nullptr));
 }
 
 
@@ -118,5 +118,5 @@ BOOL AddLeavesToListCallback(CMapClass *pObject, CMapObjectList *pList)
 
 bool IsWorldObject(CMapAtom *pObject)
 {
-	return (dynamic_cast<CMapWorld*>(pObject) != NULL);
+	return (dynamic_cast<CMapWorld*>(pObject) != nullptr);
 }

@@ -20,7 +20,7 @@ CProject::CProject( CWorkspace *ws, char const *filename ) : m_pOwner( ws )
 	Q_FileBase( m_szFile, m_szName, sizeof( m_szName ) );
 
 	m_bDirty = false;
-	m_pszComments = NULL;
+	m_pszComments = nullptr;
 
 	LoadFromFile();
 }
@@ -82,7 +82,7 @@ int	 CProject::GetSceneCount() const
 CScene *CProject::GetScene( int index ) const
 {
 	if ( index < 0 || index >= m_Scenes.Count() )
-		return NULL;
+		return nullptr;
 	return m_Scenes[ index ];
 }
 

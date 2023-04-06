@@ -117,7 +117,7 @@ public:
 
 	void AddFlexRule( CDmeFlexRuleBase *pDmeFlexRule );
 	int GetRuleCount() const { return m_eDeltaStates.Count(); }
-	CDmeFlexRuleBase *GetRule( int i ) const { return ( i < 0 || i >= GetRuleCount() ) ? NULL : m_eDeltaStates[i]; }
+	CDmeFlexRuleBase *GetRule( int i ) const { return ( i < 0 || i >= GetRuleCount() ) ? nullptr : m_eDeltaStates[i]; }
 	void RemoveAllRules();
 
 	void SetTarget( CDmElement *pDmElement );

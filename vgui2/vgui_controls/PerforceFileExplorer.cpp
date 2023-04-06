@@ -137,7 +137,7 @@ void PerforceFileExplorer::PopulateDriveList()
 	char *pBuf = buf;
 	for (int i=0; i < len / 4; i++)
 	{
-		m_pFullPathCombo->AddItem(pBuf, NULL);
+		m_pFullPathCombo->AddItem(pBuf, nullptr);
 
 		// is this our drive - add all subdirectories
 		if ( !_strnicmp( pBuf, pFullPath, 2 ) )
@@ -154,7 +154,7 @@ void PerforceFileExplorer::PopulateDriveList()
 						memcpy(pSubDirPath+indent, pFullPath, pData-pFullPath+1);
 						pSubDirPath[indent+pData-pFullPath+1] = 0;
 
-						m_pFullPathCombo->AddItem( pSubDirPath, NULL );
+						m_pFullPathCombo->AddItem( pSubDirPath, nullptr);
 					}
 					indent += 2;
 				}
@@ -181,7 +181,7 @@ void PerforceFileExplorer::PopulateFileList()
 
 	// Find all files on disk
 	FileFindHandle_t h;
-	const char *pFileName = g_pFullFileSystem->FindFirstEx( pFilter, NULL, &h );
+	const char *pFileName = g_pFullFileSystem->FindFirstEx( pFilter, nullptr, &h );
 	for ( ; pFileName; pFileName = g_pFullFileSystem->FindNext( h ) )
 	{
 		if ( !Q_stricmp( pFileName, ".." ) || !Q_stricmp( pFileName, "." ) )
@@ -194,7 +194,7 @@ void PerforceFileExplorer::PopulateFileList()
 		}
 
 		int nItemID = m_pFileList->AddFile( pFileName, true );
-		m_pFileList->RefreshPerforceState( nItemID, true, NULL );
+		m_pFileList->RefreshPerforceState( nItemID, true, nullptr);
 	}
 	g_pFullFileSystem->FindClose( h );
 
@@ -228,7 +228,7 @@ void PerforceFileExplorer::PopulateFileList()
 //-----------------------------------------------------------------------------
 void PerforceFileExplorer::OnTextChanged( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 
 	// first check which control had its text changed!
 	if ( pPanel == m_pFullPathCombo )

@@ -34,8 +34,8 @@ CMapClass *CMapAlignedBox::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 	{
 		const char *pMinsKeyName, *pMaxsKeyName;
 
-		if (((pMinsKeyName = pHelperInfo->GetParameter(0)) != NULL) &&
-			((pMaxsKeyName = pHelperInfo->GetParameter(1)) != NULL))
+		if (((pMinsKeyName = pHelperInfo->GetParameter(0)) != nullptr) &&
+			((pMaxsKeyName = pHelperInfo->GetParameter(1)) != nullptr))
 		{
 			CMapAlignedBox *pBox = new CMapAlignedBox(pMinsKeyName, pMaxsKeyName);
 			pBox->m_bWireframe = true;
@@ -43,7 +43,7 @@ CMapClass *CMapAlignedBox::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 	else
@@ -76,7 +76,7 @@ CMapClass *CMapAlignedBox::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 			nParam++;
 		}
 
-		CMapAlignedBox *pBox = NULL;
+		CMapAlignedBox *pBox = nullptr;
 
 		//
 		// If we got enough parameters to define the box, create it.
@@ -170,7 +170,7 @@ CMapClass *CMapAlignedBox::Copy(bool bUpdateDependencies)
 {
 	CMapAlignedBox *pCopy = new CMapAlignedBox;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}

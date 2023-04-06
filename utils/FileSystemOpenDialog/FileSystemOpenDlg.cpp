@@ -26,7 +26,7 @@ static char THIS_FILE[] = __FILE__;
 
 CFileInfo::CFileInfo()
 {
-	m_pBitmap = NULL;
+	m_pBitmap = nullptr;
 }
 
 
@@ -66,7 +66,7 @@ public:
 	{
 		int i = m_Bitmaps.Find( pName );
 		if ( i == -1 )
-			return NULL;
+			return nullptr;
 		else
 			return m_Bitmaps[i].m_pBitmap;
 	}
@@ -130,7 +130,7 @@ CFileSystemOpenDlg::CFileSystemOpenDlg(CreateInterfaceFn factory, CWnd* pParent 
 {
 	//{{AFX_DATA_INIT(CFileSystemOpenDlg)
 	//}}AFX_DATA_INIT
-	m_pFileSystem = (IFileSystem*)factory( FILESYSTEM_INTERFACE_VERSION, NULL );
+	m_pFileSystem = (IFileSystem*)factory( FILESYSTEM_INTERFACE_VERSION, nullptr);
 	if ( !m_pFileSystem )
 	{
 		Error( "Unable to connect to %s!\n", FILESYSTEM_INTERFACE_VERSION );
@@ -261,13 +261,13 @@ BOOL CFileSystemOpenDlg::OnInitDialog()
 	m_ImageList.Create( PREVIEW_IMAGE_SIZE, PREVIEW_IMAGE_SIZE, ILC_COLOR32, 0, 512 );
 	
 	m_BitmapFolder.LoadBitmap( IDB_LABEL_FOLDER );
-	m_iLabel_Folder = m_ImageList.Add( &m_BitmapFolder, (CBitmap*)NULL );
+	m_iLabel_Folder = m_ImageList.Add( &m_BitmapFolder, (CBitmap*)nullptr);
 
 	m_BitmapMdl.LoadBitmap( IDB_LABEL_MDL );
-	m_iLabel_Mdl = m_ImageList.Add( &m_BitmapMdl, (CBitmap*)NULL );
+	m_iLabel_Mdl = m_ImageList.Add( &m_BitmapMdl, (CBitmap*)nullptr);
 
 	m_BitmapFile.LoadBitmap( IDB_LABEL_FILE );
-	m_iLabel_File = m_ImageList.Add( &m_BitmapFile, (CBitmap*)NULL );
+	m_iLabel_File = m_ImageList.Add( &m_BitmapFile, (CBitmap*)nullptr);
 
 	m_FileList.SetImageList( &m_ImageList, LVSIL_NORMAL );
 
@@ -314,7 +314,7 @@ public:
 		this->resync_to_restart = &CJpegSourceMgr::imp_resync_to_restart;
 		this->term_source = &CJpegSourceMgr::imp_term_source;
 
-		this->next_input_byte = 0;
+		this->next_input_byte = nullptr;
 		this->bytes_in_buffer = 0;
 	}
 
@@ -488,7 +488,7 @@ CBitmap* SetupJpegLabel( IFileSystem *pFileSystem, CString filename, int labelSi
 	CUtlVector<unsigned char> data;
 	int width, height;
 	if ( !ReadJpeg( pFileSystem, filename, data, width, height, pPathID ) )
-		return NULL;
+		return nullptr;
 
 	CUtlVector<unsigned char> downsampled;
 	DownsampleRGBToRGBAImage( data, width, height, downsampled, labelSize, labelSize );
@@ -502,7 +502,7 @@ CBitmap* SetupJpegLabel( IFileSystem *pFileSystem, CString filename, int labelSi
 	else
 	{
 		delete pBitmap;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -517,7 +517,7 @@ int CFileSystemOpenDlg::SetupLabelImage( CFileInfo *pInfo, CString name, bool bI
 	{
 		pInfo->m_pBitmap = SetupJpegLabel( m_pFileSystem, m_CurrentDir + "\\" + name, PREVIEW_IMAGE_SIZE, GetPathID() );
 		if ( pInfo->m_pBitmap )
-			return m_ImageList.Add( pInfo->m_pBitmap, (CBitmap*)NULL );
+			return m_ImageList.Add( pInfo->m_pBitmap, (CBitmap*)nullptr);
 		else
 			return m_iLabel_File;
 	}
@@ -805,7 +805,7 @@ void CFileSystemOpenDlg::SetFilterMdlAndJpgFiles( bool bFilter )
 const char* CFileSystemOpenDlg::GetPathID()
 {
 	if ( m_PathIDString == "" )
-		return NULL;
+		return nullptr;
 	else
 		return (const char*)m_PathIDString;
 }
@@ -822,10 +822,10 @@ class CFileSystemOpenDialogWrapper : public IFileSystemOpenDialog
 public:
 	CFileSystemOpenDialogWrapper()
 	{
-		m_pDialog = 0;
+		m_pDialog = nullptr;
 		m_bLastModalWasWindowsDialog = false;
 		m_bAllowMultiSelect = false;
-		m_RelativeFilename = NULL;
+		m_RelativeFilename = nullptr;
 	}
 
 	~CFileSystemOpenDialogWrapper()
@@ -960,7 +960,7 @@ public:
 
 		CFileDialog dlg( 
 			true,								// open dialog?
-			defExt[0]==0 ? NULL : defExt,		// default file extension
+			defExt[0]==0 ? nullptr : defExt,		// default file extension
 			pFileName,							// initial filename
 			dwDlgFlags,							// flags
 			filters,

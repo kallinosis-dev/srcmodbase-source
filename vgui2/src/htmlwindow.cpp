@@ -479,16 +479,16 @@ public:
 		/* [out] */ IDropTarget __RPC_FAR *__RPC_FAR *ppDropTarget) { return E_FAIL; }
 	
 	STDMETHODIMP GetExternal( 
-		/* [out] */ IDispatch __RPC_FAR *__RPC_FAR *ppDispatch) 	{ ppDispatch = NULL; return S_FALSE; }
+		/* [out] */ IDispatch __RPC_FAR *__RPC_FAR *ppDispatch) 	{ ppDispatch = nullptr; return S_FALSE; }
 	
 	STDMETHODIMP TranslateUrl( 
 		/* [in] */ DWORD dwTranslate,
 		/* [in] */ OLECHAR __RPC_FAR *pchURLIn,
-		/* [out] */ OLECHAR __RPC_FAR *__RPC_FAR *ppchURLOut) 		{ ppchURLOut = NULL; return S_FALSE; }
+		/* [out] */ OLECHAR __RPC_FAR *__RPC_FAR *ppchURLOut) 		{ ppchURLOut = nullptr; return S_FALSE; }
 	
 	STDMETHODIMP FilterDataObject( 
 		/* [in] */ IDataObject __RPC_FAR *pDO,
-		/* [out] */ IDataObject __RPC_FAR *__RPC_FAR *ppDORet) 		{ ppDORet = NULL; return S_FALSE; }
+		/* [out] */ IDataObject __RPC_FAR *__RPC_FAR *ppDORet) 		{ ppDORet = nullptr; return S_FALSE; }
 
 protected:
 	FrameSite * m_fs;
@@ -516,7 +516,7 @@ LRESULT CALLBACK WindowProc(
 )
 {
 	// find the winwodw that triggered the hook
-	HtmlWindow *win = NULL;
+	HtmlWindow *win = nullptr;
 	for(int i=0;i<html_windows.Count();i++)
 	{
 		if(html_windows[i] && html_windows[i]->GetIEHWND()== hwnd)
@@ -559,7 +559,7 @@ LRESULT CALLBACK GetMsgProc( int code, WPARAM wParam, LPARAM lParam )
 {
 	//CWPSTRUCT *msg = reinterpret_cast<CWPSTRUCT *>(lParam);
 	MSG *msg = reinterpret_cast<MSG *>(lParam);
-	HtmlWindow *win=NULL;
+	HtmlWindow *win= nullptr;
 
 	// find the winwodw that triggered the hook
 	for(int i=0;i<html_windows.Count();i++)
@@ -603,7 +603,7 @@ BOOL CALLBACK EnumChildProc( HWND hwnd,  LPARAM lParam )
 	pt.y = lParam >> 16;
 	pt.x = lParam & 0xffff;
 
-	HtmlWindow *win=NULL;
+	HtmlWindow *win= nullptr;
 	HWND parent = ::GetParent(hwnd);
 
 	for(int i=0;i<html_windows.Count();i++)
@@ -670,12 +670,12 @@ BOOL CALLBACK EnumChildProc( HWND hwnd,  LPARAM lParam )
 //-----------------------------------------------------------------------------
 HtmlWindow::HtmlWindow(vgui::IHTMLEvents *events, vgui::VPANEL c,HWND parent, bool AllowJavaScript, bool DirectToHWND)
 {
-	m_oleObject = NULL;
-	m_oleInPlaceObject = NULL;
-	m_webBrowser = NULL;
+	m_oleObject = nullptr;
+	m_oleInPlaceObject = nullptr;
+	m_webBrowser = nullptr;
 
 	m_events = events;
-	m_ieHWND=0;
+	m_ieHWND=nullptr;
 
 	w=0;
 	h=0;
@@ -683,13 +683,13 @@ HtmlWindow::HtmlWindow(vgui::IHTMLEvents *events, vgui::VPANEL c,HWND parent, bo
 	window_y = 0;
 	textureID=0;
 	m_HtmlEventsAdviseCookie=0;
-	m_Bitmap=NULL;
+	m_Bitmap= nullptr;
 	m_bVisible = false;
 
-	hdcMem=NULL;
-	lasthDC=NULL;
-	hBitmap=NULL;
-	m_hHook=NULL;
+	hdcMem= nullptr;
+	lasthDC= nullptr;
+	hBitmap= nullptr;
+	m_hHook= nullptr;
 
 	m_cleared=false;
 	m_newpage=false;
@@ -716,12 +716,12 @@ HtmlWindow::HtmlWindow(vgui::IHTMLEvents *events, vgui::VPANEL c,HWND parent, bo
 
 			wc.style         = CS_OWNDC;
 			wc.lpfnWndProc   = WindowProc;
-			wc.hInstance     = GetModuleHandle(NULL);
+			wc.hInstance     = GetModuleHandle(nullptr);
 			wc.lpszClassName = "VGUI_HTML";
 
 			// Oops, we didn't clean up the class registration from last cycle which
 			//  might mean that the wndproc pointer is bogus
-			UnregisterClass( "VGUI_HTML", GetModuleHandle(NULL) );
+			UnregisterClass( "VGUI_HTML", GetModuleHandle(nullptr) );
 
 			// Register it again
 			RegisterClass( &wc );
@@ -730,7 +730,7 @@ HtmlWindow::HtmlWindow(vgui::IHTMLEvents *events, vgui::VPANEL c,HWND parent, bo
 
 		// create a temp window to contain this object, make it hidden and disabled
 		m_parent = CreateWindowEx(0,tmp,"", WS_CHILD| WS_DISABLED,
-								   0,0,1,1,parent,NULL,GetModuleHandle(NULL),NULL);
+								   0,0,1,1,parent, nullptr,GetModuleHandle(nullptr), nullptr);
 	}
 
 
@@ -751,7 +751,7 @@ void HtmlWindow::CreateBrowser( bool AllowJavaScript )
 
 	IUnknown *p;			
 	// Get IUnknown Interface
-	hret = CoCreateInstance(CLSID_WebBrowser, NULL, 
+	hret = CoCreateInstance(CLSID_WebBrowser, nullptr, 
 			CLSCTX_ALL, IID_IUnknown, (void**)(&p));
 
 	// this is the mozilla browser rather than the IE one, doesn't work too well tho...
@@ -791,9 +791,9 @@ void HtmlWindow::CreateBrowser( bool AllowJavaScript )
 	if (m_bSetClientSiteFirst) m_oleObject->SetClientSite(c->m_IOleClientSite);
 
 	// setup its persistant storage class
-	IPersistStreamInit * psInit = NULL;
+	IPersistStreamInit * psInit = nullptr;
 	hret = p->QueryInterface(IID_IPersistStreamInit, (void**)(&psInit));
-	if (SUCCEEDED(hret) && psInit != NULL) {
+	if (SUCCEEDED(hret) && psInit != nullptr) {
 		hret = psInit->InitNew();
 		ASSERT(SUCCEEDED(hret));
 	}
@@ -891,7 +891,7 @@ HtmlWindow::~HtmlWindow()
 	}
 	if (m_oleObject) {
 		m_oleObject->Close(OLECLOSE_NOSAVE);
-		m_oleObject->SetClientSite(NULL);
+		m_oleObject->SetClientSite(nullptr);
 		m_oleObject->Release();
 	}
 	if (m_viewObject) {
@@ -914,7 +914,7 @@ HtmlWindow::~HtmlWindow()
 	if ( m_hHook )
 	{
 		::UnhookWindowsHookEx( m_hHook );
-		m_hHook = NULL;
+		m_hHook = nullptr;
 	}
 
 	delete m_Bitmap;
@@ -965,7 +965,7 @@ void HtmlWindow::Obsolete_OnSize(int x,int y,int w_in,int h_in)
 	window_x = panel_x + 1;
 	window_y = panel_y + 1;
 	// now reset our painting area
-	if(lasthDC!=0)
+	if(lasthDC!=nullptr)
 	{
 		::DeleteObject(hBitmap);
 		::DeleteDC(hdcMem);
@@ -973,7 +973,7 @@ void HtmlWindow::Obsolete_OnSize(int x,int y,int w_in,int h_in)
 
 	SetBounds();
 
-	lasthDC=0;
+	lasthDC=nullptr;
 }
 
 
@@ -1095,7 +1095,7 @@ RECT HtmlWindow::SetBounds()
 	
 	if ( !m_bDirectToHWND )
 	{
-		::RedrawWindow( m_ieHWND, NULL, NULL, RDW_ERASE | RDW_INVALIDATE );
+		::RedrawWindow( m_ieHWND, nullptr, nullptr, RDW_ERASE | RDW_INVALIDATE );
 	}
 
 	return posRect;
@@ -1127,13 +1127,13 @@ void HtmlWindow::OnPaint(HDC hDC)
 	}
 
 	RECT posRect = SetBounds();
-	HBITMAP oldbmp = NULL;
+	HBITMAP oldbmp = nullptr;
 
 	// Create memory DC if we just started or its a new handle
-	if ( lasthDC==0 || 
+	if ( lasthDC==nullptr || 
 		lasthDC != hDC )
 	{
-		if ( lasthDC != 0 )
+		if ( lasthDC != nullptr )
 		{
 			::DeleteObject(hBitmap);
 			::DeleteDC(hdcMem);
@@ -1166,14 +1166,14 @@ void HtmlWindow::OnPaint(HDC hDC)
 	m_viewObject->Draw
 	(
 		DVASPECT_CONTENT, 
-		-1, 
-		NULL, 
-		NULL, 
+		-1,
+		nullptr,
+		nullptr, 
 		hDC, 
 		hdcMem, 
-		prc, 
-		NULL, 
-		NULL, 
+		prc,
+		nullptr,
+		nullptr, 
 		0
 	);
 
@@ -1187,7 +1187,7 @@ void HtmlWindow::OnPaint(HDC hDC)
 		hBitmap, 
 		0L, 
 		(DWORD)h,
-		(LPBYTE)NULL, 
+		(LPBYTE)nullptr, 
 		(LPBITMAPINFO)lpbi, 
 		(DWORD)DIB_RGB_COLORS
 	);
@@ -1306,7 +1306,7 @@ void HtmlWindow::OnMouse(vgui::MouseCode code,MOUSE_STATE s,int x,int y)
 		return;
 	}
 
-	if (m_oleInPlaceObject == NULL) { DEBUG("no oleInPlaceObject"); return ; }
+	if (m_oleInPlaceObject == nullptr) { DEBUG("no oleInPlaceObject"); return ; }
 	
 	// send the mouse event
 	if (m_ieHWND && ::PostMessage(m_ieHWND, msg, wParam, lParam)==0) 
@@ -1338,7 +1338,7 @@ void HtmlWindow::Clear()
 	IDispatch* pDisp ;
 	m_webBrowser->get_Document(&pDisp);
 
-	if (pDisp != NULL )
+	if (pDisp != nullptr)
 	{
 		IHTMLDocument2* pHTMLDocument2;
 		HRESULT hr;
@@ -1401,7 +1401,7 @@ void HtmlWindow::OnChar(wchar_t unichar)
 	// pass the character to the window
 	msg=WM_CHAR;
 
-	if (m_oleInPlaceObject == NULL) { DEBUG("no oleInPlaceObject"); return ; }
+	if (m_oleInPlaceObject == nullptr) { DEBUG("no oleInPlaceObject"); return ; }
 
 	if (m_ieHWND && ::PostMessage(m_ieHWND, msg, wParam, lParam)==0) { DEBUG("msg not delivered"); return; }
 	DEBUG("msg sent");
@@ -1422,7 +1422,7 @@ void HtmlWindow::OnKeyDown(vgui::KeyCode code)
 	// pass the character to the window
 	msg=WM_KEYDOWN;
 
-	if (m_oleInPlaceObject == NULL) { DEBUG("no oleInPlaceObject"); return ; }
+	if (m_oleInPlaceObject == nullptr) { DEBUG("no oleInPlaceObject"); return ; }
 
 	if (m_ieHWND && ::PostMessage(m_ieHWND, msg, wParam, lParam)==0) { DEBUG("msg not delivered"); return; }
 	DEBUG("msg sent");
@@ -1452,7 +1452,7 @@ bool HtmlWindow::OnStartURL(const char * url, const char *target, bool first)
 
 	if (m_events)
 	{
-		if ( m_events->OnStartRequestInternal(url, target, NULL, false) )
+		if ( m_events->OnStartRequestInternal(url, target, nullptr, false) )
 		{
 			return true;
 		}
@@ -1582,9 +1582,9 @@ bool HtmlWindow::CheckIsLink(IHTMLElement *el, char *type)
 void HtmlWindow::CalculateHTMLSize( void *pVoid )
 {
 	IHTMLDocument2 *pHTMLDocument2 = (IHTMLDocument2 *)pVoid;
-	IHTMLBodyElement *piBody = NULL;
-	IHTMLTextContainer *piCont = NULL;
-	IHTMLElement *piElem = NULL;
+	IHTMLBodyElement *piBody = nullptr;
+	IHTMLTextContainer *piCont = nullptr;
+	IHTMLElement *piElem = nullptr;
 	pHTMLDocument2->get_body( &piElem );
 	if (!piElem )
 		return;
@@ -1619,7 +1619,7 @@ void HtmlWindow::ScrollHTML(int x,int y)
 	if (!pDisp )
 		return;
 
-	IHTMLDocument5* pHTMLDocument5 = NULL;
+	IHTMLDocument5* pHTMLDocument5 = nullptr;
 	HRESULT hret;
 	hret = pDisp->QueryInterface( IID_IHTMLDocument5, (void**)&pHTMLDocument5 );
 	if ( hret == S_OK && pHTMLDocument5 )
@@ -1644,7 +1644,7 @@ void HtmlWindow::ScrollHTML(int x,int y)
 
 			if(hret == S_OK && pElement)
 			{
-				IHTMLElement2 *piElem2 = NULL;
+				IHTMLElement2 *piElem2 = nullptr;
 				hret = pElement->QueryInterface(IID_IHTMLElement2,(void **)&piElem2);	
 				if ( hret == S_OK && piElem2 )
 				{
@@ -1667,12 +1667,12 @@ void HtmlWindow::ScrollHTML(int x,int y)
 		hret = pDisp->QueryInterface( IID_IHTMLDocument2, (void**)&pHTMLDocument2 );
 		if (hret == S_OK && pHTMLDocument2)
 		{	
-			IHTMLElement *pElement = NULL;
+			IHTMLElement *pElement = nullptr;
 			hret = pHTMLDocument2->get_body(&pElement);
 
 			if(hret == S_OK && pElement)
 			{
-				IHTMLTextContainer *piCont = NULL;
+				IHTMLTextContainer *piCont = nullptr;
 
 				hret = pElement->QueryInterface(IID_IHTMLTextContainer,(void **)&piCont);
 				if ( hret == S_OK && piCont )
@@ -1730,14 +1730,14 @@ bool HtmlWindow::OnMouseOver()
 					}
 					else
 					{
-						IHTMLElement *pel=el,*oldpel=NULL;
+						IHTMLElement *pel=el,*oldpel= nullptr;
 						while(IsLink==false && SUCCEEDED(pel->get_parentElement(&pel)))
 						{
-							if(oldpel!=NULL)
+							if(oldpel!= nullptr)
 							{
 								oldpel->Release();
 							}
-							if(pel==NULL || pel==oldpel) 
+							if(pel== nullptr || pel==oldpel) 
 								// this goes up the nested elements until it hits the <HTML> tag 
 								// and then it just keeps returing that (silly thing...)
 							{
@@ -1751,7 +1751,7 @@ bool HtmlWindow::OnMouseOver()
 
 							oldpel=pel;	
 						} 
-						if(pel!=NULL)
+						if(pel!= nullptr)
 						{
 							pel->Release();
 						}
@@ -1821,7 +1821,7 @@ void HtmlWindow::OnFinishURL(const char * url)
 	// tell the parent to repaint itself, we have a new page
 	if(m_events)
 	{
-		m_events->OnFinishRequest(url, NULL);
+		m_events->OnFinishRequest(url, nullptr);
 	}
 
 	HWND tst=m_oleObjectHWND;
@@ -1841,11 +1841,11 @@ void HtmlWindow::OnFinishURL(const char * url)
 
 	if ( ! hooked )
 	{
-		DWORD tid = ::GetWindowThreadProcessId(m_oleObjectHWND, NULL); 
-		m_hHook=::SetWindowsHookEx(WH_GETMESSAGE,GetMsgProc,NULL,tid);
+		DWORD tid = ::GetWindowThreadProcessId(m_oleObjectHWND, nullptr); 
+		m_hHook=::SetWindowsHookEx(WH_GETMESSAGE,GetMsgProc, nullptr,tid);
 
 
-		if(m_hHook==NULL)
+		if(m_hHook== nullptr)
 		{
 			DWORD err=::GetLastError();
 			err++;
@@ -1919,7 +1919,7 @@ FrameSite::FrameSite(HtmlWindow * win, bool AllowJavaScript)
 	m_bAmbientShowGrabHandles = true;
 	m_bAmbientAppearance = true;
  
-	m_hDCBuffer = NULL;
+	m_hDCBuffer = nullptr;
 	m_hWndParent = (HWND)m_window->GetHWND();
 
 	m_IOleInPlaceFrame = new FS_IOleInPlaceFrame(this);
@@ -1957,8 +1957,8 @@ FrameSite::~FrameSite()
 
 STDMETHODIMP FrameSite::QueryInterface(REFIID riid, void **ppv)             
 {
-	if (ppv == NULL) return E_INVALIDARG;
-	*ppv = NULL;
+	if (ppv == nullptr) return E_INVALIDARG;
+	*ppv = nullptr;
 	if (riid == IID_IUnknown) 
 		*ppv = this;
 	else if (riid == IID_IOleWindow ||
@@ -1993,7 +1993,7 @@ STDMETHODIMP FrameSite::QueryInterface(REFIID riid, void **ppv)
 	else if (riid == IID_IDocHostUIHandler)
 		*ppv = m_IDocHostUIHandler;
 	
-	if (*ppv == NULL) return (HRESULT) E_NOINTERFACE;                                         
+	if (*ppv == nullptr) return (HRESULT) E_NOINTERFACE;                                         
 	AddRef();
 	return S_OK;
 }                                                                           
@@ -2041,7 +2041,7 @@ HRESULT FS_IDispatch::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid,
 	DEBUG("IDispatch::Invoke");
 	if (wFlags & DISPATCH_PROPERTYGET)
 	{
-		if (pVarResult == NULL) return E_INVALIDARG;
+		if (pVarResult == nullptr) return E_INVALIDARG;
 		switch (dispIdMember)
 		{
 			case DISPID_AMBIENT_APPEARANCE:
@@ -2210,7 +2210,7 @@ HRESULT FS_IDispatch::Invoke(DISPID dispIdMember, REFIID riid, LCID lcid,
 HRESULT FS_IOleInPlaceFrame::GetWindow(HWND * phwnd)
 {
 	DEBUG("IOleWindow::GetWindow");
-	if (phwnd == NULL) return E_INVALIDARG;
+	if (phwnd == nullptr) return E_INVALIDARG;
 	(*phwnd) = m_fs->m_hWndParent;
 	return S_OK;
 }
@@ -2226,14 +2226,14 @@ HRESULT FS_IOleInPlaceFrame::ContextSensitiveHelp(BOOL fEnterMode)
 HRESULT FS_IOleInPlaceFrame::GetBorder(LPRECT lprectBorder)
 {
 	DEBUG("IOleInPlaceUIWindow::GetBorder");
-	if (lprectBorder == NULL) return E_INVALIDARG;
+	if (lprectBorder == nullptr) return E_INVALIDARG;
 	return INPLACE_E_NOTOOLSPACE;
 }
 
 HRESULT FS_IOleInPlaceFrame::RequestBorderSpace(LPCBORDERWIDTHS pborderwidths)
 {
 	DEBUG("IOleInPlaceUIWindow::RequestBorderSpace");
-	if (pborderwidths == NULL) return E_INVALIDARG;
+	if (pborderwidths == nullptr) return E_INVALIDARG;
 	return INPLACE_E_NOTOOLSPACE;
 }
 
@@ -2276,7 +2276,7 @@ HRESULT FS_IOleInPlaceFrame::SetStatusText(LPCOLESTR pszStatusText)
 	if(m_fs->m_window->GetEvents())
 	{
 		char tmp[512];
-		WideCharToMultiByte(CP_ACP, 0, pszStatusText, -1, tmp,512, NULL, NULL);
+		WideCharToMultiByte(CP_ACP, 0, pszStatusText, -1, tmp,512, nullptr, nullptr);
 		m_fs->m_window->GetEvents()->OnSetStatusText(tmp);
 	}
 	return S_OK;
@@ -2323,11 +2323,11 @@ HRESULT FS_IOleInPlaceSiteWindowless::GetWindowContext(IOleInPlaceFrame **ppFram
 									LPOLEINPLACEFRAMEINFO lpFrameInfo)
 {
 	DEBUG("IOleInPlaceSite::GetWindowContext");
-	if (ppFrame == NULL || ppDoc == NULL || lprcPosRect == NULL ||
-		lprcClipRect == NULL || lpFrameInfo == NULL)
+	if (ppFrame == nullptr || ppDoc == nullptr || lprcPosRect == nullptr ||
+		lprcClipRect == nullptr || lpFrameInfo == nullptr)
 	{
-		if (ppFrame != NULL) (*ppFrame) = NULL;
-		if (ppDoc != NULL) (*ppDoc) = NULL;
+		if (ppFrame != nullptr) (*ppFrame) = nullptr;
+		if (ppDoc != nullptr) (*ppDoc) = nullptr;
 		return E_INVALIDARG;
 	}
 
@@ -2350,7 +2350,7 @@ HRESULT FS_IOleInPlaceSiteWindowless::GetWindowContext(IOleInPlaceFrame **ppFram
 
 	lpFrameInfo->fMDIApp = FALSE;
 	lpFrameInfo->hwndFrame = m_fs->m_hWndParent;
-	lpFrameInfo->haccel = NULL;
+	lpFrameInfo->haccel = nullptr;
 	lpFrameInfo->cAccelEntries = 0;
 
 	return S_OK;
@@ -2450,7 +2450,7 @@ HRESULT FS_IOleInPlaceSiteWindowless::SetFocus(BOOL fFocus)
 HRESULT FS_IOleInPlaceSiteWindowless::GetDC(LPCRECT pRect, DWORD grfFlags, HDC* phDC)
 {
 	DEBUG("************IOleInPlaceSiteWindowless::GetDC");
-	if (phDC == NULL) return E_INVALIDARG;
+	if (phDC == nullptr) return E_INVALIDARG;
 
 	if (grfFlags & OLEDC_NODRAW) 
 	{
@@ -2458,7 +2458,7 @@ HRESULT FS_IOleInPlaceSiteWindowless::GetDC(LPCRECT pRect, DWORD grfFlags, HDC* 
 		return S_OK;
 	}
 
-	if (m_fs->m_hDCBuffer != NULL) return E_UNEXPECTED;
+	if (m_fs->m_hDCBuffer != nullptr) return E_UNEXPECTED;
 
 	return E_NOTIMPL;
 }
@@ -2475,7 +2475,7 @@ HRESULT FS_IOleInPlaceSiteWindowless::InvalidateRect(LPCRECT pRect, BOOL fErase)
 	// Clip the rectangle against the object's size and invalidate it
 	RECT rcI = { 0, 0, 0, 0 };
 	RECT posRect=m_fs->m_window->SetBounds();
-	if (pRect == NULL)
+	if (pRect == nullptr)
 	{
 		rcI = posRect;
 	}
@@ -2530,7 +2530,7 @@ HRESULT FS_IOleClientSite::GetMoniker(DWORD dwAssign, DWORD dwWhichMoniker,
 HRESULT FS_IOleClientSite::GetContainer(LPOLECONTAINER * ppContainer)
 {
 	DEBUG("IOleClientSite::GetContainer");
-	if (ppContainer == NULL) return E_INVALIDARG;
+	if (ppContainer == nullptr) return E_INVALIDARG;
 	this->QueryInterface(IID_IOleContainer, (void**)(ppContainer));
 	return S_OK;
 }
@@ -2582,10 +2582,10 @@ HRESULT FS_IOleItemContainer::GetObject(LPOLESTR pszItem, DWORD dwSpeedNeeded,
 							 IBindCtx * pbc, REFIID riid, void ** ppvObject)
 {
 	DEBUG("IOleItemContainer::GetObject");
-	if (pszItem == NULL) return E_INVALIDARG;
-	if (ppvObject == NULL) return E_INVALIDARG;
+	if (pszItem == nullptr) return E_INVALIDARG;
+	if (ppvObject == nullptr) return E_INVALIDARG;
 
-	*ppvObject = NULL;
+	*ppvObject = nullptr;
 	return MK_E_NOOBJECT;
 }
 
@@ -2593,17 +2593,17 @@ HRESULT FS_IOleItemContainer::GetObjectStorage(LPOLESTR pszItem, IBindCtx * pbc,
 									REFIID riid, void ** ppvStorage)
 {
 	DEBUG("IOleItemContainer::GetObjectStorage");
-	if (pszItem == NULL) return E_INVALIDARG;
-	if (ppvStorage == NULL) return E_INVALIDARG;
+	if (pszItem == nullptr) return E_INVALIDARG;
+	if (ppvStorage == nullptr) return E_INVALIDARG;
 
-	*ppvStorage = NULL;
+	*ppvStorage = nullptr;
 	return MK_E_NOOBJECT;
 }
 
 HRESULT FS_IOleItemContainer::IsRunning(LPOLESTR pszItem)
 {
 	DEBUG("IOleItemContainer::IsRunning");
-	if (pszItem == NULL) return E_INVALIDARG;
+	if (pszItem == nullptr) return E_INVALIDARG;
 
 	return MK_E_NOOBJECT;
 }
@@ -2634,11 +2634,11 @@ HRESULT FS_IOleControlSite::TransformCoords(POINTL * pPtlHimetric, POINTF * pPtf
 	DEBUG("IOleControlSite::TransformCoords");
 	HRESULT hr = S_OK;
 
-	if (pPtlHimetric == NULL)
+	if (pPtlHimetric == nullptr)
 	{
 		return E_INVALIDARG;
 	}
-	if (pPtfContainer == NULL)
+	if (pPtfContainer == nullptr)
 	{
 		return E_INVALIDARG;
 	}
@@ -2730,7 +2730,7 @@ HRESULT FS_IOleCommandTarget::QueryStatus(const GUID * pguidCmdGroup, ULONG cCmd
 							   OLECMD * prgCmds, OLECMDTEXT * pCmdTet)
 {
 	DEBUG("IOleCommandTarget::QueryStatus");
-	if (prgCmds == NULL) return E_INVALIDARG;
+	if (prgCmds == nullptr) return E_INVALIDARG;
 	bool bCmdGroupFound = false;
 
 	for (ULONG nCmd = 0; nCmd < cCmds; nCmd++)
@@ -2767,7 +2767,7 @@ void STDMETHODCALLTYPE FS_IAdviseSink2::OnViewChange(DWORD dwAspect, LONG lIndex
 {
 	DEBUG("IAdviseSink::OnViewChange");
 	// redraw the control
-	m_fs->m_IOleInPlaceSiteWindowless->InvalidateRect(NULL, FALSE);
+	m_fs->m_IOleInPlaceSiteWindowless->InvalidateRect(nullptr, FALSE);
 }
 
 void STDMETHODCALLTYPE FS_IAdviseSink2::OnRename(IMoniker * pmk)

@@ -42,7 +42,7 @@ BEGIN_VS_SHADER_FLAGS( DebugNormalMap, "Help for DebugNormalMap", SHADER_NOT_EDI
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -55,7 +55,7 @@ BEGIN_VS_SHADER_FLAGS( DebugNormalMap, "Help for DebugNormalMap", SHADER_NOT_EDI
 			unsigned int flags = VERTEX_POSITION | VERTEX_FORMAT_COMPRESSED;
 			int nTexCoordCount = 1;
 			int userDataSize = 0;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 #if !defined( _X360 ) && !defined( _PS3 )
 			if ( !g_pHardwareConfig->HasFastVertexTextures() )

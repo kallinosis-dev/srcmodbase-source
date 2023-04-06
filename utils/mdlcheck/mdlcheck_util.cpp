@@ -28,7 +28,7 @@ void vprint( int depth, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -89,7 +89,7 @@ void vprint_queued( int depth, const char *fmt, ... )
 
 void dump_print_queue( )
 {
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -193,14 +193,14 @@ char *CC_ParseToken(char *data)
 	com_token[0] = 0;
 	
 	if (!data)
-		return NULL;
+		return nullptr;
 		
 // skip whitespace
 skipwhite:
 	while ( (c = *data) <= ' ')
 	{
 		if (c == 0)
-			return NULL;                    // end of file;
+			return nullptr;                    // end of file;
 		if ( c== '\n' )
 		{
 			linesprocessed++;
@@ -306,7 +306,7 @@ unsigned char *COM_LoadFile( const char *name, int *len)
 	if ( !fp )
 	{
 		*len = 0;
-		return NULL;
+		return nullptr;
 	}
 
 	fseek( fp, 0, SEEK_END );

@@ -39,7 +39,7 @@ CJobMgr::CJobMgr()
 	m_bIsShuttingDown = false;
 	m_cErrorsToReport = 0;
 	m_unFrameFuncThreadID = 0;
-	m_WorkThreadPool.SetWorkThreadAutoConstruct( 1, NULL );
+	m_WorkThreadPool.SetWorkThreadAutoConstruct( 1, nullptr);
 	
 	if( MemAlloc_GetDebugInfoSize() > 0 )
 	{
@@ -67,7 +67,7 @@ CJobMgr::~CJobMgr()
 //-----------------------------------------------------------------------------
 void CJobMgr::SetThreadPoolSize( uint cThreads )
 {
-	m_WorkThreadPool.SetWorkThreadAutoConstruct( cThreads, NULL );
+	m_WorkThreadPool.SetWorkThreadAutoConstruct( cThreads, nullptr);
 }
 
 
@@ -324,7 +324,7 @@ const CJob *CJobMgr::GetPJob( JobID_t jobID ) const
 	{
 		return m_MapJob[iMap];
 	}
-	return NULL;
+	return nullptr;
 }
 
 CJob *CJobMgr::GetPJob( JobID_t jobID )
@@ -334,7 +334,7 @@ CJob *CJobMgr::GetPJob( JobID_t jobID )
 	{
 		return m_MapJob[iMap];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -344,7 +344,7 @@ CJob *CJobMgr::GetPJob( JobID_t jobID )
 //-----------------------------------------------------------------------------
 bool CJobMgr::BRouteMsgToJob( void *pParent, IMsgNetPacket *pNetPacket, const JobMsgInfo_t &jobMsgInfo )
 {
-	if ( pNetPacket == NULL )
+	if ( pNetPacket == nullptr)
 	{
 		AssertMsg(pNetPacket, "CJobMgr::BRouteMsgToJob received NULL packet.");
 		return false;
@@ -506,7 +506,7 @@ bool CJobMgr::BYieldingRunQuery( CJob &job, CGCSQLQueryGroup *pQueryGroup, ESche
 {
 	// clear the existing results pointer, if any, to make space for the results
 	// for this query
-	pQueryGroup->SetResults( NULL );
+	pQueryGroup->SetResults(nullptr);
 
 	if ( m_bSQLProfiling )
 	{
@@ -1236,7 +1236,7 @@ void CJobMgr::DumpJob( JobID_t jobID, int nPrintLocksMax ) const
 			pJob->GetName(),
 			pJob->GetPauseReasonDescription() );
 
-		if ( pJob->GetPauseReason() == k_EJobPauseReasonWaitingForLock && pJob->m_pWaitingOnLock != NULL )
+		if ( pJob->GetPauseReason() == k_EJobPauseReasonWaitingForLock && pJob->m_pWaitingOnLock != nullptr)
 		{
 			EmitInfo( SPEW_CONSOLE, SPEW_ALWAYS, LOG_ALWAYS, "\tWaiting for lock %s from: %s line %d\n", pJob->m_pWaitingOnLock->GetName(), pJob->m_pWaitingOnLockFilename, pJob->m_waitingOnLockLine );
 			pJob->m_pWaitingOnLock->Dump( "\t ", nPrintLocksMax, true );
@@ -1347,13 +1347,13 @@ void CJobMgr::RegisterJobType( const JobType_t *pJobType )
 //-----------------------------------------------------------------------------
 bool CJobMgr::BLaunchJobFromNetworkMsg( void *pParent, const JobMsgInfo_t &jobMsgInfo, IMsgNetPacket *pNetPacket )
 {
-	if ( pNetPacket == NULL )
+	if ( pNetPacket == nullptr)
 	{
 		AssertMsg(pNetPacket, "CJobMgr::BLaunchJobFromNetworkMsg received NULL packet.");
 		return false;
 	}
 
-	if ( pNetPacket->BHasTargetJobName() && BIsValidSystemMsg( pNetPacket->GetEMsg(), NULL ) )
+	if ( pNetPacket->BHasTargetJobName() && BIsValidSystemMsg( pNetPacket->GetEMsg(), nullptr) )
 	{
 		JobType_t jobSearch = { pNetPacket->GetTargetJobName(), k_EGCMsgInvalid, jobMsgInfo.m_eServerType };
 		int iJobType = GMapJobTypesByName().Find( &jobSearch );
@@ -1367,10 +1367,10 @@ bool CJobMgr::BLaunchJobFromNetworkMsg( void *pParent, const JobMsgInfo_t &jobMs
 			Assert( pJobType->m_pchName );
 
 			// Create the job
-			CJob *job = pJobType->m_pJobFactory( pParent, NULL );
+			CJob *job = pJobType->m_pJobFactory( pParent, nullptr);
 
 			// Safety check
-			if ( job == NULL )
+			if ( job == nullptr)
 			{
 				AssertMsg1( job, "Job factory returned NULL for job named '%s'!\n", pJobType->m_pchName );
 				return false;
@@ -1383,7 +1383,7 @@ bool CJobMgr::BLaunchJobFromNetworkMsg( void *pParent, const JobMsgInfo_t &jobMs
 	}
 	else
 	{
-		JobType_t jobSearch = { 0, jobMsgInfo.m_eMsg, jobMsgInfo.m_eServerType };
+		JobType_t jobSearch = { nullptr, jobMsgInfo.m_eMsg, jobMsgInfo.m_eServerType };
 		int iJobType = GMapJobTypesByMsg().Find( &jobSearch );
 
 		if ( GMapJobTypesByMsg().IsValidIndex( iJobType ) )
@@ -1395,10 +1395,10 @@ bool CJobMgr::BLaunchJobFromNetworkMsg( void *pParent, const JobMsgInfo_t &jobMs
 			Assert( pJobType->m_pchName );
 
 			// Create the job
-			CJob *job = pJobType->m_pJobFactory( pParent, NULL );
+			CJob *job = pJobType->m_pJobFactory( pParent, nullptr);
 
 			// Safety check
-			if ( job == NULL )
+			if ( job == nullptr)
 			{
 				AssertMsg3( job, "Job factory returned NULL for job msg %d, server type %d (named '%s')!\n", (int)jobMsgInfo.m_eMsg, (int)jobMsgInfo.m_eServerType, pJobType->m_pchName );
 				return false;
@@ -1547,7 +1547,7 @@ void CJobMgr::DumpJobs( const char *pszJobName, int nMax, int nPrintLocksMax ) c
 			break;
 		nMax--;
 
-		if ( pszJobName == NULL || V_strcmp( pszJobName, m_MapJob[iJob]->GetName() ) == 0 )
+		if ( pszJobName == nullptr || V_strcmp( pszJobName, m_MapJob[iJob]->GetName() ) == 0 )
 		{
 			DumpJob( m_MapJob.Key(iJob), nPrintLocksMax );
 		}

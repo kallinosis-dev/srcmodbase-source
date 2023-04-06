@@ -40,7 +40,7 @@ public:
 	void RenderField( uint32 unColumn, int cchBuffer, char *pchBuffer );
 	
 	bool NextRow();
-	bool IsValid() const { return m_pResultSet != NULL; }
+	bool IsValid() const { return m_pResultSet != nullptr; }
 
 private:
 

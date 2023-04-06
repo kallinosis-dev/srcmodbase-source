@@ -146,7 +146,7 @@ void BenchMark( CUtlVector<char *> &names )
 		ReadFile( names[i] );
 }
 
-static void AddFileToPack( CPackedStore &mypack, char const *pSrcName, int nPreloadSize = 0, char const *pDestName = NULL )
+static void AddFileToPack( CPackedStore &mypack, char const *pSrcName, int nPreloadSize = 0, char const *pDestName = nullptr)
 {
 	// Check to make sure that no restricted file types are being added to the VPK
 	if ( IsRestrictedFileType( pSrcName ) )
@@ -291,14 +291,14 @@ private:
 	{
 		VPKBuildFile_t()
 		{
-			m_pOld = NULL;
-			m_pNew = NULL;
+			m_pOld = nullptr;
+			m_pNew = nullptr;
 			m_iOldSortIndex = -1;
 			m_iNewSortIndex = -1;
 			m_md5Old.Zero();
 			m_md5New.Zero();
-			m_pOldKey = NULL;
-			m_pNewKey = NULL;
+			m_pOldKey = nullptr;
+			m_pNewKey = nullptr;
 		}
 
 		VPKContentFileInfo_t *m_pOld;
@@ -407,8 +407,8 @@ VPKBuilder::VPKBuilder( CPackedStore &packfile )
 			m_sReasonToForceWriteDirFile = "Public key used for signing changed.";
 		}
 	}
-	m_pInputKeys = NULL;
-	m_pOldInputKeys = NULL;
+	m_pInputKeys = nullptr;
+	m_pOldInputKeys = nullptr;
 
 	// !FIXME! Check if public key is changing so we know if we need to re-sign!
 }
@@ -448,7 +448,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 {
 
 	// Get list of all files already in the VPK
-	m_packfile.GetFileList( NULL, m_vecOldFiles );
+	m_packfile.GetFileList(nullptr, m_vecOldFiles );
 	FOR_EACH_VEC( m_vecOldFiles, i )
 	{
 		VPKContentFileInfo_t *f = &m_vecOldFiles[i];
@@ -493,7 +493,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 
 				// Locate file build entry.  We should have one in the VPK
 				int idxInDict = m_dictFiles.Find( szNameInVPK );
-				if ( idxInDict == m_dictFiles.InvalidIndex() || m_dictFiles[ idxInDict ].m_pOld == NULL )
+				if ( idxInDict == m_dictFiles.InvalidIndex() || m_dictFiles[ idxInDict ].m_pOld == nullptr)
 					Error( "File '%s' in old KeyValues control file not found in pack file.\nThat control file was probably not used to build the pack file\n", szNameInVPK );
 				VPKBuildFile_t &bf = m_dictFiles[ idxInDict ];
 
@@ -526,7 +526,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 			FOR_EACH_DICT_FAST( m_dictFiles, idxInDict )
 			{
 				VPKBuildFile_t &bf = m_dictFiles[ idxInDict ];
-				if ( bf.m_pOld && bf.m_pOldKey == NULL )
+				if ( bf.m_pOld && bf.m_pOldKey == nullptr)
 					Error( "File '%s' is in pack but not in old control file %s.\n"
 						"That control file was probably not used to build the pack file", bf.m_pOld->m_sName.String(), sControlFilenameBak.String() );
 			}
@@ -538,7 +538,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 			printf( "WARNING: %s not present; incremental building will be slow.\n", sControlFilenameBak.String() );
 			printf( "         For best results, provide the control file previously used for building.\n" );
 			m_pOldInputKeys->deleteThis();
-			m_pOldInputKeys = NULL;
+			m_pOldInputKeys = nullptr;
 		}
 	}
 	else
@@ -627,7 +627,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 					VPKContentFileInfo_t const *pNew = f.m_pNew;
 					int iExpectedSortIndex = firstFile.m_iNewSortIndex + idxInChunk;
 					const char *pszFilename = pOld->m_sName.String();
-					if ( pNew == NULL )
+					if ( pNew == nullptr)
 					{
 						sReasonCannotReuse.Format( "File '%s' was removed.", pszFilename );
 					}
@@ -648,7 +648,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 							const char *pszInsertedFilename = pInsertedFile->m_sName.String();
 							int idxDictInserted = m_dictFiles.Find( pszInsertedFilename );
 							Assert( idxDictInserted != m_dictFiles.InvalidIndex() );
-							if ( m_dictFiles[idxDictInserted].m_pOld == NULL )
+							if ( m_dictFiles[idxDictInserted].m_pOld == nullptr)
 								sReasonCannotReuse.Format( "File '%s' was inserted\n", pszInsertedFilename );
 							else
 								sReasonCannotReuse.Format( "Chunk reordered.  '%s' listed where '%s' used to be.", pszInsertedFilename, pszFilename );
@@ -686,7 +686,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 
 					// Load the input file
 					CUtlBuffer buf;
-					if ( !g_pFullFileSystem->ReadFile( f.m_sNameOnDisk, NULL, buf )
+					if ( !g_pFullFileSystem->ReadFile( f.m_sNameOnDisk, nullptr, buf )
 						|| buf.TellPut() != (int)f.m_pOld->m_iTotalSize )
 					{
 						Error( "Error reading %s", f.m_sNameOnDisk.String() );
@@ -841,7 +841,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 
 			// Load the input file
 			CUtlBuffer buf;
-			if ( !g_pFullFileSystem->ReadFile( bf->m_sNameOnDisk, NULL, buf )
+			if ( !g_pFullFileSystem->ReadFile( bf->m_sNameOnDisk, nullptr, buf )
 				|| buf.TellPut() != (int)f->m_iTotalSize )
 			{
 				Error( "Error reading %s", bf->m_sNameOnDisk.String() );
@@ -877,7 +877,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 			}
 
 			// Let's clear this pointer just for grins
-			f->m_pPreloadData = NULL;
+			f->m_pPreloadData = nullptr;
 		}
 		g_pFullFileSystem->Close( fChunkWrite );
 
@@ -919,7 +919,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 	{
 		VPKBuildFile_t *bf = &m_dictFiles[ idxInDict ];
 		VPKContentFileInfo_t *pNew = bf->m_pNew;
-		if ( pNew == NULL || pNew->m_idxChunk >= 0 )
+		if ( pNew == nullptr || pNew->m_idxChunk >= 0 )
 			continue;
 		Assert( pNew->GetSizeInChunkFile() == 0 );
 
@@ -961,7 +961,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 		// If we get here, we might need to update the header.
 		// Load the file
 		CUtlBuffer buf;
-		if ( !g_pFullFileSystem->ReadFile( bf->m_sNameOnDisk, NULL, buf )
+		if ( !g_pFullFileSystem->ReadFile( bf->m_sNameOnDisk, nullptr, buf )
 			|| buf.TellPut() != (int)pNew->m_iTotalSize )
 		{
 			Error( "Error reading %s", bf->m_sNameOnDisk.String() );
@@ -988,7 +988,7 @@ void VPKBuilder::BuildSteamPipeFriendlyFromInputKeys()
 		m_packfile.AddFileToDirectory( *pNew );
 
 		// Let's clear this pointer just for grins
-		pNew->m_pPreloadData = NULL;
+		pNew->m_pPreloadData = nullptr;
 
 		// We'll need to re-save the directory
 		bNeedToWriteDir = true;

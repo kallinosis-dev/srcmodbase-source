@@ -34,7 +34,7 @@ void DefuseBombState::OnUpdate( CCSBot *me )
 	// stay in SELF_DEFENSE so we get to the bomb in time!
 	me->SetDisposition( CCSBot::SELF_DEFENSE );
 
-	if (bombPos == NULL)
+	if (bombPos == nullptr)
 	{
 		me->PrintIfWatched( "In Defuse state, but don't know where the bomb is!\n" );
 		me->Idle();
@@ -50,7 +50,7 @@ void DefuseBombState::OnUpdate( CCSBot *me )
 	if (gpGlobals->curtime - me->GetStateTimestamp() > 1.0f)
 	{
 		// if we missed starting the defuse, give up
-		if (TheCSBots()->GetBombDefuser() == NULL)
+		if (TheCSBots()->GetBombDefuser() == nullptr)
 		{
 			me->PrintIfWatched( "Failed to start defuse, giving up\n" );
 			me->Idle();

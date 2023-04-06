@@ -32,7 +32,7 @@ namespace GCSDK
 	 * @param unDetailsLength
 	 * @return true if successful, false otherwise.
 	 */
-	bool Leaderboard_YieldingSetScore( uint32 unLeaderboardID, const CSteamID &steamID, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int score, uint8* pDetails = 0, uint32 unDetailsLength = 0 );
+	bool Leaderboard_YieldingSetScore( uint32 unLeaderboardID, const CSteamID &steamID, ELeaderboardUploadScoreMethod eLeaderboardUploadScoreMethod, int score, uint8* pDetails = nullptr, uint32 unDetailsLength = 0 );
 
 	/**
 	 * @param pKVOutput

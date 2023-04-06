@@ -187,7 +187,7 @@ void IVP_U_Min_Hash::change_value(void *elem, IVP_DOUBLE val){
 void IVP_U_Min_Hash::remove(void *elem){
     int i = hash_index((int *)&elem);
     IVP_U_Min_Hash_Elem *el,*last_el;
-    last_el = 0;
+    last_el = nullptr;
     for (el = elems[i];el;el=el->next){
 	if ( el->elem == elem){
 	    if (last_el){

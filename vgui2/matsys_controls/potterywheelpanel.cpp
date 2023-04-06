@@ -194,11 +194,11 @@ void CRotationManipulator::UpdateTransform()
 //-----------------------------------------------------------------------------
 CPotteryWheelPanel::CPotteryWheelPanel( vgui::Panel *pParent, const char *pName ) :
 	BaseClass( pParent, pName ), 
-	m_pCameraRotate( NULL ), 
-	m_pCameraTranslate( NULL ),
-	m_pCameraZoom( NULL ),
-	m_pLightManip( NULL ),
-	m_pCurrentManip( NULL ),
+	m_pCameraRotate(nullptr), 
+	m_pCameraTranslate(nullptr),
+	m_pCameraZoom(nullptr),
+	m_pLightManip(nullptr),
+	m_pCurrentManip(nullptr),
 	m_nCaptureMouseCode( vgui::MouseCode( -1 ) ),
 	m_xoffset( 0 ), m_yoffset( 0 ),
 	m_bParentMouseNotify( false )
@@ -207,7 +207,7 @@ CPotteryWheelPanel::CPotteryWheelPanel( vgui::Panel *pParent, const char *pName 
 	m_bSetupRenderStateDelayed = false;
 	m_bRender3DSupersampled = false;
 	m_bInRender3dForRenderCapture = false;
-	m_pvRenderingWithFlashlightConfiguration = NULL;
+	m_pvRenderingWithFlashlightConfiguration = nullptr;
 
 	SetPaintBackgroundEnabled( false );
 	SetPaintBorderEnabled( false );
@@ -322,7 +322,7 @@ void CPotteryWheelPanel::DestroyLights()
 	if ( m_pLightManip )
 	{
 		delete m_pLightManip;
-		m_pLightManip = NULL;
+		m_pLightManip = nullptr;
 	}
 
 	m_LightingState.m_nLocalLightCount = 0;
@@ -363,7 +363,7 @@ void CPotteryWheelPanel::SetLightProbe( CDmxElement *pLightProbe )
 	m_LightProbeHDRCubemap.Shutdown();
 	DestroyLights();
 
-	m_bHasLightProbe = ( pLightProbe != NULL );
+	m_bHasLightProbe = ( pLightProbe != nullptr);
 	if ( !m_bHasLightProbe )
 	{
 		CreateDefaultLights();
@@ -466,7 +466,7 @@ bool CPotteryWheelPanel::HasLightProbe() const
 ITexture *CPotteryWheelPanel::GetLightProbeCubemap( bool bHDR )
 {
 	if ( !m_bHasLightProbe )
-		return NULL;
+		return nullptr;
 
 	return bHDR ? m_LightProbeHDRCubemap : m_LightProbeCubemap;
 }
@@ -840,14 +840,14 @@ void CPotteryWheelPanel::RenderCapture()
 	view2d.y				= 0;
 	view2d.width			= m_nRenderWidth;
 	view2d.height			= m_nRenderHeight;
-	pCfg->m_pIVRenderView->Push3DView( pRenderContext, view2d, VIEW_CLEAR_COLOR | VIEW_CLEAR_DEPTH, pCfg->m_pDummyColorBufferTexture, NULL, pCfg->m_pFlashlightDepthTexture );
+	pCfg->m_pIVRenderView->Push3DView( pRenderContext, view2d, VIEW_CLEAR_COLOR | VIEW_CLEAR_DEPTH, pCfg->m_pDummyColorBufferTexture, nullptr, pCfg->m_pFlashlightDepthTexture );
 
 	pRenderContext->ClearColor4ub( 0, 0, 0, 0 );
 	pRenderContext->ClearBuffers( true, true, false );
 
 	m_bInRender3dForRenderCapture = true;
 	pRenderContext->CullMode(MATERIAL_CULLMODE_CW);
-	g_pStudioRender->ForcedMaterialOverride( NULL, OVERRIDE_DEPTH_WRITE );
+	g_pStudioRender->ForcedMaterialOverride(nullptr, OVERRIDE_DEPTH_WRITE );
 
 	// Don't draw the 3D scene w/ stencil
 	ShaderStencilState_t state;
@@ -855,11 +855,11 @@ void CPotteryWheelPanel::RenderCapture()
 
 	OnPaint3D();
 
-	g_pStudioRender->ForcedMaterialOverride( NULL );
+	g_pStudioRender->ForcedMaterialOverride(nullptr);
 	pRenderContext->CullMode(MATERIAL_CULLMODE_CCW);
 	m_bInRender3dForRenderCapture = false;
 
-	pCfg->m_pIVRenderView->PopView( pRenderContext, NULL );
+	pCfg->m_pIVRenderView->PopView( pRenderContext, nullptr);
 	pRenderContext->Flush();
 }
 
@@ -1113,7 +1113,7 @@ void CPotteryWheelPanel::AcceptManipulation( bool bReleaseMouseCapture )
 			input()->SetCursorPos( m_nManipStartX, m_nManipStartY );
 		}
 
-		m_pCurrentManip = NULL;
+		m_pCurrentManip = nullptr;
 	}
 }
 
@@ -1126,7 +1126,7 @@ void CPotteryWheelPanel::CancelManipulation()
 		EnableMouseCapture( false );
 		input()->SetCursorPos( m_nManipStartX, m_nManipStartY );
 
-		m_pCurrentManip = NULL;
+		m_pCurrentManip = nullptr;
 	}
 	
 }

@@ -127,7 +127,7 @@ void CMDLSequencePicker::OnTick()
 
 		if ( tw )
 		{
-			tw->SetSkipChildDuringPainting( IsVisible() ? m_pMDLPreview : NULL );
+			tw->SetSkipChildDuringPainting( IsVisible() ? m_pMDLPreview : nullptr);
 		}
 	}
 }
@@ -301,7 +301,7 @@ void CMDLSequencePicker::PlaySelectedActivity( )
 		return;
 
 	KeyValues *pkv = m_pActivitiesList->GetItem( nIndex );
-	const char *pActivityName = pkv->GetString( "activity", NULL );
+	const char *pActivityName = pkv->GetString( "activity", nullptr);
 	if ( !pActivityName )
 		return;
 
@@ -329,7 +329,7 @@ void CMDLSequencePicker::PlaySelectedSequence( )
 		return;
 
 	KeyValues *pkv = m_pSequencesList->GetItem( nIndex );
-	const char *pSequenceName = pkv->GetString( "sequence", NULL );
+	const char *pSequenceName = pkv->GetString( "sequence", nullptr);
 	if ( !pSequenceName )
 		return;
 
@@ -370,7 +370,7 @@ void CMDLSequencePicker::OnPageChanged( )
 //-----------------------------------------------------------------------------
 void CMDLSequencePicker::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr("panel", NULL);
+	Panel *pPanel = (Panel *)kv->GetPtr("panel", nullptr);
 	if ( pPanel == m_pSequencesList )
 	{
 		PlaySelectedSequence();
@@ -444,7 +444,7 @@ char const *CMDLSequencePicker::GetSequenceName()
 		return "";
 
 	KeyValues *pkv = m_pSequencesList->GetItem( nIndex );
-	const char *pSequenceName = pkv->GetString( "sequence", NULL );
+	const char *pSequenceName = pkv->GetString( "sequence", nullptr);
 	if ( !pSequenceName )
 		return "";
 

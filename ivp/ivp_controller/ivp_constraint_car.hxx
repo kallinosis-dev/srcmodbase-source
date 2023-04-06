@@ -25,7 +25,7 @@ public:
 
 	// Constructor/Deconstructor
     IVP_Constraint_Car_Object( IVP_Constraint_Solver_Car *solver_car, IVP_Real_Object *i_real_obj_app, 
-		                       IVP_Real_Object *i_real_obj_body, IVP_U_Float_Point *target_Bos_override = NULL );
+		                       IVP_Real_Object *i_real_obj_body, IVP_U_Float_Point *target_Bos_override = nullptr);
     ~IVP_Constraint_Car_Object();
 
 	// Core

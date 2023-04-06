@@ -28,7 +28,7 @@
 //-----------------------------------------------------------------------------
 CToolAxisHandle::CToolAxisHandle(void)
 {
-	m_pAxis = NULL;
+	m_pAxis = nullptr;
 	m_nPointIndex = 0;
 }
 
@@ -38,7 +38,7 @@ CToolAxisHandle::CToolAxisHandle(void)
 //-----------------------------------------------------------------------------
 void CToolAxisHandle::Attach(CMapAxisHandle *pAxis, int nPointIndex)
 {
-	if ((pAxis != NULL) && (nPointIndex < 2))
+	if ((pAxis != nullptr) && (nPointIndex < 2))
 	{
 		m_pAxis = pAxis;
 		m_nPointIndex = nPointIndex;

@@ -40,13 +40,13 @@ public:
 	virtual void SetRefEHandle( const CBaseHandle &handle );
 	virtual const CBaseHandle& GetRefEHandle() const;
 	virtual IClientUnknown*		GetIClientUnknown()		{ return this; }
-	virtual ICollideable*		GetCollideable()		{ return 0; }
+	virtual ICollideable*		GetCollideable()		{ return nullptr; }
 	virtual IClientRenderable*	GetClientRenderable()	{ return this; }
-	virtual IClientNetworkable*	GetClientNetworkable()	{ return 0; }
-	virtual IClientEntity*		GetIClientEntity()		{ return 0; }
-	virtual C_BaseEntity*		GetBaseEntity()			{ return 0; }
-	virtual IClientThinkable*	GetClientThinkable()	{ return 0; }
-	virtual IClientAlphaProperty*	GetClientAlphaProperty() { return 0; }
+	virtual IClientNetworkable*	GetClientNetworkable()	{ return nullptr; }
+	virtual IClientEntity*		GetIClientEntity()		{ return nullptr; }
+	virtual C_BaseEntity*		GetBaseEntity()			{ return nullptr; }
+	virtual IClientThinkable*	GetClientThinkable()	{ return nullptr; }
+	virtual IClientAlphaProperty*	GetClientAlphaProperty() { return nullptr; }
 
 //	virtual const Vector &		GetRenderOrigin( void )	{ return vec3_origin; }
 //	virtual const QAngle &		GetRenderAngles( void ) { return vec3_angle; }
@@ -57,7 +57,7 @@ public:
 	virtual ClientRenderHandle_t&	RenderHandle();
 	virtual int					GetBody()				{ return 0; }
 	virtual int					GetSkin()				{ return 0; }
-	virtual const model_t*		GetModel( ) const		{ return NULL; }
+	virtual const model_t*		GetModel( ) const		{ return nullptr; }
 //	virtual int					DrawModel( int flags, const RenderableInstance_t &instance );
 	virtual uint8				OverrideAlphaModulation( uint8 nAlpha ) { return nAlpha; }
 	virtual uint8				OverrideShadowAlphaModulation( uint8 nAlpha ) { return nAlpha; }
@@ -66,7 +66,7 @@ public:
 	virtual void				SetupWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightCount, float *pFlexWeights, float *pFlexDelayedWeights )	{}
 	virtual bool				UsesFlexDelayedWeights() { return false; }
 	virtual void				DoAnimationEvents( void ) {}
-	virtual IPVSNotify*			GetPVSNotifyInterface() { return NULL; }
+	virtual IPVSNotify*			GetPVSNotifyInterface() { return nullptr; }
 	virtual void				GetRenderBoundsWorldspace( Vector& absMins, Vector& absMaxs );
 	virtual void				GetColorModulation( float* color );
 //	virtual void				GetRenderBounds( Vector& mins, Vector& maxs );
@@ -76,9 +76,9 @@ public:
 	virtual void				GetShadowRenderBounds( Vector &mins, Vector &maxs, ShadowType_t shadowType );
 	virtual bool				IsShadowDirty( ) { return false; }
 	virtual void				MarkShadowDirty( bool bDirty )  {}
-	virtual IClientRenderable *GetShadowParent() { return NULL; }
-	virtual IClientRenderable *FirstShadowChild(){ return NULL; }
-	virtual IClientRenderable *NextShadowPeer()  { return NULL; }
+	virtual IClientRenderable *GetShadowParent() { return nullptr; }
+	virtual IClientRenderable *FirstShadowChild(){ return nullptr; }
+	virtual IClientRenderable *NextShadowPeer()  { return nullptr; }
 	virtual ShadowType_t ShadowCastType()		 { return SHADOWS_NONE; }
 	virtual void CreateModelInstance()			 {}
 	virtual ModelInstanceHandle_t GetModelInstance() { return MODEL_INSTANCE_INVALID; }
@@ -87,11 +87,11 @@ public:
 	virtual	bool GetAttachment( int number, Vector &origin, QAngle &angles );
 	virtual bool GetAttachment( int number, matrix3x4_t &matrix );
 	virtual bool ComputeLightingOrigin( int nAttachmentIndex, Vector modelLightingCenter, const matrix3x4_t &matrix, Vector &transformedLightingCenter );
-	virtual float *GetRenderClipPlane() { return NULL; }
+	virtual float *GetRenderClipPlane() { return nullptr; }
 	virtual void RecordToolMessage() {}
 	virtual bool IgnoresZBuffer( void ) const { return false; }
 	virtual bool ShouldDrawForSplitScreenUser( int nSlot ) { return true; }
-	virtual IClientModelRenderable*	GetClientModelRenderable()	{ return 0; }
+	virtual IClientModelRenderable*	GetClientModelRenderable()	{ return nullptr; }
 
 	// Add/remove to engine from drawing
 	void DrawInEngine( bool bDrawInEngine );
@@ -101,7 +101,7 @@ public:
 	void OnTranslucencyTypeChanged();
 
 protected:
-	virtual CDmAttribute* GetVisibilityAttribute() { return NULL; }
+	virtual CDmAttribute* GetVisibilityAttribute() { return nullptr; }
 	virtual CDmAttribute* GetDrawnInEngineAttribute() { return m_bWantsToBeDrawnInEngine.GetAttribute(); }
 
 	// NOTE: The goal of this function is different from IsTranslucent().

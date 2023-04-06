@@ -788,7 +788,7 @@ void CCommonHostState::SetWorldModel( model_t *pModel )
 	}
 	else
 	{
-		worldbrush = NULL;
+		worldbrush = nullptr;
 	}
 }
 
@@ -1928,7 +1928,7 @@ void Host_ReadConfiguration( const int iController, const bool readDefault )
 	bool saveconfig = false;
 
 	ISteamRemoteStorage *pRemoteStorage = Steam3Client().SteamClient() ? (ISteamRemoteStorage *)Steam3Client().SteamClient()->GetISteamGenericInterface(
-		SteamAPI_GetHSteamUser(), SteamAPI_GetHSteamPipe(), STEAMREMOTESTORAGE_INTERFACE_VERSION ):NULL;
+		SteamAPI_GetHSteamUser(), SteamAPI_GetHSteamPipe(), STEAMREMOTESTORAGE_INTERFACE_VERSION ): nullptr;
 
 	if ( pRemoteStorage )
 	{
@@ -1975,7 +1975,7 @@ void Host_ReadConfiguration( const int iController, const bool readDefault )
 	Key_SetBinding( KEY_ESCAPE, "cancelselect" );
 
 	// Make sure that something is always bound to console
-	if (NULL == Key_NameForBinding("toggleconsole"))
+	if (nullptr == Key_NameForBinding("toggleconsole"))
 	{
 		// If nothing is bound to it then bind it to '
 		Key_SetBinding( KEY_BACKQUOTE, "toggleconsole" );
@@ -2097,7 +2097,7 @@ CON_COMMAND( host_writeconfig_video_ss, "Store current video settings to config.
 //-----------------------------------------------------------------------------
 void Host_ReadPreStartupConfiguration()
 {
-	FileHandle_t f = NULL;
+	FileHandle_t f = nullptr;
 	if ( IsGameConsole() )
 	{
 		// 360 config is less restrictive and can be anywhere in the game path
@@ -2310,7 +2310,7 @@ void Host_AccumulateTime( float dt )
 		host_frametime_unbounded = host_frametime;
 
 #ifndef NO_TOOLFRAMEWORK
-		if ( CommandLine()->CheckParm( "-tools" ) == NULL && !g_bReplayLoadedTools )
+		if ( CommandLine()->CheckParm( "-tools" ) == nullptr && !g_bReplayLoadedTools )
 		{
 #endif // !NO_TOOLFRAMEWORK
 			host_frametime = MIN( host_frametime, MAX_FRAMETIME * fullscale);
@@ -2328,7 +2328,7 @@ void Host_AccumulateTime( float dt )
 	}
 	else
 #ifndef NO_TOOLFRAMEWORK
-		if ( CommandLine()->CheckParm( "-tools" ) != NULL && !g_bReplayLoadedTools )
+		if ( CommandLine()->CheckParm( "-tools" ) != nullptr && !g_bReplayLoadedTools )
 		{
 			host_frametime_unbounded = host_frametime;
 			host_frametime = MIN( host_frametime, MAX_TOOLS_FRAMETIME );
@@ -2794,7 +2794,7 @@ void Host_UpdateSounds( void )
 	}
 	else
 	{
-		S_Update( NULL );
+		S_Update(nullptr);
 	}
 #endif
 }
@@ -3321,7 +3321,7 @@ bool CheckVarRange_Generic( ConVar *pVar, int minVal, int maxVal )
 
 void CheckSpecialCheatVars()
 {
-	static ConVar *mat_picmip = NULL;
+	static ConVar *mat_picmip = nullptr;
 	if ( !mat_picmip )
 		mat_picmip = g_pCVar->FindVar( "mat_picmip" );
 
@@ -3383,10 +3383,10 @@ void CL_FindInterpolatedAddAngle( float t, float& frac, AddAngle **prev, AddAngl
 #ifndef DEDICATED
 	int c = GetLocalClient().addangle.Count();
 
-	*prev = NULL;
-	*pnextangle = NULL;
+	*prev = nullptr;
+	*pnextangle = nullptr;
 
-	AddAngle *pentry = NULL;
+	AddAngle *pentry = nullptr;
 	for ( int i = 0; i < c; i++ )
 	{
 		AddAngle *entry = &GetLocalClient().addangle[ i ];
@@ -3453,7 +3453,7 @@ void CL_ApplyAddAngle()
 		ACTIVE_SPLITSCREEN_PLAYER_GUARD( hh );
 		float curtime = GetBaseLocalClient().GetTime() - host_state.interval_per_tick;
 
-		AddAngle *prev = NULL, *pnextangle = NULL;
+		AddAngle *prev = nullptr, *pnextangle = nullptr;
 		float frac = 0.0f;
 
 		float addangletotal = 0.0f;
@@ -3572,7 +3572,7 @@ void Host_EndThreadedSound()
 
 	VPROF_BUDGET( "_Host_RunFrame_Sound", VPROF_BUDGETGROUP_OTHER_SOUND );
 	g_pSoundJob->WaitForFinishAndRelease();
-	g_pSoundJob = NULL;
+	g_pSoundJob = nullptr;
 }
 
 float SV_GetSoundDuration( const char *pSample );
@@ -3595,7 +3595,7 @@ float Host_GetSoundDuration( const char *pSample )
 		if ( index >= 0 )
 		{
 			CSfxTable *pSfxTable = cl.GetSound( index );
-			if ( ( pSfxTable != NULL) && pSfxTable->m_bIsLateLoad )
+			if ( ( pSfxTable != nullptr) && pSfxTable->m_bIsLateLoad )
 			{
 				DevMsg( "    Reason for late load of '%s': Calling Host_GetSoundDuration().\n", pSample );
 			}
@@ -3790,7 +3790,7 @@ static void PrintFsStats()
 	static int nFrameIndex = 0;
 
 	IIoStats *pIoStats = g_pFileSystem->GetIoStats();
-	if ( pIoStats == NULL )
+	if ( pIoStats == nullptr)
 	{
 		con_nprint_t printinfo;
 		printinfo.index = 1;
@@ -4058,7 +4058,7 @@ void _Host_RunFrame (float time)
 		// for enginetool->IsInGame the entire frame
 		g_pEngineToolInternal->SetIsInGame( cl.IsActive() && ( scr_nextdrawtick == 0 ) );
 #endif
-		CJob *pGameJob = NULL;
+		CJob *pGameJob = nullptr;
 
 // threaded path only supported in listen server
 #ifndef DEDICATED
@@ -4961,14 +4961,14 @@ void HLTV_Shutdown()
 		{
 			g_pHltvServer[ i ]->Shutdown();
 			delete g_pHltvServer[ i ];
-			g_pHltvServer[ i ] = NULL;
+			g_pHltvServer[ i ] = nullptr;
 		}
 	}
 
 	if ( hltvtest )
 	{
 		delete hltvtest;
-		hltvtest = NULL;
+		hltvtest = nullptr;
 	}
 }
 
@@ -5212,7 +5212,7 @@ void Host_FinishSecureSignatureChecks()
 
 	// Also check the main .exe that is running us
 	TCHAR tchBufExe[ MAX_PATH ] = {};
-	DWORD dwResult = GetModuleFileName( NULL, tchBufExe, MAX_PATH );
+	DWORD dwResult = GetModuleFileName(nullptr, tchBufExe, MAX_PATH );
 	if ( dwResult > 0 && dwResult < MAX_PATH-1 )
 	{
 		bool bSignatureIsValid = Host_IsValidSignature( tchBufExe, false );
@@ -5269,7 +5269,7 @@ void GetThreadPoolStartParams( ThreadPoolStartParams_t &startParams )
 			Cbuf_AddText( Cbuf_GetCurrentPlayer(), "cache_gimp\n" );
 			g_nMaterialSystemThread = 0;
 		}
-		ThreadSetAffinity( NULL, 1 );
+		ThreadSetAffinity(nullptr, 1 );
 	}
 
 	// Dedicated servers should not explicitly set the main thread's affinity so that machines running multiple 
@@ -5531,7 +5531,7 @@ void Host_Init( bool bDedicated )
 
 	// Audio system initializes after matchmaking, so need to explicitly
 	// set the voice interface extension
-	IEngineVoice *pIEngineVoice = NULL;
+	IEngineVoice *pIEngineVoice = nullptr;
 #ifdef _GAMECONSOLE
 	pIEngineVoice = Audio_GetXVoice();
 #elif ( defined( _WIN32 ) || defined( OSX ) || defined( LINUX ) ) && !defined( NO_STEAM )
@@ -5636,7 +5636,7 @@ void Host_Init( bool bDedicated )
 		if ( IsDebug() && CommandLine()->FindParm( "-phonehome" ) )
 		{
 			phonehome->Init();
-			phonehome->Message( IPhoneHome::PHONE_MSG_ENGINESTART, NULL );
+			phonehome->Message( IPhoneHome::PHONE_MSG_ENGINESTART, nullptr);
 		}
 	}
 
@@ -5644,9 +5644,9 @@ void Host_Init( bool bDedicated )
 	EndLoadingUpdates();
 
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	pRenderContext->SetNonInteractiveTempFullscreenBuffer( NULL, MATERIAL_NON_INTERACTIVE_MODE_STARTUP );
-	pRenderContext->SetNonInteractivePacifierTexture( NULL, 0, 0, 0 );
-	pRenderContext->SetNonInteractiveLogoTexture( NULL, 0, 0, 0, 0 );
+	pRenderContext->SetNonInteractiveTempFullscreenBuffer(nullptr, MATERIAL_NON_INTERACTIVE_MODE_STARTUP );
+	pRenderContext->SetNonInteractivePacifierTexture(nullptr, 0, 0, 0 );
+	pRenderContext->SetNonInteractiveLogoTexture(nullptr, 0, 0, 0, 0 );
 
 	// disable future render target allocation
 	g_pMaterialSystem->FinishRenderTargetAllocation();
@@ -5672,7 +5672,7 @@ void Host_Init( bool bDedicated )
 	if ( CommandLine()->FindParm( "-certificate" ) ||
 		( serverGameDLL && serverGameDLL->IsValveDS() && !CommandLine()->FindParm( "-ignore_certificate_valveds" ) ) )
 	{
-		const byte *pbNetEncryptPrivateKey = NULL;
+		const byte *pbNetEncryptPrivateKey = nullptr;
 		int cbNetEncryptPrivateKey = 0;
 		bool bHasPrivateKey =
 			NET_CryptGetNetworkCertificate( k_ENetworkCertificate_PublicKey, &pbNetEncryptPrivateKey, &cbNetEncryptPrivateKey ) &&
@@ -5852,7 +5852,7 @@ void Host_Changelevel( bool loadfromsavedgame, const char *mapname, char *mapGro
 
 	Q_strncpy( level, mapname, sizeof( level ) );
 	if ( !start )
-		startspot = NULL;
+		startspot = nullptr;
 	else
 	{
 		Q_strncpy( _startspot, start, sizeof( _startspot ) );
@@ -5976,7 +5976,7 @@ void Host_Changelevel( bool loadfromsavedgame, const char *mapname, char *mapGro
 #if !defined(DEDICATED)
 		audiosourcecache->LevelInit( level );
 #endif
-		g_pServerPluginHandler->LevelInit( level, CM_EntityString(), NULL, NULL, false, false );
+		g_pServerPluginHandler->LevelInit( level, CM_EntityString(), nullptr, nullptr, false, false );
 	}
 
 	SV_ActivateServer();
@@ -6068,7 +6068,7 @@ bool Host_NewGame( char *mapName, char *mapGroupName, bool loadGame, bool bBackg
 
 	COM_TimestampedLog( "*** Map Load: %s Map %s Group", mapName, mapGroupName );
 	HostState_Pre_LoadMapIntoMemory(); // A map is about to be loaded into memory
-	if ( !sv.SpawnServer ( mapName, mapGroupName, NULL ) )
+	if ( !sv.SpawnServer ( mapName, mapGroupName, nullptr) )
 	{
 		HostState_Post_FlushMapFromMemory(); // Map load failed, no impact on memory
 		return false;
@@ -6187,7 +6187,7 @@ void Host_FreeStateAndWorld( bool server )
 	{
 		modelloader->UnreferenceModel( host_state.worldmodel, IModelLoader::FMODELLOADER_SERVER );
 		modelloader->UnreferenceModel( host_state.worldmodel, IModelLoader::FMODELLOADER_CLIENT );
-		host_state.SetWorldModel( NULL );
+		host_state.SetWorldModel(nullptr);
 	}
 
 	modelloader->UnloadUnreferencedModels();
@@ -6248,7 +6248,7 @@ void Host_Shutdown(void)
 		delete g_pDebugInputThread;
 	}
 
-	phonehome->Message( IPhoneHome::PHONE_MSG_ENGINEEND, NULL );
+	phonehome->Message( IPhoneHome::PHONE_MSG_ENGINEEND, nullptr);
 	phonehome->Shutdown();
 
 #ifndef DEDICATED

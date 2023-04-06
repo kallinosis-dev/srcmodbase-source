@@ -37,8 +37,8 @@ CInputGameUI::CInputGameUI()
 {
 	m_nDebugMessages = -1;
 #ifndef _GAMECONSOLE
-	_imeWnd = 0;
-	_imeCandidates = 0;
+	_imeWnd = nullptr;
+	_imeCandidates = nullptr;
 #endif
 	InitInputContext( &m_DefaultInputContext );
 	m_hContext = DEFAULT_INPUT_CONTEXT;
@@ -208,16 +208,16 @@ void CInputGameUI::Shutdown()
 //-----------------------------------------------------------------------------
 void CInputGameUI::InitInputContext( InputContext_t *pContext )
 {
-	pContext->_keyFocus = NULL;
+	pContext->_keyFocus = nullptr;
 	pContext->_bKeyTrap = false;
 
-	pContext->_oldMouseFocus = NULL;
-	pContext->_mouseFocus = NULL;
-	pContext->_mouseOver = NULL;
-	pContext->_mouseCapture = NULL;
-	pContext->_mouseLeftTrap = NULL;
-	pContext->_mouseMiddleTrap = NULL;
-	pContext->_mouseRightTrap = NULL;
+	pContext->_oldMouseFocus = nullptr;
+	pContext->_mouseFocus = nullptr;
+	pContext->_mouseOver = nullptr;
+	pContext->_mouseCapture = nullptr;
+	pContext->_mouseLeftTrap = nullptr;
+	pContext->_mouseMiddleTrap = nullptr;
+	pContext->_mouseRightTrap = nullptr;
 
 	pContext->m_nCursorX = pContext->m_nCursorY = 0;
 	pContext->m_nLastPostedCursorX = pContext->m_nLastPostedCursorY = -9999;
@@ -238,7 +238,7 @@ void CInputGameUI::InitInputContext( InputContext_t *pContext )
 
 	pContext->m_KeyCodeUnhandledListeners.RemoveAll();
 
-	pContext->m_pUnhandledMouseClickListener = NULL;
+	pContext->m_pUnhandledMouseClickListener = nullptr;
 	pContext->m_bRestrictMessagesToModalSubTree = false;
 }
 
@@ -336,11 +336,11 @@ void CInputGameUI::RunFrame()
 	// make sure old and new focus get painted
 	if ( pContext->_keyFocus != wantedKeyFocus )
 	{
-		if ( pContext->_keyFocus != NULL )
+		if ( pContext->_keyFocus != nullptr)
 		{
 			LoseKeyFocusEvent::Post( pContext->_keyFocus );
 		}
-		if ( wantedKeyFocus != NULL )
+		if ( wantedKeyFocus != nullptr)
 		{
 			GainKeyFocusEvent::Post( wantedKeyFocus );
 		}
@@ -373,11 +373,11 @@ void CInputGameUI::ProcessEvents()
 CHitArea *CInputGameUI::CalculateNewKeyFocus()
 {
 	// get the top-order panel
-	CHitArea *wantedKeyFocus = NULL;
+	CHitArea *wantedKeyFocus = nullptr;
 
 	// ask the gameui for what it would like to be the current focus
 	wantedKeyFocus = g_pGameUISystemMgrImpl->GetRequestedKeyFocus();	
-	if ( wantedKeyFocus == NULL )
+	if ( wantedKeyFocus == nullptr)
 	{
 		InputContext_t *pContext = GetInputContext(m_hContext);
 		return pContext->_keyFocus;
@@ -397,7 +397,7 @@ void CInputGameUI::GraphicHidden( CHitArea *focus, InputContext_t &context )
 {
 	if ( context._keyFocus == focus )
 	{
-		context._keyFocus = NULL;
+		context._keyFocus = nullptr;
 		context._bKeyTrap = false;
 	}
 	if (context._mouseOver == focus )
@@ -409,38 +409,38 @@ void CInputGameUI::GraphicHidden( CHitArea *focus, InputContext_t &context )
 		context._keyFocus ? pcontext._keyFocus->GetName() : "(no name)" );
 		}
 		*/
-		context._mouseOver = NULL;
+		context._mouseOver = nullptr;
 	}
 	if ( context._oldMouseFocus == focus )
 	{
-		context._oldMouseFocus = NULL;
+		context._oldMouseFocus = nullptr;
 	}
 	if ( context._mouseFocus == focus )
 	{
-		context._mouseFocus = NULL;
+		context._mouseFocus = nullptr;
 	}
 	if ( context._mouseLeftTrap == focus )
 	{
-		context._mouseLeftTrap = NULL;
+		context._mouseLeftTrap = nullptr;
 	}
 	if ( context._mouseMiddleTrap == focus )
 	{
-		context._mouseMiddleTrap = NULL;
+		context._mouseMiddleTrap = nullptr;
 	}
 	if ( context._mouseRightTrap == focus )
 	{
-		context._mouseRightTrap = NULL;
+		context._mouseRightTrap = nullptr;
 	}
 
 	// NOTE: These two will only ever happen for the default context at the moment
 	if ( context._mouseCapture == focus )
 	{
-		SetMouseCapture(NULL);
-		context._mouseCapture = NULL;
+		SetMouseCapture(nullptr);
+		context._mouseCapture = nullptr;
 	}
 	if ( context.m_pUnhandledMouseClickListener == focus )
 	{
-		context.m_pUnhandledMouseClickListener = NULL;
+		context.m_pUnhandledMouseClickListener = nullptr;
 	}
 
 	//context.m_KeyCodeUnhandledListeners.FindAndRemove( focus );
@@ -484,7 +484,7 @@ void CInputGameUI::PanelDeleted( CHitArea *focus, InputContext_t &context )
 {
 	if (context._keyFocus == focus)
 	{
-		context._keyFocus = NULL;
+		context._keyFocus = nullptr;
 		context._bKeyTrap = false;
 	}
 	if (context._mouseOver == focus)
@@ -496,38 +496,38 @@ void CInputGameUI::PanelDeleted( CHitArea *focus, InputContext_t &context )
 		context._keyFocus ? pcontext._keyFocus->GetName() : "(no name)" );
 		}
 		*/
-		context._mouseOver = NULL;
+		context._mouseOver = nullptr;
 	}
 	if ( context._oldMouseFocus == focus )
 	{
-		context._oldMouseFocus = NULL;
+		context._oldMouseFocus = nullptr;
 	}
 	if ( context._mouseFocus == focus )
 	{
-		context._mouseFocus = NULL;
+		context._mouseFocus = nullptr;
 	}
 	if ( context._mouseLeftTrap == focus )
 	{
-		context._mouseLeftTrap = NULL;
+		context._mouseLeftTrap = nullptr;
 	}
 	if ( context._mouseMiddleTrap == focus )
 	{
-		context._mouseMiddleTrap = NULL;
+		context._mouseMiddleTrap = nullptr;
 	}
 	if ( context._mouseRightTrap == focus )
 	{
-		context._mouseRightTrap = NULL;
+		context._mouseRightTrap = nullptr;
 	}
 
 	// NOTE: These two will only ever happen for the default context at the moment
 	if ( context._mouseCapture == focus )
 	{
-		SetMouseCapture(NULL);
-		context._mouseCapture = NULL;
+		SetMouseCapture(nullptr);
+		context._mouseCapture = nullptr;
 	}
 	if ( context.m_pUnhandledMouseClickListener == focus )
 	{
-		context.m_pUnhandledMouseClickListener = NULL;
+		context.m_pUnhandledMouseClickListener = nullptr;
 	}
 
 	context.m_KeyCodeUnhandledListeners.FindAndRemove( focus );
@@ -561,7 +561,7 @@ void CInputGameUI::SetMouseFocus( CHitArea *newMouseFocus )
 		pContext->_mouseOver = newMouseFocus;
 
 		//tell the old panel with the mouseFocus that the cursor exited
-		if ( pContext->_oldMouseFocus != NULL )
+		if ( pContext->_oldMouseFocus != nullptr)
 		{
 			// only notify of entry if the mouse is not captured or we're the captured panel
 			if ( !pContext->_mouseCapture || pContext->_oldMouseFocus == pContext->_mouseCapture )
@@ -571,7 +571,7 @@ void CInputGameUI::SetMouseFocus( CHitArea *newMouseFocus )
 		}
 
 		//tell the new panel with the mouseFocus that the cursor entered
-		if ( pContext->_mouseOver != NULL )
+		if ( pContext->_mouseOver != nullptr)
 		{
 			// only notify of entry if the mouse is not captured or we're the captured panel
 			if ( !pContext->_mouseCapture || pContext->_mouseOver == pContext->_mouseCapture )
@@ -594,7 +594,7 @@ void CInputGameUI::SetMouseFocus( CHitArea *newMouseFocus )
 void CInputGameUI::UpdateMouseFocus( int x, int y )
 {
 	//InputContext_t *pContext = GetInputContext( m_hContext );
-	CHitArea *pFocus = NULL;
+	CHitArea *pFocus = nullptr;
 
 	//if ( g_pSurface->IsCursorVisible() && g_pSurface->IsWithin(x, y) )
 	{
@@ -940,7 +940,7 @@ void CInputGameUI::PostCursorMessage( )
 		// the panel with mouse capture gets all messages
 		CursorMoveEvent::Post( pContext->_mouseCapture, pContext->m_nCursorX, pContext->m_nCursorY );
 	}
-	else if ( pContext->_mouseFocus != NULL)
+	else if ( pContext->_mouseFocus != nullptr)
 	{
 		// mouse focus is current from UpdateMouse focus
 		// so the appmodal check has already been made.
@@ -969,11 +969,11 @@ bool CInputGameUI::InternalMousePressed( ButtonCode_t code )
 		if ( captureLost )
 		{
 			// this has to happen after MousePressed so the panel doesn't Think it got a mouse press after it lost capture
-			SetMouseCapture(NULL);
+			SetMouseCapture(nullptr);
 		}
 		bFilter = true;
 	}
-	else if ( pContext->_mouseFocus != NULL )
+	else if ( pContext->_mouseFocus != nullptr)
 	{
 		// The faked mouse wheel button messages are specifically ignored by vgui
 		if ( code == MOUSE_WHEEL_DOWN || code == MOUSE_WHEEL_UP )
@@ -1019,7 +1019,7 @@ bool CInputGameUI::InternalMouseDoublePressed( ButtonCode_t code )
 		MouseDoubleClickEvent::Post( pContext->_mouseCapture, code );
 		bFilter = true;
 	}
-	else if ( pContext->_mouseFocus != NULL )
+	else if ( pContext->_mouseFocus != nullptr)
 	{			
 		// The faked mouse wheel button messages are specifically ignored by vgui
 		if ( code == MOUSE_WHEEL_DOWN || code == MOUSE_WHEEL_UP )
@@ -1052,19 +1052,19 @@ bool CInputGameUI::InternalMouseReleased( ButtonCode_t code )
 	else if ( pContext->_mouseLeftTrap )
 	{
 		MouseUpEvent::Post( pContext->_mouseLeftTrap, pContext->_mouseLeftTrap, code );
-		pContext->_mouseLeftTrap = NULL;
+		pContext->_mouseLeftTrap = nullptr;
 		bFilter = true;
 	}
 	else if ( pContext->_mouseMiddleTrap )
 	{
 		MouseUpEvent::Post( pContext->_mouseMiddleTrap, pContext->_mouseLeftTrap, code );
-		pContext->_mouseMiddleTrap = NULL;
+		pContext->_mouseMiddleTrap = nullptr;
 		bFilter = true;
 	}
 	else if ( pContext->_mouseRightTrap )
 	{
 		MouseUpEvent::Post( pContext->_mouseRightTrap, pContext->_mouseLeftTrap, code );
-		pContext->_mouseRightTrap = NULL;
+		pContext->_mouseRightTrap = nullptr;
 		bFilter = true;
 	}
 	/* If the mouse was not trapped by a down, don't propagate this message.
@@ -1088,7 +1088,7 @@ bool CInputGameUI::InternalMouseWheeled(int delta)
 	bool bFilter = false;
 
 	InputContext_t *pContext = GetInputContext( m_hContext );
-	if ( pContext->_mouseFocus != NULL )
+	if ( pContext->_mouseFocus != nullptr)
 	{
 		// the mouseWheel works with the mouseFocus, not the keyFocus
 		MouseWheelEvent::Post( pContext->_mouseFocus, delta );
@@ -1192,7 +1192,7 @@ bool CInputGameUI::InternalKeyCodePressed( ButtonCode_t code )
 		return false;
 
 	bool bFilter = false;
-	if( pContext->_keyFocus!= NULL )
+	if( pContext->_keyFocus!= nullptr)
 	{
 #ifdef _GAMECONSOLE
 		//g_pIVgui->PostMessage((VPANEL) MESSAGE_CURRENT_KEYFOCUS, message, NULL );
@@ -1222,7 +1222,7 @@ void CInputGameUI::InternalKeyCodeTyped( ButtonCode_t code )
 	// set key state
 	pContext->_keyTyped[ code - KEY_FIRST ] = 1;
 
-	if( pContext->_keyFocus!= NULL )
+	if( pContext->_keyFocus!= nullptr)
 	{
 #ifdef _GAMECONSOLE
 		//g_pIVgui->PostMessage((VPANEL) MESSAGE_CURRENT_KEYFOCUS, message, NULL );
@@ -1243,7 +1243,7 @@ void CInputGameUI::InternalKeyTyped( wchar_t unichar )
 		pContext->_keyTyped[unichar]=1;
 	}
 
-	if( pContext->_keyFocus!= NULL )
+	if( pContext->_keyFocus!= nullptr)
 	{
 #ifdef _GAMECONSOLE
 		//g_pIVgui->PostMessage((VPANEL) MESSAGE_CURRENT_KEYFOCUS, message, NULL );
@@ -1266,7 +1266,7 @@ bool CInputGameUI::InternalKeyCodeReleased( ButtonCode_t code )
 
 	pContext->m_keyRepeater.KeyUp( code );
 
-	if ( ( pContext->_keyFocus!= NULL ) && pContext->_bKeyTrap )
+	if ( ( pContext->_keyFocus!= nullptr) && pContext->_bKeyTrap )
 	{
 #ifdef _GAMECONSOLE
 		//g_pIVgui->PostMessage((VPANEL) MESSAGE_CURRENT_KEYFOCUS, message, NULL );
@@ -1288,7 +1288,7 @@ bool CInputGameUI::InternalKeyCodeReleased( ButtonCode_t code )
 bool CInputGameUI::PostKeyMessage(KeyValues *message)
 {
 	InputContext_t *pContext = GetInputContext( m_hContext );
-	if( pContext->_keyFocus!= NULL )
+	if( pContext->_keyFocus!= nullptr)
 	{
 #ifdef _GAMECONSOLE
 		//g_pIVgui->PostMessage((VPANEL) MESSAGE_CURRENT_KEYFOCUS, message, NULL );
@@ -1507,7 +1507,7 @@ static LanguageIds *GetLanguageInfo( unsigned short id )
 			break;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -1580,7 +1580,7 @@ void CInputGameUI::OnChangeIME( bool forward )
 #ifndef _GAMECONSOLE
 	HKL currentKb = GetKeyboardLayout( 0 );
 
-	UINT numKBs = GetKeyboardLayoutList( 0, NULL );
+	UINT numKBs = GetKeyboardLayoutList( 0, nullptr);
 	if ( numKBs > 0 )
 	{
 		HKL *list = new HKL[ numKBs ];
@@ -1693,7 +1693,7 @@ int CInputGameUI::GetIMELanguageList( LanguageItem *dest, int destcount )
 #ifndef _GAMECONSOLE
 	int iret = 0;
 
-	UINT numKBs = GetKeyboardLayoutList( 0, NULL );
+	UINT numKBs = GetKeyboardLayoutList( 0, nullptr);
 	if ( numKBs > 0 )
 	{
 		HKL *list = new HKL[ numKBs ];
@@ -2244,7 +2244,7 @@ void CInputGameUI::DestroyCandidateList()
 	if ( _imeCandidates )
 	{
 		delete[] (char *)_imeCandidates;
-		_imeCandidates = 0;
+		_imeCandidates = nullptr;
 	}
 #endif
 }

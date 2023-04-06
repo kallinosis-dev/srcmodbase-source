@@ -23,9 +23,9 @@ using namespace vgui;
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
 BaseInputDialog::BaseInputDialog( Panel *parent, const char *title, bool bShowCancelButton /*= true*/ ) :
-	BaseClass( parent, NULL )
+	BaseClass( parent, nullptr)
 {
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 
 	SetDeleteSelfOnClose( true );
 	SetTitle(title, true);
@@ -43,7 +43,7 @@ BaseInputDialog::BaseInputDialog( Panel *parent, const char *title, bool bShowCa
 	}
 	else
 	{
-		m_pCancelButton = NULL;
+		m_pCancelButton = nullptr;
 	}
 
 	if ( parent )
@@ -65,7 +65,7 @@ void BaseInputDialog::CleanUpContextKeyValues()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -112,7 +112,7 @@ void BaseInputDialog::PerformLayout()
 //-----------------------------------------------------------------------------
 void BaseInputDialog::OnCommand(const char *command)
 {
-	KeyValues *kv = NULL;
+	KeyValues *kv = nullptr;
 	if ( !stricmp( command, "OK" ) )
 	{
 		kv = new KeyValues( "InputCompleted" );
@@ -132,7 +132,7 @@ void BaseInputDialog::OnCommand(const char *command)
 	if ( m_pContextKeyValues )
 	{
 		kv->AddSubKey( m_pContextKeyValues );
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 	PostActionSignal( kv );
 	CloseModal();
@@ -233,7 +233,7 @@ void InputDialog::WriteDataToKeyValues( KeyValues *pKV, bool bOk )
 // Purpose: Utility dialog, used to let user specify multiple bool/float/string values
 //-----------------------------------------------------------------------------
 MultiInputDialog::MultiInputDialog( Panel *pParent, const char *pTitle, const char *pOKText /*= "#VGui_OK"*/, const char *pCancelText /*= "#VGui_Cancel"*/ )
-: BaseClass( pParent, NULL ), m_pOKCommand( NULL ), m_pCancelCommand( NULL ), m_nCurrentTabPosition( 0 )
+: BaseClass( pParent, nullptr), m_pOKCommand(nullptr), m_pCancelCommand(nullptr), m_nCurrentTabPosition( 0 )
 {
 	SetDeleteSelfOnClose( true );
 	SetTitle( pTitle, true );
@@ -249,7 +249,7 @@ MultiInputDialog::MultiInputDialog( Panel *pParent, const char *pTitle, const ch
 	}
 	else
 	{
-		m_pCancelButton = NULL;
+		m_pCancelButton = nullptr;
 	}
 
 	if ( pParent )
@@ -260,8 +260,8 @@ MultiInputDialog::MultiInputDialog( Panel *pParent, const char *pTitle, const ch
 
 MultiInputDialog::~MultiInputDialog()
 {
-	SetOKCommand( NULL );
-	SetCancelCommand( NULL );
+	SetOKCommand(nullptr);
+	SetCancelCommand(nullptr);
 }
 
 void MultiInputDialog::SetOKCommand( KeyValues *pOKCommand )
@@ -285,13 +285,13 @@ void MultiInputDialog::SetCancelCommand( KeyValues *pCancelCommand )
 void MultiInputDialog::AddText( const char *pText )
 {
 	AddLabel( pText );
-	m_inputs.AddToTail( NULL );
+	m_inputs.AddToTail(nullptr);
 	m_entryTypes.AddToTail( T_NONE );
 }
 
 void MultiInputDialog::AddEntry( const char *pName, const char *pPrompt, bool bDefaultValue )
 {
-	m_prompts.AddToTail( NULL );
+	m_prompts.AddToTail(nullptr);
 
 	CheckButton *pCheckButton = new CheckButton( this, pName, pPrompt );
 	pCheckButton->SetSelected( bDefaultValue );

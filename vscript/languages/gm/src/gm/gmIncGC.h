@@ -252,8 +252,8 @@ struct gmGCTraceState
   void Reset()
   {
     m_done = true;
-    m_object = NULL;
-    m_context = NULL;
+    m_object = nullptr;
+    m_context = nullptr;
   }
 
   bool m_done;

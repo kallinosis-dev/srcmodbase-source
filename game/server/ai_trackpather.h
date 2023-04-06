@@ -28,12 +28,12 @@ class CAI_TrackPather : public CAI_BaseNPC
 
 public:
 
-	bool			IsOnPathTrack()							{ return (m_pCurrentPathTarget != NULL); }
+	bool			IsOnPathTrack()							{ return (m_pCurrentPathTarget != nullptr); }
 
 protected:	
 	void			InitPathingData( float flTrackArrivalTolerance, float flTargetDistance, float flAvoidDistance );
 	virtual bool	GetTrackPatherTarget( Vector *pPos ) { return false; }
-	virtual CBaseEntity *GetTrackPatherTargetEnt()	{ return NULL; }
+	virtual CBaseEntity *GetTrackPatherTargetEnt()	{ return nullptr; }
 
 	const Vector &	GetDesiredPosition() const				{ return m_vecDesiredPosition; 	}
 	void 			SetDesiredPosition( const Vector &v )	{ m_vecDesiredPosition = v; 	}

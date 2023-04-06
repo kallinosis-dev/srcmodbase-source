@@ -34,7 +34,7 @@ CAngleBox::CAngleBox(void)
 {
 	m_vecAngles.Init();
 	m_bDragging = false;
-	m_pEdit = NULL;
+	m_pEdit = nullptr;
 }
 
 
@@ -230,7 +230,7 @@ void CAngleBox::SetAnglesInternal(const QAngle &vecAngles, bool bRedraw)
 		vecAngleSet[YAW] += 360.0;
 	}
 
-	CDC *pDC = NULL;
+	CDC *pDC = nullptr;
 
 	if (bRedraw)
 	{
@@ -239,7 +239,7 @@ void CAngleBox::SetAnglesInternal(const QAngle &vecAngles, bool bRedraw)
 		//
 		Assert(::IsWindow(m_hWnd));
 		pDC = GetDC();
-		if (pDC != NULL)
+		if (pDC != nullptr)
 		{
 			DrawAngleLine(pDC);
 		}
@@ -250,7 +250,7 @@ void CAngleBox::SetAnglesInternal(const QAngle &vecAngles, bool bRedraw)
 	//
 	m_vecAngles = vecAngleSet;
 
-	if ((bRedraw) && (pDC != NULL))
+	if ((bRedraw) && (pDC != nullptr))
 	{
 		//
 		// Draw the new line.
@@ -296,7 +296,7 @@ void CAngleBox::SetAngles(const char *szAngles, bool bRedraw)
 //-----------------------------------------------------------------------------
 void CAngleBox::SetDifferentInternal(bool bDifferent, bool bRedraw)
 {
-	CDC *pDC = NULL;
+	CDC *pDC = nullptr;
 
 	if (bRedraw)
 	{
@@ -305,7 +305,7 @@ void CAngleBox::SetDifferentInternal(bool bDifferent, bool bRedraw)
 		//
 		Assert(::IsWindow(m_hWnd));
 		pDC = GetDC();
-		if (pDC != NULL)
+		if (pDC != nullptr)
 		{
 			DrawAngleLine(pDC);
 		}
@@ -316,7 +316,7 @@ void CAngleBox::SetDifferentInternal(bool bDifferent, bool bRedraw)
 	//
 	m_bDifferent = bDifferent;
 
-	if ((bRedraw) && (pDC != NULL))
+	if ((bRedraw) && (pDC != nullptr))
 	{
 		//
 		// Draw the new line.
@@ -347,7 +347,7 @@ void CAngleBox::OnPaint(void)
 	PAINTSTRUCT ps;
 	CDC *pDC = BeginPaint(&ps);
 
-	if (pDC == NULL)
+	if (pDC == nullptr)
 	{
 		return;
 	}
@@ -486,7 +486,7 @@ END_MESSAGE_MAP()
 CAngleCombo::CAngleCombo()
 	: CComboBox()
 {
-	m_pBox = NULL;
+	m_pBox = nullptr;
 	m_bEnableUpdate = true;
 }
 

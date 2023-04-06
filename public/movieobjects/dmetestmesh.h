@@ -88,7 +88,7 @@ class CDmeTestMesh : public CDmeShape
 	DEFINE_ELEMENT( CDmeTestMesh, CDmeShape );
 
 public:
-	virtual void Draw( const matrix3x4_t& shapeToWorld, CDmeDrawSettings *pDrawSettings = NULL );
+	virtual void Draw( const matrix3x4_t& shapeToWorld, CDmeDrawSettings *pDrawSettings = nullptr);
 
 	static CDmeTestMesh *ReadMeshFromSMD( char *pFilename, DmFileId_t fileid );
 

@@ -230,7 +230,7 @@ void CBanPanel::RemoveBan()
 
 	// ask the user whether or not they want to remove the ban
 	KeyValues *kv = m_pBanListPanel->GetItem(itemID);
-	if (kv != NULL)
+	if (kv != nullptr)
 	{
 		// build the message
 		wchar_t id[256];
@@ -256,7 +256,7 @@ void CBanPanel::ChangeBan()
 		return;
 
 	KeyValues *kv = m_pBanListPanel->GetItem(itemID);
-	if (kv != NULL)
+	if (kv != nullptr)
 	{	
 		char timeText[20];
 		float time = kv->GetFloat("time");

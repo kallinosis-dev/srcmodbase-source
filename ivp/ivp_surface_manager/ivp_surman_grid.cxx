@@ -91,7 +91,7 @@ void IVP_SurfaceManager_Grid::insert_all_ledges_hitting_ray(IVP_Ray_Solver *ray_
     IVP_Ray_Solver_Os ray_solver_os( ray_solver, object);
 
 	IVP_U_Point center(&ray_solver_os.ray_center_point);
-	get_all_ledges_within_radius( &center, ray_solver_os.ray_length * 0.5f, NULL,NULL, NULL, &ledges);
+	get_all_ledges_within_radius( &center, ray_solver_os.ray_length * 0.5f, nullptr, nullptr, nullptr, &ledges);
 
 	for (int i=ledges.len()-1;i>=0;i--){
 		const IVP_Compact_Ledge *l = ledges.element_at(i);
@@ -120,7 +120,7 @@ void IVP_SurfaceManager_Grid::get_radius_and_radius_dev_to_given_center(const IV
 
 
 const IVP_Compact_Ledge *IVP_SurfaceManager_Grid::get_single_convex() const{
-    return NULL;
+    return nullptr;
 }
 
 IVP_SURMAN_TYPE IVP_SurfaceManager_Grid::get_type(){

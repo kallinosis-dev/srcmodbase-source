@@ -23,7 +23,7 @@
 #include "tier0/memdbgon.h"
 
 
-BotProfileManager *TheBotProfiles = NULL;
+BotProfileManager *TheBotProfiles = nullptr;
 
 
 //--------------------------------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ static const char * GetDecoratedSkinName( const char *name, const char *filename
 const char* BotProfile::GetWeaponPreferenceAsString( int i ) const
 {
 	if ( i < 0 || i >= m_weaponPreferenceCount )
-		return NULL;
+		return nullptr;
 
 	return WeaponIDToAlias( m_weaponPreference[ i ] );
 }
@@ -127,7 +127,7 @@ const BotProfile* BotProfile::GetTemplate( int index ) const
 		return m_templates[index];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -200,9 +200,9 @@ BotProfileManager::BotProfileManager( void )
 	m_nextSkin = 0;
 	for (int i=0; i<NumCustomSkins; ++i)
 	{
-		m_skins[i] = NULL;
-		m_skinFilenames[i] = NULL;
-		m_skinModelnames[i] = NULL;
+		m_skins[i] = nullptr;
+		m_skinFilenames[i] = nullptr;
+		m_skinModelnames[i] = nullptr;
 	}
 }
 
@@ -368,7 +368,7 @@ void BotProfileManager::Init( const char *filename, unsigned int *checksum )
 		// do inheritance in order of appearance
 		if (!isTemplate && !isDefault)
 		{
-			const BotProfile *inherit = NULL;
+			const BotProfile *inherit = nullptr;
 
 			// template names are separated by "+"
 			while(true)
@@ -388,7 +388,7 @@ void BotProfileManager::Init( const char *filename, unsigned int *checksum )
 					}
 				}
 
-				if (inherit == NULL)
+				if (inherit == nullptr)
 				{
 					CONSOLE_ECHO( "Error parsing '%s' - invalid template reference '%s'\n", filename, token );
 					delete [] dataPointer;
@@ -398,7 +398,7 @@ void BotProfileManager::Init( const char *filename, unsigned int *checksum )
 				// inherit the data
 				profile->Inherit( inherit, &defaultProfile );
 
-				if (c == NULL)
+				if (c == nullptr)
 					break;
 				
 				token = c+1;
@@ -631,7 +631,7 @@ void BotProfileManager::ParseDifficultySetting( unsigned char &difficultyFlags, 
 			}
 		}
 
-		if (c == NULL)
+		if (c == nullptr)
 		{
 			break;
 		}
@@ -685,17 +685,17 @@ void BotProfileManager::Reset( void )
 		if ( m_skins[i] )
 		{
 			delete[] m_skins[i];
-			m_skins[i] = NULL;
+			m_skins[i] = nullptr;
 		}
 		if ( m_skinFilenames[i] )
 		{
 			delete[] m_skinFilenames[i];
-			m_skinFilenames[i] = NULL;
+			m_skinFilenames[i] = nullptr;
 		}
 		if ( m_skinModelnames[i] )
 		{
 			delete[] m_skinModelnames[i];
-			m_skinModelnames[i] = NULL;
+			m_skinModelnames[i] = nullptr;
 		}
 	}
 
@@ -714,7 +714,7 @@ const char * BotProfileManager::GetCustomSkin( int index )
 {
 	if ( index < FirstCustomSkin || index > LastCustomSkin )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_skins[ index - FirstCustomSkin ];
@@ -728,7 +728,7 @@ const char * BotProfileManager::GetCustomSkinFname( int index )
 {
 	if ( index < FirstCustomSkin || index > LastCustomSkin )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_skinFilenames[ index - FirstCustomSkin ];
@@ -742,7 +742,7 @@ const char * BotProfileManager::GetCustomSkinModelname( int index )
 {
 	if ( index < FirstCustomSkin || index > LastCustomSkin )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_skinModelnames[ index - FirstCustomSkin ];
@@ -843,7 +843,7 @@ const BotProfile *BotProfileManager::GetRandomProfile( BotDifficultyType difficu
 	}
 
 	if ( !profiles.Count() )
-		return NULL;
+		return nullptr;
 
 	// select one at random
 	int which = RandomInt( 0, profiles.Count()-1 );

@@ -135,7 +135,7 @@ static void Filter_Add_f( const CCommand& args )
 	bool		bKick = true;
 	bool		bFound = false;
 	char		szDuration[256];
-	CGameClient *client = NULL;
+	CGameClient *client = nullptr;
 
 	if ( !Q_stricmp( args[0], "banip" ) )
 	{
@@ -556,7 +556,7 @@ CON_COMMAND( removeallids, "Remove all user IDs from the ban list." )
 CON_COMMAND( removeid, "Remove a user ID from the ban list." )
 {
 	int			i = 0;
-	const char	*pszArg1 = NULL;
+	const char	*pszArg1 = nullptr;
 	char		szSearchString[64];
 
 	if ( args.ArgC() != 2 && args.ArgC() != 6 )
@@ -700,15 +700,15 @@ CON_COMMAND( banid, "Add a user ID to the ban list." )
 	int			i;
 	float		banTime;
 	USERID_t	localId;
-	USERID_t *	id = NULL;
+	USERID_t *	id = nullptr;
 	int			iSearchIndex = -1;
 	char		szDuration[256];
 	uint64		uiSteam64bitID = 0;
 	char		szSearchString[64];
 	bool		bKick = false;
 	bool		bPlaying = false;
-	const char	*pszArg2 = NULL;
-	CGameClient *client = NULL;
+	const char	*pszArg2 = nullptr;
+	CGameClient *client = nullptr;
 
 	if ( Steam3Server().BLanOnly() )
 	{

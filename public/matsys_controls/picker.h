@@ -118,7 +118,7 @@ public:
 	// Purpose: Activate the dialog
 	// The message "Picked" will be sent if something is picked.
 	// You can pass in keyvalues to get added to the message also.
-	void DoModal( const PickerList_t &list, KeyValues *pContextKeyValues = NULL );
+	void DoModal( const PickerList_t &list, KeyValues *pContextKeyValues = nullptr);
 
 private:
 	void CleanUpMessage();

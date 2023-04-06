@@ -43,7 +43,7 @@ void AddNewTranslation( const char *pOriginalMaterialName, const char *pNewMater
 
 const char *GetOriginalMaterialNameForPatchedMaterial( const char *pPatchMaterialName )
 {
-	const char *pRetName = NULL;
+	const char *pRetName = nullptr;
 	int id;
 	NameTranslationLookup_t lookup;
 	lookup.m_PatchFileName = s_SymbolTable.AddString( pPatchMaterialName );
@@ -71,7 +71,7 @@ void CreateMaterialPatchRecursive( KeyValues *pOriginalKeyValues, KeyValues *pPa
 	int i;
 	for( i = 0; i < nKeys; i++ )
 	{
-		const char *pVal = pOriginalKeyValues->GetString( pInfo[i].m_pKey, NULL );
+		const char *pVal = pOriginalKeyValues->GetString( pInfo[i].m_pKey, nullptr);
 		if( !pVal )
 			continue;
 		if( pInfo[i].m_pRequiredOriginalValue && Q_stricmp( pVal, pInfo[i].m_pRequiredOriginalValue ) != 0 )
@@ -167,8 +167,8 @@ void CreateMaterialPatch( const char *pOriginalMaterialName, const char *pNewMat
 static bool DoesMaterialHaveKey( KeyValues *pKeyValues, const char *pKeyName )
 {
 	const char *pVal;
-	pVal = pKeyValues->GetString( pKeyName, NULL );
-	if ( pVal != NULL  )
+	pVal = pKeyValues->GetString( pKeyName, nullptr);
+	if ( pVal != nullptr)
 		return true;
 
 	for( KeyValues *pSubKey = pKeyValues->GetFirstTrueSubKey(); pSubKey; pSubKey = pSubKey->GetNextTrueSubKey() )
@@ -186,8 +186,8 @@ static bool DoesMaterialHaveKey( KeyValues *pKeyValues, const char *pKeyName )
 static bool DoesMaterialHaveKeyValuePair( KeyValues *pKeyValues, const char *pKeyName, const char *pSearchValue )
 {
 	const char *pVal;
-	pVal = pKeyValues->GetString( pKeyName, NULL );
-	if ( pVal != NULL && ( Q_stricmp( pSearchValue, pVal ) == 0 ) )
+	pVal = pKeyValues->GetString( pKeyName, nullptr);
+	if ( pVal != nullptr && ( Q_stricmp( pSearchValue, pVal ) == 0 ) )
 		return true;
 
 	for( KeyValues *pSubKey = pKeyValues->GetFirstTrueSubKey(); pSubKey; pSubKey = pSubKey->GetNextTrueSubKey() )
@@ -257,14 +257,14 @@ bool GetValueFromMaterial( const char *pMaterialName, const char *pKey, char *pV
 		return NULL;
 	}
 
-	const char *pTmpValue = kv->GetString( pKey, NULL );
+	const char *pTmpValue = kv->GetString( pKey, nullptr);
 	if( pTmpValue )
 	{
 		Q_strncpy( pValue, pTmpValue, len );
 	}
 
 	kv->deleteThis();
-	return ( pTmpValue != NULL );
+	return ( pTmpValue != nullptr);
 }
 
 
@@ -382,7 +382,7 @@ KeyValues *LoadMaterialKeyValues( const char *pMaterialName, unsigned int nFlags
 	{
 		//		Assert( 0 );
 		kv->deleteThis();
-		return NULL;
+		return nullptr;
 	}
 
 	if( nFlags & LOAD_MATERIAL_KEY_VALUES_FLAGS_EXPAND_PATCH )
@@ -429,12 +429,12 @@ bool GetValueFromPatchedMaterial( const char *pMaterialName, const char *pKey, c
 
 	ExpandPatchFile( *kv );
 
-	const char *pTmpValue = kv->GetString( pKey, NULL );
+	const char *pTmpValue = kv->GetString( pKey, nullptr);
 	if( pTmpValue )
 	{
 		Q_strncpy( pValue, pTmpValue, len );
 	}
 
 	kv->deleteThis();
-	return ( pTmpValue != NULL );
+	return ( pTmpValue != nullptr);
 }

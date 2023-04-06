@@ -54,7 +54,7 @@ void DrawVolumeClouds( CBaseVSShader *pShader, IMaterialVar** params, IShaderDyn
 		unsigned int flags = VERTEX_POSITION | VERTEX_NORMAL | VERTEX_FORMAT_COMPRESSED;
 		int nTexCoordCount = 1;
 		int userDataSize = 0;
-		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 		// Vertex Shader
 		DECLARE_STATIC_VERTEX_SHADER( volume_clouds_vs20 );

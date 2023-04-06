@@ -38,7 +38,7 @@ enum
 //-----------------------------------------------------------------------------
 // Singleton
 //-----------------------------------------------------------------------------
-CTransitionTable *g_pTransitionTable = NULL;
+CTransitionTable *g_pTransitionTable = nullptr;
 
 #ifdef DEBUG_BOARD_STATE
 inline ShadowState_t& BoardState()
@@ -95,7 +95,7 @@ CTransitionTable::CTransitionTable() : m_DefaultStateSnapshot(-1),
 CTransitionTable::~CTransitionTable()
 {
 	Assert( g_pTransitionTable == this );
-	g_pTransitionTable = NULL;
+	g_pTransitionTable = nullptr;
 }
 
 

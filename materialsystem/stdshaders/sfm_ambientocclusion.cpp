@@ -51,7 +51,7 @@ BEGIN_VS_SHADER_FLAGS( sfm_ambientocclusion_shader, "Help for SFM ambient occlus
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW

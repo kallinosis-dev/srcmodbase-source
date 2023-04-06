@@ -47,7 +47,7 @@ static SDL_Cursor *s_hCurrentCursor = NULL;
 static SDL_Cursor *s_hCurrentlySetCursor = NULL;
 #elif defined( WIN32 )
 static InputCursorHandle_t s_pDefaultCursor[20];
-static InputCursorHandle_t s_hCurrentCursor = NULL;
+static InputCursorHandle_t s_hCurrentCursor = nullptr;
 #endif
 
 
@@ -149,14 +149,14 @@ bool CUserCursorManager::LookupCursor( vgui::HCursor cursor, InputCursorHandle_t
 {
 	if ( !( (int)cursor & USER_CURSOR_MASK ) )
 	{
-		handle = 0;
+		handle = nullptr;
 		return false;
 	}
 
 	int cursorIndex = (int)cursor & ~USER_CURSOR_MASK;
 	if ( !m_UserCursors.IsValidIndex( cursorIndex ) )
 	{
-		handle = 0;
+		handle = nullptr;
 		return false;
 	}
 
@@ -279,9 +279,9 @@ void CursorSelect( InputContextHandle_t hContext, HCursor hCursor )
 
 	default:
 		{
-			InputCursorHandle_t custom = 0;
+			InputCursorHandle_t custom = nullptr;
 #ifdef WIN32 
-			if ( g_UserCursors.LookupCursor( hCursor, custom ) && custom != 0 )
+			if ( g_UserCursors.LookupCursor( hCursor, custom ) && custom != nullptr )
 			{
 				s_hCurrentCursor = custom;
 			}

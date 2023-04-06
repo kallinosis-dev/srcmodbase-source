@@ -305,21 +305,21 @@ CDmElement *CDmFbxSerializer::ReadFBX( const char *pszFilename )
 {
 	FbxManager *pFbxManager = GetFbxManager();
 	if ( !pFbxManager )
-		return NULL;
+		return nullptr;
 
 	DmFileId_t nDmFileId = g_pDataModel->FindOrCreateFileId( pszFilename );
 
 	if ( nDmFileId == DMFILEID_INVALID )
 	{
 		Warning( "Warning! Couldn't create DmFileId_t for \"%s\"\n", pszFilename );
-		return NULL;
+		return nullptr;
 	}
 
 	FbxTime::EMode eFbxTimeMode = FbxTime::eFrames30;
 
 	FbxScene *pFbxScene = LoadFbxScene( eFbxTimeMode, pszFilename );
 	if ( !pFbxScene )
-		return NULL;
+		return nullptr;
 
 	if ( !FloatsAreEqual( m_flOptScale, 1.0f, 1.0e-4 ) )
 	{
@@ -353,7 +353,7 @@ CDmElement *CDmFbxSerializer::ReadFBX( const char *pszFilename )
 	char szFileBase[ MAX_PATH ] = "";
 	V_FileBase( pszFilename, szFileBase, ARRAYSIZE( szFileBase ) );
 
-	CDmElement *pDmeRoot = NULL;
+	CDmElement *pDmeRoot = nullptr;
 	CDmeModel *pDmeModel = CreateElement< CDmeModel >( szFileBase, nDmFileId );
 #ifdef SOURCE2
 	pDmeModel->SetAxisSystem( m_eOptUpAxis, m_eOptForwardParity, m_eCoordSys );
@@ -382,7 +382,7 @@ CDmElement *CDmFbxSerializer::ReadFBX( const char *pszFilename )
 	// DMX sources are relative to the DMX file
 
 	char szFullPath[ MAX_PATH ];
-	if ( g_pFullFileSystem->RelativePathToFullPath( pszFilename, NULL, szFullPath, ARRAYSIZE( szFullPath ) ) )
+	if ( g_pFullFileSystem->RelativePathToFullPath( pszFilename, nullptr, szFullPath, ARRAYSIZE( szFullPath ) ) )
 	{
 		pDmeMakefile->AddSource< CDmeSource >( szFullPath );
 	}
@@ -524,7 +524,7 @@ FbxScene *CDmFbxSerializer::LoadFbxScene( FbxTime::EMode &eFbxTimeMode, const ch
 {
 	FbxManager *pFbxManager = GetFbxManager();
 	if ( !pFbxManager )
-		return NULL;
+		return nullptr;
 
 	if ( Verbose1() )
 	{
@@ -566,7 +566,7 @@ FbxScene *CDmFbxSerializer::LoadFbxScene( FbxTime::EMode &eFbxTimeMode, const ch
 				nFileMajor, nFileMinor, nFileRevision );
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	if ( pFbxImporter->IsFBX() )
@@ -688,9 +688,9 @@ void CDmFbxSerializer::LoadModelAndSkeleton_R(
 		sIndent += "  ";
 	}
 
-	CDmeDag *pDmeDag = NULL;
-	const char *pszFbxType = NULL;
-	const char *pszDmeType = NULL;
+	CDmeDag *pDmeDag = nullptr;
+	const char *pszFbxType = nullptr;
+	const char *pszDmeType = nullptr;
 
 	FbxNodeAttribute *pFbxNodeAttribute = pFbxNode->GetNodeAttribute();
 	if ( pFbxNodeAttribute )
@@ -1490,8 +1490,8 @@ struct ColorChannelData_t
 {
 public:
 	ColorChannelData_t()
-	: m_pFbxElementVertexColor( NULL )
-	, m_pFunc( NULL )
+	: m_pFbxElementVertexColor(nullptr)
+	, m_pFunc(nullptr)
 	{
 	}
 
@@ -1524,15 +1524,15 @@ CDmeMesh *CDmFbxSerializer::FbxShapeToDmeMesh( CDmeDag *pDmeDag, FbxNode *pFbxNo
 	}
 
 	if ( !pDmeDag || !pFbxNode )
-		return NULL;
+		return nullptr;
 
 	FbxNodeAttribute *pFbxNodeAttribute = pFbxNode->GetNodeAttribute();
 	if ( !pFbxNodeAttribute || pFbxNodeAttribute->GetAttributeType() != FbxNodeAttribute::eMesh )
-		return NULL;
+		return nullptr;
 
 	FbxMesh *pFbxMesh = reinterpret_cast< FbxMesh * >( pFbxNodeAttribute );
 	if ( !pFbxMesh )
-		return NULL;
+		return nullptr;
 
 	CUtlString sName;
 	GetName( sName, pFbxNode );
@@ -1541,7 +1541,7 @@ CDmeMesh *CDmFbxSerializer::FbxShapeToDmeMesh( CDmeDag *pDmeDag, FbxNode *pFbxNo
 	if ( !pDmeMesh )
 	{
 		Warning( "Warning! Couldn't create DmeMesh for FbxMesh \"%s\"\n", pFbxMesh->GetName() );
-		return NULL;
+		return nullptr;
 	}
 
 	CUtlVector< int > nPolygonToFaceSetMap;
@@ -1594,7 +1594,7 @@ CDmeMesh *CDmFbxSerializer::FbxShapeToDmeMesh( CDmeDag *pDmeDag, FbxNode *pFbxNo
 			// "export_foliageanimation_b"
 
 			const char *szChannelNames[3] = { "r", "g", "b" };
-			FbxGeometryElementUV *pUVs[3] = { NULL, NULL, NULL };
+			FbxGeometryElementUV *pUVs[3] = {nullptr, nullptr, nullptr};
 			int nUVFoundCount = 0;
 			bool bValid = true;
 
@@ -1619,7 +1619,7 @@ CDmeMesh *CDmFbxSerializer::FbxShapeToDmeMesh( CDmeDag *pDmeDag, FbxNode *pFbxNo
 						{
 							bUVFound = true;
 
-							if ( pUVs[i] == NULL )
+							if ( pUVs[i] == nullptr)
 							{
 								pUVs[i] = pUV;
 								++nUVFoundCount;
@@ -1759,7 +1759,7 @@ CDmeMesh *CDmFbxSerializer::FbxShapeToDmeMesh( CDmeDag *pDmeDag, FbxNode *pFbxNo
 	{
 		Warning( "Warning! Couldn't convert FbxMesh \"%s\"\n", pFbxMesh->GetName() );
 		g_pDataModel->DestroyElement( pDmeMesh->GetHandle() );
-		return NULL;
+		return nullptr;
 	}
 
 	for ( int nUV = 0; nUV < nUVElementCount; ++nUV )
@@ -1797,7 +1797,7 @@ bool CDmFbxSerializer::FbxMeshToDmeFaceSets( CDmeDag *pDmeDag, CDmeMesh *pDmeMes
 	const int nMaterialCount = pFbxMesh->GetNode()->GetMaterialCount();
 	const int nElementMaterialCount = pFbxMesh->GetElementMaterialCount();
 
-	FbxGeometryElementMaterial *pMatElement = NULL;
+	FbxGeometryElementMaterial *pMatElement = nullptr;
 
 	if ( nMaterialCount > 0 && nElementMaterialCount > 0 )
 	{
@@ -1883,7 +1883,7 @@ bool CDmFbxSerializer::FbxMeshToDmeFaceSets( CDmeDag *pDmeDag, CDmeMesh *pDmeMes
 						for ( HoudiniMatDataMap_t::Iterator hmdIt = houdiniMatData.Begin(); hmdIt != houdiniMatData.End(); ++hmdIt )
 						{
 							FbxLayerElementArrayTemplate< void * > *pDirectArrayVoid = hmdIt->GetValue();
-							int *pDirectArrayInt = NULL;
+							int *pDirectArrayInt = nullptr;
 
 							pDirectArrayInt = pDirectArrayVoid->GetLocked( pDirectArrayInt, FbxLayerElementArray::eReadLock );
 							if ( pDirectArrayInt[i] != 0 )
@@ -3074,7 +3074,7 @@ void CDmFbxSerializer::ComputeAnimDataList_R(
 	CDmeDag *pDmeDag = fbxToDmxMap.Element( nIndex );
 	const bool bIsRoot = pDmeDag->GetValue( "__rootNode", false );
 	pAnimData->m_pFbxNode = pFbxNode;
-	pAnimData->m_pParent = bIsRoot ? NULL : pAnimDataParent;
+	pAnimData->m_pParent = bIsRoot ? nullptr : pAnimDataParent;
 
 	CDmeTransform *pDmeTransform = pDmeDag->GetTransform();
 
@@ -3177,7 +3177,7 @@ void CDmFbxSerializer::LoadAnimation(
 
 	for ( int i = 0; i < pFbxRootNode->GetChildCount(); ++i )
 	{
-		ComputeAnimDataList_R( pFbxAnimLayer, animList, pDmeChannelsClip, fbxToDmxMap, pFbxRootNode->GetChild( i ), NULL );
+		ComputeAnimDataList_R( pFbxAnimLayer, animList, pDmeChannelsClip, fbxToDmxMap, pFbxRootNode->GetChild( i ), nullptr);
 	}
 
 	matrix3x4_t mDmeWorld;
@@ -3283,7 +3283,7 @@ FbxManager *CDmFbxSerializer::GetFbxManager()
 			bWarned = true;
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	return g_pFbx->GetFbxManager();

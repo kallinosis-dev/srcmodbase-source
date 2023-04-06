@@ -205,8 +205,8 @@ Particle *CParticleEffect::AddParticle( unsigned int particleSize, PMaterialHand
 
 	Particle *pParticle = (Particle *) m_ParticleEffect.AddParticle( particleSize, material );
 
-	if( pParticle == NULL )
-		return NULL;
+	if( pParticle == nullptr)
+		return nullptr;
 
 	pParticle->m_Pos = origin;
 	return pParticle;

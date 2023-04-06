@@ -84,7 +84,7 @@ LPCTSTR GetNullTextureName()
 //-----------------------------------------------------------------------------
 BOOL CTextureBar::Create(CWnd *pParentWnd, int IDD, int iBarID)
 {
-	m_pCurTex = NULL;
+	m_pCurTex = nullptr;
 
 	if (!CHammerBar::Create(pParentWnd, IDD, CBRS_RIGHT, iBarID))
 	{
@@ -199,7 +199,7 @@ void CTextureBar::OnSelChangeTexture(void)
 {
 	UpdateTexture();
 
-	if (m_pCurTex != NULL)
+	if (m_pCurTex != nullptr)
 	{
 		m_TextureList.AddMRU(m_pCurTex);
 	}
@@ -216,8 +216,8 @@ void CTextureBar::UpdateTexture(void)
 
 	if (iSel == LB_ERR)
 	{
-		m_TexturePic.SetTexture(NULL);
-		m_pCurTex = NULL;
+		m_TexturePic.SetTexture(nullptr);
+		m_pCurTex = nullptr;
 		return;
 	}
 
@@ -282,7 +282,7 @@ void CTextureBar::OnBrowse(void)
 	if (iSel != LB_ERR)
 	{
 		IEditorTexture *pTex = (IEditorTexture *)m_TextureList.GetItemDataPtr(iSel);
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			char sz[128];
 	
@@ -294,7 +294,7 @@ void CTextureBar::OnBrowse(void)
 	if (pBrowser->DoModal() == IDOK)
 	{
 		IEditorTexture *pTex = g_Textures.FindActiveTexture(pBrowser->m_cTextureWindow.szCurTexture);
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			int iCount = m_TextureList.GetCount();
 			for (int i = 0; i < iCount; i++)
@@ -319,7 +319,7 @@ void CTextureBar::OnBrowse(void)
 //-----------------------------------------------------------------------------
 void CTextureBar::OnWindowPosChanged(WINDOWPOS *pPos)
 {
-	if (GetMainWnd() != NULL)
+	if (GetMainWnd() != nullptr)
 	{
 		//
 		// Rebuild our MRU list if we are being shown, because it may
@@ -373,7 +373,7 @@ void CTextureBar::SelectTexture(LPCSTR pszTextureName)
 	if (nIndex == LB_ERR)
 	{
 		IEditorTexture *pTex = g_Textures.FindActiveTexture(pszTextureName);
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			nIndex = m_TextureList.AddString(pszTextureName);
 			m_TextureList.SetItemDataPtr(nIndex, pTex);

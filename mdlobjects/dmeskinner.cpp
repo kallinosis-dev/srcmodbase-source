@@ -323,7 +323,7 @@ bool CDmeSkinner::ReskinMesh( CDmeModel *pDmeModel, CDmeMesh *pDmeMesh, int nJoi
 	struct s_JointStruct
 	{
 		s_JointStruct()
-		: m_pDmeSkinnerJoint( NULL )
+		: m_pDmeSkinnerJoint(nullptr)
 		, m_nJointIndex( -1 )
 		{
 		}

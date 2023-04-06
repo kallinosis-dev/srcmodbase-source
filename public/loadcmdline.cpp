@@ -18,8 +18,8 @@ static bool sFoundConfigArgs = false;
 //-----------------------------------------------------------------------------
 static void AddArguments( int &argc, char **&argv, const char *str )
 {
-	char  **args	 = 0;
-	char   *argList	 = 0;
+	char  **args	 = nullptr;
+	char   *argList	 = nullptr;
 	int		argCt	 = argc;
 
 	argList = new char[ Q_strlen( str ) + 1 ];
@@ -30,7 +30,7 @@ static void AddArguments( int &argc, char **&argv, const char *str )
 	while( token )
 	{
 		++argCt;
-		token = strtok( NULL, " " );
+		token = strtok(nullptr, " " );
 	}
 
 	// Make sure someting was actually found in the file
@@ -56,7 +56,7 @@ static void AddArguments( int &argc, char **&argv, const char *str )
 		{
 			args[ i ] = new char[ Q_strlen( token ) + 1 ];
 			Q_strcpy( args[ i ], token );
-			token = strtok( NULL, " " );
+			token = strtok(nullptr, " " );
 		}
 
 		// Copy the last original argument

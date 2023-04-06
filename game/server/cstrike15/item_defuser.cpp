@@ -40,7 +40,7 @@ BEGIN_DATADESC( CItemDefuser )
 END_DATADESC()
 
 Vector g_vecDefuserPosition = vec3_origin;
-CBaseEntity* g_pDefuserEntity = NULL;
+CBaseEntity* g_pDefuserEntity = nullptr;
 
 
 CItemDefuser::CItemDefuser()
@@ -53,7 +53,7 @@ CItemDefuser::~CItemDefuser()
 {
 	if ( g_pDefuserEntity == this )
 	{
-		g_pDefuserEntity = NULL;
+		g_pDefuserEntity = nullptr;
 		g_vecDefuserPosition = vec3_origin;
 	}
 }

@@ -23,7 +23,7 @@
 // CClientEffectRegistration registration
 //-----------------------------------------------------------------------------
 
-CClientEffectRegistration *CClientEffectRegistration::s_pHead = NULL;
+CClientEffectRegistration *CClientEffectRegistration::s_pHead = nullptr;
 
 CClientEffectRegistration::CClientEffectRegistration( const char *pEffectName, ClientEffectCallback fn )
 {
@@ -257,7 +257,7 @@ void DispatchEffect( IRecipientFilter& filter, float delay, KeyValues *pKeyValue
 //-----------------------------------------------------------------------------
 void ErrorEffectCallback( const CEffectData &data )
 {
-	CSmartPtr<CNewParticleEffect> pEffect = CNewParticleEffect::Create( NULL, "error" );
+	CSmartPtr<CNewParticleEffect> pEffect = CNewParticleEffect::Create(nullptr, "error" );
 	if ( pEffect->IsValid() )
 	{
 		pEffect->SetSortOrigin( data.m_vOrigin );

@@ -22,8 +22,8 @@
 #include <tier0/memdbgon.h>
 #include ".\mapdiffdlg.h"
 
-CMapDiffDlg *s_pDlg = NULL;
-CMapDoc *s_pCurrentMap = NULL;
+CMapDiffDlg *s_pDlg = nullptr;
+CMapDoc *s_pCurrentMap = nullptr;
 
 // MapDiffDlg dialog
 
@@ -81,7 +81,7 @@ void CMapDiffDlg::OnBnClickedMapbrowse()
 	}
 
 	// TODO: need to prevent (or handle) opening VMF files when using old map file formats
-	CFileDialog dlg(TRUE, NULL, NULL, OFN_LONGNAMES | OFN_HIDEREADONLY | OFN_NOCHANGEDIR, "Valve Map Files (*.vmf)|*.vmf|Valve Map Files Autosaves (*.vmf_autosave)|*.vmf_autosave|Worldcraft RMFs (*.rmf)|*.rmf|Worldcraft Maps (*.map)|*.map||");
+	CFileDialog dlg(TRUE, nullptr, nullptr, OFN_LONGNAMES | OFN_HIDEREADONLY | OFN_NOCHANGEDIR, "Valve Map Files (*.vmf)|*.vmf|Valve Map Files Autosaves (*.vmf_autosave)|*.vmf_autosave|Worldcraft RMFs (*.rmf)|*.rmf|Worldcraft Maps (*.map)|*.map||");
 	dlg.m_ofn.lpstrInitialDir = szInitialDir;
 	int iRvl = dlg.DoModal();
 
@@ -125,7 +125,7 @@ void CMapDiffDlg::OnOK()
 
 	pDoc->OnCloseDocument();
 	
-	CVisGroup *resultsVisGroup = NULL;	
+	CVisGroup *resultsVisGroup = nullptr;	
 	pChildren = s_pCurrentMap->GetMapWorld()->GetChildren();
 	int nTotalSimilarities = 0;
 	if ( m_bCheckSimilar )
@@ -136,7 +136,7 @@ void CMapDiffDlg::OnOK()
 			int ID = pChild->GetID();
 			if ( IDList.Find( ID ) != -1 )
 			{	
-				if ( resultsVisGroup == NULL )
+				if ( resultsVisGroup == nullptr)
 				{
 					resultsVisGroup = s_pCurrentMap->VisGroups_AddGroup( "Similar" );
 					nTotalSimilarities++;
@@ -159,8 +159,8 @@ void CMapDiffDlg::OnOK()
 void CMapDiffDlg::OnDestroy()
 {
 	delete this;
-	s_pDlg = NULL;
-	s_pCurrentMap = NULL;
+	s_pDlg = nullptr;
+	s_pCurrentMap = nullptr;
 }
 
 

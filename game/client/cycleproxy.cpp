@@ -22,8 +22,8 @@ class CCycleMaterialProxy: public CEntityMaterialProxy
 public:
 	CCycleMaterialProxy()
 	{
-		m_pMaterial = NULL;
-		m_pResult = NULL;
+		m_pMaterial = nullptr;
+		m_pResult = nullptr;
 		m_bEaseIn = false;
 		m_bEaseOut = false;
 		m_fStart = 0.0f;
@@ -36,7 +36,7 @@ public:
 	{
 		m_pMaterial = pMaterial;
 
-		const char *pResult = pKeyValues->GetString( "resultVar", NULL  );
+		const char *pResult = pKeyValues->GetString( "resultVar", nullptr);
 		if ( !pResult )
 			return false;
 
@@ -44,7 +44,7 @@ public:
 		m_pResult = m_pMaterial->FindVar( pResult, &found );
 		if ( !found )
 		{
-			m_pResult = NULL;
+			m_pResult = nullptr;
 			return false;
 		}
 
@@ -53,25 +53,25 @@ public:
 			pMaterial->SetMaterialVarFlag( MATERIAL_VAR_ALPHA_MODIFIED_BY_PROXY, true );
 		}
 
-		pResult = pKeyValues->GetString( "easein", NULL );
+		pResult = pKeyValues->GetString( "easein", nullptr);
 		if( pResult && Q_atoi( pResult ) != 0 )
 		{
 			m_bEaseIn = true;
 		}
 
-		pResult = pKeyValues->GetString( "easeout", NULL );
+		pResult = pKeyValues->GetString( "easeout", nullptr);
 		if( pResult && Q_atoi( pResult ) != 0 )
 		{
 			m_bEaseOut = true;
 		}
 
-		pResult = pKeyValues->GetString( "start", NULL );
+		pResult = pKeyValues->GetString( "start", nullptr);
 		if( pResult )
 		{
 			m_fStart = Q_atof( pResult );
 		}
 
-		pResult = pKeyValues->GetString( "end", NULL );
+		pResult = pKeyValues->GetString( "end", nullptr);
 		if( pResult )
 		{
 			m_fEnd = Q_atof( pResult );
@@ -81,7 +81,7 @@ public:
 	}
 	virtual void OnBind( C_BaseEntity *pC_BaseEntity )
 	{
-		C_BaseAnimating *pBaseAnimating = pC_BaseEntity ? pC_BaseEntity->GetBaseAnimating() : NULL;
+		C_BaseAnimating *pBaseAnimating = pC_BaseEntity ? pC_BaseEntity->GetBaseAnimating() : nullptr;
 		if ( pBaseAnimating )
 		{
 			float fCycle = pBaseAnimating->GetCycle();

@@ -109,7 +109,7 @@ void CCriticalSectionLock::Unlock()
 
 CEvent::CEvent()
 {
-	m_hEvent = NULL;
+	m_hEvent = nullptr;
 }
 
 CEvent::~CEvent()
@@ -121,8 +121,8 @@ bool CEvent::Init( bool bManualReset, bool bInitialState )
 {
 	Term();
 
-	m_hEvent = (void*)CreateEvent( NULL, bManualReset, bInitialState, NULL );
-	return (m_hEvent != NULL);
+	m_hEvent = (void*)CreateEvent(nullptr, bManualReset, bInitialState, nullptr);
+	return (m_hEvent != nullptr);
 }
 
 void CEvent::Term()
@@ -130,7 +130,7 @@ void CEvent::Term()
 	if ( m_hEvent )
 	{
 		CloseHandle( (HANDLE)m_hEvent );
-		m_hEvent = NULL;
+		m_hEvent = nullptr;
 	}
 }
 

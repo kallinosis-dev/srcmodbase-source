@@ -29,7 +29,7 @@ public:
 
     inline T *get_next_element( IVP_VHash *vec) {
 	while (1) {
-	    if ( this->index < 0 ) return NULL;
+	    if ( this->index < 0 ) return nullptr;
 	    T *res = (T*)vec->element_at(this->index--);
 	    if (res) return(res);
 	}

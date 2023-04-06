@@ -32,7 +32,7 @@ int main( int argc, char **argv )
 	InitDefaultFileSystem();
 
 	char pCurrentDirectory[MAX_PATH];
-	if ( _getcwd( pCurrentDirectory, sizeof(pCurrentDirectory) ) == NULL )
+	if ( _getcwd( pCurrentDirectory, sizeof(pCurrentDirectory) ) == nullptr)
 	{
 		fprintf( stderr, "Unable to get the current directory\n" );
 		return -1;
@@ -60,7 +60,7 @@ int main( int argc, char **argv )
 	float gamma1;
 
 	CUtlBuffer buf1;
-	if ( !g_pFullFileSystem->ReadFile( pFileName[0], NULL, buf1 ) )
+	if ( !g_pFullFileSystem->ReadFile( pFileName[0], nullptr, buf1 ) )
 	{
 		fprintf( stderr, "%s not found\n", pFileName[0] );
 		return -1;
@@ -77,7 +77,7 @@ int main( int argc, char **argv )
 	float gamma2;
 
 	CUtlBuffer buf2;
-	if ( !g_pFullFileSystem->ReadFile( pFileName[1], NULL, buf2 ) )
+	if ( !g_pFullFileSystem->ReadFile( pFileName[1], nullptr, buf2 ) )
 	{
 		fprintf( stderr, "%s not found\n", pFileName[1] );
 		return -1;
@@ -174,7 +174,7 @@ int main( int argc, char **argv )
 		exit( -1 );
 	}
 	
-	if ( !g_pFullFileSystem->WriteFile( pFileName[2], NULL, outBuffer ) )
+	if ( !g_pFullFileSystem->WriteFile( pFileName[2], nullptr, outBuffer ) )
 	{
 		fprintf( stderr, "unable to write %s\n", pFileName[2] );
 		return -1;

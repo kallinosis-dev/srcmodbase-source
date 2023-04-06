@@ -151,7 +151,7 @@ void *Hunk_AllocName(int size, const char *name, bool bClear)
 		return p;
 #endif
 	Error( "Engine hunk overflow!\n" );
-	return NULL;
+	return nullptr;
 }
 
 /*

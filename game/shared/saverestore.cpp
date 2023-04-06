@@ -152,7 +152,7 @@ const char *UTIL_FunctionToName( datamap_t *pMap, inputfunc_t function )
 		pMap = pMap->baseMap;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -164,7 +164,7 @@ void UTIL_FunctionFromName( datamap_t *pMap, const char *pName, inputfunc_t *ppF
 {
 	if ( !pName || !*pName )
 	{
-		*ppFunction = 0;
+		*ppFunction = nullptr;
 		return;
 	}
 
@@ -186,7 +186,7 @@ void UTIL_FunctionFromName( datamap_t *pMap, const char *pName, inputfunc_t *ppF
 
 	Msg( "Failed to find function %s\n", pName );
 
-	*ppFunction = 0;
+	*ppFunction = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -203,7 +203,7 @@ CSave::CSave( CSaveRestoreData *pdata )
 	m_BlockStartStack.EnsureCapacity( 32 );
 
 	// Logging.
-	m_hLogFile = NULL;
+	m_hLogFile = nullptr;
 }
 
 //-------------------------------------
@@ -241,7 +241,7 @@ void CSave::EndLogging( void )
 	{
 		filesystem->Close( m_hLogFile );
 	}
-	m_hLogFile = NULL;
+	m_hLogFile = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -249,7 +249,7 @@ void CSave::EndLogging( void )
 //-----------------------------------------------------------------------------
 bool CSave::IsLogging( void )
 {
-	return ( m_hLogFile != NULL );
+	return ( m_hLogFile != nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -645,7 +645,7 @@ bool CSave::ShouldSaveField( const void *pData, typedescription_t *pField )
 			}
 
 			AssertMsg( pField->td != NULL, "Embedded type appears to have not had type description implemented" );
-			if ( pField->td == NULL )
+			if ( pField->td == nullptr)
 				return false;
 
 			if ( (pField->flags & FTYPEDESC_PTR) && !*((void **)pData) )
@@ -993,7 +993,7 @@ void CSave::BufferData( const char *pdata, int size )
 int	CSave::EntityIndex( const edict_t *pentLookup )
 {
 #if !defined( CLIENT_DLL )
-	if ( pentLookup == NULL )
+	if ( pentLookup == nullptr)
 		return -1;
 	return EntityIndex( CBaseEntity::Instance(pentLookup) );
 #else
@@ -1556,7 +1556,7 @@ typedescription_t *CRestore::FindField( const char *pszFieldName, typedescriptio
 	}
 
 	fieldNumber = 0;
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------
@@ -1759,7 +1759,7 @@ int CRestore::ReadFields( const char *pname, void *pBaseData, datamap_t *pRootMa
 
 void CRestore::ReadHeader( SaveRestoreRecordHeader_t *pheader )
 {
-	if ( pheader != NULL )
+	if ( pheader != nullptr)
 	{
 		Assert( pheader!=NULL );
 		pheader->size = ReadShort();				// Read field size
@@ -1815,7 +1815,7 @@ int CRestore::DoReadAll( void *pLeafObject, datamap_t *pLeafMap, datamap_t *pCur
 char *CRestore::BufferPointer( void )
 {
 	if ( !m_pData )
-		return NULL;
+		return nullptr;
 
 	return m_pData->AccessCurPos();
 }
@@ -1840,7 +1840,7 @@ void CRestore::BufferReadBytes( char *pOutput, int size )
 
 void CRestore::BufferSkipBytes( int bytes )
 {
-	BufferReadBytes( NULL, bytes );
+	BufferReadBytes(nullptr, bytes );
 }
 
 //-------------------------------------
@@ -1994,7 +1994,7 @@ int CRestore::ReadInterval( interval_t *interval, int count, int nBytesAvailable
 CBaseEntity *CRestore::EntityFromIndex( int entityIndex )
 {
 	if ( !m_pGameInfo || entityIndex < 0 )
-		return NULL;
+		return nullptr;
 
 	int i;
 	entitytable_t *pTable;
@@ -2005,7 +2005,7 @@ CBaseEntity *CRestore::EntityFromIndex( int entityIndex )
 		if ( pTable->id == entityIndex )
 			return pTable->hEnt;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------
@@ -2043,7 +2043,7 @@ int CRestore::ReadEdictPtr( edict_t **ppEdict, int count, int nBytesAvailable )
 	for ( int i = 0; i < nRead; i++ ) // nRead is never greater than count
 	{
 		pEntity = EntityFromIndex( entityArray[i] );
-		ppEdict[i] = (pEntity) ? pEntity->edict() : NULL;
+		ppEdict[i] = (pEntity) ? pEntity->edict() : nullptr;
 	}
 	
 	if ( nRead < count)
@@ -2379,7 +2379,7 @@ void CEntitySaveUtils::PreSave()
 void CEntitySaveUtils::PostSave()
 {
  	physics->DestroyObjectPairHash( m_pLevelAdjacencyDependencyHash );
-	m_pLevelAdjacencyDependencyHash = NULL;
+	m_pLevelAdjacencyDependencyHash = nullptr;
 }
 
 
@@ -2487,9 +2487,9 @@ void CEntitySaveRestoreBlockHandler::PreSave( CSaveRestoreData *pSaveData )
 	m_EntitySaveUtils.PreSave();
 
 	// Allow the entities to do some work
-	CBaseEntity *pEnt = NULL;
+	CBaseEntity *pEnt = nullptr;
 #if !defined( CLIENT_DLL )
-	while ( (pEnt = gEntList.NextEnt( pEnt )) != NULL )
+	while ( (pEnt = gEntList.NextEnt( pEnt )) != nullptr)
 	{
 		pEnt->OnSave( &m_EntitySaveUtils );
 	}
@@ -2554,7 +2554,7 @@ void CEntitySaveRestoreBlockHandler::Save( ISave *pSave )
 
 			pSaveData->SetCurrentEntityContext( pEnt );
 			pEnt->Save( *pSave );
-			pSaveData->SetCurrentEntityContext( NULL );
+			pSaveData->SetCurrentEntityContext(nullptr);
 
 			pEntInfo->size = pSave->GetWritePos() - pEntInfo->location;	// Size of entity block is data size written to block
 			pSaveData->m_nEntityDataSize += pEntInfo->size;
@@ -2585,7 +2585,7 @@ void CEntitySaveRestoreBlockHandler::WriteSaveHeaders( ISave *pSave )
 	pSave->WriteInt( &nEntities );
 	
 	for ( int i = 0; i < pSaveData->NumEntities(); i++ )
-		pSave->WriteFields( "ETABLE", pSaveData->GetEntityInfo( i ), NULL, entitytable_t::m_DataMap.dataDesc, entitytable_t::m_DataMap.dataNumFields );
+		pSave->WriteFields( "ETABLE", pSaveData->GetEntityInfo( i ), nullptr, entitytable_t::m_DataMap.dataDesc, entitytable_t::m_DataMap.dataNumFields );
 }
 	
 //---------------------------------
@@ -2619,7 +2619,7 @@ void CEntitySaveRestoreBlockHandler::ReadRestoreHeaders( IRestore *pRestore )
 	pSaveData->InitEntityTable( pEntityTable, nEntities );
 	
 	for ( int i = 0; i < pSaveData->NumEntities(); i++ )
-		pRestore->ReadFields( "ETABLE", pSaveData->GetEntityInfo( i ), NULL, entitytable_t::m_DataMap.dataDesc, entitytable_t::m_DataMap.dataNumFields );
+		pRestore->ReadFields( "ETABLE", pSaveData->GetEntityInfo( i ), nullptr, entitytable_t::m_DataMap.dataDesc, entitytable_t::m_DataMap.dataNumFields );
 
 }
 
@@ -2651,7 +2651,7 @@ void CEntitySaveRestoreBlockHandler::Restore( IRestore *pRestore, bool createPla
 				pRestore->SetReadPos( pEntInfo->location );
 				if ( RestoreEntity( pent, pRestore, pEntInfo ) < 0 )
 				{
-					pEntInfo->hEnt = NULL;
+					pEntInfo->hEnt = nullptr;
 					pEntInfo->restoreentityindex = -1;
 					UTIL_RemoveImmediate( pent );	
 				}
@@ -2677,7 +2677,7 @@ void CEntitySaveRestoreBlockHandler::Restore( IRestore *pRestore, bool createPla
 					pent = CBasePlayer::CreatePlayer( STRING(pEntInfo->classname), ed );
 				}
 				else
-					pent = NULL;
+					pent = nullptr;
 			}
 			else
 			{
@@ -2701,7 +2701,7 @@ void CEntitySaveRestoreBlockHandler::Restore( IRestore *pRestore, bool createPla
 		}
 		else
 		{
-			pEntInfo->hEnt = NULL;
+			pEntInfo->hEnt = nullptr;
 			pEntInfo->restoreentityindex = -1;
 		}
 	}
@@ -2718,7 +2718,7 @@ void CEntitySaveRestoreBlockHandler::Restore( IRestore *pRestore, bool createPla
 			{
 				if ( RestoreEntity( pent, pRestore, pEntInfo ) < 0 )
 				{
-					pEntInfo->hEnt = NULL;
+					pEntInfo->hEnt = nullptr;
 					pEntInfo->restoreentityindex = -1;
 					UTIL_RemoveImmediate( pent );
 				}
@@ -2867,11 +2867,11 @@ bool CEntitySaveRestoreBlockHandler::SaveInitEntities( CSaveRestoreData *pSaveDa
 	// this is used to turn pointers into savable indices
 	// build up ID numbers for each entity, for use in pointer conversions
 	// if an entity requires a certain edict number upon restore, save that as well
-	CBaseEntity *pEnt = NULL;
+	CBaseEntity *pEnt = nullptr;
 	int i = 0;
 
 #if !defined( CLIENT_DLL )
-	while ( (pEnt = gEntList.NextEnt( pEnt )) != NULL )
+	while ( (pEnt = gEntList.NextEnt( pEnt )) != nullptr)
 	{
 #else
 	int last = ClientEntityList().GetHighestEntityIndex();
@@ -2915,9 +2915,9 @@ bool CEntitySaveRestoreBlockHandler::SaveInitEntities( CSaveRestoreData *pSaveDa
 // different classes with the same global name
 CBaseEntity *CEntitySaveRestoreBlockHandler::FindGlobalEntity( string_t classname, string_t globalname )
 {
-	CBaseEntity *pReturn = NULL;
+	CBaseEntity *pReturn = nullptr;
 
-	while ( (pReturn = gEntList.NextEnt( pReturn )) != NULL )
+	while ( (pReturn = gEntList.NextEnt( pReturn )) != nullptr)
 	{
 		if ( FStrEq( STRING(pReturn->m_iGlobalname), STRING(globalname)) )
 			break;
@@ -2928,7 +2928,7 @@ CBaseEntity *CEntitySaveRestoreBlockHandler::FindGlobalEntity( string_t classnam
 		if ( !FClassnameIs( pReturn, STRING(classname) ) )
 		{
 			Warning( "Global entity found %s, wrong class %s [expects class %s]\n", STRING(globalname), STRING(pReturn->m_iClassname), STRING(classname) );
-			pReturn = NULL;
+			pReturn = nullptr;
 		}
 	}
 
@@ -2949,7 +2949,7 @@ bool CEntitySaveRestoreBlockHandler::DoRestoreEntity( CBaseEntity *pEntity, IRes
 
 	pRestore->GetGameSaveRestoreInfo()->SetCurrentEntityContext( pEntity );
 	pEntity->Restore( *pRestore );
-	pRestore->GetGameSaveRestoreInfo()->SetCurrentEntityContext( NULL );
+	pRestore->GetGameSaveRestoreInfo()->SetCurrentEntityContext(nullptr);
 
 #if !defined( CLIENT_DLL )
 	if ( pEntity->ObjectCaps() & FCAP_MUST_SPAWN )
@@ -2963,7 +2963,7 @@ bool CEntitySaveRestoreBlockHandler::DoRestoreEntity( CBaseEntity *pEntity, IRes
 #endif
 
 	// Above calls may have resulted in self destruction
-	return ( hEntity != NULL );
+	return ( hEntity != nullptr);
 }
 
 //---------------------------------
@@ -3070,7 +3070,7 @@ int CEntitySaveRestoreBlockHandler::RestoreGlobalEntity( CBaseEntity *pEntity, C
 	
 	if ( !DoRestoreEntity( pEntity, &restoreHelper ) )
 	{
-		pEntity = NULL;
+		pEntity = nullptr;
 	}
 
 	// Is this an overriding global entity (coming over the transition)
@@ -3114,7 +3114,7 @@ CSaveRestoreData *SaveInit( int size )
 	void *pSaveMemory = engine->SaveAllocMemory( sizeof(CSaveRestoreData) + (sizeof(entitytable_t) * numentities) + size, sizeof(char) );
 	if ( !pSaveMemory )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	pSaveData = MakeSaveRestoreData( pSaveMemory );
@@ -3125,7 +3125,7 @@ CSaveRestoreData *SaveInit( int size )
 	if ( !pSaveMemory )
 	{
 		engine->SaveFreeMemory( pSaveMemory );
-		return NULL;
+		return nullptr;
 	}
 
 	pSaveData->InitSymbolTable( (char **)pSaveMemory, nTokens );
@@ -3388,7 +3388,7 @@ bool ParseKeyvalue( void *pObject, typedescription_t *pFields, int iNumFields, c
 		// Check the nested classes, but only if they aren't in array form.
 		if ((pField->fieldType == FIELD_EMBEDDED) && (pField->fieldSize == 1))
 		{
-			for ( datamap_t *dmap = pField->td; dmap != NULL; dmap = dmap->baseMap )
+			for ( datamap_t *dmap = pField->td; dmap != nullptr; dmap = dmap->baseMap )
 			{
 				void *pEmbeddedObject = (void*)((char*)pObject + fieldOffset);
 				if ( ParseKeyvalue( pEmbeddedObject, dmap->dataDesc, dmap->dataNumFields, szKeyName, szValue) )
@@ -3499,7 +3499,7 @@ bool ExtractKeyvalue( void *pObject, typedescription_t *pFields, int iNumFields,
 		// Check the nested classes, but only if they aren't in array form.
 		if ((pField->fieldType == FIELD_EMBEDDED) && (pField->fieldSize == 1))
 		{
-			for ( datamap_t *dmap = pField->td; dmap != NULL; dmap = dmap->baseMap )
+			for ( datamap_t *dmap = pField->td; dmap != nullptr; dmap = dmap->baseMap )
 			{
 				void *pEmbeddedObject = (void*)((char*)pObject + fieldOffset);
 				if ( ExtractKeyvalue( pEmbeddedObject, dmap->dataDesc, dmap->dataNumFields, szKeyName, szValue, iMaxLen ) )
@@ -3620,7 +3620,7 @@ void CreateEntitiesInTransitionList( CSaveRestoreData *pSaveData, int levelMask 
 	for ( i = 0; i < pSaveData->NumEntities(); i++ )
 	{
 		entitytable_t *pEntInfo = pSaveData->GetEntityInfo( i );
-		pEntInfo->hEnt = NULL;
+		pEntInfo->hEnt = nullptr;
 
 		if ( pEntInfo->size == 0 || pEntInfo->edictindex == 0 )
 			continue;
@@ -3635,7 +3635,7 @@ void CreateEntitiesInTransitionList( CSaveRestoreData *pSaveData, int levelMask 
 		bool active = (pEntInfo->flags & levelMask) ? 1 : 0;
 
 		// spawn players
-		pent = NULL;
+		pent = nullptr;
 		if ( (pEntInfo->edictindex > 0) && (pEntInfo->edictindex <= gpGlobals->maxClients) )	
 		{
 			edict_t *ed = INDEXENT( pEntInfo->edictindex );

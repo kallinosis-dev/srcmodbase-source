@@ -56,8 +56,8 @@ public:
 	virtual void SetPacketReadSuspended( bool bSuspendPacketReading ) OVERRIDE;
 
 	virtual void	SetImportantEventData( const KeyValues *pData ) OVERRIDE {  }
-	virtual int		FindNextImportantTick( int nCurrentTick, const char *pEventName = NULL ) OVERRIDE { Assert( !"not implemented" ); return 0; } // -1 = no next important tick
-	virtual int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = NULL ) OVERRIDE { Assert( !"not implemented" ); return 0; } // -1 = no previous important tick
+	virtual int		FindNextImportantTick( int nCurrentTick, const char *pEventName = nullptr) OVERRIDE { Assert( !"not implemented" ); return 0; } // -1 = no next important tick
+	virtual int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = nullptr) OVERRIDE { Assert( !"not implemented" ); return 0; } // -1 = no previous important tick
 	virtual const DemoImportantTick_t *GetImportantTick( int nIndex ) OVERRIDE { Assert( !"not implemented" );  return NULL; }
 	virtual const DemoImportantGameEvent_t *GetImportantGameEvent( const char *pszEventName ) OVERRIDE { Assert( !"not implemented" ); return NULL; }
 	virtual void	ListImportantTicks( void ) OVERRIDE { Assert( !"not implemented" ); }

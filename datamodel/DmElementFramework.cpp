@@ -44,7 +44,7 @@ void *CDmElementFramework::QueryInterface( const char *pInterfaceName )
 	if ( !V_strcmp( pInterfaceName, VDMELEMENTFRAMEWORK_VERSION ) )
 		return (IDmElementFramework*)this;
 
-	return NULL;
+	return nullptr;
 }
 
 InitReturnVal_t CDmElementFramework::Init( )

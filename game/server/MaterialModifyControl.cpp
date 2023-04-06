@@ -205,17 +205,17 @@ void CMaterialModifyControl::InputStartAnimSequence( inputdata_t &inputdata )
 	{
 		int iFrameStart = atoi(pszParam);
 
-		pszParam = strtok(NULL," ");
+		pszParam = strtok(nullptr," ");
 		if ( pszParam && pszParam[0] )
 		{
 			int iFrameEnd = atoi(pszParam);
 
-			pszParam = strtok(NULL," ");
+			pszParam = strtok(nullptr," ");
 			if ( pszParam && pszParam[0] )
 			{
 				float flFramerate = atof(pszParam);
 
-				pszParam = strtok(NULL," ");
+				pszParam = strtok(nullptr," ");
 				if ( pszParam && pszParam[0] )
 				{
 					bool bWrap = atoi(pszParam) != 0;
@@ -256,17 +256,17 @@ void CMaterialModifyControl::InputStartFloatLerp( inputdata_t &inputdata )
 	{
 		float flStartValue = atof(pszParam);
 
-		pszParam = strtok(NULL," ");
+		pszParam = strtok(nullptr," ");
 		if ( pszParam && pszParam[0] )
 		{
 			float flEndValue = atof(pszParam);
 
-			pszParam = strtok(NULL," ");
+			pszParam = strtok(nullptr," ");
 			if ( pszParam && pszParam[0] )
 			{
 				float flTransitionTime = atof(pszParam);
 
-				pszParam = strtok(NULL," ");
+				pszParam = strtok(nullptr," ");
 				if ( pszParam && pszParam[0] )
 				{
 					bool bWrap = atoi(pszParam) != 0;

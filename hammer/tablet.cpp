@@ -33,7 +33,7 @@ bool WinTab_Init( )
 
 	errmode = SetErrorMode( SEM_NOOPENFILEERRORBOX | SEM_FAILCRITICALERRORS );
 
-	bWinTabAvailable = WTInfo( 0, 0, NULL ) != 0;
+	bWinTabAvailable = WTInfo( 0, 0, nullptr) != 0;
 
 	SetErrorMode( errmode );
 
@@ -101,11 +101,11 @@ void WinTab_Packet( WPARAM wSerial, LPARAM hContext )
 
 	CMapDoc	*pMapDoc = CMapDoc::GetActiveMapDoc();
 
-	if ( pMapDoc != NULL )
+	if ( pMapDoc != nullptr)
 	{
 		CMapView *pMapView = pMapDoc->GetActiveMapView();
 
-		if ( pMapView != NULL )
+		if ( pMapView != nullptr)
 		{
 			POINT	MousePosition;
 

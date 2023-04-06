@@ -32,8 +32,8 @@ public:
 
 	CGlobalEvent	*GetGlobalEvent( EGlobalEvent GlobalEvent );
 
-	CGlobalEvent	*CreateEvent( const char *pszName, bool bIsHighLevel, CGlobalEvent *pParent = NULL );
-	CGlobalEvent	*CreateTempEvent( const char *pszName, CGlobalEvent *pParent = NULL );
+	CGlobalEvent	*CreateEvent( const char *pszName, bool bIsHighLevel, CGlobalEvent *pParent = nullptr);
+	CGlobalEvent	*CreateTempEvent( const char *pszName, CGlobalEvent *pParent = nullptr);
 	void			RemoveEvent( CGlobalEvent *pEvent );
 
 	void			AddKeyValue( CGlobalEvent *pEvent, bool bVarying, const char *pszKey, const char *pszValueFormat, ... );

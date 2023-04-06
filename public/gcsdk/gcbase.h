@@ -85,7 +85,7 @@ public:
 	CGCSharedObjectCache *YieldingGetLockedSOCache( const CSteamID &steamID );
 	CGCSharedObjectCache *YieldingFindOrLoadSOCache( const CSteamID &steamID );
 	CGCSharedObjectCache *FindSOCache( const CSteamID & steamID );					// non-yielding, but may return NULL if the cache exists but is not loaded
-	bool UnloadUnusedCaches( uint32 unMaxCacheCount, CLimitTimer *pLimitTimer = NULL );
+	bool UnloadUnusedCaches( uint32 unMaxCacheCount, CLimitTimer *pLimitTimer = nullptr);
 	void YieldingReloadCache( CGCSharedObjectCache *pSOCache );
 	virtual CGCSharedObjectCache *CreateSOCache( const CSteamID &steamID );
 
@@ -134,11 +134,11 @@ public:
 
 	CSteamID YieldingGuessSteamIDFromInput( const char *pchInput );
 	bool BYieldingRecordSupportAction( const CSteamID & actorID, const CSteamID & targetID, const char *pchData, const char *pchNote );
-	void PostAlert( EAlertType eAlertType, bool bIsCritical, const char *pchAlertText, const CUtlVector< CUtlString > *pvecExtendedInfo = NULL, bool bAlsoSpew = true );
+	void PostAlert( EAlertType eAlertType, bool bIsCritical, const char *pchAlertText, const CUtlVector< CUtlString > *pvecExtendedInfo = nullptr, bool bAlsoSpew = true );
 	CAccountDetails *YieldingGetAccountDetails( const CSteamID & steamID );
 	bool BYieldingGetAccountLicenses( const CSteamID & steamID, CUtlVector< PackageLicense_t > & vecPackages );
 	bool BYieldingLookupAccount( EAccountFindType eFindType, const char *pchInput, CUtlVector< CSteamID > *prSteamIDs );
-	bool BYieldingAddFreeLicense( const CSteamID & steamID, uint32 unPackageID, uint32 unIPPublic = 0, const char *pchStoreCountryCode = NULL );
+	bool BYieldingAddFreeLicense( const CSteamID & steamID, uint32 unPackageID, uint32 unIPPublic = 0, const char *pchStoreCountryCode = nullptr);
 
 	bool BSendGCMsgToClient( const CSteamID & steamIDTarget, const CGCMsgBase& msg );
 	bool BSendGCMsgToClient( const CSteamID & steamIDTarget, const IProtoBufMsg& msg );

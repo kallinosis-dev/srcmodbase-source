@@ -43,7 +43,7 @@ private:
 // Input  : *parent - 
 //-----------------------------------------------------------------------------
 CDebugOverlay::CDebugOverlay( vgui::VPANEL parent ) :
-	BaseClass( NULL, "CDebugOverlay" )
+	BaseClass(nullptr, "CDebugOverlay" )
 {
 	int w, h;
 	vgui::surface()->GetScreenSize( w, h );
@@ -117,7 +117,7 @@ void CDebugOverlay::Paint()
 	OverlayText_t* pCurrText = debugoverlay->GetFirst();
 	while ( pCurrText ) 
 	{
-		if ( pCurrText->text != NULL ) 
+		if ( pCurrText->text != nullptr) 
 		{
 			// --------------
 			// Draw the text
@@ -160,7 +160,7 @@ private:
 public:
 	CDebugOverlayPanel( void )
 	{
-		debugOverlayPanel = NULL;
+		debugOverlayPanel = nullptr;
 	}
 	void Create( vgui::VPANEL parent )
 	{
@@ -170,7 +170,7 @@ public:
 	{
 		if ( debugOverlayPanel )
 		{
-			debugOverlayPanel->SetParent( (vgui::Panel *)NULL );
+			debugOverlayPanel->SetParent( (vgui::Panel *)nullptr);
 			delete debugOverlayPanel;
 		}
 	}

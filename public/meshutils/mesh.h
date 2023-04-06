@@ -90,7 +90,7 @@ public:
 	// If you don't supply the attribute definition it assumes the vertices are just a position vector
 	// NOTE: VertexStrideFloats is 3 for a normal vector of 3 floats
 	// External meshes are allocated by external code and not freed in the destructor
-	void InitExternalMesh( float *pVerts, int nVertexCount, uint32 *pIndices, int nIndexCount, int nVertexStrideFloats = 3, CMeshVertexAttribute *pAttributes = NULL, int nAtrributeCount = 0 );
+	void InitExternalMesh( float *pVerts, int nVertexCount, uint32 *pIndices, int nIndexCount, int nVertexStrideFloats = 3, CMeshVertexAttribute *pAttributes = nullptr, int nAtrributeCount = 0 );
 
 	inline int IndexCount() const
 	{
@@ -156,7 +156,7 @@ public:
 		int m_nElementCount;
 		int m_nAttrCount;
 	public:
-		CAttrArray( float *pBase = NULL, int nStride = 0, int nVertexCount = 0, int nAttrCount = 0 )
+		CAttrArray( float *pBase = nullptr, int nStride = 0, int nVertexCount = 0, int nAttrCount = 0 )
 			: m_pBase( pBase )
 			, m_nStride( nStride )
 			, m_nElementCount( nVertexCount )
@@ -193,7 +193,7 @@ public:
 		}
 	public:
 		// converting to bool to use this in if() to check for NULL
-		operator bool() const { return m_pBase != NULL; }
+		operator bool() const { return m_pBase != nullptr; }
 		CSingleVertexFieldAccessor< T > operator []( int nVertex ) { AssertDbg( nVertex < m_nElementCount ); return CSingleVertexFieldAccessor< T >( ( T* )( m_pBase + m_nStride * nVertex ), m_nAttrCount ); }
 		CSingleVertexFieldAccessor< const T > operator []( int nVertex ) const { AssertDbg( nVertex < m_nElementCount ); return CSingleVertexFieldAccessor< const T >( ( const T* )( m_pBase + m_nStride * nVertex ), m_nAttrCount ); }
 
@@ -263,7 +263,7 @@ bool RationalizeUVsInPlace( CMesh *pMesh );
 bool RationalizeUVs( CMesh *pRationalMeshOut, const CMesh &inputMesh );
 void DeIndexMesh( CMesh *pMeshOut, const CMesh &inputMesh );
 bool ConcatMeshes( CMesh *pMeshOut, CMesh **ppMeshIn, int nInputMeshes,
-				   CMeshVertexAttribute *pAttributeOverride = NULL, int nAttributeOverrideCount = 0, int nStrideOverride = 0 );
+				   CMeshVertexAttribute *pAttributeOverride = nullptr, int nAttributeOverrideCount = 0, int nStrideOverride = 0 );
 bool TessellateOnWrappedUV( CMesh *pMeshOut, const CMesh &inputMesh );
 // returns the mesh containing the convex hull of the input mesh
 void ConvexHull3D( CMesh *pOutMesh, const CMesh &inputMesh, float flCoplanarEpsilon = ONE_32ND_UNIT );

@@ -124,7 +124,7 @@ bool CVcdUpdateApp::PreInit( )
 	}
 
 	// Add paths...
-	if ( !SetupSearchPaths( NULL, false, true ) )
+	if ( !SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	return true;
@@ -257,14 +257,14 @@ bool CVcdUpdateApp::UpdateVcd( CChoreoScene *pScene, const VcdUpdateInfo_t& info
 void CVcdUpdateApp::UpdateVcd( const char *pFullPath, const VcdUpdateInfo_t& info, studiohdr_t *pStudioHdr, float flWavDuration )
 {
 	CUtlBuffer buf;
-	if ( !g_pFullFileSystem->ReadFile( pFullPath, NULL, buf ) )
+	if ( !g_pFullFileSystem->ReadFile( pFullPath, nullptr, buf ) )
 	{
 		Warning( "Unable to load file %s\n", pFullPath );
 		return;
 	}
 
 	SetTokenProcessorBuffer( (char *)buf.Base() );
-	CChoreoScene *pScene = ChoreoLoadScene( pFullPath, NULL, GetTokenProcessor(), NULL );
+	CChoreoScene *pScene = ChoreoLoadScene( pFullPath, nullptr, GetTokenProcessor(), nullptr);
 	if ( !pScene )
 	{
 		Warning( "Unable to parse file %s\n", pFullPath );
@@ -318,7 +318,7 @@ void CVcdUpdateApp::UpdateVcd( const char *pFullPath, const VcdUpdateInfo_t& inf
 //-----------------------------------------------------------------------------
 void CVcdUpdateApp::UpdateVcdFiles( const VcdUpdateInfo_t& info )
 {
-	studiohdr_t *pStudioHdr = NULL;
+	studiohdr_t *pStudioHdr = nullptr;
 	if ( info.m_pChangedMDLFile )
 	{
 		char pRelativeModelPath[MAX_PATH];
@@ -353,7 +353,7 @@ void CVcdUpdateApp::UpdateVcdFiles( const VcdUpdateInfo_t& info )
 	{
 		char pScenePath[MAX_PATH];
 		Q_ComposeFileName( dirs[i], "scenes", pScenePath, sizeof(pScenePath) );
-		AddFilesToList( vcds, pScenePath, NULL, "vcd" );
+		AddFilesToList( vcds, pScenePath, nullptr, "vcd" );
 	}
 
 	int nVCDCount = vcds.Count();

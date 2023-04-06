@@ -151,7 +151,7 @@ void CHLTVDirector::AddHLTVServer( IHLTVServer *hltv )
 		}
 		else
 		{
-			rec.m_pHLTVServer  = NULL;
+			rec.m_pHLTVServer  = nullptr;
 			Error( "Couldn't find GOTV client player." );
 		}
 
@@ -263,7 +263,7 @@ const char** CHLTVDirector::GetModEvents()
 		"player_chat",
 		"round_start",
 		"round_end",
-		NULL
+		nullptr
 	};
 
 	return s_modevents;
@@ -287,11 +287,11 @@ void CHLTVDirector::BuildCameraList( void )
 	m_nNumFixedCameras = 0;
 	memset( m_pFixedCameras, 0, sizeof ( m_pFixedCameras ) );
 
-	CBaseEntity *pCamera = gEntList.FindEntityByClassname( NULL, GetFixedCameraEntityName() );
+	CBaseEntity *pCamera = gEntList.FindEntityByClassname(nullptr, GetFixedCameraEntityName() );
 
 	while ( pCamera && m_nNumFixedCameras < MAX_NUM_CAMERAS)
 	{
-		CBaseEntity *pTarget = gEntList.FindEntityByName( NULL, STRING(pCamera->m_target) );
+		CBaseEntity *pTarget = gEntList.FindEntityByName(nullptr, STRING(pCamera->m_target) );
 
 		if ( pTarget )
 		{
@@ -575,13 +575,13 @@ void CHLTVDirector::CreateShotFromEvent( CHLTVGameEvent *event )
 			return;
 
 		// if killed self
-		if ( bPlayerKilled && ( attacker == victim || attacker == NULL ) )
+		if ( bPlayerKilled && ( attacker == victim || attacker == nullptr) )
 		{
 			// player killed self or by WORLD
 			StartChaseCameraShot( victim->entindex(), 0, 96, 20, 0, false );
 		}
 		// otherwise a hurt or kill
-		else if ( attacker != victim && attacker != NULL )
+		else if ( attacker != victim && attacker != nullptr)
 		{
 			// don't randomize POV if it's a multikill
 			if ( event->m_Event->GetInt("priority") < 9 )
@@ -635,7 +635,7 @@ void CHLTVDirector::RemoveEventsFromHistory(int tick)
 		if ( (dc.m_Tick < tick) || (tick == -1) )
 		{
 			gameeventmanager->FreeEvent( dc.m_Event );
-			dc.m_Event = NULL;
+			dc.m_Event = nullptr;
 			m_EventHistory.RemoveAt( index );
 			index = m_EventHistory.FirstInorder();	// start again
 		}
@@ -1011,7 +1011,7 @@ CHLTVGameEvent *CHLTVDirector::FindBestGameEvent()
 	}
 
 	if ( !( bestEventPrio[0] || bestEventPrio[1] || bestEventPrio[2] ) )
-		return NULL; // no event found at all, give generic algorithm a chance
+		return nullptr; // no event found at all, give generic algorithm a chance
 
 	// camera cut rules :
 
@@ -1036,7 +1036,7 @@ CHLTVGameEvent *CHLTVDirector::FindBestGameEvent()
 		if ( bestEvent[0] )
 			return &m_EventHistory[ bestEvent[0] ];
 		else
-			return NULL;
+			return nullptr;
 	}
 }
 

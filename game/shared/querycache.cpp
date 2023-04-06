@@ -57,7 +57,7 @@ ConVar	sv_disable_querycache("sv_disable_querycache", "0", FCVAR_CHEAT | FCVAR_R
 
 static QueryCacheEntry_t *FindOrAllocateCacheEntry( QueryCacheKey_t const &entry )
 {
-	QueryCacheEntry_t *pFound = NULL;
+	QueryCacheEntry_t *pFound = nullptr;
 	// see if we find it
 	for( QueryCacheEntry_t *pNode = s_HashChains[entry.m_nHashIdx].m_pHead; pNode; pNode = pNode->m_pNext )
 	{

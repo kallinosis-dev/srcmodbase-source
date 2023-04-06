@@ -78,7 +78,7 @@ private:
 		PAINT_POWER_CHANGED = 0x2,
 	};
 
-	void ClearBuffer( BYTE *pByte = NULL );
+	void ClearBuffer( BYTE *pByte = nullptr);
 
 	uint32 BlendLuxel( const PaintRect_t& paintRect, int x, int y, float flNewAlpha, float flMaxAlpha = 1.f );
 	uint32 AddSurroundingAlpha( const PaintRect_t& paintRect, int x, int y );

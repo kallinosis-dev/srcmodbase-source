@@ -97,7 +97,7 @@ void CCommentaryNodeBrowserPanel::OnProperties( )
 {
 	if ( m_pEntities->GetSelectedItemsCount() == 0 )
 	{
-		g_pCommEditTool->ShowEntityInEntityProperties( NULL );
+		g_pCommEditTool->ShowEntityInEntityProperties(nullptr);
 		return;
 	}
 

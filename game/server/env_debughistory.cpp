@@ -267,15 +267,15 @@ int CDebugHistory::Restore( IRestore &restore )
 CDebugHistory *GetDebugHistory()
 {
 #ifdef DISABLE_DEBUG_HISTORY
-	return NULL;
+	return nullptr;
 #endif
 
 	if ( g_pGameRules && g_pGameRules->IsMultiplayer() )
-		return NULL;
+		return nullptr;
 
-	if ( s_DebugHistory == NULL )
+	if ( s_DebugHistory == nullptr)
 	{
-		CBaseEntity *pEnt = gEntList.FindEntityByClassname( NULL, "env_debughistory" );
+		CBaseEntity *pEnt = gEntList.FindEntityByClassname(nullptr, "env_debughistory" );
 		if ( pEnt )
 		{
 			s_DebugHistory = dynamic_cast<CDebugHistory*>(pEnt);
@@ -296,7 +296,7 @@ CDebugHistory *GetDebugHistory()
 
 void ClearDebugHistory()
 {
-	s_DebugHistory = NULL;
+	s_DebugHistory = nullptr;
 }
 
 //-----------------------------------------------------------------------------

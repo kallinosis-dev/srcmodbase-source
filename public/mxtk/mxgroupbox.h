@@ -33,7 +33,7 @@ class mxGroupBox : public mxWidget
 
 public:
 	// CREATORS
-	mxGroupBox (mxWindow *parent, int x, int y, int w, int h, const char *label = 0);
+	mxGroupBox (mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr);
 	virtual ~mxGroupBox ();
 
 private:

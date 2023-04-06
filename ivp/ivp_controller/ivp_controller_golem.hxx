@@ -65,7 +65,7 @@ public:
 
 
 	void set_prime_position( const IVP_U_Point * position, const IVP_U_Float_Point * velocity , const IVP_Time & time );
-	void set_prime_orientation( const IVP_U_Quat * orientation0, const IVP_Time & time0,const IVP_U_Quat * orientation1 = NULL, IVP_FLOAT dt = 0.0f);
+	void set_prime_orientation( const IVP_U_Quat * orientation0, const IVP_Time & time0,const IVP_U_Quat * orientation1 = nullptr, IVP_FLOAT dt = 0.0f);
 	IVP_Controller_Golem(IVP_Real_Object *, const IVP_Template_Controller_Golem *);
 	virtual ~IVP_Controller_Golem();
 };

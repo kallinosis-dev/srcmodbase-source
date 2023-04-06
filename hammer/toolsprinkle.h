@@ -64,9 +64,9 @@ private:
 
 	void DetermineKeysDown( );
 	void OnEscape( );
-	void RemoveMapObjects( Vector &vOrigin, KeyValues *pSprinkleType, int nMode, int nDensity, CUtlVector< CMapEntity * > *pRemovedLocations = NULL, CMapEntity *pTouchedEntity = NULL );
+	void RemoveMapObjects( Vector &vOrigin, KeyValues *pSprinkleType, int nMode, int nDensity, CUtlVector< CMapEntity * > *pRemovedLocations = nullptr, CMapEntity *pTouchedEntity = nullptr);
 	void PopulateEntity( CMapEntity *pEntity, KeyValues *pFields );
-	void CreateMapObject( Vector &vOrigin, KeyValues *pSprinkleType, int nMode, bool bRandomYaw, CMapEntity *pExisting = NULL );
+	void CreateMapObject( Vector &vOrigin, KeyValues *pSprinkleType, int nMode, bool bRandomYaw, CMapEntity *pExisting = nullptr);
 	bool FindWorldMousePoint( CMapView3D *pView, const Vector2D &vPoint );
 	bool FindWorldSpot( Vector &vOrigin );
 	bool IsInSprinkle( KeyValues *pSprinkleType, const char *pszClassname );

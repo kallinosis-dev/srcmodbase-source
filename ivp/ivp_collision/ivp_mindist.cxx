@@ -103,12 +103,12 @@ IVP_Mindist_Base::IVP_Mindist_Base(IVP_Collision_Delegator *del): IVP_Collision(
 IVP_Mindist::IVP_Mindist(IVP_Environment *my_env, IVP_Collision_Delegator *del): IVP_Mindist_Base(del){
   IVP_ASSERT(del);
     recalc_time_stamp = 0;
-    last_visited_triangle=NULL;
+    last_visited_triangle= nullptr;
     my_env->get_statistic_manager()->sum_of_mindists++;
     my_env->get_statistic_manager()->mindists_generated++;
 }
 
-IVP_Mindist *g_pCurrentMindist = NULL;
+IVP_Mindist *g_pCurrentMindist = nullptr;
 bool g_fDeferDeleteMindist = false;
 
 /********************************************************************************
@@ -203,7 +203,7 @@ const IVP_Compact_Ledge *IVP_Synapse::get_ledge() const
 #if defined(DEBUG) || 1
 void IVP_Synapse_Real::print()
 {
-    char *stat_text = NULL;
+    char *stat_text = nullptr;
     int n_points = 0;
     printf("(syn) ");
     switch(this->status){
@@ -358,7 +358,7 @@ void IVP_Mindist_Manager::create_exact_mindists(IVP_Real_Object *pop0, IVP_Real_
 	search_radius_0 = core1->upper_limit_radius + pop0->get_extra_radius() + scan_radius;
 	IVP_Cache_Object *cache0 = pop0->get_cache_object_no_lock();
 	cache0->m_world_f_object.vimult4( &pos1, &visitor_position_os0 );
-	pop0->get_surface_manager()->get_all_ledges_within_radius( &visitor_position_os0, search_radius_0 , root_ledge0, NULL, single_ledge1, &ledges0);
+	pop0->get_surface_manager()->get_all_ledges_within_radius( &visitor_position_os0, search_radius_0 , root_ledge0, nullptr, single_ledge1, &ledges0);
     }else{
 	ledges0.add( & (IVP_Compact_Ledge &)*single_ledge0);
     }
@@ -371,7 +371,7 @@ void IVP_Mindist_Manager::create_exact_mindists(IVP_Real_Object *pop0, IVP_Real_
 	search_radius_1 = core0->upper_limit_radius + pop1->get_extra_radius() + scan_radius;
 	IVP_Cache_Object *cache1 = pop1->get_cache_object_no_lock();
 	cache1->m_world_f_object.vimult4( &pos0, &visitor_position_os1 );
-	pop1->get_surface_manager()->get_all_ledges_within_radius( &visitor_position_os1, search_radius_1 , root_ledge1, NULL, single_ledge0, &ledges1);	
+	pop1->get_surface_manager()->get_all_ledges_within_radius( &visitor_position_os1, search_radius_1 , root_ledge1, nullptr, single_ledge0, &ledges1);	
     }else{
 	ledges1.add( & (IVP_Compact_Ledge &)*single_ledge1);
     }
@@ -392,7 +392,7 @@ void IVP_Mindist_Manager::create_exact_mindists(IVP_Real_Object *pop0, IVP_Real_
     }
 
     // convert old list into hash
-    IVP_Diff_Hash<IVP_MM_CMP, IVP_U_FVector<IVP_Collision>,IVP_Collision, IVP_MM_CMP_Key> diff_hash( mindists, a_buffer, buffer_size, NULL);
+    IVP_Diff_Hash<IVP_MM_CMP, IVP_U_FVector<IVP_Collision>,IVP_Collision, IVP_MM_CMP_Key> diff_hash( mindists, a_buffer, buffer_size, nullptr);
     IVP_Vector_of_Collisions_128 new_collisions;
     
     for (int i= ledges0.len()-1; i>=0; i--){
@@ -404,7 +404,7 @@ void IVP_Mindist_Manager::create_exact_mindists(IVP_Real_Object *pop0, IVP_Real_
 	    const IVP_Compact_Ledge *l1 = ledges1.element_at(j);
 	    key.ledge[1] = l1; key.object[1] = pop1;
 	    
-	    if ( diff_hash.check_element( &key, NULL )){
+	    if ( diff_hash.check_element( &key, nullptr)){
 		continue;
 	    }
 	    
@@ -473,7 +473,7 @@ void IVP_Mindist_Manager::insert_exact_mindist( IVP_Mindist *new_mindist){
   new_mindist->mindist_status = IVP_MD_EXACT;
   
   new_mindist->next = this->exact_mindists;
-  new_mindist->prev = NULL;
+  new_mindist->prev = nullptr;
 
   if(new_mindist->next){
     new_mindist->next->prev=new_mindist;
@@ -502,7 +502,7 @@ void IVP_Mindist_Manager::insert_invalid_mindist( IVP_Mindist *new_mindist){
   new_mindist->mindist_status = IVP_MD_INVALID;
   
   new_mindist->next = this->invalid_mindists;
-  new_mindist->prev = NULL;
+  new_mindist->prev = nullptr;
 
   if(new_mindist->next){
     new_mindist->next->prev=new_mindist;
@@ -526,7 +526,7 @@ void IVP_Mindist_Manager::insert_and_recalc_exact_mindist( IVP_Mindist *new_mind
     new_mindist->mindist_status = IVP_MD_EXACT;
     
     new_mindist->next = this->exact_mindists;
-    new_mindist->prev = NULL;
+    new_mindist->prev = nullptr;
 
     if(new_mindist->next){
 	new_mindist->next->prev=new_mindist;
@@ -705,7 +705,7 @@ void IVP_Mindist_Manager::recheck_ov_element(IVP_Real_Object *object){
 	
     } else {	// recursive call by IVP_Universe_Manager, use minimal radius
 	IVP_DOUBLE real_check_sphere = core->upper_limit_radius;
-	radius = environment->ov_tree_manager->insert_ov_element( elem, real_check_sphere, real_check_sphere, NULL);
+	radius = environment->ov_tree_manager->insert_ov_element( elem, real_check_sphere, real_check_sphere, nullptr);
 	IVP_DOUBLE real_hull_time =   P_DOUBLE_EPS;	// recheck as soon as possible because it's not checked now
 	elem->add_to_hull_manager( hm, real_hull_time );	    // insert into event queue
 	return;			// thats it, IVP_Universe_Manager can only add objects which do not have collision candidates except object
@@ -1230,7 +1230,7 @@ void IVP_Mindist::create_cp_in_advance_pretension(IVP_Real_Object *robject,float
 
 	    IVP_Friction_System *associated_fs;
 	    IVP_BOOL success;
-	    IVP_Simulation_Unit *sim_unit_not_destroy=NULL;
+	    IVP_Simulation_Unit *sim_unit_not_destroy= nullptr;
 	    IVP_BOOL call_recalc_svals=IVP_TRUE;
 
             IVP_Contact_Point *new_cp=try_to_generate_managed_friction(&associated_fs,&success,sim_unit_not_destroy,call_recalc_svals);

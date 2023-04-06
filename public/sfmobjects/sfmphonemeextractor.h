@@ -121,7 +121,7 @@ extern ISFMPhonemeExtractor *sfm_phonemeextractor;
 //-----------------------------------------------------------------------------
 // inline methods of CExtractInfo
 //-----------------------------------------------------------------------------
-inline CExtractInfo::CExtractInfo() : m_pClip( 0 ), m_pSound( 0 ),
+inline CExtractInfo::CExtractInfo() : m_pClip( nullptr ), m_pSound( nullptr ),
 	m_bSentenceValid( false ), m_bUseSentence( false ), m_bFullPathInSoundName( false ), m_flDuration( 0.0f )
 {
 }

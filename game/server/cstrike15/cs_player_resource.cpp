@@ -307,13 +307,13 @@ void CCSPlayerResource::UpdatePlayerData( void )
 	if( !m_foundGoalPositions )
 	{
 		// We only need to update these once a map, but we need the client to know about them.
-		CBaseEntity* ent = NULL;
-		while ( ( ent = gEntList.FindEntityByClassname( ent, "func_bomb_target" ) ) != NULL )
+		CBaseEntity* ent = nullptr;
+		while ( ( ent = gEntList.FindEntityByClassname( ent, "func_bomb_target" ) ) != nullptr)
 		{
 			const Vector &pos = ent->WorldSpaceCenter();
 			CNavArea *area = TheNavMesh->GetNearestNavArea( pos, true, 10000.0f, false, false );
-			const char *placeName = (area) ? TheNavMesh->PlaceToName( area->GetPlace() ) : NULL;
-			if ( placeName == NULL )
+			const char *placeName = (area) ? TheNavMesh->PlaceToName( area->GetPlace() ) : nullptr;
+			if ( placeName == nullptr)
 			{
 				// The bomb site has no area or place name, so just choose A then B
 				if ( m_bombsiteCenterA.Get().IsZero() )
@@ -341,7 +341,7 @@ void CCSPlayerResource::UpdatePlayerData( void )
 		}
 
 		int hostageRescue = 0;
-		while ( (( ent = gEntList.FindEntityByClassname( ent, "func_hostage_rescue" ) ) != NULL)  &&  (hostageRescue < MAX_HOSTAGE_RESCUES) )
+		while ( (( ent = gEntList.FindEntityByClassname( ent, "func_hostage_rescue" ) ) != nullptr)  &&  (hostageRescue < MAX_HOSTAGE_RESCUES) )
 		{
 			const Vector &pos = ent->WorldSpaceCenter();
 			m_hostageRescueX.Set( hostageRescue, (int) pos.x );	
@@ -361,8 +361,8 @@ void CCSPlayerResource::UpdatePlayerData( void )
 		CCSPlayer *pPlayer = ToCSPlayer( UTIL_PlayerByIndex( i ) );
 
 		bool bControllingBot = false;
-		CCSPlayer *pControlledPlayer = NULL;
-		CCSPlayer *pControlledByPlayer = NULL;
+		CCSPlayer *pControlledPlayer = nullptr;
+		CCSPlayer *pControlledByPlayer = nullptr;
 
 		if ( pPlayer && pPlayer->IsConnected() )
 		{

@@ -124,7 +124,7 @@ public:
 
 	// returns the next entity after pCurrentEnt;  if pCurrentEnt is NULL, return the first entity
 	CBaseEntity *NextEnt( CBaseEntity *pCurrentEnt );
-	CBaseEntity *FirstEnt() { return NextEnt(NULL); }
+	CBaseEntity *FirstEnt() { return NextEnt(nullptr); }
 
 	// returns the next entity of the specified class, using RTTI
 	template< class T >
@@ -136,14 +136,14 @@ public:
 			if ( start )
 				return start;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	// search functions
 	bool		 IsEntityPtr( void *pTest );
 	CBaseEntity *FindEntityByClassname( CBaseEntity *pStartEntity, const char *szName );
-	CBaseEntity *FindEntityByName( CBaseEntity *pStartEntity, const char *szName, CBaseEntity *pSearchingEntity = NULL, CBaseEntity *pActivator = NULL, CBaseEntity *pCaller = NULL, IEntityFindFilter *pFilter = NULL );
-	CBaseEntity *FindEntityByName( CBaseEntity *pStartEntity, string_t iszName, CBaseEntity *pSearchingEntity = NULL, CBaseEntity *pActivator = NULL, CBaseEntity *pCaller = NULL, IEntityFindFilter *pFilter = NULL )
+	CBaseEntity *FindEntityByName( CBaseEntity *pStartEntity, const char *szName, CBaseEntity *pSearchingEntity = nullptr, CBaseEntity *pActivator = nullptr, CBaseEntity *pCaller = nullptr, IEntityFindFilter *pFilter = nullptr);
+	CBaseEntity *FindEntityByName( CBaseEntity *pStartEntity, string_t iszName, CBaseEntity *pSearchingEntity = nullptr, CBaseEntity *pActivator = nullptr, CBaseEntity *pCaller = nullptr, IEntityFindFilter *pFilter = nullptr)
 	{
 		return FindEntityByName( pStartEntity, STRING(iszName), pSearchingEntity, pActivator, pCaller, pFilter );
 	}
@@ -152,22 +152,22 @@ public:
 	CBaseEntity *FindEntityByModel( CBaseEntity *pStartEntity, const char *szModelName );
 	CBaseEntity	*FindEntityByOutputTarget( CBaseEntity *pStartEntity, string_t iTarget );
 
-	CBaseEntity *FindEntityByNameNearest( const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity = NULL, CBaseEntity *pActivator = NULL, CBaseEntity *pCaller = NULL );
-	CBaseEntity *FindEntityByNameWithin( CBaseEntity *pStartEntity, const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity = NULL, CBaseEntity *pActivator = NULL, CBaseEntity *pCaller = NULL );
+	CBaseEntity *FindEntityByNameNearest( const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity = nullptr, CBaseEntity *pActivator = nullptr, CBaseEntity *pCaller = nullptr);
+	CBaseEntity *FindEntityByNameWithin( CBaseEntity *pStartEntity, const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity = nullptr, CBaseEntity *pActivator = nullptr, CBaseEntity *pCaller = nullptr);
 	CBaseEntity *FindEntityByClassnameNearest( const char *szName, const Vector &vecSrc, float flRadius );
 	CBaseEntity *FindEntityByClassnameNearest2D( const char *szName, const Vector &vecSrc, float flRadius );
 	CBaseEntity *FindEntityByClassnameWithin( CBaseEntity *pStartEntity , const char *szName, const Vector &vecSrc, float flRadius );
 	CBaseEntity *FindEntityByClassnameWithin( CBaseEntity *pStartEntity , const char *szName, const Vector &vecMins, const Vector &vecMaxs );
 
-	CBaseEntity *FindEntityGeneric( CBaseEntity *pStartEntity, const char *szName, CBaseEntity *pSearchingEntity = NULL, CBaseEntity *pActivator = NULL, CBaseEntity *pCaller = NULL );
-	CBaseEntity *FindEntityGenericWithin( CBaseEntity *pStartEntity, const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity = NULL, CBaseEntity *pActivator = NULL, CBaseEntity *pCaller = NULL );
-	CBaseEntity *FindEntityGenericNearest( const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity = NULL, CBaseEntity *pActivator = NULL, CBaseEntity *pCaller = NULL );
+	CBaseEntity *FindEntityGeneric( CBaseEntity *pStartEntity, const char *szName, CBaseEntity *pSearchingEntity = nullptr, CBaseEntity *pActivator = nullptr, CBaseEntity *pCaller = nullptr);
+	CBaseEntity *FindEntityGenericWithin( CBaseEntity *pStartEntity, const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity = nullptr, CBaseEntity *pActivator = nullptr, CBaseEntity *pCaller = nullptr);
+	CBaseEntity *FindEntityGenericNearest( const char *szName, const Vector &vecSrc, float flRadius, CBaseEntity *pSearchingEntity = nullptr, CBaseEntity *pActivator = nullptr, CBaseEntity *pCaller = nullptr);
 	
 	CBaseEntity *FindEntityNearestFacing( const Vector &origin, const Vector &facing, float threshold);
 	CBaseEntity *FindEntityClassNearestFacing( const Vector &origin, const Vector &facing, float threshold, char *classname);
 	CBaseEntity *FindEntityByNetname( CBaseEntity *pStartEntity, const char *szModelName );
 
-	CBaseEntity *FindEntityProcedural( const char *szName, CBaseEntity *pSearchingEntity = NULL, CBaseEntity *pActivator = NULL, CBaseEntity *pCaller = NULL );
+	CBaseEntity *FindEntityProcedural( const char *szName, CBaseEntity *pSearchingEntity = nullptr, CBaseEntity *pActivator = nullptr, CBaseEntity *pCaller = nullptr);
 	
 	// Fast versions that require a (real) string_t, and won't do wildcarding
 	CBaseEntity *FindEntityByClassnameFast( CBaseEntity *pStartEntity, string_t iszClassname );
@@ -211,7 +211,7 @@ inline edict_t* CGlobalEntityList::GetEdict( CBaseHandle hEnt ) const
 	if ( pUnk )
 		return pUnk->GetNetworkable()->GetEdict();
 	else
-		return NULL;
+		return nullptr;
 }
 
 inline CBaseNetworkable* CGlobalEntityList::GetBaseNetworkable( CBaseHandle hEnt ) const
@@ -220,7 +220,7 @@ inline CBaseNetworkable* CGlobalEntityList::GetBaseNetworkable( CBaseHandle hEnt
 	if ( pUnk )
 		return pUnk->GetNetworkable()->GetBaseNetworkable();
 	else
-		return NULL;
+		return nullptr;
 }
 
 inline IServerNetworkable* CGlobalEntityList::GetServerNetworkable( CBaseHandle hEnt ) const
@@ -229,7 +229,7 @@ inline IServerNetworkable* CGlobalEntityList::GetServerNetworkable( CBaseHandle 
 	if ( pUnk )
 		return pUnk->GetNetworkable();
 	else
-		return NULL;
+		return nullptr;
 }
 
 inline CBaseEntity* CGlobalEntityList::GetBaseEntity( CBaseHandle hEnt ) const
@@ -238,7 +238,7 @@ inline CBaseEntity* CGlobalEntityList::GetBaseEntity( CBaseHandle hEnt ) const
 	if ( pUnk )
 		return pUnk->GetBaseEntity();
 	else
-		return NULL;
+		return nullptr;
 }
 
 

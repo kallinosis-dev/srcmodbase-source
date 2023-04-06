@@ -37,7 +37,7 @@ static const tokenset_t< int > s_GameListenerTypeMap[] =
 	{ "CLIENTSTUB",     CGameEventManager::CLIENTSTUB     }, // this is a serverside stub for a remote client listener (used by engine only) 
 	{ "SERVERSIDE_OLD", CGameEventManager::SERVERSIDE_OLD }, // legacy support for old server event listeners                                
 	{ "CLIENTSIDE_OLD", CGameEventManager::CLIENTSIDE_OLD }, // legecy support for old client event listeners                                
-	{ NULL,             -1                                }
+	{nullptr,             -1                                }
 };
 
 static const tokenset_t< int > s_GameEventTypesMap[] =
@@ -51,7 +51,7 @@ static const tokenset_t< int > s_GameEventTypesMap[] =
 	{ "bool",     CGameEventManager::TYPE_BOOL    }, // 6 : unsigned int 1 bit           
 	{ "uint64",   CGameEventManager::TYPE_UINT64  }, // 7 : unsigned int 64 bit           
 	{ "wstring",  CGameEventManager::TYPE_WSTRING }, // 8 : zero terminated wide char string 
-	{ NULL,       -1                             }
+	{nullptr,       -1                             }
 };
 
 static ConVar net_showevents( "net_showevents", "0", 0, "Dump game events to console (1=client only, 2=all)." );
@@ -235,7 +235,7 @@ void CGameEventManager::Reset()
 		if ( e.keys )
 		{
 			e.keys->deleteThis(); // free the value keys
-			e.keys = NULL;
+			e.keys = nullptr;
 		}
 
 		e.listeners.Purge();	// remove listeners
@@ -408,7 +408,7 @@ IGameEvent *CGameEventManager::CreateEvent( const char *name, bool bForce, int *
 {
 	AUTO_LOCK_FM( m_mutex );
 	if ( !name || !name[0] )
-		return NULL;
+		return nullptr;
 
 	CGameEventDescriptor *descriptor = GetEventDescriptor( name, pCookie );
 
@@ -416,13 +416,13 @@ IGameEvent *CGameEventManager::CreateEvent( const char *name, bool bForce, int *
 	if ( !descriptor )
 	{
 		DevMsg( "CreateEvent: event '%s' not registered.\n", name );
-		return NULL;
+		return nullptr;
 	}
 
 	// event is known but no one listen to it
 	if ( descriptor->listeners.Count() == 0 && !bForce )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// create & return the new event 
@@ -450,7 +450,7 @@ IGameEvent *CGameEventManager::DuplicateEvent( IGameEvent *event )
 	CGameEvent *gameEvent = dynamic_cast<CGameEvent*>(event);
 
 	if ( !gameEvent )
-		return NULL;
+		return nullptr;
 
 	// create new instance
 	const char *pName = m_EventMap.GetElementName(gameEvent->m_pDescriptor->elementIndex );
@@ -495,7 +495,7 @@ void CGameEventManager::ConPrintEvent( IGameEvent *event)
 bool CGameEventManager::FireEventIntern( IGameEvent *event, bool bServerOnly, bool bClientOnly )
 {
 	AUTO_LOCK_FM( m_mutex );
-	if ( event == NULL )
+	if ( event == nullptr)
 		return false;
 
 	Assert( !(bServerOnly && bClientOnly) ); // it can't be both
@@ -505,7 +505,7 @@ bool CGameEventManager::FireEventIntern( IGameEvent *event, bool bServerOnly, bo
 
 	CGameEventDescriptor *descriptor = GetEventDescriptor( event );
 
-	if ( descriptor == NULL )
+	if ( descriptor == nullptr)
 	{
 		DevMsg( "FireEvent: event '%s' not registered.\n", event->GetName() );
 		FreeEvent( event );
@@ -692,10 +692,10 @@ IGameEvent *CGameEventManager::UnserializeEvent( const CSVCMsg_GameEvent& eventM
 	// get event description
 	CGameEventDescriptor *descriptor = GetEventDescriptor( eventid );
 
-	if ( descriptor == NULL )
+	if ( descriptor == nullptr)
 	{
 		DevMsg( "CGameEventManager::UnserializeEvent:: unknown event id %i.\n", eventid );
-		return NULL;
+		return nullptr;
 	}
 
 	// create new event
@@ -705,7 +705,7 @@ IGameEvent *CGameEventManager::UnserializeEvent( const CSVCMsg_GameEvent& eventM
 	if ( !event )
 	{
 		DevMsg( "CGameEventManager::UnserializeEvent:: failed to create event %s.\n", pName );
-		return NULL;
+		return nullptr;
 	}
 
 	int nNumKeys = eventMsg.keys_size();
@@ -782,7 +782,7 @@ CGameEventCallback* CGameEventManager::FindEventListener( void* pCallback )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CGameEventManager::RemoveListener(IGameEventListener2 *listener)
@@ -790,7 +790,7 @@ void CGameEventManager::RemoveListener(IGameEventListener2 *listener)
 	AUTO_LOCK_FM( m_mutex );
 	CGameEventCallback *pCallback = FindEventListener( listener );
 	
-	if ( pCallback == NULL )
+	if ( pCallback == nullptr)
 	{
 		return;
 	}
@@ -910,7 +910,7 @@ bool CGameEventManager::AddListener( void *listener, CGameEventDescriptor *descr
 	// check if we already know this listener
 	CGameEventCallback *pCallback = FindEventListener( listener );
 
-	if ( pCallback == NULL )
+	if ( pCallback == nullptr)
 	{
 		// add new callback 
 		pCallback = new CGameEventCallback;
@@ -950,7 +950,7 @@ bool CGameEventManager::AddListener( void *listener, CGameEventDescriptor *descr
 
 bool CGameEventManager::RegisterEvent( KeyValues * event)
 {
-	if ( event == NULL )
+	if ( event == nullptr)
 		return false;
 
 	AUTO_LOCK_FM( m_mutex );
@@ -1028,7 +1028,7 @@ CGameEventDescriptor *CGameEventManager::GetEventDescriptor(IGameEvent *event)
 	CGameEvent *gameevent = dynamic_cast<CGameEvent*>(event);
 
 	if ( !gameevent )
-		return NULL;
+		return nullptr;
 
 	return gameevent->m_pDescriptor;
 }
@@ -1036,7 +1036,7 @@ CGameEventDescriptor *CGameEventManager::GetEventDescriptor(IGameEvent *event)
 CGameEventDescriptor *CGameEventManager::GetEventDescriptor(int eventid) // returns event name or NULL
 {
 	if ( eventid < 0 )
-		return NULL;
+		return nullptr;
 
 	for ( int i = 0; i < m_GameEvents.Count(); i++ )
 	{
@@ -1046,7 +1046,7 @@ CGameEventDescriptor *CGameEventManager::GetEventDescriptor(int eventid) // retu
 			return descriptor;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CGameEventManager::FreeEvent( IGameEvent *event )
@@ -1064,7 +1064,7 @@ CGameEventDescriptor *CGameEventManager::GetEventDescriptor(const char * name, i
 	const uint32 cookieMask = ~cookieBit;
 
 	if ( !name || !name[0] )
-		return NULL;
+		return nullptr;
 
 	if ( pCookie && *pCookie )
 	{
@@ -1077,7 +1077,7 @@ CGameEventDescriptor *CGameEventManager::GetEventDescriptor(const char * name, i
 	}
 	int eventMapIndex = m_EventMap.Find( name );
 	if ( eventMapIndex == m_EventMap.InvalidIndex() )
-		return NULL;
+		return nullptr;
 	int gameEventIndex = m_EventMap[eventMapIndex];
 	if ( pCookie )
 	{
@@ -1109,7 +1109,7 @@ void CGameEventManager::RemoveListenerOld( void *listener)
 	AUTO_LOCK_FM( m_mutex );
 	CGameEventCallback *pCallback = FindEventListener( listener );
 
-	if ( pCallback == NULL )
+	if ( pCallback == nullptr)
 	{
 		DevMsg("RemoveListenerOld: couldn't find listener\n");
 		return;

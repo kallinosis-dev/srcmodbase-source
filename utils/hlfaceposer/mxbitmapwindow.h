@@ -18,7 +18,7 @@
 class mxBitmapWindow : public mxWindow
 {
 public:
-						mxBitmapWindow( mxWindow *parent, int x, int y, int w, int h, int style = 0, const char *bitmap = 0 );
+						mxBitmapWindow( mxWindow *parent, int x, int y, int w, int h, int style = 0, const char *bitmap = nullptr );
 	virtual				~mxBitmapWindow ( void );
 
 	virtual void		setImage( const char *bitmap );

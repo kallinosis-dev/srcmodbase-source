@@ -114,7 +114,7 @@ private:
 	void				GetStartAndEndTime( float& st, float& ed );
 	float				GetEventEndTime();
 	float				GetTimeValueForMouse( int mx, bool clip = false );
-	int					GetPixelForTimeValue( float time, bool *clipped = NULL );
+	int					GetPixelForTimeValue( float time, bool *clipped = nullptr);
 
 	float				m_flScrub;
 	float				m_flScrubTarget;

@@ -136,8 +136,8 @@ END_RECV_TABLE()
 // ------------------------------------------------------------------------- //
 C_SteamJet::C_SteamJet()
 {
-	m_pParticleMgr = NULL;
-	m_MaterialHandle = INVALID_MATERIAL_HANDLE;
+	m_pParticleMgr = nullptr;
+	m_MaterialHandle = nullptr;
 	
 	m_SpreadSpeed = 15;
 	m_Speed = 120;
@@ -171,7 +171,7 @@ void C_SteamJet::OnDataChanged(DataUpdateType_t updateType)
 
 	if(updateType == DATA_UPDATE_CREATED)
 	{
-		Start(ParticleMgr(), NULL);
+		Start(ParticleMgr(), nullptr);
 	}
 
 	// Recalulate lifetime in case length or speed changed.

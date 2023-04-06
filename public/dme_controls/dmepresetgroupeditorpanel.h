@@ -106,8 +106,8 @@ private:
 	void CleanupContextMenu();
 
 	// If it finds a duplicate group/preset name, reports an error message and returns it found one
-	bool HasDuplicatePresetName( const char *pPresetName, const char *pIgnorePresetName = NULL );
-	bool HasDuplicateGroupName ( const char *pGroupName,  const char *pIgnorePresetGroupName = NULL );
+	bool HasDuplicatePresetName( const char *pPresetName, const char *pIgnorePresetName = nullptr);
+	bool HasDuplicateGroupName ( const char *pGroupName,  const char *pIgnorePresetGroupName = nullptr);
 
 	// Refreshes the list of presets
 	void RefreshPresetNames( );

@@ -51,7 +51,7 @@ public:
   /// \brief Returns true if node is linked to list, assumes the list is being managed correctly with nullify()
   inline bool IsLinked() const
   {
-    return (m_next != NULL);
+    return (m_next != nullptr);
   }
     
 private:
@@ -75,7 +75,7 @@ public:
   inline gmListDoubleNodeObj()
   {
     this->Nullify();
-    SetObject(NULL);
+    SetObject(nullptr);
   }
 
   /// \brief Construct, Nullifies link and set object
@@ -269,7 +269,7 @@ inline T * gmListDouble<T>::RemoveGetNext(T * a_elem)
 template <class T>
 inline T * gmListDouble<T>::RemoveLast()
 {
-  if(m_sentinel.m_prev == &m_sentinel) return NULL;
+  if(m_sentinel.m_prev == &m_sentinel) return nullptr;
   
   gmListDoubleNode<T> * temp;
   temp = m_sentinel.m_prev;
@@ -282,7 +282,7 @@ inline T * gmListDouble<T>::RemoveLast()
 template <class T>
 inline T * gmListDouble<T>::RemoveLastAndNullify()
 {
-  if(m_sentinel.m_prev == &m_sentinel) return NULL;
+  if(m_sentinel.m_prev == &m_sentinel) return nullptr;
 
   gmListDoubleNode<T> * temp;
   temp = m_sentinel.m_prev;
@@ -298,7 +298,7 @@ inline T * gmListDouble<T>::RemoveLastAndNullify()
 template <class T>
 inline T * gmListDouble<T>::RemoveFirst()
 {
-  if(m_sentinel.m_next == &m_sentinel) return NULL;
+  if(m_sentinel.m_next == &m_sentinel) return nullptr;
 
   gmListDoubleNode<T> * temp;
   temp = m_sentinel.m_next;
@@ -311,7 +311,7 @@ inline T * gmListDouble<T>::RemoveFirst()
 template <class T>
 inline T * gmListDouble<T>::RemoveFirstAndNullify()
 {
-  if(m_sentinel.m_next == &m_sentinel) return NULL;
+  if(m_sentinel.m_next == &m_sentinel) return nullptr;
 
   gmListDoubleNode<T> * temp;
   temp = m_sentinel.m_next;

@@ -579,7 +579,7 @@ namespace OptimizedModel
 			if( !faces[i].touched )
 				return &faces[i];
 		}
-		return 0;
+		return nullptr;
 	}
 
 
@@ -607,7 +607,7 @@ namespace OptimizedModel
 
 	Face_t* COptimizedModel::GetNextUntouchedWithoutBoneStateChange( FaceList_t& faces )
 	{
-		Face_t *bestFace = 0;
+		Face_t *bestFace = nullptr;
 
 		int vertsPerFace = faces[0].vertID[3] == -1 ? 3 : 4;
 		int bestNumNewBones = ( MAX_NUM_BONES_PER_VERT * vertsPerFace ) + 1;
@@ -644,7 +644,7 @@ namespace OptimizedModel
 
 	Face_t *COptimizedModel::GetNextUntouchedWithLeastBoneStateChanges( FaceList_t& faces )
 	{
-		Face_t *bestFace = 0;
+		Face_t *bestFace = nullptr;
 
 		int vertsPerFace = faces[0].vertID[3] == -1 ? 3 : 4;
 		int bestNumNewBones = ( MAX_NUM_BONES_PER_VERT * vertsPerFace ) + 1;
@@ -667,7 +667,7 @@ namespace OptimizedModel
 
 		// This only happens if there are no faces untouched
 		if( !bestFace )
-			return 0;
+			return nullptr;
 
 #ifdef USE_FLUSH
 		m_HardwareMatrixState.DeallocateAll();
@@ -769,7 +769,7 @@ namespace OptimizedModel
 	{
 		if( sourceIndices.Count() == 0 )
 		{
-			*ppIndices = 0;
+			*ppIndices = nullptr;
 			*pNumIndices = 0;
 			return;
 		}
@@ -778,7 +778,7 @@ namespace OptimizedModel
 		if ( pNumTopologyIndices )
 			*pNumTopologyIndices = 0;
 		if ( ppTopologyIndices )
-			*ppTopologyIndices = NULL;
+			*ppTopologyIndices = nullptr;
 
 		// Skip the tristripping phase if we're building in preview mode, rendering quads or not hardware skinning
 		if ( bQuadSubd || g_bBuildPreview || !bIsHWSkinned || g_bPreserveTriangleOrder )
@@ -906,7 +906,7 @@ namespace OptimizedModel
 			// There are no more faces to eat up without causing a flush, so 
 			// go ahead and stripify what we have and flush.
 			// NOTE: This allocates space for stripIndices.pIndices
-			Stripify( facesToStrip, IndexTopologyList_t(), true, &newStrip.numIndices, 0, &newStrip.pIndices, NULL, numVerts == 4 );
+			Stripify( facesToStrip, IndexTopologyList_t(), true, &newStrip.numIndices, nullptr, &newStrip.pIndices, nullptr, numVerts == 4 );
 
 			// hack - should just build directly into newStrip.verts instead of using a global.
 			for( int i = 0; i < vertices.Count(); i++ )
@@ -2388,7 +2388,7 @@ namespace OptimizedModel
 		// in the model.  In pSrc->meshes, there are some empty meshes in the middle if they 
 		// don't exist for the material, so you have to go through all of the meshes to find
 		// the non-empty ones.
-		s_mesh_t *pSrcMesh = NULL;
+		s_mesh_t *pSrcMesh = nullptr;
 		for ( i = 0; i < pStudioModel->nummeshes; i++ )
 		{
 			if ( pSrc->texmap[pSrc->meshindex[i]] == textureSearchID )
@@ -3354,7 +3354,7 @@ namespace OptimizedModel
 		//	PrintVerts( pHdr, 1 );
 
 		delete m_FileBuffer;
-		m_FileBuffer = NULL;
+		m_FileBuffer = nullptr;
 
 		if( m_NumSkinnedAndFlexedVerts != 0 )
 		{

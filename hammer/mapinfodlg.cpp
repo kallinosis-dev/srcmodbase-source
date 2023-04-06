@@ -37,7 +37,7 @@ static BOOL CountObject(CMapClass *pobj, unsigned int dwParam)
 {
 	CMapInfoDlg *pdlg = (CMapInfoDlg *)dwParam;
 
-	if (pdlg != NULL)
+	if (pdlg != nullptr)
 	{
 		if (pobj->IsMapClass(MAPCLASS_TYPE(CMapSolid)))
 		{
@@ -91,7 +91,7 @@ void CMapInfoDlg::CountEntity(CMapEntity *pEntity)
 //-----------------------------------------------------------------------------
 void CMapInfoDlg::CountFace(CMapFace *pFace)
 {
-	if (pFace->GetTexture() != NULL)
+	if (pFace->GetTexture() != nullptr)
 	{
 		CountTexture(pFace->GetTexture());
 	}
@@ -112,7 +112,7 @@ void CMapInfoDlg::CountSolid(CMapSolid *pSolid)
 	for (UINT uFace = 0; uFace < uFaceCount; uFace++)
 	{
 		CMapFace *pFace = pSolid->GetFace(uFace);
-		if (pFace != NULL)
+		if (pFace != nullptr)
 		{
 			CountFace(pFace);
 		}

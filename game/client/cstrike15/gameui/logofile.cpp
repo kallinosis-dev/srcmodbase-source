@@ -222,7 +222,7 @@ void UpdateLogoWAD( void *phdib, int r, int g, int b )
 	HANDLE hdib = (HANDLE)phdib;
 	COLORREF crf = RGB( r, g, b );
 
-	if ((!pszName) || (pszName[0] == 0) || (hdib == NULL))
+	if ((!pszName) || (pszName[0] == 0) || (hdib == nullptr))
 		return;
 	// Generate lump
 

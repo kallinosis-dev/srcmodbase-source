@@ -53,7 +53,7 @@ public:
 #else
 	DECLARE_DATADESC();
 
-	CBaseCSGrenadeProjectile() : m_pWeaponInfo(NULL), m_bDetonationRecorded(false) {}
+	CBaseCSGrenadeProjectile() : m_pWeaponInfo(nullptr), m_bDetonationRecorded(false) {}
 	virtual void PostConstructor( const char *className );
 	virtual ~CBaseCSGrenadeProjectile();
 

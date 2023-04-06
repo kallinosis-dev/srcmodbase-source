@@ -75,7 +75,7 @@ TextEntry::TextEntry(Panel *parent, const char *panelName) : BaseClass(parent, p
 	_cursorBlinkRate = 400;
 	_mouseSelection = false;
 	_mouseDragSelection = false;
-	_vertScrollBar=NULL;
+	_vertScrollBar= nullptr;
 	_catchEnterKey = false;
 	_catchTabKey = false;
 	_maxCharCount = -1;
@@ -85,7 +85,7 @@ TextEntry::TextEntry(Panel *parent, const char *panelName) : BaseClass(parent, p
 	_drawWidth = 0;
 	_tabSpaces = 4;
 	m_bAutoProgressOnHittingCharLimit = false;
-	m_pIMECandidates = NULL;
+	m_pIMECandidates = nullptr;
 	m_hPreviousIME = input()->GetEnglishIMEHandle();
 	m_bDrawLanguageIDAtLeft = false;
 	m_nLangInset = 0;
@@ -96,7 +96,7 @@ TextEntry::TextEntry(Panel *parent, const char *panelName) : BaseClass(parent, p
 	//a -1 for _select[0] means that the selection is empty
 	_select[0] = -1;
 	_select[1] = -1;
-	m_pEditMenu = NULL;
+	m_pEditMenu = nullptr;
 	
 	//this really just inits it when in here	
 	ResetCursorBlink();
@@ -1332,9 +1332,9 @@ void TextEntry::CreateEditMenu()
 
 	if ( m_bAllowNonAsciiCharacters )
 	{
-		IInput::LanguageItem *langs = NULL;
+		IInput::LanguageItem *langs = nullptr;
 
-		int count = input()->GetIMELanguageList( NULL, 0 );
+		int count = input()->GetIMELanguageList(nullptr, 0 );
 		if ( count > 0 )
 		{
 			langs = new IInput::LanguageItem[ count ];
@@ -1359,9 +1359,9 @@ void TextEntry::CreateEditMenu()
 			delete[] langs;
 		}
 
-		IInput::ConversionModeItem *modes = NULL;
+		IInput::ConversionModeItem *modes = nullptr;
 
-		count = input()->GetIMEConversionModes( NULL, 0 );
+		count = input()->GetIMEConversionModes(nullptr, 0 );
 		// if count == 0 then native mode is the only mode...
 		if ( count > 0 )
 		{
@@ -1387,9 +1387,9 @@ void TextEntry::CreateEditMenu()
 			delete[] modes;
 		}
 
-		IInput::SentenceModeItem *sentencemodes = NULL;
+		IInput::SentenceModeItem *sentencemodes = nullptr;
 
-		count = input()->GetIMESentenceModes( NULL, 0 );
+		count = input()->GetIMESentenceModes(nullptr, 0 );
 		// if count == 0 then native mode is the only mode...
 		if ( count > 0 )
 		{
@@ -2100,7 +2100,7 @@ Panel *TextEntry::GetDragPanel()
 			// Don't deselect in this case!!!
 			return BaseClass::GetDragPanel();
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	return BaseClass::GetDragPanel();
@@ -2138,7 +2138,7 @@ bool TextEntry::SelectCheck( bool fromMouse /*=false*/ )
 		bool deselect = true;
 		int cx0, cx1;
 		if ( fromMouse && 
-			GetDragPanel() != NULL )
+			GetDragPanel() != nullptr)
 		{
 			// move the cursor to where the mouse was pressed
 			int x, y;
@@ -4008,7 +4008,7 @@ void TextEntry::ShowIMECandidates()
 #endif
 		label[ sizeof( label ) / sizeof( wchar_t ) - 1 ] = L'\0';
 
-		int id = m_pIMECandidates->AddMenuItem( "Candidate", label, (KeyValues *)NULL, this );
+		int id = m_pIMECandidates->AddMenuItem( "Candidate", label, (KeyValues *)nullptr, this );
 		if ( isSelected )
 		{
 			m_pIMECandidates->SetCurrentlyHighlightedItem( id );
@@ -4074,7 +4074,7 @@ void TextEntry::HideIMECandidates()
 		m_pIMECandidates->SetVisible( false );
 	}
 	delete m_pIMECandidates;
-	m_pIMECandidates = NULL;
+	m_pIMECandidates = nullptr;
 }
 
 void TextEntry::UpdateIMECandidates()

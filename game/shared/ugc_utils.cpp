@@ -975,7 +975,7 @@ UGCFileRequestStatus_t CUGCFileRequest::ThrowError( const char *lpszFormat, ... 
 void V_SafeComposeFilename( const char *pPathIn, const char *pFilenameIn, char *pDest, size_t nDestSize )
 {
 	// If we've passed in a directory, then start with it
-	if ( pPathIn != NULL )
+	if ( pPathIn != nullptr)
 	{
 		V_strncpy( pDest, pPathIn, nDestSize );
 		V_FixSlashes( pDest );
@@ -987,7 +987,7 @@ void V_SafeComposeFilename( const char *pPathIn, const char *pFilenameIn, char *
 		pDest[0] = '\0';
 	}
 
-	if ( pFilenameIn != NULL )
+	if ( pFilenameIn != nullptr)
 	{
 		// Tack on the filename and fix slashes
 		V_strncat( pDest, pFilenameIn, nDestSize, COPY_ALL_CHARACTERS );

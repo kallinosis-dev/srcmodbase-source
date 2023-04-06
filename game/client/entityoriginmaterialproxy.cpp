@@ -23,8 +23,8 @@ class CEntityOriginMaterialProxy : public CEntityMaterialProxy
 public:
 	CEntityOriginMaterialProxy()
 	{
-		m_pMaterial = NULL;
-		m_pOriginVar = NULL;
+		m_pMaterial = nullptr;
+		m_pOriginVar = nullptr;
 	}
 	virtual ~CEntityOriginMaterialProxy()
 	{
@@ -36,7 +36,7 @@ public:
 		m_pOriginVar = m_pMaterial->FindVar( "$entityorigin", &found );
 		if( !found )
 		{
-			m_pOriginVar = NULL;
+			m_pOriginVar = nullptr;
 			return false;
 		}
 		return true;
@@ -173,8 +173,8 @@ class CEntityOriginAlyxMaterialProxy : public CEntityMaterialProxy
 public:
 	CEntityOriginAlyxMaterialProxy()
 	{
-		m_pMaterial = NULL;
-		m_pOriginVar = NULL;
+		m_pMaterial = nullptr;
+		m_pOriginVar = nullptr;
 	}
 	virtual ~CEntityOriginAlyxMaterialProxy()
 	{
@@ -186,7 +186,7 @@ public:
 		m_pOriginVar = m_pMaterial->FindVar( "$entityorigin", &found );
 		if( !found )
 		{
-			m_pOriginVar = NULL;
+			m_pOriginVar = nullptr;
 			return false;
 		}
 		return true;
@@ -217,8 +217,8 @@ class CEp1IntroVortRefractMaterialProxy : public CEntityMaterialProxy
 public:
 	CEp1IntroVortRefractMaterialProxy()
 	{
-		m_pMaterial = NULL;
-		m_pOriginVar = NULL;
+		m_pMaterial = nullptr;
+		m_pOriginVar = nullptr;
 	}
 	virtual ~CEp1IntroVortRefractMaterialProxy()
 	{
@@ -230,14 +230,14 @@ public:
 		m_pOriginVar = m_pMaterial->FindVar( "$refractamount", &found );
 		if( !found )
 		{
-			m_pOriginVar = NULL;
+			m_pOriginVar = nullptr;
 			return false;
 		}
 		return true;
 	}
 	virtual void OnBind( C_BaseEntity *pC_BaseEntity )
 	{
-		if ( m_pOriginVar != NULL)
+		if ( m_pOriginVar != nullptr)
 		{
 			float flTmp = ( 1.0f - m_pOriginVar->GetFloatValue() );
 			flTmp *= flTmp;

@@ -70,7 +70,7 @@ private:
 
 CConsoleWnd::CConsoleWnd()
 {
-	m_hWnd = m_hEditControl = NULL;
+	m_hWnd = m_hEditControl = nullptr;
 	m_bVisible = false;
 	m_bDeleteOnClose = false;
 	m_nCurrentChars = 0;
@@ -115,7 +115,7 @@ void CConsoleWnd::Term()
 	if ( m_hWnd )
 	{
 		DestroyWindow( m_hWnd );
-		m_hWnd = NULL;
+		m_hWnd = nullptr;
 	}
 }
 
@@ -141,7 +141,7 @@ void CConsoleWnd::SetVisible( bool bVisible )
 	}
 	else
 	{
-		SetWindowPos( m_hWnd, 0, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_HIDEWINDOW | SWP_NOOWNERZORDER );
+		SetWindowPos( m_hWnd, nullptr, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_HIDEWINDOW | SWP_NOOWNERZORDER );
 	}
 	
 	m_bVisible = bVisible;
@@ -251,7 +251,7 @@ void CConsoleWnd::RepositionEditControl()
 
 	SetWindowPos( 
 		m_hEditControl,
-		NULL,
+		nullptr,
 		rcNew.left,
 		rcNew.top,
 		rcNew.right - rcNew.left,
@@ -330,7 +330,7 @@ IConsoleWnd* CreateConsoleWnd( void *hInstance, int dialogResourceID, int editCo
 	else
 	{
 		pWnd->Release();
-		return NULL;
+		return nullptr;
 	}
 }
 

@@ -23,7 +23,7 @@
 
 #define ALLOWDEBUGOPTIONS (0 || _DEBUG)
 
-static FileHandle_t pFpTrans = NULL;
+static FileHandle_t pFpTrans = nullptr;
 
 /*
 
@@ -82,7 +82,7 @@ char		level_lights[MAX_PATH] = "";
 char		vismatfile[_MAX_PATH] = "";
 char		incrementfile[_MAX_PATH] = "";
 
-IIncremental *g_pIncremental = 0;
+IIncremental *g_pIncremental = nullptr;
 bool		g_bInterrupt = false;	// Wsed with background lighting in WC. Tells VRAD
 									// to stop lighting.
 float g_SunAngularExtent=0.0;
@@ -132,7 +132,7 @@ RayTracingEnvironment g_RtEnv;
 RayTracingEnvironment g_RtEnv_LightBlockers; // ray tracing environment consisting solely of light blockers - used in conjunction with bsp to solve indirect lighting for static props (as opposed to using the full RTE).
 RayTracingEnvironment g_RtEnv_RadiosityPatches;
 
-dface_t *g_pFaces=0;
+dface_t *g_pFaces=nullptr;
 
 // this is a list of material names used on static props which shouldn't cast shadows.  a
 // sequential search is used since we allow substring matches. its not time critical, and this
@@ -1889,7 +1889,7 @@ void BuildFacesVisibleToLights( bool bAllVisible )
 	int nDWords = aggregate.Count() / 4;
 	int nBytes = aggregate.Count() - nDWords*4;
 
-	for( directlight_t *dl = activelights; dl != NULL; dl = dl->next )
+	for( directlight_t *dl = activelights; dl != nullptr; dl = dl->next )
 	{
 		byte *pIn  = dl->pvs;
 		byte *pOut = aggregate.Base();
@@ -2242,7 +2242,7 @@ void VRAD_LoadBSP( char const *pFilename )
 		// Otherwise, try looking in the BIN directory from which we were run from
 		Msg( "Could not find lights.rad in %s.\nTrying VRAD BIN directory instead...\n", 
 			    global_lights );
-		GetModuleFileName( NULL, global_lights, sizeof( global_lights ) );
+		GetModuleFileName(nullptr, global_lights, sizeof( global_lights ) );
 		Q_ExtractFilePath( global_lights, global_lights, sizeof( global_lights ) );
 		strcat( global_lights, "lights.rad" );
 	}
@@ -3076,7 +3076,7 @@ int RunVRAD( int argc, char **argv )
 
 int VRAD_Main(int argc, char **argv)
 {
-	g_pFileSystem = NULL;	// Safeguard against using it before it's properly initialized.
+	g_pFileSystem = nullptr;	// Safeguard against using it before it's properly initialized.
 
 	VRAD_Init();
 

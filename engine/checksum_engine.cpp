@@ -113,7 +113,7 @@ bool CRC_File(CRC32_t *crcvalue, const char *pszFileName)
 		if ( g_pFileSystem->EndOfFile( fp ) )
 		{
 			g_pFileSystem->Close( fp );
-			fp = 0;
+			fp = nullptr;
 			break;
 		}
 		// If there was a disk error, indicate failure.
@@ -130,7 +130,7 @@ bool CRC_File(CRC32_t *crcvalue, const char *pszFileName)
 	return TRUE;
 }
 
-static BSPHeader_t *g_pMapHeader = NULL;
+static BSPHeader_t *g_pMapHeader = nullptr;
 
 int __cdecl LumpCompare( const void *pElem0, const void *pElem1 )
 {
@@ -337,7 +337,7 @@ bool MD5_Hash_File(unsigned char digest[16], char *pszFileName, bool bSeed /* = 
 		if ( g_pFileSystem->EndOfFile( fp ) )
 		{
 			g_pFileSystem->Close( fp );
-			fp = NULL;
+			fp = nullptr;
 			break;
 		}
 		// If there was a disk error, indicate failure.

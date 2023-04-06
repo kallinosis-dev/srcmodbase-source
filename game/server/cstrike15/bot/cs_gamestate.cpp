@@ -34,7 +34,7 @@ CSGameState::CSGameState( CCSBot *owner )
 
 	for( int i=0; i<MAX_HOSTAGES; ++i )
 	{
-		m_hostage[i].hostage = NULL;
+		m_hostage[i].hostage = nullptr;
 		m_hostage[i].isValid = false;
 		m_hostage[i].isAlive = false;
 		m_hostage[i].isFree = true;
@@ -304,7 +304,7 @@ const Vector *CSGameState::GetBombPosition( void ) const
 		case MOVING:
 		{
 			if (!m_lastSawBomber.HasStarted())
-				return NULL;
+				return nullptr;
 
 			return &m_bomberPos;
 		}
@@ -314,7 +314,7 @@ const Vector *CSGameState::GetBombPosition( void ) const
 			if (IsLooseBombLocationKnown())
 				return &m_looseBombPos;
 
-			return NULL;
+			return nullptr;
 		}
 
 		case PLANTED:
@@ -322,11 +322,11 @@ const Vector *CSGameState::GetBombPosition( void ) const
 			if (IsPlantedBombLocationKnown())
 				return &m_plantedBombPos;
 
-			return NULL;
+			return nullptr;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -337,7 +337,7 @@ void CSGameState::UpdatePlantedBomb( const Vector &pos )
 {
 	const CCSBotManager::Zone *zone = TheCSBots()->GetClosestZone( pos );
 
-	if (zone == NULL)
+	if (zone == nullptr)
 	{
 		CONSOLE_ECHO( "ERROR: Bomb planted outside of a zone!\n" );
 		m_plantedBombsite = UNKNOWN;
@@ -418,14 +418,14 @@ void CSGameState::InitializeHostageInfo( void )
  */
 CHostage *CSGameState::GetNearestFreeHostage( Vector *knowPos ) const
 {
-	if (m_owner == NULL)
-		return NULL;
+	if (m_owner == nullptr)
+		return nullptr;
 
 	CNavArea *startArea = m_owner->GetLastKnownArea();
-	if (startArea == NULL)
-		return NULL;
+	if (startArea == nullptr)
+		return nullptr;
 
-	CHostage *close = NULL;
+	CHostage *close = nullptr;
 	Vector closePos( 0, 0, 0 );
 	float closeDistance = 9999999999.9f;
 
@@ -482,8 +482,8 @@ CHostage *CSGameState::GetNearestFreeHostage( Vector *knowPos ) const
  */
 const Vector *CSGameState::GetRandomFreeHostagePosition( void ) const
 {
-	if (m_owner == NULL)
-		return NULL;
+	if (m_owner == nullptr)
+		return nullptr;
 
 	static Vector freePos[ MAX_HOSTAGES ];
 	int freeCount = 0;
@@ -519,7 +519,7 @@ const Vector *CSGameState::GetRandomFreeHostagePosition( void ) const
 		return &freePos[ RandomInt( 0, freeCount-1 ) ];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -651,7 +651,7 @@ unsigned char CSGameState::ValidateHostagePositions( void )
  */
 CHostage *CSGameState::GetNearestVisibleFreeHostage( void ) const
 {
-	CHostage *close = NULL;
+	CHostage *close = nullptr;
 	float closeRangeSq = 999999999.9f;
 	float rangeSq;
 

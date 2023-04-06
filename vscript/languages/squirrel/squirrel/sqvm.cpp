@@ -29,7 +29,7 @@ void SQVM::ClearStack(SQInteger last_top)
 		tOldType = o._type;
 		unOldVal = o._unVal;
 		o._type = OT_NULL;
-		o._unVal.pUserPointer = NULL;
+		o._unVal.pUserPointer = nullptr;
 		__Release(tOldType,unOldVal);
 	}
 }
@@ -91,7 +91,7 @@ bool SQVM::ARITH_OP(SQUnsignedInteger op,SQObjectPtr &trg,const SQObjectPtr &o1,
 			}
 			else if(!ArithMetaMethod(op,o1,o2,trg))
 			{ 
-				if( _lasterror._unVal.pString != NULL )
+				if( _lasterror._unVal.pString != nullptr)
 					// Already something in _lasterror. Don't lose it, just append it.
 					Raise_Error(_SC("arith op %c on between '%s' and '%s' (%s)"),op,GetTypeName(o1),GetTypeName(o2),_lasterror._unVal.pString->_val);
 				else
@@ -110,16 +110,16 @@ SQVM::SQVM(SQSharedState *ss)
 	_suspended_target=-1;
 	_suspended_root = SQFalse;
 	_suspended_traps=-1;
-	_foreignptr=NULL;
+	_foreignptr= nullptr;
 	_nnativecalls=0;
 	_lasterror = _null_;
 	_errorhandler = _null_;
 	_debughook = _null_;
-	ci = NULL;
+	ci = nullptr;
 	INIT_CHAIN();ADD_TO_CHAIN(&_ss(this)->_gc_chain,this);
 
 	_qs_cnt = 0;
-	_qs_fn = 0;
+	_qs_fn = nullptr;
 }
 
 void SQVM::Finalize()
@@ -385,7 +385,7 @@ bool SQVM::StartCall(SQClosure *closure,SQInteger target,SQInteger args,SQIntege
 
 	if (!tailcall) {
 		CallInfo lc;
-		lc._generator = NULL;
+		lc._generator = nullptr;
 		lc._etraps = 0;
 		lc._prevstkbase = (SQInt32) ( stackbase - _stackbase );
 		lc._target = (SQInt32) target;
@@ -562,7 +562,7 @@ bool SQVM::DELEGATE_OP(SQObjectPtr &trg,SQObjectPtr &o1,SQObjectPtr &o2)
 		}
 		break;
 	case OT_NULL:
-		_table(o1)->SetDelegate(NULL);
+		_table(o1)->SetDelegate(nullptr);
 		break;
 	default:
 		Raise_Error(_SC("using '%s' as delegate"), GetTypeName(o2));
@@ -632,7 +632,7 @@ bool SQVM::GETVARGV_OP(SQObjectPtr &target,SQObjectPtr &index,CallInfo *ci)
 
 bool SQVM::CLASS_OP(SQObjectPtr &target,SQInteger baseclass,SQInteger attributes)
 {
-	SQClass *base = NULL;
+	SQClass *base = nullptr;
 	SQObjectPtr attrs;
 	if(baseclass != -1) {
 		if(type(_stack._vals[_stackbase+baseclass]) != OT_CLASS) { Raise_Error(_SC("trying to inherit from a %s"),GetTypeName(_stack._vals[_stackbase+baseclass])); return false; }
@@ -714,7 +714,7 @@ bool SQVM::Execute(SQObjectPtr &closure, SQInteger target, SQInteger nargs, SQIn
 			temp_reg = closure;
 			if(!StartCall(_closure(temp_reg), _top - nargs, nargs, stackbase, false)) { 
 				//call the handler if there are no calls in the stack, if not relies on the previous node
-				if(ci == NULL) CallErrorHandler(_lasterror);
+				if(ci == nullptr) CallErrorHandler(_lasterror);
 				return false;
 			}
 			if (_funcproto(_closure(temp_reg)->_function)->_bgenerator) {
@@ -1168,7 +1168,7 @@ bool SQVM::CallNative(SQNativeClosure *nclosure,SQInteger nargs,SQInteger stackb
 	_top = stackbase + nargs;
 	CallInfo lci;
 	lci._closure = nclosure;
-	lci._generator = NULL;
+	lci._generator = nullptr;
 	lci._etraps = 0;
 	lci._prevstkbase = (SQInt32) (stackbase - _stackbase);
 	lci._ncalls = 1;

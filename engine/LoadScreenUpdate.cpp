@@ -155,7 +155,7 @@ static int LoadLibraryThreadFunc()
 //-----------------------------------------------------------------------------
 CLoaderMemAlloc::CLoaderMemAlloc() 
 {
-	m_pMemAlloc = 0;
+	m_pMemAlloc = nullptr;
 	m_bPaused = false;
 }
 
@@ -198,7 +198,7 @@ void CLoaderMemAlloc::Stop()
 
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	pRenderContext->EnableNonInteractiveMode( MATERIAL_NON_INTERACTIVE_MODE_NONE );
-	SetThreadedLoadLibraryFunc( NULL );
+	SetThreadedLoadLibraryFunc(nullptr);
 }
 
 void CLoaderMemAlloc::AbortDueToShutdown()

@@ -52,7 +52,7 @@ static ConVar mat_drawColorRamp( "mat_drawColorRamp", "0", 0, "Draw color test p
 //-----------------------------------------------------------------------------
 // (the engine owns this cvar).
 ConVar mat_wireframe( "mat_wireframe", "0", FCVAR_CHEAT );
-const ConVar *sv_cheats = NULL;
+const ConVar *sv_cheats = nullptr;
 ConVar	mat_showlightmappage(  "mat_showlightmappage", "-1" ); // set this to the lightmap page that you want to see on screen, set to -1 to show nothing.
 ConVar cl_drawshadowtexture( "cl_drawshadowtexture", "0", FCVAR_CHEAT );
 extern ConVar cl_csm_debug_2d;
@@ -76,7 +76,7 @@ public:
 		AllowCurrentViewAccess( true );
 		Frustum frustum;
 		CMatRenderContextPtr pRenderContext( materials );
-		render->Push3DView( pRenderContext, *this, 0, NULL, frustum );
+		render->Push3DView( pRenderContext, *this, 0, nullptr, frustum );
 		BuildWorldRenderLists( true, -1, true, true );
 		render->PopView( pRenderContext, frustum );
 		AllowCurrentViewAccess( false );
@@ -177,8 +177,8 @@ static void OverlayWaterTexture( IMaterial *pMaterial, int xOffset, int yOffset,
 
 static void OverlayWaterTextures( void )
 {
-	OverlayWaterTexture( materials->FindMaterial( "debug/debugreflect", NULL ), 0, 0, false );
-	OverlayWaterTexture( materials->FindMaterial( "debug/debugrefract", NULL ), 0, 1, true );
+	OverlayWaterTexture( materials->FindMaterial( "debug/debugreflect", nullptr), 0, 0, false );
+	OverlayWaterTexture( materials->FindMaterial( "debug/debugrefract", nullptr), 0, 1, true );
 }
 
 void OverlayCameraRenderTarget( const char *pszMaterialName, float flX, float flY, float w, float h )
@@ -715,7 +715,7 @@ void CDebugViewRender::Draw2DDebuggingInfo( const CViewSetup &view )
 	{
 		// HDRFIXME: Get rid of these rendertarget sets assuming that the assert at the top of this function is true.
 		CMatRenderContextPtr pRenderContext( materials );
-		pRenderContext->PushRenderTargetAndViewport( NULL );
+		pRenderContext->PushRenderTargetAndViewport(nullptr);
 		OverlayFrameBufferTexture( 0 );
 		OverlayFrameBufferTexture( 1 );
 		pRenderContext->PopRenderTargetAndViewport( );
@@ -749,7 +749,7 @@ CON_COMMAND_F( r_screenoverlay, "Draw specified material as an overlay", FCVAR_C
 	{
 		if ( !Q_stricmp( "off", args[1] ) )
 		{
-			view->SetScreenOverlayMaterial( NULL );
+			view->SetScreenOverlayMaterial(nullptr);
 		}
 		else
 		{
@@ -760,7 +760,7 @@ CON_COMMAND_F( r_screenoverlay, "Draw specified material as an overlay", FCVAR_C
 			}
 			else
 			{
-				view->SetScreenOverlayMaterial( NULL );
+				view->SetScreenOverlayMaterial(nullptr);
 			}
 		}
 	}

@@ -67,7 +67,7 @@ public:
 	// Updates the state of the temp ent beams
 	virtual void		UpdateTempEntBeams();
 
-	virtual void		DrawBeam( C_Beam* pbeam, const RenderableInstance_t &instance, ITraceFilter *pEntityBeamTraceFilter = NULL );
+	virtual void		DrawBeam( C_Beam* pbeam, const RenderableInstance_t &instance, ITraceFilter *pEntityBeamTraceFilter = nullptr);
 	virtual void		DrawBeam( Beam_t *pbeam );
 
 	virtual	void		KillDeadBeams( C_BaseEntity *pDeadEntity );
@@ -114,7 +114,7 @@ public:
 
 private:
 	void					FreeDeadTrails( BeamTrail_t **trail );
-	void					UpdateBeam( Beam_t *pbeam, float frametime, C_Beam *pcbeam = NULL );
+	void					UpdateBeam( Beam_t *pbeam, float frametime, C_Beam *pcbeam = nullptr);
 	void					DrawBeamWithHalo( Beam_t* pbeam,int frame,int rendermode,float *color, float *srcColor, const model_t *sprite,const model_t *halosprite, float flHDRColorScale );
 	void					DrawBeamFollow( const model_t* pSprite, Beam_t *pbeam, int frame, int rendermode, float frametime, const float* color, float flHDRColorScale = 1.0f );
 	void					DrawLaser( Beam_t* pBeam, int frame, int rendermode, float* color, model_t const* sprite, model_t const* halosprite, float flHDRColorScale = 1.0f );
@@ -282,10 +282,10 @@ void Beam_t::Reset()
 	m_Maxs.Init(0,0,0);
 	type = 0;
 	flags = 0;
-	trail = 0;
+	trail = nullptr;
 	m_hRenderHandle = INVALID_CLIENT_RENDER_HANDLE;
 	m_bCalculatedNoise = false;
-	m_queryHandleHalo = NULL;
+	m_queryHandleHalo = nullptr;
 	m_flHDRColorScale = 1.0f;
 }
 
@@ -440,10 +440,10 @@ int Beam_t::DrawModel( int flags, const RenderableInstance_t &instance )
 // Constructor, destructor: 
 //-----------------------------------------------------------------------------
 
-CViewRenderBeams::CViewRenderBeams( void ) : m_pBeamTrails(0)
+CViewRenderBeams::CViewRenderBeams( void ) : m_pBeamTrails(nullptr)
 {
-	m_pFreeBeams = NULL;
-	m_pActiveBeams = NULL;
+	m_pFreeBeams = nullptr;
+	m_pActiveBeams = nullptr;
 	m_nBeamFreeListLength = 0;
 }
 
@@ -481,7 +481,7 @@ void CViewRenderBeams::InitBeams( void )
 //-----------------------------------------------------------------------------
 void CViewRenderBeams::ClearBeams( void )
 {
-	Beam_t *next = NULL;
+	Beam_t *next = nullptr;
 	for( ; m_pActiveBeams; m_pActiveBeams = next )
 	{
 		next = m_pActiveBeams->next;
@@ -500,13 +500,13 @@ void CViewRenderBeams::ClearBeams( void )
 	{
 		// Also clear any particles used by beams
 		m_pFreeTrails = &m_pBeamTrails[0];
-		m_pActiveTrails = NULL;
+		m_pActiveTrails = nullptr;
 
 		for (int i=0 ;i<m_nNumBeamTrails ; i++)
 		{
 			m_pBeamTrails[i].next = &m_pBeamTrails[i+1];
 		}
-		m_pBeamTrails[m_nNumBeamTrails-1].next = NULL;
+		m_pBeamTrails[m_nNumBeamTrails-1].next = nullptr;
 	}
 }
 
@@ -519,9 +519,9 @@ void CViewRenderBeams::ShutdownBeams( void )
 	if (m_pBeamTrails)
 	{
 		delete[] m_pBeamTrails;
-		m_pActiveTrails = NULL;
-		m_pBeamTrails = NULL;
-		m_pFreeTrails = NULL;
+		m_pActiveTrails = nullptr;
+		m_pBeamTrails = nullptr;
+		m_pFreeTrails = nullptr;
 		m_nNumBeamTrails = 0;
 	}
 }
@@ -532,7 +532,7 @@ void CViewRenderBeams::ShutdownBeams( void )
 //-----------------------------------------------------------------------------
 Beam_t *CViewRenderBeams::BeamAlloc( bool bRenderable )
 {
-	Beam_t*	pBeam = NULL; 
+	Beam_t*	pBeam = nullptr; 
 
 	if ( m_pFreeBeams )
 	{
@@ -606,7 +606,7 @@ void CViewRenderBeams::KillDeadBeams( C_BaseEntity *pDeadEntity )
 	BeamTrail_t *pHead;  // Build a new list to replace m_pActiveBeams.
 
 	pbeam    = m_pActiveBeams;  // Old list.
-	pnewlist = NULL;           // New list.
+	pnewlist = nullptr;           // New list.
 	
 	while (pbeam)
 	{
@@ -786,14 +786,14 @@ Beam_t *CViewRenderBeams::CreateGenericBeam( BeamInfo_t &beamInfo )
 
 	Beam_t *pBeam = BeamAlloc( beamInfo.m_bRenderable );
 	if ( !pBeam )
-		return NULL;
+		return nullptr;
 
 	// In case we fail.
 	pBeam->die = gpGlobals->curtime;
 
 	// Need a valid model.
 	if ( beamInfo.m_nModelIndex < 0 )
-		return NULL;
+		return nullptr;
 
 	// Set it up
 	SetupBeam( pBeam, beamInfo );
@@ -854,10 +854,10 @@ Beam_t *CViewRenderBeams::CreateBeamEnts( BeamInfo_t &beamInfo )
 {
 	// Don't start temporary beams out of the PVS
 	if ( beamInfo.m_flLife != 0 && 
-		 ( !beamInfo.m_pStartEnt || beamInfo.m_pStartEnt->GetModel() == NULL || 
-		   !beamInfo.m_pEndEnt || beamInfo.m_pEndEnt->GetModel() == NULL) )
+		 ( !beamInfo.m_pStartEnt || beamInfo.m_pStartEnt->GetModel() == nullptr || 
+		   !beamInfo.m_pEndEnt || beamInfo.m_pEndEnt->GetModel() == nullptr) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	beamInfo.m_vecStart = vec3_origin;
@@ -865,7 +865,7 @@ Beam_t *CViewRenderBeams::CreateBeamEnts( BeamInfo_t &beamInfo )
 
 	Beam_t *pBeam = CreateGenericBeam( beamInfo );
 	if ( !pBeam )
-		return NULL;
+		return nullptr;
 
 	pBeam->type = ( beamInfo.m_nType < 0 ) ? TE_BEAMPOINTS : beamInfo.m_nType;
 	pBeam->flags = FBEAM_STARTENTITY | FBEAM_ENDENTITY;
@@ -914,7 +914,7 @@ void CViewRenderBeams::CreateBeamEntPoint( int nStartEntity, const Vector *pStar
 	if ( nStartEntity <= 0 )
 	{
 		beamInfo.m_vecStart = pStart ? *pStart : vec3_origin;
-		beamInfo.m_pStartEnt = NULL;
+		beamInfo.m_pStartEnt = nullptr;
 	}
 	else
 	{
@@ -929,7 +929,7 @@ void CViewRenderBeams::CreateBeamEntPoint( int nStartEntity, const Vector *pStar
 	if ( nEndEntity <= 0 )
 	{
 		beamInfo.m_vecEnd = pEnd ? *pEnd : vec3_origin;
-		beamInfo.m_pEndEnt = NULL;
+		beamInfo.m_pEndEnt = nullptr;
 	}
 	else
 	{
@@ -967,11 +967,11 @@ Beam_t *CViewRenderBeams::CreateBeamEntPoint( BeamInfo_t &beamInfo )
 {
 	if ( beamInfo.m_flLife != 0 )
 	{
-		if ( beamInfo.m_pStartEnt && beamInfo.m_pStartEnt->GetModel() == NULL )
-			return NULL;
+		if ( beamInfo.m_pStartEnt && beamInfo.m_pStartEnt->GetModel() == nullptr)
+			return nullptr;
 
-		if ( beamInfo.m_pEndEnt && beamInfo.m_pEndEnt->GetModel() == NULL )
-			return NULL;
+		if ( beamInfo.m_pEndEnt && beamInfo.m_pEndEnt->GetModel() == nullptr)
+			return nullptr;
 	}
 
 	// Model index.
@@ -987,7 +987,7 @@ Beam_t *CViewRenderBeams::CreateBeamEntPoint( BeamInfo_t &beamInfo )
 
 	Beam_t *pBeam = CreateGenericBeam( beamInfo );
 	if ( !pBeam )
-		return NULL;
+		return nullptr;
 
 	pBeam->type = TE_BEAMPOINTS;
 	pBeam->flags = 0;
@@ -1068,7 +1068,7 @@ Beam_t *CViewRenderBeams::CreateBeamPoints( BeamInfo_t &beamInfo )
 {
 	// Don't start temporary beams out of the PVS
 	if ( beamInfo.m_flLife != 0 && !CullBeam( beamInfo.m_vecStart, beamInfo.m_vecEnd, 1 ) )
-		return NULL;
+		return nullptr;
 
 	// Model index.
 	if ( ( beamInfo.m_pszModelName ) && ( beamInfo.m_nModelIndex == -1 ) )
@@ -1084,7 +1084,7 @@ Beam_t *CViewRenderBeams::CreateBeamPoints( BeamInfo_t &beamInfo )
 	// Create the new beam.
 	Beam_t *pBeam = CreateGenericBeam( beamInfo );
 	if ( !pBeam )
-		return NULL;
+		return nullptr;
 
 	// Set beam initial state.
 	SetBeamAttributes( pBeam, beamInfo );
@@ -1149,7 +1149,7 @@ Beam_t *CViewRenderBeams::CreateBeamCirclePoints( BeamInfo_t &beamInfo )
 {
 	Beam_t *pBeam = CreateGenericBeam( beamInfo );
 	if ( !pBeam )
-		return NULL;
+		return nullptr;
 
 	pBeam->type = beamInfo.m_nType;
 
@@ -1207,7 +1207,7 @@ Beam_t *CViewRenderBeams::CreateBeamFollow( BeamInfo_t &beamInfo )
 	beamInfo.m_flSpeed = 1.0f;
 	Beam_t *pBeam = CreateGenericBeam( beamInfo );
 	if ( !pBeam )
-		return NULL;
+		return nullptr;
 
 	pBeam->type = TE_BEAMFOLLOW;
 	pBeam->flags = FBEAM_STARTENTITY;
@@ -1283,7 +1283,7 @@ Beam_t *CViewRenderBeams::CreateBeamRingPoint( BeamInfo_t &beamInfo )
 
 	Beam_t *pBeam = CreateGenericBeam( beamInfo );
 	if ( !pBeam )
-		return NULL;
+		return nullptr;
 
 	pBeam->type = TE_BEAMRINGPOINT;
 	pBeam->start_radius = beamInfo.m_flStartRadius;
@@ -1352,17 +1352,17 @@ Beam_t *CViewRenderBeams::CreateBeamRing( BeamInfo_t &beamInfo )
 {
 	// Don't start temporary beams out of the PVS
 	if ( beamInfo.m_flLife != 0 && 
-		 ( !beamInfo.m_pStartEnt || beamInfo.m_pStartEnt->GetModel() == NULL || 
-		   !beamInfo.m_pEndEnt || beamInfo.m_pEndEnt->GetModel() == NULL ) )
+		 ( !beamInfo.m_pStartEnt || beamInfo.m_pStartEnt->GetModel() == nullptr || 
+		   !beamInfo.m_pEndEnt || beamInfo.m_pEndEnt->GetModel() == nullptr) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	beamInfo.m_vecStart = vec3_origin;
 	beamInfo.m_vecEnd = vec3_origin;
 	Beam_t *pBeam = CreateGenericBeam( beamInfo );
 	if ( !pBeam )
-		return NULL;
+		return nullptr;
 
 	pBeam->type = TE_BEAMRING;
 	pBeam->flags = FBEAM_STARTENTITY | FBEAM_ENDENTITY;
@@ -1595,7 +1595,7 @@ void CViewRenderBeams::UpdateTempEntBeams( void )
 		return;
 
 	// Draw temporary entity beams
-	Beam_t* pPrev = 0;
+	Beam_t* pPrev = nullptr;
 	Beam_t* pNext;
 	for ( Beam_t* pBeam = m_pActiveBeams; pBeam ; pBeam = pNext )
 	{
@@ -1619,7 +1619,7 @@ void CViewRenderBeams::UpdateTempEntBeams( void )
 			// Free the beam
 			BeamFree( pBeam );
 
-			pBeam = NULL;
+			pBeam = nullptr;
 			continue;
 		}
 
@@ -1660,7 +1660,7 @@ void CViewRenderBeams::DrawBeamFollow( const model_t* pSprite, Beam_t *pbeam,
 	FreeDeadTrails( &pbeam->trail );
 
 	particles = pbeam->trail;
-	pnew = NULL;
+	pnew = nullptr;
 
 	div = 0;
 	if ( pbeam->flags & FBEAM_STARTENTITY )
@@ -1909,7 +1909,7 @@ void CViewRenderBeams::DrawBeam( Beam_t *pbeam )
 	}
 
 	const model_t	*sprite;
-	const model_t	*halosprite = NULL;
+	const model_t	*halosprite = nullptr;
 
 	if ( pbeam->modelIndex < 0 )
 	{
@@ -2118,7 +2118,7 @@ void CViewRenderBeams::ClipBeam( C_Beam * RESTRICT pcbeam, Beam_t * RESTRICT pbe
 		NDebugOverlay::Line( vstart + delta, vend, 255, 255, 0, true, 0.2f );
 	}
 
-	UTIL_TraceLine( vstart + delta , vend, colmask, NULL, colgroup, &tr );
+	UTIL_TraceLine( vstart + delta , vend, colmask, nullptr, colgroup, &tr );
 
 	if ( tr.fraction < 1.0f )
 	{
@@ -2147,7 +2147,7 @@ void CViewRenderBeams::DrawBeam( C_Beam* pbeam, const RenderableInstance_t &inst
 	BeamInfo_t beamInfo;
 	beamInfo.m_vecStart = pbeam->GetAbsStartPos();
 	beamInfo.m_vecEnd = pbeam->GetAbsEndPos();
-	beamInfo.m_pStartEnt = beamInfo.m_pEndEnt = NULL;
+	beamInfo.m_pStartEnt = beamInfo.m_pEndEnt = nullptr;
 	beamInfo.m_nModelIndex = pbeam->GetModelIndex();
 	beamInfo.m_nHaloIndex = pbeam->m_nHaloIndex;
 	beamInfo.m_flHaloScale = pbeam->m_fHaloScale;
@@ -2186,7 +2186,7 @@ void CViewRenderBeams::DrawBeam( C_Beam* pbeam, const RenderableInstance_t &inst
 	}
 	else
 	{
-		beam.m_queryHandleHalo = NULL;
+		beam.m_queryHandleHalo = nullptr;
 	}
 
 	// Handle code from relinking.

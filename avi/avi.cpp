@@ -89,16 +89,16 @@ void CAviFile::Reset()
 	m_bValid				= false;
 	m_nWidth				= 0;
 	m_nHeight				= 0;
-	m_pAVIFile				= NULL;
+	m_pAVIFile				= nullptr;
 	m_nFrameRate			= 0;
 	m_nFrameScale			= 1;
-	m_pAudioStream			= NULL;
-	m_pVideoStream			= NULL;
-	m_pCompressedStream		= NULL;
+	m_pAudioStream			= nullptr;
+	m_pVideoStream			= nullptr;
+	m_pCompressedStream		= nullptr;
 	m_nFrame				= 0;
 	m_nSample				= 0;
-	m_memdc					= ( HDC )0;
-	m_DIBSection			= ( HBITMAP )0;
+	m_memdc					= ( HDC )nullptr;
+	m_DIBSection			= ( HBITMAP )nullptr;
 
 	m_bih					= &m_bi.bmiHeader;
 	m_bih->biSize			= sizeof( *m_bih );
@@ -133,7 +133,7 @@ void CAviFile::Init( const AVIParams_t& params, void *hWnd )
 		g_pFullFileSystem->RemoveFile( fullavifilename, params.m_pPathID );
 	}
 
-	HRESULT hr = AVIFileOpen( &m_pAVIFile, fullavifilename, OF_WRITE | OF_CREATE, NULL );
+	HRESULT hr = AVIFileOpen( &m_pAVIFile, fullavifilename, OF_WRITE | OF_CREATE, nullptr);
 	if ( hr != AVIERR_OK ) 
 		return;
 
@@ -162,31 +162,31 @@ void CAviFile::Shutdown()
 	if ( m_pAudioStream ) 
 	{
 		AVIStreamRelease( m_pAudioStream );
-		m_pAudioStream = NULL;
+		m_pAudioStream = nullptr;
 	}
 	if ( m_pVideoStream ) 
 	{
 		AVIStreamRelease( m_pVideoStream );
-		m_pVideoStream = NULL;
+		m_pVideoStream = nullptr;
 	}
 	if ( m_pCompressedStream ) 
 	{
 		AVIStreamRelease( m_pCompressedStream );
-		m_pCompressedStream = NULL;
+		m_pCompressedStream = nullptr;
 	}
 
 	if ( m_pAVIFile ) 
 	{
 		AVIFileRelease( m_pAVIFile );
-		m_pAVIFile = NULL;
+		m_pAVIFile = nullptr;
 	}
 
-	if ( m_DIBSection != 0 )
+	if ( m_DIBSection != nullptr )
 	{
 		DeleteObject( m_DIBSection );
 	}
 
-	if ( m_memdc != 0 )
+	if ( m_memdc != nullptr )
 	{
 		// Release the compatible DC
 		DeleteDC( m_memdc );
@@ -223,7 +223,7 @@ static unsigned int FormatAviMessage( HRESULT code, char *buf, unsigned int len)
 	case AVIERR_ERROR: msg="AVIERR_ERROR"; break;
 	}
 	unsigned int mlen = (unsigned int)Q_strlen( msg );
-	if ( buf==0 || len==0 ) 
+	if ( buf==nullptr || len==0 ) 
 		return mlen;
 	unsigned int n=mlen; 
 	if (n+1>len)
@@ -287,7 +287,7 @@ void CAviFile::CreateVideoStreams( const AVIParams_t& params, void *hWnd )
 		compression.fccHandler = g_dwLastValidCodec ? g_dwLastValidCodec : mmioFOURCC( 'd', 'i', 'b', ' ' );
 	}
 
-    hr = AVIMakeCompressedStream( &m_pCompressedStream, m_pVideoStream, &compression, NULL );
+    hr = AVIMakeCompressedStream( &m_pCompressedStream, m_pVideoStream, &compression, nullptr);
     if ( hr != AVIERR_OK )
 	{
 		m_bValid = false;
@@ -313,7 +313,7 @@ void CAviFile::CreateVideoStreams( const AVIParams_t& params, void *hWnd )
 		( BITMAPINFO *)m_bih,
 		DIB_RGB_COLORS,
 		&bits,
-		NULL,
+		nullptr,
 		NULL
 	);
 
@@ -379,8 +379,8 @@ void CAviFile::AppendMovieSound( short *buf, size_t bufsize )
 		buf,
 		bufsize,
         0,
-		NULL,
-		NULL
+		nullptr,
+		nullptr
 	);
 	if ( hr != AVIERR_OK )
 	{
@@ -433,9 +433,9 @@ void CAviFile::AppendMovieFrame( const BGR888_t *pRGBData )
 		1, 
 		dibs.dsBm.bmBits, 
 		dibs.dsBmih.biSizeImage, 
-		AVIIF_KEYFRAME, 
-		NULL, 
-		NULL );
+		AVIIF_KEYFRAME,
+		nullptr,
+	nullptr);
 
 	SelectObject( m_memdc, hOldObject );
 
@@ -523,11 +523,11 @@ private:
 CAVIMaterial::CAVIMaterial()
 {
 	Q_memset( &m_bi, 0, sizeof( m_bi ) );
-	m_memdc = ( HDC )0;
-	m_DIBSection = ( HBITMAP )0;
-	m_pAVIStream = NULL;
-	m_pAVIFile = NULL;
-	m_pGetFrame = NULL;
+	m_memdc = ( HDC )nullptr;
+	m_DIBSection = ( HBITMAP )nullptr;
+	m_pAVIStream = nullptr;
+	m_pAVIFile = nullptr;
+	m_pGetFrame = nullptr;
 }
 
 
@@ -543,7 +543,7 @@ bool CAVIMaterial::Init( const char *pMaterialName, const char *pFileName, const
 	Q_DefaultExtension( pAVIFileName, ".avi", sizeof( pAVIFileName ) );
 	g_pFullFileSystem->RelativePathToFullPath( pAVIFileName, pPathID, pFullAVIFileName, sizeof( pFullAVIFileName ) );
 
-	HRESULT hr = AVIFileOpen( &m_pAVIFile, pFullAVIFileName, OF_READ, NULL );
+	HRESULT hr = AVIFileOpen( &m_pAVIFile, pFullAVIFileName, OF_READ, nullptr);
 	if ( hr != AVIERR_OK ) 
 	{
 		Warning( "AVI '%s' not found\n", pFullAVIFileName );
@@ -582,7 +582,7 @@ void CAVIMaterial::Shutdown()
 	if ( m_pAVIFile )
 	{
 		AVIFileRelease( m_pAVIFile );
-		m_pAVIFile = NULL;
+		m_pAVIFile = nullptr;
 	}
 }
 
@@ -663,7 +663,7 @@ void CAVIMaterial::DestroyProceduralTexture()
 {
 	if (m_Texture)
 	{
-		m_Texture->SetTextureRegenerator( NULL );
+		m_Texture->SetTextureRegenerator(nullptr);
 		m_Texture.Shutdown();
 	}
 }
@@ -784,7 +784,7 @@ void CAVIMaterial::CreateVideoStream( )
 	
 	// Create the DIBSection
 	void *bits;
-	m_DIBSection = CreateDIBSection( m_memdc, ( BITMAPINFO *)m_bih, DIB_RGB_COLORS, &bits, NULL, NULL );
+	m_DIBSection = CreateDIBSection( m_memdc, ( BITMAPINFO *)m_bih, DIB_RGB_COLORS, &bits, nullptr, NULL );
 
 	// Get at the DIBSection object
     DIBSECTION dibs; 
@@ -798,26 +798,26 @@ void CAVIMaterial::DestroyVideoStream( )
 	if ( m_pGetFrame )
 	{
 		AVIStreamGetFrameClose( m_pGetFrame );
-		m_pGetFrame = NULL;
+		m_pGetFrame = nullptr;
 	}
 
-	if ( m_DIBSection != 0 )
+	if ( m_DIBSection != nullptr )
 	{
 		DeleteObject( m_DIBSection );
-		m_DIBSection = (HBITMAP)0;
+		m_DIBSection = (HBITMAP)nullptr;
 	}
 
-	if ( m_memdc != 0 )
+	if ( m_memdc != nullptr )
 	{
 		// Release the compatible DC
 		DeleteDC( m_memdc );
-		m_memdc = (HDC)0;
+		m_memdc = (HDC)nullptr;
 	}
 
 	if ( m_pAVIStream )
 	{
 		AVIStreamRelease( m_pAVIStream );
-		m_pAVIStream = NULL;
+		m_pAVIStream = nullptr;
 	}
 }
 
@@ -973,7 +973,7 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CAvi, IAvi, AVI_INTERFACE_VERSION, g_AVI );
 //-----------------------------------------------------------------------------
 CAvi::CAvi()
 {
-	m_hWnd = NULL;
+	m_hWnd = nullptr;
 }
 
 
@@ -1000,7 +1000,7 @@ void *CAvi::QueryInterface( const char *pInterfaceName )
 	if (!Q_strncmp(	pInterfaceName, AVI_INTERFACE_VERSION, Q_strlen(AVI_INTERFACE_VERSION) + 1))
 		return (IAvi*)this;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1118,7 +1118,7 @@ IMaterial* CAvi::GetMaterial( AVIMaterial_t h )
 {
 	if ( h != AVIMATERIAL_INVALID )
 		return m_AVIMaterials[h]->GetMaterial();
-	return NULL;
+	return nullptr;
 }
 
 

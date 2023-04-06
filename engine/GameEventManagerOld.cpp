@@ -31,7 +31,7 @@ public:	// IGameEventManager wrapper
 	bool FireEventClientOnly( KeyValues * event );
 	bool FireEventServerOnly( KeyValues * event );
 
-	bool SerializeKeyValues( KeyValues *event, bf_write *buf, CGameEvent *eventtype = NULL );
+	bool SerializeKeyValues( KeyValues *event, bf_write *buf, CGameEvent *eventtype = nullptr);
 	KeyValues * UnserializeKeyValue( bf_read *msg ); // create new KeyValues, must be deleted
 
 protected:
@@ -85,7 +85,7 @@ KeyValues *CGameEventManagerOld::GetEvent(const char * name)
 	CGameEventDescriptor *event = g_GameEventManager.GetEventDescriptor( name );
 
 	if ( !event )
-		return NULL;
+		return nullptr;
 
 	return event->keys;
 }
@@ -139,6 +139,6 @@ bool CGameEventManagerOld::SerializeKeyValues( KeyValues* event, bf_write* buf, 
 KeyValues *CGameEventManagerOld::UnserializeKeyValue( bf_read *buf)
 {
 	DevMsg("UnserializeKeyValue:: not supported\n");
-	return NULL;
+	return nullptr;
 }
 

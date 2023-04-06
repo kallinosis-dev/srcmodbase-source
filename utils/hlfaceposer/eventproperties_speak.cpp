@@ -141,7 +141,7 @@ void CEventPropertiesSpeakDialog::InitControlData( CEventParams *params )
 
 	m_flLastFilterUpdateTime = (float)mx::getTickCount() / 1000.0f;
 
-	m_Timer = SetTimer( m_hDialog, TIMER_ID, 1, 0 );
+	m_Timer = SetTimer( m_hDialog, TIMER_ID, 1, nullptr );
 
 	HWND choices1 = GetControl( IDC_SOUNDLIST );
 	SendMessage( choices1, LB_RESETCONTENT, 0, 0 ); 
@@ -542,11 +542,11 @@ BOOL CEventPropertiesSpeakDialog::HandleMessage( HWND hwndDlg, UINT uMsg, WPARAM
 		case IDC_PLAY_SOUND:
 			{
 				// Get sound name from soundemitter
-				sound->PlaySound( 
-					NULL, 
+				sound->PlaySound(
+					nullptr, 
 					1.0f,
 					va( "sound/%s", FacePoser_TranslateSoundName( g_Params.m_szParameters ) ),
-					NULL );
+				nullptr);
 			}
 			break;
 		case IDC_OPENSOURCE:
@@ -569,7 +569,7 @@ BOOL CEventPropertiesSpeakDialog::HandleMessage( HWND hwndDlg, UINT uMsg, WPARAM
 							char full_path[MAX_PATH];
 							if ( filesystem->GetLocalPath( relative_path, full_path, MAX_PATH ) )
 							{
-								ShellExecute( NULL, "open", full_path, NULL, NULL, SW_SHOWNORMAL );
+								ShellExecute(nullptr, "open", full_path, nullptr, nullptr, SW_SHOWNORMAL );
 							}
 						}
 					}
@@ -615,11 +615,11 @@ BOOL CEventPropertiesSpeakDialog::HandleMessage( HWND hwndDlg, UINT uMsg, WPARAM
 						if ( HIWORD( wParam ) == LBN_DBLCLK )
 						{
 							// Get sound name from soundemitter
-							sound->PlaySound( 
-								NULL, 
+							sound->PlaySound(
+								nullptr, 
 								1.0f,
 								va( "sound/%s", FacePoser_TranslateSoundName( g_Params.m_szParameters ) ),
-								NULL );
+							nullptr);
 						}
 					}
 				}

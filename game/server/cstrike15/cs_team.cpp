@@ -104,5 +104,5 @@ CCSTeam* CCSTeam::GetEnemyTeam()
 	else if ( iMyTeam == TEAM_TERRORIST )
 		return GetGlobalCSTeam( TEAM_CT );
 	else
-		return NULL;
+		return nullptr;
 }

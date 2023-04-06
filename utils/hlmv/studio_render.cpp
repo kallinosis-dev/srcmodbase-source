@@ -45,7 +45,7 @@ int g_dxlevel = 0;
 
 ////////////////////////////////////////////////////////////////////////
 
-CStudioHdr		*g_pCacheHdr = NULL;
+CStudioHdr		*g_pCacheHdr = nullptr;
 
 Vector			g_flexedverts[MAXSTUDIOVERTS];
 Vector			g_flexednorms[MAXSTUDIOVERTS];
@@ -423,7 +423,7 @@ void StudioModel::SetUpBones( bool mergeBones )
 	QAngle a1;
 	Vector p1;
 	MatrixAngles( g_viewtransform, a1, p1 );
-	CIKContext *pIK = NULL;
+	CIKContext *pIK = nullptr;
 	m_ik.Init( pStudioHdr, a1, p1, GetRealtimeTime(), m_iFramecounter, BoneMask( ) );
 	if ( g_viewerSettings.enableIK )
 	{
@@ -451,7 +451,7 @@ void StudioModel::SetUpBones( bool mergeBones )
 		float s = 1.0 - ( m_sequencetime / m_blendtime );
 		s = 3 * s * s - 2 * s * s * s;
 
-		boneSetup.AccumulatePose( pos, q, m_prevsequence, m_prevcycle, s, GetRealtimeTime(), NULL );
+		boneSetup.AccumulatePose( pos, q, m_prevsequence, m_prevcycle, s, GetRealtimeTime(), nullptr);
 		// Con_DPrintf("%d %f : %d %f : %f\n", pev->sequence, f, pev->prevsequence, pev->prevframe, s );
 	}
 	else
@@ -870,18 +870,18 @@ void StudioModel::SetupLighting ( )
 			light[i].m_Color[2] = g_viewerSettings.lColor[2];
 			light[i].m_Range = 2000;
 
-			AngleVectors(g_viewerSettings.lightrot, &light[i].m_Direction, NULL, NULL);
+			AngleVectors(g_viewerSettings.lightrot, &light[i].m_Direction, nullptr, nullptr);
 		}
 
 		light[1].m_Color[0] = 0.3f;
 		light[1].m_Color[1] = 0.4f;
 		light[1].m_Color[2] = 0.5f;
-		AngleVectors(g_viewerSettings.lightrot + QAngle(180, 0, 0), &light[1].m_Direction, NULL, NULL);
+		AngleVectors(g_viewerSettings.lightrot + QAngle(180, 0, 0), &light[1].m_Direction, nullptr, nullptr);
 
 		light[2].m_Color[0] = 0.5f;
 		light[2].m_Color[1] = 0.4f;
 		light[2].m_Color[2] = 0.3f;
-		AngleVectors(g_viewerSettings.lightrot + QAngle(0, 90, 0), &light[2].m_Direction, NULL, NULL);
+		AngleVectors(g_viewerSettings.lightrot + QAngle(0, 90, 0), &light[2].m_Direction, nullptr, nullptr);
 
 		g_pStudioRender->SetLocalLights(3, light);
 	}
@@ -900,7 +900,7 @@ void StudioModel::SetupLighting ( )
 
 		light[0].m_Position = Vector( 0, 0, 0 );
 
-		AngleVectors(g_viewerSettings.lightrot, &light[0].m_Direction, NULL, NULL);
+		AngleVectors(g_viewerSettings.lightrot, &light[0].m_Direction, nullptr, nullptr);
 
 		g_pStudioRender->SetLocalLights(1, light);
 	}
@@ -2592,7 +2592,7 @@ int StudioModel::DrawModel( bool mergeBones, int nRenderPassMode )
 		d = ExponentialDecay( 0.8, 0.033, m_dt );
 	}
 
-	float *pFlexWeights = NULL, *pFlexDelayedWeights = NULL;
+	float *pFlexWeights = nullptr, *pFlexDelayedWeights = nullptr;
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	CMatRenderData< float > rdFlexWeights( pRenderContext );
 	CMatRenderData< float > rdDelayedFlexWeights( pRenderContext );
@@ -2624,9 +2624,9 @@ int StudioModel::DrawModel( bool mergeBones, int nRenderPassMode )
 	g_DrawModelInfo.m_Skin = m_skinnum;
 	g_DrawModelInfo.m_Body = m_bodynum;
 	g_DrawModelInfo.m_HitboxSet = g_MDLViewer->GetCurrentHitboxSet();
-	g_DrawModelInfo.m_pClientEntity = NULL;
+	g_DrawModelInfo.m_pClientEntity = nullptr;
 	g_DrawModelInfo.m_Lod = g_viewerSettings.autoLOD ? -1 : g_viewerSettings.lod;
-	g_DrawModelInfo.m_pColorMeshes = NULL;
+	g_DrawModelInfo.m_pColorMeshes = nullptr;
 
 	if( nRenderPassMode == PASS_DEFAULT || nRenderPassMode == PASS_MODELONLY )
 	{
@@ -2638,7 +2638,7 @@ int StudioModel::DrawModel( bool mergeBones, int nRenderPassMode )
 		DebugDrawModelWireframe( g_pStudioRender, g_DrawModelInfo, m_pBoneToWorld, vecModelOrigin, Vector( 0.2f, 0.2f, 0.2f ) );
 
 		g_DrawModelInfo.m_Lod = m_LodUsed;
-		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, NULL );
+		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, nullptr);
 
 #if 0
 		// overlay wireframe
@@ -2663,7 +2663,7 @@ int StudioModel::DrawModel( bool mergeBones, int nRenderPassMode )
 	{
 		DebugDrawModelBoneWeights( g_pStudioRender, g_DrawModelInfo, m_pBoneToWorld, vecModelOrigin );
 		DebugDrawModelWireframe( g_pStudioRender, g_DrawModelInfo, m_pBoneToWorld, vecModelOrigin, Vector( 0.2f, 0.2f, 0.2f ) );
-		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, NULL );
+		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, nullptr);
 		m_LodUsed = g_DrawModelInfo.m_Lod;
 	}
 	else if( g_viewerSettings.renderMode == RM_TEXCOORDS )
@@ -2674,14 +2674,14 @@ int StudioModel::DrawModel( bool mergeBones, int nRenderPassMode )
 			pMatName = g_DrawModelInfo.m_pHardwareData->m_pLODs[0].ppMaterials[g_viewerSettings.materialIndex]->GetName();
 		}
 		DebugDrawModelTexCoord( g_pStudioRender, pMatName, g_DrawModelInfo, m_pBoneToWorld, g_viewerSettings.width, g_viewerSettings.height );
-		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, NULL );
+		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, nullptr);
 		m_LodUsed = g_DrawModelInfo.m_Lod;
 	}
 	else if ( g_viewerSettings.renderMode == RM_SHOWCOLOCATED )
 	{
 		DebugDrawModelVertColocation( g_pStudioRender, g_DrawModelInfo, m_pBoneToWorld, vecModelOrigin );
 		DebugDrawModelWireframe( g_pStudioRender, g_DrawModelInfo, m_pBoneToWorld, vecModelOrigin, Vector( 0.2f, 0.2f, 0.2f ) );
-		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, NULL );
+		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, nullptr);
 		m_LodUsed = g_DrawModelInfo.m_Lod;
 	}
 	else
@@ -2692,7 +2692,7 @@ int StudioModel::DrawModel( bool mergeBones, int nRenderPassMode )
 		m_LodUsed = g_DrawModelResults.m_nLODUsed;
 		m_LodMetric = g_DrawModelResults.m_flLODMetric;
 
-		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, NULL );
+		g_pStudioRender->GetPerfStats( &g_DrawModelResults, g_DrawModelInfo, nullptr);
 
 		// Optionally overlay wireframe...
 		if ( g_viewerSettings.overlayWireframe && !(g_viewerSettings.renderMode == RM_WIREFRAME) )
@@ -2701,8 +2701,8 @@ int StudioModel::DrawModel( bool mergeBones, int nRenderPassMode )
 			UpdateStudioRenderConfig( true, true, false, false );
 
 			// Draw the wireframe over top of the model
-			g_pStudioRender->DrawModel( NULL, g_DrawModelInfo, m_pBoneToWorld, 
-				pFlexWeights, pFlexDelayedWeights, vecModelOrigin );
+			g_pStudioRender->DrawModel(nullptr, g_DrawModelInfo, m_pBoneToWorld, 
+			                           pFlexWeights, pFlexDelayedWeights, vecModelOrigin );
 
 			// Restore the studio render config
 			UpdateStudioRenderConfig( g_viewerSettings.renderMode == RM_WIREFRAME, false,
@@ -2756,15 +2756,15 @@ int StudioModel::DrawModel( bool mergeBones, int nRenderPassMode )
 		// Turn off any wireframe, normals or tangent frame display for the drop shadow
 		UpdateStudioRenderConfig( false, false, false, false );
 
-		g_pStudioRender->DrawModel( NULL, g_DrawModelInfo, m_pBoneToWorld, 
-			pFlexWeights, pFlexDelayedWeights, vecModelOrigin );
+		g_pStudioRender->DrawModel(nullptr, g_DrawModelInfo, m_pBoneToWorld, 
+		                           pFlexWeights, pFlexDelayedWeights, vecModelOrigin );
 
 		// Restore the studio render config
 		UpdateStudioRenderConfig( g_viewerSettings.renderMode == RM_WIREFRAME, false,
 								  g_viewerSettings.showNormals,
 								  g_viewerSettings.showTangentFrame );
 
-		g_pStudioRender->ForcedMaterialOverride( NULL );
+		g_pStudioRender->ForcedMaterialOverride(nullptr);
 		float one[4] = { 1, 1, 1, 1 };
 		g_pStudioRender->SetColorModulation( one );
 	}
@@ -2826,11 +2826,11 @@ void StudioModel::DrawWidgetModel( )
 	g_DrawModelInfo.m_Skin = m_skinnum;
 	g_DrawModelInfo.m_Body = m_bodynum;
 	g_DrawModelInfo.m_HitboxSet = g_MDLViewer->GetCurrentHitboxSet();
-	g_DrawModelInfo.m_pClientEntity = NULL;
+	g_DrawModelInfo.m_pClientEntity = nullptr;
 	g_DrawModelInfo.m_Lod = -1;
-	g_DrawModelInfo.m_pColorMeshes = NULL;
+	g_DrawModelInfo.m_pColorMeshes = nullptr;
 
-	g_pStudioRender->DrawModel( &g_DrawModelResults, g_DrawModelInfo, m_pBoneToWorld, NULL, NULL, vecModelOrigin );
+	g_pStudioRender->DrawModel( &g_DrawModelResults, g_DrawModelInfo, m_pBoneToWorld, nullptr, nullptr, vecModelOrigin );
 	
 }
 

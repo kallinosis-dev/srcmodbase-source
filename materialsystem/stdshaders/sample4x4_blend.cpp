@@ -25,7 +25,7 @@ BEGIN_VS_SHADER( Sample4x4_Blend, "Help for Sample4x4_Blend" )
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -37,7 +37,7 @@ BEGIN_VS_SHADER( Sample4x4_Blend, "Help for Sample4x4_Blend" )
 			
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 			int fmt = VERTEX_POSITION;
-			pShaderShadow->VertexShaderVertexFormat( fmt, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 			
 			pShaderShadow->SetVertexShader( "Downsample_vs20", 0 );
 			

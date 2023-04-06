@@ -5596,7 +5596,7 @@ void C_OP_DistanceBetweenCPs::Operate( CParticleCollection *pParticles, float fl
 			vecEndPoint += vecControlPoint1;
 		}
 		CBaseTrace tr;
-		g_pParticleSystemMgr->Query()->TraceLine( vecControlPoint1, vecEndPoint, MASK_OPAQUE_AND_NPCS, NULL, m_nCollisionGroupNumber, &tr );
+		g_pParticleSystemMgr->Query()->TraceLine( vecControlPoint1, vecEndPoint, MASK_OPAQUE_AND_NPCS, nullptr, m_nCollisionGroupNumber, &tr );
 		if (tr.fraction != 1.0f)
 		{
 			flDistance *= tr.fraction * m_flLOSScale;
@@ -5719,7 +5719,7 @@ void C_OP_DistanceBetweenCPsToCP::Operate( CParticleCollection *pParticles, floa
 			vecEndPoint += vecControlPoint1;
 		}
 		CBaseTrace tr;
-		g_pParticleSystemMgr->Query()->TraceLine( vecControlPoint1, vecEndPoint, MASK_OPAQUE_AND_NPCS, NULL, m_nCollisionGroupNumber, &tr );
+		g_pParticleSystemMgr->Query()->TraceLine( vecControlPoint1, vecEndPoint, MASK_OPAQUE_AND_NPCS, nullptr, m_nCollisionGroupNumber, &tr );
 		if (tr.fraction != 1.0f)
 		{
 			flDistance *= tr.fraction * m_flLOSScale;
@@ -6133,7 +6133,7 @@ void C_OP_DistanceToCP::Operate( CParticleCollection *pParticles, float flStreng
 				vecEndPoint += vecControlPoint1;
 			}
 			CBaseTrace tr;
-			g_pParticleSystemMgr->Query()->TraceLine( vecControlPoint1, vecEndPoint, MASK_OPAQUE_AND_NPCS, NULL , m_nCollisionGroupNumber, &tr );
+			g_pParticleSystemMgr->Query()->TraceLine( vecControlPoint1, vecEndPoint, MASK_OPAQUE_AND_NPCS, nullptr, m_nCollisionGroupNumber, &tr );
 			if (tr.fraction != 1.0f)
 			{
 				flDistance *= tr.fraction * m_flLOSScale;
@@ -6801,7 +6801,7 @@ END_PARTICLE_OPERATOR_UNPACK( C_OP_ModelCull )
 
 void C_OP_ModelCull::Operate( CParticleCollection *pParticles, float flStrength, void *pContext ) const
 {
-	if ( pParticles->ControlPoint( m_nControlPointNumber ).m_pObject != NULL )
+	if ( pParticles->ControlPoint( m_nControlPointNumber ).m_pObject != nullptr)
 	{
 		pParticles->UpdateHitBoxInfo( m_nControlPointNumber, m_HitboxSetName );
 		if ( pParticles->ControlPointHitBox( m_nControlPointNumber ).CurAndPrevValid() )
@@ -7286,7 +7286,7 @@ void C_OP_MovementPlaceOnGround::Operate( CParticleCollection *pParticles, float
 				vecTracePos = vecXYZPos;
 				vecTracePos.z += m_flTraceOffset;
 				CBaseTrace tr;
-				g_pParticleSystemMgr->Query()->TraceLine( vecTracePos, ( vecTracePos + ( TraceDir * m_flMaxTraceLength ) ), m_CollisionMask, NULL, m_nCollisionGroupNumber, &tr );
+				g_pParticleSystemMgr->Query()->TraceLine( vecTracePos, ( vecTracePos + ( TraceDir * m_flMaxTraceLength ) ), m_CollisionMask, nullptr, m_nCollisionGroupNumber, &tr );
 				if ( tr.fraction == 1.0  && m_bKill )
 				{
 					*plife = -1.0f;
@@ -8992,7 +8992,7 @@ void C_OP_SetControlPointToImpactPoint::Operate( CParticleCollection *pParticles
 		Vector vecEndPnt = vecStartPnt + ( pForward * m_flTraceLength );
 
 		CBaseTrace tr;
-		g_pParticleSystemMgr->Query()->TraceLine( vecStartPnt, vecEndPnt, MASK_ALL, NULL , m_nCollisionGroupNumber, &tr );
+		g_pParticleSystemMgr->Query()->TraceLine( vecStartPnt, vecEndPnt, MASK_ALL, nullptr, m_nCollisionGroupNumber, &tr );
 
 		Vector vecForward, vecRight, vecUp;
 		vecForward = tr.plane.normal;

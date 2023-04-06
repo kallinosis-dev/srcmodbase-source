@@ -72,7 +72,7 @@ void CLoadGameDialogXbox::PerformDeletion( void )
 {
 	// Cannot delete autosaves!
 	CGameSavePanel *pPanel = GetActivePanel();
-	if ( pPanel == NULL || ( pPanel && pPanel->IsAutoSaveType() ) )
+	if ( pPanel == nullptr || ( pPanel && pPanel->IsAutoSaveType() ) )
 		return;
 
 	BaseClass::PerformDeletion();
@@ -179,7 +179,7 @@ void CLoadGameDialogXbox::OnCommand( const char *command )
 //-----------------------------------------------------------------------------
 void CLoadGameDialogXbox::DeleteSaveGame( const SaveGameDescription_t *pSaveDesc )
 {
-	if ( pSaveDesc == NULL )
+	if ( pSaveDesc == nullptr)
 	{
 		SetControlDisabled( false );
 		return;

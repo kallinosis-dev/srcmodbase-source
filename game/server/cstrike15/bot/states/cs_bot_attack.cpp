@@ -184,7 +184,7 @@ void AttackState::Dodge( CCSBot *me )
 	if (m_shouldDodge && !me->IsUsingSniperRifle() && !m_crouchAndHold)
 	{
 		CBasePlayer *enemy = me->GetBotEnemy();
-		if (enemy == NULL)
+		if (enemy == nullptr)
 		{
 			return;
 		}
@@ -335,7 +335,7 @@ void AttackState::OnUpdate( CCSBot *me )
 	}
 
 	CBasePlayer *enemy = me->GetBotEnemy();
-	if (enemy == NULL)
+	if (enemy == nullptr)
 	{
 		StopAttacking( me );
 		return;

@@ -188,7 +188,7 @@ private:
 			// adds an occluder to the sphere tree
 	void	InsertViewerIntoTree( int nIndex );
 			// removes an occluder from the sphere tree
-	void	RemoveViewerFromTree( int nIndex, Vector *pvOldLocation = NULL );
+	void	RemoveViewerFromTree( int nIndex, Vector *pvOldLocation = nullptr);
 			//
 	void	DirtyViewers( Vector &vLocation, float flRadius );
 			// adds all occluders back into the visibility tree

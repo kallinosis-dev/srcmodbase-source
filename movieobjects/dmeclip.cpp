@@ -285,7 +285,7 @@ CDmeTrackGroup *CDmeClip::GetTrackGroup( int nIndex ) const
 {
 	if ( ( nIndex >= 0 ) && ( nIndex < m_TrackGroups.Count() ) )
 		return m_TrackGroups[ nIndex ];
-	return NULL;
+	return nullptr;
 }
 	
 //-----------------------------------------------------------------------------
@@ -428,7 +428,7 @@ CDmeTrackGroup *CDmeClip::FindTrackGroup( const char *pTrackGroupName ) const
 		if ( !Q_strcmp( pTrackGroup->GetName(), pTrackGroupName ) )
 			return pTrackGroup;
 	}
-	return NULL;
+	return nullptr;
 }
 
 int CDmeClip::GetTrackGroupIndex( CDmeTrackGroup *pTrackGroup ) const
@@ -478,7 +478,7 @@ CDmeTrack *CDmeClip::FindTrackForClip( CDmeClip *pClip, CDmeTrackGroup **ppTrack
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool CDmeClip::FindMultiTrackGroupForClip( CDmeClip *pClip, int *pTrackGroupIndex, int *pTrackIndex, int *pClipIndex ) const
@@ -624,7 +624,7 @@ bool DmeClipStack_t::BuildClipStack_R( const CDmeClip *pMovie, const CDmeClip *p
 	// Is this clip the shot? We don't need to look for it any more.
 	if ( pCurrent == pShot )
 	{
-		pShot = NULL;
+		pShot = nullptr;
 	}
 
 	// Is this clip the movie? We succeeded if we already found the shot!
@@ -1108,7 +1108,7 @@ IMPLEMENT_ELEMENT_FACTORY( DmeFilmClip, CDmeFilmClip );
 
 void CDmeFilmClip::OnConstruction()
 {
-	m_pRemoteVideoMaterial = NULL;
+	m_pRemoteVideoMaterial = nullptr;
 	m_MaterialOverlayEffect.Init( this, "materialOverlay" );
 
 	m_MapName.Init( this, "mapname" );
@@ -1142,7 +1142,7 @@ void CDmeFilmClip::OnConstruction()
 
 void CDmeFilmClip::OnDestruction()
 {
-	AssignRemoteVideoMaterial( NULL );
+	AssignRemoteVideoMaterial(nullptr);
 	if ( m_hCachedVersion != AVIMATERIAL_INVALID )
 	{
 		g_pAVI->DestroyAVIMaterial( m_hCachedVersion );
@@ -1203,7 +1203,7 @@ CDmeTrack *CDmeFilmClip::GetFilmTrack() const
 	CDmeTrackGroup *pTrackGroup = m_FilmTrackGroup.GetElement();
 	if ( pTrackGroup )
 		return pTrackGroup->GetFilmTrack();
-	return NULL;
+	return nullptr;
 }
 
 CDmeTrackGroup *CDmeFilmClip::FindOrCreateFilmTrackGroup()
@@ -1369,7 +1369,7 @@ void CDmeFilmClip::AssignRemoteVideoMaterial( IRemoteVideoMaterial *theMaterial 
 	if ( theMaterial == m_pRemoteVideoMaterial ) return;		// no change
 
 	// ok, release any previous material
-	if ( m_pRemoteVideoMaterial != NULL )
+	if ( m_pRemoteVideoMaterial != nullptr)
 	{
 		m_pRemoteVideoMaterial->Release();
 	}
@@ -1382,7 +1382,7 @@ void CDmeFilmClip::AssignRemoteVideoMaterial( IRemoteVideoMaterial *theMaterial 
 void CDmeFilmClip::UpdateRemoteVideoMaterialStatus()
 {
 	// is the quicktime Video caching service available?   If not, we don't do anything...
-	if ( m_pRemoteVideoMaterial == NULL || !m_pRemoteVideoMaterial->IsInitialized() )
+	if ( m_pRemoteVideoMaterial == nullptr || !m_pRemoteVideoMaterial->IsInitialized() )
 	{
 		return;
 	}
@@ -1408,24 +1408,24 @@ void CDmeFilmClip::UpdateRemoteVideoMaterialStatus()
 bool CDmeFilmClip::HasRemoteVideo()
 {
 	// if we don't have a working connection, say we don't have any video
-	return  ( ( m_pRemoteVideoMaterial == NULL ) ? false : m_pRemoteVideoMaterial->IsRemoteVideoAvailable() );
+	return  ( ( m_pRemoteVideoMaterial == nullptr) ? false : m_pRemoteVideoMaterial->IsRemoteVideoAvailable() );
 }
 
 bool CDmeFilmClip::GetCachedQTVideoFrameAt( float theTime )
 {
-	if ( m_pRemoteVideoMaterial == NULL )  return false;
+	if ( m_pRemoteVideoMaterial == nullptr)  return false;
 	
 	return m_pRemoteVideoMaterial->GetRemoteVideoFrame( theTime );
 }
 
 IMaterial* CDmeFilmClip::GetRemoteVideoMaterial()
 {
-	return ( m_pRemoteVideoMaterial == NULL ) ? NULL : m_pRemoteVideoMaterial->GetRemoteVideoFrameMaterial();
+	return ( m_pRemoteVideoMaterial == nullptr) ? nullptr : m_pRemoteVideoMaterial->GetRemoteVideoFrameMaterial();
 }
 
 void CDmeFilmClip::GetRemoteVideoMaterialTexCoordRange( float *u, float *v )
 {
-	if ( m_pRemoteVideoMaterial == NULL )
+	if ( m_pRemoteVideoMaterial == nullptr)
 	{
 		*u = 0.0f;
 		*v = 0.0f;
@@ -1484,13 +1484,13 @@ void CDmeFilmClip::SetOverlay( const char *pMaterialName )
 	}
 	else
 	{
-		m_MaterialOverlayEffect.Set( NULL );
+		m_MaterialOverlayEffect.Set(nullptr);
 	}
 }
 
 IMaterial *CDmeFilmClip::GetOverlayMaterial()
 {
-	return m_MaterialOverlayEffect.GetElement() ? m_MaterialOverlayEffect->GetMaterial() : NULL;
+	return m_MaterialOverlayEffect.GetElement() ? m_MaterialOverlayEffect->GetMaterial() : nullptr;
 }
 
 float CDmeFilmClip::GetOverlayAlpha()
@@ -1521,7 +1521,7 @@ void CDmeFilmClip::DrawOverlay( DmeTime_t time, Rect_t &currentRect, Rect_t &tot
 {
 	if ( m_MaterialOverlayEffect.GetElement() )
 	{
-		m_MaterialOverlayEffect->ApplyEffect( ToChildMediaTime( time ), currentRect, totalRect, NULL );
+		m_MaterialOverlayEffect->ApplyEffect( ToChildMediaTime( time ), currentRect, totalRect, nullptr);
 	}
 
 	float fade = 1.0f;
@@ -1537,7 +1537,7 @@ void CDmeFilmClip::DrawOverlay( DmeTime_t time, Rect_t &currentRect, Rect_t &tot
 	{
 		if ( !m_FadeMaterial.IsValid() )
 		{
-			m_FadeMaterial.Init( "engine\\singlecolor.vmt", NULL, false );
+			m_FadeMaterial.Init( "engine\\singlecolor.vmt", nullptr, false );
 		}
 
 		float r, g, b;
@@ -1639,7 +1639,7 @@ void CDmeFilmClip::SetCamera( CDmeCamera *pCamera )
 CDmeCamera *CDmeFilmClip::GetMonitorCamera()
 {
 	if ( m_nActiveMonitor < 0 )
-		return NULL;
+		return nullptr;
 	return m_MonitorCameras[ m_nActiveMonitor ];
 }
 
@@ -1703,7 +1703,7 @@ int CDmeFilmClip::GetInputCount()
 CDmeInput *CDmeFilmClip::GetInput( int nIndex )
 {
 	if ( nIndex < 0 || nIndex >= m_Inputs.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_Inputs[ nIndex ];
 }
@@ -1776,7 +1776,7 @@ CDmeAnimationSet *CDmeFilmClip::FindAnimationSet( const char *pAnimSetName ) con
 		if ( V_stricmp( pAnimSet->GetName(), pAnimSetName ) == 0 )
 			return pAnimSet;
 	}
-	return NULL;
+	return nullptr;
 }
 
 const CDmaElementArray< CDmeBookmarkSet > &CDmeFilmClip::GetBookmarkSets() const
@@ -1803,7 +1803,7 @@ CDmeBookmarkSet *CDmeFilmClip::GetActiveBookmarkSet()
 {
 	int nBookmarkSets = m_BookmarkSets.Count();
 	if ( m_nActiveBookmarkSet >= nBookmarkSets )
-		return NULL;
+		return nullptr;
 
 	return m_BookmarkSets[ m_nActiveBookmarkSet ];
 }
@@ -1980,7 +1980,7 @@ CDmeTrack *GetParentTrack( CDmeClip *pClip )
 		if ( pTrack )
 			return pTrack;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2010,7 +2010,7 @@ CDmeChannel *FindChannelTargetingElement( CDmElement *pElement, const char *pAtt
 		return pChannel;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2037,7 +2037,7 @@ CDmeChannel *FindChannelTargetingElement( CDmeChannelsClip *pChannelsClip, CDmEl
 		return pChannel;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2074,7 +2074,7 @@ CDmeChannel *FindChannelTargetingElement( CDmeFilmClip *pClip, CDmElement *pElem
 		DMETRACKGROUP_FOREACH_CLIP_TYPE_END()
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2206,7 +2206,7 @@ CDmeFilmClip *FindFilmClipContainingDag( CDmeDag *pDag )
 			return pFilmClip;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2262,7 +2262,7 @@ CDmeCamera *CDmeFilmClip::GetCurrentCameraStackEntry()
 {
 	m_nCurrentStackCamera = clamp( m_nCurrentStackCamera, 0, m_CameraStack.Count() - 1 );
 	if ( m_nCurrentStackCamera < 0 || m_nCurrentStackCamera >= m_CameraStack.Count() )
-		return NULL;
+		return nullptr;
 
 	CDmeCamera *entry = m_CameraStack[ m_nCurrentStackCamera ];
 	return entry;

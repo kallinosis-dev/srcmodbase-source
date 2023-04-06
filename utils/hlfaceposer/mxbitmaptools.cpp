@@ -14,12 +14,12 @@ bool LoadBitmapFromFile( const char *relative, mxbitmapdata_t& bitmap )
 {
 
 	bitmap.valid = false;
-	bitmap.image = NULL;
+	bitmap.image = nullptr;
 	bitmap.width = -1;
 	bitmap.height = -1;
 
 	// Draw
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 	if ( !dc )
 	{
 		return false;
@@ -30,7 +30,7 @@ bool LoadBitmapFromFile( const char *relative, mxbitmapdata_t& bitmap )
 	width	= 100;
 	height	= 100;
 
-	HBITMAP  bmNewImage = (HBITMAP)0;
+	HBITMAP  bmNewImage = (HBITMAP)nullptr;
 
 	HBITMAP bm, oldbm;
 	bm = CreateCompatibleBitmap( dc, width, height );
@@ -45,7 +45,7 @@ bool LoadBitmapFromFile( const char *relative, mxbitmapdata_t& bitmap )
 			filesystem->RelativePathToFullPath( relative, "MOD", filename, sizeof( filename ) );
 
 			bmNewImage = (HBITMAP)LoadImage( 
-				(HINSTANCE) GetModuleHandle(0), filename,
+				(HINSTANCE) GetModuleHandle(nullptr), filename,
 				IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE );
 
 			if ( !bmNewImage )
@@ -53,7 +53,7 @@ bool LoadBitmapFromFile( const char *relative, mxbitmapdata_t& bitmap )
 				filesystem->RelativePathToFullPath( relative, "GAME", filename, sizeof( filename ) );
 
 				bmNewImage = (HBITMAP)LoadImage( 
-					(HINSTANCE) GetModuleHandle(0), filename,
+					(HINSTANCE) GetModuleHandle(nullptr), filename,
 					IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE );
 			}
 			
@@ -65,7 +65,7 @@ bool LoadBitmapFromFile( const char *relative, mxbitmapdata_t& bitmap )
 				memset( &bmi, 0, sizeof( bmi ) );
 				bmi.bmiHeader.biSize = sizeof( BITMAPINFOHEADER );
 				
-				if ( GetDIBits( memdc, bmNewImage, 0, 0, NULL, &bmi, DIB_RGB_COLORS ) )
+				if ( GetDIBits( memdc, bmNewImage, 0, 0, nullptr, &bmi, DIB_RGB_COLORS ) )
 				{
 					bitmap.width = bmi.bmiHeader.biWidth;
 					bitmap.height = bmi.bmiHeader.biHeight;
@@ -81,7 +81,7 @@ bool LoadBitmapFromFile( const char *relative, mxbitmapdata_t& bitmap )
 		DeleteObject( bm );
 	}
 	
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 
 	if ( bmNewImage && 
 		bitmap.width != -1 && 

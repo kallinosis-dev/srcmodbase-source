@@ -43,7 +43,7 @@ public:
 	// Default constructor
 	CHTTPRequestParam()
 	{
-		m_pData = NULL;
+		m_pData = nullptr;
 		m_cubDataLength = 0;
 	}
 
@@ -97,7 +97,7 @@ public:
 		if ( m_pData )
 			delete[] m_pData;
 
-		m_pData = NULL;
+		m_pData = nullptr;
 	}
 
 	// Set the request parameters name
@@ -268,10 +268,10 @@ public:
 	RTime32 GetRequestHeaderTimeValue( const char *pchRequestHeaderName, RTime32 rtDefault = 0 );
 
 	// Fetch a request headers value by header name
-	const char *GetRequestHeaderValue( const char *pchRequestHeaderName, const char *pchDefault = NULL ) { return m_pkvRequestHeaders->GetString( pchRequestHeaderName, pchDefault ); }
+	const char *GetRequestHeaderValue( const char *pchRequestHeaderName, const char *pchDefault = nullptr) { return m_pkvRequestHeaders->GetString( pchRequestHeaderName, pchDefault ); }
 
 	// Check if the request has any value for the header with the given name
-	bool BHasRequestHeader( const char *pchRequestHeaderName ) { return (m_pkvRequestHeaders->GetString(pchRequestHeaderName, NULL ) ? true : false); }
+	bool BHasRequestHeader( const char *pchRequestHeaderName ) { return (m_pkvRequestHeaders->GetString(pchRequestHeaderName, nullptr) ? true : false); }
 
 	// Set the method for the request object
 	void SetEHTTPMethod( EHTTPMethod eMethod ) { m_eRequestMethod = eMethod; }
@@ -361,7 +361,7 @@ public:
 	virtual ~CHTTPResponse();
 
 	// Get a specific headers data 
-	const char *GetResponseHeaderValue( const char *pchName, const char *pchDefault = NULL ) { return m_pkvResponseHeaders->GetString( pchName, pchDefault ); }
+	const char *GetResponseHeaderValue( const char *pchName, const char *pchDefault = nullptr) { return m_pkvResponseHeaders->GetString( pchName, pchDefault ); }
 
 	// Set a specific headers data, will clobber any existing value for that header
 	virtual void SetResponseHeaderValue( const char *pchName, const char *pchValue ) { m_pkvResponseHeaders->SetString( pchName, pchValue ); }

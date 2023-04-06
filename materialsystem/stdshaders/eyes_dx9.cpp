@@ -58,7 +58,7 @@ BEGIN_VS_SHADER( Eyes_dx9, "Help for Eyes" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

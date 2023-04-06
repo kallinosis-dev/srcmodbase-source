@@ -400,18 +400,18 @@ char const * MatchSession_GetTuInstalledString()
 char const * MatchSession_EncryptAddressString( char const *szAddress, uint64 ullCrypt )
 {
 	if ( !szAddress || !*szAddress )
-		return NULL;
+		return nullptr;
 	if ( !ullCrypt )
-		return NULL;
+		return nullptr;
 	if ( szAddress[0] == ':' )
-		return NULL;
+		return nullptr;
 	if ( szAddress[ 0 ] == '$' )
-		return NULL;
+		return nullptr;
 	
 	static unsigned char s_chData[256];
 	int nLen = Q_strlen( szAddress );
 	if ( nLen >= ARRAYSIZE( s_chData )/2 - 1 )
-		return NULL;
+		return nullptr;
 	
 	// Copy the address
 	s_chData[0] = '$';
@@ -426,28 +426,28 @@ char const * MatchSession_EncryptAddressString( char const *szAddress, uint64 ul
 char const * MatchSession_DecryptAddressString( char const *szAddress, uint64 ullCrypt )
 {
 	if ( !szAddress || !*szAddress )
-		return NULL;
+		return nullptr;
 	if ( !ullCrypt )
-		return NULL;
+		return nullptr;
 	if ( szAddress[ 0 ] != '$' )
-		return NULL;
+		return nullptr;
 
 	static unsigned char s_chData[ 256 ];
 	int nLen = Q_strlen( szAddress );
 	if ( nLen*2 + 2 >= ARRAYSIZE( s_chData ) )
-		return NULL;
+		return nullptr;
 
 	// Copy the address
 	for ( int j = 0; j < nLen/2; ++j )
 	{
 		uint32 uiVal;
 		if ( !sscanf( szAddress + 1 + 2*j, "%02X", &uiVal ) )
-			return NULL;
+			return nullptr;
 		if ( uiVal > 0xFF )
-			return NULL;
+			return nullptr;
 		uiVal = uint8( uiVal ) ^ uint8( reinterpret_cast< uint8 * >(&ullCrypt)[ j % sizeof( uint64 ) ] );
 		if ( !uiVal )
-			return NULL;
+			return nullptr;
 		s_chData[j] = uiVal;
 	}
 	s_chData[nLen/2] = 0;

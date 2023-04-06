@@ -133,7 +133,7 @@ private:
 	struct MessageItem_t
 	{
 		MessageItem_t() :
-			m_pMsg( NULL ),
+			m_pMsg(nullptr),
 			m_nMessageSize( 0 ),
 			m_nType( 0 ),
 			m_nGroup( 0 ),
@@ -160,7 +160,7 @@ private:
 
 		void InitControlMessage( int nType, int nStartBit, char const *pchName, char const *pchDesc )
 		{
-			m_pMsg = NULL;
+			m_pMsg = nullptr;
 			m_nMessageSize = 0;
 			m_nType = nType;
 			m_nGroup = 0;
@@ -231,10 +231,10 @@ void NET_InitParanoidMode()
 CNetchanParanoidMode::CNetchanParanoidMode() :
 	m_bInitialized( false ),
 	m_nRawDataSize( 0 ),
-	m_pRawData( NULL ),
+	m_pRawData(nullptr),
 	m_nHeaderBits( 0 ),
 	m_nFlags( 0 ),
-	m_pPacketMessages( NULL ),
+	m_pPacketMessages(nullptr),
 	m_nPacketMessageCount( 0 )
 {
 }
@@ -390,7 +390,7 @@ void CNetChan::Clear()
 		if ( m_ReceiveList[i].buffer )
 		{
 			delete[] m_ReceiveList[i].buffer;
-			m_ReceiveList[i].buffer = NULL;
+			m_ReceiveList[i].buffer = nullptr;
 		}
 	}
 
@@ -486,7 +486,7 @@ void CNetChan::CompressFragments()
 			if ( compressedFileTime >= fileTime )
 			{
 				// compressed file is newer than uncompressed file, use this one
-				hZipFile = g_pFileSystem->Open( compressedfilename, "rb", NULL );
+				hZipFile = g_pFileSystem->Open( compressedfilename, "rb", nullptr);
 			}
 
 			if ( hZipFile != FILESYSTEM_INVALID_HANDLE )
@@ -509,7 +509,7 @@ void CNetChan::CompressFragments()
 				if ( NET_BufferToBufferCompress( compressed, &compressedSize, uncompressed, uncompressedSize ) )
 				{
 					// write out to disk compressed version
-					hZipFile = g_pFileSystem->Open( compressedfilename, "wb", NULL );
+					hZipFile = g_pFileSystem->Open( compressedfilename, "wb", nullptr);
 
 					if ( hZipFile != FILESYSTEM_INVALID_HANDLE )
 					{
@@ -518,7 +518,7 @@ void CNetChan::CompressFragments()
 						g_pFileSystem->Close( hZipFile );
 
 						// and open zip file it again for reading
-						hZipFile = g_pFileSystem->Open( compressedfilename, "rb", NULL );
+						hZipFile = g_pFileSystem->Open( compressedfilename, "rb", nullptr);
 
 						if ( hZipFile != FILESYSTEM_INVALID_HANDLE )
 						{
@@ -736,7 +736,7 @@ void CNetChan::Shutdown(const char *pReason)
 	if ( m_MessageHandler )
 	{
 		m_MessageHandler->ConnectionClosing( pReason );
-		m_MessageHandler = NULL;
+		m_MessageHandler = nullptr;
 	}
 
 	// free net messages
@@ -746,14 +746,14 @@ void CNetChan::Shutdown(const char *pReason)
 
 		for( int j = Messages.Count() - 1; j >= 0; j-- )
 		{
-			Messages[ j ]->SetNetChannel( NULL );
+			Messages[ j ]->SetNetChannel(nullptr);
 		}
 	}
 
 	m_NetMessages.Purge();
 
 
-	m_DemoRecorder = NULL;
+	m_DemoRecorder = nullptr;
 
 	if ( m_bProcessingMessages )
 	{
@@ -782,8 +782,8 @@ CNetChan::CNetChan() : m_SplitPlayers( 0, 0, SplitPlayer_t::Less )
 	
 	Q_strncpy( m_Name, "", sizeof(m_Name) ); 
 
-	m_MessageHandler = NULL;
-	m_DemoRecorder = NULL;
+	m_MessageHandler = nullptr;
+	m_DemoRecorder = nullptr;
 
 	m_StreamUnreliable.SetDebugName( "netchan_t::unreliabledata" );
 	m_StreamReliable.SetDebugName( "netchan_t::reliabledata" );
@@ -858,7 +858,7 @@ void CNetChan::Setup( int sock, const ns_address &adr, const char * name, INetCh
 
 	m_MessageHandler = handler;
 
-	m_DemoRecorder = NULL;
+	m_DemoRecorder = nullptr;
 
 	MEM_ALLOC_CREDIT();
 
@@ -886,8 +886,8 @@ void CNetChan::Setup( int sock, const ns_address &adr, const char * name, INetCh
 	m_StreamSocket = 0;
 	m_StreamActive = false;
 
-	m_ReceiveList[FRAG_NORMAL_STREAM].buffer = NULL;
-	m_ReceiveList[FRAG_FILE_STREAM].buffer = NULL;
+	m_ReceiveList[FRAG_NORMAL_STREAM].buffer = nullptr;
+	m_ReceiveList[FRAG_FILE_STREAM].buffer = nullptr;
 
 	// init 8 subchannels
 	for ( int i=0; i<MAX_SUBCHANNELS; i++ )
@@ -1045,7 +1045,7 @@ void CNetChan::SetMaxBufferSize(bool bReliable, int nBytes, bool bVoice )
 	if ( buffer->Count() == nBytes )
 		return;
 
-	byte	*copybuf = NULL;
+	byte	*copybuf = nullptr;
 	int		copybits = stream->GetNumBitsWritten();
 	int		copybytes = Bits2Bytes( copybits );
 
@@ -1070,7 +1070,7 @@ void CNetChan::SetMaxBufferSize(bool bReliable, int nBytes, bool bVoice )
 	{
 		Q_memcpy( buffer->Base(), copybuf, copybytes );
 		delete [] copybuf;
-		copybuf = NULL;
+		copybuf = nullptr;
 	}
 
 	stream->StartWriting( buffer->Base(), nBytes, copybits );
@@ -1152,8 +1152,8 @@ void CNetChan::FlowNewPacket(int flow, int seqnr, int acknr, int nChoked, int nD
 	
 	// if frame_number != ( current + 1 ) mark frames between as invalid
 
-	netframe_header_t *pframeheader = NULL;
-	netframe_t *pframe = NULL;
+	netframe_header_t *pframeheader = nullptr;
+	netframe_t *pframe = nullptr;
 
 	if ( seqnr > pflow->currentindex )
 	{
@@ -1337,7 +1337,7 @@ bool CNetChan::Transmit(bool onlyReliable )
 	if ( onlyReliable )
 		m_StreamUnreliable.Reset();
 
-	return (SendDatagram( NULL ) != 0);
+	return (SendDatagram(nullptr) != 0);
 }
 
 bool CNetChan::IsFileInWaitingList( const char *filename )
@@ -1385,7 +1385,7 @@ void CNetChan::RemoveHeadInWaitingList( int nList )
 bool CNetChan::CreateFragmentsFromBuffer( bf_write *buffer, int stream )
 {
 	bf_write bfwrite;
-	dataFragments_t *data = NULL;
+	dataFragments_t *data = nullptr;
 
 	// if we have more than one item in the waiting list, try to add the 
 	// reliable data to the last item. that doesn't work with the first item
@@ -1417,7 +1417,7 @@ bool CNetChan::CreateFragmentsFromBuffer( bf_write *buffer, int stream )
 		}
 		else
 		{
-			data = NULL; // reset to NULL
+			data = nullptr; // reset to NULL
 		}
 	}
 
@@ -1499,7 +1499,7 @@ bool CNetChan::CreateFragmentsFromFile( const char *filename, int stream, unsign
 	dataFragments_t *data = new dataFragments_t;
 	data->bytes = totalBytes;
 	data->bits = data->bytes * 8;
-	data->buffer = NULL;
+	data->buffer = nullptr;
 	data->isCompressed = false;
 	data->isReplayDemo = bIsReplayDemoFile;
 	data->nUncompressedSize = 0;
@@ -1547,7 +1547,7 @@ void CNetChan::SendTCPData( void )
 
 bool CNetChan::SendSubChannelData( bf_write &buf )
 {
-	subChannel_s *subChan = NULL;
+	subChannel_s *subChan = nullptr;
 	int i;
 
 	CompressFragments();
@@ -1769,7 +1769,7 @@ bool CNetChan::ReadSubChannelData( bf_read &buf, int stream  )
 		{
 			// last transmission was aborted, free data
 			delete [] data->buffer;
-			data->buffer = NULL;
+			data->buffer = nullptr;
 			ConDMsg("Fragment transmission aborted at %i/%i from %s.\n", data->ackedFragments, data->numFragments, GetAddress() );
 		}
 
@@ -1805,7 +1805,7 @@ bool CNetChan::ReadSubChannelData( bf_read &buf, int stream  )
 	}
 	else
 	{
-		if ( data->buffer == NULL )
+		if ( data->buffer == nullptr)
 		{
 			// This can occur if the packet containing the "header" (offset == 0) is dropped.  Since we need the header to arrive we'll just wait
 			//  for a retry
@@ -1848,7 +1848,7 @@ void CNetChan::UpdateSubChannels()
 	// first check if there is a free subchannel
 	subChannel_s * freeSubChan = GetFreeSubChannel();
 
-	if ( freeSubChan == NULL )
+	if ( freeSubChan == nullptr)
 		return; //all subchannels in use right now
 
 	int i, nSendMaxFragments = m_MaxReliablePayloadSize / FRAGMENT_SIZE;
@@ -2170,7 +2170,7 @@ int CNetChan::SendDatagram(bf_write *datagram)
 	}
 
 	// Send the datagram
-	int	bytesSent = NET_SendPacket ( this, m_Socket, remote_address, send.GetData(), send.GetNumBytesWritten(), bSendVoice ? &m_StreamVoice : 0, bCompress );
+	int	bytesSent = NET_SendPacket ( this, m_Socket, remote_address, send.GetData(), send.GetNumBytesWritten(), bSendVoice ? &m_StreamVoice : nullptr, bCompress );
 
 	if ( bClearVoice || !ShouldSendVoiceInTheClear() )
 	{
@@ -2323,12 +2323,12 @@ bool CNetChan::_ProcessMessages( bf_read &buf, bool wasReliable  )
 
 	if ( showmsgname[ 0 ] == '0' )
 	{
-		showmsgname = NULL;	// dont do strcmp all the time
+		showmsgname = nullptr;	// dont do strcmp all the time
 	}
 
 	if ( blockmsgname[ 0 ] == '0' )
 	{
-		blockmsgname = NULL;	// dont do strcmp all the time
+		blockmsgname = nullptr;	// dont do strcmp all the time
 	}
 
 	if ( net_showpeaks.GetInt() > 0 && net_showpeaks.GetInt() < buf.GetNumBytesLeft() )
@@ -2469,7 +2469,7 @@ bool CNetChan::_ProcessMessages( bf_read &buf, bool wasReliable  )
 #if defined( _X360 )
 			XBX_CrashDump( false );
 #else
-			byte *p = 0;
+			byte *p = nullptr;
 			*p = 0x1;
 #endif
 		}
@@ -2496,7 +2496,7 @@ void CNetChan::ProcessPlayback( void )
 #if !defined(DEDICATED)
 	netpacket_t * packet;
 
-	while ( ( packet = demoplayer->ReadPacket() ) != NULL )
+	while ( ( packet = demoplayer->ReadPacket() ) != nullptr)
 	{
 		// Update data flow stats
 		FlowNewPacket( FLOW_INCOMING, m_nInSequenceNr, m_nOutSequenceNrAck, 0, 0, packet->wiresize );
@@ -2525,7 +2525,7 @@ CNetChan::subChannel_s *CNetChan::GetFreeSubChannel()
 			return &m_SubChannels[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CNetChan::CheckWaitingList(int nList)
@@ -2565,7 +2565,7 @@ bool CNetChan::CheckReceivingList(int nList)
 {
 	dataFragments_t * data = &m_ReceiveList[nList]; // get list
 	
-	if ( data->buffer == NULL )
+	if ( data->buffer == nullptr)
 		return true;
 
 	if ( data->ackedFragments < data->numFragments )
@@ -2598,7 +2598,7 @@ bool CNetChan::CheckReceivingList(int nList)
 	}
 	else
 	{
-		static ConVar *s_pAllowUpload = NULL;
+		static ConVar *s_pAllowUpload = nullptr;
 
 		if ( !s_pAllowUpload )
 		{
@@ -2615,7 +2615,7 @@ bool CNetChan::CheckReceivingList(int nList)
 				// CSGO: FileExists will fail with an invalid write path, but writing files will default to the game dir, which 
 				// lets servers stomp existing files. Use default write path for the below calls (this is the same as the fastdl path done in
 				// download.h/cpp
-				const char *pszPathID = NULL;
+				const char *pszPathID = nullptr;
 
 				// we received a file, write it to disk and notify host
 				if ( !g_pFileSystem->FileExists( data->filename, pszPathID ) )
@@ -2672,7 +2672,7 @@ bool CNetChan::CheckReceivingList(int nList)
 	if ( data->buffer )
 	{
 		delete [] data->buffer; 
-		data->buffer = NULL;
+		data->buffer = nullptr;
 	}
 
 	return true;
@@ -2998,14 +2998,14 @@ INetMessageBinder *CNetChan::FindMessageBinder( int type, int index )
 {
 	if ( !m_NetMessages.IsValidIndex( type )  )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if( index < m_NetMessages[ type ].Count() )
 	{
 		return m_NetMessages[ type ][ index ];
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool CNetChan::RegisterMessage(INetMessageBinder *msg)
@@ -3468,7 +3468,7 @@ bool CNetChan::GetStreamProgress( int flow, int *received, int *total ) const
 	{
 		for ( int i = 0; i<MAX_STREAMS; i++ )
 		{
-			if ( m_ReceiveList[i].buffer != NULL )
+			if ( m_ReceiveList[i].buffer != nullptr)
 			{
 				(*total) += m_ReceiveList[i].numFragments * FRAGMENT_SIZE;
 				(*received) += m_ReceiveList[i].ackedFragments * FRAGMENT_SIZE;

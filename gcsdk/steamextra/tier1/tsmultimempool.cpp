@@ -103,7 +103,7 @@ CThreadSafeMultiMemoryPool::~CThreadSafeMultiMemoryPool()
 void *CThreadSafeMultiMemoryPool::Alloc( uint32 cubAllocSize )
 {
 	if ( cubAllocSize == 0 )
-		return NULL;
+		return nullptr;
 
 	if ( cubAllocSize <= m_nBlockSizeMax )
 	{
@@ -120,7 +120,7 @@ void *CThreadSafeMultiMemoryPool::Alloc( uint32 cubAllocSize )
 	rawAllocation.m_pvMem = PvAlloc( cubAllocSize + k_cubMemBlockPrefixSize );
 	if ( !rawAllocation.m_pvMem )
 	{
-		return NULL;
+		return nullptr;
 	}
 	*(uint32 *)rawAllocation.m_pvMem = rawAllocation.m_nBlockSize;
 	AUTO_LOCK( m_mutexRawAllocations );
@@ -296,7 +296,7 @@ void *CThreadSafeMultiMemoryPool::ReAlloc( void *pvMem, uint32 cubAlloc )
 		{
 			AssertMsg3( false, "CThreadSafeMultiMemoryPool::ReAlloc: raw allocation %p (original alloc: %p, %d bytes) not found in allocation map",
 				pvMem, pvAllocedMem, cubOldAlloc );
-			return NULL;
+			return nullptr;
 		}
 
 		// realloc the memory
@@ -304,7 +304,7 @@ void *CThreadSafeMultiMemoryPool::ReAlloc( void *pvMem, uint32 cubAlloc )
 		if ( !pvNewMem )
 		{
 			m_MapRawAllocation.RemoveAt( iRawAllocation );
-			return NULL;
+			return nullptr;
 		}
 
 		// update our tracking
@@ -340,7 +340,7 @@ void *CThreadSafeMultiMemoryPool::ReAlloc( void *pvMem, uint32 cubAlloc )
  		void *pvNewMem = Alloc( cubAlloc );
 		if ( !pvNewMem )
 		{
-			return NULL;
+			return nullptr;
 		}
 		m_cubReallocedTotal += cubOldAlloc;
 		Q_memcpy( pvNewMem, pvMem, cubOldAlloc );

@@ -35,7 +35,7 @@ void IVP_Compact_Recursive::add_compact_surface( const IVP_Compact_Surface *surf
 }
 
 void IVP_Compact_Recursive::build_convex_hull(){
-  IVP_Hash point_hash( 1024, sizeof(IVP_U_Float_Point),0);
+  IVP_Hash point_hash( 1024, sizeof(IVP_U_Float_Point),nullptr);
   IVP_U_Vector<IVP_U_Point> points;
   
   for (int k = ledges.len()-1; k>=0;k--){
@@ -86,8 +86,8 @@ void IVP_Compact_Recursive::set_rekursive_convex_hull(){
   } edge_key;
 
   
-  IVP_Hash triangle_hash(1024, sizeof(Triangle_Key),0);
-  IVP_Hash edge_hash(    1024, sizeof(Edge_Key),0);
+  IVP_Hash triangle_hash(1024, sizeof(Triangle_Key),nullptr);
+  IVP_Hash edge_hash(    1024, sizeof(Edge_Key),nullptr);
     
   // set all hashes
   for (int ledge_i = ledges.len()-1; ledge_i>=0; ledge_i--){

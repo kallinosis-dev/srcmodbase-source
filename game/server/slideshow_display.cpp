@@ -435,7 +435,7 @@ void CSlideshowDisplay::RestoreControlPanels( void )
 		if ( !pScreenClassname )
 			continue;
 
-		CVGuiScreen *pScreen = (CVGuiScreen *)gEntList.FindEntityByClassname( NULL, pScreenClassname );
+		CVGuiScreen *pScreen = (CVGuiScreen *)gEntList.FindEntityByClassname(nullptr, pScreenClassname );
 
 		while ( ( pScreen && pScreen->GetOwnerEntity() != this ) || Q_strcmp( pScreen->GetPanelName(), pScreenName ) != 0 )
 		{
@@ -459,7 +459,7 @@ void CSlideshowDisplay::BuildSlideShowImagesList( void )
 	char szDirectory[_MAX_PATH];
 	char szMatFileName[_MAX_PATH] = {'\0'};
 	char szFileBuffer[ SLIDESHOW_LIST_BUFFER_MAX ];
-	char *pchCurrentLine = NULL;
+	char *pchCurrentLine = nullptr;
 
 	if ( IsGameConsole() )
 	{
@@ -527,7 +527,7 @@ void CSlideshowDisplay::BuildSlideShowImagesList( void )
 		Q_snprintf( szFullFileName, sizeof( szFullFileName ), "materials/vgui/%s/%s", m_szSlideshowDirectory.Get(), szMatFileName );
 
 		KeyValues *pMaterialKeys = new KeyValues( "material" );
-		bool bLoaded = pMaterialKeys->LoadFromFile( g_pFullFileSystem, szFullFileName, NULL );
+		bool bLoaded = pMaterialKeys->LoadFromFile( g_pFullFileSystem, szFullFileName, nullptr);
 		if ( bLoaded )
 		{
 			char szKeywords[ 256 ];
@@ -571,7 +571,7 @@ void CSlideshowDisplay::BuildSlideShowImagesList( void )
 			}
 		}
 		pMaterialKeys->deleteThis();
-		pMaterialKeys = NULL;
+		pMaterialKeys = nullptr;
 
 		// Find the generic list
 		int iList;

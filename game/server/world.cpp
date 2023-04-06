@@ -288,7 +288,7 @@ public:
 
 CBaseEntity *CDecal::GetDecalEntityAndPosition( Vector *pPosition, bool bStatic )
 {
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 	if ( !m_entityName )
 	{
 		trace_t trace;
@@ -300,7 +300,7 @@ CBaseEntity *CDecal::GetDecalEntityAndPosition( Vector *pPosition, bool bStatic 
 		}
 		else
 		{
-			GetVectors( &direction, NULL, NULL );
+			GetVectors( &direction, nullptr, nullptr);
 		}
 		Vector end = start + direction * 10;
 		if ( bStatic )
@@ -320,7 +320,7 @@ CBaseEntity *CDecal::GetDecalEntityAndPosition( Vector *pPosition, bool bStatic 
 	}
 	else
 	{
-		pEntity = gEntList.FindEntityByName( NULL, m_entityName );
+		pEntity = gEntList.FindEntityByName(nullptr, m_entityName );
 	}
 
 	*pPosition = GetAbsOrigin();
@@ -646,7 +646,7 @@ int CWorld::Restore( IRestore &restore )
 
 
 extern bool		g_fGameOver;
-CWorld *g_WorldEntity = NULL;
+CWorld *g_WorldEntity = nullptr;
 
 CWorld* GetWorldEntity()
 {
@@ -684,9 +684,9 @@ CWorld::~CWorld()
 	{
 		g_pGameRules->LevelShutdown();
 		delete g_pGameRules;
-		g_pGameRules = NULL;
+		g_pGameRules = nullptr;
 	}
-	g_WorldEntity = NULL;
+	g_WorldEntity = nullptr;
 }
 
 
@@ -795,7 +795,7 @@ void CWorld::Precache( void )
 
 	g_WorldEntity = this;
 	g_fGameOver = false;
-	g_pLastSpawn = NULL;
+	g_pLastSpawn = nullptr;
 	g_Language.SetValue( LANGUAGE_ENGLISH );	// TODO use VGUI to get current language
 
 #ifndef INFESTED_DLL
@@ -904,7 +904,7 @@ void CWorld::Precache( void )
 	if ( m_iszChapterTitle != NULL_STRING )
 	{
 		DevMsg( 2, "Chapter title: %s\n", STRING(m_iszChapterTitle) );
-		CMessage *pMessage = (CMessage *)CBaseEntity::Create( "env_message", vec3_origin, vec3_angle, NULL );
+		CMessage *pMessage = (CMessage *)CBaseEntity::Create( "env_message", vec3_origin, vec3_angle, nullptr);
 		if ( pMessage )
 		{
 			pMessage->SetMessage( m_iszChapterTitle );

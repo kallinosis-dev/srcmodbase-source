@@ -40,7 +40,7 @@ void CEnvSoundscapeProxy::Activate()
 {
 	if ( m_MainSoundscapeName != NULL_STRING )
 	{
-		CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, m_MainSoundscapeName );
+		CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, m_MainSoundscapeName );
 		if ( pEntity )
 		{
 			m_hProxySoundscape = dynamic_cast< CEnvSoundscape* >( pEntity );
@@ -227,7 +227,7 @@ void CEnvSoundscape::WriteAudioParamsTo( audioparams_t &audio )
 		if ( m_positionNames[i] != NULL_STRING )
 		{
 			// We are a valid entity for a sound position
-			CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, m_positionNames[i], this, this );
+			CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, m_positionNames[i], this, this );
 			if ( pEntity )
 			{
 				audio.localBits |= 1<<i;
@@ -256,7 +256,7 @@ void CEnvSoundscape::UpdateForPlayer( ss_update_t &update )
 	{
 		if ( update.pCurrentSoundscape == this )
 		{
-			update.pCurrentSoundscape = NULL;
+			update.pCurrentSoundscape = nullptr;
 			update.currentDistance = 0;
 			update.bInRange = false;
 		}
@@ -544,7 +544,7 @@ void CTriggerSoundscape::Spawn()
 
 void CTriggerSoundscape::Activate()
 {
-	m_hSoundscape = dynamic_cast< CEnvSoundscapeTriggerable* >( gEntList.FindEntityByName( NULL, m_SoundscapeName ) );
+	m_hSoundscape = dynamic_cast< CEnvSoundscapeTriggerable* >( gEntList.FindEntityByName(nullptr, m_SoundscapeName ) );
 	BaseClass::Activate();
 }
 

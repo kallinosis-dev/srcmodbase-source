@@ -4,12 +4,12 @@
 
 // a nice tutorial on simplex method: http://math.uww.edu/~mcfarlat/ism.htm
 CSimplex::CSimplex():
-	m_numVariables(0),m_numConstraints(0),m_pTableau(0),m_pInitialTableau(0), m_pSolution(0), m_pBasis(0)
+	m_numVariables(0),m_numConstraints(0),m_pTableau(nullptr),m_pInitialTableau(nullptr), m_pSolution(nullptr), m_pBasis(nullptr)
 {
 }
 
 CSimplex::CSimplex(int numVariables, int numConstraints):
-	m_numVariables(0),m_numConstraints(0),m_pTableau(0),m_pInitialTableau(0), m_pSolution(0), m_pBasis(0)
+	m_numVariables(0),m_numConstraints(0),m_pTableau(nullptr),m_pInitialTableau(nullptr), m_pSolution(nullptr), m_pBasis(nullptr)
 {
 	Init(numVariables, numConstraints);
 }
@@ -64,11 +64,11 @@ CSimplex::~CSimplex()
 void CSimplex::Destruct()
 {
 	delete[]m_pInitialTableau;
-	m_pInitialTableau = NULL;
+	m_pInitialTableau = nullptr;
 	delete[]m_pTableau;
-	m_pTableau = NULL;
+	m_pTableau = nullptr;
 	delete[]m_pBasis;
-	m_pBasis = NULL;
+	m_pBasis = nullptr;
 }
 
 

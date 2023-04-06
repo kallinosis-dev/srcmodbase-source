@@ -37,10 +37,10 @@ class IClientEntity;
 colorVec R_LightPoint (Vector& p);
 
 // returns surfID
-SurfaceHandle_t R_LightVec (const Vector& start, const Vector& end, bool bUseLightStyles, Vector& c, float *textureS = NULL, float *textureT = NULL, float *lightmapS = NULL, float *lightmapT = NULL);
+SurfaceHandle_t R_LightVec (const Vector& start, const Vector& end, bool bUseLightStyles, Vector& c, float *textureS = nullptr, float *textureT = nullptr, float *lightmapS = nullptr, float *lightmapT = nullptr);
 
 // This is to allow us to do R_LightVec on a brush model
-void R_LightVecUseModel(model_t* pModel = 0);
+void R_LightVecUseModel(model_t* pModel = nullptr);
 
 void R_InitStudio( void );
 void R_LoadSkys (void);

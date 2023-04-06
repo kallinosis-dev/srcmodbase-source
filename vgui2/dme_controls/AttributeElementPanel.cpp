@@ -21,7 +21,7 @@ using namespace vgui;
 
 // ----------------------------------------------------------------------------
 CAttributeElementPanel::CAttributeElementPanel( vgui::Panel *parent, const AttributeWidgetInfo_t &info ) :
-	BaseClass( parent, info ), m_pData( 0 )
+	BaseClass( parent, info ), m_pData( nullptr )
 {
 	m_pData = new CAttributeTextEntry( this, "AttributeValue" );
 	m_pData->SetEnabled( !HasFlag( READONLY ) );
@@ -58,7 +58,7 @@ void CAttributeElementPanel::OnCreateDragData( KeyValues *msg )
 		m_pData->GetText( txt, sizeof( txt ) );
 
 		msg->SetString( "text", txt );
-		CDmElement *element = NULL;
+		CDmElement *element = nullptr;
 		if ( GetPanelElement()->HasAttribute( GetAttributeName() ) )
 		{
 			element = GetElement<CDmElement>( GetAttributeValue<DmElementHandle_t>( ) );
@@ -73,7 +73,7 @@ void CAttributeElementPanel::Refresh()
 	char elemText[ 512 ];
 	elemText[0] = 0;
 
-	CDmElement *element = NULL;
+	CDmElement *element = nullptr;
 	if ( !GetEditorInfo() || !GetEditorInfo()->GetValue<bool>( "hideText" ) )
 	{
 		if ( HasAttribute( ) )

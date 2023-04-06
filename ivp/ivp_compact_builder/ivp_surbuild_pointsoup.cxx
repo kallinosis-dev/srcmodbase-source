@@ -121,7 +121,7 @@ IVP_Template_Polygon *IVP_SurfaceBuilder_Pointsoup::planes_to_template(IVP_U_Vec
     // ------------------------------------------------------------------------
     // Build Lineslist:
 
-    IVP_Hash *lines_hash = new IVP_Hash(points->len()*2, 2*sizeof(ushort), 0);
+    IVP_Hash *lines_hash = new IVP_Hash(points->len()*2, 2*sizeof(ushort), nullptr);
     IVP_U_Vector<struct point_hash_key2> lines_vector;
 
     int face_count = planes->len();
@@ -171,7 +171,7 @@ IVP_Template_Polygon *IVP_SurfaceBuilder_Pointsoup::planes_to_template(IVP_U_Vec
 	    }
 
 	    // add line to hash table (if not already there)
-	    if ( lines_hash->find((char *)&phk) == 0 ) {
+	    if ( lines_hash->find((char *)&phk) == nullptr ) {
 		lines_hash->add((char *)&phk, (void *)1);
 
 		struct point_hash_key2 *nphk = (struct point_hash_key2 *)p_calloc(1, sizeof(struct point_hash_key2));
@@ -406,7 +406,7 @@ IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::try_to_build_convex_ledge_from_
 	    }
 	}
 
-	IVP_Compact_Ledge *compact_ledge = NULL;
+	IVP_Compact_Ledge *compact_ledge = nullptr;
 	// --------------------------------------------------
 	// convert convex points & planes to polygon template
 	// --------------------------------------------------
@@ -482,8 +482,8 @@ IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::convert_pointsoup_to_compact_le
     // --------------
 
 #if defined(PSXII) || defined(WIN32) || defined(LINUX) || defined(GEKKO)
-    FILE *outfile = NULL;   // output from qh_produce_output() use NULL to skip qh_produce_output()
-    FILE *errfile = NULL;   // error messages from qhull code
+    FILE *outfile = nullptr;   // output from qh_produce_output() use NULL to skip qh_produce_output()
+    FILE *errfile = nullptr;   // error messages from qhull code
 #else
     FILE *outfile = stderr;     // stdout // output from qh_produce_output() use NULL to skip qh_produce_output()
     FILE *errfile = stderr;     // stderr // error messages from qhull code
@@ -496,7 +496,7 @@ IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::convert_pointsoup_to_compact_le
 
 
     // first loop, try to randomize point 0 until we get an result
-    IVP_Compact_Ledge *res = NULL;
+    IVP_Compact_Ledge *res = nullptr;
     IVP_BOOL try_unjumbled = IVP_TRUE;
     IVP_BOOL qhull_free_flag = IVP_FALSE;
     for ( IVP_DOUBLE random_eps = 1e-12f; random_eps < 0.02f;  ){  
@@ -618,14 +618,14 @@ IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::convert_pointsoup_to_compact_le
     return res;
 }
 
-IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::single_tri_ledge = NULL;
+IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::single_tri_ledge = nullptr;
 
 
 void IVP_SurfaceBuilder_Pointsoup::cleanup(){
     if (single_tri_ledge){
 	ivp_free_aligned( single_tri_ledge );
     }
-    single_tri_ledge = NULL;
+    single_tri_ledge = nullptr;
 }
 
 IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::convert_triangle_to_compace_ledge( IVP_U_Point *p0, IVP_U_Point *p1, IVP_U_Point *p2){
@@ -644,7 +644,7 @@ IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::convert_triangle_to_compace_led
     }
 
     IVP_U_Hesse th;    th.inline_set_vert_to_area_defined_by_three_points(p0,p1,p2);
-    if (th.quad_length() < P_DOUBLE_RES) return NULL;
+    if (th.quad_length() < P_DOUBLE_RES) return nullptr;
 
     IVP_Compact_Ledge *cl = (IVP_Compact_Ledge *)ivp_malloc_aligned(single_tri_ledge->get_size(),16);
     memcpy( (void *)cl, (void *)single_tri_ledge, single_tri_ledge->get_size());
@@ -672,7 +672,7 @@ IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::convert_pointsoup_to_compact_le
 #endif
     int n_points = points->len();
 
-    if (n_points <3) return NULL;
+    if (n_points <3) return nullptr;
     if ( n_points == 3 ) { // special case: 2-dimensional triangles
 	return convert_triangle_to_compace_ledge( points->element_at(0), points->element_at(1), points->element_at(2));
     } else { // use QHULL to convert pointsoup
@@ -686,7 +686,7 @@ IVP_Compact_Ledge *IVP_SurfaceBuilder_Pointsoup::convert_pointsoup_to_compact_le
 
 IVP_Compact_Surface *IVP_SurfaceBuilder_Pointsoup::convert_pointsoup_to_compact_surface(IVP_U_Vector<IVP_U_Point> *points)
 {
-    IVP_Compact_Surface *compact_surface = NULL;
+    IVP_Compact_Surface *compact_surface = nullptr;
 
     IVP_Compact_Ledge *ledge = IVP_SurfaceBuilder_Pointsoup::convert_pointsoup_to_compact_ledge(points);
     if ( ledge ) {

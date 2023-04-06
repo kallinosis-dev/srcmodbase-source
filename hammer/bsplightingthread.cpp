@@ -27,7 +27,7 @@ IBSPLightingThread* CreateBSPLightingThread( IVRadDLL *pDLL )
 	else
 	{
 		delete pRet;
-		return 0;
+		return nullptr;
 	}
 }
 
@@ -68,7 +68,7 @@ CBSPLightingThread::CBSPLightingThread()
 {
 	InitializeCriticalSection( &m_CS );
 	
-	m_hThread = 0;
+	m_hThread = nullptr;
 	m_ThreadID = 0;
 	
 	m_ThreadCmd = THREADCMD_NONE;
@@ -152,7 +152,7 @@ bool CBSPLightingThread::Init( IVRadDLL *pDLL )
 	m_pVRadDLL = pDLL;
 
 	m_hThread = CreateThread(
-		NULL,
+		nullptr,
 		0,
 		ThreadMainLoop_Static,
 		this,

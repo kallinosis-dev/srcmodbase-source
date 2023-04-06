@@ -40,13 +40,13 @@ static char THIS_FILE[] = __FILE__;
 #endif
 
 
-HWND g_hMessageControl = NULL;
-HKEY g_hVMPIKey = NULL;	// hklm/software/valve/vmpi.
+HWND g_hMessageControl = nullptr;
+HKEY g_hVMPIKey = nullptr;	// hklm/software/valve/vmpi.
 bool g_bNoOutput = false;
 bool g_bDontTouchUI = false;
 bool g_bReinstalling = false;
 
-FILE *g_fpLog = NULL;
+FILE *g_fpLog = nullptr;
 
 
 char* FindArg( int argc, char **argv, const char *pArgName, char *pDefaultValue="" )
@@ -61,7 +61,7 @@ char* FindArg( int argc, char **argv, const char *pArgName, char *pDefaultValue=
 				return argv[i+1];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CloseLog()
@@ -71,7 +71,7 @@ void CloseLog()
 		fflush( g_fpLog );
 		fclose( g_fpLog );
 		flushall();
-		g_fpLog = NULL;
+		g_fpLog = nullptr;
 	}
 }
 
@@ -236,7 +236,7 @@ bool CreateDirectory_R( const char *pDirName )
 	if ( _access( pDirName, 0 ) == 0 )
 		return true;
 			
-	return CreateDirectory( pDirName, NULL ) || GetLastError() == ERROR_ALREADY_EXISTS;
+	return CreateDirectory( pDirName, nullptr) || GetLastError() == ERROR_ALREADY_EXISTS;
 }
 
 
@@ -245,7 +245,7 @@ bool SetupStartMenuSubFolderName( const char *pSubFolderName, char *pOut, int ou
 	LPITEMIDLIST pidl;
 
 	// Get a pointer to an item ID list that represents the path of a special folder
-	HRESULT hr = SHGetSpecialFolderLocation(NULL, CSIDL_COMMON_PROGRAMS, &pidl);
+	HRESULT hr = SHGetSpecialFolderLocation(nullptr, CSIDL_COMMON_PROGRAMS, &pidl);
 	if ( hr != S_OK )
 		return false;
 
@@ -283,12 +283,12 @@ bool CreateStartMenuLink( const char *pSubFolderName, const char *pLinkName, con
 		return false;
 	}
 	
-	IShellLink* psl = NULL; 
+	IShellLink* psl = nullptr; 
 
 	// Get a pointer to the IShellLink interface. 
 	bool bRet = false;
-	CoInitialize( NULL );
-	HRESULT hres = CoCreateInstance(CLSID_ShellLink, NULL, CLSCTX_INPROC_SERVER, IID_IShellLink, reinterpret_cast<void**>(&psl)); 
+	CoInitialize(nullptr);
+	HRESULT hres = CoCreateInstance(CLSID_ShellLink, nullptr, CLSCTX_INPROC_SERVER, IID_IShellLink, reinterpret_cast<void**>(&psl)); 
 	if (SUCCEEDED(hres)) 
 	{ 
 		psl->SetPath( pLinkTarget );	// Set the path to the shortcut target
@@ -297,7 +297,7 @@ bool CreateStartMenuLink( const char *pSubFolderName, const char *pLinkName, con
 
 		// Query IShellLink for the IPersistFile interface for saving 
 		//the shortcut in persistent storage. 
-		IPersistFile* ppf = NULL; 
+		IPersistFile* ppf = nullptr; 
 		hres = psl->QueryInterface( IID_IPersistFile, reinterpret_cast<void**>(&ppf) );
 		if (SUCCEEDED(hres)) 
 		{ 
@@ -333,12 +333,12 @@ char* GetLastErrorString()
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 		FORMAT_MESSAGE_FROM_SYSTEM | 
 		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		GetLastError(),
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 		(LPTSTR) &lpMsgBuf,
 		0,
-		NULL 
+		nullptr
 	);
 
 	strncpy( err, (char*)lpMsgBuf, sizeof( err ) );
@@ -359,7 +359,7 @@ bool LaunchApp( char *pCommandLine, const char *pBaseDir )
 	PROCESS_INFORMATION pi;
 	memset( &pi, 0, sizeof( pi ) );
 
-	return CreateProcess( NULL, pCommandLine, NULL,	NULL, FALSE, 0,	NULL, pBaseDir, &si, &pi ) != 0;
+	return CreateProcess(nullptr, pCommandLine, nullptr, nullptr, FALSE, 0, nullptr, pBaseDir, &si, &pi ) != 0;
 }		
 
 
@@ -385,7 +385,7 @@ bool StartVMPIService( SC_HANDLE hSCManager )
 	SC_HANDLE hMyService = OpenService( hSCManager, VMPI_SERVICE_NAME_INTERNAL, SERVICE_START );
 	if ( hMyService )
 	{
-		if ( StartService( hMyService, NULL, NULL ) )
+		if ( StartService( hMyService, NULL, nullptr) )
 		{
 			Msg( "Started!\n" );
 		}
@@ -485,7 +485,7 @@ bool StopRunningApp()
 											{
 												TerminateProcess( hProc, 1 );
 												CloseHandle( hProc );
-												hProc = NULL;
+												hProc = nullptr;
 												break;
 											}
 										}
@@ -562,7 +562,7 @@ bool GetExistingInstallationLocation( CString &strInstallLocation )
 	char buf[1024];
 	DWORD bufSize = sizeof( buf );
 	DWORD dwType;
-	if ( RegQueryValueEx( g_hVMPIKey, SERVICE_INSTALL_LOCATION_KEY, NULL, &dwType, (LPBYTE)buf, &bufSize ) == ERROR_SUCCESS )
+	if ( RegQueryValueEx( g_hVMPIKey, SERVICE_INSTALL_LOCATION_KEY, nullptr, &dwType, (LPBYTE)buf, &bufSize ) == ERROR_SUCCESS )
 	{
 		if ( dwType == REG_SZ )
 		{
@@ -577,7 +577,7 @@ bool GetExistingInstallationLocation( CString &strInstallLocation )
 void RemoveRegistryKeys()
 {
 	// Delete the run values (that tells it to run the app when the user logs in).
-	HKEY hKey = NULL;
+	HKEY hKey = nullptr;
 	RegCreateKey( HKEY_LOCAL_MACHINE, HLKM_WINDOWS_RUN_KEY, &hKey );
 	RegDeleteValue( hKey, VMPI_SERVICE_VALUE_NAME );
 	RegDeleteValue( hKey, VMPI_SERVICE_UI_VALUE_NAME );
@@ -674,7 +674,7 @@ const char* FindArg( const char *pArgName, const char *pDefault="" )
 				return pDefault;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -700,7 +700,7 @@ BOOL CServiceInstallDlg::OnInitDialog()
 	SpewOutputFunc( MySpewOutputFunc );
 
 	// Init the service manager.	
-	m_hSCManager = OpenSCManager( NULL, NULL, SC_MANAGER_ALL_ACCESS );
+	m_hSCManager = OpenSCManager(nullptr, nullptr, SC_MANAGER_ALL_ACCESS );
 	if ( !m_hSCManager )
 	{
 		Error( "OpenSCManager failed (%s)!\n", GetLastErrorString() );
@@ -720,7 +720,7 @@ BOOL CServiceInstallDlg::OnInitDialog()
 	{
 		g_bReinstalling = true;
 		g_bNoOutput = true;
-		g_bDontTouchUI = (FindArg( __argc, __argv, "-DontTouchUI", NULL ) != 0);
+		g_bDontTouchUI = (FindArg( __argc, __argv, "-DontTouchUI", nullptr) != nullptr);
 		OnInstall();
 		EndDialog( 0 );
 	}
@@ -761,7 +761,7 @@ bool InstallService( SC_HANDLE hSCManager, const char *pBaseDir )
 	// Try a to reinstall the service for up to 5 seconds.
 	Msg( "Creating new service...\n" );
 
-	SC_HANDLE hMyService = NULL;
+	SC_HANDLE hMyService = nullptr;
 	DWORD startTime = GetTickCount();
 	while ( GetTickCount() - startTime < 5000 )
 	{
@@ -775,11 +775,11 @@ bool InstallService( SC_HANDLE hSCManager, const char *pBaseDir )
 			SERVICE_AUTO_START,		// Start automatically on system bootup.
 			SERVICE_ERROR_NORMAL,
 			filename,				// Executable to register for the service.
-			NULL,					// no load ordering group 
-			NULL,					// no tag identifier 
-			NULL,					// no dependencies 
-			NULL,					// account
-			NULL					// password 
+			nullptr,					// no load ordering group 
+			nullptr,					// no tag identifier 
+			nullptr,					// no dependencies 
+			nullptr,					// account
+			nullptr			// password 
 			);
 	
 		if ( hMyService )
@@ -797,7 +797,7 @@ bool InstallService( SC_HANDLE hSCManager, const char *pBaseDir )
 
 
 	// Now setup the UI executable to run when their system starts.
-	HKEY hUIKey = NULL;
+	HKEY hUIKey = nullptr;
 	RegCreateKey( HKEY_LOCAL_MACHINE, HLKM_WINDOWS_RUN_KEY, &hUIKey );
 	if ( !hUIKey || RegSetValueEx( hUIKey, VMPI_SERVICE_UI_VALUE_NAME, 0, REG_SZ, (unsigned char*)uiFilename, strlen( uiFilename) + 1 ) != ERROR_SUCCESS )
 	{
@@ -814,7 +814,7 @@ void SetupStartMenuLinks( const char *pInstallerFilename )
 {
 	CreateStartMenuLink( "Valve\\VMPI", "Start VMPI Service", pInstallerFilename, "-start" );
 	CreateStartMenuLink( "Valve\\VMPI", "Stop VMPI Service", pInstallerFilename, "-stop" );
-	CreateStartMenuLink( "Valve\\VMPI", "Uninstall VMPI", pInstallerFilename, NULL );
+	CreateStartMenuLink( "Valve\\VMPI", "Uninstall VMPI", pInstallerFilename, nullptr);
 }
 
 
@@ -843,7 +843,7 @@ void CServiceInstallDlg::OnInstall()
 		return;
 	}
 
-	if ( strchr( strInstallLocation, ':' ) == NULL )
+	if ( strchr( strInstallLocation, ':' ) == nullptr)
 	{
 		Warning( "Install location must be an absolute path (include a colon)." );
 		return;
@@ -864,7 +864,7 @@ void CServiceInstallDlg::OnInstall()
 	// Copy the files down.
 	Msg( "Copying files.\n" );
 	char chDir[MAX_PATH];
-	GetModuleFileName( NULL, chDir, sizeof( chDir ) );
+	GetModuleFileName(nullptr, chDir, sizeof( chDir ) );
 	V_StripFilename( chDir );
 	for ( int i=0; i < ARRAYSIZE( g_pInstallFiles ); i++ )
 	{
@@ -1021,7 +1021,7 @@ bool CServiceInstallDlg::NukeDirectory( const char *pDir, char errorFile[MAX_PAT
 void CServiceInstallDlg::VerifyInstallFiles()
 {
 	char chDir[MAX_PATH];
-	GetModuleFileName( NULL, chDir, sizeof( chDir ) );
+	GetModuleFileName(nullptr, chDir, sizeof( chDir ) );
 	V_StripFilename( chDir );	 
 	
 	for ( int i=0; i < ARRAYSIZE( g_pInstallFiles ); i++ )

@@ -762,7 +762,7 @@ void IVP_Core::undo_synchronize_rot_z() {
     }
     rot_speed.      set(&tmp_null.old_sync_info->old_sync_rot_speed);
     q_world_f_core_next_psi = tmp_null.old_sync_info->old_sync_q_world_f_core_next_psi;
-    tmp_null.old_sync_info=NULL;
+    tmp_null.old_sync_info= nullptr;
     //q_world_f_core_last_psi .set_matrix(&m_world_f_core_last_psi);
 }
 
@@ -854,7 +854,7 @@ IVP_Core::~IVP_Core()
   this->environment->remove_revive_core(this);
   
   if(this->physical_unmoveable == IVP_TRUE) {
-    if(this->core_friction_info.for_unmoveables.l_friction_info_hash != NULL) {
+    if(this->core_friction_info.for_unmoveables.l_friction_info_hash != nullptr) {
       P_DELETE( this->core_friction_info.for_unmoveables.l_friction_info_hash );
     }
   } else {
@@ -888,7 +888,7 @@ IVP_Core_Merged::IVP_Core_Merged(IVP_Core *core0, IVP_Core *core1):
     set_by_merge(core0, core1);
     IVP_Event_Sim es(environment);
     IVP_Calc_Next_PSI_Solver nps(this);
-    nps.calc_next_PSI_matrix( &es, NULL );
+    nps.calc_next_PSI_matrix( &es, nullptr);
 }
 
 // @@@ maybe not necessary each PSI !!!!
@@ -991,7 +991,7 @@ void IVP_Core::create_collision_merged_core_with(IVP_Core *other_core){
 
 //////// split core and activate friction core !!!!!!!
 void IVP_Core_Collision::split_collision_merged_core_next_PSI(){
-    if (this->merged_core_which_replace_this_core != NULL) return;	// already touched
+    if (this->merged_core_which_replace_this_core != nullptr) return;	// already touched
     
     return; //@@@@@
     // set original friction core speeds and position
@@ -1096,7 +1096,7 @@ void IVP_Core::set_matrizes_and_speed(IVP_Core_Merged *template_core, IVP_U_Matr
 
 IVP_Core_Collision::IVP_Core_Collision(IVP_Core *core0, IVP_Core *core1)
     : IVP_Core_Merged(core0, core1){
-	next_collision_core = NULL;
+	next_collision_core = nullptr;
 }
 
 
@@ -1172,7 +1172,7 @@ IVP_Friction_Info_For_Core *IVP_Core::get_friction_info(IVP_Friction_System *my_
 #endif
 	    return fr_info;
 	} else {
-	    return NULL;
+	    return nullptr;
 	}
     } else {
 	IVP_Friction_Info_For_Core *my_info=this->core_friction_info.for_moveables.moveable_core_friction_info;
@@ -1181,7 +1181,7 @@ IVP_Friction_Info_For_Core *IVP_Core::get_friction_info(IVP_Friction_System *my_
 		return my_info;
 	    }
 	}
-	return NULL;
+	return nullptr;
     }
 }
 
@@ -1194,7 +1194,7 @@ IVP_Friction_Info_For_Core *IVP_Core::moveable_core_has_friction_info() {
 void IVP_Core::add_friction_info(IVP_Friction_Info_For_Core *my_fr_info)
 {
     if( this->physical_unmoveable == IVP_TRUE ) {
-	if( this->core_friction_info.for_unmoveables.l_friction_info_hash == NULL ) {
+	if( this->core_friction_info.for_unmoveables.l_friction_info_hash == nullptr) {
 	    this->core_friction_info.for_unmoveables.l_friction_info_hash = new IVP_Friction_Hash(2);
 	}
 	IVP_IF(1) {
@@ -1252,7 +1252,7 @@ void IVP_Core::unlink_friction_info(IVP_Friction_Info_For_Core *my_fr_info)
 #endif
     } else {
 	IVP_ASSERT( this->core_friction_info.for_moveables.moveable_core_friction_info == my_fr_info );
-	this->core_friction_info.for_moveables.moveable_core_friction_info = NULL;
+	this->core_friction_info.for_moveables.moveable_core_friction_info = nullptr;
     }    
 }
 

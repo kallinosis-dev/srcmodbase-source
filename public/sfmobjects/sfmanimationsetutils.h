@@ -105,7 +105,7 @@ struct LogPreview_t : public SelectionInfo_t
 	DECLARE_FIXEDSIZE_ALLOCATOR( LogPreview_t );
 public:
 
-	LogPreview_t() : SelectionInfo_t(), m_pTransformContext( NULL ) {}
+	LogPreview_t() : SelectionInfo_t(), m_pTransformContext(nullptr) {}
 	LogPreview_t( CDmeAnimationSet *pAnimSet, CDmElement *pControl, TransformComponent_t nComponentFlags );
 
 	bool IsEqual( const LogPreview_t& other ) const
@@ -145,16 +145,16 @@ public:
 	CDmeChannel *GetSelectedChannel( int nChannel )
 	{
 		if ( nChannel >=  LOG_PREVIEW_MAX_CHANNEL_COUNT )
-			return NULL;
+			return nullptr;
 
 		// If the control is a transform control check the flags to determine if the specific channel is selected
 		if ( m_pTransformContext )
 		{
 			if ( ( nChannel == LOG_PREVIEW_POSITION ) && ( ( m_nComponentFlags & TRANSFORM_COMPONENT_POSITION ) == 0 ) )
-				return NULL;
+				return nullptr;
 
 			if ( ( nChannel == LOG_PREVIEW_ORIENTATION ) && ( ( m_nComponentFlags & TRANSFORM_COMPONENT_ROTATION ) == 0 ) )
-				return NULL;		
+				return nullptr;		
 		}
 
 		return m_hChannels[ nChannel ];
@@ -171,7 +171,7 @@ struct MDLSquenceLayer_t;
 //-----------------------------------------------------------------------------
 // Creates an animation set
 //-----------------------------------------------------------------------------
-CDmeAnimationSet *CreateEmptyAnimationSet( CDmeFilmClip *pClip, const char *pSetName, CDmeChannelsClip **ppChannelsClip = NULL, CDmeControlGroup**ppControlGroup = NULL );
+CDmeAnimationSet *CreateEmptyAnimationSet( CDmeFilmClip *pClip, const char *pSetName, CDmeChannelsClip **ppChannelsClip = nullptr, CDmeControlGroup**ppControlGroup = nullptr);
 CDmeAnimationSet *CreateAnimationSetForDag( CDmeFilmClip *pClip, const char *pSetName, CDmeDag *pDag );
 
 CDmeAnimationSet *CreateAnimationSet( CDmeFilmClip *pClip, const char *pSetName, CDmeCamera *pCamera );
@@ -201,7 +201,7 @@ CDmeDag *GetAnimSetTargetDag( CDmeAnimationSet *pAnimSet );
 CDmeChannel *FindChannelTargetingTransform( CDmeChannelsClip *pChannelsClip, CDmeTransform *pTransform, ControlType_t controlType );
 void CreateTransformChannels( CDmeTransform *pTransform, const char *pBaseName, CDmeChannelsClip *pChannelsClip );
 void CreateAnimationLogs( CDmeChannelsClip *channelsClip, CDmeGameModel *pModel, const CStudioHdr &hdr, int sequence, float flStartTime, float flDuration, float flTimeStep );
-void ImportAnimationLogs( CUtlVector< KeyValues* > &importData, DmeTime_t &duration, DmeTime_t startTime, DmeFramerate_t framerate, CDmeFilmClip *pMovie, CDmeFilmClip *pShot, CUtlLinkedList< LogPreview_t* > &controls, CDmeGameModel *pModel, int sequence, const CUtlVector< float > *pPoseParameters = NULL, const CUtlVector< MDLSquenceLayer_t > *pLayers = NULL, bool bRootMotion = true );
+void ImportAnimationLogs( CUtlVector< KeyValues* > &importData, DmeTime_t &duration, DmeTime_t startTime, DmeFramerate_t framerate, CDmeFilmClip *pMovie, CDmeFilmClip *pShot, CUtlLinkedList< LogPreview_t* > &controls, CDmeGameModel *pModel, int sequence, const CUtlVector< float > *pPoseParameters = nullptr, const CUtlVector< MDLSquenceLayer_t > *pLayers = nullptr, bool bRootMotion = true );
 void DestroyLayerData( CUtlVector< KeyValues* > &layerData );
 void RetimeLogData( CDmeChannelsClip *pSrcChannelsClip, CDmeChannelsClip *pDstChannelsClip, CDmeLog *pLog );
 void TransferRemainingChannels( CDmeFilmClip *shot, CDmeChannelsClip *destClip, CDmeChannelsClip *srcClip );

@@ -63,17 +63,17 @@ public:
 		// Try to locate the instance file relative to the "maps\" directory
 		const char *pMapPath = "\\maps\\";
 		char *pMapPathPosition = Q_stristr( pResolvedInstanceFilename, pMapPath );
-		if ( pMapPathPosition != NULL )
+		if ( pMapPathPosition != nullptr)
 		{
 			pMapPathPosition += Q_strlen( pMapPath );
 		}
-		else if ( pMapPathPosition == NULL && Q_strnicmp( pResolvedInstanceFilename, "maps\\", 5 ) == 0 )
+		else if ( pMapPathPosition == nullptr && Q_strnicmp( pResolvedInstanceFilename, "maps\\", 5 ) == 0 )
 		{
 			pMapPathPosition = pResolvedInstanceFilename + 5;
 		}
 
 		// Assuming we found a maps\ directory of some kind
-		if ( pMapPathPosition != NULL )
+		if ( pMapPathPosition != nullptr)
 		{
 			*pMapPathPosition = 0;
 			Q_strncat( pResolvedInstanceFilename, fixedInstanceFilename, nBufferSize );
@@ -113,11 +113,11 @@ public:
 #endif // #ifdef __IN_HAMMER
 		}
 
-		int searchPathLen = pFileSystem->GetSearchPath( "CONTENT", true, NULL, 0 );
+		int searchPathLen = pFileSystem->GetSearchPath( "CONTENT", true, nullptr, 0 );
 		char *searchPaths = (char *)stackalloc( searchPathLen + 1 );
 		pFileSystem->GetSearchPath( "CONTENT", true, searchPaths, searchPathLen );
 
-		for ( char *path = strtok( searchPaths, ";" ); path; path = strtok( NULL, ";" ) )
+		for ( char *path = strtok( searchPaths, ";" ); path; path = strtok(nullptr, ";" ) )
 		{
 			Q_strncpy( pResolvedInstanceFilename, path, nBufferSize );
 			Q_strncat( pResolvedInstanceFilename, "maps\\", nBufferSize );

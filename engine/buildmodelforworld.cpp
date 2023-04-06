@@ -23,8 +23,8 @@
 // THIS NEEDS TO BE THE SAME IN worldimposter_ps2x.fxc!!!!
 
 #define MAX_ATLAS_TEXTURE_DIMENSION 1024 
-static IBSPPack *s_pBSPPack = NULL;
-static CSysModule *s_pBSPPackModule = NULL;
+static IBSPPack *s_pBSPPack = nullptr;
+static CSysModule *s_pBSPPackModule = nullptr;
 
 static void LoadBSPPackInterface( void )
 {
@@ -35,7 +35,7 @@ static void LoadBSPPackInterface( void )
 		CreateInterfaceFn factory = Sys_GetFactory( s_pBSPPackModule );
 		if ( factory )
 		{
-			s_pBSPPack = ( IBSPPack * )factory( IBSPPACK_VERSION_STRING, NULL );
+			s_pBSPPack = ( IBSPPack * )factory( IBSPPACK_VERSION_STRING, nullptr);
 		}
 	}
 	if( !s_pBSPPack )
@@ -47,8 +47,8 @@ static void LoadBSPPackInterface( void )
 static void UnloadBSPPackInterface( void )
 {
 	FileSystem_UnloadModule( s_pBSPPackModule );
-	s_pBSPPack = NULL;
-	s_pBSPPackModule = NULL;
+	s_pBSPPack = nullptr;
+	s_pBSPPackModule = nullptr;
 }
 
 static void RandomColor( Vector& color )
@@ -333,7 +333,7 @@ static void ComputeAndMakeDirectories( const char *pMapName, char *pMatDir, size
 	char pTemp[MAX_PATH];
 	Q_snprintf( pTemp, sizeof( pTemp ), "materialsrc/models/maps/%s", pMapName );
 	GetModContentSubdirectory( pTemp, pMaterialSrcDir, nMaterialSrcDirSize );
-	g_pFileSystem->CreateDirHierarchy( pMaterialSrcDir, NULL );
+	g_pFileSystem->CreateDirHierarchy( pMaterialSrcDir, nullptr);
 
 	// model dir
 	Q_snprintf( pModelDir, nModelDirSize, "models/maps//%s", pMapName );
@@ -342,7 +342,7 @@ static void ComputeAndMakeDirectories( const char *pMapName, char *pMatDir, size
 	// model src dir
 	Q_snprintf( pTemp, sizeof( pTemp ), "models/maps/%s", pMapName );
 	GetModContentSubdirectory( pTemp, pModelSrcDir, nModelSrcDirSize );
-	g_pFileSystem->CreateDirHierarchy( pModelSrcDir, NULL );
+	g_pFileSystem->CreateDirHierarchy( pModelSrcDir, nullptr);
 }
 
 static bool CreateSimpleWorldModelVMT( const char *pMaterialDir, const char *mapName )
@@ -631,7 +631,7 @@ struct surfacerect_t
 
 void DrawTexturedQuad( IMaterial *pMaterial, IMatRenderContext *pRenderContext, SurfaceHandle_t surfID, const surfacerect_t &rect, const Vector4D &vColor )
 {
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 
 	CMeshBuilder builder;
 	builder.Begin( pMesh, MATERIAL_POLYGON, 4 );
@@ -695,7 +695,7 @@ void DrawSurfaceRectToAtlasedTexture( float left, float top, float right, float 
 
 	CMatRenderContextPtr pRenderContext( materials );
 	IMaterial *pMaterial = materialSortInfoArray[ MSurf_MaterialSortID( surfID ) ].material;
-	pRenderContext->Bind( pMaterial, NULL );
+	pRenderContext->Bind( pMaterial, nullptr);
 	if ( renderMode == RENDER_TO_ATLASED_TEXTURE_NO_LIGHTING )
 	{
 		if ( MSurf_Flags( surfID ) & SURFDRAW_BUMPLIGHT )
@@ -784,9 +784,9 @@ void DrawSurfaceRectToAtlasedTexture( float left, float top, float right, float 
 		vOffset.x = ( float )MSurf_OffsetIntoLightmapPage( surfID )[0] / flPageSizeU;
 		vOffset.y = ( float )MSurf_OffsetIntoLightmapPage( surfID )[1] / flPageSizeV;
 
-		pRenderContext->Bind( pMaterial, NULL );
+		pRenderContext->Bind( pMaterial, nullptr);
 
-		IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+		IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 
 		float flLightmapSizeU = ( MSurf_LightmapExtents( surfID )[0] ) + 1;
 		float flLightmapSizeV = ( MSurf_LightmapExtents( surfID )[1] ) + 1;
@@ -904,7 +904,7 @@ static void RenderToAtlasedTexture( const CUtlVector<CPackedSurfaceInfo> &packed
 	// Write a txt file with the vtex options for the TGA file.
 	char txtPath[MAX_PATH];
 	V_snprintf( txtPath, MAX_PATH, "%s/%s.txt", pMaterialSrcDir, pTextureBaseName );
-	FileHandle_t txtFP = g_pFullFileSystem->Open( txtPath, "w", NULL );
+	FileHandle_t txtFP = g_pFullFileSystem->Open( txtPath, "w", nullptr);
 	g_pFullFileSystem->FPrintf( txtFP, "\"nocompress\" \"1\"\n" );
 	g_pFullFileSystem->FPrintf( txtFP, "\"nomip\" \"1\"\n" );
 	g_pFullFileSystem->FPrintf( txtFP, "\"nolod\" \"1\"\n" );
@@ -942,7 +942,7 @@ static int WriteSMD( const CUtlVector<CPackedSurfaceInfo> &packedSurfaces, int n
 	char smdPath[MAX_PATH];
 	V_snprintf( smdPath, MAX_PATH, "%s/simpleworldmodel%s.smd", pModelSrcDir, bWater ? "_water" : "" );
 
-	FileHandle_t smdfp = g_pFullFileSystem->Open( smdPath, "w", NULL );
+	FileHandle_t smdfp = g_pFullFileSystem->Open( smdPath, "w", nullptr);
 	WriteSMDHeader( smdfp );
 
 	int nSurfaces = 0;
@@ -954,7 +954,7 @@ static int WriteSMD( const CUtlVector<CPackedSurfaceInfo> &packedSurfaces, int n
 		const CPackedSurfaceInfo &packedSurface = packedSurfaces[packedSurfaceIndex];
 
 		IMaterial *pMaterial = materialSortInfoArray[MSurf_MaterialSortID( packedSurface.m_SurfID )].material;
-		bool bIsWater = ( V_stristr( pMaterial->GetShaderName(), "water" ) != 0 );
+		bool bIsWater = ( V_stristr( pMaterial->GetShaderName(), "water" ) != nullptr );
 
 		if ( bIsWater != bWater )
 		{

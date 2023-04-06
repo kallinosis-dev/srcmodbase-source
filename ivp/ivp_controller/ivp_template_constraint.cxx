@@ -9,11 +9,11 @@ IVP_Template_Constraint::IVP_Template_Constraint() {
 	damp_factor = 1.0f;
 
     //type = IVP_CONSTRAINT_LOCAL;
-    objectR = NULL; // for easier finding errors
-    objectA = NULL;
-    m_Ros_f_Rfs = NULL;
-    m_Ros_f_Rrs = NULL;
-    m_Aos_f_Afs = NULL;
+    objectR = nullptr; // for easier finding errors
+    objectA = nullptr;
+    m_Ros_f_Rfs = nullptr;
+    m_Ros_f_Rrs = nullptr;
+    m_Aos_f_Afs = nullptr;
     mm_Ros_f_Rfs.init();
     mm_Ros_f_Rrs.init3();
     mm_Aos_f_Afs.init();
@@ -61,16 +61,16 @@ void IVP_Template_Constraint::set_constraint_Ros(IVP_Real_Object *_objR, const I
 	else
 	    mm_Ros_f_Rfs.vv.set_to_zero();
     } else
-	m_Ros_f_Rfs = NULL;
+	m_Ros_f_Rfs = nullptr;
 
-    m_Ros_f_Rrs = NULL;
+    m_Ros_f_Rrs = nullptr;
     
     if (m_Rfs_f_Afs) {
 	m_Aos_f_Afs = &mm_Aos_f_Afs;
 	IVP_U_Matrix m_Aos_f_Rfs; m_Aos_f_Ros.mmult4(m_Ros_f_Rfs, &m_Aos_f_Rfs);
         m_Aos_f_Rfs.mmult4(m_Rfs_f_Afs, m_Aos_f_Afs);
     } else
-	m_Aos_f_Afs = NULL;
+	m_Aos_f_Afs = nullptr;
     
     objectR = _objR;
     objectA = _objA;
@@ -193,7 +193,7 @@ void IVP_Template_Constraint::sort_coordinates(const IVP_Template_Constraint &tm
 	
         m_Ros_f_Rfs->vv.set(&tmpl.m_Ros_f_Rfs->vv);
     } else
-	m_Ros_f_Rfs = NULL;
+	m_Ros_f_Rfs = nullptr;
     if (tmpl.m_Aos_f_Afs) {
 	IVP_U_Point col0;	m_Aos_f_Afs->get_col(IVP_INDEX_X,&col0);
 	IVP_U_Point col1;	m_Aos_f_Afs->get_col(IVP_INDEX_Y,&col1);
@@ -201,7 +201,7 @@ void IVP_Template_Constraint::sort_coordinates(const IVP_Template_Constraint &tm
 	m_Aos_f_Afs->set_col(IVP_INDEX_Z, &cross);
 	m_Aos_f_Afs->vv.set(&tmpl.m_Aos_f_Afs->vv);
     } else
-	m_Aos_f_Afs = NULL;
+	m_Aos_f_Afs = nullptr;
     
     // Rotation...
     if (tmpl.m_Ros_f_Rrs) {
@@ -244,7 +244,7 @@ void IVP_Template_Constraint::sort_coordinates(const IVP_Template_Constraint &tm
 	    m_Ros_f_Rrs->set_col(IVP_INDEX_Z, &cross);
 	}
     } else
-	m_Ros_f_Rrs = NULL;
+	m_Ros_f_Rrs = nullptr;
     
 }
 
@@ -270,7 +270,7 @@ void IVP_Template_Constraint::set_translation_axes_Ros(const IVP_U_Matrix3 *tran
 
 
 void IVP_Template_Constraint::set_translation_axes_as_object_space() {
-    m_Ros_f_Rfs = NULL;
+    m_Ros_f_Rfs = nullptr;
 }
 
 void IVP_Template_Constraint::fix_translation_axis(IVP_COORDINATE_INDEX which) {
@@ -303,7 +303,7 @@ void IVP_Template_Constraint::set_rotation_axes_Ros(const IVP_U_Matrix3 *rot_axe
 }
 
 void IVP_Template_Constraint::set_rotation_axes_as_translation_axes() {
-    m_Ros_f_Rrs = NULL;
+    m_Ros_f_Rrs = nullptr;
 }
 
 void IVP_Template_Constraint::fix_rotation_axis(IVP_COORDINATE_INDEX which) {
@@ -341,12 +341,12 @@ void IVP_Template_Constraint::set_attached_fixing_point_Aos(const IVP_U_Point *t
 }
 
 void IVP_Template_Constraint::set_constraint_is_relaxed() {
-    m_Aos_f_Afs = NULL;
+    m_Aos_f_Afs = nullptr;
 }
 
 IVP_Constraint *IVP_Environment::create_constraint(const IVP_Template_Constraint *tmpl) {
     if (!tmpl->objectR && !tmpl->objectA)
-	return NULL;
+	return nullptr;
         
     IVP_Constraint *newconstraint = new IVP_Constraint_Local(*tmpl);
     

@@ -51,7 +51,7 @@ void CDlgListManage::PopulateScriptList( void )
 	FOR_EACH_OBJ( *m_pObjectList, pos )
 	{
 		const CMapClass *pObject = m_pObjectList->Element( pos );
-		if ( (pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))) )
+		if ( (pObject != nullptr) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))) )
 		{
 			CMapEntity *pEntity = (CMapEntity *)pObject;
 			CString strScriptName = pEntity->GetKeyValue( "vscripts" );
@@ -130,13 +130,13 @@ void CDlgListManage::UpdateScriptChanges( void )
 
 void CDlgListManage::SaveScriptChanges( void )
 {
-	GetHistory()->MarkUndoPosition( NULL, "VScript update" );
+	GetHistory()->MarkUndoPosition(nullptr, "VScript update" );
 
 	// Iterate through all map objects currently being edited
 	FOR_EACH_OBJ( *m_pObjectList, pos )
 	{
 		const CMapClass *pObject = m_pObjectList->Element( pos );
-		if ( (pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))) )
+		if ( (pObject != nullptr) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapEntity))) )
 		{
 			CMapEntity *pEntity = (CMapEntity *)pObject;
 			CString strScriptName = pEntity->GetKeyValue( "vscripts" );
@@ -278,7 +278,7 @@ void CDlgListManage::OnBnClickedScriptListAdd()
 {
 	// Launch a browse window
 	CStringList lstBrowse;
-	if ( m_pBrowseImpl == NULL || m_pBrowseImpl->HandleBrowse( lstBrowse ) == false )
+	if ( m_pBrowseImpl == nullptr || m_pBrowseImpl->HandleBrowse( lstBrowse ) == false )
 		return;
 
 	// Nothing was added!
@@ -355,6 +355,6 @@ void CDlgListManage::OnBnClickedScriptListEdit()
 	char pFullPath[MAX_PATH];
 	if ( g_pFullFileSystem->GetLocalPath( strFilename, pFullPath, MAX_PATH ) )
 	{
-		ShellExecute( NULL, "open", pFullPath, NULL, NULL, SW_SHOWNORMAL );
+		ShellExecute(nullptr, "open", pFullPath, nullptr, nullptr, SW_SHOWNORMAL );
 	}
 }

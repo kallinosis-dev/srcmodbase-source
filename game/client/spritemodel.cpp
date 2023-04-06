@@ -286,7 +286,7 @@ bool CEngineSprite::Init( const char *pName )
 
 		for ( int i = 0; i < kRenderModeCount; ++i )
 		{	
-			m_material[i] = NULL;
+			m_material[i] = nullptr;
 		}
 
 		KeyValues *kv = new KeyValues( "vmt" );
@@ -449,7 +449,7 @@ static unsigned int frameCache = 0;
 IMaterial *CEngineSprite::GetMaterial( RenderMode_t nRenderMode, int nFrame ) 
 {
 	if ( nRenderMode == kRenderNone || nRenderMode == kRenderEnvironmental )
-		return NULL;
+		return nullptr;
 
 	if ( IsAVI() )
 	{
@@ -467,8 +467,8 @@ IMaterial *CEngineSprite::GetMaterial( RenderMode_t nRenderMode, int nFrame )
 	
 	IMaterial *pMaterial = m_material[nRenderMode];
 	Assert( pMaterial );
-	if ( pMaterial == NULL )
-		return NULL;
+	if ( pMaterial == nullptr)
+		return nullptr;
 
 	IMaterialVar* pFrameVar = pMaterial->FindVarFast( "$frame", &frameCache );
 	if ( pFrameVar )
@@ -527,7 +527,7 @@ void CEngineSprite::UnloadMaterial( void )
 		if( m_material[i] )
 		{
 			m_material[i]->DecrementReferenceCount();
-			m_material[i] = NULL;
+			m_material[i] = nullptr;
 		}
 	}
 }
@@ -570,7 +570,7 @@ void CEngineSprite::DrawFrameOfSize( RenderMode_t nRenderMode, int frame, int x,
 	SetFrame( nRenderMode, frame );
 
 	CMatRenderContextPtr pRenderContext( materials );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, GetMaterial( nRenderMode ) );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, GetMaterial( nRenderMode ) );
 
 	CMeshBuilder meshBuilder;
 	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 1 );

@@ -37,7 +37,7 @@ public:
 	InitReturnVal_t Init();
 	void Shutdown();
 
-	void PrecacheFontCharacters( FontHandle_t font, wchar_t *pCharacterString = NULL );
+	void PrecacheFontCharacters( FontHandle_t font, wchar_t *pCharacterString = nullptr);
 
 	FontHandle_t CreateFont();
 	bool SetFontGlyphSet( FontHandle_t font, const char *windowsFontName, int tall, int weight, int blur, int scanlines, int flags, int nRangeMin = 0, int nRangeMax = 0 );

@@ -180,7 +180,7 @@ void CAI_BaseHumanoid::TraceAttack( const CTakeDamageInfo &info, const Vector &v
 			bSneakAttacked = true;
 
 			AIEnemiesIter_t	iter;
-			for( AI_EnemyInfo_t *pMemory = GetEnemies()->GetFirst(&iter); pMemory != NULL; pMemory = GetEnemies()->GetNext(&iter) )
+			for( AI_EnemyInfo_t *pMemory = GetEnemies()->GetFirst(&iter); pMemory != nullptr; pMemory = GetEnemies()->GetNext(&iter) )
 			{
 				if ( pMemory->hEnemy == info.GetAttacker() )
 				{

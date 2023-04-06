@@ -67,8 +67,8 @@ void CWindowAnchor::Update( CWnd *pParentWnd )
 	AnchorElement( &rcNew.bottom, rcParent, m_Rect.bottom, m_ParentRect, m_aBottom );
 
 	pParentWnd->ScreenToClient( rcNew );
-	m_pWnd->SetWindowPos( NULL, rcNew.left, rcNew.top, rcNew.Width(), rcNew.Height(), SWP_NOZORDER );
-	m_pWnd->InvalidateRect( NULL );
+	m_pWnd->SetWindowPos(nullptr, rcNew.left, rcNew.top, rcNew.Width(), rcNew.Height(), SWP_NOZORDER );
+	m_pWnd->InvalidateRect(nullptr);
 }
 
 

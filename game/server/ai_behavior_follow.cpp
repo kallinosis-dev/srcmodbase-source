@@ -49,7 +49,7 @@ struct AI_Follower_t
 	{
 		slot = -1;
 		memset( &navInfo, 0, sizeof(navInfo) );
-		pGroup = NULL;
+		pGroup = nullptr;
 	}
 
 	AIHANDLE 			hFollower;
@@ -235,12 +235,12 @@ CAI_FollowBehavior::CAI_FollowBehavior( const AI_FollowParams_t &params )
 	memset( &m_FollowNavGoal, 0, sizeof( m_FollowNavGoal ) );
 	
 	m_FollowDelay.Set( 1.0, 3.0 );
-	m_hFollowManagerInfo.m_pGroup = NULL;
+	m_hFollowManagerInfo.m_pGroup = nullptr;
 	m_hFollowManagerInfo.m_hFollower = 0;
 	
 	m_TimeBlockUseWaitPoint.Set( 0.5, 1.5 );
 	m_TimeCheckForWaitPoint.Set( 1.0 );
-	m_pInterruptWaitPoint = NULL;
+	m_pInterruptWaitPoint = nullptr;
 
 	m_TimeBeforeSpreadFacing.Set( 2.0, 4.0 );
 	m_TimeNextSpreadFacing.Set( 3.0, 12.0 );
@@ -272,7 +272,7 @@ int CAI_FollowBehavior::DrawDebugTextOverlays( int text_offset )
 	if ( GetOuter()->m_debugOverlays & OVERLAY_TEXT_BIT )
 	{	
 		followEnt = GetFollowTarget();
-		if ( followEnt != NULL )
+		if ( followEnt != nullptr)
 		{
 			Q_snprintf( tempstr, sizeof(tempstr), "Follow: (%d) %s (%s)", followEnt->entindex(), followEnt->GetDebugName(), followEnt->GetClassname() );
 		}
@@ -349,8 +349,8 @@ void CAI_FollowBehavior::SetFollowTarget( CBaseEntity *pLeader, bool fFinishCurS
 	if ( m_hFollowTarget )
 	{
 		g_AIFollowManager.RemoveFollower( m_hFollowManagerInfo );
-		m_hFollowTarget = NULL;
-		m_hFollowManagerInfo.m_pGroup = NULL;
+		m_hFollowTarget = nullptr;
+		m_hFollowManagerInfo.m_pGroup = nullptr;
 		if ( IsRunning() )
 		{
 			if ( GetNavigator()->GetGoalType() == GOALTYPE_TARGETENT )
@@ -358,7 +358,7 @@ void CAI_FollowBehavior::SetFollowTarget( CBaseEntity *pLeader, bool fFinishCurS
 				GetNavigator()->StopMoving(); // Stop him from walking toward the player
 			}
 			
-			if ( GetEnemy() != NULL )
+			if ( GetEnemy() != nullptr)
 			{
 				GetOuter()->SetIdealState( NPC_STATE_COMBAT );
 			}
@@ -419,8 +419,8 @@ void CAI_FollowBehavior::ClearFollowGoal( CAI_FollowGoal *pGoal )
 	GetOuter()->OnClearGoal( this, pGoal );
 	if ( pGoal == m_hFollowGoalEnt )
 	{
-		SetFollowTarget( NULL );
-		m_hFollowGoalEnt = NULL;
+		SetFollowTarget(nullptr);
+		m_hFollowGoalEnt = nullptr;
 		m_flTimeUpdatedFollowPosition = 0;
 	}
 }
@@ -436,7 +436,7 @@ bool CAI_FollowBehavior::UpdateFollowPosition()
 		return true;
 	}
 
-	if (m_hFollowTarget == NULL)
+	if (m_hFollowTarget == nullptr)
 		return false;
 	
 	if ( !g_AIFollowManager.CalcFollowPosition( m_hFollowManagerInfo, &m_FollowNavGoal ) )
@@ -644,8 +644,8 @@ void CAI_FollowBehavior::CleanupOnDeath( CBaseEntity *pCulprit, bool bFireDeathO
 	if ( m_hFollowManagerInfo.m_pGroup )
 	{
 		g_AIFollowManager.RemoveFollower( m_hFollowManagerInfo );
-		m_hFollowManagerInfo.m_pGroup = NULL;
-		m_hFollowTarget = NULL;
+		m_hFollowManagerInfo.m_pGroup = nullptr;
+		m_hFollowTarget = nullptr;
 	}
 	BaseClass::CleanupOnDeath( pCulprit, bFireDeathOutput );
 }
@@ -654,12 +654,12 @@ void CAI_FollowBehavior::CleanupOnDeath( CBaseEntity *pCulprit, bool bFireDeathO
 
 void CAI_FollowBehavior::Precache()
 {
-	if ( m_hFollowTarget != NULL && m_hFollowManagerInfo.m_pGroup  == NULL )
+	if ( m_hFollowTarget != nullptr && m_hFollowManagerInfo.m_pGroup  == nullptr)
 	{
 		// Post load fixup
 		if ( !g_AIFollowManager.AddFollower( m_hFollowTarget, GetOuter(), m_params.formation, &m_hFollowManagerInfo ) )
 		{
-			m_hFollowTarget = NULL;
+			m_hFollowTarget = nullptr;
 		}
 	}
 }
@@ -679,7 +679,7 @@ void CAI_FollowBehavior::GatherConditions( void )
 		ClearCondition( COND_FOLLOW_DELAY_EXPIRED );
 		ClearCondition( COND_TARGET_MOVED_FROM_MARK );
 		ClearFollowPoint();
-		m_pInterruptWaitPoint = NULL;
+		m_pInterruptWaitPoint = nullptr;
 		m_bTargetUnreachable = false;
 		m_flTimeFollowTargetVisible = 0;
 
@@ -712,9 +712,9 @@ void CAI_FollowBehavior::GatherConditions( void )
 	if ( !m_TargetMonitor.IsMarkSet() )
 		m_bTargetUnreachable = false;
 
-	m_pInterruptWaitPoint = NULL;
+	m_pInterruptWaitPoint = nullptr;
 
-	if ( GetHintNode() == NULL )
+	if ( GetHintNode() == nullptr)
 	{
 		if ( ShouldUseFollowPoints() && m_TimeBlockUseWaitPoint.Expired() && m_TimeCheckForWaitPoint.Expired() )
 		{
@@ -841,7 +841,7 @@ bool CAI_FollowBehavior::ShouldFollow()
 
 bool CAI_FollowBehavior::ShouldMoveToFollowTarget()
 {
-	if ( GetFollowTarget() == NULL )
+	if ( GetFollowTarget() == nullptr)
 		return false;
 
 	if( m_bTargetUnreachable )
@@ -888,7 +888,7 @@ int CAI_FollowBehavior::SelectScheduleManagePosition()
 
 bool CAI_FollowBehavior::ShouldUseFollowPoints()
 {
-	if ( !ai_follow_use_points.GetBool() || GetEnemy() != NULL )
+	if ( !ai_follow_use_points.GetBool() || GetEnemy() != nullptr)
 		return false;
 
 	return true;
@@ -908,7 +908,7 @@ void CAI_FollowBehavior::ClearFollowPoint()
 	if ( GetHintNode() && GetHintNode()->HintType() == HINT_FOLLOW_WAIT_POINT )
 	{
 		GetHintNode()->Unlock();
-		SetHintNode( NULL );
+		SetHintNode(nullptr);
 	}
 }
 
@@ -927,7 +927,7 @@ const Vector &CAI_FollowBehavior::GetFollowPoint()
 CAI_Hint *CAI_FollowBehavior::FindFollowPoint()
 {
 	if ( !m_TimeBlockUseWaitPoint.Expired() )
-		return NULL;
+		return nullptr;
 
 	CHintCriteria hintCriteria;
 	hintCriteria.SetHintType( HINT_FOLLOW_WAIT_POINT );
@@ -982,7 +982,7 @@ void CAI_FollowBehavior::SetFollowPoint( CAI_Hint *pHintNode )
 
 	if ( !pHintNode->Lock( GetOuter() ) )
 	{
-		SetHintNode( NULL );
+		SetHintNode(nullptr);
 		m_TimeBlockUseWaitPoint.Reset();
 	}
 	else
@@ -1005,7 +1005,7 @@ int CAI_FollowBehavior::SelectScheduleFollowPoints()
 			HasCondition( COND_FOLLOW_WAIT_POINT_INVALID ) )
 		{
 			GetHintNode()->Unlock();
-			SetHintNode( NULL );
+			SetHintNode(nullptr);
 			m_TimeBlockUseWaitPoint.Reset();
 			bShouldUseFollowPoints = false;
 		}
@@ -1017,7 +1017,7 @@ int CAI_FollowBehavior::SelectScheduleFollowPoints()
 		if ( GetHintNode() && !bHasFollowPoint )
 		{
 			GetHintNode()->Unlock();
-			SetHintNode( NULL );
+			SetHintNode(nullptr);
 		}
 
 		if (!GetHintNode())
@@ -1087,7 +1087,7 @@ int CAI_FollowBehavior::SelectSchedule()
 		if ( !GetFollowTarget()->IsAlive() )
 		{
 			// UNDONE: Comment about the recently dead player here?
-			SetFollowTarget( NULL );
+			SetFollowTarget(nullptr);
 		}
 		else if ( ShouldFollow() )
 		{
@@ -1269,12 +1269,12 @@ void CAI_FollowBehavior::GetFollowTargetViewLoc( Vector *pResult )
 		if( pPlayer )
 		{
 			// Follow target is a player.
-			pPlayer->EyeVectors( &vecDir, NULL, NULL );
+			pPlayer->EyeVectors( &vecDir, nullptr, nullptr);
 		}
 		else
 		{
 			// Not a player. 
-			m_hFollowTarget->GetVectors( &vecDir, NULL, NULL );
+			m_hFollowTarget->GetVectors( &vecDir, nullptr, nullptr);
 		}
 
 		AI_TraceLOS( vecStart, vecStart + vecDir * 8192, m_hFollowTarget, &tr );
@@ -1291,7 +1291,7 @@ bool CAI_FollowBehavior::ValidateFaceTarget( Vector *pFaceTarget )
 {
 	if ( *pFaceTarget == vec3_invalid )
 	{
-		if ( m_hFollowTarget != NULL )
+		if ( m_hFollowTarget != nullptr)
 		{
 			*pFaceTarget = m_hFollowTarget->GetAbsOrigin();
 		}
@@ -1354,7 +1354,7 @@ void CAI_FollowBehavior::StartTask( const Task_t *pTask )
 
 		case TASK_CANT_FOLLOW:
 		{
-			SetFollowTarget( NULL, true );
+			SetFollowTarget(nullptr, true );
 			TaskComplete();
 			break;
 		}
@@ -1368,7 +1368,7 @@ void CAI_FollowBehavior::StartTask( const Task_t *pTask )
 			}
 
 			Vector faceTarget = vec3_invalid;
-			bool bFollowingPoint = ( dynamic_cast<CPointEntity *>(m_hFollowTarget.Get()) != NULL );
+			bool bFollowingPoint = ( dynamic_cast<CPointEntity *>(m_hFollowTarget.Get()) != nullptr);
 			if ( GetNpcState() == NPC_STATE_COMBAT )
 			{
 				if( gpGlobals->curtime - GetOuter()->GetEnemyLastTimeSeen() < 5.0 )
@@ -1469,7 +1469,7 @@ void CAI_FollowBehavior::StartTask( const Task_t *pTask )
 			
 		case TASK_MOVE_TO_FOLLOW_POSITION:
 		{
-			if ( m_hFollowTarget == NULL)
+			if ( m_hFollowTarget == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}
@@ -1492,7 +1492,7 @@ void CAI_FollowBehavior::StartTask( const Task_t *pTask )
 		
 		case TASK_SET_FOLLOW_TARGET_MARK:
 		{
-			if ( m_hFollowTarget == NULL)
+			if ( m_hFollowTarget == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}
@@ -1563,7 +1563,7 @@ void CAI_FollowBehavior::StartTask( const Task_t *pTask )
 				else
 				{
 					GetHintNode()->Unlock();
-					SetHintNode( NULL );
+					SetHintNode(nullptr);
 					m_TimeBlockUseWaitPoint.Reset();
 					TaskFail("Couldn't get to wait node." );
 				}
@@ -1701,7 +1701,7 @@ void CAI_FollowBehavior::RunTask( const Task_t *pTask )
 
 		case TASK_MOVE_TO_FOLLOW_POSITION:
 		{
-			if ( m_hFollowTarget == NULL )
+			if ( m_hFollowTarget == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}
@@ -2611,7 +2611,7 @@ bool CAI_FollowManager::AddFollower( CBaseEntity *pTarget, CAI_BaseNPC *pFollowe
 	}
 
 	pHandle->m_hFollower = 0;
-	pHandle->m_pGroup = NULL;
+	pHandle->m_pGroup = nullptr;
 	return false;
 }
 
@@ -2780,7 +2780,7 @@ void CAI_FollowManager::RemoveFollower( AI_FollowManagerInfoHandle_t& hInfo )
 		}
 		else
 		{
-			if ( pGroup->hFollowTarget != NULL ) // NULL on level unload
+			if ( pGroup->hFollowTarget != nullptr) // NULL on level unload
 			{
 				RedistributeSlots( pGroup );
 			}
@@ -2870,7 +2870,7 @@ AI_FollowGroup_t *CAI_FollowManager::FindGroup( CBaseEntity *pTarget )
 		if ( m_groups[i]->hFollowTarget == pTarget )
 			return m_groups[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------
@@ -2888,7 +2888,7 @@ AI_FollowGroup_t *CAI_FollowManager::FindFollowerGroup( CBaseEntity *pFollower )
 			h = m_groups[i]->followers.Next( h );
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 	
 //-----------------------------------------------------------------------------

@@ -28,7 +28,7 @@ BEGIN_VS_SHADER_FLAGS( sfm_ao_blur_shader, "Help for SFM ambient occlusion blur 
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -46,7 +46,7 @@ BEGIN_VS_SHADER_FLAGS( sfm_ao_blur_shader, "Help for SFM ambient occlusion blur 
 			pShaderShadow->EnableTexture( SHADER_SAMPLER2, true );	// Noise map
 
 			int fmt = VERTEX_POSITION;
-			pShaderShadow->VertexShaderVertexFormat( fmt, 1, NULL, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( sfm_ao_blur_vs30 );
 			SET_STATIC_VERTEX_SHADER( sfm_ao_blur_vs30 );

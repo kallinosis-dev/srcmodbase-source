@@ -36,7 +36,7 @@ RotatingProgressBar::RotatingProgressBar(Panel *parent, const char *panelName) :
 	m_flLastAngle = 0;
 
 	m_nTextureId = -1;
-	m_pszImageName = NULL;
+	m_pszImageName = nullptr;
 
 	m_flTickDelay = 30;
 
@@ -113,7 +113,7 @@ void RotatingProgressBar::SetImage(const char *imageName)
 	if ( m_pszImageName )
 	{
 		delete [] m_pszImageName;
-		m_pszImageName = NULL;
+		m_pszImageName = nullptr;
 	}
 
 	const char *pszDir = "vgui/";

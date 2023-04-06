@@ -366,7 +366,7 @@ void MPI_ProcessVisLeafs( int iThread, uint64 iWorkUnit, MessageBuffer *pBuf )
 	if ( pBuf )
 	{
 		pBuf->update( iSavePos, &pData->m_nPatchesInCluster, sizeof(pData->m_nPatchesInCluster) );
-		pData->m_pVisLeafsMB = NULL;
+		pData->m_pVisLeafsMB = nullptr;
 	}
 }
 

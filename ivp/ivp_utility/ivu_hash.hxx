@@ -15,7 +15,7 @@ class IVP_Hash {
 public:
     inline int hash_index(const char *key)const;
     
-    IVP_Hash(int size, int key_size,void *not_found_value = 0);
+    IVP_Hash(int size, int key_size,void *not_found_value = nullptr);
     ~IVP_Hash();
     void add(const char *key,void *value);
     void remove(const char *key);
@@ -30,7 +30,7 @@ class IVP_Hash_Enumerator {
     IVP_Hash *my_hash;
     IVP_Hash_Elem *el;
 public:
-    IVP_Hash_Enumerator(IVP_Hash *hash){ my_hash = hash; index_pos = -1; el = 0;};
+    IVP_Hash_Enumerator(IVP_Hash *hash){ my_hash = hash; index_pos = -1; el = nullptr;};
     void *next_element();
 };
 

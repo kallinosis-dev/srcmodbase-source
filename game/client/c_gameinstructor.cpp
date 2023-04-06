@@ -284,7 +284,7 @@ bool C_GameInstructor::Init( void )
 	m_bHiddenDueToOtherElements = false;
 
 	m_iCurrentPriority = 0;
-	m_hLastSpectatedPlayer = NULL;
+	m_hLastSpectatedPlayer = nullptr;
 	m_bSpectatedPlayerChanged = false;
 
 	m_szPreviousStartSound[ 0 ] = '\0';
@@ -347,7 +347,7 @@ void C_GameInstructor::Shutdown( void )
 		{
 			m_Lessons[ i ]->StopListeningForAllEvents();
 			delete m_Lessons[ i ];
-			m_Lessons[ i ] = NULL;
+			m_Lessons[ i ] = nullptr;
 		}
 	}
 	m_Lessons.RemoveAll();
@@ -1101,8 +1101,8 @@ bool C_GameInstructor::OpenOpportunity( CBaseLesson *pLesson )
 
 	if ( pRootLesson->InstanceType() == LESSON_INSTANCE_FIXED_REPLACE )
 	{
-		CBaseLesson *pLessonToReplace = NULL;
-		CBaseLesson *pLastReplacableLesson = NULL;
+		CBaseLesson *pLessonToReplace = nullptr;
+		CBaseLesson *pLastReplacableLesson = nullptr;
 
 		int iInstanceCount = 0;
 
@@ -1229,7 +1229,7 @@ C_BasePlayer * C_GameInstructor::GetLocalPlayer( void )
 		return pLocalPlayer;
 
 	// We're purely a spectator let's get lessons of the person we're spectating
-	C_BasePlayer *pSpectatedPlayer = NULL;
+	C_BasePlayer *pSpectatedPlayer = nullptr;
 
 	if ( pLocalPlayer->GetObserverMode() == OBS_MODE_IN_EYE || pLocalPlayer->GetObserverMode() == OBS_MODE_CHASE )
 	{
@@ -1291,35 +1291,35 @@ void C_GameInstructor::FindErrors( void )
 			for ( int iLessonEvent = 0; iLessonEvent < pLesson->GetOpenEvents().Count(); ++iLessonEvent )
 			{
 				const LessonEvent_t *pLessonEvent = &(pLesson->GetOpenEvents()[ iLessonEvent ]);
-				pLesson->ProcessElements( NULL, &(pLessonEvent->elements) );
+				pLesson->ProcessElements(nullptr, &(pLessonEvent->elements) );
 			}
 
 			// Process all close events
 			for ( int iLessonEvent = 0; iLessonEvent < pLesson->GetCloseEvents().Count(); ++iLessonEvent )
 			{
 				const LessonEvent_t *pLessonEvent = &(pLesson->GetCloseEvents()[ iLessonEvent ]);
-				pLesson->ProcessElements( NULL, &(pLessonEvent->elements) );
+				pLesson->ProcessElements(nullptr, &(pLessonEvent->elements) );
 			}
 
 			// Process all success events
 			for ( int iLessonEvent = 0; iLessonEvent < pLesson->GetSuccessEvents().Count(); ++iLessonEvent )
 			{
 				const LessonEvent_t *pLessonEvent = &(pLesson->GetSuccessEvents()[ iLessonEvent ]);
-				pLesson->ProcessElements( NULL, &(pLessonEvent->elements) );
+				pLesson->ProcessElements(nullptr, &(pLessonEvent->elements) );
 			}
 
 			// Process all on open events
 			for ( int iLessonEvent = 0; iLessonEvent < pLesson->GetOnOpenEvents().Count(); ++iLessonEvent )
 			{
 				const LessonEvent_t *pLessonEvent = &(pLesson->GetOnOpenEvents()[ iLessonEvent ]);
-				pLesson->ProcessElements( NULL, &(pLessonEvent->elements) );
+				pLesson->ProcessElements(nullptr, &(pLessonEvent->elements) );
 			}
 
 			// Process all update events
 			for ( int iLessonEvent = 0; iLessonEvent < pLesson->GetUpdateEvents().Count(); ++iLessonEvent )
 			{
 				const LessonEvent_t *pLessonEvent = &(pLesson->GetUpdateEvents()[ iLessonEvent ]);
-				pLesson->ProcessElements( NULL, &(pLessonEvent->elements) );
+				pLesson->ProcessElements(nullptr, &(pLessonEvent->elements) );
 			}
 		}
 	}
@@ -1410,7 +1410,7 @@ CBaseLesson * C_GameInstructor::GetLesson_Internal( const char *pchLessonName )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void C_GameInstructor::StopAllLessons( void )
@@ -1472,7 +1472,7 @@ void C_GameInstructor::ReadLessonsFromFile( const char *pchFileName )
 	ACTIVE_SPLITSCREEN_PLAYER_GUARD( m_nSplitScreenSlot );
 	KeyValues *pLessonKeys = new KeyValues( "instructor_lessons" );
 	KeyValues::AutoDelete autoDelete(pLessonKeys);
-	pLessonKeys->LoadFromFile( g_pFullFileSystem, pchFileName, NULL );
+	pLessonKeys->LoadFromFile( g_pFullFileSystem, pchFileName, nullptr);
 
 	for ( m_pScriptKeys = pLessonKeys->GetFirstTrueSubKey(); m_pScriptKeys; m_pScriptKeys = m_pScriptKeys->GetNextTrueSubKey() )
 	{
@@ -1497,7 +1497,7 @@ void C_GameInstructor::ReadLessonsFromFile( const char *pchFileName )
 		GetGameInstructor().DefineLesson( pNewLesson );
 	}
 
-	m_pScriptKeys = NULL;
+	m_pScriptKeys = nullptr;
 }
 
 void C_GameInstructor::InitLessonPrerequisites( void )

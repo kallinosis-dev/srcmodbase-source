@@ -229,8 +229,8 @@ static uint32 GetPrivateIPDelayMsecs()
 
 C_ServerClassInfo::C_ServerClassInfo()
 {
-	m_ClassName = NULL;
-	m_DatatableName = NULL;
+	m_ClassName = nullptr;
+	m_DatatableName = nullptr;
 	m_InstanceBaselineIndex = INVALID_STRING_INDEX;
 }
 
@@ -363,7 +363,7 @@ void CServerMsg_CheckReservation::SendMsg( const ns_address &serverAdr, int sock
 			NET_InitSteamDatagramProxiedGameserverConnection( serverAdr );
 	#endif
 
-	NET_SendPacket( NULL, socket, serverAdr, msg.GetData(), msg.GetNumBytesWritten() );
+	NET_SendPacket(nullptr, socket, serverAdr, msg.GetData(), msg.GetNumBytesWritten() );
 }
 
 void CServerMsg_CheckReservation::ResponseReceived( const ns_address &from, bf_read &msg, int32 hostVersion, uint32 token )
@@ -430,7 +430,7 @@ void CServerMsg_Ping::SendMsg( const ns_address &serverAdr, int socket, uint32 t
 	#endif
 
 	DevMsg( "Pinging %s\n", ns_address_render( serverAdr ).String() );
-	NET_SendPacket( NULL, socket, serverAdr, msg.GetData(), msg.GetNumBytesWritten() );
+	NET_SendPacket(nullptr, socket, serverAdr, msg.GetData(), msg.GetNumBytesWritten() );
 }
 
 void CServerMsg_Ping::ResponseReceived( const ns_address& from, bf_read &msg, int32 hostVersion, uint32 token )
@@ -455,9 +455,9 @@ CBaseClientState::CBaseClientState() :
 {
 	m_bSplitScreenUser = false;
 	m_Socket = NS_CLIENT;
-	m_pServerClasses = NULL;
-	m_StringTableContainer = NULL;
-	m_NetChannel = NULL;
+	m_pServerClasses = nullptr;
+	m_StringTableContainer = nullptr;
+	m_NetChannel = nullptr;
 	m_nSignonState = SIGNONSTATE_NONE;
 	m_nChallengeNr = 0;
 	m_flConnectTime = 0;
@@ -490,8 +490,8 @@ CBaseClientState::CBaseClientState() :
 	m_nServerProtocolVersion = 0;
 	m_nServerInfoMsgProtocol = 0;
 
-	m_pServerReservationOperation = NULL;
-	m_pServerReservationCallback = NULL;
+	m_pServerReservationOperation = nullptr;
+	m_pServerReservationCallback = nullptr;
 	m_flReservationMsgSendTime = 0;
 	m_nReservationMsgRetryNumber = 0;
 	m_bEnteredPassword = false;
@@ -500,7 +500,7 @@ CBaseClientState::CBaseClientState() :
 	m_bWaitingForServerGameDetails = false;
 #endif
 	m_nServerReservationCookie = 0;
-	m_pKVGameSettings = NULL;
+	m_pKVGameSettings = nullptr;
 	m_unUGCMapFileID = 0;
 	m_ulGameServerSteamID = 0;
 }
@@ -510,7 +510,7 @@ CBaseClientState::~CBaseClientState()
 	if ( m_pKVGameSettings )
 	{
 		m_pKVGameSettings->deleteThis();
-		m_pKVGameSettings = NULL;
+		m_pKVGameSettings = nullptr;
 	}
 
 	FOR_EACH_MAP( m_BaselineHandles, i )
@@ -547,7 +547,7 @@ void CBaseClientState::Clear( void )
 	if ( m_pServerClasses )
 	{
 		delete[] m_pServerClasses;
-		m_pServerClasses = NULL;
+		m_pServerClasses = nullptr;
 	}
 
 	if ( m_StringTableContainer  )
@@ -556,7 +556,7 @@ void CBaseClientState::Clear( void )
 		m_StringTableContainer->RemoveAllTables();
 #endif
 	
-		m_StringTableContainer = NULL;
+		m_StringTableContainer = nullptr;
 	}
 
 	FreeEntityBaselines();
@@ -846,7 +846,7 @@ void CBaseClientState::SendConnectPacket ( const ns_address &netAdrRemote, int c
 	if ( dc.m_nEncryptionKey )
 	{
 		msg.WriteLong( dc.m_nEncryptionKey );
-		byte *pbEncryptionKey = NULL;
+		byte *pbEncryptionKey = nullptr;
 		int32 idx = m_mapGeneratedEncryptionKeys.Find( dc.m_nEncryptionKey );
 		if ( idx != m_mapGeneratedEncryptionKeys.InvalidIndex() )
 		{
@@ -925,7 +925,7 @@ void CBaseClientState::SendConnectPacket ( const ns_address &netAdrRemote, int c
 		DevMsg( "[NET] Sending client connect packet to %s, total size %u bytes ( %u header, %u info, %u cookie, %u auth )\n", ns_address_render( netAdrRemote ).String(), msg.GetNumBytesWritten(),
 			numBytesPacketHeader, numBytesFcvarUserInfo, numBytesCookie, numBytesSteamAuth );
 	}
-	NET_SendPacket( NULL, m_Socket, netAdrRemote, msg.GetData(), msg.GetNumBytesWritten() );
+	NET_SendPacket(nullptr, m_Socket, netAdrRemote, msg.GetData(), msg.GetNumBytesWritten() );
 
 
 	// Remember Steam ID, if any
@@ -1078,7 +1078,7 @@ void CBaseClientState::ConnectInternal( const char *pchPublicAddress, char const
 	m_nNumPlayersToConnect = numPlayers;
 
 	// For the check for resend timer to fire a connection / getchallenge request.
-	SetSignonState( SIGNONSTATE_CHALLENGE, -1, NULL );
+	SetSignonState( SIGNONSTATE_CHALLENGE, -1, nullptr);
 
 	// Force connection request to fire.
 	m_flConnectTime = -FLT_MAX;  
@@ -1111,7 +1111,7 @@ INetworkStringTable *CBaseClientState::GetStringTable( const char * name ) const
 	if ( !m_StringTableContainer )
 	{
 		Assert( m_StringTableContainer );
-		return NULL;
+		return nullptr;
 	}
 
 	return m_StringTableContainer->FindTable( name );
@@ -1131,7 +1131,7 @@ void CBaseClientState::FullConnect( const ns_address &adr, int nEncryptionKey )
 {
 	// Initiate the network channel
 
-	byte *pbEncryptionKey = NULL;
+	byte *pbEncryptionKey = nullptr;
 	if ( nEncryptionKey )
 	{
 		int32 idxEncryptedKey = m_mapGeneratedEncryptionKeys.Find( nEncryptionKey );
@@ -1177,7 +1177,7 @@ void CBaseClientState::FullConnect( const ns_address &adr, int nEncryptionKey )
 	m_nServerReservationCookie = 0;
 
 	// Mark client as connected
-	SetSignonState( SIGNONSTATE_CONNECTED, -1, NULL );
+	SetSignonState( SIGNONSTATE_CONNECTED, -1, nullptr);
 #if !defined(DEDICATED)
 	ns_address rconAdr = m_NetChannel->GetRemoteAddress();
 	if ( rconAdr.IsType<netadr_t>() )
@@ -1212,7 +1212,7 @@ void CBaseClientState::Disconnect( bool bShowMainMenu )
 	CL_NotifyRPTOfDisconnect( );
 #endif
 
-	SetSignonState( SIGNONSTATE_NONE, -1, NULL );
+	SetSignonState( SIGNONSTATE_NONE, -1, nullptr);
 	// Don't clear cookie here as this can get called as part of connection process if changing to new server, etc.
 	// m_nServerReservationCookie = 0;		
 
@@ -1249,7 +1249,7 @@ void CBaseClientState::Disconnect( bool bShowMainMenu )
 	if ( m_NetChannel )
 	{
 		m_NetChannel->Shutdown( "Disconnect" );
-		m_NetChannel = NULL;
+		m_NetChannel = nullptr;
 	}
 
 #ifndef DEDICATED
@@ -1696,7 +1696,7 @@ bool CBaseClientState::ProcessConnectionlessPacket( netpacket_t *packet )
 			{
 				m_netadrReserveServer.RemoveAll();
 				m_nServerReservationCookie = 0;				
-				m_pServerReservationCallback = NULL;
+				m_pServerReservationCallback = nullptr;
 #if !defined(DEDICATED)
 				g_pMatchFramework->CloseSession();
 				g_pMatchFramework->GetEventsSubscription()->BroadcastEvent( new KeyValues( "OnClientInsecureBlocked", "reason", "connect" ) );
@@ -1761,7 +1761,7 @@ bool CBaseClientState::ProcessConnectionlessPacket( netpacket_t *packet )
 					}
 
 					// Verify server certificate signature
-					byte *pbAllocatedKey = NULL;
+					byte *pbAllocatedKey = nullptr;
 					int nAllocatedCryptoBlockSize = 0;
 					if ( !NET_CryptVerifyServerCertificateAndAllocateSessionKey( dc.m_bOfficialValveServer, dc.m_adrServerAddress,
 						chKeyPub, cbKeyPub, chKeySgn, cbKeySgn,
@@ -1902,7 +1902,7 @@ bool CBaseClientState::ProcessConnectionlessPacket( netpacket_t *packet )
 				m_Remote.AddRemote( szRedirectAddress, "public" );
 
 				// For the check for resend timer to fire a connection / getchallenge request.
-				SetSignonState( SIGNONSTATE_CHALLENGE, -1, NULL );
+				SetSignonState( SIGNONSTATE_CHALLENGE, -1, nullptr);
 
 				// Force connection request to fire.
 				m_flConnectTime = -FLT_MAX;
@@ -2466,7 +2466,7 @@ CNETMsg_PlayerAvatarData_t * CBaseClientState::AllocOwnPlayerAvatarData() const
 		}
 	}
 #endif
-	return NULL;
+	return nullptr;
 }
 
 bool CBaseClientState::NETMsg_SetConVar( const CNETMsg_SetConVar& msg )
@@ -2824,7 +2824,7 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 
 	// If we connect to a dedicated server, we need to load up the dictionary file
 	CRC32_t crc = CRC32_ConvertFromUnsignedLong( msg.string_table_crc() );
-	if ( !g_pStringTableDictionary->OnLevelLoadStart( bClientHasMap ? m_szLevelNameShort : NULL, &crc ) )
+	if ( !g_pStringTableDictionary->OnLevelLoadStart( bClientHasMap ? m_szLevelNameShort : nullptr, &crc ) )
 	{
 		// Allow us to continue with a mismatch string table
 		// this can occur with slighty different versisons
@@ -2957,7 +2957,7 @@ bool CBaseClientState::SVCMsg_UpdateStringTable( const CSVCMsg_UpdateStringTable
 
 	//m_StringTableContainer is NULL on level transitions, Seems to be caused by a UpdateStringTable packet comming in before the ServerInfo packet
 	//  I'm not sure this is safe, but at least we won't crash. The realy odd thing is this can happen on the server as well.//tmauer
-	if(m_StringTableContainer != NULL)
+	if(m_StringTableContainer != nullptr)
 	{
 		CNetworkStringTable *table = (CNetworkStringTable*)
 			m_StringTableContainer->GetTable( msg.table_id() );
@@ -3002,7 +3002,7 @@ bool CBaseClientState::SVCMsg_PacketEntities( const CSVCMsg_PacketEntities &msg 
 		if ( !msg.is_delta() )
 		{
 			// We are done with signon sequence.
-			SetSignonState( SIGNONSTATE_FULL, m_nServerCount, NULL );
+			SetSignonState( SIGNONSTATE_FULL, m_nServerCount, nullptr);
 		}
 		else
 		{
@@ -3037,7 +3037,7 @@ ClientClass* CBaseClientState::FindClientClass(const char *pClassName)
 			return pCur;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -3103,7 +3103,7 @@ void CBaseClientState::FreeEntityBaselines()
 		if ( m_pEntityBaselines[i][j] )
 		{
 			delete m_pEntityBaselines[i][j];
-			m_pEntityBaselines[i][j] = NULL;
+			m_pEntityBaselines[i][j] = nullptr;
 		}
 	}
 }
@@ -3123,7 +3123,7 @@ void CBaseClientState::SetEntityBaseline(int iBaseline, ClientClass *pClientClas
 
 	entitybl->m_pClientClass = pClientClass;
 	entitybl->m_nEntityIndex = index;
-	entitybl->m_pServerClass = NULL;
+	entitybl->m_pServerClass = nullptr;
 
 	// Copy out the data we just decoded.
 	entitybl->SetPackedData( handle );
@@ -3147,7 +3147,7 @@ void CBaseClientState::CopyEntityBaseline( int iFrom, int iTo )
 				// ups, we already had this entity but our ack got lost
 				// we have to remove it again to stay in sync
 				delete m_pEntityBaselines[iTo][i];
-				m_pEntityBaselines[iTo][i] = NULL;
+				m_pEntityBaselines[iTo][i] = nullptr;
 			}
 			continue;
 		}
@@ -3156,8 +3156,8 @@ void CBaseClientState::CopyEntityBaseline( int iFrom, int iTo )
 		{
 			// create new to baseline if none existed before
 			blto = m_pEntityBaselines[iTo][i] = new PackedEntity();
-			blto->m_pClientClass = NULL;
-			blto->m_pServerClass = NULL;
+			blto->m_pClientClass = nullptr;
+			blto->m_pServerClass = nullptr;
 			blto->m_ReferenceCount = 0;
 		}
 
@@ -3514,12 +3514,12 @@ void CBaseClientState::HandleReservationResponse( const ReservationResponseReply
 	IMatchAsyncOperationCallback *pCallback = m_pServerReservationCallback;
 	if ( reply.m_uiResponse != 2 )
 	{
-		m_pServerReservationCallback = NULL;
+		m_pServerReservationCallback = nullptr;
 
 		if ( m_pKVGameSettings )
 		{
 			m_pKVGameSettings->deleteThis();
-			m_pKVGameSettings = NULL;
+			m_pKVGameSettings = nullptr;
 		}
 	}
 
@@ -3613,7 +3613,7 @@ void CBaseClientState::HandleReserveServerChallengeResponse( int nChallengeNr )
 
 	for ( int i = 0; i < m_netadrReserveServer.Count(); ++i )
 	{
-		NET_SendPacket( NULL, m_Socket, m_netadrReserveServer.Get( i ).m_adrRemote, msg.GetData(), msg.GetNumBytesWritten() );
+		NET_SendPacket(nullptr, m_Socket, m_netadrReserveServer.Get( i ).m_adrRemote, msg.GetData(), msg.GetNumBytesWritten() );
 	}
 }
 
@@ -3736,7 +3736,7 @@ void CBaseClientState::SendReserveServerMsg()
 
 	for ( int i = 0; i < m_netadrReserveServer.Count(); ++i )
 	{
-		NET_SendPacket( NULL, m_Socket, m_netadrReserveServer.Get( i ).m_adrRemote, msg.GetData(), msg.GetNumBytesWritten() );
+		NET_SendPacket(nullptr, m_Socket, m_netadrReserveServer.Get( i ).m_adrRemote, msg.GetData(), msg.GetNumBytesWritten() );
 	}
 
 	// Mark time of this attempt.

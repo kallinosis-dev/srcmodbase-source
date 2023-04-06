@@ -32,10 +32,10 @@ DECLARE_BUILD_FACTORY_CUSTOM( MessageBox, MessageBox_Factory );
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-MessageBox::MessageBox(const char *title, const char *text, Panel *parent) : Frame(parent, NULL, false)
+MessageBox::MessageBox(const char *title, const char *text, Panel *parent) : Frame(parent, nullptr, false)
 {
 	SetTitle(title, true);
-	m_pMessageLabel = new Label(this, NULL, text);
+	m_pMessageLabel = new Label(this, nullptr, text);
 
 	Init();
 }
@@ -43,10 +43,10 @@ MessageBox::MessageBox(const char *title, const char *text, Panel *parent) : Fra
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-MessageBox::MessageBox(const wchar_t *wszTitle, const wchar_t *wszText, Panel *parent) : Frame(parent, NULL, false)
+MessageBox::MessageBox(const wchar_t *wszTitle, const wchar_t *wszText, Panel *parent) : Frame(parent, nullptr, false)
 {	
 	SetTitle(wszTitle, true);
-	m_pMessageLabel = new Label(this, NULL, wszText);
+	m_pMessageLabel = new Label(this, nullptr, wszText);
 
 	Init();
 }
@@ -57,7 +57,7 @@ MessageBox::MessageBox(const wchar_t *wszTitle, const wchar_t *wszText, Panel *p
 void MessageBox::Init()
 {
 	SetDeleteSelfOnClose(true);
-	m_pFrameOver = NULL;
+	m_pFrameOver = nullptr;
 	m_bShowMessageBoxOverCursor = false;
 
 	SetMenuButtonResponsive(false);
@@ -65,16 +65,16 @@ void MessageBox::Init()
 	SetCloseButtonVisible(false);
 	SetSizeable(false);
 	
-	m_pOkButton = new Button(this, NULL, "#MessageBox_OK");
+	m_pOkButton = new Button(this, nullptr, "#MessageBox_OK");
 	m_pOkButton->SetCommand( "OnOk" );
 	m_pOkButton->AddActionSignalTarget(this);
 
-	m_pCancelButton = new Button(this, NULL, "#MessageBox_Cancel");
+	m_pCancelButton = new Button(this, nullptr, "#MessageBox_Cancel");
 	m_pCancelButton->SetCommand( "OnCancel" );
 	m_pCancelButton->AddActionSignalTarget(this);
 	m_pCancelButton->SetVisible( false );
 
-	m_OkCommand = m_CancelCommand = NULL;
+	m_OkCommand = m_CancelCommand = nullptr;
 	m_bNoAutoClose = false;
 }
 

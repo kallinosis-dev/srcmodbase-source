@@ -54,7 +54,7 @@ class GDclass
 		inline int GetVariableCount(void) { return(m_nVariables); }
 		GDinputvariable *GetVariableAt(int iIndex);
 		void GetHelperForGDVar( GDinputvariable *pVar, CUtlVector<const char *> *helperName );
-		GDinputvariable *VarForName(const char *pszName, int *piIndex = NULL);
+		GDinputvariable *VarForName(const char *pszName, int *piIndex = nullptr);
 		BOOL AddVariable(GDinputvariable *pVar, GDclass *pBase, int iBaseIndex, int iVarIndex);
 		void AddBase(GDclass *pBase);
 
@@ -175,7 +175,7 @@ class GDclass
 void GDclass::AddInput(CClassInput *pInput)
 {
 	Assert(pInput != NULL);
-	if (pInput != NULL)
+	if (pInput != nullptr)
 	{
 		m_Inputs.AddToTail(pInput);
 	}
@@ -185,7 +185,7 @@ void GDclass::AddInput(CClassInput *pInput)
 inline void GDclass::AddOutput(CClassOutput *pOutput)
 {
 	Assert(pOutput != NULL);
-	if (pOutput != NULL)
+	if (pOutput != nullptr)
 	{
 		m_Outputs.AddToTail(pOutput);
 	}
@@ -195,7 +195,7 @@ inline void GDclass::AddOutput(CClassOutput *pOutput)
 inline void GDclass::AddHelper(CHelperInfo *pHelper)
 {
 	Assert(pHelper != NULL);
-	if (pHelper != NULL)
+	if (pHelper != nullptr)
 	{
 		m_Helpers.AddToTail(pHelper);
 	}
@@ -217,7 +217,7 @@ color32 GDclass::GetColor(void)
 //-----------------------------------------------------------------------------
 const char *GDclass::GetDescription(void)
 {
-	if (m_pszDescription == NULL)
+	if (m_pszDescription == nullptr)
 	{
 		return(m_szName);
 	}

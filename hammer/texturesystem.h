@@ -138,7 +138,7 @@ public:
 	//
 	inline int FilesGetCount(void) const;
 	inline void FilesGetInfo(GRAPHICSFILESTRUCT *pFileInfo, int nIndex) const;
-	bool FindGraphicsFile(GRAPHICSFILESTRUCT *pFileInfo, DWORD id, int *piIndex = NULL);
+	bool FindGraphicsFile(GRAPHICSFILESTRUCT *pFileInfo, DWORD id, int *piIndex = nullptr);
 
 	//
 	// Exposes a list of texture groups (sets of textures of a given format).
@@ -153,7 +153,7 @@ public:
 	inline int GetActiveTextureCount(void) const;
 	inline IEditorTexture *GetActiveTexture(int nIndex) const;
 	IEditorTexture *EnumActiveTextures(int *piIndex, TEXTUREFORMAT eDesiredFormat) const;
-	IEditorTexture *FindActiveTexture(LPCSTR pszName, int *piIndex = NULL, BOOL bDummy = TRUE);
+	IEditorTexture *FindActiveTexture(LPCSTR pszName, int *piIndex = nullptr, BOOL bDummy = TRUE);
 	bool HasTexturesForConfig(CGameConfig *pConfig);
 
 	//
@@ -288,7 +288,7 @@ int CTextureSystem::FilesGetCount(void) const
 //-----------------------------------------------------------------------------
 void CTextureSystem::FilesGetInfo(GRAPHICSFILESTRUCT *pFileInfo, int nIndex) const
 {
-	if (pFileInfo != NULL)
+	if (pFileInfo != nullptr)
 	{
 		*pFileInfo = m_GraphicsFiles[nIndex];
 	}
@@ -300,7 +300,7 @@ void CTextureSystem::FilesGetInfo(GRAPHICSFILESTRUCT *pFileInfo, int nIndex) con
 //-----------------------------------------------------------------------------
 int CTextureSystem::GetActiveTextureCount(void) const
 {
-	if (m_pActiveGroup != NULL)
+	if (m_pActiveGroup != nullptr)
 	{
 		return m_pActiveGroup->GetCount();
 	}
@@ -311,12 +311,12 @@ int CTextureSystem::GetActiveTextureCount(void) const
 
 IEditorTexture *CTextureSystem::GetActiveTexture(int nIndex) const
 {
-	if (m_pActiveGroup != NULL)
+	if (m_pActiveGroup != nullptr)
 	{
 		return m_pActiveGroup->GetTexture(nIndex);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -339,7 +339,7 @@ int CTextureSystem::GroupsGetCount() const
 CTextureGroup *CTextureSystem::GroupsGet(int nIndex) const
 {
 	if (!m_pActiveContext)
-		return NULL;
+		return nullptr;
 
 	return m_pActiveContext->Groups.Element(nIndex);
 }
@@ -366,7 +366,7 @@ int CTextureSystem::MRUGetCount() const
 IEditorTexture *CTextureSystem::MRUGet(int nIndex) const
 {
 	if (!m_pActiveContext)
-		return NULL;
+		return nullptr;
 
 	return m_pActiveContext->MRU.Element(nIndex);
 }

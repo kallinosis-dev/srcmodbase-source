@@ -83,7 +83,7 @@ void CTextureConverter::ConvertWorldTextures( CMapWorld * pWorld )
 	{
 		m_pProgDlg->DestroyWindow();
 		delete m_pProgDlg;
-		m_pProgDlg = NULL;
+		m_pProgDlg = nullptr;
 	}
 
 	AfxMessageBox( "Conversion complete.  Check the Hammer \"Messages\" window for complete details." );
@@ -166,7 +166,7 @@ void CTextureConverter::CheckFaceTexture( CMapFace * pFace )
 		return;
 	}
 
-	if ( strchr( pFace->GetTexture()->GetName(), '/') != NULL )
+	if ( strchr( pFace->GetTexture()->GetName(), '/') != nullptr)
 	{
 		m_nSkipped++;
 		return;
@@ -297,7 +297,7 @@ bool CTextureConverter::CheckDecalTextures( CMapEntity * pEnt, DWORD )
 
 	m_pProgDlg->SetPos( m_nCurrentDecal );
 
-	if ( strchr( pEnt->GetKeyValue( "texture" ), '/') != NULL )
+	if ( strchr( pEnt->GetKeyValue( "texture" ), '/') != nullptr)
 	{
 		m_nSkipped++;
 	}
@@ -364,7 +364,7 @@ void CTextureConverter::GetNewTextureMatches( const char * pszOldName, EditorTex
 	pTexture	= g_Textures.EnumActiveTextures( &nIndex, tfVMT );
 
 	// loop through all VMT textures
-	while ( pTexture != NULL )
+	while ( pTexture != nullptr)
 	{
 		if ( TextureNameMatchesMaterialName( pszOldName, pTexture->GetName() ) )  // check for a match
 		{
@@ -390,7 +390,7 @@ bool CTextureConverter::TextureNameMatchesMaterialName( const char * pszTextureN
 
 	pszPartialMaterialName = strrchr( pszMaterialName, '/' );  // Find the last '/'
 
-	if ( pszPartialMaterialName != NULL)
+	if ( pszPartialMaterialName != nullptr)
 	{
 		pszPartialMaterialName++;	// Point to the character after the '/'
 	}
@@ -400,7 +400,7 @@ bool CTextureConverter::TextureNameMatchesMaterialName( const char * pszTextureN
 	}
 
 	// No '/' found in the VMT name, or the name ended in a '/'.  This shouldn't happen.
-	if ( ( pszPartialMaterialName == NULL ) || strlen( pszPartialMaterialName ) == 0 )
+	if ( ( pszPartialMaterialName == nullptr) || strlen( pszPartialMaterialName ) == 0 )
 		return false;
 
 	if ( stricmp( pszTextureName, pszPartialMaterialName ) == 0 )
@@ -459,7 +459,7 @@ IEditorTexture * CTextureConverter::FindWAD3Texture( const char * pszName )
 	pTexture	= g_Textures.EnumActiveTextures( &nIndex, tfWAD3 );
 
 	// loop through all the WAD3 textures
-	while ( pTexture != NULL )
+	while ( pTexture != nullptr)
 	{
 		if ( !strcmp( pTexture->GetName(), pszName ) )		//check for exact match
 			return pTexture;
@@ -467,7 +467,7 @@ IEditorTexture * CTextureConverter::FindWAD3Texture( const char * pszName )
 		pTexture = g_Textures.EnumActiveTextures( &nIndex, tfWAD3 );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

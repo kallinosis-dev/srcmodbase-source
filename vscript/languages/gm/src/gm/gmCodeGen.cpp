@@ -182,14 +182,14 @@ public:
 void GM_CDECL gmLineNumberCallback(int a_address, void * a_context)
 {
   gmCodeGenPrivate::FunctionState * state = (gmCodeGenPrivate::FunctionState *) a_context;
-  gmLineInfo info, * lastEntry = NULL;
+  gmLineInfo info, * lastEntry = nullptr;
   info.m_address = a_address;
   info.m_lineNumber = state->m_currentLine;
   if(state->m_lineInfo.Count() > 0)
   {
     lastEntry = &state->m_lineInfo[state->m_lineInfo.Count() - 1];
   }
-  if(lastEntry == NULL || (lastEntry->m_address != a_address) || (lastEntry->m_lineNumber != state->m_currentLine))
+  if(lastEntry == nullptr || (lastEntry->m_address != a_address) || (lastEntry->m_lineNumber != state->m_currentLine))
   {
     state->m_lineInfo.InsertLast(info);
   }
@@ -215,12 +215,12 @@ gmCodeGenPrivate::gmCodeGenPrivate()
 {
   m_locked = false;
   m_errors = 0;
-  m_log = NULL;
-  m_hooks = NULL;
+  m_log = nullptr;
+  m_hooks = nullptr;
   m_debug = false;
 
   m_currentLoop = -1;
-  m_currentFunction = NULL;
+  m_currentFunction = nullptr;
 }
 
 
@@ -237,7 +237,7 @@ void gmCodeGenPrivate::FreeMemory()
   if(m_locked == false)
   {
     m_currentLoop = -1;
-    m_currentFunction = NULL;
+    m_currentFunction = nullptr;
     m_loopStack.ResetAndFreeMemory();
     m_functionStack.RemoveAndDeleteAll();
     m_patches.ResetAndFreeMemory();
@@ -257,11 +257,11 @@ int gmCodeGenPrivate::Lock(const gmCodeTreeNode * a_codeTree, gmCodeGenHooks * a
   m_hooks = a_hooks;
   m_debug = a_debug;
 
-  GM_ASSERT(m_hooks != NULL);
+  GM_ASSERT(m_hooks != nullptr);
 
   // set up memory and stacks.
   m_currentLoop = -1;
-  m_currentFunction = NULL;
+  m_currentFunction = nullptr;
   m_loopStack.Reset();
   m_patches.Reset();
 
@@ -281,7 +281,7 @@ int gmCodeGenPrivate::Lock(const gmCodeTreeNode * a_codeTree, gmCodeGenHooks * a
     m_currentFunction->m_byteCode.Emit(BC_RET);
 
     // Create a locals table
-    const char ** locals = NULL;
+    const char ** locals = nullptr;
     if(m_debug)
     {
       locals = (const char **) alloca(sizeof(const char *) * m_currentFunction->m_numLocals);
@@ -330,8 +330,8 @@ int gmCodeGenPrivate::Unlock()
 {
   m_errors = 0;
   m_locked = false;
-  m_log = NULL;
-  m_hooks = NULL;
+  m_log = nullptr;
+  m_hooks = nullptr;
   m_debug = false;
   m_currentLoop = -1;
   m_loopStack.Reset();
@@ -472,7 +472,7 @@ bool gmCodeGenPrivate::Generate(const gmCodeTreeNode * a_node, gmByteCodeGen * a
     {
       a_node = a_node->m_sibling;
     }
-    else a_node = NULL;
+    else a_node = nullptr;
   }
   return true;
 }
@@ -514,7 +514,7 @@ bool gmCodeGenPrivate::GenExprFunction(const gmCodeTreeNode * a_node, gmByteCode
     }
     else
     {
-      debugName = NULL;
+      debugName = nullptr;
     }
 
     if(debugName)
@@ -550,7 +550,7 @@ bool gmCodeGenPrivate::GenExprFunction(const gmCodeTreeNode * a_node, gmByteCode
   if(res)
   {
     // Create a locals table
-    const char ** locals = NULL;
+    const char ** locals = nullptr;
     if(m_debug)
     {
       locals = (const char **) alloca(sizeof(const char *) * m_currentFunction->m_numLocals);
@@ -702,7 +702,7 @@ bool gmCodeGenPrivate::GenStmtFor(const gmCodeTreeNode * a_node, gmByteCodeGen *
     PopLoop();
     return false;
   }
-  if(a_node->m_children[1] != NULL) // no branch for no test.
+  if(a_node->m_children[1] != nullptr) // no branch for no test.
   {
     loc2 = a_byteCode->Skip(SIZEOF_BC_BRA);
   }
@@ -726,7 +726,7 @@ bool gmCodeGenPrivate::GenStmtFor(const gmCodeTreeNode * a_node, gmByteCodeGen *
 
   a_byteCode->EmitPtr(BC_BRA, loc1);
   loc1 = a_byteCode->Tell();
-  if(a_node->m_children[1] != NULL)
+  if(a_node->m_children[1] != nullptr)
   {
     a_byteCode->Seek(loc2);
     a_byteCode->EmitPtr(BC_BRZ, loc1);
@@ -1378,7 +1378,7 @@ bool gmCodeGenPrivate::GenExprThis(const gmCodeTreeNode * a_node, gmByteCodeGen 
 
 gmCodeGenPrivate::FunctionState::FunctionState()
 {
-  m_debugName = NULL;
+  m_debugName = nullptr;
   m_numLocals = 0;
   m_currentLine = 1;
   m_byteCode.Reset(this);
@@ -1388,7 +1388,7 @@ gmCodeGenPrivate::FunctionState::FunctionState()
 
 void gmCodeGenPrivate::FunctionState::Reset()
 {
-  m_debugName = NULL;
+  m_debugName = nullptr;
   m_variables.Reset();
   m_numLocals = 0;
   m_currentLine = 1;
@@ -1502,7 +1502,7 @@ gmCodeGenPrivate::FunctionState * gmCodeGenPrivate::PopFunction()
     m_currentFunction = m_functionStack.GetPrev(m_currentFunction);
     if(!m_functionStack.IsValid(m_currentFunction))
     {
-      m_currentFunction = NULL;
+      m_currentFunction = nullptr;
     }
   }
 

@@ -57,7 +57,7 @@ static ConVar item_quality_chance_common( "item_quality_chance_common", "1.0", F
 //-----------------------------------------------------------------------------
 CEconItemSystem *ItemSystem( void )
 {
-	static GameItemSystem_t *pSystem = NULL;
+	static GameItemSystem_t *pSystem = nullptr;
 	if ( !pSystem )
 	{
 		pSystem = new GameItemSystem_t();
@@ -157,7 +157,7 @@ void CEconItemSystem::ReloadWhitelist( void )
 
 	// Otherwise, go through the KVs and turn on the matching items.
 	Msg("Parsing item whitelist (default: %s)\n", bDefault ? "allowed" : "disallowed" );
-	for ( KeyValues *pKey = pWhitelistKV->GetFirstSubKey(); pKey != NULL; pKey = pKey->GetNextKey() )
+	for ( KeyValues *pKey = pWhitelistKV->GetFirstSubKey(); pKey != nullptr; pKey = pKey->GetNextKey() )
 	{
 		bool bAllow = pKey->GetBool();
 
@@ -366,7 +366,7 @@ CEconItemAttribute *CEconItemSystem::GenerateAttribute( const char *pszName, flo
 		return GenerateAttribute( mapDefs[i]->GetDefinitionIndex(), flValue );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static ISteamHTTP *GetISteamHTTP()
@@ -381,7 +381,7 @@ static ISteamHTTP *GetISteamHTTP()
 			return steamgameserverapicontext->SteamHTTP();
 		}
 	#endif
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

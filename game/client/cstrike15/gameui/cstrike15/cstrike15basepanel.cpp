@@ -69,7 +69,7 @@ static int s_nPs3TrophyStorageSizeKB = 0;
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-static CCStrike15BasePanel *g_pCStrike15BasePanel = NULL;
+static CCStrike15BasePanel *g_pCStrike15BasePanel = nullptr;
 
 // [jason] For tracking the last team played by the main user (TEAM_CT by default)
 ConVar player_teamplayedlast( "player_teamplayedlast", "3", FCVAR_ARCHIVE | FCVAR_ARCHIVE_GAMECONSOLE | FCVAR_SS );
@@ -124,7 +124,7 @@ CBaseModPanel *BasePanelSingleton()
 //-----------------------------------------------------------------------------
 CCStrike15BasePanel::CCStrike15BasePanel() :
 	BaseClass( "CStrike15BasePanel" ),
-	m_pSplitScreenSignon( NULL ),
+	m_pSplitScreenSignon(nullptr),
 	m_OnClosedCommand( ON_CLOSED_NULL ),
 	m_bMigratingActive( false ),
 	m_bShowRequiredGameVoiceChannelUI( false ),

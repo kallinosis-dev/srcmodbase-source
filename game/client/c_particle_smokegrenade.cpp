@@ -252,7 +252,7 @@ static inline void WorldTraceLine( const Vector &start, const Vector &end, int c
 	#if defined(PARTICLEPROTOTYPE_APP)
 		trace->fraction = 1;
 	#else
-		UTIL_TraceLine(start, end, contentsMask, NULL, COLLISION_GROUP_NONE, trace);
+		UTIL_TraceLine(start, end, contentsMask, nullptr, COLLISION_GROUP_NONE, trace);
 	#endif
 }
 
@@ -342,7 +342,7 @@ void C_ParticleSmokeGrenade::OnDataChanged( DataUpdateType_t updateType )
 
 	if(updateType == DATA_UPDATE_CREATED )
 	{
-		Start(ParticleMgr(), NULL);
+		Start(ParticleMgr(), nullptr);
 	}
 }
 

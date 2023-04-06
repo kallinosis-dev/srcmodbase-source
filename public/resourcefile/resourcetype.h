@@ -99,7 +99,7 @@ template< class T > FORCEINLINE const T* ResourceHandleToData( const ResourceBin
 {
 	Assert( !hResource || bUnsafe || hResource->m_nRefCount > 0 );
 	Assert( !hResource || bUnsafe || ( hResource->m_nFlags & RESOURCE_BINDING_PERMANENT ) || ( hResource->m_nLastBindFrame == g_nResourceFrameCount ) );
-	return hResource ? ( const T* )hResource->m_pData : NULL;
+	return hResource ? ( const T* )hResource->m_pData : nullptr;
 }
 
 template< class T > FORCEINLINE int ResourceAddRef( const ResourceBinding_t< T > *hResource )

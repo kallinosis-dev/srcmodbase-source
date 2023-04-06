@@ -45,7 +45,7 @@ C_TEEnergySplash::C_TEEnergySplash( void )
 	m_vecPos.Init();
 	m_vecDir.Init();
 	m_bExplosive = false;
-	m_pModel = NULL;
+	m_pModel = nullptr;
 }
 
 //-----------------------------------------------------------------------------

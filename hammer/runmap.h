@@ -8,7 +8,7 @@ class CRunMap : public CDialog
 {
 // Construction
 public:
-	CRunMap(CWnd* pParent = NULL);   // standard constructor
+	CRunMap(CWnd* pParent = nullptr);   // standard constructor
 	void SaveToIni();
 
 // Dialog Data

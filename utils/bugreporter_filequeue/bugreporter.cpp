@@ -48,7 +48,7 @@
 #define BUGSUB_UNMOUNT_COMMAND "umount "  BUGSUB_MOUNT
 #endif
 
-class CBugReporter *g_bugreporter = NULL;
+class CBugReporter *g_bugreporter = nullptr;
 
 class CBug
 {
@@ -171,7 +171,7 @@ public:
 	virtual void		SetDescription( char const *description );
 
 	// NULL for current user
-	virtual void		SetSubmitter( char const *username = 0 );
+	virtual void		SetSubmitter( char const *username = nullptr );
 	virtual void		SetOwner( char const *username );
 	virtual void		SetSeverity( char const *severity );
 	virtual void		SetPriority( char const *priority );
@@ -247,7 +247,7 @@ bool CUtlSymbol_LessThan(const CUtlSymbol &sym1, const CUtlSymbol &sym2)
 
 CBugReporter::CBugReporter()
 {
-	m_pBug = NULL;
+	m_pBug = nullptr;
 	m_CurrentBugID = 0;
 	m_bMountedBugSub = false;
 	m_LevelMap.SetLessFunc(&CUtlSymbol_LessThan);
@@ -893,7 +893,7 @@ bool CBugReporter::PopulateLists()
 		}
 		
 		unsigned index = m_LevelMap.Find(area_sym);
-		CUtlVector<CUtlSymbol> *levels = 0;
+		CUtlVector<CUtlSymbol> *levels = nullptr;
 
 		if (m_LevelMap.IsValidIndex(index))
 		{

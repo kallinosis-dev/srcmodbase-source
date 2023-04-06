@@ -158,7 +158,7 @@ public:
 	// Creation, destruction
 	virtual CDmElement* Create( DmElementHandle_t handle, const char *pElementType, const char *pElementName, DmFileId_t fileid, const DmObjectId_t &id )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	virtual void Destroy( DmElementHandle_t hElement )

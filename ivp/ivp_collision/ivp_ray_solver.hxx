@@ -217,7 +217,7 @@ class IVP_Ray_Solver_Min: public IVP_Ray_Solver {
     IVP_Ray_Hit ray_hit;
  public:
     IVP_Ray_Hit *get_ray_hit(){
-	if (min_dist == P_FLOAT_MAX) return NULL;
+	if (min_dist == P_FLOAT_MAX) return nullptr;
 	return &ray_hit;
     };
     IVP_FLOAT get_ray_dist(){ return min_dist; };

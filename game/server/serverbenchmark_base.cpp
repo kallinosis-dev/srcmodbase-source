@@ -413,7 +413,7 @@ CON_COMMAND( sv_benchmark_force_start, "Force start the benchmark. This is only 
 // CServerBenchmarkHook implementation.
 // ---------------------------------------------------------------------------------------------- //
 
-CServerBenchmarkHook *CServerBenchmarkHook::s_pBenchmarkHook = NULL;
+CServerBenchmarkHook *CServerBenchmarkHook::s_pBenchmarkHook = nullptr;
 
 CServerBenchmarkHook::CServerBenchmarkHook()
 {

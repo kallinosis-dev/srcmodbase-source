@@ -44,7 +44,7 @@ public:
 #endif
 	
 	bool			SetUserData( int tick, int length, const void *userdata );
-	const void		*GetUserData( int *length=0 );
+	const void		*GetUserData( int *length=nullptr );
 	inline int		GetUserDataLength() const { return m_nUserDataLength; }
 	
 	// Used by server only

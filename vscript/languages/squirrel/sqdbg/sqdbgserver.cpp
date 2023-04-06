@@ -26,7 +26,7 @@ struct XMLEscape{
 #define SQDBG_ERROR_HANDLER _SC("_sqdbg_error_handler_")
 
 XMLEscape g_escapes[]={
-	{_SC('<'),_SC("&lt;")},{'>',_SC("&gt;")},{_SC('&'),_SC("&amp;")},{_SC('\''),_SC("&apos;")},{_SC('\"'),_SC("&quot;")},{_SC('\n'),_SC("&quot;n")},{_SC('\r'),_SC("&quot;r")},{NULL,NULL}
+	{_SC('<'),_SC("&lt;")},{'>',_SC("&gt;")},{_SC('&'),_SC("&amp;")},{_SC('\''),_SC("&apos;")},{_SC('\"'),_SC("&quot;")},{_SC('\n'),_SC("&quot;n")},{_SC('\r'),_SC("&quot;r")},{NULL, nullptr}
 };
 
 const SQChar *IntToString(int n)
@@ -84,7 +84,7 @@ const SQChar *EscapeXMLString(HSQUIRRELVM v,const SQChar *s)
 	while(*s!=_SC('\0')){
 		int i=0;
 		bool escaped=false;
-		while(g_escapes[i].esc!=NULL){
+		while(g_escapes[i].esc!= nullptr){
 			if(*s==g_escapes[i].c){
 				scstrcpy(dest,g_escapes[i].esc);
 				dest+=scstrlen(g_escapes[i].esc);
@@ -196,7 +196,7 @@ bool SQDbgServer::IsConnected()
 		FD_SET( _endpoint, &set );
 #endif
 		timeval timeVal = { 0,0 };
-		if ( select( 0, &set, NULL, NULL, &timeVal ) != SOCKET_ERROR )
+		if ( select( 0, &set, nullptr, nullptr, &timeVal ) != SOCKET_ERROR )
 		{
 			return true;
 		}
@@ -221,7 +221,7 @@ void SQDbgServer::BusyWait()
 void SQDbgServer::SendChunk(const SQChar *chunk)
 {
 #ifndef _GAMECONSOLE
-	char *buf=NULL;
+	char *buf= nullptr;
 	int buf_len=0;
 #ifdef _UNICODE
 	buf_len=(int)scstrlen(chunk)+1;
@@ -426,7 +426,7 @@ void SQDbgServer::ParseMsg(const char *msg)
 bool SQDbgServer::ParseBreakpoint(const char *msg,BreakPoint &out)
 {
 	static char stemp[MAX_BP_PATH];
-	char *ep=NULL;
+	char *ep= nullptr;
 	out._line=strtoul(msg,&ep,16);
 	if(ep==msg || (*ep)!=':')return false;
 
@@ -454,7 +454,7 @@ bool SQDbgServer::ParseBreakpoint(const char *msg,BreakPoint &out)
 
 bool SQDbgServer::ParseWatch(const char *msg,Watch &out)
 {
-	char *ep=NULL;
+	char *ep= nullptr;
 	out._id=strtoul(msg,&ep,16);
 	if(ep==msg || (*ep)!=':')return false;
 
@@ -470,7 +470,7 @@ bool SQDbgServer::ParseWatch(const char *msg,Watch &out)
 
 bool SQDbgServer::ParseRemoveWatch(const char *msg,int &id)
 {
-	char *ep=NULL;
+	char *ep= nullptr;
 	id=strtoul(msg,&ep,16);
 	if(ep==msg)return false;
 	return true;
@@ -676,7 +676,7 @@ const SQChar *SQDbgServer::escape_xml(const SQChar *s)
 	while(*s!=_SC('\0')){
 		int i=0;
 		bool escaped=false;
-		while(g_escapes[i].esc!=NULL){
+		while(g_escapes[i].esc!= nullptr){
 			if(*s==g_escapes[i].c){
 				scstrcpy(dest,g_escapes[i].esc);
 				dest+=scstrlen(g_escapes[i].esc);

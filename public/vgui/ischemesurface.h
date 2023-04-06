@@ -55,7 +55,7 @@ public:
 	virtual IMaterial *GetTextureForChar( FontCharRenderInfo &info, float **texCoords )
 	{ 
 		Assert(0);
-		return NULL; 
+		return nullptr; 
 	}
 
 	// Returns an array of the 4 render positions for the character.
@@ -68,7 +68,7 @@ public:
 	virtual IMaterial *GetMaterial( int textureId )
 	{ 
 		Assert(0);
-		return NULL; 
+		return nullptr; 
 	}
 
 	virtual void SetLanguage( const char *pLanguage ) = 0;

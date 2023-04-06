@@ -190,13 +190,13 @@ IDirect3DBaseTexture* CreateD3DTexture( int width, int height, int nDepth,
 	{
 		Warning( "ShaderAPIDX8::CreateD3DTexture: Invalid color format!\n" );
 		Assert( 0 );
-		return 0;
+		return nullptr;
 	}
 
-	IDirect3DBaseTexture* pBaseTexture = NULL;
-	IDirect3DTexture* pD3DTexture = NULL;
-	IDirect3DCubeTexture* pD3DCubeTexture = NULL;
-	IDirect3DVolumeTexture* pD3DVolumeTexture = NULL;
+	IDirect3DBaseTexture* pBaseTexture = nullptr;
+	IDirect3DTexture* pD3DTexture = nullptr;
+	IDirect3DCubeTexture* pD3DCubeTexture = nullptr;
+	IDirect3DVolumeTexture* pD3DVolumeTexture = nullptr;
 	HRESULT hr = S_OK;
 	DWORD usage = 0;
 
@@ -239,8 +239,8 @@ IDirect3DBaseTexture* CreateD3DTexture( int width, int height, int nDepth,
 				d3dFormat,
 				bManaged ? D3DPOOL_MANAGED : D3DPOOL_DEFAULT, 
 				&pD3DCubeTexture,
-				NULL
-	#if ( defined( DX_TO_GL_ABSTRACTION ) && !defined( _PS3 ) )
+				nullptr
+#if ( defined( DX_TO_GL_ABSTRACTION ) && !defined( _PS3 ) )
 				, debugLabel					// tex create funcs take extra arg for debug name on GL
 	#endif
 				   );
@@ -262,8 +262,8 @@ IDirect3DBaseTexture* CreateD3DTexture( int width, int height, int nDepth,
 				d3dFormat, 
 				bManaged ? D3DPOOL_MANAGED : D3DPOOL_DEFAULT, 
 				&pD3DVolumeTexture,
-				NULL
-	#if ( defined( DX_TO_GL_ABSTRACTION ) && !defined( _PS3 ) )
+				nullptr
+#if ( defined( DX_TO_GL_ABSTRACTION ) && !defined( _PS3 ) )
 				, debugLabel					// tex create funcs take extra arg for debug name on GL
 	#endif
 				  );
@@ -305,8 +305,8 @@ IDirect3DBaseTexture* CreateD3DTexture( int width, int height, int nDepth,
 				d3dFormat,
 				d3dPool,
 				&pD3DTexture,
-				NULL
-	#if ( defined( DX_TO_GL_ABSTRACTION ) && !defined( _PS3 ) )
+				nullptr
+#if ( defined( DX_TO_GL_ABSTRACTION ) && !defined( _PS3 ) )
 				, debugLabel					// tex create funcs take extra arg for debug name on GL
 	#endif
 				 );
@@ -344,7 +344,7 @@ IDirect3DBaseTexture* CreateD3DTexture( int width, int height, int nDepth,
 		default:
 			break;
 		}
-		return 0;
+		return nullptr;
 	}
 
 #ifdef MEASURE_DRIVER_ALLOCATIONS
@@ -405,7 +405,7 @@ void DestroyD3DTexture( IDirect3DBaseTexture* pD3DTex )
 #if !defined( _X360 )
 		CMatRenderContextPtr pRenderContext( materials );
 		ICallQueue *pCallQueue;
-		if ( ( pCallQueue = pRenderContext->GetCallQueue() ) != NULL )
+		if ( ( pCallQueue = pRenderContext->GetCallQueue() ) != nullptr)
 		{
 			pCallQueue->QueueCall( ReleaseD3DTexture, pD3DTex );
 		}

@@ -126,7 +126,7 @@ public:
 	CPhysicsFrictionData( IVP_Synapse_Friction *synapse, float sign ) : m_sign(sign)
 	{
 		m_pPoint = synapse->get_contact_point(); 
-		m_pContact = NULL;
+		m_pContact = nullptr;
 	}
 
 	CPhysicsFrictionData( IVP_Event_Friction *pEvent ) : m_sign(1.0f)
@@ -187,7 +187,7 @@ class CSleepObjects : public IVP_Listener_Object
 public:
 	CSleepObjects( void ) : IVP_Listener_Object() 
 	{
-		m_pCallback = NULL;
+		m_pCallback = nullptr;
 		m_lastScrapeTime = 0.0f;
 	}
 
@@ -364,7 +364,7 @@ public:
 	{
 		IVP_Mindist_Manager *pManager = pEnvironment->get_mindist_manager();
 
-		for( IVP_Mindist *mdist = pManager->exact_mindists; mdist != NULL; mdist = mdist->next )
+		for( IVP_Mindist *mdist = pManager->exact_mindists; mdist != nullptr; mdist = mdist->next )
 		{
 			IVP_Real_Object *obj[2];
 			mdist->get_objects( obj );
@@ -840,7 +840,7 @@ public:
 class CCollisionSolver : public IVP_Collision_Filter, public IVP_Anomaly_Manager
 {
 public:
-	CCollisionSolver( void ) : IVP_Anomaly_Manager(IVP_FALSE) { m_pSolver = NULL; }
+	CCollisionSolver( void ) : IVP_Anomaly_Manager(IVP_FALSE) { m_pSolver = nullptr; }
 	void SetHandler( IPhysicsCollisionSolver *pSolver ) { m_pSolver = pSolver; }
 
 	// IVP_Collision_Filter
@@ -927,7 +927,7 @@ public:
 	void max_velocity_exceeded(IVP_Anomaly_Limits *al, IVP_Core *pCore, IVP_U_Float_Point *velocity_in_out)
 	{
 		CPhysicsObject *pObject = static_cast<CPhysicsObject *>(pCore->objects.element_at(0)->client_data);
-		if ( pObject->GetShadowController() != NULL )
+		if ( pObject->GetShadowController() != nullptr)
 			return;
 		IVP_Anomaly_Manager::max_velocity_exceeded(al, pCore, velocity_in_out);
 	}
@@ -994,7 +994,7 @@ class CPhysicsListenerConstraint : public IVP_Listener_Constraint
 public:
 	CPhysicsListenerConstraint()
 	{
-		m_pCallback = NULL;
+		m_pCallback = nullptr;
 	}
 
 	void SetHandler( IPhysicsConstraintEvent *pHandler )
@@ -1168,7 +1168,7 @@ CPhysicsEnvironment::CPhysicsEnvironment( void )
 CPhysicsEnvironment::~CPhysicsEnvironment( void )
 {
 	// no callbacks during shutdown
-	SetCollisionSolver( NULL );
+	SetCollisionSolver(nullptr);
 	m_pPhysEnv->remove_listener_object_global( m_pSleepEvents );
 
 	// don't bother waking up other objects as we clear them out
@@ -1226,10 +1226,10 @@ void CPhysicsEnvironment::DebugCheckContacts(void)
 
 void CPhysicsEnvironment::SetDebugOverlay( CreateInterfaceFn debugOverlayFactory )
 {
-	m_pDebugOverlay = NULL;
+	m_pDebugOverlay = nullptr;
 	if (debugOverlayFactory)
 	{
-		m_pDebugOverlay = ( IVPhysicsDebugOverlay * )debugOverlayFactory( VPHYSICS_DEBUG_OVERLAY_INTERFACE_VERSION, NULL );
+		m_pDebugOverlay = ( IVPhysicsDebugOverlay * )debugOverlayFactory( VPHYSICS_DEBUG_OVERLAY_INTERFACE_VERSION, nullptr);
 	}
 
 	if (!m_pDebugOverlay)
@@ -1326,7 +1326,7 @@ const IPhysicsObject **CPhysicsEnvironment::GetObjectList( int *pOutputObjectCou
 	if( iCount )
 		return (const IPhysicsObject **)m_objects.Base();
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -1348,7 +1348,7 @@ bool CPhysicsEnvironment::TransferObject( IPhysicsObject *pObject, IPhysicsEnvir
 
 	//Find any controllers attached to this object
 	IPhysicsShadowController *pController = pObject->GetShadowController();
-	IPhysicsPlayerController *pPlayerController = NULL;
+	IPhysicsPlayerController *pPlayerController = nullptr;
 
 	if( (pObject->GetCallbackFlags() & CALLBACK_IS_PLAYER_CONTROLLER) != 0 )
 	{
@@ -1362,7 +1362,7 @@ bool CPhysicsEnvironment::TransferObject( IPhysicsObject *pObject, IPhysicsEnvir
 	if( pController )
 	{
 		//detach the controller from the object
-		((CPhysicsObject *)pObject)->m_pShadow = NULL;
+		((CPhysicsObject *)pObject)->m_pShadow = nullptr;
 
 		IVP_Real_Object *pivp = ((CPhysicsObject *)pObject)->GetObject();
 		ControlPhysicsShadowControllerAttachment_Silent( pController, pivp, false );
@@ -1734,7 +1734,7 @@ IPhysicsPlayerController *CPhysicsEnvironment::FindPlayerController( IPhysicsObj
 		if ( m_playerControllers[i]->GetObject() == pPhysicsObject )
 			return m_playerControllers[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2203,7 +2203,7 @@ public:
 
 	virtual bool IsObjectInHash( void *pObject0 )
 	{
-		return m_pObjectHash->find_elem(pObject0) != NULL ? true : false;
+		return m_pObjectHash->find_elem(pObject0) != nullptr ? true : false;
 	}
 #if 0
 	virtual int CountObjectsInHash()

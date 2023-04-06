@@ -112,7 +112,7 @@ void Draw_Eyes_Refract_Internal( CBaseVSShader *pShader, IMaterialVar** params, 
 		unsigned int flags = VERTEX_POSITION | VERTEX_NORMAL | VERTEX_FORMAT_COMPRESSED;
 		int nTexCoordCount = 1;
 		int userDataSize = 0;
-		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 		if ( bDiffuseWarp )
 		{
@@ -253,7 +253,7 @@ void Draw_Eyes_Refract_Internal( CBaseVSShader *pShader, IMaterialVar** params, 
 	DYNAMIC_STATE
 	{
 		VMatrix worldToTexture;
-		ITexture *pFlashlightDepthTexture = NULL;
+		ITexture *pFlashlightDepthTexture = nullptr;
 		FlashlightState_t flashlightState;
 		bool bFlashlightShadows = false;
 		if ( bDrawFlashlightAdditivePass == true )

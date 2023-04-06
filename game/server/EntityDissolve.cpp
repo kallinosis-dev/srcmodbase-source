@@ -176,13 +176,13 @@ void CEntityDissolve::InputDissolve( inputdata_t &inputdata )
 		strTarget = m_target;
 	}
 
-	CBaseEntity *pTarget = NULL;
-	while ((pTarget = gEntList.FindEntityGeneric(pTarget, STRING(strTarget), this, inputdata.pActivator)) != NULL)
+	CBaseEntity *pTarget = nullptr;
+	while ((pTarget = gEntList.FindEntityGeneric(pTarget, STRING(strTarget), this, inputdata.pActivator)) != nullptr)
 	{
 		CBaseAnimating *pBaseAnim = pTarget->GetBaseAnimating();
 		if (pBaseAnim)
 		{
-			pBaseAnim->Dissolve( NULL, gpGlobals->curtime, false, m_nDissolveType, GetAbsOrigin(), m_nMagnitude );
+			pBaseAnim->Dissolve(nullptr, gpGlobals->curtime, false, m_nDissolveType, GetAbsOrigin(), m_nMagnitude );
 		}
 	}
 }
@@ -213,13 +213,13 @@ CEntityDissolve *CEntityDissolve::Create( CBaseEntity *pTarget, const char *pMat
 		pPlayer->SetArmorValue( 0 );
 		CTakeDamageInfo info( pPlayer, pPlayer, pPlayer->GetHealth(), DMG_GENERIC | DMG_REMOVENORAGDOLL | DMG_PREVENT_PHYSICS_FORCE );
 		pPlayer->TakeDamage( info );
-		return NULL;
+		return nullptr;
 	}
 
 	CEntityDissolve *pDissolve = (CEntityDissolve *) CreateEntityByName( "env_entity_dissolver" );
 
-	if ( pDissolve == NULL )
-		return NULL;
+	if ( pDissolve == nullptr)
+		return nullptr;
 
 	pDissolve->m_nDissolveType = nDissolveType;
 	if ( (nDissolveType == ENTITY_DISSOLVE_ELECTRICAL) || (nDissolveType == ENTITY_DISSOLVE_ELECTRICAL_LIGHT) )
@@ -284,7 +284,7 @@ CEntityDissolve *CEntityDissolve::Create( CBaseEntity *pTarget, CBaseEntity *pSo
 		return Create( pTarget, STRING( pDissolve->GetModelName() ), pDissolve->m_flStartTime, pDissolve->m_nDissolveType );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 	
@@ -315,12 +315,12 @@ void CEntityDissolve::SetStartTime( float flStartTime )
 //-----------------------------------------------------------------------------
 void CEntityDissolve::DissolveThink( void )
 {
-	CBaseAnimating *pTarget = ( GetMoveParent() ) ? GetMoveParent()->GetBaseAnimating() : NULL;
+	CBaseAnimating *pTarget = ( GetMoveParent() ) ? GetMoveParent()->GetBaseAnimating() : nullptr;
 
-	if ( GetModelName() == NULL_STRING && pTarget == NULL )
+	if ( GetModelName() == NULL_STRING && pTarget == nullptr)
 		 return;
 	
-	if ( pTarget == NULL )
+	if ( pTarget == nullptr)
 	{
 		UTIL_Remove( this );
 		return;

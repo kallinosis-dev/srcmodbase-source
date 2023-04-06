@@ -14,7 +14,7 @@
 
 using namespace vgui;
 
-CloseCaptionTool *g_pCloseCaptionTool = 0;
+CloseCaptionTool *g_pCloseCaptionTool = nullptr;
 
 #define STREAM_FONT			"Tahoma"
 #define STREAM_POINTSIZE	12
@@ -90,7 +90,7 @@ CCloseCaptionWorkUnit::CCloseCaptionWorkUnit() :
 	m_nHeight(0),
 	m_bBold(false),
 	m_bItalic(false),
-	m_pszStream(0),
+	m_pszStream(nullptr),
 	m_Color( Color( 255, 255, 255 ) )
 {
 }
@@ -98,7 +98,7 @@ CCloseCaptionWorkUnit::CCloseCaptionWorkUnit() :
 CCloseCaptionWorkUnit::~CCloseCaptionWorkUnit()
 {
 	delete[] m_pszStream;
-	m_pszStream = NULL;
+	m_pszStream = nullptr;
 }
 
 void CCloseCaptionWorkUnit::SetWidth( int w )
@@ -156,7 +156,7 @@ bool CCloseCaptionWorkUnit::GetItalic() const
 void CCloseCaptionWorkUnit::SetStream( const wchar_t *stream )
 {
 	delete[] m_pszStream;
-	m_pszStream = NULL;
+	m_pszStream = nullptr;
 
 	int len = wcslen( stream );
 	Assert( len < 4096 );
@@ -314,7 +314,7 @@ private:
 	CUtlVector< CCloseCaptionWorkUnit * >	m_Work;
 };
 
-ICloseCaptionManager *closecaptionmanager = NULL;
+ICloseCaptionManager *closecaptionmanager = nullptr;
 
 CloseCaptionTool::CloseCaptionTool( mxWindow *parent )
 : IFacePoserToolWindow( "CloseCaptionTool", "Close Caption" ), mxWindow( parent, 0, 0, 0, 0 )

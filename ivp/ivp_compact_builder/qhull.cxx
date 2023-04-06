@@ -89,7 +89,7 @@ void qh_qhull (void) {
       }
       if (qh DOcheckmax){
 	if (qh REPORTfreq) {
-	  qh_buildtracing (NULL, NULL); 
+	  qh_buildtracing (nullptr, nullptr); 
 	  ivp_message( "\nTesting all coplanar points.\n");
 	}
 	qh_check_maxout();
@@ -101,7 +101,7 @@ void qh_qhull (void) {
   if (qh_setsize ((setT*)qhmem.tempstack) != 0) {
     ivp_message( "qhull internal error (qh_qhull): temporary sets not empty (%d)\n",
 	     qh_setsize ((setT*)qhmem.tempstack));
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }
   qh hulltime= qh_CPUclock - qh hulltime;
   qh QHULLfinished= True;
@@ -168,7 +168,7 @@ boolT qh_addpoint (pointT *furthest, facetT *facet, boolT checkdist) {
     qh_setappend (&qh other_points, furthest);
   if (!facet) {
     ivp_message( "qh_addpoint: NULL facet.  Use qh_findbestfacet\n");
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }
   if (checkdist) {
     facet= qh_findbest (furthest, facet, !qh_ALL, False, !qh_NOupper,
@@ -248,7 +248,7 @@ boolT qh_addpoint (pointT *furthest, facetT *facet, boolT checkdist) {
   zmax_(Zmaxvertex, qh num_vertices);
   qh NEWfacets= False;
   if (qh IStracing >= 4)
-    qh_printfacetlist (qh newfacet_list, NULL, True);
+    qh_printfacetlist (qh newfacet_list, nullptr, True);
   if (qh CHECKfrequently) {
     if (qh num_facets < 50)
       qh_checkpolygon (qh facet_list);
@@ -294,7 +294,7 @@ qhull precision error: %d attempts to construct a convex hull\n\
         with joggled input.  Increase joggle above 'QJ%2.2g'\n\
 	or modify qh_JOGGLE... parameters in user.h\n",
 	   qh build_cnt, qh JOGGLEmax);
-	qh_errexit (qh_ERRqhull, NULL, NULL);
+	qh_errexit (qh_ERRqhull, nullptr, nullptr);
       }
       if (qh build_cnt && !restart)
 	break;
@@ -309,7 +309,7 @@ qhull precision error: %d attempts to construct a convex hull\n\
       qh qhull_options [qh qhull_optionsiz]= '\0';
       qh qhull_optionlen= 80;
     }
-    qh_option("_run", &qh build_cnt, NULL);
+    qh_option("_run", &qh build_cnt, nullptr);
     if (qh build_cnt == qh RERUN) {
       qh IStracing= qh TRACElastrun;  /* duplicated from qh_initqhull_globals */
       if (qh TRACEpoint != -1 || qh TRACEdist < REALmax/2 || qh TRACEmerge) {
@@ -361,15 +361,15 @@ void qh_buildhull(void) {
     if (facet->visible || facet->newfacet) {
       ivp_message( "qhull internal error (qh_buildhull): visible or new facet f%d in facet list\n",
                    facet->id);    
-      qh_errexit (qh_ERRqhull, facet, NULL);
+      qh_errexit (qh_ERRqhull, facet, nullptr);
     }
   }
   FORALLvertices {
     if (vertex->newlist) {
       ivp_message( "qhull internal error (qh_buildhull): new vertex f%d in vertex list\n",
                    vertex->id);
-      qh_errprint ("ERRONEOUS", NULL, NULL, NULL, vertex);
-      qh_errexit (qh_ERRqhull, NULL, NULL);
+      qh_errprint ("ERRONEOUS", nullptr, nullptr, nullptr, vertex);
+      qh_errexit (qh_ERRqhull, nullptr, nullptr);
     }
     id= qh_pointid (vertex->point);
     if ((qh STOPpoint>0 && id == qh STOPpoint-1) ||
@@ -389,7 +389,7 @@ void qh_buildhull(void) {
     qh_outcoplanar( /* facet_list */ );
   if (qh num_outside && !furthest) {
     ivp_message( "qhull internal error (qh_buildhull): %d outside points were never processed.\n", qh num_outside);
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }
   trace1((qh ferr, "qh_buildhull: completed the hull construction\n"));
 } /* buildhull */
@@ -518,8 +518,8 @@ At %02d:%02d:%02d & %2.5g CPU secs, qhull has created %d facets and merged %d.\n
 */
 void qh_errexit2(int exitcode, facetT *facet, facetT *otherfacet) {
   
-  qh_errprint("ERRONEOUS", facet, otherfacet, NULL, NULL);
-  qh_errexit (exitcode, NULL, NULL);
+  qh_errprint("ERRONEOUS", facet, otherfacet, nullptr, nullptr);
+  qh_errexit (exitcode, nullptr, nullptr);
 } /* errexit2 */
 
 
@@ -565,9 +565,9 @@ void qh_findhorizon(pointT *point, facetT *facet, int *goodvisible, int *goodhor
     (*goodvisible)++;
   qh visible_list= facet;
   facet->visible= True;
-  facet->f.replace= NULL;
+  facet->f.replace= nullptr;
   if (qh IStracing >=4)
-    qh_errprint ("visible", facet, NULL, NULL, NULL);
+    qh_errprint ("visible", facet, nullptr, nullptr, nullptr);
   qh visit_id++;
   FORALLvisible_facets {
     visible->visitid= qh visit_id;
@@ -582,12 +582,12 @@ void qh_findhorizon(pointT *point, facetT *facet, int *goodvisible, int *goodhor
 	qh_removefacet(neighbor);  /* append to end of qh visible_list */
 	qh_appendfacet(neighbor);
 	neighbor->visible= True;
-        neighbor->f.replace= NULL;
+        neighbor->f.replace= nullptr;
 	qh num_visible++;
 	if (neighbor->good)
 	  (*goodvisible)++;
         if (qh IStracing >=4)
-          qh_errprint ("visible", neighbor, NULL, NULL, NULL);
+          qh_errprint ("visible", neighbor, nullptr, nullptr, nullptr);
       }else {
  	if (dist > - qh MAXcoplanar) {
     	  neighbor->coplanar= True;
@@ -613,7 +613,7 @@ void qh_findhorizon(pointT *point, facetT *facet, int *goodvisible, int *goodhor
 	if (neighbor->good)
 	  (*goodhorizon)++;
         if (qh IStracing >=4)
-          qh_errprint ("horizon", neighbor, NULL, NULL, NULL);
+          qh_errprint ("horizon", neighbor, nullptr, nullptr, nullptr);
       }
     }
   }
@@ -621,8 +621,8 @@ void qh_findhorizon(pointT *point, facetT *facet, int *goodvisible, int *goodhor
     qh_precision ("empty horizon");
     fprintf(qh ferr, "qhull precision error (qh_findhorizon): empty horizon\n\
 Point p%d was above all facets.\n", qh_pointid(point));
-    qh_printfacetlist (qh facet_list, NULL, True);
-    qh_errexit(qh_ERRprec, NULL, NULL);
+    qh_printfacetlist (qh facet_list, nullptr, True);
+    qh_errexit(qh_ERRprec, nullptr, nullptr);
   }
   trace1((qh ferr, "qh_findhorizon: %d horizon facets (good %d), %d visible (good %d), %d coplanar\n", 
        numhorizon, *goodhorizon, qh num_visible, *goodvisible, coplanar));
@@ -719,7 +719,7 @@ pointT *qh_nextfurthest (facetT **visible) {
       }
       ivp_message( "qhull internal error (qh_nextfurthest): num_outside %d is too low\nby at least %d, or a random real %g >= 1.0\n",
               qh num_outside, index+1, randr);
-      qh_errexit (qh_ERRqhull, NULL, NULL);
+      qh_errexit (qh_ERRqhull, nullptr, nullptr);
     }else { /* VIRTUALmemory */
       facet= qh facet_tail->previous;
       if (!(furthest= (pointT*)qh_setdellast(facet->outsideset))) {
@@ -733,7 +733,7 @@ pointT *qh_nextfurthest (facetT **visible) {
       return furthest;
     }
   }
-  return NULL;
+  return nullptr;
 } /* nextfurthest */
 
 /*-<a                             href="qh-c.htm#qhull"
@@ -785,14 +785,14 @@ void qh_partitionall(setT *vertices, pointT *points, int numpoints){
   qh_settruncate (pointset, numpoints);
   FOREACHvertex_(vertices) {
     if ((id= qh_pointid(vertex->point)) >= 0)
-      SETelem_(pointset, id)= NULL;
+      SETelem_(pointset, id)= nullptr;
   }
   id= qh_pointid (qh GOODpointp);
   if (id >=0 && qh STOPcone-1 != id && -qh STOPpoint-1 != id)
-    SETelem_(pointset, id)= NULL;
+    SETelem_(pointset, id)= nullptr;
   if (qh GOODvertexp && qh ONLYgood && !qh MERGING) { /* matches qhull()*/
     if ((id= qh_pointid(qh GOODvertexp)) >= 0)
-      SETelem_(pointset, id)= NULL;
+      SETelem_(pointset, id)= nullptr;
   }
   if (!qh BESToutside) {  /* matches conditional for qh_partitionpoint below */
     if (qh MERGING)
@@ -805,7 +805,7 @@ void qh_partitionall(setT *vertices, pointT *points, int numpoints){
     FORALLfacets {
       size= point_end/(remaining--) + 100;
       facet->outsideset= qh_setnew (size);
-      bestpoint= NULL;
+      bestpoint= nullptr;
       point_end= 0;
       FOREACHpoint_i_(pointset) {
         if (point) {
@@ -849,7 +849,7 @@ void qh_partitionall(setT *vertices, pointT *points, int numpoints){
   zzval_(Zpartition)= 0;
   qh_settempfree(&pointset);
   if (qh IStracing >= 4)
-    qh_printfacetlist (qh facet_list, NULL, True);
+    qh_printfacetlist (qh facet_list, nullptr, True);
 } /* partitionall */
 
 
@@ -897,7 +897,7 @@ void qh_partitioncoplanar (pointT *point, facetT *facet, realT *dist) {
   if (!dist) {
     if (qh findbestnew)
       bestfacet= qh_findbestnew (point, facet, 
-			  &bestdist, NULL, &numpart);
+			  &bestdist, nullptr, &numpart);
     else
       bestfacet= qh_findbest (point, facet, qh_ALL, False, !qh_NOupper, 
                           &bestdist, &isoutside, &numpart);
@@ -943,7 +943,7 @@ void qh_partitioncoplanar (pointT *point, facetT *facet, realT *dist) {
   if (istrace) {
     ivp_message( "qh_partitioncoplanar: ====== p%d increases max_outside to %2.2g of f%d last p%d\n",
 		   qh_pointid(point), bestdist, bestfacet->id, qh furthest_id);
-    qh_errprint ("DISTANT", bestfacet, NULL, NULL, NULL);
+    qh_errprint ("DISTANT", bestfacet, nullptr, nullptr, nullptr);
   }
   trace4((qh ferr, "qh_partitioncoplanar: point p%d is coplanar with facet f%d (or inside) dist %2.2g\n",
 	  qh_pointid(point), bestfacet->id, bestdist));
@@ -1129,7 +1129,7 @@ void qh_partitionvisible(/*visible_list*/ boolT allpoints, int *numoutside) {
         if (allpoints)
           qh_partitionpoint (point, newfacet);
         else
-          qh_partitioncoplanar (point, newfacet, NULL);
+          qh_partitioncoplanar (point, newfacet, nullptr);
       }
     }
   }
@@ -1138,7 +1138,7 @@ void qh_partitionvisible(/*visible_list*/ boolT allpoints, int *numoutside) {
       if (allpoints)
         qh_partitionpoint (vertex->point, qh newfacet_list);
       else
-        qh_partitioncoplanar (vertex->point, qh newfacet_list, NULL);
+        qh_partitioncoplanar (vertex->point, qh newfacet_list, nullptr);
     }
   }
   trace1((qh ferr,"qh_partitionvisible: partitioned %d points from outsidesets and %d points from coplanarsets\n", *numoutside, coplanar));
@@ -1313,7 +1313,7 @@ Convex hull of %d points in %d-d:\n\n", size, qh hull_dim);
     fprintf(fp, "  %s volume:       %2.8g\n", 
 	    zzval_(Ztotmerge) ? "Approximate" : "Total", qh totvol);
   if (qh MERGING) {
-    qh_outerinner (NULL, &outerplane, &innerplane);
+    qh_outerinner (nullptr, &outerplane, &innerplane);
     if (outerplane > 2 * qh DISTround) {
       fprintf(fp, "  Maximum distance of %spoint above facet: %2.2g", 
 	    (qh QHULLfinished ? "" : "merged "), outerplane);

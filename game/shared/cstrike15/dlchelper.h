@@ -25,7 +25,7 @@ public:
 	// For example, if fileName is "gamemodes.txt" we will look for "gamemodes_dlc1.txt", "gamemodes_dlc2.txt", etc...
 	// The key values from the dlc files will then be merged in (with update) to the passed
 	// in key values.
-	static inline void AppendDLCKeyValues( KeyValues* pKeyValues, const char* fileName, const char* startDir = NULL );
+	static inline void AppendDLCKeyValues( KeyValues* pKeyValues, const char* fileName, const char* startDir = nullptr);
 };
 
 uint64 DLCHelper::GetInstalledDLCMask( void )
@@ -54,7 +54,7 @@ uint64 DLCHelper::GetInstalledDLCMask( void )
 	for ( int j = 0; j < numDLCs; ++ j )
 	{
 		unsigned int uiDlcHeader = 0;
-		if ( !g_pFullFileSystem->GetAnyDLCInfo( j, &uiDlcHeader, NULL, 0 ) )
+		if ( !g_pFullFileSystem->GetAnyDLCInfo( j, &uiDlcHeader, nullptr, 0 ) )
 			continue;
 
 		int idDLC = DLC_LICENSE_ID( uiDlcHeader );
@@ -120,7 +120,7 @@ void DLCHelper::AppendDLCKeyValues( KeyValues* pKeyValues, const char* fileName,
 		if ( pDlcKeyValues )
 		{
 			pDlcKeyValues->deleteThis();
-			pDlcKeyValues = NULL;
+			pDlcKeyValues = nullptr;
 		}
 	}
 }

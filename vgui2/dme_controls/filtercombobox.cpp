@@ -44,7 +44,7 @@ void CFilterComboBox::OnKillFocus()
 		DeleteItem( i );
 	}
 
-	AddItem( pFilterText, NULL );
+	AddItem( pFilterText, nullptr);
 
 	BaseClass::OnKillFocus( );
 }

@@ -195,7 +195,7 @@ bool CSingleplayRules::Damage_ShouldNotBleed( int iDmgType )
 			return false;
 
 		//Always take a loaded gun if we have nothing else
-		if ( pPlayer->GetActiveWeapon() == NULL )
+		if ( pPlayer->GetActiveWeapon() == nullptr)
 			return true;
 
 		// The given weapon must allow autoswitching to it from another weapon.
@@ -223,9 +223,9 @@ bool CSingleplayRules::Damage_ShouldNotBleed( int iDmgType )
 	CBaseCombatWeapon *CSingleplayRules::GetNextBestWeapon( CBaseCombatCharacter *pPlayer, CBaseCombatWeapon *pCurrentWeapon )
 	{
 		if ( pCurrentWeapon && !pCurrentWeapon->AllowsAutoSwitchFrom() )
-			return NULL;
+			return nullptr;
 
-		CBaseCombatWeapon	*pBestWeapon = NULL;
+		CBaseCombatWeapon	*pBestWeapon = nullptr;
 		CBaseCombatWeapon	*pWeapon;
 		
 		int	nBestWeight	= -1;
@@ -235,7 +235,7 @@ bool CSingleplayRules::Damage_ShouldNotBleed( int iDmgType )
 		{
 			pWeapon = pPlayer->GetWeapon(i);
 
-			if ( pWeapon == NULL )
+			if ( pWeapon == nullptr)
 				continue;
 
 #ifdef PORTAL2
@@ -276,7 +276,7 @@ bool CSingleplayRules::Damage_ShouldNotBleed( int iDmgType )
 	{
 		CBaseCombatWeapon *pWeapon = GetNextBestWeapon( pPlayer, pCurrentWeapon );
 
-		if ( pWeapon != NULL )
+		if ( pWeapon != nullptr)
 			return pPlayer->Weapon_Switch( pWeapon );
 
 		return false;

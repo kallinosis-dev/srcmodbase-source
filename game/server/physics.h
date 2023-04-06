@@ -58,8 +58,8 @@ struct gamevcollisionevent_t : public vcollisionevent_t
 	void Init( vcollisionevent_t *pEvent ) 
 	{ 
 		*((vcollisionevent_t *)this) = *pEvent; 
-		pEntities[0] = NULL;
-		pEntities[1] = NULL;
+		pEntities[0] = nullptr;
+		pEntities[1] = nullptr;
 	}
 };
 

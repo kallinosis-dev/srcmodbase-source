@@ -104,7 +104,7 @@ public:
 
 	// Routing to a job name is not permitted with the old packet format
 	virtual bool BHasTargetJobName() const { return false; }
-	virtual const char *GetTargetJobName() const { return NULL; }
+	virtual const char *GetTargetJobName() const { return nullptr; }
 private:
 
 	virtual ~CStructNetPacket()
@@ -210,7 +210,7 @@ public:
 
 	  // empty constructor
 	  CGCMsg() :
-	  CGCMsgBase( sizeof( GCMsgHdrEx_t ), sizeof( MSG_BODY_TYPE ), NULL, 0 )
+	  CGCMsgBase( sizeof( GCMsgHdrEx_t ), sizeof( MSG_BODY_TYPE ), nullptr, 0 )
 	  {
 	  }
 

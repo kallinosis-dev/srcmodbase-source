@@ -588,7 +588,7 @@ public:
 
 	static KeyCode		StringToKeyCode( char const *str );
 #if defined( VGUI_USEKEYBINDINGMAPS )
-	static KeyBindingContextHandle_t   CreateKeyBindingsContext( char const *filename, char const *pathID = 0 );
+	static KeyBindingContextHandle_t   CreateKeyBindingsContext( char const *filename, char const *pathID = nullptr );
 	virtual void		SetKeyBindingsContext( KeyBindingContextHandle_t handle );
 	virtual KeyBindingContextHandle_t	GetKeyBindingsContext() const;
 	virtual bool		IsValidKeyBindingsContext() const;
@@ -600,7 +600,7 @@ public:
 
 	static void			ReloadKeyBindings( KeyBindingContextHandle_t handle );
 	static void			SaveKeyBindings( KeyBindingContextHandle_t handle );
-	static void			SaveKeyBindingsToFile( KeyBindingContextHandle_t handle, char const *filename, char const *pathID = 0 );
+	static void			SaveKeyBindingsToFile( KeyBindingContextHandle_t handle, char const *filename, char const *pathID = nullptr );
 	static void			LoadKeyBindings( KeyBindingContextHandle_t handle );
 	static void			LoadKeyBindingsForOnePanel( KeyBindingContextHandle_t handle, Panel *panelOfInterest );
 
@@ -854,10 +854,10 @@ public:
 	Will recursively look for the next visible panel in the navigation chain, parameters are for internal use.
 	It will stop looking if first == nextpanel (to prevent infinite looping).
 	*/
-	Panel* GetNavUp( Panel *first = NULL ); 
-	Panel* GetNavDown( Panel *first = NULL );
-	Panel* GetNavLeft( Panel *first = NULL );
-	Panel* GetNavRight( Panel *first = NULL );
+	Panel* GetNavUp( Panel *first = nullptr); 
+	Panel* GetNavDown( Panel *first = nullptr);
+	Panel* GetNavLeft( Panel *first = nullptr);
+	Panel* GetNavRight( Panel *first = nullptr);
 
 	// if set, Panel gets PerformLayout called after the camera and the renderer's m_matrixWorldToScreen has been setup, so panels can be correctly attached to entities in the world
 	inline void SetWorldPositionCurrentFrame( bool bWorldPositionCurrentFrame ) { m_bWorldPositionCurrentFrame = bWorldPositionCurrentFrame; }

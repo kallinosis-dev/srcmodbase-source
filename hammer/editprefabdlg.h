@@ -16,7 +16,7 @@ class CEditPrefabDlg : public CDialog
 {
 // Construction
 public:
-	CEditPrefabDlg(CWnd* pParent = NULL);   // standard constructor
+	CEditPrefabDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CEditPrefabDlg)

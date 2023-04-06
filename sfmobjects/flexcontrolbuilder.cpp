@@ -250,7 +250,7 @@ bool RemoveChannelIfUnused( CDmeChannel *pChannel, CDmeChannelsClip *pChannelsCl
 {
 	if ( !pChannel )
 		return false;
-	if ( pChannel->GetToElement() != NULL )
+	if ( pChannel->GetToElement() != nullptr)
 		return false;
 
 	pChannelsClip->RemoveChannel( pChannel );
@@ -311,7 +311,7 @@ void CFlexControlBuilder::RemoveUnusedExistingFlexControllers( CDmeGameModel *pG
 void CFlexControlBuilder::GetExistingMonoLog( ExistingLogInfo_t *pExistingLog, 
 											 CDmeFilmClip *pClip, CDmeGlobalFlexControllerOperator *pMonoOp )
 {
-	pExistingLog->m_pLog = NULL;
+	pExistingLog->m_pLog = nullptr;
 
 	const static UtlSymId_t symToElement = g_pDataModel->GetSymbol( "toElement" );
 	CDmeChannel *pMonoChannel = FindReferringElement< CDmeChannel >( pMonoOp, symToElement );
@@ -351,7 +351,7 @@ CDmeChannelsClip* CFlexControlBuilder::FindChannelsClipContainingChannel( CDmeFi
 
 		DMETRACKGROUP_FOREACH_CLIP_TYPE_END()
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -362,7 +362,7 @@ void CFlexControlBuilder::ComputeChannelTimeTransform( DmeTime_t *pOffset, doubl
 {
 	// Determine the global time of the start + end of the log
 	DmeClipStack_t srcStack;
-	pChannelsClip->BuildClipStack( &srcStack, m_pMovie, NULL );
+	pChannelsClip->BuildClipStack( &srcStack, m_pMovie, nullptr);
 
 	*pOffset = CDmeClip::FromChildMediaTime( srcStack, DMETIME_ZERO, false );
 	DmeTime_t duration = CDmeClip::FromChildMediaTime( srcStack, DmeTime_t( 10000 ), false );
@@ -421,7 +421,7 @@ void CFlexControlBuilder::GetExistingVBLog( ExistingLogInfo_t *pLogs, CDmeFilmCl
 
 		// Detach the  
 		pLogs[nLogIndex].m_pLog = pLog;
-		pChannel->SetLog( NULL );	// Detach
+		pChannel->SetLog(nullptr);	// Detach
 	}
 }
 
@@ -530,8 +530,8 @@ void CFlexControlBuilder::ConvertExistingLRLogs( ExistingLogInfo_t *pLogs,
 void CFlexControlBuilder::GetExistingStereoLog( ExistingLogInfo_t *pLogs, CDmeFilmClip *pClip,
 											   CDmeGlobalFlexControllerOperator *pRightOp, CDmeGlobalFlexControllerOperator *pLeftOp )
 {
-	pLogs[CONTROL_VALUE].m_pLog = NULL;
-	pLogs[CONTROL_BALANCE].m_pLog = NULL;
+	pLogs[CONTROL_VALUE].m_pLog = nullptr;
+	pLogs[CONTROL_BALANCE].m_pLog = nullptr;
 
 	// First, try to grab the channel referring to this op
 	const static UtlSymId_t symToElement = g_pDataModel->GetSymbol( "toElement" );

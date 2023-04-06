@@ -956,7 +956,7 @@ void CBoneSetup::CalcAutoplaySequences(
 		pIKContext->AddAutoplayLocks( pos, q );
 	}
 
-	unsigned short *pList = NULL;
+	unsigned short *pList = nullptr;
 	int count = m_pStudioHdr->GetAutoplayList( &pList );
 	for (i = 0; i < count; i++)
 	{
@@ -1532,7 +1532,7 @@ bool CalcProceduralBone(
 			return true;
 
 		case STUDIO_PROC_AIMATBONE:
-			DoAimAtBone( pbones, iBone, bonetoworld, NULL );
+			DoAimAtBone( pbones, iBone, bonetoworld, nullptr);
 			return true;
 
 		case STUDIO_PROC_AIMATATTACH:

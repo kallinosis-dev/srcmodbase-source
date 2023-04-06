@@ -36,7 +36,7 @@ CDmeMDLPanel::~CDmeMDLPanel()
 //-----------------------------------------------------------------------------
 void CDmeMDLPanel::SetDmeElement( CDmeMDLMakefile *pMDLMakefile )
 {
-	if ( pMDLMakefile != NULL )
+	if ( pMDLMakefile != nullptr)
 	{
 		CDmeMDL *pMDL = CastElement< CDmeMDL >( pMDLMakefile->GetOutputElement( true ) );
 		if ( pMDL )

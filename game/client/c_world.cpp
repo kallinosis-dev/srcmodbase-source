@@ -24,7 +24,7 @@
 #undef CWorld
 #endif
 
-C_GameRules *g_pGameRules = NULL;
+C_GameRules *g_pGameRules = nullptr;
 static C_World *g_pClientWorld;
 
 
@@ -36,7 +36,7 @@ void ClientWorldFactoryInit()
 void ClientWorldFactoryShutdown()
 {
 	delete g_pClientWorld;
-	g_pClientWorld = NULL;
+	g_pClientWorld = nullptr;
 }
 
 static IClientNetworkable* ClientWorldFactory( int entnum, int serialNum )

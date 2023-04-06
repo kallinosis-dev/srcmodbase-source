@@ -78,7 +78,7 @@ public:
 		m_pLockIcon = new ImagePanel( this, "LockIcon" );
 		m_pCompleteIcon = new ImagePanel( this, "CompleteIcon" );
 
-		CMouseMessageForwardingPanel *panel = new CMouseMessageForwardingPanel(this, NULL);
+		CMouseMessageForwardingPanel *panel = new CMouseMessageForwardingPanel(this, nullptr);
 		panel->SetZPos(2);
 
 		SetSize( 200, 140 );
@@ -219,7 +219,7 @@ private:
 	int			m_iBonusMapListItemID;
 };
 
-CBonusMapsDialog *g_pBonusMapsDialog = NULL;
+CBonusMapsDialog *g_pBonusMapsDialog = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -228,7 +228,7 @@ CBonusMapsDialog *g_pBonusMapsDialog = NULL;
 CBonusMapsDialog::CBonusMapsDialog(vgui::Panel *parent) : BaseClass(parent, "BonusMapsDialog")
 {
 	g_pBonusMapsDialog = this;
-	m_hImportBonusMapsDialog = NULL;
+	m_hImportBonusMapsDialog = nullptr;
 
 	BonusMapsDatabase()->RootPath();
 
@@ -268,7 +268,7 @@ CBonusMapsDialog::CBonusMapsDialog(vgui::Panel *parent) : BaseClass(parent, "Bon
 CBonusMapsDialog::~CBonusMapsDialog()
 {
 	BonusMapsDatabase()->WriteSaveData();	// Closing this dialog is a good time to save
-	g_pBonusMapsDialog = NULL;
+	g_pBonusMapsDialog = nullptr;
 }
 
 
@@ -345,7 +345,7 @@ void CBonusMapsDialog::BuildMapsList( void )
 	{
 		CBonusMapPanel *bonusMapPanel = new CBonusMapPanel( m_pGameList, "BonusMapPanel", iMapIndex );
 		bonusMapPanel->SetBonusMapInfo( BonusMapsDatabase()->GetPath(), *(BonusMapsDatabase()->GetBonusData( iMapIndex )) );
-		m_pGameList->AddItem( NULL, bonusMapPanel );
+		m_pGameList->AddItem(nullptr, bonusMapPanel );
 	}
 
 	// display a message if there are no save games
@@ -353,7 +353,7 @@ void CBonusMapsDialog::BuildMapsList( void )
 	{
 		vgui::Label *pNoSavesLabel = SETUP_PANEL(new Label(m_pGameList, "NoBonusMapsLabel", "#GameUI_NoBonusMapsToDisplay"));
 		pNoSavesLabel->SetTextColorState(vgui::Label::CS_DULL);
-		m_pGameList->AddItem( NULL, pNoSavesLabel );
+		m_pGameList->AddItem(nullptr, pNoSavesLabel );
 		m_pGameList->SetNumColumns( 1 );
 	}
 	else
@@ -503,7 +503,7 @@ void CBonusMapsDialog::RefreshMedalDisplay( BonusMapDescription_t *pMap )
 
 			if ( iChallengeNum >= 0 )
 			{
-				ChallengeDescription_t *pChallengeDescription = NULL;
+				ChallengeDescription_t *pChallengeDescription = nullptr;
 
 				for ( int i = 0 ; i < pMap->m_pChallenges->Count(); ++i )
 				{
@@ -538,7 +538,7 @@ void CBonusMapsDialog::RefreshMedalDisplay( BonusMapDescription_t *pMap )
 		return;
 	}
 
-	ChallengeDescription_t *pChallengeDescription = NULL;
+	ChallengeDescription_t *pChallengeDescription = nullptr;
 
 	for ( int i = 0 ; i < pMap->m_pChallenges->Count(); ++i )
 	{
@@ -761,15 +761,15 @@ void CBonusMapsDialog::OnCommand( const char *command )
 		m_pChallengeSelection->RemoveAll();
 		m_pChallengeSelection->AddItem( "<Select A Challenge>", new KeyValues( "ChallengeSelection", "challenge", -1 ) );
 
-		RefreshDialog( NULL );
+		RefreshDialog(nullptr);
 
 		m_pGameList->MoveScrollBarToTop();
 	}
 	else if ( !stricmp( command, "ImportBonusMaps" ) )
 	{
-		if ( m_hImportBonusMapsDialog == NULL )
+		if ( m_hImportBonusMapsDialog == nullptr)
 		{
-			m_hImportBonusMapsDialog = new FileOpenDialog( NULL, "#GameUI_ImportBonusMaps", true );
+			m_hImportBonusMapsDialog = new FileOpenDialog(nullptr, "#GameUI_ImportBonusMaps", true );
 			m_hImportBonusMapsDialog->AddFilter( "*.bmz", "#GameUI_BMZ_Files", true );
 			m_hImportBonusMapsDialog->AddActionSignalTarget( this );
 		}
@@ -850,7 +850,7 @@ void CBonusMapsDialog::OnControlModified()
 // file selected.  This can only happen when someone selects an image to be imported as a spray logo.
 void CBonusMapsDialog::OnFileSelected( const char *fullpath )
 {
-	if ( fullpath == NULL || fullpath[ 0 ] == '\0' )
+	if ( fullpath == nullptr || fullpath[ 0 ] == '\0' )
 		return;
 
 	// this can take a while, put up a waiting cursor

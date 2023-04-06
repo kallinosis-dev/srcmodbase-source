@@ -63,12 +63,12 @@ time_t CSteamWorksGameStatsUploader::GetTimeSinceEpoch( void )
 CSteamWorksGameStatsUploader::CSteamWorksGameStatsUploader( const char *pszSystemName, const char *pszSessionConVarName ) : CAutoGameSystemPerFrame( pszSystemName )
 {
 	m_sSessionConVarName = pszSessionConVarName;
-	m_pSessionConVar = NULL;
+	m_pSessionConVar = nullptr;
 }
 
 CSteamWorksGameStatsUploader::~CSteamWorksGameStatsUploader()
 {
-	if ( m_pSessionConVar!=NULL )
+	if ( m_pSessionConVar!= nullptr)
 	{
 		delete m_pSessionConVar;
 	}
@@ -134,12 +134,12 @@ bool CSteamWorksGameStatsUploader::Init()
 		if ( !m_pSessionConVar->IsValid() )
 		{
 			delete m_pSessionConVar;
-			m_pSessionConVar = NULL;
+			m_pSessionConVar = nullptr;
 		}
 	}
 	else
 	{
-		m_pSessionConVar = NULL;
+		m_pSessionConVar = nullptr;
 	}
 
 	Reset();
@@ -275,7 +275,7 @@ EResult	CSteamWorksGameStatsUploader::RequestSessionID()
 void CSteamWorksGameStatsUploader::ClearSessionID()
 {
 	m_SessionID = 0;
-	if ( m_pSessionConVar != NULL )
+	if ( m_pSessionConVar != nullptr)
 	{
 		m_pSessionConVar->SetValue( 0 );
 	}
@@ -580,7 +580,7 @@ ISteamGameStats* CSteamWorksGameStatsUploader::GetInterface( void )
 #endif // !NO_STEAM
 
 	// If we haven't returned already, then we can't get access to the interface
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -667,7 +667,7 @@ EResult CSteamWorksGameStatsUploader::ParseKeyValuesAndSendStats( KeyValues *pKV
 	AddSessionIDsToTable( iTableID );
 
 	// Now we need to loop over all the keys in pKV and add the name and value
-	for ( KeyValues *pData = pKV->GetFirstSubKey() ; pData != NULL ; pData = pData->GetNextKey() )
+	for ( KeyValues *pData = pKV->GetFirstSubKey() ; pData != nullptr; pData = pData->GetNextKey() )
 	{
 		const char *name = pData->GetName();
 		CFastTimer writeTimer;
@@ -794,7 +794,7 @@ void AddArrayDataToKV( KeyValues* pKV, const char* name, const unsigned *data, u
 }
 void AddStringDataToKV( KeyValues* pKV, const char* name, const char*data )
 {
-	if( name == NULL )
+	if( name == nullptr)
 		return;
 
 	pKV->SetString( name, data );

@@ -181,7 +181,7 @@ public:
 	virtual void DestroyPixelShader( PixelShaderHandle_t hShader );
 	virtual void ReleaseResources( bool bReleaseManagedResources = true );
 	virtual void ReacquireResources();
-	virtual IMesh* CreateStaticMesh( VertexFormat_t format, const char *pBudgetGroup, IMaterial * pMaterial = NULL, VertexStreamSpec_t *pStreamSpec = NULL );
+	virtual IMesh* CreateStaticMesh( VertexFormat_t format, const char *pBudgetGroup, IMaterial * pMaterial = nullptr, VertexStreamSpec_t *pStreamSpec = nullptr);
 	virtual void DestroyStaticMesh( IMesh* mesh );
 	virtual IVertexBuffer *CreateVertexBuffer( ShaderBufferType_t type, VertexFormat_t fmt, int nVertexCount, const char *pBudgetGroup );
 	virtual void DestroyVertexBuffer( IVertexBuffer *pVertexBuffer );
@@ -192,7 +192,7 @@ public:
 	virtual void SetHardwareGammaRamp( float fGamma, float fGammaTVRangeMin, float fGammaTVRangeMax, float fGammaTVExponent, bool bTVEnabled );
 	virtual void SpewDriverInfo() const;
 	virtual int GetCurrentAdapter() const;
-	virtual void EnableNonInteractiveMode( MaterialNonInteractiveMode_t mode, ShaderNonInteractiveInfo_t *pInfo = NULL );
+	virtual void EnableNonInteractiveMode( MaterialNonInteractiveMode_t mode, ShaderNonInteractiveInfo_t *pInfo = nullptr);
 	virtual void RefreshFrontBufferNonInteractive();
 
 	// Alternative method for ib/vs
@@ -305,7 +305,7 @@ protected:
 
 	bool InNonInteractiveMode() const;
 
-	void ReacquireResourcesInternal( bool bResetState = false, bool bForceReacquire = false, char const *pszForceReason = NULL );
+	void ReacquireResourcesInternal( bool bResetState = false, bool bForceReacquire = false, char const *pszForceReason = nullptr);
 
 
 	void OnDebugEvent( const char * pEvent = "" );

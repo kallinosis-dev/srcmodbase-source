@@ -49,7 +49,7 @@ CDmePresetGroup *FindAnyPresetGroup( CDmeFilmClip *pFilmClip, const char *pPrese
 		if ( pPresetGroup )
 			return pPresetGroup;
 	}
-	return NULL;
+	return nullptr;
 }
 
 CDmePreset *FindAnyPreset( CDmeFilmClip *pFilmClip, const char *pPresetGroupName, const char *pPresetName )
@@ -65,7 +65,7 @@ CDmePreset *FindAnyPreset( CDmeFilmClip *pFilmClip, const char *pPresetGroupName
 		if ( pPreset )
 			return pPreset;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -79,7 +79,7 @@ class CAddPresetDialog : public vgui::BaseInputDialog
 public:
 	CAddPresetDialog( vgui::Panel *parent );
 
-	void DoModal( CDmeFilmClip *pFilmClip, const char *pCurrentGroupName, KeyValues *pContextKeyValues = NULL );
+	void DoModal( CDmeFilmClip *pFilmClip, const char *pCurrentGroupName, KeyValues *pContextKeyValues = nullptr);
 
 protected:
 	// command buttons
@@ -164,7 +164,7 @@ void CAddPresetDialog::OnCommand( const char *command )
 		if ( m_pContextKeyValues )
 		{
 			kv->AddSubKey( m_pContextKeyValues );
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 		PostActionSignal( kv );
 		CloseModal();
@@ -496,7 +496,7 @@ void CPresetSlider::OnCursorExited()
 	if ( _dragging )
 		return;
 
-	m_pPresetFaderPanel->SetActivePresetSlider( NULL );
+	m_pPresetFaderPanel->SetActivePresetSlider(nullptr);
 }
 
 void CPresetSlider::OnRename()
@@ -545,7 +545,7 @@ void CPresetSlider::OnRenameCompleted( const char *pText, KeyValues *pContextKey
 
 void CPresetSlider::OnInputCompleted( KeyValues *pParams )
 {
-	const char *pText = pParams->GetString( "text", NULL );
+	const char *pText = pParams->GetString( "text", nullptr);
 
 	KeyValues *pContextKeyValues = pParams->FindKey( "RenamePreset" );
 	if ( pContextKeyValues )
@@ -584,7 +584,7 @@ void CPresetSlider::OnShowContextMenu()
 	if ( m_hContextMenu.Get() )
 	{
 		delete m_hContextMenu.Get();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 
 	m_hContextMenu = new Menu( this, "ActionMenu" );
@@ -601,7 +601,7 @@ void CPresetSlider::OnShowContextMenu()
 	}
 
 	int nItem = m_hContextMenu->AddMenuItem( "Add...", new KeyValues( "ShowAddPresetDialog" ), m_pPresetFaderPanel );
-	if ( m_pPresetFaderPanel->GetController()->GetMostRecentlySelectedControl() == NULL )
+	if ( m_pPresetFaderPanel->GetController()->GetMostRecentlySelectedControl() == nullptr)
 	{
 		m_hContextMenu->SetItemEnabled( nItem, false );
 	}
@@ -654,7 +654,7 @@ void CPresetSlider::Deactivate()
 {
 	if ( m_pPresetFaderPanel->GetActivePresetSlider() == this )
 	{
-		m_pPresetFaderPanel->SetActivePresetSlider( NULL );
+		m_pPresetFaderPanel->SetActivePresetSlider(nullptr);
 	}
 }
 
@@ -849,13 +849,13 @@ void CSliderListPanel::OnShowContextMenu()
 	if ( m_hContextMenu.Get() )
 	{
 		delete m_hContextMenu.Get();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 
 	m_hContextMenu = new Menu( this, "ActionMenu" );
 
 	int nItem = m_hContextMenu->AddMenuItem( "Add...", new KeyValues( "ShowAddPresetDialog" ), m_pPresetFaderPanel );
-	if ( m_pPresetFaderPanel->GetController()->GetMostRecentlySelectedControl() == NULL )
+	if ( m_pPresetFaderPanel->GetController()->GetMostRecentlySelectedControl() == nullptr)
 	{
 		m_hContextMenu->SetItemEnabled( nItem, false );
 	}
@@ -876,7 +876,7 @@ CBaseAnimSetPresetFaderPanel::CBaseAnimSetPresetFaderPanel( vgui::Panel *parent,
 	m_pSheet->SetAutoResize( Panel::PIN_TOPLEFT, Panel::AUTORESIZE_DOWNANDRIGHT, 0, 0, 0, 0 );
 	m_pSheet->SetSmallTabs( true );
 
-	m_pSliders = new CSliderListPanel( this, NULL, "PresetSliders" );
+	m_pSliders = new CSliderListPanel( this, nullptr, "PresetSliders" );
 	m_pSliders->SetFirstColumnWidth( 0 );
 	m_pSliders->SetAutoResize( Panel::PIN_TOPLEFT, Panel::AUTORESIZE_DOWNANDRIGHT, 0, 0, 0, 0 );
 	m_pSliders->SetPos( 0, 0 );
@@ -886,7 +886,7 @@ CBaseAnimSetPresetFaderPanel::CBaseAnimSetPresetFaderPanel( vgui::Panel *parent,
 	m_presetSliders.EnsureCapacity( PRESET_SLIDER_INIT );
 	for ( int i = 0; i < PRESET_SLIDER_INIT; ++i )
 	{
-		m_presetSliders.AddToTail( new CPresetSlider( NULL, this ) );
+		m_presetSliders.AddToTail( new CPresetSlider(nullptr, this ) );
 	}
 }
 
@@ -921,7 +921,7 @@ void CBaseAnimSetPresetFaderPanel::AddPreset( const char *pPresetGroupName, cons
 				return;
 			}
 
-			if ( pPresetGroup->FindPreset( pPresetName ) != NULL )
+			if ( pPresetGroup->FindPreset( pPresetName ) != nullptr)
 			{
 				vgui::MessageBox *pError = new MessageBox( "Add Preset Error", "A preset with that name already exists!\n", this );
 				pError->SetDeleteSelfOnClose( true );
@@ -939,7 +939,7 @@ void CBaseAnimSetPresetFaderPanel::AddPreset( const char *pPresetGroupName, cons
 //-----------------------------------------------------------------------------
 void CBaseAnimSetPresetFaderPanel::OnPresetNameSelected( KeyValues *pParams )
 {
-	const char *pPresetName = pParams->GetString( "text", NULL );
+	const char *pPresetName = pParams->GetString( "text", nullptr);
 	const char *pPresetGroupName = pParams->GetString( "presetGroupName" );
 	bool bAnimated = pParams->GetBool( "animated" );
 
@@ -961,7 +961,7 @@ void CBaseAnimSetPresetFaderPanel::OnShowAddPresetDialog()
 
 	const char *pCurrentGroupName = m_pSheet->GetActivePage() ? m_pSheet->GetActivePage()->GetName() : "";
 
-	pAddPresetDialog->DoModal( m_pController->GetAnimationSetClip(), pCurrentGroupName, NULL );
+	pAddPresetDialog->DoModal( m_pController->GetAnimationSetClip(), pCurrentGroupName, nullptr);
 }
 
 
@@ -1102,7 +1102,7 @@ CPresetSlider *CBaseAnimSetPresetFaderPanel::FindPresetSlider( const char *pName
 			return pSlider;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CBaseAnimSetPresetFaderPanel::SetActivePresetSlider( CPresetSlider *pSlider )
@@ -1125,11 +1125,11 @@ void CBaseAnimSetPresetFaderPanel::UpdateOrCreatePresetSlider( int nSlot, const 
 	if ( !pPresetName )
 		return;
 
-	CPresetSlider *pSlider = NULL;
+	CPresetSlider *pSlider = nullptr;
 	if ( nSlot >= m_pSliders->GetItemCount() )
 	{
 		pSlider = new CPresetSlider( m_pSliders, this );
-		m_pSliders->AddItem( NULL, pSlider );
+		m_pSliders->AddItem(nullptr, pSlider );
 	}
 	else
 	{

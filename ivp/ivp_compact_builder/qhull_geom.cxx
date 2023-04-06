@@ -230,7 +230,7 @@ facetT *qh_findbest (pointT *point, facetT *startfacet,
 		     realT *dist, boolT *isoutside, int *numpart) {
   realT bestdist= -REALmax/2 /* avoid underflow */, searchdist;
   realT cutoff, mincutoff;  /* skip facets that are too far from point */
-  facetT *facet, *neighbor, **neighborp, *bestfacet= NULL;
+  facetT *facet, *neighbor, **neighborp, *bestfacet= nullptr;
   int oldtrace= qh IStracing;
   int searchsize= 0; /* non-zero if searchset defined */
   boolT newbest;
@@ -241,7 +241,7 @@ facetT *qh_findbest (pointT *point, facetT *startfacet,
 
   if (!ischeckmax && !ispartition && !isfindfacet) {
     ivp_message( "qhull internal error (qh_findbest): unknown combination of arguments\n");
-    qh_errexit (qh_ERRqhull, startfacet, NULL);
+    qh_errexit (qh_ERRqhull, startfacet, nullptr);
   }
   if (qh TRACElevel && qh TRACEpoint >= 0 && qh TRACEpoint == qh_pointid (point)) {
     qh IStracing= qh TRACElevel;
@@ -357,7 +357,7 @@ qh_findbest: all neighbors of facet %d are flipped or upper Delaunay.\n\
 Please report this error to qhull_bug@geom.umn.edu with the input and all of the output.\n",
 	 startfacet->id);
       qh FORCEoutput= True;
-      qh_errexit (qh_ERRqhull, startfacet, NULL);
+      qh_errexit (qh_ERRqhull, startfacet, nullptr);
     }
     if (ispartition && !qh findbest_notsharp && bestdist < - qh DISTround) {
       if (qh_findbestsharp ( point, &bestfacet, &bestdist, numpart)) 
@@ -424,8 +424,8 @@ LABELreturn_best:
 facetT *qh_findbestnew (pointT *point, facetT *startfacet,
 	   realT *dist, boolT *isoutside, int *numpart) {
   realT bestdist= -REALmax, bestdist2= -REALmax;
-  facetT *neighbor, **neighborp, *bestfacet= NULL, *newfacet, *facet;
-  facetT *bestfacet2= NULL;
+  facetT *neighbor, **neighborp, *bestfacet= nullptr, *newfacet, *facet;
+  facetT *bestfacet2= nullptr;
   int oldtrace= qh IStracing, i;
   realT distoutside;
 
@@ -435,7 +435,7 @@ facetT *qh_findbestnew (pointT *point, facetT *startfacet,
     else
       fprintf(qh ferr, "qhull internal error (qh_findbestnew): no new facets for point p%d\n",
       	      qh furthest_id);      
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }
   if (qh BESToutside || !isoutside)
     distoutside= REALmax;
@@ -626,7 +626,7 @@ pointT *qh_getcenter(setT *vertices) {
 
   if (count < 2) {
     ivp_message( "qhull internal error (qh_getcenter): not defined for %d points\n", count);
-    qh_errexit (qh_ERRqhull, NULL, NULL);
+    qh_errexit (qh_ERRqhull, nullptr, nullptr);
   }
   center= (pointT *)qh_memalloc(qh normal_size);
   for (k=0; k < qh hull_dim; k++) {
@@ -718,7 +718,7 @@ realT qh_getdistance(facetT *facet, facetT *neighbor, realT *mindist, realT *max
     qh_normalize2
 */
 void qh_normalize (coordT *normal, int dim, boolT toporient) {
-  qh_normalize2( normal, dim, toporient, NULL, NULL);
+  qh_normalize2( normal, dim, toporient, nullptr, nullptr);
 } /* normalize */
 
 /*-<a                             href="qh-c.htm#geom"
@@ -988,7 +988,7 @@ void qh_setfacetplane(facetT *facet) {
 	if (istrace) {
 	  ivp_message( "qh_setfacetplane: ====== vertex p%d (v%d) increases max_outside to %2.2g for new facet f%d last p%d\n",
 	        qh_pointid(vertex->point), vertex->id, dist, facet->id, qh furthest_id);
-	  qh_errprint ("DISTANT", facet, NULL, NULL, NULL);
+	  qh_errprint ("DISTANT", facet, nullptr, nullptr, nullptr);
 	}
       }
     }
@@ -1060,7 +1060,7 @@ void qh_sethyperplane_det (int dim, coordT **rows, coordT *point0,
   if (dim == 2) {
     normal[0]= dY(1,0);
     normal[1]= dX(0,1);
-    qh_normalize2 (normal, dim, toporient, NULL, NULL);
+    qh_normalize2 (normal, dim, toporient, nullptr, nullptr);
     *offset= -(point0[0]*normal[0]+point0[1]*normal[1]);
     *nearzero= False;  /* since nearzero norm => incident points */
   }else if (dim == 3) {
@@ -1070,7 +1070,7 @@ void qh_sethyperplane_det (int dim, coordT **rows, coordT *point0,
 		     dX(2,0), dZ(2,0));
     normal[2]= det2_(dX(2,0), dY(2,0),
 		     dX(1,0), dY(1,0));
-    qh_normalize2 (normal, dim, toporient, NULL, NULL);
+    qh_normalize2 (normal, dim, toporient, nullptr, nullptr);
     *offset= -(point0[0]*normal[0] + point0[1]*normal[1]
 	       + point0[2]*normal[2]);
     maxround= qh DISTround;
@@ -1098,7 +1098,7 @@ void qh_sethyperplane_det (int dim, coordT **rows, coordT *point0,
     normal[3]=   det3_(dX(2,0), dY(2,0), dZ(2,0),
 		        dX(1,0), dY(1,0), dZ(1,0),
 		        dX(3,0), dY(3,0), dZ(3,0));
-    qh_normalize2 (normal, dim, toporient, NULL, NULL);
+    qh_normalize2 (normal, dim, toporient, nullptr, nullptr);
     *offset= -(point0[0]*normal[0] + point0[1]*normal[1]
 	       + point0[2]*normal[2] + point0[3]*normal[3]);
     maxround= qh DISTround;
@@ -1172,7 +1172,7 @@ void qh_sethyperplane_gauss (int dim, coordT **rows, pointT *point0,
   }
   if (nearzero2)
     *nearzero= True;
-  qh_normalize2(normal, dim, True, NULL, NULL);
+  qh_normalize2(normal, dim, True, nullptr, nullptr);
   pointcoord= point0;
   normalcoef= normal;
   *offset= -(*pointcoord++ * *normalcoef++);

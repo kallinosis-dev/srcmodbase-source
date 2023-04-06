@@ -243,7 +243,7 @@ TitleAchievementsDescription_t const * CMatchTitle::DescribeTitleAchievements()
 	{
 //#include "left4dead2.xhelp.achtitledesc.txt"
 		// END MARKER
-		{ NULL, 0 }
+		{nullptr, 0 }
 	};
 
 	return tad;
@@ -255,7 +255,7 @@ TitleAvatarAwardsDescription_t const * CMatchTitle::DescribeTitleAvatarAwards()
 	{
 //#include "left4dead2.xhelp.avawtitledesc.txt"
 		// END MARKER
-		{ NULL, 0 }
+		{nullptr, 0 }
 	};
 
 	return taad;
@@ -552,6 +552,6 @@ KeyValues * CMatchTitle::DescribeTitleLeaderboard( char const *szLeaderboardView
 	}
 */
 
-	return NULL;
+	return nullptr;
 }
 

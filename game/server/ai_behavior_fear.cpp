@@ -110,7 +110,7 @@ void CAI_FearBehavior::RunTask( const Task_t *pTask )
 					ReleaseAllHints();
 					CAI_Hint *pHint = FindFearWithdrawalDest();
 
-					if( pHint == NULL )
+					if( pHint == nullptr)
 					{
 						TaskFail("Fear: Couldn't find hint node\n");
 						m_flDeferUntil = gpGlobals->curtime + 3.0f;// Don't bang the hell out of this behavior. If we don't find a node, take a short break and run regular AI.
@@ -128,10 +128,10 @@ void CAI_FearBehavior::RunTask( const Task_t *pTask )
 					Assert( m_hMovingToHint != NULL );
 
 					AI_NavGoal_t goal(m_hMovingToHint->GetAbsOrigin());
-					goal.pTarget = NULL;
+					goal.pTarget = nullptr;
 					if( GetNavigator()->SetGoal( goal ) == false )
 					{
-						m_hMovingToHint.Set( NULL );
+						m_hMovingToHint.Set(nullptr);
 						// Do whatever we'd want to do if we can't find a path
 						/*
 						Msg("Can't path to the Fear Hint!\n");
@@ -172,10 +172,10 @@ bool CAI_FearBehavior::EnemyDislikesMe()
 {
 	CBaseEntity *pEnemy = GetEnemy();
 
-	if( pEnemy == NULL )
+	if( pEnemy == nullptr)
 		return false;
 
-	if( pEnemy->MyNPCPointer() == NULL )
+	if( pEnemy->MyNPCPointer() == nullptr)
 		return false;
 
 	Disposition_t disposition = pEnemy->MyNPCPointer()->IRelationType(GetOuter());
@@ -234,13 +234,13 @@ void CAI_FearBehavior::ReleaseAllHints()
 		// Don't make it available right away. I probably left for a good reason.
 		// We also don't want to oscillate
 		m_hSafePlaceHint->DisableForSeconds( 4.0f );
-		m_hSafePlaceHint = NULL;
+		m_hSafePlaceHint = nullptr;
 	}
 
 	if( m_hMovingToHint )
 	{
 		m_hMovingToHint->Unlock();
-		m_hMovingToHint = NULL;
+		m_hMovingToHint = nullptr;
 	}
 
 	m_SafePlaceMoveMonitor.ClearMark();
@@ -262,7 +262,7 @@ bool CAI_FearBehavior::CanSelectSchedule()
 
 	CBaseEntity *pEnemy = GetEnemy();
 
-	if( pEnemy == NULL )
+	if( pEnemy == nullptr)
 		return false;
 
 	//if( !HasCondition(COND_SEE_PLAYER) )
@@ -319,7 +319,7 @@ void CAI_FearBehavior::GatherConditions()
 	//
 	// Here's the distance check:
 	CBasePlayer *pPlayer = AI_GetSinglePlayer();
-	if( pPlayer != NULL && GetAbsOrigin().DistToSqr(pPlayer->GetAbsOrigin()) >= Square( ai_fear_player_dist.GetFloat() * 1.5f )  )
+	if( pPlayer != nullptr && GetAbsOrigin().DistToSqr(pPlayer->GetAbsOrigin()) >= Square( ai_fear_player_dist.GetFloat() * 1.5f )  )
 	{
 		SetCondition(COND_FEAR_SEPARATED_FROM_PLAYER);
 	}

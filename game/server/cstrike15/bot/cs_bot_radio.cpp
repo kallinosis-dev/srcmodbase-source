@@ -43,7 +43,7 @@ bool CCSBot::IsRadioCommand( RadioType event ) const
 void CCSBot::RespondToRadioCommands( void )
 {
 	// bots use the chatter system to respond to each other
-	if (m_radioSubject != NULL && m_radioSubject->IsPlayer())
+	if (m_radioSubject != nullptr && m_radioSubject->IsPlayer())
 	{
 		CCSPlayer *player = m_radioSubject;
 		if (player->IsBot())
@@ -96,7 +96,7 @@ void CCSBot::RespondToRadioCommands( void )
 	}
 
 	CCSPlayer *player = m_radioSubject;
-	if (player == NULL)
+	if (player == nullptr)
 		return;
 
 	// respond to command
@@ -367,7 +367,7 @@ bool CCSBot::SpeakAudioResponseRules( const char *pConcept, AI_CriteriaSet *crit
 		criteria = &local;
 
 	AIConcept_t concept( pConcept );
-	if ( Speak( concept, criteria, NULL, 0, &filter ) )
+	if ( Speak( concept, criteria, nullptr, 0, &filter ) )
 	{
 		GetChatter()->ResetRadioSilenceDuration();
 		m_voiceEndTimestamp = gpGlobals->curtime + duration;

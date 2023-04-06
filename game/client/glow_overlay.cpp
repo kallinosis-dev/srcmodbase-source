@@ -101,7 +101,7 @@ CGlowOverlay::CGlowOverlay()
 		m_Sprites[i].m_vColor.Init();
 		m_Sprites[i].m_flHorzSize	= 1.0f;
 		m_Sprites[i].m_flVertSize	= 1.0f;
-		m_Sprites[i].m_pMaterial	= NULL;
+		m_Sprites[i].m_pMaterial	= nullptr;
 	}
 
 #ifdef PORTAL
@@ -177,7 +177,7 @@ void CGlowOverlay::UpdateSkyGlowObstruction( float zFar, bool bCacheFullSceneSta
 	// Trace a ray at the object.
 	trace_t trace;
 	UTIL_TraceLine( CurrentViewOrigin(), CurrentViewOrigin() + (m_vDirection*MAX_TRACE_LENGTH), 
-		CONTENTS_SOLID, NULL, COLLISION_GROUP_NONE, &trace );
+		CONTENTS_SOLID, nullptr, COLLISION_GROUP_NONE, &trace );
 	
 	// back the trace with a pixel query to occlude with models
 	if ( trace.surface.flags & SURF_SKY )
@@ -239,7 +239,7 @@ void CGlowOverlay::UpdateGlowObstruction( const Vector &vToGlow, bool bCacheFull
 		// Trace a ray at the object.
 		trace_t trace;
 		UTIL_TraceLine( CurrentViewOrigin(), CurrentViewOrigin() + (vToGlow*MAX_TRACE_LENGTH), 
-			CONTENTS_SOLID, NULL, COLLISION_GROUP_NONE, &trace );
+			CONTENTS_SOLID, nullptr, COLLISION_GROUP_NONE, &trace );
 		
 		bFade = (trace.fraction < 1 && !(trace.surface.flags & SURF_SKY));
 	}
@@ -397,7 +397,7 @@ void CGlowOverlay::Draw( bool bCacheFullSceneState )
 			continue;
 
 		// Get our material (deferred default load)
-		if ( m_Sprites[iSprite].m_pMaterial == NULL )
+		if ( m_Sprites[iSprite].m_pMaterial == nullptr)
 		{
 			m_Sprites[iSprite].m_pMaterial = materials->FindMaterial( "sprites/light_glow02_add_noz", TEXTURE_GROUP_CLIENT_EFFECTS );
 		}
@@ -411,7 +411,7 @@ void CGlowOverlay::Draw( bool bCacheFullSceneState )
 		}
 
 		// Draw the sprite.
-		IMesh *pMesh = pRenderContext->GetDynamicMesh( false, 0, 0, m_Sprites[iSprite].m_pMaterial );
+		IMesh *pMesh = pRenderContext->GetDynamicMesh( false, nullptr, nullptr, m_Sprites[iSprite].m_pMaterial );
 
 		CMeshBuilder builder;
 		builder.Begin( pMesh, MATERIAL_QUADS, 1 );
@@ -450,7 +450,7 @@ void CGlowOverlay::Draw( bool bCacheFullSceneState )
 			pRenderContext->Bind( pWireframeMaterial );
 			
 			// Draw the sprite.
-			IMesh *pMesh = pRenderContext->GetDynamicMesh( false, 0, 0, pWireframeMaterial );
+			IMesh *pMesh = pRenderContext->GetDynamicMesh( false, nullptr, nullptr, pWireframeMaterial );
 			
 			CMeshBuilder builder;
 			builder.Begin( pMesh, MATERIAL_QUADS, 1 );

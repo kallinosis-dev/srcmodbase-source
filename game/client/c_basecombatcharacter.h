@@ -54,7 +54,7 @@ public:
 		IGNORE_ACTORS
 	};
 	virtual bool IsLineOfSightClear( CBaseEntity *entity, LineOfSightCheckType checkType = IGNORE_NOTHING ) const;// strictly LOS check with no other considerations
-	virtual bool IsLineOfSightClear( const Vector &pos, LineOfSightCheckType checkType = IGNORE_NOTHING, CBaseEntity *entityToIgnore = NULL ) const;
+	virtual bool IsLineOfSightClear( const Vector &pos, LineOfSightCheckType checkType = IGNORE_NOTHING, CBaseEntity *entityToIgnore = nullptr) const;
 
 	int	LastHitGroup() const { return m_LastHitGroup; }
 
@@ -164,7 +164,7 @@ public:
 
 inline C_BaseCombatCharacter *ToBaseCombatCharacter( C_BaseEntity *pEntity )
 {
-	return pEntity ? pEntity->MyCombatCharacterPointer() : NULL;
+	return pEntity ? pEntity->MyCombatCharacterPointer() : nullptr;
 }
 
 

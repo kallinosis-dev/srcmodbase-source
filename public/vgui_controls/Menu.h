@@ -107,37 +107,37 @@ public:
 	  // the menu.  For combo boxes, it's the edit/field, etc. etc.
 
 	// Add a simple text item to the menu
-	virtual int AddMenuItem( const char *itemName, const char *itemText, const char *command, Panel *target, const KeyValues *userData = NULL );
-	virtual int AddMenuItem( const char *itemName, const wchar_t *wszItemText, const char *command, Panel *target, const KeyValues *userData = NULL );
+	virtual int AddMenuItem( const char *itemName, const char *itemText, const char *command, Panel *target, const KeyValues *userData = nullptr);
+	virtual int AddMenuItem( const char *itemName, const wchar_t *wszItemText, const char *command, Panel *target, const KeyValues *userData = nullptr);
 
-	virtual int AddMenuItem( const char *itemName, const char *itemText, KeyValues *message, Panel *target , const KeyValues *userData = NULL);
-	virtual int AddMenuItem( const char *itemName, const wchar_t *wszItemText, KeyValues *message, Panel *target , const KeyValues *userData = NULL);
+	virtual int AddMenuItem( const char *itemName, const char *itemText, KeyValues *message, Panel *target , const KeyValues *userData = nullptr);
+	virtual int AddMenuItem( const char *itemName, const wchar_t *wszItemText, KeyValues *message, Panel *target , const KeyValues *userData = nullptr);
 	
-	virtual int AddMenuItem( const char *itemText, const char *command, Panel *target , const KeyValues *userData = NULL);
-	virtual int AddMenuItem( const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL );
-	virtual int AddMenuItem( const char *itemText, Panel *target, const KeyValues *userData = NULL );
+	virtual int AddMenuItem( const char *itemText, const char *command, Panel *target , const KeyValues *userData = nullptr);
+	virtual int AddMenuItem( const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr);
+	virtual int AddMenuItem( const char *itemText, Panel *target, const KeyValues *userData = nullptr);
 
 	// Add a checkable item to the menu
-	virtual int AddCheckableMenuItem( const char *itemName, const char *itemText, const char *command, Panel *target, const KeyValues *userData = NULL );
-	virtual int AddCheckableMenuItem( const char *itemName, const wchar_t *wszItemText, const char *command, Panel *target, const KeyValues *userData = NULL );
+	virtual int AddCheckableMenuItem( const char *itemName, const char *itemText, const char *command, Panel *target, const KeyValues *userData = nullptr);
+	virtual int AddCheckableMenuItem( const char *itemName, const wchar_t *wszItemText, const char *command, Panel *target, const KeyValues *userData = nullptr);
 
-	virtual int AddCheckableMenuItem( const char *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL );
-	virtual int AddCheckableMenuItem( const char *itemName, const wchar_t *wszItemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL );
+	virtual int AddCheckableMenuItem( const char *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr);
+	virtual int AddCheckableMenuItem( const char *itemName, const wchar_t *wszItemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr);
 
-	virtual int AddCheckableMenuItem( const char *itemText, const char *command, Panel *target , const KeyValues *userData = NULL);
-	virtual int AddCheckableMenuItem( const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL );
-	virtual int AddCheckableMenuItem( const char *itemText, Panel *target, const KeyValues *userData = NULL );
+	virtual int AddCheckableMenuItem( const char *itemText, const char *command, Panel *target , const KeyValues *userData = nullptr);
+	virtual int AddCheckableMenuItem( const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr);
+	virtual int AddCheckableMenuItem( const char *itemText, Panel *target, const KeyValues *userData = nullptr);
 
 	// Add a cascading menu item to the menu
-	virtual int AddCascadingMenuItem( const char *itemName, const char *itemText, const char *command, Panel *target, Menu *cascadeMenu, const KeyValues *userData = NULL );
-	virtual int AddCascadingMenuItem( const char *itemName, const wchar_t *wszItemText, const char *command, Panel *target, Menu *cascadeMenu, const KeyValues *userData = NULL );
+	virtual int AddCascadingMenuItem( const char *itemName, const char *itemText, const char *command, Panel *target, Menu *cascadeMenu, const KeyValues *userData = nullptr);
+	virtual int AddCascadingMenuItem( const char *itemName, const wchar_t *wszItemText, const char *command, Panel *target, Menu *cascadeMenu, const KeyValues *userData = nullptr);
 
-	virtual int AddCascadingMenuItem( const char *itemName, const char *itemText, KeyValues *message, Panel *target, Menu *cascadeMenu, const KeyValues *userData = NULL );
-	virtual int AddCascadingMenuItem( const char *itemName, const wchar_t *wszItemText, KeyValues *message, Panel *target, Menu *cascadeMenu, const KeyValues *userData = NULL );
+	virtual int AddCascadingMenuItem( const char *itemName, const char *itemText, KeyValues *message, Panel *target, Menu *cascadeMenu, const KeyValues *userData = nullptr);
+	virtual int AddCascadingMenuItem( const char *itemName, const wchar_t *wszItemText, KeyValues *message, Panel *target, Menu *cascadeMenu, const KeyValues *userData = nullptr);
 	
-	virtual int AddCascadingMenuItem( const char *itemText, const char *command, Panel *target, Menu *cascadeMenu, const KeyValues *userData = NULL );
-	virtual int AddCascadingMenuItem( const char *itemText, KeyValues *message, Panel *target, Menu *cascadeMenu, const KeyValues *userData = NULL );
-	virtual int AddCascadingMenuItem( const char *itemText, Panel *target, Menu *cascadeMenu, const KeyValues *userData = NULL );
+	virtual int AddCascadingMenuItem( const char *itemText, const char *command, Panel *target, Menu *cascadeMenu, const KeyValues *userData = nullptr);
+	virtual int AddCascadingMenuItem( const char *itemText, KeyValues *message, Panel *target, Menu *cascadeMenu, const KeyValues *userData = nullptr);
+	virtual int AddCascadingMenuItem( const char *itemText, Panel *target, Menu *cascadeMenu, const KeyValues *userData = nullptr);
 
 	// Add a custom panel to the menu
 	virtual int AddMenuItem( MenuItem *panel );
@@ -146,8 +146,8 @@ public:
 	virtual void AddSeparatorAfterItem( int itemID );
 
 	// Sets the values of a menu item at the specified index
-	virtual void UpdateMenuItem(int itemID, const char *itemText,KeyValues *message, const KeyValues *userData = NULL);
-	virtual void UpdateMenuItem(int itemID, const wchar_t *wszItemText,KeyValues *message, const KeyValues *userData = NULL);
+	virtual void UpdateMenuItem(int itemID, const char *itemText,KeyValues *message, const KeyValues *userData = nullptr);
+	virtual void UpdateMenuItem(int itemID, const wchar_t *wszItemText,KeyValues *message, const KeyValues *userData = nullptr);
 
 	virtual void MoveMenuItem( int itemID, int moveBeforeThisItemID );
 

@@ -68,9 +68,9 @@ class CAI_BehaviorBase : public CAI_Component, public IAI_BehaviorBridge
 {
 	DECLARE_CLASS( CAI_BehaviorBase, CAI_Component )
 public:
-	CAI_BehaviorBase(CAI_BaseNPC *pOuter = NULL)
+	CAI_BehaviorBase(CAI_BaseNPC *pOuter = nullptr)
 	 : 	CAI_Component(pOuter),
-	 	m_pBackBridge(NULL)
+	 	m_pBackBridge(nullptr)
 	{
 		m_bAllocated = false;
 	}
@@ -354,7 +354,7 @@ public:
 	}
 
 protected:
-	CAI_Behavior(NPC_CLASS *pOuter = NULL)
+	CAI_Behavior(NPC_CLASS *pOuter = nullptr)
 	 : CAI_ComponentWithOuter<NPC_CLASS, CAI_BehaviorBase>(pOuter)
 	{
 	}
@@ -417,7 +417,7 @@ public:
 	#define AI_GENERATE_HOST_METHODS
 	#include "ai_behavior_template.h"
 
-	void CleanupOnDeath( CBaseEntity *pCulprit = NULL, bool bFireDeathOutput = true );
+	void CleanupOnDeath( CBaseEntity *pCulprit = nullptr, bool bFireDeathOutput = true );
 
 	virtual int		Save( ISave &save );
 	virtual int		Restore( IRestore &restore );
@@ -570,7 +570,7 @@ inline int CAI_BehaviorBase::BridgeTranslateSchedule( int scheduleType )
 inline bool CAI_BehaviorBase::BridgeGetSchedule( int localScheduleID, CAI_Schedule **ppResult )
 {
 	*ppResult = GetSchedule( localScheduleID );
-	return (*ppResult != NULL );
+	return (*ppResult != nullptr);
 }
 
 //-------------------------------------
@@ -580,7 +580,7 @@ inline bool CAI_BehaviorBase::BridgeTaskName( int taskID, const char **ppResult 
 	if ( AI_IdIsLocal( taskID ) )
 	{
 		*ppResult = GetSchedulingSymbols()->TaskIdToSymbol( GetClassScheduleIdSpace()->TaskLocalToGlobal( taskID ) );
-		return (*ppResult != NULL );
+		return (*ppResult != nullptr);
 	}
 	return false;
 }
@@ -763,7 +763,7 @@ inline CAI_Schedule *CAI_BehaviorHost<BASE_NPC>::GetSchedule(int localScheduleID
 template <class BASE_NPC>
 inline const char *CAI_BehaviorHost<BASE_NPC>::TaskName(int taskID)
 {
-	const char *pszResult = NULL;
+	const char *pszResult = nullptr;
 	if ( this->m_pPrimaryBehavior && this->m_pPrimaryBehavior->BridgeTaskName( taskID, &pszResult ) )
 		return pszResult;
 	return BaseClass::TaskName( taskID );

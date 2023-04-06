@@ -32,7 +32,7 @@ void ServerThread( void * )
 	if( WSAStartup( 0x101, &wsaData ) != 0 )
 		return;
 
-	struct addrinfo *result = NULL, hints;
+	struct addrinfo *result = nullptr, hints;
 
 	ZeroMemory( &hints, sizeof(hints) );
 	hints.ai_family = AF_INET;
@@ -41,7 +41,7 @@ void ServerThread( void * )
 	hints.ai_flags = AI_PASSIVE;
 
 	// Resolve the server address and port
-	int nResult = getaddrinfo( NULL, DEFAULT_PORT, &hints, &result );
+	int nResult = getaddrinfo(nullptr, DEFAULT_PORT, &hints, &result );
 	if ( nResult != 0 )
 	{
 		printf( "getaddrinfo failed: %d\n", nResult );
@@ -84,7 +84,7 @@ void ServerThread( void * )
 	printf( "Waiting for initial connection...\n" );
 
 	// Accept a client socket
-	SOCKET ClientSocket = accept( ListenSocket, NULL, NULL );
+	SOCKET ClientSocket = accept( ListenSocket, nullptr, nullptr);
 	if ( ClientSocket == INVALID_SOCKET )
 	{
 		printf( "accept failed: %d\n", WSAGetLastError() );
@@ -115,13 +115,13 @@ void ServerThread( void * )
 				V_strncat( pFullFilename, pShaderFilename, MAX_PATH );
 				pShaderFilename = pFullFilename;
 			}
-			char *pShaderModel = strtok ( NULL, "\n");
+			char *pShaderModel = strtok (nullptr, "\n");
 			int nSendBufLen = 0;
 
 			// Only try to compile if we have a recognized profile
 			if ( !stricmp( pShaderModel, "vs_2_0" ) || !stricmp( pShaderModel, "ps_2_0" ) || !stricmp( pShaderModel, "ps_2_b" ) )
 			{
-				char *pNumMacros = strtok ( NULL, "\n");
+				char *pNumMacros = strtok (nullptr, "\n");
 				int nNumMacros = atoi( pNumMacros );
 
 				// Read macros from the command file
@@ -130,23 +130,23 @@ void ServerThread( void * )
 				for ( int i=0; i<nNumMacros-1; i++ ) // The last one is the (null) one, so don't bother reading it
 				{
 					// Allocate and populate strings
-					macro.Name = strtok( NULL, "\n");
-					macro.Definition = strtok( NULL, "\n");
+					macro.Name = strtok(nullptr, "\n");
+					macro.Definition = strtok(nullptr, "\n");
 					macros.AddToTail( macro );
 				}
 
 				// Null macro at the end
-				macro.Name = NULL;
-				macro.Definition = NULL;
+				macro.Name = nullptr;
+				macro.Definition = nullptr;
 				macros.AddToTail( macro );
 
 				LPD3DXBUFFER pShader, pErrorMessages;
 
 				// This is the shader compiler we use for pre-ps30 shaders.
 				// This utility needs to change if we want to do ps30 shaders (see logic in vertexshaderdx8.cpp)
-				HRESULT hr = D3DXCompileShaderFromFile( pShaderFilename, macros.Base(), NULL /* LPD3DXINCLUDE */, "main",
+				HRESULT hr = D3DXCompileShaderFromFile( pShaderFilename, macros.Base(), nullptr /* LPD3DXINCLUDE */, "main",
 														pShaderModel, 0, &pShader, &pErrorMessages,
-														NULL /* LPD3DXCONSTANTTABLE *ppConstantTable */ );
+														nullptr														/* LPD3DXCONSTANTTABLE *ppConstantTable */ );
 				if ( hr != D3D_OK )
 				{
 					pSendbuf[0] = 0;
@@ -182,7 +182,7 @@ void ServerThread( void * )
 						printf( "Macros: " );
 						for ( int i = 0; i < nNumMacros - 1; i++ )
 							printf( "  %s\n", macros[i].Name );
-						LPD3DXBUFFER pDisassembly = NULL;
+						LPD3DXBUFFER pDisassembly = nullptr;
 						D3DXDisassembleShader( (const DWORD*)pShader->GetBufferPointer(), FALSE, "", &pDisassembly );
 						if ( pDisassembly )
 						{
@@ -231,7 +231,7 @@ void ServerThread( void * )
 			printf( "Game went away, waiting for new connection...\n" );
 
 			// Block again waiting to accept a connection
-			ClientSocket = accept( ListenSocket, NULL, NULL );
+			ClientSocket = accept( ListenSocket, nullptr, nullptr);
 
 			printf( "Game connected\n" );
 
@@ -308,7 +308,7 @@ int main(int argc, char* argv[])
 	CheckPath( g_pPathBase );
 
 	// Kick off compile server thread
-	_beginthread( ServerThread, 0, NULL );
+	_beginthread( ServerThread, 0, nullptr);
 
 	// Spin until escape
 	while( _getch() != 27 )

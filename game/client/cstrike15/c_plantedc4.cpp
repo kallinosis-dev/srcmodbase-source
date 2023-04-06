@@ -49,7 +49,7 @@ C_PlantedC4::C_PlantedC4() :
 	m_flNextGlow = gpGlobals->curtime + 1.0;
 	m_flNextBeep = gpGlobals->curtime + 1.0;
 
-	m_hLocalDefusingPlayerHandle = NULL;
+	m_hLocalDefusingPlayerHandle = nullptr;
 }
 
 
@@ -136,7 +136,7 @@ bool C_PlantedC4::CreateDefuserRopes( void )
 		}
 		else
 		{
-			m_hDefuserMultimeter = NULL;
+			m_hDefuserMultimeter = nullptr;
 		}
 	}
 
@@ -282,7 +282,7 @@ void C_PlantedC4::ClientThink( void )
 		
 		CSoundParameters params;
 
-		if ( ( m_flC4Blow - gpGlobals->curtime ) > 1.0f && GetParametersForSound( "C4.PlantSound", params, NULL ) )
+		if ( ( m_flC4Blow - gpGlobals->curtime ) > 1.0f && GetParametersForSound( "C4.PlantSound", params, nullptr) )
 		{
 			EmitSound_t ep( params );
 			ep.m_SoundLevel = ATTN_TO_SNDLVL( attenuation );

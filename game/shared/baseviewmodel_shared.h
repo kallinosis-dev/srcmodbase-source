@@ -291,13 +291,13 @@ inline CBaseViewModel *ToBaseViewModel( CBaseAnimating *pAnim )
 {
 	if ( pAnim && pAnim->IsViewModel() )
 		return assert_cast<CBaseViewModel *>(pAnim);
-	return NULL;
+	return nullptr;
 }
 
 inline CBaseViewModel *ToBaseViewModel( CBaseEntity *pEntity )
 {
 	if ( !pEntity )
-		return NULL;
+		return nullptr;
 	return ToBaseViewModel(pEntity->GetBaseAnimating());
 }
 

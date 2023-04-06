@@ -37,7 +37,7 @@ void CObjectMotionBlurManager::UnregisterObject( int nObjectHandle )
 	Assert( !m_ObjectMotionBlurDefinitions[nObjectHandle].IsUnused() );
 
 	m_ObjectMotionBlurDefinitions[nObjectHandle].m_nNextFreeSlot = m_nFirstFreeSlot;
-	m_ObjectMotionBlurDefinitions[nObjectHandle].m_pEntity = NULL;
+	m_ObjectMotionBlurDefinitions[nObjectHandle].m_pEntity = nullptr;
 	m_nFirstFreeSlot = nObjectHandle;
 }
 
@@ -87,7 +87,7 @@ void CObjectMotionBlurManager::ObjectMotionBlurDefinition_t::DrawModel()
 		m_pEntity->DrawModel( STUDIO_RENDER | STUDIO_SKIP_FLEXES | STUDIO_DONOTMODIFYSTENCILSTATE | STUDIO_NOLIGHTING_OR_CUBEMAP | STUDIO_SKIP_DECALS, instance );
 		pAttachment = m_pEntity->FirstMoveChild();
 
-		while ( pAttachment != NULL )
+		while ( pAttachment != nullptr)
 		{
 			if ( pAttachment->ShouldDraw() )
 			{
@@ -106,7 +106,7 @@ void CObjectMotionBlurManager::ObjectMotionBlurDefinition_t::DrawModel()
 	m_pEntity->DrawModel( STUDIO_RENDER | STUDIO_SKIP_FLEXES | STUDIO_DONOTMODIFYSTENCILSTATE | STUDIO_NOLIGHTING_OR_CUBEMAP | STUDIO_SKIP_DECALS, instance );
 	pAttachment = m_pEntity->FirstMoveChild();
 
-	while ( pAttachment != NULL )
+	while ( pAttachment != nullptr)
 	{
 		if ( pAttachment->ShouldDraw() )
 		{

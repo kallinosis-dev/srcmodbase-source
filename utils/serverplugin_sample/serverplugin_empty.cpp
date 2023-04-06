@@ -37,21 +37,21 @@
 #include "tier0/memdbgon.h"
 
 // Interfaces from the engine
-IVEngineServer	*engine = NULL; // helper functions (messaging clients, loading content, making entities, running commands, etc)
-IGameEventManager *gameeventmanager_ = NULL; // game events interface
+IVEngineServer	*engine = nullptr; // helper functions (messaging clients, loading content, making entities, running commands, etc)
+IGameEventManager *gameeventmanager_ = nullptr; // game events interface
 #ifndef GAME_DLL
 #define gameeventmanager gameeventmanager_
 #endif
-IPlayerInfoManager *playerinfomanager = NULL; // game dll interface to interact with players
-IEntityInfoManager *entityinfomanager = NULL; // game dll interface to interact with all entities (like IPlayerInfo)
-IGameInfoManager *gameinfomanager = NULL; // game dll interface to get data from game rules directly
-IBotManager *botmanager = NULL; // game dll interface to interact with bots
-IServerPluginHelpers *helpers = NULL; // special 3rd party plugin helpers from the engine
-IUniformRandomStream *randomStr = NULL;
-IEngineTrace *enginetrace = NULL;
+IPlayerInfoManager *playerinfomanager = nullptr; // game dll interface to interact with players
+IEntityInfoManager *entityinfomanager = nullptr; // game dll interface to interact with all entities (like IPlayerInfo)
+IGameInfoManager *gameinfomanager = nullptr; // game dll interface to get data from game rules directly
+IBotManager *botmanager = nullptr; // game dll interface to interact with bots
+IServerPluginHelpers *helpers = nullptr; // special 3rd party plugin helpers from the engine
+IUniformRandomStream *randomStr = nullptr;
+IEngineTrace *enginetrace = nullptr;
 
 
-CGlobalVars *gpGlobals = NULL;
+CGlobalVars *gpGlobals = nullptr;
 
 // function to initialize any cvars/command in this plugin
 void Bot_RunAll( void ); 
@@ -129,34 +129,34 @@ bool CEmptyServerPlugin::Load(	CreateInterfaceFn interfaceFactory, CreateInterfa
 	ConnectTier1Libraries( &interfaceFactory, 1 );
 	ConnectTier2Libraries( &interfaceFactory, 1 );
 
-	entityinfomanager = (IEntityInfoManager *)gameServerFactory(INTERFACEVERSION_ENTITYINFOMANAGER,NULL);
+	entityinfomanager = (IEntityInfoManager *)gameServerFactory(INTERFACEVERSION_ENTITYINFOMANAGER, nullptr);
 	if ( !entityinfomanager )
 	{
 		Warning( "Unable to load entityinfomanager, ignoring\n" ); // this isn't fatal, we just won't be able to access entity data
 	}
 
-	playerinfomanager = (IPlayerInfoManager *)gameServerFactory(INTERFACEVERSION_PLAYERINFOMANAGER,NULL);
+	playerinfomanager = (IPlayerInfoManager *)gameServerFactory(INTERFACEVERSION_PLAYERINFOMANAGER, nullptr);
 	if ( !playerinfomanager )
 	{
 		Warning( "Unable to load playerinfomanager, ignoring\n" ); // this isn't fatal, we just won't be able to access specific player data
 	}
 
-	botmanager = (IBotManager *)gameServerFactory(INTERFACEVERSION_PLAYERBOTMANAGER, NULL);
+	botmanager = (IBotManager *)gameServerFactory(INTERFACEVERSION_PLAYERBOTMANAGER, nullptr);
 	if ( !botmanager )
 	{
 		Warning( "Unable to load botcontroller, ignoring\n" ); // this isn't fatal, we just won't be able to access specific bot functions
 	}
-	gameinfomanager = (IGameInfoManager *)gameServerFactory(INTERFACEVERSION_GAMEINFOMANAGER, NULL);
+	gameinfomanager = (IGameInfoManager *)gameServerFactory(INTERFACEVERSION_GAMEINFOMANAGER, nullptr);
 	if (!gameinfomanager)
 	{
 		Warning( "Unable to load gameinfomanager, ignoring\n" );
 	}
 
-	engine = (IVEngineServer*)interfaceFactory(INTERFACEVERSION_VENGINESERVER, NULL);
-	gameeventmanager = (IGameEventManager *)interfaceFactory(INTERFACEVERSION_GAMEEVENTSMANAGER,NULL);
-	helpers = (IServerPluginHelpers*)interfaceFactory(INTERFACEVERSION_ISERVERPLUGINHELPERS, NULL);
-	enginetrace = (IEngineTrace *)interfaceFactory(INTERFACEVERSION_ENGINETRACE_SERVER,NULL);
-	randomStr = (IUniformRandomStream *)interfaceFactory(VENGINE_SERVER_RANDOM_INTERFACE_VERSION, NULL);
+	engine = (IVEngineServer*)interfaceFactory(INTERFACEVERSION_VENGINESERVER, nullptr);
+	gameeventmanager = (IGameEventManager *)interfaceFactory(INTERFACEVERSION_GAMEEVENTSMANAGER, nullptr);
+	helpers = (IServerPluginHelpers*)interfaceFactory(INTERFACEVERSION_ISERVERPLUGINHELPERS, nullptr);
+	enginetrace = (IEngineTrace *)interfaceFactory(INTERFACEVERSION_ENGINETRACE_SERVER, nullptr);
+	randomStr = (IUniformRandomStream *)interfaceFactory(VENGINE_SERVER_RANDOM_INTERFACE_VERSION, nullptr);
 
 	// get the interfaces we want to use
 	if(	! ( engine && gameeventmanager && g_pFullFileSystem && helpers && enginetrace && randomStr ) )

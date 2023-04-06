@@ -70,7 +70,7 @@ DECLARE_HUD_MESSAGE( CHudHintDisplay, HintText );
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CHudHintDisplay::CHudHintDisplay( const char *pElementName ) : BaseClass(NULL, "HudHintDisplay"), CHudElement( pElementName )
+CHudHintDisplay::CHudHintDisplay( const char *pElementName ) : BaseClass(nullptr, "HudHintDisplay"), CHudElement( pElementName )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
@@ -94,7 +94,7 @@ void CHudHintDisplay::Init()
 //-----------------------------------------------------------------------------
 void CHudHintDisplay::Reset()
 {
-	SetHintText( NULL );
+	SetHintText(nullptr);
 	GetClientMode()->GetViewportAnimationController()->StartAnimationSequence( "HintMessageHide" ); 
 	m_bLastLabelUpdateHack = true;
 }
@@ -140,7 +140,7 @@ bool CHudHintDisplay::SetHintText( wchar_t *text )
 		}
 		else
 		{
-			p = NULL;
+			p = nullptr;
 		}		
 
 		// replace any key references with bound keys
@@ -148,7 +148,7 @@ bool CHudHintDisplay::SetHintText( wchar_t *text )
 		UTIL_ReplaceKeyBindings( line, linelengthbytes, buf, sizeof( buf ) );
 
 		// put it in a label
-		vgui::Label *label = vgui::SETUP_PANEL(new vgui::Label(this, NULL, buf));
+		vgui::Label *label = vgui::SETUP_PANEL(new vgui::Label(this, nullptr, buf));
 		label->SetFont( m_hFont );
 		label->SetPaintBackgroundEnabled( false );
 		label->SetPaintBorderEnabled( false );
@@ -263,7 +263,7 @@ bool CHudHintDisplay::MsgFunc_HintText( const CCSUsrMsg_HintText &msg )
 	return true;
 #endif
 	
-	char *tmpStr = hudtextmessage->LookupString( msg.text().c_str(), NULL );
+	char *tmpStr = hudtextmessage->LookupString( msg.text().c_str(), nullptr);
 	LocalizeAndDisplay( tmpStr, msg.text().c_str() );
 
 	return true;
@@ -275,7 +275,7 @@ bool CHudHintDisplay::MsgFunc_HintText( const CCSUsrMsg_HintText &msg )
 void CHudHintDisplay::FireGameEvent( IGameEvent * event)
 {
 	const char *hintmessage = event->GetString( "hintmessage" );
-	char *tmpStr = hudtextmessage->LookupString( hintmessage, NULL );
+	char *tmpStr = hudtextmessage->LookupString( hintmessage, nullptr);
 	LocalizeAndDisplay( tmpStr, hintmessage );
 }
 
@@ -381,7 +381,7 @@ DECLARE_HUD_MESSAGE( CHudHintKeyDisplay, KeyHintText );
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CHudHintKeyDisplay::CHudHintKeyDisplay( const char *pElementName ) : BaseClass(NULL, "HudHintKeyDisplay"), CHudElement( pElementName )
+CHudHintKeyDisplay::CHudHintKeyDisplay( const char *pElementName ) : BaseClass(nullptr, "HudHintKeyDisplay"), CHudElement( pElementName )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
@@ -402,7 +402,7 @@ void CHudHintKeyDisplay::Init()
 //-----------------------------------------------------------------------------
 void CHudHintKeyDisplay::Reset()
 {
-	SetHintText( NULL );
+	SetHintText(nullptr);
 	SetAlpha( 0 );
 }
 
@@ -455,7 +455,7 @@ void CHudHintKeyDisplay::OnThink()
 //-----------------------------------------------------------------------------
 bool CHudHintKeyDisplay::SetHintText( const char *text )
 {
-	if ( text == NULL || text[0] == L'\0' )
+	if ( text == nullptr || text[0] == L'\0' )
 		return false;
 	// clear the existing text
 	for (int i = 0; i < m_Labels.Count(); i++)
@@ -507,7 +507,7 @@ bool CHudHintKeyDisplay::SetHintText( const char *text )
 		}
 
 		// put it in a label
-		vgui::Label *label = vgui::SETUP_PANEL(new vgui::Label(this, NULL, token));
+		vgui::Label *label = vgui::SETUP_PANEL(new vgui::Label(this, nullptr, token));
 
 		bool bIsBitmap = false;
 

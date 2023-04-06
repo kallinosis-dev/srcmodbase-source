@@ -87,7 +87,7 @@ void CAttributeAssetPickerPanel::ShowPickerDialog()
 void CAttributeAssetPickerPanel::OnAssetSelected( KeyValues *pKeyValues )
 {
 	// Get the asset name back
-	const char *pAssetName = pKeyValues->GetString( "asset", NULL );
+	const char *pAssetName = pKeyValues->GetString( "asset", nullptr);
 	if ( !pAssetName || !pAssetName[ 0 ] )
 		return;
 

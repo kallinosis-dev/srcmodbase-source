@@ -104,7 +104,7 @@ class CJob
 {
 public:
 	// Constructors & destructors, when overriding job name a static string pointer must be used
-	explicit CJob( CJobMgr &jobMgr, char const *pchJobName = NULL );
+	explicit CJob( CJobMgr &jobMgr, char const *pchJobName = nullptr);
 	virtual ~CJob();
 
 	// starts the job, storing off the network msg and calling it's Run() function
@@ -152,7 +152,7 @@ public:
 	// Simple yield to other jobs until Run() called again
 	bool BYield();
 	// Yield IF JobMgr thinks we need to based on how long we've run and our priority
-	bool BYieldIfNeeded( bool *pbYielded = NULL );
+	bool BYieldIfNeeded( bool *pbYielded = nullptr);
 	// waits for a set amount of time
 	bool BYieldingWaitTime( uint32 m_cMicrosecondsToSleep );
 	bool BYieldingWaitOneFrame();
@@ -183,7 +183,7 @@ public:
 	// waits for a work item completion callback
 	// You can pass a string that describes what sort of work item you are waiting on.
 	// WARNING: This function saves the pointer to the string, it doesn't copy the string
-	bool BYieldingWaitForWorkItem( const char *pszWorkItemName = NULL );
+	bool BYieldingWaitForWorkItem( const char *pszWorkItemName = nullptr);
 
 	// adds this work item to threaded work pool and waits for it
 	bool BYieldingWaitForThreadFuncWorkItem( CWorkItem * );
@@ -211,7 +211,7 @@ public:
 
 	// Generate an assertion in the coroutine of this job
 	// (creating a minidump).  Useful for inspecting stuck jobs
-	void GenerateAssert( const char *pchMsg = NULL );
+	void GenerateAssert( const char *pchMsg = nullptr);
 
 	//called to determine if the requested context is valid. If multiple contexts are provided, this will return true only if ALL the contexts are valid
 	bool BHasContext( uint32 nContext ) const			{ return ( m_nContextMask & nContext ) == nContext; }
@@ -355,7 +355,7 @@ public:
 	CLock( );
 	~CLock();
 	
-	bool BIsLocked() const			{ return m_pJob != NULL; }
+	bool BIsLocked() const			{ return m_pJob != nullptr; }
 	CJob *GetJobLocking() 			{ return m_pJob; }
 	CJob *GetJobWaitingQueueHead()	{ return m_pJobToNotifyOnLockRelease; }
 	CJob *GetJobWaitingQueueTail()	{ return m_pJobWaitingQueueTail; }
@@ -407,12 +407,12 @@ private:
 class CGCAutoLock
 {
 public:
-	CGCAutoLock() : m_pLock( NULL )			{}
+	CGCAutoLock() : m_pLock(nullptr)			{}
 	CGCAutoLock( const CGCAutoLock& rhs )	{ Acquire( rhs.m_pLock ); }
 	~CGCAutoLock()							{ Release(); }
 
 	//determines if this lock is currently locked or not
-	bool IsLocked() const					{ return ( m_pLock != NULL ); }
+	bool IsLocked() const					{ return ( m_pLock != nullptr); }
 
 	//swaps two locks (faster than doing reassignments due to not needing all the reference counting)
 	void Swap( CGCAutoLock& rhs )				{ std::swap( m_pLock, rhs.m_pLock ); }

@@ -145,7 +145,7 @@ void CSplitScreen::Shutdown()
 	for ( int i = 0; i < MAX_SPLITSCREEN_CLIENTS; ++i )
 	{
 		delete m_SplitScreenPlayers[ i ];
-		m_SplitScreenPlayers[ i ] = NULL;
+		m_SplitScreenPlayers[ i ] = nullptr;
 	}
 }
 
@@ -183,7 +183,7 @@ bool CSplitScreen::AddSplitScreenUser( int nSlot, int nPlayerEntityIndex )
 	sp->m_Client.Clear();
 	sp->m_Client.m_nPlayerSlot = nPlayerEntityIndex - 1;
 	sp->m_Client.m_nSplitScreenSlot = nSlot;
-	sp->m_Client.m_NetChannel = NET_CreateNetChannel( NS_CLIENT, &adr, szName, &sp->m_Client, NULL, true );
+	sp->m_Client.m_NetChannel = NET_CreateNetChannel( NS_CLIENT, &adr, szName, &sp->m_Client, nullptr, true );
 	GetBaseLocalClient().m_NetChannel->AttachSplitPlayer( nSlot, sp->m_Client.m_NetChannel );
 	sp->m_Client.m_nViewEntity = nPlayerEntityIndex;
 	++m_nActiveSplitScreenUserCount;
@@ -207,7 +207,7 @@ bool CSplitScreen::RemoveSplitScreenUser( int nSlot, int nPlayerIndex )
 		{
 			GetBaseLocalClient().m_NetChannel->DetachSplitPlayer( idx );
 			sp->m_Client.m_NetChannel->Shutdown( "RemoveSplitScreenUser" );
-			sp->m_Client.m_NetChannel = NULL;
+			sp->m_Client.m_NetChannel = nullptr;
 		}
 		sp->m_Client.m_nPlayerSlot = -1;
 		sp->m_bActive = false;
@@ -297,9 +297,9 @@ INetChannel *CSplitScreen::GetSplitScreenPlayerNetChan( int nSlot )
 	Assert( nSlot >= 0 && nSlot < host_state.max_splitscreen_players );
 	Assert( host_state.max_splitscreen_players <= MAX_SPLITSCREEN_CLIENTS );
 	if ( nSlot < 0 || nSlot >= host_state.max_splitscreen_players )
-		return NULL;
+		return nullptr;
 	if ( !m_SplitScreenPlayers[ nSlot ]->m_bActive )
-		return NULL;
+		return nullptr;
 	return m_SplitScreenPlayers[ nSlot ]->m_Client.m_NetChannel;
 }
 

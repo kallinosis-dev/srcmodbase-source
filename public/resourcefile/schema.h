@@ -121,7 +121,7 @@ class CSchemaClassBindingBase
 public:
 	CSchemaClassBindingBase( const char* pClassName ):
 		m_pClassName(pClassName),
-		m_pIntrospection(NULL)
+		m_pIntrospection(nullptr)
 	{
 		// Hook into the local class binding list
 		m_pNextBinding = sm_pClassBindingList;

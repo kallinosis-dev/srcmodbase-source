@@ -53,7 +53,7 @@ void IVP_Synapse_Friction::init_synapse_friction( IVP_Contact_Point *friction,
     l_obj = object;
     set_contact_point(friction);
 	next = object->friction_synapses;
-	prev = NULL;
+	prev = nullptr;
 	if (next) next->prev = this;
 	object->friction_synapses = this;
 
@@ -107,7 +107,7 @@ IVP_Contact_Point::IVP_Contact_Point( IVP_Mindist *md)
     has_negative_pull_since=0;
     //force_push_complex_last_psi=0.0f; //evtl. nicht noetig    
     slowly_turn_on_keeper = IVP_SLOWLY_TURN_ON_KEEPER;
-    l_friction_system=NULL;
+    l_friction_system= nullptr;
     two_friction_values=IVP_FALSE;
     
 }
@@ -280,7 +280,7 @@ bool IVP_Contact_Point::friction_force_local_constraint_2d_wheel( IVP_Core *core
 	IVP_DOUBLE body_vel;
 
     IVP_Solver_Core_Reaction tcb;
-	tcb.init_reaction_solver_translation_ws( core_a, NULL, info->contact_point_ws, &span_v_0, &span_v_1, NULL );
+	tcb.init_reaction_solver_translation_ws( core_a, nullptr, info->contact_point_ws, &span_v_0, &span_v_1, nullptr);
 	{
 		p_wheel = tcb.m_velocity_ds_f_impulse_ds.get_elem( 1, 1 );
 		wheel_vel = tcb.delta_velocity_ds.k[1];
@@ -288,7 +288,7 @@ bool IVP_Contact_Point::friction_force_local_constraint_2d_wheel( IVP_Core *core
 
 	{
 		IVP_Solver_Core_Reaction sc_body;
-		sc_body.init_reaction_solver_translation_ws( solver->body_object->get_core(), NULL, info->contact_point_ws, &span_v_1, NULL, NULL );
+		sc_body.init_reaction_solver_translation_ws( solver->body_object->get_core(), nullptr, info->contact_point_ws, &span_v_1, nullptr, nullptr);
 		p_body = sc_body.m_velocity_ds_f_impulse_ds.get_elem( 0, 0 );
 		body_vel = sc_body.delta_velocity_ds.k[0];
 	}
@@ -422,7 +422,7 @@ bool IVP_Contact_Point::friction_force_local_constraint_2d_wheel( IVP_Core *core
 		}
 	}
 
-	tcb.exert_impulse_dim2( core_a, /*core_b*/NULL, impulses );
+	tcb.exert_impulse_dim2( core_a, /*core_b*/nullptr, impulses );
 
 	flEnergy = 0.0f; // current_energy
 	return true;
@@ -438,7 +438,7 @@ IVP_FLOAT IVP_Contact_Point::friction_force_local_constraint_2d(const IVP_Event_
     IVP_Core *core_a = info->contact_core[0];
     IVP_Core *core_b = info->contact_core[1];	
 	
-    if ( 1 && core_a && core_a->car_wheel && !core_b && ( next_dist_in_friction == NULL || next_dist_in_friction->now_friction_pressure == 0.0f ) )
+    if ( 1 && core_a && core_a->car_wheel && !core_b && ( next_dist_in_friction == nullptr || next_dist_in_friction->now_friction_pressure == 0.0f ) )
 	{
 		IVP_FLOAT flEnergy = 0.0f;
 		if ( friction_force_local_constraint_2d_wheel( core_a, info, es, flEnergy ) )
@@ -446,7 +446,7 @@ IVP_FLOAT IVP_Contact_Point::friction_force_local_constraint_2d(const IVP_Event_
     }
 
     IVP_Solver_Core_Reaction tcb;
-	tcb.init_reaction_solver_translation_ws( core_a, core_b, info->contact_point_ws, &info->span_friction_v[0], &info->span_friction_v[1], NULL );
+	tcb.init_reaction_solver_translation_ws( core_a, core_b, info->contact_point_ws, &info->span_friction_v[0], &info->span_friction_v[1], nullptr);
 	
 	IVP_DOUBLE a = span_friction_s[0] * es->i_delta_time - tcb.delta_velocity_ds.k[0];
 	IVP_DOUBLE b = span_friction_s[1] * es->i_delta_time - tcb.delta_velocity_ds.k[1];
@@ -1292,7 +1292,7 @@ IVP_Friction_Core_Pair *IVP_Friction_System::get_pair_info_for_objs(IVP_Core *co
 	    return my_pair;
 	}
     }
-    return NULL;
+    return nullptr;
 }
 
 
@@ -1328,7 +1328,7 @@ IVP_Core *IVP_Friction_System::union_find_fr_sys()
 
     for (int k = fr_sys->cores_of_friction_system.len()-1; k>=0; k--){
 	IVP_Core *obje = fr_sys->cores_of_friction_system.element_at(k);
-	obje->tmp.union_find_father=NULL;
+	obje->tmp.union_find_father= nullptr;
     }
 
     for (int l = fr_sys->fr_pairs_of_objs.len()-1; l>=0; l--){
@@ -1358,7 +1358,7 @@ IVP_Core *IVP_Friction_System::union_find_fr_sys()
     }
 
     
-    IVP_Core *first_father=NULL,*second_father=NULL;
+    IVP_Core *first_father= nullptr,*second_father= nullptr;
 
     // find representative obj for second system (must not be a fixed obj)
     for (int i1 = fr_sys->cores_of_friction_system.len()-1; i1>=0; i1--){
@@ -1432,7 +1432,7 @@ void IVP_Friction_System::split_friction_system(IVP_Core *split_father)
 	IVP_Friction_Core_Pair *fr_pair = fr_sys->fr_pairs_of_objs.element_at(n);
 	    IVP_Core *robj=fr_pair->objs[0]; //is used to identify fr sys my pair should belong to
 	    IVP_Core *robj2=fr_pair->objs[1]; // used when fixed obj is involved 
-	    IVP_Friction_Info_For_Core *fr_i_old = NULL,*fr_i_new = NULL; // when fixed obj exists, dists have to be transfered from fr_i_old to fr_i_new
+	    IVP_Friction_Info_For_Core *fr_i_old = nullptr,*fr_i_new = nullptr; // when fixed obj exists, dists have to be transfered from fr_i_old to fr_i_new
 	    if(robj->physical_unmoveable)   {
 	        IVP_Core *ct;
 		ct=robj2;
@@ -1928,7 +1928,7 @@ IVP_Friction_Core_Pair *IVP_Friction_System::find_pair_of_cores(IVP_Core *core0,
 	    return my_pair;
 	}
     }
-    return NULL;
+    return nullptr;
 }
 
 #if 0
@@ -2052,7 +2052,7 @@ next_in_loop:;
 
 
 void IVP_Friction_System::get_controlled_cores(IVP_U_Vector<IVP_Core> *vectr) {
-    vectr=NULL;
+    vectr= nullptr;
 }
 
 IVP_DOUBLE IVP_Friction_System::get_minimum_simulation_frequency() {
@@ -2108,7 +2108,7 @@ void IVP_Friction_Sys_Static::do_simulation_controller(IVP_Event_Sim *es,IVP_U_V
       //sim_u->rem_sim_unit_controller( l_friction_system );
       //sim_u->rem_sim_unit_controller( &l_friction_system->static_fs_handle );
         IVP_Friction_System *temp_sys=l_friction_system;
-	l_friction_system=NULL; 
+	l_friction_system= nullptr; 
 	P_DELETE( temp_sys );
 	es->sim_unit->union_find_needed_for_sim_unit=IVP_TRUE;
 	return;

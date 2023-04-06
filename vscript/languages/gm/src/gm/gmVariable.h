@@ -240,7 +240,7 @@ gmStringObject * gmVariable::GetStringObjectSafe() const
   {
     return (gmStringObject *)m_value.m_ref;
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -250,7 +250,7 @@ inline gmTableObject * gmVariable::GetTableObjectSafe() const
   {
     return (gmTableObject *)m_value.m_ref;
   }
-  return NULL;
+  return nullptr;
 }
 
 inline gmFunctionObject * gmVariable::GetFunctionObjectSafe() const
@@ -259,7 +259,7 @@ inline gmFunctionObject * gmVariable::GetFunctionObjectSafe() const
   {
     return (gmFunctionObject *)m_value.m_ref;
   }
-  return NULL;
+  return nullptr;
 }
 
 

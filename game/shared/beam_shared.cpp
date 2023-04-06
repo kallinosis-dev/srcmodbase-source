@@ -707,9 +707,9 @@ CBaseEntity *CBeam::RandomTargetname( const char *szName )
 #if !defined( CLIENT_DLL )
 	int total = 0;
 
-	CBaseEntity *pEntity = NULL;
-	CBaseEntity *pNewEntity = NULL;
-	while ((pNewEntity = gEntList.FindEntityByName( pNewEntity, szName )) != NULL)
+	CBaseEntity *pEntity = nullptr;
+	CBaseEntity *pNewEntity = nullptr;
+	while ((pNewEntity = gEntList.FindEntityByName( pNewEntity, szName )) != nullptr)
 	{
 		total++;
 		if (random->RandomInt(0,total-1) < 1)
@@ -748,7 +748,7 @@ void CBeam::BeamDamage( trace_t *ptr )
 {
 	RelinkBeam();
 #if !defined( CLIENT_DLL )
-	if ( ptr->fraction != 1.0 && ptr->m_pEnt != NULL )
+	if ( ptr->fraction != 1.0 && ptr->m_pEnt != nullptr)
 	{
 		CBaseEntity *pHit = ptr->m_pEnt;
 		if ( pHit )

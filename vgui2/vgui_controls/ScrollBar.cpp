@@ -113,12 +113,12 @@ public:
 
 vgui::Panel *ScrollBar_Vertical_Factory()
 {
-	return new ScrollBar(NULL, NULL, true );
+	return new ScrollBar(nullptr, nullptr, true );
 }
 
 vgui::Panel *ScrollBar_Horizontal_Factory()
 {
-	return new ScrollBar(NULL, NULL, false );
+	return new ScrollBar(nullptr, nullptr, false );
 }
 
 DECLARE_BUILD_FACTORY_CUSTOM_ALIAS( ScrollBar, ScrollBar_Vertical, ScrollBar_Vertical_Factory );
@@ -133,22 +133,22 @@ ScrollBar::ScrollBar(Panel *parent, const char *panelName, bool vertical) : Pane
 {
 	m_bAutoHideButtons = false;
 	m_bAutoHideSelf = false;
-	_slider=0;
-	_button[0]=0;
-	_button[1]=0;
+	_slider=nullptr;
+	_button[0]=nullptr;
+	_button[1]=nullptr;
 	_scrollDelay = SCROLL_BAR_DELAY;
 	_respond = true;
-	m_pUpArrow = NULL;
-	m_pLine = NULL;
-	m_pDownArrow = NULL;
-	m_pBox = NULL;
+	m_pUpArrow = nullptr;
+	m_pLine = nullptr;
+	m_pDownArrow = nullptr;
+	m_pBox = nullptr;
 
 	if (vertical)
 	{
 		// FIXME: proportional changes needed???
-		SetSlider(new ScrollBarSlider(NULL, "vslider", true));
-		SetButton(new ScrollBarButton(NULL, "top", "t"), 0);
-		SetButton(new ScrollBarButton(NULL, "bottom", "u"), 1);
+		SetSlider(new ScrollBarSlider(nullptr, "vslider", true));
+		SetButton(new ScrollBarButton(nullptr, "top", "t"), 0);
+		SetButton(new ScrollBarButton(nullptr, "bottom", "u"), 1);
 		_button[0]->SetTextInset(0, 1);
 		_button[1]->SetTextInset(0, -1);
 
@@ -156,9 +156,9 @@ ScrollBar::ScrollBar(Panel *parent, const char *panelName, bool vertical) : Pane
 	}
 	else
 	{
-		SetSlider(new ScrollBarSlider(NULL, "hslider", false));
-		SetButton(new ScrollBarButton(NULL, "left", "w"), 0);
-		SetButton(new ScrollBarButton(NULL, "right", "4"), 1);
+		SetSlider(new ScrollBarSlider(nullptr, "hslider", false));
+		SetButton(new ScrollBarButton(nullptr, "left", "w"), 0);
+		SetButton(new ScrollBarButton(nullptr, "right", "4"), 1);
 		_button[0]->SetTextInset(0, 0);
 		_button[1]->SetTextInset(0, 0);
 
@@ -411,9 +411,9 @@ bool ScrollBar::HasFullRange()
 //LEAK: new and old slider will leak
 void ScrollBar::SetButton(Button *button, int index)
 {
-	if(_button[index]!=0)
+	if(_button[index]!=nullptr)
 	{
-		_button[index]->SetParent((Panel *)NULL);
+		_button[index]->SetParent((Panel *)nullptr);
 	}
 	_button[index]=button;
 	_button[index]->SetParent(this);
@@ -439,9 +439,9 @@ Button* ScrollBar::GetButton(int index)
 //LEAK: new and old slider will leak
 void ScrollBar::SetSlider(ScrollBarSlider *slider)
 {
-	if(_slider!=0)
+	if(_slider!=nullptr)
 	{
-		_slider->SetParent((Panel *)NULL);
+		_slider->SetParent((Panel *)nullptr);
 	}
 	_slider=slider;
 	_slider->AddActionSignalTarget(this);
@@ -566,13 +566,13 @@ int ScrollBar::GetRangeWindow()
 //-----------------------------------------------------------------------------
 void ScrollBar::Validate()
 {
-	if ( _slider != 0 )
+	if ( _slider != nullptr )
 	{
 		int buttonOffset = 0;
 
 		for( int i=0; i<2; i++ )
 		{
-			if( _button[i] != 0 )
+			if( _button[i] != nullptr )
 			{
 				if( _button[i]->IsVisible() )
 				{
@@ -599,7 +599,7 @@ void ScrollBar::SetScrollbarButtonsVisible(bool visible)
 {
 	for( int i=0; i<2; i++ )
 	{
-		if( _button[i] != 0 )
+		if( _button[i] != nullptr )
 		{
 			_button[i]->SetShouldPaint( visible );
 			_button[i]->SetEnabled( visible );
@@ -633,7 +633,7 @@ void ScrollBar::UseImages( const char *pszUpArrow, const char *pszDownArrow, con
 	else if ( m_pUpArrow )
 	{
 		m_pUpArrow->DeletePanel();
-		m_pUpArrow = NULL;
+		m_pUpArrow = nullptr;
 	}
 
 	if ( pszDownArrow )
@@ -656,7 +656,7 @@ void ScrollBar::UseImages( const char *pszUpArrow, const char *pszDownArrow, con
 	else if ( m_pDownArrow )
 	{
 		m_pDownArrow->DeletePanel();
-		m_pDownArrow = NULL;
+		m_pDownArrow = nullptr;
 	}
 
 	if ( pszLine )
@@ -677,7 +677,7 @@ void ScrollBar::UseImages( const char *pszUpArrow, const char *pszDownArrow, con
 	else if ( m_pLine )
 	{
 		m_pLine->DeletePanel();
-		m_pLine = NULL;
+		m_pLine = nullptr;
 	}
 
 	if ( pszBox )
@@ -698,7 +698,7 @@ void ScrollBar::UseImages( const char *pszUpArrow, const char *pszDownArrow, con
 	else if ( m_pBox )
 	{
 		m_pBox->DeletePanel();
-		m_pBox = NULL;
+		m_pBox = nullptr;
 	}
 
 	UpdateButtonsForImages();

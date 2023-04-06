@@ -80,7 +80,7 @@ bool CCSPhysicsPushEntities::SpeculativelyCheckRotPush( const RotatingPushMove_t
 	for ( int i = ( nMovedCount - 1 ); i >= 0; --i )
 	{
 		// Is the entity and CS Player?
-		CCSPlayer *pCSPlayer = NULL;
+		CCSPlayer *pCSPlayer = nullptr;
 		bool bPusherIsTrain = false;
 		if ( m_rgMoved[i].m_pEntity && m_rgMoved[i].m_pEntity->IsPlayer() )
 		{
@@ -124,7 +124,7 @@ bool CCSPhysicsPushEntities::SpeculativelyCheckLinearPush( const Vector &vecAbsP
 	for ( int i = ( nMovedCount - 1 ); i >= 0; --i )
 	{
 		// Is the entity and CS Player?
-		CCSPlayer *pCSPlayer = NULL;
+		CCSPlayer *pCSPlayer = nullptr;
 		bool bPusherIsTrain = false;
 		if ( m_rgMoved[i].m_pEntity && m_rgMoved[i].m_pEntity->IsPlayer() )
 		{
@@ -143,7 +143,7 @@ bool CCSPhysicsPushEntities::SpeculativelyCheckLinearPush( const Vector &vecAbsP
 		else
 		{
 			// Keep this in sync with BaseClass::SpeculativelyCheckLinearPush
-			if ( !SpeculativelyCheckPush( m_rgMoved[i], vecAbsPush, false, NULL ) )
+			if ( !SpeculativelyCheckPush( m_rgMoved[i], vecAbsPush, false, nullptr) )
 			{
 				m_nBlocker = i;
 				return false;
@@ -163,7 +163,7 @@ bool CCSPhysicsPushEntities::RotationPushCSPlayer( PhysicsPushedInfo_t &info, co
 	Assert( cbIgnoreTeammates ); // This code doesn't behave if teammates are solid.
 
 	// Clear out the collision entity so that if we early out we don't send bogus collision data to the physics system.
-	info.m_Trace.m_pEnt = NULL;
+	info.m_Trace.m_pEnt = nullptr;
 
 	// Look into doing a full engine->CM_Clear( trace)
 
@@ -256,7 +256,7 @@ bool CCSPhysicsPushEntities::LinearPushCSPlayer( PhysicsPushedInfo_t &info, cons
 	Assert( cbIgnoreTeammates ); // This code doesn't behave if teammates are solid.
 
 	// Clear out the collision entity so that if we early out we don't send bogus collision data to the physics system.
-	info.m_Trace.m_pEnt = NULL;
+	info.m_Trace.m_pEnt = nullptr;
 
 	// Get the player.
 	CCSPlayer *pPlayer = ToCSPlayer( info.m_pEntity );
@@ -288,7 +288,7 @@ bool CCSPhysicsPushEntities::LinearPushCSPlayer( PhysicsPushedInfo_t &info, cons
 	else
 	{
 		// Try to get the base class first. 
-		SpeculativelyCheckPush( info, vecAbsPush, false, NULL, cbIgnoreTeammates );
+		SpeculativelyCheckPush( info, vecAbsPush, false, nullptr, cbIgnoreTeammates );
  		EnsureValidPushWhileRiding( pPlayer, pRootEntity );
 	}
 

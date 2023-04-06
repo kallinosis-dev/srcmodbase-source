@@ -185,8 +185,8 @@ CEntityFlame *CEntityFlame::Create( CBaseEntity *pTarget, float flLifetime, floa
 {
 	CEntityFlame *pFlame = (CEntityFlame *)CreateEntityByName( "entityflame" );
 
-	if ( pFlame == NULL )
-		return NULL;
+	if ( pFlame == nullptr)
+		return nullptr;
 
 	if ( flSize <= 0.0f )
 	{
@@ -303,7 +303,7 @@ void CEntityFlame::FlameThink( void )
 	}
 
 	// See if we're done burning, or our attached ent has vanished
-	if ( m_flLifetime < gpGlobals->curtime || m_hEntAttached == NULL )
+	if ( m_flLifetime < gpGlobals->curtime || m_hEntAttached == nullptr)
 	{
 		EmitSound( "General.StopBurning" );
 		m_bPlayingSound = false;
@@ -345,7 +345,7 @@ void CEntityFlame::FlameThink( void )
 	}
 	else
 	{
-		RadiusDamage( CTakeDamageInfo( this, this, FLAME_RADIUS_DAMAGE, DMG_BURN ), GetAbsOrigin(), m_flSize/2, CLASS_NONE, NULL );
+		RadiusDamage( CTakeDamageInfo( this, this, FLAME_RADIUS_DAMAGE, DMG_BURN ), GetAbsOrigin(), m_flSize/2, CLASS_NONE, nullptr);
 	}
 
 	FireSystem_AddHeatInRadius( GetAbsOrigin(), m_flSize/2, 2.0f );
@@ -399,8 +399,8 @@ void CEnvEntityIgniter::InputIgnite( inputdata_t &inputdata )
 	if ( m_target == NULL_STRING )
 		return;
 
-	CBaseEntity *pTarget = NULL;
-	while ( (pTarget = gEntList.FindEntityGeneric(pTarget, STRING(m_target), this, inputdata.pActivator)) != NULL )
+	CBaseEntity *pTarget = nullptr;
+	while ( (pTarget = gEntList.FindEntityGeneric(pTarget, STRING(m_target), this, inputdata.pActivator)) != nullptr)
 	{
 		// Combat characters know how to catch themselves on fire.
 		CBaseCombatCharacter *pBCC = pTarget->MyCombatCharacterPointer();

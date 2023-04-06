@@ -40,7 +40,7 @@ typedef CBitVec<MAX_MAP_LEAFS> leafbitarray_t;
 
 void EmitPhysCollision();
 
-IPhysicsCollision *physcollision = NULL;
+IPhysicsCollision *physcollision = nullptr;
 extern IPhysicsSurfaceProps *physprops;
 
 // a list of all of the materials in the world model
@@ -539,18 +539,18 @@ int CPlaneList::AddBrushes( void )
 	{
 		if ( IsBrushReferenced(brushnumber) )
 		{
-			CPhysConvex *pBrushConvex = NULL;
+			CPhysConvex *pBrushConvex = nullptr;
 			if ( m_shrink != 0 )
 			{
 				// Make sure shrinking won't swallow this brush.
-				CPhysConvex *pConvex = BuildConvexForBrush( brushnumber, 0, NULL, 0 );
+				CPhysConvex *pConvex = BuildConvexForBrush( brushnumber, 0, nullptr, 0 );
 				CPhysCollide *pUnshrunkCollide = physcollision->ConvertConvexToCollide( &pConvex, 1 );
 				pBrushConvex = BuildConvexForBrush( brushnumber, m_shrink, pUnshrunkCollide, m_shrink * 3 );
 				physcollision->DestroyCollide( pUnshrunkCollide );
 			}
 			else
 			{
-				pBrushConvex = BuildConvexForBrush( brushnumber, m_shrink, NULL, 1.0 );
+				pBrushConvex = BuildConvexForBrush( brushnumber, m_shrink, nullptr, 1.0 );
 			}
 
 			if ( pBrushConvex )
@@ -1250,7 +1250,7 @@ static Vector TriangleNormal( const Vector &p0, const Vector &p1, const Vector &
 static dbrushside_t *FindBrushSide( int brushIndex, const Vector &normal )
 {
 	dbrush_t *pbrush = &dbrushes[brushIndex];
-	dbrushside_t *out = NULL;
+	dbrushside_t *out = nullptr;
 	float best = -1.f;
 
 	for ( int i = 0; i < pbrush->numsides; i++ )
@@ -1305,7 +1305,7 @@ static void ConvertWorldBrushesToPhysCollide( CUtlVector<CPhysCollisionEntry *> 
 			}
 		}
 		physcollision->DestroyQueryModel( pQuery );
-		pQuery = NULL;
+		pQuery = nullptr;
 
 		collisionList.AddToTail( new CPhysCollisionEntryStaticSolid( pCollide, contentsMask ) );
 	}
@@ -1444,7 +1444,7 @@ static void ConvertModelToPhysCollide( CUtlVector<CPhysCollisionEntry *> &collis
 
 		pMaterial = physprops->GetPropName( prop );
 		float density, thickness;
-		physprops->GetPhysicsProperties( prop, &density, &thickness, NULL, NULL );
+		physprops->GetPhysicsProperties( prop, &density, &thickness, nullptr, nullptr);
 
 		// if this is a "shell" material (it is hollow and encloses some empty space)
 		// compute the mass with a constant surface thickness
@@ -1498,7 +1498,7 @@ void EmitPhysCollision()
 	CreateInterfaceFn physicsFactory = GetPhysicsFactory();
 	if ( physicsFactory )
 	{
-		physcollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, NULL );
+		physcollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, nullptr);
 	}
 
 	if ( !physcollision )
@@ -1531,7 +1531,7 @@ void EmitPhysCollision()
 			ConvertModelToPhysCollide( collisionList[i], i, MASK_SOLID|CONTENTS_PLAYERCLIP|CONTENTS_MONSTERCLIP|MASK_WATER, VPHYSICS_SHRINK, VPHYSICS_MERGE );
 		}
 		
-		pTextBuffer[i] = NULL;
+		pTextBuffer[i] = nullptr;
 		if ( !collisionList[i].Count() )
 			continue;
 

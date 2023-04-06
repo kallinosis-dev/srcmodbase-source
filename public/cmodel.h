@@ -67,7 +67,7 @@ struct Ray_t
 	bool	m_IsRay;	// are the extents zero?
 	bool	m_IsSwept;	// is delta != 0?
 
-	Ray_t() : m_pWorldAxisTransform( NULL )	{}
+	Ray_t() : m_pWorldAxisTransform(nullptr)	{}
 
 	void Init( Vector const& start, Vector const& end )
 	{
@@ -77,7 +77,7 @@ struct Ray_t
 		m_IsSwept = (m_Delta.LengthSqr() != 0);
 
 		VectorClear( m_Extents );
-		m_pWorldAxisTransform = NULL;
+		m_pWorldAxisTransform = nullptr;
 		m_IsRay = true;
 
 		// Offset m_Start to be in the center of the box...
@@ -90,7 +90,7 @@ struct Ray_t
 		Assert( &end );
 		VectorSubtract( end, start, m_Delta );
 
-		m_pWorldAxisTransform = NULL;
+		m_pWorldAxisTransform = nullptr;
 		m_IsSwept = (m_Delta.LengthSqr() != 0);
 
 		VectorSubtract( maxs, mins, m_Extents );

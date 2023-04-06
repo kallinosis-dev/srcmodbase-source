@@ -44,7 +44,7 @@ void CDmeTransformOperator::OnDestruction()
 void CDmeTransformOperator::Operate()
 {
 	CDmeTransform *pTransform = m_transform.GetElement();
-	if ( pTransform == NULL )
+	if ( pTransform == nullptr)
 		return;
 
 	Vector     position    = pTransform->GetValue< Vector     >( TRANSFORM_POSITION );
@@ -68,7 +68,7 @@ namespace TransformOp
 {
 void AddAttr( CUtlVector< CDmAttribute * > &attrs, CDmAttribute *pAttr )
 {
-	if ( pAttr == NULL )
+	if ( pAttr == nullptr)
 		return;
 	attrs.AddToTail( pAttr );
 }
@@ -89,7 +89,7 @@ void CDmeTransformOperator::GetInputAttributes( CUtlVector< CDmAttribute * > &at
 void CDmeTransformOperator::GetOutputAttributes( CUtlVector< CDmAttribute * > &attrs )
 {
 	CDmeTransform *pTransform = m_transform.GetElement();
-	if ( pTransform == NULL )
+	if ( pTransform == nullptr)
 		return;
 
 	AddAttr( attrs, pTransform->GetAttribute( TRANSFORM_POSITION ) );

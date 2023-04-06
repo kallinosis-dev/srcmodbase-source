@@ -83,9 +83,9 @@ public:
 		m_bTimeAdvancing( false ),
 		m_nResampleInterval( DmeTime_t( .05f ) ),// 50 msec sampling interval by default
 		m_flThreshold( DMELOG_DEFAULT_THRESHHOLD ),
-		m_pPresetValue( 0 ),
-		m_pPresetTimes( 0 ),
-		m_pOldHeadValue( 0 ),
+		m_pPresetValue( nullptr ),
+		m_pPresetTimes( nullptr ),
+		m_pOldHeadValue( nullptr ),
 		m_OldHeadValueIndex( -1 ),
 		m_tHeadPosition( 0 ),
 		m_TransformWriteMode( TRANSFORM_WRITE_MODE_OVERWRITE ),
@@ -191,7 +191,7 @@ struct DmeLogTransformParams_t
 		, m_RotationParent( quat_identity )
 		, m_Pivot( vec3_origin )
 		, m_nProceduralType( PROCEDURAL_PRESET_NOT )
-		, m_pRotationLog( NULL )
+		, m_pRotationLog(nullptr)
 	{
 		SetIdentityMatrix( m_Transform );
 	}

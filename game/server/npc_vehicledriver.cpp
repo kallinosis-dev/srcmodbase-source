@@ -127,7 +127,7 @@ void CNPC_VehicleDriver::Spawn( void )
 	m_vecDesiredPosition = vec3_origin;
 	m_flSteering = 45;
 	m_flDistanceAlongSpline = 0.2;
-	m_pCurrentWaypoint = m_pNextWaypoint = NULL;
+	m_pCurrentWaypoint = m_pNextWaypoint = nullptr;
 
 	GetNavigator()->SetPathcornerPathfinding( false );
 
@@ -163,7 +163,7 @@ void CNPC_VehicleDriver::Activate( void )
 		return;
 	}
 
-	m_hVehicleEntity = (gEntList.FindEntityByName( NULL, STRING(m_iszVehicleName) ));
+	m_hVehicleEntity = (gEntList.FindEntityByName(nullptr, STRING(m_iszVehicleName) ));
 	if ( !m_hVehicleEntity )
 	{
 		Warning( "npc_vehicledriver %s couldn't find his vehicle named %s.\n", STRING(GetEntityName()), STRING(m_iszVehicleName) );
@@ -208,7 +208,7 @@ void CNPC_VehicleDriver::UpdateOnRemove( void )
 	// Leave our vehicle
 	if ( m_pVehicleInterface )
 	{
-		m_pVehicleInterface->NPC_SetDriver( NULL );
+		m_pVehicleInterface->NPC_SetDriver(nullptr);
 	}
 
 	BaseClass::UpdateOnRemove();
@@ -221,7 +221,7 @@ void CNPC_VehicleDriver::PrescheduleThink( void )
 {
 	if ( !m_hVehicleEntity )
 	{
-		m_pVehicleInterface = NULL;
+		m_pVehicleInterface = nullptr;
 		UTIL_Remove( this );
 		return;
 	}
@@ -243,7 +243,7 @@ void CNPC_VehicleDriver::PrescheduleThink( void )
 	{
 		SetState( NPC_STATE_IDLE );
 		ClearWaypoints();
-		SetGoalEnt( NULL );
+		SetGoalEnt(nullptr);
 		return;
 	}
 
@@ -323,7 +323,7 @@ int	CNPC_VehicleDriver::RangeAttack1Conditions( float flDot, float flDist )
 	Vector vecForward;
 	Vector vecToTarget = (GetEnemy()->GetAbsOrigin() - GetAbsOrigin());
 	VectorNormalize(vecToTarget);
-	m_hVehicleEntity->GetVectors( &vecForward, NULL, NULL );
+	m_hVehicleEntity->GetVectors( &vecForward, nullptr, nullptr);
 	float flForwardDot = DotProduct( vecForward, vecToTarget );
 	if ( flForwardDot < 0 && fabs(flDot) < 0.5 )
 		return COND_NOT_FACING_ATTACK;
@@ -613,12 +613,12 @@ void CNPC_VehicleDriver::ClearWaypoints( void )
 	if ( m_pCurrentWaypoint )
 	{
 		delete m_pCurrentWaypoint;
-		m_pCurrentWaypoint = NULL;
+		m_pCurrentWaypoint = nullptr;
 	}
 	if ( m_pNextWaypoint )
 	{
 		delete m_pNextWaypoint;
-		m_pNextWaypoint = NULL;
+		m_pNextWaypoint = nullptr;
 	}
 }
 
@@ -641,7 +641,7 @@ bool CNPC_VehicleDriver::WaypointReached( void )
 		// Stop pathing
 		ClearWaypoints();
 		TaskComplete();
-		SetGoalEnt( NULL );
+		SetGoalEnt(nullptr);
 		return true;
 	}
 
@@ -676,7 +676,7 @@ bool CNPC_VehicleDriver::WaypointReached( void )
 	{
 		ClearWaypoints();
 		TaskComplete();
-		SetGoalEnt( NULL );
+		SetGoalEnt(nullptr);
 		return true;
 	}
 
@@ -790,7 +790,7 @@ bool CNPC_VehicleDriver::OverridePathMove( float flInterval )
 
 	// Decrease speed according to the turn we're trying to make
 	Vector vecRight;
-	m_hVehicleEntity->GetVectors( NULL, &vecRight, NULL );
+	m_hVehicleEntity->GetVectors(nullptr, &vecRight, nullptr);
 	Vector vecNormVel = m_vecDesiredVelocity;
 	VectorNormalize( vecNormVel );
 	float flDotRight = DotProduct( vecRight, vecNormVel );
@@ -878,7 +878,7 @@ void CNPC_VehicleDriver::DriveVehicle( void )
 
 	// Is our target in front or behind us?
 	Vector vecForward, vecRight;
-	m_hVehicleEntity->GetVectors( &vecForward, &vecRight, NULL );
+	m_hVehicleEntity->GetVectors( &vecForward, &vecRight, nullptr);
 	float flDot = DotProduct( vecForward, m_vecDesiredVelocity );
 	bool bBehind = ( flDot < 0 );
 	float flVelDot = DotProduct( vecVelocity, m_vecDesiredVelocity );
@@ -1111,7 +1111,7 @@ void CNPC_VehicleDriver::InputGotoPathCorner( inputdata_t &inputdata )
 	string_t iszPathName = inputdata.value.StringID();
 	if ( iszPathName != NULL_STRING )
 	{
-		CBaseEntity *pEntity = gEntList.FindEntityByName( NULL, iszPathName );
+		CBaseEntity *pEntity = gEntList.FindEntityByName(nullptr, iszPathName );
 		if ( !pEntity )
 		{
 			Warning("npc_vehicledriver %s couldn't find entity named %s\n", STRING(GetEntityName()), STRING(iszPathName) );

@@ -92,7 +92,7 @@ protected:
 	void Clear();
 
 	// Loads a Dmx file from disk
-	bool Load( const char *pFilename, CUtlStringMap< Vector > *pOldComboVals = NULL );
+	bool Load( const char *pFilename, CUtlStringMap< Vector > *pOldComboVals = nullptr);
 
 	bool Reload();
 

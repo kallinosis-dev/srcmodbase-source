@@ -21,7 +21,7 @@ class CMMNotificationClient : public IMMNotificationClient
 public:
 	CMMNotificationClient() :
 	  _cRef(1),
-		  _pEnumerator(NULL)
+		  _pEnumerator(nullptr)
 	  {
 	  }
 
@@ -61,7 +61,7 @@ public:
 		  }
 		  else
 		  {
-			  *ppvInterface = NULL;
+			  *ppvInterface = nullptr;
 			  return E_NOINTERFACE;
 		  }
 		  return S_OK;
@@ -87,16 +87,16 @@ HRESULT SetupWindowsMixerPreferences( float flMasterVolume = 1.0f, bool bDucking
 {
 	HRESULT hr = S_OK;
 
-	IMMDeviceEnumerator* pDeviceEnumerator = NULL;
-	IMMDevice* pEndpoint = NULL;
-	IAudioSessionManager2* pSessionManager2 = NULL;
-	IAudioSessionControl* pSessionControl = NULL;
-	IAudioSessionControl2* pSessionControl2 = NULL;
+	IMMDeviceEnumerator* pDeviceEnumerator = nullptr;
+	IMMDevice* pEndpoint = nullptr;
+	IAudioSessionManager2* pSessionManager2 = nullptr;
+	IAudioSessionControl* pSessionControl = nullptr;
+	IAudioSessionControl2* pSessionControl2 = nullptr;
 
 
 	//  Start with the default endpoint.
 
-	hr = CoCreateInstance( __uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pDeviceEnumerator) );
+	hr = CoCreateInstance( __uuidof(MMDeviceEnumerator), nullptr, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pDeviceEnumerator) );
 
 	if ( SUCCEEDED( hr ) )
 	{
@@ -104,51 +104,51 @@ HRESULT SetupWindowsMixerPreferences( float flMasterVolume = 1.0f, bool bDucking
 		g_pNotify = new CMMNotificationClient;
 		pDeviceEnumerator->RegisterEndpointNotificationCallback( g_pNotify );
 		pDeviceEnumerator->Release();
-		pDeviceEnumerator = NULL;
+		pDeviceEnumerator = nullptr;
 	}
 
 	// Activate session manager.
 	if (SUCCEEDED(hr))
 	{
-		hr = pEndpoint->Activate(__uuidof(IAudioSessionManager2), CLSCTX_INPROC_SERVER, NULL, reinterpret_cast<void **>(&pSessionManager2) );
+		hr = pEndpoint->Activate(__uuidof(IAudioSessionManager2), CLSCTX_INPROC_SERVER, nullptr, reinterpret_cast<void **>(&pSessionManager2) );
 		if ( !SUCCEEDED( hr ) )
 		{
 			// probably on vista, get the regular session manager
-			IAudioSessionManager *pSessionManager = NULL;
-			HRESULT hrVista = pEndpoint->Activate(__uuidof(IAudioSessionManager), CLSCTX_INPROC_SERVER, NULL, reinterpret_cast<void **>(&pSessionManager) );
+			IAudioSessionManager *pSessionManager = nullptr;
+			HRESULT hrVista = pEndpoint->Activate(__uuidof(IAudioSessionManager), CLSCTX_INPROC_SERVER, nullptr, reinterpret_cast<void **>(&pSessionManager) );
 			if ( SUCCEEDED( hrVista ) )
 			{
-				ISimpleAudioVolume *pSimpleVolume = NULL;
-				HRESULT hrVolume = pSessionManager->GetSimpleAudioVolume( NULL, 0, &pSimpleVolume );
+				ISimpleAudioVolume *pSimpleVolume = nullptr;
+				HRESULT hrVolume = pSessionManager->GetSimpleAudioVolume(nullptr, 0, &pSimpleVolume );
 				if ( SUCCEEDED( hrVolume ) )
 				{
-					pSimpleVolume->SetMasterVolume( flMasterVolume, NULL );
+					pSimpleVolume->SetMasterVolume( flMasterVolume, nullptr);
 					pSimpleVolume->Release();
 				}
 				pSessionManager->Release();
-				pSessionManager = NULL;
+				pSessionManager = nullptr;
 			}
 		}
 		pEndpoint->Release();
-		pEndpoint = NULL;
+		pEndpoint = nullptr;
 	}
 
 	if ( SUCCEEDED( hr ) )
 	{
-		hr = pSessionManager2->GetAudioSessionControl(NULL, 0, &pSessionControl);
+		hr = pSessionManager2->GetAudioSessionControl(nullptr, 0, &pSessionControl);
 		if ( SUCCEEDED( hr ) )
 		{
-			ISimpleAudioVolume *pSimpleVolume = NULL;
-			HRESULT hrVolume = pSessionManager2->GetSimpleAudioVolume( NULL, FALSE, &pSimpleVolume );
+			ISimpleAudioVolume *pSimpleVolume = nullptr;
+			HRESULT hrVolume = pSessionManager2->GetSimpleAudioVolume(nullptr, FALSE, &pSimpleVolume );
 			if ( SUCCEEDED( hrVolume ) )
 			{
-				pSimpleVolume->SetMasterVolume( flMasterVolume, NULL );
+				pSimpleVolume->SetMasterVolume( flMasterVolume, nullptr);
 				pSimpleVolume->Release();
 			}
 		}
 
 		pSessionManager2->Release();
-		pSessionManager2 = NULL;
+		pSessionManager2 = nullptr;
 	}
 
 	if ( SUCCEEDED( hr ) )
@@ -156,7 +156,7 @@ HRESULT SetupWindowsMixerPreferences( float flMasterVolume = 1.0f, bool bDucking
 		hr = pSessionControl->QueryInterface( __uuidof(IAudioSessionControl2), (void**)&pSessionControl2 );
 
 		pSessionControl->Release();
-		pSessionControl = NULL;
+		pSessionControl = nullptr;
 	}
 
 	//  Sync the ducking state with the specified preference.
@@ -172,7 +172,7 @@ HRESULT SetupWindowsMixerPreferences( float flMasterVolume = 1.0f, bool bDucking
 			hr = pSessionControl2->SetDuckingPreference(FALSE);
 		}
 		pSessionControl2->Release();
-		pSessionControl2 = NULL;
+		pSessionControl2 = nullptr;
 	}
 	return hr;
 }

@@ -40,7 +40,7 @@ enum
 CVMTPanel::CVMTPanel( vgui::Panel *pParent, const char *pName ) : BaseClass( pParent, pName )
 {
 	m_bUseActualSize = true;
-	m_pMaterial = NULL;
+	m_pMaterial = nullptr;
 
 	m_pHorizontalBar = new ScrollBar( this, "HorizScrollBar", false );
 	m_pHorizontalBar->AddActionSignalTarget(this);

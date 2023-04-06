@@ -66,10 +66,10 @@ public:
 
 	virtual void LevelShutdownPreEntity()
 	{
-		g_pSimpleSingleton[0] = g_pSimpleSingleton[1] = NULL;
-		g_pEmberSingleton[0] = g_pEmberSingleton[1] = NULL;
-		g_pFireSmokeSingleton[0] = g_pFireSmokeSingleton[1] = NULL;
-		g_pFireSingleton[0] = g_pFireSingleton[1] = NULL;
+		g_pSimpleSingleton[0] = g_pSimpleSingleton[1] = nullptr;
+		g_pEmberSingleton[0] = g_pEmberSingleton[1] = nullptr;
+		g_pFireSmokeSingleton[0] = g_pFireSmokeSingleton[1] = nullptr;
+		g_pFireSingleton[0] = g_pFireSingleton[1] = nullptr;
 	}
 };
 

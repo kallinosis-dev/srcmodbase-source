@@ -20,11 +20,11 @@
 CChoreoGlobalEventWidget::CChoreoGlobalEventWidget( CChoreoWidget *parent )
 : CChoreoWidget( parent )
 {
-	m_pEvent = NULL;
+	m_pEvent = nullptr;
 
 	m_bDragging			= false;
 	m_xStart			= 0;
-	m_hPrevCursor		= 0;
+	m_hPrevCursor		= nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -190,11 +190,11 @@ void CChoreoGlobalEventWidget::DrawLabel( CChoreoWidgetDrawHelper& drawHelper, c
 //-----------------------------------------------------------------------------
 void CChoreoGlobalEventWidget::DrawFocusRect( void )
 {
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 
 	::DrawFocusRect( dc, &m_rcFocus );
 
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 }
 
 //-----------------------------------------------------------------------------

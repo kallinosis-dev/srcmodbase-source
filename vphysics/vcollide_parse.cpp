@@ -63,7 +63,7 @@ public:
 	void		ParseSurfaceTablePacked( CUtlVector<char> &out );
 	void		ParseVehicle( vehicleparams_t *pVehicle, IVPhysicsKeyHandler *unknownKeyHandler );
 	void		ParseCustom( void *pCustom, IVPhysicsKeyHandler *unknownKeyHandler );
-	void		SkipBlock( void ) { ParseCustom(NULL, NULL); }
+	void		SkipBlock( void ) { ParseCustom(nullptr, nullptr); }
 
 private:
 	void		ParseVehicleAxle( vehicle_axleparams_t &axle );
@@ -108,7 +108,7 @@ const char *CVPhysicsParse::GetCurrentBlockName( void )
 	if ( m_pText )
 		return m_blockName;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -921,7 +921,7 @@ const char *ParseKeyvalue( const char *pBuffer, char (&key)[MAX_KEYVALUE], char 
 	// Make sure value is always null-terminated.
 	value[0] = 0;
 
-	pBuffer = ParseFile( pBuffer, key, NULL );
+	pBuffer = ParseFile( pBuffer, key, nullptr);
 
 	// no value on a close brace
 	if ( key[0] == '}' && key[1] == 0 )
@@ -932,7 +932,7 @@ const char *ParseKeyvalue( const char *pBuffer, char (&key)[MAX_KEYVALUE], char 
 
 	Q_strlower( key );
 	
-	pBuffer = ParseFile( pBuffer, value, NULL );
+	pBuffer = ParseFile( pBuffer, value, nullptr);
 
 	Q_strlower( value );
 

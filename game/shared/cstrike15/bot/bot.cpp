@@ -19,7 +19,7 @@
 #include "tier0/memdbgon.h"
 
 /// @todo Remove this nasty hack - CreateFakeClient() calls CBot::Spawn, which needs the profile and team
-const BotProfile *g_botInitProfile = NULL;
+const BotProfile *g_botInitProfile = nullptr;
 int g_botInitTeam = 0;
 
 //
@@ -68,13 +68,13 @@ void ActiveGrenade::OnEntityGone( void )
 		m_dieTimestamp = gpGlobals->curtime + smokeLingerTime;
 	}
 
-	m_entity = NULL;
+	m_entity = nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
 void ActiveGrenade::Update( void )
 {
-	if (m_entity != NULL)
+	if (m_entity != nullptr)
 	{
 		m_detonationPosition = m_entity->GetAbsOrigin();
 	}
@@ -88,14 +88,14 @@ bool ActiveGrenade::IsValid( void ) const
 {
 	if ( m_isSmoke )
 	{
-		if ( m_entity == NULL && gpGlobals->curtime > m_dieTimestamp )
+		if ( m_entity == nullptr && gpGlobals->curtime > m_dieTimestamp )
 		{
 			return false;
 		}
 	}
 	else
 	{
-		if ( m_entity == NULL )
+		if ( m_entity == nullptr)
 		{
 			return false;
 		}
@@ -108,7 +108,7 @@ bool ActiveGrenade::IsValid( void ) const
 const Vector &ActiveGrenade::GetPosition( void ) const
 {
 	// smoke grenades can vanish before the smoke itself does - refer to the detonation position
-	if (m_entity == NULL)
+	if (m_entity == nullptr)
 		return GetDetonationPosition();
 
 	return m_entity->GetAbsOrigin();

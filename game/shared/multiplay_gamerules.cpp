@@ -258,7 +258,7 @@ CMultiplayRules::CMultiplayRules()
 	KeyValues::AutoDelete pKV_wl( "convars" );
 	if ( pKV_wl->LoadFromFile( g_pFullFileSystem, "bspconvar_whitelist.txt", "GAME" ) )
 	{
-		for ( KeyValues *pKey = pKV_wl->GetFirstSubKey(); pKey != NULL; pKey = pKey->GetNextKey() )
+		for ( KeyValues *pKey = pKV_wl->GetFirstSubKey(); pKey != nullptr; pKey = pKey->GetNextKey() )
 		{
 			//save the name of this outfit
 			const char *szConVarName = pKey->GetName();
@@ -456,7 +456,7 @@ CMultiplayRules::CMultiplayRules()
 
 		int iCurrentWeight = -1;
 		int iBestWeight = -1;// no weapon lower than -1 can be autoswitched to
-		pBest = NULL;
+		pBest = nullptr;
 
 		// If I have a weapon, make sure I'm allowed to holster it
 		if ( pCurrentWeapon )
@@ -465,7 +465,7 @@ CMultiplayRules::CMultiplayRules()
 			{
 				// Either this weapon doesn't allow autoswitching away from it or I
 				// can't put this weapon away right now, so I can't switch.
-				return NULL;
+				return nullptr;
 			}
 
 			iCurrentWeight = pCurrentWeapon->GetWeight();
@@ -524,7 +524,7 @@ CMultiplayRules::CMultiplayRules()
 	{
 		CBaseCombatWeapon *pWeapon = GetNextBestWeapon( pPlayer, pCurrentWeapon );
 
-		if ( pWeapon != NULL )
+		if ( pWeapon != nullptr)
 			return pPlayer->Weapon_Switch( pWeapon );
 		
 		return false;
@@ -624,13 +624,13 @@ CMultiplayRules::CMultiplayRules()
 	void CMultiplayRules::PlayerSpawn( CBasePlayer *pPlayer )
 	{
 		bool		addDefault;
-		CBaseEntity	*pWeaponEntity = NULL;
+		CBaseEntity	*pWeaponEntity = nullptr;
 
 		pPlayer->EquipSuit();
 		
 		addDefault = true;
 
-		while ( (pWeaponEntity = gEntList.FindEntityByClassname( pWeaponEntity, "game_player_equip" )) != NULL)
+		while ( (pWeaponEntity = gEntList.FindEntityByClassname( pWeaponEntity, "game_player_equip" )) != nullptr)
 		{
 			pWeaponEntity->Touch( pPlayer );
 			addDefault = false;
@@ -694,7 +694,7 @@ CMultiplayRules::CMultiplayRules()
 			}
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	//-----------------------------------------------------------------------------
@@ -1166,7 +1166,7 @@ CMultiplayRules::CMultiplayRules()
 
 	void CMultiplayRules::GetNextLevelName( char *pszNextMap, int bufsize, bool bRandom /* = false */ )
 	{
-		const char *mapGroupName = NULL;	
+		const char *mapGroupName = nullptr;	
 
 		mapGroupName = STRING( gpGlobals->mapGroupName );
 
@@ -1186,7 +1186,7 @@ CMultiplayRules::CMultiplayRules()
 			return;
 		}
 
-		const char* nextMapName = NULL;
+		const char* nextMapName = nullptr;
 		if ( bRandom )
 		{	
 			nextMapName = g_pGameTypes->GetRandomMap( mapGroupName );
@@ -1348,7 +1348,7 @@ CMultiplayRules::CMultiplayRules()
 
 		g_fGameOver = true;
 		Msg( "CHANGE LEVEL: %s\n", szNextMap );
-		engine->ChangeLevel( szNextMap, NULL );
+		engine->ChangeLevel( szNextMap, nullptr);
 	}
 
 #endif		
@@ -1363,14 +1363,14 @@ CMultiplayRules::CMultiplayRules()
 
 		if ( pKV->LoadFromFile( filesystem, "scripts/voicecommands.txt", "GAME" ) )
 		{
-			for ( KeyValues *menu = pKV->GetFirstSubKey(); menu != NULL; menu = menu->GetNextKey() )
+			for ( KeyValues *menu = pKV->GetFirstSubKey(); menu != nullptr; menu = menu->GetNextKey() )
 			{
 				int iMenuIndex = m_VoiceCommandMenus.AddToTail();
 
 				int iNumItems = 0;
 
 				// for each subkey of this menu, add a menu item
-				for ( KeyValues *menuitem = menu->GetFirstSubKey(); menuitem != NULL; menuitem = menuitem->GetNextKey() )
+				for ( KeyValues *menuitem = menu->GetFirstSubKey(); menuitem != nullptr; menuitem = menuitem->GetNextKey() )
 				{
 					iNumItems++;
 
@@ -1496,13 +1496,13 @@ CMultiplayRules::CMultiplayRules()
 	{
 		// have the player speak the concept that is in a particular menu slot
 		if ( !pPlayer )
-			return NULL;
+			return nullptr;
 
 		if ( iMenu < 0 || iMenu >= m_VoiceCommandMenus.Count() )
-			return NULL;
+			return nullptr;
 
 		if ( iItem < 0 || iItem >= m_VoiceCommandMenus.Element( iMenu ).Count() )
-			return NULL;
+			return nullptr;
 
 		VoiceCommandMenuItem_t *pItem = &m_VoiceCommandMenus.Element( iMenu ).Element( iItem );
 
@@ -1516,7 +1516,7 @@ CMultiplayRules::CMultiplayRules()
 			Assert( pExpresser );
 			pExpresser->AllowMultipleScenes();
 
-			if ( pPlayer->SpeakConceptIfAllowed( pItem->m_iConcept, NULL, szResponse, AI_Response::MAX_RESPONSE_NAME ) )
+			if ( pPlayer->SpeakConceptIfAllowed( pItem->m_iConcept, nullptr, szResponse, AI_Response::MAX_RESPONSE_NAME ) )
 			{
 				// show a subtitle if we need to
 				if ( pItem->m_bShowSubtitle )
@@ -1566,14 +1566,14 @@ CMultiplayRules::CMultiplayRules()
 			}
 			else
 			{
-				pItem = NULL;
+				pItem = nullptr;
 			}
 
 			pExpresser->DisallowMultipleScenes();
 			return pItem;
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	bool CMultiplayRules::IsLoadingBugBaitReport()

@@ -216,7 +216,7 @@ class CNetMessageBinder
 {
 public:
 	CNetMessageBinder()
-		: m_pBind( NULL )
+		: m_pBind(nullptr)
 	{
 	}
 
@@ -235,12 +235,12 @@ public:
 	void Unbind()
 	{
 		delete m_pBind;
-		m_pBind = NULL;
+		m_pBind = nullptr;
 	}
 
 	bool IsBound() const
 	{
-		return m_pBind != NULL;
+		return m_pBind != nullptr;
 	}
 
 private:
@@ -290,7 +290,7 @@ private:
 			if ( !pMsg->ReadFromBuffer( buffer ) )
 			{
 				delete pMsg;
-				return NULL;
+				return nullptr;
 			}
 			return pMsg;
 		}

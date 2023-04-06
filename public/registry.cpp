@@ -36,7 +36,7 @@ public:
 	virtual int				ReadInt( const char *key, int defaultValue = 0);
 	virtual void			WriteInt( const char *key, int value );
 
-	virtual const char		*ReadString( const char *key, const char *defaultValue = NULL );
+	virtual const char		*ReadString( const char *key, const char *defaultValue = nullptr);
 	virtual void			WriteString( const char *key, const char *value );
 
 	// Read/write helper methods
@@ -125,7 +125,7 @@ CRegistry::CRegistry( void )
 {
 	// Assume failure
 	m_bValid	= false;
-	m_hKey		= 0;
+	m_hKey		= nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -159,7 +159,7 @@ int CRegistry::ReadInt( const char *key, int defaultValue /*= 0*/ )
 	lResult = RegQueryValueEx(
 		m_hKey,		// handle to key
 		key,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(LPBYTE)&value,    // data buffer
 		&dwSize );  // size of data buffer
@@ -225,7 +225,7 @@ const char *CRegistry::ReadString( const char *key, const char *defaultValue /* 
 	lResult = RegQueryValueEx(
 		m_hKey,		// handle to key
 		key,	// value name
-		0,			// reserved
+		nullptr,			// reserved
 		&dwType,    // type buffer
 		(unsigned char *)value,    // data buffer
 		&dwSize );  // size of data buffer
@@ -283,10 +283,10 @@ bool CRegistry::DirectInit( const char *subDirectoryUnderValve )
 		HKEY_CURRENT_USER,	// handle of open key 
 		szModelKey,			// address of name of subkey to open 
 		0ul,					// DWORD ulOptions,	  // reserved 
-		NULL,			// Type of value
+		nullptr,			// Type of value
 		REG_OPTION_NON_VOLATILE, // Store permanently in reg.
 		KEY_ALL_ACCESS,		// REGSAM samDesired, // security access mask 
-		NULL,
+		nullptr,
 		&m_hKey,				// Key we are creating
 		&dwDisposition );    // Type of creation
 

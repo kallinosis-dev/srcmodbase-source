@@ -39,7 +39,7 @@ DECLARE_BUILD_FACTORY( CTreeViewListControl );
 CTreeViewListControl::CTreeViewListControl( vgui::Panel *pParent, const char *pName ) :
 	BaseClass( pParent, pName )
 {
-	m_pTree = NULL;
+	m_pTree = nullptr;
 	m_BorderColor.SetColor( 255, 255, 255, 255 );
 	m_TitleBarFont = NULL;
 	m_TitleBarHeight = 20;

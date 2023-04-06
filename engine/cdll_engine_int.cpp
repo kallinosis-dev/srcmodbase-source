@@ -111,7 +111,7 @@ IMaterial* BrushModel_GetLightingAndMaterial( const Vector &start,
 	const Vector &end, Vector &diffuseLightColor, Vector &baseColor );
 const char *Key_NameForBinding( const char *pBinding, int userId );
 void CL_GetBackgroundLevelName( char *pszBackgroundName, int bufSize, bool bMapName );
-CreateInterfaceFn g_ClientFactory = NULL;
+CreateInterfaceFn g_ClientFactory = nullptr;
 extern	CGlobalVars g_ServerGlobalVariables;
 
 extern ConVar host_timescale;
@@ -121,7 +121,7 @@ extern ConVar host_timescale;
 //-----------------------------------------------------------------------------
 // globals
 //-----------------------------------------------------------------------------
-CSysModule		*g_ClientDLLModule = NULL; // also used by materialproxyfactory.cpp
+CSysModule		*g_ClientDLLModule = nullptr; // also used by materialproxyfactory.cpp
 bool g_bClientGameDLLGreaterThanV13;
 
 void AddIntersectingLeafSurfaces( mleaf_t *pLeaf, GetIntersectingSurfaces_Struct *pStruct )
@@ -263,7 +263,7 @@ void DebugDrawPhysCollide( const CPhysCollide *pCollide, IMaterial *pMaterial, c
 	int vertCount = physcollision->CreateDebugMesh( pCollide, &outVerts );
 	if ( vertCount )
 	{
-		IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+		IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 
 		CMeshBuilder meshBuilder;
 		meshBuilder.Begin( pMesh, MATERIAL_TRIANGLES, vertCount/3 );
@@ -290,7 +290,7 @@ void DebugDrawPhysCollide( const CPhysCollide *pCollide, IMaterial *pMaterial, c
 		Vector out;
 
 		MatrixGetColumn( transform, 3, center );
-		IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+		IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 		CMeshBuilder meshBuilder;
 		meshBuilder.Begin( pMesh, MATERIAL_LINES, 3 );
 
@@ -780,7 +780,7 @@ int	CEngineClient::GetIntersectingSurfaces(
 Vector	CEngineClient::GetLightForPoint(const Vector &pos, bool bClamp)
 {
 	Vector vRet;
-	ComputeLighting( pos, NULL, bClamp, vRet, NULL );
+	ComputeLighting( pos, nullptr, bClamp, vRet, nullptr);
 	return vRet;
 }
 
@@ -934,7 +934,7 @@ bool CEngineClient::GetPlayerInfo( int ent_num, player_info_t *pinfo )
 		return false;
 	}
 
-	player_info_t *pi = (player_info_t*) GetBaseLocalClient().m_pUserInfoTable->GetStringUserData( ent_num, NULL );
+	player_info_t *pi = (player_info_t*) GetBaseLocalClient().m_pUserInfoTable->GetStringUserData( ent_num, nullptr);
 
 	if ( !pi )
 	{
@@ -1024,7 +1024,7 @@ CSentence *CEngineClient::GetSentence( CAudioSource *pAudioSource )
 	{
 		return pAudioSource->GetSentence();
 	}
-	return NULL;
+	return nullptr;
 }
 
 float CEngineClient::GetSentenceLength( CAudioSource *pAudioSource )
@@ -1333,7 +1333,7 @@ void CEngineClient::ComputeLighting( const Vector& pt, const Vector* pNormal, bo
 void CEngineClient::ComputeLightingCube( const Vector& pt, bool bClamp, Vector *pBoxColors )
 {
 	Vector dummy;
-	::ComputeLighting( pt, NULL, bClamp, true, dummy, pBoxColors );
+	::ComputeLighting( pt, nullptr, bClamp, true, dummy, pBoxColors );
 }
 
 // Returns the color of the ambient light
@@ -1428,7 +1428,7 @@ void CEngineClient::GetStartupImage( char *dest, int destlen )
 
 bool CEngineClient::IsUsingLocalNetworkBackdoor()
 {
-	return ( g_pLocalNetworkBackdoor != NULL );
+	return ( g_pLocalNetworkBackdoor != nullptr);
 }
 
 bool CEngineClient::SaveGame( const char *pSaveFilename, bool bIsXSave, char *pOutName, int nOutNameSize, char *pOutComment, int nOutCommentSize )
@@ -1893,7 +1893,7 @@ const char *CEngineClient::GetMostRecentSaveGame( bool bEnsureExists )
 	const char *pszResult = saverestore->GetMostRecentlyLoadedFileName();
 	
 	if ( pszResult && bEnsureExists && !saverestore->SaveFileExists( pszResult ) )
-		pszResult = NULL;
+		pszResult = nullptr;
 
 	return pszResult;
 }
@@ -2518,9 +2518,9 @@ void CEngineClient::ForceVoiceRecordOn() const
 #if !defined( NO_VOICE )
 	if ( GetBaseLocalClient().IsActive() && Voice_IsRecording() == false )
 	{
-		const char *pUncompressedFile = NULL;
-		const char *pDecompressedFile = NULL;
-		const char *pInputFile = NULL;
+		const char *pUncompressedFile = nullptr;
+		const char *pDecompressedFile = nullptr;
+		const char *pInputFile = nullptr;
 
 		//if (voice_recordtofile.GetInt())
 		//{
@@ -2546,13 +2546,13 @@ const char* CEngineClient::AliasToCommandString( const char* szAliasName )
 //-----------------------------------------------------------------------------
 // The client DLL serves out this interface
 //-----------------------------------------------------------------------------
-IBaseClientDLL *g_ClientDLL = NULL;
-IPrediction	*g_pClientSidePrediction = NULL;
-IClientRenderTargets *g_pClientRenderTargets = NULL;
-IClientEntityList *entitylist = NULL;
-IClientLeafSystemEngine *clientleafsystem = NULL;
-IClientAlphaPropertyMgr *g_pClientAlphaPropertyMgr = NULL;
-ClientClass *g_pClientClassHead = NULL;
+IBaseClientDLL *g_ClientDLL = nullptr;
+IPrediction	*g_pClientSidePrediction = nullptr;
+IClientRenderTargets *g_pClientRenderTargets = nullptr;
+IClientEntityList *entitylist = nullptr;
+IClientLeafSystemEngine *clientleafsystem = nullptr;
+IClientAlphaPropertyMgr *g_pClientAlphaPropertyMgr = nullptr;
+ClientClass *g_pClientClassHead = nullptr;
 
 ClientClass *ClientDLL_GetAllClasses( void )
 {
@@ -2619,7 +2619,7 @@ bool ClientDLL_Load()
 		g_ClientFactory = Sys_GetFactory( g_ClientDLLModule );
 		if ( g_ClientFactory )
 		{
-			g_ClientDLL = (IBaseClientDLL *)g_ClientFactory( CLIENT_DLL_INTERFACE_VERSION, NULL );
+			g_ClientDLL = (IBaseClientDLL *)g_ClientFactory( CLIENT_DLL_INTERFACE_VERSION, nullptr);
 			// this is to ensure the old format of the string table is used for clients version 13 and older.
 			// when the client version gets revved, there will need to be an else that sets this bool to true
 			// TERROR: g_bClientGameDLLGreaterThanV13 is true, so we get better stringtables
@@ -2663,8 +2663,8 @@ bool ClientDLL_Load()
 
 	// Load the client render targets interface from the client .dll
 	// NOTE: Its OK if this returns NULL, as some mods won't provide the interface and will just use the default behavior of the engine
-	g_pClientRenderTargets = ( IClientRenderTargets * )g_ClientFactory( CLIENTRENDERTARGETS_INTERFACE_VERSION, NULL );
-	return g_pClientRenderTargets != NULL;
+	g_pClientRenderTargets = ( IClientRenderTargets * )g_ClientFactory( CLIENTRENDERTARGETS_INTERFACE_VERSION, nullptr);
+	return g_pClientRenderTargets != nullptr;
 }
 
 void ClientDLL_GameInit()
@@ -2727,26 +2727,26 @@ void ClientDLL_Init( void )
 			COM_TimestampedLog( "g_pClientSidePrediction->Init" );
 
 			// Load the prediction interface from the client .dll
-			g_pClientSidePrediction = (IPrediction *)g_ClientFactory( VCLIENT_PREDICTION_INTERFACE_VERSION, NULL );
+			g_pClientSidePrediction = (IPrediction *)g_ClientFactory( VCLIENT_PREDICTION_INTERFACE_VERSION, nullptr);
 			if ( !g_pClientSidePrediction )
 			{
 				Sys_Error( "Could not get IPrediction interface from library client" );
 			}
 			g_pClientSidePrediction->Init();
 
-			entitylist = ( IClientEntityList  *)g_ClientFactory( VCLIENTENTITYLIST_INTERFACE_VERSION, NULL );
+			entitylist = ( IClientEntityList  *)g_ClientFactory( VCLIENTENTITYLIST_INTERFACE_VERSION, nullptr);
 			if ( !entitylist )
 			{
 				Sys_Error( "Could not get client entity list interface from library client" );
 			}
 
-			clientleafsystem = ( IClientLeafSystemEngine *)g_ClientFactory( CLIENTLEAFSYSTEM_INTERFACE_VERSION, NULL );
+			clientleafsystem = ( IClientLeafSystemEngine *)g_ClientFactory( CLIENTLEAFSYSTEM_INTERFACE_VERSION, nullptr);
 			if ( !clientleafsystem )
 			{
 				Sys_Error( "Could not get client leaf system interface from library client" );
 			}
 
-			g_pClientAlphaPropertyMgr = ( IClientAlphaPropertyMgr* )g_ClientFactory( CLIENT_ALPHA_PROPERTY_MGR_INTERFACE_VERSION, NULL );
+			g_pClientAlphaPropertyMgr = ( IClientAlphaPropertyMgr* )g_ClientFactory( CLIENT_ALPHA_PROPERTY_MGR_INTERFACE_VERSION, nullptr);
 			if ( !g_pClientAlphaPropertyMgr )
 			{
 				Sys_Error( "Could not get client alpha property mgr interface from library client" );
@@ -2852,7 +2852,7 @@ void ClientDLL_Init( void )
 					if ( bIsFullScreen )
 						videomode->ReleaseVideo();
 					
-					Sys_MessageBox( pMessage, NULL, false );
+					Sys_MessageBox( pMessage, nullptr, false );
 					
 					if ( bIsFullScreen )
 						videomode->RestoreVideo();
@@ -2887,9 +2887,9 @@ void ClientDLL_Shutdown( void )
 		g_pClientSidePrediction->Shutdown();
 	}
 
-	entitylist = NULL;
-	g_pClientSidePrediction = NULL;
-	g_ClientFactory = NULL;
+	entitylist = nullptr;
+	g_pClientSidePrediction = nullptr;
+	g_ClientFactory = nullptr;
 
 	g_ClientDLL->Shutdown();
 }
@@ -2909,9 +2909,9 @@ void ClientDLL_Unload()
 
 	FileSystem_UnloadModule( g_ClientDLLModule );
 
-	g_ClientDLL = NULL;
-	g_ClientDLLModule = NULL;
-	g_pClientRenderTargets = NULL;
+	g_ClientDLL = nullptr;
+	g_ClientDLLModule = nullptr;
+	g_pClientRenderTargets = nullptr;
 
 }
 

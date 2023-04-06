@@ -679,7 +679,7 @@ bool CDemoSmootherPanel::OverrideView( democmdinfo_t& info, int tick )
 			if ( back_off )
 			{
 				Vector fwd;
-				AngleVectors( info.u[ nSlot ].viewAngles, &fwd, NULL, NULL );
+				AngleVectors( info.u[ nSlot ].viewAngles, &fwd, nullptr, nullptr);
 
 				info.u[ nSlot ].viewOrigin -= fwd * 75.0f;
 			}
@@ -713,7 +713,7 @@ bool CDemoSmootherPanel::OverrideView( democmdinfo_t& info, int tick )
 		{
 			demosmoothing_t	*p = &m_Smoothing.smooth[ useframe ];
 			Vector fwd;
-			AngleVectors( p->info.u[ nSlot ].viewAngles, &fwd, NULL, NULL );
+			AngleVectors( p->info.u[ nSlot ].viewAngles, &fwd, nullptr, nullptr);
 
 			info.u[ nSlot ].viewOrigin = p->info.u[ nSlot ].viewOrigin - fwd * 75.0f;
 		}
@@ -725,7 +725,7 @@ bool CDemoSmootherPanel::OverrideView( democmdinfo_t& info, int tick )
 void DrawVecForward( bool active, const Vector& origin, const QAngle& angles, int r, int g, int b )
 {
 	Vector fwd;
-	AngleVectors( angles, &fwd, NULL, NULL );
+	AngleVectors( angles, &fwd, nullptr, nullptr);
 
 	Vector end;
 	end = origin + fwd * ( active ? 64 : 16 );
@@ -907,8 +907,8 @@ void CDemoSmootherPanel::DrawDebuggingInfo(  int frame, float elapsed )
 	bool drawprocessed = !m_pHideProcessed->IsSelected();
 	int i;
 
-	demosmoothing_t	*p = NULL;
-	demosmoothing_t	*prev = NULL;
+	demosmoothing_t	*p = nullptr;
+	demosmoothing_t	*prev = nullptr;
 	for ( i = start; i < end; i++ )
 	{
 		p = &m_Smoothing.smooth[ i ];
@@ -1213,7 +1213,7 @@ bool CDemoSmootherPanel::GetInterpolatedViewPoint( int nSlot, Vector& origin, QA
 	if ( back_off )
 	{
 		Vector fwd;
-		AngleVectors( angles, &fwd, NULL, NULL );
+		AngleVectors( angles, &fwd, nullptr, nullptr);
 
 		origin = origin - fwd * 75.0f;
 	}
@@ -1268,7 +1268,7 @@ void CDemoSmootherPanel::DrawLegend( int startframe, int endframe )
 		Q_snprintf( sz, sizeof( sz ), "%.3f", TICKS_TO_TIME(sample->frametick) );
 
 		Vector fwd;
-		AngleVectors( sample->info.u[ nSlot ].GetViewAngles(), &fwd, NULL, NULL );
+		AngleVectors( sample->info.u[ nSlot ].GetViewAngles(), &fwd, nullptr, nullptr);
 
 		CDebugOverlay::AddTextOverlay( sample->info.u[ nSlot ].GetViewOrigin() + m_vecEyeOffset + fwd * ( back_off ? 5.0f : 50.0f ), 0, -1.0f, sz );
 	}
@@ -1330,7 +1330,7 @@ void CDemoSmootherPanel::OnSetKeys(float interval)
 	int c = m_Smoothing.smooth.Count();
 	int i;
 
-	demosmoothing_t *lastkey = NULL;
+	demosmoothing_t *lastkey = nullptr;
 
 	int nSlot = 0;
 
@@ -1583,11 +1583,11 @@ void CDemoSmootherPanel::OnRevertPoint( void )
 demosmoothing_t *CDemoSmootherPanel::GetCurrent( void )
 {
 	if ( !CanEdit() )
-		return NULL;
+		return nullptr;
 
 	int c = m_Smoothing.smooth.Count();
 	if ( c < 1 )
-		return NULL;
+		return nullptr;
 
 	int frame = clamp( m_nPreviewLastFrame, 0, c - 1 );
 
@@ -1960,9 +1960,9 @@ void CDemoSmootherPanel::PushUndo( char *description )
 	*u = m_Smoothing;
 	DemoSmoothUndo *undo = new DemoSmoothUndo;
 	undo->undo = u;
-	undo->redo = NULL;
+	undo->redo = nullptr;
 	undo->udescription = COM_StringCopy( description );
-	undo->rdescription = NULL;
+	undo->rdescription = nullptr;
 	m_UndoStack.AddToTail( undo );
 	m_nUndoLevel++;
 }
@@ -2596,18 +2596,18 @@ void CDemoSmootherPanel::ParseSmoothingInfo( CDemoFile &demoFile, CSmoothingCont
 				break;
 			case dem_datatables:
 				{
-					demoFile.ReadNetworkDataTables( NULL );
+					demoFile.ReadNetworkDataTables(nullptr);
 				}
 				break;
 			case dem_stringtables:
 				{
-					demoFile.ReadStringTables( NULL );
+					demoFile.ReadStringTables(nullptr);
 				}
 				break;
 			case dem_usercmd:
 				{
 					ACTIVE_SPLITSCREEN_PLAYER_GUARD( nPlayerSlot );
-					demoFile.ReadUserCmd( NULL, dummy );
+					demoFile.ReadUserCmd(nullptr, dummy );
 					
 				}
 				break;
@@ -2630,7 +2630,7 @@ void CDemoSmootherPanel::ParseSmoothingInfo( CDemoFile &demoFile, CSmoothingCont
 
 		demoFile.ReadCmdInfo( info );
 		demoFile.ReadSequenceInfo( dummy, dummy ); 
-		demoFile.ReadRawData( NULL, 0 );
+		demoFile.ReadRawData(nullptr, 0 );
 
 		// Add to end of list
 		demosmoothing_t smoothing_entry;
@@ -2670,7 +2670,7 @@ void CDemoSmootherPanel::LoadSmoothingInfo( const char *filename, CSmoothingCont
 		return;
 	}
 
-	demoheader_t * header = demoFile.ReadDemoHeader( NULL );
+	demoheader_t * header = demoFile.ReadDemoHeader(nullptr);
 
 	if ( !header )
 	{

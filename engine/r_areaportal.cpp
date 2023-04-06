@@ -115,7 +115,7 @@ static inline bool GetPortalScreenExtents( dareaportal_t *pPortal,
 	// NOTE: We need two passes to deal with reflection. We need to compute
 	// the screen extents for both the reflected + non-reflected area portals
 	// and make bounds that surrounds them both.
-	int nPassCount = ( pReflectionWaterHeight != NULL ) ? 2 : 1;
+	int nPassCount = ( pReflectionWaterHeight != nullptr) ? 2 : 1;
 	for ( int j = 0; j < nPassCount; ++j )
 	{
 		int i;

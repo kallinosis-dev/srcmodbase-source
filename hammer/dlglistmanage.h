@@ -40,7 +40,7 @@ public:
 
 	void CreateFonts( CDC *pDC )
 	{
-		if ( m_NormalFont.m_hObject == NULL )
+		if ( m_NormalFont.m_hObject == nullptr)
 		{
 			// Describe a 16-point truetype font of normal weight
 			LOGFONT lf;
@@ -54,7 +54,7 @@ public:
 		}
 
 		// Create a bold font
-		if ( m_BoldFont.m_hObject == NULL )
+		if ( m_BoldFont.m_hObject == nullptr)
 		{
 			if ( m_NormalFont.m_hObject )
 			{
@@ -95,7 +95,7 @@ public:
 			dc.SetBkColor( rgbBkgnd );
 			dc.SetTextColor( RGB(0,0,0) );
 			
-			CFont* pOldFont = NULL;
+			CFont* pOldFont = nullptr;
 			if ( type == LISTFONT_BOLD )
 			{
 				pOldFont = dc.SelectObject( &m_BoldFont );
@@ -139,7 +139,7 @@ class CDlgListManage : public CDialog
 {
 	// Construction
 public:
-	CDlgListManage( CWnd* pParent = NULL, IDlgListManageBrowse *pBrowseImpl = NULL, const CMapObjectList *pObjectList = NULL );   // standard constructor
+	CDlgListManage( CWnd* pParent = nullptr, IDlgListManageBrowse *pBrowseImpl = nullptr, const CMapObjectList *pObjectList = nullptr);   // standard constructor
 
 	// Dialog Data
 	enum { IDD = IDD_MANAGE_LIST_DIALOG };

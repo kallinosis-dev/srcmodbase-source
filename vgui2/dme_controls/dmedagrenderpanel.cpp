@@ -52,9 +52,9 @@ CDmeDagRenderPanel::CDmeDagRenderPanel( vgui::Panel *pParent, const char *pName 
 	m_bModelZUp = false;
 
 	// Deal with the default cubemap
-	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap", NULL, true );
+	ITexture *pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap", nullptr, true );
 	m_DefaultEnvCubemap.Init( pCubemapTexture );
-	pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap.hdr", NULL, true );
+	pCubemapTexture = g_pMaterialSystem->FindTexture( "editor/cubemap.hdr", nullptr, true );
 	m_DefaultHDREnvCubemap.Init( pCubemapTexture );
 
 	if ( g_pMaterialSystem )
@@ -70,7 +70,7 @@ CDmeDagRenderPanel::CDmeDagRenderPanel( vgui::Panel *pParent, const char *pName 
 
 	m_pMenuBar = new vgui::MenuBar( this, "Dag Render Panel Menu Bar" );
 
-	m_pShadingMenu = new vgui::Menu( NULL, "Shading Menu" );
+	m_pShadingMenu = new vgui::Menu(nullptr, "Shading Menu" );
 	m_nMenuSmoothShade = m_pShadingMenu->AddCheckableMenuItem( "&Smooth Shade", new KeyValues( "SmoothShade" ), this );
 	m_nMenuFlatShade = m_pShadingMenu->AddCheckableMenuItem( "&Flat Shade", new KeyValues( "FlatShade" ), this );
 	m_nMenuWireframe = m_pShadingMenu->AddCheckableMenuItem( "&Wireframe", new KeyValues( "Wireframe" ), this );
@@ -147,7 +147,7 @@ void CDmeDagRenderPanel::SetDmeElement( CDmeSourceSkin *pSkin )
 	CDmeMakefile *pSourceMakefile = pSkin->GetDependentMakefile();
 	if ( !pSourceMakefile )
 	{
-		m_hDag = NULL;
+		m_hDag = nullptr;
 		return;
 	}
 
@@ -155,7 +155,7 @@ void CDmeDagRenderPanel::SetDmeElement( CDmeSourceSkin *pSkin )
 	CDmElement *pOutput = pSourceMakefile->GetOutputElement( true );
 	if ( !pOutput )
 	{
-		m_hDag = NULL;
+		m_hDag = nullptr;
 		return;
 	}
 
@@ -186,7 +186,7 @@ void CDmeDagRenderPanel::SetDmeElement( CDmeSourceAnimation *pAnimation )
 	CDmeMakefile *pSourceMakefile = pAnimation->GetDependentMakefile();
 	if ( !pSourceMakefile )
 	{
-		m_hDag = NULL;
+		m_hDag = nullptr;
 		return;
 	}
 
@@ -194,7 +194,7 @@ void CDmeDagRenderPanel::SetDmeElement( CDmeSourceAnimation *pAnimation )
 	CDmElement *pOutput = pSourceMakefile->GetOutputElement( true );
 	if ( !pOutput )
 	{
-		m_hDag = NULL;
+		m_hDag = nullptr;
 		return;
 	}
 
@@ -242,7 +242,7 @@ void CDmeDagRenderPanel::SetDmeElement( CDmeDCCMakefile *pDCCMakefile )
 	CDmElement *pOutputElement = pDCCMakefile->GetOutputElement( true );
 	if ( !pOutputElement )
 	{
-		m_hDag = NULL;
+		m_hDag = nullptr;
 		return;
 	}
 
@@ -261,8 +261,8 @@ void CDmeDagRenderPanel::SetDmeElement( CDmeDCCMakefile *pDCCMakefile )
 	ComputeDefaultTangentData( m_hDag, false );
 	m_hAnimationList = pAnimationList;
 	SelectAnimation( 0 );
-	DrawJoints( pAnimationList != NULL );
-	DrawJointNames( pAnimationList != NULL );
+	DrawJoints( pAnimationList != nullptr);
+	DrawJointNames( pAnimationList != nullptr);
 
 	CDmeModel *pDmeModel = CastElement< CDmeModel >( m_hDag );
 	if ( pDmeModel )
@@ -786,7 +786,7 @@ void CDmeDagRenderPanel::RebuildOperatorList( )
 //-----------------------------------------------------------------------------
 void CDmeDagRenderPanel::SelectAnimation( int nIndex )
 {
-	m_hCurrentAnimation = NULL;
+	m_hCurrentAnimation = nullptr;
 	if ( m_hAnimationList.Get() && ( nIndex >= 0 ) )
 	{
 		// FIXME: How is this actually going to work?
@@ -797,7 +797,7 @@ void CDmeDagRenderPanel::SelectAnimation( int nIndex )
 
 void CDmeDagRenderPanel::SelectVertexAnimation( int nIndex )
 {
-	m_hCurrentVertexAnimation = NULL;
+	m_hCurrentVertexAnimation = nullptr;
 	if ( m_hVertexAnimationList.Get() && ( nIndex >= 0 ) )
 	{
 		// FIXME: How is this actually going to work?
@@ -856,7 +856,7 @@ void CDmeDagRenderPanel::SetAnimationList( CDmeAnimationList *pAnimationList )
 	int nCount = pAnimationList ? pAnimationList->GetAnimationCount() : 0;
 	if ( nCount == 0 )
 	{
-		m_hCurrentAnimation = NULL;
+		m_hCurrentAnimation = nullptr;
 		return;
 	}
 
@@ -870,7 +870,7 @@ void CDmeDagRenderPanel::SetVertexAnimationList( CDmeAnimationList *pAnimationLi
 	int nCount = pAnimationList ? pAnimationList->GetAnimationCount() : 0;
 	if ( nCount == 0 )
 	{
-		m_hCurrentVertexAnimation = NULL;
+		m_hCurrentVertexAnimation = nullptr;
 		return;
 	}
 

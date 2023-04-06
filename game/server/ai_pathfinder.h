@@ -55,7 +55,7 @@ public:
 	CAI_Pathfinder( CAI_BaseNPC *pOuter )
 	 :	CAI_Component(pOuter),
 		m_flLastStaleLinkCheckTime( 0 ),
-		m_pNetwork( NULL )
+		m_pNetwork(nullptr)
 	{
 	}
 
@@ -172,7 +172,7 @@ private:
 	{
 	public:
 		CTriDebugOverlay()
-		 :	m_debugTriOverlayLine( NULL )
+		 :	m_debugTriOverlayLine(nullptr)
 		{
 		}
 		void AddTriOverlayLines( const Vector &vecStart, const Vector &vecApex, const Vector &vecEnd, const AIMoveTrace_t &startTrace, const AIMoveTrace_t &endTrace, bool bPathClear );

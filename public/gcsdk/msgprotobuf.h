@@ -231,7 +231,7 @@ public:
 									  PB_OBJECT_TYPE::descriptor()->options().GetExtension( msgpool_hard_limit ) ) {}
 	virtual ~CProtoBufMsgMemoryPool()
 	{
-		google::protobuf::Message *pObject = NULL;
+		google::protobuf::Message *pObject = nullptr;
 		while ( PopItem( &pObject ) )
 		{
 			InternalFree( pObject );
@@ -253,7 +253,7 @@ private:
 
 	virtual void InternalFree( google::protobuf::Message *pMsg )
 	{
-		if ( NULL == pMsg )
+		if (nullptr == pMsg )
 		{
 			Assert( NULL != pMsg );
 			return;
@@ -362,7 +362,7 @@ public:
 	// Constructor for an empty message
 	CProtoBufMsg( MsgType_t eMsg ) 
 		: CProtoBufMsgBase( eMsg )
-		, m_pProtoBufBody( NULL )
+		, m_pProtoBufBody(nullptr)
 	{ 
 		VPROF_BUDGET( "CProtoBufMsg::CProtoBufMsg( MsgType_t )", VPROF_BUDGETGROUP_OTHER_NETWORKING );
 		m_pProtoBufBody = AllocProto();
@@ -371,7 +371,7 @@ public:
 	// Constructor for an empty message responding to a client
 	CProtoBufMsg( MsgType_t eMsg, CSteamID steamIDClient, int32 nSessionIDClient ) 
 		: CProtoBufMsgBase( eMsg )
-		, m_pProtoBufBody( NULL )
+		, m_pProtoBufBody(nullptr)
 	{ 
 		VPROF_BUDGET( "CProtoBufMsg::CProtoBufMsg( MsgType_t, CSteamID, int32 )", VPROF_BUDGETGROUP_OTHER_NETWORKING );
 
@@ -383,7 +383,7 @@ public:
 	// Constructor from an incoming netpacket
 	CProtoBufMsg( IMsgNetPacket *pNetPacket )
 		: CProtoBufMsgBase()
-		, m_pProtoBufBody( NULL )
+		, m_pProtoBufBody(nullptr)
 	{
 		m_pProtoBufBody = AllocProto();
 		InitFromPacket( pNetPacket );
@@ -393,7 +393,7 @@ public:
 	// the message at construct time
 	CProtoBufMsg()
 		: CProtoBufMsgBase()
-		, m_pProtoBufBody( NULL )
+		, m_pProtoBufBody(nullptr)
 	{
 		m_pProtoBufBody = AllocProto();
 	}
@@ -401,7 +401,7 @@ public:
 	// Constructor for replying to another protobuf message
 	CProtoBufMsg( MsgType_t eMsg, const CProtoBufMsgBase & msgReplyingTo )
 		: CProtoBufMsgBase( eMsg )
-		, m_pProtoBufBody( NULL )
+		, m_pProtoBufBody(nullptr)
 	{
 		VPROF_BUDGET( "CProtoBufMsg::CProtoBufMsg( EMsg, CProtoBufMsgMemoryPoolBase )", VPROF_BUDGETGROUP_OTHER_NETWORKING );
 		m_pProtoBufBody = AllocProto();
@@ -438,7 +438,7 @@ private:
 
 // Statics
 template< typename PB_OBJECT_TYPE > bool CProtoBufMsg< PB_OBJECT_TYPE>::s_bRegisteredWithMemoryPoolMgr = false;
-template< typename PB_OBJECT_TYPE > CProtoBufMsgMemoryPool< PB_OBJECT_TYPE > *CProtoBufMsg< PB_OBJECT_TYPE>::s_pMemoryPool = NULL;
+template< typename PB_OBJECT_TYPE > CProtoBufMsgMemoryPool< PB_OBJECT_TYPE > *CProtoBufMsg< PB_OBJECT_TYPE>::s_pMemoryPool = nullptr;
 
 
 //-----------------------------------------------------------------------------

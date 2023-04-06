@@ -28,7 +28,7 @@ DEFINE_SCRIPTFUNC( Nugget, "Nugget( action, {params} ) : Interface with nuggets.
 END_SCRIPTDESC()
 
 
-static ConVar ui_script_spew_level( "ui_script_spew_level", 0, FCVAR_DEVELOPMENTONLY );
+static ConVar ui_script_spew_level( "ui_script_spew_level", nullptr, FCVAR_DEVELOPMENTONLY );
 
 
 //-----------------------------------------------------------------------------
@@ -65,7 +65,7 @@ void CGameUIScriptInterface::Shutdown()
 HSCRIPT CGameUIScriptInterface::LoadMenu( const char *szMenuName, HSCRIPT hParams )
 {
 	if ( !szMenuName || !*szMenuName )
-		return NULL;
+		return nullptr;
 
 	// Build the key values for the command and broadcast (deleted inside broadcast system)
 	KeyValues *kvCommand = ScriptTableToKeyValues( m_pScriptVM, szMenuName, hParams );
@@ -79,7 +79,7 @@ HSCRIPT CGameUIScriptInterface::LoadMenu( const char *szMenuName, HSCRIPT hParam
 
 	IGameUISystem *pUI = g_pGameUISystemMgrImpl->LoadGameUIScreen( kvCommand );
 	if ( !pUI )
-		return NULL;
+		return nullptr;
 	
 	KeyValues *kvResult = new KeyValues( "" );
 	KeyValues::AutoDelete autodelete_kvResult( kvResult );
@@ -94,12 +94,12 @@ HSCRIPT CGameUIScriptInterface::LoadMenu( const char *szMenuName, HSCRIPT hParam
 HSCRIPT CGameUIScriptInterface::CreateGraphic( const char *szGraphicClassName, HSCRIPT hParams )
 {
 	if ( !szGraphicClassName || !*szGraphicClassName )
-		return NULL;
+		return nullptr;
 
 	if ( !m_pMenu || !m_pMenu->GetGameUISystem() )
 	{
 		DevWarning( "Scripts not connected to game UI system and cannot create graphics!\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	// Build the key values for the command
@@ -112,12 +112,12 @@ HSCRIPT CGameUIScriptInterface::CreateGraphic( const char *szGraphicClassName, H
 		KeyValuesDumpAsDevMsg( kvCommand );
 	}
 
-	const char* szGraphicName = kvCommand->GetString( "name", NULL );
+	const char* szGraphicName = kvCommand->GetString( "name", nullptr);
 	// Check if this instance is already created
-	if ( szGraphicName == NULL )
+	if ( szGraphicName == nullptr)
 	{
 		DevWarning( "A must have a name!\n", szGraphicName );
-		return NULL;
+		return nullptr;
 	}
 
 	// Check if an instance of this graphic already exists
@@ -125,21 +125,21 @@ HSCRIPT CGameUIScriptInterface::CreateGraphic( const char *szGraphicClassName, H
 	if ( pGraphic )
 	{
 		DevWarning( "A graphic with this name %s is already loaded!\n", szGraphicName );
-		return NULL;
+		return nullptr;
 	}
 
 	IGameUIGraphicClassFactory *pFactory = g_pGameUISystemMgrImpl->GetGraphicClassFactory( szGraphicClassName );
 	if ( !pFactory )
 	{
 		DevWarning( "No graphic class factory for %s!\n", szGraphicClassName );
-		return NULL;
+		return nullptr;
 	}
 
 	CGameGraphic *pNewGraphic = pFactory->CreateNewGraphicClass( kvCommand, m_pMenu );
 	if ( !pNewGraphic )
 	{
 		DevWarning( "No graphic in factory %s!\n", szGraphicClassName );
-		return NULL;
+		return nullptr;
 	}
 
 	KeyValues *kvResult = new KeyValues( "" );
@@ -151,14 +151,14 @@ HSCRIPT CGameUIScriptInterface::CreateGraphic( const char *szGraphicClassName, H
 HSCRIPT CGameUIScriptInterface::CallScript( int32 iScriptHandle, const char *szCommandName, HSCRIPT hParams )
 {
 	if ( !szCommandName || !*szCommandName )
-		return NULL;
+		return nullptr;
 
 	// Try to resolve other script handle specified
 	CGameUISystem *pOtherScript = iScriptHandle ? CGameUISystem::FromScriptHandle( iScriptHandle ) : ( CGameUISystem * ) m_pMenu->GetGameUISystem();
 	if ( !pOtherScript )
 	{
 		Warning( "CGameUIScriptInterface::CallScript with invalid script handle %d!\n", iScriptHandle );
-		return NULL;
+		return nullptr;
 	}
 
 	// Build the key values for the command and call other script
@@ -172,7 +172,7 @@ HSCRIPT CGameUIScriptInterface::CallScript( int32 iScriptHandle, const char *szC
 	}
 
 	// Pass the command to another script
-	KeyValues *kvResult = NULL;
+	KeyValues *kvResult = nullptr;
 	pOtherScript->ExecuteScript( kvCommand, &kvResult );
 	
 	if ( ui_script_spew_level.GetInt() > 0 )
@@ -187,13 +187,13 @@ HSCRIPT CGameUIScriptInterface::CallScript( int32 iScriptHandle, const char *szC
 HSCRIPT CGameUIScriptInterface::CallGraphic( int32 iGraphicHandle, const char *szCommandName, HSCRIPT hParams )
 {
 	if ( !szCommandName || !*szCommandName || !iGraphicHandle )
-		return NULL;
+		return nullptr;
 
 	CGameGraphic *pGraphic = CGameGraphic::FromScriptHandle( iGraphicHandle );
 	if ( !pGraphic )
 	{
 		Warning( "CGameUIScriptInterface::CallGraphic with invalid graphic handle %d!\n", iGraphicHandle );
-		return NULL;
+		return nullptr;
 	}
 
 	// Build the key values for the command and call other script
@@ -221,12 +221,12 @@ HSCRIPT CGameUIScriptInterface::CallGraphic( int32 iGraphicHandle, const char *s
 HSCRIPT CGameUIScriptInterface::Nugget( const char *szCommandName, HSCRIPT hParams )
 {
 	if ( !szCommandName || !*szCommandName )
-		return NULL;
+		return nullptr;
 
 	if ( !m_pMenu || !m_pMenu->GetGameUISystem() )
 	{
 		DevWarning( "Scripts not connected to game UI system and cannot use nuggets!\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	// Build the key values for the command
@@ -249,14 +249,14 @@ HSCRIPT CGameUIScriptInterface::Nugget( const char *szCommandName, HSCRIPT hPara
 		if ( m_Nuggets.Find( szUseName ) != m_Nuggets.InvalidIndex() )
 		{
 			DevWarning( "Nugget factory %s is already loaded!\n", szUseName );
-			return NULL;
+			return nullptr;
 		}
 
 		IGameUIScreenControllerFactory *pFactory = g_pGameUISystemMgrImpl->GetScreenControllerFactory( szNuggetName );
 		if ( !pFactory )
 		{
 			DevWarning( "No nugget factory for %s!\n", szNuggetName );
-			return NULL;
+			return nullptr;
 		}
 		
 		kvCommand->SetName( szNuggetName );
@@ -264,7 +264,7 @@ HSCRIPT CGameUIScriptInterface::Nugget( const char *szCommandName, HSCRIPT hPara
 		if ( !pNugget )
 		{
 			DevWarning( "No nugget in factory %s!\n", szNuggetName );
-			return NULL;
+			return nullptr;
 		}
 
 		// Connect the nugget with our screen
@@ -294,31 +294,31 @@ HSCRIPT CGameUIScriptInterface::Nugget( const char *szCommandName, HSCRIPT hPara
 		if ( m_Nuggets.Find( szUseName ) != m_Nuggets.InvalidIndex() )
 		{
 			DevWarning( "Nugget factory %s is already loaded!\n", szUseName );
-			return NULL;
+			return nullptr;
 		}
 
 		CGameUISystem *pMenu = iRefScriptHandle ? CGameUISystem::FromScriptHandle( iRefScriptHandle ) : ( CGameUISystem * ) m_pMenu->GetGameUISystem();
 		if ( !pMenu )
 		{
 			DevWarning( "Nugget reference request %s with invalid script handle %d!\n", szUseName, iRefScriptHandle );
-			return NULL;
+			return nullptr;
 		}
 
-		CGameUIScriptInterface *pRefInterface = NULL;
+		CGameUIScriptInterface *pRefInterface = nullptr;
 		if ( CGameUIScript *pScript = pMenu->Definition().GetScript() )
 			pRefInterface = pScript->GetScriptInterface();
 
 		if ( !pRefInterface )
 		{
 			DevWarning( "Nugget reference request %s with script handle %d(%s) which has no scripts!\n", szUseName, iRefScriptHandle, pMenu->GetName() );
-			return NULL;
+			return nullptr;
 		}
 
 		unsigned short usIdx = pRefInterface->m_Nuggets.Find( szRefUseName );
 		if ( usIdx == pRefInterface->m_Nuggets.InvalidIndex() )
 		{
 			DevWarning( "Nugget reference request %s with script handle %d(%s) which has no nugget %s!\n", szUseName, iRefScriptHandle, pMenu->GetName(), szRefUseName );
-			return NULL;
+			return nullptr;
 		}
 
 		IGameUIScreenController *pNugget = pRefInterface->m_Nuggets.Element( usIdx );
@@ -353,7 +353,7 @@ HSCRIPT CGameUIScriptInterface::Nugget( const char *szCommandName, HSCRIPT hPara
 		if ( usIdx == m_Nuggets.InvalidIndex() )
 		{
 			DevWarning( "Nugget factory %s is not loaded!\n", szUseName );
-			return NULL;
+			return nullptr;
 		}
 
 		// Unload the nugget
@@ -365,7 +365,7 @@ HSCRIPT CGameUIScriptInterface::Nugget( const char *szCommandName, HSCRIPT hPara
 		{
 			DevMsg( "Unloaded nugget %s\n", szUseName );
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	if ( char const *szUse = StringAfterPrefix( kvCommand->GetName(), "use:" ) )
@@ -389,7 +389,7 @@ HSCRIPT CGameUIScriptInterface::Nugget( const char *szCommandName, HSCRIPT hPara
 		if ( usIdx == m_Nuggets.InvalidIndex() )
 		{
 			DevWarning( "Nugget factory %s is not loaded!\n", szUseName );
-			return NULL;
+			return nullptr;
 		}
 
 		// Nugget operation
@@ -406,7 +406,7 @@ HSCRIPT CGameUIScriptInterface::Nugget( const char *szCommandName, HSCRIPT hPara
 		return ScriptTableFromKeyValues( m_pScriptVM, kvResult );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool CGameUIScriptInterface::ScriptVmKeyValueToVariant( IScriptVM *pVM, KeyValues *val, ScriptVariant_t &varValue, char chScratchBuffer[KV_VARIANT_SCRATCH_BUF_SIZE] )
@@ -462,35 +462,35 @@ bool CGameUIScriptInterface::ScriptVmStringFromVariant( ScriptVariant_t &varValu
 
 KeyValues * CGameUIScriptInterface::ScriptVmKeyValueFromVariant( IScriptVM *pVM, ScriptVariant_t &varValue )
 {
-	KeyValues *val = NULL;
+	KeyValues *val = nullptr;
 
 	switch ( varValue.m_type )
 	{
 	case FIELD_INTEGER:
 		val = new KeyValues( "" );
-		val->SetInt( NULL, varValue.m_int );
+		val->SetInt(nullptr, varValue.m_int );
 		return val;
 	case FIELD_FLOAT:
 		val = new KeyValues( "" );
-		val->SetFloat( NULL, varValue.m_float );
+		val->SetFloat(nullptr, varValue.m_float );
 		return val;
 	case FIELD_BOOLEAN:
 		val = new KeyValues( "" );
-		val->SetInt( NULL, varValue.m_bool ? 1 : 0 );
+		val->SetInt(nullptr, varValue.m_bool ? 1 : 0 );
 		return val;
 	case FIELD_CHARACTER:
 		val = new KeyValues( "" );
-		val->SetString( NULL, CFmtStr( "%c", varValue.m_char ) );
+		val->SetString(nullptr, CFmtStr( "%c", varValue.m_char ) );
 		return val;
 	case FIELD_CSTRING:
 		val = new KeyValues( "" );
-		val->SetString( NULL, varValue.m_pszString ? varValue.m_pszString : "" );
+		val->SetString(nullptr, varValue.m_pszString ? varValue.m_pszString : "" );
 		return val;
 	case FIELD_HSCRIPT:
 		return ScriptTableToKeyValues( pVM, "", varValue.m_hScript );
 	default:
 		Warning( "ScriptVmKeyValueFromVariant failed to unpack parameter variant type %d\n", varValue.m_type );
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -537,7 +537,7 @@ KeyValues * CGameUIScriptInterface::ScriptTableToKeyValues( IScriptVM *pVM, char
 HSCRIPT CGameUIScriptInterface::ScriptTableFromKeyValues( IScriptVM *pVM, KeyValues *kv )
 {
 	if ( !kv || !pVM )
-		return NULL;
+		return nullptr;
 
 	ScriptVariant_t varTable;
 	pVM->CreateTable( varTable );

@@ -297,7 +297,7 @@ public:
 			return;
 
 		// try getting client SteamUtils interface
-		ISteamUtils *pSteamUtils = NULL;
+		ISteamUtils *pSteamUtils = nullptr;
 #if !defined( DEDICATED )
 		pSteamUtils = Steam3Client().SteamUtils();
 #endif
@@ -1085,7 +1085,7 @@ class CAsyncUploaderThread
 {
 public:
 	CAsyncUploaderThread()
-		: m_hThread( NULL ) {}
+		: m_hThread(nullptr) {}
 	~CAsyncUploaderThread()
 	{
 		if ( m_hThread )
@@ -1130,7 +1130,7 @@ CAsyncUploaderThread::DataEntry * CAsyncUploaderThread::DataEntry::AllocCopy() c
 	char *pbData = new char[ numBytes ];
 	DataEntry *pNew = ( DataEntry * )( pbData );
 	if ( !pNew )
-		return NULL;
+		return nullptr;
 
 	pNew->uiBlobVersion = uiBlobVersion;
 	pNew->uiBlobSize = uiBlobSize;
@@ -1174,7 +1174,7 @@ void CAsyncUploaderThread::ThreadProc()
 	for ( ; ; )
 	{
 		// Fetch an item from queue
-		DataEntry *pUpload = NULL;
+		DataEntry *pUpload = nullptr;
 		{
 			AUTO_LOCK( m_mtx );
 			if ( m_queue.Count() )

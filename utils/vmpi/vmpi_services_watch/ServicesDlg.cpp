@@ -67,7 +67,7 @@ const char* FindArg( const char *pName, const char *pEndArgDefault="" )
 				return pEndArgDefault;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void AppendStr( char *dest, int destSize, const char *pFormat, ... )
@@ -92,12 +92,12 @@ char* GetLastErrorString()
 		FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 		FORMAT_MESSAGE_FROM_SYSTEM | 
 		FORMAT_MESSAGE_IGNORE_INSERTS,
-		NULL,
+		nullptr,
 		GetLastError(),
 		MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 		(LPTSTR) &lpMsgBuf,
 		0,
-		NULL 
+		nullptr
 	);
 
 	strncpy( err, (char*)lpMsgBuf, sizeof( err ) );
@@ -329,7 +329,7 @@ CServicesDlg::CServicesDlg(CWnd* pParent /*=NULL*/)
 	//{{AFX_DATA_INIT(CServicesDlg)
 		// NOTE: the ClassWizard will add member initialization here
 	//}}AFX_DATA_INIT
-	m_pServicesPingSocket = NULL;
+	m_pServicesPingSocket = nullptr;
 }
 
 
@@ -528,7 +528,7 @@ void CServicesDlg::UpdateServicesFromNetMessages()
 					m_Services.AddToTail( pInfo );
 					pInfo->m_ComputerName = computerName;
 
-					pInfo->m_pLastStatusText = NULL;
+					pInfo->m_pLastStatusText = nullptr;
 					
 					pInfo->m_Addr.port = iPort;
 					pInfo->m_LastPingTimeMS = Plat_MSTime();
@@ -660,7 +660,7 @@ CServiceInfo* CServicesDlg::FindServiceByComputerName( const char *pComputerName
 		if ( Q_stricmp( m_Services[i]->m_ComputerName, pComputerName ) == 0 )
 			return m_Services[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -934,13 +934,13 @@ TryAgain:;
 		PROCESS_INFORMATION pi;
 		memset( &pi, 0, sizeof( pi ) );
 
-		if ( CreateProcess( NULL, commandLine, 
-			NULL, NULL, false, 
-			0,
-			NULL,
-			(const char *)dlg.m_PatchDirectory,
-			&si,
-			&pi ) )
+		if ( CreateProcess(nullptr, commandLine,
+		                   nullptr, nullptr, false, 
+		                   0,
+		                   nullptr,
+		                   (const char *)dlg.m_PatchDirectory,
+		                   &si,
+		                   &pi ) )
 		{
 			CloseHandle( pi.hProcess );
 			CloseHandle( pi.hThread );
@@ -1033,15 +1033,15 @@ void CServicesDlg::OnDblclkServicesList(NMHDR* pNMHDR, LRESULT* pResult)
 				PROCESS_INFORMATION pi;
 				memset( &pi, 0, sizeof( pi ) );
 
-				if ( !CreateProcess( 
-					NULL, 
-					(char*)(const char*)cmdLine, 
-					NULL,							// security
-					NULL,
+				if ( !CreateProcess(
+					nullptr, 
+					(char*)(const char*)cmdLine,
+					nullptr,							// security
+					nullptr,
 					TRUE,
 					0,			// flags
-					NULL,							// environment
-					NULL,							// current directory
+					nullptr,							// environment
+					nullptr,							// current directory
 					&si,
 					&pi ) )
 				{

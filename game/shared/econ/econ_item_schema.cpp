@@ -1561,10 +1561,10 @@ bool item_list_entry_t::InitFromName( const char *pchName )
 // 
 //-----------------------------------------------------------------------------
 CEconItemSetDefinition::CEconItemSetDefinition( void )
-	: m_pszName( NULL )
-	, m_pszLocalizedName( NULL )
-	, m_pszLocalizedDescription( NULL )
-	, m_pszUnlocalizedName( NULL )
+	: m_pszName(nullptr)
+	, m_pszLocalizedName(nullptr)
+	, m_pszLocalizedDescription(nullptr)
+	, m_pszUnlocalizedName(nullptr)
 	, m_iBundleItemDef( INVALID_ITEM_DEF_INDEX )
 	, m_bIsCollection( false )
 	, m_bIsHiddenSet( false )
@@ -1719,9 +1719,9 @@ bool CEconItemSetDefinition::BInitFromKV( KeyValues *pKVItemSet, CEconItemSchema
 int CEconItemSetDefinition::GetItemRarity( int iIndex ) const
 {
 	int nKitRarity = 1;
-	const CStickerKit *pStickerKit = NULL;
-	const CPaintKit *pPaintKit = NULL;
-	const CEconMusicDefinition *pMusicKitDefinition = NULL;
+	const CStickerKit *pStickerKit = nullptr;
+	const CPaintKit *pPaintKit = nullptr;
+	const CEconMusicDefinition *pMusicKitDefinition = nullptr;
 
 	item_list_entry_t const &entry = m_ItemEntries[iIndex];
 
@@ -1949,7 +1949,7 @@ bool CEconLootListDefinition::BInitFromKV( KeyValues *pKVLootList, KeyValues *pK
 		// First, see if we've got a loot list name, for embedded loot lists
 		int iIdx = 0;
 
-		if ( V_strstr( pszName, "unusual" ) != NULL )
+		if ( V_strstr( pszName, "unusual" ) != nullptr)
 		{
 			entry.m_bIsUnusualList = true;
 		}
@@ -2247,7 +2247,7 @@ bool CEconCraftingRecipeDefinition::BInitFromKV( KeyValues *pKVRecipe, CEconItem
 
 	// Read in all the input items
 	KeyValues *pKVInputItems = pKVRecipe->FindKey( "input_items" );
-	if ( NULL != pKVInputItems )
+	if (nullptr != pKVInputItems )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVInputItems, pKVInputItem )
 		{
@@ -2264,7 +2264,7 @@ bool CEconCraftingRecipeDefinition::BInitFromKV( KeyValues *pKVRecipe, CEconItem
 
 	// Read in all the output items
 	KeyValues *pKVOutputItems = pKVRecipe->FindKey( "output_items" );
-	if ( NULL != pKVOutputItems )
+	if (nullptr != pKVOutputItems )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVOutputItems, pKVOutputItem )
 		{
@@ -2290,7 +2290,7 @@ bool CEconCraftingRecipeDefinition::BInitFromSet( const IEconItemSetDefinition *
 	m_strDescOutputs = "RDO_AB";	// "Produces: %s1 %s2"
 	m_strDI_A = "1";				// "1"
 	m_strDI_B = pSet->GetLocKey();	// "The Office Collection"
-	m_strDI_C = NULL;	 
+	m_strDI_C = nullptr;	 
 	m_strDO_A = "1";				// "1"
 
 	const CEconItemDefinition *pItemDef = pschema.GetItemDefinition( pSet->GetCraftReward() );
@@ -2300,7 +2300,7 @@ bool CEconCraftingRecipeDefinition::BInitFromSet( const IEconItemSetDefinition *
 		CFmtStr( "Item Collection Craft Reward (%d) specifies invalid item def", pSet->GetCraftReward() ) );
 
 	m_strDO_B = pItemDef->GetItemBaseName();	 
-	m_strDO_C = NULL;
+	m_strDO_C = nullptr;
 
 	m_bRequiresAllSameClass = false;
 	m_bRequiresAllSameSlot = false;
@@ -2957,19 +2957,19 @@ private:
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
 CEconItemAttributeDefinition::CEconItemAttributeDefinition( void )
-:	m_pKVAttribute( NULL ),
-	m_pAttrType( NULL ),
+:	m_pKVAttribute(nullptr),
+	m_pAttrType(nullptr),
 	m_bHidden( false ),
 	m_bWebSchemaOutputForced( false ),
 	m_bStoredAsInteger( false ),
 	m_iEffectType( ATTRIB_EFFECT_NEUTRAL ),
 	m_iDescriptionFormat( 0 ),
-	m_pszDescriptionString( NULL ),
-	m_pszDescriptionTag( NULL ),
-	m_pszArmoryDesc( NULL ),
+	m_pszDescriptionString(nullptr),
+	m_pszDescriptionTag(nullptr),
+	m_pszArmoryDesc(nullptr),
 	m_iScore( 0 ),
-	m_pszDefinitionName( NULL ),
-	m_pszAttributeClass( NULL )
+	m_pszDefinitionName(nullptr),
+	m_pszAttributeClass(nullptr)
 #ifndef GC_DLL
   , m_iszAttributeClass( NULL_STRING )
 #endif
@@ -3011,18 +3011,18 @@ CEconItemAttributeDefinition &CEconItemAttributeDefinition::operator=( const CEc
 	m_iszAttributeClass = rhs.m_iszAttributeClass;
 #endif
 
-	m_pKVAttribute = NULL;
-	if ( NULL != rhs.m_pKVAttribute )
+	m_pKVAttribute = nullptr;
+	if (nullptr != rhs.m_pKVAttribute )
 	{
 		m_pKVAttribute = rhs.m_pKVAttribute->MakeCopy();
 
 		// Re-assign string pointers
 		m_pszDefinitionName = m_pKVAttribute->GetString("name");
-		m_pszDescriptionString = m_pKVAttribute->GetString( "description_string", NULL );
-		m_pszDescriptionTag = m_pKVAttribute->GetString( "description_tag", NULL );
+		m_pszDescriptionString = m_pKVAttribute->GetString( "description_string", nullptr);
+		m_pszDescriptionTag = m_pKVAttribute->GetString( "description_tag", nullptr);
 
-		m_pszArmoryDesc = m_pKVAttribute->GetString( "armory_desc", NULL );
-		m_pszAttributeClass = m_pKVAttribute->GetString( "attribute_class", NULL );
+		m_pszArmoryDesc = m_pKVAttribute->GetString( "armory_desc", nullptr);
+		m_pszAttributeClass = m_pKVAttribute->GetString( "attribute_class", nullptr);
 
 		Assert( V_strcmp( m_pszDefinitionName, rhs.m_pszDefinitionName ) == 0 );
 		Assert( V_strcmp( m_pszDescriptionString, rhs.m_pszDescriptionString ) == 0 );
@@ -3048,7 +3048,7 @@ CEconItemAttributeDefinition::~CEconItemAttributeDefinition( void )
 {
 	if ( m_pKVAttribute )
 		m_pKVAttribute->deleteThis();
-	m_pKVAttribute = NULL;
+	m_pKVAttribute = nullptr;
 }
 
 
@@ -3072,13 +3072,13 @@ bool CEconItemAttributeDefinition::BInitFromKV( KeyValues *pKVAttribute, CEconIt
 	m_iScore = m_pKVAttribute->GetInt( "score", 0 );
 	m_iEffectType = (attrib_effect_types_t)StringFieldToInt( m_pKVAttribute->GetString("effect_type"), g_EffectTypes, ARRAYSIZE(g_EffectTypes) );
 	m_iDescriptionFormat = StringFieldToInt( m_pKVAttribute->GetString("description_format"), g_AttributeDescriptionFormats, ARRAYSIZE(g_AttributeDescriptionFormats) );
-	m_pszDescriptionString = m_pKVAttribute->GetString( "description_string", NULL );
-	m_pszDescriptionTag = m_pKVAttribute->GetString( "description_tag", NULL );
-	m_pszArmoryDesc = m_pKVAttribute->GetString( "armory_desc", NULL );
-	m_pszAttributeClass = m_pKVAttribute->GetString( "attribute_class", NULL );
+	m_pszDescriptionString = m_pKVAttribute->GetString( "description_string", nullptr);
+	m_pszDescriptionTag = m_pKVAttribute->GetString( "description_tag", nullptr);
+	m_pszArmoryDesc = m_pKVAttribute->GetString( "armory_desc", nullptr);
+	m_pszAttributeClass = m_pKVAttribute->GetString( "attribute_class", nullptr);
 	m_bInstanceData = pKVAttribute->GetBool( "instance_data", false );
 
-	const char *pszAttrType = m_pKVAttribute->GetString( "attribute_type", NULL );		// NULL implies "default type" for backwards compatibility
+	const char *pszAttrType = m_pKVAttribute->GetString( "attribute_type", nullptr);		// NULL implies "default type" for backwards compatibility
 	m_pAttrType = pschema.GetAttributeType( pszAttrType );
 	SCHEMA_INIT_CHECK(
 		NULL != m_pAttrType,
@@ -3095,7 +3095,7 @@ bool CEconItemAttributeDefinition::BInitFromKV( KeyValues *pKVAttribute, CEconIt
 
 	m_unAssetClassBucket = pKVAttribute->GetInt( "asset_class_bucket", 0 );
 	m_eAssetClassAttrExportRule = k_EAssetClassAttrExportRule_Default;
-	if ( char const *szRule = pKVAttribute->GetString( "asset_class_export", NULL ) )
+	if ( char const *szRule = pKVAttribute->GetString( "asset_class_export", nullptr) )
 	{
 		if ( !V_stricmp( szRule, "skip" ) )
 		{
@@ -3193,7 +3193,7 @@ bool CEconSoundMaterialDefinition::BInitFromKV( KeyValues *pKVSoundMaterial, CEc
 // Purpose:	Constructor
 //-----------------------------------------------------------------------------
 CEconItemDefinition::CEconItemDefinition( void )
-:	m_pKVItem( NULL ),
+:	m_pKVItem(nullptr),
 m_bEnabled( false ),
 m_unMinItemLevel( 0 ),
 m_unMaxItemLevel( 100 ),
@@ -3204,37 +3204,37 @@ m_nItemQuality( k_unItemQuality_Any ),
 m_nForcedItemQuality( k_unItemQuality_Any ),
 m_nDefaultDropItemQuality( k_unItemQuality_Any ),
 m_nDefaultDropQuantity( 1 ),
-m_pProxyCriteria( NULL ),
+m_pProxyCriteria(nullptr),
 m_bLoadOnDemand( false ),
-m_pTool( NULL ),
+m_pTool(nullptr),
 m_rtExpiration( 0 ),
 m_rtDefCreation( 0 ),
-m_BundleInfo( NULL ),
+m_BundleInfo(nullptr),
 m_unNumConcreteItems( 0 ),
 m_nSoundMaterialID( 0 ),
 m_nPopularitySeed( 0 ),
-m_pszDefinitionName( NULL ),
-m_pszItemClassname( NULL ),
-m_pszClassToken( NULL ),
-m_pszSlotToken( NULL ),
-m_pszItemBaseName( NULL ),
-m_pszItemTypeName( NULL ),
+m_pszDefinitionName(nullptr),
+m_pszItemClassname(nullptr),
+m_pszClassToken(nullptr),
+m_pszSlotToken(nullptr),
+m_pszItemBaseName(nullptr),
+m_pszItemTypeName(nullptr),
 m_unItemTypeID( 0 ),
-m_pszItemDesc( NULL ),
-m_pszArmoryDesc( NULL ),
-m_pszInventoryModel( NULL ),
-m_pszInventoryImage( NULL ),
-m_pszHolidayRestriction( NULL ),
+m_pszItemDesc(nullptr),
+m_pszArmoryDesc(nullptr),
+m_pszInventoryModel(nullptr),
+m_pszInventoryImage(nullptr),
+m_pszHolidayRestriction(nullptr),
 m_iSubType( 0 ),
-m_pszBaseDisplayModel( NULL ),
-m_pszWorldDisplayModel( NULL ),
-m_pszWorldDroppedModel( NULL ),
-m_pszWorldExtraWearableModel( NULL ),
-m_pszIconDefaultImage( NULL ),
-m_pszParticleFile( NULL ),
-m_pszParticleSnapshotFile( NULL ),
-m_pInventoryImageData( NULL ),
-m_pszBrassModelOverride( NULL ),
+m_pszBaseDisplayModel(nullptr),
+m_pszWorldDisplayModel(nullptr),
+m_pszWorldDroppedModel(nullptr),
+m_pszWorldExtraWearableModel(nullptr),
+m_pszIconDefaultImage(nullptr),
+m_pszParticleFile(nullptr),
+m_pszParticleSnapshotFile(nullptr),
+m_pInventoryImageData(nullptr),
+m_pszBrassModelOverride(nullptr),
 m_bHideBodyGroupsDeployedOnly( false ),
 m_bAttachToHands( false ),
 m_bAttachToHandsVMOnly( false ),
@@ -3245,22 +3245,22 @@ m_iDropType( 1 ),
 m_bHidden( false ),
 m_bShouldShowInArmory( false ),
 m_bIsPackBundle( false ),
-m_pOwningPackBundle( NULL ),
+m_pOwningPackBundle(nullptr),
 m_bBaseItem( false ),
-m_pszItemLogClassname( NULL ),
-m_pszItemIconClassname( NULL ),
+m_pszItemLogClassname(nullptr),
+m_pszItemIconClassname(nullptr),
 #if ECONITEM_DATABASE_AUDIT_TABLES_FEATURE
 m_pszDatabaseAuditTable( NULL ),
 #endif
 m_bImported( false ),
 m_bOnePerAccountCDKEY( false ),
-m_pszArmoryRemap( NULL ),
-m_pszStoreRemap( NULL ),
+m_pszArmoryRemap(nullptr),
+m_pszStoreRemap(nullptr),
 m_bPublicItem( false ),
 m_bIgnoreInCollectionView( false ),
 m_nAssociatedItemsDefIndexes( NULL ),
-m_pPortraitsKV( NULL ),
-m_pAssetInfo( NULL ),
+m_pPortraitsKV(nullptr),
+m_pAssetInfo(nullptr),
 m_eItemType( k_EItemTypeNone ),
 m_bAllowPurchaseStandalone( false )
 {
@@ -3275,7 +3275,7 @@ CEconItemDefinition::~CEconItemDefinition( void )
 {
 	if ( m_pKVItem )
 		m_pKVItem->deleteThis();
-	m_pKVItem = NULL;
+	m_pKVItem = nullptr;
 	delete m_pProxyCriteria;
 	delete m_pTool;
 	delete m_BundleInfo;
@@ -3327,8 +3327,8 @@ bool CEconItemDefinition::BInitFromTestItemKVs( int iNewDefIndex, KeyValues *pKV
 	bool bTestingExistingItem = pKVItem->GetInt( "test_existing_item", 0 ) != 0;
 	if ( !bTestingExistingItem )
 	{
-		m_pszDefinitionName = pKVItem->GetString( "name", NULL );
-		m_pszItemBaseName = pKVItem->GetString( "name", NULL );
+		m_pszDefinitionName = pKVItem->GetString( "name", nullptr);
+		m_pszItemBaseName = pKVItem->GetString( "name", nullptr);
 
 #ifdef CLIENT_DLL
 		pKVItem->SetString( "name", VarArgs("Test Item %d", iNewDefIndex) );
@@ -3336,13 +3336,13 @@ bool CEconItemDefinition::BInitFromTestItemKVs( int iNewDefIndex, KeyValues *pKV
 		pKVItem->SetString( "name", UTIL_VarArgs("Test Item %d", iNewDefIndex) );
 #endif
 
-		m_pszBaseDisplayModel = pKVItem->GetString( "model_player", NULL );
+		m_pszBaseDisplayModel = pKVItem->GetString( "model_player", nullptr);
 		m_bAttachToHands = pKVItem->GetInt( "attach_to_hands", 0 ) != 0;
 
 		BInitVisualBlockFromKV( pKVItem, pschema );
 
-		m_pszParticleFile = pKVItem->GetString( "particle_file", NULL );
-		m_pszParticleSnapshotFile = pKVItem->GetString( "particle_snapshot", NULL );
+		m_pszParticleFile = pKVItem->GetString( "particle_file", nullptr);
+		m_pszParticleSnapshotFile = pKVItem->GetString( "particle_snapshot", nullptr);
 	}
 
 	// Handle attributes
@@ -3388,7 +3388,7 @@ CUtlVector<AssetModifier*>* AssetInfo::GetAssetModifiers( EAssetModifier type )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -3417,7 +3417,7 @@ const char* AssetInfo::GetModifierByAsset( EAssetModifier type, const char* pszA
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const char* AssetInfo::GetAssetByModifier( EAssetModifier type, const char* pszModifier, int iStyle )
@@ -3445,7 +3445,7 @@ const char* AssetInfo::GetAssetByModifier( EAssetModifier type, const char* pszM
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3454,7 +3454,7 @@ const char* AssetInfo::GetAssetByModifier( EAssetModifier type, const char* pszM
 void CEconItemDefinition::BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors )
 {
 	// Visuals
-	m_pAssetInfo = NULL;
+	m_pAssetInfo = nullptr;
 	KeyValues *pVisualsKV = pKVItem->FindKey( "visuals" );
 	if ( pVisualsKV )
 	{
@@ -3472,7 +3472,7 @@ void CEconItemDefinition::BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemS
 				{
 					int iAtt = pVisData->m_AttachedModels.AddToTail();
 					pVisData->m_AttachedModels[iAtt].m_iModelDisplayFlags = pKVAttachedModelData->GetInt( "model_display_flags", kAttachedModelDisplayFlag_MaskAll );
-					pVisData->m_AttachedModels[iAtt].m_pszModelName = pKVAttachedModelData->GetString( "model", NULL );
+					pVisData->m_AttachedModels[iAtt].m_pszModelName = pKVAttachedModelData->GetString( "model", nullptr);
 				}
 			}
 			else if ( StringHasPrefix( pszEntry, "attached_particlesystem" ) )
@@ -3480,7 +3480,7 @@ void CEconItemDefinition::BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemS
 				// This replaces TF's "attached_particlesystem", "custom_particlesystem", and "custom_particlesystem2"
 				// It now indexes into the attributecontrolledparticlesystems list (use the "custom_type" field if you want a custom attribute)
 				int iParticleIndex;
-				if ( pschema.FindAttributeControlledParticleSystem( pKVEntry->GetString( "system", NULL ), &iParticleIndex ) )
+				if ( pschema.FindAttributeControlledParticleSystem( pKVEntry->GetString( "system", nullptr), &iParticleIndex ) )
 				{
 					attachedparticle_t attachedParticle;
 					attachedParticle.m_iParticleIndex = iParticleIndex;
@@ -3492,19 +3492,19 @@ void CEconItemDefinition::BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemS
 			else if ( StringHasPrefix( pszEntry, "asset_modifier" ) )
 			{
 				AssetModifier* newMod = new AssetModifier();
-				newMod->m_Type = GetAssetModifierType( pKVEntry->GetString( "type", NULL ) );
-				newMod->m_strModifier = pKVEntry->GetString( "modifier", NULL );
+				newMod->m_Type = GetAssetModifierType( pKVEntry->GetString( "type", nullptr) );
+				newMod->m_strModifier = pKVEntry->GetString( "modifier", nullptr);
 				newMod->m_flModifier = pKVEntry->GetFloat( "modifier", 0.f );
-				newMod->m_strAsset = pKVEntry->GetString( "asset", NULL );
+				newMod->m_strAsset = pKVEntry->GetString( "asset", nullptr);
 				newMod->m_iStyle = pKVEntry->GetInt( "style", 0 );
 				pVisData->AddAssetModifier( newMod );
 
 				// Items can have any number of asset modifiers.
 				// The variables can be used in any way, based on type, but the format is all the same to simplify the editor.
-				const char* pszAssetModifierType = pKVEntry->GetString( "type", NULL );
+				const char* pszAssetModifierType = pKVEntry->GetString( "type", nullptr);
 
-				const char* pszAssetName = pKVEntry->GetString( "asset", NULL );
-				const char* pszModifierName = pKVEntry->GetString( "modifier", NULL );
+				const char* pszAssetName = pKVEntry->GetString( "asset", nullptr);
+				const char* pszModifierName = pKVEntry->GetString( "modifier", nullptr);
 				float flFrequency = pKVEntry->GetFloat( "frequency", 1.0 );
 
 				if ( FStrEq( pszAssetModifierType, "activity" ) )
@@ -3604,7 +3604,7 @@ void CEconItemDefinition::BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemS
 			{
 				int iAtt = pVisData->m_Animations.AddToTail();
 				pVisData->m_Animations[iAtt].iActivity = -2;	// We can't look it up yet, the activity list hasn't been populated.
-				pVisData->m_Animations[iAtt].pszActivity = pKVEntry->GetString( "activity", NULL );
+				pVisData->m_Animations[iAtt].pszActivity = pKVEntry->GetString( "activity", nullptr);
 
 				const char* playback = pKVEntry->GetString( "playback" );
 				if ( playback )
@@ -3613,11 +3613,11 @@ void CEconItemDefinition::BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemS
 				}
 
 				pVisData->m_Animations[iAtt].iReplacement = kActivityLookup_Unknown;
-				pVisData->m_Animations[iAtt].pszReplacement = pKVEntry->GetString( "replacement", NULL );
+				pVisData->m_Animations[iAtt].pszReplacement = pKVEntry->GetString( "replacement", nullptr);
 
-				pVisData->m_Animations[iAtt].pszSequence = pKVEntry->GetString( "sequence", NULL );
-				pVisData->m_Animations[iAtt].pszScene = pKVEntry->GetString( "scene", NULL );
-				pVisData->m_Animations[iAtt].pszRequiredItem = pKVEntry->GetString( "required_item", NULL );
+				pVisData->m_Animations[iAtt].pszSequence = pKVEntry->GetString( "sequence", nullptr);
+				pVisData->m_Animations[iAtt].pszScene = pKVEntry->GetString( "scene", nullptr);
+				pVisData->m_Animations[iAtt].pszRequiredItem = pKVEntry->GetString( "required_item", nullptr);
 				pVisData->m_Animations[iAtt].flFrequency = pKVEntry->GetFloat( "frequency", 1.0 );
 			}
 			else if ( !Q_stricmp( pszEntry, "player_bodygroups" ) )
@@ -3682,11 +3682,11 @@ void CEconItemDefinition::BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemS
 			}
 			else if ( !Q_stricmp( pszEntry, "code_controlled_bodygroup" ) )
 			{
-				const char *pBodyGroupName = pKVEntry->GetString( "bodygroup", NULL );
-				const char *pFuncName = pKVEntry->GetString( "function", NULL );
+				const char *pBodyGroupName = pKVEntry->GetString( "bodygroup", nullptr);
+				const char *pFuncName = pKVEntry->GetString( "function", nullptr);
 				if ( pBodyGroupName && pFuncName )
 				{
-					codecontrolledbodygroupdata_t ccbgd = { pFuncName, NULL };
+					codecontrolledbodygroupdata_t ccbgd = { pFuncName, nullptr};
 					pVisData->m_CodeControlledBodyGroupNames.Insert( pBodyGroupName, ccbgd );
 				}
 			}
@@ -3776,7 +3776,7 @@ void CEconItemDefinition::BInitVisualBlockFromKV( KeyValues *pKVItem, IEconItemS
 		}
 
 		KeyValues * pKVAlternateIcons = pVisualsKV->FindKey( "alternate_icons" );
-		if ( NULL != pKVAlternateIcons )
+		if (nullptr != pKVAlternateIcons )
 		{
 			BInitAlternateIconsFromKV( pKVAlternateIcons, *(CEconItemSchema*)( &pschema ), pVisData, pVecErrors );
 		}
@@ -4061,7 +4061,7 @@ void CEconStyleInfo::BInitFromKV( KeyValues *pKVStyle, CEconItemSchema &pschema,
 
 	// Remaining common properties.
 	m_pszName = pKVStyle->GetString( "name", "#TF_UnknownStyle" );
-	m_pszBasePlayerModel = pKVStyle->GetString( "model_player", NULL );
+	m_pszBasePlayerModel = pKVStyle->GetString( "model_player", nullptr);
 
 	// An alternate icon to use.
 	m_iIcon = pKVStyle->GetInt( "alternate_icon", 0 );
@@ -4071,9 +4071,9 @@ void CEconStyleInfo::BInitFromKV( KeyValues *pKVStyle, CEconItemSchema &pschema,
 	if ( pUnlockInfo )
 	{
 		m_UnlockInfo.iPrice = pUnlockInfo->GetInt( "price", 0 );
-		m_UnlockInfo.pszItemName = pUnlockInfo->GetString( "item", NULL );
+		m_UnlockInfo.pszItemName = pUnlockInfo->GetString( "item", nullptr);
 		m_UnlockInfo.iStylePreReq = pUnlockInfo->GetInt( "style", 0 );
-		m_UnlockInfo.pszAttrib = pUnlockInfo->GetString( "attribute", NULL );
+		m_UnlockInfo.pszAttrib = pUnlockInfo->GetString( "attribute", nullptr);
 		m_UnlockInfo.iAttribValue = pUnlockInfo->GetInt( "attribute_value", 0 );
 	}
 }
@@ -4086,7 +4086,7 @@ void CEconStyleInfo::GeneratePrecacheModelStringsForStyle( CUtlVector<const char
 {
 	Assert( out_pVecModelStrings );
 
-	if ( GetBasePlayerDisplayModel() != NULL )
+	if ( GetBasePlayerDisplayModel() != nullptr)
 	{
 		out_pVecModelStrings->AddToTail( GetBasePlayerDisplayModel() );
 	}
@@ -4175,7 +4175,7 @@ static KeyValues *InheritKeyValuesRTLMulti( KeyValues *pInstance, CEconItemSchem
 #endif
 
 	CUtlVector< char * > arrPrefabs;
-	if ( const char *svPrefabName = pFinalValues->GetString( "prefab", NULL ) )
+	if ( const char *svPrefabName = pFinalValues->GetString( "prefab", nullptr) )
 	{
 		Q_SplitString( svPrefabName, " ", arrPrefabs );
 
@@ -4243,7 +4243,7 @@ KeyValues *CEconItemSchema::FindDefinitionPrefabByName( const char *pszPrefabNam
 	if ( m_mapDefinitionPrefabs.IsValidIndex( iIndex ) )
 		return m_mapDefinitionPrefabs[iIndex];
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -4279,7 +4279,7 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 	// This is our one-and-only-one associated item
 	else if ( pKVSingleAssocItem )
 	{
-		const char *pAssocItem = pKVSingleAssocItem->GetString( (const char *)NULL, NULL );
+		const char *pAssocItem = pKVSingleAssocItem->GetString( (const char *)nullptr, nullptr);
 		if ( pAssocItem )
 		{
 			m_nAssociatedItemsDefIndexes.AddToTail( atoi( pAssocItem ) );
@@ -4291,7 +4291,7 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 	m_nPopularitySeed = m_pKVItem->GetInt( "popularity_seed", 0 );
 
 	// initializing this one first so that it will be available for all the errors below
-	m_pszDefinitionName = m_pKVItem->GetString( "name", NULL );
+	m_pszDefinitionName = m_pKVItem->GetString( "name", nullptr);
 
 	m_bDisableStyleSelection = m_pKVItem->GetBool( "disable_style_selector", false );
 	
@@ -4323,12 +4323,12 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 		CFmtStr( "Item definition %s: \"max_ilevel\" must be greater than or equal to 0", GetDefinitionName() ) );
 
 	// Get the item class
-	m_pszItemClassname = m_pKVItem->GetString( "item_class", NULL );
+	m_pszItemClassname = m_pKVItem->GetString( "item_class", nullptr);
 
 	m_bAllowPurchaseStandalone = m_pKVItem->GetBool( "allow_purchase_standalone", false );
 
-	m_pszClassToken = m_pKVItem->GetString( "class_token_id", NULL );
-	m_pszSlotToken = m_pKVItem->GetString( "slot_token_id", NULL );
+	m_pszClassToken = m_pKVItem->GetString( "class_token_id", nullptr);
+	m_pszSlotToken = m_pKVItem->GetString( "slot_token_id", nullptr);
 
 	m_bPublicItem = m_pKVItem->GetInt( "developer" ) == 0;
 	m_bIgnoreInCollectionView = m_pKVItem->GetBool( "ignore_in_collection_view", false );
@@ -4336,20 +4336,20 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 	// Display data
 	m_pszItemBaseName = m_pKVItem->GetString( "item_name", "" ); // non-NULL to ensure we can sort
 	m_pszItemTypeName = m_pKVItem->GetString( "item_type_name", "" ); // non-NULL to ensure we can sort
-	m_pszItemDesc = m_pKVItem->GetString( "item_description", NULL );
-	m_pszArmoryDesc = m_pKVItem->GetString( "armory_desc", NULL );
-	m_pszInventoryModel = m_pKVItem->GetString( "model_inventory", NULL );
-	m_pszInventoryImage = m_pKVItem->GetString( "image_inventory", NULL );
+	m_pszItemDesc = m_pKVItem->GetString( "item_description", nullptr);
+	m_pszArmoryDesc = m_pKVItem->GetString( "armory_desc", nullptr);
+	m_pszInventoryModel = m_pKVItem->GetString( "model_inventory", nullptr);
+	m_pszInventoryImage = m_pKVItem->GetString( "image_inventory", nullptr);
 
 	m_pPortraitsKV = m_pKVItem->FindKey( "portraits" );
 
 	m_unItemTypeID = CRC32_ProcessSingleBuffer( m_pszItemTypeName, V_strlen( m_pszItemTypeName ) );
-	const char* pOverlay = m_pKVItem->GetString( "image_inventory_overlay", NULL );
+	const char* pOverlay = m_pKVItem->GetString( "image_inventory_overlay", nullptr);
 	if ( pOverlay )
 	{
 		m_pszInventoryOverlayImages.AddToTail( pOverlay );
 	}
-	pOverlay = m_pKVItem->GetString( "image_inventory_overlay2", NULL );
+	pOverlay = m_pKVItem->GetString( "image_inventory_overlay2", nullptr);
 	if ( pOverlay )
 	{
 		m_pszInventoryOverlayImages.AddToTail( pOverlay );
@@ -4359,14 +4359,14 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 	m_iInventoryImagePosition[1] = m_pKVItem->GetInt( "image_inventory_pos_y", 0 );
 	m_iInventoryImageSize[0] = m_pKVItem->GetInt( "image_inventory_size_w", 0 );
 	m_iInventoryImageSize[1] = m_pKVItem->GetInt( "image_inventory_size_h", 0 );
-	m_pszHolidayRestriction = m_pKVItem->GetString( "holiday_restriction", NULL );
+	m_pszHolidayRestriction = m_pKVItem->GetString( "holiday_restriction", nullptr);
 	m_iSubType = m_pKVItem->GetInt( "subtype", 0 );
-	m_pszBaseDisplayModel = m_pKVItem->GetString( "model_player", NULL );
-	m_pszWorldDisplayModel = m_pKVItem->GetString( "model_world", NULL ); // Not the ideal method. c_models are better, but this is to solve a retrofit problem with the sticky launcher.
-	m_pszWorldDroppedModel = m_pKVItem->GetString( "model_dropped", NULL );
+	m_pszBaseDisplayModel = m_pKVItem->GetString( "model_player", nullptr);
+	m_pszWorldDisplayModel = m_pKVItem->GetString( "model_world", nullptr); // Not the ideal method. c_models are better, but this is to solve a retrofit problem with the sticky launcher.
+	m_pszWorldDroppedModel = m_pKVItem->GetString( "model_dropped", nullptr);
 
 	//build the world dropped model string by appending "_dropped"
-	if ( ( m_pszWorldDroppedModel == NULL ) && ( m_pszWorldDisplayModel != NULL ) )
+	if ( ( m_pszWorldDroppedModel == nullptr) && ( m_pszWorldDisplayModel != nullptr) )
 	{
 		V_StripExtension( m_pszWorldDisplayModel, m_szWorldDroppedModel, sizeof( m_szWorldDroppedModel ) );
 		V_strcat_safe( m_szWorldDroppedModel, "_dropped.mdl" );
@@ -4375,11 +4375,11 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 	
 	// Add new StatTrak modules here.
 
-	m_pszIconDefaultImage = m_pKVItem->GetString( "icon_default_image", NULL );
-	m_pszWorldExtraWearableModel = m_pKVItem->GetString( "extra_wearable", NULL ); 
-	m_pszBrassModelOverride = m_pKVItem->GetString( "brass_eject_model", NULL );
-	m_pszWorldExtraWearableModel = m_pKVItem->GetString( "extra_wearable", NULL ); 
-	m_pszBrassModelOverride = m_pKVItem->GetString( "brass_eject_model", NULL );
+	m_pszIconDefaultImage = m_pKVItem->GetString( "icon_default_image", nullptr);
+	m_pszWorldExtraWearableModel = m_pKVItem->GetString( "extra_wearable", nullptr); 
+	m_pszBrassModelOverride = m_pKVItem->GetString( "brass_eject_model", nullptr);
+	m_pszWorldExtraWearableModel = m_pKVItem->GetString( "extra_wearable", nullptr); 
+	m_pszBrassModelOverride = m_pKVItem->GetString( "brass_eject_model", nullptr);
 	m_bHideBodyGroupsDeployedOnly = m_pKVItem->GetBool( "hide_bodygroups_deployed_only" );
 	m_bAttachToHands = m_pKVItem->GetInt( "attach_to_hands", 0 ) != 0;
 	m_bAttachToHandsVMOnly = m_pKVItem->GetInt( "attach_to_hands_vm_only", 0 ) != 0;
@@ -4393,18 +4393,18 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 	m_bShouldShowInArmory = m_pKVItem->GetInt( "show_in_armory", 0 ) != 0;
 	m_bBaseItem = m_pKVItem->GetInt( "baseitem", 0 ) != 0;
 	m_bDefaultSlotItem = m_pKVItem->GetInt( "default_slot_item", 0 ) != 0;
-	m_pszItemLogClassname = m_pKVItem->GetString( "item_logname", NULL );
-	m_pszItemIconClassname = m_pKVItem->GetString( "item_iconname", NULL );
+	m_pszItemLogClassname = m_pKVItem->GetString( "item_logname", nullptr);
+	m_pszItemIconClassname = m_pKVItem->GetString( "item_iconname", nullptr);
 #if ECONITEM_DATABASE_AUDIT_TABLES_FEATURE
 	m_pszDatabaseAuditTable = m_pKVItem->GetString( "database_audit_table", NULL );
 #endif
-	m_bImported = m_pKVItem->FindKey( "import_from" ) != NULL;
+	m_bImported = m_pKVItem->FindKey( "import_from" ) != nullptr;
 	m_bOnePerAccountCDKEY = m_pKVItem->GetInt( "one_per_account_cdkey", 0 ) != 0;
 
-	m_pszParticleFile = m_pKVItem->GetString( "particle_file", NULL );
-	m_pszParticleSnapshotFile = m_pKVItem->GetString( "particle_snapshot", NULL );
+	m_pszParticleFile = m_pKVItem->GetString( "particle_file", nullptr);
+	m_pszParticleSnapshotFile = m_pKVItem->GetString( "particle_snapshot", nullptr);
 
-	m_pszLootListName = m_pKVItem->GetString( "loot_list_name", NULL );
+	m_pszLootListName = m_pKVItem->GetString( "loot_list_name", nullptr);
 
 	// Stickers
 	KeyValues *pStickerDataKV = m_pKVItem->FindKey( "stickers" );
@@ -4447,16 +4447,16 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 	}
 
 	// Tool data
-	m_pTool = NULL;
+	m_pTool = nullptr;
 	KeyValues *pToolDataKV = m_pKVItem->FindKey( "tool" );
 	if ( pToolDataKV )
 	{
-		const char *pszType = pToolDataKV->GetString( "type", NULL );
+		const char *pszType = pToolDataKV->GetString( "type", nullptr);
 		SCHEMA_INIT_CHECK( pszType, CFmtStr( "Tool '%s' missing required type.", m_pKVItem->GetName() ) );
 
 		// Common-to-all-tools settings.
-		const char *pszUseString = pToolDataKV->GetString( "use_string", NULL );
-		const char *pszUsageRestriction = pToolDataKV->GetString( "restriction", NULL );
+		const char *pszUseString = pToolDataKV->GetString( "use_string", nullptr);
+		const char *pszUsageRestriction = pToolDataKV->GetString( "restriction", nullptr);
 		KeyValues *pToolUsageKV = pToolDataKV->FindKey( "usage" );
 
 		// Common-to-all-tools usage capability flags.
@@ -4490,8 +4490,8 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 	}
 
 	// cache item map names
-	m_pszArmoryRemap = m_pKVItem->GetString( "armory_remap", NULL );
-	m_pszStoreRemap = m_pKVItem->GetString( "store_remap", NULL );
+	m_pszArmoryRemap = m_pKVItem->GetString( "armory_remap", nullptr);
+	m_pszStoreRemap = m_pKVItem->GetString( "store_remap", nullptr);
 
 	// Don't bother parsing visual data on the GC, it's unused.
 	BInitVisualBlockFromKV( m_pKVItem, pschema, pVecErrors );
@@ -4523,7 +4523,7 @@ bool CEconItemDefinition::BInitFromKV( KeyValues *pKVItem, CEconItemSchema &psch
 		// This is our one-and-only-one equip region.
 		else if ( pKVSingleEquipRegion )
 		{
-			const char *pEquipRegionName = pKVSingleEquipRegion->GetString( (const char *)NULL, NULL );
+			const char *pEquipRegionName = pKVSingleEquipRegion->GetString( (const char *)nullptr, nullptr);
 			if ( pEquipRegionName )
 			{
 				vecEquipRegionNames.AddToTail( pEquipRegionName );
@@ -4581,7 +4581,7 @@ bool static_attrib_t::BInitFromKV_MultiLine( const char *pszContext, KeyValues *
 
 		iDefIndex = pAttrDef->GetDefinitionIndex();
 
-		const char *pszValue = pKVAttribute->GetString( "value", NULL );
+		const char *pszValue = pKVAttribute->GetString( "value", nullptr);
 		const bool bSuccessfullyLoadedValue = pAttrType->BConvertStringToEconAttributeValue( pAttrDef, pszValue, &m_value );
 
 		SCHEMA_INIT_CHECK(
@@ -4664,7 +4664,7 @@ bool CEconItemDefinition::BInitItemMappings( CEconItemSchema &pschema, CUtlVecto
 KeyValues* CEconItemDefinition::GetPortraitKVForModel( const char* pszModelName ) const 
 {
 	if ( !m_pPortraitsKV )
-		return NULL;
+		return nullptr;
 	
 	return m_pPortraitsKV->FindKey( pszModelName ); 
 }
@@ -4690,11 +4690,11 @@ const CUtlVector< int >& CEconItemDefinition::GetItemSets( void ) const
 attachedparticlesystem_t *CEconItemDefinition::GetAttachedParticleData( int iIdx ) const
 {
 	if ( !GetAssetInfo() )
-		return NULL;
+		return nullptr;
 
 	Assert( iIdx < GetAssetInfo()->m_AttachedParticles.Count() );
 	if ( iIdx >= GetAssetInfo()->m_AttachedParticles.Count() )
-		return NULL;
+		return nullptr;
 
 	int iParticleIndex = GetAssetInfo()->m_AttachedParticles[iIdx].m_iParticleIndex;
 	return ItemSystem()->GetItemSchema()->GetAttributeControlledParticleSystemByIndex( iParticleIndex );
@@ -4807,7 +4807,7 @@ const char *CEconItemDefinition::GetReplacementForActivityOverride( Activity bas
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -4824,7 +4824,7 @@ const char *CEconItemDefinition::GetReplacementSound( const char* pszSoundName )
 			return pData->pszReplacement;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -4840,7 +4840,7 @@ const char *CEconItemDefinition::GetReplacementParticleEffect( const char* pszPa
 			return pData->pszReplacement;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -4856,7 +4856,7 @@ const char *CEconItemDefinition::GetReplacementParticleSnapshot( const char* psz
 			return pData->pszReplacement;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -4904,7 +4904,7 @@ const char* CEconItemDefinition::GetAlternateIcon( int iAlternateIcon ) const
 {
 	int iIdx = m_pMapAlternateIcons->Find( iAlternateIcon );
 	if ( !m_pMapAlternateIcons->IsValidIndex( iIdx ) )
-		return NULL;
+		return nullptr;
 	else
 		return m_pMapAlternateIcons->Element( iIdx );
 }
@@ -4953,10 +4953,10 @@ const char *CEconItemDefinition::GetStatTrakModelByType( uint32 nType ) const
 	}
 
 	if ( !pScoreType )
-		return NULL;
+		return nullptr;
 
 	CSchemaAttributeDefHandle pAttrib_StatTrakModel( pScoreType->m_pszModelAttributeString );
-	const char *pchStatTrakModel = NULL;
+	const char *pchStatTrakModel = nullptr;
 	FindAttribute_UnsafeBitwiseCast< CAttribute_String >( this, pAttrib_StatTrakModel, &pchStatTrakModel );
 
 	return pchStatTrakModel;
@@ -5128,7 +5128,7 @@ bool CTimedItemRewardDefinition::BInitFromKV( KeyValues *pKVTimedReward, CEconIt
 		}
 	}
 
-	const char *pszLootList = pKVTimedReward->GetString("loot_list", NULL);
+	const char *pszLootList = pKVTimedReward->GetString("loot_list", nullptr);
 	if ( pszLootList && pszLootList[0] )
 	{
 		CUtlVector< char * > arrLootListsTokens;
@@ -5318,7 +5318,7 @@ bool CStickerKit::InitFromKeyValues( KeyValues *pKVEntry, const CStickerKit *pDe
 	m_nEventTeamID = pKVEntry->GetInt( "tournament_team_id", pDefault->m_nEventTeamID );
 	m_nPlayerID = pKVEntry->GetInt( "tournament_player_id", pDefault->m_nPlayerID );
 
-	m_pKVItem = pKVEntry ? pKVEntry->MakeCopy() : NULL;
+	m_pKVItem = pKVEntry ? pKVEntry->MakeCopy() : nullptr;
 		
 	return true;
 }
@@ -5624,7 +5624,7 @@ const CEconItemDefinition *CForeignAppImports::FindMapping( uint16 unForeignDefI
 	if( m_mapDefinitions.IsValidIndex( i ) )
 		return m_mapDefinitions[i];
 	else
-		return NULL;
+		return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -5640,15 +5640,15 @@ static bool LLLessFunc( const int& e1, const int&e2 )
 //-----------------------------------------------------------------------------
 CEconItemSchema::CEconItemSchema( )
 : 	m_unResetCount( 0 )
-,	m_pKVRawDefinition( NULL )
+,	m_pKVRawDefinition(nullptr)
 ,	m_unVersion( 0 )
-,	m_pDefaultItemDefinition( NULL )
+,	m_pDefaultItemDefinition(nullptr)
 ,	m_mapItemSets( DefLessFunc(const char*) )
 ,	m_mapDefinitionPrefabs( DefLessFunc(const char*) )
 ,	m_mapDefaultBodygroupState( DefLessFunc(const char*) )
 ,	m_bSchemaParsingItems(false)
 #if defined(CLIENT_DLL) || defined(GAME_DLL)
-,	m_pDelayedSchemaData( NULL )
+,	m_pDelayedSchemaData(nullptr)
 #endif
 ,	m_mapKillEaterScoreTypes( DefLessFunc( unsigned int ) )
 {
@@ -5705,12 +5705,12 @@ void CEconItemSchema::Reset( void )
 	if ( m_pKVRawDefinition )
 	{
 		m_pKVRawDefinition->deleteThis();
-		m_pKVRawDefinition = NULL;
+		m_pKVRawDefinition = nullptr;
 	}
 
 #if defined(CLIENT_DLL) || defined(GAME_DLL)
 	delete m_pDefaultItemDefinition;
-	m_pDefaultItemDefinition = NULL;
+	m_pDefaultItemDefinition = nullptr;
 #endif
 
 	FOR_EACH_MAP_FAST( m_mapRecipes, i )
@@ -5809,7 +5809,7 @@ bool CEconItemSchema::BInit( const char *fileName, const char *pathID, CUtlVecto
 	if ( !m_pKVRawDefinition->LoadFromFile( g_pFullFileSystem, fileName, pathID ) )
 	{
 		m_pKVRawDefinition->deleteThis();
-		m_pKVRawDefinition = NULL;
+		m_pKVRawDefinition = nullptr;
 	}
 
 	if ( m_pKVRawDefinition )
@@ -5886,7 +5886,7 @@ bool CEconItemSchema::BInitTextBuffer( CUtlBuffer &buffer, CUtlVector<CUtlString
 	Reset();
 	m_pKVRawDefinition = new KeyValues( "CEconItemSchema" );
 	m_pKVRawDefinition->UsesEscapeSequences( true );
-	if ( m_pKVRawDefinition->LoadFromBuffer( NULL, buffer ) )
+	if ( m_pKVRawDefinition->LoadFromBuffer(nullptr, buffer ) )
 	{
 		return BInitSchema( m_pKVRawDefinition, pVecErrors );
 	}
@@ -5931,7 +5931,7 @@ bool CEconItemSchema::BInitFromDelayedBuffer()
 
 	bool bSuccess = m_pDelayedSchemaData->InitializeSchema( this );
 	delete m_pDelayedSchemaData;
-	m_pDelayedSchemaData = NULL;
+	m_pDelayedSchemaData = nullptr;
 
 	return bSuccess;
 }
@@ -6090,7 +6090,7 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 	KeyValues *pKVGameInfo = pKVRawDefinition->FindKey( "game_info" );
 	SCHEMA_INIT_CHECK( NULL != pKVGameInfo, CFmtStr( "Required key \"game_info\" missing.\n" ) );
 
-	if ( NULL != pKVGameInfo )
+	if (nullptr != pKVGameInfo )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitGameInfo( pKVGameInfo, pVecErrors ) );
 	}
@@ -6102,7 +6102,7 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 	// Initialize the rarity block
 	KeyValues *pKVRarities = pKVRawDefinition->FindKey( "rarities" );
 	SCHEMA_INIT_CHECK( NULL != pKVRarities, CFmtStr( "Required key \"rarities\" missing.\n" ) );
-	if ( NULL  != pKVRarities )
+	if (nullptr != pKVRarities )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitRarities( pKVRarities, pVecErrors ) );
 	}
@@ -6110,7 +6110,7 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 	// Initialize the qualities block
 	KeyValues *pKVQualities = pKVRawDefinition->FindKey( "qualities" );
 	SCHEMA_INIT_CHECK( NULL != pKVQualities, CFmtStr( "Required key \"qualities\" missing.\n" ) );
-	if ( NULL != pKVQualities )
+	if (nullptr != pKVQualities )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitQualities( pKVQualities, pVecErrors ) );
 	}
@@ -6119,7 +6119,7 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 	KeyValues *pKVColors = pKVRawDefinition->FindKey( "colors" );
 	SCHEMA_INIT_CHECK( NULL != pKVColors, CFmtStr( "Required key \"colors\" missing.\n" ) );
 
-	if ( NULL != pKVColors )
+	if (nullptr != pKVColors )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitColors( pKVColors, pVecErrors ) );
 	}
@@ -6136,21 +6136,21 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 	// Initialize the attributes block
 	KeyValues *pKVAttributes = pKVRawDefinition->FindKey( "attributes" );
 	SCHEMA_INIT_CHECK( NULL != pKVAttributes, CFmtStr( "Required key \"attributes\" missing.\n" ) );
-	if ( NULL != pKVAttributes )
+	if (nullptr != pKVAttributes )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitAttributes( pKVAttributes, pVecErrors ) );
 	}
 
 	// Initialize the sound materials block
 	KeyValues *pKVSoundMaterials = pKVRawDefinition->FindKey( "sound_materials" );
-	if ( NULL  != pKVSoundMaterials )
+	if (nullptr != pKVSoundMaterials )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitSoundMaterials( pKVSoundMaterials, pVecErrors ) );
 	}
 
 	// Initialize the "equip_regions_list" block -- this is an optional block
 	KeyValues *pKVEquipRegions = pKVRawDefinition->FindKey( "equip_regions_list" );
-	if ( NULL != pKVEquipRegions )
+	if (nullptr != pKVEquipRegions )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitEquipRegions( pKVEquipRegions, pVecErrors ) );
 	}
@@ -6159,7 +6159,7 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 	// make any sense and will probably fail internally if there is no corresponding "equip_regions"
 	// block as well
 	KeyValues *pKVEquipRegionConflicts = pKVRawDefinition->FindKey( "equip_conflicts" );
-	if ( NULL != pKVEquipRegionConflicts )
+	if (nullptr != pKVEquipRegionConflicts )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitEquipRegionConflicts( pKVEquipRegionConflicts, pVecErrors ) );
 	}
@@ -6210,7 +6210,7 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 	KeyValues *pKVQuestDefs = pKVRawDefinition->FindKey( "quest_definitions" );
 	SCHEMA_INIT_CHECK( NULL != pKVQuestDefs, CFmtStr( "Required key \"quest_definitions\" missing.\n" ) );
 
-	if ( NULL != pKVQuestDefs )
+	if (nullptr != pKVQuestDefs )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitQuestDefs( pKVQuestDefs, pVecErrors ) );
 	}
@@ -6222,21 +6222,21 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 	KeyValues *pKVCampaignDefs = pKVRawDefinition->FindKey( "campaign_definitions" );
 	SCHEMA_INIT_CHECK( NULL != pKVCampaignDefs, CFmtStr( "Required key \"campaign_definitions\" missing.\n" ) );
 
-	if ( NULL != pKVCampaignDefs )
+	if (nullptr != pKVCampaignDefs )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitCampaignDefs( pKVCampaignDefs, pVecErrors ) );
 	}
 
 	// Parse any recipes block
 	KeyValues *pKVRecipes = pKVRawDefinition->FindKey( "recipes" );
-	if ( NULL != pKVRecipes )
+	if (nullptr != pKVRecipes )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitRecipes( pKVRecipes, pVecErrors ) );
 	}
 
 	// Parse alternate icons block.
 	KeyValues * pKVAlternateIcons = pKVRawDefinition->FindKey( "alternate_icons2" );
-	if ( NULL != pKVAlternateIcons )
+	if (nullptr != pKVAlternateIcons )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitAlternateIcons( pKVAlternateIcons, pVecErrors ) );
 	}
@@ -6265,7 +6265,7 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 
 #if defined( CLIENT_DLL ) || defined( GAME_DLL )
 	KeyValues *pKVArmoryData = pKVRawDefinition->FindKey( "armory_data" );
-	if ( NULL != pKVArmoryData )
+	if (nullptr != pKVArmoryData )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitArmoryData( pKVArmoryData, pVecErrors ) );
 	}
@@ -6273,7 +6273,7 @@ bool CEconItemSchema::BInitSchema( KeyValues *pKVRawDefinition, CUtlVector<CUtlS
 
 	// Parse any achievement rewards
 	KeyValues *pKVAchievementRewards = pKVRawDefinition->FindKey( "achievement_rewards" );
-	if ( NULL != pKVAchievementRewards )
+	if (nullptr != pKVAchievementRewards )
 	{
 		SCHEMA_INIT_SUBSTEP( BInitAchievementRewards( pKVAchievementRewards, pVecErrors ) );
 	}
@@ -6339,7 +6339,7 @@ bool CEconItemSchema::BInitAttributeTypes( CUtlVector<CUtlString> *pVecErrors )
 	}
 	m_vecAttributeTypes.Purge();
 
-	m_vecAttributeTypes.AddToTail( attr_type_t( NULL,			new CSchemaAttributeType_Default ) );
+	m_vecAttributeTypes.AddToTail( attr_type_t(nullptr,			new CSchemaAttributeType_Default ) );
 	m_vecAttributeTypes.AddToTail( attr_type_t( "uint32",		new CSchemaAttributeType_Uint32 ) );
 	m_vecAttributeTypes.AddToTail( attr_type_t( "float",		new CSchemaAttributeType_Float ) );
 	m_vecAttributeTypes.AddToTail( attr_type_t( "string",		new CSchemaAttributeType_String ) );
@@ -6376,7 +6376,7 @@ bool CEconItemSchema::BInitDefinitionPrefabs( KeyValues *pKVPrefabs, CUtlVector<
 bool CEconItemSchema::BInitRarities( KeyValues *pKVRarities, CUtlVector<CUtlString> *pVecErrors )
 {
 	// initialize the item definitions
-	if ( NULL != pKVRarities )
+	if (nullptr != pKVRarities )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVRarities, pKVRarity )
 		{
@@ -6407,7 +6407,7 @@ bool CEconItemSchema::BInitRarities( KeyValues *pKVRarities, CUtlVector<CUtlStri
 bool CEconItemSchema::BInitQualities( KeyValues *pKVQualities, CUtlVector<CUtlString> *pVecErrors )
 {
 	// initialize the item definitions
-	if ( NULL != pKVQualities )
+	if (nullptr != pKVQualities )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVQualities, pKVQuality )
 		{
@@ -6449,7 +6449,7 @@ bool CEconItemSchema::BInitQualities( KeyValues *pKVQualities, CUtlVector<CUtlSt
 bool CEconItemSchema::BInitColors( KeyValues *pKVColors, CUtlVector<CUtlString> *pVecErrors )
 {
 	// initialize the color definitions
-	if ( NULL != pKVColors )
+	if (nullptr != pKVColors )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVColors, pKVColor )
 		{
@@ -6493,7 +6493,7 @@ bool CEconItemSchema::BInitGraffitiTints( KeyValues *pKVColors, CUtlVector<CUtlS
 			if ( !m_vecGraffitiTintDefs.Count() )
 			{
 				for ( int j = 0; j < nMaxIDallowed; ++ j )
-					m_vecGraffitiTintDefs.AddToTail( NULL );
+					m_vecGraffitiTintDefs.AddToTail(nullptr);
 			}
 			m_vecGraffitiTintDefs[pNewDef->GetID()] = pNewDef;
 			m_mapGraffitiTintByName[pNewDef->GetColorName()] = pNewDef;
@@ -6513,7 +6513,7 @@ AlternateIconData_t* CEconItemSchema::GetAlternateIcon( uint64 ullAlternateIcon 
 {
 	int iIdx = m_mapAlternateIcons.Find( ullAlternateIcon );
 	if ( !m_mapAlternateIcons.IsValidIndex( iIdx ) )
-		return NULL;
+		return nullptr;
 	else
 		return &(m_mapAlternateIcons[iIdx]);
 }
@@ -6524,7 +6524,7 @@ AlternateIconData_t* CEconItemSchema::GetAlternateIcon( uint64 ullAlternateIcon 
 bool CEconItemSchema::BInitSoundMaterials( KeyValues *pKVSoundMaterials, CUtlVector<CUtlString> *pVecErrors )
 {
 	// initialize the item definitions
-	if ( NULL != pKVSoundMaterials )
+	if (nullptr != pKVSoundMaterials )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVSoundMaterials, pKVSoundMaterial )
 		{
@@ -6746,7 +6746,7 @@ bool CEconItemSchema::BInitAttributes( KeyValues *pKVAttributes, CUtlVector<CUtl
 
 		// Build the direct mapping container
 		while ( nAttrIndex >= m_mapAttributesContainer.Count() )
-			m_mapAttributesContainer.AddToTail( NULL );
+			m_mapAttributesContainer.AddToTail(nullptr);
 		Assert( nAttrIndex < m_mapAttributesContainer.Count() );
 
 		// Make sure the attribute index is not repeated
@@ -6924,7 +6924,7 @@ bool CEconItemSchema::BInitItems( KeyValues *pKVItems, CUtlVector<CUtlString> *p
 				m_pDefaultItemDefinition == NULL,
 				CFmtStr( "Duplicate 'default' item definition." ) );
 
-			if ( m_pDefaultItemDefinition == NULL )
+			if ( m_pDefaultItemDefinition == nullptr)
 			{
 				m_pDefaultItemDefinition = CreateEconItemDefinition();
 			}
@@ -7019,7 +7019,7 @@ const CEconItemSetDefinition* CEconItemSchema::GetItemSet( const char* pSetName,
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const IEconItemSetDefinition* CEconItemSchema::GetItemSet( int iIndex ) const
@@ -7027,7 +7027,7 @@ const IEconItemSetDefinition* CEconItemSchema::GetItemSet( int iIndex ) const
 	if ( m_mapItemSets.IsValidIndex( iIndex ) )
 		return &m_mapItemSets[iIndex];
 	else
-		return NULL;
+		return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -7076,7 +7076,7 @@ bool CEconItemSchema::BInitTimedRewards( KeyValues *pKVTimedRewards, CUtlVector<
 	m_vecTimedRewards.Purge();
 
 	// initialize the rewards sections
-	if ( NULL != pKVTimedRewards )
+	if (nullptr != pKVTimedRewards )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVTimedRewards, pKVTimedReward )
 		{
@@ -7097,7 +7097,7 @@ const CTimedItemRewardDefinition* CEconItemSchema::GetTimedReward( eTimedRewardT
 	{
 		return &m_vecTimedRewards[type];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -7111,7 +7111,7 @@ const CEconLootListDefinition* CEconItemSchema::GetLootListByName( const char* p
 	if ( m_dictLootLists.IsValidIndex( iIdx ) )
 		return &m_dictLootLists[iIdx];
 	else
-		return NULL;
+		return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -7160,7 +7160,7 @@ bool CEconItemSchema::BInitQuestRewardLootLists( KeyValues *pKVLootLists, CUtlVe
 {
 	m_mapQuestRewardLootLists.Purge();
 
-	if ( NULL != pKVLootLists )
+	if (nullptr != pKVLootLists )
 	{
 		FOR_EACH_SUBKEY( pKVLootLists, pKVList )
 		{
@@ -7372,7 +7372,7 @@ bool CEconItemSchema::BInitProPlayers( KeyValues *pKVData, CUtlVector<CUtlString
 const CProPlayerData * CEconItemSchema::GetProPlayerDataByAccountID( uint32 unAccountID ) const
 {
 	MapProPlayersByAccountID_t::IndexType_t idx = m_mapProPlayersByAccountID.Find( unAccountID );
-	return ( idx == m_mapProPlayersByAccountID.InvalidIndex() ) ? NULL : m_mapProPlayersByAccountID.Element( idx );
+	return ( idx == m_mapProPlayersByAccountID.InvalidIndex() ) ? nullptr : m_mapProPlayersByAccountID.Element( idx );
 }
 
 const CUtlVector< const CProPlayerData * > * CEconItemSchema::GetProPlayersDataForEventIDTeamID( int nEventID, int nTeamID ) const
@@ -7380,7 +7380,7 @@ const CUtlVector< const CProPlayerData * > * CEconItemSchema::GetProPlayersDataF
 	uint64 uiKey = ( uint64( uint32( nEventID ) ) << 32 ) | uint32( nTeamID );
 	MapProPlayersByEventIDTeamID_t::IndexType_t idx = m_mapProPlayersByEventIDTeamID.Find( uiKey );
 	return ( idx != m_mapProPlayersByEventIDTeamID.InvalidIndex() )
-		? m_mapProPlayersByEventIDTeamID.Element( idx ) : NULL;
+		? m_mapProPlayersByEventIDTeamID.Element( idx ) : nullptr;
 }
 
 bool CProPlayerData::BInitFromKeyValues( KeyValues *pDef, CUtlVector<CUtlString> *pVecErrors /* = NULL */ )
@@ -7439,7 +7439,7 @@ bool CEconItemSchema::BInitRecipes( KeyValues *pKVRecipes, CUtlVector<CUtlString
 	m_mapRecipes.Purge();
 
 	// initialize the rewards sections
-	if ( NULL != pKVRecipes )
+	if (nullptr != pKVRecipes )
 	{
 		int nHighestRecipeIndex = 0;
 		FOR_EACH_TRUE_SUBKEY( pKVRecipes, pKVRecipe )
@@ -7541,7 +7541,7 @@ bool CEconItemSchema::BInitAchievementRewards( KeyValues *pKVAchievementRewards,
 	m_mapAchievementRewardsByData.PurgeAndDeleteElements();
 
 	// initialize the rewards sections
-	if ( NULL != pKVAchievementRewards )
+	if (nullptr != pKVAchievementRewards )
 	{
 		FOR_EACH_SUBKEY( pKVAchievementRewards, pKVReward )
 		{
@@ -7673,7 +7673,7 @@ int CEconItemSchema::CalculateNumberOfConcreteItems( const CEconItemDefinition *
 
 bool CEconItemSchema::BInitStickerKits( KeyValues *pKVStickerKits, CUtlVector<CUtlString> *pVecErrors )
 {
-	CStickerKit *pDefault = NULL;
+	CStickerKit *pDefault = nullptr;
 	FOR_EACH_TRUE_SUBKEY( pKVStickerKits, pKVEntry )
 	{
 		const char *pchName = pKVEntry->GetString( "name", "" );
@@ -7766,7 +7766,7 @@ bool CEconItemSchema::BInitStickerLists( KeyValues *pKVStickerLists, CUtlVector<
 
 bool CEconItemSchema::BInitPaintKits( KeyValues *pKVPaintKits, CUtlVector<CUtlString> *pVecErrors )
 {
-	CPaintKit *pDefault = NULL;
+	CPaintKit *pDefault = nullptr;
 
 	FOR_EACH_TRUE_SUBKEY( pKVPaintKits, pKVEntry )
 	{
@@ -7868,7 +7868,7 @@ bool CEconItemSchema::BInitQuestDefs( KeyValues *pKVQuestDefs, CUtlVector<CUtlSt
 	m_mapQuestDefs.PurgeAndDeleteElements();
 
 	// initialize the Quest definitions
-	if ( NULL != pKVQuestDefs )
+	if (nullptr != pKVQuestDefs )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVQuestDefs, pKVQuestDef )
 		{
@@ -7914,7 +7914,7 @@ bool CEconItemSchema::BInitCampaignDefs( KeyValues *pKVCampaignDefs, CUtlVector<
 	m_mapCampaignDefs.PurgeAndDeleteElements();
 
 	// initialize the Campaign definitions
-	if ( NULL != pKVCampaignDefs )
+	if (nullptr != pKVCampaignDefs )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVCampaignDefs, pKVCampaignDef )
 		{
@@ -7943,9 +7943,9 @@ attachedparticlesystem_t CEconItemSchema::GetAttachedParticleSystemInfo( KeyValu
 	attachedparticlesystem_t system;
 
 	system.pEffectKV = pKVEntry;
-	system.pszResourceName = pKVEntry->GetString( "resource", NULL );
-	system.pszSystemName = pKVEntry->GetString( "system", NULL );
-	system.pszAttachmentName = pKVEntry->GetString( "attachment", NULL );
+	system.pszResourceName = pKVEntry->GetString( "resource", nullptr);
+	system.pszSystemName = pKVEntry->GetString( "system", nullptr);
+	system.pszAttachmentName = pKVEntry->GetString( "attachment", nullptr);
 	system.bFollowRootBone = pKVEntry->GetInt( "attach_to_rootbone", 0 ) != 0;
 	system.bFlyingCourier = pKVEntry->GetInt( "flying_courier_effect", 0 ) != 0;
 	system.iCustomType = pKVEntry->GetInt( "custom_type", 0 );
@@ -7964,7 +7964,7 @@ attachedparticlesystem_t CEconItemSchema::GetAttachedParticleSystemInfo( KeyValu
 			int iIdx = system.vecControlPoints.AddToTail();
 			system.vecControlPoints[iIdx].nControlPoint = pKVPoint->GetInt( "control_point_index", -1 );
 			system.vecControlPoints[iIdx].nAttachType = StringFieldToInt( pKVPoint->GetString("attach_type"), g_szParticleAttachTypes, ARRAYSIZE(g_szParticleAttachTypes) );
-			system.vecControlPoints[iIdx].pszAttachmentName = pKVPoint->GetString( "attachment", NULL );
+			system.vecControlPoints[iIdx].pszAttachmentName = pKVPoint->GetString( "attachment", nullptr);
 			float flVec[3];
 			V_StringToVector( flVec, pKVPoint->GetString( "position", "0 0 0" ) );
 			system.vecControlPoints[iIdx].vecPosition = Vector( flVec[0], flVec[1], flVec[2] );
@@ -7980,7 +7980,7 @@ attachedparticlesystem_t CEconItemSchema::GetAttachedParticleSystemInfo( KeyValu
 bool CEconItemSchema::BInitAttributeControlledParticleSystems( KeyValues *pKVParticleSystems, CUtlVector<CUtlString> *pVecErrors )
 {
 	m_mapAttributeControlledParticleSystems.Purge();
-	if ( NULL != pKVParticleSystems )
+	if (nullptr != pKVParticleSystems )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVParticleSystems, pKVEntry )
 		{
@@ -8007,7 +8007,7 @@ bool CEconItemSchema::BInitItemLevels( KeyValues *pKVItemLevels, CUtlVector<CUtl
 	m_vecItemLevelingData.RemoveAll();
 
 	// initialize the rewards sections
-	if ( NULL != pKVItemLevels )
+	if (nullptr != pKVItemLevels )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVItemLevels, pKVItemLevelBlock )
 		{
@@ -8038,7 +8038,7 @@ bool CEconItemSchema::BInitKillEaterScoreTypes( KeyValues *pKVKillEaterScoreType
 	m_mapKillEaterScoreTypes.RemoveAll();
 
 	// initialize the rewards sections
-	if ( NULL != pKVKillEaterScoreTypes )
+	if (nullptr != pKVKillEaterScoreTypes )
 	{
 		FOR_EACH_TRUE_SUBKEY( pKVKillEaterScoreTypes, pKVScoreType )
 		{
@@ -8082,7 +8082,7 @@ const ISchemaAttributeType *CEconItemSchema::GetAttributeType( const char *pszAt
 			return m_vecAttributeTypes[i].m_pAttrType;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8092,10 +8092,10 @@ const CItemLevelingDefinition *CEconItemSchema::GetItemLevelForScore( const char
 {
 	const CUtlVector<CItemLevelingDefinition> *pLevelingData = GetItemLevelingData( pszLevelBlockName );
 	if ( !pLevelingData )
-		return NULL;
+		return nullptr;
 
 	if ( pLevelingData->Count() == 0 )
-		return NULL;
+		return nullptr;
 
 	FOR_EACH_VEC( (*pLevelingData), i )
 	{
@@ -8113,7 +8113,7 @@ const kill_eater_score_type_t *CEconItemSchema::FindKillEaterScoreType( uint32 u
 {
 	KillEaterScoreMap_t::IndexType_t i = m_mapKillEaterScoreTypes.Find( unScoreType );
 	if ( i == KillEaterScoreMap_t::InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	return &m_mapKillEaterScoreTypes[i];
 }
@@ -8127,7 +8127,7 @@ const char *CEconItemSchema::GetKillEaterScoreTypeLocString( uint32 unScoreType 
 
 	return pScoreType
 		 ? pScoreType->m_pszTypeString
-		 : NULL;
+		 : nullptr;
 }
 
 
@@ -8150,7 +8150,7 @@ const char *CEconItemSchema::GetKillEaterScoreTypeLevelingDataName( uint32 unSco
 
 	return pScoreType
 		 ? pScoreType->m_pszLevelBlockName
-		 : NULL;
+		 : nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8204,7 +8204,7 @@ bool CEconItemSchema::BInitArmoryData( KeyValues *pKVArmoryData, CUtlVector<CUtl
 {
 	m_dictArmoryItemDataStrings.Purge();
 	m_dictArmoryAttributeDataStrings.Purge();
-	if ( NULL != pKVArmoryData )
+	if (nullptr != pKVArmoryData )
 	{
 		KeyValues *pKVItemTypes = pKVArmoryData->FindKey( "armory_item_types" );
 		if ( pKVItemTypes )
@@ -8267,7 +8267,7 @@ const AchievementAward_t *CEconItemSchema::GetAchievementRewardByDefIndex( uint1
 		if( m_mapAchievementRewardsByData[nIndex]->m_vecDefIndex.HasElement( usDefIndex ) )
 			return m_mapAchievementRewardsByData[nIndex];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8330,7 +8330,7 @@ const CEconItemQualityDefinition *CEconItemSchema::GetQualityDefinition( int nQu
 	int iIndex = m_mapQualities.Find( nQuality );
 	if ( m_mapQualities.IsValidIndex( iIndex ) )
 		return &m_mapQualities[iIndex]; 
-	return NULL;
+	return nullptr;
 }
 
 const CEconItemQualityDefinition *CEconItemSchema::GetQualityDefinitionByName( const char *pszDefName ) const
@@ -8340,14 +8340,14 @@ const CEconItemQualityDefinition *CEconItemSchema::GetQualityDefinitionByName( c
 		if ( !strcmp( pszDefName, m_mapQualities[i].GetName()) )
 			return &m_mapQualities[i]; 
 	}
-	return NULL;
+	return nullptr;
 }
 
 const char* CEconItemSchema::GetQualityName( uint8 iQuality )
 {
 	const CEconItemQualityDefinition* pItemQuality = GetQualityDefinition( iQuality );
 	if ( !pItemQuality )
-		return NULL;
+		return nullptr;
 	else
 		return pItemQuality->GetName();
 }
@@ -8366,7 +8366,7 @@ const CEconItemRarityDefinition *CEconItemSchema::GetRarityDefinitionByMapIndex(
 	if ( m_mapRarities.IsValidIndex( nRarityIndex ) )
 		return &m_mapRarities[nRarityIndex];
 
-	return NULL;
+	return nullptr;
 }
 
 const CEconItemRarityDefinition *CEconItemSchema::GetRarityDefinition( int nRarity ) const
@@ -8374,7 +8374,7 @@ const CEconItemRarityDefinition *CEconItemSchema::GetRarityDefinition( int nRari
 	int iIndex = m_mapRarities.Find( nRarity );
 	if ( m_mapRarities.IsValidIndex( iIndex ) )
 		return &m_mapRarities[iIndex]; 
-	return NULL;
+	return nullptr;
 }
 
 const CEconItemRarityDefinition *CEconItemSchema::GetRarityDefinitionByName( const char *pszDefName ) const
@@ -8384,14 +8384,14 @@ const CEconItemRarityDefinition *CEconItemSchema::GetRarityDefinitionByName( con
 		if ( !strcmp( pszDefName, m_mapRarities[i].GetName()) )
 			return &m_mapRarities[i]; 
 	}
-	return NULL;
+	return nullptr;
 }
 
 const char* CEconItemSchema::GetRarityName( uint8 iRarity )
 {
 	const CEconItemRarityDefinition* pItemRarity = GetRarityDefinition( iRarity );
 	if ( !pItemRarity )
-		return NULL;
+		return nullptr;
 	else
 		return pItemRarity->GetName();
 }
@@ -8400,7 +8400,7 @@ const char* CEconItemSchema::GetRarityLocKey( uint8 iRarity )
 {
 	const CEconItemRarityDefinition* pItemRarity = GetRarityDefinition( iRarity );
 	if ( !pItemRarity )
-		return NULL;
+		return nullptr;
 	else
 		return pItemRarity->GetLocKey();
 }
@@ -8409,7 +8409,7 @@ const char* CEconItemSchema::GetRarityColor( uint8 iRarity )
 {
 	const CEconItemRarityDefinition* pItemRarity = GetRarityDefinition( iRarity );
 	if ( !pItemRarity )
-		return NULL;
+		return nullptr;
 	else
 		return GetHexColorForAttribColor( pItemRarity->GetAttribColor() );
 }
@@ -8418,7 +8418,7 @@ const char* CEconItemSchema::GetRarityLootList( uint8 iRarity )
 {
 	const CEconItemRarityDefinition* pItemRarity = GetRarityDefinition( iRarity );
 	if ( !pItemRarity )
-		return NULL;
+		return nullptr;
 	else
 		return pItemRarity->GetLootList();
 }
@@ -8437,7 +8437,7 @@ const CEconSoundMaterialDefinition *CEconItemSchema::GetSoundMaterialDefinitionB
 	int iIndex = m_mapSoundMaterials.Find( nSoundMaterialID );
 	if ( m_mapSoundMaterials.IsValidIndex( iIndex ) )
 		return &m_mapSoundMaterials[iIndex]; 
-	return NULL;
+	return nullptr;
 }
 
 const CEconSoundMaterialDefinition *CEconItemSchema::GetSoundMaterialDefinitionByName( const char *pszSoundMaterialName ) const
@@ -8447,14 +8447,14 @@ const CEconSoundMaterialDefinition *CEconItemSchema::GetSoundMaterialDefinitionB
 		if ( !strcmp( pszSoundMaterialName, m_mapSoundMaterials[i].GetName()) )
 			return &m_mapSoundMaterials[i]; 
 	}
-	return NULL;
+	return nullptr;
 }
 
 const char* CEconItemSchema::GetSoundMaterialNameByID( int nSoundMaterialID )
 {
 	const CEconSoundMaterialDefinition* pSoundMaterial = GetSoundMaterialDefinitionByID( nSoundMaterialID );
 	if ( !pSoundMaterial )
-		return NULL;
+		return nullptr;
 	else
 		return pSoundMaterial->GetName();
 }
@@ -8490,7 +8490,7 @@ const CEconItemDefinition *CEconItemSchema::GetItemDefinitionByMapIndex( int iMa
 	if ( m_mapItems.IsValidIndex( iMapIndex ) )
 		return m_mapItems[iMapIndex];
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8511,7 +8511,7 @@ CEconItemDefinition *CEconItemSchema::GetItemDefinitionMutable( int iItemIndex, 
 		return m_mapItems[iIndex]; 
 
 	if ( bNoDefault )
-		return NULL;
+		return nullptr;
 
 	if ( m_pDefaultItemDefinition )
 		return m_pDefaultItemDefinition;
@@ -8522,7 +8522,7 @@ CEconItemDefinition *CEconItemSchema::GetItemDefinitionMutable( int iItemIndex, 
 	static CEconItemDefinition *s_pEmptyDefinition = CreateEconItemDefinition();
 	return s_pEmptyDefinition;
 #else
-	return NULL;
+	return nullptr;
 #endif // CSTRIKE_DLL
 }
 const CEconItemDefinition *CEconItemSchema::GetItemDefinition( int iItemIndex, bool bNoDefault ) const
@@ -8542,20 +8542,20 @@ CEconItemDefinition *CEconItemSchema::GetItemDefinitionByName( const char *pszDe
 	if ( m_bSchemaParsingItems )
 	{
 		AssertMsg( 0, "GetItemDefinitionByName while parsing item definitions. This is not a valid operation." );
-		return NULL;
+		return nullptr;
 	}
 
 	// This shouldn't happen, but let's not crash if it ever does.
 	Assert( pszDefName != NULL );
-	if ( pszDefName == NULL )
-		return NULL;
+	if ( pszDefName == nullptr)
+		return nullptr;
 
 	FOR_EACH_MAP_FAST( m_mapItems, i )
 	{
 		if ( !strcmp( pszDefName, m_mapItems[i]->GetDefinitionName()) )
 			return m_mapItems[i]; 
 	}
-	return NULL;
+	return nullptr;
 }
 
 const CEconItemDefinition *CEconItemSchema::GetItemDefinitionByName( const char *pszDefName ) const
@@ -8572,7 +8572,7 @@ const CEconItemAttributeDefinition *CEconItemSchema::GetAttributeDefinition( int
 {
 	if ( m_mapAttributesContainer.IsValidIndex( iAttribIndex ) )
 		return m_mapAttributesContainer[iAttribIndex];
-	return NULL;
+	return nullptr;
 }
 
 const CEconItemAttributeDefinition *CEconItemSchema::GetAttributeDefinitionByName( const char *pszDefName ) const
@@ -8585,7 +8585,7 @@ const CEconItemAttributeDefinition *CEconItemSchema::GetAttributeDefinitionByNam
 		if ( m_mapAttributesContainer[i] && !strcmp( pszDefName, m_mapAttributesContainer[i]->GetDefinitionName()) )
 			return m_mapAttributesContainer[i]; 
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8598,7 +8598,7 @@ const CEconCraftingRecipeDefinition *CEconItemSchema::GetRecipeDefinition( int i
 	int iIndex = m_mapRecipes.Find( iRecipeIndex );
 	if ( m_mapRecipes.IsValidIndex( iIndex ) )
 		return m_mapRecipes[iIndex]; 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8624,7 +8624,7 @@ const CStickerKit *CEconItemSchema::GetStickerKitDefinition( int iStickerKitID )
 	int iIndex = m_mapStickerKits.Find( iStickerKitID );
 	if ( m_mapStickerKits.IsValidIndex( iIndex ) )
 		return m_mapStickerKits[iIndex];
-	return NULL;
+	return nullptr;
 }
 
 const CStickerKit *CEconItemSchema::GetStickerKitDefinitionByMapIndex( int iMapIndex )
@@ -8632,7 +8632,7 @@ const CStickerKit *CEconItemSchema::GetStickerKitDefinitionByMapIndex( int iMapI
 	if ( m_mapStickerKits.IsValidIndex( iMapIndex ) )
 		return m_mapStickerKits[ iMapIndex ];
 
-	return NULL;
+	return nullptr;
 }
 
 const CStickerKit *CEconItemSchema::GetStickerKitDefinitionByName( const char *pchName ) const
@@ -8641,7 +8641,7 @@ const CStickerKit *CEconItemSchema::GetStickerKitDefinitionByName( const char *p
 	if ( idx != m_dictStickerKits.InvalidIndex() )
 		return m_dictStickerKits.Element( idx );
 	else
-		return NULL;
+		return nullptr;
 }
 
 const CStickerList *CEconItemSchema::GetStickerListDefinitionByName( const char *pchName ) const
@@ -8650,7 +8650,7 @@ const CStickerList *CEconItemSchema::GetStickerListDefinitionByName( const char 
 	if ( idx != m_dictStickerLists.InvalidIndex() )
 		return m_dictStickerLists.Element( idx );
 	else
-		return NULL;
+		return nullptr;
 }
 
 const CEconMusicDefinition *CEconItemSchema::GetMusicKitDefinitionByName( const char *pchName ) const
@@ -8663,7 +8663,7 @@ const CEconMusicDefinition *CEconItemSchema::GetMusicKitDefinitionByName( const 
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -8690,7 +8690,7 @@ const CPaintKit *CEconItemSchema::GetPaintKitDefinition( int iPaintKitID ) const
 	int iIndex = m_mapPaintKits.Find( iPaintKitID );
 	if ( m_mapPaintKits.IsValidIndex( iIndex ) )
 		return m_mapPaintKits[iIndex];
-	return NULL;
+	return nullptr;
 }
 
 const CPaintKit *CEconItemSchema::GetPaintKitDefinitionByMapIndex( int iMapIndex )
@@ -8698,7 +8698,7 @@ const CPaintKit *CEconItemSchema::GetPaintKitDefinitionByMapIndex( int iMapIndex
 	if ( m_mapPaintKits.IsValidIndex( iMapIndex ) )
 		return m_mapPaintKits[ iMapIndex ];
 
-	return NULL;
+	return nullptr;
 }
 
 const CPaintKit *CEconItemSchema::GetPaintKitDefinitionByName( const char *pchName ) const
@@ -8712,7 +8712,7 @@ const CPaintKit *CEconItemSchema::GetPaintKitDefinitionByName( const char *pchNa
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 const unsigned int CEconItemSchema::GetPaintKitCount() const
@@ -8730,7 +8730,7 @@ const CEconColorDefinition *CEconItemSchema::GetColorDefinitionByName( const cha
 		if ( !Q_stricmp( m_vecColorDefs[i]->GetName(), pszDefName ) )
 			return m_vecColorDefs[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8738,7 +8738,7 @@ const CEconColorDefinition *CEconItemSchema::GetColorDefinitionByName( const cha
 //-----------------------------------------------------------------------------
 const CEconGraffitiTintDefinition * CEconItemSchema::GetGraffitiTintDefinitionByID( int nID ) const
 {
-	return m_vecGraffitiTintDefs.IsValidIndex( nID ) ? m_vecGraffitiTintDefs[ nID ] : NULL;
+	return m_vecGraffitiTintDefs.IsValidIndex( nID ) ? m_vecGraffitiTintDefs[ nID ] : nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8747,7 +8747,7 @@ const CEconGraffitiTintDefinition * CEconItemSchema::GetGraffitiTintDefinitionBy
 const CEconGraffitiTintDefinition * CEconItemSchema::GetGraffitiTintDefinitionByName( const char *pszDefName ) const
 {
 	UtlSymId_t utlsym = m_mapGraffitiTintByName.Find( pszDefName );
-	return ( utlsym != UTL_INVAL_SYMBOL ) ? m_mapGraffitiTintByName[ utlsym ] : NULL;
+	return ( utlsym != UTL_INVAL_SYMBOL ) ? m_mapGraffitiTintByName[ utlsym ] : nullptr;
 }
 
 
@@ -8759,7 +8759,7 @@ const CEconMusicDefinition *CEconItemSchema::GetMusicDefinition( uint32 unMusicI
 	int iIndex = m_mapMusicDefs.Find( unMusicID );
 	if ( m_mapMusicDefs.IsValidIndex( iIndex ) )
 		return m_mapMusicDefs[iIndex];
-	return NULL;
+	return nullptr;
 }
 
 
@@ -8771,7 +8771,7 @@ CEconQuestDefinition *CEconItemSchema::GetQuestDefinition( uint32 unQuestID ) co
 	int iIndex = m_mapQuestDefs.Find( unQuestID );
 	if ( m_mapQuestDefs.IsValidIndex( iIndex ) )
 		return m_mapQuestDefs[ iIndex ];
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8782,7 +8782,7 @@ CEconCampaignDefinition *CEconItemSchema::GetCampaignDefinition( uint32 unCampai
 	int iIndex = m_mapCampaignDefs.Find( unCampaignID );
 	if ( m_mapCampaignDefs.IsValidIndex( iIndex ) )
 		return m_mapCampaignDefs[ iIndex ];
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -8793,7 +8793,7 @@ attachedparticlesystem_t* CEconItemSchema::GetAttributeControlledParticleSystem(
 	int iIndex = m_mapAttributeControlledParticleSystems.Find( id );
 	if ( m_mapAttributeControlledParticleSystems.IsValidIndex( iIndex ) )
 		return &m_mapAttributeControlledParticleSystems[iIndex];
-	return NULL;
+	return nullptr;
 }
 
 attachedparticlesystem_t* CEconItemSchema::GetAttributeControlledParticleSystemByIndex( int id )
@@ -8818,7 +8818,7 @@ attachedparticlesystem_t* CEconItemSchema::FindAttributeControlledParticleSystem
 	{
 		*outID = -1;
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool CEconItemSchema::BPostSchemaInitStartupChecks( CUtlVector<CUtlString> *pVecErrors )

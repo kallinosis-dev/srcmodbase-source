@@ -128,7 +128,7 @@ CMapDisp *CEditDispMgr::GetDisp( EditDispHandle_t handle )
 		return &m_AllocList.Element( handle );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -207,7 +207,7 @@ void DestroyWorldEditDispMgr( IWorldEditDispMgr **pDispMgr )
 	if( *pDispMgr )
 	{
 		delete *pDispMgr;
-		*pDispMgr = NULL;
+		*pDispMgr = nullptr;
 	}
 }
 
@@ -269,7 +269,7 @@ CMapDisp *CWorldEditDispMgr::GetFromWorld( EditDispHandle_t handle )
 		return EditDispMgr()->GetDisp( handle );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -538,7 +538,7 @@ void CWorldEditDispMgr::CatmullClarkSubdivide( void )
 {
 	// change the mouse to hourglass, so level designers know something is
 	// happening
-	HCURSOR oldCursor = SetCursor( LoadCursor( NULL, IDC_WAIT ) );
+	HCURSOR oldCursor = SetCursor( LoadCursor(nullptr, IDC_WAIT ) );
 
 	//
 	// add all of the displacements in the selection list into the UNDO
@@ -615,7 +615,7 @@ bool CWorldEditDispMgr::IsInKeptList( CMapClass *pObject )
 //-----------------------------------------------------------------------------
 void CWorldEditDispMgr::PreUndo( const char *pszMarkName )
 {
-	GetHistory()->MarkUndoPosition( NULL, pszMarkName );
+	GetHistory()->MarkUndoPosition(nullptr, pszMarkName );
 }
 
 //-----------------------------------------------------------------------------

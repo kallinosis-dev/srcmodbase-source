@@ -39,8 +39,8 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 bool AssetTreeViewSortFunc( KeyValues *node1, KeyValues *node2 )
 {
-	const char *pDir1 = node1->GetString( "text", NULL );
-	const char *pDir2 = node2->GetString( "text", NULL );
+	const char *pDir1 = node1->GetString( "text", nullptr);
+	const char *pDir2 = node2->GetString( "text", nullptr);
 	return Q_stricmp( pDir1, pDir2 ) < 0;
 }
 
@@ -219,7 +219,7 @@ void CAssetTreeView::GenerateChildrenOfNode( int nItemIndex )
 {
 	KeyValues *pkv = GetItemData( nItemIndex );
 
-	const char *pFullParentPath = pkv->GetString( "path", NULL );
+	const char *pFullParentPath = pkv->GetString( "path", nullptr);
 	if ( !pFullParentPath )
 		return;
 
@@ -247,7 +247,7 @@ DirHandle_t CAssetTreeView::RefreshTreeViewItem( int nItemIndex )
 	// Make sure the expand icons are set correctly
 	KeyValues *pkv = GetItemData( nItemIndex );
 	DirHandle_t hPath = (DirHandle_t)pkv->GetInt( "dirHandle", m_DirectoryStructure.InvalidIndex() );
-	const char *pFullParentPath = pkv->GetString( "path", NULL );
+	const char *pFullParentPath = pkv->GetString( "path", nullptr);
 	bool bHasSubdirectories = m_DirectoryStructure.FirstChild( hPath ) != m_DirectoryStructure.InvalidIndex();
 	if ( bHasSubdirectories != ( pkv->GetInt( "expand" ) != 0 ) )
 	{
@@ -521,7 +521,7 @@ void CAssetCache::BuildModList( const char *pSearchPathName )
 	m_ModList.RemoveAll();
 
 	// Add all mods
-	int nLen = g_pFullFileSystem->GetSearchPath( m_pAssetSearchPath, false, NULL, 0 );
+	int nLen = g_pFullFileSystem->GetSearchPath( m_pAssetSearchPath, false, nullptr, 0 );
 	char *pSearchPath = (char*)stackalloc( nLen * sizeof(char) );
 	g_pFullFileSystem->GetSearchPath( m_pAssetSearchPath, false, pSearchPath, nLen );
 	char *pPath = pSearchPath;
@@ -548,7 +548,7 @@ void CAssetCache::BuildModList( const char *pSearchPathName )
 		m_ModList[i].m_ModName.Set( pModName );
 		m_ModList[i].m_Path.Set( pPath );
 
-		pPath = pSemiColon ? pSemiColon + 1 : NULL;
+		pPath = pSemiColon ? pSemiColon + 1 : nullptr;
 	}
 }
 
@@ -596,8 +596,8 @@ bool CAssetCache::DoesExtensionMatch( CachedAssetList_t& info, const char *pFile
 	char pChildExt[MAX_PATH];
 	
 	// We want to ignore any compiled assest for other platforms, like .360. or .ps3. etc.
-	if ( Q_stristr( pFileName, ".360." ) != NULL ||
-		 Q_stristr( pFileName, ".ps3." ) != NULL )
+	if ( Q_stristr( pFileName, ".360." ) != nullptr ||
+		 Q_stristr( pFileName, ".ps3." ) != nullptr)
 	{
 			 return false;
 	}
@@ -808,7 +808,7 @@ AssetList_t CAssetCache::FindAssetList( const char *pAssetType, const char *pSub
 		list.m_Ext.AddMultipleToTail( nExtCount, ppExt );
 		list.m_hFind = FILESYSTEM_INVALID_FIND_HANDLE;
 		list.m_bAssetScanComplete = false;
-		list.m_pFileTree = new CAssetTreeView( NULL, "FolderFilter", pAssetType, pSubDir );
+		list.m_pFileTree = new CAssetTreeView(nullptr, "FolderFilter", pAssetType, pSubDir );
 	}
 
 	return (AssetList_t)(intp)nIndex;
@@ -817,7 +817,7 @@ AssetList_t CAssetCache::FindAssetList( const char *pAssetType, const char *pSub
 CAssetTreeView* CAssetCache::GetFileTree( AssetList_t hList )
 {
 	if ( hList == ASSET_LIST_INVALID )
-		return NULL;
+		return nullptr;
 	return m_CachedAssets[ (intp)hList ].m_pFileTree;
 }
 
@@ -907,8 +907,8 @@ CBaseAssetPicker::~CBaseAssetPicker()
 
 	// Detach!
 	m_pFileTree->RemoveActionSignalTarget( this );
-	m_pFileTree->SetParent( (Panel*)NULL );
-	m_pFileTree = NULL;
+	m_pFileTree->SetParent( (Panel*)nullptr);
+	m_pFileTree = nullptr;
 	if ( m_pInsertHelper )
 	{
 		m_pInsertHelper->deleteThis();
@@ -1653,7 +1653,7 @@ CUtlString CBaseAssetPicker::GetSelectedAssetFullPath( int nIndex )
 //-----------------------------------------------------------------------------
 void CBaseAssetPicker::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pAssetBrowser )
 	{
 		int nCount = GetSelectedAssetCount();
@@ -1670,7 +1670,7 @@ void CBaseAssetPicker::OnItemSelected( KeyValues *kv )
 
 void CBaseAssetPicker::OnItemDeselected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pAssetBrowser )
 	{
 		OnSelectedAssetPicked( "" );
@@ -1715,7 +1715,7 @@ const char *CBaseAssetPicker::GetSelectedAsset( int nSelectionIndex )
 		nSelectionIndex = nSelectedAssetCount - 1;
 	}
 	if ( nSelectedAssetCount <= nSelectionIndex || nSelectionIndex < 0 )
-		return NULL;
+		return nullptr;
 
 	int nIndex = m_pAssetBrowser->GetSelectedItem( nSelectionIndex );
 	KeyValues *pItemKeyValues = m_pAssetBrowser->GetItem( nIndex );
@@ -1795,7 +1795,7 @@ void CBaseAssetPicker::CloseModal()
 CBaseAssetPickerFrame::CBaseAssetPickerFrame( vgui::Panel *pParent ) : 
 	BaseClass( pParent, "AssetPickerFrame" )
 {
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 	SetDeleteSelfOnClose( true );
 	m_pOpenButton = new Button( this, "OpenButton", "#FileOpenDialog_Open", this, "Open" );
 	m_pCancelButton = new Button( this, "CancelButton", "#FileOpenDialog_Cancel", this, "Cancel" );
@@ -1826,7 +1826,7 @@ void CBaseAssetPickerFrame::CleanUpMessage()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -1878,7 +1878,7 @@ void CBaseAssetPickerFrame::PostMessageAndClose( KeyValues *pKeyValues )
 	if ( m_pContextKeyValues )
 	{
 		pKeyValues->AddSubKey( m_pContextKeyValues );
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 	CloseModal();
 	PostActionSignal( pKeyValues );

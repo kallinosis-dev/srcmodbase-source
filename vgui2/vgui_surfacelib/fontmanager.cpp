@@ -57,8 +57,8 @@ CFontManager::CFontManager()
 	setlocale( LC_COLLATE, "" );
 	setlocale( LC_MONETARY, "" );
 
-	m_pFileSystem = NULL;
-	m_pMaterialSystem = NULL;
+	m_pFileSystem = nullptr;
+	m_pMaterialSystem = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -304,7 +304,7 @@ bool CFontManager::SetFontGlyphSet(HFont font, const char *windowsFontName, int 
 		}
 		// no valid font has been created, so fallback to a different font and try again
 	} 
-	while ( NULL != ( windowsFontName = GetFallbackFontName( windowsFontName ) ) );
+	while (nullptr != ( windowsFontName = GetFallbackFontName( windowsFontName ) ) );
 
 	// nothing successfully created
 	return false;
@@ -339,7 +339,7 @@ bool CFontManager::SetBitmapFontGlyphSet(HFont font, const char *windowsFontName
 font_t *CFontManager::CreateOrFindWin32Font(const char *windowsFontName, int tall, int weight, int blur, int scanlines, int flags)
 {
 	// see if we already have the win32 font
-	font_t *winFont = NULL;
+	font_t *winFont = nullptr;
 	int i;
 	for (i = 0; i < m_Win32Fonts.Count(); i++)
 	{
@@ -389,7 +389,7 @@ font_t *CFontManager::CreateOrFindWin32Font(const char *windowsFontName, int tal
 			// failed to create, remove
 			delete m_Win32Fonts[i];
 			m_Win32Fonts.Remove(i);
-			return NULL;
+			return nullptr;
 		}
 #ifdef LINUX
 		}
@@ -405,7 +405,7 @@ font_t *CFontManager::CreateOrFindWin32Font(const char *windowsFontName, int tal
 CBitmapFont *CFontManager::CreateOrFindBitmapFont(const char *windowsFontName, float scalex, float scaley, int flags)
 {
 	// see if we already have the font
-	CBitmapFont *winFont = NULL;
+	CBitmapFont *winFont = nullptr;
 	int i;
 	for ( i = 0; i < m_Win32Fonts.Count(); i++ )
 	{
@@ -445,7 +445,7 @@ CBitmapFont *CFontManager::CreateOrFindBitmapFont(const char *windowsFontName, f
 			// failed to create, remove
 			delete bitmapFont;
 			m_Win32Fonts.Remove(i);
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -618,7 +618,8 @@ const char *g_szValidAsianFonts[] = {
 #else
 	"Helvetica",
 #endif
-	NULL };
+	nullptr
+};
 
 // list of how fonts fallback
 FallbackFont_t g_FallbackFonts[] =
@@ -628,8 +629,8 @@ FallbackFont_t g_FallbackFonts[] =
 	{ "Verdana", "Arial" },
 	{ "Trebuchet MS", "Arial" },
 #ifdef WIN32
-	{ "Tahoma", NULL },
-	{ NULL, "Tahoma" },		// every other font falls back to this
+	{ "Tahoma", nullptr},
+	{nullptr, "Tahoma" },		// every other font falls back to this
 #else
 	{ "Tahoma", "Helvetica" },
 	{ "Helvetica", NULL },
@@ -648,7 +649,7 @@ bool CFontManager::IsFontForeignLanguageCapable(const char *windowsFontName)
 		return false;
 	}
 
-	for (int i = 0; g_szValidAsianFonts[i] != NULL; i++)
+	for (int i = 0; g_szValidAsianFonts[i] != nullptr; i++)
 	{
 		if (!stricmp(g_szValidAsianFonts[i], windowsFontName))
 			return true;
@@ -664,7 +665,7 @@ bool CFontManager::IsFontForeignLanguageCapable(const char *windowsFontName)
 const char *CFontManager::GetFallbackFontName(const char *windowsFontName)
 {
 	int i;
-	for ( i = 0; g_FallbackFonts[i].font != NULL; i++ )
+	for ( i = 0; g_FallbackFonts[i].font != nullptr; i++ )
 	{
 		if (!stricmp(g_FallbackFonts[i].font, windowsFontName))
 			return g_FallbackFonts[i].fallbackFont;
@@ -687,7 +688,7 @@ Win98ForeignFallbackFont_t g_Win98ForeignFallbackFonts[] =
 	{ "japanese", "win98japanese" },
 	{ "thai", "system" },
 #ifdef WIN32
-	{ NULL, "Tahoma" },		// every other font falls back to this
+	{nullptr, "Tahoma" },		// every other font falls back to this
 #else
 	{ NULL, "Helvetica" },		// every other font falls back to this	
 #endif
@@ -712,7 +713,7 @@ const char *CFontManager::GetForeignFallbackFontName()
 #endif
 	
 	int i;
-	for (i = 0; g_Win98ForeignFallbackFonts[i].language != NULL; i++)
+	for (i = 0; g_Win98ForeignFallbackFonts[i].language != nullptr; i++)
 	{
 		if (!stricmp(g_Win98ForeignFallbackFonts[i].language, m_szLanguage))
 			return g_Win98ForeignFallbackFonts[i].fallbackFont;

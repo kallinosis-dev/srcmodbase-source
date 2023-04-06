@@ -73,14 +73,14 @@ bool SharedDispatch( MessageBuffer *pBuf, int iSource, int iPacketID )
 					pInPos += sizeof( iFileSize );
 
 					// Temp folder
-					char const *szFolder = NULL;
+					char const *szFolder = nullptr;
 					if ( !szFolder ) szFolder = getenv( "TEMP" );
 					if ( !szFolder ) szFolder = getenv( "TMP" );
 					if ( !szFolder ) szFolder = "c:";
 
 					// Base module name
 					char chModuleName[_MAX_PATH], *pModuleName = chModuleName;
-					::GetModuleFileName( NULL, chModuleName, sizeof( chModuleName ) / sizeof( chModuleName[0] ) );
+					::GetModuleFileName(nullptr, chModuleName, sizeof( chModuleName ) / sizeof( chModuleName[0] ) );
 
 					if ( char *pch = strrchr( chModuleName, '.' ) )
 						*pch = 0;
@@ -188,16 +188,16 @@ void RecvDBInfo( CDBInfo *pInfo, unsigned long *pJobPrimaryID )
 // otherwise returns 0 and nothing is sent
 int VMPI_SendFileChunk( const void *pvChunkPrefix, int lenPrefix, tchar const *ptchFileName )
 {
-	HANDLE hFile = NULL;
-	HANDLE hMapping = NULL;
-	void const *pvMappedData = NULL;
+	HANDLE hFile = nullptr;
+	HANDLE hMapping = nullptr;
+	void const *pvMappedData = nullptr;
 	int iResult = 0;
 
-	hFile = ::CreateFile( ptchFileName, GENERIC_READ, 0, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL );
+	hFile = ::CreateFile( ptchFileName, GENERIC_READ, 0, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
 	if ( !hFile || ( hFile == INVALID_HANDLE_VALUE ) )
 		goto done;
 
-	hMapping = ::CreateFileMapping( hFile, NULL, PAGE_READONLY, 0, 0, NULL );
+	hMapping = ::CreateFileMapping( hFile, nullptr, PAGE_READONLY, 0, 0, nullptr);
 	if ( !hMapping || ( hMapping == INVALID_HANDLE_VALUE ) )
 		goto done;
 
@@ -205,7 +205,7 @@ int VMPI_SendFileChunk( const void *pvChunkPrefix, int lenPrefix, tchar const *p
 	if ( !pvMappedData )
 		goto done;
 
-	int iMappedFileSize = ::GetFileSize( hFile, NULL );
+	int iMappedFileSize = ::GetFileSize( hFile, nullptr);
 	if ( INVALID_FILE_SIZE == iMappedFileSize )
 		goto done;
 
@@ -321,7 +321,7 @@ void VMPI_ExceptionFilter( unsigned long uCode, void *pvExceptionInfo )
 
 	int nErrors = sizeof( errors ) / sizeof( errors[0] );
 	int i=0;
-	char *pchReason = NULL;
+	char *pchReason = nullptr;
 	char chUnknownBuffer[32];
 	for ( i; ( i < nErrors ) && !pchReason; i++ )
 	{
@@ -348,7 +348,7 @@ void HandleMPIDisconnect( int procID, const char *pReason )
 	// We ran into the size limit before and it wasn't readily apparent that the size limit had
 	// been breached, so make sure to show errors about invalid packet sizes..
 	bool bOldSuppress = g_bSuppressPrintfOutput;
-	g_bSuppressPrintfOutput = ( Q_stristr( pReason, "invalid packet size" ) == 0 );
+	g_bSuppressPrintfOutput = ( Q_stristr( pReason, "invalid packet size" ) == nullptr );
 
 		Warning( "\n\n--- WARNING: lost connection to '%s' (%s).\n", VMPI_GetMachineName( procID ), pReason );
 		

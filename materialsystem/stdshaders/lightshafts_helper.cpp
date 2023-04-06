@@ -48,7 +48,7 @@ void DrawLightShafts( CBaseVSShader *pShader, IMaterialVar** params, IShaderDyna
 	{
 		// Set stream format (note that this shader supports compression)
 		unsigned int flags = VERTEX_POSITION;
-		pShaderShadow->VertexShaderVertexFormat( flags, 0, NULL, 0 ); // no texture coordinates needed
+		pShaderShadow->VertexShaderVertexFormat( flags, 0, nullptr, 0 ); // no texture coordinates needed
 		
 		DECLARE_STATIC_VERTEX_SHADER( lightshafts_vs30 );
 		SET_STATIC_VERTEX_SHADER( lightshafts_vs30 );
@@ -185,7 +185,7 @@ void DrawLightShafts( CBaseVSShader *pShader, IMaterialVar** params, IShaderDyna
 			pShader->BindTexture( SHADER_SAMPLER0, TEXTURE_BINDFLAGS_SRGBREAD, pCookieTexture, nFrameNumber );
 		}
 
-		ITexture *pFlashlightDepthTexture = NULL;
+		ITexture *pFlashlightDepthTexture = nullptr;
 		if( (info.m_nShadowDepthTexture != -1) && params[info.m_nShadowDepthTexture]->IsDefined() &&
 			 g_pConfig->ShadowDepthTexture() && flashlightState.m_bEnableShadows )
 		{

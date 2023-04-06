@@ -24,7 +24,7 @@
 
 using namespace vgui;
 
-COptionsSubMouse::COptionsSubMouse(vgui::Panel *parent) : PropertyPage(parent, NULL)
+COptionsSubMouse::COptionsSubMouse(vgui::Panel *parent) : PropertyPage(parent, nullptr)
 {
 	m_pReverseMouseCheckBox = new CCvarNegateCheckButton( 
 		this, 

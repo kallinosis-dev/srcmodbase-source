@@ -66,7 +66,7 @@ void C_TEFizz::PostDataUpdate( DataUpdateType_t updateType )
 	VPROF( "C_TEFizz::PostDataUpdate" );
 
 	C_BaseEntity *pEnt = cl_entitylist->GetEnt( m_nEntity );
-	if (pEnt != NULL)
+	if (pEnt != nullptr)
 	{
 		tempents->FizzEffect(pEnt, m_nModelIndex, m_nDensity, m_nCurrent );
 	}
@@ -76,7 +76,7 @@ void TE_Fizz( IRecipientFilter& filter, float delay,
 	const C_BaseEntity *ed, int modelindex, int density, int current )
 {
 	C_BaseEntity *pEnt = (C_BaseEntity *)ed;
-	if (pEnt != NULL)
+	if (pEnt != nullptr)
 	{
 		tempents->FizzEffect(pEnt, modelindex, density, current );
 	}

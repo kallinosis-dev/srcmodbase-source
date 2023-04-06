@@ -177,7 +177,7 @@ char const * CBannedWordsDictionary::CensorExternalString( uint64 ullKey, char c
 CBannedWords::~CBannedWords()
 {
 	delete m_pDictionary;
-	m_pDictionary = NULL;
+	m_pDictionary = nullptr;
 }
 
 bool CBannedWords::InitFromFile( char const *szFilename )

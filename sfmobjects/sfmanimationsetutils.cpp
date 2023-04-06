@@ -41,7 +41,7 @@ static CDmeChannelsClip* CreateChannelsClip( CDmeAnimationSet *pAnimationSet, CD
 	if ( !pTrackGroup )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 
 	CDmeTrack *pAnimSetEditorTrack = pTrackGroup->FindOrAddTrack( "animSetEditorChannels", DMECLIP_CHANNEL );
@@ -185,7 +185,7 @@ static void CreateAnimationLogs( CDmeChannelsClip *channelsClip, CDmeGameModel *
 		// Set up skeleton
 		IBoneSetup boneSetup( &hdr, BONE_USED_BY_ANYTHING, poseparameter );
 		boneSetup.InitPose( pos, q );
-		boneSetup.AccumulatePose( pos, q, sequence, flCycle, 1.0f, t, NULL );
+		boneSetup.AccumulatePose( pos, q, sequence, flCycle, 1.0f, t, nullptr);
 
 		// Copy bones into recording logs
 		for ( bi = 0 ; bi < numbones; ++bi )
@@ -224,7 +224,7 @@ static CDmeChannelsClip *FindChannelsClipTargetingDmeGameModel( CDmeFilmClip *pC
 		DMETRACKGROUP_FOREACH_CLIP_TYPE_END()
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -329,7 +329,7 @@ static void SetupBoneTransform( CDmeFilmClip *shot, CDmeChannelsClip *srcChannel
 		char szName[ 512 ];
 		Q_snprintf( szName, sizeof( szName ), "%s_bone%s %d", basename, suffix[ i ], bonenum );
 
-		CDmeChannel *pAttachChannel = NULL;
+		CDmeChannel *pAttachChannel = nullptr;
 		if ( srcChannelsClip )
 		{
 			pAttachChannel = FindChannelTargetingElement( srcChannelsClip, pBoneTxForm, channelNames[ i ] );
@@ -451,7 +451,7 @@ static void SetupBoneTransform( CDmeFilmClip *shot, CDmeChannelsClip *srcChannel
 		// Set up skeleton
 		IBoneSetup boneSetup( &studiohdr, BONE_USED_BY_ANYTHING, poseparameter );
 		boneSetup.InitPose( pos, q );
-		boneSetup.AccumulatePose( pos, q, 0, 0.0f, 1.0f, 0.0f, NULL );
+		boneSetup.AccumulatePose( pos, q, 0, 0.0f, 1.0f, 0.0f, nullptr);
 
 		if ( i == 0 )
 		{
@@ -485,7 +485,7 @@ static void SetupRootTransform( CDmeFilmClip *shot, CDmeChannelsClip *srcChannel
 		char szName[ 512 ];
 		Q_snprintf( szName, sizeof( szName ), "%s_root%s channel", basename, suffix[ i ] );
 
-		CDmeChannel *pAttachChannel = NULL;
+		CDmeChannel *pAttachChannel = nullptr;
 		if ( srcChannelsClip )
 		{
 			pAttachChannel = FindChannelTargetingElement( srcChannelsClip, gameModel->GetTransform(), channelNames[ i ] );
@@ -664,7 +664,7 @@ static void RemoveExistingGroupMappings( CDmeAnimationSet *pAnimationSet )
 	for ( int i = 0; i < nCount; ++i )
 	{
 		CDmElement *pGroup = groups[i];
-		groups.Set( i, NULL );
+		groups.Set( i, nullptr);
 		DestroyElement( pGroup );
 	}
 	groups.RemoveAll();

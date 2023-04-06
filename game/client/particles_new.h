@@ -71,20 +71,20 @@ public:
 	CNewParticleEffect* ReplaceWith( const char *pParticleSystemName );
 
 	static CNewParticleEffect *Create( CBaseEntity *pOwner, const char *pParticleSystemName,
-												 const char *pDebugName = NULL );
+												 const char *pDebugName = nullptr);
 	static CNewParticleEffect *Create( CBaseEntity *pOwner, CParticleSystemDefinition *pDef,
-												 const char *pDebugName = NULL );
+												 const char *pDebugName = nullptr);
 	static CNewParticleEffect *CreatePrecached( CBaseEntity *pOwner, int nPrecacheIndex,
-												 const char *pDebugName = NULL );	
+												 const char *pDebugName = nullptr);	
 	static CNewParticleEffect *CreateOrAggregate( CBaseEntity *pOwner, const char *pParticleSystemName,
-												  Vector const &vecAggregatePosition, const char *pDebugName = NULL, 
+												  Vector const &vecAggregatePosition, const char *pDebugName = nullptr, 
 												  int nSplitScreenUser = -1 );
 	static CNewParticleEffect *CreateOrAggregate( CBaseEntity *pOwner, CParticleSystemDefinition *pDef,
-												  Vector const &vecAggregatePosition, const char *pDebugName = NULL,
+												  Vector const &vecAggregatePosition, const char *pDebugName = nullptr,
 												  int nSplitScreenUser = -1 );
 	static CNewParticleEffect *CreateOrAggregatePrecached( CBaseEntity *pOwner, int nPrecacheIndex,
 														   Vector const &vecAggregatePosition,
-														   const char *pDebugName = NULL,
+														   const char *pDebugName = nullptr,
 														   int nSplitScreenUser = -1 );
 
 	static void RemoveParticleEffect( int nPrecacheIndex );
@@ -255,14 +255,14 @@ inline PMaterialHandle CNewParticleEffect::GetPMaterial(const char *name)
 {
 	//!!
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 inline Particle* CNewParticleEffect::AddParticle( unsigned int particleSize, PMaterialHandle material, const Vector &origin )
 {
 	//!!
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 

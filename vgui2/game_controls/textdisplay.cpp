@@ -199,7 +199,7 @@ void CTextDisplay::FinishFrame()
 		{
 			m_pMenu->Definition().RemoveGraphic( m_pStatsText[i] );
 			delete m_pStatsText[i];
-			m_pStatsText[i] = NULL;
+			m_pStatsText[i] = nullptr;
 		}
 
 		m_pStatsText.RemoveAll();

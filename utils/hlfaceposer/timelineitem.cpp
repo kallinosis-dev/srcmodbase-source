@@ -51,7 +51,7 @@ TimelineItem::TimelineItem( mxWindow *workspace )
 	m_nStartX = 0;
 	m_nStartY = 0;
 
-	SetExpressionInfo( NULL, 0 );
+	SetExpressionInfo(nullptr, 0 );
 
 	m_nNumSelected = 0;
 
@@ -151,7 +151,7 @@ CExpressionSample *TimelineItem::GetSample( int idx )
 {
 	CFlexAnimationTrack *track = GetSafeTrack();
 	if ( !track )
-		return NULL;
+		return nullptr;
 
 	if ( idx >= track->GetNumSamples( 0 ) )
 	{
@@ -166,14 +166,14 @@ CExpressionSample *TimelineItem::GetSampleUnderMouse( int mx, int my, float tole
 {
 	CFlexAnimationTrack *track = GetSafeTrack();
 	if ( !track )
-		return NULL;
+		return nullptr;
 
 	CChoreoEvent *e = track->GetEvent();
 	if ( !e )
-		return NULL;
+		return nullptr;
 
 	float closest_dist = 9999999.f;
-	CExpressionSample *bestsample = NULL;
+	CExpressionSample *bestsample = nullptr;
 
 	// Add a sample point
 	int height = m_rcBounds.bottom - m_rcBounds.top;
@@ -202,7 +202,7 @@ CExpressionSample *TimelineItem::GetSampleUnderMouse( int mx, int my, float tole
 	// Not close to any of them!!!
 	if ( ( tolerance != 0.0f ) && 
 		( closest_dist > tolerance ) )
-		return NULL;
+		return nullptr;
 
 	return bestsample;
 }
@@ -701,11 +701,11 @@ void TimelineItem::DrawFocusRect( void )
 	ClientToScreen( (HWND)m_pWorkspace->getHandle(), &offset );
 	OffsetRect( &rcFocus, offset.x, offset.y );
 
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 
 	::DrawFocusRect( dc, &rcFocus );
 
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 }
 
 void TimelineItem::DrawSelf( void )
@@ -1337,11 +1337,11 @@ bool TimelineItem::IsValid( void )
 CFlexAnimationTrack *TimelineItem::GetSafeTrack( void )
 {	
 	if ( !g_pExpressionTool )
-		return NULL;
+		return nullptr;
 
 	CChoreoEvent *ev = g_pExpressionTool->GetSafeEvent();
 	if ( !ev )
-		return NULL;
+		return nullptr;
 
 	// Find track by name
 	for ( int i = 0; i < ev->GetNumFlexAnimationTracks() ; i++ )
@@ -1353,7 +1353,7 @@ CFlexAnimationTrack *TimelineItem::GetSafeTrack( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1743,11 +1743,11 @@ void TimelineItem::DrawGrowRect()
 	ClientToScreen( (HWND)m_pWorkspace->getHandle(), &offset );
 	OffsetRect( &rcFocus, offset.x, offset.y );
 
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 
 	::DrawFocusRect( dc, &rcFocus );
 
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 }
 
 void TimelineItem::GetWorkList( bool reflect, CUtlVector< TimelineItem * >& list )

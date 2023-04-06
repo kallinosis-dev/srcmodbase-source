@@ -75,7 +75,7 @@ void LaunchSelfViaSteam(const char *params)
 {
 	// calculate the details of our launch
 	char appPath[MAX_PATH];
-	::GetModuleFileName((HINSTANCE)GetModuleHandle(NULL), appPath, sizeof(appPath));
+	::GetModuleFileName((HINSTANCE)GetModuleHandle(nullptr), appPath, sizeof(appPath));
 
 	// strip out the exe name
 	char *slash = strrchr(appPath, '\\');
@@ -159,7 +159,7 @@ void LaunchSelfViaSteam(const char *params)
 			{
 				DWORD dwType;
 				DWORD dwSize = sizeof(steamExe);
-				RegQueryValueEx( hKey, "SteamExe", NULL, &dwType, (LPBYTE)steamExe, &dwSize);
+				RegQueryValueEx( hKey, "SteamExe", nullptr, &dwType, (LPBYTE)steamExe, &dwSize);
 				RegCloseKey( hKey );
 			}
 		}
@@ -167,7 +167,7 @@ void LaunchSelfViaSteam(const char *params)
 		if (!steamExe[0])
 		{
 			// still no path, error
-			::MessageBox(NULL, "Error running game: could not find steam.exe to launch", "Fatal Error", MB_OK | MB_ICONERROR);
+			::MessageBox(nullptr, "Error running game: could not find steam.exe to launch", "Fatal Error", MB_OK | MB_ICONERROR);
 			return;
 		}
 
@@ -190,7 +190,7 @@ void LaunchSelfViaSteam(const char *params)
 		}
 
 		// exec steam.exe, in silent mode, with the launch app param
-		char *args[4] = { steamExe, "-silent", "-applaunch", NULL };
+		char *args[4] = { steamExe, "-silent", "-applaunch", nullptr};
 		_spawnv(_P_NOWAIT, steamExe, args);
 	}
 }

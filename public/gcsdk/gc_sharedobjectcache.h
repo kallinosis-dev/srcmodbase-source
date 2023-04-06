@@ -129,7 +129,7 @@ public:
 		{
 			return (SOClass_t *)pTypeCache->GetObject( 0 );
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	virtual uint32 CalcSendFlags( const CSteamID &steamID ) const;
@@ -235,7 +235,7 @@ protected:
 template< typename SOClass_t >
 bool CGCSharedObjectCache::BYieldingLoadSchObjects( IGCSQLResultSet *pResultSet, const CColumnSet & csRead, const SOClass_t & objDefaults )
 {
-	if ( NULL == pResultSet )
+	if (nullptr == pResultSet )
 		return false;
 
 	CGCSharedObjectTypeCache *pTypeCache = GetTypeCache( SOClass_t::k_nTypeID, true );
@@ -264,7 +264,7 @@ bool CGCSharedObjectCache::BYieldingLoadSchObjects( IGCSQLResultSet *pResultSet,
 template< typename SOClass_t >
 bool CGCSharedObjectCache::BYieldingLoadSchSingleton( IGCSQLResultSet *pResultSet, const CColumnSet & csRead, const SOClass_t & objDefaults )
 {
-	if ( NULL == pResultSet )
+	if (nullptr == pResultSet )
 		return false;
 
 	if ( pResultSet->GetRowCount() > 1 )
@@ -305,7 +305,7 @@ bool CGCSharedObjectCache::BYieldingLoadSchSingleton( IGCSQLResultSet *pResultSe
 template< typename SOClass_t, typename SchClass_t >
 bool CGCSharedObjectCache::BYieldingLoadProtoBufObjects( IGCSQLResultSet *pResultSet, const CColumnSet & csRead )
 {
-	if ( NULL == pResultSet )
+	if (nullptr == pResultSet )
 		return false;
 
 	CGCSharedObjectTypeCache *pTypeCache = GetTypeCache( SOClass_t::k_nTypeID, true );
@@ -337,7 +337,7 @@ bool CGCSharedObjectCache::BYieldingLoadProtoBufObjects( IGCSQLResultSet *pResul
 template< typename SOClass_t, typename SchClass_t >
 bool CGCSharedObjectCache::BYieldingLoadProtoBufSingleton( IGCSQLResultSet *pResultSet, const CColumnSet & csRead, const SchClass_t & schDefaults )
 {
-	if ( NULL == pResultSet )
+	if (nullptr == pResultSet )
 		return false;
 
 	if ( pResultSet->GetRowCount() > 1 )

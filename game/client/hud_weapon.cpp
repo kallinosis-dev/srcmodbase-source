@@ -51,12 +51,12 @@ private:
 DECLARE_HUDELEMENT( CHudWeapon );
 
 CHudWeapon::CHudWeapon( const char *pElementName ) :
-  CHudElement( pElementName ), BaseClass( NULL, "HudWeapon" )
+  CHudElement( pElementName ), BaseClass(nullptr, "HudWeapon" )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
 
-	m_pCrosshair = NULL;
+	m_pCrosshair = nullptr;
 
 	SetHiddenBits( HIDEHUD_PLAYERDEAD | HIDEHUD_CROSSHAIR );
 }

@@ -38,7 +38,7 @@ class CDmeParticleFunction : public CDmElement
 	DEFINE_ELEMENT( CDmeParticleFunction, CDmElement );
 
 public:
-	virtual const char *GetFunctionType() const { return NULL; }
+	virtual const char *GetFunctionType() const { return nullptr; }
 	virtual void Resolve();
 	virtual void OnElementUnserialized();
 
@@ -188,15 +188,15 @@ template<class T> T* ReadParticleClassFromKV( KeyValues *pKV, const char *pKeyNa
 		CUtlBuffer buf( pData, nLen, CUtlBuffer::TEXT_BUFFER | CUtlBuffer::READ_ONLY );
 
 		DmElementHandle_t hRoot;
-		if ( !g_pDataModel->Unserialize( buf, "keyvalues2", "pcf", NULL, "paste", CR_FORCE_COPY, hRoot ) )
+		if ( !g_pDataModel->Unserialize( buf, "keyvalues2", "pcf", nullptr, "paste", CR_FORCE_COPY, hRoot ) )
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		return GetElement<T>( hRoot );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

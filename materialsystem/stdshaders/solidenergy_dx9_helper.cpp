@@ -153,7 +153,7 @@ void DrawSolidEnergy(  CBaseVSShader *pShader, IMaterialVar** params, IShaderDyn
 			}
 
 			int nTexCoordCount = 1;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 			// Vertex Shader
 #if !defined( _GAMECONSOLE )

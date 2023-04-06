@@ -116,7 +116,7 @@ public:
 	void SetAnimatedTransform( int nParticle, const matrix3x4a_t &transform );
 	void SetAnimatedTransforms( const matrix3x4a_t *pSimulationWorldTransforms );
 	void SetAnimatedTransformsNoScale( const matrix3x4a_t *pSimulationWorldTransforms );
-	matrix3x4a_t* GetParticleTransforms( const VectorAligned *pInputNodePos = NULL, uint nFlags = 0 );
+	matrix3x4a_t* GetParticleTransforms( const VectorAligned *pInputNodePos = nullptr, uint nFlags = 0 );
 	const VectorAligned* GetNodePositions( int nFrame = 1 ) const { return nFrame ? m_pPos1 : m_pPos0; }
 	VectorAligned* GetNodePositions( int nFrame = 1 ) { return nFrame ? m_pPos1 : m_pPos0; }
 	void SetNodePositions( const Vector *pPos, int nCount, int nFrame = 1 );

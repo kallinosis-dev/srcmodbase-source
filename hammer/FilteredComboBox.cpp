@@ -21,7 +21,7 @@ BEGIN_MESSAGE_MAP(CFilteredComboBox, CComboBox)
 END_MESSAGE_MAP()
 
 
-static const char *s_pStringToMatch = NULL;
+static const char *s_pStringToMatch = nullptr;
 static int s_iStringToMatchLen;
 
 
@@ -60,12 +60,12 @@ public:
 CFilteredComboBox::CFilteredComboBox( CFilteredComboBox::ICallbacks *pCallbacks )
 	: m_pCallbacks( pCallbacks )
 {
-	m_hQueuedFont = NULL;
+	m_hQueuedFont = nullptr;
 	m_bInSelChange = false;
 	m_bNotifyParent = true;
 	m_dwTextColor = RGB(0, 0, 0);
 	m_bOnlyProvideSuggestions = true;
-	m_hEditControlFont = NULL;
+	m_hEditControlFont = nullptr;
 	m_bInEnterKeyPressedHandler = false;
 }
 
@@ -88,7 +88,7 @@ void CFilteredComboBox::SetSuggestions( CUtlVector<CString> &suggestions, int fl
 	GetWindowText( str );
 	DWORD sel = GetEditSel();
 
-	FillDropdownList( NULL, false );
+	FillDropdownList(nullptr, false );
 	
 	// Force it to provide the first one if they only want suggestions and the current text in there is not valid.
 	bool bSelectFirst = ((flags & SETSUGGESTIONS_SELECTFIRST) != 0);
@@ -359,7 +359,7 @@ LRESULT CFilteredComboBox::DefWindowProc(
 	{
 		if ( wParam == '\r' )
 		{
-			OnEnterKeyPressed( NULL );
+			OnEnterKeyPressed(nullptr);
 			return 0;
 		}
 		else if ( wParam == 27 )
@@ -523,7 +523,7 @@ BOOL CFilteredComboBox::OnSelChange()
 		if ( m_hQueuedFont )
 		{
 			HFONT hFont = m_hQueuedFont;
-			m_hQueuedFont = NULL;
+			m_hQueuedFont = nullptr;
 			m_bInSelChange = false;
 			InternalSetEditControlFont( hFont, strOriginalText, dwOriginalEditSel );
 		}
@@ -670,7 +670,7 @@ void CFilteredComboBox::GetItemsMatchingString( const char *pStringToMatch, CUtl
 	s_pStringToMatch = pStringToMatch;	
 	s_iStringToMatchLen = V_strlen( pStringToMatch );
 	matchingItems.Sort( &CFilteredComboBox::SortFn );
-	s_pStringToMatch = NULL;
+	s_pStringToMatch = nullptr;
 }
 
 
@@ -681,8 +681,8 @@ int CFilteredComboBox::SortFn( const CString *pItem1, const CString *pItem2 )
 	bool bPrefixMatch1=false, bPrefixMatch2=false;
 	if ( s_pStringToMatch )
 	{
-		bPrefixMatch1 = ( V_strnistr( *pItem1, s_pStringToMatch, s_iStringToMatchLen ) != NULL );
-		bPrefixMatch2 = ( V_strnistr( *pItem2, s_pStringToMatch, s_iStringToMatchLen ) != NULL );
+		bPrefixMatch1 = ( V_strnistr( *pItem1, s_pStringToMatch, s_iStringToMatchLen ) != nullptr);
+		bPrefixMatch2 = ( V_strnistr( *pItem2, s_pStringToMatch, s_iStringToMatchLen ) != nullptr);
 	}
 	
 	if ( bPrefixMatch1 == bPrefixMatch2 )

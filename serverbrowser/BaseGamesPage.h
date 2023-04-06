@@ -94,7 +94,7 @@ public:
 	const char* PageTypeToString( EPageType eType ) const;
 
 public:
-	CBaseGamesPage( vgui::Panel *parent, const char *name, EPageType eType, const char *pCustomResFilename=NULL);
+	CBaseGamesPage( vgui::Panel *parent, const char *name, EPageType eType, const char *pCustomResFilename= nullptr);
 	~CBaseGamesPage();
 
 	virtual void PerformLayout();

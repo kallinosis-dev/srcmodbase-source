@@ -26,12 +26,12 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CIntroMenu::CIntroMenu( IViewPort *pViewPort ) : BaseClass( NULL, PANEL_INTRO )
+CIntroMenu::CIntroMenu( IViewPort *pViewPort ) : BaseClass(nullptr, PANEL_INTRO )
 {
 	// initialize dialog
 	m_pViewPort = pViewPort;
 
-	m_pTitleLabel = NULL;
+	m_pTitleLabel = nullptr;
 
 	// load the new scheme early!!
 	SetScheme( "ClientScheme" );

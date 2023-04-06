@@ -53,7 +53,7 @@ int CAI_LookTarget::DrawDebugTextOverlays(void)
 			text_offset++;
 		}
 
-		if( IsEligible( NULL ) )
+		if( IsEligible(nullptr) )
 		{
 			Q_snprintf(tempstr,sizeof(tempstr),"Eligible" );
 			EntityText(text_offset,tempstr,0);
@@ -119,7 +119,7 @@ CAI_LookTarget *CAI_LookTarget::GetFirstLookTarget()
 	string_t iszLookTarget = FindPooledString( "ai_looktarget" );
 	if( iszLookTarget == NULL_STRING )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	pEnt = gEntList.FirstEnt();
@@ -140,7 +140,7 @@ CAI_LookTarget *CAI_LookTarget::GetNextLookTarget( CAI_LookTarget *pCurrentTarge
 	string_t iszLookTarget = FindPooledString( "ai_looktarget" );
 	if( iszLookTarget == NULL_STRING )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	pEnt = gEntList.NextEnt( pCurrentTarget );

@@ -47,5 +47,5 @@ CDmeLODList *CDmeBodyGroup::FindBodyPart( const char *pName )
 			return pLODList;
 	}
 
-	return NULL;
+	return nullptr;
 }

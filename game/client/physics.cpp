@@ -198,9 +198,9 @@ bool PhysIsInCallback()
 
 bool PhysicsDLLInit( CreateInterfaceFn physicsFactory )
 {
-	if ((physics = (IPhysics *)physicsFactory( VPHYSICS_INTERFACE_VERSION, NULL )) == NULL ||
-		(physprops = (IPhysicsSurfaceProps *)physicsFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, NULL )) == NULL ||
-		(physcollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, NULL )) == NULL )
+	if ((physics = (IPhysics *)physicsFactory( VPHYSICS_INTERFACE_VERSION, nullptr)) == nullptr ||
+		(physprops = (IPhysicsSurfaceProps *)physicsFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, nullptr)) == nullptr ||
+		(physcollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, nullptr)) == nullptr)
 	{
 		return false;
 	}
@@ -260,7 +260,7 @@ void PhysicsReset()
 static CBaseEntity *FindPhysicsBlocker( IPhysicsObject *pPhysics )
 {
 	IPhysicsFrictionSnapshot *pSnapshot = pPhysics->CreateFrictionSnapshot();
-	CBaseEntity *pBlocker = NULL;
+	CBaseEntity *pBlocker = nullptr;
 	float maxVel = 10.0f;
 	while ( pSnapshot->IsValid() )
 	{
@@ -544,12 +544,12 @@ void CPhysicsSystem::LevelShutdownPostEntity()
 		physics->DestroyEnvironment( physenv );
 	}
 	physics->DestroyObjectPairHash( g_EntityCollisionHash );
-	g_EntityCollisionHash = NULL;
+	g_EntityCollisionHash = nullptr;
 
 	physics->DestroyAllCollisionSets();
 
-	physenv = NULL;
-	g_PhysWorldObject = NULL;
+	physenv = nullptr;
+	g_PhysWorldObject = nullptr;
 }
 
 void CPhysicsSystem::AddImpactSound( void *pGameData, IPhysicsObject *pObject, int surfaceProps, int surfacePropsHit, float volume, float speed )
@@ -591,7 +591,7 @@ bool IsBlockedShouldDisableCollisions( C_BaseEntity *pEntity )
 		if ( gpGlobals->framecount - g_BlockList[i].lastBlockFrame > 4 )
 		{
 			available = i;
-			g_BlockList[i].pEntity = NULL;
+			g_BlockList[i].pEntity = nullptr;
 		}
 		if ( g_BlockList[i].pEntity == pEntity )
 		{
@@ -636,7 +636,7 @@ void CPhysicsSystem::PhysicsSimulate()
 				int activeCount = physenv->GetActiveObjectCount();
 				if ( activeCount )
 				{
-					IPhysicsObject **pActiveList = NULL;
+					IPhysicsObject **pActiveList = nullptr;
 					pActiveList = (IPhysicsObject **)stackalloc( sizeof(IPhysicsObject *)*activeCount );
 					physenv->GetActiveObjects( pActiveList );
 
@@ -693,7 +693,7 @@ void CPhysicsSystem::PhysicsSimulate()
 
 		int activeCount = physenv->GetActiveObjectCount();
 		g_mp_active_object_count.Add(activeCount);
-		IPhysicsObject **pActiveList = NULL;
+		IPhysicsObject **pActiveList = nullptr;
 		if ( activeCount )
 		{
 			PHYS_PROFILE(aUpdateActiveObjects)
@@ -727,7 +727,7 @@ void CPhysicsSystem::PhysicsSimulate()
 						if ( dist > cl_phys_block_dist.GetFloat() )
 						{
 							Vector vel;
-							pActiveList[i]->GetImplicitVelocity( &vel, NULL );
+							pActiveList[i]->GetImplicitVelocity( &vel, nullptr);
 							float proj = DotProduct(vel, delta);
 							if ( proj < dist * cl_phys_block_fraction.GetFloat() )
 							{
@@ -741,7 +741,7 @@ void CPhysicsSystem::PhysicsSimulate()
 						if ( fabsf(deltaTargetAngle) > 0.5f )
 						{
 							AngularImpulse angVel;
-							pActiveList[i]->GetImplicitVelocity( NULL, &angVel );
+							pActiveList[i]->GetImplicitVelocity(nullptr, &angVel );
 							float proj = DotProduct( angVel, targetAxis ) * Sign(deltaTargetAngle);
 							if ( proj < (fabsf(deltaTargetAngle) * cl_phys_block_fraction.GetFloat()) )
 							{
@@ -1110,7 +1110,7 @@ void CCollisionEvent::Friction( IPhysicsObject *pObject, float energy, int surfa
 
 friction_t *CCollisionEvent::FindFriction( CBaseEntity *pObject )
 {
-	friction_t *pFree = NULL;
+	friction_t *pFree = nullptr;
 
 	for ( int i = 0; i < ARRAYSIZE(m_current); i++ )
 	{
@@ -1128,8 +1128,8 @@ void CCollisionEvent::ShutdownFriction( friction_t &friction )
 {
 //	Msg( "Scrape Stop %s \n", STRING(friction.pObject->m_iClassname) );
 	CSoundEnvelopeController::GetController().SoundDestroy( friction.patch );
-	friction.patch = NULL;
-	friction.pObject = NULL;
+	friction.patch = nullptr;
+	friction.pObject = nullptr;
 }
 
 void CCollisionEvent::UpdateFrictionSounds( void )
@@ -1185,7 +1185,7 @@ void PhysicsSplash( IPhysicsFluidController *pFluid, IPhysicsObject *pObject, CB
 		return;
 
 	Vector velocity;
-	pObject->GetVelocity( &velocity, NULL );
+	pObject->GetVelocity( &velocity, nullptr);
 	
 	float impactSpeed = velocity.Length();
 
@@ -1357,7 +1357,7 @@ float CCollisionEvent::DeltaTimeSinceLastFluid( CBaseEntity *pEntity )
 void CCollisionEvent::FluidStartTouch( IPhysicsObject *pObject, IPhysicsFluidController *pFluid )
 {
 	CallbackContext callback(this);
-	if ( ( pObject == NULL ) || ( pFluid == NULL ) )
+	if ( ( pObject == nullptr) || ( pFluid == nullptr) )
 		return;
 
 	CBaseEntity *pEntity = static_cast<CBaseEntity *>(pObject->GetGameData());
@@ -1415,7 +1415,7 @@ void PhysFrictionSound( CBaseEntity *pEntity, IPhysicsObject *pObject, const cha
 			return;
 
 		CSoundParameters params;
-		if ( !CBaseEntity::GetParametersForSound( pSoundName, handle, params, NULL ) )
+		if ( !CBaseEntity::GetParametersForSound( pSoundName, handle, params, nullptr) )
 			return;
 
 		if ( !pFriction->pObject )

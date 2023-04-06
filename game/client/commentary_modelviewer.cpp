@@ -32,7 +32,7 @@ CCommentaryModelPanel::CCommentaryModelPanel( vgui::Panel *parent, const char *n
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-CCommentaryModelViewer::CCommentaryModelViewer(IViewPort *pViewPort) : Frame(NULL, PANEL_COMMENTARY_MODELVIEWER )
+CCommentaryModelViewer::CCommentaryModelViewer(IViewPort *pViewPort) : Frame(nullptr, PANEL_COMMENTARY_MODELVIEWER )
 {
 	m_pViewPort = pViewPort;
 

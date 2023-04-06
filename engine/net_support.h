@@ -81,7 +81,7 @@ public:
 	virtual int SendPacket (
 		INetChannel *chan, int sock,  const netadr_t &to,
 		const void *data, int length,
-		bf_write *pVoicePayload = NULL,
+		bf_write *pVoicePayload = nullptr,
 		bool bUseCompression = false );
 
     virtual ISteamNetworkingUtils *GetSteamNetworkingUtils() OVERRIDE;

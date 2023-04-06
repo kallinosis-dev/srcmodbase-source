@@ -99,7 +99,7 @@ void* SendProxy_OnlyToTeam( const SendProp *pProp, const void *pStruct, const vo
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 REGISTER_SEND_PROXY_NON_MODIFIED_POINTER( SendProxy_OnlyToTeam );
 

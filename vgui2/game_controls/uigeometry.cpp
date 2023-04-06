@@ -193,7 +193,7 @@ void CGeometry::UpdateRenderData( CUtlVector< RenderGeometryList_t > &renderGeom
 	renderGeometry.m_AnimationRate = m_AnimationRate;
 	renderGeometry.m_bAnimate = m_bAnimate;
 	renderGeometry.m_AnimStartTime = m_AnimStartTime;
-	renderGeometry.m_pImageAlias = NULL;
+	renderGeometry.m_pImageAlias = nullptr;
 
 	CalculateExtents();
 }
@@ -465,7 +465,7 @@ void CGeometry::DrawExtents( CUtlVector< RenderGeometryList_t > &renderGeometryL
 		renderGeometry.m_AnimationRate = m_AnimationRate;
 		renderGeometry.m_bAnimate = false;
 		renderGeometry.m_AnimStartTime = m_AnimStartTime;
-		renderGeometry.m_pImageAlias = NULL;
+		renderGeometry.m_pImageAlias = nullptr;
 	}
 
 	
@@ -506,7 +506,7 @@ void CGeometry::DrawExtents( CUtlVector< RenderGeometryList_t > &renderGeometryL
 		renderGeometry.m_AnimationRate = m_AnimationRate;
 		renderGeometry.m_bAnimate = false;
 		renderGeometry.m_AnimStartTime = m_AnimStartTime;
-		renderGeometry.m_pImageAlias = NULL;
+		renderGeometry.m_pImageAlias = nullptr;
 	}
 
 	{
@@ -548,7 +548,7 @@ void CGeometry::DrawExtents( CUtlVector< RenderGeometryList_t > &renderGeometryL
 		renderGeometry.m_AnimationRate = m_AnimationRate;
 		renderGeometry.m_bAnimate = false;
 		renderGeometry.m_AnimStartTime = m_AnimStartTime;
-		renderGeometry.m_pImageAlias = NULL;
+		renderGeometry.m_pImageAlias = nullptr;
 	}
 	
 	{
@@ -589,7 +589,7 @@ void CGeometry::DrawExtents( CUtlVector< RenderGeometryList_t > &renderGeometryL
 		renderGeometry.m_AnimationRate = m_AnimationRate;
 		renderGeometry.m_bAnimate = false;
 		renderGeometry.m_AnimStartTime = m_AnimStartTime;
-		renderGeometry.m_pImageAlias = NULL;
+		renderGeometry.m_pImageAlias = nullptr;
 	}
 	
 }

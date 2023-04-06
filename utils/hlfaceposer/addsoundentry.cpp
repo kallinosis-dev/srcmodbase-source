@@ -98,8 +98,8 @@ static BOOL CALLBACK AddSoundPropertiesDialogProc( HWND hwndDlg, UINT uMsg, WPAR
 				{
 					if ( !g_Params.m_bAllowExistingSound )
 					{
-						mxMessageBox( NULL, va( "Sound '%s' already exists",	
-							g_Params.m_szSoundName ), g_appTitle, MX_MB_OK );
+						mxMessageBox(nullptr, va( "Sound '%s' already exists",	
+						                   g_Params.m_szSoundName ), g_appTitle, MX_MB_OK );
 					}
 					else
 					{
@@ -111,15 +111,15 @@ static BOOL CALLBACK AddSoundPropertiesDialogProc( HWND hwndDlg, UINT uMsg, WPAR
 				// Check out script
 				if ( !filesystem->FileExists( g_Params.m_szScriptName ) )
 				{
-					mxMessageBox( NULL, va( "Script '%s' does not exist",
-						g_Params.m_szScriptName ), g_appTitle, MX_MB_OK );
+					mxMessageBox(nullptr, va( "Script '%s' does not exist",
+					                   g_Params.m_szScriptName ), g_appTitle, MX_MB_OK );
 					return TRUE;
 				}
 
 				if ( !filesystem->IsFileWritable( g_Params.m_szScriptName ) )
 				{
-					mxMessageBox( NULL, va( "Script '%s' is read-only, you need to check it out of VSS",
-						g_Params.m_szScriptName ), g_appTitle, MX_MB_OK );
+					mxMessageBox(nullptr, va( "Script '%s' is read-only, you need to check it out of VSS",
+					                   g_Params.m_szScriptName ), g_appTitle, MX_MB_OK );
 					return TRUE;
 				}
 

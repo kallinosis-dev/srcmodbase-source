@@ -116,7 +116,7 @@ static bool GetPlayerView( Vector &vecPosition, Vector &vecForward )
 		return false;
 	}
 
-	player->EyePositionAndVectors( &vecPosition, &vecForward, NULL, NULL );
+	player->EyePositionAndVectors( &vecPosition, &vecForward, nullptr, nullptr);
 	return true;
 }
 
@@ -132,7 +132,7 @@ void NDebugOverlay::Line( const Vector &origin, const Vector &target, int r, int
 	// --------------------------------------------------------------
 	CBasePlayer *player = GetLocalPlayer();
 
-	if ( player == NULL )
+	if ( player == nullptr)
 		return;
 
 /*
@@ -268,7 +268,7 @@ void NDebugOverlay::Text( const Vector &origin, const char *text, bool bViewChec
 		if (bViewCheck)
 		{
 			trace_t tr;
-			UTIL_TraceLine( clipOrigin, origin, MASK_OPAQUE, NULL, COLLISION_GROUP_NONE, &tr);
+			UTIL_TraceLine( clipOrigin, origin, MASK_OPAQUE, nullptr, COLLISION_GROUP_NONE, &tr);
 			
 			if ((tr.endpos - origin).Length() > 10)
 				return;
@@ -623,7 +623,7 @@ void NDebugOverlay::Sphere( const Vector &center, float radius, int r, int g, in
 void NDebugOverlay::Circle( const Vector &position, float radius, int r, int g, int b, int a, bool bNoDepthTest, float flDuration )
 {
 	CBasePlayer *player = GetLocalPlayer();
-	if ( player == NULL )
+	if ( player == nullptr)
 		return;
 
 	Vector clientForward;
@@ -747,7 +747,7 @@ void NDebugOverlay::Cone( const Vector & position, const Vector & axis, float an
 void NDebugOverlay::Cross( const Vector &position, float radius, int r, int g, int b, bool bNoDepthTest, float flDuration )
 {
 	CBasePlayer *player = GetLocalPlayer();
-	if ( player == NULL )
+	if ( player == nullptr)
 		return;
 
 	Vector clientForward;

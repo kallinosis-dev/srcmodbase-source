@@ -28,7 +28,7 @@ namespace GCSDK
 //----------------------------------------------------------------------
 DECLARE_GC_EMIT_GROUP( g_EGHTTPRequest, http_request );
 
-CGCBase *g_pGCBase = NULL;
+CGCBase *g_pGCBase = nullptr;
 
 // Thread pool size convar
 static void OnConVarChangeJobMgrThreadPoolSize( IConVar *pConVar, const char *pOldString, float flOldValue );
@@ -110,7 +110,7 @@ SpewRetval_t ConsoleSpewFunc( SpewType_t type, const tchar *pMsg )
 			EmitWarning( SPEW_CONSOLE, SPEW_ALWAYS, fmt, pMsg );
 			break;
 		case SPEW_ASSERT:
-			if ( ThreadInMainThread() && ( g_pJobCur != NULL ) )
+			if ( ThreadInMainThread() && ( g_pJobCur != nullptr) )
 			{
 				fmt = ( sizeof( tchar ) == sizeof( char ) ) ? "[Job %s] %hs" : "[Job %s] %ls";
 				EmitError( SPEW_CONSOLE, fmt, g_pJobCur->GetName(), pMsg );
@@ -159,7 +159,7 @@ public:
 		// Log off all of the game servers and users, so that if something
 		// in the log off dirties caches they can be written back
 		CUtlVector<CSteamID> vecIDsToStop;
-		for( CGCGSSession **ppSession = m_pGC->GetFirstGSSession(); ppSession != NULL; ppSession = m_pGC->GetNextGSSession( ppSession ) )
+		for( CGCGSSession **ppSession = m_pGC->GetFirstGSSession(); ppSession != nullptr; ppSession = m_pGC->GetNextGSSession( ppSession ) )
 		{
 			vecIDsToStop.AddToTail( (*ppSession)->GetSteamID() );
 		}
@@ -172,7 +172,7 @@ public:
 
 		vecIDsToStop.RemoveAll();
 
-		for( CGCUserSession **ppSession = m_pGC->GetFirstUserSession(); ppSession != NULL; ppSession = m_pGC->GetNextUserSession( ppSession ) )
+		for( CGCUserSession **ppSession = m_pGC->GetFirstUserSession(); ppSession != nullptr; ppSession = m_pGC->GetNextUserSession( ppSession ) )
 		{
 			vecIDsToStop.AddToTail( (*ppSession)->GetSteamID() );
 		}
@@ -218,7 +218,7 @@ GC_REG_JOB( CGCBase, CPreTestSetupJob, "CPreTestSetupJob", k_EGCMsgPreTestSetup,
 
 static void SpewSerializedKeyValues( const byte *pubVarData, uint32 cubVarData )
 {
-	if ( pubVarData == NULL || cubVarData == 0 )
+	if ( pubVarData == nullptr || cubVarData == 0 )
 	{
 		EmitInfo( SPEW_GC, 1, 1, "  No KV data\n" );
 		return;
@@ -640,7 +640,7 @@ void CGCBase::Shutdown()
 	m_DumpHTTPErrorsSchedule.Cancel();
 
 	CGCShutdownJob *pJob = new CGCShutdownJob( this );
-	pJob->StartJob( NULL );
+	pJob->StartJob(nullptr);
 }
 
 
@@ -654,12 +654,12 @@ void CGCBase::Uninit( )
 	OnUninit();
 
 	// clean up all of the sessions and caches here so we can be sure it happens before the memory pools go away at static destruction time
-	for( CGCUserSession **ppSession = m_hashUserSessions.PvRecordFirst(); ppSession != NULL; ppSession = m_hashUserSessions.PvRecordNext( ppSession ) )
+	for( CGCUserSession **ppSession = m_hashUserSessions.PvRecordFirst(); ppSession != nullptr; ppSession = m_hashUserSessions.PvRecordNext( ppSession ) )
 	{
 		delete (*ppSession);
 	}
 	m_hashUserSessions.RemoveAll();
-	for( CGCGSSession **ppSession = m_hashGSSessions.PvRecordFirst(); ppSession != NULL; ppSession = m_hashGSSessions.PvRecordNext( ppSession ) )
+	for( CGCGSSession **ppSession = m_hashGSSessions.PvRecordFirst(); ppSession != nullptr; ppSession = m_hashGSSessions.PvRecordNext( ppSession ) )
 	{
 		delete (*ppSession);
 	}
@@ -669,7 +669,7 @@ void CGCBase::Uninit( )
 		// Remove from map before deleting, to prevent some debug
 		// code from getting tangled up
 		CGCSharedObjectCache *pCache = m_mapSOCache[nIndex];
-		m_mapSOCache[nIndex] = NULL;
+		m_mapSOCache[nIndex] = nullptr;
 		m_mapSOCache.RemoveAt( nIndex );
 		delete pCache;
 	}
@@ -920,7 +920,7 @@ bool CGCBase::BMainLoopOncePerFrame( uint64 ulLimitMicroseconds )
 			m_nStartPlayingJobCount++;
 
 			CExecuteStartPlayingJob *pJob = new CExecuteStartPlayingJob( this );
-			pJob->StartJob( NULL );
+			pJob->StartJob(nullptr);
 		}
 	}
 
@@ -1018,7 +1018,7 @@ bool CGCBase::BMainLoopUntilFrameCompletion( uint64 ulLimitMicroseconds )
 	{
 		VPROF_BUDGET( "Expire locks", VPROF_BUDGETGROUP_STEAM );
 
-		for ( CLock *pLock = m_hashSteamIDLocks.PvRecordRun(); NULL != pLock; pLock = m_hashSteamIDLocks.PvRecordRun() )
+		for ( CLock *pLock = m_hashSteamIDLocks.PvRecordRun(); nullptr != pLock; pLock = m_hashSteamIDLocks.PvRecordRun() )
 		{
 			if ( !pLock->BIsLocked() && pLock->GetMicroSecondsSinceLock() > k_cMicroSecLockLifetime )
 			{
@@ -1063,7 +1063,7 @@ void CGCBase::QueueStartPlaying( const CSteamID & steamID, const CSteamID & gsSt
 	// sure they are on the right game server.
 
 	// Check if we already have an entry in the queue for this guy.
-	StartPlayingWork_t *pWork = NULL;
+	StartPlayingWork_t *pWork = nullptr;
 	int nMapIndex = m_mapStartPlayingQueueIndexBySteamID.Find( steamID );
 	if ( nMapIndex != m_mapStartPlayingQueueIndexBySteamID.InvalidIndex() )
 	{
@@ -1078,7 +1078,7 @@ void CGCBase::QueueStartPlaying( const CSteamID & steamID, const CSteamID & gsSt
 		{
 			// Don't leak user data, if we had any
 			delete pWork->m_pVarData;
-			pWork->m_pVarData = NULL;
+			pWork->m_pVarData = nullptr;
 
 //			// This could definitely happen occasionally, but if it happens with massive frequency,
 //			// something is wrong
@@ -1094,7 +1094,7 @@ void CGCBase::QueueStartPlaying( const CSteamID & steamID, const CSteamID & gsSt
 		else
 		{
 			EmitWarning( SPEW_GC, SPEW_ALWAYS, "Start playing queue corruption!  Map entry points to wrong queue entry!\n" );
-			pWork = NULL;
+			pWork = nullptr;
 			m_mapStartPlayingQueueIndexBySteamID.RemoveAt( nMapIndex );
 		}
 	}
@@ -1104,7 +1104,7 @@ void CGCBase::QueueStartPlaying( const CSteamID & steamID, const CSteamID & gsSt
 	}
 
 	// Need to create a new entry?
-	if ( pWork == NULL )
+	if ( pWork == nullptr)
 	{
 		// Create a new queue entry
 		int nQueueIndex = m_llStartPlaying.AddToTail();
@@ -1127,7 +1127,7 @@ void CGCBase::QueueStartPlaying( const CSteamID & steamID, const CSteamID & gsSt
 	}
 	else
 	{
-		pWork->m_pVarData = NULL;
+		pWork->m_pVarData = nullptr;
 	}
 
 	// Should be one-to-one correspondence in these data structures
@@ -1211,9 +1211,9 @@ void CGCBase::YieldingExecuteStartPlayingQueueEntryByIndex( int idxStartPlayingQ
 	}
 	else if ( work.m_steamID.BGameServerAccount() )
 	{
-		const uint8 *pVarData = NULL;
+		const uint8 *pVarData = nullptr;
 		uint32 cubVarData = 0;
-		if ( work.m_pVarData != NULL )
+		if ( work.m_pVarData != nullptr)
 		{
 			pVarData = (const uint8 *)work.m_pVarData->Base();
 			cubVarData = work.m_pVarData->TellMaxPut();
@@ -1256,7 +1256,7 @@ void CGCBase::YieldingStartPlaying( const CSteamID & steamID, const CSteamID & g
 	}
 
 	// if var data came with this StartPlaying message, parse it into a KV and stick it on the session
-	KeyValues *pkvDetails = NULL;
+	KeyValues *pkvDetails = nullptr;
 	if( pVarData )
 	{
 		MEM_ALLOC_CREDIT_("StartPlaying - SessionDetails" );
@@ -1265,7 +1265,7 @@ void CGCBase::YieldingStartPlaying( const CSteamID & steamID, const CSteamID & g
 		{
 			EmitError( SPEW_GC, "Unable to parse session details for %s\n", steamID.Render() );
 			pkvDetails->deleteThis();
-			pkvDetails = NULL;
+			pkvDetails = nullptr;
 		}
 	}
 
@@ -1306,7 +1306,7 @@ void CGCBase::YieldingStartPlaying( const CSteamID & steamID, const CSteamID & g
 	else if ( pSession->BIsShuttingDown() )
 	{
 		pkvDetails->deleteThis();
-		pkvDetails = NULL;
+		pkvDetails = nullptr;
 		return;
 	}
 	else
@@ -1318,7 +1318,7 @@ void CGCBase::YieldingStartPlaying( const CSteamID & steamID, const CSteamID & g
 	if ( pkvDetails )
 	{
 		pkvDetails->deleteThis();
-		pkvDetails = NULL;
+		pkvDetails = nullptr;
 	}
 
 	VPROF_BUDGET( "CGCBase::YieldingStartPlaying - Game Server binding", VPROF_BUDGETGROUP_STEAM );
@@ -1328,7 +1328,7 @@ void CGCBase::YieldingStartPlaying( const CSteamID & steamID, const CSteamID & g
 
 		// First, try to obtain a session through ordinary means, by validating
 		// the session
-		if ( YieldingGetLockedGSSession( gsSteamID, __FILE__, __LINE__ ) != NULL )
+		if ( YieldingGetLockedGSSession( gsSteamID, __FILE__, __LINE__ ) != nullptr)
 		{
 			// Maintain lock balance
 			UnlockSteamID( gsSteamID );
@@ -1343,7 +1343,7 @@ void CGCBase::YieldingStartPlaying( const CSteamID & steamID, const CSteamID & g
 				netadr_t serverAdr( unServerAddr, usServerPort );
 				EmitInfo( SPEW_GC, 2, LOG_ALWAYS, "Creating gameserver session %s @ %s as a result of user %s StartPlaying.\n", gsSteamID.Render(), serverAdr.ToString(), steamID.Render() );
 			}
-			YieldingFindOrCreateGSSession( gsSteamID, unServerAddr, usServerPort, NULL, 0 );
+			YieldingFindOrCreateGSSession( gsSteamID, unServerAddr, usServerPort, nullptr, 0 );
 		}
 
 		// Mark that we are joined to this server
@@ -1488,7 +1488,7 @@ IMsgNetPacket *CreateIMsgNetPacket( GCProtoBufMsgSrc eReplyType, const CSteamID 
 		{
 			uint32 unMsgTypeNoFlag = unMsgType & (~k_EMsgProtoBufFlag);
 			AssertMsg3( false, "Received packet %s(%u) from %s less than the minimum protobuf size", PchMsgNameFromEMsg( unMsgTypeNoFlag ), unMsgTypeNoFlag, senderID.Render() );
-			return NULL;
+			return nullptr;
 		}
 
 		// make a new packet for the message so we can dispatch it
@@ -1507,7 +1507,7 @@ IMsgNetPacket *CreateIMsgNetPacket( GCProtoBufMsgSrc eReplyType, const CSteamID 
 		if ( !pMsgNetPacket->IsValid() )
 		{
 			pMsgNetPacket->Release();
-			return NULL;
+			return nullptr;
 		}
 		
 		return pMsgNetPacket;
@@ -1520,7 +1520,7 @@ IMsgNetPacket *CreateIMsgNetPacket( GCProtoBufMsgSrc eReplyType, const CSteamID 
 		if ( cubData < sizeof( GCMsgHdrEx_t ) - sizeof( GCMsgHdr_t ) )
 		{
 			AssertMsg( false, "Received packet %s(%u) from %s less than the minimum struct size", PchMsgNameFromEMsg( unMsgType ), unMsgType, senderID.Render() );
-			return NULL;
+			return nullptr;
 		}
 
 		// Determine the size of the packet. sizeof(GCMsgHdr_t) was not sent as part of the data
@@ -1582,7 +1582,7 @@ void CGCBase::MessageFromClient( const CSteamID & senderID, uint32 unMsgType, vo
 	// !FIXME! DOTAMERGE
 	uint32 nGCDirIndex = 0; // GetGCDirIndex()
 	IMsgNetPacket *pMsgNetPacket = CreateIMsgNetPacket( GCProtoBufMsgSrc_FromSteamID, senderID, nGCDirIndex, unMsgType, pubData, cubData );
-	if ( NULL == pMsgNetPacket )
+	if (nullptr == pMsgNetPacket )
 		return;
 
 	// dispatch the packet (some messages require special consideration) 
@@ -1686,7 +1686,7 @@ bool CGCBase::BSendGCMsgToClient( const CSteamID & steamIDTarget, const CProtoBu
 bool CGCBase::BSendSystemMessage( const CGCMsgBase& msg, uint32 *pcubSent )
 {
 	uint32 cubSent = msg.CubPkt() - sizeof(GCMsgHdr_t);
-	if ( NULL != pcubSent )
+	if (nullptr != pcubSent )
 	{
 		*pcubSent = cubSent;
 	}
@@ -1704,7 +1704,7 @@ bool CGCBase::BSendSystemMessage( const CProtoBufMsgBase & msg, uint32 *pcubSent
 {
 	CProtoBufSystemSendHandler sender;
 	bool bRet = msg.BAsyncSend( sender );
-	if ( NULL != pcubSent )
+	if (nullptr != pcubSent )
 	{
 		*pcubSent = sender.GetCubSent();
 	}
@@ -1895,10 +1895,10 @@ CGCGSSession *CGCBase::CreateGSSession( const CSteamID & steamID, CGCSharedObjec
 CGCUserSession *CGCBase::YieldingGetLockedUserSession( const CSteamID & steamID, const char *pszFilename, int nLineNum )
 {
 	if( !steamID.BIndividualAccount() )
-		return NULL;
+		return nullptr;
 
 	if( !BYieldingLockSteamID( steamID, pszFilename, nLineNum ) )
-		return NULL;
+		return nullptr;
 
 	CGCUserSession *pSession = FindUserSession( steamID );
 	if( !pSession )
@@ -1933,12 +1933,12 @@ CGCUserSession *CGCBase::FindUserSession( const CSteamID & steamID ) const
 	if ( !steamID.IsValid() )
 	{
 		AssertMsg1( steamID.IsValid(), "CGCBase::FindUserSession was passed invalid Steam ID %s", steamID.Render() );
-		return NULL;
+		return nullptr;
 	}
 	if ( !steamID.BIndividualAccount() )
 	{
 		AssertMsg1( steamID.BIndividualAccount(), "CGCBase::FindUserSession was passed non-individual Steam ID %s", steamID.Render() );
-		return NULL;
+		return nullptr;
 	}
 
 	CGCUserSession **ppSession = m_hashUserSessions.PvRecordFind( steamID.ConvertToUint64() );
@@ -1949,7 +1949,7 @@ CGCUserSession *CGCBase::FindUserSession( const CSteamID & steamID ) const
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -1993,7 +1993,7 @@ CGCSession *CGCBase::YieldingRequestSession( const CSteamID & steamID )
 {
 	AssertRunningJob();
 	if( !steamID.BIndividualAccount() && !steamID.BGameServerAccount() )
-		return NULL;
+		return nullptr;
 	Assert( IsSteamIDUnlockedOrLockedByCurJob( steamID ) );
 
 	// Check if we already have info in the logon queue for this SteamID
@@ -2016,7 +2016,7 @@ CGCSession *CGCBase::YieldingRequestSession( const CSteamID & steamID )
 	msg.Body().m_ulSteamID = steamID.ConvertToUint64();
 	msg.ExpectingReply( GJobCur().GetJobID() );
 	if( !BSendSystemMessage( msg ) )
-		return NULL;
+		return nullptr;
 
 	CScopedIncrement<int> increment( m_nRequestSessionJobsActive );
 
@@ -2024,7 +2024,7 @@ CGCSession *CGCBase::YieldingRequestSession( const CSteamID & steamID )
 	if( !GJobCur().BYieldingWaitForMsg( &msgReply, k_EGCMsgValidateSessionResponse ) )
 	{
 		EmitWarning( SPEW_GC, LOG_ALWAYS, "Didn't get reply from AM for %s in YieldingRequestSession\n", steamID.Render() );
-		return NULL;
+		return nullptr;
 	}
 
 	if( steamID.BIndividualAccount() )
@@ -2042,14 +2042,14 @@ CGCSession *CGCBase::YieldingRequestSession( const CSteamID & steamID )
 			// prefer this data over anything in the queue for sure.
 			BRemoveStartPlayingQueueEntry( steamID );
 
-			YieldingStartPlaying( steamID, msgReply.Body().m_ulSteamIDGS, msgReply.Body().m_unServerAddr, msgReply.Body().m_usServerPort, msgReply.CubVarData() ? &bufVarData : NULL );
+			YieldingStartPlaying( steamID, msgReply.Body().m_ulSteamIDGS, msgReply.Body().m_unServerAddr, msgReply.Body().m_usServerPort, msgReply.CubVarData() ? &bufVarData : nullptr);
 			return FindUserSession( steamID );
 		}
 		else
 		{
 			//EmitWarning( SPEW_GC, LOG_ALWAYS, "Reply from AM is logging off %s in YieldingRequestSession\n", steamID.Render() );
 			YieldingStopPlaying( steamID );
-			return NULL;
+			return nullptr;
 		}
 	}
 	else 
@@ -2063,7 +2063,7 @@ CGCSession *CGCBase::YieldingRequestSession( const CSteamID & steamID )
 		{
 			//EmitWarning( SPEW_GC, LOG_ALWAYS, "Reply from AM is stopping %s in YieldingRequestSession\n", steamID.Render() );
 			YieldingStopGameserver( steamID );
-			return NULL;
+			return nullptr;
 		}
 	}
 }
@@ -2147,10 +2147,10 @@ EResult CGCBase::YieldingSendHTTPRequestKV( const CHTTPRequest *pRequest, KeyVal
 CGCGSSession *CGCBase::YieldingGetLockedGSSession( const CSteamID & steamID, const char *pszFilename, int nLineNum )
 {
 	if( !steamID.BGameServerAccount() )
-		return NULL;
+		return nullptr;
 
 	if( !BYieldingLockSteamID( steamID, pszFilename, nLineNum ) )
-		return NULL;
+		return nullptr;
 
 	CGCGSSession *pSession = FindGSSession( steamID );
 	if( !pSession )
@@ -2212,12 +2212,12 @@ CGCGSSession *CGCBase::YieldingFindOrCreateGSSession( const CSteamID & steamID, 
 
 	// If it's not a game server ID, then we shouldn't make a session for it.
 	if( !steamID.BGameServerAccount() )
-		return NULL;
+		return nullptr;
 
 	MEM_ALLOC_CREDIT_( "YieldingFindOrCreateGSSession" );
 
 	// if var data came with this StartPlaying message, parse it into a KV and stick it on the session
-	KeyValues *pkvDetails = NULL;
+	KeyValues *pkvDetails = nullptr;
 	if( pubVarData && cubVarData )
 	{
 		CUtlBuffer bufDetails;
@@ -2227,7 +2227,7 @@ CGCGSSession *CGCBase::YieldingFindOrCreateGSSession( const CSteamID & steamID, 
 		{
 			EmitError( SPEW_GC, "Unable to parse session details for %s\n", steamID.Render() );
 			pkvDetails->deleteThis();
-			pkvDetails = NULL;
+			pkvDetails = nullptr;
 		}
 	}
 
@@ -2237,7 +2237,7 @@ CGCGSSession *CGCBase::YieldingFindOrCreateGSSession( const CSteamID & steamID, 
 //		return NULL;
 
 	CGCGSSession *pSession = FindGSSession( steamID );
-	CGCSharedObjectCache *pSOCache = NULL;
+	CGCSharedObjectCache *pSOCache = nullptr;
 	if( !pSession )
 	{
 		pSOCache = YieldingFindOrLoadSOCache( steamID );
@@ -2262,7 +2262,7 @@ CGCGSSession *CGCBase::YieldingFindOrCreateGSSession( const CSteamID & steamID, 
 				pkvDetails->deleteThis();
 			}
 			//UnlockSteamID( steamID ); // I like to clean up after myself
-			return NULL;
+			return nullptr;
 		}
 		RemoveCacheFromLRU( pSOCache );
 
@@ -2312,12 +2312,12 @@ CGCGSSession *CGCBase::FindGSSession( const CSteamID & steamID ) const
 	if ( !steamID.IsValid() || steamID.GetAccountID() == 0 )
 	{
 		AssertMsg1( false, "CGCBase::FindGSSession was passed invalid Steam ID %s", steamID.Render() );
-		return NULL;
+		return nullptr;
 	}
 	if ( !steamID.BGameServerAccount() )
 	{
 		AssertMsg1( steamID.BGameServerAccount(), "CGCBase::FindGSSession was passed non-gameserver Steam ID %s", steamID.Render() );
-		return NULL;
+		return nullptr;
 	}
 
 	CGCGSSession **ppSession = m_hashGSSessions.PvRecordFind( steamID.ConvertToUint64() );
@@ -2328,7 +2328,7 @@ CGCGSSession *CGCBase::FindGSSession( const CSteamID & steamID ) const
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -2343,7 +2343,7 @@ CGCSession *CGCBase::FindUserOrGSSession( const CSteamID & steamID ) const
 	if ( steamID.BGameServerAccount() )
 		return FindGSSession( steamID );
 	AssertMsg1( false, "CGCBase::FindUserOrGSSession, steam ID %s isn't an individual or a gameserver ID", steamID.Render() );
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2366,7 +2366,7 @@ CGCSharedObjectCache *CGCBase::FindSOCache( const CSteamID & steamID )
 	if( m_mapSOCache.IsValidIndex( nCache ) )
 		return m_mapSOCache[nCache];
 	else
-		return NULL;
+		return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2596,7 +2596,7 @@ void CGCBase::RemoveCacheFromLRU( CGCSharedObjectCache * pSOCache )
 CGCSharedObjectCache *CGCBase::YieldingGetLockedSOCache( const CSteamID &steamID, const char *pszFilename, int nLineNum )
 {
 	if( !BYieldingLockSteamID( steamID, pszFilename, nLineNum ) )
-		return NULL;
+		return nullptr;
 
 	return YieldingFindOrLoadSOCache( steamID );
 }
@@ -2613,7 +2613,7 @@ CGCSharedObjectCache *CGCBase::YieldingFindOrLoadSOCache( const CSteamID &steamI
 	{
 		AssertMsg1( false, "Unable to load SO cache for invalid steam ID %s", steamID.Render() );
 		EmitError( SPEW_GC, "Unable to load SO cache for invalid steam ID %s (instance: %d)\n", steamID.Render(), steamID.GetUnAccountInstance() );
-		return NULL;
+		return nullptr;
 	}
 
 	// check to see if the SO cache is being loaded--if so, then we yield until it is done
@@ -2629,7 +2629,7 @@ CGCSharedObjectCache *CGCBase::YieldingFindOrLoadSOCache( const CSteamID &steamI
 		if ( timeStartedWaiting.CServerMicroSecsPassed() > 180 * k_nMillion )
 		{
 			AssertMsg1( false, "Timed out waiting for SO cache %s to finish loading", steamID.Render() );
-			return false;
+			return nullptr;
 		}
 		GJobCur().BYieldingWaitOneFrame();
 	}
@@ -2643,7 +2643,7 @@ CGCSharedObjectCache *CGCBase::YieldingFindOrLoadSOCache( const CSteamID &steamI
 		timeStartedLoading.SetToJobTime();
 		if( BYieldingLoadSOCache( pSOCache ) )
 		{
-			if ( FindSOCache( steamID ) != NULL )
+			if ( FindSOCache( steamID ) != nullptr)
 			{
 				EmitError( SPEW_GC, "HOLY FUCKING SHIT WE ARE DUPLICATING SO CACHES [%s]\n", steamID.Render() );
 			}
@@ -2676,7 +2676,7 @@ CGCSharedObjectCache *CGCBase::YieldingFindOrLoadSOCache( const CSteamID &steamI
 			EmitError( SPEW_GC, "Unable to load SO cache for %llu\n", steamID.ConvertToUint64() );
 			delete pSOCache;
 			m_rbtreeSOCachesBeingLoaded.Remove( steamID );
-			return NULL;
+			return nullptr;
 		}
 	}
 	else
@@ -2882,12 +2882,12 @@ bool CGCBase::BLockSteamIDImmediate( const CSteamID &steamID )
 
 	// lookup
 	CLock *pLock = m_hashSteamIDLocks.PvRecordFind( steamID );
-	if ( pLock == NULL )
+	if ( pLock == nullptr)
 	{
 		// no lock yet, insert one
 		pLock = m_hashSteamIDLocks.PvRecordInsert( steamID );
 		Assert( pLock != NULL );
-		if ( pLock == NULL )
+		if ( pLock == nullptr)
 		{
 			return false;
 		}
@@ -3026,7 +3026,7 @@ CJob *CGCBase::PJobHoldingLock( const CSteamID &steamID )
 	if ( !pLock || !pLock->BIsLocked() )
 	{
 		// Unlocked
-		return NULL;
+		return nullptr;
 	}
 
 	// Return the job holding the lock
@@ -3043,7 +3043,7 @@ bool CGCBase::YieldingWritebackDirtyCaches( uint32 unSecondToDelayWrite )
 	CUtlVector< CGCSharedObjectCache * > vecCachesWritten;
 	uint32 unWrittenCount = 0;
 	sqlAccess.BBeginTransaction( "CGCBase::YieldingWritebackDirtyCaches()" );
-	RTime32 unFirstTimeToWrite = time( NULL ) - unSecondToDelayWrite;
+	RTime32 unFirstTimeToWrite = time(nullptr) - unSecondToDelayWrite;
 	FOR_EACH_VEC( m_vecCacheWritebacks, nCache )
 	{
 		CGCSharedObjectCache *pSOCache = m_vecCacheWritebacks[ nCache ];
@@ -3111,7 +3111,7 @@ bool CGCBase::YieldingWritebackDirtyCaches( uint32 unSecondToDelayWrite )
 void CGCBase::AddCacheToWritebackQueue( CGCSharedObjectCache *pSOCache )
 {
 	Assert( pSOCache );
-	if ( ( g_pJobCur != NULL ) && PJobHoldingLock( pSOCache->GetOwner() ) != g_pJobCur && !GGCBase()->BIsSOCacheBeingLoaded( pSOCache->GetOwner() ) )
+	if ( ( g_pJobCur != nullptr) && PJobHoldingLock( pSOCache->GetOwner() ) != g_pJobCur && !GGCBase()->BIsSOCacheBeingLoaded( pSOCache->GetOwner() ) )
 	{
 		AssertMsg2( false, "CGCBase::AddCacheToWritebackQueue called by job %s for %s, but job does not own lock", g_pJobCur->GetName(), pSOCache->GetOwner().Render() );
 	}
@@ -3588,7 +3588,7 @@ int LockSortFunc( CLock  * const  *lhs, CLock * const  *rhs )
 void CGCBase::DumpSteamIDLocks( bool bFull, int nMax )
 {
 	CUtlVector<CLock *> vecLocks;
-	for( CLock *pLock = m_hashSteamIDLocks.PvRecordFirst(); NULL != pLock; pLock = m_hashSteamIDLocks.PvRecordNext( pLock ) )
+	for( CLock *pLock = m_hashSteamIDLocks.PvRecordFirst(); nullptr != pLock; pLock = m_hashSteamIDLocks.PvRecordNext( pLock ) )
 	{
 		if( pLock->BIsLocked() )
 		{
@@ -3752,8 +3752,8 @@ CSteamID CGCBase::YieldingGuessSteamIDFromInput( const char *pchInput )
 	const char *pszProfilePrepend = "steamcommunity.com/profiles/";
 	int iInputLen = Q_strlen(pchInput);
 	int iProfilePrependLen = Q_strlen(pszProfilePrepend);
-	const char *pszFound = NULL;
-	if ( (pszFound = Q_stristr( pchInput, pszProfilePrepend )) != NULL )
+	const char *pszFound = nullptr;
+	if ( (pszFound = Q_stristr( pchInput, pszProfilePrepend )) != nullptr)
 	{
 		if ( iInputLen > ((pszFound + iProfilePrependLen) - pchInput) )
 		{
@@ -3767,7 +3767,7 @@ CSteamID CGCBase::YieldingGuessSteamIDFromInput( const char *pchInput )
 	// See if it's an id link.
 	const char *pszIDPrepend = "steamcommunity.com/id/";
 	int iIDPrependLen = Q_strlen(pszIDPrepend);
-	if ( (pszFound = Q_stristr( pchInput, pszIDPrepend )) != NULL )
+	if ( (pszFound = Q_stristr( pchInput, pszIDPrepend )) != nullptr)
 	{
 		if ( iInputLen > ((pszFound + iIDPrependLen) - pchInput) )
 		{
@@ -4213,7 +4213,7 @@ void CGCBase::AssertCallbackFunc( const char *pchFile, int nLine, const char *pc
 	{
 
 		char rchCleanedJobName[48] = "";
-		if ( ThreadInMainThread() && g_pJobCur != NULL )
+		if ( ThreadInMainThread() && g_pJobCur != nullptr)
 		{
 			const char *pszJobName = g_pJobCur->GetName();
 			int l = 0;
@@ -4263,7 +4263,7 @@ void CGCBase::AssertCallbackFunc( const char *pchFile, int nLine, const char *pc
 			vecTimes.AddToTail( CRTime::RTime32TimeCur() );
 
 			CUtlString sCurJob;
-			if ( ThreadInMainThread() && g_pJobCur != NULL )
+			if ( ThreadInMainThread() && g_pJobCur != nullptr)
 			{
 				sCurJob.Format( "[From job %s]\n", g_pJobCur->GetName() );
 			}

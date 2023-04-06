@@ -35,12 +35,12 @@ public:
 
 	void		ValidateTree( mxTreeView *tree, mxTreeViewItem* parent );
 
-	virtual CWorkspace	*GetWorkspace() { return NULL; }
-	virtual CProject	*GetProject() { return NULL; }
+	virtual CWorkspace	*GetWorkspace() { return nullptr; }
+	virtual CProject	*GetProject() { return nullptr; }
 	virtual CScene		*GetScene() { return this; }
-	virtual CVCDFile	*GetVCDFile() { return NULL; }
-	virtual CSoundEntry	*GetSoundEntry() { return NULL; }
-	virtual CWaveFile	*GetWaveFile() { return NULL; }
+	virtual CVCDFile	*GetVCDFile() { return nullptr; }
+	virtual CSoundEntry	*GetSoundEntry() { return nullptr; }
+	virtual CWaveFile	*GetWaveFile() { return nullptr; }
 
 	bool		IsCheckedOut() const;
 	int			GetIconIndex() const;

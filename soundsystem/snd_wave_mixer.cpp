@@ -113,7 +113,7 @@ CAudioMixer *CreateWaveMixer( CWaveData *data, int format, int channels, int bit
 	{
 		return CreateADPCMMixer( data );
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -121,7 +121,7 @@ CAudioMixer *CreateWaveMixer( CWaveData *data, int format, int channels, int bit
 // Purpose: Init the base WAVE mixer.
 // Input  : *data - data access object
 //-----------------------------------------------------------------------------
-CAudioMixerWave::CAudioMixerWave( CWaveData *data ) : m_pData(data), m_pChannel(NULL)
+CAudioMixerWave::CAudioMixerWave( CWaveData *data ) : m_pData(data), m_pChannel(nullptr)
 {
 	m_loop = 0;
 	m_sample = 0;
@@ -179,7 +179,7 @@ CAudioSource *CAudioMixerWave::GetSource( void )
 	if ( m_pData )
 		return &m_pData->Source();
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -380,7 +380,7 @@ bool CAudioMixerWave::SkipSamples( IAudioDevice *pDevice, channel_t *pChannel,
 	{
 		int availableSamples;
 		int inputSampleCount;
-		char *pData = NULL;
+		char *pData = nullptr;
 		int outputSampleCount = sampleCount;
 		
 		if ( outputRate != inputSampleRate )
@@ -473,7 +473,7 @@ bool CAudioMixerWave::MixDataToDevice( IAudioDevice *pDevice, channel_t *pChanne
 	{
 		int availableSamples;
 		int inputSampleCount;
-		char *pData = NULL;
+		char *pData = nullptr;
 		int outputSampleCount = sampleCount;
 		
 		

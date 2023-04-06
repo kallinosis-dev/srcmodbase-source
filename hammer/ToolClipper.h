@@ -53,9 +53,9 @@ private:
 //-----------------------------------------------------------------------------
 inline CClipGroup::CClipGroup()
 {
-    m_pOrigSolid = NULL;
-    m_pClipSolids[0] = NULL;
-    m_pClipSolids[1] = NULL;
+    m_pOrigSolid = nullptr;
+    m_pClipSolids[0] = nullptr;
+    m_pClipSolids[1] = nullptr;
 }
 
 

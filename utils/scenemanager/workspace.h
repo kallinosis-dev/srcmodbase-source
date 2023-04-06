@@ -40,11 +40,11 @@ public:
 	void		SaveChanges();
 
 	virtual CWorkspace	*GetWorkspace() { return this; }
-	virtual CProject	*GetProject() { return NULL; }
-	virtual CScene		*GetScene() { return NULL; }
-	virtual CVCDFile	*GetVCDFile() { return NULL; }
-	virtual CSoundEntry	*GetSoundEntry() { return NULL; }
-	virtual CWaveFile	*GetWaveFile() { return NULL; }
+	virtual CProject	*GetProject() { return nullptr; }
+	virtual CScene		*GetScene() { return nullptr; }
+	virtual CVCDFile	*GetVCDFile() { return nullptr; }
+	virtual CSoundEntry	*GetSoundEntry() { return nullptr; }
+	virtual CWaveFile	*GetWaveFile() { return nullptr; }
 
 
 	char const	*GetVSSUserName() const;

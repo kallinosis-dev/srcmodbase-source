@@ -297,8 +297,8 @@ void CEnvProjectedTexture::Spawn( void )
 void CEnvProjectedTexture::EnforceSingleProjectionRules( bool bWarnOnEnforcement )
 {
 	// Once a light is turned on, turn off all other possible lights in the level
-	CBaseEntity *pFlashlight = NULL;
-	while ( ( pFlashlight = gEntList.FindEntityByClassname( pFlashlight, "env_projectedtexture" ) ) != NULL )
+	CBaseEntity *pFlashlight = nullptr;
+	while ( ( pFlashlight = gEntList.FindEntityByClassname( pFlashlight, "env_projectedtexture" ) ) != nullptr)
 	{
 		// Obviously, don't turn yourself off
 		if ( pFlashlight == this )
@@ -334,7 +334,7 @@ void CEnvProjectedTexture::Activate( void )
 
 void CEnvProjectedTexture::InitialThink( void )
 {
-	m_hTargetEntity = gEntList.FindEntityByName( NULL, m_target );
+	m_hTargetEntity = gEntList.FindEntityByName(nullptr, m_target );
 }
 
 int CEnvProjectedTexture::UpdateTransmitState()
@@ -359,7 +359,7 @@ void CC_CreateFlashlight( const CCommand &args )
 		pFlashlight->SetName( AllocPooledString( args[1] ) );
 	}
 
-	pFlashlight->Teleport( &origin, &angles, NULL );
+	pFlashlight->Teleport( &origin, &angles, nullptr);
 
 }
-static ConCommand create_flashlight("create_flashlight", CC_CreateFlashlight, 0, FCVAR_CHEAT);
+static ConCommand create_flashlight("create_flashlight", CC_CreateFlashlight, nullptr, FCVAR_CHEAT);

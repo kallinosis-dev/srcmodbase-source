@@ -44,8 +44,8 @@ CMapClass *CMapKeyFrame::CreateMapKeyFrame(CHelperInfo *pHelperInfo, CMapEntity 
 //-----------------------------------------------------------------------------
 CMapKeyFrame::CMapKeyFrame()
 {
-	m_pAnimator = NULL;
-	m_pNextKeyFrame = NULL;
+	m_pAnimator = nullptr;
+	m_pNextKeyFrame = nullptr;
 	m_flMoveTime = 0;
 	m_flSpeed = 0;
 	m_bRebuildPath = false;
@@ -55,7 +55,7 @@ CMapKeyFrame::CMapKeyFrame()
 	m_qAngles[0] = m_qAngles[1] = m_qAngles[2] = 0;
 	m_qAngles[3] = 1;
 	
-	m_pPositionInterpolator = NULL;
+	m_pPositionInterpolator = nullptr;
 	m_iPositionInterpolator = -1;
 	m_iChangeFrame = -1;
 }
@@ -185,7 +185,7 @@ void CMapKeyFrame::OnClone( CMapClass *pClone, CMapWorld *pWorld, const CMapObje
 	if ( !oldName || oldName[0] == 0 )
 		oldName = "keyframe";
 
-	pWorld->GenerateNewTargetname( oldName, newName, sizeof( newName ), true, NULL );
+	pWorld->GenerateNewTargetname( oldName, newName, sizeof( newName ), true, nullptr);
 	pNewEntity->SetKeyValue( "targetname", newName );
 
 	// point the current keyframe at the clone
@@ -206,7 +206,7 @@ void CMapKeyFrame::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren)
 	//
 	// Detach ourselves from the next keyframe in the path.
 	//
-	m_pNextKeyFrame = (CMapKeyFrame *)UpdateDependency(m_pNextKeyFrame, NULL);
+	m_pNextKeyFrame = (CMapKeyFrame *)UpdateDependency(m_pNextKeyFrame, nullptr);
 }
 
 
@@ -239,7 +239,7 @@ void CMapKeyFrame::Render3D( CRender3D *pRender )
 {
 	if ( m_bRebuildPath )
 	{
-		if (GetAnimator() != NULL)
+		if (GetAnimator() != nullptr)
 		{
 			GetAnimator()->RebuildPath();
 		}
@@ -296,7 +296,7 @@ void CMapKeyFrame::Render3D( CRender3D *pRender )
 float CMapKeyFrame::GetRemainingTime( CMapObjectList *pVisited )
 {
 	CMapObjectList Visited;
-	if ( pVisited == NULL )
+	if ( pVisited == nullptr)
 	{
 		pVisited = &Visited;
 	}
@@ -447,7 +447,7 @@ void CMapKeyFrame::BuildPathSegment( CMapKeyFrame *pPrev )
 	Quaternion qAngles;
 	for ( int i = 0; i < MAX_LINE_POINTS; i++ )
 	{
-		if (pAnim != NULL)
+		if (pAnim != nullptr)
 		{
 			CMapAnimator::GetAnimationAtTime( this, pPrev, MoveTime() * ( float )( i + 1 ) / (float)MAX_LINE_POINTS, m_LinePoints[i], qAngles, pAnim->m_iPositionInterpolator, pAnim->m_iRotationInterpolator );
 		}
@@ -484,7 +484,7 @@ void CMapKeyFrame::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNot
 
 	if ((pObject == m_pAnimator) && (eNotifyType == Notify_Removed))
 	{
-		SetAnimator(NULL);
+		SetAnimator(nullptr);
 	}
 
 	//
@@ -528,7 +528,7 @@ bool CMapKeyFrame::IsAnyKeyInSequenceSelected( void )
 	}
 
 	// search forward
-	for ( CMapKeyFrame *find = m_pAnimator; find != NULL; find = find->m_pNextKeyFrame )
+	for ( CMapKeyFrame *find = m_pAnimator; find != nullptr; find = find->m_pNextKeyFrame )
 	{
 		if ( find->m_pParent && find->m_pParent->IsSelected() )
 		{

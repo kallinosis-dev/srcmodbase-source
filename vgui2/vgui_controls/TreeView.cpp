@@ -106,7 +106,7 @@ public:
 	virtual void ApplySchemeSettings(IScheme *pScheme)
     {
         TextEntry::ApplySchemeSettings(pScheme);
-        SetBorder(NULL);
+        SetBorder(nullptr);
         SetCursor(dc_arrow);
     }
 
@@ -397,7 +397,7 @@ public:
     {
     	Panel::ApplySchemeSettings(pScheme);
     
-    	SetBorder(NULL);
+    	SetBorder(nullptr);
    }
 
 	virtual void OnMouseWheeled(int delta)
@@ -590,9 +590,9 @@ TreeNode::TreeNode( Panel *parent, int nItemIndex, TreeView *pTreeView ) :
 	m_ItemIndex( nItemIndex ),
 	m_nMouseReleasedOp( ON_MOUSE_RELEASED_DO_NOTHING ),
 	m_bHiddenRootNode( false ),
-	m_pDropPanel( NULL )
+	m_pDropPanel(nullptr)
 {
-    m_pData = NULL;
+    m_pData = nullptr;
     m_pTreeView = pTreeView;
 	m_iNodeWidth = 0; 
 	m_iMaxVisibleWidth = 0;
@@ -830,7 +830,7 @@ TreeNode *TreeNode::GetParentNode()
 	{
 		return m_pTreeView->m_NodeList[m_ParentIndex];
 	}
-	return NULL;
+	return nullptr;
 }
 
 int TreeNode::GetChildrenCount()
@@ -1119,7 +1119,7 @@ void TreeNode::ApplySchemeSettings(IScheme *pScheme)
 {
     BaseClass::ApplySchemeSettings(pScheme);
 
-    SetBorder( NULL );
+    SetBorder(nullptr);
 	SetFgColor( m_pTreeView->GetFgColor() );
 	SetBgColor( m_pTreeView->GetBgColor() );
 	SetFont( m_pTreeView->GetFont() );
@@ -1695,14 +1695,14 @@ TreeNode *TreeNode::FindItemUnderMouse( int &nStart, int& nCount, int x, int &y,
         if (nCount > 0 && m_bExpand)
         {
             TreeNode *child = m_Children[i]->FindItemUnderMouse(nStart, nCount, x, y, mx, my);
-			if ( child != NULL )
+			if ( child != nullptr)
 			{
 				return child;
 			}
         }
     }
 
-	return NULL;
+	return nullptr;
 }
 
 // counts items above this item including itself
@@ -1747,9 +1747,9 @@ TreeView::TreeView(Panel *parent, const char *panelName) : Panel(parent, panelNa
 	m_bScrollbarExternal[ 0 ] = m_bScrollbarExternal[ 1 ] = false;
     m_nRowHeight = 20;
 	m_nTreeIndent = 0;
-    m_pRootNode = NULL;
-    m_pImageList = NULL;
-    m_pSortFunc = NULL;
+    m_pRootNode = nullptr;
+    m_pImageList = nullptr;
+    m_pSortFunc = nullptr;
     m_Font = 0;
 
     m_pSubPanel = new TreeViewSubPanel(this);
@@ -1796,7 +1796,7 @@ void TreeView::CleanUpImageList( )
         {
             delete m_pImageList;
         }
-		m_pImageList = NULL;
+		m_pImageList = nullptr;
     }
 }
 
@@ -1945,7 +1945,7 @@ TreeNode *TreeView::GetItem( int itemIndex )
 	if ( !m_NodeList.IsValidIndex( itemIndex ) )
 	{
 		Assert( 0 );
-		return NULL;
+		return nullptr;
 	}
 
 	return m_NodeList[ itemIndex ];
@@ -1965,7 +1965,7 @@ int TreeView::GetItemCount(void)
 KeyValues* TreeView::GetItemData(int itemIndex) const
 {
     if (!m_NodeList.IsValidIndex(itemIndex))
-        return NULL;
+        return nullptr;
     else
         return m_NodeList[itemIndex]->m_pData;
 }
@@ -2053,7 +2053,7 @@ void TreeView::RemoveAll()
         m_NodeList[i]->MarkForDeletion();
     }
     m_NodeList.RemoveAll();
-	m_pRootNode = NULL;
+	m_pRootNode = nullptr;
 	ClearSelection();
 }
 

@@ -205,7 +205,7 @@ void CCSBot::CoopUpdateChecks()
 					vecGoal = TheCSBots()->GetRandomPositionInZone( TheCSBots()->GetZone( zoneIndex ) );
 				}
 
-				if ( vecGoal && IsVisible( *vecGoal, false, NULL ) )
+				if ( vecGoal && IsVisible( *vecGoal, false, nullptr) )
 				{
 					bSeen = true;
 				}
@@ -494,14 +494,14 @@ void CCSBot::Update( void )
 	//
 	// Validate existing enemy, if any
 	//
-	if (m_enemy != NULL)
+	if (m_enemy != nullptr)
 	{
 		SNPROF("Validate existing enemy, if any");
 
 		if (IsAwareOfEnemyDeath())
 		{
 			// we have noticed that our enemy has died
-			m_enemy = NULL;
+			m_enemy = nullptr;
 			m_isEnemyVisible = false;
 		}
 		else
@@ -554,7 +554,7 @@ void CCSBot::Update( void )
 	if (!IsBlind() && !IsLookingAtSpot(PRIORITY_UNINTERRUPTABLE) )
 	{
 		const float seenRecentTime = 3.0f;
-		if (m_enemy != NULL && GetTimeSinceLastSawEnemy() < seenRecentTime)
+		if (m_enemy != nullptr && GetTimeSinceLastSawEnemy() < seenRecentTime)
 		{
 			AimAtEnemy();
 		}
@@ -638,13 +638,13 @@ void CCSBot::Update( void )
 
 	// make way
 	const float avoidTime = 0.33f;
-	if (gpGlobals->curtime - m_avoidTimestamp < avoidTime && m_avoid != NULL)
+	if (gpGlobals->curtime - m_avoidTimestamp < avoidTime && m_avoid != nullptr)
 	{
 		StrafeAwayFromPosition( GetCentroid( m_avoid ) );
 	}
 	else
 	{
-		m_avoid = NULL;
+		m_avoid = nullptr;
 	}
 
 	// if we're using a sniper rifle and are no longer attacking, stop looking thru scope
@@ -674,7 +674,7 @@ void CCSBot::Update( void )
 		//
 		// Update gamestate
 		//
-		if (m_bomber != NULL)
+		if (m_bomber != nullptr)
 			GetChatter()->SpottedBomber( GetBomber() );
 
 		if (CanSeeLooseBomb())
@@ -823,7 +823,7 @@ void CCSBot::Update( void )
 		SNPROF("9");
 		// if we are following someone, make sure they are still alive
 		CBaseEntity *leader = m_leader;
-		if (leader == NULL || !leader->IsAlive())
+		if (leader == nullptr || !leader->IsAlive())
 		{
 			StopFollowing();
 		}
@@ -1275,7 +1275,7 @@ void CCSBot::UpdateTravelDistanceToAllPlayers( void )
 		{
 			CCSPlayer *player = static_cast< CCSPlayer * >( UTIL_PlayerByIndex( i ) );
 
-			if (player == NULL)
+			if (player == nullptr)
 				continue;
 
 			if (FNullEnt( player->edict() ))

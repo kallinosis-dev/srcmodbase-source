@@ -66,7 +66,7 @@ CChoreoActorWidget::CChoreoActorWidget( CChoreoWidget *parent )
 {
 	m_pParent = parent;
 
-	m_pActor = NULL;
+	m_pActor = nullptr;
 
 	m_bShowChannels = true;
 

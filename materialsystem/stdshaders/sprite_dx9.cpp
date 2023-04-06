@@ -43,7 +43,7 @@ BEGIN_VS_SHADER( Sprite_DX9,
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 	SHADER_INIT_PARAMS()
 	{
@@ -130,7 +130,7 @@ BEGIN_VS_SHADER( Sprite_DX9,
 			flags |= VERTEX_COLOR;
 		}
 		int numTexCoords = 1;
-		s_pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, 0, 0 );
+		s_pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, 0 );
 
 		DECLARE_STATIC_VERTEX_SHADER( sprite_vs20 );
 		SET_STATIC_VERTEX_SHADER_COMBO( VERTEXCOLOR,  ( shaderFlags & SHADER_USE_VERTEX_COLOR ) ? true : false );

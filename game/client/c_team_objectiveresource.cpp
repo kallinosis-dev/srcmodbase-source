@@ -82,7 +82,7 @@ IMPLEMENT_CLIENTCLASS_DT_NOBASE(C_BaseTeamObjectiveResource, DT_BaseTeamObjectiv
 	RecvPropString( RECVINFO(m_pszCapLayoutInHUD), 0, RecvProxy_CapLayout ),
 END_RECV_TABLE()
 
-C_BaseTeamObjectiveResource *g_pObjectiveResource = NULL;
+C_BaseTeamObjectiveResource *g_pObjectiveResource = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -135,7 +135,7 @@ C_BaseTeamObjectiveResource::C_BaseTeamObjectiveResource()
 //-----------------------------------------------------------------------------
 C_BaseTeamObjectiveResource::~C_BaseTeamObjectiveResource()
 {
-	g_pObjectiveResource = NULL;
+	g_pObjectiveResource = nullptr;
 }
 
 //-----------------------------------------------------------------------------

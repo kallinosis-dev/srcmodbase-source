@@ -109,7 +109,7 @@ BEGIN_VS_SHADER( paintblob_dx9, "paintblob" )
 			return "Wireframe";
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

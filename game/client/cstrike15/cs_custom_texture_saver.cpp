@@ -69,7 +69,7 @@ void CCSCustomTextureSaver::Update( float frameTime )
 			CUtlBuffer buf;
 			pVTFTexture->Serialize(buf);
 					
-			FileHandle_t f = g_pFullFileSystem->Open( completedMaterials[i].fileNames[j], "wb", NULL );
+			FileHandle_t f = g_pFullFileSystem->Open( completedMaterials[i].fileNames[j], "wb", nullptr);
 
 			if ( f != FILESYSTEM_INVALID_HANDLE )
 			{
@@ -81,7 +81,7 @@ void CCSCustomTextureSaver::Update( float frameTime )
 			char szFullVTFPath[ MAX_PATH ];
 			g_pFullFileSystem->RelativePathToFullPath( completedMaterials[i].fileNames[j], "MOD", szFullVTFPath, sizeof( szFullVTFPath ) );
 
-			g_p4factory->SetDummyMode( p4 == NULL );
+			g_p4factory->SetDummyMode( p4 == nullptr);
 			g_p4factory->SetOpenFileChangeList( completedMaterials[i].pchChangeListName );
 			if ( !( p4->IsFileInPerforce( szFullVTFPath ) ) )
 				CP4AutoAddFile autop4_add( szFullVTFPath );

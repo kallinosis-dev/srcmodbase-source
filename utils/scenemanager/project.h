@@ -43,12 +43,12 @@ public:
 
 	void		SaveChanges();
 
-	virtual CWorkspace	*GetWorkspace() { return NULL; }
+	virtual CWorkspace	*GetWorkspace() { return nullptr; }
 	virtual CProject	*GetProject() { return this; }
-	virtual CScene		*GetScene() { return NULL; }
-	virtual CVCDFile	*GetVCDFile() { return NULL; }
-	virtual CSoundEntry	*GetSoundEntry() { return NULL; }
-	virtual CWaveFile	*GetWaveFile() { return NULL; }
+	virtual CScene		*GetScene() { return nullptr; }
+	virtual CVCDFile	*GetVCDFile() { return nullptr; }
+	virtual CSoundEntry	*GetSoundEntry() { return nullptr; }
+	virtual CWaveFile	*GetWaveFile() { return nullptr; }
 
 	virtual void Checkout( bool updatestateicons = true );
 	virtual void Checkin( bool updatestateicons = true );

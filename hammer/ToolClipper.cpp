@@ -84,7 +84,7 @@ Clipper3D::Clipper3D(void)
     m_ClipPoints[1].Init();
     m_ClipPointHit = -1;
 
-    m_pOrigObjects = NULL;
+    m_pOrigObjects = nullptr;
 
 	m_bDrawMeasurements = false;
 	SetEmpty();
@@ -332,15 +332,15 @@ void Clipper3D::CalcClipResults( void )
         //
         // check the modes for which solids to generate
         //
-        CMapSolid *pFront = NULL;
-        CMapSolid *pBack = NULL;
+        CMapSolid *pFront = nullptr;
+        CMapSolid *pBack = nullptr;
         if( m_Mode == FRONT )
         {
-            pOrigSolid->Split( &m_ClipPlane, &pFront, NULL );
+            pOrigSolid->Split( &m_ClipPlane, &pFront, nullptr);
         }
         else if( m_Mode == BACK )
         {
-            pOrigSolid->Split( &m_ClipPlane, NULL, &pBack );
+            pOrigSolid->Split( &m_ClipPlane, nullptr, &pBack );
         }
         else if( m_Mode == BOTH )
         {
@@ -439,7 +439,7 @@ void Clipper3D::SaveClipResults( void )
         return;
 
 	// mark this place in the history
-    GetHistory()->MarkUndoPosition( NULL, "Clip Objects" );
+    GetHistory()->MarkUndoPosition(nullptr, "Clip Objects" );
 
     //
     // save all new objects into the selection list
@@ -460,7 +460,7 @@ void Clipper3D::SaveClipResults( void )
         if( pFrontSolid )
         {
             SaveClipSolid( pFrontSolid, pOrigSolid );
-            pClipGroup->SetClipSolid( NULL, CClipGroup::FRONT );
+            pClipGroup->SetClipSolid(nullptr, CClipGroup::FRONT );
         }
 
         //
@@ -469,7 +469,7 @@ void Clipper3D::SaveClipResults( void )
         if( pBackSolid )
         {
             SaveClipSolid( pBackSolid, pOrigSolid );
-            pClipGroup->SetClipSolid( NULL, CClipGroup::BACK );
+            pClipGroup->SetClipSolid(nullptr, CClipGroup::BACK );
         }
      
 		// Send the notification that this solid as been clipped.

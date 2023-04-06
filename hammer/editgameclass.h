@@ -39,17 +39,17 @@ class CEditGameClass
 		CEditGameClass(void);
 		~CEditGameClass(void);
 
-		inline bool IsClass(const char *pszClass = NULL) const;
+		inline bool IsClass(const char *pszClass = nullptr) const;
 		inline GDclass *GetClass(void) const { return(m_pClass); }
 		inline void SetClass(GDclass *pClass) { m_pClass = pClass; }
 		inline const char* GetClassName(void) const { return(m_szClass); }
-		inline bool IsKeyFrameClass(void) { return((m_pClass != NULL) && (m_pClass->IsKeyFrameClass())); }
-		inline bool IsMoveClass(void) { return((m_pClass != NULL) && (m_pClass->IsMoveClass())); }
-		inline bool IsPointClass(void) { return((m_pClass != NULL) && (m_pClass->IsPointClass())); }
-		inline bool IsNPCClass(void) { return((m_pClass != NULL) && (m_pClass->IsNPCClass())); }
-		inline bool IsFilterClass(void) { return((m_pClass != NULL) && (m_pClass->IsFilterClass())); }
-		inline bool IsSolidClass(void) { return((m_pClass != NULL) && (m_pClass->IsSolidClass())); }
-		inline bool IsNodeClass(void) { return((m_pClass != NULL) && (m_pClass->IsNodeClass())); }
+		inline bool IsKeyFrameClass(void) { return((m_pClass != nullptr) && (m_pClass->IsKeyFrameClass())); }
+		inline bool IsMoveClass(void) { return((m_pClass != nullptr) && (m_pClass->IsMoveClass())); }
+		inline bool IsPointClass(void) { return((m_pClass != nullptr) && (m_pClass->IsPointClass())); }
+		inline bool IsNPCClass(void) { return((m_pClass != nullptr) && (m_pClass->IsNPCClass())); }
+		inline bool IsFilterClass(void) { return((m_pClass != nullptr) && (m_pClass->IsFilterClass())); }
+		inline bool IsSolidClass(void) { return((m_pClass != nullptr) && (m_pClass->IsSolidClass())); }
+		inline bool IsNodeClass(void) { return((m_pClass != nullptr) && (m_pClass->IsNodeClass())); }
 		static inline bool IsNodeClass(const char *pszClassName) { return GDclass::IsNodeClass(pszClassName); }
 
 		//
@@ -62,7 +62,7 @@ class CEditGameClass
 		inline void SetKeyValue(LPCTSTR pszKey, int iValue) { m_KeyValues.SetValue(pszKey, iValue); }
 		inline LPCTSTR GetKey(int nIndex) const { return(m_KeyValues.GetKey(nIndex)); }
 		inline LPCTSTR GetKeyValue(int nIndex) const { return(m_KeyValues.GetValue(nIndex)); }
-		inline LPCTSTR GetKeyValue(LPCTSTR pszKey, int *piIndex = NULL) const { return(m_KeyValues.GetValue(pszKey, piIndex)); }
+		inline LPCTSTR GetKeyValue(LPCTSTR pszKey, int *piIndex = nullptr) const { return(m_KeyValues.GetValue(pszKey, piIndex)); }
 		
 		// Iterate the list of keyvalues.
 		inline int GetFirstKeyValue() const			{ return m_KeyValues.GetFirst(); }
@@ -179,7 +179,7 @@ CEntityConnection *CEditGameClass::Upstream_Get(int nIndex)
 //-----------------------------------------------------------------------------
 const char *CEditGameClass::GetComments(void)
 {
-	if (m_pszComments == NULL)
+	if (m_pszComments == nullptr)
 	{
 		return(g_pszEmpty);
 	}
@@ -195,11 +195,11 @@ const char *CEditGameClass::GetComments(void)
 //-----------------------------------------------------------------------------
 inline bool CEditGameClass::IsClass(const char *pszClass) const
 {
-	if (pszClass == NULL)
+	if (pszClass == nullptr)
 	{
-		return(m_pClass != NULL);
+		return(m_pClass != nullptr);
 	}
-	return((m_pClass != NULL) && (!stricmp(pszClass, m_szClass)));
+	return((m_pClass != nullptr) && (!stricmp(pszClass, m_szClass)));
 }
 
 
@@ -211,12 +211,12 @@ void CEditGameClass::SetComments(const char *pszComments)
 {
 	delete m_pszComments;
 
-	if (pszComments != NULL)
+	if (pszComments != nullptr)
 	{
 		int nLen = strlen(pszComments);
 		if (nLen == 0)
 		{
-			m_pszComments = NULL;
+			m_pszComments = nullptr;
 		}
 		else
 		{
@@ -226,7 +226,7 @@ void CEditGameClass::SetComments(const char *pszComments)
 	}
 	else
 	{
-		m_pszComments = NULL;
+		m_pszComments = nullptr;
 	}
 }
 

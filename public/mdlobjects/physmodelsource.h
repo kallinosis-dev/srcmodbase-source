@@ -29,19 +29,19 @@ class CPhysModelSource
 	class CModel; // Source2 model; not supported in Source1
 public:
 	CPhysModelSource():
-		m_pRenderModel( NULL ),
-		m_pDmeModel( NULL )
+		m_pRenderModel(nullptr),
+		m_pDmeModel(nullptr)
 	{
 
 	}
 	CPhysModelSource( const CModel *pModel ):
 		m_pRenderModel( pModel ),
-		m_pDmeModel( NULL )
+		m_pDmeModel(nullptr)
 	{
 	}
 
 	CPhysModelSource( CDmeModel *pModel ):
-		m_pRenderModel( NULL ),
+		m_pRenderModel(nullptr),
 		m_pDmeModel( pModel )
 	{
 	}
@@ -76,8 +76,8 @@ public:
 	void Purge()
 	{
 		m_DmeMeshCache.PurgeAndDeleteElements();
-		m_pDmeModel    = NULL;
-		m_pRenderModel = NULL;
+		m_pDmeModel    = nullptr;
+		m_pRenderModel = nullptr;
 	}
 
 	bool IsValid()const

@@ -36,7 +36,7 @@ bool RepackBSP( const char *pszMapFile, bool bCompress )
 	}
 
 	CUtlBuffer inputBuffer;
-	if ( !g_pFullFileSystem->ReadFile( pszMapFile, NULL, inputBuffer ) )
+	if ( !g_pFullFileSystem->ReadFile( pszMapFile, nullptr, inputBuffer ) )
 	{
 		Warning( "Couldn't read file %s - BSP compression failed\n", pszMapFile );
 		return false;
@@ -52,7 +52,7 @@ bool RepackBSP( const char *pszMapFile, bool bCompress )
 		return false;
 	}
 
-	g_pFullFileSystem->WriteFile( pszMapFile, NULL, outputBuffer );
+	g_pFullFileSystem->WriteFile( pszMapFile, nullptr, outputBuffer );
 
 	Msg( "Successfully repacked %s -- %u -> %u bytes\n",
 	     pszMapFile, inputBuffer.TellPut(), outputBuffer.TellPut() );
@@ -83,7 +83,7 @@ void Usage( void )
 	exit( -1 );
 }
 
-char* xzpFilename = NULL;
+char* xzpFilename = nullptr;
 
 int main( int argc, char **argv )
 {
@@ -325,7 +325,7 @@ int main( int argc, char **argv )
 
 			while ( !feof(fp) )
 			{
-				if ( ( fgets( fullpathName, sizeof( fullpathName ), fp ) != NULL ) )
+				if ( ( fgets( fullpathName, sizeof( fullpathName ), fp ) != nullptr) )
 				{
 					if ( *fullpathName && fullpathName[strlen(fullpathName) - 1] == '\n' )
 					{
@@ -419,8 +419,8 @@ int main( int argc, char **argv )
 			{
 				relativeName[ 0 ] = 0;
 				fullpathName[ 0 ] = 0;
-				if ( ( fgets( relativeName, sizeof( relativeName ), fp ) != NULL ) &&
-				     ( fgets( fullpathName, sizeof( fullpathName ), fp ) != NULL ) )
+				if ( ( fgets( relativeName, sizeof( relativeName ), fp ) != nullptr) &&
+				     ( fgets( fullpathName, sizeof( fullpathName ), fp ) != nullptr) )
 				{
 					int l1 = strlen(relativeName);
 					int l2 = strlen(fullpathName);
@@ -482,8 +482,8 @@ int main( int argc, char **argv )
 			{
 				relativeName[ 0 ] = 0;
 				fullpathName[ 0 ] = 0;
-				if ( ( fgets( relativeName, sizeof( relativeName ), fp ) != NULL ) &&
-				     ( fgets( fullpathName, sizeof( fullpathName ), fp ) != NULL ) )
+				if ( ( fgets( relativeName, sizeof( relativeName ), fp ) != nullptr) &&
+				     ( fgets( fullpathName, sizeof( fullpathName ), fp ) != nullptr) )
 				{
 					int l1 = strlen(relativeName);
 					int l2 = strlen(fullpathName);

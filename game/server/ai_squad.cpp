@@ -37,7 +37,7 @@ CAI_Squad *CAI_SquadManager::FindSquad( string_t squadName )
 		}
 		pSquad = pSquad->m_pNextSquad;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------
@@ -54,7 +54,7 @@ CAI_Squad *CAI_SquadManager::CreateSquad(string_t squadName)
 		m_pSquads = pResult;
 	}
 	else
-		pResult->m_pNextSquad = NULL;
+		pResult->m_pNextSquad = nullptr;
 	return pResult;
 }
 
@@ -111,7 +111,7 @@ void CAI_SquadManager::DeleteAllSquads(void)
 		delete squad;
 		squad = temp;
 	}
-	CAI_SquadManager::m_pSquads = NULL;
+	CAI_SquadManager::m_pSquads = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -176,17 +176,17 @@ CAI_Squad::CAI_Squad()
 void CAI_Squad::Init(string_t newName) 
 {
 	m_Name = AllocPooledString( STRING(newName) );
-	m_pNextSquad = NULL;
+	m_pNextSquad = nullptr;
 	m_flSquadSoundWaitTime = 0;
 	m_SquadMembers.RemoveAll();
 
 	m_flSquadSoundWaitTime	= 0;
 
-	SetSquadInflictor( NULL );
+	SetSquadInflictor(nullptr);
 
 #ifdef PER_ENEMY_SQUADSLOTS
 	m_flEnemyInfoCleanupTime = 0;
-	m_pLastFoundEnemyInfo = NULL;
+	m_pLastFoundEnemyInfo = nullptr;
 #endif
 
 }
@@ -238,7 +238,7 @@ void CAI_Squad::RemoveFromSquad( CAI_BaseNPC *pNPC, bool bDeath )
 		}
 	}
 
-	pNPC->SetSquad(NULL);
+	pNPC->SetSquad(nullptr);
 	pNPC->SetSquadName( NULL_STRING );
 }
 
@@ -293,10 +293,10 @@ CAI_BaseNPC *CAI_Squad::SquadMemberInRange( const Vector &vecLocation, float flD
 {
 	for (int i = 0; i < m_SquadMembers.Count(); i++)
 	{
-		if (m_SquadMembers[i] != NULL && (vecLocation - m_SquadMembers[i]->GetAbsOrigin() ).Length2D() <= flDist)
+		if (m_SquadMembers[i] != nullptr && (vecLocation - m_SquadMembers[i]->GetAbsOrigin() ).Length2D() <= flDist)
 			return m_SquadMembers[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-------------------------------------
@@ -306,11 +306,11 @@ CAI_BaseNPC *CAI_Squad::SquadMemberInRange( const Vector &vecLocation, float flD
 CAI_BaseNPC *CAI_Squad::NearestSquadMember( CAI_BaseNPC *pMember )
 {
 	float			fBestDist	= MAX_COORD_RANGE;
-	CAI_BaseNPC		*fNearestEnt = NULL;
+	CAI_BaseNPC		*fNearestEnt = nullptr;
 	Vector			fStartLoc = pMember->GetAbsOrigin();
 	for (int i = 0; i < m_SquadMembers.Count(); i++)
 	{
-		if (m_SquadMembers[i] != NULL)
+		if (m_SquadMembers[i] != nullptr)
 		{
 			float fDist = (fStartLoc - m_SquadMembers[i]->GetAbsOrigin()).Length();
 			if (m_SquadMembers[i]	!=	pMember	&&
@@ -334,7 +334,7 @@ int	CAI_Squad::GetVisibleSquadMembers( CAI_BaseNPC *pMember )
 	for (int i = 0; i < m_SquadMembers.Count(); i++)
 	{
 		// Make sure it's not the specified member
-		if ( m_SquadMembers[i] != NULL && pMember != m_SquadMembers[i] )
+		if ( m_SquadMembers[i] != nullptr && pMember != m_SquadMembers[i] )
 		{
 			if ( pMember->FVisible( m_SquadMembers[i] ) )
 			{
@@ -351,7 +351,7 @@ int	CAI_Squad::GetVisibleSquadMembers( CAI_BaseNPC *pMember )
 //-------------------------------------
 CAI_BaseNPC *CAI_Squad::GetSquadMemberNearestTo( const Vector &vecLocation )
 {
-	CAI_BaseNPC *pNearest = NULL;
+	CAI_BaseNPC *pNearest = nullptr;
 	float		flNearest = FLT_MAX;
 
 	for ( int i = 0; i < m_SquadMembers.Count(); i++ )
@@ -402,7 +402,7 @@ bool CAI_Squad::IsLeader( CAI_BaseNPC *pNPC )
 
 CAI_BaseNPC *CAI_Squad::GetLeader( void )
 {
-	CAI_BaseNPC *pLeader = NULL;
+	CAI_BaseNPC *pLeader = nullptr;
 	int nSilentMembers = 0;
 	for ( int i = 0; i < m_SquadMembers.Count(); i++ )
 	{
@@ -416,7 +416,7 @@ CAI_BaseNPC *CAI_Squad::GetLeader( void )
 			nSilentMembers++;
 		}
 	}
-	return ( m_SquadMembers.Count() - nSilentMembers > 1) ? pLeader : NULL;
+	return ( m_SquadMembers.Count() - nSilentMembers > 1) ? pLeader : nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -435,7 +435,7 @@ CAI_BaseNPC *CAI_Squad::GetFirstMember( AISquadIter_t *pIter, bool bIgnoreSilent
 	if ( pIter )
 		*pIter = (AISquadIter_t)i;
 	if ( i >= m_SquadMembers.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_SquadMembers[i];
 }
@@ -456,7 +456,7 @@ CAI_BaseNPC *CAI_Squad::GetNextMember( AISquadIter_t *pIter, bool bIgnoreSilentM
 	}
 
 	if ( i >= m_SquadMembers.Count() )
-		return NULL;
+		return nullptr;
 
 	return m_SquadMembers[i];
 }
@@ -555,7 +555,7 @@ int	CAI_Squad::BroadcastInteraction( int interactionType, void *data, CBaseComba
 		CAI_BaseNPC *pMember = m_SquadMembers[i]->MyNPCPointer();
 		
 		//Validate and don't send again to the sender
-		if ( ( pMember != NULL) && ( pMember != sender ) )
+		if ( ( pMember != nullptr) && ( pMember != sender ) )
 		{
 			//Send it
 			pMember->DispatchInteraction( interactionType, data, sender );
@@ -700,7 +700,7 @@ AISquadEnemyInfo_t *CAI_Squad::FindEnemyInfo( CBaseEntity *pEnemy )
 	{
 		if ( m_EnemyInfos.Count() )
 		{
-			m_pLastFoundEnemyInfo = NULL;
+			m_pLastFoundEnemyInfo = nullptr;
 			CUtlRBTree<CBaseEntity *> activeEnemies;
 			SetDefLessFunc( activeEnemies );
 
@@ -717,7 +717,7 @@ AISquadEnemyInfo_t *CAI_Squad::FindEnemyInfo( CBaseEntity *pEnemy )
 			// Remove the records for deleted or unused enemies
 			for ( i = m_EnemyInfos.Count() - 1; i >= 0; --i )
 			{
-				if ( m_EnemyInfos[i].hEnemy == NULL || activeEnemies.Find( m_EnemyInfos[i].hEnemy ) == activeEnemies.InvalidIndex() )
+				if ( m_EnemyInfos[i].hEnemy == nullptr || activeEnemies.Find( m_EnemyInfos[i].hEnemy ) == activeEnemies.InvalidIndex() )
 				{
 					m_EnemyInfos.FastRemove( i );
 				}
@@ -739,7 +739,7 @@ AISquadEnemyInfo_t *CAI_Squad::FindEnemyInfo( CBaseEntity *pEnemy )
 		}
 	}
 
-	m_pLastFoundEnemyInfo = NULL;
+	m_pLastFoundEnemyInfo = nullptr;
 	i = m_EnemyInfos.AddToTail();
 	m_EnemyInfos[i].hEnemy = pEnemy;
 
@@ -789,7 +789,7 @@ void CAI_Squad::SquadRemember( int iMemory )
 {
 	for (int i = 0; i < m_SquadMembers.Count(); i++)
 	{
-		if (m_SquadMembers[i] != NULL )
+		if (m_SquadMembers[i] != nullptr)
 		{
 			m_SquadMembers[i]->Remember( iMemory );
 		}

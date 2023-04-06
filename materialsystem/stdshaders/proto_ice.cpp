@@ -46,7 +46,7 @@ BEGIN_VS_SHADER( ProtoIce_dx9, "ProtoIce" )
 			return "VertexLitGeneric";
 		}
 
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

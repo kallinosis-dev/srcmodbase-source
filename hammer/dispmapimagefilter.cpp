@@ -44,7 +44,7 @@ CDispMapImageFilter::CDispMapImageFilter()
 
 	m_Height = 0;
 	m_Width = 0;
-	m_pImage = NULL;
+	m_pImage = nullptr;
 
 	m_Scale = 1.0f;
 	m_AreaHeight = 0;
@@ -60,7 +60,7 @@ CDispMapImageFilter::~CDispMapImageFilter()
 	if( m_pImage )
 	{
 		delete [] m_pImage;
-		m_pImage = NULL;
+		m_pImage = nullptr;
 	}
 }
 
@@ -116,11 +116,11 @@ ChunkFileResult_t CDispMapImageFilter::LoadImageKeyCallback( const char *szKey, 
 		char *pszNext = strtok( szBuf, " " );
 
 		int ndx = row * pFilter->m_Height;
-		while( pszNext != NULL )
+		while( pszNext != nullptr)
 		{
 			float imageValue = ( float )atof( pszNext );
 			pFilter->m_pImage[ndx] = imageValue;
-			pszNext = strtok( NULL, " " );
+			pszNext = strtok(nullptr, " " );
 			ndx++;
 		}
 	}
@@ -231,7 +231,7 @@ CDispMapImageFilter *CDispMapImageFilterManager::Create( void )
 	// allocate filter
 	CDispMapImageFilter *pFilter = new CDispMapImageFilter;
 	if( !pFilter )
-		return NULL;
+		return nullptr;
 
 	// add filter to list
 	AddFilterToList( pFilter );
@@ -580,7 +580,7 @@ CMapDisp *CDispMapImageFilterManager::GetImage( CDispMapImageFilter *pFilter,
 											    CMapDisp *pDisp, int ndxHgt, int ndxWid,
 												int ndxImg, int imgCount, int &orient )
 {
-	CMapDisp *pNeighborDisp = NULL;
+	CMapDisp *pNeighborDisp = nullptr;
 	EditDispHandle_t neighborHandle;
 
 	switch( ndxImg )
@@ -604,7 +604,7 @@ CMapDisp *CDispMapImageFilterManager::GetImage( CDispMapImageFilter *pFilter,
 				}			
 			}
 
-			return NULL;
+			return nullptr;
 		}
 	case IMAGEFILTER_WEST: 
 		{
@@ -634,7 +634,7 @@ CMapDisp *CDispMapImageFilterManager::GetImage( CDispMapImageFilter *pFilter,
 				}			
 			}
 
-			return NULL;
+			return nullptr;
 		}
 	case IMAGEFILTER_NORTH: 
 		{
@@ -664,7 +664,7 @@ CMapDisp *CDispMapImageFilterManager::GetImage( CDispMapImageFilter *pFilter,
 				}			
 			}
 
-			return NULL;
+			return nullptr;
 		}
 	case IMAGEFILTER_EAST: 
 		{ 
@@ -694,7 +694,7 @@ CMapDisp *CDispMapImageFilterManager::GetImage( CDispMapImageFilter *pFilter,
 				}			
 			}
 
-			return NULL;
+			return nullptr;
 		}
 	case IMAGEFILTER_SOUTH: 
 		{ 
@@ -711,7 +711,7 @@ CMapDisp *CDispMapImageFilterManager::GetImage( CDispMapImageFilter *pFilter,
 		}
 	default: 
 		{ 
-			return NULL; 
+			return nullptr; 
 		}
 	}
 }
@@ -954,7 +954,7 @@ void CDispMapImageFilterManager::SetImageValues( CDispMapImageFilter *pFilter,
 												 CMapDisp *pDisp, int ndxHgt, int ndxWid, 
 												 int ndxImg, int imgCount, Vector &value )
 {
-	CMapDisp *pNeighborDisp = NULL;
+	CMapDisp *pNeighborDisp = nullptr;
 	int		 orient;
 	EditDispHandle_t neighborHandle;
 

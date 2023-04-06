@@ -134,7 +134,7 @@ void PhysicsSplash( IPhysicsFluidController *pFluid, IPhysicsObject *pObject, CB
 	}
 
 	Vector vel;
-	pObject->GetVelocity( &vel, NULL );
+	pObject->GetVelocity( &vel, nullptr);
 	float rawSpeed = -DotProduct( normal, vel );
 
 	// proportional to cross-sectional area times velocity squared (fluid pressure)

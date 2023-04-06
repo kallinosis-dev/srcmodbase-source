@@ -206,10 +206,10 @@ void COP_Groups::UpdateGroupList(void)
 	m_cGroups.SetRedraw(false);
 	m_cGroups.DeleteAllItems();
 
-	CVisGroup *pAuto = NULL;
+	CVisGroup *pAuto = nullptr;
 
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		int nCount = pDoc->VisGroups_GetRootCount();
 		for (int i = 0; i < nCount; i++)

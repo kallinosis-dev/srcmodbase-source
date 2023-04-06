@@ -71,7 +71,7 @@ gmMemFixed::gmMemFixed(unsigned int a_elementSize, unsigned int a_growSize)
   : m_memChain(a_elementSize, a_growSize)
 {
   GM_ASSERT(a_elementSize >= sizeof(FreeListNode));
-  m_freeList = NULL;
+  m_freeList = nullptr;
 #ifdef GM_DEBUG_BUILD
   m_memUsed = 0;
 #endif // GM_DEBUG_BUILD
@@ -153,7 +153,7 @@ void gmMemFixed::Free(void* a_ptr)
 
 void gmMemFixed::ResetAndFreeMemory()
 {
-  m_freeList = NULL;
+  m_freeList = nullptr;
 #ifdef GM_DEBUG_BUILD
   m_memUsed = 0;
 #endif // GM_DEBUG_BUILD
@@ -164,7 +164,7 @@ void gmMemFixed::ResetAndFreeMemory()
 
 void gmMemFixed::Reset()
 {
-  m_freeList = NULL;
+  m_freeList = nullptr;
 #ifdef GM_DEBUG_BUILD
   m_memUsed = 0;
 #endif // GM_DEBUG_BUILD

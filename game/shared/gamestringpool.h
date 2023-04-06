@@ -40,13 +40,13 @@ class CGameString
 {
 public:
 	CGameString() : 
-		m_iszString( NULL_STRING ), m_pszString( NULL ), m_iSerial( 0 ) 
+		m_iszString( NULL_STRING ), m_pszString(nullptr), m_iSerial( 0 ) 
 	{
 
 	} 
 
 	CGameString( const char *pszString, bool bCopy = false )  : 
-		m_iszString( NULL_STRING ), m_pszString( NULL ), m_iSerial( 0 ) 
+		m_iszString( NULL_STRING ), m_pszString(nullptr), m_iSerial( 0 ) 
 	{ 
 		Set( pszString, bCopy ); 
 	}

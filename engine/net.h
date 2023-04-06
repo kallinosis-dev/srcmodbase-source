@@ -112,7 +112,7 @@ void		NET_ListenSocket( int sock, bool listen );
 void		NET_OutOfBandPrintf(int sock, const ns_address &adr, PRINTF_FORMAT_STRING const char *format, ...) FMTFUNCTION( 3, 4 );
 void		NET_OutOfBandDelayedPrintf(int sock, const ns_address &adr, uint32 unMillisecondsDelay, PRINTF_FORMAT_STRING const char *format, ...) FMTFUNCTION( 4, 5 );
 // Send a raw packet, connectionless must be provided (chan can be NULL)
-int			NET_SendPacket ( INetChannel *chan, int sock,  const ns_address &to, const  unsigned char *data, int length, bf_write *pVoicePayload = NULL, bool bUseCompression = false, uint32 unMillisecondsDelay = 0u );
+int			NET_SendPacket ( INetChannel *chan, int sock,  const ns_address &to, const  unsigned char *data, int length, bf_write *pVoicePayload = nullptr, bool bUseCompression = false, uint32 unMillisecondsDelay = 0u );
 // Called periodically to maybe send any queued packets (up to 4 per frame)
 void		NET_SendQueuedPackets();
 // Start set current network configuration

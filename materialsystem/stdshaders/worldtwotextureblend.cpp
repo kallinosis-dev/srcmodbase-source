@@ -58,7 +58,7 @@ END_SHADER_PARAMS
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT_PARAMS()
@@ -251,7 +251,7 @@ END_SHADER_PARAMS
 				numTexCoords = 3;
 			}
 
-			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, 0 );
 
 			// Pre-cache pixel shaders
 			bool hasSelfIllum = IS_FLAG_SET( MATERIAL_VAR_SELFILLUM );

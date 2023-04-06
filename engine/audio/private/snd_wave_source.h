@@ -109,7 +109,7 @@ protected:
 		if ( !info )
 		{
 			Assert( !"CAudioSourceWave::GetCachedDataPointer info == NULL" );
-			return NULL;
+			return nullptr;
 		}
 
 		return (byte *)info->CachedData();

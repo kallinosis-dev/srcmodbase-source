@@ -8,7 +8,7 @@
 IVP_Template_Object::IVP_Template_Object()
 {
     P_MEM_CLEAR(this);
-    this->name = NULL;
+    this->name = nullptr;
     return;
 }
 

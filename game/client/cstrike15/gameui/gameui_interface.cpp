@@ -154,7 +154,7 @@ inline UI_BASEMOD_PANEL_CLASS & ConstructUiBaseModPanelClass() { return *BasePan
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-IEngineVGui *enginevguifuncs = NULL;
+IEngineVGui *enginevguifuncs = nullptr;
 // dgoodenough - xonline only exists on the 360.  All uses of xonline have had their
 // protection changed like this one
 // PS3_BUILDFIX
@@ -164,18 +164,18 @@ IXOnline  *xonline = NULL;			// 360 only
 #elif defined( _PS3 )
 IPS3SaveRestoreToUI *ps3saveuiapi = NULL;
 #endif
-vgui::ISurface *enginesurfacefuncs = NULL;
-IAchievementMgr *achievementmgr = NULL;
+vgui::ISurface *enginesurfacefuncs = nullptr;
+IAchievementMgr *achievementmgr = nullptr;
 
 class CGameUI;
-CGameUI *g_pGameUI = NULL;
+CGameUI *g_pGameUI = nullptr;
 
 vgui::VPANEL g_hLoadingBackgroundDialog = NULL;
 
 static CGameUI g_GameUI;
 
 
-static IGameClientExports *g_pGameClientExports = NULL;
+static IGameClientExports *g_pGameClientExports = nullptr;
 IGameClientExports *GameClientExports()
 {
 	return g_pGameClientExports;
@@ -221,8 +221,8 @@ CGameUI::CGameUI()
 	m_bBackgroundMusicDesired = false;
 	m_nBackgroundMusicVersion = RandomInt( 1, MAX_BACKGROUND_MUSIC );
 	m_flBackgroundMusicStopTime = -1.0;
-	m_pMusicExtension = NULL;
-	m_pPreviewMusicExtension = NULL;
+	m_pMusicExtension = nullptr;
+	m_pPreviewMusicExtension = nullptr;
 	m_flMainMenuMusicVolume = -1;
 	m_flMasterMusicVolume = -1;
 	m_flQuestAudioTimeEnd = 0;
@@ -237,7 +237,7 @@ CGameUI::CGameUI()
 //-----------------------------------------------------------------------------
 CGameUI::~CGameUI()
 {
-	g_pGameUI = NULL;
+	g_pGameUI = nullptr;
 }
 
 
@@ -252,8 +252,8 @@ void CGameUI::Initialize( CreateInterfaceFn factory )
 	ConVar_Register( FCVAR_CLIENTDLL );
 	ConnectTier3Libraries( &factory, 1 );
 
-	enginesound = (IEngineSound *)factory(IENGINESOUND_CLIENT_INTERFACE_VERSION, NULL);
-	engine = (IVEngineClient *)factory( VENGINE_CLIENT_INTERFACE_VERSION, NULL );
+	enginesound = (IEngineSound *)factory(IENGINESOUND_CLIENT_INTERFACE_VERSION, nullptr);
+	engine = (IVEngineClient *)factory( VENGINE_CLIENT_INTERFACE_VERSION, nullptr);
 #if defined( BINK_VIDEO )
 	bik = (IBik*)factory( BIK_INTERFACE_VERSION, NULL );
 #endif
@@ -285,10 +285,10 @@ void CGameUI::Initialize( CreateInterfaceFn factory )
 	g_pVGuiLocalize->AddFile( "Resource/valve_%language%.txt", "GAME", true );
 
 	bool bFailed = false;
-	enginevguifuncs = (IEngineVGui *)factory( VENGINE_VGUI_VERSION, NULL );
-	enginesurfacefuncs = (vgui::ISurface *)factory(VGUI_SURFACE_INTERFACE_VERSION, NULL);
-	gameuifuncs = (IGameUIFuncs *)factory( VENGINE_GAMEUIFUNCS_VERSION, NULL );
-	xboxsystem = (IXboxSystem *)factory( XBOXSYSTEM_INTERFACE_VERSION, NULL );
+	enginevguifuncs = (IEngineVGui *)factory( VENGINE_VGUI_VERSION, nullptr);
+	enginesurfacefuncs = (vgui::ISurface *)factory(VGUI_SURFACE_INTERFACE_VERSION, nullptr);
+	gameuifuncs = (IGameUIFuncs *)factory( VENGINE_GAMEUIFUNCS_VERSION, nullptr);
+	xboxsystem = (IXboxSystem *)factory( XBOXSYSTEM_INTERFACE_VERSION, nullptr);
 // dgoodenough - xonline only exists on the 360.
 // PS3_BUILDFIX
 #ifdef _X360
@@ -389,7 +389,7 @@ void CGameUI::SetLoadingBackgroundDialog( vgui::VPANEL panel )
 //-----------------------------------------------------------------------------
 void CGameUI::Connect( CreateInterfaceFn gameFactory )
 {
-	g_pGameClientExports = (IGameClientExports *)gameFactory(GAMECLIENTEXPORTS_INTERFACE_VERSION, NULL);
+	g_pGameClientExports = (IGameClientExports *)gameFactory(GAMECLIENTEXPORTS_INTERFACE_VERSION, nullptr);
 
 	achievementmgr = engine->GetAchievementMgr();
 
@@ -572,7 +572,7 @@ bool CGameUI::FindPlatformDirectory(char *platformDir, int bufferSize)
 		if ( IsPC() )
 		{
 #ifdef WIN32
-			if ( ::GetModuleFileName( ( HINSTANCE )GetModuleHandle( NULL ), platformDir, bufferSize ) )
+			if ( ::GetModuleFileName( ( HINSTANCE )GetModuleHandle(nullptr), platformDir, bufferSize ) )
 #else
 			if ( getcwd( platformDir, bufferSize ) )
 #endif

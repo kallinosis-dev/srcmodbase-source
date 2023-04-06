@@ -42,7 +42,7 @@ class CGameUIDefinition
 	DECLARE_REFERENCED_CLASS( CGameUIDefinition );
 	
 public:
-	explicit CGameUIDefinition( IGameUISystem *pGameUISystem = NULL );
+	explicit CGameUIDefinition( IGameUISystem *pGameUISystem = nullptr);
 	~CGameUIDefinition();
 
 	bool CreateDefault( const char *pName );
@@ -101,7 +101,7 @@ public:
 
 	void BuildScopedGraphicName( CUtlString &name, CGameGraphic *pGraphic );
 
-	CGameUIScript * GetScript() { return m_Scripts.Count() ? m_Scripts[0] : NULL; }
+	CGameUIScript * GetScript() { return m_Scripts.Count() ? m_Scripts[0] : nullptr; }
 
 
 private:

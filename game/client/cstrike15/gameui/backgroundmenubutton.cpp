@@ -23,8 +23,8 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 CBackgroundMenuButton::CBackgroundMenuButton(vgui::Panel *parent, const char *name) : BaseClass(parent, name, "")
 {
-	m_pImage = NULL;
-	m_pMouseOverImage = NULL;
+	m_pImage = nullptr;
+	m_pMouseOverImage = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -56,10 +56,10 @@ void CBackgroundMenuButton::ApplySchemeSettings(IScheme *pScheme)
 	SetArmedColor(Color(255, 255, 0, 255), Color(0, 0, 0, 0));
 	SetDepressedColor(Color(255, 255, 0, 255), Color(0, 0, 0, 0));
 	SetContentAlignment(Label::a_west);
-	SetBorder(NULL);
-	SetDefaultBorder(NULL);
-	SetDepressedBorder(NULL);
-	SetKeyFocusBorder(NULL);
+	SetBorder(nullptr);
+	SetDefaultBorder(nullptr);
+	SetDepressedBorder(nullptr);
+	SetKeyFocusBorder(nullptr);
 	SetTextInset(0, 0);
 	SetAlpha(0);
 

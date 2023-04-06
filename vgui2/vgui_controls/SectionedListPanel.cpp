@@ -124,11 +124,11 @@ public:
 			for (int i = 0; i < colCount; i++)
 			{
 				int columnFlags = m_pListPanel->GetColumnFlagsBySection(m_iSectionID, i);
-				IImage *image = NULL;
+				IImage *image = nullptr;
 				if (columnFlags & SectionedListPanel::HEADER_IMAGE)
 				{
 					//!! need some kind of image reference
-					image = NULL;
+					image = nullptr;
 				}
 				else 
 				{
@@ -228,11 +228,11 @@ class CItemButton : public Label
 	DECLARE_CLASS_SIMPLE( CItemButton, Label );
 
 public:
-	CItemButton(SectionedListPanel *parent, int itemID) : Label(parent, NULL, "< item >")
+	CItemButton(SectionedListPanel *parent, int itemID) : Label(parent, nullptr, "< item >")
 	{
 		m_pListPanel = parent;
 		m_iID = itemID;
-		m_pData = NULL;
+		m_pData = nullptr;
 		Clear();
 	}
 
@@ -339,7 +339,7 @@ public:
 
 				{for ( int i = GetImageCount(); i < colCount; i++ ) // make sure we have enough image slots
 				{
-					AddImage( NULL, 0 );
+					AddImage(nullptr, 0 );
 				}}
 			}
 
@@ -352,7 +352,7 @@ public:
 				int columnFlags = m_pListPanel->GetColumnFlagsBySection(m_iSectionID, i);
 				int maxWidth = m_pListPanel->GetColumnWidthBySection(m_iSectionID, i);
 			
-				IImage *image = NULL;
+				IImage *image = nullptr;
 				if (columnFlags & SectionedListPanel::COLUMN_IMAGE)
 				{
 					// lookup which image is being referred to
@@ -560,7 +560,7 @@ public:
 				int columnFlags = m_pListPanel->GetColumnFlagsBySection(m_iSectionID, i);
 				int maxWidth = m_pListPanel->GetColumnWidthBySection(m_iSectionID, i);
 
-				IImage *image = NULL;
+				IImage *image = nullptr;
 				if (columnFlags & SectionedListPanel::COLUMN_IMAGE)
 				{
 					// lookup which image is being referred to
@@ -795,7 +795,7 @@ SectionedListPanel::SectionedListPanel(vgui::Panel *parent, const char *name) : 
 	m_bVerticalScrollbarEnabled = true;
 	m_iLineSpacing = 20;
 
-	m_pImageList = NULL;
+	m_pImageList = nullptr;
 	m_bDeleteImageListWhenDone = false;
 
 	m_hHeaderFont = INVALID_FONT;
@@ -1412,7 +1412,7 @@ const char *SectionedListPanel::GetColumnNameBySection(int sectionID, int column
 {
 	int index = FindSectionIndexByID(sectionID);
 	if (index < 0 || columnIndex >= m_Sections[index].m_Columns.Count())
-		return NULL;
+		return nullptr;
 
 	return m_Sections[index].m_Columns[columnIndex].m_szColumnName;
 }
@@ -1424,7 +1424,7 @@ const wchar_t *SectionedListPanel::GetColumnTextBySection(int sectionID, int col
 {
 	int index = FindSectionIndexByID(sectionID);
 	if (index < 0 || columnIndex >= m_Sections[index].m_Columns.Count())
-		return NULL;
+		return nullptr;
 	
 	return m_Sections[index].m_Columns[columnIndex].m_szColumnText;
 }
@@ -1558,7 +1558,7 @@ void SectionedListPanel::OnMousePressed(MouseCode code)
 //-----------------------------------------------------------------------------
 void SectionedListPanel::ClearSelection( void )
 {
-	SetSelectedItem((CItemButton *)NULL);
+	SetSelectedItem((CItemButton *)nullptr);
 }
 
 void SectionedListPanel::MoveSelectionDown( void )
@@ -1742,7 +1742,7 @@ void SectionedListPanel::DeleteAllItems()
 
 	m_Items.RemoveAll();
 	m_SortedItems.RemoveAll();
-	m_hSelectedItem = NULL;
+	m_hSelectedItem = nullptr;
 	InvalidateLayout();
     m_bSortNeeded = true;
 }
@@ -1802,7 +1802,7 @@ KeyValues *SectionedListPanel::GetItemData(int itemID)
 {
 	Assert(m_Items.IsValidIndex(itemID));
 	if ( !m_Items.IsValidIndex(itemID) )
-		return NULL;
+		return nullptr;
 
 	return m_Items[itemID]->GetData();
 }
@@ -1974,8 +1974,8 @@ void SectionedListPanel::LeaveEditMode()
 	{
 		InvalidateItem(m_iEditModeItemID);
 		m_hEditModePanel->SetVisible(false);
-		m_hEditModePanel->SetParent((Panel *)NULL);
-		m_hEditModePanel = NULL;
+		m_hEditModePanel->SetParent((Panel *)nullptr);
+		m_hEditModePanel = nullptr;
 	}
 }
 
@@ -1984,7 +1984,7 @@ void SectionedListPanel::LeaveEditMode()
 //-----------------------------------------------------------------------------
 bool SectionedListPanel::IsInEditMode()
 {
-	return (m_hEditModePanel.Get() != NULL);
+	return (m_hEditModePanel.Get() != nullptr);
 }
 
 //-----------------------------------------------------------------------------

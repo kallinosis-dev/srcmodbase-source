@@ -45,7 +45,7 @@ void vprint( int depth, const char *fmt, ... )
 	V_vsprintf_safe( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -166,7 +166,7 @@ int OpenGlobalFile( char *src )
 			time1 = FileTime( tmp );
 			if( time1 != -1 )
 			{
-				if ((g_fpInput = fopen(tmp, "r")) == 0) 
+				if ((g_fpInput = fopen(tmp, "r")) == nullptr) 
 				{
 					MdlWarning( "reader: could not open file '%s'\n", src );
 					return 0;
@@ -186,7 +186,7 @@ int OpenGlobalFile( char *src )
 			return 0;
 
 		// Whoohooo, FOPEN!
-		if ((g_fpInput = fopen(filename, "r")) == 0) 
+		if ((g_fpInput = fopen(filename, "r")) == nullptr) 
 		{
 			MdlWarning( "reader: could not open file '%s'\n", src );
 			return 0;
@@ -294,7 +294,7 @@ int Grab_Nodes( s_node_t *pnodes )
 	}
 
 	// March through nodes lines
-	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 	{
 		g_iLinecount++;
 		// get tokens
@@ -336,7 +336,7 @@ void Grab_Vertexanimation( s_source_t *psource )
 	int		count = 0;
 	static s_vertanim_t	tmpvanim[MAXSTUDIOVERTS*4];
 
-	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 	{
 		g_iLinecount++;
 		if (sscanf( g_szLine, "%d %f %f %f %f %f %f", &index, &pos[0], &pos[1], &pos[2], &normal[0], &normal[1], &normal[2] ) == 7)
@@ -431,7 +431,7 @@ void Grab_Animation( s_source_t *psource )
 	size = psource->numbones * sizeof( s_bone_t );
 
 	// march through animation
-	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 	{
 		// linecount
 		g_iLinecount++;
@@ -476,7 +476,7 @@ void Grab_Animation( s_source_t *psource )
 				t -= psource->startframe;
 
 				// check for memory allocation
-				if (psource->rawanim[t] == NULL)
+				if (psource->rawanim[t] == nullptr)
 				{
 					// Allocate 1 frame of full bonecount 
 					psource->rawanim[t] = (s_bone_t *)kalloc( 1, size );
@@ -502,7 +502,7 @@ void Grab_Animation( s_source_t *psource )
 
 				for (t = 0; t < psource->numframes; t++)
 				{
-					if (psource->rawanim[t] == NULL)
+					if (psource->rawanim[t] == nullptr)
 					{
 						MdlError( "%s is missing frame %d\n", psource->filename, t + psource->startframe );
 					}
@@ -577,7 +577,7 @@ void ParseFaceData( s_source_t *psource, int material, s_face_t *pFace )
 	{
 		memset( g_szLine, 0, sizeof( g_szLine ) );
 
-		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) == NULL) 
+		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) == nullptr) 
 		{
 			MdlError("%s: error on g_szLine %d: %s", g_szFilename, g_iLinecount, g_szLine );
 		}
@@ -1114,7 +1114,7 @@ void BuildIndividualMeshes( s_source_t *psource )
 	// allocate memory
 	psource->numvertices = numvlist;
 	psource->localBoneweight = (s_boneweight_t *)kalloc( psource->numvertices, sizeof( s_boneweight_t ) );
-	psource->globalBoneweight = NULL;
+	psource->globalBoneweight = nullptr;
 	psource->vertexInfo = (s_vertexinfo_t *)kalloc( psource->numvertices, sizeof( s_vertexinfo_t ) );
 	psource->vertex = new Vector[psource->numvertices];
 	psource->normal = new Vector[psource->numvertices];
@@ -1244,7 +1244,7 @@ void Grab_Triangles( s_source_t *psource )
 
 	while (1) 
 	{
-		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) == NULL) 
+		if (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) == nullptr) 
 			break;
 
 		g_iLinecount++;
@@ -1338,7 +1338,7 @@ int Load_SMD ( s_source_t *psource )
 
 	//March through lines
 	g_iLinecount = 0;
-	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+	while (fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 	{
 		g_iLinecount++;
 		int numRead = sscanf( g_szLine, "%s %d", cmd, &option );
@@ -1429,7 +1429,7 @@ static s_source_t *FindCachedSource( char const* name, char const* xext )
 	}
 
 	// Not found
-	return 0;
+	return nullptr;
 }
 
 static void FlipFacing( s_source_t *pSrc )
@@ -1574,7 +1574,7 @@ void SaveAnimation( s_source_t *source, CUtlBuffer& buf )
 
 		for ( int i = 0; i < source->numbones; ++i )
 		{
-			s_bone_t *prev = NULL;
+			s_bone_t *prev = nullptr;
 			if ( frame > 0 )
 			{
 				if ( source->rawanim[ frame - 1 ] )
@@ -2154,13 +2154,13 @@ void Set_DefaultTemplate(s_template_t *pTemplate)
 void split(char *str, char *sep, char **sp)
 {
 	char *r = strtok(str, sep);
-	while(r != NULL)
+	while(r != nullptr)
 	{
 		*sp = r;
 		sp++;
-		r = strtok(NULL, sep);
+		r = strtok(nullptr, sep);
 	}
-	*sp = NULL;
+	*sp = nullptr;
 }
 
 	
@@ -2190,19 +2190,19 @@ s_template_t *Load_Template(char *name )
 
 	// Open file
 	if (!OpenGlobalFile( name ))
-		return 0;
+		return nullptr;
 
 
 	//March through lines
 	g_iLinecount = 0;
-	while(fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != NULL) 
+	while(fgets( g_szLine, sizeof( g_szLine ), g_fpInput ) != nullptr) 
 	{
 		g_iLinecount++;
 		if(g_szLine[0] == '#')
 			continue;
 		
 		char *endP = strrchr(g_szLine, '\n');
-		if(endP != NULL)
+		if(endP != nullptr)
 			*endP = '\0';
 		
 
@@ -2213,7 +2213,7 @@ s_template_t *Load_Template(char *name )
 		split(g_szLine, sep, sp);
 		int numSplit = 0;
 		
-		while(*spp != NULL)
+		while(*spp != nullptr)
 		{
 			spp++;
 			numSplit++;
@@ -3238,7 +3238,7 @@ int main (int argc, char **argv)
 
 
 	//
-	s_template_t *pTemplate = NULL;
+	s_template_t *pTemplate = nullptr;
 	if(useTemplate)
 	{
 		pTemplate = Load_Template(templateFileName);

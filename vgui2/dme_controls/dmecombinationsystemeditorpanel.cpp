@@ -148,7 +148,7 @@ static void ImportDominationRules( CDmeCombinationOperator *pDestComboOp, CDmeCo
 //-----------------------------------------------------------------------------
 static bool ImportCombinationData( vgui::Panel* pParent, CDmeCombinationOperator *pDestComboOp, KeyValues *kv )
 {
-	const char *pFileName = kv->GetString( "fullpath", NULL );
+	const char *pFileName = kv->GetString( "fullpath", nullptr);
 	if ( !pFileName )
 		return false;
 
@@ -156,7 +156,7 @@ static bool ImportCombinationData( vgui::Panel* pParent, CDmeCombinationOperator
 
 	{
 		CDisableUndoScopeGuard sg;
-		g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pRoot, CR_FORCE_COPY );
+		g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pRoot, CR_FORCE_COPY );
 	}
 
 	if ( !pRoot )
@@ -303,7 +303,7 @@ private:
 	void CleanupContextMenu();
 
 	// Builds a list of selected control + raw control names, returns true if any control is stereo
-	void BuildSelectedControlLists( bool bOnlyGroupedControls, CUtlVector< CUtlString >& controlNames, CUtlVector< CUtlString >& rawControlNames, bool *pbStereo = NULL, bool *pbEyelid = NULL );
+	void BuildSelectedControlLists( bool bOnlyGroupedControls, CUtlVector< CUtlString >& controlNames, CUtlVector< CUtlString >& rawControlNames, bool *pbStereo = nullptr, bool *pbEyelid = nullptr);
 
 	// If it finds a duplicate control name, reports an error message and returns it found one
 	bool HasDuplicateControlName( const char *pControlName, CUtlVector< CUtlString >& retiredControlNames );
@@ -361,13 +361,13 @@ CDmeCombinationControlsPanel::CDmeCombinationControlsPanel( vgui::Panel *pParent
 	m_pControlList->SetMultiselectEnabled( true );
 	m_pControlList->SetEmptyListText( "No controls" );
 	m_pControlList->AddActionSignalTarget( this );
-	m_pControlList->SetSortFunc( 0, NULL );
+	m_pControlList->SetSortFunc( 0, nullptr);
 	m_pControlList->SetColumnSortable( 0, false );
-	m_pControlList->SetSortFunc( 1, NULL );
+	m_pControlList->SetSortFunc( 1, nullptr);
 	m_pControlList->SetColumnSortable( 1, false );
-	m_pControlList->SetSortFunc( 2, NULL );
+	m_pControlList->SetSortFunc( 2, nullptr);
 	m_pControlList->SetColumnSortable( 2, false );
-	m_pControlList->SetSortFunc( 3, NULL );
+	m_pControlList->SetSortFunc( 3, nullptr);
 	m_pControlList->SetColumnSortable( 3, false );
 	m_pControlList->SetDragEnabled( true );
 	m_pControlList->SetDragEnabled( true );
@@ -381,9 +381,9 @@ CDmeCombinationControlsPanel::CDmeCombinationControlsPanel( vgui::Panel *pParent
 	m_pRawControlList->SetEmptyListText( "No raw controls" );
 	m_pRawControlList->AddActionSignalTarget( this );
 	m_pRawControlList->SetSortFunc( 0, ControlNameSortFunc );
-	m_pRawControlList->SetSortFunc( 1, NULL );
+	m_pRawControlList->SetSortFunc( 1, nullptr);
 	m_pRawControlList->SetColumnSortable( 1, false );
-	m_pRawControlList->SetSortFunc( 2, NULL );
+	m_pRawControlList->SetSortFunc( 2, nullptr);
 	m_pRawControlList->SetColumnSortable( 2, false );
 	m_pRawControlList->SetSortColumn( 0 );
 }
@@ -404,7 +404,7 @@ void CDmeCombinationControlsPanel::CleanupContextMenu()
 	if ( m_hContextMenu.Get() )
 	{
 		m_hContextMenu->MarkForDeletion();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 }
 
@@ -511,17 +511,17 @@ void CDmeCombinationControlsPanel::RefreshRawControlNames()
 const char* CDmeCombinationControlsPanel::GetSelectedRawControl( ControlIndex_t &nControlIndex )
 {
 	if ( !m_hCombinationOperator.Get() )
-		return NULL;
+		return nullptr;
 
 	nControlIndex = -1;
 
 	int nSelectedItemCount = m_pControlList->GetSelectedItemsCount();
 	if ( nSelectedItemCount != 1 )
-		return NULL;
+		return nullptr;
 
 	int nSelectedRawItemCount = m_pRawControlList->GetSelectedItemsCount();
 	if ( nSelectedRawItemCount != 1 )
-		return NULL;
+		return nullptr;
 
 	int nItemID = m_pControlList->GetSelectedItem( 0 );
 	KeyValues *pKeyValues = m_pControlList->GetItem( nItemID );
@@ -540,19 +540,19 @@ const char* CDmeCombinationControlsPanel::GetSelectedRawControl( ControlIndex_t 
 const char *CDmeCombinationControlsPanel::GetSelectedControlName()
 {
 	if ( !m_hCombinationOperator.Get() )
-		return NULL;
+		return nullptr;
 
 	int nSelectedItemCount = m_pControlList->GetSelectedItemsCount();
 	if ( nSelectedItemCount != 1 )
-		return NULL;
+		return nullptr;
 
 	const int nItemId = m_pControlList->GetSelectedItem( 0 );
 	if ( !m_pControlList->IsValidItemID( nItemId ) )
-		return NULL;
+		return nullptr;
 
 	KeyValues *pKeyValues = m_pControlList->GetItem( nItemId );
 	if ( !pKeyValues )
-		return NULL;
+		return nullptr;
 
 	return pKeyValues->GetString( "name" );
 }
@@ -729,7 +729,7 @@ void CDmeCombinationControlsPanel::OnOpenContextMenu( KeyValues *kv )
 	if ( !m_hCombinationOperator.Get() )
 		return;
 
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pRawControlList )
 	{
 		OnOpenRawControlsContextMenu();
@@ -820,7 +820,7 @@ void CDmeCombinationControlsPanel::OnOpenContextMenu( KeyValues *kv )
 //-----------------------------------------------------------------------------
 void CDmeCombinationControlsPanel::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pControlList )
 	{
 		RefreshRawControlNames();
@@ -834,7 +834,7 @@ void CDmeCombinationControlsPanel::OnItemSelected( KeyValues *kv )
 //-----------------------------------------------------------------------------
 void CDmeCombinationControlsPanel::OnItemDeselected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pControlList )
 	{
 		RefreshRawControlNames();
@@ -999,7 +999,7 @@ void CDmeCombinationControlsPanel::PerformRenameControl( const char *pNewControl
 //-----------------------------------------------------------------------------
 void CDmeCombinationControlsPanel::OnInputCompleted( KeyValues *pKeyValues )
 {
-	const char *pControlName = pKeyValues->GetString( "text", NULL );
+	const char *pControlName = pKeyValues->GetString( "text", nullptr);
 	if ( !pControlName || !pControlName[0] )						  
 		return;
 
@@ -1105,7 +1105,7 @@ void CDmeCombinationControlsPanel::OnToggleEyelidControl()
 	CUtlVector< CUtlString > rawControlNames;
 
 	bool bIsEyelid = false;
-	BuildSelectedControlLists( false, controlNames, rawControlNames, NULL, &bIsEyelid );
+	BuildSelectedControlLists( false, controlNames, rawControlNames, nullptr, &bIsEyelid );
 
 	int nControlCount = controlNames.Count();
 	for ( int i = 0; i < nControlCount; ++i )
@@ -1204,7 +1204,7 @@ bool CDmeInputControlListPanel::IsDroppable( CUtlVector< KeyValues * >& msgList 
 	if ( msgList.Count() > 0 )
 	{
 		KeyValues *pData( msgList[ 0 ] );
-		if ( pData->GetPtr( "panel", NULL ) == this && m_pComboPanel )
+		if ( pData->GetPtr( "panel", nullptr) == this && m_pComboPanel )
 		{
 			if ( pData->GetString( "inputControl" ) && pData->GetInt( "selfDroppable" ) )
 			{
@@ -1224,7 +1224,7 @@ void CDmeInputControlListPanel::OnPanelDropped( CUtlVector< KeyValues * >& msgLi
 	if ( msgList.Count() > 0 )
 	{
 		KeyValues *pData( msgList[ 0 ] );
-		if ( pData->GetPtr( "panel", NULL ) == this && m_pComboPanel )
+		if ( pData->GetPtr( "panel", nullptr) == this && m_pComboPanel )
 		{
 			const char *const pDragControl( pData->GetString( "inputControl" ) );
 			if ( pDragControl )
@@ -1400,7 +1400,7 @@ CRawControlPickerFrame::CRawControlPickerFrame( vgui::Panel *pParent, const char
 	BaseClass( pParent, "RawControlPickerFrame" )
 {
 	SetDeleteSelfOnClose( true );
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 
 	m_pRawControlList = new vgui::ListPanel( this, "RawControlList" );
 	m_pRawControlList->AddColumnHeader( 0, "name", "Raw Control Name", 52, 0 );
@@ -1466,7 +1466,7 @@ void CRawControlPickerFrame::CleanUpMessage()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -1509,7 +1509,7 @@ void CRawControlPickerFrame::OnCommand( const char *pCommand )
 			pActionKeys->AddSubKey( m_pContextKeyValues );
 
 			// This prevents them from being deleted later
-			m_pContextKeyValues = NULL;
+			m_pContextKeyValues = nullptr;
 		}
 
 		PostActionSignal( pActionKeys );
@@ -1612,7 +1612,7 @@ void CDmeCombinationDominationRulesPanel::CleanupContextMenu()
 	if ( m_hContextMenu.Get() )
 	{
 		m_hContextMenu->MarkForDeletion();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 }
 
@@ -1712,11 +1712,11 @@ void CDmeCombinationDominationRulesPanel::NotifyDataChanged()
 CDmeCombinationDominationRule* CDmeCombinationDominationRulesPanel::GetSelectedRule( )
 {
 	if ( !m_hCombinationOperator.Get() )
-		return NULL;
+		return nullptr;
 
 	int nSelectedItemCount = m_pDominationRulesList->GetSelectedItemsCount();
 	if ( nSelectedItemCount != 1 )
-		return NULL;
+		return nullptr;
 
 	int nItemID = m_pDominationRulesList->GetSelectedItem( 0 );
 	KeyValues *pKeyValues = m_pDominationRulesList->GetItem( nItemID );
@@ -1788,7 +1788,7 @@ void CDmeCombinationDominationRulesPanel::OnOpenContextMenu( KeyValues *kv )
 	if ( !m_hCombinationOperator.Get() )
 		return;
 
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel != m_pDominationRulesList )
 		return;
 
@@ -2003,13 +2003,13 @@ CDmeCombinationSystemEditorPanel::CDmeCombinationSystemEditorPanel( vgui::Panel 
 	m_pDominationRulesPage = new vgui::PropertyPage( m_pEditorSheet, "DominationRulesPage" );
 	m_pPropertiesPage = new vgui::PropertyPage( m_pEditorSheet, "PropertiesPage" );
 
-	m_pControlsPanel = new CDmeCombinationControlsPanel( (vgui::Panel*)NULL, "CombinationControls" );
+	m_pControlsPanel = new CDmeCombinationControlsPanel( (vgui::Panel*)nullptr, "CombinationControls" );
 	m_pControlsPanel->AddActionSignalTarget( this );
 
-	m_pDominationRulesPanel = new CDmeCombinationDominationRulesPanel( (vgui::Panel*)NULL, "DominationRules" );
+	m_pDominationRulesPanel = new CDmeCombinationDominationRulesPanel( (vgui::Panel*)nullptr, "DominationRules" );
 	m_pDominationRulesPanel->AddActionSignalTarget( this );
 
-	m_pPropertiesPanel = new CDmeElementPanel( (vgui::Panel*)NULL, "PropertiesPanel" );
+	m_pPropertiesPanel = new CDmeElementPanel( (vgui::Panel*)nullptr, "PropertiesPanel" );
 	m_pPropertiesPanel->AddActionSignalTarget( this );
 
 	m_pControlsPanel->LoadControlSettingsAndUserConfig( "resource/dmecombinationsystemeditorpanel_controlspage.res" );

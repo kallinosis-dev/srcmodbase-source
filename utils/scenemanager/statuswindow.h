@@ -17,7 +17,7 @@ class mxScrollbar;
 class CStatusWindow : public mxWindow
 {
 public:
-	CStatusWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = 0 );
+	CStatusWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr );
 	~CStatusWindow();
 
 	void StatusPrint( int r, int g, int b, bool overwrite, const char *text );

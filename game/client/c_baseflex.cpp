@@ -86,7 +86,7 @@ bool GetHWMExpressionFileName( const char *pFilename, char *pHWMFilename )
 		return false;
 
 	// Check to see if we already have an player/hwm/* filename.
-	if ( ( V_strstr( pFilename, "player/hwm" ) != NULL ) || ( V_strstr( pFilename, "player\\hwm" ) != NULL ) )
+	if ( ( V_strstr( pFilename, "player/hwm" ) != nullptr) || ( V_strstr( pFilename, "player\\hwm" ) != nullptr) )
 	{
 		V_strcpy( pHWMFilename, pFilename );
 		return true;
@@ -100,7 +100,7 @@ bool GetHWMExpressionFileName( const char *pFilename, char *pHWMFilename )
 	szExpressionHWM[0] = '\0';
 
 	char *pszToken = strtok( szExpression, "/\\" );
-	while ( pszToken != NULL )
+	while ( pszToken != nullptr)
 	{
 		V_strcat( szExpressionHWM, pszToken, sizeof( szExpressionHWM ) );
 		if ( !V_stricmp( pszToken, "player" ) )
@@ -108,8 +108,8 @@ bool GetHWMExpressionFileName( const char *pFilename, char *pHWMFilename )
 			V_strcat( szExpressionHWM, "\\hwm", sizeof( szExpressionHWM ) );
 		}
 
-		pszToken = strtok( NULL, "/\\" );
-		if ( pszToken != NULL )
+		pszToken = strtok(nullptr, "/\\" );
+		if ( pszToken != nullptr)
 		{
 			V_strcat( szExpressionHWM, "\\", sizeof( szExpressionHWM ) );
 		}
@@ -138,7 +138,7 @@ C_BaseFlex::C_BaseFlex() :
 	// Fill in phoneme class lookup
 	SetupMappings( "phonemes" );
 
-	m_flFlexDelayedWeight = NULL;
+	m_flFlexDelayedWeight = nullptr;
 
 	m_iMostRecentFlexCounter = 0xFFFFFFFF;
 
@@ -157,7 +157,7 @@ C_BaseFlex::~C_BaseFlex()
 	if ( m_flFlexDelayedWeight )
 	{
 		delete[] m_flFlexDelayedWeight;
-		m_flFlexDelayedWeight = NULL;
+		m_flFlexDelayedWeight = nullptr;
 	}
 	m_SceneEvents.RemoveAll();
 	m_LocalToGlobal.RemoveAll();
@@ -200,12 +200,12 @@ IClientModelRenderable*	C_BaseFlex::GetClientModelRenderable()
 { 
 	// Cannot participate if it has a render clip plane
 	if ( !BaseClass::GetClientModelRenderable() )
-		return NULL;
+		return nullptr;
 
 	// No flexes allowed for fast path atm
 	CStudioHdr *hdr = GetModelPtr();
 	if ( !hdr || ( hdr->numflexcontrollers() != 0 ) )
-		return NULL;
+		return nullptr;
 
 	return this; 
 }
@@ -227,7 +227,7 @@ CStudioHdr *C_BaseFlex::OnNewModel()
 	if ( m_flFlexDelayedWeight )
 	{
 		delete[] m_flFlexDelayedWeight;
-		m_flFlexDelayedWeight = NULL;
+		m_flFlexDelayedWeight = nullptr;
 	}
 
 	if (hdr)
@@ -379,7 +379,7 @@ public:
 
 	virtual bool InitRecursive( const char *pFolder )
 	{
-		if ( pFolder == NULL )
+		if ( pFolder == nullptr)
 		{
 			pFolder = "expressions";
 
@@ -428,7 +428,7 @@ public:
 			V_StripExtension( &fullFileName[index], vfeName, sizeof( vfeName ) );
 			V_FixSlashes( vfeName );
 
-			FindSceneFile( NULL, vfeName, true );
+			FindSceneFile(nullptr, vfeName, true );
 		}
 		return true;
 	}
@@ -436,9 +436,9 @@ public:
 	virtual bool Init()
 	{
 		// Trakcer 16692:  Preload these at startup to avoid hitch first time we try to load them during actual gameplay
-		FindSceneFile( NULL, "phonemes", true );
-		FindSceneFile( NULL, "phonemes_weak", true );
-		FindSceneFile(NULL,  "phonemes_strong", true );
+		FindSceneFile(nullptr, "phonemes", true );
+		FindSceneFile(nullptr, "phonemes_weak", true );
+		FindSceneFile(nullptr,  "phonemes_strong", true );
 
 #if defined( HL2_CLIENT_DLL )
 		FindSceneFile( NULL, "random", true );
@@ -490,7 +490,7 @@ public:
 		}
 #endif
 
-		InitRecursive( NULL );
+		InitRecursive(nullptr);
 		return true;
 	}
 
@@ -548,15 +548,15 @@ public:
 		
 		if ( !allowBlockingIO )
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		// Load file into memory
-		void *buffer = NULL;
+		void *buffer = nullptr;
 		int len = filesystem->ReadFileEx( VarArgs( "expressions/%s.vfe", szFilename ), "GAME", &buffer );
 
 		if ( !len )
-			return NULL;
+			return nullptr;
 
 		// Create scene entry
 		CFlexSceneFile *pfile = new CFlexSceneFile;
@@ -638,7 +638,7 @@ const void *C_BaseFlex::FindSceneFile( const char *filename )
 	// hunt up the tree for the filename starting with our model name prepended as the path
 	static char szExtendedPath[MAX_PATH];
 
-	const char *pModelName = NULL;
+	const char *pModelName = nullptr;
 	CStudioHdr *pStudioHdr = GetModelPtr();
 	if ( pStudioHdr )
 	{
@@ -660,7 +660,7 @@ const void *C_BaseFlex::FindSceneFile( const char *filename )
 	V_StripExtension( szExtendedPath, szExtendedPath, sizeof( szExtendedPath ) );
 	V_FixupPathName( szExtendedPath, sizeof( szExtendedPath ), szExtendedPath );
 
-	const void *pSceneFile = NULL;
+	const void *pSceneFile = nullptr;
 	// FIXME: V_StripLastDir returns "./" path when it strips out the last one.  That don't resolve on FindSceneFile 
 	while ( V_strlen( szExtendedPath ) > 2 )
 	{
@@ -876,7 +876,7 @@ void C_BaseFlex::AddViseme( float *pGlobalFlexWeight, Emphasized_Phoneme *classe
 			continue;
 		}
 
-		flexweight_t *pWeights = NULL;
+		flexweight_t *pWeights = nullptr;
 
 		int truecount = pSetting->psetting( (byte *)actual_flexsetting_header, 0, &pWeights );
 		if ( pWeights )
@@ -921,7 +921,7 @@ bool C_BaseFlex::SetupEmphasisBlend( Emphasized_Phoneme *classes, int phoneme )
 			info->basechecked = true;
 			info->base = (flexsettinghdr_t *)FindSceneFile( info->classname );
 		}
-		info->exp = NULL;
+		info->exp = nullptr;
 		if ( info->base )
 		{
 			Assert( info->base->id == ('V' << 16) + ('F' << 8) + ('E') );
@@ -1121,7 +1121,7 @@ void C_BaseFlex::GetToolRecordingState( KeyValues *msg )
 
 	LocalFlexController_t i;
 
-	ProcessSceneEvents( true, NULL );
+	ProcessSceneEvents( true, nullptr);
 
 	// FIXME: shouldn't this happen at runtime?
 	// initialize the models local to global flex controller mappings
@@ -1335,7 +1335,7 @@ void C_BaseFlex::SetupWeights( const matrix3x4_t *pBoneToWorld, int nFlexWeightC
 
 	LocalFlexController_t i;
 
-	ProcessSceneEvents( true, NULL );
+	ProcessSceneEvents( true, nullptr);
 
 	// FIXME: shouldn't this happen at runtime?
 	// initialize the models local to global flex controller mappings
@@ -1476,7 +1476,7 @@ char const *C_BaseFlex::GetGlobalFlexControllerName( int idx )
 const flexsetting_t *C_BaseFlex::FindNamedSetting( const flexsettinghdr_t *pSettinghdr, const char *expr )
 {
 	int i;
-	const flexsetting_t *pSetting = NULL;
+	const flexsetting_t *pSetting = nullptr;
 
 	for ( i = 0; i < pSettinghdr->numflexsettings; i++ )
 	{
@@ -1492,7 +1492,7 @@ const flexsetting_t *C_BaseFlex::FindNamedSetting( const flexsettinghdr_t *pSett
 
 	if ( i>=pSettinghdr->numflexsettings )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return pSetting;
@@ -1551,8 +1551,8 @@ void C_BaseFlex::ClearSceneEvents( CChoreoScene *scene, bool canceled )
 		}
 
 		// Free this slot
-		info->m_pEvent		= NULL;
-		info->m_pScene		= NULL;
+		info->m_pEvent		= nullptr;
+		info->m_pScene		= nullptr;
 		info->m_bStarted	= false;
 
 		m_SceneEvents.Remove( i );
@@ -1692,8 +1692,8 @@ void C_BaseFlex::RemoveSceneEvent( CChoreoScene *scene, CChoreoEvent *event, boo
 		if (ClearSceneEvent( info, fastKill, false ))
 		{
 			// Free this slot
-			info->m_pEvent		= NULL;
-			info->m_pScene		= NULL;
+			info->m_pEvent		= nullptr;
+			info->m_pScene		= nullptr;
 			info->m_bStarted	= false;
 
 			m_SceneEvents.Remove( i );
@@ -1856,7 +1856,7 @@ bool C_BaseFlex::ProcessFlexSettingSceneEvent( float *pGlobalFlexWeight, CSceneE
 	// Have to find both strings
 	if ( scenefile && name )
 	{
-		if ( info->m_pExpHdr == NULL) 
+		if ( info->m_pExpHdr == nullptr) 
 		{
 			info->m_pExpHdr = ( const flexsettinghdr_t * )FindSceneFile( scenefile );
 		}
@@ -1954,7 +1954,7 @@ void C_BaseFlex::AddFlexSetting( float *pGlobalFlexWeight, const char *expr, flo
 	const flexsettinghdr_t *pSettinghdr, bool newexpression )
 {
 	int i;
-	const flexsetting_t *pSetting = NULL;
+	const flexsetting_t *pSetting = nullptr;
 
 	// Find the named setting in the base
 	for ( i = 0; i < pSettinghdr->numflexsettings; i++ )
@@ -1972,7 +1972,7 @@ void C_BaseFlex::AddFlexSetting( float *pGlobalFlexWeight, const char *expr, flo
 	if ( i >= pSettinghdr->numflexsettings )
 		return;
 
-	flexweight_t *pWeights = NULL;
+	flexweight_t *pWeights = nullptr;
 	int truecount = pSetting->psetting( (byte *)pSettinghdr, 0, &pWeights );
 	if ( !pWeights )
 		return;

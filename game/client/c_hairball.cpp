@@ -155,7 +155,7 @@ C_Hairball::C_Hairball()
 	m_Delegate.m_pParent = this;
 
 	m_Physics.Init( 1.0 / 20 ); // NOTE: PLAY WITH THIS FOR EFFICIENCY
-	m_pMaterial = NULL;
+	m_pMaterial = nullptr;
 
 	m_bFirstThink = true;
 }
@@ -232,7 +232,7 @@ void C_Hairball::ClientThink()
 				VectorNormalize( vDir );
 
 				trace_t trace;
-				UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + vDir * 10000, MASK_SOLID, NULL, COLLISION_GROUP_NONE, &trace );
+				UTIL_TraceLine( GetAbsOrigin(), GetAbsOrigin() + vDir * 10000, MASK_SOLID, nullptr, COLLISION_GROUP_NONE, &trace );
 
 				if ( trace.fraction != 1.0 )
 				{
@@ -254,7 +254,7 @@ void C_Hairball::ClientThink()
 		Vector vEnd = GetAbsOrigin() + m_vMoveDir * gpGlobals->frametime;
 
 		trace_t trace;
-		UTIL_TraceLine( GetAbsOrigin(), vEnd, MASK_SOLID, NULL, COLLISION_GROUP_NONE, &trace );
+		UTIL_TraceLine( GetAbsOrigin(), vEnd, MASK_SOLID, nullptr, COLLISION_GROUP_NONE, &trace );
 
 		if ( trace.fraction < 1 )
 		{
@@ -350,5 +350,5 @@ void CreateHairballCallback()
 	}
 }
 
-ConCommand cc_CreateHairball( "CreateHairball", CreateHairballCallback, 0, FCVAR_DEVELOPMENTONLY | FCVAR_CHEAT );
+ConCommand cc_CreateHairball( "CreateHairball", CreateHairballCallback, nullptr, FCVAR_DEVELOPMENTONLY | FCVAR_CHEAT );
 

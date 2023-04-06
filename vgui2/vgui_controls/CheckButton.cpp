@@ -203,7 +203,7 @@ void CheckButton::ApplySchemeSettings(IScheme *pScheme)
 //-----------------------------------------------------------------------------
 IBorder *CheckButton::GetBorder(bool depressed, bool armed, bool selected, bool keyfocus)
 {
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

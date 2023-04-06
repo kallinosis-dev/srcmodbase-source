@@ -22,7 +22,7 @@ BEGIN_VS_SHADER( Black, "Help for Black" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -39,7 +39,7 @@ BEGIN_VS_SHADER( Black, "Help for Black" )
 			//		"ERROR: shader asking for a too-narrow vertex format - you will see errors if running with debug D3D DLLs!\n\tPadding the vertex format with extra texcoords"
 			int nTexCoordCount = 1;
 			int userDataSize = 0;
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 			DECLARE_STATIC_VERTEX_SHADER( black_vs20 );
 			SET_STATIC_VERTEX_SHADER( black_vs20 );

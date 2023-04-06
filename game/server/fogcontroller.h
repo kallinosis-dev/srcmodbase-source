@@ -84,12 +84,12 @@ public:
 	// Creation/Init.
 	CFogSystem( char const *name ) : CAutoGameSystem( name ) 
 	{
-		m_hMasterController = NULL;
+		m_hMasterController = nullptr;
 	}
 
 	~CFogSystem()
 	{
-		m_hMasterController = NULL;
+		m_hMasterController = nullptr;
 	}
 
 	virtual void LevelInitPreEntity();

@@ -143,7 +143,7 @@ CSSolid::CSSolid()
 	m_nEdges = 0;
 	m_nFaces = 0;
 	m_curid = 1;
-	m_pMapSolid = NULL;
+	m_pMapSolid = nullptr;
 	m_bShowVertices = TRUE;
 	m_bShowEdges = TRUE;
 }
@@ -168,7 +168,7 @@ PVOID CSSolid::GetHandleData(SSHANDLE id)
 {
 	SSHANDLEINFO hi;
 	if(!GetHandleInfo(&hi, id))
-		return NULL;
+		return nullptr;
 	return hi.pData;
 }
 
@@ -360,7 +360,7 @@ Vector * CSSolid::CreatePointList(CSSFace & face)
 			str.Format("Conversion error!\n"
 				"edgeCur = %08X, edgeNext = %08X", edgeCur, edgeNext);
 			AfxMessageBox(str);
-			return NULL;
+			return nullptr;
 		}
 
 		SSHANDLE hVertex = GetConnectionVertex(edgeCur, edgeNext);
@@ -371,7 +371,7 @@ Vector * CSSolid::CreatePointList(CSSFace & face)
 			str.Format("Conversion error!\n"
 				"hVertex = %08X", hVertex);
 			AfxMessageBox(str);
-			return NULL;
+			return nullptr;
 		}
 
 		CSSVertex *pVertex = (CSSVertex*) GetHandleData(hVertex);
@@ -453,7 +453,7 @@ void CSSolid::Attach(CMapSolid *pMapSolid)
 CMapSolid *CSSolid::Detach()
 {
 	CMapSolid *pTmp = m_pMapSolid;
-	m_pMapSolid = NULL;
+	m_pMapSolid = nullptr;
 	return pTmp;
 }
 
@@ -497,7 +497,7 @@ bool CSSolid::IsValidWithDisps( void )
 
 		// Check the face for validity.
 		CCheckFaceInfo faceInfo;
-		if ( !CheckFace( pFacePoints, pFace->nEdges, NULL, 0.0f, &faceInfo ) )
+		if ( !CheckFace( pFacePoints, pFace->nEdges, nullptr, 0.0f, &faceInfo ) )
 			return false;
 	}
 
@@ -523,7 +523,7 @@ void CSSolid::DestroyDisps( void )
 void CSSolid::Convert(BOOL bFromMap, bool bSkipDisplacementFaces )
 {
 	if(bFromMap)
-		FromMapSolid(NULL, bSkipDisplacementFaces);
+		FromMapSolid(nullptr, bSkipDisplacementFaces);
 	else
 		ToMapSolid();
 }
@@ -884,7 +884,7 @@ void CSSolid::CheckFaces()
 		// call checkface function
 		CCheckFaceInfo cfi;
 
-		while(CheckFace(pts, face.nEdges, NULL, 0, &cfi) == FALSE)
+		while(CheckFace(pts, face.nEdges, nullptr, 0, &cfi) == FALSE)
 		{
 			CString str;
 			str.Format("face %d - %s", i, cfi.szDescription);
@@ -1212,7 +1212,7 @@ DoNextFace:
 		SSHANDLE *phVertexList = CreateNewVertexList(pUpdFace, pEdge1, pEdge2,
 			nv1index, nv2index, pNewVertex1, pNewVertex2);
 
-		if(phVertexList == NULL)	// don't need to update this face
+		if(phVertexList == nullptr)	// don't need to update this face
 			continue;
 	
 		nNewEdges = 0;
@@ -1397,7 +1397,7 @@ DoAgain:
 	memcpy(hTmp, hVertexList.Base(), sizeof(SSHANDLE) * nVertices);
 
 	if(nv1index == -1 && nv2index == -1)
-		return NULL;	// not used here.
+		return nullptr;	// not used here.
 
 	if(nv1index == -1 || nv2index == -1)
 	{
@@ -1475,7 +1475,7 @@ DoVertices:
 	}
 
 	if(!nMerged)
-		return NULL;
+		return nullptr;
 
 	int e;
 

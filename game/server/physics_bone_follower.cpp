@@ -54,7 +54,7 @@ void CBoneFollowerManager::InitBoneFollowers( CBaseAnimating *pParentEntity, int
 	// Now init all the bones
 	for ( int i = 0; i < iNumBones; i++ )
 	{
-		CreatePhysicsFollower( pParentEntity, m_physBones[i], pFollowerBoneNames[i], NULL );
+		CreatePhysicsFollower( pParentEntity, m_physBones[i], pFollowerBoneNames[i], nullptr);
 	}
 }
 
@@ -171,7 +171,7 @@ void CBoneFollowerManager::DestroyBoneFollowers( void )
 			continue;
 
 		UTIL_Remove( m_physBones[i].hFollower );
-		m_physBones[i].hFollower = NULL;
+		m_physBones[i].hFollower = nullptr;
 	}
 
 	m_physBones.Purge();
@@ -186,7 +186,7 @@ physfollower_t *CBoneFollowerManager::GetBoneFollower( int iFollowerIndex )
 	Assert( iFollowerIndex >= 0 && iFollowerIndex < m_iNumBones );
 	if ( iFollowerIndex >= 0 && iFollowerIndex < m_iNumBones )
 		return &m_physBones[iFollowerIndex];
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -196,7 +196,7 @@ physfollower_t *CBoneFollowerManager::GetBoneFollower( int iFollowerIndex )
 //-----------------------------------------------------------------------------
 int CBoneFollowerManager::GetBoneFollowerIndex( CBoneFollower *pFollower )
 {
-	if ( pFollower == NULL )
+	if ( pFollower == nullptr)
 		return -1;
 
 	for ( int i = 0; i < m_iNumBones; i++ )
@@ -471,7 +471,7 @@ void CreateBoneFollowersFromRagdoll( CBaseAnimating *pEntity, CBoneFollowerManag
 		{
 			solid_t solid;
 
-			pParse->ParseSolid( &solid, NULL );
+			pParse->ParseSolid( &solid, nullptr);
 			// collisions are off by default, turn them on
 			solid.params.enableCollisions = true;
 			solid.params.pName = STRING(pEntity->GetModelName());

@@ -23,7 +23,7 @@ class CPatchTimeout : public CDialog
 {
 // Construction
 public:
-	CPatchTimeout(CWnd* pParent = NULL);   // standard constructor
+	CPatchTimeout(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CPatchTimeout)

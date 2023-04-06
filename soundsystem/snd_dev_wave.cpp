@@ -162,15 +162,15 @@ IAudioDevice *Audio_CreateWaveDevice( void )
 //-----------------------------------------------------------------------------
 bool CAudioDeviceWave::Init( void )
 {
-	m_hWaveData = NULL;
-	m_hWaveHdr = NULL;
-	m_waveOutHandle = NULL;
+	m_hWaveData = nullptr;
+	m_hWaveHdr = nullptr;
+	m_waveOutHandle = nullptr;
 
 	for ( int i = 0; i < OUTPUT_BUFFER_COUNT; i++ )
 	{
 		CAudioBuffer *buffer = &m_buffers[ i ];
 		Assert( buffer );
-		buffer->hdr = NULL;
+		buffer->hdr = nullptr;
 		buffer->submitted = false;
 		buffer->submit_sample_count = false;
 	}
@@ -197,7 +197,7 @@ void CAudioDeviceWave::Shutdown( void )
 //-----------------------------------------------------------------------------
 inline bool CAudioDeviceWave::ValidWaveOut( void ) const 
 { 
-	return m_waveOutHandle != 0; 
+	return m_waveOutHandle != nullptr; 
 }
 
 
@@ -224,20 +224,20 @@ void CAudioDeviceWave::OpenWaveOut( void )
 		if ( errorCode != MMSYSERR_ALLOCATED )
 		{
 			Log_Warning( LOG_SoundSystem, "waveOutOpen failed\n" );
-			m_waveOutHandle = 0;
+			m_waveOutHandle = nullptr;
 			return;
 		}
 
-		int nRetVal = MessageBox( NULL,
-			"The sound hardware is in use by another app.\n\n"
-			"Select Retry to try to start sound again or Cancel to run with no sound.",
-			"Sound not available",
-			MB_RETRYCANCEL | MB_SETFOREGROUND | MB_ICONEXCLAMATION);
+		int nRetVal = MessageBox(nullptr,
+		                         "The sound hardware is in use by another app.\n\n"
+		                         "Select Retry to try to start sound again or Cancel to run with no sound.",
+		                         "Sound not available",
+		                         MB_RETRYCANCEL | MB_SETFOREGROUND | MB_ICONEXCLAMATION);
 
 		if ( nRetVal != IDRETRY )
 		{
 			Log_Warning( LOG_SoundSystem, "waveOutOpen failure--hardware already in use\n" );
-			m_waveOutHandle = 0;
+			m_waveOutHandle = nullptr;
 			return;
 		}
 
@@ -258,7 +258,7 @@ void CAudioDeviceWave::CloseWaveOut( void )
 		waveOutReset( m_waveOutHandle );
 		FreeOutputBuffers();
 		waveOutClose( m_waveOutHandle );
-		m_waveOutHandle = NULL; 
+		m_waveOutHandle = nullptr; 
 	}
 }
 
@@ -275,7 +275,7 @@ void* CAudioDeviceWave::AllocOutputMemory( int nSize, HGLOBAL &hMemory )
 	{ 
 		Log_Warning( LOG_SoundSystem, "Sound: Out of memory.\n");
 		CloseWaveOut();
-		return NULL;
+		return nullptr;
 	}
 
 	HPSTR lpData = (char *)GlobalLock( hMemory );
@@ -283,9 +283,9 @@ void* CAudioDeviceWave::AllocOutputMemory( int nSize, HGLOBAL &hMemory )
 	{ 
 		Log_Warning( LOG_SoundSystem, "Sound: Failed to lock.\n");
 		GlobalFree( hMemory );
-		hMemory = NULL;
+		hMemory = nullptr;
 		CloseWaveOut();
-		return NULL;
+		return nullptr;
 	} 
 	memset( lpData, 0, nSize );
 	return lpData;
@@ -301,7 +301,7 @@ void CAudioDeviceWave::FreeOutputMemory( HGLOBAL &hMemory )
 	{
 		GlobalUnlock( hMemory ); 
 		GlobalFree( hMemory );
-		hMemory = NULL;
+		hMemory = nullptr;
 	}
 }
 
@@ -351,7 +351,7 @@ void CAudioDeviceWave::FreeOutputBuffers()
 		if ( m_buffers[i].hdr )
 		{
 			waveOutUnprepareHeader( m_waveOutHandle, m_buffers[i].hdr, sizeof(WAVEHDR) );
-			m_buffers[i].hdr = NULL;
+			m_buffers[i].hdr = nullptr;
 		}
 
 		m_buffers[i].submitted = false;
@@ -612,7 +612,7 @@ bool CAudioDeviceWave::IsSourceReferencedByActiveBuffer( CAudioMixer *mixer )
 
 CAudioDeviceWave::CAudioBuffer *CAudioDeviceWave::GetEmptyBuffer( void )
 {
-	CAudioBuffer *pOutput = NULL;
+	CAudioBuffer *pOutput = nullptr;
 	if ( ValidWaveOut() )
 	{
 		for ( int i = 0; i < OUTPUT_BUFFER_COUNT; i++ )
@@ -829,7 +829,7 @@ CAudioMixer *CAudioDeviceWave::GetMixerForSource( CAudioSource *source )
 			return m_sourceList[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CAudioDeviceWave::AddSource( CAudioMixer *pSource )
@@ -884,7 +884,7 @@ void CAudioDeviceWave::FreeChannel( int channelIndex )
 		RemoveMixerChannelReferences( m_sourceList[channelIndex] );
 
 		delete m_sourceList[channelIndex];
-		m_sourceList[channelIndex] = NULL;
+		m_sourceList[channelIndex] = nullptr;
 	}
 }
 

@@ -56,7 +56,7 @@ bool CSoundSystem::Initialize( )
 	for ( int i = 0; i < SOUND_TYPE_COUNT; ++i )
 	{
 		m_SoundList[i].m_Sounds.EnsureCapacity( 1024 );
-		m_SoundList[i].m_pStrings = NULL;
+		m_SoundList[i].m_pStrings = nullptr;
 
 		if (!BuildSoundList( (SoundType_t)i ) )
 			return false;
@@ -104,7 +104,7 @@ void CSoundSystem::CleanupSoundList( SoundType_t type )
 {
 	m_SoundList[type].m_Sounds.RemoveAll();
 	DestroyStringCache( m_SoundList[type].m_pStrings );
-	m_SoundList[type].m_pStrings = NULL;
+	m_SoundList[type].m_pStrings = nullptr;
 }
 
 
@@ -209,7 +209,7 @@ void CSoundSystem::BuildFileListInDirectory( char const* pDirectoryName, const c
 			V_strncpy( pFileNameWithPath, pFileName, nAllocSize );
 		
 		Q_strnlwr( pFileNameWithPath, nAllocSize );
-		AddSoundToList( soundType, pFileNameWithPath, pFileNameWithPath, NULL );
+		AddSoundToList( soundType, pFileNameWithPath, pFileNameWithPath, nullptr);
 	}
 	g_pFullFileSystem->FindClose( findHandle );
 }
@@ -381,7 +381,7 @@ void CSoundSystem::AddGameSoundsFromFile( const char *pFileName )
 		if ( !pKeys->GetFirstSubKey() )
 			continue;
 
-		const char *pRawFile = pKeys->GetString( "wave", NULL );
+		const char *pRawFile = pKeys->GetString( "wave", nullptr);
 		if ( pRawFile )
 		{
 			AddGameSoundToList( pKeys->GetName(), pRawFile, pSourceFile );
@@ -419,7 +419,7 @@ bool CSoundSystem::BuildGameSoundList()
 		return false;
 	}
 
-	for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+	for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 	{
 		if ( !Q_stricmp( sub->GetName(), "precache_file" ) ||
 			!Q_stricmp( sub->GetName(), "declare_file" ) ||
@@ -507,7 +507,7 @@ bool CSoundSystem::Play( SoundType_t type, int nIndex )
 		g_SoundPlayData.SetSize( g_pFileSystem->Size( fp ) );
 		if ( g_pFileSystem->Read( g_SoundPlayData.Base(), g_SoundPlayData.Count(), fp ) == g_SoundPlayData.Count() )
 		{
-			return (PlaySound( g_SoundPlayData.Base(), NULL, SND_ASYNC | SND_MEMORY ) != FALSE);
+			return (PlaySound( g_SoundPlayData.Base(), nullptr, SND_ASYNC | SND_MEMORY ) != FALSE);
 		}
 		g_pFileSystem->Close( fp );
 	}
@@ -520,7 +520,7 @@ bool CSoundSystem::Play( SoundType_t type, int nIndex )
 //-----------------------------------------------------------------------------
 void CSoundSystem::StopSound()
 {
-	PlaySound( NULL, NULL, SND_ASYNC | SND_MEMORY );
+	PlaySound(nullptr, nullptr, SND_ASYNC | SND_MEMORY );
 }
 
 
@@ -541,7 +541,7 @@ void CSoundSystem::OpenSource( SoundType_t type, int nIndex )
 		char pFullPath[MAX_PATH];
 		if ( g_pFullFileSystem->GetLocalPath( pRelativePath, pFullPath, MAX_PATH ) )
 		{
-			ShellExecute( NULL, "open", pFullPath, NULL, NULL, SW_SHOWNORMAL );
+			ShellExecute(nullptr, "open", pFullPath, nullptr, nullptr, SW_SHOWNORMAL );
 		}
 	}
 }

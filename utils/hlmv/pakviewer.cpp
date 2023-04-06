@@ -149,10 +149,10 @@ PAKViewer::handleEvent (mxEvent *event)
 		case IDC_PAKVIEWER: // tvPAK
 			if (event->flags & mxEvent::RightClicked)
 			{
-				pmMenu->setEnabled (1, strstr (d_currLumpName, ".mdl") != 0);
-				pmMenu->setEnabled (2, strstr (d_currLumpName, ".tga") != 0);
-				pmMenu->setEnabled (3, strstr (d_currLumpName, ".tga") != 0);
-				pmMenu->setEnabled (4, strstr (d_currLumpName, ".wav") != 0);
+				pmMenu->setEnabled (1, strstr (d_currLumpName, ".mdl") != nullptr);
+				pmMenu->setEnabled (2, strstr (d_currLumpName, ".tga") != nullptr);
+				pmMenu->setEnabled (3, strstr (d_currLumpName, ".tga") != nullptr);
+				pmMenu->setEnabled (4, strstr (d_currLumpName, ".wav") != nullptr);
 				int ret = pmMenu->popup (tvPAK, event->x, event->y);
 				switch (ret)
 				{
@@ -218,7 +218,7 @@ PAKViewer::handleEvent (mxEvent *event)
 					if (!pak_ExtractFile (d_pakFile, d_currLumpName, str))
 						mxMessageBox (this, "Error extracting from PAK file.", g_appTitle, MX_MB_OK | MX_MB_ERROR);
 					else
-						if ((int) ShellExecute ((HWND) getHandle (), "open", str, 0, 0, SW_SHOW) <= 32)
+						if ((int) ShellExecute ((HWND) getHandle (), "open", str, nullptr, nullptr, SW_SHOW) <= 32)
 							mxMessageBox (this, "Error executing document with associated program.", g_appTitle, MX_MB_OK | MX_MB_ERROR);
 				}
 
@@ -357,7 +357,7 @@ PAKViewer::OnPlaySound ()
 	char suffix[16] = "";
 
 	// stop any playing sound
-	PlaySound (0, 0, SND_FILENAME | SND_ASYNC);
+	PlaySound (nullptr, nullptr, SND_FILENAME | SND_ASYNC);
 
 	if (strstr (d_currLumpName, ".wav"))
 		sprintf (suffix, "%d%s", 44, ".wav");
@@ -370,7 +370,7 @@ PAKViewer::OnPlaySound ()
 		return 1;
 	}
 
-	PlaySound (str2, 0, SND_FILENAME | SND_ASYNC);
+	PlaySound (str2, nullptr, SND_FILENAME | SND_ASYNC);
 
 #endif
 	return 1;
@@ -446,14 +446,14 @@ PAKViewer::openPAKFile (const char *pakFile)
 	// save pakFile for later
 	strcpy (d_pakFile, pakFile);
 
-	tvPAK->remove (0);
+	tvPAK->remove (nullptr);
 
 	char namestack[32][32];
 	mxTreeViewItem *tvistack[32];
 	for (int k = 0; k < 32; k++)
 	{
 		strcpy (namestack[k], "");
-		tvistack[k] = 0;
+		tvistack[k] = nullptr;
 	}
 
 	for (int i = 0; i < numLumps; i++)
@@ -485,7 +485,7 @@ PAKViewer::openPAKFile (const char *pakFile)
 					for (int j = i + 1; j < 32; j++)
 					{
 						strcpy (namestack[j], "");
-						tvistack[j] = 0;
+						tvistack[j] = nullptr;
 					}
 				}
 
@@ -494,7 +494,7 @@ PAKViewer::openPAKFile (const char *pakFile)
 				if (end)
 					tok = end + 1;
 				else
-					tok = 0;
+					tok = nullptr;
 			}
 		}
 	}

@@ -20,10 +20,10 @@ char *memfgets( unsigned char *pMemFile, int fileSize, int *pFilePos, char *pBuf
 
 	// Bullet-proofing
 	if ( !pMemFile || !pBuffer )
-		return NULL;
+		return nullptr;
 
 	if ( filePos >= fileSize )
-		return NULL;
+		return nullptr;
 
 	i = filePos;
 	last = fileSize;
@@ -61,5 +61,5 @@ char *memfgets( unsigned char *pMemFile, int fileSize, int *pFilePos, char *pBuf
 	}
 
 	// No data read, bail
-	return NULL;
+	return nullptr;
 }

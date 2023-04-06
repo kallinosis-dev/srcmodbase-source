@@ -137,7 +137,7 @@ char * PrettyPrintNumber( uint64 k )
 }
 
 
-const char *g_pShaderPath = NULL;
+const char *g_pShaderPath = nullptr;
 char g_WorkerTempPath[MAX_PATH];
 char g_ExeDir[MAX_PATH];
 #ifdef DEBUGFP
@@ -183,7 +183,7 @@ struct CByteCodeBlock
 
 	CByteCodeBlock( void )
 	{
-		m_ByteCode = NULL;
+		m_ByteCode = nullptr;
 	}
 
 	CByteCodeBlock( void const *pByteCode, size_t nCodeSize, uint64 nComboID )
@@ -223,7 +223,7 @@ struct CStaticCombo									// all the data for one static combo
 
 	struct PackedCode : protected CArrayAutoPtr<uint8> {
 		size_t GetLength() const		{ if( uint8 *pb = Get() ) return *reinterpret_cast<size_t *>( pb ); else return 0; }
-		uint8 *GetData() const			{ if( uint8 *pb = Get() ) return pb + sizeof( size_t ); else return NULL; }
+		uint8 *GetData() const			{ if( uint8 *pb = Get() ) return pb + sizeof( size_t ); else return nullptr; }
 		uint8 *AllocData( size_t len )	{ Delete(); if ( len ) { Attach( new uint8[ len + sizeof( size_t ) ] ); *reinterpret_cast<size_t *>( Get() ) = len; } return GetData(); }
 	} m_abPackedCode;			// Packed code for entire static combo
 
@@ -265,7 +265,7 @@ typedef CUtlNodeHash<CStaticCombo, 7097, uint64> StaticComboNodeHash_t;
 template <> 
 inline StaticComboNodeHash_t ** Construct( StaticComboNodeHash_t ** pMemory )
 {
-	return ::new( pMemory ) StaticComboNodeHash_t *( NULL ); // Explicitly new with NULL
+	return ::new( pMemory ) StaticComboNodeHash_t *(nullptr); // Explicitly new with NULL
 }
 
 struct CShaderMap : public CUtlStringMap<StaticComboNodeHash_t *> {
@@ -298,7 +298,7 @@ CStaticCombo * StaticComboFromDict( char const *pszShaderName, uint64 nStaticCom
 	if ( StaticComboNodeHash_t *pNodeHash = g_ShaderByteCode[ pszShaderName ] )
 		return pNodeHash->FindByKey( nStaticComboId );
 	else
-		return NULL;
+		return nullptr;
 }
 
 
@@ -342,11 +342,11 @@ class CSwitchableMutex
 public:
 
 public:
-	FORCEINLINE explicit CSwitchableMutex( Mode eMode, MT_MUTEX_TYPE *pMtMutex = NULL ) : m_pMtx( pMtMutex ), m_pUseMtx( eMode ? pMtMutex : NULL ) {}
+	FORCEINLINE explicit CSwitchableMutex( Mode eMode, MT_MUTEX_TYPE *pMtMutex = nullptr) : m_pMtx( pMtMutex ), m_pUseMtx( eMode ? pMtMutex : nullptr) {}
 
 public:
-	FORCEINLINE void SetMtMutex( MT_MUTEX_TYPE *pMtMutex ) { m_pMtx = pMtMutex; m_pUseMtx = ( m_pUseMtx ? pMtMutex : NULL ); }
-	FORCEINLINE void SetThreadedMode( Mode eMode ) { m_pUseMtx = ( eMode ? m_pMtx : NULL ); }
+	FORCEINLINE void SetMtMutex( MT_MUTEX_TYPE *pMtMutex ) { m_pMtx = pMtMutex; m_pUseMtx = ( m_pUseMtx ? pMtMutex : nullptr); }
+	FORCEINLINE void SetThreadedMode( Mode eMode ) { m_pUseMtx = ( eMode ? m_pMtx : nullptr); }
 
 public:
 	FORCEINLINE void Lock()				{ if ( MT_MUTEX_TYPE *pUseMtx = m_pUseMtx ) pUseMtx->Lock(); }
@@ -427,8 +427,8 @@ char * ConsumeCharacters( char *szString, T pred )
 
 char * FindNext( char *szString, char *szSearchSet )
 {
-	bool bFound = (szString == NULL);
-	char *szNext = NULL;
+	bool bFound = (szString == nullptr);
+	char *szNext = nullptr;
 
 	if ( szString && szSearchSet )
 	{
@@ -447,8 +447,8 @@ char * FindNext( char *szString, char *szSearchSet )
 
 char * FindLast( char *szString, char *szSearchSet )
 {
-	bool bFound = (szString != NULL);
-	char *szNext = NULL;
+	bool bFound = (szString != nullptr);
+	char *szNext = nullptr;
 
 	if ( szString && szSearchSet )
 	{
@@ -465,7 +465,7 @@ char * FindLast( char *szString, char *szSearchSet )
 	return bFound ? szNext : ( szString + strlen( szString ) );
 }
 
-void ErrMsgDispatchMsgLine( char const *szCommand, char *szMsgLine, char const *szShaderName = NULL )
+void ErrMsgDispatchMsgLine( char const *szCommand, char *szMsgLine, char const *szShaderName = nullptr)
 {
 	// When the filename is specified in front of the message, make sure it is truncated to the bare name only
 	if ( isalpha_force_valid_characters( *szMsgLine ) && szMsgLine[1] == ':' )
@@ -516,7 +516,7 @@ void ErrMsgDispatchMsgLine( char const *szCommand, char *szMsgLine, char const *
 	g_Master_CompilerMsgInfo[ szMsgLine ].SetMsgReportedCommand( szCommand, 1, VMPI_GetLocalMachineName() );
 }
 
-void ErrMsgDispatchInt( char *szMessage, char const *szShaderName = NULL )
+void ErrMsgDispatchInt( char *szMessage, char const *szShaderName = nullptr)
 {
 	// First line is the command number "szCommand"
 	char *szCommand = ConsumeCharacters( szMessage, V_isspace );
@@ -884,7 +884,7 @@ static void WriteShaderFiles( const char *pShaderName )
 	{
 		StaticComboNodeHash_t *&rp = g_ShaderByteCode[pShaderName]; // Get a static combo pointer, reset it as well
 		pByteCodeArray = rp;
-		rp = NULL;
+		rp = nullptr;
 
 		/*
 		Assert( pByteCodeArray );
@@ -1001,7 +1001,7 @@ static void WriteShaderFiles( const char *pShaderName )
 	//
 	// Shader file stream buffer
 	//
-	CUtlStreamBuffer ShaderFile( szVCSfilename, NULL );			// Streaming buffer for vcs file (since this can blow memory)
+	CUtlStreamBuffer ShaderFile( szVCSfilename, nullptr);			// Streaming buffer for vcs file (since this can blow memory)
 	ShaderFile.SetBigEndian( g_bIsX360 || g_bIsPS3 );						// Swap the header bytes to X360 format
 
 	// ------ Header --------------
@@ -1223,16 +1223,16 @@ void MySystem( char const * const pCommand, CmdSink::IResponse **ppResponse )
 	ZeroMemory( &pi, sizeof(pi) );
 	
 	// Start the child process. 
-	if( !CreateProcess( NULL, // No module name (use command line). 
-		szTempFileName, // Command line. 
-		NULL,             // Process handle not inheritable. 
-		NULL,             // Thread handle not inheritable. 
-		FALSE,            // Set handle inheritance to FALSE. 
-		IDLE_PRIORITY_CLASS | CREATE_NO_WINDOW,                // No creation flags. 
-		NULL,             // Use parent's environment block. 
-		g_WorkerTempPath, // Use parent's starting directory. 
-		&si,              // Pointer to STARTUPINFO structure.
-		&pi )             // Pointer to PROCESS_INFORMATION structure.
+	if( !CreateProcess(nullptr, // No module name (use command line). 
+	                   szTempFileName, // Command line. 
+	                   nullptr,             // Process handle not inheritable. 
+	                   nullptr,             // Thread handle not inheritable. 
+	                   FALSE,            // Set handle inheritance to FALSE. 
+	                   IDLE_PRIORITY_CLASS | CREATE_NO_WINDOW,                // No creation flags. 
+	                   nullptr,             // Use parent's environment block. 
+	                   g_WorkerTempPath, // Use parent's starting directory. 
+	                   &si,              // Pointer to STARTUPINFO structure.
+	                   &pi )             // Pointer to PROCESS_INFORMATION structure.
 		) 
 	{
 		Error( "CreateProcess failed." );
@@ -1373,7 +1373,7 @@ public:
 	explicit CWorkerAccumState( TMutexType *pMutex ) :
 		m_pMutex( pMutex ), m_iFirstCommand( 0 ), m_iNextCommand( 0 ),
 		m_iEndCommand( 0 ), m_iLastFinished( 0 ),
-		m_hCombo( NULL ),
+		m_hCombo(nullptr),
 		m_fnOldDisconnectHandler( g_fnDisconnectHandler ),
 		m_autoRestoreDisconnectHandler( g_fnDisconnectHandler )
 		{
@@ -1432,7 +1432,7 @@ void CWorkerAccumState < TMutexType > ::RangeBegin( uint64 iFirstCommand, uint64
 	m_iNextCommand = iFirstCommand;
 	m_iEndCommand = iEndCommand;
 	m_iLastFinished = iFirstCommand;
-	m_hCombo = NULL;
+	m_hCombo = nullptr;
 	CfgProcessor::Combo_GetNext( m_iNextCommand, m_hCombo, m_iEndCommand );
 	
 	g_fnDisconnectHandler = Special_DisconnectHandler;
@@ -1519,7 +1519,7 @@ template < typename TMutexType >
 void CWorkerAccumState < TMutexType > ::PrepareSubProcess( SubProcess **ppSp, SubProcessKernelObjects **ppCommObjs )
 {
 	SubProcess *pSp = m_lpSubProcessInfo.Get();
-	SubProcessKernelObjects *pCommObjs = NULL;
+	SubProcessKernelObjects *pCommObjs = nullptr;
 
 	if ( pSp )
 	{
@@ -1533,7 +1533,7 @@ void CWorkerAccumState < TMutexType > ::PrepareSubProcess( SubProcess **ppSp, Su
 		pSp->dwSvcThreadId = ThreadGetCurrentId();
 
 		char chBaseNameBuffer[0x30];
-		sprintf( chBaseNameBuffer, "SHCMPL_SUB_%08X_%I64X_%08X", pSp->dwSvcThreadId, time( NULL ), GetCurrentProcessId() );
+		sprintf( chBaseNameBuffer, "SHCMPL_SUB_%08X_%I64X_%08X", pSp->dwSvcThreadId, time(nullptr), GetCurrentProcessId() );
 		pCommObjs = pSp->pCommObjs = new SubProcessKernelObjects_Create( chBaseNameBuffer );
 
 		ZeroMemory( &pSp->pi, sizeof( pSp->pi ) );
@@ -1547,7 +1547,7 @@ void CWorkerAccumState < TMutexType > ::PrepareSubProcess( SubProcess **ppSp, Su
 #ifdef _DEBUG
 		V_strncat( chCommandLine, " -allowdebug", sizeof( chCommandLine ) );
 #endif
-		BOOL bCreateResult = CreateProcess( NULL, chCommandLine, NULL, NULL, FALSE, CREATE_NO_WINDOW, NULL, g_WorkerTempPath, &si, &pSp->pi );
+		BOOL bCreateResult = CreateProcess(nullptr, chCommandLine, nullptr, nullptr, FALSE, CREATE_NO_WINDOW, nullptr, g_WorkerTempPath, &si, &pSp->pi );
 		( void ) bCreateResult;
 		Assert( bCreateResult && "CreateProcess failed?" );
 
@@ -1565,8 +1565,8 @@ void CWorkerAccumState < TMutexType > ::ExecuteCompileCommandThreaded( CfgProces
 {
 	// DebugOut( "threaded: running: \"%s\"\n", szCommand );
 
-	SubProcessKernelObjects *pCommObjs = NULL;
-	PrepareSubProcess( NULL, &pCommObjs );
+	SubProcessKernelObjects *pCommObjs = nullptr;
+	PrepareSubProcess(nullptr, &pCommObjs );
 
 	// Execute the command
 	SubProcessKernelObjects_Memory shrmem( pCommObjs );
@@ -1610,7 +1610,7 @@ void CWorkerAccumState < TMutexType > ::ExecuteCompileCommandThreaded( CfgProces
 template < typename TMutexType >
 void CWorkerAccumState < TMutexType > ::ExecuteCompileCommand( CfgProcessor::ComboHandle hCombo )
 {
-	CmdSink::IResponse *pResponse = NULL;
+	CmdSink::IResponse *pResponse = nullptr;
 	
 	{
 		char chBuffer[ 4096 ];
@@ -1754,7 +1754,7 @@ void CWorkerAccumState < TMutexType > ::TryToPackageData( uint64 iCommandNumber 
 		if ( ! nComboBegin -- )
 		{
 			Combo_Free( hChBegin );
-			if ( ( hChBegin = CfgProcessor::Combo_GetCombo( pInfoBegin->m_iCommandEnd ) ) != NULL )
+			if ( ( hChBegin = CfgProcessor::Combo_GetCombo( pInfoBegin->m_iCommandEnd ) ) != nullptr)
 			{
 				pInfoBegin = Combo_GetEntryInfo( hChBegin );
 				nComboBegin = pInfoBegin->m_numStaticCombos - 1;
@@ -1771,13 +1771,13 @@ template < typename TMutexType >
 bool CWorkerAccumState < TMutexType > ::OnProcess()
 {
 	m_pMutex->Lock();
-		CfgProcessor::ComboHandle hThreadCombo = m_hCombo ? Combo_Alloc( m_hCombo ) : NULL;
+		CfgProcessor::ComboHandle hThreadCombo = m_hCombo ? Combo_Alloc( m_hCombo ) : nullptr;
 	m_pMutex->Unlock();
 	
 	uint64 iThreadCommand = ~uint64(0);
 
-	SubProcess *pSp = NULL;
-	PrepareSubProcess( &pSp, NULL );
+	SubProcess *pSp = nullptr;
+	PrepareSubProcess( &pSp, nullptr);
 
 	for ( ; ; )
 	{
@@ -1829,12 +1829,12 @@ bool CWorkerAccumState < TMutexType > ::OnProcessST()
 class Worker_ProcessCommandRange_Singleton
 {
 public:
-	static Worker_ProcessCommandRange_Singleton *& Instance() { static Worker_ProcessCommandRange_Singleton *s_ptr = NULL; return s_ptr; }
+	static Worker_ProcessCommandRange_Singleton *& Instance() { static Worker_ProcessCommandRange_Singleton *s_ptr = nullptr; return s_ptr; }
 	static Worker_ProcessCommandRange_Singleton * GetInstance() { Worker_ProcessCommandRange_Singleton *p = Instance(); Assert( p ); return p; }
 
 public:
 	Worker_ProcessCommandRange_Singleton() { Assert( !Instance() ); Instance() = this; Startup(); }
-	~Worker_ProcessCommandRange_Singleton() { Assert( Instance() == this ); Instance() = NULL; Shutdown(); }
+	~Worker_ProcessCommandRange_Singleton() { Assert( Instance() == this ); Instance() = nullptr; Shutdown(); }
 
 public:
 	void ProcessCommandRange( uint64 shaderStart, uint64 shaderEnd );
@@ -1847,7 +1847,7 @@ protected:
 	// Multi-threaded section
 protected:
 	struct MT {
-		MT() : pWorkerObj( NULL ), pThreadPool( NULL ) {}
+		MT() : pWorkerObj(nullptr), pThreadPool(nullptr) {}
 
 		typedef CThreadFastMutex MultiThreadMutex_t;
 		MultiThreadMutex_t mtx;
@@ -1863,7 +1863,7 @@ protected:
 	// Single-threaded section
 protected:
 	struct ST {
-		ST() : pWorkerObj( NULL ) {}
+		ST() : pWorkerObj(nullptr) {}
 
 		typedef CThreadNullMutex MultiThreadMutex_t;
 		MultiThreadMutex_t mtx;
@@ -1881,7 +1881,7 @@ void Worker_ProcessCommandRange_Singleton::Startup( void )
 	if ( cpu.m_nLogicalProcessors > 1 )
 	{
 		// Attempt to initialize thread pool
-		m_MT.pThreadPool = CommandLine()->FindParm("-singlethreaded") ? NULL : g_pThreadPool;
+		m_MT.pThreadPool = CommandLine()->FindParm("-singlethreaded") ? nullptr : g_pThreadPool;
 		if ( m_MT.pThreadPool )
 		{
 			m_MT.tpsp.bIOThreads = false;
@@ -1905,7 +1905,7 @@ void Worker_ProcessCommandRange_Singleton::Startup( void )
 			}
 
 			if ( !bInitializedThreadPool )
-				m_MT.pThreadPool = NULL;
+				m_MT.pThreadPool = nullptr;
 		}
 	}
 
@@ -1924,7 +1924,7 @@ void Worker_ProcessCommandRange_Singleton::Shutdown( void )
 			delete m_MT.pWorkerObj;
 
 		m_MT.pThreadPool->Stop();
-		m_MT.pThreadPool = NULL;
+		m_MT.pThreadPool = nullptr;
 	}
 	else
 	{
@@ -1970,7 +1970,7 @@ void Worker_ProcessWorkUnitFn( int iThread, uint64 iWorkUnit, MessageBuffer *pBu
 
 	// Determine the commands required to be executed:
 	uint64 nComboOfTheEntry = 0;
-	CfgProcessor::CfgEntryInfo const *pEntry = NULL;
+	CfgProcessor::CfgEntryInfo const *pEntry = nullptr;
 
 	pEntry = GetEntryByStaticComboNum( comboEnd, &nComboOfTheEntry );
 	uint64 commandEnd = pEntry->m_iCommandStart + nComboOfTheEntry * pEntry->m_numDynamicCombos;
@@ -2142,7 +2142,7 @@ void Worker_GetLocalCopyOfShaders( void )
 	sprintf( filename, "%s\\uniquefilestocopy.txt", g_pShaderPath );
 
 	CUtlInplaceBuffer bffr( 0, 0, CUtlBuffer::TEXT_BUFFER );
-	if( !g_pFileSystem->ReadFile( filename, NULL, bffr ) )
+	if( !g_pFileSystem->ReadFile( filename, nullptr, bffr ) )
 	{
 		fprintf( stderr, "Can't open uniquefilestocopy.txt!\n" );
 		exit( -1 );
@@ -2156,7 +2156,7 @@ void Worker_GetLocalCopyOfShaders( void )
 			printf( "getting local copy of shader: \"%s\" (\"%s\")\n", pszLineToCopy, filename );
 
 		CUtlBuffer fileBuf;
-		if ( !g_pFileSystem->ReadFile( filename, NULL, fileBuf ) )
+		if ( !g_pFileSystem->ReadFile( filename, nullptr, fileBuf ) )
 		{
 			Warning( "Can't find \"%s\"\n", filename );
 			continue;
@@ -2255,7 +2255,7 @@ void Shared_ParseListOfCompileCommands( void )
 	sprintf( fileListFileName, "%s\\filelist.txt", g_pShaderPath );
 
 	CUtlInplaceBuffer bffr( 0, 0, CUtlInplaceBuffer::TEXT_BUFFER );
-	if( !g_pFileSystem->ReadFile( fileListFileName, NULL, bffr) )
+	if( !g_pFileSystem->ReadFile( fileListFileName, nullptr, bffr) )
 	{
 		DebugOut( "Can't open %s!\n", fileListFileName );
 		fprintf( stderr, "Can't open %s!\n", fileListFileName );
@@ -2384,12 +2384,12 @@ private:
 };
 
 CDistributeShaderCompileMaster::CDistributeShaderCompileMaster( void ) :
-	m_hThread( NULL ),
-	m_hEvent( NULL ),
+	m_hThread(nullptr),
+	m_hEvent(nullptr),
 	m_bRunning( TRUE )
 {
-	m_hEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
-	m_hThread = CreateThread( NULL, 0, ThreadProcAdapter, reinterpret_cast< LPVOID >(this), 0, NULL );
+	m_hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	m_hThread = CreateThread(nullptr, 0, ThreadProcAdapter, reinterpret_cast< LPVOID >(this), 0, nullptr);
 
 	m_pAnalyzeShaders = g_arrCompileEntries.Get();
 }
@@ -2439,7 +2439,7 @@ void CDistributeShaderCompileMaster::ThreadProc( void )
 		for ( int numShadersWritten = 0; /* forever */ ; ++ numShadersWritten )
 		{
 			m_mtx.Lock();
-			char const * szShaderToWrite = NULL;
+			char const * szShaderToWrite = nullptr;
 			if ( m_arrShaderNamesToWrite.Count() > numShadersWritten )
 				szShaderToWrite = m_arrShaderNamesToWrite[ numShadersWritten ];
 			else
@@ -2516,12 +2516,12 @@ int ShaderCompile_Main( int argc, char* argv[] )
 	if ( CommandLine()->FindParm( "-game" ) == 0 )
 	{
 		// Used with filesystem_stdio.dll
-		FileSystem_Init( NULL, 0, FS_INIT_COMPATIBILITY_MODE );
+		FileSystem_Init(nullptr, 0, FS_INIT_COMPATIBILITY_MODE );
 	}
 	else
 	{
 		// SDK uses this since it only has filesystem_steam.dll.
-		FileSystem_Init( NULL, 0, FS_INIT_FULL );
+		FileSystem_Init(nullptr, 0, FS_INIT_FULL );
 	}
 	
 	DebugOut( "After VMPI_FileSystem_Init\n" );
@@ -2584,9 +2584,9 @@ int ShaderCompile_Main( int argc, char* argv[] )
 			// nWorkUnits is how many work units. . .1000 is good.
 			// The work unit number impies which combo to do.
 			DebugOut( "Before DistributeWork\n" );
-			DistributeWork( nWorkUnits, NULL, Master_ReceiveWorkUnitFn );
+			DistributeWork( nWorkUnits, nullptr, Master_ReceiveWorkUnitFn );
 
-			g_pDistributeWorkCallbacks = NULL;
+			g_pDistributeWorkCallbacks = nullptr;
 		}
 		else
 		{
@@ -2636,7 +2636,7 @@ int ShaderCompile_Main( int argc, char* argv[] )
 			// Allows calling into ProcessCommandRange inside the worker function
 			{
 				Worker_ProcessCommandRange_Singleton pcr;
-				DistributeWork( nWorkUnits, Worker_ProcessWorkUnitFn, NULL );
+				DistributeWork( nWorkUnits, Worker_ProcessWorkUnitFn, nullptr);
 			}
 		}
 
@@ -2690,9 +2690,9 @@ int ShaderCompile_Main( int argc, char* argv[] )
 			char const * const szFirstMachineName = cmi.GetFirstMachineName();
 			int const numReported = cmi.GetNumTimesReported();
 
-			uint64 iFirstCommand = _strtoui64( szFirstCmd, NULL, 10 );
-			CfgProcessor::ComboHandle hCombo = NULL;
-			CfgProcessor::CfgEntryInfo const *pComboEntryInfo = NULL;
+			uint64 iFirstCommand = _strtoui64( szFirstCmd, nullptr, 10 );
+			CfgProcessor::ComboHandle hCombo = nullptr;
+			CfgProcessor::CfgEntryInfo const *pComboEntryInfo = nullptr;
 			if ( CfgProcessor::Combo_GetNext( iFirstCommand, hCombo, g_numCompileCommands ) )
 			{
 				Combo_FormatCommand( hCombo, str );

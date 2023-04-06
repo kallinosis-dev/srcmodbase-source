@@ -171,7 +171,7 @@ const char *CCaptionSequencer::GetCurrentCaption( int *pColorOut )
 {
 	if ( !m_bCaptions )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( m_CaptionStartTime )
@@ -211,7 +211,7 @@ const char *CCaptionSequencer::GetCurrentCaption( int *pColorOut )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 float CCaptionSequencer::GetAlpha()

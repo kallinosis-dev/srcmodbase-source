@@ -118,7 +118,7 @@ class CWADTexture : public IEditorTexture
 
 		inline bool HasData( void ) const
 		{
-			return(m_pData != NULL);
+			return(m_pData != nullptr);
 		}
 
 		inline bool HasPalette() const

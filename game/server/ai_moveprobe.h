@@ -49,9 +49,9 @@ public:
 	// ----------------------------------------------------
 	// Queries & probes
 	// ----------------------------------------------------
-	bool				MoveLimit( Navigation_t navType, const Vector &vecStart, const Vector &vecEnd, unsigned int collisionMask, const CBaseEntity *pTarget, AIMoveTrace_t* pMove = NULL );
-	bool				MoveLimit( Navigation_t navType, const Vector &vecStart, const Vector &vecEnd, unsigned int collisionMask, const CBaseEntity *pTarget, float pctToCheckStandPositions, AIMoveTrace_t* pMove = NULL );
-	bool				MoveLimit( Navigation_t navType, const Vector &vecStart, const Vector &vecEnd, unsigned int collisionMask, const CBaseEntity *pTarget, float pctToCheckStandPositions, unsigned flags, AIMoveTrace_t* pMove = NULL );
+	bool				MoveLimit( Navigation_t navType, const Vector &vecStart, const Vector &vecEnd, unsigned int collisionMask, const CBaseEntity *pTarget, AIMoveTrace_t* pMove = nullptr);
+	bool				MoveLimit( Navigation_t navType, const Vector &vecStart, const Vector &vecEnd, unsigned int collisionMask, const CBaseEntity *pTarget, float pctToCheckStandPositions, AIMoveTrace_t* pMove = nullptr);
+	bool				MoveLimit( Navigation_t navType, const Vector &vecStart, const Vector &vecEnd, unsigned int collisionMask, const CBaseEntity *pTarget, float pctToCheckStandPositions, unsigned flags, AIMoveTrace_t* pMove = nullptr);
 	
 	bool				CheckStandPosition( const Vector &vecStart, unsigned int collisionMask ) const;
 	bool				FloorPoint( const Vector &vecStart, unsigned int collisionMask, float flStartZ, float flEndZ, Vector *pVecResult ) const;
@@ -80,7 +80,7 @@ public:
 
 	bool				ShouldBrushBeIgnored( CBaseEntity *pEntity );
 
-	void				ClearBlockingEntity()	{ m_hLastBlockingEnt = NULL; }
+	void				ClearBlockingEntity()	{ m_hLastBlockingEnt = nullptr; }
 	CBaseEntity *		GetBlockingEntity()	{ return m_hLastBlockingEnt; }
 
 private:

@@ -23,8 +23,8 @@ CAdminServer g_AdminServerSingleton;
 EXPOSE_SINGLE_INTERFACE_GLOBALVAR(CAdminServer, IAdminServer, ADMINSERVER_INTERFACE_VERSION, g_AdminServerSingleton);
 EXPOSE_SINGLE_INTERFACE_GLOBALVAR(CAdminServer, IVGuiModule, "VGuiModuleAdminServer001", g_AdminServerSingleton);
 
-IGameServerData *g_pGameServerData = NULL;
-IVProfExport *g_pVProfExport = NULL;
+IGameServerData *g_pGameServerData = nullptr;
+IVProfExport *g_pVProfExport = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
@@ -32,7 +32,7 @@ IVProfExport *g_pVProfExport = NULL;
 CAdminServer::CAdminServer()
 {
 	// fill in the 0-based element of the manage servers list
-	OpenedManageDialog_t empty = { 0, NULL };
+	OpenedManageDialog_t empty = { 0, nullptr};
 	m_OpenedManageDialog.AddToTail(empty);
 	m_hParent=0;
 }
@@ -60,11 +60,11 @@ bool CAdminServer::Initialize(CreateInterfaceFn *factorylist, int factoryCount)
 		// if we're running locally we can get this direct interface to the game engine
 		if (!g_pGameServerData)
 		{
-			g_pGameServerData = (IGameServerData *)(factorylist[i])(GAMESERVERDATA_INTERFACE_VERSION, NULL);
+			g_pGameServerData = (IGameServerData *)(factorylist[i])(GAMESERVERDATA_INTERFACE_VERSION, nullptr);
 		}
 		if ( !g_pVProfExport )
 		{
-			g_pVProfExport = (IVProfExport*)(factorylist[i])( VPROF_EXPORT_INTERFACE_VERSION, NULL );
+			g_pVProfExport = (IVProfExport*)(factorylist[i])( VPROF_EXPORT_INTERFACE_VERSION, nullptr);
 		}
 	}
 
@@ -152,7 +152,7 @@ void CAdminServer::Reactivate()
 //-----------------------------------------------------------------------------
 ManageServerUIHandle_t CAdminServer::OpenManageServerDialog(const char *serverName, const char *gameDir)
 {
-	CGamePanelInfo *tmp = new CGamePanelInfo(NULL, serverName, gameDir);
+	CGamePanelInfo *tmp = new CGamePanelInfo(nullptr, serverName, gameDir);
 	tmp->SetParent(m_hParent);
 
 	// add a new item into the list
@@ -187,11 +187,11 @@ IManageServer *CAdminServer::GetManageServerInterface(ManageServerUIHandle_t han
 {
 	// make sure it's safe
 	if ((int)handle < 1 || (int)handle > m_OpenedManageDialog.Count())
-		return NULL;
+		return nullptr;
 
 	vgui::VPANEL panel = vgui::ivgui()->HandleToPanel(m_OpenedManageDialog[handle].handle);
 	if (!panel)
-		return NULL;
+		return nullptr;
 	
 	return m_OpenedManageDialog[handle].manageInterface;
 }

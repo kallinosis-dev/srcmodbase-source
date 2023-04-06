@@ -86,7 +86,7 @@ private:
 	void AddFontHelper( const char *kvfontname,  bool proportional ); // a small helper func to LoadFonts (simplifies a loop there)
 	void LoadBorders();
 	HFont FindFontInAliasList( const char *fontName );
-	int GetMinimumFontHeightForCurrentLanguage( const char *pLanguage = NULL );
+	int GetMinimumFontHeightForCurrentLanguage( const char *pLanguage = nullptr);
 
 	void	AddCriticalFont( const char *pFontName, KeyValues *pKV );
 	void	PrecacheCriticalFontGlyphs( const char *pLanguage );
@@ -242,7 +242,7 @@ private:
 	CUtlRBTree<CachedBitmapHandle_t, int> m_Bitmaps;
 };
 
-const char *CSchemeManager::s_pszSearchString = NULL;
+const char *CSchemeManager::s_pszSearchString = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: search function for stored bitmaps
@@ -347,7 +347,7 @@ IScheme *CSchemeManager::GetIScheme( HScheme scheme )
 	if ( scheme >= (unsigned long)m_Schemes.Count() )
 	{
 		AssertOnce( !"Invalid scheme requested." );
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -405,7 +405,7 @@ HScheme CSchemeManager::LoadSchemeFromFileEx( VPANEL sizingPanel, const char *pF
 
 	// Look to see if we've already got this scheme...
 	HScheme hScheme = FindLoadedScheme( pFilename );
-	CScheme *pScheme = NULL;
+	CScheme *pScheme = nullptr;
 
 	if ( hScheme != 0 )
 	{
@@ -436,7 +436,7 @@ HScheme CSchemeManager::LoadSchemeFromFileEx( VPANEL sizingPanel, const char *pF
 			if ( !bResult )
 			{
 				// look in any directory
-				bResult = pKVData->LoadFromFile( g_pFullFileSystem, pFilename, NULL );
+				bResult = pKVData->LoadFromFile( g_pFullFileSystem, pFilename, nullptr);
 			}
 		}
 
@@ -611,12 +611,12 @@ IImage *CSchemeManager::GetImage(const char *imageName, bool hardwareFiltered)
 {
 	if ( !imageName || strlen(imageName) <= 0 ) // frame icons and the like are in the scheme file and may not be defined, so if this is null then fail silently
 	{
-		return NULL; 
+		return nullptr; 
 	}
 
 	// set up to search for the bitmap
 	CachedBitmapHandle_t searchBitmap;
-	searchBitmap.pBitmap = NULL;
+	searchBitmap.pBitmap = nullptr;
 
 	// Prepend 'vgui/'. Resource files try to load images assuming they live in the vgui directory.
 	// Used to do this in Bitmap::Bitmap, moved so that the s_pszSearchString is searching for the
@@ -666,7 +666,7 @@ bool CSchemeManager::DeleteImage( const char *pImageName )
 
 	// set up to search for the bitmap
 	CachedBitmapHandle_t searchBitmap;
-	searchBitmap.pBitmap = NULL;
+	searchBitmap.pBitmap = nullptr;
 
 	// Prepend 'vgui/'. Resource files try to load images assuming they live in the vgui directory.
 	// Used to do this in Bitmap::Bitmap, moved so that the s_pszSearchString is searching for the
@@ -756,14 +756,14 @@ SchemeEntryTranslation_t g_SchemeTranslation[] =
 	{ "ComboBoxButton.BgColor",			"MenuButton/ButtonBgColor" },
 	{ "ComboBoxButton.DisabledBgColor",	"ControlBG" },
 
-	{ "Frame.TitleTextInsetX",			NULL,		"32" },
-	{ "Frame.ClientInsetX",				NULL,		"8" },
-	{ "Frame.ClientInsetY",				NULL,		"6" },
+	{ "Frame.TitleTextInsetX", nullptr,		"32" },
+	{ "Frame.ClientInsetX", nullptr,		"8" },
+	{ "Frame.ClientInsetY", nullptr,		"6" },
 	{ "Frame.BgColor",					"BgColor" },
 	{ "Frame.OutOfFocusBgColor",		"BgColor" },
-	{ "Frame.FocusTransitionEffectTime",NULL,		"0" },
-	{ "Frame.TransitionEffectTime",		NULL,		"0" },
-	{ "Frame.AutoSnapRange",			NULL,		"8" },
+	{ "Frame.FocusTransitionEffectTime", nullptr,		"0" },
+	{ "Frame.TransitionEffectTime", nullptr,		"0" },
+	{ "Frame.AutoSnapRange", nullptr,		"8" },
 	{ "FrameGrip.Color1",				"BorderBright" },
 	{ "FrameGrip.Color2",				"BorderSelection" },
 	{ "FrameTitleButton.FgColor",		"TitleButtonFgColor" },
@@ -774,7 +774,7 @@ SchemeEntryTranslation_t g_SchemeTranslation[] =
 	{ "FrameSystemButton.BgColor",		"TitleBarBgColor" },
 	{ "FrameSystemButton.Icon",			"TitleBarIcon" },
 	{ "FrameSystemButton.DisabledIcon",	"TitleBarDisabledIcon" },
-	{ "FrameTitleBar.Font",				NULL,		"Default" },
+	{ "FrameTitleBar.Font", nullptr,		"Default" },
 	{ "FrameTitleBar.TextColor",		"TitleBarFgColor" },
 	{ "FrameTitleBar.BgColor",			"TitleBarBgColor" },
 	{ "FrameTitleBar.DisabledTextColor","TitleBarDisabledFgColor" },
@@ -805,7 +805,7 @@ SchemeEntryTranslation_t g_SchemeTranslation[] =
 	{ "Menu.BgColor",					"Menu/BgColor" },
 	{ "Menu.ArmedTextColor",			"Menu/ArmedFgColor" },
 	{ "Menu.ArmedBgColor",				"Menu/ArmedBgColor" },
-	{ "Menu.TextInset",					NULL,		"6" },
+	{ "Menu.TextInset", nullptr,		"6" },
 
 	{ "Panel.FgColor",					"FgColor" },
 	{ "Panel.BgColor",					"BgColor" },
@@ -815,7 +815,7 @@ SchemeEntryTranslation_t g_SchemeTranslation[] =
 
 	{ "PropertySheet.TextColor",			"FgColorDim" },
 	{ "PropertySheet.SelectedTextColor",	"BrightControlText" },
-	{ "PropertySheet.TransitionEffectTime",	NULL,		"0" },
+	{ "PropertySheet.TransitionEffectTime", nullptr,		"0" },
 
 	{ "RadioButton.TextColor",			"FgColor" },
 	{ "RadioButton.SelectedTextColor",	"BrightControlText" },
@@ -825,7 +825,7 @@ SchemeEntryTranslation_t g_SchemeTranslation[] =
 	{ "RichText.SelectedTextColor",		"SelectionFgColor" },
 	{ "RichText.SelectedBgColor",		"SelectionBgColor" },
 
-	{ "ScrollBar.Wide",					NULL,		"19" },
+	{ "ScrollBar.Wide", nullptr,		"19" },
 
 	{ "ScrollBarButton.FgColor",			"DimBaseText" },
 	{ "ScrollBarButton.BgColor",			"ControlBG" },
@@ -879,12 +879,12 @@ SchemeEntryTranslation_t g_SchemeTranslation[] =
 //-----------------------------------------------------------------------------
 CScheme::CScheme()
 {
-	m_pData = NULL;
-	m_pkvBaseSettings = NULL;
-	m_pkvColors = NULL;
+	m_pData = nullptr;
+	m_pkvBaseSettings = nullptr;
+	m_pkvColors = nullptr;
 
-	m_pBaseBorder = NULL;	// default border to use if others not found
-	m_pkvBorders = NULL;
+	m_pBaseBorder = nullptr;	// default border to use if others not found
+	m_pkvBorders = nullptr;
 	m_SizingPanel = 0;
 	m_nScreenWide = -1;
 	m_nScreenTall = -1;
@@ -1028,7 +1028,7 @@ void CScheme::LoadFonts()
 	}
 
 	// add our custom fonts
-	for (KeyValues *kv = m_pData->FindKey("CustomFontFiles", true)->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+	for (KeyValues *kv = m_pData->FindKey("CustomFontFiles", true)->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 	{
 		const char *fontFile = kv->GetString();
 		if (fontFile && *fontFile)
@@ -1039,10 +1039,10 @@ void CScheme::LoadFonts()
 		{
 			// we have a block to read
 			int nRangeMin = 0, nRangeMax = 0;
-			const char *pszName = NULL;
+			const char *pszName = nullptr;
 			bool bUseRange = false;
 
-			for ( KeyValues *pData = kv->GetFirstSubKey(); pData != NULL; pData = pData->GetNextKey() )
+			for ( KeyValues *pData = kv->GetFirstSubKey(); pData != nullptr; pData = pData->GetNextKey() )
 			{
 				const char *pszKey = pData->GetName();
 				if ( !Q_stricmp( pszKey, "font" ) )
@@ -1089,7 +1089,7 @@ void CScheme::LoadFonts()
 	}
 
 	// add bitmap fonts
-	for (KeyValues *kv = m_pData->FindKey("BitmapFontFiles", true)->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+	for (KeyValues *kv = m_pData->FindKey("BitmapFontFiles", true)->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 	{
 		const char *fontFile = kv->GetString();
 		if (fontFile && *fontFile)
@@ -1104,7 +1104,7 @@ void CScheme::LoadFonts()
 	}
 
 	// create the fonts
-	for (KeyValues *kv = m_pData->FindKey("Fonts", true)->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+	for (KeyValues *kv = m_pData->FindKey("Fonts", true)->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 	{
 		// check to see if the font has been specified as having ONLY a proportional or ONLY a nonproportional
 		// version. (if not, the default is to make both a normal font, then a proportional one)
@@ -1144,7 +1144,7 @@ void CScheme::LoadFonts()
 	}
 
 	// add critical font section
-	for ( KeyValues *kv = m_pData->FindKey( "CriticalFonts", true )->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey() )
+	for ( KeyValues *kv = m_pData->FindKey( "CriticalFonts", true )->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey() )
 	{
 		const char *pFontFile = kv->GetName();
 		if ( pFontFile && *pFontFile )
@@ -1218,7 +1218,7 @@ void CScheme::ReloadFontGlyphs( int inScreenTall )
 		KeyValues *kv = fonts->FindKey( pTrueFontName, true);
 	
 		// walk through creating adding the first matching glyph set to the font
-		for (KeyValues *fontdata = kv->GetFirstSubKey(); fontdata != NULL; fontdata = fontdata->GetNextKey())
+		for (KeyValues *fontdata = kv->GetFirstSubKey(); fontdata != nullptr; fontdata = fontdata->GetNextKey())
 		{
 			// skip over an "isproportional" key if present
 			const static int nIsProportional = KeyValuesSystem()->GetSymbolForString( "isproportional", true );
@@ -1383,7 +1383,7 @@ void CScheme::ReloadFontGlyphs( int inScreenTall )
 void CScheme::LoadBorders()
 {
 	m_pkvBorders = m_pData->FindKey("Borders", true);
-	{for ( KeyValues *kv = m_pkvBorders->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+	{for ( KeyValues *kv = m_pkvBorders->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 	{
 		if (kv->GetDataType() == KeyValues::TYPE_STRING)
 		{
@@ -1393,8 +1393,8 @@ void CScheme::LoadBorders()
 		{
 			int i = m_BorderList.AddToTail();
 
-			IBorder *border = NULL;
-			const char *pszBorderType = kv->GetString( "bordertype", NULL );
+			IBorder *border = nullptr;
+			const char *pszBorderType = kv->GetString( "bordertype", nullptr);
 			if ( pszBorderType && pszBorderType[0] )
 			{
 				if ( !stricmp(pszBorderType,"image") )
@@ -1409,7 +1409,7 @@ void CScheme::LoadBorders()
 				{
 					Assert(0);
 					// Fall back to the base border type. See below.
-					pszBorderType = NULL;
+					pszBorderType = nullptr;
 				}
 			}
 
@@ -1428,7 +1428,7 @@ void CScheme::LoadBorders()
 	}}
 
 	// iterate again to get the border references
-	for ( KeyValues *kv = m_pkvBorders->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+	for ( KeyValues *kv = m_pkvBorders->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 	{
 		if (kv->GetDataType() == KeyValues::TYPE_STRING)
 		{
@@ -1482,9 +1482,9 @@ void CScheme::Shutdown( bool full )
 		}
 	}
 
-	m_pBaseBorder = NULL;
+	m_pBaseBorder = nullptr;
 	m_BorderList.RemoveAll();
-	m_pkvBorders = NULL;
+	m_pkvBorders = nullptr;
 
 	m_FontRanges.RemoveAll();
 	m_FontAliases.RemoveAll();
@@ -1492,7 +1492,7 @@ void CScheme::Shutdown( bool full )
 	if ( m_pData)
 	{
 		m_pData->deleteThis();
-		m_pData = NULL;
+		m_pData = nullptr;
 	}
 
 	if ( full )
@@ -1613,12 +1613,12 @@ const char *CScheme::LookupSchemeSetting(const char *pchSetting)
 	}
 
 	// check the color area first
-	const char *colStr = m_pkvColors->GetString(pchSetting, NULL);
+	const char *colStr = m_pkvColors->GetString(pchSetting, nullptr);
 	if (colStr)
 		return colStr;
 
 	// check base settings
-	colStr = m_pkvBaseSettings->GetString(pchSetting, NULL);
+	colStr = m_pkvBaseSettings->GetString(pchSetting, nullptr);
 	if (colStr)
 	{
 		return LookupSchemeSetting(colStr);
@@ -1712,7 +1712,7 @@ void CScheme::AddCriticalFont( const char *pFontName, KeyValues *pKV )
 	m_CriticalFonts[i].m_bAsianChars = pKV->GetBool( "asianchars" );
 	m_CriticalFonts[i].m_bSkipIfAsian = pKV->GetBool( "skipifasian", true );
 	m_CriticalFonts[i].m_ExplicitChars = pKV->GetString( "explicit" );
-	m_CriticalFonts[i].m_bRussianChars = ( pKV->GetString( "russianchars" ) != NULL );
+	m_CriticalFonts[i].m_bRussianChars = ( pKV->GetString( "russianchars" ) != nullptr);
 }
 
 bool CScheme::CCriticalFontLess::Less( const CriticalFontMap_t &src1, const CriticalFontMap_t &src2, void *pCtx )
@@ -1741,7 +1741,7 @@ void CScheme::PrecacheCriticalFontGlyphs( const char *pLanguage )
 	bool bIsAsianLanguage = false;
 	bool bIsRussianLanguage = false;
 
-	wchar_t *pAsianFrequenceSequence = NULL;
+	wchar_t *pAsianFrequenceSequence = nullptr;
 	if ( pLanguage && pLanguage[0] )
 	{
 		if ( !V_stricmp( pLanguage, "japanese" ) ||

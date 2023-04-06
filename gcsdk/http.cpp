@@ -109,7 +109,7 @@ void CHTTPRequest::Init( CMsgHttpRequest* pProto )
 //-----------------------------------------------------------------------------
 CHTTPRequest::CHTTPRequest( EHTTPMethod eMethod, const char *pchHost, const char *pchRelativeURL )
 {
-	Init( NULL );
+	Init(nullptr);
 
 	SetEHTTPMethod( eMethod );
 	SetHostname( pchHost );
@@ -122,7 +122,7 @@ CHTTPRequest::CHTTPRequest( EHTTPMethod eMethod, const char *pchHost, const char
 //-----------------------------------------------------------------------------
 CHTTPRequest::CHTTPRequest( EHTTPMethod eMethod, const char *pchAbsoluteURL )
 {
-	Init( NULL );
+	Init(nullptr);
 
 	SetEHTTPMethod( eMethod );
 
@@ -222,7 +222,7 @@ const CMsgHttpRequest_QueryParam *CHTTPRequest::GetGETParam( const char *pchGetP
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -338,7 +338,7 @@ const CMsgHttpRequest_QueryParam *CHTTPRequest::GetPOSTParam( const char *pchPos
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -632,7 +632,7 @@ CHTTPResponse::~CHTTPResponse()
 	if ( m_pkvResponseHeaders )
 		m_pkvResponseHeaders->deleteThis();
 
-	m_pkvResponseHeaders = NULL;
+	m_pkvResponseHeaders = nullptr;
 }
 
 //-----------------------------------------------------------------------------

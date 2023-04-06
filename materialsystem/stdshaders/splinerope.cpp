@@ -52,7 +52,7 @@ BEGIN_VS_SHADER( SplineRope, "Help for SplineRope" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

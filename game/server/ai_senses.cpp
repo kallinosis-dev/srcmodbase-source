@@ -272,7 +272,7 @@ CBaseEntity *CAI_Senses::GetFirstSeenEntity( AISightIter_t *pIter, seentype_t iS
 	}
 	
 	(*pIter) = (AISightIter_t)(-1); 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -287,7 +287,7 @@ CBaseEntity *CAI_Senses::GetNextSeenEntity( AISightIter_t *pIter ) const
 		{
 			for ( int j = pIterVal->iNext; j < m_SeenArrays[i]->Count(); j++ )
 			{
-				if ( (*m_SeenArrays[i])[j].Get() != NULL )
+				if ( (*m_SeenArrays[i])[j].Get() != nullptr)
 				{
 					pIterVal->array = i;
 					pIterVal->iNext = j+1;
@@ -302,7 +302,7 @@ CBaseEntity *CAI_Senses::GetNextSeenEntity( AISightIter_t *pIter ) const
 		}
 		(*pIter) = (AISightIter_t)(-1); 
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -310,7 +310,7 @@ CBaseEntity *CAI_Senses::GetNextSeenEntity( AISightIter_t *pIter ) const
 void CAI_Senses::BeginGather()
 {
 	// clear my sight list
-	GetOuter()->m_pLink = NULL;
+	GetOuter()->m_pLink = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -327,7 +327,7 @@ void CAI_Senses::EndGather( int nSeen, CUtlVector<EHANDLE> *pResult )
 			(*pResult)[i].Set( pCurrent );
 			pCurrent = pCurrent->m_pLink;
 		}
-		GetOuter()->m_pLink = NULL;
+		GetOuter()->m_pLink = nullptr;
 	}
 }
 
@@ -435,7 +435,7 @@ int CAI_Senses::LookForHighPriorityEntities( int iDistance )
     {
     	for ( int i = m_SeenHighPriority.Count() - 1; i >= 0; --i )
     	{
-    		if ( m_SeenHighPriority[i].Get() == NULL )
+    		if ( m_SeenHighPriority[i].Get() == nullptr)
     			m_SeenHighPriority.FastRemove( i );    			
     	}
     	nSeen = m_SeenHighPriority.Count();
@@ -488,7 +488,7 @@ int CAI_Senses::LookForNPCs( int iDistance )
 
     for ( int i = m_SeenNPCs.Count() - 1; i >= 0; --i )
     {
-    	if ( m_SeenNPCs[i].Get() == NULL )
+    	if ( m_SeenNPCs[i].Get() == nullptr)
 		{
     		m_SeenNPCs.FastRemove( i );
 		}
@@ -541,7 +541,7 @@ int CAI_Senses::LookForObjects( int iDistance )
     {
     	for ( int i = m_SeenMisc.Count() - 1; i >= 0; --i )
     	{
-    		if ( m_SeenMisc[i].Get() == NULL )
+    		if ( m_SeenMisc[i].Get() == nullptr)
     			m_SeenMisc.FastRemove( i );    			
     	}
     	nSeen = m_SeenMisc.Count();
@@ -572,7 +572,7 @@ CSound* CAI_Senses::GetFirstHeardSound( AISoundIter_t *pIter )
 	if ( iFirst == SOUNDLIST_EMPTY )
 	{
 		*pIter = (AISoundIter_t)SOUNDLIST_EMPTY;
-		return NULL;
+		return nullptr;
 	}
 	
 	*pIter = (AISoundIter_t)(intp)iFirst;
@@ -587,13 +587,13 @@ CSound* CAI_Senses::GetNextHeardSound( AISoundIter_t *pIter )
 	if ( iCurrent == SOUNDLIST_EMPTY )
 	{
 		*pIter = (AISoundIter_t)SOUNDLIST_EMPTY;
-		return NULL;
+		return nullptr;
 	}
 	
 	iCurrent = CSoundEnt::SoundPointerForIndex( iCurrent )->m_iNextAudible;
 	*pIter = (AISoundIter_t)(intp)iCurrent;
 	if ( iCurrent == SOUNDLIST_EMPTY )
-		return NULL;
+		return nullptr;
 	
 	return CSoundEnt::SoundPointerForIndex( iCurrent );
 }
@@ -608,7 +608,7 @@ CSound *CAI_Senses::GetClosestSound( bool fScent, int validTypes, bool bUsePrior
 	
 	AISoundIter_t iter;
 	
-	CSound *pResult = NULL;
+	CSound *pResult = nullptr;
 	CSound *pCurrent = GetFirstHeardSound( &iter );
 
 	Vector earPosition = GetOuter()->EarPosition();
@@ -665,8 +665,8 @@ void CAI_Senses::PerformSensing( void )
 
 void CAI_SensedObjectsManager::Init()
 {
-	CBaseEntity *pEnt = NULL;
-	while ( ( pEnt = gEntList.NextEnt( pEnt ) ) != NULL )
+	CBaseEntity *pEnt = nullptr;
+	while ( ( pEnt = gEntList.NextEnt( pEnt ) ) != nullptr)
 	{
 		OnEntitySpawned( pEnt );
 	}
@@ -693,7 +693,7 @@ CBaseEntity *CAI_SensedObjectsManager::GetFirst( int *pIter )
 	}
 	
 	*pIter = 0;
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -708,7 +708,7 @@ CBaseEntity *CAI_SensedObjectsManager::GetNext( int *pIter )
 	}
 
 	*pIter = 0;
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

@@ -59,7 +59,7 @@ CIronSightController::CIronSightController( void )
 	m_flIronSightFOV				= 80.0f;
 	m_flIronSightPivotForward		= 10.0f;
 	m_flIronSightLooseness			= 0.5f;
-	m_pAttachedWeapon				= NULL;	
+	m_pAttachedWeapon				= nullptr;	
 
 #ifdef CLIENT_DLL
 	m_angViewLast.Init();

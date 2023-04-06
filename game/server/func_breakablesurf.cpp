@@ -124,7 +124,7 @@ CWindowPane* CWindowPane::CreateWindowPane( const Vector &vecOrigin, const QAngl
 	if ( !pGlass )
 	{
 		Msg( "NULL Ent in CreateWindowPane!\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( pGlass->edict() )
@@ -254,7 +254,7 @@ void CBreakableSurface::SurfaceTouch( CBaseEntity *pOther )
 	if (m_nSurfaceType == SHATTERSURFACE_TILE)
 	{
 		Vector vVel;
-		pOther->GetVelocity( &vVel, NULL );
+		pOther->GetVelocity( &vVel, nullptr);
 		if (vVel.Length() < 500)
 		{
 			return;
@@ -286,7 +286,7 @@ void CBreakableSurface::SurfaceTouch( CBaseEntity *pOther )
 	int nMaxHeight = Ceil2Int( fpmin(m_nNumHigh, MAX(flMinsHeight,flMaxsHeight)));
 
 	Vector vHitVel;
-	pOther->GetVelocity( &vHitVel, NULL );
+	pOther->GetVelocity( &vHitVel, nullptr);
 
 	// Move faster then penetrating object so can see shards
 	vHitVel *= 5;
@@ -531,7 +531,7 @@ void CBreakableSurface::TraceAttack( const CTakeDamageInfo &info, const Vector &
 				QAngle vAngles;
 				VectorAngles(-1*m_vNormal,vAngles);
 				Vector vWidthDir,vHeightDir;
-				AngleVectors(vAngles,NULL,&vWidthDir,&vHeightDir);
+				AngleVectors(vAngles, nullptr,&vWidthDir,&vHeightDir);
 
 				for (int width=0;width<m_nNumWide;width++)
 				{
@@ -634,7 +634,7 @@ void CBreakableSurface::Die( CBaseEntity *pBreaker, const Vector &vAttackDir )
 	QAngle vAngles;
 	VectorAngles(-1*m_vNormal,vAngles);
 	Vector vWidthDir,vHeightDir;
-	AngleVectors(vAngles,NULL,&vWidthDir,&vHeightDir);
+	AngleVectors(vAngles, nullptr,&vWidthDir,&vHeightDir);
 
 	float flWDist = DotProduct(vWidthDir,vWidth);
 	if (fabs(flWDist)<0.5)
@@ -703,7 +703,7 @@ void CBreakableSurface::InputShatter( inputdata_t &inputdata )
 
 	if (!m_bIsBroken)
 	{
-		Die( NULL, vec3_origin );
+		Die(nullptr, vec3_origin );
 	}
 
 	// Figure out which panel has taken the damage and break it
@@ -729,7 +729,7 @@ void CBreakableSurface::InputShatter( inputdata_t &inputdata )
 	QAngle vAngles;
 	VectorAngles(-1*m_vNormal,vAngles);
 	Vector vWidthDir,vHeightDir;
-	AngleVectors(vAngles,NULL,&vWidthDir,&vHeightDir);
+	AngleVectors(vAngles, nullptr,&vWidthDir,&vHeightDir);
 
 	// Blow out a roughly circular of tile with some randomness
 	Vector2D vecActualCenter( flCenterX * m_flPanelWidth, flCenterY * m_flPanelHeight ); 
@@ -999,7 +999,7 @@ void CBreakableSurface::PanePos(const Vector &vPos, float *flWidth, float *flHei
 	QAngle vAngles;
 	VectorAngles(-1*m_vNormal,vAngles);
 	Vector vWidthDir,vHeightDir;
-	AngleVectors(vAngles,NULL,&vWidthDir,&vHeightDir);
+	AngleVectors(vAngles, nullptr,&vWidthDir,&vHeightDir);
 	float flWDist = DotProduct(vWidthDir,vAttackVec);
 	float flHDist = DotProduct(vHeightDir,vAttackVec);
 
@@ -1067,7 +1067,7 @@ void CBreakableSurface::DropPane(int nWidth, int nHeight)
 		VectorAngles(-1*m_vNormal,vAngles);
 		
 		Vector vWidthDir,vHeightDir;
-		AngleVectors(vAngles,NULL,&vWidthDir,&vHeightDir);
+		AngleVectors(vAngles, nullptr,&vWidthDir,&vHeightDir);
 		Vector vBreakPos	= m_vCorner + 
 								(nWidth*vWidthDir*m_flPanelWidth) + 
 								(nHeight*vHeightDir*m_flPanelHeight);
@@ -1149,7 +1149,7 @@ bool CBreakableSurface::ShatterPane(int nWidth, int nHeight, const Vector &vForc
 	QAngle vAngles;
 	VectorAngles(-1*m_vNormal,vAngles);
 	Vector vWidthDir,vHeightDir;
-	AngleVectors(vAngles,NULL,&vWidthDir,&vHeightDir);
+	AngleVectors(vAngles, nullptr,&vWidthDir,&vHeightDir);
 	Vector vBreakPos	= m_vCorner + 
 						(nWidth*vWidthDir*m_flPanelWidth) + 
 						(nHeight*vHeightDir*m_flPanelHeight);
@@ -1256,7 +1256,7 @@ void CBreakableSurface::VPhysicsCollision( int index, gamevcollisionevent_t *pEv
 				pEvent->pInternalData->GetContactPoint( damagePos );
 
 				trace_t tr;
-				UTIL_TraceLine ( damagePos - normal, damagePos + normal, MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &tr );
+				UTIL_TraceLine ( damagePos - normal, damagePos + normal, MASK_SOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &tr );
 
 				// Only place decals and draw effects if we hit something valid
 				if ( tr.m_pEnt && tr.m_pEnt == this )

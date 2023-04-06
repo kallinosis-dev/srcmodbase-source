@@ -315,7 +315,7 @@ public:
 		}
 	}
 	virtual void Explosion( IRecipientFilter& filter, float delay,
-		const Vector& pos, int modelindex, float scale, int framerate, int flags, int radius, int magnitude, const Vector* pNormal = NULL, unsigned char materialType = 'C' )
+		const Vector& pos, int modelindex, float scale, int framerate, int flags, int radius, int magnitude, const Vector* pNormal = nullptr, unsigned char materialType = 'C' )
 	{
 		if ( !SuppressTE( filter ) )
 		{

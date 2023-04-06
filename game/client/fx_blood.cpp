@@ -33,9 +33,9 @@ PRECACHE( MATERIAL, "effects/blood_puff" )
 PRECACHE_REGISTER_END()
 
 // Cached material handles
-PMaterialHandle g_Blood_Core = NULL;
-PMaterialHandle g_Blood_Gore = NULL;
-PMaterialHandle g_Blood_Drops = NULL;
+PMaterialHandle g_Blood_Core = nullptr;
+PMaterialHandle g_Blood_Gore = nullptr;
+PMaterialHandle g_Blood_Drops = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -140,7 +140,7 @@ void FX_BloodSpray( const Vector &origin, const Vector &normal, float scale, uns
 
 			tParticle = (TrailParticle *) pTrailEmitter->AddParticle( sizeof(TrailParticle), hMaterial, offset );
 
-			if ( tParticle == NULL )
+			if ( tParticle == nullptr)
 				break;
 
 			tParticle->m_flLifetime	= 0.0f;
@@ -169,7 +169,7 @@ void FX_BloodSpray( const Vector &origin, const Vector &normal, float scale, uns
 
 			tParticle = (TrailParticle *) pTrailEmitter->AddParticle( sizeof(TrailParticle), hMaterial, offset );
 
-			if ( tParticle == NULL )
+			if ( tParticle == nullptr)
 				break;
 
 			tParticle->m_flLifetime	= 0.0f;
@@ -217,7 +217,7 @@ void FX_BloodSpray( const Vector &origin, const Vector &normal, float scale, uns
 
 				pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), hMaterial, offset );
 
-				if ( pParticle != NULL )
+				if ( pParticle != nullptr)
 				{
 					pParticle->m_flLifetime = 0.0f;
 					pParticle->m_flDieTime	= 0.3f;
@@ -263,7 +263,7 @@ void FX_BloodSpray( const Vector &origin, const Vector &normal, float scale, uns
 
 				pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), hMaterial, offset );
 
-				if ( pParticle != NULL )
+				if ( pParticle != nullptr)
 				{
 					pParticle->m_flLifetime = 0.0f;
 					pParticle->m_flDieTime	= random->RandomFloat( 0.5f, 0.8f);
@@ -336,7 +336,7 @@ void FX_BloodBulletImpact( const Vector &origin, const Vector &normal, float sca
 	pSimple->GetBinding().SetBBox( origin - Vector( 16, 16, 16 ), origin + Vector( 16, 16, 16 ) );
 
 	// Cache the material if we haven't already
-	if ( g_Blood_Core == NULL )
+	if ( g_Blood_Core == nullptr)
 	{
 		g_Blood_Core = ParticleMgr()->GetPMaterial( "effects/blood_core" );
 	}
@@ -349,7 +349,7 @@ void FX_BloodBulletImpact( const Vector &origin, const Vector &normal, float sca
 
 	pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Blood_Core, offset );
 
-	if ( pParticle != NULL )
+	if ( pParticle != nullptr)
 	{
 		pParticle->m_flLifetime = 0.0f;
 		pParticle->m_flDieTime	= random->RandomFloat( 0.25f, 0.5f);
@@ -374,7 +374,7 @@ void FX_BloodBulletImpact( const Vector &origin, const Vector &normal, float sca
 	}
 
 	// Cache the material if we haven't already
-	if ( g_Blood_Gore == NULL )
+	if ( g_Blood_Gore == nullptr)
 	{
 		g_Blood_Gore = ParticleMgr()->GetPMaterial( "effects/blood_gore" );
 	}
@@ -385,7 +385,7 @@ void FX_BloodBulletImpact( const Vector &origin, const Vector &normal, float sca
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Blood_Gore, offset );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			pParticle->m_flLifetime = 0.0f;
 			pParticle->m_flDieTime	= random->RandomFloat( 0.5f, 0.75f);
@@ -427,7 +427,7 @@ void FX_BloodBulletImpact( const Vector &origin, const Vector &normal, float sca
 	// Enable simple collisions with nearby surfaces
 	pTrailEmitter->Setup(origin, &normal, 1, 10, 100, 400, 0.2, 0 );
 
-	if ( g_Blood_Drops == NULL )
+	if ( g_Blood_Drops == nullptr)
 	{
 		g_Blood_Drops = ParticleMgr()->GetPMaterial( "effects/blood_drop" );
 	}
@@ -442,7 +442,7 @@ void FX_BloodBulletImpact( const Vector &origin, const Vector &normal, float sca
 
 		tParticle = (TrailParticle *) pTrailEmitter->AddParticle( sizeof(TrailParticle), g_Blood_Drops, offset );
 
-		if ( tParticle == NULL )
+		if ( tParticle == nullptr)
 			break;
 
 		tParticle->m_flLifetime	= 0.0f;
@@ -549,7 +549,7 @@ DECLARE_CLIENT_EFFECT_END()
 void HunterDamageCallback( const CEffectData &data )
 {
 	CSmartPtr<CSimple3DEmitter> pGlassEmitter = CSimple3DEmitter::Create( "HunterDamage" );
-	if ( pGlassEmitter == NULL )
+	if ( pGlassEmitter == nullptr)
 		return;
 
 	pGlassEmitter->SetSortOrigin( data.m_vOrigin );
@@ -575,7 +575,7 @@ void HunterDamageCallback( const CEffectData &data )
 		spawnOffset = data.m_vOrigin + RandomVector( -32.0f, 32.0f );
 		pFleckParticle = (Particle3D *) pGlassEmitter->AddParticle( sizeof(Particle3D), g_Mat_Fleck_Antlion[random->RandomInt(0,1)], spawnOffset );
 
-		if ( pFleckParticle == NULL )
+		if ( pFleckParticle == nullptr)
 			break;
 
 		pFleckParticle->m_flLifeRemaining	= random->RandomFloat( 2.0f, 3.0f );

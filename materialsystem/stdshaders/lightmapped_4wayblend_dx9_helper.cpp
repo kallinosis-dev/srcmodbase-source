@@ -502,7 +502,7 @@ void DrawLightmapped_4WayBlend_DX9( CBaseVSShader *pShader, IMaterialVar** param
 		
 				int nLightingPreviewMode = IS_FLAG2_SET( MATERIAL_VAR2_USE_GBUFFER0 ) + 2 * IS_FLAG2_SET( MATERIAL_VAR2_USE_GBUFFER1 );
 
-				pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, 0, 0 );
+				pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, 0 );
 
 				// Pre-cache pixel shaders
 				bool hasBaseAlphaEnvmapMask = IS_FLAG_SET( MATERIAL_VAR_BASEALPHAENVMAPMASK );
@@ -1071,7 +1071,7 @@ void DrawLightmapped_4WayBlend_DX9( CBaseVSShader *pShader, IMaterialVar** param
 			BOOL bCSMEnabled = pShaderAPI->IsCascadedShadowMapping() && !ToolsEnabled();
 			if ( bCSMEnabled )
 			{
-				ITexture *pDepthTextureAtlas = NULL;
+				ITexture *pDepthTextureAtlas = nullptr;
 				const CascadedShadowMappingState_t &cascadeState = pShaderAPI->GetCascadedShadowMappingState( &pDepthTextureAtlas, true );
 
 				DynamicCmdsOut.BindTexture( pShader, SHADER_SAMPLER15, TEXTURE_BINDFLAGS_SHADOWDEPTH, pDepthTextureAtlas, 0 );
@@ -1096,7 +1096,7 @@ void DrawLightmapped_4WayBlend_DX9( CBaseVSShader *pShader, IMaterialVar** param
 		{
 			if ( IsGameConsole() && pShaderAPI->IsCascadedShadowMapping() )
 			{
-				ITexture *pDepthTextureAtlas = NULL;
+				ITexture *pDepthTextureAtlas = nullptr;
 				const CascadedShadowMappingState_t &cascadeState = pShaderAPI->GetCascadedShadowMappingState( &pDepthTextureAtlas, true );
 
 				if ( pDepthTextureAtlas )
@@ -1171,7 +1171,7 @@ void DrawLightmapped_4WayBlend_DX9_FastPath( int *dynVSIdx, int *dynPSIdx, CBase
 	pShaderAPI->SetBooleanPixelShaderConstant( 0, (BOOL*)&bCSMEnabled, 1 );
 	if ( bCSMEnabled )
 	{
-		ITexture *pDepthTextureAtlas = NULL;
+		ITexture *pDepthTextureAtlas = nullptr;
 		const CascadedShadowMappingState_t &cascadeState = pShaderAPI->GetCascadedShadowMappingState( &pDepthTextureAtlas, true );
 		pShader->BindTexture( SHADER_SAMPLER15, TEXTURE_BINDFLAGS_SHADOWDEPTH, pDepthTextureAtlas, 0 );
 		pShaderAPI->SetPixelShaderConstant( 64, &cascadeState.m_vLightColor.x, CASCADED_SHADOW_MAPPING_CONSTANT_BUFFER_SIZE );

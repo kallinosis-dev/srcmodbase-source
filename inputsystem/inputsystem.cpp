@@ -79,9 +79,9 @@ extern int countBits( uint32 iValue );
 CInputSystem::CInputSystem()
 {
 	m_nLastPollTick = m_nLastSampleTick = m_StartupTimeTick = 0;
-	m_ChainedWndProc = 0;
-	m_hAttachedHWnd = 0;
-	m_hEvent = NULL;
+	m_ChainedWndProc = nullptr;
+	m_hAttachedHWnd = nullptr;
+	m_hEvent = nullptr;
 	m_bEnabled = true;
 	m_bPumpEnabled = true;
 	m_bIsPolling = false;
@@ -95,7 +95,7 @@ CInputSystem::CInputSystem()
 	m_bRawInputSupported = false;
 	m_bIMEComposing = false;
 	m_nUIEventClientCount = 0;
-	m_hLastIMEHWnd = NULL;
+	m_hLastIMEHWnd = nullptr;
 	m_hCurrentCaptureWnd = PLAT_WINDOW_INVALID;
 	m_bCursorVisible = true;
 	m_hCursor = INPUT_CURSOR_HANDLE_INVALID;
@@ -120,8 +120,8 @@ CInputSystem::CInputSystem()
 	m_PS3MouseConnected = false;
 #endif
 
-	m_pXInputDLL = NULL;
-	m_pRawInputDLL = NULL;
+	m_pXInputDLL = nullptr;
+	m_pRawInputDLL = nullptr;
 
 	for ( int i = 0; i < Q_ARRAYSIZE(m_nControllerType); i++)
 	{
@@ -150,13 +150,13 @@ CInputSystem::~CInputSystem()
 	if ( m_pXInputDLL )
 	{
 		Sys_UnloadModule( m_pXInputDLL );
-		m_pXInputDLL = NULL;
+		m_pXInputDLL = nullptr;
 	}
 
 	if ( m_pRawInputDLL )
 	{
 		Sys_UnloadModule( m_pRawInputDLL );
-		m_pRawInputDLL = NULL;
+		m_pRawInputDLL = nullptr;
 	}
 
 }
@@ -179,7 +179,7 @@ InitReturnVal_t CInputSystem::Init()
 		m_uiMouseWheel = RegisterWindowMessage( "MSWHEEL_ROLLMSG" );
 	}
 
-	m_hEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
+	m_hEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if ( !m_hEvent )
 		return INIT_FAILED;
 #endif
@@ -295,10 +295,10 @@ void CInputSystem::SetPS3CellPadNoDataHook( BCellPadNoDataHook_t hookFunc )
 void CInputSystem::Shutdown()
 {
 #if !defined( PLATFORM_POSIX )
-	if ( m_hEvent != NULL )
+	if ( m_hEvent != nullptr)
 	{
 		CloseHandle( m_hEvent );
-		m_hEvent = NULL;
+		m_hEvent = nullptr;
 	}
 #endif
 
@@ -454,11 +454,11 @@ void CInputSystem::DetachFromWindow( )
 	if ( m_ChainedWndProc )
 	{
 		SetWindowLongPtrW( m_hAttachedHWnd, GWLP_WNDPROC, (LONG_PTR)m_ChainedWndProc );
-		m_ChainedWndProc = 0;
+		m_ChainedWndProc = nullptr;
 	}
 #endif
 
-	m_hAttachedHWnd = 0;
+	m_hAttachedHWnd = nullptr;
 }
 
 
@@ -681,7 +681,7 @@ void CInputSystem::PollInputState_Windows()
 	{
 		// Poll mouse + keyboard
 		MSG msg;
-		while ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+		while ( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
 		{
 			if ( msg.message == WM_QUIT )
 			{
@@ -1991,19 +1991,19 @@ void CInputSystem::InitCursors()
 	// load up all default cursors
 	memset( m_pDefaultCursors, 0, sizeof(m_pDefaultCursors) );
 	m_pDefaultCursors[INPUT_CURSOR_NONE]		= INPUT_CURSOR_HANDLE_INVALID;
-	m_pDefaultCursors[INPUT_CURSOR_ARROW]		= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_NORMAL);
-	m_pDefaultCursors[INPUT_CURSOR_IBEAM]		= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_IBEAM);
-	m_pDefaultCursors[INPUT_CURSOR_HOURGLASS]	= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_WAIT);
-	m_pDefaultCursors[INPUT_CURSOR_CROSSHAIR]	= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_CROSS);
-	m_pDefaultCursors[INPUT_CURSOR_WAITARROW]	= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)32650);
-	m_pDefaultCursors[INPUT_CURSOR_UP]			= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_UP);
-	m_pDefaultCursors[INPUT_CURSOR_SIZE_NW_SE]	= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_SIZENWSE);
-	m_pDefaultCursors[INPUT_CURSOR_SIZE_NE_SW]	= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_SIZENESW);
-	m_pDefaultCursors[INPUT_CURSOR_SIZE_W_E]	= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_SIZEWE);
-	m_pDefaultCursors[INPUT_CURSOR_SIZE_N_S]	= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_SIZENS);
-	m_pDefaultCursors[INPUT_CURSOR_SIZE_ALL]	= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_SIZEALL);
-	m_pDefaultCursors[INPUT_CURSOR_NO]			= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)OCR_NO);
-	m_pDefaultCursors[INPUT_CURSOR_HAND]		= (InputCursorHandle_t)LoadCursor(NULL, (LPCTSTR)32649);
+	m_pDefaultCursors[INPUT_CURSOR_ARROW]		= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_NORMAL);
+	m_pDefaultCursors[INPUT_CURSOR_IBEAM]		= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_IBEAM);
+	m_pDefaultCursors[INPUT_CURSOR_HOURGLASS]	= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_WAIT);
+	m_pDefaultCursors[INPUT_CURSOR_CROSSHAIR]	= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_CROSS);
+	m_pDefaultCursors[INPUT_CURSOR_WAITARROW]	= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)32650);
+	m_pDefaultCursors[INPUT_CURSOR_UP]			= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_UP);
+	m_pDefaultCursors[INPUT_CURSOR_SIZE_NW_SE]	= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_SIZENWSE);
+	m_pDefaultCursors[INPUT_CURSOR_SIZE_NE_SW]	= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_SIZENESW);
+	m_pDefaultCursors[INPUT_CURSOR_SIZE_W_E]	= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_SIZEWE);
+	m_pDefaultCursors[INPUT_CURSOR_SIZE_N_S]	= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_SIZENS);
+	m_pDefaultCursors[INPUT_CURSOR_SIZE_ALL]	= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_SIZEALL);
+	m_pDefaultCursors[INPUT_CURSOR_NO]			= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)OCR_NO);
+	m_pDefaultCursors[INPUT_CURSOR_HAND]		= (InputCursorHandle_t)LoadCursor(nullptr, (LPCTSTR)32649);
 #endif
 }
 
@@ -2061,7 +2061,7 @@ InputCursorHandle_t CInputSystem::LoadCursorFromFile( const char *pFileName, con
 	m_UserCursors[ fn ] = (InputCursorHandle_t)newCursor;
 	return (InputCursorHandle_t)newCursor;
 #endif
-	return 0;
+	return nullptr;
 }
 
 void CInputSystem::SetCursorIcon( InputCursorHandle_t hCursor )

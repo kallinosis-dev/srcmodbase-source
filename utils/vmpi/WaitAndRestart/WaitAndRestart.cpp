@@ -40,7 +40,7 @@ char* GetLastErrorString()
 	static char err[2048];
 	
 	LPVOID lpMsgBuf;
-	FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR) &lpMsgBuf, 0, NULL );
+	FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR) &lpMsgBuf, 0, nullptr);
 	strncpy( err, (char*)lpMsgBuf, sizeof( err ) );
 	LocalFree( lpMsgBuf );
 
@@ -140,14 +140,14 @@ Sleep(5000);
 	PROCESS_INFORMATION pi;
 	memset( &pi, 0, sizeof( pi ) );
 
-	if ( CreateProcess( 
-		NULL, 
-		commandLine, 
-		NULL,						// security
-		NULL,
+	if ( CreateProcess(
+		nullptr, 
+		commandLine,
+		nullptr,						// security
+		nullptr,
 		FALSE,
 		0,							// flags
-		NULL,						// environment
+		nullptr,						// environment
 		pWorkingDir,						// current directory
 		&si,
 		&pi ) )

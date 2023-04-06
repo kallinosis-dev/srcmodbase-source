@@ -117,7 +117,7 @@ char const *Matcher::GetRaw()
 
 Criteria::Criteria()
 {
-	value = NULL;
+	value = nullptr;
 	weight.SetFloat( 1.0f );
 	required = false;
 }
@@ -161,7 +161,7 @@ Criteria& Criteria::operator =(const Criteria& src )
 ParserResponse::ParserResponse() : m_followup()
 {
 	type = RESPONSE_NONE;
-	value = NULL;
+	value = nullptr;
 	weight.SetFloat( 1.0f );
 	depletioncount = 0;
 	first = false;
@@ -208,7 +208,7 @@ Rule::Rule() : m_nForceWeight(0)
 {
 	m_bMatchOnce = false;
 	m_bEnabled = true;
-	m_szContext = NULL;
+	m_szContext = nullptr;
 	m_bApplyContextToWorld = false;
 }
 

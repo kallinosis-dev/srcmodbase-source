@@ -119,7 +119,7 @@ CAnimGroupStateIconSet::CAnimGroupStateIconSet( Panel *pParent, const char *pchN
 , m_pImageIndexMap( pImageIndexMap )
 , m_StateType( itemType )
 , m_pDag( pDag )
-, m_pLockButton( NULL )
+, m_pLockButton(nullptr)
 {
 	m_pLockButton = new IconButton( this, "LockButton" );
 	m_pLockButton->SetVisible( true );
@@ -167,10 +167,10 @@ void CAnimGroupStateIconSet::PerformLayout()
 
 const CDmeDag *CAnimGroupStateIconSet::GetDagFromDragElement( CDmElement *pElement )
 {
-	if ( pElement == NULL )
-		return NULL;
+	if ( pElement == nullptr)
+		return nullptr;
 
-	const CDmeDag *pDag = NULL;
+	const CDmeDag *pDag = nullptr;
 	
 	CDmeTransformControl *pTransformControl = CastElement< CDmeTransformControl >( pElement );
 	if ( pTransformControl )
@@ -196,7 +196,7 @@ bool CAnimGroupStateIconSet::IsDroppable( CUtlVector< KeyValues * > &msglist )
 	CDmElement *pElement = GetElementKeyValue< CDmElement >( pData, "dmeelement" );
 	
 	const CDmeDag *pParentDag = GetDagFromDragElement( pElement );
-	if ( pParentDag == NULL )
+	if ( pParentDag == nullptr)
 		return false;
 
 	// Can't parent a dag to is child
@@ -250,7 +250,7 @@ void CAnimGroupStateIconSet::IconButtonRightClick()
 
 void CAnimGroupStateIconSet::UpdateState()
 {
-	if ( m_pDag == NULL )
+	if ( m_pDag == nullptr)
 		return;
 	
 	m_pLockButton->ClearImages();
@@ -261,9 +261,9 @@ void CAnimGroupStateIconSet::UpdateState()
 	bool bRot = false;
 	const CDmeDag *pOverrideParent = m_pDag->GetOverrideParent( bPos, bRot, true );
 
-	if ( pOverrideParent != NULL )
+	if ( pOverrideParent != nullptr)
 	{
-		bool bLockedToWorld = ( pOverrideParent->GetParent() == NULL );
+		bool bLockedToWorld = ( pOverrideParent->GetParent() == nullptr);
 		int nFullLockedIcon = bLockedToWorld ? STATE_ICON_DAG_LOCKED_WORLD : STATE_ICON_DAG_LOCKED;
 		int nPartialLockedIcon = bLockedToWorld ? STATE_ICON_DAG_LOCKED_WORLD_PARTIAL : STATE_ICON_DAG_LOCKED_PARTIAL;
 		
@@ -367,9 +367,9 @@ public:
 	int AddControlToTree( int parentIndex, CDmElement *pControl, CDmeControlGroup *pControlGroup, CDmeAnimationSet *pAnimSet );
 	void AddTransformComponentsToTree( int parentIndex, CDmeTransformControl *pTransformControl, CDmeControlGroup *pControlGroup, CDmeAnimationSet *pAnimSet, TransformComponent_t nComponentFlags );
 
-	CDmElement *GetTreeItemData( int nTreeIndex, AnimTreeItemType_t *pItemType = NULL,
-								CDmeAnimationSet **ppParentAnimationSet = NULL,
-								CDmeControlGroup **ppParentControlGroup = NULL ) const;
+	CDmElement *GetTreeItemData( int nTreeIndex, AnimTreeItemType_t *pItemType = nullptr,
+								CDmeAnimationSet **ppParentAnimationSet = nullptr,
+								CDmeControlGroup **ppParentControlGroup = nullptr) const;
 
 	// Get the component flags associated with the specified item
 	TransformComponent_t GetItemComponentFlags( int nTreeIndex ) const;
@@ -514,7 +514,7 @@ int CAnimGroupTree::AddAnimationSetToTree( CDmeAnimationSet *pAnimSet )
 	
 	Color groupColor = ModifyColorByGroupState( m_RootColor, pRootGroup );
 
-	return AddItemToTree( ANIMTREE_ITEM_ANIMSET, pAnimSet->GetName(), parentIndex, groupColor, pAnimSet, pAnimSet, NULL, true, selection, TRANSFORM_COMPONENT_NONE );
+	return AddItemToTree( ANIMTREE_ITEM_ANIMSET, pAnimSet->GetName(), parentIndex, groupColor, pAnimSet, pAnimSet, nullptr, true, selection, TRANSFORM_COMPONENT_NONE );
 }
 
 int CAnimGroupTree::AddControlGroupToTree( int parentIndex, CDmeControlGroup *pControlGroup, CDmeControlGroup *pParentGroup, CDmeAnimationSet *pAnimSet )
@@ -565,15 +565,15 @@ void CAnimGroupTree::AddTransformComponentsToTree( int nParentIndex, CDmeTransfo
 	}
 	else if ( nParentComponentFlags == TRANSFORM_COMPONENT_POSITION )
 	{
-		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - pos.x", pName ), nParentIndex, color, pControl, pAnimSet, NULL, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_POSITION_X, nSelectionFlags ), TRANSFORM_COMPONENT_POSITION_X );
-		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - pos.y", pName ), nParentIndex, color, pControl, pAnimSet, NULL, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_POSITION_Y, nSelectionFlags ), TRANSFORM_COMPONENT_POSITION_Y );
-		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - pos.z", pName ), nParentIndex, color, pControl, pAnimSet, NULL, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_POSITION_Z, nSelectionFlags ), TRANSFORM_COMPONENT_POSITION_Z );
+		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - pos.x", pName ), nParentIndex, color, pControl, pAnimSet, nullptr, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_POSITION_X, nSelectionFlags ), TRANSFORM_COMPONENT_POSITION_X );
+		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - pos.y", pName ), nParentIndex, color, pControl, pAnimSet, nullptr, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_POSITION_Y, nSelectionFlags ), TRANSFORM_COMPONENT_POSITION_Y );
+		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - pos.z", pName ), nParentIndex, color, pControl, pAnimSet, nullptr, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_POSITION_Z, nSelectionFlags ), TRANSFORM_COMPONENT_POSITION_Z );
 	}
 	else if ( nParentComponentFlags == TRANSFORM_COMPONENT_ROTATION )
 	{
-		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - rot.x", pName ), nParentIndex, color, pControl, pAnimSet, NULL, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_ROTATION_X, nSelectionFlags ), TRANSFORM_COMPONENT_ROTATION_X );
-		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - rot.y", pName ), nParentIndex, color, pControl, pAnimSet, NULL, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_ROTATION_Y, nSelectionFlags ), TRANSFORM_COMPONENT_ROTATION_Y );
-		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - rot.z", pName ), nParentIndex, color, pControl, pAnimSet, NULL, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_ROTATION_Z, nSelectionFlags ), TRANSFORM_COMPONENT_ROTATION_Z );
+		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - rot.x", pName ), nParentIndex, color, pControl, pAnimSet, nullptr, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_ROTATION_X, nSelectionFlags ), TRANSFORM_COMPONENT_ROTATION_X );
+		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - rot.y", pName ), nParentIndex, color, pControl, pAnimSet, nullptr, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_ROTATION_Y, nSelectionFlags ), TRANSFORM_COMPONENT_ROTATION_Y );
+		AddItemToTree( ANIMTREE_ITEM_COMPONENT, CFmtStr( "%s - rot.z", pName ), nParentIndex, color, pControl, pAnimSet, nullptr, false, GetSelectionStateForFlags( TRANSFORM_COMPONENT_ROTATION_Z, nSelectionFlags ), TRANSFORM_COMPONENT_ROTATION_Z );
 	}
 }
 
@@ -604,9 +604,9 @@ int CAnimGroupTree::AddItemToTree( AnimTreeItemType_t itemType, const char *labe
 	kv->SetInt( "Expand", bExpandable ? 1 : 0 );
 	
 	CDmeTransformControl *pTransformControl = CastElement< CDmeTransformControl >( pElement );
-	CDmeTransform *pTransform = ( pTransformControl != NULL ) ? pTransformControl->GetTransform() : NULL;
+	CDmeTransform *pTransform = ( pTransformControl != nullptr) ? pTransformControl->GetTransform() : nullptr;
 
-	CDmeDag *pDag = ( pTransform != NULL ) ? pTransform->GetDag() : NULL;
+	CDmeDag *pDag = ( pTransform != nullptr) ? pTransform->GetDag() : nullptr;
 
 	if ( m_bStateInterface )
 	{			
@@ -678,7 +678,7 @@ CDmElement *CAnimGroupTree::GetTreeItemData( int nTreeIndex, AnimTreeItemType_t 
 {
 	KeyValues *kv = GetItemData( nTreeIndex );
 	if ( !kv )
-		return NULL;
+		return nullptr;
 
 	if ( pItemType )
 	{
@@ -708,9 +708,9 @@ TransformComponent_t CAnimGroupTree::GetItemComponentFlags( int nTreeIndex ) con
 
 CDmeControlGroup *CAnimGroupTree::GetControlGroupForTreeItem( int nItemIndex ) const
 {
-	CDmElement *pElement = GetTreeItemData( nItemIndex, NULL );
+	CDmElement *pElement = GetTreeItemData( nItemIndex, nullptr);
 	
-	CDmeControlGroup *pControlGroup = NULL;
+	CDmeControlGroup *pControlGroup = nullptr;
 	const CDmeAnimationSet *pAnimationSet = CastElement< CDmeAnimationSet >( pElement );
 
 	if ( pAnimationSet )
@@ -730,7 +730,7 @@ CAnimGroupStateIconSet *CAnimGroupTree::GetTreeItemStateIconSet( int nTreeIndex 
 {
 	KeyValues *kv = GetItemData( nTreeIndex );
 	if ( !kv )
-		return NULL;
+		return nullptr;
 
 	return static_cast< CAnimGroupStateIconSet * >( kv->GetPtr( "stateIconSet" ) );
 }
@@ -742,16 +742,16 @@ CDmeDag *CAnimGroupTree::GetDagForTreeItem( int nTreeItemIndex ) const
 	CDmElement *pElement = GetTreeItemData( nTreeItemIndex, &itemType );
 
 	if ( !pElement && itemType != ANIMTREE_ITEM_GROUP )
-		return NULL;
+		return nullptr;
 
 	CDmeTransformControl *pTransformControl = CastElement< CDmeTransformControl >( pElement );
-	if ( pTransformControl == NULL )
-		return NULL;
+	if ( pTransformControl == nullptr)
+		return nullptr;
 
 	CDmeTransform *pTransform = pTransformControl->GetTransform();
 
 	if ( !pTransform )
-		return NULL;	
+		return nullptr;	
 
 	return pTransform->GetDag();
 }
@@ -762,7 +762,7 @@ void CAnimGroupTree::CleanupContextMenu()
 	if ( m_hContextMenu.Get() )
 	{
 		delete m_hContextMenu.Get();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 }
 
@@ -770,7 +770,7 @@ bool CAnimGroupTree::CanAddDragIntoGroup( const CDmeControlGroup *pTargetGroup, 
 {
 	const static CUtlSymbolLarge symControls = g_pDataModel->GetSymbol( "controls" );
 
-	if ( ( pTargetGroup == NULL ) || ( pDragElement == NULL ) || ( pTargetElement == NULL ) )
+	if ( ( pTargetGroup == nullptr) || ( pDragElement == nullptr) || ( pTargetElement == nullptr) )
 		return false;
 
 	// Cannot drag a group into itself
@@ -778,7 +778,7 @@ bool CAnimGroupTree::CanAddDragIntoGroup( const CDmeControlGroup *pTargetGroup, 
 		return false;
 
 	CDmeAnimationSet *pTargetGroupAnimSet = pTargetGroup->FindAnimationSet( true );
-	CDmeAnimationSet *pDragGroupAnimSet = NULL;
+	CDmeAnimationSet *pDragGroupAnimSet = nullptr;
 	
 	const CDmeControlGroup *pDragGroup = CastElement< CDmeControlGroup >( pDragElement );
 	
@@ -795,7 +795,7 @@ bool CAnimGroupTree::CanAddDragIntoGroup( const CDmeControlGroup *pTargetGroup, 
 			return false;
 				
 		CDmeControlGroup *pDragGroupParent = pDragGroup->FindParent();
-		pDragGroupAnimSet = ( pDragGroupParent != NULL ) ? pDragGroupParent->FindAnimationSet( true ) : NULL;
+		pDragGroupAnimSet = ( pDragGroupParent != nullptr) ? pDragGroupParent->FindAnimationSet( true ) : nullptr;
 	}
 	else 
 	{
@@ -820,9 +820,9 @@ bool CAnimGroupTree::IsItemDroppable( int nItemIndex, bool bInsertBefore, CUtlVe
 	if ( msglist.Count() == 0 )
 		return false;
 		
-	CDmeControlGroup *pParentControlGroup = NULL;
-	CDmElement *pTargetElement = GetTreeItemData( nItemIndex, NULL, NULL, &pParentControlGroup );
-	if ( pTargetElement == NULL )
+	CDmeControlGroup *pParentControlGroup = nullptr;
+	CDmElement *pTargetElement = GetTreeItemData( nItemIndex, nullptr, nullptr, &pParentControlGroup );
+	if ( pTargetElement == nullptr)
 		return false;
 
 	CDmeControlGroup *pTargetControlGroup = GetControlGroupForTreeItem( nItemIndex );
@@ -833,12 +833,12 @@ bool CAnimGroupTree::IsItemDroppable( int nItemIndex, bool bInsertBefore, CUtlVe
 	for ( int iMsg = 0; iMsg < nMsgCount; ++iMsg )
 	{		
 		KeyValues *pData = msglist[ iMsg ];
-		if ( pData == NULL )
+		if ( pData == nullptr)
 			continue;
 
 		if ( pData->FindKey( "color" ) )
 		{	
-			if ( pTargetControlGroup != NULL )
+			if ( pTargetControlGroup != nullptr)
 				return true;
 		}
 
@@ -855,10 +855,10 @@ void CAnimGroupTree::OnItemDropped( int nItemIndex, bool bInsertBefore, CUtlVect
 	if ( !IsItemDroppable( nItemIndex, bInsertBefore, msglist ) )
 		return;
 
-	CDmeControlGroup *pParentControlGroup = NULL;
-	CDmeAnimationSet *pTargetAnimSet = NULL;
-	CDmElement *pTargetElement = GetTreeItemData( nItemIndex, NULL, &pTargetAnimSet, &pParentControlGroup );
-	if ( pTargetElement == NULL )
+	CDmeControlGroup *pParentControlGroup = nullptr;
+	CDmeAnimationSet *pTargetAnimSet = nullptr;
+	CDmElement *pTargetElement = GetTreeItemData( nItemIndex, nullptr, &pTargetAnimSet, &pParentControlGroup );
+	if ( pTargetElement == nullptr)
 		return;
 
 	CDmeControlGroup *pTargetControlGroup = GetControlGroupForTreeItem( nItemIndex );
@@ -870,7 +870,7 @@ void CAnimGroupTree::OnItemDropped( int nItemIndex, bool bInsertBefore, CUtlVect
 	for ( int iMsg = 0; iMsg < nMsgCount; ++iMsg )
 	{		
 		KeyValues *pData = msglist[ iMsg ];
-		if ( pData == NULL )
+		if ( pData == nullptr)
 			continue;
 
 		if ( pData->FindKey( "color" ) )
@@ -888,11 +888,11 @@ void CAnimGroupTree::OnItemDropped( int nItemIndex, bool bInsertBefore, CUtlVect
 			CDmeControlGroup *pDragGroup = CastElement< CDmeControlGroup >( pDragElement );
 			if ( pDragGroup )
 			{
-				pNewParentGroup->AddChild( pDragGroup, ( bInsertBefore ? pTargetControlGroup : NULL ) );
+				pNewParentGroup->AddChild( pDragGroup, ( bInsertBefore ? pTargetControlGroup : nullptr) );
 			}
 			else
 			{
-				pNewParentGroup->AddControl( pDragElement, ( bInsertBefore ? pTargetElement : NULL ) );
+				pNewParentGroup->AddControl( pDragElement, ( bInsertBefore ? pTargetElement : nullptr) );
 			}
 
 			if ( pTargetAnimSet )
@@ -924,16 +924,16 @@ void CAnimGroupTree::GetSelectedItemsForDrag( int nPrimaryDragItem, CUtlVector< 
 		return;
 
 	AnimTreeItemType_t itemType;
-	CDmeControlGroup *pPrimaryParentGroup = NULL;
-	GetTreeItemData( nPrimaryDragItem, &itemType, NULL, &pPrimaryParentGroup );
+	CDmeControlGroup *pPrimaryParentGroup = nullptr;
+	GetTreeItemData( nPrimaryDragItem, &itemType, nullptr, &pPrimaryParentGroup );
 
 	if ( itemType == ANIMTREE_ITEM_COMPONENT )
 		return;
 
 	for ( int i = 0 ; i < nNumSelected; ++i )
 	{
-		CDmeControlGroup *pParentGroup = NULL;
-		GetTreeItemData( selectedItems[ i ], &itemType, NULL, &pParentGroup );
+		CDmeControlGroup *pParentGroup = nullptr;
+		GetTreeItemData( selectedItems[ i ], &itemType, nullptr, &pParentGroup );
 		
 		if ( ( pPrimaryParentGroup == pParentGroup ) && ( itemType != ANIMTREE_ITEM_COMPONENT ) )
 		{
@@ -1037,7 +1037,7 @@ void CAnimGroupTree::OnContextMenuSelection( int itemIndex )
 
 void CAnimGroupTree::OnClearWorkCameraParent()
 {
-	m_pGroupPanel->m_pController->SetWorkCameraParent( NULL );
+	m_pGroupPanel->m_pController->SetWorkCameraParent(nullptr);
 }
 
 
@@ -1140,7 +1140,7 @@ void CAnimGroupTree::PerformLayout()
 	for ( int itemID = FirstItem(); itemID != InvalidItemID(); itemID = NextItem( itemID ) )
 	{
 		CAnimGroupStateIconSet *pIconSet = GetTreeItemStateIconSet( itemID );
-		if ( pIconSet == NULL )
+		if ( pIconSet == nullptr)
 			continue;
 
 		int nPosX, nPosY, nWidth, nHeight; 
@@ -1241,7 +1241,7 @@ bool CAnimGroupTree::VisibleControlsBelow_R( CDmeControlGroup *pGroup )
 	for ( int iChild = 0; iChild < nNumChildren; ++iChild )
 	{
 		CDmeControlGroup *pChild =  children[ iChild ];
-		if ( pChild == NULL )
+		if ( pChild == nullptr)
 			continue;
 
 		if ( VisibleControlsBelow_R( pChild ) )
@@ -1262,7 +1262,7 @@ void CAnimGroupTree::AddDmeControlGroup( int nParentItemIndex, CDmeAnimationSet 
 	for ( int iGroup = 0; iGroup < nGroups; ++iGroup )
 	{
 		CDmeControlGroup *pSubGroup = subGroups[ iGroup ];
-		if ( pSubGroup == NULL )
+		if ( pSubGroup == nullptr)
 			continue;
 
 		if ( !VisibleControlsBelow_R( pSubGroup ) )
@@ -1430,7 +1430,7 @@ int CAnimGroupTree::FindItemForElement( const CDmElement *pElement, TransformCom
 //-----------------------------------------------------------------------------
 int CAnimGroupTree::BuildTreeToAnimationSet( CDmeAnimationSet *pAnimationSet )
 {
-	if ( pAnimationSet == NULL )
+	if ( pAnimationSet == nullptr)
 		return -1;
 
 	// Check to see if the animation set is already has an item, if so just return that.
@@ -1454,7 +1454,7 @@ int CAnimGroupTree::BuildTreeToAnimationSet( CDmeAnimationSet *pAnimationSet )
 //-----------------------------------------------------------------------------
 int CAnimGroupTree::BuildTreeToGroup( CDmeControlGroup *pGroup, CDmeAnimationSet *pAnimationSet )
 {	
-	if ( ( pGroup == NULL ) || ( pAnimationSet == NULL ) )
+	if ( ( pGroup == nullptr) || ( pAnimationSet == nullptr) )
 		return -1;
 
 	// Check to see if the group is already has an item, if so just return that.
@@ -1491,12 +1491,12 @@ int CAnimGroupTree::BuildTreeToGroup( CDmeControlGroup *pGroup, CDmeAnimationSet
 //-----------------------------------------------------------------------------
 void CAnimGroupTree::BuildTreeToControl( const CDmElement *pControl, TransformComponent_t nComponentFlags )
 {
-	if ( pControl == NULL )
+	if ( pControl == nullptr)
 		return;
 
 	// Find the animation set to which the control belongs
 	CDmeAnimationSet *pAnimationSet = FindAncestorReferencingElement< CDmeAnimationSet >( pControl );
-	if ( pAnimationSet == NULL )
+	if ( pAnimationSet == nullptr)
 		return;
 
 	// Check to see if the control is already has an item, if so just return that.
@@ -1543,7 +1543,7 @@ void CAnimGroupTree::SetItemSelectionState( int nItemIndex,  SelectionState_t se
 SelectionState_t CAnimGroupTree::GetItemSelectionState( int nItemIndex ) const
 {
 	KeyValues *pItemData = GetItemData( nItemIndex );
-	if ( pItemData == NULL) 
+	if ( pItemData == nullptr) 
 		return SEL_EMPTY;
 	
 	return ( SelectionState_t )( pItemData->GetInt( "selection" ) );
@@ -1582,7 +1582,7 @@ void CAnimGroupTree::GetSelectionRootItems( CUtlVector< int > &rootSelectedItems
 
 CBaseAnimSetControlGroupPanel::CBaseAnimSetControlGroupPanel( vgui::Panel *parent, const char *className, CBaseAnimationSetEditor *editor, bool bControlStateInterface ) :
 	BaseClass( parent, className ),
-	m_pController( NULL )
+	m_pController(nullptr)
 {
 	m_hEditor = editor;
 	m_pController = editor->GetController();
@@ -1737,7 +1737,7 @@ void CBaseAnimSetControlGroupPanel::CollectExpandedItems( CUtlVector< ElementExp
 	if ( !m_hGroups->IsItemExpanded( nItemIndex ) )
 		return;
 
-	ElementExpansion_t *pExpansionInfo = NULL;
+	ElementExpansion_t *pExpansionInfo = nullptr;
 	if ( pElement )
 	{
 		int nIndex = expandedNodes.AddToTail();
@@ -1913,15 +1913,15 @@ void CBaseAnimSetControlGroupPanel::CreateGroupFromSelectedControls()
 	if ( nNumSelectedItems < 0 )
 		return;
 
-	CDmeControlGroup *pCommonAncestor = NULL;
+	CDmeControlGroup *pCommonAncestor = nullptr;
 
 	for ( int iItem = 0; iItem < nNumSelectedItems; ++iItem )
 	{		
 		int nItemIndex = selectedItems[ iItem ];
 
 		AnimTreeItemType_t itemType;
-		CDmeControlGroup *pParentControlGroup = NULL;
-		m_hGroups->GetTreeItemData( nItemIndex, &itemType, NULL, &pParentControlGroup );
+		CDmeControlGroup *pParentControlGroup = nullptr;
+		m_hGroups->GetTreeItemData( nItemIndex, &itemType, nullptr, &pParentControlGroup );
 
 		// Currently not allowed to group animation sets
 		if ( itemType == ANIMTREE_ITEM_ANIMSET )
@@ -1938,17 +1938,17 @@ void CBaseAnimSetControlGroupPanel::CreateGroupFromSelectedControls()
 
 		// If any of the selected items do not have a common
 		// ancestor, do not allow the group to be created.
-		if ( pCommonAncestor == NULL )
+		if ( pCommonAncestor == nullptr)
 			return;
 	}
 
 	// If the selected items did not share a common ancestor a new group cannot be created
-	if ( pCommonAncestor == NULL )
+	if ( pCommonAncestor == nullptr)
 		return;
 
 	// Generate a name for the new group which is unique among the children of the group it will belong to.
 	const CDmeControlGroup *pRootGroup = pCommonAncestor->FindRootControlGroup();
-	if ( pRootGroup == NULL)
+	if ( pRootGroup == nullptr)
 		return;
 
 	CUtlVector< DmElementHandle_t > childList;

@@ -21,7 +21,7 @@ class CNewDocType : public CDialog
 {
 // Construction
 public:
-	CNewDocType(CWnd* pParent = NULL);   // standard constructor
+	CNewDocType(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CNewDocType)

@@ -80,7 +80,7 @@ void CFXQuad::Draw( double frametime )
 	CMatRenderContextPtr pRenderContext( materials );
 
 	//Bind the material
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, m_FXData.m_pMaterial );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, m_FXData.m_pMaterial );
 	CMeshBuilder meshBuilder;
 
 	meshBuilder.Begin( pMesh, MATERIAL_QUADS, 1 );
@@ -167,10 +167,10 @@ bool CFXQuad::IsActive( void )
 void CFXQuad::Destroy( void )
 {
 	//Release the material
-	if ( m_FXData.m_pMaterial != NULL )
+	if ( m_FXData.m_pMaterial != nullptr)
 	{
 		m_FXData.m_pMaterial->DecrementReferenceCount();
-		m_FXData.m_pMaterial = NULL;
+		m_FXData.m_pMaterial = nullptr;
 	}
 }
 

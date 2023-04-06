@@ -40,16 +40,16 @@ bool ForEachEntity( Functor &func )
 class FindInViewConeFunctor
 {
 public:
-	FindInViewConeFunctor( CBasePlayer *me, WhoType who, float tolerance, CBaseEntity *ignore = NULL )
+	FindInViewConeFunctor( CBasePlayer *me, WhoType who, float tolerance, CBaseEntity *ignore = nullptr)
 	{
 		m_me = me;
 		m_who = who;
 		m_tolerance = tolerance;
-		m_target = NULL;
+		m_target = nullptr;
 		m_range = 9999999.9f;
 		m_ignore = ignore;
 
-		me->EyeVectors(&m_dir, NULL, NULL);
+		me->EyeVectors(&m_dir, nullptr, nullptr);
 		m_origin = me->GetAbsOrigin() + me->GetViewOffset();
 	}
 
@@ -95,7 +95,7 @@ public:
 /**
  * Find the closest player within the given view cone
  */
-inline CBasePlayer *GetClosestPlayerInViewCone( CBasePlayer *me, WhoType who, float tolerance = 0.95f, float *range = NULL, CBaseEntity *ignore = NULL )
+inline CBasePlayer *GetClosestPlayerInViewCone( CBasePlayer *me, WhoType who, float tolerance = 0.95f, float *range = nullptr, CBaseEntity *ignore = nullptr)
 {
 	// choke the victim we are pointing at
 	FindInViewConeFunctor checkCone( me, who, tolerance, ignore );
@@ -115,7 +115,7 @@ inline CBasePlayer *GetClosestPlayerInViewCone( CBasePlayer *me, WhoType who, fl
  * Find player closest to ray.
  * Return perpendicular distance to ray in 'offset' if it is non-NULL.
  */
-extern CBasePlayer *GetPlayerClosestToRay( CBasePlayer *me, WhoType who, const Vector &start, const Vector &end, float *offset = NULL );
+extern CBasePlayer *GetPlayerClosestToRay( CBasePlayer *me, WhoType who, const Vector &start, const Vector &end, float *offset = nullptr);
 
 
 //--------------------------------------------------------------------------------------------------------------
@@ -164,7 +164,7 @@ public:
 	{
 		m_ignore = ignore;
 		m_who = who;
-		m_closestPlayer = NULL;
+		m_closestPlayer = nullptr;
 		m_closestPlayerRange = 999999999.9f;
 	}
 
@@ -212,7 +212,7 @@ bool ForEachPlayerNearRay( Functor &func, const Vector &start, const Vector &end
     {
         CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-        if (player == NULL)
+        if (player == nullptr)
 			continue;
 
         if (FNullEnt( player->edict() ))
@@ -250,7 +250,7 @@ bool ForEachPlayerNearSphere( Functor &func, const Vector &origin, float radius 
     {
         CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-        if (player == NULL)
+        if (player == nullptr)
 			continue;
 
         if (FNullEnt( player->edict() ))

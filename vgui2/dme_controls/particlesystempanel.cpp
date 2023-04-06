@@ -44,7 +44,7 @@ enum
 //-----------------------------------------------------------------------------
 CParticleSystemPanel::CParticleSystemPanel( vgui::Panel *pParent, const char *pName ) : BaseClass( pParent, pName )
 {
-	m_pParticleSystem = NULL;
+	m_pParticleSystem = nullptr;
 	m_flLastTime = FLT_MAX;
 	m_bRenderBounds = false;
 	m_bRenderCullBounds = false;
@@ -54,7 +54,7 @@ CParticleSystemPanel::CParticleSystemPanel( vgui::Panel *pParent, const char *pN
 	m_bTickMyself = true;
 	m_bAutoView = false;
 	m_bSuppressAutoView = false;
-	m_ParticleSystemName = NULL;
+	m_ParticleSystemName = nullptr;
 	InvalidateUniqueId( &m_ParticleSystemId );
 	InvalidateUniqueId( &m_RenderHelperId );
 
@@ -74,7 +74,7 @@ CParticleSystemPanel::~CParticleSystemPanel()
 	m_DefaultEnvCubemap.Shutdown();
 
 	delete m_pParticleSystem;
-	m_pParticleSystem = NULL;
+	m_pParticleSystem = nullptr;
 }
 
 
@@ -210,7 +210,7 @@ void CParticleSystemPanel::Simulate()
 	if ( m_pParticleSystem->IsFinished() || bIsInvalid )
 	{
 		delete m_pParticleSystem;
-		m_pParticleSystem = NULL;
+		m_pParticleSystem = nullptr;
 
 		if ( m_bPerformNameBasedLookup )
 		{
@@ -269,7 +269,7 @@ void CParticleSystemPanel::ShutdownParticleCollection()
 		}
 
 		delete m_pParticleSystem;
-		m_pParticleSystem = NULL;
+		m_pParticleSystem = nullptr;
 	}
 }
 
@@ -330,7 +330,7 @@ void CParticleSystemPanel::SetParticleSystem( const char* szParticleSystemName )
 		}
 		else
 		{
-			m_pParticleSystem = NULL;
+			m_pParticleSystem = nullptr;
 		}
 
 		PostActionSignal( new KeyValues( "ParticleSystemReconstructed" ) );
@@ -510,8 +510,8 @@ CControlPointPage::CControlPointPage( vgui::Panel *pParent, const char *pName, C
 {
 	for ( int i = 0; i < MAX_PARTICLE_CONTROL_POINTS; ++i )
 	{
-		m_pControlPointName[i] = NULL;
-		m_pControlPointValue[i] = NULL;
+		m_pControlPointName[i] = nullptr;
+		m_pControlPointValue[i] = nullptr;
 	}
 
 	m_pParticleSystemPanel = pParticleSystemPanel;
@@ -641,13 +641,13 @@ void CControlPointPage::CleanUpControlPointControls( )
 		if ( m_pControlPointName[i] )
 		{
 			delete m_pControlPointName[i];
-			m_pControlPointName[i] = NULL;
+			m_pControlPointName[i] = nullptr;
 		}
 
 		if ( m_pControlPointValue[i] )
 		{
 			delete m_pControlPointValue[i];
-			m_pControlPointValue[i] = NULL;
+			m_pControlPointValue[i] = nullptr;
 		}
 	}
 }
@@ -671,7 +671,7 @@ IMPLEMENT_DMEPANEL_FACTORY( CParticleSystemPreviewPanel, DmeParticleSystemDefini
 CParticleSystemPreviewPanel::CParticleSystemPreviewPanel( vgui::Panel *pParent, const char *pName ) :
 	BaseClass( pParent, pName )
 {
-	m_pUnlockSystem = NULL;
+	m_pUnlockSystem = nullptr;
 
 	m_Splitter = new vgui::Splitter( this, "Splitter", SPLITTER_MODE_VERTICAL, 1 );
 	vgui::Panel *pSplitterLeftSide = m_Splitter->GetChild( 0 );
@@ -774,7 +774,7 @@ void CParticleSystemPreviewPanel::SetParticleSystem( CDmeParticleSystemDefinitio
 		if ( bOverrideLock && bLocked )
 		{
 			m_pLockPreview->SetSelected(false);
-			m_pUnlockSystem = NULL;
+			m_pUnlockSystem = nullptr;
 		}
 		else
 		{
@@ -790,7 +790,7 @@ void CParticleSystemPreviewPanel::SetParticleSystem( CDmeParticleSystemDefinitio
 void CParticleSystemPreviewPanel::ClearParticleSystemLock()
 {
 	m_pLockPreview->SetSelected(false);
-	m_pUnlockSystem = NULL;
+	m_pUnlockSystem = nullptr;
 }
 
 

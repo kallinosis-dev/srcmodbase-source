@@ -41,8 +41,8 @@ struct hl_constraint_info_t
 {
 	hl_constraint_info_t() 
 	{ 
-		pObjects[0] = pObjects[1] = NULL;
-		pGroup = NULL;
+		pObjects[0] = pObjects[1] = nullptr;
+		pGroup = nullptr;
 		anchorPosition[0].Init();
 		anchorPosition[1].Init();
 		swapped = false; 
@@ -96,7 +96,7 @@ public:
 				return &m_list[i];
 			}
 		}
-		return NULL;
+		return nullptr;
 	}
 
 private:
@@ -213,7 +213,7 @@ void PhysTeleportConstrainedEntity( CBaseEntity *pTeleportSource, IPhysicsObject
 
 	ConcatTransforms( xform, pFixup->EntityToWorldTransform(), endCoord );
 	MatrixAngles( endCoord, fixupAngles, fixupPos );
-	pFixup->Teleport( &fixupPos, &fixupAngles, NULL );
+	pFixup->Teleport( &fixupPos, &fixupAngles, nullptr);
 }
 
 static void DrawPhysicsBounds( IPhysicsObject *pObject, int r, int g, int b, int a )
@@ -318,13 +318,13 @@ public:
 			IPhysicsObject *pRef = m_pConstraint->GetReferenceObject();
 			if ( pRef && (pRef != g_PhysWorldObject) )
 			{
-				pRef->GetPosition( &refPos, NULL );
+				pRef->GetPosition( &refPos, nullptr);
 				attachPos = refPos;
 			}
 			IPhysicsObject *pAttach = m_pConstraint->GetAttachedObject();
 			if ( pAttach && (pAttach != g_PhysWorldObject) )
 			{
-				pAttach->GetPosition( &attachPos, NULL );
+				pAttach->GetPosition( &attachPos, nullptr);
 				if ( !pRef || (pRef == g_PhysWorldObject) )
 				{
 					refPos = attachPos;
@@ -476,7 +476,7 @@ END_DATADESC()
 
 CPhysConstraint::CPhysConstraint( void )
 {
-	m_pConstraint = NULL;
+	m_pConstraint = nullptr;
 	m_nameAttach1 = NULL_STRING;
 	m_nameAttach2 = NULL_STRING;
 	m_forceLimit = 0;
@@ -518,10 +518,10 @@ bool GetConstraintAttachments( CBaseEntity *pEntity, CBaseEntity *pAttachOut[2],
 		{
 			IPhysicsObject *pRef = pConstraint->GetReferenceObject();
 			pAttachVPhysics[0] = pRef;
-			pAttachOut[0] = pRef ? static_cast<CBaseEntity *>(pRef->GetGameData()) : NULL;
+			pAttachOut[0] = pRef ? static_cast<CBaseEntity *>(pRef->GetGameData()) : nullptr;
 			IPhysicsObject *pAttach = pConstraint->GetAttachedObject();
 			pAttachVPhysics[1] = pAttach;
-			pAttachOut[1] = pAttach ? static_cast<CBaseEntity *>(pAttach->GetGameData()) : NULL;
+			pAttachOut[1] = pAttach ? static_cast<CBaseEntity *>(pAttach->GetGameData()) : nullptr;
 			return true;
 		}
 	}
@@ -578,7 +578,7 @@ void FindPhysicsAnchor( string_t name, hl_constraint_info_t &info, int index, CB
 		}
 		else
 		{
-			pAnchor = NULL;
+			pAnchor = nullptr;
 		}
 	}
 	if ( !pAnchor )
@@ -625,7 +625,7 @@ static IPhysicsConstraintGroup *GetRagdollConstraintGroup( IPhysicsObject *pObj 
 		if ( pRagdoll )
 			return pRagdoll->pGroup;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CPhysConstraint::GetConstraintObjects( hl_constraint_info_t &info )
@@ -634,7 +634,7 @@ void CPhysConstraint::GetConstraintObjects( hl_constraint_info_t &info )
 	FindPhysicsAnchor( m_nameAttach2, info, 1, this );
 
 	// Missing one object, assume the world instead
-	if ( info.pObjects[0] == NULL && info.pObjects[1] )
+	if ( info.pObjects[0] == nullptr && info.pObjects[1] )
 	{
 		if ( Q_strlen(STRING(m_nameAttach1)) )
 		{
@@ -685,7 +685,7 @@ void CPhysConstraint::Activate( void )
 
 IPhysicsConstraintGroup *GetConstraintGroup( string_t systemName )
 {
-	CBaseEntity *pMachine = gEntList.FindEntityByName( NULL, systemName );
+	CBaseEntity *pMachine = gEntList.FindEntityByName(nullptr, systemName );
 
 	if ( pMachine )
 	{
@@ -695,7 +695,7 @@ IPhysicsConstraintGroup *GetConstraintGroup( string_t systemName )
 			return pGroup->GetVPhysicsGroup();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool CPhysConstraint::ActivateConstraint( void )
@@ -777,7 +777,7 @@ public:
 		if ( m_hinge.worldAxisDirection == vec3_origin )
 		{
 			DevMsg("ERROR: Hinge with bad data!!!\n" );
-			return NULL;
+			return nullptr;
 		}
 		GetBreakParams( m_hinge.constraint, info );
 		m_hinge.constraint.strength = 1.0;
@@ -1280,7 +1280,7 @@ IPhysicsConstraint *CPhysSlideConstraint::CreateConstraint( IPhysicsConstraintGr
 	if ( m_spawnflags & SF_SLIDE_LIMIT_ENDS )
 	{
 		Vector position;
-		info.pObjects[1]->GetPosition( &position, NULL );
+		info.pObjects[1]->GetPosition( &position, nullptr);
 
 		sliding.limitMin = DotProduct( axisDirection, GetAbsOrigin() );
 		sliding.limitMax = DotProduct( axisDirection, m_axisEnd );
@@ -1377,7 +1377,7 @@ public:
 		if ( m_pConstraint )
 		{
 			matrix3x4_t xformRef;
-			m_pConstraint->GetConstraintTransform( &xformRef, NULL );
+			m_pConstraint->GetConstraintTransform( &xformRef, nullptr);
 			IPhysicsObject *pObj = m_pConstraint->GetReferenceObject();
 			if ( pObj && pObj->IsMoveable() )
 			{
@@ -1727,7 +1727,7 @@ class CPhysConstraintEvents : public IPhysicsConstraintEvent
 			else
 			{
 				variant_t emptyVariant;
-				pEntity->AcceptInput( "ConstraintBroken", NULL, NULL, emptyVariant, 0 );
+				pEntity->AcceptInput( "ConstraintBroken", nullptr, nullptr, emptyVariant, 0 );
 			}
 		}
 	}

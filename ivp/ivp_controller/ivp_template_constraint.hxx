@@ -291,7 +291,7 @@ public:
      *  Description:    Defines a constraint that enforces the objects to always have the same orientation.
      *****************************************************************************/
     void set_orientation(IVP_Real_Object *objR, IVP_Real_Object *objA) {
-	set_constraint_ws(objR, NULL, NULL, 0, 3, objA, NULL);
+	set_constraint_ws(objR, nullptr, nullptr, 0, 3, objA, nullptr);
     }
 
     /******************************************************************************
@@ -299,7 +299,7 @@ public:
      *  Description:    Defines a constraint that allows objA to rotate around a point that is given in world coords and that is always in the same position relative to objR.
      *****************************************************************************/
     void set_ballsocket_ws(IVP_Real_Object *objR, const IVP_U_Point *anchor_ws, IVP_Real_Object *objA) {
-	set_constraint_ws(objR, anchor_ws, NULL, 3, 0, objA, NULL);
+	set_constraint_ws(objR, anchor_ws, nullptr, 3, 0, objA, nullptr);
     }
 
     /******************************************************************************
@@ -307,7 +307,7 @@ public:
      *  Description:    Defines a constraint that allows the objects to rotate around a point that is given in object coords of the Reference object.
      *****************************************************************************/
     void set_ballsocket_Ros(IVP_Real_Object *objR, const IVP_U_Point *anchor_Ros, IVP_Real_Object *objA) {
-	set_constraint_Ros(objR, anchor_Ros, NULL, 3, 0, objA, NULL);
+	set_constraint_Ros(objR, anchor_Ros, nullptr, 3, 0, objA, nullptr);
     }
 
     /******************************************************************************
@@ -320,7 +320,7 @@ public:
 	IVP_U_Matrix m_displacement_Ros;
 	m_displacement_Ros.init3();
 	m_displacement_Ros.vv.set(distanceAR_Ros);
-	set_constraint_Ros(objR, anchor_Ros, NULL, 3, 0, objA, &m_displacement_Ros);
+	set_constraint_Ros(objR, anchor_Ros, nullptr, 3, 0, objA, &m_displacement_Ros);
     }
 
     /******************************************************************************
@@ -329,7 +329,7 @@ public:
      *                  around the fixed axis. Anchor and axis are given in world coords.
      *****************************************************************************/
     void set_cardanjoint_ws(IVP_Real_Object *objR, const IVP_U_Point *anchor_ws, const IVP_U_Point *fixed_axis_ws, IVP_Real_Object *objA) {
-        set_constraint_ws(objR, anchor_ws, fixed_axis_ws, 3, 1, objA, NULL);
+        set_constraint_ws(objR, anchor_ws, fixed_axis_ws, 3, 1, objA, nullptr);
     }
 
     /******************************************************************************
@@ -338,7 +338,7 @@ public:
      *                  around the fixed axis. Anchor and axis are given in object coords of the Reference object.
      *****************************************************************************/
     void set_cardanjoint_Ros(IVP_Real_Object *objR, const IVP_U_Point *anchor_Ros, const IVP_U_Point *fixed_axis_Ros, IVP_Real_Object *objA) {
-	set_constraint_Ros(objR, anchor_Ros, fixed_axis_Ros, 3, 1, objA, NULL);
+	set_constraint_Ros(objR, anchor_Ros, fixed_axis_Ros, 3, 1, objA, nullptr);
     }
 
     /******************************************************************************
@@ -347,7 +347,7 @@ public:
      *                  anchor and axis are given in world coords.
      *****************************************************************************/
     void set_hinge_ws(IVP_Real_Object *objR, const IVP_U_Point *anchor_ws, const IVP_U_Point *free_axis_ws, IVP_Real_Object *objA) {
-	set_constraint_ws(objR, anchor_ws, free_axis_ws, 3, 2, objA, NULL);
+	set_constraint_ws(objR, anchor_ws, free_axis_ws, 3, 2, objA, nullptr);
     }
 
     /******************************************************************************
@@ -356,7 +356,7 @@ public:
      *                  anchor and axis are given in object coords of the Reference object.
      *****************************************************************************/
     void set_hinge_Ros(IVP_Real_Object *objR, const IVP_U_Point *anchor_Ros, const IVP_U_Point *free_axis_Ros, IVP_Real_Object *objA) {
-	set_constraint_Ros(objR, anchor_Ros, free_axis_Ros, 3, 2, objA, NULL);
+	set_constraint_Ros(objR, anchor_Ros, free_axis_Ros, 3, 2, objA, nullptr);
     }
 
     /******************************************************************************
@@ -373,7 +373,7 @@ public:
      *  Description:    Defines a completely fixed constraint. The attached object is fixed in its position to the reference object.
      *****************************************************************************/
     void set_fixed(IVP_Real_Object *objR, IVP_Real_Object *objA) {
-	set_constraint_ws(objR, NULL, NULL, 3, 3, objA, NULL);
+	set_constraint_ws(objR, nullptr, nullptr, 3, 3, objA, nullptr);
     }
     
 public: // other functions

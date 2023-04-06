@@ -17,7 +17,7 @@ gmStreamBufferStatic::gmStreamBufferStatic()
 {
   m_cursor = 0;
   m_size = 0;
-  m_stream = NULL;
+  m_stream = nullptr;
 }
 
 

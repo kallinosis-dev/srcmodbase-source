@@ -39,7 +39,7 @@ HSCRIPT VScriptCompileScript( const char *pszScriptName, bool bWarnMissing )
 {
 	if ( !g_pScriptVM )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	static const char *pszExtensions[] =
@@ -56,7 +56,7 @@ HSCRIPT VScriptCompileScript( const char *pszScriptName, bool bWarnMissing )
 	if ( pszIncomingExtension && V_strcmp( pszIncomingExtension, pszVMExtension ) != 0 )
 	{
 		Log_Warning( LOG_VScript, "Script file type does not match VM type\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	CFmtStr scriptPath;
@@ -75,7 +75,7 @@ HSCRIPT VScriptCompileScript( const char *pszScriptName, bool bWarnMissing )
 	if ( g_pScriptVM->GetLanguage() == SL_PYTHON )
 	{
 		// python auto-loads raw or precompiled modules - don't load data here
-		pBase = NULL;
+		pBase = nullptr;
 	}
 	else
 	{
@@ -91,7 +91,7 @@ HSCRIPT VScriptCompileScript( const char *pszScriptName, bool bWarnMissing )
 
 		if ( !pBase || !*pBase )
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 

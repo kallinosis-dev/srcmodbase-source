@@ -75,7 +75,7 @@ CPrefabLibrary *CreatePrefabLibrary(const char *szFile)
 	if (pLibrary->Load(szFile) == -1)
 	{
 		delete pLibrary;
-		return(NULL);
+		return(nullptr);
 	}
 
 	return(pLibrary);
@@ -126,7 +126,7 @@ CPrefab * CPrefab::FindID(DWORD dwID)
 			return pPrefab;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -272,7 +272,7 @@ void CPrefabLibrary::FreePrefabs()
 {
 	// nuke prefabs
 	POSITION p = Prefabs.GetHeadPosition();
-	while (p != NULL)
+	while (p != nullptr)
 	{
 		CPrefab *pPrefab = Prefabs.GetNext(p);
 		delete pPrefab;
@@ -311,7 +311,7 @@ void CPrefabLibrary::Sort(void)
 	POSITION p = ENUM_START;
 	CPrefab *pPrefab = EnumPrefabs(p);
 	int iPrefab = 0;
-	while (pPrefab != NULL)
+	while (pPrefab != nullptr)
 	{
 		TmpPrefabArray[iPrefab++] = pPrefab;
 		pPrefab = EnumPrefabs(p);
@@ -344,7 +344,7 @@ void CPrefabLibrary::SetNameFromFilename(LPCTSTR pszFilename)
 	const char *cp = strrchr(pszFilename, '\\');
 	strcpy(m_szName, cp ? (cp + 1) : pszFilename);
 	char *p = strchr(m_szName, '.');
-	if (p != NULL)
+	if (p != nullptr)
 	{
 		p[0] = '\0';
 	}
@@ -357,10 +357,10 @@ void CPrefabLibrary::SetNameFromFilename(LPCTSTR pszFilename)
 void CPrefabLibrary::FreeAllLibraries(void)
 {
 	POSITION pos = PrefabLibraryList.GetHeadPosition();
-	while (pos != NULL)
+	while (pos != nullptr)
 	{
 		CPrefabLibrary *pPrefabLibrary = PrefabLibraryList.GetNext(pos);
-		if (pPrefabLibrary != NULL)
+		if (pPrefabLibrary != nullptr)
 		{
 			delete pPrefabLibrary;
 		}
@@ -383,10 +383,10 @@ void CPrefabLibrary::LoadAllLibraries()
 	// Add one prefab library for the root prefabs folder in case they put something there.
 	//
 	CPrefabLibrary *pLibrary = FindOpenLibrary(szDir);
-	if (pLibrary == NULL)
+	if (pLibrary == nullptr)
 	{
 		pLibrary = CreatePrefabLibrary(szDir);
-		if (pLibrary != NULL)
+		if (pLibrary != nullptr)
 		{
 			PrefabLibraryList.AddTail(pLibrary);
 		}
@@ -414,10 +414,10 @@ void CPrefabLibrary::LoadAllLibraries()
 			sprintf(szFile, "%s\\%s", szDir, fd.cFileName);
 
 			pLibrary = FindOpenLibrary(szFile);
-			if (pLibrary == NULL)
+			if (pLibrary == nullptr)
 			{
 				pLibrary = CreatePrefabLibrary(szFile);
-				if (pLibrary != NULL)
+				if (pLibrary != nullptr)
 				{
 					PrefabLibraryList.AddTail(pLibrary);
 				}
@@ -469,7 +469,7 @@ CPrefab * CPrefabLibrary::EnumPrefabs(POSITION &p)
 	if(p == ENUM_START)
 		p = Prefabs.GetHeadPosition();
 	if(!p)
-		return NULL;
+		return nullptr;
 	return Prefabs.GetNext(p);
 }
 
@@ -489,7 +489,7 @@ CPrefabLibrary * CPrefabLibrary::FindID(DWORD dwID)
 			return pPrefabLibrary;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -503,7 +503,7 @@ CPrefabLibrary *CPrefabLibrary::FindOpenLibrary(LPCTSTR pszFilename)
 	// checks to see if a library is open under that filename
 	POSITION p = ENUM_START;
 	CPrefabLibrary *pLibrary = EnumLibraries(p);
-	while (pLibrary != NULL)
+	while (pLibrary != nullptr)
 	{
 		if (pLibrary->IsFile(pszFilename))
 		{
@@ -512,7 +512,7 @@ CPrefabLibrary *CPrefabLibrary::FindOpenLibrary(LPCTSTR pszFilename)
 		pLibrary = EnumLibraries(p);
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -530,7 +530,7 @@ CPrefabLibrary *CPrefabLibrary::EnumLibraries(POSITION &p, LibraryType_t eType)
 		p = PrefabLibraryList.GetHeadPosition();
 	}
 
-	while (p != NULL)
+	while (p != nullptr)
 	{
 		CPrefabLibrary *pLibrary = PrefabLibraryList.GetNext(p);
 		if ((eType == LibType_None) || pLibrary->IsType(eType))
@@ -539,7 +539,7 @@ CPrefabLibrary *CPrefabLibrary::EnumLibraries(POSITION &p, LibraryType_t eType)
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -714,7 +714,7 @@ int CPrefabLibraryRMF::Save(LPCTSTR pszFilename, BOOL bIndexOnly)
 		return 1;
 	}
 
-	if(pszFilename == NULL)
+	if(pszFilename == nullptr)
 	{
 		pszFilename = szFile;
 

@@ -139,7 +139,7 @@ inline const CChangeFrameList* PackedEntity::GetChangeFrameList() const
 inline CChangeFrameList* PackedEntity::SnagChangeFrameList()
 {
 	CChangeFrameList *pRet = m_pChangeFrameList;
-	m_pChangeFrameList = NULL;
+	m_pChangeFrameList = nullptr;
 	return pRet;
 }
 

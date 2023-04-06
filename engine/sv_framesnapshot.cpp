@@ -76,11 +76,11 @@ void CFrameSnapshotManager::LevelChanged()
 CFrameSnapshot *CFrameSnapshotManager::NextSnapshot( CFrameSnapshot *pSnapshot )
 {
 	if ( !pSnapshot || ((unsigned short)pSnapshot->m_ListIndex == m_FrameSnapshots.InvalidIndex()) )
-		return NULL;
+		return nullptr;
 
 	int next = m_FrameSnapshots.Next(pSnapshot->m_ListIndex);
 	if ( next == m_FrameSnapshots.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	// return next element in list
 	return m_FrameSnapshots[ next ];
@@ -92,7 +92,7 @@ CFrameSnapshot*	CFrameSnapshotManager::CreateEmptySnapshot(
 #endif
 	int tickcount, int maxEntities, uint32 nSnapshotSet )
 {
-	CFrameSnapshot *snap = NULL;
+	CFrameSnapshot *snap = nullptr;
 	{
 		AUTO_LOCK_FM( m_FrameSnapshotsWriteMutex );
 		snap = new CFrameSnapshot;
@@ -105,8 +105,8 @@ CFrameSnapshot*	CFrameSnapshotManager::CreateEmptySnapshot(
 	snap->m_nTickCount = tickcount;
 	snap->m_nNumEntities = maxEntities;
 	snap->m_nValidEntities = 0;
-	snap->m_pValidEntities = NULL;
-	snap->m_pHLTVEntityData = NULL;
+	snap->m_pValidEntities = nullptr;
+	snap->m_pHLTVEntityData = nullptr;
 #if defined( REPLAY_ENABLED )
 	snap->m_pReplayEntityData = NULL;
 #endif
@@ -117,7 +117,7 @@ CFrameSnapshot*	CFrameSnapshotManager::CreateEmptySnapshot(
 	// clear entries
 	for ( int i=0; i < maxEntities; i++)
 	{
-		entry->m_pClass = NULL;
+		entry->m_pClass = nullptr;
 		entry->m_nSerialNumber = -1;
 		entry->m_pPackedData = INVALID_PACKED_ENTITY_HANDLE;
 		entry++;
@@ -255,7 +255,7 @@ void CFrameSnapshotManager::RemoveEntityReference( PackedEntityHandle_t handle )
 			UnpackedDataCache_t &pdc = m_PackedEntityCache[i];
 			if ( pdc.pEntity == packedEntity )
 			{
-				pdc.pEntity = NULL;
+				pdc.pEntity = nullptr;
 				pdc.counter = 0;
 				break;
 			}
@@ -348,11 +348,11 @@ PackedEntity* CFrameSnapshotManager::GetPreviouslySentPacket( int iEntity, int i
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -413,7 +413,7 @@ UnpackedDataCache_t *CFrameSnapshotManager::GetCachedUncompressedEntity( PackedE
 
 		FOR_EACH_VEC( m_PackedEntityCache, i )
 		{
-			m_PackedEntityCache[i].pEntity = NULL;
+			m_PackedEntityCache[i].pEntity = nullptr;
 			m_PackedEntityCache[i].counter = 0;
 		}
 	}
@@ -421,7 +421,7 @@ UnpackedDataCache_t *CFrameSnapshotManager::GetCachedUncompressedEntity( PackedE
 	m_nPackedEntityCacheCounter++;
 
 	// remember oldest cache entry
-	UnpackedDataCache_t *pdcOldest = NULL;
+	UnpackedDataCache_t *pdcOldest = nullptr;
 	int oldestValue = m_nPackedEntityCacheCounter;
 
 
@@ -503,8 +503,8 @@ void CFrameSnapshotManager::BuildSnapshotList( CFrameSnapshot *pCurrentSnapshot,
 CFrameSnapshot::CFrameSnapshot()
 {
 	m_nTempEntities = 0;
-	m_pTempEntities = NULL;
-	m_pValidEntities = NULL;
+	m_pTempEntities = nullptr;
+	m_pValidEntities = nullptr;
 	m_nReferences = 0;
 #if defined( _DEBUG )
 	++g_nAllocatedSnapshots;

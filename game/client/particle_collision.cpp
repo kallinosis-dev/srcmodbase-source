@@ -84,7 +84,7 @@ void CBaseSimpleCollision::TraceLine( const Vector &start, const Vector &end, tr
 		//If we need an exact trace, test again on a successful hit
 		if ( ( coarse == false ) && ( pTrace->fraction < 1.0f ) )
 		{
-			UTIL_TraceLine( start, end, MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, pTrace );
+			UTIL_TraceLine( start, end, MASK_SOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, pTrace );
 		}
 
 		#if	__DEBUG_PARTICLE_COLLISION_OVERLAY
@@ -103,7 +103,7 @@ void CBaseSimpleCollision::TraceLine( const Vector &start, const Vector &end, tr
 	pTrace->fraction		= 1.0f;
 	pTrace->allsolid		= false;
 	pTrace->startsolid		= false;
-	pTrace->m_pEnt			= NULL;
+	pTrace->m_pEnt			= nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -159,7 +159,7 @@ void CBaseSimpleCollision::TestForPlane( const Vector &start, const Vector &dir,
 		testEnd[2] -= flGravIncr * (0.5f*(dStepTime*i)*(dStepTime*i) );
 
 		//Trace the line
-		UTIL_TraceLine( testStart, testEnd, MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &tr );
+		UTIL_TraceLine( testStart, testEnd, MASK_SOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &tr );
 
 		//See if we found one
 		if ( tr.fraction != 1.0f )
@@ -242,7 +242,7 @@ void CParticleCollision::Setup( const Vector &origin, const Vector *dir, float a
 	float	speedAvg	= (minSpeed+maxSpeed)*0.5f;
 
 	//Point or directed?
-	if ( dir == NULL )
+	if ( dir == nullptr)
 	{
 		//Test all around
 		TestForPlane( origin, Vector(  1,  0,  0 ), speedAvg, gravity );
@@ -260,7 +260,7 @@ void CParticleCollision::Setup( const Vector &origin, const Vector *dir, float a
 		//FIXME: Quicker conversion?
 		//FIXME: We need to factor in the angular spread instead
 		VectorAngles( *dir, vAngles );
-		AngleVectors( vAngles, NULL, &vRight, NULL );
+		AngleVectors( vAngles, nullptr, &vRight, nullptr);
 
 		//Test straight
 		TestForPlane( origin, *dir, speedAvg, gravity );
@@ -311,7 +311,7 @@ bool CParticleCollision::MoveParticle( Vector &origin, Vector &velocity, float *
 		{
 			#if	__DEBUG_PARTICLE_COLLISION_RETEST
 			//Retest the collision with a true trace line to avoid errant collisions
-			UTIL_TraceLine( origin, testPosition, MASK_SOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, pTrace );
+			UTIL_TraceLine( origin, testPosition, MASK_SOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, pTrace );
 			#endif	//__DEBUG_RETEST_COLLISION
 
 			//Did we hit anything?
@@ -326,7 +326,7 @@ bool CParticleCollision::MoveParticle( Vector &origin, Vector &velocity, float *
 					//Stop the particle
 					velocity	= vec3_origin;
 					
-					if ( rollDelta != NULL )
+					if ( rollDelta != nullptr)
 					{
 						*rollDelta	= 0.0f;
 					}
@@ -346,7 +346,7 @@ bool CParticleCollision::MoveParticle( Vector &origin, Vector &velocity, float *
 					velocity *= random->RandomFloat( (m_flCollisionDampen-0.1f), (m_flCollisionDampen+0.1f) );
 
 					//Dampen the roll of the particles
-					if ( rollDelta != NULL )
+					if ( rollDelta != nullptr)
 					{
 						(*rollDelta) *= -0.25f;
 					}

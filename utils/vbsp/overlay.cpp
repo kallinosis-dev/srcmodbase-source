@@ -99,7 +99,7 @@ int Overlay_GetFromEntity( entity_t *pMapEnt )
 		{
 			pMapOverlay->aSideList.AddToTail( nSideId );
 		}
-	} while ( ( pScan = strtok( NULL, " " ) ) );
+	} while ( ( pScan = strtok(nullptr, " " ) ) );
 
 	return iAccessorID;
 }
@@ -114,7 +114,7 @@ side_t *GetSide( int nSideId )
 			return &g_LoadingMap->brushsides[iSide];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

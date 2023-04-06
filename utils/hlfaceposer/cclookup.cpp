@@ -17,7 +17,7 @@ using namespace vgui;
 
 static CCloseCaptionLookupParams g_Params;
 
-static HFONT g_UnicodeFont = NULL;
+static HFONT g_UnicodeFont = nullptr;
 
 static void InsertTextColumn( HWND listcontrol, int column, int width, char const *label )
 {
@@ -230,7 +230,7 @@ int CloseCaptionLookup( CCloseCaptionLookupParams *params )
 		(DLGPROC)CloseCaptionLookupDialogProc );
 
 	DeleteObject( g_UnicodeFont );
-	g_UnicodeFont = NULL;
+	g_UnicodeFont = nullptr;
 
 	*params = g_Params;
 

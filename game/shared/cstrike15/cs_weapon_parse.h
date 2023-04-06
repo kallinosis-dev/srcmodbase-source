@@ -205,95 +205,95 @@ public:
 
 
 
-	int		GetWeaponPrice					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	bool	IsFullAuto						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	bool	HasSilencer						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	int		GetBullets						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetCycleTime					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetHeatPerShot					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetRecoveryTimeCrouch			( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetRecoveryTimeStand			( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetRecoveryTimeCrouchFinal		( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	float	GetRecoveryTimeStandFinal		( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	int		GetRecoveryTransitionStartBullet( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	int		GetRecoveryTransitionEndBullet	( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetWeaponPrice					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	bool	IsFullAuto						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	bool	HasSilencer						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	int		GetBullets						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetCycleTime					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetHeatPerShot					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetRecoveryTimeCrouch			( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetRecoveryTimeStand			( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetRecoveryTimeCrouchFinal		( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	float	GetRecoveryTimeStandFinal		( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetRecoveryTransitionStartBullet( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetRecoveryTransitionEndBullet	( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
 
-	int		GetRecoilSeed					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetFlinchVelocityModifierLarge	( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetFlinchVelocityModifierSmall	( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetTimeToIdleAfterFire			( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetIdleInterval					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetRange						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetRangeModifier				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	int		GetDamage						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetPenetration					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	int		GetCrosshairDeltaDistance		( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	int		GetCrosshairMinDistance			( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
+	int		GetRecoilSeed					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetFlinchVelocityModifierLarge	( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetFlinchVelocityModifierSmall	( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetTimeToIdleAfterFire			( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetIdleInterval					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetRange						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetRangeModifier				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetDamage						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetPenetration					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	int		GetCrosshairDeltaDistance		( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	int		GetCrosshairMinDistance			( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
 
 	float	GetInaccuracyAltSwitch			( void ) const { return m_fInaccuracyAltSwitch; };
 
 	float	GetInaccuracyPitchShift			( void ) const { return m_fInaccuracyPitchShift;  }
 	float	GetInaccuracyAltSoundThreshhold ( void ) const { return m_fInaccuracyAltSoundThreshold; }
 
-	float	GetMaxSpeed						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetMaxSpeed						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
 
-	float	GetSpread						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
-	float	GetInaccuracyCrouch				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
-	float	GetInaccuracyStand				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
-	float   GetInaccuracyJumpInitial		( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
-	float	GetInaccuracyJump				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
-	float	GetInaccuracyLand				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
-	float	GetInaccuracyLadder				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
-	float	GetInaccuracyFire				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
-	float	GetInaccuracyMove				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
+	float	GetSpread						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
+	float	GetInaccuracyCrouch				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
+	float	GetInaccuracyStand				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
+	float   GetInaccuracyJumpInitial		( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
+	float	GetInaccuracyJump				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
+	float	GetInaccuracyLand				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
+	float	GetInaccuracyLadder				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
+	float	GetInaccuracyFire				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
+	float	GetInaccuracyMove				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
 
-	float	GetInaccuracyReload				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 0.001f ) const;
+	float	GetInaccuracyReload				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 0.001f ) const;
 
-	float	GetRecoilAngle					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetRecoilAngleVariance			( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetRecoilMagnitude				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	float	GetRecoilMagnitudeVariance		( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	int		GetTracerFrequency				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetRecoilAngle					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetRecoilAngleVariance			( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetRecoilMagnitude				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	float	GetRecoilMagnitudeVariance		( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	int		GetTracerFrequency				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
 
-	int		GetPrimaryClipSize				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	int		GetSecondaryClipSize			( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const; 
-	int		GetDefaultPrimaryClipSize		( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	int		GetDefaultSecondaryClipSize		( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetPrimaryClipSize				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	int		GetSecondaryClipSize			( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const; 
+	int		GetDefaultPrimaryClipSize		( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetDefaultSecondaryClipSize		( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
 
-	int		GetKillAward					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	bool	HasBurstMode					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	bool	IsRevolver						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	bool	HasAlternateFastSlowReload		( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	float	GetArmorRatio					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	bool	HasTraditionalScope				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	bool	CannotShootUnderwater			( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	bool	DoesUnzoomAfterShot				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	bool	DoesHideViewModelWhenZoomed		( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	int		GetBucketSlot					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	int		GetZoomLevels					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetKillAward					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	bool	HasBurstMode					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	bool	IsRevolver						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	bool	HasAlternateFastSlowReload		( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	float	GetArmorRatio					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	bool	HasTraditionalScope				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	bool	CannotShootUnderwater			( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	bool	DoesUnzoomAfterShot				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	bool	DoesHideViewModelWhenZoomed		( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetBucketSlot					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetZoomLevels					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
 
-	int		GetZoomFOV1						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	int		GetZoomFOV2						( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	float	GetZoomTime0					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	float	GetZoomTime1					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	float	GetZoomTime2					( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetZoomFOV1						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetZoomFOV2						( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	float	GetZoomTime0					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	float	GetZoomTime1					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	float	GetZoomTime2					( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
 
-	int		GetPrimaryReserveAmmoMax				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
-	int		GetSecondaryReserveAmmoMax				( const CEconItemView* pWepView = NULL, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetPrimaryReserveAmmoMax				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
+	int		GetSecondaryReserveAmmoMax				( const CEconItemView* pWepView = nullptr, int nAlt = 0, float flScale = 1.0f ) const;
 
 
-	CSWeaponType GetWeaponType						( const CEconItemView* pWepView = NULL ) const;
-	const char* GetAddonLocation					( const CEconItemView* pWepView = NULL ) const;
-	const char* GetEjectBrassEffectName				( const CEconItemView* pWepView = NULL ) const;
-	const char* GetTracerEffectName					( const CEconItemView* pWepView = NULL ) const;
-	const char* GetMuzzleFlashEffectName_1stPerson	( const CEconItemView* pWepView = NULL ) const;
-	const char* GetMuzzleFlashEffectName_1stPersonAlt	( const CEconItemView* pWepView = NULL ) const;
-	const char* GetMuzzleFlashEffectName_3rdPerson	( const CEconItemView* pWepView = NULL ) const;
-	const char* GetMuzzleFlashEffectName_3rdPersonAlt	( const CEconItemView* pWepView = NULL ) const;
-	const char* GetHeatEffectName					( const CEconItemView* pWepView = NULL ) const;
-	const char* GetPlayerAnimationExtension			( const CEconItemView* pWepView = NULL ) const;
+	CSWeaponType GetWeaponType						( const CEconItemView* pWepView = nullptr) const;
+	const char* GetAddonLocation					( const CEconItemView* pWepView = nullptr) const;
+	const char* GetEjectBrassEffectName				( const CEconItemView* pWepView = nullptr) const;
+	const char* GetTracerEffectName					( const CEconItemView* pWepView = nullptr) const;
+	const char* GetMuzzleFlashEffectName_1stPerson	( const CEconItemView* pWepView = nullptr) const;
+	const char* GetMuzzleFlashEffectName_1stPersonAlt	( const CEconItemView* pWepView = nullptr) const;
+	const char* GetMuzzleFlashEffectName_3rdPerson	( const CEconItemView* pWepView = nullptr) const;
+	const char* GetMuzzleFlashEffectName_3rdPersonAlt	( const CEconItemView* pWepView = nullptr) const;
+	const char* GetHeatEffectName					( const CEconItemView* pWepView = nullptr) const;
+	const char* GetPlayerAnimationExtension			( const CEconItemView* pWepView = nullptr) const;
 	void		SetUsedByTeam						( int nTeam )	{ m_iTeam = nTeam; }
-	int			GetUsedByTeam						( const CEconItemView* pWepView = NULL ) const;
+	int			GetUsedByTeam						( const CEconItemView* pWepView = nullptr) const;
 
 	bool		CanBeUsedWithShield() const { return m_bCanUseWithShield; }
 	float		GetBotAudibleRange() const { return m_flBotAudibleRange; }
@@ -304,8 +304,8 @@ public:
 	float		GetAddonScale() const { return m_flAddonScale; }
 	float		GetThrowVelocity() const { return m_fThrowVelocity; }
 
-	const char* GetAddonModel						( const CEconItemView* pWepView = NULL ) const;
-	const CUtlVector< WeaponPaintableMaterial_t >* GetPaintData( const CEconItemView* pWepView = NULL ) const;
+	const char* GetAddonModel						( const CEconItemView* pWepView = nullptr) const;
+	const CUtlVector< WeaponPaintableMaterial_t >* GetPaintData( const CEconItemView* pWepView = nullptr) const;
 
 // recoiltable in csweaponinfo is obsolete. remove this once confirmed that the new implementation generates the same result.
 	void GenerateRecoilTable();

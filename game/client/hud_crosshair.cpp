@@ -41,12 +41,12 @@ int ScreenTransform( const Vector& point, Vector& screen );
 DECLARE_HUDELEMENT( CHudCrosshair );
 
 CHudCrosshair::CHudCrosshair( const char *pElementName ) :
-  CHudElement( pElementName ), BaseClass( NULL, "HudCrosshair" )
+  CHudElement( pElementName ), BaseClass(nullptr, "HudCrosshair" )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
 
-	m_pCrosshair = 0;
+	m_pCrosshair = nullptr;
 
 	m_clrCrosshair = Color( 0, 0, 0, 0 );
 

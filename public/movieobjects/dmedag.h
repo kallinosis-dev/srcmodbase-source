@@ -75,7 +75,7 @@ public:
 	int StepsToChild( const CDmeDag *pChild ) const;
 
 	// Recursively render the Dag hierarchy
-	virtual void Draw( CDmeDrawSettings *pDrawSettings = NULL );
+	virtual void Draw( CDmeDrawSettings *pDrawSettings = nullptr);
 	void GetBoundingSphere( Vector &center, float &radius ) const
 	{
 		matrix3x4_t identity;
@@ -217,7 +217,7 @@ inline T *CDmeDag::FindParentDagOfType()
 	if ( CastElement< T >( this ) )
 		return static_cast< T * >( this );
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -231,7 +231,7 @@ void CDmeDag::FindChildrenOfType( CUtlVector< T* > &children )
 	for ( int iChild = 0; iChild < nChildren; ++iChild )
 	{
 		CDmeDag *pChild = m_Children[ iChild ];
-		if ( pChild == NULL )
+		if ( pChild == nullptr)
 			continue;
 
 		// Add the child to the list if it is of the specified type

@@ -23,8 +23,8 @@ void CEntInfo::ClearLinks()
 
 CBaseEntityList::CEntInfoList::CEntInfoList()
 {
-	m_pHead = NULL;
-	m_pTail = NULL;
+	m_pHead = nullptr;
+	m_pTail = nullptr;
 }
 
 // NOTE: Cut from UtlFixedLinkedList<>, UNDONE: Find a way to share this code
@@ -38,7 +38,7 @@ void CBaseEntityList::CEntInfoList::LinkBefore( CEntInfo *pBefore, CEntInfo *pEl
 	// The element *after* our newly linked one is the one we linked before.
 	pElement->m_pNext = pBefore;
 	
-	if (pBefore == NULL)
+	if (pBefore == nullptr)
 	{
 		// In this case, we're linking to the end of the list, so reset the tail
 		pElement->m_pPrev = m_pTail;
@@ -54,7 +54,7 @@ void CBaseEntityList::CEntInfoList::LinkBefore( CEntInfo *pBefore, CEntInfo *pEl
 	}
 	
 	// Reset the head if we linked to the head of the list
-	if (pElement->m_pPrev == NULL)
+	if (pElement->m_pPrev == nullptr)
 	{
 		m_pHead = pElement;
 	}
@@ -74,7 +74,7 @@ void CBaseEntityList::CEntInfoList::LinkAfter( CEntInfo *pAfter, CEntInfo *pElem
 	
 	// The element *before* our newly linked one is the one we linked after
 	pElement->m_pPrev = pAfter;
-	if (pAfter == NULL)
+	if (pAfter == nullptr)
 	{
 		// In this case, we're linking to the head of the list, reset the head
 		pElement->m_pNext = m_pHead;
@@ -90,7 +90,7 @@ void CBaseEntityList::CEntInfoList::LinkAfter( CEntInfo *pAfter, CEntInfo *pElem
 	}
 	
 	// Reset the tail if we linked to the tail of the list
-	if (pElement->m_pNext == NULL )
+	if (pElement->m_pNext == nullptr)
 	{
 		m_pTail = pElement;
 	}
@@ -145,7 +145,7 @@ CBaseEntityList::CBaseEntityList()
 	{
 		m_EntPtrArray[i].ClearLinks();
 		m_EntPtrArray[i].m_SerialNumber = (rand()& SERIAL_MASK); // generate random starting serial number
-		m_EntPtrArray[i].m_pEntity = NULL;
+		m_EntPtrArray[i].m_pEntity = nullptr;
 	}
 
 	// make a free list of the non-networkable entities
@@ -248,7 +248,7 @@ void CBaseEntityList::RemoveEntityAtSlot( int iSlot )
 		OnRemoveEntity( pInfo->m_pEntity, CBaseHandle( iSlot, pInfo->m_SerialNumber ) );
 
 		// Increment the serial # so ehandles go invalid.
-		pInfo->m_pEntity = NULL;
+		pInfo->m_pEntity = nullptr;
 		pInfo->m_SerialNumber = ( pInfo->m_SerialNumber+1)& SERIAL_MASK;
 
 		m_activeList.Unlink( pInfo );

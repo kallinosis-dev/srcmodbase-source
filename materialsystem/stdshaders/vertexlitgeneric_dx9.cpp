@@ -491,7 +491,7 @@ BEGIN_VS_SHADER( VertexLitGeneric, "Help for VertexLitGeneric" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -529,7 +529,7 @@ BEGIN_VS_SHADER( VertexLitGeneric, "Help for VertexLitGeneric" )
 	{
 		// Skip the standard rendering if cloak pass is fully opaque
 		bool bDrawStandardPass = true;
-		if ( params[CLOAKPASSENABLED]->GetIntValue() && ( pShaderShadow == NULL ) ) // && not snapshotting
+		if ( params[CLOAKPASSENABLED]->GetIntValue() && ( pShaderShadow == nullptr) ) // && not snapshotting
 		{
 			CloakBlendedPassVars_t info;
 			SetupVarsCloakBlendedPass( info );
@@ -556,7 +556,7 @@ BEGIN_VS_SHADER( VertexLitGeneric, "Help for VertexLitGeneric" )
 		if ( params[CLOAKPASSENABLED]->GetIntValue() )
 		{
 			// If ( snapshotting ) or ( we need to draw this frame )
- 			if ( ( pShaderShadow != NULL ) || ( ( params[CLOAKFACTOR]->GetFloatValue() > 0.0f ) && ( params[CLOAKFACTOR]->GetFloatValue() < 1.0f ) ) )
+ 			if ( ( pShaderShadow != nullptr) || ( ( params[CLOAKFACTOR]->GetFloatValue() > 0.0f ) && ( params[CLOAKFACTOR]->GetFloatValue() < 1.0f ) ) )
 			{
 				CloakBlendedPassVars_t info;
 				SetupVarsCloakBlendedPass( info );
@@ -573,7 +573,7 @@ BEGIN_VS_SHADER( VertexLitGeneric, "Help for VertexLitGeneric" )
 		if ( params[EMISSIVEBLENDENABLED]->GetIntValue() )
 		{
 			// If ( snapshotting ) or ( we need to draw this frame )
-			if ( ( pShaderShadow != NULL ) || ( params[EMISSIVEBLENDSTRENGTH]->GetFloatValue() > 0.0f ) )
+			if ( ( pShaderShadow != nullptr) || ( params[EMISSIVEBLENDSTRENGTH]->GetFloatValue() > 0.0f ) )
 			{
 				EmissiveScrollBlendedPassVars_t info;
 				SetupVarsEmissiveScrollBlendedPass( info );
@@ -590,7 +590,7 @@ BEGIN_VS_SHADER( VertexLitGeneric, "Help for VertexLitGeneric" )
 		if ( params[FLESHINTERIORENABLED]->GetIntValue() )
 		{
 			// If ( snapshotting ) or ( we need to draw this frame )
-			if ( ( pShaderShadow != NULL ) || ( true ) )
+			if ( ( pShaderShadow != nullptr) || ( true ) )
 			{
 				FleshInteriorBlendedPassVars_t info;
 				SetupVarsFleshInteriorBlendedPass( info );

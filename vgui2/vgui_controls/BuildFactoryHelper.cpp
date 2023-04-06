@@ -14,7 +14,7 @@
 using namespace vgui;
 
 // Start with empty list
-CBuildFactoryHelper *CBuildFactoryHelper::m_sHelpers = NULL;
+CBuildFactoryHelper *CBuildFactoryHelper::m_sHelpers = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructs a panel  factory
@@ -55,7 +55,7 @@ char const *CBuildFactoryHelper::GetClassName() const
 vgui::Panel *CBuildFactoryHelper::CreatePanel()
 {
 	if ( !m_CreateFunc )
-		return NULL;
+		return nullptr;
 
 	return ( *m_CreateFunc )();
 }
@@ -85,7 +85,7 @@ vgui::Panel *CBuildFactoryHelper::InstancePanel( char const *className )
 
 		p = p->GetNext();
 	}
-	return NULL;
+	return nullptr;
 }
 
 // static method
@@ -153,12 +153,12 @@ Panel* CBuildFactoryHelper::UnserializeDmxElementPanel( CDmxElement *pElement )
 {
 	// FIXME: This will change as the file format changes
 	if ( Q_stricmp( pElement->GetTypeString(), "CDmePanelDefinition" ) )
-		return NULL;
+		return nullptr;
 
 	Panel *pNewPanel = CBuildFactoryHelper::InstancePanel( pElement->GetValueString( "panelClassType" ) );
 	if ( !pNewPanel )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	const DmxElementUnpackStructure_t *pUnpack = pNewPanel->GetUnpackStructure();         
@@ -200,7 +200,7 @@ Panel* CBuildFactoryHelper::UnserializeDmxElementPanel( CDmxElement *pElement )
 bool CBuildFactoryHelper::Unserialize( Panel **ppPanel, CUtlBuffer &buf, const char *pFileName )
 {
 	DECLARE_DMX_CONTEXT();
-	*ppPanel = NULL;
+	*ppPanel = nullptr;
 	CDmxElement *pRootElement;
 	if ( !UnserializeDMX( buf, &pRootElement, pFileName ) )
 	{

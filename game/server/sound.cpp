@@ -222,8 +222,8 @@ int SENTENCEG_GetIndex(const char *szrootname)
 
 void UTIL_RestartAmbientSounds( void )
 {
-	CAmbientGeneric *pAmbient = NULL;
-	while ( ( pAmbient = (CAmbientGeneric*) gEntList.FindEntityByClassname( pAmbient, "ambient_generic" ) ) != NULL )
+	CAmbientGeneric *pAmbient = nullptr;
+	while ( ( pAmbient = (CAmbientGeneric*) gEntList.FindEntityByClassname( pAmbient, "ambient_generic" ) ) != nullptr)
 	{
 		if (pAmbient->m_fActive )
 		{

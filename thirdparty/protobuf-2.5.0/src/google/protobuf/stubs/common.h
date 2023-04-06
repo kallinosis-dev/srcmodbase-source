@@ -452,7 +452,7 @@ class scoped_ptr {
   // Constructor.  Defaults to intializing with NULL.
   // There is no way to create an uninitialized scoped_ptr.
   // The input parameter must be allocated with new.
-  explicit scoped_ptr(C* p = NULL) : ptr_(p) { }
+  explicit scoped_ptr(C* p = nullptr) : ptr_(p) { }
 
   // Destructor.  If there is a C object, delete it.
   // We don't need to test ptr_ == NULL because C++ does that for us.
@@ -464,7 +464,7 @@ class scoped_ptr {
   // Reset.  Deletes the current owned object, if any.
   // Then takes ownership of a new object, if given.
   // this->reset(this->get()) works.
-  void reset(C* p = NULL) {
+  void reset(C* p = nullptr) {
     if (p != ptr_) {
       enum { type_must_be_complete = sizeof(C) };
       delete ptr_;
@@ -539,7 +539,7 @@ class scoped_array {
   // Constructor.  Defaults to intializing with NULL.
   // There is no way to create an uninitialized scoped_array.
   // The input parameter must be allocated with new [].
-  explicit scoped_array(C* p = NULL) : array_(p) { }
+  explicit scoped_array(C* p = nullptr) : array_(p) { }
 
   // Destructor.  If there is a C object, delete it.
   // We don't need to test ptr_ == NULL because C++ does that for us.
@@ -551,7 +551,7 @@ class scoped_array {
   // Reset.  Deletes the current owned object, if any.
   // Then takes ownership of a new object, if given.
   // this->reset(this->get()) works.
-  void reset(C* p = NULL) {
+  void reset(C* p = nullptr) {
     if (p != array_) {
       enum { type_must_be_complete = sizeof(C) };
       delete[] array_;
@@ -721,7 +721,7 @@ class LIBPROTOBUF_EXPORT LogFinisher {
 namespace internal {
 template<typename T>
 T* CheckNotNull(const char *file, int line, const char *name, T* val) {
-  if (val == NULL) {
+  if (val == nullptr) {
     GOOGLE_LOG(FATAL) << name;
   }
   return val;
@@ -1136,8 +1136,8 @@ typedef MutexLock WriterMutexLock;
 class LIBPROTOBUF_EXPORT MutexLockMaybe {
  public:
   explicit MutexLockMaybe(Mutex *mu) :
-    mu_(mu) { if (this->mu_ != NULL) { this->mu_->Lock(); } }
-  ~MutexLockMaybe() { if (this->mu_ != NULL) { this->mu_->Unlock(); } }
+    mu_(mu) { if (this->mu_ != nullptr) { this->mu_->Lock(); } }
+  ~MutexLockMaybe() { if (this->mu_ != nullptr) { this->mu_->Unlock(); } }
  private:
   Mutex *const mu_;
   GOOGLE_DISALLOW_EVIL_CONSTRUCTORS(MutexLockMaybe);

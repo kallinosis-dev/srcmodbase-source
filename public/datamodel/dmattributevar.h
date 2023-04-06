@@ -101,7 +101,7 @@ class CDmaElement : public CDmaVar< DmElementHandle_t >
 
 public:
 	// Used to initialize the attribute in an element's OnConstruction method
-	void InitAndCreate( CDmElement *pOwner, const char *pAttributeName, const char *pElementName = NULL, int flags = 0 );
+	void InitAndCreate( CDmElement *pOwner, const char *pAttributeName, const char *pElementName = nullptr, int flags = 0 );
 	void Init( CDmElement *pOwner, const char *pAttributeName, int flags = 0 );
 
 	// Returns the type of elements allowed into this attribute. UTL_INVAL_SYMBOL allows everything.
@@ -407,7 +407,7 @@ class CDmaDataExternal
 protected:
 	typedef typename CDmAttributeInfo< T >::StorageType_t D;
 
-	CDmaDataExternal() : m_pStorage(0) {}
+	CDmaDataExternal() : m_pStorage(nullptr) {}
 	void Attach( void *pData ) { m_pStorage = (D*)pData; }
 	const T& Value() const { return *m_pStorage; }
 	T& Value( ) { return *m_pStorage; }
@@ -679,7 +679,7 @@ public:
 
 	void Init( const CDmElement *pElement, const char *pAttributeName )
 	{
-		const CDmAttribute *pAttribute = NULL;
+		const CDmAttribute *pAttribute = nullptr;
 		if ( pElement && pAttributeName && pAttributeName[0] )
 		{
 			pAttribute = pElement->GetAttribute( pAttributeName );
@@ -743,7 +743,7 @@ public:
 
 	void Init( CDmElement *pElement, const char *pAttributeName, bool bAddAttribute = false )
 	{
-		CDmAttribute *pAttribute = NULL;
+		CDmAttribute *pAttribute = nullptr;
 		if ( pElement && pAttributeName && pAttributeName[0] )
 		{
 			pAttribute = pElement->GetAttribute( pAttributeName );
@@ -790,7 +790,7 @@ public:
 //-----------------------------------------------------------------------------
 template< class T > inline CDmaVar<T>::CDmaVar( )
 {
-	m_pAttribute = NULL;
+	m_pAttribute = nullptr;
 	CDmAttributeInfo<T>::SetDefaultValue( m_Storage );
 }
 
@@ -1097,7 +1097,7 @@ inline bool CDmaString::IsEmpty() const
 		return true;
 
 	const char *pString = this->Value().String();
-	if ( pString == NULL )
+	if ( pString == nullptr)
 		return true;
 
 	if ( *pString == 0 )
@@ -1222,7 +1222,7 @@ inline void CDmaElement<T>::Set( T* pElement )
 template <class T>
 inline bool CDmaElement<T>::operator!() const
 {
-	return ( GetElement() == NULL );
+	return ( GetElement() == nullptr);
 }
 
 
@@ -1499,7 +1499,7 @@ inline const CDmAttribute *CDmrGenericArrayConst::GetAttribute() const
 
 inline bool CDmrGenericArrayConst::IsValid() const
 {
-	return m_pAttribute != NULL;
+	return m_pAttribute != nullptr;
 }
 
 inline CDmAttribute *CDmrGenericArray::GetAttribute()

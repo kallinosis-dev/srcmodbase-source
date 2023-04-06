@@ -21,7 +21,7 @@
 CConVarCheckButton::CConVarCheckButton( vgui::Panel *parent, const char *panelName, const char *text ) : 
 	vgui::CheckButton( parent, panelName, text )
 {
-	m_pConVar = NULL;
+	m_pConVar = nullptr;
 }
 
 void CConVarCheckButton::SetConVar( ConVar *pVar )
@@ -55,7 +55,7 @@ void IncrementalUpdateTree_R(
 		// The items in the tree are keyed by the panel pointer.
 		if ( pSub )
 		{
-			const char *pSubText = pSub->GetString( "Text", NULL );
+			const char *pSubText = pSub->GetString( "Text", nullptr);
 			if ( pSubText )
 			{
 				if ( iCurChild < nChildren )

@@ -589,7 +589,7 @@ bool CWeaponLabelTextProxy::HelperOnBindGetLabel( void *pC_BaseEntity, const cha
 void CWeaponLabelTextProxy::OnBind( void *pC_BaseEntity )
 {
 
-	const char *p_szLabel = NULL;
+	const char *p_szLabel = nullptr;
 	bool bHasLabel = HelperOnBindGetLabel( pC_BaseEntity, &p_szLabel );
 	if (!bHasLabel || !p_szLabel)
 		return;

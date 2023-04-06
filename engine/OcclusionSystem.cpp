@@ -198,8 +198,8 @@ CWingedEdgeList::CWingedEdgeList() : m_WingedEdges( 0, 64 )
 	m_StartTerminal.m_vecPositionEnd.Init( -FLT_MAX, FLT_MAX, -FLT_MAX );
 	m_StartTerminal.m_nLeaveSurfID = -1;
 	m_StartTerminal.m_nEnterSurfID = -1;
-	m_StartTerminal.m_pPrevActiveEdge = NULL;
-	m_StartTerminal.m_pNextActiveEdge = NULL;
+	m_StartTerminal.m_pPrevActiveEdge = nullptr;
+	m_StartTerminal.m_pNextActiveEdge = nullptr;
 	m_StartTerminal.m_flDxDy = 0.0f;
 	m_StartTerminal.m_flOODy = 0.0f;
 	m_StartTerminal.m_flX = -FLT_MAX;
@@ -208,8 +208,8 @@ CWingedEdgeList::CWingedEdgeList() : m_WingedEdges( 0, 64 )
 	m_EndTerminal.m_vecPositionEnd.Init( FLT_MAX, FLT_MAX, -FLT_MAX );
 	m_EndTerminal.m_nLeaveSurfID = -1;
 	m_EndTerminal.m_nEnterSurfID = -1;
-	m_EndTerminal.m_pPrevActiveEdge = NULL;
-	m_EndTerminal.m_pNextActiveEdge = NULL;
+	m_EndTerminal.m_pPrevActiveEdge = nullptr;
+	m_EndTerminal.m_pNextActiveEdge = nullptr;
 	m_EndTerminal.m_flDxDy = 0.0f;
 	m_EndTerminal.m_flOODy = 0.0f;
 	m_EndTerminal.m_flX = FLT_MAX;
@@ -251,8 +251,8 @@ inline int CWingedEdgeList::AddEdge( )
 	int i = m_WingedEdges.AddToTail();
 
 	WingedEdge_t &newEdge = m_WingedEdges[i];
-	newEdge.m_pPrevActiveEdge = NULL;
-	newEdge.m_pNextActiveEdge = NULL;
+	newEdge.m_pPrevActiveEdge = nullptr;
+	newEdge.m_pNextActiveEdge = nullptr;
 
 	return i;
 }
@@ -276,8 +276,8 @@ int CWingedEdgeList::AddEdge( const Vector &vecStartVert, const Vector &vecEndVe
 	newEdge.m_nEnterSurfID = nEnterSurfID;
 	newEdge.m_vecPosition = vecStartVert;
 	newEdge.m_vecPositionEnd = vecEndVert;
-	newEdge.m_pPrevActiveEdge = NULL;
-	newEdge.m_pNextActiveEdge = NULL;
+	newEdge.m_pPrevActiveEdge = nullptr;
+	newEdge.m_pNextActiveEdge = nullptr;
 	newEdge.m_flDxDy = (vecEndVert.x - vecStartVert.x) * newEdge.m_flOODy;
 
 	return i;
@@ -332,7 +332,7 @@ inline void CWingedEdgeList::UnlinkActiveEdge( WingedEdge_t *pEdge )
 	pEdge->m_pNextActiveEdge->m_pPrevActiveEdge = pEdge->m_pPrevActiveEdge;
 
 #ifdef _DEBUG
-	pEdge->m_pPrevActiveEdge = pEdge->m_pNextActiveEdge = NULL;
+	pEdge->m_pPrevActiveEdge = pEdge->m_pNextActiveEdge = nullptr;
 #endif
 }
 
@@ -1025,8 +1025,8 @@ CEdgeList::CEdgeList() : m_Edges( 0, 32 ), m_OrigSortIndices( 0, 32 )
 	m_StartTerminal.m_vecPosition.Init( -FLT_MAX, -FLT_MAX, -FLT_MAX );
 	m_StartTerminal.m_vecPositionEnd.Init( -FLT_MAX, FLT_MAX, -FLT_MAX );
 	m_StartTerminal.m_nSurfID = -1;
-	m_StartTerminal.m_pPrevActiveEdge = NULL;
-	m_StartTerminal.m_pNextActiveEdge = NULL;
+	m_StartTerminal.m_pPrevActiveEdge = nullptr;
+	m_StartTerminal.m_pNextActiveEdge = nullptr;
 	m_StartTerminal.m_flDxDy = 0.0f;
 	m_StartTerminal.m_flOODy = 0.0f;
 	m_StartTerminal.m_flX = -FLT_MAX;
@@ -1034,8 +1034,8 @@ CEdgeList::CEdgeList() : m_Edges( 0, 32 ), m_OrigSortIndices( 0, 32 )
 	m_EndTerminal.m_vecPosition.Init( FLT_MAX, -FLT_MAX, -FLT_MAX );
 	m_EndTerminal.m_vecPositionEnd.Init( FLT_MAX, FLT_MAX, -FLT_MAX );
 	m_EndTerminal.m_nSurfID = -1;
-	m_EndTerminal.m_pPrevActiveEdge = NULL;
-	m_EndTerminal.m_pNextActiveEdge = NULL;
+	m_EndTerminal.m_pPrevActiveEdge = nullptr;
+	m_EndTerminal.m_pNextActiveEdge = nullptr;
 	m_EndTerminal.m_flDxDy = 0.0f;
 	m_EndTerminal.m_flOODy = 0.0f;
 	m_EndTerminal.m_flX = FLT_MAX;
@@ -1044,15 +1044,15 @@ CEdgeList::CEdgeList() : m_Edges( 0, 32 ), m_OrigSortIndices( 0, 32 )
 	m_StartSurfTerminal.m_Plane.normal.Init( 0, 0, 1 );
 	m_StartSurfTerminal.m_Plane.dist = -FLT_MAX;
 	m_StartSurfTerminal.m_nSurfID = -1;
-	m_StartSurfTerminal.m_pNextSurface = NULL;
-	m_StartSurfTerminal.m_pPrevSurface = NULL;
+	m_StartSurfTerminal.m_pNextSurface = nullptr;
+	m_StartSurfTerminal.m_pPrevSurface = nullptr;
 
 	m_EndSurfTerminal.m_flOOz = FLT_MAX;
 	m_EndSurfTerminal.m_Plane.normal.Init( 0, 0, 1 );
 	m_EndSurfTerminal.m_Plane.dist = FLT_MAX;
 	m_EndSurfTerminal.m_nSurfID = -1;
-	m_EndSurfTerminal.m_pNextSurface = NULL;
-	m_EndSurfTerminal.m_pPrevSurface = NULL;
+	m_EndSurfTerminal.m_pNextSurface = nullptr;
+	m_EndSurfTerminal.m_pPrevSurface = nullptr;
 }
 
 
@@ -1132,7 +1132,7 @@ inline void CEdgeList::UnlinkActiveEdge( Edge_t *pEdge )
 	pEdge->m_pNextActiveEdge->m_pPrevActiveEdge = pEdge->m_pPrevActiveEdge;
 
 #ifdef _DEBUG
-	pEdge->m_pPrevActiveEdge = pEdge->m_pNextActiveEdge = NULL;
+	pEdge->m_pPrevActiveEdge = pEdge->m_pNextActiveEdge = nullptr;
 #endif
 }
 
@@ -1156,7 +1156,7 @@ void CEdgeList::CleanupCurrentSurfaceList()
 	while ( !AtSurfListEnd(pSurf) )
 	{
 		Surface_t *pNext = pSurf->m_pNextSurface;
-		pSurf->m_pPrevSurface = pSurf->m_pNextSurface = NULL;
+		pSurf->m_pPrevSurface = pSurf->m_pNextSurface = nullptr;
 		pSurf = pNext;
 	}
 }
@@ -1203,8 +1203,8 @@ int CEdgeList::AddSurface( const cplane_t &plane )
 	Surface_t &surf = m_Surfaces[nIndex];
 	surf.m_flOOz = 0.0f;
 	surf.m_Plane = plane;
-	surf.m_pNextSurface = NULL;
-	surf.m_pPrevSurface = NULL;
+	surf.m_pNextSurface = nullptr;
+	surf.m_pPrevSurface = nullptr;
 	surf.m_nSurfID = nIndex;
 
 	m_SurfaceSort.AddToTail(nIndex);
@@ -1239,8 +1239,8 @@ void CEdgeList::AddEdge( Vector **ppEdgeVertices, int nSurfID )
 	newEdge.m_vecPositionEnd = vecEndVert;
 	newEdge.m_nSurfID = nSurfID;
 	newEdge.m_flDxDy = (vecEndVert.x - vecStartVert.x) * newEdge.m_flOODy;
-	newEdge.m_pPrevActiveEdge = NULL;
-	newEdge.m_pNextActiveEdge = NULL;
+	newEdge.m_pPrevActiveEdge = nullptr;
+	newEdge.m_pNextActiveEdge = nullptr;
 
 	// Insert it into the sorted list
 	m_OrigSortIndices.Insert( i );
@@ -1250,7 +1250,7 @@ void CEdgeList::AddEdge( Vector **ppEdgeVertices, int nSurfID )
 //-----------------------------------------------------------------------------
 // Used to sort the surfaces
 //-----------------------------------------------------------------------------
-CEdgeList::Surface_t *CEdgeList::s_pSortSurfaces = NULL;
+CEdgeList::Surface_t *CEdgeList::s_pSortSurfaces = nullptr;
 int __cdecl CEdgeList::SurfCompare( const void *elem1, const void *elem2 )
 {
 	int nSurfID1 = *(int*)elem1;
@@ -1460,7 +1460,7 @@ void CEdgeList::IntroduceSingleActiveEdge( const Edge_t *pEdge, float flCurrY )
 		// In this case, simply remove the surface from the surface list
 		pCurrentSurf->m_pNextSurface->m_pPrevSurface = pCurrentSurf->m_pPrevSurface;
 		pCurrentSurf->m_pPrevSurface->m_pNextSurface = pCurrentSurf->m_pNextSurface;
-		pCurrentSurf->m_pPrevSurface = pCurrentSurf->m_pNextSurface = NULL;
+		pCurrentSurf->m_pPrevSurface = pCurrentSurf->m_pNextSurface = nullptr;
 	}
 }
 

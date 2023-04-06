@@ -69,11 +69,11 @@ namespace ResponseRules
 		bool						bFired;
 
         inline bool IsValid( void ) const { return (followup_concept && followup_contexts); }
-        inline void Invalidate() { followup_concept = NULL; followup_contexts = NULL; }
+        inline void Invalidate() { followup_concept = nullptr; followup_contexts = nullptr; }
         inline void SetFired( bool fired ) { bFired = fired; }
         inline bool HasBeenFired() { return bFired; }
     
-		AI_ResponseFollowup( void ) : followup_concept(NULL), followup_contexts(NULL), followup_delay(0), followup_target(NULL), followup_entityiotarget(NULL), followup_entityioinput(NULL), followup_entityiodelay(0), bFired(false)
+		AI_ResponseFollowup( void ) : followup_concept(nullptr), followup_contexts(nullptr), followup_delay(0), followup_target(nullptr), followup_entityiotarget(nullptr), followup_entityioinput(nullptr), followup_entityiodelay(0), bFired(false)
 		{};
 		AI_ResponseFollowup( char *_followup_concept, char *_followup_contexts, float _followup_delay, char *_followup_target,
 			char *_followup_entityiotarget, char *_followup_entityioinput, float _followup_entityiodelay ) :
@@ -326,7 +326,7 @@ namespace ResponseRules
 
 		bool			IsApplyContextToWorld( void ) { return m_bApplyContextToWorld; }
 
-		void Describe( const CriteriaSet *pDebugCriteria = NULL ); 
+		void Describe( const CriteriaSet *pDebugCriteria = nullptr); 
 
 		void	Init( ResponseType_t type, 
 			const char *responseName, 
@@ -373,7 +373,7 @@ namespace ResponseRules
 	public:
 		virtual ~IResponseSystem() {}
 
-		virtual bool FindBestResponse( const CriteriaSet& set, CRR_Response& response, IResponseFilter *pFilter = NULL ) = 0;
+		virtual bool FindBestResponse( const CriteriaSet& set, CRR_Response& response, IResponseFilter *pFilter = nullptr) = 0;
 		virtual void GetAllResponses( CUtlVector<CRR_Response> *pResponses ) = 0;
 		virtual void PrecacheResponses( bool bEnable ) = 0;
 	};

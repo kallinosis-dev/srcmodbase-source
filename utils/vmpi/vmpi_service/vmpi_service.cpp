@@ -33,25 +33,25 @@
 
 
 char g_VersionString[64]; // From the IDS_VERSION_STRING string.
-HKEY g_hVMPIServiceKey = NULL;	// HKML/Software/Valve/VMPI
+HKEY g_hVMPIServiceKey = nullptr;	// HKML/Software/Valve/VMPI
 
 double g_flLastKillProcessTime = 0;
 
-char *g_pPassword = NULL;	// Set if this service is using a pw.
-ISocket *g_pSocket = NULL;
+char *g_pPassword = nullptr;	// Set if this service is using a pw.
+ISocket *g_pSocket = nullptr;
 int g_SocketPort = -1;		// Which port we were able to bind the port on.
 
 char g_RunningProcess_ExeName[MAX_PATH] = {0};
 char g_RunningProcess_MapName[MAX_PATH] = {0};
-HANDLE g_hRunningProcess = NULL;
-HANDLE g_hRunningThread = NULL;
+HANDLE g_hRunningProcess = nullptr;
+HANDLE g_hRunningThread = nullptr;
 DWORD g_dwRunningProcessId = 0;
-IPerfTracker *g_pPerfTracker = NULL;	// Tracks CPU usage.
+IPerfTracker *g_pPerfTracker = nullptr;	// Tracks CPU usage.
 
 // When this is true, it will launch new processes invisibly.
 bool g_bHideNewProcessWindows = true;
 
-HINSTANCE g_hInstance = NULL;
+HINSTANCE g_hInstance = nullptr;
 int g_iBoundPort = -1;
 
 bool g_bScreensaverMode = false;	// If this is true, then it'll act like the service is disabled while
@@ -106,7 +106,7 @@ char g_CurMasterName[512] = {0};
 #endif
 
 // If this is non-NULL, then there is NOT a VMPI worker app running currently.. the downloader
-HANDLE g_Waiting_hProcess = NULL; 
+HANDLE g_Waiting_hProcess = nullptr; 
 float g_Waiting_StartTime = 0;
 CUtlVector<char*> g_Waiting_Argv;
 int g_Waiting_Priority = 0;
@@ -142,7 +142,7 @@ void SetPassword( const char *pPassword )
 	}
 	else
 	{
-		g_pPassword = NULL;
+		g_pPassword = nullptr;
 	}
 }
 
@@ -218,7 +218,7 @@ void CVMPIServiceConnMgr::HandlePacket( const char *pData, int len )
 	{
 		case VMPI_KILL_PROCESS:
 		{
-			HandlePacket_KILL_PROCESS( NULL );
+			HandlePacket_KILL_PROCESS(nullptr);
 		}
 		break;
 		
@@ -268,7 +268,7 @@ void CVMPIServiceConnMgr::HandlePacket( const char *pData, int len )
 }
 
 // This is allocated by the service thread and only used in there.
-CVMPIServiceConnMgr *g_pConnMgr = NULL;
+CVMPIServiceConnMgr *g_pConnMgr = nullptr;
 
 
 // ------------------------------------------------------------------------------------------ //
@@ -286,7 +286,7 @@ void LoadStateFromRegistry()
 		if ( RegQueryValueEx( 
 			g_hVMPIServiceKey,
 			"ScreensaverMode",
-			0,
+			nullptr,
 			&type,
 			(unsigned char*)&val,
 			&size ) == ERROR_SUCCESS && 
@@ -299,7 +299,7 @@ void LoadStateFromRegistry()
 		if ( RegQueryValueEx( 
 			g_hVMPIServiceKey,
 			"Disabled",
-			0,
+			nullptr,
 			&type,
 			(unsigned char*)&val,
 			&size ) == ERROR_SUCCESS && 
@@ -356,7 +356,7 @@ char* FindArg( int argc, char **argv, const char *pArgName, char *pDefaultValue=
 				return argv[i+1];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -443,7 +443,7 @@ void KillRunningProcess( const char *pReason, bool bGoToIdle )
 	{
 		TerminateProcess( g_Waiting_hProcess, 1 );
 		CloseHandle( g_Waiting_hProcess );
-		g_Waiting_hProcess = NULL;
+		g_Waiting_hProcess = nullptr;
 	}
 
 	if ( !g_hRunningProcess )
@@ -459,10 +459,10 @@ void KillRunningProcess( const char *pReason, bool bGoToIdle )
 
 	// Yep. Now we can start a new one.
 	CloseHandle( g_hRunningThread );
-	g_hRunningThread = NULL;
+	g_hRunningThread = nullptr;
 	
 	CloseHandle( g_hRunningProcess );
-	g_hRunningProcess = NULL;
+	g_hRunningProcess = nullptr;
 
 	g_CurJobPriority = -1;
 
@@ -555,34 +555,34 @@ bool CheckJobID( bf_read &buf, int jobID[4] )
 
 void VMPI_Waiter_Term()
 {
-	KillRunningProcess( NULL, false );
+	KillRunningProcess(nullptr, false );
 	if ( g_pConnMgr )
 	{
 		g_pConnMgr->Term();
 		delete g_pConnMgr;
-		g_pConnMgr = NULL;
+		g_pConnMgr = nullptr;
 	}
 
 	if ( g_pSocket )
 	{
 		g_pSocket->Release();
-		g_pSocket = NULL;
+		g_pSocket = nullptr;
 	}
 	
 	g_pPerfTracker->Release();
-	g_pPerfTracker = NULL;
+	g_pPerfTracker = nullptr;
 }
 
 
 bool VMPI_Waiter_Init()
 {
 	// Run as idle priority.
-	HKEY hKey = NULL;
+	HKEY hKey = nullptr;
 	RegCreateKey( HKEY_LOCAL_MACHINE, VMPI_SERVICE_KEY, &hKey );
 	DWORD dwVal = 0;
 	DWORD dummyType = REG_DWORD;
 	DWORD dwValLen = sizeof( dwVal );
-	if ( RegQueryValueEx( hKey, "LowPriority", NULL, &dummyType, (LPBYTE)&dwVal, &dwValLen ) == ERROR_SUCCESS )
+	if ( RegQueryValueEx( hKey, "LowPriority", nullptr, &dummyType, (LPBYTE)&dwVal, &dwValLen ) == ERROR_SUCCESS )
 	{
 		if ( dwVal )
 		{
@@ -639,7 +639,7 @@ void RunInDLL( const char *pFilename, CUtlVector<char*> &newArgv )
 		CreateInterfaceFn fn = Sys_GetFactory( pModule );
 		if ( fn )
 		{
-			ILaunchableDLL *pDLL = (ILaunchableDLL*)fn( LAUNCHABLE_DLL_INTERFACE_VERSION, NULL );
+			ILaunchableDLL *pDLL = (ILaunchableDLL*)fn( LAUNCHABLE_DLL_INTERFACE_VERSION, nullptr);
 			if( pDLL )
 			{
 				// Do this here because the executables we would have launched usually would do it.
@@ -758,14 +758,14 @@ bool RunProcessFromArgs( CUtlVector<char*> &newArgv, bool bShowAppWindow, bool b
 
 	UINT oldMode = SetErrorMode( SEM_NOOPENFILEERRORBOX | SEM_FAILCRITICALERRORS );
 
-	BOOL bRet = CreateProcess( 
-		NULL, 
-		commandLine, 
-		NULL,							// security
-		NULL,
+	BOOL bRet = CreateProcess(
+		nullptr, 
+		commandLine,
+		nullptr,							// security
+		nullptr,
 		TRUE,
 		dwFlags | IDLE_PRIORITY_CLASS,	// flags
-		NULL,							// environment
+		nullptr,							// environment
 		pWorkingDir,	
 		&si,
 		pOut );
@@ -841,7 +841,7 @@ bool WaitForProcessToExit()
 			// Yep. Now we can start a new one.
 			CloseHandle( g_hRunningThread );
 			CloseHandle( g_hRunningProcess );
-			g_hRunningProcess = g_hRunningThread = NULL;
+			g_hRunningProcess = g_hRunningThread = nullptr;
 			g_RunningProcess_ExeName[0] = g_RunningProcess_MapName[0] = 0;
 		}
 	}
@@ -853,7 +853,7 @@ bool WaitForProcessToExit()
 void HandleWindowMessages()
 {
 	MSG msg;
-	while ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+	while ( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
 	{
 		TranslateMessage( &msg );
 		DispatchMessage( &msg );
@@ -1058,7 +1058,7 @@ void AdjustSuperDebugArgs( CUtlVector<char*> &args )
 {
 	// Get the directory this exe was run out of.
 	char filename[512];
-	if ( GetModuleFileName( GetModuleHandle( NULL ), filename, sizeof( filename ) ) == 0 )
+	if ( GetModuleFileName( GetModuleHandle(nullptr), filename, sizeof( filename ) ) == 0 )
 		return;
 	
 	char *pLastSlash = filename;
@@ -1116,14 +1116,14 @@ bool StartDownloadingAppFiles(
 	HANDLE *hProcess, 
 	bool bPatching )
 {
-	*hProcess = NULL;
+	*hProcess = nullptr;
 	
 	V_strncpy( cacheDir, g_FileCachePath, cacheDirLen );
 	
 	// For now, cache dir is always the same. It's [current directory]\cache.
 	if ( _access( cacheDir, 0 ) != 0 )
 	{
-		if ( !CreateDirectory( cacheDir, NULL ) && GetLastError() != ERROR_ALREADY_EXISTS )
+		if ( !CreateDirectory( cacheDir, nullptr) && GetLastError() != ERROR_ALREADY_EXISTS )
 		{
 			Warning( "Unable to create cache directory: %s.\n", cacheDir );
 			return false;
@@ -1268,7 +1268,7 @@ bool CheckDownloaderFinished()
 	{
 		TerminateProcess( g_Waiting_hProcess, 1 );
 		CloseHandle( g_Waiting_hProcess );
-		g_Waiting_hProcess = NULL;
+		g_Waiting_hProcess = nullptr;
 		return false;
 	}
 
@@ -1277,7 +1277,7 @@ bool CheckDownloaderFinished()
 		return false;
 
 	CloseHandle( g_Waiting_hProcess );
-	g_Waiting_hProcess = NULL;
+	g_Waiting_hProcess = nullptr;
 
 	// Ok, it's done. Did it finish successfully?
 	char testFilename[MAX_PATH];
@@ -1324,7 +1324,7 @@ bool CheckDownloaderFinished()
 			// We just ran the installer, but let's forget about it, otherwise we'll kill its process when we exit here.
 			CloseHandle( g_hRunningProcess );
 			CloseHandle( g_hRunningThread ) ;
-			g_hRunningProcess = g_hRunningThread = NULL;
+			g_hRunningProcess = g_hRunningThread = nullptr;
 			g_RunningProcess_ExeName[0] = 0;
 			g_RunningProcess_MapName[0] = 0;
 
@@ -1638,7 +1638,7 @@ void ServiceThreadFn( void *pParam )
 // This function works with the service manager and runs as a system service.
 void RunService()
 {
-	if( !ServiceHelpers_StartService( VMPI_SERVICE_NAME_INTERNAL, ServiceThreadFn, NULL ) )
+	if( !ServiceHelpers_StartService( VMPI_SERVICE_NAME_INTERNAL, ServiceThreadFn, nullptr) )
 	{
 		Msg( "Service manager not started. Running as console app.\n" );
 		g_RunMode = RUNMODE_CONSOLE;
@@ -1661,7 +1661,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	LoadString( hInstance, VMPI_SERVICE_IDS_VERSION_STRING, g_VersionString, sizeof( g_VersionString ) );
 
 	// Setup the base app path.
-	if ( !GetModuleFileName( GetModuleHandle( NULL ), g_BaseAppPath, sizeof( g_BaseAppPath ) ) )
+	if ( !GetModuleFileName( GetModuleHandle(nullptr), g_BaseAppPath, sizeof( g_BaseAppPath ) ) )
 	{
 		Warning( "GetModuleFileName failed.\n" );
 		return false;
@@ -1672,7 +1672,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	V_ComposeFileName( g_BaseAppPath, "vmpi_service_cache", g_FileCachePath, sizeof( g_FileCachePath ) );
 
 
-	const char *pArg = FindArg( __argc, __argv, "-mpi_pw", NULL );
+	const char *pArg = FindArg( __argc, __argv, "-mpi_pw", nullptr);
 	SetPassword( pArg );
 	
 	if ( FindArg( __argc, __argv, "-console" ) )
@@ -1688,7 +1688,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 		g_bSuperDebugMode = true;
 
 	g_AppStartTime = GetTickCount();
-	g_bMinimized = FindArg( __argc, __argv, "-minimized" ) != NULL;
+	g_bMinimized = FindArg( __argc, __argv, "-minimized" ) != nullptr;
 
 	ServiceHelpers_Init(); 	
 	g_hInstance = hInstance;

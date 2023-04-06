@@ -84,7 +84,7 @@ winding_t *NewWinding (int points)
 	if (points > MAX_POINTS_ON_WINDING)
 		Error ("NewWinding: %i points, max %d", points, MAX_POINTS_ON_WINDING);
 	
-	size = (int)(&((winding_t *)0)->points[points]);
+	size = (int)(&((winding_t *)nullptr)->points[points]);
 	w = (winding_t*)malloc (size);
 	memset (w, 0, size);
 	

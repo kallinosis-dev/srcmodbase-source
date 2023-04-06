@@ -19,19 +19,19 @@
 namespace vgui
 {
 
-ISoundEmitterSystemBase *g_pSoundEmitterSystem = NULL;
+ISoundEmitterSystemBase *g_pSoundEmitterSystem = nullptr;
 ISoundEmitterSystemBase *SoundEmitterSystem()
 {
 	return g_pSoundEmitterSystem;
 }
 
-IEngineTool *enginetools = NULL;
+IEngineTool *enginetools = nullptr;
 IEngineTool *EngineTool()
 {
 	return enginetools;
 }
 
-IPhysicsCollision *g_pPhysicsCollision = NULL;
+IPhysicsCollision *g_pPhysicsCollision = nullptr;
 IPhysicsCollision *PhysicsCollision()
 {
 	return g_pPhysicsCollision;
@@ -68,7 +68,7 @@ static void *InitializeInterface( char const *interfaceName, CreateInterfaceFn *
 		if ( !factory )
 			continue;
 
-		retval = factory( interfaceName, NULL );
+		retval = factory( interfaceName, nullptr);
 		if ( retval )
 			return retval;
 	}
@@ -76,7 +76,7 @@ static void *InitializeInterface( char const *interfaceName, CreateInterfaceFn *
 	// No provider for requested interface!!!
 	// Assert( !"No provider for requested interface!!!" );
 
-	return NULL;
+	return nullptr;
 }
 
 

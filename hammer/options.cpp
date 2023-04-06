@@ -31,7 +31,7 @@ static const char *g_szColors = "Custom2DColors";
 const int iThisVersion = 2;
 
 // So File | Open will be in the right directory.
-char *g_pMapDir = NULL;
+char *g_pMapDir = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -91,7 +91,7 @@ CGameConfig *COptionsConfigs::FindConfig(DWORD dwID, int *piIndex)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -107,7 +107,7 @@ CGameConfig *COptionsConfigs::FindConfigForGame(const char *szGame)
 			return Configs[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -208,7 +208,7 @@ bool COptionsConfigs::ResetGameConfigs( bool bOverwrite )
 //-----------------------------------------------------------------------------
 int COptionsConfigs::LoadGameConfigsBlock( KeyValues *pBlock )
 {
-	if ( pBlock == NULL )
+	if ( pBlock == nullptr)
 		return 0;
 
 	int nConfigsRead = 0;
@@ -216,7 +216,7 @@ int COptionsConfigs::LoadGameConfigsBlock( KeyValues *pBlock )
 	for ( KeyValues *pKey = pBlock->GetFirstTrueSubKey(); pKey; pKey = pKey->GetNextTrueSubKey() )
 	{
 		CGameConfig *pConfig = AddConfig();
-		if ( pConfig != NULL )
+		if ( pConfig != nullptr)
 		{	
 			if ( pConfig->Load( pKey ) )
 			{
@@ -300,10 +300,10 @@ void COptionsConfigs::SaveGameConfigs()
 		KeyValues *pConfig = pGame->FindKey(Configs.GetAt(i)->szName);
 		
 		// Add the configuration if it wasn't found
-		if ( pConfig == NULL )
+		if ( pConfig == nullptr)
 		{
 			pConfig = pGame->CreateNewKey();
-			if ( pConfig == NULL )
+			if ( pConfig == nullptr)
 			{
 				// FIXME: fatal error
 				return;
@@ -317,7 +317,7 @@ void COptionsConfigs::SaveGameConfigs()
 	// For each global configuration, remove any configs Hammer has deleted
 	bool bFoundConfig;
 	KeyValues *pConfig = pGame->GetFirstTrueSubKey();
-	while ( pConfig != NULL )
+	while ( pConfig != nullptr)
 	{
 		// Search through all the configs Hammer knows of for a matching name
 		bFoundConfig = false;
@@ -498,7 +498,7 @@ bool COptions::Init(void)
 	// dvs: is all this necessary?
 	//
 	CMainFrame *pMainWnd = GetMainWnd();
-	if (pMainWnd != NULL)
+	if (pMainWnd != nullptr)
 	{
 		pMainWnd->SetBrightness(textures.fBrightness);
 
@@ -596,8 +596,8 @@ bool COptions::Read(void)
 		return false;
 	}
 
-	DWORD dwTime = APP()->GetProfileInt("Configured", "Installed", time(NULL));
-	CTimeSpan ts(time(NULL) - dwTime);
+	DWORD dwTime = APP()->GetProfileInt("Configured", "Installed", time(nullptr));
+	CTimeSpan ts(time(nullptr) - dwTime);
 	uDaysSinceInstalled = ts.GetDays();
 
 	int i, iSize;
@@ -732,7 +732,7 @@ bool COptions::RunConfigurationDialog()
 {
 	CString strText;
 	strText.LoadString(IDS_NO_CONFIGS_AVAILABLE);
-	if (MessageBox(NULL, strText, "First Time Setup", MB_ICONQUESTION | MB_YESNO) == IDYES)
+	if (MessageBox(nullptr, strText, "First Time Setup", MB_ICONQUESTION | MB_YESNO) == IDYES)
 	{
 		APP()->OpenURL(ID_HELP_FIRST_TIME_SETUP, GetMainWnd()->GetSafeHwnd());
 	}
@@ -748,7 +748,7 @@ bool COptions::RunConfigurationDialog()
 
 		if (configs.nConfigs == 0)
 		{
-			MessageBox(NULL, "You must create at least one game configuration before using Hammer.", "First Time Setup", MB_ICONEXCLAMATION | MB_OK);
+			MessageBox(nullptr, "You must create at least one game configuration before using Hammer.", "First Time Setup", MB_ICONEXCLAMATION | MB_OK);
 		}
 
 	} while (configs.nConfigs == 0);
@@ -956,7 +956,7 @@ void COptions::SetDefaults(void)
 
 	if (APP()->GetProfileInt("Configured", "Installed", 42151) == 42151)
 	{
-		APP()->WriteProfileInt("Configured", "Installed", time(NULL));
+		APP()->WriteProfileInt("Configured", "Installed", time(nullptr));
 	}
 
 	uDaysSinceInstalled = 0;
@@ -1043,7 +1043,7 @@ void COptions::PerformChanges(DWORD dwOptionsChanged)
 
 	if (dwOptionsChanged & secTextures)
 	{
-		if (pMainWnd != NULL)
+		if (pMainWnd != nullptr)
 		{
 			pMainWnd->SetBrightness(textures.fBrightness);
 		}
@@ -1053,7 +1053,7 @@ void COptions::PerformChanges(DWORD dwOptionsChanged)
 	{
 		ReadColorSettings();
 
-		if (pMainWnd != NULL)
+		if (pMainWnd != nullptr)
 		{
 			pMainWnd->UpdateAllDocViews( MAPVIEW_UPDATE_ONLY_2D | MAPVIEW_OPTIONS_CHANGED | MAPVIEW_RENDER_NOW );
 		}
@@ -1061,7 +1061,7 @@ void COptions::PerformChanges(DWORD dwOptionsChanged)
 
 	if (dwOptionsChanged & secView3D)
 	{
-		if (pMainWnd != NULL)
+		if (pMainWnd != nullptr)
 		{
 			pMainWnd->UpdateAllDocViews(MAPVIEW_UPDATE_ONLY_3D | MAPVIEW_OPTIONS_CHANGED | MAPVIEW_RENDER_NOW );
 		}
@@ -1069,7 +1069,7 @@ void COptions::PerformChanges(DWORD dwOptionsChanged)
 
 	if (dwOptionsChanged & secConfigs)
 	{
-		if (pMainWnd != NULL)
+		if (pMainWnd != nullptr)
 		{
 			pMainWnd->GlobalNotify(WM_GAME_CHANGED);
 		}

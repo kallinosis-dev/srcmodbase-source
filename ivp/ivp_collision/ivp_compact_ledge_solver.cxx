@@ -671,7 +671,7 @@ IVP_DOUBLE IVP_Compact_Ledge_Solver::calc_qlen_KK(const IVP_Compact_Edge *K,cons
     pL[1] = L->get_next();
     
     IVP_DOUBLE min_len = P_DOUBLE_MAX;
-    const IVP_Compact_Edge *min_Kp = 0;
+    const IVP_Compact_Edge *min_Kp = nullptr;
     int i;
     for(i=0; i<=1; i++){
 	IVP_U_Point L_Kos;

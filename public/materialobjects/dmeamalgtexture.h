@@ -44,7 +44,7 @@ public:
 	virtual void OnAttributeArrayElementAdded( CDmAttribute *pAttribute, int nFirstElem, int nLastElem ) {}
 	virtual void OnAttributeArrayElementRemoved( CDmAttribute *pAttribute, int nFirstElem, int nLastElem ) {}
 
-	void Init( const char *pShtFileName = NULL, bool bUseCurrentDir = false );
+	void Init( const char *pShtFileName = nullptr, bool bUseCurrentDir = false );
 	void *WriteFile( CResourceStream *pStream, ResourceId_t nTextureResourceId );
 
 	// old-style

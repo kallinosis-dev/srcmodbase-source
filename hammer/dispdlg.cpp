@@ -1176,10 +1176,10 @@ BOOL CPaintSculptDlg::OnInitDialog( )
  	m_SculptOptionsLoc.GetWindowRect( &OptionsLoc );
 	GetWindowRect( &ThisLoc );
 
-	m_PushOptions->SetWindowPos( NULL, 10, OptionsLoc.top - ThisLoc.top - 20, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW );
-	m_CarveOptions->SetWindowPos( NULL, 10, OptionsLoc.top - ThisLoc.top - 20, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW );
+	m_PushOptions->SetWindowPos(nullptr, 10, OptionsLoc.top - ThisLoc.top - 20, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW );
+	m_CarveOptions->SetWindowPos(nullptr, 10, OptionsLoc.top - ThisLoc.top - 20, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW );
 //	m_ProjectOptions->SetWindowPos( NULL, 10, OptionsLoc.top - ThisLoc.top - 20, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW );
-	m_BlendOptions->SetWindowPos( NULL, 10, OptionsLoc.top - ThisLoc.top - 20, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW );
+	m_BlendOptions->SetWindowPos(nullptr, 10, OptionsLoc.top - ThisLoc.top - 20, 0, 0, SWP_NOSIZE | SWP_SHOWWINDOW );
 
 	m_PushOptions->ShowWindow( SW_HIDE );
 	m_CarveOptions->ShowWindow( SW_HIDE );
@@ -1250,7 +1250,7 @@ void CPaintSculptDlg::OnClose( )
 void CPaintSculptDlg::OnLButtonUp( UINT nFlags, CPoint point )
 {
 	CToolDisplace *pDispTool = GetDisplacementTool();
-	if ( pDispTool != NULL )
+	if ( pDispTool != nullptr)
 	{
 		CSculptPainter *painter = dynamic_cast< CSculptPainter * >( pDispTool->GetSculptPainter() );
 
@@ -1272,7 +1272,7 @@ void CPaintSculptDlg::OnLButtonUp( UINT nFlags, CPoint point )
 void CPaintSculptDlg::OnLButtonDown( UINT nFlags, CPoint point )
 {
 	CToolDisplace *pDispTool = GetDisplacementTool();
-	if ( pDispTool != NULL )
+	if ( pDispTool != nullptr)
 	{
 		CSculptPainter *painter = dynamic_cast< CSculptPainter * >( pDispTool->GetSculptPainter() );
 
@@ -1294,7 +1294,7 @@ void CPaintSculptDlg::OnLButtonDown( UINT nFlags, CPoint point )
 void CPaintSculptDlg::OnMouseMove( UINT nFlags, CPoint point )
 {
 	CToolDisplace *pDispTool = GetDisplacementTool();
-	if ( pDispTool != NULL )
+	if ( pDispTool != nullptr)
 	{
 		CSculptPainter *painter = dynamic_cast< CSculptPainter * >( pDispTool->GetSculptPainter() );
 

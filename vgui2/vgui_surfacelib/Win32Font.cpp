@@ -41,9 +41,9 @@ CWin32Font::CWin32Font() : m_ExtendedABCWidthsCache(256, 0, &ExtendedABCWidthsCa
 	m_iAscent = 0;
 	m_iFlags = 0;
 	m_iMaxCharWidth = 0;
-	m_hFont = NULL;
-	m_hDC = NULL;
-	m_hDIB = NULL;
+	m_hFont = nullptr;
+	m_hDC = nullptr;
+	m_hDIB = nullptr;
 	m_bAntiAliased = false;
 	m_bUnderlined = false;
 	m_iBlur = 0;
@@ -133,7 +133,7 @@ bool CWin32Font::Create(const char *windowsFontName, int tall, int weight, int b
 	}
 
 	// create our windows device context
-	m_hDC = ::CreateCompatibleDC(NULL);
+	m_hDC = ::CreateCompatibleDC(nullptr);
 	Assert( m_hDC );
 
 #ifndef SUPPORT_CUSTOM_FONT_FORMAT
@@ -206,7 +206,7 @@ bool CWin32Font::Create(const char *windowsFontName, int tall, int weight, int b
 	header.biBitCount = 32;
 	header.biCompression = BI_RGB;
 
-	m_hDIB = ::CreateDIBSection(m_hDC, (BITMAPINFO*)&header, DIB_RGB_COLORS, (void**)(&m_pBuf), NULL, 0);
+	m_hDIB = ::CreateDIBSection(m_hDC, (BITMAPINFO*)&header, DIB_RGB_COLORS, (void**)(&m_pBuf), nullptr, 0);
 	::SelectObject(m_hDC, m_hDIB);
 
 	return true;
@@ -262,7 +262,7 @@ void CWin32Font::GetCharRGBA(wchar_t ch, int rgbaWide, int rgbaTall, unsigned ch
 	{
 		// try and get the glyph directly
 		::SelectObject(m_hDC, m_hFont);
-		bytesNeeded = ::GetGlyphOutline(m_hDC, ch, GGO_GRAY8_BITMAP, &glyphMetrics, 0, NULL, &mat2);
+		bytesNeeded = ::GetGlyphOutline(m_hDC, ch, GGO_GRAY8_BITMAP, &glyphMetrics, 0, nullptr, &mat2);
 	}
 
 	if (bytesNeeded > 0)
@@ -336,11 +336,11 @@ void CWin32Font::GetCharRGBA(wchar_t ch, int rgbaWide, int rgbaTall, unsigned ch
 		::SetBkMode(m_hDC, OPAQUE);
 		if ( m_bUnderlined )
 		{
-			::MoveToEx(m_hDC, 0, 0, NULL);
+			::MoveToEx(m_hDC, 0, 0, nullptr);
 		}
 		else
 		{
-			::MoveToEx(m_hDC, -a, 0, NULL);
+			::MoveToEx(m_hDC, -a, 0, nullptr);
 		}
 
 		// render the character
@@ -350,21 +350,21 @@ void CWin32Font::GetCharRGBA(wchar_t ch, int rgbaWide, int rgbaTall, unsigned ch
 		{
 			// clear the background first
 			RECT rect = { 0, 0, wide, tall};
-			::ExtTextOutW( m_hDC, 0, 0, ETO_OPAQUE, &rect, NULL, 0, NULL );
+			::ExtTextOutW( m_hDC, 0, 0, ETO_OPAQUE, &rect, nullptr, 0, nullptr);
 
 			// just use the unicode renderer
-			::ExtTextOutW( m_hDC, 0, 0, 0, NULL, &wch, 1, NULL );
+			::ExtTextOutW( m_hDC, 0, 0, 0, nullptr, &wch, 1, nullptr);
 		}
 		else
 		{
 			// clear the background first (it may not get done automatically in win98/ME
 			RECT rect = { 0, 0, wide, tall};
-			::ExtTextOut(m_hDC, 0, 0, ETO_OPAQUE, &rect, NULL, 0, NULL);
+			::ExtTextOut(m_hDC, 0, 0, ETO_OPAQUE, &rect, nullptr, 0, nullptr);
 
 			// convert the character using the current codepage
 			char mbcs[6] = { 0 };
-			::WideCharToMultiByte(CP_ACP, 0, &wch, 1, mbcs, sizeof(mbcs), NULL, NULL);
-			::ExtTextOutA(m_hDC, 0, 0, 0, NULL, mbcs, strlen(mbcs), NULL);
+			::WideCharToMultiByte(CP_ACP, 0, &wch, 1, mbcs, sizeof(mbcs), nullptr, nullptr);
+			::ExtTextOutA(m_hDC, 0, 0, 0, nullptr, mbcs, strlen(mbcs), nullptr);
 		}
 
 		::SetBkMode(m_hDC, TRANSPARENT);
@@ -504,7 +504,7 @@ void CWin32Font::GetCharABCWidths(int ch, int &a, int &b, int &c)
 		SIZE size;
 		char mbcs[6] = { 0 };
 		wchar_t wch = ch;
-		::WideCharToMultiByte(CP_ACP, 0, &wch, 1, mbcs, sizeof(mbcs), NULL, NULL);
+		::WideCharToMultiByte(CP_ACP, 0, &wch, 1, mbcs, sizeof(mbcs), nullptr, nullptr);
 		if (::GetTextExtentPoint32(m_hDC, mbcs, strlen(mbcs), &size))
 		{
 			a = c = 0;

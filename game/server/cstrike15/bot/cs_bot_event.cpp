@@ -23,7 +23,7 @@
 void CCSBot::OnAudibleEvent( IGameEvent *event, CBasePlayer *player, float range, PriorityType priority, bool isHostile, bool isFootstep, const Vector *actualOrigin )
 {
 	/// @todo Listen to non-player sounds
-	if (player == NULL)
+	if (player == nullptr)
 		return;
 
 	// don't pay attention to noise that friends make (unless it is a decoy)
@@ -80,7 +80,7 @@ void CCSBot::OnAudibleEvent( IGameEvent *event, CBasePlayer *player, float range
 		/// @todo Make sure noise area is not through a wall or ceiling from source of noise
 		/// @todo Change GetNavTravelTime to better deal with NULL destination areas
 		CNavArea *noiseArea = TheNavMesh->GetNearestNavArea( *newNoisePosition );
-		if (noiseArea == NULL)
+		if (noiseArea == nullptr)
 		{
 			PrintIfWatched( "  *** Noise occurred off the nav mesh - ignoring!\n" );
 			return;
@@ -307,7 +307,7 @@ void CCSBot::OnHostageFollows( IGameEvent *event )
 		return;
 
 	// player_follows needs a player
-	if (player == NULL)
+	if (player == nullptr)
 		return;
 
 	// don't pay attention to noise that friends make
@@ -329,7 +329,7 @@ void CCSBot::OnHostageFollows( IGameEvent *event )
 		GetChatter()->HostagesBeingTaken();
 
 		// only move if we hear them being rescued and can't see any hostages
-		if (GetGameState()->GetNearestVisibleFreeHostage() == NULL)
+		if (GetGameState()->GetNearestVisibleFreeHostage() == nullptr)
 		{			
 			// since we are guarding the hostages, presumably we know where they are
 			// if we're close enough to "hear" this event, either go to where the event occured,

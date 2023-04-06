@@ -16,17 +16,17 @@
 #include "memdbgon.h"
 
 
-gmCodeTreeNode * g_codeTree = NULL;
+gmCodeTreeNode * g_codeTree = nullptr;
 
 
 
 gmCodeTree::gmCodeTree() :
   m_mem(1, GMCODETREE_CHAINSIZE)
 {
-  g_codeTree = NULL;
+  g_codeTree = nullptr;
   m_locked = false;
   m_errors = 0;
-  m_log = 0;
+  m_log = nullptr;
 }
 
 
@@ -63,7 +63,7 @@ int gmCodeTree::Lock(const char * a_script, gmLog * a_log)
   m_errors = 0;
   m_locked = true;
   m_log = a_log;
-  g_codeTree = NULL;
+  g_codeTree = nullptr;
   //gmdebug = 1;
   gmlineno = 1;
 
@@ -82,10 +82,10 @@ int gmCodeTree::Lock(const char * a_script, gmLog * a_log)
 int gmCodeTree::Unlock()
 {
   m_mem.Reset();
-  g_codeTree = NULL;
+  g_codeTree = nullptr;
   m_locked = false;
   m_errors = 0;
-  m_log = NULL;
+  m_log = nullptr;
   return 0;
 }
 
@@ -159,7 +159,7 @@ static void PrintRecursive(const gmCodeTreeNode * a_node, FILE * a_fp, bool a_fi
 
     indent += 2;
 
-    while(a_node != NULL)
+    while(a_node != nullptr)
     {
       for(i = 0; i < indent; ++i)
         fprintf(a_fp, " ");
@@ -274,7 +274,7 @@ void gmCodeTree::Print(FILE * a_fp)
 gmCodeTreeNode * gmCodeTreeNode::Create(gmCodeTreeNodeType a_type, int a_subType, int a_lineNumber, int a_subTypeType)
 {
   gmCodeTreeNode * node = (gmCodeTreeNode *) gmCodeTree::Get().Alloc(sizeof(gmCodeTreeNode), GM_DEFAULT_ALLOC_ALIGNMENT);
-  GM_ASSERT(node != NULL);
+  GM_ASSERT(node != nullptr);
   memset(node, 0, sizeof(gmCodeTreeNode));
   node->m_type = a_type;
   node->m_subType = a_subType;
@@ -291,7 +291,7 @@ void gmCodeTreeNode::SetChild(int a_index, gmCodeTreeNode * a_node)
   GM_ASSERT(a_index >= 0 && a_index < GMCODETREE_NUMCHILDREN);
 
   m_children[a_index] = a_node;
-  if(a_node != NULL)
+  if(a_node != nullptr)
   {
     a_node->m_parent = this;
   }
@@ -406,7 +406,7 @@ bool gmCodeTreeNode::ConstantFold()
         if(l->m_subTypeType == CTNCT_INT || (l->m_subTypeType == CTNCT_FLOAT && !intOnly))
         {
           // we can fold....
-          m_children[0] = NULL;
+          m_children[0] = nullptr;
           m_subType = CTNET_CONSTANT;
 
           if(l->m_subTypeType == CTNCT_INT)
@@ -433,7 +433,7 @@ bool gmCodeTreeNode::ConstantFold()
            (r->m_subTypeType == CTNCT_INT || (r->m_subTypeType == CTNCT_FLOAT && !intOnly)))
         {
           // we can fold....
-          m_children[0] = NULL; m_children[1] = NULL;
+          m_children[0] = nullptr; m_children[1] = nullptr;
           m_subType = CTNET_CONSTANT;
           if(l->m_subTypeType == CTNCT_INT && r->m_subTypeType == CTNCT_INT)
           {

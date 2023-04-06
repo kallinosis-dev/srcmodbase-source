@@ -107,14 +107,14 @@ void VRadDetailProps_SetHDRMode( bool bHDR )
 //-----------------------------------------------------------------------------
 static directlight_t* FindAmbientSkyLight()
 {
-	static directlight_t *s_pCachedSkylight = NULL;
+	static directlight_t *s_pCachedSkylight = nullptr;
 
 	// Don't keep searching for the same light.
 	if ( !s_pCachedSkylight )
 	{
 		// find any ambient lights
 		directlight_t* dl;
-		for (dl = activelights; dl != 0; dl = dl->next)
+		for (dl = activelights; dl != nullptr; dl = dl->next)
 		{
 			if (dl->light.type == emit_skyambient)
 			{
@@ -193,7 +193,7 @@ static void ComputeMaxDirectLighting( DetailObjectLump_t& prop, Vector* maxcolor
 	CUtlVector< Vector >			directions;
 
 	directlight_t* dl;
-	for (dl = activelights; dl != 0; dl = dl->next)
+	for (dl = activelights; dl != nullptr; dl = dl->next)
 	{
 		// skyambient doesn't affect dlights..
 		if (dl->light.type == emit_skyambient)
@@ -362,12 +362,12 @@ static void ComputeLightmapColorPointSample( dface_t* pFace, directlight_t* pSky
 class CLightSurface : public IBSPNodeEnumerator
 {
 public:
-	CLightSurface(int iThread) : m_pSurface(0), m_HitFrac(1.0f), m_bHasLuxel(false), m_iThread(iThread) {}
+	CLightSurface(int iThread) : m_pSurface(nullptr), m_HitFrac(1.0f), m_bHasLuxel(false), m_iThread(iThread) {}
 
 	// call back with a node and a context
 	bool EnumerateNode( int node, Ray_t const& ray, float f, intp context )
 	{
-		dface_t* pSkySurface = 0;
+		dface_t* pSkySurface = nullptr;
 
 		// Compute the actual point
 		Vector pt;
@@ -410,7 +410,7 @@ public:
 
 		// if we hit a sky surface, return it
 		m_pSurface = pSkySurface;
-		return (m_pSurface == 0);
+		return (m_pSurface == nullptr);
 	}
 
 	// call back with a leaf and a context
@@ -1253,7 +1253,7 @@ static int UnserializeDetailProps( DetailObjectLump_t*& pProps )
 	}
 	else
 	{
-		pProps = 0;
+		pProps = nullptr;
 	}
 	return count;
 }
@@ -1311,7 +1311,7 @@ void UnserializeDetailPropLighting( int lumpID, int lumpVersion, CUtlVector<Deta
 	buf.Get( lumpData.Base(), lightsize );
 }
 
-DetailObjectLump_t *g_pMPIDetailProps = NULL;
+DetailObjectLump_t *g_pMPIDetailProps = nullptr;
 
 void VMPI_ProcessDetailPropWU( int iThread, int iWorkUnit, MessageBuffer *pBuf )
 {

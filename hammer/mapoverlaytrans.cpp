@@ -18,7 +18,7 @@
 //-----------------------------------------------------------------------------
 CMapOverlayTransition::CMapOverlayTransition()
 {
-	m_ShoreData.m_pTexture = NULL;
+	m_ShoreData.m_pTexture = nullptr;
 	m_ShoreData.m_vecLengthTexcoord.Init();
 	m_ShoreData.m_vecWidthTexcoord.Init();
 	m_ShoreData.m_flWidths[0] = 0.0f;

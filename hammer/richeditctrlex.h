@@ -206,7 +206,7 @@ class RICHED_DECL CManip
 
 		CManip()
 		{ 
-			m_pFunc =  NULL; 
+			m_pFunc = nullptr; 
 			m_nVal = 0; 
 			m_strVal = ""; 
 		}

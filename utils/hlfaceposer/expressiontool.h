@@ -248,7 +248,7 @@ private:
 	void				OnEdgeProperties();
 
 public:
-	int					GetPixelForTimeValue( float time, bool *clipped = NULL );
+	int					GetPixelForTimeValue( float time, bool *clipped = nullptr);
 	float				GetPixelsPerSecond( void );
 	void				GetStartAndEndTime( float& st, float& ed );
 	float				GetEventEndTime();

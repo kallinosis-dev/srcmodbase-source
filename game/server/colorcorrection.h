@@ -97,12 +97,12 @@ public:
 	// Creation/Init.
 	CColorCorrectionSystem( char const *name ) : CAutoGameSystem( name ) 
 	{
-		m_hMasterController = NULL;
+		m_hMasterController = nullptr;
 	}
 
 	~CColorCorrectionSystem()
 	{
-		m_hMasterController = NULL;
+		m_hMasterController = nullptr;
 	}
 
 	virtual void LevelInitPreEntity();

@@ -100,7 +100,7 @@ void GetTonemapSettingsFromEnvTonemapController( void )
 	if ( localPlayer )
 	{
 		C_EnvTonemapController *tonemapController = dynamic_cast< C_EnvTonemapController * >(localPlayer->m_hTonemapController.Get());
-		if ( tonemapController != NULL )
+		if ( tonemapController != nullptr)
 		{
 			g_bUseCustomAutoExposureMin = tonemapController->m_bUseCustomAutoExposureMin;
 			g_bUseCustomAutoExposureMax = tonemapController->m_bUseCustomAutoExposureMax;

@@ -56,7 +56,7 @@ ConVar demo_strict_validation( "demo_strict_validation", "0", FCVAR_RELEASE );
 //////////////////////////////////////////////////////////////////////
 
 CDemoFile::CDemoFile() :
-	m_pBuffer( NULL )
+	m_pBuffer(nullptr)
 {
 }
 
@@ -275,7 +275,7 @@ int CDemoFile::ReadNetworkDataTables( bf_read *buf )
 {
 	if ( buf )
 		return ReadRawData( (char*)buf->GetBasePointer(), buf->GetNumBytesLeft() );
-	return ReadRawData( NULL, 0 ); // skip data
+	return ReadRawData(nullptr, 0 ); // skip data
 }
 
 void CDemoFile::WriteStringTables( bf_write *buf, int tick )
@@ -298,7 +298,7 @@ int CDemoFile::ReadStringTables( bf_read *buf )
 {
 	if ( buf )
 		return ReadRawData( (char*)buf->GetBasePointer(), buf->GetNumBytesLeft() );
-	return ReadRawData( NULL, 0 ); // skip data
+	return ReadRawData(nullptr, 0 ); // skip data
 }
 
 //-----------------------------------------------------------------------------
@@ -368,7 +368,7 @@ int CDemoFile::ReadCustomData( int *pCallbackIndex, uint8 **ppDataChunk )
 	iCallbackIndex = m_pBuffer->GetInt();
 	size = m_pBuffer->GetInt();
 
-	if( (pCallbackIndex == NULL) || (ppDataChunk == NULL) )
+	if( (pCallbackIndex == nullptr) || (ppDataChunk == nullptr) )
 	{
 		//skip the chunk
 		m_pBuffer->SeekGet( false, size );
@@ -490,7 +490,7 @@ demoheader_t *CDemoFile::ReadDemoHeader( CDemoPlaybackParameters_t const *pPlayb
 	Q_memset( &m_DemoHeader, 0, sizeof(m_DemoHeader) );
 
 	if ( !m_pBuffer || !m_pBuffer->IsInitialized() )
-		return NULL;
+		return nullptr;
 	m_pBuffer->SeekGet( true, pPlaybackParameters ? pPlaybackParameters->m_uiHeaderPrefixLength : 0 );
 	m_pBuffer->Get( &m_DemoHeader, sizeof(demoheader_t) );
 	bOk = m_pBuffer->IsValid();
@@ -498,12 +498,12 @@ demoheader_t *CDemoFile::ReadDemoHeader( CDemoPlaybackParameters_t const *pPlayb
 	ByteSwap_demoheader_t( m_DemoHeader );
 
 	if ( !bOk )
-		return NULL;  // reading failed
+		return nullptr;  // reading failed
 
 	if ( Q_strcmp( m_DemoHeader.demofilestamp, DEMO_HEADER_ID ) )
 	{
 		ConMsg( "%s has invalid demo header ID.\n", m_szFileName );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( ( m_DemoHeader.networkprotocol != GetHostVersion() ) &&
@@ -519,7 +519,7 @@ demoheader_t *CDemoFile::ReadDemoHeader( CDemoPlaybackParameters_t const *pPlayb
 		ConMsg ("ERROR: demo file protocol %i outdated, engine version is %i \n", 
 			m_DemoHeader.demoprotocol, DEMO_PROTOCOL );
 
-		return NULL;
+		return nullptr;
 	}
 
 	return &m_DemoHeader;
@@ -579,7 +579,7 @@ bool CDemoFile::Open( const char *name, bool bReadOnly, bool bMemoryBuffer )
 	}
 	else
 	{
-		StreamDemoBufferInitParams_t params( name, NULL, bReadOnly ? CUtlBuffer::READ_ONLY : 0, IsX360() ? FSOPEN_NEVERINPACK : 0 );
+		StreamDemoBufferInitParams_t params( name, nullptr, bReadOnly ? CUtlBuffer::READ_ONLY : 0, IsX360() ? FSOPEN_NEVERINPACK : 0 );
 		m_pBuffer = CreateDemoBuffer( false, params );
 	}
 
@@ -603,7 +603,7 @@ bool CDemoFile::IsOpen()
 void CDemoFile::Close()
 {
 	delete m_pBuffer;
-	m_pBuffer = NULL;
+	m_pBuffer = nullptr;
 }
 
 int CDemoFile::GetSize()

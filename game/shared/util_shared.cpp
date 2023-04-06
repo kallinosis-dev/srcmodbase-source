@@ -413,7 +413,7 @@ bool CTraceFilterSkipTwoEntities::ShouldHitEntity( IHandleEntity *pHandleEntity,
 // Trace filter that can take a list of entities to ignore
 //-----------------------------------------------------------------------------
 CTraceFilterSimpleList::CTraceFilterSimpleList( int collisionGroup ) :
-	CTraceFilterSimple( NULL, collisionGroup )
+	CTraceFilterSimple(nullptr, collisionGroup )
 {
 }
 
@@ -1473,7 +1473,7 @@ unsigned short UTIL_GetAchievementEventMask( void )
 
 char* ReadAndAllocStringValue( KeyValues *pSub, const char *pName, const char *pFilename )
 {
-	const char *pValue = pSub->GetString( pName, NULL );
+	const char *pValue = pSub->GetString( pName, nullptr);
 	if ( !pValue )
 	{
 		if ( pFilename )
@@ -1805,7 +1805,7 @@ bool UTIL_FindClosestPassableSpace( CBaseEntity *pEntity, const Vector &vIndecis
 	vEntityMaxs -= ptEntityCenter;
 	
 	Vector vCenterToOrigin = pEntity->GetAbsOrigin() - ptEntityCenter;
-	if( pStartingPosition != NULL )
+	if( pStartingPosition != nullptr)
 	{
 		Vector vOriginOffset = (*pStartingPosition) - pEntity->GetAbsOrigin();
 		ptEntityCenter += vOriginOffset;
@@ -1831,7 +1831,7 @@ bool UTIL_FindClosestPassableSpace( CBaseEntity *pEntity, const Vector &vIndecis
 #ifdef CLIENT_DLL
 		pEntity->SetAbsOrigin( vNewPos );
 #else
-		pEntity->Teleport( &vNewPos, NULL, NULL );
+		pEntity->Teleport( &vNewPos, nullptr, nullptr);
 #endif
 	}
 	return bWorked;

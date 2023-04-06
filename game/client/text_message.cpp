@@ -29,7 +29,7 @@ class CHudTextMessage : public IHudTextMessage
 public:
 	virtual char *LocaliseTextString( const char *msg, char *dst_buffer, int buffer_size );
 	virtual char *BufferedLocaliseTextString( const char *msg );
-	virtual char *LookupString( const char *msg_name, int *msg_dest = NULL );
+	virtual char *LookupString( const char *msg_name, int *msg_dest = nullptr);
 };
 
 // Singleton
@@ -73,7 +73,7 @@ char *CHudTextMessage::LocaliseTextString( const char *msg, char *dst_buffer, in
 
 			// Does titles.txt want to lookup into cstrike_<language>.txt?
 			wchar_t *pLocalizedStr;
-			if ( clmsg->pMessage[0] == '#' && ((pLocalizedStr = g_pVGuiLocalize->Find( clmsg->pMessage )) != NULL ) )
+			if ( clmsg->pMessage[0] == '#' && ((pLocalizedStr = g_pVGuiLocalize->Find( clmsg->pMessage )) != nullptr) )
 			{
 				g_pVGuiLocalize->ConvertUnicodeToANSI( pLocalizedStr, dst, buffer_size );
 			}

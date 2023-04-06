@@ -12,7 +12,7 @@ class IDemoStream
 public:
 	virtual ~IDemoStream() {}
 	virtual bool IsOpen() { return false; }
-	virtual CDemoFile *IsDemoFile() { return NULL;  } // by default, it is NOT a demofile
+	virtual CDemoFile *IsDemoFile() { return nullptr;  } // by default, it is NOT a demofile
 
 	virtual void Close() {}
 	virtual const char* GetUrl( void ) { return ""; }

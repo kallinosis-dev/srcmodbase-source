@@ -154,7 +154,7 @@ bool MergeFace_r( node_t *node, face_t *face, face_t *original )
 //-----------------------------------------------------------------------------
 face_t *FilterFacesIntoTree( tree_t *out, face_t *pFaces )
 {
-	face_t *pLeafFaceList = NULL;
+	face_t *pLeafFaceList = nullptr;
 	for ( face_t *f = pFaces; f; f = f->next )
 	{
 		if( f->merged || f->split[0] || f->split[1] )
@@ -166,7 +166,7 @@ face_t *FilterFacesIntoTree( tree_t *out, face_t *pFaces )
 		if ( MergeFace_r( out->headnode, tmp, original ) )
 		{
 			// clear out portal (comes from a different tree)
-			original->portal = NULL;
+			original->portal = nullptr;
 			original->next = pLeafFaceList;
 			pLeafFaceList = original;
 		}
@@ -187,14 +187,14 @@ face_t *FilterFacesIntoTree( tree_t *out, face_t *pFaces )
 //-----------------------------------------------------------------------------
 void TryMergeFaceList( face_t **pFaceList )
 {
-	face_t **pPlaneList = NULL;
+	face_t **pPlaneList = nullptr;
 
 	// divide the list into buckets by plane number
 	pPlaneList = new face_t *[g_MainMap->nummapplanes];
 	memset( pPlaneList, 0, sizeof(face_t *) * g_MainMap->nummapplanes );
 
 	face_t *pFaces = *pFaceList;
-	face_t *pOutput = NULL;
+	face_t *pOutput = nullptr;
 
 	while ( pFaces )
 	{
@@ -273,9 +273,9 @@ void FilterBrushesIntoTree( tree_t *out, bspbrush_t *brushes )
 face_t *MergeDetailTree( tree_t *worldtree, int brush_start, int brush_end )
 {
 	int			start;
-	bspbrush_t	*detailbrushes = NULL;
-	face_t		*pFaces = NULL;
-	face_t		*pLeafFaceList = NULL;
+	bspbrush_t	*detailbrushes = nullptr;
+	face_t		*pFaces = nullptr;
+	face_t		*pLeafFaceList = nullptr;
 
 	// Grab the list of detail brushes
 	detailbrushes = MakeBspBrushList (brush_start, brush_end, g_MainMap->map_mins, g_MainMap->map_maxs, ONLY_DETAIL );
@@ -394,7 +394,7 @@ bool ClipFaceToBrush( face_t *pFace, bspbrush_t *pbrush, face_t **pOutputList )
 			if ( !backwinding || WindingIsTiny(backwinding))
 			{
 				FreeFaceList( *pOutputList );
-				*pOutputList = NULL;
+				*pOutputList = nullptr;
 				break;
 			}
 			if ( frontwinding && !WindingIsTiny(frontwinding) )
@@ -436,8 +436,8 @@ bool ClipFaceToBrush( face_t *pFace, bspbrush_t *pbrush, face_t **pOutputList )
 face_t *MakeBrushFace( side_t *originalSide, winding_t *winding )
 {
 	face_t *f = AllocFace();
-	f->merged = NULL;
-	f->split[0] = f->split[1] = NULL;
+	f->merged = nullptr;
+	f->split[0] = f->split[1] = nullptr;
 	f->w = CopyWinding( winding );
 	f->originalface = originalSide;
 	//
@@ -467,7 +467,7 @@ face_t *MakeBrushFace( side_t *originalSide, winding_t *winding )
 
 side_t *FindOriginalSide( mapbrush_t *mb, side_t *pBspSide )
 {
-	side_t *bestside = NULL;
+	side_t *bestside = nullptr;
 	float bestdot = 0;
 
 	plane_t *p1 = g_MainMap->mapplanes + pBspSide->planenum;
@@ -557,20 +557,20 @@ static int CountFaceList( face_t *f )
 // If f clips into new faces, returns the list of new faces in pOutputList
 static void ClipFaceToBrushList( face_t *f, const CUtlVector<bspbrush_t *> &cutBrushes, face_t **pOutputList )
 {
-	*pOutputList = NULL;
+	*pOutputList = nullptr;
 
 	if ( f->split[0] )
 		return;
 
 	face_t *pClipList = CopyFace( f );
-	pClipList->next = NULL;
+	pClipList->next = nullptr;
 	bool clipped = false;
 	for ( int i = 0; i < cutBrushes.Count(); i++ )
 	{
 		bspbrush_t *cut = cutBrushes[i];
 		for ( face_t *pCutFace = pClipList; pCutFace; pCutFace = pCutFace->next )
 		{
-			face_t *pClip = NULL;
+			face_t *pClip = nullptr;
 			// already split, no need to clip
 			if ( pCutFace->split[0] )
 				continue;
@@ -612,13 +612,13 @@ static void ClipFaceToBrushList( face_t *f, const CUtlVector<bspbrush_t *> &cutB
 // Compute a list of faces that are visible on the detail brush sides
 face_t *ComputeVisibleBrushSides( bspbrush_t *list )
 {
-	face_t *pTotalFaces = NULL;
+	face_t *pTotalFaces = nullptr;
 	CUtlVector<bspbrush_t *> cutBrushes;
 
 	// Go through the whole brush list
 	for ( bspbrush_t *pbrush = list; pbrush; pbrush = pbrush->next )
 	{
-		face_t *pFaces = NULL;
+		face_t *pFaces = nullptr;
 		mapbrush_t *mb = pbrush->original;
 
 		if ( !(mb->contents & ALL_VISIBLE_CONTENTS) )
@@ -651,7 +651,7 @@ face_t *ComputeVisibleBrushSides( bspbrush_t *list )
 			for ( face_t *f = pFaces; f; f = f->next )
 			{
 				// this will be a new list of faces that this face cuts into
-				face_t *pClip = NULL;
+				face_t *pClip = nullptr;
 				ClipFaceToBrushList( f, cutBrushes, &pClip );
 				if ( pClip )
 				{
@@ -677,7 +677,7 @@ face_t *ComputeVisibleBrushSides( bspbrush_t *list )
 						// UNDONE: Build 2d convex hull of this list and swap face winding 
 						// with that polygon?  That would fix the remaining issues.
 						FreeFaceList( pClip );
-						pClip = NULL;
+						pClip = nullptr;
 					}
 				}
 			}

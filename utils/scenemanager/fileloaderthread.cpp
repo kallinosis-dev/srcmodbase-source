@@ -87,7 +87,7 @@ public:
 		{
 			filename[ 0 ] = 0;
 			sentence.Reset();
-			wavefile = NULL;
+			wavefile = nullptr;
 			valid	= false;
 		}
 
@@ -275,10 +275,10 @@ CFileLoaderThread::CFileLoaderThread( void )
 
 	InitializeCriticalSection( &cs );
 
-	m_hShutdown	= CreateEvent( NULL, TRUE, FALSE, NULL );
+	m_hShutdown	= CreateEvent(nullptr, TRUE, FALSE, nullptr);
 	Assert( m_hShutdown );
 
-	m_hThread = NULL;
+	m_hThread = nullptr;
 	Start();
 }
 
@@ -287,7 +287,7 @@ CFileLoaderThread::CFileLoaderThread( void )
 //-----------------------------------------------------------------------------
 void CFileLoaderThread::Start()
 {
-	m_hThread = CreateThread( NULL, 0, FileLoaderThreadFunc, (void *)this, 0, &m_nThreadId );
+	m_hThread = CreateThread(nullptr, 0, FileLoaderThreadFunc, (void *)this, 0, &m_nThreadId );
 	Assert( m_hThread );
 }
 

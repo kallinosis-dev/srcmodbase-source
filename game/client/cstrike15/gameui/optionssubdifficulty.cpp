@@ -18,7 +18,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-COptionsSubDifficulty::COptionsSubDifficulty(vgui::Panel *parent) : BaseClass(parent, NULL)
+COptionsSubDifficulty::COptionsSubDifficulty(vgui::Panel *parent) : BaseClass(parent, nullptr)
 {
 	m_pEasyRadio = new RadioButton(this, "Skill1Radio", "#GameUI_SkillEasy");
 	m_pNormalRadio = new RadioButton(this, "Skill2Radio", "#GameUI_SkillNormal");

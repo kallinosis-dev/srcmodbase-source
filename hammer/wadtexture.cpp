@@ -62,7 +62,7 @@ typedef struct					// Mip Graphic
 } walhdr_t;
 
 
-static char *g_pLoadBuf = NULL;
+static char *g_pLoadBuf = nullptr;
 static int g_nLoadSize = 128 * 1024;
 
 
@@ -80,19 +80,19 @@ static bool AllocateLoadBuffer(int nSize)
 	{
 		g_nLoadSize = nSize;
 
-		if (g_pLoadBuf != NULL)
+		if (g_pLoadBuf != nullptr)
 		{
 			delete[] g_pLoadBuf;
-			g_pLoadBuf = NULL;
+			g_pLoadBuf = nullptr;
 		}
 	}
 
-	if (g_pLoadBuf == NULL)
+	if (g_pLoadBuf == nullptr)
 	{
 		g_pLoadBuf = new char[g_nLoadSize];
 	}
 
-	if (g_pLoadBuf == NULL)
+	if (g_pLoadBuf == nullptr)
 	{
 		return(false);
 	}
@@ -121,13 +121,13 @@ CWADTexture::CWADTexture(void)
 
 	memset(&format, 0, sizeof(format));
 
-	m_pPalette = NULL;
+	m_pPalette = nullptr;
 	m_bLocalPalette = false;
 
 	m_nWidth = 0;
 	m_nHeight = 0;
 
-	m_pData = NULL;
+	m_pData = nullptr;
 }
 
 
@@ -139,19 +139,19 @@ CWADTexture::~CWADTexture(void)
 	//
 	// Free image data.
 	//
-	if (m_pData != NULL)
+	if (m_pData != nullptr)
 	{
 		free(m_pData);
-		m_pData = NULL;
+		m_pData = nullptr;
 	}
 
 	//
 	// Free palette.
 	//
-	if (m_pPalette != NULL)
+	if (m_pPalette != nullptr)
 	{
 		free(m_pPalette);
-		m_pPalette = NULL;
+		m_pPalette = nullptr;
 	}
 }
 
@@ -263,10 +263,10 @@ int CWADTexture::GetKeywords(char *pszKeywords) const
 	//
 	// Set the keywords to the WAD file name.
 	//
-	if (pszKeywords != NULL)
+	if (pszKeywords != nullptr)
 	{
 		const char *pszLastSlash = strrchr(m_szFileName, '\\');
-		if (pszLastSlash != NULL)
+		if (pszLastSlash != nullptr)
 		{
 			pszLastSlash++;
 			strcpy(pszKeywords, pszLastSlash);
@@ -290,7 +290,7 @@ int CWADTexture::GetShortName(char *pszName) const
 {
 	char szBuf[MAX_PATH];
 
-	if (pszName == NULL)
+	if (pszName == nullptr)
 	{
 		pszName = szBuf;
 	}
@@ -298,7 +298,7 @@ int CWADTexture::GetShortName(char *pszName) const
 	if (format == tfWAL)
 	{
 		const char *pszCopy = strstr(m_szName, "textures");
-		if (pszCopy == NULL)
+		if (pszCopy == nullptr)
 		{
 			pszCopy = m_szName;
 		}
@@ -311,7 +311,7 @@ int CWADTexture::GetShortName(char *pszName) const
 
 		// remove extension
 		char *psz = strstr(szBuf, ".wal");
-		if (psz != NULL)
+		if (psz != nullptr)
 		{
 			*psz = 0;
 		}
@@ -358,7 +358,7 @@ BOOL CWADTexture::AdjustTexture(char *pLoadBuf)
 	// allocate data
 	m_pData = _GraphicCacheAllocate(m_datawidth * m_dataheight);
 
-	if (m_pData == NULL)
+	if (m_pData == nullptr)
 	{
 		CString errmsg;
 		errmsg.Format(IDS_ERRLOADGRAPHIC, m_szName);
@@ -374,7 +374,7 @@ BOOL CWADTexture::AdjustTexture(char *pLoadBuf)
 
 bool CWADTexture::IsLoaded() const
 {
-	return (m_pData != NULL);
+	return (m_pData != nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -476,7 +476,7 @@ BOOL CWADTexture::Load(int fd, HANDLE hFile)
 //-----------------------------------------------------------------------------
 int CWADTexture::GetImageDataRGB( void *pImageRGB )
 {
-	if ( pImageRGB != NULL )
+	if ( pImageRGB != nullptr)
 	{
 		Load();
 
@@ -514,7 +514,7 @@ int CWADTexture::GetImageDataRGB( void *pImageRGB )
 //-----------------------------------------------------------------------------
 int CWADTexture::GetImageDataRGBA( void *pImageRGBA )
 {
-	if ( pImageRGBA != NULL )
+	if ( pImageRGBA != nullptr)
 	{
 		unsigned char *puchImage = (unsigned char *)m_pData;
 		unsigned char *pIndex = (unsigned char *)pImageRGBA;
@@ -695,13 +695,13 @@ bool CWADTexture::Initialize(void)
 //-----------------------------------------------------------------------------
 bool CWADTexture::Load( void )
 {
-	if (m_pData != NULL)
+	if (m_pData != nullptr)
 	{
 		// Already loaded.
 		return(true);
 	}
 
-	return(Load(-1, NULL) == TRUE);
+	return(Load(-1, nullptr) == TRUE);
 }
 
 
@@ -710,10 +710,10 @@ bool CWADTexture::Load( void )
 //-----------------------------------------------------------------------------
 void CWADTexture::ShutDown(void)
 {
-	if (g_pLoadBuf != NULL)
+	if (g_pLoadBuf != nullptr)
 	{
 		delete[] g_pLoadBuf;
-		g_pLoadBuf = NULL;
+		g_pLoadBuf = nullptr;
 	}
 }
 

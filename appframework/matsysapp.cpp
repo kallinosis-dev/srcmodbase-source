@@ -99,13 +99,13 @@ bool CMatSysApp::PreInit( )
 	}
 
 	// Add paths...
-	if ( !SetupSearchPaths( NULL, false, true ) )
+	if ( !SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	const char *pArg;
 	int iWidth = 1024;
 	int iHeight = 768;
-	bool bWindowed = (CommandLine()->CheckParm( "-fullscreen" ) == NULL);
+	bool bWindowed = (CommandLine()->CheckParm( "-fullscreen" ) == nullptr);
 	if (CommandLine()->CheckParm( "-width", &pArg ))
 	{
 		iWidth = atoi( pArg );

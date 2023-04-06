@@ -17,12 +17,12 @@ class CBannedWordsDictionary;
 class CBannedWords
 {
 public:
-	CBannedWords() { m_pDictionary = NULL; }
+	CBannedWords() { m_pDictionary = nullptr; }
 	~CBannedWords();
 
 	// Initializes dictionary from a buffer
 	bool InitFromFile( char const *szFilename );
-	bool BInitialized() const { return m_pDictionary != NULL; }
+	bool BInitialized() const { return m_pDictionary != nullptr; }
 
 	// Censors banned words in the buffer, returns number of characters censored
 	int CensorBannedWordsInplace( wchar_t *wsz ) const;

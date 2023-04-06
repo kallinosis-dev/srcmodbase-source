@@ -33,9 +33,9 @@ struct BitmapFontTable_t
 	BitmapFontTable_t()
 	{
 		m_szName        = UTL_INVAL_SYMBOL;
-		m_pBitmapFont   = NULL;
-		m_pBitmapGlyphs = NULL;
-		m_pTexture      = NULL;
+		m_pBitmapFont   = nullptr;
+		m_pBitmapGlyphs = nullptr;
+		m_pTexture      = nullptr;
 	}
 
 	CUtlSymbol		m_szName;
@@ -84,7 +84,7 @@ bool CBitmapFont::Create( const char *pFontFilename, float scalex, float scaley,
 	symbol = fontName;
 
 	// find a match that can use same entries
-	BitmapFontTable_t *pFontTable = NULL;
+	BitmapFontTable_t *pFontTable = nullptr;
 	for ( int i=0; i<g_BitmapFontTable.Count(); i++ )
 	{
 		if ( symbol == g_BitmapFontTable[i].m_szName )
@@ -97,7 +97,7 @@ bool CBitmapFont::Create( const char *pFontFilename, float scalex, float scaley,
 
 	if ( !pFontTable )
 	{
-		void *pBuf = NULL;
+		void *pBuf = nullptr;
 		int nLength; 
 
 		nLength = FontManager().FileSystem()->ReadFileEx( pFontFilename, "GAME", &pBuf ); 
@@ -308,7 +308,7 @@ ITexture *CBitmapFont::GetTexturePage()
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 

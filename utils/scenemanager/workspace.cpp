@@ -70,7 +70,7 @@ int CWorkspace::GetProjectCount() const
 CProject *CWorkspace::GetProject( int index ) const
 {
 	if ( index < 0 || index >= m_Projects.Count() )
-		return NULL;
+		return nullptr;
 	return m_Projects[ index ];
 }
 
@@ -103,7 +103,7 @@ CProject *CWorkspace::FindProjectFile( char const *filename ) const
 		if ( !Q_stricmp( p->GetFileName(), filename ) )
 			return p;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CWorkspace::LoadFromFile()
@@ -245,7 +245,7 @@ void CWorkspace::SaveToFile()
 
 	if ( filesystem->FileExists( m_szFile ) && !filesystem->IsFileWritable( m_szFile ) )
 	{
-		int retval = mxMessageBox( NULL, va( "Check out '%s'?", m_szFile ), g_appTitle, MX_MB_YESNOCANCEL );
+		int retval = mxMessageBox(nullptr, va( "Check out '%s'?", m_szFile ), g_appTitle, MX_MB_YESNOCANCEL );
 		if ( retval != 0 )
 			return;
 
@@ -253,7 +253,7 @@ void CWorkspace::SaveToFile()
 
 		if ( !filesystem->IsFileWritable( m_szFile ) )
 		{
-			mxMessageBox( NULL, va( "Unable to check out'%s'!!!", m_szFile ), g_appTitle, MX_MB_OK );
+			mxMessageBox(nullptr, va( "Unable to check out'%s'!!!", m_szFile ), g_appTitle, MX_MB_OK );
 			return;
 		}
 	}
@@ -343,7 +343,7 @@ bool CWorkspace::CanClose( void )
 	if ( !IsDirty() )
 		return true;
 
-	int retval = mxMessageBox( NULL, va( "Save changes to workspace '%s'?", GetName() ), g_appTitle, MX_MB_YESNOCANCEL );
+	int retval = mxMessageBox(nullptr, va( "Save changes to workspace '%s'?", GetName() ), g_appTitle, MX_MB_YESNOCANCEL );
 	if ( retval == 2 )
 		return false;
 

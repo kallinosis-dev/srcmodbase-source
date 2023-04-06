@@ -78,8 +78,8 @@ EXPOSE_INTERFACE_FN(CreateSpeexVoiceCodec, IVoiceCodec, "vaudio_speex")
 
 VoiceEncoder_Speex::VoiceEncoder_Speex()
 {
-	m_EncoderState = NULL;
-	m_DecoderState = NULL;
+	m_EncoderState = nullptr;
+	m_DecoderState = nullptr;
 	m_Quality = 0;
 }
 
@@ -156,7 +156,7 @@ void VoiceEncoder_Speex::DecodeFrame(const char *pCompressed, char *pDecompresse
 	float output[RAW_FRAME_SIZE];
 	short * out = (short*)pDecompressedBytes;
 
-	if (pCompressed == NULL)
+	if (pCompressed == nullptr)
 	{
 		for (int i=0;i<RAW_FRAME_SIZE;i++)
 		{
@@ -183,8 +183,8 @@ void VoiceEncoder_Speex::DecodeFrame(const char *pCompressed, char *pDecompresse
 
 bool VoiceEncoder_Speex::ResetState()
 {
-	speex_encoder_ctl(m_EncoderState, SPEEX_RESET_STATE , NULL );
-	speex_decoder_ctl(m_DecoderState, SPEEX_RESET_STATE , NULL );
+	speex_encoder_ctl(m_EncoderState, SPEEX_RESET_STATE , nullptr);
+	speex_decoder_ctl(m_DecoderState, SPEEX_RESET_STATE , nullptr);
 	return true;
 }
 
@@ -204,13 +204,13 @@ void VoiceEncoder_Speex::TermStates()
 	if(m_EncoderState)
 	{
 		speex_encoder_destroy( m_EncoderState );
-		m_EncoderState = NULL;
+		m_EncoderState = nullptr;
 	}
 
 	if(m_DecoderState)
 	{
 		speex_decoder_destroy( m_DecoderState );
-		m_DecoderState = NULL;
+		m_DecoderState = nullptr;
 	}
 
 	speex_bits_destroy( &m_Bits );

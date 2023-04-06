@@ -114,9 +114,9 @@ void CPhysicsSpring::DetachListener()
 		m_pObjEnd->GetObject()->remove_listener_object( this );
 	}
 
-	m_pObjStart = NULL;
-	m_pObjEnd = NULL;
-	m_pSpring = NULL;
+	m_pObjStart = nullptr;
+	m_pObjEnd = nullptr;
+	m_pSpring = nullptr;
 }
 
 void CPhysicsSpring::event_object_deleted( IVP_Event_Object * )
@@ -278,7 +278,7 @@ bool RestorePhysicsSpring( const physrestoreparams_t &params, CPhysicsSpring **p
 	else
 	{
 		DevMsg( "Failed to restore spring enpoints\n");
-		*ppSpring = NULL;
+		*ppSpring = nullptr;
 	}
 
 	return true;

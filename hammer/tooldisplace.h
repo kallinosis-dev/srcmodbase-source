@@ -385,7 +385,7 @@ inline CMapDisp *CToolDisplace::GetEditDisp( void )
 {
 	// sanity check
 	if ( m_EditDispHandle == EDITDISPHANDLE_INVALID )
-		return NULL;
+		return nullptr;
 
 	return EditDispMgr()->GetDisp( m_EditDispHandle );
 }

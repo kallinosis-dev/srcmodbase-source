@@ -111,7 +111,7 @@ int CEventAction::s_iNextIDStamp = 0;
 //-----------------------------------------------------------------------------
 CEventAction::CEventAction( const char *ActionData )
 {
-	m_pNext = NULL;
+	m_pNext = nullptr;
 	m_iIDStamp = ++s_iNextIDStamp;
 
 	m_flDelay = 0;
@@ -120,7 +120,7 @@ CEventAction::CEventAction( const char *ActionData )
 	m_iTargetInput = NULL_STRING;
 	m_nTimesToFire = EVENT_FIRE_ALWAYS;
 
-	if (ActionData == NULL)
+	if (ActionData == nullptr)
 		return;
 
 	char szToken[256];
@@ -187,7 +187,7 @@ CEventAction::CEventAction( const char *ActionData )
 
 CEventAction::CEventAction( const CEventAction &p_EventAction )
 {
-	m_pNext = NULL;
+	m_pNext = nullptr;
 	m_iIDStamp = ++s_iNextIDStamp;
 
 	m_flDelay = p_EventAction.m_flDelay;
@@ -229,7 +229,7 @@ float CBaseEntityOutput::GetMaxDelay(void)
 	float flMaxDelay = 0;
 	CEventAction *ev = m_ActionList;
 
-	while (ev != NULL)
+	while (ev != nullptr)
 	{
 		if (ev->m_flDelay > flMaxDelay)
 		{
@@ -248,7 +248,7 @@ float CBaseEntityOutput::GetMaxDelay(void)
 CBaseEntityOutput::~CBaseEntityOutput()
 {
 	CEventAction *ev = m_ActionList;
-	while (ev != NULL)
+	while (ev != nullptr)
 	{
 		CEventAction *pNext = ev->m_pNext;	
 		delete ev;
@@ -268,9 +268,9 @@ void CBaseEntityOutput::FireOutput(variant_t Value, CBaseEntity *pActivator, CBa
 	// Iterate through all eventactions and fire them off.
 	//
 	CEventAction *ev = m_ActionList;
-	CEventAction *prev = NULL;
+	CEventAction *prev = nullptr;
 	
-	while (ev != NULL)
+	while (ev != nullptr)
 	{
 		if (ev->m_iParameter == NULL_STRING)
 		{
@@ -337,7 +337,7 @@ void CBaseEntityOutput::FireOutput(variant_t Value, CBaseEntity *pActivator, CBa
 		}
 		else
 		{
-			if (prev != NULL)
+			if (prev != nullptr)
 			{
 				prev->m_pNext = ev->m_pNext;
 			}
@@ -362,7 +362,7 @@ void CBaseEntityOutput::FireOutput(variant_t Value, CBaseEntity *pActivator, CBa
 void COutputEvent::FireOutput(CBaseEntity *pActivator, CBaseEntity *pCaller, float fDelay)
 {
 	variant_t Val;
-	Val.Set( FIELD_VOID, NULL );
+	Val.Set( FIELD_VOID, nullptr);
 	CBaseEntityOutput::FireOutput(Val, pActivator, pCaller, fDelay);
 }
 
@@ -381,14 +381,14 @@ void CBaseEntityOutput::AddEventAction( CEventAction *pEventAction )
 void CBaseEntityOutput::RemoveEventAction( CEventAction *pEventAction )
 {
 	CEventAction *pAction = GetFirstAction();
-	CEventAction *pPrevAction = NULL;
+	CEventAction *pPrevAction = nullptr;
 	while ( pAction )
 	{
 		if ( pAction == pEventAction )
 		{
 			if ( !pPrevAction )
 			{
-				m_ActionList = NULL;
+				m_ActionList = nullptr;
 			}
 			else
 			{
@@ -414,12 +414,12 @@ END_DATADESC()
 int CBaseEntityOutput::Save( ISave &save )
 {
 	// save that value out to disk, so we know how many to restore
-	if ( !save.WriteFields( "Value", this, NULL, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
+	if ( !save.WriteFields( "Value", this, nullptr, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
 		return 0;
 
-	for ( CEventAction *ev = m_ActionList; ev != NULL; ev = ev->m_pNext )
+	for ( CEventAction *ev = m_ActionList; ev != nullptr; ev = ev->m_pNext )
 	{
-		if ( !save.WriteFields( "EntityOutput", ev, NULL, ev->m_DataMap.dataDesc, ev->m_DataMap.dataNumFields ) )
+		if ( !save.WriteFields( "EntityOutput", ev, nullptr, ev->m_DataMap.dataDesc, ev->m_DataMap.dataNumFields ) )
 			return 0;
 	}
 
@@ -429,18 +429,18 @@ int CBaseEntityOutput::Save( ISave &save )
 int CBaseEntityOutput::Restore( IRestore &restore, int elementCount )
 {
 	// load the number of items saved
-	if ( !restore.ReadFields( "Value", this, NULL, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
+	if ( !restore.ReadFields( "Value", this, nullptr, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
 		return 0;
 
-	m_ActionList = NULL;
+	m_ActionList = nullptr;
 
 	// read in all the fields
-	CEventAction *lastEv = NULL;
+	CEventAction *lastEv = nullptr;
 	for ( int i = 0; i < elementCount; i++ )
 	{
-		CEventAction *ev = new CEventAction(NULL);
+		CEventAction *ev = new CEventAction(nullptr);
 
-		if ( !restore.ReadFields( "EntityOutput", ev, NULL, ev->m_DataMap.dataDesc, ev->m_DataMap.dataNumFields ) )
+		if ( !restore.ReadFields( "EntityOutput", ev, nullptr, ev->m_DataMap.dataDesc, ev->m_DataMap.dataNumFields ) )
 			return 0;
 
 		// add it to the list in the same order it was saved in
@@ -452,7 +452,7 @@ int CBaseEntityOutput::Restore( IRestore &restore, int elementCount )
 		{
 			m_ActionList = ev;
 		}
-		ev->m_pNext = NULL;
+		ev->m_pNext = nullptr;
 		lastEv = ev;
 	}
 
@@ -461,19 +461,19 @@ int CBaseEntityOutput::Restore( IRestore &restore, int elementCount )
 
 const CEventAction *CBaseEntityOutput::GetActionForTarget( string_t iSearchTarget ) const
 {
-	for ( CEventAction *ev = m_ActionList; ev != NULL; ev = ev->m_pNext )
+	for ( CEventAction *ev = m_ActionList; ev != nullptr; ev = ev->m_pNext )
 	{
 		if ( ev->m_iTarget == iSearchTarget )
 			return ev;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int CBaseEntityOutput::NumberOfElements( void )
 {
 	int count = 0;
-	for ( CEventAction *ev = m_ActionList; ev != NULL; ev = ev->m_pNext )
+	for ( CEventAction *ev = m_ActionList; ev != nullptr; ev = ev->m_pNext )
 	{
 		count++;
 	}
@@ -488,7 +488,7 @@ void CBaseEntityOutput::DeleteAllElements( void )
 
 	CEventAction *pNext = m_ActionList;
 	// wipe out the head
-	m_ActionList = NULL;
+	m_ActionList = nullptr;
 	while (pNext)
 	{
 		register CEventAction *strikeThis = pNext;
@@ -585,7 +585,7 @@ CMultiInputVar::~CMultiInputVar()
 {
 	if ( m_InputList )
 	{
-		while ( m_InputList->next != NULL )
+		while ( m_InputList->next != nullptr)
 		{
 			inputitem_t *input = m_InputList->next;
 			m_InputList->next = input->next;
@@ -604,7 +604,7 @@ void CMultiInputVar::AddValue( variant_t newVal, int outputID )
 {
 	// see if it's already in the list
 	inputitem_t *inp;
-	for ( inp = m_InputList; inp != NULL; inp = inp->next )
+	for ( inp = m_InputList; inp != nullptr; inp = inp->next )
 	{
 		// already in list, so just update this link
 		if ( inp->outputID == outputID )
@@ -621,7 +621,7 @@ void CMultiInputVar::AddValue( variant_t newVal, int outputID )
 	if ( !m_InputList )
 	{
 		m_InputList = inp;
-		inp->next = NULL;
+		inp->next = nullptr;
 	}
 	else
 	{
@@ -669,7 +669,7 @@ CEventQueue g_EventQueue;
 CEventQueue::CEventQueue()
 {
 	m_Events.m_flFireTime = -FLT_MAX;
-	m_Events.m_pNext = NULL;
+	m_Events.m_pNext = nullptr;
 
 	Init();
 }
@@ -785,14 +785,14 @@ void CEventQueue::Clear( void )
 	// delete all the events in the queue
 	EventQueuePrioritizedEvent_t *pe = m_Events.m_pNext;
 	
-	while ( pe != NULL )
+	while ( pe != nullptr)
 	{
 		EventQueuePrioritizedEvent_t *next = pe->m_pNext;
 		delete pe;
 		pe = next;
 	}
 
-	m_Events.m_pNext = NULL;
+	m_Events.m_pNext = nullptr;
 }
 
 void CEventQueue::Dump( void )
@@ -801,7 +801,7 @@ void CEventQueue::Dump( void )
 
 	Msg("Dumping event queue. Current time is: %.2f\n", gpGlobals->curtime );
 
-	while ( pe != NULL )
+	while ( pe != nullptr)
 	{
 		EventQueuePrioritizedEvent_t *next = pe->m_pNext;
 
@@ -829,7 +829,7 @@ void CEventQueue::AddEvent( const char *target, const char *targetInput, variant
 	EventQueuePrioritizedEvent_t *newEvent = new EventQueuePrioritizedEvent_t;
 	newEvent->m_flFireTime = gpGlobals->curtime + fireDelay;	// priority key in the priority queue
 	newEvent->m_iTarget = MAKE_STRING( target );
-	newEvent->m_pEntTarget = NULL;
+	newEvent->m_pEntTarget = nullptr;
 	newEvent->m_iTargetInput = MAKE_STRING( targetInput );
 	newEvent->m_pActivator = pActivator;
 	newEvent->m_pCaller = pCaller;
@@ -861,7 +861,7 @@ void CEventQueue::AddEvent( CBaseEntity *target, const char *targetInput, varian
 void CEventQueue::AddEvent( CBaseEntity *target, const char *action, float fireDelay, CBaseEntity *pActivator, CBaseEntity *pCaller, int outputID )
 {
 	variant_t Value;
-	Value.Set( FIELD_VOID, NULL );
+	Value.Set( FIELD_VOID, nullptr);
 	AddEvent( target, action, Value, fireDelay, pActivator, pCaller, outputID );
 }
 
@@ -874,7 +874,7 @@ void CEventQueue::AddEvent( EventQueuePrioritizedEvent_t *newEvent )
 {
 	// loop through the actions looking for a place to insert
 	EventQueuePrioritizedEvent_t *pe;
-	for ( pe = &m_Events; pe->m_pNext != NULL; pe = pe->m_pNext )
+	for ( pe = &m_Events; pe->m_pNext != nullptr; pe = pe->m_pNext )
 	{
 		if ( pe->m_pNext->m_flFireTime > newEvent->m_flFireTime )
 		{
@@ -917,7 +917,7 @@ void CEventQueue::ServiceEvents( void )
 
 	EventQueuePrioritizedEvent_t *pe = m_Events.m_pNext;
 
-	while ( pe != NULL && pe->m_flFireTime <= gpGlobals->curtime )
+	while ( pe != nullptr && pe->m_flFireTime <= gpGlobals->curtime )
 	{
 		MDLCACHE_CRITICAL_SECTION();
 
@@ -928,7 +928,7 @@ void CEventQueue::ServiceEvents( void )
 		{
 			// In the context the event, the searching entity is also the caller
 			CBaseEntity *pSearchingEntity = pe->m_pCaller;
-			CBaseEntity *target = NULL;
+			CBaseEntity *target = nullptr;
 			while ( 1 )
 			{
 				target = gEntList.FindEntityByName( target, pe->m_iTarget, pSearchingEntity, pe->m_pActivator, pe->m_pCaller );
@@ -942,7 +942,7 @@ void CEventQueue::ServiceEvents( void )
 		}
 
 		// direct pointer
-		if ( pe->m_pEntTarget != NULL )
+		if ( pe->m_pEntTarget != nullptr)
 		{
 			pe->m_pEntTarget->AcceptInput( STRING(pe->m_iTargetInput), pe->m_pActivator, pe->m_pCaller, pe->m_VariantValue, pe->m_iOutputID );
 			targetFound = true;
@@ -953,7 +953,7 @@ void CEventQueue::ServiceEvents( void )
 			// See if we can find a target if we treat the target as a classname
 			if ( pe->m_iTarget != NULL_STRING )
 			{
-				CBaseEntity *target = NULL;
+				CBaseEntity *target = nullptr;
 				while ( 1 )
 				{
 					target = gEntList.FindEntityByClassname( target, STRING(pe->m_iTarget) );
@@ -1030,7 +1030,7 @@ void CEventQueue::CancelEvents( CBaseEntity *pCaller )
 
 	EventQueuePrioritizedEvent_t *pCur = m_Events.m_pNext;
 
-	while (pCur != NULL)
+	while (pCur != nullptr)
 	{
 		bool bDelete = false;
 		if (pCur->m_pCaller == pCaller)
@@ -1068,7 +1068,7 @@ void CEventQueue::CancelEventOn( CBaseEntity *pTarget, const char *sInputName )
 
 	EventQueuePrioritizedEvent_t *pCur = m_Events.m_pNext;
 
-	while (pCur != NULL)
+	while (pCur != nullptr)
 	{
 		bool bDelete = false;
 		if (pCur->m_pEntTarget == pTarget)
@@ -1103,7 +1103,7 @@ bool CEventQueue::HasEventPending( CBaseEntity *pTarget, const char *sInputName 
 
 	EventQueuePrioritizedEvent_t *pCur = m_Events.m_pNext;
 
-	while (pCur != NULL)
+	while (pCur != nullptr)
 	{
 		if (pCur->m_pEntTarget == pTarget)
 		{
@@ -1160,19 +1160,19 @@ int CEventQueue::Save( ISave &save )
 	EventQueuePrioritizedEvent_t *pe;
 
 	m_iListCount = 0;
-	for ( pe = m_Events.m_pNext; pe != NULL; pe = pe->m_pNext )
+	for ( pe = m_Events.m_pNext; pe != nullptr; pe = pe->m_pNext )
 	{
 		m_iListCount++;
 	}
 
 	// save that value out to disk, so we know how many to restore
-	if ( !save.WriteFields( "EventQueue", this, NULL, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
+	if ( !save.WriteFields( "EventQueue", this, nullptr, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
 		return 0;
 	
 	// cycle through all the events, saving them all
-	for ( pe = m_Events.m_pNext; pe != NULL; pe = pe->m_pNext )
+	for ( pe = m_Events.m_pNext; pe != nullptr; pe = pe->m_pNext )
 	{
-		if ( !save.WriteFields( "PEvent", pe, NULL, pe->m_DataMap.dataDesc, pe->m_DataMap.dataNumFields ) )
+		if ( !save.WriteFields( "PEvent", pe, nullptr, pe->m_DataMap.dataDesc, pe->m_DataMap.dataNumFields ) )
 			return 0;
 	}
 
@@ -1189,12 +1189,12 @@ int CEventQueue::Restore( IRestore &restore )
 	EventQueuePrioritizedEvent_t tmpEvent;
 
 	// load the number of items saved
-	if ( !restore.ReadFields( "EventQueue", this, NULL, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
+	if ( !restore.ReadFields( "EventQueue", this, nullptr, m_DataMap.dataDesc, m_DataMap.dataNumFields ) )
 		return 0;
 	
 	for ( int i = 0; i < m_iListCount; i++ )
 	{
-		if ( !restore.ReadFields( "PEvent", &tmpEvent, NULL, tmpEvent.m_DataMap.dataDesc, tmpEvent.m_DataMap.dataNumFields ) )
+		if ( !restore.ReadFields( "PEvent", &tmpEvent, nullptr, tmpEvent.m_DataMap.dataDesc, tmpEvent.m_DataMap.dataNumFields ) )
 			return 0;
 
 		// add the restored event into the list
@@ -1298,7 +1298,7 @@ bool variant_t::Convert( fieldtype_t newType )
 	//
 	if ( newType == FIELD_VOID )
 	{
-		Set( FIELD_VOID, NULL );
+		Set( FIELD_VOID, nullptr);
 		return true;
 	}
 
@@ -1424,11 +1424,11 @@ bool variant_t::Convert( fieldtype_t newType )
 				case FIELD_EHANDLE:
 				{
 					// convert the string to an entity by locating it by classname
-					CBaseEntity *ent = NULL;
+					CBaseEntity *ent = nullptr;
 					if ( iszVal != NULL_STRING )
 					{
 						// FIXME: do we need to pass an activator in here?
-						ent = gEntList.FindEntityByName( NULL, iszVal );
+						ent = gEntList.FindEntityByName(nullptr, iszVal );
 					}
 					SetEntity( ent );
 					return true;
@@ -1446,7 +1446,7 @@ bool variant_t::Convert( fieldtype_t newType )
 				{
 					// take the entities targetname as the string
 					string_t iszStr = NULL_STRING;
-					if ( eVal != NULL )
+					if ( eVal != nullptr)
 					{
 						SetString( eVal->GetEntityName() );
 					}
@@ -1631,28 +1631,28 @@ class CVariantSaveDataOps : public CDefSaveRestoreOps
 		case FIELD_VOID:
 			break;
 		case FIELD_BOOLEAN:	
-			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveBool, 1 );
+			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveBool, 1 );
 			break;
 		case FIELD_INTEGER:	
-			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveInt, 1 );
+			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveInt, 1 );
 			break;
 		case FIELD_FLOAT:
-			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveFloat, 1 );
+			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveFloat, 1 );
 			break;
 		case FIELD_EHANDLE:
-			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveEHandle, 1 );
+			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveEHandle, 1 );
 			break;
 		case FIELD_STRING:
-			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveString, 1 );
+			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveString, 1 );
 			break;
 		case FIELD_COLOR32:
-			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveColor, 1 );
+			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveColor, 1 );
 			break;
 		case FIELD_VECTOR:
 		{
 			variant_savevector_t Temp;
 			var->Vector3D(Temp.vecSave);
-			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, &Temp, NULL, variant_t::m_SaveVector, 1 );
+			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, &Temp, nullptr, variant_t::m_SaveVector, 1 );
 			break;
 		}
 
@@ -1660,7 +1660,7 @@ class CVariantSaveDataOps : public CDefSaveRestoreOps
 		{
 			variant_savevector_t Temp;
 			var->Vector3D(Temp.vecSave);
-			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, &Temp, NULL, variant_t::m_SavePositionVector, 1 );
+			pSave->WriteFields( fieldInfo.pTypeDesc->fieldName, &Temp, nullptr, variant_t::m_SavePositionVector, 1 );
 			break;
 		}
 
@@ -1684,34 +1684,34 @@ class CVariantSaveDataOps : public CDefSaveRestoreOps
 		case FIELD_VOID:
 			break;
 		case FIELD_BOOLEAN:	
-			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveBool, 1 );
+			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveBool, 1 );
 			break;
 		case FIELD_INTEGER:	
-			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveInt, 1 );
+			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveInt, 1 );
 			break;
 		case FIELD_FLOAT:
-			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveFloat, 1 );
+			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveFloat, 1 );
 			break;
 		case FIELD_EHANDLE:
-			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveEHandle, 1 );
+			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveEHandle, 1 );
 			break;
 		case FIELD_STRING:
-			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveString, 1 );
+			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveString, 1 );
 			break;
 		case FIELD_COLOR32:
-			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, NULL, variant_t::m_SaveColor, 1 );
+			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, var, nullptr, variant_t::m_SaveColor, 1 );
 			break;
 		case FIELD_VECTOR:
 		{
 			variant_savevector_t Temp;
-			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, &Temp, NULL, variant_t::m_SaveVector, 1 );
+			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, &Temp, nullptr, variant_t::m_SaveVector, 1 );
 			var->SetVector3D(Temp.vecSave);
 			break;
 		}
 		case FIELD_POSITION_VECTOR:
 		{
 			variant_savevector_t Temp;
-			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, &Temp, NULL, variant_t::m_SavePositionVector, 1 );
+			pRestore->ReadFields( fieldInfo.pTypeDesc->fieldName, &Temp, nullptr, variant_t::m_SavePositionVector, 1 );
 			var->SetPositionVector3D(Temp.vecSave);
 			break;
 		}
@@ -1773,7 +1773,7 @@ void entitem_t::operator delete( void *pMem )
 
 CEntityList::CEntityList()
 {
-	m_pItemList = NULL;
+	m_pItemList = nullptr;
 	m_iNumItems = 0;
 }
 
@@ -1781,20 +1781,20 @@ CEntityList::~CEntityList()
 {
 	// remove all items from the list
 	entitem_t *next, *e = m_pItemList;
-	while ( e != NULL )
+	while ( e != nullptr)
 	{
 		next = e->pNext;
 		delete e;
 		e = next;
 	}
-	m_pItemList = NULL;
+	m_pItemList = nullptr;
 }
 
 void CEntityList::AddEntity( CBaseEntity *pEnt )
 {
 	// check if it's already in the list; if not, add it
 	entitem_t *e = m_pItemList;
-	while ( e != NULL )
+	while ( e != nullptr)
 	{
 		if ( e->hEnt == pEnt )
 		{
@@ -1802,12 +1802,12 @@ void CEntityList::AddEntity( CBaseEntity *pEnt )
 			return;
 		}
 
-		if ( e->pNext == NULL )
+		if ( e->pNext == nullptr)
 		{
 			// we've hit the end of the list, so tack it on
 			e->pNext = new entitem_t;
 			e->pNext->hEnt = pEnt;
-			e->pNext->pNext = NULL;
+			e->pNext->pNext = nullptr;
 			m_iNumItems++;
 			return;
 		}
@@ -1818,18 +1818,18 @@ void CEntityList::AddEntity( CBaseEntity *pEnt )
 	// empty list
 	m_pItemList = new entitem_t;
 	m_pItemList->hEnt = pEnt;
-	m_pItemList->pNext = NULL;
+	m_pItemList->pNext = nullptr;
 	m_iNumItems = 1;
 }
 
 void CEntityList::DeleteEntity( CBaseEntity *pEnt )
 {
 	// find the entry in the list and delete it
-	entitem_t *prev = NULL, *e = m_pItemList;
-	while ( e != NULL )
+	entitem_t *prev = nullptr, *e = m_pItemList;
+	while ( e != nullptr)
 	{
 		// delete the link if it's the matching entity OR if the link is NULL
-		if ( e->hEnt == pEnt || e->hEnt == NULL )
+		if ( e->hEnt == pEnt || e->hEnt == nullptr)
 		{
 			if ( prev )
 			{
@@ -1846,7 +1846,7 @@ void CEntityList::DeleteEntity( CBaseEntity *pEnt )
 			// REVISIT: Is this correct?  Is this just here to clean out dead EHANDLEs?
 			// restart the loop
 			e = m_pItemList;
-			prev = NULL;
+			prev = nullptr;
 			continue;
 		}
 

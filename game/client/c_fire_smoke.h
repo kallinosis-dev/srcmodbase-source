@@ -220,7 +220,7 @@ public:
 	//-----------------------------------------------------------------------------
 	virtual bool Update( void )
 	{
-		if ( m_pOwner == NULL )
+		if ( m_pOwner == nullptr)
 			return false;
 
 		float scale	 = m_pOwner->GetScale();

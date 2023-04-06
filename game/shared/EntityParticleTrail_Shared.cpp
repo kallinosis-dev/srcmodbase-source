@@ -15,7 +15,7 @@
 //-----------------------------------------------------------------------------
 EntityParticleTrailInfo_t::EntityParticleTrailInfo_t()
 {
-	m_strMaterialName = NULL_STRING;
+	m_strMaterialName = nullptr;
 	m_flLifetime = 4.0f;
 	m_flStartSize = 2.0f;
 	m_flEndSize = 3.0f;

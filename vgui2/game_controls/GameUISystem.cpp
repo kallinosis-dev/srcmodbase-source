@@ -54,7 +54,7 @@ CGameUISystem::~CGameUISystem()
 CGameUISystem * CGameUISystem::FromScriptHandle( int32 iScriptHandle )
 {
 	unsigned short usIdx = g_mapScriptHandles.Find( iScriptHandle );
-	return ( usIdx == g_mapScriptHandles.InvalidIndex() ) ? NULL : g_mapScriptHandles.Element( usIdx );
+	return ( usIdx == g_mapScriptHandles.InvalidIndex() ) ? nullptr : g_mapScriptHandles.Element( usIdx );
 }
 
 char const * CGameUISystem::GetName()
@@ -100,7 +100,7 @@ bool CGameUISystem::LoadGameUIDefinition( CUtlBuffer &buf, const char *pFileName
 {
 	DECLARE_DMX_CONTEXT();
 
-	CDmxElement *pRoot = NULL;
+	CDmxElement *pRoot = nullptr;
 	if ( !UnserializeDMX( buf, &pRoot, pFileName ) )
 	{
 		Warning( "Unable to read game UI config %s! UtlBuffer is the wrong type!\n", pFileName );
@@ -277,14 +277,14 @@ void CGameUISystem::RenderStaticLayer( LayerRenderLists_t &renderList, int geome
 	if ( nTotalTriCount == 0 )
 		return;
 
-	if ( renderList.m_pSheet == NULL )
+	if ( renderList.m_pSheet == nullptr)
 	{
 		Assert(0);
 		return;
 	}
 
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	pRenderContext->Bind( renderList.m_pMaterial, NULL ); 
+	pRenderContext->Bind( renderList.m_pMaterial, nullptr); 
 	IMesh* pMesh = pRenderContext->GetDynamicMesh( true );
 	GenerateUIMesh( pRenderContext, pMesh, renderList.m_RenderGeometryLists[geometryIndex], 
 		renderList.m_pSheet );
@@ -307,11 +307,11 @@ void CGameUISystem::RenderDynamicLayer( LayerRenderLists_t &renderList, int geom
 	if ( nTotalTriCount == 0 )
 		return;
 
-	if ( renderList.m_pMaterial == NULL )
+	if ( renderList.m_pMaterial == nullptr)
 		return;
 
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, renderList.m_pMaterial );   // this fxn will also bind the material
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, renderList.m_pMaterial );   // this fxn will also bind the material
 	if ( !pMesh )
 		return;
 
@@ -373,7 +373,7 @@ void CGameUISystem::RenderTextLayer( CUtlVector< CRenderGeometry > &renderGeomet
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	// get the character texture from the cache 
 	IMaterial *pMaterial = g_pGameUISystemSurface->GetMaterial( renderGeometry[0].m_FontTextureID );   /// Everything in a text rendering layer uses the same font texture, and the texture id is in the seq #
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );   // this fxn will also bind the material
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );   // this fxn will also bind the material
 	if ( !pMesh )
 		return;
 	
@@ -426,7 +426,7 @@ void CGameUISystem::GenerateUIMesh( IMatRenderContext *pRenderContext,
 		int nIndex = 0;
 		for( int i = 0; i < nGraphicCount; ++i )	
 		{	
-			const SheetSequenceSample_t *pSample = NULL;
+			const SheetSequenceSample_t *pSample = nullptr;
 			int seqNum = renderGeometry[i].m_SheetSequenceNumber;
 			if ( renderGeometry[i].m_bAnimate )
 			{
@@ -653,7 +653,7 @@ void CGameUISystem::RenderStaticLayer( IRenderContext *pRenderContext, LayerRend
 	{
 		CRenderGeometry *pGeometry = &renderList.m_RenderGeometryLists[geometryIndex][i];
 
-		const SheetSequenceSample_t *pSample = NULL;
+		const SheetSequenceSample_t *pSample = nullptr;
 		int seqNum = pGeometry->m_SheetSequenceNumber;
 		if ( pGeometry->m_bAnimate )
 		{

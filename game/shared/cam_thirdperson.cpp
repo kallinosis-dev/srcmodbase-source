@@ -69,7 +69,7 @@ void CThirdPersonManager::Init( void )
 
 	if ( input )
 	{
-		input->CAM_SetCameraThirdData( NULL, vec3_angle );
+		input->CAM_SetCameraThirdData(nullptr, vec3_angle );
 	}
 }
 

@@ -49,7 +49,7 @@ void CStudioRenderContext::GetTriangles( const DrawModelInfo_t& info, matrix3x4_
 	int i;
 	for ( i=0 ; i < info.m_pStudioHdr->numbodyparts ; i++ ) 
 	{
-		mstudiomodel_t *pModel = NULL;
+		mstudiomodel_t *pModel = nullptr;
 		R_StudioSetupModel( i, info.m_Body, &pModel, info.m_pStudioHdr );
 
 		// Iterate over all the meshes.... each mesh is a new material

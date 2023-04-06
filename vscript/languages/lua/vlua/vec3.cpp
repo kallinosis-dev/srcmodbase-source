@@ -21,7 +21,7 @@ extern "C"
 
 Vector *lua_getvec3( lua_State *pState, int i )
 {
-	if ( luaL_checkudata( pState, i, VEC3_TYPE ) == NULL )  
+	if ( luaL_checkudata( pState, i, VEC3_TYPE ) == nullptr)  
 	{
 		luaL_typerror( pState, i, VEC3_TYPE );
 	}
@@ -38,7 +38,7 @@ Vector lua_getvec3ByValue( lua_State *pState, int i )
 
 		return Vector( flValue, flValue, flValue  );
 	}
-	if ( luaL_checkudata( pState, i, VEC3_TYPE ) == NULL )  
+	if ( luaL_checkudata( pState, i, VEC3_TYPE ) == nullptr)  
 	{
 		luaL_typerror( pState, i, VEC3_TYPE );
 	}
@@ -270,14 +270,14 @@ static const luaL_reg Registrations[] =
 	{ "__eq",		vec3_equal		},
 	{ "dot",		vec3_dot		},
 	{ "cross",		vec3_cross		},
-	{ NULL,		NULL				}
+	{nullptr, nullptr}
 };
 
 
 LUALIB_API int luaopen_vec3( lua_State *pState )
 {
 	luaL_newmetatable( pState, VEC3_TYPE );
-	luaL_register( pState, NULL, Registrations );
+	luaL_register( pState, nullptr, Registrations );
 	lua_register( pState, VEC3_NAME, vec3_new );
 
 	return 1;

@@ -156,8 +156,8 @@ int vertexref[MAX_MAP_VERTS];
 int *vertexface[MAX_MAP_VERTS];
 faceneighbor_t faceneighbor[MAX_MAP_FACES];
 
-static directlight_t *gSkyLight = NULL;
-static directlight_t *gAmbient = NULL;
+static directlight_t *gSkyLight = nullptr;
+static directlight_t *gAmbient = nullptr;
 
 //==========================================================================//
 // CNormalList implementation.
@@ -483,7 +483,7 @@ void ErrorLightInfo(const char *s, lightinfo_t *l)
 	//
 	// Show the face center and material name if possible.
 	//
-	if (w != NULL)
+	if (w != nullptr)
 	{
 		// Don't exit, we'll try to recover...
 		Vector vecCenter;
@@ -833,7 +833,7 @@ bool BuildFacesamples( lightinfo_t *pLightInfo, facelight_t *pFaceLight )
 				else
 				{
 					// winding isn't needed, free it.
-					pSamples->w = NULL;
+					pSamples->w = nullptr;
 					FreeWinding( pWindingS2 );
 				}
 
@@ -906,7 +906,7 @@ void FreeSampleWindings( facelight_t *fl )
 		if (fl->sample[i].w)
 		{
 			FreeWinding( fl->sample[i].w );
-			fl->sample[i].w = NULL;
+			fl->sample[i].w = nullptr;
 		}
 	}
 }
@@ -1039,7 +1039,7 @@ entity_t *FindTargetEntity (char *target)
 			return &entities[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1085,8 +1085,8 @@ void AddDLightToActiveList( directlight_t *dl )
 
 void FreeDLights()
 {
-	gSkyLight = NULL;
-	gAmbient = NULL;
+	gSkyLight = nullptr;
+	gAmbient = nullptr;
 
 	directlight_t *pNext;
 	for( directlight_t *pCur=activelights; pCur; pCur=pNext )
@@ -1094,13 +1094,13 @@ void FreeDLights()
 		pNext = pCur->next;
 		free( pCur );
 	}
-	activelights = 0;
+	activelights = nullptr;
 }
 
 
 void SetDLightVis( directlight_t *dl, int cluster )
 {
-	if (dl->pvs == NULL)
+	if (dl->pvs == nullptr)
 	{
 		dl->pvs = (byte *)calloc( 1, (dvis->numclusters / 8) + 1 );
 	}
@@ -1110,7 +1110,7 @@ void SetDLightVis( directlight_t *dl, int cluster )
 
 void MergeDLightVis( directlight_t *dl, int cluster )
 {
-	if (dl->pvs == NULL)
+	if (dl->pvs == nullptr)
 	{
 		SetDLightVis( dl, cluster );
 	}
@@ -1582,7 +1582,7 @@ void BuildVisForLightEnvironment( int nNumLights, directlight_t** pLights )
 	}
 }
 
-static char *ValueForKeyWithDefault (entity_t *ent, char *key, char *default_value = NULL)
+static char *ValueForKeyWithDefault (entity_t *ent, char *key, char *default_value = nullptr)
 {
 	epair_t	*ep;
 	
@@ -1695,9 +1695,9 @@ static void ParseLightPoint( entity_t* e, directlight_t* dl )
 void CreateDirectLights (void)
 {
 	unsigned        i;
-	CPatch	        *p = NULL;
-	directlight_t	*dl = NULL;
-	entity_t	    *e = NULL;
+	CPatch	        *p = nullptr;
+	directlight_t	*dl = nullptr;
+	entity_t	    *e = nullptr;
 	char	        *name;
 	Vector	        dest;
 
@@ -1790,7 +1790,7 @@ void ExportDirectLightsToWorldLights()
 	// In case the level has already been VRADed.
 	*pNumworldlights = 0;
 
-	for (dl = activelights; dl != NULL; dl = dl->next )
+	for (dl = activelights; dl != nullptr; dl = dl->next )
 	{
 		dworldlight_t *wl = &dworldlights[(*pNumworldlights)++];
 
@@ -2306,11 +2306,11 @@ void AddSampleToPatch (sample_t *s, LightingValue_t& light, int facenum)
 
 	float radius = sqrt( s->area ) / 2.0;
 
-	CPatch *pNextPatch = NULL;
+	CPatch *pNextPatch = nullptr;
 	for( patch = &g_Patches.Element( g_FacePatches.Element( facenum ) ); patch; patch = pNextPatch )
 	{
 		// next patch
-		pNextPatch = NULL;
+		pNextPatch = nullptr;
 		if( patch->ndxNext != g_Patches.InvalidIndex() )
 		{
 			pNextPatch = &g_Patches.Element( patch->ndxNext );
@@ -2759,7 +2759,7 @@ static void GatherSampleLightAt4Points( SSE_SampleInfo_t& info, int sampleIdx, i
 	SSE_sampleLightOutput_t out;
 
 	// Iterate over all direct lights and add them to the particular sample
-	for (directlight_t *dl = activelights; dl != NULL; dl = dl->next)
+	for (directlight_t *dl = activelights; dl != nullptr; dl = dl->next)
 	{	    
 		// is this lights cluster visible?
 		fltx4 dotMask = Four_Zeros;
@@ -2849,7 +2849,7 @@ static void ResampleLightAt4Points( SSE_SampleInfo_t& info, int lightStyleIndex,
 	}
 
 	// Iterate over all direct lights and add them to the particular sample
-	for (directlight_t *dl = activelights; dl != NULL; dl = dl->next)
+	for (directlight_t *dl = activelights; dl != nullptr; dl = dl->next)
 	{
 		if ((flags & AMBIENT_ONLY) && (dl->light.type != emit_skyambient))
 			continue;
@@ -3228,7 +3228,7 @@ static void BuildSupersampleFaceLights( lightinfo_t& l, SSE_SampleInfo_t& info, 
 	LightingValue_t **ppLightSamples = info.m_pFaceLight->light[lightstyleIndex];
 	ComputeSampleIntensities( info, ppLightSamples, pSampleIntensity );
 
-	Vector *pVisualizePass = NULL;
+	Vector *pVisualizePass = nullptr;
 	if (debug_extra)
 	{
 		int visualizationSize = info.m_pFaceLight->numsamples * sizeof(Vector);
@@ -3490,7 +3490,7 @@ void BuildFacelights (int iThread, int facenum)
 	// Tell the incremental light manager that we're done with this face.
 	if( g_pIncremental )
 	{
-		for (dl = activelights; dl != NULL; dl = dl->next)
+		for (dl = activelights; dl != nullptr; dl = dl->next)
 		{
 			// Only deal with lightstyle 0 for incremental lighting
 			if (dl->light.style == 0)
@@ -3568,7 +3568,7 @@ void BuildPatchLights( int facenum )
 	for( patch = &g_Patches.Element( g_FacePatches.Element( facenum ) ); patch; patch = pNextPatch )
 	{
 		// next patch
-		pNextPatch = NULL;
+		pNextPatch = nullptr;
 		if( patch->ndxNext != g_Patches.InvalidIndex() )
 		{
 			pNextPatch = &g_Patches.Element( patch->ndxNext );
@@ -3591,7 +3591,7 @@ void BuildPatchLights( int facenum )
 		for( patch = &g_Patches.Element( g_FacePatches.Element( facenum ) ); patch; patch = pNextPatch )
 		{
 			// next patch
-			pNextPatch = NULL;
+			pNextPatch = nullptr;
 			if( patch->ndxNext != g_Patches.InvalidIndex() )
 			{
 				pNextPatch = &g_Patches.Element( patch->ndxNext );
@@ -3614,7 +3614,7 @@ void BuildPatchLights( int facenum )
 	for( patch = &g_Patches.Element( g_FacePatches.Element( facenum ) ); patch; patch = pNextPatch )
 	{
 		// next patch
-		pNextPatch = NULL;
+		pNextPatch = nullptr;
 		if( patch->ndxNext != g_Patches.InvalidIndex() )
 		{
 			pNextPatch = &g_Patches.Element( patch->ndxNext );

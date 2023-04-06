@@ -134,7 +134,7 @@ void CWeaponTaser::ItemPostFrame()
 
 	if ( HasAmmo() == false && gpGlobals->curtime >= m_fFireTime + kTaserDropDelay )
 	{
-		GetPlayerOwner()->Weapon_Drop( this, NULL, NULL );
+		GetPlayerOwner()->Weapon_Drop( this, nullptr, nullptr);
 #ifndef CLIENT_DLL
 		//pPlayer->RemoveWeaponOnPlayer( this );
 		UTIL_Remove(this);

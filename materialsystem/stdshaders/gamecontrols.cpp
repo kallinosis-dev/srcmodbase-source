@@ -28,7 +28,7 @@ BEGIN_VS_SHADER_FLAGS( GAMECONTROLS, "Help for Game Controls", SHADER_NOT_EDITAB
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW

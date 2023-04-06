@@ -80,7 +80,7 @@ public:
 	bool		InMaterialPage( void )						{ return false; }
 	void		GetMaterialOffset( float *pOffset );
 	void		GetMaterialScale( float *pOffset );
-	IMaterial	*GetMaterialPage( void )					{ return NULL; }
+	IMaterial	*GetMaterialPage( void )					{ return nullptr; }
 
 	void		IncrementReferenceCount( );
 	void		DecrementReferenceCount( );
@@ -150,7 +150,7 @@ private:
 	bool		PrecacheVars_Internal( KeyValues *pKeyValues, KeyValues *pPatchKeyValues, CUtlVector<FileNameHandle_t> *pIncludes );
 public:
 	// If provided, pKeyValues and pPatchKeyValues should come from LoadVMTFile()
-	inline bool	PrecacheVars_Inline( KeyValues *pKeyValues = NULL, KeyValues *pPatchKeyValues = NULL, CUtlVector<FileNameHandle_t> *pIncludes = NULL )
+	inline bool	PrecacheVars_Inline( KeyValues *pKeyValues = nullptr, KeyValues *pPatchKeyValues = nullptr, CUtlVector<FileNameHandle_t> *pIncludes = nullptr)
 	{
 		// We should get both parameters or neither
 		Assert( !!pKeyValues == !!pPatchKeyValues );
@@ -178,7 +178,7 @@ public:
 		Precache_Inline();
 	}
 
-	bool PrecacheVars( KeyValues *pKeyValues = NULL, KeyValues *pPatchKeyValues = NULL, CUtlVector<FileNameHandle_t> *pIncludes = NULL )
+	bool PrecacheVars( KeyValues *pKeyValues = nullptr, KeyValues *pPatchKeyValues = nullptr, CUtlVector<FileNameHandle_t> *pIncludes = nullptr)
 	{
 		return PrecacheVars_Inline( pKeyValues, pPatchKeyValues, pIncludes );
 	}
@@ -536,11 +536,11 @@ CMaterial::CMaterial( char const* materialName, const char *pTextureGroupName, K
 
 	m_bShouldReloadFromWhitelist = false;
 	m_Flags = 0;
-	m_pShader = NULL;
-	m_pShaderParams = NULL;
+	m_pShader = nullptr;
+	m_pShaderParams = nullptr;
 	m_RefCount = 0;
-	m_representativeTexture = NULL;
-	m_ppProxies = NULL;
+	m_representativeTexture = nullptr;
+	m_ppProxies = nullptr;
 	m_ProxyCount = 0;
 	m_VarCount = 0;
 	m_MappingWidth = m_MappingHeight = 0;
@@ -583,13 +583,13 @@ CMaterial::~CMaterial()
 	if ( m_pVMTKeyValues )
 	{
 		m_pVMTKeyValues->deleteThis();
-		m_pVMTKeyValues = NULL;
+		m_pVMTKeyValues = nullptr;
 	}
 
 	DestroyRenderPassList( m_ShaderRenderState.m_pSnapshots ); 
 
-	m_QueueFriendlyVersion.SetRealTimeVersion( NULL );
-	m_representativeTexture = NULL;
+	m_QueueFriendlyVersion.SetRealTimeVersion(nullptr);
+	m_representativeTexture = nullptr;
 
 #ifdef _DEBUG
 	delete[] m_pDebugName;
@@ -612,7 +612,7 @@ void CMaterial::ClearContextData( void )
 			if ( renderPassList.m_pContextData[j] )
 			{
 				delete renderPassList.m_pContextData[j];
-				renderPassList.m_pContextData[j] = NULL;
+				renderPassList.m_pContextData[j] = nullptr;
 			}
 		}
 	}
@@ -628,10 +628,10 @@ void CMaterial::SetShaderAndParams( KeyValues *pKeyValues )
 	if ( m_pVMTKeyValues )
 	{
 		m_pVMTKeyValues->deleteThis();
-		m_pVMTKeyValues = NULL;
+		m_pVMTKeyValues = nullptr;
 	}
 
-	m_pVMTKeyValues = pKeyValues ? pKeyValues->MakeCopy() : NULL;
+	m_pVMTKeyValues = pKeyValues ? pKeyValues->MakeCopy() : nullptr;
 	if ( m_pVMTKeyValues )
 	{
 		m_Flags |= MATERIAL_IS_MANUALLY_CREATED; 
@@ -651,7 +651,7 @@ void CMaterial::SetShaderAndParams( KeyValues *pKeyValues )
 		if ( pMaterialName[0] == '/' && pMaterialName[1] == '/' && pMaterialName[2] != '/' )
 		{
 			// UNC, do full search
-			pPathID = NULL;
+			pPathID = nullptr;
 		}
 	}
 
@@ -663,7 +663,7 @@ void CMaterial::SetShaderAndParams( KeyValues *pKeyValues )
 		{
 			// it's a patch file, recursively build up patch keyvalues
 			KeyValues *pPatchKeyValues = new KeyValues( "vmt_patch" );
-			bool bSuccess = AccumulateRecursiveVmtPatches( *pPatchKeyValues, NULL, *pLoadedKeyValues, pPathID, NULL );
+			bool bSuccess = AccumulateRecursiveVmtPatches( *pPatchKeyValues, nullptr, *pLoadedKeyValues, pPathID, nullptr);
 			if ( bSuccess )
 			{
 				// Apply accumulated patches to final vmt
@@ -720,12 +720,12 @@ void CMaterial::DestroyRenderPassList( RenderPassList_t *pPassList )
 			if ( pPassList[i].m_pContextData[j] )
 			{
 				delete pPassList[i].m_pContextData[j];
-				pPassList[i].m_pContextData[j] = NULL;
+				pPassList[i].m_pContextData[j] = nullptr;
 			}
 			if ( pPassList[i].m_pInstanceData[j] )
 			{
 				delete pPassList[i].m_pInstanceData[j];
-				pPassList[i].m_pInstanceData[j] = NULL;
+				pPassList[i].m_pInstanceData[j] = nullptr;
 			}
 		}
 	}
@@ -761,9 +761,9 @@ ShaderRenderState_t *CMaterial::GetRenderState()
 //-----------------------------------------------------------------------------
 IMaterialVar* CMaterial::GetDummyVariable()
 {
-	static IMaterialVar* pDummyVar = 0;
+	static IMaterialVar* pDummyVar = nullptr;
 	if (!pDummyVar)
-		pDummyVar = IMaterialVar::Create( 0, "$dummyVar", 0 );
+		pDummyVar = IMaterialVar::Create( nullptr, "$dummyVar", 0 );
 
 	return pDummyVar;
 }
@@ -782,7 +782,7 @@ void CMaterial::CleanUpShaderParams()
 		}
 
 		free( m_pShaderParams );
-		m_pShaderParams = 0;
+		m_pShaderParams = nullptr;
 	}
 	m_VarCount = 0;
 }
@@ -843,7 +843,7 @@ void CMaterial::InitializeMaterialProxy( KeyValues* pFallbackKeyValues )
 	}
 	else
 	{
-		m_ppProxies = 0;
+		m_ppProxies = nullptr;
 	}
 }
 
@@ -868,7 +868,7 @@ void CMaterial::CleanUpMaterialProxy()
 	}
 	free( m_ppProxies );
 
-	m_ppProxies = NULL;
+	m_ppProxies = nullptr;
 	m_ProxyCount = 0;
 }
 
@@ -998,7 +998,7 @@ static IMaterialVar* CreateVectorMaterialVarFromKeyValue( IMaterial* pMaterial, 
 	float vecVal[4];
 	int nDim = ParseVectorFromKeyValueString( pKeyValue, pszName, vecVal );
 	if ( nDim == 0 )
-		return NULL;
+		return nullptr;
 
 	// Create the variable!
 	return IMaterialVar::Create( pMaterial, pszName, vecVal, nDim );
@@ -1058,7 +1058,7 @@ static IMaterialVar* CreateMatrixMaterialVarFromKeyValue( IMaterial* pMaterial, 
 	count = sscanf( pScan, " center %f %f scale %f %f rotate %f translate %f %f",
 		&center.x, &center.y, &scale.x, &scale.y, &angle, &translation.x, &translation.y );
 	if (count != 7)
-		return NULL;
+		return nullptr;
 
 	VMatrix temp;
 	MatrixBuildTranslation( mat, -center.x, -center.y, 0.0f );
@@ -1093,7 +1093,7 @@ static IMaterialVar* CreateMaterialVarFromKeyValue( IMaterial* pMaterial, KeyVal
 		{
 			char const* pString = pKeyValue->GetString();
 			if (!pString || !pString[0])
-				return 0;
+				return nullptr;
 			
 			// Look for matrices
 			IMaterialVar *pMatrixVar = CreateMatrixMaterialVarFromKeyValue( pMaterial, pKeyValue );
@@ -1109,7 +1109,7 @@ static IMaterialVar* CreateMaterialVarFromKeyValue( IMaterial* pMaterial, KeyVal
 		}
 	}
 	
-	return 0;
+	return nullptr;
 }
 
 
@@ -1352,7 +1352,7 @@ int CMaterial::ParseMaterialVars( IShader* pShader, KeyValues& keyValues,
 	int numParams = pShader ? pShader->GetParamCount() : 0;
 	int varCount = numParams;
 
-	bool parsingOverrides = (pOverrideKeyValues != 0);
+	bool parsingOverrides = (pOverrideKeyValues != nullptr);
 	KeyValues* pVar = pOverrideKeyValues ? pOverrideKeyValues->GetFirstSubKey() : keyValues.GetFirstSubKey();
 	while( pVar )
 	{
@@ -1459,7 +1459,7 @@ static KeyValues *CheckConditionalFakeShaderName( char const *pShaderName, char 
 	if (pFallbackSection)
 		return pFallbackSection;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1560,7 +1560,7 @@ static KeyValues *FindBuiltinFallbackBlock( char const *pShaderName, KeyValues *
 		if ( pRet )
 			return pRet;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1571,7 +1571,7 @@ KeyValues* CMaterial::InitializeShader( KeyValues &keyValues, KeyValues &patchKe
 	MaterialLock_t hMaterialLock = MaterialSystem()->Lock();
 
 	KeyValues* pCurrentFallback = &keyValues;
-	KeyValues* pFallbackSection = 0;
+	KeyValues* pFallbackSection = nullptr;
 
 	char szShaderName[MAX_PATH];
 	char const* pShaderName = pCurrentFallback->GetName();
@@ -1621,7 +1621,7 @@ KeyValues* CMaterial::InitializeShader( KeyValues &keyValues, KeyValues &patchKe
 		if ( !pShader ) 
 		{
 			MaterialSystem()->Unlock( hMaterialLock );
-			return NULL;
+			return nullptr;
 		}
 #endif
 
@@ -1701,7 +1701,7 @@ KeyValues* CMaterial::InitializeShader( KeyValues &keyValues, KeyValues &patchKe
 				// Gotta copy it off; clearing the keyvalues will blow the string away
 				Q_strncpy( pFallbackMaterialNameBuf, pFallbackMaterial, 256 );
 				keyValues.Clear();
-				if( !LoadVMTFile( keyValues, patchKeyValues, pFallbackMaterialNameBuf, UsesUNCFileName(), NULL ) )
+				if( !LoadVMTFile( keyValues, patchKeyValues, pFallbackMaterialNameBuf, UsesUNCFileName(), nullptr) )
 				{
 					Warning( "CMaterial::PrecacheVars: error loading vmt file %s for %s\n", pFallbackMaterialNameBuf, GetName() );
 					keyValues = *(((CMaterial *)g_pErrorMaterial)->m_pVMTKeyValues);
@@ -1714,7 +1714,7 @@ KeyValues* CMaterial::InitializeShader( KeyValues &keyValues, KeyValues &patchKe
 			}
 
 			pCurrentFallback = &keyValues;
-			pFallbackSection = NULL;
+			pFallbackSection = nullptr;
 
 			// I'm not quite sure how this can happen, but we'll see... 
 			pShaderName = pCurrentFallback->GetName();
@@ -2294,8 +2294,8 @@ bool CMaterial::PrecacheVars_Internal( KeyValues *pVMTKeyValues, KeyValues *pPat
 
 	bool bOk = false;
 	bool bError = false;
-	KeyValues *vmtKeyValues = NULL;
-	KeyValues *patchKeyValues = NULL;
+	KeyValues *vmtKeyValues = nullptr;
+	KeyValues *patchKeyValues = nullptr;
 	if ( m_pVMTKeyValues )
 	{
 		// Use the procedural KeyValues
@@ -2421,7 +2421,7 @@ void CMaterial::Uncache( bool bPreserveVars )
 		{
 			// Clean up the shader + params
 			CleanUpShaderParams();
-			m_pShader = 0;
+			m_pShader = nullptr;
 
 			// Clean up the material proxy
 			CleanUpMaterialProxy();
@@ -2685,7 +2685,7 @@ char const* CMaterial::GetPreviewImageName( void )
 	if ( IsGameConsole() )
 	{
 		// not supporting
-		return NULL;
+		return nullptr;
 	}
 
 	PrecacheVars_Inline();
@@ -2695,7 +2695,7 @@ char const* CMaterial::GetPreviewImageName( void )
 	
 	FindVar( "%noToolTexture", &found, false );
 	if (found)
-		return NULL;
+		return nullptr;
 
 	pRepresentativeTextureVar = FindVar( "%toolTexture", &found, false );
 	if( found )
@@ -2720,13 +2720,13 @@ char const* CMaterial::GetPreviewImageFileName( void ) const
 {
 	char const* pName = const_cast<CMaterial*>(this)->GetPreviewImageName();
 	if( !pName )
-		return NULL;
+		return nullptr;
 
 	static char vtfFilename[MATERIAL_MAX_PATH];
 	if( Q_strlen( pName ) >= MATERIAL_MAX_PATH - 5 )
 	{
 		Warning( "MATERIAL_MAX_PATH to short for %s.vtf\n", pName );
-		return NULL;
+		return nullptr;
 	}
 
 	if ( !UsesUNCFileName() )
@@ -2756,7 +2756,7 @@ PreviewImageRetVal_t CMaterial::GetPreviewImageProperties( int *width, int *heig
 	int nHeaderSize = VTFFileHeaderSize( VTF_MAJOR_VERSION );
 	unsigned char *pMem = (unsigned char *)stackalloc( nHeaderSize );
 	CUtlBuffer buf( pMem, nHeaderSize );
-	if( !g_pFullFileSystem->ReadFile( pFileName, NULL, buf, nHeaderSize ) )
+	if( !g_pFullFileSystem->ReadFile( pFileName, nullptr, buf, nHeaderSize ) )
 	{
 		Warning( "\"%s\" - \"%s\": cached version doesn't exist\n", GetName(), pFileName );
 		return MATERIAL_PREVIEW_IMAGE_BAD;
@@ -2925,7 +2925,7 @@ IMaterialVar *CMaterial::FindVarFast( char const *pVarName, unsigned int *pCache
 			}
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3060,7 +3060,7 @@ bool CMaterial::IsSpriteCard()
 //-----------------------------------------------------------------------------
 void CMaterial::CallBindProxy( void *proxyData, ICallQueue *pCallQueue )
 {
-	bool bIsThreaded = ( pCallQueue != NULL );
+	bool bIsThreaded = ( pCallQueue != nullptr);
 	switch (g_config.proxiesTestMode)
 	{
 	case 0:
@@ -3087,7 +3087,7 @@ void CMaterial::CallBindProxy( void *proxyData, ICallQueue *pCallQueue )
 
 				if( pClientMaterialSystem )
 				{
-					pClientMaterialSystem->SetMaterialProxyData( NULL );
+					pClientMaterialSystem->SetMaterialProxyData(nullptr);
 				}
 
 				if ( bIsThreaded )
@@ -3458,14 +3458,14 @@ void MergeKeyValues( KeyValues &srcKeys, KeyValues &destKeys )
 void AccumulatePatchKeyValues( KeyValues &srcKeyValues, KeyValues &patchKeyValues )
 {
 	KeyValues *pDestInsertSection = patchKeyValues.FindKey( "insert" );
-	if ( pDestInsertSection == NULL )
+	if ( pDestInsertSection == nullptr)
 	{
 		pDestInsertSection = new KeyValues( "insert" );
 		patchKeyValues.AddSubKey( pDestInsertSection );
 	}
 
 	KeyValues *pDestReplaceSection = patchKeyValues.FindKey( "replace" );
-	if ( pDestReplaceSection == NULL )
+	if ( pDestReplaceSection == nullptr)
 	{
 		pDestReplaceSection = new KeyValues( "replace" );
 		patchKeyValues.AddSubKey( pDestReplaceSection );
@@ -3501,7 +3501,7 @@ bool AccumulateRecursiveVmtPatches( KeyValues &patchKeyValuesOut, KeyValues **pp
 		if ( ppBaseKeyValuesOut )
 		{
 			// flag to the caller that the passed in keyValues are in fact final non-patch values
-			*ppBaseKeyValuesOut = NULL;
+			*ppBaseKeyValuesOut = nullptr;
 		}
 		return true;
 	}
@@ -3518,7 +3518,7 @@ bool AccumulateRecursiveVmtPatches( KeyValues &patchKeyValuesOut, KeyValues **pp
 		// Load the included file
 		const char *pIncludeFileName = pCurrentKeyValues->GetString( "include" );
 
-		if ( pIncludeFileName == NULL )
+		if ( pIncludeFileName == nullptr)
 		{
 			// A patch file without an $include key? Not good...
 			Warning( "VMT patch file has no $include key - invalid!\n" );
@@ -3572,14 +3572,14 @@ bool AccumulateRecursiveVmtPatches( KeyValues &patchKeyValuesOut, KeyValues **pp
 //-----------------------------------------------------------------------------
 void ExpandPatchFile( KeyValues& keyValues, KeyValues &patchKeyValues, const char *pPathID, CUtlVector<FileNameHandle_t> *pIncludes )
 {
-	KeyValues *pNonPatchKeyValues = NULL;
+	KeyValues *pNonPatchKeyValues = nullptr;
 	bool bSuccess = AccumulateRecursiveVmtPatches( patchKeyValues, &pNonPatchKeyValues, keyValues, pPathID, pIncludes );
 	if ( !bSuccess )
 	{
 		return;
 	}
 
-	if ( pNonPatchKeyValues != NULL )
+	if ( pNonPatchKeyValues != nullptr)
 	{
 		// We're dealing with a patch file. Apply accumulated patches to final vmt
 		ApplyPatchKeyValues( *pNonPatchKeyValues, patchKeyValues );
@@ -3605,7 +3605,7 @@ bool LoadVMTFile( KeyValues &vmtKeyValues, KeyValues &patchKeyValues, const char
 		if ( pMaterialName[0] == '/' && pMaterialName[1] == '/' && pMaterialName[2] != '/' )
 		{
 			// UNC, do full search
-			pPathID = NULL;
+			pPathID = nullptr;
 		}
 	}
 

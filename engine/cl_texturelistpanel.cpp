@@ -111,7 +111,7 @@ static int g_warn_texdimensions = 1024;
 static bool g_warn_enable = true;
 
 class CTextureListPanel;
-static CTextureListPanel *g_pTextureListPanel = NULL;
+static CTextureListPanel *g_pTextureListPanel = nullptr;
 static bool g_bRecursiveRequestToShowTextureList = false;
 
 
@@ -181,7 +181,7 @@ private:
 
 TileViewPanelEx::TileViewPanelEx( Panel *parent, const char *panelName ) :
 	Panel( parent, panelName ),
-	m_hbar( NULL ),
+	m_hbar(nullptr),
 	m_hFont( INVALID_FONT )
 {
 	m_hbar = new ScrollBar( this, "VerticalScrollBar", true );
@@ -428,19 +428,19 @@ void CAutoMatSysDebugMode::ScheduleCleanupTextureVar( IMaterialVar *pVar )
 static IMaterial * UseDebugMaterial( char const *szMaterial, ITexture *pMatTexture, CAutoMatSysDebugMode *pRestoreVars )
 {
 	if ( !szMaterial || !pMatTexture )
-		return NULL;
+		return nullptr;
 
 	bool foundVar;
 
 	IMaterial *pMaterial = materials->FindMaterial( szMaterial, TEXTURE_GROUP_OTHER, false );
 	// IMaterial *pMaterial = materials->FindMaterial( "debug/debugempty", TEXTURE_GROUP_OTHER, false );
 	if ( !pMaterial )
-		return NULL;
+		return nullptr;
 
 	IMaterialVar *BaseTextureVar = pMaterial->FindVar( "$basetexture", &foundVar, false );
 	// IMaterialVar *BaseTextureVar = pMaterial->FindVar( "$basetexture", &foundVar, false );
 	if ( !foundVar || !BaseTextureVar )
-		return NULL;
+		return nullptr;
 
 	IMaterialVar *FrameVar = pMaterial->FindVar( "$frame", &foundVar, false );
 	if ( foundVar && FrameVar )
@@ -951,9 +951,9 @@ void CVmtTextEntry::OpenVmtSelected()
 	buf.SetCount( x1 - x0 + 1 );
 	GetTextRange( buf.Base(), x0, x1 - x0 );
 	
-	for ( char *pchName = buf.Base(), *pchNext = NULL; pchName; pchName = pchNext )
+	for ( char *pchName = buf.Base(), *pchNext = nullptr; pchName; pchName = pchNext )
 	{
-		if ( ( pchNext = strchr( pchName, '\n' ) ) != NULL )
+		if ( ( pchNext = strchr( pchName, '\n' ) ) != nullptr)
 			*( pchNext ++ ) = 0;
 
 		char chResolveName[ 256 ] = {0}, chResolveNameArg[ 256 ] = {0};
@@ -1024,7 +1024,7 @@ protected:
 
 CRenderTextureEditor::CRenderTextureEditor( vgui::Panel *parent, char const *szName ) :
 	BaseClass( parent, szName ),
-	m_pInfo( NULL ),
+	m_pInfo(nullptr),
 	m_iInfoHint( 0 ),
 	m_hFont( vgui::INVALID_FONT ),
 	m_bufInfoText( 0, 0, CUtlBuffer::TEXT_BUFFER )
@@ -1062,7 +1062,7 @@ CRenderTextureEditor::CRenderTextureEditor( vgui::Panel *parent, char const *szN
 
 CRenderTextureEditor::~CRenderTextureEditor()
 {
-	SetDispInfo( NULL, 0 );
+	SetDispInfo(nullptr, 0 );
 }
 
 void CRenderTextureEditor::GetDispInfo( KeyValues *&kv, int &iHint )
@@ -1078,7 +1078,7 @@ void CRenderTextureEditor::SetDispInfo( KeyValues *kv, int iHint )
 	if ( m_pInfo )
 		m_pInfo->deleteThis();
 
-	m_pInfo = kv ? kv->MakeCopy() : NULL;
+	m_pInfo = kv ? kv->MakeCopy() : nullptr;
 
 
 	CUtlStringMap< bool > arrMaterials, arrMaterialsFullNames;
@@ -1186,7 +1186,7 @@ void CRenderTextureEditor::Close()
 {
 	BaseClass::Close();
 
-	SetDispInfo( NULL, 0 );
+	SetDispInfo(nullptr, 0 );
 }
 
 void CRenderTextureEditor::Activate()
@@ -1414,7 +1414,7 @@ void CRenderTextureEditor::Paint()
 	Q_strncpy( s_chLastViewedTextureBuffer, szTextureFile, sizeof( s_chLastViewedTextureBuffer ) );
 	char const *szTextureGroup = kv->GetString( KEYNAME_TEXTURE_GROUP );
 
-	ITexture *pMatTexture = NULL;
+	ITexture *pMatTexture = nullptr;
 	if ( *szTextureFile )
 		pMatTexture = materials->FindTexture( szTextureFile, szTextureGroup, false );
 	if ( !pMatTexture )
@@ -1750,7 +1750,7 @@ protected:
 
 CRenderTexturesListViewPanel::CRenderTexturesListViewPanel( vgui::Panel *parent, char const *szName ) :
 	vgui::TileViewPanelEx( parent, szName ),
-	m_pListPanel( NULL ),
+	m_pListPanel(nullptr),
 	m_bPaintAlpha( false )
 {
 	m_pRenderTxEditor = new CRenderTextureEditor( this, "TxEdt" );
@@ -1813,7 +1813,7 @@ void CRenderTexturesListViewPanel::OnMousePressed( vgui::MouseCode code )
 		tileY -= tileY + m_pRenderTxEditor->GetTall() - ( m_li_tall - 2 );
 
 	int iTopLeftX = 0, iTopLeftY = 0;
-	for ( vgui::Panel *pPanel = this; ( pPanel = pPanel->GetParent() ) != NULL; )
+	for ( vgui::Panel *pPanel = this; ( pPanel = pPanel->GetParent() ) != nullptr; )
 	{
 		iTopLeftX = iTopLeftY = 0;
 		pPanel->LocalToScreen( iTopLeftX, iTopLeftY );
@@ -1842,7 +1842,7 @@ KeyValues * CRenderTexturesListViewPanel::GetTileData( int iTile )
 {
 	int iData = m_pListPanel->GetItemIDFromRow( iTile );
 	if ( iData < 0 )
-		return NULL;
+		return nullptr;
 
 	return m_pListPanel->GetItem( iData );
 }
@@ -1857,7 +1857,7 @@ void CRenderTexturesListViewPanel::RenderTile( int iTile, int x, int y )
 
 	char const *szTextureFile = kv->GetString( KEYNAME_NAME );
 	char const *szTextureGroup = kv->GetString( KEYNAME_TEXTURE_GROUP );
-	ITexture *pMatTexture = NULL;
+	ITexture *pMatTexture = nullptr;
 	if ( *szTextureFile )
 		pMatTexture = materials->FindTexture( szTextureFile, szTextureGroup, false );
 	if ( !pMatTexture )
@@ -2235,7 +2235,7 @@ private:
 	CSmartTextureKeyValues& operator = ( CSmartTextureKeyValues const &x );
 
 public:
-	CSmartTextureKeyValues() : m_p( NULL )
+	CSmartTextureKeyValues() : m_p(nullptr)
 	{
 		// Copy the texture list if it is available.  It won't be availabe while it's being
 		// constructed on another thread.  Remember to release when done.
@@ -2245,7 +2245,7 @@ public:
 			g_pMaterialSystemDebugTextureInfo->UnlockDebugTextureList();
 		}
 	}
-	~CSmartTextureKeyValues() { if ( m_p ) m_p->deleteThis(); m_p = NULL; }
+	~CSmartTextureKeyValues() { if ( m_p ) m_p->deleteThis(); m_p = nullptr; }
 
 	KeyValues * Get() const { return m_p; };
 
@@ -2381,7 +2381,7 @@ CTextureListPanel::CTextureListPanel( vgui::Panel *parent ) :
 //-----------------------------------------------------------------------------
 CTextureListPanel::~CTextureListPanel( void )
 {
-	g_pTextureListPanel = NULL;
+	g_pTextureListPanel = nullptr;
 }
 
 void CTextureListPanel::ApplySchemeSettings( vgui::IScheme *pScheme )
@@ -2822,12 +2822,12 @@ void CTextureListPanel::Paint()
 	if ( ( s_eTxListPanelRequest == TXR_RUNNING ) &&
 		 pRte->IsVisible() )
 	{
-		KeyValues *kv = NULL;
+		KeyValues *kv = nullptr;
 		int iHint = 0;
 		pRte->GetDispInfo( kv, iHint );
 		if ( kv && iHint )
 		{
-			KeyValues *plv = ( m_pListPanel->IsValidItemID( iHint ) ? m_pListPanel->GetItem( iHint ) : NULL );
+			KeyValues *plv = ( m_pListPanel->IsValidItemID( iHint ) ? m_pListPanel->GetItem( iHint ) : nullptr);
 			if ( plv && !strcmp( plv->GetString( KEYNAME_NAME ), kv->GetString( KEYNAME_NAME ) ) )
 			{
 				KeyValues *pValData = plv->GetFirstValue(), *pValRendered = kv->GetFirstValue();
@@ -2840,13 +2840,13 @@ void CTextureListPanel::Paint()
 					pRte->SetDispInfo( plv, iHint );
 			}
 			else
-				kv = NULL;
+				kv = nullptr;
 		}
 		
 		if ( 0 ) // if ( !kv )
 		{
 			pRte->Close();
-			pRte->SetDispInfo( NULL, 0 );
+			pRte->SetDispInfo(nullptr, 0 );
 		}
 	}
 

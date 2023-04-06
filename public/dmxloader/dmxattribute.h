@@ -145,7 +145,7 @@ private:
 	void SetValue( DmAttributeType_t type, const void *pSrc, int nLen );
 	// NOTE: [Get|Set]ArrayValue don't currently support AT_STRING_ARRAY, AT_STRING_VOID or AT_ELEMENT_ARRAY
 	void SetArrayValue( DmAttributeType_t type, const void *pSrc, int nDataTypeSize, int nArrayLength, int nSrcStride );
-	void GetArrayValue( DmAttributeType_t type, void *pDest, int nDataTypeSize, int nArrayLength, const char *pDefaultString = NULL ) const;
+	void GetArrayValue( DmAttributeType_t type, void *pDest, int nDataTypeSize, int nArrayLength, const char *pDefaultString = nullptr) const;
 	void SetArrayCount( int nArrayCount );
 	const void *GetArrayBase( void ) const;
 

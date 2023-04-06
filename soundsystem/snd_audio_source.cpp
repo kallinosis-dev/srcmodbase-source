@@ -25,7 +25,7 @@ extern CAudioSource *Audio_CreateMemoryWave( const char *pName );
 CAudioSource *AudioSource_Create( const char *pName )
 {
 	if ( !pName )
-		return NULL;
+		return nullptr;
 
 //	if ( pName[0] == '!' )		// sentence
 		;
@@ -35,7 +35,7 @@ CAudioSource *AudioSource_Create( const char *pName )
 	if ( pName[0] == '*' )
 	{
 
-		return NULL;
+		return nullptr;
 	}
 
 	// These are loaded into memory directly

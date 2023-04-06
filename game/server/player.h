@@ -152,7 +152,7 @@ class CBasePlayer;
 class CPlayerInfo : public IBotController, public IPlayerInfo
 {
 public:
-	CPlayerInfo () { m_pParent = NULL; } 
+	CPlayerInfo () { m_pParent = nullptr; } 
 	~CPlayerInfo () {}
 	void SetParent( CBasePlayer *parent ) { m_pParent = parent; } 
 
@@ -277,7 +277,7 @@ public:
 
 	virtual void			InitialSpawn( void );
 	virtual void			InitHUD( void ) {}
-	virtual void			ShowViewPortPanel( const char * name, bool bShow = true, KeyValues *data = NULL );
+	virtual void			ShowViewPortPanel( const char * name, bool bShow = true, KeyValues *data = nullptr);
 
 	virtual const char *	GetPlayerModelName( void );
 
@@ -338,7 +338,7 @@ public:
 	const QAngle			&EyeAngles( );
 	void					EyePositionAndVectors( Vector *pPosition, Vector *pForward, Vector *pRight, Vector *pUp );
 	virtual const QAngle	&LocalEyeAngles();		// Direction of eyes
-	void					EyeVectors( Vector *pForward, Vector *pRight = NULL, Vector *pUp = NULL );
+	void					EyeVectors( Vector *pForward, Vector *pRight = nullptr, Vector *pUp = nullptr);
 	void					CacheVehicleView( void );	// Calculate and cache the position of the player in the vehicle
 
 	// Sets the view angles
@@ -558,7 +558,7 @@ public:
 	void					ItemPreFrame( void );
 	virtual void			ItemPostFrame( void );
 
-	virtual CBaseEntity		*GiveNamedItem( const char *pchName, int iSubType = 0, CEconItemView *pScriptItem = NULL, bool bForce = false );
+	virtual CBaseEntity		*GiveNamedItem( const char *pchName, int iSubType = 0, CEconItemView *pScriptItem = nullptr, bool bForce = false );
 
 	void					EnableControl(bool fControl);
 	virtual void			CheckTrainUpdate( void );
@@ -591,7 +591,7 @@ public:
 	// mass/size limit set to zero for none
 	static bool				CanPickupObject( CBaseEntity *pObject, float massLimit, float sizeLimit );
 	virtual void			PickupObject( CBaseEntity *pObject, bool bLimitMassAndSize = true ) {}
-	virtual void			ForceDropOfCarriedPhysObjects( CBaseEntity *pOnlyIfHoldindThis = NULL ) {}
+	virtual void			ForceDropOfCarriedPhysObjects( CBaseEntity *pOnlyIfHoldindThis = nullptr) {}
 	virtual float			GetHeldObjectMass( IPhysicsObject *pHeldObject );
 
 	void					CheckSuitUpdate();
@@ -751,7 +751,7 @@ public:
 	void					UpdateVPhysicsPosition( const Vector &position, const Vector &velocity, float secondsToArrival );
 
 	// Hint system
-	virtual CHintSystem		*Hints( void ) { return NULL; }
+	virtual CHintSystem		*Hints( void ) { return nullptr; }
 	bool					ShouldShowHints( void ) { return Hints() ? Hints()->ShouldShowHints() : false; }
 	void					SetShowHints( bool bShowHints ) { if (Hints()) Hints()->SetShowHints( bShowHints ); }
 	bool 					HintMessage( int hint, bool bForce = false ) { return Hints() ? Hints()->HintMessage( hint, bForce ) : false; }
@@ -889,7 +889,7 @@ public:
 	void ClearImpulse( void ) { m_nImpulse = 0; }
 
 	// Here so that derived classes can use the expresser
-	virtual CAI_Expresser *GetExpresser() { return NULL; };
+	virtual CAI_Expresser *GetExpresser() { return nullptr; };
 
 #if !defined(NO_STEAM)
 	//----------------------------
@@ -1537,7 +1537,7 @@ inline const CUserCmd *CBasePlayer::GetCurrentUserCommand() const
 inline IServerVehicle *CBasePlayer::GetVehicle() 
 { 
 	CBaseEntity *pVehicleEnt = m_hVehicle.Get();
-	return pVehicleEnt ? pVehicleEnt->GetServerVehicle() : NULL;
+	return pVehicleEnt ? pVehicleEnt->GetServerVehicle() : nullptr;
 }
 
 inline CBaseEntity *CBasePlayer::GetVehicleEntity() 
@@ -1547,7 +1547,7 @@ inline CBaseEntity *CBasePlayer::GetVehicleEntity()
 
 inline bool CBasePlayer::IsInAVehicle( void ) const 
 { 
-	return ( NULL != m_hVehicle.Get() ) ? true : false; 
+	return (nullptr != m_hVehicle.Get() ) ? true : false; 
 }
 
 inline void CBasePlayer::SetTouchedPhysics( bool bTouch ) 
@@ -1566,7 +1566,7 @@ inline bool CBasePlayer::TouchedPhysics( void )
 inline CBasePlayer *ToBasePlayer( CBaseEntity *pEntity )
 {
 	if ( !pEntity || !pEntity->IsPlayer() )
-		return NULL;
+		return nullptr;
 
 #if _DEBUG
 	Assert( static_cast< CBasePlayer* >( pEntity ) == dynamic_cast< CBasePlayer* >( pEntity ) );
@@ -1578,7 +1578,7 @@ inline CBasePlayer *ToBasePlayer( CBaseEntity *pEntity )
 inline const CBasePlayer *ToBasePlayer( const CBaseEntity *pEntity )
 {
 	if ( !pEntity || !pEntity->IsPlayer() )
-		return NULL;
+		return nullptr;
 
 #if _DEBUG
 	Assert( static_cast< const CBasePlayer* >( pEntity ) == dynamic_cast< const CBasePlayer* >( pEntity ) );
@@ -1602,7 +1602,7 @@ bool ForEachPlayer( Functor &func )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (FNullEnt( player->edict() ))
@@ -1654,7 +1654,7 @@ inline bool ForEachPlayer( IPlayerFunctor &func )
 	{
 		CBasePlayer *player = static_cast<CBasePlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (FNullEnt( player->edict() ))
@@ -1699,7 +1699,7 @@ int CollectPlayers( CUtlVector< T * > *playerVector, int team = TEAM_ANY, bool i
 	{
 		T *player = static_cast< T * >( UTIL_PlayerByIndex( i ) );
 
-		if ( player == NULL )
+		if ( player == nullptr)
 			continue;
 
 		if ( FNullEnt( player->edict() ) )

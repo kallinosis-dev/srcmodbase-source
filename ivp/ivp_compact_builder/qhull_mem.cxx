@@ -125,7 +125,7 @@ void *qh_memalloc(int insize) {
         qhmem.totshort += bufsize;
 	if (!(newbuffer= p_malloc(bufsize))) {
 	  ivp_message( "qhull error (qh_memalloc): insufficient memory\n");
-	  qh_errexit(qhmem_ERRmem, NULL, NULL);
+	  qh_errexit(qhmem_ERRmem, nullptr, nullptr);
 	} 
 	*((void **)newbuffer)= qhmem.curbuffer;  /* prepend newbuffer to curbuffer 
 						    list */
@@ -142,7 +142,7 @@ void *qh_memalloc(int insize) {
   }else {                     /* long allocation */
     if (!qhmem.indextable) {
       ivp_message( "qhull internal error (qh_memalloc): qhmem has not been initialized.\n");
-      qh_errexit(qhmem_ERRqhull, NULL, NULL);
+      qh_errexit(qhmem_ERRqhull, nullptr, nullptr);
     }
     outsize= insize;
     qhmem .cntlong++;
@@ -152,7 +152,7 @@ void *qh_memalloc(int insize) {
       qhmem.maxlong= qhmem.totlong;
     if (!(object= p_malloc(outsize))) {
       ivp_message( "qhull error (qh_memalloc): insufficient memory\n");
-      qh_errexit(qhmem_ERRmem, NULL, NULL);
+      qh_errexit(qhmem_ERRmem, nullptr, nullptr);
     }
     if (qhmem.IStracing >= 5)
       ivp_message( "qh_memalloc long: %d bytes at %p\n", outsize, object);
@@ -217,7 +217,7 @@ void qh_memfreeshort (int *curlong, int *totlong) {
     nextbuffer= *((void **) buffer);
     P_FREE(buffer);
   }
-  qhmem.curbuffer= NULL;
+  qhmem.curbuffer= nullptr;
   if (qhmem .LASTsize) {
     P_FREE (qhmem .indextable);
     P_FREE (qhmem .freelists);
@@ -263,13 +263,13 @@ void qh_meminitbuffers (int tracelevel, int alignment, int numsizes, int bufsize
   qhmem.ALIGNmask= alignment-1;
   if (qhmem.ALIGNmask & ~qhmem.ALIGNmask) {
     ivp_message( "qhull internal error (qh_meminit): memory alignment %d is not a power of 2\n", alignment);
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_errexit (qhmem_ERRqhull, nullptr, nullptr);
   }
   qhmem.sizetable= (int *) p_calloc (numsizes, sizeof(int));
   qhmem.freelists= (void **) p_calloc (numsizes, sizeof(void *));
   if (!qhmem.sizetable || !qhmem.freelists) {
     ivp_message( "qhull error (qh_meminit): insufficient memory\n");
-    qh_errexit (qhmem_ERRmem, NULL, NULL);
+    qh_errexit (qhmem_ERRmem, nullptr, nullptr);
   }
   if (qhmem.IStracing >= 1)
     ivp_message( "qh_meminitbuffers: memory initialized with alignment %d\n", alignment);
@@ -289,11 +289,11 @@ void qh_memsetup (void) {
   if (qhmem .LASTsize >= qhmem .BUFsize || qhmem.LASTsize >= qhmem .BUFinit) {
     ivp_message( "qhull error (qh_memsetup): largest mem size %d is >= buffer size %d or initial buffer size %d\n",
             qhmem .LASTsize, qhmem .BUFsize, qhmem .BUFinit);
-    qh_errexit(qhmem_ERRmem, NULL, NULL);
+    qh_errexit(qhmem_ERRmem, nullptr, nullptr);
   }
   if (!(qhmem.indextable= (int *)p_malloc((qhmem.LASTsize+1) * sizeof(int)))) {
     ivp_message( "qhull error (qh_memsetup): insufficient memory\n");
-    qh_errexit(qhmem_ERRmem, NULL, NULL);
+    qh_errexit(qhmem_ERRmem, nullptr, nullptr);
   }
   for(k=qhmem.LASTsize+1; k--; )
     qhmem.indextable[k]= k;
@@ -317,7 +317,7 @@ void qh_memsize(int size) {
 
   if (qhmem .LASTsize) {
     ivp_message( "qhull error (qh_memsize): called after qhmem_setup\n");
-    qh_errexit (qhmem_ERRqhull, NULL, NULL);
+    qh_errexit (qhmem_ERRqhull, nullptr, nullptr);
   }
   size= (size + qhmem.ALIGNmask) & ~qhmem.ALIGNmask;
   for(k= qhmem.TABLEsize; k--; ) {

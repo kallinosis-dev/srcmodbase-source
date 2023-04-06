@@ -39,7 +39,7 @@ CDownloadListGenerator::CDownloadListGenerator()
 	: m_AlreadyWrittenFileNames( 0, 0, true )
 {
 	m_hReslistFile = FILESYSTEM_INVALID_HANDLE;
-	m_pStringTable = NULL;
+	m_pStringTable = nullptr;
 	m_mapName[0] = 0;
 }
 
@@ -86,7 +86,7 @@ void CDownloadListGenerator::SetStringTable( INetworkStringTable *pStringTable )
 	KeyValues::AutoDelete resfilekeys( "resourcefiles" );
 	if ( resfilekeys->LoadFromFile( g_pFileSystem, resfilename, "GAME" ) )
 	{
-		for ( KeyValues *pKey = resfilekeys->GetFirstSubKey(); pKey != NULL; pKey = pKey->GetNextKey() )
+		for ( KeyValues *pKey = resfilekeys->GetFirstSubKey(); pKey != nullptr; pKey = pKey->GetNextKey() )
 		{
 			OnResourcePrecached( pKey->GetName() );
 		}
@@ -147,7 +147,7 @@ void CDownloadListGenerator::OnLevelLoadEnd()
 		g_pFileSystem->Close(m_hReslistFile);
 		m_hReslistFile = FILESYSTEM_INVALID_HANDLE;
 	}
-	m_pStringTable = NULL;
+	m_pStringTable = nullptr;
 }
 
 //-----------------------------------------------------------------------------

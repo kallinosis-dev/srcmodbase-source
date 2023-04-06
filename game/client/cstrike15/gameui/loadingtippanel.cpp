@@ -26,7 +26,7 @@ CLoadingTipPanel::CLoadingTipPanel( Panel *pParent ) : EditablePanel( pParent, "
 {
 	m_flLastTipTime = 0.f;
 	m_iCurrentTip = 0;
-	m_pTipIcon = NULL;
+	m_pTipIcon = nullptr;
 
 	m_smearColor = Color( 0, 0, 0, 255 );
 

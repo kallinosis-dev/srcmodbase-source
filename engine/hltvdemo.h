@@ -31,11 +31,11 @@ public:
 	IDemoRecorder* GetDemoRecorder() { return this; }
 
 public: // For use by HLTVServer
-	void	WriteFrame( CHLTVFrame *pFrame, bf_write *additionaldata = NULL );
+	void	WriteFrame( CHLTVFrame *pFrame, bf_write *additionaldata = nullptr);
 	void	RecordPlayerAvatar( const CNETMsg_PlayerAvatarData_t* hltvPlayerAvatar );
 
 	bool	IsRecording( void );			// True between StartRecording and StopRecording()
-	void	StopRecording( const CGameInfo* pGameInfo = NULL );
+	void	StopRecording( const CGameInfo* pGameInfo = nullptr);
 	int		GetRecordingTick( void );
 	const char* GetDemoFilename( void ) { return m_DemoFile.m_szFileName; }
 

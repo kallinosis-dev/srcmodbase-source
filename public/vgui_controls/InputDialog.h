@@ -32,7 +32,7 @@ public:
 	BaseInputDialog( vgui::Panel *parent, const char *title, bool bShowCancelButton = true );
 	~BaseInputDialog();
 
-	void DoModal( KeyValues *pContextKeyValues = NULL );
+	void DoModal( KeyValues *pContextKeyValues = nullptr);
 
 protected:
 	virtual void PerformLayout();

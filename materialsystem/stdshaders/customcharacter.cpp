@@ -317,7 +317,7 @@ SHADER_INIT_PARAMS()
 
 SHADER_FALLBACK
 {
-	return 0;
+	return nullptr;
 }
 
 SHADER_INIT
@@ -402,7 +402,7 @@ SHADER_DRAW
 		unsigned int flags = VERTEX_POSITION;
 
 		int nTexCoordCount = 1;
-		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, 0 );
+		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, 0 );
 
 		// Vertex Shader
 		DECLARE_STATIC_VERTEX_SHADER( customcharacter_vs30 );

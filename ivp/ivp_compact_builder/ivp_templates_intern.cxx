@@ -6,9 +6,9 @@
 IVP_Template_Polygon::IVP_Template_Polygon()
 {
     this->n_points = this->n_surfaces = this->n_lines = 0;
-    this->points = NULL;
-    this->surfaces = NULL;
-    this->lines = NULL;
+    this->points = nullptr;
+    this->surfaces = nullptr;
+    this->lines = nullptr;
 }
 
 IVP_Template_Polygon::IVP_Template_Polygon(int point_count,

@@ -113,10 +113,10 @@ CMatchSessionOnlineSearch::CMatchSessionOnlineSearch( KeyValues *pSettings ) :
 	m_pSettings( pSettings->MakeCopy() ),
 	m_autodelete_pSettings( m_pSettings ),
 	m_eState( STATE_INIT ),
-	m_pSysSession( NULL ),
-	m_pMatchSearcher( NULL ),
+	m_pSysSession(nullptr),
+	m_pMatchSearcher(nullptr),
 	m_result( RESULT_UNDEFINED ),
-	m_pSysSessionConTeam (NULL),
+	m_pSysSessionConTeam (nullptr),
 #if !defined( NO_STEAM )
 	m_pServerListListener( NULL ),
 #endif
@@ -127,13 +127,13 @@ CMatchSessionOnlineSearch::CMatchSessionOnlineSearch( KeyValues *pSettings ) :
 }
 
 CMatchSessionOnlineSearch::CMatchSessionOnlineSearch() :
-	m_pSettings( NULL ),
-	m_autodelete_pSettings( (KeyValues*)NULL ),
+	m_pSettings(nullptr),
+	m_autodelete_pSettings( (KeyValues*)nullptr),
 	m_eState( STATE_INIT ),
-	m_pSysSession( NULL ),
-	m_pMatchSearcher( NULL ),
+	m_pSysSession(nullptr),
+	m_pMatchSearcher(nullptr),
 	m_result( RESULT_UNDEFINED ),
-	m_pSysSessionConTeam (NULL),
+	m_pSysSessionConTeam (nullptr),
 	m_flInitializeTimestamp( 0.0f )
 {
 }
@@ -142,7 +142,7 @@ CMatchSessionOnlineSearch::~CMatchSessionOnlineSearch()
 {
 	if ( m_pMatchSearcher )
 		m_pMatchSearcher->Destroy();
-	m_pMatchSearcher = NULL;
+	m_pMatchSearcher = nullptr;
 
 	DevMsg( "Destroying CMatchSessionOnlineSearch:\n" );
 	KeyValuesDumpAsDevMsg( m_pSettings, 1 );
@@ -255,13 +255,13 @@ void CMatchSessionOnlineSearch::Update()
 			switch ( m_pSysSessionConTeam->GetResult() )
 			{
 			case CSysSessionConTeamHost::RESULT_SUCCESS:
-				OnSearchCompletedSuccess( NULL, m_pSettings );
+				OnSearchCompletedSuccess(nullptr, m_pSettings );
 				break;
 
 			case CSysSessionConTeamHost::RESULT_FAIL:
 				
 				m_pSysSessionConTeam->Destroy();
-				m_pSysSessionConTeam = NULL;
+				m_pSysSessionConTeam = nullptr;
 				// Try next session
 				m_eState = STATE_JOIN_NEXT;
 				break;
@@ -277,7 +277,7 @@ void CMatchSessionOnlineSearch::Destroy()
 	if ( m_pMatchSearcher )
 	{
 		m_pMatchSearcher->Destroy();
-		m_pMatchSearcher = NULL;
+		m_pMatchSearcher = nullptr;
 	}
 
 	// If we are in the middle of connecting,
@@ -285,13 +285,13 @@ void CMatchSessionOnlineSearch::Destroy()
 	if ( m_pSysSession )
 	{
 		m_pSysSession->Destroy();
-		m_pSysSession = NULL;
+		m_pSysSession = nullptr;
 	}
 
 	if ( m_pSysSessionConTeam )
 	{
 		m_pSysSessionConTeam->Destroy();
-		m_pSysSessionConTeam = NULL;
+		m_pSysSessionConTeam = nullptr;
 	}
 
 #if !defined( NO_STEAM )
@@ -329,18 +329,18 @@ void CMatchSessionOnlineSearch::OnEvent( KeyValues *pEvent )
 
 	if ( !Q_stricmp( "mmF->SysSessionUpdate", szEvent ) )
 	{
-		if ( m_pSysSession && pEvent->GetPtr( "syssession", NULL ) == m_pSysSession )
+		if ( m_pSysSession && pEvent->GetPtr( "syssession", nullptr) == m_pSysSession )
 		{
 			// This is our session
 			switch ( m_eState )
 			{
 			case STATE_JOINING:
 				// Session was creating
-				if ( char const *szError = pEvent->GetString( "error", NULL ) )
+				if ( char const *szError = pEvent->GetString( "error", nullptr) )
 				{
 					// Destroy the session
 					m_pSysSession->Destroy();
-					m_pSysSession = NULL;
+					m_pSysSession = nullptr;
 
 					// Go ahead and join next available session
 					m_eState = STATE_JOIN_NEXT;
@@ -355,9 +355,9 @@ void CMatchSessionOnlineSearch::OnEvent( KeyValues *pEvent )
 					KeyValues *pSettings = m_pSettings;
 
 					// Release ownership of the resources since new match session now owns them
-					m_pSysSession = NULL;
-					m_pSettings = NULL;
-					m_autodelete_pSettings.Assign( NULL );
+					m_pSysSession = nullptr;
+					m_pSettings = nullptr;
+					m_autodelete_pSettings.Assign(nullptr);
 
 					OnSearchCompletedSuccess( pSysSession, pSettings );
 					return;
@@ -388,8 +388,8 @@ void CMatchSessionOnlineSearch::OnSearchDoneNoResultsMatch()
 	// Just go ahead and create the session
 	KeyValues *pSettings = m_pSettings;
 
-	m_pSettings = NULL;
-	m_autodelete_pSettings.Assign( NULL );
+	m_pSettings = nullptr;
+	m_autodelete_pSettings.Assign(nullptr);
 
 	OnSearchCompletedEmpty( pSettings );
 }
@@ -503,7 +503,7 @@ void CMatchSessionOnlineSearch::OnSearchCompletedEmpty( KeyValues *pSettings )
 
 	// Preserve the "options/server" key
 	char serverType[64];
-	const char *prevServerType = pSettings->GetString( "options/server", NULL );
+	const char *prevServerType = pSettings->GetString( "options/server", nullptr);
 	if ( prevServerType )
 	{
 		Q_strncpy( serverType, prevServerType, sizeof( serverType ) );

@@ -188,7 +188,7 @@ template class CShaderBuffer< ID3DXBuffer >;
 //-----------------------------------------------------------------------------
 bool ToolsEnabled()
 {
-	static bool bToolsMode = ( CommandLine()->CheckParm( "-tools" ) != NULL );
+	static bool bToolsMode = ( CommandLine()->CheckParm( "-tools" ) != nullptr);
 	return bToolsMode;
 }
 
@@ -311,7 +311,7 @@ static void UnregisterPS( IDirect3DPixelShader9* pShader )
 //-----------------------------------------------------------------------------
 // The lovely low-level dx call to create a vertex shader
 //-----------------------------------------------------------------------------
-static HardwareShader_t CreateD3DVertexShader( DWORD *pByteCode, int numBytes, const char *pShaderName, char *debugLabel = NULL )
+static HardwareShader_t CreateD3DVertexShader( DWORD *pByteCode, int numBytes, const char *pShaderName, char *debugLabel = nullptr)
 {
 	MEM_ALLOC_D3D_CREDIT();
 
@@ -417,7 +417,7 @@ static void PatchPixelShaderForAtiMsaaHack(DWORD *pShader, DWORD dwTexCoordMask)
 //-----------------------------------------------------------------------------
 // The lovely low-level dx call to create a pixel shader
 //-----------------------------------------------------------------------------
-static HardwareShader_t CreateD3DPixelShader( DWORD *pByteCode, unsigned int nCentroidMask, int numBytes, const char* pShaderName, char *debugLabel = NULL )
+static HardwareShader_t CreateD3DPixelShader( DWORD *pByteCode, unsigned int nCentroidMask, int numBytes, const char* pShaderName, char *debugLabel = nullptr)
 {
 	MEM_ALLOC_D3D_CREDIT();
 	
@@ -574,8 +574,8 @@ public:
 	virtual void				DestroyVertexShader( VertexShaderHandle_t hShader );
 	virtual PixelShaderHandle_t CreatePixelShader( IShaderBuffer* pShaderBuffer );
 	virtual void				DestroyPixelShader( PixelShaderHandle_t hShader );
-	virtual VertexShader_t		CreateVertexShader( const char *pVertexShaderFile, int nStaticVshIndex = 0, char *debugLabel = NULL );
-	virtual PixelShader_t		CreatePixelShader( const char *pPixelShaderFile, int nStaticPshIndex = 0, char *debugLabel = NULL );
+	virtual VertexShader_t		CreateVertexShader( const char *pVertexShaderFile, int nStaticVshIndex = 0, char *debugLabel = nullptr);
+	virtual PixelShader_t		CreatePixelShader( const char *pPixelShaderFile, int nStaticPshIndex = 0, char *debugLabel = nullptr);
 	virtual void				SetVertexShader( VertexShader_t shader );
 	virtual void				SetPixelShader( PixelShader_t shader );
 	virtual void				BindVertexShader( VertexShaderHandle_t shader );
@@ -590,7 +590,7 @@ public:
 	const char					*GetActiveVertexShaderName();
 	const char					*GetActivePixelShaderName();
 	bool						CreateDynamicCombos_Ver4( void *pContext, uint8 *pComboBuffer );
-	bool						CreateDynamicCombos_Ver5( void *pContext, uint8 *pComboBuffer, char *debugLabel = NULL );
+	bool						CreateDynamicCombos_Ver5( void *pContext, uint8 *pComboBuffer, char *debugLabel = nullptr);
 
 	static void					QueuedLoaderCallback( void *pContext, void *pContext2, const void *pData, int nSize, LoaderError_t loaderError );
 
@@ -649,10 +649,10 @@ private:
 			m_Flags = 0;
 			m_nRefCount = 0;
 			m_ShaderStaticCombos.m_nCount = 0;
-			m_ShaderStaticCombos.m_pHardwareShaders = 0;
-			m_ShaderStaticCombos.m_pCreationData = 0;
+			m_ShaderStaticCombos.m_pHardwareShaders = nullptr;
+			m_ShaderStaticCombos.m_pCreationData = nullptr;
 			m_ShaderStaticCombos.m_nNumDynamicCombosAfterSkips = 0;
-			m_pComboDictionary = NULL;
+			m_pComboDictionary = nullptr;
 		}
 		void IncRefCount()
 		{
@@ -734,7 +734,7 @@ private:
 	// Destroy a particular pixel shader
 	void					DestroyPixelShader( PixelShader_t shader );
 
-	bool					LoadAndCreateShaders( ShaderLookup_t &lookup, bool bVertexShader, char *debugLabel = NULL );
+	bool					LoadAndCreateShaders( ShaderLookup_t &lookup, bool bVertexShader, char *debugLabel = nullptr);
 	bool					DoesShaderCRCMatchSourceCode( const char *pFileName, uint32 crc32, uint32 &sourceCRC );
 	FileHandle_t			OpenFileAndLoadHeader( const char *pFileName, ShaderHeader_t *pHeader );
 
@@ -1012,8 +1012,8 @@ IShaderBuffer *CShaderManager::CompileShader( const char *pProgram, size_t nBufL
 
 	LPD3DXBUFFER pCompiledShader, pErrorMessages;
 	HRESULT hr = D3DXCompileShader( pProgram, nBufLen,
-		NULL, NULL, "main", pShaderVersion, nCompileFlags, 
-		&pCompiledShader, &pErrorMessages, NULL );
+	                                nullptr, nullptr, "main", pShaderVersion, nCompileFlags, 
+		&pCompiledShader, &pErrorMessages, nullptr);
 
 	if ( FAILED( hr ) )
 	{
@@ -1023,7 +1023,7 @@ IShaderBuffer *CShaderManager::CompileShader( const char *pProgram, size_t nBufL
 			DevWarning( "Shader compilation failed! Reported the following errors:\n%s\n", pErrorMessage );
 			pErrorMessages->Release();
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	// NOTE: This uses small block heap allocator; so I'm not going
@@ -1049,12 +1049,12 @@ IShaderBuffer *CShaderManager::CompileShader( const char *pProgram, size_t nBufL
 VertexShaderHandle_t CShaderManager::CreateVertexShader( IShaderBuffer* pShaderBuffer )
 {
 	// Create the vertex shader
-	IDirect3DVertexShader9 *pVertexShader = NULL;
+	IDirect3DVertexShader9 *pVertexShader = nullptr;
 
 #ifdef _X360
 	HRESULT hr = Dx9Device()->CreateVertexShader( (const DWORD*)pShaderBuffer->GetBits(), &pVertexShader );
 #else
-	HRESULT hr = Dx9Device()->CreateVertexShader( (const DWORD*)pShaderBuffer->GetBits(), &pVertexShader, NULL );
+	HRESULT hr = Dx9Device()->CreateVertexShader( (const DWORD*)pShaderBuffer->GetBits(), &pVertexShader, nullptr);
 #endif
 
 	if ( FAILED( hr ) || !pVertexShader )
@@ -1085,11 +1085,11 @@ void CShaderManager::DestroyVertexShader( VertexShaderHandle_t hShader )
 PixelShaderHandle_t CShaderManager::CreatePixelShader( IShaderBuffer* pShaderBuffer )
 {
 	// Create the vertex shader
-	IDirect3DPixelShader9 *pPixelShader = NULL;
+	IDirect3DPixelShader9 *pPixelShader = nullptr;
 #if defined(_X360)
 	HRESULT hr = Dx9Device()->CreatePixelShader( (const DWORD*)pShaderBuffer->GetBits(), &pPixelShader );
 #else
-	HRESULT hr = Dx9Device()->CreatePixelShader( (const DWORD*)pShaderBuffer->GetBits(), &pPixelShader, NULL );
+	HRESULT hr = Dx9Device()->CreatePixelShader( (const DWORD*)pShaderBuffer->GetBits(), &pPixelShader, nullptr);
 #endif
 
 	if ( FAILED( hr ) || !pPixelShader )
@@ -1151,7 +1151,7 @@ void CShaderManager::CreateStaticShaders()
 #if defined(_X360)
 		Dx9Device()->CreatePixelShader( psIllegalMaterial, ( IDirect3DPixelShader9 ** )&s_pIllegalMaterialPS );
 #else
-		Dx9Device()->CreatePixelShader( psIllegalMaterial, ( IDirect3DPixelShader9 ** )&s_pIllegalMaterialPS, NULL );
+		Dx9Device()->CreatePixelShader( psIllegalMaterial, ( IDirect3DPixelShader9 ** )&s_pIllegalMaterialPS, nullptr);
 #endif
 	}
 }
@@ -2727,8 +2727,8 @@ bool CShaderManager::CreateDynamicCombos_Ver4( void *pContext, uint8 *pComboBuff
 
 	int nReferenceComboSizeForDiffs = ((ShaderHeader_t_v4 *)pHeader)->m_nDiffReferenceSize;
 
-	uint8 *pReferenceShader = NULL;
-	uint8 *pDiffOutputBuffer = NULL;
+	uint8 *pReferenceShader = nullptr;
+	uint8 *pDiffOutputBuffer = nullptr;
 	if ( nReferenceComboSizeForDiffs )
 	{
 		// reference combo is *always* the largest combo, so safe worst case size for uncompression buffer
@@ -2821,7 +2821,7 @@ bool CShaderManager::CreateDynamicCombos_Ver4( void *pContext, uint8 *pComboBuff
 	}
 
 	delete [] pLookup->m_pComboDictionary;
-	pLookup->m_pComboDictionary = NULL;
+	pLookup->m_pComboDictionary = nullptr;
 
 	return bOK;
 }
@@ -3230,7 +3230,7 @@ bool CShaderManager::LoadAndCreateShaders( ShaderLookup_t &lookup, bool bVertexS
 		lookup.m_nVcsCrc32 = pHeader->m_nSourceCRC32;
 #endif
 		// using cached header, just open file, no read of header needed
-		hFile = OpenFileAndLoadHeader( m_ShaderSymbolTable.String( pFileCache->m_Filename ), NULL );
+		hFile = OpenFileAndLoadHeader( m_ShaderSymbolTable.String( pFileCache->m_Filename ), nullptr);
 		if ( hFile == FILESYSTEM_INVALID_HANDLE )
 		{
 			// shouldn't happen
@@ -4107,7 +4107,7 @@ void CShaderManager::SetVertexShader( VertexShader_t shader )
 	// Determine which vertex shader to use...
 	if ( shader == INVALID_SHADER )
 	{
-		SetVertexShaderState( 0 );
+		SetVertexShaderState( nullptr );
 		return;
 	}
 
@@ -4245,7 +4245,7 @@ void CShaderManager::SetPixelShader( PixelShader_t shader )
 
 	if ( shader == INVALID_SHADER )
 	{
-		SetPixelShaderState( 0 );
+		SetPixelShaderState( nullptr );
 		return;
 	}
 
@@ -4254,7 +4254,7 @@ void CShaderManager::SetPixelShader( PixelShader_t shader )
 	ShaderLookup_t &pshLookup = m_PixelShaderDict[shader];
 	if ( pshIndex > pshLookup.m_ShaderStaticCombos.m_nCount )
 	{
-		SetPixelShaderState( 0 );
+		SetPixelShaderState( nullptr );
 		DevWarning( "***** Invalid pixel shader index (out of range) for %s (%d of %d).\n", m_ShaderSymbolTable.String( pshLookup.m_Name ), pshIndex, pshLookup.m_ShaderStaticCombos.m_nCount );
 		Assert( 0 );
 		return;
@@ -4376,12 +4376,12 @@ void CShaderManager::DestroyVertexShader( VertexShader_t shader )
 		}
 	}
 	delete [] combos.m_pHardwareShaders;
-	combos.m_pHardwareShaders = NULL;
+	combos.m_pHardwareShaders = nullptr;
 
-	if ( combos.m_pCreationData != NULL )
+	if ( combos.m_pCreationData != nullptr)
 	{
 		delete [] combos.m_pCreationData;
-		combos.m_pCreationData = NULL;
+		combos.m_pCreationData = nullptr;
 	}
 
 	m_VertexShaderDict.Remove( shader );
@@ -4408,12 +4408,12 @@ void CShaderManager::DestroyPixelShader( PixelShader_t pixelShader )
 		}
 	}
 	delete [] combos.m_pHardwareShaders;
-	combos.m_pHardwareShaders = NULL;
+	combos.m_pHardwareShaders = nullptr;
 
-	if ( combos.m_pCreationData != NULL )
+	if ( combos.m_pCreationData != nullptr)
 	{
 		delete [] combos.m_pCreationData;
-		combos.m_pCreationData = NULL;
+		combos.m_pCreationData = nullptr;
 	}
 
 	m_PixelShaderDict.Remove( pixelShader );

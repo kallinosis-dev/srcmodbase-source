@@ -60,7 +60,7 @@ IMaterial* CStudioRender::R_StudioSetupSkinAndLighting( IMatRenderContext *pRend
 	void /*IClientRenderable*/ *pClientRenderable, ColorMeshInfo_t *pColorMeshes, StudioModelLighting_t &lighting )
 {
 	VPROF( "R_StudioSetupSkin" );
-	IMaterial *pMaterial = NULL;
+	IMaterial *pMaterial = nullptr;
 	bool bCheckForConVarDrawTranslucentSubModels = false;
 	bool translucent;
 	if( m_pRC->m_Config.bWireframe && !m_pRC->m_pForcedMaterial[ 0 ] )
@@ -111,7 +111,7 @@ IMaterial* CStudioRender::R_StudioSetupSkinAndLighting( IMatRenderContext *pRend
 			if ( !pMaterial )
 			{
 				Assert( 0 );
-				return 0;
+				return nullptr;
 			}
 
 			translucent = pMaterial->IsTranslucentUnderModulation( m_pRC->m_AlphaMod );
@@ -137,12 +137,12 @@ IMaterial* CStudioRender::R_StudioSetupSkinAndLighting( IMatRenderContext *pRend
 					}
 					else
 					{
-						pOriginalMaterialVar->SetMaterialValue( NULL );
+						pOriginalMaterialVar->SetMaterialValue(nullptr);
 					}
 				}
 				else
 				{
-					pOriginalMaterialVar->SetMaterialValue( NULL );
+					pOriginalMaterialVar->SetMaterialValue(nullptr);
 				}
 				translucent = pMaterial->IsTranslucentUnderModulation( m_pRC->m_AlphaMod );
 			}
@@ -150,7 +150,7 @@ IMaterial* CStudioRender::R_StudioSetupSkinAndLighting( IMatRenderContext *pRend
 			{
 				// Bail if the material is still considered translucent after setting the AlphaModulate to 1.0
 				if ( ppMaterials[index]->IsTranslucentUnderModulation() )
-					return NULL;
+					return nullptr;
 
 				bool bIsAlphaTested = false;
 				bool bUsesTreeSway = false;
@@ -180,7 +180,7 @@ IMaterial* CStudioRender::R_StudioSetupSkinAndLighting( IMatRenderContext *pRend
 	if ( lighting == LIGHTING_MOUTH )
 	{
 		if ( !m_pRC->m_Config.bTeeth || !R_TeethAreVisible() )
-			return NULL;
+			return nullptr;
 		// skin it and light it, but only if we need to.
 		if ( m_pRC->m_Config.m_bSupportsVertexAndPixelShaders )
 		{
@@ -196,7 +196,7 @@ IMaterial* CStudioRender::R_StudioSetupSkinAndLighting( IMatRenderContext *pRend
 			( !m_bDrawTranslucentSubModels && translucent ))
 		{
 			m_bSkippedMeshes = true;
-			return NULL;
+			return nullptr;
 		}
 	}
 

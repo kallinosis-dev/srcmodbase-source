@@ -60,9 +60,9 @@ public:
 	bool LoadVertices( CDmeDag *pDmeDag, CDmeVertexData *pBindState, const matrix3x4_t& mat, float flScale, int nBoneAssign, int *pBoneRemap, int nStartingUniqueCount );
 	bool LoadMesh( CDmeDag *pDmeDag, CDmeMesh *pMesh, CDmeVertexData *pBindState, const matrix3x4_t& mat, float flScale,
 					 int nBoneAssign, int *pBoneRemap );
-	bool LoadMesh( CDmeMesh *pMesh, CDmeDag *pDag, const matrix3x4_t &dagToBindPose = g_MatrixIdentity, float flScale = 1.0f, int nBoneAssign = -1, int *pBoneRemap = NULL, const CUtlVector< CUtlString > *pDeltaNames = NULL );
+	bool LoadMesh( CDmeMesh *pMesh, CDmeDag *pDag, const matrix3x4_t &dagToBindPose = g_MatrixIdentity, float flScale = 1.0f, int nBoneAssign = -1, int *pBoneRemap = nullptr, const CUtlVector< CUtlString > *pDeltaNames = nullptr);
 	bool LoadMeshes( const LoadMeshInfo_t &info, CDmeDag *pDag, const matrix3x4_t &parentToBindPose, int nBoneAssign );
-	bool LoadMeshes( CDmeModel *pModel, float flScale, int *pBoneRemap = NULL );
+	bool LoadMeshes( CDmeModel *pModel, float flScale, int *pBoneRemap = nullptr);
 	bool LoadMaterialGroups( CDmeMaterialGroupList *pMaterialGroupList );
 	bool LoadDMX( const char *pDMXFile );
 	CUtlVector<CMesh*> &GetOutputMeshes() { return m_outputMeshes; }
@@ -158,7 +158,7 @@ bool ConvertMeshFromDMX( CMesh *pMeshOut, CDmeMesh *pDmeMesh )
 	pDmeDag->GetShapeToWorldTransform( mShapeToWorld );
 
 	CDMXLoader dmxLoader;
-	if ( dmxLoader.LoadMesh( pDmeDag, pDmeMesh, pDmeBindBaseState, mShapeToWorld, 1.0f, 0, NULL ) )
+	if ( dmxLoader.LoadMesh( pDmeDag, pDmeMesh, pDmeBindBaseState, mShapeToWorld, 1.0f, 0, nullptr) )
 	{
 		CUtlVector< CMesh * > &outputMeshes = dmxLoader.GetOutputMeshes();
 		if ( outputMeshes.Count() <= 0 )
@@ -429,11 +429,11 @@ bool CDMXLoader::LoadDMX( const char *pDMXFile )
 	// When reading, keep the CRLF; this will make ReadFile read it in binary format
 	// and also append a couple 0s to the end of the buffer.
 	CDmElement *pRoot;
-	if ( g_pDataModel->RestoreFromFile( pDMXFile, NULL, NULL, &pRoot ) == DMFILEID_INVALID )
+	if ( g_pDataModel->RestoreFromFile( pDMXFile, nullptr, nullptr, &pRoot ) == DMFILEID_INVALID )
 		return false;
 
 	CDmeModel *pModel = pRoot->GetValueElement< CDmeModel >( "model" );
-	if ( !LoadMeshes( pModel, 1.0f, NULL ) )
+	if ( !LoadMeshes( pModel, 1.0f, nullptr) )
 			return false;
 
 	fileId = pRoot->GetFileId();

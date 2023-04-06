@@ -15,7 +15,7 @@ class CMapErrorsDlg : public CDialog
 {
 // Construction
 public:
-	CMapErrorsDlg(CWnd* pParent = NULL);   // standard constructor
+	CMapErrorsDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CMapErrorsDlg)

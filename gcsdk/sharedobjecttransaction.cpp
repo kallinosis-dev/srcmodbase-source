@@ -270,7 +270,7 @@ namespace GCSDK
 				return info.m_pObject;
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	//-----------------------------------------------------------------------------
@@ -294,7 +294,7 @@ namespace GCSDK
 			return "error(s) building transaction";
 
 		// Nothing wrong so far.
-		return NULL;
+		return nullptr;
 	}
 
 	//-----------------------------------------------------------------------------
@@ -522,7 +522,7 @@ namespace GCSDK
 				return &vec[i];
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	bool CSharedObjectTransaction::AssertValidInput( const CGCSharedObjectCache *pSOCache, const CSharedObject *pObject, const char *pszContext )
@@ -531,7 +531,7 @@ namespace GCSDK
 
 		Assert( pSOCache );
 		Assert( pObject );
-		if ( pSOCache == NULL || pObject == NULL )
+		if ( pSOCache == nullptr || pObject == nullptr)
 		{
 			SetError( CFmtStr( "%s: attempt to manipulate invalid SO cache %s, object %s", pszContext, pSOCache ? pSOCache->GetOwner().Render() : "[none]", pObject ? pObject->GetDebugString().String() : "[none]" ) );
 			return false;
@@ -545,7 +545,7 @@ namespace GCSDK
 			return false;
 		}
 
-		return pSOCache != NULL && pObject != NULL && bSOCachedLocked;
+		return pSOCache != nullptr && pObject != nullptr && bSOCachedLocked;
 	}
 
 	void CSharedObjectTransaction::AddManagedObject( CGCSharedObjectCache *pSOCache, CSharedObject *pObject )
@@ -559,7 +559,7 @@ namespace GCSDK
 		if ( FindObjectInVector( pObject, m_vecObjects_Added ) || FindObjectInVector( pObject, m_vecObjects_Modified ) )
 			return;
 
-		undoinfo_t info = { pObject, pSOCache, NULL };
+		undoinfo_t info = { pObject, pSOCache, nullptr};
 		info.pOriginalCopy = CSharedObject::Create( pObject->GetTypeID() );
 		info.pOriginalCopy->Copy( *pObject );
 		m_vecObjects_Modified.AddToTail( info );
@@ -573,7 +573,7 @@ namespace GCSDK
 		if ( FindObjectInVector( pObject, m_vecObjects_Added ) )
 			return;
 
-		undoinfo_t info = { pObject, pSOCache, NULL };
+		undoinfo_t info = { pObject, pSOCache, nullptr};
 		m_vecObjects_Added.AddToTail( info );
 	}
 
@@ -604,7 +604,7 @@ namespace GCSDK
 
 		// @note Tom Bui: the act of removing an item may change the object, so to roll that back,
 		// we need the original version
-		undoinfo_t info = { pObject, pSOCache, NULL };
+		undoinfo_t info = { pObject, pSOCache, nullptr};
 		info.pOriginalCopy = CSharedObject::Create( pObject->GetTypeID() );
 		info.pOriginalCopy->Copy( *pObject );
 		m_vecObjects_Removed.AddToTail( info );
@@ -665,7 +665,7 @@ namespace GCSDK
 				return info.pObject;
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	void CSharedObjectTransaction::Rollback()

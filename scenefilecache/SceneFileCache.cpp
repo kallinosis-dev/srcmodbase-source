@@ -16,7 +16,7 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-IFileSystem	*filesystem = NULL;
+IFileSystem	*filesystem = nullptr;
 																				
 bool IsBufferBinaryVCD( char *pBuffer, int bufferSize )
 {	
@@ -61,7 +61,7 @@ private:
 
 bool CSceneFileCache::Connect( CreateInterfaceFn factory )
 {
-	if ( (filesystem = (IFileSystem *)factory( FILESYSTEM_INTERFACE_VERSION,NULL )) == NULL )
+	if ( (filesystem = (IFileSystem *)factory( FILESYSTEM_INTERFACE_VERSION, nullptr)) == nullptr)
 	{
 		return false;
 	}
@@ -135,7 +135,7 @@ size_t CSceneFileCache::GetSceneBufferSize( char const *pFilename )
 	Q_FixSlashes( fn );
 	Q_strlower( fn );
 
-	GetSceneDataFromImage( pFilename, FindSceneInImage( fn ), NULL, &returnSize );
+	GetSceneDataFromImage( pFilename, FindSceneInImage( fn ), nullptr, &returnSize );
 	return returnSize;
 }
 
@@ -207,7 +207,7 @@ const char *CSceneFileCache::GetSceneString( short stringId )
 	if ( !pHeader || stringId < 0 || stringId >= pHeader->nNumStrings )
 	{
 		// huh?, image file not present, or index bad
-		return NULL;
+		return nullptr;
 	}
 
 	return pHeader->String( stringId );

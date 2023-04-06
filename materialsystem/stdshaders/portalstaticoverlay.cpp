@@ -39,7 +39,7 @@ SHADER_INIT_PARAMS()
 
 SHADER_FALLBACK
 {
-	return 0;
+	return nullptr;
 }
 
 SHADER_INIT
@@ -142,7 +142,7 @@ SHADER_DRAW
 		{
 			fmt |= VERTEX_TANGENT_S | VERTEX_TANGENT_T;
 		}
-		pShaderShadow->VertexShaderVertexFormat( fmt, 1, NULL, userDataSize );
+		pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, userDataSize );
 
 		DECLARE_STATIC_VERTEX_SHADER( portalstaticoverlay_vs20 );
 		SET_STATIC_VERTEX_SHADER_COMBO( MODEL,  bIsModel );

@@ -57,7 +57,7 @@ void DrawPrototype( CBaseVSShader *pShader, IMaterialVar** params, IShaderDynami
 
 		int nTexCoordCount = 1;
 		int userDataSize = 0;
-		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 		bool bFlattenStaticControlFlow = !g_pHardwareConfig->SupportsStaticControlFlow();
 

@@ -39,9 +39,9 @@ public:
   BOOL SetUserPointer(INT key,SQUserPointer up);
   SQUserPointer GetUserPointer(INT key);
 
-  BOOL NewUserData(const SQChar * key,INT size,SQUserPointer * typetag=0);
-  BOOL GetUserData(const SQChar * key,SQUserPointer * data,SQUserPointer * typetag=0);
-  BOOL RawGetUserData(const SQChar * key,SQUserPointer * data,SQUserPointer * typetag=0);
+  BOOL NewUserData(const SQChar * key,INT size,SQUserPointer * typetag=nullptr);
+  BOOL GetUserData(const SQChar * key,SQUserPointer * data,SQUserPointer * typetag=nullptr);
+  BOOL RawGetUserData(const SQChar * key,SQUserPointer * data,SQUserPointer * typetag=nullptr);
 
   // === BEGIN Arrays ===
 
@@ -79,7 +79,7 @@ public:
 	INT GetInt(INT key) const;
 	const SQChar *GetString(INT key) const;
 	bool GetBool(INT key) const;
-	SquirrelObject GetAttributes(const SQChar *key = NULL);
+	SquirrelObject GetAttributes(const SQChar *key = nullptr);
 	SQObjectType GetType();
 	HSQOBJECT & GetObjectHandle(){return _o;}
 	BOOL BeginIteration();
@@ -151,7 +151,7 @@ struct StackHandler {
 	}
 	const SQChar *GetString(int idx)
 	{
-    const SQChar *x = NULL;
+    const SQChar *x = nullptr;
 		if(idx > 0 && idx <= _top) {
 			sq_getstring(v,idx,&x);
 		}

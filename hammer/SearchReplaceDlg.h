@@ -32,8 +32,8 @@ class CSearchReplaceDlg : public CDialog
 {
 // Construction
 public:
-	CSearchReplaceDlg(CWnd* pParent = NULL);   // standard constructor
-	int Create(CWnd *pwndParent = NULL);
+	CSearchReplaceDlg(CWnd* pParent = nullptr);   // standard constructor
+	int Create(CWnd *pwndParent = nullptr);
 
 // Dialog Data
 	//{{AFX_DATA(CSearchReplaceDlg)

@@ -240,7 +240,7 @@ CPlayerInventory *CInventoryManager::GetInventoryForAccount( uint32 iAccountID )
 		if ( GetSteamIDFromSOID( pInventory->GetOwner() ).GetAccountID() == iAccountID )
 			return m_pInventories[i].pInventory;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1148,7 +1148,7 @@ CPlayerInventory::CPlayerInventory( void )
 	m_bGotItemsFromSteamAtLeastOnce = false;
 	m_bCurrentlySubscribedToSteam = false;
 	
-	m_pSOCache = NULL;
+	m_pSOCache = nullptr;
 	m_nTargetRecipe = -1;
 }
 
@@ -1184,7 +1184,7 @@ void CPlayerInventory::SOClear()
 	// and that should have cleared the pointer
 	// [ when we unsubscribe we no longer remove all references, so the assert is no longer valid ]
 	// Assert( m_pSOCache == NULL);
-	m_pSOCache = NULL;
+	m_pSOCache = nullptr;
 	m_Items.Purge();
 	m_aDefaultEquippedDefinitionItems.PurgeAndDeleteElements();
 }
@@ -1315,7 +1315,7 @@ void CPlayerInventory::SOCreated( SOID_t owner, const GCSDK::CSharedObject *pObj
 		return;
 
 	// We shouldn't get these notifications unless we're subscribed, right?
-	if ( m_pSOCache == NULL)
+	if ( m_pSOCache == nullptr)
 	{
 		Assert( m_pSOCache );
 		return;
@@ -1379,7 +1379,7 @@ void CPlayerInventory::SOUpdated( SOID_t owner, const GCSDK::CSharedObject *pObj
 		return;
 
 	// We shouldn't get these notifications unless we're subscribed, right?
-	if ( m_pSOCache == NULL)
+	if ( m_pSOCache == nullptr)
 	{
 		Assert( m_pSOCache );
 		return;
@@ -1487,7 +1487,7 @@ void CPlayerInventory::SODestroyed( SOID_t owner, const GCSDK::CSharedObject *pO
 		return;
 
 	// We shouldn't get these notifications unless we're subscribed, right?
-	if ( m_pSOCache == NULL)
+	if ( m_pSOCache == nullptr)
 	{
 		Assert( m_pSOCache );
 		return;
@@ -1738,10 +1738,10 @@ CEconItemView *CPlayerInventory::GetInventoryItemByItemID( itemid_t iIndex ) con
 {
 	// Early out for weapon ID 0
 	if ( iIndex == 0 )
-		return NULL;
+		return nullptr;
 
 	ItemIdToItemMap_t::IndexType_t idx  = m_Items.GetItemMap().Find( iIndex );
-	return m_Items.GetItemMap().IsValidIndex( idx ) ? m_Items.GetItemMap()[ idx ] : NULL;
+	return m_Items.GetItemMap().IsValidIndex( idx ) ? m_Items.GetItemMap()[ idx ] : nullptr;
 	/*
 	int iCount = m_aInventoryItems.Count();
 	for ( int i = 0; i < iCount; i++ )
@@ -1791,7 +1791,7 @@ CEconItemView *CPlayerInventory::GetItemByPosition( int iPosition, int *pIndex )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1815,9 +1815,9 @@ int	CPlayerInventory::GetIndexForItem( CEconItemView *pItem )
 CEconItem *CPlayerInventory::GetSOCDataForItem( itemid_t iItemID ) 
 {
 	if ( iItemID == 0 )
-		return NULL;
+		return nullptr;
 
-	CEconItem* pData = NULL;
+	CEconItem* pData = nullptr;
 	if ( !m_pSOCache )
 	{
 		pData = GetEconItemFromStringTable( iItemID );
@@ -1843,9 +1843,9 @@ CEconItem *CPlayerInventory::GetSOCDataForItem( itemid_t iItemID )
 const CEconItem *CPlayerInventory::GetSOCDataForItem( itemid_t iItemID ) const
 { 
 	if ( iItemID == 0 )
-		return NULL;
+		return nullptr;
 
-	CEconItem* pData = NULL;
+	CEconItem* pData = nullptr;
 	if ( !m_pSOCache )
 	{
 		pData = GetEconItemFromStringTable( iItemID );
@@ -1915,7 +1915,7 @@ CEconItemView* CPlayerInventory::FindDefaultEquippedDefinitionItemBySlot( int iC
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool CPlayerInventory::GetDefaultEquippedDefinitionItemSlotByDefinitionIndex( item_definition_index_t nDefIndex, int nClass, int &nSlot )
@@ -1988,10 +1988,10 @@ int CPlayerInventory::GetRecipeCount() const
 const CEconCraftingRecipeDefinition *CPlayerInventory::GetRecipeDef( int iIndex ) const
 {
 	if ( !m_pSOCache )
-		return NULL;
+		return nullptr;
 
 	if ( iIndex < 0 || iIndex >= GetRecipeCount() )
-		return NULL;
+		return nullptr;
 
 	const CUtlMap<int, CEconCraftingRecipeDefinition *, int, CDefLess<int> >& mapRecipes = ItemSystem()->GetItemSchema()->GetRecipeDefinitionMap();
 
@@ -2006,7 +2006,7 @@ const CEconCraftingRecipeDefinition *CPlayerInventory::GetRecipeDef( int iIndex 
 		j++;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -2015,7 +2015,7 @@ const CEconCraftingRecipeDefinition *CPlayerInventory::GetRecipeDef( int iIndex 
 const CEconCraftingRecipeDefinition *CPlayerInventory::GetRecipeDefByDefIndex( uint16 iDefIndex ) const
 {
 	if ( !m_pSOCache )
-		return NULL;
+		return nullptr;
 
 	// check always-known recipes
 	const CUtlMap<int, CEconCraftingRecipeDefinition *, int, CDefLess<int> >& mapRecipes = ItemSystem()->GetItemSchema()->GetRecipeDefinitionMap();
@@ -2023,7 +2023,7 @@ const CEconCraftingRecipeDefinition *CPlayerInventory::GetRecipeDefByDefIndex( u
 	if ( i != mapRecipes.InvalidIndex() )
 		return mapRecipes[i];
 
-	return NULL;
+	return nullptr;
 }
 
 int CPlayerInventory::GetMaxCraftIngredientsNeeded( const CUtlVector< itemid_t >& vecCraftItems ) const
@@ -2141,7 +2141,7 @@ void CPlayerInventory::GetMarketCraftCompletionLink( const CUtlVector< itemid_t 
 			{
 				const CItemSelectionCriteria *pOutput = &((*pOutputItems)[ nOutput ]);
 
-				if ( pOutput->GetValueForFirstConditionOfFieldName( "*match_set_rarity" ) == NULL )
+				if ( pOutput->GetValueForFirstConditionOfFieldName( "*match_set_rarity" ) == nullptr)
 				{
 					bMatchCollection = false;
 				}
@@ -2254,7 +2254,7 @@ const CEconCraftingRecipeDefinition *CPlayerInventory::GetPossibleCraftResult( c
 	if ( m_nTargetRecipe >= 0 )
 	{
 		if ( nIndex > 0 )
-			return NULL;
+			return nullptr;
 
 		return GetRecipeDef( m_nTargetRecipe );
 	}
@@ -2297,7 +2297,7 @@ const CEconCraftingRecipeDefinition *CPlayerInventory::GetPossibleCraftResult( c
 		nPossibleRecipes++;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 int CPlayerInventory::GetPossibleCraftResultID( const CUtlVector< itemid_t >& vecCraftItems, int nIndex ) const
@@ -2329,7 +2329,7 @@ const wchar_t* CPlayerInventory::GetPossibleCraftResultDescription( const CUtlVe
 
 bool CPlayerInventory::CanAddToCraftTarget( const CUtlVector< itemid_t >& vecCraftItems, itemid_t nNewItem ) const
 {
-	const CEconCraftingRecipeDefinition *pRecipe = NULL;
+	const CEconCraftingRecipeDefinition *pRecipe = nullptr;
 
 	if ( m_nTargetRecipe < 0 )
 	{

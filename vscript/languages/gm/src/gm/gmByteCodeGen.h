@@ -19,10 +19,10 @@
 class gmByteCodeGen : public gmStreamBufferDynamic
 {
 public:
-  gmByteCodeGen(void * a_context = NULL);
+  gmByteCodeGen(void * a_context = nullptr);
   virtual ~gmByteCodeGen() {}
 
-  void Reset(void * a_context = NULL);
+  void Reset(void * a_context = nullptr);
 
   bool Emit(gmByteCode a_instruction);
   bool Emit(gmByteCode a_instruction, gmuint32 a_operand32);

@@ -131,7 +131,7 @@ struct audio_device_init_params_t
 		m_bOverrideSpeakerConfig = false;
 		m_nOverrideSpeakerConfig = 0;
 		m_bPlayEvenWhenNotInFocus = true;
-		m_pWindowHandle = NULL;
+		m_pWindowHandle = nullptr;
 	}
 };
 

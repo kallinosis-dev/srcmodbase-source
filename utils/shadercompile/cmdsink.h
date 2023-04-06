@@ -105,9 +105,9 @@ public:
 	virtual bool Succeeded( void ) { return false; }
 
 	virtual size_t GetResultBufferLen( void ) { return 0; }
-	virtual const void * GetResultBuffer( void ) { return NULL; }
+	virtual const void * GetResultBuffer( void ) { return nullptr; }
 
-	virtual const char * GetListing( void ) { return NULL; }
+	virtual const char * GetListing( void ) { return nullptr; }
 };
 
 

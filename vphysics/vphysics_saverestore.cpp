@@ -164,7 +164,7 @@ void CVPhysPtrSaveRestoreOps::Restore( const SaveRestoreFieldInfo_t &fieldInfo, 
 		}
 		else
 		{
-			*ppField = NULL;
+			*ppField = nullptr;
 		}
 
 		++ppField;
@@ -216,7 +216,7 @@ void CVPhysPtrUtlVectorSaveRestoreOps::Restore( const SaveRestoreFieldInfo_t &fi
 		}
 		else
 		{
-			*ppElem = NULL;
+			*ppElem = nullptr;
 		}
 	}
 }

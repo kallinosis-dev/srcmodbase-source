@@ -272,8 +272,8 @@ protected:
 //-----------------------------------------------------------------------------
 AdvancedCrosshairImagePanel::AdvancedCrosshairImagePanel( Panel *parent, const char *name ) : ImagePanel( parent, name )
 {
-	m_pAdvCrosshair = NULL;
-	m_pFrameVar = NULL;
+	m_pAdvCrosshair = nullptr;
+	m_pFrameVar = nullptr;
 
 	if ( ModInfo().AdvCrosshair() )
 	{
@@ -287,13 +287,13 @@ AdvancedCrosshairImagePanel::~AdvancedCrosshairImagePanel()
 	if ( m_pFrameVar )
 	{
 		delete m_pFrameVar;
-		m_pFrameVar = NULL;
+		m_pFrameVar = nullptr;
 	}
 
 	if ( m_pAdvCrosshair )
 	{
 		delete m_pAdvCrosshair;
-		m_pAdvCrosshair = NULL;
+		m_pAdvCrosshair = nullptr;
 	}
 }
 
@@ -317,7 +317,7 @@ void AdvancedCrosshairImagePanel::UpdateCrosshair( int r, int g, int b, float sc
 
 	Assert(m_pAdvCrosshair);
 
-	m_pFrameVar = m_pAdvCrosshair->FindVarFactory( "$frame", NULL );
+	m_pFrameVar = m_pAdvCrosshair->FindVarFactory( "$frame", nullptr);
 	m_nNumFrames = m_pAdvCrosshair->GetNumAnimationFrames();
 
 	m_flNextFrameChange = system()->GetFrameTime() + 0.2;
@@ -404,7 +404,7 @@ COptionsSubMultiplayer::COptionsSubMultiplayer(vgui::Panel *parent) : vgui::Prop
 	Button *importSprayImage = new Button( this, "ImportSprayImage", "#GameUI_ImportSprayEllipsis" );
 	importSprayImage->SetCommand("ImportSprayImage");
 
-	m_hImportSprayDialog = NULL;
+	m_hImportSprayDialog = nullptr;
 
 	m_pPrimaryColorSlider = new CCvarSlider( this, "Primary Color Slider", "#GameUI_PrimaryColor",
 		0.0f, 255.0f, "topcolor" );
@@ -422,7 +422,7 @@ COptionsSubMultiplayer::COptionsSubMultiplayer(vgui::Panel *parent) : vgui::Prop
     m_LogoName[0] = 0;
 	InitLogoList( m_pLogoList );
 
-	m_pModelImage = new CBitmapImagePanel( this, "ModelImage", NULL );
+	m_pModelImage = new CBitmapImagePanel( this, "ModelImage", nullptr);
 	m_pModelImage->AddActionSignalTarget( this );
 
 	m_pLogoImage = new ImagePanel( this, "LogoImage" );
@@ -466,9 +466,9 @@ COptionsSubMultiplayer::COptionsSubMultiplayer(vgui::Panel *parent) : vgui::Prop
 	//=========
 	
 	m_pDownloadFilterCombo = new ComboBox( this, "DownloadFilterCheck", 3, false );
-	m_pDownloadFilterCombo->AddItem( "#GameUI_DownloadFilter_ALL", NULL );
-	m_pDownloadFilterCombo->AddItem( "#GameUI_DownloadFilter_NoSounds", NULL );
-	m_pDownloadFilterCombo->AddItem( "#GameUI_DownloadFilter_None", NULL );
+	m_pDownloadFilterCombo->AddItem( "#GameUI_DownloadFilter_ALL", nullptr);
+	m_pDownloadFilterCombo->AddItem( "#GameUI_DownloadFilter_NoSounds", nullptr);
+	m_pDownloadFilterCombo->AddItem( "#GameUI_DownloadFilter_None", nullptr);
 
 	//=========
 
@@ -486,7 +486,7 @@ COptionsSubMultiplayer::COptionsSubMultiplayer(vgui::Panel *parent) : vgui::Prop
 		m_pCrosshairTranslucencyCheckbox->SetVisible( false );
 		m_pCrosshairImage->SetVisible( false );
 
-		Panel *pTempPanel = NULL;
+		Panel *pTempPanel = nullptr;
 
 		// #GameUI_CrosshairDescription (from "Resource/OptionsSubMultiplayer.res")
 		pTempPanel = FindChildByName( "CrosshairLabel" );
@@ -500,7 +500,7 @@ COptionsSubMultiplayer::COptionsSubMultiplayer(vgui::Panel *parent) : vgui::Prop
 	// turn off model selection stuff if the mod specifies "nomodels" in the gameinfo.txt file
 	if ( ModInfo().NoModels() )
 	{
-		Panel *pTempPanel = NULL;
+		Panel *pTempPanel = nullptr;
 
 		if ( m_pModelImage )
 		{
@@ -559,7 +559,7 @@ COptionsSubMultiplayer::COptionsSubMultiplayer(vgui::Panel *parent) : vgui::Prop
 		m_pAdvCrosshairScaleSlider->SetVisible( false );
 		m_pAdvCrosshairStyle->SetVisible( false );
 
-		Panel *pTempPanel = NULL;
+		Panel *pTempPanel = nullptr;
 
 		// #GameUI_AdvCrosshairDescription (from "Resource/OptionsSubMultiplayer.res")
 		pTempPanel = FindChildByName( "AdvCrosshairLabel" );
@@ -592,9 +592,9 @@ void COptionsSubMultiplayer::OnCommand( const char *command )
 	}
 	else if (!stricmp( command, "ImportSprayImage" ) )
 	{
-		if (m_hImportSprayDialog == NULL)
+		if (m_hImportSprayDialog == nullptr)
 		{
-			m_hImportSprayDialog = new FileOpenDialog(NULL, "#GameUI_ImportSprayImage", true);
+			m_hImportSprayDialog = new FileOpenDialog(nullptr, "#GameUI_ImportSprayImage", true);
 			m_hImportSprayDialog->AddFilter("*.tga,*.jpg,*.bmp,*.vtf", "#GameUI_All_Images", true);
 			m_hImportSprayDialog->AddFilter("*.tga", "#GameUI_TGA_Images", false);
 			m_hImportSprayDialog->AddFilter("*.jpg", "#GameUI_JPEG_Images", false);
@@ -612,7 +612,7 @@ void COptionsSubMultiplayer::OnCommand( const char *command )
 // file selected.  This can only happen when someone selects an image to be imported as a spray logo.
 void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 {
-	if ((fullpath == NULL) || (fullpath[0] == 0))
+	if ((fullpath == nullptr) || (fullpath[0] == 0))
 	{
 		return;
 	}
@@ -676,7 +676,7 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 			else
 			{
 				failed = true;
-				vgui::MessageBox *errorDialog = NULL;
+				vgui::MessageBox *errorDialog = nullptr;
 
 				if (errcode == CE_MEMORY_ERROR)
 				{
@@ -699,7 +699,7 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 					errorDialog = new vgui::MessageBox("#GameUI_Spray_Import_Error_Title", "#GameUI_Spray_Import_Image_Wrong_Size");
 				}
 
-				if (errorDialog != NULL)
+				if (errorDialog != nullptr)
 				{
 					errorDialog->DoModal();
 				}
@@ -717,7 +717,7 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 			else
 			{
 				failed = true;
-				vgui::MessageBox *errorDialog = NULL;
+				vgui::MessageBox *errorDialog = nullptr;
 
 				if (errcode == CE_MEMORY_ERROR)
 				{
@@ -740,7 +740,7 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 					errorDialog = new vgui::MessageBox("#GameUI_Spray_Import_Error_Title", "#GameUI_Spray_Import_Error_Writing_Temp_Output");
 				}
 
-				if (errorDialog != NULL)
+				if (errorDialog != nullptr)
 				{
 					errorDialog->DoModal();
 				}
@@ -760,7 +760,7 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 		if (errcode != CE_SUCCESS)
 		{
 			failed = true;
-			vgui::MessageBox *errorDialog = NULL;
+			vgui::MessageBox *errorDialog = nullptr;
 
 			if (errcode == CE_MEMORY_ERROR)
 			{
@@ -783,7 +783,7 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 				errorDialog = new vgui::MessageBox("#GameUI_Spray_Import_Error_Title", "#GameUI_Spray_Import_Error_Writing_Temp_Output");
 			}
 
-			if (errorDialog != NULL)
+			if (errorDialog != nullptr)
 			{
 				errorDialog->DoModal();
 			}
@@ -802,7 +802,7 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 			else
 			{
 				failed = true;
-				vgui::MessageBox *errorDialog = NULL;
+				vgui::MessageBox *errorDialog = nullptr;
 
 				if (errcode == CE_MEMORY_ERROR)
 				{
@@ -829,7 +829,7 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 					errorDialog = new vgui::MessageBox("#GameUI_Spray_Import_Error_Title", "#GameUI_Spray_Import_Error_Cant_Load_VTEX_DLL");
 				}
 
-				if (errorDialog != NULL)
+				if (errorDialog != nullptr)
 				{
 					errorDialog->DoModal();
 				}
@@ -994,7 +994,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertJPEGToTGA(const char *jpegpat
 
 	// open the jpeg image file.
 	FILE *infile = fopen(jpegpath, "rb");
-	if (infile == NULL)
+	if (infile == nullptr)
 	{
 		return CE_CANT_OPEN_SOURCE_FILE;
 	}
@@ -1051,7 +1051,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertJPEGToTGA(const char *jpegpat
 
 	// allocate the memory to read the image data into.
 	unsigned char *buf = (unsigned char *)malloc(mem_required);
-	if (buf == NULL)
+	if (buf == nullptr)
 	{
 		jpeg_destroy_decompress(&jpegInfo);
 		fclose(infile);
@@ -1087,7 +1087,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertJPEGToTGA(const char *jpegpat
 	bool bRetVal = TGAWriter::WriteToBuffer( buf, outBuf, image_width, image_height, IMAGE_FORMAT_RGB888, IMAGE_FORMAT_RGB888 );
 	if ( bRetVal )
 	{
-		if ( !g_pFullFileSystem->WriteFile( tgaPath, NULL, outBuf ) )
+		if ( !g_pFullFileSystem->WriteFile( tgaPath, nullptr, outBuf ) )
 		{
 			bRetVal = false;
 		}
@@ -1111,7 +1111,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertBMPToTGA(const char *bmpPath,
 #if defined( _OSX ) || defined (LINUX)
 	return CE_SOURCE_FILE_FORMAT_NOT_SUPPORTED;
 #else
-	HBITMAP hBitmap = (HBITMAP)LoadImage(NULL, bmpPath, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE | LR_DEFAULTSIZE);
+	HBITMAP hBitmap = (HBITMAP)LoadImage(nullptr, bmpPath, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE | LR_DEFAULTSIZE);
 	BITMAP bitmap;
 
 	GetObject(hBitmap, sizeof(bitmap), &bitmap);
@@ -1135,9 +1135,9 @@ ConversionErrorType COptionsSubMultiplayer::ConvertBMPToTGA(const char *bmpPath,
 		bitmapInfo->bmiHeader.biBitCount = bitmap.bmBitsPixel; // need to specify the bits per pixel so GDI will generate a color table for us.
 	}
 
-	HDC dc = CreateCompatibleDC(NULL);
+	HDC dc = CreateCompatibleDC(nullptr);
 
-	int retcode = GetDIBits(dc, hBitmap, 0, bitmap.bmHeight, NULL, bitmapInfo, DIB_RGB_COLORS);
+	int retcode = GetDIBits(dc, hBitmap, 0, bitmap.bmHeight, nullptr, bitmapInfo, DIB_RGB_COLORS);
 
 	DeleteDC(dc);
 
@@ -1151,7 +1151,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertBMPToTGA(const char *bmpPath,
 	int mem_required = 3 * bitmap.bmWidth * bitmap.bmHeight;  // mem required for copying the data out into RGB format.
 
 	unsigned char *buf = (unsigned char *)malloc(mem_required);
-	if (buf == NULL)
+	if (buf == nullptr)
 	{
 		free(bitmapInfo);
 		return CE_MEMORY_ERROR;
@@ -1260,7 +1260,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertBMPToTGA(const char *bmpPath,
 			x = 0;
 			while (x < bitmap.bmWidth)
 			{
-				RGBQUAD *rgbQuad = NULL;
+				RGBQUAD *rgbQuad = nullptr;
 				bitMask = 0x80;
 
 				// get the index into the bitmap data for the next 8 pixels.
@@ -1321,7 +1321,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertBMPToTGA(const char *bmpPath,
 	bool retval = TGAWriter::WriteToBuffer(buf, outBuf, bitmap.bmWidth, bitmap.bmHeight, IMAGE_FORMAT_RGB888, IMAGE_FORMAT_RGB888);
 	if ( retval )
 	{
-		if ( !g_pFullFileSystem->WriteFile( tgaPath, NULL, outBuf ) )
+		if ( !g_pFullFileSystem->WriteFile( tgaPath, nullptr, outBuf ) )
 		{
 			retval = false;
 		}
@@ -1334,7 +1334,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertBMPToTGA(const char *bmpPath,
 // read a TGA header from the current point in the file stream.
 static void ReadTGAHeader(FILE *infile, TGAHeader &header)
 {
-	if (infile == NULL)
+	if (infile == nullptr)
 	{
 		return;
 	}
@@ -1356,7 +1356,7 @@ static void ReadTGAHeader(FILE *infile, TGAHeader &header)
 // write a TGA header to the current point in the file stream.
 static void WriteTGAHeader(FILE *outfile, TGAHeader &header)
 {
-	if (outfile == NULL)
+	if (outfile == nullptr)
 	{
 		return;
 	}
@@ -1379,10 +1379,10 @@ static void WriteTGAHeader(FILE *outfile, TGAHeader &header)
 unsigned char * COptionsSubMultiplayer::ReadTGAAsRGBA(const char *tgaPath, int &width, int &height, ConversionErrorType &errcode, TGAHeader &tgaHeader )
 {
 	FILE *tgaFile = fopen(tgaPath, "rb");
-	if (tgaFile == NULL)
+	if (tgaFile == nullptr)
 	{
 		errcode = CE_CANT_OPEN_SOURCE_FILE;
-		return NULL;
+		return nullptr;
 	}
 
 	// read header for TGA file.
@@ -1394,17 +1394,17 @@ unsigned char * COptionsSubMultiplayer::ReadTGAAsRGBA(const char *tgaPath, int &
 		fclose(tgaFile);
 
 		errcode = CE_SOURCE_FILE_FORMAT_NOT_SUPPORTED;
-		return NULL;
+		return nullptr;
 	}
 
 	int tgaDataSize = tgaHeader.width * tgaHeader.height * tgaHeader.bits / 8;
 	unsigned char *tgaData = (unsigned char *)malloc(tgaDataSize);
-	if (tgaData == NULL)
+	if (tgaData == nullptr)
 	{
 		fclose(tgaFile);
 
 		errcode = CE_MEMORY_ERROR;
-		return NULL;
+		return nullptr;
 	}
 
 	fread(tgaData, 1, tgaDataSize, tgaFile);
@@ -1420,12 +1420,12 @@ unsigned char * COptionsSubMultiplayer::ReadTGAAsRGBA(const char *tgaPath, int &
 		int numPixels = tgaHeader.width * tgaHeader.height;
 
 		unsigned char *retBuf = (unsigned char *)malloc(numPixels * 4);
-		if (retBuf == NULL)
+		if (retBuf == nullptr)
 		{
 			free(tgaData);
 
 			errcode = CE_MEMORY_ERROR;
-			return NULL;
+			return nullptr;
 		}
 
 		// convert from RGB to RGBA color format.
@@ -1456,7 +1456,7 @@ unsigned char * COptionsSubMultiplayer::ReadTGAAsRGBA(const char *tgaPath, int &
 	free(tgaData);
 
 	errcode = CE_SOURCE_FILE_FORMAT_NOT_SUPPORTED;
-	return NULL;
+	return nullptr;
 }
 
 // resizes the file specified by tgaPath so that it has dimensions that are
@@ -1469,7 +1469,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertTGA(const char *tgaPath)
 	TGAHeader tgaHeader;
 	unsigned char *srcBuffer = ReadTGAAsRGBA(tgaPath, tgaWidth, tgaHeight, errcode, tgaHeader);
 
-	if (srcBuffer == NULL)
+	if (srcBuffer == nullptr)
 	{
 		return errcode;
 	}
@@ -1563,7 +1563,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertTGA(const char *tgaPath)
 	PadRGBAImage(resizeBuffer, finalWidth, finalHeight, finalBuffer, paddedImageWidth, paddedImageHeight);
 
 	FILE *outfile = fopen(tgaPath, "wb");
-	if (outfile == NULL)
+	if (outfile == nullptr)
 	{
 		free(resizeBuffer);
 		free(finalBuffer);
@@ -1591,7 +1591,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertTGA(const char *tgaPath)
 ConversionErrorType COptionsSubMultiplayer::StretchRGBAImage(const unsigned char *srcBuf, const int srcWidth, const int srcHeight,
 											  unsigned char *destBuf, const int destWidth, const int destHeight)
 {
-	if ((srcBuf == NULL) || (destBuf == NULL))
+	if ((srcBuf == nullptr) || (destBuf == nullptr))
 	{
 		return CE_CANT_OPEN_SOURCE_FILE;
 	}
@@ -1705,7 +1705,7 @@ ConversionErrorType COptionsSubMultiplayer::StretchRGBAImage(const unsigned char
 ConversionErrorType COptionsSubMultiplayer::PadRGBAImage(const unsigned char *srcBuf, const int srcWidth, const int srcHeight,
 										  unsigned char *destBuf, const int destWidth, const int destHeight)
 {
-	if ((srcBuf == NULL) || (destBuf == NULL))
+	if ((srcBuf == nullptr) || (destBuf == nullptr))
 	{
 		return CE_CANT_OPEN_SOURCE_FILE;
 	}
@@ -1752,7 +1752,7 @@ ConversionErrorType COptionsSubMultiplayer::PadRGBAImage(const unsigned char *sr
 ConversionErrorType COptionsSubMultiplayer::ConvertTGAToVTF(const char *tgaPath)
 {
 	FILE *infile = fopen(tgaPath, "rb");
-	if (infile == NULL)
+	if (infile == nullptr)
 	{
 		return CE_CANT_OPEN_SOURCE_FILE;
 	}
@@ -1787,20 +1787,20 @@ ConversionErrorType COptionsSubMultiplayer::ConvertTGAToVTF(const char *tgaPath)
 
 	// load vtex_dll.dll and get the interface to it.
 	CSysModule *vtexmod = Sys_LoadModule("vtex_dll");
-	if (vtexmod == NULL)
+	if (vtexmod == nullptr)
 	{
 		return CE_ERROR_LOADING_DLL;
 	}
 
 	CreateInterfaceFn factory = Sys_GetFactory(vtexmod);
-	if (factory == NULL)
+	if (factory == nullptr)
 	{
 		Sys_UnloadModule(vtexmod);
 		return CE_ERROR_LOADING_DLL;
 	}
 
-	IVTex *vtex = (IVTex *)factory(IVTEX_VERSION_STRING, NULL);
-	if (vtex == NULL)
+	IVTex *vtex = (IVTex *)factory(IVTEX_VERSION_STRING, nullptr);
+	if (vtex == nullptr)
 	{
 		Sys_UnloadModule(vtexmod);
 		return CE_ERROR_LOADING_DLL;
@@ -1825,7 +1825,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertTGAToVTF(const char *tgaPath)
 // write a VMT file for the spray VTF file at the given path.
 ConversionErrorType COptionsSubMultiplayer::WriteSprayVMT(const char *vtfPath)
 {
-	if (vtfPath == NULL)
+	if (vtfPath == nullptr)
 	{
 		return CE_ERROR_WRITING_OUTPUT_FILE;
 	}
@@ -1856,7 +1856,7 @@ ConversionErrorType COptionsSubMultiplayer::WriteSprayVMT(const char *vtfPath)
 
 	// create the vmt file.
 	FILE *vmtFile = fopen(vmtPath, "w");
-	if (vmtFile == NULL)
+	if (vmtFile == nullptr)
 	{
 		return CE_ERROR_WRITING_OUTPUT_FILE;
 	}
@@ -2074,7 +2074,7 @@ void COptionsSubMultiplayer::InitCrosshairColorEntries()
 		index = clamp( cl_crosshaircolor.GetInt(), 0, NumCrosshairColors );
 	}
 
-	if (m_pCrosshairColorComboBox != NULL)
+	if (m_pCrosshairColorComboBox != nullptr)
 	{
 		KeyValues *data = new KeyValues("data");
 
@@ -2103,7 +2103,7 @@ void COptionsSubMultiplayer::InitCrosshairColorEntries()
 //-----------------------------------------------------------------------------
 void COptionsSubMultiplayer::RedrawCrosshairImage()
 {
-	if (m_pCrosshairColorComboBox == NULL)
+	if (m_pCrosshairColorComboBox == nullptr)
 	{
 		return;
 	}
@@ -2117,7 +2117,7 @@ void COptionsSubMultiplayer::RedrawCrosshairImage()
 
 	int selectedVal = 0;
 	int actualVal = 0;
-	if (m_pCrosshairColorComboBox != NULL)
+	if (m_pCrosshairColorComboBox != nullptr)
 	{
 		selectedVal = m_pCrosshairColorComboBox->GetActiveItem();
 	}
@@ -2186,7 +2186,7 @@ void COptionsSubMultiplayer::RedrawAdvCrosshairImage()
 //-----------------------------------------------------------------------------
 void COptionsSubMultiplayer::InitCrosshairSizeList(CLabeledCommandComboBox *cb)
 {
-	if (cb == NULL)
+	if (cb == nullptr)
 	{
 		return;
 	}
@@ -2329,7 +2329,7 @@ void COptionsSubMultiplayer::RemapModel()
 {
 	const char *pModelName = m_pModelList->GetActiveItemCommand();
 	
-	if( pModelName == NULL )
+	if( pModelName == nullptr)
 		return;
 
 	char texture[ 256 ];
@@ -2521,9 +2521,9 @@ void COptionsSubMultiplayer::RemapPalette( char *filename, int topcolor, int bot
 
 	g_pFullFileSystem->Close(file);
 
-	g_pFullFileSystem->RemoveFile( outfile, NULL );
+	g_pFullFileSystem->RemoveFile( outfile, nullptr);
 
-	g_pFullFileSystem->CreateDirHierarchy("models/player", NULL);
+	g_pFullFileSystem->CreateDirHierarchy("models/player", nullptr);
 	file = g_pFullFileSystem->Open( outfile, "wb" );
 	if ( file != FILESYSTEM_INVALID_HANDLE )
 	{
@@ -2603,12 +2603,12 @@ void COptionsSubMultiplayer::OnApplyChanges()
 
 	if ( !ModInfo().NoCrosshair() )
 	{
-		if (m_pCrosshairSize != NULL)
+		if (m_pCrosshairSize != nullptr)
 		{
 			m_pCrosshairSize->ApplyChanges();
 		}
 
-		if (m_pCrosshairTranslucencyCheckbox != NULL)
+		if (m_pCrosshairTranslucencyCheckbox != nullptr)
 		{
 			m_pCrosshairTranslucencyCheckbox->ApplyChanges();
 		}
@@ -2689,7 +2689,7 @@ void COptionsSubMultiplayer::ApplyCrosshairColorChanges()
 	char cmd[256];
 	cmd[0] = 0;
 
-	if (m_pCrosshairColorComboBox != NULL)
+	if (m_pCrosshairColorComboBox != nullptr)
 	{
 		int val = m_pCrosshairColorComboBox->GetActiveItem();
 		Q_snprintf( cmd, sizeof(cmd), "cl_crosshaircolor %d\n", val );

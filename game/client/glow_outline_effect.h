@@ -86,7 +86,7 @@ public:
 		  Assert( !m_GlowObjectDefinitions[nGlowObjectHandle].IsUnused() );
 
 		  m_GlowObjectDefinitions[nGlowObjectHandle].m_nNextFreeSlot = m_nFirstFreeSlot;
-		  m_GlowObjectDefinitions[nGlowObjectHandle].m_pEntity = NULL;
+		  m_GlowObjectDefinitions[nGlowObjectHandle].m_pEntity = nullptr;
 		  m_nFirstFreeSlot = nGlowObjectHandle;
 	  }
 

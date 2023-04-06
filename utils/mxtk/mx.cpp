@@ -33,14 +33,14 @@ void mxTab_resizeChild (HWND hwnd);
 
 
 
-mxWindow *g_mainWindow = 0;
-static mxLinkedList *g_widgetList = 0;
-static mxWindow *g_idleWindow = 0;
+mxWindow *g_mainWindow = nullptr;
+static mxLinkedList *g_widgetList = nullptr;
+static mxWindow *g_idleWindow = nullptr;
 
 static MSG msg;
-static HWND g_hwndToolTipControl = 0;
+static HWND g_hwndToolTipControl = nullptr;
 static bool isClosing = false;
-static HACCEL g_hAcceleratorTable = NULL;
+static HACCEL g_hAcceleratorTable = nullptr;
 
 void mx::createAccleratorTable( int numentries, Accel_t *entries )
 {
@@ -106,7 +106,7 @@ mx_CreateToolTipControl ()
 		{
 			g_hwndToolTipControl = CreateWindowEx (0, TOOLTIPS_CLASS, "", WS_POPUP | WS_EX_TOPMOST,
 				0, 0, 0, 0, (HWND) g_mainWindow->getHandle (),
-				(HMENU) NULL, (HINSTANCE) GetModuleHandle (NULL), NULL);
+				(HMENU)nullptr, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 		}
 	}
 
@@ -199,7 +199,7 @@ static LRESULT CALLBACK WndProc (HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM
 			UINT uFile = 0;
 			HDROP hDrop = (HDROP)wParam;
 
-			uFile = DragQueryFile( hDrop, 0xFFFFFFFF, NULL, NULL );
+			uFile = DragQueryFile( hDrop, 0xFFFFFFFF, nullptr, NULL );
 			for ( UINT i=0; i<uFile; i++ )
 			{
 				if ( DragQueryFile( hDrop, i, lpszFile, MAX_PATH ) )
@@ -224,7 +224,7 @@ static LRESULT CALLBACK WndProc (HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM
 		{
 			mxEvent event;
 			event.event = mxEvent::Focus;
-			event.widget = NULL;
+			event.widget = nullptr;
 			event.action = (uMessage == WM_SETFOCUS);
 			RecursiveHandleEvent( window, &event );
 			return 0;
@@ -239,7 +239,7 @@ static LRESULT CALLBACK WndProc (HWND hwnd, UINT uMessage, WPARAM wParam, LPARAM
 		{
 			mxEvent event;
 			event.event = mxEvent::Activate;
-			event.widget = NULL;
+			event.widget = nullptr;
 			event.action = (LOWORD( wParam ) != WA_INACTIVE);
 			RecursiveHandleEvent( window, &event );
 			return 0;
@@ -925,15 +925,15 @@ mx::init(int argc, char **argv)
 	wc.lpfnWndProc = WndProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.hInstance = (HINSTANCE) GetModuleHandle (NULL);
+	wc.hInstance = (HINSTANCE) GetModuleHandle (nullptr);
     wc.hIcon = LoadIcon (wc.hInstance, "MX_ICON");
-	wc.hCursor = LoadCursor (NULL, IDC_ARROW);
+	wc.hCursor = LoadCursor (nullptr, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH) COLOR_WINDOW;
-	wc.lpszMenuName = NULL;
+	wc.lpszMenuName = nullptr;
 	wc.lpszClassName = "mx_class";
 
 	if (!wc.hIcon)
-		wc.hIcon = LoadIcon (NULL, IDI_WINLOGO);
+		wc.hIcon = LoadIcon (nullptr, IDI_WINLOGO);
 
 	if (!RegisterClass (&wc))
 		return 0;
@@ -957,9 +957,9 @@ mx::run()
 	while (1)
 	{
 		bool doframe = false;
-		if ( PeekMessage (&msg, NULL, 0, 0, PM_NOREMOVE) || !g_idleWindow )
+		if ( PeekMessage (&msg, nullptr, 0, 0, PM_NOREMOVE) || !g_idleWindow )
 		{
-			if (!GetMessage (&msg, NULL, 0, 0))
+			if (!GetMessage (&msg, nullptr, 0, 0))
 			{
 				doframe = false;
 				break;
@@ -1001,9 +1001,9 @@ mx::run()
 int
 mx::check ()
 {
-	if (PeekMessage (&msg, NULL, 0, 0, PM_NOREMOVE))
+	if (PeekMessage (&msg, nullptr, 0, 0, PM_NOREMOVE))
 	{
-		if (GetMessage (&msg, NULL, 0, 0))
+		if (GetMessage (&msg, nullptr, 0, 0))
 		{
 			TranslateMessage (&msg);
 			DispatchMessage (&msg);
@@ -1097,11 +1097,11 @@ mx::quit ()
 	if ( g_hAcceleratorTable )
 	{
 		DestroyAcceleratorTable( g_hAcceleratorTable );
-		g_hAcceleratorTable = 0;
+		g_hAcceleratorTable = nullptr;
 	}
 
 	PostQuitMessage (0);
-	UnregisterClass ("mx_class", (HINSTANCE) GetModuleHandle (NULL));
+	UnregisterClass ("mx_class", (HINSTANCE) GetModuleHandle (nullptr));
 }
 
 
@@ -1118,7 +1118,7 @@ mx::setDisplayMode (int w, int h, int bpp)
 	dm.dmPelsHeight = h;
 
 	if (w == 0 || h == 0 || bpp == 0)
-		ChangeDisplaySettings (0, 0);
+		ChangeDisplaySettings (nullptr, 0);
 	else
 		ChangeDisplaySettings (&dm, CDS_FULLSCREEN);
 
@@ -1163,7 +1163,7 @@ const char *
 mx::getApplicationPath ()
 {
 	static char path[256];
-	GetModuleFileName (0, path, 256);
+	GetModuleFileName (nullptr, path, 256);
 	char *ptr = strrchr (path, '\\');
 	if (ptr)
 		*ptr = '\0';

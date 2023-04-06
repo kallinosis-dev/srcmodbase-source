@@ -34,7 +34,7 @@ public:
 protected:
 	void Init( void )
 	{
-		m_pData = NULL;
+		m_pData = nullptr;
 		m_nWidth = 0;
 		m_nHeight = 0;
 		m_nPaddedWidth = 0;
@@ -70,7 +70,7 @@ public:
 			m_nHeight = height;
 			
 			m_nPaddedWidth = ( m_nWidth + 3) >> 2;
-			m_pData = NULL;
+			m_pData = nullptr;
 			if ( width && height )
 				m_pData = new FourVectors[ m_nPaddedWidth * m_nHeight ];
 		}

@@ -73,7 +73,7 @@ GDinputvariable::GDinputvariable(void)
 	m_szValue[0] = 0;
 	m_bReportable = FALSE;
 	m_bReadOnly = false;
-	m_pszDescription = NULL;
+	m_pszDescription = nullptr;
 }
 
 
@@ -89,7 +89,7 @@ GDinputvariable::GDinputvariable( const char *szType, const char *szName )
 	m_szValue[0] = 0;
 	m_bReportable = FALSE;
 	m_bReadOnly = false;
-	m_pszDescription = NULL;
+	m_pszDescription = nullptr;
 
 	m_eType = GetTypeFromToken( szType );
 	strcpy( m_szName, szName );
@@ -120,14 +120,14 @@ GDinputvariable &GDinputvariable::operator =(GDinputvariable &Other)
 	// Copy the description.
 	//
 	delete m_pszDescription;
-	if (Other.m_pszDescription != NULL)
+	if (Other.m_pszDescription != nullptr)
 	{
 		m_pszDescription = new char[strlen(Other.m_pszDescription) + 1];
 		strcpy(m_pszDescription, Other.m_pszDescription);
 	}
 	else
 	{
-		m_pszDescription = NULL;
+		m_pszDescription = nullptr;
 	}
 
 	m_nDefault = Other.m_nDefault;
@@ -738,7 +738,7 @@ const char *GDinputvariable::ItemStringForValue(const char *szValue)
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -759,7 +759,7 @@ const char *GDinputvariable::ItemValueForString(const char *szString)
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 

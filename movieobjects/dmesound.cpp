@@ -47,7 +47,7 @@ bool CDmeSound::ComputeSoundFullPath( char *pBuf, int nBufLen )
 	// Compute the full path of the sound
 	char pRelativePath[MAX_PATH];
 	Q_snprintf( pRelativePath, sizeof(pRelativePath), "sound\\%s", m_SoundName.Get() );
-	return g_pFullFileSystem->RelativePathToFullPath( pRelativePath, "GAME", pBuf, nBufLen ) != NULL;
+	return g_pFullFileSystem->RelativePathToFullPath( pRelativePath, "GAME", pBuf, nBufLen ) != nullptr;
 }
 
 
@@ -87,7 +87,7 @@ CDmElement *CDmeGameSound::FindOrAddPhonemeExtractionSettings()
 
 	CDmElement *settings = CreateElement< CDmElement >( "PhonemeExtractionSettings", GetFileId() );
 	if ( !settings )
-		return NULL;
+		return nullptr;
 
 	SetValue( "PhonemeExtractionSettings", settings );
 	return settings;

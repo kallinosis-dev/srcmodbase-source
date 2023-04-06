@@ -25,7 +25,7 @@ void KnifeSlash( const CEffectData &data )
 
 	C_BaseEntity *pEntity = ParseImpactData( data, &vecOrigin, &vecStart, &vecShotDir, nSurfaceProp, iMaterial, iDamageType, iHitbox );
 
-	if( pEntity == NULL )
+	if( pEntity == nullptr)
 		return;
 
 	int decalNumber = decalsystem->GetDecalIndexForName( GetImpactDecal( pEntity, iMaterial, iDamageType ) );
@@ -35,7 +35,7 @@ void KnifeSlash( const CEffectData &data )
 	// vector perpendicular to the slash direction
 	// so we can align the slash decal to that
 	Vector vecPerp;
-	AngleVectors( data.m_vAngles, NULL, &vecPerp, NULL );
+	AngleVectors( data.m_vAngles, nullptr, &vecPerp, nullptr);
 
 	const ConVar *decals =cvar->FindVar( "r_decals" );
 

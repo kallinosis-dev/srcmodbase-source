@@ -233,7 +233,7 @@ public:
 	if (this->offset_compact_ledge) {
 	    return (IVP_Compact_Ledge *)(((char *)this) + this->offset_compact_ledge);
 	}else{
-	    return NULL;
+	    return nullptr;
 	}
     };
 

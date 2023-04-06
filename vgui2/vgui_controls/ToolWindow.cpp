@@ -56,7 +56,7 @@ ToolWindow::ToolWindow(
 	bool inGlobalList /*= true*/ ) : 
 	BaseClass( parent, "ToolWindow" ), 
 	m_bStickyEdges( true ),
-	m_pFactory( NULL )
+	m_pFactory(nullptr)
 {
 	if ( inGlobalList )
 	{
@@ -66,7 +66,7 @@ ToolWindow::ToolWindow(
 	// create the property sheet
 	m_pPropertySheet = new PropertySheet(this, "ToolWindowSheet", true );
 	m_pPropertySheet->ShowContextButtons( contextlabel );
-	m_pPropertySheet->AddPage( page, title, 0, contextMenu );
+	m_pPropertySheet->AddPage( page, title, nullptr, contextMenu );
 	m_pPropertySheet->AddActionSignalTarget(this);
 	m_pPropertySheet->SetSmallTabs( true );
 	m_pPropertySheet->SetKBNavigationEnabled( false );
@@ -136,7 +136,7 @@ void ToolWindow::SetActivePage( Panel *page )
 //-----------------------------------------------------------------------------
 void ToolWindow::AddPage(Panel *page, const char *title, bool contextMenu)
 {
-	m_pPropertySheet->AddPage(page, title, 0, contextMenu );
+	m_pPropertySheet->AddPage(page, title, nullptr, contextMenu );
 }
 
 //-----------------------------------------------------------------------------
@@ -537,7 +537,7 @@ static const tokenset_t< ESharedEdge > s_EdgeTypes[] =
 	{ "TOOLWINDOW_TOP",			TOOLWINDOW_TOP		}, 
 	{ "TOOLWINDOW_RIGHT",		TOOLWINDOW_RIGHT    }, 
 	{ "TOOLWINDOW_BOTTOM",		TOOLWINDOW_BOTTOM	},
-	{ NULL,						TOOLWINDOW_NONE		}
+	{nullptr,						TOOLWINDOW_NONE		}
 };
 
 void ToolWindow::MoveSibling( ToolWindow *pSibling, ESharedEdge eEdge, int dpixels )
@@ -687,7 +687,7 @@ void ToolWindow::OnGripPanelMoved( int nNewX, int nNewY, int nNewW, int nNewH )
 void ToolWindow::GetSiblingToolWindows( CUtlVector< ToolWindow * > &vecSiblings )
 {
 	Panel *parent = GetParent();
-	if ( NULL == parent )
+	if (nullptr == parent )
 		return;
 
 	int nChildCount = parent->GetChildCount();

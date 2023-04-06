@@ -21,7 +21,7 @@ class CParticleBrowser : public CDialog
 	DECLARE_DYNAMIC(CParticleBrowser)
 
 public:
-	CParticleBrowser(CWnd* pParent = NULL);   // standard constructor
+	CParticleBrowser(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CParticleBrowser();
 
 	void	SetParticleSysName( const char *pParticleName );

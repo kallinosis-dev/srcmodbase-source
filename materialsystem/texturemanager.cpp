@@ -608,20 +608,20 @@ ITextureManager *g_pTextureManager = &s_TextureManager;
 //-----------------------------------------------------------------------------
 CTextureManager::CTextureManager( void ) : m_TextureList( true ), m_TextureAliases( true ), m_TextureExcludes( true )
 {
-	m_pErrorTexture = NULL;
-	m_pBlackTexture = NULL;
-	m_pWhiteTexture = NULL;
-	m_pGreyTexture  = NULL;
-	m_pGreyAlphaZeroTexture  = NULL;
-	m_pNormalizationCubemap = NULL;
-	m_pErrorRegen = NULL;
-	m_pFullScreenTexture = NULL;
-	m_pSignedNormalizationCubemap = NULL;
-	m_pShadowNoise2D = NULL;
-	m_pSSAONoise2D = NULL;
-	m_pIdentityLightWarp = NULL;
-	m_pFullScreenDepthTexture = NULL;
-	m_pStereoParamTexture = NULL;
+	m_pErrorTexture = nullptr;
+	m_pBlackTexture = nullptr;
+	m_pWhiteTexture = nullptr;
+	m_pGreyTexture  = nullptr;
+	m_pGreyAlphaZeroTexture  = nullptr;
+	m_pNormalizationCubemap = nullptr;
+	m_pErrorRegen = nullptr;
+	m_pFullScreenTexture = nullptr;
+	m_pSignedNormalizationCubemap = nullptr;
+	m_pShadowNoise2D = nullptr;
+	m_pSSAONoise2D = nullptr;
+	m_pIdentityLightWarp = nullptr;
+	m_pFullScreenDepthTexture = nullptr;
+	m_pStereoParamTexture = nullptr;
 	m_bUsingWeaponModelCache = false;
 }
 
@@ -740,67 +740,67 @@ void CTextureManager::Shutdown()
 	if ( m_pWhiteTexture )
 	{
 		m_pWhiteTexture->DecrementReferenceCount();
-		m_pWhiteTexture = NULL;
+		m_pWhiteTexture = nullptr;
 	}
 
 	if ( m_pBlackTexture )
 	{
 		m_pBlackTexture->DecrementReferenceCount();
-		m_pBlackTexture = NULL;
+		m_pBlackTexture = nullptr;
 	}
 
 	if ( m_pGreyTexture )
 	{
 		m_pGreyTexture->DecrementReferenceCount();
-		m_pGreyTexture = NULL;
+		m_pGreyTexture = nullptr;
 	}
 
 	if ( m_pGreyAlphaZeroTexture )
 	{
 		m_pGreyAlphaZeroTexture->DecrementReferenceCount();
-		m_pGreyAlphaZeroTexture = NULL;
+		m_pGreyAlphaZeroTexture = nullptr;
 	}
 
 	if ( m_pNormalizationCubemap )
 	{
 		m_pNormalizationCubemap->DecrementReferenceCount();
-		m_pNormalizationCubemap = NULL;
+		m_pNormalizationCubemap = nullptr;
 	}
 
 	if ( m_pSignedNormalizationCubemap )
 	{
 		m_pSignedNormalizationCubemap->DecrementReferenceCount();
-		m_pSignedNormalizationCubemap = NULL;
+		m_pSignedNormalizationCubemap = nullptr;
 	}
 
 	if ( m_pShadowNoise2D )
 	{
 		m_pShadowNoise2D->DecrementReferenceCount();
-		m_pShadowNoise2D = NULL;
+		m_pShadowNoise2D = nullptr;
 	}
 
 	if ( m_pSSAONoise2D )
 	{
 		m_pSSAONoise2D->DecrementReferenceCount();
-		m_pSSAONoise2D = NULL;
+		m_pSSAONoise2D = nullptr;
 	}
 
 	if ( m_pIdentityLightWarp )
 	{
 		m_pIdentityLightWarp->DecrementReferenceCount();
-		m_pIdentityLightWarp = NULL;
+		m_pIdentityLightWarp = nullptr;
 	}
 
 	if ( m_pErrorTexture )
 	{
 		m_pErrorTexture->DecrementReferenceCount();
-		m_pErrorTexture = NULL;
+		m_pErrorTexture = nullptr;
 	}
 
 	if ( m_pStereoParamTexture )
 	{
 		m_pStereoParamTexture->DecrementReferenceCount();
-		m_pStereoParamTexture = NULL;
+		m_pStereoParamTexture = nullptr;
 	}
 
 	ReleaseTextures();
@@ -808,7 +808,7 @@ void CTextureManager::Shutdown()
 	if ( m_pErrorRegen )
 	{
 		m_pErrorRegen->Release();
-		m_pErrorRegen = NULL;
+		m_pErrorRegen = nullptr;
 	}
 
 	for ( int i = m_TextureList.First(); i != m_TextureList.InvalidIndex(); i = m_TextureList.Next( i ) )
@@ -865,7 +865,7 @@ void CTextureManager::FreeStandardRenderTargets()
 	if ( m_pFullScreenTexture )
 	{
 		m_pFullScreenTexture->DecrementReferenceCount();
-		m_pFullScreenTexture = NULL;
+		m_pFullScreenTexture = nullptr;
 	}
 
 	g_pMorphMgr->FreeMaterials();
@@ -888,7 +888,7 @@ void CTextureManager::CacheExternalStandardRenderTargets()
 //-----------------------------------------------------------------------------
 void CTextureManager::GenerateErrorTexture( ITexture *pTexture, IVTFTexture *pVTFTexture )
 {
-	m_pErrorRegen->RegenerateTextureBits( pTexture, pVTFTexture, NULL );
+	m_pErrorRegen->RegenerateTextureBits( pTexture, pVTFTexture, nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -1134,7 +1134,7 @@ ITextureInternal *CTextureManager::CreateProceduralTexture(
 {
 	ITextureInternal *pNewTexture = ITextureInternal::CreateProceduralTexture( pTextureName, pTextureGroupName, w, h, d, fmt, nFlags );
 	if ( !pNewTexture )
-		return NULL;
+		return nullptr;
 
 	// Add it to the list of textures so it can be restored, etc.
 	m_TextureList.Insert( pNewTexture->GetName(), pNewTexture );
@@ -1192,7 +1192,7 @@ ITextureInternal *CTextureManager::LoadTexture( const char *pTextureName, const 
 		}
 
 		// Stick the texture onto the board
-		pNewTexture->Download( NULL, nAdditionalCreationFlags );
+		pNewTexture->Download(nullptr, nAdditionalCreationFlags );
 
 		// FIXME: If there's been an error loading, we don't also want this error...
 	}
@@ -1203,7 +1203,7 @@ ITextureInternal *CTextureManager::LoadTexture( const char *pTextureName, const 
 ITextureInternal *CTextureManager::FindTexture( const char *pTextureName )
 {
 	if ( !pTextureName || pTextureName[0] == 0 )
-		return NULL;
+		return nullptr;
 	
 	char szCleanName[MAX_PATH];
 	NormalizeTextureName( pTextureName, szCleanName, sizeof( szCleanName ) );
@@ -1240,12 +1240,12 @@ ITextureInternal *CTextureManager::FindTexture( const char *pTextureName )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CTextureManager::AddTextureAlias( const char *pAlias, const char *pRealName )
 {
-	if	( (pAlias == NULL) || (pRealName == NULL) )
+	if	( (pAlias == nullptr) || (pRealName == nullptr) )
 		return; //invalid alias
 
 	char szCleanName[MAX_PATH];
@@ -1266,7 +1266,7 @@ void CTextureManager::AddTextureAlias( const char *pAlias, const char *pRealName
 
 void CTextureManager::RemoveTextureAlias( const char *pAlias )
 {
-	if ( pAlias == NULL )
+	if ( pAlias == nullptr)
 		return;
 
 	char szCleanName[MAX_PATH];
@@ -1285,7 +1285,7 @@ bool CTextureManager::ParseTextureExcludeScript( const char *pScriptName )
 		return false;
 
 	CUtlBuffer excludeBuffer( 0, 0, CUtlBuffer::TEXT_BUFFER );
-	if ( !g_pFullFileSystem->ReadFile( pScriptName, NULL, excludeBuffer ) )
+	if ( !g_pFullFileSystem->ReadFile( pScriptName, nullptr, excludeBuffer ) )
 		return false;
 
 	char szToken[MAX_PATH];
@@ -1445,7 +1445,7 @@ ITextureInternal *CTextureManager::FindOrLoadTexture( const char *pTextureName, 
 bool CTextureManager::IsTextureLoaded( const char *pTextureName )
 {
 	ITextureInternal *pTexture = FindTexture( pTextureName );
-	return ( pTexture != NULL );
+	return ( pTexture != nullptr);
 }
 
 bool CTextureManager::GetTextureInformation( char const *szTextureName, MaterialTextureInfo_t &info )
@@ -1505,7 +1505,7 @@ ITextureInternal *CTextureManager::CreateRenderTargetTexture(
 	pTexture = ITextureInternal::CreateRenderTarget( pRTName, w, h, sizeMode, fmt, type, 
 											  textureFlags, renderTargetFlags, bMultipleTargets );
 	if ( !pTexture )
-		return NULL;
+		return nullptr;
 
 	// Add the render target to the list of textures
 	// that way it'll get cleaned up correctly in case of a task switch
@@ -1643,7 +1643,7 @@ int CTextureManager::FindNext( int iIndex, ITextureInternal **pTexInternal )
 	}
 	else if ( !m_TextureList.Count() || !m_TextureList.IsValidIndex( iIndex ) )
 	{
-		*pTexInternal = NULL;
+		*pTexInternal = nullptr;
 		return -1;
 	}
 

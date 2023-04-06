@@ -140,8 +140,8 @@ void CFileListManager::SetLoaded( DmFileId_t fileid, bool bLoaded )
 			return;
 
 		CDisableUndoScopeGuard guard;
-		CDmElement *pRoot = NULL;
-		g_pDataModel->RestoreFromFile( pFilename, NULL, NULL, &pRoot, CR_DELETE_NEW );
+		CDmElement *pRoot = nullptr;
+		g_pDataModel->RestoreFromFile( pFilename, nullptr, nullptr, &pRoot, CR_DELETE_NEW );
 	}
 	else
 	{
@@ -211,7 +211,7 @@ void CFileListManager::OnOpenContextMenu( KeyValues *pParams )
 	if ( m_hContextMenu.Get() )
 	{
 		delete m_hContextMenu.Get();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 
 	m_hContextMenu = new vgui::Menu( this, "ContextMenu" );
@@ -328,7 +328,7 @@ void CFileListManager::OnSaveFiles( KeyValues *pParams )
 
 		const char *pFileFormat = g_pDataModel->GetFileFormat( fileid );
 		const char *pEncoding = g_pDataModel->GetDefaultEncoding( pFileFormat );
-		g_pDataModel->SaveToFile( pFilename, NULL, pEncoding, pFileFormat, pRoot );
+		g_pDataModel->SaveToFile( pFilename, nullptr, pEncoding, pFileFormat, pRoot );
 	}
 
 	Refresh();
@@ -398,7 +398,7 @@ void CFileListManager::OnFileSelected( KeyValues *pParams )
 			return;
 
 		g_pDataModel->SetFileName( fileid, pFullPath );
-		g_pDataModel->SaveToFile( pFullPath, NULL, g_pDataModel->GetDefaultEncoding( pFormat ), pFormat, pRoot );
+		g_pDataModel->SaveToFile( pFullPath, nullptr, g_pDataModel->GetDefaultEncoding( pFormat ), pFormat, pRoot );
 
 		Refresh();
 		return;
@@ -407,8 +407,8 @@ void CFileListManager::OnFileSelected( KeyValues *pParams )
 	KeyValues *pOpenKey = pParams->FindKey( "OnOpen" );
 	if ( pOpenKey )
 	{
-		CDmElement *pRoot = NULL;
-		g_pDataModel->RestoreFromFile( pFullPath, NULL, NULL, &pRoot );
+		CDmElement *pRoot = nullptr;
+		g_pDataModel->RestoreFromFile( pFullPath, nullptr, nullptr, &pRoot );
 
 		Refresh();
 		return;

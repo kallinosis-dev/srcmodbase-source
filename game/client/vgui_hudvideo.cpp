@@ -100,7 +100,7 @@ void HUDVideoPanel::PlayTempVideo( const char *pFilename, const char *pTransitio
 
 	m_bIsLoopVideo = false;
 
-	m_bIsTransition = ( pTransitionFilename != NULL && pTransitionFilename[ 0 ] != '\0' );
+	m_bIsTransition = ( pTransitionFilename != nullptr && pTransitionFilename[ 0 ] != '\0' );
 
 	BeginPlayback( VarArgs( BIK_MEDIA_FOLDER "%s" BIK_EXTENTION, ( m_bIsTransition ? pTransitionFilename : m_szLastTempVideo ) ) );
 }
@@ -141,8 +141,8 @@ HUDVideoPanel *HUDVideoPanel_Create( vgui::Panel *pParent,
 {
 	// Create the base video panel
 	HUDVideoPanel *pVideoPanel = new HUDVideoPanel( pParent, "HUDVideoPanel" );
-	if ( pVideoPanel == NULL )
-		return NULL;
+	if ( pVideoPanel == nullptr)
+		return nullptr;
 
 	pVideoPanel->SetSize( iWide, iTall );
 	pVideoPanel->SetExitCommand( pExitCommand );
@@ -155,7 +155,7 @@ HUDVideoPanel *HUDVideoPanel_Create( vgui::Panel *pParent,
 	if ( pVideoPanel->BeginPlayback( pVideoFilename ) == false )
 	{
 		delete pVideoPanel;
-		return NULL;
+		return nullptr;
 	}
 
 

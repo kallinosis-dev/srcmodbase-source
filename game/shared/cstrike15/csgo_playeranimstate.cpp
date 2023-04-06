@@ -293,7 +293,7 @@ void CCSGOPlayerAnimState::Update( float eyeYaw, float eyePitch, bool bForce )
 			CAnimationLayer *pLayer = m_pPlayer->GetAnimOverlay( i, USE_ANIMLAYER_RAW_INDEX );
 			if ( pLayer )
 			{
-				pLayer->m_pDispatchedStudioHdr = NULL;
+				pLayer->m_pDispatchedStudioHdr = nullptr;
 				pLayer->m_nDispatchedSrc = ACT_INVALID;
 				pLayer->m_nDispatchedDst = ACT_INVALID;
 			}
@@ -1473,7 +1473,7 @@ void CCSGOPlayerAnimState::SetUpMovement( void )
 
 	Vector vecForward;
 	Vector vecRight;
-	AngleVectors( QAngle(0,m_flFootYaw,0), &vecForward, &vecRight, NULL );
+	AngleVectors( QAngle(0,m_flFootYaw,0), &vecForward, &vecRight, nullptr);
 	vecRight.NormalizeInPlace();
 	float flVelToRightDot = DotProduct( m_vecVelocityNormalizedNonZero, vecRight );
 	float flVelToForwardDot = DotProduct( m_vecVelocityNormalizedNonZero, vecForward );
@@ -2015,7 +2015,7 @@ void CCSGOPlayerAnimState::ApplyLayerOrderPreset( animlayerpreset nNewPreset, bo
 			pLayer->SetOrder( i );
 
 			// purge dispatch info too
-			pLayer->m_pDispatchedStudioHdr = NULL;
+			pLayer->m_pDispatchedStudioHdr = nullptr;
 			pLayer->m_nDispatchedSrc = ACT_INVALID;
 			pLayer->m_nDispatchedDst = ACT_INVALID;
 		}
@@ -2679,7 +2679,7 @@ void CCSGOPlayerAnimState::DoAnimationEvent( PlayerAnimEvent_t animEvent, int nD
 
 void CCSGOPlayerAnimState::AddActivityModifier( const char *szName )
 {
-	if ( szName == NULL )
+	if ( szName == nullptr)
 	{
 		Assert(0);
 		return;

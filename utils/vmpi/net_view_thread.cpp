@@ -18,8 +18,8 @@ char* CopyAlloc( const char *pStr )
 
 CNetViewThread::CNetViewThread()
 {
-	m_hThread = NULL;
-	m_hThreadExitEvent = NULL;
+	m_hThread = nullptr;
+	m_hThreadExitEvent = nullptr;
 	InitializeCriticalSection( &m_ComputerNamesCS );
 }
 
@@ -35,11 +35,11 @@ void CNetViewThread::Init()
 {
 	Term();
 
-	m_hThreadExitEvent = CreateEvent( NULL, false, false, NULL );
+	m_hThreadExitEvent = CreateEvent(nullptr, false, false, nullptr);
 
 	DWORD dwThreadID = 0;
-	m_hThread = CreateThread( 
-		NULL,
+	m_hThread = CreateThread(
+		nullptr,
 		0,
 		&CNetViewThread::StaticThreadFn,
 		this,
@@ -55,13 +55,13 @@ void CNetViewThread::Term()
 		SetEvent( m_hThreadExitEvent );
 		WaitForSingleObject( m_hThread, INFINITE );
 		CloseHandle( m_hThread );
-		m_hThread = NULL;
+		m_hThread = nullptr;
 	}
 
 	if ( m_hThreadExitEvent )
 	{
 		CloseHandle( m_hThreadExitEvent );
-		m_hThreadExitEvent = NULL;
+		m_hThreadExitEvent = nullptr;
 	}
 }
 
@@ -88,7 +88,7 @@ void CNetViewThread::UpdateServicesFromNetView()
     SECURITY_ATTRIBUTES saAttr; 
 	saAttr.nLength = sizeof(SECURITY_ATTRIBUTES); 
     saAttr.bInheritHandle = TRUE; 
-    saAttr.lpSecurityDescriptor = NULL; 
+    saAttr.lpSecurityDescriptor = nullptr; 
 
 	if( CreatePipe( &hChildStdoutRd, &hChildStdoutWr, &saAttr, 0 ) )
 	{
@@ -125,11 +125,11 @@ void CNetViewThread::UpdateServicesFromNetView()
 				DWORD dwRead = 0;
 				
 				// read from input handle
-				PeekNamedPipe(hChildStdoutRd, NULL, NULL, NULL, &dwCount, NULL);
+				PeekNamedPipe(hChildStdoutRd, nullptr, NULL, nullptr, &dwCount, nullptr);
 				if (dwCount)
 				{
 					dwCount = min (dwCount, (DWORD)BUFFER_SIZE - 1);
-					ReadFile(hChildStdoutRd, buffer, dwCount, &dwRead, NULL);
+					ReadFile(hChildStdoutRd, buffer, dwCount, &dwRead, nullptr);
 				}
 				if(dwRead)
 				{

@@ -67,7 +67,7 @@ class CAI_MappedActivityBehavior_Temporary : public CAI_SimpleBehavior
 {
 	DECLARE_CLASS( CAI_MappedActivityBehavior_Temporary, CAI_SimpleBehavior );
 public:
-	CAI_MappedActivityBehavior_Temporary( CAI_BaseNPC *pOuter = NULL ) 
+	CAI_MappedActivityBehavior_Temporary( CAI_BaseNPC *pOuter = nullptr) 
 	 :	CAI_SimpleBehavior(pOuter)
 	{
 		SetDefLessFunc( m_ActivityMap );
@@ -87,12 +87,12 @@ class CAI_StandoffBehavior : public CAI_MappedActivityBehavior_Temporary
 {
 	DECLARE_CLASS( CAI_StandoffBehavior, CAI_MappedActivityBehavior_Temporary );
 public:
-	CAI_StandoffBehavior( CAI_BaseNPC *pOuter = NULL );
+	CAI_StandoffBehavior( CAI_BaseNPC *pOuter = nullptr);
 
 	virtual const char *GetName() {	return "Standoff"; }
 
 	void		SetActive( bool fActive );
-	void		SetParameters( const AI_StandoffParams_t &params, CAI_GoalEntity *pGoalEntity = NULL );
+	void		SetParameters( const AI_StandoffParams_t &params, CAI_GoalEntity *pGoalEntity = nullptr);
 
 	Vector		GetStandoffGoalPosition();
 	void		SetStandoffGoalPosition( const Vector &vecPos );

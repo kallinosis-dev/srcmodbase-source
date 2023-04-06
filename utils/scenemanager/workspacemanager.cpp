@@ -100,7 +100,7 @@ enum
 	IDC_WSM_OPTIONS_LANGUAGEEND = 1600 + CC_NUM_LANGUAGES,
 };
 
-static CWorkspaceManager *g_pManager = NULL;
+static CWorkspaceManager *g_pManager = nullptr;
 CWorkspaceManager *GetWorkspaceManager()
 {
 	Assert( g_pManager );
@@ -123,7 +123,7 @@ public:
 };
 
 CWorkspaceManager::CWorkspaceManager()
-	: mxWindow (0, 0, 0, 0, 0, g_appTitle, mxWindow::Normal)
+	: mxWindow (nullptr, 0, 0, 0, 0, g_appTitle, mxWindow::Normal)
 {
 	m_lEnglishCaptionsFileChangeTime = -1L;
 	m_nLanguageId = CC_ENGLISH;
@@ -174,8 +174,8 @@ CWorkspaceManager::CWorkspaceManager()
 
 	m_pBrowser = new CWorkspaceBrowser( m_pWorkArea, this, IDC_WS_BROWSER );
 
-	m_pSoundBrowser = NULL;
-	m_pWaveBrowser = NULL;
+	m_pSoundBrowser = nullptr;
+	m_pWaveBrowser = nullptr;
 
 	int w = 1280;
 	setBounds (10, 10, w, 960);
@@ -190,7 +190,7 @@ CWorkspaceManager::CWorkspaceManager()
 
 	m_pSoundBrowser = new CSoundBrowser( m_pWorkArea, this, IDC_WS_SOUNDBROWSER );
 
-	GetBrowser()->SetWorkspace( NULL );
+	GetBrowser()->SetWorkspace(nullptr);
 
 	// See if command line requested workspace
 
@@ -240,7 +240,7 @@ bool CWorkspaceManager::Closing()
 
 					if ( !filesystem->IsFileWritable( scriptname ) )
 					{
-						mxMessageBox( NULL, va( "Aborting shutdown, %s, not writable!!", scriptname ), g_appTitle, MX_MB_OK );
+						mxMessageBox(nullptr, va( "Aborting shutdown, %s, not writable!!", scriptname ), g_appTitle, MX_MB_OK );
 						return false;
 					}
 				}
@@ -253,7 +253,7 @@ bool CWorkspaceManager::Closing()
 
 			if ( filesystem->IsFileWritable( scriptname ) )
 			{
-				int retval = mxMessageBox( NULL, va( "Save changes to out '%s'?", scriptname ), g_appTitle, MX_MB_YESNOCANCEL );
+				int retval = mxMessageBox(nullptr, va( "Save changes to out '%s'?", scriptname ), g_appTitle, MX_MB_YESNOCANCEL );
 				// Cancel
 				if ( retval == 2 ) 
 					return false;
@@ -262,7 +262,7 @@ bool CWorkspaceManager::Closing()
 				{
 					if ( !filesystem->IsFileWritable( scriptname ) )
 					{
-						mxMessageBox( NULL, va( "Aborting shutdown, %s, not writable!!", scriptname ), g_appTitle, MX_MB_OK );
+						mxMessageBox(nullptr, va( "Aborting shutdown, %s, not writable!!", scriptname ), g_appTitle, MX_MB_OK );
 						return false;
 					}
 				}
@@ -320,7 +320,7 @@ void CWorkspaceManager::UpdateMenus()
 
 	ITreeItem *item = GetBrowser()->GetSelectedItem();
 
-	bool hasworkspace = ws != NULL ? true : false;
+	bool hasworkspace = ws != nullptr ? true : false;
 	//bool workspacedirty = ws && ws->IsDirty() ? true : false;
 	bool hasproject = item && item->GetProject() ? true : false;
 
@@ -439,7 +439,7 @@ int CWorkspaceManager::handleEvent( mxEvent *event )
 			}
 			else
 			{
-				mx::setIdleWindow( 0 );
+				mx::setIdleWindow( nullptr );
 			}
 			iret = 1;
 		}
@@ -682,7 +682,7 @@ bool CWorkspaceManager::CloseWorkspace()
 
 	delete ws;
 
-	SetWorkspace( NULL );
+	SetWorkspace(nullptr);
 
 	return true;
 }
@@ -732,7 +732,7 @@ void CWorkspaceManager::OnNewWorkspace()
 {
 	// Show file io
 	const char *fullpath = mxGetSaveFileName( 
-		0, 
+		nullptr, 
 		".", 
 		"*.vsw" );
 
@@ -893,7 +893,7 @@ void CWorkspaceManager::OnOpenWorkspace()
 {
 	// Show file io
 	const char *fullpath = mxGetOpenFileName( 
-		0, 
+		nullptr, 
 		".", 
 		"*.vsw" );
 
@@ -941,7 +941,7 @@ void CWorkspaceManager::OnNewProject()
 
 	// Show file io
 	const char *fullpath = mxGetSaveFileName( 
-		0, 
+		nullptr, 
 		".", 
 		"*.vsp" );
 
@@ -972,7 +972,7 @@ void CWorkspaceManager::OnNewProject()
 
 		if ( !filesystem->FileExists( workspace_name ) )
 		{
-			int retval = mxMessageBox( NULL, va( "Automatically create workspace %s?", workspace_name ), g_appTitle, MX_MB_YESNOCANCEL );
+			int retval = mxMessageBox(nullptr, va( "Automatically create workspace %s?", workspace_name ), g_appTitle, MX_MB_YESNOCANCEL );
 			if ( retval != 0 )
 			{
 				Con_Printf( "Canceling project creation\n" );
@@ -1017,7 +1017,7 @@ void CWorkspaceManager::OnInsertProject()
 
 	// Show file io
 	const char *fullpath = mxGetOpenFileName( 
-		0, 
+		nullptr, 
 		".", 
 		"*.vsp" );
 
@@ -1041,7 +1041,7 @@ void CWorkspaceManager::OnInsertProject()
 
 		if ( !filesystem->FileExists( workspace_name ) )
 		{
-			int retval = mxMessageBox( NULL, va( "Automatically create workspace %s?", workspace_name ), g_appTitle, MX_MB_YESNOCANCEL );
+			int retval = mxMessageBox(nullptr, va( "Automatically create workspace %s?", workspace_name ), g_appTitle, MX_MB_YESNOCANCEL );
 			if ( retval != 0 )
 			{
 				Con_Printf( "Canceling project creation\n" );
@@ -1369,7 +1369,7 @@ void CWorkspaceManager::OnSceneAddVCD()
 
 	// Show file io
 	const char *fullpath = mxGetOpenFileName( 
-		0, 
+		nullptr, 
 		".", 
 		"*.vcd" );
 
@@ -1770,27 +1770,27 @@ HIMAGELIST CWorkspaceManager::CreateImageList()
 	int c = 0;
 #endif
 
-	hicon = LoadIcon( GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_WORKSPACE)); 
+	hicon = LoadIcon( GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_WORKSPACE)); 
 	slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
 
-	hicon = LoadIcon( GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_WORKSPACE_CHECKEDOUT)); 
+	hicon = LoadIcon( GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_WORKSPACE_CHECKEDOUT)); 
 	slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_PROJECT)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_PROJECT)); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_PROJECT_CHECKEDOUT)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_PROJECT_CHECKEDOUT)); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_SCENE)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_SCENE)); 
 	slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
@@ -1800,32 +1800,32 @@ HIMAGELIST CWorkspaceManager::CreateImageList()
 //	Assert( slot == c++ );
 //	DeleteObject( hicon );
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_VCD)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_VCD)); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_VCD_CHECKEDOUT )); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_VCD_CHECKEDOUT )); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_WAV)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_WAV)); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_WAV_CHECKEDOUT)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_WAV_CHECKEDOUT)); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_SPEAK)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_SPEAK)); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );
 
-	hicon = LoadIcon(GetModuleHandle( 0 ), MAKEINTRESOURCE(IDI_SPEAK_CHECKEDOUT)); 
+	hicon = LoadIcon(GetModuleHandle( nullptr ), MAKEINTRESOURCE(IDI_SPEAK_CHECKEDOUT)); 
     slot = ImageList_AddIcon(list, hicon); 
 	Assert( slot == c++ );
 	DeleteObject( hicon );

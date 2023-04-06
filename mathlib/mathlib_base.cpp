@@ -3965,7 +3965,7 @@ bool CalcLineToLineIntersectionSegment(
    *t1 = numer / denom;
    *t2 = (d1343 + d4321 * (*t1)) / d4343;
 
-   if ( s1 != NULL && s2 != NULL )
+   if ( s1 != nullptr && s2 != nullptr)
    {
 	   s1->x = p1.x + *t1 * p21.x;
 	   s1->y = p1.y + *t1 * p21.y;

@@ -315,7 +315,7 @@ char const * CCSPlayer::IsAbleToApplySpray( trace_t *ptr, Vector *pvecForward, V
 	if ( ptr )
 		*ptr = tr;
 
-	return NULL; // all trace tests passed
+	return nullptr; // all trace tests passed
 }
 
 float CCSPlayer::GetPlayerMaxSpeed()
@@ -346,7 +346,7 @@ float CCSPlayer::GetPlayerMaxSpeed()
 	{
 		speed = CS_PLAYER_SPEED_VIP;
 	}
-	else if ( m_hCarriedHostage != NULL )
+	else if ( m_hCarriedHostage != nullptr)
 	{
 		speed = CS_PLAYER_SPEED_HAS_HOSTAGE;
 	}
@@ -386,10 +386,10 @@ void CCSPlayer::GiveCarriedHostage( EHANDLE hHostage )
 void CCSPlayer::RefreshCarriedHostage( bool bForceCreate )
 {
 #ifndef CLIENT_DLL 
-	if ( m_hCarriedHostage == NULL )
+	if ( m_hCarriedHostage == nullptr)
 		return;
 
-	if ( m_hCarriedHostageProp == NULL )
+	if ( m_hCarriedHostageProp == nullptr)
 	{
 		CHostageCarriableProp *pHostageProp = dynamic_cast< CHostageCarriableProp* >( CreateEntityByName( "hostage_carriable_prop" ) );
 
@@ -418,7 +418,7 @@ void CCSPlayer::RefreshCarriedHostage( bool bForceCreate )
 		m_hViewModel.Set( 1, INVALID_EHANDLE );
 	}
 
-	CPredictedViewModel *vm = NULL;
+	CPredictedViewModel *vm = nullptr;
 
 	CBaseViewModel *pVM = GetViewModel( 1 );
 	if ( pVM )
@@ -460,7 +460,7 @@ void CCSPlayer::RefreshCarriedHostage( bool bForceCreate )
 
 void CCSPlayer::RemoveCarriedHostage( void )
 {
-	m_hCarriedHostage = NULL;
+	m_hCarriedHostage = nullptr;
 
 #ifndef CLIENT_DLL 
 	if ( m_hCarriedHostageProp )
@@ -468,11 +468,11 @@ void CCSPlayer::RemoveCarriedHostage( void )
 		CBaseAnimating *pHostageProp = dynamic_cast< CBaseAnimating* >( m_hCarriedHostageProp.Get() );
 		if ( pHostageProp )
 		{
-			pHostageProp->FollowEntity( NULL );
+			pHostageProp->FollowEntity(nullptr);
 			UTIL_Remove( pHostageProp );
 		}
 
-		m_hCarriedHostageProp = NULL;
+		m_hCarriedHostageProp = nullptr;
 	}
 
 	if ( m_hHostageViewModel || dynamic_cast<CPredictedViewModel*>(GetViewModel( 1 )) )
@@ -483,7 +483,7 @@ void CCSPlayer::RemoveCarriedHostage( void )
 
 		if ( pHostageVM )
 		{
-			pHostageVM->FollowEntity( NULL );
+			pHostageVM->FollowEntity(nullptr);
 			UTIL_Remove( pHostageVM );
 		}
 
@@ -593,7 +593,7 @@ static bool TraceToExit( Vector start, Vector dir, Vector &end, trace_t &trEnter
 		if ( (nCurrentContents & CS_MASK_SHOOT) == 0 || ((nCurrentContents & CONTENTS_HITBOX) && nStartContents != nCurrentContents) )
 		{
 			// this gets a bit more complicated and expensive when we have to deal with displacements
-			UTIL_TraceLine( end, vecTrEnd, CS_MASK_SHOOT|CONTENTS_HITBOX, NULL, &trExit );
+			UTIL_TraceLine( end, vecTrEnd, CS_MASK_SHOOT|CONTENTS_HITBOX, nullptr, &trExit );
 
 			// we exited the wall into a player's hitbox
 			if ( trExit.startsolid == true && (trExit.surface.flags & SURF_HITBOX)/*( nStartContents & CONTENTS_HITBOX ) == 0 && (nCurrentContents & CONTENTS_HITBOX)*/ )
@@ -1006,7 +1006,7 @@ bool CCSPlayer::GetUseConfigurationForHighPriorityUseEntity( CBaseEntity *pEntit
 		else
 		{
 			// it's a high-priority entity, but not used by the player team
-			cfg.m_pEntity = NULL;
+			cfg.m_pEntity = nullptr;
 		}
 		cfg.m_ePriority = cfg.k_EPriority_Bomb;
 		cfg.m_eDistanceCheckType = cfg.k_EDistanceCheckType_2D;
@@ -1045,7 +1045,7 @@ CBaseEntity *CCSPlayer::GetUsableHighPriorityEntity( void )
 	if( iEntsNearPlayer != 0 )
 	{
 		CConfigurationForHighPriorityUseEntity_t cfgBestHighPriorityEntity;
-		cfgBestHighPriorityEntity.m_pEntity = NULL;
+		cfgBestHighPriorityEntity.m_pEntity = nullptr;
 		cfgBestHighPriorityEntity.m_ePriority = cfgBestHighPriorityEntity.k_EPriority_Default;
 
 		for( int i = 0; i != iEntsNearPlayer; ++i )
@@ -1071,7 +1071,7 @@ CBaseEntity *CCSPlayer::GetUsableHighPriorityEntity( void )
 		return cfgBestHighPriorityEntity.m_pEntity;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool CConfigurationForHighPriorityUseEntity_t::IsBetterForUseThan( CConfigurationForHighPriorityUseEntity_t const &other ) const
@@ -1126,7 +1126,7 @@ bool CConfigurationForHighPriorityUseEntity_t::UseByPlayerNow( CCSPlayer *pPlaye
 
 	Vector vecLOS = pPlayer->EyePosition() - m_pos;
 	Vector forward;
-	AngleVectors( pPlayer->EyeAngles(), &forward, NULL, NULL );
+	AngleVectors( pPlayer->EyeAngles(), &forward, nullptr, nullptr);
 
 	vecLOS.NormalizeInPlace();
 
@@ -1230,7 +1230,7 @@ void CCSPlayer::FireBullet(
 
 	bool bFirstHit = true;
 
-	const CBaseCombatCharacter *lastPlayerHit = NULL;	// this includes players, bots, and hostages
+	const CBaseCombatCharacter *lastPlayerHit = nullptr;	// this includes players, bots, and hostages
 
 #ifdef CLIENT_DLL
 	Vector vecWallBangHitStart, vecWallBangHitEnd;
@@ -2564,7 +2564,7 @@ unsigned int CCSPlayer::PhysicsSolidMaskForEntity( void ) const
 void CCSPlayer::OnJump( float fImpulse )
 {
 	CWeaponCSBase* pActiveWeapon = GetActiveCSWeapon();
-	if ( pActiveWeapon != NULL )
+	if ( pActiveWeapon != nullptr)
 		pActiveWeapon->OnJump(fImpulse);
 }
 
@@ -2573,7 +2573,7 @@ void CCSPlayer::OnLand( float fVelocity )
 {
 
 	CWeaponCSBase* pActiveWeapon = GetActiveCSWeapon();
-	if (pActiveWeapon != NULL)
+	if (pActiveWeapon != nullptr)
 		pActiveWeapon->OnLand(fVelocity);
 
 	if ( fVelocity > 270 )
@@ -2691,7 +2691,7 @@ bool CCSPlayer::CSAnim_CanMove()
 int CCSPlayer::GetCarryLimit( CSWeaponID weaponId )
 {
 	const CCSWeaponInfo *pWeaponInfo = GetWeaponInfo( weaponId );
-	if ( pWeaponInfo == NULL )
+	if ( pWeaponInfo == nullptr)
 		return 0;
 
 	if ( pWeaponInfo->GetWeaponType() == WEAPONTYPE_GRENADE )
@@ -2704,8 +2704,8 @@ int CCSPlayer::GetCarryLimit( CSWeaponID weaponId )
 
 AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::Type acquireMethod, CEconItemView *pItem )
 {
-	const CCSWeaponInfo *pWeaponInfo = NULL;
-	if ( weaponId == WEAPON_NONE && (pItem == NULL || !pItem->IsValid()) )
+	const CCSWeaponInfo *pWeaponInfo = nullptr;
+	if ( weaponId == WEAPON_NONE && (pItem == nullptr || !pItem->IsValid()) )
 		return AcquireResult::InvalidItem;
 
 	if ( pItem && pItem->IsValid() )
@@ -2719,7 +2719,7 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 	else
 		pWeaponInfo = GetWeaponInfo( weaponId );
 
-	if ( pWeaponInfo == NULL )
+	if ( pWeaponInfo == nullptr)
 		return AcquireResult::InvalidItem;
 
 	AcquireResult::Type nGamerulesResult = CSGameRules()->IsWeaponAllowed( pWeaponInfo, GetTeamNumber(), pItem );
@@ -2775,7 +2775,7 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 		int carryLimitAllGrenades = ammo_grenade_limit_total.GetInt();
 
 		CBaseCombatWeapon* pGrenadeWeapon = ( pItem && pItem->IsValid() ) ? CSWeapon_OwnsThisType( pItem ) : Weapon_OwnsThisType( WeaponIdAsString( weaponId ) );
-		if ( pGrenadeWeapon != NULL )
+		if ( pGrenadeWeapon != nullptr)
 		{
 			int nAmmoType = pGrenadeWeapon->GetPrimaryAmmoType();
 
@@ -2794,7 +2794,7 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 		for ( int i = 0; i < MAX_WEAPONS; ++i )
 		{
 			CWeaponCSBase* pWeapon = dynamic_cast<CWeaponCSBase*>( GetWeapon( i) );
-			if ( pWeapon != NULL && pWeapon->IsKindOf( WEAPONTYPE_GRENADE ) )
+			if ( pWeapon != nullptr && pWeapon->IsKindOf( WEAPONTYPE_GRENADE ) )
 			{
 				int nAmmoType = pWeapon->GetPrimaryAmmoType();
 				if( nAmmoType != -1 )
@@ -2826,7 +2826,7 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 		int carryLimit = GetAmmoDef()->MaxCarry( pWeaponInfo->GetPrimaryAmmoType(), this );
 
 		CBaseCombatWeapon* pItemWeapon = ( pItem && pItem->IsValid() ) ? CSWeapon_OwnsThisType( pItem ) : Weapon_OwnsThisType( WeaponIdAsString( weaponId ) );
-		if ( pItemWeapon != NULL )
+		if ( pItemWeapon != nullptr)
 		{
 			int nAmmoType = pItemWeapon->GetPrimaryAmmoType();
 
@@ -2957,7 +2957,7 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 CWeaponCSBase* CCSPlayer::CSWeapon_OwnsThisType( CEconItemView *pItem ) const
 {
 	/** Removed for partner depot **/
-	return NULL;
+	return nullptr;
 }
 
 //************************************
@@ -3108,7 +3108,7 @@ bool CCSPlayer::UpdateLayerWeaponDispatch( CAnimationLayer *pLayer, int iSequenc
 			return UpdateDispatchLayer( pLayer, pWeaponWorldModel->GetModelPtr(), iSequence );
 		}
 	}
-	return UpdateDispatchLayer( pLayer, NULL, iSequence );
+	return UpdateDispatchLayer( pLayer, nullptr, iSequence );
 }
 
 float CCSPlayer::GetLayerSequenceCycleRate( CAnimationLayer *pLayer, int iSequence ) 

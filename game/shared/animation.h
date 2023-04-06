@@ -60,7 +60,7 @@ const char *GetBodygroupPartName( CStudioHdr *pstudiohdr, int iGroup, int iPart 
 int GetBodygroupCount( CStudioHdr *pstudiohdr, int iGroup );
 int GetNumBodyGroups( CStudioHdr *pstudiohdr );
 
-int GetSequenceActivity( CStudioHdr *pstudiohdr, int sequence, int *pweight = NULL );
+int GetSequenceActivity( CStudioHdr *pstudiohdr, int sequence, int *pweight = nullptr);
 
 void GetAttachmentLocalSpace( CStudioHdr *pstudiohdr, int attachIndex, matrix3x4_t &pLocalToWorld );
 

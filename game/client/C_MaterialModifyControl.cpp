@@ -139,7 +139,7 @@ END_RECV_TABLE()
 //------------------------------------------------------------------------------
 C_MaterialModifyControl::C_MaterialModifyControl()
 {
-	m_pMaterial = NULL;
+	m_pMaterial = nullptr;
 	m_bOldAnimCommandsSemaphore = false;
 }
 

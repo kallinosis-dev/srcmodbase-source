@@ -255,7 +255,7 @@ void CNavMesh::CommandNavMergeMesh( const CCommand &args )
 			Vector southEast = ReadCorner( areaKey, "SouthEast" );
 
 			CNavArea *newArea = TheNavMesh->CreateArea();
-			if (newArea == NULL)
+			if (newArea == nullptr)
 			{
 				Warning( "nav_merge_mesh: Out of memory\n" );
 				return;

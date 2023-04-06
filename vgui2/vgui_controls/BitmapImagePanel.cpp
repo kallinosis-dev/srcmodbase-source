@@ -41,12 +41,12 @@ DECLARE_BUILD_FACTORY_DEFAULT_TEXT( CBitmapImagePanel, BitmapImagePanel );
 CBitmapImagePanel::CBitmapImagePanel( Panel *parent, char const *panelName, 
 	char const *filename /*= NULL*/ ) : Panel( parent, panelName )
 {
-	m_pImage = NULL;
+	m_pImage = nullptr;
 
 	SetBounds( 0, 0, 100, 100 );
 
-	m_pszImageName = NULL;
-	m_pszColorName = NULL;
+	m_pszImageName = nullptr;
+	m_pszColorName = nullptr;
 
 	m_hardwareFiltered = false;
 	m_preserveAspectRatio = false;
@@ -192,7 +192,7 @@ void CBitmapImagePanel::setTexture( char const *filename, bool hardwareFiltered 
 	if ( m_pszImageName )
 	{
 		delete[] m_pszImageName;
-		m_pszImageName = NULL;
+		m_pszImageName = nullptr;
 	}
 	if ( filename && filename[ 0 ] )
 	{
@@ -201,7 +201,7 @@ void CBitmapImagePanel::setTexture( char const *filename, bool hardwareFiltered 
 	}
 	else
 	{
-		m_pImage = NULL;
+		m_pImage = nullptr;
 	}
 }
 
@@ -255,13 +255,13 @@ void CBitmapImagePanel::ApplySettings(KeyValues *inResourceData)
 	if ( m_pszImageName )
 	{
 		delete[] m_pszImageName;
-		m_pszImageName = NULL;
+		m_pszImageName = nullptr;
 	}
 
 	if ( m_pszColorName )
 	{
 		delete[] m_pszColorName;
-		m_pszColorName = NULL;
+		m_pszColorName = nullptr;
 	}
 
 	const char *imageName = inResourceData->GetString("image", "");

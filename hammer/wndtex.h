@@ -20,7 +20,7 @@ class wndTex : public CStatic
 {
 	public:
 
-		wndTex() : m_pTexture(NULL)
+		wndTex() : m_pTexture(nullptr)
 		{
 		}
 

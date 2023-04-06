@@ -34,7 +34,7 @@ BEGIN_VS_SHADER( VolumeClouds_dx9, "VolumeClouds" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

@@ -34,7 +34,7 @@ class CGameFileTreeView : public vgui::TreeView
 	DECLARE_CLASS_SIMPLE( CGameFileTreeView, vgui::TreeView );
 
 public:
-	CGameFileTreeView( vgui::Panel *parent, const char *name, const char *pRootFolderName, const char *pRootDir, const char *pExtension = NULL );
+	CGameFileTreeView( vgui::Panel *parent, const char *name, const char *pRootFolderName, const char *pRootDir, const char *pExtension = nullptr);
 
 	// Inherited from base classes
 	virtual void GenerateChildrenOfNode( int itemIndex );

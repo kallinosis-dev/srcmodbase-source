@@ -78,15 +78,15 @@ C_BaseCombatWeapon *CViewC4Panel::GetOwningWeapon()
 {
 	C_BaseEntity *pScreenEnt = GetEntity();
 	if (!pScreenEnt)
-		return NULL;
+		return nullptr;
 
 	C_BaseEntity *pOwner = pScreenEnt->GetOwnerEntity();
 	if (!pOwner)
-		return NULL;
+		return nullptr;
 
 	C_BaseViewModel *pViewModel = ToBaseViewModel( pOwner );
 	if ( !pViewModel )
-		return NULL;
+		return nullptr;
 
 	return pViewModel->GetOwningWeapon();
 }

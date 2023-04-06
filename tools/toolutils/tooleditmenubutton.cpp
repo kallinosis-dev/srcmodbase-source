@@ -46,13 +46,13 @@ CToolMenuButton* CreateToolEditMenuButton( vgui::Panel *parent, const char *pane
 CToolEditMenuButton::CToolEditMenuButton( vgui::Panel *parent, const char *panelName, const char *text, vgui::Panel *pActionSignalTarget )
 	: BaseClass( parent, panelName, text, pActionSignalTarget )
 {
-	AddMenuItem( "undo", "#ToolEditUndo", new KeyValues ( "Command", "command", "OnUndo" ), pActionSignalTarget, NULL, "undo" );
-	AddMenuItem( "redo", "#ToolEditRedo", new KeyValues ( "Command", "command", "OnRedo" ), pActionSignalTarget, NULL, "redo" );
+	AddMenuItem( "undo", "#ToolEditUndo", new KeyValues ( "Command", "command", "OnUndo" ), pActionSignalTarget, nullptr, "undo" );
+	AddMenuItem( "redo", "#ToolEditRedo", new KeyValues ( "Command", "command", "OnRedo" ), pActionSignalTarget, nullptr, "redo" );
 	AddSeparator();
 	AddMenuItem( "describe", "#ToolEditDescribeUndo", new KeyValues ( "Command", "command", "OnDescribeUndo" ), pActionSignalTarget);
 	AddMenuItem( "wipeundo", "#ToolEditWipeUndo", new KeyValues ( "Command", "command", "OnWipeUndo" ), pActionSignalTarget);
 	AddSeparator();
-	AddMenuItem( "editkeybindings", "#BxEditKeyBindings", new KeyValues( "OnEditKeyBindings" ), pActionSignalTarget, NULL, "editkeybindings" );
+	AddMenuItem( "editkeybindings", "#BxEditKeyBindings", new KeyValues( "OnEditKeyBindings" ), pActionSignalTarget, nullptr, "editkeybindings" );
 
 	SetMenu(m_pMenu);
 }

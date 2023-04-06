@@ -33,8 +33,8 @@
 IVP_BOOL ivp_check_debug_mindist( IVP_Mindist *md){
     if (! IVP_DEBUG_OBJECT0 ) return IVP_FALSE;
     if (! IVP_DEBUG_OBJECT1 ) return IVP_FALSE;
-    const char *search0 = IVP_DEBUG_OBJECT0;
-    const char *search1 = IVP_DEBUG_OBJECT1;
+    const char *search0 = nullptr;
+    const char *search1 = nullptr;
 
     const char *name0 = md->get_synapse(0)->get_object()->get_name();
     const char *name1 = md->get_synapse(1)->get_object()->get_name();

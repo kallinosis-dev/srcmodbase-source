@@ -96,7 +96,7 @@ static FloatBitMap_t *CreateFBM( const char * fname )
 		// parse extended specifications
 		CUtlVector<char *> Images;
 		V_SplitString( fname, ",", Images);
-		FloatBitMap_t *pBM = NULL;
+		FloatBitMap_t *pBM = nullptr;
 		// now, process bitmaps, performing copy operations specified by {} syntax
 		for(int i=0; i < Images.Count(); i++)
 		{
@@ -159,7 +159,7 @@ static FloatBitMap_t *CreateFBM( const char * fname )
 
 static CUtlVector< Sequence *> Sequences;
 
-static Sequence *pCurSequence=NULL;
+static Sequence *pCurSequence= nullptr;
 
 static int s_nWidth;
 static int s_nHeight;
@@ -597,7 +597,7 @@ void main(int argc,char **argv)
 	int nBestSquareness = ( 1 << 30 ); // how square the texture is
 	for( int nTryWidth = 2048 ; nTryWidth >= 64; nTryWidth >>= 1 )
 	{
-		bool bSuccess = PackImages( NULL, nTryWidth );
+		bool bSuccess = PackImages(nullptr, nTryWidth );
 		if ( bSuccess )
 		{
 			printf( "Packing option: %dx%d (%d pixels)\n", s_nWidth, s_nHeight, s_nWidth * s_nHeight );

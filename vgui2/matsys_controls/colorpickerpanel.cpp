@@ -967,7 +967,7 @@ void CColorPickerPanel::OnColorChanged( vgui::TextEntry *pChanged )
 //-----------------------------------------------------------------------------
 void CColorPickerPanel::OnTextChanged( KeyValues *data )
 {
-	Panel *pPanel = (Panel *)data->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)data->GetPtr( "panel", nullptr);
 
 	float flHue = m_CurrentHSVColor.x;
 
@@ -1040,7 +1040,7 @@ void CColorPickerPanel::OnTextChanged( KeyValues *data )
 CColorPickerFrame::CColorPickerFrame( vgui::Panel *pParent, const char *pTitle ) : 
 	BaseClass( pParent, "ColorPickerFrame" )
 {
-	m_pContextKeys = NULL;
+	m_pContextKeys = nullptr;
 	SetDeleteSelfOnClose( true );
 	m_pPicker = new CColorPickerPanel( this, "ColorPicker" );
 	m_pPicker->AddActionSignalTarget( this );
@@ -1071,7 +1071,7 @@ void CColorPickerFrame::CleanUpMessage()
 	if ( m_pContextKeys )
 	{
 		m_pContextKeys->deleteThis();
-		m_pContextKeys = NULL;
+		m_pContextKeys = nullptr;
 	}
 }
 
@@ -1113,7 +1113,7 @@ void CColorPickerFrame::OnCommand( const char *pCommand )
 		if ( m_pContextKeys )
 		{
 			pActionKeys->AddSubKey( m_pContextKeys );
-			m_pContextKeys = NULL;
+			m_pContextKeys = nullptr;
 		}
 		CloseModal();
 		PostActionSignal( pActionKeys );
@@ -1127,7 +1127,7 @@ void CColorPickerFrame::OnCommand( const char *pCommand )
 		if ( m_pContextKeys )
 		{
 			pActionKeys->AddSubKey( m_pContextKeys );
-			m_pContextKeys = NULL;
+			m_pContextKeys = nullptr;
 		}
 		CloseModal();
 		PostActionSignal( pActionKeys );

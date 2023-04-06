@@ -11,7 +11,7 @@
 #include "tier0/memdbgon.h"
 
 class C_Test_ProxyToggle_Networkable;
-static C_Test_ProxyToggle_Networkable *g_pTestObj = 0;
+static C_Test_ProxyToggle_Networkable *g_pTestObj = nullptr;
 
 
 // ---------------------------------------------------------------------------------------- //
@@ -31,7 +31,7 @@ public:
 
 			~C_Test_ProxyToggle_Networkable()
 			{
-				g_pTestObj = 0;
+				g_pTestObj = nullptr;
 			}
 
 	int		m_WithProxy;

@@ -13,7 +13,7 @@ namespace GCSDK
 CSharedObjectDirtyFieldList::CSharedObjectDirtyFieldList( CSharedObject *obj )
 : m_obj( obj )
 , m_firstFieldBits( 0 )
-, m_pExtendedFields( NULL )
+, m_pExtendedFields(nullptr)
 {
 }
 
@@ -131,7 +131,7 @@ bool CSharedObjectDirtyList::GetDirtyFieldSetByIndex( int index, CSharedObject *
 		fieldSet.Purge();
 		if( ppObj )
 		{
-			*ppObj = NULL;
+			*ppObj = nullptr;
 		}
 		return false;
 	}

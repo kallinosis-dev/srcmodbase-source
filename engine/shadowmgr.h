@@ -94,13 +94,13 @@ public:
 	// AddShadowsOnSurfaceToRenderList. If there's a model to world transform
 	// for the shadow receiver, then send it in!
 	// NOTE: This draws both shadows and projected textures.
-	virtual void RenderProjectedTextures( IMatRenderContext *pRenderContext, VMatrix const* pModelToWorld = 0 ) = 0;
+	virtual void RenderProjectedTextures( IMatRenderContext *pRenderContext, VMatrix const* pModelToWorld = nullptr ) = 0;
 
 	// NOTE: This draws shadows
-	virtual void RenderShadows( IMatRenderContext *pRenderContext, VMatrix const* pModelToWorld = 0 ) = 0;
+	virtual void RenderShadows( IMatRenderContext *pRenderContext, VMatrix const* pModelToWorld = nullptr ) = 0;
 
 	// NOTE: This draws flashlights
-	virtual void RenderFlashlights( bool bDoMasking, bool bDoSimpleProjections, VMatrix const* pModelToWorld = 0 ) = 0;
+	virtual void RenderFlashlights( bool bDoMasking, bool bDoSimpleProjections, VMatrix const* pModelToWorld = nullptr ) = 0;
 
 	// Clears the list of shadows to render 
 	virtual void ClearShadowRenderList() = 0;

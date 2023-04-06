@@ -40,7 +40,7 @@ void MP3Player_Destroy();
 #endif
 
 #include <vgui/IInputInternal.h>
-vgui::IInputInternal *g_InputInternal = NULL;
+vgui::IInputInternal *g_InputInternal = nullptr;
 
 #include <vgui_controls/Controls.h>
 #include "cstrike15/gameui/cstrike15/steamoverlay/isteamoverlaymgr.h"
@@ -166,7 +166,7 @@ public:
 		}
 		else
 		{
-			pHandle->Set( NULL );
+			pHandle->Set(nullptr);
 		}
 	}
 
@@ -184,7 +184,7 @@ public:
 		}
 		else
 		{
-			pHandle->Set( NULL );
+			pHandle->Set(nullptr);
 		}
 	}
 };
@@ -404,7 +404,7 @@ bool VGui_Startup( CreateInterfaceFn appSystemFactory )
 	if ( !vgui::VGui_InitMatSysInterfacesList( "CLIENT", &appSystemFactory, 1 ) )
 		return false;
 
-	g_InputInternal = (IInputInternal *)appSystemFactory( VGUI_INPUTINTERNAL_INTERFACE_VERSION,  NULL );
+	g_InputInternal = (IInputInternal *)appSystemFactory( VGUI_INPUTINTERNAL_INTERFACE_VERSION, nullptr);
 	if ( !g_InputInternal )
 	{
 		return false; // c_vguiscreen.cpp needs this!
@@ -591,7 +591,7 @@ CON_COMMAND( cl_panelanimation, "Shows panel animation variables: <panelname | b
 	}
 	else
 	{
-		PanelAnimationDumpVars( NULL );
+		PanelAnimationDumpVars(nullptr);
 	}
 }
 
@@ -725,7 +725,7 @@ void AddRemoteSplitScreenViewPlayer( C_BasePlayer *pPlayer )
 
 	for( int i = 0; i != MAX_SPLITSCREEN_PLAYERS; ++i )
 	{
-		if( !g_SplitScreenPlayers.IsBitSet( i ) && (g_RemoteSplitScreenPlayers[i] == NULL) )
+		if( !g_SplitScreenPlayers.IsBitSet( i ) && (g_RemoteSplitScreenPlayers[i] == nullptr) )
 		{
 			g_RemoteSplitScreenPlayers[i] = pPlayer;
 			VGui_OnSplitScreenStateChanged();
@@ -740,7 +740,7 @@ void RemoveRemoteSplitScreenViewPlayer( C_BasePlayer *pPlayer )
 	{
 		if( g_RemoteSplitScreenPlayers[i] == pPlayer )
 		{
-			g_RemoteSplitScreenPlayers[i] = NULL;
+			g_RemoteSplitScreenPlayers[i] = nullptr;
 			VGui_OnSplitScreenStateChanged();
 			return;
 		}
@@ -795,7 +795,7 @@ int NextValidSplitScreenSlot( int i )
 		if ( g_SplitScreenPlayers.IsBitSet( i ) )
 			return i;
 
-		if( g_bIterateRemoteSplitScreenPlayers && cl_enable_remote_splitscreen.GetBool() && (g_RemoteSplitScreenPlayers[i] != NULL) )
+		if( g_bIterateRemoteSplitScreenPlayers && cl_enable_remote_splitscreen.GetBool() && (g_RemoteSplitScreenPlayers[i] != nullptr) )
 			return i;
 
 		++i;
@@ -805,7 +805,7 @@ int NextValidSplitScreenSlot( int i )
 
 bool IsValidSplitScreenSlot( int i )
 {
-	return g_SplitScreenPlayers.IsBitSet( i ) || (g_bIterateRemoteSplitScreenPlayers && (g_RemoteSplitScreenPlayers[i] != NULL));
+	return g_SplitScreenPlayers.IsBitSet( i ) || (g_bIterateRemoteSplitScreenPlayers && (g_RemoteSplitScreenPlayers[i] != nullptr));
 }
 
 static int g_nCachedScreenSize[ 2 ] = { -1, -1 };
@@ -850,7 +850,7 @@ void VGui_OnSplitScreenStateChanged()
 		i = engine->NextValidSplitScreenSlot( i ) )	
 	{
 		g_SplitScreenPlayers.Set( i );
-		g_RemoteSplitScreenPlayers[i] = NULL; //actual splitscreen players nuke networked splitscreen players
+		g_RemoteSplitScreenPlayers[i] = nullptr; //actual splitscreen players nuke networked splitscreen players
 		++g_nNumSplits;
 		++g_nNumLocalSplits;
 	}
@@ -859,7 +859,7 @@ void VGui_OnSplitScreenStateChanged()
 	{
 		for( int i = 0; i != MAX_SPLITSCREEN_PLAYERS; ++i )
 		{
-			if( g_RemoteSplitScreenPlayers[i] != NULL )
+			if( g_RemoteSplitScreenPlayers[i] != nullptr)
 			{
 				++g_nNumSplits;
 			}

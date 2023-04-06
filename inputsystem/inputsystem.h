@@ -152,7 +152,7 @@ public:
 	void RemoveUIEventListener() override;
 	PlatWindow_t GetAttachedWindow() const override;
 	InputCursorHandle_t GetStandardCursor( InputStandardCursor_t id ) override;
-	InputCursorHandle_t LoadCursorFromFile( const char *pFileName, const char *pPathID = NULL ) override;
+	InputCursorHandle_t LoadCursorFromFile( const char *pFileName, const char *pPathID = nullptr) override;
 	void SetCursorIcon( InputCursorHandle_t hCursor ) override;
 	void EnableMouseCapture( PlatWindow_t hWnd ) override;
 	void DisableMouseCapture() override;

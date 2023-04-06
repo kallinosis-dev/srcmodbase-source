@@ -318,7 +318,7 @@ void CMapView2D::Render()
 	//
 	// Draw the world if we have one.
 	//
-	if (pWorld == NULL)
+	if (pWorld == nullptr)
 		return;
 	
 	// Traverse the entire world, sorting visible elements into two arrays:

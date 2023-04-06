@@ -44,7 +44,7 @@ ConVar bot_debug_breakable_duration( "bot_debug_breakable_duration", "30" );
 //--------------------------------------------------------------------------------------------------------------
 CBaseEntity * CheckForEntitiesAlongSegment( const Vector &start, const Vector &end, const Vector &mins, const Vector &maxs, CPushAwayEnumerator *enumerator )
 {
-	CBaseEntity *entity = NULL;
+	CBaseEntity *entity = nullptr;
 
 	Ray_t ray;
 	ray.Init( start, end, mins, maxs );
@@ -78,7 +78,7 @@ CBaseEntity * CCSBot::FindEntitiesOnPath( float distance, CPushAwayEnumerator *e
 {
 	Vector goal;
 
-	int pathIndex = FindPathPoint( distance, &goal, NULL );
+	int pathIndex = FindPathPoint( distance, &goal, nullptr);
 	bool isDegeneratePath = ( pathIndex == m_pathLength );
 	if ( isDegeneratePath )
 	{
@@ -96,7 +96,7 @@ CBaseEntity * CCSBot::FindEntitiesOnPath( float distance, CPushAwayEnumerator *e
 		maxs = Vector( HalfHumanWidth, HalfHumanWidth, HalfHumanHeight );
 	}
 
-	CBaseEntity *entity = NULL;
+	CBaseEntity *entity = nullptr;
 	if ( isDegeneratePath )
 	{
 		entity = CheckForEntitiesAlongSegment( WorldSpaceCenter(), m_goalPosition + Vector( 0, 0, HalfHumanHeight ), mins, maxs, enumerator );
@@ -192,7 +192,7 @@ CBaseEntity * CCSBot::FindEntitiesOnPath( float distance, CPushAwayEnumerator *e
 	}
 
 	if ( entity && !IsVisible( entity->WorldSpaceCenter(), false, entity ) )
-		return NULL;
+		return nullptr;
 
 	return entity;
 }
@@ -274,12 +274,12 @@ void CCSBot::BreakablesCheck( void )
 	if ( IsAttacking() )
 	{
 		// make sure we aren't running into a breakable trying to knife an enemy
-		if ( IsUsingKnife() && m_enemy != NULL )
+		if ( IsUsingKnife() && m_enemy != nullptr)
 		{
 			CBaseEntity *breakables[1];
 			CBotBreakableEnumerator enumerator( breakables, ARRAYSIZE( breakables ) );
 
-			CBaseEntity *breakable = NULL;
+			CBaseEntity *breakable = nullptr;
 			Vector mins = Vector( -HalfHumanWidth, -HalfHumanWidth, -HalfHumanWidth );
 			Vector maxs = Vector( HalfHumanWidth, HalfHumanWidth, HalfHumanHeight );
 			breakable = CheckForEntitiesAlongSegment( WorldSpaceCenter(), m_enemy->WorldSpaceCenter(), mins, maxs, &enumerator );
@@ -606,7 +606,7 @@ void CCSBot::MoveTowardsPosition( const Vector &pos )
 	// NOTE: We need to do this frequently to catch edges at the right time
 	// @todo Look ahead *along path* instead of straight line 
 	//
-	if ( (m_lastKnownArea == NULL || !( m_lastKnownArea->GetAttributes() & ( NAV_MESH_NO_JUMP | NAV_MESH_STAIRS ) ) ) &&
+	if ( (m_lastKnownArea == nullptr || !( m_lastKnownArea->GetAttributes() & ( NAV_MESH_NO_JUMP | NAV_MESH_STAIRS ) ) ) &&
 		!IsOnLadder())
 	{
 		float ground;
@@ -677,7 +677,7 @@ void CCSBot::MoveTowardsPosition( const Vector &pos )
 		MoveBackward();
 
 	// if we are avoiding someone via strafing, don't override
-	if (m_avoid != NULL)
+	if (m_avoid != nullptr)
 		return;
 
 	if (latProj >= c)
@@ -846,7 +846,7 @@ void CCSBot::ComputeApproachPoints( void )
 {
 	m_approachPointCount = 0;
 
-	if (m_lastKnownArea == NULL)
+	if (m_lastKnownArea == nullptr)
 	{
 		return;
 	}
@@ -860,7 +860,7 @@ void CCSBot::ComputeApproachPoints( void )
 	{
 		const CCSNavArea::ApproachInfo *info = m_lastKnownArea->GetApproachInfo( i );
 
-		if (info->here.area == NULL || info->prev.area == NULL)
+		if (info->here.area == nullptr || info->prev.area == nullptr)
 		{
 			continue;
 		}
@@ -971,7 +971,7 @@ bool CCSBot::IsAtEnemySpawn( void ) const
 	const char *spawnName = (GetTeamNumber() == TEAM_TERRORIST) ? "info_player_counterterrorist" : "info_player_terrorist";
 
 	// check if we are at any of the enemy's spawn points
-	for( spot = gEntList.FindEntityByClassname( NULL, spawnName ); spot; spot = gEntList.FindEntityByClassname( spot, spawnName ) )
+	for( spot = gEntList.FindEntityByClassname(nullptr, spawnName ); spot; spot = gEntList.FindEntityByClassname( spot, spawnName ) )
 	{
 		CNavArea *area = TheNavMesh->GetNearestNavArea( spot->WorldSpaceCenter() );
 		if (area && GetLastKnownArea() == area)

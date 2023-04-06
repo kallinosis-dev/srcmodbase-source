@@ -11,7 +11,7 @@
 
 
 static bool g_bToolsWriteFullMinidumps = false;
-static ToolsExceptionHandler g_pCustomExceptionHandler = NULL;
+static ToolsExceptionHandler g_pCustomExceptionHandler = nullptr;
 
 
 // --------------------------------------------------------------------------------- //

@@ -32,7 +32,7 @@ int	CPlayerAndObjectEnumerator::GetObjectCount()
 C_BaseEntity *CPlayerAndObjectEnumerator::GetObject( int index )
 {
 	if ( index < 0 || index >= GetObjectCount() )
-		return NULL;
+		return nullptr;
 
 	return m_Objects[ index ];
 }
@@ -44,7 +44,7 @@ IterationRetval_t CPlayerAndObjectEnumerator::EnumElement( IHandleEntity *pHandl
 		return ITERATION_STOP;
 
 	C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle( pHandleEntity->GetRefEHandle() );
-	if ( pEnt == NULL )
+	if ( pEnt == nullptr)
 		return ITERATION_CONTINUE;
 
 	if ( pEnt == m_pLocal )

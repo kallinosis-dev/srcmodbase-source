@@ -175,7 +175,7 @@ public:
   /// \brief RegisterLibrary() will register an array of functions to the machine as globals.
   /// \param a_asTable as non-null will create a table in global scope and place the functions in the table.
   /// \param a_newTable will create a new table for the functions; if false it will insert them into the existing table (if found) 
-  void RegisterLibrary(gmFunctionEntry * a_functions, int a_numFunctions, const char * a_asTable = NULL, bool a_newTable = true);
+  void RegisterLibrary(gmFunctionEntry * a_functions, int a_numFunctions, const char * a_asTable = nullptr, bool a_newTable = true);
 
   /// \brief RegisterTypeLibrary() will register an array of functions to the machine as type variables.
   void RegisterTypeLibrary(gmType a_type, gmFunctionEntry * a_functions, int a_numFunctions);
@@ -184,7 +184,7 @@ public:
   /// \param a_name Script function name
   /// \param a_function C function
   /// \param a_asTable as non-null will use/create a table in global scope and place the functions in the table.
-  void RegisterLibraryFunction(const char * a_name, gmCFunction a_function, const char * a_asTable = NULL, const void* a_userData = NULL)
+  void RegisterLibraryFunction(const char * a_name, gmCFunction a_function, const char * a_asTable = nullptr, const void* a_userData = nullptr)
   {
     gmFunctionEntry entry = {a_name, a_function, a_userData};
     RegisterLibrary(&entry, 1, a_asTable, false);
@@ -194,7 +194,7 @@ public:
   /// \param a_type Valid/Registered type identifier
   /// \param a_name Script function name
   /// \param a_function C function
-  void RegisterTypeLibraryFunction(gmType a_type, const char * a_name, gmCFunction a_function, const void* a_userData = NULL)
+  void RegisterTypeLibraryFunction(gmType a_type, const char * a_name, gmCFunction a_function, const void* a_userData = nullptr)
   {
     gmFunctionEntry entry = {a_name, a_function, a_userData};
     RegisterTypeLibrary(a_type, &entry, 1);
@@ -213,7 +213,7 @@ public:
   /// \param a_operator
   /// \param a_function
   /// \param a_nativeFunction
-  bool RegisterTypeOperator(gmType a_type, gmOperator a_operator, gmFunctionObject * a_function, gmOperatorFunction a_nativeFunction = NULL);
+  bool RegisterTypeOperator(gmType a_type, gmOperator a_operator, gmFunctionObject * a_function, gmOperatorFunction a_nativeFunction = nullptr);
 
   /// \brief GetTypeVariable() will lookup the type variables for the given variable key.
   inline gmVariable GetTypeVariable(gmType a_type, const gmVariable &a_key) const;
@@ -249,7 +249,7 @@ public:
   /// \param a_this The 'this' pointer passed to the un-named function.  Or NULL to pass a null gmVariable.
   /// \return the number of errors from compiling the script.
   /// \sa GetCompileLog()
-  int ExecuteString(const char * a_string, int * a_threadId = NULL, bool a_now = true, const char * a_filename = NULL, gmVariable* a_this = NULL);
+  int ExecuteString(const char * a_string, int * a_threadId = nullptr, bool a_now = true, const char * a_filename = nullptr, gmVariable* a_this = nullptr);
 
   /// \brief ExecuteLib() will execute a pre-compiled lib in a new thread
   /// \param a_stream is a stream to pull the lib from
@@ -257,10 +257,10 @@ public:
   /// \param a_now is true, and execution will occur immediataly, and not at the next Execute() call.
   /// \param a_filename is the filename the lib came from for debugging purposes.
   /// \return false on lib error
-  bool ExecuteLib(gmStream &a_stream, int * a_threadId = NULL, bool a_now = true, const char * a_filename = NULL, gmVariable* a_this = NULL);
+  bool ExecuteLib(gmStream &a_stream, int * a_threadId = nullptr, bool a_now = true, const char * a_filename = nullptr, gmVariable* a_this = nullptr);
 
   /// \brief ExecuteFunction() will execute a thread on the passed function
-  bool ExecuteFunction(gmFunctionObject * a_function, int * a_threadId = NULL, bool a_now = true, gmVariable* a_this = NULL);
+  bool ExecuteFunction(gmFunctionObject * a_function, int * a_threadId = nullptr, bool a_now = true, gmVariable* a_this = nullptr);
 
   /// \brief CompileStringToLib() will compile a_string to byte code suitable for storage in a file.
   /// \param a_string is null terminated script string.
@@ -270,13 +270,13 @@ public:
   int CompileStringToLib(const char * a_string, gmStream &a_stream);
 
   /// \brief CompileStringToFunction()
-  gmFunctionObject * CompileStringToFunction(const char * a_string, int *a_errorCount = NULL, const char * a_filename = NULL);
+  gmFunctionObject * CompileStringToFunction(const char * a_string, int *a_errorCount = nullptr, const char * a_filename = nullptr);
 
   /// \brief BindLibToFunction() Bind a precompiled library to a function.
   /// \param a_stream is a stream to pull the lib from
   /// \param a_filename is the filename the lib came from for debugging purposes. 
   /// \return Root function from Lib or NULL if failed
-  gmFunctionObject * BindLibToFunction(gmStream &a_stream, const char * a_filename = NULL);
+  gmFunctionObject * BindLibToFunction(gmStream &a_stream, const char * a_filename = nullptr);
   
   /// \brief GetLog() will get the compile and runtime log of the last script compiled. log any runtime errors from
   ///        linked c functions to this log.
@@ -287,8 +287,8 @@ public:
   /// \param a_function
   /// \param a_threadId is set to the id of the created thread and may be NULL.
   /// \return a thread, or NULL if the thread finished executing or could not be created.
-  gmThread * CreateThread(const gmVariable &a_this, const gmVariable &a_function, int * a_threadId = NULL);
-  gmThread * CreateThread(int * a_threadId = NULL);
+  gmThread * CreateThread(const gmVariable &a_this, const gmVariable &a_function, int * a_threadId = nullptr);
+  gmThread * CreateThread(int * a_threadId = nullptr);
 
   /// \brief GetThread() will return the thread given a thread id.
   /// \return NULL on error.
@@ -395,7 +395,7 @@ public:
 
   /// \brief RegisterUserCallbacks() will register user type garbage collect methods.
 #if GM_USE_INCGC
-  void RegisterUserCallbacks(gmType a_type, gmGCTraceCallback a_gcTrace, gmGCDestructCallback a_gcDestruct, gmAsStringCallback a_asString = NULL);
+  void RegisterUserCallbacks(gmType a_type, gmGCTraceCallback a_gcTrace, gmGCDestructCallback a_gcDestruct, gmAsStringCallback a_asString = nullptr);
 
   /// \brief GetUserMarkCallback() will return the gc mark call back for a user type
   inline gmGCTraceCallback GetUserGCTraceCallback(gmType a_type) const { return m_types[a_type].m_gcTrace; }
@@ -449,7 +449,7 @@ public:
   gmTableObject * AllocTableObject();
 
   /// \brief AllocFunctionObject() will create a new function.
-  gmFunctionObject * AllocFunctionObject(gmCFunction a_function = NULL);
+  gmFunctionObject * AllocFunctionObject(gmCFunction a_function = nullptr);
 
   /// \brief AllocUserObject() will create a new user object.  
   /// \param a_user is a hook to tie the user object to any system.

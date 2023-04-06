@@ -12,7 +12,7 @@
 #include "tier0/memdbgon.h"
 
 class CTest_ProxyToggle_Networkable;
-static CTest_ProxyToggle_Networkable *g_pTestObj = 0;
+static CTest_ProxyToggle_Networkable *g_pTestObj = nullptr;
 static bool g_bEnableProxy = true;
 
 
@@ -34,7 +34,7 @@ public:
 
 			~CTest_ProxyToggle_Networkable()
 			{
-				g_pTestObj = NULL;
+				g_pTestObj = nullptr;
 			}
 
 	int UpdateTransmitState()
@@ -54,7 +54,7 @@ void* SendProxy_TestProxyToggle( const SendProp *pProp, const void *pStructBase,
 	else
 	{
 		pRecipients->ClearAllRecipients();
-		return NULL;
+		return nullptr;
 	}
 }
 REGISTER_SEND_PROXY_NON_MODIFIED_POINTER( SendProxy_TestProxyToggle );
@@ -104,7 +104,7 @@ void Test_ProxyToggle_SetValue( const CCommand &args )
 	g_pTestObj->m_WithProxy = atoi( args[ 1 ] );
 }
 
-ConCommand cc_Test_ProxyToggle_EnableProxy( "Test_ProxyToggle_EnableProxy", Test_ProxyToggle_EnableProxy, 0, FCVAR_CHEAT );
-ConCommand cc_Test_ProxyToggle_SetValue( "Test_ProxyToggle_SetValue", Test_ProxyToggle_SetValue, 0, FCVAR_CHEAT );
+ConCommand cc_Test_ProxyToggle_EnableProxy( "Test_ProxyToggle_EnableProxy", Test_ProxyToggle_EnableProxy, nullptr, FCVAR_CHEAT );
+ConCommand cc_Test_ProxyToggle_SetValue( "Test_ProxyToggle_SetValue", Test_ProxyToggle_SetValue, nullptr, FCVAR_CHEAT );
 
 

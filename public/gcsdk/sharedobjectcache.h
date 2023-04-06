@@ -93,7 +93,7 @@ public:
 
 protected:
 	virtual CSharedObjectTypeCache *AllocateTypeCache( int nClassID ) const = 0;
-	CSharedObjectTypeCache *GetTypeCacheByIndex( int nIndex ) { return m_CacheObjects.IsValidIndex( nIndex ) ? m_CacheObjects.Element( nIndex ) : NULL; }
+	CSharedObjectTypeCache *GetTypeCacheByIndex( int nIndex ) { return m_CacheObjects.IsValidIndex( nIndex ) ? m_CacheObjects.Element( nIndex ) : nullptr; }
 	int GetTypeCacheCount() const { return m_CacheObjects.Count(); }
 
 	int FirstTypeCacheIndex() const					{ return m_CacheObjects.Count() > 0 ? 0 : m_CacheObjects.InvalidIndex(); }

@@ -78,7 +78,7 @@ public:
 class CCSClothingVisualsDataProcessor : public CBaseVisualsDataProcessor< CCSClothingVisualsDataCompare >
 {
 public:
-	CCSClothingVisualsDataProcessor( CCSClothingVisualsDataCompare &&compareObject, const WeaponPaintableMaterial_t *pWeaponPaintableMaterialDat, const char *szCompositingShaderName = NULL );
+	CCSClothingVisualsDataProcessor( CCSClothingVisualsDataCompare &&compareObject, const WeaponPaintableMaterial_t *pWeaponPaintableMaterialDat, const char *szCompositingShaderName = nullptr);
 
 	virtual KeyValues* GenerateCustomMaterialKeyValues();
 	virtual KeyValues* GenerateCompositeMaterialKeyValues( int nMaterialParamId );
@@ -88,7 +88,7 @@ public:
 	virtual const char* GetSkinMaterialName() const;
 	virtual void Refresh();
 
-	virtual void SetVisualsData( const char *pCompositingShaderName = NULL );
+	virtual void SetVisualsData( const char *pCompositingShaderName = nullptr);
 
 private:
 	virtual ~CCSClothingVisualsDataProcessor();

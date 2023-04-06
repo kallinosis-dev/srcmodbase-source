@@ -230,7 +230,7 @@ void CTorusDlg::OnTorusPreview()
 	// Build preview.
 	//
 	bInitialized = TRUE;
-	InvalidateRect(NULL);
+	InvalidateRect(nullptr);
 	UpdateWindow();
 }
 

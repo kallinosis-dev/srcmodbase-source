@@ -132,12 +132,12 @@ BEGIN_SEND_TABLE_NOBASE(DTTestServerSub, DT_DTTestSub)
 	SendPropUtlVector(
 		SENDINFO_UTLVECTOR( m_UtlVectorChar ),
 		MAX_CHARARRAY_ELEMENTS,
-		SendPropInt( NULL, 0, sizeof( char ), 0 ) ),
+		SendPropInt(nullptr, 0, sizeof( char ), 0 ) ),
 
 	SendPropUtlVector( 
 		SENDINFO_UTLVECTOR( m_UtlVectorFloat ),
 		MAX_FLOATARRAY_ELEMENTS,	// max elements
-		SendPropFloat( NULL, 0, 0, 0, SPROP_NOSCALE ) )
+		SendPropFloat(nullptr, 0, 0, 0, SPROP_NOSCALE ) )
 END_SEND_TABLE()
 
 
@@ -202,7 +202,7 @@ bool g_bSendSub = true;
 void* SendProxy_DTTestServerSub( const SendProp *pProp, const void *pStruct, const void *pData, CSendProxyRecipients *pRecipients, int objectID )
 {
 	if( !g_bSendSub )
-		return NULL;
+		return nullptr;
 	
 	return SendProxy_DataTableToDataTable( pProp, pStruct, pData, pRecipients, objectID );
 }
@@ -288,13 +288,13 @@ BEGIN_RECV_TABLE_NOBASE(DTTestClientSub, DT_DTTestSub)
 		RecvPropFloat(RECVINFO(m_FloatArray[0])),
 		m_FloatArray),
 
-	RecvPropUtlVector( RECVINFO_UTLVECTOR( m_UtlVectorFloat ), MAX_FLOATARRAY_ELEMENTS, RecvPropFloat(NULL,0,0) ),
+	RecvPropUtlVector( RECVINFO_UTLVECTOR( m_UtlVectorFloat ), MAX_FLOATARRAY_ELEMENTS, RecvPropFloat(nullptr,0,0) ),
 	RecvPropUtlVectorDataTable( m_UtlVectorStruct, MAX_STRUCTARRAY_ELEMENTS, DT_TestStruct ),
 	
 	RecvPropUtlVector( 
 		RECVINFO_UTLVECTOR( m_UtlVectorChar ),
 		MAX_CHARARRAY_ELEMENTS,
-		RecvPropInt( NULL, 0, sizeof( char ) ) ),
+		RecvPropInt(nullptr, 0, sizeof( char ) ) ),
 
 	RecvPropArray(
 		RecvPropString(RECVINFO(m_Strings[0]), 0, RecvProxy_DTTestClientSubString),
@@ -892,7 +892,7 @@ void RunDataTableTest()
 		Assert( !"RunDataTableTest: SendTable_SendInfo failed." );
 	}	
 	// Signal no more send tables.
-	SendTable_WriteInfos( NULL, bfWrite, false, true );
+	SendTable_WriteInfos(nullptr, bfWrite, false, true );
 
 	// Receive the SendTable's info.
 	CSVCMsg_SendTable_t msg;
@@ -925,7 +925,7 @@ void RunDataTableTest()
 	}
 
 	// Register our receive table.
-	if( !RecvTable_CreateDecoders( NULL, false ) )
+	if( !RecvTable_CreateDecoders(nullptr, false ) )
 	{
 		Assert(false);
 	}
@@ -976,26 +976,26 @@ void RunDataTableTest()
 		}
 
 
-		if( !SendTable_Encode( pSendTable, startEntity, &dtServer, -1, NULL ) )
+		if( !SendTable_Encode( pSendTable, startEntity, &dtServer, -1, nullptr) )
 		{
 			Assert(false);
 		}
 
 		// Fully encode it.
 		bf_write bfFullEncoded( "RunDataTableTest->bfFullEncoded", fullEncoded, sizeof(fullEncoded) );
-		SendTable_WritePropList( pSendTable, startEntity, &bfFullEncoded, -1, NULL );
+		SendTable_WritePropList( pSendTable, startEntity, &bfFullEncoded, -1, nullptr);
 
 		ALIGN4 unsigned char deltaEncoded[4096] ALIGN4_POST;
 		bf_write bfDeltaEncoded( "RunDataTableTest->bfDeltaEncoded", deltaEncoded, sizeof(deltaEncoded) );
 		
 		if ( iIteration == 0 )
 		{
-			if( !SendTable_Encode( pSendTable, endEntity, &dtServer, -11111, NULL ) )
+			if( !SendTable_Encode( pSendTable, endEntity, &dtServer, -11111, nullptr) )
 			{
 				Assert(false);
 			}
 
-			SendTable_WritePropList( pSendTable, endEntity, &bfDeltaEncoded, -1111, NULL );
+			SendTable_WritePropList( pSendTable, endEntity, &bfDeltaEncoded, -1111, nullptr);
 		}
 		else
 		{

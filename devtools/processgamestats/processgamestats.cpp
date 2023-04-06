@@ -85,12 +85,12 @@ struct DataParser_t
 
 static DataParser_t g_ParseFuncs[] =
 {
-	{ "cstrike", CS_ParseCustomGameStatsData, NULL },
+	{ "cstrike", CS_ParseCustomGameStatsData, nullptr},
 	{ "tf", TF_ParseCustomGameStatsData, TF_PostImport },
 //	{ "dods", Default_ParseCustomGameStatsData, NULL },
 //	{ "portal", Default_ParseCustomGameStatsData, NULL },
-	{ "ep1", Default_ParseCustomGameStatsData, NULL }, // Just a STUB
-	{ "ep2", Ep2_ParseCustomGameStatsData, NULL, Ep2_ParseCurrentUserID }
+	{ "ep1", Default_ParseCustomGameStatsData, nullptr}, // Just a STUB
+	{ "ep2", Ep2_ParseCustomGameStatsData, nullptr, Ep2_ParseCurrentUserID }
 };
 
 //-----------------------------------------------------------------------------
@@ -247,7 +247,7 @@ void v_escape_string (std::string& s)
 	}
 }
 
-void InsertData( CUtlDict< int, unsigned short >& mapOrder, IMySQL *sql, BasicGameStats_t &gs, const char *szStatsFileUserID, int iStatsFileVersion, const char *gamename, char const *tag = NULL )
+void InsertData( CUtlDict< int, unsigned short >& mapOrder, IMySQL *sql, BasicGameStats_t &gs, const char *szStatsFileUserID, int iStatsFileVersion, const char *gamename, char const *tag = nullptr)
 {
 	if ( !sql )
 		return;
@@ -416,7 +416,7 @@ CUtlDict< int, unsigned short > g_mapOrder;
 
 void BuildMapList( void )
 {
-	void *buffer = NULL;
+	void *buffer = nullptr;
 	char *pFileList;
 	FILE * pFile;
 	pFile = fopen ("maplist.txt", "r");
@@ -432,7 +432,7 @@ void BuildMapList( void )
 
 		// allocate memory to contain the whole file.
 		buffer = (char*) malloc (lSize);
-		if ( buffer != NULL )
+		if ( buffer != nullptr)
 		{
 			// copy the file into the buffer.
 			fread (buffer,1,lSize,pFile);
@@ -441,9 +441,9 @@ void BuildMapList( void )
 
 			while ( 1 )
 			{
-				pFileList = ParseFile( pFileList, szToken, false );
+				pFileList = ParseFile( pFileList, szToken, nullptr );
 
-				if ( pFileList == NULL )
+				if ( pFileList == nullptr)
 					break;
 
 				g_mapOrder.Insert( szToken, i );
@@ -542,7 +542,7 @@ int Default_ParseCustomGameStatsData( ParseContext_t *ctx )
 				//assume we will have multiple input stats files from the same user, so store custom data under their userid name and overwrite old data to avoid bloat
 				if( ctx->bCustomDirectoryNotMade )
 				{
-					CreateDirectory( "customdatadumps", NULL );
+					CreateDirectory( "customdatadumps", nullptr);
 					ctx->bCustomDirectoryNotMade = false;
 				}
 
@@ -590,9 +590,9 @@ int main(int argc, char* argv[])
 
 	BuildMapList();
 	const char *gamename = argv[ gameArg ];
-	DataParseFunc parseFunc = NULL; 
-	PostImportFunc postImportFunc = NULL;
-	ParseCurrentUserIDFunc parseUserIDFunc = NULL;
+	DataParseFunc parseFunc = nullptr; 
+	PostImportFunc postImportFunc = nullptr;
+	ParseCurrentUserIDFunc parseUserIDFunc = nullptr;
 	for ( int i = 0 ; i < ARRAYSIZE( g_ParseFuncs ); ++i )
 	{
 		if ( !Q_stricmp( g_ParseFuncs[ i ].pchGameName, gamename ) )
@@ -723,9 +723,9 @@ int main(int argc, char* argv[])
 
 	bool bSqlOkay = false;
 
-	CSysModule *sql = NULL;
-	CreateInterfaceFn factory = NULL;
-	IMySQL *mysql = NULL;
+	CSysModule *sql = nullptr;
+	CreateInterfaceFn factory = nullptr;
+	IMySQL *mysql = nullptr;
 
 	if ( bTrySql )
 	{
@@ -736,7 +736,7 @@ int main(int argc, char* argv[])
 			factory = Sys_GetFactory( sql );
 			if ( factory )
 			{
-				mysql = ( IMySQL * )factory( MYSQL_WRAPPER_VERSION_NAME, NULL );
+				mysql = ( IMySQL * )factory( MYSQL_WRAPPER_VERSION_NAME, nullptr);
 				if ( mysql )
 				{
  					if ( mysql->InitMySQL( argv[ dbArg ], argv[ hostArg ], argv[ usernameArg ], argv[ pwArg ] ) )
@@ -812,13 +812,13 @@ int main(int argc, char* argv[])
 		if ( mysql )
 		{
 			mysql->Release();
-			mysql = NULL;
+			mysql = nullptr;
 		}
 
 		if ( sql )
 		{
 			Sys_UnloadModule( sql );
-			sql = NULL;
+			sql = nullptr;
 		}
 	}
 

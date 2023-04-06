@@ -52,10 +52,10 @@ bool CVarListPropertyPage::LoadVarList(const char *varfile)
 
 	// load list from file
 	KeyValues *dat = new KeyValues("VarList");
-	if (dat->LoadFromFile( g_pFullFileSystem, varfile, NULL))
+	if (dat->LoadFromFile( g_pFullFileSystem, varfile, nullptr))
 	{
 		// enter into list
-		for (KeyValues *rule = dat->GetFirstSubKey(); rule != NULL; rule = rule->GetNextKey())
+		for (KeyValues *rule = dat->GetFirstSubKey(); rule != nullptr; rule = rule->GetNextKey())
 		{
 			m_pRulesList->AddItem(rule, 0, false, false);
 		}

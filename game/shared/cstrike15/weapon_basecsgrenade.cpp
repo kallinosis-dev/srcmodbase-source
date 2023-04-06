@@ -131,7 +131,7 @@ bool CBaseCSGrenade::Deploy()
 
 	if ( pPlayer->GetAmmoCount(m_iPrimaryAmmoType) <= 0 )
 	{
-		pPlayer->Weapon_Drop( this, NULL, NULL );
+		pPlayer->Weapon_Drop( this, nullptr, nullptr);
 		UTIL_Remove(this);
 		return false;
 	}
@@ -316,7 +316,7 @@ void CBaseCSGrenade::ItemPreFrame()
 	BaseClass::ItemPreFrame();
 
 	CBasePlayer *pOwner = ToBasePlayer( GetOwner() );
-	if ( pOwner == NULL )
+	if ( pOwner == nullptr)
 		return;
 
 #ifdef CLIENT_DLL
@@ -442,7 +442,7 @@ void CBaseCSGrenade::ItemPostFrame()
 			int nAmmoCount = pPlayer->GetAmmoCount(m_iPrimaryAmmoType);
 			if( nAmmoCount <= 0 )
 			{
-				pPlayer->Weapon_Drop( this, NULL, NULL );
+				pPlayer->Weapon_Drop( this, nullptr, nullptr);
 #ifndef CLIENT_DLL
 				//pPlayer->RemoveWeaponOnPlayer( this );
 				UTIL_Remove(this);
@@ -543,7 +543,7 @@ void CBaseCSGrenade::ItemPostFrame()
 
 		CBroadcastRecipientFilter filter;
 		CSoundParameters params;
-		if ( GetParametersForSound( GetShootSound( SINGLE ), params, NULL ) )
+		if ( GetParametersForSound( GetShootSound( SINGLE ), params, nullptr) )
 		{
 			//CPASAttenuationFilter filter( this );
 			EmitSound( filter, entindex(), GetShootSound( SINGLE )); 

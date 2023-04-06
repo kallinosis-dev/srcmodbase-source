@@ -178,7 +178,7 @@ void HuntState::OnUpdate( CCSBot *me )
 		}
 		else
 		{
-			m_huntArea = NULL;
+			m_huntArea = nullptr;
 			float oldest = 0.0f;
 
 			int areaCount = 0;

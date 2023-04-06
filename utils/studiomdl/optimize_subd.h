@@ -91,7 +91,7 @@ namespace OptimizedModel
 		
 		void SetEdgeBias(int localID, float f0, float f1)
 		{
-			if (halfEdges[localID].twin==NULL) return;
+			if (halfEdges[localID].twin== nullptr) return;
 			edgeBias[2*localID]   = f0 * 32768.0f;
 			edgeBias[2*localID+1] = f1 * 32768.0f;
 			halfEdges[localID].twin->patch->edgeBias[ 2*halfEdges[localID].twin->localID+1 ] = (1.0f - f0) * 32768.0f;
@@ -109,10 +109,10 @@ namespace OptimizedModel
 		static int MOD4[8] = {0,1,2,3,0,1,2,3};
 		return &patch->halfEdges[MOD4[localID+3]];
 	}
-	inline HalfEdge *HalfEdge::NextByHead() { return (twin==NULL)? NULL : twin->PrevInFace(); }
+	inline HalfEdge *HalfEdge::NextByHead() { return (twin== nullptr)? nullptr : twin->PrevInFace(); }
 	inline HalfEdge *HalfEdge::PrevByHead() { return NextInFace()->twin; }
 	inline HalfEdge *HalfEdge::NextByTail() { return PrevInFace()->twin; }
-	inline HalfEdge *HalfEdge::PrevByTail() { return (twin==NULL)? NULL : twin->NextInFace(); }
+	inline HalfEdge *HalfEdge::PrevByTail() { return (twin== nullptr)? nullptr : twin->NextInFace(); }
 
 	inline bool FaceIsRegular( SubD_Face_t *patch )
 	{

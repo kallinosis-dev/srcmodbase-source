@@ -184,10 +184,10 @@ void CSmokeGrenadeProjectile::SmokeDetonate( void )
 	m_nSmokeEffectTickBegin = gpGlobals->tickcount; // client will star the explosion_smokegrenade particle effect at AbsOrigin
 
 	//tell the hostages about the smoke!
-	CBaseEntity *pEntity = NULL;
+	CBaseEntity *pEntity = nullptr;
 	variant_t var;	//send the location of the smoke?
 	var.SetVector3D( GetAbsOrigin() );
-	while ( ( pEntity = gEntList.FindEntityByClassname( pEntity, "hostage_entity" ) ) != NULL)
+	while ( ( pEntity = gEntList.FindEntityByClassname( pEntity, "hostage_entity" ) ) != nullptr)
 	{
 		//send to hostages that have a resonable chance of being in it while its still smoking
 		if( (GetAbsOrigin() - pEntity->GetAbsOrigin()).Length() < 1000 )
@@ -334,7 +334,7 @@ void CSmokeGrenadeProjectile::OnBounced( void )
 	int count = UTIL_EntitiesInSphere( list, maxEnts, GetAbsOrigin(), 512, FL_ONFIRE );
 	for( int i=0; i<count; ++i )
 	{
-		if (list[i] == NULL || list[i] == this)
+		if (list[i] == nullptr || list[i] == this)
 			continue;
 
 		CInferno* pInferno = dynamic_cast<CInferno*>( list[i] );

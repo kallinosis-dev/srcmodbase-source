@@ -38,7 +38,7 @@ BEGIN_VS_SHADER( UnlitTwoTexture_DX9, "Help for UnlitTwoTexture_DX9" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	// Cloak Pass
@@ -130,7 +130,7 @@ BEGIN_VS_SHADER( UnlitTwoTexture_DX9, "Help for UnlitTwoTexture_DX9" )
 	{
 		// Skip the standard rendering if cloak pass is fully opaque
 		bool bDrawStandardPass = true;
-		if ( params[CLOAKPASSENABLED]->GetIntValue() && ( pShaderShadow == NULL ) ) // && not snapshotting
+		if ( params[CLOAKPASSENABLED]->GetIntValue() && ( pShaderShadow == nullptr) ) // && not snapshotting
 		{
 			CloakBlendedPassVars_t info;
 			SetupVarsCloakBlendedPass( info );
@@ -142,7 +142,7 @@ BEGIN_VS_SHADER( UnlitTwoTexture_DX9, "Help for UnlitTwoTexture_DX9" )
 
 		// Skip flashlight pass for unlit stuff
 		bool bNewFlashlightPath = IsX360() || IsPS3();
-		if ( bDrawStandardPass && ( pShaderShadow == NULL ) && ( pShaderAPI != NULL ) &&
+		if ( bDrawStandardPass && ( pShaderShadow == nullptr) && ( pShaderAPI != nullptr) &&
 			!bNewFlashlightPath && ( pShaderAPI->InFlashlightMode() ) ) // not snapshotting && flashlight pass)
 		{
 			bDrawStandardPass = false;
@@ -196,7 +196,7 @@ BEGIN_VS_SHADER( UnlitTwoTexture_DX9, "Help for UnlitTwoTexture_DX9" )
 				{
 					flags |= VERTEX_COLOR;
 				}
-				pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+				pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 				// If this is set, blend with the alpha channels of the textures and modulation color
 				bool bTranslucent = IsAlphaModulating() || IS_FLAG_SET( MATERIAL_VAR_TRANSLUCENT ) || TextureIsTranslucent( BASETEXTURE, true ) || TextureIsTranslucent( TEXTURE2, true );
@@ -301,7 +301,7 @@ BEGIN_VS_SHADER( UnlitTwoTexture_DX9, "Help for UnlitTwoTexture_DX9" )
 		if ( params[CLOAKPASSENABLED]->GetIntValue() )
 		{
 			// If ( snapshotting ) or ( we need to draw this frame )
-			if ( ( pShaderShadow != NULL ) || ( ( params[CLOAKFACTOR]->GetFloatValue() > 0.0f ) && ( params[CLOAKFACTOR]->GetFloatValue() < 1.0f ) ) )
+			if ( ( pShaderShadow != nullptr) || ( ( params[CLOAKFACTOR]->GetFloatValue() > 0.0f ) && ( params[CLOAKFACTOR]->GetFloatValue() < 1.0f ) ) )
 			{
 				CloakBlendedPassVars_t info;
 				SetupVarsCloakBlendedPass( info );

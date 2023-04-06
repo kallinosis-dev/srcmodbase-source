@@ -131,8 +131,8 @@ extern qboolean onlyents;
 
 
 CUtlVector< CMapFile * >	g_Maps;
-CMapFile					*g_MainMap = NULL;
-CMapFile					*g_LoadingMap = NULL;
+CMapFile					*g_MainMap = nullptr;
+CMapFile					*g_LoadingMap = nullptr;
 
 char CMapFile::m_InstancePath[ MAX_PATH ] = "";
 int	CMapFile::m_InstanceCount = 0;
@@ -156,7 +156,7 @@ void CMapFile::Init( void )
 
 	memset( planehash, 0, sizeof( planehash ) );
 
-	m_ConnectionPairs = NULL;
+	m_ConnectionPairs = nullptr;
 
 	m_StartMapOverlays = g_aMapOverlays.Count();
 	m_StartMapWaterOverlays = g_aMapWaterOverlays.Count();
@@ -959,10 +959,10 @@ ChunkFileResult_t LoadDispDistancesKeyCallback(const char *szKey, const char *sz
 		char *pszNext = strtok(szBuf, " ");
 		int nIndex = nRow * nCols;
 
-		while (pszNext != NULL)
+		while (pszNext != nullptr)
 		{
 			pMapDispInfo->dispDists[nIndex] = (float)atof(pszNext);
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			nIndex++;
 		}
 	}
@@ -1120,20 +1120,20 @@ ChunkFileResult_t LoadDispNormalsKeyCallback(const char *szKey, const char *szVa
 		int nRow = atoi(&szKey[3]);
 
 		char *pszNext0 = strtok(szBuf, " ");
-		char *pszNext1 = strtok(NULL, " ");
-		char *pszNext2 = strtok(NULL, " ");
+		char *pszNext1 = strtok(nullptr, " ");
+		char *pszNext2 = strtok(nullptr, " ");
 
 		int nIndex = nRow * nCols;
 
-		while ((pszNext0 != NULL) && (pszNext1 != NULL) && (pszNext2 != NULL))
+		while ((pszNext0 != nullptr) && (pszNext1 != nullptr) && (pszNext2 != nullptr))
 		{
 			pMapDispInfo->vectorDisps[nIndex][0] = (float)atof(pszNext0);
 			pMapDispInfo->vectorDisps[nIndex][1] = (float)atof(pszNext1);
 			pMapDispInfo->vectorDisps[nIndex][2] = (float)atof(pszNext2);
 
-			pszNext0 = strtok(NULL, " ");
-			pszNext1 = strtok(NULL, " ");
-			pszNext2 = strtok(NULL, " ");
+			pszNext0 = strtok(nullptr, " ");
+			pszNext1 = strtok(nullptr, " ");
+			pszNext2 = strtok(nullptr, " ");
 
 			nIndex++;
 		}
@@ -1174,20 +1174,20 @@ ChunkFileResult_t LoadDispOffsetsKeyCallback(const char *szKey, const char *szVa
 		int nRow = atoi(&szKey[3]);
 
 		char *pszNext0 = strtok(szBuf, " ");
-		char *pszNext1 = strtok(NULL, " ");
-		char *pszNext2 = strtok(NULL, " ");
+		char *pszNext1 = strtok(nullptr, " ");
+		char *pszNext2 = strtok(nullptr, " ");
 
 		int nIndex = nRow * nCols;
 
-		while ((pszNext0 != NULL) && (pszNext1 != NULL) && (pszNext2 != NULL))
+		while ((pszNext0 != nullptr) && (pszNext1 != nullptr) && (pszNext2 != nullptr))
 		{
 			pMapDispInfo->vectorOffsets[nIndex][0] = (float)atof(pszNext0);
 			pMapDispInfo->vectorOffsets[nIndex][1] = (float)atof(pszNext1);
 			pMapDispInfo->vectorOffsets[nIndex][2] = (float)atof(pszNext2);
 
-			pszNext0 = strtok(NULL, " ");
-			pszNext1 = strtok(NULL, " ");
-			pszNext2 = strtok(NULL, " ");
+			pszNext0 = strtok(nullptr, " ");
+			pszNext1 = strtok(nullptr, " ");
+			pszNext2 = strtok(nullptr, " ");
 
 			nIndex++;
 		}
@@ -1273,10 +1273,10 @@ ChunkFileResult_t LoadDispAlphasKeyCallback(const char *szKey, const char *szVal
 
 		int nIndex = nRow * nCols;
 
-		while (pszNext0 != NULL)
+		while (pszNext0 != nullptr)
 		{
 			pMapDispInfo->alphaValues[nIndex] = (float)atof(pszNext0);
-			pszNext0 = strtok(NULL, " ");
+			pszNext0 = strtok(nullptr, " ");
 			nIndex++;
 		}
 	}
@@ -1308,7 +1308,7 @@ ChunkFileResult_t LoadDispTriangleTagsKeyCallback(const char *szKey, const char 
 		int nIndex = nRow * nCols;
 		int iTri = nIndex * 2;
 
-		while ( pszNext != NULL ) 
+		while ( pszNext != nullptr) 
 		{
 			// Collapse the tags here!
 			unsigned short nTriTags = ( unsigned short )atoi( pszNext );
@@ -1339,7 +1339,7 @@ ChunkFileResult_t LoadDispTriangleTagsKeyCallback(const char *szKey, const char 
 			}
 
 			pMapDispInfo->triTags[iTri] = nTriTags;
-			pszNext = strtok( NULL, " " );
+			pszNext = strtok(nullptr, " " );
 			iTri++;
 		}
 	}
@@ -1382,18 +1382,18 @@ ChunkFileResult_t LoadDispMultiBlendKeyCallback( const char *szKey, const char *
 
 		int nIndex = nRow * nCols;
 
-		while ( pszNext != NULL )
+		while ( pszNext != nullptr)
 		{
 			Vector4D	vMultiBlend;
 
 			vMultiBlend.x = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlend.y = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlend.z = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlend.w = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 
 			pMapDispInfo->m_vMultiBlends[ nIndex ].m_vMultiBlend = vMultiBlend;
 
@@ -1439,18 +1439,18 @@ ChunkFileResult_t LoadDispAlphaBlendKeyCallback( const char *szKey, const char *
 
 		int nIndex = nRow * nCols;
 
-		while ( pszNext != NULL )
+		while ( pszNext != nullptr)
 		{
 			Vector4D	vAlphaBlend;
 
 			vAlphaBlend.x = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vAlphaBlend.y = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vAlphaBlend.z = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vAlphaBlend.w = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 
 			pMapDispInfo->m_vMultiBlends[ nIndex ].m_vAlphaBlend = vAlphaBlend;
 
@@ -1541,16 +1541,16 @@ ChunkFileResult_t LoadDispMultiBlendColorKeyCallback(const char *szKey, const ch
 
 		int nIndex = nRow * nCols;
 
-		while (pszNext != NULL) 
+		while (pszNext != nullptr) 
 		{
 			Vector	vMultiBlendColor;
 
 			vMultiBlendColor.x = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlendColor.y = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 			vMultiBlendColor.z = ( float )atof( pszNext );
-			pszNext = strtok(NULL, " ");
+			pszNext = strtok(nullptr, " ");
 
 			pMapDispInfo->m_vMultiBlends[ nIndex ].m_vMultiBlendColors[ nMultiBlendColorIndex ] = vMultiBlendColor;
 
@@ -1626,7 +1626,7 @@ void ConvertSideList( entity_t *mapent, char *key )
 					strcat( szNewValue, szIndex );
 				}
 			}
-		} while ( ( pszScan = strtok( NULL, " " ) ) );
+		} while ( ( pszScan = strtok(nullptr, " " ) ) );
 
 		SetKeyValue( mapent, key, szNewValue );
 	}
@@ -1651,11 +1651,11 @@ ChunkFileResult_t HandleNoDynamicShadowsEnt( entity_t *pMapEnt )
 				if ( g_NoDynamicShadowSides.Find( brushSideID ) == -1 )
 					g_NoDynamicShadowSides.AddToTail( brushSideID );
 			}
-		} while( ( pScan = strtok( NULL, " " ) ) );
+		} while( ( pScan = strtok(nullptr, " " ) ) );
 	}
 	
 	// Clear out this entity.
-	pMapEnt->epairs = NULL;
+	pMapEnt->epairs = nullptr;
 	return ( ChunkFile_Ok );
 }
 
@@ -1746,7 +1746,7 @@ static ChunkFileResult_t LoadOverlayDataTransitionKeyCallback( const char *szKey
 			{
 				pOverlay->aSideList.AddToTail( nSideId );
 			}
-		} while ( ( pScan = strtok( NULL, " " ) ) );
+		} while ( ( pScan = strtok(nullptr, " " ) ) );
 	}
 
 	return ChunkFile_Ok;
@@ -1769,10 +1769,10 @@ static ChunkFileResult_t LoadOverlayDataTransitionCallback( CChunkFile *pFile, i
 static ChunkFileResult_t LoadOverlayTransitionCallback( CChunkFile *pFile, int nParam )
 {
 	CChunkHandlerMap Handlers;
-	Handlers.AddHandler( "overlaydata", ( ChunkHandler_t )LoadOverlayDataTransitionCallback, 0 );
+	Handlers.AddHandler( "overlaydata", ( ChunkHandler_t )LoadOverlayDataTransitionCallback, nullptr );
 	pFile->PushHandlers( &Handlers );
 
-	ChunkFileResult_t eResult = pFile->ReadChunk( NULL, NULL );
+	ChunkFileResult_t eResult = pFile->ReadChunk(nullptr, nullptr);
 
 	pFile->PopHandlers();
 
@@ -1857,7 +1857,7 @@ ChunkFileResult_t CSyncMesh_SaveLoadHandler::OnFileDataLoaded( CUtlBuffer &bufDa
 	char const * arrFiles[] = { ".ma", ".dmx", ".mdl", ".vvd", ".dx90.vtx", ".phy", ".ss2" };
 	char const * arrNames[] = { "maa", "dmx", "mdl", "vvd", "vtx", "phy", "ss2" };
 
-	char const *pFileExt = NULL;
+	char const *pFileExt = nullptr;
 
 	// Determine the file name to save
 	for ( int j = 0; j < ARRAYSIZE( arrFiles ); ++ j )
@@ -1919,12 +1919,12 @@ ChunkFileResult_t CMapFile::LoadEntityCallback(CChunkFile *pFile, int nParam)
 	CChunkHandlerMap Handlers;
 	Handlers.AddHandler("solid", (ChunkHandler_t)::LoadSolidCallback, &LoadEntity);
 	Handlers.AddHandler("connections", (ChunkHandler_t)LoadConnectionsCallback, &LoadEntity);
-	Handlers.AddHandler( "overlaytransition", ( ChunkHandler_t )LoadOverlayTransitionCallback, 0 );
+	Handlers.AddHandler( "overlaytransition", ( ChunkHandler_t )LoadOverlayTransitionCallback, nullptr );
 
 	CSyncMesh_SaveLoadHandler hdlrEntityMeshData;
 	VmfInstallMapEntitySaveLoadHandler( &hdlrEntityMeshData );
 
-	VmfAddMapEntityHandlers( &Handlers, NULL );
+	VmfAddMapEntityHandlers( &Handlers, nullptr);
 
 	//
 	// Read the entity chunk.
@@ -1951,7 +1951,7 @@ ChunkFileResult_t CMapFile::LoadEntityCallback(CChunkFile *pFile, int nParam)
 			mapent->numbrushes = 0;
 
 			// clear out this entity
-			mapent->epairs = NULL;
+			mapent->epairs = nullptr;
 			return(ChunkFile_Ok);
 		}
 
@@ -1981,7 +1981,7 @@ ChunkFileResult_t CMapFile::LoadEntityCallback(CChunkFile *pFile, int nParam)
 			mapent->numbrushes = 0;
 			
 			// clear out this entity
-			mapent->epairs = NULL;
+			mapent->epairs = nullptr;
 			return(ChunkFile_Ok);
 		}
 
@@ -2020,7 +2020,7 @@ ChunkFileResult_t CMapFile::LoadEntityCallback(CChunkFile *pFile, int nParam)
 			if ( iAccessorID < 0 )
 			{
 				// Clear out this entity.
-				mapent->epairs = NULL;
+				mapent->epairs = nullptr;
 			}
 			else
 			{
@@ -2039,7 +2039,7 @@ ChunkFileResult_t CMapFile::LoadEntityCallback(CChunkFile *pFile, int nParam)
 		if ( !strcmp( "info_overlay_transition", pClassName ) )
 		{
 			// Clear out this entity.
-			mapent->epairs = NULL;
+			mapent->epairs = nullptr;
 			return ( ChunkFile_Ok );
 		}
 
@@ -2168,7 +2168,7 @@ ChunkFileResult_t CMapFile::LoadEntityCallback(CChunkFile *pFile, int nParam)
 entity_t* EntityByName( char const *pTestName )
 {
 	if( !pTestName )
-		return 0;
+		return nullptr;
 
 	for( int i=0; i < g_MainMap->num_entities; i++ )
 	{
@@ -2179,7 +2179,7 @@ entity_t* EntityByName( char const *pTestName )
 			return e;
 	}
 
-	return 0;
+	return nullptr;
 }
 
 
@@ -2269,13 +2269,13 @@ void CMapFile::CheckForInstances( const char *pszFileName )
 		return;
 	}
 
-	const char *InstancePath = GameInfoKV->GetString( "InstancePath", NULL );
+	const char *InstancePath = GameInfoKV->GetString( "InstancePath", nullptr);
 	if ( InstancePath )
 	{
 		CMapFile::SetInstancePath( InstancePath );
 	}
 
-	const char *GameDataFile = GameInfoKV->GetString( "GameData", NULL );
+	const char *GameDataFile = GameInfoKV->GetString( "GameData", nullptr);
 	if ( !GameDataFile )
 	{
 		Msg( "Could not locate 'GameData' key in %s\n", GameInfoPath );
@@ -2330,7 +2330,7 @@ void CMapFile::CheckForInstances( const char *pszFileName )
 			}
 
 			entities[ i ].numbrushes = 0;
-			entities[ i ].epairs = NULL;
+			entities[ i ].epairs = nullptr;
 		}
 	}
 
@@ -2345,7 +2345,7 @@ void CMapFile::CheckForInstances( const char *pszFileName )
 		if ( Q_stricmp( pEntity, "func_instance_parms" ) == 0 )
 		{	// Clear out this entity.
 			entities[ i ].numbrushes = 0;
-			entities[ i ].epairs = NULL;
+			entities[ i ].epairs = nullptr;
 		}
 	}
 
@@ -2450,7 +2450,7 @@ void CMapFile::PostLoadInstances( )
 			Cubemap_SaveBrushSides( pSideListStr );
 
 			// clear out this entity
-			pEntity->epairs = NULL;
+			pEntity->epairs = nullptr;
 		}
 	}
 }
@@ -2658,7 +2658,7 @@ void CMapFile::ReplaceInstancePair( epair_t *pPair, entity_t *pInstanceEntity, e
 	bool	Overwritten = false;
 
 	strcpy( NewValue, pPair->value );
-	for ( epair_t *epInstance = pInstanceEntity->epairs; epInstance != NULL; epInstance = epInstance->next )
+	for ( epair_t *epInstance = pInstanceEntity->epairs; epInstance != nullptr; epInstance = epInstance->next )
 	{
 		if ( strnicmp( epInstance->key, INSTANCE_VARIABLE_KEY, strlen( INSTANCE_VARIABLE_KEY ) ) == 0 )
 		{
@@ -2706,8 +2706,8 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 	int						max_entity_id = 0;
 	char					temp[ 2048 ];
 	char					NameFixup[ 128 ];
-	entity_t				*pWorldspawnEnt = NULL;
-	entity_t				*pParmsEnt = NULL;
+	entity_t				*pWorldspawnEnt = nullptr;
+	entity_t				*pParmsEnt = nullptr;
 	GameData::TNameFixup	FixupStyle;
 
 	char *pTargetName = ValueForKey( pInstanceEntity, "targetname" );
@@ -2750,11 +2750,11 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 		}
 	}
 
-	if ( pParmsEnt != NULL )
+	if ( pParmsEnt != nullptr)
 	{
 		int		nReplaceCount = 1;
 
-		for ( epair_t *epParms = pParmsEnt->epairs; epParms != NULL; epParms = epParms->next )
+		for ( epair_t *epParms = pParmsEnt->epairs; epParms != nullptr; epParms = epParms->next )
 		{
 			char	ParmTemp[ MAX_KEYVALUE_LEN ];
 			char	*pszParmVariable;
@@ -2788,7 +2788,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 			pPos++;
 			pszParmDefaultValue = pPos;
 
-			for ( epair_t *epInstance = pInstanceEntity->epairs; epInstance != NULL; epInstance = epInstance->next )
+			for ( epair_t *epInstance = pInstanceEntity->epairs; epInstance != nullptr; epInstance = epInstance->next )
 			{
 				if ( strnicmp( epInstance->key, INSTANCE_VARIABLE_KEY, strlen( INSTANCE_VARIABLE_KEY ) ) == 0 )
 				{
@@ -2872,7 +2872,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 
 			// search for variables coming from the func_instance to replace inside of the instance
 			// this is done before entity fixup, so fixup may occur on the replaced value.  Not sure if this is a desired order of operation yet.
-			for ( epair_t *ep = entity->epairs; ep != NULL; ep = ep->next )
+			for ( epair_t *ep = entity->epairs; ep != nullptr; ep = ep->next )
 			{
 				ReplaceInstancePair( ep, pInstanceEntity, pParmsEnt );
 			}
@@ -3011,12 +3011,12 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 	num_entities += Instance->num_entities;
 
 	CConnectionPairs	*pLast = m_ConnectionPairs;
-	while( pLast != NULL && pLast->m_Next != NULL )
+	while( pLast != nullptr && pLast->m_Next != nullptr)
 	{
 		pLast = pLast->m_Next;
 	}
 
-	if ( pLast == NULL )
+	if ( pLast == nullptr)
 	{
 		m_ConnectionPairs = Instance->m_ConnectionPairs;
 	}
@@ -3031,7 +3031,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 		entities[ 0 ].epairs = pWorldspawnEnt->epairs;
 	}
 	pWorldspawnEnt->numbrushes = 0;
-	pWorldspawnEnt->epairs = NULL;
+	pWorldspawnEnt->epairs = nullptr;
 }
 
 
@@ -3071,7 +3071,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 		return;
 	}
 
-	entity_t *io_proxy_entity = NULL;
+	entity_t *io_proxy_entity = nullptr;
 
 	// find the proxy entity
 	for( int i = 0; i < Instance->num_entities; i++ )
@@ -3086,7 +3086,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 		}
 	}
 
-	if ( io_proxy_entity == NULL )
+	if ( io_proxy_entity == nullptr)
 	{	// if we don't have a proxy, bail
 		return;
 	}
@@ -3096,7 +3096,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 	int nNumRelay = 0;
 
 	// rename existing proxy events to be uniquely numbered
-	for ( epair_t *ep = io_proxy_entity->epairs; ep != NULL; ep = ep->next )
+	for ( epair_t *ep = io_proxy_entity->epairs; ep != nullptr; ep = ep->next )
 	{
 		if ( strcmpi( ep->key, PROXY_RELAY ) == 0 )
 		{
@@ -3120,7 +3120,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 
 		strcpy( origValue, pConnection->m_Pair->value );
 		char *pos = strchr( origValue, VMF_IOPARAM_STRING_DELIMITER );
-		if ( pos != NULL )
+		if ( pos != nullptr)
 		{	// this is a proxy relay io
 			*pos = 0;
 
@@ -3129,7 +3129,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 				char *pszProxy = pos + 1;
 
 				pos = strchr( pszProxy, VMF_IOPARAM_STRING_DELIMITER );
-				if ( pos != NULL )
+				if ( pos != nullptr)
 				{	// it is properly formatted
 					if ( strnicmp( pszProxy, PROXY_ID, strlen( PROXY_ID ) ) == 0 )
 					{	// the entity linkup is properly formatted   instance:xxxxxxx
@@ -3149,7 +3149,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 						strcat( search, Seperator );
 
 						// try and find the matchup entry in the proxy
-						for ( epair_t *ep = io_proxy_entity->epairs; ep != NULL; ep = ep->next )
+						for ( epair_t *ep = io_proxy_entity->epairs; ep != nullptr; ep = ep->next )
 						{
 							if ( strnicmp( ep->key, PROXY_RELAY, strlen( PROXY_RELAY ) ) == 0 &&
 								 strnicmp( ep->value, search, strlen( search ) ) == 0 )
@@ -3180,7 +3180,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 	while( pConnection != Instance->m_ConnectionPairs )
 	{
 		// ugly way to find connections for the func_instance
-		for ( epair_t *ep = pInstanceEntity->epairs; ep != NULL; ep = ep->next )
+		for ( epair_t *ep = pInstanceEntity->epairs; ep != nullptr; ep = ep->next )
 		{
 			if ( ep == pConnection->m_Pair )
 			{	// this connection is a member of our func_instance
@@ -3213,7 +3213,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 						char *pszName = ValueForKey( entity, "targetname" );
 						if ( strcmpi( pszName, search ) == 0 )
 						{	// the target name matches, so this is the entity to hook up
-							for ( epair_t *epTarget = entity->epairs; epTarget != NULL; epTarget = epTarget->next )
+							for ( epair_t *epTarget = entity->epairs; epTarget != nullptr; epTarget = epTarget->next )
 							{
 								if ( strcmpi( epTarget->key, Seperator + 1 ) != 0 )
 								{
@@ -3224,11 +3224,11 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 								strcpy( temp2, epTarget->value );
 
 								char *Pos1 = strchr( temp2, VMF_IOPARAM_STRING_DELIMITER );
-								if ( Pos1 != NULL )
+								if ( Pos1 != nullptr)
 								{	// we found the key and it is formatted properly
 									*Pos1 = NULL;
 									Pos1 = strchr( Pos1 + 1, VMF_IOPARAM_STRING_DELIMITER );
-									if ( Pos1 != NULL )
+									if ( Pos1 != nullptr)
 									{	// also continues to be formatted properly
 										char NewKey[ MAX_KEYVALUE_LEN ], NewValue[ MAX_KEYVALUE_LEN ];
 
@@ -3274,7 +3274,7 @@ bool LoadMapFile( const char *pszFileName )
 {
 	bool				bLoadingManifest = false;
 	ChunkFileResult_t	eResult;
-	CManifest			*pMainManifest = NULL;
+	CManifest			*pMainManifest = nullptr;
 
 	//
 	// Dummy this up for the texture handling. This can be removed when old .MAP file
@@ -3312,7 +3312,7 @@ bool LoadMapFile( const char *pszFileName )
 		{
 			int index = g_Maps.AddToTail( new CMapFile() );
 			g_LoadingMap = g_Maps[ index ];
-			if ( g_MainMap == NULL )
+			if ( g_MainMap == nullptr)
 			{
 				g_MainMap = g_LoadingMap;
 			}
@@ -3330,8 +3330,8 @@ bool LoadMapFile( const char *pszFileName )
 			// Set up handlers for the subchunks that we are interested in.
 			//
 			CChunkHandlerMap Handlers;
-			Handlers.AddHandler("world", (ChunkHandler_t)LoadEntityCallback, 0);
-			Handlers.AddHandler("entity", (ChunkHandler_t)LoadEntityCallback, 0);
+			Handlers.AddHandler("world", (ChunkHandler_t)LoadEntityCallback, nullptr);
+			Handlers.AddHandler("entity", (ChunkHandler_t)LoadEntityCallback, nullptr);
 
 			File.PushHandlers(&Handlers);
 
@@ -3435,7 +3435,7 @@ ChunkFileResult_t CMapFile::LoadSideCallback(CChunkFile *pFile, LoadSide_t *pSid
 	g_MapError.BrushSide( pSideInfo->nSideIndex++ );
 
 	// initialize the displacement info
-	pSideInfo->pSide->pMapDisp = NULL;
+	pSideInfo->pSide->pMapDisp = nullptr;
 
 	//
 	// Set up handlers for the subchunks that we are interested in.
@@ -3682,7 +3682,7 @@ ChunkFileResult_t CMapFile::LoadConnectionsKeyCallback(const char *szKey, const 
 	//
 	// Append it to the end of epairs list.
 	//
-	pOutput->next = NULL;
+	pOutput->next = nullptr;
 
 	if (!pLoadEntity->pEntity->epairs)
 	{
@@ -3691,7 +3691,7 @@ ChunkFileResult_t CMapFile::LoadConnectionsKeyCallback(const char *szKey, const 
 	else
 	{
 		epair_t *ep;
-		for ( ep = pLoadEntity->pEntity->epairs; ep->next != NULL; ep = ep->next )
+		for ( ep = pLoadEntity->pEntity->epairs; ep->next != nullptr; ep = ep->next )
 		{
 		}
 		ep->next = pOutput;

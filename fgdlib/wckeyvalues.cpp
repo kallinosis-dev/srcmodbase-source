@@ -142,7 +142,7 @@ const char *WCKeyValuesT<Base>::GetValue(const char *pszKey, int *piIndex) const
 	int i = this->FindByKeyName( pszKey );
 	if ( i == this->GetInvalidIndex() )
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{
@@ -159,7 +159,7 @@ const char *WCKeyValuesT<Base>::GetValue(const char *pszKey, int *piIndex) const
 template<class Base>
 void WCKeyValuesT<Base>::RemoveKey(const char *pszKey)
 {
-	SetValue(pszKey, (const char *)NULL);
+	SetValue(pszKey, (const char *)nullptr);
 }
 
 
@@ -221,7 +221,7 @@ void WCKeyValuesT<Base>::SetValue(const char *pszKey, const char *pszValue)
 
 	strcpy(szTmpKey, pszKey);
 
-	if (pszValue != NULL)
+	if (pszValue != nullptr)
 	{
 		strcpy(szTmpValue, pszValue);
 	}
@@ -249,7 +249,7 @@ void WCKeyValuesT<Base>::SetValue(const char *pszKey, const char *pszValue)
 	}
 	else
 	{
-		if (pszValue != NULL)
+		if (pszValue != nullptr)
 		{
 			V_strncpy(this->m_KeyValues[i].szValue, szTmpValue, sizeof(this->m_KeyValues[i].szValue));
 		}

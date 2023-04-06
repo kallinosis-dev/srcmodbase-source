@@ -222,7 +222,7 @@ public:
 class CAutoGameSystem : public CBaseGameSystem
 {
 public:
-	CAutoGameSystem( char const *name = NULL );	// hooks in at startup, no need to explicitly add
+	CAutoGameSystem( char const *name = nullptr);	// hooks in at startup, no need to explicitly add
 	CAutoGameSystem		*m_pNext;
 
 	virtual char const *Name() { return m_pszName ? m_pszName : "unnamed"; }
@@ -237,7 +237,7 @@ private:
 class CAutoGameSystemPerFrame : public CBaseGameSystemPerFrame
 {
 public:
-	CAutoGameSystemPerFrame( char const *name = NULL );
+	CAutoGameSystemPerFrame( char const *name = nullptr);
 	CAutoGameSystemPerFrame *m_pNext;
 
 	virtual char const *Name() { return m_pszName ? m_pszName : "unnamed"; }

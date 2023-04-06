@@ -13,7 +13,7 @@
 #include <tier0/memdbgon.h>
 
 
-static CEntityHelpDlg *g_pHelpDlg = NULL;
+static CEntityHelpDlg *g_pHelpDlg = nullptr;
 
 
 BEGIN_MESSAGE_MAP(CEntityHelpDlg, CDialog)
@@ -30,13 +30,13 @@ END_MESSAGE_MAP()
 //-----------------------------------------------------------------------------
 void CEntityHelpDlg::ShowEntityHelpDialog(void)
 {
-	if (g_pHelpDlg == NULL)
+	if (g_pHelpDlg == nullptr)
 	{
 		g_pHelpDlg = new CEntityHelpDlg;
 		g_pHelpDlg->Create(IDD_ENTITY_HELP);
 	}
 
-	if (g_pHelpDlg != NULL)
+	if (g_pHelpDlg != nullptr)
 	{
 		g_pHelpDlg->ShowWindow(SW_SHOW);
 	}
@@ -48,7 +48,7 @@ void CEntityHelpDlg::ShowEntityHelpDialog(void)
 //-----------------------------------------------------------------------------
 void CEntityHelpDlg::SetEditGameClass(GDclass *pClass)
 {
-	if (g_pHelpDlg != NULL)
+	if (g_pHelpDlg != nullptr)
 	{
 		g_pHelpDlg->UpdateClass(pClass);
 	}
@@ -61,7 +61,7 @@ void CEntityHelpDlg::SetEditGameClass(GDclass *pClass)
 CEntityHelpDlg::CEntityHelpDlg(CWnd *pwndParent)
 	: CDialog(CEntityHelpDlg::IDD, pwndParent)
 {
-	m_pHelpText = NULL;
+	m_pHelpText = nullptr;
 }
 
 
@@ -70,7 +70,7 @@ CEntityHelpDlg::CEntityHelpDlg(CWnd *pwndParent)
 //-----------------------------------------------------------------------------
 CEntityHelpDlg::~CEntityHelpDlg(void)
 {
-	g_pHelpDlg = NULL;
+	g_pHelpDlg = nullptr;
 }
 
 
@@ -94,18 +94,18 @@ void CEntityHelpDlg::DoDataExchange(CDataExchange *pDX)
 //-----------------------------------------------------------------------------
 int CEntityHelpDlg::GetTextWidth(const char *pszText, CDC *pDC)
 {
-	if (pszText != NULL)
+	if (pszText != nullptr)
 	{
 		bool bRelease = false;
 
-		if (pDC == NULL)
+		if (pDC == nullptr)
 		{
 			bRelease = true;
 			pDC = m_pHelpText->GetDC();
 		}
 
 		CGdiObject *pOldFont = pDC->SelectStockObject(DEFAULT_GUI_FONT);
-		CSize Size = pDC->GetTabbedTextExtent(pszText, strlen(pszText), 0, NULL);
+		CSize Size = pDC->GetTabbedTextExtent(pszText, strlen(pszText), 0, nullptr);
 		pDC->SelectObject(pOldFont);
 
 		if (bRelease)
@@ -197,7 +197,7 @@ void CEntityHelpDlg::UpdateClass(GDclass *pClass)
 //-----------------------------------------------------------------------------
 void CEntityHelpDlg::UpdateHelp(void)
 {
-	if (m_pClass != NULL)
+	if (m_pClass != nullptr)
 	{
 		m_pHelpText->SetWindowText("");
 
@@ -363,9 +363,9 @@ void CEntityHelpDlg::OnSize( UINT nType, int cx, int cy )
 {
 	CDialog::OnSize(nType, cx, cy);
 
-	if (m_pHelpText != NULL)
+	if (m_pHelpText != nullptr)
 	{
-		m_pHelpText->SetWindowPos(NULL, 0, 0, cx - 22, cy - 22, SWP_NOMOVE | SWP_NOZORDER);
+		m_pHelpText->SetWindowPos(nullptr, 0, 0, cx - 22, cy - 22, SWP_NOMOVE | SWP_NOZORDER);
 	}
 }
 

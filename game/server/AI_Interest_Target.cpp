@@ -19,7 +19,7 @@ bool CAI_InterestTarget_t::IsThis( CBaseEntity *pThis )
 
 const Vector &CAI_InterestTarget_t::GetPosition( void )
 {
-	if (m_eType	== LOOKAT_ENTITY && m_hTarget != NULL)
+	if (m_eType	== LOOKAT_ENTITY && m_hTarget != nullptr)
 	{
 		m_vecPosition = m_hTarget->EyePosition();
 	}
@@ -29,7 +29,7 @@ const Vector &CAI_InterestTarget_t::GetPosition( void )
 bool CAI_InterestTarget_t::IsActive( void )
 {
 	if (m_flEndTime < gpGlobals->curtime) return false;
-	if (m_eType == LOOKAT_ENTITY && m_hTarget == NULL) return false;
+	if (m_eType == LOOKAT_ENTITY && m_hTarget == nullptr) return false;
 	return true;
 };
 
@@ -99,7 +99,7 @@ void CAI_InterestTarget::Add( const Vector &vecPosition, float flImportance, flo
 		}
 	}
 
-	Add( CAI_InterestTarget_t::LOOKAT_POSITION, NULL, vecPosition, flImportance, flDuration, flRamp );
+	Add( CAI_InterestTarget_t::LOOKAT_POSITION, nullptr, vecPosition, flImportance, flDuration, flRamp );
 }
 
 void CAI_InterestTarget::Add( CBaseEntity *pTarget, const Vector &vecPosition, float flImportance, float flDuration, float flRamp )

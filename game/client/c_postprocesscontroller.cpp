@@ -18,13 +18,13 @@ IMPLEMENT_CLIENTCLASS_DT( C_PostProcessController, DT_PostProcessController, CPo
 	RecvPropBool( RECVINFO(m_bMaster) )
 END_RECV_TABLE()
 
-C_PostProcessController* C_PostProcessController::ms_pMasterController = NULL;
+C_PostProcessController* C_PostProcessController::ms_pMasterController = nullptr;
 
 //-----------------------------------------------------------------------------
 C_PostProcessController::C_PostProcessController( void )
 : 	m_bMaster( false )
 {
-	if ( ms_pMasterController == NULL )
+	if ( ms_pMasterController == nullptr)
 	{
 		ms_pMasterController = this;
 	}
@@ -35,7 +35,7 @@ C_PostProcessController::~C_PostProcessController( void )
 {
 	if ( ms_pMasterController == this )
 	{
-		ms_pMasterController = NULL;
+		ms_pMasterController = nullptr;
 	}
 }
 

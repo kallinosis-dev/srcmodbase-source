@@ -33,7 +33,7 @@ class mxLabel : public mxWidget
 
 public:
 	// CREATORS
-	mxLabel (mxWindow *parent, int x, int y, int w, int h, const char *label = 0);
+	mxLabel (mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr);
 	virtual ~mxLabel ();
 
 private:

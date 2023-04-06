@@ -39,7 +39,7 @@ void CAttributeDetailTypePickerPanel::AddDetailTypesToList( PickerList_t &list )
 	KeyValues *pDetailTypes = new KeyValues( DETAILTYPE_FILE );
 	if ( pDetailTypes->LoadFromFile( g_pFullFileSystem, DETAILTYPE_FILE, "GAME" ) )
 	{
-		for ( KeyValues *sub = pDetailTypes->GetFirstTrueSubKey(); sub != NULL; sub = sub->GetNextTrueSubKey() )
+		for ( KeyValues *sub = pDetailTypes->GetFirstTrueSubKey(); sub != nullptr; sub = sub->GetNextTrueSubKey() )
 		{
 			int i = list.AddToTail( );
 			list[i].m_pChoiceString = sub->GetName();
@@ -74,7 +74,7 @@ void CAttributeDetailTypePickerPanel::ShowPickerDialog()
 void CAttributeDetailTypePickerPanel::OnPicked( KeyValues *pKeyValues )
 {
 	// Get the detail type name back
-	const char *pDetailTypeName = pKeyValues->GetString( "choice", NULL );
+	const char *pDetailTypeName = pKeyValues->GetString( "choice", nullptr);
 	if ( !pDetailTypeName || !pDetailTypeName[ 0 ] )
 		return;
 

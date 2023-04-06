@@ -34,7 +34,7 @@ class mxButton : public mxWidget
 public:
 	// CREATORS
 
-	mxButton (mxWindow *parent, int x, int y, int w, int h, const char *label = 0, int id = 0);
+	mxButton (mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr, int id = 0);
 
 	virtual ~mxButton ();
 

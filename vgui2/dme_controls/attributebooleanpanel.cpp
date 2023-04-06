@@ -32,7 +32,7 @@ void CAttributeBooleanPanel::ApplySchemeSettings(IScheme *pScheme)
 	// Need to override the scheme settings for this button
 	BaseClass::ApplySchemeSettings( pScheme );
 
-	m_pValueButton->SetBorder(NULL);
+	m_pValueButton->SetBorder(nullptr);
 	m_pValueButton->SetPaintBorderEnabled( false );
 	// Hack to get rid of the checkbox offset of &!^@#% 6
 	// m_pValueButton->SetImage( vgui::scheme()->GetImage( "tools/ifm/icon_properties_linkarrow" , false), 0);

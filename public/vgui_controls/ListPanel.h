@@ -38,13 +38,13 @@ class ListPanelItem
 {
 public:
 	ListPanelItem() :
-		kv( 0 ),
+		kv( nullptr ),
 		userData( 0 ),
-		m_pDragData( 0 ),
+		m_pDragData( nullptr ),
 		m_bImage( false ),
 		m_nImageIndex( -1 ),
 		m_nImageIndexSelected( -1 ),
-		m_pIcon( 0 )
+		m_pIcon( nullptr )
 	{
 	}
 

@@ -292,8 +292,8 @@ DECLARE_TABLES( 17 );
 // Index by m_Power.
 CPowerInfo *g_PowerInfos[NUM_POWERINFOS] =
 {
-	NULL,
-	NULL,
+	nullptr,
+	nullptr,
 	POWERINFO_ENTRY(5),
 	POWERINFO_ENTRY(9),
 	POWERINFO_ENTRY(17)

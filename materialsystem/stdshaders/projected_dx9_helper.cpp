@@ -50,7 +50,7 @@ void DrawProjected_DX9( CBaseVSShader *pShader, IMaterialVar** params, IShaderDy
 		unsigned int flags = VERTEX_POSITION | VERTEX_FORMAT_COMPRESSED;
 		int nTexCoordCount = 0;
 
-		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, 0 );
+		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, 0 );
 
 #ifndef _X360
 		if ( !g_pHardwareConfig->HasFastVertexTextures() )

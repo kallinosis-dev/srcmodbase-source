@@ -169,7 +169,7 @@ void DrawLightmappedPaint_DX9( CBaseVSShader *pShader, IMaterialVar** params, IS
 #if 0
 				int nLightingPreviewMode = IS_FLAG2_SET( MATERIAL_VAR2_USE_GBUFFER0 ) + 2 * IS_FLAG2_SET( MATERIAL_VAR2_USE_GBUFFER1 );
 #endif
-				pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, 0, 0 );
+				pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, 0 );
 
 				// Pre-cache pixel shaders
 

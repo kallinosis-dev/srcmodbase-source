@@ -41,7 +41,7 @@ CMapClass *CMapDecal::CreateMapDecal(CHelperInfo *pHelperInfo, CMapEntity *pPare
 //-----------------------------------------------------------------------------
 CMapDecal::CMapDecal(void)
 {
-	m_pTexture = NULL;
+	m_pTexture = nullptr;
 }
 
 
@@ -68,7 +68,7 @@ void CMapDecal::AddSolid(CMapSolid *pSolid)
 {
 	if ( m_Solids.Find(pSolid) == -1 )
 	{
-		UpdateDependency(NULL, pSolid);
+		UpdateDependency(nullptr, pSolid);
 		m_Solids.AddToTail(pSolid);
 	}
 }
@@ -104,7 +104,7 @@ void CMapDecal::CalcBounds(BOOL bFullUpdate)
 		{
 			DecalFace_t *pDecalFace = m_Faces.Element(pos);
 
-			if ((pDecalFace != NULL) && (pDecalFace->pFace != NULL))
+			if ((pDecalFace != nullptr) && (pDecalFace->pFace != nullptr))
 			{
 				pDecalFace->pFace->GetFaceBounds(Mins, Maxs);
 
@@ -158,7 +158,7 @@ int CMapDecal::CanDecalSolid(CMapSolid *pSolid, CMapFace **ppFaces)
 
 		if ((fDistance <= 16.0f) && (fDistance >= -0.0001))
 		{
-			if (ppFaces != NULL)
+			if (ppFaces != nullptr)
 			{
 				ppFaces[nDecalFaces] = pFace;
 			}
@@ -179,7 +179,7 @@ CMapClass *CMapDecal::Copy(bool bUpdateDependencies)
 {
 	CMapDecal *pCopy = new CMapDecal;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -217,10 +217,10 @@ CMapClass *CMapDecal::CopyFrom(CMapClass *pObject, bool bUpdateDependencies)
 	FOR_EACH_OBJ( pFrom->m_Faces, pos )
 	{
 		DecalFace_t *pDecalFace = new DecalFace_t;
-		if (pDecalFace != NULL)
+		if (pDecalFace != nullptr)
 		{
 			pDecalFace->pFace = new CMapFace;
-			if (pDecalFace->pFace != NULL)
+			if (pDecalFace->pFace != nullptr)
 			{
 				DecalFace_t *pFromDecalFace = pFrom->m_Faces.Element(pos);
 
@@ -247,7 +247,7 @@ CMapClass *CMapDecal::CopyFrom(CMapClass *pObject, bool bUpdateDependencies)
 //-----------------------------------------------------------------------------
 int CMapDecal::DecalSolid(CMapSolid *pSolid)
 {
-	if (m_pTexture == NULL)
+	if (m_pTexture == nullptr)
 	{
 		return(0);
 	}
@@ -336,7 +336,7 @@ void CMapDecal::OnParentKeyChanged(const char* szKey, const char* szValue)
 	{
 		IEditorTexture *pTexNew = g_Textures.FindActiveTexture(szValue);
 
-		if (pTexNew != NULL)
+		if (pTexNew != nullptr)
 		{
 			m_pTexture = pTexNew;
 
@@ -348,7 +348,7 @@ void CMapDecal::OnParentKeyChanged(const char* szKey, const char* szValue)
 			{
 				CMapClass *pMapClass = (CUtlReference< CMapClass >)m_Solids.Element(pos);
 				CMapSolid *pSolid = (CMapSolid *)pMapClass;
-				if (pSolid != NULL)
+				if (pSolid != nullptr)
 				{
 					OnNotifyDependent(pSolid, Notify_Changed);
 				}
@@ -366,17 +366,17 @@ void CMapDecal::DecalAllSolids(CMapWorld *pWorld)
 {
 	Assert(pWorld != NULL);
 
-	if (pWorld != NULL)
+	if (pWorld != nullptr)
 	{
 		//
 		// Try to apply the decal to every solid in the world.
 		//
 		EnumChildrenPos_t pos;
 		CMapClass *pChild = pWorld->GetFirstDescendent(pos);
-		while (pChild != NULL)
+		while (pChild != nullptr)
 		{
 			CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pChild);
-			if ((pSolid != NULL) && (DecalSolid(pSolid) != 0))
+			if ((pSolid != nullptr) && (DecalSolid(pSolid) != 0))
 			{
 				AddSolid(pSolid);
 			}
@@ -399,7 +399,7 @@ void CMapDecal::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotify
 {
 	CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pObject);
 
-	if (pSolid != NULL)
+	if (pSolid != nullptr)
 	{
 		//
 		// Delete any decal faces that are attached to this solid. They will be
@@ -409,7 +409,7 @@ void CMapDecal::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotify
 		for( int pos = m_Faces.Count()-1; pos>=0; pos-- )
 		{
 			DecalFace_t *pDecalFace = m_Faces.Element(pos);
-			if ((pDecalFace != NULL) && (pDecalFace->pSolid == pSolid))
+			if ((pDecalFace != nullptr) && (pDecalFace->pSolid == pSolid))
 			{
 				delete pDecalFace->pFace;
 				delete pDecalFace;
@@ -437,7 +437,7 @@ void CMapDecal::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotify
 		if (index != -1)
 		{
 			m_Solids.FastRemove(index);
-			UpdateDependency(pSolid, NULL);
+			UpdateDependency(pSolid, nullptr);
 		}
 	}
 
@@ -471,7 +471,7 @@ void CMapDecal::RebuildDecalFaces(void)
 	FOR_EACH_OBJ( m_Faces, pos )
 	{
 		DecalFace_t *pDecalFace = m_Faces.Element(pos);
-		if (pDecalFace != NULL)
+		if (pDecalFace != nullptr)
 		{
 			delete pDecalFace->pFace;
 			delete pDecalFace;
@@ -538,7 +538,7 @@ void CMapDecal::Render3D(CRender3D *pRender)
 		{
 			DecalFace_t *pDecalFace = m_Faces.Element(pos);
 
-			if ((pDecalFace != NULL) && (pDecalFace->pFace != NULL))
+			if ((pDecalFace != nullptr) && (pDecalFace->pFace != nullptr))
 			{
 				pDecalFace->pFace->Render3D(pRender);
 			}
@@ -608,7 +608,7 @@ void CMapDecal::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren)
 	{
 		CMapClass *pMapClass = (CUtlReference< CMapClass >)m_Solids.Element(pos);
 		CMapSolid *pSolid = (CMapSolid *)pMapClass;
-		UpdateDependency(pSolid, NULL);
+		UpdateDependency(pSolid, nullptr);
 	}
 
 	m_Solids.RemoveAll();

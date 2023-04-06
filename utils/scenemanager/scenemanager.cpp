@@ -29,7 +29,7 @@ char cmdline[1024] = "";
 static CUniformRandomStream g_Random;
 IUniformRandomStream *random = &g_Random;
 
-IFileSystem *filesystem = NULL;
+IFileSystem *filesystem = nullptr;
 
 SpewRetval_t SceneManagerSpewFunc( SpewType_t spewType, char const *pMsg )
 {
@@ -37,7 +37,7 @@ SpewRetval_t SceneManagerSpewFunc( SpewType_t spewType, char const *pMsg )
 	{
 	case SPEW_ERROR:
 		{
-			MessageBox(NULL, pMsg, "FATAL ERROR", MB_OK);
+			MessageBox(nullptr, pMsg, "FATAL ERROR", MB_OK);
 		}
 		return SPEW_ABORT;
 	case SPEW_WARNING:
@@ -110,7 +110,7 @@ void CHLSceneManagerApp::Destroy()
 //-----------------------------------------------------------------------------
 bool CHLSceneManagerApp::SetupSearchPaths()
 {
-	if ( !BaseClass::SetupSearchPaths( NULL, false, true ) )
+	if ( !BaseClass::SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	// Set gamedir.
@@ -149,7 +149,7 @@ bool CHLSceneManagerApp::PreInit( )
 
 void CHLSceneManagerApp::PostShutdown()
 {
-	g_pFileSystem = filesystem = NULL;
+	g_pFileSystem = filesystem = nullptr;
 	BaseClass::PostShutdown();
 }
 
@@ -184,7 +184,7 @@ int CHLSceneManagerApp::Main()
 
 	if ( !workspace_loaded )
 	{
-		sm->AutoLoad( NULL );
+		sm->AutoLoad(nullptr);
 	}
 	
 	int retval = mx::run ();
@@ -199,7 +199,7 @@ int CHLSceneManagerApp::Main()
 int main (int argc, char *argv[])
 {
 	CommandLine()->CreateCmdLine( argc, argv );
-	CoInitialize(NULL);
+	CoInitialize(nullptr);
 
 	// make sure, we start in the right directory
 	char szName[256];

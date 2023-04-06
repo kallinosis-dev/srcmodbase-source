@@ -28,8 +28,8 @@ public:
 		m_nSampleBits = 16;
 		m_nSampleRate = 44100;
 		m_bIsActive = true;
-		m_hWindow = NULL;
-		m_hInstDS = 0;
+		m_hWindow = nullptr;
+		m_hInstDS = nullptr;
 		m_bIsHeadphone = false;
 		m_bSupportsBufferStarvationDetection = false;
 		m_bIsCaptureDevice = false;
@@ -155,14 +155,14 @@ IAudioDevice2 *Audio_CreateDSoundDevice( const audio_device_init_params_t &param
 		return CAudioDirectSound2::m_pSingleton;
 
 	delete CAudioDirectSound2::m_pSingleton;
-	CAudioDirectSound2::m_pSingleton = NULL;
+	CAudioDirectSound2::m_pSingleton = nullptr;
 
 	Warning("Failed to initialize direct sound!\n");
-	return NULL;
+	return nullptr;
 }
 
 
-CAudioDirectSound2 *CAudioDirectSound2::m_pSingleton = NULL;
+CAudioDirectSound2 *CAudioDirectSound2::m_pSingleton = nullptr;
 // ----------------------------------------------------------------------------- //
 // Helpers.
 // ----------------------------------------------------------------------------- //
@@ -171,7 +171,7 @@ CAudioDirectSound2 *CAudioDirectSound2::m_pSingleton = NULL;
 CAudioDirectSound2::~CAudioDirectSound2( void )
 {
 	Shutdown();
-	m_pSingleton = NULL;
+	m_pSingleton = nullptr;
 }
 
 
@@ -221,7 +221,7 @@ bool CAudioDirectSound2::Init( const audio_device_init_params_t &params )
 	bool			primary_format_set = false;
 
 	// if a specific device was requested use that one, otherwise use the default (NULL means default)
-	LPGUID pGUID = NULL;
+	LPGUID pGUID = nullptr;
 	UniqueId_t overrideGUID;
 	m_bPlayEvenWhenNotInFocus = params.m_bPlayEvenWhenNotInFocus;
 	if ( params.m_bOverrideDevice )
@@ -247,7 +247,7 @@ bool CAudioDirectSound2::Init( const audio_device_init_params_t &params )
 	if (!m_hInstDS)
 	{
 		m_hInstDS = LoadLibrary("dsound.dll");
-		if (m_hInstDS == NULL)
+		if (m_hInstDS == nullptr)
 		{
 			Warning( "Couldn't load dsound.dll\n");
 			return false;
@@ -261,7 +261,7 @@ bool CAudioDirectSound2::Init( const audio_device_init_params_t &params )
 		}
 	}
 
-	while ((hresult = g_pDirectSoundCreate(pGUID, &pDS, NULL)) != DS_OK)
+	while ((hresult = g_pDirectSoundCreate(pGUID, &pDS, nullptr)) != DS_OK)
 	{
 		if (hresult == DSERR_ALLOCATED)
 		{
@@ -358,14 +358,14 @@ bool CAudioDirectSound2::Init( const audio_device_init_params_t &params )
 		Assert( nPrimaryChannels == 1 );
 	}
 	dsbuf.dwBufferBytes = 0;
-	dsbuf.lpwfxFormat = NULL;
+	dsbuf.lpwfxFormat = nullptr;
 
 	V_memset( &dsbcaps, 0, sizeof(dsbcaps) );
 	dsbcaps.dwSize = sizeof(dsbcaps);
 
 	if ( 1 )
 	{
-		if (DS_OK == pDS->CreateSoundBuffer(&dsbuf, &pDSPBuf, NULL))
+		if (DS_OK == pDS->CreateSoundBuffer(&dsbuf, &pDSPBuf, nullptr))
 		{
 			pformat = format;
 
@@ -407,19 +407,19 @@ void CAudioDirectSound2::Shutdown( void )
 		pDS->Release();
 	}
 
-	pDS = NULL;
-	pDSBuf = NULL;
-	pDSPBuf = NULL;
+	pDS = nullptr;
+	pDSBuf = nullptr;
+	pDSPBuf = nullptr;
 
 	if ( m_hInstDS )
 	{
 		FreeLibrary( m_hInstDS );
-		m_hInstDS = NULL;
+		m_hInstDS = nullptr;
 	}
 
 	if ( this == CAudioDirectSound2::m_pSingleton )
 	{
-		CAudioDirectSound2::m_pSingleton = NULL;
+		CAudioDirectSound2::m_pSingleton = nullptr;
 	}
 }
 
@@ -441,7 +441,7 @@ void CAudioDirectSound2::CancelOutput( void )
 		HRESULT	hresult;
 
 		reps = 0;
-		while ((hresult = pDSBuf->Lock(0, m_nTotalBufferSizeBytes, (void**)&pData, &dwSize, NULL, NULL, 0)) != DS_OK)
+		while ((hresult = pDSBuf->Lock(0, m_nTotalBufferSizeBytes, (void**)&pData, &dwSize, nullptr, nullptr, 0)) != DS_OK)
 		{
 			if (hresult != DSERR_BUFFERLOST)
 			{
@@ -458,7 +458,7 @@ void CAudioDirectSound2::CancelOutput( void )
 
 		V_memset(pData, 0, dwSize);
 
-		pDSBuf->Unlock(pData, dwSize, NULL, 0);
+		pDSBuf->Unlock(pData, dwSize, nullptr, 0);
 	}
 }
 
@@ -542,7 +542,7 @@ bool CAudioDirectSound2::SNDDMA_InitInterleaved( LPDIRECTSOUND lpDS, WAVEFORMATE
 			wfx.Format.wFormatTag = WAVE_FORMAT_PCM;
 			wfx.Format.cbSize = 0;
 			dsbdesc.dwFlags = DSBCAPS_LOCSOFTWARE | nBaseFlags;
-			HRESULT hr = lpDS->CreateSoundBuffer(&dsbdesc, &pDSBuf, NULL); 
+			HRESULT hr = lpDS->CreateSoundBuffer(&dsbdesc, &pDSBuf, nullptr); 
 			if(FAILED(hr))
 			{
 				printf("Failed %d\n", hr );
@@ -552,14 +552,14 @@ bool CAudioDirectSound2::SNDDMA_InitInterleaved( LPDIRECTSOUND lpDS, WAVEFORMATE
 	}
 
 	DWORD dwSize = 0, dwWrite;
-	DWORD *pBuffer = 0;
+	DWORD *pBuffer = nullptr;
 	if ( !LockDSBuffer( pDSBuf, &pBuffer, &dwSize, "DS_INTERLEAVED", DSBLOCK_ENTIREBUFFER ) )
 		return false;
 
 	m_nChannels = wfx.Format.nChannels;
 	V_memset( pBuffer, 0, dwSize );
 
-	pDSBuf->Unlock(pBuffer, dwSize, NULL, 0);
+	pDSBuf->Unlock(pBuffer, dwSize, nullptr, 0);
 	
 	// Make sure mixer is active (this was moved after the zeroing to avoid popping on startup -- at least when using the dx9.0b debug .dlls)
 	pDSBuf->Play(0, 0, DSBPLAY_LOOPING);
@@ -578,8 +578,8 @@ bool CAudioDirectSound2::LockDSBuffer( LPDIRECTSOUNDBUFFER pBuffer, DWORD **pdwW
 		return false;
 	HRESULT hr;
 	int reps = 0;
-	while ((hr = pBuffer->Lock(0, m_nTotalBufferSizeBytes, (void**)pdwWriteBuffer, pdwSizeBuffer, 
-		NULL, NULL, lockFlags)) != DS_OK)
+	while ((hr = pBuffer->Lock(0, m_nTotalBufferSizeBytes, (void**)pdwWriteBuffer, pdwSizeBuffer,
+	                           nullptr, nullptr, lockFlags)) != DS_OK)
 	{
 		if (hr != DSERR_BUFFERLOST)
 		{
@@ -601,8 +601,8 @@ void CAudioDirectSound2::OutputBuffer( int nMixChannelCount, CAudioMixBuffer *pM
 	HRESULT hr;
 	int nDeviceChannelCount = ChannelCount();
 	int nOutputSize = BytesPerSample() * nDeviceChannelCount * MIX_BUFFER_SIZE;
-	void *pBuffer0=NULL;
-	void *pBuffer1=NULL;
+	void *pBuffer0= nullptr;
+	void *pBuffer1= nullptr;
 	DWORD nSize0, nSize1;
 	int nReps = 0;
 	while ( (hr = pDSBuf->Lock( m_nSubmitPosition, nOutputSize, &pBuffer0, &nSize0, &pBuffer1, &nSize1, 0 )) != DS_OK )
@@ -660,7 +660,7 @@ int CAudioDirectSound2::QueuedBufferCount()
 	const int nSizeInBytes = m_nTotalBufferSizeBytes; 
 	// multi-channel interleaved output buffer 
 	// get byte offset of playback cursor in output buffer
-	HRESULT hr = pDSBuf->GetCurrentPosition(&dwCurrentPlayCursor, NULL);
+	HRESULT hr = pDSBuf->GetCurrentPosition(&dwCurrentPlayCursor, nullptr);
 	if ( hr != S_OK )
 		return m_nBufferCount;
 
@@ -707,10 +707,10 @@ void CAudioDirectSound2::WaitForComplete()
 void CAudioDirectSound2::ClearBuffer( void )
 {
 	DWORD dwSize = 0;
-	DWORD *pBuffer = 0;
+	DWORD *pBuffer = nullptr;
 	if ( LockDSBuffer( pDSBuf, &pBuffer, &dwSize, "DS_INTERLEAVED", DSBLOCK_ENTIREBUFFER ) )
 	{
 		V_memset( pBuffer, 0, dwSize );
-		pDSBuf->Unlock(pBuffer, dwSize, NULL, 0);
+		pDSBuf->Unlock(pBuffer, dwSize, nullptr, 0);
 	}
 }

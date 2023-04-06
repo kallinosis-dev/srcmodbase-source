@@ -179,7 +179,7 @@ void IVV_Cluster_Min_Hash::change_value(void *elem, IVP_DOUBLE val){
 void IVV_Cluster_Min_Hash::remove(void *elem){
     int i = hash_index((char *)&elem);
     IVV_Cluster_Min_Hash_Elem *el,*last_el;
-    last_el = 0;
+    last_el = nullptr;
     for (el = elems[i];el;el=el->next){
 	if ( el->elem == elem){
 	    if (last_el){
@@ -187,7 +187,7 @@ void IVV_Cluster_Min_Hash::remove(void *elem){
 	    }else{
 		elems[i] = el->next;
 	    }
-	    el->next = 0;
+	    el->next = nullptr;
 	    if (el == min_per_array_pos[i]){
 		min_removed_at_index(el,i);
 	    }

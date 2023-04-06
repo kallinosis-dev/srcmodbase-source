@@ -102,7 +102,7 @@ enum VoiceFormat_t
 //!
 //! pnOutUncompressedSampleOffset will return an "absolute" timestamp corresponding to the
 //! start of the packet, with a precision of VOICE_OUTPUT_SAMPLE_RATE.
-int Voice_GetCompressedData(char *pchData, int nCount, bool bFinal, VoiceFormat_t *pOutFormat = NULL, uint8 *pnOutSectionNumber = NULL, uint32 *pnOutSectionSequenceNumber = NULL, uint32 *pnOutUncompressedSampleOffset = NULL );
+int Voice_GetCompressedData(char *pchData, int nCount, bool bFinal, VoiceFormat_t *pOutFormat = nullptr, uint8 *pnOutSectionNumber = nullptr, uint32 *pnOutSectionSequenceNumber = nullptr, uint32 *pnOutUncompressedSampleOffset = nullptr);
 
 
 //! Pass incoming data from the server into here.

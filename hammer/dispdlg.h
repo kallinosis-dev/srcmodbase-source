@@ -21,7 +21,7 @@ class CDispCreateDlg : public CDialog
 {
 public:
 
-	CDispCreateDlg( CWnd *pParent = NULL );
+	CDispCreateDlg( CWnd *pParent = nullptr);
 
 	//{{AFX_DATA( CDispCreateDlg )
 	enum { IDD = IDD_DISP_CREATE };
@@ -53,7 +53,7 @@ class CDispNoiseDlg : public CDialog
 {
 public:
 
-	CDispNoiseDlg( CWnd *pParent = NULL );
+	CDispNoiseDlg( CWnd *pParent = nullptr);
 
 	//{{AFX_DATA( CDispNoiseDlg )
 	enum { IDD = IDD_DISP_NOISE };
@@ -88,7 +88,7 @@ class CDispPaintDistDlg : public CDialog
 {
 public:
 
-	CDispPaintDistDlg( CWnd *pParent = NULL );
+	CDispPaintDistDlg( CWnd *pParent = nullptr);
 	~CDispPaintDistDlg();
 
 	void UpdateSpatialData( void );
@@ -184,7 +184,7 @@ class CPaintSculptDlg : public CDialog
 {
 public:
 
-	CPaintSculptDlg( CWnd *pParent = NULL );
+	CPaintSculptDlg( CWnd *pParent = nullptr);
 	~CPaintSculptDlg();
 
 	bool	GetAutoSew( ) { return m_bAutoSew; } 
@@ -257,7 +257,7 @@ class CDispPaintDataDlg : public CDialog
 {
 public:
 
-	CDispPaintDataDlg( CWnd *pParent = NULL );
+	CDispPaintDataDlg( CWnd *pParent = nullptr);
 	~CDispPaintDataDlg();
 
 	//{{AFX_DATA( CDispPaintDataDlg )

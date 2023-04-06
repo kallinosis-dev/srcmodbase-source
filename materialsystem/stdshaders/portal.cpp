@@ -45,7 +45,7 @@ BEGIN_VS_SHADER( Portal_DX90,
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -150,7 +150,7 @@ BEGIN_VS_SHADER( Portal_DX90,
 			{
 				fmt |= VERTEX_TANGENT_S | VERTEX_TANGENT_T;
 			}
-			pShaderShadow->VertexShaderVertexFormat( fmt, iTexCoords, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( fmt, iTexCoords, nullptr, userDataSize );
 
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 			pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, true );

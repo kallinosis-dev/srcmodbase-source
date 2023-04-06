@@ -188,7 +188,7 @@ void CAI_BasePhysicsFlyingBot::StartTask( const Task_t *pTask )
 		case TASK_SCRIPT_RUN_TO_TARGET:
 		case TASK_SCRIPT_WALK_TO_TARGET:
 		{
-			if (GetTarget() == NULL)
+			if (GetTarget() == nullptr)
 			{
 				TaskFail(FAIL_NO_TARGET);
 			}
@@ -315,7 +315,7 @@ void CAI_BasePhysicsFlyingBot::TranslateNavGoal( CBaseEntity *pTarget, Vector &c
 {
 	Assert( pTarget != NULL );
 
-	if ( pTarget == NULL )
+	if ( pTarget == nullptr)
 	{
 		chasePosition = vec3_origin;
 		return;

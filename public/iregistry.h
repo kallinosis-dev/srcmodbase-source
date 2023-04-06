@@ -32,7 +32,7 @@ public:
 	virtual void			WriteInt( const char *key, int value ) = 0;
 
 	// Read/write strings
-	virtual const char		*ReadString( const char *key, const char *defaultValue = 0 ) = 0;
+	virtual const char		*ReadString( const char *key, const char *defaultValue = nullptr ) = 0;
 	virtual void			WriteString( const char *key, const char *value ) = 0;
 
 	// Read/write helper methods

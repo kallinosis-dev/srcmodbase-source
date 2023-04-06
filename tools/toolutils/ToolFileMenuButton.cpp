@@ -38,9 +38,9 @@ CToolFileMenuButton::CToolFileMenuButton( vgui::Panel *pParent, const char *pane
 {
 	Assert( pFileMenuCallback );
 
-	AddMenuItem( "new", "#ToolFileNew", new KeyValues( "OnNew" ), pActionSignalTarget, NULL, "file_new" );
-	AddMenuItem( "open", "#ToolFileOpen", new KeyValues( "OnOpen" ), pActionSignalTarget, NULL, "file_open"  );
-	AddMenuItem( "save", "#ToolFileSave", new KeyValues( "OnSave" ), pActionSignalTarget, NULL, "file_save"  );
+	AddMenuItem( "new", "#ToolFileNew", new KeyValues( "OnNew" ), pActionSignalTarget, nullptr, "file_new" );
+	AddMenuItem( "open", "#ToolFileOpen", new KeyValues( "OnOpen" ), pActionSignalTarget, nullptr, "file_open"  );
+	AddMenuItem( "save", "#ToolFileSave", new KeyValues( "OnSave" ), pActionSignalTarget, nullptr, "file_save"  );
 	AddMenuItem( "saveas", "#ToolFileSaveAs", new KeyValues( "OnSaveAs" ), pActionSignalTarget  );
 	AddMenuItem( "close", "#ToolFileClose", new KeyValues( "OnClose" ), pActionSignalTarget  );
  	AddSeparator();
@@ -221,7 +221,7 @@ void CToolFileMenuButton::OnPerforceListOpenFiles( )
 	int nCount = openedFiles.Count();
 	for ( int i = 0; i < nCount; ++i )
 	{
-		const char *pOpenType = NULL;
+		const char *pOpenType = nullptr;
 		switch( openedFiles[i].m_eOpenState )
 		{
 		case P4FILE_OPENED_FOR_ADD:

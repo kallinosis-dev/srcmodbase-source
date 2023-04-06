@@ -21,7 +21,7 @@
 #include <tier0/memdbgon.h>
 
 
-static CEntityReportDlg *s_pDlg = NULL;
+static CEntityReportDlg *s_pDlg = nullptr;
 static char *pszIniSection = "EntityReportDlg";
 
 
@@ -165,7 +165,7 @@ void CEntityReportDlg::OnDelete(void)
 		return;
 	}
 
-	GetHistory()->MarkUndoPosition(NULL, "Delete Objects");
+	GetHistory()->MarkUndoPosition(nullptr, "Delete Objects");
 		
 	int iSel = m_cEntities.GetCurSel();
 
@@ -226,7 +226,7 @@ void CEntityReportDlg::OnFilterbytype()
 			break;
 		iButton++;
 		hWndCtrl = ::GetWindow(hWndCtrl, GW_HWNDNEXT);
-	} while(hWndCtrl != NULL && !(GetWindowLong(hWndCtrl, GWL_STYLE) & WS_GROUP));
+	} while(hWndCtrl != nullptr && !(GetWindowLong(hWndCtrl, GWL_STYLE) & WS_GROUP));
 
 	m_iFilterByType = iButton;
 	UpdateEntityList();
@@ -236,7 +236,7 @@ void CEntityReportDlg::OnChangeFilterkey()
 {
 	m_cFilterKey.GetWindowText(m_szFilterKey);
 	m_szFilterKey.MakeUpper();
-	m_dwFilterTime = time(NULL);
+	m_dwFilterTime = time(nullptr);
 	m_bFilterTextChanged = true;
 }
 
@@ -244,7 +244,7 @@ void CEntityReportDlg::OnChangeFiltervalue()
 {
 	m_cFilterValue.GetWindowText(m_szFilterValue);
 	m_szFilterValue.MakeUpper();
-	m_dwFilterTime = time(NULL);
+	m_dwFilterTime = time(nullptr);
 	m_bFilterTextChanged = true;
 }
 
@@ -289,7 +289,7 @@ CMapDoc *CEntityReportDlg::MarkSelectedEntities()
 			if ( FoundMaps.Find( pMapDoc ) == -1 )
 			{
 				FoundMaps.AddToTail( pMapDoc );
-				pMapDoc->SelectObject( NULL, scClear|scSaveChanges );
+				pMapDoc->SelectObject(nullptr, scClear|scSaveChanges );
 			}
 
 			pMapDoc->SelectObject( pEntity, scSelect );
@@ -301,7 +301,7 @@ CMapDoc *CEntityReportDlg::MarkSelectedEntities()
 		return FoundMaps[ 0 ];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CEntityReportDlg::OnProperties() 
@@ -323,10 +323,10 @@ void CEntityReportDlg::OnTimer(UINT nIDEvent)
 	if(!m_bFilterTextChanged)
 		return;
 
-	if((time(NULL) - m_dwFilterTime) > 1)
+	if((time(nullptr) - m_dwFilterTime) > 1)
 	{
 		m_bFilterTextChanged = false;
-		m_dwFilterTime = time(NULL);
+		m_dwFilterTime = time(nullptr);
 		UpdateEntityList();
 	}
 }
@@ -364,7 +364,7 @@ BOOL AddEntityToList(CMapEntity *pEntity, CEntityReportDlg *pDlg)
 
 	if ( pEntity && stricmp( pszClassName, "func_instance" ) == 0 )
 	{
-		CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
+		CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )nullptr);
 		if ( pMapInstance )
 		{
 			CMapDoc		*pMapDoc = pMapInstance->GetInstancedMap();
@@ -433,7 +433,7 @@ BOOL AddEntityToList(CMapEntity *pEntity, CEntityReportDlg *pDlg)
 		}
 
 		GDclass *pClass = pEntity->GetClass();
-		if (pClass != NULL)
+		if (pClass != nullptr)
 		{
 			GDinputvariable *pVar = pClass->VarForName(pEntity->GetKey(i));
 			if (!pVar || !pVar->IsReportable())
@@ -442,7 +442,7 @@ BOOL AddEntityToList(CMapEntity *pEntity, CEntityReportDlg *pDlg)
 
 		sprintf(szString + strlen(szString), "\t%s", pEntity->GetKeyValue(i));
 
-		if (pClass == NULL)
+		if (pClass == nullptr)
 		{
 			break;	// just do first if no class
 		}
@@ -502,7 +502,7 @@ void CEntityReportDlg::GenerateReport()
 		}
 	}
 
-	SetTimer(1, 500, NULL);
+	SetTimer(1, 500, nullptr);
 
 	OnFilterbykeyvalue();
 	OnFilterbytype();
@@ -521,7 +521,7 @@ void CEntityReportDlg::OnEditchangeFilterclass()
 {
 	m_cFilterClass.GetWindowText(m_szFilterClass);
 	m_szFilterClass.MakeUpper();
-	m_dwFilterTime = time(NULL);
+	m_dwFilterTime = time(nullptr);
 	m_bFilterTextChanged = true;
 }
 
@@ -600,6 +600,6 @@ void CEntityReportDlg::OnClose()
 void CEntityReportDlg::OnDestroy()
 {
 	SaveToIni();
-	s_pDlg = NULL;
+	s_pDlg = nullptr;
 	delete this;
 }

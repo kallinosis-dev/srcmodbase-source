@@ -47,7 +47,7 @@ public:
 	CHintMessageQueue( CBasePlayer *pPlayer );
 	void		Reset();
 	void		Update();
-	bool		AddMessage( const char* message, float duration = 6.0f, CUtlVector< const char * > * args = NULL );
+	bool		AddMessage( const char* message, float duration = 6.0f, CUtlVector< const char * > * args = nullptr);
 	inline bool IsEmpty() { return m_messages.Count() == 0; }
 
 private:
@@ -70,7 +70,7 @@ public:
 	void		Update();
 
 	// Add / Register timers that will be started/stopped during play
-	void		AddTimer( int iHintID, float timer_duration, float message_duration = 6.0f, CUtlVector< const char * > * args = NULL );
+	void		AddTimer( int iHintID, float timer_duration, float message_duration = 6.0f, CUtlVector< const char * > * args = nullptr);
 	void		RemoveTimer( int iHintID );
 
 	// Start / Stop timers that were previously registered via AddTimer()

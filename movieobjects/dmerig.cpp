@@ -69,7 +69,7 @@ void CDmeRigAnimSetElements::SetAnimationSet( CDmeAnimationSet* pAnimationSet )
 //-------------------------------------------------------------------------------------------------
 void CDmeRigAnimSetElements::AddElement( CDmElement *pElement )
 {
-	if ( pElement == NULL )
+	if ( pElement == nullptr)
 		return;
 
 	m_ElementList.AddToTail( pElement );
@@ -150,7 +150,7 @@ void CDmeRig::OnDestruction()
 //-------------------------------------------------------------------------------------------------
 void CDmeRig::AddElement( CDmElement* pElement, CDmeAnimationSet *pAnimationSet )
 {
-	if ( ( pElement == NULL ) || ( pAnimationSet == NULL ) )
+	if ( ( pElement == nullptr) || ( pAnimationSet == nullptr) )
 		return;
 
 	// Search for an element set with the specified 
@@ -170,11 +170,11 @@ void CDmeRig::AddElement( CDmElement* pElement, CDmeAnimationSet *pAnimationSet 
 //-------------------------------------------------------------------------------------------------
 void CDmeRig::HideControlGroup( CDmeControlGroup *pGroup )
 {
-	if ( pGroup == NULL )
+	if ( pGroup == nullptr)
 		return;
 
 	CDmeAnimationSet *pAnimationSet = pGroup->FindAnimationSet( true );
-	if ( pAnimationSet == NULL )
+	if ( pAnimationSet == nullptr)
 		return;
 
 	CDmeRigAnimSetElements *pAnimSetElementList = FindOrCreateAnimSetElementList( pAnimationSet );
@@ -192,7 +192,7 @@ void CDmeRig::HideControlGroup( CDmeControlGroup *pGroup )
 //-------------------------------------------------------------------------------------------------
 void CDmeRig::RemoveElement( CDmElement *pElement, CDmeAnimationSet *pAnimationSet )
 {
-	if ( pElement == NULL )
+	if ( pElement == nullptr)
 		return;
 
 	// Search each of the animation set element lists for the specified element, if the element
@@ -257,10 +257,10 @@ void CDmeRig::GetAnimationSets( CUtlVector< CDmeAnimationSet* > &animationSetLis
 	for ( int iAnimSet = 0; iAnimSet < nAnimSets; ++iAnimSet )
 	{
 		CDmeRigAnimSetElements *pAnimSetElements = m_AnimSetList[ iAnimSet ];
-		if ( pAnimSetElements != NULL )
+		if ( pAnimSetElements != nullptr)
 		{
 			CDmeAnimationSet *pAnimSet = pAnimSetElements->AnimationSet();
-			if ( pAnimSet != NULL )
+			if ( pAnimSet != nullptr)
 			{
 				animationSetList.AddToTail( pAnimSet );
 			}
@@ -281,7 +281,7 @@ void CDmeRig::GetAnimationSetElements( const CDmeAnimationSet* pAnimationSet, CU
 	for ( int iAnimSet = 0; iAnimSet < nAnimSets; ++iAnimSet )
 	{
 		CDmeRigAnimSetElements *pAnimSetElements = m_AnimSetList[ iAnimSet ];
-		if ( pAnimSetElements != NULL )
+		if ( pAnimSetElements != nullptr)
 		{
 			nTotalElements = pAnimSetElements->NumElements();
 		}
@@ -294,7 +294,7 @@ void CDmeRig::GetAnimationSetElements( const CDmeAnimationSet* pAnimationSet, CU
 	for ( int iAnimSet = 0; iAnimSet < nAnimSets; ++iAnimSet )
 	{
 		CDmeRigAnimSetElements *pAnimSetElements = m_AnimSetList[ iAnimSet ];
-		if ( pAnimSetElements != NULL )
+		if ( pAnimSetElements != nullptr)
 		{
 			pAnimSetElements->GetElements( elementList );
 		}
@@ -322,7 +322,7 @@ int CDmeRig::FindAnimSetElementList( const CDmeAnimationSet *pAnimationSet ) con
 	for ( int iAnimSet = 0; iAnimSet < nAnimSets; ++iAnimSet )
 	{
 		CDmeRigAnimSetElements *pAnimSetElements = m_AnimSetList[ iAnimSet ];
-		if ( pAnimSetElements == NULL )
+		if ( pAnimSetElements == nullptr)
 			continue;
 		
 		if ( pAnimSetElements->AnimationSet() == pAnimationSet )
@@ -417,11 +417,11 @@ void CDmeRig::FindInfluencedDags( CUtlVector< CDmeDag* > &dagList ) const
 			for ( int iAttr = 0; iAttr < nAttributes; ++iAttr )
 			{
 				CDmAttribute *pAttr = outputAttributes[ iAttr ];
-				if ( pAttr == NULL )
+				if ( pAttr == nullptr)
 					continue;
 			
 				CDmeDag *pDag = CastElement< CDmeDag >( pAttr->GetOwner() );
-				if ( pDag == NULL )
+				if ( pDag == nullptr)
 				{
 					CDmeTransform *pTransform = CastElement< CDmeTransform >( pAttr->GetOwner() );
 					if ( pTransform )
@@ -430,7 +430,7 @@ void CDmeRig::FindInfluencedDags( CUtlVector< CDmeDag* > &dagList ) const
 					}
 				}
 
-				if ( pDag == NULL )
+				if ( pDag == nullptr)
 					continue;
 
 				// Make sure the dag is not part of the rig, if 
@@ -461,7 +461,7 @@ void CDmeRig::RemoveElementsFromShot( CDmeFilmClip *pShot )
 {
 	// Find the animation set channels track group, this will be used to find 
 	// the the channels clip for each of the animation sets referenced by the rig.
-	CDmeTrack *pAnimSetEditorTrack = NULL;
+	CDmeTrack *pAnimSetEditorTrack = nullptr;
 	CDmeTrackGroup *pTrackGroup = pShot->FindOrAddTrackGroup( "channelTrackGroup" );
 	if ( pTrackGroup )
 	{
@@ -473,14 +473,14 @@ void CDmeRig::RemoveElementsFromShot( CDmeFilmClip *pShot )
 	for ( int iAnimSet = 0; iAnimSet < nAnimSets; ++iAnimSet )
 	{
 		CDmeRigAnimSetElements *pAnimSetElements = m_AnimSetList[ iAnimSet ];
-		if ( pAnimSetElements == NULL )
+		if ( pAnimSetElements == nullptr)
 			continue;
 
 		CDmeAnimationSet *pAnimSet = pAnimSetElements->AnimationSet();
-		if ( pAnimSet == NULL )
+		if ( pAnimSet == nullptr)
 			continue;
 
-		CDmeChannelsClip *pChannelsClip = NULL;
+		CDmeChannelsClip *pChannelsClip = nullptr;
 		if ( pAnimSetEditorTrack ) 
 		{
 			pChannelsClip = CastElement< CDmeChannelsClip >( pAnimSetEditorTrack->FindNamedClip( pAnimSet->GetName() ) );
@@ -505,7 +505,7 @@ void CDmeRig::RemoveElementsFromShot( CDmeFilmClip *pShot )
 		{
 			// Get the element using its handle because it may have been destroyed already
 			CDmElement *pElement = GetElement< CDmElement >( elementHandles[ iHandle ] );
-			if ( pElement == NULL )
+			if ( pElement == nullptr)
 				continue;
 
 			// If the element is an operator make sure it is removed from the 
@@ -584,7 +584,7 @@ void CDmeRig::RemoveElementsFromShot( CDmeFilmClip *pShot )
 void CDmeRig::SetHiddenControlGroupVisibility( CDmeRigAnimSetElements *pAnimSetElements, bool bVisible )
 {
 	CDmeAnimationSet *pAnimSet = pAnimSetElements->AnimationSet();
-	if ( pAnimSet == NULL )
+	if ( pAnimSet == nullptr)
 		return;
 
 	const CDmaStringArray &hiddenGroupList = pAnimSetElements->HiddenControlGroups();
@@ -610,7 +610,7 @@ void CDmeRig::HideHiddenControlGroups( CDmeAnimationSet *pAnimationSet )
 		return;
 
 	CDmeRigAnimSetElements *pAnimSetElements = m_AnimSetList[ nAnimSetIndex ];
-	if ( pAnimSetElements == NULL )
+	if ( pAnimSetElements == nullptr)
 		return;
 
 	SetHiddenControlGroupVisibility( pAnimSetElements, false );
@@ -622,7 +622,7 @@ void CDmeRig::HideHiddenControlGroups( CDmeAnimationSet *pAnimationSet )
 //-------------------------------------------------------------------------------------------------
 void CDmeRig::RemoveElementFromRig( CDmElement *pElement )
 {
-	if ( pElement == NULL )
+	if ( pElement == nullptr)
 		return;
 
 	CUtlVector< CDmeRigAnimSetElements* > rigElementLists;
@@ -645,7 +645,7 @@ void CDmeRig::RemoveElementFromRig( CDmElement *pElement )
 void CollectRigsOnAnimationSet( CDmeAnimationSet *pAnimSet, CUtlVector< CDmeRig* > &rigList )
 {
 	CDmeFilmClip *pFilmClip = FindReferringElement< CDmeFilmClip >( pAnimSet, "animationSets" );
-	if ( pFilmClip == NULL )
+	if ( pFilmClip == nullptr)
 		return;
 
 	CDmeDag *pScene = pFilmClip->GetScene();

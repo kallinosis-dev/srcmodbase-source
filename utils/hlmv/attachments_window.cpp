@@ -353,7 +353,7 @@ int CAttachmentsWindow::handleEvent (mxEvent *event)
 
 void CAttachmentsWindow::OnSelChangeAttachmentList()
 {
-	CStudioHdr *pStudioHdr = g_pStudioModel ? g_pStudioModel->GetStudioHdr() : NULL;
+	CStudioHdr *pStudioHdr = g_pStudioModel ? g_pStudioModel->GetStudioHdr() : nullptr;
 	
 	if ( !pStudioHdr )
 		return;
@@ -378,7 +378,7 @@ void CAttachmentsWindow::OnSelChangeAttachmentList()
 
 Vector CAttachmentsWindow::GetCurrentTranslation()
 {
-	CStudioHdr *pStudioHdr = g_pStudioModel ? g_pStudioModel->GetStudioHdr() : NULL;
+	CStudioHdr *pStudioHdr = g_pStudioModel ? g_pStudioModel->GetStudioHdr() : nullptr;
 	
 	int iAttachment = m_cAttachmentList->getSelectedIndex() - 1;
 	if ( pStudioHdr && iAttachment >= 0 && iAttachment < pStudioHdr->GetNumAttachments() )
@@ -398,7 +398,7 @@ Vector CAttachmentsWindow::GetCurrentTranslation()
 
 Vector CAttachmentsWindow::GetCurrentRotation()
 {
-	CStudioHdr *pStudioHdr = g_pStudioModel ? g_pStudioModel->GetStudioHdr() : NULL;
+	CStudioHdr *pStudioHdr = g_pStudioModel ? g_pStudioModel->GetStudioHdr() : nullptr;
 	
 	int iAttachment = m_cAttachmentList->getSelectedIndex() - 1;
 	if ( pStudioHdr && iAttachment >= 0 && iAttachment < pStudioHdr->GetNumAttachments() )
@@ -421,7 +421,7 @@ void CAttachmentsWindow::UpdateStrings( bool bUpdateQC, bool bUpdateTranslation,
 	char str[1024];
 
 	int iAttachment = -1;
-	CStudioHdr* pHdr = NULL;
+	CStudioHdr* pHdr = nullptr;
 	if ( g_pStudioModel )
 	{
 		pHdr = g_pStudioModel->GetStudioHdr();

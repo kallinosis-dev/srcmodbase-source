@@ -194,7 +194,7 @@ void CEconItem::CustomDataOptimizedObject_t::FreeObjectAndAttrMemory()
 // --------------------------------------------------------------------------
 CEconItem::CEconItem()
 	: BaseClass( ),
-	m_pCustomDataOptimizedObject( NULL )
+	m_pCustomDataOptimizedObject(nullptr)
 {
 	m_ulID = 0;
 	m_ulOriginalID = 0;
@@ -275,7 +275,7 @@ void CEconItem::CopyWithoutAttributesFrom( const CEconItem& rhs )
 	if ( m_pCustomDataOptimizedObject )
 	{
 		m_pCustomDataOptimizedObject->FreeObjectAndAttrMemory();
-		m_pCustomDataOptimizedObject = NULL;
+		m_pCustomDataOptimizedObject = nullptr;
 	}
 }
 
@@ -509,7 +509,7 @@ static const char *GetCustomNameOrAttributeDesc( const CEconItem *pItem, const C
 	{
 		// If we didn't specify the attribute in the schema we can't possibly have an
 		// answer. This isn't really an error in that case.
-		return NULL;
+		return nullptr;
 	}
 
 	const char *pszStrContents;
@@ -522,7 +522,7 @@ static const char *GetCustomNameOrAttributeDesc( const CEconItem *pItem, const C
 		return pszStrContents;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // --------------------------------------------------------------------------
@@ -634,7 +634,7 @@ void CEconItem::UpdateEquippedState( EquippedInstance_t equipInstance )
 				if ( !m_pCustomDataOptimizedObject->m_numAttributes )
 				{
 					m_pCustomDataOptimizedObject->FreeObjectAndAttrMemory();
-					m_pCustomDataOptimizedObject = NULL;
+					m_pCustomDataOptimizedObject = nullptr;
 				}
 				return;
 			}
@@ -881,7 +881,7 @@ CEconItem::attribute_t *CEconItem::FindDynamicAttributeInternal( const CEconItem
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // --------------------------------------------------------------------------
@@ -900,7 +900,7 @@ void CEconItem::AddCustomAttribute( uint16 usDefinitionIndex, float flValue )
 void CEconItem::AddOrSetCustomAttribute( uint16 usDefinitionIndex, float flValue )
 {
 	attribute_t *pAttrib = FindDynamicAttributeInternal( GetItemSchema()->GetAttributeDefinition( usDefinitionIndex ) );
-	if ( NULL != pAttrib )
+	if (nullptr != pAttrib )
 	{
 		pAttrib->m_value.asFloat = flValue;
 		return;
@@ -1084,7 +1084,7 @@ void CEconItem::Dump() const
 bool CEconItem::BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &pschema, CUtlVector<CUtlString> *pVecErrors )
 {
 	Assert( NULL != pKVItem );
-	if ( NULL == pKVItem )
+	if (nullptr == pKVItem )
 		return false;
 
 	// The basic properties
@@ -1093,8 +1093,8 @@ bool CEconItem::BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &p
 	SetQuantity( pKVItem->GetInt( "Quantity", 1 ) );
 
 	// Look up the following properties based on names from the schema
-	const CEconItemQualityDefinition *pQuality = NULL;
-	const CEconItemDefinition *pItemDef = NULL;
+	const CEconItemQualityDefinition *pQuality = nullptr;
+	const CEconItemDefinition *pItemDef = nullptr;
 
 	const char *pchDefName = pKVItem->GetString( "DefName" );
 	pItemDef = pschema.GetItemDefinitionByName( pchDefName );
@@ -1119,7 +1119,7 @@ bool CEconItem::BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &p
 		// set the default quality for the definition
 		if( pItemDef->GetQuality() == k_unItemQuality_Any )
 		{
-			if ( NULL == pVecErrors )
+			if (nullptr == pVecErrors )
 				return false;
 			pVecErrors->AddToTail( CUtlString( CFmtStr( "Quality was not specified and this item def doesn't define one either." ) ) );
 		}
@@ -1130,7 +1130,7 @@ bool CEconItem::BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &p
 	}
 	else if ( !pschema.BGetItemQualityFromName( pchQualityName, &unValueGet ) || (( m_nQuality = unValueGet ),true) || k_unItemQuality_Any == GetQuality() )
 	{
-		if ( NULL == pVecErrors )
+		if (nullptr == pVecErrors )
 			return false;
 		pVecErrors->AddToTail( CUtlString( CFmtStr( "Quality \"%s\" not found", pchQualityName ) ) );
 	}
@@ -1145,7 +1145,7 @@ bool CEconItem::BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &p
 		// set the default quality for the definition
 		if( pItemDef->GetRarity() == k_unItemRarity_Any )
 		{
-			if ( NULL == pVecErrors )
+			if (nullptr == pVecErrors )
 				return false;
 			pVecErrors->AddToTail( CUtlString( CFmtStr( "Rarity was not specified and this item def doesn't define one either." ) ) );
 		}
@@ -1156,7 +1156,7 @@ bool CEconItem::BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &p
 	}
 	else if ( !pschema.BGetItemRarityFromName( pchRarityName, &unValueGet ) || (( m_nRarity = unValueGet ),true) || k_unItemRarity_Any == GetRarity() )
 	{
-		if ( NULL == pVecErrors )
+		if (nullptr == pVecErrors )
 			return false;
 		pVecErrors->AddToTail( CUtlString( CFmtStr( "Rarity \"%s\" not found", pchRarityName ) ) );
 	}
@@ -1194,7 +1194,7 @@ bool CEconItem::BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &p
 
 	// Deserialize the attributes
 	KeyValues *pKVAttributes = pKVItem->FindKey( "Attributes" );
-	if ( NULL != pKVAttributes )
+	if (nullptr != pKVAttributes )
 	{
 		FOR_EACH_SUBKEY( pKVAttributes, pKVAttr )
 		{
@@ -1219,7 +1219,7 @@ bool CEconItem::BDeserializeFromKV( KeyValues *pKVItem, const CEconItemSchema &p
 		}
 	}
 
-	return ( NULL == pVecErrors || 0 == pVecErrors->Count() );
+	return (nullptr == pVecErrors || 0 == pVecErrors->Count() );
 }
 
 
@@ -1316,7 +1316,7 @@ void CEconItem::DeserializeFromProtoBufItem( const CSOEconItem &msgItem )
 	if ( m_pCustomDataOptimizedObject )
 	{
 		m_pCustomDataOptimizedObject->FreeObjectAndAttrMemory();
-		m_pCustomDataOptimizedObject = NULL;
+		m_pCustomDataOptimizedObject = nullptr;
 	}
 
 	// Now copy from the message

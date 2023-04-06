@@ -29,10 +29,10 @@ int CCustomMaterial::m_nMaterialCount = 0;
 CCustomMaterial::CCustomMaterial( KeyValues *pKeyValues )
 	: m_bValid( false )
 	, m_nModelMaterialIndex( -1 )
-	, m_szBaseMaterialName( NULL)
+	, m_szBaseMaterialName(nullptr)
 {
 	// we need to copy this, because the passed in one was allocated outside materialsystem.dll
-	m_pVMTKeyValues = ( pKeyValues != NULL ) ? pKeyValues->MakeCopy() : NULL;
+	m_pVMTKeyValues = ( pKeyValues != nullptr) ? pKeyValues->MakeCopy() : nullptr;
 }
 
 CCustomMaterial::~CCustomMaterial()
@@ -56,7 +56,7 @@ ICompositeTexture *CCustomMaterial::GetTexture( int nIndex )
 	{
 		return m_pTextures[ nIndex ];
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool CCustomMaterial::CheckRegenerate( int nSize )
@@ -79,10 +79,10 @@ void CCustomMaterial::Shutdown()
 {
 	DestroyProceduralMaterial();
 
-	if ( m_pVMTKeyValues != NULL )
+	if ( m_pVMTKeyValues != nullptr)
 	{
 		m_pVMTKeyValues->deleteThis();
-		m_pVMTKeyValues = NULL;
+		m_pVMTKeyValues = nullptr;
 	}
 
 	for ( int i = 0; i < m_pTextures.Count(); i++ )
@@ -90,7 +90,7 @@ void CCustomMaterial::Shutdown()
 		if ( m_pTextures[ i ] )
 		{
 			m_pTextures[ i ]->Release();
-			m_pTextures[ i ] = NULL;
+			m_pTextures[ i ] = nullptr;
 		}
 	}
 	if ( m_szBaseMaterialName )
@@ -162,7 +162,7 @@ void CCustomMaterial::Finalize()
 
 	DestroyProceduralMaterial();
 
-	if ( m_pVMTKeyValues != NULL )
+	if ( m_pVMTKeyValues != nullptr)
 	{
 		CreateProceduralMaterial( szUniqueMaterialName, m_pVMTKeyValues->MakeCopy() );
 	}
@@ -323,7 +323,7 @@ bool CCustomMaterialManager::Process()
 				DevMsg( "Releasing custom material: %s \n", m_pCustomMaterials[ i ]->GetMaterial()->GetName() );
 #endif
 				m_pCustomMaterials[ i ]->Release();
-				m_pCustomMaterials[ i ] = NULL;
+				m_pCustomMaterials[ i ] = nullptr;
 				m_pCustomMaterials.Remove( i );
 			}
 		}
@@ -362,7 +362,7 @@ ICustomMaterial * CCustomMaterialManager::GetOrCreateCustomMaterial( KeyValues *
 		{
 			AssertMsg( pTexture != NULL, "Unable to get/create composite texture for custom material!" );
 			pMaterial->Release();
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -438,7 +438,7 @@ void CCustomMaterialManager::DestroyMaterials( void )
 		if ( m_pCustomMaterials[ i ] )
 		{
 			m_pCustomMaterials[ i ]->Release();
-			m_pCustomMaterials[ i ] = NULL;
+			m_pCustomMaterials[ i ] = nullptr;
 		}
 	}
 	m_pCustomMaterials.RemoveAll();

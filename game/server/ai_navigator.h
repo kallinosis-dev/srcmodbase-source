@@ -76,7 +76,7 @@ const float AIN_HULL_TOLERANCE = -2.0;
 const Activity AIN_DEF_ACTIVITY = ACT_INVALID;
 
 // Goal has no target
-CBaseEntity * const AIN_NO_TARGET  = NULL;
+CBaseEntity * const AIN_NO_TARGET  = nullptr;
 
 // Goal does not specify a new target, use the existing one, if any
 CBaseEntity * const AIN_DEF_TARGET = (AIN_NO_TARGET + 1);
@@ -244,7 +244,7 @@ struct AI_ProgressFlyPathParams_t
 		waypointTolerance( waypointTolerance ),
 		goalTolerance( goalTolerance ),
 		blockHandling( blockHandling ),
-		pTarget( NULL ),
+		pTarget(nullptr),
 		bTrySimplify( true )
 	{
 	}

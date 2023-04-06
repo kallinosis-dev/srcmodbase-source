@@ -218,7 +218,7 @@ void DrawRefract_DX9( CBaseVSShader *pShader, IMaterialVar** params, IShaderDyna
 		// This shader supports compressed vertices, so OR in that flag:
 		flags |= VERTEX_FORMAT_COMPRESSED;
 
-		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 		
 		DECLARE_STATIC_VERTEX_SHADER( refract_vs20 );
 		SET_STATIC_VERTEX_SHADER_COMBO( MODEL,  bIsModel );

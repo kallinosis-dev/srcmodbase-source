@@ -23,7 +23,7 @@ class CEntityHelpDlg : public CDialog
 	public:
 
 		// Construction
-		CEntityHelpDlg(CWnd *pwndParent = NULL);
+		CEntityHelpDlg(CWnd *pwndParent = nullptr);
 		~CEntityHelpDlg(void);
 
 		//{{AFX_DATA(CEntityHelpDlg)
@@ -38,7 +38,7 @@ class CEntityHelpDlg : public CDialog
 		
 		void UpdateClass(GDclass *pClass);
 
-		int GetTextWidth(const char *pszText, CDC *pDC = NULL);
+		int GetTextWidth(const char *pszText, CDC *pDC = nullptr);
 		int GetMaxVariableWidth(GDclass *pClass);
 
 		void UpdateHelp(void);

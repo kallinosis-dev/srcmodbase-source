@@ -40,7 +40,7 @@ bool CCSNavPath::ComputePathPositions( void )
 
 	// start in first area's center
 	m_path[0].pos = m_path[0].area->GetCenter();
-	m_path[0].ladder = NULL;
+	m_path[0].ladder = nullptr;
 	m_path[0].how = NUM_TRAVERSE_TYPES;
 
 	for( int i=1; i<m_segmentCount; ++i )
@@ -50,7 +50,7 @@ bool CCSNavPath::ComputePathPositions( void )
 
 		if (to->how <= GO_WEST)		// walk along the floor to the next area
 		{
-			to->ladder = NULL;
+			to->ladder = nullptr;
 
 			// compute next point, keeping path as straight as possible
 			from->area->ComputeClosestPointInPortal( to->area, (NavDirType)to->how, from->pos, &to->pos );
@@ -187,7 +187,7 @@ float CCSNavPath::GetLength( void ) const
  */
 bool CCSNavPath::GetPointAlongPath( float distAlong, Vector *pointOnPath ) const
 {
-	if (!IsValid() || pointOnPath == NULL)
+	if (!IsValid() || pointOnPath == nullptr)
 		return false;
 
 	if (distAlong <= 0.0f)
@@ -260,7 +260,7 @@ int CCSNavPath::GetSegmentIndexAlongPath( float distAlong ) const
  */
 bool CCSNavPath::FindClosestPointOnPath( const Vector *worldPos, int startIndex, int endIndex, Vector *close ) const
 {
-	if (!IsValid() || close == NULL)
+	if (!IsValid() || close == nullptr)
 		return false;
 
 	Vector along, toWorldPos;
@@ -318,11 +318,11 @@ bool CCSNavPath::BuildTrivialPath( const Vector &start, const Vector &goal )
 	m_segmentCount = 0;
 
 	CNavArea *startArea = TheNavMesh->GetNearestNavArea( start );
-	if (startArea == NULL)
+	if (startArea == nullptr)
 		return false;
 
 	CNavArea *goalArea = TheNavMesh->GetNearestNavArea( goal );
-	if (goalArea == NULL)
+	if (goalArea == nullptr)
 		return false;
 
 	m_segmentCount = 2;
@@ -331,14 +331,14 @@ bool CCSNavPath::BuildTrivialPath( const Vector &start, const Vector &goal )
 	m_path[0].pos.x = start.x;
 	m_path[0].pos.y = start.y;
 	m_path[0].pos.z = startArea->GetZ( start );
-	m_path[0].ladder = NULL;
+	m_path[0].ladder = nullptr;
 	m_path[0].how = NUM_TRAVERSE_TYPES;
 
 	m_path[1].area = goalArea;
 	m_path[1].pos.x = goal.x;
 	m_path[1].pos.y = goal.y;
 	m_path[1].pos.z = goalArea->GetZ( goal );
-	m_path[1].ladder = NULL;
+	m_path[1].ladder = nullptr;
 	m_path[1].how = NUM_TRAVERSE_TYPES;
 
 	return true;
@@ -447,8 +447,8 @@ return;
  */
 CNavPathFollower::CNavPathFollower( void )
 {
-	m_improv = NULL;
-	m_path = NULL;
+	m_improv = nullptr;
+	m_path = nullptr;
 
 	m_segmentIndex = 0;
 	m_isLadderStarted = false;
@@ -470,12 +470,12 @@ void CNavPathFollower::Reset( void )
  */
 void CNavPathFollower::Update( float deltaT, bool avoidObstacles )
 {
-	if (m_path == NULL || m_path->IsValid() == false)
+	if (m_path == nullptr || m_path->IsValid() == false)
 		return;
 
 	const CCSNavPath::PathSegment *node = (*m_path)[ m_segmentIndex ];
 
-	if (node == NULL)
+	if (node == nullptr)
 	{
 		m_improv->OnMoveToFailure( m_path->GetEndpoint(), CImprovLocomotor::FAIL_INVALID_PATH );
 		m_path->Invalidate();

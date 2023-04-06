@@ -22,7 +22,7 @@ using namespace vgui;
 // Constructor
 //-----------------------------------------------------------------------------
 CBaseAttributeChoicePanel::CBaseAttributeChoicePanel( vgui::Panel *parent, const AttributeWidgetInfo_t &info ) :
-	BaseClass( parent, info ), m_pData( 0 )
+	BaseClass( parent, info ), m_pData( nullptr )
 {
 	SetDropEnabled( false );
 	m_pData = new vgui::ComboBox( this, "AttributeValue", 10, false );

@@ -50,8 +50,8 @@ namespace InterceptFxc
 		public:
 			virtual bool Succeeded( void ) { return m_pShader && (m_hr == D3D_OK); }
 			virtual size_t GetResultBufferLen( void ) { return ( Succeeded() ? m_pShader->GetBufferSize() : 0 ); }
-			virtual const void * GetResultBuffer( void ) { return ( Succeeded() ? m_pShader->GetBufferPointer() : NULL ); }
-			virtual const char * GetListing( void ) { return (const char *) ( m_pListing ? m_pListing->GetBufferPointer() : NULL ); }
+			virtual const void * GetResultBuffer( void ) { return ( Succeeded() ? m_pShader->GetBufferPointer() : nullptr); }
+			virtual const char * GetListing( void ) { return (const char *) ( m_pListing ? m_pListing->GetBufferPointer() : nullptr); }
 
 		protected:
 			LPD3DXBUFFER m_pShader;
@@ -86,15 +86,15 @@ namespace InterceptFxc
 		//
 		void FastShaderCompile( ExecutableEnum nExecutable, const char *pszFilename, const D3DXMACRO *pMacros, const char *pszModel, CmdSink::IResponse **ppResponse )
 		{
-			LPD3DXBUFFER pShader = NULL; // NOTE: Must release the COM interface later
-			LPD3DXBUFFER pErrorMessages = NULL; // NOTE: Must release COM interface later
+			LPD3DXBUFFER pShader = nullptr; // NOTE: Must release the COM interface later
+			LPD3DXBUFFER pErrorMessages = nullptr; // NOTE: Must release COM interface later
 			
 			HRESULT hresult = S_OK;
 
 			static DxProxyModule s_dxModule;
-			hresult = s_dxModule.D3DXCompileShaderFromFile( pszFilename, pMacros, NULL /* LPD3DXINCLUDE */,
+			hresult = s_dxModule.D3DXCompileShaderFromFile( pszFilename, pMacros, nullptr /* LPD3DXINCLUDE */,
 				"main",	pszModel, 0, &pShader, &pErrorMessages,
-				NULL /* LPD3DXCONSTANTTABLE *ppConstantTable */ );
+				nullptr				/* LPD3DXCONSTANTTABLE *ppConstantTable */ );
 
 			if ( ppResponse )
 			{
@@ -130,7 +130,7 @@ namespace InterceptFxc
 			}
 			++p;
 		}
-		return NULL;
+		return nullptr;
 	}
 	
 	
@@ -152,11 +152,11 @@ namespace InterceptFxc
 		CUtlVector<D3DXMACRO> macros;
 
 		// Shader model (determined when parsing "/D" flags)
-		const char *pszShaderModel = NULL;
+		const char *pszShaderModel = nullptr;
 
 		// Iterate over the command line and find all "/D...=..." settings
 		for ( char *pszFlag = pEditableCommand;
-			( pszFlag = FindOptionD( pszFlag ) ) != NULL;
+			( pszFlag = FindOptionD( pszFlag ) ) != nullptr;
 			/* advance inside */ )
 		{
 			// Name is immediately after "/D" or "-D", which is taken care of by FindOptionD
@@ -203,7 +203,7 @@ namespace InterceptFxc
 
 		// Add a NULL-terminator
 		{
-			D3DXMACRO nullTerminatorMacro = { NULL, NULL };
+			D3DXMACRO nullTerminatorMacro = {nullptr, nullptr};
 			macros.AddToTail( nullTerminatorMacro );
 		}
 

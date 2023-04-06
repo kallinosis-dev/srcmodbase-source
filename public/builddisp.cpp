@@ -648,10 +648,10 @@ void GetDispNodeTriVerts( CCoreDispInfo *pDisp, int nodeIndex, int triIndex, Vec
 //-----------------------------------------------------------------------------
 CCoreDispInfo::CCoreDispInfo()
 {
-	m_pVerts = NULL;
-	m_RenderIndices = NULL;
-	m_Nodes = NULL;
-	m_pTris = NULL;
+	m_pVerts = nullptr;
+	m_RenderIndices = nullptr;
+	m_Nodes = nullptr;
+	m_pTris = nullptr;
 
 	// initialize the base surface data
 	m_Surf.Init();
@@ -665,9 +665,9 @@ CCoreDispInfo::CCoreDispInfo()
 	m_RenderCounter = 0;	
 	m_bTouched = false;
 
-	m_pNext = NULL;
+	m_pNext = nullptr;
 
-	m_ppListBase = NULL;
+	m_ppListBase = nullptr;
 	m_ListSize = 0;
 	m_nListIndex = -1;
 }
@@ -852,7 +852,7 @@ void CCoreDispInfo::InitDispInfo( int power, int minTess, float smoothingAngle, 
 		}
 	}
 
-	if ( ( m_nFlags & DISP_INFO_FLAG_HAS_MULTIBLEND ) != 0 && pvMultiBlends != NULL )
+	if ( ( m_nFlags & DISP_INFO_FLAG_HAS_MULTIBLEND ) != 0 && pvMultiBlends != nullptr)
 	{
 		for( i = 0; i < size; i++ )
 		{
@@ -930,7 +930,7 @@ CDispCornerNeighbors* CCoreDispInfo::GetCornerNeighbors( int index )
 CDispUtilsHelper* CCoreDispInfo::GetDispUtilsByIndex( int index )
 {
 	Assert( m_ppListBase );
-	return index == 0xFFFF ? 0 : m_ppListBase[index];
+	return index == 0xFFFF ? nullptr : m_ppListBase[index];
 }
 
 

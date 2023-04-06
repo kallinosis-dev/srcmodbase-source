@@ -37,7 +37,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 TextImage::TextImage(const char *text) : Image()
 {
-	_utext = NULL;
+	_utext = nullptr;
 	_textBufferLen = 0;
 	_font = INVALID_FONT; 
 	_fallbackFont = INVALID_FONT;
@@ -50,7 +50,7 @@ TextImage::TextImage(const char *text) : Image()
 	m_bWrapCenter = false;
 	m_LineBreaks.RemoveAll();
 	m_LineXIndent.RemoveAll();
-	m_pwszEllipsesPosition = NULL;
+	m_pwszEllipsesPosition = nullptr;
 	m_bUseFallbackFont = false;
 	m_bRenderUsingFallbackFont = false;
 	m_bAllCaps = false;
@@ -65,7 +65,7 @@ TextImage::TextImage(const char *text) : Image()
 //-----------------------------------------------------------------------------
 TextImage::TextImage(const wchar_t *wszText) : Image()
 {
-	_utext = NULL;
+	_utext = nullptr;
 	_textBufferLen = 0;
 	_font = INVALID_FONT;
 	_fallbackFont = INVALID_FONT;
@@ -730,14 +730,14 @@ void TextImage::RecalculateNewLinePositions()
 void TextImage::RecalculateEllipsesPosition()
 {
 	m_bRecalculateTruncation = false;
-	m_pwszEllipsesPosition = NULL;
+	m_pwszEllipsesPosition = nullptr;
 
 	//don't insert ellipses on wrapped strings
 	if ( m_bWrap || m_bWrapCenter )
 		return;
 
 	// don't truncate strings with newlines
-	if (wcschr(_utext, '\n') != NULL)
+	if (wcschr(_utext, '\n') != nullptr)
 		return;
 
 	if ( _drawWidth == 0 )
@@ -751,7 +751,7 @@ void TextImage::RecalculateEllipsesPosition()
 		HFont font = GetFont();
 		if ( check == 1 && _fallbackFont != INVALID_FONT )
 		{
-			m_pwszEllipsesPosition = NULL;
+			m_pwszEllipsesPosition = nullptr;
 			font = _fallbackFont;
 			m_bRenderUsingFallbackFont = true;
 		}

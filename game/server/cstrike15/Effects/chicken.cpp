@@ -110,7 +110,7 @@ void CChicken::Spawn( void )
 	m_takedamage = DAMAGE_YES;
 
 	Idle();
-	m_fleeFrom = NULL;
+	m_fleeFrom = nullptr;
 	m_updateTimer.Invalidate();
 	m_reuseTimer.Invalidate( );
 	m_moveRateThrottleTimer.Invalidate( );
@@ -142,7 +142,7 @@ void CChicken::Spawn( void )
 	m_pathFollower.SetPath( &m_path );
 	m_pathFollower.SetImprov( this );
 
-	m_lastKnownArea = NULL;
+	m_lastKnownArea = nullptr;
 
 	// Need to make sure the hostages are on the ground when they spawn
 //	Vector GroundPos = DropToGround( this, GetAbsOrigin( ), HOSTAGE_BBOX_VEC_MIN, HOSTAGE_BBOX_VEC_MAX );
@@ -173,7 +173,7 @@ void CChicken::ChickenTouch( CBaseEntity *pOther )
 
 bool CChicken::IsFollowingSomeone( void )
 {
-	return ( m_leader.m_Value != NULL );
+	return ( m_leader.m_Value != nullptr);
 }
 
 //-----------------------------------------------------------------------------------------------------
@@ -264,7 +264,7 @@ void CChicken::SetChickenStartFollowingPlayer( CCSPlayer *pPlayer )
 	// if we are already following the player who used us, stop following
 	if ( IsFollowing( pPlayer ) )
 	{
-		Follow( NULL );
+		Follow(nullptr);
 		Idle( );
 		EmitSound( "Chicken.Idle" );
 	}
@@ -544,7 +544,7 @@ void CChicken::Update( void )
 	CollectPlayers( &playerVector, TEAM_ANY, COLLECT_ONLY_LIVING_PLAYERS );
 
 	float closeRangeSq = FLT_MAX;
-	CBasePlayer *close = NULL;
+	CBasePlayer *close = nullptr;
 
 	for( int i=0; i<playerVector.Count(); ++i )
 	{
@@ -556,7 +556,7 @@ void CChicken::Update( void )
 		{
 			// Only scare chickens if we're moving fast enough to make noise
 			Vector vPlayerVelocity;
-			playerVector[i]->GetVelocity( &vPlayerVelocity, NULL );
+			playerVector[i]->GetVelocity( &vPlayerVelocity, nullptr);
 
 			if ( vPlayerVelocity.Length() > 126.0f )
 			{
@@ -721,7 +721,7 @@ void CChicken::UpdateFollowing( float deltaT )
 		// if leader is dead, stop following him
 		if ( !leader->IsAlive( ) )
 		{
-			Follow( NULL );
+			Follow(nullptr);
 			Idle( );
 
 			return;
@@ -931,7 +931,7 @@ void CChicken::ChickenThink( void )
 		case ACT_RUN:
 			QAngle angle = GetAbsAngles( );
 
-			if ( m_fleeFrom != NULL )
+			if ( m_fleeFrom != nullptr)
 			{
 				Vector fleeVector = GetAbsOrigin( ) - m_fleeFrom->GetAbsOrigin( );
 				fleeVector.z = 0.0f;
@@ -944,7 +944,7 @@ void CChicken::ChickenThink( void )
 				const float safeRange = 150.0f;
 				if ( fleeRange > safeRange )
 				{
-					m_fleeFrom = NULL;
+					m_fleeFrom = nullptr;
 				}
 				else
 				{

@@ -150,7 +150,7 @@ void *CSoundEmitterSystemBase::QueryInterface( const char *pInterfaceName )
 {
 	// Loading the engine DLL mounts *all* soundemitter interfaces
 	CreateInterfaceFn factory = Sys_GetFactoryThis();	// This silly construction is necessary
-	return factory( pInterfaceName, NULL );				// to prevent the LTCG compiler from crashing.
+	return factory( pInterfaceName, nullptr);				// to prevent the LTCG compiler from crashing.
 }
 
 
@@ -235,7 +235,7 @@ bool CSoundEmitterSystemBase::LoadGameSoundManifest()
 	{
 		AccumulateFileNameAndTimestampIntoChecksum( &crc, MANIFEST_FILE );
 
-		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 		{
 			if ( !Q_stricmp( sub->GetName(), "precache_file" ) )
 			{
@@ -535,7 +535,7 @@ CSoundParametersInternal *CSoundEmitterSystemBase::InternalGetParametersForSound
 	if ( !m_Sounds.IsValidIndex( index ) )
 	{
 		Assert( !"CSoundEmitterSystemBase::InternalGetParametersForSound:  Bogus index" );
-		return NULL;
+		return nullptr;
 	}
 
 	return &m_Sounds[ index ]->m_SoundParams;
@@ -718,13 +718,13 @@ void CSoundEmitterSystemBase::GenderExpandString( char const *actormodel, char c
 void CSoundEmitterSystemBase::LoadGlobalActors()
 {
 	// Now load the global actor list from the scripts/globalactors.txt file
-	KeyValues *allActors = NULL;
+	KeyValues *allActors = nullptr;
 	
 	allActors = new KeyValues( "allactors" );
-	if ( allActors->LoadFromFile( g_pFullFileSystem, "scripts/global_actors.txt", NULL ) )
+	if ( allActors->LoadFromFile( g_pFullFileSystem, "scripts/global_actors.txt", nullptr) )
 	{
 		KeyValues *pvkActor;
-		for ( pvkActor = allActors->GetFirstSubKey(); pvkActor != NULL; pvkActor = pvkActor->GetNextKey() )
+		for ( pvkActor = allActors->GetFirstSubKey(); pvkActor != nullptr; pvkActor = pvkActor->GetNextKey() )
 		{
 			int idx = m_ActorGenders.Find( pvkActor->GetName() );
 			if ( idx == m_ActorGenders.InvalidIndex() )
@@ -1392,7 +1392,7 @@ int CSoundEmitterSystemBase::GetNumSoundScripts() const
 const char *CSoundEmitterSystemBase::GetSoundScriptName( int index ) const
 {
 	if ( index < 0 || index >= m_SoundKeyValues.Count() )
-		return NULL;
+		return nullptr;
 
 	static char fn[ 512 ];
 	if ( g_pFullFileSystem->String( m_SoundKeyValues[ index ].hFilename, fn, sizeof( fn ) ) )
@@ -1431,7 +1431,7 @@ void CSoundEmitterSystemBase::SaveChangesToSoundScript( int scriptindex )
 	// FIXME:  Write sound script header
 	if ( g_pFullFileSystem->FileExists( GAME_SOUNDS_HEADER_BLOCK ) )
 	{
-		FileHandle_t header = g_pFullFileSystem->Open( GAME_SOUNDS_HEADER_BLOCK, "rb", NULL );
+		FileHandle_t header = g_pFullFileSystem->Open( GAME_SOUNDS_HEADER_BLOCK, "rb", nullptr);
 		if ( header != FILESYSTEM_INVALID_HANDLE )
 		{
 			int len = g_pFullFileSystem->Size( header );
@@ -1775,14 +1775,14 @@ KeyValues * CSoundEmitterSystemBase::GetOperatorKVByHandle( HSOUNDSCRIPTHASH& ha
 {
 	if ( handle == SOUNDEMITTER_INVALID_HASH )
 	{
-		return NULL;
+		return nullptr;
 	}
 	int index = GetSoundIndexForHash( handle );
 
 	CSoundParametersInternal *internal = InternalGetParametersForSound( index );
 	if ( !internal )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return internal->GetOperatorsKV();
@@ -1851,7 +1851,7 @@ char const *CSoundEmitterSystemBase::GetSoundNameForHash( HSOUNDSCRIPTHASH hash 
 {
 	int slot = m_HashToSoundEntry.Find( hash );
 	if ( slot == m_HashToSoundEntry.InvalidIndex() )
-		return NULL;
+		return nullptr;
 	CSoundEntry *entry = m_HashToSoundEntry[ slot ].pEntry;
 	return entry->m_Name.String();
 }

@@ -158,7 +158,7 @@ const char *GetShaderNameForTexInfo( int iTexInfo )
 	texinfo_t *pTexInfo = &texinfo[iTexInfo];
 	dtexdata_t *pTexData = GetTexData( pTexInfo->texdata );
 	const char *pMaterialName = TexDataStringTable_GetString( pTexData->nameStringTableID );
-	MaterialSystemMaterial_t hMaterial = FindMaterial( pMaterialName, NULL, false );
+	MaterialSystemMaterial_t hMaterial = FindMaterial( pMaterialName, nullptr, false );
 	const char *pShaderName = GetMaterialShaderName( hMaterial );
 	return pShaderName;
 }

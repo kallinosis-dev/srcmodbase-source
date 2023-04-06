@@ -52,7 +52,7 @@ public:
 	template < class T, HandleType_t HT >
 	CDmeHandle( const CDmeHandle< T, HT > &handle ) : m_handle( DMELEMENT_HANDLE_INVALID )
 	{
-		DmeType *p = ( T* )NULL; // triggers compiler error if converting from invalid handle type
+		DmeType *p = ( T* )nullptr; // triggers compiler error if converting from invalid handle type
 		NOTE_UNUSED( p );
 
 		Set( handle.GetHandle() );
@@ -69,7 +69,7 @@ public:
 	template < class T, HandleType_t HT >
 	CDmeHandle& operator=( const CDmeHandle< T, HT > &handle )
 	{
-		DmeType *p = ( T* )NULL; // triggers compiler error if converting from invalid handle type
+		DmeType *p = ( T* )nullptr; // triggers compiler error if converting from invalid handle type
 		NOTE_UNUSED( p );
 
 		Set( handle.GetHandle() );
@@ -192,12 +192,12 @@ public:
 
 	operator bool() const
 	{ 
-		return ( Get() != NULL );
+		return ( Get() != nullptr);
 	}
 
 	bool operator!() const
 	{
-		return ( Get() == NULL );
+		return ( Get() == nullptr);
 	}
 
 private:

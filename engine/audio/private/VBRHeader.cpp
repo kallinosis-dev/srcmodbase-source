@@ -59,21 +59,21 @@ bool CVBRHeader::IsVBRHeaderAvailable( CMPAFile* pMPAFile, VBRHeaderType& Header
 }
 
 CVBRHeader::CVBRHeader( CMPAFile* pMPAFile, VBRHeaderType HeaderType, uint32 dwOffset ) :
-	m_pMPAFile( pMPAFile ), m_pnToc(NULL), m_HeaderType( HeaderType ), m_dwOffset(dwOffset), m_dwFrames(0), m_dwBytes(0)
+	m_pMPAFile( pMPAFile ), m_pnToc(nullptr), m_HeaderType( HeaderType ), m_dwOffset(dwOffset), m_dwFrames(0), m_dwBytes(0)
 {
 	switch( m_HeaderType )
 	{
 		case NoHeader:
 			// no Header found
-			throw CMPAException( CMPAException::NoVBRHeader, pMPAFile->GetFilename(), NULL, false );
+			throw CMPAException( CMPAException::NoVBRHeader, pMPAFile->GetFilename(), nullptr, false );
 			break;
 		case XINGHeader:
 			if(	!ExtractXINGHeader( m_dwOffset ) )
-				throw CMPAException( CMPAException::NoVBRHeader, pMPAFile->GetFilename(), NULL, false );
+				throw CMPAException( CMPAException::NoVBRHeader, pMPAFile->GetFilename(), nullptr, false );
 			break;
 		case VBRIHeader:
 			if( !ExtractVBRIHeader( m_dwOffset ) ) 
-				throw CMPAException( CMPAException::NoVBRHeader, pMPAFile->GetFilename(), NULL, false );
+				throw CMPAException( CMPAException::NoVBRHeader, pMPAFile->GetFilename(), nullptr, false );
 			break;
 	}
 	// calc bitrate
@@ -84,7 +84,7 @@ CVBRHeader::CVBRHeader( CMPAFile* pMPAFile, VBRHeaderType HeaderType, uint32 dwO
 	}
 	else	// incomplete header found
 	{
-		throw CMPAException( CMPAException::IncompleteVBRHeader, pMPAFile->GetFilename(), NULL, false );
+		throw CMPAException( CMPAException::IncompleteVBRHeader, pMPAFile->GetFilename(), nullptr, false );
 	}
 }
 

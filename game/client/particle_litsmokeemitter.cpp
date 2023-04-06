@@ -18,7 +18,7 @@
 CLitSmokeEmitter::CLitSmokeEmitter( const char *pDebugName ) : CSimpleEmitter( pDebugName )
 {
 	m_bInitted = false;
-	m_hSmokeMaterial = INVALID_MATERIAL_HANDLE;
+	m_hSmokeMaterial = nullptr;
 }
 
 //-----------------------------------------------------------------------------

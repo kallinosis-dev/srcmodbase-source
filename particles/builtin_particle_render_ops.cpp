@@ -416,7 +416,7 @@ void C_OP_RenderSprites::InitializeContextData( CParticleCollection *pParticles,
 	pCtx->m_bDidPerfWarning = false;
 
 	IMaterial *pMaterial = pParticles->m_pDef->GetMaterial();
-	IMaterialVar* pVar = pMaterial ? pMaterial->FindVarFast( "$perparticleoutline", &pParticles->m_pDef->m_nPerParticleOutlineMaterialVarToken ) : NULL;
+	IMaterialVar* pVar = pMaterial ? pMaterial->FindVarFast( "$perparticleoutline", &pParticles->m_pDef->m_nPerParticleOutlineMaterialVarToken ) : nullptr;
 	pCtx->m_bPerParticleGlow = ( pVar && ( pVar->GetIntValue() ) );
 	
 	pCtx->m_nQueryHandle = 0;
@@ -424,8 +424,8 @@ void C_OP_RenderSprites::InitializeContextData( CParticleCollection *pParticles,
 
 const SheetSequenceSample_t *GetSampleForSequence( CSheet *pSheet, float flAge, float flAgeScale, int nSequence )
 {
-	if ( pSheet == NULL )
-		return NULL;
+	if ( pSheet == nullptr)
+		return nullptr;
 
 	if ( pSheet->m_SheetInfo[nSequence].m_nNumFrames == 1 )
 		return (const SheetSequenceSample_t *) &pSheet->m_SheetInfo[nSequence].m_pSamples[0];
@@ -1413,7 +1413,7 @@ void C_OP_RenderSprites::Render( IMatRenderContext *pRenderContext, CParticleCol
 
 	// Reset the particle cache if we're sprite card material, it isn't sorted, and it doesn't use queries
 	bool bShouldSort = pParticles->m_pDef->m_bShouldSort;
-	CCachedParticleBatches *pCachedBatches = NULL;
+	CCachedParticleBatches *pCachedBatches = nullptr;
 	MaterialThreadMode_t nThreadMode = g_pMaterialSystem->GetThreadMode();
 	if ( nThreadMode != MATERIAL_SINGLE_THREADED && !bShouldSort && !pCtx->m_VisibilityData.m_bUseVisibility )
 	{
@@ -1438,7 +1438,7 @@ void C_OP_RenderSprites::Render( IMatRenderContext *pRenderContext, CParticleCol
 			IMesh* pMesh = pRenderContext->GetDynamicMesh( true );
 			
 			// See if we have a cached batch
-			ICachedPerFrameMeshData *pCachedBatch = pCachedBatches ? pCachedBatches->GetCachedBatch( nBatchCount ) : NULL;
+			ICachedPerFrameMeshData *pCachedBatch = pCachedBatches ? pCachedBatches->GetCachedBatch( nBatchCount ) : nullptr;
 			if ( pCachedBatch )
 			{
 				// This copies all of the VB/IB pointers and data out of the pCachedBatch back into the pMesh
@@ -1491,8 +1491,8 @@ void C_OP_RenderSprites::Render( IMatRenderContext *pRenderContext, CParticleCol
 	else
 	{
 		int nParticles;
-		ParticleFullRenderData_Scalar_View **pSortList = NULL;
-		ParticleRenderDataWithNormal_Scalar_View **pSortListWithNormal = NULL;
+		ParticleFullRenderData_Scalar_View **pSortList = nullptr;
+		ParticleRenderDataWithNormal_Scalar_View **pSortListWithNormal = nullptr;
 		if ( m_nOrientationType == 3 )
 		{
 			pSortListWithNormal = GetExtendedRenderListWithNormals( 
@@ -1517,7 +1517,7 @@ void C_OP_RenderSprites::Render( IMatRenderContext *pRenderContext, CParticleCol
 			pParticles->GetBounds( &vMins, &vMaxs );
 
 			// See if we have a cached batch
-			ICachedPerFrameMeshData *pCachedBatch = pCachedBatches ? pCachedBatches->GetCachedBatch( nBatchCount ) : NULL;
+			ICachedPerFrameMeshData *pCachedBatch = pCachedBatches ? pCachedBatches->GetCachedBatch( nBatchCount ) : nullptr;
 			if ( pCachedBatch )
 			{
 				// This copies all of the VB/IB pointers and data out of the pCachedBatch back into the pMesh
@@ -2111,7 +2111,7 @@ void C_OP_RenderSpritesTrail::Render( IMatRenderContext *pRenderContext, CPartic
 	// Reset the particle cache if we're sprite card material, not sorted, and don't need visibility
 	bool bSpriteCard = pMaterial->IsSpriteCard();
 	bool bShouldSort = pParticles->m_pDef->m_bShouldSort;
-	CCachedParticleBatches *pCachedBatches = NULL;
+	CCachedParticleBatches *pCachedBatches = nullptr;
 	MaterialThreadMode_t nThreadMode = g_pMaterialSystem->GetThreadMode();
 	if ( nThreadMode != MATERIAL_SINGLE_THREADED && bSpriteCard && !bShouldSort && !pCtx->m_VisibilityData.m_bUseVisibility )
 	{
@@ -2133,7 +2133,7 @@ void C_OP_RenderSpritesTrail::Render( IMatRenderContext *pRenderContext, CPartic
 
 	int nSkipAheadParticles = 0;
 	int nParticles = 0;
-	const ParticleRenderData_t *pSortList = NULL;
+	const ParticleRenderData_t *pSortList = nullptr;
 	
 	// Only grab the render list if we're not cached, since this can be costly for large systems.  Make sure that if we run out of cached batches below
 	// that we re-grab the render list and continue with the slow path
@@ -2163,7 +2163,7 @@ void C_OP_RenderSpritesTrail::Render( IMatRenderContext *pRenderContext, CPartic
 
 		if ( bSpriteCard )
 		{
-			ICachedPerFrameMeshData *pCachedBatch = pCachedBatches ? pCachedBatches->GetCachedBatch( nBatchCount ) : NULL;
+			ICachedPerFrameMeshData *pCachedBatch = pCachedBatches ? pCachedBatches->GetCachedBatch( nBatchCount ) : nullptr;
 			if ( pCachedBatch )
 			{
 				// This copies all of the VB/IB pointers and data out of the pCachedBatch back into the pMesh
@@ -2816,7 +2816,7 @@ void C_OP_RenderRope::RenderSpriteCard( CParticleCollection *pParticles, const V
 
 	// Reset the particle cache if we're sprite card material (doesn't use camerapos) and isn't sorted
 	bool bShouldSort = pParticles->m_pDef->m_bShouldSort;
-	CCachedParticleBatches *pCachedBatches = NULL;
+	CCachedParticleBatches *pCachedBatches = nullptr;
 	MaterialThreadMode_t nThreadMode = g_pMaterialSystem->GetThreadMode();
 	if ( nThreadMode != MATERIAL_SINGLE_THREADED && !bShouldSort )
 	{
@@ -2841,7 +2841,7 @@ void C_OP_RenderRope::RenderSpriteCard( CParticleCollection *pParticles, const V
 
 	// Early out in the case of having cached batches
 	int nBatchCount = 0;
-	ICachedPerFrameMeshData *pCachedBatch = pCachedBatches ? pCachedBatches->GetCachedBatch( nBatchCount ) : NULL;
+	ICachedPerFrameMeshData *pCachedBatch = pCachedBatches ? pCachedBatches->GetCachedBatch( nBatchCount ) : nullptr;
 	if ( pCachedBatch )
 	{
 		do
@@ -3566,7 +3566,7 @@ class C_OP_RenderProjected : public CParticleRenderOperatorInstance
 	{
 		void **pCtx = reinterpret_cast< void ** >( pContext );
 
-		*pCtx = NULL;
+		*pCtx = nullptr;
 	}
 
 	size_t GetRequiredContextBytes( void ) const
@@ -3606,7 +3606,7 @@ class C_OP_RenderProjected : public CParticleRenderOperatorInstance
 		}
 		else
 		{
-			*pCtx = NULL;
+			*pCtx = nullptr;
 		}
 	}
 

@@ -38,7 +38,7 @@ public:
 	if (size){		// will be optimized by most compilers
 	    elems = (void **)p_malloc(size*sizeof(void *));
 	}else{	
-	    elems = NULL;
+	    elems = nullptr;
 	}
     };
     

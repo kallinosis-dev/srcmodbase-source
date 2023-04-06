@@ -122,7 +122,7 @@ void CInitTracker::Shutdown( const char *shutdown, int listnum )
 	}
 	
 	int i = 0;
-	InitFunc *f = NULL;
+	InitFunc *f = nullptr;
 	for ( i = 0; i < m_nNumFuncs[ listnum ]; i++ )
 	{
 		f = m_Funcs[ listnum ][ i ];

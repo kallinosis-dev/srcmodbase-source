@@ -26,7 +26,7 @@
 static characterset_t	g_WhiteSpace;
 
 client_textmessage_t	gMessageParms;
-client_textmessage_t	*gMessageTable = NULL;
+client_textmessage_t	*gMessageTable = nullptr;
 int						gMessageTableCount = 0;
 
 char	gNetworkTextMessageBuffer[MAX_NETMESSAGE][512];
@@ -43,7 +43,7 @@ client_textmessage_t	gNetworkTextMessage[MAX_NETMESSAGE] =
 	0.0f, // fadeout
 	0.0f, // holdtime
 	0.0f, // fxTime,
-	NULL,//pVGuiSchemeFontName (NULL == default)
+	nullptr,//pVGuiSchemeFontName (NULL == default)
 	NETWORK_MESSAGE1,  // pName message name.
 	gNetworkTextMessageBuffer[0]    // pMessage
 };
@@ -60,7 +60,7 @@ client_textmessage_t tm_demomessage =
 	0.0f, // fadeout
 	0.0f, // holdtime
 	0.0f, // fxTime,
-	NULL,// pVGuiSchemeFontName (NULL == default)
+	nullptr,// pVGuiSchemeFontName (NULL == default)
 	DEMO_MESSAGE,  // pName message name.
 	gDemoMessageBuffer    // pMessage
 };
@@ -135,7 +135,7 @@ const char *SkipSpace( const char *pText )
 		return pText + pos;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -149,7 +149,7 @@ const char *SkipText( const char *pText )
 		return pText + pos;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -335,7 +335,7 @@ int ParseDirective( const char *pText )
 			{
 				if ( !g_pchSkipName[ 0 ] || !Q_stricmp( g_pchSkipName, "0" ) )
 				{
-					gMessageParms.pClearMessage = NULL;
+					gMessageParms.pClearMessage = nullptr;
 				}
 				else
 				{
@@ -358,7 +358,7 @@ int ParseDirective( const char *pText )
 void TextMessageParse( byte *pMemFile, int fileSize )
 {
 	char		buf[512], trim[512];
-	char		*pCurrentText=0, *pNameHeap;
+	char		*pCurrentText=nullptr, *pNameHeap;
 	char		 currentName[512], nameHeap[ NAME_HEAP_SIZE ];
 	int			lastNamePos;
 
@@ -381,7 +381,7 @@ void TextMessageParse( byte *pMemFile, int fileSize )
 
 	CharacterSetBuild( &g_WhiteSpace, " \r\n\t" );
 
-	while( memfgets( pMemFile, fileSize, &filePos, buf, 512 ) != NULL )
+	while( memfgets( pMemFile, fileSize, &filePos, buf, 512 ) != nullptr)
 	{
 		if(messageCount>=MAX_MESSAGES)
 		{
@@ -541,7 +541,7 @@ void TextMessageShutdown( void )
 	if ( gMessageTable )
 	{
 		free( gMessageTable );
-		gMessageTable = NULL;
+		gMessageTable = nullptr;
 	}
 }
 
@@ -554,7 +554,7 @@ void TextMessageInit( void )
 	if ( gMessageTable )
 	{
 		free( gMessageTable );
-		gMessageTable = NULL;
+		gMessageTable = nullptr;
 	}
 
 	pMemFile = COM_LoadFile( "scripts/titles.txt", 5, &fileSize );
@@ -634,5 +634,5 @@ client_textmessage_t *TextMessageGet( const char *pName )
 			return &gMessageTable[i];
 	}
 
-	return NULL;
+	return nullptr;
 }

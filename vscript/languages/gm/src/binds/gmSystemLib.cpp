@@ -45,7 +45,7 @@ static int GM_CDECL gmfSystem(gmThread * a_thread)
 {
   const int bufferSize = 256;
   int len = 0, size = 0, i, ret = -1;
-  char * str = NULL, buffer[bufferSize];
+  char * str = nullptr, buffer[bufferSize];
 
   // build the string
   for(i = 0; i < a_thread->GetNumParams(); ++i)
@@ -82,7 +82,7 @@ static int GM_CDECL gmfDoFile(gmThread * a_thread) // filename, now (1), return 
   int id = GM_INVALID_THREAD;
   if(filename)
   {
-    char * string = NULL;
+    char * string = nullptr;
 
     FILE * fp = fopen(filename, "rb");
     if(fp)
@@ -100,7 +100,7 @@ static int GM_CDECL gmfDoFile(gmThread * a_thread) // filename, now (1), return 
       GM_EXCEPTION_MSG("failed to open file '%s'", filename);
       return GM_EXCEPTION;
     }
-    if(string == NULL) return GM_OK;
+    if(string == nullptr) return GM_OK;
 
     int errors = a_thread->GetMachine()->ExecuteString(string, &id, (now) ? true : false, filename, &paramThis);
     delete[] string;
@@ -438,7 +438,7 @@ static int GM_CDECL gmfCreateFolder(gmThread * a_thread)
 {
   GM_CHECK_NUM_PARAMS(1);
   GM_CHECK_STRING_PARAM(path, 0);
-  BOOL result = CreateDirectory(path, NULL);
+  BOOL result = CreateDirectory(path, nullptr);
   if(result)
   {
     a_thread->PushInt(1);
@@ -492,7 +492,7 @@ bool RecurseDeletePath(const char * a_path)
   }
 
   FindClose(h);
-  h = NULL;
+  h = nullptr;
 
   // push current working directory
   char currDir[MAX_PATH + 1] = "";
@@ -535,7 +535,7 @@ bool RecurseDeletePath(const char * a_path)
   SetCurrentDirectory(currDir);
 
   FindClose(h);
-  h = NULL;
+  h = nullptr;
 
   // remove this directory
   DWORD attrs = GetFileAttributes(path);

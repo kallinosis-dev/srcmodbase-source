@@ -11,7 +11,7 @@
 
 void Sys_CopyStringToClipboard( const char *pOut )
 {
-	if ( !pOut || !OpenClipboard( NULL ) )
+	if ( !pOut || !OpenClipboard(nullptr) )
 	{
 		return;
 	}

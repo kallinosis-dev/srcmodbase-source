@@ -25,9 +25,9 @@ public:
 	
 	CThreadedTCPSocketEmu()
 	{
-		m_pSocket = NULL;
+		m_pSocket = nullptr;
 		m_LocalPort = 0xFFFF;
-		m_pConnectSocket = NULL;
+		m_pConnectSocket = nullptr;
 		m_RecvPacketsEvent.Init( false, false );
 		m_bError = false;
 	}
@@ -47,13 +47,13 @@ public:
 		if ( m_pSocket )
 		{
 			m_pSocket->Release();
-			m_pSocket = NULL;
+			m_pSocket = nullptr;
 		}
 		
 		if ( m_pConnectSocket )
 		{
 			m_pConnectSocket->Release();
-			m_pConnectSocket = NULL;
+			m_pConnectSocket = nullptr;
 		}
 	}
 
@@ -119,7 +119,7 @@ public:
 			CIPAddr( 0, 0, 0, 0, m_LocalPort ),
 			this );
 
-		return m_pConnectSocket != 0;			
+		return m_pConnectSocket != nullptr;			
 	}
 
 	virtual bool UpdateConnect()
@@ -134,7 +134,7 @@ public:
 			{
 				// Ok, we're connected now.
 				m_pConnectSocket->Release();
-				m_pConnectSocket = NULL;
+				m_pConnectSocket = nullptr;
 				return true;
 			}
 			else
@@ -146,7 +146,7 @@ public:
 		{
 			Assert( false );
 			m_pConnectSocket->Release();
-			m_pConnectSocket = NULL;
+			m_pConnectSocket = nullptr;
 			return false;
 		}
 	}
@@ -160,7 +160,7 @@ public:
 		}
 		else
 		{
-			return m_pSocket != NULL;
+			return m_pSocket != nullptr;
 		}
 	}
 
@@ -260,8 +260,8 @@ class CThreadedTCPListenSocketEmu : public ITCPListenSocket, public IHandlerCrea
 public:
 	CThreadedTCPListenSocketEmu()
 	{
-		m_pListener = NULL;
-		m_pLastCreatedSocket = NULL;
+		m_pListener = nullptr;
+		m_pLastCreatedSocket = nullptr;
 	}
 
 	virtual ~CThreadedTCPListenSocketEmu()
@@ -277,7 +277,7 @@ public:
 			port,
 			nQueueLength );
 
-		return m_pListener != 0;
+		return m_pListener != nullptr;
 	}
 
 
@@ -292,7 +292,7 @@ private:
 	virtual ITCPSocket*	UpdateListen( CIPAddr *pAddr )
 	{
 		if ( !m_pListener )
-			return NULL;
+			return nullptr;
 
 		IThreadedTCPSocket *pSocket;
 		if ( m_pListener->Update( &pSocket ) && pSocket )
@@ -302,12 +302,12 @@ private:
 			// This is pretty hacky, but this stuff is just around for test code.
 			CThreadedTCPSocketEmu *pLast = m_pLastCreatedSocket;
 			pLast->Init( pSocket );
-			m_pLastCreatedSocket = NULL;
+			m_pLastCreatedSocket = nullptr;
 			return pLast;
 		}
 		else
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -338,7 +338,7 @@ ITCPListenSocket* CreateTCPListenSocketEmu( const unsigned short port, int nQueu
 	else
 	{
 		delete pSocket;
-		return NULL;
+		return nullptr;
 	}	
 }
 

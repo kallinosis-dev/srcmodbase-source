@@ -63,7 +63,7 @@ struct dlight_t
 	const IClientRenderable* m_pExclusiveLightReceiver;
 
 	dlight_t()
-		: m_pExclusiveLightReceiver( NULL )
+		: m_pExclusiveLightReceiver(nullptr)
 	{
 	}
 

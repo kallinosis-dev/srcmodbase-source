@@ -32,7 +32,7 @@ AnimatingImagePanel::AnimatingImagePanel(Panel *parent, const char *name) : Pane
 	m_iCurrentImage = 0;
 	m_iFrameTimeMillis = 100;	// 10Hz frame rate
 	m_iNextFrameTime = 0;
-	m_pImageName = NULL;
+	m_pImageName = nullptr;
 	m_bFiltered = false;
 	m_bScaleImage = false;
 	m_bAnimating = false;
@@ -55,7 +55,7 @@ void AnimatingImagePanel::AddImage(IImage *image)
 {
 	m_Frames.AddToTail(image);
 
-	if ( !m_bScaleImage && image != NULL )
+	if ( !m_bScaleImage && image != nullptr)
 	{
 		int wide,tall;
 		image->GetSize(wide,tall);
@@ -86,7 +86,7 @@ void AnimatingImagePanel::LoadAnimation(const char *baseName, int frameCount)
 //-----------------------------------------------------------------------------
 void AnimatingImagePanel::PaintBackground()
 {
-	if ( m_Frames.IsValidIndex( m_iCurrentImage ) && m_Frames[m_iCurrentImage] != NULL )
+	if ( m_Frames.IsValidIndex( m_iCurrentImage ) && m_Frames[m_iCurrentImage] != nullptr)
 	{
 		IImage *pImage = m_Frames[m_iCurrentImage];
 
@@ -154,7 +154,7 @@ void AnimatingImagePanel::ApplySettings(KeyValues *inResourceData)
 {
 	BaseClass::ApplySettings(inResourceData);
 
-	const char *imageName = inResourceData->GetString("image", NULL);
+	const char *imageName = inResourceData->GetString("image", nullptr);
 	if (imageName)
 	{
 		m_bScaleImage = ( inResourceData->GetInt( "scaleImage", 0 ) == 1 );

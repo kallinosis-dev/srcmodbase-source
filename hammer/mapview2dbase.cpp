@@ -51,7 +51,7 @@ class CMapView2DBasePanel : public vgui::EditablePanel
 {
 public:
 	CMapView2DBasePanel( CMapView2DBase *pMapView, const char *panelName ) : 
-		vgui::EditablePanel( NULL, panelName )
+		vgui::EditablePanel(nullptr, panelName )
 	{
 		m_pMapView = pMapView;
 	}
@@ -102,7 +102,7 @@ CMapView2DBase::CMapView2DBase(void)
 	//
 	// Must initialize the title window pointer before calling SetDrawType!
 	//
-	m_pwndTitle = NULL;
+	m_pwndTitle = nullptr;
 
 	m_flMinZoom = ZOOM_MIN_DEFAULT;
 
@@ -133,7 +133,7 @@ CMapView2DBase::CMapView2DBase(void)
 //-----------------------------------------------------------------------------
 CMapView2DBase::~CMapView2DBase(void)
 {
-	if (m_pwndTitle != NULL)
+	if (m_pwndTitle != nullptr)
 	{
 		delete m_pwndTitle;
 	}
@@ -154,14 +154,14 @@ CMapView2DBase::~CMapView2DBase(void)
 //-----------------------------------------------------------------------------
 void CMapView2DBase::UpdateTitleWindowPos(void)
 {
-	if (m_pwndTitle != NULL)
+	if (m_pwndTitle != nullptr)
 	{
 		if (!::IsWindow(m_pwndTitle->m_hWnd))
 		{
 			return;
 		}
 
-		m_pwndTitle->SetWindowPos(NULL, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
+		m_pwndTitle->SetWindowPos(nullptr, 0, 0, 0, 0, SWP_NOSIZE | SWP_NOZORDER);
 		m_pwndTitle->ShowWindow(SW_SHOW);
 	}
 }
@@ -185,7 +185,7 @@ void CMapView2DBase::OnInitialUpdate(void)
 {
 	// CMainFrame::LoadWindowStates calls InitialUpdateFrame which causes us to get two
 	// OnInitialUpdate messages! Check for a NULL renderer to avoid processing twice.
-	if ( GetMainPanel() != NULL )
+	if ( GetMainPanel() != nullptr)
 		return;
 
 	CMapDoc *pDoc = GetMapDoc();
@@ -242,7 +242,7 @@ void CMapView2DBase::ToolScrollToPoint(const Vector2D &ptClient)
 			m_yScroll = -nScrollSpeed;
 		}
 	
-		SetTimer( TIMER_SCROLLVIEW, 10, NULL);
+		SetTimer( TIMER_SCROLLVIEW, 10, nullptr);
 	}
 	else
 	{
@@ -387,7 +387,7 @@ void CMapView2DBase::DrawGrid(CRender2D *pRender, int xAxis, int yAxis, float de
 {
 	CMapDoc *pDoc = GetMapDoc();
 
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 		return;
 	
 	// Check for too small grid.
@@ -522,7 +522,7 @@ void CMapView2DBase::DrawGridLogical( CRender2D *pRender )
 {
 	CMapDoc *pDoc = GetMapDoc();
 
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 		return;
 	
 	// Grid in logical view is always 1024
@@ -873,7 +873,7 @@ BOOL CMapView2DBase::PreCreateWindow(CREATESTRUCT& cs)
 	if(className.IsEmpty())
 	{
 		className = AfxRegisterWndClass(CS_BYTEALIGNCLIENT | CS_DBLCLKS, 
-			AfxGetApp()->LoadStandardCursor(IDC_ARROW), HBRUSH(NULL));
+			AfxGetApp()->LoadStandardCursor(IDC_ARROW), HBRUSH(nullptr));
 	}
 
 	cs.lpszClass = className;
@@ -953,28 +953,28 @@ void CMapView2DBase::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 		case VK_UP:
 		{
 			// scroll up
-			OnVScroll(SB_LINEUP, 0, NULL);
+			OnVScroll(SB_LINEUP, 0, nullptr);
 			break;
 		}
 
 		case VK_DOWN:
 		{
 			// scroll down
-			OnVScroll(SB_LINEDOWN, 0, NULL);
+			OnVScroll(SB_LINEDOWN, 0, nullptr);
 			break;
 		}
 
 		case VK_LEFT:
 		{
 			// scroll up
-			OnHScroll(SB_LINELEFT, 0, NULL);
+			OnHScroll(SB_LINELEFT, 0, nullptr);
 			break;
 		}
 
 		case VK_RIGHT:
 		{
 			// scroll up
-			OnHScroll(SB_LINERIGHT, 0, NULL);
+			OnHScroll(SB_LINERIGHT, 0, nullptr);
 			break;
 		}
 
@@ -1454,7 +1454,7 @@ void CMapView2DBase::OnLButtonDblClk(UINT nFlags, CPoint point)
 	// Pass the message to the active tool.
 	
 	CBaseTool *pTool = m_pToolManager->GetActiveTool();
-	if (pTool != NULL)
+	if (pTool != nullptr)
 	{
 		Vector2D vPoint( point.x, point.y );
 		if ( IsLogical() )
@@ -1531,7 +1531,7 @@ void CMapView2DBase::UpdateView( int nFlags )
 		OnRenderListDirty();
 	}
 
-	if ( m_pwndTitle != NULL )
+	if ( m_pwndTitle != nullptr)
 	{
 		m_pwndTitle->Invalidate(false);
 	}
@@ -1947,7 +1947,7 @@ void CMapView2DBase::ZoomIn(BOOL bAllViews)
 		vi.fZoom = newZoom;
 
 		CMapDoc *pDoc = GetMapDoc();
-		if (pDoc != NULL)
+		if (pDoc != nullptr)
 		{
 			pDoc->SetView2dInfo(vi);
 		}
@@ -1973,7 +1973,7 @@ void CMapView2DBase::ZoomOut(BOOL bAllViews)
 		vi.fZoom = m_fZoom;
 
 		CMapDoc *pDoc = GetMapDoc();
-		if (pDoc != NULL)
+		if (pDoc != nullptr)
 		{
 			pDoc->SetView2dInfo(vi);
 		}

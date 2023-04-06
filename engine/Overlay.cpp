@@ -280,7 +280,7 @@ private:
 		void *			m_pBindProxy;
 		int				m_nLightmapPage;
 
-		RenderBatch_t() : m_iMesh(0), m_nFirstIndex(0), m_nNumIndex(0), m_pMaterial(NULL), m_pBindProxy(NULL), m_nLightmapPage(0)
+		RenderBatch_t() : m_iMesh(0), m_nFirstIndex(0), m_nNumIndex(0), m_pMaterial(nullptr), m_pBindProxy(nullptr), m_nLightmapPage(0)
 		{}
 	};
 
@@ -697,7 +697,7 @@ void COverlayMgr::DrawBatches( IMatRenderContext *pRenderContext, IMesh* pIndice
 		else
 		{
 			pRenderContext->BindBatch( m_RenderMeshes[batch.m_iMesh].m_pMesh, g_materialWorldWireframe );
-			pRenderContext->Bind( g_materialWorldWireframe, NULL );
+			pRenderContext->Bind( g_materialWorldWireframe, nullptr);
 		}			
 		pRenderContext->DrawBatch( MATERIAL_TRIANGLES, batch.m_nFirstIndex, batch.m_nNumIndex );
 	}
@@ -711,14 +711,14 @@ void COverlayMgr::DrawBatches( IMatRenderContext *pRenderContext, IMesh* pIndice
 //-----------------------------------------------------------------------------
 void COverlayMgr::DrawFadedFragments( IMatRenderContext *pRenderContext, int nSortGroup, bool bWireframe )
 {
-	IMesh *pMesh = NULL;
+	IMesh *pMesh = nullptr;
 	CMeshBuilder meshBuilder;
 	CUtlVectorFixedGrowable<int,256> polyList;
 	int nCurrVertexCount = 0;
 	int nCurrIndexCount = 0;
 	int nMaxIndices = pRenderContext->GetMaxIndicesToRender();
-	IMaterial* pCurrentMaterial = NULL;
-	void* pCurrentBindProxy = NULL;
+	IMaterial* pCurrentMaterial = nullptr;
+	void* pCurrentBindProxy = nullptr;
 	bool bLightmappedMaterial = false;
 	for ( int iFragment = 0; iFragment < m_RenderFadedFragments.Count(); ++iFragment )
 	{
@@ -755,7 +755,7 @@ void COverlayMgr::DrawFadedFragments( IMatRenderContext *pRenderContext, int nSo
 				indexBuilder.FastPolygonList( 0, polyList.Base(), polyList.Count() );
 				meshBuilder.End();
 				pMesh->Draw();
-				pMesh = NULL;
+				pMesh = nullptr;
 				polyList.RemoveAll();
 				nCurrIndexCount = nCurrVertexCount = 0;
 			}
@@ -827,7 +827,7 @@ void COverlayMgr::DrawFadedFragments( IMatRenderContext *pRenderContext, int nSo
 		meshBuilder.End();
 		pMesh->Draw();
 	}
-	pMesh = NULL;
+	pMesh = nullptr;
 
 	m_RenderFadedFragments.RemoveAll();
 }
@@ -845,7 +845,7 @@ void COverlayMgr::RenderOverlaysBatch( IMatRenderContext *pRenderContext, int nS
 		pRenderContext->Bind( g_materialWorldWireframe );
 	}
 
-	IMesh *pMesh = NULL;
+	IMesh *pMesh = nullptr;
 	CMeshBuilder meshBuilder;
 
 	// Render sorted by material + lightmap...
@@ -936,7 +936,7 @@ void COverlayMgr::RenderOverlaysBatch( IMatRenderContext *pRenderContext, int nS
 							meshBuilder.End();
 							DrawBatches( pRenderContext, pMesh, bWireframeFragments );
 							nCurrIndexCount = 0;
-							pMesh = NULL;
+							pMesh = nullptr;
 						}
 					}
 
@@ -981,7 +981,7 @@ void COverlayMgr::RenderOverlaysBatch( IMatRenderContext *pRenderContext, int nS
 						meshBuilder.End();
 						DrawBatches( pRenderContext, pMesh, bWireframeFragments );
 						nCurrIndexCount = 0;
-						pMesh = NULL;
+						pMesh = nullptr;
 					}
 
 					DrawFadedFragments( pRenderContext, nSortGroup, bWireframeFragments );
@@ -1054,7 +1054,7 @@ void COverlayMgr::RenderOverlays( IMatRenderContext *pRenderContext, int nSortGr
 			{
 				void *pCurrentBindProxy = m_aOverlays[ m_aFragments[ hStartFragment ].m_iOverlay ].m_pBindProxy;
 
-				IMesh* pMesh = 0;								// only init when we actually have something
+				IMesh* pMesh = nullptr;								// only init when we actually have something
 				CMeshBuilder meshBuilder;
 				CUtlVectorFixedGrowable<int,256> polyList;
 				int nCurrVertexCount = 0;
@@ -1100,7 +1100,7 @@ void COverlayMgr::RenderOverlays( IMatRenderContext *pRenderContext, int nSortGr
 							indexBuilder.FastPolygonList( 0, polyList.Base(), polyList.Count() );
 							meshBuilder.End();
 							pMesh->Draw();
-							pMesh = NULL;
+							pMesh = nullptr;
 							polyList.RemoveAll();
 							nCurrIndexCount = nCurrVertexCount = 0;
 						}
@@ -1345,10 +1345,10 @@ void COverlayMgr::Surf_ClipFragment( moverlay_t *pOverlay, moverlayfragment_t &o
 
 	for( int iPlane = 0; iPlane < m_ClipPlanes.Count(); ++iPlane )
 	{
-		moverlayfragment_t *pFront = NULL, *pBack = NULL;
+		moverlayfragment_t *pFront = nullptr, *pBack = nullptr;
 		DoClipFragment( pClippedFrag, &m_ClipPlanes[iPlane], &pFront, &pBack );
 		DestroyTempFragment( pClippedFrag );
-		pClippedFrag = NULL;
+		pClippedFrag = nullptr;
 		
 		// Keep the backside and continue clipping.
 		if ( pBack )
@@ -1637,7 +1637,7 @@ void COverlayMgr::BuildStaticBuffers()
 		meshBuilder.End();
 		Assert(vertBufferIndex == m_RenderMeshes[iMesh].m_nVertCount);
 		if ( g_VBAllocTracker )
-			g_VBAllocTracker->TrackMeshAllocations( NULL );
+			g_VBAllocTracker->TrackMeshAllocations(nullptr);
 	}
 }
 
@@ -1906,7 +1906,7 @@ bool COverlayMgr::LoadOverlays( )
 		}
 
 		pOverlayOut->m_hFirstFragment = OVERLAY_FRAGMENT_LIST_INVALID;
-		pOverlayOut->m_pBindProxy = NULL;
+		pOverlayOut->m_pBindProxy = nullptr;
 	}
 
 	for( int iWaterOverlay = 0; iWaterOverlay < nWaterOverlayCount; ++iWaterOverlay, ++pWaterOverlayIn )
@@ -1958,7 +1958,7 @@ bool COverlayMgr::LoadOverlays( )
 		}
 
 		pOverlayOut->m_hFirstFragment = OVERLAY_FRAGMENT_LIST_INVALID;
-		pOverlayOut->m_pBindProxy = NULL;
+		pOverlayOut->m_pBindProxy = nullptr;
 	}
 
 	return true;
@@ -2216,12 +2216,12 @@ void COverlayMgr::Disp_DoClip( CDispInfo *pDisp, OverlayFragmentVector_t &aDispF
 			moverlayfragment_t *pClipFrag = aClippedFragments[iFrag];
 			if ( pClipFrag )
 			{
-				moverlayfragment_t *pFront = NULL, *pBack = NULL;
+				moverlayfragment_t *pFront = nullptr, *pBack = nullptr;
 
 				clipPlane.dist = clipDistStart * ( ( float )iInterval * flOOInterval );
 				DoClipFragment( pClipFrag, &clipPlane, &pFront, &pBack );
 				DestroyTempFragment( pClipFrag );
-				pClipFrag = NULL;
+				pClipFrag = nullptr;
 
 				if ( pFront )
 				{

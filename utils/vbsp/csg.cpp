@@ -65,7 +65,7 @@ bspbrush_t *SubtractBrush (bspbrush_t *a, bspbrush_t *b)
 	bspbrush_t	*out, *in;
 
 	in = a;
-	out = NULL;
+	out = nullptr;
 	for (i=0 ; i<b->numsides && in ; i++)
 	{
 		SplitBrush2 (in, b->sides[i].planenum, &front, &back);
@@ -116,9 +116,9 @@ bspbrush_t *IntersectBrush (bspbrush_t *a, bspbrush_t *b)
 	}
 
 	if (in == a || !in)
-		return NULL;
+		return nullptr;
 
-	in->next = NULL;
+	in->next = nullptr;
 	return in;
 }
 
@@ -181,7 +181,7 @@ bspbrush_t	*ClipBrushToBox (bspbrush_t *brush, const Vector& clipmins, const Vec
 				FreeBrush (front);
 			brush = back;
 			if (!brush)
-				return NULL;
+				return nullptr;
 		}
 		if (brush->mins[j] < clipmins[j])
 		{
@@ -190,7 +190,7 @@ bspbrush_t	*ClipBrushToBox (bspbrush_t *brush, const Vector& clipmins, const Vec
 				FreeBrush (back);
 			brush = front;
 			if (!brush)
-				return NULL;
+				return nullptr;
 		}
 	}
 
@@ -217,14 +217,14 @@ static bspbrush_t *CreateClippedBrush( mapbrush_t *mb, const Vector& clipmins, c
 {
 	int nNumSides = mb->numsides;
 	if (!nNumSides)
-		return NULL;
+		return nullptr;
 
 	// if the brush is outside the clip area, skip it
 	for (int j=0 ; j<3 ; j++)
 	{
 		if (mb->mins[j] >= clipmaxs[j] || mb->maxs[j] <= clipmins[j])
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -298,7 +298,7 @@ void CopyMatchingTexinfos( side_t *pDestSides, int numDestSides, const bspbrush_
 		Assert( pSourceBrush );
 
 		const side_t *pSourceSide = pSourceBrush->original_sides;	
-		const side_t *pBestSide = NULL;
+		const side_t *pBestSide = nullptr;
 		float flBestDot = -1.0f;
 		for ( int j = 0; j < pSourceBrush->numsides; ++j, ++pSourceSide )
 		{
@@ -385,7 +385,7 @@ bspbrush_t *MakeBspBrushList (int startbrush, int endbrush, const Vector& clipmi
 {
 	ComputeBoundingPlanes( clipmins, clipmaxs );
 
-	bspbrush_t	*pBrushList = NULL;
+	bspbrush_t	*pBrushList = nullptr;
 
 	int i;
 	for (i=startbrush ; i<endbrush ; i++)
@@ -421,7 +421,7 @@ bspbrush_t *MakeBspBrushList (mapbrush_t **pBrushes, int nBrushCount, const Vect
 {
 	ComputeBoundingPlanes( clipmins, clipmaxs );
 
-	bspbrush_t	*pBrushList = NULL;
+	bspbrush_t	*pBrushList = nullptr;
 	for ( int i=0; i < nBrushCount; ++i )
 	{
 		bspbrush_t *pNewBrush = CreateClippedBrush( pBrushes[i], clipmins, clipmaxs );
@@ -448,7 +448,7 @@ bspbrush_t *AddBrushListToTail (bspbrush_t *list, bspbrush_t *tail)
 	for (walk=list ; walk ; walk=next)
 	{	// add to end of list
 		next = walk->next;
-		walk->next = NULL;
+		walk->next = nullptr;
 		tail->next = walk;
 		tail = walk;
 	}
@@ -468,7 +468,7 @@ bspbrush_t *CullList (bspbrush_t *list, bspbrush_t *skip1)
 	bspbrush_t	*newlist;
 	bspbrush_t	*next;
 
-	newlist = NULL;
+	newlist = nullptr;
 
 	for ( ; list ; list = next)
 	{
@@ -671,12 +671,12 @@ bspbrush_t *ChopBrushes (bspbrush_t *head)
 	if (entity_num == DEBUG_BRUSHMODEL)
 		WriteBrushList ("before.gl", head, false);
 #endif
-	keep = NULL;
+	keep = nullptr;
 
 newlist:
 	// find tail
 	if (!head)
-		return NULL;
+		return nullptr;
 	for (tail=head ; tail->next ; tail=tail->next)
 	;
 
@@ -688,8 +688,8 @@ newlist:
 			if (BrushesDisjoint (b1, b2))
 				continue;
 
-			sub = NULL;
-			sub2 = NULL;
+			sub = nullptr;
+			sub2 = nullptr;
 			c1 = 999999;
 			c2 = 999999;
 

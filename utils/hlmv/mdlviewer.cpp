@@ -63,7 +63,7 @@
 
 bool g_bOldFileDialogs = false;
 
-MDLViewer *g_MDLViewer = 0;
+MDLViewer *g_MDLViewer = nullptr;
 char g_appTitle[] = "Half-Life Model Viewer v1.22";
 static char recentFiles[8][256] = { "", "", "", "", "", "", "", "" };
 extern int g_dxlevel;
@@ -81,8 +81,8 @@ ISoundEmitterSystemBase *g_pSoundEmitterBase;
 CreateInterfaceFn g_Factory;
 
 // Filesystem dialog module wrappers.
-CSysModule *g_pFSDialogModule = 0;
-CreateInterfaceFn g_FSDialogFactory = 0;
+CSysModule *g_pFSDialogModule = nullptr;
+CreateInterfaceFn g_FSDialogFactory = nullptr;
 
 
 
@@ -129,7 +129,7 @@ void LoadFileSystemDialogModule()
 		if ( g_pFSDialogModule )
 		{
 			Sys_UnloadModule( g_pFSDialogModule );
-			g_pFSDialogModule = NULL;
+			g_pFSDialogModule = nullptr;
 		}
 	}
 }
@@ -139,7 +139,7 @@ void UnloadFileSystemDialogModule()
 	if ( g_pFSDialogModule )
 	{
 		Sys_UnloadModule( g_pFSDialogModule );
-		g_pFSDialogModule = 0;
+		g_pFSDialogModule = nullptr;
 	}
 }	
 
@@ -232,10 +232,10 @@ AccelTableEntry_t accelTable[NUM_ACCELERATORS] = {	{VK_F5,		IDC_FILE_REFRESH,			
 
 
 MDLViewer::MDLViewer ()
-: mxWindow (0, 0, 0, 0, 0, g_appTitle, mxWindow::Normal)
+: mxWindow (nullptr, 0, 0, 0, 0, g_appTitle, mxWindow::Normal)
 {
-	d_MatSysWindow = 0;
-	d_cpl = 0;
+	d_MatSysWindow = nullptr;
+	d_cpl = nullptr;
 
 	// create menu stuff
 	mb = new mxMenuBar (this);
@@ -429,7 +429,7 @@ void MDLViewer::Refresh( void )
 	g_pMDLCache->Flush( );
 
 	delete g_pWidgetControl;
-	g_pWidgetControl = NULL;
+	g_pWidgetControl = nullptr;
 
 	if ( recentFiles[0][0] != '\0' )
 	{
@@ -809,7 +809,7 @@ void MDLViewer::SaveScreenShot( const char *pszFile )
 				strcpy( g_viewerSettings.mergeModelFile[i], "" );
 				g_pStudioExtraModel[i]->FreeModel( false );
 				delete g_pStudioExtraModel[i];
-				g_pStudioExtraModel[i] = NULL;				
+				g_pStudioExtraModel[i] = nullptr;				
 			}
 		}
 
@@ -822,7 +822,7 @@ void MDLViewer::SaveScreenShot( const char *pszFile )
 		V_ExtractFilePath( filename, szScreenShot, sizeof(szScreenShot) );
 		strcat(szScreenShot, "screenshots\\" );
 
-		if ( CreateDirectory(szScreenShot, NULL) || ERROR_ALREADY_EXISTS == GetLastError() )
+		if ( CreateDirectory(szScreenShot, nullptr) || ERROR_ALREADY_EXISTS == GetLastError() )
 		{
 			strcat(szScreenShot, V_GetFileName(filename) );
 			char *pchDot = strrchr(szScreenShot, '.');
@@ -937,20 +937,20 @@ void MDLViewer::DumpText( const char *pszFile )
 const char* MDLViewer::SteamGetOpenFilename()
 {
 	if ( !g_FSDialogFactory )
-		return NULL;
+		return nullptr;
 
 	static char filename[MAX_PATH];
 
 	IFileSystemOpenDialog *pDlg;
-	pDlg = (IFileSystemOpenDialog*)g_FSDialogFactory( FILESYSTEMOPENDIALOG_VERSION, NULL );
+	pDlg = (IFileSystemOpenDialog*)g_FSDialogFactory( FILESYSTEMOPENDIALOG_VERSION, nullptr);
 	if ( !pDlg )
 	{
 		char str[512];
 		Q_snprintf( str, sizeof( str ), "Can't create %s interface.", FILESYSTEMOPENDIALOG_VERSION );
-		MessageBox( NULL, str, "Error", MB_OK );
-		return NULL;
+		MessageBox(nullptr, str, "Error", MB_OK );
+		return nullptr;
 	}
-	pDlg->Init( g_Factory, NULL );
+	pDlg->Init( g_Factory, nullptr);
 	pDlg->AddFileMask( "*.jpg" );
 	pDlg->AddFileMask( "*.mdl" );
 	pDlg->SetInitialDir( "models", "game" );
@@ -965,7 +965,7 @@ const char* MDLViewer::SteamGetOpenFilename()
 	else
 	{
 		pDlg->Release();
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -985,7 +985,7 @@ MDLViewer::handleEvent (mxEvent *event)
 		{
 		case IDC_FILE_LOADMODEL:
 		{
-			const char *ptr = mxGetOpenFileName (this, 0, "*.mdl");
+			const char *ptr = mxGetOpenFileName (this, nullptr, "*.mdl");
 			if (ptr)
 			{
 				LoadModelFile( ptr );
@@ -1020,7 +1020,7 @@ MDLViewer::handleEvent (mxEvent *event)
 				studiohdr_t* pStudioR = g_pStudioModel->GetStudioRenderHdr();
 				
 				KeyValues *tempKeyValues = new KeyValues("qc_path");
-				if ( tempKeyValues->LoadFromBuffer( NULL, pStudioR->KeyValueText() ) )
+				if ( tempKeyValues->LoadFromBuffer(nullptr, pStudioR->KeyValueText() ) )
 				{
 					KeyValues *qc_path = tempKeyValues->FindKey( "qc_path", false );
 					if (qc_path)
@@ -1042,7 +1042,7 @@ MDLViewer::handleEvent (mxEvent *event)
 		case IDC_FILE_LOADBACKGROUNDTEX:
 		case IDC_FILE_LOADGROUNDTEX:
 		{
-			const char *ptr = mxGetOpenFileName (this, 0, "*.*");
+			const char *ptr = mxGetOpenFileName (this, nullptr, "*.*");
 			if (ptr)
 			{
 				if (0 /* d_MatSysWindow->loadTexture (ptr, event->action - IDC_FILE_LOADBACKGROUNDTEX) */)
@@ -1342,7 +1342,7 @@ MDLViewer::handleEvent (mxEvent *event)
 
 #ifdef WIN32
 		case IDC_HELP_GOTOHOMEPAGE:
-			ShellExecute (0, "open", "http://www.swissquake.ch/chumbalum-soft/index.html", 0, 0, SW_SHOW);
+			ShellExecute (nullptr, "open", "http://www.swissquake.ch/chumbalum-soft/index.html", nullptr, nullptr, SW_SHOW);
 			break;
 #endif
 
@@ -1462,7 +1462,7 @@ MDLViewer::handleEvent (mxEvent *event)
 		}
 		else
 		{
-			mx::setIdleWindow( 0 );
+			mx::setIdleWindow( nullptr );
 		}
 	}
 	break;
@@ -1817,10 +1817,10 @@ bool CHLModelViewerApp::Create()
 void CHLModelViewerApp::Destroy()
 {
 	LoggingSystem_PopLoggingState();
-	g_pFileSystem = NULL;
-	g_pStudioDataCache = NULL;
-	physcollision = NULL;
-	physprop = NULL;
+	g_pFileSystem = nullptr;
+	g_pStudioDataCache = nullptr;
+	physcollision = nullptr;
+	physprop = nullptr;
 }
 
 
@@ -1841,7 +1841,7 @@ bool CHLModelViewerApp::PreInit( )
 	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f, false, false, false, false );
 
 	// Add paths...
-	if ( !SetupSearchPaths( NULL, false, true ) )
+	if ( !SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	// Get the adapter from the command line....
@@ -1907,7 +1907,7 @@ int CHLModelViewerApp::Main()
 	g_pDataModel->SetUndoEnabled( false );
 
 	// Load up the initial model
-	const char *pMdlName = NULL;
+	const char *pMdlName = nullptr;
 	int nParmCount = CommandLine()->ParmCount();
 	if ( nParmCount > 1 )
 	{
@@ -1956,7 +1956,7 @@ int CHLModelViewerApp::Main()
 
 static bool CHLModelViewerApp_SuggestGameInfoDirFn( CFSSteamSetupInfo const *pFsSteamSetupInfo, char *pchPathBuffer, int nBufferLength, bool *pbBubbleDirectories )
 {
-	const char *pMdlName = NULL;
+	const char *pMdlName = nullptr;
 	int nParmCount = CommandLine()->ParmCount();
 	if ( nParmCount > 1 )
 	{

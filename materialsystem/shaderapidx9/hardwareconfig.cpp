@@ -108,7 +108,7 @@ void CHardwareConfig::ForceCapsToDXLevel( HardwareCaps_t *pCaps, int nDxLevel, c
 		{
             if ( IsOSX() )
             {
-                pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm( "-glslcontrolflow" ) != NULL;
+                pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm( "-glslcontrolflow" ) != nullptr;
             }
             else
             {
@@ -145,7 +145,7 @@ void CHardwareConfig::ForceCapsToDXLevel( HardwareCaps_t *pCaps, int nDxLevel, c
         {
             if ( IsOSX() )
             {
-                pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm( "-glslcontrolflow" ) != NULL;
+                pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm( "-glslcontrolflow" ) != nullptr;
             }
             else
             {
@@ -168,7 +168,7 @@ void CHardwareConfig::ForceCapsToDXLevel( HardwareCaps_t *pCaps, int nDxLevel, c
         {
             if ( IsOSX() )
             {
-                pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm( "-glslcontrolflow" ) != NULL;
+                pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm( "-glslcontrolflow" ) != nullptr;
             }
             else
             {
@@ -875,7 +875,7 @@ int CHardwareConfig::GetActualVertexSamplerCount() const
 
 const char *CHardwareConfig::GetHWSpecificShaderDLLName()	const
 {
-	return m_Caps.m_pShaderDLL && m_Caps.m_pShaderDLL[0] ? m_Caps.m_pShaderDLL : NULL;
+	return m_Caps.m_pShaderDLL && m_Caps.m_pShaderDLL[0] ? m_Caps.m_pShaderDLL : nullptr;
 }
 
 bool CHardwareConfig::SupportsShadowDepthTextures( void ) const

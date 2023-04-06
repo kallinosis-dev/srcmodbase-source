@@ -58,7 +58,7 @@ public:
 CServer::CServer() :
 	m_flLastRefresh( Plat_FloatTime() ),
 	m_xuid( 0ull ),
-	m_pGameDetails( NULL )
+	m_pGameDetails(nullptr)
 {
 }
 
@@ -66,7 +66,7 @@ CServer::~CServer()
 {
 	if ( m_pGameDetails )
 		m_pGameDetails->deleteThis();
-	m_pGameDetails = NULL;
+	m_pGameDetails = nullptr;
 }
 
 XUID CServer::GetOnlineId()
@@ -81,12 +81,12 @@ KeyValues * CServer::GetGameDetails()
 
 bool CServer::IsJoinable()
 {
-	return m_pGameDetails != NULL;
+	return m_pGameDetails != nullptr;
 }
 
 void CServer::Join()
 {
-	char const *szConnectString = m_pGameDetails->GetString( "server/connectstring", NULL );
+	char const *szConnectString = m_pGameDetails->GetString( "server/connectstring", nullptr);
 	if ( !szConnectString || !*szConnectString )
 		return;
 
@@ -159,7 +159,7 @@ int CServerManager::GetNumServers()
 
 IMatchServer * CServerManager::GetServerByIndex( int iServerIdx )
 {
-	return m_Servers.IsValidIndex( iServerIdx ) ? m_Servers[ iServerIdx ] : NULL;
+	return m_Servers.IsValidIndex( iServerIdx ) ? m_Servers[ iServerIdx ] : nullptr;
 }
 
 IMatchServer * CServerManager::GetServerByOnlineId( XUID xuidServerOnline )
@@ -175,7 +175,7 @@ CServer * CServerManager::GetServerRecordByOnlineId( CUtlVector< CServer * > &ar
 		if ( pServer && pServer->GetOnlineId() == xuidServerOnline )
 			return pServer;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CServerManager::OnEvent( KeyValues *pEvent )
@@ -265,7 +265,7 @@ void CServerManager::OnEvent( KeyValues *pEvent )
 				return;
 
 			// Server address
-			char const *szAddr = pGameDetailsServer->GetString( "server/adronline", NULL );
+			char const *szAddr = pGameDetailsServer->GetString( "server/adronline", nullptr);
 			if ( !szAddr || !*szAddr )
 				return;
 
@@ -294,7 +294,7 @@ void CServerManager::OnEvent( KeyValues *pEvent )
 			}
 			pSettings->SetInt( "server/ping", nPing );
 			
-			if ( char const *szPacketFrom = pEvent->GetString( "from", NULL ) )
+			if ( char const *szPacketFrom = pEvent->GetString( "from", nullptr) )
 				pSettings->SetString( "server/connectstring", szPacketFrom );
 
 			//

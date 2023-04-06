@@ -42,9 +42,9 @@ enum RenderToRTStage_t
 struct RenderToRTData_t
 {
 	RenderToRTData_t() 
-		: m_pObject( NULL )
-		, m_pResultVTF( NULL )
-		, m_pszIconNameSuffix( NULL )
+		: m_pObject(nullptr)
+		, m_pResultVTF(nullptr)
+		, m_pszIconNameSuffix(nullptr)
 		, m_stage( RENDER_TO_RT_STAGE_UNDEFINED )
 	{
 	}

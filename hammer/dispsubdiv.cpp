@@ -154,7 +154,7 @@ void DestroyEditDispSubdivMesh( IEditDispSubdivMesh **pSubdivMesh )
 	if ( *pSubdivMesh )
 	{
 		delete *pSubdivMesh;
-		*pSubdivMesh = NULL;
+		*pSubdivMesh = nullptr;
 	}
 }
 
@@ -165,7 +165,7 @@ void DestroyEditDispSubdivMesh( IEditDispSubdivMesh **pSubdivMesh )
 CEditDispSubdivMesh::SubdivPoint_t *CEditDispSubdivMesh::GetPoint( SubdivPointHandle_t ptHandle )
 {
 	if ( !m_Points.IsValidIndex( ptHandle ) )
-		return NULL;
+		return nullptr;
 
 	return &m_Points.Element( ptHandle );
 }
@@ -177,7 +177,7 @@ CEditDispSubdivMesh::SubdivPoint_t *CEditDispSubdivMesh::GetPoint( SubdivPointHa
 CEditDispSubdivMesh::SubdivEdge_t *CEditDispSubdivMesh::GetEdge( SubdivEdgeHandle_t edgeHandle )
 {
 	if ( !m_Edges.IsValidIndex( edgeHandle ) )
-		return NULL;
+		return nullptr;
 
 	return &m_Edges.Element( edgeHandle );
 }
@@ -189,7 +189,7 @@ CEditDispSubdivMesh::SubdivEdge_t *CEditDispSubdivMesh::GetEdge( SubdivEdgeHandl
 CEditDispSubdivMesh::SubdivQuad_t *CEditDispSubdivMesh::GetQuad( SubdivQuadHandle_t quadHandle )
 {
 	if ( !m_Quads.IsValidIndex( quadHandle ) )
-		return NULL;
+		return nullptr;
 
 	return &m_Quads.Element( quadHandle );
 }

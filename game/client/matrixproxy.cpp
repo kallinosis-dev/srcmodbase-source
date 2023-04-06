@@ -36,10 +36,10 @@ private:
 bool CTextureTransformProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValues )
 {
 	// All are optional...
-	m_pCenterVar = NULL;
-	m_pScaleVar = NULL;
-	m_pRotateVar = NULL;
-	m_pTranslateVar = NULL;
+	m_pCenterVar = nullptr;
+	m_pScaleVar = nullptr;
+	m_pRotateVar = nullptr;
+	m_pTranslateVar = nullptr;
 
 	bool bFoundVar;
 	char const* pVarName = pKeyValues->GetString( "centerVar" );
@@ -131,7 +131,7 @@ private:
 bool CMatrixRotateProxy::Init( IMaterial *pMaterial, KeyValues *pKeyValues )
 {
 	// All are optional...
-	m_pAxisVar = NULL;
+	m_pAxisVar = nullptr;
 
 	bool bFoundVar;
 	char const* pVarName = pKeyValues->GetString( "axisVar" );

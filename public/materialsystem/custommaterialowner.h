@@ -33,14 +33,14 @@ private:
 
 inline ICustomMaterial *CCustomMaterialOwner::GetCustomMaterial( int nIndex ) const
 { 
-	return ( m_ppCustomMaterials.Count() > nIndex ) ? m_ppCustomMaterials[ nIndex ] : NULL; 
+	return ( m_ppCustomMaterials.Count() > nIndex ) ? m_ppCustomMaterials[ nIndex ] : nullptr; 
 }
 
 inline void CCustomMaterialOwner::SetCustomMaterial( ICustomMaterial* pCustomMaterial, int nIndex )
 {
 	while ( m_ppCustomMaterials.Count() <= nIndex )
 	{
-		m_ppCustomMaterials.AddToTail( NULL );
+		m_ppCustomMaterials.AddToTail(nullptr);
 	}
 
 	pCustomMaterial->AddRef();
@@ -52,17 +52,17 @@ inline void CCustomMaterialOwner::SetCustomMaterial( ICustomMaterial* pCustomMat
 
 inline bool CCustomMaterialOwner::IsCustomMaterialValid( int nIndex ) const
 {
-	return ( m_ppCustomMaterials.Count() > nIndex && m_ppCustomMaterials[ nIndex ] != NULL ) ? m_ppCustomMaterials[ nIndex ]->IsValid() : false;
+	return ( m_ppCustomMaterials.Count() > nIndex && m_ppCustomMaterials[ nIndex ] != nullptr) ? m_ppCustomMaterials[ nIndex ]->IsValid() : false;
 }
 
 inline void CCustomMaterialOwner::ClearCustomMaterials( bool bPurge )
 {
 	for ( int i = 0; i < m_ppCustomMaterials.Count(); i++ )
 	{
-		if ( m_ppCustomMaterials[ i ] != NULL )
+		if ( m_ppCustomMaterials[ i ] != nullptr)
 		{ 
 			m_ppCustomMaterials[ i ]->Release();
-			m_ppCustomMaterials[ i ] = NULL;
+			m_ppCustomMaterials[ i ] = nullptr;
 		}
 	}
 
@@ -81,7 +81,7 @@ inline void CCustomMaterialOwner::DuplicateCustomMaterialsToOther( CCustomMateri
 	pOther->ClearCustomMaterials();
 	for ( int i = 0; i < CCustomMaterialOwner::m_ppCustomMaterials.Count(); i++ )
 	{
-		if ( m_ppCustomMaterials[ i ] == NULL )
+		if ( m_ppCustomMaterials[ i ] == nullptr)
 			continue;
 		
 		pOther->SetCustomMaterial( m_ppCustomMaterials[ i ], i );

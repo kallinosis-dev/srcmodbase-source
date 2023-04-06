@@ -79,11 +79,11 @@ CClientState::CClientState()
 	demonum = -1;
 	m_tickRemainder = 0;
 	m_frameTime = 0;
-	m_pAreaBits = NULL;
+	m_pAreaBits = nullptr;
 	m_hWaitForResourcesHandle = NULL;
 	m_bUpdateSteamResources = false;
 	m_bShownSteamResourceUpdateProgress = false;
-	m_pPureServerWhitelist = NULL;
+	m_pPureServerWhitelist = nullptr;
 	m_bCheckCRCsWithServer = false;
 	m_flLastCRCBatchTime = 0;
 	m_nFriendsID = 0;
@@ -105,16 +105,16 @@ CClientState::CClientState()
 	prevaddangletotal = 0.0f;
 	cdtrack = 0;
 	Q_memset( m_FriendsName, 0, sizeof( m_FriendsName ) );
-	m_pModelPrecacheTable = NULL;
-	m_pDynamicModelTable = NULL;
-	m_pGenericPrecacheTable = NULL;
-	m_pSoundPrecacheTable = NULL;
-	m_pDecalPrecacheTable = NULL;
-	m_pInstanceBaselineTable = NULL;
-	m_pLightStyleTable = NULL;
-	m_pUserInfoTable = NULL;
-	m_pServerStartupTable = NULL;
-	m_pDownloadableFileTable = NULL;
+	m_pModelPrecacheTable = nullptr;
+	m_pDynamicModelTable = nullptr;
+	m_pGenericPrecacheTable = nullptr;
+	m_pSoundPrecacheTable = nullptr;
+	m_pDecalPrecacheTable = nullptr;
+	m_pInstanceBaselineTable = nullptr;
+	m_pLightStyleTable = nullptr;
+	m_pUserInfoTable = nullptr;
+	m_pServerStartupTable = nullptr;
+	m_pDownloadableFileTable = nullptr;
 	m_bDownloadResources = false;
 	m_bDownloadingUGCMap = false;
 	insimulation = false;
@@ -536,35 +536,35 @@ bool CClientState::InstallEngineStringTableCallback( char const *tableName )
 	// Hook Model Precache table
 	if ( !Q_strcasecmp( tableName, MODEL_PRECACHE_TABLENAME ) )
 	{
-		table->SetStringChangedCallback( NULL, Callback_ModelChanged );
+		table->SetStringChangedCallback(nullptr, Callback_ModelChanged );
 		return true;
 	}
 
 	if ( !Q_strcasecmp( tableName, GENERIC_PRECACHE_TABLENAME ) )
 	{
 		// Install the callback
-		table->SetStringChangedCallback( NULL, Callback_GenericChanged );
+		table->SetStringChangedCallback(nullptr, Callback_GenericChanged );
 		return true;
 	}
 
 	if ( !Q_strcasecmp( tableName, SOUND_PRECACHE_TABLENAME ) )
 	{
 		// Install the callback
-		table->SetStringChangedCallback( NULL, Callback_SoundChanged );
+		table->SetStringChangedCallback(nullptr, Callback_SoundChanged );
 		return true;
 	}
 
 	if ( !Q_strcasecmp( tableName, DECAL_PRECACHE_TABLENAME ) )
 	{
 		// Install the callback
-		table->SetStringChangedCallback( NULL, Callback_DecalChanged );
+		table->SetStringChangedCallback(nullptr, Callback_DecalChanged );
 		return true;
 	}
 
 	if ( !Q_strcasecmp( tableName, INSTANCE_BASELINE_TABLENAME ) )
 	{
 		// Install the callback (already done above)
-		table->SetStringChangedCallback( NULL, Callback_InstanceBaselineChanged );
+		table->SetStringChangedCallback(nullptr, Callback_InstanceBaselineChanged );
 		return true;
 	}
 
@@ -576,7 +576,7 @@ bool CClientState::InstallEngineStringTableCallback( char const *tableName )
 	if ( !Q_strcasecmp( tableName, USER_INFO_TABLENAME ) )
 	{
 		// Install the callback
-		table->SetStringChangedCallback( NULL, Callback_UserInfoChanged );
+		table->SetStringChangedCallback(nullptr, Callback_UserInfoChanged );
 		return true;
 	}
 
@@ -592,7 +592,7 @@ bool CClientState::InstallEngineStringTableCallback( char const *tableName )
 
 	if ( !Q_strcasecmp( tableName, DYNAMIC_MODEL_TABLENAME ) )
 	{
-		table->SetStringChangedCallback( NULL, Callback_DynamicModelChanged );
+		table->SetStringChangedCallback(nullptr, Callback_DynamicModelChanged );
 		m_pDynamicModelTable = table;
 		return true;
 	}
@@ -687,14 +687,14 @@ float CClientState::GetFrameTime() const
 float CClientState::GetClientInterpAmount()
 {
 	// we need client cvar cl_interp_ratio
-	static const ConVar *s_cl_interp_ratio = NULL;
+	static const ConVar *s_cl_interp_ratio = nullptr;
 	if ( !s_cl_interp_ratio )
 	{
 		s_cl_interp_ratio = g_pCVar->FindVar( "cl_interp_ratio" );
 		if ( !s_cl_interp_ratio )
 			return 0.1f;
 	}
-	static const ConVar *s_cl_interp = NULL;
+	static const ConVar *s_cl_interp = nullptr;
 	if ( !s_cl_interp )
 	{
 		s_cl_interp = g_pCVar->FindVar( "cl_interp" );
@@ -719,19 +719,19 @@ void CClientState::Clear( void )
 {
 	CBaseClientState::Clear();
 
-	m_pModelPrecacheTable = NULL;
-	m_pDynamicModelTable = NULL;
-	m_pGenericPrecacheTable = NULL;
-	m_pSoundPrecacheTable = NULL;
-	m_pDecalPrecacheTable = NULL;
-	m_pInstanceBaselineTable = NULL;
-	m_pLightStyleTable = NULL;
-	m_pUserInfoTable = NULL;
-	m_pServerStartupTable = NULL;
-	m_pAreaBits = NULL;
+	m_pModelPrecacheTable = nullptr;
+	m_pDynamicModelTable = nullptr;
+	m_pGenericPrecacheTable = nullptr;
+	m_pSoundPrecacheTable = nullptr;
+	m_pDecalPrecacheTable = nullptr;
+	m_pInstanceBaselineTable = nullptr;
+	m_pLightStyleTable = nullptr;
+	m_pUserInfoTable = nullptr;
+	m_pServerStartupTable = nullptr;
+	m_pAreaBits = nullptr;
 	
 	// Clear all download vars.
-	m_pDownloadableFileTable = NULL;
+	m_pDownloadableFileTable = nullptr;
 	m_hWaitForResourcesHandle = NULL;
 	m_bUpdateSteamResources = false;
 	m_bShownSteamResourceUpdateProgress = false;
@@ -778,7 +778,7 @@ void CClientState::ClearSounds()
 	int c = ARRAYSIZE( sound_precache );
 	for ( int i = 0; i < c; ++i )
 	{
-		sound_precache[ i ].SetSound( NULL );
+		sound_precache[ i ].SetSound(nullptr);
 	}
 }
 
@@ -869,18 +869,18 @@ model_t *CClientState::GetModel( int index )
 {
 	if ( !m_pModelPrecacheTable )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( index <= 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( index >= m_pModelPrecacheTable->GetNumStrings() )
 	{
 		Assert( 0 ); // model index for unkown model requested
-		return NULL;
+		return nullptr;
 	}
 
 	CPrecacheItem *p = &model_precache[ index ];
@@ -968,7 +968,7 @@ void CClientState::SetModel( int tableIndex )
 	}
 	else
 	{
-		p->SetModel( NULL );
+		p->SetModel(nullptr);
 	}
 
 	// log the file reference, if necessary
@@ -1076,11 +1076,11 @@ char const *CClientState::GetSoundName( int index )
 CSfxTable *CClientState::GetSound( int index )
 {
 	if ( index <= 0 || !m_pSoundPrecacheTable )
-		return NULL;
+		return nullptr;
 
 	if ( index >= m_pSoundPrecacheTable->GetNumStrings() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	CPrecacheItem *p = &sound_precache[ index ];
@@ -1149,7 +1149,7 @@ void CClientState::SetSound( int tableIndex )
 	{
 		char const *name = m_pSoundPrecacheTable->GetString( tableIndex );
 		CSfxTable *pSfxTable = S_PrecacheSound( name );
-		if ( ( pSfxTable != NULL ) && pSfxTable->m_bIsLateLoad )
+		if ( ( pSfxTable != nullptr) && pSfxTable->m_bIsLateLoad )
 		{
 			DevWarning( "    CClientState::SetSound() created the late loading.\n" );
 		}
@@ -1157,7 +1157,7 @@ void CClientState::SetSound( int tableIndex )
 	}
 	else
 	{
-		p->SetSound( NULL );
+		p->SetSound(nullptr);
 	}
 
 	// log the file reference, if necssary
@@ -1178,12 +1178,12 @@ char const *CClientState::GetDecalName( int index )
 {
 	if ( index <= 0 || !m_pDecalPrecacheTable )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( index >= m_pDecalPrecacheTable->GetNumStrings() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	CPrecacheItem *p = &decal_precache[ index ];
@@ -1333,7 +1333,7 @@ void CClientState::DumpPrecacheStats( const char * name )
 		return;
 	}
 
-	CPrecacheItem *items = NULL;
+	CPrecacheItem *items = nullptr;
 	
 	if ( !Q_strcmp(MODEL_PRECACHE_TABLENAME, name ) )
 	{
@@ -1961,7 +1961,7 @@ ConsistencyType GetFileConsistencyType( INetworkStringTable *table, const char *
 	}
 
 	int length = 0;
-	unsigned char *userData = NULL;
+	unsigned char *userData = nullptr;
 	userData = (unsigned char *)table->GetStringUserData( index, &length );
 	if ( userData && length == sizeof( ExactFileUserData ) )
 	{
@@ -2161,7 +2161,7 @@ void CClientState::ConsistencyCheck(bool bChanged )
 	for ( int i=0; i<m_pDownloadableFileTable->GetNumStrings(); ++i )
 	{
 		int length = 0;
-		unsigned char *userData = NULL;
+		unsigned char *userData = nullptr;
 		userData = (unsigned char *)m_pDownloadableFileTable->GetStringUserData( i, &length );
 		const char *filename = m_pDownloadableFileTable->GetString( i );
 

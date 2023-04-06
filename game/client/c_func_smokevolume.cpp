@@ -204,7 +204,7 @@ static inline void WorldTraceLine( const Vector &start, const Vector &end, int c
 #if defined(PARTICLEPROTOTYPE_APP)
 	trace->fraction = 1;
 #else
-	UTIL_TraceLine(start, end, contentsMask, NULL, COLLISION_GROUP_NONE, trace);
+	UTIL_TraceLine(start, end, contentsMask, nullptr, COLLISION_GROUP_NONE, trace);
 #endif
 }
 
@@ -256,7 +256,7 @@ C_FuncSmokeVolume::C_FuncSmokeVolume()
 	m_vLastOrigin.Init();
 	m_vLastAngles.Init();
 
-	m_pSmokeParticleInfos = NULL;
+	m_pSmokeParticleInfos = nullptr;
 	m_SpacingRadius = 0.0f;;
 	m_ParticleRadius = 0.0f;
 	m_MinColor.Init( 1.0, 1.0, 1.0 );
@@ -296,7 +296,7 @@ void C_FuncSmokeVolume::OnDataChanged( DataUpdateType_t updateType )
 
 		delete [] m_pSmokeParticleInfos;
 		m_pSmokeParticleInfos = new SmokeParticleInfo[m_xCount * m_yCount * m_zCount];
-		Start( ParticleMgr(), NULL );
+		Start( ParticleMgr(), nullptr);
 	}
 	BaseClass::OnDataChanged( updateType );
 }
@@ -584,7 +584,7 @@ void C_FuncSmokeVolume::FillVolume()
 					int contents = GetWorldPointContents(vPos);
 					if(contents & CONTENTS_SOLID)
 					{
-						pInfo->m_pParticle = NULL;
+						pInfo->m_pParticle = nullptr;
 					}
 					else
 					{

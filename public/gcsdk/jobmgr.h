@@ -226,7 +226,7 @@ public:
 	bool BYieldIfNeeded( CJob &job, bool *pbYielded );
 
 	// Thread pool work item
-	bool BYieldingWaitForWorkItem( CJob &job, const char *pszWorkItemName = NULL );
+	bool BYieldingWaitForWorkItem( CJob &job, const char *pszWorkItemName = nullptr);
 	bool BRouteWorkItemCompleted( JobID_t jobID, bool bWorkItemCanceled )	{ return BRouteWorkItemCompletedInternal( jobID, bWorkItemCanceled, /* bShouldExist */ true, /* bResumeImmediately */ true ); }
 	bool BRouteWorkItemCompletedIfExists( JobID_t jobID, bool bWorkItemCanceled ) { return BRouteWorkItemCompletedInternal( jobID, bWorkItemCanceled, /* bShouldExist */ false, /* bResumeImmediately */ true ); }
 	bool BRouteWorkItemCompletedDelayed( JobID_t jobID, bool bWorkItemCanceled )	{ return BRouteWorkItemCompletedInternal( jobID, bWorkItemCanceled, /* bShouldExist */ true, /* bResumeImmediately */ false ); }
@@ -326,7 +326,7 @@ private:
 	};
 	CUtlLinkedList<JobTimeout_t, int> m_ListJobTimeouts;
 	CUtlHashMapLarge< JobID_t, int > m_MapJobTimeoutsIndexByJobID;
-	void PauseJob( CJob &job, EJobPauseReason eJobPauseReason, const char *pszPauseResourceName = NULL );
+	void PauseJob( CJob &job, EJobPauseReason eJobPauseReason, const char *pszPauseResourceName = nullptr);
 	void CheckForJobTimeouts( CLimitTimer &limitTimer );
 	void TimeoutJob( CJob &job );
 	bool m_bJobTimedOut;

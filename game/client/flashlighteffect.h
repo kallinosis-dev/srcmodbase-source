@@ -17,7 +17,7 @@ class CFlashlightEffect
 {
 public:
 
-	CFlashlightEffect(int nEntIndex = 0, const char *pszTextureName = NULL, float flFov = 0.0f, float flFarZ = 0.0f, float flLinearAtten = 0.0f );
+	CFlashlightEffect(int nEntIndex = 0, const char *pszTextureName = nullptr, float flFov = 0.0f, float flFarZ = 0.0f, float flLinearAtten = 0.0f );
 	~CFlashlightEffect();
 
 	void UpdateLight( int nEntIdx, const Vector &vecPos, const Vector &vecDir, const Vector &vecRight, const Vector &vecUp, float flFov, 
@@ -104,11 +104,11 @@ private:
 	bool m_bFlashlightOverride;
 
 public:
-	CFlashlightEffectManager() : m_pFlashlightEffect( NULL ), m_pFlashlightTextureName( NULL ), m_nFlashlightEntIndex( -1 ), m_flFov( 0.0f ),
+	CFlashlightEffectManager() : m_pFlashlightEffect(nullptr), m_pFlashlightTextureName(nullptr), m_nFlashlightEntIndex( -1 ), m_flFov( 0.0f ),
 								m_flFarZ( 0.0f ), m_flLinearAtten( 0.0f ), m_nMuzzleFlashFrameCountdown( 0 ), m_flMuzzleFlashBrightness( 1.0f ),
 								m_bFlashlightOn( false ), m_nFXComputeFrame( -1 ), m_bFlashlightOverride( false ) {}
 
-	void TurnOnFlashlight( int nEntIndex = 0, const char *pszTextureName = NULL, float flFov = 0.0f, float flFarZ = 0.0f, float flLinearAtten = 0.0f )
+	void TurnOnFlashlight( int nEntIndex = 0, const char *pszTextureName = nullptr, float flFov = 0.0f, float flFarZ = 0.0f, float flLinearAtten = 0.0f )
 	{
 		m_pFlashlightTextureName = pszTextureName;
 		m_nFlashlightEntIndex = nEntIndex;
@@ -145,7 +145,7 @@ public:
 
 	void TurnOffFlashlight( bool bForce = false )
 	{
-		m_pFlashlightTextureName = NULL;
+		m_pFlashlightTextureName = nullptr;
 		m_bFlashlightOn = false;
 
 		if ( bForce )
@@ -154,7 +154,7 @@ public:
 			m_nMuzzleFlashFrameCountdown = 0;
 			m_muzzleFlashTimer.Invalidate();
 			delete m_pFlashlightEffect;
-			m_pFlashlightEffect = NULL;
+			m_pFlashlightEffect = nullptr;
 			return;
 		}
 
@@ -167,14 +167,14 @@ public:
 		if( m_nMuzzleFlashFrameCountdown == 0 && m_muzzleFlashTimer.IsElapsed() )
 		{
 			delete m_pFlashlightEffect;
-			m_pFlashlightEffect = NULL;
+			m_pFlashlightEffect = nullptr;
 		}
 	}
 
 	bool IsFlashlightOn() const { return m_bFlashlightOn; }
 
 	void UpdateFlashlight( const Vector &vecPos, const Vector &vecDir, const Vector &vecRight, const Vector &vecUp, float flFov, bool castsShadows,
-		float flFarZ, float flLinearAtten, const char* pTextureName = NULL )
+		float flFarZ, float flLinearAtten, const char* pTextureName = nullptr)
 	{
 		if ( m_bFlashlightOverride )
 		{
@@ -196,7 +196,7 @@ public:
 		if ( !bMuzzleFlashActive && !m_bFlashlightOn && m_pFlashlightEffect )
 		{
 			delete m_pFlashlightEffect;
-			m_pFlashlightEffect = NULL;
+			m_pFlashlightEffect = nullptr;
 		}
 
 		if ( bMuzzleFlashActive && !m_bFlashlightOn && !m_pFlashlightEffect )
@@ -241,14 +241,14 @@ public:
 		if ( !m_bFlashlightOverride )
 		{
 			// make sure flashlight is in its original state
-			if ( m_bFlashlightOn && m_pFlashlightEffect == NULL )
+			if ( m_bFlashlightOn && m_pFlashlightEffect == nullptr)
 			{
 				TurnOnFlashlight( m_nFlashlightEntIndex, m_pFlashlightTextureName, m_flFov, m_flFarZ, m_flLinearAtten );
 			}
 			else if ( !m_bFlashlightOn && m_pFlashlightEffect )
 			{
 				delete m_pFlashlightEffect;
-				m_pFlashlightEffect = NULL;
+				m_pFlashlightEffect = nullptr;
 			}
 		}
 	}
@@ -269,7 +269,7 @@ public:
 		else if ( !bFlashlightOn && m_pFlashlightEffect )
 		{
 			delete m_pFlashlightEffect;
-			m_pFlashlightEffect = NULL;
+			m_pFlashlightEffect = nullptr;
 		}
 
 		if( m_pFlashlightEffect )

@@ -20,7 +20,7 @@ void SCR_Init( void );
 void SCR_Shutdown( void );
 
 void SCR_UpdateScreen( void );
-void SCR_BeginLoadingPlaque( const char *levelName = 0 );
+void SCR_BeginLoadingPlaque( const char *levelName = nullptr );
 void SCR_EndLoadingPlaque( void );
 void SCR_FatalDiskError( void );
 

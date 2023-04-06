@@ -155,7 +155,7 @@ CAudioWaveInput::~CAudioWaveInput( void )
 				delete[] m_buffers[i]->lpData;
 				delete m_buffers[i];
 			}
-			m_buffers[i] = NULL;
+			m_buffers[i] = nullptr;
 		}
 		ClearDevice();
 	}
@@ -240,7 +240,7 @@ void CAudioWaveInput::Stop( void )
 
 void CAudioWaveInput::InitReadyList( void )
 {
-	m_pReadyList = NULL;
+	m_pReadyList = nullptr;
 }
 
 void CAudioWaveInput::AddToReadyList( WAVEHDR *pBuffer )
@@ -326,14 +326,14 @@ int CAudioWaveInput::SampleCount( void )
 void *CAudioWaveInput::SampleData( void )
 {
 	if ( !ValidDevice() )
-		return NULL;
+		return nullptr;
 
 	if ( m_pReadyList )
 	{
 		return m_pReadyList->lpData;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -348,7 +348,7 @@ void CAudioWaveInput::SampleRelease( void )
 CAudioInput *CAudioInput::Create( void )
 {
 	// sound source is a singleton for now
-	static CAudioInput *pSource = NULL;
+	static CAudioInput *pSource = nullptr;
 
 	if ( !pSource )
 	{
@@ -502,7 +502,7 @@ CAudioWaveOutput::CAudioWaveOutput( void )
 	{
 		CAudioBuffer *buffer = &m_buffers[ i ];
 		Assert( buffer );
-		buffer->hdr = NULL;
+		buffer->hdr = nullptr;
 		buffer->submitted = false;
 		buffer->submit_sample_count = false;
 	}
@@ -605,7 +605,7 @@ CAudioWaveOutput::~CAudioWaveOutput( void )
 				delete[] m_buffers[i].hdr->lpData;
 				delete m_buffers[i].hdr;
 			}
-			m_buffers[i].hdr = NULL;
+			m_buffers[i].hdr = nullptr;
 			m_buffers[i].submitted = false;
 			m_buffers[i].submit_sample_count = 0;
 			m_buffers[i].m_Referenced.Purge();
@@ -619,7 +619,7 @@ CAudioWaveOutput::~CAudioWaveOutput( void )
 
 CAudioBuffer *CAudioWaveOutput::GetEmptyBuffer( void )
 {
-	CAudioBuffer *pOutput = NULL;
+	CAudioBuffer *pOutput = nullptr;
 	if ( ValidDevice() )
 	{
 		for ( int i = 0; i < OUTPUT_BUFFER_COUNT; i++ )
@@ -838,7 +838,7 @@ CAudioMixer *CAudioWaveOutput::GetMixerForSource( CAudioSource *source )
 			return m_sourceList[i];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CAudioWaveOutput::AddSource( CAudioMixer *pSource )
@@ -893,7 +893,7 @@ void CAudioWaveOutput::FreeChannel( int channelIndex )
 		RemoveMixerChannelReferences( m_sourceList[channelIndex] );
 
 		delete m_sourceList[channelIndex];
-		m_sourceList[channelIndex] = NULL;
+		m_sourceList[channelIndex] = nullptr;
 	}
 }
 
@@ -959,7 +959,7 @@ void CAudioWaveOutput::OpenDevice( void )
 CAudioOutput *CAudioOutput::Create( void )
 {
 	// sound device is a singleton for now
-	static CAudioOutput *pWaveOut = NULL;
+	static CAudioOutput *pWaveOut = nullptr;
 
 	if ( !pWaveOut )
 	{
@@ -1082,7 +1082,7 @@ void CSceneManagerSound::Shutdown( void )
 CAudioSource *CSceneManagerSound::LoadSound( const char *wavfile )
 {
 	if ( !m_pAudio )
-		return NULL;
+		return nullptr;
 
 	CAudioSource *wave = AudioSource_Create( wavfile );
 	return wave;
@@ -1109,7 +1109,7 @@ void CSceneManagerSound::PlaySound( CAudioSource *source, CAudioMixer **ppMixer 
 {
 	if ( ppMixer )
 	{
-		*ppMixer = NULL;
+		*ppMixer = nullptr;
 	}
 
 	if ( m_pAudio )
@@ -1176,7 +1176,7 @@ bool CSceneManagerSound::IsSoundPlaying( CAudioMixer *pMixer )
 CAudioMixer *CSceneManagerSound::FindMixer( CAudioSource *source )
 {
 	if ( !m_pAudio )
-		return NULL;
+		return nullptr;
 
 	return m_pAudio->GetMixerForSource( source );
 }

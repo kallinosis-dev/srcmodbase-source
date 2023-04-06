@@ -41,7 +41,7 @@ Again:
 	if(hnd != INVALID_HANDLE_VALUE)	do
 	{
 		// check file type
-		CPrefab *pPrefab = NULL;
+		CPrefab *pPrefab = nullptr;
 		int iLoadResult = -1;
 
 		switch (CPrefab::CheckFileType(fd.cFileName))
@@ -78,7 +78,7 @@ Again:
 		{
 			// pPrefab might be null but delete doesn't care
 			delete pPrefab;
-			pPrefab = NULL;
+			pPrefab = nullptr;
 		}
 
 		if(!pPrefab)

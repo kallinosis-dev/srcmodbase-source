@@ -160,7 +160,7 @@ void CSpriteTrail::Precache( void )
 {
 	BaseClass::Precache();
 
-	if ( m_iszSpriteName != NULL_STRING )
+	if ( m_iszSpriteName != nullptr)
 	{
 		PrecacheModel( STRING(m_iszSpriteName) );
 	}
@@ -382,8 +382,8 @@ void CSpriteTrail::UpdateTrail( void )
 
 	Vector	screenPos;
 	ComputeScreenPosition( &screenPos );
-	TrailPoint_t *pLast = m_nStepCount ? GetTrailPoint( m_nStepCount-1 ) : NULL;
-	if ( ( pLast == NULL ) || ( pLast->m_vecScreenPos.DistToSqr( screenPos ) > 4.0f ) )
+	TrailPoint_t *pLast = m_nStepCount ? GetTrailPoint( m_nStepCount-1 ) : nullptr;
+	if ( ( pLast == nullptr) || ( pLast->m_vecScreenPos.DistToSqr( screenPos ) > 4.0f ) )
 	{
 		// If we're over our limit, steal the last point and put it up front
 		if ( m_nStepCount >= MAX_SPRITE_TRAIL_POINTS )
@@ -430,7 +430,7 @@ int CSpriteTrail::DrawModel( int flags, const RenderableInstance_t &instance )
 		return 0;
 
 	CEngineSprite *pSprite = Draw_SetSpriteTexture( GetModel(), m_flFrame, GetRenderMode() );
-	if ( pSprite == NULL )
+	if ( pSprite == nullptr)
 		return 0;
 
 	// Specify all the segments.
@@ -452,7 +452,7 @@ int CSpriteTrail::DrawModel( int flags, const RenderableInstance_t &instance )
 	viewMatrix = viewMatrix.InverseTR();
 #endif
 
-	TrailPoint_t *pPrevPoint = NULL;
+	TrailPoint_t *pPrevPoint = nullptr;
 	float flTailAlphaDist = m_flMinFadeLength;
 	for ( int i = 0; i <= m_nStepCount; ++i )
 	{

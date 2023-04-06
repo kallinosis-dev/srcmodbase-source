@@ -106,11 +106,11 @@ void Shoreline_t::AddSegment( Vector &vecPoint0, Vector &vecPoint1,
 	{
 		m_aSegments[iSegment].m_WorldFace.m_vecPoints[i].Init();
 		m_aSegments[iSegment].m_WorldFace.m_vecTexCoords[i].Init();
-		m_aSegments[iSegment].m_WorldFace.m_pFaces[i] = NULL;
+		m_aSegments[iSegment].m_WorldFace.m_pFaces[i] = nullptr;
 
 		m_aSegments[iSegment].m_WaterFace.m_vecPoints[i].Init();
 		m_aSegments[iSegment].m_WaterFace.m_vecTexCoords[i].Init();
-		m_aSegments[iSegment].m_WaterFace.m_pFaces[i] = NULL;
+		m_aSegments[iSegment].m_WaterFace.m_pFaces[i] = nullptr;
 	}
 }
 
@@ -230,7 +230,7 @@ Shoreline_t *CDispShoreManager::GetShoreline( int nShorelineId )
 			return &m_aShorelines[iShoreline];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -550,7 +550,7 @@ void CDispShoreManager::BuildShorelineOverlayPoint( Shoreline_t *pShoreline, int
 	if ( ( nNoFaceCount > 0 ) && ( nNoFaceCount < 4 ) )
 	{
 		// Find a valid face.
-		CMapFace *pWaterFace = NULL;
+		CMapFace *pWaterFace = nullptr;
 		for ( int iWaterPoint = 0; iWaterPoint < 4; ++iWaterPoint )
 		{
 			if ( pShoreline->m_aSegments[iSegment].m_WaterFace.m_pFaces[iWaterPoint] )

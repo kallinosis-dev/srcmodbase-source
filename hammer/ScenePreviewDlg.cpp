@@ -30,9 +30,9 @@ CScenePreviewDlg::CScenePreviewDlg( CChoreoScene *pScene, const char *pFilename,
 	//{{AFX_DATA_INIT(CScenePreviewDlg)
 	m_pScene = pScene;
 	m_iLastEventPlayed = -2; // Don't do anything yet.
-	m_hExitThreadEvent = NULL;
-	m_hIdleEventHandledEvent = NULL;
-	m_hIdleThread = NULL;
+	m_hExitThreadEvent = nullptr;
+	m_hIdleEventHandledEvent = nullptr;
+	m_hIdleThread = nullptr;
 	V_strncpy( m_SceneFilename, pFilename, sizeof( m_SceneFilename ) );
 }
 
@@ -53,7 +53,7 @@ void CScenePreviewDlg::EndThread()
 		CloseHandle( m_hIdleThread );
 		CloseHandle( m_hExitThreadEvent );
 		CloseHandle( m_hIdleEventHandledEvent );
-		m_hIdleThread = m_hExitThreadEvent = m_hIdleEventHandledEvent = NULL;
+		m_hIdleThread = m_hExitThreadEvent = m_hIdleEventHandledEvent = nullptr;
 	}
 }
 
@@ -88,9 +88,9 @@ BOOL CScenePreviewDlg::OnInitDialog()
 	}
 	
 	// Create our idle thread.
-	m_hExitThreadEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
-	m_hIdleEventHandledEvent = CreateEvent( NULL, FALSE, FALSE, NULL );
-	m_hIdleThread = CreateThread( NULL, 0, &CScenePreviewDlg::StaticIdleThread, this, 0, NULL );
+	m_hExitThreadEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	m_hIdleEventHandledEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	m_hIdleThread = CreateThread(nullptr, 0, &CScenePreviewDlg::StaticIdleThread, this, 0, nullptr);
 	
 	return TRUE;
 }

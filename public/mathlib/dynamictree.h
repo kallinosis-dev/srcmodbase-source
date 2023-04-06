@@ -51,7 +51,7 @@ public:
 
 	// Proxy interface
 	int ProxyCount() const;
-	int32 CreateProxy( const AABB_t& bounds, void* pUserData = NULL );
+	int32 CreateProxy( const AABB_t& bounds, void* pUserData = nullptr);
 	void* DestroyProxy( int32 nProxyId );
 	void MoveProxy( int32 nProxyId, const AABB_t& bounds );
 

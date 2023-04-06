@@ -206,7 +206,7 @@ public:
 	virtual void	CancelMovieRecording();
 	virtual AVIHandle_t GetRecordingAVIHandle();
 
-	virtual void	StartRecordingVoiceToFile( const char *filename, const char *pPathID = 0 );
+	virtual void	StartRecordingVoiceToFile( const char *filename, const char *pPathID = nullptr );
 	virtual void	StopRecordingVoiceToFile();
 	virtual bool	IsVoiceRecording();
 
@@ -342,7 +342,7 @@ int CEngineTool::GetLightingConditions( const Vector &vecLightingOrigin, Vector 
 {
 	LightcacheGetDynamic_Stats stats;
 	LightingState_t state;
-	LightcacheGetDynamic( vecLightingOrigin, state, stats, NULL );
+	LightcacheGetDynamic( vecLightingOrigin, state, stats, nullptr);
 	Assert( state.numlights >= 0 && state.numlights < MAXLOCALLIGHTS );
 	memcpy( pColors, state.r_boxcolor, sizeof(state.r_boxcolor) );
 
@@ -556,13 +556,13 @@ void CEngineTool::ForceUpdateDuringPause()
 model_t *CEngineTool::GetModel( HTOOLHANDLE hEntity )
 {
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 studiohdr_t *CEngineTool::GetStudioModel( HTOOLHANDLE hEntity )
 {
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 void CEngineTool::Con_NPrintf( int pos, const char *fmt, ... )
@@ -981,7 +981,7 @@ void CEngineTool::StartMovieRecording( KeyValues *pMovieParams )
 		flags |= MovieInfo_t::FMOVIE_WAV;
 	}
 
-	const char *pFileName = pMovieParams->GetString( "filename", NULL );
+	const char *pFileName = pMovieParams->GetString( "filename", nullptr);
 	if ( !pFileName )
 	{
 		Warning( "Output filename not specified!\n" );
@@ -1045,7 +1045,7 @@ void CEngineTool::StartRecordingVoiceToFile( const char *filename, const char *p
 	m_bSuppressDeInit = true;
 
 	Voice_ForceInit();
-	Voice_RecordStart( m_szVoiceoverFile, NULL, NULL);
+	Voice_RecordStart( m_szVoiceoverFile, nullptr, nullptr);
 #endif
 }
 

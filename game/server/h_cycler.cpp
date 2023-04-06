@@ -230,7 +230,7 @@ public:
 	void PrimaryAttack( void );
 	void SecondaryAttack( void );
 	bool Deploy( void );
-	bool Holster( CBaseCombatWeapon *pSwitchingTo = NULL );
+	bool Holster( CBaseCombatWeapon *pSwitchingTo = nullptr);
 	string_t m_iszModel;
 	int m_iModel;
 };

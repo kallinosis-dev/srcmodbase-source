@@ -71,7 +71,7 @@ public:
 //		m_bUseExplicitViewVector = false;
 		m_bCustomProjMatrix = false;
 		m_bCSMView = false;
-		m_pCSMVolumeCuller = NULL;
+		m_pCSMVolumeCuller = nullptr;
 	}
 
 	float ComputeViewMatrices( VMatrix *pWorldToView, VMatrix *pViewToProjection, VMatrix *pWorldToProjection ) const;

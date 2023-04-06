@@ -47,7 +47,7 @@ protected:
 
 	bool	GetStartingSpot( CMapView3D *pView, const Vector2D &vPoint );
 
-	bool	IsPointInScreenCircle( CMapView3D *pView, CMapDisp *pDisp, CMapDisp *pOrigDisp, int nVertIndex, bool bUseOrigDisplacement = true, bool bUseCurrentPosition = false, float *pflLengthPercent = NULL );
+	bool	IsPointInScreenCircle( CMapView3D *pView, CMapDisp *pDisp, CMapDisp *pOrigDisp, int nVertIndex, bool bUseOrigDisplacement = true, bool bUseCurrentPosition = false, float *pflLengthPercent = nullptr);
 
 	void	DoPaintSmooth( CMapView3D *pView, const Vector2D &vPoint, CMapDisp *pDisp, CMapDisp *pOrigDisp );
 	bool	PaintSphereDispBBoxOverlap( const Vector &vCenter, float flRadius, const Vector &vBBoxMin, const Vector &vBBoxMax );
@@ -61,7 +61,7 @@ protected:
 	void	DuplicateSelectedDisp( );
 	void	PrepareDispForPainting( );
 	bool	FindCollisionIntercept( CCamera *pCamera, const Vector2D &vPoint, bool bUseOrigPosition, Vector &vCollisionPoint, Vector &vCollisionNormal, float &vCollisionIntercept,
-								    int *pnCollideDisplacement = NULL, int *pnCollideTri = NULL );
+								    int *pnCollideDisplacement = nullptr, int *pnCollideTri = nullptr);
 
 private:
 	void	DetermineKeysDown();
@@ -121,7 +121,7 @@ class CSculptPushOptions : public CDialog, public CSculptPainter
 	DECLARE_DYNAMIC(CSculptPushOptions)
 
 public:
-	CSculptPushOptions(CWnd* pParent = NULL);   // standard constructor
+	CSculptPushOptions(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CSculptPushOptions();
 
 	virtual BOOL OnInitDialog( void );
@@ -207,7 +207,7 @@ class CSculptCarveOptions : public CDialog, public CSculptPainter
 	DECLARE_DYNAMIC(CSculptCarveOptions)
 
 public:
-	CSculptCarveOptions(CWnd* pParent = NULL);   // standard constructor
+	CSculptCarveOptions(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CSculptCarveOptions();
 
 	virtual BOOL OnInitDialog( void );
@@ -418,7 +418,7 @@ class CSculptBlendOptions : public CDialog, public CSculptPainter
 	DECLARE_DYNAMIC(CSculptBlendOptions)
 
 public:
-	CSculptBlendOptions(CWnd* pParent = NULL);   // standard constructor
+	CSculptBlendOptions(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CSculptBlendOptions();
 
 	virtual BOOL OnInitDialog( void );

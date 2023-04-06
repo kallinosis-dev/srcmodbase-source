@@ -613,7 +613,7 @@ void CBaseVSShader::SetEnvMapTintPixelShaderDynamicState( int pixelReg, int tint
 	float color[4] = { 1.0f, 1.0f, 1.0f, 1.0f };
 	if( g_pConfig->bShowSpecular && g_pConfig->nFullbright != 2 )
 	{
-		IMaterialVar* pAlphaVar = NULL;
+		IMaterialVar* pAlphaVar = nullptr;
 		if( alphaVar >= 0 )
 		{
 			pAlphaVar = s_ppParams[alphaVar];
@@ -884,7 +884,7 @@ void CBaseVSShader::DrawFlashlight_dx90( IMaterialVar** params, IShaderDynamicAP
 				flags |= VERTEX_COLOR;
 				numTexCoords = 2; // need lightmap texcoords to get alpha.
 			}
-			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, 0 );
 		}
 		else
 		{
@@ -897,7 +897,7 @@ void CBaseVSShader::DrawFlashlight_dx90( IMaterialVar** params, IShaderDynamicAP
 
 			unsigned int flags = VERTEX_POSITION | VERTEX_NORMAL;
 			int numTexCoords = 1;
-			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, 0, vars.m_bBump ? 4 : 0 );
+			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, vars.m_bBump ? 4 : 0 );
 		}
 
 		int nBumpMapVariant = 0;
@@ -1198,7 +1198,7 @@ void CBaseVSShader::DrawEqualDepthToDestAlpha( void )
 //-----------------------------------------------------------------------------
 bool ToolsEnabled()
 {
-	static bool bToolsMode = ( CommandLine()->CheckParm( "-tools" ) != NULL );
+	static bool bToolsMode = ( CommandLine()->CheckParm( "-tools" ) != nullptr);
 	return bToolsMode;
 }
 #endif

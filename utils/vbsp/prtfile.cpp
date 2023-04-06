@@ -125,7 +125,7 @@ void AddVisCluster( entity_t *pFuncVisCluster )
 	g_VisClusters.AddToTail( tmp );
 	
 	// clear out this entity so it won't get written to the bsp
-	pFuncVisCluster->epairs = NULL;
+	pFuncVisCluster->epairs = nullptr;
 	pFuncVisCluster->numbrushes = 0;
 }
 

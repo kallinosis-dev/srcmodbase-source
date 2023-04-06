@@ -60,7 +60,7 @@ bool FocusNavGroup::RequestFocusPrev(VPANEL panel)
 
 	bool bFound = false;
 	bool bRepeat = true;
-	Panel *best = NULL;
+	Panel *best = nullptr;
 	while (1)
 	{
 		newPosition--;
@@ -177,7 +177,7 @@ bool FocusNavGroup::RequestFocusNext(VPANEL panel)
 
 	bool bFound = false;
 	bool bRepeat = true;
-	Panel *best = NULL;
+	Panel *best = nullptr;
 	while (1)
 	{
 		newPosition++;
@@ -357,7 +357,7 @@ Panel *FocusNavGroup::FindPanelByHotkey(wchar_t key)
 		}
 	}
 	
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -377,7 +377,7 @@ Panel *FocusNavGroup::GetDefaultPanel()
 		}
 	}
 
-	return NULL;	// no specific panel set
+	return nullptr;	// no specific panel set
 }
 
 //-----------------------------------------------------------------------------
@@ -385,13 +385,13 @@ Panel *FocusNavGroup::GetDefaultPanel()
 //-----------------------------------------------------------------------------
 Panel *FocusNavGroup::GetCurrentFocus()
 {
-	Panel *pFocus = _currentFocus ? ipanel()->GetPanel(_currentFocus, vgui::GetControlsModuleName()) : NULL;
+	Panel *pFocus = _currentFocus ? ipanel()->GetPanel(_currentFocus, vgui::GetControlsModuleName()) : nullptr;
 
 	if ( pFocus && !pFocus->IsFullyVisible() )
 	{
 		RequestFocusNext();
 
-		pFocus = _currentFocus ? ipanel()->GetPanel(_currentFocus, vgui::GetControlsModuleName()) : NULL;
+		pFocus = _currentFocus ? ipanel()->GetPanel(_currentFocus, vgui::GetControlsModuleName()) : nullptr;
 		Assert( !pFocus || pFocus->IsFullyVisible() );
 	}
 

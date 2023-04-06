@@ -46,7 +46,7 @@ constexpr int MASK_BLOCK_AUDIO = CONTENTS_SOLID|CONTENTS_MOVEABLE|CONTENTS_WINDO
 float SND_GetGainFromMult( float gain, float dist_mult, vec_t dist );
 float SND_GetDspMix( channel_t *pchannel, int idist, float flSndlvl );
 bool SND_ChannelOkToTrace( channel_t *ch );
-float SND_GetGainObscured( int nSlot, gain_t *gs, const channel_t *ch, const Vector &vecListenerOrigin, bool fplayersound, bool flooping, bool bAttenuated, bool bOkayToTrace, Vector *pOrigin = NULL );
+float SND_GetGainObscured( int nSlot, gain_t *gs, const channel_t *ch, const Vector &vecListenerOrigin, bool fplayersound, bool flooping, bool bAttenuated, bool bOkayToTrace, Vector *pOrigin = nullptr);
 float S_GetDashboarMusicMixValue( );
 float SND_GetFacingDirection( channel_t *pChannel, const Vector &vecListenerOrigin, const QAngle &source_angles );
 void SND_MergeVolumes( const float build_volumes[ MAX_SPLITSCREEN_CLIENTS ][CCHANVOLUMES/2], float volumes[CCHANVOLUMES/2] );

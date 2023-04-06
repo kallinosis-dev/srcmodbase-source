@@ -51,7 +51,7 @@ static Vector s_vecSlimeColor( 46.0f/255.0f, 90.0f/255.0f, 36.0f/255.0f );
 void UTIL_GetNormalizedColorTintAndLuminosity( const Vector &color, Vector *tint, float *luminosity )
 {
 	// Give luminosity if requested
-	if ( luminosity != NULL )
+	if ( luminosity != nullptr)
 	{
 		// Each channel contributes differently than the others
 		*luminosity =	( color.x * RED_CHANNEL_CONTRIBUTION ) +
@@ -60,7 +60,7 @@ void UTIL_GetNormalizedColorTintAndLuminosity( const Vector &color, Vector *tint
 	}
 
 	// Give tint if requested
-	if ( tint != NULL )
+	if ( tint != nullptr)
 	{
 		if ( color == vec3_origin )
 		{
@@ -114,7 +114,7 @@ void FX_WaterRipple( const Vector &origin, float scale, Vector *pColor, float fl
 	Vector startPos = origin + Vector(0,0,8);
 	Vector endPos = origin + Vector(0,0,-64);
 
-	UTIL_TraceLine( startPos, endPos, MASK_WATER, NULL, COLLISION_GROUP_NONE, &tr );
+	UTIL_TraceLine( startPos, endPos, MASK_WATER, nullptr, COLLISION_GROUP_NONE, &tr );
 	
 	if ( tr.fraction < 1.0f )
 	{
@@ -122,7 +122,7 @@ void FX_WaterRipple( const Vector &origin, float scale, Vector *pColor, float fl
 		// we flip the z and the x to match the orientation of how the impact particles are authored
 		// all impact particles are authored with the effect going "up" (0, 0, 1)
 		VectorAngles( Vector( tr.plane.normal.z, tr.plane.normal.y, tr.plane.normal.x ), vecAngles );
-		DispatchParticleEffect( "water_splash_02_surface2", tr.endpos, vecAngles, NULL );
+		DispatchParticleEffect( "water_splash_02_surface2", tr.endpos, vecAngles, nullptr);
 	}
 }
 

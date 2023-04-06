@@ -167,7 +167,7 @@ void CAI_Path::SetArrivalSequence( int sequence )
 
 void CAI_Path::SetGoalDirection( const Vector &goalDirection )
 {
-	m_goalDirectionTarget = NULL;
+	m_goalDirectionTarget = nullptr;
 	m_goalDirection = goalDirection;
 	VectorNormalize( m_goalDirection );
 	/*
@@ -532,15 +532,15 @@ void CAI_Path::Clear( void )
 
 	m_activity			= ACT_INVALID;
 	m_sequence			= ACT_INVALID;
-	m_target			= NULL;
+	m_target			= nullptr;
 
 	m_arrivalActivity = ACT_INVALID;
 	m_arrivalSequence = ACT_INVALID;
 
-	m_goalDirectionTarget = NULL;
+	m_goalDirectionTarget = nullptr;
 	m_goalDirection = vec3_origin;
 
-	m_goalSpeedTarget = NULL;
+	m_goalSpeedTarget = nullptr;
 	m_goalSpeed			= -1.0f;	// init to an invalid speed
 
 	m_goalStoppingDistance = 0.0;				// How close to we want to get to the goal
@@ -663,7 +663,7 @@ CAI_Path::CAI_Path()
 	m_goalTolerance		= 0.0;					// How close do we need to get to the goal
 	m_activity			= ACT_INVALID;			// The activity to use during motion
 	m_sequence			= ACT_INVALID;
-	m_target			= NULL;
+	m_target			= nullptr;
 	m_goalFlags			= 0;
 	m_routeStartTime	= FLT_MAX;
 	m_arrivalActivity	= ACT_INVALID;

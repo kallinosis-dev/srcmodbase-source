@@ -15,7 +15,7 @@ class CNewKeyValue : public CDialog
 {
 // Construction
 public:
-	CNewKeyValue(CWnd* pParent = NULL);   // standard constructor
+	CNewKeyValue(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CNewKeyValue)

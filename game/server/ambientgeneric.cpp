@@ -160,7 +160,7 @@ void CAmbientGeneric::Spawn( void )
 		m_fLooping = true;
 	}
 
-	m_hSoundSource = NULL;
+	m_hSoundSource = nullptr;
 	m_nSoundSourceEntIndex = -1;
 
 	Precache( );
@@ -330,18 +330,18 @@ void CAmbientGeneric::Activate( void )
 
 	// Initialize sound source.  If no source was given, or source can't be found
 	// then this is the source
-	if (m_hSoundSource == NULL)
+	if (m_hSoundSource == nullptr)
 	{
 		if (m_sSourceEntName != NULL_STRING)
 		{
-			m_hSoundSource = gEntList.FindEntityByName( NULL, m_sSourceEntName );
-			if ( m_hSoundSource != NULL )
+			m_hSoundSource = gEntList.FindEntityByName(nullptr, m_sSourceEntName );
+			if ( m_hSoundSource != nullptr)
 			{
 				m_nSoundSourceEntIndex = m_hSoundSource->entindex();
 			}
 		}
 
-		if (m_hSoundSource == NULL)
+		if (m_hSoundSource == nullptr)
 		{
 			m_hSoundSource = this;
 			m_nSoundSourceEntIndex = entindex();
@@ -374,7 +374,7 @@ void CAmbientGeneric::Activate( void )
 
 		// Don't bother sending over to client if volume is zero, though
 		CSoundParameters params;
-		GetParametersForSound( STRING( m_iszSound ), params, NULL );
+		GetParametersForSound( STRING( m_iszSound ), params, nullptr);
 		bool isNewScriptSound = params.m_hSoundScriptHash != SOUNDEMITTER_INVALID_HASH && params.m_nSoundEntryVersion > 1;
 		bool isLoading = gpGlobals->eLoadType == MapLoad_LoadGame;
 		if ( m_dpv.vol > 0 && !(isLoading && isNewScriptSound) )

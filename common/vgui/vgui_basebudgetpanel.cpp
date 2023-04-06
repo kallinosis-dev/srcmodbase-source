@@ -21,8 +21,8 @@ CBaseBudgetPanel::CBaseBudgetPanel( vgui::Panel *pParent, const char *pElementNa
 	SetVisible( true );
 
 
-	m_pBudgetHistoryPanel = NULL;
-	m_pBudgetBarGraphPanel = NULL;
+	m_pBudgetHistoryPanel = nullptr;
+	m_pBudgetBarGraphPanel = nullptr;
 	SetZPos( 1001 );
 
 	m_bDedicated = false;
@@ -49,7 +49,7 @@ const double *CBaseBudgetPanel::GetBudgetGroupData( int &nGroups, int &nSamplesP
 	nSampleOffset = m_BudgetHistoryOffset;
 	if( m_BudgetGroupTimes.Count() == 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 	else
 	{

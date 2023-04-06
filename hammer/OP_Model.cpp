@@ -172,7 +172,7 @@ bool COP_Model::SaveData( SaveData_Reason_t reason )
 	if ( reason == SAVEDATA_SELECTION_CHANGED || reason == SAVEDATA_CLOSE )
 	{
 		CMapStudioModel *pModel = GetModelHelper();
-		if (pModel != NULL)
+		if (pModel != nullptr)
 		{
 			pModel->SetSequence( m_nOldSequence );
 			pModel->SetFrame( 0 );
@@ -235,7 +235,7 @@ void COP_Model::InitScrollRange( void )
 	// Set the frame number scrollbar range
 	int nMaxRange = FRAME_SCROLLBAR_RANGE;
 	CMapStudioModel *pModel = GetModelHelper();
-	if (pModel != NULL)
+	if (pModel != nullptr)
 	{
 		nMaxRange = pModel->GetMaxFrame();
 	}
@@ -262,7 +262,7 @@ void COP_Model::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)
 			return;
 
 		CMapStudioModel *pModel = GetModelHelper();
-		if (pModel != NULL)
+		if (pModel != nullptr)
 		{
 			pModel->SetFrame( nPos );
 			UpdateFrameText( nPos );
@@ -287,7 +287,7 @@ void COP_Model::OnHScroll(UINT nSBCode, UINT nPos, CScrollBar *pScrollBar)
 void COP_Model::OnTextChanged( const char *pText )
 {
 	CMapStudioModel *pModel = GetModelHelper();
-	if (pModel != NULL)
+	if (pModel != nullptr)
 	{
 		int iSequence = pModel->GetSequenceIndex( pText );
 		if ( iSequence != -1 )
@@ -314,20 +314,20 @@ void COP_Model::OnTextChanged( const char *pText )
 CMapStudioModel *COP_Model::GetModelHelper(void)
 {
 	if ( m_pObjectList->Count() == 0 )
-		return NULL;
+		return nullptr;
 
 	CMapClass *pObject = (CUtlReference< CMapClass >)m_pObjectList->Element( 0 );
 
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *>(pObject);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
-			CMapStudioModel *pModel = pEntity->GetChildOfType((CMapStudioModel *)NULL);
+			CMapStudioModel *pModel = pEntity->GetChildOfType((CMapStudioModel *)nullptr);
 			return pModel;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 

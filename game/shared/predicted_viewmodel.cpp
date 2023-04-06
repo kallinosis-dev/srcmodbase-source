@@ -106,7 +106,7 @@ void CPredictedViewModel::CalcViewModelLag( Vector& origin, QAngle& angles, QAng
 	// Now take the 100ms angle difference and figure out how far the forward vector moved in local space.
 	Vector vLaggedForward;
 	QAngle angleDiff = m_vLagAngles - angles;
-	AngleVectors( -angleDiff, &vLaggedForward, 0, 0 );
+	AngleVectors( -angleDiff, &vLaggedForward, nullptr, nullptr );
 	Vector vForwardDiff = Vector(1,0,0) - vLaggedForward;
 
 	if ( ShouldFlipModel() )

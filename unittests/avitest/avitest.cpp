@@ -88,7 +88,7 @@ bool CAVITestApp::PreInit( )
 
 void CAVITestApp::PostShutdown( )
 {
-	g_pAVI->SetMainWindow( NULL );
+	g_pAVI->SetMainWindow(nullptr);
 	BaseClass::PostShutdown();
 }
 

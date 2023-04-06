@@ -46,7 +46,7 @@ public:
 			}
 		}
 
-		if (fromArea == NULL)
+		if (fromArea == nullptr)
 		{
 			// first area in path, no cost
 			return 0.0f;
@@ -166,7 +166,7 @@ void CCSNavArea::ComputeApproachAreas( void )
 				}
 
 				// build the actual path
-				if (NavAreaBuildPath( from, to, NULL, cost ) == false)
+				if (NavAreaBuildPath( from, to, nullptr, cost ) == false)
 				{
 					break;
 				}
@@ -249,7 +249,7 @@ void CCSNavArea::ComputeApproachAreas( void )
 
 					if (a == m_approachCount)
 					{
-						m_approach[ m_approachCount ].prev.area = (block >= 2) ? path[block-2] : NULL;
+						m_approach[ m_approachCount ].prev.area = (block >= 2) ? path[block-2] : nullptr;
 
 						m_approach[ m_approachCount ].here.area = path[block-1];
 						m_approach[ m_approachCount ].prevToHereHow = path[block-1]->GetParentHow();

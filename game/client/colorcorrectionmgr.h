@@ -34,13 +34,13 @@ public:
 	CColorCorrectionMgr();
 
 	// Create, destroy color correction
-	ClientCCHandle_t AddColorCorrection( const char *pName, const char *pFileName = NULL );
+	ClientCCHandle_t AddColorCorrection( const char *pName, const char *pFileName = nullptr);
 	void RemoveColorCorrection( ClientCCHandle_t );
 
-	ClientCCHandle_t AddColorCorrectionEntity( C_ColorCorrection *pEntity, const char *pName, const char *pFileName = NULL );
+	ClientCCHandle_t AddColorCorrectionEntity( C_ColorCorrection *pEntity, const char *pName, const char *pFileName = nullptr);
 	void RemoveColorCorrectionEntity( C_ColorCorrection *pEntity, ClientCCHandle_t );
 
-	ClientCCHandle_t AddColorCorrectionVolume( C_ColorCorrectionVolume *pVolume, const char *pName, const char *pFileName = NULL );
+	ClientCCHandle_t AddColorCorrectionVolume( C_ColorCorrectionVolume *pVolume, const char *pName, const char *pFileName = nullptr);
 	void RemoveColorCorrectionVolume( C_ColorCorrectionVolume *pVolume, ClientCCHandle_t );
 
 	// Modify color correction weights

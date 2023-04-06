@@ -49,7 +49,7 @@ void CModInfo::FreeModInfo()
 	if (m_pModData)
 	{
 		m_pModData->deleteThis();
-		m_pModData = NULL;
+		m_pModData = nullptr;
 	}
 }
 

@@ -51,7 +51,7 @@ BOOL CSelectModeDlgBar::Create(CWnd *pParentWnd)
 void CSelectModeDlgBar::UpdateControlGroups(CCmdUI *pCmdUI)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pCmdUI->Enable(TRUE);
 		pCmdUI->SetCheck(pDoc->GetSelection()->GetMode() == selectGroups);
@@ -69,7 +69,7 @@ void CSelectModeDlgBar::UpdateControlGroups(CCmdUI *pCmdUI)
 void CSelectModeDlgBar::UpdateControlObjects(CCmdUI *pCmdUI)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pCmdUI->Enable(TRUE);
 		pCmdUI->SetCheck(pDoc->GetSelection()->GetMode() == selectObjects);
@@ -87,7 +87,7 @@ void CSelectModeDlgBar::UpdateControlObjects(CCmdUI *pCmdUI)
 void CSelectModeDlgBar::UpdateControlSolids(CCmdUI *pCmdUI)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pCmdUI->Enable(TRUE);
 		pCmdUI->SetCheck(pDoc->GetSelection()->GetMode() == selectSolids);
@@ -105,7 +105,7 @@ void CSelectModeDlgBar::UpdateControlSolids(CCmdUI *pCmdUI)
 void CSelectModeDlgBar::OnGroups(void)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pDoc->GetSelection()->SetMode(selectGroups);
 		((CButton *)GetDlgItem(IDC_GROUPS))->SetCheck(TRUE);
@@ -119,7 +119,7 @@ void CSelectModeDlgBar::OnGroups(void)
 void CSelectModeDlgBar::OnObjects(void)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pDoc->GetSelection()->SetMode(selectObjects);
 		((CButton *)GetDlgItem(IDC_OBJECTS))->SetCheck(TRUE);
@@ -133,7 +133,7 @@ void CSelectModeDlgBar::OnObjects(void)
 void CSelectModeDlgBar::OnSolids(void)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pDoc->GetSelection()->SetMode(selectSolids);
 		((CButton *)GetDlgItem(IDC_SOLIDS))->SetCheck(TRUE);

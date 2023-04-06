@@ -46,7 +46,7 @@ public:
 public:
 
 	// IClientVehicle overrides.
-	virtual void GetVehicleViewPosition( int nRole, Vector *pOrigin, QAngle *pAngles, float *pFOV = NULL );
+	virtual void GetVehicleViewPosition( int nRole, Vector *pOrigin, QAngle *pAngles, float *pFOV = nullptr);
 	virtual void GetVehicleFOV( float &flFOV )
 	{
 		flFOV = m_flFOV;
@@ -185,7 +185,7 @@ C_BaseCombatCharacter *C_PropVehicleChoreoGeneric::GetPassenger( int nRole )
 	if ( nRole == VEHICLE_ROLE_DRIVER )
 		return m_hPlayer.Get();
 
-	return NULL;
+	return nullptr;
 }
 
 

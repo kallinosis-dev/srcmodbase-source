@@ -192,7 +192,7 @@ IVP_Environment::IVP_Environment(IVP_Environment_Manager *manager,IVP_Applicatio
 	t.mass_center_override = &mco;
 
 	IVP_U_Point position; position.set_to_zero();
-	this->static_object = this->create_ball( &b, &t, NULL, &position );
+	this->static_object = this->create_ball( &b, &t, nullptr, &position );
     }
 
 	environment_magic_number=IVP_Environment_Magic_Number;
@@ -220,7 +220,7 @@ IVP_Environment::~IVP_Environment(){
     }
     
     static_object->delete_silently();
-    static_object = NULL;
+    static_object = nullptr;
     P_DELETE(cluster_manager);   // deletes all objects recursively
 
     P_DELETE(standard_gravity_controller);
@@ -238,22 +238,22 @@ IVP_Environment::~IVP_Environment(){
     performancecounter->environment_is_going_to_be_deleted(this);
 
     collision_filter->environment_will_be_deleted(this);
-    collision_filter = NULL;
+    collision_filter = nullptr;
 
     anomaly_manager->environment_will_be_deleted(this);
-    anomaly_manager = NULL;
+    anomaly_manager = nullptr;
     
     anomaly_limits->environment_will_be_deleted(this);
-    anomaly_limits = NULL;
+    anomaly_limits = nullptr;
     
     l_active_value_manager->environment_will_be_deleted(this);
-    l_active_value_manager = NULL;
+    l_active_value_manager = nullptr;
     
     l_material_manager->environment_will_be_deleted(this);
-    l_material_manager = NULL;
+    l_material_manager = nullptr;
     
     range_manager->environment_will_be_deleted(this);
-    range_manager = NULL;
+    range_manager = nullptr;
 
     for (int k = collision_delegator_roots.len()-1;k>=0;k--){
       IVP_Collision_Delegator_Root *cdr = collision_delegator_roots.element_at(k);
@@ -312,7 +312,7 @@ void IVP_Environment::set_gravity(IVP_U_Point *gravity_){
  
 IVP_Environment_Manager::IVP_Environment_Manager()
 {
-    environments.elems=NULL;
+    environments.elems= nullptr;
 	ivp_willamette_optimization=0;
     //    static_environment_manager=this;
 }
@@ -498,13 +498,13 @@ void IVP_Environment::delete_draw_vector_debug(){
     IVP_Draw_Vector_Debug *dv,*next_dv;
 
     dv=this->draw_vectors;
-    while(dv!=NULL)    {
+    while(dv!= nullptr)    {
 	if(dv->debug_text)    P_FREE(dv->debug_text);
 	next_dv=dv->next;
 	P_DELETE(dv);
 	dv=next_dv;
     }
-    this->draw_vectors=NULL;
+    this->draw_vectors= nullptr;
 
 }
 
@@ -786,7 +786,7 @@ void ivp_dummy_func(){
     IVP_U_Set_Active<IVP_Core> ivp_class_dummy1(16);
     IVP_U_Set_Active<IVP_Real_Object> ivp_class_dummy2(16);
     IVP_U_Set_Active<IVP_Mindist_Base> ivp_class_dummy3(16);
-    IVP_Attacher_To_Cores<IVP_Controller_Buoyancy> *ivp_class_dummy8 = new IVP_Attacher_To_Cores<IVP_Controller_Buoyancy>(NULL);
+    IVP_Attacher_To_Cores<IVP_Controller_Buoyancy> *ivp_class_dummy8 = new IVP_Attacher_To_Cores<IVP_Controller_Buoyancy>(nullptr);
     ivp_class_dummy8 = ivp_class_dummy8;
 }
 

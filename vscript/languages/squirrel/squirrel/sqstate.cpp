@@ -29,11 +29,11 @@ SQObjectPtr _minusone_((SQInteger)-1);
 
 SQSharedState::SQSharedState()
 {
-	_compilererrorhandler = NULL;
-	_printfunc = NULL;
+	_compilererrorhandler = nullptr;
+	_printfunc = nullptr;
 	_debuginfo = false;
 	_notifyallexceptions = false;
-	m_pOwnerData = NULL;
+	m_pOwnerData = nullptr;
 	_gc_disableDepth = 0;
 }
 
@@ -93,12 +93,12 @@ SQTable *CreateDefaultDelegate(SQSharedState *ss,SQRegFunction *funcz)
 {
 	SQInteger i=0;
 	SQTable *t=SQTable::Create(ss,0);
-	while(funcz[i].name!=0){
+	while(funcz[i].name!=nullptr){
 		SQNativeClosure *nc = SQNativeClosure::Create(ss,funcz[i].f);
 		nc->_nparamscheck = funcz[i].nparamscheck;
 		nc->_name = SQString::Create(ss,funcz[i].name);
 		if(funcz[i].typemask && !CompileTypemask(nc->_typecheck,funcz[i].typemask))
-			return NULL;
+			return nullptr;
 		t->NewSlot(SQString::Create(ss,funcz[i].name),nc);
 		i++;
 	}
@@ -107,10 +107,10 @@ SQTable *CreateDefaultDelegate(SQSharedState *ss,SQRegFunction *funcz)
 
 void SQSharedState::Init()
 {	
-	_scratchpad=NULL;
+	_scratchpad= nullptr;
 	_scratchpadsize=0;
 #ifndef NO_GARBAGE_COLLECTOR
-	_gc_chain=NULL;
+	_gc_chain= nullptr;
 #endif
 	sq_new(_stringtable,StringTable);
 	sq_new(_metamethods,SQObjectPtrVec);
@@ -198,7 +198,7 @@ SQSharedState::~SQSharedState()
 	_refs_table.Finalize();
 #ifndef NO_GARBAGE_COLLECTOR
 	SQCollectable *t = _gc_chain;
-	SQCollectable *nx = NULL;
+	SQCollectable *nx = nullptr;
 	while(t) {
 		SQ_VALIDATE_REF_COUNT( t );
 		t->_uiRef++;
@@ -261,7 +261,7 @@ void SQSharedState::Iterate( SQVM *vm, CSQStateIterator *pIterator )
 #ifndef NO_GARBAGE_COLLECTOR
 	CollectGarbage( vm );
 	SQInteger n=0;
-	SQCollectable *tchain=NULL;
+	SQCollectable *tchain= nullptr;
 	SQVM *vms = _thread(_root_vm);
 
 	 vms->Iterate( pIterator );
@@ -356,7 +356,7 @@ SQInteger SQSharedState::CollectGarbage(SQVM *vm)
 		return 0;
 	}
 	SQInteger n=0;
-	SQCollectable *tchain=NULL;
+	SQCollectable *tchain= nullptr;
 	SQVM *vms = _thread(_root_vm);
 	
 	vms->Mark(&tchain);
@@ -377,7 +377,7 @@ SQInteger SQSharedState::CollectGarbage(SQVM *vm)
 	MarkObject(_weakref_default_delegate,&tchain);
 	
 	SQCollectable *t = _gc_chain;
-	SQCollectable *nx = NULL;
+	SQCollectable *nx = nullptr;
 	while(t) {
 		SQ_VALIDATE_REF_COUNT( t );
 		t->_uiRef++;
@@ -407,7 +407,7 @@ SQInteger SQSharedState::CollectGarbage(SQVM *vm)
 #ifndef NO_GARBAGE_COLLECTOR
 void SQCollectable::AddToChain(SQCollectable **chain,SQCollectable *c)
 {
-    c->_prev = NULL;
+    c->_prev = nullptr;
 	c->_next = *chain;
 	if(*chain) (*chain)->_prev = c;
 	*chain = c;
@@ -419,8 +419,8 @@ void SQCollectable::RemoveFromChain(SQCollectable **chain,SQCollectable *c)
 	else *chain = c->_next;
 	if(c->_next)
 		c->_next->_prev = c->_prev;
-	c->_next = NULL;
-	c->_prev = NULL;
+	c->_next = nullptr;
+	c->_prev = nullptr;
 }
 #endif
 
@@ -550,14 +550,14 @@ RefTable::RefNode *RefTable::Get(SQObject &obj,SQHash &mainpos,RefNode **prev,bo
 {
 	RefNode *ref;
 	mainpos = ::HashObj(obj)&(_numofslots-1);
-	*prev = NULL;
+	*prev = nullptr;
 	for (ref = _buckets[mainpos]; ref; ) {
 		if(_rawval(ref->obj) == _rawval(obj) && type(ref->obj) == type(obj))
 			break;
 		*prev = ref;
 		ref = ref->next;
 	}
-	if(ref == NULL && add) {
+	if(ref == nullptr && add) {
 		if(_numofslots == _slotused) {
 			Assert(_freelist == 0);
 			Resize(_numofslots*2);
@@ -577,16 +577,16 @@ void RefTable::AllocNodes(SQUnsignedInteger size)
 	RefNode *temp = nodes;
 	SQUnsignedInteger n;
 	for(n = 0; n < size - 1; n++) {
-		bucks[n] = NULL;
+		bucks[n] = nullptr;
 		temp->refs = 0;
 		new (&temp->obj) SQObjectPtr;
 		temp->next = temp+1;
 		temp++;
 	}
-	bucks[n] = NULL;
+	bucks[n] = nullptr;
 	temp->refs = 0;
 	new (&temp->obj) SQObjectPtr;
-	temp->next = NULL;
+	temp->next = nullptr;
 	_freelist = nodes;
 	_nodes = nodes;
 	_buckets = bucks;
@@ -610,7 +610,7 @@ StringTable::StringTable()
 StringTable::~StringTable()
 {
 	SQ_FREE(_strings,sizeof(SQString*)*_numofslots);
-	_strings = NULL;
+	_strings = nullptr;
 }
 
 void StringTable::AllocNodes(SQInteger size)
@@ -703,7 +703,7 @@ void StringTable::Resize(SQInteger size)
 void StringTable::Remove(SQString *bs)
 {
 	SQString *s;
-	SQString *prev=NULL;
+	SQString *prev= nullptr;
 	SQHash h = bs->_hash&(_numofslots - 1);
 	
 	for (s = _strings[h]; s; ){

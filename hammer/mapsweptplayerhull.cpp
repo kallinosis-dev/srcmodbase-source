@@ -115,7 +115,7 @@ CMapClass *CMapSweptPlayerHull::Copy(bool bUpdateDependencies)
 {
 	CMapSweptPlayerHull *pCopy = new CMapSweptPlayerHull;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -482,7 +482,7 @@ void CMapSweptPlayerHull::DoTransform(const VMatrix &matrix)
 void CMapSweptPlayerHull::UpdateParentKey(void)
 {
 	CMapEntity *pEntity = dynamic_cast <CMapEntity *> (m_pParent);
-	if (pEntity != NULL)
+	if (pEntity != nullptr)
 	{
 		Vector vecOrigin1;
 		Vector vecOrigin2;

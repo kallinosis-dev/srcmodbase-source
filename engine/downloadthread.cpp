@@ -266,8 +266,8 @@ void CleanUpDownload( RequestContext& rc, HTTPStatus status, HTTPError error = H
 	{
 		//Thread_DPrintf( "Failed to close open resource for %s%s\n", rc.baseURL, rc.gamePath );
 	}
-	rc.hDataResource = NULL;
-	rc.hOpenResource = NULL;
+	rc.hDataResource = nullptr;
+	rc.hOpenResource = nullptr;
 
 	// wait until the main thread says we can go away (so it can look at rc.data).
 	while ( !rc.shouldStop )
@@ -276,10 +276,10 @@ void CleanUpDownload( RequestContext& rc, HTTPStatus status, HTTPError error = H
 	}
 
 	// Delete rc.data, which was allocated in this thread
-	if ( rc.data != NULL )
+	if ( rc.data != nullptr)
 	{
 		delete[] rc.data;
-		rc.data = NULL;
+		rc.data = nullptr;
 	}
 
 	// and tell the main thread we're exiting, so it can delete rc.cachedData and rc itself.
@@ -293,11 +293,11 @@ static void DumpHeaders( RequestContext& rc )
 	DWORD dwSize;
 
 	// First time we will find out the size of the headers.
-	HttpQueryInfo ( rc.hDataResource, HTTP_QUERY_RAW_HEADERS_CRLF, NULL, &dwSize, NULL );
+	HttpQueryInfo ( rc.hDataResource, HTTP_QUERY_RAW_HEADERS_CRLF, nullptr, &dwSize, nullptr);
 	char *lpBuffer =  new char [dwSize + 2];
 
 	// Now we call HttpQueryInfo again to get the headers.
-	if (!HttpQueryInfo ( rc.hDataResource, HTTP_QUERY_RAW_HEADERS_CRLF, (LPVOID)lpBuffer, &dwSize, NULL))
+	if (!HttpQueryInfo ( rc.hDataResource, HTTP_QUERY_RAW_HEADERS_CRLF, (LPVOID)lpBuffer, &dwSize, nullptr))
 	{
 		return;
 	}
@@ -364,7 +364,7 @@ uintp DownloadThread( void *voidPtr )
 	// Open a socket etc for the download.
 	// The first parameter, "Half-Life", is the User-Agent that gets sent with HTTP requests.
 	// INTERNET_OPEN_TYPE_PRECONFIG specifies using IE's proxy info from the registry for HTTP downloads.
-	rc.hOpenResource = InternetOpen( "Half-Life 2", INTERNET_OPEN_TYPE_PRECONFIG ,NULL, NULL, 0);
+	rc.hOpenResource = InternetOpen( "Half-Life 2", INTERNET_OPEN_TYPE_PRECONFIG , nullptr, nullptr, 0);
 
 	if ( !rc.hOpenResource )
 	{
@@ -399,7 +399,7 @@ uintp DownloadThread( void *voidPtr )
 	// Request a partial if we have the data
 	char headers[BufferSize] = "";
 	DWORD headerLen = 0;
-	char *headerPtr = NULL;
+	char *headerPtr = nullptr;
 	if ( *rc.cachedTimestamp && rc.nBytesCached )
 	{
 		if ( *rc.serverURL )
@@ -444,7 +444,7 @@ uintp DownloadThread( void *voidPtr )
 	// check the status (are we gonna get anything?)
 	DWORD size = sizeof(DWORD);
 	DWORD code;
-	if ( !HttpQueryInfo( rc.hDataResource, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER, &code, &size, NULL ) )
+	if ( !HttpQueryInfo( rc.hDataResource, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER, &code, &size, nullptr) )
 	{
 		CleanUpDownload( rc, HTTP_ERROR, HTTP_ERROR_NO_HEADERS );
 		return rc.status;
@@ -459,7 +459,7 @@ uintp DownloadThread( void *voidPtr )
 
 	// get the timestamp, and save it off for future resumes, in case we abort this transfer later.
 	size = BufferSize;
-	if ( !HttpQueryInfo( rc.hDataResource, HTTP_QUERY_LAST_MODIFIED, rc.cachedTimestamp, &size, NULL ) )
+	if ( !HttpQueryInfo( rc.hDataResource, HTTP_QUERY_LAST_MODIFIED, rc.cachedTimestamp, &size, nullptr) )
 	{
 		rc.cachedTimestamp[0] = 0;
 	}
@@ -477,7 +477,7 @@ uintp DownloadThread( void *voidPtr )
 
 	// Check the resource size, and allocate a buffer
 	size = sizeof(code);
-	if ( HttpQueryInfo( rc.hDataResource, HTTP_QUERY_CONTENT_LENGTH | HTTP_QUERY_FLAG_NUMBER, &code, &size, NULL ) )
+	if ( HttpQueryInfo( rc.hDataResource, HTTP_QUERY_CONTENT_LENGTH | HTTP_QUERY_FLAG_NUMBER, &code, &size, nullptr) )
 	{
 		rc.nBytesTotal = code + rc.nBytesCached;
 		if ( code > 0 )

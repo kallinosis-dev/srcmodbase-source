@@ -99,9 +99,9 @@ BEGIN_DEFINE_LOGGING_CHANNEL( LOG_MaterialSystemConsole, "MaterialSystemConsole"
 ADD_LOGGING_CHANNEL_TAG( "Console" );
 END_DEFINE_LOGGING_CHANNEL();
 
-IMaterialInternal *g_pErrorMaterial = NULL;
+IMaterialInternal *g_pErrorMaterial = nullptr;
 
-CreateInterfaceFn g_fnMatSystemConnectCreateInterface = NULL;  
+CreateInterfaceFn g_fnMatSystemConnectCreateInterface = nullptr;  
 
 #ifdef _PS3
 #define m_pRenderContext Ps3TlsMaterialSystemRenderContext
@@ -162,7 +162,7 @@ MaterialSystem_Config_Internal_t g_config_internal;
 //-----------------------------------------------------------------------------
 // Necessary to allow the shader DLLs to get ahold of IMaterialSystemHardwareConfig
 //-----------------------------------------------------------------------------
-IHardwareConfigInternal* g_pHWConfig = 0;
+IHardwareConfigInternal* g_pHWConfig = nullptr;
 static void *GetHardwareConfig()
 {
 	if ( g_pHWConfig )
@@ -170,7 +170,7 @@ static void *GetHardwareConfig()
 
 	// can't call QueryShaderAPI here because it calls a factory function
 	// and we end up in an infinite recursion
-	return NULL;
+	return nullptr;
 }
 EXPOSE_INTERFACE_FN( GetHardwareConfig, IMaterialSystemHardwareConfig, MATERIALSYSTEM_HARDWARECONFIG_INTERFACE_VERSION );
 
@@ -191,7 +191,7 @@ IMaterialSystemInternal *g_pInternalMaterialSystem = &g_MaterialSystem;
 #ifndef _PS3
 IShaderUtil *g_pShaderUtil = &g_MaterialSystem;
 #endif
-IVJobs * g_pVJobs = NULL;
+IVJobs * g_pVJobs = nullptr;
 
 #if defined( USE_SDL ) || defined( OSX )
 
@@ -245,7 +245,7 @@ void *ShaderFactory( const char *pName, int *pReturnCode )
 	{
 		*pReturnCode = IFACE_FAILED;
 	}
-	return NULL;	
+	return nullptr;	
 }
 
 //-----------------------------------------------------------------------------
@@ -570,27 +570,27 @@ void CMaterialSystem::CleanUpDebugMaterials()
 
 		RemoveMaterial( m_pDrawFlatMaterial );
 
-		m_pDrawFlatMaterial = NULL;
+		m_pDrawFlatMaterial = nullptr;
 
 		for ( int i = BUFFER_CLEAR_NONE; i < BUFFER_CLEAR_TYPE_COUNT; ++i )
 		{
 			m_pBufferClearObeyStencil[i]->DecrementReferenceCount();
 			RemoveMaterial( m_pBufferClearObeyStencil[i] );
-			m_pBufferClearObeyStencil[i] = NULL;
+			m_pBufferClearObeyStencil[i] = nullptr;
 		}
 
 		if ( IsPS3() )
 		{
 			m_pReloadZcullMaterial->DecrementReferenceCount();
 			RemoveMaterial( m_pReloadZcullMaterial );
-			m_pReloadZcullMaterial = NULL;
+			m_pReloadZcullMaterial = nullptr;
 		}
 
 		if ( IsX360() )
 		{
 			m_pRenderTargetBlitMaterial->DecrementReferenceCount();
 			RemoveMaterial( m_pRenderTargetBlitMaterial );
-			m_pRenderTargetBlitMaterial = NULL;
+			m_pRenderTargetBlitMaterial = nullptr;
 		}
 
 		// PORTAL2 - clean up preloaded bink shader
@@ -598,7 +598,7 @@ void CMaterialSystem::CleanUpDebugMaterials()
 		{
 			m_pBIKPreloadMaterial->DecrementReferenceCount();
 			RemoveMaterial( m_pBIKPreloadMaterial );
-			m_pBIKPreloadMaterial = NULL;
+			m_pBIKPreloadMaterial = nullptr;
 		}
 
 		ShaderSystem()->CleanUpDebugMaterials();
@@ -610,7 +610,7 @@ void CMaterialSystem::CleanUpErrorMaterial()
 	// Destruction of g_pErrorMaterial is deferred until after CMaterialDict::Shutdown.
 	// The global g_pErrorMaterial is set to NULL so that IMaterialInternal::DestroyMaterial will delete it.
 	IMaterialInternal *pErrorMaterial = g_pErrorMaterial;
-	g_pErrorMaterial = NULL;
+	g_pErrorMaterial = nullptr;
 	pErrorMaterial->DecrementReferenceCount();
 	IMaterialInternal::DestroyMaterial( pErrorMaterial );
 }
@@ -621,9 +621,9 @@ void CMaterialSystem::CleanUpErrorMaterial()
 CMaterialSystem::CMaterialSystem()
 {
 	m_nRenderThreadID = 0xFFFFFFFF;
-	m_ShaderHInst = 0;
-	m_pMaterialProxyFactory = NULL;
-	m_pClientMaterialSystemInterface = NULL;
+	m_ShaderHInst = nullptr;
+	m_pMaterialProxyFactory = nullptr;
+	m_pClientMaterialSystemInterface = nullptr;
 	m_nAdapter = 0;
 	m_nAdapterFlags = 0;
 	m_bRequestedEditorMaterials = false;
@@ -637,7 +637,7 @@ CMaterialSystem::CMaterialSystem()
 	m_ThreadOwnershipID = 0;
 #endif
 
-	m_pShaderDLL = NULL;
+	m_pShaderDLL = nullptr;
 	m_FullbrightLightmapTextureHandle = INVALID_SHADERAPI_TEXTURE_HANDLE;
 	m_FullbrightBumpedLightmapTextureHandle = INVALID_SHADERAPI_TEXTURE_HANDLE;
 	m_BlackTextureHandle = INVALID_SHADERAPI_TEXTURE_HANDLE;
@@ -652,18 +652,18 @@ CMaterialSystem::CMaterialSystem()
 	m_MaxDepthTextureHandle = INVALID_SHADERAPI_TEXTURE_HANDLE;
 
 	m_bInStubMode = false;
-	m_pForcedTextureLoadPathID = NULL;
+	m_pForcedTextureLoadPathID = nullptr;
 	m_bDisableRenderTargetAllocationForever = false;
 	m_nAllocatingRenderTargets = false;
 	m_pRenderContext = &m_HardwareRenderContext;
 	m_iCurQueuedContext = 0;
 	m_bGeneratedConfig = false;
-	m_pMatQueueThreadPool = NULL;
+	m_pMatQueueThreadPool = nullptr;
 
-	m_pActiveAsyncTextureLoad = NULL;
+	m_pActiveAsyncTextureLoad = nullptr;
 
 #ifndef _PS3
-	m_pActiveAsyncJob = NULL;
+	m_pActiveAsyncJob = nullptr;
 #else
 	m_bQMSJobSubmitted = false;
 #endif
@@ -680,7 +680,7 @@ CMaterialSystem::CMaterialSystem()
 
 	m_bLevelLoadingComplete = false;
 
-	m_pSubString = NULL;
+	m_pSubString = nullptr;
 	m_bDeferredMaterialReload = false;
 }
 
@@ -694,7 +694,7 @@ CMaterialSystem::~CMaterialSystem()
 	if ( m_pSubString )
 	{
 		free( m_pSubString );
-		m_pSubString = NULL;
+		m_pSubString = nullptr;
 	}
 }
 
@@ -705,7 +705,7 @@ CMaterialSystem::~CMaterialSystem()
 CreateInterfaceFn CMaterialSystem::CreateShaderAPI( char const* pShaderDLL )
 {
 	if ( !pShaderDLL )
-		return 0;
+		return nullptr;
 
 	// Clean up the old shader
 	DestroyShaderAPI();
@@ -715,7 +715,7 @@ CreateInterfaceFn CMaterialSystem::CreateShaderAPI( char const* pShaderDLL )
 
 	// Error loading the shader
 	if ( !m_ShaderHInst )
-		return 0;
+		return nullptr;
 
 	// Get our class factory methods...
 	return Sys_GetFactory( m_ShaderHInst );
@@ -727,10 +727,10 @@ void CMaterialSystem::DestroyShaderAPI()
 	{
 		// NOTE: By unloading the library, this will destroy m_pShaderAPI
 		Sys_UnloadModule( m_ShaderHInst );
-		g_pShaderAPI = 0;
-		g_pHWConfig = 0;
-		g_pShaderShadow = 0;
-		m_ShaderHInst = 0;
+		g_pShaderAPI = nullptr;
+		g_pHWConfig = nullptr;
+		g_pShaderShadow = nullptr;
+		m_ShaderHInst = nullptr;
 	}
 }
 
@@ -786,15 +786,15 @@ bool CMaterialSystem::Connect( CreateInterfaceFn factory )
 		return false;
 	}
 	
-	g_pVJobs = ( IVJobs* )factory( VJOBS_INTERFACE_VERSION, NULL );
+	g_pVJobs = ( IVJobs* )factory( VJOBS_INTERFACE_VERSION, nullptr);
 
 	// Get at the interfaces exported by the shader DLL
 
 #ifndef _OSX
-	g_pShaderDeviceMgr = (IShaderDeviceMgr*)m_ShaderAPIFactory( SHADER_DEVICE_MGR_INTERFACE_VERSION, 0 );
+	g_pShaderDeviceMgr = (IShaderDeviceMgr*)m_ShaderAPIFactory( SHADER_DEVICE_MGR_INTERFACE_VERSION, nullptr );
 	if ( !g_pShaderDeviceMgr )
 		return false;
-	g_pHWConfig = (IHardwareConfigInternal*)m_ShaderAPIFactory( MATERIALSYSTEM_HARDWARECONFIG_INTERFACE_VERSION, 0 );
+	g_pHWConfig = (IHardwareConfigInternal*)m_ShaderAPIFactory( MATERIALSYSTEM_HARDWARECONFIG_INTERFACE_VERSION, nullptr );
 	if ( !g_pHWConfig )
 		return false;
 #endif
@@ -837,13 +837,13 @@ bool CMaterialSystem::Connect( CreateInterfaceFn factory )
 
 #ifndef _OSX
 	// FIXME: ShaderAPI, ShaderDevice, and ShaderShadow should only come in after setting mode
-	g_pShaderAPI = (IShaderAPI*)m_ShaderAPIFactory( SHADERAPI_INTERFACE_VERSION, 0 );
+	g_pShaderAPI = (IShaderAPI*)m_ShaderAPIFactory( SHADERAPI_INTERFACE_VERSION, nullptr );
 	if ( !g_pShaderAPI )
 		return false;
-	g_pShaderDevice = (IShaderDevice*)m_ShaderAPIFactory( SHADER_DEVICE_INTERFACE_VERSION, 0 );
+	g_pShaderDevice = (IShaderDevice*)m_ShaderAPIFactory( SHADER_DEVICE_INTERFACE_VERSION, nullptr );
 	if ( !g_pShaderDevice )
 		return false;
-	g_pShaderShadow = (IShaderShadow*)m_ShaderAPIFactory( SHADERSHADOW_INTERFACE_VERSION, 0 );
+	g_pShaderShadow = (IShaderShadow*)m_ShaderAPIFactory( SHADERSHADOW_INTERFACE_VERSION, nullptr );
 	if ( !g_pShaderShadow )
 		return false;
 #endif
@@ -857,21 +857,21 @@ bool CMaterialSystem::Connect( CreateInterfaceFn factory )
 void CMaterialSystem::Disconnect()
 {
 	// Forget the factory for connect
-	g_fnMatSystemConnectCreateInterface = NULL;
+	g_fnMatSystemConnectCreateInterface = nullptr;
 
 	if ( g_pShaderDeviceMgr )
 	{
 		g_pShaderDeviceMgr->Disconnect();
-		g_pShaderDeviceMgr = NULL;
+		g_pShaderDeviceMgr = nullptr;
 
 		// Unload the DLL
 		DestroyShaderAPI();
 	}
 #if !defined( _PS3 ) && !defined( _OSX )
-	g_pShaderAPI = NULL;
-	g_pHWConfig = NULL;
-	g_pShaderShadow = NULL;
-	g_pShaderDevice = NULL;
+	g_pShaderAPI = nullptr;
+	g_pHWConfig = nullptr;
+	g_pShaderShadow = nullptr;
+	g_pShaderDevice = nullptr;
 #endif
 
 	BaseClass::Disconnect();
@@ -898,10 +898,10 @@ void CMaterialSystem::EnableGBuffers()
 void *CMaterialSystem::QueryShaderAPI( const char *pInterfaceName )
 {
 	// Returns various interfaces supported by the shader API dll
-	void *pInterface = NULL;
+	void *pInterface = nullptr;
 	if (m_ShaderAPIFactory)
 	{
-		pInterface = m_ShaderAPIFactory( pInterfaceName, NULL );
+		pInterface = m_ShaderAPIFactory( pInterfaceName, nullptr);
 	}
 	return pInterface;
 }
@@ -918,7 +918,7 @@ void *CMaterialSystem::QueryInterface( const char *pInterfaceName )
 		return pInterface;
 
 	CreateInterfaceFn factory = Sys_GetFactoryThis();	// This silly construction is necessary
-	return factory( pInterfaceName, NULL );				// to prevent the LTCG compiler from crashing.
+	return factory( pInterfaceName, nullptr);				// to prevent the LTCG compiler from crashing.
 }
 
 
@@ -987,7 +987,7 @@ InitReturnVal_t CMaterialSystem::Init()
 	// up the editor materials properly. If we don't do this, we never allocate the white lightmap,
 	// for example. We can remove this when we update the SDK!!
 	char szExeName[_MAX_PATH];
-	if ( ::GetModuleFileName( ( HINSTANCE )GetModuleHandle( NULL ), szExeName, sizeof( szExeName ) ) )
+	if ( ::GetModuleFileName( ( HINSTANCE )GetModuleHandle(nullptr), szExeName, sizeof( szExeName ) ) )
 	{
 		char szRight[20];
 		Q_StrRight( szExeName, 11, szRight, sizeof( szRight ) );
@@ -1075,7 +1075,7 @@ static CreateInterfaceFn s_TempFileSystemFactory;
 
 void* TempCreateInterface( const char *pName, int *pReturnCode )
 {
-	void *pRetVal = NULL;
+	void *pRetVal = nullptr;
 
 	if ( s_TempCVarFactory )
 	{
@@ -1088,7 +1088,7 @@ void* TempCreateInterface( const char *pName, int *pReturnCode )
 	if (pRetVal)
 		return pRetVal;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1105,10 +1105,10 @@ CreateInterfaceFn CMaterialSystem::Init( char const* pShaderAPIDLL,
 	s_TempCVarFactory = cvarFactory;
 	s_TempFileSystemFactory = fileSystemFactory;
 	if ( !Connect( TempCreateInterface ) )
-		return 0;
+		return nullptr;
 
 	if (Init() != INIT_OK)
-		return NULL;
+		return nullptr;
 
 	// save the proxy factory
 	m_pMaterialProxyFactory = pMaterialProxyFactory;
@@ -1176,8 +1176,8 @@ void CMaterialSystem::ModShutdown()
 	ShaderSystem()->ModShutdown();
 
 	// HACK - this is here to unhook ourselves from the client interface, since we're not actually notified when it happens
-	m_pMaterialProxyFactory = NULL;
-	m_pClientMaterialSystemInterface = NULL;
+	m_pMaterialProxyFactory = nullptr;
+	m_pClientMaterialSystemInterface = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1293,7 +1293,7 @@ IMatRenderContext *CMaterialSystem::CreateRenderContext( MaterialContextType_t t
 	switch ( type )
 	{
 	case MATERIAL_HARDWARE_CONTEXT:		
-		return NULL;
+		return nullptr;
 
 	case MATERIAL_QUEUED_CONTEXT:		
 		{
@@ -1313,7 +1313,7 @@ IMatRenderContext *CMaterialSystem::CreateRenderContext( MaterialContextType_t t
 		}
 	}
 	Assert(0);
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1329,7 +1329,7 @@ IMatRenderContext *CMaterialSystem::SetRenderContext( IMatRenderContext *pNewCon
 	}
 	else
 	{
-		m_pRenderContext = NULL;
+		m_pRenderContext = nullptr;
 	}
 	return pOldContext;
 }
@@ -1359,13 +1359,13 @@ IClientMaterialSystem *CMaterialSystem::GetClientMaterialSystemInterface()
 		return m_pClientMaterialSystemInterface;
 
 	if ( !m_pMaterialProxyFactory )
-		return NULL;
+		return nullptr;
 
 	CreateInterfaceFn pClientFactory = m_pMaterialProxyFactory->GetFactory();
 	if ( !pClientFactory )
-		return NULL;
+		return nullptr;
 
-	m_pClientMaterialSystemInterface = (IClientMaterialSystem *)pClientFactory( VCLIENTMATERIALSYSTEM_INTERFACE_VERSION, NULL );
+	m_pClientMaterialSystemInterface = (IClientMaterialSystem *)pClientFactory( VCLIENTMATERIALSYSTEM_INTERFACE_VERSION, nullptr);
 	return m_pClientMaterialSystemInterface;
 }
 
@@ -1859,9 +1859,9 @@ void CMaterialSystem::RestoreShaderObjects( CreateInterfaceFn shaderFactory, int
 #if !defined( _PS3 ) && !defined( _OSX )
 	if ( shaderFactory )
 	{
-		g_pShaderAPI = (IShaderAPI*)shaderFactory( SHADERAPI_INTERFACE_VERSION, NULL );
-		g_pShaderDevice = (IShaderDevice*)shaderFactory( SHADER_DEVICE_INTERFACE_VERSION, NULL );
-		g_pShaderShadow = (IShaderShadow*)shaderFactory( SHADERSHADOW_INTERFACE_VERSION, NULL );
+		g_pShaderAPI = (IShaderAPI*)shaderFactory( SHADERAPI_INTERFACE_VERSION, nullptr);
+		g_pShaderDevice = (IShaderDevice*)shaderFactory( SHADER_DEVICE_INTERFACE_VERSION, nullptr);
+		g_pShaderShadow = (IShaderShadow*)shaderFactory( SHADERSHADOW_INTERFACE_VERSION, nullptr);
 	}
 #endif
 
@@ -1870,7 +1870,7 @@ void CMaterialSystem::RestoreShaderObjects( CreateInterfaceFn shaderFactory, int
 		IMaterialInternal *pMat = m_MaterialDict.GetMaterialInternal( i );
 		if ( pMat )
 		{
-			pMat->ReportVarChanged( NULL );
+			pMat->ReportVarChanged(nullptr);
 		}
 	}
 
@@ -2985,14 +2985,14 @@ IMaterial *CMaterialSystem::FindProceduralMaterial( const char *pMaterialName, c
 	IMaterialInternal *pMaterial = m_MaterialDict.FindMaterial( pTemp, true );
 	if ( pMaterial )
 	{
-		if ( pVMTKeyValues != NULL )
+		if ( pVMTKeyValues != nullptr)
 		{
 			pVMTKeyValues->deleteThis();
 		}
 	}
 	else
 	{
-		if ( pVMTKeyValues != NULL )
+		if ( pVMTKeyValues != nullptr)
 		{
 			pMaterial = IMaterialInternal::CreateMaterial( pMaterialName, pTextureGroupName, pVMTKeyValues );
 			AddMaterialToMaterialList( static_cast<IMaterialInternal*>( pMaterial ) );
@@ -3076,9 +3076,9 @@ IMaterial* CMaterialSystem::FindMaterial( char const *pMaterialName, const char 
 		if ( !LoadVMTFile( *pKeyValues, *pPatchKeyValues, vmtName, true, &includes ) )
 		{
 			pKeyValues->deleteThis();
-			pKeyValues = NULL;
+			pKeyValues = nullptr;
 			pPatchKeyValues->deleteThis();
-			pPatchKeyValues = NULL;
+			pPatchKeyValues = nullptr;
 		}
 		else
 		{
@@ -3088,7 +3088,7 @@ IMaterial* CMaterialSystem::FindMaterial( char const *pMaterialName, const char 
 			Q_strncpy( matNameWithExtension, pTemp, nLen );
 			Q_strncat( matNameWithExtension, ".vmt", nLen, COPY_ALL_CHARACTERS );
 
-			IMaterialInternal *pMat = NULL;
+			IMaterialInternal *pMat = nullptr;
 			if ( !Q_stricmp( pKeyValues->GetName(), "subrect" ) )
 			{
 				pMat = m_MaterialDict.AddMaterialSubRect( matNameWithExtension, pTextureGroupName, pKeyValues, pPatchKeyValues );
@@ -3103,7 +3103,7 @@ IMaterial* CMaterialSystem::FindMaterial( char const *pMaterialName, const char 
 						m_pForcedTextureLoadPathID = "GAME";
 					}
 					pMat->PrecacheVars( pKeyValues, pPatchKeyValues, &includes );
-					m_pForcedTextureLoadPathID = NULL;
+					m_pForcedTextureLoadPathID = nullptr;
 				}
 			}
 			pKeyValues->deleteThis();
@@ -3144,7 +3144,7 @@ bool CMaterialSystem::LoadKeyValuesFromVMTFile( KeyValues &vmtKeyValues, const c
 
 	// we don't need these, they were applied to vmtKeyValues
 	pPatchKeyValues->deleteThis();
-	pPatchKeyValues = NULL;
+	pPatchKeyValues = nullptr;
 
 	return bResult;
 }
@@ -3383,7 +3383,7 @@ void CMaterialSystem::ServiceAsyncTextureLoads()
 			!m_bLevelLoadingComplete || (m_pActiveAsyncTextureLoad->m_LoadError != ASYNCTEXTURE_LOADERROR_NONE),
 			flRemainingMaxTimeMs );
 
-		m_pActiveAsyncTextureLoad = NULL;
+		m_pActiveAsyncTextureLoad = nullptr;
 
 		// Limit the amount of time spent creating D3D resources
 		float flElapsedMs = (Plat_FloatTime() - flStartTime) * 1000.0f;
@@ -3413,7 +3413,7 @@ void CMaterialSystem::ServiceAsyncTextureLoads()
 		}
 		else
 		{
-			m_pActiveAsyncTextureLoad = NULL;
+			m_pActiveAsyncTextureLoad = nullptr;
 		}
 
 		// Limit the amount of time spent creating D3D resources
@@ -3473,7 +3473,7 @@ void CMaterialSystem::ServiceEndFramePriorToNextContext()
 	{
 		m_bDeferredMaterialReload = false;
 		char *pReloadSubString = m_pSubString;
-		m_pSubString = NULL;
+		m_pSubString = nullptr;
 		ReloadMaterials( pReloadSubString );
 		if ( pReloadSubString )
 		{
@@ -3534,7 +3534,7 @@ void CMaterialSystem::ReloadMaterials( const char *pSubString )
 		if ( m_pSubString )
 		{
 			free( m_pSubString );
-			m_pSubString = NULL;
+			m_pSubString = nullptr;
 		}
 		if ( pSubString )
 		{
@@ -3546,7 +3546,7 @@ void CMaterialSystem::ReloadMaterials( const char *pSubString )
 
 	ForceSingleThreaded();
 	bool bVertexFormatChanged = false;
-	if( pSubString == NULL )
+	if( pSubString == nullptr)
 	{
 		bVertexFormatChanged = true;
 		UncacheAllMaterials();
@@ -3626,7 +3626,7 @@ void CMaterialSystem::ReloadMaterials( const char *pSubString )
 		// because we don't want to free anything other than vbs
 		// FIXME: Should I add a flags to the release func? Probably.
 		ReleaseShaderObjects( MATERIAL_RESTORE_VERTEX_FORMAT_CHANGED );
-		RestoreShaderObjects( NULL, MATERIAL_RESTORE_VERTEX_FORMAT_CHANGED );
+		RestoreShaderObjects(nullptr, MATERIAL_RESTORE_VERTEX_FORMAT_CHANGED );
 	}
 }
 
@@ -4031,7 +4031,7 @@ void CMaterialSystem::DestroyMatQueueThreadPool()
 	{
 		m_pMatQueueThreadPool->Stop();
 		delete m_pMatQueueThreadPool;
-		m_pMatQueueThreadPool = NULL;
+		m_pMatQueueThreadPool = nullptr;
 	}
 }
 
@@ -4667,7 +4667,7 @@ void CMaterialSystem::ToggleSuppressMaterial( char const* pMaterialName )
 	// pass in a texture group or reuse whatever texture group the material already had.
 	// As it is, this is rarely used, so if it's not in TEXTURE_GROUP_OTHER, it'll go in 
 	// TEXTURE_GROUP_SHARED.
-	IMaterial* pMaterial = FindMaterial( pMaterialName, TEXTURE_GROUP_OTHER, true, NULL );
+	IMaterial* pMaterial = FindMaterial( pMaterialName, TEXTURE_GROUP_OTHER, true, nullptr);
 	if ( !IsErrorMaterial( pMaterial ) )
 	{
 		IMaterialInternal* pMatInt = static_cast<IMaterialInternal*>(pMaterial);
@@ -4682,7 +4682,7 @@ void CMaterialSystem::ToggleDebugMaterial( char const* pMaterialName )
 	// pass in a texture group or reuse whatever texture group the material already had.
 	// As it is, this is rarely used, so if it's not in TEXTURE_GROUP_OTHER, it'll go in 
 	// TEXTURE_GROUP_SHARED.
-	IMaterial* pMaterial = FindMaterial( pMaterialName, TEXTURE_GROUP_OTHER, false, NULL );
+	IMaterial* pMaterial = FindMaterial( pMaterialName, TEXTURE_GROUP_OTHER, false, nullptr);
 	if ( !IsErrorMaterial( pMaterial ) )
 	{
 		IMaterialInternal* pMatInt = static_cast<IMaterialInternal*>(pMaterial);
@@ -4755,7 +4755,7 @@ void CMaterialSystem::GetShaderFallback( const char *pShaderName, char *pFallbac
 		// Found a match
 		// FIXME: Theoretically, getting fallbacks should require a param list
 		// In practice, it looks rare or maybe even neved done
-		const char *pFallback = ppShaderList[i]->GetFallbackShader( NULL );
+		const char *pFallback = ppShaderList[i]->GetFallbackShader(nullptr);
 		if ( !pFallback )
 		{
 			Q_strncpy( pFallbackShader, pShaderName, nFallbackLength );
@@ -4939,7 +4939,7 @@ ITexture* CMaterialSystem::CreateRenderTargetTexture(
 	ImageFormat format, 
 	MaterialRenderTargetDepth_t depth )
 {
-	return CreateNamedRenderTargetTextureEx( NULL, w, h, sizeMode, format, depth, TEXTUREFLAGS_CLAMPS|TEXTUREFLAGS_CLAMPT, 0 );
+	return CreateNamedRenderTargetTextureEx(nullptr, w, h, sizeMode, format, depth, TEXTUREFLAGS_CLAMPS|TEXTUREFLAGS_CLAMPT, 0 );
 }
 
 ITexture* CMaterialSystem::CreateNamedRenderTargetTexture( 
@@ -5004,7 +5004,7 @@ ITexture* CMaterialSystem::CreateNamedRenderTargetTextureEx(
 	if ( !m_nAllocatingRenderTargets )
 	{
 		Warning( "Tried to create render target outside of CMaterialSystem::BeginRenderTargetAllocation/EndRenderTargetAllocation block\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	RenderTargetType_t rtType = DepthTypeToRenderTargetType( depth );
@@ -5041,7 +5041,7 @@ ITexture *CMaterialSystem::CreateNamedRenderTargetTextureEx2(
 	if ( !m_nAllocatingRenderTargets )
 	{
 		Warning( "Tried to create render target outside of CMaterialSystem::BeginRenderTargetAllocation/EndRenderTargetAllocation block\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	ITexture* pTexture = CreateNamedRenderTargetTextureEx( pRTName, w, h, sizeMode, format, depth, textureFlags, renderTargetFlags );
@@ -5066,7 +5066,7 @@ ITexture *CMaterialSystem::CreateNamedMultiRenderTargetTexture(
 	if ( !m_nAllocatingRenderTargets )
 	{
 		Warning( "Tried to create render target outside of CMaterialSystem::BeginRenderTargetAllocation/EndRenderTargetAllocation block\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	RenderTargetType_t rtType = DepthTypeToRenderTargetType( depth );
@@ -5119,7 +5119,7 @@ void CMaterialSystem::FinishRenderTargetAllocation( void )
 {
 	// disable all future render target allocation to prevent re-load bugs from creeping in.
 	if (
-		( CommandLine()->CheckParm( "-tools" ) == NULL ) && 
+		( CommandLine()->CheckParm( "-tools" ) == nullptr) && 
 		( ! m_bRequestedEditorMaterials ) )
 	{
 		m_bDisableRenderTargetAllocationForever = true;
@@ -5436,7 +5436,7 @@ MaterialLock_t CMaterialSystem::Lock()
 	if ( pCurContext != &m_HardwareRenderContext && m_pActiveAsyncJob )
 	{
 		m_pActiveAsyncJob->WaitForFinishAndRelease();
-		m_pActiveAsyncJob = NULL;
+		m_pActiveAsyncJob = nullptr;
 	}
 #else
 	if ( pCurContext != &m_HardwareRenderContext && m_bQMSJobSubmitted )
@@ -5500,7 +5500,7 @@ void CMaterialSystem::Unlock( MaterialLock_t hMaterialLock )
 CMatCallQueue *CMaterialSystem::GetRenderCallQueue()
 {
 	IMatRenderContextInternal *pRenderContext = m_pRenderContext;
-	return pRenderContext ? pRenderContext->GetCallQueueInternal() : NULL;
+	return pRenderContext ? pRenderContext->GetCallQueueInternal() : nullptr;
 }
 
 void CMaterialSystem::UnbindMaterial( IMaterial *pMaterial )
@@ -5508,7 +5508,7 @@ void CMaterialSystem::UnbindMaterial( IMaterial *pMaterial )
 	Assert( (pMaterial == NULL) || ((IMaterialInternal *)pMaterial)->IsRealTimeVersion() );
 	if ( m_HardwareRenderContext.GetCurrentMaterial() == pMaterial )
 	{
-		m_HardwareRenderContext.Bind( g_pErrorMaterial, NULL );
+		m_HardwareRenderContext.Bind( g_pErrorMaterial, nullptr);
 	}
 }
 
@@ -5530,7 +5530,7 @@ void CMaterialSystem::DebugPrintUsedMaterials( const CCommand &args )
 {
 	if( args.ArgC() == 1 )
 	{
-		DebugPrintUsedMaterials( NULL, false );
+		DebugPrintUsedMaterials(nullptr, false );
 	}
 	else
 	{
@@ -5542,7 +5542,7 @@ void CMaterialSystem::DebugPrintUsedMaterialsVerbose( const CCommand &args )
 {
 	if( args.ArgC() == 1 )
 	{
-		DebugPrintUsedMaterials( NULL, true );
+		DebugPrintUsedMaterials(nullptr, true );
 	}
 	else
 	{
@@ -5581,7 +5581,7 @@ void CMaterialSystem::ListUsedMaterials( const CCommand &args )
 
 void CMaterialSystem::ReloadAllMaterials( const CCommand &args )
 {
-	ReloadMaterials( NULL );
+	ReloadMaterials(nullptr);
 }
 
 void CMaterialSystem::ReloadMaterials( const CCommand &args )

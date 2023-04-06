@@ -60,7 +60,7 @@ protected:
     void pset_is_going_to_be_deleted(IVP_U_Set_Active<IVP_Core> *set){
 	IVP_U_Set_Enumerator<IVP_Core> all_cores(set);
 	while ( IVP_Core *core = all_cores.get_next_element(set) ){
-	    this->element_removed( NULL, core );
+	    this->element_removed(nullptr, core );
 	}
 	IVP_ASSERT( core_to_attachment_hash.n_elems() == 0);
 	P_DELETE_THIS(this);
@@ -76,7 +76,7 @@ public:
 	set_of_cores = set_of_cores_in;
 	IVP_U_Set_Enumerator<IVP_Core> all_cores(set_of_cores);
 	while ( IVP_Core *core = all_cores.get_next_element(set_of_cores) ){
-	    this->element_added( NULL, core );
+	    this->element_added(nullptr, core );
 	}
 	set_of_cores->add_listener_set_active(this);
     }

@@ -55,7 +55,7 @@ void CAI_MoveAndShootOverlay::NoShootWhileMove()
 
 bool CAI_MoveAndShootOverlay::HasAvailableRangeAttack()
 {
-	return ( ( GetOuter()->GetActiveWeapon() != NULL ) ||
+	return ( ( GetOuter()->GetActiveWeapon() != nullptr) ||
 			( GetOuter()->CapabilitiesGet() & bits_CAP_INNATE_RANGE_ATTACK1 ) ||
 			( GetOuter()->CapabilitiesGet() & bits_CAP_INNATE_RANGE_ATTACK2 ) );
 }
@@ -180,7 +180,7 @@ void CAI_MoveAndShootOverlay::RunShootWhileMove()
 	{
 		CBaseEntity *pNewEnemy = pOuter->BestEnemy();
 
-		if( pNewEnemy != NULL )
+		if( pNewEnemy != nullptr)
 		{
 			//New enemy! Clear the timers and set conditions.
 			pOuter->SetEnemy( pNewEnemy );
@@ -196,7 +196,7 @@ void CAI_MoveAndShootOverlay::RunShootWhileMove()
 	if( !pOuter->GetNavigator()->IsGoalActive() )
 		return;
 
-	if ( GetEnemy() == NULL )
+	if ( GetEnemy() == nullptr)
 	{
 		if ( pOuter->GetAlternateMoveShootTarget() )
 		{

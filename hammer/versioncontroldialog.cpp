@@ -92,7 +92,7 @@ void CMapDocCheckin::AddFileToList( CMapDoc *pMapDoc, P4File_t *FileInfo )
 	m_CheckinListCtrl.SetItemText( nIndex, 3, p4->String( FileInfo->m_sPath ) );
 	m_FileList.AddToTail( FileInfo->m_sLocalFile );
 
-	if ( pMapDoc != NULL && pMapDoc->IsDefaultCheckIn() )
+	if ( pMapDoc != nullptr && pMapDoc->IsDefaultCheckIn() )
 	{
 		ListView_SetItemState( m_CheckinListCtrl.m_hWnd, nIndex, INDEXTOSTATEIMAGEMASK( LVIS_SELECTED ), LVIS_STATEIMAGEMASK );
 		pMapDoc->ClearDefaultCheckIn();
@@ -116,7 +116,7 @@ BOOL CMapDocCheckin::OnInitDialog()
 	m_CheckinListCtrl.InsertColumn( 2, "Name", LVCFMT_LEFT, 180, -1 );
 	m_CheckinListCtrl.InsertColumn( 3, "Folder", LVCFMT_LEFT, 360, -1 );
 
-	if ( p4 == NULL ) 
+	if ( p4 == nullptr) 
 	{
 		return TRUE;
 	}
@@ -127,7 +127,7 @@ BOOL CMapDocCheckin::OnInitDialog()
 	p4->GetOpenedFileList( FileList, true );
 
 	POSITION pos = APP()->pMapDocTemplate->GetFirstDocPosition();
-	while( pos != NULL )
+	while( pos != nullptr)
 	{
 		CDocument *pDoc = APP()->pMapDocTemplate->GetNextDoc( pos );
 		CMapDoc *pMapDoc = dynamic_cast< CMapDoc * >( pDoc );
@@ -155,7 +155,7 @@ BOOL CMapDocCheckin::OnInitDialog()
 
 	for( int i = 0; i < FileList.Count(); i++ )
 	{
-		AddFileToList( NULL, &FileList[ i ] );
+		AddFileToList(nullptr, &FileList[ i ] );
 	}
 
 	return TRUE;
@@ -222,7 +222,7 @@ void CMapDocCheckin::OnBnClickedSubmit()
 				CMapDoc	*pMapDoc = ( CMapDoc * )m_CheckinListCtrl.GetItemData( i );
 				const char *pszFileName = p4->String( m_FileList[ i ] );
 
-				if ( pMapDoc != NULL )
+				if ( pMapDoc != nullptr)
 				{
 					ppFileNames[ nFileCount ] = pMapDoc->GetPathName();
 					pMapDoc->OnSaveDocument( pMapDoc->GetPathName() );
@@ -256,7 +256,7 @@ void CMapDocCheckin::OnBnClickedSubmit()
 			{
 				CMapDoc	*pMapDoc = ( CMapDoc * )m_CheckinListCtrl.GetItemData( i );
 				
-				if ( pMapDoc != NULL )
+				if ( pMapDoc != nullptr)
 				{
 					pMapDoc->CheckFileStatus();
 				}
@@ -400,7 +400,7 @@ void CMapDocStatus::UpdateMapList( bool RedoList )
 	int nCount = 0;
 
 	POSITION pos = APP()->pMapDocTemplate->GetFirstDocPosition();
-	while( pos != NULL )
+	while( pos != nullptr)
 	{
 		CDocument *pDoc = APP()->pMapDocTemplate->GetNextDoc( pos );
 		CMapDoc *pMapDoc = dynamic_cast< CMapDoc * >( pDoc );
@@ -642,7 +642,7 @@ void CMapDocStatus::OnBnClickedSync()
 
 		UpdateMapList();
 
-		if ( CMapDoc::GetActiveMapDoc() != NULL )
+		if ( CMapDoc::GetActiveMapDoc() != nullptr)
 		{
 			CMapDoc::GetActiveMapDoc()->UpdateAllViews( MAPVIEW_UPDATE_SELECTION | MAPVIEW_UPDATE_TOOL | MAPVIEW_RENDER_NOW );
 		}
@@ -716,7 +716,7 @@ void CMapDocStatus::OnBnClickedRevert()
 
 		UpdateMapList();
 
-		if ( CMapDoc::GetActiveMapDoc() != NULL )
+		if ( CMapDoc::GetActiveMapDoc() != nullptr)
 		{
 			CMapDoc::GetActiveMapDoc()->UpdateAllViews( MAPVIEW_UPDATE_SELECTION | MAPVIEW_UPDATE_TOOL | MAPVIEW_RENDER_NOW );
 		}

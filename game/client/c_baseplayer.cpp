@@ -478,7 +478,7 @@ C_BasePlayer::C_BasePlayer() : m_iv_vecViewOffset( "C_BasePlayer::m_iv_vecViewOf
 	m_ladderSurfaceProps = 0;
 	m_vecOldViewAngles.Init();
 #endif
-	m_hViewEntity = NULL;
+	m_hViewEntity = nullptr;
 	m_bShouldDrawPlayerWhileUsingViewEntity = false;
 
 	for ( int i = 0; i < MAX_SPLITSCREEN_PLAYERS; i++ )
@@ -486,8 +486,8 @@ C_BasePlayer::C_BasePlayer() : m_iv_vecViewOffset( "C_BasePlayer::m_iv_vecViewOf
 		m_bFlashlightEnabled[ i ] = false;
 	}
 
-	m_pCurrentVguiScreen = NULL;
-	m_pCurrentCommand = NULL;
+	m_pCurrentVguiScreen = nullptr;
+	m_pCurrentCommand = nullptr;
 
 	m_flPredictionErrorTime = -100;
 	m_StuckLast = 0;
@@ -515,7 +515,7 @@ C_BasePlayer::C_BasePlayer() : m_iv_vecViewOffset( "C_BasePlayer::m_iv_vecViewOf
 	m_flPredictionErrorTime = 0;
 
 	m_surfaceProps = 0;
-	m_pSurfaceData = NULL;
+	m_pSurfaceData = nullptr;
 	m_surfaceFriction = 1.0f;
 	m_chTextureType = 0;
 #if MAX_SPLITSCREEN_PLAYERS > 1
@@ -574,7 +574,7 @@ C_BasePlayer::~C_BasePlayer()
 	{
 		if ( this == s_pLocalPlayer[ i ] )
 		{	
-			s_pLocalPlayer[ i ] = NULL;
+			s_pLocalPlayer[ i ] = nullptr;
 		}
 		else if ( s_pLocalPlayer[ i ] )
 		{
@@ -644,27 +644,27 @@ void C_BasePlayer::UpdateOnRemove( void )
 	if ( m_pPhysicsController )
 	{
 		physenv->DestroyPlayerController( m_pPhysicsController );
-		m_pPhysicsController = NULL;
+		m_pPhysicsController = nullptr;
 	}
 	PhysRemoveShadow( this );
 
-	VPhysicsSetObject( NULL );
+	VPhysicsSetObject(nullptr);
 	if( m_pShadowStand )
 	{
 		physenv->DestroyObject( m_pShadowStand );
-		m_pShadowStand = NULL;
+		m_pShadowStand = nullptr;
 	}
 
 	if( m_pShadowCrouch )
 	{
 		physenv->DestroyObject( m_pShadowCrouch );
-		m_pShadowCrouch = NULL;
+		m_pShadowCrouch = nullptr;
 	}
 
 	if ( m_speechVOIPParticleEffect.IsValid() )
 	{
 		ParticleProp()->StopEmissionAndDestroyImmediately( m_speechVOIPParticleEffect );
-		m_speechVOIPParticleEffect = NULL;
+		m_speechVOIPParticleEffect = nullptr;
 	}
 
 	BaseClass::UpdateOnRemove();
@@ -861,7 +861,7 @@ surfacedata_t* C_BasePlayer::GetGroundSurface()
 	UTIL_TraceRay( ray, MASK_PLAYERSOLID_BRUSHONLY, this, COLLISION_GROUP_PLAYER_MOVEMENT, &trace );
 
 	if ( trace.fraction == 1.0f )
-		return NULL;	// no ground
+		return nullptr;	// no ground
 	
 	return physprops->GetSurfaceData( trace.surface.surfaceProps );
 }
@@ -954,7 +954,7 @@ void C_BasePlayer::CheckForLocalPlayer( int nSplitScreenSlot )
 		{
 			// We're the host, not the parasite...
 			m_nSplitScreenSlot = 0;
-			m_hSplitOwner = NULL;
+			m_hSplitOwner = nullptr;
 		}
 
 		if ( nSplitScreenSlot == 0 )
@@ -1049,7 +1049,7 @@ void C_BasePlayer::SetAsLocalPlayer()
 
 	// We're the host
 	m_nSplitScreenSlot = 0;
-	m_hSplitOwner = NULL;
+	m_hSplitOwner = nullptr;
 
 	if ( nSplitScreenSlot == 0 && !g_HltvReplaySystem.GetHltvReplayDelay() )
 	{
@@ -1473,7 +1473,7 @@ void C_BasePlayer::OnDataChanged( DataUpdateType_t updateType )
 	if( IsLocalPlayer() )
 	{
 		IPhysicsObject *pObject = VPhysicsGetObject();
-		if ((pObject != NULL) &&
+		if ((pObject != nullptr) &&
 			(
 				((m_vphysicsCollisionState == VPHYS_CROUCH) && (pObject == m_pShadowStand)) ||
 				((m_vphysicsCollisionState == VPHYS_WALK) && (pObject == m_pShadowCrouch))
@@ -1487,7 +1487,7 @@ void C_BasePlayer::OnDataChanged( DataUpdateType_t updateType )
 		// they are spectating other players (viewOffset for example).  Keeping prediction enabled modifies these values and causes severe jitter.
 		// This is most noticable while playing on a dedicated server and the specated player ducks (causing changes to viewOffset).
 		int observationMode = GetObserverMode();
-		bool isSpectating = GetObserverTarget() != NULL && ( observationMode == OBS_MODE_IN_EYE || observationMode == OBS_MODE_CHASE );
+		bool isSpectating = GetObserverTarget() != nullptr && ( observationMode == OBS_MODE_IN_EYE || observationMode == OBS_MODE_CHASE );
 		extern bool g_bSpectatingForceCLPredictOff;
 		g_bSpectatingForceCLPredictOff = isSpectating;
 	}
@@ -1511,7 +1511,7 @@ bool C_BasePlayer::JustEnteredVehicle()
 //-----------------------------------------------------------------------------
 bool C_BasePlayer::IsInVGuiInputMode() const
 {
-	return (m_pCurrentVguiScreen.Get() != NULL);
+	return (m_pCurrentVguiScreen.Get() != nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -1539,7 +1539,7 @@ void C_BasePlayer::DetermineVguiInputMode( CUserCmd *pCmd )
 	if ( !IsAlive() )
 	{
 		DeactivateVguiScreen( m_pCurrentVguiScreen.Get() );
-		m_pCurrentVguiScreen.Set( NULL );
+		m_pCurrentVguiScreen.Set(nullptr);
 		return;
 	}
 
@@ -1563,7 +1563,7 @@ void C_BasePlayer::DetermineVguiInputMode( CUserCmd *pCmd )
 	if ( 0 )
 	{
 		DeactivateVguiScreen( m_pCurrentVguiScreen.Get() );
-		m_pCurrentVguiScreen.Set( NULL );
+		m_pCurrentVguiScreen.Set(nullptr);
 		return;
 	}
 
@@ -1585,7 +1585,7 @@ void C_BasePlayer::DetermineVguiInputMode( CUserCmd *pCmd )
 	if ( bAttacking || IsInAVehicle() )
 	{ 
 		DeactivateVguiScreen( m_pCurrentVguiScreen.Get() );
-		m_pCurrentVguiScreen.Set( NULL );
+		m_pCurrentVguiScreen.Set(nullptr);
 		return;
 	}
 
@@ -1593,7 +1593,7 @@ void C_BasePlayer::DetermineVguiInputMode( CUserCmd *pCmd )
 	if ( vgui::surface()->IsCursorVisible() )
 	{
 		DeactivateVguiScreen( m_pCurrentVguiScreen.Get() );
-		m_pCurrentVguiScreen.Set( NULL );
+		m_pCurrentVguiScreen.Set(nullptr);
 		return;
 	}
 
@@ -1813,14 +1813,14 @@ void C_BasePlayer::CreateWaterEffects( void )
 	}
 
 	// Make sure the emitter is setup
-	if ( m_pWaterEmitter == NULL )
+	if ( m_pWaterEmitter == nullptr)
 	{
-		if ( ( m_pWaterEmitter = WaterDebrisEffect::Create( "splish" ) ) == NULL )
+		if ( ( m_pWaterEmitter = WaterDebrisEffect::Create( "splish" ) ) == nullptr)
 			return;
 	}
 
 	Vector vecVelocity;
-	GetVectors( &vecVelocity, NULL, NULL );
+	GetVectors( &vecVelocity, nullptr, nullptr);
 
 	Vector offset = WorldSpaceCenter();
 
@@ -1843,7 +1843,7 @@ void C_BasePlayer::CreateWaterEffects( void )
 
 		pParticle = (SimpleParticle *) m_pWaterEmitter->AddParticle( sizeof(SimpleParticle), g_Mat_Fleck_Cement[random->RandomInt(0,1)], offset );
 
-		if (pParticle == NULL)
+		if (pParticle == nullptr)
 			continue;
 
 		pParticle->m_flLifetime	= 0.0f;
@@ -1966,7 +1966,7 @@ PlayerRenderMode_t C_BasePlayer::GetPlayerRenderMode( int nSlot )
 	if ( input->CAM_IsThirdPerson( nSlot ) )
 		return PLAYER_RENDER_THIRDPERSON;
 
-	if ( (pSplitscreenPlayer->GetViewEntity() != NULL) && 
+	if ( (pSplitscreenPlayer->GetViewEntity() != nullptr) && 
 		(pSplitscreenPlayer->GetViewEntity() != pSplitscreenPlayer) &&
 		pSplitscreenPlayer->m_bShouldDrawPlayerWhileUsingViewEntity )
 		return PLAYER_RENDER_THIRDPERSON;
@@ -2379,7 +2379,7 @@ float C_BasePlayer::GetDeathCamInterpolationTime()
 
 void C_BasePlayer::CalcDeathCamView(Vector& eyeOrigin, QAngle& eyeAngles, float& fov)
 {
-	CBaseEntity	* pKiller = NULL; 
+	CBaseEntity	* pKiller = nullptr; 
 
 	if ( mp_forcecamera.GetInt() == OBS_ALLOW_ALL )
 	{
@@ -2475,7 +2475,7 @@ void C_BasePlayer::SetRemoteSplitScreenPlayerViewsAreLocalPlayer( bool bSet )
 	{
 		if( !IsLocalSplitScreenPlayer( i ) )
 		{
-			s_pLocalPlayer[i] = bSet ? GetSplitScreenViewPlayer( i ) : NULL;
+			s_pLocalPlayer[i] = bSet ? GetSplitScreenViewPlayer( i ) : nullptr;
 		}
 	}
 }
@@ -2548,14 +2548,14 @@ IClientModelRenderable *C_BasePlayer::GetClientModelRenderable()
 	// is inside of a smoke cloud such that the alpha components sort in front of the smoke cloud.
 	// Because of this, we no longer use two passes for players and instead cause all players to NOT use the fast path 
 	// rendering by returning NULL here.
-	return NULL;
+	return nullptr;
 
 #endif
 
 	// Because of alpha sorting issues with smoke when we have mostlyopaque models.
 	// Honor base class eligibility
 	if ( !BaseClass::GetClientModelRenderable() )
-		return NULL;
+		return nullptr;
 
 	// No fast path for firstperson local players
 	if ( IsLocalPlayer( this ) )
@@ -2563,7 +2563,7 @@ IClientModelRenderable *C_BasePlayer::GetClientModelRenderable()
 		bool bThirdPerson = input->CAM_IsThirdPerson() || ( ToolsEnabled() && ToolFramework_IsThirdPersonCamera() );
 		if ( !bThirdPerson )
 		{
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -2574,14 +2574,14 @@ IClientModelRenderable *C_BasePlayer::GetClientModelRenderable()
 		if ( localPlayer->GetObserverMode() == OBS_MODE_IN_EYE &&
 			localPlayer->GetObserverTarget() == this &&
 			!input->CAM_IsThirdPerson() )
-			return NULL;
+			return nullptr;
 	}
 
 	// Probably for the left 4 dead code.
 	// don't use fastpath for teammates (causes extra work for glows)
 	if ( localPlayer && localPlayer->GetTeamNumber() == GetTeamNumber() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return this; 
@@ -2927,7 +2927,7 @@ void C_BasePlayer::PhysicsSimulate( void )
 	
 	UpdateVPhysicsPosition( m_vNewVPhysicsPosition, m_vNewVPhysicsVelocity, TICK_INTERVAL );
 
-	MoveHelper()->SetHost( NULL );
+	MoveHelper()->SetHost(nullptr);
 #endif
 }
 
@@ -3166,7 +3166,7 @@ void C_BasePlayer::OnObserverModeChange( bool bIsObserverTarget )
 	// [msmith] When the observer mode changes, we also need to update the visibility of the view models for the
 	// target we are observing.  This is important when changing between first and third person when in split screen.
 	C_BasePlayer* observerTarget = ToBasePlayer( pPlayer->GetObserverTarget() );
-	if ( NULL != observerTarget )
+	if (nullptr != observerTarget )
 	{
 		observerTarget->UpdateVisibility();
 		UpdateViewmodelVisibility( observerTarget );
@@ -3242,7 +3242,7 @@ void C_BasePlayer::RecvProxy_NonLocalCellOriginZ( const CRecvProxyData *pData, v
 //-----------------------------------------------------------------------------
 void C_BasePlayer::LeaveVehicle( void )
 {
-	if ( NULL == m_hVehicle.Get() )
+	if (nullptr == m_hVehicle.Get() )
 		return;
 
 // Let server do this for now
@@ -3403,8 +3403,8 @@ IRagdoll* C_BasePlayer::GetRepresentativeRagdoll() const
 
 IMaterial *C_BasePlayer::GetHeadLabelMaterial( void )
 {
-	if ( GetClientVoiceMgr() == NULL )
-		return NULL;
+	if ( GetClientVoiceMgr() == nullptr)
+		return nullptr;
 
 	return GetClientVoiceMgr()->GetHeadLabelMaterial();
 }
@@ -3429,7 +3429,7 @@ void C_BasePlayer::UpdateSpeechVOIP( bool bVoice )
 		if ( m_speechVOIPParticleEffect.IsValid() )
 		{
 			ParticleProp()->StopEmissionAndDestroyImmediately( m_speechVOIPParticleEffect );
-			m_speechVOIPParticleEffect = NULL;
+			m_speechVOIPParticleEffect = nullptr;
 		}
 	}
 }

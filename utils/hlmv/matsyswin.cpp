@@ -103,9 +103,9 @@ void UpdateSounds()
 class DummyMaterialProxyFactory : public IMaterialProxyFactory
 {
 public:
-	virtual IMaterialProxy *CreateProxy( const char *proxyName )	{return NULL;}
+	virtual IMaterialProxy *CreateProxy( const char *proxyName )	{return nullptr;}
 	virtual void DeleteProxy( IMaterialProxy *pProxy )				{}
-	virtual CreateInterfaceFn GetFactory()							{return NULL;}
+	virtual CreateInterfaceFn GetFactory()							{return nullptr;}
 };
 DummyMaterialProxyFactory	g_DummyMaterialProxyFactory;
 
@@ -134,32 +134,32 @@ void InitMaterialSystemConfig(MaterialSystem_Config_t *pConfig)
 	mat_parallaxmap.SetValue( g_viewerSettings.enableParallaxMapping );
 }
 
-MatSysWindow *g_MatSysWindow = 0;
+MatSysWindow *g_MatSysWindow = nullptr;
 
 Vector g_vright( 50, 50, 0 );		// needs to be set to viewer's right in order for chrome to work
 
-IMaterial *g_materialBackground = NULL;
-IMaterial *g_materialWireframe = NULL;
-IMaterial *g_materialWireframeVertexColor = NULL;
-IMaterial *g_materialWireframeVertexColorNoCull = NULL;
-IMaterial *g_materialDebugCopyBaseTexture = NULL;
-IMaterial *g_materialFlatshaded = NULL;
-IMaterial *g_materialSmoothshaded = NULL;
-IMaterial *g_materialBones = NULL;
-IMaterial *g_materialLines = NULL;
-IMaterial *g_materialFloor = NULL;
-IMaterial *g_materialVertexColor = NULL;
-IMaterial *g_materialShadow = NULL;
-IMaterial *g_materialArcActive = NULL;
-IMaterial *g_materialArcInActive = NULL;
-IMaterial *g_materialDebugText = NULL;
+IMaterial *g_materialBackground = nullptr;
+IMaterial *g_materialWireframe = nullptr;
+IMaterial *g_materialWireframeVertexColor = nullptr;
+IMaterial *g_materialWireframeVertexColorNoCull = nullptr;
+IMaterial *g_materialDebugCopyBaseTexture = nullptr;
+IMaterial *g_materialFlatshaded = nullptr;
+IMaterial *g_materialSmoothshaded = nullptr;
+IMaterial *g_materialBones = nullptr;
+IMaterial *g_materialLines = nullptr;
+IMaterial *g_materialFloor = nullptr;
+IMaterial *g_materialVertexColor = nullptr;
+IMaterial *g_materialShadow = nullptr;
+IMaterial *g_materialArcActive = nullptr;
+IMaterial *g_materialArcInActive = nullptr;
+IMaterial *g_materialDebugText = nullptr;
 
 MatSysWindow::MatSysWindow (mxWindow *parent, int x, int y, int w, int h, const char *label, int style)
 : mxMatSysWindow (parent, x, y, w, h, label, style)
 {
 	g_pMaterialSystem->SetMaterialProxyFactory( &g_DummyMaterialProxyFactory );
 
-	m_pCubemapTexture = NULL;
+	m_pCubemapTexture = nullptr;
 	m_hWnd = (HWND)getHandle();
 
 	MaterialSystem_Config_t config;
@@ -184,7 +184,7 @@ MatSysWindow::MatSysWindow (mxWindow *parent, int x, int y, int w, int h, const 
 	g_pMaterialSystem->AddReleaseFunc( ReleaseMaterialSystemObjects );
 	g_pMaterialSystem->AddRestoreFunc( RestoreMaterialSystemObjects );
 
-	m_pCubemapTexture = g_pMaterialSystem->FindTexture( "hlmv/cubemap", NULL, true );
+	m_pCubemapTexture = g_pMaterialSystem->FindTexture( "hlmv/cubemap", nullptr, true );
 	m_pCubemapTexture->IncrementReferenceCount();
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	pRenderContext->BindLocalCubemap( m_pCubemapTexture );
@@ -248,7 +248,7 @@ MatSysWindow::~MatSysWindow ()
 	{
 		m_pCubemapTexture->DecrementReferenceCount();
 	}
-	mx::setIdleWindow (0);
+	mx::setIdleWindow (nullptr);
 }
 
 
@@ -314,7 +314,7 @@ MatSysWindow::handleEvent (mxEvent *event)
 		g_pStudioModel->SetSoftbodyOrientation();
 		for ( int i = 0; i < HLMV_MAX_MERGED_MODELS; i++ )
 		{
-			if ( g_pStudioExtraModel[ i ] != NULL )
+			if ( g_pStudioExtraModel[ i ] != nullptr)
 			{
 				g_pStudioExtraModel[ i ]->SetSoftbodyOrientation();
 			}
@@ -348,7 +348,7 @@ MatSysWindow::handleEvent (mxEvent *event)
 	{
 		g_viewerSettings.mousedown = true;
 
-		if ( g_pWidgetControl != NULL && g_viewerSettings.highlightHitbox >= 0 )
+		if ( g_pWidgetControl != nullptr && g_viewerSettings.highlightHitbox >= 0 )
 		{
 			g_pWidgetControl->WidgetMouseDown( event->x, event->y );
 			g_pWidgetControl->SetStateUsingInputColor( getViewportPixelColor( event->x, event->y ) );
@@ -820,7 +820,7 @@ char const *HLMV_TranslateSoundName( char const *soundname, StudioModel *model )
 		return PSkipSoundChars( g_pSoundEmitterBase->GetWavFileForSound( soundname, model->GetFileName() ) );
 	}
 
-	return PSkipSoundChars( g_pSoundEmitterBase->GetWavFileForSound( soundname, NULL ) );
+	return PSkipSoundChars( g_pSoundEmitterBase->GetWavFileForSound( soundname, nullptr) );
 }
 
 
@@ -830,7 +830,7 @@ void PlaySound( const char *pSoundName, StudioModel *pStudioModel )
 	if (!g_viewerSettings.playSounds)
 		return;
 	
-	if ( pSoundName == NULL || pSoundName[ 0 ] == '\0' )
+	if ( pSoundName == nullptr || pSoundName[ 0 ] == '\0' )
 		return;
 
 	const char *pSoundFileName = HLMV_TranslateSoundName( pSoundName, pStudioModel );
@@ -838,7 +838,7 @@ void PlaySound( const char *pSoundName, StudioModel *pStudioModel )
 	char filename[ 256 ];
 	sprintf( filename, "sound/%s", pSoundFileName );
 	CAudioSource *pAudioSource = g_pSoundSystem->FindOrAddSound( filename );
-	if ( pAudioSource == NULL )
+	if ( pAudioSource == nullptr)
 		return;
 
 	float volume = VOL_NORM;
@@ -855,7 +855,7 @@ void PlaySound( const char *pSoundName, StudioModel *pStudioModel )
 		volume = params.volume;
 	}
 
-	g_pSoundSystem->PlaySound( pAudioSource, volume, NULL );
+	g_pSoundSystem->PlaySound( pAudioSource, volume, nullptr);
 }
 
 
@@ -874,7 +874,7 @@ void PlaySound( const char *pSoundName, StudioModel *pStudioModel )
 
 void PlaySounds( StudioModel *pStudioModel )
 {
-	if ( pStudioModel == NULL )
+	if ( pStudioModel == nullptr)
 		return;
 
 	int iLayer = g_ControlPanel->getFrameSelection();
@@ -893,7 +893,7 @@ void PlaySounds( StudioModel *pStudioModel )
 	float currcycle = currtime / duration;
 
 	CStudioHdr *pStudioHdr = pStudioModel->GetStudioHdr();
-	if ( pStudioHdr == NULL )
+	if ( pStudioHdr == nullptr)
 		return;
 
 	int seq = pStudioModel->GetSequence();
@@ -1038,7 +1038,7 @@ MatSysWindow::draw ()
 	int i;
 	for (i = 0; i < HLMV_MAX_MERGED_MODELS; i++)
 	{
-		if (g_pStudioExtraModel[i] != NULL)
+		if (g_pStudioExtraModel[i] != nullptr)
 		{
 			g_pStudioModel->GetStudioRender()->BeginFrame();
 			g_pStudioExtraModel[i]->DrawModel( true );
@@ -1164,17 +1164,17 @@ void MatSysWindow::dumpViewportWithLabel(const char *filename, const char *label
 	HDC hDC = GetDC ((HWND) getHandle ());
 	RECT rcClient;
 	bool bOk = false;
-	HBITMAP hImage = NULL;
+	HBITMAP hImage = nullptr;
 
 	GetClientRect ((HWND) getHandle (), &rcClient);
 	client = rcClient;
 
-	if ((hImage = CreateCompatibleBitmap (hDC, rcClient.right, rcClient.bottom)) != NULL)
+	if ((hImage = CreateCompatibleBitmap (hDC, rcClient.right, rcClient.bottom)) != nullptr)
 	{
 		HDC hMemDC;
 		HBITMAP hDCBmp;
 
-		if ((hMemDC = CreateCompatibleDC (hDC)) != NULL)
+		if ((hMemDC = CreateCompatibleDC (hDC)) != nullptr)
 		{
 			hDCBmp = (HBITMAP) SelectObject (hMemDC, hImage);
 			BitBlt (hMemDC, 0, 0, rcClient.right, rcClient.bottom, hDC, 0, 0, SRCCOPY);
@@ -1202,7 +1202,7 @@ void MatSysWindow::dumpViewportWithLabel(const char *filename, const char *label
 		if (hImage)
 		{
 			DeleteObject (hImage);
-			hImage = NULL;
+			hImage = nullptr;
 		}
 	}
 
@@ -1212,7 +1212,7 @@ void MatSysWindow::dumpViewportWithLabel(const char *filename, const char *label
 		return;
 	}
 
-	if ( hImage != NULL) {
+	if ( hImage != nullptr) {
 		UINT uiBytesPerRow = 3 * client.right; // RGB takes 24 bits
 		UINT uiRemainderForPadding;
 
@@ -1224,7 +1224,7 @@ void MatSysWindow::dumpViewportWithLabel(const char *filename, const char *label
 		UINT uiBytesPerAllRows = uiBytesPerRow * client.bottom;
 		PBYTE pDataBits;
 
-		if ((pDataBits = new BYTE [uiBytesPerAllRows]) != NULL)
+		if ((pDataBits = new BYTE [uiBytesPerAllRows]) != nullptr)
 		{
 			BITMAPINFOHEADER bmi = {0};
 			BITMAPFILEHEADER bmf = {0};
@@ -1247,7 +1247,7 @@ void MatSysWindow::dumpViewportWithLabel(const char *filename, const char *label
 			bmf.bfType = 0x4D42;
 
 			FILE* pFile;
-			if ((pFile = fopen (filename, "wb")) != NULL)
+			if ((pFile = fopen (filename, "wb")) != nullptr)
 			{
 				fwrite (&bmf, sizeof (bmf), 1, pFile);
 				fwrite (&bmi, sizeof (bmi), 1, pFile);

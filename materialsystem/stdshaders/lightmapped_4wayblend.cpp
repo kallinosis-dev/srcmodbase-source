@@ -180,7 +180,7 @@ END_SHADER_PARAMS
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	// Set up anything that is necessary to make decisions in SHADER_FALLBACK.

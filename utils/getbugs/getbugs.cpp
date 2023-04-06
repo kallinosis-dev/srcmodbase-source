@@ -551,7 +551,7 @@ void vprint( int depth, const char *fmt, ... )
 	vsprintf( string, fmt, va );
 	va_end( va );
 
-	FILE *fp = NULL;
+	FILE *fp = nullptr;
 
 	if ( uselogfile )
 	{
@@ -640,24 +640,24 @@ bool GetBugZip( int bugnum, char const *admin )
 	memset( &si, 0, sizeof( si ) );
 	si.cb = sizeof( si );
 
-	if ( !CreateProcess( NULL, commandline, NULL, NULL, TRUE, 0, NULL, directory, &si, &pi ) )
+	if ( !CreateProcess(nullptr, commandline, nullptr, nullptr, TRUE, 0, nullptr, directory, &si, &pi ) )
 	{
 		LPVOID lpMsgBuf;
 		FormatMessage( 
 			FORMAT_MESSAGE_ALLOCATE_BUFFER | 
 			FORMAT_MESSAGE_FROM_SYSTEM | 
 			FORMAT_MESSAGE_IGNORE_INSERTS,
-			NULL,
+			nullptr,
 			GetLastError(),
 			MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), // Default language
 			(LPTSTR) &lpMsgBuf,
 			0,
-			NULL 
+			nullptr
 		);
 		// Process any inserts in lpMsgBuf.
 		// ...
 		// Display the string.
-		MessageBox( NULL, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
+		MessageBox(nullptr, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONINFORMATION );
 		// Free the buffer.
 		LocalFree( lpMsgBuf );
 		return retval;
@@ -709,7 +709,7 @@ void GetBugInfo( CBugReporter& bug, char const *host, char const *database, char
 		CreateInterfaceFn factory = Sys_GetFactory( sql );
 		if ( factory )
 		{
-			IMySQL *mysql = ( IMySQL * )factory( MYSQL_WRAPPER_VERSION_NAME, NULL );
+			IMySQL *mysql = ( IMySQL * )factory( MYSQL_WRAPPER_VERSION_NAME, nullptr);
 			if ( mysql )
 			{
 				if ( mysql->InitMySQL( database, host, username, password ) )

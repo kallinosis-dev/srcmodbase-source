@@ -34,7 +34,7 @@ public:
 	void SetZoom(float flNewZoom);
 	float GetZoom( void );
 
-	void CenterView(Vector *pt3 = NULL);
+	void CenterView(Vector *pt3 = nullptr);
 	void UpdateClientView();
 	void ToolScrollToPoint(const Vector2D &ptClient);
 	void UpdateStatusBar();
@@ -211,7 +211,7 @@ inline CTitleWnd* CMapView2DBase::GetTitleWnd()
 
 inline bool CMapView2DBase::HasTitleWnd() const
 {
-	return m_pwndTitle != NULL;
+	return m_pwndTitle != nullptr;
 }
 
 

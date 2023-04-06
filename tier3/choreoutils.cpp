@@ -340,6 +340,6 @@ const char *GetSoundForEvent( CChoreoEvent *pEvent, CStudioHdr *pStudioHdr )
 	if ( Q_stristr( pSoundName, ".wav" ) )
 		return PSkipSoundChars( pSoundName );
 
-	const char *pFileName = g_pSoundEmitterSystem->GetWavFileForSound( pSoundName, ( pStudioHdr && pStudioHdr->IsValid() ) ? pStudioHdr->name() : NULL );
+	const char *pFileName = g_pSoundEmitterSystem->GetWavFileForSound( pSoundName, ( pStudioHdr && pStudioHdr->IsValid() ) ? pStudioHdr->name() : nullptr);
 	return PSkipSoundChars( pFileName );
 }

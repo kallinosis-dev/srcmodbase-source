@@ -181,7 +181,7 @@ void StudioModel::FreeModel( bool bReleasing )
 	{
 		m_pStudioHdr->FreeSoftbody();
 		delete m_pStudioHdr;
-		m_pStudioHdr = NULL;
+		m_pStudioHdr = nullptr;
 	}
 
 	if ( m_MDLHandle != MDLHANDLE_INVALID )
@@ -195,14 +195,14 @@ void StudioModel::FreeModel( bool bReleasing )
 		if (m_pModelName)
 		{
 			delete[] m_pModelName;
-			m_pModelName = NULL;
+			m_pModelName = nullptr;
 		}
 	}
 
 	m_SurfaceProps.Purge();
 
 	DestroyPhysics( m_pPhysics );
-	m_pPhysics = NULL;
+	m_pPhysics = nullptr;
 }
 
 void *StudioModel::operator new( size_t stAllocateBlock )
@@ -258,7 +258,7 @@ bool StudioModel::LoadModel( const char *pModelName )
 	m_MDLHandle = g_pMDLCache->FindMDL( pModelName );
 
 	// allocate a pool for a studiohdr cache
-	if (m_pStudioHdr != NULL)
+	if (m_pStudioHdr != nullptr)
 	{
 		m_pStudioHdr->FreeSoftbody();
 		delete m_pStudioHdr;
@@ -369,7 +369,7 @@ bool StudioModel::PostLoadModel( const char *modelname )
 	MDLCACHE_CRITICAL_SECTION_( g_pMDLCache );
 
 	CStudioHdr *pStudioHdr = GetStudioHdr();
-	if (pStudioHdr == NULL)
+	if (pStudioHdr == nullptr)
 		return false;
 
 	pStudioHdr->InitSoftbody( &g_SoftbodyEnvironment);
@@ -465,13 +465,13 @@ const char* StudioModel::GetSequenceName( int iSequence )
 {
 	CStudioHdr *pStudioHdr = GetStudioHdr();
 	if ( !pStudioHdr )
-		return NULL;
+		return nullptr;
 
 	if (iSequence < 0)
-		return NULL;
+		return nullptr;
 
 	if (iSequence > pStudioHdr->GetNumSeq())
-		return NULL;
+		return nullptr;
 
 	return pStudioHdr->pSeqdesc( iSequence ).pszLabel();
 }
@@ -1273,7 +1273,7 @@ const char *StudioModel::Physics_GetBoneName( int index )
 	CPhysmesh *pmesh = m_pPhysics->GetMesh( index );
 
 	if ( !pmesh )
-		return NULL;
+		return nullptr;
 
 	return pmesh->m_boneName;
 }

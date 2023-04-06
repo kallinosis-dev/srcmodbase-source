@@ -132,17 +132,17 @@ static void ParseDetailGroup( int detailId, KeyValues* pGroupKeyValues )
 
 			DetailModel_t &model = group.m_Models[i];
 
-			model.m_ModelName = pIter->GetString( "model", 0 );
+			model.m_ModelName = pIter->GetString( "model", nullptr );
 			if (model.m_ModelName != UTL_INVAL_SYMBOL)
 			{
 				model.m_Type = DETAIL_PROP_TYPE_MODEL;
 			}
 			else
 			{
-				const char *pSpriteData = pIter->GetString( "sprite", 0 );
+				const char *pSpriteData = pIter->GetString( "sprite", nullptr );
 				if (pSpriteData)
 				{
-					const char *pProcModelType = pIter->GetString( "sprite_shape", 0 );
+					const char *pProcModelType = pIter->GetString( "sprite_shape", nullptr );
 
 					if ( pProcModelType )
 					{
@@ -181,7 +181,7 @@ static void ParseDetailGroup( int detailId, KeyValues* pGroupKeyValues )
 					model.m_Pos[0].Init( -10, 20 );
 					model.m_Pos[1].Init( 10, 0 );
 
-					pSpriteData = pIter->GetString( "spritesize", 0 );
+					pSpriteData = pIter->GetString( "spritesize", nullptr );
 					if (pSpriteData)
 					{
 						sscanf( pSpriteData, "%f %f %f %f", &x, &y, &flWidth, &flHeight );
@@ -925,7 +925,7 @@ void EmitDetailModels()
 			// Get a CCoreDispInfo. All we need is the triangles and lightmap texture coordinates.
 			mapdispinfo_t *pMapDisp = &mapdispinfo[pFace[j].dispinfo];
 			CCoreDispInfo coreDispInfo;
-			DispMapToCoreDispInfo( pMapDisp, &coreDispInfo, NULL, NULL );
+			DispMapToCoreDispInfo( pMapDisp, &coreDispInfo, nullptr, nullptr);
 
 			EmitDetailObjectsOnDisplacementFace( &pFace[j], detail, coreDispInfo );
 		}
@@ -948,7 +948,7 @@ void EmitDetailModels()
 			AddDetailToLump( pModelName, origin, angles, nOrientation );
 
 			// strip this ent from the .bsp file
-			entities[i].epairs = 0;
+			entities[i].epairs = nullptr;
 			continue;
 		}
 
@@ -973,7 +973,7 @@ void EmitDetailModels()
 			AddDetailSpriteToLump( origin, angles, nOrientation, pos, tex, 1.0f, DETAIL_PROP_TYPE_SPRITE );
 
 			// strip this ent from the .bsp file
-			entities[i].epairs = 0;
+			entities[i].epairs = nullptr;
 			continue;
 		}
 	}

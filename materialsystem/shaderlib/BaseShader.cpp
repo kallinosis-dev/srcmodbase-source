@@ -32,7 +32,7 @@
 class CPerInstanceContextData : public CBasePerInstanceContextData
 {
 public:
-	CPerInstanceContextData() : m_pCommandBuffer( NULL ), m_nSize( 0 ) {}
+	CPerInstanceContextData() : m_pCommandBuffer(nullptr), m_nSize( 0 ) {}
 	virtual ~CPerInstanceContextData()
 	{ 
 		if ( m_pCommandBuffer )
@@ -54,14 +54,14 @@ public:
 //-----------------------------------------------------------------------------
 // Globals
 //-----------------------------------------------------------------------------
-const char *CBaseShader::s_pTextureGroupName = NULL;
-IMaterialVar **CBaseShader::s_ppParams = NULL;
+const char *CBaseShader::s_pTextureGroupName = nullptr;
+IMaterialVar **CBaseShader::s_ppParams = nullptr;
 IShaderShadow *CBaseShader::s_pShaderShadow;
 IShaderDynamicAPI *CBaseShader::s_pShaderAPI;
 IShaderInit *CBaseShader::s_pShaderInit;
 int CBaseShader::s_nModulationFlags;
 int CBaseShader::s_nPassCount = 0;
-CPerInstanceContextData** CBaseShader::s_pInstanceDataPtr = NULL;
+CPerInstanceContextData** CBaseShader::s_pInstanceDataPtr = nullptr;
 static bool s_bBuildingInstanceCommandBuffer = false;
 static CInstanceCommandBufferBuilder< CFixedCommandStorageBuffer< 512 > > s_InstanceCommandBuffer;
 
@@ -127,7 +127,7 @@ void CBaseShader::InitShaderParams( IMaterialVar** ppParams, const char *pMateri
 
 	OnInitShaderParams( ppParams, pMaterialName );
 
-	s_ppParams = NULL;
+	s_ppParams = nullptr;
 }
 
 void CBaseShader::InitShaderInstance( IMaterialVar** ppParams, IShaderInit *pShaderInit, const char *pMaterialName, const char *pTextureGroupName )
@@ -141,9 +141,9 @@ void CBaseShader::InitShaderInstance( IMaterialVar** ppParams, IShaderInit *pSha
 
 	OnInitShaderInstance( ppParams, pShaderInit, pMaterialName );
 
-	s_pTextureGroupName = NULL;
-	s_ppParams = NULL;
-	s_pShaderInit = NULL;
+	s_pTextureGroupName = nullptr;
+	s_ppParams = nullptr;
+	s_pShaderInit = nullptr;
 }
 
 void CBaseShader::DrawElements( IMaterialVar **ppParams, int nModulationFlags,
@@ -168,12 +168,12 @@ void CBaseShader::DrawElements( IMaterialVar **ppParams, int nModulationFlags,
 
 	OnDrawElements( ppParams, pShaderShadow, pShaderAPI, vertexCompression, pContextDataPtr );
 
-	s_pInstanceDataPtr = NULL;
+	s_pInstanceDataPtr = nullptr;
 	s_nPassCount = 0;
 	s_nModulationFlags = 0;
-	s_ppParams = NULL;
-	s_pShaderAPI = NULL;
-	s_pShaderShadow = NULL;
+	s_ppParams = nullptr;
+	s_pShaderAPI = nullptr;
+	s_pShaderShadow = nullptr;
 }
 
 
@@ -262,7 +262,7 @@ void CBaseShader::Draw( bool bMakeActualDrawCall )
 		//SNPROF("CBaseShader::Draw");
 
 		GetShaderSystem()->DrawSnapshot( s_pInstanceDataPtr[s_nPassCount] ? 
-			s_pInstanceDataPtr[s_nPassCount]->m_pCommandBuffer : NULL, bMakeActualDrawCall );
+			s_pInstanceDataPtr[s_nPassCount]->m_pCommandBuffer : nullptr, bMakeActualDrawCall );
 	}
 
 	++s_nPassCount;
@@ -523,7 +523,7 @@ ShaderAPITextureHandle_t CBaseShader::GetShaderAPITextureBindHandle( int nTextur
 	Assert ( s_ppParams );
 
 	IMaterialVar* pTextureVar = s_ppParams[nTextureVar];
-	IMaterialVar* pFrameVar = (nFrameVar != -1) ? s_ppParams[nFrameVar] : NULL;
+	IMaterialVar* pFrameVar = (nFrameVar != -1) ? s_ppParams[nFrameVar] : nullptr;
 	int nFrame = pFrameVar ? pFrameVar->GetIntValue() : 0;
 	return GetShaderSystem()->GetShaderAPITextureBindHandle( pTextureVar->GetTextureValue(), nFrame, nTextureChannel );
 }
@@ -562,7 +562,7 @@ void CBaseShader::BindTexture( Sampler_t sampler1, Sampler_t sampler2, TextureBi
 	Assert ( s_ppParams );
 
 	IMaterialVar* pTextureVar = s_ppParams[nTextureVar];
-	IMaterialVar* pFrameVar = (nFrameVar != -1) ? s_ppParams[nFrameVar] : NULL;
+	IMaterialVar* pFrameVar = (nFrameVar != -1) ? s_ppParams[nFrameVar] : nullptr;
 	if (pTextureVar)
 	{
 		int nFrame = pFrameVar ? pFrameVar->GetIntValue() : 0;
@@ -697,7 +697,7 @@ int CBaseShader::ComputeModulationFlags( IMaterialVar** params, IShaderDynamicAP
 		if ( nFixedLightingMode & 2 )
 			mod |= SHADER_USING_GBUFFER1;
 	}
-	s_pShaderAPI = NULL;
+	s_pShaderAPI = nullptr;
 	return mod;
 }
 

@@ -40,7 +40,7 @@ public:
 	enum { Normal, Popup, Dialog, ModalDialog };
 
 	// CREATORS
-	mxWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = 0, int style = 0);
+	mxWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr, int style = 0);
 	virtual ~mxWindow ();
 
 	// MANIPULATORS

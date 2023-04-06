@@ -130,7 +130,7 @@ static bool LoadCustomDataFromBuffer( CUtlBuffer &LoadBuffer )
 static const char *ClassIdToAlias( int iClass )
 {
 	if ( ( iClass >= ARRAYSIZE( s_aClassNames ) ) || ( iClass < 0 ) )
-		return NULL;
+		return nullptr;
 
 	return s_aClassNames[iClass];
 }
@@ -141,7 +141,7 @@ static const char *ClassIdToAlias( int iClass )
 const char *WeaponIdToAlias( int iWeapon )
 {
 	if ( ( iWeapon >= ARRAYSIZE( s_aWeaponNames ) ) || ( iWeapon < 0 ) )
-		return NULL;
+		return nullptr;
 
 	return s_aWeaponNames[iWeapon];
 }

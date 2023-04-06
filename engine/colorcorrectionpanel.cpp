@@ -377,7 +377,7 @@ public:
 	void DeleteOperation( int opIndex );
 
 	// Applys all operations in the list to the color
-	void Apply( color24 in, color24 &out, IColorOperation *pFinalOp=NULL );
+	void Apply( color24 in, color24 &out, IColorOperation *pFinalOp= nullptr);
 
 	// Queries for the number of operations in the list
 	int	GetNumOperations( );
@@ -476,7 +476,7 @@ int	CColorOperationList::GetNumOperations( )
 IColorOperation *CColorOperationList::GetOperation( int opIndex )
 {
 	if( !m_OpList.IsValidIndex( opIndex ) )
-		return NULL;
+		return nullptr;
 
 	return m_OpList.Element( opIndex );
 }
@@ -529,7 +529,7 @@ public:
 	virtual void Init()     {}
 	virtual void Shutdown() {}
 
-	virtual IColorOperation *GetOperation() { return 0; }
+	virtual IColorOperation *GetOperation() { return nullptr; }
 
 	virtual void OnKeyCodeTyped( KeyCode code ) 
 	{
@@ -961,7 +961,7 @@ private:
 //-----------------------------------------------------------------------------
 CColorCurvesEditPanel::CColorCurvesEditPanel( vgui::Panel *pParent, const char *pName ) : BaseClass( pParent, pName )
 {
-	m_pCurvesOp = NULL;
+	m_pCurvesOp = nullptr;
 	SetVisible( false );
 }
 
@@ -1023,7 +1023,7 @@ void CColorCurvesEditPanel::GetControlPoint( int nPoint, float *pIn, float *pOut
 void CColorCurvesEditPanel::SetCurvesOp( CCurvesColorOperation *pCurvesOp )
 {
 	m_pCurvesOp = pCurvesOp;
-	SetVisible( m_pCurvesOp != NULL );
+	SetVisible( m_pCurvesOp != nullptr);
 }
 
 
@@ -1095,7 +1095,7 @@ CColorCurvesUIPanel::CColorCurvesUIPanel( vgui::Panel *pParent, CCurvesColorOper
 	int i;
 	for ( i = 0; i < COLOR_MASK_TYPE_COUNT; i++ )
 	{
-		m_pColorMask->AddItem( s_pColorMaskLabel[i], NULL );
+		m_pColorMask->AddItem( s_pColorMaskLabel[i], nullptr);
 	}
 	m_pColorMask->AddActionSignalTarget( this );
 
@@ -2118,7 +2118,7 @@ CColorLevelsUIPanel::CColorLevelsUIPanel( vgui::Panel *pParent, CLevelsColorOper
 	int i;
 	for ( i = 0; i < COLOR_MASK_TYPE_COUNT; i++ )
 	{
-		m_pColorMask->AddItem( s_pColorMaskLabel[i], NULL );
+		m_pColorMask->AddItem( s_pColorMaskLabel[i], nullptr);
 	}
 	m_pColorMask->AddActionSignalTarget( this );
 
@@ -3265,7 +3265,7 @@ void CSelectedHSVUIPanel::PopulateControls()
 	int i;
 	for ( i = 0; i < CSelectedHSVOperation::SELECTION_METHOD_COUNT; i++ )
 	{
-		m_pSelectionMethod->AddItem( s_pSelectionMethodNames[i], NULL );
+		m_pSelectionMethod->AddItem( s_pSelectionMethodNames[i], nullptr);
 	}
 	m_pSelectionMethod->AddActionSignalTarget( this );
 	m_pSelectionMethod->ActivateItem( m_pHSVOperation->GetSelectionMethod() );
@@ -3465,7 +3465,7 @@ void CSelectedHSVUIPanel::EnableSelectionMode( bool bEnable )
 	if( bEnable )
 		colorcorrectiontools->SetFinalOperation( m_pHSVOperation );
 	else
-		colorcorrectiontools->SetFinalOperation( NULL );
+		colorcorrectiontools->SetFinalOperation(nullptr);
 
 	m_bSelectionEnable = bEnable;
 	m_pSelectionButton->ForceDepressed( bEnable );
@@ -3541,7 +3541,7 @@ private:
 CColorLookupOperation::CColorLookupOperation( )
 {
 	m_Resolution = 0;
-	m_LookupTable = 0;
+	m_LookupTable = nullptr;
 	m_flBlendFactor = 1.0f;
 
 	Q_strcpy( m_pName, "Lookup" );
@@ -4340,7 +4340,7 @@ static IColorOperation *CreateColorOp( ColorCorrectionTool_t nToolId, CColorOper
 	case CC_TOOL_LOOKUP:		return new CColorLookupOperation(); 
 	case CC_TOOL_LEVELS:		return new CLevelsColorOperation( pOpList );
 	case CC_TOOL_SELECTED_HSV:	return new CSelectedHSVOperation( pOpList );
-	default: return NULL;
+	default: return nullptr;
 	}
 }
 
@@ -4740,7 +4740,7 @@ void CNewOperationDialog::PopulateControls()
 	int i;
 	for ( i = 1; i < CC_TOOL_COUNT; i++ )
 	{
-		m_pOperationType->AddItem( s_pColorCorrectionToolNames[i], NULL );
+		m_pOperationType->AddItem( s_pColorCorrectionToolNames[i], nullptr);
 	}
 	m_pOperationType->AddActionSignalTarget( this );
 	m_pOperationType->ActivateItem( 0 );
@@ -4777,7 +4777,7 @@ private:
 
 COperationListPanel::COperationListPanel( vgui::Panel *parent, const char *pName ) : BaseClass( parent, pName )
 {
-	m_pNameEditPanel = 0;
+	m_pNameEditPanel = nullptr;
 	m_nEditItem = -1;
 }
 
@@ -4949,7 +4949,7 @@ void COperationListPanel::OnTextNewLine( KeyValues *data )
 	LeaveEditMode();
 
 	delete m_pNameEditPanel;
-	m_pNameEditPanel = 0;
+	m_pNameEditPanel = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -5080,7 +5080,7 @@ CColorOperationListPanel::CColorOperationListPanel( vgui::Panel *parent, ColorCo
 	m_pFileOpenStateMachine = new vgui::FileOpenStateMachine( this, this );
 	m_pFileOpenStateMachine->AddActionSignalTarget( this );
 
-	m_pNewDialog = 0;
+	m_pNewDialog = nullptr;
 	m_bEnable = true;
 	m_bEnableEntities = true;
 
@@ -5096,7 +5096,7 @@ CColorOperationListPanel::CColorOperationListPanel( vgui::Panel *parent, ColorCo
 
 void CColorOperationListPanel::OnOpPanelClose( KeyValues *data )
 {
-	CColorCorrectionUIChildPanel *pSender = (CColorCorrectionUIChildPanel *)data->GetPtr( "panel", 0 );
+	CColorCorrectionUIChildPanel *pSender = (CColorCorrectionUIChildPanel *)data->GetPtr( "panel", nullptr );
 	if( pSender )
 	{
 		int opPanelIndex = m_OpPanelList.Find( pSender );
@@ -5296,29 +5296,29 @@ void CColorOperationListPanel::OnCommand( const char *command )
 	}
 	else if( !Q_stricmp( command, "Save" ) )
 	{
-		g_p4factory->SetDummyMode( p4 == NULL );
+		g_p4factory->SetDummyMode( p4 == nullptr);
 		g_p4factory->SetOpenFileChangeList( "Color Correction Auto Checkout" );
 		int nFlags = 0;
 		if ( p4 )
 		{
 			nFlags |= FOSM_SHOW_PERFORCE_DIALOGS;
 		}
-		m_pFileOpenStateMachine->SaveFile( NULL, m_FileName.Get(), "vcc", nFlags );
+		m_pFileOpenStateMachine->SaveFile(nullptr, m_FileName.Get(), "vcc", nFlags );
 	}
 	else if( !Q_stricmp( command, "SaveAs" ) )
 	{
-		g_p4factory->SetDummyMode( p4 == NULL );
+		g_p4factory->SetDummyMode( p4 == nullptr);
 		g_p4factory->SetOpenFileChangeList( "Color Correction Auto Checkout" );
 		int nFlags = 0;
 		if ( p4 )
 		{
 			nFlags |= FOSM_SHOW_PERFORCE_DIALOGS;
 		}
-		m_pFileOpenStateMachine->SaveFile( NULL, NULL, "vcc", nFlags );
+		m_pFileOpenStateMachine->SaveFile(nullptr, nullptr, "vcc", nFlags );
 	}
 	else if( !Q_stricmp( command, "Load" ) )
 	{
-		g_p4factory->SetDummyMode( p4 == NULL );
+		g_p4factory->SetDummyMode( p4 == nullptr);
 		g_p4factory->SetOpenFileChangeList( "Color Correction Auto Checkout" );
 
 		int nFlags = FOSM_SHOW_SAVE_QUERY;
@@ -5326,14 +5326,14 @@ void CColorOperationListPanel::OnCommand( const char *command )
 		{
 			nFlags |= FOSM_SHOW_PERFORCE_DIALOGS;
 		}
-		m_pFileOpenStateMachine->OpenFile( NULL, "vcc", NULL, m_FileName.Get(), "vcc", nFlags );
+		m_pFileOpenStateMachine->OpenFile(nullptr, "vcc", nullptr, m_FileName.Get(), "vcc", nFlags );
 	}
 	else if( !Q_stricmp( command, "NewComplete" ) )
 	{
 		if( m_pNewDialog )
 		{
 			delete m_pNewDialog;
-			m_pNewDialog = 0;
+			m_pNewDialog = nullptr;
 		}
 
 		PopulateList( );
@@ -5347,7 +5347,7 @@ void CColorOperationListPanel::OnCommand( const char *command )
 		if( m_pNewDialog )
 		{
 			delete m_pNewDialog;
-			m_pNewDialog = 0;
+			m_pNewDialog = nullptr;
 		}
 	}
 	else if( !Q_stricmp( command, "SelectedItemChanged" ) )
@@ -5497,7 +5497,7 @@ void CColorOperationListPanel::LaunchOperationPanel( IColorOperation *pOp )
 			}
 		}
 		
-		CColorCorrectionUIChildPanel *pOpPanel = 0;
+		CColorCorrectionUIChildPanel *pOpPanel = nullptr;
 		switch( pOp->ToolID() )
 		{
 			case CC_TOOL_BALANCE: pOpPanel = new CColorBalanceUIPanel( this, (CColorBalanceOperation *)pOp ); break;
@@ -5623,7 +5623,7 @@ CColorCorrectionUIPanel::CColorCorrectionUIPanel( vgui::Panel *parent ) : BaseCl
 {
 	if ( !colorcorrection )
 	{
-		m_pOperationListPanel = NULL;
+		m_pOperationListPanel = nullptr;
 		m_CCHandle = 0;
 		Warning( "Could not get the color correction interface!" );
 		Shutdown();
@@ -5663,7 +5663,7 @@ CColorCorrectionUIPanel::CColorCorrectionUIPanel( vgui::Panel *parent ) : BaseCl
 	m_nCurrentRow = -1;
 	m_nRowStep = 4;
 
-	m_pFinalOperation = NULL;
+	m_pFinalOperation = nullptr;
 }
 
 CColorCorrectionUIPanel::~CColorCorrectionUIPanel()
@@ -5863,7 +5863,7 @@ void CColorCorrectionUIPanel::SetFinalOperation( IColorOperation *pOp )
 
 
 //-----------------------------------------------------------------------------
-static CColorCorrectionUIPanel *g_pColorCorrectionUI = NULL;
+static CColorCorrectionUIPanel *g_pColorCorrectionUI = nullptr;
 
 
 bool CColorOperationListPanel::LoadVCCFile( const char *pFullPath )
@@ -5988,7 +5988,7 @@ bool CColorOperationListPanel::SaveRawFile( const char *pFullPath )
 	CP4AutoEditAddFile co( pFullPath );
 
 	FileHandle_t file_handle = g_pFileSystem->Open( pFullPath, "wb" );
-	if ( file_handle == NULL )
+	if ( file_handle == nullptr)
 		return false;
 
 	RGBX5551_t inColor;
@@ -6019,7 +6019,7 @@ bool CColorOperationListPanel::SaveRawFile( const char *pFullPath )
 	CP4AutoEditAddFile co2( pFilename360 );
 
 	FileHandle_t file_handle360 = g_pFileSystem->Open( pFilename360, "wb" );
-	if ( file_handle360 == NULL )
+	if ( file_handle360 == nullptr)
 		return false;
 
 	inColor.b = 0;
@@ -6095,7 +6095,7 @@ void CColorCorrectionTools::InstallColorCorrectionUI( vgui::Panel *parent )
 		return;
 
 #ifndef NO_TOOLFRAMEWORK
-	if ( CommandLine()->CheckParm( "-tools" ) == NULL )
+	if ( CommandLine()->CheckParm( "-tools" ) == nullptr)
 		return;
 #endif
 
@@ -6145,7 +6145,7 @@ void ShowHideColorCorrectionUI()
 	if ( !g_pColorCorrectionUI )
 	{
 #ifndef NO_TOOLFRAMEWORK
-		if ( CommandLine()->CheckParm( "-tools" ) == NULL )
+		if ( CommandLine()->CheckParm( "-tools" ) == nullptr)
 		{
 			Warning( "colorcorrectionui is only available when running with -tools!\n" );
 		}

@@ -144,8 +144,8 @@ END_RECV_TABLE()
 // ------------------------------------------------------------------------- //
 C_SmokeTrail::C_SmokeTrail()
 {
-	m_MaterialHandle[0] = NULL;
-	m_MaterialHandle[1] = NULL;
+	m_MaterialHandle[0] = nullptr;
+	m_MaterialHandle[1] = nullptr;
 
 	m_SpawnRate = 10;
 	m_ParticleSpawn.Init(10);
@@ -166,8 +166,8 @@ C_SmokeTrail::C_SmokeTrail()
 
 	m_nAttachment	= -1;
 
-	m_pSmokeEmitter = NULL;
-	m_pParticleMgr	= NULL;
+	m_pSmokeEmitter = nullptr;
+	m_pParticleMgr	= nullptr;
 }
 
 C_SmokeTrail::~C_SmokeTrail()
@@ -236,7 +236,7 @@ void C_SmokeTrail::OnDataChanged(DataUpdateType_t updateType)
 
 	if ( updateType == DATA_UPDATE_CREATED )
 	{
-		Start( ParticleMgr(), NULL );
+		Start( ParticleMgr(), nullptr);
 	}
 }
 
@@ -296,7 +296,7 @@ void C_SmokeTrail::Update( float fTimeDelta )
 	VectorMA( GetAbsOrigin(), -fTimeDelta, GetAbsVelocity(), vecOrigin );
 
 	Vector vecForward;
-	GetVectors( &vecForward, NULL, NULL );
+	GetVectors( &vecForward, nullptr, nullptr);
 
 	while( m_ParticleSpawn.NextEvent( tempDelta ) )
 	{
@@ -308,7 +308,7 @@ void C_SmokeTrail::Update( float fTimeDelta )
 
 		pParticle = (SimpleParticle *) m_pSmokeEmitter->AddParticle( sizeof( SimpleParticle ), m_MaterialHandle[random->RandomInt(0,1)], offset );
 
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			continue;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -533,8 +533,8 @@ END_RECV_TABLE()
 // ------------------------------------------------------------------------- //
 C_RocketTrail::C_RocketTrail()
 {
-	m_MaterialHandle[0] = NULL;
-	m_MaterialHandle[1] = NULL;
+	m_MaterialHandle[0] = nullptr;
+	m_MaterialHandle[1] = nullptr;
 	
 	m_SpawnRate = 10;
 	m_ParticleSpawn.Init(10);
@@ -555,8 +555,8 @@ C_RocketTrail::C_RocketTrail()
 
 	m_nAttachment	= -1;
 
-	m_pRocketEmitter = NULL;
-	m_pParticleMgr	= NULL;
+	m_pRocketEmitter = nullptr;
+	m_pParticleMgr	= nullptr;
 }
 
 C_RocketTrail::~C_RocketTrail()
@@ -614,7 +614,7 @@ void C_RocketTrail::OnDataChanged(DataUpdateType_t updateType)
 
 	if ( updateType == DATA_UPDATE_CREATED )
 	{
-		Start( ParticleMgr(), NULL );
+		Start( ParticleMgr(), nullptr);
 	}
 }
 
@@ -684,7 +684,7 @@ void C_RocketTrail::Update( float fTimeDelta )
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), pSimple->GetPMaterial( VarArgs( "effects/muzzleflash%d", random->RandomInt(1,4) ) ), offset );
 			
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -731,7 +731,7 @@ void C_RocketTrail::Update( float fTimeDelta )
 			
 			pParticle = (SimpleParticle *) m_pRocketEmitter->AddParticle( sizeof( SimpleParticle ), m_MaterialHandle[random->RandomInt(0,1)], offset );
 
-			if ( pParticle != NULL )
+			if ( pParticle != nullptr)
 			{
 				pParticle->m_flLifetime		= 0.0f;
 				pParticle->m_flDieTime		= m_ParticleLifetime + random->RandomFloat(m_ParticleLifetime*0.9f,m_ParticleLifetime*1.1f);
@@ -787,7 +787,7 @@ void C_RocketTrail::Update( float fTimeDelta )
 
 			pParticle = (SimpleParticle *) pEmitter->AddParticle( sizeof( SimpleParticle ), flameMaterial, offset );
 
-			if ( pParticle != NULL )
+			if ( pParticle != nullptr)
 			{
 				pParticle->m_flLifetime		= 0.0f;
 				pParticle->m_flDieTime		= 0.25f;
@@ -905,14 +905,14 @@ END_RECV_TABLE()
 
 C_SporeExplosion::C_SporeExplosion( void )
 {
-	m_pParticleMgr			= NULL;
+	m_pParticleMgr			= nullptr;
 
 	m_flSpawnRate			= 32;
 	m_flParticleLifetime	= 5;
 	m_flStartSize			= 32;
 	m_flEndSize				= 64;
 	m_flSpawnRadius			= 32;
-	m_pSporeEffect			= NULL;
+	m_pSporeEffect			= nullptr;
 
 	m_teParticleSpawn.Init( 32 );
 
@@ -922,7 +922,7 @@ C_SporeExplosion::C_SporeExplosion( void )
 
 C_SporeExplosion::~C_SporeExplosion()
 {
-	if ( m_pParticleMgr != NULL )
+	if ( m_pParticleMgr != nullptr)
 	{
 		m_pParticleMgr->RemoveEffect( &m_ParticleEffect );
 	}
@@ -940,7 +940,7 @@ void C_SporeExplosion::OnDataChanged( DataUpdateType_t updateType )
 	{
 		m_flPreviousSpawnRate = m_flSpawnRate;
 		m_teParticleSpawn.Init( m_flSpawnRate );
-		Start( ParticleMgr(), NULL );
+		Start( ParticleMgr(), nullptr);
 	}
 	else if( m_bEmit )
 	{
@@ -966,7 +966,7 @@ void C_SporeExplosion::Start( CParticleMgr *pParticleMgr, IPrototypeArgAccess *p
 	//Create our main effect
 	m_pSporeEffect = SporeEffect::Create( "C_SporeExplosion" );
 	
-	if ( m_pSporeEffect == NULL )
+	if ( m_pSporeEffect == nullptr)
 		return;
 
 	m_hMaterial	= m_pSporeEffect->GetPMaterial( "particle/fire" );
@@ -995,7 +995,7 @@ void C_SporeExplosion::AddParticles( void )
 		offset.Random( -m_flSpawnRadius, m_flSpawnRadius );
 		sParticle = (SimpleParticle *) m_pSporeEffect->AddParticle( sizeof(SimpleParticle), m_hMaterial, GetAbsOrigin()+offset );
 
-		if ( sParticle == NULL )
+		if ( sParticle == nullptr)
 			return;
 
 		sParticle->m_flLifetime		= 0.0f;
@@ -1019,7 +1019,7 @@ void C_SporeExplosion::AddParticles( void )
 	offset.Random( -(m_flSpawnRadius * 0.5), (m_flSpawnRadius * 0.5) );
 	sParticle = (SimpleParticle *) m_pSporeEffect->AddParticle( sizeof(SimpleParticle), g_Mat_DustPuff[1], GetAbsOrigin()+offset );
 
-	if ( sParticle == NULL )
+	if ( sParticle == nullptr)
 		return;
 
 	sParticle->m_flLifetime		= 0.0f;
@@ -1211,7 +1211,7 @@ END_RECV_TABLE()
 
 C_SporeTrail::C_SporeTrail( void )
 {
-	m_pParticleMgr			= NULL;
+	m_pParticleMgr			= nullptr;
 	//m_pSmokeEffect			= SporeSmokeEffect::Create( "C_SporeTrail" );
 
 	m_flSpawnRate			= 10;
@@ -1256,7 +1256,7 @@ void C_SporeTrail::OnDataChanged( DataUpdateType_t updateType )
 
 	if ( updateType == DATA_UPDATE_CREATED )
 	{
-		Start( ParticleMgr(), NULL );
+		Start( ParticleMgr(), nullptr);
 	}
 }
 
@@ -1286,7 +1286,7 @@ void C_SporeTrail::AddParticles( void )
 	//Make a new particle
 	SimpleParticle *sParticle = (SimpleParticle *) m_ParticleEffect.AddParticle( sizeof(SimpleParticle), m_hMaterial );//m_pSmokeEffect->AddParticle( sizeof(SimpleParticle), m_hMaterial, GetAbsOrigin()+offset );
 
-	if ( sParticle == NULL )
+	if ( sParticle == nullptr)
 		return;
 
 	sParticle->m_Pos			= offset;
@@ -1314,7 +1314,7 @@ void C_SporeTrail::AddParticles( void )
 //-----------------------------------------------------------------------------
 void C_SporeTrail::Update( float fTimeDelta )
 {
-	if ( m_pParticleMgr == NULL )
+	if ( m_pParticleMgr == nullptr)
 		return;
 
 	//Add new particles
@@ -1524,7 +1524,7 @@ void C_FireTrail::Update( float fTimeDelta )
 			
 			pParticle = (SimpleParticle *) m_pSmokeEmitter->AddParticle( sizeof( SimpleParticle ), m_hMaterial[random->RandomInt( FTRAIL_FLAME1,FTRAIL_FLAME5 )], offset );
 
-			if ( pParticle != NULL )
+			if ( pParticle != nullptr)
 			{
 				pParticle->m_flLifetime		= 0.0f;
 				pParticle->m_flDieTime		= /*PARTICLE_LIFETIME*/ 0.5f;// + random->RandomFloat(PARTICLE_LIFETIME*0.75f, PARTICLE_LIFETIME*1.25f);
@@ -1556,7 +1556,7 @@ void C_FireTrail::Update( float fTimeDelta )
 
 		pParticle = (SimpleParticle *) m_pSmokeEmitter->AddParticle( sizeof( SimpleParticle ), m_hMaterial[random->RandomInt( FTRAIL_SMOKE1, FTRAIL_SMOKE2 )], offset );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			pParticle->m_flLifetime		= 0.0f;
 			pParticle->m_flDieTime		= ( PARTICLE_LIFETIME * 10.0f ) + random->RandomFloat(PARTICLE_LIFETIME*0.75f, PARTICLE_LIFETIME*1.25f);
@@ -1612,7 +1612,7 @@ C_DustTrail::C_DustTrail()
 {
 	for (int i = 0; i < DUSTTRAIL_MATERIALS; i++)
 	{
-        m_MaterialHandle[i] = NULL;
+        m_MaterialHandle[i] = nullptr;
 	}
 
 	m_SpawnRate = 10;
@@ -1632,8 +1632,8 @@ C_DustTrail::C_DustTrail()
 
 	m_bEmit = true;
 
-	m_pDustEmitter = NULL;
-	m_pParticleMgr	= NULL;
+	m_pDustEmitter = nullptr;
+	m_pParticleMgr	= nullptr;
 }
 
 C_DustTrail::~C_DustTrail()
@@ -1684,7 +1684,7 @@ void C_DustTrail::OnDataChanged(DataUpdateType_t updateType)
 
 	if ( updateType == DATA_UPDATE_CREATED )
 	{
-		Start( ParticleMgr(), NULL );
+		Start( ParticleMgr(), nullptr);
 	}
 }
 
@@ -1772,7 +1772,7 @@ void C_DustTrail::Update( float fTimeDelta )
 	VectorMA( GetAbsOrigin(), -fTimeDelta, GetAbsVelocity(), vecOrigin );
 
 	Vector vecForward;
-	GetVectors( &vecForward, NULL, NULL );
+	GetVectors( &vecForward, nullptr, nullptr);
 
 	while( m_ParticleSpawn.NextEvent( tempDelta ) )
 	{
@@ -1787,7 +1787,7 @@ void C_DustTrail::Update( float fTimeDelta )
 
 		pParticle = (SimpleParticle *) m_pDustEmitter->AddParticle( sizeof( SimpleParticle ), m_MaterialHandle[random->RandomInt(0,0)], offset ); // FIXME: the other sprites look bad
 
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			continue;
 
 		pParticle->m_flLifetime		= 0.0f;

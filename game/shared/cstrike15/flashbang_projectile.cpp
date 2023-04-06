@@ -37,7 +37,7 @@ END_DATADESC()
 class CTraceFilterNoPlayersAndFlashbangPassableAnims : public CTraceFilterNoPlayers
 {
 public:
-	CTraceFilterNoPlayersAndFlashbangPassableAnims( const IHandleEntity *passentity = NULL, int collisionGroup = COLLISION_GROUP_NONE )
+	CTraceFilterNoPlayersAndFlashbangPassableAnims( const IHandleEntity *passentity = nullptr, int collisionGroup = COLLISION_GROUP_NONE )
 		: CTraceFilterNoPlayers( passentity, collisionGroup )
 	{
 	}
@@ -86,7 +86,7 @@ float PercentageOfFlashForPlayer(CBaseEntity *player, Vector flashPos, CBaseEnti
 
 	QAngle tempAngle;
 	VectorAngles(player->EyePosition() - flashPos, tempAngle);
-	AngleVectors(tempAngle, NULL, &vecRight, &vecUp);
+	AngleVectors(tempAngle, nullptr, &vecRight, &vecUp);
 
 	vecRight.NormalizeInPlace();
 	vecUp.NormalizeInPlace();
@@ -172,8 +172,8 @@ void RadiusFlash(
 	float flDamage, 
 	int iClassIgnore, 
 	int bitsDamageType, 
-	uint8 *pOutNumOpponentsEffected = NULL, 
-	uint8 *pOutNumTeammatesEffected = NULL )
+	uint8 *pOutNumOpponentsEffected = nullptr, 
+	uint8 *pOutNumTeammatesEffected = nullptr)
 {
 	vecSrc.z += 1;// in case grenade is lying on the ground
 
@@ -195,14 +195,14 @@ void RadiusFlash(
 	Vector		vecLOS;
 	float		flDot;
 	
-	CBaseEntity		*pEntity = NULL;
+	CBaseEntity		*pEntity = nullptr;
 	static float	flRadius = 3000;
 	float			falloff = flDamage / flRadius;
 
 	//bool bInWater = (UTIL_PointContents( vecSrc, MASK_WATER ) == CONTENTS_WATER);
 
 	// iterate on all entities in the vicinity.
-	while ((pEntity = gEntList.FindEntityInSphere( pEntity, vecSrc, flRadius )) != NULL)
+	while ((pEntity = gEntList.FindEntityInSphere( pEntity, vecSrc, flRadius )) != nullptr)
 	{	
 		bool bPlayer = pEntity->IsPlayer();
 		

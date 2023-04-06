@@ -37,15 +37,15 @@ PRECACHE( MATERIAL, "particle/particle_noisesphere" )
 PRECACHE_REGISTER_END()
 
 // Cached handles to commonly used materials
-PMaterialHandle g_Mat_Fleck_Wood[2] = { NULL, NULL };
-PMaterialHandle g_Mat_Fleck_Cement[2] = { NULL, NULL };
-PMaterialHandle g_Mat_Fleck_Antlion[2] = { NULL, NULL };
-PMaterialHandle g_Mat_Fleck_Glass[2] = { NULL, NULL };
-PMaterialHandle g_Mat_Fleck_Tile[2] = { NULL, NULL };
-PMaterialHandle g_Mat_DustPuff[2] = { NULL, NULL };
-PMaterialHandle g_Mat_BloodPuff[2] = { NULL, NULL };
-PMaterialHandle g_Mat_SMG_Muzzleflash[4] = { NULL, NULL, NULL, NULL };
-PMaterialHandle g_Mat_Combine_Muzzleflash[3] = { NULL, NULL, NULL };
+PMaterialHandle g_Mat_Fleck_Wood[2] = {nullptr, nullptr};
+PMaterialHandle g_Mat_Fleck_Cement[2] = {nullptr, nullptr};
+PMaterialHandle g_Mat_Fleck_Antlion[2] = {nullptr, nullptr};
+PMaterialHandle g_Mat_Fleck_Glass[2] = {nullptr, nullptr};
+PMaterialHandle g_Mat_Fleck_Tile[2] = {nullptr, nullptr};
+PMaterialHandle g_Mat_DustPuff[2] = {nullptr, nullptr};
+PMaterialHandle g_Mat_BloodPuff[2] = {nullptr, nullptr};
+PMaterialHandle g_Mat_SMG_Muzzleflash[4] = {nullptr, nullptr, nullptr, nullptr};
+PMaterialHandle g_Mat_Combine_Muzzleflash[3] = {nullptr, nullptr, nullptr};
 
 static ConVar fx_drawimpactdebris( "fx_drawimpactdebris", "1", FCVAR_DEVELOPMENTONLY, "Draw impact debris effects." );
 static ConVar fx_drawimpactdust( "fx_drawimpactdust", "1", FCVAR_DEVELOPMENTONLY, "Draw impact dust effects." );
@@ -200,7 +200,7 @@ static void CreateFleckParticles( const Vector& origin, const Vector &color, tra
 	{
 		pFleckParticle = (FleckParticle *) fleckEmitter->AddParticle( sizeof(FleckParticle), hMaterial[random->RandomInt(0,1)], spawnOffset );
 
-		if ( pFleckParticle == NULL )
+		if ( pFleckParticle == nullptr)
 			break;
 
 		pFleckParticle->m_flLifetime	= 0.0f;
@@ -378,7 +378,7 @@ void GlassImpactCallback( const CEffectData &data )
 	pGlassEmitter->SetSortOrigin( pos );
 
 	Vector vecColor;
-	engine->ComputeLighting( pos, NULL, true, vecColor );
+	engine->ComputeLighting( pos, nullptr, true, vecColor );
 
 	// HACK: Blend a little toward white to match the materials...
 	VectorLerp( vecColor, Vector( 1, 1, 1 ), 0.3, vecColor );
@@ -518,7 +518,7 @@ void FX_AntlionImpact( const Vector &pos, trace_t *trace )
 	VPROF_BUDGET( "FX_AntlionImpact", VPROF_BUDGETGROUP_PARTICLE_RENDERING );
 
 	CSmartPtr<CSimple3DEmitter> fleckEmitter = CSimple3DEmitter::Create( "FX_DebrisFlecks" );
-	if ( fleckEmitter == NULL )
+	if ( fleckEmitter == nullptr)
 		return;
 
 	Vector	shotDir = ( trace->startpos - trace->endpos );
@@ -565,7 +565,7 @@ void FX_AntlionImpact( const Vector &pos, trace_t *trace )
 	for ( i = 0; i < numFlecks; i++ )
 	{
 		pFleckParticle = (Particle3D *) fleckEmitter->AddParticle( sizeof(Particle3D), g_Mat_Fleck_Antlion[random->RandomInt(0,1)], spawnOffset );
-		if ( pFleckParticle == NULL )
+		if ( pFleckParticle == nullptr)
 			break;
 
 		pFleckParticle->m_flLifeRemaining = 3.0f;
@@ -608,7 +608,7 @@ void FX_AntlionImpact( const Vector &pos, trace_t *trace )
 	{
 		pParticle = (SimpleParticle *) dustEmitter->AddParticle( sizeof(SimpleParticle), g_Mat_DustPuff[0], offset );
 
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			break;
 
 		pParticle->m_flLifetime	= 0.0f;
@@ -674,7 +674,7 @@ void FX_BugBlood( Vector &pos, Vector &dir, Vector &vWorldMins, Vector &vWorldMa
 	{
 		SimpleParticle *sParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_BloodPuff[0], pos );
 			
-		if ( sParticle == NULL )
+		if ( sParticle == nullptr)
 			return;
 
 		sParticle->m_flLifetime		= 0.0f;
@@ -700,7 +700,7 @@ void FX_BugBlood( Vector &pos, Vector &dir, Vector &vWorldMins, Vector &vWorldMa
 	{
 		SimpleParticle *sParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_BloodPuff[1], pos );
 			
-		if ( sParticle == NULL )
+		if ( sParticle == nullptr)
 		{
 			return;
 		}
@@ -733,7 +733,7 @@ void FX_BugBlood( Vector &pos, Vector &dir, Vector &vWorldMins, Vector &vWorldMa
 
 		SimpleParticle *sParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_BloodPuff[1], offset );
 			
-		if ( sParticle == NULL )
+		if ( sParticle == nullptr)
 		{
 			return;
 		}
@@ -786,7 +786,7 @@ void FX_Blood( Vector &pos, Vector &dir, float r, float g, float b, float a )
 	{
 		SimpleParticle *sParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_BloodPuff[0], pos );
 			
-		if ( sParticle == NULL )
+		if ( sParticle == nullptr)
 		{
 			return;
 		}
@@ -814,7 +814,7 @@ void FX_Blood( Vector &pos, Vector &dir, float r, float g, float b, float a )
 	{
 		SimpleParticle *sParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_BloodPuff[1], pos );
 			
-		if ( sParticle == NULL )
+		if ( sParticle == nullptr)
 		{
 			return;
 		}
@@ -876,7 +876,7 @@ void FX_DustImpact( const Vector &origin, trace_t *tr, float flScale )
 	{
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_DustPuff[0], origin );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			pParticle->m_flLifetime = 0.0f;
 			pParticle->m_flDieTime	= random->RandomFloat( 0.5f, 1.0f );
@@ -916,7 +916,7 @@ void FX_DustImpact( const Vector &origin, trace_t *tr, float flScale )
 	{
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_BloodPuff[0], origin );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			pParticle->m_flLifetime = 0.0f;
 			pParticle->m_flDieTime	= random->RandomFloat( 0.25f, 0.75f );
@@ -952,7 +952,7 @@ void FX_DustImpact( const Vector &origin, trace_t *tr, float flScale )
 	{
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_DustPuff[0], origin );
 
-		if ( pParticle != NULL )
+		if ( pParticle != nullptr)
 		{
 			offset = origin;
 			offset[0] += random->RandomFloat( -8.0f, 8.0f );
@@ -1106,7 +1106,7 @@ void FX_GaussExplosion( const Vector &pos, const Vector &dir, int type )
 	{
 		pParticle = (TrailParticle *) pSparkEmitter->AddParticle( sizeof(TrailParticle), hMaterial, pos );
 
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime	= 0.0f;

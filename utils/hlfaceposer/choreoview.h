@@ -233,7 +233,7 @@ public:
 	void				MoveChannelUp( CChoreoChannel *channel );
 	void				MoveChannelDown( CChoreoChannel *channel );
 	void				EditChannel( CChoreoChannel *channel );
-	void				AddEvent( int type, int subtype = 0, char const *defaultparameters = NULL );
+	void				AddEvent( int type, int subtype = 0, char const *defaultparameters = nullptr);
 
 	// Actor right click menu
 	void				NewActor( void );
@@ -333,7 +333,7 @@ public:
 
 	// Remap click position to/from time value
 	float				GetTimeValueForMouse( int mx, bool clip = false );
-	int					GetPixelForTimeValue( float time, bool *clipped = NULL );
+	int					GetPixelForTimeValue( float time, bool *clipped = nullptr);
 	float				GetTimeDeltaForMouseDelta( int mx, int origmx );
 
 	// Readjust slider

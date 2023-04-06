@@ -97,7 +97,7 @@ class CGamePlayerEquip : public CRulePointEntity
 
 	private:
 
-	void		EquipPlayer( CBaseEntity *pPlayer, const char *szWeapon = NULL );
+	void		EquipPlayer( CBaseEntity *pPlayer, const char *szWeapon = nullptr);
 
 	string_t	m_weaponNames[MAX_EQUIP];
 	int			m_weaponCount[MAX_EQUIP];

@@ -203,8 +203,8 @@ struct PanelKeyBindingMap
 {
 	PanelKeyBindingMap()
 	{
-		baseMap = NULL;
-		pfnClassName = NULL;
+		baseMap = nullptr;
+		pfnClassName = nullptr;
 		processed = false;
 	}
 

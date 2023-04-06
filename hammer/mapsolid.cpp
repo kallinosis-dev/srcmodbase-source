@@ -116,8 +116,8 @@ bool CMapSolid::AddPlane(const CMapFace *p)
 bool CMapSolid::Carve(CMapObjectList *pInside, CMapObjectList *pOutside, CMapSolid *pCarver)
 {
 	int	i;
-	CMapSolid *front = NULL;
-	CMapSolid *back = NULL;
+	CMapSolid *front = nullptr;
+	CMapSolid *back = nullptr;
 	Vector bmins, bmaxs;
 	Vector carvemins, carvemaxs;
 
@@ -132,7 +132,7 @@ bool CMapSolid::Carve(CMapObjectList *pInside, CMapObjectList *pOutside, CMapSol
 	{
 		if ((bmins[i] >= carvemaxs[i]) || (bmaxs[i] <= carvemins[i]))
 		{
-			if (pOutside != NULL)
+			if (pOutside != nullptr)
 			{
 				CMapSolid *pCopy = (CMapSolid *)Copy(false);
 				pOutside->AddToTail(pCopy);
@@ -157,12 +157,12 @@ bool CMapSolid::Carve(CMapObjectList *pInside, CMapObjectList *pOutside, CMapSol
 		//
 		// Split the solid by this face, into a front and a back piece.
 		//
-		CarveFrom.ClipByFace(pFace, pOutside != NULL ? &front : NULL, &back);
+		CarveFrom.ClipByFace(pFace, pOutside != nullptr ? &front : nullptr, &back);
 
 		//
 		// If there was a front piece, add it to the outside list.
 		//
-		if ((front != NULL) && (pOutside != NULL))
+		if ((front != nullptr) && (pOutside != nullptr))
 		{
 			pOutside->AddToTail(front);
 		}
@@ -175,7 +175,7 @@ bool CMapSolid::Carve(CMapObjectList *pInside, CMapObjectList *pOutside, CMapSol
 		// If there was no back piece, we have found a face the solid is completely in front of.
 		// Per the separating axis theorem, the two solids cannot intersect, so we are done.
 		//
-		if (back == NULL)
+		if (back == nullptr)
 		{
 			return(false);
 		}
@@ -189,7 +189,7 @@ bool CMapSolid::Carve(CMapObjectList *pInside, CMapObjectList *pOutside, CMapSol
 		//
 		// Add the back piece of the carved solid to the inside list.
 		//
-		if (pInside != NULL)
+		if (pInside != nullptr)
 		{
 			pInside->AddToTail(back);
 		}
@@ -229,24 +229,24 @@ void CMapSolid::ClipByFace(const CMapFace *fa, CMapSolid **f, CMapSolid **b)
 	fb.CalcPlane();
 	
 	front->CopyFrom(this, false);
-	front->SetParent(NULL);
+	front->SetParent(nullptr);
 	
 	back->CopyFrom(this, false);
-	back->SetParent(NULL);
+	back->SetParent(nullptr);
 	
 	if (!back->AddPlane(fa))
 	{
 		delete back;
-		back = NULL;
+		back = nullptr;
 	}
 	
 	if (!front->AddPlane(&fb))
 	{
 		delete front;
-		front = NULL;
+		front = nullptr;
 	}
 
-	if (f != NULL)
+	if (f != nullptr)
 	{
 		*f = front;
 	}
@@ -255,7 +255,7 @@ void CMapSolid::ClipByFace(const CMapFace *fa, CMapSolid **f, CMapSolid **b)
 		delete front;
 	}
 
-	if (b != NULL)
+	if (b != nullptr)
 	{
 		*b = back;
 	}
@@ -282,7 +282,7 @@ CMapFace *CMapSolid::FindFaceID(int nFaceID)
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -346,15 +346,15 @@ void CMapSolid::OnPrePaste(CMapClass *pCopy, CMapWorld *pSourceWorld, CMapWorld 
 int CMapSolid::Split( PLANE *pPlane, CMapSolid **pFront, CMapSolid **pBack )
 {
     const float SPLIT_DIST_EPSILON = 0.001f;
-    CMapSolid *pFrontSolid = NULL;
-    CMapSolid *pBackSolid = NULL;
+    CMapSolid *pFrontSolid = nullptr;
+    CMapSolid *pBackSolid = nullptr;
     CMapFace  face;
 
 	//
 	// The newly added face should get its texture from face zero of the solid.
 	//
 	CMapFace *pFirstFace = GetFace(0);
-	if (pFirstFace != NULL)
+	if (pFirstFace != nullptr)
 	{
 		face.SetTexture(pFirstFace->GetTexture());
 	}
@@ -401,7 +401,7 @@ int CMapSolid::Split( PLANE *pPlane, CMapSolid **pFront, CMapSolid **pBack )
 			pReturn = pFront;
 		}
 
-		if (pReturn == NULL)
+		if (pReturn == nullptr)
 		{
 			return -1;
 		}
@@ -411,7 +411,7 @@ int CMapSolid::Split( PLANE *pPlane, CMapSolid **pFront, CMapSolid **pBack )
 		//
 		CMapSolid *pReturnSolid = new CMapSolid;
 		pReturnSolid->CopyFrom(this, false);
-		pReturnSolid->SetParent(NULL);
+		pReturnSolid->SetParent(nullptr);
 		pReturnSolid->SetTemporary(TRUE);
 
 		//
@@ -439,7 +439,7 @@ int CMapSolid::Split( PLANE *pPlane, CMapSolid **pFront, CMapSolid **pBack )
         //
         pFrontSolid = new CMapSolid;
         pFrontSolid->CopyFrom(this, false);
-		pFrontSolid->SetParent(NULL);
+		pFrontSolid->SetParent(nullptr);
         pFrontSolid->SetTemporary( TRUE );
 
         face.plane.normal = pPlane->normal;
@@ -472,7 +472,7 @@ int CMapSolid::Split( PLANE *pPlane, CMapSolid **pFront, CMapSolid **pBack )
         //
         pBackSolid = new CMapSolid;
         pBackSolid->CopyFrom(this, false);
-		pBackSolid->SetParent(NULL);
+		pBackSolid->SetParent(nullptr);
         pBackSolid->SetTemporary( TRUE );
 
         face.plane.normal = pPlane->normal;
@@ -904,7 +904,7 @@ int CMapSolid::CreateFromPlanes( DWORD dwFlags )
 		// If we still have a winding after all that clipping, build a face from
 		// the winding.
 		//
-		if (w != NULL)
+		if (w != nullptr)
 		{
 			//
 			// Round all points in the winding that are within ROUND_VERTEX_EPSILON of
@@ -1232,7 +1232,7 @@ void CMapSolid::OnAddToWorld(CMapWorld *pWorld)
 		//
 		EnumChildrenPos_t pos;
 		CMapClass *pChild = pWorld->GetFirstDescendent(pos);
-		while (pChild != NULL)
+		while (pChild != nullptr)
 		{
 			CMapSolid *pSolid = dynamic_cast<CMapSolid *>(pChild);
 			
@@ -1321,14 +1321,14 @@ CMapClass *CMapSolid::PrepareSelection(SelectMode_t eSelectMode)
 	// If we have a parent who is not the world object, consider whether we should
 	// select it instead.
 	//
-	if ((eSelectMode != selectSolids) && (m_pParent != NULL) && !IsWorldObject(m_pParent) )
+	if ((eSelectMode != selectSolids) && (m_pParent != nullptr) && !IsWorldObject(m_pParent) )
 	{
 		//
 		// If we are in group selection mode or our parent is an entity, select our
 		// parent.
 		//
 
-		if ( (eSelectMode == selectGroups) || (dynamic_cast <CMapEntity *>(m_pParent) != NULL))
+		if ( (eSelectMode == selectGroups) || (dynamic_cast <CMapEntity *>(m_pParent) != nullptr))
 		{
 			return GetParent()->PrepareSelection(eSelectMode);
 		}
@@ -1373,7 +1373,7 @@ void CMapSolid::RemoveEmptyFaces(void)
 		// If this face has no points, delete it.
 		//
 		const CMapFace *pFace = GetFace(i);
-		if (pFace->Points == NULL)
+		if (pFace->Points == nullptr)
 		{
 			DeleteFace(i);
 			i--;
@@ -1713,10 +1713,10 @@ bool CMapSolid::Subtract(CMapObjectList *pInside, CMapObjectList *pOutside, CMap
 
 	EnumChildrenPos_t pos;
 	CMapClass *pChild = pSubtractWith->GetFirstDescendent(pos);
-	while (pChild != NULL)
+	while (pChild != nullptr)
 	{
 		CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pChild);
-		if (pSolid != NULL)
+		if (pSolid != nullptr)
 		{
 			SubList.AddToTail(pSolid);
 		}
@@ -1741,28 +1741,28 @@ bool CMapSolid::Subtract(CMapObjectList *pInside, CMapObjectList *pOutside, CMap
 		CMapObjectList carve_in;
 		CMapObjectList carve_out;
 
-		CMapObjectList *pCarveIn = NULL;
-		CMapObjectList *pCarveOut = NULL;
+		CMapObjectList *pCarveIn = nullptr;
+		CMapObjectList *pCarveOut = nullptr;
 
-		if (pInside != NULL)
+		if (pInside != nullptr)
 		{
 			pCarveIn = &carve_in;
 		}
 
-		if (pOutside != NULL)
+		if (pOutside != nullptr)
 		{
 			pCarveOut = &carve_out;
 		}
 
 		bIntersected |= Carve(pCarveIn, pCarveOut, pCarver);
 
-		if (pInside != NULL)
+		if (pInside != nullptr)
 		{
 			pInside->AddVectorToTail(carve_in);
 			carve_in.RemoveAll();
 		}
 
-		if (pOutside != NULL)
+		if (pOutside != nullptr)
 		{
 			pOutside->AddVectorToTail(carve_out);
 			carve_out.RemoveAll();
@@ -1787,7 +1787,7 @@ color32 CMapSolid::GetLineColor( CRender2D *pRender )
 		// If this is a solid entity, use the entity pen color.
 		//
 		CMapEntity *pEntity = dynamic_cast<CMapEntity *>(GetParent());
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			GDclass *pClass = pEntity->GetClass();
 			if (pClass)
@@ -1992,7 +1992,7 @@ bool CMapSolid::HitTest2D(CMapView2D *pView, const Vector2D &point, HitInfo_t &H
 		}
 	}
 
-	HitData.pObject = NULL;
+	HitData.pObject = nullptr;
 
 	return false;
 }

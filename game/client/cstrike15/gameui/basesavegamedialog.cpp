@@ -54,7 +54,7 @@ public:
 		m_pElapsedTimeLabel = new Label( this, "ElapsedTimeLabel", "" );
 		m_pFileTimeLabel = new Label( this, "FileTimeLabel", "" );
 
-		CMouseMessageForwardingPanel *panel = new CMouseMessageForwardingPanel(this, NULL);
+		CMouseMessageForwardingPanel *panel = new CMouseMessageForwardingPanel(this, nullptr);
 		panel->SetZPos(2);
 
 		SetSize( 200, 140 );
@@ -266,7 +266,7 @@ void CBaseSaveGameDialog::ScanSavedGames()
 	{
 		vgui::Label *pNoSavesLabel = SETUP_PANEL(new Label(m_pGameList, "NoSavesLabel", "#GameUI_NoSaveGamesToDisplay"));
 		pNoSavesLabel->SetTextColorState(vgui::Label::CS_DULL);
-		m_pGameList->AddItem( NULL, pNoSavesLabel );
+		m_pGameList->AddItem(nullptr, pNoSavesLabel );
 	}
 
 	SetControlEnabled( "loadsave", false );
@@ -281,7 +281,7 @@ void CBaseSaveGameDialog::AddSaveGameItemToList( int saveIndex )
 	// create the new panel and add to the list
 	CSaveGamePanel *saveGamePanel = new CSaveGamePanel( m_pGameList, "SaveGamePanel", saveIndex );
 	saveGamePanel->SetSaveGameInfo( m_SaveGames[saveIndex] );
-	m_pGameList->AddItem( NULL, saveGamePanel );
+	m_pGameList->AddItem(nullptr, saveGamePanel );
 }
 
 //-----------------------------------------------------------------------------
@@ -455,12 +455,12 @@ int SaveReadNameAndComment( FileHandle_t f, char *name, char *comment )
 		// Make sure the token strings pointed to by the pToken hashtable.
 		for( i=0; i<tokenCount; i++ )
 		{
-			pTokenList[i] = *pData ? pData : NULL;	// Point to each string in the pToken table
+			pTokenList[i] = *pData ? pData : nullptr;	// Point to each string in the pToken table
 			while( *pData++ );				// Find next token (after next null)
 		}
 	}
 	else
-		pTokenList = NULL;
+		pTokenList = nullptr;
 
 	// short, short (size, index of field name)
 	nFieldSize = *(short *)pData;

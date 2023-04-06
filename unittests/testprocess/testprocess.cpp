@@ -145,8 +145,8 @@ SpewRetval_t CmdLib_SpewOutputFunc( SpewType_t type, char const *pMsg )
 
 void InstallSpewFunction()
 {
-	setvbuf( stdout, NULL, _IONBF, 0 );
-	setvbuf( stderr, NULL, _IONBF, 0 );
+	setvbuf( stdout, nullptr, _IONBF, 0 );
+	setvbuf( stderr, nullptr, _IONBF, 0 );
 
 	SpewOutputFunc( CmdLib_SpewOutputFunc );
 	GetInitialColors();

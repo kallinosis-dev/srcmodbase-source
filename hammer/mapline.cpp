@@ -40,7 +40,7 @@ IMPLEMENT_MAPCLASS(CMapLine);
 //-----------------------------------------------------------------------------
 CMapClass *CMapLine::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 {
-	CMapLine *pLine = NULL;
+	CMapLine *pLine = nullptr;
 
 	//
 	// Extract the line color from the parameter list.
@@ -50,19 +50,19 @@ CMapClass *CMapLine::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 	unsigned char chBlue = 255;
 
 	const char *pszParam = pHelperInfo->GetParameter(0);
-	if (pszParam != NULL)
+	if (pszParam != nullptr)
 	{
 		chRed = atoi(pszParam);
 	}
 
 	pszParam = pHelperInfo->GetParameter(1);
-	if (pszParam != NULL)
+	if (pszParam != nullptr)
 	{
 		chGreen = atoi(pszParam);
 	}
 
 	pszParam = pHelperInfo->GetParameter(2);
-	if (pszParam != NULL)
+	if (pszParam != nullptr)
 	{
 		chBlue = atoi(pszParam);
 	}
@@ -76,9 +76,9 @@ CMapClass *CMapLine::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 	//
 	// Make sure we'll have at least one endpoint to work with.
 	//
-	if ((pszStartKey == NULL) || (pszStartValueKey == NULL))
+	if ((pszStartKey == nullptr) || (pszStartValueKey == nullptr))
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	pLine = new CMapLine(pszStartKey, pszStartValueKey, pszEndKey, pszEndValueKey);
@@ -87,7 +87,7 @@ CMapClass *CMapLine::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 	//
 	// If they only specified a start entity, use our parent as the end entity.
 	//
-	if ((pszEndKey == NULL) || (pszEndValueKey == NULL))
+	if ((pszEndKey == nullptr) || (pszEndValueKey == nullptr))
 	{
 		pLine->m_pEndEntity = pParent;
 	}
@@ -119,7 +119,7 @@ CMapLine::CMapLine(const char *pszStartKey, const char *pszStartValueKey, const 
 	strcpy(m_szStartKey, pszStartKey);
 	strcpy(m_szStartValueKey, pszStartValueKey);
 
-	if ((pszEndKey != NULL) && (pszEndValueKey != NULL))
+	if ((pszEndKey != nullptr) && (pszEndValueKey != nullptr))
 	{
 		strcpy(m_szEndKey, pszEndKey);
 		strcpy(m_szEndValueKey, pszEndValueKey);
@@ -138,8 +138,8 @@ void CMapLine::Initialize(void)
 	m_szEndKey[0] = '\0';
 	m_szEndValueKey[0] = '\0';
 
-	m_pStartEntity = NULL;
-	m_pEndEntity = NULL;
+	m_pStartEntity = nullptr;
+	m_pEndEntity = nullptr;
 }
 
 
@@ -156,7 +156,7 @@ CMapLine::~CMapLine(void)
 //-----------------------------------------------------------------------------
 void CMapLine::BuildLine(void)
 {
-	if ((m_pStartEntity != NULL) && (m_pEndEntity != NULL))
+	if ((m_pStartEntity != nullptr) && (m_pEndEntity != nullptr))
 	{
 		//
 		// Set our origin to our midpoint. This moves our selection handle box to the
@@ -222,7 +222,7 @@ CMapClass *CMapLine::Copy(bool bUpdateDependencies)
 {
 	CMapLine *pCopy = new CMapLine;
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -241,7 +241,7 @@ CMapClass *CMapLine::CopyFrom(CMapClass *pObject, bool bUpdateDependencies)
 {
 	CMapLine *pFrom = dynamic_cast <CMapLine *>(pObject);
 
-	if (pFrom != NULL)
+	if (pFrom != nullptr)
 	{
 		CMapClass::CopyFrom(pObject, bUpdateDependencies);
 
@@ -283,7 +283,7 @@ void CMapLine::OnAddToWorld(CMapWorld *pWorld)
 	// Updates our start and end entity pointers since we are being added
 	// into the world.
 	//
-	UpdateDependencies(pWorld, NULL);
+	UpdateDependencies(pWorld, nullptr);
 }
 
 
@@ -300,8 +300,8 @@ void CMapLine::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren)
 	//
 	// Detach ourselves from the endpoint entities.
 	//
-	m_pStartEntity = (CMapEntity *)UpdateDependency(m_pStartEntity, NULL);
-	m_pEndEntity = (CMapEntity *)UpdateDependency(m_pEndEntity, NULL);
+	m_pStartEntity = (CMapEntity *)UpdateDependency(m_pStartEntity, nullptr);
+	m_pEndEntity = (CMapEntity *)UpdateDependency(m_pEndEntity, nullptr);
 }
 
 
@@ -314,7 +314,7 @@ void CMapLine::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotifyT
 	CMapClass::OnNotifyDependent(pObject, eNotifyType);
 
 	CMapWorld *pWorld = (CMapWorld *)GetWorldObject(this);
-	UpdateDependencies(pWorld, NULL);
+	UpdateDependencies(pWorld, nullptr);
 }
 
 
@@ -326,7 +326,7 @@ void CMapLine::OnNotifyDependent(CMapClass *pObject, Notify_Dependent_t eNotifyT
 void CMapLine::OnParentKeyChanged( const char* key, const char* value )
 {
 	CMapWorld *pWorld = (CMapWorld *)GetWorldObject(this);
-	if (pWorld != NULL)
+	if (pWorld != nullptr)
 	{
 		if (stricmp(key, m_szStartValueKey) == 0)
 		{
@@ -348,7 +348,7 @@ void CMapLine::OnParentKeyChanged( const char* key, const char* value )
 //-----------------------------------------------------------------------------
 void CMapLine::Render2D(CRender2D *pRender)
 {
-	if ((m_pStartEntity != NULL) && (m_pEndEntity != NULL))
+	if ((m_pStartEntity != nullptr) && (m_pEndEntity != nullptr))
 	{
 		Vector Start;
 		Vector End;
@@ -376,7 +376,7 @@ void CMapLine::Render2D(CRender2D *pRender)
 //-----------------------------------------------------------------------------
 void CMapLine::Render3D(CRender3D *pRender)
 {
-	if ( (m_pStartEntity == NULL) || (m_pEndEntity == NULL) )
+	if ( (m_pStartEntity == nullptr) || (m_pEndEntity == nullptr) )
 		return;
 
 	pRender->BeginRenderHitTarget(this);
@@ -470,7 +470,7 @@ void CMapLine::UpdateDependencies(CMapWorld *pWorld, CMapClass *pObject)
 {
 	CMapClass::UpdateDependencies(pWorld, pObject);
 
-	if (pWorld == NULL)
+	if (pWorld == nullptr)
 	{
 		return;
 	}
@@ -478,7 +478,7 @@ void CMapLine::UpdateDependencies(CMapWorld *pWorld, CMapClass *pObject)
 	CMapEntity *pEntity = dynamic_cast <CMapEntity *> (m_pParent);
 	Assert(pEntity != NULL);
 
-	if (pEntity != NULL)
+	if (pEntity != nullptr)
 	{
 		const char *pszValue = pEntity->GetKeyValue(m_szStartValueKey);
 		m_pStartEntity = (CMapEntity *)UpdateDependency(m_pStartEntity, pWorld->FindChildByKeyValue(m_szStartKey, pszValue));
@@ -504,7 +504,7 @@ void CMapLine::UpdateDependencies(CMapWorld *pWorld, CMapClass *pObject)
 //-----------------------------------------------------------------------------
 CMapClass *CMapLine::PrepareSelection(SelectMode_t eSelectMode)
 {
-	return NULL;
+	return nullptr;
 }
 
 

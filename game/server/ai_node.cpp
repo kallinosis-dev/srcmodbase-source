@@ -42,7 +42,7 @@ CAI_Link *CAI_Node::GetLink( int destNodeId )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -91,7 +91,7 @@ CAI_Link* CAI_Node::HasLink(int nNodeID)
 			return m_Links[link];
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ float GetFloorZ(const Vector &origin, float fMaxDrop)
 	AI_TraceLine ( origin,
 					 origin - Vector ( 0, 0, fMaxDrop ),
 					 MASK_NPCSOLID_BRUSHONLY,
-					 NULL,
+					 nullptr,
 					 COLLISION_GROUP_NONE, 
 					 &tr );
 
@@ -149,7 +149,7 @@ float GetFloorZ(const Vector &origin, float fMaxDrop)
 	AI_TraceLine ( origin,
 					 origin - Vector ( 0, 0, fMaxDrop ),
 					 MASK_NPCSOLID,
-					 NULL,
+					 nullptr,
 					 COLLISION_GROUP_NONE, 
 					 &trEnt );
 
@@ -265,7 +265,7 @@ CAI_Node::CAI_Node( int id, const Vector &origin, float yaw  )
 
 	m_iFirstShuffledLink	= 0;
 
-	m_pHint					= NULL;
+	m_pHint					= nullptr;
 	m_flYaw					= yaw;
 
 	m_flNextUseTime			= 0;

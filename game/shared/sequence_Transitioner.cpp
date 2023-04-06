@@ -23,7 +23,7 @@ void CSequenceTransitioner::CheckForSequenceChange(
 	bool bInterpolate )
 {
 	// sequence may be set before model is initialized
-	if ( hdr == NULL)
+	if ( hdr == nullptr)
 		return;
 
 	// FIXME?: this should detect that what's been asked to be drawn isn't what was expected
@@ -97,7 +97,7 @@ void CSequenceTransitioner::UpdateCurrent(
 	float flCurTime )
 {
 	// sequence may be set before model is initialized
-	if ( hdr == NULL)
+	if ( hdr == nullptr)
 		return;
 
 	if (m_animationQueue.Count() == 0)

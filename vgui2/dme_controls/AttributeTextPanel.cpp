@@ -25,10 +25,10 @@ using namespace vgui;
 // CAttributeTextPanel constructor
 //-----------------------------------------------------------------------------
 CAttributeTextPanel::CAttributeTextPanel( vgui::Panel *parent, const AttributeWidgetInfo_t &info ) :
-	BaseClass( parent, info ), m_pData( 0 ), m_bShowMemoryUsage( info.m_bShowMemoryUsage )
+	BaseClass( parent, info ), m_pData( nullptr ), m_bShowMemoryUsage( info.m_bShowMemoryUsage )
 {
 	m_pData = new CAttributeTextEntry( this, "AttributeValue" );
-	m_pData->SetEnabled( !HasFlag( READONLY ) && FindChannelTargetingAttribute( GetAttribute() ) == NULL );
+	m_pData->SetEnabled( !HasFlag( READONLY ) && FindChannelTargetingAttribute( GetAttribute() ) == nullptr);
 
 	m_pData->AddActionSignalTarget(this);
 	SetAllowKeyBindingChainToParent( false );
@@ -47,7 +47,7 @@ const char *CAttributeTextPanel::GetTextType()
 {
 	// If a specific text type is specified, then filter if it doesn't match
 	CDmeEditorAttributeInfo *pInfo = GetEditorInfo();
-	const char *pTextType = pInfo ? pInfo->GetValueString( "texttype" ) : NULL;
+	const char *pTextType = pInfo ? pInfo->GetValueString( "texttype" ) : nullptr;
 	return pTextType ? pTextType : "";
 }
 
@@ -122,7 +122,7 @@ void CAttributeTextPanel::Refresh()
 		}
 		m_pData->SetText( buf );
 
-		m_pData->SetEnabled( !HasFlag( READONLY ) && FindChannelTargetingAttribute( GetAttribute() ) == NULL );
+		m_pData->SetEnabled( !HasFlag( READONLY ) && FindChannelTargetingAttribute( GetAttribute() ) == nullptr);
 	}
 }
 

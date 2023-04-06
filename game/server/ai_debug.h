@@ -61,7 +61,7 @@ void DevMsg( CAI_BaseNPC *pAI, PRINTF_FORMAT_STRING const char *pszFormat, ... )
 // Purpose: Use this to perform AI tracelines that are trying to determine LOS between points.
 //			LOS checks between entities should use FVisible.
 //-----------------------------------------------------------------------------
-void AI_TraceLOS( const Vector& vecAbsStart, const Vector& vecAbsEnd, CBaseEntity *pLooker, trace_t *ptr, ITraceFilter *pFilter = NULL );
+void AI_TraceLOS( const Vector& vecAbsStart, const Vector& vecAbsEnd, CBaseEntity *pLooker, trace_t *ptr, ITraceFilter *pFilter = nullptr);
 
 //-----------------------------------------------------------------------------
 

@@ -21,7 +21,7 @@ public:
     CProgressDlg(UINT nCaptionID = 0);   // standard constructor
     ~CProgressDlg();
 
-    BOOL Create(CWnd *pParent=NULL);
+    BOOL Create(CWnd *pParent= nullptr);
 
     // Checking for Cancel button
     BOOL CheckCancelButton();

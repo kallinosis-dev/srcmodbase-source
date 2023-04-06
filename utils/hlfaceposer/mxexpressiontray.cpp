@@ -33,7 +33,7 @@
 #define DEFAULT_THUMBNAIL_SIZE 128
 #define TOP_GAP 45
 
-mxExpressionTray *g_pExpressionTrayTool = 0;
+mxExpressionTray *g_pExpressionTrayTool = nullptr;
 
 mxExpressionTray::mxExpressionTray( mxWindow *parent, int id /*=0*/ )
 : IFacePoserToolWindow( "ExpressionTrayTool", "Expressions" ), mxWindow( parent, 0, 0, 0, 0, "ExpressionTrayTool", id )
@@ -64,7 +64,7 @@ mxExpressionTray::mxExpressionTray( mxWindow *parent, int id /*=0*/ )
 
 	m_nSnapshotHeight = m_nSnapshotWidth + m_nDescriptionHeight;
 
-	m_pButtons = NULL;
+	m_pButtons = nullptr;
 
 	m_nPreviousExpressionCount = -1;
 
@@ -88,7 +88,7 @@ mxExpressionTray::mxExpressionTray( mxWindow *parent, int id /*=0*/ )
 mxExpressionTray::~mxExpressionTray ( void )
 {
 	DeleteAllButtons();
-	g_pExpressionTrayTool = NULL;
+	g_pExpressionTrayTool = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -220,7 +220,7 @@ mxExpressionTray::mxETButton *mxExpressionTray::FindButton( const char *name )
 			return p;
 		p = p->next;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -236,7 +236,7 @@ void mxExpressionTray::DeleteAllButtons( void )
 		delete p;
 		p = n;
 	}
-	m_pButtons = NULL;
+	m_pButtons = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -251,14 +251,14 @@ mxExpressionTray::mxETButton *mxExpressionTray::GetItemUnderCursor( int x, int y
 	int cell = GetCellUnderPosition( x, y );
 	if ( cell == -1 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Cell is off screen?
 	int cx, cy, cw, ch;
 	if ( !ComputeRect( cell, cx, cy, cw, ch ) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -286,7 +286,7 @@ mxExpressionTray::mxETButton *mxExpressionTray::GetItemUnderCursor( int x, int y
 		p = p->next;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void mxExpressionTray::DrawButton( CChoreoWidgetDrawHelper& helper, int cell, mxETButton *btn )
@@ -692,7 +692,7 @@ void mxExpressionTray::ShowRightClickMenu( int mx, int my )
 	mxPopupMenu *pop = new mxPopupMenu();
 	Assert( pop );
 
-	CExpression *exp = NULL;
+	CExpression *exp = nullptr;
 	if ( m_nClickedCell != -1 )
 	{
 		exp = active->GetExpression( m_nClickedCell );
@@ -723,11 +723,11 @@ void mxExpressionTray::ShowRightClickMenu( int mx, int my )
 //-----------------------------------------------------------------------------
 void mxExpressionTray::DrawFocusRect( void )
 {
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 
 	::DrawFocusRect( dc, &m_rcFocus );
 
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 }
 
 static bool IsWindowOrChild( mxWindow *parent, HWND test )
@@ -824,7 +824,7 @@ int mxExpressionTray::handleEvent (mxEvent *event)
 						offset = max( offset, slScrollbar->getMinValue() );
 						
 						slScrollbar->setValue( offset );
-						InvalidateRect( (HWND)slScrollbar->getHandle(), NULL, TRUE );
+						InvalidateRect( (HWND)slScrollbar->getHandle(), nullptr, TRUE );
 						
 						m_nTopOffset = offset;
 						
@@ -838,7 +838,7 @@ int mxExpressionTray::handleEvent (mxEvent *event)
 						offset = min( offset, slScrollbar->getMaxValue() );
 						
 						slScrollbar->setValue( offset );
-						InvalidateRect( (HWND)slScrollbar->getHandle(), NULL, TRUE );
+						InvalidateRect( (HWND)slScrollbar->getHandle(), nullptr, TRUE );
 						
 						m_nTopOffset = offset;
 						

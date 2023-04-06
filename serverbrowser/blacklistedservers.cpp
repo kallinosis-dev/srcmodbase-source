@@ -137,7 +137,7 @@ bool CBlacklistedServers::AddServersFromFile( const char *pszFilename, bool bRes
 	if ( !pKV->LoadFromFile( g_pFullFileSystem, pszFilename, "GAME" ) )
 		return false;
 
-	for ( KeyValues *pData = pKV->GetFirstSubKey(); pData != NULL; pData = pData->GetNextKey() )
+	for ( KeyValues *pData = pKV->GetFirstSubKey(); pData != nullptr; pData = pData->GetNextKey() )
 	{
 		const char *pszName = pData->GetString( "name" );
 
@@ -334,7 +334,7 @@ void CBlacklistedServers::OnOpenContextMenu(int itemID)
 void CBlacklistedServers::OnAddServerByName()
 {
 	// open the add server dialog
-	CDialogAddBlacklistedServer *dlg = new CDialogAddBlacklistedServer( &ServerBrowserDialog(), NULL );
+	CDialogAddBlacklistedServer *dlg = new CDialogAddBlacklistedServer( &ServerBrowserDialog(), nullptr);
 	dlg->MoveToCenterOfScreen();
 	dlg->DoModal();
 }
@@ -473,7 +473,7 @@ blacklisted_server_t *CBlacklistedServers::GetBlacklistedServer( int iServerID )
 		if ( m_Blacklist[i].m_nServerID == iServerID )
 			return &m_Blacklist[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

@@ -52,8 +52,8 @@ extern int FindLocalBoneNamed( const s_source_t *pSource, const char *pName );
 static float Safe_atof( const char *pString );
 static int Safe_atoi( const char *pString );
 
-IPhysicsCollision *physcollision = NULL;
-IPhysicsSurfaceProps *physprops = NULL;
+IPhysicsCollision *physcollision = nullptr;
+IPhysicsSurfaceProps *physprops = nullptr;
 
 float g_WeldVertEpsilon = 0.0f;
 float g_WeldNormalEpsilon = 0.999f;
@@ -106,7 +106,7 @@ class CJointConstraint
 public:
 	CJointConstraint( void )
 	{
-		m_pJointName = NULL;
+		m_pJointName = nullptr;
 	}
 
 	CJointConstraint( const char *pName, int axis, jointlimit_t type, float min, float max, float friction )
@@ -257,23 +257,23 @@ CJointedModel g_JointedModel;
 
 CJointedModel::CJointedModel( void )
 {
-	m_pModel = NULL;
+	m_pModel = nullptr;
 	
 	for ( int i=0; i<=MAX_EXTRA_COLLISION_MODELS; i++ )
 	{
-		m_ExtraModels[i].m_pSrc = NULL;
+		m_ExtraModels[i].m_pSrc = nullptr;
 		m_ExtraModels[i].m_bConcave = false;
 	}
 
 	m_bRootCollisionIsEmpty = false;
 
 	m_collisionCount = 0;
-	m_pCollisionList = NULL;
-	m_pCollisionPairs = NULL;
+	m_pCollisionList = nullptr;
+	m_pCollisionPairs = nullptr;
 	m_totalMass = 1.0;
 
 	m_bonemap.SetSize(0);
-	m_pConstraintList = NULL;
+	m_pConstraintList = nullptr;
 	m_constraintCount = 0;
 	
 	m_totalVerts = 0;
@@ -297,7 +297,7 @@ CJointedModel::CJointedModel( void )
 	m_iMinAnimatedFriction = 1.0f;
 	m_iMaxAnimatedFriction = 1.0f;
 	m_bHasAnimatedFriction = false;
-	m_pOverrideName = NULL;
+	m_pOverrideName = nullptr;
 }
 
 
@@ -360,7 +360,7 @@ void CJointedModel::UnlinkCollisionModel( CPhysCollisionModel *pCollide )
 		{
 			*pList = pCollide->m_pNext;
 			m_collisionCount--;
-			pCollide->m_pNext = NULL;
+			pCollide->m_pNext = nullptr;
 			return;
 		}
 		pList = &pNode->m_pNext;
@@ -455,7 +455,7 @@ void CJointedModel::SortCollisionList( void )
 		pArray[i]->m_pNext = pArray[i+1];
 	}
 	// terminate
-	pArray[i]->m_pNext = NULL;
+	pArray[i]->m_pNext = nullptr;
 	// point the list to first joint
 	m_pCollisionList = pArray[0];
 
@@ -469,7 +469,7 @@ void CJointedModel::AddConvexSrc( const char *szFileName )
 
 	for ( int i=0; i<MAX_EXTRA_COLLISION_MODELS; i++ )
 	{
-		if ( m_ExtraModels[i].m_pSrc == NULL )
+		if ( m_ExtraModels[i].m_pSrc == nullptr)
 		{
 
 			int nummaterials = g_nummaterials;
@@ -563,9 +563,9 @@ void CJointedModel::AppendCollisionPair( const char *pName0, const char *pName1 
 	pPair->obj0 = -1;
 	pPair->obj1 = -1;
 	int jointIndex0 = FindLocalBoneNamed( pName0 );
-	pPair->pName0 = (jointIndex0 >= 0) ? m_pModel->localBone[jointIndex0].name : NULL;
+	pPair->pName0 = (jointIndex0 >= 0) ? m_pModel->localBone[jointIndex0].name : nullptr;
 	int jointIndex1 = FindLocalBoneNamed( pName1 );
-	pPair->pName1 = (jointIndex1 >= 0) ? m_pModel->localBone[jointIndex1].name : NULL;
+	pPair->pName1 = (jointIndex1 >= 0) ? m_pModel->localBone[jointIndex1].name : nullptr;
 
 	//printf("Appending collision pair: %s to %s\n", pPair->pName0, pPair->pName1 );
 
@@ -580,7 +580,7 @@ void CJointedModel::RemoveCollisionPair( const char *pName0, const char *pName1 
 	int jointIndex1 = FindLocalBoneNamed( pName1 );
 	const char *szName1 = m_pModel->localBone[jointIndex1].name;
 	
-	collisionpair_t *pPairToRemove = NULL;
+	collisionpair_t *pPairToRemove = nullptr;
 
 	// find the pair to remove
 	collisionpair_t *pPair = m_pCollisionPairs;
@@ -597,7 +597,7 @@ void CJointedModel::RemoveCollisionPair( const char *pName0, const char *pName1 
 	if ( pPairToRemove )
 	{
 		// find the prev
-		collisionpair_t *pPairPrev = NULL;
+		collisionpair_t *pPairPrev = nullptr;
 
 		pPair = m_pCollisionPairs;
 		while ( pPair )
@@ -639,7 +639,7 @@ void CJointedModel::ForceMassCenter( const Vector &centerOfMass )
 CPhysCollisionModel *CJointedModel::GetCollisionModel( const char *pName )
 {
 	if ( !pName )
-		return NULL;
+		return nullptr;
 
 	CPhysCollisionModel *pList = m_pCollisionList;
 	while ( pList )
@@ -650,7 +650,7 @@ CPhysCollisionModel *CJointedModel::GetCollisionModel( const char *pName )
 		pList = pList->m_pNext;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CJointedModel::AddConstraint( const char *pJointName, int axis, jointlimit_t jointType, float limitMin, float limitMax, float friction )
@@ -721,7 +721,7 @@ void CJointedModel::ComputeMass( void )
 		char* pSurfaceProps = GetSurfaceProp( pList->m_name );
 		int index = physprops->GetSurfaceIndex( pSurfaceProps );
 		float density, thickness;
-		physprops->GetPhysicsProperties( index, &density, &thickness, NULL, NULL );
+		physprops->GetPhysicsProperties( index, &density, &thickness, nullptr, nullptr);
 
 		if ( thickness > 0 )
 		{
@@ -754,7 +754,7 @@ CPhysCollisionModel *CJointedModel::InitCollisionModel( const char *pJointName )
 	{
 		int boneIndex = BoneIndex( pJointName );
 		if ( boneIndex < 0 )
-			return NULL;
+			return nullptr;
 
 		pModel = new CPhysCollisionModel;
 		// this name is the same as pJointName, but guaranteed to be non-volatile (we'd have to copy pJointName)
@@ -765,7 +765,7 @@ CPhysCollisionModel *CJointedModel::InitCollisionModel( const char *pJointName )
 		}
 		else
 		{
-			pModel->m_parent = NULL;
+			pModel->m_parent = nullptr;
 		}
 
 		SetCollisionModelDefaults( pModel );
@@ -1082,7 +1082,7 @@ void CJointedModel::FixBoneList()
 				// bone collapse may have changed parent hierarchy, and the root name. 
 				// The vertices are converted to the new reference by ConvertToWorldSpace(), as well as RemapVerticesToGlobalBones()
 				pmodel->m_name = g_bonetable[  m_pModel->boneLocalToGlobal[nodeIndex] ].name;
-				pmodel->m_parent = NULL;
+				pmodel->m_parent = nullptr;
 				int parentIndex = m_pModel->localBone[nodeIndex].parent;
 				if ( parentIndex >= 0 && parentIndex != nodeIndex )
 				{
@@ -1129,7 +1129,7 @@ const char *CJointedModel::FixParent( const char *pParentName )
 		}
 		int nodeIndex = FindLocalBoneNamed( pParentName );
 		if ( nodeIndex < 0 )
-			return NULL;
+			return nullptr;
 		int parentIndex = m_pModel->localBone[nodeIndex].parent;
 		if ( parentIndex < 0 )
 		{
@@ -1139,7 +1139,7 @@ const char *CJointedModel::FixParent( const char *pParentName )
 		pParentName = m_pModel->localBone[parentIndex].name;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1527,7 +1527,7 @@ int CJointedModel::ProcessJointedModel()
 			}
 			else
 			{
-				pPhys->m_parent = NULL;
+				pPhys->m_parent = nullptr;
 			}
 
 			boundingvolume_t bv;
@@ -1646,7 +1646,7 @@ int CJointedModel::ProcessSingleBody()
 	// Transform all the extra models using their offset matrices. May as well do this right away.
 	for ( int i = 0; i < nMaxModels; i++ )
 	{
-		if ( m_ExtraModels[i].m_pSrc != NULL )
+		if ( m_ExtraModels[i].m_pSrc != nullptr)
 		{
 			if ( !m_allowConcave )
 				m_ExtraModels[i].m_bConcave = false;
@@ -1661,12 +1661,12 @@ int CJointedModel::ProcessSingleBody()
 	// and that's an error.
 
 	// find and group up the concave sources into a single welded source
-	s_source_t *pConcaveSrc = NULL;
-	s_source_t *pFallbackSrc = NULL;
+	s_source_t *pConcaveSrc = nullptr;
+	s_source_t *pFallbackSrc = nullptr;
 
 	for ( int i = 0; i < nMaxModels; i++ )
 	{
-		if ( m_ExtraModels[i].m_pSrc != NULL )
+		if ( m_ExtraModels[i].m_pSrc != nullptr)
 		{
 			if ( !pFallbackSrc )
 				pFallbackSrc = m_ExtraModels[i].m_pSrc;
@@ -1749,7 +1749,7 @@ int CJointedModel::ProcessSingleBody()
 
 	for ( int i = 0; i < nMaxModels; i++ )
 	{	
-		if ( m_ExtraModels[i].m_pSrc != NULL && !m_ExtraModels[i].m_bConcave )
+		if ( m_ExtraModels[i].m_pSrc != nullptr && !m_ExtraModels[i].m_bConcave )
 		{
 			s_source_t *pmodel = m_ExtraModels[i].m_pSrc;
 	
@@ -1864,7 +1864,7 @@ int CJointedModel::ProcessSingleBody()
 		char *out = new char[strlen(tmp)+1];
 		strcpy( out, tmp );
 		pPhys->m_name = out;
-		pPhys->m_parent = NULL;
+		pPhys->m_parent = nullptr;
 
 		AppendCollisionModel( pPhys );
 	}
@@ -2401,7 +2401,7 @@ void LoadSurfacePropsAll()
 	if ( manifest->LoadFromFile( g_pFileSystem, SURFACEPROP_MANIFEST_FILE, "GAME" ) )
 	{
 		bIsLoaded = true;
-		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 		{
 			if ( !Q_stricmp( sub->GetName(), "file" ) )
 			{
@@ -2440,8 +2440,8 @@ int DoCollisionModel( bool separateJoints )
 		return 0;
 
 //	g_pPhysics2 = (IPhysics2*)physicsFactory(VPHYSICS2_INTERFACE_VERSION, NULL);
-	physcollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, NULL );
-	physprops = (IPhysicsSurfaceProps *)physicsFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, NULL );
+	physcollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, nullptr);
+	physprops = (IPhysicsSurfaceProps *)physicsFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, nullptr);
 	LoadSurfacePropsAll();
 
 	int nummaterials = g_nummaterials;

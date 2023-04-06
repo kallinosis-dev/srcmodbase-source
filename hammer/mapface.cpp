@@ -64,7 +64,7 @@ LPCTSTR GetDefaultTextureName();
 // Static member data initialization.
 //
 bool CMapFace::m_bShowFaceSelection = true;
-IEditorTexture *CMapFace::m_pLightmapGrid = NULL;
+IEditorTexture *CMapFace::m_pLightmapGrid = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -76,18 +76,18 @@ CMapFace::CMapFace(void)
 	memset(&texture, 0, sizeof(texture));
 	memset(&plane, 0, sizeof(plane));
 
-	m_pTexture = NULL;
-	m_pTangentAxes = NULL;
+	m_pTexture = nullptr;
+	m_pTangentAxes = nullptr;
     m_DispHandle = EDITDISPHANDLE_INVALID;
 
-	Points = NULL;
+	Points = nullptr;
 	nPoints = 0;
 	m_nFaceID = 0;
-	m_pTextureCoords = NULL;
-	m_pLightmapCoords = NULL;
+	m_pTextureCoords = nullptr;
+	m_pLightmapCoords = nullptr;
 	m_uchAlpha = 255;
 
-	m_pDetailObjects = NULL;
+	m_pDetailObjects = nullptr;
 
 	texture.nLightmapScale = g_pGameConfig->GetDefaultLightmapScale();
 
@@ -96,7 +96,7 @@ CMapFace::CMapFace(void)
 
 	SetTexture(GetNullTextureName());
 	
-	if (m_pLightmapGrid == NULL)
+	if (m_pLightmapGrid == nullptr)
 	{
 		m_pLightmapGrid = g_Textures.FindActiveTexture("Debug/debugluxelsnoalpha");
 	}
@@ -115,16 +115,16 @@ CMapFace::~CMapFace(void)
 {
 	SignalUpdate( EVTYPE_FACE_CHANGED );
 	delete [] Points;
-	Points = NULL;
+	Points = nullptr;
 
 	delete [] m_pTextureCoords;
-	m_pTextureCoords = NULL;
+	m_pTextureCoords = nullptr;
 
 	delete [] m_pLightmapCoords;
-	m_pLightmapCoords = NULL;
+	m_pLightmapCoords = nullptr;
 
 	delete m_pDetailObjects;
-	m_pDetailObjects = NULL;
+	m_pDetailObjects = nullptr;
 
 	FreeTangentSpaceAxes();
 
@@ -168,9 +168,9 @@ void CMapFace::GetTextureName(char *pszName) const
 {
 	Assert(pszName != NULL);
 
-	if (pszName != NULL)
+	if (pszName != nullptr)
 	{
-		if (m_pTexture != NULL)
+		if (m_pTexture != nullptr)
 		{
 			m_pTexture->GetShortName(pszName);
 		}
@@ -230,27 +230,27 @@ CMapFace *CMapFace::CopyFrom(const CMapFace *pObject, DWORD dwFlags, bool bUpdat
 	const CMapFace *pFrom = dynamic_cast<const CMapFace *>(pObject);
 	Assert(pFrom != NULL);
 
-	if (pFrom != NULL)
+	if (pFrom != nullptr)
 	{
 		//
 		// Free our points first.
 		//
-		if (Points != NULL)
+		if (Points != nullptr)
 		{
 			delete [] Points;
-			Points = NULL;
+			Points = nullptr;
 		}
 
-		if (m_pTextureCoords != NULL)
+		if (m_pTextureCoords != nullptr)
 		{
 			delete [] m_pTextureCoords;
-			m_pTextureCoords = NULL;
+			m_pTextureCoords = nullptr;
 		}
 
-		if (m_pLightmapCoords != NULL)
+		if (m_pLightmapCoords != nullptr)
 		{
 			delete [] m_pLightmapCoords;
-			m_pLightmapCoords = NULL;
+			m_pLightmapCoords = nullptr;
 		}
 
 		FreeTangentSpaceAxes();
@@ -271,7 +271,7 @@ CMapFace *CMapFace::CopyFrom(const CMapFace *pObject, DWORD dwFlags, bool bUpdat
 		//
 		if (dwFlags & COPY_FACE_POINTS)
 		{
-			Points = NULL;
+			Points = nullptr;
 			nPoints = pFrom->nPoints;
 
 			if (pFrom->Points && nPoints)
@@ -286,10 +286,10 @@ CMapFace *CMapFace::CopyFrom(const CMapFace *pObject, DWORD dwFlags, bool bUpdat
 		}
 		else
 		{
-			Points = NULL;
-			m_pTextureCoords = 0;
-			m_pLightmapCoords = 0;
-			m_pTangentAxes = 0;
+			Points = nullptr;
+			m_pTextureCoords = nullptr;
+			m_pLightmapCoords = nullptr;
+			m_pTangentAxes = nullptr;
 			nPoints = 0;
 		}
 
@@ -347,7 +347,7 @@ CMapFace *CMapFace::CopyFrom(const CMapFace *pObject, DWORD dwFlags, bool bUpdat
 
 		// Delete any existing and build any new detail objects
 		delete m_pDetailObjects;
-		m_pDetailObjects = NULL;
+		m_pDetailObjects = nullptr;
 		DetailObjects::BuildAnyDetailObjects(this);
 	}
 	UpdateFaceFlags();
@@ -673,7 +673,7 @@ void CMapFace::NormalizeTextureShifts(void)
 		}
 	}
 
-	if (m_pTexture == NULL)
+	if (m_pTexture == nullptr)
 	{
 		return;
 	}
@@ -1115,7 +1115,7 @@ void CMapFace::CalcPlane(void)
 //-----------------------------------------------------------------------------
 void CMapFace::CalcPlaneFromFacePoints(void)
 {
-	if ((nPoints >= 3) && (Points != NULL))
+	if ((nPoints >= 3) && (Points != nullptr))
 	{
 		//
 		// Use the face points as a preliminary set of plane points.
@@ -1262,7 +1262,7 @@ size_t CMapFace::AllocatePoints(int _nPoints)
 	//
 	// If we have already allocated this many points, do nothing.
 	//
-	if ((Points != NULL) && (_nPoints == nPoints))
+	if ((Points != nullptr) && (_nPoints == nPoints))
 	{
 		return(nPoints * (sizeof(Vector) + sizeof(Vector2D) + sizeof(Vector2D)));
 	}
@@ -1270,16 +1270,16 @@ size_t CMapFace::AllocatePoints(int _nPoints)
 	//
 	// If we have the wrong number of points allocated, free the memory.
 	//
-	if (Points != NULL)
+	if (Points != nullptr)
 	{
 		delete [] Points;
-		Points = NULL;
+		Points = nullptr;
 
 		delete [] m_pTextureCoords;
-		m_pTextureCoords = NULL;
+		m_pTextureCoords = nullptr;
 
 		delete [] m_pLightmapCoords;
-		m_pLightmapCoords = NULL;
+		m_pLightmapCoords = nullptr;
 	}
 
 	Assert( nPoints == 0 || nPoints > 2 );
@@ -1334,7 +1334,7 @@ void CMapFace::SetTexture(IEditorTexture *pTexture, bool bRescaleTextureCoordina
 	texture.q2contents = m_pTexture->GetSurfaceContents();
 
 	BOOL bTexValid = FALSE;
-	if (m_pTexture != NULL)
+	if (m_pTexture != nullptr)
 	{
 		// Insure that the texture is loaded.
 		m_pTexture->Load();
@@ -1374,7 +1374,7 @@ void CMapFace::SetTexture(const char *pszNewTex, bool bRescaleTextureCoordinates
 void CMapFace::CalcTextureCoordAtPoint( const Vector& pt, Vector2D &texCoord )
 {
 	// sanity check
-	if( m_pTexture == NULL )
+	if( m_pTexture == nullptr)
 		return;
 
 	//
@@ -1415,7 +1415,7 @@ void CMapFace::CalcTextureCoords(void)
 	float s, t;
 	int i;
 
-	if (m_pTexture == NULL)
+	if (m_pTexture == nullptr)
 	{
 		return;
 	}
@@ -1514,7 +1514,7 @@ BOOL CMapFace::CheckFace(CCheckFaceInfo *pInfo)
 			{
 				if (VectorCompare(plane.planepts[nPlane], plane.planepts[nPlaneCheck]))
 				{
-					if (pInfo != NULL)
+					if (pInfo != nullptr)
 					{
 						strcpy(pInfo->szDescription, "face has duplicate plane points");
 					}
@@ -2269,7 +2269,7 @@ void CMapFace::RenderOpaqueFaces( CRender3D* pRender )
 	int nFaceCount = 0;
 
 	int nLastRenderMode = RENDER_MODE_NONE;
-	IEditorTexture *pLastTexture = NULL;
+	IEditorTexture *pLastTexture = nullptr;
 
 	for ( int i = g_CurrentOpaqueFaces->FirstInorder(); i != g_CurrentOpaqueFaces->InvalidIndex(); i = g_CurrentOpaqueFaces->NextInorder(i) )
 	{
@@ -2308,7 +2308,7 @@ void CMapFace::Render2D(CRender2D *pRender)
 {	
 	SelectionState_t eFaceSelectionState = GetSelectionState();
 	SelectionState_t eSolidSelectionState;
-	if (m_pParent != NULL)
+	if (m_pParent != nullptr)
 	{
 		eSolidSelectionState = m_pParent->GetSelectionState();
 	}
@@ -2386,7 +2386,7 @@ void CMapFace::Render3D( CRender3D *pRender )
 
 	SelectionState_t eFaceSelectionState = GetSelectionState();
 	SelectionState_t eSolidSelectionState;
-	if (m_pParent != NULL)
+	if (m_pParent != nullptr)
 	{
 		eSolidSelectionState = m_pParent->GetSelectionState();
 	}
@@ -2714,7 +2714,7 @@ void CMapFace::OnAddToWorld(CMapWorld *pWorld)
 		// Add it to the world displacement list.
 		//
 		IWorldEditDispMgr *pDispMgr = GetActiveWorldEditDispManager();
-		if (pDispMgr != NULL)
+		if (pDispMgr != nullptr)
 		{
 			pDispMgr->AddToWorld( m_DispHandle );
 		}
@@ -2737,7 +2737,7 @@ void CMapFace::OnRemoveFromWorld(void)
 		// Add it to the world displacement list.
 		//
 		IWorldEditDispMgr *pDispMgr = GetActiveWorldEditDispManager();
-		if (pDispMgr != NULL)
+		if (pDispMgr != nullptr)
 		{
 			pDispMgr->RemoveFromWorld( m_DispHandle );
 		}
@@ -3126,7 +3126,7 @@ void CMapFace::FreeTangentSpaceAxes( void )
 	if( m_pTangentAxes )
 	{
 		delete [] m_pTangentAxes;
-		m_pTangentAxes = NULL;
+		m_pTangentAxes = nullptr;
 	}
 }
 
@@ -3297,7 +3297,7 @@ void CMapFace::DoTransform(const VMatrix &matrix)
 		return;
 	}
 
-	CMapDisp *pDisp = NULL;
+	CMapDisp *pDisp = nullptr;
 	Vector bbDispOld[2]; // Old bbox for the disp.
 	if( HasDisp() )
 	{

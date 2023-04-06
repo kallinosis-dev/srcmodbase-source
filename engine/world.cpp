@@ -540,7 +540,7 @@ void SV_SolidMoved( edict_t *pSolidEnt, ICollideable *pSolidCollide, const Vecto
 {
 	if (!pPrevAbsOrigin)
 	{
-		CTouchLinks touchEnumerator(pSolidEnt, NULL, accurateBboxTriggerChecks);
+		CTouchLinks touchEnumerator(pSolidEnt, nullptr, accurateBboxTriggerChecks);
 
 		Vector vecWorldMins, vecWorldMaxs;
 		pSolidCollide->WorldSpaceSurroundingBounds( &vecWorldMins, &vecWorldMaxs );
@@ -566,7 +566,7 @@ void CL_SolidMoved( IClientEntity *pTriggerEnt, ICollideable *pSolidCollide, con
 {
 	if (!pPrevAbsOrigin)
 	{
-		CTouchLinks_ClientSide touchEnumerator(pTriggerEnt, NULL, accurateBboxTriggerChecks);
+		CTouchLinks_ClientSide touchEnumerator(pTriggerEnt, nullptr, accurateBboxTriggerChecks);
 
 		Vector vecWorldMins, vecWorldMaxs;
 		pSolidCollide->WorldSpaceSurroundingBounds( &vecWorldMins, &vecWorldMaxs );

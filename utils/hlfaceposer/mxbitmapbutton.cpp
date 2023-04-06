@@ -58,7 +58,7 @@ int mxBitmapButton::handleEvent( mxEvent * event )
 	{
 	case mxEvent::MouseUp:
 		// Send message to parent
-		HWND parent = (HWND)( getParent() ? getParent()->getHandle() : NULL );
+		HWND parent = (HWND)( getParent() ? getParent()->getHandle() : nullptr);
 		if ( parent )
 		{
 			LPARAM lp;

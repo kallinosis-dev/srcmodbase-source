@@ -116,7 +116,7 @@ public:
 	// Purpose: Activate the dialog
 	// The message "SoundSelected" will be sent if a sound is picked
 	// Pass in optional context keyvalues to be added to any messages sent by the sound picker
-	void DoModal( CSoundPicker::PickType_t initialType, const char *pInitialValue, KeyValues *pContextKeyValues = NULL );
+	void DoModal( CSoundPicker::PickType_t initialType, const char *pInitialValue, KeyValues *pContextKeyValues = nullptr);
 
 	virtual void OnCommand( const char *pCommand );
 };

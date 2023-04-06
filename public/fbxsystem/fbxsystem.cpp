@@ -32,7 +32,7 @@ IFbxSystem *g_pFbx = &s_fbxSystem;
 //
 //-----------------------------------------------------------------------------
 CFbxSystem::CFbxSystem()
-: m_pFbxManager( NULL )
+: m_pFbxManager(nullptr)
 {
 }
 

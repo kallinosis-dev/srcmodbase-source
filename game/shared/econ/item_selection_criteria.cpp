@@ -67,7 +67,7 @@ const char *CItemSelectionCriteria::GetValueForFirstConditionOfFieldName( const 
 			return m_vecConditions[i]->GetValue();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -363,12 +363,12 @@ bool CItemSelectionCriteria::CCondition::BEvaluate( KeyValues *pKVItem ) const
 	bool bIsEmptyString = false;
 	if ( m_EOp == k_EOperator_String_EQ || m_EOp == k_EOperator_String_Not_EQ )
 	{
-		const char *pszItemVal = pKVField ? pKVField->GetString() : NULL;
-		bIsEmptyString = ( pszItemVal == NULL || pszItemVal[0] == '\0' );
+		const char *pszItemVal = pKVField ? pKVField->GetString() : nullptr;
+		bIsEmptyString = ( pszItemVal == nullptr || pszItemVal[0] == '\0' );
 	}
 
 	// Deal with missing fields
-	if ( NULL == pKVField || bIsEmptyString )
+	if (nullptr == pKVField || bIsEmptyString )
 	{
 		if ( m_bRequired )
 			return false;
@@ -421,7 +421,7 @@ bool CItemSelectionCriteria::CSetCondition::BInternalEvaluate( KeyValues *pKVIte
 	if( !( k_EOperator_Subkey_Contains == m_EOp || k_EOperator_Subkey_Not_Contains == m_EOp ) )
 		return false;
 
-	return ( NULL != pKVItem->FindKey( m_sField.String() )->FindKey( m_sValue.String() ) );
+	return (nullptr != pKVItem->FindKey( m_sField.String() )->FindKey( m_sValue.String() ) );
 }
 
 bool CItemSelectionCriteria::CSetCondition::BSerializeToMsg( CSOItemCriteriaCondition & msg ) const

@@ -82,7 +82,7 @@ int CSoundEntry::GetWaveCount() const
 CWaveFile *CSoundEntry::GetWave( int index )
 {
 	if ( index < 0 || index >= m_Waves.Count() )
-		return NULL;
+		return nullptr;
 	return m_Waves[ index ];
 }
 
@@ -240,7 +240,7 @@ CSoundParametersInternal *CSoundEntry::GetSoundParameters()
 	{
 		return g_pSoundEmitterSystem->InternalGetParametersForSound( soundindex );
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool CSoundEntry::IsCheckedOut() const

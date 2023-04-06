@@ -353,7 +353,7 @@ SWIG_DOC( \
 	"$saveType is one of \"absolute\" or \"relative\".  If not specified, \"absolute\" is assumed.\n" \
 	"If deltaName is passed, then only a single OBJ of that delta is saved.  \"base\" is the base state." \
 );
-bool SaveObj( CDmElement *pDmeRoot, const char *filename, const char *objSaveType = "ABSOLUTE", const char *deltaName = NULL );
+bool SaveObj( CDmElement *pDmeRoot, const char *filename, const char *objSaveType = "ABSOLUTE", const char *deltaName = nullptr);
 
 
 SWIG_DOC( \
@@ -629,7 +629,7 @@ SWIG_DOC( \
 	"SEE ALSO\n" \
 	"GetDeltaNames, GetControlNames, GroupControls\n" \
 );
-void GetRawControlNames( CDmeMesh *pDmeMesh, CUtlVector< const char * > *pOutStringList, const char *pszControlName = NULL );
+void GetRawControlNames( CDmeMesh *pDmeMesh, CUtlVector< const char * > *pOutStringList, const char *pszControlName = nullptr);
 
 SWIG_DOC( \
 	"Returns a list of control names on the combination opertator controlling the mesh.\n" \
@@ -674,8 +674,8 @@ SWIG_DOC( \
 	"and used between multiple operations.  The CDmeSingleIndexedComponent used is returned\n" \
 	"and can be passed into subsequent calls.\n" \
 );
-CDmeSingleIndexedComponent *Select( CDmeMesh *pDmeMesh, const char *pzSelectOpString, const char *pszSelectString, CDmeSingleIndexedComponent *pPassedSelection = NULL );
-CDmeSingleIndexedComponent *Select( CDmeMesh *pDmeMesh, const char *pszSelectString, CDmeSingleIndexedComponent *pPassedSelection = NULL );
+CDmeSingleIndexedComponent *Select( CDmeMesh *pDmeMesh, const char *pzSelectOpString, const char *pszSelectString, CDmeSingleIndexedComponent *pPassedSelection = nullptr);
+CDmeSingleIndexedComponent *Select( CDmeMesh *pDmeMesh, const char *pszSelectString, CDmeSingleIndexedComponent *pPassedSelection = nullptr);
 
 SWIG_DOC( \
 	"Returns the radius of the specified delta, if it exists.\n" \
@@ -687,17 +687,17 @@ float DeltaRadius( CDmeMesh *pDmeMesh, const char *pszDeltaName );
 SWIG_DOC( \
 	"Returns the radius of the specified selection, if no selection is specified, the current selection on the mesh is used if it exists, if not 0 is returned\n" \
 );
-float SelectionRadius( CDmeMesh *pDmeMesh, CDmeSingleIndexedComponent *pDmePassedSelection = NULL );
+float SelectionRadius( CDmeMesh *pDmeMesh, CDmeSingleIndexedComponent *pDmePassedSelection = nullptr);
 
 SWIG_DOC( \
 	"Grows the specified or current selection on the mesh by the specified size" \
 );
-bool GrowSelection( CDmeMesh *pDmeMesh, int nSize = 1, CDmeSingleIndexedComponent *pDmePassedSelection = NULL );
+bool GrowSelection( CDmeMesh *pDmeMesh, int nSize = 1, CDmeSingleIndexedComponent *pDmePassedSelection = nullptr);
 
 SWIG_DOC( \
 	"Shrinks the specified or current selection on the mesh by the specified size" \
 );
-bool ShrinkSelection( CDmeMesh *pDmeMesh, int nSize = 1, CDmeSingleIndexedComponent *pDmePassedSelection = NULL );
+bool ShrinkSelection( CDmeMesh *pDmeMesh, int nSize = 1, CDmeSingleIndexedComponent *pDmePassedSelection = nullptr);
 
 SWIG_DOC( \
 	"Sets the way distances will be interpreted after the command.  $distanceType is one of \"absolute\" or \"relative\".  By default distances are \"absolute\".  All functions that work with distances (Add, Interp and Translate) work on the currently selected vertices.  \"absolute\" means use the distance as that number of units, \"relative\" means use the distance as a scale of the radius of the bounding sphere of the selected vertices." \
@@ -715,7 +715,7 @@ bool Interp(
 	float flFeatherDistance = 0.0f,
 	const char *pszFalloffType = "STRAIGHT",
 	const char *pszDistanceType = "DEFAULT",
-	CDmeSingleIndexedComponent *pDmePassedSelection = NULL );
+	CDmeSingleIndexedComponent *pDmePassedSelection = nullptr);
 
 SWIG_DOC(  \
 	"Adds specified state to the current state of the mesh weighted and feathered by the specified #weight, #featherDistance & $falloffType.  " \
@@ -729,7 +729,7 @@ bool Add(
 	float flFeatherDistance = 0.0f,
 	const char *pszFalloffType = "STRAIGHT",
 	const char *pszDistanceType = "DEFAULT",
-	CDmeSingleIndexedComponent *pDmePassedSelection = NULL );
+	CDmeSingleIndexedComponent *pDmePassedSelection = nullptr);
 
 SWIG_DOC(  \
 	"Same as Add() except that the corrected delta is added. i.e. If AddCorrected( \"A_B\" ); is called " \
@@ -743,7 +743,7 @@ bool AddCorrected(
 	float flFeatherDistance = 0.0f,
 	const char *pszFalloffType = "STRAIGHT",
 	const char *pszDistanceType = "DEFAULT",
-	CDmeSingleIndexedComponent *pDmePassedSelection = NULL );
+	CDmeSingleIndexedComponent *pDmePassedSelection = nullptr);
 
 SWIG_DOC( \
 	"Translates the selected vertices of the mesh by the specified amount" \
@@ -756,7 +756,7 @@ bool Translate(
     float flFeatherDistance = 0.0f,
 	const char *pszFalloffType = "STRAIGHT",
 	const char *pszDistanceType = "DEFAULT",
-    CDmeSingleIndexedComponent *pDmePassedSelection = NULL );
+    CDmeSingleIndexedComponent *pDmePassedSelection = nullptr);
 
 SWIG_DOC( \
 	"Rotates the selected vertices of the mesh by the specified amount" \
@@ -772,7 +772,7 @@ bool Rotate(
     float flFeatherDistance = 0.0f,
 	const char *pszFalloffType = "STRAIGHT",
 	const char *pszDistanceType = "DEFAULT",
-    CDmeSingleIndexedComponent *pDmePassedSelection = NULL );
+    CDmeSingleIndexedComponent *pDmePassedSelection = nullptr);
 
 SWIG_DOC( \
 	"Remaps the material at the specified index while looking at the face sets, to the new material path name" \
@@ -787,7 +787,7 @@ SWIG_DOC( \
 	"SEE ALSO\n" \
 	"MergeMeshAndSkeleton"
 );
-bool Combine( CDmeMesh *pDstMesh, CDmeMesh *pSrcMesh, const char *pszDstSkinningBoneName = NULL );
+bool Combine( CDmeMesh *pDstMesh, CDmeMesh *pSrcMesh, const char *pszDstSkinningBoneName = nullptr);
 
 SWIG_DOC( \
 	"Takes the specified src mesh and merges onto the dst mesh at a merge socket.  " \
@@ -822,7 +822,7 @@ SWIG_DOC( \
 	"Creates a delta on the base mesh based on the diff between the base mesh and the"\
 	"\"pszMeshToUseAsDelta\" with the name given."
 );
-bool CreateDeltaFromMesh( CDmeMesh *pBaseMesh, CDmeMesh *pszMeshToUseAsDelta, const char *pszDeltaName, CDmeSingleIndexedComponent *pDmePassedSelection = NULL );
+bool CreateDeltaFromMesh( CDmeMesh *pBaseMesh, CDmeMesh *pszMeshToUseAsDelta, const char *pszDeltaName, CDmeSingleIndexedComponent *pDmePassedSelection = nullptr);
 
 
 SWIG_DOC( \

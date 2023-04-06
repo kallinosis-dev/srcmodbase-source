@@ -39,7 +39,7 @@ FrameDemo::FrameDemo(Panel *parent, const char *name) : DemoPage(parent, name)
 	// Create a Frame.
 	// This frame has no parent, this way if you press the minimize button
 	// a label will go on the taskbar.
-	m_pFrame = new Frame(NULL, "AFrame");
+	m_pFrame = new Frame(nullptr, "AFrame");
 
 	// Frames are well, a "frame" around a panel. They have a name bar
 	// at the top where a title can be displayed, sizing hotspots on the corners,

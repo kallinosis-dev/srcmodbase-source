@@ -104,7 +104,7 @@ void CControllerMap::ApplySettings( KeyValues *inResourceData )
 	BaseClass::ApplySettings( inResourceData );
 
 	// loop through all the data adding items to the menu
-	for (KeyValues *dat = inResourceData->GetFirstSubKey(); dat != NULL; dat = dat->GetNextKey())
+	for (KeyValues *dat = inResourceData->GetFirstSubKey(); dat != nullptr; dat = dat->GetNextKey())
 	{
 		if ( !Q_stricmp( dat->GetName(), "button" ) )
 		{
@@ -117,11 +117,11 @@ void CControllerMap::ApplySettings( KeyValues *inResourceData )
 
 				// text and icon are optional - their existence means this button
 				// should be displayed in the footer panel.
-				const char *helpText = dat->GetString( "text", NULL );
+				const char *helpText = dat->GetString( "text", nullptr);
 				if ( helpText )
 				{
 					b.text = CUtlSymbol( helpText );
-					b.icon = CUtlSymbol( dat->GetString( "icon", NULL ) );
+					b.icon = CUtlSymbol( dat->GetString( "icon", nullptr) );
 				}
 
 				m_buttonMap.Insert( keycode, b );
@@ -140,7 +140,7 @@ const char *CControllerMap::GetBindingText( int idx )
 	{
 		return s.String();
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -153,7 +153,7 @@ const char *CControllerMap::GetBindingIcon( int idx )
 	{
 		return s.String();
 	}
-	return NULL;
+	return nullptr;
 }
 
 DECLARE_BUILD_FACTORY( CControllerMap );

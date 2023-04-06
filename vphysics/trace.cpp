@@ -375,7 +375,7 @@ public:
 	}
 #endif
 
-	bool IsValid( void ) { return m_pLedge != NULL; }
+	bool IsValid( void ) { return m_pLedge != nullptr; }
 
 	void AllocateVisitHash()
 	{
@@ -386,7 +386,7 @@ public:
 	void SetLedge( const IVP_Compact_Ledge *pLedge )
 	{
 		m_pLedge = pLedge;
-		m_pLeafmap = NULL;
+		m_pLeafmap = nullptr;
 		if ( !pLedge )
 			return;
 
@@ -419,7 +419,7 @@ public:
 			SetLedge( node->get_compact_ledge() );
 			return true;
 		}
-		SetLedge( NULL );
+		SetLedge(nullptr);
 		return false;
 	}
 	bool BuildLeafmapCache(const leafmap_t * RESTRICT pLeafmap);
@@ -483,8 +483,8 @@ CTraceIVP::CTraceIVP( const CPhysCollide *pCollide, const Vector &origin, const 
 	m_pCollideMap = NULL;
 #endif
 	m_pSurface = pCollide->GetCompactSurface();
-	m_pLedge = NULL;
-	m_pVisitHash = NULL;
+	m_pLedge = nullptr;
+	m_pVisitHash = nullptr;
 
 	m_bHasTranslation = (origin==vec3_origin) ? false : true;
 	// UNDONE: Move this offset calculation into the tracing routines
@@ -1109,7 +1109,7 @@ CTraceSolverSweptObject::CTraceSolverSweptObject( trace_t *ptr, ITraceObject *sw
 {
 	m_obstacleIVP = obstacle;
 	m_contentsMask = contentsMask;
-	m_pConvexInfo = (pConvexInfo != NULL) ? pConvexInfo : m_fakeConvexInfo.GetPtr();
+	m_pConvexInfo = (pConvexInfo != nullptr) ? pConvexInfo : m_fakeConvexInfo.GetPtr();
 }
 
 
@@ -1238,7 +1238,7 @@ loop_without_store:
 			}
 			else
 			{
-				node0 = NULL;
+				node0 = nullptr;
 			}
 			const IVP_Compact_Ledgetree_Node *node1 = node->right_son();
 			center.set(node1->center.k);
@@ -1314,7 +1314,7 @@ void CPhysicsTrace::SweepBoxIVP( const Vector &start, const Vector &end, const V
 {
 	Ray_t ray;
 	ray.Init( start, end, mins, maxs );
-	SweepBoxIVP( ray, MASK_ALL, NULL, pCollide, surfaceOrigin, surfaceAngles, ptr );
+	SweepBoxIVP( ray, MASK_ALL, nullptr, pCollide, surfaceOrigin, surfaceAngles, ptr );
 }
 
 void CPhysicsTrace::SweepBoxIVP( const Ray_t &raySrc, unsigned int contentsMask, IConvexInfo *pConvexInfo, const CPhysCollide *pCollide, const Vector &surfaceOrigin, const QAngle &surfaceAngles, trace_t *ptr )
@@ -1356,7 +1356,7 @@ void CPhysicsTrace::SweepIVP( const Vector &start, const Vector &end, const CPhy
 		trace_t tr;
 		CM_ClearTrace( &tr );
 		sweptObject.SetLedge( objectLedges.element_at(i) );
-		CTraceSolverSweptObject solver( &tr, &sweptObject, &ray, &ivp, start - surfaceOrigin, MASK_ALL, NULL );
+		CTraceSolverSweptObject solver( &tr, &sweptObject, &ray, &ivp, start - surfaceOrigin, MASK_ALL, nullptr);
 		// UNDONE: Need just more than 0.25" tolerance here because the output position will be used by vphysics
 		// UNDONE: Really this should be the collision radius from the environment.
 		solver.SetEpsilon( g_PhysicsUnits.globalCollisionTolerance );

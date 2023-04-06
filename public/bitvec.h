@@ -507,7 +507,7 @@ inline CVarBitVecBase<BITCOUNTTYPE>::CVarBitVecBase(int numBits)
 
 	// Figure out how many ints are needed
 	m_numInts = CalcNumIntsForBits( numBits );
-	m_pInt = NULL;
+	m_pInt = nullptr;
 	AllocInts( m_numInts );
 }
 
@@ -520,7 +520,7 @@ inline CVarBitVecBase<BITCOUNTTYPE>::CVarBitVecBase( const CVarBitVecBase<BITCOU
 	{
 		m_numBits = from.m_numBits;
 		m_numInts = from.m_numInts;
-		m_pInt = NULL;
+		m_pInt = nullptr;
 		AllocInts( m_numInts );
 		memcpy( m_pInt, from.m_pInt, m_numInts * sizeof(int) );
 	}
@@ -1595,7 +1595,7 @@ inline void CVarBitVecBase<BITCOUNTTYPE>::FreeInts( void )
 	{
 		free( m_pInt );
 	}
-	m_pInt = NULL;
+	m_pInt = nullptr;
 }
 
 #include "tier0/memdbgoff.h"

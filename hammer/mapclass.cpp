@@ -73,7 +73,7 @@ CMapClass *CMapClassManager::CreateObject(MAPCLASSTYPE Type)
 	}
 
 	Assert(FALSE);
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -88,7 +88,7 @@ CMapClass::CMapClass(void)
 	// about CMapDoc.
 	//
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		m_nID = pDoc->GetNextMapObjectID();
 	}
@@ -107,12 +107,12 @@ CMapClass::CMapClass(void)
 	m_bVisible2D = true;
 	m_bVisGroupShown = true;
 	m_bVisGroupAutoShown = true;
-	m_pColorVisGroup = NULL;
+	m_pColorVisGroup = nullptr;
 
 	r = g = b = 220;
-	m_pParent = NULL;
+	m_pParent = nullptr;
 	m_nRenderFrame = 0;
-	m_pEditorKeys = NULL;
+	m_pEditorKeys = nullptr;
 	m_Dependents.RemoveAll();
 	m_nDropTraceMarker = 0;
 }
@@ -160,7 +160,7 @@ void CMapClass::AddDependent(CMapClass *pDependent)
 	//
 	bool bIsOurAncestor = false;
 	CMapClass *pTestParent = GetParent();
-	while (pTestParent != NULL)
+	while (pTestParent != nullptr)
 	{
 		if (pTestParent == pDependent)
 		{
@@ -187,7 +187,7 @@ void CMapClass::AddDependent(CMapClass *pDependent)
 CMapClass *CMapClass::Copy(bool bUpdateDependencies)
 {
 	Assert(FALSE);
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -344,7 +344,7 @@ void CMapClass::GetRender2DBox(Vector &mins, Vector &maxs)
 //-----------------------------------------------------------------------------
 int CMapClass::GetEditorKeyCount(void)
 {
-	if (m_pEditorKeys == NULL)
+	if (m_pEditorKeys == nullptr)
 	{
 		return NULL;
 	}
@@ -358,9 +358,9 @@ int CMapClass::GetEditorKeyCount(void)
 //-----------------------------------------------------------------------------
 const char *CMapClass::GetEditorKey(int nIndex)
 {
-	if (m_pEditorKeys == NULL)
+	if (m_pEditorKeys == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_pEditorKeys->GetKey(nIndex);
@@ -372,9 +372,9 @@ const char *CMapClass::GetEditorKey(int nIndex)
 //-----------------------------------------------------------------------------
 const char *CMapClass::GetEditorKeyValue(int nIndex)
 {
-	if (m_pEditorKeys == NULL)
+	if (m_pEditorKeys == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_pEditorKeys->GetValue(nIndex);
@@ -388,9 +388,9 @@ const char *CMapClass::GetEditorKeyValue(int nIndex)
 //-----------------------------------------------------------------------------
 const char *CMapClass::GetEditorKeyValue(const char *szKey)
 {
-	if (m_pEditorKeys == NULL)
+	if (m_pEditorKeys == nullptr)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_pEditorKeys->GetValue(szKey);
@@ -414,7 +414,7 @@ CMapClass *CMapClass::GetFirstDescendent(EnumChildrenPos_t &pos)
 	else
 	{
 		pos.Stack[0].pos = -1;
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -477,7 +477,7 @@ CMapClass *CMapClass::GetNextDescendent(EnumChildrenPos_t &pos)
 		}
 	}
 
-	return(NULL);
+	return(nullptr);
 }
 
 
@@ -489,7 +489,7 @@ CMapWorld *CMapClass::GetWorldObject(CMapAtom *pStart)
 {
 	CMapAtom *pObject = pStart;
 
-	while (pObject != NULL)
+	while (pObject != nullptr)
 	{
 		if ( IsWorldObject( pObject ) )
 		{
@@ -499,7 +499,7 @@ CMapWorld *CMapClass::GetWorldObject(CMapAtom *pStart)
 	}
 
 	// has no world:
-	return NULL;
+	return nullptr;
 }
 
 
@@ -528,7 +528,7 @@ BOOL CMapClass::IsChildOf(CMapAtom *pObject)
 //-----------------------------------------------------------------------------
 int CMapClass::IsInVisGroup(CVisGroup *pVisGroup)
 {
-	if (pVisGroup != NULL)
+	if (pVisGroup != nullptr)
 	{
 		if ( m_VisGroups.Find( pVisGroup ) != -1 )
 		{
@@ -677,7 +677,7 @@ void CMapClass::AddChild(CMapClass *pChild)
 	pChild->GetRender2DBox(vecMins, vecMaxs);
 	m_Render2DBox.UpdateBounds(vecMins, vecMaxs);
 
-	if (m_pParent != NULL)
+	if (m_pParent != nullptr)
 	{
 		GetParent()->UpdateChild(this);
 	}
@@ -694,7 +694,7 @@ void CMapClass::RemoveAllChildren(void)
 	//
 	FOR_EACH_OBJ( m_Children, pos )
 	{	
-		m_Children[pos]->m_pParent = NULL;
+		m_Children[pos]->m_pParent = nullptr;
 	}	
 
 	//
@@ -715,12 +715,12 @@ void CMapClass::RemoveChild(CMapClass *pChild, bool bUpdateBounds)
 
 	if (index == -1)
 	{
-		pChild->m_pParent = NULL;
+		pChild->m_pParent = nullptr;
 		return;
 	}
 
 	m_Children.FastRemove(index);
-	pChild->m_pParent = NULL;
+	pChild->m_pParent = nullptr;
 
 	if (bUpdateBounds)
 	{
@@ -796,7 +796,7 @@ void CMapClass::SetRenderColor(color32 rgbColor)
 	FOR_EACH_OBJ( m_Children, pos )
 	{
 		CMapClass *pChild = m_Children.Element(pos);
-		if (pChild != NULL)
+		if (pChild != nullptr)
 		{
 			pChild->SetRenderColor(rgbColor);
 		}
@@ -818,7 +818,7 @@ void CMapClass::SetRenderColor(unsigned char uchRed, unsigned char uchGreen, uns
 	FOR_EACH_OBJ( m_Children, pos )
 	{
 		CMapClass *pChild = m_Children.Element(pos);
-		if (pChild != NULL)
+		if (pChild != nullptr)
 		{
 			pChild->SetRenderColor(uchRed, uchGreen, uchBlue);
 		}
@@ -833,7 +833,7 @@ void CMapClass::SetRenderColor(unsigned char uchRed, unsigned char uchGreen, uns
 //-----------------------------------------------------------------------------
 CMapClass *CMapClass::PrepareSelection(SelectMode_t eSelectMode)
 {
-	if ((eSelectMode == selectGroups) && (m_pParent != NULL) && !IsWorldObject(m_pParent))
+	if ((eSelectMode == selectGroups) && (m_pParent != nullptr) && !IsWorldObject(m_pParent))
 	{
 		return GetParent()->PrepareSelection(eSelectMode);
 	}
@@ -915,7 +915,7 @@ BOOL CMapClass::EnumChildrenAndInstances( ENUMMAPCHILDRENPROC pfn, unsigned int 
 			const char *pszClassName = pEntity->GetClassName();
 			if ( pszClassName && !stricmp( pszClassName, "func_instance" ) )
 			{
-				CMapInstance *pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
+				CMapInstance *pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )nullptr);
 				if ( pMapInstance )
 				{
 					CMapDoc *pMapDoc = pMapInstance->GetInstancedMap();
@@ -979,7 +979,7 @@ BOOL CMapClass::EnumChildrenRecurseGroupsOnly(ENUMMAPCHILDRENPROC pfn, unsigned 
 CMapEntity *CMapClass::FindChildByKeyValue( const char* key, const char* value, bool *bIsInInstance, VMatrix *InstanceMatrix )
 {
 	if ( !key || !value )
-		return NULL;
+		return nullptr;
 
 	FOR_EACH_OBJ( m_Children, pos )
 	{
@@ -995,7 +995,7 @@ CMapEntity *CMapClass::FindChildByKeyValue( const char* key, const char* value, 
 			return e;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1258,7 +1258,7 @@ size_t CMapClass::GetSize(void)
 //-----------------------------------------------------------------------------
 bool CMapClass::HitTest2D(CMapView2D *pView, const Vector2D &point, HitInfo_t &HitData)
 {
-	HitData.pObject = NULL;
+	HitData.pObject = nullptr;
 	HitData.nDepth = g_MAX_MAP_COORD*3;
 	HitData.uData = 0;
 	bool bFoundHit = false;
@@ -1330,7 +1330,7 @@ SelectionState_t CMapClass::SetSelectionState(SelectionState_t eSelectionState)
 //-----------------------------------------------------------------------------
 void CMapClass::UpdateChild(CMapClass *pChild)
 {
-	if (m_pParent != NULL)
+	if (m_pParent != nullptr)
 	{
 		GetParent()->UpdateChild(this);
 	}
@@ -1396,7 +1396,7 @@ ChunkFileResult_t CMapClass::LoadEditorKeyCallback(const char *szKey, const char
 		// HACK: upcast to CEditGameClass *
 		//
 		CEditGameClass *pEdit = dynamic_cast <CEditGameClass *> (pObject);
-		if (pEdit != NULL)
+		if (pEdit != nullptr)
 		{
 			pEdit->SetComments(szValue);
 		}
@@ -1425,7 +1425,7 @@ ChunkFileResult_t CMapClass::LoadEditorKeyCallback(const char *szKey, const char
 //-----------------------------------------------------------------------------
 void CMapClass::PostUpdate(Notify_Dependent_t eNotifyType)
 {
-	if (m_pParent != NULL)
+	if (m_pParent != nullptr)
 	{
 		GetParent()->UpdateChild(this);
 	}
@@ -1504,7 +1504,7 @@ ChunkFileResult_t CMapClass::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo)
 	if (eResult == ChunkFile_Ok)
 	{
 		CMapGroup *pGroup = dynamic_cast<CMapGroup *>(m_pParent);
-		if (pGroup != NULL)
+		if (pGroup != nullptr)
 		{
 			eResult = pFile->WriteKeyValueInt("groupid", pGroup->GetID());
 		}
@@ -1547,7 +1547,7 @@ ChunkFileResult_t CMapClass::SaveVMF(CChunkFile *pFile, CSaveInfo *pSaveInfo)
 	// HACK: upcast to CEditGameClass *
 	//
 	CEditGameClass *pEdit = dynamic_cast <CEditGameClass *> (this);
-	if (pEdit != NULL)
+	if (pEdit != nullptr)
 	{
 		if ((eResult == ChunkFile_Ok) && (strlen(pEdit->GetComments()) > 0))
 		{
@@ -1592,7 +1592,7 @@ void CMapClass::RemoveDependent(CMapClass *pDependent)
 void CMapClass::RemoveEditorKeys(void)
 {
 	delete m_pEditorKeys;
-	m_pEditorKeys = NULL;
+	m_pEditorKeys = nullptr;
 }
 
 
@@ -1625,7 +1625,7 @@ CMapClass *CMapClass::UpdateDependency(CMapClass *pOldAttached, CMapClass *pNewA
 		//
 		// If we were attached to another object via this pointer, detach us now.
 		//
-		if (pOldAttached != NULL)
+		if (pOldAttached != nullptr)
 		{
 			pOldAttached->RemoveDependent(this);
 		}
@@ -1634,7 +1634,7 @@ CMapClass *CMapClass::UpdateDependency(CMapClass *pOldAttached, CMapClass *pNewA
 		// Attach ourselves as a dependent of the other object. We will now be notified
 		// of any changes to that object.
 		//
-		if (pNewAttached != NULL)
+		if (pNewAttached != nullptr)
 		{
 			pNewAttached->AddDependent(this);
 		}
@@ -1656,12 +1656,12 @@ void CMapClass::UpdateParent(CMapClass *pNewParent)
 
 	if (pOldParent != pNewParent)
 	{
-		if (pOldParent != NULL)
+		if (pOldParent != nullptr)
 		{
 			pOldParent->RemoveChild(this);
 		}
 
-		if (pNewParent != NULL)
+		if (pNewParent != nullptr)
 		{
 			pNewParent->AddChild(this);
 		}
@@ -1680,7 +1680,7 @@ void CMapClass::UpdateParent(CMapClass *pNewParent)
 //-----------------------------------------------------------------------------
 void CMapClass::SetEditorKeyValue(const char *szKey, const char *szValue)
 {
-	if (m_pEditorKeys == NULL)
+	if (m_pEditorKeys == nullptr)
 	{
 		m_pEditorKeys = new WCKeyValuesVector;
 	}
@@ -1766,10 +1766,10 @@ void CMapClass::UpdateAllDependencies(CMapClass *pObject)
 	// Try to locate the world object.
 	//
 	CMapWorld *pWorld;
-	if (pObject == NULL)
+	if (pObject == nullptr)
 	{
 		CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-		if ((pDoc == NULL) || (pDoc->IsLoading()))
+		if ((pDoc == nullptr) || (pDoc->IsLoading()))
 		{
 			return;
 		}
@@ -1781,7 +1781,7 @@ void CMapClass::UpdateAllDependencies(CMapClass *pObject)
 		pWorld = pObject->GetWorldObject(pObject);
 	}
 
-	if (pWorld == NULL)
+	if (pWorld == nullptr)
 	{
 		return;
 	}
@@ -1790,7 +1790,7 @@ void CMapClass::UpdateAllDependencies(CMapClass *pObject)
 
 	EnumChildrenPos_t pos;
 	CMapClass *pChild = pWorld->GetFirstDescendent( pos );
-	while ( pChild != NULL )
+	while ( pChild != nullptr)
 	{
 		pChild->UpdateDependencies( pWorld, pObject );
 		pChild = pWorld->GetNextDescendent( pos );

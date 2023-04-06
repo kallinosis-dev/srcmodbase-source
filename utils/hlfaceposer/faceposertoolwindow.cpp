@@ -16,7 +16,7 @@
 extern MDLViewer *g_MDLViewer;
 
 static CUtlVector< IFacePoserToolWindow * > g_Tools;
-IFacePoserToolWindow *IFacePoserToolWindow::s_pActiveTool = NULL;
+IFacePoserToolWindow *IFacePoserToolWindow::s_pActiveTool = nullptr;
 
 bool	IFacePoserToolWindow::s_bToolsCanDraw;
 static CUtlVector< IFacePoserToolWindow * > s_NeedRedraw;
@@ -50,15 +50,15 @@ IFacePoserToolWindow *IFacePoserToolWindow::GetActiveTool( void )
 	if ( GetToolCount() > 0 )
 		return GetTool( 0 );
 
-	return NULL;
+	return nullptr;
 }
 
 void IFacePoserToolWindow::SetActiveTool( IFacePoserToolWindow *tool )
 {
 	if ( tool != s_pActiveTool && s_pActiveTool )
 	{
-		InvalidateRect( (HWND)s_pActiveTool->GetMxWindow()->getHandle(), NULL, TRUE );
-		InvalidateRect( (HWND)tool->GetMxWindow()->getHandle(), NULL, TRUE );
+		InvalidateRect( (HWND)s_pActiveTool->GetMxWindow()->getHandle(), nullptr, TRUE );
+		InvalidateRect( (HWND)tool->GetMxWindow()->getHandle(), nullptr, TRUE );
 	}
 	s_pActiveTool = tool;
 }

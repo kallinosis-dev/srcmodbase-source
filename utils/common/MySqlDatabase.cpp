@@ -54,13 +54,13 @@ bool CMySqlDatabase::Initialize()
 	::InitializeCriticalSection(&m_csDBAccess);
 
 	// initialize wait calls
-	m_hEvent = ::CreateEvent(NULL, false, true, NULL);
+	m_hEvent = ::CreateEvent(nullptr, false, true, nullptr);
 
 	// start the DB-access thread
 	m_bRunThread = true;
 
 	unsigned long threadID;
-	::CreateThread(NULL, 0, staticThreadFunc, this, 0, &threadID);
+	::CreateThread(nullptr, 0, staticThreadFunc, this, 0, &threadID);
 
 	return true;
 }

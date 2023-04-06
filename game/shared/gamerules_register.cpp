@@ -14,7 +14,7 @@
 // CGameRulesRegister implementation.
 // ------------------------------------------------------------------------------------------ //
 
-CGameRulesRegister* CGameRulesRegister::s_pHead = NULL;
+CGameRulesRegister* CGameRulesRegister::s_pHead = nullptr;
 
 
 CGameRulesRegister::CGameRulesRegister( const char *pClassName, CreateGameRulesFn fn )
@@ -38,7 +38,7 @@ CGameRulesRegister* CGameRulesRegister::FindByName( const char *pName )
 		if ( Q_stricmp( pName, pCur->m_pClassName ) == 0 )
 			return pCur;
 	}
-	return NULL;
+	return nullptr;
 }
 
 
@@ -95,7 +95,7 @@ CGameRulesRegister* CGameRulesRegister::FindByName( const char *pName )
 
 	#include "networkstringtable_gamedll.h"
 
-	INetworkStringTable *g_StringTableGameRules = NULL;
+	INetworkStringTable *g_StringTableGameRules = nullptr;
 
 	void CreateNetworkStringTables_GameRules()
 	{
@@ -107,7 +107,7 @@ CGameRulesRegister* CGameRulesRegister::FindByName( const char *pName )
 	{
 		// Delete the old game rules object.
 		delete g_pGameRules;
-		g_pGameRules = NULL;
+		g_pGameRules = nullptr;
 
 		// Create a new game rules object.
 		CGameRulesRegister *pReg = CGameRulesRegister::FindByName( pClassName );

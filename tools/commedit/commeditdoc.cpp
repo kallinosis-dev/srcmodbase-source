@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 CCommEditDoc::CCommEditDoc( ICommEditDocCallback *pCallback ) : m_pCallback( pCallback )
 {
-	m_hRoot = NULL;
+	m_hRoot = nullptr;
 	m_pTXTFileName[0] = 0;
 	m_bDirty = false;
 	g_pDataModel->InstallNotificationCallback( this );
@@ -146,8 +146,8 @@ bool CCommEditDoc::LoadFromFile( const char *pFileName )
 		// This is not undoable
 		CDisableUndoScopeGuard guard;
 
-		CDmElement *pTXT = NULL;
-		DmFileId_t fileid = g_pDataModel->RestoreFromFile( pFileName, NULL, "commentary", &pTXT );
+		CDmElement *pTXT = nullptr;
+		DmFileId_t fileid = g_pDataModel->RestoreFromFile( pFileName, nullptr, "commentary", &pTXT );
 		if ( fileid == DMFILEID_INVALID )
 		{
 			m_pTXTFileName[0] = 0;
@@ -173,7 +173,7 @@ void CCommEditDoc::SaveToFile( )
 {
 	if ( m_hRoot.Get() && m_pTXTFileName && m_pTXTFileName[0] )
 	{
-		g_pDataModel->SaveToFile( m_pTXTFileName, NULL, "keyvalues", "keyvalues", m_hRoot );
+		g_pDataModel->SaveToFile( m_pTXTFileName, nullptr, "keyvalues", "keyvalues", m_hRoot );
 	}
 
 	SetDirty( false );
@@ -196,10 +196,10 @@ CDmAttribute *CCommEditDoc::GetEntityList()
 {
 	CDmrElementArray<> mainKeys( m_hRoot, "subkeys" );
 	if ( !mainKeys.IsValid() || mainKeys.Count() == 0 )
-		return NULL;
+		return nullptr;
 	CDmeHandle<CDmElement> hEntityList;
 	hEntityList = mainKeys[ 0 ];
-	return hEntityList ? hEntityList->GetAttribute( "subkeys", AT_ELEMENT_ARRAY ) : NULL;
+	return hEntityList ? hEntityList->GetAttribute( "subkeys", AT_ELEMENT_ARRAY ) : nullptr;
 }
 
 
@@ -374,7 +374,7 @@ CDmeCommentaryNodeEntity *CCommEditDoc::GetCommentaryNodeForLocation( Vector &ve
 			return pNode;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

@@ -47,7 +47,7 @@ static const char *s_pSkinMakeFiles[] =
 {
 	"DmeMayaModelMakefile",
 	"DmeXSIModelMakefile",
-	NULL
+	nullptr
 };
 
 const char **CDmeSourceSkin::GetSourceMakefileTypes()
@@ -110,7 +110,7 @@ static const char *s_pAnimationMakeFiles[] =
 {
 	"DmeMayaAnimationMakefile",
 	"DmeXSIAnimationMakefile",
-	NULL
+	nullptr
 };
 
 const char **CDmeSourceAnimation::GetSourceMakefileTypes()
@@ -149,7 +149,7 @@ static DmeMakefileType_t s_pSourceTypes[] =
 	{ "DmeSourceSkin",				"Skin",				true,	"makefiledir:models\\dmx", "*.dmx", "Valve DMX File (*.dmx)" },
 	{ "DmeSourceAnimation",			"Animation",		false,	"makefiledir:animations\\dmx", "*.dmx", "Valve DMX File (*.dmx)" },
 	{ "DmeSourceCollisionModel",	"Collision Model",	true,	"makefiledir:models\\dmx", "*.dmx", "Valve DMX File (*.dmx)" },
-	{ NULL, NULL, false, NULL, NULL, NULL },
+	{nullptr, nullptr, false, nullptr, nullptr, nullptr},
 };
 
 DmeMakefileType_t* CDmeMDLMakefile::GetSourceTypes()
@@ -257,7 +257,7 @@ static const char *s_pOutputExtensions[] =
 	"mdl",
 	"vvd",
 	"phy",
-	NULL
+	nullptr
 };
 
 void CDmeMDLMakefile::GetOutputs( CUtlVector<CUtlString> &fullPaths )

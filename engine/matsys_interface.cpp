@@ -67,7 +67,7 @@ int	d_lightstylenumframes[256];
 
 const MaterialSystem_Config_t *g_pMaterialSystemConfig;
 
-static CSysModule	*g_MaterialsDLL = NULL;
+static CSysModule	*g_MaterialsDLL = nullptr;
 bool g_LostVideoMemory = false;
 
 IMaterial*	g_materialEmpty;	// purple checkerboard for missing textures
@@ -221,7 +221,7 @@ ConVar mat_hdr_level( "mat_hdr_level", "2", FCVAR_DEVELOPMENTONLY,
 					  "Set to 0 for no HDR, 1 for LDR+bloom on HDR maps, and 2 for full HDR on HDR maps.",
 					  mat_hdr_level_Callback );
 
-MaterialSystem_SortInfo_t *materialSortInfoArray = 0;
+MaterialSystem_SortInfo_t *materialSortInfoArray = nullptr;
 static bool s_bConfigLightingChanged = false;
 
 extern unsigned long GetRam();
@@ -703,7 +703,7 @@ CON_COMMAND_F( mat_suppress, "Suppress a material from drawing", FCVAR_CHEAT | F
 static ITexture *CreatePowerOfTwoFBTexture( void )
 {
 	if ( IsX360() )
-		return NULL;
+		return nullptr;
 
 	return materials->CreateNamedRenderTargetTextureEx2( 
 		"_rt_PowerOfTwoFB",
@@ -857,7 +857,7 @@ static ITexture *CreateFullFrameDepthTexture( void )
  																 CREATERENDERTARGETFLAGS_NOEDRAM );
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1033,7 +1033,7 @@ void ShutdownWellKnownRenderTargets( void )
 		g_FullFrameFBTexture2.Shutdown();
 	}
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	pRenderContext->SetNonInteractiveTempFullscreenBuffer( NULL, MATERIAL_NON_INTERACTIVE_MODE_LEVEL_LOAD );
+	pRenderContext->SetNonInteractiveTempFullscreenBuffer(nullptr, MATERIAL_NON_INTERACTIVE_MODE_LEVEL_LOAD );
 
 	g_FullFrameDepth.Shutdown();
 
@@ -1205,13 +1205,13 @@ static void ShutdownDebugMaterials( void )
 			{
 				g_pMaterialDepthWrite[i][j]->DecrementReferenceCount();
 			}
-			g_pMaterialDepthWrite[i][j] = NULL;
+			g_pMaterialDepthWrite[i][j] = nullptr;
 
 			if ( g_pMaterialSSAODepthWrite[ i ][ j ] )
 			{
 				g_pMaterialSSAODepthWrite[ i ][ j ]->DecrementReferenceCount();
 			}
-			g_pMaterialSSAODepthWrite[ i ][ j ] = NULL;
+			g_pMaterialSSAODepthWrite[ i ][ j ] = nullptr;
 		}
 
 
@@ -1444,7 +1444,7 @@ void MaterialSystem_DestroySortinfo( void )
 		WorldStaticMeshDestroy();
 #endif
 		delete[] materialSortInfoArray;
-		materialSortInfoArray = NULL;
+		materialSortInfoArray = nullptr;
 	}
 }
 
@@ -1781,7 +1781,7 @@ void WorldStaticMeshCreate( void )
 	depthMeshIndexList.SetCount( g_WorldStaticMeshes.Count() );
 	g_DepthMeshForSortID.SetCount( g_WorldStaticMeshes.Count() );
 	extern bool g_bReplayLoadedTools;
-	bool bTools = CommandLine()->CheckParm( "-tools" ) != NULL || g_bReplayLoadedTools;
+	bool bTools = CommandLine()->CheckParm( "-tools" ) != nullptr || g_bReplayLoadedTools;
 
 	int i;
 	// sort the surfaces into the sort arrays
@@ -1817,7 +1817,7 @@ void WorldStaticMeshCreate( void )
 		int vertexCount = VertexCountForSurfaceList( matSortArray, group );
 
 		SurfaceHandle_t surfID = matSortArray.GetSurfaceAtHead( group );
-		g_WorldStaticMeshes[i] = NULL;
+		g_WorldStaticMeshes[i] = nullptr;
 		sortIndex[i] = surfID ? FindOrAddMesh( MSurf_TexInfo( surfID )->material, vertexCount ) : -1;
 		depthMeshIndexList[i] = surfID ? FindOrAddMesh( g_pMaterialDepthWrite[0][1], vertexCount ) : -1;
 	}
@@ -1901,7 +1901,7 @@ void WorldStaticMeshCreate( void )
 		meshBuilder.End();
 		Assert(vertBufferIndex == g_Meshes[i].vertCount);
 		if ( g_VBAllocTracker )
-			g_VBAllocTracker->TrackMeshAllocations( NULL );
+			g_VBAllocTracker->TrackMeshAllocations(nullptr);
 	}
 #endif
 	//Msg("Total %d meshes, %d before\n", g_Meshes.Count(), g_WorldStaticMeshes.Count() );

@@ -111,7 +111,7 @@ public:
 		m_fPlayerInVehicle( TRS_NONE )
 	{
 #ifndef HL2_EPISODIC
-		m_hActor = NULL;
+		m_hActor = nullptr;
 #endif
 	}
 

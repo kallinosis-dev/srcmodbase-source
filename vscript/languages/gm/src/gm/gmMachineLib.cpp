@@ -183,7 +183,7 @@ static int GM_CDECL gmDoString(gmThread * a_thread) // string, now(int), returns
   int id = GM_INVALID_THREAD;
   if( script )
   {
-    int errors = a_thread->GetMachine()->ExecuteString(script, &id, (now) ? true : false, NULL, &paramThis);
+    int errors = a_thread->GetMachine()->ExecuteString(script, &id, (now) ? true : false, nullptr, &paramThis);
     if( errors )
     {
       return GM_EXCEPTION;
@@ -365,7 +365,7 @@ static int GM_CDECL gmfThread(gmThread * a_thread) // fn, params, returns thread
     int numParameters = a_thread->GetNumParams() - 1;
     for(i = 0; i < numParameters; ++i)
       thread->Push(a_thread->Param(i + 1));
-    thread->PushStackFrame(numParameters, 0);
+    thread->PushStackFrame(numParameters, nullptr);
   }
   a_thread->PushInt(id);
   return GM_OK;
@@ -434,7 +434,7 @@ static int GM_CDECL gmSetState(gmThread * a_thread) // fp, params
       }
     }
 
-    currentState->m_setExitState = NULL;
+    currentState->m_setExitState = nullptr;
     currentState->m_lastState = currentState->m_currentState;
     currentState->m_currentState = function;
     newStateVariable = *currentStateVariable;
@@ -442,9 +442,9 @@ static int GM_CDECL gmSetState(gmThread * a_thread) // fp, params
   else
   {
     gmStateUserType * state = (gmStateUserType *) a_thread->GetMachine()->Sys_Alloc(sizeof(gmStateUserType));
-    state->m_setExitState = NULL;
+    state->m_setExitState = nullptr;
     state->m_currentState = function;
-    state->m_lastState = NULL;
+    state->m_lastState = nullptr;
 
     // create a new state variable
     newStateVariable.SetUser(a_thread->GetMachine()->AllocUserObject(state, s_gmStateUserType));
@@ -485,7 +485,7 @@ static int GM_CDECL gmSetStateOnThread(gmThread * a_thread) // (threadid, fp, pa
     return GM_EXCEPTION;
   }
 
-  if(thread == NULL)
+  if(thread == nullptr)
   {
     return GM_OK;
   }
@@ -509,7 +509,7 @@ static int GM_CDECL gmSetStateOnThread(gmThread * a_thread) // (threadid, fp, pa
       }
     }
 
-    currentState->m_setExitState = NULL;
+    currentState->m_setExitState = nullptr;
     currentState->m_lastState = currentState->m_currentState;
     currentState->m_currentState = function;
     newStateVariable = *currentStateVariable;
@@ -517,9 +517,9 @@ static int GM_CDECL gmSetStateOnThread(gmThread * a_thread) // (threadid, fp, pa
   else
   {
     gmStateUserType * state = (gmStateUserType *) a_thread->GetMachine()->Sys_Alloc(sizeof(gmStateUserType));
-    state->m_setExitState = NULL;
+    state->m_setExitState = nullptr;
     state->m_currentState = function;
-    state->m_lastState = NULL;
+    state->m_lastState = nullptr;
 
     // create a new state variable
     newStateVariable.SetUser(a_thread->GetMachine()->AllocUserObject(state, s_gmStateUserType));
@@ -730,7 +730,7 @@ void gmConcat(gmMachine * a_machine, char * &a_dst, int &a_len, int &a_size, con
   {
     a_size = a_len + len + a_growBy + 1;
     char * str = (char *) a_machine->Sys_Alloc(a_size);
-    if(a_dst != NULL)
+    if(a_dst != nullptr)
     {
       memcpy(str, a_dst, a_len);
       a_machine->Sys_Free(a_dst);
@@ -749,7 +749,7 @@ static int GM_CDECL gmPrint(gmThread * a_thread)
 {
   const int bufferSize = 256;
   int len = 0, size = 0, i;
-  char * str = NULL, buffer[bufferSize];
+  char * str = nullptr, buffer[bufferSize];
 
   // build the string
   for(i = 0; i < a_thread->GetNumParams(); ++i)
@@ -786,7 +786,7 @@ static int GM_CDECL gmfFormat(gmThread * a_thread) // string, params ...
   int param = 1;
   int len = 0, size = 0;
   const int bufferSize = 128;
-  char * str = NULL, buffer[bufferSize];
+  char * str = nullptr, buffer[bufferSize];
 
   while(*format)
   {
@@ -1218,6 +1218,6 @@ void gmMachineLib(gmMachine * a_machine)
 #endif //GM_USE_INCGC
 
   // default lib
-  a_machine->RegisterLibrary(s_binding, sizeof(s_binding) / sizeof(gmFunctionEntry), NULL);
+  a_machine->RegisterLibrary(s_binding, sizeof(s_binding) / sizeof(gmFunctionEntry), nullptr);
 }
 

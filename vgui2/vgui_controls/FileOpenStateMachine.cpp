@@ -31,7 +31,7 @@ FileOpenStateMachine::FileOpenStateMachine( vgui::Panel *pParent, IFileOpenState
 	m_pClient = pClient;
 	m_CompletionState = SUCCESSFUL;
 	m_CurrentState = STATE_NONE;
-	m_pContextKeyValues = NULL;
+	m_pContextKeyValues = nullptr;
 	SetVisible( false );
 }
 
@@ -49,7 +49,7 @@ void FileOpenStateMachine::CleanUpContextKeyValues()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -82,7 +82,7 @@ void FileOpenStateMachine::SetCompletionState( FileOpenStateMachine::CompletionS
 	if ( m_pContextKeyValues )
 	{
 		kv->AddSubKey( m_pContextKeyValues );
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 	PostActionSignal( kv );
 }
@@ -200,7 +200,7 @@ void FileOpenStateMachine::WriteFile()
 	if ( m_bShowPerforceDialogs )
 	{
 		m_CurrentState = STATE_SHOWING_PERFORCE_ADD_DIALOG;
-		ShowPerforceQuery( GetParent(), m_FileName, this, NULL, PERFORCE_ACTION_FILE_ADD );
+		ShowPerforceQuery( GetParent(), m_FileName, this, nullptr, PERFORCE_ACTION_FILE_ADD );
 		return;
 	}
 
@@ -313,7 +313,7 @@ void FileOpenStateMachine::CheckOutDialog( )
 	if ( m_bShowPerforceDialogs )
 	{
 		m_CurrentState = STATE_SHOWING_CHECK_OUT_DIALOG;
-		ShowPerforceQuery( GetParent(), m_FileName, this, NULL, PERFORCE_ACTION_FILE_EDIT );
+		ShowPerforceQuery( GetParent(), m_FileName, this, nullptr, PERFORCE_ACTION_FILE_EDIT );
 		return;
 	}
 
@@ -364,7 +364,7 @@ void FileOpenStateMachine::OnCancelSaveDocument()
 void FileOpenStateMachine::ShowSaveQuery( )
 {
 	m_CurrentState = STATE_SHOWING_SAVE_DIRTY_FILE_DIALOG;
-	ShowSaveDocumentQuery( GetParent(), m_FileName, m_SaveFileType, 0, this, NULL );
+	ShowSaveDocumentQuery( GetParent(), m_FileName, m_SaveFileType, 0, this, nullptr);
 }
 
 
@@ -378,8 +378,8 @@ void FileOpenStateMachine::SaveFile( KeyValues *pContextKeyValues, const char *p
 	m_pContextKeyValues = pContextKeyValues;
 	m_FileName = pFileName;
 	m_SaveFileType = pFileType;
-	m_OpenFileType = NULL;
-	m_OpenFileName = NULL;
+	m_OpenFileType = nullptr;
+	m_OpenFileName = nullptr;
 
 	// Clear the P4 dialog flag for SDK users and licensees without Perforce
 	if ( g_pFullFileSystem->IsSteam() || CommandLine()->FindParm( "-nop4" ) )
@@ -451,7 +451,7 @@ void FileOpenStateMachine::OpenFile( const char *pOpenFileType, KeyValues *pCont
 	m_FileName = pSaveFileName;
 	m_SaveFileType = pSaveFileType;
 	m_OpenFileType = pOpenFileType;
-	m_OpenFileName = NULL;
+	m_OpenFileName = nullptr;
 	m_bShowPerforceDialogs = ( nFlags & FOSM_SHOW_PERFORCE_DIALOGS ) != 0;
 	m_bShowSaveQuery = ( nFlags & FOSM_SHOW_SAVE_QUERY ) != 0;
 	m_bIsOpeningFile = true;

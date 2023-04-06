@@ -38,7 +38,7 @@ BEGIN_VS_SHADER( UnLitWorld_ScreenSample, "Help for UnLitWorld_ScreenSample" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -86,7 +86,7 @@ BEGIN_VS_SHADER( UnLitWorld_ScreenSample, "Help for UnLitWorld_ScreenSample" )
 			{
 				flags |= VERTEX_COLOR;
 			}
-			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+			pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 			
 			DECLARE_STATIC_VERTEX_SHADER( unlitworld_screensample_vs20 );
 			SET_STATIC_VERTEX_SHADER( unlitworld_screensample_vs20 );

@@ -21,7 +21,7 @@ class CLanGames : public CBaseGamesPage
 	DECLARE_CLASS_SIMPLE( CLanGames, CBaseGamesPage );
 
 public:
-	CLanGames(vgui::Panel *parent, bool bAutoRefresh=true, const char *pCustomResFilename=NULL);
+	CLanGames(vgui::Panel *parent, bool bAutoRefresh=true, const char *pCustomResFilename= nullptr);
 	~CLanGames();
 
 	// property page handlers

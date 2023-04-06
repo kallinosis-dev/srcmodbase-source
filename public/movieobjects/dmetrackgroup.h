@@ -66,7 +66,7 @@ public:
 	CDmeTrack *ChangeTrack( CDmeClip *pClip, const char *pNewTrack );
 	CDmeTrack *FindTrackForClip( CDmeClip *pClip ) const;
 
-	bool FindTrackForClip( CDmeClip *pClip, int *pTrackIndex, int *pClipIndex = NULL ) const;
+	bool FindTrackForClip( CDmeClip *pClip, int *pTrackIndex, int *pClipIndex = nullptr) const;
 
 	// Finding clips at a particular time
 	void FindClipsAtTime( DmeClipType_t clipType, DmeTime_t time, DmeClipSkipFlag_t flags, CUtlVector< CDmeClip * >& clips ) const;

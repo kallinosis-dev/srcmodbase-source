@@ -165,8 +165,8 @@ void CVMTPreviewToolbar::UpdateToolbarGUI()
 		m_pPrevSeqButton->SetEnabled(false);
 		m_pSequenceSelection_Second->SetVisible(false);
 
-		m_pSheetPanel->SetFromMaterial( NULL );
-		m_pSheetPanel_Second->SetFromMaterial( NULL );
+		m_pSheetPanel->SetFromMaterial(nullptr);
+		m_pSheetPanel_Second->SetFromMaterial(nullptr);
 	}
 	else
 	{

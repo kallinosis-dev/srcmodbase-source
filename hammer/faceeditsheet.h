@@ -38,7 +38,7 @@ public:
 	//
 	// Creation/Destruction
 	//
-					CFaceEditSheet( LPCTSTR pszCaption, CWnd *pParentWnd = NULL, UINT iSelectPage = 0 );
+					CFaceEditSheet( LPCTSTR pszCaption, CWnd *pParentWnd = nullptr, UINT iSelectPage = 0 );
 	virtual			~CFaceEditSheet();
 
 	BOOL			Create( CWnd *pParentWnd );

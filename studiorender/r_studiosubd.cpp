@@ -269,7 +269,7 @@ static matrix3x4_t *ComputeSkinMatrixSSE( mstudioboneweight_t &boneweights, matr
 #endif
 
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 #ifdef _DEBUG
@@ -559,7 +559,7 @@ void CStudioRender::SoftwareProcessQuadMesh( mstudiomesh_t* pmesh, CMeshBuilder&
 {
 	VPROF_BUDGET( "CStudioRender::SoftwareProcessQuadMesh", _T("SubD Rendering") );
 
-	Vector4D *pStudioTangentS = NULL;
+	Vector4D *pStudioTangentS = nullptr;
 
 	ALIGN16 QuadTessVertex_t quadVertex ALIGN16_POST;
 

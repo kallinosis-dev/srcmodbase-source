@@ -72,8 +72,8 @@ void CMatchExtensions::UnregisterExtensionInterface( char const *szInterfaceStri
 	-- rInfo.m_nRefCount;
 	if ( 0 == rInfo.m_nRefCount )
 	{
-		rInfo.m_pvInterface = NULL;
-		OnExtensionInterfaceUpdated( szInterfaceString, NULL );
+		rInfo.m_pvInterface = nullptr;
+		OnExtensionInterfaceUpdated( szInterfaceString, nullptr);
 	}
 }
 
@@ -84,7 +84,7 @@ void * CMatchExtensions::GetRegisteredExtensionInterface( char const *szInterfac
 	if ( rInfo.m_nRefCount > 0 && rInfo.m_pvInterface )
 		return rInfo.m_pvInterface;
 	else
-		return NULL;
+		return nullptr;
 }
 
 //
@@ -115,7 +115,7 @@ void CMatchExtensions::OnExtensionInterfaceUpdated( char const *szInterfaceStrin
 		{ XBOXSYSTEM_INTERFACE_VERSION,		(Ext_t) &Exts_t::m_pIXboxSystem },
 		{ XONLINE_INTERFACE_VERSION,		(Ext_t) &Exts_t::m_pIXOnline },
 #endif
-		{ NULL, NULL }
+		{nullptr, nullptr}
 	};
 
 	for ( CachedInterfacePtr_t *ptr = s_table; ptr->m_szName; ++ ptr )

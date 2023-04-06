@@ -64,7 +64,7 @@ mxGlWindow::mxGlWindow (mxWindow *parent, int x, int y, int w, int h, const char
 
 	bool error = false;
 
-	if ((d_this->hdc = GetDC ((HWND) getHandle ())) == NULL)
+	if ((d_this->hdc = GetDC ((HWND) getHandle ())) == nullptr)
 	{
 		error = true;
 		goto done;
@@ -85,7 +85,7 @@ mxGlWindow::mxGlWindow (mxWindow *parent, int x, int y, int w, int h, const char
 
 	DescribePixelFormat (d_this->hdc, pfm, sizeof (pfd), &pfd);
 
-	if ((d_this->hglrc = wglCreateContext (d_this->hdc)) == 0)
+	if ((d_this->hglrc = wglCreateContext (d_this->hdc)) == nullptr)
 	{
 		error = true;
 		goto done;
@@ -98,7 +98,7 @@ mxGlWindow::mxGlWindow (mxWindow *parent, int x, int y, int w, int h, const char
 	}
 
 	setType (MX_GLWINDOW);
-	setDrawFunc (0);
+	setDrawFunc (nullptr);
 
 done:
 	if (error)
@@ -111,7 +111,7 @@ mxGlWindow::~mxGlWindow ()
 {
 	if (d_this->hglrc)
 	{
-		wglMakeCurrent (NULL, NULL);
+		wglMakeCurrent (nullptr, nullptr);
 		//wglDeleteContext (d_this->hglrc);
 	}
 

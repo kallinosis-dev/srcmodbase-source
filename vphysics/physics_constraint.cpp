@@ -562,9 +562,9 @@ private:
 
 CPhysicsConstraint::CPhysicsConstraint( CPhysicsObject *pReferenceObject, CPhysicsObject *pAttachedObject )
 {
-	m_pGameData = NULL;
-	m_HkConstraint = NULL;
-	m_HkLCS = NULL;
+	m_pGameData = nullptr;
+	m_HkConstraint = nullptr;
+	m_HkLCS = nullptr;
 	m_constraintType = CONSTRAINT_UNKNOWN;
 	m_isBreakable = false;
 
@@ -583,8 +583,8 @@ CPhysicsConstraint::CPhysicsConstraint( CPhysicsObject *pReferenceObject, CPhysi
 	}
 	else
 	{
-		m_pObjReference = NULL;
-		m_pObjAttached = NULL;
+		m_pObjReference = nullptr;
+		m_pObjAttached = nullptr;
 	}
 }
 
@@ -706,7 +706,7 @@ void CPhysicsConstraint::InitRagdoll( IVP_Environment *pEnvironment, CPhysicsCon
 	}
 
 
-	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : NULL;
+	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : nullptr;
 	hk_Environment *hkEnvironment = static_cast<hk_Environment *>(pEnvironment);
 	if ( !lcs )
 	{
@@ -764,7 +764,7 @@ void CPhysicsConstraint::InitHinge( IVP_Environment *pEnvironment, CPhysicsConst
 	{
 		builder.set_angular_limits( DEG2RAD(hinge.hingeAxis.minRotation), DEG2RAD(hinge.hingeAxis.maxRotation) );
 	}
-	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : NULL;
+	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : nullptr;
 	if ( !lcs )
 	{
 		hk_Local_Constraint_System_BP bp;
@@ -802,7 +802,7 @@ void CPhysicsConstraint::InitFixed( IVP_Environment *pEnvironment, CPhysicsConst
 
 	fixed_bp.m_tau = fixed.constraint.strength;
 	
-	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : NULL;
+	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : nullptr;
 	if ( !lcs )
 	{
 		hk_Local_Constraint_System_BP bp;
@@ -846,7 +846,7 @@ void CPhysicsConstraint::InitBallsocket( IVP_Environment *pEnvironment, CPhysics
 	}
 
 	builder.m_strength = ballsocket.constraint.strength;
-	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : NULL;
+	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : nullptr;
 	if ( !lcs )
 	{
 		hk_Local_Constraint_System_BP bp;
@@ -908,7 +908,7 @@ void CPhysicsConstraint::InitSliding( IVP_Environment *pEnvironment, CPhysicsCon
 	}
 	prismatic_bp.m_limit.init_limit( bp, 1.0 );
 
-	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : NULL;
+	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : nullptr;
 	if ( !lcs )
 	{
 		hk_Local_Constraint_System_BP bp;
@@ -959,7 +959,7 @@ void CPhysicsConstraint::InitPulley( IVP_Environment *pEnvironment, CPhysicsCons
 	ConvertPositionToIVP( pulley.pulleyPosition[0], pulley_bp.m_worldspace_point[0] );
 	ConvertPositionToIVP( pulley.pulleyPosition[1], pulley_bp.m_worldspace_point[1] );
 
-	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : NULL;
+	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : nullptr;
 	if ( !lcs )
 	{
 		hk_Local_Constraint_System_BP bp;
@@ -1006,7 +1006,7 @@ void CPhysicsConstraint::InitLength( IVP_Environment *pEnvironment, CPhysicsCons
 	ConvertPositionToIVP( length.objectPosition[0], stiff_bp.m_translation_os_ks[0] );
 	ConvertPositionToIVP( length.objectPosition[1], stiff_bp.m_translation_os_ks[1] );
 
-	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : NULL;
+	hk_Local_Constraint_System *lcs = constraint_group ? constraint_group->GetLCS() : nullptr;
 	if ( !lcs )
 	{
 		hk_Local_Constraint_System_BP bp;
@@ -1119,11 +1119,11 @@ bool CPhysicsConstraint::GetConstraintTransform( matrix3x4_t *pConstraintToRefer
 		hk_Ragdoll_Constraint *pConstraint = (hk_Ragdoll_Constraint *)GetRealConstraint();
 		if ( pConstraintToReference )
 		{
-			ConvertHavanaLocalMatrixToHL( pConstraint->get_transform(0), *pConstraintToReference, NULL );
+			ConvertHavanaLocalMatrixToHL( pConstraint->get_transform(0), *pConstraintToReference, nullptr);
 		}
 		if ( pConstraintToAttached )
 		{
-			ConvertHavanaLocalMatrixToHL( pConstraint->get_transform(1), *pConstraintToAttached, NULL );
+			ConvertHavanaLocalMatrixToHL( pConstraint->get_transform(1), *pConstraintToAttached, nullptr);
 		}
 		return true;
 	}
@@ -1148,11 +1148,11 @@ bool CPhysicsConstraint::GetConstraintTransform( matrix3x4_t *pConstraintToRefer
 		hk_Fixed_Constraint *pConstraint = (hk_Fixed_Constraint *)GetRealConstraint();
 		if ( pConstraintToReference )
 		{
-			ConvertHavanaLocalMatrixToHL( pConstraint->get_transform(0), *pConstraintToReference, NULL );
+			ConvertHavanaLocalMatrixToHL( pConstraint->get_transform(0), *pConstraintToReference, nullptr);
 		}
 		if ( pConstraintToAttached )
 		{
-			ConvertHavanaLocalMatrixToHL( pConstraint->get_transform(1), *pConstraintToAttached, NULL );
+			ConvertHavanaLocalMatrixToHL( pConstraint->get_transform(1), *pConstraintToAttached, nullptr);
 		}
 		return true;
 	}
@@ -1214,7 +1214,7 @@ bool CPhysicsConstraint::GetConstraintParams( constraint_breakableparams_t *pPar
 CPhysicsConstraintGroup *CPhysicsConstraint::GetConstraintGroup() const
 {
 	if ( !m_HkConstraint )
-		return NULL;
+		return nullptr;
 
 	hk_Local_Constraint_System *plcs = m_HkConstraint->get_constraint_system();
 	Assert(plcs);
@@ -1425,8 +1425,8 @@ void CPhysicsConstraint::DetachListener()
 		m_pObjAttached->GetObject()->remove_listener_object( this );
 	}
 
-	m_pObjReference = NULL;
-	m_pObjAttached = NULL;
+	m_pObjReference = nullptr;
+	m_pObjAttached = nullptr;
 }
 
 void CPhysicsConstraint::event_object_deleted( IVP_Event_Object *pEvent )
@@ -1439,9 +1439,9 @@ void CPhysicsConstraint::event_object_deleted( IVP_Event_Object *pEvent )
 	DetachListener();
 	// the underlying constraint is no longer valid, delete it.
 	delete m_HkConstraint;
-	m_HkConstraint = NULL;
+	m_HkConstraint = nullptr;
 	delete m_HkLCS;
-	m_HkLCS = NULL;
+	m_HkLCS = nullptr;
 	if ( pEvent->environment )
 	{
 		CPhysicsEnvironment *pEnvironment = (CPhysicsEnvironment *)pEvent->environment->client_data;
@@ -1794,7 +1794,7 @@ bool RestorePhysicsConstraint( const physrestoreparams_t &params, CPhysicsConstr
 	}
 
 	// inert constraint, create an empty shell
-	*ppConstraint = new CPhysicsConstraint( NULL, NULL );
+	*ppConstraint = new CPhysicsConstraint(nullptr, nullptr);
 	return true;
 }
 

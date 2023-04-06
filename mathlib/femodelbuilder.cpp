@@ -1625,7 +1625,7 @@ void CFeModelBuilder::BuildFitMatrices( MbaContext_t &context )
 {
 	CUtlVector< CFitMatrixBuildInfo* > nodeFitMatrices;
 	nodeFitMatrices.SetCount( m_Nodes.Count() );
-	nodeFitMatrices.FillWithValue( NULL );
+	nodeFitMatrices.FillWithValue(nullptr);
 	for ( int i = 0; i < m_FitInfluences.Count(); ++i )
 	{
 		FeFitInfluence_t &inf = m_FitInfluences[ i ];
@@ -2715,7 +2715,7 @@ void CFeModelBuilder::OnAllocateMultiBuffer( Allocator &subAlloc, MbaContext_t &
 	}
 	else
 	{
-		m_pNodeCollisionRadii = NULL;
+		m_pNodeCollisionRadii = nullptr;
 	}
 
 	if ( context.m_bUsePerNodeLocalForce )
@@ -2774,8 +2774,8 @@ void CFeModelBuilder::OnAllocateMultiBuffer( Allocator &subAlloc, MbaContext_t &
 	else
 	{
 		// these get assigned NULL twice..
-		m_pCtrlToNode = NULL;
-		m_pNodeToCtrl = NULL;
+		m_pCtrlToNode = nullptr;
+		m_pNodeToCtrl = nullptr;
 	}
 
 	subAlloc( m_pTreeChildren, m_TreeChildren );
@@ -2814,7 +2814,7 @@ void CFeModelBuilder::OnAllocateMultiBuffer( Allocator &subAlloc, MbaContext_t &
 	for ( uint nCtrl = 0; nCtrl < context.nCtrlNameCount; ++nCtrl )
 	{
 		int nNode = m_CtrlToNode[ nCtrl ];
-		subAlloc.String( m_pCtrlName[ nCtrl ], nNode >= 0 ? m_Nodes[ nNode ].pName : NULL );
+		subAlloc.String( m_pCtrlName[ nCtrl ], nNode >= 0 ? m_Nodes[ nNode ].pName : nullptr);
 	}
 
 	if ( pCtrlHash )
@@ -2889,7 +2889,7 @@ void CFeModelBuilder::AdjustQuads()
 				uint nPerm2[ 4 ] = { elem.nNode[ 0 ], elem.nNode[ 3 ], elem.nNode[ 1 ], elem.nNode[ 2 ] };
 				float flPerm1Value = ElemNormalLength( nPerm1 );
 				float flPerm2Value = ElemNormalLength( nPerm2 );
-				uint *pBestPerm = NULL;
+				uint *pBestPerm = nullptr;
 				if ( flPerm1Value > flPerm2Value )
 				{
 					if ( flPerm1Value > flNoPermValue )

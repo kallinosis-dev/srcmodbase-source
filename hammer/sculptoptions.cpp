@@ -47,7 +47,7 @@ CUtlMap<EditDispHandle_t, CMapDisp *>		CSculptTool::m_OrigMapDisp( 3, 3, CSculpt
 //-----------------------------------------------------------------------------
 CSculptTool::CSculptTool()
 {
-	m_PaintOwner = NULL;
+	m_PaintOwner = nullptr;
 
 	m_MousePoint.Init();
 	m_StartingCollisionNormal.Init();
@@ -302,7 +302,7 @@ bool CSculptTool::DoPaint( CMapView3D *pView, const Vector2D &vPoint )
 		CMapDisp *pDisp = pDispMgr->GetFromSelect( iDisp );
 		if ( pDisp )
 		{
-			CMapDisp	*OrigDisp = NULL;
+			CMapDisp	*OrigDisp = nullptr;
 			int			index = m_OrigMapDisp.Find( pDisp->GetEditHandle() );
 			
 			if ( index != m_OrigMapDisp.InvalidIndex() )
@@ -766,7 +766,7 @@ bool CSculptTool::FindCollisionIntercept( CCamera *pCamera, const Vector2D &vPoi
 		{
 			if ( bUseOrigPosition )
 			{
-				CMapDisp	*OrigDisp = NULL;
+				CMapDisp	*OrigDisp = nullptr;
 				int			index = m_OrigMapDisp.Find( pDisp->GetEditHandle() );
 
 				if ( index != m_OrigMapDisp.InvalidIndex() )
@@ -796,11 +796,11 @@ bool CSculptTool::FindCollisionIntercept( CCamera *pCamera, const Vector2D &vPoi
 
 				ComputeTrianglePlane( vec1, vec2, vec3, vCollisionNormal, flCollisionIntercept );
 
-				if ( pnCollideDisplacement != NULL )
+				if ( pnCollideDisplacement != nullptr)
 				{
 					*pnCollideDisplacement = iDisp;
 				}
-				if ( pnCollideTri != NULL )
+				if ( pnCollideTri != nullptr)
 				{
 					*pnCollideTri = iTri;
 				}
@@ -3920,7 +3920,7 @@ BOOL CSculptProjectOptions::OnInitDialog()
 CTextureButton::CTextureButton( ) :
 	CButton()
 {
-	m_pTexure = NULL;
+	m_pTexure = nullptr;
 	m_bSelected = false;
 }
 
@@ -3997,9 +3997,9 @@ void CTextureButton::DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct )
 	int iFontHeight = dc.GetTextExtent( "J", 1 ).cy;
 
 	dc.SetROP2( R2_COPYPEN );
-	CPalette *pOldPalette = NULL;
+	CPalette *pOldPalette = nullptr;
 
-	if (m_pTexure != NULL)
+	if (m_pTexure != nullptr)
 	{
 		m_pTexure->Load();
 
@@ -4007,7 +4007,7 @@ void CTextureButton::DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct )
 		dc.RealizePalette();
 	}
 
-	if ( m_pTexure != NULL )
+	if ( m_pTexure != nullptr)
 	{
 		char szName[ MAX_PATH ];
 		int iLen = m_pTexure->GetShortName( szName );
@@ -4368,8 +4368,8 @@ void CSculptBlendOptions::OnShowWindow(BOOL bShow, UINT nStatus)
 					{
 						sprintf( temp, "$basetexture%d", i );
 					}
-					IMaterialVar	*pMaterialVar = pMaterial->FindVar( temp, NULL, false );
-					if ( pMaterialVar != NULL )
+					IMaterialVar	*pMaterialVar = pMaterial->FindVar( temp, nullptr, false );
+					if ( pMaterialVar != nullptr)
 					{
 						IEditorTexture	*pTexture = g_Textures.FindActiveTexture( pMaterialVar->GetStringValue() );
 						pTexture->Load();

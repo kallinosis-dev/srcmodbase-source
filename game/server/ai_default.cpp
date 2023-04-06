@@ -26,7 +26,7 @@ CAI_Schedule *CAI_BaseNPC::ScheduleInList( const char *pName, CAI_Schedule **pLi
 	if ( !pName )
 	{
 		DevMsg( "%s set to unnamed schedule!\n", GetClassname() );
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -40,7 +40,7 @@ CAI_Schedule *CAI_BaseNPC::ScheduleInList( const char *pName, CAI_Schedule **pLi
 		if ( stricmp( pName, pList[i]->GetName() ) == 0 )
 			return pList[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

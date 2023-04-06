@@ -202,7 +202,7 @@ void CMapAnimationDlg::OnCreateKeyFrame( void )
 	// stop any playback
 	PausePlayback();
 
-	GetHistory()->MarkUndoPosition( NULL, "New Keyframe" );
+	GetHistory()->MarkUndoPosition(nullptr, "New Keyframe" );
 
 	// get the animating object
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
@@ -217,7 +217,7 @@ void CMapAnimationDlg::OnCreateKeyFrame( void )
 		if ( ent && ent->IsAnimationController() )
 		{
 			// tell the animating object to create a new keyframe
-			CMapAnimator *anim = ent->GetChildOfType( (CMapAnimator*)NULL );
+			CMapAnimator *anim = ent->GetChildOfType( (CMapAnimator*)nullptr);
 			if ( anim )
 			{
 				CMapEntity *pNewEntity = anim->CreateNewKeyFrame( m_flAnimTime );
@@ -299,7 +299,7 @@ void CMapAnimationDlg::SelectionChanged( CMapObjectList &selection )
 	m_bEnabled = false;
 
 	// loop through the selection looking for potential animating objects
-	CMapEntity *ent = NULL;
+	CMapEntity *ent = nullptr;
 	
 	FOR_EACH_OBJ( selection, pos )
 	{
@@ -308,7 +308,7 @@ void CMapAnimationDlg::SelectionChanged( CMapObjectList &selection )
 
 		if ( ent )
 		{
-			if ( ent->IsAnimationController() && ent->GetChildOfType((CMapAnimator*)NULL) )
+			if ( ent->IsAnimationController() && ent->GetChildOfType((CMapAnimator*)nullptr) )
 			{
 				m_bEnabled = true;
 				break;
@@ -326,7 +326,7 @@ void CMapAnimationDlg::SelectionChanged( CMapObjectList &selection )
 	m_TimeSlider.EnableWindow( true );
 
 	// set up the slider from the selection
-	CMapAnimator *anim = ent->GetChildOfType( (CMapAnimator*)NULL );
+	CMapAnimator *anim = ent->GetChildOfType( (CMapAnimator*)nullptr);
 	Assert( anim != NULL );
 
 	m_flAnimationDuration = anim->GetRemainingTime();

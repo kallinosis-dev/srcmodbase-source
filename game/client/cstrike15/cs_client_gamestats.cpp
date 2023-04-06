@@ -315,7 +315,7 @@ void CCSClientGameStats::RetrieveSteamStats()
 	int nStatFailCount = 0;
 	for ( int i = 0; i < CSSTAT_MAX; ++i )
 	{
-		if ( CSStatProperty_Table[i].szSteamName == NULL )
+		if ( CSStatProperty_Table[i].szSteamName == nullptr)
 			continue;
 
 		int iData;
@@ -366,7 +366,7 @@ void CCSClientGameStats::UpdateSteamStats()
 
 	for ( int i = 0; i < CSSTAT_MAX; ++i )
 	{
-		if ( CSStatProperty_Table[i].szSteamName == NULL )
+		if ( CSStatProperty_Table[i].szSteamName == nullptr)
 			continue;
 
 		if ( m_lifetimeStatsLastUpload[ STEAM_PLAYER_SLOT ][ i ] != m_lifetimeStats[ STEAM_PLAYER_SLOT ][ i ] )
@@ -406,7 +406,7 @@ PlayerStatData_t CCSClientGameStats::GetStatById( int id, int nUserSlot )
 	else
 	{
 		PlayerStatData_t dummy;
-		dummy.pStatDisplayName = NULL;
+		dummy.pStatDisplayName = nullptr;
 		dummy.iStatId = CSSTAT_UNDEFINED;
 		dummy.iStatValue = 0;
 		return dummy;
@@ -1016,7 +1016,7 @@ CEG_NOINLINE void CCSClientGameStats::WriteLeaderboardStats( void )
 		bool bPublicGame = false;
 
 		// Check if this is already a public game
-		IMatchSession *pMatchSession = g_pMatchFramework ? g_pMatchFramework->GetMatchSession() : NULL;
+		IMatchSession *pMatchSession = g_pMatchFramework ? g_pMatchFramework->GetMatchSession() : nullptr;
 		if ( pMatchSession ) 
 		{
 			KeyValues *pSystemData = pMatchSession->GetSessionSystemData();
@@ -1025,21 +1025,21 @@ CEG_NOINLINE void CCSClientGameStats::WriteLeaderboardStats( void )
 				KeyValues *kv = pMatchSession->GetSessionSettings();
 				if ( kv )
 				{
-					char const *szOnline = kv->GetString( "system/network", NULL );
+					char const *szOnline = kv->GetString( "system/network", nullptr);
 					if ( szOnline &&
 						 !V_stricmp( "LIVE", szOnline ) )
 					{
 						bMultiplayerGame = true;
 					}
 
-					char const *szAccess = kv->GetString( "system/access", NULL );
+					char const *szAccess = kv->GetString( "system/access", nullptr);
 					if ( szAccess &&
 						 !V_stricmp( "public", szAccess ) )
 					{
 						bPublicGame = true;
 					}
 
-					char const *szQueue = kv->GetString( "game/mmqueue", NULL );
+					char const *szQueue = kv->GetString( "game/mmqueue", nullptr);
 					if ( szQueue && *szQueue )
 					{	// Queue games are always public
 						bPublicGame = true;
@@ -1154,7 +1154,7 @@ CEG_NOINLINE void CCSClientGameStats::WriteLeaderboardStats( void )
 
 		const char* pDeviceName = PlatformInputDevice::GetInputDeviceNameInternal( inputDevice );
 
-		if ( pDeviceName == NULL )
+		if ( pDeviceName == nullptr)
 		{
 			Warning( "Leaderboard Write Error: Invalid input device (InputType_t = %d)- cannot write to ELO leaderboard!\n", inputDevice );
 		}
@@ -1163,7 +1163,7 @@ CEG_NOINLINE void CCSClientGameStats::WriteLeaderboardStats( void )
 			V_snprintf( csBoardName, ARRAYSIZE(csBoardName), "%s_%s", g_LeaderboardIDMap[boardSetIndex].csName, pDeviceName );
 		}
 		
-		KeyValues *pkv = NULL;
+		KeyValues *pkv = nullptr;
 
 		if ( csBoardName[0] != 0 )
 		{

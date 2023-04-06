@@ -165,7 +165,7 @@ void CFilterControl::OnSize(UINT nType, int cx, int cy)
 void CFilterControl::UpdateGroupList()
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		m_cGroupBox.DeleteAllItems();
 		return;
@@ -212,7 +212,7 @@ void CFilterControl::UpdateGroupList()
 void CFilterControl::UpdateCordonList( Cordon_t *pSelectCordon, BoundBox *pSelectBox )
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if ( pDoc == NULL )
+	if ( pDoc == nullptr)
 	{
 		m_cCordonBox.DeleteAllItems();
 		return;
@@ -225,7 +225,7 @@ void CFilterControl::UpdateCordonList( Cordon_t *pSelectCordon, BoundBox *pSelec
 	//m_cCordonBox.SaveTreeListExpandStates();
 
 	int nSelectedItem = -1;
-	if ( pSelectCordon == NULL )
+	if ( pSelectCordon == nullptr)
 	{
 		nSelectedItem = m_cCordonBox.GetSelectedIndex();
 	}
@@ -238,7 +238,7 @@ void CFilterControl::UpdateCordonList( Cordon_t *pSelectCordon, BoundBox *pSelec
 	}
 	m_cCordonBox.DeleteAllItems();
 
-	CordonListItem_t *pSelectItem = NULL;
+	CordonListItem_t *pSelectItem = nullptr;
 	int nCount = pDoc->Cordon_GetCount();
 	for ( int i = 0; i < nCount; i++ )
 	{
@@ -247,8 +247,8 @@ void CFilterControl::UpdateCordonList( Cordon_t *pSelectCordon, BoundBox *pSelec
 		// Add the cordon to the list
 		CordonListItem_t *pItem = new CordonListItem_t;
 		pItem->m_pCordon = pCordon;
-		pItem->m_pBox = NULL;
-		m_cCordonBox.AddCordon( pItem, NULL );
+		pItem->m_pBox = nullptr;
+		m_cCordonBox.AddCordon( pItem, nullptr);
 
 		if ( pSelectCordon && ( pSelectCordon == pCordon ) && !pSelectBox )
 		{
@@ -339,7 +339,7 @@ void CFilterControl::UpdateControl(CCmdUI *pCmdUI)
 //-----------------------------------------------------------------------------
 void CFilterControl::UpdateControlGroups(CCmdUI *pCmdUI)
 {
-	pCmdUI->Enable((GetActiveWorld() != NULL) && !CVisGroup::IsShowAllActive());
+	pCmdUI->Enable((GetActiveWorld() != nullptr) && !CVisGroup::IsShowAllActive());
 }
 
 
@@ -360,7 +360,7 @@ void CFilterControl::OnUpdateCmdUI(CFrameWnd* pTarget, BOOL bDisableIfNoHndler)
 void CFilterControl::OnShowAllGroups(void)
 {
 	CButton *pButton = (CButton *)GetDlgItem(IDC_SHOW_ALL);
-	if (pButton != NULL)
+	if (pButton != nullptr)
 	{
 		UINT uCheck = pButton->GetCheck();
 		CVisGroup::ShowAllVisGroups(uCheck == 1);
@@ -387,7 +387,7 @@ BOOL CFilterControl::OnMoveUpDown(UINT uCmd)
 	if ( m_mode == FILTER_DIALOG_CORDONS )
 	{
 		CordonListItem_t *cordon = m_cCordonBox.GetSelectedCordon();
-		if ( cordon == NULL )
+		if ( cordon == nullptr)
 		{
 			return TRUE;
 		}
@@ -409,7 +409,7 @@ BOOL CFilterControl::OnMoveUpDown(UINT uCmd)
 	else
 	{	
 		CVisGroup *pVisGroup = m_cGroupBox.GetSelectedVisGroup();
-		if (pVisGroup == NULL)
+		if (pVisGroup == nullptr)
 		{
 			return TRUE;
 		}
@@ -447,7 +447,7 @@ void CFilterControl::OnEditGroups()
 	dlg.DoModal();
 
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		pDoc->SetModifiedFlag();
 	}
@@ -538,7 +538,7 @@ void CFilterControl::OnMarkMembers(void)
 			pDoc->GetSelection()->SetMode( selectObjects );
 
 			// Clear the selection.
-			pDoc->SelectObject( NULL, scClear | scSaveChanges );
+			pDoc->SelectObject(nullptr, scClear | scSaveChanges );
 
 			//
 			// Select all objects that belong to the visgroup.
@@ -572,7 +572,7 @@ void CFilterControl::OnMarkMembers(void)
 			pDoc->GetSelection()->SetMode(selectObjects);
 
 			// Clear the selection.
-			pDoc->SelectObject(NULL, scClear|scSaveChanges);
+			pDoc->SelectObject(nullptr, scClear|scSaveChanges);
 
 			//
 			// Select all objects that belong to the visgroup.
@@ -643,7 +643,7 @@ void CFilterControl::OnActivate(UINT nState, CWnd* pWnd, BOOL bMinimized)
 LRESULT CFilterControl::OnListToggleState(WPARAM wParam, LPARAM lParam)
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 		return 0;
 		
 	if ( m_mode == FILTER_DIALOG_CORDONS )
@@ -666,7 +666,7 @@ LRESULT CFilterControl::OnListToggleState(WPARAM wParam, LPARAM lParam)
 		// Update the visibility of the group.
 		//
 		CVisGroup *pVisGroup = (CVisGroup *)wParam;
-		if (pVisGroup != NULL)
+		if (pVisGroup != nullptr)
 		{
 			pDoc->VisGroups_ShowVisGroup(pVisGroup, pVisGroup->GetVisible() == VISGROUP_HIDDEN);
 		}
@@ -683,7 +683,7 @@ LRESULT CFilterControl::OnListToggleState(WPARAM wParam, LPARAM lParam)
 void CFilterControl::DeleteCordonListItem(CordonListItem_t *pDelete, bool bConfirm )
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 		return;
 
 	// If removing the last box from a cordon, just nuke the whole cordon
@@ -724,7 +724,7 @@ void CFilterControl::DeleteCordonListItem(CordonListItem_t *pDelete, bool bConfi
 void CFilterControl::OnCordonListDragDrop(CordonListItem_t *pDrag, CordonListItem_t *pDrop )
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 		return;
 
 	if ( !pDrag || ( pDrag == pDrop ) )
@@ -763,10 +763,10 @@ void CFilterControl::OnCordonListDragDrop(CordonListItem_t *pDrag, CordonListIte
 void CFilterControl::OnVisGroupListDragDrop(CVisGroup *pDragGroup, CVisGroup *pDropGroup )
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 		return;
 
-	if (pDropGroup != NULL)
+	if (pDropGroup != nullptr)
 	{
 		if (pDragGroup->FindDescendent(pDropGroup))
 		{
@@ -842,7 +842,7 @@ LRESULT CFilterControl::OnListRightDragDrop(WPARAM wParam, LPARAM lParam)
 	}
 
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc != NULL)
+	if (pDoc != nullptr)
 	{
 		CVisGroup *pDragGroup = (CVisGroup *)wParam;
 		CVisGroup *pDropGroup = (CVisGroup *)lParam;
@@ -869,7 +869,7 @@ LRESULT CFilterControl::OnListRightDragDrop(WPARAM wParam, LPARAM lParam)
 LRESULT CFilterControl::OnListSelChange( WPARAM wParam, LPARAM lParam )
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if ( pDoc == NULL )
+	if ( pDoc == nullptr)
 		return 0;
 
 	if ( wParam == IDC_GROUPS )
@@ -925,7 +925,7 @@ LRESULT CFilterControl::OnListKeyDown(WPARAM wParam, LPARAM lParam)
 	if ( wParam == VK_DELETE )
 	{
 		CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-		if ( pDoc == NULL )
+		if ( pDoc == nullptr)
 			return 0;
 
 		CordonListItem_t *pSel = m_cCordonBox.GetSelectedCordon();

@@ -381,13 +381,13 @@ CVehicleController::CVehicleController()
 
 void CVehicleController::ResetState()
 {
-	m_pCarSystem = NULL;
+	m_pCarSystem = nullptr;
 	m_flVelocity[0] = m_flVelocity[1]= m_flVelocity[2] = 0.0f;
 	for ( int i = 0; i < VEHICLE_MAX_WHEEL_COUNT; i++ )
 	{
-		m_pWheels[i] = NULL;
+		m_pWheels[i] = nullptr;
 	}
-	m_pCarBody = NULL;
+	m_pCarBody = nullptr;
 	m_torqueScale = 1;
 	m_wheelCount = 0;
 	m_wheelRadius = 0;
@@ -430,7 +430,7 @@ IPhysicsObject* CVehicleController::GetWheel( int index )
 		return static_cast<CPhysics_Airboat*>( m_pCarSystem )->GetWheel( index );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CVehicleController::SetWheelFriction(int wheelIndex, float friction)
@@ -449,7 +449,7 @@ bool CVehicleController::GetWheelContactPoint( int index, Vector *pContactPoint,
 	{
 		IPhysicsFrictionSnapshot *pSnapshot = m_pWheels[index]->CreateFrictionSnapshot();
 		float forceMax = -1.0f;
-		m_pWheels[index]->GetPosition( pContactPoint, NULL );
+		m_pWheels[index]->GetPosition( pContactPoint, nullptr);
 		while ( pSnapshot->IsValid() )
 		{
 			float thisForce = pSnapshot->GetNormalForce();
@@ -495,14 +495,14 @@ void CVehicleController::event_object_deleted( IVP_Event_Object *pEvent )
 	// the car system's constraint solver is going to delete itself now, so NULL the car system.
 
 	m_pCarSystem->event_object_deleted( pEvent );	
-	m_pCarSystem = NULL;
+	m_pCarSystem = nullptr;
 	ShutdownCarSystem();
 }
 
 IVP_Real_Object *CVehicleController::CreateWheel( int wheelIndex, vehicle_axleparams_t &axle )
 {
 	if ( wheelIndex >= VEHICLE_MAX_WHEEL_COUNT )
-		return NULL;
+		return nullptr;
 
 	// HACKHACK: In Save/load, the wheel was reloaded, so pretend to create it
 	// ALSO NOTE: Save/load puts the results into m_pWheels	regardless of vehicle type!!!
@@ -546,7 +546,7 @@ IVP_Real_Object *CVehicleController::CreateWheel( int wheelIndex, vehicle_axlepa
 	params.pName = "VehicleWheel";
 	params.rotdamping = axle.wheels.rotdamping;
 	params.rotInertiaLimit = 0;
-	params.massCenterOverride = NULL;
+	params.massCenterOverride = nullptr;
 	// needs to be in HL units because we're calling through the "outer" interface to create
 	// the wheels
 	float radius = axle.wheels.radius;
@@ -780,14 +780,14 @@ void CVehicleController::InitCarSystemWheels( IVP_Template_Car_System &ivpVehicl
 void CVehicleController::ShutdownCarSystem()
 {
 	delete m_pCarSystem;
-	m_pCarSystem = NULL;
+	m_pCarSystem = nullptr;
 	for ( int i = 0; i < m_wheelCount; i++ )
 	{
 		if ( m_pWheels[i] )
 		{
 			m_pEnv->DestroyObject( m_pWheels[i] );
 		}
-		m_pWheels[i] = NULL;
+		m_pWheels[i] = nullptr;
 	}
 }
 
@@ -1045,7 +1045,7 @@ void CVehicleController::UpdateHandbrake( const vehicle_controlparams_t &control
  		bHandbrake = false;
 		for ( int iWheel = 0; iWheel < m_wheelCount; ++iWheel )
 		{
-			if ( m_pWheels[iWheel]->GetContactPoint(NULL, NULL) )
+			if ( m_pWheels[iWheel]->GetContactPoint(nullptr, nullptr) )
 			{
 				bHandbrake = true;
 				break;
@@ -1148,12 +1148,12 @@ void CVehicleController::UpdateExtraForces( void )
 
 	// if the car has a global angular velocity limit, apply that constraint
 	AngularImpulse angVel;
-	m_pCarBody->GetVelocity( NULL, &angVel );
+	m_pCarBody->GetVelocity(nullptr, &angVel );
 	if ( m_vehicleData.body.maxAngularVelocity > 0 && angVel.Length() > m_vehicleData.body.maxAngularVelocity )
 	{
 		VectorNormalize(angVel);
 		angVel *= m_vehicleData.body.maxAngularVelocity;
-		m_pCarBody->SetVelocityInstantaneous( NULL, &angVel );
+		m_pCarBody->SetVelocityInstantaneous(nullptr, &angVel );
 	}
 }
 
@@ -1464,7 +1464,7 @@ void CVehicleController::InitFromTemplate( CPhysicsEnvironment *pEnv, void *pGam
 	m_bTraceData = controllerTemplate.m_bTraceData;
 	m_bOccupied = controllerTemplate.m_bOccupied;
 	m_bEngineDisable = controllerTemplate.m_bEngineDisable;
-	m_pCarSystem = NULL;
+	m_pCarSystem = nullptr;
 	memcpy( &m_currentState, &controllerTemplate.m_currentState, sizeof(m_currentState) );
 	memcpy( &m_vehicleData, &controllerTemplate.m_vehicleData, sizeof(m_vehicleData) );
 	memcpy( &m_flVelocity, controllerTemplate.m_flVelocity, sizeof(m_flVelocity) );
@@ -1510,7 +1510,7 @@ void CVehicleController::InitFromTemplate( CPhysicsEnvironment *pEnv, void *pGam
 	if ( m_pCarBody )
 	{
 		// clear angVel
-		m_pCarBody->SetVelocity( NULL, &vec3_origin );
+		m_pCarBody->SetVelocity(nullptr, &vec3_origin );
 		m_pCarBody->GetObject()->get_core()->speed_change.set( m_flVelocity[0], m_flVelocity[1], m_flVelocity[2] );
 	}
 }

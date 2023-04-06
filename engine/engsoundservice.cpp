@@ -138,7 +138,7 @@ public:
 
 	virtual bool IsPlayer( SoundSource source )
 	{
-		if ( source == GetSpectatorTarget( NULL ) )
+		if ( source == GetSpectatorTarget(nullptr) )
 		{
 			return true;
 		}

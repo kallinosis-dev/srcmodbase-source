@@ -52,7 +52,7 @@ CSharedObject *CSharedObject::Create( int nTypeID )
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 
@@ -72,7 +72,7 @@ const char *CSharedObject::PchClassName( int nTypeID )
 {
 	int nIndex = sm_mapFactories.Find( nTypeID );
 	if( !sm_mapFactories.IsValidIndex( nIndex ) ) 
-		return 0;
+		return nullptr;
 	else
 		return sm_mapFactories[nIndex].m_pchClassName;
 
@@ -82,7 +82,7 @@ const char *CSharedObject::PchClassBuildCacheNodeName( int nTypeID )
 {
 	int nIndex = sm_mapFactories.Find( nTypeID );
 	if( !sm_mapFactories.IsValidIndex( nIndex ) ) 
-		return 0;
+		return nullptr;
 	else
 		return sm_mapFactories[nIndex].m_sBuildCacheSubNodeName.Get();
 }
@@ -91,7 +91,7 @@ const char *CSharedObject::PchClassCreateNodeName( int nTypeID )
 {
 	int nIndex = sm_mapFactories.Find( nTypeID );
 	if( !sm_mapFactories.IsValidIndex( nIndex ) ) 
-		return 0;
+		return nullptr;
 	else
 		return sm_mapFactories[nIndex].m_sCreateNodeName.Get();
 }
@@ -100,7 +100,7 @@ const char *CSharedObject::PchClassUpdateNodeName( int nTypeID )
 {
 	int nIndex = sm_mapFactories.Find( nTypeID );
 	if( !sm_mapFactories.IsValidIndex( nIndex ) ) 
-		return 0;
+		return nullptr;
 	else
 		return sm_mapFactories[nIndex].m_sUpdateNodeName.Get();
 }

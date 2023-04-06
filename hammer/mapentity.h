@@ -176,7 +176,7 @@ public:
 
 	void NotifyChildKeyChanged(CMapClass *pChild, const char *szKey, const char *szValue);
 
-	virtual CMapEntity *FindChildByKeyValue( LPCSTR key, LPCSTR value, bool *bIsInInstance = NULL, VMatrix *InstanceMatrix = NULL );
+	virtual CMapEntity *FindChildByKeyValue( LPCSTR key, LPCSTR value, bool *bIsInInstance = nullptr, VMatrix *InstanceMatrix = nullptr);
 
 	virtual CMapClass *Copy(bool bUpdateDependencies);
 	virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
@@ -206,13 +206,13 @@ public:
 		FOR_EACH_OBJ( m_Children, pos )
 		{
 			MapClass *pChild = dynamic_cast<MapClass *>( m_Children.Element(pos).GetObject() );
-			if ( pChild != NULL )
+			if ( pChild != nullptr)
 			{
 				return pChild;
 			}
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 	//

@@ -38,7 +38,7 @@ mxListView::mxListView (mxWindow *parent, int x, int y, int w, int h, int id)
 
 	d_this->d_hwnd = CreateWindowEx (WS_EX_CLIENTEDGE, WC_LISTVIEW, "", dwStyle,
 				x, y, w, h, hwndParent,
-				(HMENU) id, (HINSTANCE) GetModuleHandle (NULL), NULL);
+				(HMENU) id, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 	
 	SendMessage (d_this->d_hwnd, WM_SETFONT, (WPARAM) (HFONT) GetStockObject (ANSI_VAR_FONT), MAKELPARAM (TRUE, 0));
 	SetWindowLong (d_this->d_hwnd, GWL_USERDATA, (LONG) this);
@@ -213,7 +213,7 @@ void*
 mxListView::getUserData ( int item, int column ) const
 {
 	if (!d_this)
-		return 0;
+		return nullptr;
 
 	LVITEM lvItem;
 	memset( &lvItem, 0, sizeof( lvItem ) );

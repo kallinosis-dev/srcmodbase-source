@@ -40,7 +40,7 @@ void LoadMaterialSystemInterface( CreateInterfaceFn fileSystemFactory )
 	CreateInterfaceFn clientFactory = Sys_GetFactory( materialSystemDLLHInst );
 	if ( clientFactory )
 	{
-		g_pMaterialSystem = (IMaterialSystem *)clientFactory( MATERIAL_SYSTEM_INTERFACE_VERSION, NULL );
+		g_pMaterialSystem = (IMaterialSystem *)clientFactory( MATERIAL_SYSTEM_INTERFACE_VERSION, nullptr);
 		if ( !g_pMaterialSystem )
 		{
 			Error( "Could not get the material system interface from materialsystem.dll (" __FILE__ ")" );
@@ -51,7 +51,7 @@ void LoadMaterialSystemInterface( CreateInterfaceFn fileSystemFactory )
 		Error( "Could not find factory interface in library MaterialSystem.dll" );
 	}
 
-	if (!g_pMaterialSystem->Init( "shaderapiempty.dll", 0, fileSystemFactory ))
+	if (!g_pMaterialSystem->Init( "shaderapiempty.dll", nullptr, fileSystemFactory ))
 	{
 		Error( "Could not start the empty shader (shaderapiempty.dll)!" );
 	}
@@ -69,7 +69,7 @@ void ShutdownMaterialSystem( )
 	if ( g_pMaterialSystem )
 	{
 		g_pMaterialSystem->Shutdown();
-		g_pMaterialSystem = NULL;
+		g_pMaterialSystem = nullptr;
 	}
 }
 
@@ -176,7 +176,7 @@ const char *GetMaterialVar( MaterialSystemMaterial_t materialHandle, const char 
 	}
 	else
 	{
-		return NULL;
+		return nullptr;
 	}
 }
 

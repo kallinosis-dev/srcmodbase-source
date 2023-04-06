@@ -104,7 +104,7 @@ C_FireSmoke::~C_FireSmoke()
 	if ( m_hEffect )
 	{
 		m_hEffect->StopEmission(false, false , true);
-		m_hEffect = NULL;
+		m_hEffect = nullptr;
 	}
 
 }

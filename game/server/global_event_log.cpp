@@ -47,7 +47,7 @@ private:
 CGlobalEventLine::CGlobalEventLine( )
 {
 	m_ValueSymbol = UTL_INVAL_SYMBOL;
-	m_pszValue = NULL;
+	m_pszValue = nullptr;
 	m_bDirty = true;
 }
 
@@ -59,10 +59,10 @@ CGlobalEventLine::~CGlobalEventLine( )
 void CGlobalEventLine::Clear( )
 {
 	m_ValueSymbol = UTL_INVAL_SYMBOL;
-	if ( m_pszValue != NULL )
+	if ( m_pszValue != nullptr)
 	{
 		delete m_pszValue;
-		m_pszValue = NULL;
+		m_pszValue = nullptr;
 	}
 	m_bDirty = true;
 }
@@ -100,7 +100,7 @@ void CGlobalEventLine::Write( CUtlBuffer *pBuffer )
 {
 	const char *pszValue;
 
-	if ( m_pszValue != NULL )
+	if ( m_pszValue != nullptr)
 	{
 		pszValue = m_pszValue;
 	}
@@ -109,7 +109,7 @@ void CGlobalEventLine::Write( CUtlBuffer *pBuffer )
 		pszValue = EventSymbols.String( m_ValueSymbol );
 	}
 
-	if ( strchr( pszValue, ' ' ) != NULL )
+	if ( strchr( pszValue, ' ' ) != nullptr)
 	{
 		pBuffer->Printf( "\"%s\"\n", pszValue );
 	}
@@ -129,7 +129,7 @@ void CGlobalEventLine::ClearDirty( )
 class CGlobalEvent
 {
 public:
-	CGlobalEvent( const char *pszName, unsigned int nID, bool bIsHighLevel, CGlobalEvent *pParent = NULL );
+	CGlobalEvent( const char *pszName, unsigned int nID, bool bIsHighLevel, CGlobalEvent *pParent = nullptr);
 
 	bool			AddValue( bool bVarying, const char *pszKey, const char *pszValue );
 
@@ -208,7 +208,7 @@ void CGlobalEvent::Write( CUtlBuffer *pBuffer )
 	{
 		const char *pszName = EventSymbols.String( m_Name );
 
-		if ( strchr( pszName, ' ' ) != NULL )
+		if ( strchr( pszName, ' ' ) != nullptr)
 		{
 			pBuffer->Printf( "\tName\t\"%s\"\n", pszName );
 		}
@@ -216,7 +216,7 @@ void CGlobalEvent::Write( CUtlBuffer *pBuffer )
 		{
 			pBuffer->Printf( "\tName\t%s\n", pszName );
 		}
-		if ( m_pParent != NULL )
+		if ( m_pParent != nullptr)
 		{
 			pBuffer->Printf( "\tParent_ID\t%u\n", m_pParent->GetID() );
 		}
@@ -234,7 +234,7 @@ void CGlobalEvent::Write( CUtlBuffer *pBuffer )
 		{
 			const char *pszKey = EventSymbols.String( m_EventLines.Key( i ) );
 
-			if ( strchr( pszKey, ' ' ) != NULL )
+			if ( strchr( pszKey, ' ' ) != nullptr)
 			{
 				pBuffer->Printf( "\t\"%s\"\t", pszKey );
 			}

@@ -52,9 +52,9 @@ struct MumbleSharedMemory_t
 	wchar_t description[2048];
 };
 
-MumbleSharedMemory_t *g_pMumbleMemory = NULL;
+MumbleSharedMemory_t *g_pMumbleMemory = nullptr;
 #ifdef WIN32
-HANDLE g_hMapObject = NULL;
+HANDLE g_hMapObject = nullptr;
 #endif
 
 ConVar sv_mumble_positionalaudio( "sv_mumble_positionalaudio", "1", FCVAR_REPLICATED, "Allows players using Mumble to have support for positional audio." );
@@ -88,14 +88,14 @@ void CMumbleSystem::LevelInitPostEntity()
 
 #if defined( WIN32 ) && !defined( _X360 )
 	g_hMapObject = OpenFileMappingW( FILE_MAP_ALL_ACCESS, FALSE, L"MumbleLink" );
-	if ( g_hMapObject == NULL )
+	if ( g_hMapObject == nullptr)
 		return;
 
 	g_pMumbleMemory = (MumbleSharedMemory_t *) MapViewOfFile( g_hMapObject, FILE_MAP_ALL_ACCESS, 0, 0, sizeof(MumbleSharedMemory_t) );
-	if ( g_pMumbleMemory == NULL )
+	if ( g_pMumbleMemory == nullptr)
 	{
 		CloseHandle( g_hMapObject );
-		g_hMapObject = NULL;
+		g_hMapObject = nullptr;
 		return;
 	}
 #elif defined( POSIX )
@@ -125,8 +125,8 @@ void CMumbleSystem::LevelShutdownPreEntity()
 	if ( g_hMapObject )
 	{
 		CloseHandle( g_hMapObject );
-		g_pMumbleMemory = NULL;
-		g_hMapObject = NULL;
+		g_pMumbleMemory = nullptr;
+		g_hMapObject = nullptr;
 	}
 #elif defined( POSIX )
 	if ( g_pMumbleMemory )

@@ -149,7 +149,7 @@ static SQRegFunction _blob_methods[] = {
 	_DECL_BLOB_FUNC(_get,2,_SC("xn")),
 	_DECL_BLOB_FUNC(_typeof,1,_SC("x")),
 	_DECL_BLOB_FUNC(_nexti,2,_SC("x")),
-	{0,0,0,0}
+	{nullptr,nullptr,0,nullptr}
 };
 
 
@@ -207,7 +207,7 @@ static SQRegFunction bloblib_funcs[]={
 	_DECL_GLOBALBLOB_FUNC(swap2,2,_SC(".n")),
 	_DECL_GLOBALBLOB_FUNC(swap4,2,_SC(".n")),
 	_DECL_GLOBALBLOB_FUNC(swapfloat,2,_SC(".n")),
-	{0,0}
+	{nullptr,nullptr}
 };
 
 SQRESULT sqstd_getblob(HSQUIRRELVM v,SQInteger idx,SQUserPointer *ptr)
@@ -236,7 +236,7 @@ SQUserPointer sqstd_createblob(HSQUIRRELVM v, SQInteger size)
 		sq_remove(v,-2); //removes the registry
 		sq_push(v,1); // push the this
 		sq_pushinteger(v,size); //size
-		SQBlob *blob = NULL;
+		SQBlob *blob = nullptr;
 		if(SQ_SUCCEEDED(sq_call(v,2,SQTrue,SQFalse))
 			&& SQ_SUCCEEDED(sq_getinstanceup(v,-1,(SQUserPointer *)&blob,(SQUserPointer)SQSTD_BLOB_TYPE_TAG))) {
 			sq_remove(v,-2);
@@ -244,7 +244,7 @@ SQUserPointer sqstd_createblob(HSQUIRRELVM v, SQInteger size)
 		}
 	}
 	sq_settop(v,top);
-	return NULL;
+	return nullptr;
 }
 
 SQRESULT sqstd_register_bloblib(HSQUIRRELVM v)

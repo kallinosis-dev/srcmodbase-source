@@ -118,7 +118,7 @@ public:
 	} optype_t;
 
 	CPredictionCopy( int type, byte *dest, bool dest_packed, const byte *src, bool src_packed,
-		optype_t opType, FN_FIELD_COMPARE func = NULL );
+		optype_t opType, FN_FIELD_COMPARE func = nullptr);
 	
 	int		TransferData( const char *operation, int entindex, datamap_t *dmap );
 

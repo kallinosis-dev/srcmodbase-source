@@ -146,7 +146,7 @@ matrix3x4a_t *CBoneCache::GetCachedBone( int studioIndex )
 	{
 		return BoneArray() + cachedIndex;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CBoneCache::ReadCachedBones( matrix3x4a_t *pBoneToWorld )
@@ -455,7 +455,7 @@ void WorldSpaceSlerp(
 	CBoneBitList targetBoneComputed;
 
 	virtualmodel_t *pVModel = pStudioHdr->GetVirtualModel();
-	const virtualgroup_t *pSeqGroup = NULL;
+	const virtualgroup_t *pSeqGroup = nullptr;
 	if (pVModel)
 	{
 		pSeqGroup = pVModel->pSeqGroup( sequence );
@@ -684,7 +684,7 @@ void SlerpBones(
 
 	int			i, j;
 	virtualmodel_t *pVModel = pStudioHdr->GetVirtualModel();
-	const virtualgroup_t *pSeqGroup = NULL;
+	const virtualgroup_t *pSeqGroup = nullptr;
 	if (pVModel)
 	{
 		pSeqGroup = pVModel->pSeqGroup( sequence );
@@ -998,7 +998,7 @@ void SlerpBonesSpeedy(
 
 	int			i;
 	virtualmodel_t *pVModel = pStudioHdr->GetVirtualModel();
-	const virtualgroup_t * RESTRICT pSeqGroup = NULL;
+	const virtualgroup_t * RESTRICT pSeqGroup = nullptr;
 	if (pVModel)
 	{
 		pSeqGroup = pVModel->pSeqGroup( sequence );
@@ -1610,7 +1610,7 @@ void BlendBones(
 	Quaternion		q3;
 
 	virtualmodel_t *pVModel = pStudioHdr->GetVirtualModel();
-	const virtualgroup_t *pSeqGroup = NULL;
+	const virtualgroup_t *pSeqGroup = nullptr;
 	if (pVModel)
 	{
 		pSeqGroup = pVModel->pSeqGroup( sequence );
@@ -2015,7 +2015,7 @@ void ScaleBones(
 	mstudioseqdesc_t &seqdesc = ((CStudioHdr *)pStudioHdr)->pSeqdesc( sequence );
 
 	virtualmodel_t *pVModel = pStudioHdr->GetVirtualModel();
-	const virtualgroup_t *pSeqGroup = NULL;
+	const virtualgroup_t *pSeqGroup = nullptr;
 	if (pVModel)
 	{
 		pSeqGroup = pVModel->pSeqGroup( sequence );
@@ -2163,7 +2163,7 @@ static mstudiobonecontroller_t* FindController( const CStudioHdr *pStudioHdr, in
 			return pStudioHdr->pBonecontroller( i );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -3639,7 +3639,7 @@ const char *Studio_GetKeyValueText( const CStudioHdr *pStudioHdr, int iSequence 
 			return ((CStudioHdr *)pStudioHdr)->pSeqdesc( iSequence ).KeyValueText();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 bool Studio_PrefetchSequence( const CStudioHdr *pStudioHdr, int iSequence )

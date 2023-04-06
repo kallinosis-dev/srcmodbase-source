@@ -187,7 +187,7 @@ public:
 
 	CSDORef<T> &operator=( T *pSDO ) { if ( m_pSDO ) m_pSDO->Release();  m_pSDO = pSDO; if ( m_pSDO ) m_pSDO->AddRef(); return *this; }
 
-	bool operator !() const { return Get() == NULL; }
+	bool operator !() const { return Get() == nullptr; }
 };
 
 
@@ -228,7 +228,7 @@ public:
 	// loads a SDO, and assigns a reference to it
 	// returns false if the item couldn't be loaded, or timed out loading
 	template<class T>
-	bool BYldLoadSDO( CSDORef<T> *pPSDORef, const typename T::KeyType_t &key, bool *pbTimeoutLoading = NULL );
+	bool BYldLoadSDO( CSDORef<T> *pPSDORef, const typename T::KeyType_t &key, bool *pbTimeoutLoading = nullptr);
 
 	// gets access to a SDO, but only if it's currently loaded
 	template<class T>
@@ -853,7 +853,7 @@ bool CSDOSQLLoadHelper<T>::BGetResults( int nQuery, CUtlMap<typename T::KeyType_
 
 	IGCSQLResultSetList *pResults = m_sqlAccess.GetResults();
 	Assert( pResults && nQuery >= 0 && (uint32)nQuery < pResults->GetResultSetCount() && pResults->GetResultSetCount() == (uint32)m_vecQueries.Count() );
-	if ( NULL == pResults || nQuery < 0 || (uint32)nQuery >= pResults->GetResultSetCount() || pResults->GetResultSetCount() != (uint32)m_vecQueries.Count() )
+	if (nullptr == pResults || nQuery < 0 || (uint32)nQuery >= pResults->GetResultSetCount() || pResults->GetResultSetCount() != (uint32)m_vecQueries.Count() )
 		return false;
 
 	Assert( m_vecQueries[nQuery].m_ColumnSet.GetRecordInfo()->GetTableID() == SCH::k_iTable );

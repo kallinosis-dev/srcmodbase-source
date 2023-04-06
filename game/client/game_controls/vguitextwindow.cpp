@@ -90,7 +90,7 @@ CON_COMMAND( showinfo, "Shows a info panel: <type> <title> <message> [<command n
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CTextWindow::CTextWindow(IViewPort *pViewPort) : Frame(NULL, PANEL_INFO	)
+CTextWindow::CTextWindow(IViewPort *pViewPort) : Frame(nullptr, PANEL_INFO	)
 {
 	m_dblTimeExecutedExitCommand = 0;
 	m_bHasMotd = false;
@@ -160,7 +160,7 @@ void CTextWindow::ApplySchemeSettings( IScheme *pScheme )
 //-----------------------------------------------------------------------------
 CTextWindow::~CTextWindow()
 {
-	g_pInputSystem->SetSteamControllerMode( NULL, this );
+	g_pInputSystem->SetSteamControllerMode(nullptr, this );
 
 	// remove temp file again
 	g_pFullFileSystem->RemoveFile( TEMP_HTML_FILE, "DEFAULT_WRITE_PATH" );
@@ -168,7 +168,7 @@ CTextWindow::~CTextWindow()
 
 void CTextWindow::Reset( void )
 {
-	g_pInputSystem->SetSteamControllerMode( NULL, this );
+	g_pInputSystem->SetSteamControllerMode(nullptr, this );
 
 	//=============================================================================
 	// HPE_BEGIN:
@@ -327,10 +327,10 @@ void CTextWindow::ShowURL( const char *URL, bool bAllowUserToDisable )
 
 void CTextWindow::ShowIndex( const char *entry)
 {
-	const char *data = NULL;
+	const char *data = nullptr;
 	int length = 0;
 
-	if ( NULL == g_pStringTableInfoPanel )
+	if (nullptr == g_pStringTableInfoPanel )
 		return;
 
 	int index = g_pStringTableInfoPanel->FindStringIndex( m_szMessage );
@@ -512,7 +512,7 @@ void CTextWindow::OnCommand( const char *command )
 		// of options.  Passing a command string is dangerous and allowed a server network
 		// message to run arbitrary commands on the client.
 		//=============================================================================
-		const char *pszCommand = NULL;
+		const char *pszCommand = nullptr;
 		switch ( m_nExitCommand )
 		{
 			case TEXTWINDOW_CMD_NONE:
@@ -547,7 +547,7 @@ void CTextWindow::OnCommand( const char *command )
 				break;
 		}
 		m_dblTimeExecutedExitCommand = Plat_FloatTime();
-		if ( ( pszCommand != NULL ) && !engine->IsDrawingLoadingImage() )	// don't execute commands while we are loading, we'll re-show MOTD after load finishes!
+		if ( ( pszCommand != nullptr) && !engine->IsDrawingLoadingImage() )	// don't execute commands while we are loading, we'll re-show MOTD after load finishes!
 		{
 			engine->ClientCmd_Unrestricted( pszCommand );
 		}
@@ -631,7 +631,7 @@ static char sBrowserClose [] =
 
 void CTextWindow::ShowPanel( bool bShow )
 {
-	g_pInputSystem->SetSteamControllerMode( bShow ? "MenuControls" : NULL, this );
+	g_pInputSystem->SetSteamControllerMode( bShow ? "MenuControls" : nullptr, this );
 
 	if (bShow) 
 		return;
@@ -662,7 +662,7 @@ void CTextWindow::ShowPanel2( bool bShow )
 	if ( (CSGameRules() && CSGameRules()->IsQueuedMatchmaking()) || sv_disable_motd.GetBool() )
 		bShow = false;
 
-	g_pInputSystem->SetSteamControllerMode( bShow ? "MenuControls" : NULL, this );
+	g_pInputSystem->SetSteamControllerMode( bShow ? "MenuControls" : nullptr, this );
 
 	if ( BaseClass::IsVisible() == bShow )
 		return;

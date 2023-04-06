@@ -35,15 +35,15 @@ public:
 	// text - Text message in the message box
 	// startMinimized - wether message box starts minimized. Starts invisible by default
 	// parent - parent panel of the message box, by default it has no parent. This will keep the box visible until the OK button is pressed. 
-	MessageBox(const char *title, const char *text, Panel *parent = NULL);
-	MessageBox(const wchar_t *wszTitle, const wchar_t *wszText, Panel *parent = NULL);
+	MessageBox(const char *title, const char *text, Panel *parent = nullptr);
+	MessageBox(const wchar_t *wszTitle, const wchar_t *wszText, Panel *parent = nullptr);
 	~MessageBox();
 
 	// Put the message box into a modal state
-	virtual void DoModal(Frame *pFrameOver = NULL);
+	virtual void DoModal(Frame *pFrameOver = nullptr);
 
 	// make the message box appear and in a modeless state
-	virtual void ShowWindow(Frame *pFrameOver = NULL);
+	virtual void ShowWindow(Frame *pFrameOver = nullptr);
 
 	// Set a string command to be sent when the OK button is pressed
 	// Use AddActionSignalTarget() to mark yourself as a recipient of the command

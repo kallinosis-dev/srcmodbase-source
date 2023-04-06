@@ -80,13 +80,13 @@ static CMoveHelperClient s_MoveHelperClient;
 //-----------------------------------------------------------------------------
 CMoveHelperClient::CMoveHelperClient( void )
 {
-	m_pHost = 0;
+	m_pHost = nullptr;
 	SetSingleton( this );
 }
 
 CMoveHelperClient::~CMoveHelperClient( void )
 {
-	SetSingleton( 0 );
+	SetSingleton( nullptr );
 }
 
 //-----------------------------------------------------------------------------

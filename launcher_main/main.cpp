@@ -90,7 +90,7 @@ static char *GetBaseDir( const char *pszBuffer )
 	static char	basedir[ MAX_PATH ];
 	char szBuffer[ MAX_PATH ];
 	size_t j;
-	char *pBuffer = NULL;
+	char *pBuffer = nullptr;
 
 	strcpy( szBuffer, pszBuffer );
 
@@ -125,7 +125,7 @@ int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 	char szBuffer[4096];
 	if ( !GetModuleFileName( hInstance, moduleName, MAX_PATH ) )
 	{
-		MessageBox( 0, "Failed calling GetModuleFileName", "Launcher Error", MB_OK );
+		MessageBox( nullptr, "Failed calling GetModuleFileName", "Launcher Error", MB_OK );
 		return 0;
 	}
 
@@ -156,17 +156,17 @@ int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdL
 #if defined(_X360)
 	HINSTANCE launcher = LoadLibrary( szBuffer );
 #else
-	HINSTANCE launcher = LoadLibraryEx( szBuffer, NULL, LOAD_WITH_ALTERED_SEARCH_PATH );
+	HINSTANCE launcher = LoadLibraryEx( szBuffer, nullptr, LOAD_WITH_ALTERED_SEARCH_PATH );
 #endif
 	if ( !launcher )
 	{
 		char *pszError;
-		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&pszError, 0, NULL);
+		FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&pszError, 0, nullptr);
 
 		char szBuf[1024];
 		_snprintf(szBuf, sizeof( szBuf ), "Failed to load the launcher DLL:\n\n%s", pszError);
 		szBuf[sizeof( szBuf ) - 1] = '\0';
-		MessageBox( 0, szBuf, "Launcher Error", MB_OK );
+		MessageBox( nullptr, szBuf, "Launcher Error", MB_OK );
 
 		LocalFree(pszError);
 		return 0;

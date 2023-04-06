@@ -193,7 +193,7 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Halfspacesoup::convert_halfspacesoup_to_
 												IVP_DOUBLE pointmerge_threshold)
 {
     IVP_SurfaceBuilder_Ledge_Soup ledge_soup;
-    IVP_Compact_Surface *cs = NULL;
+    IVP_Compact_Surface *cs = nullptr;
 
     IVP_Compact_Ledge *ledge = IVP_SurfaceBuilder_Halfspacesoup::convert_halfspacesoup_to_compact_ledge(halfspaces, pointmerge_threshold);
     if ( ledge ) {

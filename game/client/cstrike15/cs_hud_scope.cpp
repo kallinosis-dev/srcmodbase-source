@@ -70,7 +70,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
-CHudScope::CHudScope( const char *pElementName ) : CHudElement(pElementName), BaseClass(NULL, "HudScope")
+CHudScope::CHudScope( const char *pElementName ) : CHudElement(pElementName), BaseClass(nullptr, "HudScope")
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
@@ -126,7 +126,7 @@ void CHudScope::ApplySchemeSettings( vgui::IScheme *scheme )
 void CHudScope::Paint( void )
 {
 	C_CSPlayer *pPlayer = C_CSPlayer::GetLocalCSPlayer();
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 		return;
 
 	if ( pPlayer && pPlayer->GetObserverInterpState() == C_CSPlayer::OBSERVER_INTERP_TRAVELING )
@@ -139,7 +139,7 @@ void CHudScope::Paint( void )
 
 	case OBS_MODE_IN_EYE:
 		pPlayer = ToCSPlayer( pPlayer->GetObserverTarget() );
-		if ( pPlayer == NULL )
+		if ( pPlayer == nullptr)
 			return;
 		break;
 
@@ -171,10 +171,10 @@ void CHudScope::Paint( void )
 		GetHudSize( screenWide, screenTall );
 
 		CBaseViewModel *baseViewModel = pPlayer->GetViewModel( 0 );
-		if ( baseViewModel == NULL )
+		if ( baseViewModel == nullptr)
 			return;
 		CPredictedViewModel *viewModel = dynamic_cast<CPredictedViewModel *>(baseViewModel);
-		if ( viewModel == NULL )
+		if ( viewModel == nullptr)
 			return;
 
 		float fHalfFov = DEG2RAD( flTargetFOVForZoom ) * 0.5f;

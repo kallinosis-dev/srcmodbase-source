@@ -132,8 +132,8 @@ bool CMapViewLogical::SelectAtCascading( const Vector2D &ptClient, bool bMakeFir
 	{
 		if (bMakeFirst)
 		{
-			pDoc->SelectFace(NULL, 0, scClear|scSaveChanges);
-			pDoc->SelectObject(NULL, scClear|scSaveChanges);
+			pDoc->SelectFace(nullptr, 0, scClear|scSaveChanges);
+			pDoc->SelectObject(nullptr, scClear|scSaveChanges);
 		}
 
 		return false;
@@ -155,8 +155,8 @@ bool CMapViewLogical::SelectAtCascading( const Vector2D &ptClient, bool bMakeFir
 	//
 	if ( bMakeFirst )
 	{
-		pDoc->SelectFace( NULL, 0, scClear|scSaveChanges );
-		pDoc->SelectObject( NULL, scClear|scSaveChanges );
+		pDoc->SelectFace(nullptr, 0, scClear|scSaveChanges );
+		pDoc->SelectObject(nullptr, scClear|scSaveChanges );
 	}
 
 	pSelection->SetCurrentHit( hitFirst, true );
@@ -578,7 +578,7 @@ void CMapViewLogical::Render()
 	}
 
 	// Draw the world if we have one.
-	if (pWorld == NULL)
+	if (pWorld == nullptr)
 		return;
 			   
 	// Traverse the entire world, sorting visible elements into two arrays:
@@ -601,7 +601,7 @@ void CMapViewLogical::Render()
 		PopulateConnectionList();
 
 		// Make sure we have a timer running to drive error animations
-		SetTimer( TIMER_CONNECTIONUPDATE, TIMER_BLINK_INTERVAL, NULL);
+		SetTimer( TIMER_CONNECTIONUPDATE, TIMER_BLINK_INTERVAL, nullptr);
 	}
 
 	// Assume we are blinking, unless something is selected.
@@ -664,7 +664,7 @@ void CMapViewLogical::Render()
 	for (int i = 0; i < nToolCount; i++)
 	{
 		CBaseTool *pTool = pDoc->GetTools()->GetTool(i);
-		if ((pTool != NULL) && (pTool != pCurTool))
+		if ((pTool != nullptr) && (pTool != pCurTool))
 		{
 			pTool->RenderToolLogical( GetRender() );
 		}

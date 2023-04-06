@@ -57,10 +57,10 @@ public:
 	// Flush any cached results (e.g., hull changed, results not valid)
 	void Reset();
 	
-	void AddObstacle( const Vector &pos, float radius, CBaseEntity *pEntity = NULL, AI_MoveSuggType_t type = AIMST_AVOID_OBJECT );
+	void AddObstacle( const Vector &pos, float radius, CBaseEntity *pEntity = nullptr, AI_MoveSuggType_t type = AIMST_AVOID_OBJECT );
 	bool HaveObstacles()	{ return ( m_Obstacles.Count() != 0 ) || ( s_GlobalObstacles.Count() != 0 ); }
 
-	static Obstacle_t AddGlobalObstacle( const Vector &pos, float radius, CBaseEntity *pEntity = NULL, AI_MoveSuggType_t type = AIMST_AVOID_OBJECT );
+	static Obstacle_t AddGlobalObstacle( const Vector &pos, float radius, CBaseEntity *pEntity = nullptr, AI_MoveSuggType_t type = AIMST_AVOID_OBJECT );
 	static void RemoveGlobalObstacle( Obstacle_t hObstacle );
 	static void RemoveGlobalObstacles( void );
 	static bool IsSegmentBlockedByGlobalObstacles( const Vector &vecStart, const Vector &vecEnd );

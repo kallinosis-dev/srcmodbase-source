@@ -656,7 +656,7 @@ void CBaseHudWeaponSelection::SelectWeapon( void )
 	{
 		SetWeaponSelected();
 	
-		m_hSelectedWeapon = NULL;
+		m_hSelectedWeapon = nullptr;
 	
 		engine->ClientCmd( "cancelselect\n" );
 
@@ -691,7 +691,7 @@ void CBaseHudWeaponSelection::CancelWeaponSelection( void )
 	{
 		HideSelection();
 
-		m_hSelectedWeapon = NULL;
+		m_hSelectedWeapon = nullptr;
 
 		// Play the "close weapon selection" sound based on faction
 		//player->EmitSound( "Player.WeaponSelectionClose" );
@@ -721,11 +721,11 @@ void CBaseHudWeaponSelection::CancelWeaponSelection( void )
 C_BaseCombatWeapon *CBaseHudWeaponSelection::GetFirstPos( int iSlot )
 {
 	int iLowestPosition = MAX_WEAPON_POSITIONS;
-	C_BaseCombatWeapon *pFirstWeapon = NULL;
+	C_BaseCombatWeapon *pFirstWeapon = nullptr;
 
 	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
 	if ( !player )
-		return NULL;
+		return nullptr;
 
 	for ( int i = 0; i < MAX_WEAPONS; i++ )
 	{
@@ -753,14 +753,14 @@ C_BaseCombatWeapon *CBaseHudWeaponSelection::GetFirstPos( int iSlot )
 C_BaseCombatWeapon *CBaseHudWeaponSelection::GetNextActivePos( int iSlot, int iSlotPos )
 {
 	if ( iSlotPos >= MAX_WEAPON_POSITIONS || iSlot >= MAX_WEAPON_SLOTS )
-		return NULL;
+		return nullptr;
 
 	int iLowestPosition = MAX_WEAPON_POSITIONS;
-	C_BaseCombatWeapon *pNextWeapon = NULL;
+	C_BaseCombatWeapon *pNextWeapon = nullptr;
 
 	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
 	if ( !player )
-		return NULL;
+		return nullptr;
 	for ( int i = 0; i < MAX_WEAPONS; i++ )
 	{
 		C_BaseCombatWeapon *pWeapon = player->GetWeapon( i );

@@ -185,7 +185,7 @@ public:
 		Extent m_extent;
 	};
 
-	const Zone *GetZone( int i ) const				{ return ( ( i >= 0 ) && ( i < m_zoneCount ) ) ? ( &m_zone[i] ) : NULL; }
+	const Zone *GetZone( int i ) const				{ return ( ( i >= 0 ) && ( i < m_zoneCount ) ) ? ( &m_zone[i] ) : nullptr; }
 	const Zone *GetZone( const Vector &pos ) const;				///< return the zone that contains the given position
 	const Zone *GetClosestZone( const Vector &pos ) const;		///< return the closest zone to the given position
 	const Zone *GetClosestZone( const CBaseEntity *entity ) const;	///< return the closest zone to the given entity
@@ -200,13 +200,13 @@ public:
 	 * Return the zone closest to the given position, using the given cost heuristic
 	 */
 	template< typename CostFunctor >
-	const Zone *GetClosestZone( CNavArea *startArea, CostFunctor costFunc, float *travelDistance = NULL ) const
+	const Zone *GetClosestZone( CNavArea *startArea, CostFunctor costFunc, float *travelDistance = nullptr) const
 	{
-		const Zone *closeZone = NULL;
+		const Zone *closeZone = nullptr;
 		float closeDist = 99999999.9f;
 
-		if (startArea == NULL)
-			return NULL;
+		if (startArea == nullptr)
+			return nullptr;
 
 		for( int i=0; i<m_zoneCount; ++i )
 		{
@@ -236,7 +236,7 @@ public:
 	const Zone *GetRandomZone( void ) const
 	{
 		if (m_zoneCount == 0)
-			return NULL;
+			return nullptr;
 
 		int i;
 		CUtlVector< const Zone * > unblockedZones;
@@ -249,7 +249,7 @@ public:
 		}
 
 		if ( unblockedZones.Count() == 0 )
-			return NULL;
+			return nullptr;
 
 		return unblockedZones[ RandomInt( 0, unblockedZones.Count()-1 ) ];
 	}
@@ -328,7 +328,7 @@ public:
 	bool IsRoundOver( void ) const					{ return m_isRoundOver; }		///< return true if the round has ended
 
 	#define FROM_CONSOLE true
-	bool BotAddCommand( int team, bool isFromConsole = false, const char *profileName = NULL, CSWeaponType weaponType = WEAPONTYPE_UNKNOWN, BotDifficultyType difficulty = NUM_DIFFICULTY_LEVELS );	///< process the "bot_add" console command
+	bool BotAddCommand( int team, bool isFromConsole = false, const char *profileName = nullptr, CSWeaponType weaponType = WEAPONTYPE_UNKNOWN, BotDifficultyType difficulty = NUM_DIFFICULTY_LEVELS );	///< process the "bot_add" console command
 	
 	bool BotPlaceCommand( uint nTeamMask = 0xFFFFFFFF ); //Moves a bot at the location under the cursor.  For perf and lighting testing.
 
@@ -441,8 +441,8 @@ inline bool CCSBotManager::IsTimeToPlantBomb( void ) const
 
 inline const CCSBotManager::Zone *CCSBotManager::GetClosestZone( const CBaseEntity *entity ) const
 {
-	if (entity == NULL)
-		return NULL;
+	if (entity == nullptr)
+		return nullptr;
 
 	Vector centroid = entity->GetAbsOrigin();
 	centroid.z += HalfHumanHeight;

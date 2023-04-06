@@ -91,8 +91,8 @@ C_LocalTempEntity::C_LocalTempEntity()
 	m_vecNormal.Init();
 #endif
 	m_vecTempEntAcceleration.Init();
-	m_pfnDrawHelper = 0;
-	m_pszImpactEffect = NULL;
+	m_pfnDrawHelper = nullptr;
+	m_pszImpactEffect = nullptr;
 }
 
 
@@ -224,7 +224,7 @@ int	C_LocalTempEntity::DrawModel( int flags, const RenderableInstance_t &instanc
 			GetAbsOrigin(), 
 			GetAbsAngles(), 
 			m_flFrame,  // sprite frame to render
-			GetBody() > 0 ? cl_entitylist->GetBaseEntity( GetBody() ) : NULL,  // attach to
+			GetBody() > 0 ? cl_entitylist->GetBaseEntity( GetBody() ) : nullptr,  // attach to
 			GetSkin(),  // attachment point
 			GetRenderMode(), // rendermode
 			GetRenderFX(), // renderfx
@@ -712,7 +712,7 @@ void CBreakableHelper::Remove( C_LocalTempEntity *entity )
 const Vector *CBreakableHelper::GetLightingOrigin( C_LocalTempEntity *entity )
 {
 	unsigned int nCurContext = 0;
-	C_LocalTempEntity *head = NULL;
+	C_LocalTempEntity *head = nullptr;
 	FOR_EACH_LL( m_Breakables, i )
 	{
 		BreakableList_t& e = m_Breakables[ i ];
@@ -726,10 +726,10 @@ const Vector *CBreakableHelper::GetLightingOrigin( C_LocalTempEntity *entity )
 		if ( e.entity == entity )
 		{
 			Assert( head );
-			return head ? &head->GetAbsOrigin() : NULL;
+			return head ? &head->GetAbsOrigin() : nullptr;
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1140,7 +1140,7 @@ void CTempEnts::PhysicsProp( int modelindex, int skin, const Vector& pos, const 
 
 	if( pPhysicsObject )
 	{
-		pPhysicsObject->AddVelocity( &vel, NULL );
+		pPhysicsObject->AddVelocity( &vel, nullptr);
 	}
 	else
 	{
@@ -1170,18 +1170,18 @@ C_LocalTempEntity *CTempEnts::ClientProjectile( const Vector& vecOrigin, const V
 	const model_t		*model;
 
 	if ( !modelIndex ) 
-		return NULL;
+		return nullptr;
 
 	model = modelinfo->GetModel( modelIndex );
 	if ( !model )
 	{
 		Warning("ClientProjectile: No model %d!\n", modelIndex);
-		return NULL;
+		return nullptr;
 	}
 
 	pTemp = TempEntAlloc( vecOrigin, ( model_t * )model );
 	if (!pTemp)
-		return NULL;
+		return nullptr;
 
 	pTemp->SetVelocity( vecVelocity );
 	pTemp->SetAcceleration( vecAcceleration );
@@ -1191,7 +1191,7 @@ C_LocalTempEntity *CTempEnts::ClientProjectile( const Vector& vecOrigin, const V
 	pTemp->SetAbsOrigin( vecOrigin );
 	pTemp->die = gpGlobals->curtime + lifetime;
 	pTemp->flags = FTENT_COLLIDEALL | FTENT_ATTACHTOTARGET | FTENT_ALIGNTOMOTION;
-	pTemp->clientIndex = ( pOwner != NULL ) ? pOwner->entindex() : 0; 
+	pTemp->clientIndex = ( pOwner != nullptr) ? pOwner->entindex() : 0; 
 	pTemp->SetOwnerEntity( pOwner );
 	pTemp->SetImpactEffect( pszImpactEffect );
 	if ( pszParticleEffect )
@@ -1227,20 +1227,20 @@ C_LocalTempEntity *CTempEnts::TempSprite( const Vector &pos, const Vector &dir, 
 	int					frameCount;
 
 	if ( !modelIndex ) 
-		return NULL;
+		return nullptr;
 
 	model = modelinfo->GetModel( modelIndex );
 	if ( !model )
 	{
 		Warning("No model %d!\n", modelIndex);
-		return NULL;
+		return nullptr;
 	}
 
 	frameCount = modelinfo->GetModelFrameCount( model );
 
 	pTemp = TempEntAlloc( pos, ( model_t * )model );
 	if (!pTemp)
-		return NULL;
+		return nullptr;
 
 	pTemp->m_flFrameMax = frameCount - 1;
 	pTemp->m_flFrameRate = 10;
@@ -1548,13 +1548,13 @@ void CTempEnts::BloodSprite( const Vector &org, int r, int g, int b, int a, int 
 	const model_t			*model;
 
 	//Validate the model first
-	if ( modelIndex && (model = modelinfo->GetModel( modelIndex ) ) != NULL )
+	if ( modelIndex && (model = modelinfo->GetModel( modelIndex ) ) != nullptr)
 	{
 		C_LocalTempEntity		*pTemp;
 		int						frameCount = modelinfo->GetModelFrameCount( model );
 
 		//Large, single blood sprite is a high-priority tent
-		if ( ( pTemp = TempEntAllocHigh( org, ( model_t * )model ) ) != NULL )
+		if ( ( pTemp = TempEntAllocHigh( org, ( model_t * )model ) ) != nullptr)
 		{
 			pTemp->SetRenderMode( kRenderTransTexture );
 			pTemp->SetRenderFX( kRenderFxNone );
@@ -1593,20 +1593,20 @@ C_LocalTempEntity *CTempEnts::DefaultSprite( const Vector &pos, int spriteIndex,
 
 	// don't spawn while paused
 	if ( gpGlobals->frametime == 0.0 )
-		return NULL;
+		return nullptr;
 
 	pSprite = modelinfo->GetModel( spriteIndex );
 	if ( !spriteIndex || !pSprite || modelinfo->GetModelType( pSprite ) != mod_sprite )
 	{
 		DevWarning( 1,"No Sprite %d!\n", spriteIndex);
-		return NULL;
+		return nullptr;
 	}
 
 	frameCount = modelinfo->GetModelFrameCount( pSprite );
 
 	pTemp = TempEntAlloc( pos, ( model_t * )pSprite );
 	if (!pTemp)
-		return NULL;
+		return nullptr;
 
 	pTemp->m_flFrameMax = frameCount - 1;
 	pTemp->m_flSpriteScale = 1.0;
@@ -1655,7 +1655,7 @@ C_LocalTempEntity * CTempEnts::SpawnTempModel( model_t *pModel, const Vector &ve
 	// Alloc a new tempent
 	C_LocalTempEntity *pTemp = TempEntAlloc( vecOrigin, pModel );
 	if ( !pTemp )
-		return NULL;
+		return nullptr;
 
 	pTemp->SetAbsAngles( vecAngles );
 	pTemp->SetBody( 0 );
@@ -1908,7 +1908,7 @@ C_LocalTempEntity *CTempEnts::FindTempEntByID( int nID, int nSubID )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1924,14 +1924,14 @@ C_LocalTempEntity *CTempEnts::TempEntAlloc( const Vector& org, model_t *model )
 	if ( !model )
 	{
 		DevWarning( 1, "Can't create temporary entity with NULL model!\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	pTemp = TempEntAlloc();
 	if ( !pTemp )
 	{
 		DevWarning( 1, "Overflow %d temporary ents!\n", MAX_TEMP_ENTITIES );
-		return NULL;
+		return nullptr;
 	}
 
 	m_TempEnts.AddToTail( pTemp );
@@ -1943,7 +1943,7 @@ C_LocalTempEntity *CTempEnts::TempEntAlloc( const Vector& org, model_t *model )
 
 	pTemp->AddToLeafSystem( false );
 
-	if ( CommandLine()->CheckParm( "-tools" ) != NULL )
+	if ( CommandLine()->CheckParm( "-tools" ) != nullptr)
 	{
 #ifdef _DEBUG
 		static bool first = true;
@@ -1966,7 +1966,7 @@ C_LocalTempEntity *CTempEnts::TempEntAlloc( const Vector& org, model_t *model )
 C_LocalTempEntity *CTempEnts::TempEntAlloc()
 {
 	if ( m_TempEnts.Count() >= MAX_TEMP_ENTITIES )
-		return NULL;
+		return nullptr;
 
 	MEM_ALLOC_CREDIT();
 	C_LocalTempEntity *pTemp = m_TempEntsPool.AllocZero();
@@ -2037,7 +2037,7 @@ C_LocalTempEntity *CTempEnts::TempEntAllocHigh( const Vector& org, model_t *mode
 	if ( !model )
 	{
 		DevWarning( 1, "temporary ent model invalid\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	pTemp = TempEntAlloc();
@@ -2056,7 +2056,7 @@ C_LocalTempEntity *CTempEnts::TempEntAllocHigh( const Vector& org, model_t *mode
 		// didn't find anything? The tent list is either full of high-priority tents
 		// or all tents in the list are still due to live for > 10 seconds. 
 		DevWarning( 1,"Couldn't alloc a high priority TENT (max %i)!\n", MAX_TEMP_ENTITIES );
-		return NULL;
+		return nullptr;
 	}
 
 	m_TempEnts.AddToTail( pTemp );
@@ -2068,7 +2068,7 @@ C_LocalTempEntity *CTempEnts::TempEntAllocHigh( const Vector& org, model_t *mode
 
 	pTemp->AddToLeafSystem( false );
 
-	if ( CommandLine()->CheckParm( "-tools" ) != NULL )
+	if ( CommandLine()->CheckParm( "-tools" ) != nullptr)
 	{
 		ClientEntityList().AddNonNetworkableEntity(	pTemp );
 	}
@@ -2083,7 +2083,7 @@ C_LocalTempEntity *CTempEnts::TempEntAllocHigh( const Vector& org, model_t *mode
 //-----------------------------------------------------------------------------
 void CTempEnts::PlaySound ( C_LocalTempEntity *pTemp, float damp )
 {
-	const char	*soundname = NULL;
+	const char	*soundname = nullptr;
 	float fvol;
 	bool isshellcasing = false;
 	int zvel;
@@ -2182,7 +2182,7 @@ void CTempEnts::PlaySound ( C_LocalTempEntity *pTemp, float damp )
 	}
 
 	CSoundParameters params;
-	if ( !C_BaseEntity::GetParametersForSound( soundname, params, NULL ) )
+	if ( !C_BaseEntity::GetParametersForSound( soundname, params, nullptr) )
 		return;
 
 	fvol = params.volume;
@@ -2374,29 +2374,29 @@ void CTempEnts::LevelInit()
 //-----------------------------------------------------------------------------
 void CTempEnts::Init (void)
 {
-	m_pSpriteMuzzleFlash[0] = NULL;
-	m_pSpriteMuzzleFlash[1] = NULL;
-	m_pSpriteMuzzleFlash[2] = NULL;
+	m_pSpriteMuzzleFlash[0] = nullptr;
+	m_pSpriteMuzzleFlash[1] = nullptr;
+	m_pSpriteMuzzleFlash[2] = nullptr;
 
-	m_pSpriteAR2Flash[0] = NULL;
-	m_pSpriteAR2Flash[1] = NULL;
-	m_pSpriteAR2Flash[2] = NULL;
-	m_pSpriteAR2Flash[3] = NULL;
+	m_pSpriteAR2Flash[0] = nullptr;
+	m_pSpriteAR2Flash[1] = nullptr;
+	m_pSpriteAR2Flash[2] = nullptr;
+	m_pSpriteAR2Flash[3] = nullptr;
 
-	m_pSpriteCombineFlash[0] = NULL;
-	m_pSpriteCombineFlash[1] = NULL;
+	m_pSpriteCombineFlash[0] = nullptr;
+	m_pSpriteCombineFlash[1] = nullptr;
 
-	m_pShells[0] = NULL;
-	m_pShells[1] = NULL;
-	m_pShells[2] = NULL;
+	m_pShells[0] = nullptr;
+	m_pShells[1] = nullptr;
+	m_pShells[2] = nullptr;
 
 #if defined( CSTRIKE_DLL ) || defined ( SDK_DLL )
-	m_pCS_9MMShell		= NULL;
-	m_pCS_57Shell		= NULL;
-	m_pCS_12GaugeShell	= NULL;
-	m_pCS_556Shell		= NULL;
-	m_pCS_762NATOShell	= NULL;
-	m_pCS_338MAGShell	= NULL;
+	m_pCS_9MMShell		= nullptr;
+	m_pCS_57Shell		= nullptr;
+	m_pCS_12GaugeShell	= nullptr;
+	m_pCS_556Shell		= nullptr;
+	m_pCS_762NATOShell	= nullptr;
+	m_pCS_338MAGShell	= nullptr;
 #endif
 
 	// Clear out lists to start
@@ -2427,7 +2427,7 @@ inline void CTempEnts::CacheMuzzleFlashes( void )
 	int i;
 	for ( i = 0; i < 4; i++ )
 	{
-		if ( m_Material_MuzzleFlash_Player[i] == NULL )
+		if ( m_Material_MuzzleFlash_Player[i] == nullptr)
 		{
 			m_Material_MuzzleFlash_Player[i] = ParticleMgr()->GetPMaterial( VarArgs( "effects/muzzleflash%d_noz", i+1 ) );
 		}
@@ -2435,7 +2435,7 @@ inline void CTempEnts::CacheMuzzleFlashes( void )
 
 	for ( i = 0; i < 4; i++ )
 	{
-		if ( m_Material_MuzzleFlash_NPC[i] == NULL )
+		if ( m_Material_MuzzleFlash_NPC[i] == nullptr)
 		{
 			m_Material_MuzzleFlash_NPC[i] = ParticleMgr()->GetPMaterial( VarArgs( "effects/muzzleflash%d", i+1 ) );
 		}
@@ -2443,7 +2443,7 @@ inline void CTempEnts::CacheMuzzleFlashes( void )
 
 	for ( i = 0; i < 2; i++ )
 	{
-		if ( m_Material_Combine_MuzzleFlash_Player[i] == NULL )
+		if ( m_Material_Combine_MuzzleFlash_Player[i] == nullptr)
 		{
 			m_Material_Combine_MuzzleFlash_Player[i] = ParticleMgr()->GetPMaterial( VarArgs( "effects/combinemuzzle%d_noz", i+1 ) );
 		}
@@ -2451,7 +2451,7 @@ inline void CTempEnts::CacheMuzzleFlashes( void )
 
 	for ( i = 0; i < 2; i++ )
 	{
-		if ( m_Material_Combine_MuzzleFlash_NPC[i] == NULL )
+		if ( m_Material_Combine_MuzzleFlash_NPC[i] == nullptr)
 		{
 			m_Material_Combine_MuzzleFlash_NPC[i] = ParticleMgr()->GetPMaterial( VarArgs( "effects/combinemuzzle%d", i+1 ) );
 		}
@@ -2484,7 +2484,7 @@ void CTempEnts::MuzzleFlash_Combine_Player( ClientEntityHandle_t hEntity, int at
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_Combine_MuzzleFlash_Player[random->RandomInt(0,1)], offset );
 			
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -2508,7 +2508,7 @@ void CTempEnts::MuzzleFlash_Combine_Player( ClientEntityHandle_t hEntity, int at
 	// Tack on the smoke
 	pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_Combine_MuzzleFlash_Player[random->RandomInt(0,1)], vec3_origin );
 		
-	if ( pParticle == NULL )
+	if ( pParticle == nullptr)
 		return;
 
 	pParticle->m_flLifetime		= 0.0f;
@@ -2556,7 +2556,7 @@ void CTempEnts::MuzzleFlash_Combine_NPC( ClientEntityHandle_t hEntity, int attac
 		offset = (forward * (i*2.0f*flScale));
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_Combine_Muzzleflash[random->RandomInt(0,1)], offset );
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -2591,7 +2591,7 @@ void CTempEnts::MuzzleFlash_Combine_NPC( ClientEntityHandle_t hEntity, int attac
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_Combine_Muzzleflash[random->RandomInt(0,1)], offset );
 			
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -2621,7 +2621,7 @@ void CTempEnts::MuzzleFlash_Combine_NPC( ClientEntityHandle_t hEntity, int attac
 		offset = (-dir * (i*flScale));
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_Combine_Muzzleflash[random->RandomInt(0,1)], offset );
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -2651,7 +2651,7 @@ void CTempEnts::MuzzleFlash_Combine_NPC( ClientEntityHandle_t hEntity, int attac
 		offset = (dir * (i*flScale));
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_Combine_Muzzleflash[random->RandomInt(0,1)], offset );
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -2673,7 +2673,7 @@ void CTempEnts::MuzzleFlash_Combine_NPC( ClientEntityHandle_t hEntity, int attac
 	}
 
 	pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_Combine_Muzzleflash[2], vec3_origin );
-	if ( pParticle == NULL )
+	if ( pParticle == nullptr)
 		return;
 
 	pParticle->m_flLifetime		= 0.0f;
@@ -2748,7 +2748,7 @@ void CTempEnts::MuzzleFlash_AR2_NPC( const Vector &origin, const QAngle &angles,
 void CTempEnts::MuzzleFlash_SMG1_NPC( ClientEntityHandle_t hEntity, int attachmentIndex )
 {
 	//Draw the cloud of fire
-	FX_MuzzleEffectAttached( 1.0f, hEntity, attachmentIndex, NULL, true );
+	FX_MuzzleEffectAttached( 1.0f, hEntity, attachmentIndex, nullptr, true );
 }
 
 //-----------------------------------------------------------------------------
@@ -2775,7 +2775,7 @@ void CTempEnts::MuzzleFlash_SMG1_Player( ClientEntityHandle_t hEntity, int attac
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_MuzzleFlash_Player[random->RandomInt(0,3)], offset );
 			
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -2820,7 +2820,7 @@ void CTempEnts::MuzzleFlash_Shotgun_Player( ClientEntityHandle_t hEntity, int at
 	pSimple->GetBinding().SetBBox( origin - Vector( 4, 4, 4 ), origin + Vector( 4, 4, 4 ) );
 
 	Vector forward;
-	AngleVectors( angles, &forward, NULL, NULL );
+	AngleVectors( angles, &forward, nullptr, nullptr);
 
 	SimpleParticle *pParticle;
 	Vector offset;
@@ -2834,7 +2834,7 @@ void CTempEnts::MuzzleFlash_Shotgun_Player( ClientEntityHandle_t hEntity, int at
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_MuzzleFlash_Player[random->RandomInt(0,3)], offset );
 			
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -2895,7 +2895,7 @@ void CTempEnts::MuzzleFlash_Shotgun_NPC( ClientEntityHandle_t hEntity, int attac
 		{
 			pParticle = (SimpleParticle *) pEmbers->AddParticle( sizeof( SimpleParticle ), g_Mat_SMG_Muzzleflash[0], origin );
 				
-			if ( pParticle == NULL )
+			if ( pParticle == nullptr)
 				return;
 
 			pParticle->m_flLifetime		= 0.0f;
@@ -2940,7 +2940,7 @@ void CTempEnts::MuzzleFlash_Shotgun_NPC( ClientEntityHandle_t hEntity, int attac
 	{
 		pTrailParticle = (TrailParticle *) pTrails->AddParticle( sizeof( TrailParticle ), g_Mat_SMG_Muzzleflash[0], origin );
 			
-		if ( pTrailParticle == NULL )
+		if ( pTrailParticle == nullptr)
 			return;
 
 		pTrailParticle->m_flLifetime		= 0.0f;
@@ -2987,7 +2987,7 @@ void CTempEnts::MuzzleFlash_357_Player( ClientEntityHandle_t hEntity, int attach
 	pSimple->GetBinding().SetBBox( origin - Vector( 4, 4, 4 ), origin + Vector( 4, 4, 4 ) );
 
 	Vector forward;
-	AngleVectors( angles, &forward, NULL, NULL );
+	AngleVectors( angles, &forward, nullptr, nullptr);
 
 	SimpleParticle *pParticle;
 	Vector			offset;
@@ -2997,7 +2997,7 @@ void CTempEnts::MuzzleFlash_357_Player( ClientEntityHandle_t hEntity, int attach
 
 	pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_DustPuff[0], offset );
 		
-	if ( pParticle == NULL )
+	if ( pParticle == nullptr)
 		return;
 
 	pParticle->m_flLifetime		= 0.0f;
@@ -3029,7 +3029,7 @@ void CTempEnts::MuzzleFlash_357_Player( ClientEntityHandle_t hEntity, int attach
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_MuzzleFlash_Player[random->RandomInt(0,3)], offset );
 			
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -3073,7 +3073,7 @@ void CTempEnts::MuzzleFlash_Pistol_Player( ClientEntityHandle_t hEntity, int att
 	pSimple->GetBinding().SetBBox( origin - Vector( 4, 4, 4 ), origin + Vector( 4, 4, 4 ) );
 
 	Vector forward;
-	AngleVectors( angles, &forward, NULL, NULL );
+	AngleVectors( angles, &forward, nullptr, nullptr);
 
 	SimpleParticle *pParticle;
 	Vector			offset;
@@ -3085,7 +3085,7 @@ void CTempEnts::MuzzleFlash_Pistol_Player( ClientEntityHandle_t hEntity, int att
 	{
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), g_Mat_DustPuff[0], offset );
 			
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -3118,7 +3118,7 @@ void CTempEnts::MuzzleFlash_Pistol_Player( ClientEntityHandle_t hEntity, int att
 
 		pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), m_Material_MuzzleFlash_Player[random->RandomInt(0,3)], offset );
 			
-		if ( pParticle == NULL )
+		if ( pParticle == nullptr)
 			return;
 
 		pParticle->m_flLifetime		= 0.0f;
@@ -3147,7 +3147,7 @@ void CTempEnts::MuzzleFlash_Pistol_Player( ClientEntityHandle_t hEntity, int att
 
 void CTempEnts::MuzzleFlash_Pistol_NPC( ClientEntityHandle_t hEntity, int attachmentIndex )
 {
-	FX_MuzzleEffectAttached( 0.5f, hEntity, attachmentIndex, NULL, true );
+	FX_MuzzleEffectAttached( 0.5f, hEntity, attachmentIndex, nullptr, true );
 }
 
 

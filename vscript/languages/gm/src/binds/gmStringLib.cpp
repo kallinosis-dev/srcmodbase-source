@@ -529,7 +529,7 @@ static int GM_CDECL gmStringFind(gmThread * a_thread)
 {
   int numParams = GM_THREAD_ARG->GetNumParams();
   int startOffset = 0;
-  char* retCharPtr = NULL;
+  char* retCharPtr = nullptr;
   const gmVariable * var = a_thread->GetThis();
   GM_ASSERT(var->m_type == GM_STRING);
   gmStringObject * strObj = (gmStringObject *) GM_OBJECT(var->m_value.m_ref);
@@ -581,7 +581,7 @@ static int GM_CDECL gmStringFind(gmThread * a_thread)
   }
 
   // return -1 for not found, distance from beginning otherwise
-  int retOffset = (retCharPtr == NULL) ? -1 : (int)(retCharPtr - thisStr);
+  int retOffset = (retCharPtr == nullptr) ? -1 : (int)(retCharPtr - thisStr);
   a_thread->PushInt(retOffset);
 
   return GM_OK;
@@ -619,7 +619,7 @@ static int GM_CDECL gmStringReverseFind(gmThread * a_thread)
 {
   GM_CHECK_NUM_PARAMS(1);
 
-  const char* retCharPtr = NULL;
+  const char* retCharPtr = nullptr;
   const gmVariable * var = a_thread->GetThis();
   GM_ASSERT(var->m_type == GM_STRING);
   gmStringObject * thisStrObj = (gmStringObject *) GM_OBJECT(var->m_value.m_ref);
@@ -638,8 +638,8 @@ static int GM_CDECL gmStringReverseFind(gmThread * a_thread)
     const char* otherStr = a_thread->ParamString(0);
 
     //Find string
-    const char* lastFoundPtr = NULL;
-    const char* newTestPtr = NULL;
+    const char* lastFoundPtr = nullptr;
+    const char* newTestPtr = nullptr;
     const char* curTestPtr = thisStr;
     const char* endThisStr = thisStr + thisStrObj->GetLength();
     int searchStrLength = otherStrObj->GetLength();
@@ -669,7 +669,7 @@ static int GM_CDECL gmStringReverseFind(gmThread * a_thread)
   }
 
   // return -1 for not found, distance from beginning otherwise
-  int retOffset = (retCharPtr == NULL) ? -1 : (int)(retCharPtr - thisStr);
+  int retOffset = (retCharPtr == nullptr) ? -1 : (int)(retCharPtr - thisStr);
   a_thread->PushInt(retOffset);
 
   return GM_OK;

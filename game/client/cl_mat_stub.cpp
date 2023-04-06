@@ -40,7 +40,7 @@ CMatStubHandler::CMatStubHandler()
 	}
 	else
 	{
-		m_pOldMaterialSystem = 0;
+		m_pOldMaterialSystem = nullptr;
 	}
 }
 
@@ -59,7 +59,7 @@ void CMatStubHandler::End()
 		materials = m_pOldMaterialSystem;
 		materials->SetInStubMode( false );
 		engine->Mat_Stub( materials );
-		m_pOldMaterialSystem = 0;
+		m_pOldMaterialSystem = nullptr;
 //		if( gl_clear.GetBool() )
 		{
 			materials->ClearBuffers( true, true );

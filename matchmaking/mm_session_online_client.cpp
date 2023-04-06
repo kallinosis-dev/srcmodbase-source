@@ -35,7 +35,7 @@ CMatchSessionOnlineClient::CMatchSessionOnlineClient( KeyValues *pSettings ) :
 	m_pSysData( new KeyValues( "SysSessionData", "type", "client" ) ),
 	m_autodelete_pSysData( m_pSysData ),
 	m_eState( STATE_INIT ),
-	m_pSysSession( NULL )
+	m_pSysSession(nullptr)
 {
 	DevMsg( "Created CMatchSessionOnlineClient:\n" );
 	Init();
@@ -64,7 +64,7 @@ CMatchSessionOnlineClient::CMatchSessionOnlineClient( CSysSessionHost *pSysSessi
 	m_pSysData( new KeyValues( "SysSessionData", "type", "client" ) ),
 	m_autodelete_pSysData( m_pSysData ),
 	m_eState( STATE_LOBBY ), // it's at least lobby, we'll figure out later
-	m_pSysSession( NULL )
+	m_pSysSession(nullptr)
 {
 	DevMsg( "Migrating into CMatchSessionOnlineClient...\n" );
 	Init();
@@ -128,7 +128,7 @@ KeyValues * CMatchSessionOnlineClient::GetSessionSettings()
 void CMatchSessionOnlineClient::UpdateSessionSettings( KeyValues *pSettings )
 {
 	// Avoid a warning and assert for queue state manipulation
-	if ( pSettings->GetFirstSubKey()->GetString( "game/mmqueue", NULL ) )
+	if ( pSettings->GetFirstSubKey()->GetString( "game/mmqueue", nullptr) )
 		return;
 
 	// Otherwise warn
@@ -186,7 +186,7 @@ void CMatchSessionOnlineClient::OnRunCommand( KeyValues *pCommand )
 	}
 
 	// Client-side command cannot update the players
-	g_pMMF->GetMatchTitleGameSettingsMgr()->ExecuteCommand( pCommand, GetSessionSystemData(), m_pSettings, NULL );
+	g_pMMF->GetMatchTitleGameSettingsMgr()->ExecuteCommand( pCommand, GetSessionSystemData(), m_pSettings, nullptr);
 
 	// Send the command as event for handling
 	KeyValues *pEvent = pCommand->MakeCopy();
@@ -249,7 +249,7 @@ void CMatchSessionOnlineClient::Destroy()
 	if ( m_pSysSession )
 	{
 		m_pSysSession->Destroy();
-		m_pSysSession = NULL;
+		m_pSysSession = nullptr;
 	}
 
 	delete this;
@@ -404,14 +404,14 @@ void CMatchSessionOnlineClient::OnEvent( KeyValues *pEvent )
 	}
 	else if ( !Q_stricmp( "mmF->SysSessionUpdate", szEvent ) )
 	{
-		if ( m_pSysSession && pEvent->GetPtr( "syssession", NULL ) == m_pSysSession )
+		if ( m_pSysSession && pEvent->GetPtr( "syssession", nullptr) == m_pSysSession )
 		{
 			// This is our session
-			if ( char const *szError = pEvent->GetString( "error", NULL ) )
+			if ( char const *szError = pEvent->GetString( "error", nullptr) )
 			{
 				// Destroy the session
 				m_pSysSession->Destroy();
-				m_pSysSession = NULL;
+				m_pSysSession = nullptr;
 				m_eState = STATE_CREATING;
 
 				// Handle error
@@ -435,7 +435,7 @@ void CMatchSessionOnlineClient::OnEvent( KeyValues *pEvent )
 				return;
 				
 			default:
-				if ( char const *szAction = pEvent->GetString( "action", NULL ) )
+				if ( char const *szAction = pEvent->GetString( "action", nullptr) )
 				{
 					if ( !Q_stricmp( "host", szAction ) )
 					{
@@ -456,15 +456,15 @@ void CMatchSessionOnlineClient::OnEvent( KeyValues *pEvent )
 						pExtendedSettings->AddSubKey( m_pSettings );
 						
 						// Release ownership of the resources since new match session now owns them
-						m_pSettings = NULL;
-						m_autodelete_pSettings.Assign( NULL );
+						m_pSettings = nullptr;
+						m_autodelete_pSettings.Assign(nullptr);
 
 						CSysSessionClient *pSysSession = m_pSysSession;
-						m_pSysSession = NULL;
+						m_pSysSession = nullptr;
 
 						// Destroy our instance and create the new match interface
 						m_eState = STATE_MIGRATE;
-						g_pMMF->SetCurrentMatchSession( NULL );
+						g_pMMF->SetCurrentMatchSession(nullptr);
 						this->Destroy();
 
 						// Now we need to create the new host session that will install itself
@@ -483,7 +483,7 @@ void CMatchSessionOnlineClient::OnEvent( KeyValues *pEvent )
 	}
 	else if ( !Q_stricmp( "mmF->SysSessionCommand", szEvent ) )
 	{
-		if ( m_pSysSession && pEvent->GetPtr( "syssession", NULL ) == m_pSysSession )
+		if ( m_pSysSession && pEvent->GetPtr( "syssession", nullptr) == m_pSysSession )
 		{
 			KeyValues *pCommand = pEvent->GetFirstTrueSubKey();
 			if ( pCommand )
@@ -517,7 +517,7 @@ void CMatchSessionOnlineClient::OnEndGameToLobby()
 	g_pMatchExtensions->GetIVEngineClient()->ExecuteClientCmd( "disconnect" );
 	
 	// Mark gameplay state as inactive
-	m_pSysSession->SetSessionActiveGameplayState( false, NULL );
+	m_pSysSession->SetSessionActiveGameplayState( false, nullptr);
 }
 
 void CMatchSessionOnlineClient::InitializeGameSettings()
@@ -619,7 +619,7 @@ void CMatchSessionOnlineClient::ConnectGameServer()
 	{
 		// Destroy the session
 		m_pSysSession->Destroy();
-		m_pSysSession = NULL;
+		m_pSysSession = nullptr;
 
 		// Handle error
 		g_pMatchEventsSubscription->BroadcastEvent( new KeyValues( "OnMatchSessionUpdate",

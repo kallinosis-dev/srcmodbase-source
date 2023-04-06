@@ -48,7 +48,7 @@ ConVar script_connect_debugger_on_mapspawn( "script_connect_debugger_on_mapspawn
 class CScriptEntityIterator
 {
 public:
-	HSCRIPT First() { return Next(NULL); }
+	HSCRIPT First() { return Next(nullptr); }
 
 	HSCRIPT Next( HSCRIPT hStartEntity )
 	{
@@ -143,8 +143,8 @@ END_SCRIPTDESC();
 HSCRIPT CScriptKeyValues::ScriptFindKey( const char *pszName )
 {
 	KeyValues *pKeyValues = m_pKeyValues->FindKey(pszName);
-	if ( pKeyValues == NULL )
-		return NULL;
+	if ( pKeyValues == nullptr)
+		return nullptr;
 
 	CScriptKeyValues *pScriptKey = new CScriptKeyValues( pKeyValues );
 
@@ -156,8 +156,8 @@ HSCRIPT CScriptKeyValues::ScriptFindKey( const char *pszName )
 HSCRIPT CScriptKeyValues::ScriptGetFirstSubKey( void )
 {
 	KeyValues *pKeyValues = m_pKeyValues->GetFirstSubKey();
-	if ( pKeyValues == NULL )
-		return NULL;
+	if ( pKeyValues == nullptr)
+		return nullptr;
 
 	CScriptKeyValues *pScriptKey = new CScriptKeyValues( pKeyValues );
 
@@ -169,8 +169,8 @@ HSCRIPT CScriptKeyValues::ScriptGetFirstSubKey( void )
 HSCRIPT CScriptKeyValues::ScriptGetNextKey( void )
 {
 	KeyValues *pKeyValues = m_pKeyValues->GetNextKey();
-	if ( pKeyValues == NULL )
-		return NULL;
+	if ( pKeyValues == nullptr)
+		return nullptr;
 
 	CScriptKeyValues *pScriptKey = new CScriptKeyValues( pKeyValues );
 
@@ -212,7 +212,7 @@ bool CScriptKeyValues::ScriptGetKeyValueBool( const char *pszName )
 void CScriptKeyValues::ScriptReleaseKeyValues( )
 {
 	m_pKeyValues->deleteThis();
-	m_pKeyValues = NULL;
+	m_pKeyValues = nullptr;
 }
 
 
@@ -229,7 +229,7 @@ CScriptKeyValues::~CScriptKeyValues( )
 	{
 		m_pKeyValues->deleteThis();
 	}
-	m_pKeyValues = NULL;
+	m_pKeyValues = nullptr;
 }
 
 
@@ -341,7 +341,7 @@ static void DoRecordAchievementEvent( const char *pszAchievementname, int iPlaye
 		DevWarning( "DoRecordAchievementEvent called with invalid player index (%s, %d)!\n", pszAchievementname, iPlayerIndex );
 		return;
 	}
-	CBasePlayer *pPlayer = NULL;
+	CBasePlayer *pPlayer = nullptr;
 	if ( iPlayerIndex > 0 )
 	{
 		pPlayer = UTIL_PlayerByIndex( iPlayerIndex );
@@ -458,7 +458,7 @@ bool VScriptServerInit()
 {
 	VMPROF_START
 
-	if( scriptmanager != NULL )
+	if( scriptmanager != nullptr)
 	{
 		ScriptLanguage_t scriptLanguage = SL_DEFAULT;
 
@@ -486,7 +486,7 @@ bool VScriptServerInit()
 		}
 		if( scriptLanguage != SL_NONE )
 		{
-			if ( g_pScriptVM == NULL )
+			if ( g_pScriptVM == nullptr)
 				g_pScriptVM = scriptmanager->CreateVM( scriptLanguage );
 
 			if( g_pScriptVM )
@@ -553,18 +553,18 @@ bool VScriptServerInit()
 	{
 		Log_Msg( LOG_VScript, "\nVSCRIPT: Scripting is disabled.\n" );
 	}
-	g_pScriptVM = NULL;
+	g_pScriptVM = nullptr;
 	return false;
 }
 
 void VScriptServerTerm()
 {
-	if( g_pScriptVM != NULL )
+	if( g_pScriptVM != nullptr)
 	{
 		if( g_pScriptVM )
 		{
 			scriptmanager->DestroyVM( g_pScriptVM );
-			g_pScriptVM = NULL;
+			g_pScriptVM = nullptr;
 		}
 	}
 }
@@ -589,7 +589,7 @@ bool VScriptServerReplaceClosures( const char *pszScriptName, HSCRIPT hScope, bo
 		return false;
 	}
 
-	g_pScriptVM->Call( hReplaceClosuresFunc, NULL, true, NULL, hNewScript, hScope );
+	g_pScriptVM->Call( hReplaceClosuresFunc, nullptr, true, nullptr, hNewScript, hScope );
 	g_pScriptVM->ReleaseFunction( hReplaceClosuresFunc );
 	g_pScriptVM->ReleaseScript( hNewScript );
 	return true;
@@ -609,7 +609,7 @@ CON_COMMAND( script_reload_code, "Execute a vscript file, replacing existing fun
 		return;
 	}
 
-	VScriptServerReplaceClosures( args[1], NULL, true );
+	VScriptServerReplaceClosures( args[1], nullptr, true );
 }
 
 CON_COMMAND( script_reload_entity_code, "Execute all of this entity's VScripts, replacing existing functions with the functions in the run scripts" )
@@ -632,8 +632,8 @@ CON_COMMAND( script_reload_entity_code, "Execute all of this entity's VScripts, 
 	if ( !pPlayer )
 		return;
 
-	CBaseEntity *pEntity = NULL;
-	while ( (pEntity = GetNextCommandEntity( pPlayer, pszTarget, pEntity )) != NULL )
+	CBaseEntity *pEntity = nullptr;
+	while ( (pEntity = GetNextCommandEntity( pPlayer, pszTarget, pEntity )) != nullptr)
 	{
 		if ( pEntity->m_ScriptScope.IsInitialized() && pEntity->m_iszVScripts != NULL_STRING )
 		{
@@ -670,8 +670,8 @@ CON_COMMAND( script_reload_think, "Execute an activation script, replacing exist
 	if ( !pPlayer )
 		return;
 
-	CBaseEntity *pEntity = NULL;
-	while ( (pEntity = GetNextCommandEntity( pPlayer, pszTarget, pEntity )) != NULL )
+	CBaseEntity *pEntity = nullptr;
+	while ( (pEntity = GetNextCommandEntity( pPlayer, pszTarget, pEntity )) != nullptr)
 	{
 		if ( pEntity->m_ScriptScope.IsInitialized() && pEntity->m_iszScriptThinkFunction != NULL_STRING )
 		{
@@ -744,7 +744,7 @@ public:
 	{
 		pSave->StartBlock();
 
-		int temp = g_pScriptVM != NULL;
+		int temp = g_pScriptVM != nullptr;
 		pSave->WriteInt( &temp );
 		if ( g_pScriptVM )
 		{
@@ -880,7 +880,7 @@ void *CBaseEntityScriptInstanceHelper::BindOnRead( HSCRIPT hInstance, void *pOld
 		pEnt->m_hScriptInstance = hInstance;
 		return pEnt;
 	}
-	return NULL;
+	return nullptr;
 }
 
 

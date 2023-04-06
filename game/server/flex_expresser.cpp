@@ -34,7 +34,7 @@
 
 CFlexExpresser::CFlexExpresser()
 {
-	m_pExpresser = NULL;
+	m_pExpresser = nullptr;
 	m_flThenAnyMaxDist = 0;
 }
 
@@ -43,7 +43,7 @@ CFlexExpresser::~CFlexExpresser()
 {
 	if (m_pExpresser)
 		delete m_pExpresser;
-	m_pExpresser = NULL;
+	m_pExpresser = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -55,7 +55,7 @@ CAI_Expresser *CFlexExpresser::CreateExpresser( void )
 
 	m_pExpresser = new CAI_ExpresserWithFollowup(this);
 	if ( !m_pExpresser )
-		return NULL;
+		return nullptr;
 	
 	m_pExpresser->Connect(this);
 	return m_pExpresser;
@@ -191,7 +191,7 @@ void CFlexExpresser::InputSpeakResponseConcept( inputdata_t &inputdata )
 			outWritten += toWrite;
 
 			// get the next token
-			token = strtok(NULL, " ");
+			token = strtok(nullptr, " ");
 			if (token)
 			{
 				// if there is a next token, write in a comma
@@ -206,7 +206,7 @@ void CFlexExpresser::InputSpeakResponseConcept( inputdata_t &inputdata )
 	// null terminate just in case
 	outputmodifiers[outWritten] = 0;
 
-	Speak( buf, outWritten > 0 ? outputmodifiers : NULL );
+	Speak( buf, outWritten > 0 ? outputmodifiers : nullptr);
 }
 
 // does nothing. It's important that it does nothing because if it 
@@ -236,7 +236,7 @@ CFlexExpresser * CFlexExpresser::AsFlexExpresser( CBaseEntity *pEntity )
 	AssertMsg1( pEntity == NULL || dynamic_cast<CFlexExpresser *>(pEntity) == NULL, "%s subclasses prop_talker; update CFlexExpresser::AsFlexExpresser\n", 
 		pEntity->GetClassname() );
 
-	return NULL;
+	return nullptr;
 }
 
 

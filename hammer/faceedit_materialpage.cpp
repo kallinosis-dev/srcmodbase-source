@@ -229,7 +229,7 @@ void CFaceEditMaterialPage::Init( void )
 	m_TextureList.SubclassDlgItem( IDC_TEXTURES, this );
 	m_TexturePic.SubclassDlgItem( IDC_TEXTUREPIC, this );
 
-	m_pCurTex = NULL;
+	m_pCurTex = nullptr;
 
 	//
 	// initially update the texture controls
@@ -476,9 +476,9 @@ void CFaceEditMaterialPage::AlignToView( CMapFace *pFace )
 	CFrameWnd	*pFrame;
 	Vector		vView;
 	
-	if((pFrame = GetMainWnd()->GetActiveFrame()) != NULL)
+	if((pFrame = GetMainWnd()->GetActiveFrame()) != nullptr)
 	{
-		if((pActiveView = pFrame->GetActiveView()) != NULL)
+		if((pActiveView = pFrame->GetActiveView()) != nullptr)
 		{
 			if(pActiveView->IsKindOf(RUNTIME_CLASS(CMapView3D)))
 			{
@@ -637,7 +637,7 @@ void CFaceEditMaterialPage::Apply( CMapFace *pOnlyFace, int flags )
 
 	if ( !pOnlyFace )
 	{
-		GetHistory()->MarkUndoPosition( NULL, "Apply Face Attributes" );
+		GetHistory()->MarkUndoPosition(nullptr, "Apply Face Attributes" );
 
 		// make sure we apply everything in this case.
 		flags |= FACE_APPLY_ALL;
@@ -725,7 +725,7 @@ void CFaceEditMaterialPage::Apply( CMapFace *pOnlyFace, int flags )
 		//
 		// Update the texture and recalculate texture coordinates.
 		//
-		if ((flags & FACE_APPLY_MATERIAL) && (pTex != NULL))
+		if ((flags & FACE_APPLY_MATERIAL) && (pTex != nullptr))
 		{
 			char szCurrentTexName[MAX_PATH];
 			char szNewTexName[MAX_PATH];
@@ -776,7 +776,7 @@ void CFaceEditMaterialPage::Apply( CMapFace *pOnlyFace, int flags )
 			for( int nItem = 0; nItem < sizeof( FaceAttributes ) / sizeof( FaceAttributes[0] ); nItem++ )
 			{
 				CButton *pButton = ( CButton* )GetDlgItem( FaceAttributes[nItem].uControlID );
-				if( pButton != NULL )
+				if( pButton != nullptr)
 				{
 					int nSet = pButton->GetCheck();
 
@@ -894,7 +894,7 @@ void CFaceEditMaterialPage::UpdateDialogData( CMapFace *pOnlyFace )
 			{
 				int nSet = ((*FaceAttributes[nItem].puAttribute & FaceAttributes[nItem].uFlag) != 0);
 				CButton *pButton = (CButton *)GetDlgItem(FaceAttributes[nItem].uControlID);
-				if (pButton != NULL)
+				if (pButton != nullptr)
 				{
 					pButton->SetCheck(nSet);
 				}
@@ -962,7 +962,7 @@ void CFaceEditMaterialPage::UpdateDialogData( CMapFace *pOnlyFace )
 			{
 				int nSet = ((*FaceAttributes[nItem].puAttribute & FaceAttributes[nItem].uFlag) != 0);
 				CButton *pButton = (CButton *)GetDlgItem(FaceAttributes[nItem].uControlID);
-				if (pButton != NULL)
+				if (pButton != nullptr)
 				{
 					if (pButton->GetCheck() != nSet)
 					{
@@ -1066,7 +1066,7 @@ BOOL CFaceEditMaterialPage::OnAlign( UINT uCmd )
 	SetMaterialPageTool( MATERIALPAGETOOL_MATERIAL );
 
 	// mark position in undo stack
-	GetHistory()->MarkUndoPosition(NULL, "Align texture");
+	GetHistory()->MarkUndoPosition(nullptr, "Align texture");
 
 	CFaceEditSheet *pSheet = ( CFaceEditSheet* )GetParent();
 	int faceCount = pSheet->GetFaceListCount();
@@ -1181,7 +1181,7 @@ BOOL CFaceEditMaterialPage::OnJustify( UINT uCmd )
 	Extents_t	Extents;
 
 	// mark undo position
-	GetHistory()->MarkUndoPosition( NULL, "Justify texture" );
+	GetHistory()->MarkUndoPosition(nullptr, "Justify texture" );
 
 	CFaceEditSheet *pSheet = ( CFaceEditSheet* )GetParent();
 	int faceCount = pSheet->GetFaceListCount();	
@@ -1327,7 +1327,7 @@ void CFaceEditMaterialPage::OnMode()
 	CWnd *pButton = GetDlgItem( IDC_MODE );
 	CRect r;
 	pButton->GetWindowRect( r );
-	menu.TrackPopupMenu( TPM_LEFTALIGN | TPM_LEFTBUTTON, r.left, r.bottom, this, NULL );
+	menu.TrackPopupMenu( TPM_LEFTALIGN | TPM_LEFTBUTTON, r.left, r.bottom, this, nullptr);
 }
 
 
@@ -1339,7 +1339,7 @@ void CFaceEditMaterialPage::OnMode()
 //-----------------------------------------------------------------------------
 void CFaceEditMaterialPage::OnVScroll( UINT nSBCode, UINT nPos, CScrollBar *pScrollBar )
 {
-	Apply(NULL, FACE_APPLY_MAPPING);
+	Apply(nullptr, FACE_APPLY_MAPPING);
 }
 
 
@@ -1352,7 +1352,7 @@ void CFaceEditMaterialPage::OnDeltaPosFloatSpin( NMHDR *pNMHDR, LRESULT *pResult
 {
 	NM_UPDOWN *pNMUpDown = ( NM_UPDOWN* )pNMHDR;
 
-	CEdit *pEdit = NULL;
+	CEdit *pEdit = nullptr;
 	switch( pNMUpDown->hdr.idFrom )
 	{
 		case IDC_SPINSCALEY:
@@ -1368,7 +1368,7 @@ void CFaceEditMaterialPage::OnDeltaPosFloatSpin( NMHDR *pNMHDR, LRESULT *pResult
 		}
 	}
 
-	if( pEdit != NULL )
+	if( pEdit != nullptr)
 	{
 		CString str;
 		pEdit->GetWindowText(str);
@@ -1409,7 +1409,7 @@ void CFaceEditMaterialPage::OnSelChangeTexture( void )
 
 	UpdateTexture();
 
-	if( m_pCurTex != NULL )
+	if( m_pCurTex != nullptr)
 	{
 		m_TextureList.AddMRU( m_pCurTex );
 	}
@@ -1421,7 +1421,7 @@ void CFaceEditMaterialPage::OnSelChangeTexture( void )
 //-----------------------------------------------------------------------------
 void CFaceEditMaterialPage::OnCheckUnCheck( void )
 {
-	Apply(NULL, FACE_APPLY_MAPPING);
+	Apply(nullptr, FACE_APPLY_MAPPING);
 }
 
 
@@ -1471,7 +1471,7 @@ void CFaceEditMaterialPage::OnReplace( void )
 
 	if( dlg.m_bMarkOnly )
 	{
-		pDoc->SelectObject( NULL, scClear );	// clear selection first
+		pDoc->SelectObject(nullptr, scClear );	// clear selection first
 	}
 
 	dlg.DoReplaceTextures();
@@ -1488,8 +1488,8 @@ void CFaceEditMaterialPage::UpdateTexture( void )
 
 	if( iSel == LB_ERR )
 	{
-		m_TexturePic.SetTexture( NULL );
-		m_pCurTex = NULL;
+		m_TexturePic.SetTexture(nullptr);
+		m_pCurTex = nullptr;
 		return;
 	}
 
@@ -1523,7 +1523,7 @@ void CFaceEditMaterialPage::SelectTexture( LPCSTR pszTextureName )
 	if( nIndex == LB_ERR )
 	{
 		IEditorTexture *pTex = g_Textures.FindActiveTexture( pszTextureName );
-		if( pTex != NULL )
+		if( pTex != nullptr)
 		{
 			nIndex = m_TextureList.AddString( pszTextureName );
 			m_TextureList.SetItemDataPtr( nIndex, pTex );
@@ -1625,7 +1625,7 @@ void CFaceEditMaterialPage::OnBrowse( void )
 	if (iSel != LB_ERR)
 	{
 		IEditorTexture *pTex = (IEditorTexture *)m_TextureList.GetItemDataPtr(iSel);
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			char sz[128];
 	
@@ -1637,7 +1637,7 @@ void CFaceEditMaterialPage::OnBrowse( void )
 	if (pBrowser->DoModal() == IDOK)
 	{
 		IEditorTexture *pTex = g_Textures.FindActiveTexture(pBrowser->m_cTextureWindow.szCurTexture);
-		if (pTex != NULL)
+		if (pTex != nullptr)
 		{
 			int iCount = m_TextureList.GetCount();
 			for (int i = 0; i < iCount; i++)
@@ -1686,7 +1686,7 @@ void CFaceEditMaterialPage::OnButtonApply( void )
 	// Set the material tool current.
 	SetMaterialPageTool( MATERIALPAGETOOL_MATERIAL );
 
-	Apply(NULL, FACE_APPLY_ALL);
+	Apply(nullptr, FACE_APPLY_ALL);
 }
 
 
@@ -1728,7 +1728,7 @@ void CFaceEditMaterialPage::OnButtonSmoothingGroups( void )
 void CFaceEditMaterialPage::OnButtonShiftXRandom( void )
 {
 	IntegerToSpin( rand() % 512, (CSpinButtonCtrl*)GetDlgItem(IDC_SPINSHIFTX) );
-	Apply(NULL, FACE_APPLY_MAPPING);
+	Apply(nullptr, FACE_APPLY_MAPPING);
 }
 
 //-----------------------------------------------------------------------------
@@ -1737,7 +1737,7 @@ void CFaceEditMaterialPage::OnButtonShiftXRandom( void )
 void CFaceEditMaterialPage::OnButtonShiftYRandom( void )
 {
 	IntegerToSpin( rand() % 512, (CSpinButtonCtrl*)GetDlgItem(IDC_SPINSHIFTY) );
-	Apply(NULL, FACE_APPLY_MAPPING);
+	Apply(nullptr, FACE_APPLY_MAPPING);
 }
 
 //-----------------------------------------------------------------------------
@@ -1806,7 +1806,7 @@ void CFaceEditMaterialPage::SetReadOnly( bool bIsReadOnly )
 void CFaceEditMaterialPage::OnBnClickedFaceMarkButton()
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 		return;
 
 	int iSel = m_TextureList.GetCurSel();
@@ -1814,7 +1814,7 @@ void CFaceEditMaterialPage::OnBnClickedFaceMarkButton()
 		return;
 
 	IEditorTexture *pTex = (IEditorTexture *)m_TextureList.GetItemDataPtr(iSel);
-	if (pTex == NULL)
+	if (pTex == nullptr)
 		return;
 
 	char sz[128];

@@ -30,7 +30,7 @@ mxChooseColor (mxWindow *parent, int *r, int *g, int *b)
 
 	memset (&cc, 0, sizeof (CHOOSECOLOR));
 	cc.lStructSize = sizeof (CHOOSECOLOR);
-	cc.hwndOwner = parent ? (HWND) parent->getHandle ():NULL;
+	cc.hwndOwner = parent ? (HWND) parent->getHandle (): nullptr;
 	cc.rgbResult = RGB (rr, gg, bb);
 	cc.lpCustColors = custColors;
 	cc.Flags = CC_ANYCOLOR | CC_FULLOPEN | CC_RGBINIT;

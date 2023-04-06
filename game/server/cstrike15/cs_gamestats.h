@@ -116,7 +116,7 @@ static uint32 PackMovementStatInternal( Vector vVelocity, bool bDucking, bool bI
 static uint32 PackPlayerMovementStat( CCSPlayer *pPlayer )
 {
 	Vector vAttackerVelocity;
-	pPlayer->GetVelocity( &vAttackerVelocity, NULL );
+	pPlayer->GetVelocity( &vAttackerVelocity, nullptr);
 	bool bInAir = FBitSet( pPlayer->GetFlags(), FL_ONGROUND ) ? false : true;
 	bool bDucking = FBitSet( pPlayer->GetFlags(), FL_DUCKING ) ? true : false;
 	return PackMovementStatInternal( vAttackerVelocity, bDucking, bInAir );

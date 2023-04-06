@@ -48,12 +48,12 @@ ComboBoxDemo::ComboBoxDemo(Panel *parent, const char *name) : DemoPage(parent, n
 	m_pComboBox->SetWide(80);
 
 	// Add text selections to the menu list
-	m_pComboBox->AddItem("Right", NULL );
-	m_pComboBox->AddItem("Left", NULL );
-	m_pComboBox->AddItem("Up", NULL );
-	m_pComboBox->AddItem("Down", NULL );
-	m_pComboBox->AddItem("Forward", NULL );
-	m_pComboBox->AddItem("Backward", NULL );
+	m_pComboBox->AddItem("Right", nullptr);
+	m_pComboBox->AddItem("Left", nullptr);
+	m_pComboBox->AddItem("Up", nullptr);
+	m_pComboBox->AddItem("Down", nullptr);
+	m_pComboBox->AddItem("Forward", nullptr);
+	m_pComboBox->AddItem("Backward", nullptr);
 
 	// Activate the first item in the list, so our box will start out
 	// with a default selection. ("Right")

@@ -65,7 +65,7 @@ class CAI_LocalIdSpace
 public:
 	CAI_LocalIdSpace( bool fIsRoot = false );
 
-	bool Init( CAI_GlobalNamespace *pGlobalNamespace, CAI_LocalIdSpace *pParentIDSpace = NULL );
+	bool Init( CAI_GlobalNamespace *pGlobalNamespace, CAI_LocalIdSpace *pParentIDSpace = nullptr);
 	bool IsGlobalBaseSet() const { return ( m_globalBase != -1 ); }
 
 	bool AddSymbol( const char *pszSymbol, int localId, const char *pszDebugSymbolType = "", const char *pszDebugOwner = "" );
@@ -145,7 +145,7 @@ public:
 	{
 	}
 
-	bool Init( const char *pszClassName, CAI_GlobalScheduleNamespace *pGlobalNamespace, CAI_ClassScheduleIdSpace *pParentIDSpace = NULL );
+	bool Init( const char *pszClassName, CAI_GlobalScheduleNamespace *pGlobalNamespace, CAI_ClassScheduleIdSpace *pParentIDSpace = nullptr);
 
 	const char *GetClassName() const { return m_pszClassName; }
 
@@ -225,9 +225,9 @@ inline int CAI_GlobalScheduleNamespace::NumConditions() const
 inline bool CAI_ClassScheduleIdSpace::Init( const char *pszClassName, CAI_GlobalScheduleNamespace *pGlobalNamespace, CAI_ClassScheduleIdSpace *pParentIDSpace )
 {
 	m_pszClassName = pszClassName;
-	return ( m_ScheduleIds.Init( &pGlobalNamespace->m_ScheduleNamespace, ( pParentIDSpace ) ? &pParentIDSpace->m_ScheduleIds : NULL ) &&
-			 m_TaskIds.Init( &pGlobalNamespace->m_TaskNamespace, ( pParentIDSpace ) ? &pParentIDSpace->m_TaskIds : NULL ) &&
-			 m_ConditionIds.Init( &pGlobalNamespace->m_ConditionNamespace, ( pParentIDSpace ) ? &pParentIDSpace->m_ConditionIds : NULL ) );
+	return ( m_ScheduleIds.Init( &pGlobalNamespace->m_ScheduleNamespace, ( pParentIDSpace ) ? &pParentIDSpace->m_ScheduleIds : nullptr) &&
+			 m_TaskIds.Init( &pGlobalNamespace->m_TaskNamespace, ( pParentIDSpace ) ? &pParentIDSpace->m_TaskIds : nullptr) &&
+			 m_ConditionIds.Init( &pGlobalNamespace->m_ConditionNamespace, ( pParentIDSpace ) ? &pParentIDSpace->m_ConditionIds : nullptr) );
 }
 
 //-----------------------------------------------------------------------------

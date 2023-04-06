@@ -83,7 +83,7 @@ public:
 		m_iDamage += iDamage;
 		m_iActualHealthRemoved += iActualHealthRemoved;
 
-		if ( m_iLastBulletUpdate != iCounter || GetPlayerDamagerPtr() == NULL )
+		if ( m_iLastBulletUpdate != iCounter || GetPlayerDamagerPtr() == nullptr)
 			m_iNumHits++;
 
 		m_iLastBulletUpdate = iCounter;
@@ -316,7 +316,7 @@ public:
 	virtual void		TraceAttack( const CTakeDamageInfo &inputInfo, const Vector &vecDir, trace_t *ptr );
 
 	void FindMatchingWeaponsForTeamLoadout( const char *pchName, int nTeam, bool bMustBeTeamSpecific, CUtlVector< CEconItemView* > &matchingWeapons );
-	virtual CBaseEntity	*GiveNamedItem( const char *pchName, int iSubType = 0, CEconItemView *pScriptItem = NULL, bool bForce = false ) OVERRIDE;
+	virtual CBaseEntity	*GiveNamedItem( const char *pchName, int iSubType = 0, CEconItemView *pScriptItem = nullptr, bool bForce = false ) OVERRIDE;
 
 	virtual bool		IsBeingGivenItem() const { return m_bIsBeingGivenItem; }
 	
@@ -324,7 +324,7 @@ public:
 	virtual bool		IsUseableEntity( CBaseEntity *pEntity, unsigned int requiredCaps );
 	
 	virtual void		CreateViewModel( int viewmodelindex = 0 );
-	virtual void		ShowViewPortPanel( const char * name, bool bShow = true, KeyValues *data = NULL );
+	virtual void		ShowViewPortPanel( const char * name, bool bShow = true, KeyValues *data = nullptr);
 
 	void HandleOutOfAmmoKnifeKills( CCSPlayer* pAttackerPlayer, CWeaponCSBase* pAttackerWeapon );
 	// This passes the event to the client's and server's CPlayerAnimState.
@@ -492,13 +492,13 @@ public:
 	// Add money to this player's account.
 	void ResetAccount();
 	void InitializeAccount( int amount = -1 );
-	void AddAccount( int amount, bool bTrackChange = true, bool bItemBought = false, const char *pItemName = NULL );
+	void AddAccount( int amount, bool bTrackChange = true, bool bItemBought = false, const char *pItemName = nullptr);
 	bool AreAccountAwardsEnabled( PlayerCashAward::Type reason ) const;
 	void AddAccountAward( PlayerCashAward::Type reason );
-	void AddAccountAward( PlayerCashAward::Type reason, int amount, const CWeaponCSBase *pWeapon = NULL );
+	void AddAccountAward( PlayerCashAward::Type reason, int amount, const CWeaponCSBase *pWeapon = nullptr);
 	void AddAccountFromTeam( int amount, bool bTrackChange, TeamCashAward::Type reason );
 
-	int AddDeathmatchKillScore( int nScore, CSWeaponID wepID, int iSlot, bool bIsAssist = false, const char* szVictim = NULL );
+	int AddDeathmatchKillScore( int nScore, CSWeaponID wepID, int iSlot, bool bIsAssist = false, const char* szVictim = nullptr);
 
 	void HintMessage( const char *pMessage, bool bDisplayIfDead, bool bOverrideClientSettings = false ); // Displays a hint message to the player
 	CHintMessageQueue *m_pHintMessageQueue;
@@ -563,7 +563,7 @@ public:
 	float m_allowAutoFollowTime;				// bots can auto-follow after this time
 
 	// Have this guy speak a message into his radio.
-	void Radio( const char *szRadioSound, const char *szRadioText = NULL , bool bTriggeredAutomatically = false );
+	void Radio( const char *szRadioSound, const char *szRadioText = nullptr, bool bTriggeredAutomatically = false );
 	void ConstructRadioFilter( CRecipientFilter& filter );
 	float m_flGotHostageTalkTimer;
 	float m_flDefusingTalkTimer;
@@ -602,9 +602,9 @@ public:
 	bool IsBuyMenuOpen( void ) { return m_bIsBuyMenuOpen; } 
 	void SetBuyMenuOpen( bool bOpen );
 
-	AcquireResult::Type CanAcquire( CSWeaponID weaponId, AcquireMethod::Type acquireMethod, CEconItemView *pItem = NULL );
+	AcquireResult::Type CanAcquire( CSWeaponID weaponId, AcquireMethod::Type acquireMethod, CEconItemView *pItem = nullptr);
 	int					GetCarryLimit( CSWeaponID weaponId );
-	int	GetWeaponPrice( CSWeaponID weaponId, const CEconItemView *pWepView = NULL ) const;
+	int	GetWeaponPrice( CSWeaponID weaponId, const CEconItemView *pWepView = nullptr) const;
 	CWeaponCSBase*		CSWeapon_OwnsThisType( CEconItemView *pItem ) const;
 
 	void HandleMenu_Radio1( int slot );
@@ -1088,7 +1088,7 @@ public:
 	bool CSWeaponDrop( CBaseCombatWeapon *pWeapon, bool bDropShield = true, bool bThrow = false );
 	bool CSWeaponDrop( CBaseCombatWeapon *pWeapon, Vector targetPos, bool bDropShield = true );
 
-	bool HandleDropWeapon( CBaseCombatWeapon *pWeapon = NULL, bool bSwapping = false );
+	bool HandleDropWeapon( CBaseCombatWeapon *pWeapon = nullptr, bool bSwapping = false );
 
 	void SetViewModelArms( const char *armsModel );
 
@@ -1274,7 +1274,7 @@ public:
 
 	void SendLastKillerDamageToClient( CCSPlayer *pLastKiller );
 
-	void StockPlayerAmmo( CBaseCombatWeapon *pNewWeapon = NULL );
+	void StockPlayerAmmo( CBaseCombatWeapon *pNewWeapon = nullptr);
 
 	CUtlLinkedList< CDamageRecord *, int >& GetDamageList() {return m_DamageList;}
 	int GetNumAttackersFromDamageList( void );
@@ -1601,11 +1601,11 @@ public:
 	CCSBot* FindNearestControllableBot( bool bMustBeValidObserverTarget );
 	bool IsControllingBot( void )							const { return m_bIsControllingBot; }
 
-	bool HasControlledBot( void )						const { return m_hControlledBot.Get() != NULL; }
+	bool HasControlledBot( void )						const { return m_hControlledBot.Get() != nullptr; }
 	CCSPlayer* GetControlledBot( void )				const { return static_cast<CCSPlayer*>(m_hControlledBot.Get()); }
 	void SetControlledBot( CCSPlayer* pOther )	      { m_hControlledBot = pOther; }
 
-	bool HasControlledByPlayer( void )					const { return m_hControlledByPlayer.Get() != NULL; }
+	bool HasControlledByPlayer( void )					const { return m_hControlledByPlayer.Get() != nullptr; }
 	CCSPlayer* GetControlledByPlayer( void )				const { return static_cast<CCSPlayer*>(m_hControlledByPlayer.Get()); }
 	void SetControlledByPlayer( CCSPlayer* pOther )	      { m_hControlledByPlayer = pOther; }
 
@@ -1732,7 +1732,7 @@ inline CSPlayerState CCSPlayer::State_Get() const
 inline CCSPlayer *ToCSPlayer( CBaseEntity *pEntity )
 {
 	if ( !pEntity || !pEntity->IsPlayer() )
-		return NULL;
+		return nullptr;
 
 	return dynamic_cast<CCSPlayer*>( pEntity );
 }
@@ -1741,7 +1741,7 @@ inline CCSPlayer *ToCSPlayer( CBaseEntity *pEntity )
 inline bool CCSPlayer::IsReloading( void ) const
 {
 	CBaseCombatWeapon *gun = GetActiveWeapon();
-	if (gun == NULL)
+	if (gun == nullptr)
 		return false;
 
 	return gun->m_bInReload;

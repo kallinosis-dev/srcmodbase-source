@@ -23,7 +23,7 @@ struct CSGameplayHint_t
 
 CCSGameplayHints::CCSGameplayHints()
 {
-	m_pHintKV = NULL;
+	m_pHintKV = nullptr;
 }
 
 CCSGameplayHints::~CCSGameplayHints()
@@ -74,11 +74,11 @@ uint32 ContextEntryToBitFlag( const char* szName )
 
 uint32 BuildContextFlags( KeyValues *pContextKeys )
 {
-	if ( pContextKeys == NULL || pContextKeys->GetFirstSubKey() == NULL )
+	if ( pContextKeys == nullptr || pContextKeys->GetFirstSubKey() == nullptr)
 		return CCSGameplayHints::HINT_CONTEXT_ALWAYS_SHOW; 
 
 	uint32 nFlags = 0;
-	for ( KeyValues *entry = pContextKeys->GetFirstSubKey(); entry != NULL; entry = entry->GetNextKey() )
+	for ( KeyValues *entry = pContextKeys->GetFirstSubKey(); entry != nullptr; entry = entry->GetNextKey() )
 	{
 		if ( entry->GetInt() > 0 )
 		{
@@ -96,9 +96,9 @@ void CCSGameplayHints::PostInit()
 		KeyValues *hints = m_pHintKV->FindKey( "hints" );
 		if ( hints )
 		{
-			for ( KeyValues *entry = hints->GetFirstSubKey(); entry != NULL; entry = entry->GetNextKey() )
+			for ( KeyValues *entry = hints->GetFirstSubKey(); entry != nullptr; entry = entry->GetNextKey() )
 			{
-				const char* szLocToken = entry->GetString( "locToken", NULL );
+				const char* szLocToken = entry->GetString( "locToken", nullptr);
 				if ( szLocToken )
 				{
 					const wchar_t *wszText = g_pVGuiLocalize->Find( szLocToken );
@@ -127,7 +127,7 @@ void CCSGameplayHints::Cleanup( void )
 	if ( m_pHintKV )
 	{
 		m_pHintKV->deleteThis();
-		m_pHintKV = NULL;
+		m_pHintKV = nullptr;
 	}
 }
 void CCSGameplayHints::Shutdown()
@@ -147,7 +147,7 @@ int CompareHintsByDisplayCount( CSGameplayHint_t* const* lhs, CSGameplayHint_t* 
 const char* CCSGameplayHints::GetRandomLeastPlayedHint( void )
 {
 	if ( m_HintList.Count() == 0 )
-		return NULL;
+		return nullptr;
 
 	// Sort by times 'used' and pick among the lowest counts. Counts aren't stored and will 
 	// re-zero every time this the CCSGameplayHints class is created (so, every app launch).

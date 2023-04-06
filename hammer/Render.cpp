@@ -37,7 +37,7 @@ static float s_fOneUnitLength = 1;
 
 CRender::CRender(void)
 {
-	m_pView = NULL;
+	m_pView = nullptr;
 	
 	// returns a handle to the default (first loaded) scheme
 	vgui::IScheme * pScheme = vgui::scheme()->GetIScheme( vgui::scheme()->GetDefaultScheme() );
@@ -53,24 +53,24 @@ CRender::CRender(void)
 		if ( !s_bOnce )
 		{
 			s_bOnce = true;
-			MessageBox( NULL, "Failed to load the default scheme file. The map views may be missing some visual elements.", "Error", MB_OK | MB_ICONEXCLAMATION );
+			MessageBox(nullptr, "Failed to load the default scheme file. The map views may be missing some visual elements.", "Error", MB_OK | MB_ICONEXCLAMATION );
 		}
 	}
 	
 	for (int i = 0; i < 2; ++i)
 	{
-		m_pFlat[i] = NULL;
-		m_pWireframe[i] = NULL;
-		m_pTranslucentFlat[i] = NULL;
-		m_pLightmapGrid[i] = NULL;
-		m_pSelectionOverlay[i] = NULL;
-		m_pDotted[i] = NULL;
-		m_pFlatNoZ[i] = NULL;
-		m_pFlatNoCull[i] = NULL;
+		m_pFlat[i] = nullptr;
+		m_pWireframe[i] = nullptr;
+		m_pTranslucentFlat[i] = nullptr;
+		m_pLightmapGrid[i] = nullptr;
+		m_pSelectionOverlay[i] = nullptr;
+		m_pDotted[i] = nullptr;
+		m_pFlatNoZ[i] = nullptr;
+		m_pFlatNoCull[i] = nullptr;
 	}
 
-	m_pCurrentMaterial = NULL;
-	m_pBoundMaterial = NULL;
+	m_pCurrentMaterial = nullptr;
+	m_pBoundMaterial = nullptr;
 
 	m_nDecalMode = 0;
 	
@@ -119,7 +119,7 @@ void CRender::PushInstanceData( CMapInstance *pInstanceClass, Vector &InstanceOr
 	InstanceState.m_InstanceOrigin = InstanceOrigin;
 	InstanceState.m_InstanceAngles = InstanceAngles;
 	InstanceState.m_pInstanceClass = pInstanceClass;
-	InstanceState.m_pTopInstanceClass = NULL;
+	InstanceState.m_pTopInstanceClass = nullptr;
 
 	matrix3x4_t		TransMatrix;
 	matrix3x4_t		RotMatrix;
@@ -132,7 +132,7 @@ void CRender::PushInstanceData( CMapInstance *pInstanceClass, Vector &InstanceOr
 	MatrixMultiply( TransMatrix, RotMatrix, TransRotMatrix );
 
 	Vector vLocalOrigin = vec3_origin;
-	if ( pInstanceClass != NULL && pInstanceClass->GetInstancedMap() != NULL )
+	if ( pInstanceClass != nullptr && pInstanceClass->GetInstancedMap() != nullptr)
 	{
 		CMapEntityList	entityList;
 
@@ -162,7 +162,7 @@ void CRender::PushInstanceData( CMapInstance *pInstanceClass, Vector &InstanceOr
 	{	// first push is just a default state
 		m_bInstanceRendering = true;
 		BeginLocalTransfrom( InstanceState.m_InstanceMatrix, true );
-		if ( m_CurrentInstanceState.m_pTopInstanceClass == NULL ) 
+		if ( m_CurrentInstanceState.m_pTopInstanceClass == nullptr) 
 		{
 			if ( pInstanceClass->IsEditable() == false )
 			{
@@ -1218,14 +1218,14 @@ void CRender::DrawModel( DrawModelInfo_t* pInfo, matrix3x4_t *pBoneToWorld, cons
 		g_pStudioRender->ForcedMaterialOverride( pMat, OVERRIDE_NORMAL );
 		g_pStudioRender->SetAlphaModulation( 0.3f );
 
-		g_pStudioRender->DrawModel( NULL, *pInfo, pBoneToWorld, NULL, NULL, vOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL );
+		g_pStudioRender->DrawModel(nullptr, *pInfo, pBoneToWorld, nullptr, nullptr, vOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL );
 
 		g_pStudioRender->SetAlphaModulation( 1 );
-		g_pStudioRender->ForcedMaterialOverride( NULL, OVERRIDE_NORMAL );
+		g_pStudioRender->ForcedMaterialOverride(nullptr, OVERRIDE_NORMAL );
 	}
 	else
 	{
-		g_pStudioRender->DrawModel( NULL, *pInfo, pBoneToWorld, NULL, NULL, vOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL );
+		g_pStudioRender->DrawModel(nullptr, *pInfo, pBoneToWorld, nullptr, nullptr, vOrigin, STUDIORENDER_DRAW_ENTIRE_MODEL );
 	}
 
 	g_pStudioRender->SetAlphaModulation( 1.0f );
@@ -1435,7 +1435,7 @@ void CRender::BindMaterial( IMaterial *pMaterial )
 
 bool CRender::GetRequiredMaterial( const char *pName, IMaterial* &pMaterial )
 {
-	pMaterial = NULL;
+	pMaterial = nullptr;
 	IEditorTexture *pTex = g_Textures.FindActiveTexture( pName );
 	if ( pTex )
 		pMaterial = pTex->GetMaterial();
@@ -1448,7 +1448,7 @@ bool CRender::GetRequiredMaterial( const char *pName, IMaterial* &pMaterial )
 	{
 		char str[512];
 		Q_snprintf( str, sizeof( str ), "Missing material '%s'. Go to Tools | Options | Game Configurations and verify that your game directory is correct.", pName );
-		MessageBox( NULL, str, "FATAL ERROR", MB_OK );
+		MessageBox(nullptr, str, "FATAL ERROR", MB_OK );
 		return false;
 	}
 }
@@ -1554,7 +1554,7 @@ void CRender::SetRenderMode(EditorRenderMode_t eRenderMode, bool bForce)
 		)
 		pRenderContext->SetIntRenderingParameter(INT_RENDERPARM_ENABLE_FIXED_LIGHTING,2);
 
-	m_pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, m_pCurrentMaterial );
+	m_pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, m_pCurrentMaterial );
 
 	Assert( m_pMesh );
 	

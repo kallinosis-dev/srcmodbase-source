@@ -21,7 +21,7 @@
 
 using namespace vgui;
 
-COptionsSubPortal::COptionsSubPortal(vgui::Panel *parent) : PropertyPage(parent, NULL)
+COptionsSubPortal::COptionsSubPortal(vgui::Panel *parent) : PropertyPage(parent, nullptr)
 {
 	m_pPortalFunnelCheckBox = new CCvarToggleCheckButton( 
 		this, 

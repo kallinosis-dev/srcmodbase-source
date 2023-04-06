@@ -182,9 +182,9 @@ EXPOSE_INTERFACE( CMySQL, IMySQL, MYSQL_WRAPPER_VERSION_NAME );
 
 CMySQL::CMySQL()
 {
-	m_pSQL = NULL;
-	m_pResult = NULL;
-	m_Row = NULL;
+	m_pSQL = nullptr;
+	m_pResult = nullptr;
+	m_Row = nullptr;
 }
 
 
@@ -195,18 +195,18 @@ CMySQL::~CMySQL()
 	if ( m_pSQL )
 	{
 		mysql_close( m_pSQL );
-		m_pSQL = NULL;
+		m_pSQL = nullptr;
 	}
 }
 
 
 bool CMySQL::InitMySQL( const char *pDBName, const char *pHostName, const char *pUserName, const char *pPassword )
 {
-	MYSQL *pSQL = mysql_init( NULL );
+	MYSQL *pSQL = mysql_init(nullptr);
 	if ( !pSQL )
 		return NULL;
 
-	if ( !mysql_real_connect( pSQL, pHostName, pUserName, pPassword, pDBName, 0, NULL, 0 ) )
+	if ( !mysql_real_connect( pSQL, pHostName, pUserName, pPassword, pDBName, 0, nullptr, 0 ) )
 	{
 		Q_strncpy( m_szLastError, mysql_error( pSQL ), sizeof(m_szLastError) );
 
@@ -309,7 +309,7 @@ bool CMySQL::NextRow()
 		return false;
 
 	m_Row = mysql_fetch_row( m_pResult );
-	if ( m_Row == 0 )
+	if ( m_Row == nullptr )
 	{
 		return false;
 	}
@@ -378,10 +378,10 @@ void CMySQL::CancelIteration()
 	if ( m_pResult )
 	{
 		mysql_free_result( m_pResult );
-		m_pResult = NULL;
+		m_pResult = nullptr;
 	}
 
-	m_Row = NULL;
+	m_Row = nullptr;
 }
 
 const char *CMySQL::GetLastError( void )

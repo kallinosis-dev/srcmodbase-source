@@ -34,11 +34,11 @@ C_Gib *C_Gib::CreateClientsideGib( const char *pszModelName, Vector vecOrigin, V
 {
 	C_Gib *pGib = new C_Gib;
 
-	if ( pGib == NULL )
-		return NULL;
+	if ( pGib == nullptr)
+		return nullptr;
 
 	if ( pGib->InitializeGib( pszModelName, vecOrigin, vecForceDir, vecAngularImp, flLifetime ) == false )
-		return NULL;
+		return nullptr;
 
 	return pGib;
 }

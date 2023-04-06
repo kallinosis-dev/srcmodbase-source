@@ -41,14 +41,14 @@ CEngineSprite *Draw_SetSpriteTexture( const model_t *pSpriteModel, int frame, in
 
 	material = psprite->GetMaterial( (RenderMode_t)rendermode, frame );
 	if( !material )
-		return NULL;
+		return nullptr;
 	
 	CMatRenderContextPtr pRenderContext( materials );
 	if ( ShouldDrawInWireFrameMode() || r_DrawBeams.GetInt() == 2 )
 	{
 		if ( !g_pBeamWireframeMaterial )
 			g_pBeamWireframeMaterial = materials->FindMaterial( "debug/debugwireframevertexcolor", TEXTURE_GROUP_OTHER );
-		pRenderContext->Bind( g_pBeamWireframeMaterial, NULL );
+		pRenderContext->Bind( g_pBeamWireframeMaterial, nullptr);
 		return psprite;
 	}
 	
@@ -329,7 +329,7 @@ void DrawSegs( int noise_divisions, float *prgNoise, const model_t* spritemodel,
 	// Specify all the segments.
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	CBeamSegDraw segDraw;
-	segDraw.Start( pRenderContext, segments, NULL );
+	segDraw.Start( pRenderContext, segments, nullptr);
 
 	for ( i = 0; i < segments; i++ )
 	{
@@ -531,7 +531,7 @@ void DrawTeslaSegs( int noise_divisions, float *prgNoise, const model_t* spritem
 	// Specify all the segments.
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	CBeamSegDraw segDraw;
-	segDraw.Start( pRenderContext, segments, NULL );
+	segDraw.Start( pRenderContext, segments, nullptr);
 
 	// Keep track of how many times we've branched
 	int iBranches = 0;
@@ -704,7 +704,7 @@ void DrawSplineSegs( int noise_divisions, float *prgNoise,
 	segDraw.Start( pRenderContext, (segments-1)*(numAttachments-1), pBeamMaterial );
 
 	CEngineSprite *pHaloSprite = (CEngineSprite *)modelinfo->GetModelExtraData( halosprite );
-	IMaterial *pHaloMaterial = NULL;
+	IMaterial *pHaloMaterial = nullptr;
 	if ( pHaloSprite )
 	{
 		pHaloMaterial = pHaloSprite->GetMaterial( kRenderGlow );
@@ -1447,7 +1447,7 @@ void DrawBeamFollow( const model_t* spritemodel, BeamTrail_t* pHead, int frame, 
 
 		vLast += vStep;	// Advance texture scroll (v axis only)
 
-		if (pHead->next != NULL)
+		if (pHead->next != nullptr)
 		{
 			fraction = (pHead->die - gpGlobals->curtime) * div;
 			VectorScale( color, fraction, scaledColor );
@@ -1493,7 +1493,7 @@ void DrawBeamQuadratic( const Vector &start, const Vector &control, const Vector
 
 	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
 	CBeamSegDraw beamDraw;
-	beamDraw.Start( pRenderContext, subdivisions+1, NULL );
+	beamDraw.Start( pRenderContext, subdivisions+1, nullptr);
 
 	BeamSeg_t seg;
 	seg.m_flWidth = width;

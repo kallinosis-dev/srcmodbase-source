@@ -243,7 +243,7 @@ void SharedVehicleViewSmoothing(CBasePlayer *pPlayer,
 	{
 		*pAbsOrigin = vehicleEyeOrigin;
 		*pAbsAngles = vehicleEyeAngles;
-		if ( pFOV != NULL )
+		if ( pFOV != nullptr)
 		{
 			*pFOV = pData->flFOV;
 		}
@@ -410,7 +410,7 @@ void SharedVehicleViewSmoothing(CBasePlayer *pPlayer,
 			// Blend to the exit position
 			*pAbsOrigin = Lerp( flSplineFrac, vecAbsOrigin, vecEyeExitEndpoint );
 			
-			if ( pFOV != NULL )
+			if ( pFOV != nullptr)
 			{
 				if ( pData->flFOV > flDefaultFOV )
 				{
@@ -423,7 +423,7 @@ void SharedVehicleViewSmoothing(CBasePlayer *pPlayer,
 			// Blend from our starting position to the desired origin
 			*pAbsOrigin = Lerp( flSplineFrac, pData->vecOriginSaved, vecAbsOrigin );
 			
-			if ( pFOV != NULL )
+			if ( pFOV != nullptr)
 			{
 #if defined ( PORTAL2 )
 				*pFOV = Lerp( flFracFOV, flDefaultFOV, pData->flFOV );
@@ -436,7 +436,7 @@ void SharedVehicleViewSmoothing(CBasePlayer *pPlayer,
 			}
 		}
 	}
-	else if ( pFOV != NULL )
+	else if ( pFOV != nullptr)
 	{
 #if defined ( PORTAL2 )
 		*pFOV = pData->flFOV;

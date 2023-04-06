@@ -60,13 +60,13 @@ void CRagdollMagnet::InputDisable( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 CRagdollMagnet *CRagdollMagnet::FindBestMagnet( CBaseEntity *pNPC )
 {
-	CRagdollMagnet	*pMagnet = NULL;
+	CRagdollMagnet	*pMagnet = nullptr;
 	CRagdollMagnet	*pBestMagnet;
 
 	float			flClosestDist;
 
 	// Assume we won't find one.
-	pBestMagnet = NULL;
+	pBestMagnet = nullptr;
 	flClosestDist = FLT_MAX;
 	
 	do
@@ -121,7 +121,7 @@ Vector CRagdollMagnet::GetForceVector( CBaseEntity *pNPC )
 		Vector vecForceDir;
 		Vector vecClosest;
 
-		CalcClosestPointOnLineSegment( pNPC->WorldSpaceCenter(), GetAbsOrigin(), m_axis, vecClosest, NULL );
+		CalcClosestPointOnLineSegment( pNPC->WorldSpaceCenter(), GetAbsOrigin(), m_axis, vecClosest, nullptr);
 
 		vecForceDir = (vecClosest - pNPC->WorldSpaceCenter() );
 		VectorNormalize( vecForceDir );

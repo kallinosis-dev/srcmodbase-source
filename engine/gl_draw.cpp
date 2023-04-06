@@ -63,7 +63,7 @@ void GL_UnloadMaterial( IMaterial *pMaterial )
 //-----------------------------------------------------------------------------
 static IMaterial *GL_LoadMaterialNoRef( const char *pName, const char *pTextureGroupName )
 {
-	IMaterial *material = NULL;
+	IMaterial *material = nullptr;
 
 	if ( mat_loadtextures.GetInt() )
 	{

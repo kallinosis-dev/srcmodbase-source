@@ -48,8 +48,8 @@ public:
 
 	void Init( int obj_id )
 	{
-		m_pNext = NULL;
-		m_pIncrementalInfo = NULL;
+		m_pNext = nullptr;
+		m_pIncrementalInfo = nullptr;
 		m_nObjectID = obj_id;
 		m_bDidIndirect = false;
 	}

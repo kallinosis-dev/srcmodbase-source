@@ -156,7 +156,7 @@ void R_DrawScreenRect( float left, float top, float right, float bottom )
 	
 	
 	IMaterial *pMaterial = materials->FindMaterial( "debug/debugportals", TEXTURE_GROUP_OTHER );
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 
 	CMeshBuilder builder;
 	builder.Begin( pMesh, MATERIAL_LINE_LOOP, 4 );
@@ -189,7 +189,7 @@ void R_DrawPortals()
 
 	IMaterial *pMaterial = materials->FindMaterial( "debug/debugportals", TEXTURE_GROUP_OTHER );
 	CMatRenderContextPtr pRenderContext( materials );
-	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+	IMesh *pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 
 	worldbrushdata_t *pBrushData = host_state.worldbrush;
 	for( int i=0; i < pBrushData->m_nAreaPortals; i++ )
@@ -311,7 +311,7 @@ private:
 	void OnViewActive( Frustum frustumPlanes );
 
 	// Clear the view (assumes the render target has already been pushed)
-	void ClearView( IMatRenderContext *pRenderContext, CViewSetup &view, int nFlags, ITexture* pRenderTarget, ITexture* pDepthTexture = NULL );
+	void ClearView( IMatRenderContext *pRenderContext, CViewSetup &view, int nFlags, ITexture* pRenderTarget, ITexture* pDepthTexture = nullptr);
 
 	const CViewSetup &CurrentView() const { return m_ViewStack.Top().m_View; }
 	CViewSetup &CurrentView() { return m_ViewStack.Top().m_View; }
@@ -594,7 +594,7 @@ void CRender::ClearView( IMatRenderContext *pRenderContext, CViewSetup &view, in
 //-----------------------------------------------------------------------------
 void CRender::Push3DView( IMatRenderContext *pRenderContext, const CViewSetup &view, int nFlags, ITexture* pRenderTarget, Frustum frustumPlanes )
 {
-	Push3DView( pRenderContext, view, nFlags, pRenderTarget, frustumPlanes, NULL );
+	Push3DView( pRenderContext, view, nFlags, pRenderTarget, frustumPlanes, nullptr);
 }
 
 // Flip y, screen y goes down
@@ -1085,7 +1085,7 @@ void DrawLightmapPage( int lightmapPageID )
 
 	CMatRenderContextPtr pRenderContext( materials );
 
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, g_materialDebugLightmap );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, g_materialDebugLightmap );
 //	pRenderContext->Bind( g_materialWireframe );
 //	IMesh* pMesh = pRenderContext->GetDynamicMesh( g_materialWireframe );
 

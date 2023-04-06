@@ -113,7 +113,7 @@ bool ComputeTargetDimensions( const char *pDebugName, IVTFTexture *pVTFTexture, 
 		nClampY = MIN( nClampY, 512 );
 
 		// no maxmip has been explicitly specified by caller, use embedded LOD setting if present
-		TextureLODControlSettings_t const *pLODInfo = reinterpret_cast<TextureLODControlSettings_t const *> ( pVTFTexture->GetResourceData( VTF_RSRC_TEXTURE_LOD_SETTINGS, NULL ) );
+		TextureLODControlSettings_t const *pLODInfo = reinterpret_cast<TextureLODControlSettings_t const *> ( pVTFTexture->GetResourceData( VTF_RSRC_TEXTURE_LOD_SETTINGS, nullptr) );
 		if ( pLODInfo )
 		{
 			if ( pLODInfo->m_ResolutionClampX )
@@ -213,7 +213,7 @@ bool SRGBCorrectImage(
 		//Msg( "   Converting 8888 texture from sRGB gamma to 360 PWL gamma *** %dx%d\n", width, height );
 		for ( int i = 0; i < ( imageSize / 4 ); i++ ) // imageSize is the raw data length in bytes
 		{
-			unsigned char *pRGB[3] = { NULL, NULL, NULL };
+			unsigned char *pRGB[3] = {nullptr, nullptr, nullptr};
 
 			pRGB[0] = &( pImage[ ( i * 4 ) + 0 ] ); 
 			pRGB[1] = &( pImage[ ( i * 4 ) + 1 ] ); 
@@ -235,7 +235,7 @@ bool SRGBCorrectImage(
 		//Msg( "   Converting 888 texture from sRGB gamma to 360 PWL gamma *** %dx%d\n", width, height );
 		for ( int i = 0; i < ( imageSize / 3 ); i++ ) // imageSize is the raw data length in bytes
 		{
-			unsigned char *pRGB[3] = { NULL, NULL, NULL };
+			unsigned char *pRGB[3] = {nullptr, nullptr, nullptr};
 
 			pRGB[0] = &( pImage[ ( i * 3 ) + 0 ] ); // Blue
 			pRGB[1] = &( pImage[ ( i * 3 ) + 1 ] ); // Green
@@ -495,7 +495,7 @@ bool ConvertVTFToConsoleFormatHelper( const char *pDebugName, CUtlBuffer &source
 	// default failure
 	bRetVal = false;
 
-	pSourceVTF = NULL;
+	pSourceVTF = nullptr;
 
 	// unserialize the vtf with just the header
 	pSourceVTF = CreateVTFTexture();
@@ -534,7 +534,7 @@ bool ConvertVTFToConsoleFormatHelper( const char *pDebugName, CUtlBuffer &source
 	ResourceCopy_t resourceCopy;
 	resourceCopy.m_EntryInfo.eType = VTF_LEGACY_RSRC_IMAGE;
 	resourceCopy.m_EntryInfo.resData = 0;
-	resourceCopy.m_pData = NULL;
+	resourceCopy.m_pData = nullptr;
 	resourceCopy.m_DataLength = 0;
 	targetResources.AddToTail( resourceCopy );
 
@@ -864,7 +864,7 @@ cleanUp:
 	for ( int i=0; i<targetResources.Count(); i++ )
 	{
 		delete [] (char *)targetResources[i].m_pData;
-		targetResources[i].m_pData = NULL;
+		targetResources[i].m_pData = nullptr;
 	}
 
 	return bRetVal;

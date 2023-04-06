@@ -55,7 +55,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_PF(const IVP_Compact_Edge *
     
  // find out the best edge to walk to
     IVP_DOUBLE found_minimal_dist = P_DOUBLE_MAX;
-    const IVP_Compact_Edge *min_edge = 0;
+    const IVP_Compact_Edge *min_edge = nullptr;
     for (e=F,j=0; j<3; e=e->get_next(),j++){
 	// if (checks[j] > 0 ) continue; /* inside triangle */
 	IVP_DOUBLE dist = IVP_CLS.calc_qlen_PK_K_space( &p_Fos, m_cache_F->get_compact_ledge(), e);
@@ -122,7 +122,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_BF(IVP_Cache_Ball *m_cache_
     
     // find out the best edge to walk to
     IVP_DOUBLE found_minimal_dist = P_DOUBLE_MAX;
-    const IVP_Compact_Edge *min_edge = 0;
+    const IVP_Compact_Edge *min_edge = nullptr;
     for (e=F,j=0; j<3; e=e->get_next(),j++){
 	IVP_DOUBLE dist = IVP_CLS.calc_qlen_PK_K_space(&p_Fos, m_cache_F->get_compact_ledge(), e);
 	if(dist < found_minimal_dist){
@@ -186,7 +186,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_PF(const IVP_Compact_
 #endif
 	
     IVP_DOUBLE min_d_pos = 0.0f;
-    const IVP_Compact_Edge *min_edge = NULL;
+    const IVP_Compact_Edge *min_edge = nullptr;
     {
 	// loop through all neighbour points of point and search a nearer one
 	// backsides are treated correctly (excluded)
@@ -212,7 +212,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_PF(const IVP_Compact_
 	    if(e==Pm) break;
 	}
     }
-    if(min_edge == NULL){ // no nearer point found
+    if(min_edge == nullptr){ // no nearer point found
 	// END: vertex - surface
       
 	m_cache_P->tmp.synapse->update_synapse(P, IVP_ST_POINT);
@@ -267,7 +267,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_PF(const IVP_Compact_
     }
     IVP_ASSERT( violated_q_rs == 2);
     // now real checking of len
-    const IVP_Compact_Edge *best_edge = NULL;
+    const IVP_Compact_Edge *best_edge = nullptr;
     IVP_DOUBLE best_len = P_DOUBLE_MAX;
     {
 	int j;
@@ -497,10 +497,10 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_KK(const IVP_Compact_
     }
     
     IVP_DOUBLE min_grad_pos = -P_DOUBLE_RES * 4; // max_double
-    const IVP_Compact_Edge *min_edge = NULL;
-    const IVP_Compact_Edge *min_plane = NULL;
-    IVP_Cache_Ledge_Point *min_edge_m_cache = NULL;
-    IVP_Cache_Ledge_Point *min_plane_m_cache = NULL;
+    const IVP_Compact_Edge *min_edge = nullptr;
+    const IVP_Compact_Edge *min_plane = nullptr;
+    IVP_Cache_Ledge_Point *min_edge_m_cache = nullptr;
+    IVP_Cache_Ledge_Point *min_plane_m_cache = nullptr;
     IVP_Unscaled_QR_Result min_qr;
     {
 
@@ -546,7 +546,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_KK(const IVP_Compact_
 	}
     }
     }
-    if(min_edge == 0){
+    if(min_edge == nullptr){
 	m_cache_K->tmp.synapse->update_synapse(K, IVP_ST_EDGE);
 	m_cache_L->tmp.synapse->update_synapse(L, IVP_ST_EDGE);
 
@@ -624,7 +624,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_KK(const IVP_Compact_
 IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_BP(IVP_Cache_Ball *m_cache_ball, const IVP_Compact_Edge *P, IVP_Cache_Ledge_Point *m_cache_P){
 
     if(--P_Finish_Counter < 0){
-	if( check_loop_hash(IVP_ST_BALL, NULL, IVP_ST_POINT, P) ){
+	if( check_loop_hash(IVP_ST_BALL, nullptr, IVP_ST_POINT, P) ){
 	    // we had this situation before: end
 	    return IVP_MRC_ENDLESS_LOOP;
 	}
@@ -652,7 +652,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_BP(IVP_Cache_Ball *m_cache_
 #endif    
     IVP_DOUBLE s_grad_max = 0; 
     
-    const IVP_Compact_Edge *Kmax = NULL;
+    const IVP_Compact_Edge *Kmax = nullptr;
 
     // each vertex P is position, all neighbouring edges of Pm checked
     {
@@ -686,7 +686,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_BP(IVP_Cache_Ball *m_cache_
 	}
     }
 
-    if(Kmax == NULL){
+    if(Kmax == nullptr){
 	// END AB
       end_BP:
 	m_cache_P->tmp.synapse->update_synapse(P, IVP_ST_POINT);
@@ -767,11 +767,11 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_PP(const IVP_Compact_Edge *
     m_cache[0] = m_cache_A; m_cache[1] = m_cache_B;
     IVP_DOUBLE s_grad_max = 0.0f;
 
-    const IVP_U_Point *P_Pmos_max = NULL;
-    const IVP_Compact_Edge *Kmax = NULL;
-    const IVP_Compact_Edge *Pmax = NULL;
-    IVP_Cache_Ledge_Point *m_cache_K_max = NULL;
-    IVP_Cache_Ledge_Point *m_cache_P_max = NULL;
+    const IVP_U_Point *P_Pmos_max = nullptr;
+    const IVP_Compact_Edge *Kmax = nullptr;
+    const IVP_Compact_Edge *Pmax = nullptr;
+    IVP_Cache_Ledge_Point *m_cache_K_max = nullptr;
+    IVP_Cache_Ledge_Point *m_cache_P_max = nullptr;
     
 
     // for each point, all neighbouring edges of Pm (=opposite point) are checked
@@ -812,7 +812,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_PP(const IVP_Compact_Edge *
 	}
     }
 
-    if(Kmax == NULL){
+    if(Kmax == nullptr){
 	// END AB
     end_PP:
 	m_cache_A->tmp.synapse->update_synapse(A, IVP_ST_POINT);
@@ -875,7 +875,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_BK(IVP_Cache_Ball *m_
 							      IVP_Cache_Ledge_Point *m_cache_K)
 {
     if(--P_Finish_Counter < 0){
-	if( check_loop_hash(IVP_ST_BALL, NULL, IVP_ST_EDGE, K) ){
+	if( check_loop_hash(IVP_ST_BALL, nullptr, IVP_ST_EDGE, K) ){
 	    return IVP_MRC_ENDLESS_LOOP;
 	}
     }
@@ -1101,7 +1101,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_PK(const IVP_Compact_
     // Lot _point_space
     m_cache_P->get_object_cache()->transform_vector_to_object_coords( &Lot2, &Lot2);
 
-    const IVP_Compact_Edge *NKmax = NULL;    
+    const IVP_Compact_Edge *NKmax = nullptr;    
     IVP_DOUBLE max_s_val = P_DOUBLE_RES * qlen;
 
     const IVP_U_Float_Point *p_os = IVP_CLS.give_object_coords(P, m_cache_P);
@@ -1123,7 +1123,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_PK(const IVP_Compact_
 	if(e==Pm) break;
     }
 
-    while(NKmax != NULL){
+    while(NKmax != nullptr){
 	if (max_s_val < P_RES_EPS){	// maybe an epsilon problem
 	  IVP_KK_Input kkin( K, NKmax, m_cache_K, m_cache_P);
 	  IVP_Unscaled_KK_Result kkr;

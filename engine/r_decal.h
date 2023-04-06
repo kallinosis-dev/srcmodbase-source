@@ -118,7 +118,7 @@ struct DecalSortTrees_t
 			{
 				m_pTrees[iSort]->RemoveAll();
 				delete m_pTrees[iSort];
-				m_pTrees[iSort] = NULL;
+				m_pTrees[iSort] = nullptr;
 			}
 		}
 

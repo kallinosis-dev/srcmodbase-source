@@ -151,7 +151,7 @@ CDecoyProjectile* CDecoyProjectile::Create(
 	pGrenade->m_decoyWeaponDefIndex = INVALID_ITEM_DEF_INDEX;
 	pGrenade->m_decoyWeaponSoundType = SINGLE;
 
-	if ( pPrimaryWeapon != NULL )
+	if ( pPrimaryWeapon != nullptr)
 	{
 		CEconItemView* pItem = pPrimaryWeapon->GetEconItemView();
 		if ( pItem && pItem->IsValid() )
@@ -169,7 +169,7 @@ CDecoyProjectile* CDecoyProjectile::Create(
 			pGrenade->m_decoyWeaponId = (CSWeaponID)pPrimaryWeapon->GetWeaponID();
 		}
 	}
-	else if ( pSecondaryWeapon != NULL )
+	else if ( pSecondaryWeapon != nullptr)
 	{
 		CEconItemView* pItem = pSecondaryWeapon->GetEconItemView();
 		if ( pItem && pItem->IsValid() )
@@ -283,7 +283,7 @@ void CDecoyProjectile::GunfireThink( void )
 	if ( m_decoyWeaponDefIndex != INVALID_ITEM_DEF_INDEX )
 	{
 		// Get the item definition
-		const CEconItemDefinition *pDef = ( m_decoyWeaponDefIndex > 0 ) ? GetItemSchema()->GetItemDefinition( m_decoyWeaponDefIndex ) : NULL;
+		const CEconItemDefinition *pDef = ( m_decoyWeaponDefIndex > 0 ) ? GetItemSchema()->GetItemDefinition( m_decoyWeaponDefIndex ) : nullptr;
 		if ( pDef )
 		{
 			const char *pszTempSound = pDef->GetWeaponReplacementSound( m_decoyWeaponSoundType );
@@ -295,7 +295,7 @@ void CDecoyProjectile::GunfireThink( void )
 	}
 
 	CSoundParameters params;
-	if ( GetParametersForSound( shootsound, params, NULL ) )
+	if ( GetParametersForSound( shootsound, params, nullptr) )
 	{
 		CPASAttenuationFilter filter( this, params.soundlevel );
 		EmitSound( filter, entindex(), shootsound, &GetLocalOrigin(), 0.0f ); 

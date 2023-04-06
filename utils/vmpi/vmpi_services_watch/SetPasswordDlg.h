@@ -23,7 +23,7 @@ class CSetPasswordDlg : public CDialog
 {
 // Construction
 public:
-	CSetPasswordDlg(int dlgID, CWnd* pParent = NULL);   // standard constructor
+	CSetPasswordDlg(int dlgID, CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CSetPasswordDlg)

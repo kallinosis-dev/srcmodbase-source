@@ -9,8 +9,8 @@
 
 #include "tier0/memdbgon.h"
 
-static CUtlDict<int,int> *g_STDict = 0;
-static CUtlDict<int,int> *g_RTDict = 0;
+static CUtlDict<int,int> *g_STDict = nullptr;
+static CUtlDict<int,int> *g_RTDict = nullptr;
 
 
 char* AllocateStringHelper2( const char *pFormat, va_list marker )

@@ -50,7 +50,7 @@ DEFINE_TESTCASE_NOSUITE( DmxNotifyTest )
 
 	g_pDataModel->InstallNotificationCallback( &test1 );
 
-	CDmElement *element = NULL;
+	CDmElement *element = nullptr;
 
 	{
 		CUndoScopeGuard guard( NOTIFY_SOURCE_APPLICATION, 0, "create" );

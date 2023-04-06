@@ -32,7 +32,7 @@ DECLARE_HUDELEMENT( CHudFlashbang );
 
 
 CHudFlashbang::CHudFlashbang( const char *pName ) :
-	vgui::Panel( NULL, "HudFlashbang" ), CHudElement( pName )
+	vgui::Panel(nullptr, "HudFlashbang" ), CHudElement( pName )
 {
 	SetParent( GetClientMode()->GetViewport() );
 	

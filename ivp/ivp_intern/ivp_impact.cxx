@@ -216,8 +216,8 @@ IVP_Contact_Point *IVP_Mindist::try_to_generate_managed_friction(IVP_Friction_Sy
 #ifdef DEBUG
     IVP_IF(0) {
 	IVP_Friction_System *fs0,*fs1;
-	fs0=NULL;
-	fs1=NULL;
+	fs0= nullptr;
+	fs1= nullptr;
 	if(!core0->physical_unmoveable) {
 	    IVP_Friction_Info_For_Core *info_friction=core0->moveable_core_has_friction_info();
 	    if(info_friction) {
@@ -902,7 +902,7 @@ void IVP_Impact_Solver::delay_decision(IVP_Core *pushed_cores[2]) {
 
 	if(closing_speed< -this->rescue_speed_impact_solver * IVP_INV_SAFETY_FACTOR_FOR_DELAY) {
 	    core[0]->environment->get_statistic_manager()->impact_delayed_counter++;
-	    pushed_cores[try_to_delay_core]=NULL;
+	    pushed_cores[try_to_delay_core]= nullptr;
 	    clear_change_values_cores();
 	    confirm_impact(1-try_to_delay_core);
 	    //printf("delaying_a_push\n");
@@ -1162,7 +1162,7 @@ void IVP_Contact_Point::get_material_info(IVP_Material *mtl[2]) {
 	    mtl[k] = get_synapse(k)->get_object()->l_default_material;
 	}else{
 	    IVP_Environment *env = get_synapse(0)->get_object()->get_environment();
-	  mtl[k] = env->get_material_manager()->get_material_by_index(0,mat_index);  // @@@@@
+	  mtl[k] = env->get_material_manager()->get_material_by_index(nullptr,mat_index);  // @@@@@
 	}
 	IVP_ASSERT(mtl[k]);
     }
@@ -1228,7 +1228,7 @@ void IVP_Mindist::do_impact(){
 	obj->revive_object_for_simulation();
     }
 
-	g_pCurrentMindist = NULL;
+	g_pCurrentMindist = nullptr;
 	if (g_fDeferDeleteMindist)
 	{
 		// BUGBUG: someone changed a collision filter and didn't tell us!
@@ -1275,7 +1275,7 @@ IVP_Core *IVP_Impact_Solver_Long_Term::find_second_critical_impact_core(IVP_Core
 	    }
 	}	
     }
-    return NULL;
+    return nullptr;
 }
 
 //merge (movable) core0 with core1 or core2. return best alternative
@@ -1545,7 +1545,7 @@ IVP_BOOL IVP_Impact_System::pair_is_already_in_system(IVP_Friction_Core_Pair *te
 void IVP_Friction_System::debug_clean_tmp_info() {
     IVP_Contact_Point *my_dist;
     for(my_dist=this->get_first_friction_dist();my_dist;my_dist=this->get_next_friction_dist(my_dist)) {
-	my_dist->tmp_contact_info=NULL;
+	my_dist->tmp_contact_info= nullptr;
     }
 }
 
@@ -1579,8 +1579,8 @@ IVP_BOOL IVP_Impact_System::test_loop_all_pairs()
     return IVP_FALSE;
 #endif
     
-    IVP_Contact_Point *worst_impact_dist=NULL;
-    IVP_Friction_Core_Pair *associated_pair = NULL;
+    IVP_Contact_Point *worst_impact_dist= nullptr;
+    IVP_Friction_Core_Pair *associated_pair = nullptr;
     IVP_DOUBLE smallest_distance =  ivp_mindist_settings.minimum_friction_dist;
     IVP_DOUBLE rescue_speed_addon=0.0f;
     IVP_IF(l_environment->get_debug_manager()->file_out_impacts) {
@@ -1859,7 +1859,7 @@ void IVP_Impact_System::recalc_all_affected_cores()
 		//this core has impacted, but was not pushed (delayed)
 		my_core2->undo_synchronize_rot_z();
 	    }
-	    my_core2->tmp_null.old_sync_info=NULL; //clear
+	    my_core2->tmp_null.old_sync_info= nullptr; //clear
 	}
     }
     {
@@ -1875,7 +1875,7 @@ void IVP_Impact_System::recalc_all_affected_cores()
 		IVP_Event_Sim es(l_environment, delta_time_till_next_PSI);
 		IVP_Calc_Next_PSI_Solver nps(my_core);
 		nps.calc_next_PSI_matrix(&es, &active_hull_managers);
-		my_core->tmp_null.old_sync_info=NULL;
+		my_core->tmp_null.old_sync_info= nullptr;
 		invalidate_impact_mindists(my_core);
 	    }
 	}

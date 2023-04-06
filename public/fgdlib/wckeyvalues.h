@@ -172,7 +172,7 @@ public:
 	MDkeyvalue &GetKeyValue(int nIndex);
 	const MDkeyvalue& GetKeyValue(int nIndex) const;
 	const char *GetValue(int nIndex) const;
-	const char *GetValue(const char *pszKey, int *piIndex = NULL) const;
+	const char *GetValue(const char *pszKey, int *piIndex = nullptr) const;
 };
 
 

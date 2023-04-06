@@ -67,8 +67,8 @@ private:
 
 CEffectScriptElement::CEffectScriptElement()
 {
-	m_pTrail = NULL;
-	m_pSprite = NULL;
+	m_pTrail = nullptr;
+	m_pSprite = nullptr;
 	m_iType = 0;
 
 	Deactivate();
@@ -147,7 +147,7 @@ inline bool ParseToken( void )
 
 	currenttoken = engine->ParseFile( currenttoken, token, sizeof( token ) );
 	tokencount++;
-	return currenttoken != NULL ? true : false;
+	return currenttoken != nullptr ? true : false;
 }
 
 inline void Unget()
@@ -242,7 +242,7 @@ void CEnvEffectsScript::TrailEffectEvent( CEffectScriptElement *pEffect )
 	if ( pEffect->IsActive() == false )
 	{
 		//Only one type of this effect active at a time.
-		if ( pEffect->m_pTrail == NULL )
+		if ( pEffect->m_pTrail == nullptr)
 		{
 			pEffect->m_pTrail = CSpriteTrail::SpriteTrailCreate( pEffect->m_szMaterial, GetAbsOrigin(), true );
 			pEffect->m_pTrail->FollowEntity( this );
@@ -270,7 +270,7 @@ void CEnvEffectsScript::SpriteEffectEvent( CEffectScriptElement *pEffect )
 	if ( pEffect->IsActive() == false )
 	{
 		//Only one type of this effect active at a time.
-		if ( pEffect->m_pSprite == NULL )
+		if ( pEffect->m_pSprite == nullptr)
 		{
 			pEffect->m_pSprite = CSprite::SpriteCreate( pEffect->m_szMaterial, GetAbsOrigin(), true );
 			pEffect->m_pSprite->FollowEntity( this );
@@ -320,14 +320,14 @@ void CEnvEffectsScript::HandleAnimEvent ( animevent_t *pEvent )
 
 					pCurrent->m_pTrail->StopFollowingEntity();
 
-					pCurrent->m_pTrail->m_hAttachedToEntity = NULL;
+					pCurrent->m_pTrail->m_hAttachedToEntity = nullptr;
 					pCurrent->m_pTrail->m_nAttachment = 0;
 
 					pCurrent->m_pTrail->SetAbsOrigin( vOrigin);
 				}
 
 				pCurrent->m_pTrail->FadeAndDie( pCurrent->m_flFadeTime );
-				pCurrent->m_pTrail = NULL;
+				pCurrent->m_pTrail = nullptr;
 			}
 
 			else if ( pCurrent->m_iType == EFFECT_TYPE_SPRITE )
@@ -339,14 +339,14 @@ void CEnvEffectsScript::HandleAnimEvent ( animevent_t *pEvent )
 
 					pCurrent->m_pSprite->StopFollowingEntity();
 
-					pCurrent->m_pSprite->m_hAttachedToEntity = NULL;
+					pCurrent->m_pSprite->m_hAttachedToEntity = nullptr;
 					pCurrent->m_pSprite->m_nAttachment = 0;
 
 					pCurrent->m_pSprite->SetAbsOrigin( vOrigin);
 				}
 
 				pCurrent->m_pSprite->FadeAndDie( pCurrent->m_flFadeTime );
-				pCurrent->m_pSprite = NULL;
+				pCurrent->m_pSprite = nullptr;
 			}
 		}
 		return;
@@ -380,7 +380,7 @@ void CEnvEffectsScript::ParseScriptFile( void )
 
 	//Reset everything.
 	g_bUnget = false;
-	currenttoken = NULL;
+	currenttoken = nullptr;
 	tokencount = 0;
 	memset( token, 0, 1204 );
 	memset( name, 0, 256 );
@@ -540,5 +540,5 @@ CEffectScriptElement *CEnvEffectsScript::GetScriptElementByName( const char *pNa
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }

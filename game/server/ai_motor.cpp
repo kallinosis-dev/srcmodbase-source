@@ -90,7 +90,7 @@ CAI_Motor::CAI_Motor(CAI_BaseNPC *pOuter)
 	m_IdealYaw = 0;
 	m_YawSpeed = 0;
 	m_vecVelocity = Vector( 0, 0, 0 );
-	m_pMoveProbe = NULL;
+	m_pMoveProbe = nullptr;
 	m_bYawLocked = false;
 }
 
@@ -265,7 +265,7 @@ void CAI_Motor::MoveClimbStart(  const Vector &climbDest, const Vector &climbDir
 	GetOuter()->AddFlag( FL_FLY );		// No gravity
 	SetSolid( SOLID_BBOX );
 	SetGravity( 0.0 );
-	SetGroundEntity( NULL );
+	SetGroundEntity(nullptr);
 }
 
 AIMoveResult_t CAI_Motor::MoveClimbExecute( const Vector &climbDest, const Vector &climbDir, float climbDist, float yaw, int climbNodesLeft )
@@ -364,7 +364,7 @@ void CAI_Motor::MoveJumpStart( const Vector &velocity )
 	// take the npc off the ground and throw them in the air
 	SetSmoothedVelocity( velocity );
 	SetGravity( GetOuter()->GetJumpGravity() );
-	SetGroundEntity( NULL );
+	SetGroundEntity(nullptr);
 
 	SetActivity( ACT_JUMP );
 
@@ -615,7 +615,7 @@ AIMotorMoveResult_t CAI_Motor::MoveFlyExecute( const AILocalMoveGoal_t &move, AI
 	VectorMA( vecStart, flTotal, move.dir, vecEnd );
 
 	AIMoveTrace_t moveTrace;
-	GetMoveProbe()->MoveLimit( NAV_FLY, vecStart, vecEnd, GetOuter()->GetAITraceMask(), NULL, &moveTrace );
+	GetMoveProbe()->MoveLimit( NAV_FLY, vecStart, vecEnd, GetOuter()->GetAITraceMask(), nullptr, &moveTrace );
 	if ( pTraceResult )
 		*pTraceResult = moveTrace;
 	

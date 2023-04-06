@@ -111,7 +111,7 @@ public:
 
 	// Sets the method by which the surrounding collision bounds is set
 	// You must pass in values for mins + maxs if you select the USE_SPECIFIED_BOUNDS type. 
-	void			SetSurroundingBoundsType( SurroundingBoundsType_t type, const Vector *pMins = NULL, const Vector *pMaxs = NULL );
+	void			SetSurroundingBoundsType( SurroundingBoundsType_t type, const Vector *pMins = nullptr, const Vector *pMaxs = nullptr);
 	SurroundingBoundsType_t GetSurroundingBoundsType() const;
 
 	// Sets the solid type (which type of collision representation)

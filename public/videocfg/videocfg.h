@@ -103,8 +103,8 @@ enum GPUMemLevel_t
 };
 
 bool RecommendedConfig( VidMatConfigData_t &configData );
-bool ResetVideoConfigToDefaults( KeyValues *pConfigKeys = NULL );
-bool UpdateVideoConfigConVars( KeyValues *pConfigKeys = NULL );
+bool ResetVideoConfigToDefaults( KeyValues *pConfigKeys = nullptr);
+bool UpdateVideoConfigConVars( KeyValues *pConfigKeys = nullptr);
 
 bool ReadCurrentVideoConfig( KeyValues *pConfigKeys, bool bDefault = false );
 bool UpdateCurrentVideoConfig( int nWidth, int nHeight, int nAspectRatioMode, bool bFullscreen, bool bNoWindowBorder, bool bUseRestartConvars = false );

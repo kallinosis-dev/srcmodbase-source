@@ -301,7 +301,7 @@ void CPhysicsMotionController::InitFromTemplate(  const vphysics_save_motioncont
 IPhysicsMotionController *CreateMotionController( CPhysicsEnvironment *pPhysEnv, IMotionEvent *pHandler )
 {
 	if ( !pHandler )
-		return NULL;
+		return nullptr;
 
 	return new CPhysicsMotionController( pHandler, pPhysEnv );
 }
@@ -320,7 +320,7 @@ bool SavePhysicsMotionController( const physsaveparams_t &params, IPhysicsMotion
 
 bool RestorePhysicsMotionController( const physrestoreparams_t &params, IPhysicsMotionController **ppMotionController )
 {		
-	CPhysicsMotionController *pControllerImp = new CPhysicsMotionController( NULL, static_cast<CPhysicsEnvironment *>(params.pEnvironment) );
+	CPhysicsMotionController *pControllerImp = new CPhysicsMotionController(nullptr, static_cast<CPhysicsEnvironment *>(params.pEnvironment) );
 	
 	vphysics_save_motioncontroller_t controllerTemplate;
 	memset( &controllerTemplate, 0, sizeof(controllerTemplate) );

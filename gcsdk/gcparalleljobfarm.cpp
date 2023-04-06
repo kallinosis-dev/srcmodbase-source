@@ -71,7 +71,7 @@ bool IYieldingParallelFarmJobHandler::BYieldingExecuteParallel( int numJobsParal
 				CYieldingParallelFarmJob *pFarmedJob = new CYieldingParallelFarmJob( m_pGC, m_pJobData, GetName(), m_nTimeoutSec );
 				++ m_pJobData->m_numJobsFarmed;
 				++ m_pJobData->m_iJobSequenceCounter;
-				pFarmedJob->StartJobDelayed( NULL );
+				pFarmedJob->StartJobDelayed(nullptr);
 			}
 
 			if ( !m_pJobData->m_numJobsFarmed )

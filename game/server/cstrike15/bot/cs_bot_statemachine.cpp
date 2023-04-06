@@ -83,7 +83,7 @@ void CCSBot::EscapeFromFlames( void )
 //--------------------------------------------------------------------------------------------------------------
 void CCSBot::Follow( CCSPlayer *player )
 {
-	if (player == NULL)
+	if (player == nullptr)
 		return;
 
 	// note when we began following
@@ -120,7 +120,7 @@ void CCSBot::ContinueFollowing( void )
 void CCSBot::StopFollowing( void )
 {
 	m_isFollowing = false;
-	m_leader = NULL;
+	m_leader = nullptr;
 	m_allowAutoFollowTime = gpGlobals->curtime + 10.0f;
 }
 
@@ -186,7 +186,7 @@ void CCSBot::Hide( CNavArea *searchFromArea, float duration, float hideRange, bo
 		sourcePos = GetCentroid( this );
 	}
 
-	if (source == NULL)
+	if (source == nullptr)
 	{
 		PrintIfWatched( "Hide from area is NULL.\n" );
 		Idle();
@@ -202,7 +202,7 @@ void CCSBot::Hide( CNavArea *searchFromArea, float duration, float hideRange, bo
 	Vector useSpot;
 
 	const Vector *pos = FindNearbyHidingSpot( this, sourcePos, hideRange, IsSniper() );
-	if (pos == NULL)
+	if (pos == nullptr)
 	{
 		PrintIfWatched( "No available hiding spots.\n" );
 		// hide at our current position
@@ -234,7 +234,7 @@ void CCSBot::Hide( CNavArea *searchFromArea, float duration, float hideRange, bo
 void CCSBot::Hide( const Vector &hidingSpot, float duration, bool holdPosition )
 {
 	CNavArea *hideArea = TheNavMesh->GetNearestNavArea( hidingSpot );
-	if (hideArea == NULL)
+	if (hideArea == nullptr)
 	{
 		PrintIfWatched( "Hiding spot off nav mesh\n" );
 		Idle();
@@ -285,7 +285,7 @@ bool CCSBot::TryToHide( CNavArea *searchFromArea, float duration, float hideRang
 	if ( pStartPosOverride )
 		sourcePos = *pStartPosOverride;
 
-	if (source == NULL)
+	if (source == nullptr)
 	{
 		PrintIfWatched( "Hide from area is NULL.\n" );
 		return false;
@@ -298,7 +298,7 @@ bool CCSBot::TryToHide( CNavArea *searchFromArea, float duration, float hideRang
 
 	// search around source area for a good hiding spot
 	const Vector *pos = FindNearbyHidingSpot( this, sourcePos, hideRange, IsSniper(), useNearest );
-	if (pos == NULL)
+	if (pos == nullptr)
 	{
 		PrintIfWatched( "No available hiding spots.\n" );
 		return false;
@@ -367,7 +367,7 @@ void CCSBot::Hunt( void )
  */
 void CCSBot::Attack( CCSPlayer *victim )
 {
-	if (victim == NULL)
+	if (victim == nullptr)
 		return;
 
 	// zombies never attack
@@ -667,7 +667,7 @@ bool CCSBot::MoveToInitialEncounter( void )
 	// build a path to an enemy spawn point
 	CBaseEntity *enemySpawn = TheCSBots()->GetRandomSpawn( enemyTeam );
 
-	if (enemySpawn == NULL)
+	if (enemySpawn == nullptr)
 	{
 		PrintIfWatched( "MoveToInitialEncounter: No enemy spawn points?\n" );
 		return false;
@@ -712,7 +712,7 @@ bool CCSBot::MoveToInitialEncounter( void )
 	const float maxRange = 1500.0f;
 	const HidingSpot *spot = FindInitialEncounterSpot( this, path[i]->area->GetCenter(), path[i]->area->GetEarliestOccupyTime( enemyTeam ), maxRange, IsSniper() );
 
-	if (spot == NULL)
+	if (spot == nullptr)
 	{
 		PrintIfWatched( "MoveToInitialEncounter: Can't find a hiding spot\n" );
 		return false;

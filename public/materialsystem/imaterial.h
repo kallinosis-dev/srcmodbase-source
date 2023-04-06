@@ -657,7 +657,7 @@ inline VertexStreamSpec_t * FindVertexStreamSpec( VertexFormat_t iElement, Verte
 		if ( arrVertexStreamSpec->iVertexDataElement == iElement )
 			return arrVertexStreamSpec;
 	}
-	return NULL;
+	return nullptr;
 }
 
 

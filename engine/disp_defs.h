@@ -158,7 +158,7 @@ public:
 	~CDispDecalFragment()
 	{
 		delete[] m_pVerts;
-		m_pVerts = NULL;
+		m_pVerts = nullptr;
 	}
 };
 
@@ -191,7 +191,7 @@ public:
 	~CDispShadowFragment()
 	{
 		delete[] m_ShadowVerts;
-		m_ShadowVerts = NULL;
+		m_ShadowVerts = nullptr;
 	}
 };
 

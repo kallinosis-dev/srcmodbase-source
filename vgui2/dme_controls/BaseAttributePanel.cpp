@@ -32,7 +32,7 @@ bool CBaseAttributePanel::ColInfoLessFunc( const CBaseAttributePanel::colinfo_t&
 //-----------------------------------------------------------------------------
 CBaseAttributePanel::CBaseAttributePanel( vgui::Panel *parent, const AttributeWidgetInfo_t &info ) :
 	BaseClass( parent, info.m_pAttributeName ),
-	m_pType( 0 ),
+	m_pType( nullptr ),
 	m_hObject( info.m_pElement ),
 	m_hEditorInfo( info.m_pEditorInfo ),
 	m_hEditorTypeDict( info.m_pEditorTypeDictionary ),
@@ -221,7 +221,7 @@ CDmAttribute *CBaseAttributePanel::GetAttribute()
 {
 	CDmElement *pElement = m_hObject.Get();
 	if ( !pElement )
-		return NULL;
+		return nullptr;
 
 	return pElement->GetAttribute( m_szAttributeName );
 }

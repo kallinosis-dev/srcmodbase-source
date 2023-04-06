@@ -134,12 +134,12 @@ void C_EnvParticleScript::CreateParticle( const char *pAttachmentName, const cha
 	ParticleScriptParticle_t *pParticle = 
 		(ParticleScriptParticle_t*)m_ParticleEffect.AddParticle(sizeof(ParticleScriptParticle_t), hMat);
 
-	if ( pParticle == NULL )
+	if ( pParticle == nullptr)
 		return;
 	
 	// Get the sprite size from the material's materialvars
 	bool bFound = false;
-	IMaterialVar *pMaterialVar = NULL;
+	IMaterialVar *pMaterialVar = nullptr;
 	IMaterial *pMaterial = ParticleMgr()->PMaterialToIMaterial( hMat );
 	if ( pMaterial )
 	{

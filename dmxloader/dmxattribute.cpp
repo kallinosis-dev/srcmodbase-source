@@ -127,14 +127,14 @@ CDmxAttribute::CDmxAttribute( const char *pAttributeName )
 {
 	m_Name = s_AttributeNameSymbols.AddString( pAttributeName );
 	m_Type = AT_UNKNOWN;
-	m_pData = NULL;
+	m_pData = nullptr;
 }
 
 CDmxAttribute::CDmxAttribute( CUtlSymbolLarge attributeName )
 {
 	m_Name = attributeName;
 	m_Type = AT_UNKNOWN;
-	m_pData = NULL;
+	m_pData = nullptr;
 }
 
 CDmxAttribute::~CDmxAttribute()
@@ -336,7 +336,7 @@ void CDmxAttribute::GetArrayBase( const void * &pBasePtr ) const
 }
 const void *CDmxAttribute::GetArrayBase( void ) const
 {
-	const void *pBasePtr = NULL;
+	const void *pBasePtr = nullptr;
 	// Process array types only, including elements
 	CALL_ARRAY_TYPE_TEMPLATIZED_FUNCTION( GetArrayBase, (pBasePtr), Assert(0) );
 	return pBasePtr;
@@ -582,7 +582,7 @@ void CDmxAttribute::GetArrayValue( DmAttributeType_t type, void *pDest, int nDat
 	}
 	if ( ( nSrcArrayLength < nDestArrayLength ) && pDefaultString )
 	{
-		CDmxAttribute temp( NULL );
+		CDmxAttribute temp(nullptr);
 		temp.AllocateDataMemory_AndConstruct( basicType );
 		temp.SetValueFromString( pDefaultString );
 

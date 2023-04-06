@@ -71,12 +71,12 @@ public:
 	// Creation/Init.
 	CPostProcessSystem( char const *name ) : CAutoGameSystem( name ) 
 	{
-		m_hMasterController = NULL;
+		m_hMasterController = nullptr;
 	}
 
 	~CPostProcessSystem()
 	{
-		m_hMasterController = NULL;
+		m_hMasterController = nullptr;
 	}
 
 	virtual void LevelInitPreEntity();

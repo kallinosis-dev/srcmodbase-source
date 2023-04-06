@@ -78,7 +78,7 @@ CGameUISchemeManager::~CGameUISchemeManager()
 	for ( i = 0; i < m_Schemes.Count(); i++ )
 	{
 		delete m_Schemes[i];
-		m_Schemes[i] = NULL;
+		m_Schemes[i] = nullptr;
 	}
 	m_Schemes.RemoveAll();
 
@@ -141,7 +141,7 @@ IGameUIScheme * CGameUISchemeManager::FindLoadedScheme( const char *pFilename )
 			return m_Schemes[i];
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -182,14 +182,14 @@ IGameUIScheme * CGameUISchemeManager::LoadSchemeFromFileEx( const char *pFilenam
 		if ( !result )
 		{
 			// look in any directory
-			result = data->LoadFromFile( g_pFullFileSystem, pFilename, NULL );
+			result = data->LoadFromFile( g_pFullFileSystem, pFilename, nullptr);
 		}
 	}
 
 	if (!result)
 	{
 		data->deleteThis();
-		return 0;
+		return nullptr;
 	}
 	
 	if ( IsPC() )
@@ -225,7 +225,7 @@ IGameUIScheme * CGameUISchemeManager::GetDefaultScheme()
 	else if ( m_Schemes.Count() > 0 )
 		return m_Schemes[0];
 	else
-		return NULL;
+		return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -330,7 +330,7 @@ CGameUIScheme::CGameUIScheme()
 {
 	m_pFileName = "";
 	m_pTag = "";
-	m_pData = NULL;
+	m_pData = nullptr;
 	SetActive( false );
 }
 
@@ -417,7 +417,7 @@ void CGameUIScheme::LoadFonts()
 
 
 	// add our custom fonts
-	for ( KeyValues *kv = m_pData->FindKey("CustomFontFiles", true)->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey() )
+	for ( KeyValues *kv = m_pData->FindKey("CustomFontFiles", true)->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey() )
 	{
 		const char *fontFile = kv->GetString();
 		if (fontFile && *fontFile)
@@ -428,10 +428,10 @@ void CGameUIScheme::LoadFonts()
 		{
 			// we have a block to read
 			int nRangeMin = 0, nRangeMax = 0;
-			const char *pszName = NULL;
+			const char *pszName = nullptr;
 			bool bUseRange = false;
 
-			for ( KeyValues *pData = kv->GetFirstSubKey(); pData != NULL; pData = pData->GetNextKey() )
+			for ( KeyValues *pData = kv->GetFirstSubKey(); pData != nullptr; pData = pData->GetNextKey() )
 			{
 				const char *pszKey = pData->GetName();
 				if ( !Q_stricmp( pszKey, "font" ) )
@@ -478,7 +478,7 @@ void CGameUIScheme::LoadFonts()
 	}
 
 	// add bitmap fonts
-	for ( KeyValues *kv = m_pData->FindKey("BitmapFontFiles", true)->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey() )
+	for ( KeyValues *kv = m_pData->FindKey("BitmapFontFiles", true)->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey() )
 	{
 		const char *fontFile = kv->GetString();
 		if (fontFile && *fontFile)
@@ -493,7 +493,7 @@ void CGameUIScheme::LoadFonts()
 	}
 
 	// create the fonts
-	for (KeyValues *kv = m_pData->FindKey("Fonts", true)->GetFirstSubKey(); kv != NULL; kv = kv->GetNextKey())
+	for (KeyValues *kv = m_pData->FindKey("Fonts", true)->GetFirstSubKey(); kv != nullptr; kv = kv->GetNextKey())
 	{
 		for ( int i = 0; i < 2; i++ )
 		{
@@ -541,7 +541,7 @@ void CGameUIScheme::ReloadFontGlyphs( int inScreenTall )
 		KeyValues *kv = fonts->FindKey( m_FontAliases[i]._trueFontName.String(), true );
 	
 		// walk through creating adding the first matching glyph set to the font
-		for ( KeyValues *fontdata = kv->GetFirstSubKey(); fontdata != NULL; fontdata = fontdata->GetNextKey() )
+		for ( KeyValues *fontdata = kv->GetFirstSubKey(); fontdata != nullptr; fontdata = fontdata->GetNextKey() )
 		{
 			
 			// skip over fonts not meant for this resolution
@@ -696,7 +696,7 @@ void CGameUIScheme::Shutdown( bool full )
 	if (m_pData)
 	{
 		m_pData->deleteThis();
-		m_pData = NULL;
+		m_pData = nullptr;
 	}
 
 	if ( full )

@@ -52,14 +52,14 @@ int __cdecl CBrushBatchRender::SurfaceCmp(const surfacelist_t *s0, const surface
 void CBrushBatchRender::DrawTranslucentBrushModel( IMatRenderContext *pRenderContext, model_t *model, IClientEntity *baseentity )
 {
 	transrender_t render;
-	render.pLastBatch = NULL;
-	render.pLastNode = NULL;
+	render.pLastBatch = nullptr;
+	render.pLastNode = nullptr;
 	render.nodeCount = 0;
 	render.surfaceCount = 0;
 	render.batchCount = 0;
 	render.decalSurfaceCount = 0;
 	BuildTransLists_r( render, model, model->brush.pShared->nodes + model->brush.firstnode );
-	void *pProxyData = baseentity ? baseentity->GetClientRenderable() : NULL;
+	void *pProxyData = baseentity ? baseentity->GetClientRenderable() : nullptr;
 	DrawTransLists( pRenderContext, render, pProxyData );
 }
 
@@ -85,7 +85,7 @@ void CBrushBatchRender::AddTransNode( transrender_t &render )
 	render.pLastNode = &render.nodes[render.nodeCount];
 	render.nodeCount++;
 	Assert(render.nodeCount < MAX_TRANS_NODES);
-	render.pLastBatch = NULL;
+	render.pLastBatch = nullptr;
 	render.pLastNode->firstBatch = render.batchCount;
 	render.pLastNode->firstDecalSurface = render.decalSurfaceCount;
 	render.pLastNode->batchCount = 0;
@@ -193,8 +193,8 @@ void CBrushBatchRender::BuildTransLists_r( transrender_t &render, model_t *model
 		// don't batch across decals or decals will sort incorrectly
 		if ( render.pLastNode->decalSurfaceCount )
 		{
-			render.pLastNode = NULL;
-			render.pLastBatch = NULL;
+			render.pLastNode = nullptr;
+			render.pLastBatch = nullptr;
 		}
 	}
 
@@ -235,7 +235,7 @@ void CBrushBatchRender::DrawTransLists( IMatRenderContext *pRenderContext, trans
 			}
 			pRenderContext->Bind( pMaterial, pProxyData );
 
-			IMesh *pBuildMesh = pRenderContext->GetDynamicMesh( false, g_WorldStaticMeshes[batch.sortID], NULL, NULL );
+			IMesh *pBuildMesh = pRenderContext->GetDynamicMesh( false, g_WorldStaticMeshes[batch.sortID], nullptr, nullptr);
 			meshBuilder.Begin( pBuildMesh, MATERIAL_TRIANGLES, 0, batch.indexCount );
 
 			for ( int k = 0; k < batch.surfaceCount; k++ )
@@ -346,7 +346,7 @@ void CBrushBatchRender::ClearRenderHandles( void )
 CBrushBatchRender::brushrender_t *CBrushBatchRender::FindOrCreateRenderBatch( model_t *pModel )
 {
 	if ( !pModel->brush.nummodelsurfaces )
-		return NULL;
+		return nullptr;
 
 	AUTO_LOCK( m_Mutex );
 
@@ -359,8 +359,8 @@ CBrushBatchRender::brushrender_t *CBrushBatchRender::FindOrCreateRenderBatch( mo
 	pModel->brush.renderHandle = index + 1;
 	brushrender_t &render = *pRender; 
 
-	render.pPlanes = NULL;
-	render.pMeshes = NULL;
+	render.pPlanes = nullptr;
+	render.pMeshes = nullptr;
 	render.planeCount = 0;
 	render.meshCount = 0;
 	render.totalIndexCount = 0;
@@ -405,11 +405,11 @@ CBrushBatchRender::brushrender_t *CBrushBatchRender::FindOrCreateRenderBatch( mo
 	int meshCount = 0;
 	int batchCount = 0;
 	int lastSortID = -1;
-	IMesh *pLastMesh = NULL;
+	IMesh *pLastMesh = nullptr;
 
-	brushrendermesh_t *pMesh = NULL;
+	brushrendermesh_t *pMesh = nullptr;
 	brushrendermesh_t tmpMesh[MAX_VERTEX_FORMAT_CHANGES];
-	brushrenderbatch_t *pBatch = NULL;
+	brushrenderbatch_t *pBatch = nullptr;
 	brushrenderbatch_t tmpBatch[128];
 
 	for ( i = 0; i < surfaceList.Count(); i++ )
@@ -481,7 +481,7 @@ void CBrushBatchRender::DrawOpaqueBrushModel( IMatRenderContext *pRenderContext,
 		skipLight = true;
 	}
 
-	void *pProxyData = baseentity ? baseentity->GetClientRenderable() : NULL;
+	void *pProxyData = baseentity ? baseentity->GetClientRenderable() : nullptr;
 	int backface[1024];
 	Assert( pRender->planeCount < 1024 );
 
@@ -533,7 +533,7 @@ void CBrushBatchRender::DrawOpaqueBrushModel( IMatRenderContext *pRenderContext,
 				continue;
 
 			CMeshBuilder meshBuilder;
-			IMaterial *pMaterial = NULL;
+			IMaterial *pMaterial = nullptr;
 
 			if ( DepthMode != DEPTH_MODE_NORMAL )
 			{
@@ -598,7 +598,7 @@ void CBrushBatchRender::DrawOpaqueBrushModel( IMatRenderContext *pRenderContext,
 			}
 
 			pRenderContext->Bind( pMaterial, pProxyData );
-			IMesh *pBuildMesh = pRenderContext->GetDynamicMesh( false, g_WorldStaticMeshes[batch.sortID], NULL, NULL );
+			IMesh *pBuildMesh = pRenderContext->GetDynamicMesh( false, g_WorldStaticMeshes[batch.sortID], nullptr, nullptr);
 			meshBuilder.Begin( pBuildMesh, MATERIAL_TRIANGLES, 0, batch.indexCount );
 
 			for ( ; k < batch.surfaceCount; k++ )
@@ -684,7 +684,7 @@ void CBrushBatchRender::DrawOpaqueBrushModel( IMatRenderContext *pRenderContext,
 					pRenderContext->Bind( pMaterial, pProxyData );
 
 					CMeshBuilder meshBuilder;
-					IMesh *pBuildMesh = pRenderContext->GetDynamicMesh( false, g_WorldStaticMeshes[batch.sortID], NULL, NULL );
+					IMesh *pBuildMesh = pRenderContext->GetDynamicMesh( false, g_WorldStaticMeshes[batch.sortID], nullptr, nullptr);
 					meshBuilder.Begin( pBuildMesh, MATERIAL_TRIANGLES, 0, batchPaintableSurfaceIndexCount[ nBatchIndex ] );
 
 					for ( int i = 0; i < nSurfaceCount; ++ i, ++ nSurfaceIndex )
@@ -881,9 +881,9 @@ int CBrushBatchRender::ComputeInstanceGroups( IMatRenderContext *pRenderContext,
 	int nMaxIndices = pRenderContext->GetMaxIndicesToRender();
 
 	int nMaxInstanceCount = 0;
-	IMaterial *pLastMaterial = NULL;
-	IMaterial *pLastActualMaterial = NULL;
-	BrushBatchRenderData_t *pFirstInstance = NULL;
+	IMaterial *pLastMaterial = nullptr;
+	IMaterial *pLastActualMaterial = nullptr;
+	BrushBatchRenderData_t *pFirstInstance = nullptr;
 	int nInstanceCount = 0;
 	int nIndexCount = 0;
 	for ( int i = 0; i < nCount; i++ )
@@ -962,7 +962,7 @@ bool CBrushBatchRender::DrawSortedBatchList( IMatRenderContext* pRenderContext, 
 	{
 		BrushInstanceGroup_t &group = pInstanceGroup[i];
 
-		pRenderContext->Bind( group.m_pMaterial, NULL );
+		pRenderContext->Bind( group.m_pMaterial, nullptr);
 
 		// Only writing indices
 		// FIXME: Can we make this a static index buffer?
@@ -995,15 +995,15 @@ bool CBrushBatchRender::DrawSortedBatchList( IMatRenderContext* pRenderContext, 
 			}
 
 			MeshInstanceData_t &instance = pInstance[ j ];
-			instance.m_pEnvCubemap = NULL;
+			instance.m_pEnvCubemap = nullptr;
 			instance.m_pPoseToWorld = renderData.m_pInstanceData->m_pBrushToWorld;
-			instance.m_pLightingState = NULL;
+			instance.m_pLightingState = nullptr;
 			instance.m_nBoneCount = 1;
-			instance.m_pBoneRemap = NULL;
+			instance.m_pBoneRemap = nullptr;
 			instance.m_nIndexOffset = nIndexOffset;
 			instance.m_nIndexCount = batch.indexCount;
 			instance.m_nPrimType = MATERIAL_TRIANGLES;
-			instance.m_pColorBuffer = NULL;
+			instance.m_pColorBuffer = nullptr;
 			instance.m_nColorVertexOffsetInBytes = 0;
 			instance.m_pStencilState = renderData.m_pInstanceData->m_pStencilState;
 			instance.m_pVertexBuffer = g_WorldStaticMeshes[ batch.sortID ];
@@ -1037,7 +1037,7 @@ void CBrushBatchRender::DrawPaintForBatches( IMatRenderContext* pRenderContext, 
 		if ( !group.m_nHasPaintedSurfaces )
 			continue;
 
-		pRenderContext->Bind( group.m_pMaterial, NULL );
+		pRenderContext->Bind( group.m_pMaterial, nullptr);
 
 		// Only writing indices, we're potentially allocating too many, but that's ok.
 		// Unused ones will be freed up
@@ -1069,15 +1069,15 @@ void CBrushBatchRender::DrawPaintForBatches( IMatRenderContext* pRenderContext, 
 			}
 
 			MeshInstanceData_t &instance = pInstance[ nGroupCount ];
-			instance.m_pEnvCubemap = NULL;
+			instance.m_pEnvCubemap = nullptr;
 			instance.m_pPoseToWorld = renderData.m_pInstanceData->m_pBrushToWorld;
-			instance.m_pLightingState = NULL;
+			instance.m_pLightingState = nullptr;
 			instance.m_nBoneCount = 1;
-			instance.m_pBoneRemap = NULL;
+			instance.m_pBoneRemap = nullptr;
 			instance.m_nIndexOffset = nIndexOffset;
 			instance.m_nIndexCount = nBatchIndexCount;
 			instance.m_nPrimType = MATERIAL_TRIANGLES;
-			instance.m_pColorBuffer = NULL;
+			instance.m_pColorBuffer = nullptr;
 			instance.m_nColorVertexOffsetInBytes = 0;
 			instance.m_pStencilState = renderData.m_pInstanceData->m_pStencilState;
 			instance.m_pVertexBuffer = g_WorldStaticMeshes[ batch.sortID ];
@@ -1356,7 +1356,7 @@ void CBrushBatchRender::DrawShadowBatchList( IMatRenderContext* pRenderContext, 
 			}
 		}
 
-		pRenderContext->Bind( group.m_pMaterial, NULL );
+		pRenderContext->Bind( group.m_pMaterial, nullptr);
 
 		// Only writing indices
 		// FIXME: Can we make this a static index buffer?
@@ -1381,15 +1381,15 @@ void CBrushBatchRender::DrawShadowBatchList( IMatRenderContext* pRenderContext, 
 			}
 
 			MeshInstanceData_t &instance = pInstance[ j ];
-			instance.m_pEnvCubemap = NULL;
+			instance.m_pEnvCubemap = nullptr;
 			instance.m_pPoseToWorld = renderData.m_pInstanceData->m_pBrushToWorld;
-			instance.m_pLightingState = NULL;
+			instance.m_pLightingState = nullptr;
 			instance.m_nBoneCount = 1;
-			instance.m_pBoneRemap = NULL;
+			instance.m_pBoneRemap = nullptr;
 			instance.m_nIndexOffset = nIndexOffset;
 			instance.m_nIndexCount = batch.indexCount;
 			instance.m_nPrimType = MATERIAL_TRIANGLES;
-			instance.m_pColorBuffer = NULL;
+			instance.m_pColorBuffer = nullptr;
 			instance.m_nColorVertexOffsetInBytes = 0;
 			instance.m_pStencilState = renderData.m_pInstanceData->m_pStencilState;
 			instance.m_pVertexBuffer = g_WorldStaticMeshes[ batch.sortID ];

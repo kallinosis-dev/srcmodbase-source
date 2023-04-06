@@ -24,15 +24,15 @@ IVP_SurfaceBuilder_Polygon_Convex::IVP_SurfaceBuilder_Polygon_Convex(IVP_Templat
     this->poly_point_hash = new IVP_point_hash(8);
     this->tetras = new IVP_Object_Polygon_Tetra(templ);
     this->tetras->template_polygon = templ;
-    this->c_ledge = NULL;
+    this->c_ledge = nullptr;
     this->init_surface_manager_polygon();
 }
 
 
 IVP_SurfaceBuilder_Polygon_Convex::IVP_SurfaceBuilder_Polygon_Convex(IVP_Template_Ledge_Polygon_Soup *templ_ledge) // more of a hack :)
 {
-    this->tetras = NULL;
-    this->c_ledge = NULL;
+    this->tetras = nullptr;
+    this->c_ledge = nullptr;
     this->poly_point_hash = new IVP_point_hash(8);
     
     // creates compact ledge from template
@@ -73,7 +73,7 @@ IVP_SurfaceBuilder_Polygon_Convex::IVP_SurfaceBuilder_Polygon_Convex(IVP_Templat
 	double_tri->pierced_triangle = double_tri->other_side;
 	double_tri->other_side->pierced_triangle = double_tri;
 	IVP_Poly_Surface *ivp_sur = new IVP_Poly_Surface();
-	ivp_sur->tetras = 0; // @@@ attention
+	ivp_sur->tetras = nullptr; // @@@ attention
 
 	double_tri->ivp_surface = ivp_sur;
 	double_tri->other_side->ivp_surface = ivp_sur;
@@ -137,13 +137,13 @@ IVP_SurfaceBuilder_Polygon_Convex::~IVP_SurfaceBuilder_Polygon_Convex()
 void IVP_SurfaceBuilder_Polygon_Convex::init_surface_manager_polygon()
 {
     
-    tetras->points_to_edge_hash = new IVP_Hash(500, 2*sizeof(void *), (void *)0);
+    tetras->points_to_edge_hash = new IVP_Hash(500, 2*sizeof(void *), (void *)nullptr);
     IVP_ERROR_STRING error = this->tetras->make_triangles();
     P_DELETE(this->tetras->points_to_edge_hash);
 
     if (error){
-	this->tetras = NULL;
-	this->c_ledge = NULL;
+	this->tetras = nullptr;
+	this->c_ledge = nullptr;
 	return;
     }
     
@@ -191,7 +191,7 @@ void IVP_SurfaceBuilder_Polygon_Convex::fill_list_with_all_triangles(IVP_U_Vecto
 
 IVP_Compact_Ledge *IVP_SurfaceBuilder_Polygon_Convex::convert_template_to_ledge(IVP_Template_Polygon *templat)
 {
-    if ( !templat ) return(NULL);
+    if ( !templat ) return(nullptr);
     
     IVP_SurfaceBuilder_Polygon_Convex surman(templat);
     IVP_Compact_Ledge *res = surman.get_and_remove_compact_ledge();
@@ -202,7 +202,7 @@ IVP_Compact_Ledge *IVP_SurfaceBuilder_Polygon_Convex::convert_template_to_ledge(
 
 IVP_Compact_Ledge *IVP_SurfaceBuilder_Polygon_Convex::convert_templateledgepolygonsoup_to_ledge(IVP_Template_Ledge_Polygon_Soup *templat)
 {
-    if ( !templat ) return(NULL);
+    if ( !templat ) return(nullptr);
     
     IVP_SurfaceBuilder_Polygon_Convex surface_builder(templat);
     IVP_Compact_Ledge *compact_ledge = surface_builder.get_and_remove_compact_ledge();

@@ -31,7 +31,7 @@ void C_BaseCombatWeapon::SetDormant( bool bDormant )
 	// If I'm going from active to dormant and I'm carried by another player, holster me.
 	if ( !IsDormant() && bDormant && GetOwner() && !IsCarriedByLocalPlayer() )
 	{
-		Holster( NULL );
+		Holster(nullptr);
 	}
 
 	BaseClass::SetDormant( bDormant );
@@ -163,7 +163,7 @@ void C_BaseCombatWeapon::OnDataChanged( DataUpdateType_t updateType )
 //-----------------------------------------------------------------------------
 bool C_BaseCombatWeapon::IsBeingCarried() const
 {
-	return ( m_hOwner.Get() != NULL );
+	return ( m_hOwner.Get() != nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -348,7 +348,7 @@ bool C_BaseCombatWeapon::GetShootPosition( Vector &vOrigin, QAngle &vAngles )
 	QAngle vDummy;
 	if ( IsActiveByLocalPlayer() && bUseViewModel )
 	{
-		C_BaseViewModel *vm = player ? player->GetViewModel( 0 ) : NULL;
+		C_BaseViewModel *vm = player ? player->GetViewModel( 0 ) : nullptr;
 		if ( vm )
 		{
 			int iAttachment = vm->LookupAttachment( "muzzle" );
@@ -468,10 +468,10 @@ bool C_BaseCombatWeapon::IsFirstPersonSpectated( void )
 IClientModelRenderable*	C_BaseCombatWeapon::GetClientModelRenderable()
 {
 	if ( !m_bReadyToDraw )
-		return 0;
+		return nullptr;
 
 	if( IsFirstPersonSpectated() )
-		return NULL;
+		return nullptr;
 
 	VerifyAndSetContextSensitiveWeaponModel();
 

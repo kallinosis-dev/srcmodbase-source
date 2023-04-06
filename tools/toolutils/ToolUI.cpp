@@ -25,7 +25,7 @@
 // Constructor
 //-----------------------------------------------------------------------------
 CToolUI::CToolUI( vgui::Panel *pParent, const char *panelName, CBaseToolSystem *pBaseToolSystem ) :
-	BaseClass( pParent, panelName ), m_pClientArea( 0 ), m_pBaseToolSystem( pBaseToolSystem )
+	BaseClass( pParent, panelName ), m_pClientArea( nullptr ), m_pBaseToolSystem( pBaseToolSystem )
 {
 	SetPaintEnabled(false);
 	SetPaintBackgroundEnabled(false);

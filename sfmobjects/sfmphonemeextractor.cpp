@@ -130,7 +130,7 @@ bool CSFMPhonemeExtractor::Init()
 			continue;
 		}
 
-		e.extractor = ( IPhonemeExtractor * )factory( VPHONEME_EXTRACTOR_INTERFACE, NULL );
+		e.extractor = ( IPhonemeExtractor * )factory( VPHONEME_EXTRACTOR_INTERFACE, nullptr);
 		if ( !e.extractor )
 		{
 			Warning( "Unable to get IPhonemeExtractor interface version %s from %s\n", VPHONEME_EXTRACTOR_INTERFACE, fullpath );
@@ -390,7 +390,7 @@ static bool SaveSentenceToWavFile( const char *pWavFile, CSentence& sentence )
 	}
 
 	// Remove temp file
-	g_pFullFileSystem->RemoveFile( pTempFile, NULL );
+	g_pFullFileSystem->RemoveFile( pTempFile, nullptr);
 
 	return true;
 }
@@ -612,7 +612,7 @@ void CSFMPhonemeExtractor::BuildPhonemeToPresetMapping( const CUtlVector< CBaseP
 //-----------------------------------------------------------------------------
 CDmeChannelsClip* CSFMPhonemeExtractor::FindFacialChannelsClip( const CUtlVector< LogPreview_t > &list )
 {
-	CDmeChannelsClip *pChannelsClip = NULL;
+	CDmeChannelsClip *pChannelsClip = nullptr;
 
 	int i;
 	for ( i = list.Count() - 1; i >= 0; --i )
@@ -1037,7 +1037,7 @@ void CSFMPhonemeExtractor::LogPhonemes( int nItemIndex,	ExtractDesc_t& info )
 
 	if ( info.m_nFilterType == EXTRACT_FILTER_HOLD || info.m_nFilterType == EXTRACT_FILTER_LINEAR )
 	{
-		CDmePreset *pLastPreset = NULL;
+		CDmePreset *pLastPreset = nullptr;
 
 		for ( i = 0; i < item.m_ApplyTags.Count() ; ++i )
 		{

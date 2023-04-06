@@ -175,7 +175,7 @@ public:
 	virtual InputCursorHandle_t GetStandardCursor( InputStandardCursor_t id ) = 0;
 
 	/// Loads a cursor defined in a file
-	virtual InputCursorHandle_t LoadCursorFromFile( const char *pFileName, const char *pPathID = NULL ) = 0;
+	virtual InputCursorHandle_t LoadCursorFromFile( const char *pFileName, const char *pPathID = nullptr) = 0;
 
 	/// Sets the cursor icon
 	virtual void SetCursorIcon( InputCursorHandle_t hCursor ) = 0;
@@ -259,7 +259,7 @@ public:
 	virtual bool IsSamplingForCurrentDevice( void ) = 0;
 
 	virtual bool IsSteamControllerActive() const = 0;
-	virtual void SetSteamControllerMode( const char *pMode, const void *obj=NULL ) = 0;
+	virtual void SetSteamControllerMode( const char *pMode, const void *obj= nullptr) = 0;
 
 };
 

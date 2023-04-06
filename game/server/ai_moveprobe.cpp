@@ -134,7 +134,7 @@ void CAI_MoveProbe::TraceLine( const Vector &vecStart, const Vector &vecEnd, uns
 CAI_MoveProbe::CAI_MoveProbe(CAI_BaseNPC *pOuter)
  : 	CAI_Component( pOuter ),
 	m_bIgnoreTransientEntities( false ),
-	m_pTraceListData( NULL )
+	m_pTraceListData(nullptr)
 {
 }
 
@@ -258,7 +258,7 @@ void CAI_MoveProbe::CheckStepOverLargeCrawl( CheckStepResult_t *pResult,
 			// It's clear; we're done
 			pResult->bCrawling = true;
 			pResult->endPoint = vecStepEnd;
-			pResult->pBlocker = NULL;
+			pResult->pBlocker = nullptr;
 			pResult->fStartSolid = blockedTrace.startsolid;
 			break;
 		}
@@ -295,7 +295,7 @@ bool CAI_MoveProbe::CheckStep( const CheckStepArgs_t &args, CheckStepResult_t *p
 	pResult->endPoint = args.vecStart;
 	pResult->fStartSolid = false;
 	pResult->hitNormal = vec3_origin;
-	pResult->pBlocker = NULL;
+	pResult->pBlocker = nullptr;
 	pResult->bCrawling = false;
 
 	// This is fundamentally a 2D operation; we just want the end
@@ -319,7 +319,7 @@ bool CAI_MoveProbe::CheckStep( const CheckStepArgs_t &args, CheckStepResult_t *p
 		if ( args.flags & AITGM_CRAWL_LARGE_STEPS )
 		{
 			CheckStepOverLargeCrawl( pResult, args, stepStart, stepEnd, trace );
-			return ( pResult->pBlocker == NULL );
+			return ( pResult->pBlocker == nullptr);
 		}
 
 		// Either the entity is starting embedded in the world, or it hit something.
@@ -541,7 +541,7 @@ bool CAI_MoveProbe::CheckStep( const CheckStepArgs_t &args, CheckStepResult_t *p
 	if ( g_bAIDebugStep )
 		NDebugOverlay::Cross3D( trace.endpos, 32, 0, 255, 0, true, 5 );
 
-	return ( pResult->pBlocker == NULL ); // totally clear if pBlocker is NULL, partial blockage otherwise
+	return ( pResult->pBlocker == nullptr); // totally clear if pBlocker is NULL, partial blockage otherwise
 }
 
 
@@ -593,7 +593,7 @@ bool CAI_MoveProbe::TestGroundMove( const Vector &vecActualStart, const Vector &
 
 	// Set a reasonable default set of values
 	pMoveTrace->flDistObstructed = 0.0f;
-	pMoveTrace->pObstruction 	 = NULL;
+	pMoveTrace->pObstruction 	 = nullptr;
 	pMoveTrace->vHitNormal		 = vec3_origin;
 	pMoveTrace->fStatus 		 = AIMR_OK;
 	pMoveTrace->vEndPosition 	 = vecActualStart;
@@ -647,7 +647,7 @@ bool CAI_MoveProbe::TestGroundMove( const Vector &vecActualStart, const Vector &
 
 	checkStepResult.endPoint = vecActualStart;
 	checkStepResult.hitNormal = vec3_origin;
-	checkStepResult.pBlocker = NULL;
+	checkStepResult.pBlocker = nullptr;
 	
 	float distStartToIgnoreGround = (pctToCheckStandPositions == 100) ? pMoveTrace->flTotalDist : pMoveTrace->flTotalDist * ( pctToCheckStandPositions * 0.01);
 	bool bTryNavIgnore = ( ( vecActualStart - GetLocalOrigin() ).Length2DSqr() < 0.1 && fabsf(vecActualStart.z - GetLocalOrigin().z) < checkStepArgs.stepHeight * 0.5 );
@@ -731,7 +731,7 @@ bool CAI_MoveProbe::TestGroundMove( const Vector &vecActualStart, const Vector &
 			if ( checkStepResult.bCrawling )
 			{
 				// Weren't not really blocked when crawling up, but need to do it in steps
-				checkStepResult.pBlocker = NULL;
+				checkStepResult.pBlocker = nullptr;
 			}
 
 			break;
@@ -818,10 +818,10 @@ void CAI_MoveProbe::GroundMoveLimit( const Vector &vecStart, const Vector &vecEn
 	// Check to see if the target is in a vehicle and the vehicle is blocking our way
 	bool bVehicleMatchesObstruction = false;
 
-	if ( pTarget != NULL )
+	if ( pTarget != nullptr)
 	{
 		CBaseCombatCharacter *pCCTarget = ((CBaseEntity *)pTarget)->MyCombatCharacterPointer();
-		if ( pCCTarget != NULL && pCCTarget->IsInAVehicle() )
+		if ( pCCTarget != nullptr && pCCTarget->IsInAVehicle() )
 		{
 			CBaseEntity *pVehicleEnt = pCCTarget->GetVehicleEntity();
 			if ( pVehicleEnt == pTrace->pObstruction )
@@ -834,7 +834,7 @@ void CAI_MoveProbe::GroundMoveLimit( const Vector &vecStart, const Vector &vecEn
 		// Collided with target entity, return there was no collision!!
 		// but leave the end trace position
 		pTrace->flDistObstructed = 0.0f;
-		pTrace->pObstruction = NULL;
+		pTrace->pObstruction = nullptr;
 		pTrace->vHitNormal = vec3_origin;
 		pTrace->fStatus = AIMR_OK;
 	}
@@ -947,7 +947,7 @@ void CAI_MoveProbe::JumpMoveLimit( const Vector &vecStart, const Vector &vecEnd,
 	}
 
 	// intialize error state to it being an illegal jump
-	CBaseEntity *pObstruction = NULL;
+	CBaseEntity *pObstruction = nullptr;
 	AIMoveResult_t fStatus = AIMR_ILLEGAL;
 	float flDistObstructed = flDist;
 
@@ -1128,7 +1128,7 @@ bool CAI_MoveProbe::MoveLimit( Navigation_t navType, const Vector &vecStart,
 	// Set a reasonable default set of values
 	pTrace->flTotalDist = ComputePathDistance( navType, vecStart, vecEnd );
 	pTrace->flDistObstructed = 0.0f;
-	pTrace->pObstruction = NULL;
+	pTrace->pObstruction = nullptr;
 	pTrace->vHitNormal = vec3_origin;
 	pTrace->fStatus = AIMR_OK;
 	pTrace->vEndPosition = vecStart;

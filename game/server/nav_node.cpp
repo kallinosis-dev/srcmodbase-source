@@ -22,7 +22,7 @@
 
 NavDirType Opposite[ NUM_DIRECTIONS ] = { SOUTH, WEST, NORTH, EAST };
 
-CNavNode *CNavNode::m_list = NULL;
+CNavNode *CNavNode::m_list = nullptr;
 unsigned int CNavNode::m_listLength = 0;
 unsigned int CNavNode::m_nextID = 1;
 
@@ -65,7 +65,7 @@ CNavNode::CNavNode( const Vector &pos, const Vector &normal, CNavNode *parent, b
 	int i;
 	for( i=0; i<NUM_DIRECTIONS; ++i )
 	{
-		m_to[ i ] = NULL;
+		m_to[ i ] = nullptr;
 		m_obstacleHeight[ i ] = 0;
 		m_obstacleStartDist[ i ] = 0;
 		m_obstacleEndDist[ i ] = 0;
@@ -85,7 +85,7 @@ CNavNode::CNavNode( const Vector &pos, const Vector &normal, CNavNode *parent, b
 	m_listLength++;
 
 	m_isCovered = false;
-	m_area = NULL;
+	m_area = nullptr;
 
 	m_attributeFlags = 0;
 
@@ -106,7 +106,7 @@ CNavNode::CNavNode( const Vector &pos, const Vector &normal, CNavNode *parent, b
 	}
 	else
 	{
-		m_nextAtXY = NULL;
+		m_nextAtXY = nullptr;
 	}
 }
 
@@ -119,7 +119,7 @@ CNavNode::~CNavNode()
 void CNavNode::CleanupGeneration()
 {
 	delete g_pNavNodeHash;
-	g_pNavNodeHash = NULL;
+	g_pNavNodeHash = nullptr;
 
 	CNavNode *node, *next;
 	for( node = CNavNode::m_list; node; node = next )
@@ -127,7 +127,7 @@ void CNavNode::CleanupGeneration()
 		next = node->m_next;
 		delete node;
 	}
-	CNavNode::m_list = NULL;
+	CNavNode::m_list = nullptr;
 	CNavNode::m_listLength = 0;
 	CNavNode::m_nextID = 1;
 }
@@ -277,7 +277,7 @@ float CNavNode::GetGroundHeightAboveNode( NavCornerType cornerType ) const
  */
 bool CNavNode::TestForCrouchArea( NavCornerType cornerNum, const Vector& mins, const Vector& maxs, float *groundHeightAboveNode )
 {
-	CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_PLAYER_MOVEMENT, WALK_THRU_EVERYTHING );
+	CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, WALK_THRU_EVERYTHING );
 	trace_t tr;
 
 	Vector start( m_pos );
@@ -411,7 +411,7 @@ void CNavNode::ConnectTo( CNavNode *node, NavDirType dir, float obstacleHeight, 
 CNavNode *CNavNode::GetNode( const Vector &pos )
 {
 	const float tolerance = 0.45f * GenerationStepSize;			// 1.0f
-	CNavNode *pNode = NULL;
+	CNavNode *pNode = nullptr;
 	if ( g_pNavNodeHash )
 	{
 		static CNavNode lookup;

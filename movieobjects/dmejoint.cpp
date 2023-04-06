@@ -23,7 +23,7 @@ IMPLEMENT_ELEMENT_FACTORY( DmeJoint, CDmeJoint );
 // Statics
 //-----------------------------------------------------------------------------
 bool CDmeJoint::sm_bDrawJoints = false;
-IMaterial *CDmeJoint::sm_pMatJoint = NULL;
+IMaterial *CDmeJoint::sm_pMatJoint = nullptr;
 
 
 //-----------------------------------------------------------------------------

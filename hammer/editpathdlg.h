@@ -21,7 +21,7 @@ class CEditPathDlg : public CDialog
 {
 // Construction
 public:
-	CEditPathDlg(CWnd* pParent = NULL);   // standard constructor
+	CEditPathDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CEditPathDlg)

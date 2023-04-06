@@ -516,10 +516,10 @@ float CalculateObjectStress( IPhysicsObject *pObject, CBaseEntity *pInputOwnerEn
 	bool hasLargeObject = false;
 
 	// add a slot for static objects
-	pObjectList.AddToTail( NULL );
+	pObjectList.AddToTail(nullptr);
 	objectForce.AddToTail( vec3_origin );
 	// add a slot for friendly objects
-	pObjectList.AddToTail( NULL );
+	pObjectList.AddToTail(nullptr);
 	objectForce.AddToTail( vec3_origin );
 
 	CBaseCombatCharacter *pBCC = pInputOwnerEntity->MyCombatCharacterPointer();
@@ -602,7 +602,7 @@ float CalculateObjectStress( IPhysicsObject *pObject, CBaseEntity *pInputOwnerEn
 		pSnapshot->NextFrictionData();
 	}
 	pObject->DestroyFrictionSnapshot( pSnapshot );
-	pSnapshot = NULL;
+	pSnapshot = nullptr;
 
 	// clear out all friendly force
 	objectForce[1].Init();
@@ -666,7 +666,7 @@ float CalculateObjectStress( IPhysicsObject *pObject, CBaseEntity *pInputOwnerEn
 			if ( ( pObject->GetCallbackFlags() & CALLBACK_IS_PLAYER_CONTROLLER ) )
 			{
 				CBasePlayer *pPlayer = ToBasePlayer( pInputOwnerEntity );
-				IPhysicsPlayerController *pController = pPlayer ? pPlayer->GetPhysicsController() : NULL;
+				IPhysicsPlayerController *pController = pPlayer ? pPlayer->GetPhysicsController() : nullptr;
 				if ( pController )
 				{
 					pController->GetLastImpulse( &lastVel );

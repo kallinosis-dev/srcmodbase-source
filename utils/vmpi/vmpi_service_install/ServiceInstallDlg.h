@@ -27,7 +27,7 @@ class CServiceInstallDlg : public CDialog
 {
 // Construction
 public:
-	CServiceInstallDlg( CWnd* pParent = NULL);   // standard constructor
+	CServiceInstallDlg( CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CServiceInstallDlg();
 
 // Dialog Data

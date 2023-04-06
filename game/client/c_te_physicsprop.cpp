@@ -96,7 +96,7 @@ static inline void RecordPhysicsProp( const Vector& start, const QAngle &angles,
 
 	if ( clienttools->IsInRecordingMode() )
 	{
-		const model_t* pModel = (nModelIndex != 0) ? modelinfo->GetModel( nModelIndex ) : NULL;
+		const model_t* pModel = (nModelIndex != 0) ? modelinfo->GetModel( nModelIndex ) : nullptr;
 		const char *pModelName = pModel ? modelinfo->GetModelName( pModel ) : "";
 		Color convertedRenderColor((int)renderColor.r, (int)renderColor.g, (int)renderColor.b);
 

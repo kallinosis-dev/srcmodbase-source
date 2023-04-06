@@ -266,8 +266,8 @@ IVP_Car_System_Real_Wheels::IVP_Car_System_Real_Wheels( IVP_Environment *env, IV
     n_wheels = templ->n_wheels;
     n_axis = templ->n_axis;
 	
-    booster_actuator[0] = 0;
-	booster_actuator[1] = 0;
+    booster_actuator[0] = nullptr;
+	booster_actuator[1] = nullptr;
     booster_seconds_to_go = 0;
     booster_seconds_until_ready = 0;
     
@@ -365,7 +365,7 @@ IVP_Car_System_Real_Wheels::IVP_Car_System_Real_Wheels( IVP_Environment *env, IV
 		torque_template.torque = 0.0f;							// This wasn't here, is this why we started with force?
 		
 		this->car_act_torque[wheel_nr] = environment->create_torque( &torque_template );
-		this->fix_wheel_constraint[wheel_nr] = NULL;
+		this->fix_wheel_constraint[wheel_nr] = nullptr;
 	}	
 
 	// Wheel rotation counterforce to body
@@ -518,7 +518,7 @@ void IVP_Car_System_Real_Wheels::fix_wheel( IVP_POS_WHEEL wheel_nr, IVP_BOOL sto
 { 
     if ( !stop_wheel )
 	{
-		car_constraint_solver->wheel_objects.element_at( wheel_nr ) -> fix_wheel_constraint = NULL;
+		car_constraint_solver->wheel_objects.element_at( wheel_nr ) -> fix_wheel_constraint = nullptr;
 		P_DELETE( fix_wheel_constraint[wheel_nr] );
 		return;
     }
@@ -612,14 +612,14 @@ void IVP_Car_System_Real_Wheels::set_booster_acceleration( IVP_FLOAT acceleratio
 
 			forceTempForward.anchors[0] = &anchorTempForward[0];
 			forceTempForward.anchors[1] = &anchorTempForward[1];
-			forceTempForward.active_float_force = NULL;
+			forceTempForward.active_float_force = nullptr;
 			forceTempForward.push_first_object = IVP_TRUE;
 			forceTempForward.push_second_object = IVP_FALSE;
 			forceTempForward.force = acceleration * pCarBody->get_core()->get_mass();
 
 			forceTempUp.anchors[0] = &anchorTempUp[0];
 			forceTempUp.anchors[1] = &anchorTempUp[1];
-			forceTempUp.active_float_force = NULL;
+			forceTempUp.active_float_force = nullptr;
 			forceTempUp.push_first_object = IVP_TRUE;
 			forceTempUp.push_second_object = IVP_FALSE;
 			forceTempUp.force = -1.0f * pCarBody->get_core()->get_mass() * environment->get_gravity()->k[pCarConstraint->y_idx];

@@ -37,7 +37,7 @@ int GetBotFollowCount( CCSPlayer *leader )
 	{
 		CBaseEntity *entity = UTIL_PlayerByIndex( i );
 
-		if (entity == NULL)
+		if (entity == nullptr)
 			continue;
 
 		CBasePlayer *player = static_cast<CBasePlayer *>( entity );
@@ -296,7 +296,7 @@ void CCSBot::Touch( CBaseEntity *other )
 			return;
 
 		// they are higher priority - make way, unless we're already making way for someone more important
-		if (m_avoid != NULL)
+		if (m_avoid != nullptr)
 		{
 			unsigned int avoidPri = TheCSBots()->GetPlayerPriority( static_cast<CBasePlayer *>( static_cast<CBaseEntity *>( m_avoid ) ) );
 			if (avoidPri < otherPri)
@@ -381,7 +381,7 @@ void CCSBot::SetBotEnemy( CCSPlayer *enemy )
  */
 bool CCSBot::StayOnNavMesh( void )
 {
-	if (m_currentArea == NULL)
+	if (m_currentArea == nullptr)
 	{
 		// move back onto the area map
 
@@ -518,7 +518,7 @@ CCSPlayer *CCSBot::GetAttacker( void ) const
 	if (m_attacker && m_attacker->IsAlive())
 		return m_attacker;
 
-	return NULL;
+	return nullptr;
 }
 
 //--------------------------------------------------------------------------------------------------------------
@@ -654,14 +654,14 @@ int CCSBot::OutnumberedCount( void ) const
 CCSPlayer *CCSBot::GetImportantEnemy( bool checkVisibility ) const
 {
 	CCSBotManager *ctrl = static_cast<CCSBotManager *>( TheCSBots() );
-	CCSPlayer *nearEnemy = NULL;
+	CCSPlayer *nearEnemy = nullptr;
 	float nearDist = 999999999.9f;
 
 	for ( int i = 1; i <= gpGlobals->maxClients; i++ )
 	{
 		CBaseEntity *entity = UTIL_PlayerByIndex( i );
 
-		if (entity == NULL)
+		if (entity == nullptr)
 			continue;
 
 //		if (FNullEnt( entity->pev ))
@@ -1001,15 +1001,15 @@ public:
 const Vector *FindNearbyRetreatSpot( CCSBot *me, float maxRange )
 {
 	CNavArea *area = me->GetLastKnownArea();
-	if (area == NULL)
-		return NULL;
+	if (area == nullptr)
+		return nullptr;
 
 	// collect spots that enemies cannot see
 	CollectRetreatSpotsFunctor collector( me, maxRange );
 	SearchSurroundingAreas( area, GetCentroid( me ), collector, maxRange );
 
 	if (collector.m_count == 0)
-		return NULL;
+		return nullptr;
 
 	// select a hiding spot at random
 	int which = RandomInt( 0, collector.m_count-1 );

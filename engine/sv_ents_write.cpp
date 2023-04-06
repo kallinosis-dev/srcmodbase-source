@@ -160,13 +160,13 @@ static inline bool SV_NeedsExplicitDestroy( int entnum, CFrameSnapshot *from, CF
 {
 	// Never on uncompressed packet
 
-	if( entnum >= to->m_nNumEntities || to->m_pEntities[entnum].m_pClass == NULL ) // doesn't exits in new
+	if( entnum >= to->m_nNumEntities || to->m_pEntities[entnum].m_pClass == nullptr) // doesn't exits in new
 	{
 		if ( entnum >= from->m_nNumEntities )
 			return false; // didn't exist in old
 
 		// in old, but not in new, destroy.
-		if( from->m_pEntities[ entnum ].m_pClass != NULL ) 
+		if( from->m_pEntities[ entnum ].m_pClass != nullptr) 
 		{
 			return true;
 		}
@@ -395,7 +395,7 @@ static inline bool SV_NeedsExplicitCreate( CEntityWriteInfo &u )
 	const CFrameSnapshotEntry *pFromEnt = &u.m_pFromSnapshot->m_pEntities[index];
 	const CFrameSnapshotEntry *pToEnt = &u.m_pToSnapshot->m_pEntities[index];
 
-	bool bNeedsExplicitCreate = (pFromEnt->m_pClass == NULL) || pFromEnt->m_nSerialNumber != pToEnt->m_nSerialNumber;
+	bool bNeedsExplicitCreate = (pFromEnt->m_pClass == nullptr) || pFromEnt->m_nSerialNumber != pToEnt->m_nSerialNumber;
 
 #ifdef _DEBUG
 	if ( !bNeedsExplicitCreate )
@@ -506,7 +506,7 @@ static inline void SV_DetermineUpdateType( CEntityWriteInfo &u, CHLTVServer *hlt
 #if defined( REPLAY_ENABLED )
 									  replay ? replay->m_DeltaCache.FindDeltaBits( u.m_nNewEntity, u.m_pFromSnapshot->m_nTickCount, nBits ) :
 #else
-			                          NULL;
+		nullptr;
 #endif
 
 		if ( pBuffer )
@@ -570,7 +570,7 @@ static inline void SV_DetermineUpdateType( CEntityWriteInfo &u, CHLTVServer *hlt
 			if ( hltv )
 			{
 				// no bits changed, PreserveEnt
-				hltv->m_DeltaCache.AddDeltaBits( u.m_nNewEntity, u.m_pFromSnapshot->m_nTickCount, 0, NULL );
+				hltv->m_DeltaCache.AddDeltaBits( u.m_nNewEntity, u.m_pFromSnapshot->m_nTickCount, 0, nullptr);
 			}
 
 #if defined( REPLAY_ENABLED )
@@ -625,7 +625,7 @@ static inline void SV_WriteEnterPVS( CEntityWriteInfo &u )
 
 	// Get the baseline.
 	// Since the ent is in the fullpack, then it must have either a static or an instance baseline.
-	PackedEntity *pBaseline = ( u.m_bAsDelta && u.m_pBaseline ) ? framesnapshotmanager->GetPackedEntity( *u.m_pBaseline, u.m_nNewEntity ) : NULL;
+	PackedEntity *pBaseline = ( u.m_bAsDelta && u.m_pBaseline ) ? framesnapshotmanager->GetPackedEntity( *u.m_pBaseline, u.m_nNewEntity ) : nullptr;
 	SerializedEntityHandle_t fromEntity = SERIALIZED_ENTITY_HANDLE_INVALID;
 
 	if ( pBaseline && (pBaseline->m_pServerClass == u.m_pNewPack->m_pServerClass) )
@@ -770,12 +770,12 @@ static inline int SV_WriteDeletions( CEntityWriteInfo &u )
 			bNeedsExplicitDelete = (pToSnapShot->m_iExplicitDeleteSlots.Find(i) != pToSnapShot->m_iExplicitDeleteSlots.InvalidIndex() );
 			if ( bNeedsExplicitDelete )
 			{
-				const CFrameSnapshotEntry *pFromEnt = ( i < pFromSnapShot->m_nNumEntities ) ? &pFromSnapShot->m_pEntities[i] : NULL;
-				const CFrameSnapshotEntry *pToEnt = ( i < pToSnapShot->m_nNumEntities ) ? &pToSnapShot->m_pEntities[i] : NULL;
+				const CFrameSnapshotEntry *pFromEnt = ( i < pFromSnapShot->m_nNumEntities ) ? &pFromSnapShot->m_pEntities[i] : nullptr;
+				const CFrameSnapshotEntry *pToEnt = ( i < pToSnapShot->m_nNumEntities ) ? &pToSnapShot->m_pEntities[i] : nullptr;
 
 				if ( pFromEnt && pToEnt )
 				{
-					bool bWillBeExplicitlyCreated = (pFromEnt->m_pClass == NULL) || pFromEnt->m_nSerialNumber != pToEnt->m_nSerialNumber;
+					bool bWillBeExplicitlyCreated = (pFromEnt->m_pClass == nullptr) || pFromEnt->m_nSerialNumber != pToEnt->m_nSerialNumber;
 					if ( bWillBeExplicitlyCreated && u.m_pTo->transmit_entity.Get(i) )
 					{
 						//Warning("Entity %d is being explicitly deleted, but it will be explicitly created.\n", i );
@@ -836,7 +836,7 @@ static bool InternalWriteDeltaEntities( CBaseServer* pServer, CBaseClient *clien
 	u.m_pServer = pServer;
 	u.m_nClientEntity = client->GetPropCullClient()->m_nEntityIndex;
 
-	CHLTVServer *hltv = pServer->IsHLTV() ? static_cast< CHLTVServer* >( pServer ) : NULL;
+	CHLTVServer *hltv = pServer->IsHLTV() ? static_cast< CHLTVServer* >( pServer ) : nullptr;
 #ifndef _XBOX
 #if defined( REPLAY_ENABLED )
 	if ( hltv || pServer->IsReplay() )
@@ -853,7 +853,7 @@ static bool InternalWriteDeltaEntities( CBaseServer* pServer, CBaseClient *clien
 		u.m_bCullProps = true;	// always cull props for players
 	}
 
-	if ( from != NULL )
+	if ( from != nullptr)
 	{
 		u.m_bAsDelta = true;	
 		u.m_pFrom = from;
@@ -863,8 +863,8 @@ static bool InternalWriteDeltaEntities( CBaseServer* pServer, CBaseClient *clien
 	else
 	{
 		u.m_bAsDelta = false;
-		u.m_pFrom = NULL;
-		u.m_pFromSnapshot = NULL;
+		u.m_pFrom = nullptr;
+		u.m_pFromSnapshot = nullptr;
 	}
 
 	u.m_nHeaderCount = 0;
@@ -894,8 +894,8 @@ static bool InternalWriteDeltaEntities( CBaseServer* pServer, CBaseClient *clien
 
 		while ( (u.m_nOldEntity != ENTITY_SENTINEL) || (u.m_nNewEntity != ENTITY_SENTINEL) )
 		{
-			u.m_pNewPack = (u.m_nNewEntity != ENTITY_SENTINEL) ? framesnapshotmanager->GetPackedEntity( *u.m_pToSnapshot, u.m_nNewEntity ) : NULL;
-			u.m_pOldPack = (u.m_nOldEntity != ENTITY_SENTINEL) ? framesnapshotmanager->GetPackedEntity( *u.m_pFromSnapshot, u.m_nOldEntity ) : NULL;
+			u.m_pNewPack = (u.m_nNewEntity != ENTITY_SENTINEL) ? framesnapshotmanager->GetPackedEntity( *u.m_pToSnapshot, u.m_nNewEntity ) : nullptr;
+			u.m_pOldPack = (u.m_nOldEntity != ENTITY_SENTINEL) ? framesnapshotmanager->GetPackedEntity( *u.m_pFromSnapshot, u.m_nOldEntity ) : nullptr;
 
 			// Figure out how we want to write this entity.
 			SV_DetermineUpdateType( u, hltv );

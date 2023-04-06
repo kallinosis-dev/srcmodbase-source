@@ -108,9 +108,9 @@ public:
 	virtual void InitChatHudElement( void );
 	virtual void InitWeaponSelectionHudElement( void );
 
-	virtual wchar_t*	GetServerName( void ) { return NULL; }
+	virtual wchar_t*	GetServerName( void ) { return nullptr; }
 	virtual void		SetServerName( wchar_t *name ) {}
-	virtual wchar_t*	GetMapName( void ) { return NULL; }
+	virtual wchar_t*	GetMapName( void ) { return nullptr; }
 	virtual void		SetMapName( wchar_t *name ) {}
 
 	virtual void	UpdateCameraManUIState( int iType, int nOptionalParam, uint64 xuid );

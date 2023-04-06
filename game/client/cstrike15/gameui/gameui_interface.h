@@ -76,11 +76,11 @@ public:
 	virtual bool UpdateSecondaryProgressBar(float progress, const wchar_t *desc );
 
 	// Xbox 360
-	virtual void ShowMessageDialog( const uint nType, vgui::Panel *pOwner = NULL );
+	virtual void ShowMessageDialog( const uint nType, vgui::Panel *pOwner = nullptr);
 	virtual void ShowMessageDialog( const char* messageID, const char* titleID );
 
-	virtual void CreateCommandMsgBox( const char* pszTitle, const char* pszMessage, bool showOk = true, bool showCancel = false, const char* okCommand = NULL, const char* cancelCommand = NULL, const char* closedCommand = NULL, const char* pszLegend = NULL );
-	virtual void CreateCommandMsgBoxInSlot( ECommandMsgBoxSlot slot, const char* pszTitle, const char* pszMessage, bool showOk = true, bool showCancel = false, const char* okCommand = NULL, const char* cancelCommand = NULL, const char* closedCommand = NULL, const char* pszLegend = NULL );
+	virtual void CreateCommandMsgBox( const char* pszTitle, const char* pszMessage, bool showOk = true, bool showCancel = false, const char* okCommand = nullptr, const char* cancelCommand = nullptr, const char* closedCommand = nullptr, const char* pszLegend = nullptr);
+	virtual void CreateCommandMsgBoxInSlot( ECommandMsgBoxSlot slot, const char* pszTitle, const char* pszMessage, bool showOk = true, bool showCancel = false, const char* okCommand = nullptr, const char* cancelCommand = nullptr, const char* closedCommand = nullptr, const char* pszLegend = nullptr);
 
 
 	// Allows the level loading progress to show map-specific info
@@ -144,7 +144,7 @@ private:
 
 	virtual void StartProgressBar();
 	virtual bool ContinueProgressBar(float progressFraction, bool showDialog = true );
-	virtual void StopProgressBar(bool bError, const char *failureReason, const char *extendedReason = NULL);
+	virtual void StopProgressBar(bool bError, const char *failureReason, const char *extendedReason = nullptr);
 	virtual bool SetProgressBarStatusText(const char *statusText, bool showDialog = true );
 
 	//!! these functions currently not implemented

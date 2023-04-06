@@ -81,7 +81,7 @@ LINK_ENTITY_TO_CLASS_SIMPLE_DERIVED( WeaponUSP, WeaponCSBaseGun, DT_WeaponUSP, w
 
 CWeaponCSBaseGun::CWeaponCSBaseGun()
 {
-	m_pWeaponInfo = NULL;
+	m_pWeaponInfo = nullptr;
 	m_zoomLevel = 0;
 	m_inPrecache = false;
 #ifdef CLIENT_DLL
@@ -352,7 +352,7 @@ void CWeaponCSBaseGun::PrimaryAttack()
 void CWeaponCSBaseGun::SecondaryAttack()
 {
 	CCSPlayer *pPlayer = GetPlayerOwner();
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 	{
 		Assert(pPlayer != NULL);
 		return;
@@ -936,7 +936,7 @@ const char* CWeaponCSBaseGun::GetMuzzleFlashEffectName_3rdPerson( void )
 
 CCSWeaponInfo const	& CWeaponCSBaseGun::GetCSWpnData() const
 {
-	if ( m_pWeaponInfo != NULL )
+	if ( m_pWeaponInfo != nullptr)
 		return *m_pWeaponInfo;
 	else
 		return BaseClass::GetCSWpnData();

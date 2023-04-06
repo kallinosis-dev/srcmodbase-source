@@ -31,7 +31,7 @@ CWaveFile::CWaveFile( CVCDFile *vcd, CSoundEntry *se, char const *filename )
 
 	Q_strncpy( m_szName, filename, sizeof( m_szName ) );
 
-	m_pWaveFile = NULL;
+	m_pWaveFile = nullptr;
 
 	Q_snprintf( m_szFileName, sizeof( m_szFileName ), "sound/%s", filename );
 }

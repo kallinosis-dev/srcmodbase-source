@@ -147,7 +147,7 @@ public:
      *	Note:		Invoking this function a second time (without adding
      *			new ledges in the meantime) will return NULL.
      *****************************************************************************/
-    IVP_Compact_Surface *compile( IVP_Template_Surbuild_LedgeSoup *templ = NULL);
+    IVP_Compact_Surface *compile( IVP_Template_Surbuild_LedgeSoup *templ = nullptr);
 
     IVP_SurfaceBuilder_Ledge_Soup();
     ~IVP_SurfaceBuilder_Ledge_Soup();

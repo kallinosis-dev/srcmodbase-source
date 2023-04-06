@@ -71,7 +71,7 @@ void CEnvDOFController::Activate( void )
 	BaseClass::Activate();
 
 	// Find our target entity and hold on to it
-	m_hFocusTarget = gEntList.FindEntityByName( NULL, m_strFocusTargetName );
+	m_hFocusTarget = gEntList.FindEntityByName(nullptr, m_strFocusTargetName );
 
 	// Update if we have a focal target
 	if ( m_hFocusTarget )
@@ -180,7 +180,7 @@ void CEnvDOFController::UpdateParamBlend( void )
 //-----------------------------------------------------------------------------
 void CEnvDOFController::InputSetFocusTarget( inputdata_t &inputdata )
 {
-	m_hFocusTarget = gEntList.FindEntityByName( NULL, inputdata.value.String() );
+	m_hFocusTarget = gEntList.FindEntityByName(nullptr, inputdata.value.String() );
 	
 	// Update if we have a focal target
 	if ( m_hFocusTarget )

@@ -106,7 +106,7 @@ inline TDialog *DialogManager<TDialog, I>::FindDialog(I dialogID, bool bCreate)
 	}
 
 	// dlg not found, not created
-	return NULL;
+	return nullptr;
 }
 
 // opens the dialog; creating it if necessary

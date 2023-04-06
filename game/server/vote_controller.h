@@ -135,7 +135,7 @@ public:
 	void			ListIssues( CBasePlayer *pForWhom );
 	bool			IsValidVoter( CBasePlayer *pWhom );
 	bool			CanTeamCastVote( int iTeam ) const;
-	void			SendVoteFailedMessage( vote_create_failed_t nReason = VOTE_FAILED_GENERIC, CBasePlayer *pVoteCaller = NULL, int nTime = -1 );
+	void			SendVoteFailedMessage( vote_create_failed_t nReason = VOTE_FAILED_GENERIC, CBasePlayer *pVoteCaller = nullptr, int nTime = -1 );
 	void			VoteChoice_Increment( int nVoteChoice );
 	void			VoteChoice_Decrement( int nVoteChoice );
 	int				GetWinningVoteOption( void );

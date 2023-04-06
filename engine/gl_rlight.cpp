@@ -29,7 +29,7 @@ extern ConVar r_unloadlightmaps;
 extern ConVar r_keepstyledlightmapsonly;
 extern bool g_bHunkAllocLightmaps;
 
-static model_t* s_pLightVecModel = 0;
+static model_t* s_pLightVecModel = nullptr;
 
 ConVar r_visualizetraces( "r_visualizetraces", "0", FCVAR_CHEAT );
 ConVar r_visualizelighttraces( "r_visualizelighttraces", "0", FCVAR_CHEAT );

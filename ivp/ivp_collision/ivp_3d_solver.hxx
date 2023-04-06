@@ -61,7 +61,7 @@ private:
 	    }
 	}else{
 	    for (int i = IVP_3D_SOLVER_MAX_STEPS_PER_PSI; i>0; i--){
-		m_world_f_object[i] = 0;
+		m_world_f_object[i] = nullptr;
 	    }
 	    m_world_f_object[0] = &co->m_world_f_object;	// first value
 	}

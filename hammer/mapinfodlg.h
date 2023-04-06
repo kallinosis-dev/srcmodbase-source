@@ -20,7 +20,7 @@ class CMapInfoDlg : public CDialog
 {
 	// Construction
 	public:
-		CMapInfoDlg(CMapWorld *, CWnd* pParent = NULL);   // standard constructor
+		CMapInfoDlg(CMapWorld *, CWnd* pParent = nullptr);   // standard constructor
 
 		void CountEntity(CMapEntity *pEntity);
 		void CountFace(CMapFace *pFace);

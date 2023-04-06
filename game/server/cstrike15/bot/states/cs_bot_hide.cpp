@@ -122,14 +122,14 @@ void HideState::OnUpdate( CCSBot *me )
 					}
 
 					// if we are guarding the defuser and he dies/gives up, stop hiding (to choose another defuser)
-					if (me->GetTask() == CCSBot::GUARD_BOMB_DEFUSER && TheCSBots()->GetBombDefuser() == NULL)
+					if (me->GetTask() == CCSBot::GUARD_BOMB_DEFUSER && TheCSBots()->GetBombDefuser() == nullptr)
 					{
 						me->Idle();
 						return;
 					}
 
 					// if we are guarding the loose bomb and it is picked up, stop hiding
-					if (me->GetTask() == CCSBot::GUARD_LOOSE_BOMB && TheCSBots()->GetLooseBomb() == NULL)
+					if (me->GetTask() == CCSBot::GUARD_LOOSE_BOMB && TheCSBots()->GetLooseBomb() == nullptr)
 					{
 						me->GetChatter()->TheyPickedUpTheBomb();
 						me->Idle();
@@ -507,7 +507,7 @@ void HideState::OnUpdate( CCSBot *me )
 
 			// search from hiding spot, since we know it was valid
 			const Vector *pos = FindNearbyHidingSpot( me, m_hidingSpot, m_range, me->IsSniper() );
-			if (pos == NULL)
+			if (pos == nullptr)
 			{
 				// no available hiding spots
 				me->PrintIfWatched( "No available hiding spots - hiding where I'm at.\n" );

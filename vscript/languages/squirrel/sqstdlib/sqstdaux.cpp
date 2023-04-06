@@ -16,7 +16,7 @@ void sqstd_printcallstack(HSQUIRRELVM v)
 		SQFloat f;
 		const SQChar *s;
 		SQInteger level=1; //1 is to skip this function that is level 0
-		const SQChar *name=0; 
+		const SQChar *name=nullptr; 
 		SQInteger seq=0;
 		pf(v,_SC("\nCALLSTACK\n"));
 		while(SQ_SUCCEEDED(sq_stackinfos(v,level,&si)))
@@ -103,7 +103,7 @@ static SQInteger _sqstd_aux_printerror(HSQUIRRELVM v)
 {
 	SQPRINTFUNCTION pf = sq_getprintfunc(v);
 	if(pf) {
-		const SQChar *sErr = 0;
+		const SQChar *sErr = nullptr;
 		if(sq_gettop(v)>=1) {
 			if(SQ_SUCCEEDED(sq_getstring(v,2,&sErr)))	{
 				pf(v,_SC("\nAN ERROR HAS OCCURED [%s]\n"),sErr);

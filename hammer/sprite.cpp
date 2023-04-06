@@ -65,19 +65,19 @@ CSpriteModel *CSpriteCache::CreateSprite(const char *pszSpritePath)
 	//
 	CSpriteModel *pSprite = new CSpriteModel;
 
-	if (pSprite != NULL)
+	if (pSprite != nullptr)
 	{
 		if (!pSprite->LoadSprite(pszSpritePath))
 		{
 			delete pSprite;
-			pSprite = NULL;
+			pSprite = nullptr;
 		}
 	}
 
 	//
 	// If we successfully created it, add it to the cache.
 	//
-	if (pSprite != NULL)
+	if (pSprite != nullptr)
 	{
 		CSpriteCache::AddSprite(pSprite, pszSpritePath);
 	}
@@ -105,7 +105,7 @@ bool CSpriteCache::AddSprite(CSpriteModel *pSprite, const char *pszSpritePath)
 	// Allocate space for and copy the model path.
 	//
 	m_Cache[m_nItems].pszPath = new char [strlen(pszSpritePath) + 1];
-	if (m_Cache[m_nItems].pszPath != NULL)
+	if (m_Cache[m_nItems].pszPath != nullptr)
 	{
 		strcpy(m_Cache[m_nItems].pszPath, pszSpritePath);
 	}
@@ -188,7 +188,7 @@ void CSpriteCache::Release(CSpriteModel *pSprite)
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
 CSpriteModel::CSpriteModel(void) : 
-	m_pMaterial(0), m_NumFrames(-1), m_fScale(1.0), m_Origin(0,0,0), m_UL(0,0), m_LR(0,0), m_TexUL(0,1), m_TexLR(1,0), m_bInvert(false)
+	m_pMaterial(nullptr), m_NumFrames(-1), m_fScale(1.0), m_Origin(0,0,0), m_UL(0,0), m_LR(0,0), m_TexUL(0,1), m_TexLR(1,0), m_bInvert(false)
 {
 	m_Normal = Vector( 0, 0, 1 );
 }
@@ -510,12 +510,12 @@ CSpriteDataCache* LookupSpriteDataCache( const char *pSpritePath )
 			pData->m_pFrameVar = pData->m_pMaterial->GetMaterial()->FindVar( "$spriteFrame", &bFound );
 			if ( !bFound )
 			{
-				pData->m_pFrameVar = NULL;
+				pData->m_pFrameVar = nullptr;
 			}
 			pData->m_pRenderModeVar = pData->m_pMaterial->GetMaterial()->FindVar( "$spriterendermode", &bFound );
 			if ( !bFound )
 			{
-				pData->m_pRenderModeVar = NULL;
+				pData->m_pRenderModeVar = nullptr;
 			}
 			pData->m_pOrientationVar = pData->m_pMaterial->GetMaterial()->FindVar( "$spriteOrientation", &pData->m_bOrientationVarFound, false );
 			pData->m_pOriginVar = pData->m_pMaterial->GetMaterial()->FindVar( "$spriteorigin", &pData->m_bOriginVarFound );

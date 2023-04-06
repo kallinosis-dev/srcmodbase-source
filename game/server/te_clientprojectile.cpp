@@ -44,7 +44,7 @@ CTEClientProjectile::CTEClientProjectile( const char *name ) :
 	m_vecVelocity.Init();
 	m_nModelIndex = 0;
 	m_nLifeTime = 0;
-	m_hOwner = NULL;
+	m_hOwner = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -72,7 +72,7 @@ void CTEClientProjectile::Test( const Vector& current_origin, const QAngle& curr
 	m_vecVelocity = forward * 2048;
 
 	m_nLifeTime = 5;
-	m_hOwner = NULL;
+	m_hOwner = nullptr;
 	
 	CBroadcastRecipientFilter filter;
 	Create( filter, 0.0 );

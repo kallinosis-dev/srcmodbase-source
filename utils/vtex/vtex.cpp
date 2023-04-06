@@ -68,7 +68,7 @@
 //#define DEBUG_NO_COMPRESSION
 static bool g_NoPause = false;
 static bool g_Quiet = false;
-static const char *g_ShaderName = NULL;
+static const char *g_ShaderName = nullptr;
 static bool g_CreateDir = true;
 static bool g_UseGameDir = true;
 
@@ -358,7 +358,7 @@ static inline uint32& SetFlagValue( uint32 &field, uint32 const &flag, int bSetF
 void VTexConfigInfo_t::ParseVolumeOption( const char *pKeyValue )
 {
 	pKeyValue += strspn( pKeyValue, " \t" );
-	if ( strchr( pKeyValue, ',' ) == 0 )					// its just a single wor,d not a list of filenames
+	if ( strchr( pKeyValue, ',' ) == nullptr )					// its just a single wor,d not a list of filenames
 	{
 		m_nVolumeTextureDepth = atoi( pKeyValue );
 	}
@@ -701,7 +701,7 @@ void VTexConfigInfo_t::ParseOptionKey( const char *pKeyName,  const char *pKeyVa
 
 			int nSteps = 0; // default
 			
-			for ( char const *szParse = pKeyValue; szParse; szParse = strchr( szParse, ':' ), szParse ? ++ szParse : 0 )
+			for ( char const *szParse = pKeyValue; szParse; szParse = strchr( szParse, ':' ), szParse ? ++ szParse : nullptr )
 			{
 				if ( char const *sz = StringAfterPrefix( szParse, "skip=" ) )
 				{
@@ -1700,7 +1700,7 @@ static bool LoadSourceImages( IVTFTexture *pTexture, const char *pFullNameWithou
 					// Load the image file from disk...
 					CUtlBuffer fileBuffer;
 					if ( !LoadFile( info.m_SrcName, fileBuffer, bFailOnError,
-									( g_eMode != BITMAP_FILE_TYPE_PSD ) ? &info.m_uiInputHash : NULL ) )
+									( g_eMode != BITMAP_FILE_TYPE_PSD ) ? &info.m_uiInputHash : nullptr) )
 					{
 						// If we want to fail on error and VTexError didn't abort then
 						// simply notify the caller that we failed
@@ -1756,7 +1756,7 @@ static CDmeImageArray *InitializeImageArray( CDmePrecompiledTexture *pPrecompile
 		if ( ( nWidth % 4 ) || ( nHeight % 3 ) )
 		{
 			VTexError( "TGA is wrong size for cubemap - [%d,%d] - should be 4x3 grid of squares!\n", nWidth, nHeight );
-			return NULL;
+			return nullptr;
 		}
 		Assert( nDepth == 1 && nBitmapCount == 1 );
 		nWidth  /= 4;
@@ -2058,7 +2058,7 @@ void PostProcessSkyBox( SmartIVTFTexture &pSrcTexture, const char *pDstFileName,
 
 	// Get rid of the full cubemap one and return the single-face one.
 	DestroyVTFTexture( pSrcTexture.Get() );
-	pSrcTexture.Assign( NULL );
+	pSrcTexture.Assign(nullptr);
 }
 
 
@@ -2197,7 +2197,7 @@ bool ProcessFiles( const char *pFullNameWithoutExtension, const char *pOutputDir
 	if( CommandLine()->FindParm( "-crcvalidate" ) )
 	{
 		CUtlBuffer bufFile;
-		bool bLoad = LoadFile( dstFileName, bufFile, false, NULL );
+		bool bLoad = LoadFile( dstFileName, bufFile, false, nullptr);
 		if ( !bLoad )
 		{
 			VTexMsgEx( stderr, "LOAD ERROR: %s\n", dstFileName );
@@ -2235,7 +2235,7 @@ bool ProcessFiles( const char *pFullNameWithoutExtension, const char *pOutputDir
 	if( !CommandLine()->FindParm( "-crcforce" ) )
 	{
 		CUtlBuffer bufFile;
-		if ( LoadFile( dstFileName, bufFile, false, NULL ) )
+		if ( LoadFile( dstFileName, bufFile, false, nullptr) )
 		{
 			SmartIVTFTexture spExistingVtf( CreateVTFTexture() );
 			if ( spExistingVtf->Unserialize( bufFile ) )
@@ -2328,7 +2328,7 @@ bool ProcessFiles( const char *pFullNameWithoutExtension, const char *pOutputDir
 		singleOutput.pTexture = pVTFTexture.Get();
 		strncpy( singleOutput.dstFileName, dstFileName, MAX_PATH );
 		outputTextures.AddToTail( singleOutput );
-		pVTFTexture.Assign( NULL );
+		pVTFTexture.Assign(nullptr);
 	}
 
 	for ( int i = 0; i < outputTextures.Count(); i++ )
@@ -2393,7 +2393,7 @@ const char *GetPossiblyQuotedWord( const char *pInBuf, char *pOutbuf )
 			pWordEnd = pInBuf+strlen(pInBuf);
 	}
 	if ((! pWordEnd ) || (pWordEnd == pInBuf ) )
-		return NULL;										// no word found
+		return nullptr;										// no word found
 	memcpy( pOutbuf, pInBuf, pWordEnd-pInBuf );
 	pOutbuf[pWordEnd-pInBuf]=0;
 
@@ -2768,13 +2768,13 @@ static CDmePrecompiledTexture *LoadConfigFile( const char *pFullPath, BitmapFile
 	if ( !pExt )
 	{
 		VTexError( "VTex: Bogus file name \"%s\"!\n", pFullPath );
-		return NULL;
+		return nullptr;
 	}
 
 	const char *pOrigFullPath = pFullPath;
 	bool bConfigFileSpecified = ( !Q_stricmp( pExt, "txt" ) || !Q_stricmp( pExt, "tex" ) );
 
-	CDmePrecompiledTexture *pPrecompiledTexture = NULL;
+	CDmePrecompiledTexture *pPrecompiledTexture = nullptr;
 
 	*pMode = BITMAP_FILE_TYPE_UNKNOWN;
 	char pTexFile[MAX_PATH];
@@ -2811,18 +2811,18 @@ static CDmePrecompiledTexture *LoadConfigFile( const char *pFullPath, BitmapFile
 	{
 		CUtlBuffer buf( 0, 0, CUtlBuffer::TEXT_BUFFER );
 		if ( !LoadConfigFromPSD( pFullPath, buf, false, pInputHash ) )
-			return NULL;
+			return nullptr;
 
 		if ( buf.TellMaxPut() == 0 )
-			return NULL;
+			return nullptr;
 
 		char pTempPath[MAX_PATH];
 		Q_strncpy( pTempPath, pFullPath, sizeof(pTempPath) );
 		Q_SetExtension( pTempPath, "__psdtxt", sizeof(pTempPath) );
 		DmElementHandle_t hElement;
 		const char *pEncoding = g_pDataModel->IsDMXFormat( buf ) ? "keyvalues2" : "tex_source1";
-		if ( !g_pDataModel->Unserialize( buf, pEncoding, "tex", NULL, pTempPath, CR_FORCE_COPY, hElement ) )
-			return NULL;
+		if ( !g_pDataModel->Unserialize( buf, pEncoding, "tex", nullptr, pTempPath, CR_FORCE_COPY, hElement ) )
+			return nullptr;
 
 		pPrecompiledTexture = GetElement< CDmePrecompiledTexture >( hElement );
 		pPrecompiledTexture->m_ImageFileName = Q_UnqualifiedFileName( pFullPath );
@@ -2835,11 +2835,11 @@ static CDmePrecompiledTexture *LoadConfigFile( const char *pFullPath, BitmapFile
 		CUtlBuffer buf( 0, 0, CUtlBuffer::TEXT_BUFFER );
 		bool bOK = LoadFile( pFullPath, buf, false, pInputHash );
 		if ( !bOK )
-			return NULL;
+			return nullptr;
 
 		DmElementHandle_t hElement;
-		if ( !g_pDataModel->Unserialize( buf, !bIsImportedFile ? "keyvalues2" : "tex_source1", "tex", NULL, pFullPath, CR_FORCE_COPY, hElement ) )
-			return NULL;
+		if ( !g_pDataModel->Unserialize( buf, !bIsImportedFile ? "keyvalues2" : "tex_source1", "tex", nullptr, pFullPath, CR_FORCE_COPY, hElement ) )
+			return nullptr;
 
 		pPrecompiledTexture = GetElement< CDmePrecompiledTexture >( hElement );
 
@@ -2852,7 +2852,7 @@ static CDmePrecompiledTexture *LoadConfigFile( const char *pFullPath, BitmapFile
 			{
 				Warning( ".tex specified a different file name (\"%s\") than the command-line did (\"%s\")!\n",
 					pPrecompiledTexture->m_ImageFileName.Get(), pFileBase );
-				return NULL;
+				return nullptr;
 			}
 		}
 		else
@@ -2878,7 +2878,7 @@ static CDmePrecompiledTexture *LoadConfigFile( const char *pFullPath, BitmapFile
 				if ( i == 3 )
 				{
 					Warning( "Unable to find image file associated with file \"%s\"!\n", pFullPath );
-					return false;
+					return nullptr;
 				}
 			}
 
@@ -2898,13 +2898,13 @@ static CDmePrecompiledTexture *LoadConfigFile( const char *pFullPath, BitmapFile
 		else if ( pTextureExt )
 		{
 			VTexError( "VTex: Bogus texture file name encountered \"%s\"!\n", pPrecompiledTexture->m_ImageFileName.Get() );
-			return NULL;
+			return nullptr;
 		}
 
 		if ( *pMode != BITMAP_FILE_TYPE_UNKNOWN && *pMode != nTextureMode )
 		{
 			VTexError( "VTex: Specified to build file \"%s\", but file \"%s\" is specified in the associated .tex file!\n", (char *)pFullPath, pPrecompiledTexture->m_ImageFileName.Get() );
-			return NULL;
+			return nullptr;
 		}
 	}
 
@@ -2952,7 +2952,7 @@ static CDmePrecompiledTexture *LoadConfigFile( const char *pFullPath, BitmapFile
 	*/
 
 	char pTextureName[MAX_PATH];
-	GenerateResourceName( pFullPath, NULL, pTextureName, sizeof(pTextureName) );
+	GenerateResourceName( pFullPath, nullptr, pTextureName, sizeof(pTextureName) );
 	pPrecompiledTexture->SetName( pTextureName );
 	return pPrecompiledTexture;
 }
@@ -2998,7 +2998,7 @@ bool GetOutputDir( const char *inputName, char *outputDir )
 	{
 		// Is inputName a relative path?
 		char buf[MAX_PATH];
-		Q_MakeAbsolutePath( buf, sizeof( buf ), inputName, NULL );
+		Q_MakeAbsolutePath( buf, sizeof( buf ), inputName, nullptr);
 		Q_FixSlashes( buf );
 		
 		const char *pTmp = Q_stristr( buf, "materialsrc\\" );
@@ -3086,7 +3086,7 @@ int Find_Files( WIN32_FIND_DATA &wfd, HANDLE &hResult, const char *basedir, cons
 		char fname[_MAX_FNAME] = {0};
 		char ext[_MAX_EXT] = {0};
 
-		_splitpath( wfd.cFileName, NULL, NULL, fname, ext );
+		_splitpath( wfd.cFileName, nullptr, nullptr, fname, ext );
 
 		// Not the type we want.
 		if ( stricmp( ext, extension ) )
@@ -3137,7 +3137,7 @@ bool Process_File_Internal( char *pInputBaseName, int maxlen, bool bOutputPwlCol
 bool Process_File( char *pInputBaseName, int maxlen )
 {
 	const char *pExtension = V_GetFileExtension( pInputBaseName );
-	if ( pExtension != NULL )
+	if ( pExtension != nullptr)
 	{
 		if ( V_stricmp( pExtension, "pfm" ) == 0 )
 		{
@@ -3240,7 +3240,7 @@ bool Process_File_Internal( char *pInputBaseName, int maxlen, bool bOutputPwlCol
 
 		IVTFTexture *pVtf = CreateVTFTexture();
 		CUtlBuffer bufFile;
-		LoadFile( chFileNameConvert, bufFile, true, NULL );
+		LoadFile( chFileNameConvert, bufFile, true, nullptr);
 		bool bRes = pVtf->Unserialize( bufFile );
 		if ( !bRes )
 			VTexError( "Failed to read '%s'!\n", chFileNameConvert );
@@ -3251,7 +3251,7 @@ bool Process_File_Internal( char *pInputBaseName, int maxlen, bool bOutputPwlCol
 		// Assert( sizeof( uiDataHash ) == sizeof( int ) );
 		// if ( !pVtf->GetResourceData( VTexConfigInfo_t::VTF_INPUTSRC_CRC, ... ) )
 
-		AttachShtFile( pInputBaseName, pVtf, NULL );
+		AttachShtFile( pInputBaseName, pVtf, nullptr);
 
 		// Update the CRC
 		// if ( puiDataHash )
@@ -3259,7 +3259,7 @@ bool Process_File_Internal( char *pInputBaseName, int maxlen, bool bOutputPwlCol
 		//	pVtf->InitResourceDataSection( VTexConfigInfo_t::VTF_INPUTSRC_CRC, *puiDataHash );
 		// }
 		// Remove the CRC when quick-converting
-		pVtf->SetResourceData( VTexConfigInfo_t::VTF_INPUTSRC_CRC, NULL, 0 );
+		pVtf->SetResourceData( VTexConfigInfo_t::VTF_INPUTSRC_CRC, nullptr, 0 );
 
 		bufFile.Clear();
 		bRes = pVtf->Serialize( bufFile );
@@ -3304,7 +3304,7 @@ bool Process_File_Internal( char *pInputBaseName, int maxlen, bool bOutputPwlCol
 		// Create the texture and unserialize file data
 		SmartIVTFTexture pVtf( CreateVTFTexture() );
 		CUtlBuffer bufFile;
-		LoadFile( requestedInputBaseName, bufFile, true, NULL );
+		LoadFile( requestedInputBaseName, bufFile, true, nullptr);
 		bool bRes = pVtf->Unserialize( bufFile );
 		if ( !bRes )
 		{
@@ -3362,7 +3362,7 @@ bool Process_File_Internal( char *pInputBaseName, int maxlen, bool bOutputPwlCol
 
 		for ( int i = 0; i < 2; i++ ) // First see if we need to write a txt file, then write it
 		{
-			FILE *fTxtFile = NULL;
+			FILE *fTxtFile = nullptr;
 			if ( i == 1 )
 			{
 				// Try to open for writing without p4 edit
@@ -3698,7 +3698,7 @@ public:
 
 	virtual int VTex( CreateInterfaceFn fsFactory, const char *pGameDir, int argc, char **argv )
 	{
-		g_pFileSystem = g_pFullFileSystem = (IFileSystem*)fsFactory( FILESYSTEM_INTERFACE_VERSION, NULL );
+		g_pFileSystem = g_pFullFileSystem = (IFileSystem*)fsFactory( FILESYSTEM_INTERFACE_VERSION, nullptr);
 		if ( !g_pFileSystem )
 		{
 			Error( "IVTex3::VTex - fsFactory can't get '%s' interface.", FILESYSTEM_INTERFACE_VERSION );
@@ -3718,7 +3718,7 @@ public:
 	bool MySuggestFn( CFSSteamSetupInfo const *pFsSteamSetupInfo, char *pchPathBuffer, int nBufferLength, bool *pbBubbleDirectories );
 
 public:
-	CSuggestGameDirHelper() : m_pszInputFiles( NULL ), m_numInputFiles( 0 ) {}
+	CSuggestGameDirHelper() : m_pszInputFiles(nullptr), m_numInputFiles( 0 ) {}
 
 public:
 	char const * const *m_pszInputFiles;
@@ -3906,7 +3906,7 @@ int CVTex::VTex( int argc, char **argv )
 
 	// Check if we need to build 360 .pwl.vtf versions
 	KeyValues *pKeyValues = new KeyValues( "gameinfo.txt" );
-	if ( pKeyValues != NULL )
+	if ( pKeyValues != nullptr)
 	{
 		if ( g_pFileSystem && pKeyValues->LoadFromFile( g_pFileSystem, "gameinfo.txt" ) )
 		{
@@ -3938,7 +3938,7 @@ int CVTex::VTex( int argc, char **argv )
 			Sys_UnloadModule( pModule );
 			return -1;
 		}
-		p4 = (IP4 *)fn( P4_INTERFACE_VERSION, NULL );
+		p4 = (IP4 *)fn( P4_INTERFACE_VERSION, nullptr);
 		if ( !p4 )
 		{
 			VTexMsg( "Can't get IP4 interface from %s, proceeding with -nop4.\n", pModuleName );
@@ -3984,7 +3984,7 @@ int CVTex::VTex( int argc, char **argv )
 		char	ext[_MAX_EXT];
 		char    filename[_MAX_FNAME];
 
-		_splitpath( pInputBaseName, NULL, NULL, NULL, ext ); //find extension wanted
+		_splitpath( pInputBaseName, nullptr, nullptr, nullptr, ext ); //find extension wanted
 
 		if ( !Q_ExtractFilePath ( pInputBaseName, basedir, sizeof( basedir ) ) )
 			strcpy( basedir, ".\\" );
@@ -4123,7 +4123,7 @@ bool CVTexCompiler::CompileResource( const char *pFullPath, IResourceCompilerReg
 bool CVTexCompiler::CompileResource( CUtlBuffer &buf, const char *pFullPath, IResourceCompilerRegistry *pRegistry, CResourceStream *pPermanentStream, CResourceStream *pDataStream )
 {
 	DmElementHandle_t hRoot;
-	if ( !g_pDataModel->Unserialize( buf, NULL, NULL, NULL, pFullPath, CR_FORCE_COPY, hRoot ) )
+	if ( !g_pDataModel->Unserialize( buf, nullptr, nullptr, nullptr, pFullPath, CR_FORCE_COPY, hRoot ) )
 		return NULL;
 
 	CDmElement *pElement = GetElement< CDmElement >( hRoot );
@@ -4167,7 +4167,7 @@ CDmeTexture *CVTexCompiler::CompileResource( CDmePrecompiledTexture *pPrecompile
 		pTexture = pDestTexture;
 	}
 
-	FloatBitMap_t::SetThreadPool( NULL );
+	FloatBitMap_t::SetThreadPool(nullptr);
 	DestroyThreadPool( pVTexThreadPool );
 
 	return pTexture;

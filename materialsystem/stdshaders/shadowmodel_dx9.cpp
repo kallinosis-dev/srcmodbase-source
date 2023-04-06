@@ -50,7 +50,7 @@ SHADER_INIT_PARAMS()
 
 SHADER_FALLBACK
 {
-	return 0;
+	return nullptr;
 }
 
 SHADER_INIT
@@ -72,7 +72,7 @@ SHADER_DRAW
 		EnableAlphaBlending( SHADER_BLEND_DST_COLOR, SHADER_BLEND_ZERO );
 
 		int fmt = VERTEX_POSITION | VERTEX_NORMAL;
-		pShaderShadow->VertexShaderVertexFormat( fmt, 1, 0, 0 );
+		pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 
 		DECLARE_STATIC_VERTEX_SHADER( shadowmodel_vs20 );
 		SET_STATIC_VERTEX_SHADER( shadowmodel_vs20 );

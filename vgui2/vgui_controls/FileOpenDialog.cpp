@@ -423,7 +423,7 @@ FileOpenDialog::~FileOpenDialog()
 	if ( m_pContextKeyValues )
 	{
 		m_pContextKeyValues->deleteThis();
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 }
 
@@ -486,7 +486,7 @@ void FileOpenDialog::PopulateDriveList()
 	char *pBuf = buf;
 	for (int i=0; i < len / 4; i++)
 	{
-		m_pFullPathEdit->AddItem(pBuf, NULL);
+		m_pFullPathEdit->AddItem(pBuf, nullptr);
 
 		// is this our drive - add all subdirectories
 		if (!_strnicmp(pBuf, fullpath, 2))
@@ -503,7 +503,7 @@ void FileOpenDialog::PopulateDriveList()
 						memcpy(subDirPath+indent, fullpath, pData-fullpath);
 						subDirPath[indent+pData-fullpath] = 0;
 
-						m_pFullPathEdit->AddItem(subDirPath, NULL);
+						m_pFullPathEdit->AddItem(subDirPath, nullptr);
 					}
 					indent += 2;
 				}
@@ -592,7 +592,7 @@ void FileOpenDialog::OnOpenInExplorer()
 	GetCurrentDirectory( pCurrentDirectory, sizeof(pCurrentDirectory) );
 #if defined( WIN32 )
 #if !defined( _GAMECONSOLE )
-	ShellExecute( NULL, NULL, pCurrentDirectory, NULL, NULL, SW_SHOWNORMAL );
+	ShellExecute(nullptr, nullptr, pCurrentDirectory, nullptr, nullptr, SW_SHOWNORMAL );
 #endif
 #elif defined( OSX )
 	char szCmd[ MAX_PATH ];
@@ -653,7 +653,7 @@ void FileOpenDialog::SetStartDirectoryContext( const char *pStartDirContext, con
 		if ( m_nStartDirContext == s_StartDirContexts.InvalidIndex() )
 		{
 			m_nStartDirContext = s_StartDirContexts.Insert( pStartDirContext, pDefaultDir );
-			bUseCurrentDirectory = ( pDefaultDir == NULL );
+			bUseCurrentDirectory = ( pDefaultDir == nullptr);
 		}
 		else
 		{
@@ -761,10 +761,10 @@ void FileOpenDialog::NewFolder( char const *folderName )
 	do
 	{
 		Q_MakeAbsolutePath( pFullPath, sizeof(pFullPath), pNewFolderName, pCurrentDirectory );
-		if ( !g_pFullFileSystem->FileExists( pFullPath, NULL ) &&
-			 !g_pFullFileSystem->IsDirectory( pFullPath, NULL ) )
+		if ( !g_pFullFileSystem->FileExists( pFullPath, nullptr) &&
+			 !g_pFullFileSystem->IsDirectory( pFullPath, nullptr) )
 		{
-			g_pFullFileSystem->CreateDirHierarchy( pFullPath, NULL );
+			g_pFullFileSystem->CreateDirHierarchy( pFullPath, nullptr);
 			m_pFileNameCombo->SetText( pNewFolderName );
 			return;
 		}
@@ -878,7 +878,7 @@ void FileData_t::PrepareKV( KeyValues *kv )
 	kv->SetInt("image", m_bDirectory ? 2 : 1 );
 	kv->SetInt("imageSelected", m_bDirectory ? 3 : 1 );
 
-	kv->SetPtr( "iconImage", NULL );
+	kv->SetPtr( "iconImage", nullptr);
 
 	if ( !m_bDirectory )
 	{
@@ -937,17 +937,17 @@ void FileOpenDialog::BuildFileList()
 	
 	if ( m_DialogType != FOD_SELECT_DIRECTORY )
 	{
-		while ((filterPtr != NULL) && (*filterPtr != 0))
+		while ((filterPtr != nullptr) && (*filterPtr != 0))
 		{
 			// parse the next filter in the list.
 			char curFilter[MAX_FILTER_LENGTH];
 			curFilter[0] = 0;
 			int i = 0;
-			while ((filterPtr != NULL) && ((*filterPtr == ',') || (*filterPtr == ';') || (*filterPtr <= ' ')))
+			while ((filterPtr != nullptr) && ((*filterPtr == ',') || (*filterPtr == ';') || (*filterPtr <= ' ')))
 			{
 				++filterPtr;
 			}
-			while ((filterPtr != NULL) && (*filterPtr != ',') && (*filterPtr != ';') && (*filterPtr > ' '))
+			while ((filterPtr != nullptr) && (*filterPtr != ',') && (*filterPtr != ';') && (*filterPtr > ' '))
 			{
 				curFilter[i++] = *(filterPtr++);
 			}
@@ -1020,11 +1020,11 @@ bool FileOpenDialog::FileNameWildCardMatch( char const *string, char const *patt
 					return(true);
 				const char *dot=strchr(string,'.');
 				if (pattern[1]==0)
-					return (dot==NULL || dot[1]==0);
-				if (dot!=NULL)
+					return (dot== nullptr || dot[1]==0);
+				if (dot!= nullptr)
 				{
 					string=dot;
-					if (strpbrk(pattern,"*?")==NULL && strchr(string+1,'.')==NULL)
+					if (strpbrk(pattern,"*?")== nullptr && strchr(string+1,'.')== nullptr)
 						return(Q_stricmp(pattern+1,string+1)==0);
 				}
 			}
@@ -1140,17 +1140,17 @@ bool FileOpenDialog::ExtensionMatchesFilter( const char *pExt )
 	Q_strncpy( filterList, combokv->GetString("filter", "*"), MAX_FILTER_LENGTH );
 
 	char *filterPtr = filterList;
-	while ((filterPtr != NULL) && (*filterPtr != 0))
+	while ((filterPtr != nullptr) && (*filterPtr != 0))
 	{
 		// parse the next filter in the list.
 		char curFilter[MAX_FILTER_LENGTH];
 		curFilter[0] = 0;
 		int i = 0;
-		while ((filterPtr != NULL) && ((*filterPtr == ',') || (*filterPtr == ';') || (*filterPtr <= ' ')))
+		while ((filterPtr != nullptr) && ((*filterPtr == ',') || (*filterPtr == ';') || (*filterPtr <= ' ')))
 		{
 			++filterPtr;
 		}
-		while ((filterPtr != NULL) && (*filterPtr != ',') && (*filterPtr != ';') && (*filterPtr > ' '))
+		while ((filterPtr != nullptr) && (*filterPtr != ',') && (*filterPtr != ';') && (*filterPtr > ' '))
 		{
 			curFilter[i++] = *(filterPtr++);
 		}
@@ -1188,17 +1188,17 @@ void FileOpenDialog::ChooseExtension( char *pExt, int nBufLen )
 	Q_strncpy( filterList, combokv->GetString("filter", "*"), MAX_FILTER_LENGTH );
 
 	char *filterPtr = filterList;
-	while ((filterPtr != NULL) && (*filterPtr != 0))
+	while ((filterPtr != nullptr) && (*filterPtr != 0))
 	{
 		// parse the next filter in the list.
 		char curFilter[MAX_FILTER_LENGTH];
 		curFilter[0] = 0;
 		int i = 0;
-		while ((filterPtr != NULL) && ((*filterPtr == ',') || (*filterPtr == ';') || (*filterPtr <= ' ')))
+		while ((filterPtr != nullptr) && ((*filterPtr == ',') || (*filterPtr == ';') || (*filterPtr <= ' ')))
 		{
 			++filterPtr;
 		}
-		while ((filterPtr != NULL) && (*filterPtr != ',') && (*filterPtr != ';') && (*filterPtr > ' '))
+		while ((filterPtr != nullptr) && (*filterPtr != ',') && (*filterPtr != ';') && (*filterPtr > ' '))
 		{
 			curFilter[i++] = *(filterPtr++);
 		}
@@ -1244,7 +1244,7 @@ void FileOpenDialog::PostFileSelectedMessage( const char *pFileName )
 	// open the file!
 	KeyValues *pKeyValues = new KeyValues( "FileSelected", "fullpath", pFileName );
 	KeyValues *pFilterKeys = m_pFileTypeCombo->GetActiveItemUserData();
-	const char *pFilterInfo = pFilterKeys ? pFilterKeys->GetString( "filterinfo", NULL ) : NULL;
+	const char *pFilterInfo = pFilterKeys ? pFilterKeys->GetString( "filterinfo", nullptr) : nullptr;
 	if ( pFilterInfo )
 	{
 		pKeyValues->SetString( "filterinfo", pFilterInfo );
@@ -1252,7 +1252,7 @@ void FileOpenDialog::PostFileSelectedMessage( const char *pFileName )
 	if ( m_pContextKeyValues )
 	{
 		pKeyValues->AddSubKey( m_pContextKeyValues );
-		m_pContextKeyValues = NULL;
+		m_pContextKeyValues = nullptr;
 	}
 	PostActionSignal( pKeyValues );
 	CloseModal();
@@ -1367,7 +1367,7 @@ void FileOpenDialog::OnOpen()
 	}
 
 	// If the name specified is a directory, then change directory
-	if ( g_pFullFileSystem->IsDirectory( pFullPath, NULL ) )
+	if ( g_pFullFileSystem->IsDirectory( pFullPath, nullptr) )
 	{
 		// it's a directory; change to the specified directory
 		if ( !bSpecifiedDirectory )
@@ -1452,7 +1452,7 @@ void FileOpenDialog::PopulateFileNameSearchHistory()
 	m_pFileNameCombo->RemoveAll();
 	for ( int i = 0; i < m_SearchHistory.Count(); ++i )
 	{
-		m_pFileNameCombo->AddItem( m_SearchHistory[ i ].String(), 0 );
+		m_pFileNameCombo->AddItem( m_SearchHistory[ i ].String(), nullptr );
 	}
 }
 
@@ -1493,7 +1493,7 @@ void FileOpenDialog::OnMatchStringSelected()
 //-----------------------------------------------------------------------------
 void FileOpenDialog::OnTextChanged(KeyValues *kv)
 {
-	Panel *pPanel = (Panel *) kv->GetPtr("panel", NULL);
+	Panel *pPanel = (Panel *) kv->GetPtr("panel", nullptr);
 
 	// first check which control had its text changed!
 	if (pPanel == m_pFullPathEdit)

@@ -182,7 +182,7 @@ void D3DDeviceWrapper::SetASyncMode( bool onoff )
 		if (! m_pASyncThreadHandle )
 		{
 			// allocate push buffers if we need to
-			if ( PushBuffers[0] == NULL )
+			if ( PushBuffers[0] == nullptr)
 			{
 				for(int i=0; i<N_PUSH_BUFFERS; i++)
 					PushBuffers[i]=new PushBuffer;
@@ -263,7 +263,7 @@ void D3DDeviceWrapper::UpdateStereoTexture( IDirect3DTexture9 *pTex, bool devLos
 	Assert( m_pStereoTexUpdater );
 	if ( m_pStereoTexUpdater )
 	{
-		if ( pStereoActiveThisFrame != NULL )
+		if ( pStereoActiveThisFrame != nullptr)
 		{
 			*pStereoActiveThisFrame = m_pStereoTexUpdater->IsStereoActive();
 		}
@@ -313,11 +313,11 @@ void D3DDeviceWrapper::AsynchronousLock( IDirect3DIndexBuffer9* ib,
 		lb->m_pPushBuffer = FindFreePushBuffer( PUSHBUFFER_BEING_USED_FOR_LOCKEDDATA );
 		*(ptr) = lb->m_pPushBuffer->m_BufferData;
 		Assert( *ptr );
-		lb->m_pMallocedMemory = NULL;
+		lb->m_pMallocedMemory = nullptr;
 	}
 	else												// out of buffer space or size too big
 	{
-		lb->m_pPushBuffer = NULL;
+		lb->m_pPushBuffer = nullptr;
 		lb->m_pMallocedMemory = new uint8 [ size ];
 		*(ptr) = lb->m_pMallocedMemory;
 	}
@@ -346,11 +346,11 @@ void D3DDeviceWrapper::AsynchronousLock( IDirect3DVertexBuffer9* vb,
 		lb->m_pPushBuffer = FindFreePushBuffer( PUSHBUFFER_BEING_USED_FOR_LOCKEDDATA );
 		*(ptr) = lb->m_pPushBuffer->m_BufferData;
 		Assert( *ptr );
-		lb->m_pMallocedMemory = NULL;
+		lb->m_pMallocedMemory = nullptr;
 	}
 	else												// out of buffer space or size too big
 	{
-		lb->m_pPushBuffer = NULL;
+		lb->m_pPushBuffer = nullptr;
 		lb->m_pMallocedMemory = new uint8 [ size ];
 		*(ptr) = lb->m_pMallocedMemory;
 	}
@@ -375,14 +375,14 @@ inline void RememberLockedPointer( void *key, void *value )
 	{
 		if ( RememberedPointerHistory[i].m_pKey==key )
 			break;
-		if ( (repl == -1 ) && (RememberedPointerHistory[i].m_pRememberedPtr == 0 ) )
+		if ( (repl == -1 ) && (RememberedPointerHistory[i].m_pRememberedPtr == nullptr ) )
 			repl=i;
 	}
 	if (i != MAXIMUM_NUMBER_OF_BUFFERS_LOCKED_AT_ONCE )
 	{
 		RememberedPointerHistory[i].m_pRememberedPtr = value;
-		if ( value==NULL )
-			RememberedPointerHistory[i].m_pKey = NULL;
+		if ( value== nullptr)
+			RememberedPointerHistory[i].m_pKey = nullptr;
 	}
 	else
 	{
@@ -405,7 +405,7 @@ inline void *RecallLockedPointer( void *key )
 	for(int i=0;i<MAXIMUM_NUMBER_OF_BUFFERS_LOCKED_AT_ONCE;i++)
 		if ( RememberedPointerHistory[i].m_pKey == key )
 			return RememberedPointerHistory[i].m_pRememberedPtr;
-	return NULL;
+	return nullptr;
 
 }
 
@@ -417,7 +417,7 @@ void D3DDeviceWrapper::HandleAsynchronousLockVBCommand( uint32 const *dptr )
 	uint32 offset=*(dptr++);
 	uint32 size=*(dptr++);
 	uint32 flags=*(dptr++);
-	void *locked_ptr=0;
+	void *locked_ptr=nullptr;
 	vb->Lock( offset, size, &locked_ptr, flags );
 	RememberLockedPointer( vb, locked_ptr );
 }
@@ -447,7 +447,7 @@ void D3DDeviceWrapper::HandleAsynchronousUnLockVBCommand( uint32 const *dptr )
 		delete[] lb.m_pMallocedMemory;
 	}
 	// now, actually unlock
-	RememberLockedPointer( vb, NULL );
+	RememberLockedPointer( vb, nullptr);
 	vb->Unlock();
 }
 
@@ -460,7 +460,7 @@ void D3DDeviceWrapper::HandleAsynchronousLockIBCommand( uint32 const *dptr )
 	uint32 offset=*(dptr++);
 	uint32 size=*(dptr++);
 	uint32 flags=*(dptr++);
-	void *locked_ptr=0;
+	void *locked_ptr=nullptr;
 	ib->Lock( offset, size, &locked_ptr, flags );
 	RememberLockedPointer( ib, locked_ptr );
 }
@@ -490,7 +490,7 @@ void D3DDeviceWrapper::HandleAsynchronousUnLockIBCommand( uint32 const *dptr )
 		delete[] lb.m_pMallocedMemory;
 	}
 	// now, actually unlock
-	RememberLockedPointer( ib, NULL );
+	RememberLockedPointer( ib, nullptr);
 	ib->Unlock();
 
 }
@@ -806,7 +806,7 @@ void D3DDeviceWrapper::ExecutePushBuffer( PushBuffer const* pb)
 				VPROF_BUFFER_PLAYBACK( "CLEAR" );
 				dptr++;
 				int count=*(dptr++);
-				D3DRECT const *pRects=0;
+				D3DRECT const *pRects=nullptr;
 				if (count)
 				{
 					pRects=(D3DRECT const *) dptr;
@@ -842,13 +842,13 @@ void D3DDeviceWrapper::ExecutePushBuffer( PushBuffer const* pb)
 				dptr++;
 				IDirect3DSurface9 *pSourceSurface=(IDirect3DSurface9 *) FetchPtr(dptr);
 				dptr+=N_DWORDS_IN_PTR;
-				RECT const *pSourceRect=0;
+				RECT const *pSourceRect=nullptr;
 				if (*(dptr++))
 					pSourceRect=(RECT const *) dptr;
 				dptr += N_DWORDS( RECT );
 				IDirect3DSurface9 *pDestSurface= (IDirect3DSurface9 *) FetchPtr( dptr );
 				dptr += N_DWORDS_IN_PTR;
-				RECT const *pDestRect=0;
+				RECT const *pDestRect=nullptr;
 				if (*(dptr++))
 					pDestRect=(RECT const *) dptr;
 				dptr += N_DWORDS( RECT );
@@ -868,13 +868,13 @@ void D3DDeviceWrapper::ExecutePushBuffer( PushBuffer const* pb)
 				dptr++;
 				IDirect3DResource9 *pSourceResource = (IDirect3DResource9 *)FetchPtr( dptr );
 				dptr += N_DWORDS_IN_PTR;
-				RECT const *pSourceRect = 0;
+				RECT const *pSourceRect = nullptr;
 				if ( *(dptr++) )
 					pSourceRect = (RECT const *)dptr;
 				dptr += N_DWORDS( RECT );
 				IDirect3DResource9 *pDestResource = (IDirect3DResource9 *)FetchPtr( dptr );
 				dptr += N_DWORDS_IN_PTR;
-				RECT const *pDestRect = 0;
+				RECT const *pDestRect = nullptr;
 				if ( *(dptr++) )
 					pDestRect = (RECT const *)dptr;
 				dptr += N_DWORDS( RECT );
@@ -893,16 +893,16 @@ void D3DDeviceWrapper::ExecutePushBuffer( PushBuffer const* pb)
 			{
 				VPROF_BUFFER_PLAYBACK( "PRESENT" );
 				dptr++;
-				RECT const *pSourceRect=0;
+				RECT const *pSourceRect=nullptr;
 				if (* (dptr++) )
 					pSourceRect=(RECT const *) dptr;
 				dptr+=N_DWORDS( RECT );
-				RECT const *pDestRect = 0;
+				RECT const *pDestRect = nullptr;
 				if (* (dptr++) )
 					pDestRect=(RECT const *) dptr;
 				dptr+=N_DWORDS( RECT );
 				VD3DHWND hDestWindowOverride = (VD3DHWND) *(dptr++);
-				RGNDATA const *pDirtyRegion=0;
+				RGNDATA const *pDirtyRegion=nullptr;
 				if ( *(dptr++) )
 					pDirtyRegion= (RGNDATA const *) dptr;
 				dptr+=N_DWORDS( RGNDATA );

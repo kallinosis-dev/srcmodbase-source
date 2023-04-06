@@ -69,7 +69,7 @@ void CEnvHudHint::Precache( void )
 //-----------------------------------------------------------------------------
 void CEnvHudHint::InputShowHudHint( inputdata_t &inputdata )
 {
-	CBaseEntity *pPlayer = NULL;
+	CBaseEntity *pPlayer = nullptr;
 
 	if ( inputdata.pActivator && inputdata.pActivator->IsPlayer() )
 	{
@@ -98,7 +98,7 @@ void CEnvHudHint::InputShowHudHint( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 void CEnvHudHint::InputHideHudHint( inputdata_t &inputdata )
 {
-	CBaseEntity *pPlayer = NULL;
+	CBaseEntity *pPlayer = nullptr;
 
 	if ( inputdata.pActivator && inputdata.pActivator->IsPlayer() )
 	{

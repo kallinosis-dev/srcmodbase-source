@@ -242,7 +242,7 @@ inline IServerEntity* CBaseEdict::GetIServerEntity()
 	if ( m_fStateFlags & FL_EDICT_FULL )
 		return (IServerEntity*)m_pUnk;
 	else
-		return 0;
+		return nullptr;
 }
 
 inline bool CBaseEdict::IsFree() const
@@ -357,7 +357,7 @@ inline const IServerEntity* CBaseEdict::GetIServerEntity() const
 	if ( m_fStateFlags & FL_EDICT_FULL )
 		return (IServerEntity*)m_pUnk;
 	else
-		return 0;
+		return nullptr;
 }
 
 inline IServerUnknown* CBaseEdict::GetUnknown()
@@ -373,7 +373,7 @@ inline IServerNetworkable* CBaseEdict::GetNetworkable()
 inline void CBaseEdict::SetEdict( IServerUnknown *pUnk, bool bFullEdict )
 {
 	m_pUnk = pUnk;
-	if ( (pUnk != NULL) && bFullEdict )
+	if ( (pUnk != nullptr) && bFullEdict )
 	{
 		m_fStateFlags = FL_EDICT_FULL;
 	}
@@ -435,7 +435,7 @@ inline ICollideable *edict_t::GetCollideable()
 	if ( pEnt )
 		return pEnt->GetCollideable();
 	else
-		return NULL;
+		return nullptr;
 }
 
 

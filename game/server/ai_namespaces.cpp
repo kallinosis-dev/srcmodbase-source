@@ -90,8 +90,8 @@ int CAI_GlobalNamespace::NextGlobalBase() const
 //
 
 CAI_LocalIdSpace::CAI_LocalIdSpace( bool fIsRoot )
- : 	m_pGlobalNamespace( NULL ),
- 	m_pParentIDSpace( NULL ),
+ : 	m_pGlobalNamespace(nullptr),
+ 	m_pParentIDSpace(nullptr),
  	m_globalBase( (fIsRoot) ? 0 : -1 ),
  	m_localBase( (fIsRoot) ? 0 : MAX_STRING_INDEX ),
  	m_localTop( -1 ),
@@ -193,7 +193,7 @@ int CAI_LocalIdSpace::GlobalToLocal( int globalID ) const
 		if ( pCurrentMap->IsLocalBaseSet() && globalID >= pCurrentMap->GetGlobalBase() && globalID <= pCurrentMap->GetGlobalTop()  )
 			return ( globalID - pCurrentMap->GetGlobalBase() + pCurrentMap->GetLocalBase() );
 		pCurrentMap = pCurrentMap->m_pParentIDSpace;
-	} while ( pCurrentMap != NULL );
+	} while ( pCurrentMap != nullptr);
 	
 	// AssertMsg( 0, ("Invalid ID passed to CAI_LocalIdSpace::GlobalToLocal()") );
 	return -1;
@@ -215,7 +215,7 @@ int CAI_LocalIdSpace::LocalToGlobal( int localID ) const
 		if ( pCurrentMap->IsLocalBaseSet() && localID >= pCurrentMap->GetLocalBase() && localID <= pCurrentMap->GetLocalTop() )
 			return ( localID + pCurrentMap->GetGlobalBase() - pCurrentMap->GetLocalBase() );
 		pCurrentMap = pCurrentMap->m_pParentIDSpace;
-	} while ( pCurrentMap != NULL );
+	} while ( pCurrentMap != nullptr);
 	
 	// AssertMsg( 0, ("Invalid ID passed to CAI_LocalIdSpace::LocalToGlobal()") );
 	return -1;

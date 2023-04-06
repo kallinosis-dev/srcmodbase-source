@@ -50,11 +50,11 @@ private:
 
 
 CHudVoiceSelfStatus::CHudVoiceSelfStatus( const char *pName ) :
-	vgui::Panel( NULL, "HudVoiceSelfStatus" ), CHudElement( pName )
+	vgui::Panel(nullptr, "HudVoiceSelfStatus" ), CHudElement( pName )
 {
 	SetParent( GetClientMode()->GetViewport() );
 
-	m_pVoiceIcon = NULL;
+	m_pVoiceIcon = nullptr;
 
 	SetHiddenBits( HIDEHUD_MISCSTATUS );
 
@@ -184,11 +184,11 @@ private:
 
 
 CHudVoiceStatus::CHudVoiceStatus( const char *pName ) :
-	vgui::Panel( NULL, "HudVoiceStatus" ), CHudElement( pName )
+	vgui::Panel(nullptr, "HudVoiceStatus" ), CHudElement( pName )
 {
 	SetParent( GetClientMode()->GetViewport() );
 
-	m_pVoiceIcon = NULL;
+	m_pVoiceIcon = nullptr;
 
 	SetHiddenBits( HIDEHUD_MISCSTATUS );
 
@@ -248,7 +248,7 @@ void CHudVoiceStatus::OnThink( void )
 				activeSpeaker.playerId = iPlayerIndex;
 				activeSpeaker.bSpeaking = true;
 				activeSpeaker.fAlpha = 0.0f;
-				activeSpeaker.pAvatar = NULL;
+				activeSpeaker.pAvatar = nullptr;
 
 				// [pfreese] If a player is now talking set up their avatar
 				activeSpeaker.pAvatar = new CAvatarImage();
@@ -262,7 +262,7 @@ void CHudVoiceStatus::OnThink( void )
 				player_info_t pi;
 				if ( engine->GetPlayerInfo( iPlayerIndex, &pi ) )
 				{
-					if ( steamapicontext != NULL && steamapicontext->SteamUtils() != NULL )
+					if ( steamapicontext != nullptr && steamapicontext->SteamUtils() != NULL )
 					{
 						CSteamID steamIDForPlayer( pi.friendsID, 1, steamapicontext->SteamUtils()->GetConnectedUniverse(), k_EAccountTypeIndividual );
 						activeSpeaker.pAvatar->SetAvatarSteamID( steamIDForPlayer, eAvatarSmall );

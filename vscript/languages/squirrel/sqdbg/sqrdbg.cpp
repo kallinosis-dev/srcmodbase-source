@@ -23,7 +23,7 @@ HSQREMOTEDBG sq_rdbg_init(HSQUIRRELVM v,unsigned short port,SQBool autoupdate)
 #ifdef _WIN32
 	WSADATA wsadata;
 	if (WSAStartup (MAKEWORD(1,1), &wsadata) != 0){
-		return NULL;
+		return nullptr;
 	}	
 #endif 
 	SQDbgServer *rdbg = new SQDbgServer(v);
@@ -35,12 +35,12 @@ HSQREMOTEDBG sq_rdbg_init(HSQUIRRELVM v,unsigned short port,SQBool autoupdate)
 	if(bind(rdbg->_accept,(sockaddr*)&bindaddr,sizeof(bindaddr))==SOCKET_ERROR){
 		delete rdbg;
 		sq_throwerror(v,_SC("failed to bind the socket"));
-		return NULL;
+		return nullptr;
 	}
 	if(!rdbg->Init()) {
 		delete rdbg;
 		sq_throwerror(v,_SC("failed to initialize the debugger"));
-		return NULL;
+		return nullptr;
 	}
 	
     return rdbg;
@@ -90,7 +90,7 @@ SQRESULT sq_rdbg_update(HSQREMOTEDBG rdbg)
 	fd_set read_flags;
     FD_ZERO(&read_flags);
 	FD_SET(rdbg->_endpoint, &read_flags);
-	select(NULL/*ignored*/, &read_flags, NULL, NULL, &time);
+	select(NULL/*ignored*/, &read_flags, nullptr, nullptr, &time);
 
 	if(FD_ISSET(rdbg->_endpoint,&read_flags)){
 		char temp[1024];
@@ -145,7 +145,7 @@ SQInteger debug_hook(HSQUIRRELVM v)
 SQInteger error_handler(HSQUIRRELVM v)
 {
 	SQUserPointer up;
-	const SQChar *sErr=NULL;
+	const SQChar *sErr= nullptr;
 	const SQChar *fn=_SC("unknown");
 	const SQChar *src=_SC("unknown");
 	int line=-1;

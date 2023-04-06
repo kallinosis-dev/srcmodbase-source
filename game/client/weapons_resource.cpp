@@ -24,7 +24,7 @@ static CHudTexture *FindHudTextureInDict( CUtlDict< CHudTexture *, int >& list, 
 {
 	int idx = list.Find( psz );
 	if ( idx == list.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	return list[ idx ];
 }
@@ -95,13 +95,13 @@ void WeaponsResource::LoadWeaponSprites( WEAPON_FILE_INFO_HANDLE hWeaponFileInfo
 
 	pWeaponInfo->bLoadedHudElements = true;
 
-	pWeaponInfo->iconActive = NULL;
-	pWeaponInfo->iconInactive = NULL;
-	pWeaponInfo->iconAmmo = NULL;
-	pWeaponInfo->iconAmmo2 = NULL;
-	pWeaponInfo->iconCrosshair = NULL;
-	pWeaponInfo->iconAutoaim = NULL;
-	pWeaponInfo->iconSmall = NULL;
+	pWeaponInfo->iconActive = nullptr;
+	pWeaponInfo->iconInactive = nullptr;
+	pWeaponInfo->iconAmmo = nullptr;
+	pWeaponInfo->iconAmmo2 = nullptr;
+	pWeaponInfo->iconCrosshair = nullptr;
+	pWeaponInfo->iconAutoaim = nullptr;
+	pWeaponInfo->iconSmall = nullptr;
 
 	char sz[128];
 	Q_snprintf(sz, sizeof( sz ), "scripts/%s", pWeaponInfo->szClassName);
@@ -240,7 +240,7 @@ CHudTexture *WeaponsResource::GetAmmoIconFromWeapon( int iAmmoId )
 {
 	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
 	if ( !player )
-		return NULL;
+		return nullptr;
 
 	for ( int i = 0; i < MAX_WEAPONS; i++ )
 	{
@@ -258,7 +258,7 @@ CHudTexture *WeaponsResource::GetAmmoIconFromWeapon( int iAmmoId )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -268,7 +268,7 @@ const FileWeaponInfo_t *WeaponsResource::GetWeaponFromAmmo( int iAmmoId )
 {
 	C_BasePlayer *player = C_BasePlayer::GetLocalPlayer();
 	if ( !player )
-		return NULL;
+		return nullptr;
 
 	for ( int i = 0; i < MAX_WEAPONS; i++ )
 	{
@@ -286,6 +286,6 @@ const FileWeaponInfo_t *WeaponsResource::GetWeaponFromAmmo( int iAmmoId )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 

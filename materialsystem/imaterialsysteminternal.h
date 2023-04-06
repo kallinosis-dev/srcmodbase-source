@@ -40,7 +40,7 @@ public:
 		m_Allocator.Init( (const char *)stackName, ( IsGameConsole() || IsPlatformPosix() ) ? 2*1024*1024 : 8*1024*1024, 64*1024, 256*1024, 4 );
 #endif
 		m_FunctorFactory.SetAllocator( &m_Allocator );
-		m_pHead = m_pTail = NULL;
+		m_pHead = m_pTail = nullptr;
 	}
 
 	size_t GetMemoryUsed()
@@ -124,7 +124,7 @@ public:
 		}
 #endif
 		m_Allocator.FreeAll( false );
-		m_pHead = m_pTail = NULL;
+		m_pHead = m_pTail = nullptr;
 	}
 
 	void QueueFunctor( CFunctor *pFunctor )
@@ -152,7 +152,7 @@ public:
 		}
 
 		m_Allocator.FreeAll( false );
-		m_pHead = m_pTail = NULL;
+		m_pHead = m_pTail = nullptr;
 	}
 
 	#define DEFINE_MATCALLQUEUE_NONMEMBER_QUEUE_CALL(N) \
@@ -207,7 +207,7 @@ private:
 		{
 			m_pHead = m_pTail = pNew;
 		}
-		pNew->pNext = NULL;
+		pNew->pNext = nullptr;
 	}
 
 	struct Elem_t

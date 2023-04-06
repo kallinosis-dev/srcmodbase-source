@@ -28,7 +28,7 @@ class CHistoryItem
 {
 public:
 	CHistoryItem( void );
-	CHistoryItem( const char *text, const char *extra = NULL );
+	CHistoryItem( const char *text, const char *extra = nullptr);
 	CHistoryItem( const CHistoryItem& src );
 	~CHistoryItem( void );
 

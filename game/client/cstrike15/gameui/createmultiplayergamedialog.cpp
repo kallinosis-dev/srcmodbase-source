@@ -45,7 +45,7 @@ CCreateMultiplayerGameDialog::CCreateMultiplayerGameDialog(vgui::Panel *parent) 
 
 	m_pServerPage = new CCreateMultiplayerGameServerPage(this, "ServerPage");
 	m_pGameplayPage = new CCreateMultiplayerGameGameplayPage(this, "GameplayPage");
-	m_pBotPage = NULL;
+	m_pBotPage = nullptr;
 
 	AddPage(m_pServerPage, "#GameUI_Server");
 	AddPage(m_pGameplayPage, "#GameUI_Game");
@@ -83,7 +83,7 @@ CCreateMultiplayerGameDialog::~CCreateMultiplayerGameDialog()
 	if (m_pSavedData)
 	{
 		m_pSavedData->deleteThis();
-		m_pSavedData = NULL;
+		m_pSavedData = nullptr;
 	}
 }
 

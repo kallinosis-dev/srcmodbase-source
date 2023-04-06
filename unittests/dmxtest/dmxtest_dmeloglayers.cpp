@@ -111,7 +111,7 @@ static void CreateChannels( int num, CUtlVector< CDmeChannel * >& channels, DmFi
 
 	for ( int i = 0; i < num; ++i )
 	{
-		CDmeChannel *channel = NULL;
+		CDmeChannel *channel = nullptr;
 
 		channel = CreateElement< CDmeChannel >( "channel1", fileid );
 		channels.AddToTail( channel );
@@ -246,7 +246,7 @@ static void RunLayerTest( char const *testname, CUtlVector< CDmeChannel * >& cha
 			Assert( pLog );
 			pLog->ClearKeys(); // reset it
 
-			CDmeCurveInfo *pCurveInfo = NULL;
+			CDmeCurveInfo *pCurveInfo = nullptr;
 			if ( params.usecurves )
 			{
 				pCurveInfo = pLog->GetOrCreateCurveInfo();
@@ -260,7 +260,7 @@ static void RunLayerTest( char const *testname, CUtlVector< CDmeChannel * >& cha
 				{
 					g_pDataModel->DestroyElement( pLog->GetCurveInfo()->GetHandle() );
 				}
-				pLog->SetCurveInfo( NULL );
+				pLog->SetCurveInfo(nullptr);
 			}
 
 			const TestLayer_t& tl = params.layers[ 0 ];
@@ -463,7 +463,7 @@ static void RunTimeSelectionTest( char const *testname, CUtlVector< CDmeChannel 
 			else if ( !params.usecurves && pCurveInfo )
 			{
 				g_pDataModel->DestroyElement( pCurveInfo->GetHandle() );
-				pLog->SetCurveInfo( NULL );
+				pLog->SetCurveInfo(nullptr);
 			}
 
 			const TestLayer_t& tl = params.layers[ 0 ];

@@ -65,8 +65,8 @@ void CLightingPreviewResultsWindow::Create(CWnd *pParentWnd )
 		// create class
 		LPreviewWndClassName = AfxRegisterWndClass(
 			CS_DBLCLKS | CS_HREDRAW | 
-			CS_VREDRAW, LoadCursor(NULL, IDC_ARROW), 
-			(HBRUSH) GetStockObject(BLACK_BRUSH), NULL);
+			CS_VREDRAW, LoadCursor(nullptr, IDC_ARROW), 
+			(HBRUSH) GetStockObject(BLACK_BRUSH), nullptr);
 	}
 
 	RECT rect;
@@ -75,7 +75,7 @@ void CLightingPreviewResultsWindow::Create(CWnd *pParentWnd )
 
 	CWnd::CreateEx(0,LPreviewWndClassName, "LightingPreviewWindow",
 				   WS_OVERLAPPEDWINDOW|WS_SIZEBOX,
-				   rect, NULL, NULL,NULL);
+				   rect, nullptr, NULL, nullptr);
 
 }
 //-----------------------------------------------------------------------------

@@ -37,7 +37,7 @@ BEGIN_VS_SHADER_FLAGS( IntroScreenSpaceEffect, "Help for IntroScreenSpaceEffect"
 	
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_DRAW
@@ -58,7 +58,7 @@ BEGIN_VS_SHADER_FLAGS( IntroScreenSpaceEffect, "Help for IntroScreenSpaceEffect"
 			// Only need the adapter if the shader expects sRGB values and we're forced to do an sRGB read by the API/Hardware
 			bool bNeedsSRGBAdapter = ( params[ENABLESRGB]->GetIntValue() == 0 ) && IsOSX() && !g_pHardwareConfig->FakeSRGBWrite() && g_pHardwareConfig->CanDoSRGBReadFromRTs();
 
-			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( screenspaceeffect_vs20 );
 			SET_STATIC_VERTEX_SHADER( screenspaceeffect_vs20 );

@@ -91,7 +91,7 @@ public:
 	virtual void *							QueryInterface( const char *pInterfaceName );
 	virtual InitReturnVal_t					Init();
 	virtual void							Shutdown();
-	virtual const AppSystemInfo_t *			GetDependencies( ) { return NULL; }
+	virtual const AppSystemInfo_t *			GetDependencies( ) { return nullptr; }
 	virtual AppSystemTier_t					GetTier() { return APP_SYSTEM_TIER2; }
 	virtual void Reconnect( CreateInterfaceFn factory, const char *pInterfaceName )	{ BaseClass::Reconnect( factory, pInterfaceName ); }
 
@@ -425,12 +425,12 @@ public:
 	void									UncacheUnusedMaterials( bool bRecomputeStateSnapshots );
 	void									CacheUsedMaterials();
 	void									ReloadTextures();
-	void									ReloadMaterials( const char *pSubString = NULL );
+	void									ReloadMaterials( const char *pSubString = nullptr);
 
 	// Create new materials
 	IMaterial *								CreateMaterial( const char *pMaterialName, KeyValues *pVMTKeyValues );
-	IMaterial *								FindMaterial( const char *materialName, const char *pTextureGroupName, bool complain = true, const char *pComplainPrefix = NULL );
-	virtual IMaterial *						FindProceduralMaterial( const char *pMaterialName, const char *pTextureGroupName, KeyValues *pVMTKeyValues = NULL );
+	IMaterial *								FindMaterial( const char *materialName, const char *pTextureGroupName, bool complain = true, const char *pComplainPrefix = nullptr);
+	virtual IMaterial *						FindProceduralMaterial( const char *pMaterialName, const char *pTextureGroupName, KeyValues *pVMTKeyValues = nullptr);
 	const char *							GetForcedTextureLoadPathID() { return m_pForcedTextureLoadPathID; }
 
 	bool									LoadKeyValuesFromVMTFile( KeyValues &vmtKeyValues, const char *pMaterialName, bool bUsesUNCFilename  );

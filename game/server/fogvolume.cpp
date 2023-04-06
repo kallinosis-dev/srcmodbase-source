@@ -36,7 +36,7 @@ END_DATADESC()
 //--------------------------------------------------------------------------------------------------------
 CFogVolume *CFogVolume::FindFogVolumeForPosition( const Vector &position )
 {
-	CFogVolume *fogVolume = NULL;
+	CFogVolume *fogVolume = nullptr;
 	for ( int i=0; i<TheFogVolumes.Count(); ++i )
 	{
 		fogVolume = TheFogVolumes[i];
@@ -47,7 +47,7 @@ CFogVolume *CFogVolume::FindFogVolumeForPosition( const Vector &position )
 		{
 			break;
 		}
-		fogVolume = NULL;
+		fogVolume = nullptr;
 	}
 
 	// This doesn't work well if there are multiple players or multiple fog volume queries per frame; might want to relocate this if that's the case
@@ -142,9 +142,9 @@ void CFogVolume::Activate()
 {
 	BaseClass::Activate();
 
-	m_hFogController = dynamic_cast< CFogController* >( gEntList.FindEntityByName( NULL, m_fogName ) );
-	m_hPostProcessController = dynamic_cast< CPostProcessController* >( gEntList.FindEntityByName( NULL, m_postProcessName ) );
-	m_hColorCorrectionController = dynamic_cast< CColorCorrection* >( gEntList.FindEntityByName( NULL, m_colorCorrectionName ) );
+	m_hFogController = dynamic_cast< CFogController* >( gEntList.FindEntityByName(nullptr, m_fogName ) );
+	m_hPostProcessController = dynamic_cast< CPostProcessController* >( gEntList.FindEntityByName(nullptr, m_postProcessName ) );
+	m_hColorCorrectionController = dynamic_cast< CColorCorrection* >( gEntList.FindEntityByName(nullptr, m_colorCorrectionName ) );
 
 	if ( !m_bDisabled )
 	{

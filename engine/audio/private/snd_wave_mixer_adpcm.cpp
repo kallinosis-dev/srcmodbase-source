@@ -51,7 +51,7 @@ private:
 
 CAudioMixerWaveADPCM::CAudioMixerWaveADPCM( IWaveData *data ) : CAudioMixerWave( data ) 
 {
-	m_pSamples = NULL;
+	m_pSamples = nullptr;
 	m_sampleCount = 0;
 	m_samplePosition = 0;
 	m_offset = 0;
@@ -59,7 +59,7 @@ CAudioMixerWaveADPCM::CAudioMixerWaveADPCM( IWaveData *data ) : CAudioMixerWave(
 	CAudioSourceWave &source = reinterpret_cast<CAudioSourceWave &>(m_pData->Source());
 
 #ifdef _DEBUG
-	CAudioSource *pSource = NULL;
+	CAudioSource *pSource = nullptr;
 	pSource = &m_pData->Source();
 	Assert( dynamic_cast<CAudioSourceWave *>(pSource) != NULL );
 #endif
@@ -347,7 +347,7 @@ bool CAudioMixerWaveADPCM::DecodeBlock( void )
 	}
 
 	// get requested data
-	int available = m_pData->ReadSourceData( (void **)(&pData), m_offset, blockSize, NULL );
+	int available = m_pData->ReadSourceData( (void **)(&pData), m_offset, blockSize, nullptr);
 	if ( available < blockSize )
 	{
 		// pump to get all of requested data
@@ -356,7 +356,7 @@ bool CAudioMixerWaveADPCM::DecodeBlock( void )
 		{
 			memcpy( tmpBlock + total, pData, available );
 			total += available;
-			available = m_pData->ReadSourceData( (void **)(&pData), m_offset + total, blockSize - total, NULL );
+			available = m_pData->ReadSourceData( (void **)(&pData), m_offset + total, blockSize - total, nullptr);
 		}
 		pData     = tmpBlock;
 		available = total;

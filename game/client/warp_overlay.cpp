@@ -59,7 +59,7 @@ void CWarpOverlay::Draw( bool bCacheFullSceneState )
 
 		// Draw the sprite.
 		IMaterial *pMaterial = materials->FindMaterial( "sun/overlay", TEXTURE_GROUP_CLIENT_EFFECTS );
-		IMesh *pMesh = pRenderContext->GetDynamicMesh( false, 0, 0, pMaterial );
+		IMesh *pMesh = pRenderContext->GetDynamicMesh( false, nullptr, nullptr, pMaterial );
 
 		CMeshBuilder builder;
 		builder.Begin( pMesh, MATERIAL_QUADS, 1 );

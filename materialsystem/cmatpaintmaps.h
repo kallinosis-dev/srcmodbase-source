@@ -60,7 +60,7 @@ public:
 private:
 	void InitPaintmapBits( int paintmap );
 	bool LockPaintmap( int paintmap );
-	void FillRect( int paintmap, Rect_t* RESTRICT pRect, BYTE* RESTRICT pPaintData, Rect_t* RESTRICT pSubRect = NULL ) RESTRICT;
+	void FillRect( int paintmap, Rect_t* RESTRICT pRect, BYTE* RESTRICT pPaintData, Rect_t* RESTRICT pSubRect = nullptr) RESTRICT;
 	void AllocatePaintmapTexture( int paintmap, int iWidth, int iHeight );
 
 	CPixelWriter m_PaintmapPixelWriter;

@@ -42,7 +42,7 @@ IMPLEMENT_MAPCLASS( CManifestInstance )
 //-----------------------------------------------------------------------------
 CManifestMap::CManifestMap( void )
 {
-	m_Map = NULL;
+	m_Map = nullptr;
 	m_RelativeMapFileName = "";
 	m_AbsoluteMapFileName = "";
 	m_FriendlyName = "unnamed";
@@ -54,7 +54,7 @@ CManifestMap::CManifestMap( void )
 	m_bCheckedOut = false;
 	m_bDefaultCheckin = false;
 	m_bVisible = true;
-	m_Entity = NULL;
+	m_Entity = nullptr;
 	m_InternalID = 0;
 }
 
@@ -74,7 +74,7 @@ bool CManifestMap::IsEditable( void )
 CManifestInstance::CManifestInstance( void ) :
 	CMapEntity()
 {
-	m_pManifestMap = NULL;
+	m_pManifestMap = nullptr;
 }
 
 
@@ -106,8 +106,8 @@ CManifest::CManifest( void ) :
 	m_bIsValid = false;
 	m_bRelocateSave = false;
 	m_ManifestDir[ 0 ] = 0;
-	m_pPrimaryMap = NULL;
-	m_ManifestWorld = NULL;
+	m_pPrimaryMap = nullptr;
+	m_ManifestWorld = nullptr;
 	m_NextInternalID = 1;
 	m_bManifestChanged = false;
 	m_bManifestUserPrefsChanged = false;
@@ -185,7 +185,7 @@ ChunkFileResult_t CManifest::LoadKeyCallback( const char *szKey, const char *szV
 		if ( !pManifestMap->m_Map->LoadVMF( pManifestMap->m_AbsoluteMapFileName, VMF_LOAD_ACTIVATE | VMF_LOAD_IS_SUBMAP ) )
 		{
 			delete pManifestMap->m_Map;
-			pManifestMap->m_Map = NULL;
+			pManifestMap->m_Map = nullptr;
 		}
 		pManifestMap->m_bReadOnly = true;
 	}
@@ -304,7 +304,7 @@ ChunkFileResult_t CManifest::LoadManifestVMFPrefsCallback( CChunkFile *pFile, CM
 	TManifestLoadPrefs	ManifestLoadPrefs;
 	
 	ManifestLoadPrefs.pDoc = pDoc;
-	ManifestLoadPrefs.pManifestMap = NULL;
+	ManifestLoadPrefs.pManifestMap = nullptr;
 
 	ChunkFileResult_t eResult = pFile->ReadChunk( ( KeyHandler_t )LoadKeyPrefsCallback, &ManifestLoadPrefs );
 
@@ -433,7 +433,7 @@ bool CManifest::LoadVMFManifest( const char *pszFileName )
 			bSetIDs = true;
 		}
 
-		if ( pManifestMap->m_Map == NULL || pManifestMap->m_Map->GetMapWorld() == NULL )
+		if ( pManifestMap->m_Map == nullptr || pManifestMap->m_Map->GetMapWorld() == nullptr)
 		{
 			pManifestMap->m_bPrimaryMap = false;
 			RemoveSubMap( pManifestMap );
@@ -654,7 +654,7 @@ bool CManifest::SaveVMFManifest( const char *pszFileName )
 	}
 
 	V_StripExtension( pszFileName, m_ManifestDir, sizeof( m_ManifestDir ) );
-	CreateDirectory( m_ManifestDir, NULL );
+	CreateDirectory( m_ManifestDir, nullptr);
 	strcat( m_ManifestDir, "\\" );
 
 	if ( bSaved )
@@ -777,7 +777,7 @@ bool CManifest::SaveVMFManifestUserPrefs( const char *pszFileName )
 		}
 
 		eResult = File.BeginChunk( "cordoning" );
-		eResult = Cordon_SaveVMF( &File, NULL );
+		eResult = Cordon_SaveVMF( &File, nullptr);
 
 		if ( m_bIsCordoning )
 		{
@@ -903,7 +903,7 @@ CManifestMap *CManifest::FindMap( CMapDoc *pMap )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -924,7 +924,7 @@ CManifestMap *CManifest::FindMapByID( int InternalID )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1017,7 +1017,7 @@ CManifestMap *CManifest::CreateNewMap( const char *AbsoluteFileName, const char 
 	HI.SetName( "instance" );
 
 	CMapClass *pHelper = CHelperFactory::CreateHelper( &HI, pManifestMap->m_Entity );
-	if ( pHelper != NULL )
+	if ( pHelper != nullptr)
 	{
 		pManifestMap->m_Entity->AddHelper( pHelper, false );
 	}
@@ -1028,7 +1028,7 @@ CManifestMap *CManifest::CreateNewMap( const char *AbsoluteFileName, const char 
 		m_NextInternalID++;
 	}
 
-	CMapInstance	*pMapInstance = pManifestMap->m_Entity->GetChildOfType( ( CMapInstance * )NULL );
+	CMapInstance	*pMapInstance = pManifestMap->m_Entity->GetChildOfType( ( CMapInstance * )nullptr);
 	if ( pMapInstance )
 	{
 		pMapInstance->SetManifest( pManifestMap );
@@ -1069,7 +1069,7 @@ void CManifest::MoveSelectionToSubmap( CManifestMap *pManifestMap, bool CenterCo
 	}
 	pDoc->Delete();
 
-	pManifestMap->m_Map->ManifestPaste( pManifestMap->m_Map->GetMapWorld(), Vector( 0.0f, 0.0f, 0.0f ), QAngle( 0.0f, 0.0f, 0.0f ), NULL, false, NULL );
+	pManifestMap->m_Map->ManifestPaste( pManifestMap->m_Map->GetMapWorld(), Vector( 0.0f, 0.0f, 0.0f ), QAngle( 0.0f, 0.0f, 0.0f ), nullptr, false, nullptr);
 	pManifestMap->m_Entity->CalcBounds( TRUE );
 	
 	UpdateAllViews( MAPVIEW_UPDATE_SELECTION | MAPVIEW_UPDATE_TOOL | MAPVIEW_RENDER_NOW );
@@ -1098,13 +1098,13 @@ CManifestMap *CManifest::MoveSelectionToNewSubmap( CString &FriendlyName, CStrin
 
 	if ( !pDoc )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	pDoc->Copy();
 	if ( pDoc->GetClipboardCount() == 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 	
 	char AbsoluteFileName[ MAX_PATH ];
@@ -1121,10 +1121,10 @@ CManifestMap *CManifest::MoveSelectionToNewSubmap( CString &FriendlyName, CStrin
 		m_bLoading = false;
 		SetActiveMapDoc( this );
 		delete pManifestMap;
-		return NULL;
+		return nullptr;
 	}
 	pDoc->Delete();
-	pManifestMap->m_Map->ManifestPaste( pManifestMap->m_Map->GetMapWorld(), Vector( 0.0f, 0.0f, 0.0f ), QAngle( 0.0f, 0.0f, 0.0f ), NULL, false, NULL );
+	pManifestMap->m_Map->ManifestPaste( pManifestMap->m_Map->GetMapWorld(), Vector( 0.0f, 0.0f, 0.0f ), QAngle( 0.0f, 0.0f, 0.0f ), nullptr, false, nullptr);
 	pManifestMap->m_Entity->CalcBounds( TRUE );
 	SetPrimaryMap( pManifestMap );
 
@@ -1165,7 +1165,7 @@ CManifestMap *CManifest::AddNewSubmap( CString &FriendlyName, CString &FileName 
 		m_bLoading = false;
 		SetActiveMapDoc( this );
 		delete pManifestMap;
-		return NULL;
+		return nullptr;
 	}
 
 	SetPrimaryMap( pManifestMap );
@@ -1191,7 +1191,7 @@ bool CManifest::AddExistingMap( const char *pszFileName, bool bFromInstance )
 
 	char FileExt[ MAX_PATH ];
 
-	_splitpath_s( pszFileName, NULL, 0, NULL, 0, RelativeFileName, sizeof( RelativeFileName ), FileExt, sizeof( FileExt ) );
+	_splitpath_s( pszFileName, nullptr, 0, nullptr, 0, RelativeFileName, sizeof( RelativeFileName ), FileExt, sizeof( FileExt ) );
 	strcat( RelativeFileName, FileExt );
 
 	strcpy( AbsoluteFileName, m_ManifestDir );
@@ -1262,7 +1262,7 @@ bool CManifest::AddExistingMap( void )
 		strcpy( szInitialDir, g_pGameConfig->szMapDir );
 	}
 
-	CFileDialog dlg( TRUE, NULL, NULL, OFN_LONGNAMES | OFN_HIDEREADONLY | OFN_NOCHANGEDIR, "Valve Map Files (*.vmf)|*.vmf||" );
+	CFileDialog dlg( TRUE, nullptr, nullptr, OFN_LONGNAMES | OFN_HIDEREADONLY | OFN_NOCHANGEDIR, "Valve Map Files (*.vmf)|*.vmf||" );
 	dlg.m_ofn.lpstrInitialDir = szInitialDir;
 	int iRvl = dlg.DoModal();
 
@@ -1314,7 +1314,7 @@ bool CManifest::RemoveSubMap( CManifestMap *pManifestMap )
 
 			if ( pEntity && stricmp( pEntity->GetClassName(), "func_instance" ) == 0 )
 			{
-				CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
+				CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )nullptr);
 				if ( pMapInstance )
 				{
 					if ( pMapInstance->GetManifestMap() == pManifestMap )
@@ -1393,7 +1393,7 @@ void CManifest::CheckFileStatus( void )
 	m_bReadOnly = !g_pFullFileSystem->IsFileWritable( GetPathName() );
 	m_bCheckedOut = false;
 	m_bIsVersionControlled = false;
-	if ( p4 != NULL && p4->GetFileInfo( GetPathName(), &FileInfo ) == true )
+	if ( p4 != nullptr && p4->GetFileInfo( GetPathName(), &FileInfo ) == true )
 	{
 		m_bIsVersionControlled = true;
 		if ( FileInfo.m_eOpenState == P4FILE_OPENED_FOR_ADD || FileInfo.m_eOpenState == P4FILE_OPENED_FOR_EDIT )
@@ -1410,7 +1410,7 @@ void CManifest::CheckFileStatus( void )
 		pManifestMap->m_bCheckedOut = false;
 		pManifestMap->m_bIsVersionControlled = false;
 
-		if ( p4 != NULL && p4->GetFileInfo( pManifestMap->m_AbsoluteMapFileName, &FileInfo ) == true )
+		if ( p4 != nullptr && p4->GetFileInfo( pManifestMap->m_AbsoluteMapFileName, &FileInfo ) == true )
 		{
 			pManifestMap->m_bIsVersionControlled = true;
 			if ( FileInfo.m_eOpenState == P4FILE_OPENED_FOR_ADD || FileInfo.m_eOpenState == P4FILE_OPENED_FOR_EDIT )
@@ -1427,8 +1427,8 @@ void CManifest::CheckFileStatus( void )
 //-----------------------------------------------------------------------------
 void CManifest::ClearSelection( void )
 {
-	SelectFace( NULL, 0, scClear | scSaveChanges );
-	SelectObject( NULL, scClear | scSaveChanges );
+	SelectFace(nullptr, 0, scClear | scSaveChanges );
+	SelectObject(nullptr, scClear | scSaveChanges );
 }
 
 
@@ -1459,7 +1459,7 @@ void CManifest::UpdateInstanceMap( CMapDoc *pInstanceMapDoc )
 
 		if ( pEntity && stricmp( pEntity->GetClassName(), "func_instance" ) == 0 )
 		{
-			CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )NULL );
+			CMapInstance	*pMapInstance = pEntity->GetChildOfType( ( CMapInstance * )nullptr);
 			if ( pMapInstance )
 			{
 				if ( pMapInstance->GetInstancedMap() == pInstanceMapDoc )
@@ -1579,12 +1579,12 @@ void CManifest::DeleteContents( void )
 	if ( m_ManifestWorld )
 	{
 		delete m_ManifestWorld;
-		m_ManifestWorld = NULL;
+		m_ManifestWorld = nullptr;
 	}
 
-	m_pWorld = NULL;
-	m_VisGroups = NULL;
-	m_RootVisGroups = NULL;
+	m_pWorld = nullptr;
+	m_VisGroups = nullptr;
+	m_RootVisGroups = nullptr;
 	m_pUndo = m_pSaveUndo;
 	m_pRedo = m_pSaveRedo;
 

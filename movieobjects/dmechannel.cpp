@@ -37,7 +37,7 @@ void DestroyPasteData( CUtlVector< KeyValues * > &list );
 // Default constructor
 //-----------------------------------------------------------------------------
 CRecordingLayer::CRecordingLayer() 
-	: m_pPresetValuesDict( 0 )
+	: m_pPresetValuesDict( nullptr )
 	, m_tHeadShotTime( DMETIME_INVALID )
 	, m_ProceduralType( 0 )
 	, m_OperationFlags( 0 )
@@ -45,9 +45,9 @@ CRecordingLayer::CRecordingLayer()
 	, m_flThreshold( 0 ) 
 	, m_flIntensity( 0 )
 	, m_RecordingMode( RECORD_PRESET )
-	, m_pUndoOperation( NULL )
-	, m_pfnAddChannelCallback( NULL )
-    , m_pfnFinishChannelCallback( NULL )
+	, m_pUndoOperation(nullptr)
+	, m_pfnAddChannelCallback(nullptr)
+    , m_pfnFinishChannelCallback(nullptr)
 {
 
 }
@@ -127,11 +127,11 @@ int CDmeChannelModificationLayer::AddChannel( CDmeChannel *pChannel, bool enable
 {
 	// Make sure the channel is valid and that is has a valid log.
 	Assert( pChannel );
-	if ( pChannel == NULL )
+	if ( pChannel == nullptr)
 		return -1;
 
 	CDmeLog* pLog = pChannel->GetLog();
-	if ( pLog == NULL )
+	if ( pLog == nullptr)
 		return -1; 
 	
 	// Check to see if the channel is already in the modification layer,
@@ -147,7 +147,7 @@ int CDmeChannelModificationLayer::AddChannel( CDmeChannel *pChannel, bool enable
 			return iChannel;
 		}
 
-		if ( ( availableSlot < 0 ) && ( m_ActiveChannels[ iChannel ].m_Channel.Get() == NULL ) )
+		if ( ( availableSlot < 0 ) && ( m_ActiveChannels[ iChannel ].m_Channel.Get() == nullptr) )
 		{
 			Assert( m_ActiveChannels[ iChannel ].m_RefCount == 0 );
 			availableSlot = iChannel;
@@ -305,7 +305,7 @@ void CDmeChannelModificationLayer::RemoveLastRecordingLayer()
 			if ( m_ActiveChannels[ index ].m_RefCount < 1 )
 			{
 				Assert( m_ActiveChannels[ index ].m_RefCount == 0 );
-				m_ActiveChannels[ index ].m_Channel = NULL;
+				m_ActiveChannels[ index ].m_Channel = nullptr;
 			}
 		}
 	}	
@@ -331,7 +331,7 @@ void CDmeChannelModificationLayer::WipeChannelModifications()
 		{
 			// Get the log from the channel
 			CDmeLog *pLog = pChannel->GetLog();
-			if ( pLog == NULL )
+			if ( pLog == nullptr)
 				continue;
 				
 			// Get the number of layers, it must be at least two,
@@ -421,12 +421,12 @@ public:
 	CUndoAddRecordingLayer( const char *pUndoDesc, CDmeChannelRecordingMgr* pRecordingMgr ) 
 		: CUndoElement( pUndoDesc )
 		, m_pRecordingMgr( pRecordingMgr )
-		, m_pPresetValuesDict( NULL )
+		, m_pPresetValuesDict(nullptr)
 		, m_tHeadShotTime( NULL )
 		, m_ProceduralType( PROCEDURAL_PRESET_NOT )
 		, m_OperationFlags( 0 )
-		, m_pfnAddChannelCallback( NULL )
-		, m_pfnFinishChannelCallback( NULL )
+		, m_pfnAddChannelCallback(nullptr)
+		, m_pfnFinishChannelCallback(nullptr)
 	{
 		Assert( m_pRecordingMgr );
 		m_TimeSelection = m_pRecordingMgr->GetTimeSelection();
@@ -723,7 +723,7 @@ public:
 		for ( int iLayer = 0; iLayer < nLayers; ++iLayer )
 		{
 			delete m_RecordingLayers[ iLayer ];
-			m_RecordingLayers[ iLayer ] = NULL;
+			m_RecordingLayers[ iLayer ] = nullptr;
 		}
 	}
 
@@ -867,11 +867,11 @@ CDmeChannelRecordingMgr::CDmeChannelRecordingMgr()
 	m_bModificationLayerEnabled = true;
 	m_bInRedo = false;
 
-	m_pActiveRecordingLayer = NULL;
-	m_pModificationLayer = NULL;
+	m_pActiveRecordingLayer = nullptr;
+	m_pModificationLayer = nullptr;
 
 	m_nProceduralType = PROCEDURAL_PRESET_NOT;
-	m_pRevealTarget = NULL;
+	m_pRevealTarget = nullptr;
 	m_RandomSeed = 0;
 	m_TransformWriteMode = TRANSFORM_WRITE_MODE_TRANSFORM;
 }
@@ -963,7 +963,7 @@ void CDmeChannelRecordingMgr::FinishLayerRecording( float flThreshhold, bool bFl
 		// If the recording layer is a paste operation that is part of a modification layer it will need store the paste
 		// data so that the operation can be correctly executed even if the contents of the clipboard have been changed.
 		bool pasteOperation = ( m_pActiveRecordingLayer->m_ProceduralType == PROCEDURAL_PRESET_PASTE  );
-		if ( pasteOperation && ( m_pModificationLayer != NULL ) )
+		if ( pasteOperation && ( m_pModificationLayer != nullptr) )
 		{	
 			if ( m_pActiveRecordingLayer->m_ClipboardData.Count() == 0)
 			{
@@ -982,7 +982,7 @@ void CDmeChannelRecordingMgr::FinishLayerRecording( float flThreshhold, bool bFl
 			{
 				LayerChannelInfo_t &channelInfo = m_pActiveRecordingLayer->m_LayerChannels[ i ];
 
-				if ( channelInfo.m_hRawDataLayer.Get() == NULL )
+				if ( channelInfo.m_hRawDataLayer.Get() == nullptr)
 				{
 					CDmeChannel *pChannel = channelInfo.m_Channel.Get();
 					if ( !pChannel )
@@ -1022,7 +1022,7 @@ void CDmeChannelRecordingMgr::FinishLayerRecording( float flThreshhold, bool bFl
 		}
 				
 		// If there is no modification layer then the recording layer was allocated and should be destroyed.
-		if ( m_pModificationLayer == NULL )
+		if ( m_pModificationLayer == nullptr)
 		{
 			if ( !m_bInRedo )
 			{
@@ -1038,9 +1038,9 @@ void CDmeChannelRecordingMgr::FinishLayerRecording( float flThreshhold, bool bFl
 
 	}
 
-	m_pActiveRecordingLayer = NULL;
+	m_pActiveRecordingLayer = nullptr;
 	m_nProceduralType = PROCEDURAL_PRESET_NOT;
-	m_pRevealTarget = NULL;
+	m_pRevealTarget = nullptr;
 	m_PasteTarget.RemoveAll();
 
 	
@@ -1068,7 +1068,7 @@ void CDmeChannelRecordingMgr::CancelLayerRecording()
 
 		if ( m_bSavedUndoState )
 		{
-			m_pActiveRecordingLayer = NULL;
+			m_pActiveRecordingLayer = nullptr;
 			g_pDataModel->SetUndoEnabled( m_bSavedUndoState );
 			g_pDataModel->AbortUndoableOperation();
 		}
@@ -1076,7 +1076,7 @@ void CDmeChannelRecordingMgr::CancelLayerRecording()
 		{
 			if ( m_pModificationLayer )
 			{	
-				m_pActiveRecordingLayer = NULL;
+				m_pActiveRecordingLayer = nullptr;
 
 				CDisableUndoScopeGuard undosg;
 
@@ -1094,12 +1094,12 @@ void CDmeChannelRecordingMgr::CancelLayerRecording()
 			else
 			{
 				delete m_pActiveRecordingLayer;
-				m_pActiveRecordingLayer = NULL;	
+				m_pActiveRecordingLayer = nullptr;	
 			}
 		}
 		
 		m_nProceduralType = PROCEDURAL_PRESET_NOT;
-		m_pRevealTarget = NULL;
+		m_pRevealTarget = nullptr;
 		m_PasteTarget.RemoveAll();
 	}
 }
@@ -1119,7 +1119,7 @@ void CDmeChannelRecordingMgr::CancelLayerRecording()
 void CDmeChannelRecordingMgr::StartModificationLayer( const DmeLog_TimeSelection_t *pTimeSelection, bool createLayer /*= true*/ )
 {
 	//  If the modification layer has already been started just update the time parameters.
-	if ( m_pModificationLayer != NULL )
+	if ( m_pModificationLayer != nullptr)
 	{
 		if ( pTimeSelection )
 		{
@@ -1166,7 +1166,7 @@ void CDmeChannelRecordingMgr::FinishModificationLayer( bool bSaveChanges, bool b
 	// recording layer. FinishLayerRecording() should be called first.
 	Assert( m_pActiveRecordingLayer == NULL );
 
-	if ( m_pActiveRecordingLayer != NULL )
+	if ( m_pActiveRecordingLayer != nullptr)
 	{
 		return;
 	}
@@ -1207,7 +1207,7 @@ void CDmeChannelRecordingMgr::FinishModificationLayer( bool bSaveChanges, bool b
 			m_pModificationLayer->Finish( bSaveChanges, bFlattenLayers, !m_bInRedo );
 
 			delete m_pModificationLayer;
-			m_pModificationLayer = NULL;
+			m_pModificationLayer = nullptr;
 		}
 
 		// Complete the undo operation for the modification layer
@@ -1290,7 +1290,7 @@ const DmeLog_TimeSelection_t &CDmeChannelRecordingMgr::GetTimeSelection() const
 void CDmeChannelRecordingMgr::SetTimeSelection( const DmeLog_TimeSelection_t &newTS, bool bUpdateBaseTimes )
 {
 	// Can only set the time selection with the modification layer active but without any active recording layers.
-	if ( ( m_pModificationLayer == NULL ) || ( m_pActiveRecordingLayer != NULL ) )
+	if ( ( m_pModificationLayer == nullptr) || ( m_pActiveRecordingLayer != nullptr) )
 	{
 		Assert( m_pModificationLayer != NULL );
 		Assert( m_pActiveRecordingLayer == NULL );
@@ -1423,13 +1423,13 @@ CRecordingLayer *CDmeChannelRecordingMgr::ProcessModificationLayer( int &recordi
 {
 	// Do nothing if the modification layer does not require an update.
 	if ( !m_bModificationLayerDirty )
-		return NULL;
+		return nullptr;
 
 	// Obviously the modification layer must exist in order to process it.
-	if ( m_pModificationLayer == NULL )
+	if ( m_pModificationLayer == nullptr)
 	{
 		Assert( m_pModificationLayer );
-		return NULL;
+		return nullptr;
 	}
 
 	// If all of the recording layers have been processed clear the dirty
@@ -1447,7 +1447,7 @@ CRecordingLayer *CDmeChannelRecordingMgr::ProcessModificationLayer( int &recordi
 			FinishModificationLayer( m_bFinishFlattenLayers );
 		}
 
-		return NULL;
+		return nullptr;
 	}
 
 
@@ -1504,9 +1504,9 @@ void CDmeChannelRecordingMgr::CompleteModificationProcessing()
 
 	// Reset the active recording layer to NULL since the recording
 	// layer being applied is not actually being recorded.
-	m_pActiveRecordingLayer = NULL;
+	m_pActiveRecordingLayer = nullptr;
 	m_nProceduralType = PROCEDURAL_PRESET_NOT;
-	m_pRevealTarget = NULL;
+	m_pRevealTarget = nullptr;
 	m_PasteTarget.RemoveAll();
 }
 
@@ -1521,7 +1521,7 @@ bool CDmeChannelRecordingMgr::ApplyRecordingLayer( CRecordingLayer &recordingLay
 {
 	// An existing recording layer cannot be applied to the the modification
 	// layer while there is currently an active recording layer.
-	if ( m_pActiveRecordingLayer != NULL )
+	if ( m_pActiveRecordingLayer != nullptr)
 	{
 		Assert( m_pActiveRecordingLayer == NULL );
 		return false;
@@ -1557,7 +1557,7 @@ bool CDmeChannelRecordingMgr::ApplyRecordingLayer( CRecordingLayer &recordingLay
 		// Add the new layer to the log and assign the channel
 		// its location within the current recoding layer.
 		CDmeLogLayer* pNewLayer = pLog->AddNewLayer();
-		if ( pNewLayer == NULL )
+		if ( pNewLayer == nullptr)
 			continue;
 		
 		pNewLayer->SetInfinite( m_TimeSelection.m_bInfinite[ 0 ], m_TimeSelection.m_bInfinite[ 1 ] );
@@ -1712,7 +1712,7 @@ void CDmeChannelRecordingMgr::StoreChannelAttributeData( int nChannelIndex, bool
 int CDmeChannelRecordingMgr::AddChannelToRecordingLayer( CDmeChannel *pChannel, LogComponents_t componentFlags, CDmeClip *pRoot, CDmeClip *pShot )
 {
 	Assert( pChannel );
-	if ( pChannel == NULL )
+	if ( pChannel == nullptr)
 		return -1;
 
 	// The channel must not already be in an active recording layer.
@@ -1720,7 +1720,7 @@ int CDmeChannelRecordingMgr::AddChannelToRecordingLayer( CDmeChannel *pChannel, 
 
 	// There must be an active recording layer before channels may be added.
 	Assert( m_pActiveRecordingLayer );
-	if ( m_pActiveRecordingLayer == NULL ) 
+	if ( m_pActiveRecordingLayer == nullptr) 
 		return -1;
 
 	CDmeLog *pLog = pChannel->GetLog();
@@ -1808,7 +1808,7 @@ int CDmeChannelRecordingMgr::AddChannelToRecordingLayer( CDmeChannel *pChannel, 
 //-----------------------------------------------------------------------------
 void CDmeChannelRecordingMgr::CopyClipboardDataForRecordingLayer( const CUtlVector< KeyValues * > &keyValuesList )
 {
-	if ( m_pActiveRecordingLayer == NULL )
+	if ( m_pActiveRecordingLayer == nullptr)
 		return;
 	
 	// Destroy any existing clipboard data
@@ -1827,7 +1827,7 @@ void CDmeChannelRecordingMgr::CopyClipboardDataForRecordingLayer( const CUtlVect
 void CDmeChannelRecordingMgr::RemoveAllChannelsFromRecordingLayer( CRecordingLayer *pRecordingLayer, bool destroyLogLayers )
 {
 	Assert( pRecordingLayer );
-	if ( pRecordingLayer == NULL )
+	if ( pRecordingLayer == nullptr)
 		return;
 
 	int c = pRecordingLayer->m_LayerChannels.Count();
@@ -1866,7 +1866,7 @@ void CDmeChannelRecordingMgr::RemoveAllChannelsFromRecordingLayer( CRecordingLay
 void CDmeChannelRecordingMgr::FlattenLayers( CRecordingLayer *pRecordingLayer )
 {
 	Assert( pRecordingLayer );
-	if ( pRecordingLayer == NULL )
+	if ( pRecordingLayer == nullptr)
 		return;
 
 	int nFlags = 0;
@@ -1902,10 +1902,10 @@ void CDmeChannelRecordingMgr::FlattenLayers( CRecordingLayer *pRecordingLayer )
 //-----------------------------------------------------------------------------
 void CDmeChannelRecordingMgr::RunFinishCallbacksOnRecordingLayer( CRecordingLayer *pRecordingLayer )
 {
-	if ( pRecordingLayer == NULL )
+	if ( pRecordingLayer == nullptr)
 		return;
 
-	if ( pRecordingLayer->m_pfnFinishChannelCallback == NULL )
+	if ( pRecordingLayer->m_pfnFinishChannelCallback == nullptr)
 		return;
 
 	int nNumChannels = pRecordingLayer->m_LayerChannels.Count();
@@ -1913,7 +1913,7 @@ void CDmeChannelRecordingMgr::RunFinishCallbacksOnRecordingLayer( CRecordingLaye
 	{
 		LayerChannelInfo_t &channelInfo = pRecordingLayer->m_LayerChannels[ iChannel ];
 		CDmeChannel *pChannel = channelInfo.m_Channel.Get();
-		if ( pChannel == NULL )
+		if ( pChannel == nullptr)
 			continue;
 		
 		pRecordingLayer->m_pfnFinishChannelCallback( pChannel );
@@ -1945,7 +1945,7 @@ CDmeChannel* CDmeChannelRecordingMgr::GetLayerRecordingChannel( int nIndex )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1962,7 +1962,7 @@ void CDmeChannelRecordingMgr::GetLocalTimeSelection( DmeLog_TimeSelection_t& sel
 		LayerChannelInfo_t& info = m_pActiveRecordingLayer->m_LayerChannels[nIndex];
 		CDmeChannel *pChannel = info.m_Channel.Get();
 		Assert( pChannel );
-		if ( pChannel == NULL )
+		if ( pChannel == nullptr)
 			return;
 		
 
@@ -2118,7 +2118,7 @@ void CDmeChannelRecordingMgr::SetRecordingMode( RecordingMode_t mode )
 void CDmeChannelRecordingMgr::SetPresetValue( CDmeChannel* pChannel, const CDmAttribute *pPresetValue, const CDmAttribute *pPresetTimes )
 {
 	Assert( m_pActiveRecordingLayer );
-	if ( m_pActiveRecordingLayer == NULL )
+	if ( m_pActiveRecordingLayer == nullptr)
 		return; 
 
 	Assert( pChannel->GetRecordLayerIndex() != -1 );
@@ -2159,12 +2159,12 @@ bool CDmeChannelRecordingMgr::IsUsingTimeSelection() const
 
 bool CDmeChannelRecordingMgr::IsRecordingLayerActive() const
 {
-	return ( m_pActiveRecordingLayer != NULL );
+	return ( m_pActiveRecordingLayer != nullptr);
 }
 
 bool CDmeChannelRecordingMgr::IsModificationLayerActive() const
 {
-	return ( ( m_pModificationLayer != NULL ) && ( m_bWantsToFinish == false ) );
+	return ( ( m_pModificationLayer != nullptr) && ( m_bWantsToFinish == false ) );
 }
 
 bool CDmeChannelRecordingMgr::IsModificationLayerVisible() const
@@ -2208,7 +2208,7 @@ void CDmeChannelRecordingMgr::SetProceduralTarget( int nProceduralMode, const CD
 void CDmeChannelRecordingMgr::SetProceduralTarget( int nProceduralMode, const CUtlVector< KeyValues * >& list, int randomSeed )
 {
 	m_nProceduralType = nProceduralMode;
-	m_pRevealTarget = NULL;
+	m_pRevealTarget = nullptr;
 	m_PasteTarget.RemoveAll();
 	for ( int i = 0; i < list.Count(); ++i )
 	{
@@ -2363,7 +2363,7 @@ void CDmeChannel::Play( bool useEmptyLog /*= false*/ )
 {
 	CDmAttribute *pToAttr = GetToAttribute();
 
-	if ( pToAttr == NULL )
+	if ( pToAttr == nullptr)
 		return;
 
 	CDmeLog *pLog = GetLog();
@@ -2400,7 +2400,7 @@ void CDmeChannel::Play( bool useEmptyLog /*= false*/ )
 	if ( !useEmptyLog )
 	{
 		if ( pLog->IsEmpty() && !pLog->HasDefaultValue() &&
-			GetFromAttribute() != NULL )
+			GetFromAttribute() != nullptr)
 		{
 			Pass();
 			return;
@@ -2421,7 +2421,7 @@ void CDmeChannel::Pass()
 		return;
 
 	DmAttributeType_t type = pFromAttr->GetType();
-	const void *pValue = NULL;
+	const void *pValue = nullptr;
 	if ( IsArrayType( type ) )
 	{
 		CDmrGenericArray array( pFromAttr );
@@ -2507,7 +2507,7 @@ void CDmeChannel::GetInputAttributes( CUtlVector< CDmAttribute * > &attrs )
 		return; // off and play ignore inputs
 
 	CDmAttribute *pAttr = GetFromAttribute();
-	if ( pAttr != NULL )
+	if ( pAttr != nullptr)
 	{
 		attrs.AddToTail( pAttr );
 	}
@@ -2526,7 +2526,7 @@ void CDmeChannel::GetOutputAttributes( CUtlVector< CDmAttribute * > &attrs )
 	}
 
 	CDmAttribute *pAttr = GetToAttribute();
-	if ( pAttr != NULL )
+	if ( pAttr != nullptr)
 	{
 		attrs.AddToTail( pAttr );
 	}
@@ -2586,7 +2586,7 @@ void CDmeChannel::SetInput( CDmAttribute *pAttribute, int index )
 	}
 	else
 	{
-		SetInput( NULL, "", index );
+		SetInput(nullptr, "", index );
 	}
 }
 
@@ -2598,7 +2598,7 @@ void CDmeChannel::SetOutput( CDmAttribute *pAttribute, int index )
 	}
 	else
 	{
-		SetOutput( NULL, "", index );
+		SetOutput(nullptr, "", index );
 	}
 }
 
@@ -2642,12 +2642,12 @@ CDmAttribute *CDmeChannel::SetupFromAttribute()
 
 	CDmElement *pObject = m_fromElement.GetElement();
 	const char *pName = m_fromAttribute.Get();
-	if ( pObject == NULL || pName == NULL || !pName[0] )
-		return NULL;
+	if ( pObject == nullptr || pName == nullptr || !pName[0] )
+		return nullptr;
 
 	CDmAttribute *pAttr = pObject->GetAttribute( pName );
 	if ( !pAttr )
-		return NULL;
+		return nullptr;
 
 	m_FromAttributeHandle = pAttr->GetHandle();
 
@@ -2658,7 +2658,7 @@ CDmAttribute *CDmeChannel::SetupFromAttribute()
 	}
 
 	CDmeLog *pLog = m_log.GetElement();
-	if ( pLog == NULL )
+	if ( pLog == nullptr)
 	{
 		CreateLog( fromType );
 		return pAttr;
@@ -2685,12 +2685,12 @@ CDmAttribute *CDmeChannel::SetupToAttribute()
 
 	CDmElement *pObject = m_toElement.GetElement();
 	const char *pName = m_toAttribute.Get();
-	if ( pObject == NULL || pName == NULL || !pName[0] )
-		return NULL;
+	if ( pObject == nullptr || pName == nullptr || !pName[0] )
+		return nullptr;
 
 	CDmAttribute *pAttr = pObject->GetAttribute( pName );
 	if ( !pAttr )
-		return NULL;
+		return nullptr;
 
 	m_ToAttributeHandle = pAttr->GetHandle();
 	return pAttr;
@@ -2811,7 +2811,7 @@ void CDmeChannel::SetNextKeyCurveType( int nCurveType )
 CDmeLogLayer *FindLayerInSnapshot( const CDmrElementArray<CDmElement>& snapshotArray, CDmeLog *origLog )
 {
 	if ( !snapshotArray.IsValid() )
-		return NULL;
+		return nullptr;
 
 	int c = snapshotArray.Count();
 	for ( int i = 0; i < c; ++i )
@@ -2831,7 +2831,7 @@ CDmeLogLayer *FindLayerInSnapshot( const CDmrElementArray<CDmElement>& snapshotA
 			return layer;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 KeyValues *FindLayerInPasteData( const CUtlVector< KeyValues * > &list, CDmeLog *log )
@@ -2860,7 +2860,7 @@ KeyValues *FindLayerInPasteData( const CUtlVector< KeyValues * > &list, CDmeLog 
 			return kv;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static int FindSpanningLayerAndSetIntensity( DmeLog_TimeSelection_t &ts, LayerSelectionData_t *data )
@@ -2906,7 +2906,7 @@ void CopyPasteData( CUtlVector< KeyValues * > &dstList, const CUtlVector< KeyVal
 		KeyValues *pKeyValue = srcList[ iKey ];
 		
 		// Skip null key values, but there should not be any.
-		if ( pKeyValue == NULL )
+		if ( pKeyValue == nullptr)
 		{
 			Assert( pKeyValue );
 			continue;
@@ -2920,7 +2920,7 @@ void CopyPasteData( CUtlVector< KeyValues * > &dstList, const CUtlVector< KeyVal
 
 		// Get the layer selection data from the key value, if there is no LayerData entry, then skip the key.
 		LayerSelectionData_t *pSrcLayerData = reinterpret_cast< LayerSelectionData_t * >( pKeyValue->GetPtr( "LayerData" ) );
-		if ( pSrcLayerData == NULL )
+		if ( pSrcLayerData == nullptr)
 		{
 			continue;
 		}
@@ -2928,7 +2928,7 @@ void CopyPasteData( CUtlVector< KeyValues * > &dstList, const CUtlVector< KeyVal
 		// Get the pointer to the log to which the layer data is for.
 		CDmeLog *pLog = pSrcLayerData->m_hLog.Get();
 
-		if ( pLog == NULL )
+		if ( pLog == nullptr)
 		{
 			Assert( pLog );
 			continue;
@@ -3012,7 +3012,7 @@ void CDmeChannel::Record()
 
 	CDmElement* pElement = GetFromElement();
 	CDmAttribute *pFromAttr = GetFromAttribute();
-	if ( pFromAttr == NULL )
+	if ( pFromAttr == nullptr)
 		return; // or clear out the log?
 
 	CDmeLog *pLog = GetLog();
@@ -3223,7 +3223,7 @@ CDmeClip* CDmeChannel::FindOwnerClipForChannel( CDmeClip *pRoot )
 	DmeClipStack_t stack;
 	if ( BuildClipStack( &stack, pRoot, pRoot ) )
 		return stack.GetClip( stack.GetClipCount() - 1 );
-	return NULL;
+	return nullptr;
 }
 
 void CDmeChannel::ScaleSampleTimes( float scale )
@@ -3261,11 +3261,11 @@ void RemapFloatLogValues( CDmeChannel *pChannel, float flBias, float flScale )
 CDmeChannel *FindChannelTargetingAttribute( CDmAttribute *pTargetAttr )
 {
 	if ( !pTargetAttr )
-		return NULL;
+		return nullptr;
 
 	CDmElement *pTarget = pTargetAttr->GetOwner();
 	if ( !pTarget )
-		return NULL;
+		return nullptr;
 
 	for ( DmAttributeReferenceIterator_t it = g_pDataModel->FirstAttributeReferencingElement( pTarget->GetHandle() );
 		it != DMATTRIBUTE_REFERENCE_ITERATOR_INVALID;
@@ -3277,5 +3277,5 @@ CDmeChannel *FindChannelTargetingAttribute( CDmAttribute *pTargetAttr )
 		if ( pChannel && pChannel->GetToAttribute() == pTargetAttr )
 			return pChannel;
 	}
-	return NULL;
+	return nullptr;
 }

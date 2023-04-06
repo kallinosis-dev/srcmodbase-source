@@ -34,6 +34,6 @@ CMapClass *CMapHelper::PrepareSelection(SelectMode_t eSelectMode)
 	// We should never have a helper as a child of the world!
 	//
 	Assert(false);
-	return NULL;
+	return nullptr;
 }
 

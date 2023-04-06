@@ -53,7 +53,7 @@ CToolHelpMenuButton::CToolHelpMenuButton( char const *toolName, char const *help
 		wchar_t buf[ 512 ];
 		g_pVGuiLocalize->ConstructString( buf, sizeof( buf ), fmt, 1, desc );
 
-		AddMenuItem( "help", buf, new KeyValues( "OnHelp" ), pActionTarget, NULL, helpBinding );
+		AddMenuItem( "help", buf, new KeyValues( "OnHelp" ), pActionTarget, nullptr, helpBinding );
 	}
 
 	SetMenu(m_pMenu);

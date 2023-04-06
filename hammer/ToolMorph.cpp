@@ -53,7 +53,7 @@ Morph3D::Morph3D(void)
 	m_HandleMode = hmBoth;
 	m_bBoxSelecting = false;
 	m_bScaling = false;
-	m_pOrigPosList = NULL;
+	m_pOrigPosList = nullptr;
 	
 	m_vLastMouseMovement.Init();
 
@@ -105,7 +105,7 @@ void Morph3D::OnActivate()
 			pobj->EnumChildren((ENUMMAPCHILDRENPROC)AddToMorph, (DWORD)this, MAPCLASS_TYPE(CMapSolid));
 		}
 
-		m_pDocument->SelectObject(NULL, scClear|scSaveChanges );
+		m_pDocument->SelectObject(nullptr, scClear|scSaveChanges );
 	}
 }
 
@@ -623,7 +623,7 @@ void Morph3D::SelectHandle(MORPHHANDLE *pInfo, UINT cmd)
 	}
 
 	if(hi.Type != m_SelectedType)
-		SelectHandle(NULL, scClear);	// clear selection first
+		SelectHandle(nullptr, scClear);	// clear selection first
 
 	m_SelectedType = hi.Type;
 
@@ -793,7 +793,7 @@ void Morph3D::RenderTool2D(CRender2D *pRender)
 //-----------------------------------------------------------------------------
 void Morph3D::SetEmpty()
 {
-	GetHistory()->MarkUndoPosition(NULL, "Morphing");
+	GetHistory()->MarkUndoPosition(nullptr, "Morphing");
 
 	while(m_StrucSolids.Count()>0)
 	{
@@ -1068,7 +1068,7 @@ bool Morph3D::SplitFace()
 		if(m_SelectedType == shtVertex)
 		{
 			// proper deselection
-			SelectHandle(NULL, scClear);
+			SelectHandle(nullptr, scClear);
 		}
 		else	// selection is invalid; set count to 0
 			m_SelectedHandles.RemoveAll();
@@ -1177,7 +1177,7 @@ void Morph3D::OnScaleCmd(BOOL bReInit)
 	if(m_pOrigPosList)
 	{
 		delete[] m_pOrigPosList;
-		m_pOrigPosList = NULL;
+		m_pOrigPosList = nullptr;
 	}
 
 	if(m_bScaling && !bReInit)
@@ -1196,7 +1196,7 @@ void Morph3D::OnScaleCmd(BOOL bReInit)
 		GetCursorPos(&pt);
 		m_bUpdateOrg = true;
 
-		m_ScaleDlg.SetWindowPos(NULL, pt.x, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_SHOWWINDOW);
+		m_ScaleDlg.SetWindowPos(nullptr, pt.x, pt.y, 0, 0, SWP_NOZORDER | SWP_NOSIZE | SWP_SHOWWINDOW);
 	}
 	else
 	{
@@ -1740,7 +1740,7 @@ bool Morph3D::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoi
 			//
 			if (!(nFlags & MK_CONTROL))
 			{
-				SelectHandle(NULL, scClear);
+				SelectHandle(nullptr, scClear);
 			}
 
 			Vector ptOrg;
@@ -1765,7 +1765,7 @@ bool Morph3D::OnMouseMove2D(CMapView2D *pView, UINT nFlags, const Vector2D &vPoi
 		// Check to see if the mouse is over a vertex handle.
 		//
 
-		if (!IsBoxSelecting() && MorphHitTest( pView, vPoint, NULL))
+		if (!IsBoxSelecting() && MorphHitTest( pView, vPoint, nullptr))
 		{
 			hCursor = vgui::dc_crosshair;
 		}
@@ -1824,7 +1824,7 @@ bool Morph3D::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPo
 
 bool Morph3D::SelectAt( CMapView *pView, UINT nFlags, const Vector2D &vPoint )
 {
-	CMapClass *pMorphObject = NULL;
+	CMapClass *pMorphObject = nullptr;
 	bool bUpdateView = false;
 	m_pDocument->GetSelection()->ClearHitList();
 	CMapObjectList SelectList;
@@ -1840,7 +1840,7 @@ bool Morph3D::SelectAt( CMapView *pView, UINT nFlags, const Vector2D &vPoint )
 	for (int i = 0; i < nHits; i++)
 	{
 		CMapClass *pMapClass = dynamic_cast <CMapClass *>(Objects[i].pObject);
-		if (pMapClass != NULL)
+		if (pMapClass != nullptr)
 		{
 			SelectList.AddToTail(pMapClass);
 		}
@@ -1854,8 +1854,8 @@ bool Morph3D::SelectAt( CMapView *pView, UINT nFlags, const Vector2D &vPoint )
 		//
 		// Clicked on nothing - clear selection.
 		//
-		pView->GetMapDoc()->SelectFace(NULL, 0, scClear);
-		pView->GetMapDoc()->SelectObject(NULL, scClear );
+		pView->GetMapDoc()->SelectFace(nullptr, 0, scClear);
+		pView->GetMapDoc()->SelectObject(nullptr, scClear );
 		return false;
 	}
 
@@ -2033,7 +2033,7 @@ void Morph3D::OnEscape(void)
 	//
 	else if (!IsEmpty() && (GetSelectedHandleCount() != 0))
 	{
-		SelectHandle(NULL, scClear);
+		SelectHandle(nullptr, scClear);
 	}
 	//
 	// Stop using the morph tool.
@@ -2094,7 +2094,7 @@ bool Morph3D::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoi
 
 		m_vLastMouseMovement = vPoint;
 	}
-	else if ( MorphHitTest(pView, vPoint, NULL ))
+	else if ( MorphHitTest(pView, vPoint, nullptr))
 	{
 		SetCursor(AfxGetApp()->LoadStandardCursor(IDC_CROSS));
 	}

@@ -1303,7 +1303,7 @@ static DmeTime_t RemapTime( DmeTime_t tKeyTime, const TimeSelection_t &tSrcTimes
 
 void CDmeLogLayer::OnConstruction()
 {
-	m_pOwnerLog = NULL;
+	m_pOwnerLog = nullptr;
 	m_lastKey = 0;
 	m_bLeftInfinite = false;
 	m_bRightInfinite = false;
@@ -3213,7 +3213,7 @@ void CDmeTypedLogLayer<T>::RemoveRedundantKeys( bool bKeepEnds )
 
 	Decompress();
 
-	CDmeTypedLogLayer< T > *save = 0;
+	CDmeTypedLogLayer< T > *save = nullptr;
 	{
 		CDisableUndoScopeGuard guard;
 		save = CastElement< CDmeTypedLogLayer< T > >( CreateLayer< T >( pOwner ) );
@@ -4101,7 +4101,7 @@ template< class T >
 CDmeLogLayer *CreateLayer< T >( CDmeTypedLog< T > *pOwnerLog )
 {
 	DmFileId_t fileid = pOwnerLog ? pOwnerLog->GetFileId() : DMFILEID_INVALID;
-	CDmeLogLayer *layer = NULL;
+	CDmeLogLayer *layer = nullptr;
 
 	switch ( CDmAttributeInfo<T>::AttributeType() )
 	{
@@ -4416,12 +4416,12 @@ int	CDmeLog::GetNumLayers() const
 
 CDmeLogLayer *CDmeLog::GetLayer( int index )
 {
-	return m_Layers.IsValidIndex( index ) ? m_Layers[ index ] : NULL;
+	return m_Layers.IsValidIndex( index ) ? m_Layers[ index ] : nullptr;
 }
 
 const CDmeLogLayer *CDmeLog::GetLayer( int index ) const
 {
-	return m_Layers.IsValidIndex( index ) ? m_Layers[ index ] : NULL;
+	return m_Layers.IsValidIndex( index ) ? m_Layers[ index ] : nullptr;
 }
 
 bool CDmeLog::IsEmpty() const
@@ -4641,7 +4641,7 @@ void CDmeLog::OnUsingCurveTypesChanged()
 // curve info helpers
 bool CDmeLog::IsUsingCurveTypes() const
 {
-	return m_CurveInfo.GetElement() != NULL;
+	return m_CurveInfo.GetElement() != nullptr;
 }
 
 const CDmeCurveInfo *CDmeLog::GetCurveInfo() const
@@ -5102,7 +5102,7 @@ struct ActiveLayer_t
 		priority( 0 ),
 		firstTime( 0 ),
 		lastTime( 0 ),
-		layer( NULL )
+		layer(nullptr)
 	{
 	}
 
@@ -5128,7 +5128,7 @@ struct LayerEvent_t
 		LE_END
 	};
 
-	LayerEvent_t() : m_pList( NULL ), m_Type( LE_START ), m_nLayer( 0 ), m_Time( 0 )
+	LayerEvent_t() : m_pList(nullptr), m_Type( LE_START ), m_nLayer( 0 ), m_Time( 0 )
 	{
 	}
 
@@ -5377,9 +5377,9 @@ static DmeTime_t ProcessStartLayerStartEvent(
 	if ( nActiveCount >= 2 )
 	{
 		DmeTime_t tKeyTime = pEvent->m_Time - DmeTime_t( 1 );
-		AddDiscontinitySample( flattenedlayer, pLog, tKeyTime, pEvent->m_NeighborValue, bSpew ? "start" : NULL ); 
+		AddDiscontinitySample( flattenedlayer, pLog, tKeyTime, pEvent->m_NeighborValue, bSpew ? "start" : nullptr); 
 	}
-	AddDiscontinitySample( flattenedlayer, pLog, pEvent->m_Time, GetActiveLayerValue( layerlist, pEvent->m_Time, pEvent->m_nLayer ), bSpew ? "start" : NULL );
+	AddDiscontinitySample( flattenedlayer, pLog, pEvent->m_Time, GetActiveLayerValue( layerlist, pEvent->m_Time, pEvent->m_nLayer ), bSpew ? "start" : nullptr);
 	return pEvent->m_Time;
 }
 
@@ -5408,11 +5408,11 @@ static DmeTime_t ProcessStartLayerEndEvent(
 	Assert( active.Count() >= 1 );
 	if ( bFixupDiscontinuities && ( pEvent->m_Time != DMETIME_MAXTIME ) )
 	{
-		AddDiscontinitySample( pBaseLayer, pLog, pEvent->m_Time, GetActiveLayerValue( layerlist, pEvent->m_Time, pEvent->m_nLayer ), bSpew ? "end" : NULL );
+		AddDiscontinitySample( pBaseLayer, pLog, pEvent->m_Time, GetActiveLayerValue( layerlist, pEvent->m_Time, pEvent->m_nLayer ), bSpew ? "end" : nullptr);
 		if ( active.Count() >= 2 )
 		{
 			DmeTime_t keyTime = pEvent->m_Time + DmeTime_t( 1 );
-			AddDiscontinitySample( pBaseLayer, pLog, keyTime, pEvent->m_NeighborValue, bSpew ? "end" : NULL ); 
+			AddDiscontinitySample( pBaseLayer, pLog, keyTime, pEvent->m_NeighborValue, bSpew ? "end" : nullptr); 
 		}
 	}
 
@@ -5429,7 +5429,7 @@ void CDmeTypedLog< T >::FlattenLayers( float threshold, int flags, int baseLayer
 		return;
 
 	CDmeTypedLogLayer< T > *pBaseLayer = GetLayer( baseLayer );
-	if ( pBaseLayer == NULL )
+	if ( pBaseLayer == nullptr)
 		return;
 
 	if ( g_pDataModel->UndoEnabledForElement( this ) )
@@ -5817,7 +5817,7 @@ void CLogFalloffBlend< T >::Init( CDmeTypedLog<T> *pLog, DmeTime_t tHead, const 
 	// Read the rotation at the base time and head time if the rotation layer is specified.
 	m_HeadRotation = quat_identity;
 	m_BaseRotation = quat_identity;
-	if ( transformParams.m_pRotationLog != NULL )
+	if ( transformParams.m_pRotationLog != nullptr)
 	{
 		m_HeadRotation = transformParams.m_pRotationLog->GetValueSkippingTopmostLayer( m_tHeadTime );
 		m_BaseRotation = transformParams.m_pRotationLog->GetValueSkippingTopmostLayer( m_tBaseTime );
@@ -6320,7 +6320,7 @@ void CDmeTypedLog< T >::_StampKeyAtHeadResample( DmeTime_t tHeadPosition, const 
 	DmeTime_t tLayerEndTime = pReadLayer->GetEndTime( true );
 
 	// Get the log layer for the rotation if the rotation layer was specified
-	CDmeTypedLogLayer< Quaternion > *pRotationLayer = NULL;
+	CDmeTypedLogLayer< Quaternion > *pRotationLayer = nullptr;
 	if ( transformParams.m_pRotationLog )
 	{
 		if ( nReadLayer < transformParams.m_pRotationLog->GetNumLayers() )
@@ -6653,7 +6653,7 @@ template< class T >
 CDmeTypedLogLayer< T > *CDmeTypedLog< T >::GetLayer( int index )
 {
 	if ( index < 0 )
-		return NULL;
+		return nullptr;
 
 	return static_cast< CDmeTypedLogLayer< T > * >( m_Layers[ index ] );
 }
@@ -6662,7 +6662,7 @@ template< class T >
 const CDmeTypedLogLayer< T > *CDmeTypedLog< T >::GetLayer( int index ) const
 {
 	if ( index < 0 )
-		return NULL;
+		return nullptr;
 
 	return static_cast< CDmeTypedLogLayer< T > * >( m_Layers[ index ] );
 }
@@ -7385,7 +7385,7 @@ void CDmeTypedLog< T >::BlendLayersUsingTimeSelection( const DmeLog_TimeSelectio
 {
 	VPROF_BUDGET( "CDmeTypedLog< T >::BlendLayersUsingTimeSelection", VPROF_BUDGETGROUP_TOOLS );
 	
-	if ( ( pBaseLayer == NULL ) || ( pTargetLayer == NULL ) || ( pOutputLayer == NULL ) )
+	if ( ( pBaseLayer == nullptr) || ( pTargetLayer == nullptr) || ( pOutputLayer == nullptr) )
 		return;
 
 	DmeTime_t timeSelection[ TS_TIME_COUNT ];
@@ -9060,7 +9060,7 @@ CDmeLog *CDmeLog::CreateLog( DmAttributeType_t type, DmFileId_t fileid )
 		return CreateElement< CDmeTimeLog >( "time log", fileid );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // Disallowed methods for types

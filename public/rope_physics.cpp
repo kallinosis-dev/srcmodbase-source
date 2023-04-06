@@ -31,7 +31,7 @@ CBaseRopePhysics::CBaseRopePhysics( CSimplePhysics::CNode *pNodes, int nNodes, C
 
 	SetNumNodes( nNodes );
 
-	m_pDelegate = NULL;
+	m_pDelegate = nullptr;
 }
 
 

@@ -52,12 +52,12 @@ abstract_class IMaterialInternal : public IMaterial
 {
 public:
 	// class factory methods
-	static IMaterialInternal* CreateMaterial( char const* pMaterialName, const char *pTextureGroupName, KeyValues *pKeyValues = NULL );
+	static IMaterialInternal* CreateMaterial( char const* pMaterialName, const char *pTextureGroupName, KeyValues *pKeyValues = nullptr);
 	static void DestroyMaterial( IMaterialInternal* pMaterial );
 
 	// If supplied, pKeyValues and pPatchKeyValues should come from LoadVMTFile()
 	static IMaterialInternal* CreateMaterialSubRect( char const* pMaterialName, const char *pTextureGroupName,
-													KeyValues *pKeyValues = NULL, KeyValues *pPatchKeyValues = NULL, bool bAssumeCreateFromFile = false );
+													KeyValues *pKeyValues = nullptr, KeyValues *pPatchKeyValues = nullptr, bool bAssumeCreateFromFile = false );
 	static void DestroyMaterialSubRect( IMaterialInternal* pMaterial );
 
 	// refcount
@@ -74,7 +74,7 @@ public:
 	virtual void	Uncache( bool bPreserveVars = false ) = 0;
 	virtual void	Precache() = 0;
 	// If supplied, pKeyValues and pPatchKeyValues should come from LoadVMTFile()
-	virtual bool	PrecacheVars( KeyValues *pKeyValues = NULL, KeyValues *pPatchKeyValues = NULL, CUtlVector<FileNameHandle_t> *pIncludes = NULL ) = 0;
+	virtual bool	PrecacheVars( KeyValues *pKeyValues = nullptr, KeyValues *pPatchKeyValues = nullptr, CUtlVector<FileNameHandle_t> *pIncludes = nullptr) = 0;
 
 	// reload all textures used by this materals
 	virtual void	ReloadTextures() = 0;
@@ -86,17 +86,17 @@ public:
 	virtual int		GetMaxLightmapPageID( ) const = 0;
 
 	virtual IShader *GetShader() const = 0;
-	virtual IMaterialVar** GetVars()  { return NULL; }
+	virtual IMaterialVar** GetVars()  { return nullptr; }
 
 	// Can we use it?
 	virtual bool	IsPrecached( ) const = 0;
 	virtual bool	IsPrecachedVars() const = 0;
 
 	// main draw method
-	virtual CBasePerMaterialContextData **GetContextData( int modulationFlags ) { return NULL; }
+	virtual CBasePerMaterialContextData **GetContextData( int modulationFlags ) { return nullptr; }
 
 	virtual StateSnapshot_t	GetSnapshotId( int modulation, int renderPass ) { return (StateSnapshot_t)-1; } 
-	virtual unsigned char* GetInstanceCommandBuffer( int modulation ) { return NULL; }
+	virtual unsigned char* GetInstanceCommandBuffer( int modulation ) { return nullptr; }
 	virtual void	DrawMesh( VertexCompressionType_t vertexCompression, bool bIsAlphaModulating, bool bUsingPreTessPatches ) = 0;
 
 	// Gets the vertex format

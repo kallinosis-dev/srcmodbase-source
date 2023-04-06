@@ -28,7 +28,7 @@ class CSaveDocumentQuery : public vgui::Frame
 
 public:
 	CSaveDocumentQuery(	vgui::Panel *pParent, const char *filename, const char *pFileType, int nContext, 
-		vgui::Panel *pActionSignalTarget = 0, KeyValues *pKeyValues = 0 );
+		vgui::Panel *pActionSignalTarget = nullptr, KeyValues *pKeyValues = nullptr );
 	~CSaveDocumentQuery();
 
 	// Inherited from vgui::Frame
@@ -107,7 +107,7 @@ CSaveDocumentQuery::~CSaveDocumentQuery()
 	if ( m_pPostSaveKeyValues )
 	{
 		m_pPostSaveKeyValues->deleteThis();
-		m_pPostSaveKeyValues = NULL;
+		m_pPostSaveKeyValues = nullptr;
 	}
 }
 

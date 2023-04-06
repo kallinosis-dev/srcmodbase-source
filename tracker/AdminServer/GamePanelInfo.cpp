@@ -85,7 +85,7 @@ CGamePanelInfo::CGamePanelInfo(vgui::Panel *parent, const char *name, const char
 	if ( CommandLine()->CheckParm( "-BudgetPanel" ) )
 		m_pBudgetPanel = new CBudgetPanelContainer( this, "BudgetPanel" );
 	else
-		m_pBudgetPanel = NULL;
+		m_pBudgetPanel = nullptr;
 
 	m_pServerInfoPanel->AddActionSignalTarget(this);
 

@@ -29,7 +29,7 @@ int CCStrike15ItemSystem::GenerateBaseItem( baseitemcriteria_t *pCriteria )
 	criteria.BAddCondition( "default_slot_item", k_EOperator_String_EQ, "1", true );
 	criteria.SetExplicitQualityMatch( true );
 	CSInventoryManager()->AddBaseItemCriteria( pCriteria, &criteria );
-	int iChosenItem = GenerateRandomItem( &criteria, NULL );
+	int iChosenItem = GenerateRandomItem( &criteria, nullptr);
 	return iChosenItem;
 }
 

@@ -22,7 +22,7 @@ namespace CDebugOverlay
 	void AddSphereOverlay(const Vector& vOrigin, float flRadius, int nTheta, int nPhi, int r, int g, int b, int a, float flDuration, bool bWireframe = false);
 	void AddSweptBoxOverlay(const Vector& start, const Vector& end, const Vector& mins, const Vector& max, const QAngle & angles, int r, int g, int b, int a, float flDuration);
 	void AddGridOverlay(const Vector& vPos );
-	void AddCoordFrameOverlay(const matrix3x4_t& frame, float flScale, int ppColorTable[3][3] = NULL);
+	void AddCoordFrameOverlay(const matrix3x4_t& frame, float flScale, int ppColorTable[3][3] = nullptr);
 	void AddLineOverlay(const Vector& origin, const Vector& dest, int r, int g, int b, int a, bool noDepthTest, float flDuration);
 	void AddTriangleOverlay(const Vector& p1, const Vector& p2, const Vector &p3, int r, int g, int b, int a, bool noDepthTest, float flDuration);
 	void AddTextOverlay(const Vector& origin, float flDuration, const char *text);

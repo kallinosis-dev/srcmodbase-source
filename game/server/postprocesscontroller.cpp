@@ -155,7 +155,7 @@ void CPostProcessController::InputSetFilmGrainStrength( inputdata_t &inputdata )
 //-----------------------------------------------------------------------------
 void CPostProcessSystem::LevelInitPreEntity( void )
 {
-	m_hMasterController = NULL;
+	m_hMasterController = nullptr;
 	ListenForGameEvent( "round_start" );
 }
 
@@ -165,14 +165,14 @@ void CPostProcessSystem::LevelInitPreEntity( void )
 //-----------------------------------------------------------------------------
 void CPostProcessSystem::InitMasterController( void )
 {
-	CPostProcessController *pPostProcessController = NULL;
+	CPostProcessController *pPostProcessController = nullptr;
 
 	do
 	{
 		pPostProcessController = dynamic_cast<CPostProcessController*>( gEntList.FindEntityByClassname( pPostProcessController, "postprocess_controller" ) );
 		if ( pPostProcessController )
 		{
-			if ( m_hMasterController.Get() == NULL )
+			if ( m_hMasterController.Get() == nullptr)
 			{
 				m_hMasterController = pPostProcessController;
 			}
@@ -210,7 +210,7 @@ void CPostProcessSystem::LevelInitPostEntity( void )
 	if ( gpGlobals->maxClients == 1 )
 	{
 		CBasePlayer *pPlayer = UTIL_GetLocalPlayer();
-		if ( pPlayer && ( pPlayer->m_hPostProcessCtrl.Get() == NULL ) )
+		if ( pPlayer && ( pPlayer->m_hPostProcessCtrl.Get() == nullptr) )
 		{
 			pPlayer->InitPostProcessController();
 		}

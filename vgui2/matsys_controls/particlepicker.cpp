@@ -205,7 +205,7 @@ void CParticleSnapshotPanel::UpdateRelatives( IImage *pIcon, CUtlVector<CParticl
 	{
 		m_pParentsButton->SetEnabled( false );
 		m_pParentsButton->SetText( "P" );
-		m_pParentsButton->SetMenu( NULL );
+		m_pParentsButton->SetMenu(nullptr);
 	}
 
 	// children
@@ -230,7 +230,7 @@ void CParticleSnapshotPanel::UpdateRelatives( IImage *pIcon, CUtlVector<CParticl
 	{
 		m_pChildrenButton->SetEnabled( false );
 		m_pChildrenButton->SetText( "C" );
-		m_pChildrenButton->SetMenu( NULL );
+		m_pChildrenButton->SetMenu(nullptr);
 	}
 }
 
@@ -271,7 +271,7 @@ void CParticleSnapshotPanel::SetParticleSystem( const char *szSystemName, int nI
 	m_SystemName = szSystemName;
 	m_nSystemId = nId;
 
-	if ( !bSameSystem || m_pParticlePanel->GetParticleSystem() == NULL )
+	if ( !bSameSystem || m_pParticlePanel->GetParticleSystem() == nullptr)
 	{
 		m_pParticlePanel->SetParticleSystem(szSystemName);
 		m_pParticlePanel->SetControlPointValue( 0, Vector(0.f,0.f,0.f) );
@@ -450,7 +450,7 @@ void CParticleSnapshotGrid::MapSystemRelatives( )
 		{
 			CParticleCollection *pVisible = m_Panels[p]->GetSystem();
 
-			if( pVisible == NULL )
+			if( pVisible == nullptr)
 				continue;
 
 			if ( pVisible->m_pDef == pPotentialParent )
@@ -464,7 +464,7 @@ void CParticleSnapshotGrid::MapSystemRelatives( )
 		// see if this system is a parent of any visible system; check all its children
 		for ( int c = 0; c < pPotentialParent->m_Children.Count(); ++c )
 		{
-			CParticleSystemDefinition *pChild = NULL;
+			CParticleSystemDefinition *pChild = nullptr;
 
 			if ( pPotentialParent->m_Children[c].m_bUseNameBasedLookup )
 			{
@@ -475,7 +475,7 @@ void CParticleSnapshotGrid::MapSystemRelatives( )
 				pChild = g_pParticleSystemMgr->FindParticleSystem( pPotentialParent->m_Children[c].m_Id );
 			}
 
-			if ( pChild == NULL )
+			if ( pChild == nullptr)
 				continue;
 
 			//////////////////////
@@ -486,7 +486,7 @@ void CParticleSnapshotGrid::MapSystemRelatives( )
 			{
 				CParticleCollection *pVisible = m_Panels[p]->GetSystem();
 
-				if( pVisible == NULL )
+				if( pVisible == nullptr)
 					continue;
 
 				if ( pVisible->m_pDef == pChild )

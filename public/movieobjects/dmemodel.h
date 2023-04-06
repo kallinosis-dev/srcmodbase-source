@@ -30,7 +30,7 @@ class CDmeModel : public CDmeDag
 
 public:
 	// Add joint
-	CDmeJoint *AddJoint( const char *pJointName, CDmeDag *pParent = NULL );
+	CDmeJoint *AddJoint( const char *pJointName, CDmeDag *pParent = nullptr);
 	int AddJoint( CDmeDag *pJoint );
 
 	// Returns the number of joint transforms we know about
@@ -59,7 +59,7 @@ public:
 	CDmeTransformList *FindBaseState( const char *pBaseStateName );
 
 	// Recursively render the Dag hierarchy
-	virtual void Draw( CDmeDrawSettings *pDrawSettings = NULL );
+	virtual void Draw( CDmeDrawSettings *pDrawSettings = nullptr);
 
 	// NOTE: See comment for m_upAxis attribute below
 

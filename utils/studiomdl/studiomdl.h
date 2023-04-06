@@ -1739,9 +1739,9 @@ public:
 	}
 	CLodScriptReplacement_t()
 	{
-		m_pSrcName = NULL;
-		m_pDstName = NULL;
-		m_pSource = 0;
+		m_pSrcName = nullptr;
+		m_pDstName = nullptr;
+		m_pSource = nullptr;
 	}
 	~CLodScriptReplacement_t()
 	{

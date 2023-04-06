@@ -76,7 +76,7 @@ public:
   ///        frame must be pushed before a call to execute will succeed.
   /// \param a_return will be set to the return variable iff Sys_Execute returns gmThread::KILLED. 
   /// \return the new thread state.
-  State Sys_Execute(gmVariable * a_return = NULL);
+  State Sys_Execute(gmVariable * a_return = nullptr);
 
   /// \brief Sys_Reset() will reset the thread.
   void Sys_Reset(int a_id);
@@ -91,7 +91,7 @@ public:
   /// \param a_ip is the current instruction pointer (pointing to instruction after call.) will be adjusted for new function.
   /// \param a_cp is the current code pointer.  will be adjusted for the new function. a_cp MUST be valid if a_ip is valid.
   /// \return gmThreadState
-  State PushStackFrame(int a_numParameters, const gmuint8 ** a_ip = NULL, const gmuint8 ** a_cp = NULL);
+  State PushStackFrame(int a_numParameters, const gmuint8 ** a_ip = nullptr, const gmuint8 ** a_cp = nullptr);
 
   /// \brief GetTop() will return the top of stack
   inline gmVariable * GetTop() const { return &m_stack[m_top]; }
@@ -159,8 +159,8 @@ public:
   inline bool ParamTable(int a_param, gmTableObject *& a_value ) const;
   inline gmFunctionObject * ParamFunction(int a_param) const;
   inline bool ParamFunction(int a_param, gmFunctionObject *& a_value) const;
-  inline void * ParamUser(int a_param, int * a_userType = NULL) const;
-  inline bool ParamUser(int a_param, void *& a_value, int * a_userType = NULL) const;
+  inline void * ParamUser(int a_param, int * a_userType = nullptr) const;
+  inline bool ParamUser(int a_param, void *& a_value, int * a_userType = nullptr) const;
   inline void * ParamUserCheckType(int a_param, int a_userType) const;
   inline void * ParamUser_NoCheckTypeOrParam(int a_param) const; //For macro
   inline gmUserObject * ParamUserObject(int a_param) const;
@@ -180,7 +180,7 @@ public:
   inline const char * ThisString(const char * a_default = "");
   inline gmTableObject * ThisTable();
   inline gmFunctionObject * ThisFunction();
-  inline void * ThisUser(int * a_userType = NULL);
+  inline void * ThisUser(int * a_userType = nullptr);
   inline void * ThisUserCheckType(int a_userType);
   inline void * ThisUser_NoChecks(); //For use with type functions where type is already certain
   inline gmUserObject * ThisUserObject();
@@ -469,13 +469,13 @@ bool gmThread::ParamString(int a_param, const char *& a_value, const char * a_de
 
 gmStringObject * gmThread::ParamStringObject(int a_param) const
 {
-  if(a_param >= m_numParameters) return NULL;
+  if(a_param >= m_numParameters) return nullptr;
   gmVariable * var = m_stack + m_base + a_param;
   if(var->m_type == GM_STRING)
   {
     return (gmStringObject *) m_machine->GetObject(var->m_value.m_ref);
   }
-  return NULL;
+  return nullptr;
 }
 
 bool gmThread::ParamStringObject(int a_param, gmStringObject *& a_value) const
@@ -483,7 +483,7 @@ bool gmThread::ParamStringObject(int a_param, gmStringObject *& a_value) const
   // Out of range
   if( a_param >= m_numParameters )
   {
-    a_value = NULL;
+    a_value = nullptr;
     return true;
   }
   // Valid
@@ -494,19 +494,19 @@ bool gmThread::ParamStringObject(int a_param, gmStringObject *& a_value) const
     return true;
   }
   // Invalid
-  a_value = NULL;
+  a_value = nullptr;
   return false;
 }
 
 gmTableObject * gmThread::ParamTable(int a_param) const
 {
-  if(a_param >= m_numParameters) return NULL;
+  if(a_param >= m_numParameters) return nullptr;
   gmVariable * var = m_stack + m_base + a_param;
   if(var->m_type == GM_TABLE)
   {
     return (gmTableObject *) m_machine->GetObject(var->m_value.m_ref);
   }
-  return NULL;
+  return nullptr;
 }
 
 bool gmThread::ParamTable(int a_param, gmTableObject *& a_value ) const
@@ -514,7 +514,7 @@ bool gmThread::ParamTable(int a_param, gmTableObject *& a_value ) const
   // Out of range
   if( a_param >= m_numParameters )
   {
-    a_value = NULL;
+    a_value = nullptr;
     return true;
   }
   // Valid
@@ -525,20 +525,20 @@ bool gmThread::ParamTable(int a_param, gmTableObject *& a_value ) const
     return true;
   }
   // Invalid
-  a_value = NULL;
+  a_value = nullptr;
   return false;
 }
 
 
 gmFunctionObject * gmThread::ParamFunction(int a_param) const
 {
-  if(a_param >= m_numParameters) return NULL;
+  if(a_param >= m_numParameters) return nullptr;
   gmVariable * var = m_stack + m_base + a_param;
   if(var->m_type == GM_FUNCTION)
   {
     return (gmFunctionObject *) m_machine->GetObject(var->m_value.m_ref);
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -547,7 +547,7 @@ bool gmThread::ParamFunction(int a_param, gmFunctionObject *& a_value) const
   // Out of range
   if( a_param >= m_numParameters )
   {
-    a_value = NULL;
+    a_value = nullptr;
     return true;
   }
   // Valid
@@ -558,13 +558,13 @@ bool gmThread::ParamFunction(int a_param, gmFunctionObject *& a_value) const
     return true;
   }
   // Invalid
-  a_value = NULL;
+  a_value = nullptr;
   return false;
 }
 
 void * gmThread::ParamUser(int a_param, int * a_userType) const
 {
-  if(a_param >= m_numParameters) return NULL;
+  if(a_param >= m_numParameters) return nullptr;
   gmVariable * var = m_stack + m_base + a_param;
   if(var->m_type >= GM_USER)
   {
@@ -576,7 +576,7 @@ void * gmThread::ParamUser(int a_param, int * a_userType) const
     }
     return user->m_user;
   }
-  return NULL;
+  return nullptr;
 }
 
 bool gmThread::ParamUser(int a_param, void *& a_value, int * a_userType) const
@@ -584,7 +584,7 @@ bool gmThread::ParamUser(int a_param, void *& a_value, int * a_userType) const
   // Out of range
   if( a_param >= m_numParameters )
   {
-    a_value = NULL;
+    a_value = nullptr;
     return true;
   }
   // Valid
@@ -601,13 +601,13 @@ bool gmThread::ParamUser(int a_param, void *& a_value, int * a_userType) const
     return true;
   }
   // Invalid
-  a_value = NULL;
+  a_value = nullptr;
   return false;
 }
 
 void * gmThread::ParamUserCheckType(int a_param, int a_userType) const
 {
-  if(a_param >= m_numParameters) return NULL;
+  if(a_param >= m_numParameters) return nullptr;
   gmVariable * var = m_stack + m_base + a_param;
   if(a_userType == var->m_type) 
   {
@@ -616,7 +616,7 @@ void * gmThread::ParamUserCheckType(int a_param, int a_userType) const
     GM_ASSERT(var->m_type == user->m_userType);
     return user->m_user;
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -632,13 +632,13 @@ void * gmThread::ParamUser_NoCheckTypeOrParam(int a_param) const
 
 gmUserObject * gmThread::ParamUserObject(int a_param) const
 {
-  if(a_param >= m_numParameters) return NULL;
+  if(a_param >= m_numParameters) return nullptr;
   gmVariable * var = m_stack + m_base + a_param;
   if(var->m_type >= GM_USER)
   {
     return (gmUserObject *) m_machine->GetObject(var->m_value.m_ref);
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -647,7 +647,7 @@ bool gmThread::ParamUserObject(int a_param, gmUserObject *& a_value) const
   // Out of range
   if( a_param >= m_numParameters )
   {
-    a_value = NULL;
+    a_value = nullptr;
     return true;
   }
   // Valid
@@ -658,7 +658,7 @@ bool gmThread::ParamUserObject(int a_param, gmUserObject *& a_value) const
     return true;
   }
   // Invalid
-  a_value = NULL;
+  a_value = nullptr;
   return false;
 }
 
@@ -732,7 +732,7 @@ inline gmTableObject * gmThread::ThisTable()
   {
     return (gmTableObject *) m_machine->GetObject(var->m_value.m_ref);
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -743,7 +743,7 @@ inline gmFunctionObject * gmThread::ThisFunction()
   {
     return (gmFunctionObject *) m_machine->GetObject(var->m_value.m_ref);
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -756,7 +756,7 @@ inline void * gmThread::ThisUser(int * a_userType)
     if(a_userType) *a_userType = user->m_userType;
     return user->m_user;
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -768,11 +768,11 @@ inline void * gmThread::ThisUserCheckType(int a_userType)
     gmUserObject * user = (gmUserObject *) m_machine->GetObject(var->m_value.m_ref);
     if(a_userType != user->m_userType) 
     {
-      return NULL;
+      return nullptr;
     }
     return user->m_user;
   }
-  return NULL;
+  return nullptr;
 }
 
 
@@ -789,7 +789,7 @@ inline gmUserObject * gmThread::ThisUserObject()
   {
     return (gmUserObject *) m_machine->GetObject(var->m_value.m_ref);
   }
-  return NULL;
+  return nullptr;
 }
 
 //

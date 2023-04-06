@@ -355,7 +355,7 @@ RecvProp RecvPropInt(
 	int offset, 
 	int sizeofVar=SIZEOF_IGNORE,	// Handled by RECVINFO macro, but set to SIZEOF_IGNORE if you don't want to bother.
 	int flags=0, 
-	RecvVarProxyFn varProxy=0
+	RecvVarProxyFn varProxy=nullptr
 	);
 
 RecvProp RecvPropString(

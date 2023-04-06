@@ -218,8 +218,8 @@ void CIconComboBox::MeasureItem( LPMEASUREITEMSTRUCT lpMeasureItemStruct )
 //-----------------------------------------------------------------------------
 void CIconComboBox::DrawItem( LPDRAWITEMSTRUCT lpDrawItemStruct )
 {
-	CBrush *pOldBrush = NULL;
-	CPen *pOldPen = NULL;
+	CBrush *pOldBrush = nullptr;
+	CPen *pOldPen = nullptr;
 
 	//
 	// the icon is "disabled"

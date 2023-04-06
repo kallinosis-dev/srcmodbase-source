@@ -181,7 +181,7 @@ void DrawVortWarp_DX9( CBaseVSShader *pShader, IMaterialVar** params, IShaderDyn
 		// This shader supports compressed vertices, so OR in that flag:
 		flags |= VERTEX_FORMAT_COMPRESSED;
 
-		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, NULL, userDataSize );
+		pShaderShadow->VertexShaderVertexFormat( flags, nTexCoordCount, nullptr, userDataSize );
 
 		Assert( hasBump );
 	
@@ -598,7 +598,7 @@ BEGIN_VS_SHADER( VortWarp_DX9,
 
 	SHADER_FALLBACK
 	{	
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT

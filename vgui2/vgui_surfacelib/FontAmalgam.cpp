@@ -73,7 +73,7 @@ font_t *CFontAmalgam::GetFontForChar(int ch)
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

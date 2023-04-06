@@ -211,7 +211,7 @@ CDmeEditorAttributeInfo *CDmeEditorType::GetAttributeInfo( const char *pAttribut
 {
 	pAttributeName = GetActualAttributeName( pAttributeName );
 	if ( !HasAttribute( pAttributeName ) )
-		return NULL;
+		return nullptr;
 
 	return GetValueElement< CDmeEditorAttributeInfo >( pAttributeName );
 }
@@ -224,7 +224,7 @@ CDmeEditorAttributeInfo *CDmeEditorType::GetAttributeArrayInfo( const char *pAtt
 {
 	CDmeEditorAttributeInfo *pAttributeInfo = GetAttributeInfo( pAttributeName );
 	if ( !pAttributeInfo )
-		return NULL;
+		return nullptr;
 
 	return pAttributeInfo->GetArrayInfo();
 }
@@ -274,9 +274,9 @@ void CDmeEditorTypeDictionary::AddEditorTypesFromFile( const char *pFileName, co
 CDmeEditorType *CDmeEditorTypeDictionary::GetEditorType( CDmElement *pElement )
 {
 	if ( !pElement )
-		return NULL;
+		return nullptr;
 
-	const char *pEditorTypeName = NULL;
+	const char *pEditorTypeName = nullptr;
 	if ( pElement->HasAttribute( "editorType" ) )
 	{
 		pEditorTypeName = pElement->GetValueString( "editorType" );
@@ -289,10 +289,10 @@ CDmeEditorType *CDmeEditorTypeDictionary::GetEditorType( CDmElement *pElement )
 	}
 
 	if ( !pEditorTypeName || !pEditorTypeName[0] )
-		return NULL;
+		return nullptr;
 
 	if ( !HasAttribute( pEditorTypeName ) )
-		return NULL;
+		return nullptr;
 
 	return GetValueElement< CDmeEditorType >( pEditorTypeName );
 }
@@ -305,7 +305,7 @@ CDmeEditorAttributeInfo *CDmeEditorTypeDictionary::GetAttributeInfo( CDmElement 
 {
 	CDmeEditorType *pEditorType = GetEditorType( pElement );
 	if ( !pEditorType )
-		return NULL;
+		return nullptr;
 	return pEditorType->GetAttributeInfo( pAttributeName );
 }
 
@@ -317,6 +317,6 @@ CDmeEditorAttributeInfo *CDmeEditorTypeDictionary::GetAttributeArrayInfo( CDmEle
 {
 	CDmeEditorType *pEditorType = GetEditorType( pElement );
 	if ( !pEditorType )
-		return NULL;
+		return nullptr;
 	return pEditorType->GetAttributeArrayInfo( pAttributeName );
 }

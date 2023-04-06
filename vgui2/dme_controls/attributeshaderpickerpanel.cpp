@@ -63,7 +63,7 @@ void CAttributeShaderPickerPanel::ShowPickerDialog()
 void CAttributeShaderPickerPanel::OnPicked( KeyValues *pKeyValues )
 {
 	// Get the asset name back
-	const char *pShaderName = pKeyValues->GetString( "choice", NULL );
+	const char *pShaderName = pKeyValues->GetString( "choice", nullptr);
 	if ( !pShaderName || !pShaderName[ 0 ] )
 		return;
 

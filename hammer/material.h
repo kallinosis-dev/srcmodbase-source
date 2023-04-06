@@ -47,7 +47,7 @@ public:
 	static bool Initialize( HWND hwnd );
 	static void ShutDown(void);
 	static void	EnumerateMaterials( IMaterialEnumerator *pEnum, const char *szRoot, int nContext, int nFlags = INCLUDE_ALL_MATERIALS );
-	static CMaterial *CreateMaterial( const char *pszMaterialName, bool bLoadImmediately, bool* pFound = 0 );
+	static CMaterial *CreateMaterial( const char *pszMaterialName, bool bLoadImmediately, bool* pFound = nullptr );
 
 	virtual ~CMaterial(void);
 
@@ -84,7 +84,7 @@ public:
 
 	inline CPalette *GetPalette(void) const
 	{
-		return(NULL);
+		return(nullptr);
 	}
 
 	inline int GetSurfaceAttributes(void) const
@@ -231,7 +231,7 @@ class CMaterialCache
 //-----------------------------------------------------------------------------
 inline bool CMaterialCache::CacheExists(void)
 {
-	return((m_pCache != NULL) && (m_nMaxEntries > 0));
+	return((m_pCache != nullptr) && (m_nMaxEntries > 0));
 }
 
 

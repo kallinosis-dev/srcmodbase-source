@@ -131,11 +131,11 @@ CDmePresetGroupEditorPanel::CDmePresetGroupEditorPanel( vgui::Panel *pParent, co
 	m_pPresetGroupList->SetEmptyListText( "No preset groups" );
 	m_pPresetGroupList->AddActionSignalTarget( this );
 	m_pPresetGroupList->SetSortFunc( 0, IndexSortFunc );
-	m_pPresetGroupList->SetSortFunc( 1, NULL );
+	m_pPresetGroupList->SetSortFunc( 1, nullptr);
 	m_pPresetGroupList->SetColumnSortable( 1, false );
-	m_pPresetGroupList->SetSortFunc( 2, NULL );
+	m_pPresetGroupList->SetSortFunc( 2, nullptr);
 	m_pPresetGroupList->SetColumnSortable( 2, false );
-	m_pPresetGroupList->SetSortFunc( 3, NULL );
+	m_pPresetGroupList->SetSortFunc( 3, nullptr);
 	m_pPresetGroupList->SetColumnSortable( 3, false );
 	m_pPresetGroupList->SetDropEnabled( true );
 	m_pPresetGroupList->SetSortColumn( 0 );
@@ -186,7 +186,7 @@ void CDmePresetGroupEditorPanel::CleanupContextMenu()
 	if ( m_hContextMenu.Get() )
 	{
 		m_hContextMenu->MarkForDeletion();
-		m_hContextMenu = NULL;
+		m_hContextMenu = nullptr;
 	}
 }
 
@@ -290,11 +290,11 @@ void CDmePresetGroupEditorPanel::RefreshPresetNames()
 const char* CDmePresetGroupEditorPanel::GetSelectedPresetName()
 {
 	if ( !m_hFilmClip.Get() )
-		return NULL;
+		return nullptr;
 
 	int nSelectedPresetCount = m_pPresetList->GetSelectedItemsCount();
 	if ( nSelectedPresetCount != 1 )
-		return NULL;
+		return nullptr;
 
 	int nItemID = m_pPresetList->GetSelectedItem( 0 );
 	KeyValues *pKeyValues = m_pPresetList->GetItem( nItemID );
@@ -327,11 +327,11 @@ void CDmePresetGroupEditorPanel::SetSelectedPreset( const char* pPresetName )
 const char *CDmePresetGroupEditorPanel::GetSelectedPresetGroupName()
 {
 	if ( !m_hFilmClip.Get() )
-		return NULL;
+		return nullptr;
 
 	int nSelectedItemCount = m_pPresetGroupList->GetSelectedItemsCount();
 	if ( nSelectedItemCount != 1 )
-		return NULL;
+		return nullptr;
 
 	int nItemID = m_pPresetGroupList->GetSelectedItem( 0 );
 	KeyValues *pKeyValues = m_pPresetGroupList->GetItem( nItemID );
@@ -615,7 +615,7 @@ bool CDmePresetGroupEditorPanel::OnReadFileFromDisk( const char *pFileName, cons
 {
 	CDmElement *pRoot;
 	CDisableUndoScopeGuard sg;
-	DmFileId_t fileId = g_pDataModel->RestoreFromFile( pFileName, NULL, pFileFormat, &pRoot, CR_FORCE_COPY );
+	DmFileId_t fileId = g_pDataModel->RestoreFromFile( pFileName, nullptr, pFileFormat, &pRoot, CR_FORCE_COPY );
 	sg.Release();
 
 	if ( fileId == DMFILEID_INVALID )
@@ -658,7 +658,7 @@ bool CDmePresetGroupEditorPanel::OnWriteFileToDisk( const char *pFileName, const
 {
 	const char *pPresetGroupName = pContextKeyValues->GetString( "presetGroupName" );
 	CDmeAnimationSet *pAnimSet = GetElementKeyValue< CDmeAnimationSet >( pContextKeyValues, "animSet" );
-	CDmePresetGroup *pPresetGroup = ( pAnimSet && pPresetGroupName ) ? pAnimSet->FindPresetGroup( pPresetGroupName ) : NULL;
+	CDmePresetGroup *pPresetGroup = ( pAnimSet && pPresetGroupName ) ? pAnimSet->FindPresetGroup( pPresetGroupName ) : nullptr;
 
 	// Used when exporting an entire preset group
 	if ( !Q_stricmp( pContextKeyValues->GetName(), "ExportPresetGroup" ) )
@@ -666,7 +666,7 @@ bool CDmePresetGroupEditorPanel::OnWriteFileToDisk( const char *pFileName, const
 		if ( !pPresetGroup )
 			return false;
 
-		bool bOk = g_pDataModel->SaveToFile( pFileName, NULL, g_pDataModel->GetDefaultEncoding( pFileFormat ), pFileFormat, pPresetGroup );
+		bool bOk = g_pDataModel->SaveToFile( pFileName, nullptr, g_pDataModel->GetDefaultEncoding( pFileFormat ), pFileFormat, pPresetGroup );
 		return bOk;
 	}
 
@@ -726,7 +726,7 @@ bool CDmePresetGroupEditorPanel::OnWriteFileToDisk( const char *pFileName, const
 		presets.AddToTail( pPreset );
 	}
 
-	bool bOk = g_pDataModel->SaveToFile( pFileName, NULL, g_pDataModel->GetDefaultEncoding( pFileFormat ), pFileFormat, pRoot );
+	bool bOk = g_pDataModel->SaveToFile( pFileName, nullptr, g_pDataModel->GetDefaultEncoding( pFileFormat ), pFileFormat, pRoot );
 	g_pDataModel->DestroyElement( pRoot->GetHandle() );
 	return bOk;
 }
@@ -775,7 +775,7 @@ void CDmePresetGroupEditorPanel::ImportPresets( CUtlVector< const char * >& pres
 		const char *pPresetName = presetNames[i];
 		CDmePreset *pPreset = pPresetGroup->FindOrAddPreset( pPresetName );
 
-		CDmePreset *pSrcPreset = NULL;
+		CDmePreset *pSrcPreset = nullptr;
 		int nSrcPresets = srcPresets.Count();
 		for ( int j = 0; j < nSrcPresets; ++j )
 		{
@@ -836,7 +836,7 @@ void CDmePresetGroupEditorPanel::OnPresetPicked( KeyValues *pParams )
 			pContextKeyValues->SetString( pBuf, presetNames[ i ] );
 		}
 
-		m_hFileOpenStateMachine->SaveFile( pContextKeyValues, NULL, PRESET_FILE_FORMAT, vgui::FOSM_SHOW_PERFORCE_DIALOGS );
+		m_hFileOpenStateMachine->SaveFile( pContextKeyValues, nullptr, PRESET_FILE_FORMAT, vgui::FOSM_SHOW_PERFORCE_DIALOGS );
 		return;
 	}
 
@@ -904,7 +904,7 @@ void CDmePresetGroupEditorPanel::OnExportPresetGroupToVFE()
 	KeyValues *pContextKeyValues = new KeyValues( "ExportPresetGroupToVFE" );
 	SetElementKeyValue( pContextKeyValues, "animSet", pAnimSet );
 	pContextKeyValues->SetString( "presetGroupName", pPresetGroupName );
-	m_hFileOpenStateMachine->SaveFile( pContextKeyValues, NULL, "vfe", vgui::FOSM_SHOW_PERFORCE_DIALOGS );
+	m_hFileOpenStateMachine->SaveFile( pContextKeyValues, nullptr, "vfe", vgui::FOSM_SHOW_PERFORCE_DIALOGS );
 }
 
 
@@ -925,7 +925,7 @@ void CDmePresetGroupEditorPanel::OnExportPresetGroupToTXT()
 	KeyValues *pContextKeyValues = new KeyValues( "ExportPresetGroupToTXT" );
 	SetElementKeyValue( pContextKeyValues, "animSet", pAnimSet );
 	pContextKeyValues->SetString( "presetGroupName", pPresetGroupName );
-	m_hFileOpenStateMachine->SaveFile( pContextKeyValues, NULL, "txt", vgui::FOSM_SHOW_PERFORCE_DIALOGS );
+	m_hFileOpenStateMachine->SaveFile( pContextKeyValues, nullptr, "txt", vgui::FOSM_SHOW_PERFORCE_DIALOGS );
 }
 
 
@@ -946,7 +946,7 @@ void CDmePresetGroupEditorPanel::OnExportPresetGroups()
 	KeyValues *pContextKeyValues = new KeyValues( "ExportPresetGroup" );
 	SetElementKeyValue( pContextKeyValues, "animSet", pAnimSet );
 	pContextKeyValues->SetString( "presetGroupName", pPresetGroupName );
-	m_hFileOpenStateMachine->SaveFile( pContextKeyValues, NULL, PRESET_FILE_FORMAT, vgui::FOSM_SHOW_PERFORCE_DIALOGS );
+	m_hFileOpenStateMachine->SaveFile( pContextKeyValues, nullptr, PRESET_FILE_FORMAT, vgui::FOSM_SHOW_PERFORCE_DIALOGS );
 }
 
 
@@ -1079,7 +1079,7 @@ void CDmePresetGroupEditorPanel::OnOpenContextMenu( KeyValues *kv )
 	if ( !m_hFilmClip.Get() )
 		return;
 
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pPresetList )
 	{
 		OnOpenPresetContextMenu();
@@ -1134,7 +1134,7 @@ void CDmePresetGroupEditorPanel::OnOpenContextMenu( KeyValues *kv )
 //-----------------------------------------------------------------------------
 void CDmePresetGroupEditorPanel::OnItemSelected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pPresetGroupList )
 	{
 		RefreshPresetNames();
@@ -1148,7 +1148,7 @@ void CDmePresetGroupEditorPanel::OnItemSelected( KeyValues *kv )
 //-----------------------------------------------------------------------------
 void CDmePresetGroupEditorPanel::OnItemDeselected( KeyValues *kv )
 {
-	Panel *pPanel = (Panel *)kv->GetPtr( "panel", NULL );
+	Panel *pPanel = (Panel *)kv->GetPtr( "panel", nullptr);
 	if ( pPanel == m_pPresetGroupList )
 	{
 		RefreshPresetNames();
@@ -1279,7 +1279,7 @@ void CDmePresetGroupEditorPanel::PerformRenameGroup( const char *pNewGroupName )
 //-----------------------------------------------------------------------------
 void CDmePresetGroupEditorPanel::OnInputCompleted( KeyValues *pKeyValues )
 {
-	const char *pName = pKeyValues->GetString( "text", NULL );
+	const char *pName = pKeyValues->GetString( "text", nullptr);
 	if ( !pName || !pName[0] )						  
 		return;
 
@@ -1658,7 +1658,7 @@ bool CDmePresetGroupListPanel::IsDroppable( CUtlVector< KeyValues * >& msgList )
 				vgui::input()->GetCursorPos( x, y );
 				GetCellAtPos( x, y, row, column );
 				KeyValues *pKeyValues = GetItem( row );
-				const char *pDropGroupName = pKeyValues ? pKeyValues->GetString( "presetGroupName" ) : NULL;
+				const char *pDropGroupName = pKeyValues ? pKeyValues->GetString( "presetGroupName" ) : nullptr;
 				CDmePresetGroup *pDropGroup = FindAnyPresetGroup( m_pPresetGroupPanel->GetAnimationSetClip(), pDropGroupName );
 				if ( pDropGroup && !pDropGroup->m_bIsReadOnly )
 					return true;
@@ -1822,9 +1822,9 @@ bool CDmePresetListPanel::IsDroppable( CUtlVector< KeyValues * >& msgList )
 	if ( msgList.Count() > 0 )
 	{
 		KeyValues *pData( msgList[ 0 ] );
-		if ( pData->GetPtr( "panel", NULL ) == this && m_pPresetGroupPanel )
+		if ( pData->GetPtr( "panel", nullptr) == this && m_pPresetGroupPanel )
 		{
-			if ( pData->GetString( "presetName", NULL ) )
+			if ( pData->GetString( "presetName", nullptr) )
 				return true;
 		}
 	}
@@ -1841,7 +1841,7 @@ void CDmePresetListPanel::OnPanelDropped( CUtlVector< KeyValues * >& msgList )
 		return;
 
 	KeyValues *pData = msgList[ 0 ];
-	if ( pData->GetPtr( "panel", NULL ) != this || !m_pPresetGroupPanel )
+	if ( pData->GetPtr( "panel", nullptr) != this || !m_pPresetGroupPanel )
 		return;
 
 	// Discover the cell the panel is over
@@ -1852,8 +1852,8 @@ void CDmePresetListPanel::OnPanelDropped( CUtlVector< KeyValues * >& msgList )
 	int nItemID = GetItemIDFromRow( row );
 	KeyValues *pKeyValues = GetItem( nItemID );
 
-	const char *pDragPresetName = pData     ->GetString( "presetName", NULL );
-	const char *pDropPresetName = pKeyValues->GetString( "presetName", NULL );
+	const char *pDragPresetName = pData     ->GetString( "presetName", nullptr);
+	const char *pDropPresetName = pKeyValues->GetString( "presetName", nullptr);
 	if ( pDragPresetName && pDropPresetName )
 	{
 		m_pPresetGroupPanel->MovePresetInFrontOf( pDragPresetName, pDropPresetName );

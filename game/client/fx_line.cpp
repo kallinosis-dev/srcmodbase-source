@@ -57,7 +57,7 @@ void CFXLine::Draw( double frametime )
 	CMatRenderContextPtr pRenderContext( materials );
 	
 	//Bind the material
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, m_FXData.m_pMaterial );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, m_FXData.m_pMaterial );
 	
 	CMeshBuilder meshBuilder;
 
@@ -123,10 +123,10 @@ bool CFXLine::IsActive( void )
 void CFXLine::Destroy( void )
 {
 	//Release the material
-	if ( m_FXData.m_pMaterial != NULL )
+	if ( m_FXData.m_pMaterial != nullptr)
 	{
 		m_FXData.m_pMaterial->DecrementReferenceCount();
-		m_FXData.m_pMaterial = NULL;
+		m_FXData.m_pMaterial = nullptr;
 	}
 }
 
@@ -157,7 +157,7 @@ void FX_DrawLine( const Vector &start, const Vector &end, float scale, IMaterial
 	CMatRenderContextPtr pRenderContext( materials );
 	
 	//Bind the material
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 	CMeshBuilder meshBuilder;
 
 	Vector			tmp;
@@ -220,7 +220,7 @@ void FX_DrawLineFade( const Vector &start, const Vector &end, float scale, IMate
 	CMatRenderContextPtr pRenderContext( materials );
 
 	//Bind the material
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pMaterial );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pMaterial );
 	CMeshBuilder meshBuilder;
 
 	Vector			tmp;

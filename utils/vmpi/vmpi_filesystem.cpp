@@ -13,8 +13,8 @@
 bool g_bDisableFileAccess = false;
 
 
-CBaseVMPIFileSystem *g_pBaseVMPIFileSystem = NULL;
-IFileSystem *g_pOriginalPassThruFileSystem = NULL;
+CBaseVMPIFileSystem *g_pBaseVMPIFileSystem = nullptr;
+IFileSystem *g_pOriginalPassThruFileSystem = nullptr;
 
 void* GetVMPIFileSystem()
 {
@@ -54,7 +54,7 @@ IFileSystem* VMPI_FileSystem_Term()
 	if ( g_pBaseVMPIFileSystem )
 	{
 		g_pBaseVMPIFileSystem->Release();
-		g_pBaseVMPIFileSystem = NULL;
+		g_pBaseVMPIFileSystem = nullptr;
 
 		if ( g_iVMPIVerboseLevel >= 1 )
 		{
@@ -66,7 +66,7 @@ IFileSystem* VMPI_FileSystem_Term()
 	}
 	
 	IFileSystem *pRet = g_pOriginalPassThruFileSystem;
-	g_pOriginalPassThruFileSystem = NULL;
+	g_pOriginalPassThruFileSystem = nullptr;
 	return pRet;
 }
 
@@ -270,9 +270,9 @@ unsigned int CBaseVMPIFileSystem::Size( FileHandle_t file )
 	return ((IVMPIFile*)file)->Size();
 }
 
-unsigned int CBaseVMPIFileSystem::Size( const char *pFilename, const char *pathID = 0 )
+unsigned int CBaseVMPIFileSystem::Size( const char *pFilename, const char *pathID = nullptr )
 {
-	FileHandle_t hFile = Open( pFilename, "rb", NULL );
+	FileHandle_t hFile = Open( pFilename, "rb", nullptr);
 	if ( hFile == FILESYSTEM_INVALID_HANDLE )
 	{
 		return 0;
@@ -287,7 +287,7 @@ unsigned int CBaseVMPIFileSystem::Size( const char *pFilename, const char *pathI
 
 bool CBaseVMPIFileSystem::FileExists( const char *pFileName, const char *pPathID )
 {
-	FileHandle_t hFile = Open( pFileName, "rb", NULL );
+	FileHandle_t hFile = Open( pFileName, "rb", nullptr);
 	if ( hFile )
 	{
 		Close( hFile );

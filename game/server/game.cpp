@@ -49,7 +49,7 @@ ConVar	defaultteam( "mp_defaultteam","0" );
 ConVar	allowNPCs( "mp_allowNPCs","1", FCVAR_NOTIFY );
 
 // Engine Cvars
-const ConVar	*g_pDeveloper = NULL;
+const ConVar	*g_pDeveloper = nullptr;
 
 
 ConVar suitvolume( "suitvolume", "0.25", FCVAR_ARCHIVE );
@@ -61,7 +61,7 @@ public:
 	{
 		// Remember "unlinked" default value for replicated cvars
 		bool replicated = pCommand->IsFlagSet( FCVAR_REPLICATED );
-		const char *defvalue = NULL;
+		const char *defvalue = nullptr;
 		if ( replicated && !pCommand->IsCommand() )
 		{
 			defvalue = ( ( ConVar * )pCommand)->GetDefault();

@@ -149,7 +149,7 @@ void C_CascadeLight::Release()
 {
 	CsmDbgMsg( "C_CascadeLight::Release\n" );
 
-	m_pCascadeLight = NULL;
+	m_pCascadeLight = nullptr;
 
 	BaseClass::Release();
 }
@@ -470,13 +470,13 @@ void CDebugPrimRenderer2D::RenderScreenspaceDepthTexture( float sx, float sy, fl
 			
 	float flInvZRange = 1.0f / ( zHi - zLo );
 
-	IMaterialVar *c0_x = pMaterial->FindVar( "$c0_x", NULL, false );
+	IMaterialVar *c0_x = pMaterial->FindVar( "$c0_x", nullptr, false );
 	c0_x->SetFloatValue( flInvZRange );	
 
-	IMaterialVar *c0_y = pMaterial->FindVar( "$c0_y", NULL, false );
+	IMaterialVar *c0_y = pMaterial->FindVar( "$c0_y", nullptr, false );
 	c0_y->SetFloatValue( -zLo * flInvZRange );
 
-	IMaterialVar *c0_z = pMaterial->FindVar( "$c0_z", NULL, false );
+	IMaterialVar *c0_z = pMaterial->FindVar( "$c0_z", nullptr, false );
 	c0_z->SetFloatValue( 0.0f );
 
 	bool bFound = false;
@@ -542,13 +542,13 @@ void CDebugPrimRenderer2D::RenderDebugLines2D( uint nNumLines, const CDebugLine 
 	if ( !pMaterial ) 
 		return;
 
-	IMaterialVar *c0_x = pMaterial->FindVar( "$c0_x", NULL, false );
+	IMaterialVar *c0_x = pMaterial->FindVar( "$c0_x", nullptr, false );
 	c0_x->SetFloatValue( 1.0f );	
 
-	IMaterialVar *c0_y = pMaterial->FindVar( "$c0_y", NULL, false );
+	IMaterialVar *c0_y = pMaterial->FindVar( "$c0_y", nullptr, false );
 	c0_y->SetFloatValue( 1.0f );
 
-	IMaterialVar *c0_z = pMaterial->FindVar( "$c0_z", NULL, false );
+	IMaterialVar *c0_z = pMaterial->FindVar( "$c0_z", nullptr, false );
 	c0_z->SetFloatValue( 1.0f );
 
 	CMatRenderContextPtr pRenderContext( materials );
@@ -878,7 +878,7 @@ bool CCascadeLightManager::IsEnabled() const
 
 bool CCascadeLightManager::IsEnabledAndActive() const
 {
-	return IsEnabled() && ( C_CascadeLight::Get() != NULL );
+	return IsEnabled() && ( C_CascadeLight::Get() != nullptr);
 }
 
 void CCascadeLightManager::Draw3DDebugInfo()
@@ -1746,7 +1746,7 @@ void CCascadeLightManager::DumpStatus()
 	Msg( "Hardware config supportsShadowDepthTextures: %i\n", g_pMaterialSystemHardwareConfig->SupportsShadowDepthTextures() );
 	Msg( "Hardware config SupportsBilinearPCFSampling: %i\n", g_pMaterialSystemHardwareConfig->SupportsBilinearPCFSampling() );
 	Msg( "Current actual CSM quality level (%i=highest, will be forced to 0 if HW doesn't support bilinear PCF): %i\n", CSMQUALITY_TOTAL_MODES - 1, GetCSMQualityMode() );
-	Msg( "env_cascade_light entity exists: %i\n", C_CascadeLight::Get() != NULL );
+	Msg( "env_cascade_light entity exists: %i\n", C_CascadeLight::Get() != nullptr);
 	if ( C_CascadeLight::Get() )
 	{
 		Msg( "env_cascade_light values:\n" );

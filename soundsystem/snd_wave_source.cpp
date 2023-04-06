@@ -97,7 +97,7 @@ CAudioSourceWave::CAudioSourceWave( void )
 	m_rate = 0;
 	m_channels = 0;
 	m_format = 0;
-	m_pHeader = NULL;
+	m_pHeader = nullptr;
 	// no looping
 	m_loopStart = -1;
 	m_sampleSize = 1;
@@ -336,7 +336,7 @@ private:
 //-----------------------------------------------------------------------------
 CAudioSourceMemWave::CAudioSourceMemWave( void )
 {
-	m_pData = NULL;
+	m_pData = nullptr;
 }
 
 
@@ -548,7 +548,7 @@ CAudioSource *CreateWave( const char *pName )
 	if ( riff.RIFFName() != RIFF_WAVE )
 	{
 		Warning("Bad RIFF file type %s\n", pName );
-		return NULL;
+		return nullptr;
 	}
 
 	// set up the iterator for the whole file (root RIFF is a chunk)
@@ -584,7 +584,7 @@ CAudioSource *CreateWave( const char *pName )
 
 	// Not really a WAVE file or no format chunk, bail
 	if ( !format )
-		return NULL;
+		return nullptr;
 
 	CAudioSourceWave *pWave;
 

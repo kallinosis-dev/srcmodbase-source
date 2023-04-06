@@ -405,7 +405,7 @@ INT SquirrelObject::GetInt(INT key) const
 
 const SQChar *SquirrelObject::GetString(INT key) const
 {
-	const SQChar *ret = NULL;
+	const SQChar *ret = nullptr;
 	if(GetSlot(key)) {
 		sq_getstring(SquirrelVM::_VM,-1,&ret);
 		sq_pop(SquirrelVM::_VM,1);
@@ -492,7 +492,7 @@ INT SquirrelObject::GetInt(const SQChar *key) const
 
 const SQChar *SquirrelObject::GetString(const SQChar *key) const
 {
-	const SQChar *ret = NULL;
+	const SQChar *ret = nullptr;
 	if(GetSlot(key)) {
 		sq_getstring(SquirrelVM::_VM,-1,&ret);
 		sq_pop(SquirrelVM::_VM,1);
@@ -583,7 +583,7 @@ const SQChar * SquirrelObject::GetTypeName(const SQChar * key) {
   SqPlus::getVarNameTag(varNameTag,sizeof(varNameTag),key);
   SQUserPointer data=0;
   if (!RawGetUserData(varNameTag,&data)) {
-    return NULL;
+    return nullptr;
   } // if
   SqPlus::VarRefPtr vr = (SqPlus::VarRefPtr)data;
   return vr->typeName;
@@ -596,7 +596,7 @@ const SQChar * SquirrelObject::GetTypeName(const SQChar * key) {
 
 const SQChar * SquirrelObject::GetTypeName(INT key) {
   SquirrelObject so = GetValue(key);
-  if (so.IsNull()) return NULL;
+  if (so.IsNull()) return nullptr;
   return so.GetTypeName();
 } // SquirrelObject::GetTypeName
 
@@ -605,11 +605,11 @@ const SQChar * SquirrelObject::GetTypeName(void) {
   if (SQ_SUCCEEDED(sq_getobjtypetag(&_o,&typeTag))) {
     SquirrelObject typeTable = SquirrelVM::GetRootTable().GetValue(SQ_PLUS_TYPE_TABLE);
     if (typeTable.IsNull()) {
-      return NULL; // Not compiled with SQ_SUPPORT_INSTANCE_TYPE_INFO enabled.
+      return nullptr; // Not compiled with SQ_SUPPORT_INSTANCE_TYPE_INFO enabled.
     } // if
     return typeTable.GetString(INT((size_t)typeTag));
   } // if
-  return NULL;
+  return nullptr;
 } // SquirrelObject::GetTypeName
 
 const SQChar* SquirrelObject::ToString()

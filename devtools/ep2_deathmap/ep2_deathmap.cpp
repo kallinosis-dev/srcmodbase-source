@@ -79,7 +79,7 @@ bool ReadBitmapRGB( const byte *raw, size_t rawlen, Image_t *image )
 	int cbTotalbytes = cbBmpBits;
 
 	pb = new byte[ cbBmpBits ];
-	if (pb == 0)
+	if (pb == nullptr)
 	{
 		return false;
 	}
@@ -343,7 +343,7 @@ GLOBAL(void) jpeg_UtlBuffer_dest (j_compress_ptr cinfo, CUtlBuffer *pBuffer )
 	* manager serially with the same JPEG object, because their private object
 	* sizes may be different.  Caveat programmer.
 	*/
-	if (cinfo->dest == NULL) {	/* first time for this JPEG object? */
+	if (cinfo->dest == nullptr) {	/* first time for this JPEG object? */
 		cinfo->dest = (struct jpeg_destination_mgr *)
 			(*cinfo->mem->alloc_small) ((j_common_ptr) cinfo, JPOOL_PERMANENT,
 			sizeof(JPEGDestinationManager_t));
@@ -731,7 +731,7 @@ void BuildAggregateStats( IMySQL *mysql, char const *pszMapName, char const *whe
 		"GODMODES",
 		"NOCLIPS",
 		"DAMAGETAKEN",
-		NULL
+		nullptr
 	};
 
 	Q_snprintf( q, sizeof( q ), "select Sum(CRATESSMASHED), Avg(CRATESSMASHED),"\
@@ -766,7 +766,7 @@ void BuildAggregateStats( IMySQL *mysql, char const *pszMapName, char const *whe
 	{
 		while ( mysql->NextRow() )
 		{
-			while ( counters[ i ] != NULL )
+			while ( counters[ i ] != nullptr)
 			{
 				int idx = 2 * i;
 
@@ -968,16 +968,16 @@ int main(int argc, char* argv[])
 	Q_strlower( fn );
 
 	KeyValues *kv = new KeyValues( "mapinfo.res" );
-	if ( !kv->LoadFromFile( g_pFullFileSystem, fn, NULL ) )
+	if ( !kv->LoadFromFile( g_pFullFileSystem, fn, nullptr) )
 	{
 		Msg( "Unable to load mapinfo.res file from image directory [%s]\n", 
 			pathname );
 		exit( -1 );
 	}
 
-	CSysModule *sql = NULL;
-	CreateInterfaceFn factory = NULL;
-	IMySQL *mysql = NULL;
+	CSysModule *sql = nullptr;
+	CreateInterfaceFn factory = nullptr;
+	IMySQL *mysql = nullptr;
 
 	bool bSqlOkay = false;
 
@@ -989,7 +989,7 @@ int main(int argc, char* argv[])
 			factory = Sys_GetFactory( sql );
 			if ( factory )
 			{
-				mysql = ( IMySQL * )factory( MYSQL_WRAPPER_VERSION_NAME, NULL );
+				mysql = ( IMySQL * )factory( MYSQL_WRAPPER_VERSION_NAME, nullptr);
 				if ( mysql )
 				{
 					if ( mysql->InitMySQL( db, host, user, pw ) )
@@ -1079,7 +1079,7 @@ int main(int argc, char* argv[])
 
 
 			// Now parse into image
-			Image_t image = { 0 };
+			Image_t image = { nullptr };
 			if ( ReadBitmapRGB( buf, size, &image ) )
 			{
 				float flMaxValue = 0.0f;
@@ -1300,13 +1300,13 @@ int main(int argc, char* argv[])
 		if ( mysql )
 		{
 			mysql->Release();
-			mysql = NULL;
+			mysql = nullptr;
 		}
 
 		if ( sql )
 		{
 			Sys_UnloadModule( sql );
-			sql = NULL;
+			sql = nullptr;
 		}
 	}
 

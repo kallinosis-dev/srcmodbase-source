@@ -50,7 +50,7 @@ IMPLEMENT_CLIENTCLASS_DT( C_EntityDissolve, DT_EntityDissolve, CEntityDissolve )
 END_RECV_TABLE()
 
 extern PMaterialHandle g_Material_Spark;
-PMaterialHandle g_Material_AR2Glow = NULL;
+PMaterialHandle g_Material_AR2Glow = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -60,7 +60,7 @@ CEG_NOINLINE C_EntityDissolve::C_EntityDissolve( void )
 {
 	m_bLinkedToServerEnt = true;
 	CEG_PROTECT_MEMBER_FUNCTION( C_EntityDissolve_C_EntityDissolve );
-	m_pController = NULL;
+	m_pController = nullptr;
 	m_bCoreExplode = false;
 }
 
@@ -103,7 +103,7 @@ void C_EntityDissolve::UpdateOnRemove( void )
 	if ( m_pController )
 	{
 		physenv->DestroyMotionController( m_pController );
-		m_pController = NULL;
+		m_pController = nullptr;
 	}
 
 	BaseClass::UpdateOnRemove();
@@ -162,7 +162,7 @@ static void FX_BuildTesla( C_BaseEntity *pEntity, Vector &vecOrigin, Vector &vec
 	BeamInfo_t beamInfo;
 	beamInfo.m_pStartEnt = pEntity;
 	beamInfo.m_nStartAttachment = 0;
-	beamInfo.m_pEndEnt = NULL;
+	beamInfo.m_pEndEnt = nullptr;
 	beamInfo.m_nEndAttachment = 0;
 	beamInfo.m_nType = TE_BEAMTESLA;
 	beamInfo.m_vecStart = vecOrigin;
@@ -247,7 +247,7 @@ void C_EntityDissolve::BuildTeslaEffect( mstudiobbox_t *pHitBox, const matrix3x4
 			pSimple->SetSortOrigin( vecFlash );
 			SimpleParticle *pParticle;
 			pParticle = (SimpleParticle *) pSimple->AddParticle( sizeof( SimpleParticle ), pSimple->GetPMaterial( "effects/tesla_glow_noz" ), vecFlash );
-			if ( pParticle != NULL )
+			if ( pParticle != nullptr)
 			{
 				pParticle->m_flLifetime = 0.0f;
 				pParticle->m_flDieTime	= RandomFloat( 0.5, 1 );
@@ -513,7 +513,7 @@ float C_EntityDissolve::GetModelFadeOutPercentage( void )
 //-----------------------------------------------------------------------------
 void C_EntityDissolve::ClientThink( void )
 {
-	C_BaseAnimating *pAnimating = GetMoveParent() ? GetMoveParent()->GetBaseAnimating() : NULL;
+	C_BaseAnimating *pAnimating = GetMoveParent() ? GetMoveParent()->GetBaseAnimating() : nullptr;
 	if (!pAnimating)
 		return;
 
@@ -588,8 +588,8 @@ int C_EntityDissolve::DrawModel( int flags, const RenderableInstance_t &instance
 		if ( gpGlobals->frametime == 0 || m_bReadyToDraw == false )
 			return 0;
 
-		C_BaseAnimating *pAnimating = GetMoveParent() ? GetMoveParent()->GetBaseAnimating() : NULL;
-		if ( pAnimating == NULL )
+		C_BaseAnimating *pAnimating = GetMoveParent() ? GetMoveParent()->GetBaseAnimating() : nullptr;
+		if ( pAnimating == nullptr)
 			return 0;
 
 		matrix3x4_t	*hitboxbones[MAXSTUDIOBONES];
@@ -597,11 +597,11 @@ int C_EntityDissolve::DrawModel( int flags, const RenderableInstance_t &instance
 			return 0;
 
 		studiohdr_t *pStudioHdr = modelinfo->GetStudiomodel( pAnimating->GetModel() );
-		if ( pStudioHdr == NULL )
+		if ( pStudioHdr == nullptr)
 			return false;
 
 		mstudiohitboxset_t *set = pStudioHdr->pHitboxSet( pAnimating->GetHitboxSet() );
-		if ( set == NULL )
+		if ( set == nullptr)
 			return false;
 
 		// Make sure the emitter is setup properly
@@ -628,12 +628,12 @@ int C_EntityDissolve::DrawModel( int flags, const RenderableInstance_t &instance
 		spriteScale = clamp( spriteScale, 0.75f, 1.0f );
 
 		// Cache off this material reference
-		if ( g_Material_Spark == NULL )
+		if ( g_Material_Spark == nullptr)
 		{
 			g_Material_Spark = ParticleMgr()->GetPMaterial( "effects/spark" );
 		}
 
-		if ( g_Material_AR2Glow == NULL )
+		if ( g_Material_AR2Glow == nullptr)
 		{
 			g_Material_AR2Glow = ParticleMgr()->GetPMaterial( "effects/combinemuzzle2" );
 		}
@@ -679,7 +679,7 @@ int C_EntityDissolve::DrawModel( int flags, const RenderableInstance_t &instance
 
 				sParticle = (SimpleParticle *) m_pEmitter->AddParticle( sizeof(SimpleParticle), g_Material_Spark, vecAbsOrigin + offset );
 
-				if ( sParticle == NULL )
+				if ( sParticle == nullptr)
 					return 1;
 
 				sParticle->m_vecVelocity	= Vector( Helper_RandomFloat( -4.0f, 4.0f ), Helper_RandomFloat( -4.0f, 4.0f ), Helper_RandomFloat( 16.0f, 64.0f ) );
@@ -747,7 +747,7 @@ int C_EntityDissolve::DrawModel( int flags, const RenderableInstance_t &instance
 
 				sParticle = (SimpleParticle *) m_pEmitter->AddParticle( sizeof(SimpleParticle), g_Material_AR2Glow, vecAbsOrigin + offset );
 
-				if ( sParticle == NULL )
+				if ( sParticle == nullptr)
 					return 1;
 
 				sParticle->m_vecVelocity	= Vector( Helper_RandomFloat( -4.0f, 4.0f ), Helper_RandomFloat( -4.0f, 4.0f ), Helper_RandomFloat( -64.0f, 128.0f ) );

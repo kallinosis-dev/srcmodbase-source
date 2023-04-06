@@ -25,7 +25,7 @@ static ConVar  r_drawflecks( "r_drawflecks", "1" );
 static ConVar  r_impacts_alt_orientation ( "r_impacts_alt_orientation", "1" );
 extern ConVar r_drawmodeldecals;
 
-ImpactSoundRouteFn g_pImpactSoundRouteFn = NULL;
+ImpactSoundRouteFn g_pImpactSoundRouteFn = nullptr;
 
 //==========================================================================================================================
 // RAGDOLL ENUMERATOR
@@ -40,17 +40,17 @@ CRagdollEnumerator::CRagdollEnumerator( Ray_t& shot, int iDamageType )
 IterationRetval_t CRagdollEnumerator::EnumElement( IHandleEntity *pHandleEntity )
 {
 	C_BaseEntity *pEnt = ClientEntityList().GetBaseEntityFromHandle( pHandleEntity->GetRefEHandle() );
-	if ( pEnt == NULL )
+	if ( pEnt == nullptr)
 		return ITERATION_CONTINUE;
 
 	C_BaseAnimating *pModel = static_cast< C_BaseAnimating * >( pEnt );
 
 	// If the ragdoll was created on this tick, then the forces were already applied on the server
-	if ( pModel == NULL || WasRagdollCreatedOnCurrentTick( pEnt ) )
+	if ( pModel == nullptr || WasRagdollCreatedOnCurrentTick( pEnt ) )
 		return ITERATION_CONTINUE;
 
 	IPhysicsObject *pPhysicsObject = pModel->VPhysicsGetObject();
-	if ( pPhysicsObject == NULL )
+	if ( pPhysicsObject == nullptr)
 		return ITERATION_CONTINUE;
 
 	trace_t tr;
@@ -58,7 +58,7 @@ IterationRetval_t CRagdollEnumerator::EnumElement( IHandleEntity *pHandleEntity 
 
 	if ( tr.fraction < 1.0 )
 	{
-		pModel->ImpactTrace( &tr, m_iDamageType, NULL );
+		pModel->ImpactTrace( &tr, m_iDamageType, nullptr);
 		m_bHit = true;
 
 		//FIXME: Yes?  No?
@@ -204,15 +204,15 @@ struct ImpactEffect_t
 static ImpactEffect_t s_pImpactEffect[26] = 
 {
 #ifndef DOTA_DLL
-	{ NULL,					NULL },							// CHAR_TEX_ANTLION
-	{ NULL,					NULL },							// CHAR_TEX_BLOODYFLESH	
+	{nullptr, nullptr},							// CHAR_TEX_ANTLION
+	{nullptr, nullptr},							// CHAR_TEX_BLOODYFLESH	
 	{ "impact_concrete",	"impact_concrete" },		// CHAR_TEX_CONCRETE		
 	{ "impact_dirt",		"impact_dirt" },			// CHAR_TEX_DIRT			
-	{ NULL,					NULL },							// CHAR_TEX_EGGSHELL		
-	{ NULL,					NULL },							// CHAR_TEX_FLESH			
+	{nullptr, nullptr},							// CHAR_TEX_EGGSHELL		
+	{nullptr, nullptr},							// CHAR_TEX_FLESH			
 	{ "impact_metal",		"impact_metal" },			// CHAR_TEX_GRATE			
-	{ NULL,					NULL },							// CHAR_TEX_ALIENFLESH		
-	{ NULL,					NULL },							// CHAR_TEX_CLIP			
+	{nullptr, nullptr},							// CHAR_TEX_ALIENFLESH		
+	{nullptr, nullptr},							// CHAR_TEX_CLIP			
 	{ "impact_grass",		"impact_grass" },			// CHAR_TEX_GRASS		
 	{ "impact_snow",		"impact_snow" },			// CHAR_TEX_SNOW
 	{ "impact_plastic",		"impact_plastic" },		// CHAR_TEX_PLASTIC		
@@ -227,9 +227,9 @@ static ImpactEffect_t s_pImpactEffect[26] =
 	{ "impact_cardboard",	"impact_cardboard" },		// CHAR_TEX_CARDBOARD		
 	{ "impact_metal",		"impact_metal" },			// CHAR_TEX_VENT			
 	{ "impact_wood",		"impact_wood" },			// CHAR_TEX_WOOD			
-	{ NULL,					NULL },							// CHAR_TEX_FAKE		
+	{nullptr, nullptr},							// CHAR_TEX_FAKE		
 	{ "impact_glass",		"impact_glass" },			// CHAR_TEX_GLASS			
-	{ NULL,					NULL },							// CHAR_TEX_WARPSHIELD	
+	{nullptr, nullptr},							// CHAR_TEX_WARPSHIELD	
 #endif
 };
 
@@ -352,7 +352,7 @@ static void PerformNewCustomEffects( const Vector &vecOrigin, trace_t &tr, const
 	}
 #endif
 
-	CSmartPtr<CNewParticleEffect> pEffect = CNewParticleEffect::CreateOrAggregatePrecached( NULL, nEffectIndex, vecImpactPoint );
+	CSmartPtr<CNewParticleEffect> pEffect = CNewParticleEffect::CreateOrAggregatePrecached(nullptr, nEffectIndex, vecImpactPoint );
 	if ( !pEffect->IsValid() )
 		return;
 

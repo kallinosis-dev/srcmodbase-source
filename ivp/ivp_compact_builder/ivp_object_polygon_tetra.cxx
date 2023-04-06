@@ -59,7 +59,7 @@ int IVP_Poly_Point::p(){
     return 0;
 }
 
-void p_del_double_triangles(IVP_Triangle **tri_a, IVP_Triangle **tri_b=NULL, IVP_Triangle **tri_c=NULL);
+void p_del_double_triangles(IVP_Triangle **tri_a, IVP_Triangle **tri_b= nullptr, IVP_Triangle **tri_c= nullptr);
 void p_del_double_triangles(IVP_Triangle **tri_a, IVP_Triangle **tri_b, IVP_Triangle **tri_c)
 {
     if(tri_a) P_DELETE((*tri_a)->other_side);
@@ -125,13 +125,13 @@ int IVP_Triangle::print(const char *comment)
 IVP_Tri_Edge *IVP_Tri_Edge::other_side()
 {
     int i;
-    if(!this->triangle->other_side) return NULL;
+    if(!this->triangle->other_side) return nullptr;
     IVP_Tri_Edge *e = &this->triangle->other_side->three_edges[0];
     for(i=2; i>=0; i--){
 	if(e->next->start_point == this->start_point) return e;
 	e++;
     }
-    return NULL;
+    return nullptr;
 }
 
 
@@ -660,7 +660,7 @@ IVP_ERROR_STRING P_Sur_2D::calc_line_representation()
     // clean up
     P_FREE(point_hash_array);
     
-    return IVP_NO_ERROR;
+    return nullptr;
 }
 
 int p_count_reachable(P_Sur_2D_Point *i_point)
@@ -701,8 +701,8 @@ IVP_ERROR_STRING P_Sur_2D::calc_triangle_representation()
 #endif
     having_islands = 1; // forced
 
-    P_Sur_2D_Line *td_ca_line = NULL;
-    P_Sur_2D_Line *td_bc_line = NULL;
+    P_Sur_2D_Line *td_ca_line = nullptr;
+    P_Sur_2D_Line *td_bc_line = nullptr;
     
     // for all lines
     int wrong_flag = 0;
@@ -913,7 +913,7 @@ IVP_ERROR_STRING P_Sur_2D::calc_triangle_representation()
     if(wrong_flag){
 	return "something went wrong in calc_triangle_representation! break...\n";
     }
-    return IVP_NO_ERROR;
+    return nullptr;
 }
 
 void ivp_check_for_opposite(IVP_Hash *hash, IVP_Poly_Point *p0, IVP_Poly_Point *p1, IVP_Tri_Edge *edge)
@@ -959,7 +959,7 @@ IVP_Object_Polygon_Tetra::IVP_Object_Polygon_Tetra(IVP_Template_Polygon *i_temp_
 	this->surfaces[i].set( &i_temp_pop->surfaces[i], this );
     }
     
-    template_polygon = NULL;
+    template_polygon = nullptr;
 }
 
 void IVP_Poly_Surface::set(IVP_Template_Surface *templ_sur,
@@ -994,7 +994,7 @@ IVP_ERROR_STRING IVP_Object_Polygon_Tetra::make_triangles()
     
     n_edges = 0;
     num_of_edges = 6 * (templ->n_points-2); // accurately calculated
-    hash = new IVP_Hash(num_of_edges/*size*/, 8 /*keylen*/, 0/*notfound*/);
+    hash = new IVP_Hash(num_of_edges/*size*/, 8 /*keylen*/, nullptr/*notfound*/);
     {
 	int i;    
 	IVP_Tri_Edge *edge;
@@ -1054,7 +1054,7 @@ IVP_ERROR_STRING IVP_Object_Polygon_Tetra::make_triangles()
 		edge->triangle = tri;
 		edge->next = edge+1;
 		edge->prev = edge+2;
-		edge->behind = NULL; // terminal!
+		edge->behind = nullptr; // terminal!
 		ivp_check_for_opposite(hash, po, po2, edge);
 		
 		// 2. edge
@@ -1063,7 +1063,7 @@ IVP_ERROR_STRING IVP_Object_Polygon_Tetra::make_triangles()
 		edge->triangle = tri;
 		edge->next = edge+1;
 		edge->prev = edge-1;
-		edge->behind = NULL; // terminal!
+		edge->behind = nullptr; // terminal!
 		ivp_check_for_opposite(hash, po2, po3, edge);
 		
 		// 3. edge
@@ -1072,7 +1072,7 @@ IVP_ERROR_STRING IVP_Object_Polygon_Tetra::make_triangles()
 		edge->triangle = tri;
 		edge->next = edge-2;
 		edge->prev = edge-1;
-		edge->behind = NULL; // terminal!
+		edge->behind = nullptr; // terminal!
 		ivp_check_for_opposite(hash, po3, po, edge);
 	    }
 	    P_DELETE(td_sur);
@@ -1087,7 +1087,7 @@ IVP_ERROR_STRING IVP_Object_Polygon_Tetra::make_triangles()
 	    tri = new IVP_Triangle();
 	    this->triangles.insert(tri);
 	    tri->flags.is_terminal = 1;
-	    tri->ivp_surface = NULL;
+	    tri->ivp_surface = nullptr;
 	    tri->flags.is_hidden = 1;
 	    tri->other_side = otri;
 	    otri->other_side = tri;
@@ -1114,7 +1114,7 @@ IVP_ERROR_STRING IVP_Object_Polygon_Tetra::make_triangles()
 		this->add_edge_into_point_to_edge_hash(edge);
 	    }
 	}
-	return NULL;
+	return nullptr;
 	// this->check_konsistency_of_triangles();
 }
 
@@ -1122,7 +1122,7 @@ IVP_ERROR_STRING IVP_Object_Polygon_Tetra::make_triangles()
 IVP_ERROR_STRING IVP_Object_Polygon_Tetra::final_convexify_check()
 {
     // checks wether the concavity of edges is correctly defined
-    IVP_ERROR_STRING error_flag = 0;
+    IVP_ERROR_STRING error_flag = nullptr;
     
     IVP_Object_Polygon_Tetra *ph = this;
     IVP_Triangle *tri;
@@ -1178,7 +1178,7 @@ IVP_ERROR_STRING IVP_Object_Polygon_Tetra::check_konsistency_of_triangles()
 {
     // tests consistency of object's physical elements
 
-    IVP_ERROR_STRING error_flag = 0;
+    IVP_ERROR_STRING error_flag = nullptr;
     
     IVP_Object_Polygon_Tetra *ph = this;
     IVP_Triangle *tri;
@@ -1304,7 +1304,7 @@ void IVP_Object_Polygon_Tetra::free_triangles()
 	nep = ep->next;
 	delete ep;
     }
-    extra_points= 0;
+    extra_points= nullptr;
 }
 
 void IVP_Object_Polygon_Tetra::calc_concavities()
@@ -1553,7 +1553,7 @@ void IVP_Object_Polygon_Tetra::add_edge_into_point_to_edge_hash(IVP_Tri_Edge *ed
     if(p[0]>p[1]){ // swap
 	hp = p[0]; p[0] = p[1]; p[1] = hp;
     }
-    if (this->points_to_edge_hash->find((char *)&p[0]) != 0) {
+    if (this->points_to_edge_hash->find((char *)&p[0]) != nullptr) {
 	return;			// already in hash
     }
     this->points_to_edge_hash->add((char *)&p[0], (void *)edge);
@@ -1562,11 +1562,11 @@ void IVP_Object_Polygon_Tetra::add_edge_into_point_to_edge_hash(IVP_Tri_Edge *ed
 
 IVP_Triangle::IVP_Triangle()
 {
-    next = prev = other_side = NULL;
-    pierced_triangle = NULL;
+    next = prev = other_side = nullptr;
+    pierced_triangle = nullptr;
     flags.is_terminal = 0;
     flags.is_hidden = 0;
-    ivp_surface = NULL;
+    ivp_surface = nullptr;
     memset((char*)(&three_edges[0]), 0, 3 * sizeof(IVP_Tri_Edge));
 }
 
@@ -1791,8 +1791,8 @@ void IVP_Object_Polygon_Tetra::pop_problematic_edge(IVP_Tri_Edge *edge){
 	    this->extra_points = extra_point;
 	    this->n_extra_points++;
 	    
-	    this->link_triangle_couple(tri_pa, a0, NULL, NULL); 
-	    this->link_triangle_couple(tri_pb, a1, tri_pa->three_edges[0].prev, NULL);
+	    this->link_triangle_couple(tri_pa, a0, nullptr, nullptr); 
+	    this->link_triangle_couple(tri_pb, a1, tri_pa->three_edges[0].prev, nullptr);
 	    this->link_triangle_couple(tri_pc, a2, tri_pb->three_edges[0].prev, tri_pa->three_edges[0].next);
 
 	    this->hide_triangle(tri_pa);
@@ -1963,8 +1963,8 @@ void IVP_Object_Polygon_Tetra::pop_concav_edge(IVP_Tri_Edge *edge)
     IVP_Tri_Edge *n0 = a2->opposite;
     IVP_Tri_Edge *o0 = a1->opposite;
     
-    IVP_Tri_Edge *link_to_tri_a_edge = NULL;
-    IVP_Tri_Edge *link_to_tri_b_edge = NULL;
+    IVP_Tri_Edge *link_to_tri_a_edge = nullptr;
+    IVP_Tri_Edge *link_to_tri_b_edge = nullptr;
     
     if(p0->triangle == n0->triangle){
 	link_to_tri_a_edge = n0->next->opposite;
@@ -1981,7 +1981,7 @@ void IVP_Object_Polygon_Tetra::pop_concav_edge(IVP_Tri_Edge *edge)
     
     if (tri_a){
 	if (tri_b){
-	    this->link_triangle_couple(tri_a, NULL, n0, p0);
+	    this->link_triangle_couple(tri_a, nullptr, n0, p0);
 	    this->link_triangle_couple(tri_b, e0, q0, o0);
 	}else{
 	    this->link_triangle_couple(tri_a, link_to_tri_b_edge, n0, p0);
@@ -2111,7 +2111,7 @@ void IVP_Object_Polygon_Tetra::convexify()
 		min_hash[P_HASH_CLASS_EPSILON] = h;
 		IVP_Tri_Edge *e;
 		IVP_U_Min_Hash_Enumerator elems(min_hash[P_HASH_CLASS_NORMAL]);
-		while ( (e=(IVP_Tri_Edge *)elems.get_next_element()) != NULL){
+		while ( (e=(IVP_Tri_Edge *)elems.get_next_element()) != nullptr){
 		    e->tmp.gen.hash_class = P_HASH_CLASS_NORMAL;
 		}
 	    }
@@ -2169,7 +2169,7 @@ char *p_mergesort(void **array,IVP_INT32 start, IVP_INT32 end, IVP_INT32 (*compa
 
 	size = end - start;
 	if (size <= 1) {
-		return 0;
+		return nullptr;
 	}
 	mid = (start+end) / 2;
 	error = p_mergesort(array,start,mid,compare,client_data);
@@ -2218,7 +2218,7 @@ void IVP_Object_Polygon_Tetra::insert_pierce_info()
     {
 	IVP_Triangle *tri;
 	for(tri=triangles.first; tri; tri=tri->next){
-	    tri->pierced_triangle = 0;
+	    tri->pierced_triangle = nullptr;
 	}
     }
 
@@ -2231,7 +2231,7 @@ void IVP_Object_Polygon_Tetra::insert_pierce_info()
 	    
 	    // search matching triangle
 	    IVP_Triangle *tri2;
-	    IVP_Triangle *found_tri = 0;
+	    IVP_Triangle *found_tri = nullptr;
 	    IVP_DOUBLE min_scal_val = IVP_MAX_SCAL_VAL;
 	    for(tri2=triangles.first; tri2; tri2=tri2->next){
 		if(tri2->flags.is_hidden) continue;

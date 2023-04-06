@@ -38,7 +38,7 @@ public:
 		m_Width = 0;
 		m_Height = 0;
 		m_szBaseTextureName = "";
-		m_Material = NULL;
+		m_Material = nullptr;
 		m_bIsInSheet = false;
 		m_nNodeIndex = -1;
 		m_nRefCount = 0;

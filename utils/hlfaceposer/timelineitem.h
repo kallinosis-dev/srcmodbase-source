@@ -87,7 +87,7 @@ public:
 	void				DeletePoints( float start, float end );
 
 	float				GetTimeForMouse( int mx, bool clip = false );
-	int					GetMouseForTime( float t, bool *clipped = NULL );
+	int					GetMouseForTime( float t, bool *clipped = nullptr);
 
 	void				SetMousePositionForEvent( mxEvent *event );
 

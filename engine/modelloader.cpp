@@ -107,8 +107,8 @@ extern	CGlobalVars g_ServerGlobalVariables;
 extern	IMaterial	*g_materialEmpty;
 extern	ConVar		r_rootlod;
 
-model_t *g_pSimpleWorldModel = NULL;
-model_t *g_pSimpleWorldModelWater = NULL;
+model_t *g_pSimpleWorldModel = nullptr;
+model_t *g_pSimpleWorldModelWater = nullptr;
 
 bool g_bLoadedMapHasBakedPropLighting = false;
 bool g_bBakedPropLightingNoSeparateHDR = false;  // Some maps only have HDR lighting on props, contained in the file for non-hdr light data
@@ -182,7 +182,7 @@ void NotifyHunkBeginMapLoad( const char *pszMapName )
 		// TODO: if Portal 2 map hunk sizes end up being highly variable, add entries here for maps
 		//       requiring > HUNK_COMMIT_FLOOR (defined in zone.cpp), to avoid fragmentation issues
 		//{ "hospital01", 9568256 },
-		{ NULL, 1024*1024 },
+		{nullptr, 1024*1024 },
 	};
 
 	for ( int i = 0; i < ARRAYSIZE(EstimatedHunkSizes); i++ )
@@ -228,8 +228,8 @@ struct ViewWeaponEntry_t
 		m_bStudioHWDataResident = false;
 		m_bViewModel = bIsViewModel;
 
-		m_hAsyncVTXControl = NULL;
-		m_hAsyncVVDControl = NULL;
+		m_hAsyncVTXControl = nullptr;
+		m_hAsyncVVDControl = nullptr;
 	}
 
 	CUtlVector< CUtlString >	m_Materials;
@@ -501,7 +501,7 @@ static BSPHeader_t		s_MapHeader;
 static FileHandle_t		s_MapFileHandle = FILESYSTEM_INVALID_HANDLE;
 static char				s_szMapPathName[MAX_PATH];
 static char				s_szMapPathNameOnDisk[MAX_PATH];
-static worldbrushdata_t	*s_pMap = NULL;
+static worldbrushdata_t	*s_pMap = nullptr;
 static int				s_nMapLoadRecursion = 0;
 CMemoryStack			s_MapBuffer;
 
@@ -572,7 +572,7 @@ void CMapLoadHelper::Init( model_t *pMapModel, const char *pPathName )
 		return;
 	}
 
-	s_pMap = NULL;
+	s_pMap = nullptr;
 	s_MapFileHandle = FILESYSTEM_INVALID_HANDLE;
 	V_memset( &s_MapHeader, 0, sizeof( s_MapHeader ) );
 	V_memset( &s_MapLumpFiles, 0, sizeof( s_MapLumpFiles ) );
@@ -588,7 +588,7 @@ void CMapLoadHelper::Init( model_t *pMapModel, const char *pPathName )
 
 	char szNameOnDisk[MAX_PATH];
 	GetMapPathNameOnDisk( szNameOnDisk, s_szMapPathName, sizeof( szNameOnDisk ) );
-	s_MapFileHandle = g_pFileSystem->OpenEx( szNameOnDisk, "rb", IsGameConsole() ? FSOPEN_NEVERINPACK : 0, IsGameConsole() ? "GAME" : NULL );
+	s_MapFileHandle = g_pFileSystem->OpenEx( szNameOnDisk, "rb", IsGameConsole() ? FSOPEN_NEVERINPACK : 0, IsGameConsole() ? "GAME" : nullptr);
 	if ( s_MapFileHandle == FILESYSTEM_INVALID_HANDLE )
 	{
 		if ( !g_bClearingClientState )
@@ -691,7 +691,7 @@ void CMapLoadHelper::InitFromMemory( model_t *pMapModel, const void *pData, int 
 		return;
 	}
 
-	s_pMap = NULL;
+	s_pMap = nullptr;
 	s_MapFileHandle = FILESYSTEM_INVALID_HANDLE;
 	V_memset( &s_MapHeader, 0, sizeof( s_MapHeader ) );
 	V_memset( &s_MapLumpFiles, 0, sizeof( s_MapLumpFiles ) );
@@ -759,7 +759,7 @@ void CMapLoadHelper::Shutdown( void )
 
 	s_szMapPathName[ 0 ] = '\0';
 	V_memset( &s_MapHeader, 0, sizeof( s_MapHeader ) );
-	s_pMap = NULL;
+	s_pMap = nullptr;
 
 	// discard from memory
 	if ( s_MapBuffer.GetUsed() )
@@ -911,9 +911,9 @@ CMapLoadHelper::CMapLoadHelper( int lumpToLoad, bool bUncompress )
 	m_nLumpID = lumpToLoad;
 	m_nLumpSize = 0;
 	m_nLumpOffset = -1;
-	m_pData = NULL;
-	m_pRawData = NULL;
-	m_pUncompressedData = NULL;
+	m_pData = nullptr;
+	m_pRawData = nullptr;
+	m_pUncompressedData = nullptr;
 	m_nUncompressedLumpSize = 0;
 	m_bUncompressedDataExternal = false;
 	
@@ -1302,7 +1302,7 @@ void DeallocateLightingData( worldbrushdata_t *pBrushData )
 			}
 		}
 
-		pBrushData->lightdata = NULL;
+		pBrushData->lightdata = nullptr;
 		pBrushData->m_nLightingDataSize = 0;
 	}
 }
@@ -1342,7 +1342,7 @@ void Mod_LoadLighting( bool bLoadHDR )
 
 	if ( !lh.LumpSize() )
 	{
-		lh.GetMap()->lightdata = NULL;
+		lh.GetMap()->lightdata = nullptr;
 		return;
 	}
 	Assert ( lh.LumpVersion() != 0 );
@@ -1372,8 +1372,8 @@ void Mod_LoadFaceBrushes()
 		CMapLoadHelper lh( LUMP_FACEBRUSHLIST );
 		if ( !lh.LumpSize() )
 		{
-			lh.GetMap()->m_pSurfaceBrushes = NULL;
-			lh.GetMap()->m_pSurfaceBrushList = NULL;
+			lh.GetMap()->m_pSurfaceBrushes = nullptr;
+			lh.GetMap()->m_pSurfaceBrushList = nullptr;
 			return;
 		}
 		lh.GetMap()->m_pSurfaceBrushList = (dfacebrushlist_t *)Hunk_AllocName( lh.LumpSize(), "FaceBrushLists", false );
@@ -1391,11 +1391,11 @@ void Mod_LoadFaceBrushes()
 //-----------------------------------------------------------------------------
 void Mod_LoadWorldlights( CMapLoadHelper &lh, bool bIsHDR )
 {
-	lh.GetMap()->shadowzbuffers = NULL;
+	lh.GetMap()->shadowzbuffers = nullptr;
 	if ( !lh.LumpSize() )
 	{
 		lh.GetMap()->numworldlights = 0;
-		lh.GetMap()->worldlights = NULL;
+		lh.GetMap()->worldlights = nullptr;
 		return;
 	}
 
@@ -1618,11 +1618,11 @@ void Mod_LoadOcclusion( void )
 
 	worldbrushdata_t *b = lh.GetMap();
 	b->numoccluders = 0;
-	b->occluders = NULL;
+	b->occluders = nullptr;
 	b->numoccluderpolys = 0;
-	b->occluderpolys = NULL;
+	b->occluderpolys = nullptr;
 	b->numoccludervertindices = 0;
-	b->occludervertindices = NULL;
+	b->occludervertindices = nullptr;
 
 	if ( !lh.LumpSize() )
 	{
@@ -1779,7 +1779,7 @@ void Mod_LoadTexinfo( CMapLoadHelper &lh )
 			else
 			{
 				DevMsg( "Mod_LoadTexinfo: texdata < 0 (index==%i/%i)\n", i, count );
-				out->material = NULL;
+				out->material = nullptr;
 			}
 			if ( !out->material )
 			{
@@ -2130,7 +2130,7 @@ bool Mod_LoadSurfaceLighting( msurfacelighting_t *pLighting, dface_t *in, ColorR
 	int lightOffset = in->lightofs;
 	if ( ( lightOffset == -1 ) || !pBaseLightData )
 	{
-		pLighting->m_pSamples = NULL;
+		pLighting->m_pSamples = nullptr;
 
 		// Can't have *any* lightstyles if we have no samples
 		for ( int i = 0; i < MAXLIGHTMAPS; ++i )
@@ -2288,7 +2288,7 @@ void Mod_LoadFaces( void )
 		}
 
         di = in->dispinfo;
-		out2->pDispInfo = NULL;
+		out2->pDispInfo = nullptr;
         if( di != -1 )
         {
 //			out->origSurfaceID = in->origFace;
@@ -2425,7 +2425,7 @@ void Mod_LoadNodes( void )
 		}
 	}
 	
-	Mod_SetParent (lh.GetMap()->nodes, NULL);	// sets nodes and leafs
+	Mod_SetParent (lh.GetMap()->nodes, nullptr);	// sets nodes and leafs
 
 	// Check for small-area parents... no culling below them...
 	mnode_t *pNode = lh.GetMap()->nodes;
@@ -2507,7 +2507,7 @@ void Mod_LoadLeafs_Version_0( CMapLoadHelper &lh )
 */
 		out->firstmarksurface = in->firstleafface;
 		out->nummarksurfaces = in->numleaffaces;
-		out->parent = NULL;
+		out->parent = nullptr;
 		
 		out->dispCount = 0;
 
@@ -2540,7 +2540,7 @@ void Mod_LoadLeafs_Version_1( CMapLoadHelper &lh, CMapLoadHelper &ambientLightin
 	if ( ambientLightingLump.LumpVersion() != LUMP_LEAF_AMBIENT_LIGHTING_VERSION || ambientLightingTable.LumpSize() == 0 )
 	{
 		// convert from previous version
-		CompressedLightCube *inLightCubes = NULL;
+		CompressedLightCube *inLightCubes = nullptr;
 		if ( ambientLightingLump.LumpSize() )
 		{
 			inLightCubes = ( CompressedLightCube * )ambientLightingLump.LumpBase();
@@ -2608,7 +2608,7 @@ void Mod_LoadLeafs_Version_1( CMapLoadHelper &lh, CMapLoadHelper &ambientLightin
 */
 		out->firstmarksurface = in->firstleafface;
 		out->nummarksurfaces = in->numleaffaces;
-		out->parent = NULL;
+		out->parent = nullptr;
 		
 		out->dispCount = 0;
 
@@ -2855,7 +2855,7 @@ void Mod_LoadLeafMinDistToWater( void )
 		// 1) there is no water in the map
 		// 2) we don't have this lump in the bsp file (old bsp file)
 		// 3) we aren't going to use it because we are on old hardware.
-		lh.GetMap()->m_LeafMinDistToWater = NULL;
+		lh.GetMap()->m_LeafMinDistToWater = nullptr;
 	}
 	else
 	{
@@ -3112,7 +3112,7 @@ bool Mod_LoadGameLump( int lumpId, void *pOutBuffer, int size )
 		// Load file into buffer
 		char szNameOnDisk[MAX_PATH];
 		GetMapPathNameOnDisk( szNameOnDisk, g_GameLumpFilename, sizeof( szNameOnDisk ) );
-		FileHandle_t fileHandle = g_pFileSystem->OpenEx( szNameOnDisk, "rb", IsGameConsole() ? FSOPEN_NEVERINPACK : 0, IsGameConsole() ? "GAME" : NULL );
+		FileHandle_t fileHandle = g_pFileSystem->OpenEx( szNameOnDisk, "rb", IsGameConsole() ? FSOPEN_NEVERINPACK : 0, IsGameConsole() ? "GAME" : nullptr);
 		if ( fileHandle == FILESYSTEM_INVALID_HANDLE )
 		{
 			return false;
@@ -3456,7 +3456,7 @@ void CMDLCacheNotify::OnCombinerPreCache( MDLHandle_t OldHandle, MDLHandle_t New
 	}
 
 	pModel->studio = NewHandle;
-	g_pMDLCache->SetUserData( OldHandle, NULL );
+	g_pMDLCache->SetUserData( OldHandle, nullptr);
 	g_pMDLCache->SetUserData( NewHandle, pModel );
 }
 
@@ -3522,7 +3522,7 @@ void ConnectMDLCacheNotify( )
 
 void DisconnectMDLCacheNotify( )
 {
-	g_pMDLCache->SetCacheNotify( NULL );
+	g_pMDLCache->SetCacheNotify(nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -3582,7 +3582,7 @@ class CResourcePreloadModel : public CResourcePreload
 				int nBytesToRead = CMapLoadHelper::LumpOffset( LUMP_PAKFILE );
 				CMapLoadHelper::Shutdown();
 
-				void *pTargetData = NULL;
+				void *pTargetData = nullptr;
 				Assert( ( s_MapBuffer.GetUsed() == 0 ) && ( s_MapBuffer.GetMaxSize() >= nBytesToRead ) );
 				if ( ( ( s_MapBuffer.GetUsed() == 0 ) && ( s_MapBuffer.GetMaxSize() >= nBytesToRead ) ) )
 					pTargetData = s_MapBuffer.Alloc( nBytesToRead );
@@ -3782,7 +3782,7 @@ void CModelLoader::Init( void )
 	m_Models.RemoveAll();
 	m_InlineModels.Purge();
 
-	m_pWorldModel = NULL;
+	m_pWorldModel = nullptr;
 	m_bMapRenderInfoLoaded = false;
 	m_bMapHasHDRLighting = false;
 	g_bLoadedMapHasBakedPropLighting = false;
@@ -3844,7 +3844,7 @@ void CModelLoader::Init( void )
 //-----------------------------------------------------------------------------
 void CModelLoader::Shutdown( void )
 {
-	m_pWorldModel = NULL;
+	m_pWorldModel = nullptr;
 
 	UnloadAllModels( false );
 
@@ -3872,7 +3872,7 @@ model_t *CModelLoader::GetModelForIndex( int i )
 {
 	if ( i < 0 || (unsigned)i >= m_Models.Count() )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return m_Models[i].modelpointer;
@@ -3889,7 +3889,7 @@ const char *CModelLoader::GetName( const model_t *pModel )
 	{
 		return pModel->szPathName;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -3912,18 +3912,18 @@ model_t *CModelLoader::FindModel( const char *pName )
 		if ( !IsWorldModelSet() )
 		{
 			Warning( "bad inline model number %i, worldmodel not yet setup\n", modelNum );
-			return NULL;
+			return nullptr;
 		}
 
 		if ( modelNum < 1 || modelNum >= GetNumWorldSubmodels() )
 		{
 			Warning( "bad inline model number %i\n", modelNum );
-			return NULL;
+			return nullptr;
 		}
 		return &m_InlineModels[modelNum];
 	}
 
-	model_t *pModel = NULL;
+	model_t *pModel = nullptr;
 
 	// get a handle suitable to use as the model key
 	// handles are insensitive to case and slashes
@@ -4008,7 +4008,7 @@ model_t *CModelLoader::FindModel( const char *pName )
 		{
 			// setup for tracking weapon models BEFORE anything else happens
 			// need the entries established before any data starts to arrive
-			if ( V_stristr( pModel->szPathName, "weapons/v_" ) != NULL )
+			if ( V_stristr( pModel->szPathName, "weapons/v_" ) != nullptr)
 			{
 				// track weapon view models
 				int nMapIndex = m_WeaponModelCache.Find( pModel );
@@ -4019,7 +4019,7 @@ model_t *CModelLoader::FindModel( const char *pName )
 					pModel->flags |= MODELFLAG_VIEW_WEAPON_MODEL;
 				}
 			}
-			else if ( V_stristr( pModel->szPathName, "weapons/w_" ) != NULL )
+			else if ( V_stristr( pModel->szPathName, "weapons/w_" ) != nullptr)
 			{
 				// track weapon world models
 				int nMapIndex = m_WeaponModelCache.Find( pModel );
@@ -4057,7 +4057,7 @@ model_t *CModelLoader::GetModelForName( const char *name, REFERENCETYPE referenc
 	// find or build new entry
 	model_t *model = FindModel( name );
 	if ( !model )
-		return NULL;
+		return nullptr;
 
 	// touch and load if not present
 	model_t *retval = LoadModel( model, &referencetype );
@@ -4202,7 +4202,7 @@ model_t	*CModelLoader::LoadModel( model_t *mod, REFERENCETYPE *pReferencetype )
 			g_pMemAlloc->CompactHeap();
 		
 			// the training map needs ALL the world weapons at high-res on a display wall
-			m_bAllowWorldWeaponEviction = ( V_stristr( m_szBaseName, "training1" ) == NULL );
+			m_bAllowWorldWeaponEviction = ( V_stristr( m_szBaseName, "training1" ) == nullptr);
 
 			// This is necessary on dedicated clients. On listen + dedicated servers, it's called twice.
 			// The second invocation is harmless.
@@ -4576,7 +4576,7 @@ byte *CModelLoader::GetLightstyles( model_t *pModel )
 		byte *pLightstyles = &m_LightStyleList[pModel->brush.nLightstyleIndex];
 		return pLightstyles;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CModelLoader::AllocateLightstyles( model_t *pModel, byte *pStyles, int nStyleCount )
@@ -4729,7 +4729,7 @@ RenderableTranslucencyType_t Mod_ComputeTranslucencyType( model_t* mod, int nSki
 			int materialCount = g_pStudioRender->GetMaterialListFromBodyAndSkin( mod->studio, nSkin, nBody, ARRAYSIZE( pMaterials ), pMaterials );
 			for ( int i = 0; i < materialCount; i++ )
 			{
-				if ( pMaterials[i] == NULL )
+				if ( pMaterials[i] == nullptr)
 					continue;
 
 				bool bIsTranslucent = pMaterials[i]->IsTranslucent();
@@ -5387,8 +5387,8 @@ void CModelLoader::Map_UnloadSimpleWorldModel( model_t *mod )
 	{
 		UnloadModel( g_pSimpleWorldModelWater );
 	}
-	g_pSimpleWorldModel = NULL;
-	g_pSimpleWorldModelWater = NULL;
+	g_pSimpleWorldModel = nullptr;
+	g_pSimpleWorldModelWater = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -5487,7 +5487,7 @@ void CModelLoader::Map_UnloadModel( model_t *mod )
 	if ( m_worldBrushData.hDispInfos )
 	{
 		DispInfo_DeleteArray( m_worldBrushData.hDispInfos );
-		m_worldBrushData.hDispInfos = NULL;
+		m_worldBrushData.hDispInfos = nullptr;
 	}
 
 	// Model loader loads world model materials, unload them here
@@ -5519,7 +5519,7 @@ static void GetSpriteInfo( const char *pName, bool bIsAVI, bool bIsBIK, int &nWi
 	// FIXME: The reason we are putting logic related to AVIs here,
 	// logic which is duplicated in the client DLL related to loading sprites,
 	// is that this code gets run on dedicated servers also.
-	IMaterial *pMaterial = NULL;
+	IMaterial *pMaterial = nullptr;
 	AVIMaterial_t hAVIMaterial = AVIMATERIAL_INVALID; 
 #if !defined( _GAMECONSOLE ) || defined( BINK_ENABLED_FOR_CONSOLE )
 	BIKMaterial_t hBIKMaterial = BIKMATERIAL_INVALID; 
@@ -5587,7 +5587,7 @@ void CModelLoader::Sprite_LoadModel( model_t *mod )
 	mod->nLoadFlags |= FMODELLOADER_LOADED;
 
 	// The hunk data is not used on the server
-	byte* pSprite = NULL;
+	byte* pSprite = nullptr;
 
 #ifndef DEDICATED
 	if ( g_ClientDLL )
@@ -5649,7 +5649,7 @@ void CModelLoader::Sprite_UnloadModel( model_t *mod )
 #endif
 
 	delete[] (byte *)mod->sprite.sprite;
-	mod->sprite.sprite = 0;
+	mod->sprite.sprite = nullptr;
 	mod->sprite.numframes = 0;
 }
 
@@ -5945,7 +5945,7 @@ void CModelLoader::SetWorldModel( model_t *mod )
 //-----------------------------------------------------------------------------
 void CModelLoader::ClearWorldModel( void )
 {
-	m_pWorldModel = NULL;
+	m_pWorldModel = nullptr;
 
 	m_InlineModels.Purge();
 
@@ -5983,7 +5983,7 @@ void *CModelLoader::GetExtraData( model_t *model )
 {
 	if ( !model )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	switch ( model->type )
@@ -5996,7 +5996,7 @@ void *CModelLoader::GetExtraData( model_t *model )
 				// The sprite got unloaded.
 				if ( !( FMODELLOADER_LOADED & model->nLoadFlags ) )
 				{
-					return NULL;
+					return nullptr;
 				}
 
 				return model->sprite.sprite;
@@ -6014,7 +6014,7 @@ void *CModelLoader::GetExtraData( model_t *model )
 		break;
 	};
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -6189,7 +6189,7 @@ model_t *CModelLoader::FindModelNoCreate( const char *pModelName )
 	}
 
 	// not found
-	return NULL;
+	return nullptr;
 }
 
 modtype_t CModelLoader::GetTypeFromName( const char *pModelName )
@@ -6223,7 +6223,7 @@ int	CModelLoader::FindNext( int iIndex, model_t **ppModel )
 	}
 	else if ( !m_Models.Count() || !m_Models.IsValidIndex( iIndex ) )
 	{
-		*ppModel = NULL;
+		*ppModel = nullptr;
 		return -1;
 	}
 
@@ -6267,7 +6267,7 @@ void CModelLoader::UnloadModel( model_t *pModel )
 	if ( pModel->m_pKeyValues )
 	{
 		pModel->m_pKeyValues->deleteThis();
-		pModel->m_pKeyValues = NULL;
+		pModel->m_pKeyValues = nullptr;
 	}
 }
 
@@ -6646,7 +6646,7 @@ bool CModelLoader::ProcessWeaponModelCacheOperations()
 								// operation was completed
 								// release the handle to avoid leak
 								g_pFullFileSystem->AsyncRelease( m_WeaponModelCache[i]->m_hAsyncVTXControl );
-								m_WeaponModelCache[i]->m_hAsyncVTXControl = NULL;
+								m_WeaponModelCache[i]->m_hAsyncVTXControl = nullptr;
 							}
 						}
 
@@ -6659,7 +6659,7 @@ bool CModelLoader::ProcessWeaponModelCacheOperations()
 								// operation was completed
 								// release the handle to avoid leak
 								g_pFullFileSystem->AsyncRelease( m_WeaponModelCache[i]->m_hAsyncVVDControl );
-								m_WeaponModelCache[i]->m_hAsyncVVDControl = NULL;
+								m_WeaponModelCache[i]->m_hAsyncVVDControl = nullptr;
 							}
 						}
 					}
@@ -6878,7 +6878,7 @@ void CModelLoader::UpdateDynamicModelLoadQueue()
 
 			Assert( pModel->nLoadFlags & FMODELLOADER_DYNAMIC );
 			Assert( pModel->type == mod_bad || ( pModel->nLoadFlags & (FMODELLOADER_LOADED | FMODELLOADER_LOADED_BY_PRELOAD) ) );
-			(void) LoadModel( pModel, NULL );
+			(void) LoadModel( pModel, nullptr);
 			Assert( pModel->type == mod_studio );
 
 			UtlHashHandle_t hDyn = m_DynamicModels.Find( pModel );

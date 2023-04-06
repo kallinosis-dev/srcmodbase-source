@@ -29,7 +29,7 @@ static bool FindDescendingLadderApproachPoint( const CNavLadder *ladder, const C
 	*pos = ladder->m_top - ladder->GetNormal() * 2.0f * HalfHumanWidth;
 
 	trace_t result;
-	UTIL_TraceLine( ladder->m_top, *pos, MASK_PLAYERSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+	UTIL_TraceLine( ladder->m_top, *pos, MASK_PLAYERSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 	if (result.fraction < 1.0f)
 	{
 		*pos = ladder->m_top + ladder->GetNormal() * 2.0f * HalfHumanWidth;
@@ -54,7 +54,7 @@ bool CCSBot::ComputePathPositions( void )
 
 	// start in first area's center
 	m_path[0].pos = m_path[0].area->GetCenter();
-	m_path[0].ladder = NULL;
+	m_path[0].ladder = nullptr;
 	m_path[0].how = NUM_TRAVERSE_TYPES;
 
 	for( int i=1; i<m_pathLength; ++i )
@@ -64,7 +64,7 @@ bool CCSBot::ComputePathPositions( void )
 
 		if (to->how <= GO_WEST)		// walk along the floor to the next area
 		{
-			to->ladder = NULL;
+			to->ladder = nullptr;
 
 			// compute next point, keeping path as straight as possible
 			from->area->ComputeClosestPointInPortal( to->area, (NavDirType)to->how, from->pos, &to->pos );
@@ -181,7 +181,7 @@ void CCSBot::SetupLadderMovement( void )
 
 	if (to->ladder)
 	{
-		m_spotEncounter = NULL;
+		m_spotEncounter = nullptr;
 		m_areaEnteredTimestamp = gpGlobals->curtime;
 
 		m_pathLadder = to->ladder;
@@ -246,7 +246,7 @@ void CCSBot::ComputeLadderEndpoint( bool isAscending )
 		to = m_pathLadder->m_bottom;
 	}
 
-	UTIL_TraceLine( from, m_pathLadder->m_bottom, MASK_PLAYERSOLID_BRUSHONLY, NULL, COLLISION_GROUP_NONE, &result );
+	UTIL_TraceLine( from, m_pathLadder->m_bottom, MASK_PLAYERSOLID_BRUSHONLY, nullptr, COLLISION_GROUP_NONE, &result );
 
 	if (result.fraction == 1.0f)
 		m_pathLadderEnd = to.z;
@@ -261,7 +261,7 @@ void CCSBot::ComputeLadderEndpoint( bool isAscending )
  */
 bool CCSBot::UpdateLadderMovement( void )
 {
-	if (m_pathLadder == NULL)
+	if (m_pathLadder == nullptr)
 		return false;
 
 	bool giveUp = false;
@@ -651,7 +651,7 @@ bool CCSBot::UpdateLadderMovement( void )
 				// successfully traversed ladder and reached destination area
 				// exit ladder state machine
 				PrintIfWatched( "Ladder traversed.\n" );
-				m_pathLadder = NULL;
+				m_pathLadder = nullptr;
 
 				// incrememnt path index to next step beyond this ladder
 				SetPathIndex( m_pathIndex+1 );
@@ -680,7 +680,7 @@ bool CCSBot::UpdateLadderMovement( void )
  */
 bool CCSBot::FindClosestPointOnPath( const Vector &worldPos, int startIndex, int endIndex, Vector *close ) const
 {
-	if (!HasPath() || close == NULL)
+	if (!HasPath() || close == nullptr)
 		return false;
 
 	Vector along, toWorldPos;
@@ -1147,9 +1147,9 @@ void CCSBot::SetPathIndex( int newIndex )
 		if (m_pathIndex < m_pathLength && m_pathIndex >= 2)
 			m_spotEncounter = m_path[ m_pathIndex-1 ].area->GetSpotEncounter( m_path[ m_pathIndex-2 ].area, m_path[ m_pathIndex ].area );
 		else
-			m_spotEncounter = NULL;
+			m_spotEncounter = nullptr;
 
-		m_pathLadder = NULL;
+		m_pathLadder = nullptr;
 	}
 }
 
@@ -1229,7 +1229,7 @@ bool CCSBot::IsFriendInTheWay( const Vector &goalPos )
 	{
 		CCSPlayer *player = static_cast<CCSPlayer *>( UTIL_PlayerByIndex( i ) );
 
-		if (player == NULL)
+		if (player == nullptr)
 			continue;
 
 		if (!player->IsAlive())
@@ -1871,18 +1871,18 @@ void CCSBot::BuildTrivialPath( const Vector &goal )
 	m_path[0].area = m_lastKnownArea;
 	m_path[0].pos = myOrigin;
 	m_path[0].pos.z = m_lastKnownArea->GetZ( myOrigin );
-	m_path[0].ladder = NULL;
+	m_path[0].ladder = nullptr;
 	m_path[0].how = NUM_TRAVERSE_TYPES;
 
 	m_path[1].area = m_lastKnownArea;
 	m_path[1].pos = goal;
 	m_path[1].pos.z = m_lastKnownArea->GetZ( goal );
-	m_path[1].ladder = NULL;
+	m_path[1].ladder = nullptr;
 	m_path[1].how = NUM_TRAVERSE_TYPES;
 
 	m_areaEnteredTimestamp = gpGlobals->curtime;
-	m_spotEncounter = NULL;
-	m_pathLadder = NULL;
+	m_spotEncounter = nullptr;
+	m_pathLadder = nullptr;
 
 	m_goalPosition = goal;
 }
@@ -1910,12 +1910,12 @@ bool CCSBot::ComputePath( const Vector &goal, RouteType route )
 
 	DestroyPath();
 
-	m_pathLadder = NULL;
+	m_pathLadder = nullptr;
 
 	CNavArea *goalArea = TheNavMesh->GetNearestNavArea( goal );
 
 	CNavArea *startArea = m_lastKnownArea;
-	if (startArea == NULL)
+	if (startArea == nullptr)
 		return false;
 
 	// if we fell off a ledge onto an area off the mesh, we will path from the
@@ -1927,7 +1927,7 @@ bool CCSBot::ComputePath( const Vector &goal, RouteType route )
 		// we can't reach our last known area - find nearest area to us
 		PrintIfWatched( "Last known area is above my head - resetting to nearest area.\n" );
 		m_lastKnownArea = (CCSNavArea*)TheNavMesh->GetNearestNavArea( GetAbsOrigin(), false, 500.0f, true );
-		if (m_lastKnownArea == NULL)
+		if (m_lastKnownArea == nullptr)
 		{
 			return false;
 		}
@@ -1956,7 +1956,7 @@ bool CCSBot::ComputePath( const Vector &goal, RouteType route )
 	//
 	// Compute shortest path to goal
 	//
-	CNavArea *closestArea = NULL;
+	CNavArea *closestArea = nullptr;
 	PathCost cost( this, route );
 	bool pathToGoalExists = NavAreaBuildPath( startArea, goalArea, &goal, cost, &closestArea );
 
@@ -2005,20 +2005,20 @@ bool CCSBot::ComputePath( const Vector &goal, RouteType route )
 	// append path end position
 	m_path[ m_pathLength ].area = effectiveGoalArea;
 	m_path[ m_pathLength ].pos = pathEndPosition;
-	m_path[ m_pathLength ].ladder = NULL;
+	m_path[ m_pathLength ].ladder = nullptr;
 	m_path[ m_pathLength ].how = NUM_TRAVERSE_TYPES;
 	++m_pathLength;
 
 	// do movement setup
 	m_pathIndex = 1;
 	m_areaEnteredTimestamp = gpGlobals->curtime;
-	m_spotEncounter = NULL;
+	m_spotEncounter = nullptr;
 	m_goalPosition = m_path[1].pos;
 
 	if (m_path[1].ladder)
 		SetupLadderMovement();
 	else
-		m_pathLadder = NULL;
+		m_pathLadder = nullptr;
 
 	// find initial encounter area along this path, if we are in the early part of the round
 	if (IsSafe())
@@ -2041,7 +2041,7 @@ bool CCSBot::ComputePath( const Vector &goal, RouteType route )
 		}
 		else
 		{
-			SetInitialEncounterArea( NULL );
+			SetInitialEncounterArea(nullptr);
 		}
 	}
 

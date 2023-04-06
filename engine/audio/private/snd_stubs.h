@@ -23,14 +23,14 @@ public:
 	virtual void GetVoiceData( int iController, const byte **ppvVoiceDataBuffer, unsigned int *pnumVoiceDataBytes )
 	{
 		if ( ppvVoiceDataBuffer )
-			*ppvVoiceDataBuffer = NULL;
+			*ppvVoiceDataBuffer = nullptr;
 		if ( pnumVoiceDataBytes )
 			*pnumVoiceDataBytes = NULL;
 	}
 	virtual void VoiceResetLocalData( int iController ) {}
 
 	virtual void SetPlaybackPriority( XUID remoteTalker, int iController, int iAllowPlayback ) {}
-	virtual void PlayIncomingVoiceData( XUID xuid, const byte *pbData, unsigned int dwDataSize, const bool *bAudiblePlayers = NULL ) {}
+	virtual void PlayIncomingVoiceData( XUID xuid, const byte *pbData, unsigned int dwDataSize, const bool *bAudiblePlayers = nullptr) {}
 
 	virtual void RemoveAllTalkers() {}
 };

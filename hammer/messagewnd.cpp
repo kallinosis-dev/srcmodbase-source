@@ -68,7 +68,7 @@ CMessageWnd::~CMessageWnd()
 //-----------------------------------------------------------------------------
 void CMessageWnd::CreateMessageWindow( CMDIFrameWnd *pwndParent, CRect &rect )
 {
-	Create( NULL, "Messages", WS_OVERLAPPEDWINDOW | WS_CHILD, rect, pwndParent );
+	Create(nullptr, "Messages", WS_OVERLAPPEDWINDOW | WS_CHILD, rect, pwndParent );
 
 	bool bErrors = true;
 	MWMSGSTRUCT mws;
@@ -122,7 +122,7 @@ void CMessageWnd::AddMsg(MWMSGTYPE type, TCHAR* msg)
 	MsgArray.SetAtGrow(iAddAt, mws);
 
 	// Don't do stuff that requires the window to exist.
-	if ( m_hWnd == NULL )
+	if ( m_hWnd == nullptr)
 		return;
 
 	CalculateScrollSize();
@@ -134,7 +134,7 @@ void CMessageWnd::AddMsg(MWMSGTYPE type, TCHAR* msg)
 //-----------------------------------------------------------------------------
 void CMessageWnd::ShowMessageWindow()
 {
-	if ( m_hWnd == NULL || bDestroyed )
+	if ( m_hWnd == nullptr || bDestroyed )
 		return;
 
 	ShowWindow( SW_SHOW );
@@ -145,7 +145,7 @@ void CMessageWnd::ShowMessageWindow()
 //-----------------------------------------------------------------------------
 void CMessageWnd::ToggleMessageWindow()
 {
-	if ( m_hWnd == NULL || bDestroyed )
+	if ( m_hWnd == nullptr || bDestroyed )
 		return;
 
 	ShowWindow( IsWindowVisible() ? SW_HIDE : SW_SHOWNA );
@@ -156,7 +156,7 @@ void CMessageWnd::ToggleMessageWindow()
 //-----------------------------------------------------------------------------
 void CMessageWnd::Activate()
 {
-	if ( m_hWnd == NULL || bDestroyed )
+	if ( m_hWnd == nullptr || bDestroyed )
 		return;
 
 	ShowWindow( SW_SHOW );
@@ -170,7 +170,7 @@ void CMessageWnd::Activate()
 //-----------------------------------------------------------------------------
 bool CMessageWnd::IsVisible()
 {
-	if ( m_hWnd == NULL || bDestroyed )
+	if ( m_hWnd == nullptr || bDestroyed )
 		return false;
 
 	return ( IsWindowVisible() == TRUE );
@@ -181,7 +181,7 @@ bool CMessageWnd::IsVisible()
 //-----------------------------------------------------------------------------
 void CMessageWnd::Resize( CRect &rect )
 {
-	if ( m_hWnd == NULL || bDestroyed )
+	if ( m_hWnd == nullptr || bDestroyed )
 		return;
 
 	MoveWindow( rect );
@@ -192,7 +192,7 @@ void CMessageWnd::Resize( CRect &rect )
 //-----------------------------------------------------------------------------
 void CMessageWnd::CalculateScrollSize()
 {
-	if ( m_hWnd == NULL || bDestroyed )
+	if ( m_hWnd == nullptr || bDestroyed )
 		return;
 
 	int iHorz;
@@ -395,22 +395,22 @@ void CMessageWnd::OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags)
 	switch(nChar)
 	{
 	case VK_UP:
-		OnVScroll(SB_LINEUP, 0, NULL);
+		OnVScroll(SB_LINEUP, 0, nullptr);
 		break;
 	case VK_DOWN:
-		OnVScroll(SB_LINEDOWN, 0, NULL);
+		OnVScroll(SB_LINEDOWN, 0, nullptr);
 		break;
 	case VK_PRIOR:
-		OnVScroll(SB_PAGEUP, 0, NULL);
+		OnVScroll(SB_PAGEUP, 0, nullptr);
 		break;
 	case VK_NEXT:
-		OnVScroll(SB_PAGEDOWN, 0, NULL);
+		OnVScroll(SB_PAGEDOWN, 0, nullptr);
 		break;
 	case VK_HOME:
-		OnVScroll(SB_THUMBPOSITION, 0, NULL);
+		OnVScroll(SB_THUMBPOSITION, 0, nullptr);
 		break;
 	case VK_END:
-		OnVScroll(SB_THUMBPOSITION, GetScrollLimit(SB_VERT), NULL);
+		OnVScroll(SB_THUMBPOSITION, GetScrollLimit(SB_VERT), nullptr);
 		break;
 	}
 

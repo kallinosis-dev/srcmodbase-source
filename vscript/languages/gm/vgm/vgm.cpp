@@ -128,7 +128,7 @@ public:
 		if ( !pFunction )
 		{
 			FlushErrorLog();
-			return NULL;
+			return nullptr;
 		}
 
 		ObjectHandle_t *pObjectHandle = new ObjectHandle_t;
@@ -153,9 +153,9 @@ public:
 		ReleaseHandle( hScript );
 	}
 
-	ScriptStatus_t Run( HSCRIPT hScript, HSCRIPT hScope = NULL, bool bWait = true )
+	ScriptStatus_t Run( HSCRIPT hScript, HSCRIPT hScope = nullptr, bool bWait = true )
 	{
-		return CGameMonkeyVM::ExecuteFunction( hScript, NULL, 0, NULL, hScope, bWait );
+		return CGameMonkeyVM::ExecuteFunction( hScript, nullptr, 0, nullptr, hScope, bWait );
 	}
 
 	ScriptStatus_t Run( const char *pszScript, bool bWait = true )
@@ -181,10 +181,10 @@ public:
 	ScriptStatus_t Run( HSCRIPT hScript, bool bWait )
 	{
 		Assert( bWait );
-		return CGameMonkeyVM::Run( hScript, (HSCRIPT)NULL, bWait );
+		return CGameMonkeyVM::Run( hScript, (HSCRIPT)nullptr, bWait );
 	}
 
-	HSCRIPT CreateScope( const char *pszScope, HSCRIPT hParent = NULL )
+	HSCRIPT CreateScope( const char *pszScope, HSCRIPT hParent = nullptr)
 	{
 		Assert( pszScope );
 		Assert( !hParent );
@@ -210,7 +210,7 @@ public:
 		ReleaseHandle( hScript );
 	}
 
-	HSCRIPT LookupFunction( const char *pszFunction, HSCRIPT hScope = NULL )
+	HSCRIPT LookupFunction( const char *pszFunction, HSCRIPT hScope = nullptr)
 	{
 		gmTableObject *pScope;
 
@@ -233,7 +233,7 @@ public:
 			AddCPPOwnedGMObject( pFunction );
 			return (HSCRIPT)pFunctionHandle;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	void ReleaseFunction( HSCRIPT hScript )
@@ -254,7 +254,7 @@ public:
 		if ( hFunction )
 		{
 			ObjectHandle_t *pObjectHandle= (ObjectHandle_t *)hFunction;
-			gmTableObject *pGlobals = NULL;
+			gmTableObject *pGlobals = nullptr;
 			gmTableObject *pScope;
 			if ( hScope )
 			{
@@ -367,7 +367,7 @@ public:
 		return true;
 	}
 
-	bool RegisterInstance( ScriptClassDesc_t *pDesc, void *pInstance, const char *pszInstance, HSCRIPT hScope = NULL )
+	bool RegisterInstance( ScriptClassDesc_t *pDesc, void *pInstance, const char *pszInstance, HSCRIPT hScope = nullptr)
 	{
 		if ( !RegisterClass( pDesc ) )
 		{
@@ -380,7 +380,7 @@ public:
 
 		InstanceContext_t *pInstanceContext = new InstanceContext_t;
 		pInstanceContext->pInstance = pInstance;
-		pInstanceContext->pClassDesc = NULL; // i.e., no destruct
+		pInstanceContext->pClassDesc = nullptr; // i.e., no destruct
 
 		// @TODO: This extra hash lookup could be eliminated (as it is also done in RegisterClass above) [2/13/2008 tom]
 		gmUserObject *pObject = AllocUserObject( pInstanceContext, m_TypeMap[m_TypeMap.Find((int)pDesc)] );
@@ -411,7 +411,7 @@ public:
 		return bResult;
 	}
 
-	void RemoveInstance( ScriptClassDesc_t *pDesc, void *pInstance, const char *pszInstance, HSCRIPT hScope = NULL )
+	void RemoveInstance( ScriptClassDesc_t *pDesc, void *pInstance, const char *pszInstance, HSCRIPT hScope = nullptr)
 	{
 		DISABLE_GC();
 		gmTableObject *pScope;
@@ -511,7 +511,7 @@ private:
 				{
 				case FIELD_FLOAT:		params[i] = a_thread->ParamFloatOrInt( i ); break;
 				case FIELD_CSTRING:		params[i] = a_thread->ParamString( i ); break;
-				case FIELD_VECTOR:		Assert( 0 ); params[i] = (Vector *)NULL; break;
+				case FIELD_VECTOR:		Assert( 0 ); params[i] = (Vector *)nullptr; break;
 				case FIELD_INTEGER:		params[i] = (int)a_thread->ParamFloatOrInt( i ); break;
 				case FIELD_BOOLEAN:
 					{
@@ -532,7 +532,7 @@ private:
 		for ( ; i < nFormalParams; i++ )
 		{
 			COMPILE_TIME_ASSERT( sizeof(Vector *) >= sizeof(int) );
-			params[i] = (Vector *)NULL;
+			params[i] = (Vector *)nullptr;
 		}
 
 		InstanceContext_t *pContext;
@@ -556,10 +556,10 @@ private:
 		}
 		else
 		{
-			pObject = NULL;
+			pObject = nullptr;
 		}
 
-		(*pVMScriptFunction->m_pfnBinding)( pVMScriptFunction->m_pFunction, pObject, params.Base(), params.Count(), ( pVMScriptFunction->m_desc.m_ReturnType != FIELD_VOID ) ? &returnValue : NULL );
+		(*pVMScriptFunction->m_pfnBinding)( pVMScriptFunction->m_pFunction, pObject, params.Base(), params.Count(), ( pVMScriptFunction->m_desc.m_ReturnType != FIELD_VOID ) ? &returnValue : nullptr);
 
 		if ( pVMScriptFunction->m_desc.m_ReturnType != FIELD_VOID )
 		{

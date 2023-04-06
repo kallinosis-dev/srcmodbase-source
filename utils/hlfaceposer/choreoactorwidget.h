@@ -27,7 +27,7 @@ class CChoreoActorWidget;
 class CActorBitmapButton : public mxBitmapButton
 {
 public:
-	CActorBitmapButton( CChoreoActorWidget *actor, mxWindow *parent, int x, int y, int w, int h, int id = 0, const char *bitmap = 0 );
+	CActorBitmapButton( CChoreoActorWidget *actor, mxWindow *parent, int x, int y, int w, int h, int id = 0, const char *bitmap = nullptr );
 
 	CChoreoActorWidget	*GetActor( void );
 private:
@@ -41,7 +41,7 @@ private:
 class CActorActiveCheckBox : public mxCheckBox
 {
 public:
-	CActorActiveCheckBox( CChoreoActorWidget *actor, mxWindow *parent, int x, int y, int w, int h, const char *label = 0, int id = 0);
+	CActorActiveCheckBox( CChoreoActorWidget *actor, mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr, int id = 0);
 
 	CChoreoActorWidget	*GetActor( void );
 private:

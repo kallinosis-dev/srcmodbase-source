@@ -34,7 +34,7 @@
 #include "scriplib.h"
 #include "EdgeProperties.h"
 
-ExpressionTool *g_pExpressionTool = 0;
+ExpressionTool *g_pExpressionTool = nullptr;
 
 #define TRAY_HEIGHT 55 
 
@@ -481,7 +481,7 @@ int	CExpressionToolWorkspace::handleEvent( mxEvent *event )
 			}
 
 			m_pVertScrollBar->setValue( offset );
-			InvalidateRect( (HWND)m_pVertScrollBar->getHandle(), NULL, TRUE );
+			InvalidateRect( (HWND)m_pVertScrollBar->getHandle(), nullptr, TRUE );
 			m_nTopOffset = offset;
 			LayoutItems();
 			iret = 1;
@@ -533,7 +533,7 @@ int	CExpressionToolWorkspace::handleEvent( mxEvent *event )
 					if ( processed )
 					{
 						m_pVertScrollBar->setValue( offset );
-						InvalidateRect( (HWND)m_pVertScrollBar->getHandle(), NULL, TRUE );
+						InvalidateRect( (HWND)m_pVertScrollBar->getHandle(), nullptr, TRUE );
 						m_nTopOffset = offset;
 						LayoutItems();
 					}
@@ -562,7 +562,7 @@ TimelineItem *CExpressionToolWorkspace::GetItem( int number )
 {
 	if ( number < 0 || number >= GLOBAL_STUDIO_FLEX_CONTROL_COUNT )
 	{
-		return NULL;
+		return nullptr;
 	}
 	return m_pItems[ number ];
 }
@@ -1027,7 +1027,7 @@ ExpressionTool::ExpressionTool( mxWindow *parent )
 	m_nClickedX			= 0;
 	m_nClickedY			= 0;
 
-	m_hPrevCursor		= 0;
+	m_hPrevCursor		= nullptr;
 	
 	m_nStartX			= 0;
 	m_nStartY			= 0;
@@ -1036,7 +1036,7 @@ ExpressionTool::ExpressionTool( mxWindow *parent )
 	m_nMaxX				= 0;
 	m_bUseBounds		= false;
 
-	m_pLastEvent		= NULL;
+	m_pLastEvent		= nullptr;
 
 	m_nMousePos[ 0 ] = m_nMousePos[ 1 ] = 0;
 
@@ -1224,14 +1224,14 @@ void ExpressionTool::Paste( CFlexAnimationTrack *destination )
 CChoreoEvent *ExpressionTool::GetSafeEvent( void )
 {
 	if ( m_nFocusEventGlobalID == -1 )
-		return NULL;
+		return nullptr;
 
 	if ( !g_pChoreoView )
-		return NULL;
+		return nullptr;
 
 	CChoreoScene *scene = g_pChoreoView->GetScene();
 	if ( !scene )
-		return NULL;
+		return nullptr;
 
 	// look to see if it's focused any any event
 	for ( int i = 0; i < scene->GetNumEvents() ; i++ )
@@ -1247,7 +1247,7 @@ CChoreoEvent *ExpressionTool::GetSafeEvent( void )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -1612,7 +1612,7 @@ CFlexTimingTag *ExpressionTool::IsMouseOverTag( int mx, int my )
 {
 	CChoreoEvent *event = GetSafeEvent();
 	if ( !event )
-		return NULL;
+		return nullptr;
 
 	RECT rcClient;
 	GetClientRect( (HWND)getHandle(), &rcClient );
@@ -1647,7 +1647,7 @@ CFlexTimingTag *ExpressionTool::IsMouseOverTag( int mx, int my )
 		return tag;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1786,8 +1786,8 @@ void ExpressionTool::ShowContextMenu( mxEvent *event, bool include_track_menus )
 	// Construct main menu
 	mxPopupMenu *pop = new mxPopupMenu();
 
-	TimelineItem *item = NULL;
-	CFlexAnimationTrack *track = NULL;
+	TimelineItem *item = nullptr;
+	CFlexAnimationTrack *track = nullptr;
 
 	if ( include_track_menus )
 	{
@@ -2000,7 +2000,7 @@ void ExpressionTool::ShowContextMenu( mxEvent *event, bool include_track_menus )
 //-----------------------------------------------------------------------------
 void ExpressionTool::DrawFocusRect( void )
 {
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 
 	for ( int i = 0; i < m_FocusRects.Count(); i++ )
 	{
@@ -2009,7 +2009,7 @@ void ExpressionTool::DrawFocusRect( void )
 		::DrawFocusRect( dc, &rc );
 	}
 
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 }
 
 void ExpressionTool::SetClickedPos( int x, int y )
@@ -2048,7 +2048,7 @@ void ExpressionTool::StartDragging( int dragtype, int startx, int starty, HCURSO
 	if ( m_hPrevCursor )
 	{
 		SetCursor( m_hPrevCursor );
-		m_hPrevCursor = NULL;
+		m_hPrevCursor = nullptr;
 	}
 	m_hPrevCursor = SetCursor( cursor );
 
@@ -2169,32 +2169,32 @@ void ExpressionTool::OnMouseMove( mxEvent *event )
 		if ( m_hPrevCursor )
 		{
 			SetCursor( m_hPrevCursor );
-			m_hPrevCursor = NULL;
+			m_hPrevCursor = nullptr;
 		}
 
 		if ( IsMouseOverScrubHandle( event ) )
 		{
-			m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+			m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		}
 		else if ( IsMouseOverTag( mx, my ) )
 		{
-			m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+			m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		}
 		else if ( IsMouseOverSelection( (short)event->x, (short)event->y ) )
 		{
 			if ( IsMouseOverSelectionStartEdge( event ) )
 			{
-				m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+				m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 			}
 			else if ( IsMouseOverSelectionEndEdge( event ) )
 			{
-				m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+				m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 			}
 			else
 			{
 				if ( event->modifiers & mxEvent::KeyShift )
 				{
-					m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEALL ) );
+					m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEALL ) );
 				}
 			}
 		}
@@ -2315,17 +2315,17 @@ int	ExpressionTool::handleEvent( mxEvent *event )
 						ForceScrubPosition( t );
 					}
 
-					StartDragging( DRAGTYPE_SCRUBBER, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_SIZEWE ) );
+					StartDragging( DRAGTYPE_SCRUBBER, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_SIZEWE ) );
 				}
 				else if ( IsMouseOverTag( m_nClickedX, m_nClickedY ) )
 				{
-					StartDragging( DRAGTYPE_FLEXTIMINGTAG, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_SIZEWE ) );
+					StartDragging( DRAGTYPE_FLEXTIMINGTAG, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_SIZEWE ) );
 				}
 				else if ( IsMouseOverPoints( m_nClickedX, m_nClickedY ) )
 				{
 					if ( !m_bSelectionActive )
 					{
-						StartDragging( DRAGTYPE_SELECTSAMPLES, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_SIZEWE ) );
+						StartDragging( DRAGTYPE_SELECTSAMPLES, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_SIZEWE ) );
 					}
 					else
 					{
@@ -2334,17 +2334,17 @@ int	ExpressionTool::handleEvent( mxEvent *event )
 						{
 							if ( IsMouseOverSelectionStartEdge( event ) )
 							{
-								StartDragging( DRAGTYPE_MOVESELECTIONSTART, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_SIZEWE ) );
+								StartDragging( DRAGTYPE_MOVESELECTIONSTART, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_SIZEWE ) );
 							}
 							else if ( IsMouseOverSelectionEndEdge( event ) )
 							{
-								StartDragging( DRAGTYPE_MOVESELECTIONEND, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_SIZEWE ) );
+								StartDragging( DRAGTYPE_MOVESELECTIONEND, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_SIZEWE ) );
 							}
 							else
 							{
 								if ( shiftdown )
 								{
-									StartDragging( DRAGTYPE_MOVESELECTION, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_SIZEALL ) );
+									StartDragging( DRAGTYPE_MOVESELECTION, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_SIZEALL ) );
 								}
 							}
 						}
@@ -2402,7 +2402,7 @@ int	ExpressionTool::handleEvent( mxEvent *event )
 			if ( m_hPrevCursor )
 			{
 				SetCursor( m_hPrevCursor );
-				m_hPrevCursor = 0;
+				m_hPrevCursor = nullptr;
 			}
 
 			switch ( m_nDragType )
@@ -2538,7 +2538,7 @@ int	ExpressionTool::handleEvent( mxEvent *event )
 				m_pWorkspace->ExpandAll();
 				break;
 			case IDC_COLLAPSEALL:
-				m_pWorkspace->CollapseAll( NULL );
+				m_pWorkspace->CollapseAll(nullptr);
 				break;
 			case IDC_COLLAPSE_ALL_EXCEPT:
 				m_pWorkspace->CollapseAll( m_pWorkspace->GetClickedItem() );
@@ -3017,8 +3017,8 @@ void ExpressionTool::CalcBounds( int movetype )
 					
 					
 					// Find previous tag, if any
-					CFlexTimingTag *prev = NULL;
-					CFlexTimingTag *next = NULL;
+					CFlexTimingTag *prev = nullptr;
+					CFlexTimingTag *next = nullptr;
 					
 					for ( int i = 0; i < e->GetNumTimingTags(); i++ )
 					{
@@ -3086,8 +3086,8 @@ void ExpressionTool::ResampleControlPoints( CFlexTimingTag *tag, float newpositi
 	float rightedge = duration;
 	
 	// Find neighboring locked tags, if any
-	CFlexTimingTag *prev = NULL;
-	CFlexTimingTag *next = NULL;
+	CFlexTimingTag *prev = nullptr;
+	CFlexTimingTag *next = nullptr;
 	
 	int i;
 	for ( i = 0; i < e->GetNumTimingTags(); i++ )
@@ -3104,7 +3104,7 @@ void ExpressionTool::ResampleControlPoints( CFlexTimingTag *tag, float newpositi
 			{
 				if ( i1 < 0 )
 				{
-					prev = NULL;
+					prev = nullptr;
 					break;
 				}
 
@@ -3123,7 +3123,7 @@ void ExpressionTool::ResampleControlPoints( CFlexTimingTag *tag, float newpositi
 			{
 				if ( i1 >= e->GetNumTimingTags() )
 				{
-					next = NULL;
+					next = nullptr;
 					break;
 				}
 
@@ -3364,9 +3364,9 @@ void ExpressionTool::OnCopyToFlex( float scenetime, bool isEdited )
 
 	bool needundo = false;
 
-	float *settings = NULL;
-	float *weights = NULL;
-	CExpression *exp = NULL;
+	float *settings = nullptr;
+	float *weights = nullptr;
+	CExpression *exp = nullptr;
 	CExpClass *active = expressions->GetActiveClass();
 	if ( active )
 	{
@@ -3836,7 +3836,7 @@ void ExpressionTool::OnImportFlexAnimation( void )
 		CChoreoScene::ParseFlexAnimations( tokenprocessor, event, true );
 
 		// Force a full reset
-		m_pLastEvent = NULL;
+		m_pLastEvent = nullptr;
 		SetEvent( event );
 
 		g_pChoreoView->PushRedo( "Import flex animations" );
@@ -4272,7 +4272,7 @@ void ExpressionTool::MoveTimeSliderToPos( int x )
 {
 	m_flLeftOffset = x;
 	m_pHorzScrollBar->setValue( m_flLeftOffset );
-	InvalidateRect( (HWND)m_pHorzScrollBar->getHandle(), NULL, TRUE );
+	InvalidateRect( (HWND)m_pHorzScrollBar->getHandle(), nullptr, TRUE );
 	InvalidateLayout();
 }
 
@@ -4628,7 +4628,7 @@ void ExpressionTool::OnScaleSamples()
 
 void ExpressionTool::OnModelChanged()
 {
-	SetEvent( NULL );
+	SetEvent(nullptr);
 	redraw();
 }
 

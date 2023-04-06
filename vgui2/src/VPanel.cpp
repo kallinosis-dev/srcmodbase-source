@@ -91,9 +91,9 @@ VPanel::VPanel()
 
 	_visible = true;
 	_enabled = true;
-	_clientPanel = NULL;
-	_parent = NULL;
-	_plat = NULL;
+	_clientPanel = nullptr;
+	_parent = nullptr;
+	_plat = nullptr;
 	_popup = false;
 	_isTopmostPopup = false;
 	_hPanel = INVALID_PANEL;
@@ -102,7 +102,7 @@ VPanel::VPanel()
 	_kbInput = true;
 
 	m_nMessageContextId = -1;
-	_pinsibling = NULL;
+	_pinsibling = nullptr;
 	_pinsibling_my_corner = PIN_TOPLEFT;
 	_pinsibling_their_corner = PIN_TOPLEFT;
 }
@@ -457,13 +457,13 @@ void VPanel::SetParent(VPanel *newParent)
 	if (_parent == newParent)
 		return;
 	
-	if (_parent != NULL)
+	if (_parent != nullptr)
 	{
 		_parent->_childDar.RemoveElement(this);
-		_parent = 0;
+		_parent = nullptr;
 	}
 
-	if (newParent != NULL)
+	if (newParent != nullptr)
 	{
 		_parent = newParent;
 		_parent->_childDar.PutElement(this);
@@ -530,7 +530,7 @@ void VPanel::SetZPos(int z)
 
 		while (1)
 		{
-			VPanel *prevChild = NULL, *nextChild = NULL;
+			VPanel *prevChild = nullptr, *nextChild = nullptr;
 
 			if ( i > 0 )
 			{

@@ -14,7 +14,7 @@
 CScene::CScene( CProject *proj, char const *name ) : m_pOwner( proj )
 {
 	Q_strncpy( m_szName, name, sizeof( m_szName ) );
-	m_pszComments = NULL;
+	m_pszComments = nullptr;
 }
 
 CScene::~CScene()
@@ -59,7 +59,7 @@ int CScene::GetVCDCount() const
 CVCDFile *CScene::GetVCD( int index )
 {
 	if ( index < 0 || index >= m_Files.Count() )
-		return NULL;
+		return nullptr;
 	return m_Files[ index ];
 }
 
@@ -95,7 +95,7 @@ CVCDFile *CScene::FindVCD( char const *filename )
 		if ( !Q_stricmp( filename, vcd->GetName() ) )
 			return vcd;
 	}
-	return NULL;
+	return nullptr;
 }
 
 void CScene::ValidateTree( mxTreeView *tree, mxTreeViewItem* parent )

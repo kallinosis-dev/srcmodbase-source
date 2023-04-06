@@ -41,7 +41,7 @@ mxScrollbar::mxScrollbar (mxWindow *parent, int x, int y, int w, int h, int id, 
 
 	void *handle = (void *) CreateWindowEx (0, "SCROLLBAR", "", dwStyle,
 				x, y, w, h, hwndParent,
-				(HMENU) id, (HINSTANCE) GetModuleHandle (NULL), NULL);
+				(HMENU) id, (HINSTANCE) GetModuleHandle (nullptr), nullptr);
 	
 	SendMessage ((HWND) handle, WM_SETFONT, (WPARAM) (HFONT) GetStockObject (ANSI_VAR_FONT), MAKELPARAM (TRUE, 0));
 	SetWindowLong ((HWND) handle, GWL_USERDATA, (LONG) this);

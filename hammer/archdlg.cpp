@@ -160,7 +160,7 @@ void CArchDlg::OnArchPreview()
 	// Build preview.
 	//
 	UpdateData(TRUE);
-	InvalidateRect(NULL);
+	InvalidateRect(nullptr);
 	UpdateWindow();
 }
 

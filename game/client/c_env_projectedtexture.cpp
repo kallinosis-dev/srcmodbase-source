@@ -80,7 +80,7 @@ C_EnvProjectedTexture::C_EnvProjectedTexture( void )
 {
 	m_LightHandle = CLIENTSHADOW_INVALID_HANDLE;
 	m_bForceUpdate = true;
-	m_pMaterial = NULL;
+	m_pMaterial = nullptr;
 	m_bIsCurrentlyProjected = false;
 	AddToEntityList( ENTITY_LIST_SIMULATE );
 }
@@ -230,12 +230,12 @@ void C_EnvProjectedTexture::UpdateLight( void )
 		return;
 	}
 
-	if ( m_LightHandle == CLIENTSHADOW_INVALID_HANDLE || m_hTargetEntity != NULL || m_bForceUpdate )
+	if ( m_LightHandle == CLIENTSHADOW_INVALID_HANDLE || m_hTargetEntity != nullptr || m_bForceUpdate )
 	{
 		Vector vForward, vRight, vUp, vPos = GetAbsOrigin();
 		FlashlightState_t state;
 
-		if ( m_hTargetEntity != NULL )
+		if ( m_hTargetEntity != nullptr)
 		{
 			if ( m_bCameraSpace )
 			{
@@ -402,13 +402,13 @@ void C_EnvProjectedTexture::UpdateLight( void )
 
 		if ( m_bSimpleProjection )
 		{
-			state.m_pSpotlightTexture = NULL;
+			state.m_pSpotlightTexture = nullptr;
 			state.m_pProjectedMaterial = m_ProjectedMaterial;
 		}
 		else
 		{
 			state.m_pSpotlightTexture = m_SpotlightTexture;
-			state.m_pProjectedMaterial = NULL;
+			state.m_pProjectedMaterial = nullptr;
 		}
 
 		state.m_nSpotlightTextureFrame = m_nSpotlightTextureFrame;

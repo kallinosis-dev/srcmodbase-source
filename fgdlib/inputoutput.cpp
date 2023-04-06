@@ -41,7 +41,7 @@ static TypeMap_t TypeMap[] =
 CClassInputOutputBase::CClassInputOutputBase(void)
 {
 	m_eType = iotInvalid;
-	m_pszDescription = NULL;
+	m_pszDescription = nullptr;
 }
 
 
@@ -52,7 +52,7 @@ CClassInputOutputBase::CClassInputOutputBase(void)
 //-----------------------------------------------------------------------------
 CClassInputOutputBase::CClassInputOutputBase(const char *pszName, InputOutputType_t eType)
 {
-	m_pszDescription = NULL;
+	m_pszDescription = nullptr;
 }
 
 
@@ -62,7 +62,7 @@ CClassInputOutputBase::CClassInputOutputBase(const char *pszName, InputOutputTyp
 CClassInputOutputBase::~CClassInputOutputBase(void)
 {
 	delete m_pszDescription;
-	m_pszDescription = NULL;
+	m_pszDescription = nullptr;
 }
 
 
@@ -115,14 +115,14 @@ CClassInputOutputBase &CClassInputOutputBase::operator =(CClassInputOutputBase &
 	// Copy the description.
 	//
 	delete m_pszDescription;
-	if (Other.m_pszDescription != NULL)
+	if (Other.m_pszDescription != nullptr)
 	{
 		m_pszDescription = new char[strlen(Other.m_pszDescription) + 1];
 		strcpy(m_pszDescription, Other.m_pszDescription);
 	}
 	else
 	{
-		m_pszDescription = NULL;
+		m_pszDescription = nullptr;
 	}
 
 	return(*this);

@@ -86,7 +86,7 @@ public:
 	void UpdateViewThink( void );
 	void UpdateViewPostThink( void );
 	bool TestCollision( const Ray_t &ray, unsigned int mask, trace_t& trace );
-	bool HasViewTarget( void ) { return (m_hViewTarget != NULL || m_hViewPosition.Get() != NULL); }
+	bool HasViewTarget( void ) { return (m_hViewTarget != nullptr || m_hViewPosition.Get() != nullptr); }
 	bool PreventsMovement( void );
 	bool CannotBeStopped( void ) { return (m_bUnstoppable || m_bPreventChangesWhileMoving); }
 	int  UpdateTransmitState( void );
@@ -262,12 +262,12 @@ public:
 	CCommentarySystem() : CAutoGameSystemPerFrame( "CCommentarySystem" )
 	{
 		m_iCommentaryNodeCount = 0;
-		m_pkvSavedModifications = NULL;
+		m_pkvSavedModifications = nullptr;
 	}
 
 	virtual void LevelInitPreEntity()
 	{
-		m_hCurrentNode = NULL;
+		m_hCurrentNode = nullptr;
 		m_bCommentaryConvarsChanging = false;
 		m_iClearPressedButtons = 0;
 
@@ -374,7 +374,7 @@ public:
 	{
 		CBasePlayer *pPlayer = GetCommentaryPlayer();
 		if ( !pPlayer )
-			return NULL;
+			return nullptr;
 
 		// See if the player's looking at a commentary node
 		trace_t tr;
@@ -386,7 +386,7 @@ public:
 		g_bTracingVsCommentaryNodes = false;
 
 		if ( !tr.m_pEnt )
-			return NULL;
+			return nullptr;
 
 		return dynamic_cast<CPointCommentaryNode*>(tr.m_pEnt);
 	}
@@ -603,11 +603,11 @@ public:
 
 		m_flNextTeleportTime = 0;
 		m_iTeleportStage = TELEPORT_NONE;
-		m_hLastCommentaryNode = NULL;
+		m_hLastCommentaryNode = nullptr;
 
 		// If we find the commentary semaphore, the commentary entities already exist.
 		// This occurs when you transition back to a map that has saved commentary nodes in it.
-		if ( gEntList.FindEntityByName( NULL, COMMENTARY_SPAWNED_SEMAPHORE ) )
+		if ( gEntList.FindEntityByName(nullptr, COMMENTARY_SPAWNED_SEMAPHORE ) )
 			return;
 
 		// Spawn the commentary semaphore entity
@@ -618,10 +618,10 @@ public:
 
 		bool oldLock = engine->LockNetworkStringTables( false );
 
-		if ( m_pkvSavedModifications != NULL )
+		if ( m_pkvSavedModifications != nullptr)
 		{
 			m_pkvSavedModifications->deleteThis();
-			m_pkvSavedModifications = NULL;
+			m_pkvSavedModifications = nullptr;
 		}
 
 		// Find the commentary file
@@ -688,7 +688,7 @@ public:
 
 					if ( bModifyBlock )
 					{
-						if ( m_pkvSavedModifications == NULL )
+						if ( m_pkvSavedModifications == nullptr)
 						{
 							m_pkvSavedModifications = new KeyValues("Entities");
 						}
@@ -760,7 +760,7 @@ public:
 
 			if( iPointTemplateCount != 0 )
 			{
-				CBaseEntity **pSpawnedEntities = NULL;
+				CBaseEntity **pSpawnedEntities = nullptr;
 				int iSpawnedEntityCount = m_hSpawnedEntities.Count();
 				if( iSpawnedEntityCount != 0 )
 				{
@@ -777,7 +777,7 @@ public:
 				for( int i = iSpawnedEntityCount; --i >= 0; )
 				{
 					//remove any entities that were nullified in the point template parsing process
-					if( pSpawnedEntities[i] == NULL )
+					if( pSpawnedEntities[i] == nullptr)
 						m_hSpawnedEntities.Remove(i);
 				}
 			}
@@ -807,7 +807,7 @@ public:
 
 	void ApplyCommentaryModifications()
 	{
-		KeyValues *pkvNode = m_pkvSavedModifications ? m_pkvSavedModifications->GetFirstSubKey() : NULL;
+		KeyValues *pkvNode = m_pkvSavedModifications ? m_pkvSavedModifications->GetFirstSubKey() : nullptr;
 		while ( pkvNode )
 		{
 			// See if this section has a modify sub group in it.
@@ -818,7 +818,7 @@ public:
 				KeyValues *pFindByModelname = pkvNode->FindKey( "find_by_modelname" );
 				if ( pFindByModelname )
 				{
-					CBaseEntity *pEnt = gEntList.FindEntityByModel( NULL, pFindByModelname->GetString() );
+					CBaseEntity *pEnt = gEntList.FindEntityByModel(nullptr, pFindByModelname->GetString() );
 					while ( pEnt )
 					{
 						KeyValues *pKey = pModifyBlock->GetFirstSubKey();
@@ -835,7 +835,7 @@ public:
 				KeyValues *pFindByTargetname = pkvNode->FindKey( "find_by_targetname" );
 				if ( pFindByTargetname )
 				{
-					CBaseEntity *pTarget = gEntList.FindEntityByTarget( NULL, pFindByTargetname->GetString() );
+					CBaseEntity *pTarget = gEntList.FindEntityByTarget(nullptr, pFindByTargetname->GetString() );
 
 					while ( pTarget )
 					{
@@ -855,9 +855,9 @@ public:
 				{
 					const char *className = pFindByClassname->GetString();
 					KeyValues *pCurrKey = pkvNode->GetFirstSubKey();
-					CBaseEntity* ent = NULL;
+					CBaseEntity* ent = nullptr;
 					// Walk through and select as many entities of this class as number of modify groups in this modify_entity block.
-					while ( ( ent = gEntList.FindEntityByClassname( ent, className ) ) != NULL && pCurrKey )
+					while ( ( ent = gEntList.FindEntityByClassname( ent, className ) ) != nullptr && pCurrKey )
 					{
 						// We're on the next entity in the game that is of this class.
 						// Find the next modify block in this group.
@@ -866,7 +866,7 @@ public:
 							pCurrKey = pCurrKey->GetNextKey();
 						}
 
-						if ( NULL != pCurrKey )
+						if (nullptr != pCurrKey )
 						{
 							// If we have a valid modify block, copy the values from the block into this entity.
 							KeyValues *pKey = pCurrKey->GetFirstSubKey();
@@ -906,7 +906,7 @@ public:
 		m_iCommentaryNodeCount = 0;
 
 		// Remove the commentary semaphore
-		CBaseEntity *pSemaphore = gEntList.FindEntityByName( NULL, COMMENTARY_SPAWNED_SEMAPHORE );
+		CBaseEntity *pSemaphore = gEntList.FindEntityByName(nullptr, COMMENTARY_SPAWNED_SEMAPHORE );
 		if ( pSemaphore )
 		{
 			UTIL_Remove( pSemaphore );
@@ -930,11 +930,11 @@ public:
 		{
 			m_pkvSavedModifications->deleteThis();
 		}
-		m_pkvSavedModifications = NULL;
+		m_pkvSavedModifications = nullptr;
 
-		m_hCurrentNode = NULL;
-		m_hActiveCommentaryNode = NULL;
-		m_hLastCommentaryNode = NULL;
+		m_hCurrentNode = nullptr;
+		m_hActiveCommentaryNode = nullptr;
+		m_hLastCommentaryNode = nullptr;
 		m_flNextTeleportTime = 0;
 		m_iTeleportStage = TELEPORT_NONE;
 	}
@@ -1124,11 +1124,11 @@ void CC_CommentaryNotChanging( void )
 {
 	g_CommentarySystem.SetCommentaryConvarsChanging( false );
 }
-static ConCommand commentary_cvarsnotchanging("commentary_cvarsnotchanging", CC_CommentaryNotChanging, 0 );
+static ConCommand commentary_cvarsnotchanging("commentary_cvarsnotchanging", CC_CommentaryNotChanging, nullptr );
 
 bool IsListeningToCommentary( void )
 {
-	return ( g_CommentarySystem.GetActiveNode() != NULL );
+	return ( g_CommentarySystem.GetActiveNode() != nullptr);
 }
 
 //===========================================================================================================
@@ -1179,7 +1179,7 @@ void CPointCommentaryNode::Activate( void )
 
 	if ( m_iszViewTarget != NULL_STRING )
 	{
-		m_hViewTarget = gEntList.FindEntityByName( NULL, m_iszViewTarget );
+		m_hViewTarget = gEntList.FindEntityByName(nullptr, m_iszViewTarget );
 		if ( !m_hViewTarget )
 		{
 			Warning("%s: %s could not find viewtarget %s.\n", GetClassname(), GetDebugName(), STRING(m_iszViewTarget) );
@@ -1188,7 +1188,7 @@ void CPointCommentaryNode::Activate( void )
 
 	if ( m_iszViewPosition != NULL_STRING )
 	{
-		m_hViewPosition = gEntList.FindEntityByName( NULL, m_iszViewPosition );
+		m_hViewPosition = gEntList.FindEntityByName(nullptr, m_iszViewPosition );
 		if ( !m_hViewPosition.Get() )
 		{
 			Warning("%s: %s could not find viewposition %s.\n", GetClassname(), GetDebugName(), STRING(m_iszViewPosition) );
@@ -1354,7 +1354,7 @@ void CPointCommentaryNode::TeleportTo( CBasePlayer *pPlayer )
 	trace_t trace;
 	UTIL_TraceHull( vecTarget, vecTarget + Vector( 0, 0, -500 ), pPlayer->WorldAlignMins(), pPlayer->WorldAlignMaxs(), MASK_SOLID, pPlayer, COLLISION_GROUP_NONE, &trace );
 
-	pPlayer->Teleport( &trace.endpos, NULL, &vec3_origin );
+	pPlayer->Teleport( &trace.endpos, nullptr, &vec3_origin );
 
 	Vector vecToNode = GetAbsOrigin() - pPlayer->EyePosition();
 	VectorNormalize( vecToNode );
@@ -1416,7 +1416,7 @@ void CC_CommentaryFinishNode( void )
 		g_CommentarySystem.GetActiveNode()->StopPlaying();
 	}
 }
-static ConCommand commentary_finishnode("commentary_finishnode", CC_CommentaryFinishNode, 0 );
+static ConCommand commentary_finishnode("commentary_finishnode", CC_CommentaryFinishNode, nullptr );
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -1627,13 +1627,13 @@ void CPointCommentaryNode::CleanupPostCommentary( void )
 
 	if ( m_hViewTargetAngles && pPlayer->GetViewEntity() == m_hViewTargetAngles )
 	{
-		pPlayer->SetViewEntity( NULL );
+		pPlayer->SetViewEntity(nullptr);
 	}
 	UTIL_Remove( m_hViewTargetAngles );
 
 	if ( m_hViewPositionMover && pPlayer->GetViewEntity() == m_hViewPositionMover )
 	{
-		pPlayer->SetViewEntity( NULL );
+		pPlayer->SetViewEntity(nullptr);
 	}
 	UTIL_Remove( m_hViewPositionMover );
 
@@ -1648,7 +1648,7 @@ void CPointCommentaryNode::CleanupPostCommentary( void )
 
 	m_pOnCommentaryStopped.FireOutput( this, this );
 
-	g_CommentarySystem.SetActiveNode( NULL );
+	g_CommentarySystem.SetActiveNode(nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -1891,11 +1891,11 @@ void CCommentaryAuto::Think(void)
 {
 	if ( g_CommentarySystem.CommentaryWasEnabledMidGame() )
 	{
-		m_OnCommentaryMidGame.FireOutput(NULL, this);
+		m_OnCommentaryMidGame.FireOutput(nullptr, this);
 	}
 	else
 	{
-		m_OnCommentaryNewGame.FireOutput(NULL, this);
+		m_OnCommentaryNewGame.FireOutput(nullptr, this);
 	}
 }
 
@@ -1904,5 +1904,5 @@ void CCommentaryAuto::Think(void)
 //-----------------------------------------------------------------------------
 void CCommentaryAuto::InputMultiplayerSpawned( inputdata_t &inputdata )
 {
-	m_OnCommentaryMultiplayerSpawn.FireOutput( NULL, this );
+	m_OnCommentaryMultiplayerSpawn.FireOutput(nullptr, this );
 }

@@ -659,7 +659,7 @@ inline uint32 MatchmakingGameTypeGameMaxPlayers( EMsgGCCStrike15_v2_MatchmakingG
 
 inline char const * MatchmakingGameTypeMapToString( EMsgGCCStrike15_v2_MatchmakingMapGroup_t eMapGroup, uint64 uiMatchID )
 {
-	char const *szMap = NULL;
+	char const *szMap = nullptr;
 	/** Removed for partner depot **/
 	return szMap;
 }

@@ -42,7 +42,7 @@ class editCMapClass : public CObject, public CMapClass
 
 public:
 	// kludge:
-	MAPCLASSTYPE GetType() const { return NULL; }
+	MAPCLASSTYPE GetType() const { return nullptr; }
 	BOOL IsMapClass(MAPCLASSTYPE Type) const { return FALSE; }
 };
 
@@ -62,8 +62,8 @@ public:
 	CObjectProperties(void);
 	virtual ~CObjectProperties(void);
 
-	CObjectProperties(UINT nIDCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
-	CObjectProperties(LPCTSTR pszCaption, CWnd* pParentWnd = NULL, UINT iSelectPage = 0);
+	CObjectProperties(UINT nIDCaption, CWnd* pParentWnd = nullptr, UINT iSelectPage = 0);
+	CObjectProperties(LPCTSTR pszCaption, CWnd* pParentWnd = nullptr, UINT iSelectPage = 0);
 
 	inline void UpdateGrouplist(void);
 
@@ -179,7 +179,7 @@ friend CObjectPage;
 //-----------------------------------------------------------------------------
 inline void CObjectProperties::UpdateGrouplist(void)
 {
-	if (m_pGroups != NULL)
+	if (m_pGroups != nullptr)
 	{
 		m_pGroups->UpdateGroupList();
 	}

@@ -85,7 +85,7 @@ void CDevShotGenerator::BuildMapList()
 	DevShotGenerator_Usage();
 
 	// Get the maplist file, if any
-	const char *pMapFile = NULL;
+	const char *pMapFile = nullptr;
 	CommandLine()->CheckParm( "-usedevshotsfile", &pMapFile );
 
 	// Build the map list

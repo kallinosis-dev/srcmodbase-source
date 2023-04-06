@@ -127,7 +127,7 @@ struct entitytable_t
 		landmarkModelSpace.Init();
 		modelname = NULL_STRING;
 #ifdef SR_ENTS_VISIBLE
-		hEnt = NULL;
+		hEnt = nullptr;
 #else
 		hEnt.i = 0;
 #endif
@@ -187,13 +187,13 @@ class CGameSaveRestoreInfo
 {
 public:
 	CGameSaveRestoreInfo()
-		: tableCount( 0 ), pTable( 0 ), m_pCurrentEntity( 0 ), m_nEntityDataSize( 0 )
+		: tableCount( 0 ), pTable( nullptr ), m_pCurrentEntity( nullptr ), m_nEntityDataSize( 0 )
 	{
 		memset( &levelInfo, 0, sizeof( levelInfo ) );
 		modelSpaceOffset.Init( 0, 0, 0 );
 	}
 
-	void InitEntityTable( entitytable_t *pNewTable = NULL, int size = 0 )
+	void InitEntityTable( entitytable_t *pNewTable = nullptr, int size = 0 )
 	{
 		pTable = pNewTable;
 		tableCount = size;
@@ -207,7 +207,7 @@ public:
 	entitytable_t *DetachEntityTable()
 	{
 		entitytable_t *pReturn = pTable;
-		pTable = NULL;
+		pTable = nullptr;
 		tableCount = 0;
 		return pReturn;
 	}
@@ -451,7 +451,7 @@ inline char **CSaveRestoreSegment::DetachSymbolTable()
 {
 	char **pResult = pTokens;
 	tokenCount = 0;
-	pTokens = NULL;
+	pTokens = nullptr;
 	return pResult;
 }
 
@@ -462,7 +462,7 @@ inline int CSaveRestoreSegment::SizeSymbolTable()
 
 inline bool CSaveRestoreSegment::DefineSymbol( const char *pszToken, int token )
 {
-	if ( pTokens[token] == NULL )
+	if ( pTokens[token] == nullptr)
 	{
 		pTokens[token] = (char *)pszToken;
 		return true;

@@ -92,7 +92,7 @@ public:
 	~CAI_Network();
 
 	CAI_Node *		AddNode( const Vector &origin, float yaw );						// Returns a new node in the network
-	CAI_Link *		CreateLink( int srcID, int destID, CAI_DynamicLink *pDynamicLink = NULL );
+	CAI_Link *		CreateLink( int srcID, int destID, CAI_DynamicLink *pDynamicLink = nullptr);
 
 	bool			IsConnected(int srcID, int destID);	// Use during run time
 	void			TestIsConnected(int startID, int endID);	// Use only for initialization!
@@ -120,7 +120,7 @@ public:
 				AssertMsg2( 0, "Node (%i) out of range (%i total)\n", id, m_iNumNodes ); 
 			}
 		}
-		return NULL; 
+		return nullptr; 
 	}
 	
 	CAI_Node**		AccessNodes() const	{ return m_pAInode; }
@@ -130,7 +130,7 @@ public:
 
 
 	int			NearestNodeToPoint( CAI_BaseNPC* pNPC, const Vector &vecOrigin, bool bCheckVisiblity, INearestNodeFilter *pFilter );
-	int			NearestNodeToPoint( CAI_BaseNPC* pNPC, const Vector &vecOrigin, bool bCheckVisiblity = true ) { return NearestNodeToPoint( pNPC, vecOrigin, bCheckVisiblity, NULL ); }
+	int			NearestNodeToPoint( CAI_BaseNPC* pNPC, const Vector &vecOrigin, bool bCheckVisiblity = true ) { return NearestNodeToPoint( pNPC, vecOrigin, bCheckVisiblity, nullptr); }
 	int			NearestNodeToPoint(const Vector &vPosition, bool bCheckVisiblity = true );
 
 

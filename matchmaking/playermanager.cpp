@@ -1240,6 +1240,6 @@ void PlayerManager::CreateFriendEnumeration( int iCtrlr )
 
 #else // SWDS
 
-class PlayerManager *g_pPlayerManager = NULL;
+class PlayerManager *g_pPlayerManager = nullptr;
 
 #endif

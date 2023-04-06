@@ -290,7 +290,7 @@ void mxExpressionSlider::DrawBar( HDC& dc )
 
 	oldPen = (HPEN)SelectObject( dc, hilight );
 
-	MoveToEx( dc, rcBar.left, rcBar.bottom, NULL );
+	MoveToEx( dc, rcBar.left, rcBar.bottom, nullptr);
 	LineTo( dc, rcBar.left, rcBar.top );
 	LineTo( dc, rcBar.right, rcBar.top );
 
@@ -441,7 +441,7 @@ void mxExpressionSlider::DrawThumb( int barnum, HDC& dc )
 
 	oldPen = (HPEN)SelectObject( dc, hilight );
 
-	MoveToEx( dc, region[0].x, region[0].y, NULL );
+	MoveToEx( dc, region[0].x, region[0].y, nullptr);
 	LineTo( dc, region[1].x, region[1].y );
 	SelectObject( dc, shadow );
 	LineTo( dc, region[2].x, region[2].y );
@@ -594,7 +594,7 @@ void mxExpressionSlider::MoveThumb( int barnum, int xpos, bool finish )
 	m_bIsEdited[ 1 ] = true;
 
 	// Send message to parent
-	HWND parent = (HWND)( getParent() ? getParent()->getHandle() : NULL );
+	HWND parent = (HWND)( getParent() ? getParent()->getHandle() : nullptr);
 	if ( parent )
 	{
 		LPARAM lp;
@@ -636,7 +636,7 @@ int mxExpressionSlider::handleEvent( mxEvent *event )
 					setEdited( 1, false );
 
 					// Send message to parent
-					HWND parent = (HWND)( getParent() ? getParent()->getHandle() : NULL );
+					HWND parent = (HWND)( getParent() ? getParent()->getHandle() : nullptr);
 					if ( parent )
 					{
 						LPARAM lp;

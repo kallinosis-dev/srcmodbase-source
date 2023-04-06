@@ -114,7 +114,7 @@ GameTypes::GameType::~GameType()
 // -------------------------------------------------------------------------------------------- //
 GameTypes::GameMode::GameMode()
 	: m_Index( g_invalidInteger ),
-	  m_pExecConfings( NULL )
+	  m_pExecConfings(nullptr)
 {
 	m_Name[0] = '\0';
 	m_NameID[0] = '\0';
@@ -181,7 +181,7 @@ GameTypes::MapGroup::MapGroup()
 // -------------------------------------------------------------------------------------------- //
 GameTypes::CustomBotDifficulty::CustomBotDifficulty()
 	: m_Index( g_invalidInteger ),
-	  m_pConvars( NULL ),
+	  m_pConvars(nullptr),
 	  m_HasBotQuota( false )
 {
 	m_Name[0] = '\0';
@@ -213,9 +213,9 @@ EXPOSE_SINGLE_INTERFACE_GLOBALVAR( GameTypes, IGameTypes, VENGINE_GAMETYPES_VERS
 // -------------------------------------------------------------------------------------------- //
 GameTypes::GameTypes()
 	: m_Initialized( false ),
-	m_pExtendedServerInfo( NULL ),
-	m_pServerMap( NULL ),
-	m_pServerMapGroup( NULL ),
+	m_pExtendedServerInfo(nullptr),
+	m_pServerMap(nullptr),
+	m_pServerMapGroup(nullptr),
 	m_iCurrentServerNumSlots( 0 ),
 	m_bRunMapWithDefaultGametype( false ),
 	m_bLoadingScreenDataIsCorrect( true )
@@ -235,7 +235,7 @@ GameTypes::~GameTypes()
 
 	if ( m_pExtendedServerInfo )
 		m_pExtendedServerInfo->deleteThis();
-	m_pExtendedServerInfo = NULL;
+	m_pExtendedServerInfo = nullptr;
 
 	ClearServerMapGroupInfo();
 }
@@ -244,11 +244,11 @@ void GameTypes::ClearServerMapGroupInfo( void )
 {
 	if ( m_pServerMap )
 		delete m_pServerMap;
-	m_pServerMap = NULL;
+	m_pServerMap = nullptr;
 
 	if ( m_pServerMapGroup )
 		delete m_pServerMapGroup;
-	m_pServerMapGroup = NULL;
+	m_pServerMapGroup = nullptr;
 }
 
 // -------------------------------------------------------------------------------------------- //
@@ -371,7 +371,7 @@ bool GameTypes::Initialize( bool force /* = false*/ )
 	if ( pKV_sv )
 	{
 		pKV_sv->deleteThis();
-		pKV_sv = NULL;
+		pKV_sv = nullptr;
 	}
 
 	// Load the game types.
@@ -855,14 +855,14 @@ bool GameTypes::LoadMapEntry( KeyValues *pKV_Map )
 	}
 
 	// Set the economy item requirements
-	if ( const char *pszRequiresItem = pKV_Map->GetString( "requires_attr", NULL ) )
+	if ( const char *pszRequiresItem = pKV_Map->GetString( "requires_attr", nullptr) )
 	{
 		V_strcpy_safe( pMap->m_RequiresAttr, pszRequiresItem );
 	}
 
 	pMap->m_RequiresAttrValue = pKV_Map->GetInt( "requires_attr_value", -1 );
 
-	if ( const char *pszRequiresItemAttr = pKV_Map->GetString( "requires_attr_reward", NULL ) )
+	if ( const char *pszRequiresItemAttr = pKV_Map->GetString( "requires_attr_reward", nullptr) )
 	{
 		V_strcpy_safe( pMap->m_RequiresAttrReward, pszRequiresItemAttr );
 	}
@@ -1121,7 +1121,7 @@ GameTypes::GameType *GameTypes::GetGameType_Internal( const char *gameType )
 
 	// Not found.
 	Warning( "GameTypes: could not find matching game type \"%s\".\n", gameType );
-	return NULL;
+	return nullptr;
 }
 
 // -------------------------------------------------------------------------------------------- //
@@ -1151,7 +1151,7 @@ GameTypes::GameMode *GameTypes::GetGameMode_Internal( GameType *pGameType, const
 	// Not found.
 	Warning( "GameTypes: could not find matching game mode \"%s\" for type \"%s\".\n", 
 		gameMode, ( pGameType ? pGameType->m_Name : "null" ) );
-	return NULL;
+	return nullptr;
 }
 
 // -------------------------------------------------------------------------------------------- //
@@ -1162,14 +1162,14 @@ GameTypes::GameType *GameTypes::GetCurrentGameType_Internal( void )
 	if ( m_GameTypes.Count() == 0 )
 	{
 		Warning( "GamesTypes: no game types have been loaded.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	int gameType = game_type.GetInt();
 	if ( gameType < 0 || gameType >= m_GameTypes.Count() )
 	{
 		Warning( "GamesTypes: game_type is set to an invalid value (%d). Range [%d,%d].\n", gameType, 0, m_GameTypes.Count() - 1 );
-		return NULL;
+		return nullptr;
 	}
 
 	return m_GameTypes[gameType];
@@ -1183,14 +1183,14 @@ GameTypes::GameMode *GameTypes::GetCurrentGameMode_Internal( GameType *pGameType
 	Assert( pGameType );
 	if ( !pGameType )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int gameMode = game_mode.GetInt();
 	if ( gameMode < 0 || gameMode >= pGameType->m_GameModes.Count() )
 	{
 		Warning( "GamesTypes: game_mode is set to an invalid value (%d). Range [%d,%d].\n", gameMode, 0, pGameType->m_GameModes.Count() - 1 );
-		return NULL;
+		return nullptr;
 	}
 
 	return pGameType->m_GameModes[gameMode];
@@ -1256,7 +1256,7 @@ GameTypes::MapGroup *GameTypes::GetMapGroup_Internal( const char *mapGroup )
 		//Warning( "GameTypes: could not find matching mapGroup \"%s\".\n", mapGroup );
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 // -------------------------------------------------------------------------------------------- //
@@ -1267,7 +1267,7 @@ GameTypes::Map *GameTypes::GetMap_Internal( const char *mapName )
 	if ( m_Maps.Count() == 0 )
 	{
 		Warning( "GamesTypes: no maps have been loaded.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	Assert( mapName );
@@ -1275,7 +1275,7 @@ GameTypes::Map *GameTypes::GetMap_Internal( const char *mapName )
 		 mapName[0] == '\0' )
 	{
 		Warning( "GamesTypes: invalid map name.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	char mapNameNoExt[ MAX_MAP_NAME ];
@@ -1327,7 +1327,7 @@ GameTypes::Map *GameTypes::GetMap_Internal( const char *mapName )
 	// Not found.
 	// Squelching this-- community maps won't be found
 	// Warning( "GameTypes: could not find matching map \"%s\".\n", mapNameNoExt );
-	return NULL;
+	return nullptr;
 }
 
 // -------------------------------------------------------------------------------------------- //
@@ -1338,14 +1338,14 @@ GameTypes::CustomBotDifficulty *GameTypes::GetCurrentCustomBotDifficulty_Interna
 	if ( m_CustomBotDifficulties.Count() == 0 )
 	{
 		Warning( "GamesTypes: no bot difficulties have been loaded.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	int botDiff = custom_bot_difficulty.GetInt();
 	if ( botDiff < 0 || botDiff >= m_CustomBotDifficulties.Count() )
 	{
 		Warning( "GamesTypes: custom_bot_difficulty is set to an invalid value (%d). Range [%d,%d].\n", botDiff, 0, m_CustomBotDifficulties.Count() - 1 );
-		return NULL;
+		return nullptr;
 	}
 
 	return m_CustomBotDifficulties[botDiff];
@@ -1457,7 +1457,7 @@ void GameTypes::SetAndParseExtendedServerInfo( KeyValues *pExtendedServerInfo )
 
 	ClearServerMapGroupInfo();
 
-	m_pExtendedServerInfo = pExtendedServerInfo ? pExtendedServerInfo->MakeCopy() : NULL;
+	m_pExtendedServerInfo = pExtendedServerInfo ? pExtendedServerInfo->MakeCopy() : nullptr;
 
 	// BUGBUG: Not networking the complete state of a map/mapgroup struct so these have default values
 	// which may not match the server... Would like to avoid a ton of network traffic if it's not needed, so 
@@ -1541,7 +1541,7 @@ void GameTypes::CheckShouldSetDefaultGameModeAndType( const char* szMapNameFull 
 	bool bShouldSet = false;
 
 	// check we don't have a launch option that defines what game type/mode we should be playing with
-	KeyValues *mode = NULL;
+	KeyValues *mode = nullptr;
 #if defined( CLIENT_DLL )
 	return;
 #elif defined( GAME_DLL )
@@ -1564,7 +1564,7 @@ void GameTypes::CheckShouldSetDefaultGameModeAndType( const char* szMapNameFull 
 		// start at the third value
 		KeyValues *kv = mode->GetFirstSubKey()->GetNextKey();
 		//KeyValuesDumpAsDevMsg( mode );
-		for ( KeyValues *arg = kv->GetNextKey(); arg != NULL; arg = arg->GetNextKey() )
+		for ( KeyValues *arg = kv->GetNextKey(); arg != nullptr; arg = arg->GetNextKey() )
 		{
 			// if "default" gets passed, we set should run with default to true inside this function and return false
 			if ( GetGameTypeAndModeFromAlias( arg->GetString(), iType, iMode ) )
@@ -1660,7 +1660,7 @@ const char *GameTypes::GetCurrentGameTypeNameID( void )
 	Assert( pGameType );
 	if ( !pGameType )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return pGameType->m_NameID;
@@ -1675,14 +1675,14 @@ const char *GameTypes::GetCurrentGameModeNameID( void )
 	Assert( pGameType );
 	if ( !pGameType )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	GameMode *pGameMode = GetCurrentGameMode_Internal( pGameType );
 	Assert( pGameMode );
 	if ( !pGameMode )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( pGameMode->m_NameID_SP[0] == '\0' )
@@ -1862,14 +1862,14 @@ const CUtlVector< IGameTypes::WeaponProgression > *GameTypes::GetWeaponProgressi
 	Assert( pGameType );
 	if ( !pGameType )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	GameMode *pGameMode = GetCurrentGameMode_Internal( pGameType );
 	Assert( pGameMode );
 	if ( !pGameMode )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &(pGameMode->m_WeaponProgressionCT);
@@ -1884,14 +1884,14 @@ const CUtlVector< IGameTypes::WeaponProgression > *GameTypes::GetWeaponProgressi
 	Assert( pGameType );
 	if ( !pGameType )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	GameMode *pGameMode = GetCurrentGameMode_Internal( pGameType );
 	Assert( pGameMode );
 	if ( !pGameMode )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &(pGameMode->m_WeaponProgressionT);
@@ -1905,26 +1905,26 @@ const char *GameTypes::GetRandomMapGroup( const char *gameType, const char *game
 	Assert( gameType && gameMode );
 	if ( !gameType || !gameMode )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	GameType *pGameType = GetGameType_Internal( gameType );
 	Assert( pGameType );
 	if ( !pGameType )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	GameMode *pGameMode = GetGameMode_Internal( pGameType, gameMode );
 	Assert( pGameMode );
 	if ( !pGameMode )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( pGameMode->m_MapGroupsMP.Count() == 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Randomly choose a mapgroup from our map list.
@@ -1941,19 +1941,19 @@ const char *GameTypes::GetFirstMap( const char *mapGroup )
 	Assert( mapGroup );
 	if ( !mapGroup )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	MapGroup *pMapGroup = GetMapGroup_Internal( mapGroup );
 	Assert( pMapGroup );
 	if ( !pMapGroup )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( pMapGroup->m_Maps.Count() == 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return pMapGroup->m_Maps[0];
@@ -1967,19 +1967,19 @@ const char *GameTypes::GetRandomMap( const char *mapGroup )
 	Assert( mapGroup );
 	if ( !mapGroup )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	MapGroup *pMapGroup = GetMapGroup_Internal( mapGroup );
 	Assert( pMapGroup );
 	if ( !pMapGroup )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( pMapGroup->m_Maps.Count() == 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	// Randomly choose a map from our map list.
@@ -1996,19 +1996,19 @@ const char *GameTypes::GetNextMap( const char *mapGroup, const char *mapName )
 	Assert( mapGroup );
 	if ( !mapGroup )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	MapGroup *pMapGroup = GetMapGroup_Internal( mapGroup );
 	Assert( pMapGroup );
 	if ( !pMapGroup )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	if ( pMapGroup->m_Maps.Count() == 0 )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	int mapIndex = 0;
@@ -2208,7 +2208,7 @@ const CUtlStringList *GameTypes::GetTModelsForMap( const char *mapName )
 	Map *pMap = GetMap_Internal( mapName );
 	if ( !pMap )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &pMap->m_TModels;
@@ -2222,7 +2222,7 @@ const CUtlStringList *GameTypes::GetCTModelsForMap( const char *mapName )
 	Map *pMap = GetMap_Internal( mapName );
 	if ( !pMap )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &pMap->m_CTModels;
@@ -2236,7 +2236,7 @@ const char *GameTypes::GetTViewModelArmsForMap( const char *mapName )
 	Map *pMap = GetMap_Internal( mapName );
 	if ( !pMap )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return pMap->m_TViewModelArms.String();
@@ -2250,7 +2250,7 @@ const char *GameTypes::GetCTViewModelArmsForMap( const char *mapName )
 	Map *pMap = GetMap_Internal( mapName );
 	if ( !pMap )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return pMap->m_CTViewModelArms.String();
@@ -2262,7 +2262,7 @@ const char *GameTypes::GetRequiredAttrForMap( const char *mapName )
 	Map *pMap = GetMap_Internal( mapName );
 	if ( !pMap )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return pMap->m_RequiresAttr;
@@ -2284,7 +2284,7 @@ const char *GameTypes::GetRequiredAttrRewardForMap( const char *mapName )
 	Map *pMap = GetMap_Internal( mapName );
 	if ( !pMap )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return pMap->m_RequiresAttrReward;
@@ -2309,7 +2309,7 @@ const CUtlStringList *GameTypes::GetHostageModelsForMap( const char *mapName )
 	Map *pMap = GetMap_Internal( mapName );
 	if ( !pMap )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &pMap->m_HostageModels;
@@ -2351,14 +2351,14 @@ const CUtlStringList *GameTypes::GetMapGroupMapList( const char *mapGroup )
 	Assert( mapGroup );
 	if ( !mapGroup || StringIsEmpty( mapGroup ) )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	MapGroup *pMapGroup = GetMapGroup_Internal( mapGroup );
 	Assert( pMapGroup );
 	if ( !pMapGroup )
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	return &pMapGroup->m_Maps;
@@ -2406,7 +2406,7 @@ const char* GameTypes::GetGameTypeFromInt( int gameType )
 
 	// Not found.
 	DevWarning( "GameTypes: could not find matching game type for value \"%d\".\n", gameType );
-	return NULL;
+	return nullptr;
 }
 
 const char* GameTypes::GetGameModeFromInt( int gameType, int gameMode )
@@ -2435,7 +2435,7 @@ const char* GameTypes::GetGameModeFromInt( int gameType, int gameMode )
 	// Not found.
 	DevWarning( "GameTypes: could not find matching game mode value of \"%d\" and type value of \"%d\".\n", 
 		gameType, gameMode );
-	return NULL;
+	return nullptr;
 }
 
 bool GameTypes::GetGameTypeFromMode( const char *szGameMode, const char *&pszGameTypeOut )
@@ -2470,8 +2470,8 @@ bool GameTypes::GetGameTypeFromMode( const char *szGameMode, const char *&pszGam
 
 bool GameTypes::GetGameModeAndTypeIntsFromStrings( const char* szGameType, const char* szGameMode, int& iOutGameType, int& iOutGameMode )
 {
-	GameType* type = NULL;
-	GameMode* mode = NULL;     
+	GameType* type = nullptr;
+	GameMode* mode = nullptr;     
 	iOutGameType = g_invalidInteger;
 	iOutGameMode = g_invalidInteger;
 	
@@ -2501,10 +2501,10 @@ bool GameTypes::GetGameModeAndTypeIntsFromStrings( const char* szGameType, const
 
 bool GameTypes::GetGameModeAndTypeNameIdsFromStrings( const char* szGameType, const char* szGameMode, const char*& szOutGameTypeNameId, const char*& szOutGameModeNameId )
 {
-	GameType* type = NULL;
-	GameMode* mode = NULL;     
-	szOutGameTypeNameId = NULL;
-	szOutGameModeNameId = NULL;
+	GameType* type = nullptr;
+	GameMode* mode = nullptr;     
+	szOutGameTypeNameId = nullptr;
+	szOutGameModeNameId = nullptr;
 		
 	if ( GetGameModeAndTypeFromStrings( szGameType, szGameMode, type, mode ) )
 	{
@@ -2529,8 +2529,8 @@ bool GameTypes::GetGameModeAndTypeNameIdsFromStrings( const char* szGameType, co
 
 bool GameTypes::GetGameModeAndTypeFromStrings( const char* szGameType, const char* szGameMode, GameType*& outGameType, GameMode*& outGameMode )
 {      
-	outGameType = NULL;
-	outGameMode = NULL;
+	outGameType = nullptr;
+	outGameMode = nullptr;
 	Assert( szGameType && szGameMode );
 	if ( !szGameType || !szGameMode )
 	{

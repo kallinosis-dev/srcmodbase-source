@@ -58,7 +58,7 @@ CTextureWindow::CTextureWindow(void)
 	m_szKeywords[0] = '\0';
 	m_nKeywords = 0;
 
-	m_pSpecificList = NULL;
+	m_pSpecificList = nullptr;
 	szCurTexture[0] = '\0';
 
 	m_eTextureFormat = g_pGameConfig->GetTextureFormat();
@@ -92,7 +92,7 @@ void CTextureWindow::Create(CWnd *pParentWnd, RECT& rect)
 	{
 		// create class
 		TextureWndClassName = AfxRegisterWndClass(CS_DBLCLKS | CS_HREDRAW | 
-			CS_VREDRAW, LoadCursor(NULL, IDC_ARROW), 
+			CS_VREDRAW, LoadCursor(nullptr, IDC_ARROW), 
 			(HBRUSH) GetStockObject(BLACK_BRUSH), 
 			AfxGetApp()->LoadIcon(IDI_TEXTUREWINDOW));
 	}
@@ -138,7 +138,7 @@ bool CTextureWindow::MatchKeywords(const char *pszSearch, char **pszKeyword, int
 	{
 		for (int i = 0; i < nKeywords; i++)
 		{
-			if (Q_stristr(pszSearch, pszKeyword[i]) == NULL)
+			if (Q_stristr(pszSearch, pszKeyword[i]) == nullptr)
 			{
 				return(false);
 			}
@@ -203,14 +203,14 @@ BOOL CTextureWindow::EnumTexturePositions(TWENUMPOS *pTE, BOOL bStart)
 	{
 		pTE->pTex = g_Textures.EnumActiveTextures(&pTE->iTexIndex, m_eTextureFormat);
 
-		if (pTE->pTex == NULL)
+		if (pTE->pTex == nullptr)
 			continue;
 
 		bFound = false;
 
 		// If we are iterating a specific list of textures, make sure it is in the list.
 		// dvs: inefficient, the specific list should control the loop, not act as a filter
-		if (m_pSpecificList != NULL)
+		if (m_pSpecificList != nullptr)
 		{
 			int nIndex = m_pSpecificList->Find(pTE->pTex);
 			if (nIndex == -1)
@@ -287,9 +287,9 @@ BOOL CTextureWindow::EnumTexturePositions(TWENUMPOS *pTE, BOOL bStart)
 			}
 		}
 			
-	} while ((pTE->pTex != NULL) && (!bFound));
+	} while ((pTE->pTex != nullptr) && (!bFound));
 
-	if ((!bFound) || (pTE->pTex == NULL))
+	if ((!bFound) || (pTE->pTex == nullptr))
 	{
 		return(FALSE);
 	}
@@ -357,10 +357,10 @@ void CTextureWindow::SetNameFilter(LPCTSTR pszFilter)
 	// delimit the filter
 	m_nFilters = 0;
 	char *p = strtok(m_szFilter, " ,;");
-	while (p != NULL)
+	while (p != nullptr)
 	{	
 		m_Filters[m_nFilters++] = p;
-		p = strtok(NULL, " ,;");
+		p = strtok(nullptr, " ,;");
 	}
 
 	if (m_bEnableUpdate)
@@ -396,10 +396,10 @@ void CTextureWindow::SetKeywords(LPCTSTR pszKeywords)
 	// delimit the filter
 	m_nKeywords = 0;
 	char *p = strtok(m_szKeywords, " ,;");
-	while (p != NULL)
+	while (p != nullptr)
 	{	
 		m_Keyword[m_nKeywords++] = p;
-		p = strtok(NULL, " ,;");
+		p = strtok(nullptr, " ,;");
 	}
 
 	if (m_bEnableUpdate)
@@ -704,7 +704,7 @@ void CTextureWindow::SelectTexture(LPCTSTR pszTexture, BOOL bAllowRedraw)
 	}
 	int iClientHeight = r.Height();
 
-	if (pTex == NULL)
+	if (pTex == nullptr)
 	{
 		return;
 	}
@@ -916,7 +916,7 @@ void CTextureWindow::SetSpecificList(TextureWindowTexList *pList)
 {
 	m_pSpecificList = pList;
 
-	if (m_hWnd != NULL)
+	if (m_hWnd != nullptr)
 	{
 		UpdateScrollSizes();
 		SelectTexture(szCurTexture, FALSE);

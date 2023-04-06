@@ -80,15 +80,15 @@ extern int		UTIL_BotsInGame( void );
 extern bool		UTIL_IsTeamAllBots( int team );
 extern void		UTIL_DrawBeamFromEnt( int iIndex, Vector vecEnd, int iLifetime, byte bRed, byte bGreen, byte bBlue );
 extern void		UTIL_DrawBeamPoints( Vector vecStart, Vector vecEnd, int iLifetime, byte bRed, byte bGreen, byte bBlue );
-extern CBasePlayer *UTIL_GetClosestPlayer( const Vector &pos, float *distance = NULL );
-extern CBasePlayer *UTIL_GetClosestPlayer( const Vector &pos, int team, float *distance = NULL );
+extern CBasePlayer *UTIL_GetClosestPlayer( const Vector &pos, float *distance = nullptr);
+extern CBasePlayer *UTIL_GetClosestPlayer( const Vector &pos, int team, float *distance = nullptr);
 extern bool UTIL_KickBotFromTeam( int kickTeam, bool bQueue = false ); ///< kick a bot from the given team. If no bot exists on the team, return false, if bQueue is true kick will occur at round restart
 
 extern bool UTIL_IsVisibleToTeam( const Vector &spot, int team ); ///< return true if anyone on the given team can see the given spot
 extern bool UTIL_IsRandomSpawnFarEnoughAwayFromTeam( const Vector &spot, int team ); ///< return true if this spot is far enough away from everyone on specified team defined via 
 
 /// return true if moving from "start" to "finish" will cross a player's line of fire.
-extern bool IsCrossingLineOfFire( const Vector &start, const Vector &finish, CBaseEntity *ignore = NULL, int ignoreTeam = 0 );
+extern bool IsCrossingLineOfFire( const Vector &start, const Vector &finish, CBaseEntity *ignore = nullptr, int ignoreTeam = 0 );
 
 extern void UTIL_ConstructBotNetName(char *name, int nameLength, const BotProfile *bot);	///< constructs a complete name including prefix
 
@@ -112,7 +112,7 @@ bool WildcardMatch( const char *query, const char *test );	///< Performs a simpl
  */
 inline bool IsEntityValid( CBaseEntity *entity )
 {
-	if (entity == NULL)
+	if (entity == nullptr)
 		return false;
 
 	if (FNullEnt( entity->edict() ))
@@ -129,7 +129,7 @@ inline bool IsEntityValid( CBaseEntity *entity )
  */
 inline bool IsIntersecting2D( const Vector &startA, const Vector &endA, 
 															const Vector &startB, const Vector &endB, 
-															Vector *result = NULL )
+															Vector *result = nullptr)
 {
 	float denom = (endA.x - startA.x) * (endB.y - startB.y) - (endA.y - startA.y) * (endB.x - startB.x);
 	if (denom == 0.0f)

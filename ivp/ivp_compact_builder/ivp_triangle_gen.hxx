@@ -44,7 +44,7 @@ public:
     int is_crossing_line(P_Sur_2D_Line *i_line);
     int point_lies_in_interval(IVP_U_Point *i_point);
     int overlaps_with_line(P_Sur_2D_Line *line_v);
-    int has_points(P_Sur_2D_Point *point_a, P_Sur_2D_Point *point_b = 0);
+    int has_points(P_Sur_2D_Point *point_a, P_Sur_2D_Point *point_b = nullptr);
 };
 
 class P_Sur_2D_Triangle{

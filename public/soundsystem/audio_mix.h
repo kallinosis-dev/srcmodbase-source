@@ -146,16 +146,16 @@ public:
 	}
 	CAudioMixState()
 	{
-		m_pChannelsIn = 0;
-		m_pChannelsOut = 0;
+		m_pChannelsIn = nullptr;
+		m_pChannelsOut = nullptr;
 		m_nChannelCount = 0;
 		m_pGlobals = nullptr;
 	}
 
 	inline void Clear()
 	{
-		m_pChannelsIn = NULL;
-		m_pChannelsOut = NULL;
+		m_pChannelsIn = nullptr;
+		m_pChannelsOut = nullptr;
 		m_nChannelCount = 0;
 	}
 

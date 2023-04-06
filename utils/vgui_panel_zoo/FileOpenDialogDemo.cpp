@@ -54,7 +54,7 @@ void FileOpenDemo::SetVisible(bool status)
 		if (!m_hFileDialog.Get())
 		{
 			// Pop up the dialog
-			FileOpenDialog *pFileDialog = new FileOpenDialog (NULL, "Find the TestFile", true);
+			FileOpenDialog *pFileDialog = new FileOpenDialog (nullptr, "Find the TestFile", true);
 			m_hFileDialog = pFileDialog;
 			m_hFileDialog->AddActionSignalTarget(this);
 		}

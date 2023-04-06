@@ -219,7 +219,7 @@ int DoIt( CDmElement *pDmRoot, const char *pszOutFilename, const CUtlVector< CUt
 	CDmeAxisSystem *pDmeAxisSystem = pDmeModel->GetValueElement< CDmeAxisSystem >( "axisSystem" );
 	Assert( pDmeAxisSystem );
 
-	const bool bReturn = g_pDataModel->SaveToFile( szDmxFilename, NULL, "keyvalues2", "model", pDmRoot );
+	const bool bReturn = g_pDataModel->SaveToFile( szDmxFilename, nullptr, "keyvalues2", "model", pDmRoot );
 
 	g_pDataModel->UnloadFile( pDmRoot->GetFileId() );
 
@@ -238,13 +238,13 @@ public:
 
 	CFbx2DmxApp()
 	{
-		m_pszOptForceMod = NULL;
+		m_pszOptForceMod = nullptr;
 		m_bOptUFC = false;
 		m_nOptVerbosity = 0;
 		m_bOptAnimation = false;
 		m_bOptPrintSearchPaths = false;
-		m_pszOptFilename = NULL;
-		m_pszOptOutFilename = NULL;
+		m_pszOptFilename = nullptr;
+		m_pszOptOutFilename = nullptr;
 	}
 
 	virtual bool Create() override;
@@ -289,7 +289,7 @@ protected:
 
 static bool CStudioMDLApp_SuggestGameInfoDirFn( CFSSteamSetupInfo const *pFsSteamSetupInfo, char *pchPathBuffer, int nBufferLength, bool *pbBubbleDirectories )
 {
-	const char *pProcessFileName = NULL;
+	const char *pProcessFileName = nullptr;
 	int nParmCount = CommandLine()->ParmCount();
 	if ( nParmCount > 1 )
 	{
@@ -568,7 +568,7 @@ int CFbx2DmxApp::Main()
 
 	CDisableUndoScopeGuard noUndo;
 
-	CDmElement *pDmRoot = NULL;
+	CDmElement *pDmRoot = nullptr;
 
 	if ( !V_stricmp( szExt, "obj" ) )
 	{
@@ -746,7 +746,7 @@ const studiohdr_t *studiohdr_t::FindModel( void **cache, char const *pModelName 
 virtualmodel_t *studiohdr_t::GetVirtualModel( void ) const
 {
 	if ( numincludemodels == 0 )
-		return NULL;
+		return nullptr;
 	return g_pMDLCache->GetVirtualModelFast( this, VoidPtrToMDLHandle( VirtualModel() ) );
 }
 

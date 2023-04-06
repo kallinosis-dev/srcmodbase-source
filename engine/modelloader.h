@@ -144,7 +144,7 @@ public:
 	virtual void		UpdateDynamicCombinedModel( model_t *pModel, MDLHandle_t Handle, bool bClientSide ) = 0;
 
 	virtual bool		SetCombineModels( model_t *pModel, const CUtlVector< SCombinerModelInput_t > &vecModelsToCombine ) = 0;
-	virtual bool		FinishCombinedModel( model_t *pModel, CombinedModelLoadedCallback pFunc, void *pUserData = NULL ) = 0;
+	virtual bool		FinishCombinedModel( model_t *pModel, CombinedModelLoadedCallback pFunc, void *pUserData = nullptr) = 0;
 
 	// Called by client code to query dynamic model state
 	virtual bool		IsDynamicModelLoading( model_t *pModel ) = 0;
@@ -193,7 +193,7 @@ public:
 	struct worldbrushdata_t	*GetMap( void );
 	// use these to explicitly manage compressed lumps (by default, decompression is done transparently):
 	int					UncompressedLumpSize( void );
-	void				UncompressLump( void *pExternalBuffer = NULL );
+	void				UncompressLump( void *pExternalBuffer = nullptr);
 
 	// Global setup/shutdown
 	static void			Init( model_t *pMapModel, const char *pLoadname );

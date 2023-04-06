@@ -235,7 +235,7 @@ PackedEntity* CFrameSnapshotManager::GetPackedEntity( CFrameSnapshot& Snapshot, 
 	Assert( entity < Snapshot.m_nNumEntities );
 	PackedEntityHandle_t index = Snapshot.m_pEntities[entity].m_pPackedData;
 	if ( index == INVALID_PACKED_ENTITY_HANDLE )
-		return NULL;
+		return nullptr;
 
 	Assert( m_PackedEntities[index]->m_nEntityIndex == entity );
 	return m_PackedEntities[index];

@@ -246,7 +246,7 @@ static SQRegFunction _stream_methods[] = {
 	_DECL_STREAM_FUNC(len,1,_SC("x")),
 	_DECL_STREAM_FUNC(eos,1,_SC("x")),
 	_DECL_STREAM_FUNC(flush,1,_SC("x")),
-	{0,0}
+	{nullptr,nullptr}
 };
 
 void init_streamclass(HSQUIRRELVM v)
@@ -258,7 +258,7 @@ void init_streamclass(HSQUIRRELVM v)
 		sq_newclass(v,SQFalse);
 		sq_settypetag(v,-1,(SQUserPointer)SQSTD_STREAM_TYPE_TAG);
 		SQInteger i = 0;
-		while(_stream_methods[i].name != 0) {
+		while(_stream_methods[i].name != nullptr) {
 			SQRegFunction &f = _stream_methods[i];
 			sq_pushstring(v,f.name,-1);
 			sq_newclosure(v,f.f,0);
@@ -294,7 +294,7 @@ SQRESULT declare_stream(HSQUIRRELVM v,SQChar* name,SQUserPointer typetag,const S
 		sq_newclass(v,SQTrue);
 		sq_settypetag(v,-1,typetag);
 		SQInteger i = 0;
-		while(methods[i].name != 0) {
+		while(methods[i].name != nullptr) {
 			SQRegFunction &f = methods[i];
 			sq_pushstring(v,f.name,-1);
 			sq_newclosure(v,f.f,0);
@@ -307,7 +307,7 @@ SQRESULT declare_stream(HSQUIRRELVM v,SQChar* name,SQUserPointer typetag,const S
 		sq_pop(v,1);
 		
 		i = 0;
-		while(globals[i].name!=0)
+		while(globals[i].name!=nullptr)
 		{
 			SQRegFunction &f = globals[i];
 			sq_pushstring(v,f.name,-1);

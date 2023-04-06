@@ -64,7 +64,7 @@ class CClassInputOutputBase
 //-----------------------------------------------------------------------------
 const char *CClassInputOutputBase::GetDescription(void)
 {
-	return m_pszDescription == NULL ? "" : m_pszDescription;
+	return m_pszDescription == nullptr ? "" : m_pszDescription;
 }
 
 

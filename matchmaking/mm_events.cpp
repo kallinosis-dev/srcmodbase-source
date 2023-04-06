@@ -215,7 +215,7 @@ KeyValues * CMatchEventsSubscription::GetEventData( char const *szEventDataKey )
 			return pRegistered;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 

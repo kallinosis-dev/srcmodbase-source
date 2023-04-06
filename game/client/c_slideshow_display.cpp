@@ -200,7 +200,7 @@ void C_SlideshowDisplay::BuildSlideShowImagesList( void )
 	char szDirectory[_MAX_PATH];
 	char szMatFileName[_MAX_PATH] = {'\0'};
 	char szFileBuffer[ SLIDESHOW_LIST_BUFFER_MAX ];
-	char *pchCurrentLine = NULL;
+	char *pchCurrentLine = nullptr;
 
 	if ( IsGameConsole() )
 	{
@@ -268,7 +268,7 @@ void C_SlideshowDisplay::BuildSlideShowImagesList( void )
 		Q_snprintf( szFullFileName, sizeof( szFullFileName ), "materials/vgui/%s/%s", m_szSlideshowDirectory, szMatFileName );
 
 		KeyValues *pMaterialKeys = new KeyValues( "material" );
-		bool bLoaded = pMaterialKeys->LoadFromFile( g_pFullFileSystem, szFullFileName, NULL );
+		bool bLoaded = pMaterialKeys->LoadFromFile( g_pFullFileSystem, szFullFileName, nullptr);
 		if ( bLoaded )
 		{
 			char szKeywords[ 256 ];
@@ -316,7 +316,7 @@ void C_SlideshowDisplay::BuildSlideShowImagesList( void )
 			}
 		}
 		pMaterialKeys->deleteThis();
-		pMaterialKeys = NULL;
+		pMaterialKeys = nullptr;
 
 		// Find the generic list
 		int iList;

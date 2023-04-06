@@ -23,7 +23,7 @@ mxTgaRead (const char *filename)
 	FILE *file;
 	file = fopen (filename, "rb");
 	if (!file)
-		return 0;
+		return nullptr;
 
 	byte identFieldLength;
 	byte colorMapType;
@@ -46,7 +46,7 @@ mxTgaRead (const char *filename)
 		pixelSize != 24)
 	{
 		fclose (file);
-		return 0;
+		return nullptr;
 	}
 
 	fseek (file, 18 + identFieldLength, SEEK_SET);
@@ -56,7 +56,7 @@ mxTgaRead (const char *filename)
 	{
 		delete image;
 		fclose (file);
-		return 0;
+		return nullptr;
 	}
 
 	byte *data = (byte *) image->data;

@@ -17,10 +17,10 @@ DWORD WINAPI CWinIdle::ThreadStub(LPVOID pIdle)
 }
 
 CWinIdle::CWinIdle() :
-	m_hIdleThread(NULL),
-	m_hIdleEvent(NULL),
-	m_hStopEvent(NULL),
-	m_hWnd(0),
+	m_hIdleThread(nullptr),
+	m_hIdleEvent(nullptr),
+	m_hStopEvent(nullptr),
+	m_hWnd(nullptr),
 	m_uMsg(0),
 	m_dwDelay(0)
 {
@@ -62,8 +62,8 @@ BOOL CWinIdle::StartIdle(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam,
 		return FALSE;
 
 	// Create the events
-	m_hIdleEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
-	m_hStopEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_hIdleEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
+	m_hStopEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 	// Make sure the events got created
 	if ((!m_hIdleEvent) || (!m_hStopEvent))
@@ -71,7 +71,7 @@ BOOL CWinIdle::StartIdle(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam,
 
 	// Create the thread
 	DWORD dwThreadID;
-	m_hIdleThread = CreateThread(NULL, 0, CWinIdle::ThreadStub, (void *)this, 0, &dwThreadID);
+	m_hIdleThread = CreateThread(nullptr, 0, CWinIdle::ThreadStub, (void *)this, 0, &dwThreadID);
 
 	if (m_hIdleThread)
 	{
@@ -85,7 +85,7 @@ BOOL CWinIdle::StartIdle(HWND hWnd, UINT uMessage, WPARAM wParam, LPARAM lParam,
 		m_dwDelay = dwDelay;
 	}
 
-	return m_hIdleThread != 0;
+	return m_hIdleThread != nullptr;
 }
 
 BOOL CWinIdle::EndIdle()
@@ -104,9 +104,9 @@ BOOL CWinIdle::EndIdle()
 	CloseHandle(m_hStopEvent);
 
 	// Set everything back to 0
-	m_hIdleEvent = 0;
-	m_hStopEvent = 0;
-	m_hIdleThread = 0;
+	m_hIdleEvent = nullptr;
+	m_hStopEvent = nullptr;
+	m_hIdleThread = nullptr;
 
 	return TRUE;
 }

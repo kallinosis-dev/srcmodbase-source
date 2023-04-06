@@ -112,7 +112,7 @@ C_PlayerResource::~C_PlayerResource()
 		}
 	}
 
-	g_PR = NULL;
+	g_PR = nullptr;
 
 	g_pScaleformUI->RemoveDeviceDependentObject( this );
 }

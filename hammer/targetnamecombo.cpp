@@ -37,7 +37,7 @@ END_MESSAGE_MAP()
 CTargetNameComboBox::CTargetNameComboBox( CFilteredComboBox::ICallbacks *pPassThru ) : 
 	BaseClass( this )
 {
-	m_pEntityList = NULL;
+	m_pEntityList = nullptr;
 	m_pPassThru = pPassThru;
 }
 
@@ -57,7 +57,7 @@ CTargetNameComboBox::~CTargetNameComboBox(void)
 void CTargetNameComboBox::FreeSubLists(void)
 {
 	POSITION pos = m_SubLists.GetHeadPosition();
-	while (pos != NULL)
+	while (pos != nullptr)
 	{
 		CMapEntityList *pList = m_SubLists.GetNext(pos);
 		delete pList;
@@ -113,14 +113,14 @@ void CTargetNameComboBox::SetEntityList(const CMapEntityList *pEntityList)
 
 	m_EntityLists.RemoveAll();
 
-	if (m_pEntityList != NULL)
+	if (m_pEntityList != nullptr)
 	{
 		FOR_EACH_OBJ( *m_pEntityList, pos )
 		{
 			CMapEntity *pEntity = (CUtlReference<CMapEntity>)m_pEntityList->Element(pos);
-			const char *pszTargetName = pEntity ? pEntity->GetKeyValue("targetname") : NULL;
+			const char *pszTargetName = pEntity ? pEntity->GetKeyValue("targetname") : nullptr;
 
-			if (pszTargetName != NULL)
+			if (pszTargetName != nullptr)
 			{
 				//
 				// If the targetname is not in the combo box, add it to the combo as the
@@ -170,7 +170,7 @@ CMapEntityList* CTargetNameComboBox::GetSubEntityList( const char *pName )
 		return m_EntityLists[testIndex];
 	}
 	
-	return NULL;	
+	return nullptr;	
 }
 
 
@@ -198,14 +198,14 @@ void CTargetNameComboBox::OnTextChanged( const char *pText )
 	else
 	{
 		POSITION	pos = APP()->pMapDocTemplate->GetFirstDocPosition();
-		while( pos != NULL )
+		while( pos != nullptr)
 		{
 			CDocument *pDoc = APP()->pMapDocTemplate->GetNextDoc( pos );
 			CMapDoc *pMapDoc = dynamic_cast< CMapDoc * >( pDoc );
 
 			if ( pMapDoc )
 			{
-				if ( pMapDoc->GetMapWorld()->FindEntityByName( pText ) != NULL )
+				if ( pMapDoc->GetMapWorld()->FindEntityByName( pText ) != nullptr)
 				{
 					clrWanted = RGB( 0, 192, 192 );
 					break;

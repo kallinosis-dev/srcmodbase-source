@@ -25,7 +25,7 @@ class CModelBrowser : public CDialog
 	DECLARE_DYNAMIC(CModelBrowser)
 
 public:
-	CModelBrowser(CWnd* pParent = NULL);   // standard constructor
+	CModelBrowser(CWnd* pParent = nullptr);   // standard constructor
 	virtual ~CModelBrowser();
 
 	void SetUsedModelList( CUtlVector<AssetUsageInfo_t> &usedModels );

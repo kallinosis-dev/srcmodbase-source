@@ -35,7 +35,7 @@ struct PhysBlockHeader_t
 	inline void Clear()
 	{
 		nSaved = 0;
-		pWorldObject = 0;
+		pWorldObject = nullptr;
 	}
 
 	DECLARE_SIMPLE_DATADESC();
@@ -245,7 +245,7 @@ public:
 				pRestore->ReadAll( &header );
 				pRestore->StartBlock();
 				
-				if ( header.hEntity != NULL )
+				if ( header.hEntity != nullptr)
 				{
 					RestoreBlock( pRestore, header );
 				}
@@ -318,7 +318,7 @@ public:
 		{
 			pRestore->StartBlock();
 			
-			CPhysCollide *pPhysCollide   = NULL;
+			CPhysCollide *pPhysCollide   = nullptr;
 			int 		  modelIndex 	 = -1;
 			bool 		  fCustomCollide = false;
 			
@@ -334,7 +334,7 @@ public:
 #endif
 				{
 					modelIndex = modelinfo->GetModelIndex( STRING( header.modelName ) );
-					pGlobalEntity = NULL;
+					pGlobalEntity = nullptr;
 				}
 
 				if ( modelIndex != -1 )
@@ -357,7 +357,7 @@ public:
 				// HACKHACK: Handle spheres here!!!
 				if ( !(*pItem->ppPhysObj) )
 				{
-					RestorePhysicsObject( pRestore, header, pItem->ppPhysObj, NULL );
+					RestorePhysicsObject( pRestore, header, pItem->ppPhysObj, nullptr);
 				}
 				return;
 			}
@@ -451,7 +451,7 @@ public:
 				if ( item.header.modelName == NULL_STRING )
 				{
 					BBox_t *pBBox = GetBBox( pPhysObj );
-					if ( pBBox != NULL )
+					if ( pBBox != nullptr)
 					{
 						item.header.bbox = *pBBox;
 					}
@@ -477,7 +477,7 @@ public:
 	
 	void QueueRestore( CBaseEntity *pOwner, typedescription_t *pTypeDesc, void **ppPhysObj, PhysInterfaceId_t type )
 	{
-		CEntityRestoreSet *pEntitySet = NULL;
+		CEntityRestoreSet *pEntitySet = nullptr;
 		unsigned short 	   iEntitySet = m_QueuedRestores.Find( pOwner );
 		
 		if ( iEntitySet != m_QueuedRestores.InvalidIndex() )
@@ -510,7 +510,7 @@ public:
 	
 	//---------------------------------
 	
-	void RestorePhysicsObject( IRestore *pRestore, const PhysObjectHeader_t &header, void **ppObject, const CPhysCollide *pCollide = NULL )
+	void RestorePhysicsObject( IRestore *pRestore, const PhysObjectHeader_t &header, void **ppObject, const CPhysCollide *pCollide = nullptr)
 	{
 		if ( physenv )
 		{
@@ -603,10 +603,10 @@ public:
 	{
 		int i = m_PhysObjectCustomModels.Find( pObject );
 		if ( i == m_PhysObjectCustomModels.InvalidIndex() )
-			return NULL;
+			return nullptr;
 		i = m_PhysCollideBBoxModels.Find( m_PhysObjectCustomModels[i] );
 		if ( i == m_PhysCollideBBoxModels.InvalidIndex() )
-			return NULL;
+			return nullptr;
 		return &(m_PhysCollideBBoxModels[i]);
 	}
 
@@ -653,7 +653,7 @@ private:
 				if ( testName == itemFieldName )
 					return &(Element(i));
 			}
-			return NULL;
+			return nullptr;
 		}
 	};
 	
@@ -796,7 +796,7 @@ public:
 		int nObjects = fieldInfo.pTypeDesc->fieldSize;
 		for ( int i = 0; i < nObjects; i++ )
 		{
-			if ( ppPhysObj[i] != NULL )
+			if ( ppPhysObj[i] != nullptr)
 				return false;
 		}
 		return true;

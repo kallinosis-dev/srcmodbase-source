@@ -91,7 +91,7 @@ void CMessage::Precache( void )
 //-----------------------------------------------------------------------------
 void CMessage::InputShowMessage( inputdata_t &inputdata )
 {
-	CBaseEntity *pPlayer = NULL;
+	CBaseEntity *pPlayer = nullptr;
 
 	if ( m_spawnflags & SF_MESSAGE_ALL )
 	{
@@ -109,7 +109,7 @@ void CMessage::InputShowMessage( inputdata_t &inputdata )
 		}
 		else
 		{
-			pPlayer = (gpGlobals->maxClients > 1) ? NULL : UTIL_GetLocalPlayer();
+			pPlayer = (gpGlobals->maxClients > 1) ? nullptr : UTIL_GetLocalPlayer();
 		}
 
 		if ( pPlayer && pPlayer->IsPlayer() )
@@ -152,8 +152,8 @@ void CMessage::Use( CBaseEntity *pActivator, CBaseEntity *pCaller, USE_TYPE useT
 {
 	inputdata_t inputdata;
 
-	inputdata.pActivator	= NULL;
-	inputdata.pCaller		= NULL;
+	inputdata.pActivator	= nullptr;
+	inputdata.pCaller		= nullptr;
 
 	InputShowMessage( inputdata );
 }
@@ -205,7 +205,7 @@ void CCredits::Spawn( void )
 
 static void CreditsDone_f( void )
 {
-	CCredits *pCredits = (CCredits*)gEntList.FindEntityByClassname( NULL, "env_credits" );
+	CCredits *pCredits = (CCredits*)gEntList.FindEntityByClassname(nullptr, "env_credits" );
 
 	if ( pCredits )
 	{
@@ -405,11 +405,11 @@ void COuttroStats::InputSkipStateChanged( inputdata_t &inputdata )
 
 void CC_Test_Outtro_Stats( const CCommand& args )
 {
-	CBaseEntity *pOuttro = gEntList.FindEntityByClassname( NULL, "env_outtro_stats" );
+	CBaseEntity *pOuttro = gEntList.FindEntityByClassname(nullptr, "env_outtro_stats" );
 	if ( pOuttro )
 	{
 		variant_t emptyVariant;
-		pOuttro->AcceptInput( "RollStatsCrawl", NULL, NULL, emptyVariant, 0 );
+		pOuttro->AcceptInput( "RollStatsCrawl", nullptr, nullptr, emptyVariant, 0 );
 	}
 }
-static ConCommand test_outtro_stats("test_outtro_stats", CC_Test_Outtro_Stats, 0, FCVAR_CHEAT);
+static ConCommand test_outtro_stats("test_outtro_stats", CC_Test_Outtro_Stats, nullptr, FCVAR_CHEAT);

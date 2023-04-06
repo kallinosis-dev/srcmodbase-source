@@ -66,9 +66,9 @@ public:
 	virtual void		NotifyHasNewItems() { OnHasNewItems(); }
 
 public:
-	float				FindInventoryItemWithMaxAttributeValue( char const *szItemType, char const *szAttrClass, CEconItemView **ppItemFound = NULL );
+	float				FindInventoryItemWithMaxAttributeValue( char const *szItemType, char const *szAttrClass, CEconItemView **ppItemFound = nullptr);
 	void				FindInventoryItemsWithAttribute( char const *szAttrClass, CUtlVector< CEconItemView* > &foundItems, bool bMatchValue = false, uint32 unValue = 0 );	// DEPRECATED. Use CSchemaAttributeDefHandle version instead and use static handles.
-	void				FindInventoryItemsWithAttribute( CSchemaAttributeDefHandle pAttr, CUtlVector< CEconItemView* > &foundItems, CUtlVector< CEconItemView* > *searchSet = NULL, bool bMatchValue = false, uint32 unValue = 0 );
+	void				FindInventoryItemsWithAttribute( CSchemaAttributeDefHandle pAttr, CUtlVector< CEconItemView* > &foundItems, CUtlVector< CEconItemView* > *searchSet = nullptr, bool bMatchValue = false, uint32 unValue = 0 );
 	itemid_t			GetActiveSeasonItemId( bool bCoin = true /* false is the Pass */ );
 	uint32				GetActiveQuestID( void ) const;
 	void				RefreshActiveQuestID( void );
@@ -161,7 +161,7 @@ public:
 	CCSPlayerInventory	*GetInventoryForPlayer( const CSteamID &playerID );
 
 	// Returns the item in the specified loadout slot for a given class
-	CEconItemView		*GetItemInLoadoutForTeam( int iClass, int iSlot, CSteamID *pID = NULL );
+	CEconItemView		*GetItemInLoadoutForTeam( int iClass, int iSlot, CSteamID *pID = nullptr);
 
 	int					GetSlotForBaseOrDefaultEquipped( int iClass, item_definition_index_t );
 

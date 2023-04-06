@@ -64,7 +64,7 @@ void CMdlLib::Shutdown()
 //-----------------------------------------------------------------------------
 void *CMdlLib::QueryInterface( const char *pInterfaceName )
 {
-	return Sys_GetFactoryThis()( pInterfaceName, NULL );
+	return Sys_GetFactoryThis()( pInterfaceName, nullptr);
 }
 
 

@@ -21,7 +21,7 @@ CClass::CClass( const char *name )
 
 	strcpy( m_szName, name );
 	m_szBaseClass[0]=0;
-	m_pBaseClass = NULL;
+	m_pBaseClass = nullptr;
 	m_szTypedefBaseClass[0]=0;
 
 	m_bDerivedFromCBaseEntity = false;
@@ -67,7 +67,7 @@ CTypeDescriptionField *CClass::FindTD( const char *name )
 		if ( !strcmp( m_TDFields[ i ]->m_szVariableName, name ) )
 			return m_TDFields[ i ];
 	}
-	return NULL;
+	return nullptr;
 }
 
 CTypeDescriptionField *CClass::FindPredTD( const char *name )
@@ -77,7 +77,7 @@ CTypeDescriptionField *CClass::FindPredTD( const char *name )
 		if ( !strcmp( m_PredTDFields[ i ]->m_szVariableName, name ) )
 			return m_PredTDFields[ i ];
 	}
-	return NULL;
+	return nullptr;
 }
 
 CClassVariable	*CClass::FindVar( const char *name, bool checkbaseclasses /*= false*/ )
@@ -103,7 +103,7 @@ CClassVariable	*CClass::FindVar( const char *name, bool checkbaseclasses /*= fal
 		if ( !cl )
 			break;
 	}
-	return NULL;
+	return nullptr;
 }
 
 CClassMemberFunction *CClass::FindMember( const char *name )
@@ -113,7 +113,7 @@ CClassMemberFunction *CClass::FindMember( const char *name )
 		if ( !strcmp( m_Members[ i ]->m_szName, name ) )
 			return m_Members[ i ];
 	}
-	return NULL;
+	return nullptr;
 }
 
 CTypeDescriptionField	*CClass::AddTD( const char *name, const char *type, const char *definetype, bool incomments )

@@ -30,7 +30,7 @@ CAI_Link::CAI_Link(void)
 	m_iDestID			= -1;
 	m_LinkInfo			= 0;
 	m_timeStaleExpires	= 0;
-	m_pDynamicLink		= NULL;
+	m_pDynamicLink		= nullptr;
 	m_nDangerCount		= 0;
 	for (int hull=0;hull<NUM_HULLS;hull++)
 	{

@@ -90,12 +90,12 @@ IVP_SurfaceBuilder_Ledge_Soup::IVP_SurfaceBuilder_Ledge_Soup()
 {
     P_MEM_CLEAR(this);
     this->smallest_radius = 0;
-    this->compact_surface = NULL;
+    this->compact_surface = nullptr;
 
     this->extents_min.set( 1000000.0f,  1000000.0f,  1000000.0f);
     this->extents_max.set(-1000000.0f, -1000000.0f, -1000000.0f);
     
-    this->interval_minhash = NULL;
+    this->interval_minhash = nullptr;
 
     return;
 }
@@ -122,7 +122,7 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Ledge_Soup::compile(IVP_Template_Surbuil
     if (!templ) templ = &t2;
     this->parameters = templ;
 
-    if ( this->c_ledge_vec.len() == 0 ) return NULL; // invalid (empty) ledge list. aborting...
+    if ( this->c_ledge_vec.len() == 0 ) return nullptr; // invalid (empty) ledge list. aborting...
 
     // To be called after all ledges are inserted.
     // Builds tree.
@@ -173,7 +173,7 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Ledge_Soup::compile(IVP_Template_Surbuil
 		ivp_free_aligned( compact_surface );
         }
     }
-    compact_surface = NULL;
+    compact_surface = nullptr;
     
     return res;
 }
@@ -261,8 +261,8 @@ void IVP_SurfaceBuilder_Ledge_Soup::ledges_to_spheres()
 	
 	sphere->compact_ledge = c_ledge;
 	//	sphere->parent = NULL;
-	sphere->child_1 = NULL;
-	sphere->child_2 = NULL;
+	sphere->child_1 = nullptr;
+	sphere->child_2 = nullptr;
 	sphere->number = n;
 
 	this->spheres_cluster[n].previous = n-1;
@@ -367,8 +367,8 @@ void IVP_SurfaceBuilder_Ledge_Soup::ledges_to_boxes_and_spheres()
 	
 		sphere->compact_ledge = compact_ledge;
 		//	sphere->parent = NULL;
-		sphere->child_1 = NULL;
-		sphere->child_2 = NULL;
+		sphere->child_1 = nullptr;
+		sphere->child_2 = nullptr;
 		sphere->number = n;
 
 		this->spheres_cluster[n].previous = n-1;
@@ -736,7 +736,7 @@ IVV_Sphere *IVP_SurfaceBuilder_Ledge_Soup::build_minimal_sphere(IVV_Sphere *sphe
     new_sphere->number = sphere_1->number; // replace sphere_1 (left sphere) with mothersphere
     new_sphere->radius = new_radius;
     new_sphere->center = new_center;
-    new_sphere->compact_ledge = NULL;
+    new_sphere->compact_ledge = nullptr;
     //    new_sphere->parent = NULL;
     new_sphere->child_1 = sphere_1;
     new_sphere->child_2 = sphere_2;
@@ -763,7 +763,7 @@ void IVP_SurfaceBuilder_Ledge_Soup::replace_childspheres_in_spherelist_with_moth
 	if ( child_sphere_2->number == this->spheres_cluster[0].next ) {
 	    this->spheres_cluster[0].next = this->spheres_cluster[child_sphere_2->number].next;
 	}
-	this->spheres_cluster[child_sphere_2->number].sphere = NULL;
+	this->spheres_cluster[child_sphere_2->number].sphere = nullptr;
 	this->spheres_cluster[this->spheres_cluster[child_sphere_2->number].previous].next = this->spheres_cluster[child_sphere_2->number].next;
 	this->spheres_cluster[this->spheres_cluster[child_sphere_2->number].next].previous = this->spheres_cluster[child_sphere_2->number].previous;
 
@@ -865,7 +865,7 @@ IVV_Sphere *IVP_SurfaceBuilder_Ledge_Soup::cluster_spheres_topdown_mediancut_rec
     new_sphere->number = 0;
     new_sphere->radius = new_radius;
     new_sphere->center = new_center;
-    new_sphere->compact_ledge = NULL;
+    new_sphere->compact_ledge = nullptr;
     new_sphere->box_sizes[0] = int((this->extents_max.k[0]-new_center.k[0])/work)+1;
     new_sphere->box_sizes[1] = int((this->extents_max.k[1]-new_center.k[1])/work)+1;
     new_sphere->box_sizes[2] = int((this->extents_max.k[2]-new_center.k[2])/work)+1;
@@ -1145,8 +1145,8 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Ledge_Soup::allocate_compact_surface()
     IVP_IF(1){	/*printf("Compact surface size : %d\n", cs_size);*/    }
     
     this->compact_surface = (IVP_Compact_Surface *)ivp_malloc_aligned(cs_size*sizeof(char), 16);
-    if ( this->compact_surface == 0 ) {
-	return(0);
+    if ( this->compact_surface == nullptr ) {
+	return(nullptr);
     }
     if ( number_of_ledges_compiled > 1 && !parameters->link_to_input_compact_ledges){
 	if ( parameters->merge_points == IVP_SLMP_MERGE_AND_REALLOCATE ||
@@ -1158,8 +1158,8 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Ledge_Soup::allocate_compact_surface()
 	    number_of_triangles_compiled * sizeof(IVP_Compact_Triangle) + number_of_ledges_compiled * sizeof(IVP_Compact_Ledge));
 	}
     }else{
-	this->first_poly_point = NULL;
-	this->point_hash = NULL;
+	this->first_poly_point = nullptr;
+	this->point_hash = nullptr;
     }
 
     n_poly_points_allocated  = 0;

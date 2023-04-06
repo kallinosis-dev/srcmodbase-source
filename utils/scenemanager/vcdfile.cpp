@@ -83,7 +83,7 @@ CVCDFile::CVCDFile( CScene *scene, char const *filename ) : m_pOwner( scene )
 	m_pScene = LoadScene( filename );
 	LoadSoundsFromScene( m_pScene );
 
-	m_pszComments = NULL;
+	m_pszComments = nullptr;
 }
 
 CVCDFile::~CVCDFile()
@@ -118,7 +118,7 @@ CChoreoScene *CVCDFile::LoadScene( char const *filename )
 		return scene;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 void CVCDFile::LoadSoundsFromScene( CChoreoScene *scene )
@@ -175,7 +175,7 @@ int CVCDFile::GetSoundEntryCount() const
 CSoundEntry *CVCDFile::GetSoundEntry( int index )
 {
 	if ( index < 0 || index >= m_Sounds.Count() )
-		return NULL;
+		return nullptr;
 	return m_Sounds[ index ];
 }
 

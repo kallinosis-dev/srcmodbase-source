@@ -57,9 +57,9 @@ void BuildTexturePath( const char *pTexturePath, const char *pTextureName, char 
 	Assert( pTextureName != NULL );
 	Assert( pDest != NULL );
 	Assert( destSizeInBytes > 0 );
-	if ( pTexturePath == NULL ||
-		 pTextureName == NULL ||
-		 pDest == NULL ||
+	if ( pTexturePath == nullptr ||
+		 pTextureName == nullptr ||
+		 pDest == nullptr ||
 		 destSizeInBytes <= 0 )
 	{
 		return;
@@ -110,7 +110,7 @@ static ConVar studio_queue_mode( "studio_queue_mode", "1", 0, "", StudioChangeCa
 class CRenderDataFunctorAllocator
 {
 public:
-	CRenderDataFunctorAllocator() : m_pRenderContext( NULL ) {}
+	CRenderDataFunctorAllocator() : m_pRenderContext(nullptr) {}
 
 	void BeginFrame( IMatRenderContext *pRenderContext )
 	{
@@ -119,7 +119,7 @@ public:
 
 	void EndFrame()
 	{
-		m_pRenderContext = NULL;
+		m_pRenderContext = nullptr;
 	}
 
 	void *Alloc( size_t bytes )
@@ -146,7 +146,7 @@ static float s_pZeroFlexWeights[MAXSTUDIOFLEXDESC];
 //-----------------------------------------------------------------------------
 // Singleton instance
 //-----------------------------------------------------------------------------
-IStudioDataCache *g_pStudioDataCache = NULL;
+IStudioDataCache *g_pStudioDataCache = nullptr;
 static CStudioRenderContext s_StudioRenderContext;
 EXPOSE_SINGLE_INTERFACE_GLOBALVAR( CStudioRenderContext, IStudioRender, 
 						STUDIO_RENDER_INTERFACE_VERSION, s_StudioRenderContext );
@@ -160,7 +160,7 @@ CStudioRenderContext::CStudioRenderContext()
 	// Initialize render context
 	for ( int i = 0; i < MAX_MAT_OVERRIDES; i++ )
 	{
-		m_RC.m_pForcedMaterial[ i ] = NULL;
+		m_RC.m_pForcedMaterial[ i ] = nullptr;
 		m_RC.m_nForcedMaterialIndex[ i ] = -1;
 	}
 	m_RC.m_nForcedMaterialIndexCount = 0;
@@ -193,7 +193,7 @@ bool CStudioRenderContext::Connect( CreateInterfaceFn factory )
 	if ( !BaseClass::Connect( factory ) )
 		return false;
 
-	g_pStudioDataCache = ( IStudioDataCache * )factory( STUDIO_DATA_CACHE_INTERFACE_VERSION, NULL );
+	g_pStudioDataCache = ( IStudioDataCache * )factory( STUDIO_DATA_CACHE_INTERFACE_VERSION, nullptr);
 	if ( !g_pMaterialSystem || !g_pMaterialSystemHardwareConfig || !g_pStudioDataCache )
 	{
 		Msg("StudioRender failed to connect to a required system\n" );
@@ -206,7 +206,7 @@ bool CStudioRenderContext::Connect( CreateInterfaceFn factory )
 
 void CStudioRenderContext::Disconnect()
 {
-	g_pStudioDataCache = NULL;
+	g_pStudioDataCache = nullptr;
 	BaseClass::Disconnect();
 }
 
@@ -219,7 +219,7 @@ void *CStudioRenderContext::QueryInterface( const char *pInterfaceName )
 {
 	// Loading the studiorender DLL mounts *all* interfaces
 	CreateInterfaceFn factory = Sys_GetFactoryThis();	// This silly construction is necessary
-	return factory( pInterfaceName, NULL );				// to prevent the LTCG compiler from crashing.
+	return factory( pInterfaceName, nullptr);				// to prevent the LTCG compiler from crashing.
 }
 
 
@@ -351,7 +351,7 @@ void CStudioRenderContext::LoadMaterials( studiohdr_t *phdr,
 	lodData.numMaterials = phdr->numtextures;
 	if ( lodData.numMaterials == 0 )
 	{
-		lodData.ppMaterials = NULL;
+		lodData.ppMaterials = nullptr;
 		return;
 	}
 
@@ -373,7 +373,7 @@ void CStudioRenderContext::LoadMaterials( studiohdr_t *phdr,
 		char szPath[MAX_PATH];
 		szPath[0] = '\0';
 
-		IMaterial *pMaterial = NULL;
+		IMaterial *pMaterial = nullptr;
 		bool		bNeedRefCount = true;
 
 		const char *pszTextureName = GetTextureName( phdr, pVtxHeader, lodID, i );
@@ -421,8 +421,8 @@ void CStudioRenderContext::LoadMaterials( studiohdr_t *phdr,
 		else
 		{
 			// combined materials are not available on disk, they'll be retreived from MDLCache if not already in the system
-			pMaterial = g_pMaterialSystem->FindProceduralMaterial( pszTextureName, TEXTURE_GROUP_COMBINED, NULL );
-			if ( pMaterial == NULL )
+			pMaterial = g_pMaterialSystem->FindProceduralMaterial( pszTextureName, TEXTURE_GROUP_COMBINED, nullptr);
+			if ( pMaterial == nullptr)
 			{
 				KeyValues		*pKV = ( KeyValues * )g_pMDLCache->GetCombinedInternalAsset( COMBINED_ASSET_MATERIAL, pszTextureName );
 				pMaterial = g_pMaterialSystem->CreateMaterial( pszTextureName, pKV );
@@ -650,7 +650,7 @@ static float* GetTexcoord1(const mstudio_meshvertexdata_t * vertData, int idx)
 		int modelVertexIndex = vertData->GetModelVertexIndex(idx);
 		return (float *)pExtraData + vertData->modelvertexdata->GetGlobalVertexIndex(modelVertexIndex) * 2;
 	}
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -851,7 +851,7 @@ inline const mstudio_meshvertexdata_t * GetFatVertexData( mstudiomesh_t * pMesh,
 	if ( !pMesh->pModel()->CacheVertexData( pStudioHdr ) )
 	{
 		// not available yet
-		return NULL;
+		return nullptr;
 	}
 	const mstudio_meshvertexdata_t *pVertData = pMesh->GetVertexData( pStudioHdr );
 	Assert( pVertData );
@@ -876,7 +876,7 @@ void CStudioRenderContext::R_StudioBuildMeshGroup(	const char *pModelName, bool 
 	// We have to do this here because of skinning; there may be any number of
 	// materials that are applied to this mesh.
 	// Copy over all the vertices + indices in this strip group
-	pMeshGroup->m_pMesh = pRenderContext->CreateStaticMesh( vertexFormat, TEXTURE_GROUP_STATIC_VERTEX_BUFFER_MODELS, NULL, pStreamSpec );
+	pMeshGroup->m_pMesh = pRenderContext->CreateStaticMesh( vertexFormat, TEXTURE_GROUP_STATIC_VERTEX_BUFFER_MODELS, nullptr, pStreamSpec );
 
 	VertexCompressionType_t compressionType = CompressionType( vertexFormat );
 
@@ -885,7 +885,7 @@ void CStudioRenderContext::R_StudioBuildMeshGroup(	const char *pModelName, bool 
 	bool hwSkin = (pMeshGroup->m_Flags & MESHGROUP_IS_HWSKINNED) != 0;
 	bool bExtraUVs = (TexCoordSize(1, vertexFormat) > 0);
 
-	MeshBuffersAllocationSettings_t *pMeshAllocationSettings = 0;
+	MeshBuffersAllocationSettings_t *pMeshAllocationSettings = nullptr;
 #ifdef _PS3
 	if ( pStudioHdr->flags & STUDIOHDR_FLAGS_PS3_EDGE_FORMAT )
 	{
@@ -985,7 +985,7 @@ void CStudioRenderContext::R_StudioBuildMeshGroup(	const char *pModelName, bool 
 		memcpy( pMeshGroup->m_pIndices, pStripGroup->pIndex(0), pStripGroup->numIndices * sizeof(unsigned short) );
 
 		// Also copy topology indices, if any
-		pMeshGroup->m_pTopologyIndices = NULL;
+		pMeshGroup->m_pTopologyIndices = nullptr;
 		if ( pStripGroup->numTopologyIndices > 0 )
 		{
 			pMeshGroup->m_pTopologyIndices = new unsigned short[ pStripGroup->numTopologyIndices ];
@@ -1023,7 +1023,7 @@ void CStudioRenderContext::R_StudioBuildMorph( studiohdr_t *pStudioHdr,
 		( ( pMeshGroup->m_Flags & MESHGROUP_IS_DELTA_FLEXED ) == 0 ) ||
 		( ( pStripGroup->flags & OptimizedModel::STRIPGROUP_SUPPRESS_HW_MORPH ) != 0 ) )
 	{
-		pMeshGroup->m_pMorph = NULL;
+		pMeshGroup->m_pMorph = nullptr;
 		return;
 	}
 
@@ -1293,7 +1293,7 @@ VertexStreamSpec_t *CStudioRenderContext::CalculateStreamSpec(	const studiohdr_t
 	return specTexCoord1;
 	}*/
 
-	return NULL;
+	return nullptr;
 }
 
 bool CStudioRenderContext::MeshNeedsTangentSpace( studiohdr_t *pStudioHdr, studioloddata_t *pStudioLodData, mstudiomesh_t* pMesh )
@@ -1462,7 +1462,7 @@ void CStudioRenderContext::R_StudioCreateStaticMeshes( studiohdr_t *pStudioHdr,
 
 			if ( g_VBAllocTracker )
 			{
-				g_VBAllocTracker->TrackMeshAllocations( NULL );
+				g_VBAllocTracker->TrackMeshAllocations(nullptr);
 			}
 		}
 	}
@@ -1490,57 +1490,57 @@ void CStudioRenderContext::R_StudioDestroyStaticMeshes( int numStudioMeshes, stu
 			if ( pGroup->m_pGroupIndexToMeshIndex )
 			{
 				delete[] pGroup->m_pGroupIndexToMeshIndex;
-				pGroup->m_pGroupIndexToMeshIndex = 0;
+				pGroup->m_pGroupIndexToMeshIndex = nullptr;
 			}
 
 			if ( pGroup->m_pUniqueFaces )
 			{
 				delete [] pGroup->m_pUniqueFaces;
-				pGroup->m_pUniqueFaces = 0;
+				pGroup->m_pUniqueFaces = nullptr;
 			}
 
 			if ( pGroup->m_pIndices )
 			{
 				delete [] pGroup->m_pIndices;
-				pGroup->m_pIndices = 0;
+				pGroup->m_pIndices = nullptr;
 			}
 
 			if ( pGroup->m_pTopologyIndices )
 			{
 				delete [] pGroup->m_pTopologyIndices;
-				pGroup->m_pTopologyIndices = 0;
+				pGroup->m_pTopologyIndices = nullptr;
 			}
 
 			if ( pGroup->m_pMesh )
 			{
 				pRenderContext->DestroyStaticMesh( pGroup->m_pMesh );
-				pGroup->m_pMesh = 0;
+				pGroup->m_pMesh = nullptr;
 			}
 
 			if ( pGroup->m_pMorph )
 			{
 				pRenderContext->DestroyMorph( pGroup->m_pMorph );
-				pGroup->m_pMorph = 0;
+				pGroup->m_pMorph = nullptr;
 			}
 
 			if ( pGroup->m_pStripData )
 			{
 				free( pGroup->m_pStripData );
-				pGroup->m_pStripData = 0;
+				pGroup->m_pStripData = nullptr;
 			}
 		}
 
 		if ( pMesh->m_pMeshGroup )
 		{
 			delete[] pMesh->m_pMeshGroup;
-			pMesh->m_pMeshGroup = 0;
+			pMesh->m_pMeshGroup = nullptr;
 		}
 	}
 
 	if ( *ppStudioMeshes )
 	{
 		delete 	*ppStudioMeshes;
-		*ppStudioMeshes = 0;
+		*ppStudioMeshes = nullptr;
 	}
 }
 
@@ -1758,15 +1758,15 @@ void CStudioRenderContext::UnloadModel( studiohwdata_t *pHardwareData )
 		}
 		delete [] pHardwareData->m_pLODs[i].ppMaterials;
 		delete [] pHardwareData->m_pLODs[i].pMaterialFlags;
-		pHardwareData->m_pLODs[i].ppMaterials = NULL;
-		pHardwareData->m_pLODs[i].pMaterialFlags = NULL;
+		pHardwareData->m_pLODs[i].ppMaterials = nullptr;
+		pHardwareData->m_pLODs[i].pMaterialFlags = nullptr;
 	}
 	for ( i = pHardwareData->m_RootLOD; i < pHardwareData->m_NumLODs; i++ )
 	{
 		R_StudioDestroyStaticMeshes( pHardwareData->m_NumStudioMeshes, &pHardwareData->m_pLODs[i].m_pMeshData );
 	}
 	delete[] pHardwareData->m_pLODs;
-	pHardwareData->m_pLODs = NULL;
+	pHardwareData->m_pLODs = nullptr;
 
 #ifndef _CERT
 	// Unloading models invalidates our face count history:
@@ -1861,7 +1861,7 @@ int CStudioRenderContext::GetMaterialList( studiohdr_t *pStudioHdr, int count, I
 	for ( i = 0; i < pStudioHdr->numtextures; i++ )
 	{
 		char szPath[MAX_PATH];
-		IMaterial *pMaterial = NULL;
+		IMaterial *pMaterial = nullptr;
 
 		// If we don't do this, we get filenames like "materials\\blah.vmt".
 		const char *textureName = pStudioHdr->pTexture( i )->pszName();
@@ -1922,7 +1922,7 @@ int CStudioRenderContext::GetMaterialListFromBodyAndSkin( MDLHandle_t studio, in
 	int found = 0;
 
 	studiohwdata_t *pStudioHWData = g_pMDLCache->GetHardwareData( studio );
-	if ( pStudioHWData == NULL )
+	if ( pStudioHWData == nullptr)
 		return 0;
 
 	for ( int lodID = pStudioHWData->m_RootLOD; lodID < pStudioHWData->m_NumLODs; lodID++ )
@@ -1939,7 +1939,7 @@ int CStudioRenderContext::GetMaterialListFromBodyAndSkin( MDLHandle_t studio, in
 
 		for (int i=0 ; i < pStudioHdr->numbodyparts ; i++) 
 		{
-			mstudiomodel_t *pModel = NULL;
+			mstudiomodel_t *pModel = nullptr;
 			R_StudioSetupModel( i, nBody, &pModel, pStudioHdr );
 
 			// Iterate over all the meshes.... each mesh is a new material
@@ -2013,7 +2013,7 @@ void CStudioRenderContext::GetPerfStats( DrawModelResults_t *pResults, const Dra
 
 	for (i=0 ; i < info.m_pStudioHdr->numbodyparts ; i++) 
 	{
-		mstudiomodel_t *pModel = NULL;
+		mstudiomodel_t *pModel = nullptr;
 		R_StudioSetupModel( i, info.m_Body, &pModel, info.m_pStudioHdr );
 
 		// Iterate over all the meshes.... each mesh is a new material
@@ -2131,7 +2131,7 @@ void CStudioRenderContext::GetPerfStats( DrawModelResults_t *pResults, const Dra
 
 // NOTE: L4d doesn't use hw morph, which is why it defaults to 0
 // HW morphing is now disabled on all platforms, because we've slammed the MORPH dynamic combo to [0..0] in CS:GO to save memory and get GL SM3 mode working (and it doesn't seem to get enabled with mat_queue_mode disabled, which is what we care about anyway).
-static ConVar r_hwmorph( "r_hwmorph", "0", FCVAR_CHEAT, "", true, 0, true, 0, NULL );
+static ConVar r_hwmorph( "r_hwmorph", "0", FCVAR_CHEAT, "", true, 0, true, 0, nullptr);
 
 void CStudioRenderContext::BeginFrame( void )
 {
@@ -2433,7 +2433,7 @@ void CStudioRenderContext::InvokeBindProxies( IMatRenderContext *pRenderContext,
 				}
 			}
 
-			IMaterial* pMaterial = NULL;
+			IMaterial* pMaterial = nullptr;
 			if ( bSelectiveOverride && nOverrideIndex != -1 )
 			{
 				pMaterial = m_RC.m_pForcedMaterial[ nOverrideIndex ];
@@ -2482,7 +2482,7 @@ void CStudioRenderContext::DrawModel( DrawModelResults_t *pResults, const DrawMo
 		pResults->m_flLODMetric = flMetric;
 	}
 
-	MaterialLock_t hLock = 0;
+	MaterialLock_t hLock = nullptr;
 	if ( flags & STUDIORENDER_DRAW_ACCURATETIME )
 	{
 		VPROF("STUDIORENDER_DRAW_ACCURATETIME");
@@ -2546,7 +2546,7 @@ void CStudioRenderContext::DrawModel( DrawModelResults_t *pResults, const DrawMo
 		pResults->m_RenderTime.End();
 		if( flags & STUDIORENDER_DRAW_GET_PERF_STATS )
 		{
-			GetPerfStats( pResults, info, 0 );
+			GetPerfStats( pResults, info, nullptr );
 		}
 	}
 }
@@ -2786,7 +2786,7 @@ void CStudioRenderContext::AddShadow( IMaterial* pMaterial, void* pProxyData,
 		// when casting shadows onto props, which we don't do..that feature is disabled.
 		// When casting flashlights onto mdls, which we *do* use, the proxy is NULL.
 		Assert( pProxyData == NULL );
-		if ( pProxyData != NULL )
+		if ( pProxyData != nullptr)
 		{
 			Warning( "Cannot call CStudioRenderContext::AddShadows w/ proxies in queued mode!\n" );
 			return;

@@ -525,11 +525,11 @@ void TestDeleteOldCR( const char *pSerializationType )
 
 	const char *pFileName = "DeleteOld.dmx";
 	CDmElement *pRoot = static_cast< CDmElement* >( g_pDataModel->GetElement( hRoot ) );
-	bool bOk = g_pDataModel->SaveToFile( pFileName, NULL, pSerializationType, "dmx", pRoot );
+	bool bOk = g_pDataModel->SaveToFile( pFileName, nullptr, pSerializationType, "dmx", pRoot );
 	Shipping_Assert( bOk );
 
-	CDmElement *pReadInRoot = NULL;
-	DmFileId_t readFileID = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pReadInRoot, CR_DELETE_OLD );
+	CDmElement *pReadInRoot = nullptr;
+	DmFileId_t readFileID = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pReadInRoot, CR_DELETE_OLD );
 	Shipping_Assert( readFileID != DMFILEID_INVALID );
 
 	if ( pReadInRoot )
@@ -545,7 +545,7 @@ void TestDeleteOldCR( const char *pSerializationType )
 		Shipping_Assert( g_pDataModel->NumElementsInFile( readFileID ) == 0 );
 		Shipping_Assert( g_pDataModel->GetElement( hRoot ) == NULL );
 
-		DmFileId_t readFileID2 = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pReadInRoot, CR_DELETE_OLD );
+		DmFileId_t readFileID2 = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pReadInRoot, CR_DELETE_OLD );
 		Shipping_Assert( readFileID2 == readFileID );
 
 		Shipping_Assert( pReadInRoot->GetHandle() == hRoot );
@@ -572,11 +572,11 @@ void TestDeleteNewCR( const char *pSerializationType )
 
 	const char *pFileName = "DeleteNew.dmx";
 	CDmElement *pRoot = static_cast< CDmElement* >( g_pDataModel->GetElement( hRoot ) );
-	bool bOk = g_pDataModel->SaveToFile( pFileName, NULL, pSerializationType, "dmx", pRoot );
+	bool bOk = g_pDataModel->SaveToFile( pFileName, nullptr, pSerializationType, "dmx", pRoot );
 	Shipping_Assert( bOk );
 
-	CDmElement *pReadInRoot = NULL;
-	DmFileId_t readFileID = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pReadInRoot, CR_DELETE_NEW );
+	CDmElement *pReadInRoot = nullptr;
+	DmFileId_t readFileID = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pReadInRoot, CR_DELETE_NEW );
 	Shipping_Assert( readFileID != DMFILEID_INVALID );
 
 	Shipping_Assert( g_pDataModel->GetElement( hRoot ) == pRoot );
@@ -589,7 +589,7 @@ void TestDeleteNewCR( const char *pSerializationType )
 
 	Shipping_Assert( g_pDataModel->NumElementsInFile( readFileID ) == 0 );
 
-	DmFileId_t readFileID2 = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pReadInRoot, CR_DELETE_NEW );
+	DmFileId_t readFileID2 = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pReadInRoot, CR_DELETE_NEW );
 	Shipping_Assert( readFileID2 == readFileID );
 
 	Shipping_Assert( g_pDataModel->GetElement( hRoot ) == pRoot );
@@ -612,11 +612,11 @@ void TestCopyNewCR( const char *pSerializationType )
 
 	const char *pFileName = "CopyNew.dmx";
 	CDmElement *pRoot = g_pDataModel->GetElement( hRoot );
-	bool bOk = g_pDataModel->SaveToFile( pFileName, NULL, pSerializationType, "dmx", pRoot );
+	bool bOk = g_pDataModel->SaveToFile( pFileName, nullptr, pSerializationType, "dmx", pRoot );
 	Shipping_Assert( bOk );
 
-	CDmElement *pReadInRoot = NULL;
-	DmFileId_t readFileID = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pReadInRoot, CR_COPY_NEW );
+	CDmElement *pReadInRoot = nullptr;
+	DmFileId_t readFileID = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pReadInRoot, CR_COPY_NEW );
 	Shipping_Assert( readFileID != DMFILEID_INVALID );
 
 	if ( pReadInRoot )
@@ -635,7 +635,7 @@ void TestCopyNewCR( const char *pSerializationType )
 		Shipping_Assert( g_pDataModel->NumElementsInFile( readFileID ) == 0 );
 		Shipping_Assert( g_pDataModel->GetElement( hReadInRoot ) == NULL );
 
-		DmFileId_t readFileID2 = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pReadInRoot, CR_COPY_NEW );
+		DmFileId_t readFileID2 = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pReadInRoot, CR_COPY_NEW );
 		Shipping_Assert( readFileID2 == readFileID );
 
 		Shipping_Assert( g_pDataModel->GetElement( hRoot ) == pRoot );
@@ -664,11 +664,11 @@ void TestForceCopyCR( const char *pSerializationType )
 
 	const char *pFileName = "ForceCopy.dmx";
 	CDmElement *pRoot = static_cast< CDmElement* >( g_pDataModel->GetElement( hRoot ) );
-	bool bOk = g_pDataModel->SaveToFile( pFileName, NULL, pSerializationType, "dmx", pRoot );
+	bool bOk = g_pDataModel->SaveToFile( pFileName, nullptr, pSerializationType, "dmx", pRoot );
 	Shipping_Assert( bOk );
 
-	CDmElement *pReadInRoot = NULL;
-	DmFileId_t readFileID = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pReadInRoot, CR_FORCE_COPY );
+	CDmElement *pReadInRoot = nullptr;
+	DmFileId_t readFileID = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pReadInRoot, CR_FORCE_COPY );
 	Shipping_Assert( readFileID != DMFILEID_INVALID );
 
 	if ( pReadInRoot )
@@ -687,7 +687,7 @@ void TestForceCopyCR( const char *pSerializationType )
 		Shipping_Assert( g_pDataModel->NumElementsInFile( readFileID ) == 0 );
 		Shipping_Assert( g_pDataModel->GetElement( hReadInRoot ) == NULL );
 
-		DmFileId_t readFileID2 = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pReadInRoot, CR_FORCE_COPY );
+		DmFileId_t readFileID2 = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pReadInRoot, CR_FORCE_COPY );
 		Shipping_Assert( readFileID2 == readFileID );
 
 		Shipping_Assert( g_pDataModel->GetElement( hRoot ) == pRoot );
@@ -722,11 +722,11 @@ void TestSerializationMethod( const char *pSerializationType )
 
 	const char *pFileName = "dmxtest.dmx";
 	CDmElement *pRoot = static_cast<CDmElement*>(g_pDataModel->GetElement(hRoot));
-	bool bOk = g_pDataModel->SaveToFile( pFileName, NULL, pSerializationType, "dmx", pRoot );
+	bool bOk = g_pDataModel->SaveToFile( pFileName, nullptr, pSerializationType, "dmx", pRoot );
 	Shipping_Assert( bOk );
 
-	CDmElement *pReadInRoot = NULL;
-	DmFileId_t dmxFileID = g_pDataModel->RestoreFromFile( pFileName, NULL, NULL, &pReadInRoot, CR_FORCE_COPY );
+	CDmElement *pReadInRoot = nullptr;
+	DmFileId_t dmxFileID = g_pDataModel->RestoreFromFile( pFileName, nullptr, nullptr, &pReadInRoot, CR_FORCE_COPY );
 	Shipping_Assert( dmxFileID != DMFILEID_INVALID );
 
 	if ( pReadInRoot )

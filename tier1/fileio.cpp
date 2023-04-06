@@ -190,7 +190,7 @@ CPathString::CPathString( const char *pchUTF8Path )
 {
 	// Need to first turn into an absolute path, so \\?\ pre-pended paths will be ok
 	m_pchUTF8Path = new char[ MAX_UNICODE_PATH_IN_UTF8 ];
-	m_pwchWideCharPathPrepended = NULL;
+	m_pwchWideCharPathPrepended = nullptr;
 
 	// First, convert to absolute path, which also does Q_FixSlashes for us.
 	Q_MakeAbsolutePath( m_pchUTF8Path, MAX_UNICODE_PATH * 4, pchUTF8Path );
@@ -208,13 +208,13 @@ CPathString::~CPathString()
 	if ( m_pwchWideCharPathPrepended )
 	{
 		delete[] m_pwchWideCharPathPrepended;
-		m_pwchWideCharPathPrepended = NULL;
+		m_pwchWideCharPathPrepended = nullptr;
 	}
 
 	if ( m_pchUTF8Path )
 	{
 		delete[] m_pchUTF8Path;
-		m_pchUTF8Path = NULL;
+		m_pchUTF8Path = nullptr;
 	}
 }
 
@@ -358,7 +358,7 @@ CDirIterator::~CDirIterator()
 CDirIterator::CDirIterator( const char *pchPath, const char *pchPattern )
 {
 	CPathString strPath( pchPath );
-	m_pFindData = NULL;
+	m_pFindData = nullptr;
 
 	// +2 so we can potentially add path separator as well as null termination
 	char *pchPathAndPattern = new char[Q_strlen( strPath.GetUTF8Path() ) + Q_strlen( pchPattern ) + 2];
@@ -804,12 +804,12 @@ bool CFileWriter::BSetFile( const char *pchFile, bool bAllowOpenExisting )
     // First try to open existing file, if specified that we should allow that
     if ( bAllowOpenExisting )
     {
-        m_hFileDest = ::CreateFileW( strPath.GetWCharPathPrePended(), GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, dwFlags, NULL );
+        m_hFileDest = ::CreateFileW( strPath.GetWCharPathPrePended(), GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_EXISTING, dwFlags, nullptr);
         if ( m_hFileDest == INVALID_HANDLE_VALUE )
         {
             // clear overlapped and try again
             dwFlags &= ~FILE_FLAG_OVERLAPPED;
-            m_hFileDest = ::CreateFileW( strPath.GetWCharPathPrePended(), GENERIC_WRITE, FILE_SHARE_READ, NULL, OPEN_EXISTING, dwFlags, NULL );
+            m_hFileDest = ::CreateFileW( strPath.GetWCharPathPrePended(), GENERIC_WRITE, FILE_SHARE_READ, nullptr, OPEN_EXISTING, dwFlags, nullptr);
             if ( m_hFileDest != INVALID_HANDLE_VALUE )
             {
                 m_bAsync = false;
@@ -839,14 +839,14 @@ bool CFileWriter::BSetFile( const char *pchFile, bool bAllowOpenExisting )
         if ( m_bAsync )
             dwFlags |= FILE_FLAG_OVERLAPPED;
 
-        m_hFileDest = ::CreateFileW( strPath.GetWCharPathPrePended(), GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, dwFlags, NULL );
+        m_hFileDest = ::CreateFileW( strPath.GetWCharPathPrePended(), GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_ALWAYS, dwFlags, nullptr);
 
         if ( m_hFileDest == INVALID_HANDLE_VALUE )
         {
             // clear overlapped and try again
             m_bAsync = false;
             dwFlags &= ~FILE_FLAG_OVERLAPPED;
-            m_hFileDest = ::CreateFileW( strPath.GetWCharPathPrePended(), GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, dwFlags, NULL );
+            m_hFileDest = ::CreateFileW( strPath.GetWCharPathPrePended(), GENERIC_WRITE, FILE_SHARE_READ, nullptr, CREATE_ALWAYS, dwFlags, nullptr);
             if ( m_hFileDest == INVALID_HANDLE_VALUE )
                 return false;
         }
@@ -921,7 +921,7 @@ bool CFileWriter::Seek( uint64 offset, ESeekOrigin eOrigin )
     LARGE_INTEGER largeIntOffset;
     largeIntOffset.QuadPart = offset;
 
-    if ( ::SetFilePointerEx( m_hFileDest, largeIntOffset, NULL, dwMoveMethod ) )
+    if ( ::SetFilePointerEx( m_hFileDest, largeIntOffset, nullptr, dwMoveMethod ) )
         bSuccess = true;
 
 #elif defined(POSIX)
@@ -1041,7 +1041,7 @@ bool CFileWriter::Write( const void *pvData, uint32 cubData )
 #ifdef _WIN32
         // normal write
         DWORD dwBytesWritten = 0;
-        ::WriteFile( m_hFileDest, pvData, cubData, &dwBytesWritten, NULL );
+        ::WriteFile( m_hFileDest, pvData, cubData, &dwBytesWritten, nullptr);
         bRet = ( dwBytesWritten == cubData );
 #elif defined(POSIX)
         bRet = write( (intptr_t)m_hFileDest, pvData, cubData );
@@ -1204,9 +1204,9 @@ static const int k_cubDirWatchBufferSize = 8 * 1024;
 //-----------------------------------------------------------------------------
 CDirWatcher::CDirWatcher()
 {
-	m_hFile = NULL;
-	m_pOverlapped = NULL;
-	m_pFileInfo = NULL;
+	m_hFile = nullptr;
+	m_pOverlapped = nullptr;
+	m_pFileInfo = nullptr;
 #ifdef OSX
 	m_WatcherStream = 0;
 #endif
@@ -1223,7 +1223,7 @@ CDirWatcher::~CDirWatcher()
 	{
 		// mark the overlapped structure as gone
 		DirWatcherOverlapped *pDirWatcherOverlapped = (DirWatcherOverlapped *)m_pOverlapped;
-		pDirWatcherOverlapped->m_pDirWatcher = NULL;
+		pDirWatcherOverlapped->m_pDirWatcher = nullptr;
 	}
 
 	if ( m_hFile )
@@ -1386,7 +1386,7 @@ void CDirWatcher::SetDirToWatch( const char *pchDir )
 	CPathString strPath( pchDir );
 #ifdef WIN32
 	// open the directory
-	m_hFile = ::CreateFileW( strPath.GetWCharPathPrePended(), FILE_LIST_DIRECTORY, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, NULL, OPEN_EXISTING, FILE_FLAG_OVERLAPPED | FILE_FLAG_BACKUP_SEMANTICS, NULL );
+	m_hFile = ::CreateFileW( strPath.GetWCharPathPrePended(), FILE_LIST_DIRECTORY, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING, FILE_FLAG_OVERLAPPED | FILE_FLAG_BACKUP_SEMANTICS, nullptr);
 
 	// create our buffers
 	m_pFileInfo = malloc( k_cubDirWatchBufferSize );
@@ -1566,7 +1566,7 @@ bool BCreateDirectory( const char *path )
 {
 	CPathString pathStr( path );
 #ifdef WIN32
-	if ( ::CreateDirectoryW( pathStr.GetWCharPathPrePended(), NULL ) )
+	if ( ::CreateDirectoryW( pathStr.GetWCharPathPrePended(), nullptr) )
 		return true;
 
 	if ( ::GetLastError() == ERROR_ALREADY_EXISTS )

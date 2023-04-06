@@ -20,7 +20,7 @@
 
 CStrDlg::CStrDlg(DWORD dwFlags, LPCTSTR pszString, LPCTSTR pszPrompt, 
 				 LPCTSTR pszTitle)
-	: CDialog(CStrDlg::IDD, NULL)
+	: CDialog(CStrDlg::IDD, nullptr)
 {
 	//{{AFX_DATA_INIT(CStrDlg)
 	m_string = _T("");

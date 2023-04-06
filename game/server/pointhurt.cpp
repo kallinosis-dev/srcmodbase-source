@@ -72,7 +72,7 @@ void CPointHurt::Spawn(void)
 	SetThink( NULL );
 	SetUse( NULL );
 		
-	m_pActivator = NULL;
+	m_pActivator = nullptr;
 
 	if ( HasSpawnFlags( SF_PHURT_START_ON ) )
 	{
@@ -114,10 +114,10 @@ void CPointHurt::HurtThink( void )
 {
 	if ( m_strTarget != NULL_STRING )
 	{
-		CBaseEntity	*pEnt = NULL;
+		CBaseEntity	*pEnt = nullptr;
 			
 		CTakeDamageInfo info( this, m_pActivator, m_nDamage, m_bitsDamageType );
-		while ( ( pEnt = gEntList.FindEntityByName( pEnt, m_strTarget, NULL, m_pActivator ) ) != NULL )
+		while ( ( pEnt = gEntList.FindEntityByName( pEnt, m_strTarget, nullptr, m_pActivator ) ) != nullptr)
 		{
 			GuessDamageForce( &info, (pEnt->GetAbsOrigin() - GetAbsOrigin()), pEnt->GetAbsOrigin() );
 			pEnt->TakeDamage( info );
@@ -125,7 +125,7 @@ void CPointHurt::HurtThink( void )
 	}
 	else
 	{
-		RadiusDamage( CTakeDamageInfo( this, this, m_nDamage, m_bitsDamageType ), GetAbsOrigin(), m_flRadius, CLASS_NONE, NULL );
+		RadiusDamage( CTakeDamageInfo( this, this, m_nDamage, m_bitsDamageType ), GetAbsOrigin(), m_flRadius, CLASS_NONE, nullptr);
 	}
 
 	SetNextThink( gpGlobals->curtime + m_flDelay );

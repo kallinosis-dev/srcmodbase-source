@@ -42,7 +42,7 @@ void IVP_Tetra_Point::print(const char *text){
 }
 
 int IVP_Tetra_Point::p(){
-    this->print(0);
+    this->print(nullptr);
     return 0;
 }
 
@@ -55,7 +55,7 @@ void IVP_Tetra_Edge::print(const char *text){
 }
 
 int IVP_Tetra_Edge::p(){
-    this->print(0);
+    this->print(nullptr);
     return 0;
 }
 
@@ -67,7 +67,7 @@ void IVP_Intrusion_Included_Points::print(const char *text){
 }
 
 int IVP_Intrusion_Included_Points::p(){
-    this->print(0);
+    this->print(nullptr);
     return 0;
 }
 
@@ -91,7 +91,7 @@ void IVP_Intrusion_Intersection::print(const char *text){
 }
 
 int IVP_Intrusion_Intersection::p(){
-    this->print(0);
+    this->print(nullptr);
     return 0;
 }
 
@@ -111,7 +111,7 @@ void IVP_Intrusion_Status::print(const char *text){
 
     
 int IVP_Intrusion_Status::p(){
-    this->print(0);
+    this->print(nullptr);
     return 0;
 }
 
@@ -235,7 +235,7 @@ void IVP_Tetra_Intrude::point_2_bits(IVP_U_Point *lpos,IVP_U_Point *rpos,int *re
 
 void IVP_Tetra_Intrude::checkin_edge(IVP_Tri_Edge *edge){
     if (edge->tmp.gen.checked_in) return; // already check in
-    char *te = 0;
+    char *te = nullptr;
     IVP_Tetra_Edge *t_edge;
     IVP_Tetra_Point *buffer[2];
     if (edge->tmp.gen.tetra_point < edge->next->tmp.gen.tetra_point){
@@ -273,7 +273,7 @@ void IVP_Tetra_Intrude::checkin_edge(IVP_Tri_Edge *edge){
 void IVP_Tetra_Intrude::checkout_edge(IVP_Tri_Edge *edge){
     if (!edge->tmp.gen.checked_in) return; // already check in
     edge->tmp.gen.checked_in = IVP_FALSE;
-    char *te = 0;
+    char *te = nullptr;
     IVP_Tetra_Edge *t_edge;
 
     IVP_Tetra_Point *buffer[2];

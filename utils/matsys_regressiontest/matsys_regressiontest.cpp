@@ -30,15 +30,15 @@
 
 #define CHECKERBOARD_DIMS 16
 
-IMaterial *g_pProceduralMaterial = NULL;
+IMaterial *g_pProceduralMaterial = nullptr;
 
 static char g_pCommandLine[1024];
 static int g_ArgC = 0;
 static char* g_ppArgV[32];
-static HWND g_HWnd = 0;
+static HWND g_HWnd = nullptr;
 static CreateInterfaceFn g_MaterialsFactory;
 
-static CSysModule			*g_MaterialsDLL = NULL;
+static CSysModule			*g_MaterialsDLL = nullptr;
 
 static int g_RenderWidth = 640;
 static int g_RenderHeight = 480;
@@ -70,7 +70,7 @@ const char* CommandArgument( const char *pCommand )
 	{
 		return g_ppArgV[cmd+1];
 	}
-	return 0;
+	return nullptr;
 }
 
 void SetupCommandLine( const char* pCommandLine )
@@ -98,7 +98,7 @@ void SetupCommandLine( const char* pCommandLine )
 class DummyMaterialProxyFactory : public IMaterialProxyFactory
 {
 public:
-	virtual IMaterialProxy *CreateProxy( const char *proxyName )	{return NULL;}
+	virtual IMaterialProxy *CreateProxy( const char *proxyName )	{return nullptr;}
 	virtual void DeleteProxy( IMaterialProxy *pProxy )				{}
 	CreateInterfaceFn GetFactory() override { return nullptr; }
 };
@@ -117,14 +117,14 @@ void DisplayError( const char* pError, ... )
 	Q_vsnprintf( msg, sizeof( msg ), pError, argptr );
 	va_end( argptr );
 
-	MessageBox( 0, msg, 0, MB_OK );
+	MessageBox( nullptr, msg, nullptr, MB_OK );
 }
 
 
 
 IFileSystem *g_pFileSystem;
-static CSysModule *g_pFileSystemModule = NULL;
-static CreateInterfaceFn g_pFileSystemFactory = NULL;
+static CSysModule *g_pFileSystemModule = nullptr;
+static CreateInterfaceFn g_pFileSystemFactory = nullptr;
 static bool FileSystem_LoadDLL( void )
 {
 	g_pFileSystemModule = Sys_LoadModule( "filesystem_stdio.dll" );
@@ -139,7 +139,7 @@ static bool FileSystem_LoadDLL( void )
 	{
 		return false;
 	}
-	g_pFileSystem = ( IFileSystem * )g_pFileSystemFactory( FILESYSTEM_INTERFACE_VERSION, NULL );
+	g_pFileSystem = ( IFileSystem * )g_pFileSystemFactory( FILESYSTEM_INTERFACE_VERSION, nullptr);
 	Assert( g_pFileSystem );
 	if( !g_pFileSystem )
 	{
@@ -154,7 +154,7 @@ void FileSystem_UnloadDLL( void )
 		return;
 
 	Sys_UnloadModule( g_pFileSystemModule );
-	g_pFileSystemModule = 0;
+	g_pFileSystemModule = nullptr;
 }
 
 void FileSystem_Init( )
@@ -164,7 +164,7 @@ void FileSystem_Init( )
 		return;
 	}
 
-	g_pFileSystem->RemoveSearchPath( NULL, "GAME" );
+	g_pFileSystem->RemoveSearchPath(nullptr, "GAME" );
 	g_pFileSystem->AddSearchPath( "hl2", "GAME", PATH_ADD_TO_HEAD );
 }
 
@@ -185,7 +185,7 @@ void UnloadMaterialSystem( void )
 		return;
 
 	Sys_UnloadModule( g_MaterialsDLL );
-	g_MaterialsDLL = NULL;
+	g_MaterialsDLL = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -211,7 +211,7 @@ void LoadMaterialSystem( void )
 
 	if ( g_MaterialsFactory )
 	{
-		g_pMaterialSystem = (IMaterialSystem *)g_MaterialsFactory( MATERIAL_SYSTEM_INTERFACE_VERSION, NULL );
+		g_pMaterialSystem = (IMaterialSystem *)g_MaterialsFactory( MATERIAL_SYSTEM_INTERFACE_VERSION, nullptr);
 		if ( !g_pMaterialSystem )
 		{
 			DisplayError( "Could not get the material system interface from materialsystem.dll (a)" );
@@ -259,7 +259,7 @@ void Shader_Init( HWND mainWindow )
 //	}
 
 	g_pMaterialSystemHardwareConfig = (IMaterialSystemHardwareConfig*)
-		g_MaterialSystemClientFactory( MATERIALSYSTEM_HARDWARECONFIG_INTERFACE_VERSION, 0 );
+		g_MaterialSystemClientFactory( MATERIALSYSTEM_HARDWARECONFIG_INTERFACE_VERSION, nullptr );
 	if ( !g_pMaterialSystemHardwareConfig )
 	{
 		DisplayError( "Could not get the material system hardware config interface!" );
@@ -281,7 +281,7 @@ void Shader_Shutdown( HWND hwnd )
 		return;
 
 	g_pMaterialSystem->Shutdown( );
-	g_pMaterialSystem = NULL;
+	g_pMaterialSystem = nullptr;
 	UnloadMaterialSystem();
 }
 
@@ -330,8 +330,8 @@ bool CreateAppWindow( const char* pAppName, int width, int height )
 	WNDCLASSEX windowClass = 
 	{ 
 		sizeof(WNDCLASSEX), CS_CLASSDC, MsgProc, 0L, 0L,
-        GetModuleHandle(NULL), NULL, NULL, NULL, NULL,
-        pAppName, NULL 
+        GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr,
+        pAppName, nullptr
 	};
 
     RegisterClassEx( &windowClass );
@@ -344,7 +344,7 @@ bool CreateAppWindow( const char* pAppName, int width, int height )
 	
     ShowWindow (g_HWnd, SW_SHOWDEFAULT);
 	
-	return (g_HWnd != 0);
+	return (g_HWnd != nullptr);
 }
 
 void DestroyAppWindow()
@@ -390,7 +390,7 @@ static char *GetBaseDir( const char *pszBuffer )
 	static char	basedir[ MAX_PATH ];
 	char szBuffer[ MAX_PATH ];
 	int j;
-	char *pBuffer = NULL;
+	char *pBuffer = nullptr;
 
 	Q_strncpy( szBuffer, pszBuffer, sizeof( szBuffer ) );
 
@@ -434,17 +434,17 @@ void Shutdown()
 void PumpWindowsMessages ()
 {
 	MSG msg;
-	while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE) == TRUE) 
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE) == TRUE) 
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}
 	
-	InvalidateRect(g_HWnd, NULL, false);
+	InvalidateRect(g_HWnd, nullptr, false);
 	UpdateWindow(g_HWnd);
 }
 
-MaterialSystem_SortInfo_t *g_pMaterialSortInfo = NULL;
+MaterialSystem_SortInfo_t *g_pMaterialSortInfo = nullptr;
 struct LightmapInfo_t
 {
 	int m_LightmapDims[2];
@@ -476,7 +476,7 @@ void Lightmap_PostAllocation( LightmapInfo_t& lightmapInfo )
 void UpdateLightmap( LightmapInfo_t& lightmapInfo, float *data )
 {
 	g_pMaterialSystem->UpdateLightmap( g_pMaterialSortInfo[lightmapInfo.m_SortID].lightmapPageID,
-		lightmapInfo.m_LightmapDims, lightmapInfo.m_OffsetIntoLightmapPage, data, NULL, NULL, NULL );
+		lightmapInfo.m_LightmapDims, lightmapInfo.m_OffsetIntoLightmapPage, data, nullptr, nullptr, nullptr);
 }
 
 void CreateLightmapPages( void )
@@ -554,7 +554,7 @@ void ScreenShot( const char *pFilename )
 	{
 		Error( "Couldn't write %s\n", pFilename );
 	}
-	if ( !g_pFullFileSystem->WriteFile( pFilename, NULL, outBuf ) )
+	if ( !g_pFullFileSystem->WriteFile( pFilename, nullptr, outBuf ) )
 	{
 		Error( "Couldn't write %s\n", pFilename );
 	}
@@ -564,7 +564,7 @@ void ScreenShot( const char *pFilename )
 
 void SetVar( const char *pVarName, const char *pStringValue )
 {
-	IMaterialVar *pVar = g_pProceduralMaterial->FindVar( pVarName, NULL );
+	IMaterialVar *pVar = g_pProceduralMaterial->FindVar( pVarName, nullptr);
 	if( pStringValue )
 	{
 		pVar->SetStringValue( pStringValue );
@@ -577,7 +577,7 @@ void SetVar( const char *pVarName, const char *pStringValue )
 
 void SetVar( const char *pVarName, int val )
 {
-	IMaterialVar *pVar = g_pProceduralMaterial->FindVar( pVarName, NULL );
+	IMaterialVar *pVar = g_pProceduralMaterial->FindVar( pVarName, nullptr);
 	pVar->SetIntValue( val );
 }
 
@@ -966,7 +966,7 @@ INT WINAPI WinMain( HINSTANCE hInst, HINSTANCE hInstance, LPSTR pCommands, INT )
 	char szBuffer[ 4096 ];
 	if ( !GetModuleFileName( hInstance, moduleName, MAX_PATH ) )
 	{
-		MessageBox( 0, "Failed calling GetModuleFileName", "Launcher Error", MB_OK );
+		MessageBox( nullptr, "Failed calling GetModuleFileName", "Launcher Error", MB_OK );
 		return 0;
 	}
 

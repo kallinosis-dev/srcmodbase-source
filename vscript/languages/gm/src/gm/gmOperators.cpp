@@ -329,7 +329,7 @@ void GM_CDECL gmFloatOpNOT(gmThread * a_thread, gmVariable * a_operands)
 
 // we could use gmVariable::AsString here, but this is for types <= string.... is a little more efficient.
 // a_buffer must be >= 64
-inline const char * gmUnknownToString(gmMachine * a_machine, gmVariable * a_unknown, char * a_buffer, int * a_len = NULL)
+inline const char * gmUnknownToString(gmMachine * a_machine, gmVariable * a_unknown, char * a_buffer, int * a_len = nullptr)
 {
   if(a_unknown->m_type == GM_STRING)
   {

@@ -34,7 +34,7 @@
 #include "curveeditorhelpers.h"
 #include "EdgeProperties.h"
 
-SceneRampTool *g_pSceneRampTool = 0;
+SceneRampTool *g_pSceneRampTool = nullptr;
 
 #define TRAY_HEIGHT 20
 #define TRAY_ITEM_INSET 10
@@ -62,7 +62,7 @@ SceneRampTool::SceneRampTool( mxWindow *parent )
 	m_nClickedX			= 0;
 	m_nClickedY			= 0;
 
-	m_hPrevCursor		= 0;
+	m_hPrevCursor		= nullptr;
 	
 	m_nStartX			= 0;
 	m_nStartY			= 0;
@@ -99,11 +99,11 @@ SceneRampTool::~SceneRampTool( void )
 CChoreoScene *SceneRampTool::GetSafeScene( void )
 {
 	if ( !g_pChoreoView )
-		return NULL;
+		return nullptr;
 
 	CChoreoScene *scene = g_pChoreoView->GetScene();
 	if ( !scene )
-		return NULL;
+		return nullptr;
 
 	return scene;
 }
@@ -478,7 +478,7 @@ void SceneRampTool::GetWorkspaceLeftRight( int& left, int& right )
 //-----------------------------------------------------------------------------
 void SceneRampTool::DrawFocusRect( void )
 {
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 
 	for ( int i = 0; i < m_FocusRects.Count(); i++ )
 	{
@@ -487,7 +487,7 @@ void SceneRampTool::DrawFocusRect( void )
 		::DrawFocusRect( dc, &rc );
 	}
 
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 }
 
 void SceneRampTool::SetClickedPos( int x, int y )
@@ -523,7 +523,7 @@ void SceneRampTool::StartDragging( int dragtype, int startx, int starty, HCURSOR
 	if ( m_hPrevCursor )
 	{
 		SetCursor( m_hPrevCursor );
-		m_hPrevCursor = NULL;
+		m_hPrevCursor = nullptr;
 	}
 	m_hPrevCursor = SetCursor( cursor );
 
@@ -624,7 +624,7 @@ void SceneRampTool::OnMouseMove( mxEvent *event )
 					}
 					else
 					{
-						SetCursor( LoadCursor( NULL, IDC_SIZEALL ) );
+						SetCursor( LoadCursor(nullptr, IDC_SIZEALL ) );
 					}
 
 					RECT rcSamples;
@@ -678,12 +678,12 @@ void SceneRampTool::OnMouseMove( mxEvent *event )
 		if ( m_hPrevCursor )
 		{
 			SetCursor( m_hPrevCursor );
-			m_hPrevCursor = NULL;
+			m_hPrevCursor = nullptr;
 		}
 
 		if ( IsMouseOverScrubHandle( event ) )
 		{
-			m_hPrevCursor = SetCursor( LoadCursor( NULL, IDC_SIZEWE ) );
+			m_hPrevCursor = SetCursor( LoadCursor(nullptr, IDC_SIZEWE ) );
 		}
 		/*
 		else if ( IsMouseOverTag( mx, my ) )
@@ -803,7 +803,7 @@ int	SceneRampTool::handleEvent( mxEvent *event )
 						ForceScrubPosition( t );
 					}
 
-					StartDragging( DRAGTYPE_SCRUBBER, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_SIZEWE ) );
+					StartDragging( DRAGTYPE_SCRUBBER, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_SIZEWE ) );
 				}
 				else if ( insamplearea )
 				{
@@ -821,7 +821,7 @@ int	SceneRampTool::handleEvent( mxEvent *event )
 							StartDragging( 
 								rightbutton ? DRAGTYPE_MOVEPOINTS_TIME : DRAGTYPE_MOVEPOINTS_VALUE, 
 								m_nClickedX, m_nClickedY, 
-								LoadCursor( NULL, rightbutton ? IDC_SIZEWE : IDC_SIZENS ) );
+								LoadCursor(nullptr, rightbutton ? IDC_SIZEWE : IDC_SIZENS ) );
 						}
 						else
 						{
@@ -830,7 +830,7 @@ int	SceneRampTool::handleEvent( mxEvent *event )
 								DeselectAll();
 							}
 
-							StartDragging( DRAGTYPE_SELECTION, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_ARROW ) );
+							StartDragging( DRAGTYPE_SELECTION, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_ARROW ) );
 						}
 					}
 					else if ( ctrldown )
@@ -869,7 +869,7 @@ int	SceneRampTool::handleEvent( mxEvent *event )
 								DeselectAll();
 							}
 
-							StartDragging( DRAGTYPE_SELECTION, m_nClickedX, m_nClickedY, LoadCursor( NULL, IDC_ARROW ) );
+							StartDragging( DRAGTYPE_SELECTION, m_nClickedX, m_nClickedY, LoadCursor(nullptr, IDC_ARROW ) );
 						}
 					}
 				}
@@ -925,7 +925,7 @@ int	SceneRampTool::handleEvent( mxEvent *event )
 			if ( m_hPrevCursor )
 			{
 				SetCursor( m_hPrevCursor );
-				m_hPrevCursor = 0;
+				m_hPrevCursor = nullptr;
 			}
 
 			switch ( m_nDragType )
@@ -1515,7 +1515,7 @@ void SceneRampTool::MoveTimeSliderToPos( int x )
 {
 	m_flLeftOffset = (float)x;
 	m_pHorzScrollBar->setValue( (int)m_flLeftOffset );
-	InvalidateRect( (HWND)m_pHorzScrollBar->getHandle(), NULL, TRUE );
+	InvalidateRect( (HWND)m_pHorzScrollBar->getHandle(), nullptr, TRUE );
 	InvalidateLayout();
 }
 
@@ -1908,7 +1908,7 @@ CExpressionSample *SceneRampTool::GetSample( int idx )
 {
 	CChoreoScene *s = GetSafeScene();
 	if ( !s )
-		return NULL;
+		return nullptr;
 
 	return s->GetSceneRamp( idx );
 }
@@ -1917,7 +1917,7 @@ CExpressionSample *SceneRampTool::GetSampleUnderMouse( int mx, int my, float tol
 {
 	CChoreoScene *s = GetSafeScene();
 	if ( !s )
-		return NULL;
+		return nullptr;
 
 	RECT rcSamples;
 	GetSampleTrayRect( rcSamples );
@@ -1927,12 +1927,12 @@ CExpressionSample *SceneRampTool::GetSampleUnderMouse( int mx, int my, float tol
 	pt.y = my;
 
 	if ( !PtInRect( &rcSamples, pt ) )
-		return NULL;
+		return nullptr;
 
 	pt.y -= rcSamples.top;
 
 	float closest_dist = 9999999.f;
-	CExpressionSample *bestsample = NULL;
+	CExpressionSample *bestsample = nullptr;
 
 	int height = rcSamples.bottom - rcSamples.top;
 
@@ -1961,7 +1961,7 @@ CExpressionSample *SceneRampTool::GetSampleUnderMouse( int mx, int my, float tol
 	// Not close to any of them!!!
 	if ( ( tolerance != 0.0f ) && 
 		( closest_dist > tolerance ) )
-		return NULL;
+		return nullptr;
 
 	return bestsample;
 }

@@ -125,7 +125,7 @@ static void FixKillInputRaceCondition(MapError *pError);
 static void FixOverlayFaceList(MapError *pError);
 
 
-CMapCheckDlg *s_pDlg = NULL;
+CMapCheckDlg *s_pDlg = nullptr;
 
 
 BEGIN_MESSAGE_MAP(CMapCheckDlg, CDialog)
@@ -509,7 +509,7 @@ void CMapCheckDlg::OnSelchangeErrors()
 	str.LoadString(g_MapErrorStrings[iErrorStr].m_DescriptionResourceID);
 	m_Description.SetWindowText(str);
 
-	m_Go.EnableWindow(pError->pObjects[0] != NULL);
+	m_Go.EnableWindow(pError->pObjects[0] != nullptr);
 
 	// set state of fix button
 	m_Fix.EnableWindow(pError->Fix == NeedsFix);
@@ -539,7 +539,7 @@ void CMapCheckDlg::OnSelchangeErrors()
 	}
 	else
 	{
-		pDoc->SelectObject(NULL, scClear|scSaveChanges );
+		pDoc->SelectObject(nullptr, scClear|scSaveChanges );
 	}
 }
 
@@ -805,7 +805,7 @@ bool FindDuplicateNodeID(CMapEntity *pNode, CMapWorld *pWorld)
 
 	EnumChildrenPos_t pos;
 	CMapClass *pChild = pWorld->GetFirstDescendent(pos);
-	while (pChild != NULL)
+	while (pChild != nullptr)
 	{
 		CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pChild);
 		if (pEntity && IsCheckVisible( pEntity ) && (pEntity != pNode) && pEntity->IsNodeClass())
@@ -832,7 +832,7 @@ static void CheckDuplicateNodeIDs(CListBox *pList, CMapWorld *pWorld)
 {
 	EnumChildrenPos_t pos;
 	CMapClass *pChild = pWorld->GetFirstDescendent(pos);
-	while (pChild != NULL)
+	while (pChild != nullptr)
 	{
 		CMapEntity *pEntity = dynamic_cast<CMapEntity *>(pChild);
 		if (pEntity && pEntity->IsNodeClass())
@@ -1187,7 +1187,7 @@ static BOOL _CheckUnusedKeyvalues(CMapEntity *pEntity, CListBox *pList)
 
 	for (int i = pEntity->GetFirstKeyValue(); i != pEntity->GetInvalidKeyValue(); i=pEntity->GetNextKeyValue( i ) )
 	{
-		if (pClass->VarForName(pEntity->GetKey(i)) == NULL)
+		if (pClass->VarForName(pEntity->GetKey(i)) == nullptr)
 		{
 			AddError(pList, ErrorUnusedKeyvalues, (DWORD)pEntity->GetKey(i), pEntity);
 			return(TRUE);
@@ -1446,7 +1446,7 @@ static void FixSolidStructure(MapError *pError)
 	for (int i = nFaces - 1; i >= 0; i--)
 	{
 		CMapFace *pFace = pSolid->GetFace(i);
-		if (!pFace->CheckFace(NULL))
+		if (!pFace->CheckFace(nullptr))
 		{
 			pFace->Fix();
 		}
@@ -1482,10 +1482,10 @@ static void FixInvalidTexture(MapError *pError)
 	for (int i = 0; i < nFaces; i++)
 	{
 		CMapFace *pFace = pSolid->GetFace(i);
-		if (pFace != NULL)
+		if (pFace != nullptr)
 		{
 			IEditorTexture *pTex = pFace->GetTexture();
-			if (pTex != NULL)
+			if (pTex != nullptr)
 			{
 				if (pTex->IsDummy())
 				{
@@ -1560,7 +1560,7 @@ static void FixUnusedKeyvalues(MapError *pError)
 	for ( int i=pEntity->GetFirstKeyValue(); i != pEntity->GetInvalidKeyValue(); i = iNext )
 	{
 		iNext = pEntity->GetNextKeyValue( i );
-		if (pClass->VarForName(pEntity->GetKey(i)) == NULL)
+		if (pClass->VarForName(pEntity->GetKey(i)) == nullptr)
 		{
 			pEntity->DeleteKeyValue(pEntity->GetKey(i));
 		}
@@ -1628,7 +1628,7 @@ static void FixEmptyEntity(MapError *pError)
 {
 	CMapClass *pKillMe = pError->pObjects[0];
 
-	if (pKillMe->GetParent() != NULL)
+	if (pKillMe->GetParent() != nullptr)
 	{
 		GetHistory()->KeepForDestruction(pKillMe);
 		pKillMe->GetParent()->RemoveChild(pKillMe);
@@ -1655,7 +1655,7 @@ static void FixMissingTarget(MapError *pError)
 {
 	CMapEntity *pEntity = (CMapEntity *)pError->pObjects[0];
 	const char *pszKey = (const char *)pError->dwExtra;
-	pEntity->SetKeyValue(pszKey, NULL);
+	pEntity->SetKeyValue(pszKey, nullptr);
 }
 
 
@@ -1770,5 +1770,5 @@ void CMapCheckDlg::OnClose()
 void CMapCheckDlg::OnDestroy()
 {
 	delete this;
-	s_pDlg = NULL;
+	s_pDlg = nullptr;
 }

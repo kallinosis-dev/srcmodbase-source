@@ -354,7 +354,7 @@ public:
 			flSlack = 0.0f;
 			flCollisionRadius = 0;
 			flGravityZ = 360;
-			pName = NULL;
+			pName = nullptr;
 			nRank = 0;
 			nParent = -1;
 			nFollowParent = -1;

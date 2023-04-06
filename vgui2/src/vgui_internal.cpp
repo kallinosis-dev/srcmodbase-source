@@ -19,14 +19,14 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-ISchemeSurface *g_pSchemeSurface = NULL;
-IGameEventManager2* g_pGameEventManager = NULL;
+ISchemeSurface *g_pSchemeSurface = nullptr;
+IGameEventManager2* g_pGameEventManager = nullptr;
 
 namespace vgui
 {
 
-ISurface *g_pSurface = NULL;
-IPanel *g_pIPanel = NULL;
+ISurface *g_pSurface = nullptr;
+IPanel *g_pIPanel = nullptr;
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -41,7 +41,7 @@ static void *InitializeInterface( char const *interfaceName, CreateInterfaceFn *
 		if ( !factory )
 			continue;
 
-		retval = factory( interfaceName, NULL );
+		retval = factory( interfaceName, nullptr);
 		if ( retval )
 			return retval;
 	}
@@ -49,7 +49,7 @@ static void *InitializeInterface( char const *interfaceName, CreateInterfaceFn *
 	// No provider for requested interface!!!
 	// assert( !"No provider for requested interface!!!" );
 
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------

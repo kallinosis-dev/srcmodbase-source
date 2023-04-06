@@ -51,7 +51,7 @@ struct ParticleEffectList_t
 {
 	ParticleEffectList_t()
 	{
-		pParticleEffect = NULL;
+		pParticleEffect = nullptr;
 	}
 
 	CUtlVector<ParticleControlPoint_t>	pControlPoints;
@@ -80,17 +80,17 @@ public:
 
 	// Effect Creation
 	CNewParticleEffect *Create( const char *pszParticleName, ParticleAttachment_t iAttachType, const char *pszAttachmentName );
-	CNewParticleEffect *Create( const char *pszParticleName, ParticleAttachment_t iAttachType, int iAttachmentPoint = -1, Vector vecOriginOffset = vec3_origin, matrix3x4_t *vecOffsetMatrix = NULL );
-	CNewParticleEffect *CreatePrecached( int nPrecacheIndex, ParticleAttachment_t iAttachType, int iAttachmentPoint = -1, Vector vecOriginOffset = vec3_origin, matrix3x4_t *vecOffsetMatrix = NULL );
-	void				AddControlPoint( CNewParticleEffect *pEffect, int iPoint, C_BaseEntity *pEntity, ParticleAttachment_t iAttachType, const char *pszAttachmentName = NULL, Vector vecOriginOffset = vec3_origin, matrix3x4_t *vecOffsetMatrix = NULL );
-	void				AddControlPoint( int iEffectIndex, int iPoint, C_BaseEntity *pEntity, ParticleAttachment_t iAttachType, int iAttachmentPoint = -1, Vector vecOriginOffset = vec3_origin, matrix3x4_t *vecOffsetMatrix = NULL );
+	CNewParticleEffect *Create( const char *pszParticleName, ParticleAttachment_t iAttachType, int iAttachmentPoint = -1, Vector vecOriginOffset = vec3_origin, matrix3x4_t *vecOffsetMatrix = nullptr);
+	CNewParticleEffect *CreatePrecached( int nPrecacheIndex, ParticleAttachment_t iAttachType, int iAttachmentPoint = -1, Vector vecOriginOffset = vec3_origin, matrix3x4_t *vecOffsetMatrix = nullptr);
+	void				AddControlPoint( CNewParticleEffect *pEffect, int iPoint, C_BaseEntity *pEntity, ParticleAttachment_t iAttachType, const char *pszAttachmentName = nullptr, Vector vecOriginOffset = vec3_origin, matrix3x4_t *vecOffsetMatrix = nullptr);
+	void				AddControlPoint( int iEffectIndex, int iPoint, C_BaseEntity *pEntity, ParticleAttachment_t iAttachType, int iAttachmentPoint = -1, Vector vecOriginOffset = vec3_origin, matrix3x4_t *vecOffsetMatrix = nullptr);
 
 	inline void			SetControlPointParent( CNewParticleEffect *pEffect, int whichControlPoint, int parentIdx );
 	void				SetControlPointParent( int iEffectIndex, int whichControlPoint, int parentIdx );
 
 	// Commands
-	void				StopEmission( CNewParticleEffect *pEffect = NULL, bool bWakeOnStop = false, bool bDestroyAsleepSystems = false, bool bForceRemoveInstantly = false, bool bPlayEndCap = false );
-	void				StopEmissionAndDestroyImmediately( CNewParticleEffect *pEffect = NULL );
+	void				StopEmission( CNewParticleEffect *pEffect = nullptr, bool bWakeOnStop = false, bool bDestroyAsleepSystems = false, bool bForceRemoveInstantly = false, bool bPlayEndCap = false );
+	void				StopEmissionAndDestroyImmediately( CNewParticleEffect *pEffect = nullptr);
 
 	// kill all particle systems involving a given entity for their control points
 	void				StopParticlesInvolving( CBaseEntity *pEntity, bool bForceRemoveInstantly = false );
@@ -116,7 +116,7 @@ public:
 	int					FindEffect( const char *pEffectName );
 
 private:
-	CNewParticleEffect *Create( CParticleSystemDefinition *pDef, ParticleAttachment_t iAttachType, int iAttachmentPoint, Vector vecOriginOffset, matrix3x4_t *matOffset = NULL );
+	CNewParticleEffect *Create( CParticleSystemDefinition *pDef, ParticleAttachment_t iAttachType, int iAttachmentPoint, Vector vecOriginOffset, matrix3x4_t *matOffset = nullptr);
 	int					GetParticleAttachment( C_BaseEntity *pEntity, const char *pszAttachmentName, const char *pszParticleName );
 	void				UpdateParticleEffect( ParticleEffectList_t *pEffect, bool bInitializing = false, int iOnlyThisControlPoint = -1 );
 	void				UpdateControlPoint( ParticleEffectList_t *pEffect, int iPoint, bool bInitializing );

@@ -60,7 +60,7 @@ CBasePlayer* CheckInFoundryMode()
 	if ( !serverfoundry )
 	{
 		Warning( "Not in Foundry mode.\n" );
-		return NULL;
+		return nullptr;
 	}
 
 	return UTIL_GetListenServerHost();
@@ -85,8 +85,8 @@ void GetCrosshairOrNamedEntities( const CCommand &args, CUtlVector<CBaseEntity*>
 	}
 	else
 	{
-		CBaseEntity *pEnt = NULL;
-		while ((pEnt = gEntList.FindEntityGeneric( pEnt, args[1] ) ) != NULL)
+		CBaseEntity *pEnt = nullptr;
+		while ((pEnt = gEntList.FindEntityGeneric( pEnt, args[1] ) ) != nullptr)
 		{
 			entities.AddToTail( pEnt );
 		}

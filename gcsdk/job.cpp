@@ -36,7 +36,7 @@ static const char * const k_prgchJobPauseReason[] =
 
 COMPILE_TIME_ASSERT( ARRAYSIZE( k_prgchJobPauseReason ) == k_EJobPauseReasonCount );
 
-CJob *g_pJobCur = NULL;
+CJob *g_pJobCur = nullptr;
 
 
 //-----------------------------------------------------------------------------
@@ -59,15 +59,15 @@ CJob::CJob( CJobMgr &jobMgr, const char *pchJobName ) : m_JobMgr( jobMgr ), m_pc
 	m_ePauseReason = k_EJobPauseReasonNotStarted;
 
 	m_JobID = jobMgr.GetNewJobID();
-	m_pJobType = NULL;
+	m_pJobType = nullptr;
 	m_bWorkItemCanceled = false;
 	m_hCoroutine = Coroutine_Create( &BRunProxy, this );
-	m_pvStartParam = NULL;
+	m_pvStartParam = nullptr;
 	m_bRunFromMsg = false;
-	m_pJobPrev = NULL;
-	m_pWaitingOnLock = NULL;
-	m_pJobToNotifyOnLockRelease = NULL;
-	m_pWaitingOnWorkItem = NULL;
+	m_pJobPrev = nullptr;
+	m_pWaitingOnLock = nullptr;
+	m_pJobToNotifyOnLockRelease = nullptr;
+	m_pWaitingOnWorkItem = nullptr;
 	m_STimeStarted.SetToJobTime();
 	m_STimeSwitched.SetToJobTime();
 	m_STimeNextHeartbeat.SetFromJobTime( k_cMicroSecJobHeartbeat );
@@ -89,7 +89,7 @@ CJob::~CJob()
 {
 	// don't want SendMsgToConnection to call back into us, we *know*
 	// we are replying to these other jobs now
-	g_pJobCur = NULL;
+	g_pJobCur = nullptr;
 
 	// reset the job pointer
 	g_pJobCur = m_pJobPrev;
@@ -130,7 +130,7 @@ void CJob::WaitForThreadFuncWorkItemBlocking()
 			while ( m_pWaitingOnWorkItem->BIsRunning() )
 				ThreadSleep( 25 );
 
-			m_pWaitingOnWorkItem = NULL;
+			m_pWaitingOnWorkItem = nullptr;
 			break;
 
 #if 0 // not used in gcsdk
@@ -480,7 +480,7 @@ void CJob::GenerateAssert( const char *pchMsg )
 bool CJob::BYieldingWaitForMsg( IMsgNetPacket **ppNetPacket )
 {
 	AssertRunningThisJob();
-	*ppNetPacket = NULL;
+	*ppNetPacket = nullptr;
 
 	// await and retrieve the network message
 	if ( GetJobMgr().BYieldingWaitForMsg( *this ) )
@@ -498,7 +498,7 @@ bool CJob::BYieldingWaitForMsg( IMsgNetPacket **ppNetPacket )
 //-----------------------------------------------------------------------------
 bool CJob::BYieldingWaitForMsg( CGCMsgBase *pMsg, MsgType_t eMsg )
 {
-	IMsgNetPacket *pNetPacket = NULL;
+	IMsgNetPacket *pNetPacket = nullptr;
 
 	// Check if we already waited for a message of this type
 	// but timed out.  If so, then we currently don't have a way
@@ -564,7 +564,7 @@ void CJob::ClearFailedToReceivedMsgType( MsgType_t m )
 //-----------------------------------------------------------------------------
 bool CJob::BYieldingWaitForMsg( CProtoBufMsgBase *pMsg, MsgType_t eMsg )
 {
-	IMsgNetPacket *pNetPacket = NULL;
+	IMsgNetPacket *pNetPacket = nullptr;
 
 	// Check if we already waited for a message of this type
 	// but timed out.  If so, then we currently don't have a way
@@ -704,7 +704,7 @@ bool CJob::BYieldingWaitForThreadFuncWorkItem( CWorkItem *pItem )
 	// await the work item completion
 	bool bSuccess = GetJobMgr().BYieldingWaitForWorkItem( *this );
 
-	m_pWaitingOnWorkItem = NULL;
+	m_pWaitingOnWorkItem = nullptr;
 
 	return bSuccess;
 }
@@ -717,7 +717,7 @@ bool CJob::BYieldingWaitForThreadFuncWorkItem( CWorkItem *pItem )
 bool CJob::BYieldingWaitForThreadFunc( CFunctor *jobFunctor )
 {
 	// store off which function to launch when we're done
-	CJobThreadFuncWorkItem *pJobThreadFuncWorkItem = new CJobThreadFuncWorkItem( this, NULL, jobFunctor );
+	CJobThreadFuncWorkItem *pJobThreadFuncWorkItem = new CJobThreadFuncWorkItem( this, nullptr, jobFunctor );
 
 	bool bSuccess = BYieldingWaitForThreadFuncWorkItem( pJobThreadFuncWorkItem );
 
@@ -901,7 +901,7 @@ bool CJob::_BYieldingAcquireLock( CLock *pLock, const char *filename, int line )
 		}
 	}
 
-	if( m_pWaitingOnLock != NULL )
+	if( m_pWaitingOnLock != nullptr)
 	{
 		AssertMsg7( false, "Job (%s) locking %s at %s(%d); already waiting on %s at %s(%d).\n", 
 				  GetName(), 
@@ -929,7 +929,7 @@ bool CJob::_BYieldingAcquireLock( CLock *pLock, const char *filename, int line )
 		m_waitingOnLockLine = line;
 		m_cLocksWaitedFor++;
 		Pause( k_EJobPauseReasonWaitingForLock );
-		m_pWaitingOnLock = NULL;
+		m_pWaitingOnLock = nullptr;
 
 		// make sure we actually got it, instead of timing out
 		int index = m_vecLocks.Find( pLock );
@@ -1042,7 +1042,7 @@ void CJob::_ReleaseLock( CLock *pLock, bool bForce, const char *filename, int li
 	{
 		// post a message to the main system to wakeup the next lock
 		PassLockToJob( pLock->m_pJobToNotifyOnLockRelease, pLock );
-		m_pJobToNotifyOnLockRelease = NULL;
+		m_pJobToNotifyOnLockRelease = nullptr;
 
 		Assert( this != pLock->m_pJobWaitingQueueTail );
 	}
@@ -1051,7 +1051,7 @@ void CJob::_ReleaseLock( CLock *pLock, bool bForce, const char *filename, int li
 		// just release
 		UnsetLock( pLock );
 		Assert( NULL == pLock->m_pJobWaitingQueueTail || this == pLock->m_pJobWaitingQueueTail );
-		pLock->m_pJobWaitingQueueTail = NULL;
+		pLock->m_pJobWaitingQueueTail = nullptr;
 	}
 }
 
@@ -1133,7 +1133,7 @@ void CJob::UnsetLock( CLock *pLock )
 {
 	Assert( pLock->GetJobLocking() == this );
 
-	pLock->m_pJob = NULL;
+	pLock->m_pJob = nullptr;
 	// if we've held the lock for more than a few seconds, make noise.
 	if ( /*!BIsTest() &&*/ pLock->m_sTimeAcquired.CServerMicroSecsPassed() >= 10 * k_nMillion ) 
 	{
@@ -1159,12 +1159,12 @@ void CJob::PassLockToJob( CJob *pNewJob, CLock *pLock )
 	Assert( pNewJob->m_pWaitingOnLock == pLock );
 
 	pLock->m_pJobToNotifyOnLockRelease = pNewJob->m_pJobToNotifyOnLockRelease;
-	if ( NULL == pLock->m_pJobToNotifyOnLockRelease )
+	if (nullptr == pLock->m_pJobToNotifyOnLockRelease )
 	{
-		pLock->m_pJobWaitingQueueTail = NULL;
+		pLock->m_pJobWaitingQueueTail = nullptr;
 	}
 
-	pNewJob->m_pJobToNotifyOnLockRelease = NULL;
+	pNewJob->m_pJobToNotifyOnLockRelease = nullptr;
 	Assert( pLock->m_nWaitingCount > 0 );
 	pLock->m_nWaitingCount--;
 
@@ -1211,12 +1211,12 @@ void CJob::OnLockDeleted( CLock *pLock )
 		// move to the next job
 		CJob *pJobT = pJob;
 		pJob = pJob->m_pJobToNotifyOnLockRelease;
-		pJobT->m_pJobToNotifyOnLockRelease = NULL;
+		pJobT->m_pJobToNotifyOnLockRelease = nullptr;
 	}
 
-	m_pJobToNotifyOnLockRelease = NULL;
-	pLock->m_pJobToNotifyOnLockRelease = NULL;
-	pLock->m_pJobWaitingQueueTail = NULL;
+	m_pJobToNotifyOnLockRelease = nullptr;
+	pLock->m_pJobToNotifyOnLockRelease = nullptr;
+	pLock->m_pJobWaitingQueueTail = nullptr;
 
 	// remove the lock
 	UnsetLock( pLock );
@@ -1300,14 +1300,14 @@ void CJob::ValidateStatics( CValidator &validator, const char *pchName )
 
 
 CLock::CLock( ) 
-: m_pJob( NULL ), 
-m_pJobToNotifyOnLockRelease( NULL ), 
-m_pJobWaitingQueueTail( NULL ), 
+: m_pJob(nullptr), 
+m_pJobToNotifyOnLockRelease(nullptr), 
+m_pJobWaitingQueueTail(nullptr), 
 m_nWaitingCount(0),
 m_nsLockType(0),
 m_nsNameType( k_ENameTypeNone ),
 m_ulID( 0 ),
-m_pchConstStr( NULL ),
+m_pchConstStr(nullptr),
 m_unLockSubType ( 0 ),
 m_nRefCount( 0 ),
 m_pFilename( "unknown" ),
@@ -1405,7 +1405,7 @@ int CLock::DecrementReference()
 
 void CLock::Dump( const char *pszPrefix, int nPrintMax, bool bPrintWaiting ) const
 {
-	if ( m_pJob != NULL )
+	if ( m_pJob != nullptr)
 	{
 		EmitInfo( SPEW_JOB, SPEW_ALWAYS, LOG_ALWAYS, "%s%s: Lock owner: %s, Type: %d, %d Waiting\n", pszPrefix, GetName(), CFmtStr( "%s (%llu), Reason: %s", m_pJob->GetName(), m_pJob->GetJobID(), m_pJob->GetPauseReasonDescription() ).Access(), (int32)m_nsLockType, m_nWaitingCount );
 		EmitInfo( SPEW_JOB, SPEW_ALWAYS, LOG_ALWAYS, "%sLock acquired: %s:%d\n", pszPrefix, m_pFilename, m_line );
@@ -1418,7 +1418,7 @@ void CLock::Dump( const char *pszPrefix, int nPrintMax, bool bPrintWaiting ) con
 	CJob *pCurrWaiting = m_pJobToNotifyOnLockRelease;
 	int nPrinted = 0;
 	int nTotal = 0;
-	while( pCurrWaiting != NULL && nPrinted < nPrintMax )
+	while( pCurrWaiting != nullptr && nPrinted < nPrintMax )
 	{
 		bool bPrint = false;
 		if ( nPrinted < nPrintMax )

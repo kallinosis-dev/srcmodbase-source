@@ -101,10 +101,10 @@ private:
 inline C_AnimationLayer::C_AnimationLayer()
 {
 #ifdef CLIENT_DLL
-	m_pOwner = NULL;
+	m_pOwner = nullptr;
 	m_nInvalidatePhysicsBits = 0;
 #endif
-	m_pDispatchedStudioHdr = NULL;
+	m_pDispatchedStudioHdr = nullptr;
 	m_nDispatchedSrc = ACT_INVALID;
 	m_nDispatchedDst = ACT_INVALID;
 

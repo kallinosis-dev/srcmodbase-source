@@ -262,9 +262,9 @@ inline void CCachedRenderData::SetBodyModelMesh( int body, int model, int mesh)
 	}
 	else
 	{
-		m_pFirstFlexIndex = 0;
-		m_pFirstThinFlexIndex = 0;
-		m_pFirstWorldIndex = 0;
+		m_pFirstFlexIndex = nullptr;
+		m_pFirstThinFlexIndex = nullptr;
+		m_pFirstWorldIndex = nullptr;
 	}
 }
 
@@ -286,7 +286,7 @@ void CCachedRenderData::ComputeFlexedVertex_StreamOffset( studiohdr_t *pStudioHd
 	float w34 = w3 - w4;
 	float flVertAnimFixedPointScale = pStudioHdr->VertAnimFixedPointScale();
 
-	CachedPosNorm_t *pFlexedVertex = NULL;
+	CachedPosNorm_t *pFlexedVertex = nullptr;
 	for (int j = 0; j < pflex->numverts; j++)
 	{
 		int n = pvanim[j].index;

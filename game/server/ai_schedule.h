@@ -69,7 +69,7 @@ class CAI_SchedulesManager
 public:
 	CAI_SchedulesManager()
 	{
-		allSchedules = NULL;
+		allSchedules = nullptr;
 		m_CurLoadSig = 0;		// Note when schedules reset
 	}
 

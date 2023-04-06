@@ -100,7 +100,7 @@ void CDrawHelper::Init( mxWindow *widget, int x, int y, int w, int h, COLORREF b
 
 	DeleteObject( br );
 
-	m_ClipRegion = (HRGN)0;
+	m_ClipRegion = (HRGN)nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -108,7 +108,7 @@ void CDrawHelper::Init( mxWindow *widget, int x, int y, int w, int h, COLORREF b
 //-----------------------------------------------------------------------------
 CDrawHelper::~CDrawHelper( void )
 {
-	SelectClipRgn( m_dcMemory, NULL );
+	SelectClipRgn( m_dcMemory, nullptr);
 
 	while ( m_ClipRects.Size() > 0 )
 	{
@@ -244,7 +244,7 @@ int CDrawHelper::CalcTextWidth( const char *font, int pointsize, int weight, con
 		 DEFAULT_PITCH,
 		 font );
 
-	HDC screen = GetDC( NULL );
+	HDC screen = GetDC(nullptr);
 
 	HFONT oldFont = (HFONT)SelectObject( screen, fnt );
 
@@ -258,7 +258,7 @@ int CDrawHelper::CalcTextWidth( const char *font, int pointsize, int weight, con
 	SelectObject( screen, oldFont );
 	DeleteObject( fnt );
 
-	ReleaseDC( NULL, screen );
+	ReleaseDC(nullptr, screen );
 
 	return rcText.right;
 }
@@ -327,7 +327,7 @@ int CDrawHelper::CalcTextWidth( HFONT fnt, const char *fmt, ... )
 	vprintf( fmt, args );
 	vsprintf( output, fmt, args );
 
-	HDC screen = GetDC( NULL );
+	HDC screen = GetDC(nullptr);
 
 	HFONT oldFont = (HFONT)SelectObject( screen, fnt );
 
@@ -340,7 +340,7 @@ int CDrawHelper::CalcTextWidth( HFONT fnt, const char *fmt, ... )
 
 	SelectObject( screen, oldFont );
 
-	ReleaseDC( NULL, screen );
+	ReleaseDC(nullptr, screen );
 
 	return rcText.right;
 }
@@ -640,7 +640,7 @@ void CDrawHelper::DrawColoredLine( COLORREF clr, int style, int width, int x1, i
 {
 	HPEN pen = CreatePen( style, width, clr );
 	HPEN oldPen = (HPEN)SelectObject( m_dcMemory, pen );
-	MoveToEx( m_dcMemory, x1-m_x, y1-m_y, NULL );
+	MoveToEx( m_dcMemory, x1-m_x, y1-m_y, nullptr);
 	LineTo( m_dcMemory, x2-m_x, y2-m_y );
 	SelectObject( m_dcMemory, oldPen );
 	DeleteObject( pen );
@@ -696,7 +696,7 @@ POINTL CDrawHelper::DrawColoredRamp( COLORREF clr, int style, int width, int x1,
 {
 	HPEN pen = CreatePen( style, width, clr );
 	HPEN oldPen = (HPEN)SelectObject( m_dcMemory, pen );
-	MoveToEx( m_dcMemory, x1-m_x, y1-m_y, NULL );
+	MoveToEx( m_dcMemory, x1-m_x, y1-m_y, nullptr);
 	int dx = x2 - x1;
 	int dy = y2 - y1;
 
@@ -829,7 +829,7 @@ void CDrawHelper::DrawLine( int x1, int y1, int x2, int y2, COLORREF clr, int th
 	y1 -= m_y;
 	y2 -= m_y;
 
-	MoveToEx( m_dcMemory, x1, y1, NULL );
+	MoveToEx( m_dcMemory, x1, y1, nullptr);
 	LineTo( m_dcMemory, x2, y2 );
 
 	SelectObject( m_dcMemory, oldbrush );
@@ -910,11 +910,11 @@ void CDrawHelper::StopClipping( void )
 
 void CDrawHelper::ClipToRects( void )
 {
-	SelectClipRgn( m_dcMemory, NULL );
+	SelectClipRgn( m_dcMemory, nullptr);
 	if ( m_ClipRegion )
 	{
 		DeleteObject( m_ClipRegion );
-		m_ClipRegion = HRGN( 0 );
+		m_ClipRegion = HRGN( nullptr );
 	}
 
 	if ( m_ClipRects.Size() > 0 )

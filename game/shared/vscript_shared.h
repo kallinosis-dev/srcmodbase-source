@@ -19,7 +19,7 @@ extern IScriptVM * g_pScriptVM;
 
 HSCRIPT VScriptCompileScript( const char *pszScriptName, bool bWarnMissing = false );
 bool VScriptRunScript( const char *pszScriptName, HSCRIPT hScope, bool bWarnMissing = false );
-inline bool VScriptRunScript( const char *pszScriptName, bool bWarnMissing = false ) { return VScriptRunScript( pszScriptName, NULL, bWarnMissing ); }
+inline bool VScriptRunScript( const char *pszScriptName, bool bWarnMissing = false ) { return VScriptRunScript( pszScriptName, nullptr, bWarnMissing ); }
 
 #define DECLARE_ENT_SCRIPTDESC()													ALLOW_SCRIPT_ACCESS(); virtual ScriptClassDesc_t *GetScriptDesc()
 

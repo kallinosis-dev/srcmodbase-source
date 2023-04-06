@@ -591,7 +591,7 @@ bool CGCCacheSubscriptionRefresh::BYieldingRunJobFromMsg( IMsgNetPacket *pNetPac
 
 	CSteamID steamIDCacheOwner( msg.Body().owner() );
 	CGCSharedObjectCache *pCache = m_pGC->FindSOCache( steamIDCacheOwner );
-	if ( pCache == NULL || !pCache->BIsSubscribed( steamID ) )
+	if ( pCache == nullptr || !pCache->BIsSubscribed( steamID ) )
 	{
 		return false;
 	}

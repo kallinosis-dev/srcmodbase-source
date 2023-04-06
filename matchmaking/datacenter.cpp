@@ -184,8 +184,8 @@ CON_COMMAND( mm_datacenter_encrypt_file, "" )
 
 
 CDatacenter::CDatacenter() :
-	m_pInfoChunks( NULL ),
-	m_pDataInfo( NULL ),
+	m_pInfoChunks(nullptr),
+	m_pDataInfo(nullptr),
 #ifdef _X360
 	m_pXlspConnection( NULL ),
 	m_pXlspBatch( NULL ),
@@ -209,11 +209,11 @@ CDatacenter::~CDatacenter()
 {
 	if ( m_pInfoChunks )
 		m_pInfoChunks->deleteThis();
-	m_pInfoChunks = NULL;
+	m_pInfoChunks = nullptr;
 
 	if ( m_pDataInfo )
 		m_pDataInfo->deleteThis();
-	m_pDataInfo = NULL;
+	m_pDataInfo = nullptr;
 
 #ifdef _X360
 	Assert( !m_pXlspConnection );
@@ -260,7 +260,7 @@ KeyValues * CDatacenter::GetDataInfo()
 
 KeyValues * CDatacenter::GetStats()
 {
-	return m_pInfoChunks ? m_pInfoChunks->FindKey( "stat" ) : NULL;
+	return m_pInfoChunks ? m_pInfoChunks->FindKey( "stat" ) : nullptr;
 }
 
 //
@@ -1086,7 +1086,7 @@ KeyValues * CDatacenterCmdBatchImpl::GetResult( int idx )
 		return NULL;
 	return m_pXlspBatch->GetResults()[idx];
 #else
-	return NULL;
+	return nullptr;
 #endif
 }
 

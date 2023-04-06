@@ -71,10 +71,10 @@ void Button::Init()
 	_buttonFlags.SetFlag( USE_CAPTURE_MOUSE | BUTTON_BORDER_ENABLED );
 
 	_mouseClickMask = 0;
-	_actionMessage = NULL;
-	_defaultBorder = NULL;
-	_depressedBorder = NULL;
-	_keyFocusBorder = NULL;
+	_actionMessage = nullptr;
+	_defaultBorder = nullptr;
+	_depressedBorder = nullptr;
+	_keyFocusBorder = nullptr;
 	m_bSelectionStateSaved = false;
 	m_sArmedSoundName = UTL_INVAL_SYMBOL;
 	m_sDepressedSoundName = UTL_INVAL_SYMBOL;

@@ -29,7 +29,7 @@ DECLARE_HUDELEMENT( CHudSaveStatus );
 #define FADE_OUT_TIME	1.0f
 
 CHudSaveStatus::CHudSaveStatus( const char *pElementName ) :
-  CHudElement( pElementName ), BaseClass( NULL, "HudSaveStatus" )
+  CHudElement( pElementName ), BaseClass(nullptr, "HudSaveStatus" )
 {
 	vgui::Panel *pParent = GetClientMode()->GetViewport();
 	SetParent( pParent );
@@ -37,9 +37,9 @@ CHudSaveStatus::CHudSaveStatus( const char *pElementName ) :
 	SetScheme( "basemodui_scheme" );
 	SetProportional( true );
 
-	m_pSavingIcon = NULL;
-	m_pSavingLabel = NULL;
-	m_pSavedLabel = NULL;
+	m_pSavingIcon = nullptr;
+	m_pSavingLabel = nullptr;
+	m_pSavedLabel = nullptr;
 
 	m_flLastAnimTime = 0;
 	m_flFadeOutTime = 0;

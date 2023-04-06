@@ -61,8 +61,8 @@ public:
 	virtual void OnShowMenu(vgui::Menu *menu) = 0;
 
 	// Add a simple text item to the menu
-	virtual int AddMenuItem( char const *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL );
-	virtual int AddCheckableMenuItem( char const *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = NULL );
+	virtual int AddMenuItem( char const *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr);
+	virtual int AddCheckableMenuItem( char const *itemName, const char *itemText, KeyValues *message, Panel *target, const KeyValues *userData = nullptr);
 
 	void		Reset();
 
@@ -203,13 +203,13 @@ void CSceneViewerMenuBar::SetFileName( char const *name )
 // Constructor, destructor
 //-----------------------------------------------------------------------------
 CSceneViewerPanel::CSceneViewerPanel()
-: vgui::Panel( NULL, "SceneViewer" )
+: vgui::Panel(nullptr, "SceneViewer" )
 {
 	m_pMenuBar = new CSceneViewerMenuBar( this, "Main Menu Bar" );
 	m_pMenuBar->SetSize( 10, 28 );
 
 	// Next create a menu
-	vgui::Menu *pMenu = new vgui::Menu(NULL, "File Menu");
+	vgui::Menu *pMenu = new vgui::Menu(nullptr, "File Menu");
 	pMenu->AddMenuItem( "&New", new KeyValues( "New" ), this );
 	pMenu->AddMenuItem( "&Open", new KeyValues( "Open" ), this );
 	pMenu->AddMenuItem( "&Save", new KeyValues( "Save" ), this );
@@ -223,7 +223,7 @@ CSceneViewerPanel::CSceneViewerPanel()
 
 	m_pMenuBar->AddButton( editMenu );
 
-	vgui::Menu *pWindowMenu = new vgui::Menu( NULL, "Windows Menu" );
+	vgui::Menu *pWindowMenu = new vgui::Menu(nullptr, "Windows Menu" );
 	pWindowMenu->AddMenuItem( "3D &View", new KeyValues( "Show3DView" ), this );
 	pWindowMenu->AddMenuItem( "&Combo Editor", new KeyValues( "ShowComboEditor" ), this );
 	pWindowMenu->AddMenuItem( "&Asset Builder", new KeyValues( "ShowAssetBuilder" ), this );
@@ -249,7 +249,7 @@ CSceneViewerPanel::CSceneViewerPanel()
 	m_pAssetBuilder->SetBounds( 50, 50, 512, 512 );
 	m_pAssetBuilder->SetDeleteSelfOnClose( false );
 
-	m_pNerdEditor = new CElementPropertiesTree( m_pClientArea, this, NULL );
+	m_pNerdEditor = new CElementPropertiesTree( m_pClientArea, this, nullptr);
 	m_pNerdEditor->SetParent( g_pVGuiSurface->GetEmbeddedPanel() );
 	m_pNerdEditor->SetVisible( false );
 	m_pNerdEditor->SetBounds( 50, 50, 512, 512 );
@@ -262,7 +262,7 @@ CSceneViewerPanel::CSceneViewerPanel()
 	m_pConsole->AddActionSignalTarget( this );
 	m_bConsolePositioned = false;
 
-	m_pRoot = NULL;
+	m_pRoot = nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -635,12 +635,12 @@ bool CSceneViewerPanel::OnWriteFileToDisk(
 		return CDmObjSerializer().WriteOBJ( pFilename, m_pRoot, true );
 
 	const char *pEncoding = g_pDataModel->GetDefaultEncoding( pPassedFileFormat );
-	if ( pEncoding == NULL || g_pDataModel->FindSerializer( pEncoding ) == NULL )
+	if ( pEncoding == nullptr || g_pDataModel->FindSerializer( pEncoding ) == nullptr)
 	{
 		// I'd like a better way to figure out what the 'default' format should be
 		pEncoding = "binary";
 	}
-	bool retVal = g_pDataModel->SaveToFile( pFilename, NULL, pEncoding, pPassedFileFormat, m_pRoot ); 
+	bool retVal = g_pDataModel->SaveToFile( pFilename, nullptr, pEncoding, pPassedFileFormat, m_pRoot ); 
 	if ( !retVal || !g_pFullFileSystem->FileExists( pFilename ) )
 	{
 		char pBuf[1024];
@@ -664,20 +664,20 @@ void CSceneViewerPanel::Clear()
 {
 	if ( m_pClipViewPanel )
 	{
-		m_pClipViewPanel->SetScene( NULL );
-		m_pClipViewPanel->SetAnimationList( NULL );
-		m_pClipViewPanel->SetVertexAnimationList( NULL );
-		m_pClipViewPanel->SetCombinationOperator( NULL );
+		m_pClipViewPanel->SetScene(nullptr);
+		m_pClipViewPanel->SetAnimationList(nullptr);
+		m_pClipViewPanel->SetVertexAnimationList(nullptr);
+		m_pClipViewPanel->SetCombinationOperator(nullptr);
 	}
 
 	if ( m_pCombinationEditor )
 	{
-		m_pCombinationEditor->SetCombinationOperator( NULL );
+		m_pCombinationEditor->SetCombinationOperator(nullptr);
 	}
 
 	if ( m_pNerdEditor )
 	{
-		m_pNerdEditor->SetObject( NULL );
+		m_pNerdEditor->SetObject(nullptr);
 	}
 
 	// Unload Any Old Model
@@ -687,7 +687,7 @@ void CSceneViewerPanel::Clear()
 		g_pDataModel->RemoveFileId( m_pRoot->GetFileId() );
 	}
 
-	m_pRoot = NULL;
+	m_pRoot = nullptr;
 
 	m_filename = "";
 }
@@ -762,7 +762,7 @@ bool CSceneViewerPanel::Load( const char *pFilename, CUtlStringMap< Vector > *pO
 	// Remove any old data
 	Clear();
 
-	CDmElement *pRoot( NULL );
+	CDmElement *pRoot(nullptr);
 
 	const int fLen( Q_strlen( pFilename ) );
 	if ( fLen > 4 && !Q_stricmp( pFilename + fLen - 4, ".obj" ) )
@@ -771,7 +771,7 @@ bool CSceneViewerPanel::Load( const char *pFilename, CUtlStringMap< Vector > *pO
 	}
 	else {
 		// Load the Dme file from disk
-		g_pDataModel->RestoreFromFile( pFilename, NULL, NULL, &pRoot );
+		g_pDataModel->RestoreFromFile( pFilename, nullptr, nullptr, &pRoot );
 	}
 
 	if ( !pRoot )
@@ -814,7 +814,7 @@ bool CSceneViewerPanel::Reload()
 	}
 
 	CUtlString tmpFilename( m_filename );
-	const bool retVal = Load( tmpFilename, oldComboVals.GetNumStrings() > 0 ? &oldComboVals : NULL );
+	const bool retVal = Load( tmpFilename, oldComboVals.GetNumStrings() > 0 ? &oldComboVals : nullptr);
 
 	return retVal;
 }
@@ -1424,7 +1424,7 @@ void CSceneViewerPanel::OnNew()
 void CSceneViewerPanel::OnOpen()
 {
 	int nFlags = 0;
-	const char *pFileName = NULL;
+	const char *pFileName = nullptr;
 	if ( m_pRoot )
 	{
 		nFlags = vgui::FOSM_SHOW_PERFORCE_DIALOGS;
@@ -1432,7 +1432,7 @@ void CSceneViewerPanel::OnOpen()
 	}
 
 	KeyValues *pContextKeyValues = new KeyValues( "FileOpen" );
-	m_pFileOpenStateMachine->OpenFile( DEFAULT_FILE_FORMAT, pContextKeyValues, pFileName, NULL, nFlags );
+	m_pFileOpenStateMachine->OpenFile( DEFAULT_FILE_FORMAT, pContextKeyValues, pFileName, nullptr, nFlags );
 }
 
 
@@ -1471,7 +1471,7 @@ void CSceneViewerPanel::OnSaveAs()
 	}
 
 	KeyValues *pContextKeyValues = new KeyValues( "FileSave" );
-	m_pFileOpenStateMachine->SaveFile( pContextKeyValues, NULL, DEFAULT_FILE_FORMAT, vgui::FOSM_SHOW_PERFORCE_DIALOGS );
+	m_pFileOpenStateMachine->SaveFile( pContextKeyValues, nullptr, DEFAULT_FILE_FORMAT, vgui::FOSM_SHOW_PERFORCE_DIALOGS );
 }
 
 
@@ -1490,7 +1490,7 @@ void CSceneViewerPanel::OnSaveCurrentAs()
 	}
 
 	KeyValues *pContextKeyValues = new KeyValues( "SaveCurrentAs" );
-	m_pFileOpenStateMachine->SaveFile( pContextKeyValues, NULL, DEFAULT_FILE_FORMAT, vgui::FOSM_SHOW_PERFORCE_DIALOGS );
+	m_pFileOpenStateMachine->SaveFile( pContextKeyValues, nullptr, DEFAULT_FILE_FORMAT, vgui::FOSM_SHOW_PERFORCE_DIALOGS );
 }
 
 
@@ -1608,7 +1608,7 @@ void CSceneViewerPanel::OnEdit()
 		delete m_hProperties.Get();
 	}
 
-	m_hProperties = new CElementPropertiesTree( this, NULL, GetScene() );
+	m_hProperties = new CElementPropertiesTree( this, nullptr, GetScene() );
 
 	if ( m_hProperties.Get() )
 	{

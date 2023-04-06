@@ -25,7 +25,7 @@
 #define DEFAULT_THUMBNAIL_SIZE 128
 #define TOP_GAP 70
 
-AnimationBrowser *g_pAnimationBrowserTool = 0;
+AnimationBrowser *g_pAnimationBrowserTool = nullptr;
 extern double realtime;
 
 void CreatePath( const char *pPath );
@@ -114,7 +114,7 @@ public:
 
 		pop->add ("&New Group...", IDC_AB_CREATE_CUSTOM );
 
-		mxPopupMenu *sub = NULL;
+		mxPopupMenu *sub = nullptr;
 		for ( int i = 0; i < m_CustomGroups.Count(); ++i )
 		{
 			if ( !sub ) 
@@ -217,7 +217,7 @@ AnimationBrowser::AnimationBrowser( mxWindow *parent, int id /*=0*/ )
 //-----------------------------------------------------------------------------
 AnimationBrowser::~AnimationBrowser ( void )
 {
-	g_pAnimationBrowserTool = NULL;
+	g_pAnimationBrowserTool = nullptr;
 }
 
 void AnimationBrowser::Shutdown()
@@ -575,11 +575,11 @@ void AnimationBrowser::ShowRightClickMenu( int mx, int my )
 //-----------------------------------------------------------------------------
 void AnimationBrowser::DrawFocusRect( void )
 {
-	HDC dc = GetDC( NULL );
+	HDC dc = GetDC(nullptr);
 
 	::DrawFocusRect( dc, &m_rcFocus );
 
-	ReleaseDC( NULL, dc );
+	ReleaseDC(nullptr, dc );
 }
 
 static bool IsWindowOrChild( mxWindow *parent, HWND test )
@@ -680,7 +680,7 @@ int AnimationBrowser::handleEvent (mxEvent *event)
 						offset = max( offset, slScrollbar->getMinValue() );
 						
 						slScrollbar->setValue( offset );
-						InvalidateRect( (HWND)slScrollbar->getHandle(), NULL, TRUE );
+						InvalidateRect( (HWND)slScrollbar->getHandle(), nullptr, TRUE );
 						
 						m_nTopOffset = offset;
 						
@@ -694,7 +694,7 @@ int AnimationBrowser::handleEvent (mxEvent *event)
 						offset = min( offset, slScrollbar->getMaxValue() );
 						
 						slScrollbar->setValue( offset );
-						InvalidateRect( (HWND)slScrollbar->getHandle(), NULL, TRUE );
+						InvalidateRect( (HWND)slScrollbar->getHandle(), nullptr, TRUE );
 						
 						m_nTopOffset = offset;
 						
@@ -1159,12 +1159,12 @@ mstudioseqdesc_t *AnimationBrowser::GetSeqDesc( int index )
 {
 	CStudioHdr *hdr = models->GetActiveStudioModel()->GetStudioHdr();
 	if ( !hdr )
-		return NULL;
+		return nullptr;
 
 	index = TranslateSequenceNumber( index );
 
 	if ( index < 0 || index >= hdr->GetNumSeq() )
-		return NULL;
+		return nullptr;
 
 	return &hdr->pSeqdesc( index );
 }

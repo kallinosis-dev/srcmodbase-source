@@ -84,7 +84,7 @@ public:
 		m_bDisabled = false;
 		m_bCreatedIndirectLights = false;
 		m_nObjectID = - 1;
-		m_pNext = NULL;
+		m_pNext = nullptr;
 		m_eIncrState = INCR_STATE_NEW;
 		m_fTotalContribution = 0.;
 		m_flLastContribution = 0.;
@@ -179,9 +179,9 @@ public:
 	CLightingPreviewThread( void )
 	{
 		m_nBitmapGenerationCounter = - 1;
-		m_pRtEnv = NULL;
+		m_pRtEnv = nullptr;
 		m_bAccStructureBuilt = false;
-		m_pIncrementalLightInfoList = NULL;
+		m_pIncrementalLightInfoList = nullptr;
 		m_fLastSendTime = - 1.0e6;
 		m_bResultChangedSinceLastSend = false;
 		m_nContributionCounter = 1000000;
@@ -419,7 +419,7 @@ void CLightingPreviewThread::HandleGeomMessage( MessageToLPreview & msg_in )
 	if ( m_pRtEnv )
 	{
 		delete m_pRtEnv;
-		m_pRtEnv = NULL;
+		m_pRtEnv = nullptr;
 	}
 	CUtlVector < Vector > & tris = * ( msg_in.m_pShadowTriangleList );
 	if ( tris.Count() )
@@ -604,8 +604,8 @@ void CLightingPreviewThread::DoWork( void )
 	
 	for( int i = 0; i < nJobsToDo; i++ )
 	{
-		CLightingPreviewLightDescription *best_l = NULL;
-		CIncrementalLightInfo * best_l_info = NULL;
+		CLightingPreviewLightDescription *best_l = nullptr;
+		CIncrementalLightInfo * best_l_info = nullptr;
 		for( CLightingPreviewLightDescription *l = m_LightList.Head(); l; l = l->m_pNext )
 		{
 			
@@ -1301,7 +1301,7 @@ void HandleLightingPreview( void )
 	if ( GetMainWnd()->m_pLightingPreviewOutputWindow && !GetMainWnd()->m_bLightingPreviewOutputWindowShowing )
 	{
 		delete GetMainWnd()->m_pLightingPreviewOutputWindow;
-		GetMainWnd()->m_pLightingPreviewOutputWindow = NULL;
+		GetMainWnd()->m_pLightingPreviewOutputWindow = nullptr;
 	}
 
 	// called during main loop
@@ -1316,7 +1316,7 @@ void HandleLightingPreview( void )
 				n_result_bms_queued--;
 				if ( g_pLPreviewOutputBitmap )
 					delete g_pLPreviewOutputBitmap;
-				g_pLPreviewOutputBitmap = NULL;
+				g_pLPreviewOutputBitmap = nullptr;
 //				if ( msg.m_nBitmapGenerationCounter == g_nBitmapGenerationCounter )
 			{
 				g_pLPreviewOutputBitmap = msg.m_pBitmapToDisplay;
@@ -1346,7 +1346,7 @@ void HandleLightingPreview( void )
 						myRect.bottom = g_pLPreviewOutputBitmap->Height() - 1;
 						w->CalcWindowRect( & myRect );
 						w->SetWindowPos(
-							NULL, 0, 0,
+							nullptr, 0, 0,
 							myRect.Width(), myRect.Height(),
 							SWP_NOMOVE | SWP_NOZORDER );
 					}

@@ -59,7 +59,7 @@ void CItem_Healthshot::Precache( void )
 bool CItem_Healthshot::CanPrimaryAttack( void )
 {
 	CCSPlayer *pPlayer = ToCSPlayer( GetPlayerOwner() );
-	if ( pPlayer == NULL )
+	if ( pPlayer == nullptr)
 		return false;
 
 	return CanUseOnSelf( pPlayer );
@@ -106,7 +106,7 @@ void CItem_Healthshot::DropHealthshot( void )
 			QAngle angWeaponThrowFromAngle = pPlayer->EyeAngles();
 
  			Vector vForward;
- 			AngleVectors(angWeaponThrowFromAngle, &vForward, NULL, NULL);
+ 			AngleVectors(angWeaponThrowFromAngle, &vForward, nullptr, nullptr);
  			vecWeaponThrowFromPos = vecWeaponThrowFromPos + (vForward * 100);
 			//NDebugOverlay::Box( vecWeaponThrowFromPos, Vector( 10, 10, 10 ), Vector( -10, -10, -10 ), 255, 0, 0, 200, 3 );
 
@@ -116,7 +116,7 @@ void CItem_Healthshot::DropHealthshot( void )
 			pHealth->SetSolidFlags( FSOLID_NOT_SOLID );
 			pHealth->SetMoveCollide( MOVECOLLIDE_FLY_BOUNCE );
 
-			pPlayer->Weapon_Drop( pHealth, &vecWeaponThrowFromPos, NULL );			
+			pPlayer->Weapon_Drop( pHealth, &vecWeaponThrowFromPos, nullptr);			
 
 			pHealth->SetSolidFlags( FSOLID_NOT_STANDABLE | FSOLID_TRIGGER | FSOLID_USE_TRIGGER_BOUNDS );
 			pHealth->SetPreviousOwner( pPlayer );

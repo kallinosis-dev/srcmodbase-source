@@ -51,7 +51,7 @@ void CAttributeSequencePickerPanel::ShowPickerDialog()
 //-----------------------------------------------------------------------------
 void CAttributeSequencePickerPanel::OnMDLSelected( KeyValues *pKeyValues )
 {
-	const char *pMDLName = pKeyValues->GetString( "asset", NULL );
+	const char *pMDLName = pKeyValues->GetString( "asset", nullptr);
 
 	char pRelativePath[MAX_PATH];
 	Q_snprintf( pRelativePath, sizeof(pRelativePath), "models\\%s", pMDLName );
@@ -94,7 +94,7 @@ void CAttributeSequencePickerPanel::ShowSequencePickerDialog( const char *pMDLNa
 void CAttributeSequencePickerPanel::OnSequenceSelected( KeyValues *pKeyValues )
 {
 	// We're either going to get an activity or sequence name
-	const char *pActivityName = pKeyValues->GetString( "activity", NULL );
+	const char *pActivityName = pKeyValues->GetString( "activity", nullptr);
 	const char *pSequenceName = pKeyValues->GetString( "sequence", pActivityName );
 	if ( !pSequenceName || !pSequenceName[ 0 ] )
 		return;

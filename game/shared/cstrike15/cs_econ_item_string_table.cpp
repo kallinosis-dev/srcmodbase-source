@@ -25,7 +25,7 @@ ConVar cs_econ_item_string_table_debug( "cs_econ_item_string_table_debug", "0", 
 
 CUtlMap< itemid_t, CEconItem* > g_EconItemMap( 0, 0, DefLessFunc(itemid_t) );
 
-INetworkStringTable *g_pStringTableEconItems = NULL;
+INetworkStringTable *g_pStringTableEconItems = nullptr;
 
 CStrikeEconItemIndex_t InvalidEconItemStringIndex()
 {
@@ -54,7 +54,7 @@ CEconItem* GetEconItemFromStringTable( itemid_t itemID )
 {
 	int nIndex = g_EconItemMap.Find( itemID );
 	if ( nIndex == g_EconItemMap.InvalidIndex() )
-		return NULL;
+		return nullptr;
 
 	return g_EconItemMap.Element( nIndex );
 }

@@ -98,7 +98,7 @@ bool CInputTestApp::CreateAppWindow( char const *pTitle, bool bWindowed, int w, 
     wc.lpfnWndProc   = DefWindowProc;
     wc.hInstance     = (HINSTANCE)GetAppInstance();
     wc.lpszClassName = "Valve001";
-	wc.hIcon		 = NULL; //LoadIcon( s_HInstance, MAKEINTRESOURCE( IDI_LAUNCHER ) );
+	wc.hIcon		 = nullptr; //LoadIcon( s_HInstance, MAKEINTRESOURCE( IDI_LAUNCHER ) );
 	wc.hIconSm		 = wc.hIcon;
 
     RegisterClassEx( &wc );
@@ -141,7 +141,7 @@ bool CInputTestApp::CreateAppWindow( char const *pTitle, bool bWindowed, int w, 
 	CenterY = (CenterY < 0) ? 0: CenterY;
 
 	// In VCR modes, keep it in the upper left so mouse coordinates are always relative to the window.
-	SetWindowPos (m_HWnd, NULL, CenterX, CenterY, 0, 0,
+	SetWindowPos (m_HWnd, nullptr, CenterX, CenterY, 0, 0,
 				  SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW | SWP_DRAWFRAME);
 
 	return true;
@@ -153,7 +153,7 @@ bool CInputTestApp::CreateAppWindow( char const *pTitle, bool bWindowed, int w, 
 //-----------------------------------------------------------------------------
 bool CInputTestApp::SetupSearchPaths()
 {
-	if ( !BaseClass::SetupSearchPaths( NULL, false, true ) )
+	if ( !BaseClass::SetupSearchPaths(nullptr, false, true ) )
 		return false;
 
 	g_pFullFileSystem->AddSearchPath( GetGameInfoPath(), "SKIN", PATH_ADD_TO_HEAD );
@@ -179,7 +179,7 @@ bool CInputTestApp::PreInit( )
 	const char *pArg;
 	int iWidth = 1024;
 	int iHeight = 768;
-	bool bWindowed = (CommandLine()->CheckParm( "-fullscreen" ) == NULL);
+	bool bWindowed = (CommandLine()->CheckParm( "-fullscreen" ) == nullptr);
 	if (CommandLine()->CheckParm( "-width", &pArg ))
 	{
 		iWidth = atoi( pArg );

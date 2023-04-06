@@ -431,7 +431,7 @@ void CFish::Update( float deltaT )
 	}
 
 	// flock towards center of pool
-	FlockTo( NULL, (1.0f - danger) );
+	FlockTo(nullptr, (1.0f - danger) );
 
 	
 	//

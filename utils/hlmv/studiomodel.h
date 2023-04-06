@@ -447,7 +447,7 @@ inline CStudioHdr *StudioModel::GetStudioHdr( void ) const
 	if (m_pStudioHdr->IsReadyForAccess())
 		return m_pStudioHdr;
 
-	return NULL;
+	return nullptr;
 }
 
 inline studiohdr_t *StudioModel::GetStudioRenderHdr( void ) const 

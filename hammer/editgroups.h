@@ -37,7 +37,7 @@ class CEditGroups : public CDialog
 {
 	// Construction
 	public:
-		CEditGroups(CWnd* pParent = NULL);   // standard constructor
+		CEditGroups(CWnd* pParent = nullptr);   // standard constructor
 
 	// Dialog Data
 		//{{AFX_DATA(CEditGroups)

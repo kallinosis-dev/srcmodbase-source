@@ -124,7 +124,7 @@ void Key_SetBinding( ButtonCode_t keynum, const char *pBinding )
 			return;
 
 		delete[] s_KeyContext.m_pKeyInfo[keynum].m_pKeyBinding;
-		s_KeyContext.m_pKeyInfo[keynum].m_pKeyBinding = NULL;
+		s_KeyContext.m_pKeyInfo[keynum].m_pKeyBinding = nullptr;
 	}
 			
 	// allocate memory for new binding
@@ -377,28 +377,28 @@ KeyValues *GetDefaultKeyBindings( void )
 const char *GetSuggestedBinding( const char *command, KeyValues *defaults )
 {
 	if ( !defaults )
-		return NULL;
+		return nullptr;
 
-	const char *suggestedKeyString = defaults->GetString( command, NULL );
+	const char *suggestedKeyString = defaults->GetString( command, nullptr);
 	if ( suggestedKeyString )
 	{
 		return suggestedKeyString;
 	}
 
 	// If no exact match, scan for substring matches
-	for ( KeyValues *keybind = defaults->GetFirstSubKey(); keybind != NULL; keybind = keybind->GetNextKey() )
+	for ( KeyValues *keybind = defaults->GetFirstSubKey(); keybind != nullptr; keybind = keybind->GetNextKey() )
 	{
 		const char *suggestedKeyString = keybind->GetString();
 		const char *suggestedCommand = keybind->GetName();
 
 		const char *subStr = V_stristr( suggestedCommand, command );
-		if ( subStr != NULL )
+		if ( subStr != nullptr)
 		{
 			return suggestedKeyString;
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 /*
@@ -438,16 +438,16 @@ void Key_ForceBind_f( const CCommand &args )
 			continue;
 		}
 
-		if ( currentKeyBinding != NULL )
+		if ( currentKeyBinding != nullptr)
 			continue;	// Already bound
 
-		if ( suggestedKeyString == NULL )
+		if ( suggestedKeyString == nullptr)
 			continue;	// Was a key to be unbound
 
 		ButtonCode_t suggestedKeynum = g_pInputSystem->StringToButtonCode( suggestedKeyString );
 
 		const char *suggestedBind = Key_BindingForKey( suggestedKeynum );
-		if ( suggestedKeynum != -1 && (suggestedBind == NULL || *suggestedBind == '\0') )
+		if ( suggestedKeynum != -1 && (suggestedBind == nullptr || *suggestedBind == '\0') )
 		{
 			ConColorMsg( boundColor, "Bound \"%s\" to key %s\n", command, suggestedKeyString );
 			Key_SetBinding(suggestedKeynum, command);
@@ -462,7 +462,7 @@ void Key_ForceBind_f( const CCommand &args )
 			{
 				const char *newString = g_pInputSystem->ButtonCodeToString( (ButtonCode_t)newTry );
 				const char *newTryBind = Key_BindingForKey( (ButtonCode_t)newTry );
-				if ( newTryBind == NULL || *newTryBind == '\0' )	// Never set, or unset.
+				if ( newTryBind == nullptr || *newTryBind == '\0' )	// Never set, or unset.
 				{
 					ConColorMsg( boundColor, "Bound \"%s\" to key %s\n", command, newString );
 					Key_SetBinding( (ButtonCode_t)newTry, command );
@@ -475,7 +475,7 @@ void Key_ForceBind_f( const CCommand &args )
 			}
 		}
 
-		if ( Key_NameForBinding(command) == NULL )
+		if ( Key_NameForBinding(command) == nullptr)
 		{
 			ConColorMsg( unboundColor, "Unable to bind \"%s\" to a key\n", command );
 		}
@@ -613,7 +613,7 @@ static bool IsKeyBoundedToBinding( int i, const char* pBind )
 					return true;
 				}
 
-				pszBinding = strtok( NULL, ";" );
+				pszBinding = strtok(nullptr, ";" );
 			}
 		}
 	}
@@ -640,7 +640,7 @@ const char *Key_NameForBinding( const char *pBinding, int userId, int iStartCoun
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -794,7 +794,7 @@ int Key_CodeForBinding( const char *pBinding, int userId, int iStartCount, Bindi
 const char *Key_BindingForKey( ButtonCode_t code )
 {
 	if ( code < 0 || code > BUTTON_CODE_LAST )
-		return NULL;
+		return nullptr;
 	return s_KeyContext.m_pKeyInfo[ code ].m_pKeyBinding;
 }
 
@@ -875,7 +875,7 @@ void Key_Shutdown( void )
 	for ( int i = 0; i < ARRAYSIZE( s_KeyContext.m_pKeyInfo ); ++i )
 	{
 		delete[] s_KeyContext.m_pKeyInfo[ i ].m_pKeyBinding;
-		s_KeyContext.m_pKeyInfo[ i ].m_pKeyBinding = NULL;
+		s_KeyContext.m_pKeyInfo[ i ].m_pKeyBinding = nullptr;
 	}
 
 	ClearCheatCommands();

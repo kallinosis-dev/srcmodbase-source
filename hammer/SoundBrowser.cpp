@@ -106,7 +106,7 @@ BOOL CSoundBrowser::OnInitDialog()
 		UpdateData( FALSE );
 	}
 
-	SetTimer(1, 500, NULL);
+	SetTimer(1, 500, nullptr);
 
 	return TRUE;
 }
@@ -124,7 +124,7 @@ void CSoundBrowser::OnClose(void)
 void CSoundBrowser::Shutdown()
 {
 	SaveValues();
-	PlaySound( NULL, NULL, SND_FILENAME | SND_NODEFAULT); 
+	PlaySound(nullptr, nullptr, SND_FILENAME | SND_NODEFAULT); 
 
 	// save current filter string
 	int i;
@@ -163,7 +163,7 @@ bool CSoundBrowser::ShowSoundInList( const char *pSoundName )
 {
 	for (int i = 0; i < m_nFilters; i++)
 	{
-		if ( Q_stristr(pSoundName, m_Filters[i]) == NULL )
+		if ( Q_stristr(pSoundName, m_Filters[i]) == nullptr)
 			return false;
 	}
 
@@ -236,10 +236,10 @@ void CSoundBrowser::OnFilterChanged( const char *pFilter )
 	Q_strncpy( m_szFilter, pFilter, 256 );
 	m_nFilters = 0;
 	char *p = strtok(m_szFilter, " ,;");
-	while (p != NULL)
+	while (p != nullptr)
 	{	
 		m_Filters[m_nFilters++] = p;
-		p = strtok(NULL, " ,;");
+		p = strtok(nullptr, " ,;");
 	}
 	PopulateSoundList();	
 }
@@ -254,7 +254,7 @@ void CSoundBrowser::OnTimer(UINT nIDEvent)
 	if (!m_bFilterChanged)
 		return;
 
-	if ((time(NULL) - m_uLastFilterChange) > 0)
+	if ((time(nullptr) - m_uLastFilterChange) > 0)
 	{
 		KillTimer(nIDEvent);
 		m_bFilterChanged = FALSE;
@@ -263,7 +263,7 @@ void CSoundBrowser::OnTimer(UINT nIDEvent)
 		m_cFilter.GetWindowText(str);
 		OnFilterChanged( str );
 
-		SetTimer(nIDEvent, 500, NULL);
+		SetTimer(nIDEvent, 500, nullptr);
 	}
 
 	CDialog::OnTimer(nIDEvent);
@@ -275,7 +275,7 @@ void CSoundBrowser::OnTimer(UINT nIDEvent)
 void CSoundBrowser::OnChangeFilter() 
 {
 	// Start a timer to repaint the texture window using the new filters.
-	m_uLastFilterChange = time(NULL);
+	m_uLastFilterChange = time(nullptr);
 	m_bFilterChanged = true;
 }
 
@@ -285,7 +285,7 @@ void CSoundBrowser::OnChangeFilter()
 //-----------------------------------------------------------------------------
 void CSoundBrowser::OnUpdateFilterNOW() 
 {
-	m_uLastFilterChange = time(NULL);
+	m_uLastFilterChange = time(nullptr);
 	m_bFilterChanged = FALSE;
 
 	CString str;

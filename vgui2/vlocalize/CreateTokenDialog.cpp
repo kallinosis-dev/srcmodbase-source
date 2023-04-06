@@ -19,7 +19,7 @@ using namespace vgui;
 //-----------------------------------------------------------------------------
 // Purpose: Cosntructor
 //-----------------------------------------------------------------------------
-CCreateTokenDialog::CCreateTokenDialog( CLocalizationDialog *pLocalizationDialog ) : Frame(NULL, "CreateTokenDialog"),
+CCreateTokenDialog::CCreateTokenDialog( CLocalizationDialog *pLocalizationDialog ) : Frame(nullptr, "CreateTokenDialog"),
 	m_pLocalizationDialog( m_pLocalizationDialog )
 {
 	Assert( m_pLocalizationDialog );

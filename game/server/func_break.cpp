@@ -41,7 +41,7 @@ extern Vector		g_vecAttackDir;
 
 const char *CBreakable::pSpawnObjects[] =
 {
-	NULL,						// 0
+	nullptr,						// 0
 	"item_battery",				// 1
 	"item_healthkit",			// 2
 	"item_ammo_pistol",			// 3
@@ -72,7 +72,7 @@ const char *CBreakable::pSpawnObjects[] =
 
 const char *pFGDPropData[] =
 {
-	NULL,
+	nullptr,
 	"Wooden.Tiny",
 	"Wooden.Small",
 	"Wooden.Medium",
@@ -318,7 +318,7 @@ const char *CBreakable::MaterialSound( Materials precacheMaterial )
 		break;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -330,7 +330,7 @@ void CBreakable::MaterialSoundRandom( int entindex, Materials soundMaterial, flo
 		return;
 
 	CSoundParameters params;
-	if ( !GetParametersForSound( soundname, params, NULL ) )
+	if ( !GetParametersForSound( soundname, params, nullptr) )
 		return;
 
 	CPASAttenuationFilter filter( CBaseEntity::Instance( entindex ), params.soundlevel );
@@ -441,7 +441,7 @@ void CBreakable::DamageSound( void )
 {
 	int pitch;
 	float fvol;
-	char *soundname = NULL;
+	char *soundname = nullptr;
 	int material = m_Material;
 
 	if (random->RandomInt(0,2))
@@ -492,7 +492,7 @@ void CBreakable::DamageSound( void )
 	if ( soundname )
 	{
 		CSoundParameters params;
-		if ( GetParametersForSound( soundname, params, NULL ) )
+		if ( GetParametersForSound( soundname, params, nullptr) )
 		{
 			CPASAttenuationFilter filter( this );
 
@@ -823,7 +823,7 @@ void CBreakable::ResetOnGroundFlags(void)
 	{
 		for ( int i = 0; i < count; i++ )
 		{
-			pList[i]->SetGroundEntity( (CBaseEntity *)NULL );
+			pList[i]->SetGroundEntity( (CBaseEntity *)nullptr);
 		}
 	}
 
@@ -880,7 +880,7 @@ void CBreakable::Die( void )
 		fvol = 1.0;
 	}
 
-	const char *soundname = NULL;
+	const char *soundname = nullptr;
 
 	switch (m_Material)
 	{
@@ -939,7 +939,7 @@ void CBreakable::Die( void )
 		}
 
 		CSoundParameters params;
-		if ( GetParametersForSound( soundname, params, NULL ) )
+		if ( GetParametersForSound( soundname, params, nullptr) )
 		{
 			CPASAttenuationFilter filter( this );
 
@@ -962,7 +962,7 @@ void CBreakable::Die( void )
 
 	case expUsePrecise:
 		{
-			AngleVectors( m_GibDir, &vecVelocity, NULL, NULL );
+			AngleVectors( m_GibDir, &vecVelocity, nullptr, nullptr);
 			vecVelocity *= 200;
 		}
 		break;
@@ -1124,7 +1124,7 @@ CBasePlayer *CBreakable::HasPhysicsAttacker( float dt )
 	{
 		return m_hPhysicsAttacker;
 	}
-	return NULL;
+	return nullptr;
 }
 
 

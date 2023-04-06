@@ -48,11 +48,11 @@ void VGUI_DestroyClientDLLRootPanel( void )
 	for ( int i = 0 ; i < MAX_SPLITSCREEN_PLAYERS; ++i )
 	{
 		delete g_pCSRootPanel[ i ];
-		g_pCSRootPanel[ i ] = NULL;
+		g_pCSRootPanel[ i ] = nullptr;
 	}
 
 	delete g_pFullscreenRootPanel;
-	g_pFullscreenRootPanel = NULL;
+	g_pFullscreenRootPanel = nullptr;
 }
 
 //-----------------------------------------------------------------------------

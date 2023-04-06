@@ -46,7 +46,7 @@ CBaseActionEditDialog::CBaseActionEditDialog( CDemoEditorPanel *parent, CBaseDem
 
 	for ( int i = 0; i < (int)NUM_TIMING_TYPES; i++ )
 	{
-		m_pStartType->AddItem( CBaseDemoAction::NameForTimingType( (DEMOACTIONTIMINGTYPE)i ), NULL );
+		m_pStartType->AddItem( CBaseDemoAction::NameForTimingType( (DEMOACTIONTIMINGTYPE)i ), nullptr);
 	}
 
 	SetSizeable( false );
@@ -274,7 +274,7 @@ CBaseActionSkipAheadDialog::CBaseActionSkipAheadDialog( CDemoEditorPanel *parent
 	m_pSkipType = new vgui::ComboBox( this, "ActionSkipType", (int)2, false );
 	for ( int i = 1; i < (int)NUM_TIMING_TYPES; i++ )
 	{
-		m_pSkipType->AddItem( CBaseDemoAction::NameForTimingType( (DEMOACTIONTIMINGTYPE)i ), NULL );
+		m_pSkipType->AddItem( CBaseDemoAction::NameForTimingType( (DEMOACTIONTIMINGTYPE)i ), nullptr);
 	}
 }
 
@@ -692,7 +692,7 @@ void CBaseActionTextMessageStartDialog::Init( void )
 	int i;
 	for ( i = 0; i < c ; i++ )
 	{
-		m_pEffectType->AddItem( NameForEffectType( i ), NULL );
+		m_pEffectType->AddItem( NameForEffectType( i ), nullptr);
 	}
 
 	m_pEffectType->SetText( NameForEffectType( tm->effect ) );
@@ -700,7 +700,7 @@ void CBaseActionTextMessageStartDialog::Init( void )
 
 void CBaseActionTextMessageStartDialog::FillInFonts()
 {
-	m_pFontName->AddItem( "TextMessageDefault", NULL );
+	m_pFontName->AddItem( "TextMessageDefault", nullptr);
 
 	KeyValues *schemeFile = new KeyValues( "Fonts" );
 	if ( !schemeFile )
@@ -710,10 +710,10 @@ void CBaseActionTextMessageStartDialog::FillInFonts()
 	{
 		// Iterate fonts
 		for (	KeyValues *kv = schemeFile->FindKey("Fonts", true)->GetFirstSubKey(); 
-				kv != NULL; 
+				kv != nullptr; 
 				kv = kv->GetNextKey() )
 		{
-			m_pFontName->AddItem( kv->GetName(), NULL );
+			m_pFontName->AddItem( kv->GetName(), nullptr);
 		}
 	}
 
@@ -1119,7 +1119,7 @@ CBaseActionWithStopTimeDialog::CBaseActionWithStopTimeDialog( CDemoEditorPanel *
 	m_pStopType = new vgui::ComboBox( this, "ActionStopType", (int)2, false );
 	for ( int i = 1; i < (int)NUM_TIMING_TYPES; i++ )
 	{
-		m_pStopType->AddItem( CBaseDemoAction::NameForTimingType( (DEMOACTIONTIMINGTYPE)i ), NULL );
+		m_pStopType->AddItem( CBaseDemoAction::NameForTimingType( (DEMOACTIONTIMINGTYPE)i ), nullptr);
 	}
 }
 

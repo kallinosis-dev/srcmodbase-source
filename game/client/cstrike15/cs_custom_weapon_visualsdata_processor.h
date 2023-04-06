@@ -106,9 +106,9 @@ public:
 class CCSWeaponVisualsDataProcessor : public CBaseVisualsDataProcessor< CCSWeaponVisualsDataCompare >
 {
 public:
-	CCSWeaponVisualsDataProcessor( CCSWeaponVisualsDataCompare &&compareObject, const WeaponPaintableMaterial_t *pWeaponPaintableMaterialData, const char *pCompositingShaderName = NULL );
+	CCSWeaponVisualsDataProcessor( CCSWeaponVisualsDataCompare &&compareObject, const WeaponPaintableMaterial_t *pWeaponPaintableMaterialData, const char *pCompositingShaderName = nullptr);
 	
-	virtual void SetVisualsData( const char *pCompositingShaderName = NULL );
+	virtual void SetVisualsData( const char *pCompositingShaderName = nullptr);
 	virtual KeyValues* GenerateCustomMaterialKeyValues();
 	virtual KeyValues* GenerateCompositeMaterialKeyValues( int nMaterialParamId );
 	virtual bool HasCustomMaterial() const;

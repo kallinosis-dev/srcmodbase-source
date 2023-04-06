@@ -48,7 +48,7 @@ const int DT_RIGHT = 3;
 #define G15_DEFAULT_MAX_CHAT_HISTORY 4
 
 CLCD gLCD;
-IHudLCD *hudlcd = IsGameConsole() ? NULL : &gLCD;
+IHudLCD *hudlcd = IsGameConsole() ? nullptr : &gLCD;
 
 CON_COMMAND( g15_reload, "Reloads the Logitech G-15 Keyboard configs." )
 {
@@ -139,14 +139,14 @@ void CLCDItemText::Create( IG15 *lcd )
 /// Constructor
 ///-----------------------------------------------------------------------------
 CLCD::CLCD( void )
-	:	m_lcd( NULL ),
+	:	m_lcd(nullptr),
 	m_nCurrentPage( 0 ),
 	m_nSubPage( 0 ),
 	m_bHadPlayer( false ),
 	m_dwNextUpdateTime( 0u ),
 	m_nMaxChatHistory( G15_DEFAULT_MAX_CHAT_HISTORY ),
-	m_pG15Module( 0 ),
-	m_G15Factory( 0 )
+	m_pG15Module( nullptr ),
+	m_G15Factory( nullptr )
 {
 	m_Size[ 0 ] = m_Size[ 1 ] = 0;
 }
@@ -191,7 +191,7 @@ void CLCD::Init( void )
 		return;
 	}
 
-	m_lcd = reinterpret_cast< IG15 * >( m_G15Factory( G15_INTERFACE_VERSION, NULL ) );
+	m_lcd = reinterpret_cast< IG15 * >( m_G15Factory( G15_INTERFACE_VERSION, nullptr) );
 	if ( !m_lcd )
 	{
 		Shutdown();
@@ -265,19 +265,19 @@ void CLCD::Shutdown( void )
 	if ( m_lcd )
 	{
 		m_lcd->Shutdown();
-		m_lcd = NULL;
+		m_lcd = nullptr;
 	}
 
 	m_TextSizes.Purge();
 	m_TextAlignments.Purge();
 	m_GlobalStats.Purge();
 
-	m_G15Factory = 0;
+	m_G15Factory = nullptr;
 	
 	if ( m_pG15Module )
 	{
 		Sys_UnloadModule( m_pG15Module );
-		m_pG15Module = 0;
+		m_pG15Module = nullptr;
 	}
 }
 
@@ -442,7 +442,7 @@ void CLCD::ShowItems_R( CLCDPage *page, unsigned int dwCurTime, CUtlVector< CLCD
 						if ( icon->m_Handle )
 						{
 							m_lcd->RemoveAndDestroyObject( icon->m_Handle );
-							icon->m_Handle = 0;
+							icon->m_Handle = nullptr;
 						}
 						icon->Create( m_lcd );
 					}
@@ -526,7 +526,7 @@ void CLCD::ShowItems_R( CLCDPage *page, unsigned int dwCurTime, CUtlVector< CLCD
 						// Now replace "playerindex" with the index as needed
 						for( int r = 0; r < ag->m_Definition.Count(); ++r )
 						{
-							CLCDItem *newItem = NULL;
+							CLCDItem *newItem = nullptr;
 
 							CLCDItem *item = ag->m_Definition[ r ];
 							switch ( item->m_Type )
@@ -639,7 +639,7 @@ CLCDItemIcon *CLCD::ParseItemIcon( CLCDPage *page, bool bCreateHandles, KeyValue
 	item->y = sub->GetInt( "y", 0 );
 
 	int idx = m_Icons.Find( item->m_IconName.String() );
-	item->m_icon = 0;
+	item->m_icon = nullptr;
 	if ( idx != m_Icons.InvalidIndex() )
 	{
 		item->m_icon = (void *)m_Icons[ idx ].m_handle;
@@ -769,12 +769,12 @@ void CLCD::ParseIconMappings( KeyValues *kv )
 	for ( KeyValues *icon = kv->GetFirstSubKey(); icon; icon = icon->GetNextKey() )
 	{
 		IconInfo_t info;
-		HICON hIcon = 0;
+		HICON hIcon = nullptr;
 		char const *name = icon->GetName();
 		char fullpath[ 512 ];
 		filesystem->RelativePathToFullPath( icon->GetString(), "GAME", fullpath, sizeof( fullpath ) );
 #ifdef WIN32
-		hIcon = (HICON)::LoadImageA( NULL, fullpath, IMAGE_ICON, 32, 32, LR_LOADFROMFILE );
+		hIcon = (HICON)::LoadImageA(nullptr, fullpath, IMAGE_ICON, 32, 32, LR_LOADFROMFILE );
 #else
 		hIcon = 0;
 #endif
@@ -833,7 +833,7 @@ static typedescription_t *FindByName( datamap_t *pMap, char const *fn )
 		pMap = pMap->baseMap;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 static typedescription_t *FindField( datamap_t *pMap, char const *relativePath )
@@ -847,7 +847,7 @@ static typedescription_t *FindField( datamap_t *pMap, char const *relativePath )
 	// Complex case
 
 	Assert( 0 );
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -1166,7 +1166,7 @@ void CLCD::LookupToken( char const *in, CUtlString& value )
 		return;
 	}
 
-	C_BaseEntity *ref = NULL;
+	C_BaseEntity *ref = nullptr;
 
 	char outbuf[ 1024 ];
 	char *o = outbuf;

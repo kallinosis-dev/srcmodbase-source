@@ -53,7 +53,7 @@ public:
 
 	// If this source can be built by another makefile, return the type of makefile
 	// NOTE: This can be a base class of a number of makefile types
-	virtual const char **GetSourceMakefileTypes() { return NULL; }
+	virtual const char **GetSourceMakefileTypes() { return nullptr; }
 
 	// Sets/gets the makefile that was used to build this source
 	// NOTE: This information isn't saved and must be reconstructed each frame
@@ -126,8 +126,8 @@ public:
 	int GetSourceCount();
 	CDmeSource *GetSource( int nIndex );
 
-	virtual DmeMakefileType_t *GetMakefileType() { return NULL; }
-	virtual DmeMakefileType_t* GetSourceTypes() { Assert(0); return NULL; }
+	virtual DmeMakefileType_t *GetMakefileType() { return nullptr; }
+	virtual DmeMakefileType_t* GetSourceTypes() { Assert(0); return nullptr; }
 
 	// FIXME: Should we have output types? Not sure...
 	virtual void GetOutputs( CUtlVector<CUtlString> &fullPaths ) { Assert(0); }
@@ -159,9 +159,9 @@ protected:
 
 private:
 	// Inherited classes should re-implement these methods
-	virtual CDmElement *CreateOutputElement( ) { return NULL; }
+	virtual CDmElement *CreateOutputElement( ) { return nullptr; }
 	virtual void DestroyOutputElement( CDmElement *pOutput ) { }
-	virtual IProcess* PerformCompilation() { Assert(0); return NULL; }
+	virtual IProcess* PerformCompilation() { Assert(0); return nullptr; }
 	virtual const char *GetOutputDirectoryID() { return "makefilegamedir:"; }
 
 private:

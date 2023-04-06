@@ -253,7 +253,7 @@ CUtlSymbolTable g_ForcedTextureShadowsModels;
 
 // DON'T USE THIS FROM WITHIN A THREAD.  THERE IS A THREAD CONTEXT CREATED 
 // INSIDE PropTested_t.  USE THAT INSTEAD.
-IPhysicsCollision *s_pPhysCollision = NULL;
+IPhysicsCollision *s_pPhysCollision = nullptr;
 
 //-----------------------------------------------------------------------------
 // Vrad's static prop manager
@@ -406,7 +406,7 @@ static bool LoadFile( char const* pFileName, CUtlBuffer& buf )
 	if ( !g_pFullFileSystem )
 		return false;
 
-	return g_pFullFileSystem->ReadFile( pFileName, NULL, buf );
+	return g_pFullFileSystem->ReadFile( pFileName, nullptr, buf );
 }
 
 
@@ -511,8 +511,8 @@ bool LoadStudioModel( char const* pModelName, CUtlBuffer& buf )
 	}
 
 	// ensure reset
-	pHdr->SetVertexBase( NULL );
-	pHdr->SetIndexBase( NULL );
+	pHdr->SetVertexBase(nullptr);
+	pHdr->SetIndexBase(nullptr);
 
 	return true;
 }
@@ -671,10 +671,10 @@ public:
 
 		CUtlBuffer buf;
 		if ( !LoadFileIntoBuffer( buf, szPath ) )
-			return NULL;
+			return nullptr;
 		IVTFTexture *pTex = CreateVTFTexture();
 		if (!pTex->Unserialize( buf ))
-			return NULL;
+			return nullptr;
 		Msg("Loaded alpha texture %s\n", szPath );
 		unsigned char *pSrcImage = pTex->ImageData( 0, 0, 0, 0, 0, 0 );
 		int iWidth = pTex->Width();
@@ -689,7 +689,7 @@ public:
 			pDstImage, dstFormat, iWidth, iHeight, 0, 0 ) )
 		{
 			delete[] pDstImage;
-			return NULL;
+			return nullptr;
 		}
 
 		*pWidth = iWidth;
@@ -1088,7 +1088,7 @@ Vector ReadReflectivityFromVTF( const char *pName )
 	int nHeaderSize = VTFFileHeaderSize();
 	unsigned char *pMem = (unsigned char *)stackalloc( nHeaderSize );
 	CUtlBuffer buf( pMem, nHeaderSize );
-	if ( g_pFullFileSystem->ReadFile( szPath, NULL, buf, nHeaderSize ) )
+	if ( g_pFullFileSystem->ReadFile( szPath, nullptr, buf, nHeaderSize ) )
 	{
 		IVTFTexture *pTex = CreateVTFTexture();
 		if ( pTex->Unserialize( buf, true ) )
@@ -1185,8 +1185,8 @@ void CVradStaticPropMgr::CreateCollisionModel( char const* pModelName )
 	CUtlBuffer bufphy;
 
 	int i = m_StaticPropDict.AddToTail();
-	m_StaticPropDict[i].m_pModel = NULL;
-	m_StaticPropDict[i].m_pStudioHdr = NULL;
+	m_StaticPropDict[i].m_pModel = nullptr;
+	m_StaticPropDict[i].m_pStudioHdr = nullptr;
 
 	if ( !LoadStudioModel( pModelName, buf ) )
 	{
@@ -1420,7 +1420,7 @@ void CVradStaticPropMgr::Init()
 	if ( !physicsFactory )
 		Error( "Unable to load vphysics DLL." );
 		
-	s_pPhysCollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, NULL );
+	s_pPhysCollision = (IPhysicsCollision *)physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, nullptr);
 	if( !s_pPhysCollision )
 	{
 		Error( "Unable to get '%s' for physics interface.", VPHYSICS_COLLISION_INTERFACE_VERSION );
@@ -1507,7 +1507,7 @@ void ComputeDirectLightingAtPoint( Vector &position, Vector *normals, Vector *ou
 
 	// Iterate over all direct lights and accumulate their contribution
 	int cluster = ClusterFromPoint( position );
-	for ( directlight_t *dl = activelights; dl != NULL; dl = dl->next )
+	for ( directlight_t *dl = activelights; dl != nullptr; dl = dl->next )
 	{
 		if ( dl->light.style )
 		{
@@ -1598,7 +1598,7 @@ void ComputeSunAmountAtPoint( Vector &position, Vector *normals, float *outSunAm
 
 	// Iterate over all direct lights and accumulate their contribution
 	int cluster = ClusterFromPoint( position );
-	for ( directlight_t *dl = activelights; dl != NULL; dl = dl->next )
+	for ( directlight_t *dl = activelights; dl != nullptr; dl = dl->next )
 	{
 		if ( dl->light.style )
 		{
@@ -1801,7 +1801,7 @@ void CVradStaticPropMgr::ComputeLighting( CStaticProp &prop, int iThread, int pr
 					if( numSampleNormals > 1 )
 					{
 						Vector *bumpVects = &sampleNormals[1];
-						Vector4D *vecTangentS = vertData->HasTangentData() ? vertData->TangentS( vertexID ) : NULL;
+						Vector4D *vecTangentS = vertData->HasTangentData() ? vertData->TangentS( vertexID ) : nullptr;
 
 						if ( vecTangentS && bCanUseTangents )
 						{

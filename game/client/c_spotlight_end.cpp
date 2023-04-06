@@ -50,7 +50,7 @@ private:
 // Input   :
 // Output  :
 //------------------------------------------------------------------------------
-C_SpotlightEnd::C_SpotlightEnd(void) : /*m_pModelLight(0), */m_pDynamicLight(0)
+C_SpotlightEnd::C_SpotlightEnd(void) : /*m_pModelLight(0), */m_pDynamicLight(nullptr)
 {
 	m_flLightScale	= 100;
 }

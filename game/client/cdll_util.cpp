@@ -560,7 +560,7 @@ bool GetVectorInScreenSpace( Vector pos, int& iX, int& iY, Vector *vecOffset )
 	Vector screen;
 
 	// Apply the offset, if one was specified
-	if ( vecOffset != NULL )
+	if ( vecOffset != nullptr)
 		pos += *vecOffset;
 
 	// Transform to screen space
@@ -670,7 +670,7 @@ CBaseEntity *CEntitySphereQuery::GetCurrentEntity()
 {
 	if ( m_listIndex < m_listCount )
 		return m_pList[m_listIndex];
-	return NULL;
+	return nullptr;
 }
 
 //-----------------------------------------------------------------------------
@@ -816,7 +816,7 @@ void UTIL_ReplaceKeyBindings( const wchar_t *inbuf, int inbufsizebytes, wchar_t 
 	// copy to a new buf if there are vars
 	outbuf[0]=0;
 	int pos = 0;
-	const wchar_t *inbufend = NULL;
+	const wchar_t *inbufend = nullptr;
 	if ( inbufsizebytes > 0 )
 	{
 		inbufend = inbuf + ( inbufsizebytes / 2 );
@@ -954,7 +954,7 @@ byte *UTIL_LoadFileForMe( const char *filename, int *pLength )
 	if ( FILESYSTEM_INVALID_HANDLE == file )
 	{
 		if ( pLength ) *pLength = 0;
-		return NULL;
+		return nullptr;
 	}
 
 	int size = filesystem->Size( file );
@@ -963,7 +963,7 @@ byte *UTIL_LoadFileForMe( const char *filename, int *pLength )
 	{
 		Warning( "UTIL_LoadFileForMe:  Couldn't allocate buffer of size %i for file %s\n", size + 1, filename );
 		filesystem->Close( file );
-		return NULL;
+		return nullptr;
 	}
 	filesystem->Read( buffer, size, file );
 	filesystem->Close( file );
@@ -1138,14 +1138,14 @@ C_BasePlayer* UTIL_PlayerByUserId( int userID )
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 C_BaseEntity* UTIL_EntityFromUserMessageEHandle( long nEncodedEHandle )
 {
 	int nEntity, nSerialNum;
 	if( nEncodedEHandle == INVALID_NETWORKED_EHANDLE_VALUE )
-		return NULL;
+		return nullptr;
 
 	nEntity = nEncodedEHandle & ((1 << MAX_EDICT_BITS) - 1);
 	nSerialNum = nEncodedEHandle >> MAX_EDICT_BITS;

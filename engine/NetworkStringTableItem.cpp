@@ -15,13 +15,13 @@
 //-----------------------------------------------------------------------------
 CNetworkStringTableItem::CNetworkStringTableItem( void )
 {
-	m_pUserData = NULL;
+	m_pUserData = nullptr;
 	m_nUserDataLength = 0;
 	m_nTickChanged = 0;
 
 #ifndef SHARED_NET_STRING_TABLES
 	m_nTickCreated = 0;
-	m_pChangeList = NULL;
+	m_pChangeList = nullptr;
 #endif
 }
 
@@ -45,7 +45,7 @@ CNetworkStringTableItem::~CNetworkStringTableItem( void )
 
 		delete m_pChangeList; // destructor calls Purge()
 
-		m_pUserData = NULL;
+		m_pUserData = nullptr;
 	}
 #endif
 		
@@ -115,7 +115,7 @@ void CNetworkStringTableItem::UpdateChangeList( int tick, int length, const void
 	}
 	else
 	{
-		item.data = NULL;
+		item.data = nullptr;
 		item.length = 0;
 	}
 
@@ -146,7 +146,7 @@ int CNetworkStringTableItem::RestoreTick( int tick )
 	if ( item->tick > tick )
 	{
 		// this string was created after tick, so ignore it right now
-		m_pUserData = NULL;
+		m_pUserData = nullptr;
 		m_nUserDataLength = 0;
 		m_nTickChanged = 0;
 	}
@@ -204,7 +204,7 @@ bool CNetworkStringTableItem::SetUserData( int tick, int length, const void *use
 	}
 	else
 	{
-		m_pUserData = NULL; 
+		m_pUserData = nullptr; 
 	}
 
 	m_nTickChanged = tick;

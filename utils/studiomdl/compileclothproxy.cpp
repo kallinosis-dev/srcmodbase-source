@@ -6,7 +6,7 @@
 
 
 const char *g_pDefaultClothRootBoneName = "$cloth_root";
-CClothProxyCompiler *g_pClothProxyCompiler = NULL;
+CClothProxyCompiler *g_pClothProxyCompiler = nullptr;
 
 CClothProxyCompiler::CClothProxyCompiler( CAuthPhysFx *pAuthFx )
 	: m_pAuthFx( pAuthFx )
@@ -423,7 +423,7 @@ int CClothProxyCompiler::GetOrCreateClothRootBone()
 CAuthPhysFx::CBone *CClothProxyCompiler::CMeshContext::GetClothBone( int nDmePos )
 {
 	int nFxBone = m_DmePosToFxBone[ nDmePos ];
-	return nFxBone < 0 ? NULL : &m_pAuthFx->m_Nodes[ nFxBone ];
+	return nFxBone < 0 ? nullptr : &m_pAuthFx->m_Nodes[ nFxBone ];
 }
 
 
@@ -900,7 +900,7 @@ CClothProxyCompiler::CMeshContext::CMeshContext( CClothProxyCompiler *pCompiler,
 	m_pDmeMesh = pMesh;
 	m_MeshTransform = tm;
 	m_pCompiler = pCompiler;
-	m_pAuthFx = pCompiler ? pCompiler->m_pAuthFx : NULL;
+	m_pAuthFx = pCompiler ? pCompiler->m_pAuthFx : nullptr;
 	m_pBindState = pMesh->GetBindBaseState();
 	m_pBindState->Resolve(); // not sure what this does, but Get...Data functions seem to do this
 	m_AttrPos.Init( m_pBindState, CDmeVertexData::FIELD_POSITION );

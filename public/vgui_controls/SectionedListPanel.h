@@ -39,8 +39,8 @@ public:
 	~SectionedListPanel();
 
 	// adds a new section; returns false if section already exists
-	virtual void AddSection(int sectionID, const char *name, SectionSortFunc_t sortFunc = NULL);
-	virtual void AddSection(int sectionID, const wchar_t *name, SectionSortFunc_t sortFunc = NULL);
+	virtual void AddSection(int sectionID, const char *name, SectionSortFunc_t sortFunc = nullptr);
+	virtual void AddSection(int sectionID, const wchar_t *name, SectionSortFunc_t sortFunc = nullptr);
 
 	// clears all the sections - leaves the items in place
 	virtual void RemoveAllSections();

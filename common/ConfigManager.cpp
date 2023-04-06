@@ -163,10 +163,10 @@ defaultConfigInfo_t Portal2Info =
 //-----------------------------------------------------------------------------
 // Constructor
 //-----------------------------------------------------------------------------
-CGameConfigManager::CGameConfigManager( void ) : m_pData( NULL ), m_LoadStatus( LOADSTATUS_NONE )
+CGameConfigManager::CGameConfigManager( void ) : m_pData(nullptr), m_LoadStatus( LOADSTATUS_NONE )
 {
 	// Start with default directory
-	GetModuleFileName( ( HINSTANCE )GetModuleHandle( NULL ), m_szBaseDirectory, sizeof( m_szBaseDirectory ) );
+	GetModuleFileName( ( HINSTANCE )GetModuleHandle(nullptr), m_szBaseDirectory, sizeof( m_szBaseDirectory ) );
 	Q_StripLastDir( m_szBaseDirectory, sizeof( m_szBaseDirectory ) );	// Get rid of the filename.
 	Q_StripTrailingSlash( m_szBaseDirectory );
 	m_eSDKEpoch = (eSDKEpochs) SDK_LAUNCHER_VERSION;
@@ -178,7 +178,7 @@ CGameConfigManager::CGameConfigManager( void ) : m_pData( NULL ), m_LoadStatus( 
 CGameConfigManager::~CGameConfigManager( void )
 {
 	// Release the keyvalues
-	if ( m_pData != NULL )
+	if ( m_pData != nullptr)
 	{
 		m_pData->deleteThis();
 	}
@@ -274,7 +274,7 @@ bool CGameConfigManager::LoadConfigsInternal( const char *baseDir, bool bRecursi
 	m_pData->Clear();
 
 	// Build our default directory
-	if ( baseDir != NULL && baseDir[0] != NULL )
+	if ( baseDir != nullptr && baseDir[0] != NULL )
 	{
 		SetBaseDirectory( baseDir );
 	}
@@ -288,7 +288,7 @@ bool CGameConfigManager::LoadConfigsInternal( const char *baseDir, bool bRecursi
 	CUtlBuffer buffer( 0, 0, CUtlBuffer::TEXT_BUFFER );
 	if ( ReadUtlBufferFromFile( buffer, szPath ) )
 	{
-		bLoaded = m_pData->LoadFromBuffer( szPath, buffer, NULL, NULL );
+		bLoaded = m_pData->LoadFromBuffer( szPath, buffer, nullptr, nullptr);
 	}
 
 	if ( !bLoaded )
@@ -338,14 +338,14 @@ void CGameConfigManager::UpdateConfigsInternal( void )
 	}
 
 	KeyValues *pDefaultBlock = new KeyValues( "DefaultConfigs" );
-	if ( pDefaultBlock != NULL )
+	if ( pDefaultBlock != nullptr)
 	{
 		// Compile our default configurations
 		GetDefaultGameBlock( pDefaultBlock );
 
 		// Compare our default block to our current configs
 		KeyValues *pNextSubKey = pDefaultBlock->GetFirstTrueSubKey();
-		while ( pNextSubKey != NULL )
+		while ( pNextSubKey != nullptr)
 		{
 			// If we already have the name, we don't care about it
 			if ( pGameBlock->FindKey( pNextSubKey->GetName() ) )
@@ -508,7 +508,7 @@ bool CGameConfigManager::AddDefaultConfig( const defaultConfigInfo_t &info, KeyV
 	// Create the Hammer portion of this block
 	KeyValues *hammerBlock = newConfig->FindKey( "Hammer" );
 
-	if ( hammerBlock == NULL )
+	if ( hammerBlock == nullptr)
 		return false;
 
 	hammerBlock->SetString( "GameExeDir", gameExeDir );
@@ -549,9 +549,9 @@ bool CGameConfigManager::AddDefaultConfig( const defaultConfigInfo_t &info, KeyV
 	KeyValues *insertSpot = out->GetFirstTrueSubKey();
 	
 	// detach the autodelete pointer
-	autodelete_key.Assign(NULL);
+	autodelete_key.Assign(nullptr);
 	// Set this as the sub key if there's nothing already there
-	if ( insertSpot == NULL )
+	if ( insertSpot == nullptr)
 	{
 		out->AddSubKey( newConfig );
 	}
@@ -783,7 +783,7 @@ bool CGameConfigManager::SaveConfigs( const char *baseDir )
 		return false;
 
 	// Build our default directory
-	if ( baseDir != NULL && baseDir[0] != NULL )
+	if ( baseDir != nullptr && baseDir[0] != NULL )
 	{
 		SetBaseDirectory( baseDir );
 	}
@@ -839,7 +839,7 @@ const char *CGameConfigManager::GetRootDirectory( void )
 KeyValues *CGameConfigManager::GetGameBlock( void )
 {
 	if ( !IsLoaded() )
-		return NULL;
+		return nullptr;
 
 	return ( m_pData->FindKey( TOKEN_GAMES ) );
 }
@@ -851,11 +851,11 @@ KeyValues *CGameConfigManager::GetGameBlock( void )
 KeyValues *CGameConfigManager::GetGameSubBlock( const char *keyName )
 {
 	if ( !IsLoaded() )
-		return NULL;
+		return nullptr;
 
 	KeyValues *pGameBlock = GetGameBlock();
-	if ( pGameBlock == NULL )
-		return NULL;
+	if ( pGameBlock == nullptr)
+		return nullptr;
 
 	// Return the data
 	KeyValues *pSubBlock = pGameBlock->FindKey( keyName );
@@ -884,7 +884,7 @@ const char *CGameConfigManager::GetIniFilePath( void )
 bool CGameConfigManager::ResetConfigs( const char *baseDir /*= NULL*/ )
 {
 	// Build our default directory
-	if ( baseDir != NULL && baseDir[0] != NULL )
+	if ( baseDir != nullptr && baseDir[0] != NULL )
 	{
 		SetBaseDirectory( baseDir );
 	}
@@ -911,7 +911,7 @@ bool CGameConfigManager::ResetConfigs( const char *baseDir /*= NULL*/ )
 void CGameConfigManager::SetBaseDirectory( const char *pDirectory )
 {
 	// Clear it
-	if ( pDirectory == NULL || pDirectory[0] == '\0' )
+	if ( pDirectory == nullptr || pDirectory[0] == '\0' )
 	{
 		m_szBaseDirectory[0] = '\0';
 		return;
@@ -960,7 +960,7 @@ bool CGameConfigManager::GetDefaultGameBlock( KeyValues *pIn )
 		defaultConfigs.AddToTail( CStrike15Info );
 	}
 
-	if ( pIn == NULL )
+	if ( pIn == nullptr)
 		return false;
 
 	char szPath[MAX_PATH];

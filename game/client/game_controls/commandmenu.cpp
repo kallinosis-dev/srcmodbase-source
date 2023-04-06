@@ -28,7 +28,7 @@ CommandMenu::CommandMenu( Panel *parent, const char *panelName, IViewPort * view
 	SetVisible( false );
 	m_CurrentMenu = this;
 
-	m_MenuKeys = NULL;
+	m_MenuKeys = nullptr;
 }
 
 bool CommandMenu::LoadFromFile( const char * fileName)	// load menu from KeyValues
@@ -166,7 +166,7 @@ void CommandMenu::ClearMenu()
 	if ( m_MenuKeys )
 	{
 		m_MenuKeys->deleteThis();
-		m_MenuKeys = NULL;
+		m_MenuKeys = nullptr;
 	}
 
 }
@@ -299,7 +299,7 @@ bool CommandMenu::LoadFromKeyValues( KeyValues * params )
 bool CommandMenu::LoadFromKeyValuesInternal(KeyValues * key, int depth)
 {
 	char text[255];
-	KeyValues * subkey = NULL;
+	KeyValues * subkey = nullptr;
 
 	if ( depth > 100 )
 	{

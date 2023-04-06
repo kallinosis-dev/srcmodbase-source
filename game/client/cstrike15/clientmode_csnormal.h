@@ -121,9 +121,9 @@ public:
 	void			SetupStaticCameras( void );
 	bool			GetIdealCameraPosForPlayer( int playerindex );
 
-	void			LoadPostProcessParamsFromFile( const char* pFileName = NULL );
+	void			LoadPostProcessParamsFromFile( const char* pFileName = nullptr);
 	void			UpdatePostProcessingEffects();
-	void			PostProcessLerpTo( PostProcessEffect_t effectID, float fFadeDuration = 0.75f, const PostProcessParameters_t* pTargetParams = NULL );
+	void			PostProcessLerpTo( PostProcessEffect_t effectID, float fFadeDuration = 0.75f, const PostProcessParameters_t* pTargetParams = nullptr);
 	void			PostProcessLerpTo( PostProcessEffect_t effectID, const C_PostProcessController* pPPController );
 	void			DoPostProcessParamLerp();
 	void			LerpPostProcessParam(	float fAmount, PostProcessParameters_t& result, const PostProcessParameters_t& from,

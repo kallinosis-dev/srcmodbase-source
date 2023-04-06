@@ -27,8 +27,8 @@ void UpdatePopupMenuState();
 
 const char *g_pIconTooltip = VMPI_SERVICE_NAME;
 
-IConsoleWnd *g_pConsoleWnd = NULL;
-HINSTANCE g_hInstance = NULL;
+IConsoleWnd *g_pConsoleWnd = nullptr;
+HINSTANCE g_hInstance = nullptr;
 
 
 #define MYWM_NOTIFYICON		(WM_APP+100)
@@ -39,7 +39,7 @@ bool g_bHighlightIconWhenBusy = false;
 
 // STATE THE SERVICE OWNS.
 int g_iCurState = 0; // One of the VMPI_SERVICE_STATE_ defines.
-char *g_pPassword = NULL;
+char *g_pPassword = nullptr;
 bool g_bScreensaverMode = false;
 
 
@@ -66,7 +66,7 @@ char* GetLastErrorString()
 	static char err[2048];
 	
 	LPVOID lpMsgBuf;
-	FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR) &lpMsgBuf, 0, NULL );
+	FormatMessage( FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, nullptr, GetLastError(), MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR) &lpMsgBuf, 0, nullptr);
 	strncpy( err, (char*)lpMsgBuf, sizeof( err ) );
 	LocalFree( lpMsgBuf );
 
@@ -80,7 +80,7 @@ char* GetLastErrorString()
 // ------------------------------------------------------------------------------------------ //
 void LoadStateFromRegistry()
 {
-	HKEY hKey = NULL;
+	HKEY hKey = nullptr;
 	RegCreateKey( HKEY_LOCAL_MACHINE, VMPI_SERVICE_KEY, &hKey );
 	if ( hKey )
 	{
@@ -90,7 +90,7 @@ void LoadStateFromRegistry()
 		if ( RegQueryValueEx( 
 			hKey,
 			"HighlightIconWhenBusy",
-			0,
+			nullptr,
 			&type,
 			(unsigned char*)&val,
 			&size ) == ERROR_SUCCESS && 
@@ -104,7 +104,7 @@ void LoadStateFromRegistry()
 
 void SaveStateToRegistry()
 {
-	HKEY hKey = NULL;
+	HKEY hKey = nullptr;
 	RegCreateKey( HKEY_LOCAL_MACHINE, VMPI_SERVICE_KEY, &hKey );
 	if ( hKey )
 	{
@@ -209,7 +209,7 @@ void CUIConnMgr::HandlePacket( const char *pData, int len )
 		
 		PROCESS_INFORMATION pi;
 		memset( &pi, 0, sizeof( pi ) );
-		if ( CreateProcess( NULL, commandLine, NULL, NULL, false, CREATE_NO_WINDOW, NULL, workingDir, &si, &pi ) )
+		if ( CreateProcess(nullptr, commandLine, nullptr, nullptr, false, CREATE_NO_WINDOW, nullptr, workingDir, &si, &pi ) )
 		{
 			LogString( "CreateProcess succeeded:\n%s\n", commandLine );
 
@@ -295,8 +295,8 @@ void InitConsoleWindow()
 // Implementation of IShellIconMgrHelper.
 // ------------------------------------------------------------------------------------------ //
 
-HMENU g_hMenu = NULL;
-HMENU g_hPopupMenu = NULL;	// This is just a submenu of g_hMenu.
+HMENU g_hMenu = nullptr;
+HMENU g_hPopupMenu = nullptr;	// This is just a submenu of g_hMenu.
 
 
 bool LoadPopupMenu()
@@ -319,9 +319,9 @@ void TermPopupMenu()
 	if ( g_hMenu )
 	{
 		DestroyMenu( g_hMenu );
-		g_hMenu = NULL;
+		g_hMenu = nullptr;
 	}
-	g_hPopupMenu = NULL;
+	g_hPopupMenu = nullptr;
 }
 
 
@@ -422,7 +422,7 @@ public:
 
 					// Make a popup menu.
 					SetForegroundWindow( hWnd );
-					TrackPopupMenu( g_hPopupMenu, TPM_RIGHTALIGN | TPM_BOTTOMALIGN, cursorPos.x, cursorPos.y, 0, hWnd, NULL );
+					TrackPopupMenu( g_hPopupMenu, TPM_RIGHTALIGN | TPM_BOTTOMALIGN, cursorPos.x, cursorPos.y, 0, hWnd, nullptr);
 					return 0;
 				}
 				else if ( lParam == WM_LBUTTONDOWN )
@@ -547,7 +547,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	LogString( "vmpi_service_ui startup.\n" );
 
 	// Don't run multiple instances.	
-	HANDLE hMutex = CreateMutex( NULL, FALSE, "vmpi_service_ui_mutex" );
+	HANDLE hMutex = CreateMutex(nullptr, FALSE, "vmpi_service_ui_mutex" );
 	if ( hMutex && GetLastError() == ERROR_ALREADY_EXISTS )
 		return 1;
 
@@ -584,7 +584,7 @@ int APIENTRY WinMain(HINSTANCE hInstance,
 	{
 		MSG msg;
 		msg.message = !WM_QUIT;	// So it doesn't accidentally exit.
-		while ( PeekMessage( &msg, NULL, 0, 0, PM_REMOVE ) )
+		while ( PeekMessage( &msg, nullptr, 0, 0, PM_REMOVE ) )
 		{
 			if ( msg.message == WM_QUIT )
 				break;

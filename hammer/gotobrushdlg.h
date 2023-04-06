@@ -15,7 +15,7 @@ class CGotoBrushDlg : public CDialog
 {
 // Construction
 public:
-	CGotoBrushDlg(CWnd* pParent = NULL);   // standard constructor
+	CGotoBrushDlg(CWnd* pParent = nullptr);   // standard constructor
 
 // Dialog Data
 	//{{AFX_DATA(CGotoBrushDlg)

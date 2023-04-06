@@ -64,18 +64,18 @@ CStudioRender::CStudioRender()
  :	m_ModelFaceCountHash( 1024, 0, 0, ModelFaceCountHashCompareFunc, ModelFaceCountHashKeyFunc )
 #endif
 {
-	m_pRC = NULL;
-	m_pBoneToWorld = NULL;
-	m_pFlexWeights = NULL;
-	m_pFlexDelayedWeights = NULL;
-	m_pStudioHdr = NULL;
-	m_pStudioMeshes = NULL;
-	m_pSubModel = NULL;
-	m_pStudioHWData = NULL;
-	m_pGlintTexture = NULL;
+	m_pRC = nullptr;
+	m_pBoneToWorld = nullptr;
+	m_pFlexWeights = nullptr;
+	m_pFlexDelayedWeights = nullptr;
+	m_pStudioHdr = nullptr;
+	m_pStudioMeshes = nullptr;
+	m_pSubModel = nullptr;
+	m_pStudioHWData = nullptr;
+	m_pGlintTexture = nullptr;
 	m_GlintWidth = 0;
 	m_GlintHeight = 0;
-	m_pCurrentFlashlight = 0;
+	m_pCurrentFlashlight = nullptr;
 
 	// Cache-align our important matrices
 	g_pMemAlloc->PushAllocDbgInfo( __FILE__, __LINE__ );
@@ -300,7 +300,7 @@ void CStudioRender::ShutdownDebugMaterials( void )
 			if ( m_pMaterialWireframe[i][j] )
 			{
 				m_pMaterialWireframe[i][j]->DecrementReferenceCount();
-				m_pMaterialWireframe[i][j] = NULL;
+				m_pMaterialWireframe[i][j] = nullptr;
 			}
 		}
 	}
@@ -308,49 +308,49 @@ void CStudioRender::ShutdownDebugMaterials( void )
 	if ( m_pMaterialMRMNormals )
 	{
 		m_pMaterialMRMNormals->DecrementReferenceCount();
-		m_pMaterialMRMNormals = NULL;
+		m_pMaterialMRMNormals = nullptr;
 	}
 
 	if ( m_pMaterialTangentFrame )
 	{
 		m_pMaterialTangentFrame->DecrementReferenceCount();
-		m_pMaterialTangentFrame = NULL;
+		m_pMaterialTangentFrame = nullptr;
 	}
 
 	if ( m_pMaterialTranslucentModelHulls )
 	{
 		m_pMaterialTranslucentModelHulls->DecrementReferenceCount();
-		m_pMaterialTranslucentModelHulls = NULL;
+		m_pMaterialTranslucentModelHulls = nullptr;
 	}
 	
 	if ( m_pMaterialSolidModelHulls )
 	{
 		m_pMaterialSolidModelHulls->DecrementReferenceCount();
-		m_pMaterialSolidModelHulls = NULL;
+		m_pMaterialSolidModelHulls = nullptr;
 	}
 	
 	if ( m_pMaterialAdditiveVertexColorVertexAlpha )
 	{
 		m_pMaterialAdditiveVertexColorVertexAlpha->DecrementReferenceCount();
-		m_pMaterialAdditiveVertexColorVertexAlpha = NULL;
+		m_pMaterialAdditiveVertexColorVertexAlpha = nullptr;
 	}
 	
 	if ( m_pMaterialModelBones )
 	{
 		m_pMaterialModelBones->DecrementReferenceCount();
-		m_pMaterialModelBones = NULL;
+		m_pMaterialModelBones = nullptr;
 	}
 	
 	if ( m_pMaterialModelEnvCubemap )
 	{
 		m_pMaterialModelEnvCubemap->DecrementReferenceCount();
-		m_pMaterialModelEnvCubemap = NULL;
+		m_pMaterialModelEnvCubemap = nullptr;
 	}
 
 	if ( m_pMaterialWorldWireframe )
 	{
 		m_pMaterialWorldWireframe->DecrementReferenceCount();
-		m_pMaterialWorldWireframe = NULL;
+		m_pMaterialWorldWireframe = nullptr;
 	}
 
 	// DepthWrite materials
@@ -371,13 +371,13 @@ void CStudioRender::ShutdownDebugMaterials( void )
 	if ( m_pGlintBuildMaterial )
 	{
 		m_pGlintBuildMaterial->DecrementReferenceCount();
-		m_pGlintBuildMaterial = NULL;
+		m_pGlintBuildMaterial = nullptr;
 	}
 
 	if ( m_pMaterialSolidBackfacePrepass )
 	{
 		m_pMaterialSolidBackfacePrepass->DecrementReferenceCount();
-		m_pMaterialSolidBackfacePrepass = NULL;
+		m_pMaterialSolidBackfacePrepass = nullptr;
 	}
 }
 
@@ -623,7 +623,7 @@ void CStudioRender::DrawModel( const DrawModelInfo_t& info, const StudioRenderCo
 	// This code assumes the model has been rendered!
 	// So skip if the model hasn't been rendered
 	// Also, skip if we're rendering to the shadow depth map
-	if ( ( m_pStudioMeshes != 0 ) && !( flags &  ( STUDIORENDER_SHADOWDEPTHTEXTURE | STUDIORENDER_SSAODEPTHTEXTURE ) ) )
+	if ( ( m_pStudioMeshes != nullptr ) && !( flags &  ( STUDIORENDER_SHADOWDEPTHTEXTURE | STUDIORENDER_SSAODEPTHTEXTURE ) ) )
 	{
 		// Draw shadows
 		if ( !( flags & STUDIORENDER_DRAW_NO_SHADOWS ) )
@@ -656,13 +656,13 @@ void CStudioRender::DrawModel( const DrawModelInfo_t& info, const StudioRenderCo
 #endif
 
 	pRenderContext->SetNumBoneWeights( 0 );
-	m_pRC = NULL;
-	m_pBoneToWorld = NULL;
-	m_pFlexWeights = NULL;
-	m_pFlexDelayedWeights = NULL;
-	m_pStudioHdr = NULL;
-	m_pStudioMeshes = NULL;
-	m_pStudioHWData = NULL;
+	m_pRC = nullptr;
+	m_pBoneToWorld = nullptr;
+	m_pFlexWeights = nullptr;
+	m_pFlexDelayedWeights = nullptr;
+	m_pStudioHdr = nullptr;
+	m_pStudioMeshes = nullptr;
+	m_pStudioHWData = nullptr;
 }
 
 void CStudioRender::DrawModelStaticProp( const DrawModelInfo_t& info, 
@@ -725,11 +725,11 @@ void CStudioRender::DrawModelStaticProp( const DrawModelInfo_t& info,
 	m_pRC->m_Config.bWireframe = bWireframe;
 
 	pRenderContext->SetNumBoneWeights( 0 );
-	m_pBoneToWorld = NULL;
-	m_pRC = NULL;
-	m_pStudioHdr = NULL;
-	m_pStudioMeshes = NULL;
-	m_pStudioHWData = NULL;
+	m_pBoneToWorld = nullptr;
+	m_pRC = nullptr;
+	m_pStudioHdr = nullptr;
+	m_pStudioMeshes = nullptr;
+	m_pStudioHWData = nullptr;
 }
 
 
@@ -879,8 +879,8 @@ inline bool CStudioRender::SortLessFunc( const MeshRenderData_t &left, const Mes
 		return left.m_pGroup->m_pMesh > right.m_pGroup->m_pMesh;
 	if ( left.m_pInstance->m_pEnvCubemapTexture != right.m_pInstance->m_pEnvCubemapTexture )
 		return left.m_pInstance->m_pEnvCubemapTexture > right.m_pInstance->m_pEnvCubemapTexture;
-	bool bLeftHasLighting = ( left.m_pInstance->m_pLightingState != NULL );
-	bool bRightHasLighting = ( right.m_pInstance->m_pLightingState != NULL );
+	bool bLeftHasLighting = ( left.m_pInstance->m_pLightingState != nullptr);
+	bool bRightHasLighting = ( right.m_pInstance->m_pLightingState != nullptr);
 	if ( bLeftHasLighting != bRightHasLighting )
 		return bLeftHasLighting;
 	if ( !bLeftHasLighting )
@@ -900,16 +900,16 @@ inline bool CStudioRender::SortLessFunc2( const MeshRenderData2_t &left, const M
 		return left.m_nCompressionType > right.m_nCompressionType;
 	if ( left.m_nMeshBoneCount != right.m_nMeshBoneCount )
 		return left.m_nMeshBoneCount > right.m_nMeshBoneCount;
-	bool bLeftHasColorMesh = ( left.m_pInstance->m_pColorMeshInfo != NULL );
-	bool bRightHasColorMesh = ( right.m_pInstance->m_pColorMeshInfo != NULL );
+	bool bLeftHasColorMesh = ( left.m_pInstance->m_pColorMeshInfo != nullptr);
+	bool bRightHasColorMesh = ( right.m_pInstance->m_pColorMeshInfo != nullptr);
 	if ( bLeftHasColorMesh != bRightHasColorMesh )
 		return bLeftHasColorMesh < bRightHasColorMesh;
 	if ( left.m_pInstance->m_pEnvCubemapTexture != right.m_pInstance->m_pEnvCubemapTexture )
 		return left.m_pInstance->m_pEnvCubemapTexture > right.m_pInstance->m_pEnvCubemapTexture;
 	if ( left.m_pGroup->m_pMesh != right.m_pGroup->m_pMesh )
 		return left.m_pGroup->m_pMesh > right.m_pGroup->m_pMesh;
-	bool bLeftHasLighting = ( left.m_pInstance->m_pLightingState != NULL );
-	bool bRightHasLighting = ( right.m_pInstance->m_pLightingState != NULL );
+	bool bLeftHasLighting = ( left.m_pInstance->m_pLightingState != nullptr);
+	bool bRightHasLighting = ( right.m_pInstance->m_pLightingState != nullptr);
 	if ( bLeftHasLighting != bRightHasLighting )
 		return bLeftHasLighting;
 	if ( !bLeftHasLighting )
@@ -1278,8 +1278,8 @@ void CStudioRender::DrawMeshRenderData( IMatRenderContext *pRenderContext,
 
 	int nInstanceCount = 0;
 	STUDIORENDER_TEMP_DATA_MALLOC( MeshInstanceData_t, pInstance, nTotalStripCount * sizeof(MeshInstanceData_t) );
-	IMaterial *pLastMaterial = NULL;
-	IMesh *pLastMesh = NULL;
+	IMaterial *pLastMaterial = nullptr;
+	IMesh *pLastMesh = nullptr;
 #ifdef _GAMECONSOLE
 	bool bLastUsingFlashlight = false;
 	bool bSavedFlashlightEnable = pRenderContext->GetFlashlightMode();
@@ -1317,7 +1317,7 @@ void CStudioRender::DrawMeshRenderData( IMatRenderContext *pRenderContext,
 				}				
 #endif // _GAMECONSOLE
 				pRenderContext->SetNumBoneWeights( bIsSkinned ? nMaxBoneCount : 0 );
-				pRenderContext->Bind( pLastMaterial, NULL );
+				pRenderContext->Bind( pLastMaterial, nullptr);
 				pRenderContext->DrawInstances( nInstanceCount, pInstance );
 			}
 			nInstanceCount = 0;
@@ -1349,11 +1349,11 @@ void CStudioRender::DrawMeshRenderData( IMatRenderContext *pRenderContext,
 			}
 			else
 			{
-				instance.m_pColorBuffer = NULL;
+				instance.m_pColorBuffer = nullptr;
 				instance.m_nColorVertexOffsetInBytes = 0;
 			}
 			instance.m_nBoneCount = pStrip->numBoneStateChanges;
-			instance.m_pBoneRemap = ( instance.m_nBoneCount > 0 ) ? (MeshBoneRemap_t*)( pStrip->pBoneStateChange(0) ) : NULL;
+			instance.m_pBoneRemap = ( instance.m_nBoneCount > 0 ) ? (MeshBoneRemap_t*)( pStrip->pBoneStateChange(0) ) : nullptr;
 			instance.m_nIndexOffset = pStrip->indexOffset;
 			instance.m_nIndexCount = pStrip->numIndices;
 			instance.m_nPrimType = MATERIAL_TRIANGLES;
@@ -1379,7 +1379,7 @@ void CStudioRender::DrawMeshRenderData( IMatRenderContext *pRenderContext,
 		}
 #endif // _GAMECONSOLE
 		pRenderContext->SetNumBoneWeights( bIsSkinned ? nMaxBoneCount : 0 );
-		pRenderContext->Bind( pLastMaterial, NULL );
+		pRenderContext->Bind( pLastMaterial, nullptr);
 		pRenderContext->DrawInstances( nInstanceCount, pInstance );
 	}
 
@@ -1403,7 +1403,7 @@ void CStudioRender::DrawMeshRenderData( IMatRenderContext *pRenderContext,
 	int nInstanceCount = 0;
 	int nMaxBatchSize = IsGameConsole() ? CONSOLE_MAX_MODEL_FAST_PATH_BATCH_SIZE : nTotalStripCount;
 	STUDIORENDER_TEMP_DATA_MALLOC( MeshInstanceData_t, pInstance, nMaxBatchSize * sizeof(MeshInstanceData_t) );
-	IMaterial *pLastMaterial = NULL;
+	IMaterial *pLastMaterial = nullptr;
 	int nMaxBoneCount = 0;
 	int nMaxLightCount = 0;
 	int nLastMeshBoneCount = 0;
@@ -1424,7 +1424,7 @@ void CStudioRender::DrawMeshRenderData( IMatRenderContext *pRenderContext,
 		if ( nFlashlightMask && ( ( nFlashlightMask & pCurrInstance->m_nFlashlightUsage ) == 0 ) )
 			continue;
 
-		bool bUsingColorMesh = ( pCurrInstance->m_pColorMeshInfo != NULL );
+		bool bUsingColorMesh = ( pCurrInstance->m_pColorMeshInfo != nullptr);
 		if ( ( pLastMaterial != data.m_pMaterial ) ||					// shadow material is different
 			( nLastCompressionType != ( int )data.m_nCompressionType ) ||		// compression type is different
 			( nLastMeshBoneCount != data.m_nMeshBoneCount ) ||			// # of bones in the mesh data is different
@@ -1444,7 +1444,7 @@ void CStudioRender::DrawMeshRenderData( IMatRenderContext *pRenderContext,
 				}
 #endif // _GAMECONSOLE
 				pRenderContext->SetNumBoneWeights( nLastMeshBoneCount > 0 ? nMaxBoneCount : 0 );
-				pRenderContext->Bind( pLastMaterial, NULL );
+				pRenderContext->Bind( pLastMaterial, nullptr);
 				pRenderContext->DrawInstances( nInstanceCount, pInstance );
 			}
 			nInstanceCount = 0;
@@ -1477,11 +1477,11 @@ void CStudioRender::DrawMeshRenderData( IMatRenderContext *pRenderContext,
 			}
 			else
 			{
-				instance.m_pColorBuffer = NULL;
+				instance.m_pColorBuffer = nullptr;
 				instance.m_nColorVertexOffsetInBytes = 0;
 			}
 			instance.m_nBoneCount = pStrip->numBoneStateChanges;
-			instance.m_pBoneRemap = ( instance.m_nBoneCount > 0 ) ? (MeshBoneRemap_t*)( pStrip->pBoneStateChange(0) ) : NULL;
+			instance.m_pBoneRemap = ( instance.m_nBoneCount > 0 ) ? (MeshBoneRemap_t*)( pStrip->pBoneStateChange(0) ) : nullptr;
 			instance.m_nIndexOffset = pStrip->indexOffset;
 			instance.m_nIndexCount = pStrip->numIndices;
 			instance.m_nPrimType = MATERIAL_TRIANGLES;
@@ -1524,7 +1524,7 @@ void CStudioRender::DrawMeshRenderData( IMatRenderContext *pRenderContext,
 		}
 #endif // _GAMECONSOLE
 		pRenderContext->SetNumBoneWeights( nLastMeshBoneCount > 0 ? nMaxBoneCount : 0 );
-		pRenderContext->Bind( pLastMaterial, NULL );
+		pRenderContext->Bind( pLastMaterial, nullptr);
 		pRenderContext->DrawInstances( nInstanceCount, pInstance );
 	}
 
@@ -1548,7 +1548,7 @@ void CStudioRender::DrawModelArrayFlashlight( IMatRenderContext *pRenderContext,
 		return;
 
 	pRenderContext->SetFlashlightMode( true );
-	bool bDoScissor = r_flashlightscissor.GetBool() && ( pRenderContext->GetRenderTarget() == NULL );
+	bool bDoScissor = r_flashlightscissor.GetBool() && ( pRenderContext->GetRenderTarget() == nullptr);
 
 	int i;
 	for ( i = 0; i < nFlashlightCount; ++i )
@@ -1606,7 +1606,7 @@ void CStudioRender::DrawModelArrayFlashlight( IMatRenderContext *pRenderContext,
 		return;
 
 	pRenderContext->SetFlashlightMode( true );
-	bool bDoScissor = r_flashlightscissor.GetBool() && ( pRenderContext->GetRenderTarget() == NULL );
+	bool bDoScissor = r_flashlightscissor.GetBool() && ( pRenderContext->GetRenderTarget() == nullptr);
 
 	int i;
 	for ( i = 0; i < nFlashlightCount; ++i )
@@ -1663,7 +1663,7 @@ void CStudioRender::DrawModelArrayFlashlightDecals( IMatRenderContext *pRenderCo
 		return;
 
 	pRenderContext->SetFlashlightMode( true );
-	bool bDoScissor = r_flashlightscissor.GetBool() && ( pRenderContext->GetRenderTarget() == NULL );
+	bool bDoScissor = r_flashlightscissor.GetBool() && ( pRenderContext->GetRenderTarget() == nullptr);
 
 	int i;
 	for ( i = 0; i < nFlashlightCount; ++i )
@@ -1755,8 +1755,8 @@ inline bool CStudioRender::SortDecalsLessFunc( const DecalRenderData_t &left, co
 		return left.m_pDecalMaterial->m_pMaterial > right.m_pDecalMaterial->m_pMaterial;
 	if ( left.m_pInstance->m_pEnvCubemapTexture != right.m_pInstance->m_pEnvCubemapTexture )
 		return left.m_pInstance->m_pEnvCubemapTexture > right.m_pInstance->m_pEnvCubemapTexture;
-	bool bLeftHasLighting = ( left.m_pInstance->m_pLightingState != NULL );
-	bool bRightHasLighting = ( right.m_pInstance->m_pLightingState != NULL );
+	bool bLeftHasLighting = ( left.m_pInstance->m_pLightingState != nullptr);
+	bool bRightHasLighting = ( right.m_pInstance->m_pLightingState != nullptr);
 	if ( bLeftHasLighting != bRightHasLighting )
 		return bLeftHasLighting;
 	if ( !bLeftHasLighting )
@@ -2103,8 +2103,8 @@ void CStudioRender::SetupTreeSwayDepthWrite( IMaterial* pDepthMaterial, IMateria
 	static unsigned int originalVarCache[14] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 	static unsigned int varCache[14] = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 
-	IMaterialVar *pOriginalVar = NULL;
-	IMaterialVar *pVar = NULL;
+	IMaterialVar *pOriginalVar = nullptr;
+	IMaterialVar *pVar = nullptr;
 
 	for ( int32 i = 0; i < ARRAYSIZE( paramNames ); i++ )
 	{
@@ -2247,8 +2247,8 @@ void CStudioRender::DrawShadowMeshRenderData( IMatRenderContext *pRenderContext,
 	STUDIORENDER_TEMP_DATA_MALLOC( MeshInstanceData_t, pInstance, nTotalStripCount * sizeof(MeshInstanceData_t) );
 	int nMaxBoneCount = 0;
 	int nLastMeshBoneCount = 0;
-	IMaterial *pLastMaterial = NULL;
-	IMaterial *pLastSrcMaterial = NULL;
+	IMaterial *pLastMaterial = nullptr;
+	IMaterial *pLastSrcMaterial = nullptr;
 	bool bIsAlphaTested = false;
 	bool bUsesTreeSway = false;
 	VertexCompressionType_t nLastCompressionType = VERTEX_COMPRESSION_INVALID;
@@ -2275,7 +2275,7 @@ void CStudioRender::DrawShadowMeshRenderData( IMatRenderContext *pRenderContext,
 				}
 
 				pRenderContext->SetNumBoneWeights( nLastMeshBoneCount > 0 ? nMaxBoneCount : 0 );
-				pRenderContext->Bind( pLastMaterial, NULL );
+				pRenderContext->Bind( pLastMaterial, nullptr);
 				pRenderContext->DrawInstances( nInstanceCount, pInstance );
 			}
 			nInstanceCount = 0;
@@ -2296,17 +2296,17 @@ void CStudioRender::DrawShadowMeshRenderData( IMatRenderContext *pRenderContext,
 			Assert( nInstanceCount < nTotalStripCount );
 
 			MeshInstanceData_t &instance = pInstance[nInstanceCount++];
-			instance.m_pEnvCubemap = NULL;
+			instance.m_pEnvCubemap = nullptr;
 			instance.m_pPoseToWorld = pCurrInstance->m_pPoseToWorld;
-			instance.m_pLightingState = NULL;
+			instance.m_pLightingState = nullptr;
 			instance.m_nBoneCount = pStrip->numBoneStateChanges;
-			instance.m_pBoneRemap = ( instance.m_nBoneCount > 0 ) ? (MeshBoneRemap_t*)( pStrip->pBoneStateChange(0) ) : NULL;
+			instance.m_pBoneRemap = ( instance.m_nBoneCount > 0 ) ? (MeshBoneRemap_t*)( pStrip->pBoneStateChange(0) ) : nullptr;
 			instance.m_nIndexOffset = pStrip->indexOffset;
 			instance.m_nIndexCount = pStrip->numIndices;
 			instance.m_nPrimType = MATERIAL_TRIANGLES;
-			instance.m_pColorBuffer = NULL;
+			instance.m_pColorBuffer = nullptr;
 			instance.m_nColorVertexOffsetInBytes = 0;
-			instance.m_pStencilState = NULL;
+			instance.m_pStencilState = nullptr;
 			instance.m_pVertexBuffer = pGroup->m_pMesh;
 			instance.m_pIndexBuffer = pGroup->m_pMesh;
 			instance.m_nVertexOffsetInBytes = 0;
@@ -2328,7 +2328,7 @@ void CStudioRender::DrawShadowMeshRenderData( IMatRenderContext *pRenderContext,
 			SetupTreeSwayDepthWrite( pLastMaterial, pLastSrcMaterial );
 		}
 		pRenderContext->SetNumBoneWeights( nLastMeshBoneCount > 0 ? nMaxBoneCount : 0 );
-		pRenderContext->Bind( pLastMaterial, NULL );
+		pRenderContext->Bind( pLastMaterial, nullptr);
 		pRenderContext->DrawInstances( nInstanceCount, pInstance );
 	}
 
@@ -2494,7 +2494,7 @@ void CStudioRender::DrawModelArrayStaticProp( const DrawModelInfo_t& info,
 				}
 				else
 				{
-					pMesh->SetColorMesh( NULL, 0 );
+					pMesh->SetColorMesh(nullptr, 0 );
 				}
 				pRenderContext->LoadMatrix( *instance.m_pPoseToWorld );
 
@@ -2515,7 +2515,7 @@ void CStudioRender::DrawModelArrayStaticProp( const DrawModelInfo_t& info,
 #endif // !_CERT
 				}
 			}
-			pMesh->SetColorMesh( NULL, 0 );
+			pMesh->SetColorMesh(nullptr, 0 );
 		}
 	}
 
@@ -2532,10 +2532,10 @@ void CStudioRender::DrawModelArrayStaticProp( const DrawModelInfo_t& info,
 	m_pRC->m_Config.bFlex = flexConfig;
 	m_pRC->m_Config.bWireframe = bWireframe;
 
-	m_pRC = NULL;
-	m_pStudioHdr = NULL;
-	m_pStudioMeshes = NULL;
-	m_pStudioHWData = NULL;
+	m_pRC = nullptr;
+	m_pStudioHdr = nullptr;
+	m_pStudioMeshes = nullptr;
+	m_pStudioHWData = nullptr;
 }
 
 #ifndef _CERT
@@ -2556,7 +2556,7 @@ void UpdateAndSpewFacesRenderedHistory( CUtlVector< IStudioRender::FacesRendered
 	static const int NUM_FRAMES_TO_TRACK = 20;
 	static IStudioRender::FacesRenderedInfo_t history[ NUM_FRAMES_TO_TRACK ][ NUM_ITEMS_TO_TRACK ];
 	static int nItems = 0, nOldestItem = 0;
-	IStudioRender::FacesRenderedInfo_t emptyItem = { NULL, 0 };
+	IStudioRender::FacesRenderedInfo_t emptyItem = {nullptr, 0 };
 
 	if ( bClearHistory )
 	{

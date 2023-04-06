@@ -122,7 +122,7 @@ static bool LineCallback(gmThread * a_thread)
      (a_thread->m_debugUser != ((a_thread->GetFrame()) ? a_thread->GetFrame()->m_returnBase : 0)))
   {
     int * bp = session->FindBreakPoint((void *) a_thread->GetInstruction());
-    if(bp == NULL)
+    if(bp == nullptr)
       return false;
 
     if(*bp && *bp != a_thread->GetId())
@@ -169,7 +169,7 @@ static bool IsBrokenCallback(gmThread * a_thread)
   return (a_thread->m_debugFlags & TF_BREAK) > 0;
 }
 
-static gmMachineCallback s_prevMachineCallback = NULL;
+static gmMachineCallback s_prevMachineCallback = nullptr;
 bool GM_CDECL gmdMachineCallback(gmMachine * a_machine, gmMachineCommand a_command, const void * a_context)
 {
   gmDebugSession * session = (gmDebugSession *) a_machine->m_debugUser;
@@ -179,7 +179,7 @@ bool GM_CDECL gmdMachineCallback(gmMachine * a_machine, gmMachineCommand a_comma
   if(s_prevMachineCallback) s_prevMachineCallback(a_machine, a_command, a_context);
 
   // do we have a debug session?
-  if(session == NULL) return false;
+  if(session == nullptr) return false;
 
   // command
   switch(a_command)
@@ -220,7 +220,7 @@ bool GM_CDECL gmdMachineCallback(gmMachine * a_machine, gmMachineCommand a_comma
 gmDebugSession::gmDebugSession() : 
   m_breaks(32)
 {
-  m_machine = NULL;
+  m_machine = nullptr;
 }
 
 
@@ -236,7 +236,7 @@ void gmDebugSession::Update()
   {
     int len;
     const void * msg = m_pumpMessage(this, len);
-    if(msg == NULL)
+    if(msg == nullptr)
       break;
 
     m_in.Open(msg, len);
@@ -326,17 +326,17 @@ bool gmDebugSession::Close()
   {
     gmDebuggerQuit(this);
 
-    m_machine->m_debugUser = NULL;
+    m_machine->m_debugUser = nullptr;
     m_machine->s_machineCallback = s_prevMachineCallback;
 
-    m_machine->m_line = NULL;
-    m_machine->m_call = NULL;
-    m_machine->m_return = NULL;
-    m_machine->m_isBroken = NULL;
+    m_machine->m_line = nullptr;
+    m_machine->m_call = nullptr;
+    m_machine->m_return = nullptr;
+    m_machine->m_isBroken = nullptr;
 
     m_machine->KillExceptionThreads();
-    m_machine->ForEachThread(threadIterClose, NULL);
-    m_machine = NULL;
+    m_machine->ForEachThread(threadIterClose, nullptr);
+    m_machine = nullptr;
 
     m_breaks.RemoveAndDeleteAll();
     m_out.ResetAndFreeMemory();
@@ -411,7 +411,7 @@ int * gmDebugSession::FindBreakPoint(const void * a_bp)
   {
     return &bp->m_threadId;
   }
-  return NULL;
+  return nullptr;
 }
 
 

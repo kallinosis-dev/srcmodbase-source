@@ -50,7 +50,7 @@ public:
 	// construction/deconstruction
 	//
 	DECLARE_MAPCLASS( CMapSolid, CMapClass );
-	CMapSolid( CMapClass *Parent0 = NULL );
+	CMapSolid( CMapClass *Parent0 = nullptr);
 	~CMapSolid();
 
 	//
@@ -83,7 +83,7 @@ public:
 	void CalcBounds( BOOL bFullUpdate = FALSE );
 	virtual CMapClass *Copy(bool bUpdateDependencies);
 	virtual CMapClass *CopyFrom(CMapClass *pFrom, bool bUpdateDependencies);
-	int Split(PLANE *pPlane, CMapSolid **pFront = NULL, CMapSolid **pBack = NULL);
+	int Split(PLANE *pPlane, CMapSolid **pFront = nullptr, CMapSolid **pBack = nullptr);
 	bool Subtract(CMapObjectList *pInside, CMapObjectList *pOutside, CMapClass *pSubtractWith);
 
 	virtual bool ShouldAppearInLightingPreview(void);

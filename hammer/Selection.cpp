@@ -20,7 +20,7 @@
 
 CSelection::CSelection(void)
 {
-	m_pDocument = NULL;
+	m_pDocument = nullptr;
 }
 
 CSelection::~CSelection(void)
@@ -237,7 +237,7 @@ bool CSelection::IsAnEntitySelected(void)
 		{
 			CMapClass *pObject = m_SelectionList.Element(i);
 			CMapEntity *pEntity = dynamic_cast <CMapEntity *> (pObject);
-			if (pEntity != NULL)
+			if (pEntity != nullptr)
 			{
 				return true;
 			}
@@ -312,7 +312,7 @@ void CSelection::SetMode(SelectMode_t eNewSelectMode)
 		// If we are going from a more specific selection mode to a less specific one,
 		// clear the selection. This avoids unexpectedly selecting new things.
 		//
-		SelectObject(NULL, scClear|scSaveChanges);
+		SelectObject(nullptr, scClear|scSaveChanges);
 	}
 	else
 	{
@@ -328,7 +328,7 @@ void CSelection::SetMode(SelectMode_t eNewSelectMode)
 			pObject->EnumChildren((ENUMMAPCHILDRENPROC)AddLeavesToListCallback, (DWORD)&NewList);
 		}
 
-		SelectObject(NULL, scClear|scSaveChanges);
+		SelectObject(nullptr, scClear|scSaveChanges);
 
 		//
 		// Add child objects to selection.
@@ -518,7 +518,7 @@ void CSelection::SetCurrentHit(int iIndex, bool bCascading)
 bool CSelection::SelectObject(CMapClass *pObj, int cmd)
 {
 	// if no object is given we only can execute the clear command
-	if ( pObj == NULL )
+	if ( pObj == nullptr)
 	{
 		// check if selection is already empty
 		if (m_SelectionList.Count() == 0) 
@@ -611,7 +611,7 @@ void CSelection::SelectObjectList( const CMapObjectList *pList, int cmd )
 		cmd &= ~scClear;
 	}
 
-	if ( pList != NULL )
+	if ( pList != nullptr)
 	{
 		for (int pos=0;pos<pList->Count();pos++)
 		{

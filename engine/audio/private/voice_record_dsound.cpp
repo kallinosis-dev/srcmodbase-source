@@ -118,7 +118,7 @@ bool VoiceRecord_DSound::RecordStart()
 	//When we start recording we want to make sure we don't provide any audio
 	//that occurred before now. So set m_LastReadPos to the current
 	//read position of the audio device
-	if (m_pCaptureBuffer == NULL)
+	if (m_pCaptureBuffer == nullptr)
 	{
 		return false;
 	}
@@ -131,7 +131,7 @@ bool VoiceRecord_DSound::RecordStart()
 		return false;
 
 	DWORD dwReadPos;
-	hr = m_pCaptureBuffer->GetCurrentPosition(NULL, &dwReadPos);
+	hr = m_pCaptureBuffer->GetCurrentPosition(nullptr, &dwReadPos);
 	if (!FAILED(hr))
 	{
 		m_LastReadPos = dwReadPos + m_WrapOffset;
@@ -197,9 +197,9 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 	const GUID FAR *pGuid = &DSDEVID_DefaultVoiceCapture;
 	if ( IsRunningWindows7() )
 	{
-		pGuid = NULL;
+		pGuid = nullptr;
 	}
-	hr = createFn(pGuid, &m_pCapture, NULL);
+	hr = createFn(pGuid, &m_pCapture, nullptr);
 	if(FAILED(hr))
 		goto HandleError;
 
@@ -210,7 +210,7 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 	dscDesc.dwBufferBytes = recordFormat.nAvgBytesPerSec;
 	dscDesc.lpwfxFormat = &recordFormat;
 
-	hr = m_pCapture->CreateCaptureBuffer(&dscDesc, &m_pCaptureBuffer, NULL);
+	hr = m_pCapture->CreateCaptureBuffer(&dscDesc, &m_pCaptureBuffer, nullptr);
 	if(FAILED(hr))
 		goto HandleError;
 
@@ -228,7 +228,7 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 
 
 	// Set it up so we get notification when the buffer wraps.
-	m_hWrapEvent = CreateEvent(NULL, FALSE, FALSE, NULL);
+	m_hWrapEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if(!m_hWrapEvent)
 		goto HandleError;
 
@@ -275,7 +275,7 @@ void VoiceRecord_DSound::Term()
 	if(m_hInstDS)
 	{
 		FreeLibrary(m_hInstDS);
-		m_hInstDS = NULL;
+		m_hInstDS = nullptr;
 	}
 
 	Clear();
@@ -284,12 +284,12 @@ void VoiceRecord_DSound::Term()
 
 void VoiceRecord_DSound::Clear()
 {
-	m_pCapture = NULL;
-	m_pCaptureBuffer = NULL;
+	m_pCapture = nullptr;
+	m_pCaptureBuffer = nullptr;
 	m_WrapOffset = 0;
 	m_LastReadPos = 0;
-	m_hWrapEvent = NULL;
-	m_hInstDS = NULL;
+	m_hWrapEvent = nullptr;
+	m_hInstDS = nullptr;
 }
 
 
@@ -316,7 +316,7 @@ int VoiceRecord_DSound::GetRecordedData( short *pOut, int nSamples )
 	DWORD nBytesWanted = (DWORD)( nSamples << 1 );
 
 	DWORD dwReadPos;
-	hr = m_pCaptureBuffer->GetCurrentPosition( NULL, &dwReadPos);
+	hr = m_pCaptureBuffer->GetCurrentPosition(nullptr, &dwReadPos);
 	if(FAILED(hr))
 		return 0;
 
@@ -393,7 +393,7 @@ IVoiceRecord* CreateVoiceRecord_DSound(int sampleRate)
 		if(pRecord)
 			pRecord->Release();
 
-		return NULL;
+		return nullptr;
 	}
 }
 

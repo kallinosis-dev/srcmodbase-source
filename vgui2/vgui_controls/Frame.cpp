@@ -522,9 +522,9 @@ namespace vgui
 		FrameButton(Panel *parent, const char *name, const char *text) : Button(parent, name, text)
 		{
 			SetSize( FrameButton::GetButtonSide( (Frame *)parent ), FrameButton::GetButtonSide( (Frame *)parent ) );
-			_brightBorder = NULL;
-			_depressedBorder = NULL;
-			_disabledBorder = NULL;
+			_brightBorder = nullptr;
+			_depressedBorder = nullptr;
+			_disabledBorder = nullptr;
 			_disabledLook = true;
 			SetContentAlignment(Label::a_northwest);
 			SetTextInset(2, 1);
@@ -628,7 +628,7 @@ private:
 public:
 	FrameSystemButton(Panel *parent, const char *panelName) : MenuButton(parent, panelName, "")
 	{
-		_disabled = _enabled = NULL;
+		_disabled = _enabled = nullptr;
 		_respond = true;
 		SetEnabled(false);
 		// This menu will open if we use the left or right mouse button
@@ -636,7 +636,7 @@ public:
 		SetBlockDragChaining( true );
 	}
 	
-	void SetImages( const char *pEnabledImage, const char *pDisabledImage = NULL )
+	void SetImages( const char *pEnabledImage, const char *pDisabledImage = nullptr)
 	{
 		m_EnabledImage = pEnabledImage;
 		m_DisabledImage = pDisabledImage ? pDisabledImage : pEnabledImage;
@@ -687,7 +687,7 @@ public:
 	
 	virtual IBorder *GetBorder(bool depressed, bool armed, bool selected, bool keyfocus)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	virtual void SetEnabled(bool state)
@@ -768,7 +768,7 @@ Frame::Frame(Panel *parent, const char *panelName, bool showTaskbarIcon /*=true*
 
 	m_hPreviousModal = 0;
 
-	_title=0;
+	_title=nullptr;
 	_moveable=true;
 	_sizeable=true;
 	m_bHasFocus=false;
@@ -801,7 +801,7 @@ Frame::Frame(Panel *parent, const char *panelName, bool showTaskbarIcon /*=true*
 	GetFocusNavGroup().SetFocusTopLevel(true);
 	
 #if !defined( _GAMECONSOLE )
-	_sysMenu = NULL;
+	_sysMenu = nullptr;
 
 	// add dragging grips
 	_topGrip = new GripPanel(this, "frame_topGrip", 0, -1);
@@ -1656,7 +1656,7 @@ void Frame::ApplySchemeSettings(IScheme *pScheme)
 	SetOverridableColor( &_titleBarDisabledFgColor, GetSchemeColor("FrameTitleBar.DisabledTextColor", pScheme) );
 	SetOverridableColor( &_titleBarDisabledBgColor, GetSchemeColor("FrameTitleBar.DisabledBgColor", pScheme) );
 
-	const char *font = NULL;
+	const char *font = nullptr;
 	if ( m_bSmallCaption )
 	{
 		font = pScheme->GetResourceString("FrameTitleBar.SmallFont");
@@ -1885,7 +1885,7 @@ Menu *Frame::GetSysMenu()
 #if !defined( _GAMECONSOLE )
 	if (!_sysMenu)
 	{
-		_sysMenu = new Menu(this, NULL);
+		_sysMenu = new Menu(this, nullptr);
 		_sysMenu->SetVisible(false);
 		_sysMenu->AddActionSignalTarget(this);
 

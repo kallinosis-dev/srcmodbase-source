@@ -33,7 +33,7 @@ public:
 	enum { FormatDouble, FormatSingle };
 
 	// CREATORS
-	mxGlWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = 0, int style = 0);
+	mxGlWindow (mxWindow *parent, int x, int y, int w, int h, const char *label = nullptr, int style = 0);
 	virtual ~mxGlWindow ();
 
 	// MANIPULATORS

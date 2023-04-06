@@ -141,7 +141,7 @@ CCloseCaptionWorkUnit::CCloseCaptionWorkUnit() :
 	m_nHeight(0),
 	m_bBold(false),
 	m_bItalic(false),
-	m_pszStream(0),
+	m_pszStream(nullptr),
 	m_Color( Color( 255, 255, 255, 255 ) ),
 	m_hFont( 0 ),
 	m_flFadeStartTime(0)
@@ -151,7 +151,7 @@ CCloseCaptionWorkUnit::CCloseCaptionWorkUnit() :
 CCloseCaptionWorkUnit::~CCloseCaptionWorkUnit()
 {
 	delete[] m_pszStream;
-	m_pszStream = NULL;
+	m_pszStream = nullptr;
 }
 
 void CCloseCaptionWorkUnit::SetWidth( int w )
@@ -219,7 +219,7 @@ bool CCloseCaptionWorkUnit::GetItalic() const
 void CCloseCaptionWorkUnit::SetStream( const wchar_t *stream )
 {
 	delete[] m_pszStream;
-	m_pszStream = NULL;
+	m_pszStream = nullptr;
 
 #ifdef WIN32
 	int len = wcsnlen( stream, ( MAX_CAPTION_CHARACTERS - 1 ) );
@@ -509,12 +509,12 @@ struct AsyncCaptionData_t
 
 	AsyncCaptionData_t() :
 		m_nBlockNum( -1 ),
-		m_pBlockData( 0 ),
+		m_pBlockData( nullptr ),
 		m_nFileIndex( -1 ),
 		m_nBlockSize( 0 ),
 		m_bLoadPending( false ),
 		m_bLoadCompleted( false ),
-		m_hAsyncControl( NULL )
+		m_hAsyncControl(nullptr)
 	{
 	}
 
@@ -534,7 +534,7 @@ struct AsyncCaptionData_t
 	void ReleaseData()
 	{
 		filesystem->AsyncRelease( m_hAsyncControl );
-		m_hAsyncControl = 0;
+		m_hAsyncControl = nullptr;
 		WipeData();
 		m_bLoadCompleted = false;
 		Assert( !m_bLoadPending );
@@ -543,7 +543,7 @@ struct AsyncCaptionData_t
 	void WipeData()
 	{
 		delete[] m_pBlockData;
-		m_pBlockData = NULL;
+		m_pBlockData = nullptr;
 	}
 
 	AsyncCaptionData_t		*GetData()
@@ -858,7 +858,7 @@ DECLARE_HUD_MESSAGE( CHudCloseCaption, CloseCaptionDirect );
 
 CHudCloseCaption::CHudCloseCaption( const char *pElementName )
 	: CHudElement( pElementName ), 
-	vgui::Panel( NULL, "HudCloseCaption" ),
+	vgui::Panel(nullptr, "HudCloseCaption" ),
 	m_CloseCaptionRepeats( 0, 0, CaptionTokenLessFunc ),
 	m_CurrentLanguage( UTL_INVAL_SYMBOL ),
 	m_bPaintDebugInfo( false ),
@@ -1462,7 +1462,7 @@ bool CHudCloseCaption::GetFloatCommandValue( const wchar_t *stream, const wchar_
 		{
 			if ( !wcscmp( cmd, findcmd ) )
 			{
-				value = (float)wcstod( args, NULL );
+				value = (float)wcstod( args, nullptr);
 				return true;
 			}
 			continue;
@@ -1802,7 +1802,7 @@ void CHudCloseCaption::ComputeStreamWork( int available_width, CCloseCaptionItem
 
 	// Need to distinguish wspace breaks from Asian word wrapping breaks
 	bool most_recent_break_was_wspace = true;
-	const wchar_t *most_recent_space = NULL;
+	const wchar_t *most_recent_space = nullptr;
 	int	most_recent_space_w = -1;
 
 	for ( ; curpos && *curpos != L'\0'; ++curpos )
@@ -1961,7 +1961,7 @@ void CHudCloseCaption::ComputeStreamWork( int available_width, CCloseCaptionItem
 
 				delete[] extra;
 
-				most_recent_space = NULL;
+				most_recent_space = nullptr;
 				most_recent_space_w = -1;
 			}
 			else
@@ -2095,7 +2095,7 @@ bool CHudCloseCaption::GetNoRepeatValue( const wchar_t *caption, float &retval )
 		{
 			if ( !wcscmp( cmd, L"norepeat" ) )
 			{
-				retval = (float)wcstod( args, NULL );
+				retval = (float)wcstod( args, nullptr);
 				return true;
 			}
 			continue;
@@ -2179,7 +2179,7 @@ public:
 		for ( int i = 0; i < c; ++i )
 		{
 			caption_t *caption = m_Tokens[ i ];
-			if ( !caption || caption->stream != NULL || caption->fileindex != nFileIndex )
+			if ( !caption || caption->stream != nullptr || caption->fileindex != nFileIndex )
 				continue;
 
 			// Lookup the data
@@ -2199,7 +2199,7 @@ public:
 		for ( int i = 0; i < c; ++i )
 		{
 			caption_t *caption = m_Tokens[ i ];
-			if ( caption->stream != NULL )
+			if ( caption->stream != nullptr)
 				continue;
 
 			CaptionLookup_t& entry = directories[ caption->fileindex].m_CaptionDirectory[ caption->dirindex ];
@@ -2217,7 +2217,7 @@ public:
 		for ( int i = 0; i < c; ++i )
 		{
 			caption_t *caption = m_Tokens[ i ];
-			if ( !caption || caption->stream == NULL )
+			if ( !caption || caption->stream == nullptr)
 			{
 				return false;
 			}
@@ -2278,7 +2278,7 @@ public:
 		help.SetHash( foo );
 		caption->hash = help.hash;
 		caption->dirindex = idx;
-		caption->stream = NULL;
+		caption->stream = nullptr;
 		caption->fileindex = fileindex;
 
 		m_Tokens.AddToTail( caption );
@@ -2316,7 +2316,7 @@ public:
 		caption->token = strdup( pchToken );
 		caption->hash = hash;
 		caption->dirindex = idx;
-		caption->stream = NULL;
+		caption->stream = nullptr;
 		caption->fileindex = i;
 
 		m_Tokens.AddToTail( caption );
@@ -2405,11 +2405,11 @@ private:
 	struct caption_t
 	{
 		caption_t() :
-			token( 0 ),
+			token( nullptr ),
 			hash( 0u ),
 			dirindex( -1 ),
 			fileindex( -1 ),
-			stream( 0 )
+			stream( nullptr )
 		{
 		}
 
@@ -2422,7 +2422,7 @@ private:
 		void		SetStream( const wchar_t *in )
 		{
 			delete[] stream;
-			stream = 0;
+			stream = nullptr;
 			if ( !in )
 				return;
 
@@ -2850,12 +2850,12 @@ void CHudCloseCaption::InitCaptionDictionary( const char *language, bool bForce 
 
 bool CHudCloseCaption::AddFileToCaptionDictionary( const char *filename )
 {
-	int searchPathLen = filesystem->GetSearchPath( "GAME", true, NULL, 0 );
+	int searchPathLen = filesystem->GetSearchPath( "GAME", true, nullptr, 0 );
 	char *searchPaths = (char *)stackalloc( searchPathLen + 1 );
 	filesystem->GetSearchPath( "GAME", true, searchPaths, searchPathLen );
 	
 	bool bAddedCaptions = false;
-	for ( char *path = strtok( searchPaths, ";" ); path; path = strtok( NULL, ";" ) )
+	for ( char *path = strtok( searchPaths, ";" ); path; path = strtok(nullptr, ";" ) )
 	{
 		if ( IsGameConsole() && ( filesystem->GetDVDMode() == DVDMODE_STRICT ) && !V_stristr( path, ".zip" ) )
 		{
@@ -2936,7 +2936,7 @@ static int EmitCaptionCompletion( const char *partial, char commands[ COMMAND_CO
 		return current;
 
 	const char *cmdname = "cc_emit";
-	char *substring = NULL;
+	char *substring = nullptr;
 	int substringLen = 0;
 	if ( Q_strstr( partial, cmdname ) && strlen(partial) > strlen(cmdname) + 1 )
 	{

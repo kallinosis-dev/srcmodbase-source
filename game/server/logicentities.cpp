@@ -99,7 +99,7 @@ public:
 				{
 					for ( int i = 0; i <= iLastMember; i++ )
 					{
-						m_ScriptScope.Call( hAddFunc, NULL, STRING(m_iszGroupMembers[i]) );
+						m_ScriptScope.Call( hAddFunc, nullptr, STRING(m_iszGroupMembers[i]) );
 					}
 					g_pScriptVM->ReleaseFunction( hAddFunc );
 					m_ScriptScope.ClearValue( "__AppendToScriptGroup" );
@@ -468,7 +468,7 @@ CLogicRegisterActivator::CLogicRegisterActivator(void)
 //------------------------------------------------------------------------------
 void CLogicRegisterActivator::InputRegisterEntity( inputdata_t &inputdata )
 {
-	m_hRegisteredEntity = gEntList.FindEntityByName( NULL, inputdata.value.String(), this, inputdata.pActivator, inputdata.pCaller );
+	m_hRegisteredEntity = gEntList.FindEntityByName(nullptr, inputdata.value.String(), this, inputdata.pActivator, inputdata.pCaller );
 }
 
 //------------------------------------------------------------------------------
@@ -932,12 +932,12 @@ void CLogicLineToEntity::Activate(void)
 
 	if (m_target != NULL_STRING)
 	{
-		m_EndEntity = gEntList.FindEntityByName( NULL, m_target );
+		m_EndEntity = gEntList.FindEntityByName(nullptr, m_target );
 
 		//
 		// If we were given a bad measure target, just measure sound where we are.
 		//
-		if ((m_EndEntity == NULL) || (m_EndEntity->edict() == NULL))
+		if ((m_EndEntity == nullptr) || (m_EndEntity->edict() == nullptr))
 		{
 			Warning( "logic_lineto - Target not found or target with no origin!\n");
 			m_EndEntity = this;
@@ -950,12 +950,12 @@ void CLogicLineToEntity::Activate(void)
 
 	if (m_SourceName != NULL_STRING)
 	{
-		m_StartEntity = gEntList.FindEntityByName( NULL, m_SourceName );
+		m_StartEntity = gEntList.FindEntityByName(nullptr, m_SourceName );
 
 		//
 		// If we were given a bad measure target, just measure sound where we are.
 		//
-		if ((m_StartEntity == NULL) || (m_StartEntity->edict() == NULL))
+		if ((m_StartEntity == nullptr) || (m_StartEntity->edict() == nullptr))
 		{
 			Warning( "logic_lineto - Source not found or source with no origin!\n");
 			m_StartEntity = this;
@@ -1240,7 +1240,7 @@ void CC_Global_Set( const CCommand &args )
 	const char *szGlobal = args[1];
 	const char *szState = args[2];
 
-	if ( szGlobal == NULL || szState == NULL )
+	if ( szGlobal == nullptr || szState == nullptr)
 	{
 		Msg( "Usage: global_set <globalname> <state>: Sets the state of the given env_global (0 = OFF, 1 = ON, 2 = DEAD).\n" );
 		return;
@@ -1677,7 +1677,7 @@ bool CMultiSource::IsTriggered( CBaseEntity * )
 //-----------------------------------------------------------------------------
 void CMultiSource::Register(void)
 { 
-	CBaseEntity *pTarget = NULL;
+	CBaseEntity *pTarget = nullptr;
 
 	m_iTotal = 0;
 	memset( m_rgEntities, 0, MS_MAX_TARGETS * sizeof(EHANDLE) );
@@ -1687,7 +1687,7 @@ void CMultiSource::Register(void)
 	// search for all entities which target this multisource (m_iName)
 	// dvsents2: port multisource to entity I/O!
 
-	pTarget = gEntList.FindEntityByTarget( NULL, STRING(GetEntityName()) );
+	pTarget = gEntList.FindEntityByTarget(nullptr, STRING(GetEntityName()) );
 
 	while ( pTarget && (m_iTotal < MS_MAX_TARGETS) )
 	{
@@ -1697,7 +1697,7 @@ void CMultiSource::Register(void)
 		pTarget = gEntList.FindEntityByTarget( pTarget, STRING(GetEntityName()) );
 	}
 
-	pTarget = gEntList.FindEntityByClassname( NULL, "multi_manager" );
+	pTarget = gEntList.FindEntityByClassname(nullptr, "multi_manager" );
 	while (pTarget && (m_iTotal < MS_MAX_TARGETS))
 	{
 		if ( pTarget && pTarget->HasTarget(GetEntityName()) )
@@ -3118,8 +3118,8 @@ void CLogicBranchList::Activate( void )
 {
 	for ( int i = 0; i < MAX_LOGIC_BRANCH_NAMES; i++ )
 	{
-		CBaseEntity *pEntity = NULL;
-		while ( ( pEntity = gEntList.FindEntityGeneric( pEntity, STRING( m_nLogicBranchNames[i] ), this ) ) != NULL )
+		CBaseEntity *pEntity = nullptr;
+		while ( ( pEntity = gEntList.FindEntityGeneric( pEntity, STRING( m_nLogicBranchNames[i] ), this ) ) != nullptr)
 		{
 			if ( FClassnameIs( pEntity, "logic_branch" ) )
 			{

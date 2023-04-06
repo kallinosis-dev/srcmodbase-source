@@ -36,10 +36,10 @@ CMapView::CMapView(void)
 	m_bActive = false;
 	m_bUpdateView = false;
 	m_eDrawType = VIEW_INVALID;
-	m_pCamera = NULL;
+	m_pCamera = nullptr;
 	m_dwTimeLastRender = 0;
 	m_nRenderedFrames = 0;
-	m_pToolManager = NULL;
+	m_pToolManager = nullptr;
 }
 
 bool CMapView::IsOrthographic()
@@ -134,8 +134,8 @@ bool CMapView::SelectAt(const Vector2D &ptClient, bool bMakeFirst, bool bFace)
 	{
 		if (bMakeFirst)
 		{
-			pDoc->SelectFace(NULL, 0, scClear|scSaveChanges );
-			pDoc->SelectObject(NULL, scClear|scSaveChanges );
+			pDoc->SelectFace(nullptr, 0, scClear|scSaveChanges );
+			pDoc->SelectObject(nullptr, scClear|scSaveChanges );
 		}
 
 		return false;
@@ -179,8 +179,8 @@ bool CMapView::SelectAt(const Vector2D &ptClient, bool bMakeFirst, bool bFace)
 	//
 	if ( bMakeFirst )
 	{
-		pDoc->SelectFace(NULL, 0, scClear|scSaveChanges);
-		pDoc->SelectObject(NULL, scClear|scSaveChanges);
+		pDoc->SelectFace(nullptr, 0, scClear|scSaveChanges);
+		pDoc->SelectObject(nullptr, scClear|scSaveChanges);
 	}
 
 	pSelection->SetCurrentHit(hitFirst);

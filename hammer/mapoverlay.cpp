@@ -63,7 +63,7 @@ IMPLEMENT_MAPCLASS( CMapOverlay )
 //-----------------------------------------------------------------------------
 void CMapOverlay::Basis_Clear( void )
 {
-	m_Basis.m_pFace = NULL;
+	m_Basis.m_pFace = nullptr;
 	m_Basis.m_vecOrigin.Init();
 
 	for( int iAxis = 0; iAxis < 3; iAxis++ )
@@ -275,7 +275,7 @@ void CMapOverlay::Basis_BuildFromSideList( void )
 	}
 	else
 	{
-		m_Basis.m_pFace = NULL;
+		m_Basis.m_pFace = nullptr;
 	}
 }
 
@@ -519,7 +519,7 @@ void CMapOverlay::ClipFace_Destroy( ClipFace_t **ppClipFace )
 	if( *ppClipFace )
 	{
 		delete *ppClipFace;
-		*ppClipFace = NULL;
+		*ppClipFace = nullptr;
 	}
 }
 
@@ -590,7 +590,7 @@ void CMapOverlay::ClipFace_Clip( ClipFace_t *pClipFace, cplane_t *pClipPlane, fl
 	int nSideCounts[3];
 
 	// Initialize
-	*ppFront = *ppBack = NULL;
+	*ppFront = *ppBack = nullptr;
 
 	// Determine "sidedness" of all the polygon points.
 	nSideCounts[0] = nSideCounts[1] = nSideCounts[2] = 0;
@@ -1251,7 +1251,7 @@ int MaxComponent( const Vector &v0 )
 //-----------------------------------------------------------------------------
 void CMapOverlay::Material_Clear( void )
 {
-	m_Material.m_pTexture = NULL;
+	m_Material.m_pTexture = nullptr;
 	m_Material.m_vecTextureU.Init( 0.0f, 1.0f );
 	m_Material.m_vecTextureV.Init( 0.0f, 1.0f );
 }
@@ -1327,7 +1327,7 @@ CMapOverlay::CMapOverlay() : CMapSideList( "sides" )
 	Material_Clear();
 
 	m_bLoaded = false;
-	m_pOverlayFace = NULL;
+	m_pOverlayFace = nullptr;
 	m_uiFlags = 0;
 }
 
@@ -1623,7 +1623,7 @@ void CMapOverlay::PostModified( void )
 	}
 	else
 	{
-		m_Basis.m_pFace = NULL;
+		m_Basis.m_pFace = nullptr;
 	}
 
 	Handles_Build3D();
@@ -1742,7 +1742,7 @@ void CMapOverlay::OnClone( CMapClass *pClone, CMapWorld *pWorld,
 			{
 				CMapFace *pFace = pOverlay->GetFace( iFace );
 				CMapSolid *pSolid = ( CMapSolid* )pFace->GetParent();
-				pOverlay->UpdateDependency( NULL, pSolid );
+				pOverlay->UpdateDependency(nullptr, pSolid );
 			}
 		}
 
@@ -2021,8 +2021,8 @@ void CMapOverlay::DoClipFace( CMapFace *pFace )
 	//
 	for ( int iClipPlane = 0; iClipPlane < nEdgePlaneCount; iClipPlane++ )
 	{
-		ClipFace_t *pFront = NULL;
-		ClipFace_t *pBack = NULL;
+		ClipFace_t *pFront = nullptr;
+		ClipFace_t *pBack = nullptr;
 
 		if ( pClippedFace )
 		{
@@ -2176,7 +2176,7 @@ void CMapOverlay::Disp_DoClip( CMapDisp *pDisp, ClipFaces_t &aDispFragments,
 			ClipFace_t *pClipFrag = aClippedFragments[iFrag];
 			if ( pClipFrag )
 			{
-				ClipFace_t *pFront = NULL, *pBack = NULL;
+				ClipFace_t *pFront = nullptr, *pBack = nullptr;
 
 				clipPlane.dist = clipDistStart * ( ( float )iInterval * flOOInterval );
 				ClipFace_ClipBarycentric( pClipFrag, &clipPlane, OVERLAY_DISPSPACE_EPSILON, iInterval, pDisp, &pFront, &pBack );
@@ -2420,7 +2420,7 @@ void CMapOverlay::SideList_Init( CMapFace *pFace )
 	if ( ( GetOverlayType() && OVERLAY_TYPE_SHORE ) == 0 )
 	{
 		// Update dependencies.
-		UpdateDependency( NULL, ( CMapSolid* )pFace->GetParent() );
+		UpdateDependency(nullptr, ( CMapSolid* )pFace->GetParent() );
 		UpdateParentKey();
 	}
 
@@ -2444,7 +2444,7 @@ void CMapOverlay::SideList_AddFace( CMapFace *pFace )
 	if ( ( GetOverlayType() && OVERLAY_TYPE_SHORE ) == 0 )
 	{
 		// Update dependencies.
-		UpdateDependency( NULL, ( CMapSolid* )pFace->GetParent() );
+		UpdateDependency(nullptr, ( CMapSolid* )pFace->GetParent() );
 		UpdateParentKey();
 	}
 
@@ -2564,7 +2564,7 @@ void CMapOverlay::OverlayPlaneToSurfFromList( const Vector &vecOverlayPoint, Vec
 			EditDispHandle_t handle = pFace->GetDisp();
 			CMapDisp *pDisp = EditDispMgr()->GetDisp( handle );
 			pDisp->BaseFacePlaneToDispUV( vecSurfPoint, vecTmp );
-			pDisp->DispUVToSurf( vecTmp, vecSurfPoint, NULL, NULL );
+			pDisp->DispUVToSurf( vecTmp, vecSurfPoint, nullptr, nullptr);
 		}
 
 		// Clean-up.
@@ -2757,7 +2757,7 @@ ChunkFileResult_t CMapOverlay::SaveDataToVMF( CChunkFile *pFile, CSaveInfo *pSav
 	if ( eResult == ChunkFile_Ok )
 	{
 		char szSetValue[KEYVALUE_MAX_VALUE_LENGTH];
-		CMapWorld::FaceID_FaceListsToString( szSetValue, sizeof( szSetValue ), &m_Faces, NULL );
+		CMapWorld::FaceID_FaceListsToString( szSetValue, sizeof( szSetValue ), &m_Faces, nullptr);
 		eResult = pFile->WriteKeyValue( "sides", szSetValue );
 	}
 

@@ -43,7 +43,7 @@ CDsSearcher::CDsSearcher( KeyValues *pSettings, uint64 uiReserveCookie, IMatchSe
 #endif
 	m_eState( STATE_INIT ),
 	m_flTimeout( 0.0f ),
-	m_pAsyncOperation( NULL ),
+	m_pAsyncOperation(nullptr),
 	m_pMatchSession( pMatchSession ),
 	m_ullCrypt( ullCrypt )
 {
@@ -76,7 +76,7 @@ void CDsSearcher::Update()
 		{
 			char const *szNetwork = m_pSettings->GetString( "system/network", "" );
 			char const *szServer = m_pSettings->GetString( "options/server", "listen" );
-			if ( m_pSettings->GetString( "server/server", NULL ) )
+			if ( m_pSettings->GetString( "server/server", nullptr) )
 			{
 				InitWithKnownServer();
 			}
@@ -163,7 +163,7 @@ void CDsSearcher::Destroy()
 	if ( m_pAsyncOperation )
 	{
 		m_pAsyncOperation->Release();
-		m_pAsyncOperation = NULL;
+		m_pAsyncOperation = nullptr;
 	}
 
 #ifdef _X360

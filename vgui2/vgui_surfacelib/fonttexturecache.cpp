@@ -79,7 +79,7 @@ void CFontTextureCache::Clear()
 	for ( int i = 0; i < ARRAYSIZE( m_CommonCharCache ); i++ )
 	{
 		delete m_CommonCharCache[i];
-		m_CommonCharCache[i] = 0;
+		m_CommonCharCache[i] = nullptr;
 	}
 }
 
@@ -110,7 +110,7 @@ bool CFontTextureCache::GetTextureForChar( FontHandle_t font, FontDrawType_t typ
 bool CFontTextureCache::GetTextureAndCoordsForChar( FontHandle_t font, FontDrawType_t type, wchar_t wch, int *textureID, float *texCoords )
 {
 	// Ask for just one character
-	float *textureCoords = NULL;
+	float *textureCoords = nullptr;
 	bool bSuccess = GetTextureForChars( font, type, &wch, textureID, &textureCoords, 1 );
 	if ( textureCoords )
 	{

@@ -29,7 +29,7 @@ public:
 		g_pPredictionSystems = this;
 
 		m_bSuppressEvent = false;
-		m_pSuppressHost = NULL;
+		m_pSuppressHost = nullptr;
 
 		m_nStatusPushed = 0;
 	};
@@ -55,7 +55,7 @@ public:
 	{
 		if ( DisableFiltering() )
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		return m_pSuppressHost;

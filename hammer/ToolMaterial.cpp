@@ -33,7 +33,7 @@ void CToolMaterial::OnDeactivate()
 	if ( m_pDocument->GetTools()->GetActiveToolID() != TOOL_FACEEDIT_DISP )
 	{
 		// Clear the selected faces when we are deactivated.
-		m_pDocument->SelectFace(NULL, 0, scClear );
+		m_pDocument->SelectFace(nullptr, 0, scClear );
 	}
 }
 
@@ -71,7 +71,7 @@ bool CToolMaterial::OnLMouseDown2D(CMapView2D *pView, UINT nFlags, const Vector2
 bool CToolMaterial::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2D &vPoint) 
 {
 	CMapDoc *pDoc = pView->GetMapDoc();
-	if (pDoc == NULL)
+	if (pDoc == nullptr)
 	{
 		return false;
 	}
@@ -81,7 +81,7 @@ bool CToolMaterial::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2
 	ULONG ulFace;
 	CMapClass *pObject = pView->NearestObjectAt( vPoint, ulFace);
 
-	if ((pObject != NULL) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapSolid))))
+	if ((pObject != nullptr) && (pObject->IsMapClass(MAPCLASS_TYPE(CMapSolid))))
 	{
 		CMapSolid *pSolid = (CMapSolid *)pObject;
 
@@ -122,12 +122,12 @@ bool CToolMaterial::OnRMouseDown3D(CMapView3D *pView, UINT nFlags, const Vector2
 	ULONG ulFace;
 	CMapClass *pObject = pView->NearestObjectAt( vPoint, ulFace);
 
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		if (pObject->IsMapClass(MAPCLASS_TYPE(CMapSolid)))
 		{
 			CMapSolid *pSolid = (CMapSolid *)pObject;
-			GetHistory()->MarkUndoPosition(NULL, "Apply texture");
+			GetHistory()->MarkUndoPosition(nullptr, "Apply texture");
 			GetHistory()->Keep(pSolid);
 			
 			// Setup the flags.
@@ -178,7 +178,7 @@ bool CToolMaterial::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector2D
 	//
 	// Manage the cursor.
 	//
-	static HCURSOR hcurFacePaint = 0;
+	static HCURSOR hcurFacePaint = nullptr;
 	if (!hcurFacePaint)
 	{
 		hcurFacePaint = LoadCursor(AfxGetInstanceHandle(), MAKEINTRESOURCE(IDC_FACEPAINT));
@@ -212,7 +212,7 @@ bool CToolMaterial::OnKeyDown3D( CMapView3D *pView, UINT nChar, UINT nRepCnt, UI
 	//		   justify (SHIFT?)
 	
 	CMapDoc *pDoc = pView->GetMapDoc();
-	if ( pDoc == NULL )
+	if ( pDoc == nullptr)
 	{
 		return false;
 	}

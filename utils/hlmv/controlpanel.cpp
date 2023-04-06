@@ -1073,7 +1073,7 @@ static CDmElement *GenerateHitboxFileElements( )
 //-----------------------------------------------------------------------------
 void CBoneControlWindow::OnSaveHitboxes( )
 {
-	const char *pFileName = mxGetSaveFileName( this, 0, "*.hbx" );
+	const char *pFileName = mxGetSaveFileName( this, nullptr, "*.hbx" );
 	if ( !pFileName )
 		return;
 
@@ -1083,7 +1083,7 @@ void CBoneControlWindow::OnSaveHitboxes( )
 
 	CP4AutoEditAddFile autop4( pActualFileName );
 	CDmElement *pRoot = GenerateHitboxFileElements();
-	bool bOk = g_pDataModel->SaveToFile( pActualFileName, NULL, NULL, "hitbox", pRoot );
+	bool bOk = g_pDataModel->SaveToFile( pActualFileName, nullptr, nullptr, "hitbox", pRoot );
 	DestroyElement( pRoot, TD_ALL );
 	if ( !bOk )
 	{
@@ -1159,7 +1159,7 @@ static void LoadHitboxesFromFile( CDmElement *pRoot )
 
 void CBoneControlWindow::OnLoadHitboxes( )
 {
-	const char *pFileName = mxGetOpenFileName( this, 0, "*.hbx" );
+	const char *pFileName = mxGetOpenFileName( this, nullptr, "*.hbx" );
 	if ( !pFileName )
 		return;
 
@@ -1168,7 +1168,7 @@ void CBoneControlWindow::OnLoadHitboxes( )
 	Q_DefaultExtension( pActualFileName, ".hbx", sizeof(pActualFileName) );
 
 	CDmElement *pRoot;
-	DmFileId_t fileid = g_pDataModel->RestoreFromFile( pActualFileName, NULL, NULL, &pRoot, CR_FORCE_COPY );
+	DmFileId_t fileid = g_pDataModel->RestoreFromFile( pActualFileName, nullptr, nullptr, &pRoot, CR_FORCE_COPY );
 	if ( fileid == DMFILEID_INVALID )
 	{
 		Warning( "Unable to read hitbox file \"%s\"\n", pActualFileName );
@@ -1370,7 +1370,7 @@ int CBoneControlWindow::handleEvent (mxEvent *event)
 // Singleton instance
 //-----------------------------------------------------------------------------
 
-ControlPanel *g_ControlPanel = 0;
+ControlPanel *g_ControlPanel = nullptr;
 
 #define TAB_RENDER		0
 #define TAB_SEQUENCE	1
@@ -1904,7 +1904,7 @@ void ControlPanel::CompileSelectedIndex( void )
 		// unghhhh here we go
 		SECURITY_ATTRIBUTES sa;
 		sa.nLength = sizeof(sa);
-		sa.lpSecurityDescriptor = NULL;
+		sa.lpSecurityDescriptor = nullptr;
 		sa.bInheritHandle = TRUE;  
 
 		HANDLE h = CreateFile( TEXT(g_QCPathRecords[nSelection].szLogFilePath),
@@ -1913,7 +1913,7 @@ void ControlPanel::CompileSelectedIndex( void )
 			&sa,
 			CREATE_NEW,
 			FILE_ATTRIBUTE_NORMAL,
-			NULL );
+		nullptr);
 
 		PROCESS_INFORMATION pi; 
 		STARTUPINFO si;
@@ -1924,14 +1924,14 @@ void ControlPanel::CompileSelectedIndex( void )
 		ZeroMemory( &si, sizeof(STARTUPINFO) );
 		si.cb = sizeof(STARTUPINFO); 
 		si.dwFlags |= STARTF_USESTDHANDLES;
-		si.hStdInput = NULL;
+		si.hStdInput = nullptr;
 		si.hStdError = h;
 		si.hStdOutput = h;
 
 		char cmd[2048];
 		V_snprintf( cmd, sizeof(cmd), "studiomdl.exe -parsecompletion %s", g_QCPathRecords[nSelection].szAbsPath );
 
-		ret = CreateProcess( NULL, TEXT(cmd), NULL, NULL, TRUE, flags, NULL, TEXT(g_QCPathRecords[nSelection].szCWDPath), &si, &pi);
+		ret = CreateProcess(nullptr, TEXT(cmd), nullptr, nullptr, TRUE, flags, nullptr, TEXT(g_QCPathRecords[nSelection].szCWDPath), &si, &pi);
 
 		if ( ret ) 
 		{
@@ -2572,19 +2572,19 @@ int ControlPanel::GetCurrentHitboxSet( void )
 
 ControlPanel::~ControlPanel()
 {
-	g_ControlPanel = NULL;
+	g_ControlPanel = nullptr;
 }
 
 void ControlPanel::OnDelete()
 {
 	// for some reason, the destructor only gets called from mx when breakpoints are set,
 	// so to be safe, clear the pointer (possibly twice)
-	g_ControlPanel = NULL;
+	g_ControlPanel = nullptr;
 }
 
 void ControlPanel::BuildEventQCString()
 {
-	if ( g_ControlPanel == NULL )
+	if ( g_ControlPanel == nullptr)
 		return;
 
 	char qcstr[ 256 ];
@@ -2600,7 +2600,7 @@ void ControlPanel::BuildEventQCString()
 
 void ControlPanel::BuildIKRuleQCString()
 {
-	if ( g_ControlPanel == NULL )
+	if ( g_ControlPanel == nullptr)
 		return;
 
 	char qcstr[ 256 ];
@@ -3168,7 +3168,7 @@ ControlPanel::handleEvent (mxEvent *event)
 				break;
 			}
 
-			const char *pFilePath = mxGetOpenFileName (this, 0, "*.vmt");
+			const char *pFilePath = mxGetOpenFileName (this, nullptr, "*.vmt");
 			if (pFilePath)
 			{
 				KeyValues *kvLoadedFromFile = new KeyValues( pSelectedMaterial->GetShaderName() );
@@ -3401,7 +3401,7 @@ ControlPanel::handleEvent (mxEvent *event)
 			break;
 
 		case IDC_HITBOXES:
-			if ( g_pStudioModel->GetStudioHdr() == NULL )
+			if ( g_pStudioModel->GetStudioHdr() == nullptr)
 				((mxCheckBox *) event->widget)->setChecked( false );
 
 			g_viewerSettings.showHitBoxes = ((mxCheckBox *) event->widget)->isChecked();
@@ -3694,7 +3694,7 @@ ControlPanel::handleEvent (mxEvent *event)
 						*cp = '\0';
 				}
 
-				ShellExecute( 0, 0, _T(szAbsPath), 0, 0, SW_SHOW );
+				ShellExecute( nullptr, nullptr, _T(szAbsPath), nullptr, nullptr, SW_SHOW );
 			}
 		}
 		break;
@@ -3831,7 +3831,7 @@ ControlPanel::handleEvent (mxEvent *event)
 
 		case IDC_SUBMODEL_LOADMERGEDMODEL:
 			{
-				const char *ptr = mxGetOpenFileName (this, 0, "*.mdl");
+				const char *ptr = mxGetOpenFileName (this, nullptr, "*.mdl");
 				if (ptr)
 				{
 					// find the first free slot
@@ -3881,18 +3881,18 @@ ControlPanel::handleEvent (mxEvent *event)
 					strcpy( g_viewerSettings.mergeModelFile[i], "" );
 					g_pStudioExtraModel[i]->FreeModel( false );
 					delete g_pStudioExtraModel[i];
-					g_pStudioExtraModel[i] = NULL;
+					g_pStudioExtraModel[i] = nullptr;
 				}
 
 				//need to push the missing index out of the merged model list
 				for ( int i = 0; i < HLMV_MAX_MERGED_MODELS - 1; i++ )
 				{
-					if ( g_pStudioExtraModel[i] == NULL && g_pStudioExtraModel[i+1] != NULL )
+					if ( g_pStudioExtraModel[i] == nullptr && g_pStudioExtraModel[i+1] != nullptr)
 					{
 						strcpy( g_viewerSettings.mergeModelFile[i], g_viewerSettings.mergeModelFile[i+1] );
 						strcpy( g_viewerSettings.mergeModelFile[i+1], "" );
 						g_pStudioExtraModel[i] = g_pStudioExtraModel[i+1];
-						g_pStudioExtraModel[i+1] = NULL;
+						g_pStudioExtraModel[i+1] = nullptr;
 
 						
 						strcpy( g_MergeModelBonePairs[i].szLocalBone, g_MergeModelBonePairs[i+1].szLocalBone );
@@ -3917,7 +3917,7 @@ ControlPanel::handleEvent (mxEvent *event)
 						strcpy( g_viewerSettings.mergeModelFile[i], "" );
 						g_pStudioExtraModel[i]->FreeModel( false );
 						delete g_pStudioExtraModel[i];
-						g_pStudioExtraModel[i] = NULL;
+						g_pStudioExtraModel[i] = nullptr;
 					}
 				}
 				UpdateSubmodelWindow();	
@@ -3964,7 +3964,7 @@ ControlPanel::handleEvent (mxEvent *event)
 				{
 					if ( strlen(g_QCPathRecords[nSelection].szLogFilePath) > 0 )
 					{
-						ShellExecute(0, 0, g_QCPathRecords[nSelection].szLogFilePath, 0, 0 , SW_SHOW );
+						ShellExecute(nullptr, nullptr, g_QCPathRecords[nSelection].szLogFilePath, nullptr, nullptr , SW_SHOW );
 					}
 				}
 			}
@@ -3977,7 +3977,7 @@ ControlPanel::handleEvent (mxEvent *event)
 				{
 					char cmd[1024];
 					V_sprintf_safe( cmd, "/select,\"%s\"", g_QCPathRecords[nSelection].szAbsPath );
-					ShellExecute(0, _T("open"), _T("explorer.exe"), cmd, 0, SW_NORMAL);
+					ShellExecute(nullptr, _T("open"), _T("explorer.exe"), cmd, nullptr, SW_NORMAL);
 				}
 			}
 			break;
@@ -4328,7 +4328,7 @@ void ControlPanel::OnLoadModel( void )
 		{
 			g_pStudioExtraModel[i]->FreeModel( false );
 			delete g_pStudioExtraModel[i];
-			g_pStudioExtraModel[i] = NULL;
+			g_pStudioExtraModel[i] = nullptr;
 		}
 		if (strlen( g_viewerSettings.mergeModelFile[i] ) != 0)
 		{
@@ -4370,7 +4370,7 @@ LoadModelResult_t ControlPanel::loadModel(const char *filename, int slot )
 		return loadModel( filename );
 	}
 
-	if (g_pStudioExtraModel[slot] == NULL)
+	if (g_pStudioExtraModel[slot] == nullptr)
 	{
 		g_pStudioExtraModel[slot] = new StudioModel;
 	}
@@ -4476,7 +4476,7 @@ ControlPanel::setLOD( int index, bool setLODchoice, bool force )
 		cLODChoice->select( index );
 	}
 	setModelInfo();
-	InvalidateRect( wnd, NULL, TRUE );
+	InvalidateRect( wnd, nullptr, TRUE );
 	UpdateWindow( wnd );
 }
 
@@ -5632,7 +5632,7 @@ void ControlPanel::cs_gunsidemodelView()
 		{
 			g_pStudioExtraModel[i]->FreeModel( false );
 			delete g_pStudioExtraModel[i];
-			g_pStudioExtraModel[i] = NULL;				
+			g_pStudioExtraModel[i] = nullptr;				
 		}
 	}
 
@@ -6070,7 +6070,7 @@ void ControlPanel::setupPhysicsBone( int boneIndex )
 	setupPhysicsAxis( boneIndex, axisIndex );
 	// read per-bone data
 	hlmvsolid_t solid;
-	g_pStudioModel->Physics_GetData( boneIndex, &solid, NULL );
+	g_pStudioModel->Physics_GetData( boneIndex, &solid, nullptr);
 	
 	SetSlider( slPhysicsParamMassBias, lPhysicsParamMassBias, solid.massBias );
 	SetSlider( slPhysicsParamInertia, lPhysicsParamInertia, solid.params.inertia );
@@ -6102,7 +6102,7 @@ void ControlPanel::setupPhysicsAxis( int boneIndex, int axis )
 	// read the per-axis data
 	constraint_ragdollparams_t constraint;
 
-	g_pStudioModel->Physics_GetData( boneIndex, NULL, &constraint );
+	g_pStudioModel->Physics_GetData( boneIndex, nullptr, &constraint );
 	setPhysicsAxis( axis );
 	SetSlider( slPhysicsConMin, lPhysicsConMin, constraint.axes[axis].minRotation );
 	SetSlider( slPhysicsConMax, lPhysicsConMax, constraint.axes[axis].maxRotation );

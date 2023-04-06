@@ -50,7 +50,7 @@ BEGIN_VS_SHADER( LightmappedReflective_DX90, "Help for Lightmapped Reflective" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -138,7 +138,7 @@ BEGIN_VS_SHADER( LightmappedReflective_DX90, "Help for Lightmapped Reflective" )
 			{
 				numTexCoords = 3;
 			}
-			pShaderShadow->VertexShaderVertexFormat( fmt, numTexCoords, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, numTexCoords, nullptr, 0 );
 
 			if ( IS_FLAG_SET( MATERIAL_VAR_TRANSLUCENT ) )
 			{

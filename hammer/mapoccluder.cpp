@@ -37,14 +37,14 @@ IMPLEMENT_MAPCLASS(CMapOccluder)
 CMapClass *CMapOccluder::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 {
 	CMapOccluder *pOccluder = new CMapOccluder;
-	if (pOccluder != NULL)
+	if (pOccluder != nullptr)
 	{
 		//
 		// The first parameter should be the key name to represent. If it isn't
 		// there we assume "radius".
 		//
 		const char *pszKeyName = pHelperInfo->GetParameter(0);
-		if (pszKeyName != NULL)
+		if (pszKeyName != nullptr)
 		{
 			strcpy(pOccluder->m_szKeyName, pszKeyName);
 		}
@@ -61,19 +61,19 @@ CMapClass *CMapOccluder::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 		unsigned char chBlue = 255;
 
 		const char *pszParam = pHelperInfo->GetParameter(1);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			chRed = atoi(pszParam);
 		}
 
 		pszParam = pHelperInfo->GetParameter(2);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			chGreen = atoi(pszParam);
 		}
 
 		pszParam = pHelperInfo->GetParameter(3);
-		if (pszParam != NULL)
+		if (pszParam != nullptr)
 		{
 			chBlue = atoi(pszParam);
 		}
@@ -124,7 +124,7 @@ CMapOccluder::~CMapOccluder(void)
 	if ( m_FoWHandle != -1 )
 	{
 		CFoW	*pFoW = CMapDoc::GetActiveMapDoc()->GetFoW();
-		if ( pFoW != NULL && m_FoWHandle != -1 )
+		if ( pFoW != nullptr && m_FoWHandle != -1 )
 		{
 			pFoW->RemoveOccluder( m_FoWHandle );
 		}
@@ -174,7 +174,7 @@ CMapClass *CMapOccluder::Copy(bool bUpdateDependencies)
 {
 	CMapOccluder *pCopy = new CMapOccluder( false );
 
-	if (pCopy != NULL)
+	if (pCopy != nullptr)
 	{
 		pCopy->CopyFrom(this, bUpdateDependencies);
 	}
@@ -289,7 +289,7 @@ bool CMapOccluder::HitTest2D(CMapView2D *pView, const Vector2D &point, HitInfo_t
 		return true;
 	}
 
-	HitData.pObject = NULL;
+	HitData.pObject = nullptr;
 	return false;
 }
 
@@ -324,7 +324,7 @@ void CMapOccluder::OnRemoveFromWorld(CMapWorld *pWorld, bool bNotifyChildren)
 {
 	CFoW	*pFoW = CMapDoc::GetActiveMapDoc()->GetFoW();
 
-	if ( pFoW != NULL && m_FoWHandle != -1 )
+	if ( pFoW != nullptr && m_FoWHandle != -1 )
 	{
 		pFoW->RemoveOccluder( m_FoWHandle );
 	}

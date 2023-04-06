@@ -25,7 +25,7 @@ BEGIN_NETWORK_TABLE_NOBASE( CEnvDetailController, DT_DetailController )
 	#endif
 END_NETWORK_TABLE()
 
-static CEnvDetailController *s_detailController = NULL;
+static CEnvDetailController *s_detailController = nullptr;
 CEnvDetailController * GetDetailController()
 {
 	return s_detailController;
@@ -40,7 +40,7 @@ CEnvDetailController::~CEnvDetailController()
 {
 	if ( s_detailController == this )
 	{
-		s_detailController = NULL;
+		s_detailController = nullptr;
 	}
 }
 

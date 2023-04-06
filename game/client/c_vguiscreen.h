@@ -28,7 +28,7 @@ struct VGuiScreenInitData_t
 {
 	C_BaseEntity *m_pEntity;
 
-	VGuiScreenInitData_t() : m_pEntity(NULL) {}
+	VGuiScreenInitData_t() : m_pEntity(nullptr) {}
 	explicit VGuiScreenInitData_t( C_BaseEntity *pEntity ) : m_pEntity(pEntity) {}
 };
 

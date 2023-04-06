@@ -64,7 +64,7 @@ Vector			g_IdentityBasis[3] = {Vector(1,0,0), Vector(0,1,0), Vector(0,0,1)};
 Vector			g_ViewerPos;
 Vector			g_ViewerBasis[3];
 VMatrix			g_mModelView;
-CScratchPad3D	*g_pScratchPad = NULL;
+CScratchPad3D	*g_pScratchPad = nullptr;
 FILETIME		g_LastWriteTime;
 char			g_Filename[256];
 
@@ -119,7 +119,7 @@ void DrawLine2(const Vector &vFrom, const Vector &vTo, float r1, float g1, float
 	verts[1].Init( vTo,   r2, g2, b2, 1 );
 
 	CheckResult ( g_pDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, FALSE ) );
-	CheckResult( g_pDevice->SetTexture( 0, NULL ) );
+	CheckResult( g_pDevice->SetTexture( 0, nullptr) );
 	CheckResult( g_pDevice->DrawPrimitiveUP( D3DPT_LINELIST, 1, verts, sizeof(verts[0]) ) );
 
 	++g_nLines;
@@ -261,7 +261,7 @@ void CommandRender_LinesStart( IDirect3DDevice8 *pDevice )
 {
 	// Set states for line drawing.
 	CheckResult( g_pDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, TRUE ) );
-	CheckResult( g_pDevice->SetTexture( 0, NULL ) );
+	CheckResult( g_pDevice->SetTexture( 0, nullptr) );
 }
 
 void CommandRender_LinesStop( IDirect3DDevice8 *pDevice )
@@ -368,7 +368,7 @@ class CCachedTextData : public CScratchPad3D::ICachedRenderData
 public:
 	CCachedTextData()
 	{
-		m_pTexture = NULL;
+		m_pTexture = nullptr;
 	}
 
 	~CCachedTextData()
@@ -399,7 +399,7 @@ void GenerateTextGreyscaleBitmap(
 
 	
 	// Create a bitmap, font, and HDC.
-	HDC hDC = CreateCompatibleDC( NULL );
+	HDC hDC = CreateCompatibleDC(nullptr);
 	Assert( hDC );
 
 	HFONT hFont = ::CreateFontA(
@@ -437,9 +437,9 @@ void GenerateTextGreyscaleBitmap(
 	bmi.biPlanes       = 1;
 	bmi.biCompression  = BI_RGB;
 	
-	void *pBits = NULL;
+	void *pBits = nullptr;
 	HBITMAP hBitmap = CreateDIBSection( hDC, 
-		(BITMAPINFO*)&bmi, DIB_RGB_COLORS, (void**)&pBits, NULL, 0 );
+		(BITMAPINFO*)&bmi, DIB_RGB_COLORS, (void**)&pBits, nullptr, 0 );
 	Assert( hBitmap && pBits );
 
 	if ( !hBitmap )
@@ -495,7 +495,7 @@ IDirect3DTexture8* MakeD3DTextureFromBitmap(
 	int height,
 	bool bSolidBackground )
 {
-	IDirect3DTexture8 *pRet = NULL;
+	IDirect3DTexture8 *pRet = nullptr;
 	HRESULT hr = g_pDevice->CreateTexture( 
 		width,
 		height,
@@ -506,16 +506,16 @@ IDirect3DTexture8* MakeD3DTextureFromBitmap(
 		&pRet );
 
 	if ( !pRet || FAILED( hr ) )
-		return NULL;
+		return nullptr;
 
 	// Lock the texture and fill it up.
 	D3DLOCKED_RECT lockedRect;
-	hr = pRet->LockRect( 0, &lockedRect, NULL, 0 );
+	hr = pRet->LockRect( 0, &lockedRect, nullptr, 0 );
 	if ( FAILED( hr ) )
 	{
 		Assert( false );
 		pRet->Release();
-		return NULL;
+		return nullptr;
 	}
 
 	// Now fill it up.
@@ -662,7 +662,7 @@ void CommandRender_Text( CScratchPad3D::CBaseCommand *pInCmd, IDirect3DDevice8 *
 
 	g_pDevice->SetTexture( 0, pCached->m_pTexture );
 	CheckResult( g_pDevice->DrawPrimitiveUP( D3DPT_TRIANGLEFAN, 2, quad, sizeof(quad[0]) ) );
-	g_pDevice->SetTexture( 0, NULL );
+	g_pDevice->SetTexture( 0, nullptr);
 
 	++g_nPolygons;
 
@@ -704,12 +704,12 @@ public:
 
 CCommandRenderFunctions g_CommandRenderFunctions[CScratchPad3D::COMMAND_NUMCOMMANDS] =
 {
-	{ NULL, NULL, CommandRender_Point },
+	{nullptr, nullptr, CommandRender_Point },
 	{ CommandRender_LinesStart, CommandRender_LinesStop, CommandRender_Line },
-	{ NULL, NULL, CommandRender_Polygon },
-	{ NULL, NULL, CommandRender_Matrix },
-	{ NULL, NULL, CommandRender_RenderState },
-	{ NULL, NULL, CommandRender_Text }
+	{nullptr, nullptr, CommandRender_Polygon },
+	{nullptr, nullptr, CommandRender_Matrix },
+	{nullptr, nullptr, CommandRender_RenderState },
+	{nullptr, nullptr, CommandRender_Text }
 };
 
 
@@ -765,10 +765,10 @@ bool CheckForNewFile( bool bForce )
 		g_pScratchPad->m_pFilename, 
 		GENERIC_READ, 
 		FILE_SHARE_READ,
-		NULL,
+		nullptr,
 		OPEN_EXISTING,
 		0,
-		NULL );
+	nullptr);
 
 	if( !hFile )
 		return false;
@@ -835,7 +835,7 @@ void AppInit()
 	g_pDevice->SetTextureStageState( 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1 );
 	g_pDevice->SetTextureStageState( 0, D3DTSS_COLORARG1, D3DTA_DIFFUSE );
 	g_pDevice->SetRenderState( D3DRS_ALPHABLENDENABLE, FALSE );
-	g_pDevice->SetTexture( 0, NULL ); 
+	g_pDevice->SetTexture( 0, nullptr); 
 
 	// Setup point scaling parameters.
 	float flOne=1;
@@ -865,7 +865,7 @@ void AppRender( float frametime, float mouseDeltaX, float mouseDeltaY, bool bInv
 		return;
 	}
 
-	g_pDevice->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0, 1, 0 );
+	g_pDevice->Clear( 0, nullptr, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0, 1, 0 );
 
 	g_pDevice->BeginScene();
 
@@ -875,7 +875,7 @@ void AppRender( float frametime, float mouseDeltaX, float mouseDeltaY, bool bInv
 
 	g_pDevice->EndScene();
 
-	g_pDevice->Present( NULL, NULL, NULL, NULL );
+	g_pDevice->Present(nullptr, nullptr, nullptr, nullptr);
 
 	UpdateWindowText();
 }

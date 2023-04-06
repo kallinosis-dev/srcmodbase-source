@@ -29,7 +29,7 @@ class CBaseEntity;
 class CEventAction
 {
 public:
-	CEventAction( const char *ActionData = NULL );
+	CEventAction( const char *ActionData = nullptr);
 	CEventAction( const CEventAction &p_EventAction );
 
 	string_t m_iTarget; // name of the entity(s) to cause the action in

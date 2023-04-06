@@ -16,7 +16,7 @@ class CMySplitterWnd : public CSplitterWnd
 {
 public:
 
-	CMySplitterWnd(void) { pMaxPrev = NULL; }
+	CMySplitterWnd(void) { pMaxPrev = nullptr; }
 
 	int sizePrev[2][2];
 	CWnd *pMaxPrev;

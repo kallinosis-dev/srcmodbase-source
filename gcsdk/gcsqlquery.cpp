@@ -91,7 +91,7 @@ void CGCSQLQuery::ClearParams()
 //----------------------------------------------------------------------------
 // create queries on the heap with Alloc
 CGCSQLQueryGroup::CGCSQLQueryGroup()
-: m_pResults( NULL ) 
+: m_pResults(nullptr) 
 {
 
 }

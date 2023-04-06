@@ -19,7 +19,7 @@ class RecvTable;
 class IPrototypeArgAccess
 {
 public:
-	virtual const char*	FindArg(const char *pName, const char *pDefault=0)=0;
+	virtual const char*	FindArg(const char *pName, const char *pDefault=nullptr)=0;
 };
 
 

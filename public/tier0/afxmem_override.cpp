@@ -42,7 +42,7 @@ void* PASCAL CObject::operator new(size_t nSize)
 #ifdef _AFX_NO_DEBUG_CRT
 	return ::operator new(nSize);
 #else
-	return ::operator new(nSize, _AFX_CLIENT_BLOCK, NULL, 0);
+	return ::operator new(nSize, _AFX_CLIENT_BLOCK, nullptr, 0);
 #endif // _AFX_NO_DEBUG_CRT
 }
 
@@ -134,7 +134,7 @@ BOOL AFXAPI _AfxDefaultAllocHook(size_t, BOOL, LONG)
 
 AFX_STATIC_DATA AFX_ALLOC_HOOK pfnAllocHook = _AfxDefaultAllocHook;
 
-AFX_STATIC_DATA _CRT_ALLOC_HOOK pfnCrtAllocHook = NULL;
+AFX_STATIC_DATA _CRT_ALLOC_HOOK pfnCrtAllocHook = nullptr;
 #if _MSC_VER >= 1200
 int __cdecl _AfxAllocHookProxy(int nAllocType, void * pvData, size_t nSize,
 	int nBlockUse, long lRequest, const unsigned char * szFilename, int nLine)
@@ -163,7 +163,7 @@ int __cdecl _AfxAllocHookProxy(int nAllocType, void * pvData, size_t nSize,
 
 AFX_ALLOC_HOOK AFXAPI AfxSetAllocHook(AFX_ALLOC_HOOK pfnNewHook)
 {
-	if (pfnCrtAllocHook == NULL)
+	if (pfnCrtAllocHook == nullptr)
 		pfnCrtAllocHook = _CrtSetAllocHook(_AfxAllocHookProxy);
 
 	AFX_ALLOC_HOOK pfnOldHook = pfnAllocHook;
@@ -208,7 +208,7 @@ BOOL AFXAPI AfxCheckMemory()
 BOOL AFXAPI AfxIsMemoryBlock(const void* pData, UINT nBytes,
 		LONG* plRequestNumber)
 {
-	return _CrtIsMemoryBlock(pData, nBytes, plRequestNumber, NULL, NULL);
+	return _CrtIsMemoryBlock(pData, nBytes, plRequestNumber, nullptr, nullptr);
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -278,7 +278,7 @@ AFX_STATIC void _AfxDoForAllObjectsProxy(void* pObject, void* pContext)
 void AFXAPI
 AfxDoForAllObjects(void (AFX_CDECL *pfn)(CObject*, void*), void* pContext)
 {
-	if (pfn == NULL)
+	if (pfn == nullptr)
 	{
 		AfxThrowInvalidArgException();
 	}
@@ -348,11 +348,11 @@ void* __cdecl operator new(size_t nSize)
 	for (;;)
 	{
 #if !defined(_AFX_NO_DEBUG_CRT) && defined(_DEBUG)
-		pResult = _malloc_dbg(nSize, _NORMAL_BLOCK, NULL, 0);
+		pResult = _malloc_dbg(nSize, _NORMAL_BLOCK, nullptr, 0);
 #else
 		pResult = malloc(nSize);
 #endif
-		if (pResult != NULL)
+		if (pResult != nullptr)
 			return pResult;
 
 #ifdef _AFXDLL
@@ -364,7 +364,7 @@ void* __cdecl operator new(size_t nSize)
 		if (pfnNewHandler == NULL || (*pfnNewHandler)(nSize) == 0)
 			break;
 #else
-		if (_afxNewHandler == NULL || (*_afxNewHandler)(nSize) == 0)
+		if (_afxNewHandler == nullptr || (*_afxNewHandler)(nSize) == 0)
 			break;
 #endif
 	}
@@ -409,7 +409,7 @@ void* __cdecl operator new(size_t nSize, int nType, LPCSTR lpszFileName, int nLi
 	for (;;)
 	{
 		pResult = _malloc_dbg(nSize, nType, lpszFileName, nLine);
-		if (pResult != NULL)
+		if (pResult != nullptr)
 			return pResult;
 
 #ifdef _AFXDLL
@@ -421,7 +421,7 @@ void* __cdecl operator new(size_t nSize, int nType, LPCSTR lpszFileName, int nLi
 		if (pfnNewHandler == NULL || (*pfnNewHandler)(nSize) == 0)
 			break;
 #else
-		if (_afxNewHandler == NULL || (*_afxNewHandler)(nSize) == 0)
+		if (_afxNewHandler == nullptr || (*_afxNewHandler)(nSize) == 0)
 			break;
 #endif
 	}

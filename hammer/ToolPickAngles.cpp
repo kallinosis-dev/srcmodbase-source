@@ -19,7 +19,7 @@
 //-----------------------------------------------------------------------------
 CToolPickAngles::CToolPickAngles(void)
 {
-	m_pNotifyTarget = NULL;
+	m_pNotifyTarget = nullptr;
 }
 
 
@@ -55,11 +55,11 @@ bool CToolPickAngles::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vecto
 {
 	unsigned long ulFace;
 	CMapClass *pObject = pView->NearestObjectAt( vPoint, ulFace);
-	if (pObject != NULL)
+	if (pObject != nullptr)
 	{
 		CMapClass *pSelObject = pObject->PrepareSelection(selectObjects);
 		CMapEntity *pEntity = dynamic_cast <CMapEntity *>(pSelObject);
-		if (pEntity != NULL)
+		if (pEntity != nullptr)
 		{
 			//
 			// We clicked on an entity.
@@ -74,7 +74,7 @@ bool CToolPickAngles::OnLMouseDown3D(CMapView3D *pView, UINT nFlags, const Vecto
 		else
 		{
 			CMapSolid *pSolid = dynamic_cast <CMapSolid *> (pObject);
-			if (pSolid == NULL)
+			if (pSolid == nullptr)
 			{
 				return true;
 			}
@@ -161,7 +161,7 @@ bool CToolPickAngles::OnMouseMove3D(CMapView3D *pView, UINT nFlags, const Vector
 //-----------------------------------------------------------------------------
 void CToolPickAngles::SetToolCursor(void)
 {
-	static HCURSOR hcur = NULL;
+	static HCURSOR hcur = nullptr;
 	
 	if (!hcur)
 	{

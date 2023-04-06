@@ -30,7 +30,7 @@ class CDmeJoint : public CDmeDag
 	DEFINE_ELEMENT( CDmeJoint, CDmeDag );
 
 public:
-	virtual void Draw( CDmeDrawSettings *pDrawSettings = NULL );
+	virtual void Draw( CDmeDrawSettings *pDrawSettings = nullptr);
 
 	static void DrawJointHierarchy( bool bDrawJoints );
 

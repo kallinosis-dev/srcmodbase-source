@@ -10,7 +10,7 @@
 #include "soundsystem/lowlevel.h"
 
 
-static IXAudio2 *g_pXAudio2 = NULL;
+static IXAudio2 *g_pXAudio2 = nullptr;
 static int g_XAudio2Refcount = 0;
 extern CInterlockedInt g_nDetectedAudioError;
 extern CInterlockedInt g_nDetectedBufferStarvation;
@@ -32,9 +32,9 @@ public:
 		m_nSampleBits = 16;
 		m_nSampleRate = 44100;
 		m_bIsActive = true;
-		m_pMasterVoice = NULL;
-		m_pSourceVoice = NULL;
-		m_pBuffer = NULL;
+		m_pMasterVoice = nullptr;
+		m_pSourceVoice = nullptr;
+		m_pBuffer = nullptr;
 		m_nBufferSizeBytes = 0;
 		m_nBufferCount = 0;
 		m_nSubmitIndex = 0;
@@ -204,7 +204,7 @@ static void ShutdownXAudio()
 	{
 		g_XAudioErrors.Shutdown( g_pXAudio2 );
 		g_pXAudio2->Release();
-		g_pXAudio2 = NULL;
+		g_pXAudio2 = nullptr;
 		ShutdownCOM();
 	}
 }
@@ -269,7 +269,7 @@ int Audio_EnumerateXAudio2Devices( audio_device_description_t *pDeviceListOut, i
 IAudioDevice2 *Audio_CreateXAudio2Device( const audio_device_init_params_t &params )
 {
 	if ( !InitXAudio() )
-		return NULL;
+		return nullptr;
 
 	int nPreferredDevice = 0;
 	UINT32 nDeviceCountWindows = 0;
@@ -288,7 +288,7 @@ IAudioDevice2 *Audio_CreateXAudio2Device( const audio_device_init_params_t &para
 	// disconnecting partway through the past -- as soon as the machine was
 	// running headless the enumeration would return zero devices.
 	if ( !nCount )
-		return NULL;
+		return nullptr;
 	for ( int i = 0; i < nCount; i++ )
 	{
 		if ( desc[i].m_bIsDefault )
@@ -314,7 +314,7 @@ IAudioDevice2 *Audio_CreateXAudio2Device( const audio_device_init_params_t &para
 		return pDevice;
 
 	delete pDevice;
-	return NULL;
+	return nullptr;
 }
 
 CAudioXAudio2::~CAudioXAudio2()

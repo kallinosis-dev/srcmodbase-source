@@ -315,7 +315,7 @@ inline void RayTracingEnvironment::FlushStreamEntry(RayStream &s,int msk, RTECul
 	fltx4 scl=ReciprocalSaturateSIMD(tmax);
 	s.PendingRays[msk].direction*=scl;					// normalize
 	RayTracingResult tmpresult;
-	Trace4Rays(s.PendingRays[msk],Four_Zeros,tmax,msk,&tmpresult,-1,NULL,cullMode);
+	Trace4Rays(s.PendingRays[msk],Four_Zeros,tmax,msk,&tmpresult,-1, nullptr,cullMode);
 	// now, write out results
 	for(int r=0;r<4;r++)
 	{

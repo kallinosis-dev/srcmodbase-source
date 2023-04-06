@@ -145,16 +145,16 @@ CScriptEditorPanel::~CScriptEditorPanel()
 
 	// Destroy the controls
 	delete m_pOutput;
-	m_pOutput = NULL;
+	m_pOutput = nullptr;
 
 	delete m_pSubmit;
-	m_pSubmit = NULL;
+	m_pSubmit = nullptr;
 
 	delete m_pScriptEntry;
-	m_pScriptEntry = NULL;
+	m_pScriptEntry = nullptr;
 
 	delete m_pLineNumberPanel;
-	m_pLineNumberPanel = NULL;
+	m_pLineNumberPanel = nullptr;
 }
 
 

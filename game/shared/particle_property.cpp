@@ -59,7 +59,7 @@ END_NETWORK_TABLE()
 //-----------------------------------------------------------------------------
 CParticleProperty::CParticleProperty()
 {
-	Init( NULL );
+	Init(nullptr);
 }
 
 //-----------------------------------------------------------------------------
@@ -69,7 +69,7 @@ CParticleProperty::~CParticleProperty()
 {
 	// We're being removed. Call StopEmission() on any particle system
 	// that has an unlimited number of particles to emit.
-	StopEmission( NULL, false, true );
+	StopEmission(nullptr, false, true );
 }
 
 //-----------------------------------------------------------------------------
@@ -130,7 +130,7 @@ CNewParticleEffect *CParticleProperty::Create( const char *pszParticleName, Part
 {
 	int iAttachment = GetParticleAttachment( GetOuter(), pszAttachmentName, pszParticleName );
 	if ( iAttachment == -1 )
-		return NULL;
+		return nullptr;
 
 	// Create the system
 	return Create( pszParticleName, iAttachType, iAttachment );
@@ -164,7 +164,7 @@ CNewParticleEffect *CParticleProperty::Create( CParticleSystemDefinition *pDef, 
 	{
 		// Caused by trying to spawn an unregistered particle effect. Remove it.
 		ParticleMgr()->RemoveEffect( newEffect->pParticleEffect.GetObject() );
-		return NULL;
+		return nullptr;
 	}
 
 	AddControlPoint( iIndex, 0, GetOuter(), iAttachType, iAttachmentPoint, vecOriginOffset, matOffset );
@@ -183,7 +183,7 @@ CNewParticleEffect *CParticleProperty::CreatePrecached( int nPrecacheIndex, Part
 	if ( !pDef )
 	{
 		AssertMsg( 0, "Attempting to create unknown particle system" );
-		return NULL;
+		return nullptr;
 	}
 	return Create( pDef, iAttachType, iAttachmentPoint, vecOriginOffset, matOffset );
 }
@@ -195,7 +195,7 @@ CNewParticleEffect *CParticleProperty::Create( const char *pszParticleName, Part
 	{
 //		AssertMsg( 0, "Attempting to create unknown particle system" );
 		Warning( "Attempting to create unknown particle system '%s' \n", pszParticleName );
-		return NULL;
+		return nullptr;
 	}
 	return Create( pDef, iAttachType, iAttachmentPoint, vecOriginOffset, matOffset );
 }
@@ -312,7 +312,7 @@ void CParticleProperty::StopEmission( CNewParticleEffect *pEffect, bool bWakeOnS
 			if ( bRemoveSystem )
 			{
 				m_ParticleEffects.Remove( i );
-				pTmp->SetOwner( NULL );
+				pTmp->SetOwner(nullptr);
 			}
 			pTmp->StopEmission( false, bRemoveSystem, !bRemoveSystem && bWakeOnStop, bPlayEndCap );
 		}
@@ -334,7 +334,7 @@ void CParticleProperty::StopEmissionAndDestroyImmediately( CNewParticleEffect *p
 			m_ParticleEffects.Remove( iIndex );
 
 			// Clear the owner so it doesn't try to call back to us on deletion
-			pEffect->SetOwner( NULL );
+			pEffect->SetOwner(nullptr);
 			pEffect->StopEmission( false, true );
 		}
 	}
@@ -348,7 +348,7 @@ void CParticleProperty::StopEmissionAndDestroyImmediately( CNewParticleEffect *p
 			m_ParticleEffects.Remove( i );
 
 			// Clear the owner so it doesn't try to call back to us on deletion
-			pTmp->SetOwner( NULL );
+			pTmp->SetOwner(nullptr);
 			pTmp->StopEmission( false, true );
 		}
 	}
@@ -551,7 +551,7 @@ void CParticleProperty::UpdateControlPoint( ParticleEffectList_t *pEffect, int i
 			pEffect->pParticleEffect->SetSortOrigin( pPoint->vecOriginOffset );
 		}
 
-		pEffect->pParticleEffect->SetControlPointEntity( pPoint->iControlPoint, NULL );
+		pEffect->pParticleEffect->SetControlPointEntity( pPoint->iControlPoint, nullptr);
 		return;
 	}
 
@@ -616,7 +616,7 @@ void CParticleProperty::UpdateControlPoint( ParticleEffectList_t *pEffect, int i
 						{
 							HACK_GETLOCALPLAYER_GUARD( "CParticleProperty::UpdateControlPoint" );
 
-							FormatViewModelAttachment( NULL, vecOrigin, true );
+							FormatViewModelAttachment(nullptr, vecOrigin, true );
 						}
 					}
 				}
@@ -754,7 +754,7 @@ void CParticleProperty::DebugPrintEffects( void )
 
 bool CParticleProperty::IsValidEffect( const CNewParticleEffect *pEffect )
 {
-	if( pEffect == NULL )
+	if( pEffect == nullptr)
 		return false;
 
 	int nCount = m_ParticleEffects.Count();

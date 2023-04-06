@@ -145,7 +145,7 @@ public:
 
 		// Get an empty account details object
 		CAccountDetails *pAccount = m_pManager->m_hashAccountDetailsCache.PvRecordFind( m_SteamID.GetAccountID() );
-		if ( NULL == pAccount )
+		if (nullptr == pAccount )
 		{
 			pAccount = m_pManager->m_hashAccountDetailsCache.PvRecordInsert( m_SteamID.GetAccountID() );
 		}
@@ -450,10 +450,10 @@ CAccountDetails *CAccountDetailsManager::YieldingGetAccountDetails( const CSteam
 {
 	AssertRunningJob();
 	if( !steamID.IsValid() || !steamID.BIndividualAccount() )
-		return NULL;
+		return nullptr;
 
 	// Check the local cache
-	CAccountDetails *pAccountDetails = NULL;
+	CAccountDetails *pAccountDetails = nullptr;
 	if ( BFindAccountDetailsInLocalCache( steamID, &pAccountDetails ) )
 	{
 		if ( pAccountDetails && bForceReload )
@@ -473,7 +473,7 @@ CAccountDetails *CAccountDetailsManager::YieldingGetAccountDetails( const CSteam
 	{
 		iMapIndex = m_mapQueuedAccountDetailsRequests.Insert( steamID );
 		CGCJobSendGetAccountDetailsRequest *pJob = new CGCJobSendGetAccountDetailsRequest( GGCBase(), this, steamID );
-		pJob->StartJob( NULL );
+		pJob->StartJob(nullptr);
 	}
 
 	m_mapQueuedAccountDetailsRequests[iMapIndex].AddToTail( GJobCur().GetJobID() );
@@ -492,10 +492,10 @@ CAccountDetails *CAccountDetailsManager::YieldingGetAccountDetails( const CSteam
 bool CAccountDetailsManager::BFindAccountDetailsInLocalCache( const CSteamID &steamID, CAccountDetails **ppAccount )
 {
 	CAccountDetails *pAccountLocal = m_hashAccountDetailsCache.PvRecordFind( steamID.GetAccountID() );
-	if( NULL == pAccountLocal || pAccountLocal->BIsExpired() )
+	if(nullptr == pAccountLocal || pAccountLocal->BIsExpired() )
 		return false;
 
-	*ppAccount = pAccountLocal->BIsValid() ? pAccountLocal : NULL;
+	*ppAccount = pAccountLocal->BIsValid() ? pAccountLocal : nullptr;
 	return true;
 }
 
@@ -594,7 +594,7 @@ void CAccountDetailsManager::SendBatchedPersonaNamesRequest()
 
 	// Start the job. This swaps out our buffer with an empty one
 	CGCJobSendGetPersonaNamesRequest *pJob = new CGCJobSendGetPersonaNamesRequest( GGCBase(), this, m_vecPendingPersonaNameLookups );
-	pJob->StartJob( NULL );
+	pJob->StartJob(nullptr);
 }
 
 
@@ -670,7 +670,7 @@ bool CAccountDetailsManager::BExpireRecords( CLimitTimer &limitTimer )
 {
 	VPROF_BUDGET( "Expire account details", VPROF_BUDGETGROUP_STEAM );
 
-	for ( CAccountDetails *pDetails = m_hashAccountDetailsCache.PvRecordRun(); NULL != pDetails; pDetails = m_hashAccountDetailsCache.PvRecordRun() )
+	for ( CAccountDetails *pDetails = m_hashAccountDetailsCache.PvRecordRun(); nullptr != pDetails; pDetails = m_hashAccountDetailsCache.PvRecordRun() )
 	{
 		if ( pDetails->BIsExpired() )
 		{

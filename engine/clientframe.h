@@ -59,7 +59,7 @@ private:
 class CClientFrameManager
 {
 public:
-	CClientFrameManager(void)  : m_ClientFramePool( MAX_CLIENT_FRAMES, CUtlMemoryPool::GROW_SLOW ) {	m_Frames = NULL; }
+	CClientFrameManager(void)  : m_ClientFramePool( MAX_CLIENT_FRAMES, CUtlMemoryPool::GROW_SLOW ) {	m_Frames = nullptr; }
 	virtual ~CClientFrameManager(void) { DeleteClientFrames(-1); }
 
 	int				AddClientFrame( CClientFrame *pFrame ); // returns current count

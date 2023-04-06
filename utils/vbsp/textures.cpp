@@ -17,7 +17,7 @@
 
 void LoadSurfaceProperties( void );
 
-IPhysicsSurfaceProps *physprops = NULL;
+IPhysicsSurfaceProps *physprops = nullptr;
 
 int		nummiptex;
 textureref_t	textureref[MAX_MAP_TEXTURES];
@@ -29,7 +29,7 @@ extern qboolean onlyents;
 dtexdata_t *GetTexData( int index )
 {
 	if ( index < 0 )
-		return NULL;
+		return nullptr;
 	Assert( !onlyents );
 	return &dtexdata[ index ];
 }
@@ -71,7 +71,7 @@ int	FindMiptex (const char *name)
 	textureref[i].contents = 0;
 
 	matID = FindOriginalMaterial( name, &found );
-	if( matID == MATERIAL_NOT_FOUND )
+	if( matID == nullptr)
 	{
 		return 0;
 	}
@@ -385,7 +385,7 @@ int g_SurfaceProperties[MAX_MAP_TEXDATA];
 
 int GetSurfaceProperties( MaterialSystemMaterial_t matID, const char *pMatName )
 {
-	const char *pPropString = NULL;
+	const char *pPropString = nullptr;
 	int surfaceIndex = -1;
 
 	if ( physprops )
@@ -408,7 +408,7 @@ int GetSurfaceProperties( MaterialSystemMaterial_t matID, const char *pMatName )
 
 int GetSurfaceProperties2( MaterialSystemMaterial_t matID, const char *pMatName, const char *pVarName )
 {
-	const char *pPropString = NULL;
+	const char *pPropString = nullptr;
 	int surfaceIndex = -1;
 
 	if ( physprops )
@@ -471,7 +471,7 @@ int FindAliasedTexData( const char *pName_, dtexdata_t *sourceTexture )
 
 	// Get the width, height, view_width, view_height, and reflectivity from the material system.
 	matID = FindOriginalMaterial( TexDataStringTable_GetString( sourceTexture->nameStringTableID ), &found, false );
-	if( matID == MATERIAL_NOT_FOUND || (!found) )
+	if( matID == nullptr || (!found) )
 	{
 		qprintf( "WARNING: material not found: \"%s\"\n", pName );
 		return -1;
@@ -534,7 +534,7 @@ int FindOrCreateTexData( const char *pName_ )
 	// Get the width, height, view_width, view_height, and reflectivity from the material system.
 	bool bFound;
 	MaterialSystemMaterial_t matID = FindOriginalMaterial( pName, &bFound );
-	if ( matID == MATERIAL_NOT_FOUND || (!bFound) )
+	if ( matID == nullptr || (!bFound) )
 	{
 		qprintf( "WARNING: material not found: \"%s\"\n", pName );
 		return nOutput;
@@ -756,13 +756,13 @@ void LoadSurfaceProperties( void )
 	if ( !physicsFactory )
 		return;
 
-	physprops = (IPhysicsSurfaceProps *)physicsFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, NULL );
+	physprops = (IPhysicsSurfaceProps *)physicsFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, nullptr);
 
 	const char *SURFACEPROP_MANIFEST_FILE = "scripts/surfaceproperties_manifest.txt";
 	KeyValues *manifest = new KeyValues( SURFACEPROP_MANIFEST_FILE );
 	if ( manifest->LoadFromFile( g_pFileSystem, SURFACEPROP_MANIFEST_FILE, "GAME" ) )
 	{
-		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != NULL; sub = sub->GetNextKey() )
+		for ( KeyValues *sub = manifest->GetFirstSubKey(); sub != nullptr; sub = sub->GetNextKey() )
 		{
 			if ( !Q_stricmp( sub->GetName(), "file" ) )
 			{

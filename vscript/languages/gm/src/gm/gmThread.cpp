@@ -56,7 +56,7 @@ void gmGetLineFromString(const char * a_string, int a_line, char * a_buffer, int
 
 gmThread::gmThread(gmMachine * a_machine, int a_initialByteSize)
 {
-  m_frame = NULL;
+  m_frame = nullptr;
   m_machine = a_machine;
   m_size = a_initialByteSize / sizeof(gmVariable);
   m_stack = GM_NEW( gmVariable[m_size] );
@@ -73,8 +73,8 @@ gmThread::gmThread(gmMachine * a_machine, int a_initialByteSize)
   m_instruction = NULL;
   m_state = KILLED;
   m_id = GM_INVALID_THREAD;
-  m_blocks = NULL;
-  m_signals = NULL;
+  m_blocks = nullptr;
+  m_signals = nullptr;
 
   m_user = 0;
 }
@@ -201,7 +201,7 @@ gmThread::State gmThread::Sys_Execute(gmVariable * a_return)
   // cache our "registers"
   gmFunctionObject * fn = (gmFunctionObject *) GM_MOBJECT(m_machine, GetFunction()->m_value.m_ref);
   code = (const gmuint8 *) fn->GetByteCode();
-  if(m_instruction == NULL) instruction = code;
+  if(m_instruction == nullptr) instruction = code;
   else instruction = m_instruction;
   top = GetTop();
   base = GetBase();
@@ -1001,7 +1001,7 @@ gmThread::State gmThread::PushStackFrame(int a_numParameters, const gmuint8 ** a
     // check the call result
     if(result != GM_OK)
     {
-      const gmuint8 * returnAddress = (a_ip) ? *a_ip : NULL;
+      const gmuint8 * returnAddress = (a_ip) ? *a_ip : nullptr;
 
       if(result == GM_SYS_YIELD)
       {
@@ -1086,14 +1086,14 @@ gmThread::State gmThread::PushStackFrame(int a_numParameters, const gmuint8 ** a
 
 gmThread::State gmThread::Sys_PopStackFrame(const gmuint8 * &a_ip, const gmuint8 * &a_cp)
 {
-  if(m_frame == NULL)
+  if(m_frame == nullptr)
   {
     m_machine->GetLog().LogEntry("stack underflow");
     return SYS_EXCEPTION;
   }
 
   gmStackFrame * frame = m_frame->m_prev;
-  if( frame == NULL ) // Final frame, we will exit now
+  if( frame == nullptr) // Final frame, we will exit now
   {
     return KILLED; // Don't clean up stack, let the machine reset it as state changes to killed (so Exit callback can examine valid thread contents)
   }

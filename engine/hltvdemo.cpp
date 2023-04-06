@@ -154,7 +154,7 @@ void CHLTVDemoRecorder::StopRecording( const CGameInfo *pGameInfo )
 	if ( m_MessageData.GetBasePointer() )
 	{
 		delete [] m_MessageData.GetBasePointer();
-		m_MessageData.StartWriting( NULL, 0 );
+		m_MessageData.StartWriting(nullptr, 0 );
 	}
 	
 	ConMsg("Completed GOTV demo \"%s\", recording time %.1f\n",
@@ -390,7 +390,7 @@ void CHLTVDemoRecorder::WriteFrame( CHLTVFrame *pFrame, bf_write *additionaldata
 
 #ifndef SHARED_NET_STRING_TABLES
 	// Update shared client/server string tables. Must be done before sending entities
-	hltv->m_StringTables->WriteUpdateMessage( NULL, MAX( m_nStartTick, m_nDeltaTick ), msg );
+	hltv->m_StringTables->WriteUpdateMessage(nullptr, MAX( m_nStartTick, m_nDeltaTick ), msg );
 #endif
 
 	// get delta frame
@@ -403,7 +403,7 @@ void CHLTVDemoRecorder::WriteFrame( CHLTVFrame *pFrame, bf_write *additionaldata
 
 	// send all unreliable temp ents between last and current frame
 	CSVCMsg_TempEntities_t tempentsmsg;
-	CFrameSnapshot * fromSnapshot = deltaFrame?deltaFrame->GetSnapshot():NULL;
+	CFrameSnapshot * fromSnapshot = deltaFrame?deltaFrame->GetSnapshot(): nullptr;
 	sv.WriteTempEntities( hltv->m_MasterClient, pFrame->GetSnapshot(), fromSnapshot, tempentsmsg, 255 );
 	if ( tempentsmsg.num_entries() )
 	{
@@ -492,7 +492,7 @@ void CHLTVDemoRecorder::RecordMessages(bf_read &data, int bits)
 		return;
 
 	// create buffer if not there yet
-	if ( m_MessageData.GetBasePointer() == NULL )
+	if ( m_MessageData.GetBasePointer() == nullptr)
 	{
 		m_MessageData.StartWriting( new unsigned char[NET_MAX_PAYLOAD], NET_MAX_PAYLOAD );
 	}

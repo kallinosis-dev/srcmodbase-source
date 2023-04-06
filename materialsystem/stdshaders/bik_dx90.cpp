@@ -32,7 +32,7 @@ BEGIN_VS_SHADER( Bik, "Help for Bik" )
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -67,7 +67,7 @@ BEGIN_VS_SHADER( Bik, "Help for Bik" )
 			unsigned int flags = VERTEX_POSITION | VERTEX_COLOR;
 			bool bHasVertexAlpha = IS_FLAG_SET( MATERIAL_VAR_VERTEXALPHA );
 			int numTexCoords = 1;
-			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( flags, numTexCoords, nullptr, 0 );
 
 			DECLARE_STATIC_VERTEX_SHADER( bik_vs20 );
 			SET_STATIC_VERTEX_SHADER( bik_vs20 );

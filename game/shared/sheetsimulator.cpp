@@ -26,7 +26,7 @@
 
 CSheetSimulator::CSheetSimulator( TraceLineFunc_t traceline, 
 							 TraceHullFunc_t traceHull ) : 
-	m_pFixedPoint(0), m_ControlPoints(0),
+	m_pFixedPoint(nullptr), m_ControlPoints(nullptr),
 	m_TraceLine(traceline), m_TraceHull(traceHull)
 {
 }

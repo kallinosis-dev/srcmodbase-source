@@ -62,7 +62,7 @@ public:
 	// it recursively iterates through the keyvalue sections and calls
 	// chainKeyValue on sections whose name matches the chain name
 	virtual vgui::Panel *CreatePanelMetaClass( const char *pMetaClassType, 
-		int sortorder, void *pInitData, vgui::Panel *pParent, const char *pChainName = NULL ) = 0;
+		int sortorder, void *pInitData, vgui::Panel *pParent, const char *pChainName = nullptr) = 0;
 
 	// removes a particular panel meta class
 	virtual void DestroyPanelMetaClass( vgui::Panel *pPanel ) = 0;

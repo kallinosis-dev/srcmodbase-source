@@ -424,7 +424,7 @@ CLoopInfo* CTestScriptMgr::FindLoop( const char *pLoopName )
 		if ( Q_stricmp( pLoopName, m_Loops[i]->m_Name ) == 0 )
 			return m_Loops[i];
 	}
-	return NULL;
+	return nullptr;
 }
 
 

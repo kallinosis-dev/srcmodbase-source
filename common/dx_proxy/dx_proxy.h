@@ -86,7 +86,7 @@ public:
 
 inline DxProxyModule::DxProxyModule( void )
 {
-	m_hModule = NULL;
+	m_hModule = nullptr;
 	ZeroMemory( m_arrFuncs, sizeof( m_arrFuncs ) );
 }
 
@@ -97,8 +97,8 @@ inline DxProxyModule::~DxProxyModule( void )
 
 inline BOOL DxProxyModule::Load( void )
 {
-	if ( (m_hModule == NULL) &&
-		( m_hModule = ::LoadLibrary( "dx_proxy.dll" ) ) != NULL )
+	if ( (m_hModule == nullptr) &&
+		( m_hModule = ::LoadLibrary( "dx_proxy.dll" ) ) != nullptr)
 	{
 		// Requested function names array
 		LPCSTR const arrFuncNames[fnTotal] = {
@@ -120,7 +120,7 @@ inline void DxProxyModule::Free( void )
 	if ( m_hModule )
 	{
 		::FreeLibrary( m_hModule );
-		m_hModule = NULL;
+		m_hModule = nullptr;
 		ZeroMemory( m_arrFuncs, sizeof( m_arrFuncs ) );
 	}
 }

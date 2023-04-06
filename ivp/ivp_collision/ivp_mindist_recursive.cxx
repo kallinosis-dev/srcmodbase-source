@@ -194,8 +194,8 @@ void IVP_Mindist_Recursive::recheck_recursive_childs(IVP_DOUBLE dist_intra){
 	if(this->get_spawned_mindist_count() > ivp_mindist_settings.max_spawned_mindist_count)//@@CB
 		return;
 
-	const IVP_Compact_Ledge *sl[2] = { NULL, NULL }; // single reference ledge
-    const IVP_Compact_Ledge *rl[2] = { NULL, NULL }; // single root ledge
+	const IVP_Compact_Ledge *sl[2] = {nullptr, nullptr}; // single reference ledge
+    const IVP_Compact_Ledge *rl[2] = {nullptr, nullptr}; // single root ledge
     sl[1-recursive_status] = get_synapse(1-recursive_status)->get_edge()->get_triangle()->get_compact_ledge();
     rl[recursive_status] = get_synapse(recursive_status)->get_edge()->get_triangle()->get_compact_ledge();
 

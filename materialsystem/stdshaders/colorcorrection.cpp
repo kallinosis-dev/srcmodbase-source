@@ -60,7 +60,7 @@ BEGIN_VS_SHADER_FLAGS( ColorCorrection, "Help for ColorCorrection", SHADER_NOT_E
 
 	SHADER_FALLBACK
 	{
-		return 0;
+		return nullptr;
 	}
 
 	SHADER_INIT
@@ -78,7 +78,7 @@ BEGIN_VS_SHADER_FLAGS( ColorCorrection, "Help for ColorCorrection", SHADER_NOT_E
 			pShaderShadow->EnableTexture( SHADER_SAMPLER4, true );
 
 			int fmt = VERTEX_POSITION;
-			pShaderShadow->VertexShaderVertexFormat( fmt, 1, 0, 0 );
+			pShaderShadow->VertexShaderVertexFormat( fmt, 1, nullptr, 0 );
 
 			if ( IsOpenGL() )
 			{

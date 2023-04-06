@@ -201,7 +201,7 @@ struct STextureSubstitute_t
 {
 	STextureSubstitute_t()
 		: m_iszMaterialParam( NULL_STRING )
-		, m_pVTFTexture( NULL )
+		, m_pVTFTexture(nullptr)
 	{
 	}
 
@@ -375,7 +375,7 @@ public:
 
 	// Indicates that you are done with the setup of the combining process.  You must specify a callback function and optionally
 	// a user pointer that will be supplied to you in the callback
-	virtual bool		FinishCombinedModel( MDLHandle_t handle, CombinedModelLoadedCallback pFunc, void *pUserData = NULL ) = 0;
+	virtual bool		FinishCombinedModel( MDLHandle_t handle, CombinedModelLoadedCallback pFunc, void *pUserData = nullptr) = 0;
 
 	// Lets you query a model handle to see if it is a placeholder returned by CreateCombinedModel()
 	virtual bool		IsCombinedPlaceholder( MDLHandle_t handle ) = 0;
@@ -396,7 +396,7 @@ public:
 	virtual void		UpdateCombiner( ) = 0;	// should be called from main thread after rendering has completed
 
 	// Internal engine function to help get access to specific combined assets
-	virtual void		*GetCombinedInternalAsset( ECombinedAsset AssetType, const char *pszAssetID = NULL, int *nSize = NULL ) = 0;
+	virtual void		*GetCombinedInternalAsset( ECombinedAsset AssetType, const char *pszAssetID = nullptr, int *nSize = nullptr) = 0;
 
 	// Set Combiner Flags
 	virtual void		SetCombinerFlags( unsigned nFlags ) = 0;

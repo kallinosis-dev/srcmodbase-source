@@ -70,7 +70,7 @@ public:
 			}
 		}
 
-		if (fromArea == NULL)
+		if (fromArea == nullptr)
 		{
 			// first area in path, no cost
 			return 0.0f;
@@ -101,9 +101,9 @@ public:
 /**
  * Start at given position and find first area in given direction
  */
-inline CNavArea *findFirstAreaInDirection( const Vector *start, NavDirType dir, float range, float beneathLimit, CBaseEntity *traceIgnore = NULL, Vector *closePos = NULL )
+inline CNavArea *findFirstAreaInDirection( const Vector *start, NavDirType dir, float range, float beneathLimit, CBaseEntity *traceIgnore = nullptr, Vector *closePos = nullptr)
 {
-	CNavArea *area = NULL;
+	CNavArea *area = nullptr;
 
 	Vector pos = *start;
 
@@ -188,7 +188,7 @@ void CNavMesh::CreateLadder( const Vector& absMin, const Vector& absMax, float m
 		Vector from = ladder->m_bottom + Vector( 0.0f, GenerationStepSize, GenerationStepSize/2 );
 		Vector to = ladder->m_top + Vector( 0.0f, GenerationStepSize, -GenerationStepSize/2 );
 
-		UTIL_TraceLine( from, to, GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceLine( from, to, GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 
 		if (result.fraction != 1.0f || result.startsolid)
 			ladder->SetDir( NORTH );
@@ -203,7 +203,7 @@ void CNavMesh::CreateLadder( const Vector& absMin, const Vector& absMax, float m
 		Vector from = ladder->m_bottom + Vector( GenerationStepSize, 0.0f, GenerationStepSize/2 );
 		Vector to = ladder->m_top + Vector( GenerationStepSize, 0.0f, -GenerationStepSize/2 );
 
-		UTIL_TraceLine( from, to, GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceLine( from, to, GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 
 		if (result.fraction != 1.0f || result.startsolid)
 			ladder->SetDir( WEST );
@@ -229,7 +229,7 @@ void CNavMesh::CreateLadder( const Vector& absMin, const Vector& absMax, float m
 
 		out = on + ladder->GetNormal() * minLadderClearance;
 
-		UTIL_TraceLine( on, out, GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceLine( on, out, GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 
 		if (result.fraction == 1.0f && !result.startsolid)
 		{
@@ -246,7 +246,7 @@ void CNavMesh::CreateLadder( const Vector& absMin, const Vector& absMax, float m
 
 		out = on + ladder->GetNormal() * minLadderClearance;
 
-		UTIL_TraceLine( on, out, GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceLine( on, out, GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 
 		if (result.fraction == 1.0f && !result.startsolid)
 		{
@@ -260,11 +260,11 @@ void CNavMesh::CreateLadder( const Vector& absMin, const Vector& absMax, float m
 
 	ladder->SetDir( ladder->GetDir() );	// now that we've adjusted the top and bottom, re-check the normal
 
-	ladder->m_bottomArea = NULL;
-	ladder->m_topForwardArea = NULL;
-	ladder->m_topLeftArea = NULL;
-	ladder->m_topRightArea = NULL;
-	ladder->m_topBehindArea = NULL;
+	ladder->m_bottomArea = nullptr;
+	ladder->m_topForwardArea = nullptr;
+	ladder->m_topLeftArea = nullptr;
+	ladder->m_topRightArea = nullptr;
+	ladder->m_topBehindArea = nullptr;
 	ladder->ConnectGeneratedLadder( maxHeightAboveTopArea );
 
 	// add ladder to global list
@@ -323,7 +323,7 @@ void CNavMesh::CreateLadder( const Vector &top, const Vector &bottom, float widt
 
 		out = on + ladder->GetNormal() * minLadderClearance;
 
-		UTIL_TraceLine( on, out, GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceLine( on, out, GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 
 		if (result.fraction == 1.0f && !result.startsolid)
 		{
@@ -340,7 +340,7 @@ void CNavMesh::CreateLadder( const Vector &top, const Vector &bottom, float widt
 
 		out = on + ladder->GetNormal() * minLadderClearance;
 
-		UTIL_TraceLine( on, out, GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceLine( on, out, GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 
 		if (result.fraction == 1.0f && !result.startsolid)
 		{
@@ -354,11 +354,11 @@ void CNavMesh::CreateLadder( const Vector &top, const Vector &bottom, float widt
 
 	ladder->SetDir( ladder->GetDir() );	// now that we've adjusted the top and bottom, re-check the normal
 
-	ladder->m_bottomArea = NULL;
-	ladder->m_topForwardArea = NULL;
-	ladder->m_topLeftArea = NULL;
-	ladder->m_topRightArea = NULL;
-	ladder->m_topBehindArea = NULL;
+	ladder->m_bottomArea = nullptr;
+	ladder->m_topForwardArea = nullptr;
+	ladder->m_topLeftArea = nullptr;
+	ladder->m_topRightArea = nullptr;
+	ladder->m_topBehindArea = nullptr;
 	ladder->ConnectGeneratedLadder( maxHeightAboveTopArea );
 
 	// add ladder to global list
@@ -401,24 +401,24 @@ void CNavLadder::ConnectGeneratedLadder( float maxHeightAboveTopArea )
 	float beneathLimit = MIN( 120.0f, m_top.z - m_bottom.z + HalfHumanWidth );
 
 	// find "ahead" area
-	m_topForwardArea = findFirstAreaInDirection( &center, OppositeDirection( m_dir ), nearLadderRange, beneathLimit, NULL );
+	m_topForwardArea = findFirstAreaInDirection( &center, OppositeDirection( m_dir ), nearLadderRange, beneathLimit, nullptr);
 	if (m_topForwardArea == m_bottomArea)
-		m_topForwardArea = NULL;
+		m_topForwardArea = nullptr;
 
 	// find "left" area
-	m_topLeftArea = findFirstAreaInDirection( &center, DirectionLeft( m_dir ), nearLadderRange, beneathLimit, NULL );
+	m_topLeftArea = findFirstAreaInDirection( &center, DirectionLeft( m_dir ), nearLadderRange, beneathLimit, nullptr);
 	if (m_topLeftArea == m_bottomArea)
-		m_topLeftArea = NULL;
+		m_topLeftArea = nullptr;
 
 	// find "right" area
-	m_topRightArea = findFirstAreaInDirection( &center, DirectionRight( m_dir ), nearLadderRange, beneathLimit, NULL );
+	m_topRightArea = findFirstAreaInDirection( &center, DirectionRight( m_dir ), nearLadderRange, beneathLimit, nullptr);
 	if (m_topRightArea == m_bottomArea)
-		m_topRightArea = NULL;
+		m_topRightArea = nullptr;
 
 	// find "behind" area - must look farther, since ladder is against the wall away from this area
-	m_topBehindArea = findFirstAreaInDirection( &center, m_dir, 2.0f*nearLadderRange, beneathLimit, NULL );
+	m_topBehindArea = findFirstAreaInDirection( &center, m_dir, 2.0f*nearLadderRange, beneathLimit, nullptr);
 	if (m_topBehindArea == m_bottomArea)
-		m_topBehindArea = NULL;
+		m_topBehindArea = nullptr;
 
 	// can't include behind area, since it is not used when going up a ladder
 	if (!m_topForwardArea && !m_topLeftArea && !m_topRightArea)
@@ -452,7 +452,7 @@ void CNavLadder::ConnectGeneratedLadder( float maxHeightAboveTopArea )
 	for( int a=0; a<4; ++a )
 	{
 		CNavArea *topArea = topAreaList[a];
-		if (topArea == NULL)
+		if (topArea == nullptr)
 			continue;
 
 		Vector close;
@@ -893,7 +893,7 @@ void CNavMesh::RaiseAreasWithInternalObstacles()
 			// clear out the nodes associated with this area's corners -- corners don't match the node positions any more
 			for ( int i = 0; i < NUM_CORNERS; i++ )
 			{
-				area->m_node[i] = NULL;		
+				area->m_node[i] = nullptr;		
 			}
 		}
 	}
@@ -1276,7 +1276,7 @@ StairTestType IsStairs( const Vector &start, const Vector &end, StairTestType re
 	float length = start.AsVector2D().DistTo( end.AsVector2D() );
 
 	trace_t trace;
-	CTraceFilterNoNPCsOrPlayer filter( NULL, COLLISION_GROUP_PLAYER_MOVEMENT );
+	CTraceFilterNoNPCsOrPlayer filter(nullptr, COLLISION_GROUP_PLAYER_MOVEMENT );
 	Vector hullMins( -inc/2, -inc/2, 0 );
 	Vector hullMaxs( inc/2, inc/2, 0 );
 	hullMaxs.z = 1; // don't care about vertical clearance
@@ -1495,7 +1495,7 @@ void CNavMesh::RemoveJumpAreas( void )
 
 	StripNavigationAreas();
 
-	SetMarkedArea( NULL );			// unmark the mark area
+	SetMarkedArea(nullptr);			// unmark the mark area
 	m_markedCorner = NUM_CORNERS;	// clear the corner selection
 }
 
@@ -1611,7 +1611,7 @@ static bool testStitchConnection( CNavArea *source, CNavArea *target, const Vect
 	trace_t result;
 	Vector from( sourcePos );
 	Vector pos( targetPos );
-	CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
+	CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
 	Vector to, toNormal;
 	bool success = false;
 	if ( TraceAdjacentNode( 0, from, pos, &result ) )
@@ -1752,14 +1752,14 @@ inline bool testJumpDown( const Vector *fromPos, const Vector *toPos )
 		from = *fromPos;
 		to.Init( fromPos->x, fromPos->y, fromPos->z + up );
 
-		UTIL_TraceHull( from, to, NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceHull( from, to, NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 		if (result.fraction <= 0.0f || result.startsolid)
 			continue;
 
 		from.Init( fromPos->x, fromPos->y, result.endpos.z - 0.5f );
 		to.Init( toPos->x, toPos->y, from.z );
 
-		UTIL_TraceHull( from, to, NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceHull( from, to, NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 		if (result.fraction != 1.0f || result.startsolid)
 			continue;
 
@@ -1773,7 +1773,7 @@ inline bool testJumpDown( const Vector *fromPos, const Vector *toPos )
 	// We've made it up and out, so see if we can drop down
 	from = to;
 	to.z = toPos->z + 2.0f;
-	UTIL_TraceHull( from, to, NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+	UTIL_TraceHull( from, to, NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 	if (result.fraction <= 0.0f || result.startsolid)
 		return false;
 
@@ -1792,12 +1792,12 @@ inline CNavArea *findJumpDownArea( const Vector *fromPos, NavDirType dir )
 	AddDirectionVector( &start, dir, GenerationStepSize/2.0f );
 
 	Vector toPos;
-	CNavArea *downArea = findFirstAreaInDirection( &start, dir, 4.0f * GenerationStepSize, DeathDrop, NULL, &toPos );
+	CNavArea *downArea = findFirstAreaInDirection( &start, dir, 4.0f * GenerationStepSize, DeathDrop, nullptr, &toPos );
 
 	if (downArea && testJumpDown( fromPos, &toPos ))
 		return downArea;
 
-	return NULL;
+	return nullptr;
 }
 
 
@@ -2478,7 +2478,7 @@ void CNavMesh::FixCornerOnCornerAreas( void )
 				vecCorner[2] = cornerPos;											// common corner of this nav area, nav area we touch, and new nav area
 				vecCorner[3] = cornerPos + vecDeltaOurEdge;							// intersection of far edge of new nav area with this nav area
 			
-				CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
+				CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
 				if ( !TraceAdjacentNode( 0, vecCorner[1], vecCorner[0], &result, MaxDrop ) ||	// can we move from edge of other area to far corner of new node
 					!TraceAdjacentNode( 0, vecCorner[3], vecCorner[0], &result, MaxDrop ) )		// can we move from edge of this area to far corner of new node
 					continue;	// new node would not fit
@@ -2642,7 +2642,7 @@ void CNavMesh::SplitAreasUnderOverhangs( void )
 							areaAbove->Disconnect( areaBelow );
 						}						
 
-						CNavArea *pNewAlpha = NULL,*pNewBeta = NULL;
+						CNavArea *pNewAlpha = nullptr,*pNewBeta = nullptr;
 //						int idBelow = areaBelow->GetID();
 //						AddToSelectedSet( areaBelow );
 						// split the lower nav area
@@ -2688,7 +2688,7 @@ bool TestForValidCrouchArea( CNavNode *node )
 	// must make sure we don't have a bogus crouch area.  check up to JumpCrouchHeight above
 	// the node for a HumanCrouchHeight space.
 
-	CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_PLAYER_MOVEMENT, WALK_THRU_EVERYTHING );
+	CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, WALK_THRU_EVERYTHING );
 	trace_t tr;
 	Vector start( *node->GetPosition() );
 	Vector end( *node->GetPosition() );
@@ -2839,8 +2839,8 @@ public:
 
 	bool OverlapsExistingArea( void )
 	{
-		CNavArea *overlappingArea = NULL;
-		CNavLadder *overlappingLadder = NULL;
+		CNavArea *overlappingArea = nullptr;
+		CNavLadder *overlappingLadder = nullptr;
 
 		Vector nw = m_nw;
 		Vector se = m_se;
@@ -2858,7 +2858,7 @@ public:
 				start.z -= StepHeight;
 				end.z += HalfHumanHeight;
 
-				if ( TheNavMesh->FindNavAreaOrLadderAlongRay( start, end, &overlappingArea, &overlappingLadder, NULL ) )
+				if ( TheNavMesh->FindNavAreaOrLadderAlongRay( start, end, &overlappingArea, &overlappingLadder, nullptr) )
 				{
 					if ( overlappingArea )
 					{
@@ -3030,7 +3030,7 @@ bool CNavMesh::TestArea( CNavNode *node, int width, int height )
 				return false;
 
 			horizNode = horizNode->GetConnectedNode( EAST );
-			if (horizNode == NULL)
+			if (horizNode == nullptr)
 				return false;
 
 			// nodes must lie on/near the plane
@@ -3047,7 +3047,7 @@ bool CNavMesh::TestArea( CNavNode *node, int width, int height )
 			return false;
 
 		vertNode = vertNode->GetConnectedNode( SOUTH );
-		if (vertNode == NULL)
+		if (vertNode == nullptr)
 			return false;
 
 		// nodes must lie on/near the plane
@@ -3070,7 +3070,7 @@ bool CNavMesh::TestArea( CNavNode *node, int width, int height )
 				return false;
 
 			horizNode = horizNode->GetConnectedNode( EAST );
-			if (horizNode == NULL)
+			if (horizNode == nullptr)
 				return false;
 
 			// nodes must lie on/near the plane
@@ -3181,9 +3181,9 @@ bool CNavMesh::CheckObstacles( CNavNode *node, int width, int height, int x, int
 int CNavMesh::BuildArea( CNavNode *node, int width, int height )
 {
 	CNavNode *nwNode = node;
-	CNavNode *neNode = NULL;
-	CNavNode *swNode = NULL;
-	CNavNode *seNode = NULL;
+	CNavNode *neNode = nullptr;
+	CNavNode *swNode = nullptr;
+	CNavNode *seNode = nullptr;
 
 	CNavNode *vertNode = node;
 	CNavNode *horizNode;
@@ -3224,7 +3224,7 @@ int CNavMesh::BuildArea( CNavNode *node, int width, int height )
 	}
 
 	CNavArea *area = CreateArea();
-	if (area == NULL)
+	if (area == nullptr)
 	{
 		Error( "BuildArea: Out of memory.\n" );
 		return -1;
@@ -3377,7 +3377,7 @@ void CNavMesh::CreateNavAreasFromNodes( void )
 // adds walkable positions for any/all positions a mod specifies
 void CNavMesh::AddWalkableSeeds( void )
 {
-	CBaseEntity *spawn = gEntList.FindEntityByClassname( NULL, GetPlayerSpawnName() );
+	CBaseEntity *spawn = gEntList.FindEntityByClassname(nullptr, GetPlayerSpawnName() );
 
 	if (spawn )
 	{
@@ -3451,7 +3451,7 @@ void CNavMesh::BeginGeneration( bool incremental )
 	}
 
 	// the system will see this NULL and select the next walkable seed
-	m_currentNode = NULL;
+	m_currentNode = nullptr;
 
 	// if there are no seed points, we can't generate
 	if (m_walkableSeeds.Count() == 0)
@@ -3526,8 +3526,8 @@ void CNavMesh::BeginAnalysis( bool quitWhenFinished )
 		}
 	}
 
-	CBaseEntity* pEnt = NULL;
-	while ( (pEnt = gEntList.FindEntityByClassname( pEnt, "point_hiding_spot" )) != NULL )
+	CBaseEntity* pEnt = nullptr;
+	while ( (pEnt = gEntList.FindEntityByClassname( pEnt, "point_hiding_spot" )) != nullptr)
 	{
 		UTIL_Remove( pEnt );
 	}
@@ -3550,7 +3550,7 @@ void ShowViewPortPanelToAll( const char * name, bool bShow, KeyValues *data )
 	filter.MakeReliable();
 
 	int count = 0;
-	KeyValues *subkey = NULL;
+	KeyValues *subkey = nullptr;
 
 	if ( data )
 	{
@@ -4036,7 +4036,7 @@ bool CNavMesh::UpdateGeneration( float maxTime )
 			}
 			else if ( restart )
 			{
-				engine->ChangeLevel( STRING( gpGlobals->mapname ), NULL );
+				engine->ChangeLevel( STRING( gpGlobals->mapname ), nullptr);
 			}
 			else
 			{
@@ -4108,7 +4108,7 @@ CNavNode *CNavMesh::AddNode( const Vector &destPos, const Vector &normal, NavDir
 	
 	// if no node exists, create one
 	bool useNew = false;
-	if (node == NULL)
+	if (node == nullptr)
 	{
 		node = new CNavNode( destPos, normal, source, isOnDisplacement );
 		OnNodeAdded( node );
@@ -4186,25 +4186,25 @@ inline CNavNode *LadderEndSearch( const Vector *pos, NavDirType mountDir )
 		// make sure this point is not on the other side of a wall
 		const float fudge = 4.0f;
 		trace_t result;
-		UTIL_TraceHull( center + Vector( 0, 0, fudge ), tryPos + Vector( 0, 0, fudge ), NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), NULL, COLLISION_GROUP_NONE, &result );
+		UTIL_TraceHull( center + Vector( 0, 0, fudge ), tryPos + Vector( 0, 0, fudge ), NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), nullptr, COLLISION_GROUP_NONE, &result );
 		if (result.fraction != 1.0f || result.startsolid)
 			continue;
 
 		// if no node exists here, create one and continue the search
-		if (CNavNode::GetNode( tryPos ) == NULL)
+		if (CNavNode::GetNode( tryPos ) == nullptr)
 		{
-			return new CNavNode( tryPos, tryNormal, NULL, false );
+			return new CNavNode( tryPos, tryNormal, nullptr, false );
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 
 //--------------------------------------------------------------------------------------------------------------
 bool CNavMesh::FindGroundForNode( Vector *pos, Vector *normal )
 {
-	CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_PLAYER_MOVEMENT, WALK_THRU_EVERYTHING );
+	CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_PLAYER_MOVEMENT, WALK_THRU_EVERYTHING );
 	trace_t tr;
 	Vector start( pos->x, pos->y, pos->z + VEC_DUCK_HULL_MAX.z - 0.1f );
 	Vector end( *pos );
@@ -4249,7 +4249,7 @@ bool StayOnFloor( trace_t *trace, float zLimit /* = DeathDrop */ )
 	Vector end( start );
 	end.z -= zLimit;
 
-	CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
+	CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
 	UTIL_TraceHull( start, end, NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), &filter, trace );
 	DrawTrace( trace );
 
@@ -4272,7 +4272,7 @@ bool TraceAdjacentNode( int depth, const Vector& start, const Vector& end, trace
 {
 	const float MinDistance = 1.0f;	// if we can't move at least this far, don't bother stepping up.
 
-	CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
+	CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
 	UTIL_TraceHull( start, end, NavTraceMins, NavTraceMaxs, TheNavMesh->GetGenerationTraceMask(), &filter, trace );
 	DrawTrace( trace );
 
@@ -4315,7 +4315,7 @@ bool TraceAdjacentNode( int depth, const Vector& start, const Vector& end, trace
 //--------------------------------------------------------------------------------------------------------
 static bool IsNodeOverlapped( const Vector& pos, const Vector& offset )
 {
-	bool overlap = TheNavMesh->GetNavArea( pos + offset, HumanHeight ) != NULL;
+	bool overlap = TheNavMesh->GetNavArea( pos + offset, HumanHeight ) != nullptr;
 	if ( !overlap )
 	{
 		Vector mins( -0.5f, -0.5f, -0.5f );
@@ -4327,7 +4327,7 @@ static bool IsNodeOverlapped( const Vector& pos, const Vector& offset )
 		end.x += offset.x * GenerationStepSize;
 		end.y += offset.y * GenerationStepSize;
 		trace_t trace;
-		CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
+		CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
 		UTIL_TraceHull( start, end, mins, maxs, TheNavMesh->GetGenerationTraceMask(), &filter, &trace );
 		if ( trace.startsolid || trace.allsolid )
 		{
@@ -4376,12 +4376,12 @@ bool CNavMesh::SampleStep( void )
 	// take a step
 	while( true )
 	{
-		if (m_currentNode == NULL)
+		if (m_currentNode == nullptr)
 		{
 			// sampling is complete from current seed, try next one
 			m_currentNode = GetNextWalkableSeedNode();
 
-			if (m_currentNode == NULL)
+			if (m_currentNode == nullptr)
 			{
 				if ( m_generationMode == GENERATE_INCREMENTAL || m_generationMode == GENERATE_SIMPLIFY )
 				{
@@ -4394,15 +4394,15 @@ bool CNavMesh::SampleStep( void )
 					CNavLadder *ladder = m_ladders[i];
 
 					// check ladder bottom
-					if ((m_currentNode = LadderEndSearch( &ladder->m_bottom, ladder->GetDir() )) != 0)
+					if ((m_currentNode = LadderEndSearch( &ladder->m_bottom, ladder->GetDir() )) != nullptr)
 						break;
 
 					// check ladder top
-					if ((m_currentNode = LadderEndSearch( &ladder->m_top, ladder->GetDir() )) != 0)
+					if ((m_currentNode = LadderEndSearch( &ladder->m_top, ladder->GetDir() )) != nullptr)
 						break;
 				}
 
-				if (m_currentNode == NULL)
+				if (m_currentNode == nullptr)
 				{
 					// all seeds exhausted, sampling complete
 					return false;
@@ -4475,7 +4475,7 @@ bool CNavMesh::SampleStep( void )
 				// test if we can move to new position
 				trace_t result;
 				Vector from( *m_currentNode->GetPosition() );
-				CTraceFilterWalkableEntities filter( NULL, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
+				CTraceFilterWalkableEntities filter(nullptr, COLLISION_GROUP_NONE, WALK_THRU_EVERYTHING );
 				Vector to, toNormal;
 				float obstacleHeight = 0, obstacleStartDist = 0, obstacleEndDist = GenerationStepSize;
 				if ( TraceAdjacentNode( 0, from, pos, &result ) )
@@ -4671,7 +4671,7 @@ void CNavMesh::AddWalkableSeed( const Vector &pos, const Vector &normal )
 CNavNode *CNavMesh::GetNextWalkableSeedNode( void )
 {	
 	if ( m_seedIdx >= m_walkableSeeds.Count() )
-		return NULL;
+		return nullptr;
 
 	WalkableSeedSpot spot = m_walkableSeeds[ m_seedIdx ];
 	++m_seedIdx;
@@ -4679,9 +4679,9 @@ CNavNode *CNavMesh::GetNextWalkableSeedNode( void )
 	// check if a node exists at this location
 	CNavNode *node = CNavNode::GetNode( spot.pos );
 	if ( node )
-		return NULL;
+		return nullptr;
 
-	return new CNavNode( spot.pos, spot.normal, NULL, false );
+	return new CNavNode( spot.pos, spot.normal, nullptr, false );
 }
 
 
@@ -4692,10 +4692,10 @@ CNavNode *CNavMesh::GetNextWalkableSeedNode( void )
 bool IsWalkableTraceLineClear( const Vector &from, const Vector &to, unsigned int flags )
 {
 	trace_t result;
-	CBaseEntity *ignore = NULL;
+	CBaseEntity *ignore = nullptr;
 	Vector useFrom = from;
 
-	CTraceFilterWalkableEntities traceFilter( NULL, COLLISION_GROUP_NONE, flags );
+	CTraceFilterWalkableEntities traceFilter(nullptr, COLLISION_GROUP_NONE, flags );
 
 	result.fraction = 0.0f;
 
@@ -4734,7 +4734,7 @@ bool IsWalkableTraceLineClear( const Vector &from, const Vector &to, unsigned in
 bool IsWalkableTraceHullClear( const Vector &from, const Vector &to, const Vector &mins, const Vector &maxs, unsigned int flags )
 {
 	trace_t result;
-	CTraceFilterWalkableEntities traceFilter( NULL, COLLISION_GROUP_NONE, flags );
+	CTraceFilterWalkableEntities traceFilter(nullptr, COLLISION_GROUP_NONE, flags );
 
 	UTIL_TraceHull( from, to, mins, maxs, MASK_PLAYERSOLID, &traceFilter, &result );
 

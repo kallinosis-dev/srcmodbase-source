@@ -35,11 +35,11 @@ void AddCoolLine( const Vector &v1, const Vector &v2, unsigned long iExtraFadeOf
 	int nMaxLines = (int)(flLineLen / flLineSectionLength) + 1;
 
 
-	static IMaterial *pWireframeMaterial = NULL;
+	static IMaterial *pWireframeMaterial = nullptr;
 	if ( !pWireframeMaterial )
 		pWireframeMaterial = materials->FindMaterial( "debug/debugwireframevertexcolor", TEXTURE_GROUP_OTHER );
 
-	static IMaterial *pBeamMaterial = NULL;
+	static IMaterial *pBeamMaterial = nullptr;
 	if ( !pBeamMaterial )
 		pBeamMaterial = materials->FindMaterial( "effects/laser1", TEXTURE_GROUP_OTHER );
 
@@ -47,7 +47,7 @@ void AddCoolLine( const Vector &v1, const Vector &v2, unsigned long iExtraFadeOf
 
 
 	// Draw the solid underlying lines.
-	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, NULL, NULL, pWireframeMaterial );
+	IMesh* pMesh = pRenderContext->GetDynamicMesh( true, nullptr, nullptr, pWireframeMaterial );
 	CMeshBuilder meshBuilder;
 	meshBuilder.Begin( pMesh, MATERIAL_LINES, 1 );
 

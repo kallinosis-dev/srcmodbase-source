@@ -132,7 +132,7 @@ const char *CPhysModelSource::GetBoneNameByIndex( int nIndex )const
 	{
 		return m_pDmeModel->GetJoint( nIndex )->GetName();
 	}
-	return NULL;
+	return nullptr;
 }
 
 

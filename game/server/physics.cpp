@@ -70,7 +70,7 @@ extern IPhysicsConstraintEvent *g_pConstraintEvents;
 //CLinkedMiniProfiler g_mp_ServerPhysicsSimulate("ServerPhysicsSimulate",&g_pPhysicsMiniProfilers);
 
 
-CEntityList *g_pShadowEntities = NULL;
+CEntityList *g_pShadowEntities = nullptr;
 #ifdef PORTAL
 CEntityList *g_pShadowEntities_Main = NULL;
 #endif
@@ -178,10 +178,10 @@ bool CPhysicsHook::Init( void )
 	if ( !factories.physicsFactory )
 		return false;
 
-	if ((physics = (IPhysics *)factories.physicsFactory( VPHYSICS_INTERFACE_VERSION, NULL )) == NULL ||
-		(physcollision = (IPhysicsCollision *)factories.physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, NULL )) == NULL ||
-		(physprops = (IPhysicsSurfaceProps *)factories.physicsFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, NULL )) == NULL
-		)
+	if ((physics = (IPhysics *)factories.physicsFactory( VPHYSICS_INTERFACE_VERSION, nullptr)) == nullptr ||
+		(physcollision = (IPhysicsCollision *)factories.physicsFactory( VPHYSICS_COLLISION_INTERFACE_VERSION, nullptr)) == nullptr ||
+		(physprops = (IPhysicsSurfaceProps *)factories.physicsFactory( VPHYSICS_SURFACEPROPS_INTERFACE_VERSION, nullptr)) == nullptr
+	)
 		return false;
 
 	PhysParseSurfaceData( physprops, filesystem );
@@ -315,17 +315,17 @@ void CPhysicsHook::LevelShutdownPostEntity()
 	g_Collisions.LevelShutdown();
 
 	physics->DestroyEnvironment( physenv );
-	physenv = NULL;
+	physenv = nullptr;
 
 	physics->DestroyObjectPairHash( g_EntityCollisionHash );
-	g_EntityCollisionHash = NULL;
+	g_EntityCollisionHash = nullptr;
 
 	physics->DestroyAllCollisionSets();
 
-	g_PhysWorldObject = NULL;
+	g_PhysWorldObject = nullptr;
 
 	delete g_pShadowEntities;
-	g_pShadowEntities = NULL;
+	g_pShadowEntities = nullptr;
 	m_impactSounds.RemoveAll();
 	m_breakSounds.RemoveAll();
 	m_massCenterOverrides.Purge();
@@ -349,7 +349,7 @@ bool CPhysicsHook::FindOrAddVehicleScript( const char *pScriptName, vehicleparam
 
 	if ( index < 0 )
 	{
-		byte *pFile = UTIL_LoadFileForMe( pScriptName, NULL );
+		byte *pFile = UTIL_LoadFileForMe( pScriptName, nullptr);
 		if ( pFile )
 		{
 			// new script, parse it and write to the table
@@ -363,7 +363,7 @@ bool CPhysicsHook::FindOrAddVehicleScript( const char *pScriptName, vehicleparam
 				const char *pBlock = pParse->GetCurrentBlockName();
 				if ( !strcmpi( pBlock, "vehicle" ) )
 				{
-					pParse->ParseVehicle( &m_vehicleScripts[index].params, NULL );
+					pParse->ParseVehicle( &m_vehicleScripts[index].params, nullptr);
 				}
 				else if ( !Q_stricmp( pBlock, "vehicle_sounds" ) )
 				{
@@ -663,7 +663,7 @@ bool FindMaxContact( IPhysicsObject *pObject, float minForce, IPhysicsObject **p
 {
 	float mass = pObject->GetMass();
 	float maxForce = minForce;
-	*pOtherObject = NULL;
+	*pOtherObject = nullptr;
 	IPhysicsFrictionSnapshot *pSnapshot = pObject->CreateFrictionSnapshot();
 	while ( pSnapshot->IsValid() )
 	{
@@ -717,7 +717,7 @@ bool CCollisionEvent::ShouldFreezeObject( IPhysicsObject *pObject )
 	// wherever possible once we hit this case:
 	if ( pEntity && IsDebris( pEntity->GetCollisionGroup()) && !pEntity->IsNPC() )
 	{
-		IPhysicsObject *pOtherObject = NULL;
+		IPhysicsObject *pOtherObject = nullptr;
 		Vector contactPos;
 		Vector force;
 		// find the contact with the moveable object applying the most contact force
@@ -858,11 +858,11 @@ void CCollisionEvent::GetListOfPenetratingEntities( CBaseEntity *pSearch, CUtlVe
 {
 	for ( int i = m_penetrateEvents.Count()-1; i >= 0; --i )
 	{
-		if ( m_penetrateEvents[i].hEntity0 == pSearch && m_penetrateEvents[i].hEntity1.Get() != NULL )
+		if ( m_penetrateEvents[i].hEntity0 == pSearch && m_penetrateEvents[i].hEntity1.Get() != nullptr)
 		{
 			list.AddToTail( m_penetrateEvents[i].hEntity1 );
 		}
-		else if ( m_penetrateEvents[i].hEntity1 == pSearch && m_penetrateEvents[i].hEntity0.Get() != NULL )
+		else if ( m_penetrateEvents[i].hEntity1 == pSearch && m_penetrateEvents[i].hEntity0.Get() != nullptr)
 		{
 			list.AddToTail( m_penetrateEvents[i].hEntity0 );
 		}
@@ -1126,7 +1126,7 @@ int CCollisionEvent::ShouldSolvePenetration( IPhysicsObject *pObj0, IPhysicsObje
 void CCollisionEvent::FluidStartTouch( IPhysicsObject *pObject, IPhysicsFluidController *pFluid ) 
 {
 	CallbackContext check(this);
-	if ( ( pObject == NULL ) || ( pFluid == NULL ) )
+	if ( ( pObject == nullptr) || ( pFluid == nullptr) )
 		return;
 
 	CBaseEntity *pEntity = static_cast<CBaseEntity *>(pObject->GetGameData());
@@ -1176,7 +1176,7 @@ void CCollisionEvent::FluidStartTouch( IPhysicsObject *pObject, IPhysicsFluidCon
 void CCollisionEvent::FluidEndTouch( IPhysicsObject *pObject, IPhysicsFluidController *pFluid ) 
 {
 	CallbackContext check(this);
-	if ( ( pObject == NULL ) || ( pFluid == NULL ) )
+	if ( ( pObject == nullptr) || ( pFluid == nullptr) )
 		return;
 
 	CBaseEntity *pEntity = static_cast<CBaseEntity *>(pObject->GetGameData());
@@ -1300,7 +1300,7 @@ typedef void (*EntityCallbackFunction) ( CBaseEntity *pEntity );
 void IterateActivePhysicsEntities( EntityCallbackFunction func )
 {
 	int activeCount = physenv->GetActiveObjectCount();
-	IPhysicsObject **pActiveList = NULL;
+	IPhysicsObject **pActiveList = nullptr;
 	if ( activeCount )
 	{
 		pActiveList = (IPhysicsObject **)stackalloc( sizeof(IPhysicsObject *)*activeCount );
@@ -1508,7 +1508,7 @@ static void DebugConstraints( CBaseEntity *pEntity )
 	IPhysicsObject *pAttachVPhysics[2];
 	CConstraintFloodList list;
 
-	for ( CBaseEntity *pList = gEntList.FirstEnt(); pList != NULL; pList = gEntList.NextEnt(pList) )
+	for ( CBaseEntity *pList = gEntList.FirstEnt(); pList != nullptr; pList = gEntList.NextEnt(pList) )
 	{
 		if ( GetConstraintAttachments(pList, pAttach, pAttachVPhysics) || GetSpringAttachments(pList, pAttach, pAttachVPhysics) )
 		{
@@ -1584,8 +1584,8 @@ void PhysicsCommand( const CCommand &args, void (*func)( CBaseEntity *pEntity ) 
 	}
 	else
 	{
-		CBaseEntity *pEnt = NULL;
-		while ( ( pEnt = gEntList.FindEntityGeneric( pEnt, args[1] ) ) != NULL )
+		CBaseEntity *pEnt = nullptr;
+		while ( ( pEnt = gEntList.FindEntityGeneric( pEnt, args[1] ) ) != nullptr)
 		{
 			func( pEnt );
 		}
@@ -1623,7 +1623,7 @@ CON_COMMAND( physics_budget, "Times the cost of each active object" )
 
 	int activeCount = physenv->GetActiveObjectCount();
 
-	IPhysicsObject **pActiveList = NULL;
+	IPhysicsObject **pActiveList = nullptr;
 	CUtlVector<CBaseEntity *> ents;
 	if ( activeCount )
 	{
@@ -1777,7 +1777,7 @@ void PhysFrame( float deltaTime )
 	}
 
 	int activeCount = physenv->GetActiveObjectCount();
-	IPhysicsObject **pActiveList = NULL;
+	IPhysicsObject **pActiveList = nullptr;
 	if ( activeCount )
 	{
 		VPROF( "physenv->GetActiveObjects->VPhysicsUpdate" );
@@ -1882,7 +1882,7 @@ bool PhysHasShadow( CBaseEntity *pEntity )
 
 void PhysEnableFloating( IPhysicsObject *pObject, bool bEnable )
 {
-	if ( pObject != NULL )
+	if ( pObject != nullptr)
 	{
 		unsigned short flags = pObject->GetCallbackFlags();
 		if ( bEnable )
@@ -1956,7 +1956,7 @@ void CCollisionEvent::PostCollision( vcollisionevent_t *pEvent )
 			// UNDONE: This is here to trap crashes due to NULLing out the game data on delete
 			m_gameEvent.pEntities[i] = pEntity;
 			unsigned int flags = pObject->GetCallbackFlags();
-			pObject->GetVelocity( &m_gameEvent.postVelocity[i], NULL );
+			pObject->GetVelocity( &m_gameEvent.postVelocity[i], nullptr);
 			if ( flags & CALLBACK_SHADOW_COLLISION )
 			{
 				isShadow[i] = true;
@@ -2051,7 +2051,7 @@ void CCollisionEvent::Friction( IPhysicsObject *pObject, float energy, int surfa
 
 friction_t *CCollisionEvent::FindFriction( CBaseEntity *pObject )
 {
-	friction_t *pFree = NULL;
+	friction_t *pFree = nullptr;
 
 	for ( int i = 0; i < ARRAYSIZE(m_current); i++ )
 	{
@@ -2069,8 +2069,8 @@ void CCollisionEvent::ShutdownFriction( friction_t &friction )
 {
 //	Msg( "Scrape Stop %s \n", STRING(friction.pObject->m_iClassname) );
 	CSoundEnvelopeController::GetController().SoundDestroy( friction.patch );
-	friction.patch = NULL;
-	friction.pObject = NULL;
+	friction.patch = nullptr;
+	friction.pObject = nullptr;
 }
 
 void CCollisionEvent::UpdateRemoveObjects()
@@ -2428,7 +2428,7 @@ static void PostSimulation_ImpulseEvent( IPhysicsObject *pObject, const Vector &
 
 void PostSimulation_SetVelocityEvent( IPhysicsObject *pPhysicsObject, const Vector &vecVelocity )
 {
-	pPhysicsObject->SetVelocity( &vecVelocity, NULL );
+	pPhysicsObject->SetVelocity( &vecVelocity, nullptr);
 }
 
 void CCollisionEvent::AddRemoveObject(IServerNetworkable *pRemove)
@@ -2804,7 +2804,7 @@ void PhysFrictionSound( CBaseEntity *pEntity, IPhysicsObject *pObject, const cha
 			return;
 
 		CSoundParameters params;
-		if ( !CBaseEntity::GetParametersForSound( pSoundName, handle, params, NULL ) )
+		if ( !CBaseEntity::GetParametersForSound( pSoundName, handle, params, nullptr) )
 			return;
 
 		if ( !pFriction->pObject )
@@ -2868,7 +2868,7 @@ void PhysCallbackDamage( CBaseEntity *pEntity, const CTakeDamageInfo &info )
 	if ( PhysIsInCallback() )
 	{
 		CBaseEntity *pInflictor = info.GetInflictor();
-		IPhysicsObject *pInflictorPhysics = (pInflictor) ? pInflictor->VPhysicsGetObject() : NULL;
+		IPhysicsObject *pInflictorPhysics = (pInflictor) ? pInflictor->VPhysicsGetObject() : nullptr;
 		g_Collisions.AddDamageEvent( pEntity, info, pInflictorPhysics, false, vec3_origin, vec3_origin );
 		if ( pEntity && info.GetInflictor() )
 		{
@@ -2916,10 +2916,10 @@ void PhysFlushVehicleScripts()
 IPhysicsObject *FindPhysicsObjectByName( const char *pName, CBaseEntity *pErrorEntity )
 {
 	if ( !pName || !strlen(pName) )
-		return NULL;
+		return nullptr;
 
-	CBaseEntity *pEntity = NULL;
-	IPhysicsObject *pBestObject = NULL;
+	CBaseEntity *pEntity = nullptr;
+	IPhysicsObject *pBestObject = nullptr;
 	while (1)
 	{
 		pEntity = gEntList.FindEntityByName( pEntity, pName );
@@ -2932,7 +2932,7 @@ IPhysicsObject *FindPhysicsObjectByName( const char *pName, CBaseEntity *pErrorE
 				const char *pErrorName = pErrorEntity ? pErrorEntity->GetClassname() : "Unknown";
 				Vector origin = pErrorEntity ? pErrorEntity->GetAbsOrigin() : vec3_origin;
 				DevWarning("entity %s at %s has physics attachment to more than one entity with the name %s!!!\n", pErrorName, VecToString(origin), pName );
-				while ( ( pEntity = gEntList.FindEntityByName( pEntity, pName ) ) != NULL )
+				while ( ( pEntity = gEntList.FindEntityByName( pEntity, pName ) ) != nullptr)
 				{
 					DevWarning("Found %s\n", pEntity->GetClassname() );
 				}

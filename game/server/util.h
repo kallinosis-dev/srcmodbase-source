@@ -84,7 +84,7 @@ IEntityFactoryDictionary *EntityFactoryDictionary();
 
 inline bool CanCreateEntityClass( const char *pszClassname )
 {
-	return ( EntityFactoryDictionary() != NULL && EntityFactoryDictionary()->FindFactory( pszClassname ) != NULL );
+	return ( EntityFactoryDictionary() != nullptr && EntityFactoryDictionary()->FindFactory( pszClassname ) != nullptr);
 }
 
 abstract_class IEntityFactory
@@ -106,7 +106,7 @@ public:
 
 	IServerNetworkable *Create( const char *pClassName )
 	{
-		T* pEnt = _CreateEntityTemplate((T*)NULL, pClassName);
+		T* pEnt = _CreateEntityTemplate((T*)nullptr, pClassName);
 		return pEnt->NetworkProp();
 	}
 
@@ -152,16 +152,16 @@ inline edict_t* INDEXENT( int iEdictNum )
 	{
 		edict_t *pEdict = gpGlobals->pEdicts + iEdictNum;
 		if ( pEdict->IsFree() )
-			return NULL;
+			return nullptr;
 		return pEdict;
 	}
-	return NULL;
+	return nullptr;
 }
 
 // Testing the three types of "entity" for nullity
 inline bool FNullEnt(const edict_t* pent)
 { 
-	return pent == NULL || ENTINDEX((edict_t*)pent) == 0; 
+	return pent == nullptr || ENTINDEX((edict_t*)pent) == 0; 
 }
 
 // Dot products for view cone checking
@@ -227,7 +227,7 @@ inline CBasePlayer * UTIL_GetLocalPlayerOrListenServerHost( void )
 	{
 		if ( engine->IsDedicatedServer() )
 		{
-			return NULL;
+			return nullptr;
 		}
 
 		return UTIL_GetListenServerHost();
@@ -312,15 +312,15 @@ private:
 enum soundlevel_t;
 
 // Drops an entity onto the floor
-int			UTIL_DropToFloor( CBaseEntity *pEntity, unsigned int mask, CBaseEntity *pIgnore = NULL );
+int			UTIL_DropToFloor( CBaseEntity *pEntity, unsigned int mask, CBaseEntity *pIgnore = nullptr);
 
 // Returns false if any part of the bottom of the entity is off an edge that is not a staircase.
 bool		UTIL_CheckBottom( CBaseEntity *pEntity, ITraceFilter *pTraceFilter, float flStepSize );
 
 void		UTIL_SetOrigin			( CBaseEntity *entity, const Vector &vecOrigin, bool bFireTriggers = false );
-void		UTIL_EmitAmbientSound	( int entindex, const Vector &vecOrigin, const char *samp, float vol, soundlevel_t soundlevel, int fFlags, int pitch, float soundtime = 0.0f, float *duration = NULL );
+void		UTIL_EmitAmbientSound	( int entindex, const Vector &vecOrigin, const char *samp, float vol, soundlevel_t soundlevel, int fFlags, int pitch, float soundtime = 0.0f, float *duration = nullptr);
 void		UTIL_ParticleEffect		( const Vector &vecOrigin, const Vector &vecDirection, uint32 ulColor, int ulCount );
-void		UTIL_ScreenShake		( const Vector &center, float amplitude, float frequency, float duration, float radius, ShakeCommand_t eCommand, bool bAirShake = false, CUtlVector<CBasePlayer *> *ignore = NULL );
+void		UTIL_ScreenShake		( const Vector &center, float amplitude, float frequency, float duration, float radius, ShakeCommand_t eCommand, bool bAirShake = false, CUtlVector<CBasePlayer *> *ignore = nullptr);
 void		UTIL_ScreenShakeObject	( CBaseEntity *pEnt, const Vector &center, float amplitude, float frequency, float duration, float radius, ShakeCommand_t eCommand, bool bAirShake=false );
 void		UTIL_ScreenTilt			( const Vector &center, const QAngle &tiltAngle, float duration, float radius, float tiltTime, ShakeCommand_t eCommand, bool bEaseInOut );
 void		UTIL_ViewPunch			( const Vector &center, QAngle angPunch, float radius, bool bInAir );
@@ -338,7 +338,7 @@ void		UTIL_BloodStream( const Vector &origin, const Vector &direction, int color
 void		UTIL_BloodSpray( const Vector &pos, const Vector &dir, int color, int amount, int flags );
 void		UTIL_BloodSprayPrecache();
 Vector		UTIL_RandomBloodVector( void );
-void		UTIL_ImpactTrace( trace_t *pTrace, int iDamageType, char *pCustomImpactName = NULL );
+void		UTIL_ImpactTrace( trace_t *pTrace, int iDamageType, char *pCustomImpactName = nullptr);
 void		UTIL_PlayerDecalTrace( trace_t *pTrace, Vector const &right, int playernum );
 void		UTIL_Smoke( const Vector &origin, const float scale, const float framerate );
 void		UTIL_AxisStringToPointDir( Vector &start, Vector &dir, const char *pString );
@@ -368,30 +368,30 @@ void UTIL_Bubbles( const Vector& mins, const Vector& maxs, int count );
 void UTIL_BubbleTrail( const Vector& from, const Vector& to, int count );
 
 // allows precacheing of other entities
-void UTIL_PrecacheOther( const char *szClassname, const char *modelName = NULL );
+void UTIL_PrecacheOther( const char *szClassname, const char *modelName = nullptr);
 
 // Creates the netoworking baseline for this entity's serverclass if it doesn't yet exist in the engine's list.
 void UTIL_EnsureInstanceBaseline( const char *szClassname );
 
 // prints a message to each client
-void			UTIL_ClientPrintAll( int msg_dest, const char *msg_name, const char *param1 = NULL, const char *param2 = NULL, const char *param3 = NULL, const char *param4 = NULL );
-inline void		UTIL_CenterPrintAll( const char *msg_name, const char *param1 = NULL, const char *param2 = NULL, const char *param3 = NULL, const char *param4 = NULL ) 
+void			UTIL_ClientPrintAll( int msg_dest, const char *msg_name, const char *param1 = nullptr, const char *param2 = nullptr, const char *param3 = nullptr, const char *param4 = nullptr);
+inline void		UTIL_CenterPrintAll( const char *msg_name, const char *param1 = nullptr, const char *param2 = nullptr, const char *param3 = nullptr, const char *param4 = nullptr) 
 {
 	UTIL_ClientPrintAll( HUD_PRINTCENTER, msg_name, param1, param2, param3, param4 );
 }
 
 void UTIL_ValidateSoundName( string_t &name, const char *defaultStr );
 
-void UTIL_ClientPrintFilter( IRecipientFilter& filter, int msg_dest, const char *msg_name, const char *param1 = NULL, const char *param2 = NULL, const char *param3 = NULL, const char *param4 = NULL );
+void UTIL_ClientPrintFilter( IRecipientFilter& filter, int msg_dest, const char *msg_name, const char *param1 = nullptr, const char *param2 = nullptr, const char *param3 = nullptr, const char *param4 = nullptr);
 
 // prints messages through the HUD
-void ClientPrint( CBasePlayer *player, int msg_dest, const char *msg_name, const char *param1 = NULL, const char *param2 = NULL, const char *param3 = NULL, const char *param4 = NULL );
+void ClientPrint( CBasePlayer *player, int msg_dest, const char *msg_name, const char *param1 = nullptr, const char *param2 = nullptr, const char *param3 = nullptr, const char *param4 = nullptr);
 
 // prints a message to the HUD say (chat)
 void		UTIL_SayText( const char *pText, CBasePlayer *pEntity );
-void		UTIL_SayTextAll( const char *pText, CBasePlayer *pEntity = NULL, EUtilSayTextMessageType_t eMessageType = kEUtilSayTextMessageType_Default );
+void		UTIL_SayTextAll( const char *pText, CBasePlayer *pEntity = nullptr, EUtilSayTextMessageType_t eMessageType = kEUtilSayTextMessageType_Default );
 void		UTIL_SayTextFilter( IRecipientFilter& filter, const char *pText, CBasePlayer *pEntity, EUtilSayTextMessageType_t eMessageType );
-void		UTIL_SayText2Filter( IRecipientFilter& filter, CBasePlayer *pEntity, EUtilSayTextMessageType_t eMessageType, const char *msg_name, const char *param1 = NULL, const char *param2 = NULL, const char *param3 = NULL, const char *param4 = NULL );
+void		UTIL_SayText2Filter( IRecipientFilter& filter, CBasePlayer *pEntity, EUtilSayTextMessageType_t eMessageType, const char *msg_name, const char *param1 = nullptr, const char *param2 = nullptr, const char *param3 = nullptr, const char *param4 = nullptr);
 
 byte		*UTIL_LoadFileForMe( const char *filename, int *pLength );
 void        UTIL_FreeFile( byte *buffer );
@@ -599,8 +599,8 @@ inline float UTIL_DistApprox2D( const Vector &vec1, const Vector &vec2 )
 }
 
 // Find out if an entity is facing another entity or position within a given tolerance range
-bool UTIL_IsFacingWithinTolerance( CBaseEntity *pViewer, const Vector &vecPosition, float flDotTolerance, float *pflDot = NULL );
-bool UTIL_IsFacingWithinTolerance( CBaseEntity *pViewer, CBaseEntity *pTarget, float flDotTolerance, float *pflDot = NULL );
+bool UTIL_IsFacingWithinTolerance( CBaseEntity *pViewer, const Vector &vecPosition, float flDotTolerance, float *pflDot = nullptr);
+bool UTIL_IsFacingWithinTolerance( CBaseEntity *pViewer, CBaseEntity *pTarget, float flDotTolerance, float *pflDot = nullptr);
 
 void UTIL_GetDebugColorForRelationship( int nRelationship, int &r, int &g, int &b );
 
@@ -625,8 +625,8 @@ void UTIL_MessageText( CBasePlayer *player, const char *text, Color color = Colo
 void UTIL_ResetMessageTextAll( void );												// Reset clients' HudMessagePanel
 void UTIL_ResetMessageText( CBasePlayer *player );									// Reset a client's HudMessagePanel
 
-void UTIL_SendClientCommandKVToPlayer( KeyValues *pKV, CBasePlayer *pPlayer = NULL );
-void UTIL_RecordAchievementEvent( const char *pszAchievementname, CBasePlayer *pPlayer = NULL );
+void UTIL_SendClientCommandKVToPlayer( KeyValues *pKV, CBasePlayer *pPlayer = nullptr);
+void UTIL_RecordAchievementEvent( const char *pszAchievementname, CBasePlayer *pPlayer = nullptr);
 
 //--------------------------------------------------------------------------------------------------------
 /**
