@@ -1215,27 +1215,21 @@ inline bool CBaseFileSystem::FilterByPathID( const CSearchPath *pSearchPath, con
 		// request only, then ignore it.
 		return pSearchPath->m_pPathIDInfo->m_bByRequestOnly;
 	}
-	else
-	{
-		// Bit of a hack, but specifying "BSP" as the search path will search in "GAME" for only the map/.bsp pack file path
-		if ( pathID == m_BSPPathID )
-		{
-			if ( pSearchPath->GetPathID() != m_GamePathID )
-				return true;
 
-			if ( !pSearchPath->GetPackFile() )
-				return true;
+	// Bit of a hack, but specifying "BSP" as the search path will search in "GAME" for only the map/.bsp pack file path
+	if ( pathID != m_BSPPathID )
+		return (pSearchPath->GetPathID() != pathID);
 
-			if ( !pSearchPath->GetPackFile()->m_bIsMapPath )
-				return true;
+	if ( pSearchPath->GetPathID() != m_GamePathID )
+		return true;
 
-			return false;
-		}
-		else
-		{
-			return (pSearchPath->GetPathID() != pathID);
-		}
-	}
+	if ( !pSearchPath->GetPackFile() )
+		return true;
+
+	if ( !pSearchPath->GetPackFile()->m_bIsMapPath )
+		return true;
+
+	return false;
 }
 
 

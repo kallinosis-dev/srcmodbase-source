@@ -181,16 +181,11 @@ bool WriteMiniDumpUsingExceptionInfo(
 				*pch = 0;
 			}
 			pch = _tcsrchr( rgchModuleName, '\\' );
-			if ( pch )
-			{
-				// move past the last slash
-				pch++;
-			}
-			else
-			{
-				pch = _T("unknown");
-			}
-			strcpy( g_rgchMinidumpFilenamePrefix, pch );
+			
+			strcpy(g_rgchMinidumpFilenamePrefix, 
+				 pch 
+				 ? (pch+1) // move past the last slash
+				 : _T("unknown"));
 		}
 
 		

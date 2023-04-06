@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -24,8 +24,6 @@
 #include "tier0/valve_off.h"
 #include <string>
 #include "tier0/valve_on.h"
-
-using namespace std;
 
 // RDTSC Instruction macro
 #ifdef COMPILER_MSVC64

@@ -113,7 +113,7 @@ void CUtlSymbol::DisableStaticSymbolTable()
 
 bool CUtlSymbol::operator==( const char* pStr ) const
 {
-	if (m_Id == UTL_INVAL_SYMBOL) 
+	if (m_Id == UTL_INVAL_SYMBOL_ID) 
 		return false;
 	return strcmp( String(), pStr ) == 0;
 }

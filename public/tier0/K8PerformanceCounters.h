@@ -88,7 +88,7 @@ public:
 
     unsigned short m_eventMask;
     int event_id;
-    tchar * name;
+    tchar const* name;
     tchar revRequired;
     int eventSelectNum;
     UnitEncode unitEncode;

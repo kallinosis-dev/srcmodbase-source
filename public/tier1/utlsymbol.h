@@ -34,14 +34,14 @@ class CUtlSymbolTableMT;
 //-----------------------------------------------------------------------------
 typedef unsigned short UtlSymId_t;
 
-#define UTL_INVAL_SYMBOL  ((UtlSymId_t)~0)
+constexpr UtlSymId_t UTL_INVAL_SYMBOL_ID = (UtlSymId_t)~0;
 
 class CUtlSymbol
 {
 public:
 	// constructor, destructor
-	CUtlSymbol() : m_Id(UTL_INVAL_SYMBOL) {}
-	CUtlSymbol( UtlSymId_t id ) : m_Id(id) {}
+	constexpr CUtlSymbol() : m_Id(UTL_INVAL_SYMBOL_ID) {}
+	constexpr CUtlSymbol( UtlSymId_t id ) : m_Id(id) {}
 	CUtlSymbol( const char* pStr );
 	CUtlSymbol( CUtlSymbol const& sym ) : m_Id(sym.m_Id) {}
 	
@@ -50,10 +50,11 @@ public:
 	
 	// operator==
 	bool operator==( CUtlSymbol const& src ) const { return m_Id == src.m_Id; }
+	bool operator==(UtlSymId_t id) const { return m_Id == id;  }
 	bool operator==( const char* pStr ) const;
 	
 	// Is valid?
-	bool IsValid() const { return m_Id != UTL_INVAL_SYMBOL; }
+	bool IsValid() const { return m_Id != UTL_INVAL_SYMBOL_ID; }
 	
 	// Gets at the symbol
 	operator UtlSymId_t () const { return m_Id; }
@@ -86,6 +87,7 @@ protected:
 	friend class CCleanupUtlSymbolTable;
 };
 
+constexpr CUtlSymbol UTL_INVAL_SYMBOL = UTL_INVAL_SYMBOL_ID;
 
 //-----------------------------------------------------------------------------
 // CUtlSymbolTable:

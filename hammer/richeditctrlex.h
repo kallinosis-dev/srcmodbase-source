@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -11,13 +11,8 @@
 #pragma once
 #endif
 
-#pragma warning(push, 1)
 #include <list>
 #include <stack>
-#pragma warning(pop)
-
-using namespace std;
-#pragma  warning(disable : 4786)
 
 
 #ifdef RICHED_IMPL

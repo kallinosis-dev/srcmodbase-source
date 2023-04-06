@@ -20,10 +20,13 @@
 // Temporarily turn off Valve defines
 #include "tier0/valve_off.h"
 
+#include <string>
+
 #if !defined(_WCHAR_T_DEFINED)  && !defined( __WCHAR_TYPE__ ) && !defined(GNUC)
 typedef unsigned short wchar_t;
 #define _WCHAR_T_DEFINED
 #endif
+
 
 // char8
 // char8 is equivalent to char, and should be used when you really need a char
@@ -78,12 +81,12 @@ typedef wchar_t wchar;
 
 #if defined(_UNICODE)
 typedef wchar tchar;
-#define tstring wstring
+using tstring = ::std::wstring
 #define __TFILE__ __WFILE__
 #define TCHAR_IS_WCHAR
 #else
 typedef char tchar;
-#define tstring string
+using tstring = ::std::string;
 #define __TFILE__ __FILE__
 #define TCHAR_IS_CHAR
 #endif

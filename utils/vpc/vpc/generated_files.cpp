@@ -164,7 +164,8 @@ void VPC_GeneratedFiles_ProcessFolder( CProjectFolder *pFolder, CVCProjGenerator
 		CUtlString absSourceFilePath	= fileInfo.m_pSourceFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ );
 		CUtlString absDebugOutputPath	= fileInfo.m_pDebugCompiledFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ );
 		CUtlString absReleaseOutputPath	= fileInfo.m_pReleaseCompiledFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ );
-		CUtlString absUnityFilePath		= fileInfo.m_pContainingUnityFile ? fileInfo.m_pContainingUnityFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ ) : "";
+		CUtlString absUnityFilePath		= fileInfo.m_pContainingUnityFile ? 
+			fileInfo.m_pContainingUnityFile->m_Name.AbsPath(nullptr /*, k_bVPCForceLowerCase*/ ) : CUtlString("");
 
 		manifestFile.Printf( "%-24s%s\n", "Source file:",			absSourceFilePath.Get() );
 		manifestFile.Printf( "%-24s%s\n", "Debug output file:",		absDebugOutputPath.Get() );

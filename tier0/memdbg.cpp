@@ -2143,22 +2143,13 @@ void CDbgMemAlloc::DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t
 	static int s_FileCount = 0;
 	if (m_OutputFunc == DefaultHeapReportFunc)
 	{
-		char *pPath = "";
-#ifdef _X360
-		pPath = "D:\\";
-#elif defined( _PS3 )
-		pPath = "/app_home/";
-#endif
-		
-
-
 		// [mhansen] Give out a unique filename for mem dumps
 #if defined( _MEMTEST )
 		char szXboxName[32];
 		strcpy( szXboxName, "memdump" );
 
 #if defined( _PS3 )
-		_snprintf( szFileName, sizeof( szFileName ), "%s%s_%d.txt", pPath, s_szStatsMapName, s_FileCount );
+		_snprintf( szFileName, sizeof( szFileName ), "%s_%d.txt", s_szStatsMapName, s_FileCount );
 #else
 		DWORD numChars = sizeof( szXboxName );
 		DmGetXboxName( szXboxName, &numChars ); 
@@ -2170,7 +2161,7 @@ void CDbgMemAlloc::DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t
 
 		SYSTEMTIME systemTime;
 		GetLocalTime( &systemTime );
-		_snprintf( szFileName, sizeof( szFileName ), "%s%s_%2.2d%2.2d_%2.2d%2.2d%2.2d_%d.txt", pPath, s_szStatsMapName, systemTime.wMonth, systemTime.wDay, systemTime.wHour, systemTime.wMinute, systemTime.wSecond, s_FileCount );
+		_snprintf( szFileName, sizeof( szFileName ), "%s_%2.2d%2.2d_%2.2d%2.2d%2.2d_%d.txt", s_szStatsMapName, systemTime.wMonth, systemTime.wDay, systemTime.wHour, systemTime.wMinute, systemTime.wSecond, s_FileCount );
 #endif
 
 #else // _MEMTEST
@@ -2179,7 +2170,7 @@ void CDbgMemAlloc::DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t
 		bool fileExists = true;
 		while (fileExists)
 		{
-			_snprintf( szFileName, sizeof( szFileName ), "%s%s%d.txt", pPath, pchFileBase, s_FileCount );
+			_snprintf( szFileName, sizeof( szFileName ), "%s%d.txt", pchFileBase, s_FileCount );
 			szFileName[ ARRAYSIZE(szFileName) - 1 ] = 0;
 			if (_access_s(szFileName, 0) == ENOENT)
 			{
@@ -2191,7 +2182,7 @@ void CDbgMemAlloc::DumpStatsFileBase( char const *pchFileBase, DumpStatsFormat_t
 			}
 		}
 #else // _WIN32
-		_snprintf( szFileName, sizeof( szFileName ), "%s%s%d.txt", pPath, pchFileBase, s_FileCount );
+		_snprintf( szFileName, sizeof( szFileName ), "%s%d.txt", pchFileBase, s_FileCount );
 #endif // _WIN32
 
 #endif // _MEMTEST

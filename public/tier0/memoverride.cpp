@@ -821,10 +821,11 @@ private:
 #define AttribIfCrt()
 #endif // _WIN32
 
-
 extern "C"
 {
-	
+
+
+#ifdef _DEBUG
 void *__cdecl _nh_malloc_dbg( size_t nSize, int nFlag, int nBlockUse,
 								const char *pFileName, int nLine )
 {
@@ -889,7 +890,7 @@ size_t __cdecl _msize_dbg( void *pMem, int nBlockUse )
 	return 0;
 #endif
 }
-
+#endif
 
 #ifdef _WIN32
 
@@ -984,7 +985,7 @@ ALLOC_CALL void * __cdecl _aligned_offset_recalloc( void * memblock, size_t coun
 //-----------------------------------------------------------------------------
 // Override some the _CRT debugging allocation methods in MSVC
 //-----------------------------------------------------------------------------
-#ifdef _WIN32
+#if defined(_WIN32) && defined(_DEBUG)
 
 extern "C"
 {
@@ -1292,16 +1293,11 @@ void __cdecl _free_dbg_nolock( void * pUserData, int nBlockUse)
         _free_dbg(pUserData, 0);
 }
 
+#ifdef _DEBUG
 _CRT_ALLOC_HOOK __cdecl _CrtGetAllocHook ( void)
 {
 		Assert(0); 
         return nullptr;
-}
-
-static int __cdecl CheckBytes( unsigned char * pb, unsigned char bCheck, size_t nSize)
-{
-        int bOkay = TRUE;
-        return bOkay;
 }
 
 
@@ -1309,6 +1305,13 @@ _CRT_DUMP_CLIENT __cdecl _CrtGetDumpClient ( void)
 {
 		Assert(0); 
         return nullptr;
+}
+#endif
+
+static int __cdecl CheckBytes(unsigned char* pb, unsigned char bCheck, size_t nSize)
+{
+	int bOkay = TRUE;
+	return bOkay;
 }
 
 #if _MSC_VER >= 1400

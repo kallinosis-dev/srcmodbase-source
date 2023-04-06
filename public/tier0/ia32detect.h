@@ -11,6 +11,8 @@
 #ifdef COMPILER_MSVC
 #include <intrin.h>
 #endif
+
+#include "wchartypes.h"
 /*
     This section from http://iss.cs.cornell.edu/ia32.htm
 

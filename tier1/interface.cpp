@@ -336,7 +336,7 @@ static HMODULE Sys_LoadLibraryGuts( const char *pLibraryName )
 static HMODULE Sys_LoadLibrary( const char *pLibraryName )
 {
 	// load a library. If a library suffix is set, look for the library first with that name
-	char *pSuffix = nullptr;
+	char const* pSuffix = nullptr;
 	
 	if ( CommandLine()->FindParm( "-xlsp" ) )
 	{

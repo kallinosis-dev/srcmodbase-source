@@ -41,7 +41,7 @@ public:
 	struct ConversionArray_t
 	{
 		char m_nActualChar;
-		char *m_pReplacementString;
+		char const* m_pReplacementString;
 	};
 
 	CUtlCharConversion( char nEscapeChar, const char *pDelimiter, int nCount, ConversionArray_t *pArray );
@@ -60,11 +60,11 @@ protected:
 	struct ConversionInfo_t
 	{
 		int m_nLength;
-		char *m_pReplacementString;
+		char const* m_pReplacementString;
 	};
 
 	char m_nEscapeChar;
-	const char *m_pDelimiter;
+	const char* m_pDelimiter;
 	int m_nDelimiterLength;
 	int m_nCount;
 	int m_nMaxConversionLength;
