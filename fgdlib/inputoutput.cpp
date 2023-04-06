@@ -13,11 +13,8 @@
 typedef struct
 {
 	InputOutputType_t eType;	// The enumeration of this type.
-	char *pszName;				// The name of this type.
+	char const* pszName;				// The name of this type.
 } TypeMap_t;
-
-
-char *CClassInputOutputBase::g_pszEmpty = "";
 
 
 //-----------------------------------------------------------------------------

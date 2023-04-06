@@ -136,8 +136,6 @@ class GDinputvariable
 		// for choices/flags:
 		CUtlVector<GDIVITEM> m_Items;
 
-		static char *m_pszEmpty;
-
 		char m_szName[MAX_IDENT];
 		char m_szLongName[MAX_STRING];
 		char *m_pszDescription;
@@ -162,12 +160,7 @@ class GDinputvariable
 //-----------------------------------------------------------------------------
 const char *GDinputvariable::GetDescription(void)
 {
-	if (m_pszDescription != NULL)
-	{	
-		return(m_pszDescription);
-	}
-
-	return(m_pszEmpty);
+	return m_pszDescription == nullptr ? "" : m_pszDescription;
 }
 
 

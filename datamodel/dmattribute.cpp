@@ -135,26 +135,26 @@ template< class T >
 class CDmAttributeOp : public IDmAttributeOp
 {
 public:
-	virtual void* CreateAttributeData();
-	virtual void DestroyAttributeData( void *pData );
-	virtual void SetDefaultValue( void *pData );
-	virtual int DataSize();
-	virtual int ValueSize();
-	virtual bool SerializesOnMultipleLines();
-	virtual bool SkipUnserialize( CUtlBuffer& buf );
-	virtual const char *AttributeTypeName();
+	void* CreateAttributeData() override;
+	void DestroyAttributeData( void *pData ) override;
+	void SetDefaultValue( void *pData ) override;
+	int DataSize() override;
+	int ValueSize() override;
+	bool SerializesOnMultipleLines() override;
+	bool SkipUnserialize( CUtlBuffer& buf ) override;
+	const char *AttributeTypeName() override;
 
-	virtual void SetValue( CDmAttribute *pAttribute, DmAttributeType_t valueType, const void *pValue );
-	virtual void SetMultiple( CDmAttribute *pAttribute, int i, int nCount, DmAttributeType_t valueType, const void *pValue );
-	virtual void Set( CDmAttribute *pAttribute, int i, DmAttributeType_t valueType, const void *pValue );
-	virtual void SetToDefaultValue( CDmAttribute *pAttribute );
-	virtual bool Serialize( const CDmAttribute *pData, CUtlBuffer &buf );
-	virtual bool Unserialize( CDmAttribute *pAttribute, CUtlBuffer &buf );
-	virtual bool SerializeElement( const CDmAttribute *pAttribute, int nElement, CUtlBuffer &buf );
-	virtual bool UnserializeElement( CDmAttribute *pAttribute, CUtlBuffer &buf );
-	virtual bool UnserializeElement( CDmAttribute *pAttribute, int nElement, CUtlBuffer &buf );
-	virtual void OnUnserializationFinished( CDmAttribute *pAttribute );
-	virtual bool IsIdenticalToSerializedValue( const CDmAttribute *pAttribute, CUtlBuffer &buf ) const;
+	void SetValue( CDmAttribute *pAttribute, DmAttributeType_t valueType, const void *pValue ) override;
+	void SetMultiple( CDmAttribute *pAttribute, int i, int nCount, DmAttributeType_t valueType, const void *pValue ) override;
+	void Set( CDmAttribute *pAttribute, int i, DmAttributeType_t valueType, const void *pValue ) override;
+	void SetToDefaultValue( CDmAttribute *pAttribute ) override;
+	bool Serialize( const CDmAttribute *pData, CUtlBuffer &buf ) override;
+	bool Unserialize( CDmAttribute *pAttribute, CUtlBuffer &buf ) override;
+	bool SerializeElement( const CDmAttribute *pAttribute, int nElement, CUtlBuffer &buf ) override;
+	bool UnserializeElement( CDmAttribute *pAttribute, CUtlBuffer &buf ) override;
+	bool UnserializeElement( CDmAttribute *pAttribute, int nElement, CUtlBuffer &buf ) override;
+	void OnUnserializationFinished( CDmAttribute *pAttribute ) override;
+	bool IsIdenticalToSerializedValue( const CDmAttribute *pAttribute, CUtlBuffer &buf ) const override;
 };
 
 
@@ -612,14 +612,14 @@ class CDmArrayAttributeOp : public CDmAttributeOp< CUtlVector< T > >
 
 public:
 	// Inherited from IDmAttributeOp
-	virtual void SetValue( CDmAttribute *pAttribute, DmAttributeType_t valueType, const void *pValue );
-	virtual void SetMultiple( CDmAttribute *pAttribute, int i, int nCount, DmAttributeType_t valueType, const void *pValue );
-	virtual void Set( CDmAttribute *pAttribute, int i, DmAttributeType_t valueType, const void *pValue );
-	virtual bool Unserialize( CDmAttribute *pAttribute, CUtlBuffer &buf );
-	virtual bool SerializeElement( const CDmAttribute *pData, int nElement, CUtlBuffer &buf );
-	virtual bool UnserializeElement( CDmAttribute *pData, CUtlBuffer &buf );
-	virtual bool UnserializeElement( CDmAttribute *pData, int nElement, CUtlBuffer &buf );
-	virtual void OnUnserializationFinished( CDmAttribute *pAttribute );
+	void SetValue( CDmAttribute *pAttribute, DmAttributeType_t valueType, const void *pValue ) override;
+	void SetMultiple( CDmAttribute *pAttribute, int i, int nCount, DmAttributeType_t valueType, const void *pValue ) override;
+	void Set( CDmAttribute *pAttribute, int i, DmAttributeType_t valueType, const void *pValue ) override;
+	bool Unserialize( CDmAttribute *pAttribute, CUtlBuffer &buf ) override;
+	bool SerializeElement( const CDmAttribute *pData, int nElement, CUtlBuffer &buf ) override;
+	bool UnserializeElement( CDmAttribute *pData, CUtlBuffer &buf ) override;
+	bool UnserializeElement( CDmAttribute *pData, int nElement, CUtlBuffer &buf ) override;
+	void OnUnserializationFinished( CDmAttribute *pAttribute ) override;
 
 	// Other methods used by CDmaArrayBase
 	CDmArrayAttributeOp() : m_pAttribute( NULL ), m_pData( NULL ) {}
@@ -687,7 +687,7 @@ public:
 		m_symAttributeNew = g_pDataModel->GetSymbol( newName );
 	}
 
-	virtual void Undo()
+	void Undo() override
 	{
 		CDmElement *pOwner = GetOwner();
 		if ( pOwner )
@@ -696,7 +696,7 @@ public:
 		}
 	}
 
-	virtual void Redo()
+	void Redo() override
 	{
 		CDmElement *pOwner = GetOwner();
 		if ( pOwner )
@@ -762,7 +762,7 @@ public:
 		return g_pDataModel->GetElement( m_hOwner );
 	}
 
-	virtual void Undo()
+	void Undo() override
 	{
 		CDmAttribute *pAttribute = GetAttribute();
 		if ( pAttribute && !pAttribute->IsFlagSet( FATTRIB_READONLY ) )
@@ -770,7 +770,8 @@ public:
 			pAttribute->SetValue<T>( m_OldValue );
 		}
 	}
-	virtual void Redo()
+
+	void Redo() override
 	{
 		CDmAttribute *pAttribute = GetAttribute();
 		if ( pAttribute && !pAttribute->IsFlagSet( FATTRIB_READONLY ) )
@@ -880,18 +881,18 @@ public:
 		m_Value = newValue;
 	}
 
-	virtual void Undo()
+	void Undo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array( this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			array.Set( m_nSlot, m_OldValue );
 		}
 	}
 
-	virtual void Redo()
+	void Redo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			array.Set( m_nSlot, m_Value );
@@ -930,7 +931,7 @@ public:
 		}
 	}
 
-	~CUndoArrayAttributeSetMultipleValueElement()
+	~CUndoArrayAttributeSetMultipleValueElement() override
 	{
 		// this is a hack necessitated by MSVC's lack of partially specialized member template support
 		// (ie otherwise I'd just create a CUndoArrayAttributeSetMultipleValueElement< DmElementHandle_t,BaseClass> version with this code)
@@ -948,9 +949,9 @@ public:
 		delete[] m_pValue;
 	}
 
-	virtual void Undo()
+	void Undo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			for ( int i = 0; i < m_nCount; ++i )
@@ -960,9 +961,9 @@ public:
 		}
 	}
 
-	virtual void Redo()
+	void Redo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			for ( int i = 0; i < m_nCount; ++i )
@@ -997,18 +998,18 @@ public:
 		Assert( pAttribute->GetOwner() && pAttribute->GetOwner()->GetFileId() != DMFILEID_INVALID );
 	}
 
-	virtual void Undo()
+	void Undo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			array.RemoveMultiple( m_nIndex, m_nCount );
 		}
 	}
 
-	virtual void Redo()
+	void Redo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			T defaultVal;
@@ -1047,18 +1048,18 @@ public:
 		Assert( pAttribute->GetOwner() && pAttribute->GetOwner()->GetFileId() != DMFILEID_INVALID );
 	}
 
-	virtual void Undo()
+	void Undo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			array.Remove( m_nIndex );
 		}
 	}
 
-	virtual void Redo()
+	void Redo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			array.InsertBefore( m_nIndex, m_newValue );
@@ -1098,7 +1099,7 @@ public:
 		}
 	}
 
-	~CUndoAttributeArrayRemoveElement()
+	~CUndoAttributeArrayRemoveElement() override
 	{
 		// this is a hack necessitated by MSVC's lack of partially specialized member template support
 		// (ie otherwise I'd just create a CUndoArrayAttributeSetMultipleValueElement< DmElementHandle_t,BaseClass> version with this code)
@@ -1114,9 +1115,9 @@ public:
 		}
 	}
 
-	virtual void Undo()
+	void Undo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			if ( m_bFastRemove )
@@ -1152,9 +1153,9 @@ public:
 		}
 	}
 
-	virtual void Redo()
+	void Redo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			if ( m_bFastRemove )
@@ -1176,7 +1177,7 @@ public:
 		static char buf[ 128 ];
 
 		const char *base = BaseClass::GetDesc();
-		Q_snprintf( buf, sizeof( buf ), "%s (%s) = remove( pos %i, count %i )", base, GetAttributeName(), m_nIndex, m_nCount );
+		Q_snprintf( buf, sizeof( buf ), "%s (%s) = remove( pos %i, count %i )", base, this->GetAttributeName(), m_nIndex, m_nCount );
 		return buf;
 	}
 
@@ -1234,7 +1235,7 @@ public:
 		}
 	}
 
-	~CUndoAttributeArrayCopyAllElement()
+	~CUndoAttributeArrayCopyAllElement() override
 	{
 		// this is a hack necessitated by MSVC's lack of partially specialized member template support
 		// (ie otherwise I'd just create a CUndoArrayAttributeSetMultipleValueElement< DmElementHandle_t,BaseClass> version with this code)
@@ -1256,9 +1257,9 @@ public:
 		delete[] m_pNewValues;
 	}
 
-	virtual void Undo()
+	void Undo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			array.RemoveAll();
@@ -1269,9 +1270,9 @@ public:
 		}
 	}
 
-	virtual void Redo()
+	void Redo() override
 	{
-		CDmrArray<T> array( GetAttribute() );
+		CDmrArray<T> array(this->GetAttribute() );
 		if ( array.IsValid() )
 		{
 			array.RemoveAll();
@@ -3022,7 +3023,7 @@ CDmaArrayConstBase<T,B>::CDmaArrayConstBase( )
 template< class T, class B >
 int CDmaArrayConstBase<T,B>::Find( const T &value ) const
 {
-	return Value().Find( value );
+	return this->Value().Find( value );
 }
 
 
@@ -3035,7 +3036,7 @@ int CDmaArrayBase<T,B>::AddToTail()
 	T defaultVal;
 	CDmAttributeInfo<T>::SetDefaultValue( defaultVal );	
 	CDmArrayAttributeOp<T> accessor( this->m_pAttribute );
-	return accessor.InsertBefore( Value().Count(), defaultVal );
+	return accessor.InsertBefore(this->Value().Count(), defaultVal );
 }
 
 template< class T, class B >
@@ -3051,7 +3052,7 @@ template< class T, class B >
 int	CDmaArrayBase<T,B>::AddToTail( const T& src )
 {
 	CDmArrayAttributeOp<T> accessor( this->m_pAttribute );
-	return accessor.InsertBefore( Value().Count(), src );
+	return accessor.InsertBefore(this->Value().Count(), src );
 }
 
 template< class T, class B >
@@ -3065,7 +3066,7 @@ template< class T, class B >
 int	CDmaArrayBase<T,B>::AddMultipleToTail( int num )
 {
 	CDmArrayAttributeOp<T> accessor( this->m_pAttribute );
-	return accessor.InsertMultipleBefore( Value().Count(), num );
+	return accessor.InsertMultipleBefore(this->Value().Count(), num );
 }
 
 template< class T, class B >
@@ -3078,7 +3079,7 @@ int CDmaArrayBase<T,B>::InsertMultipleBefore( int elem, int num )
 template< class T, class B >
 void CDmaArrayBase<T,B>::EnsureCount( int num )
 {
-	int nCurrentCount = Value().Count();
+	int nCurrentCount = this->Value().Count();
 	if ( nCurrentCount < num )
 	{
 		AddMultipleToTail( num - nCurrentCount );
@@ -3167,7 +3168,7 @@ void CDmaArrayBase<T,B>::RemoveMultiple( int elem, int num )
 template< class T, class B >
 void CDmaArrayBase<T,B>::EnsureCapacity( int num )
 {
-	Value().EnsureCapacity( num );
+	this->Value().EnsureCapacity( num );
 }
 
 template< class T, class B >
@@ -3185,8 +3186,8 @@ template< class T, class B >
 void CDmaDecorator<T,B>::Init( CDmElement *pOwner, const char *pAttributeName, int nFlags = 0 )
 {
 	Assert( pOwner );
-	this->m_pAttribute = pOwner->AddExternalAttribute( pAttributeName, CDmAttributeInfo<CUtlVector<T> >::AttributeType(), &Value() );
-	Assert( m_pAttribute );
+	this->m_pAttribute = pOwner->AddExternalAttribute( pAttributeName, CDmAttributeInfo<CUtlVector<T> >::AttributeType(), &this->Value() );
+	Assert(this->m_pAttribute );
 	if ( nFlags )
 	{
 		this->m_pAttribute->AddFlag( nFlags );
@@ -3208,7 +3209,7 @@ void CDmrDecoratorConst<T,BaseClass>::Init( const CDmAttribute* pAttribute )
 	else
 	{
 		this->m_pAttribute = NULL;
-		Attach( NULL );
+		this->Attach( NULL );
 	}
 }
 
@@ -3241,7 +3242,7 @@ void CDmrDecorator<T,BaseClass>::Init( CDmAttribute* pAttribute )
 	else
 	{
 		this->m_pAttribute = NULL;
-		Attach( NULL );
+		this->Attach( NULL );
 	}
 }
 

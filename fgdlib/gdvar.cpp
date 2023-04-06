@@ -14,7 +14,7 @@
 typedef struct
 {
 	GDIV_TYPE eType;		// The enumeration of this type.
-	char *pszName;			// The name of this type.
+	char const* pszName;			// The name of this type.
 	trtoken_t eStoreAs;		// How this type is stored (STRING, INTEGER, etc).
 } TypeMap_t;
 
@@ -62,9 +62,6 @@ static TypeMap_t TypeMap[] =
 	{ ivBoolean,			"boolean",				STRING },
 	{ ivNodeID,				"node_id",				INTEGER },
 };
-
-
-char *GDinputvariable::m_pszEmpty = "";
 
 
 //-----------------------------------------------------------------------------

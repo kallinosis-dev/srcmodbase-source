@@ -33,7 +33,7 @@ class CBrowseButton : public vgui::Button
 public:
 	CBrowseButton( vgui::Panel *pParent );
 	~CBrowseButton();
-	void InitBrowseInfo( int x, int y, char *pszName, const char *pszDir, char *pszFilter, char *pszField );
+	void InitBrowseInfo( int x, int y, char const* pszName, const char *pszDir, char const* pszFilter, char const* pszField );
 
 private:
 	char *pszStartingDirectory;

@@ -53,8 +53,6 @@ class CClassInputOutputBase
 
 	protected:
 
-		static char *g_pszEmpty;
-
 		char m_szName[MAX_IO_NAME_LEN];
 		InputOutputType_t m_eType;
 		char *m_pszDescription;
@@ -66,12 +64,7 @@ class CClassInputOutputBase
 //-----------------------------------------------------------------------------
 const char *CClassInputOutputBase::GetDescription(void)
 {
-	if (m_pszDescription != NULL)
-	{
-		return(m_pszDescription);
-	}
-
-	return(g_pszEmpty);
+	return m_pszDescription == NULL ? "" : m_pszDescription;
 }
 
 

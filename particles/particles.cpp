@@ -35,7 +35,7 @@
 
 
 // rename table from the great rename 
-static char *s_RemapOperatorNameTable[]={
+static char const* s_RemapOperatorNameTable[]={
 	"alpha_fade", "Alpha Fade and Decay",
 	"alpha_fade_in_random", "Alpha Fade In Random",
 	"alpha_fade_out_random", "Alpha Fade Out Random",

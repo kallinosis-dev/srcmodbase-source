@@ -2826,7 +2826,7 @@ void CElementPropertiesTreeInternal::OnAddItem()
 				if ( !array.IsValid() )
 					continue;
 
-				CUtlSymbol typeSymbol = array.GetElementType();
+				CUtlSymbolLarge typeSymbol = array.GetElementType();
 				const char *pElementType = typeSymbol.String();
 				const char *pElementTypeName = StringAfterPrefix( pElementType, "Dme" );
 				if ( !pElementTypeName )

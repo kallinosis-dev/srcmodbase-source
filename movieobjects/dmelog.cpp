@@ -16,7 +16,9 @@
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
-				 
+
+using std::swap;
+
 union compressed_value_t
 {
 	struct 
@@ -1172,6 +1174,7 @@ void CLogTimeIterator< T >::AddInterval( DmeTime_t tStart, DmeTime_t tEnd, DmeTi
 {
 	if ( m_bReverse )
 	{
+
 		swap( tStart, tEnd );
 		tSampleInterval = -tSampleInterval;
 	}

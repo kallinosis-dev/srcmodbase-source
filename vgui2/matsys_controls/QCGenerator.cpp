@@ -246,7 +246,7 @@ void CBrowseButton::SetCharVar( char **pVar, const char *pszNewText )
 	}
 }
 
-void CBrowseButton::InitBrowseInfo( int x, int y, char *pszName, const char *pszDir, char *pszFilter, char *pszField )
+void CBrowseButton::InitBrowseInfo( int x, int y, char const* pszName, const char *pszDir, char const* pszFilter, char const* pszField )
 {
 	SetSize( 24, 24 );
 	SetPos( x, y );
