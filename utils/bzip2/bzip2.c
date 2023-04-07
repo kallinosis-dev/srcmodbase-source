@@ -309,7 +309,7 @@ Char    progNameReally[FILE_NAME_LEN];
 FILE    *outputHandleJustInCase;
 Int32   workFactor;
 
-static void    panic                 ( Char* )   NORETURN;
+static void    panic                 ( Char const* )   NORETURN;
 static void    ioError               ( void )    NORETURN;
 static void    outOfMemory           ( void )    NORETURN;
 static void    configError           ( void )    NORETURN;
@@ -317,7 +317,7 @@ static void    crcError              ( void )    NORETURN;
 static void    cleanUpAndFail        ( Int32 )   NORETURN;
 static void    compressedStreamEOF   ( void )    NORETURN;
 
-static void    copyFileName ( Char*, Char* );
+static void    copyFileName ( Char*, Char const* );
 static void*   myMalloc     ( Int32 );
 
 
@@ -829,7 +829,7 @@ void cleanUpAndFail ( Int32 ec )
 
 /*---------------------------------------------*/
 static 
-void panic ( Char* s )
+void panic ( Char const* s )
 {
    fprintf ( stderr,
              "\n%s: PANIC -- internal consistency error:\n"
@@ -1002,7 +1002,7 @@ void pad ( Char *s )
 
 /*---------------------------------------------*/
 static 
-void copyFileName ( Char* to, Char* from ) 
+void copyFileName ( Char* to, Char const* from ) 
 {
    if ( strlen(from) > FILE_NAME_LEN-10 )  {
       fprintf (
@@ -1188,13 +1188,13 @@ Bool containsDubiousChars ( Char* name )
 /*---------------------------------------------*/
 #define BZ_N_SUFFIX_PAIRS 4
 
-Char* zSuffix[BZ_N_SUFFIX_PAIRS] 
+Char const* zSuffix[BZ_N_SUFFIX_PAIRS] 
    = { ".bz2", ".bz", ".tbz2", ".tbz" };
-Char* unzSuffix[BZ_N_SUFFIX_PAIRS] 
+Char const* unzSuffix[BZ_N_SUFFIX_PAIRS] 
    = { "", "", ".tar", ".tar" };
 
 static 
-Bool hasSuffix ( Char* s, Char* suffix )
+Bool hasSuffix (const Char* s, const Char* suffix )
 {
    Int32 ns = strlen(s);
    Int32 nx = strlen(suffix);
@@ -1204,8 +1204,8 @@ Bool hasSuffix ( Char* s, Char* suffix )
 }
 
 static 
-Bool mapSuffix ( Char* name, 
-                 Char* oldSuffix, Char* newSuffix )
+Bool mapSuffix ( Char* name,
+                 const Char* oldSuffix, const Char* newSuffix )
 {
    if (!hasSuffix(name,oldSuffix)) return False;
    name[strlen(name)-strlen(oldSuffix)] = 0;
@@ -1844,7 +1844,7 @@ Cell *snocString ( Cell *root, Char *name )
 
 /*---------------------------------------------*/
 static 
-void addFlagsFromEnvVar ( Cell** argList, Char* varName ) 
+void addFlagsFromEnvVar ( Cell** argList, const Char* varName ) 
 {
 #if !defined(_X360) && !defined(_PS3)
    Int32 i, j, k;

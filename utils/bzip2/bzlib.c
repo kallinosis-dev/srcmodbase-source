@@ -1557,7 +1557,7 @@ void BZ_API(BZ2_bzclose) (BZFILE* b)
 /*--
    return last error code 
 --*/
-static char *bzerrorstrings[] = {
+static char const* bzerrorstrings[] = {
        "OK"
       ,"SEQUENCE_ERROR"
       ,"PARAM_ERROR"

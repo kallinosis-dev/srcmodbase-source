@@ -17,7 +17,7 @@ class INetChannel;
 class INetMessage
 {
 public:
-	virtual	~INetMessage() {};
+	virtual	~INetMessage() = default;
 
 	// Use these to setup who can hear whose voice.
 	// Pass in client indices (which are their ent indices - 1).
@@ -45,7 +45,7 @@ public:
 class INetMessageBinder
 {
 public:
-	virtual	~INetMessageBinder() {};
+	virtual	~INetMessageBinder() = default;
 
 	virtual int	GetType( void ) const = 0; // returns module specific header tag eg svc_serverinfo
 	virtual void SetNetChannel(INetChannel * netchan) = 0; // netchannel this message is from/for
@@ -56,7 +56,7 @@ public:
 class INetChannelHandler
 {
 public:
-	virtual	~INetChannelHandler( void ) {};
+	virtual	~INetChannelHandler( void ) = default;
 
 	virtual void ConnectionStart(INetChannel *chan) = 0;	// called first time network channel is established
 	virtual void ConnectionStop( ) = 0;	// called first time network channel is established

@@ -419,7 +419,7 @@ void CAppSystemGroup::ComputeDependencies( LibraryDependencies_t &depend )
 			for ( int j = 0; j < nDependentCount; ++j )
 			{
 				int nIndex = depend.Find( depend[i].String( j ) );
-				if ( nIndex == UTL_INVAL_SYMBOL )
+				if ( nIndex == UTL_INVAL_SYMBOL_ID )
 					continue;
 
 				int nSecondaryDepCount = depend[nIndex].GetNumStrings();
