@@ -47,10 +47,6 @@
 #include "vstartcoopgame.h"
 #include "gameconsole.h"
 
-#if !defined( NO_STEAM ) && !defined( NO_STEAM_GAMECOORDINATOR )
-	#include "econ_ui.h"
-#endif
-
 #include "netmessages.h"
 #include "cegclientwrapper.h"
 

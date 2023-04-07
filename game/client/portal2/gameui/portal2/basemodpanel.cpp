@@ -110,7 +110,6 @@
 
 #if defined( PORTAL2_PUZZLEMAKER )
 #include "gc_clientsystem.h"
-#include "econ_gcmessages.h"
 #include "vcommunitymapdialog.h"
 #include "vratemapdialog.h"
 #include "vplaytestdemosdialog.h"

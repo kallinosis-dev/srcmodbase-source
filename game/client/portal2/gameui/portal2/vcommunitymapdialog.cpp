@@ -25,7 +25,6 @@
 #include <vgui_controls/ImageList.h>
 #include "vgui_avatarimage.h"
 #include "transitionpanel.h"
-#include "econ_gcmessages.h"
 #include "gc_clientsystem.h"
 #include "imageutils.h"
 #include "vCommunityMapDialog.h"

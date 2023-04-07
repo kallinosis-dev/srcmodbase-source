@@ -9,7 +9,6 @@
 #include "cs_player.h"
 #include "cs_simple_hostage.h"
 #include "cs_player_resource.h"
-#include "econ_game_account_client.h"
 #include "weapon_c4.h"
 #include <coordsize.h>
 #include "cs_bot_manager.h"

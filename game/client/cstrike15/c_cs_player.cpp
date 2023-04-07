@@ -48,7 +48,6 @@
 #include "ragdoll_shared.h"
 #include "collisionutils.h"
 #include "engineinterface.h"
-#include "econ_gcmessages.h"
 #include "cstrike15_item_system.h"
 #include "hltvcamera.h"
 

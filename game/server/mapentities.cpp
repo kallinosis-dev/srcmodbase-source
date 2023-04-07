@@ -21,7 +21,6 @@
 #if defined( CSTRIKE15 )
 #include "cs_gamerules.h"
 #include "weapon_csbase.h"
-#include "econ_entity_creation.h"
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!

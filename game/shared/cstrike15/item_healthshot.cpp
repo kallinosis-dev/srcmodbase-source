@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2009, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2009, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Healthshot Item, belt item
 //
@@ -8,7 +8,6 @@
 #include "cbase.h"
 #include "item_healthshot.h"
 #include "cs_gamerules.h"
-#include "econ_entity_creation.h"
 
 #if defined( CLIENT_DLL )
 #include "c_cs_player.h"

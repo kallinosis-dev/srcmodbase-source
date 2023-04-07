@@ -13,7 +13,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories		"$BASE;$SRCDIR\utils\vmpi;$SRCDIR\game\shared;$SRCDIR\game\server;$SRCDIR\game\shared\tf;$SRCDIR\game\shared\econ;$SRCDIR\gcsdk\steamextra"
+		$AdditionalIncludeDirectories		"$BASE;$SRCDIR\utils\vmpi;$SRCDIR\game\shared;$SRCDIR\game\server;$SRCDIR\game\shared\tf;$SRCDIR\gcsdk\steamextra"
 		$EnableC++Exceptions				"Yes (/EHsc)"
 		$PreprocessorDefinitions		"$BASE;GAME_DLL;TF_DLL;NO_STEAM"
 	}

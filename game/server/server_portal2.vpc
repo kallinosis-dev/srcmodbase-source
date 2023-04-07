@@ -8,7 +8,6 @@ $Macro GAMENAME 	"portal2"
 $Macro GENERATED_PROTO_DIR	"$SRCDIR\game\server\portal2\generated_proto"
 
 $Include "server_portal_base.vpc"
-$Include "server_econ_base.vpc"		[($WIN32 || $OSXALL) && !$NO_STEAM]
 
 $Configuration
 {
@@ -130,18 +129,6 @@ $Project "Server (Portal 2)"
 			$File	"$SRCDIR\game\shared\portal\portal_mp_gamerules.cpp"
 			$File	"$SRCDIR\game\shared\portal\portal_mp_gamerules.h"
 			
-			$Folder "Economy"	[ ( $WIN32 || $OSXALL) && !$NO_STEAM ]
-			{
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_inventory.cpp"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_inventory.h"
-
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_schema.cpp"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_schema.h"
-
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_system.cpp"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_system.h"
-			}
-
 			$Folder "Portal 2"
 			{
 				$File	"portal2\baseprojectedentity.cpp"

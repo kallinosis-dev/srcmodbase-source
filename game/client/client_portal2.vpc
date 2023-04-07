@@ -8,7 +8,6 @@ $Macro GAMENAME 			"portal2"
 $Macro GENERATED_PROTO_DIR	"$SRCDIR\game\client\portal2\generated_proto"
 
 $Include "client_portal_base.vpc"
-$Include "client_econ_base.vpc"		[ ($WIN32 || $OSXALL ) && !$NO_STEAM ]
 
 $Configuration
 {
@@ -151,25 +150,7 @@ $Project "Client (Portal 2)"
 			
 			$File	"$SRCDIR\game\shared\portal\portal_mp_gamerules.cpp"
 			$File	"$SRCDIR\game\shared\portal\portal_mp_gamerules.h"
-
-			$Folder "Economy"	[ ($WIN32 || $OSXALL ) && !$NO_STEAM ]
-			{
-				$File	"portal2\portal2_econ_ui.cpp"
-				$File	"portal2\portal2_playermodelpanel.cpp"
-				$File	"portal2\portal2_playermodelpanel.h"
-				$File	"portal2\portal2_store_preview_item.cpp"
-				$File	"portal2\portal2_store_preview_item.h"
-				$File	"portal2\portal2_item_selection_panel.cpp"
-				$File	"portal2\portal2_item_selection_panel.h"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_inventory.cpp"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_inventory.h"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_schema.cpp"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_schema.h"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_system.cpp"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_system.h"
-				$File	"$SRCDIR\game\shared\portal2\portal2_item_constants.h"
-			}
-
+			
 			$Folder "gameui" [$IFDEF_GAMEUI_UISYSTEM2_ENABLED]
 			{
 				$File	"gameui.cpp"

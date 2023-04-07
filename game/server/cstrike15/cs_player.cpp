@@ -87,13 +87,11 @@
 #include "teamplayroundbased_gamerules.h"
 #include "animation.h"
 #include "cs_team.h"
-#include "econ_game_account_client.h"
 #include "world.h"
 #include "item_healthshot.h"
 #include "hltvdirector.h"
 #include "ihltv.h"
 #include "netmessages.pb.h"
-#include "econ_item_view_helpers.h"
 #include "playerdecals_signature.h"
 
 #if defined( CLIENT_DLL )
@@ -102,12 +100,6 @@
 	#include "cs_custom_clothing_visualsdata_processor.h"
 
 #endif
-
-#if !defined( NO_STEAM ) && !defined( NO_STEAM_GAMECOORDINATOR )
-	#include "econ_gcmessages.h"
-	#include "econ_entity_creation.h"
-#endif
-
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"

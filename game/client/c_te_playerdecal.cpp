@@ -19,7 +19,6 @@
 #include "functionproxy.h"
 #include "imaterialproxydict.h"
 #include "precache_register.h"
-#include "econ/econ_item_schema.h"
 #include "tier0/vprof.h"
 #include "playerdecals_signature.h"
 #include "tier1/callqueue.h"

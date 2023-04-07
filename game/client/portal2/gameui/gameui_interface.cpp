@@ -63,10 +63,6 @@
 #endif
 #include "protocol.h"
 
-#if !defined( NO_STEAM ) && !defined( NO_STEAM_GAMECOORDINATOR )
-	#include "econ_ui.h"
-#endif
-
 #if defined( SWARM_DLL )
 
 #include "swarm/basemodpanel.h"

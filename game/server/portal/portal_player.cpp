@@ -65,10 +65,6 @@
 #include "gc_serversystem.h"
 #endif
 
-#if !defined( NO_STEAM ) && !defined( NO_STEAM_GAMECOORDINATOR )
-	#include "econ_gcmessages.h"
-#endif //!defined( NO_STEAM ) && !defined( NO_STEAM_GAMECOORDINATOR )
-
 #define PORTAL_RESPAWN_DELAY	1.0f	// Seconds
 
 #define PORTAL_WALK_SPEED	175

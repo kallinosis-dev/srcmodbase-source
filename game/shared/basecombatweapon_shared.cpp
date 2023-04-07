@@ -13,9 +13,6 @@
 #include "datacache/imdlcache.h"
 #include "tier0/vprof.h"
 #include "collisionutils.h"
-#include "econ_entity.h"
-#include "econ_item_view.h"
-
 #if !defined( CLIENT_DLL )
 
 // Game DLL Headers

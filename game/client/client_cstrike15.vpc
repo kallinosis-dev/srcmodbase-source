@@ -10,7 +10,6 @@ $Macro GAMENAME 	"csgo"
 $Include "$SRCDIR\game\client\client_base.vpc"
 $Include "$SRCDIR\game\shared\cstrike15\cstrike15_gcmessages_include.vpc" [!$X360 && !$PS3]
 $include "$SRCDIR\game\shared\cstrike15\cstrike15_usermessages_include.vpc"
-$Include "$SRCDIR\game\client\client_econ_base.vpc" [!$X360 && !$PS3]
 
 $include "$SRCDIR\external\external.vpc"
 $include "$SRCDIR\external\$EXTERNALCRYPTOPP\external_cryptopp.vpc"
@@ -89,33 +88,6 @@ $Project "Client (CSGO)"
 			}
 		}
 
-		$Folder	"Economy" [!$X360 && !$PS3]
-		{
-//			$Folder	"Store"
-//			{
-//				$File	"$SRCDIR\game\client\econ\store\store_page.cpp"
-//				$File	"$SRCDIR\game\client\econ\store\store_page_halloween.cpp"
-//				$File	"$SRCDIR\game\client\econ\store\store_page_new.cpp"
-//				$File	"$SRCDIR\game\client\econ\store\store_panel.cpp"
-//				$File	"$SRCDIR\game\client\econ\store\store_preview_item.cpp"
-//				$File	"$SRCDIR\game\client\econ\store\store_viewcart.cpp"
-//			}
-
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_inventory.cpp"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_inventory.h"
-			
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_system.cpp"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_system.h"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_schema.cpp"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_schema.h"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_constants.h"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_gcconstants.h"
-
-			$File	"$SRCDIR/game/shared/cstrike15/cs_econ_item_string_table.cpp"
-			$File	"$SRCDIR/game/shared/cstrike15/cs_econ_item_string_table.h"
-			$File	"$SRCDIR/game/shared/econ/econ_game_account_client.h"
-			$File	"$SRCDIR/game/shared/econ/econ_game_account_client.cpp"
-		}
 
 		$Folder	"CounterStrike DLL"
 		{

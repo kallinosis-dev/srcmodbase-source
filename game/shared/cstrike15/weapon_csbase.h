@@ -10,10 +10,6 @@
 #pragma once
 #endif
 
-#if !defined (_GAMECONSOLE)
-	#include "econ_item_view.h"
-#endif
-
 #include "cs_playeranimstate.h"
 #include "cs_weapon_parse.h"
 #include "cs_shareddefs.h"

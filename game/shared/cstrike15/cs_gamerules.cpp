@@ -32,7 +32,6 @@
 #ifndef CLIENT_DLL
 #include "Effects/inferno.h"
 #endif
-#include "econ_item_view_helpers.h"
 
 #ifdef CLIENT_DLL
     #include "networkstringtable_clientdll.h"
@@ -80,7 +79,6 @@
     #include "cs_entity_spotting.h"
     #include "props.h"
 	#include "hltvdirector.h"
-	#include "econ_gcmessages.h"
 	#include "env_cascade_light.h"
 	#include "world.h"
 	#include "items.h"

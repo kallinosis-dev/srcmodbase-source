@@ -23,7 +23,6 @@
 #include "vgui_avatarimage.h"
 
 #include "gc_clientsystem.h"
-#include "econ_gcmessages.h"
 #include "vratemapdialog.h"
 #include "imageutils.h"
 #include "rtime.h"

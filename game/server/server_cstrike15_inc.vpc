@@ -14,7 +14,6 @@ $Macro GAMENAME 	"csgo"
 
 
 $Include "$SRCDIR\game\server\server_base.vpc"
-$Include "$SRCDIR\game\server\server_econ_base.vpc" [!$PS3 && !$X360]
 $include "$SRCDIR\game\shared\cstrike15\cstrike15_usermessages_include.vpc"
 $Include "$SRCDIR\game\shared\cstrike15\cstrike15_gcmessages_include.vpc" [!$PS3 && !$X360]
 
@@ -57,24 +56,6 @@ $Project $SPROJ
 		$File	"$SRCDIR\game\shared\teamplayroundbased_gamerules.cpp"
 		$File	"$SRCDIR\game\shared\teamplayroundbased_gamerules.h"
 		$File	"$SRCDIR\game\shared\cstrike15\dlchelper.h"
-
-		$Folder	"Economy" [!$X360 && !$PS3]
-		{
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_inventory.cpp"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_inventory.h"
-			//$File	"$SRCDIR\game\shared\econ\econ_claimcode.cpp"
-			//$File	"$SRCDIR\game\shared\econ\econ_claimcode.h"
-			
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_system.cpp"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_system.h"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_schema.cpp"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_schema.h"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_item_constants.h"
-			$File	"$SRCDIR\game\shared\cstrike15\cstrike15_gcconstants.h"
-
-			$File	"$SRCDIR/game/shared/cstrike15/cs_econ_item_string_table.cpp"
-			$File	"$SRCDIR/game/shared/cstrike15/cs_econ_item_string_table.h"
-		}
 
 		$Folder	"CounterStrike DLL"
 		{

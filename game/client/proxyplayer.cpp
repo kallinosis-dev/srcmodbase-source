@@ -16,7 +16,6 @@
 #include "weapon_csbase.h"
 #include "predicted_viewmodel.h"
 #include "cs_client_gamestats.h"
-#include "econ/econ_item_schema.h"
 #include "cstrike15_gcconstants.h"
 
 #include "imaterialproxydict.h"
