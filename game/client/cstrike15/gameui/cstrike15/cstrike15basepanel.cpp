@@ -532,7 +532,7 @@ bool CCStrike15BasePanel::IsScaleformMainMenuActive( void )
 
 void CCStrike15BasePanel::OnOpenCreateSingleplayerGameDialog( bool bMatchmakingFilter )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CCStrike15BasePanel::OnOpenCreateMultiplayerGameDialog( void )
@@ -562,7 +562,7 @@ void CCStrike15BasePanel::OnOpenCreateMultiplayerGameCommunity( void )
 
 void CCStrike15BasePanel::DoCommunityQuickPlay( void )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return;
 }
 
@@ -583,17 +583,17 @@ void CCStrike15BasePanel::OnOpenServerBrowser()
 
 void CCStrike15BasePanel::OnOpenCreateLobbyScreen( bool bIsHost )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CCStrike15BasePanel::OnOpenLobbyBrowserScreen( bool bIsHost )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CCStrike15BasePanel::UpdateLobbyScreen( )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CCStrike15BasePanel::UpdateMainMenuScreen()
@@ -603,7 +603,7 @@ void CCStrike15BasePanel::UpdateMainMenuScreen()
 
 void CCStrike15BasePanel::UpdateLobbyBrowser( )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CCStrike15BasePanel::OnOpenMessageBox( char const *pszTitle, char const *pszMessage, char const *pszButtonLegend, DWORD dwFlags, IMessageBoxEventCallback *pEventCallback, CMessageBoxScaleform** ppInstance, wchar_t const *pszWideMessage )
@@ -823,28 +823,28 @@ void CCStrike15BasePanel::OnOpenHowToPlayDialog( void )
 
 void CCStrike15BasePanel::DismissPauseMenu( void )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CCStrike15BasePanel::RestorePauseMenu( void )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CCStrike15BasePanel::ShowScaleformPauseMenu( bool bShow )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 bool CCStrike15BasePanel::IsScaleformPauseMenuActive( void )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return false;
 }
 
 bool CCStrike15BasePanel::IsScaleformPauseMenuVisible( void )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return false;
 }
 
@@ -1332,7 +1332,7 @@ void CCStrike15BasePanel::RunFrame( void )
 		else if ( char const *gcconnect = strstr( CommandLine()->GetCmdLine(), "+gcconnect" ) )
 		{
 			Msg( "Executing deferred gcconnect: %s\n", gcconnect );
-			/* Removed for partner depot */
+			#error Cut for partner depot
 		}
 	}
 }

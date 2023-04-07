@@ -616,12 +616,12 @@ void C_CSRagdoll::DestroyGlowObject()
 
 void C_CSRagdoll::AttachWearableGibsFromPlayer( C_CSPlayer *pParentPlayer )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void C_CSRagdoll::DestroyAttachedWearableGibs( void )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void C_CSRagdoll::GetRagdollInitBoneArrays( matrix3x4a_t *pDeltaBones0, matrix3x4a_t *pDeltaBones1, matrix3x4a_t *pCurrentBones, float boneDt )
@@ -1135,7 +1135,7 @@ void C_CSRagdoll::CreateCSRagdoll()
 
 void C_CSRagdoll::SetRagdollClientSideAddon( uint32 uiAddonMask )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	if ( ( uiAddonMask & ADDON_CLIENTSIDE_ASSASSINATION_TARGET ) && !m_hAssassinationTargetAddon.Get() )
 	{
 		C_BreakableProp *pEnt = new C_BreakableProp;
@@ -1282,13 +1282,13 @@ void RecvProxy_FlashTime( const CRecvProxyData *pData, void *pStruct, void *pOut
 
 void C_CSPlayer::SetRenderAlpha( byte a )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	BaseClass::SetRenderAlpha( a );
 }
 
 void C_CSPlayer::SetRenderMode( RenderMode_t nRenderMode, bool bForceUpdate )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	BaseClass::SetRenderMode( nRenderMode, bForceUpdate );
 }
 
@@ -3911,7 +3911,7 @@ bool C_CSPlayer::DrawScreenSpaceVomitParticles( IMatRenderContext *pRenderContex
 
 void C_CSPlayer::AddDecal( const Vector& rayStart, const Vector& rayEnd, const Vector& decalCenter, int hitbox, int decalIndex, bool doTrace, trace_t& tr, int maxLODToDecal )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	BaseClass::AddDecal( rayStart, rayEnd, decalCenter, hitbox, decalIndex, doTrace, tr, maxLODToDecal );
 }
 
@@ -4179,7 +4179,7 @@ public:
 
 void C_CSPlayer::CreateAddonModel( int i )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 //-----------------------------------------------------------------------------
@@ -4699,7 +4699,7 @@ void C_CSPlayer::ClientThink()
 	BaseClass::ClientThink();
 
 	// Cheap cheat detection code to catch cheat-engine users
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 
 	// velocity music handling
 	if( GetCurrentMusic() == CSMUSIC_START &&  GetMusicStartRoundElapsed() > 0.5 )

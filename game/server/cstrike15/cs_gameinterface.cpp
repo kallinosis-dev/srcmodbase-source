@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -148,13 +148,13 @@ bool Helper_FillServerReservationStateAndPlayers( CMsgGCCStrike15_v2_Matchmaking
 
 void CServerGameDLL::UpdateGCInformation()
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 // Marks the queue matchmaking game as starting
 void CServerGameDLL::ReportGCQueuedMatchStart( int32 iReservationStage, uint32 *puiConfirmedAccounts, int numConfirmedAccounts )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 //-----------------------------------------------------------------------------
@@ -162,7 +162,7 @@ void CServerGameDLL::ReportGCQueuedMatchStart( int32 iReservationStage, uint32 *
 //-----------------------------------------------------------------------------
 void CServerGameClients::NetworkIDValidated( const char *pszUserName, const char *pszNetworkID, CSteamID steamID )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 
@@ -416,7 +416,7 @@ EncryptedMessageKeyType_t CServerGameDLL::GetMessageEncryptionKey( INetMessage *
 // and might shutdown to meet uptime or memory limit requirements.
 bool CServerGameDLL::ShouldHoldGameServerReservation( float flTimeElapsedWithoutClients )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return false; // let the server get unreserved
 }
 
@@ -424,33 +424,33 @@ bool CServerGameDLL::ShouldHoldGameServerReservation( float flTimeElapsedWithout
 // data is included in the payload
 void CServerGameDLL::OnPureServerFileValidationFailure( edict_t *edictClient, const char *path, const char *fileName, uint32 crc, int32 hashType, int32 len, int packNumber, int packFileID )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 // Last chance validation on connect packet for the client, non-NULL return value
 // causes the client connect to be aborted with the provided error
 char const * CServerGameDLL::ClientConnectionValidatePreNetChan( bool bGameServer, char const *adr, int nAuthProtocol, uint64 ullSteamID )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return nullptr;	// allow connections by default
 }
 
 // Network channel notification from engine to game server code
 void CServerGameDLL::OnEngineClientNetworkEvent( edict_t *edictClient, uint64 ullSteamID, int nEventType, void *pvParam )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 // Game server notifying GC with its sync packet
 void CServerGameDLL::EngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 // GOTV client attempt redirect over SDR
 bool CServerGameDLL::OnEngineClientProxiedRedirect( uint64 ullClient, const char *adrProxiedRedirect, const char *adrRegular )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return false;
 }
 

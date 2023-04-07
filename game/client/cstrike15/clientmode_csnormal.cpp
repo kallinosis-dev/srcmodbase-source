@@ -3473,13 +3473,13 @@ bool __MsgFunc_MatchEndConditions( const CCSUsrMsg_MatchEndConditions &msg )
 
 bool __MsgFunc_ServerRankUpdate( const CCSUsrMsg_ServerRankUpdate &msg )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return true;
 }
 
 bool __MsgFunc_ServerRankRevealAll( const CCSUsrMsg_ServerRankRevealAll &msg )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return true;
 }
 
@@ -3528,7 +3528,7 @@ bool __MsgFunc_GlowPropTurnOff( const CCSUsrMsg_GlowPropTurnOff &msg )
 
 bool __MsgFunc_XpUpdate( const CCSUsrMsg_XpUpdate &msg )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return true;
 }
 

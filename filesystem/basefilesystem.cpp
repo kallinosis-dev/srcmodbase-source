@@ -281,7 +281,7 @@ static char const * V_FormatFilenameForSymlinking( char (&tempSymlinkBuffer)[MAX
 	{
 		//    maps/workshop/
 		if ( ( false
-			/** Removed for partner depot **/
+			#error Cut for partner depot
 			) &&
 			( ( pFileName[23] == CORRECT_PATH_SEPARATOR ) || ( pFileName[23] == INCORRECT_PATH_SEPARATOR ) ) )
 		{

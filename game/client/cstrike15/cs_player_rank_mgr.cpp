@@ -484,7 +484,7 @@ void CPlayerRankManager::PrintRankProgressThisRound() const
 
 void CPlayerRankManager::OnEvent( KeyValues *pEvent )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CPlayerRankManager::NoteEloBracketChanged( int iOldBracket, int iNewBracket )

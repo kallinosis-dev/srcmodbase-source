@@ -2301,7 +2301,7 @@ void CCSPlayer::GiveDefaultWearables( void )
 
 void CCSPlayer::GiveWearableFromSlot( loadout_positions_t position )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 
@@ -2542,7 +2542,7 @@ class CPlayerTrophy : public CPhysicsProp
 public:
 	void OnTouchLoot( CBaseEntity *other )
 	{
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	}
 };
 
@@ -6528,7 +6528,7 @@ void CCSPlayer::RemoveAllItems( bool removeSuit )
 
 void CCSPlayer::ValidateWearables( void )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 void CCSPlayer::ObserverRoundRespawn()
@@ -6704,7 +6704,7 @@ class CCSPlayerResourcePlayer : public CCSPlayerResource { friend class CCSPlaye
 CWeaponCSBase* CCSPlayer::GetActiveCSWeapon() const
 {
 	CWeaponCSBase *csWeapon = dynamic_cast< CWeaponCSBase* >( GetActiveWeapon( ) );
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return csWeapon; 
 }
 
@@ -12372,7 +12372,7 @@ void CCSPlayer::StockPlayerAmmo( CBaseCombatWeapon *pNewWeapon )
 
 void CCSPlayer::FindMatchingWeaponsForTeamLoadout( const char *pchName, int nTeam, bool bMustBeTeamSpecific, CUtlVector< CEconItemView* > &matchingWeapons )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 CBaseEntity	*CCSPlayer::GiveNamedItem( const char *pchName, int iSubType /*= 0*/, CEconItemView *pScriptItem /*= NULL*/, bool bForce /*= false*/ )
@@ -15884,7 +15884,7 @@ void OnInventoryUpdatedForSteamID( CSteamID steamID )
 //-----------------------------------------------------------------------------
 void CCSPlayer::VerifySOCache()
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return;
 }
 

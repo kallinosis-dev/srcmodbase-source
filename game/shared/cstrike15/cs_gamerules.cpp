@@ -6118,12 +6118,12 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 
 	void CCSGameRules::SendKickBanToGC( CCSPlayer *pPlayer, EMsgGCCStrike15_v2_MatchmakingKickBanReason_t eReason )
 	{
-		/** Removed for partner depot **/
+		#error Cut for partner depot
 	}
 
 	void CCSGameRules::SendKickBanToGCforAccountId( uint32 uiAccountId, EMsgGCCStrike15_v2_MatchmakingKickBanReason_t eReason )
 	{
-		/** Removed for partner depot **/
+		#error Cut for partner depot
 	}
 
     void CCSGameRules::InitDefaultAIRelationships()
@@ -13196,7 +13196,7 @@ void ServerThinkReplayUploader()
 
 	void CCSGameRules::SaveRoundDataInformation( char const *szFilenameOverride )
 	{
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	}
 
 	CCSGameRules::CQMMPlayerData_t * CCSGameRules::QueuedMatchmakingPlayersDataFindOrCreate( CCSPlayer *pPlayer )
@@ -13759,7 +13759,7 @@ void ServerThinkReplayUploader()
 
 	void CCSGameRules::ReportRoundEndStatsToGC( CMsgGCCStrike15_v2_MatchmakingServerRoundStats **ppAllocateStats )
 	{
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	}
 
     // Helper to determine if all players on a team are playing for the same clan
@@ -15156,7 +15156,7 @@ bool CCSGameRules::IsWarmupPeriod() const
 
 bool CCSGameRules::AllowTaunts( void )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return false;
 }
 

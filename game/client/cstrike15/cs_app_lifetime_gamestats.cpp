@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -219,7 +219,7 @@ static bool BHelperCheckSafeUserCmdString( char const *ipconnect )
 
 void CS_App_Lifetime_Gamestats::OnGameJoinRequested( GameRichPresenceJoinRequested_t *pCallback )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CS_App_Lifetime_Gamestats::RecordUIEvent( const char* szEventName )

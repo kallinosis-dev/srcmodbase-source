@@ -209,7 +209,7 @@ void CSGOWorkshopMaps::OnFileRequestError( UGCHandle_t hFileHandle )
 
 void CSGOWorkshopMaps::OnPublishedFileSubscribed( PublishedFileId_t nID )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 void CSGOWorkshopMaps::OnPublishedFileUnsubscribed( PublishedFileId_t nID )
@@ -447,7 +447,7 @@ bool CSGOWorkshopMaps::ViewAllCommunityMapsInWorkshop( void )
 
 bool CSGOWorkshopMaps::WasFileRecentlyUpdated( PublishedFileId_t id ) const
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return false;
 }
 

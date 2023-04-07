@@ -3832,7 +3832,7 @@ void CWeaponCSBase::OnLand( float fVelocity )
 
 void CWeaponCSBase::Recoil( CSWeaponMode weaponMode )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 #ifdef CLIENT_DLL
@@ -3850,17 +3850,17 @@ ConCommand cl_saveweaponcustomtextures( "cl_saveweaponcustomtextures", WeaponSav
 
 void CWeaponCSBase::SaveCustomMaterialsTextures( )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 void CWeaponCSBase::UpdateCustomMaterial( void )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 void CWeaponCSBase::CheckCustomMaterial( void )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 }
 
 #endif // CLIENT_DLL

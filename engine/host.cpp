@@ -5311,7 +5311,7 @@ void Host_Init( bool bDedicated )
 		// Signature checking code:
 		//
 
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	}
 
 	ThreadPoolStartParams_t startParams;

@@ -3722,7 +3722,7 @@ void CHLClient::OnDemoPlaybackStart( char const* pDemoBaseName )
 
 void CHLClient::OnDemoPlaybackRestart()
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CHLClient::OnDemoPlaybackStop()
@@ -4329,7 +4329,7 @@ float CHLClient::GetUGCFileDownloadProgress( PublishedFileId_t id )
 
 void CHLClient::RecordUIEvent( const char* szEvent )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 
@@ -4352,7 +4352,7 @@ float CHLClient::FindInventoryItemWithMaxAttributeValue( char const *szItemType,
 
 void CHLClient::DetermineSubscriptionKvToAdvertise( KeyValues *kvLocalPlayer )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 class CHLClientAutoRichPresenceUpdateOnConnect
@@ -4762,18 +4762,18 @@ int CHLClient::GetInEyeEntity() const
 
 bool CHLClient::ValidateSignedEvidenceHeader( char const *szKey, void const *pvHeader, CDemoPlaybackParameters_t *pPlaybackParameters )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return true;
 }
 
 void CHLClient::PrepareSignedEvidenceData( void *pvData, int numBytes, CDemoPlaybackParameters_t const *pPlaybackParameters )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 bool CHLClient::ShouldSkipEvidencePlayback( CDemoPlaybackParameters_t const *pPlaybackParameters )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return true;
 }
 
@@ -4784,7 +4784,7 @@ bool CHLClient::IsConnectedUserInfoChangeAllowed( IConVar *pCvar )
 
 void CHLClient::OnCommandDuringPlayback( char const *cmd )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CHLClient::RetireAllPlayerDecals( bool bRenderContextValid )
@@ -4803,7 +4803,7 @@ void CHLClient::RetireAllPlayerDecals( bool bRenderContextValid )
 
 void CHLClient::EngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void CHLClient::OnTickPre( int tickcount )

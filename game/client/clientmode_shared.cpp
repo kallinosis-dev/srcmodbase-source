@@ -620,7 +620,7 @@ bool ContainsBinding( const char *pszBindingString, const char *pszBinding, bool
 
 void ClientModeShared::UpdateCameraManUIState( int iType, int nOptionalParam, uint64 xuid )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void SendCameraManUIStateChange( HltvUiType_t eventType, int nOptionalParam )
@@ -642,7 +642,7 @@ void ClientModeShared::ScoreboardOff()
 
 void ClientModeShared::GraphPageChanged()
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 //-----------------------------------------------------------------------------
@@ -650,7 +650,7 @@ void ClientModeShared::GraphPageChanged()
 //-----------------------------------------------------------------------------
 int ClientModeShared::HandleSpectatorKeyInput( int down, ButtonCode_t keynum, const char *pszCurrentBinding )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return 1;
 }
 
@@ -714,7 +714,7 @@ int ClientModeShared::HudElementKeyInput( int down, ButtonCode_t keynum, const c
 
 	if ( down && pszCurrentBinding && ContainsBinding( pszCurrentBinding, "radio1" ) )
 	{
-		/* Removed for partner depot */
+		#error Cut for partner depot
 		return 0;
 	}
 

@@ -1038,7 +1038,7 @@ void C_BaseViewModel::UpdateAllViewmodelAddons( void )
 
 C_ViewmodelAttachmentModel* C_BaseViewModel::FindArmModelForLoadoutPosition( loadout_positions_t nPosition ) const
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	return nullptr;
 }
 
@@ -1172,7 +1172,7 @@ bool C_BaseViewModel::ViewmodelStickersAreValid( int nWeaponID )
 
 void C_BaseViewModel::AddViewmodelStickers( CEconItemView *pItem, int nWeaponID )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 }
 
 void C_BaseViewModel::RemoveViewmodelArmModels( void )

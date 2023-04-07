@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -1452,7 +1452,7 @@ void CUIGameData::OnEvent( KeyValues *pEvent )
 #else
 	else if ( !Q_strcmp( "OnEngineLevelLoadingSession", szEvent ) )
 	{
-		/* Removed for partner depot */
+		#error Cut for partner depot
 	}
 #endif
 }

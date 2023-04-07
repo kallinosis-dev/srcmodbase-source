@@ -2763,7 +2763,7 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 					{
 						//uint64 uiWkshpId = Q_atoui64( szPastWorkshop );
 						bool bValveOfficialMap = false;
-								/** Removed for partner depot **/
+								#error Cut for partner depot
 						if ( bValveOfficialMap )
 						{
 							if ( char const *szMapNameTrail = strchr( szPastWorkshop, '/' ) )
@@ -2774,7 +2774,7 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 					// it is one of Valve official maps and redirect to Workshop based on known CRC
 					uint64 uiKnownVersionWkshpId = 0;
 					uint32 uiRepackedWkshpCrc = 0;
-							/** Removed for partner depot **/
+							#error Cut for partner depot
 					extern ConVar debug_map_crc;
 					if ( debug_map_crc.GetBool() && !uiKnownVersionWkshpId )
 					{	// Force a debug error when debugging map CRC's

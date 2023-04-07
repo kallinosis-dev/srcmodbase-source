@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2007, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2007, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -696,7 +696,7 @@ void CRopeManager::DrawRenderCache( IMatRenderContext *pRenderContext, bool bSha
 
 bool CRopeManager::IsHolidayLightMode( void )
 {
-	/* Removed for partner depot */
+	#error Cut for partner depot
 	bool bDrawHolidayLights = false;
 	return bDrawHolidayLights;
 }

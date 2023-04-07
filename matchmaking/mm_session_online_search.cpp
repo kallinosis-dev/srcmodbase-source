@@ -566,7 +566,7 @@ void CMatchSessionOnlineSearch::StartJoinNextFoundSession()
 
 static uint32 OfficialWhitelistClientCachedAddress( uint32 uiServerIP )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return 0;
 }
 

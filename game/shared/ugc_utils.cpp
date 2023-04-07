@@ -1060,7 +1060,7 @@ bool UnzipFile( const char* szPathToZipFile,  const char* szOutputDir /*= NULL*/
 
 bool UGCUtil_IsOfficialMap( PublishedFileId_t id )
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return false;
 }
 

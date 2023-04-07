@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -371,7 +371,7 @@ inline void NetMsgSetCVarUsingDictionary( CMsg_CVars::CVar *convar, char const *
 	convar->set_value( value );
 	
 	if ( 0 ) ( void ) 0;
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	else
 	{
 #ifdef _DEBUG
@@ -388,7 +388,7 @@ inline void NetMsgExpandCVarUsingDictionary( CMsg_CVars::CVar *convar )
 	switch ( convar->dictionary_name() )
 	{
 	case 0: return;
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	default:
 		DevWarning( "Invalid dictionary entry for cvar # %d\n", convar->dictionary_name() );
 		convar->set_name( "undefined" );
@@ -403,7 +403,7 @@ inline const char * NetMsgGetCVarUsingDictionary( CMsg_CVars::CVar const &convar
 	switch ( convar.dictionary_name() )
 	{
 	case 0: return "";
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 default:
 	DevWarning( "Invalid dictionary entry for cvar # %d\n", convar.dictionary_name() );
 	return "undefined";

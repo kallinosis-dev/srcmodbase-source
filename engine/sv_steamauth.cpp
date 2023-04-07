@@ -1104,7 +1104,7 @@ void CSteam3Server::SendUpdatedServerDetails()
 				( ( szStringAfterPrefix[10] == '/' ) || ( szStringAfterPrefix[10] == '\\' ) ) )
 			{
 				bool bOfficialMap = false;
-				/** Removed for partner depot **/
+				#error Cut for partner depot
 				if ( bOfficialMap )
 				{
 					size_t nOfficalLen = Q_strlen( pszMapName ) + 1;

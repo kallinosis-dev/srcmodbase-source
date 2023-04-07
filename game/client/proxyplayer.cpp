@@ -405,7 +405,7 @@ class CStatTrakDigitProxyForModelWeaponPreviewPanel : public CStatTrakDigitProxy
 public:
 	virtual bool HelperOnBindGetStatTrakScore( void *pC_BaseEntity, int *puiScore ) OVERRIDE
 	{
-		/* Removed for partner depot */
+		#error Cut for partner depot
 		return false;
 	}
 };
@@ -629,7 +629,7 @@ class CWeaponLabelTextProxyForModelWeaponPreviewPanel : public CWeaponLabelTextP
 public:
 	virtual bool HelperOnBindGetLabel( void *pC_BaseEntity, const char **p_szLabel )
 	{
-		/* Removed for partner depot */
+		#error Cut for partner depot
 		return false;
 	}
 };

@@ -1,4 +1,4 @@
- //========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+ //========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -2956,7 +2956,7 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 //-----------------------------------------------------------------------------
 CWeaponCSBase* CCSPlayer::CSWeapon_OwnsThisType( CEconItemView *pItem ) const
 {
-	/** Removed for partner depot **/
+	#error Cut for partner depot
 	return nullptr;
 }
 
