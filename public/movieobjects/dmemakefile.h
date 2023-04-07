@@ -230,7 +230,7 @@ T* CDmeMakefile::AddSource( const char *pFullPath )
 template< class T >
 T* CDmeMakefile::SetSingleSource( const char *pFullPath )
 {
-	return CastElement< T >( SetSingleSource( g_pDataModel->GetString( T::GetStaticTypeSymbol() ), pFullPath ) );
+	return CastElement< T >( SetSingleSource( T::GetStaticTypeSymbol().String(), pFullPath ) );
 }
 
 

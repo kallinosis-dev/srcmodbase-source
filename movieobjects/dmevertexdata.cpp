@@ -19,7 +19,7 @@
 //-----------------------------------------------------------------------------
 // Standard vertex fields
 //-----------------------------------------------------------------------------
-static char *g_pStandardFieldNames[] =
+static char const* g_pStandardFieldNames[] =
 {
 	"positions",
 	"normals",

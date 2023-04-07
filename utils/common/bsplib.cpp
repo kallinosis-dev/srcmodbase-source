@@ -637,7 +637,7 @@ BEGIN_BYTESWAP_DATADESC(DiskPhysics2LevelMesh_t)
 	DEFINE_FIELD( flags, FIELD_INTEGER )
 END_BYTESWAP_DATADESC()
 
-static char *s_LumpNames[] = {
+static char const* s_LumpNames[] = {
 	"LUMP_ENTITIES",						// 0
 	"LUMP_PLANES",							// 1
 	"LUMP_TEXDATA",							// 2

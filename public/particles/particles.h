@@ -452,7 +452,7 @@ public:
 // separate particle system .libs
 //
 //-----------------------------------------------------------------------------
-typedef int ParticleSystemHandle_t;
+typedef UtlSymId_t ParticleSystemHandle_t;
 
 class CParticleSystemMgr
 {
@@ -1800,7 +1800,7 @@ public:
 	// the camera objetc may be compared for equality against control point objects
 	void Render( int nViewRecursionLevel, IMatRenderContext *pRenderContext, const Vector4D &vecDiffuseModulation, bool bTranslucentOnly = false, void *pCameraObject = nullptr);
 
-	bool IsValid( void ) const { return m_pDef != nullptr; }
+	bool IsValid( void ) const { return m_pDef.IsValid(); }
 
 	// this system and all children are valid
 	bool IsFullyValid( void ) const;
@@ -2884,7 +2884,7 @@ FORCEINLINE void CParticleCollection::KillParticle( int nPidx, unsigned int nKil
 
 	COMPILE_TIME_ASSERT( ( sizeof( KillListItem_t ) == 4 ) && ( MAX_PARTICLES_IN_A_SYSTEM < ( 1 << KILL_LIST_INDEX_BITS ) ) );
 	Assert( !( nPidx & ~KILL_LIST_INDEX_MASK ) && !( nKillFlags & ~KILL_LIST_FLAGS_MASK ) );
-	KillListItem_t killItem = { nPidx, nKillFlags };
+	KillListItem_t killItem = { (uint)nPidx, nKillFlags };
 
 	Assert( m_nNumParticlesToKill < MAX_PARTICLES_IN_A_SYSTEM );
 	m_pParticleKillList[ m_nNumParticlesToKill++ ] = killItem;

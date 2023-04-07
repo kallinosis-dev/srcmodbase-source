@@ -11,6 +11,8 @@
 #pragma once
 #endif
 
+#include "utlbufferutil.h"
+
 
 //-----------------------------------------------------------------------------
 // handle to an CDmElement
@@ -35,7 +37,7 @@ const DmElementHandle_t DMELEMENT_HANDLE_INVALID;
 
 #else // PERFORM_HANDLE_TYPECHECKING
 
-enum DmElementHandle_t
+enum DmElementHandle_t : int32
 {
 	DMELEMENT_HANDLE_INVALID = 0xffffffff
 };

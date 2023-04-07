@@ -487,13 +487,13 @@ class CDmaArray : public CDmaDecorator< T, CDmaArrayBase< T, CDmaDataInternal< C
 public:
 	const CDmaArray<T>& operator=( const CDmaArray<T> &val ) 
 	{ 
-		CopyArray( val.Base(), val.Count() ); 
+		this->CopyArray( val.Base(), val.Count() );
 		return *this; 
 	}
 
 	template< class C > const CDmaArray<T>& operator=( const C &val ) 
 	{ 
-		CopyArray( val.Base(), val.Count() ); 
+		this->CopyArray( val.Base(), val.Count() ); 
 		return *this; 
 	}
 
@@ -770,14 +770,14 @@ public:
 
 	template< typename C > CDmrElementArray<T>& operator=( const C &val )
 	{ 
-		CopyArray( val.Base(), val.Count() ); 
+		this->CopyArray( val.Base(), val.Count() ); 
 		return *this; 
 	}
 
 	// NOTE: The copy operator= must be defined in addition to the generic one
 	const CDmrElementArray<T>& operator=( const CDmrElementArray<T> &val )
 	{ 
-		CopyArray( val.Base(), val.Count() ); 
+		this->CopyArray( val.Base(), val.Count() );
 		return *this; 
 	}
 };

@@ -132,10 +132,10 @@ public:
 	CDmeControlGroup *FindRootControlGroup();
 
 	// Compare the two groups by name for an ascending sort
-	static int CDmeControlGroup::CompareByNameAscending( CDmeControlGroup * const *pGroupA, CDmeControlGroup * const *pGroupB );
+	static int CompareByNameAscending( CDmeControlGroup * const *pGroupA, CDmeControlGroup * const *pGroupB );
 
 	// Compare the two groups by name for a descending sort
-	static int CDmeControlGroup::CompareByNameDecending( CDmeControlGroup * const *pGroupA, CDmeControlGroup * const *pGroupB );
+	static int CompareByNameDecending( CDmeControlGroup * const *pGroupA, CDmeControlGroup * const *pGroupB );
 
 	// Accessors
 	const CDmaElementArray< CDmeControlGroup > &Children() const	{ return m_Children;		}

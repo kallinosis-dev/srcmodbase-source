@@ -16,6 +16,7 @@
 #include "datamodel/dmehandle.h"
 #include "datamodel/dmattributevar.h"
 #include "particles/particles.h"
+#include "tier1/keyvalues.h"
 
 
 // key names for clipboard keyvalues entries

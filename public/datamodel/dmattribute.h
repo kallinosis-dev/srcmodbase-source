@@ -203,7 +203,8 @@ inline DmAttributeType_t CDmAttribute::GetType() const
 	return (DmAttributeType_t)( m_nFlags & FATTRIB_TYPEMASK );
 }
 
-template< class T > inline bool CDmAttribute::IsA() const
+template< class T >
+bool CDmAttribute::IsA() const
 {
 	return GetType() == CDmAttributeInfo< T >::AttributeType();
 }
@@ -245,8 +246,8 @@ inline CDmElement *CDmAttribute::GetOwner()
 //-----------------------------------------------------------------------------
 // Value getting methods
 //-----------------------------------------------------------------------------
-template< class T > 
-inline const T& CDmAttribute::GetValue( const T& defaultValue ) const
+template< class T >
+const T& CDmAttribute::GetValue( const T& defaultValue ) const
 {
 	if ( (int)GetType() == (int)CDmAttributeInfo< T >::ATTRIBUTE_TYPE )
 		return *reinterpret_cast< const T* >( m_pData );
@@ -262,8 +263,8 @@ inline const T& CDmAttribute::GetValue( const T& defaultValue ) const
 	return defaultValue;
 }
 
-template< class T > 
-inline const T& CDmAttribute::GetValue() const
+template< class T >
+const T& CDmAttribute::GetValue() const
 {
 	static CDmaVar< T > defaultVal;
 	return GetValue( defaultVal.Get() );
@@ -286,8 +287,8 @@ inline const void* CDmAttribute::GetValueUntyped() const
 } 
 
 #ifndef POSIX
-template< class E > 
-inline E* CDmAttribute::GetValueElement() const
+template< class E >
+E* CDmAttribute::GetValueElement() const
 {
 	Assert( GetType() == AT_ELEMENT );
 	if ( GetType() == AT_ELEMENT )
@@ -300,8 +301,8 @@ inline E* CDmAttribute::GetValueElement() const
 //-----------------------------------------------------------------------------
 // Value setting methods
 //-----------------------------------------------------------------------------
-template< class E > 
-inline void CDmAttribute::SetValue( E* pValue )
+template< class E >
+void CDmAttribute::SetValue( E* pValue )
 {
 	Assert( GetType() == AT_ELEMENT );
 	if ( GetType() == AT_ELEMENT )
@@ -378,25 +379,25 @@ inline const void* CDmAttribute::GetAttributeData() const
 }
 
 template < class T >
-inline typename CDmAttributeInfo< T >::StorageType_t* CDmAttribute::GetData()
+typename CDmAttributeInfo< T >::StorageType_t* CDmAttribute::GetData()
 {
 	return ( typename CDmAttributeInfo< T >::StorageType_t* )m_pData;
 }
 
 template < class T >
-inline typename CDmAttributeInfo< CUtlVector< T > >::StorageType_t* CDmAttribute::GetArrayData()
+typename CDmAttributeInfo< CUtlVector< T > >::StorageType_t* CDmAttribute::GetArrayData()
 {
 	return ( typename CDmAttributeInfo< CUtlVector< T > >::StorageType_t* )m_pData;
 }
 
 template < class T >
-inline const typename CDmAttributeInfo< T >::StorageType_t* CDmAttribute::GetData() const
+const typename CDmAttributeInfo< T >::StorageType_t* CDmAttribute::GetData() const
 {
 	return ( const typename CDmAttributeInfo< T >::StorageType_t* )m_pData;
 }
 
 template < class T >
-inline const typename CDmAttributeInfo< CUtlVector< T > >::StorageType_t* CDmAttribute::GetArrayData() const
+const typename CDmAttributeInfo< CUtlVector< T > >::StorageType_t* CDmAttribute::GetArrayData() const
 {
 	return ( const typename CDmAttributeInfo< CUtlVector< T > >::StorageType_t* )m_pData;
 }
@@ -436,5 +437,17 @@ inline bool ShouldTraverse( const CDmAttribute *pAttr, TraversalDepth_t depth )
 	Assert( 0 );
 	return false;
 }
+
+//-----------------------------------------------------------------------------
+// Element attributes are never directly unserialized
+//-----------------------------------------------------------------------------
+bool Serialize(CUtlBuffer& buf, DmElementHandle_t src) = delete;
+
+bool Unserialize(CUtlBuffer& buf, DmElementHandle_t& dest) = delete;
+
+
+bool Serialize(CUtlBuffer& buf, const DmUnknownAttribute_t& src) = delete;
+
+bool Unserialize(CUtlBuffer& buf, DmUnknownAttribute_t& dest) = delete;
 
 #endif // DMATTRIBUTE_H

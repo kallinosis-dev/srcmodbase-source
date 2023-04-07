@@ -61,34 +61,6 @@ static inline bool IsA( DmElementHandle_t hElement, CUtlSymbolLarge type )
 	return pElement ? pElement->IsA( type ) : true;
 }
 
-
-//-----------------------------------------------------------------------------
-// Element attributes are never directly unserialized
-//-----------------------------------------------------------------------------
-static bool Serialize( CUtlBuffer &buf, DmElementHandle_t src )
-{
-	Assert( 0 );
-	return false;
-}
-
-static bool Unserialize( CUtlBuffer &buf, DmElementHandle_t &dest )
-{
-	Assert( 0 );
-	return false;
-}
-
-static bool Serialize( CUtlBuffer &buf, const DmUnknownAttribute_t& src )
-{
-	Assert( 0 );
-	return false;
-}
-
-static bool Unserialize( CUtlBuffer &buf, DmUnknownAttribute_t &dest )
-{
-	Assert( 0 );
-	return false;
-}
-
 #include "tier1/utlbufferutil.h"
 
 //-----------------------------------------------------------------------------
@@ -3183,7 +3155,7 @@ void CDmaArrayBase<T,B>::Purge()
 // Attribute initialization
 //-----------------------------------------------------------------------------
 template< class T, class B >
-void CDmaDecorator<T,B>::Init( CDmElement *pOwner, const char *pAttributeName, int nFlags = 0 )
+void CDmaDecorator<T,B>::Init( CDmElement *pOwner, const char *pAttributeName, int nFlags )
 {
 	Assert( pOwner );
 	this->m_pAttribute = pOwner->AddExternalAttribute( pAttributeName, CDmAttributeInfo<CUtlVector<T> >::AttributeType(), &this->Value() );
@@ -3204,7 +3176,7 @@ void CDmrDecoratorConst<T,BaseClass>::Init( const CDmAttribute* pAttribute )
 	if ( pAttribute && pAttribute->GetType() == CDmAttributeInfo< CUtlVector< T > >::AttributeType() )
 	{
 		this->m_pAttribute = const_cast<CDmAttribute*>( pAttribute );
-		Attach( this->m_pAttribute->GetAttributeData() );
+		this->Attach( this->m_pAttribute->GetAttributeData() );
 	}
 	else
 	{
@@ -3237,7 +3209,7 @@ void CDmrDecorator<T,BaseClass>::Init( CDmAttribute* pAttribute )
 	if ( pAttribute && pAttribute->GetType() == CDmAttributeInfo< CUtlVector< T > >::AttributeType() )
 	{
 		this->m_pAttribute = pAttribute;
-		Attach( this->m_pAttribute->GetAttributeData() );
+		this->Attach( this->m_pAttribute->GetAttributeData() );
 	}
 	else
 	{
@@ -3559,7 +3531,7 @@ DEFINE_ATTRIBUTE_TYPE( VMatrix )
 DEFINE_ATTRIBUTE_TYPE( CUtlSymbolLarge )
 DEFINE_ATTRIBUTE_TYPE( CUtlBinaryBlock )
 DEFINE_ATTRIBUTE_TYPE( DmeTime_t )
-DEFINE_ATTRIBUTE_TYPE( DmElementHandle_t )
+DEFINE_ATTRIBUTE_TYPE( DmElementHandle_t ) // TODO: this breaks compilation by using deleted (de)serializers for this type
 
 template class CDmaDecorator< CUtlSymbolLarge, CDmaStringArrayBase< CDmaDataInternal< CUtlVector< CUtlSymbolLarge > > > >;
 template class CDmrDecorator< CUtlSymbolLarge, CDmaStringArrayBase< CDmaDataExternal< CUtlVector< CUtlSymbolLarge > > > >;

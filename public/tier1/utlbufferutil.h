@@ -186,7 +186,9 @@ bool Unserialize( CUtlBuffer &buf, CUtlVector<T> &dest )
 			break;
 
 		int i = dest.AddToTail( );
-		if ( ! ::Unserialize( buf, dest[i] ) )
+		auto& destElem = dest[i];
+
+		if ( ! ::Unserialize( buf, destElem) )
 			return false;
 	}
 	return true;

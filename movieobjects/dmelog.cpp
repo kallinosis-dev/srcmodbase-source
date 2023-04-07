@@ -2067,7 +2067,7 @@ void InitBounds< Quaternion >( float &mins, float &maxs )
 }
 
 template< class T >
-void CDmeTypedLogLayer< T >::CompressValues( CDmaArray< T > &stream, CUtlBinaryBlock &block, float flMaxError = 0.1f )
+void CDmeTypedLogLayer< T >::CompressValues( CDmaArray< T > &stream, CUtlBinaryBlock &block, float flMaxError)
 {
 	// Don't bother
 	if ( stream.Count() <= 2 )
@@ -6812,7 +6812,7 @@ void CDmeTypedLog< T >::GetValue( DmeTime_t time, CDmAttribute *pAttr, uint inde
 }
 
 template< class T >
-void CDmeTypedLog< T >::GetValueSkippingTopmostLayer( DmeTime_t time, CDmAttribute *pAttr, uint index = 0 ) const 
+void CDmeTypedLog< T >::GetValueSkippingTopmostLayer( DmeTime_t time, CDmAttribute *pAttr, uint index) const 
 {
 	CUtlVector< int > layers;
 	FindLayersForTime( time, layers );
