@@ -104,38 +104,43 @@ class hash_set : public std::set<Key, HashFcn> {
 
 #elif defined(_MSC_VER) && !defined(_STLPORT_VERSION)
 
-template <typename Key>
-struct hash : public HASH_NAMESPACE::hash_compare<Key> {
-};
+    template<typename T>
+    class _Comparer: public std::equal_to<T>
+    {};
 
-// MSVC's hash_compare<const char*> hashes based on the string contents but
-// compares based on the string pointer.  WTF?
-class CstringLess {
- public:
-  inline bool operator()(const char* a, const char* b) const {
-    return strcmp(a, b) < 0;
-  }
-};
+    template<>
+    class _Comparer<char const*>
+    {
+    public:
 
-template <>
-struct hash<const char*>
-  : public HASH_NAMESPACE::hash_compare<const char*, CstringLess> {
-};
+        // MSVC's hash_compare<const char*> hashes based on the string contents but
+        // compares based on the string pointer.  WTF?
+        bool operator()(const char* a, const char* b) const {
+            return strcmp(a, b) < 0;
+        }
+    };
+
+    template<typename T>
+    class hash : public std::hash<T> {};
+
+
 
 template <typename Key, typename Data,
           typename HashFcn = hash<Key>,
-          typename EqualKey = int >
-class hash_map : public HASH_NAMESPACE::hash_map<
-    Key, Data, HashFcn> {
+          typename EqualKey = int,
+			typename KeyComparer = _Comparer<Key> >
+class hash_map : public HASH_NAMESPACE::unordered_map<
+    Key, Data, HashFcn, KeyComparer> {
  public:
   hash_map(int = 0) {}
 };
 
 template <typename Key,
           typename HashFcn = hash<Key>,
-          typename EqualKey = int >
-class hash_set : public HASH_NAMESPACE::hash_set<
-    Key, HashFcn> {
+          typename EqualKey = int,
+    typename KeyComparer = _Comparer<Key> >
+class hash_set : public HASH_NAMESPACE::unordered_set<
+    Key, HashFcn, KeyComparer> {
  public:
   hash_set(int = 0) {}
 };

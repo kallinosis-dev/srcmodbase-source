@@ -1237,3 +1237,13 @@ $Project "zlib"
 {
     "thirdparty\zlib-1.2.5\zlib.vpc" [$WINDOWS]
 }
+
+$Project "protobuf"
+{
+    "thirdparty\protobuf-2.5.0\src\protobuf.vpc"
+}
+
+$Project "protoc"
+{
+    "thirdparty\protobuf-2.5.0\src\protoc.vpc"
+}

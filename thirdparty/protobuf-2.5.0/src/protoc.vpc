@@ -1,0 +1,96 @@
+$Macro SRCDIR		"..\..\.."
+$Macro OUTBINDIR	"$SRCDIR\devtools\bin$PLATSUBDIR"
+
+$Include "$SRCDIR\vpc_scripts\source_exe_con_base.vpc"
+
+$Configuration
+{
+	$Compiler
+	{
+        $AdditionalIncludeDirectories	"$BASE;.\"
+		$PreprocessorDefinitions	"$BASE;LIBPROTOC_EXPORTS"
+    }
+}
+
+$Project "protoc" 
+{
+    $File "config.h"
+
+    $File "google\protobuf\compiler\main.cc"
+
+    $Folder "Link Libraries"
+    {
+        $Lib    protobuf
+    }
+
+    $Folder "libprotoc"
+    {
+
+
+        $File "google\protobuf\compiler\code_generator.h"
+        $File "google\protobuf\compiler\command_line_interface.h"
+        $File "google\protobuf\compiler\subprocess.h"
+        $File "google\protobuf\compiler\zip_writer.h"
+        $File "google\protobuf\compiler\plugin.h"
+        $File "google\protobuf\compiler\plugin.pb.h"
+        $File "google\protobuf\compiler\cpp\cpp_enum.h"
+        $File "google\protobuf\compiler\cpp\cpp_enum_field.h"
+        $File "google\protobuf\compiler\cpp\cpp_extension.h"
+        $File "google\protobuf\compiler\cpp\cpp_field.h"
+        $File "google\protobuf\compiler\cpp\cpp_file.h"
+        $File "google\protobuf\compiler\cpp\cpp_generator.h"
+        $File "google\protobuf\compiler\cpp\cpp_helpers.h"
+        $File "google\protobuf\compiler\cpp\cpp_message.h"
+        $File "google\protobuf\compiler\cpp\cpp_message_field.h"
+        $File "google\protobuf\compiler\cpp\cpp_options.h"
+        $File "google\protobuf\compiler\cpp\cpp_primitive_field.h"
+        $File "google\protobuf\compiler\cpp\cpp_service.h"
+        $File "google\protobuf\compiler\cpp\cpp_string_field.h"
+        $File "google\protobuf\compiler\java\java_enum.h"
+        $File "google\protobuf\compiler\java\java_enum_field.h"
+        $File "google\protobuf\compiler\java\java_extension.h"
+        $File "google\protobuf\compiler\java\java_field.h"
+        $File "google\protobuf\compiler\java\java_file.h"
+        $File "google\protobuf\compiler\java\java_generator.h"
+        $File "google\protobuf\compiler\java\java_helpers.h"
+        $File "google\protobuf\compiler\java\java_message.h"
+        $File "google\protobuf\compiler\java\java_message_field.h"
+        $File "google\protobuf\compiler\java\java_primitive_field.h"
+        $File "google\protobuf\compiler\java\java_service.h"
+        $File "google\protobuf\compiler\java\java_string_field.h"
+        $File "google\protobuf\compiler\java\java_doc_comment.h"
+        $File "google\protobuf\compiler\java\java_doc_comment.cc"
+        $File "google\protobuf\compiler\python\python_generator.h"
+        $File "google\protobuf\compiler\code_generator.cc"
+        $File "google\protobuf\compiler\command_line_interface.cc"
+        $File "google\protobuf\compiler\subprocess.cc"
+        $File "google\protobuf\compiler\zip_writer.cc"
+        $File "google\protobuf\compiler\plugin.cc"
+        $File "google\protobuf\compiler\plugin.pb.cc"
+        $File "google\protobuf\compiler\cpp\cpp_enum.cc"
+        $File "google\protobuf\compiler\cpp\cpp_enum_field.cc"
+        $File "google\protobuf\compiler\cpp\cpp_extension.cc"
+        $File "google\protobuf\compiler\cpp\cpp_field.cc"
+        $File "google\protobuf\compiler\cpp\cpp_file.cc"
+        $File "google\protobuf\compiler\cpp\cpp_generator.cc"
+        $File "google\protobuf\compiler\cpp\cpp_helpers.cc"
+        $File "google\protobuf\compiler\cpp\cpp_message.cc"
+        $File "google\protobuf\compiler\cpp\cpp_message_field.cc"
+        $File "google\protobuf\compiler\cpp\cpp_primitive_field.cc"
+        $File "google\protobuf\compiler\cpp\cpp_service.cc"
+        $File "google\protobuf\compiler\cpp\cpp_string_field.cc"
+        $File "google\protobuf\compiler\java\java_enum.cc"
+        $File "google\protobuf\compiler\java\java_enum_field.cc"
+        $File "google\protobuf\compiler\java\java_extension.cc"
+        $File "google\protobuf\compiler\java\java_field.cc"
+        $File "google\protobuf\compiler\java\java_file.cc"
+        $File "google\protobuf\compiler\java\java_generator.cc"
+        $File "google\protobuf\compiler\java\java_helpers.cc"
+        $File "google\protobuf\compiler\java\java_message.cc"
+        $File "google\protobuf\compiler\java\java_message_field.cc"
+        $File "google\protobuf\compiler\java\java_primitive_field.cc"
+        $File "google\protobuf\compiler\java\java_service.cc"
+        $File "google\protobuf\compiler\java\java_string_field.cc"
+        $File "google\protobuf\compiler\python\python_generator.cc"
+    }
+}
