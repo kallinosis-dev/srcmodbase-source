@@ -9,8 +9,6 @@ $MacroRequired GENERATED_PROTO_DIR
 
 $include "$SRCDIR\gcsdk\steammessages_include.vpc"
 
-$MacroRequired	PROTOBUF_BUILDER_INCLUDED
-
 $Configuration
 {
 	$Compiler

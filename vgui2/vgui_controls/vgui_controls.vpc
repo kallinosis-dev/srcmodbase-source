@@ -8,7 +8,6 @@ $macro SRCDIR		"..\.."
 $Macro GENERATED_PROTO_DIR	"$SRCDIR\vgui2\vgui_controls\generated_proto"
 
 $include "$SRCDIR\vpc_scripts\source_lib_base.vpc"
-$include "$SRCDIR\vpc_scripts\protobuf_builder.vpc"
 
 $Configuration
 {
