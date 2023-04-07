@@ -1185,17 +1185,7 @@ $Project $EPROJ
 		$Lib	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dsound.lib"		[$WINDOWS]
 		$Lib	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dxguid.lib"		[$WINDOWS]
 
-//		$LibExternal	libprotobuf [!$VS2013 && !$VS2015]
-//		$LibExternal	$LIBPUBLIC\2013\libprotobuf [$VS2013]
-//		$LibExternal	$LIBPUBLIC\2015\libprotobuf [$VS2015]
-//		{
-//			$Configuration "Debug" { $ExcludedFromBuild "Yes" }
-//		}
-//
-//		$LibExternal	$LIBPUBLIC\2015\debug\libprotobuf [$VS2015]
-//		{
-//			$Configuration "Release" { $ExcludedFromBuild "Yes" }
-//		}
+		$Lib protobuf
 
 		$Libexternal	"$LIBCOMMON/libcurlssl" [$LINUXALL&&!$DEDICATED]
 		$Libexternal	"$LIBCOMMON/libssl" [$LINUXALL&&!$DEDICATED]

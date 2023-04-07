@@ -1126,17 +1126,7 @@ $Project
 		$Lib	vgui_controls
 		$Lib    responserules_runtime
 
-//		$LibExternal	libprotobuf [!$VS2013 && !$VS2015]
-//		$LibExternal	$LIBPUBLIC\2013\libprotobuf [$VS2013]
-//		$LibExternal	$LIBPUBLIC\2015\libprotobuf [$VS2015]
-//		{
-//			$Configuration "Debug" { $ExcludedFromBuild "Yes" }
-//		}
-//
-//		$LibExternal	$LIBPUBLIC\2015\debug\libprotobuf [$VS2015]
-//		{
-//			$Configuration "Release" { $ExcludedFromBuild "Yes" }
-//		}
+		$Lib protobuf
 
 		$ImplibExternal	steam_api					[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64					[ $WIN64 && !$NO_STEAM ]

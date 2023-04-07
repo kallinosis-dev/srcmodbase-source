@@ -10,11 +10,7 @@ $CustomBuildStep "proto"
 {
 	$Description	"Running Protocol Buffer Compiler on $(InputFileName)..."
 	$CommandLine	"if not exist $GENERATED_PROTO_DIR mkdir $GENERATED_PROTO_DIR" "\n" \
-					"$SRCDIR\devtools\bin\protoc.exe --proto_path=$SRCDIR\thirdparty\protobuf-2.5.0\src --proto_path=$(InputDir) --proto_path=$SRCDIR\gcsdk --proto_path=$SRCDIR\game\shared --proto_path=$SRCDIR\game\shared\cstrike15 --proto_path=$SRCDIR\common --cpp_out=$GENERATED_PROTO_DIR $(InputPath)" [$WINDOWS]
-	$CommandLine	"mkdir -p $GENERATED_PROTO_DIR 2> /dev/null;"  \
-					"$SRCDIR/devtools/bin/osx32/protoc --proto_path=$SRCDIR\thirdparty\protobuf-2.5.0\src --proto_path=$(InputDir) --proto_path=$SRCDIR\gcsdk --proto_path=$SRCDIR\game\shared --proto_path=$SRCDIR\game\shared\cstrike15 --proto_path=$SRCDIR\common --cpp_out=$GENERATED_PROTO_DIR $(InputPath)" [$OSXALL]
-	$CommandLine	"mkdir -p $GENERATED_PROTO_DIR 2> /dev/null;"  \
-					"$SRCDIR/devtools/bin/linux/protoc --proto_path=$SRCDIR\thirdparty\protobuf-2.5.0\src --proto_path=$(InputDir) --proto_path=$SRCDIR\gcsdk --proto_path=$SRCDIR\game\shared --proto_path=$SRCDIR\game\shared\cstrike15 --proto_path=$SRCDIR\common --cpp_out=$GENERATED_PROTO_DIR $(InputPath)" [$LINUX]
+					"$SRCDIR\devtools\bin\$PLATSUBDIRprotoc.exe --proto_path=$SRCDIR\thirdparty\protobuf-2.5.0\src --proto_path=$(InputDir) --proto_path=$SRCDIR\gcsdk --proto_path=$SRCDIR\game\shared --proto_path=$SRCDIR\game\shared\cstrike15 --proto_path=$SRCDIR\common --cpp_out=$GENERATED_PROTO_DIR $(InputPath)"
 	$Outputs		"$GENERATED_PROTO_DIR\$(InputName).pb.cc;$GENERATED_PROTO_DIR\$(InputName).pb.h"
 }
 
