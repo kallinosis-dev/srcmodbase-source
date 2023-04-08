@@ -7,43 +7,17 @@
 $Macro SRCDIR		".."
 $Macro OUTBINDIR	"$SRCDIR\..\game"
 
-// Must be built explicitly as "default" in order to build a compliant submittable Disc.
-// Renames will not work.
-$Macro OUTBINNAME	"default"
-$Macro OUTBINNAME	"csgo"	[$WIN32]
-$Macro OUTBINNAME	"csgo_win64"	[$WIN64]
-$Macro OUTBINNAME	"csgo_osx" [$OSX32]
-$Macro OUTBINNAME	"csgo_osx64" [$OSX64]
-$Macro OUTBINNAME	"csgo_linux" [$LINUX32]
-$Macro OUTBINNAME	"csgo_linux64" [$LINUX64]
+$Macro OUTBINNAME	"csgo_$PLATFORM"	
+
+$Conditional NO_OUT_PLATSUBDIR 1
 
 $Include "$SRCDIR\vpc_scripts\source_exe_base.vpc"
-
-$Macro DEMOSUFFIX "_demo\"				[$DEMO]
-$MacroEmptyString DEMOSUFFIX "empty"	[!$DEMO]
-
-$Macro	"PS3MEMOVERRIDE" "--wrap=abort --wrap=malloc --wrap=calloc --wrap=memalign --wrap=realloc --wrap=reallocalign --wrap=malloc_usable_size --wrap=malloc_stats --wrap=free"
-
-$CustomBuildStep "fp"  
-{
-	$CommandLine    "$(SCE_PS3_ROOT)\host-win32\Cg\bin\sce-cgc -quiet -profile sce_fp_rsx -o &quot;$(InputName).fpo&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;$(SCE_PS3_ROOT)\host-win32\ppu\bin\ppu-lv2-objcopy -I binary -O elf64-powerpc-celloslv2 -B powerpc &quot;$(InputName).fpo&quot; &quot;$(IntDir)\$(InputName).fp.ppu.o&quot;"
-	$Description	"Fragment Program $(InputFileName) produces $(InputName).fpo produces $(InputName).fp.ppu.o"
-	$Outputs		"$(InputName).fpo;$(IntDir)\$(InputName).fp.ppu.o"
-}
-
-$CustomBuildStep "vp"  
-{
-	$CommandLine    "$(SCE_PS3_ROOT)\host-win32\Cg\bin\sce-cgc -quiet -profile sce_vp_rsx -o &quot;$(InputName).vpo&quot; &quot;$(InputPath)&quot;&#x0D;&#x0A;$(SCE_PS3_ROOT)\host-win32\ppu\bin\ppu-lv2-objcopy -I binary -O elf64-powerpc-celloslv2 -B powerpc &quot;$(InputName).vpo&quot; &quot;$(IntDir)\$(InputName).vp.ppu.o&quot;"
-	$Description	"Vertex Program $(InputFileName) produces $(InputName).vpo produces $(InputName).vp.ppu.o"
-	$Outputs		"$(InputName).vpo;$(IntDir)\$(InputName).vp.ppu.o"
-}
 
 $Configuration
 {
 	$Compiler
 	{
 		$ForceIncludes				" "
-		$PreprocessorDefinitions	"$BASE;RATINGSBUILD"	[$RATINGSBUILD]
 	}
 
 	$Linker [$WIN32]
@@ -66,7 +40,7 @@ $Configuration
 									"if ERRORLEVEL 1 goto BuildEventFailed" "\n" \
 									"if exist $(TargetDir)$(TargetName).map copy $(TargetDir)$(TargetName).map $OUTBINDIR\$OUTBINNAME.map" "\n" \
 									"if exist $(TargetDir)$(TargetName).pdb copy $(TargetDir)$(TargetName).pdb $OUTBINDIR\$OUTBINNAME.pdb" "\n" \								\
-									"$OUTBINDIR\bin\newdat $OUTBINDIR\$OUTBINNAME.exe" "\n"					\
+									"$OUTBINDIR\bin$PLATSUBDIR\newdat.exe $OUTBINDIR\$OUTBINNAME.exe" "\n"					\
 									"goto BuildEventOK" "\n" \
 									":BuildEventFailed" "\n" \
 									"echo *** ERROR! PostBuildStep FAILED for $(ProjectName)! EXE or DLL is probably running. ***" "\n" \

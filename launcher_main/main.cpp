@@ -946,14 +946,8 @@ LauncherMain_t GetLaunchEntryPoint( char *pNewCommandLine )
 	StripCommandLineArg( pCmdLine, tempCommandLine, "-basedir" );
 	StripCommandLineArg( tempCommandLine, cleanCommandLine, "-game" );
 
-	// HACK: For ratings build, unlock everything. Remove this for later testing
-	const char *pAdditionalArgs = "";
-#if defined( RATINGSBUILD )
-	pAdditionalArgs = "-dev -unlockchapters mp_mark_all_maps_complete";
-#endif
-
 	// set the alternate command line
-	sprintf( pNewCommandLine, "%s -basedir %s -game %s\\%s %s", cleanCommandLine, pBasePath, pBasePath, gameName, pAdditionalArgs );
+	sprintf( pNewCommandLine, "%s -basedir %s -game %s\\%s", cleanCommandLine, pBasePath, pBasePath, gameName );
 
 	// the 'main' export is guaranteed to be at ordinal 1
 	// the library is already loaded, this just causes a lookup that will resolve against the shortname
