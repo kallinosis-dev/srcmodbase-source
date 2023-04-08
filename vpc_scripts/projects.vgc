@@ -428,11 +428,6 @@ $Project "launcher_main"
 	"launcher_main/launcher_main.vpc" [$WINDOWS||$X360||$PS3||$POSIX]
 }
 
-$Project "libmad"
-{
-	"utils/libmad/libmad.vpc" [$WINDOWS]
-}
-
 $Project "lightworld"
 {
 	"utils/lightworld/lightworld.vpc" [$WINDOWS]

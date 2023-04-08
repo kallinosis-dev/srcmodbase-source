@@ -27,7 +27,8 @@ $Project "Vbsp"
 {
 	$Folder	"Source Files"
 	{
-		$File	"boundbox.cpp"
+		$File	"$SRCDIR\public\boundbox.cpp"
+		$File	"$SRCDIR\public\boundbox.h"
 		$File	"brushbsp.cpp"
 		$File	"$SRCDIR\public\collisionutils.cpp"
 		$File	"csg.cpp"
@@ -89,7 +90,6 @@ $Project "Vbsp"
 
 	$Folder	"Header Files"
 	{
-		$File	"boundbox.h"
 		$File	"csg.h"
 		$File	"detail.h"
 		$File	"$SRCDIR\public\disp_powerinfo.h"
@@ -180,7 +180,6 @@ $Project "Vbsp"
 		$Lib	"tier2"
 		$Lib	"vtf"
 		$Lib	"lzma"
-		$Lib	"$LIBPUBLIC/libmad"
 	}
 
 	$File	"notes.txt"

@@ -65,17 +65,7 @@ $Project "gcsdk"
 		$File "gcclient_sharedobjectcache.cpp"
 		$File "steamextra\misc.cpp"
 		$File "steamextra\rtime.cpp"
-		$File "steamextra\steamid.cpp"
-		{
-			// Needs to #define something prior to including the PCH
-			$Configuration
-			{
-				$Compiler
-				{
-					$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
-				}
-			}
-		}
+		$File	"$SRCDIR\common\steamid.cpp"
 		$File "steamextra\tier1\hashglobals.cpp"
 		$File "steamextra\tier1\tsmempool.cpp"
 		$File "steamextra\tier1\tsmultimempool.cpp"

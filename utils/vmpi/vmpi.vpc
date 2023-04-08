@@ -11,7 +11,7 @@ $Configuration
 {
 	$Compiler
 	{
-		$AdditionalIncludeDirectories		"$BASE,..\common,zlib,.\"
+		$AdditionalIncludeDirectories		"$BASE,..\common,.\"
 		$PreprocessorDefinitions			"$BASE;PROTECTED_THINGS_DISABLE;MPI"
 	}
 }

@@ -126,7 +126,7 @@ $Project "gcsdk_gc"
 		
 		$File "steamextra\misc.cpp"
 		$File "steamextra\rtime.cpp"
-		$File "steamextra\steamid.cpp"
+		$File	"$SRCDIR\common\steamid.cpp"
 		$File "steamextra\tier1\hashglobals.cpp"
 		$File "steamextra/tier1/murmurhash3.cpp"
 		$File "steamextra\tier1\tsmempool.cpp"
