@@ -453,7 +453,7 @@ struct ScriptVariant_t
 		}
 	}
 
-	bool AssignTo( char **pDest )
+	bool AssignTo( char const* *pDest )
 	{
 		DevWarning( "No free conversion of string or vector script variant right now\n" );
 		// If want to support this, probably need to malloc string and require free on other side [3/24/2008 tom]

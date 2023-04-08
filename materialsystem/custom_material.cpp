@@ -13,6 +13,7 @@
 #include "materialsystem_global.h"
 #include "keyvalues.h"
 #include "tier0/vprof.h"
+#include "materialsystem/imaterial.h"
 
 #ifndef DEDICATED
 #include "filesystem.h"

@@ -5530,12 +5530,23 @@ CP4Requirement::~CP4Requirement()
 
 static ConVar mat_texture_list_content_path( "mat_texture_list_content_path", "", FCVAR_ARCHIVE, "The content path to the materialsrc directory. If left unset, it'll assume your content directory is next to the currently running game dir." );
 
+static void txlod_sync_Usage()
+{
+	Warning(
+		"Usage:\n"
+		"  mat_texture_list_txlod_sync reset - resets all run-time changes to LOD overrides;\n"
+		"  mat_texture_list_txlod_sync save  - saves all changes to material content files.\n"
+	);
+}
+
 CON_COMMAND_F( mat_texture_list_txlod_sync, "'reset' - resets all run-time changes to LOD overrides, 'save' - saves all changes to material content files", FCVAR_DONTRECORD )
 {
 	using namespace TextureLodOverride;
 
 	if ( args.ArgC() != 2 )
-		goto usage;
+	{
+		txlod_sync_Usage(); return;
+	}
 
 	char const *szCmd = args.Arg( 1 );
 	Msg( "mat_texture_list_txlod_sync %s...\n", szCmd );
@@ -5711,20 +5722,20 @@ CON_COMMAND_F( mat_texture_list_txlod_sync, "'reset' - resets all run-time chang
 		Msg("mat_texture_list_txlod_sync save : completed.\n");
 		return;
 	}
-	else
-		goto usage;
-
-	return;
-
-usage:
-	Warning(
-		"Usage:\n"
-		"  mat_texture_list_txlod_sync reset - resets all run-time changes to LOD overrides;\n"
-		"  mat_texture_list_txlod_sync save  - saves all changes to material content files.\n"
-		);
+	else txlod_sync_Usage();
 }
 
 ConVar mat_texture_list_exclude_editing( "mat_texture_list_exclude_editing", "0" );
+
+static void texture_list_Usage()
+{
+	Warning(
+		"Usage:\n"
+		"  mat_texture_list_exclude load excludelistfile.lst - loads exclude list file;\n"
+		"  mat_texture_list_exclude reset - resets loaded exclude list information;\n"
+		"  mat_texture_list_exclude save excludelistfile.lst - saves exclude list file.\n"
+	);
+}
 
 CON_COMMAND_F( mat_texture_list_exclude, "'load' - loads the exclude list file, 'reset' - resets all loaded exclude information, 'save' - saves exclude list file", FCVAR_DONTRECORD )
 {
@@ -5732,14 +5743,20 @@ CON_COMMAND_F( mat_texture_list_exclude, "'load' - loads the exclude list file, 
 	using namespace TextureLodExclude;
 
 	if ( args.ArgC() < 2 )
-		goto usage;
+	{
+		texture_list_Usage();
+		return;
+	}
 
 	char const *szCmd = args.Arg( 1 );
 
 	if ( !stricmp( szCmd, "load" ) )
 	{
 		if ( args.ArgC() < 3 )
-			goto usage;
+		{
+			texture_list_Usage();
+			return;
+		}
 
 		char const *szFile = args.Arg( 2 );
 		Msg( "mat_texture_list_exclude loading '%s'...\n", szFile );
@@ -5830,7 +5847,10 @@ CON_COMMAND_F( mat_texture_list_exclude, "'load' - loads the exclude list file, 
 	else if ( !stricmp( szCmd, "save" ) )
 	{
 		if ( args.ArgC() < 3 )
-			goto usage;
+		{
+			texture_list_Usage();
+			return;
+		}
 
 		char const *szFile = args.Arg( 2 );
 		Msg( "mat_texture_list_exclude saving '%s'...\n", szFile );
@@ -5873,16 +5893,6 @@ CON_COMMAND_F( mat_texture_list_exclude, "'load' - loads the exclude list file, 
 		Msg( "mat_texture_list_exclude saved '%s'.\n", szFile );
 		return;
 	}
-
-	return;
-
-usage:
-	Warning(
-		"Usage:\n"
-		"  mat_texture_list_exclude load excludelistfile.lst - loads exclude list file;\n"
-		"  mat_texture_list_exclude reset - resets loaded exclude list information;\n"
-		"  mat_texture_list_exclude save excludelistfile.lst - saves exclude list file.\n"
-		);
 }
 
 #endif
