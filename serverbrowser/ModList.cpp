@@ -7,6 +7,7 @@
 
 #include "pch_serverbrowser.h"
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: Singleton accessor
 //-----------------------------------------------------------------------------
@@ -117,3 +118,4 @@ void CModList::AddVGUIListener( vgui::VPANEL panel )
 {
 	m_VGUIListeners.AddToTail( panel );
 }
+#endif

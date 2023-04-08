@@ -15,6 +15,7 @@
 #include "vgui_controls/frame.h"
 #include "matsys_controls/curveeditorpanel.h"
 #include "datamodel/dmehandle.h"
+#include "movieobjects/dmelog.h"
 
 
 //-----------------------------------------------------------------------------

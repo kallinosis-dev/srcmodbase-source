@@ -19,7 +19,7 @@ public:
 	TagInfoLabel(Panel *parent, const char *panelName);
 	TagInfoLabel(Panel *parent, const char *panelName, const char *text, const char *pszURL);
 
-	virtual void	OnMousePressed(vgui::MouseCode code);
+	void	OnMousePressed(vgui::MouseCode code) override;
 
 	MESSAGE_FUNC( DoOpenCustomServerInfoURL, "DoOpenCustomServerInfoURL" );
 };
@@ -30,7 +30,7 @@ class TagMenuButton : public vgui::MenuButton
 public:
 	TagMenuButton( Panel *parent, const char *panelName, const char *text);
 
-	virtual void OnShowMenu(vgui::Menu *menu);
+	void OnShowMenu(vgui::Menu *menu) override;
 };
 
 //-----------------------------------------------------------------------------
@@ -41,14 +41,16 @@ class CCustomGames : public CInternetGames
 	DECLARE_CLASS_SIMPLE( CCustomGames, CInternetGames );
 public:
 	CCustomGames(vgui::Panel *parent);
-	~CCustomGames();
+	~CCustomGames() override;
 
-	virtual void	UpdateDerivedLayouts( void );
-	virtual void	OnLoadFilter(KeyValues *filter);
-	virtual void	OnSaveFilter(KeyValues *filter);
-	bool	CheckTagFilter( gameserveritem_t &server );
-	virtual void	SetRefreshing(bool state);
+	void	UpdateDerivedLayouts( void ) override;
+	void	OnLoadFilter(KeyValues *filter) override;
+	void	OnSaveFilter(KeyValues *filter) override;
+	bool	CheckTagFilter( gameserveritem_t &server ) override;
+	void	SetRefreshing(bool state) override;
+#ifndef NO_STEAM
 	virtual void	ServerResponded( int iServer, gameserveritem_t *pServerItem );
+#endif
 
 	MESSAGE_FUNC_PARAMS( OnAddTag, "AddTag", params );
 	MESSAGE_FUNC( OnTagMenuButtonOpened, "TagMenuButtonOpened" );

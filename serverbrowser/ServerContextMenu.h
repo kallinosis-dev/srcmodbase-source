@@ -18,7 +18,7 @@ class CServerContextMenu : public vgui::Menu
 {
 public:
 	CServerContextMenu(vgui::Panel *parent);
-	~CServerContextMenu();
+	~CServerContextMenu() override;
 
 	// call this to Activate the menu
 	void ShowMenu(

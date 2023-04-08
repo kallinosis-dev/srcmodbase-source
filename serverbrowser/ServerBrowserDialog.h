@@ -23,7 +23,7 @@ class CServerBrowserDialog : public vgui::Frame
 public:
 	// Construction/destruction
 	CServerBrowserDialog( vgui::Panel *parent );
-	~CServerBrowserDialog( void );
+	~CServerBrowserDialog( void ) override;
 
 	void		Initialize( void );
 
@@ -33,7 +33,7 @@ public:
 	// gets server info
 	gameserveritem_t *GetServer(unsigned int serverID);
 	// called every frame
-	virtual void OnTick();
+	void OnTick() override;
 
 	// updates status text at bottom of window
 	void UpdateStatusText(const char *format, ...);
@@ -70,14 +70,18 @@ public:
 
 	// closes all the game info dialogs
 	void CloseAllGameInfoDialogs();
+#ifndef NO_STEAM
 	CDialogGameInfo *GetDialogGameInfoForFriend( uint64 ulSteamIDFriend );
+#endif
 
 	// accessor to the filter save data
 	KeyValues *GetFilterSaveData(const char *filterSet);
 
 	// gets the name of the mod directory we're restricted to accessing, NULL if none
 	const char *GetActiveModName();
+#ifndef NO_STEAM
 	CGameID &GetActiveAppID();
+#endif
 	const char *GetActiveGameName();
 
 	// load/saves filter & favorites settings from disk
@@ -95,9 +99,9 @@ public:
 	void		BlacklistsChanged();
 	CBlacklistedServers *GetBlacklistPage( void ) { return m_pBlacklist; }
 
-	virtual void OnKeyCodePressed( vgui::KeyCode code );
-	virtual void OnKeyCodeTyped( vgui::KeyCode code );
-	virtual void OnClose();
+	void OnKeyCodePressed( vgui::KeyCode code ) override;
+	void OnKeyCodeTyped( vgui::KeyCode code ) override;
+	void OnClose() override;
 
 private:
 
@@ -117,8 +121,8 @@ private:
 
 	MESSAGE_FUNC_CHARPTR( RunModuleCommand, "RunModuleCommand", command );
 
-	virtual bool GetDefaultScreenPosition(int &x, int &y, int &wide, int &tall);
-	virtual void ActivateBuildMode();
+	bool GetDefaultScreenPosition(int &x, int &y, int &wide, int &tall) override;
+	void ActivateBuildMode() override;
 
 private:
 	// list of all open game info dialogs
@@ -149,7 +153,9 @@ private:
 	// active game
 	char m_szGameName[128];
 	char m_szModDir[128];
+#ifndef NO_STEAM
 	CGameID m_iLimitAppID;
+#endif
 
 	// currently connected game
 	bool m_bCurrentlyConnected;

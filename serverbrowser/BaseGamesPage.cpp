@@ -78,9 +78,11 @@ void CGameListPanel::OnKeyCodeTyped(vgui::KeyCode code)
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
 CBaseGamesPage::CBaseGamesPage( vgui::Panel *parent, const char *name, EPageType eType, const char *pCustomResFilename) 
-	: PropertyPage(parent, name), m_pCustomResFilename( pCustomResFilename ),
-	m_CallbackFavoritesMsg( this, &CBaseGamesPage::OnFavoritesMsg ),
+	: PropertyPage(parent, name), m_pCustomResFilename( pCustomResFilename )
+#ifndef NO_STEAM
+,m_CallbackFavoritesMsg( this, &CBaseGamesPage::OnFavoritesMsg ),
 	m_hRequest( NULL )
+#endif
 {
 	SetSize( 624, 278 );
 	m_szGameFilter[0] = 0;
@@ -174,11 +176,13 @@ CBaseGamesPage::CBaseGamesPage( vgui::Panel *parent, const char *name, EPageType
 //-----------------------------------------------------------------------------
 CBaseGamesPage::~CBaseGamesPage()
 {
+#ifndef NO_STEAM
 	if ( m_hRequest )
 	{
 		steamapicontext->SteamMatchmakingServers()->ReleaseRequest( m_hRequest );
 		m_hRequest = NULL;
 	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -312,7 +316,9 @@ void CBaseGamesPage::PerformLayout()
 		m_pRefreshQuick->SetEnabled(false);
 	}
 
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() || !steamapicontext->SteamMatchmaking() )
+#endif
 	{
 		m_pAddCurrentServer->SetVisible( false );
 		m_pRefreshQuick->SetEnabled( false );
@@ -573,6 +579,7 @@ void CBaseGamesPage::PrepareQuickListMap( const char *pMapName, int iListID )
 //-----------------------------------------------------------------------------
 gameserveritem_t *CBaseGamesPage::GetServer( unsigned int serverID )
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() )
 		return nullptr;
 
@@ -585,6 +592,9 @@ gameserveritem_t *CBaseGamesPage::GetServer( unsigned int serverID )
 		Assert( !"Unable to return a useful entry" );
 		return nullptr; // bugbug Alfred: temp Favorites/History objects won't return a good value here...
 	}
+#else
+	return nullptr;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -649,6 +659,7 @@ void CBaseGamesPage::CreateFilters()
 	KeyValues *pkv = new KeyValues("mod", "gamedir", "", "appid", nullptr);
 	m_pGameFilter->AddItem("#ServerBrowser_All", pkv);
 
+#ifndef NO_STEAM
 	for (int i = 0; i < ModList().ModCount(); i++)
 	{
 		pkv->SetString("gamedir", ModList().GetModDir(i));
@@ -656,6 +667,7 @@ void CBaseGamesPage::CreateFilters()
 		int iItemID = m_pGameFilter->AddItem(ModList().GetModName(i), pkv);
 		m_mapGamesFilterItem.Insert( ModList().GetAppID(i).ToUint64(), iItemID );
 	}
+#endif
 	pkv->deleteThis();
 
 }
@@ -673,12 +685,16 @@ void CBaseGamesPage::LoadFilterSettings()
 	if (ServerBrowserDialog().GetActiveModName())
 	{
 		Q_strncpy(m_szGameFilter, ServerBrowserDialog().GetActiveModName(), sizeof(m_szGameFilter));
+#ifndef NO_STEAM
 		m_iLimitToAppID = ServerBrowserDialog().GetActiveAppID();
+#endif
 	}
 	else
 	{
 		Q_strncpy(m_szGameFilter, filter->GetString("game"), sizeof(m_szGameFilter));
+#ifndef NO_STEAM
 		m_iLimitToAppID = CGameID( filter->GetUint64( "appid", 0 ) );
+#endif
 	}
 
 	Q_strncpy(m_szMapFilter, filter->GetString("map"), sizeof(m_szMapFilter));
@@ -747,18 +763,22 @@ void CBaseGamesPage::UpdateGameFilter()
 	for (int i = 0; i < m_pGameFilter->GetItemCount(); i++)
 	{
 		KeyValues *kv = m_pGameFilter->GetItemUserData(i);
+#ifndef NO_STEAM
 		CGameID gameID( kv->GetUint64( "appID", 0 ) );
+		if (gameID != m_iLimitToAppID && m_iLimitToAppID.AppID() != 0)
+			continue;
+#endif
 		const char *pchGameDir = kv->GetString( "gamedir" );
-		if ( ( gameID == m_iLimitToAppID || m_iLimitToAppID.AppID() == 0 ) && ( !m_szGameFilter[0] || 
-				( pchGameDir && pchGameDir[0] && !Q_strncmp( pchGameDir, m_szGameFilter, Q_strlen( pchGameDir ) ) ) ) )
+
+		if( m_szGameFilter[0] && (!pchGameDir || !pchGameDir[0] || Q_strncmp( pchGameDir, m_szGameFilter, Q_strlen( pchGameDir ) )) )
+			continue;
+
+		if ( i != m_pGameFilter->GetActiveItem() )
 		{
-			if ( i != m_pGameFilter->GetActiveItem() )
-			{
-				m_pGameFilter->ActivateItem(i);
-			}
-			bFound = true;
-			break;
+			m_pGameFilter->ActivateItem(i);
 		}
+		bFound = true;
+		break;
 	}
 	if (!bFound)
 	{
@@ -777,6 +797,7 @@ void CBaseGamesPage::UpdateGameFilter()
 	}
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: Handles incoming server refresh data
 //			updates the server browser with the refreshed information from the server itself
@@ -803,7 +824,6 @@ void CBaseGamesPage::ServerResponded( HServerListRequest hReq, int iServer )
 	}
 	ServerResponded( iServer, pServerItem );
 }
-
 
 //-----------------------------------------------------------------------------
 // Purpose: Handles incoming server refresh data
@@ -1000,6 +1020,8 @@ void CBaseGamesPage::ServerResponded( int iServer, gameserveritem_t *pServerItem
 	UpdateStatus();
 	m_iServerRefreshCount++;
 }
+#endif
+
 
 //=============================================================================
 // HPE_BEGIN:
@@ -1136,6 +1158,7 @@ void CBaseGamesPage::OnTextChanged(Panel *panel, const char *text)
 //-----------------------------------------------------------------------------
 void CBaseGamesPage::ApplyGameFilters()
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() )
 		return;
 
@@ -1208,6 +1231,7 @@ void CBaseGamesPage::ApplyGameFilters()
 	m_pGameList->SortList();
 	InvalidateLayout();
 	Repaint();
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1242,7 +1266,9 @@ void CBaseGamesPage::UpdateFilterSettings()
 	{
 		// overriding the game filter
 		Q_strncpy(m_szGameFilter, ServerBrowserDialog().GetActiveModName(), sizeof(m_szGameFilter));
+#ifndef NO_STEAM
 		m_iLimitToAppID = ServerBrowserDialog().GetActiveAppID();
+#endif
 		RecalculateFilterString();
 		UpdateGameFilter();
 	}
@@ -1252,6 +1278,7 @@ void CBaseGamesPage::UpdateFilterSettings()
 		if (data && Q_strlen( data->GetString( "gamedir" ) ) > 0 )
 		{
 			Q_strncpy( m_szGameFilter, data->GetString( "gamedir" ), sizeof( m_szGameFilter ) );
+#ifndef NO_STEAM
 			if ( Q_strlen( m_szGameFilter ) > 0 ) // if there is a gamedir
 			{
 				m_iLimitToAppID = CGameID( data->GetUint64( "appid", 0 ) );
@@ -1260,10 +1287,13 @@ void CBaseGamesPage::UpdateFilterSettings()
 			{
 				m_iLimitToAppID.Reset();
 			}
+#endif
 		}
 		else
 		{
+#ifndef NO_STEAM
 			m_iLimitToAppID.Reset();
+#endif
 			m_szGameFilter[0] = 0;
 		}
 		m_pGameFilter->SetEnabled(true);
@@ -1309,11 +1339,13 @@ void CBaseGamesPage::UpdateFilterSettings()
 		iFilterSecure = FILTER_SECURESERVERSONLY;
 	}
 
+#ifndef NO_STEAM
 	// update master filter string text
 	if (m_szGameFilter[0] && m_iLimitToAppID.AppID() != 1002 ) // HACKHACK: Alfred - don't use a dir filter for RDKF
 	{
 		m_vecServerFilters.AddToTail( MatchMakingKeyValuePair_t( "gamedir", m_szGameFilter ) );
 	}
+#endif
 	if (bFilterNoEmpty)
 	{
 		m_vecServerFilters.AddToTail( MatchMakingKeyValuePair_t( "empty", "1" ) );
@@ -1343,7 +1375,9 @@ void CBaseGamesPage::UpdateFilterSettings()
 	if (!ServerBrowserDialog().GetActiveModName())
 	{
 		filter->SetString("game", m_szGameFilter);
+#ifndef NO_STEAM
 		filter->SetUint64( "appid", m_iLimitToAppID.ToUint64() );
+#endif
 	}
 
 	filter->SetString("map", m_szMapFilter);
@@ -1398,12 +1432,14 @@ void CBaseGamesPage::RecalculateFilterString()
 
 	Q_UTF8ToUnicode( "; ", spacerUnicode, sizeof( spacerUnicode ) );
 
+#ifndef NO_STEAM
 	if (m_szGameFilter[0])
 	{
 		Q_UTF8ToUnicode( ModList().GetModNameForModDir( m_iLimitToAppID ), tempUnicode, iTempUnicodeSize );
 		wcscat( unicode, tempUnicode );
 		wcscat( unicode, spacerUnicode );
 	}
+#endif
 
 	if (m_iSecureFilter == FILTER_SECURESERVERSONLY)
 	{
@@ -1741,8 +1777,10 @@ void CBaseGamesPage::OnCommand(const char *command)
 	}
 	else if ( !Q_stricmp(command, "refresh") )
 	{
+#ifndef NO_STEAM
 		if ( steamapicontext->SteamMatchmakingServers() )
 			steamapicontext->SteamMatchmakingServers()->RefreshQuery( m_hRequest );
+#endif
 		SetRefreshing( true );
 		m_iServerRefreshCount = 0;
 		ClearQuickList();
@@ -1818,6 +1856,7 @@ int CBaseGamesPage::GetSelectedItemsCount()
 //-----------------------------------------------------------------------------
 void CBaseGamesPage::OnAddToFavorites()
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() )
 		return;
 
@@ -1833,6 +1872,7 @@ void CBaseGamesPage::OnAddToFavorites()
 			ServerBrowserDialog().AddServerToFavorites(*pServer);
 		}
 	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1840,6 +1880,7 @@ void CBaseGamesPage::OnAddToFavorites()
 //-----------------------------------------------------------------------------
 void CBaseGamesPage::OnAddToBlacklist()
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() )
 		return;
 
@@ -1855,9 +1896,10 @@ void CBaseGamesPage::OnAddToBlacklist()
 		}
 	}
 	ServerBrowserDialog().BlacklistsChanged();
+#endif
 }
 
-
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -1865,6 +1907,7 @@ void CBaseGamesPage::ServerFailedToRespond( HServerListRequest hReq, int iServer
 {
 	ServerResponded( hReq, iServer );
 }
+#endif
 
 
 //-----------------------------------------------------------------------------
@@ -1891,6 +1934,7 @@ void CBaseGamesPage::RemoveServer( serverdisplay_t &server )
 //-----------------------------------------------------------------------------
 void CBaseGamesPage::OnRefreshServer( int serverID )
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() )
 		return;
 
@@ -1904,6 +1948,7 @@ void CBaseGamesPage::OnRefreshServer( int serverID )
 	}
 
 	SetRefreshing(IsRefreshing());
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1911,8 +1956,10 @@ void CBaseGamesPage::OnRefreshServer( int serverID )
 //-----------------------------------------------------------------------------
 void CBaseGamesPage::OnViewWorkshop( int serverID )
 {
+#ifndef NO_STEAM
 	gameserveritem_t *pServer = ServerBrowserDialog().GetServer( serverID );
 	ViewCommunityMapsInWorkshop( pServer ? GetMapIDFromMapPath( pServer->m_szMap ) : 0 );
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -1920,6 +1967,7 @@ void CBaseGamesPage::OnViewWorkshop( int serverID )
 //-----------------------------------------------------------------------------
 void CBaseGamesPage::StartRefresh()
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() )
 		return;
 
@@ -1961,6 +2009,7 @@ void CBaseGamesPage::StartRefresh()
 	SetRefreshing( true );
 
 	m_iServerRefreshCount = 0;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -2016,17 +2065,20 @@ void CBaseGamesPage::StopRefresh()
 	// clear update states
 	m_iServerRefreshCount = 0;
 
+#ifndef NO_STEAM
 	// Stop the server list refreshing
 	if ( steamapicontext->SteamMatchmakingServers() )
 		steamapicontext->SteamMatchmakingServers()->CancelQuery( m_hRequest );
 
 	// update UI
 	RefreshComplete( m_hRequest, eServerResponded );
+#endif
 
 	// apply settings
 	ApplyGameFilters();
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -2034,13 +2086,18 @@ void CBaseGamesPage::RefreshComplete( HServerListRequest hReq, EMatchMakingServe
 {
 	SelectQuickListServers();
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: returns true if the list is currently refreshing servers
 //-----------------------------------------------------------------------------
 bool CBaseGamesPage::IsRefreshing()
 {
+#ifndef NO_STEAM
 	return steamapicontext->SteamMatchmakingServers() && steamapicontext->SteamMatchmakingServers()->IsRefreshing( m_hRequest );
+#else
+	return false;
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -2139,6 +2196,7 @@ void CBaseGamesPage::OnViewGameInfo()
 }
 
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: Refresh if our favorites list changed
 //-----------------------------------------------------------------------------
@@ -2210,6 +2268,7 @@ void CBaseGamesPage::OnFavoritesMsg( FavoritesListChanged_t *pFavListChanged )
 		Assert( !"unknown matchmaking type" );
 	};
 }
+#endif
 
 const char* CBaseGamesPage::PageTypeToString( EPageType eType ) const
 {

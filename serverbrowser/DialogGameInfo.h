@@ -20,22 +20,28 @@ struct challenge_s
 //-----------------------------------------------------------------------------
 // Purpose: Dialog for displaying information about a game server
 //-----------------------------------------------------------------------------
-class CDialogGameInfo : public vgui::Frame, public ISteamMatchmakingPlayersResponse, public ISteamMatchmakingPingResponse
+class CDialogGameInfo : public vgui::Frame
+#ifndef NO_STEAM
+	, public ISteamMatchmakingPlayersResponse, public ISteamMatchmakingPingResponse
+#endif
 {
 	DECLARE_CLASS_SIMPLE( CDialogGameInfo, vgui::Frame ); 
 
 public:
 	CDialogGameInfo(vgui::Panel *browser, vgui::Panel *parent, int serverIP, int queryPort, unsigned short connectionPort );
-	~CDialogGameInfo();
+	~CDialogGameInfo() override;
 
 	void Run(const char *titleName);
 	void ChangeGame(int serverIP, int queryPort, unsigned short connectionPort);
+#ifndef NO_STEAM
 	void SetFriend( uint64 ulSteamIDFriend );
 	uint64 GetAssociatedFriend();
+#endif
 
 	// forces the dialog to attempt to connect to the server
 	void Connect( const char* szJoinType );
 
+#ifndef NO_STEAM
 	// implementation of IServerRefreshResponse interface
 	// called when the server has successfully responded
 	virtual void ServerResponded( gameserveritem_t &server );
@@ -57,6 +63,7 @@ public:
 	//virtual void SendChallengeQuery( const netadr_t & to );
 	virtual void SendPlayerQuery( uint32 unIP, uint16 usQueryPort );
 	//virtual void InsertChallengeResponse( const netadr_t & to, int nChallenge );
+#endif
 
 protected:
 	// message handlers
@@ -74,11 +81,13 @@ protected:
 	MESSAGE_FUNC_INT_INT( OnConnectToGame, "ConnectedToGame", ip, port );
 
 	// vgui overrides
-	virtual void OnTick();
-	virtual void PerformLayout();
+	void OnTick() override;
+	void PerformLayout() override;
 
 private:
+#ifndef NO_STEAM
 	STEAM_CALLBACK( CDialogGameInfo, OnPersonaStateChange, PersonaStateChange_t, m_CallbackPersonaStateChange );
+#endif
 
 	long m_iRequestRetry;	// time at which to retry the request
 	static int PlayerTimeColumnSortFunc(vgui::ListPanel *pPanel, const vgui::ListPanelItem &p1, const vgui::ListPanelItem &p2);
@@ -115,11 +124,15 @@ private:
 	bool m_bServerFull;
 	bool m_bShowAutoRetryToggle;
 	bool m_bShowingExtendedOptions;
+#ifndef NO_STEAM
 	uint64 m_SteamIDFriend;
+#endif
 
 	gameserveritem_t m_Server;
+#ifndef NO_STEAM
 	HServerQuery m_hPingQuery;
 	HServerQuery m_hPlayersQuery;
+#endif
 	bool m_bPlayerListUpdatePending;
 	const char* m_szJoinType;
 };

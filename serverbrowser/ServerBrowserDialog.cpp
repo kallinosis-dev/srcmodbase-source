@@ -425,6 +425,7 @@ CServerBrowserDialog *CServerBrowserDialog::GetInstance()
 //-----------------------------------------------------------------------------
 void CServerBrowserDialog::AddServerToFavorites(gameserveritem_t &server)
 {
+#ifndef NO_STEAM
 	if ( steamapicontext->SteamMatchmaking() )
 	{
 		steamapicontext->SteamMatchmaking()->AddFavoriteGame( 
@@ -435,6 +436,7 @@ void CServerBrowserDialog::AddServerToFavorites(gameserveritem_t &server)
 			k_unFavoriteFlagFavorite, 
 			time(nullptr) );
 	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -559,6 +561,7 @@ void CServerBrowserDialog::CloseAllGameInfoDialogs()
 }
 
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: finds a dialog
 //-----------------------------------------------------------------------------
@@ -574,6 +577,7 @@ CDialogGameInfo *CServerBrowserDialog::GetDialogGameInfoForFriend( uint64 ulStea
 	}
 	return nullptr;
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: accessor to the filter save data
@@ -600,6 +604,7 @@ const char *CServerBrowserDialog::GetActiveGameName()
 	return m_szGameName[0] ? m_szGameName : nullptr;
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: return the app id to limit game queries to, set by Source/HL1 engines (NOT by filter settings, that is per page)
 //-----------------------------------------------------------------------------
@@ -607,6 +612,7 @@ CGameID &CServerBrowserDialog::GetActiveAppID()
 {
 	return m_iLimitAppID;
 }
+#endif
 
 
 //-----------------------------------------------------------------------------
@@ -616,7 +622,9 @@ void CServerBrowserDialog::OnActiveGameName( KeyValues *pKV )
 {
 	Q_strncpy(m_szModDir, pKV->GetString( "name" ), sizeof(m_szModDir));
 	Q_strncpy(m_szGameName, pKV->GetString( "game" ), sizeof(m_szGameName));
-	m_iLimitAppID = CGameID( pKV->GetUint64( "appid", 0 ) );	
+#ifndef NO_STEAM
+	m_iLimitAppID = CGameID( pKV->GetUint64( "appid", 0 ) );
+#endif
 	// reload filter settings (since they are no forced to be game specific)
 	ReloadFilterSettings();
 }
@@ -653,11 +661,13 @@ void CServerBrowserDialog::OnConnectToGame( KeyValues *pMessageValues )
 	m_CurrentConnection.m_NetAdr.SetQueryPort( queryPort );
 	m_CurrentConnection.m_NetAdr.SetConnectionPort( (unsigned short)connectionPort );
 
+#ifndef NO_STEAM
 	if (m_pHistory && steamapicontext->SteamMatchmaking() )
 	{
 		steamapicontext->SteamMatchmaking()->AddFavoriteGame( 0, unIP, connectionPort, queryPort, k_unFavoriteFlagHistory, time(nullptr) );
 		m_pHistory->SetRefreshOnReload();
 	}
+#endif
 
 	// tell the game info dialogs, so they can cancel if we have connected
 	// to a server they were auto-retrying

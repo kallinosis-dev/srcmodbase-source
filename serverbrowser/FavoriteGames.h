@@ -20,17 +20,19 @@ class CFavoriteGames : public CBaseGamesPage
 
 public:
 	CFavoriteGames(vgui::Panel *parent);
-	~CFavoriteGames();
+	~CFavoriteGames() override;
 
 	// favorites list, loads/saves into keyvalues
 	void LoadFavoritesList();
 	
 	// IGameList handlers
 	// returns true if the game list supports the specified ui elements
-	virtual bool SupportsItem(InterfaceItem_e item);
+	bool SupportsItem(InterfaceItem_e item) override;
 
+#ifndef NO_STEAM
 	// called when the current refresh list is complete
 	virtual void RefreshComplete( HServerListRequest hReq, EMatchMakingServerResponse response );
+#endif
 
 	// passed from main server browser window instead of messages
 	void OnConnectToGame();
@@ -46,7 +48,7 @@ private:
 
 	void OnAddCurrentServer( void );
 
-	void OnCommand(const char *command);
+	void OnCommand(const char *command) override;
 
 	bool m_bRefreshOnListReload;
 };

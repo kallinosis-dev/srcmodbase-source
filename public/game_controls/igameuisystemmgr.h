@@ -139,10 +139,12 @@ public:
 class IGameUISystemSurface
 {
 public:
+	virtual ~IGameUISystemSurface() = default;
+
 	virtual InitReturnVal_t Init() = 0;
 	virtual void Shutdown() = 0;
 
-	virtual void PrecacheFontCharacters( FontHandle_t font, wchar_t *pCharacterString = nullptr) = 0;
+	virtual void PrecacheFontCharacters( FontHandle_t font, wchar_t const* pCharacterString = nullptr) = 0;
 
 	virtual FontHandle_t CreateFont() = 0;
 	virtual bool SetFontGlyphSet( FontHandle_t font, const char *windowsFontName, int tall, int weight, int blur, int scanlines, int flags, int nRangeMin = 0, int nRangeMax = 0 ) = 0;

@@ -73,7 +73,7 @@ bool CHistoryGames::SupportsItem(InterfaceItem_e item)
 	}
 }
 
-
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: called when the current refresh list is complete
 //-----------------------------------------------------------------------------
@@ -85,6 +85,7 @@ void CHistoryGames::RefreshComplete( HServerListRequest hReq, EMatchMakingServer
 
 	BaseClass::RefreshComplete( hReq, response );
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: opens context menu (user right clicked on a server)
@@ -115,6 +116,7 @@ void CHistoryGames::OnOpenContextMenu(int itemID)
 //-----------------------------------------------------------------------------
 void CHistoryGames::OnRemoveFromHistory()
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() || !steamapicontext->SteamMatchmaking() )
 		return;
 
@@ -132,5 +134,6 @@ void CHistoryGames::OnRemoveFromHistory()
 	UpdateStatus();	
 	InvalidateLayout();
 	Repaint();
+#endif
 }
 

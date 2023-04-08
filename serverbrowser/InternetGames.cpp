@@ -119,7 +119,7 @@ void CInternetGames::OnTick()
 	CheckRedoSort();
 }
 
-
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: Handles incoming server refresh data
 //			updates the server browser with the refreshed information from the server itself
@@ -198,7 +198,7 @@ void CInternetGames::RefreshComplete( HServerListRequest hReq, EMatchMakingServe
 
 	BaseClass::RefreshComplete( hReq, response );
 }
-
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -281,6 +281,7 @@ void CInternetGames::OnOpenContextMenu(int itemID)
 	menu->ShowMenu(this, serverID, true, true, true, true);
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: refreshes a single server
 //-----------------------------------------------------------------------------
@@ -290,6 +291,7 @@ void CInternetGames::OnRefreshServer(int serverID)
 
 	ServerBrowserDialog().UpdateStatusText("#ServerBrowser_GettingNewServerList");
 }
+#endif
 
 
 //-----------------------------------------------------------------------------

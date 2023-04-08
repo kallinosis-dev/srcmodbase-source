@@ -11,6 +11,7 @@
 #pragma once
 #endif
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: Handles parsing of half-life directory for mod info
 //-----------------------------------------------------------------------------
@@ -57,6 +58,6 @@ private:
 
 // singleton accessor
 extern CModList &ModList();
-
+#endif
 
 #endif // MODLIST_H

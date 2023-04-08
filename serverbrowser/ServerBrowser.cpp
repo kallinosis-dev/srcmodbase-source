@@ -24,8 +24,10 @@ IRunGameEngine *g_pRunGameEngine = nullptr;
 IGameUI *pGameUI = nullptr;
 IVEngineClient *engine = nullptr;
 
+#ifndef NO_STEAM
 static CSteamAPIContext g_SteamAPIContext;
 CSteamAPIContext *steamapicontext = &g_SteamAPIContext;
+#endif
 
 ConVar sb_firstopentime( "sb_firstopentime", "0", FCVAR_DEVELOPMENTONLY, "Indicates the time the server browser was first opened." );
 ConVar sb_numtimesopened( "sb_numtimesopened", "0", FCVAR_DEVELOPMENTONLY, "Indicates the number of times the server browser was opened this session." );
@@ -69,10 +71,12 @@ bool CServerBrowser::Initialize(CreateInterfaceFn *factorylist, int factoryCount
 	ConnectTier2Libraries( factorylist, factoryCount );
 	ConnectTier3Libraries( factorylist, factoryCount );
 	g_pRunGameEngine = nullptr;
-	
+
+#ifndef NO_STEAM
 	SteamAPI_InitSafe();
 	SteamAPI_SetTryCatchCallbacks( false ); // We don't use exceptions, so tell steam not to use try/catch in callback handlers
 	steamapicontext->Init();
+#endif
 
 	for (int i = 0; i < factoryCount; i++)
 	{
@@ -258,7 +262,7 @@ void CServerBrowser::Shutdown()
 //-----------------------------------------------------------------------------
 bool CServerBrowser::OpenGameInfoDialog( uint64 ulSteamIDFriend )
 {
-#if !defined( _X360 ) // X360TBD: SteamFriends()
+#if !defined( _X360 ) && !defined(NO_STEAM) // X360TBD: SteamFriends()
 	if ( m_hInternetDlg.Get() )
 	{
 		// activate an already-existing dialog
@@ -291,11 +295,13 @@ bool CServerBrowser::OpenGameInfoDialog( uint64 ulSteamIDFriend )
 //-----------------------------------------------------------------------------
 bool CServerBrowser::JoinGame( uint64 ulSteamIDFriend )
 {
+#ifndef NO_STEAM
 	if ( OpenGameInfoDialog( ulSteamIDFriend ) )
 	{
 		CDialogGameInfo *pDialogGameInfo = m_hInternetDlg->GetDialogGameInfoForFriend( ulSteamIDFriend );
 		pDialogGameInfo->Connect( "ServerBrowserJoinFriend" );
 	}
+#endif
 
 	return false;
 }
@@ -316,11 +322,13 @@ bool CServerBrowser::JoinGame( uint32 unGameIP, uint16 usGamePort )
 //-----------------------------------------------------------------------------
 void CServerBrowser::CloseGameInfoDialog( uint64 ulSteamIDFriend )
 {
+#ifndef NO_STEAM
 	CDialogGameInfo *pDialogGameInfo = m_hInternetDlg->GetDialogGameInfoForFriend( ulSteamIDFriend );
 	if ( pDialogGameInfo )
 	{
 		pDialogGameInfo->Close();
 	}
+#endif
 }
 
 

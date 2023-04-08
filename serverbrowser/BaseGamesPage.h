@@ -25,8 +25,8 @@ public:
 	DECLARE_CLASS_SIMPLE( CGameListPanel, vgui::ListPanel );
 	
 	CGameListPanel( CBaseGamesPage *pOuter, const char *pName );
-	
-	virtual void OnKeyCodeTyped(vgui::KeyCode code);
+
+	void OnKeyCodeTyped(vgui::KeyCode code) override;
 
 private:
 	CBaseGamesPage *m_pOuter;
@@ -77,7 +77,10 @@ struct gametypes_t
 //-----------------------------------------------------------------------------
 // Purpose: Base property page for all the games lists (internet/favorites/lan/etc.)
 //-----------------------------------------------------------------------------
-class CBaseGamesPage : public vgui::PropertyPage, public IGameList, public ISteamMatchmakingServerListResponse, public ISteamMatchmakingPingResponse
+class CBaseGamesPage : public vgui::PropertyPage, public IGameList
+#ifndef NO_STEAM
+	, public ISteamMatchmakingServerListResponse, public ISteamMatchmakingPingResponse
+#endif
 {
 	DECLARE_CLASS_SIMPLE( CBaseGamesPage, vgui::PropertyPage );
 
@@ -95,13 +98,13 @@ public:
 
 public:
 	CBaseGamesPage( vgui::Panel *parent, const char *name, EPageType eType, const char *pCustomResFilename= nullptr);
-	~CBaseGamesPage();
+	~CBaseGamesPage() override;
 
-	virtual void PerformLayout();
-	virtual void ApplySchemeSettings(vgui::IScheme *pScheme);
+	void PerformLayout() override;
+	void ApplySchemeSettings(vgui::IScheme *pScheme) override;
 
 	// gets information about specified server
-	virtual gameserveritem_t *GetServer(unsigned int serverID);
+	gameserveritem_t *GetServer(unsigned int serverID) override;
 
 	uint32 GetServerFilters( MatchMakingKeyValuePair_t **pFilters );
 
@@ -121,7 +124,7 @@ public:
 	MESSAGE_FUNC( OnAddToFavorites, "AddToFavorites" );
 	MESSAGE_FUNC( OnAddToBlacklist, "AddToBlacklist" );
 
-	virtual void StartRefresh();
+	void StartRefresh() override;
 
 	virtual void UpdateDerivedLayouts( void );
 	
@@ -133,7 +136,9 @@ public:
 		return false; // m_pQuickListCheckButton ? m_pQuickListCheckButton->IsSelected() : false;
 	}
 
+#ifndef NO_STEAM
 	STEAM_CALLBACK( CBaseGamesPage, OnFavoritesMsg, FavoritesListChanged_t, m_CallbackFavoritesMsg );
+#endif
 
 	// applies games filters to current list
 	void ApplyGameFilters();
@@ -143,8 +148,8 @@ protected:
 	bool ViewCommunityMapsInWorkshop( uint64 workshopID = 0 );
 #endif
 
-	virtual void OnCommand(const char *command);
-	virtual void OnKeyCodePressed(vgui::KeyCode code);
+	void OnCommand(const char *command) override;
+	void OnKeyCodePressed(vgui::KeyCode code) override;
 	virtual int GetRegionCodeToFilter() { return -1; }
 
 	MESSAGE_FUNC( OnItemSelected, "ItemSelected" );
@@ -152,6 +157,7 @@ protected:
 	// updates server count UI
 	void UpdateStatus();
 
+#ifndef NO_STEAM
 	// ISteamMatchmakingServerListResponse callbacks
 	virtual void ServerResponded( HServerListRequest hReq, int iServer );
 	virtual void ServerResponded( int iServer, gameserveritem_t *pServerItem );
@@ -161,6 +167,7 @@ protected:
 	// ISteamMatchmakingPingResponse callbacks
 	virtual void ServerResponded( gameserveritem_t &server );
 	virtual void ServerFailedToRespond() {}
+#endif
 
 	// Removes server from list
 	void RemoveServer( serverdisplay_t &server );
@@ -173,20 +180,22 @@ protected:
 	virtual bool CheckPrimaryFilters( gameserveritem_t &server);
 	virtual bool CheckSecondaryFilters( gameserveritem_t &server );
 	virtual bool CheckTagFilter( gameserveritem_t &server ) { return true; }
-	virtual int GetInvalidServerListID();
+	int GetInvalidServerListID() override;
 
 	virtual void OnSaveFilter(KeyValues *filter);
 	virtual void OnLoadFilter(KeyValues *filter);
 	virtual void UpdateFilterSettings();
 
+#ifndef NO_STEAM
 	// whether filter settings limit which master server to query
 	CGameID &GetFilterAppID() { return m_iLimitToAppID; }
-	
-	virtual void GetNewServerList();
-	virtual void StopRefresh();
-	virtual bool IsRefreshing();
-	virtual void OnPageShow();
-	virtual void OnPageHide();
+#endif
+
+	void GetNewServerList() override;
+	void StopRefresh() override;
+	bool IsRefreshing() override;
+	void OnPageShow() override;
+	void OnPageHide() override;
 
 	// called when Connect button is pressed
 	MESSAGE_FUNC( OnBeginConnect, "ConnectToServer" );
@@ -225,7 +234,9 @@ protected:
 	
 
 	EPageType m_eMatchMakingType;
+#ifndef NO_STEAM
 	HServerListRequest m_hRequest;
+#endif
 
 	int	GetSelectedServerID( void );
 
@@ -281,7 +292,9 @@ private:
 
 	int m_iWorkshopIconIndex;
 
+#ifndef NO_STEAM
 	CGameID m_iLimitToAppID;
+#endif
 };
 
 #endif // BASEGAMESPAGE_H

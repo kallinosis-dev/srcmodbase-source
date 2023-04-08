@@ -51,8 +51,10 @@ extern class IXboxSystem  *xboxsystem;
 #ifdef _GAMECONSOLE
 extern class IXOnline  *xonline;
 #endif
-extern class IAchievementMgr *achievementmgr; 
+extern class IAchievementMgr *achievementmgr;
+#ifndef NO_STEAM
 extern class CSteamAPIContext *steamapicontext;
+#endif
 #ifdef _PS3
 #include "ps3/saverestore_ps3_api_ui.h"
 extern class IPS3SaveRestoreToUI *ps3saveuiapi;

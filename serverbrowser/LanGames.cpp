@@ -118,6 +118,7 @@ void CLanGames::CheckRetryRequest()
 	m_bRequesting = false;
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: called when a server response has timed out, remove it
 //-----------------------------------------------------------------------------
@@ -146,6 +147,7 @@ void CLanGames::SetEmptyListText()
 {
 	m_pGameList->SetEmptyListText("#ServerBrowser_NoLanServers");
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: opens context menu (user right clicked on a server)

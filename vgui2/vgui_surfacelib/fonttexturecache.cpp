@@ -126,7 +126,7 @@ bool CFontTextureCache::GetTextureAndCoordsForChar( FontHandle_t font, FontDrawT
 //-----------------------------------------------------------------------------
 // Purpose: returns the texture info for the given chars & font
 //-----------------------------------------------------------------------------
-bool CFontTextureCache::GetTextureForChars( FontHandle_t hFont, FontDrawType_t type, wchar_t *wch, int *textureID, float **texCoords, int numChars )
+bool CFontTextureCache::GetTextureForChars( FontHandle_t hFont, FontDrawType_t type, wchar_t const* wch, int *textureID, float **texCoords, int numChars )
 {
 	Assert( wch && textureID && texCoords );
 	Assert( numChars >= 1 );

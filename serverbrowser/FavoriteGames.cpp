@@ -34,12 +34,14 @@ CFavoriteGames::~CFavoriteGames()
 //-----------------------------------------------------------------------------
 void CFavoriteGames::LoadFavoritesList()
 {
+#ifndef NO_STEAM
 	if ( steamapicontext->SteamMatchmaking() && steamapicontext->SteamMatchmaking()->GetFavoriteGameCount() == 0 )
 	{
 		// set empty message
 		m_pGameList->SetEmptyListText("#ServerBrowser_NoFavoriteServers");
 	}
 	else
+#endif
 	{
 		m_pGameList->SetEmptyListText("#ServerBrowser_NoInternetGamesResponded");
 
@@ -73,7 +75,7 @@ bool CFavoriteGames::SupportsItem(InterfaceItem_e item)
 	}
 }
 
-
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: called when the current refresh list is complete
 //-----------------------------------------------------------------------------
@@ -94,6 +96,7 @@ void CFavoriteGames::RefreshComplete( HServerListRequest hReq, EMatchMakingServe
 
 	BaseClass::RefreshComplete( hReq, response );
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: opens context menu (user right clicked on a server)
@@ -126,6 +129,7 @@ void CFavoriteGames::OnOpenContextMenu(int itemID)
 //-----------------------------------------------------------------------------
 void CFavoriteGames::OnRemoveFromFavorites()
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() || !steamapicontext->SteamMatchmaking() )
 		return;
 
@@ -146,6 +150,7 @@ void CFavoriteGames::OnRemoveFromFavorites()
 	UpdateStatus();	
 	InvalidateLayout();
 	Repaint();
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -164,6 +169,7 @@ void CFavoriteGames::OnAddServerByName()
 //-----------------------------------------------------------------------------
 void CFavoriteGames::OnAddCurrentServer()
 {
+#ifndef NO_STEAM
 	gameserveritem_t *pConnected = ServerBrowserDialog().GetCurrentConnectedServer();
 
 	if ( pConnected && steamapicontext->SteamMatchmaking() )
@@ -171,6 +177,7 @@ void CFavoriteGames::OnAddCurrentServer()
 		steamapicontext->SteamMatchmaking()->AddFavoriteGame( pConnected->m_nAppID, pConnected->m_NetAdr.GetIP(), pConnected->m_NetAdr.GetConnectionPort(), pConnected->m_NetAdr.GetQueryPort(), k_unFavoriteFlagFavorite, time(nullptr) );
 		m_bRefreshOnListReload = true;
 	}
+#endif
 }
 
 //-----------------------------------------------------------------------------

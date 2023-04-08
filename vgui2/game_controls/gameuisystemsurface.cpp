@@ -434,9 +434,9 @@ bool CGameUISystemSurface::SupportsFontFeature( FontFeature_t feature )
 //-----------------------------------------------------------------------------
 // Purpose: Force a set of characters to be rendered into the font page.
 //-----------------------------------------------------------------------------
-void CGameUISystemSurface::PrecacheFontCharacters( FontHandle_t font, wchar_t *pCharacterString )
+void CGameUISystemSurface::PrecacheFontCharacters( FontHandle_t font, wchar_t const* pCharacterString )
 {
-	wchar_t *pCommonChars = L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.!:-/%";
+	wchar_t const* pCommonChars = L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.!:-/%";
 	if ( !pCharacterString || !pCharacterString[0] )
 	{
 		// use the common chars, alternate languages are not handled

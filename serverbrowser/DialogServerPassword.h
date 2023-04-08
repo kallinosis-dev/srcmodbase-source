@@ -18,7 +18,7 @@ class CDialogServerPassword : public vgui::Frame
 {
 public:
 	CDialogServerPassword(vgui::Panel *parent);
-	~CDialogServerPassword();
+	~CDialogServerPassword() override;
 
 	// initializes the dialog and brings it to the foreground
 	void Activate(const char *serverName, unsigned int serverID);
@@ -30,7 +30,7 @@ public:
 	*/
 
 private:
-	virtual void OnCommand(const char *command);
+	void OnCommand(const char *command) override;
 
 	vgui::Label *m_pInfoLabel;
 	vgui::Label *m_pGameLabel;

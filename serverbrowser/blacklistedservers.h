@@ -28,14 +28,14 @@ class CBlacklistedServers : public vgui::PropertyPage
 
 public:
 	CBlacklistedServers(vgui::Panel *parent);
-	~CBlacklistedServers();
+	~CBlacklistedServers() override;
 
 	// blacklist list, loads/saves from file
 	void LoadBlacklistedList();
 	void SaveBlacklistedList();
 	void AddServer(gameserveritem_t &server);
 
-	virtual void ApplySchemeSettings(vgui::IScheme *pScheme);
+	void ApplySchemeSettings(vgui::IScheme *pScheme) override;
 	
 	// passed from main server browser window instead of messages
 	void OnConnectToGame();
@@ -55,7 +55,7 @@ private:
 	void ClearServerList( void );
 	void OnAddCurrentServer( void );
 	void OnImportBlacklist( void );
-	void OnCommand(const char *command);
+	void OnCommand(const char *command) override;
 	void AddBlacklistedServer( int iIndex );
 	int  GetSelectedServerID( void );
 	bool AddServersFromFile( const char *pszFilename, bool bResetTimes );

@@ -42,7 +42,6 @@ mat_fullbright 1 doesn't work properly on alpha materials in testroom_standards
 #include "materialsystem/imorph.h"
 #include "colorformatdx8.h"
 #include "texturedx8.h"
-#include "textureheap.h"
 #if !defined ( _PS3 )
 #include <malloc.h>
 #endif // !_PS3
@@ -5301,7 +5300,6 @@ void CShaderAPIDx8::ForceHardwareSync( void )
 	LOCK_SHADERAPI();
 	VPROF( "CShaderAPIDx8::ForceHardwareSync" );
 	PERF_STATS_BLOCK( "CShaderAPIDx8::ForceHardwareSync", PERF_STATS_SLOT_FORCE_HARDWARE_SYNC );
-	TM_ZONE_PLOT( TELEMETRY_LEVEL1, "ForceHardwareSync", TELEMETRY_ZONE_PLOT_SLOT_4);
 	
 #ifdef DX_TO_GL_ABSTRACTION
 	if ( true )

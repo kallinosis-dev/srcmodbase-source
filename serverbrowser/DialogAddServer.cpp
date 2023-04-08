@@ -88,11 +88,13 @@ CDialogAddServer::CDialogAddServer(vgui::Panel *parent, IGameList *gameList) : F
 //-----------------------------------------------------------------------------
 CDialogAddServer::~CDialogAddServer()
 {
+#ifndef NO_STEAM
 	FOR_EACH_VEC( m_Queries, i )
 	{
 		if ( steamapicontext->SteamMatchmakingServers() )
 			steamapicontext->SteamMatchmakingServers()->CancelServerQuery( m_Queries[ i ] );
 	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -185,6 +187,7 @@ void CDialogAddServer::OnOK()
 //-----------------------------------------------------------------------------
 void CDialogAddServer::TestServers()
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() )
 		return;
 
@@ -240,6 +243,7 @@ void CDialogAddServer::TestServers()
 	{
 		m_Queries.AddToTail( steamapicontext->SteamMatchmakingServers()->PingServer( vecAdress[ iAddress ].GetIPHostByteOrder(), vecAdress[ iAddress ].GetPort(), this ) );
 	}
+#endif
 }
 
 

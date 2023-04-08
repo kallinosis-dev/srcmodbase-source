@@ -180,24 +180,21 @@ void CCustomGames::OnLoadFilter(KeyValues *filter)
 //-----------------------------------------------------------------------------
 bool CCustomGames::CheckTagFilter( gameserveritem_t &server )
 {
-	bool bRetVal = true;
-
 	// Custom games substring matches tags with the server's tags
 	int count = Q_strlen( m_szTagFilter );
-	if ( count )
+	if ( !count )
+		return true;
+
+	CSplitString TagList( m_szTagFilter, "," );
+	for ( int i = 0; i < TagList.Count(); i++ )
 	{
-		CSplitString TagList( m_szTagFilter, "," );
-		for ( int i = 0; i < TagList.Count(); i++ )
+		if ((Q_strnistr(server.m_szGameTags, TagList[i], MAX_TAG_CHARACTERS) != nullptr) == TagsExclude())
 		{
-			if ( ( Q_strnistr( server.m_szGameTags, TagList[i], MAX_TAG_CHARACTERS ) > nullptr ) == TagsExclude() )
-			{
-				bRetVal = false;
-				break;
-			}
+			return false;
 		}
 	}
 
-	return bRetVal;
+	return true;
 }
 
 //-----------------------------------------------------------------------------
@@ -253,6 +250,7 @@ void CCustomGames::SetRefreshing(bool state)
 	BaseClass::SetRefreshing( state );
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
@@ -266,6 +264,7 @@ void CCustomGames::ServerResponded( int iServer, gameserveritem_t *pServerItem )
 		m_pAddTagList->SetEnabled( true );
 	}
 }
+#endif
 
 struct tagentry_t
 {

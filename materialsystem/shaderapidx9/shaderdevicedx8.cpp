@@ -25,7 +25,6 @@
 #include "recording.h"
 #include "vstdlib/ikeyvaluessystem.h"
 #include "winutils.h"
-#include "tier0/vprof_telemetry.h"
 #include "tier0/miniprofiler.h"
 
 #if defined ( DX_TO_GL_ABSTRACTION )
@@ -691,7 +690,7 @@ bool CShaderDeviceMgrDx8::ComputeCapsFromD3D( HardwareCaps_t *pCaps, int nAdapte
 		if ( pVendorID )
 		{
 			int nVendorID = V_atoi( pVendorID );	// use V_atoi for hex support
-			if ( pVendorID > nullptr )
+			if (nVendorID > 0 )
 			{
 				ident.VendorId = nVendorID;
 			}

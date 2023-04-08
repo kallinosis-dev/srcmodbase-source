@@ -18,10 +18,10 @@ class CMouseMessageForwardingPanel : public vgui::Panel
 public:
 	CMouseMessageForwardingPanel( Panel *parent, const char *name );
 
-	virtual void PerformLayout( void );
-	virtual void OnMousePressed( vgui::MouseCode code );
-	virtual void OnMouseDoublePressed( vgui::MouseCode code );
-	virtual void OnMouseWheeled(int delta);
+	void PerformLayout( void ) override;
+	void OnMousePressed( vgui::MouseCode code ) override;
+	void OnMouseDoublePressed( vgui::MouseCode code ) override;
+	void OnMouseWheeled(int delta) override;
 };
 
 CMouseMessageForwardingPanel::CMouseMessageForwardingPanel( Panel *parent, const char *name ) : BaseClass( parent, name )

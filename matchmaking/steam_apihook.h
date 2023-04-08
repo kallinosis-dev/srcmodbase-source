@@ -29,10 +29,12 @@ GCSDK::CGCClient *GGCClient();
 
 #endif
 
+#ifndef NO_STEAM
 extern class CSteamAPIContext *steamapicontext;
 
 void SteamApiContext_Init();
 void SteamApiContext_Shutdown();
+#endif
 
 #include "steam_lobbyapi.h"
 

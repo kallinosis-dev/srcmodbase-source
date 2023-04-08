@@ -22,14 +22,14 @@ class CLanGames : public CBaseGamesPage
 
 public:
 	CLanGames(vgui::Panel *parent, bool bAutoRefresh=true, const char *pCustomResFilename= nullptr);
-	~CLanGames();
+	~CLanGames() override;
 
 	// property page handlers
-	virtual void OnPageShow();
+	void OnPageShow() override;
 
 	// IGameList handlers
 	// returns true if the game list supports the specified ui elements
-	virtual bool SupportsItem(InterfaceItem_e item);
+	bool SupportsItem(InterfaceItem_e item) override;
 
 	// Control which button are visible.
 	void ManualShowButtons( bool bShowConnect, bool bShowRefreshAll, bool bShowFilter );
@@ -37,13 +37,13 @@ public:
 	// If you pass NULL for pSpecificAddresses, it will broadcast on certain points.
 	// If you pass a non-null value, then it will send info queries directly to those ports.
 	void InternalGetNewServerList( CUtlVector<netadr_t> *pSpecificAddresses );
- 
-	virtual void StartRefresh();
+
+	void StartRefresh() override;
 
 	// stops current refresh/GetNewServerList()
-	virtual void StopRefresh();
+	void StopRefresh() override;
 
-
+#ifndef NO_STEAM
 	// IServerRefreshResponse handlers
 	// called when a server response has timed out
 	virtual void ServerFailedToRespond( HServerListRequest hReq, int iServer );
@@ -53,10 +53,12 @@ public:
 
 	// Tell the game list what to put in there when there are no games found.
 	virtual void SetEmptyListText();
+#endif
+
 
 private:
 	// vgui message handlers
-	virtual void OnTick();
+	void OnTick() override;
 
 	// lan timeout checking
 	virtual void CheckRetryRequest();

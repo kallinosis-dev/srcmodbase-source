@@ -279,7 +279,7 @@ private:
 	void GraphicHidden( CHitArea *focus, InputContext_t &context );
 	vgui::HCursor _cursorOverride;
 
-	char *_keyTrans[KEY_LAST];
+	char const* _keyTrans[KEY_LAST];
 
 	InputContext_t m_DefaultInputContext; 
 	vgui::HInputContext m_hContext; // current input context

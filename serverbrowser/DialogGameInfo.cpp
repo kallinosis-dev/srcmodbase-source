@@ -42,8 +42,10 @@ bool QueryLessFunc( const struct challenge_s &item1, const struct challenge_s &i
 // Purpose: Constructor
 //-----------------------------------------------------------------------------
 CDialogGameInfo::CDialogGameInfo( vgui::Panel *browser, vgui::Panel *parent, int serverIP, int queryPort, unsigned short connectionPort ) : 
-	Frame(parent, "DialogGameInfo"),
-	m_CallbackPersonaStateChange( this, &CDialogGameInfo::OnPersonaStateChange )
+	Frame(parent, "DialogGameInfo")
+#ifndef NO_STEAM
+,m_CallbackPersonaStateChange( this, &CDialogGameInfo::OnPersonaStateChange )
+#endif
 {
 	SetBounds(0, 0, 512, 512);
 	SetMinimumSize(416, 340);
@@ -53,9 +55,11 @@ CDialogGameInfo::CDialogGameInfo( vgui::Panel *browser, vgui::Panel *parent, int
 	m_bShowAutoRetryToggle = false;
 	m_bServerNotResponding = false;
 	m_bShowingExtendedOptions = false;
+#ifndef NO_STEAM
 	m_SteamIDFriend = 0;
 	m_hPingQuery = HSERVERQUERY_INVALID;
 	m_hPlayersQuery = HSERVERQUERY_INVALID;
+#endif
 	m_bPlayerListUpdatePending = false;
 
 	m_szPassword[0] = 0;
@@ -115,6 +119,7 @@ CDialogGameInfo::CDialogGameInfo( vgui::Panel *browser, vgui::Panel *parent, int
 //-----------------------------------------------------------------------------
 CDialogGameInfo::~CDialogGameInfo()
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() )
 		return;
 
@@ -122,8 +127,10 @@ CDialogGameInfo::~CDialogGameInfo()
 		steamapicontext->SteamMatchmakingServers()->CancelServerQuery( m_hPingQuery );
 	if ( m_hPlayersQuery != HSERVERQUERY_INVALID )
 		steamapicontext->SteamMatchmakingServers()->CancelServerQuery( m_hPlayersQuery );
+#endif
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: send a player query to a server
 //-----------------------------------------------------------------------------
@@ -137,7 +144,7 @@ void CDialogGameInfo::SendPlayerQuery( uint32 unIP, uint16 usQueryPort )
 	m_hPlayersQuery = steamapicontext->SteamMatchmakingServers()->PlayerDetails( unIP, usQueryPort, this );
 	m_bPlayerListUpdatePending = true;
 }
-
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Activates the dialog
@@ -196,6 +203,7 @@ void CDialogGameInfo::ChangeGame( int serverIP, int queryPort, unsigned short co
 }
 
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: updates the dialog if it's watching a friend who changes servers
 //-----------------------------------------------------------------------------
@@ -224,8 +232,9 @@ void CDialogGameInfo::OnPersonaStateChange( PersonaStateChange_t *pPersonaStateC
 	}
 #endif
 }
+#endif
 
-
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: Associates a user with this dialog
 //-----------------------------------------------------------------------------
@@ -248,8 +257,6 @@ void CDialogGameInfo::SetFriend( uint64 ulSteamIDFriend )
 		ChangeGame( friendGameInfo.m_unGameIP, usConnPort, friendGameInfo.m_usGamePort );
 	}
 }
-
-
 //-----------------------------------------------------------------------------
 // Purpose: data access
 //-----------------------------------------------------------------------------
@@ -257,6 +264,8 @@ uint64 CDialogGameInfo::GetAssociatedFriend()
 {
 	return m_SteamIDFriend;
 }
+#endif
+
 
 
 //-----------------------------------------------------------------------------
@@ -478,6 +487,7 @@ void CDialogGameInfo::ShowAutoRetryOptions(bool state)
 //-----------------------------------------------------------------------------
 void CDialogGameInfo::RequestInfo()
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext->SteamMatchmakingServers() )
 		return;
 
@@ -489,6 +499,7 @@ void CDialogGameInfo::RequestInfo()
 			steamapicontext->SteamMatchmakingServers()->CancelServerQuery( m_hPingQuery );
 		m_hPingQuery = steamapicontext->SteamMatchmakingServers()->PingServer( m_Server.m_NetAdr.GetIP(), m_Server.m_NetAdr.GetQueryPort(), this );
 	}
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -504,6 +515,7 @@ void CDialogGameInfo::OnTick()
 	}
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: called when the server has successfully responded
 //-----------------------------------------------------------------------------
@@ -563,6 +575,7 @@ void CDialogGameInfo::ServerFailedToRespond()
 	InvalidateLayout();
 	Repaint();
 }
+#endif
 
 
 
@@ -694,12 +707,14 @@ void CDialogGameInfo::ConnectToServer()
 	PostMessage( m_pBrowser, new KeyValues( "Close" ) );
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: called when the current refresh list is complete
 //-----------------------------------------------------------------------------
 void CDialogGameInfo::RefreshComplete( EMatchMakingServerResponse response )
 {
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: handles response from the get password dialog
@@ -713,6 +728,7 @@ void CDialogGameInfo::OnJoinServerWithPassword(const char *password)
 	OnConnect();
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: player list received
 //-----------------------------------------------------------------------------
@@ -763,6 +779,7 @@ void CDialogGameInfo::AddPlayerToList(const char *playerName, int score, float t
 	m_pPlayerList->AddItem(player, 0, false, true);
 	player->deleteThis();
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Sorting function for time column

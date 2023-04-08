@@ -20,32 +20,32 @@ class CServerBrowser : public IServerBrowser, public IVGuiModule
 {
 public:
 	CServerBrowser();
-	~CServerBrowser();
+	~CServerBrowser() override;
 
 	// IVGui module implementation
-	virtual bool Initialize(CreateInterfaceFn *factorylist, int numFactories);
-	virtual bool PostInitialize(CreateInterfaceFn *modules, int factoryCount);
-	virtual vgui::VPANEL GetPanel();
-	virtual bool Activate();
-	virtual bool IsValid();
-	virtual void Shutdown();
-	virtual void Deactivate();
-	virtual void Reactivate();
-	virtual void SetParent(vgui::VPANEL parent);
+	bool Initialize(CreateInterfaceFn *factorylist, int numFactories) override;
+	bool PostInitialize(CreateInterfaceFn *modules, int factoryCount) override;
+	vgui::VPANEL GetPanel() override;
+	bool Activate() override;
+	bool IsValid() override;
+	void Shutdown() override;
+	void Deactivate() override;
+	void Reactivate() override;
+	void SetParent(vgui::VPANEL parent) override;
 
 	// IServerBrowser implementation
 	// joins a specified game - game info dialog will only be opened if the server is fully or passworded
-	virtual bool JoinGame( uint32 unGameIP, uint16 usGamePort );
-	virtual bool JoinGame( uint64 ulSteamIDFriend );
+	bool JoinGame( uint32 unGameIP, uint16 usGamePort ) override;
+	bool JoinGame( uint64 ulSteamIDFriend ) override;
 
 	// opens a game info dialog to watch the specified server; associated with the friend 'userName'
-	virtual bool OpenGameInfoDialog( uint64 ulSteamIDFriend );
+	bool OpenGameInfoDialog( uint64 ulSteamIDFriend ) override;
 
 	// forces the game info dialog closed
-	virtual void CloseGameInfoDialog( uint64 ulSteamIDFriend );
+	void CloseGameInfoDialog( uint64 ulSteamIDFriend ) override;
 
 	// closes all the game info dialogs
-	virtual void CloseAllGameInfoDialogs();
+	void CloseAllGameInfoDialogs() override;
 
 	// methods
 	virtual void CreateDialog();
@@ -62,8 +62,10 @@ private:
 // singleton accessor
 CServerBrowser &ServerBrowser();
 
+#ifndef NO_STEAM
 class CSteamAPIContext;
 extern CSteamAPIContext *steamapicontext;
+#endif
 
 
 #endif // SERVERBROWSER_H

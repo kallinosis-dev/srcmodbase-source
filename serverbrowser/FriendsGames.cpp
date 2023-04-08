@@ -53,6 +53,7 @@ bool CFriendsGames::SupportsItem(InterfaceItem_e item)
 }
 
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: called when the current refresh list is complete
 //-----------------------------------------------------------------------------
@@ -70,6 +71,7 @@ void CFriendsGames::RefreshComplete( HServerListRequest hReq, EMatchMakingServer
 
 	BaseClass::RefreshComplete( hReq, response );
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: opens context menu (user right clicked on a server)

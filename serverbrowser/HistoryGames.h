@@ -19,7 +19,7 @@ class CHistoryGames : public CBaseGamesPage
 
 public:
 	CHistoryGames(vgui::Panel *parent);
-	~CHistoryGames();
+	~CHistoryGames() override;
 
 	// favorites list, loads/saves into keyvalues
 	void LoadHistoryList();
@@ -27,10 +27,12 @@ public:
 
 	// IGameList handlers
 	// returns true if the game list supports the specified ui elements
-	virtual bool SupportsItem(InterfaceItem_e item);
+	bool SupportsItem(InterfaceItem_e item) override;
 
+#ifndef NO_STEAM
 	// called when the current refresh list is complete
 	virtual void RefreshComplete( HServerListRequest hReq, EMatchMakingServerResponse response );
+#endif
 
 	void SetRefreshOnReload() { m_bRefreshOnListReload = true; }
 

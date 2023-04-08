@@ -26,8 +26,7 @@
 
 #include "recording.h"
 #include "strtools.h"
-
-#include "tier0/vprof_telemetry.h"
+#include "vprof.h"
 
 #if ( IS_WINDOWS_PC )
 	#define NO_STEREO_D3D10 1
