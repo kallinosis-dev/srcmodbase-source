@@ -1,3 +1,5 @@
+$Macro OUTBINDIR	"$OUTBINDIR$PLATSUBDIR"	[!$NO_OUT_PLATSUBDIR]
+
 $Include "$SRCDIR\vpc_scripts\source_base.vpc"
 
 $Include "$SRCDIR\vpc_scripts\source_exe_posix_base.vpc"		[$POSIX]

@@ -1,4 +1,7 @@
 $MacroRequired		"OUTDLLEXT" "$_DLL_EXT"
+
+$Macro OUTBINDIR	"$OUTBINDIR$PLATSUBDIR"	[!$NO_OUT_PLATSUBDIR]
+
 $Include "$SRCDIR\vpc_scripts\source_base.vpc"
 
 $include "$SRCDIR\vpc_scripts\source_dll_posix_base.vpc"	[$POSIX]
