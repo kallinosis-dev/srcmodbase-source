@@ -97,7 +97,7 @@ private:
 
 	int					GetItemUnderMouse( int mx, int my );
 
-	void				MouseToToolMouse( int& mx, int& my, char *reason );
+	void				MouseToToolMouse(int& mx, int& my);
 
 	TimelineItem		*m_pItems[ GLOBAL_STUDIO_FLEX_CONTROL_COUNT ];
 
@@ -282,7 +282,7 @@ int CExpressionToolWorkspace::GetItemUnderMouse( int mx, int my )
 	return -1;
 }
 
-void CExpressionToolWorkspace::MouseToToolMouse( int& mx, int& my, char *reason )
+void CExpressionToolWorkspace::MouseToToolMouse(int& mx, int& my)
 {
 	POINT pt;
 	pt.x = mx;
@@ -313,7 +313,7 @@ int	CExpressionToolWorkspace::handleEvent( mxEvent *event )
 				int mx = (short)event->x;
 				int my = (short)event->y;
 
-				MouseToToolMouse( mx, my, "CExpressionToolWorkspace mousedown" );
+				MouseToToolMouse( mx, my );
 
 				g_pExpressionTool->SetClickedPos( mx, my );
 				g_pExpressionTool->SetMouseOverPos( mx, my );
@@ -378,7 +378,7 @@ int	CExpressionToolWorkspace::handleEvent( mxEvent *event )
 						mx += rc.left;
 						my += rc.top;
 
-						MouseToToolMouse( mx, my, "CExpressionToolWorkspace mousedrag" );
+						MouseToToolMouse( mx, my );
 
 						g_pExpressionTool->SetMouseOverPos( mx, my );
 						g_pExpressionTool->DrawMouseOverPos();
@@ -394,7 +394,7 @@ int	CExpressionToolWorkspace::handleEvent( mxEvent *event )
 
 				mx += TRAY_ITEM_INSET;
 
-				MouseToToolMouse( mx, my, "CExpressionToolWorkspace mousemove" );
+				MouseToToolMouse( mx, my );
 
 				g_pExpressionTool->SetMouseOverPos( mx, my );
 				g_pExpressionTool->DrawMouseOverPos();
@@ -408,7 +408,7 @@ int	CExpressionToolWorkspace::handleEvent( mxEvent *event )
 				int mx = (short)event->x;
 				int my = (short)event->y;
 
-				MouseToToolMouse( mx, my, "CExpressionToolWorkspace mouseup" );
+				MouseToToolMouse( mx, my );
 
 				g_pExpressionTool->SetMouseOverPos( mx, my );
 				g_pExpressionTool->DrawMouseOverPos();

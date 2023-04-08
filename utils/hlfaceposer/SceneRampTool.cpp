@@ -2227,7 +2227,7 @@ void SceneRampTool::OnEdgeProperties()
 		return;
 	}
 
-	char *undotext = "Change Scene Ramp Edge Properties";
+	char const* undotext = "Change Scene Ramp Edge Properties";
 	
 	PreDataChanged( undotext );
 

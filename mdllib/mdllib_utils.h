@@ -200,8 +200,8 @@ class CGrowableVector : public CUtlVector < T >
 public:
 	T & operator[] ( int idx )
 	{
-		while ( idx >= Count() )
-			AddToTail( T() );
+		while ( idx >= this->Count() )
+			this->AddToTail( T() );
 		return CUtlVector < T >::operator []( idx );
 	}
 };

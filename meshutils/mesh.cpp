@@ -291,7 +291,7 @@ bool CMesh::CalculateIndicentFacesForVertices( CUtlLinkedList<int> *pFacesPerVer
 
 struct InputDataForVertexElement_t
 {
-	char *m_pSemanticName;
+	char const* m_pSemanticName;
 	int m_nSemanticIndex;
 };
 

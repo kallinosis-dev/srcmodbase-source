@@ -215,7 +215,21 @@ public:
 	bool SetBaseStateToDeltas( CDmeVertexData *pPassedBase = nullptr);
 
 	template < class T_t >
-	bool SetBaseDataToDeltas( CDmeVertexData *pBase, CDmeVertexData::StandardFields_t nStandardField, CDmrArrayConst< T_t > &srcData, CDmrArray< T_t > &dstData, bool bDoStereo, bool bDoLag );
+	bool SetBaseDataToDeltas( 
+		CDmeVertexData *pBase, 
+		CDmeVertexData::StandardFields_t nStandardField, 
+		CDmrArrayConst< T_t > &srcData, 
+		CDmrArray< T_t > &dstData, 
+		bool bDoStereo, bool bDoLag );
+
+	template<typename T>
+	bool SetBaseDataToDeltasUntyped(
+		CDmeVertexData* base,
+		CDmeVertexData::StandardFields_t standardField,
+		CDmAttribute const* srcAttrib,
+		CDmAttribute* destAttrib,
+		bool doStereo, bool doLag
+	);
 
 	// Replace all instances of a material with a different material
 	void ReplaceMaterial( const char *pOldMaterialName, const char *pNewMaterialName );
@@ -365,6 +379,16 @@ private:
 		float weight = 1.0f,
 		const CDmeSingleIndexedComponent *pMask = nullptr);
 
+	template<typename T>
+	void AddCorrectedDeltaUntyped(
+		CDmAttribute* baseAttrib,
+		CUtlVector<int> const& baseIndices,
+		DeltaComputation_t const& deltaComputation,
+		char const* fieldName,
+		float weight = 1,
+		CDmeSingleIndexedComponent const* mask = nullptr
+	);
+
 	template < class T_t > void AddRawDelta(
 		CDmeVertexDeltaData *pDelta,
 		CDmrArray< T_t > &baseDataArray,
@@ -378,6 +402,15 @@ private:
 		FieldIndex_t nDeltaFieldIndex,
 		float weight = 1.0f,
 		const CDmeSingleIndexedComponent *pMask = nullptr);
+
+	template<typename T>
+	void AddRawDeltaUntyped(
+		CDmeVertexDeltaData* delta,
+		CDmAttribute* baseAttrib,
+		FieldIndex_t deltaFieldIndex,
+		float weight = 1,
+		CDmeSingleIndexedComponent const* mask = nullptr
+	);
 
 	friend class CDmxEdit;
 	bool RemoveBaseState( CDmeVertexData *pBase ); 
@@ -445,6 +478,14 @@ private:
 		const CDmeVertexData *pbData,
 		float weight,
 		const CDmeSingleIndexedComponent *pMask ) const;
+
+	template<typename T>
+	bool InterpMaskedDataUntyped(
+		CDmAttribute* destAttrib,
+		CUtlVector<T> const& bindData,
+		float weight,
+		CDmeSingleIndexedComponent const* mask
+	) const;
 
 	// Find the closest vertex in the specified selection to the passed vertex in the specified base state, if the passed base state is NULL is the current base state
 	int ClosestSelectedVertex( int vIndex, CDmeSingleIndexedComponent *pSelection, const CDmeVertexData *pPassedBase = nullptr) const;

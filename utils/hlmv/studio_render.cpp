@@ -617,7 +617,7 @@ void StudioModel::SetUpBones( bool mergeBones )
 		{
 			// already calculated
 		}
-		else if (CalcProceduralBone( pStudioHdr, i, CBoneAccessor( m_pBoneToWorld ) ))
+		else if (CBoneAccessor acc(m_pBoneToWorld); CalcProceduralBone( pStudioHdr, i, acc ))
 		{
 			continue;
 		}

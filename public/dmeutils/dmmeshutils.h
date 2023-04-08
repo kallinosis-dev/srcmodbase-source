@@ -13,6 +13,7 @@
 #endif
 
 #include "movieobjects/dmedag.h"
+#include "movieobjects/dmemesh.h"
 #include "movieobjects/dmmeshcomp.h"
 #include "movieobjects/dmevertexdata.h"
 #include "tier1/utlstring.h"
@@ -209,12 +210,13 @@ inline bool CDmMeshFaceIt::GetVertexData(
 	CDmeVertexDataBase::StandardFields_t nStandardField,
 	CDmeVertexData *pPassedBase /* = NULL */ ) const
 {
+#if 0
 	vertexData.RemoveAll();
 
 	if ( IsDone() )
 		return false;
 
-	CDmeVertexData *pBase = pPassedBase ? pPassedBase : m_pMesh->GetCurrentBaseState();
+	CDmeVertexData const* pBase = pPassedBase ? pPassedBase : m_pMesh->GetCurrentBaseState();
 	if ( !pBase )
 		return false;
 
@@ -222,12 +224,17 @@ inline bool CDmMeshFaceIt::GetVertexData(
 	if ( nFieldIndex < 0 )
 		return false;
 
-	CDmAttribute *pDataAttr = pBase->GetVertexData( nFieldIndex );
+	CDmAttribute const* pDataAttr = pBase->GetVertexData( nFieldIndex );
 	if ( pDataAttr->GetType() != CDmAttributeInfo< CUtlVector< T_t > >().AttributeType() )
 		return false;
 
 	const CDmrArrayConst< T_t > data( pDataAttr );
 	const CUtlVector< int > &indices( pBase->GetVertexIndexData( nFieldIndex ) );
+#else
+	AssertMsg(false, "Unimplemented!");
+#endif
+
+	return false;
 }
 
 

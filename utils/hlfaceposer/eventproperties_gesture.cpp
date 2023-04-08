@@ -31,7 +31,7 @@ public:
 private:
 	void		PopulateGestureList( HWND wnd );
 
-	bool		CheckSequenceType( StudioModel *model, int iSequence, char *szType );
+	bool		CheckSequenceType( StudioModel *model, int iSequence, const char *szType );
 };
 
 void CEventPropertiesGestureDialog::SetTitle()
@@ -42,22 +42,22 @@ void CEventPropertiesGestureDialog::SetTitle()
 void CEventPropertiesGestureDialog::PopulateGestureList( HWND wnd )
 {
 	CStudioHdr *hdr = models->GetActiveStudioModel()->GetStudioHdr();
-	if (hdr)
+	if (!hdr)
+		return;
+
+	int i;
+	for (i = 0; i < hdr->GetNumSeq(); i++)
 	{
-		int i;
-		for (i = 0; i < hdr->GetNumSeq(); i++)
+		if (CheckSequenceType( models->GetActiveStudioModel(), i, "gesture" ))
 		{
-			if (CheckSequenceType( models->GetActiveStudioModel(), i, "gesture" ))
-			{
-				SendMessage( wnd, CB_ADDSTRING, 0, (LPARAM)hdr->pSeqdesc(i).pszLabel() ); 
-			}
+			SendMessage( wnd, CB_ADDSTRING, 0, (LPARAM)hdr->pSeqdesc(i).pszLabel() ); 
 		}
-		for (i = 0; i < hdr->GetNumSeq(); i++)
+	}
+	for (i = 0; i < hdr->GetNumSeq(); i++)
+	{
+		if (CheckSequenceType( models->GetActiveStudioModel(), i, "posture" ))
 		{
-			if (CheckSequenceType( models->GetActiveStudioModel(), i, "posture" ))
-			{
-				SendMessage( wnd, CB_ADDSTRING, 0, (LPARAM)hdr->pSeqdesc(i).pszLabel() ); 
-			}
+			SendMessage( wnd, CB_ADDSTRING, 0, (LPARAM)hdr->pSeqdesc(i).pszLabel() ); 
 		}
 	}
 }
@@ -97,7 +97,7 @@ void CEventPropertiesGestureDialog::InitDialog( HWND hwndDlg )
 
 static CEventPropertiesGestureDialog g_EventPropertiesGestureDialog;
 
-bool CEventPropertiesGestureDialog::CheckSequenceType( StudioModel *model, int iSequence, char *szType )
+bool CEventPropertiesGestureDialog::CheckSequenceType( StudioModel *model, int iSequence, const char *szType )
 {
 	KeyValues *seqKeyValues = new KeyValues("");
 	bool isType = false;

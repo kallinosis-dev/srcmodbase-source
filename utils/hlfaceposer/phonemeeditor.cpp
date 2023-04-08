@@ -722,7 +722,7 @@ void PhonemeEditor::StartDragging( int dragtype, int startx, int starty, HCURSOR
 		AddFocusRect( rcStart );
 	}
 	
-	DrawFocusRect( "start" );
+	DrawFocusRect();
 
 	SetDragLimit( m_nDragType );
 }
@@ -1309,7 +1309,7 @@ int PhonemeEditor::handleEvent( mxEvent *event )
 
 				event->x = (short)mx;
 
-				DrawFocusRect( "finish" );
+				DrawFocusRect();
 
 				if ( m_hPrevCursor )
 				{
@@ -2598,7 +2598,7 @@ int PhonemeEditor::IsMouseOverBoundary( mxEvent *event )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void PhonemeEditor::DrawFocusRect( char *reason )
+void PhonemeEditor::DrawFocusRect()
 {
 	HDC dc = GetDC(nullptr);
 
@@ -6745,7 +6745,7 @@ void PhonemeEditor::OnMouseMove( mxEvent *event )
 
 	if ( m_nDragType != DRAGTYPE_NONE )
 	{
-		DrawFocusRect( "moving old" );
+		DrawFocusRect();
 
 		for ( int i = 0; i < m_FocusRects.Count(); i++ )
 		{
@@ -6800,7 +6800,7 @@ void PhonemeEditor::OnMouseMove( mxEvent *event )
 			redraw();
 		}
 
-		DrawFocusRect( "moving new" );
+		DrawFocusRect();
 	}
 	else
 	{

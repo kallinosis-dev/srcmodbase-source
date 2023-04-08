@@ -11368,9 +11368,7 @@ void CChoreoView::StopScene()
 template <class T>
 void DeleteAllAndPurge( T &tree )
 {
-	T::IndexType_t i;
-
-	for ( i = tree.FirstInorder(); i != T::InvalidIndex(); i = tree.NextInorder( i ) )
+	for ( auto i = tree.FirstInorder(); i != T::InvalidIndex(); i = tree.NextInorder( i ) )
 	{
 		delete tree[i];
 	}

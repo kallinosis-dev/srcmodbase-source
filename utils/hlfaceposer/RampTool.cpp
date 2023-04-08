@@ -2362,7 +2362,7 @@ void RampTool::OnEdgeProperties()
 		return;
 	}
 
-	char *undotext = "Change Event Ramp Edge Properties";
+	char const* undotext = "Change Event Ramp Edge Properties";
 	
 	PreDataChanged( undotext );
 

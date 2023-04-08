@@ -278,7 +278,7 @@ private:
 	int					IsMouseOverBoundary( mxEvent *event );
 	int					GetWordUnderMouse( int mx, int my );
 	int					ComputeHPixelsNeeded( void );
-	void				DrawFocusRect( char *reason );
+	void				DrawFocusRect();
 	void				StartDragging( int dragtype, int startx, int starty, HCURSOR cursor );
 
 	void				FinishPhonemeMove( int startx, int endx );

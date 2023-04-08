@@ -1237,7 +1237,7 @@ enum
 
 struct Emphasized_Phoneme
 {
-	char			*classname;
+	char const* classname;
 	bool			required;
 	bool			valid;
 	CExpClass		*cl;
