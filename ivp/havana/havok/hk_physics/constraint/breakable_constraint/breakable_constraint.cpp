@@ -1,12 +1,14 @@
 
 #include <hk_physics/physics.h>
-#include <hk_physics/constraint/local_constraint_system/local_constraint_system.h>
+#include <hk_physics/constraint/local_constraint_system/local_constraint_system_ivp.h>
 #include <hk_physics/simunit/psi_info.h>
 #include <hk_physics/constraint/breakable_constraint/breakable_constraint_bp.h>
 #include <hk_physics/constraint/breakable_constraint/breakable_constraint.h>
 #include <hk_physics/core/vm_query_builder/vm_query_builder.h>
 #include <hk_math/densematrix_util.h>
 #include <hk_math/dense_vector.h>
+
+#include "tier0/dbg.h"
 
 #if defined (IVP_VERSION_SDK) || defined (IVP_VERSION_EVAL) // IPION
 #include <ivp_environment.hxx>
@@ -126,11 +128,15 @@ void hk_Breakable_Constraint::FireEventIfBroken()
 		IVP_Environment* env = reinterpret_cast<IVP_Environment*>(get_constraint_system()->get_environment());
 		// The game code will do this if it wants the constraint broken
 		//get_constraint_system()->deactivate();
-		
+
+#if 0
 		if(env)
 		{
 			env->fire_event_constraint_broken(this);
 		}
+#else
+		AssertMsg(false, "FIXME: fire_event_constraint_broken accepts IVP_Constraint, 'this' downcasts to 'hk_Constraint'");
+#endif
 	}
 	m_is_broken = false;
 }

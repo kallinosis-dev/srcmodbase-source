@@ -9,7 +9,7 @@
 #include <hk_math/densematrix_util.h>
 #include <hk_math/dense_vector.h>
 //#include <hk_math/eulerangles.h>
-#include <hk_physics/constraint/local_constraint_system/local_constraint_system.h>
+#include <hk_physics/constraint/local_constraint_system/local_constraint_system_ivp.h>
 
 #include <hk_physics/constraint/util/constraint_limit_util.h>
 

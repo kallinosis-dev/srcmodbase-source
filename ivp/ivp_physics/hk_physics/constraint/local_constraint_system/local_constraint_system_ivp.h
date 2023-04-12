@@ -1,5 +1,5 @@
-#ifndef HK_PHYSICS_LOCAL_CONSTRAINT_SYSTEM_H
-#define HK_PHYSICS_LOCAL_CONSTRAINT_SYSTEM_H
+#ifndef IVP_PHYSICS_LOCAL_CONSTRAINT_SYSTEM_H
+#define IVP_PHYSICS_LOCAL_CONSTRAINT_SYSTEM_H
 
 class hk_Local_Constraint_System_BP;
 
@@ -74,5 +74,5 @@ private:
 
 //#include <hk_physics/constraint/local_constraint_system/local_constraint_system.inl>
 
-#endif /* HK_PHYSICS_LOCAL_CONSTRAINT_SYSTEM_H */
+#endif /* IVP_PHYSICS_LOCAL_CONSTRAINT_SYSTEM_H */
 

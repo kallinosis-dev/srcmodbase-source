@@ -4,7 +4,7 @@
 #include <hk_physics/physics.h>
 
 #include <hk_physics/constraint/constraint.h>
-#include <hk_physics/constraint/local_constraint_system/local_constraint_system.h>
+#include <hk_physics/constraint/local_constraint_system/local_constraint_system_ivp.h>
 
 #include <hk_physics/constraint/limited_ball_socket/limited_ball_socket_bp.h>
 #include <hk_physics/constraint/limited_ball_socket/limited_ball_socket_constraint.h>

@@ -11,7 +11,7 @@
 #include <hk_math/quaternion/quaternion_util.h>
 
 #include <hk_physics/constraint/util/constraint_limit_util.h>
-#include <hk_physics/constraint/local_constraint_system/local_constraint_system.h>
+#include <hk_physics/constraint/local_constraint_system/local_constraint_system_ivp.h>
 
 // IVP_EXPORT_PUBLIC
 

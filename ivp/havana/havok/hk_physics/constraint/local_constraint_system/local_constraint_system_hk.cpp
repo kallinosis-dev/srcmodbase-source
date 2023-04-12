@@ -2,7 +2,7 @@
 #include <hk_physics/simunit/sim_manager.h>
 #include <hk_physics/simunit/psi_info.h>
 #include <hk_physics/constraint/constraint.h>
-#include <hk_physics/constraint/local_constraint_system/local_constraint_system.h>
+#include <hk_physics/constraint/local_constraint_system/local_constraint_system_hk.h>
 
 hk_Local_Constraint_System::hk_Local_Constraint_System( hk_Environment *env, hk_Local_Constraint_System_BP* bp )
 	: hk_Link_EF(env)
