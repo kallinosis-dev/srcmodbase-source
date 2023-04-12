@@ -78,7 +78,7 @@ public:
 		continue;
 	    }
 	    // now we found the element 
-	    IVP_ASSERT( vector_index >= n_found_objects);
+	    Assert( vector_index >= n_found_objects);
 	    if (vector_index > n_found_objects){
 		// swap elems in base vector:  n_found_objects : vector_index
 		BASE *nfb = base_vector->element_at(n_found_objects);

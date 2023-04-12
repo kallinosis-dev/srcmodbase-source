@@ -53,8 +53,8 @@ IVP_RETURN_TYPE IVP_Controller_Buoyancy::calculate_future_extrapolation(const IV
 	return(IVP_OK);
     }
 
-    IVP_IF(1) {
-	printf("No extrapolation possible!\n");
+    IVP_IFDEBUG(1) {
+	Log_Warning(LOG_HAVOK, "No extrapolation possible!\n");
     }
     return(IVP_FAULT);
 }
@@ -93,7 +93,7 @@ IVP_BOOL IVP_Controller_Buoyancy::use_buoyancy_solver(const IVP_Buoyancy_Input *
 	solution_values_out->sum_impulse_x_movevector.set(&bs.sum_impulse_x_movevector);
 	
 #if 0
-	printf("Buoyancy-Solver's results:\n");
+	Log_Warning(LOG_HAVOK, "Buoyancy-Solver's results:\n");
 	((IVP_MI_Vector*) solution_values_out)->print();
 #endif
 		
@@ -150,9 +150,9 @@ void IVP_Controller_Buoyancy::apply_dampening( IVP_Real_Object *object,
     IVP_U_Float_Point non_float_sum_impulse_ws(&sum_impulse_ws);
 		
     core->async_push_core_ws( &object_center_ws, &non_float_sum_impulse_ws);
-    IVP_IF(0) {
-	printf("core->speed_change.real_length = %f\n", core->speed_change.real_length());
-	IVP_ASSERT(core->speed_change.real_length() < 70000.0f);
+    IVP_IFDEBUG(0) {
+	Log_Warning(LOG_HAVOK, "core->speed_change.real_length = %f\n", core->speed_change.real_length());
+	Assert(core->speed_change.real_length() < 70000.0f);
 	core->core_plausible_check();
     }
 	
@@ -176,7 +176,7 @@ void IVP_Controller_Buoyancy::apply_dampening( IVP_Real_Object *object,
 		
 	//apply rotation to object
 	core->rot_speed_change.add(&delta_rot_component1_cs);
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    core->core_plausible_check();
 	}
 
@@ -190,14 +190,14 @@ void IVP_Controller_Buoyancy::apply_dampening( IVP_Real_Object *object,
 					    attacher_buoyancy->template_buoyancy.ball_rot_dampening_factor *
 					    object_visible_surface_content_under / (2*IVP_PI*radius*radius));
 	    core->rot_speed_change.subtract(&rotation_dampening);
-	    IVP_IF(1) {
+	    IVP_IFDEBUG(1) {
 		core->core_plausible_check();
 	    }
 	}
     }
 
 #if 0
-    printf("In apply_dampening:\n");
+    Log_Warning(LOG_HAVOK, "In apply_dampening:\n");
     sum_impulse_x_movevector->print("sum_impulse_x_movevector");
     sum_impulse_x_point->print("sum_impulse_x_point");
 #endif
@@ -235,16 +235,16 @@ void IVP_Controller_Buoyancy::apply_buoyancy_impulse( IVP_Real_Object *object,
 	IVP_U_Float_Point impulse_ws;
 	impulse_ws.set_multiple(&dir_ws, force_under);
 
-	IVP_IF(0) {
+	IVP_IFDEBUG(0) {
 	    impulse_ws.print("buoyancy-impulse");
 	    volume_center_under_ws.print("volume_center_under_ws");
 	    volume_center_under->print("volume_center_under_os");
-	    printf("volume_under = %f\n\n", volume_under);
+	    Log_Warning(LOG_HAVOK, "volume_under = %f\n\n", volume_under);
 	}
 		
 	core->async_push_core_ws(&volume_center_under_ws, &impulse_ws);
 
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    core->core_plausible_check();
 	}
     }
@@ -259,7 +259,7 @@ void ivp_debug_show_real_values(const IVP_Buoyancy_Input * /*b_input*/,
 				IVP_Core *core,
 				IVP_Real_Object *object,
 				const IVP_U_Float_Point *resulting_speed_of_current_ws) {
-  IVP_USE(object);
+  
     IVP_Buoyancy_Output solution_values_out;
     IVP_Buoyancy_Solver bs( core, cntrl, temp_buoyancy, resulting_speed_of_current_ws );
     //    IVP_BOOL in_water = bs.compute_forces(&b_input->rel_speed_of_current_os, &b_input->surface_os, object);
@@ -270,7 +270,7 @@ void ivp_debug_show_real_values(const IVP_Buoyancy_Input * /*b_input*/,
 	solution_values_out.sum_impulse_x_point.set(&bs.sum_impulse_x_point);
 	solution_values_out.sum_impulse_x_movevector.set(&bs.sum_impulse_x_movevector);
 	
-	printf("Buoyancy-Solver's results:\n");
+	Log_Warning(LOG_HAVOK, "Buoyancy-Solver's results:\n");
 	((IVP_MI_Vector*)&solution_values_out)->print();
 		
 }
@@ -485,7 +485,7 @@ void IVP_Controller_Buoyancy::do_simulation_controller(IVP_Event_Sim *es,IVP_U_V
 		//fetch new solution values
 
 #ifdef WITH_DEBUG_OUTPUT
-		printf("Interpolated!\n");
+		Log_Warning(LOG_HAVOK, "Interpolated!\n");
 		ivp_debug_show_real_values(&b_input,
 					   temp_buoyancy,
 					   core,
@@ -498,7 +498,7 @@ void IVP_Controller_Buoyancy::do_simulation_controller(IVP_Event_Sim *es,IVP_U_V
 		//call the buoyancy solver
 
 #ifdef WITH_DEBUG_OUTPUT
-		printf("Not Interpolated!\n");
+		Log_Warning(LOG_HAVOK, "Not Interpolated!\n");
 		attacher_interpolator[i].nr_not_interpolated++;
 #endif
 		IVP_BOOL in_water = use_buoyancy_solver(&b_input, temp_buoyancy, &b_output, &resulting_speed_of_current_ws, i);
@@ -514,20 +514,20 @@ void IVP_Controller_Buoyancy::do_simulation_controller(IVP_Event_Sim *es,IVP_U_V
 		}
 #ifdef WITH_DEBUG_OUTPUT
 		else {
-		    printf("Not yet in water!\n");
+		    Log_Warning(LOG_HAVOK, "Not yet in water!\n");
 		}
 #endif
 	    }
 #ifdef WITH_DEBUG_OUTPUT
-	    printf("times_interpolated : times_calculated = %d : %d\n", attacher_interpolator[i].nr_interpolated, attacher_interpolator[i].nr_not_interpolated);
-	    printf("# of one vector already sufficient = %d\n", attacher_interpolator[i].mi->nr_one_vector_sufficient);
+	    Log_Warning(LOG_HAVOK, "times_interpolated : times_calculated = %d : %d\n", attacher_interpolator[i].nr_interpolated, attacher_interpolator[i].nr_not_interpolated);
+	    Log_Warning(LOG_HAVOK, "# of one vector already sufficient = %d\n", attacher_interpolator[i].mi->nr_one_vector_sufficient);
 	    for (int q=0; q<attacher_interpolator[i].mi->get_nr_of_vectors(); q++) {
-		printf("%d vectors involved:  # of res over limit = %d     ", q+1, attacher_interpolator[i].mi->nr_res_over_limit[q]);
-		printf("# of interpol. weigh over limit = %d     ", attacher_interpolator[i].mi->nr_int_weight_over_limit[q]);
-		printf("# of times LINFIT failed = %d     ", attacher_interpolator[i].mi->nr_of_linfit_failure[q]);
-		printf("# of interpolation successes = %d\n", attacher_interpolator[i].mi->nr_of_success[q]);
+		Log_Warning(LOG_HAVOK, "%d vectors involved:  # of res over limit = %d     ", q+1, attacher_interpolator[i].mi->nr_res_over_limit[q]);
+		Log_Warning(LOG_HAVOK, "# of interpol. weigh over limit = %d     ", attacher_interpolator[i].mi->nr_int_weight_over_limit[q]);
+		Log_Warning(LOG_HAVOK, "# of times LINFIT failed = %d     ", attacher_interpolator[i].mi->nr_of_linfit_failure[q]);
+		Log_Warning(LOG_HAVOK, "# of interpolation successes = %d\n", attacher_interpolator[i].mi->nr_of_success[q]);
 	    }
-	    printf("\n\n");
+	    Log_Warning(LOG_HAVOK, "\n\n");
 #endif
 
 	    //update last_input structure, is needed in 'calculate_future_extrapolation'
@@ -541,7 +541,7 @@ void IVP_Controller_Buoyancy::do_simulation_controller(IVP_Event_Sim *es,IVP_U_V
 	    //don't use interpolation
 	    use_buoyancy_solver(&b_input, temp_buoyancy, &b_output, &resulting_speed_of_current_ws, i);
 #ifdef WITH_DEBUG_OUTPUT
-	    printf("nr_not_interpolated = %d\n", ++nr_not_interpolated);
+	    Log_Warning(LOG_HAVOK, "nr_not_interpolated = %d\n", ++nr_not_interpolated);
 #endif
 #if !defined(IVP_NO_MD_INTERPOLATION)
 	}

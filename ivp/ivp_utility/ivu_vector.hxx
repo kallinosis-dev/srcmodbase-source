@@ -32,7 +32,7 @@ public:
 protected:
     //  special vector with preallocated elems
     IVP_U_Vector(void **ielems, int size){
-	IVP_ASSERT (ielems == (void **)(this +1));
+	Assert (ielems == (void **)(this +1));
 	elems = ielems;
 	memsize = size;
 	n_elems = 0;
@@ -82,7 +82,7 @@ public:
     
     int add(T *elem){
 	ensure_capacity();
-	//IVP_ASSERT( index_of(elem) == -1);
+	//Assert( index_of(elem) == -1);
 	elems[n_elems] = (void *)elem;
 	return n_elems++;
     };
@@ -96,8 +96,8 @@ public:
     };
 
     void swap_elems(int index1, int index2){
-	IVP_ASSERT((index1>=0)&&(index1<n_elems));
-	IVP_ASSERT((index2>=0)&&(index2<n_elems));
+	Assert((index1>=0)&&(index1<n_elems));
+	Assert((index2>=0)&&(index2<n_elems));
 	void *buffer = elems[index1];
 	elems[index1] = elems[index2];
 	elems[index2] = buffer;
@@ -105,7 +105,7 @@ public:
     }     
     
     void insert_after(int index, T *elem){
-	IVP_ASSERT((index>=0)&&(index<n_elems));
+	Assert((index>=0)&&(index<n_elems));
 	index++;
 	ensure_capacity();
 	int j = n_elems;
@@ -118,7 +118,7 @@ public:
 
     
     void remove_at(int index){
-	IVP_ASSERT((index>=0)&&(index<n_elems));
+	Assert((index>=0)&&(index<n_elems));
 	int j = index;
 	while(j<n_elems-1){
 	    elems[j] = elems[j+1];
@@ -135,21 +135,21 @@ public:
     }
 
     void remove_at_and_allow_resort(int index){
-	IVP_ASSERT((index>=0)&&(index<n_elems));
+	Assert((index>=0)&&(index<n_elems));
 	n_elems--;
 	elems[ index ] = elems[ n_elems ];
     };
 
     void remove_allow_resort(T *elem){
 	int index = this->index_of(elem);
-	IVP_ASSERT(index>=0);
+	Assert(index>=0);
 	n_elems--;
 	elems[ index ] = elems[ n_elems ];
     };
     
     void remove(T *elem){
 	int index = this->index_of(elem);
-	IVP_ASSERT(index>=0);
+	Assert(index>=0);
 	n_elems--;
 	while (index < n_elems){
 	    elems[index] = (elems+1)[index];
@@ -158,7 +158,7 @@ public:
     };
 
     T* element_at(int index) const {
-	IVP_ASSERT(index>=0 && index < n_elems);
+	Assert(index>=0 && index < n_elems);
 	return (T *)elems[index];
     };
 };

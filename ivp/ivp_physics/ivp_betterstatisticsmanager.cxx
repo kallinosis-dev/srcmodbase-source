@@ -21,7 +21,7 @@
 #define IVP_CLUSTERING_SHORTRANGE_VISUALIZER_ASSERT(errortext) \
 { \
     if ( !this->valid_instance ) { \
-	IVP_IF(1) { \
+	IVP_IFDEBUG(1) { \
 	    IVP_IFDEBUG(IVP_DM_CLUSTERING_SHORTRANGE_VISUALIZER) { \
 		ivp_debugmanager.dprint(IVP_DM_CLUSTERING_SHORTRANGE_VISUALIZER, errortext); \
 	    } \
@@ -282,7 +282,7 @@ void IVP_BetterStatisticsmanager::set_simulation_time(IVP_DOUBLE time) {
 	return;
     }
     time_of_last_update = this->simulation_time;
-    //printf("Time: %f\n", time_of_last_update);
+    //Log_Warning(LOG_HAVOK, "Time: %f\n", time_of_last_update);
     this->update_delayed = IVP_FALSE;
 
     return;

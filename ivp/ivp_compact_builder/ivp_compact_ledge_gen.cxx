@@ -80,7 +80,7 @@ int IVP_Compact_Ledge_Generator::prepare_compact_ledge(IVP_U_Vector<IVP_Triangle
 	if(tri->pierced_triangle){
 	    c_tri->set_pierce_index(tri->pierced_triangle->index);
 	}else{
-	    printf("no valid pierce index!? Probably a backside triangle...\n");
+	    Log_Warning(LOG_HAVOK, "no valid pierce index!? Probably a backside triangle...\n");
 	}
 
 	// material info
@@ -96,7 +96,7 @@ int IVP_Compact_Ledge_Generator::prepare_compact_ledge(IVP_U_Vector<IVP_Triangle
 		// point index already set
 		c_edge->set_start_point_index(edge->start_point->tmp.compact_index);
 
-		IVP_ASSERT(edge_hash->find((char *)&edge) == (void *)-1);
+		Assert(edge_hash->find((char *)&edge) == (void *)-1);
 		edge_hash->add((char *)&edge, (void *)(i * 4 + j + 1));	// for opposites
 		edge_cnt++;
 	    }
@@ -108,7 +108,7 @@ int IVP_Compact_Ledge_Generator::prepare_compact_ledge(IVP_U_Vector<IVP_Triangle
     {
 	int i;
 	// Triangle info second pass: opposites
-	IVP_ASSERT(n_triangles == triangle_vec.len());
+	Assert(n_triangles == triangle_vec.len());
 	for(i=0; i<n_triangles; i++){
 	    int j;
 	    IVP_Triangle *tri = triangles->element_at(i);
@@ -119,7 +119,7 @@ int IVP_Compact_Ledge_Generator::prepare_compact_ledge(IVP_U_Vector<IVP_Triangle
 		IVP_Compact_Edge *c_edge = &c_tri->c_three_edges[j];
 		IVP_Tri_Edge *opp = e->opposite;
 		int opp_index = (int)edge_hash->find((char *)&opp);
-		IVP_ASSERT(opp_index>=0);
+		Assert(opp_index>=0);
 		int rel_index = opp_index - (i*4 + j + 1);
 		c_edge->set_opposite_index(rel_index);
 	    }
@@ -152,14 +152,14 @@ void IVP_Compact_Ledge_Generator::generate_compact_ledge(uchar *mem)
     int i;
 
     // copy triangle info (including edges) 
-    IVP_ASSERT(n_triangles == triangle_vec.len());
+    Assert(n_triangles == triangle_vec.len());
     for(i=0; i<n_triangles; i++){
 	memcpy(mem, triangle_vec.element_at(i), sizeof(IVP_Compact_Triangle));
 	mem += sizeof(IVP_Compact_Triangle);
     }
 
     // copy point info
-    IVP_ASSERT(point_cnt == point_vec.len());
+    Assert(point_cnt == point_vec.len());
     c_ledge->set_offset_ledge_points( (int)(mem - (uchar *)c_ledge) );
     for(i=0; i<point_cnt; i++){
 	IVP_Compact_Poly_Point *cpp = (IVP_Compact_Poly_Point *)mem;
@@ -181,7 +181,7 @@ IVP_RETURN_TYPE IVP_Compact_Ledge_Generator::validate()
     // checks wether the compact ledge has any similarity with the
     // original version ...
 
-    IVP_ASSERT(compact_ledge->n_triangles == triangle_vec.len());
+    Assert(compact_ledge->n_triangles == triangle_vec.len());
 
 
     // all triangles
@@ -192,11 +192,11 @@ IVP_RETURN_TYPE IVP_Compact_Ledge_Generator::validate()
 	const IVP_Compact_Triangle *c_tri = &c_triangles[i];
 
 	// check tri info
-	IVP_ASSERT(c_tri->get_tri_index() == i);
+	Assert(c_tri->get_tri_index() == i);
 	if(tri->pierced_triangle){
-	    IVP_ASSERT(c_tri->get_pierce_index() == tri->pierced_triangle->index);
+	    Assert(c_tri->get_pierce_index() == tri->pierced_triangle->index);
 	}
-	IVP_ASSERT(c_tri->get_material_index() == 0);
+	Assert(c_tri->get_material_index() == 0);
 	
 	// all tri edges
 	
@@ -207,24 +207,24 @@ IVP_RETURN_TYPE IVP_Compact_Ledge_Generator::validate()
 	    const IVP_Compact_Edge *c_edge = &c_tri->c_three_edges[j];
 	    
 	    int opp_index = (int)edge_hash->find((char *)&edge->opposite);
-	    IVP_ASSERT(opp_index>=0);
+	    Assert(opp_index>=0);
 	    int rel_index = opp_index - (i*4 + j + 1);
-	    IVP_ASSERT(rel_index == c_edge->get_opposite_index());
+	    Assert(rel_index == c_edge->get_opposite_index());
 
 	    const IVP_Compact_Poly_Point *c_po = IVP_CLS.give_object_coords(c_edge->get_opposite(),compact_ledge);
 
-	    IVP_ASSERT(edge->opposite->start_point->quad_distance_to(c_po) < 1e-3f);
+	    Assert(edge->opposite->start_point->quad_distance_to(c_po) < 1e-3f);
 
-	    IVP_ASSERT(edge->opposite->opposite == edge);
-	    IVP_ASSERT(c_edge->get_opposite()->get_opposite() == c_edge);
+	    Assert(edge->opposite->opposite == edge);
+	    Assert(c_edge->get_opposite()->get_opposite() == c_edge);
 
-	    IVP_ASSERT(c_edge->get_compact_ledge() == compact_ledge);
+	    Assert(c_edge->get_compact_ledge() == compact_ledge);
 	    const IVP_Compact_Poly_Point *c_point = IVP_CLS.give_object_coords(c_edge,compact_ledge);
-	    IVP_ASSERT(edge->start_point->quad_distance_to(c_point) < 1e-3f);
+	    Assert(edge->start_point->quad_distance_to(c_point) < 1e-3f);
 
 	    c_po = IVP_CLS.give_object_coords(c_edge->get_next(),compact_ledge);
 
-	    IVP_ASSERT(edge->next->start_point->quad_distance_to(c_po) < 1e-3f);
+	    Assert(edge->next->start_point->quad_distance_to(c_po) < 1e-3f);
 	    
 
 	}

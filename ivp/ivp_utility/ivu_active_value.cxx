@@ -83,13 +83,13 @@ void IVP_U_Active_Value_Manager::insert_active_float(IVP_U_Active_Float *mod)
 {
     const char *name = mod->get_name();
     if(p_strlen(name)==0){
-	printf("insert_active_float: tried to insert active_IVP_FLOAT without name!\n");
+	Log_Warning(LOG_HAVOK, "insert_active_float: tried to insert active_IVP_FLOAT without name!\n");
 	return;
     }
     
     IVP_U_Active_Float *found = (IVP_U_Active_Float *)floats_name_hash->find_active_value(mod);
     if(found){
-	printf("insert_active_float: name '%s' already exists in name_hash!\n", name);
+	Log_Warning(LOG_HAVOK, "insert_active_float: name '%s' already exists in name_hash!\n", name);
 	return;
     }
 
@@ -101,13 +101,13 @@ void IVP_U_Active_Value_Manager::insert_active_int(IVP_U_Active_Int *mod)
 {
     const char *name = mod->get_name();
     if(p_strlen(name)==0){
-	printf("insert_active_int: tried to insert active_int without name!\n");
+	Log_Warning(LOG_HAVOK, "insert_active_int: tried to insert active_int without name!\n");
 	return;
     }
     
     IVP_U_Active_Int *found = (IVP_U_Active_Int *)ints_name_hash->find_active_value(mod);
     if(found){
-	printf("insert_active_int: name '%s' already exists in name_hash!\n", name);
+	Log_Warning(LOG_HAVOK, "insert_active_int: name '%s' already exists in name_hash!\n", name);
 	return;
     }
 
@@ -290,7 +290,7 @@ IVP_U_Active_Value::IVP_U_Active_Value(const char *name_){
 
 IVP_U_Active_Value::~IVP_U_Active_Value(){
     P_FREE(name);
-    IVP_ASSERT(reference_count == 0);
+    Assert(reference_count == 0);
 }
 
 IVP_U_Active_Float::IVP_U_Active_Float(const char *i_name) : IVP_U_Active_Value(i_name)
@@ -427,7 +427,7 @@ void IVP_U_Active_Terminal_Double::set_double(IVP_DOUBLE new_value, IVP_BOOL del
 
 int IVP_U_Active_Terminal_Double::print()
 {
-    printf("DoubleVal");
+    Log_Warning(LOG_HAVOK, "DoubleVal");
     return 0; // for debugger
 }
 
@@ -449,7 +449,7 @@ void IVP_U_Active_Terminal_Int::set_int(int new_value, IVP_BOOL delayed_update)
 
 int IVP_U_Active_Terminal_Int::print()
 {
-    printf("IntVal");
+    Log_Warning(LOG_HAVOK, "IntVal");
     return 0; // for debugger
 }
 
@@ -499,9 +499,9 @@ void IVP_U_Active_Sine::active_float_changed(IVP_U_Active_Float *)
 
 int IVP_U_Active_Sine::print()
 {
-    printf("Sine[F %g, A %g, N %g, ts %g](", frequence, amplitude, null_level, time_shift);
+    Log_Warning(LOG_HAVOK, "Sine[F %g, A %g, N %g, ts %g](", frequence, amplitude, null_level, time_shift);
     time_mod->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
     return 0; // for debugger
 }
 
@@ -546,9 +546,9 @@ void IVP_U_Active_Square::active_float_changed(IVP_U_Active_Float *)
 
 int IVP_U_Active_Square::print()
 {
-    printf("Square[F %g, L %g, H %g](", frequence, low_val, high_val);
+    Log_Warning(LOG_HAVOK, "Square[F %g, L %g, H %g](", frequence, low_val, high_val);
     time_mod->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
     return 0; // f db
 }
 
@@ -599,9 +599,9 @@ void IVP_U_Active_Pulse::active_float_changed(IVP_U_Active_Float *)
 
 int IVP_U_Active_Pulse::print()
 {
-    printf("Pulse[F %g, L %g, H %g, %d:%d](", frequence, low_val, high_val, m1, m2);
+    Log_Warning(LOG_HAVOK, "Pulse[F %g, L %g, H %g, %d:%d](", frequence, low_val, high_val, m1, m2);
     time_mod->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
     return 0; // f db
 }
 
@@ -645,7 +645,7 @@ void IVP_U_Active_Add::active_float_changed(IVP_U_Active_Float *)
 int IVP_U_Active_Add::print()
 {
     mod0->print();
-    printf(" + ");
+    Log_Warning(LOG_HAVOK, " + ");
     mod1->print();
     
     return 0; // for debugger
@@ -690,7 +690,7 @@ void IVP_U_Active_Sub::active_float_changed(IVP_U_Active_Float *)
 int IVP_U_Active_Sub::print()
 {
     mod0->print();
-    printf(" - ");
+    Log_Warning(LOG_HAVOK, " - ");
     mod1->print();
     
     return 0; // for debugger
@@ -737,13 +737,13 @@ void IVP_U_Active_Add_Multiple::active_float_changed(IVP_U_Active_Float *)
 
 int IVP_U_Active_Add_Multiple::print()
 {
-    printf("(");
+    Log_Warning(LOG_HAVOK, "(");
     mod0->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
 
-    printf(" + %g * (", factor);
+    Log_Warning(LOG_HAVOK, " + %g * (", factor);
     mod1->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
     
     return 0; // f db
 }
@@ -785,15 +785,15 @@ void IVP_U_Active_Mult::active_float_changed(IVP_U_Active_Float *)
 
 int IVP_U_Active_Mult::print()
 {
-    printf("(");
+    Log_Warning(LOG_HAVOK, "(");
     mod0->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
 
-    printf(" * ");
+    Log_Warning(LOG_HAVOK, " * ");
 
-    printf("(");
+    Log_Warning(LOG_HAVOK, "(");
     mod1->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
     
     return 0; // f db
 }
@@ -841,9 +841,9 @@ void IVP_U_Active_Limit::active_float_changed(IVP_U_Active_Float *)
 
 int IVP_U_Active_Limit::print()
 {
-    printf("Limit[%g, %g](", low_val, high_val);
+    Log_Warning(LOG_HAVOK, "Limit[%g, %g](", low_val, high_val);
     mod->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
     return 0; // for debugger
 }
 
@@ -896,13 +896,13 @@ void IVP_U_Active_Test_Range::active_float_changed(IVP_U_Active_Float *)
 
 int IVP_U_Active_Test_Range::print()
 {
-    printf("TestRange[");
+    Log_Warning(LOG_HAVOK, "TestRange[");
     mod_low_val->print();
-    printf(", ");
+    Log_Warning(LOG_HAVOK, ", ");
     mod_high_val->print();
-    printf("](");
+    Log_Warning(LOG_HAVOK, "](");
     mod_test->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
     return 0; // fdb
 }
 
@@ -959,13 +959,13 @@ void IVP_U_Active_Switch::active_int_changed(IVP_U_Active_Int *){
 
 int IVP_U_Active_Switch::print()
 {
-    printf("Cond[");
+    Log_Warning(LOG_HAVOK, "Cond[");
     mod_true->print();
-    printf(", ");
+    Log_Warning(LOG_HAVOK, ", ");
     mod_false->print();
-    printf("](");
+    Log_Warning(LOG_HAVOK, "](");
     mod_cond->print();
-    printf(")");
+    Log_Warning(LOG_HAVOK, ")");
     return 0; // fdb
 }
 

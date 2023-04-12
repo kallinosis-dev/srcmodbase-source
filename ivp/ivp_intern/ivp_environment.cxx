@@ -76,8 +76,8 @@ void IVP_Freeze_Manager::init_freeze_manager(){
 IVP_Environment::IVP_Environment(IVP_Environment_Manager *manager,IVP_Application_Environment *appl_env,
 				 const char *company_name,unsigned int auth_code)
 {
-  IVP_ASSERT( sizeof(IVP_Compact_Edge) == 4);
-  IVP_ASSERT( sizeof(IVP_Compact_Triangle) == 16);
+  Assert( sizeof(IVP_Compact_Edge) == 4);
+  Assert( sizeof(IVP_Compact_Triangle) == 16);
   
     P_MEM_CLEAR(this);
     get_freeze_manager()->init_freeze_manager();
@@ -166,7 +166,7 @@ IVP_Environment::IVP_Environment(IVP_Environment_Manager *manager,IVP_Applicatio
 
     next_movement_check=IVP_MOVEMENT_CHECK_COUNT;
     
-    IVP_IF( 1 ) {
+    IVP_IFDEBUG( 1 ) {
 	this->debug_information=new IVP_Debug_Manager();
 	this->delete_debug_information = IVP_TRUE;
     }
@@ -199,8 +199,8 @@ IVP_Environment::IVP_Environment(IVP_Environment_Manager *manager,IVP_Applicatio
 }
 
 void IVP_Environment::set_delta_PSI_time(IVP_DOUBLE psi_time){
-    IVP_ASSERT(psi_time >= IVP_MIN_DELTA_PSI_TIME);
-    IVP_ASSERT(psi_time <= IVP_MAX_DELTA_PSI_TIME);
+    Assert(psi_time >= IVP_MIN_DELTA_PSI_TIME);
+    Assert(psi_time <= IVP_MAX_DELTA_PSI_TIME);
     delta_PSI_time = psi_time;
     inv_delta_PSI_time = 1.0f / delta_PSI_time;
 }
@@ -231,7 +231,7 @@ IVP_Environment::~IVP_Environment(){
     P_DELETE(ov_tree_manager);
     P_DELETE(this->better_statisticsmanager);
     
-    IVP_IF( delete_debug_information == IVP_TRUE ) {
+    IVP_IFDEBUG( delete_debug_information == IVP_TRUE ) {
 	P_DELETE(this->debug_information);
     }
     
@@ -285,7 +285,7 @@ IVP_Environment::~IVP_Environment(){
 //	    time_t t, e;
 //		t = time(NULL);
 //		e = 3181552896; // october 26th 2000, on a Mac
-//		printf(" Now: %.1f   Target: %.1f\n\n", (float)t, (float)e);
+//		Log_Warning(LOG_HAVOK, " Now: %.1f   Target: %.1f\n\n", (float)t, (float)e);
 //		if (t > e)
 //	        mindist_manager=NULL;
 //#endif	
@@ -832,18 +832,18 @@ void IVP_Environment::do_d_events() {
 
 
 IVP_Time_Event_D::IVP_Time_Event_D(IVP_Time time) {
-    IVP_USE(time);
+    
 }
 
 IVP_Time_Event_N::IVP_Time_Event_N(IVP_Time time) {
-    IVP_USE(time);
+    
 }
 
 
  
 void IVP_Environment::add_draw_vector(const IVP_U_Point *start_p, const IVP_U_Float_Point *dir_vec,const char *debug_text_in,int v_color)
 {
-	IVP_IF(1){
+	IVP_IFDEBUG(1){
     IVP_Draw_Vector_Debug *draw_vector=new IVP_Draw_Vector_Debug();
     draw_vector->first_point=*start_p;
     draw_vector->direction_vec=*dir_vec;
@@ -862,7 +862,7 @@ void IVP_Environment::add_draw_vector(const IVP_U_Point *start_p, const IVP_U_Fl
 		for (int order = 1; bcd; order*=10)
 		{
 			int i = bcd % 16;
-			IVP_ASSERT(i >= 0 && i <= 9);
+			Assert(i >= 0 && i <= 9);
 			bcd /= 16;
 			dec += order * i;
 		}
@@ -873,7 +873,7 @@ void IVP_Environment::add_draw_vector(const IVP_U_Point *start_p, const IVP_U_Fl
 	{
 		sceCdCLOCK rtc;
 		int success = sceCdReadClock(&rtc);
-		IVP_ASSERT(success);
+		Assert(success);
 		tm mytime;
 		mytime.tm_sec  = ivp_bcd2dec(rtc.second);
 		mytime.tm_min  = ivp_bcd2dec(rtc.minute);
@@ -894,14 +894,14 @@ void IVP_Environment::add_draw_vector(const IVP_U_Point *start_p, const IVP_U_Fl
 
 void IVP_Environment::simulate_psi(IVP_Time /*psi_time*/){
 
-    IVP_IF(1 || this->debug_information->display_statistic)
+    IVP_IFDEBUG(1 || this->debug_information->display_statistic)
     {
 	if( get_current_time()- get_statistic_manager()->last_statistic_output >= 1.0f ) {
 	    get_statistic_manager()->output_statistic();
 	    get_statistic_manager()->last_statistic_output = get_current_time();
 	}
     }
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	get_debug_manager()->psi_counter += 1.0f;
         delete_draw_vector_debug();
     }

@@ -124,7 +124,7 @@ void IVP_Compact_Ledge_Solver::get_all_ledges( const IVP_Compact_Mopp* mopp, IVP
 
 	do
 	{
-		IVP_ASSERT(((unsigned int)(ledge) & 0xf) == 0);
+		Assert(((unsigned int)(ledge) & 0xf) == 0);
 
 		all_ledges_out->add((IVP_Compact_Ledge*)ledge);
 
@@ -380,7 +380,7 @@ void IVP_Compact_Ledge_Solver::calc_unscaled_qr_vals_F_space(const IVP_Compact_L
     
     result->scale = Det;
     
-    IVP_ASSERT ( sizeof( result->checks[0] == sizeof(IVP_FLOAT)));
+    Assert ( sizeof( result->checks[0] == sizeof(IVP_FLOAT)));
     char *res = (char *) & result->checks[0];
     ((IVP_FLOAT *)( res + ivp_uqr_mod_table[this_edge_index] ))[0] = r;
     ((IVP_FLOAT *)( res + ivp_uqr_mod_table[this_edge_index+1] ))[0] = Det - q - r;
@@ -452,8 +452,8 @@ IVP_RETURN_TYPE IVP_Compact_Ledge_Solver::calc_unscaled_KK_vals(const IVP_KK_Inp
     return IVP_OK;
   }
     
-  IVP_IF(1){
-    printf("calc_unscaled_KK_vals: parallel edges\n");
+  IVP_IFDEBUG(1){
+    Log_Warning(LOG_HAVOK, "calc_unscaled_KK_vals: parallel edges\n");
   }
   // ok edges are nearly parallel, do very carefull distance checking !!!
 
@@ -604,9 +604,9 @@ IVP_DOUBLE  IVP_Compact_Ledge_Solver::calc_qlen_PK_K_space(const IVP_U_Point *P_
     //TL: Playstation2 assert for alignment
     unsigned int adress=(unsigned int)P_in_K_space;
 	unsigned int aligned_a=(adress & 0xfffffff0 );
-	IVP_IF( aligned_a != adress ) {
-		printf("erroradress %lx\n",adress);
-		IVP_ASSERT(1==0);
+	IVP_IFDEBUG( aligned_a != adress ) {
+		Log_Warning(LOG_HAVOK, "erroradress %lx\n",adress);
+		Assert(1==0);
 	}
 #endif
 	
@@ -625,7 +625,7 @@ IVP_DOUBLE  IVP_Compact_Ledge_Solver::calc_qlen_PK_K_space(const IVP_U_Point *P_
 }
 
 void IVP_Compact_Ledge_Solver::give_world_coords_AT(const IVP_Compact_Edge *edge, IVP_Cache_Ledge_Point *clp, IVP_U_Point *p_ws_out){
-    IVP_ASSERT( clp->compact_ledge == edge->get_compact_ledge() );
+    Assert( clp->compact_ledge == edge->get_compact_ledge() );
     const IVP_U_Float_Point *p_os = give_object_coords(edge, clp );
     clp->get_object_cache()->transform_position_to_world_coords( p_os, p_ws_out);
 }
@@ -657,7 +657,7 @@ IVP_DOUBLE IVP_Compact_Ledge_Solver::calc_qlen_KK(const IVP_Compact_Edge *K,cons
 	    IVP_CLS.calc_pos_other_space( L->get_next(), m_cache_L, m_cache_K, &L_Kos);
 	    return calc_qlen_PK_K_space( &L_Kos, m_cache_K->get_compact_ledge(), K);
 	}
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
     
     // we really are outside both edges.
@@ -687,7 +687,7 @@ IVP_DOUBLE IVP_Compact_Ledge_Solver::calc_qlen_KK(const IVP_Compact_Edge *K,cons
 	    min_Kp = pK[i];
 	}
     }
-    IVP_ASSERT( min_Kp );
+    Assert( min_Kp );
     return min_len;
 }
 
@@ -698,25 +698,25 @@ IVP_BOOL IVP_Compact_Ledge_Solver::check_ledge(const IVP_Compact_Ledge *cl)
     // For debugging only
     // Checks for consistency
 
-	IVP_ASSERT ( (int(cl) & 15) == 0);
+	Assert ( (int(cl) & 15) == 0);
 	const IVP_Compact_Poly_Point *ppppp=cl->get_point_array();
-	IVP_ASSERT ( ((int)ppppp & 15 ) == 0);
+	Assert ( ((int)ppppp & 15 ) == 0);
 
     // all triangles 
     const IVP_Compact_Triangle *tri = cl->get_first_triangle();
     for(int i=0; i<cl->get_n_triangles(); i++){
-	IVP_ASSERT(i == tri->get_tri_index());
+	Assert(i == tri->get_tri_index());
 
-		IVP_ASSERT ( (int(tri) & 15) == 0);
+		Assert ( (int(tri) & 15) == 0);
 
 	// all edges
 	for(int j=0; j<3; j++){
 	    const IVP_Compact_Edge *edge = tri->get_edge(j);
 	    const IVP_Compact_Edge *oppo = edge->get_opposite();
-	    IVP_ASSERT(edge == oppo->get_opposite());
-	    IVP_ASSERT(edge->get_start_point_index() == oppo->get_next()->get_start_point_index());
+	    Assert(edge == oppo->get_opposite());
+	    Assert(edge->get_start_point_index() == oppo->get_next()->get_start_point_index());
 
-		//IVP_ASSERT ( (int(edge) & 15) == 0);
+		//Assert ( (int(edge) & 15) == 0);
 
 	    // convexity
 	    IVP_U_Hesse hesse;
@@ -729,12 +729,12 @@ IVP_BOOL IVP_Compact_Ledge_Solver::check_ledge(const IVP_Compact_Ledge *cl)
 	    IVP_U_Point pp;
 	    pp.set(oppo->get_prev()->get_start_point(cl));
 	    IVP_DOUBLE test_dist=hesse.get_dist(&pp);
-	    IVP_ASSERT( test_dist >= - P_FLOAT_RES * 10000);
+	    Assert( test_dist >= - P_FLOAT_RES * 10000);
 
 	    // check for a round trip
 	    int max_c = 0;
 	    for ( const IVP_Compact_Edge *e = edge->get_opposite(); ; e = e->get_next()->get_opposite()){
-		if (max_c++ > 1000) CORE;
+		if (max_c++ > 1000) AssertMsg(false, "Havok fatal error");
 		if (e->get_opposite() == edge) break; // loop finished
 	    }
 	}

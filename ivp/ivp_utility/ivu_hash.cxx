@@ -153,7 +153,7 @@ IVP_Hash::~IVP_Hash(){
 
 void *IVP_Hash::find(const char *key)const{
     int i = hash_index(key);
-    IVP_ASSERT(i>=0);
+    Assert(i>=0);
     IVP_Hash_Elem *el;
     for (el = elems[i];el;el=el->next){
 	if ( !memcmp(el->key,key,key_size))break;
@@ -169,7 +169,7 @@ void *IVP_Hash::find(const char *key)const{
 void IVP_Hash::add(const char *key, void *val){
     int i = hash_index(key);
 
-//    printf("hash index: '%d', key: %lx key_string: '%s'\n", i, key, key);
+//    Log_Warning(LOG_HAVOK, "hash index: '%d', key: %lx key_string: '%s'\n", i, key, key);
     
     IVP_Hash_Elem *el = (IVP_Hash_Elem *)p_malloc(sizeof(IVP_Hash_Elem) + key_size); //-1
     memcpy(el->key,key,key_size);
@@ -232,7 +232,7 @@ IVP_U_String_Hash::~IVP_U_String_Hash(){
 
 void *IVP_U_String_Hash::find(const char *key)const{
     int i = hash_index(key);
-    IVP_ASSERT(i>=0);
+    Assert(i>=0);
     IVP_Hash_Elem *el;
     for (el = elems[i];el;el=el->next){
 	if ( !strcmp(&el->key[0],key))break;

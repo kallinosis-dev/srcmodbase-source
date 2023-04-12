@@ -37,13 +37,13 @@ public:
 
 
 void IVP_Impact_System::add_known_core_to_impact_system(IVP_Core *new_core){
-    //IVP_ASSERT(new_core->tmp.old_sync_info==NULL);
+    //Assert(new_core->tmp.old_sync_info==NULL);
     i_s_known_cores.add(new_core);
 }
 void IVP_Impact_System::add_pushed_core_to_impact_system(IVP_Core *new_core)
 {
     i_s_pushed_cores.add(new_core);
-    IVP_ASSERT(new_core->tmp_null.old_sync_info->was_pushed_during_i_s==IVP_FALSE);
+    Assert(new_core->tmp_null.old_sync_info->was_pushed_during_i_s==IVP_FALSE);
     new_core->tmp_null.old_sync_info->was_pushed_during_i_s=IVP_TRUE;
 }
 

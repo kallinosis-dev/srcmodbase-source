@@ -101,7 +101,7 @@ IVP_Mindist_Base::IVP_Mindist_Base(IVP_Collision_Delegator *del): IVP_Collision(
 }
 
 IVP_Mindist::IVP_Mindist(IVP_Environment *my_env, IVP_Collision_Delegator *del): IVP_Mindist_Base(del){
-  IVP_ASSERT(del);
+  Assert(del);
     recalc_time_stamp = 0;
     last_visited_triangle= nullptr;
     my_env->get_statistic_manager()->sum_of_mindists++;
@@ -123,7 +123,7 @@ IVP_Mindist::~IVP_Mindist(){
 		coll_filter->check_objects_for_collision_detection( get_synapse(0)->l_obj, get_synapse(1)->l_obj );
 	}
 #endif
-	IVP_ASSERT(g_pCurrentMindist!=this);
+	Assert(g_pCurrentMindist!=this);
     IVP_Environment *l_environment = get_mindist_synapse(0)->get_object()->get_environment();
     l_environment->get_statistic_manager()->sum_of_mindists--;
     l_environment->get_statistic_manager()->mindists_deleted++;
@@ -150,7 +150,7 @@ IVP_Mindist::~IVP_Mindist(){
     break;
     }
 
-    IVP_ASSERT (index == IVP_U_MINLIST_UNUSED);
+    Assert (index == IVP_U_MINLIST_UNUSED);
     
     md->get_synapse(0)->get_object()->get_surface_manager()->remove_reference_to_ledge(md->get_synapse(0)->get_ledge());
     md->get_synapse(1)->get_object()->get_surface_manager()->remove_reference_to_ledge(md->get_synapse(1)->get_ledge());
@@ -186,9 +186,9 @@ void IVP_Synapse_Real::check_consistency_of_ledge(const IVP_Compact_Edge * /*tes
     const IVP_Compact_Ledge *ledge = test_edge->get_compact_ledge();
     const IVP_Compact_Surface *sur = ((IVP_SurfaceManager_Polygon *)l_obj->get_surface_manager())->get_compact_surface();
     const IVP_Compact_Ledgetree_Node *root = sur->get_compact_ledge_tree_root();
-    IVP_IF (root ->is_terminal()){
+    IVP_IFDEBUG (root ->is_terminal()){
 	const IVP_Compact_Ledge *ref_ledge = root->get_compact_ledge();
-	IVP_ASSERT (  ref_ledge == ledge );
+	Assert (  ref_ledge == ledge );
     }
 #endif    
 }
@@ -205,7 +205,7 @@ void IVP_Synapse_Real::print()
 {
     char *stat_text = nullptr;
     int n_points = 0;
-    printf("(syn) ");
+    Log_Warning(LOG_HAVOK, "(syn) ");
     switch(this->status){
     case IVP_ST_POINT:
      	stat_text = (char *)"Point";
@@ -220,7 +220,7 @@ void IVP_Synapse_Real::print()
 	n_points = 3;
 	break;
     default:
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
 }
 #endif
@@ -229,7 +229,7 @@ void IVP_Mindist_Manager::print_mindists()
 {
     IVP_Mindist *mdist;
     int i;
-    printf("\n--------------------------\n");
+    Log_Warning(LOG_HAVOK, "\n--------------------------\n");
     for(i=0, mdist=this->exact_mindists; mdist; mdist=mdist->next, i++){
 	mdist->print("exact:");
     }
@@ -258,7 +258,7 @@ void IVP_Mindist::init_mindist(IVP_Real_Object *pop0, IVP_Real_Object *pop1,cons
     syn1->init_synapse(this, pop1,  e1,IVP_ST_BALL);
     break;
   default:
-    CORE;
+    AssertMsg(false, "Havok fatal error");
   }
   switch (pop0->get_type()){
   case IVP_POLYGON:
@@ -269,7 +269,7 @@ void IVP_Mindist::init_mindist(IVP_Real_Object *pop0, IVP_Real_Object *pop1,cons
     syn0->init_synapse(this, pop0,  e0, IVP_ST_BALL);
     break;
   default:
-    CORE;
+    AssertMsg(false, "Havok fatal error");
   }
 
   syn0->set_synapse_mindist(this);
@@ -316,8 +316,8 @@ public:
 #ifdef DEBUG
 	    IVP_Real_Object *object[2];
 	    c->get_objects( object );
-	    IVP_ASSERT( object[0] == search->object[0]);
-	    IVP_ASSERT( object[1] == search->object[1]);
+	    Assert( object[0] == search->object[0]);
+	    Assert( object[1] == search->object[1]);
 #endif	    
 	    return IVP_TRUE;
 	}
@@ -414,12 +414,12 @@ void IVP_Mindist_Manager::create_exact_mindists(IVP_Real_Object *pop0, IVP_Real_
 	    }else{
 	      new_mindist = new IVP_Mindist(env, oo_watcher);
 	    }
-		IVP_ASSERT(new_collisions.n_elems <= new_collisions.memsize);
+		Assert(new_collisions.n_elems <= new_collisions.memsize);
 	    const IVP_Compact_Triangle *tri1 = l1->get_first_triangle();
 	    new_mindist->init_mindist(pop0, pop1, tri0->get_first_edge(),tri1->get_first_edge());
-		IVP_ASSERT(new_collisions.n_elems <= new_collisions.memsize);
+		Assert(new_collisions.n_elems <= new_collisions.memsize);
 	    new_collisions.add(new_mindist);
-		IVP_ASSERT(new_collisions.n_elems <= new_collisions.memsize);
+		Assert(new_collisions.n_elems <= new_collisions.memsize);
 	}
     }
     { // delete unused collisions
@@ -441,7 +441,7 @@ void IVP_Mindist_Manager::create_exact_mindists(IVP_Real_Object *pop0, IVP_Real_
 	    IVP_Collision *c = mindists->element_at(x);
 	    const IVP_Compact_Ledge *ledges[2];
 	    c->get_ledges(ledges);
-	    IVP_ASSERT( ledges0.index_of( ledges[0] ) >= 0 && ledges1.index_of( ledges[1] )  >= 0 );
+	    Assert( ledges0.index_of( ledges[0] ) >= 0 && ledges1.index_of( ledges[1] )  >= 0 );
 	}
     }
     { // check all ledge ledge combinations
@@ -459,7 +459,7 @@ void IVP_Mindist_Manager::create_exact_mindists(IVP_Real_Object *pop0, IVP_Real_
 			break;
 		    }
 		}
-		IVP_ASSERT( x = -1);
+		Assert( x = -1);
 	    }
 	}
     }
@@ -469,7 +469,7 @@ void IVP_Mindist_Manager::create_exact_mindists(IVP_Real_Object *pop0, IVP_Real_
 
 
 void IVP_Mindist_Manager::insert_exact_mindist( IVP_Mindist *new_mindist){
-  IVP_ASSERT(new_mindist->mindist_status == IVP_MD_UNINITIALIZED);
+  Assert(new_mindist->mindist_status == IVP_MD_UNINITIALIZED);
   new_mindist->mindist_status = IVP_MD_EXACT;
   
   new_mindist->next = this->exact_mindists;
@@ -498,7 +498,7 @@ void IVP_Mindist_Manager::insert_exact_mindist( IVP_Mindist *new_mindist){
 }
 
 void IVP_Mindist_Manager::insert_invalid_mindist( IVP_Mindist *new_mindist){
-  IVP_ASSERT(new_mindist->mindist_status == IVP_MD_UNINITIALIZED);
+  Assert(new_mindist->mindist_status == IVP_MD_UNINITIALIZED);
   new_mindist->mindist_status = IVP_MD_INVALID;
   
   new_mindist->next = this->invalid_mindists;
@@ -520,8 +520,8 @@ void IVP_Mindist::exact_mindist_went_invalid(IVP_Mindist_Manager *mm){
 // #+# kill this function due data cache problems on PSXII
 void IVP_Mindist_Manager::insert_and_recalc_exact_mindist( IVP_Mindist *new_mindist){
 
-    IVP_ASSERT(new_mindist->mindist_status == IVP_MD_UNINITIALIZED);
-    IVP_ASSERT(new_mindist->mindist_function != IVP_MF_PHANTOM);
+    Assert(new_mindist->mindist_status == IVP_MD_UNINITIALIZED);
+    Assert(new_mindist->mindist_function != IVP_MF_PHANTOM);
     
     new_mindist->mindist_status = IVP_MD_EXACT;
     
@@ -567,8 +567,8 @@ void IVP_Mindist_Manager::insert_and_recalc_exact_mindist( IVP_Mindist *new_mind
 }
 
 void IVP_Mindist_Manager::insert_and_recalc_phantom_mindist( IVP_Mindist *new_mindist){
-    IVP_ASSERT(new_mindist->mindist_status == IVP_MD_UNINITIALIZED);
-    IVP_ASSERT(new_mindist->mindist_function == IVP_MF_PHANTOM);
+    Assert(new_mindist->mindist_status == IVP_MD_UNINITIALIZED);
+    Assert(new_mindist->mindist_function == IVP_MF_PHANTOM);
     
     new_mindist->recalc_invalid_mindist();  // be carefull, avoid deep recursions
     
@@ -623,7 +623,7 @@ public:
 	IVP_Real_Object *objects[2];
 	c->get_objects(objects);
 	int x = int(objects[0]) ^ int(objects[1]) ^ int(con);  // take other object (trick to avoid if)
-	IVP_ASSERT( objects[0] == con || objects[1] == con );
+	Assert( objects[0] == con || objects[1] == con );
 	return x + 1023 * (x>>8);
     }
 
@@ -799,7 +799,7 @@ void IVP_Mindist_Manager::recalc_all_exact_mindists_events()
 	for( mdist=this->exact_mindists; mdist; mdist=mdist_next )
 	{
 		mdist_next = mdist->next;
-		IVP_ASSERT(mdist->mindist_status == IVP_MD_EXACT);
+		Assert(mdist->mindist_status == IVP_MD_EXACT);
 		IVP_IF_PREFETCH_ENABLED(mdist_next)
 		{
 			IVP_PREFETCH_BLOCK(mdist_next,sizeof(*mdist_next));
@@ -815,7 +815,7 @@ void IVP_Mindist_Manager::recalc_all_exact_wheel_mindist()
 	{
 		IVP_Mindist *mdist = wheel_look_ahead_mindists.element_at(i);
 		
-		IVP_ASSERT( mdist->mindist_function != IVP_MF_PHANTOM );
+		Assert( mdist->mindist_function != IVP_MF_PHANTOM );
 		this->recalc_exact_mindist(mdist);
 		
 		IVP_Synapse_Real *syn0 = mdist->get_sorted_synapse(0);
@@ -855,7 +855,7 @@ void IVP_Mindist_Manager::recalc_all_exact_mindists(){
     IVP_Mindist *mdist, *mdist_next;
     for(mdist=this->exact_mindists; mdist; mdist=mdist_next){
 	mdist_next = mdist->next;
-	IVP_ASSERT(mdist->mindist_status == IVP_MD_EXACT);
+	Assert(mdist->mindist_status == IVP_MD_EXACT);
 
 	IVP_IF_PREFETCH_ENABLED(mdist_next){
 	    IVP_PREFETCH_BLOCK(mdist_next,sizeof(*mdist_next));
@@ -867,9 +867,9 @@ void IVP_Mindist_Manager::recalc_all_exact_mindists(){
 /* check length, check for hull, check for coll events*/
 void IVP_Mindist::update_exact_mindist_events(IVP_BOOL allow_hull_conversion, IVP_MINDIST_EVENT_HINT event_hint)
 {
-	IVP_IF(1) 
+	IVP_IFDEBUG(1) 
 	{
-		IVP_ASSERT( mindist_status == IVP_MD_EXACT);
+		Assert( mindist_status == IVP_MD_EXACT);
 		IVP_Debug_Manager *dm=get_environment()->get_debug_manager();
 		if(dm->file_out_impacts) 
 		{
@@ -948,7 +948,7 @@ void IVP_Mindist::update_exact_mindist_events(IVP_BOOL allow_hull_conversion, IV
 	IVP_DOUBLE d_len = d_time * mim.max_coll_speed;	// max length that the system can move till next PSI
 	IVP_DOUBLE sec_dist = this->get_coll_dist() + d_len;
 	
-	IVP_IF(ivp_check_debug_mindist(this))
+	IVP_IFDEBUG(ivp_check_debug_mindist(this))
 	{
 		ivp_message("%32s  event  len_now %g, sec_dist:%g\n","update_exact_mindist_events",  get_length(), sec_dist);
 	}
@@ -986,7 +986,7 @@ void IVP_Mindist::update_exact_mindist_events(IVP_BOOL allow_hull_conversion, IV
 	
 	IVP_Time &next_event = mim.event_time_out;
 	
-	IVP_IF(ivp_check_debug_mindist(this))
+	IVP_IFDEBUG(ivp_check_debug_mindist(this))
 	{
 		ivp_message("%32s     calc_time_of_next_event called: ","''");
 		if (mim.event_type_out != IVP_COLL_NONE)		
@@ -1053,7 +1053,7 @@ void IVP_Mindist::update_exact_mindist_events(IVP_BOOL allow_hull_conversion, IV
 			this->index = tm->min_hash->add((void *)this, event_time);
 		}
 		
-		IVP_ASSERT(this->index !=IVP_U_MINLIST_UNUSED);
+		Assert(this->index !=IVP_U_MINLIST_UNUSED);
 		
 		this->coll_type = mim.event_type_out;
 	}
@@ -1091,7 +1091,7 @@ void IVP_Mindist::mindist_hull_limit_exceeded_event( IVP_HTIME hull_intrusion_va
 	mr->rec_hull_limit_exceeded_event();
 	return;
     }
-    IVP_ASSERT(mindist_status == IVP_MD_HULL );
+    Assert(mindist_status == IVP_MD_HULL );
 
     IVP_Synapse_Real *syn0 = get_sorted_synapse(0);
     IVP_Synapse_Real *syn1 = get_sorted_synapse(1);
@@ -1127,7 +1127,7 @@ void IVP_Mindist::mindist_hull_limit_exceeded_event( IVP_HTIME hull_intrusion_va
     IVP_DOUBLE speed1 = core1->current_speed + core1->max_surface_rot_speed + P_DOUBLE_EPS;
     IVP_DOUBLE speed = speed0 + speed1;
 
-    IVP_IF(ivp_check_debug_mindist(this)){
+    IVP_IFDEBUG(ivp_check_debug_mindist(this)){
 	ivp_message("%32s center_distance %f old_dist %f\n","hull_limit_exceeded_event",  IVP_Inline_Math::ivp_sqrtf(qdistance), get_length());
     }
 
@@ -1151,7 +1151,7 @@ void IVP_Mindist::mindist_hull_limit_exceeded_event( IVP_HTIME hull_intrusion_va
       IVP_DOUBLE estimated_distance = this->get_length() - angular_movement - delta_center_distance + hull_intrusion_value;
       // this estimated_distance can now be used to throw mindist into hull again
       IVP_DOUBLE const look_ahead_factor = 6.0f;
-	IVP_IF( 0 && this->contact_plane.k[1] == -1.0f && !this->mindist_function){
+	IVP_IFDEBUG( 0 && this->contact_plane.k[1] == -1.0f && !this->mindist_function){
 	    ivp_message("sum_angular %f   angular_movement %f    sum_angular_hull_time %f\n", 
 		sum_angular, angular_movement, sum_angular_hull_time);
 	}
@@ -1162,7 +1162,7 @@ void IVP_Mindist::mindist_hull_limit_exceeded_event( IVP_HTIME hull_intrusion_va
 #ifdef LINUX
 	ivp_optimiztion_center_check_successfull();
 #endif
-	IVP_IF(ivp_check_debug_mindist(this)){
+	IVP_IFDEBUG(ivp_check_debug_mindist(this)){
 	  ivp_message("%32s estimated_distance into hull dist: %f error %f speed %f\n","hull_limit_exceeded_event",  IVP_Inline_Math::ivp_sqrtf(qdistance),estimated_distance,speed);
 	}
 
@@ -1173,7 +1173,7 @@ void IVP_Mindist::mindist_hull_limit_exceeded_event( IVP_HTIME hull_intrusion_va
 	IVP_DOUBLE dist_factor = estimated_distance / speed;
 	IVP_DOUBLE dist0 = dist_factor * speed0;
 	IVP_DOUBLE dist1 = dist_factor * speed1;
-	IVP_IF( 0 &&  this->contact_plane.k[1] == -1.0f && !this->mindist_function){
+	IVP_IFDEBUG( 0 &&  this->contact_plane.k[1] == -1.0f && !this->mindist_function){
 	    ivp_message("est_dist %f, center_dist %f   sum_angular %f\n", 
 		len_numerator, delta_center_distance, sum_angular);
 	}
@@ -1199,7 +1199,7 @@ void IVP_Mindist::mindist_hull_limit_exceeded_event( IVP_HTIME hull_intrusion_va
 
 	if ( qdistance > qradius){ // seems like two small objects
 	  IVP_DOUBLE distance = IVP_Inline_Math::ivp_sqrtf( qdistance)  - radius;
-	  IVP_IF(ivp_check_debug_mindist(this)){
+	  IVP_IFDEBUG(ivp_check_debug_mindist(this)){
 	    ivp_message("%32s center_distance %f  speed %f\n","hull_limit_exceeded_event",  distance, speed);
 	  }
 	 
@@ -1269,27 +1269,27 @@ void IVP_Mindist::simulate_time_event(IVP_Environment * env)
 	env->get_performancecounter()->pcount(IVP_PE_AT_INIT);
 #endif
 
-    IVP_ASSERT( index == IVP_U_MINLIST_UNUSED );
+    Assert( index == IVP_U_MINLIST_UNUSED );
     IVP_Mindist *l_mindist = this;
     
     // update and check wether announced situation change really has occurred
-     IVP_IF(ivp_check_debug_mindist(l_mindist)){
+     IVP_IFDEBUG(ivp_check_debug_mindist(l_mindist)){
 	 IVP_DOUBLE md_len = l_mindist->get_length();
 	 ivp_message("%32s COLL_TYPE %X: old_len=%g\n", "Time_Event_Mindist_Coll", l_mindist->coll_type, md_len);
      }
 
      l_mindist->recalc_mindist();	// calculate the current situation, no phantoms
-     IVP_ASSERT( l_mindist->mindist_function != IVP_MF_PHANTOM);
+     Assert( l_mindist->mindist_function != IVP_MF_PHANTOM);
 
     // what situation is announced ?
-     IVP_IF(ivp_check_debug_mindist(l_mindist)){
+     IVP_IFDEBUG(ivp_check_debug_mindist(l_mindist)){
 	 IVP_DOUBLE md_len = l_mindist->get_length();
 	 ivp_message("%32s COLL_TYPE %X: current_len=%g\n", "Time_Event_Mindist_Coll", l_mindist->coll_type, md_len);
      }
     
      if (l_mindist->recalc_result == IVP_MDRR_OK){ 
        if ( (l_mindist->coll_type & 0x0f) == 0){		// real collision might have happened
-	 IVP_ASSERT(l_mindist->mindist_status == IVP_MD_EXACT);
+	 Assert(l_mindist->mindist_status == IVP_MD_EXACT);
        
 	 IVP_FLOAT md_len = l_mindist->get_length();
 	 IVP_FLOAT sec_dist = this->get_coll_dist() + ivp_mindist_settings.mindist_change_force_dist;
@@ -1346,8 +1346,8 @@ void IVP_Mindist_Manager::remove_exact_mindist(IVP_Mindist *del_mindist)
 		del_mindist->index = IVP_U_MINLIST_UNUSED;
 	}
 	
-	IVP_ASSERT(del_mindist->mindist_status == IVP_MD_EXACT); // requires friction mode
-	IVP_IF(1)
+	Assert(del_mindist->mindist_status == IVP_MD_EXACT); // requires friction mode
+	IVP_IFDEBUG(1)
 	{
 		del_mindist->mindist_status = IVP_MD_UNINITIALIZED;
 	}
@@ -1378,9 +1378,9 @@ void IVP_Mindist_Manager::remove_exact_mindist(IVP_Mindist *del_mindist)
 
 void IVP_Mindist_Manager::remove_invalid_mindist(IVP_Mindist *del_mindist)
 {
-	IVP_ASSERT(del_mindist->mindist_status == IVP_MD_INVALID); // requires friction mode
+	Assert(del_mindist->mindist_status == IVP_MD_INVALID); // requires friction mode
 	
-	IVP_IF(1)
+	IVP_IFDEBUG(1)
 	{
 		del_mindist->mindist_status = IVP_MD_UNINITIALIZED;
 	}
@@ -1403,9 +1403,9 @@ void IVP_Mindist_Manager::remove_invalid_mindist(IVP_Mindist *del_mindist)
 
 void IVP_Mindist_Manager::remove_hull_mindist(IVP_Mindist *del_mindist)
 {
-	IVP_ASSERT(del_mindist->mindist_status == IVP_MD_HULL || del_mindist->mindist_status == IVP_MD_HULL_RECURSIVE);
+	Assert(del_mindist->mindist_status == IVP_MD_HULL || del_mindist->mindist_status == IVP_MD_HULL_RECURSIVE);
 	
-	IVP_IF(1)
+	IVP_IFDEBUG(1)
 	{
 		del_mindist->mindist_status = IVP_MD_UNINITIALIZED;
 	}
@@ -1417,7 +1417,7 @@ void IVP_Mindist_Manager::remove_hull_mindist(IVP_Mindist *del_mindist)
 
 void IVP_Mindist_Manager::insert_hull_mindist(IVP_Mindist *md, IVP_HTIME hull_time0, IVP_HTIME hull_time1)
 {
-	IVP_ASSERT(md->mindist_status == IVP_MD_UNINITIALIZED);
+	Assert(md->mindist_status == IVP_MD_UNINITIALIZED);
 	md->mindist_status = IVP_MD_HULL;
 	
 	IVP_Synapse_Real *syn0 = md->get_synapse(0);
@@ -1463,7 +1463,7 @@ void IVP_Mindist_Manager::insert_hull_mindist(IVP_Mindist *md, IVP_HTIME hull_ti
 
 void IVP_Mindist_Manager::insert_lazy_hull_mindist(IVP_Mindist *md, IVP_HTIME hull_time0, IVP_HTIME hull_time1)
 {
-	IVP_ASSERT(md->mindist_status == IVP_MD_UNINITIALIZED);
+	Assert(md->mindist_status == IVP_MD_UNINITIALIZED);
 	md->mindist_status = IVP_MD_HULL;
 	
 	md->get_synapse(0)->insert_lazy_in_hull_manager(hull_time0);
@@ -1479,7 +1479,7 @@ void IVP_Mindist_Manager::insert_lazy_hull_mindist(IVP_Mindist *md, IVP_HTIME hu
 	if ( !IVP_MTIS_IS_MOVING(obj0->get_movement_state()))
 	{
 		insert_lazy_hull_mindist( md, P_FLOAT_EPS, hull_time );
-		IVP_IF(ivp_check_debug_mindist(md))
+		IVP_IFDEBUG(ivp_check_debug_mindist(md))
 		{
 			ivp_message("%32s into hull, htimes %f: %f\n","insert_lazy_hull_mindist", P_DOUBLE_EPS, hull_time);
 		}
@@ -1487,7 +1487,7 @@ void IVP_Mindist_Manager::insert_lazy_hull_mindist(IVP_Mindist *md, IVP_HTIME hu
 	else if ( !IVP_MTIS_IS_MOVING(obj1->get_movement_state()))
 	{
 		insert_lazy_hull_mindist( md, hull_time, P_FLOAT_EPS );
-		IVP_IF(ivp_check_debug_mindist(md))
+		IVP_IFDEBUG(ivp_check_debug_mindist(md))
 		{
 			ivp_message("%32s into hull, htimes %f: %f\n","insert_lazy_hull_mindist", hull_time, P_DOUBLE_EPS);
 		}
@@ -1505,7 +1505,7 @@ void IVP_Mindist_Manager::insert_lazy_hull_mindist(IVP_Mindist *md, IVP_HTIME hu
 		IVP_FLOAT factor = hull_time / sum_speed;
 		insert_lazy_hull_mindist( md, factor * speed_corr_0, factor * speed_corr_1 );
 		
-		IVP_IF(ivp_check_debug_mindist(md))
+		IVP_IFDEBUG(ivp_check_debug_mindist(md))
 		{
 			ivp_message("%32s into hull, htimes %f: %f\n","insert_lazy_hull_mindist", factor * speed_corr_0, factor * speed_corr_1);
 		}

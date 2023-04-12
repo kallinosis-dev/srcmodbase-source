@@ -157,7 +157,7 @@ no_sim_speedup:
 /* needs speed rot_speed  next_psi_time */
 void IVP_Calc_Next_PSI_Solver::calc_next_PSI_matrix(IVP_Event_Sim *event_sim,IVP_U_Vector<IVP_Hull_Manager_Base> *active_hull_managers_out){
    
-   IVP_IF(1) {
+   IVP_IFDEBUG(1) {
         IVP_Debug_Manager *dm=event_sim->environment->get_debug_manager();
 	if(dm->file_out_impacts) {
 	    fprintf(dm->out_deb_file,"making_calc_next_psi %lx at %f\n",0x0000ffff&(long)this,core->environment->get_current_time().get_time());
@@ -218,10 +218,10 @@ void IVP_Calc_Next_PSI_Solver::calc_psi_rotation_axis(const IVP_U_Quat *q_core_f
 	IVP_DOUBLE ilen = IVP_Fast_Math::isqrt(qlen,3);
 	IVP_FLOAT abs_angle;			// absolute rotation angle interpolated movement
 	abs_angle  = IVP_Inline_Math::upper_limit_asin( qlen * ilen );
-	IVP_IF(1){
+	IVP_IFDEBUG(1){
 #if defined(DEBUG) && 0
 	    IVP_DOUBLE ref_angle = asin( sqrt(qlen)) - 1E9f; //@@@ was P_DOUBLE_RES; difference between old and new (fast) calculation should not be too great;
-	    IVP_ASSERT( abs_angle >= ref_angle );
+	    Assert( abs_angle >= ref_angle );
 #endif
 	}
 	core->abs_omega =  2.0f * abs_angle * core->i_delta_time;
@@ -333,7 +333,7 @@ void IVP_Calc_Next_PSI_Solver::set_transformation( const IVP_U_Quat *rotation, c
 
 void IVP_Calc_Next_PSI_Solver::prefetch0_calc_next_PSI_matrix(IVP_Core *core)
 {
-	IVP_USE(core);
+	
 	IVP_IF_PREFETCH_ENABLED(IVP_TRUE)
 	{
 	    IVP_PREFETCH(core, &((IVP_Core *)0)->rot_speed );
@@ -368,7 +368,7 @@ void IVP_Calc_Next_PSI_Solver::commit_all_calc_next_PSI_matrix(IVP_Environment *
 
 void IVP_Calc_Next_PSI_Solver::commit_one_hull_manager( IVP_Environment *, IVP_U_Vector<IVP_Hull_Manager_Base> *active_hull_managers){
     if (active_hull_managers->len()){
-	IVP_ASSERT( active_hull_managers->len() == 1 );
+	Assert( active_hull_managers->len() == 1 );
 	IVP_Hull_Manager *hm = (IVP_Hull_Manager*)active_hull_managers->element_at(0);
 	hm->check_hull_synapses();
 	hm->check_for_reset();

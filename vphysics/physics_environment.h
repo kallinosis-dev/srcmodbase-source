@@ -145,6 +145,54 @@ public:
 	// a constraint is being disabled - report the game DLL as "broken"
 	void NotifyConstraintDisabled( IPhysicsConstraint *pConstraint );
 
+	void SetAlternateGravity(const Vector& gravityVector) override
+	{
+		Assert(false);
+	}
+	void GetAlternateGravity(Vector* pGravityVector) const override
+	{
+		Assert(false);
+	}
+	float GetDeltaFrameTime(int maxTicks) const override
+	{
+		Assert(false);
+		return 0;
+	}
+	void ForceObjectsToSleep(IPhysicsObject** pList, int listCount) override
+	{
+		Assert(false);
+	}
+	void SetPredicted(bool bPredicted) override
+	{
+		Assert(false);
+	}
+	bool IsPredicted() override
+	{
+		Assert(false);
+		return false;
+	}
+	void SetPredictionCommandNum(int iCommandNum) override
+	{
+		Assert(false);
+	}
+	int GetPredictionCommandNum() override
+	{
+		Assert(false);
+		return -1;
+	}
+	void DoneReferencingPreviousCommands(int iCommandNum) override
+	{
+		Assert(false);
+	}
+	void RestorePredictedSimulation() override
+	{
+		Assert(false);
+	}
+	void DestroyCollideOnDeadObjectFlush(CPhysCollide*) override
+	{
+		Assert(false);
+	}
+
 private:
 	IVP_Environment					*m_pPhysEnv;
 	IVP_Controller					*m_pDragController;

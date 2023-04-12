@@ -35,7 +35,7 @@ IVP_Tri_Edge *IVP_Tri_Edge::search_nearest_edge_to(IVP_U_Point *reference, IVP_D
 
 void IVP_Tetra_Point::print(const char *text){
     if (!text) text = "";
-    printf("%s	Tetra-Point: Mask %X  Coverbits %X %X %X  pntnum=%i\n",
+    Log_Warning(LOG_HAVOK, "%s	Tetra-Point: Mask %X  Coverbits %X %X %X  pntnum=%i\n",
 	   text, this->tmp_side_of_triangle_bits,
 	   cover_area_bits[0],cover_area_bits[1],cover_area_bits[2],
 	   opoint->point_num());
@@ -48,7 +48,7 @@ int IVP_Tetra_Point::p(){
 
 void IVP_Tetra_Edge::print(const char *text){
     if (!text) text = "";
-    printf("%s	Tetra_Edge: Bits %X %X %X\n",
+    Log_Warning(LOG_HAVOK, "%s	Tetra_Edge: Bits %X %X %X\n",
 	   text,cover_area_bits[0],cover_area_bits[1],cover_area_bits[2]);
     tetra_points[0]->print("		");
     tetra_points[1]->print("		");
@@ -62,7 +62,7 @@ int IVP_Tetra_Edge::p(){
 
 void IVP_Intrusion_Included_Points::print(const char *text){
     if (!text) text = "";
-    printf("%s	Intrusion_Point",text);
+    Log_Warning(LOG_HAVOK, "%s	Intrusion_Point",text);
     tetra_point->print("	");
 }
 
@@ -77,7 +77,7 @@ void IVP_Intrusion_Intersection::print(const char *text){
     }else{
 	if ( long(pairing_intersection) > long(this)) return;
     }
-    printf("%s %s Intersection pnt %i - %i",text,
+    Log_Warning(LOG_HAVOK, "%s %s Intersection pnt %i - %i",text,
 	   (type != IVP_INTRUSION_CHECK_OVERLAP)? "normal":"equalp",
 	   line_endpoints[0]->point_num(),
 	   line_endpoints[1]->point_num());
@@ -98,7 +98,7 @@ int IVP_Intrusion_Intersection::p(){
 
 void IVP_Intrusion_Status::print(const char *text){
     if (!text) text = "";
-    printf("%s	Intrusion Status\n",text);
+    Log_Warning(LOG_HAVOK, "%s	Intrusion Status\n",text);
     IVP_Intrusion_Included_Points *p;
     for (p=intruded_points; p; p=p->next){
 	p->print("	");
@@ -225,7 +225,7 @@ void IVP_Tetra_Intrude::point_2_bits(IVP_U_Point *lpos,IVP_U_Point *rpos,int *re
 	IVP_DOUBLE inv_nen = 31.999f / (max_koord.k[k] - min_koord.k[k]);
 	int l = (int)((lpos->k[k] - min_koord.k[k] - P_Pop_Eps) * inv_nen);
 	int r = (int)((rpos->k[k] - min_koord.k[k] + P_Pop_Eps) * inv_nen);
-	IVP_ASSERT(l<=r);
+	Assert(l<=r);
 	for(;l<=r;l++){
 	    bitmask |= 1<<l;
 	}
@@ -251,7 +251,7 @@ void IVP_Tetra_Intrude::checkin_edge(IVP_Tri_Edge *edge){
     if (te == P_INVALID_TETRA_EDGE){
 	if (n_tetra_edges == memsize_of_tetra_edges){
 	    memsize_of_tetra_edges = 3*memsize_of_tetra_edges/2;
-	    //printf("*********** Increasing tetra_edge memory *****\n");
+	    //Log_Warning(LOG_HAVOK, "*********** Increasing tetra_edge memory *****\n");
 	    IVP_Tetra_Edge *newmem =	(IVP_Tetra_Edge *)p_calloc(
 		    memsize_of_tetra_edges,sizeof(IVP_Tetra_Edge));
 	    memcpy( (char *)newmem, (char *)tetra_edges, sizeof(IVP_Tetra_Edge)*n_tetra_edges);
@@ -351,7 +351,7 @@ IVP_INTRUSION_CHECK_RESULTS P_THREE_CHECK_INTRUDE(int me, int other0, int other1
 	    intrude_position.set(t1->opoint);
 	    break;
 	}
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
     /* check real point against 3 other */
     IVP_DOUBLE dist0 = hesse_of_t[other0].get_dist(&intrude_position);
@@ -375,11 +375,11 @@ IVP_INTRUSION_CHECK_RESULTS P_THREE_CHECK_INTRUDE(int me, int other0, int other1
 		IVP_Tri_Edge *e = edge_edges[i]; // get the distances between the two straights
 		IVP_DOUBLE eps2 = meps*meps;
 		IVP_DOUBLE qd2 = p_quad_distance_between_two_straights(t0->opoint,t1->opoint, e->start_point, e->next->start_point);
-		printf("qd2 = %f\n",sqrt(qd2));
+		Log_Warning(LOG_HAVOK, "qd2 = %f\n",sqrt(qd2));
 		if (qd2 > eps2) {
 		    return IVP_INTRUSION_CHECK_NONE; // outside edge hesses
 		}
-		printf("Warning: two straights are closer than eps, but no collision by normal test\n");
+		Log_Warning(LOG_HAVOK, "Warning: two straights are closer than eps, but no collision by normal test\n");
 		t0->print("to test");
 		t1->print("to test");
 		e->print("triangle\n");
@@ -543,7 +543,7 @@ IVP_INTRUSION_CHECK_RESULTS IVP_Tetra_Intrude::check_intrusion(IVP_Tri_Edge *old
 		c++;
 	    }
 	}
-	IVP_ASSERT(c==6);
+	Assert(c==6);
     }
 
 

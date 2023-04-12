@@ -33,7 +33,7 @@ void IVP_Contact_Point::p_calc_friction_qr_PF(const IVP_U_Point *pp,
     // Punkt/Flaeche
     // F ist aufgespannt durch Q, R (und S)
     // (Q=F, R=F->next, S=F->prev)
-  IVP_USE(diff_contact_vec);
+  
     info->contact_point_ws.set(pp);
 
     IVP_U_Point pp_Fos;
@@ -114,7 +114,7 @@ void IVP_Contact_Point::p_calc_friction_qr_PF(const IVP_U_Point *pp,
     IVP_DOUBLE q = unscaled_q * iDet;
     IVP_DOUBLE r = unscaled_r * iDet;
 
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_U_Point point_on_surf;
 	point_on_surf.set(&tp_next);
 	point_on_surf.add_multiple(&Q,q);
@@ -123,7 +123,7 @@ void IVP_Contact_Point::p_calc_friction_qr_PF(const IVP_U_Point *pp,
 	dist_vec_world.subtract(&point_on_surf,pp);
 	IVP_DOUBLE test_val = info->surf_normal.dot_product(&dist_vec_world);
 	if( test_val < 0.0f ) {
-	    printf("recalc_friction_s_point_surface wrong surf_normal %f should be >0\n",test_val);
+	    Log_Warning(LOG_HAVOK, "recalc_friction_s_point_surface wrong surf_normal %f should be >0\n",test_val);
 	}
     }
 
@@ -140,7 +140,7 @@ void IVP_Contact_Point::p_calc_friction_qr_PF(const IVP_U_Point *pp,
 }
 
 void IVP_Contact_Point::p_calc_friction_s_PP(const IVP_U_Point *pp0,const IVP_U_Point *pp1,IVP_Impact_Solver_Long_Term *info, IVP_U_Float_Point *diff_contact_vec) {
-  IVP_USE(diff_contact_vec);
+  
     IVP_U_Point dist_vec;
     dist_vec.subtract(pp1,pp0);
     last_gap_len = dist_vec.real_length_plus_normize();
@@ -165,7 +165,7 @@ void IVP_Contact_Point::p_calc_friction_s_PK(const IVP_U_Point *pp, const IVP_Co
 					    IVP_Cache_Ledge_Point *m_cache_K, IVP_Impact_Solver_Long_Term *info, IVP_U_Float_Point *diff_contact_vec)
 {
     // if status indicates friction mode, point is always kept the same
-  IVP_USE(diff_contact_vec);
+  
     IVP_U_Point tp;      IVP_CLS.give_world_coords_AT(K, m_cache_K,&tp);
     IVP_U_Point tp_next; IVP_CLS.give_world_coords_AT(K->get_next(), m_cache_K, &tp_next);
     
@@ -188,11 +188,11 @@ void IVP_Contact_Point::p_calc_friction_s_PK(const IVP_U_Point *pp, const IVP_Co
     info->contact_point_ws.set(pp);
     
     info->span_friction_v[0].set(&vert_12);
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_DOUBLE len= info->span_friction_v[0].real_length();
 	len=1.0f-len;
 	if( IVP_Inline_Math::fabsd(len) > 0.001f) {
-	    printf("span_friction_v_pk not normized\n");
+	    Log_Warning(LOG_HAVOK, "span_friction_v_pk not normized\n");
 	}	
     }
 
@@ -378,17 +378,17 @@ void IVP_Contact_Point::recalc_friction_s_vals(){
 		break;
 	    }
 	    default:
-		CORE;
+		AssertMsg(false, "Havok fatal error");
 	    }
 	    break;
 	};
 	case IVP_ST_EDGE:{
-	    IVP_ASSERT( syn1->get_status() == IVP_ST_EDGE );
+	    Assert( syn1->get_status() == IVP_ST_EDGE );
 	    p_calc_friction_ss_KK(e0, e1, &m_cache_0, &m_cache_1,info,&diff_vec_contact);
 	    break;
 	};
 	default:
-	    CORE;
+	    AssertMsg(false, "Havok fatal error");
 	}
 	{  // reduce len of friction contact by extra radius
 	    IVP_FLOAT first_radius = syn0->l_obj->get_extra_radius();
@@ -512,10 +512,10 @@ void IVP_Friction_Manager::delete_all_contact_points_of_object(IVP_Real_Object *
 IVP_Contact_Point *IVP_Friction_Manager::generate_contact_point(IVP_Mindist *mindist,IVP_BOOL *successful){
   
 	//
-	// Valid call with non-exact and Ipion forces a write to null to crash in its IVP_ASSERT!
+	// Valid call with non-exact and Ipion forces a write to null to crash in its Assert!
 	//
 
-//    IVP_ASSERT(mindist->mindist_status == IVP_MD_EXACT); // already enabled?
+//    Assert(mindist->mindist_status == IVP_MD_EXACT); // already enabled?
     
 	if ( mindist->mindist_status != IVP_MD_EXACT )
 	{
@@ -535,7 +535,7 @@ IVP_Contact_Point *IVP_Friction_Manager::generate_contact_point(IVP_Mindist *min
 // make new friction mindist
     IVP_Contact_Point *friction =  new IVP_Contact_Point(mindist);
     //insert_contact_point(friction);
-    //printf("insert_nmd %lx\n",(long)friction&0x0000ffff);
+    //Log_Warning(LOG_HAVOK, "insert_nmd %lx\n",(long)friction&0x0000ffff);
 
     *successful=IVP_TRUE;
     return friction;

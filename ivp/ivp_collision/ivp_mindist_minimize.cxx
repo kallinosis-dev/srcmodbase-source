@@ -52,7 +52,7 @@ IVP_BOOL IVP_Mindist_Minimize_Solver::check_loop_hash(IVP_SYNAPSE_POLYGON_STATUS
 {
     if (! loop_hash ){
 #ifdef	IVP_MINDIST_BEHAVIOUR_DEBUG
-	printf("start loop check (max passes exceeded).\n");
+	Log_Warning(LOG_HAVOK, "start loop check (max passes exceeded).\n");
 #endif	
 	this->init_loop_hash();
     }
@@ -89,8 +89,8 @@ void IVP_Mindist_Minimize_Solver::init_loop_hash(){;};
 
 IVP_BOOL IVP_Mindist_Minimize_Solver::check_loop_hash(IVP_SYNAPSE_POLYGON_STATUS i_s0,     const IVP_Compact_Edge *i_e0,
 						      IVP_SYNAPSE_POLYGON_STATUS i_s1,     const IVP_Compact_Edge *i_e1){
-    IVP_ASSERT( i_s0 < 4);
-    IVP_ASSERT( i_s1 < 4);
+    Assert( i_s0 < 4);
+    Assert( i_s1 < 4);
 
     int x0 = int(i_e0) | i_s0;
     int x1 = int(i_e1) | i_s1;
@@ -143,11 +143,11 @@ void IVP_Mindist_Minimize_Solver::pierce_mindist(){
     if (syn_other->get_status() != IVP_ST_BACKSIDE){
 	syn_pierce = mindist->get_sorted_synapse(1);
     }else{ //@@@ This actually should not happen
-	//CORE;
+	//AssertMsg(false, "Havok fatal error");
 	syn_pierce = syn_other;
 	syn_other = mindist->get_sorted_synapse(1);
     }
-    IVP_ASSERT(syn_pierce->get_status() == IVP_ST_BACKSIDE);
+    Assert(syn_pierce->get_status() == IVP_ST_BACKSIDE);
     
     IVP_U_Point &syn_other_Fos = pos_opposite_BacksideOs;
 
@@ -204,12 +204,12 @@ IVP_MRC_TYPE IVP_Mindist::recalc_invalid_mindist()
 	  return res;
 	}
 	default:
-	    CORE;
+	    AssertMsg(false, "Havok fatal error");
 	    break;
 	}
-	CORE;	
+	AssertMsg(false, "Havok fatal error");	
     }	// while
-    CORE;
+    AssertMsg(false, "Havok fatal error");
 }
 
 
@@ -235,7 +235,7 @@ IVP_MRC_TYPE IVP_Mindist::recalc_mindist()
 	switch(res){
 	case IVP_MRC_BACKSIDE:{
 #ifdef IVP_MINDIST_BEHAVIOUR_DEBUG	    
-	    IVP_ASSERT(this->detect_collision(synapse[0]->to_poly()->get_ivp_polygon()->tetras,
+	    Assert(this->detect_collision(synapse[0]->to_poly()->get_ivp_polygon()->tetras,
 					    synapse[1]->to_poly()->get_ivp_polygon()->tetras) == IVP_FALSE);
 #endif	    
 	    // find best triangle on opposite of convex object
@@ -250,12 +250,12 @@ IVP_MRC_TYPE IVP_Mindist::recalc_mindist()
 	      this->mindist_status == IVP_MD_HULL_RECURSIVE ){
 	    return res;
 	  }
-	  IVP_IF(1){
+	  IVP_IFDEBUG(1){
 		const char *name0 = get_synapse(0)->get_object()->get_name();
 		if (!name0) name0 = "(null)";
 		const char *name1 = get_synapse(1)->get_object()->get_name();
 		if (!name1) name1 = "(null)";
-		printf("recalc_mindist: Endless Loop without collision or termination problem.%s %s\n",
+		Log_Warning(LOG_HAVOK, "recalc_mindist: Endless Loop without collision or termination problem.%s %s\n",
 		       name0,name1);
 	    }
 	    // MINDIST RESCUE PUSH
@@ -264,27 +264,27 @@ IVP_MRC_TYPE IVP_Mindist::recalc_mindist()
 #ifdef IVP_MINDIST_BEHAVIOUR_DEBUG	    
 	    if(detect_collision(psyn_0->get_ivp_polygon()->tetras,
 				psyn_1->get_ivp_polygon()->tetras)){
-		CORE;
+		AssertMsg(false, "Havok fatal error");
 	    }else{
-		IVP_IF(1){ mms.termination_len = P_DOUBLE_MAX; }
+		IVP_IFDEBUG(1){ mms.termination_len = P_DOUBLE_MAX; }
 		P_Finish_Counter = 10; // debug purposes
-		IVP_IF(1) {
-		    printf("recalc_mindist : Endless Loop without collision or termination problem.\n");
+		IVP_IFDEBUG(1) {
+		    Log_Warning(LOG_HAVOK, "recalc_mindist : Endless Loop without collision or termination problem.\n");
 		}
 		continue; // helps debugging
-//		CORE;
+//		AssertMsg(false, "Havok fatal error");
 		return res;
 	    }
 #endif
 	    return res;
 	}
 	default:
-	    CORE;
+	    AssertMsg(false, "Havok fatal error");
 	    break;
 	}
-	CORE;	
+	AssertMsg(false, "Havok fatal error");	
     }	// while
-    CORE;
+    AssertMsg(false, "Havok fatal error");
 }
 
 IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_FF( const IVP_Compact_Edge *A,const IVP_Compact_Edge *B, IVP_Cache_Ledge_Point *m_cache_A, IVP_Cache_Ledge_Point *m_cache_B)
@@ -413,8 +413,8 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_FF( const IVP_Compact_Edge 
     const IVP_Compact_Edge *e0 = syn0->edge;
     const IVP_Compact_Edge *e1 = syn1->edge;
 
-    IVP_ASSERT(m_cache_0->tmp.synapse == syn0);
-    IVP_ASSERT(m_cache_1->tmp.synapse == syn1);
+    Assert(m_cache_0->tmp.synapse == syn0);
+    Assert(m_cache_1->tmp.synapse == syn1);
 
     IVP_MRC_TYPE ret_val = IVP_MRC_UNINITIALIZED; // (un)initialize
 
@@ -434,7 +434,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_FF( const IVP_Compact_Edge 
 	      break;
 	    }
 	    default:
-		CORE;
+		AssertMsg(false, "Havok fatal error");
 	  }
 	  break;
       };
@@ -445,13 +445,13 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_FF( const IVP_Compact_Edge 
 		break;
 	    }
 	  default:
-	      CORE;
+	      AssertMsg(false, "Havok fatal error");
 	      break;
 	  }
 	  break;
       }
       default:
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
     
     return ret_val;
@@ -482,8 +482,8 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::minimize_default_poly_poly(IVP_Mindist
 
     IVP_MRC_TYPE ret_val = IVP_MRC_UNINITIALIZED; // (un)initialize
 
-    IVP_IF(ivp_check_debug_mindist(mms->mindist)){
-	printf("%32s statii: %i:%i \n","minimize_default_poly_poly", syn0->get_status(), syn1->get_status());
+    IVP_IFDEBUG(ivp_check_debug_mindist(mms->mindist)){
+	Log_Warning(LOG_HAVOK, "%32s statii: %i:%i \n","minimize_default_poly_poly", syn0->get_status(), syn1->get_status());
     }
 
 #define SYN_COMBINE(a,b) (a * IVP_ST_MAX_LEGAL + b)
@@ -514,15 +514,15 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::minimize_default_poly_poly(IVP_Mindist
 
     //mms->proove_polypoly();
 
-    IVP_IF(ivp_check_debug_mindist(mms->mindist)){
-      	printf("%32s statii: %i:%i len %f\n", " '' ", syn0->get_status(), syn1->get_status(), mms->mindist->get_length());
+    IVP_IFDEBUG(ivp_check_debug_mindist(mms->mindist)){
+      	Log_Warning(LOG_HAVOK, "%32s statii: %i:%i len %f\n", " '' ", syn0->get_status(), syn1->get_status(), mms->mindist->get_length());
     }
 
     return ret_val;
 }
 
 IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::minimize_PB(IVP_Mindist_Minimize_Solver *mms){
-    CORE;
+    AssertMsg(false, "Havok fatal error");
     mms->swap_synapses();
     return minimize_B_POLY(mms);
 }
@@ -542,8 +542,8 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::minimize_B_POLY(IVP_Mindist_Minimize_S
     IVP_Cache_Ledge_Point m_cache_P(poly_P,P->get_compact_ledge());
     m_cache_P.tmp.synapse = syn_P;
 
-    IVP_IF(ivp_check_debug_mindist(mms->mindist)){
-	printf("%32s statii: %i \n","minimize_default_ball_poly", syn_P->get_status());
+    IVP_IFDEBUG(ivp_check_debug_mindist(mms->mindist)){
+	Log_Warning(LOG_HAVOK, "%32s statii: %i \n","minimize_default_ball_poly", syn_P->get_status());
     }
 
     IVP_MRC_TYPE ret_val;
@@ -560,7 +560,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::minimize_B_POLY(IVP_Mindist_Minimize_S
 	break;
     default:
       ret_val = IVP_MRC_UNINITIALIZED;
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     };
     m_cache_P.remove_reference();
     m_cache_B.cache_object->remove_reference();
@@ -570,13 +570,13 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::minimize_B_POLY(IVP_Mindist_Minimize_S
 
 
 IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::minimize_KB(IVP_Mindist_Minimize_Solver *mms){
-    CORE;
+    AssertMsg(false, "Havok fatal error");
     mms->swap_synapses();
     return minimize_B_POLY(mms);
 }
 
 IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::minimize_FB(IVP_Mindist_Minimize_Solver *mms){
-    CORE;
+    AssertMsg(false, "Havok fatal error");
     mms->swap_synapses();
     return minimize_B_POLY(mms);
 }
@@ -681,7 +681,7 @@ const IVP_Compact_Edge *IVP_Compact_Ledge_Solver::minimize_on_other_side(
 
 
 IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::minimize_illegal(IVP_Mindist_Minimize_Solver *){
-    CORE;
+    AssertMsg(false, "Havok fatal error");
     return IVP_MRC_ILLEGAL;
 }
 

@@ -161,8 +161,8 @@ void IVP_Compact_Recursive::set_rekursive_convex_hull(){
       }
     }
   }
-  IVP_IF(1){
-      //printf("extra convex hull rekursive: edges not found %i found %i\n", edges_not_found, edges_found);
+  IVP_IFDEBUG(1){
+      //Log_Warning(LOG_HAVOK, "extra convex hull rekursive: edges not found %i found %i\n", edges_not_found, edges_found);
   }
 }
 

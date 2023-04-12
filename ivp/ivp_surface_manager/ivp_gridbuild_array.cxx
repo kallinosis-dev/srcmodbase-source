@@ -58,7 +58,7 @@ IVP_GridBuilder_Array::IVP_GridBuilder_Array(IVP_U_Memory *mm_, const IVP_Templa
 	    dest->k[ gp->height_maps_to ]      = float(source[0] * dz);
 	    source++;
 	    dest++;
-		IVP_ASSERT( ((int)dest & 15) == 0 );
+		Assert( ((int)dest & 15) == 0 );
 	    y += dy;
 	}
 	x += dx;
@@ -72,20 +72,20 @@ int IVP_GridBuilder_Array::install_grid_point(int grid_point_index){
     index = n_compact_poly_points_used++;	
     grid_point_to_ledge_point_array[grid_point_index] = index;
     compact_poly_point_buffer[ index ] = height_points[grid_point_index];
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 		IVP_Compact_Poly_Point *cpp=&compact_poly_point_buffer[ index ];
 		int adress=(int)cpp;
-		IVP_ASSERT( (adress & 15)==0 );
+		Assert( (adress & 15)==0 );
 	}
     return index;
 }
 
 int IVP_GridBuilder_Array::install_point(const IVP_U_Float_Point *point){
     int index = n_compact_poly_points_used++;
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 		IVP_Compact_Poly_Point *cpp=&compact_poly_point_buffer[ index ];
 		int adress=(int)cpp;
-		IVP_ASSERT( (adress & 15)==0 );
+		Assert( (adress & 15)==0 );
 	}
     compact_poly_point_buffer[ index ].set(point);
     compact_poly_point_buffer[index].hesse_val = 0.0f;
@@ -121,7 +121,7 @@ void IVP_GridBuilder_Array::add_triangle(int s_p0_off, int s_p1_off, int s_p2_of
     tri->c_three_edges[1].set_opposite_index(opp1);
     tri->c_three_edges[2].set_opposite_index(opp2);
 
-    IVP_IF(1){
+    IVP_IFDEBUG(1){
 	// check for opposite and convexity consistency
 	int opp[3];
 	opp[0] = opp0;
@@ -134,7 +134,7 @@ void IVP_GridBuilder_Array::add_triangle(int s_p0_off, int s_p1_off, int s_p2_of
 	    oppo = edge->get_opposite();
 
 	    if((opp[e] < 0)&&(opp[e] > -1000) && (oppo->get_opposite_index() > -1000)){
-		IVP_ASSERT(edge==oppo->get_opposite());
+		Assert(edge==oppo->get_opposite());
 
 		// check for convexity
 		IVP_U_Hesse hesse;
@@ -146,7 +146,7 @@ void IVP_GridBuilder_Array::add_triangle(int s_p0_off, int s_p1_off, int s_p2_of
 		hesse.calc_hesse(&p0, &p1, &p2);
 		IVP_U_Point pp;
 		pp.set(oppo->get_prev()->get_start_point(c_ledge));
-		IVP_ASSERT(hesse.get_dist(&pp) >= -0.001f);//- P_RES_EPS);
+		Assert(hesse.get_dist(&pp) >= -0.001f);//- P_RES_EPS);
 	    }
 	}
     }
@@ -155,12 +155,12 @@ void IVP_GridBuilder_Array::add_triangle(int s_p0_off, int s_p1_off, int s_p2_of
 void IVP_GridBuilder_Array::insert_opposite_index( const IVP_Compact_Edge *edge, int index){
     ((IVP_Compact_Edge *)edge)->set_opposite_index(index);
     
-    IVP_IF(1){
+    IVP_IFDEBUG(1){
 	const IVP_Compact_Edge *oppo;
 	oppo = edge->get_opposite();
 	if (oppo->get_triangle() - c_ledge->get_first_triangle() >= triangle_count) return;	// not in list yet
 //	if((index < 0)&&(index > -1000) && (oppo->get_opposite_index() > -1000)){
-	    IVP_ASSERT(edge==oppo->get_opposite());
+	    Assert(edge==oppo->get_opposite());
 
 	    // check for convexity
 	    IVP_U_Hesse hesse;
@@ -172,7 +172,7 @@ void IVP_GridBuilder_Array::insert_opposite_index( const IVP_Compact_Edge *edge,
 	    hesse.calc_hesse(&p0, &p1, &p2);
 	    IVP_U_Point pp;
 	    pp.set(oppo->get_prev()->get_start_point(c_ledge));
-	    IVP_ASSERT(hesse.get_dist(&pp) >= -1e-12f);
+	    Assert(hesse.get_dist(&pp) >= -1e-12f);
 //	}
     }
 }
@@ -188,7 +188,7 @@ IVP_Compact_Ledge *IVP_GridBuilder_Array::convert_convex_triangle_to_compact_led
     int mem_size = 	sizeof(IVP_Compact_Ledge) +	num_triangles * sizeof(IVP_Compact_Triangle);
 
     this->c_ledge = (IVP_Compact_Ledge *)mm->get_memc( mem_size);
-    IVP_ASSERT( (int(this->c_ledge) & 15) == 0);	// make sure it is aligned
+    Assert( (int(this->c_ledge) & 15) == 0);	// make sure it is aligned
 
     { // set point arrays
 	// search the minimum point index and install points
@@ -205,7 +205,7 @@ IVP_Compact_Ledge *IVP_GridBuilder_Array::convert_convex_triangle_to_compact_led
 	c_point_to_point_index[1] -= min;
 	c_point_to_point_index[2] -= min;
 
-	IVP_ASSERT(max - min + 1 < n_cols * 4 + 2 * n_cols);
+	Assert(max - min + 1 < n_cols * 4 + 2 * n_cols);
 	this->c_points = &compact_poly_point_buffer[min];
 
 	c_ledge->set_offset_ledge_points( (int)((uchar *)c_points - (uchar *)c_ledge) ); // byte offset from 'this' to (ledge) point array
@@ -242,7 +242,7 @@ IVP_Compact_Ledge *IVP_GridBuilder_Array::convert_convex_square_to_compact_ledge
     int mem_size = 	sizeof(IVP_Compact_Ledge) +	num_triangles * sizeof(IVP_Compact_Triangle);
 
     this->c_ledge = (IVP_Compact_Ledge *)mm->get_memc( mem_size);
-    IVP_ASSERT( (int(this->c_ledge) & 15) == 0);	// make sure it is aligned
+    Assert( (int(this->c_ledge) & 15) == 0);	// make sure it is aligned
 
     { // set point arrays
 	// search the minimum point index and install points
@@ -260,7 +260,7 @@ IVP_Compact_Ledge *IVP_GridBuilder_Array::convert_convex_square_to_compact_ledge
 	c_point_to_point_index[2] -= min;
 	c_point_to_point_index[3] -= min;
 
-	IVP_ASSERT(max - min + 1 < n_cols * 4 + 2 * n_cols);
+	Assert(max - min + 1 < n_cols * 4 + 2 * n_cols);
 	this->c_points = &compact_poly_point_buffer[min];
 
 	c_ledge->set_offset_ledge_points( (int)((uchar *)c_points - (uchar *)c_ledge) ); // byte offset from 'this' to (ledge) point array
@@ -314,7 +314,7 @@ IVP_Compact_Ledge *IVP_GridBuilder_Array::convert_convex_stripe_to_compact_ledge
 						IVP_BOOL is_right_starter)
 {
     ///// Convert a convex strip into a compact ledge
-    IVP_ASSERT(n_points >=4);
+    Assert(n_points >=4);
 
 
     //// INITS
@@ -327,7 +327,7 @@ IVP_Compact_Ledge *IVP_GridBuilder_Array::convert_convex_stripe_to_compact_ledge
     int mem_size = 	sizeof(IVP_Compact_Ledge) +	num_triangles * sizeof(IVP_Compact_Triangle);
 
     this->c_ledge = (IVP_Compact_Ledge *)mm->get_memc( mem_size);
-    IVP_ASSERT ( (int(c_ledge) & 15) == 0);
+    Assert ( (int(c_ledge) & 15) == 0);
 
 
 
@@ -346,7 +346,7 @@ IVP_Compact_Ledge *IVP_GridBuilder_Array::convert_convex_stripe_to_compact_ledge
 	for (int j = n_points +1; j>=0; j--){
 	    c_point_to_point_index[j] -= min;
 	}
-	IVP_ASSERT(max - min + 1 < n_cols * 4 + 1);
+	Assert(max - min + 1 < n_cols * 4 + 1);
 	this->c_points = &compact_poly_point_buffer[min];
 	c_ledge->set_offset_ledge_points( (uchar *)c_points - (uchar *)c_ledge ); // byte offset from 'this' to (ledge) point array
     }
@@ -499,9 +499,9 @@ lower_right:
 
 	// link last with first triangle
 	{
-		IVP_ASSERT(last_opp);
+		Assert(last_opp);
 		const IVP_Compact_Triangle *tri = &this->c_ledge->get_first_triangle()[1];
-		IVP_ASSERT(tri->get_tri_index() == 1);
+		Assert(tri->get_tri_index() == 1);
 		const IVP_Compact_Edge *link_edge = tri->get_edge(1);
 		insert_opposite_index(link_edge, -last_opp);
 	}
@@ -546,13 +546,13 @@ lower_right:
 					}
 				}
 			} // for u
-			IVP_ASSERT(max_tri_num >= 0);
+			Assert(max_tri_num >= 0);
 			((IVP_Compact_Triangle *)tri)->set_pierce_index(max_tri_num);
 			found_cnt++;				
 found_a_tri:
 			;
 		} // for t
-		IVP_ASSERT(found_cnt == num_triangles);
+		Assert(found_cnt == num_triangles);
 	}
 
 #ifdef DEBUG
@@ -750,7 +750,7 @@ IVP_Compact_Grid *IVP_GridBuilder_Array::compile_ledges_into_compact_grid(const 
 	for ( int i = ledges->len()-1; i>=0;i--){	// add buffersize for ledges
 		IVP_Compact_Ledge *cl = ledges->element_at(i);
 		int l_size = cl->get_size();
-		IVP_ASSERT( ((l_size) & 0xf) == 0);
+		Assert( ((l_size) & 0xf) == 0);
 		buffer_size += l_size;
 	}
 
@@ -847,13 +847,13 @@ IVP_Compact_Grid *IVP_GridBuilder_Array::compile_ledges_into_compact_grid(const 
 			IVP_Compact_Ledge *cl_dest = (IVP_Compact_Ledge *)dest;
 			cl_dest->set_offset_ledge_points( (char *)cl->get_point_array() - (char *)compact_poly_point_buffer + compact_points - (char *)cl_dest );
 
-			IVP_ASSERT( cl_dest->get_point_array()->quad_distance_to(cl->get_point_array()) == 0.0f);
+			Assert( cl_dest->get_point_array()->quad_distance_to(cl->get_point_array()) == 0.0f);
 
 			cg->offset_compact_ledge_array[ ledge_index ] = dest - (char *)cg;
 			dest += l_size;
 		}
 		ledges->remove_all();
-		IVP_ASSERT( (char *)dest - (char *)cg == cg->byte_size );
+		Assert( (char *)dest - (char *)cg == cg->byte_size );
 	}
 
 

@@ -482,7 +482,7 @@ IVP_Actuator_Rot_Mot::IVP_Actuator_Rot_Mot(IVP_Environment *env,
     IVP_Real_Object *obj0 = get_actuator_anchor(0)->l_anchor_object;
     IVP_Real_Object *obj1 = get_actuator_anchor(1)->l_anchor_object;
     if ( obj0->get_original_core() != obj1->get_original_core()){
-	printf("Rot Mot Actuation has to be fixed on one object\n");
+	Log_Warning(LOG_HAVOK, "Rot Mot Actuation has to be fixed on one object\n");
     }
 
     axis_in_core_coord_system.subtract(&get_actuator_anchor(1)->core_pos,&get_actuator_anchor(0)->core_pos);
@@ -584,8 +584,8 @@ void IVP_Actuator_Rot_Mot::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
     
     if (domega < 0.0f) domega = -domega;
     if (domega > max_rotation_speed){
-	IVP_IF(0){
-	    printf("Rot Mot rot speed threshold reached!\n");
+	IVP_IFDEBUG(0){
+	    Log_Warning(LOG_HAVOK, "Rot Mot rot speed threshold reached!\n");
 	}
 	return;	// too fast
     }
@@ -599,15 +599,15 @@ void IVP_Actuator_Rot_Mot::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
     // clip force
     while(max_torque != 0.0f){
 	if( rot_force > max_torque){
-	    IVP_IF(0){
-		printf("RM Force clipped to %g, was %g\n", max_torque, rot_force);
+	    IVP_IFDEBUG(0){
+		Log_Warning(LOG_HAVOK, "RM Force clipped to %g, was %g\n", max_torque, rot_force);
 	    }
 	    rot_force = max_torque;
 	    break;
 	}
 	if( rot_force < -max_torque){
-	    IVP_IF(0){
-		printf("RM Force clipped to %g, was %g\n", -max_torque, rot_force);
+	    IVP_IFDEBUG(0){
+		Log_Warning(LOG_HAVOK, "RM Force clipped to %g, was %g\n", -max_torque, rot_force);
 	    }
 	    rot_force = -max_torque;
 	}
@@ -633,8 +633,8 @@ IVP_Actuator_Torque::IVP_Actuator_Torque(IVP_Environment *env,    IVP_Template_T
     IVP_Real_Object *obj0 = get_actuator_anchor(0)->l_anchor_object;
     IVP_Real_Object *obj1 = get_actuator_anchor(1)->l_anchor_object;
     if ( obj0->get_original_core() != obj1->get_original_core()){
-		printf("Both Anchors of a Torque_Actuator must be attached to just one object.\n");
-		CORE;
+		Log_Warning(LOG_HAVOK, "Both Anchors of a Torque_Actuator must be attached to just one object.\n");
+		AssertMsg(false, "Havok fatal error");
     }
     axis_in_core_coord_system.subtract(&get_actuator_anchor(1)->core_pos,&get_actuator_anchor(0)->core_pos);
     axis_in_core_coord_system.normize();
@@ -741,7 +741,7 @@ IVP_Anchor::~IVP_Anchor() {
 }
 
 void IVP_Anchor::object_is_going_to_be_deleted_event(IVP_Real_Object *obj){
-    IVP_ASSERT( obj == anchor_get_real_object() );
+    Assert( obj == anchor_get_real_object() );
     l_actuator->anchor_will_be_deleted_event(this);
 }
 ////////// MANAGERS /////////////////
@@ -857,7 +857,7 @@ void IVP_Actuator_Extra::do_puck_force(IVP_DOUBLE dtime)
 void IVP_Actuator_Extra::calc_float_cam_matrix(IVP_U_Matrix *cam_matrix_out)
 {
     // calc camera matrix from current fc values
-    IVP_ASSERT(this->info.is_float_cam);
+    Assert(this->info.is_float_cam);
 
     IVP_U_Point cam_dir;
     cam_dir.subtract(&this->current_look_point, &this->current_float_cam_pos);
@@ -890,7 +890,7 @@ void IVP_Actuator_Extra::do_float_cam(IVP_DOUBLE d_time)
 	}
     }
     
-    IVP_ASSERT(this->info.is_float_cam);
+    Assert(this->info.is_float_cam);
 
     IVP_DOUBLE fc_height, fc_target_height, fc_dist, fc_speed;
     IVP_U_Point *fc_pos = this->get_float_cam_props(&fc_height, &fc_target_height, &fc_dist, &fc_speed);

@@ -54,8 +54,8 @@ class IVP_U_Memory {
 
 void IVP_U_Memory::start_memory_transaction()
 {
-    //IVP_ASSERT(transaction_in_use==0);
-    IVP_IF(1) {
+    //Assert(transaction_in_use==0);
+    IVP_IFDEBUG(1) {
 #ifdef SUN
 		if(size_of_external_mem==0) {
 	        init_mem_transaction_usage(); //get first block
@@ -67,12 +67,12 @@ void IVP_U_Memory::start_memory_transaction()
 
 void IVP_U_Memory::end_memory_transaction()
 {
-    //IVP_IF(1) {
+    //IVP_IFDEBUG(1) {
 	    transaction_in_use--;
     //}
-    //IVP_ASSERT(transaction_in_use==0);
+    //Assert(transaction_in_use==0);
     free_mem_transaction();
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 #ifdef SUN
 		free_mem(); //clear last block to be able to detect unitialized memory access
 #endif
@@ -109,7 +109,7 @@ inline void    *IVP_U_Memory::get_mem(unsigned int groesse)
 	    return ((void *) this->neuer_sp_block(groesse));
 	} else {
 	    speicherbeginn = p;
-		IVP_IF( ((int)op > 0x780000 ) && ((int)op < 0x792f48)) {
+		IVP_IFDEBUG( ((int)op > 0x780000 ) && ((int)op < 0x792f48)) {
 			op++;
 			op--;
 		}
@@ -119,7 +119,7 @@ inline void    *IVP_U_Memory::get_mem(unsigned int groesse)
 }
 
 inline void    *IVP_U_Memory::get_mem_transaction(unsigned int groesse){
-    IVP_ASSERT(transaction_in_use==1);
+    Assert(transaction_in_use==1);
     return get_mem(groesse);
 }
 

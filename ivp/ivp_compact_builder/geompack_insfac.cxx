@@ -619,7 +619,7 @@ L230:
     }
 
 L240:
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL2) {
 	    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL2, "Cut face: #edges, polyh(1:2) = %d %d %d\n", (*nce), facesdata[this->nface * 3 + 2], facesdata[this->nface * 3 + 3]);
 	    i__1 = *nce;

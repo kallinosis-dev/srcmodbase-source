@@ -671,9 +671,9 @@ bool CTraceIVP::BuildLeafmapCache( const leafmap_t * RESTRICT pLeafmap )
 
 	int remIndex = (pointCount-1) & 3;
 	int x0 = 0;
-	int x1 = min(1,remIndex);
-	int x2 = min(2,remIndex);
-	int x3 = min(3,remIndex);
+	int x1 = std::min(1,remIndex);
+	int x2 = std::min(2,remIndex);
+	int x3 = std::min(3,remIndex);
 	m_vertCache[m_cacheCount-1].LoadAndSwizzleAligned( pVerts[x0].Base(), pVerts[x1].Base(), pVerts[x2].Base(), pVerts[x3].Base() );
 	FourVectors::RotateManyBy( &m_vertCache[0], m_cacheCount, *((const matrix3x4_t *)&m_ivpLocalToHLWorld) );
 	return true;
@@ -1011,7 +1011,7 @@ int CTraceRay::SupportMap( const Vector &dir, Vector *pOut ) const
 	return 0;
 }
 
-static char			*map_nullname = "**empty**";
+static char const	*map_nullname = "**empty**";
 static csurface_t	nullsurface = { map_nullname, 0 };
 
 static void CM_ClearTrace( trace_t *trace )
@@ -1041,7 +1041,7 @@ public:
 		m_obstacle = obstacle;
 		m_ray = ray;
 		m_traceLength = 0;
-		m_totalTraceLength = max( ray->m_baseLength, 1e-8f );
+		m_totalTraceLength = std::max( ray->m_baseLength, 1e-8f );
 		m_pointClosestToIntersection = axis;
 		m_epsilon = g_PhysicsUnits.collisionSweepEpsilon;
 	}

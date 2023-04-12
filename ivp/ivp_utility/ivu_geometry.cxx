@@ -108,8 +108,8 @@ IVP_RETURN_TYPE IVP_U_Plain::calc_intersect_with(const IVP_U_Hesse *plane2,
 
     // calc intersection of straight with plane2
     if(plane2->calc_intersect_with(&straight, &straight_out->start_point) == IVP_FAULT){
-	printf("Merkwuerden.\n");
-	CORE;
+	Log_Warning(LOG_HAVOK, "Merkwuerden.\n");
+	AssertMsg(false, "Havok fatal error");
     }
     return IVP_OK;
 }
@@ -181,7 +181,7 @@ IVP_U_INTERSECT_TYPE IVP_U_Straight::calc_intersect_with(const IVP_U_Straight *s
     IVP_RETURN_TYPE flag = 
 #endif
 	hesse.calc_intersect_with(this, p_out);
-    IVP_ASSERT(flag == IVP_OK);
+    Assert(flag == IVP_OK);
 
     straight2->calc_orthogonal_vec_from_point(p_out, &hp);
     *dist_out = hp.quad_length();
@@ -190,7 +190,7 @@ IVP_U_INTERSECT_TYPE IVP_U_Straight::calc_intersect_with(const IVP_U_Straight *s
     }else{
 	return IVP_U_INTERSECT_NO_INTERSECTION; // have distance
     }
-    CORE;
+    AssertMsg(false, "Havok fatal error");
 }
 
 

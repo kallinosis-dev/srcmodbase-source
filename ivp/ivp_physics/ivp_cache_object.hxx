@@ -25,7 +25,7 @@ class IVP_Cache_Object {
 public:
     void remove_reference()
 	{     
-		IVP_ASSERT(reference_count == 1 );
+		Assert(reference_count == 1 );
 		reference_count--; 
 	};
     IVP_U_Quat		q_world_f_object;

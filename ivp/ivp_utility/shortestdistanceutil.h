@@ -114,7 +114,7 @@ public:
     		else if(ds3 <= ds1 && ds3 <= ds1)
     			C->set(&cp3);
     		else
-    			CORE;
+    			AssertMsg(false, "Havok fatal error");
     	}
     
     	return;

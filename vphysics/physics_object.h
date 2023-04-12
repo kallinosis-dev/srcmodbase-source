@@ -264,6 +264,37 @@ private:
 
 	friend CPhysicsObject *CreatePhysicsObject( CPhysicsEnvironment *pEnvironment, const CPhysCollide *pCollisionModel, int materialIndex, const Vector &position, const QAngle& angles, objectparams_t *pParams, bool isStatic );
 	friend bool CPhysicsEnvironment::TransferObject( IPhysicsObject *pObject, IPhysicsEnvironment *pDestinationEnvironment ); //need direct access to m_pShadow for Portal mod's physics object transfer system
+public:
+	void RecheckContactPoints(bool bSearchForNewContacts) override
+	{
+		Assert(false);
+	}
+	void SetSphereRadius(float radius) override
+	{
+		Assert(false);
+	}
+	void SetUseAlternateGravity(bool bSet) override
+	{
+		Assert(false);
+	}
+	void SetCollisionHints(uint32 collisionHints) override
+	{
+		Assert(false);
+	}
+	uint32 GetCollisionHints() const override
+	{
+		Assert(false);
+		return 0;
+	}
+	IPredictedPhysicsObject* GetPredictedInterface() const override
+	{
+		Assert(false);
+		return nullptr;
+	}
+	void SyncWith(IPhysicsObject* pOther) override
+	{
+		Assert(false);
+	}
 };
 
 // If you haven't ever touched a dynamic object, there's no need to search for contacting objects to 

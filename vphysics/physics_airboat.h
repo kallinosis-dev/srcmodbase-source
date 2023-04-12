@@ -150,6 +150,12 @@ protected:
 
 public:
 
+public:
+    void do_steering(IVP_FLOAT steering_angle_in) override
+    {
+        Assert(false);
+    }
+
 	// Steering
     void							do_steering_wheel(IVP_POS_WHEEL wheel_pos, IVP_FLOAT s_angle);						// called by do_steering()
 
@@ -297,6 +303,8 @@ private:
 	void							CalcImpactPosition( IVP_Ray_Solver_Template *pRaySolver, IVP_Raycast_Airboat_Wheel *pPontoonPoint,
 													    IVP_Raycast_Airboat_Impact *pImpacts );
 
+
+private:
     IVP_Controller_Raycast_Airboat_Vector_of_Cores_1 vector_of_cores;
 };
 

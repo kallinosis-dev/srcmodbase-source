@@ -64,6 +64,16 @@ public:
 	void		ParseVehicle( vehicleparams_t *pVehicle, IVPhysicsKeyHandler *unknownKeyHandler );
 	void		ParseCustom( void *pCustom, IVPhysicsKeyHandler *unknownKeyHandler );
 	void		SkipBlock( void ) { ParseCustom(nullptr, nullptr); }
+	void ParseCollisionRules(ragdollcollisionrules_t* pRules,
+		IVPhysicsKeyHandler* unknownKeyHandler) override
+	{
+		Assert(false);
+	}
+	void ParseRagdollAnimatedFriction(ragdollanimatedfriction_t* pFriction,
+		IVPhysicsKeyHandler* unknownKeyHandler) override
+	{
+		Assert(false);
+	}
 
 private:
 	void		ParseVehicleAxle( vehicle_axleparams_t &axle );
@@ -74,7 +84,9 @@ private:
 	void		ParseVehicleEngineBoost( vehicle_engineparams_t &engine );
 	void		ParseVehicleSteering( vehicle_steeringparams_t &steering );
 
-	const char *m_pText;
+
+			private:
+				const char *m_pText;
 	char m_blockName[MAX_KEYVALUE];
 };
 

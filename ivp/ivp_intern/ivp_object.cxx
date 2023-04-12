@@ -38,7 +38,7 @@ void IVP_Real_Object::change_nocoll_group_ident(const char *new_string ) {
 	return;
     }
     if (strlen(new_string) > IVP_NO_COLL_GROUP_STRING_LEN){
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
     strncpy( nocoll_group_ident, new_string, IVP_NO_COLL_GROUP_STRING_LEN);
 }
@@ -101,7 +101,7 @@ void IVP_Real_Object::change_mass( IVP_FLOAT new_mass ) {
 }
 
 void IVP_Real_Object::change_unmovable_flag( IVP_BOOL flag ) {
-    //printf("changing_unmov_flag to %d at time %f  csimfl %d  osimfl %d\n",flag,get_core()->environment->get_current_time(),this->get_core()->movement_state,this->object_movement_state);
+    //Log_Warning(LOG_HAVOK, "changing_unmov_flag to %d at time %f  csimfl %d  osimfl %d\n",flag,get_core()->environment->get_current_time(),this->get_core()->movement_state,this->object_movement_state);
     
     //friction info is stored differently in movables and unmovables, so destroy first
     IVP_Core *my_core=this->get_core();
@@ -113,7 +113,7 @@ void IVP_Real_Object::change_unmovable_flag( IVP_BOOL flag ) {
 	IVP_Real_Object *r_obj=my_core->objects.element_at(d);
 	r_obj->unlink_contact_points(IVP_FALSE);
     }
-    //printf("for_umove_info %lx\n",(long)my_core->core_friction_info.for_unmoveables.l_friction_info_hash);
+    //Log_Warning(LOG_HAVOK, "for_umove_info %lx\n",(long)my_core->core_friction_info.for_unmoveables.l_friction_info_hash);
     if(my_core->physical_unmoveable) {
 	P_DELETE(my_core->core_friction_info.for_unmoveables.l_friction_info_hash);
     } else {
@@ -126,7 +126,7 @@ void IVP_Real_Object::change_unmovable_flag( IVP_BOOL flag ) {
     my_core->physical_unmoveable = flag;
     if(flag==IVP_TRUE) {
 	//switched from movable to unmovable
-	//printf("switch_to_unmovable: controllers: %d\n",my_core->controllers_of_core.len());
+	//Log_Warning(LOG_HAVOK, "switch_to_unmovable: controllers: %d\n",my_core->controllers_of_core.len());
 	if(my_core->sim_unit_of_core) {
 	    my_core->sim_unit_of_core->sim_unit_remove_core(my_core);
 	    my_core->sim_unit_of_core=new IVP_Simulation_Unit();
@@ -143,7 +143,7 @@ void IVP_Real_Object::change_unmovable_flag( IVP_BOOL flag ) {
 	    my_core->add_core_controller(my_core->environment->standard_gravity_controller);
 	}	
     } else {
-	//printf("switch_to_movable\n");
+	//Log_Warning(LOG_HAVOK, "switch_to_movable\n");
     }
 }
 
@@ -173,7 +173,7 @@ void IVP_Real_Object::enable_collision_detection(IVP_BOOL enable){
 
 void IVP_Real_Object::ensure_in_simulation_now(){
     // Note IVP_MT_STATIC != IVP_MT_NOT_SIM
-    IVP_ASSERT( !this->get_core()->physical_unmoveable );
+    Assert( !this->get_core()->physical_unmoveable );
     if (this->physical_core->movement_state==IVP_MT_NOT_SIM){
 	this->revive_object_for_simulation();
     }
@@ -317,7 +317,7 @@ void IVP_Real_Object::revive_object_for_simulation()
 {
     if(this->get_movement_state() == IVP_MT_NOT_SIM){	// STATICS won't be revived too
         //IVP_Environment *env=this->get_environment();
-	//IVP_ASSERT( env->state == IVP_ES_AT ); //TL: without this assert no controll
+	//Assert( env->state == IVP_ES_AT ); //TL: without this assert no controll
 //	this->friction_core->init_core_for_simulation();
 
 	this->friction_core->sim_unit_of_core->sim_unit_revive_for_simulation(this->friction_core->environment);
@@ -361,7 +361,7 @@ IVP_Real_Object::IVP_Real_Object(IVP_Cluster *cluster,IVP_SurfaceManager *surfac
     }
     
     this->l_default_material = templ_obj->material;
-//    IVP_ASSERT(l_default_material);
+//    Assert(l_default_material);
 
     physical_core->environment->get_cluster_manager()->add_object(this);
 
@@ -390,7 +390,7 @@ void IVP_Real_Object::set_new_surface_manager( IVP_SurfaceManager *new_sm){
 	rad_dev = 0.0f;
 	break;
     default:
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
     rad += this->get_extra_radius();
 
@@ -420,7 +420,7 @@ void IVP_Real_Object::recalc_core_radius( ){
 	rad = rad_dev = this->shift_core_f_object.real_length();
 	break;
     default:
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
     rad += this->get_extra_radius();
 
@@ -533,7 +533,7 @@ void IVP_Real_Object::recalc_invalid_mindists_of_object() {
 
 	IVP_Mindist *mdist = first_syn->get_mindist();
 
-	IVP_ASSERT (mdist->mindist_function == IVP_MF_COLLISION);
+	Assert (mdist->mindist_function == IVP_MF_COLLISION);
 
 	mdist->recalc_invalid_mindist();
 	if (mdist->recalc_result == IVP_MDRR_INTRUSION){
@@ -595,18 +595,18 @@ void IVP_Real_Object::unlink_contact_points(IVP_BOOL silent) {
     while((fr_synapse=this->get_first_friction_synapse())!= nullptr) {
 	IVP_Contact_Point *fr_mindist=fr_synapse->get_contact_point();
         IVP_Friction_System *fr_sys=fr_mindist->l_friction_system;
-	IVP_IF(debug_once) {
+	IVP_IFDEBUG(debug_once) {
 	    debug_once=1;
 	    IVP_Synapse_Friction *debug_syn=this->get_first_friction_synapse();
-	    printf("still_left_fd ");
+	    Log_Warning(LOG_HAVOK, "still_left_fd ");
 	    while(debug_syn) {
-		printf("fd %lx sys %lx  ",(long)debug_syn->get_contact_point(),
+		Log_Warning(LOG_HAVOK, "fd %lx sys %lx  ",(long)debug_syn->get_contact_point(),
 		    (long)debug_syn->get_contact_point()->l_friction_system); 
 		debug_syn=debug_syn->get_next();
 	    }
-	    printf("\n");
+	    Log_Warning(LOG_HAVOK, "\n");
 	    fr_sys->debug_fs_out_ascii();
-	    printf("newl\n");
+	    Log_Warning(LOG_HAVOK, "newl\n");
 	}
 	IVP_Core *core0,*core1;
 	core0=fr_mindist->get_synapse(0)->l_obj->friction_core;
@@ -629,7 +629,7 @@ void IVP_Real_Object::clear_internal_references() {
     while( (my_anchor=this->get_first_anchor()) != nullptr) {
 	my_anchor->object_is_going_to_be_deleted_event(this);
 	if (my_anchor == last_anchor){ // check for errors in anchors
-	    CORE;
+	    AssertMsg(false, "Havok fatal error");
 	}
 	last_anchor = my_anchor;
     }
@@ -667,7 +667,7 @@ IVP_Object::~IVP_Object(){
 	this->father_cluster->remove_object(this);
     }
     P_FREE(this->name);
-	IVP_ASSERT(environment);
+	Assert(environment);
 	environment = nullptr;
 }
 
@@ -809,7 +809,7 @@ void IVP_Real_Object::init_object_core(IVP_Environment *i_environment, const IVP
 	rad_dev = 0.0f;
 	break;
     default:
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
     rad += this->get_extra_radius();
     
@@ -834,7 +834,7 @@ void IVP_Real_Object::init_object_core(IVP_Environment *i_environment, const IVP
 	    break;
 	}
 	default:
-	    CORE;
+	    AssertMsg(false, "Havok fatal error");
 	}
 	    
 	rot_inertia.set_pairwise_mult( &rot_in, &templ->rot_inertia);
@@ -1046,8 +1046,8 @@ void IVP_Real_Object::ensure_in_simulation(){
     if (this->get_movement_state()!=IVP_MT_NOT_SIM){
 	this->get_core()->reset_freeze_check_values();
     }else{
-	//printf("add_reviving\n");
-	IVP_ASSERT( !this->get_core()->physical_unmoveable );
+	//Log_Warning(LOG_HAVOK, "add_reviving\n");
+	Assert( !this->get_core()->physical_unmoveable );
 	environment->add_revive_core(this->friction_core); 
     }
 

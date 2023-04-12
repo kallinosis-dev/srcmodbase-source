@@ -53,8 +53,8 @@ void IVP_SurfaceManager_Polygon_Solver::traverse_cluster(const IVP_Compact_Ledge
     IVP_DOUBLE check_dist = radius + node->radius;
 
     if ( dist_vec.quad_length() > check_dist * check_dist ) {
-	IVP_IF(0) {
-	    printf("Sphere\n");
+	IVP_IFDEBUG(0) {
+	    Log_Warning(LOG_HAVOK, "Sphere\n");
 	}
 	return;
     }
@@ -65,26 +65,26 @@ void IVP_SurfaceManager_Polygon_Solver::traverse_cluster(const IVP_Compact_Ledge
     register IVP_FLOAT work2 = work * node->radius;
 
     if ( IVP_Inline_Math::fabsd(dist_vec.k[0]) >= (node->box_sizes[0] * work2 + radius) ) {
-	IVP_IF(0) {
-	    printf("Box\n");
+	IVP_IFDEBUG(0) {
+	    Log_Warning(LOG_HAVOK, "Box\n");
 	}
 	return;
     }
     if ( IVP_Inline_Math::fabsd(dist_vec.k[1]) >= (node->box_sizes[1] * work2 + radius) ) {
-	IVP_IF(0) {
-	    printf("Box\n");
+	IVP_IFDEBUG(0) {
+	    Log_Warning(LOG_HAVOK, "Box\n");
 	}
 	return;
     }
     if ( IVP_Inline_Math::fabsd(dist_vec.k[2]) >= (node->box_sizes[2] * work2 + radius) ) {
-	IVP_IF(0) {
-	    printf("Box\n");
+	IVP_IFDEBUG(0) {
+	    Log_Warning(LOG_HAVOK, "Box\n");
 	}
 	return;
     }
 
-    //printf("Node    : %f - %f *** %f - %f *** %f - %f\n", min_x, max_x, min_y, max_y, min_z, max_z);
-    //printf("Intruder: %f - %f *** %f - %f *** %f - %f\n", s_bb_min_x, s_bb_max_x, s_bb_min_y, s_bb_max_y, s_bb_min_z, s_bb_max_z);
+    //Log_Warning(LOG_HAVOK, "Node    : %f - %f *** %f - %f *** %f - %f\n", min_x, max_x, min_y, max_y, min_z, max_z);
+    //Log_Warning(LOG_HAVOK, "Intruder: %f - %f *** %f - %f *** %f - %f\n", s_bb_min_x, s_bb_max_x, s_bb_min_y, s_bb_max_y, s_bb_min_z, s_bb_max_z);
 #endif
     const IVP_Compact_Ledge *hull = node->get_compact_hull();
     if ( hull ){
@@ -179,13 +179,13 @@ IVP_SURMAN_TYPE IVP_SurfaceManager_Polygon::get_type(){
 
 void IVP_SurfaceManager_Polygon::add_reference_to_ledge(const IVP_Compact_Ledge *ledge)
 {
-    IVP_USE(ledge);
+    
     return;
 }
 
 void IVP_SurfaceManager_Polygon::remove_reference_to_ledge(const IVP_Compact_Ledge *ledge)
 {
-    IVP_USE(ledge);
+    
     return;
 }
 

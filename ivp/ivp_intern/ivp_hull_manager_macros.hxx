@@ -32,6 +32,6 @@ void IVP_Hull_Manager::increase_hull_by_x(IVP_Time t_now, IVP_FLOAT delta_time, 
 
     IVP_FLOAT delta = delta_time * gradient;
     hull_value_next_psi = hull_value_last_vpsi + delta;
-    IVP_ASSERT(hull_value_next_psi >= 0.0f);
+    Assert(hull_value_next_psi >= 0.0f);
 }
 

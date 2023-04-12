@@ -109,7 +109,7 @@ void IVP_Geompack::decompose(struct geompack_parameters *params) {
 
 
     if ( !this->g_facesdata || !this->g_facestype || !this->g_hashtable || !this->g_polyhedronfirstfaceoffset || !this->g_polyhedronfaceindices || !this->g_faceverticeslist || !this->g_intworkarray || !this->g_doubleworkarray || !this->g_edge_angles || !this->g_normals || !this->g_ev ) {
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 		ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL1, "*** GEOMPACK: Out of memory!\n\n");
 	    }
@@ -180,7 +180,7 @@ void IVP_Geompack::decompose(struct geompack_parameters *params) {
     dsphdc_();
 
     if (this->ierr != 0) {
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 		if ( this->ierr == 500 ) {
 		    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL1, "*** GEOMPACK: Out of memory!\n\n");
@@ -193,7 +193,7 @@ void IVP_Geompack::decompose(struct geompack_parameters *params) {
 
 
 
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 	    int	n_reflex_edges;
 	    double	minimum_angle;
@@ -265,7 +265,7 @@ Retry_convex_decomposition:
     this->cvdec3_();
 
     if ( (this->ierr != 0) && (this->ierr != 327) ) { // abort on error but skip "reflex edge" resolving problems
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 		if ( this->ierr == 500 ) {
 		    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL1, "*** GEOMPACK: Out of memory!\n\n");
@@ -278,7 +278,7 @@ Retry_convex_decomposition:
 
 
 
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 	    int	n_reflex_edges;
 	    double	minimum_angle;
@@ -346,7 +346,7 @@ Retry_convex_decomposition:
 		this->rdacc *= 0.95;
 		this->ierr = 0;
 		retry_counter++;
-		IVP_IF(1) {
+		IVP_IFDEBUG(1) {
 		    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 			ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL1, "Retrying with <angacc=%f> and <rdacc=%f>\n\n", this->angacc, this->rdacc);
 		    }
@@ -354,7 +354,7 @@ Retry_convex_decomposition:
 		goto Retry_convex_decomposition;
 	    }
 	}
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 		ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL1, "Premature abort due to difficulties in resolving some reflex edge(s).\n\n");
 	    }
@@ -367,7 +367,7 @@ Retry_convex_decomposition:
     // Final output.
     // -----------------------------------------------------------------------
 
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 	    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL1, "+++ Convex decomposition successful!\n\n");
 	}
@@ -376,7 +376,7 @@ Retry_convex_decomposition:
 	    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL2, "VCL (vertex coordinate list)\n");
 	    for (i=1; i<=this->n_original_vertices; i++) {
 		int j;
-		printf("#%d : \t", i);
+		Log_Warning(LOG_HAVOK, "#%d : \t", i);
 		for (j=1; j<=3; j++) {
 		    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL2, "%f   ", this->g_vcl[j+(i*3)-4]);
 		}
@@ -455,7 +455,7 @@ Retry_convex_decomposition:
 
 GEOMPACK_abort:
 
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 	    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL1, "Final GEOMPACK statistics:\n");
 	    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL1, "N_ORIGINAL_VERTICES   \t= %d (number of vertex coordinates)\n", this->n_original_vertices);

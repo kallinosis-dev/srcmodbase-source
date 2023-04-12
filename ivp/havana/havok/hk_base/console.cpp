@@ -4,16 +4,10 @@
 #include <cstdlib>
 #include <cstdarg>
 
-#ifdef WIN32
-#	ifndef WIN32_LEAN_AND_MEAN
-#		define	WIN32_LEAN_AND_MEAN
-#	endif
-#	ifdef _XBOX
-#		include <xtl.h>
-#	else
-#		include <windows.h>
-#	endif
-#endif
+#include "tier0/logging.h"
+#include "tier0/dbg.h"
+
+DEFINE_LOGGING_CHANNEL_NO_TAGS(LOG_HAVOK, "Havok");
 
 hk_Console *hk_Console::m_console = nullptr;
 hk_Console hk_Console::m_default_console_buffer;
@@ -30,32 +24,25 @@ hk_Console *hk_Console::get_instance()
 
 void hk_Console::printf( const char *fmt, ...)
 {
+	char buffer[MAX_ERROR_BUFFER_LEN];
+
 	va_list vlist;
 	va_start(vlist, fmt);
 	//XXX fixme
 	// scan format list for havok vector matrix tokens %V %M
-	vprintf(fmt, vlist);
+	vsprintf(buffer, fmt, vlist);
 	va_end(vlist);
-#ifdef WIN32
-    char buffer[MAX_ERROR_BUFFER_LEN];
-    va_start(vlist,fmt);	
-    vsprintf(buffer, fmt,vlist);
-    va_end(vlist);
-    OutputDebugString(buffer);
-#endif
+
+	Log_Warning(LOG_HAVOK, "%s", buffer);
 }
 
 void hk_Console::flush()
 {
-#ifndef WIN32
-#ifndef HK_PS2
-	fflush(stdout);
-#endif
-#endif
+
 }
 
 
 void hk_Console::exit( int code )
 {
-	::exit(code);
+	AssertMsg1(false, "Havok would terminate program with code %i", code);
 }

@@ -55,13 +55,13 @@ void debug_sphere_output(IVV_Sphere *sphere)
     if ( ivp_debug_sf_max_treedepth < ivp_debug_sf_treedepth ) ivp_debug_sf_max_treedepth = ivp_debug_sf_treedepth;
     
     //for (int x=0; x<ivp_debug_sf_indent; x++) {
-    //	printf("  ");
+    //	Log_Warning(LOG_HAVOK, "  ");
     //}
-    //printf("center: %.6f/%.6f/%.6f --- Radius: %.6f\n", sphere->center.k[0], sphere->center.k[1], sphere->center.k[2], sphere->radius);
+    //Log_Warning(LOG_HAVOK, "center: %.6f/%.6f/%.6f --- Radius: %.6f\n", sphere->center.k[0], sphere->center.k[1], sphere->center.k[2], sphere->radius);
     //ivp_debug_sf_indent++;
     if ( sphere->child_1 ) {
-	IVP_ASSERT(sphere->child_1); // prevent nodes with one single child
-	IVP_ASSERT(sphere->child_2);
+	Assert(sphere->child_1); // prevent nodes with one single child
+	Assert(sphere->child_2);
 
 	int n_terminal_children = 0;
 	
@@ -76,8 +76,8 @@ void debug_sphere_output(IVV_Sphere *sphere)
 	ivp_debug_sf_last_node_was_terminal = IVP_FALSE;
     }
     else {
-	IVP_ASSERT(!sphere->child_1); // prevent nodes with one single child
-	IVP_ASSERT(!sphere->child_2);
+	Assert(!sphere->child_1); // prevent nodes with one single child
+	Assert(!sphere->child_2);
 	ivp_debug_sf_last_node_was_terminal = IVP_TRUE;
     }
     //ivp_debug_sf_indent--;
@@ -146,13 +146,13 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Ledge_Soup::compile(IVP_Template_Surbuil
 	ivp_debug_sf_n_nodes_with_one_terminal = 0;
 	ivp_debug_sf_last_node_was_terminal = IVP_FALSE;
 	debug_sphere_output(this->spheres_cluster[this->spheres_cluster[0].next].sphere);
-	printf("Tree depth: %d\n", ivp_debug_sf_max_treedepth);
-	printf("# of terminals: %d\n", this->number_of_terminal_spheres);
+	Log_Warning(LOG_HAVOK, "Tree depth: %d\n", ivp_debug_sf_max_treedepth);
+	Log_Warning(LOG_HAVOK, "# of terminals: %d\n", this->number_of_terminal_spheres);
     }
-    //printf("# of nodes with single terminal child: %d\n", ivp_debug_sf_n_nodes_with_one_terminal);
+    //Log_Warning(LOG_HAVOK, "# of nodes with single terminal child: %d\n", ivp_debug_sf_n_nodes_with_one_terminal);
 #endif
     
-    IVP_ASSERT(compact_surface == 0);
+    Assert(compact_surface == 0);
 
     if (templ->build_root_convex_hull && c_ledge_vec.len()>1){
       this->build_root_convex_hull();
@@ -238,7 +238,7 @@ void IVP_SurfaceBuilder_Ledge_Soup::ledges_to_spheres()
     int ledge_cnt;
     for (ledge_cnt=0; ledge_cnt<n_ledges; ledge_cnt++) {
 	IVP_Compact_Ledge *c_ledge = this->c_ledge_vec.element_at(ledge_cnt);
-	IVP_ASSERT (c_ledge->get_n_triangles() > 0);
+	Assert (c_ledge->get_n_triangles() > 0);
 
 	sphere = new IVV_Sphere();
 	this->all_spheres.add(sphere);
@@ -283,7 +283,7 @@ void IVP_SurfaceBuilder_Ledge_Soup::ledges_to_spheres()
 
     this->spheres_cluster[n-1].next = 0;
     
-    //printf("Radius of smallest sphere: %f\n", this->smallest_radius);
+    //Log_Warning(LOG_HAVOK, "Radius of smallest sphere: %f\n", this->smallest_radius);
 
     // @@@SF: for speedup of single-convex objects, move this into sphere-clustering!
     if ( ledge_cnt > 1 ) {
@@ -298,9 +298,9 @@ void IVP_SurfaceBuilder_Ledge_Soup::ledges_to_spheres()
 	    if ( ext_x < ext_z ) this->longest_axis = 2;
 	    else                 this->longest_axis = 0;
 	}
-	//printf("Extension in x-direction: %f\n", this->extents_max_x - this->extents_min_x);
-	//printf("Extension in y-direction: %f\n", this->extents_max_y - this->extents_min_y);
-	//printf("Extension in z-direction: %f\n", this->extents_max_z - this->extents_min_z);
+	//Log_Warning(LOG_HAVOK, "Extension in x-direction: %f\n", this->extents_max_x - this->extents_min_x);
+	//Log_Warning(LOG_HAVOK, "Extension in y-direction: %f\n", this->extents_max_y - this->extents_min_y);
+	//Log_Warning(LOG_HAVOK, "Extension in z-direction: %f\n", this->extents_max_z - this->extents_min_z);
     }
     
     return;
@@ -338,7 +338,7 @@ void IVP_SurfaceBuilder_Ledge_Soup::ledges_to_boxes_and_spheres()
     for (ledge_cnt = 0; ledge_cnt < n_ledges; ledge_cnt++) {
 		IVP_Compact_Ledge* compact_ledge = this->c_ledge_vec.element_at(ledge_cnt);
 
-		IVP_ASSERT(compact_ledge->get_n_triangles() > 0);
+		Assert(compact_ledge->get_n_triangles() > 0);
 
 		sphere = new IVV_Sphere();
 		this->all_spheres.add(sphere);
@@ -507,19 +507,19 @@ void IVP_SurfaceBuilder_Ledge_Soup::cluster_spheres_bottomup(IVP_DOUBLE threshol
 
 	}
 
-	IVP_ASSERT(this->interval_minhash->counter == 0);
-	IVP_ASSERT(cluster_min_hash.counter == 0);
-	IVP_ASSERT(this->overlapping_spheres.len() == 0);
+	Assert(this->interval_minhash->counter == 0);
+	Assert(cluster_min_hash.counter == 0);
+	Assert(this->overlapping_spheres.len() == 0);
 
 	// increase threshold/blowup (if necessary)
 	if ( this->built_spheres.len() == 0 ) {
-	    //printf("No spheres could be combined. Increasing radius threshold from %f to %f.\n", fixed_max_radius_for_new_sphere, fixed_max_radius_for_new_sphere+threshold_increase);
+	    //Log_Warning(LOG_HAVOK, "No spheres could be combined. Increasing radius threshold from %f to %f.\n", fixed_max_radius_for_new_sphere, fixed_max_radius_for_new_sphere+threshold_increase);
 	    fixed_max_radius_for_new_sphere *= threshold_increase;
 	}
 
 	// replace old spheres with newly built motherspheres
 	this->replace_childspheres_in_spherelist_with_motherspheres();
-	IVP_ASSERT(this->built_spheres.len() == 0);
+	Assert(this->built_spheres.len() == 0);
     }
 
     P_DELETE(this->interval_minhash);
@@ -843,7 +843,7 @@ IVV_Sphere *IVP_SurfaceBuilder_Ledge_Soup::cluster_spheres_topdown_mediancut_rec
     // 4. assign terminals to left- and righthand vectors according to their centers' positions
     // 5. recursively process left- and righthand vectors
 
-    IVP_ASSERT(terminals->len() > 0);
+    Assert(terminals->len() > 0);
 
     if ( terminals->len() == 1 ) return( terminals->element_at(0) ); // only one terminal left: return it
 
@@ -881,8 +881,8 @@ IVV_Sphere *IVP_SurfaceBuilder_Ledge_Soup::cluster_spheres_topdown_mediancut_rec
 		new_sphere->child_1 = this->cluster_spheres_topdown_mediancut_recursively(&lefthand_terminals);
 		new_sphere->child_2 = this->cluster_spheres_topdown_mediancut_recursively(&righthand_terminals);
     
-		IVP_ASSERT(new_sphere->child_1 != 0);
-		IVP_ASSERT(new_sphere->child_2 != 0);
+		Assert(new_sphere->child_1 != 0);
+		Assert(new_sphere->child_2 != 0);
 		
 		this->number_of_nodes++; // [# of nodes] = [# of term.nodes] + [# of internal nodes]
 		
@@ -960,7 +960,7 @@ IVV_Sphere *IVP_SurfaceBuilder_Ledge_Soup::cluster_spheres_topdown_mediancut_rec
 
 		median /= terminals->len();
 
-		IVP_IF(0) {
+		IVP_IFDEBUG(0) {
 //		    ivp_message("Median on axis %d: %f\n", axis, median);
 		}
 
@@ -1074,10 +1074,10 @@ IVV_Sphere *IVP_SurfaceBuilder_Ledge_Soup::cluster_spheres_topdown_mediancut_rec
     int chosen_axis = axes_order[0];
 #endif    
 
-    //printf("Chosen axis: %d\n", chosen_axis);
+    //Log_Warning(LOG_HAVOK, "Chosen axis: %d\n", chosen_axis);
     
-    IVP_ASSERT(lefthand_terminals[chosen_axis]->len() != 0);
-    IVP_ASSERT(righthand_terminals[chosen_axis]->len() != 0);
+    Assert(lefthand_terminals[chosen_axis]->len() != 0);
+    Assert(righthand_terminals[chosen_axis]->len() != 0);
 
     // recursively process subsets
     new_sphere->child_1 = this->cluster_spheres_topdown_mediancut_recursively(lefthand_terminals[chosen_axis]);
@@ -1090,8 +1090,8 @@ IVV_Sphere *IVP_SurfaceBuilder_Ledge_Soup::cluster_spheres_topdown_mediancut_rec
     P_DELETE(righthand_terminals[1]);
     P_DELETE(righthand_terminals[2]);
     
-    IVP_ASSERT(new_sphere->child_1 != 0);
-    IVP_ASSERT(new_sphere->child_2 != 0);
+    Assert(new_sphere->child_1 != 0);
+    Assert(new_sphere->child_2 != 0);
     
     this->number_of_nodes++; // [# of nodes] = [# of term.nodes] + [# of internal nodes]
     
@@ -1142,7 +1142,7 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Ledge_Soup::allocate_compact_surface()
 
     cs_size = (cs_size + 15) & ~0xf;
 
-    IVP_IF(1){	/*printf("Compact surface size : %d\n", cs_size);*/    }
+    IVP_IFDEBUG(1){	/*printf("Compact surface size : %d\n", cs_size);*/    }
     
     this->compact_surface = (IVP_Compact_Surface *)ivp_malloc_aligned(cs_size*sizeof(char), 16);
     if ( this->compact_surface == nullptr ) {
@@ -1191,7 +1191,7 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Ledge_Soup::allocate_compact_surface()
     
    this->ledgetree_work =
 	(IVP_Compact_Ledgetree_Node *)( (char *)this->compact_surface +   this->compact_surface->offset_ledgetree_root);
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	this->clt_lowmem = (char *)this->ledgetree_work;
 	this->clt_highmem = (char *)compact_surface + cs_real_size;
     }
@@ -1246,7 +1246,7 @@ void IVP_SurfaceBuilder_Ledge_Soup::insert_compact_ledges(){
        	    IVV_Sphere *sphere = this->terminal_spheres.element_at(i);
 	    IVP_Compact_Ledge *source = sphere->compact_ledge;
 
-	    IVP_ASSERT((long(dest) & 0xf) == 0);
+	    Assert((long(dest) & 0xf) == 0);
 
 	    sphere->compact_ledge = (IVP_Compact_Ledge *)dest;	    
 	    int ledge_size = recompile_point_indizes_of_compact_ledge(source,dest);
@@ -1261,7 +1261,7 @@ void IVP_SurfaceBuilder_Ledge_Soup::insert_compact_ledges(){
        	IVV_Sphere *sphere = this->rec_spheres.element_at(j);
 	IVP_Compact_Ledge *source = sphere->compact_ledge;
 
-	IVP_ASSERT((long(dest) & 0xf) == 0);
+	Assert((long(dest) & 0xf) == 0);
 
 	sphere->compact_ledge = (IVP_Compact_Ledge *)dest;
 	
@@ -1271,7 +1271,7 @@ void IVP_SurfaceBuilder_Ledge_Soup::insert_compact_ledges(){
 	P_FREE_ALIGNED(source);
     }    
     this->c_ledge_vec.clear();
-    IVP_ASSERT( !first_poly_point || dest == (char *)this->first_poly_point );
+    Assert( !first_poly_point || dest == (char *)this->first_poly_point );
     return;
 }
 
@@ -1286,8 +1286,8 @@ IVP_Compact_Ledgetree_Node *IVP_SurfaceBuilder_Ledge_Soup::build_ledgetree(IVV_S
 
     IVP_Compact_Ledgetree_Node *current_node = this->ledgetree_work;
 
-    IVP_ASSERT((int)current_node <  (int)this->clt_highmem); // ledgetree memory overwrite!
-    IVP_ASSERT((int)current_node >= (int)this->clt_lowmem);  // ledgetree memory underwrite!
+    Assert((int)current_node <  (int)this->clt_highmem); // ledgetree memory overwrite!
+    Assert((int)current_node >= (int)this->clt_lowmem);  // ledgetree memory underwrite!
 	
     this->ledgetree_work++;
     
@@ -1302,7 +1302,7 @@ IVP_Compact_Ledgetree_Node *IVP_SurfaceBuilder_Ledge_Soup::build_ledgetree(IVV_S
 
     
     if ( node->child_1 ) {
-	IVP_ASSERT(node->child_2);
+	Assert(node->child_2);
 	if ( node->compact_ledge){
 	    current_node->offset_compact_ledge = (char *)(node->compact_ledge)-(char *)current_node;
 	    node->compact_ledge->ledgetree_node_offset = (char *) current_node - (char *)node->compact_ledge;
@@ -1318,14 +1318,14 @@ IVP_Compact_Ledgetree_Node *IVP_SurfaceBuilder_Ledge_Soup::build_ledgetree(IVV_S
 	// fill in specific internal ledgetree_node data
 	current_node->offset_right_node = (char *)address_of_right_branch - (char *)current_node; // calulcate offset to right branch
     } else {
-	IVP_ASSERT(!node->child_2);	
+	Assert(!node->child_2);	
 	node->compact_ledge->has_chilren_flag = IVP_FALSE;
 
 	// fill in specific terminal ledgetree_node data
 	current_node->offset_compact_ledge = (char *)node->compact_ledge - (char *)current_node; // calculate backward offset to compact ledge
 	current_node->offset_right_node = 0;
     }    
-    IVP_ASSERT(current_node->box_sizes[0]!=0);
+    Assert(current_node->box_sizes[0]!=0);
 
     return(current_node);
 }
@@ -1338,19 +1338,19 @@ IVP_Compact_Ledgetree_Node *IVP_SurfaceBuilder_Ledge_Soup::build_ledgetree(IVV_S
 void IVP_SurfaceBuilder_Ledge_Soup::ledgetree_debug_output(const IVP_Compact_Ledgetree_Node *node) const
 {
     // *** debugging START ******************************************************
-    IVP_IF(1) {
-	IVP_ASSERT((int)node < (int)this->clt_highmem); // ledgetree memory overread!
-	IVP_ASSERT((int)node >= (int)this->clt_lowmem); // ledgetree memory underread!
+    IVP_IFDEBUG(1) {
+	Assert((int)node < (int)this->clt_highmem); // ledgetree memory overread!
+	Assert((int)node >= (int)this->clt_lowmem); // ledgetree memory underread!
     }
     
     //for (int x=0; x<ivp_debug_sf_indent; x++) {
-    //    printf("  ");
+    //    Log_Warning(LOG_HAVOK, "  ");
     //}
     //node->center.print("center");
-    //printf("Radius: %.6f\n", node->radius);
+    //Log_Warning(LOG_HAVOK, "Radius: %.6f\n", node->radius);
     if (node->offset_right_node==0) return;
     //ivp_debug_sf_indent++;
-    //printf("%d\n", node->offset);
+    //Log_Warning(LOG_HAVOK, "%d\n", node->offset);
     if ( !node->is_terminal() ) {
 	ledgetree_debug_output(node->left_son());
 	ledgetree_debug_output(node->right_son());
@@ -1374,12 +1374,12 @@ void IVP_SurfaceBuilder_Ledge_Soup::ledgetree_array_debug_output() {
     int i;
     for (i=0; i<this->number_of_nodes; i++) {
 	node = &nodes[i];
-	printf("Node %d (address: 0x%x / %d)\n", i, (int)node, (int)node);
+	Log_Warning(LOG_HAVOK, "Node %d (address: 0x%x / %d)\n", i, (int)node, (int)node);
 	//node->center.print("     center ");
-	printf("        radius %.6f)\n", node->radius);
-	printf("         left branch offset: %d (address: 0x%x / %d)\n", sizeof(*node), (int)(node+1), (int)(node+1));
-	printf("        right branch offset: %d (address: 0x%x / %d)\n", node->offset_right_node, (int)node+node->offset_right_node, (int)node+node->offset_right_node);
-	printf("\n");
+	Log_Warning(LOG_HAVOK, "        radius %.6f)\n", node->radius);
+	Log_Warning(LOG_HAVOK, "         left branch offset: %d (address: 0x%x / %d)\n", sizeof(*node), (int)(node+1), (int)(node+1));
+	Log_Warning(LOG_HAVOK, "        right branch offset: %d (address: 0x%x / %d)\n", node->offset_right_node, (int)node+node->offset_right_node, (int)node+node->offset_right_node);
+	Log_Warning(LOG_HAVOK, "\n");
     }
     // *** debugging END ********************************************************
     return;
@@ -1399,8 +1399,8 @@ void IVP_SurfaceBuilder_Ledge_Soup::insert_radius_in_compact_surface() {
     this->compact_surface->rotation_inertia.set(rotation_inertia.k);
     this->compact_surface->mass_center.set(mass_center.k);
     this->compact_surface->upper_limit_radius = (IVP_FLOAT)mass_radius;
-    IVP_ASSERT( mass_radius_dev >=0.0f);
-    IVP_ASSERT( mass_radius_dev <= mass_radius + P_FLOAT_RES);
+    Assert( mass_radius_dev >=0.0f);
+    Assert( mass_radius_dev <= mass_radius + P_FLOAT_RES);
     this->compact_surface->max_factor_surface_deviation = int(1.0f + mass_radius_dev / (mass_radius * IVP_COMPACT_SURFACE_DEVIATION_STEP_SIZE));
 }
 
@@ -1414,7 +1414,7 @@ IVP_RETURN_TYPE IVP_SurfaceBuilder_Ledge_Soup::create_compact_ledgetree() {
     IVV_Sphere *cluster_node = this->spheres_cluster[this->spheres_cluster[0].next].sphere;
 
     // *** debugging START ******************************************************
-    IVP_IF(0) {
+    IVP_IFDEBUG(0) {
 	ivp_debug_sf_indent=0;
 	debug_sphere_output(this->spheres_cluster[this->spheres_cluster[0].next].sphere);
     }
@@ -1424,10 +1424,10 @@ IVP_RETURN_TYPE IVP_SurfaceBuilder_Ledge_Soup::create_compact_ledgetree() {
 #endif
 	this->build_ledgetree(cluster_node);
     this->spheres_cluster[0].next = 0;
-    IVP_ASSERT(this->compact_surface->get_compact_ledge_tree_root()==root);
+    Assert(this->compact_surface->get_compact_ledge_tree_root()==root);
     
     // *** debugging START ******************************************************
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	//ivp_debug_sf_indent=0;
 	ledgetree_debug_output(this->compact_surface->get_compact_ledge_tree_root());
 	//ledgetree_array_debug_output();

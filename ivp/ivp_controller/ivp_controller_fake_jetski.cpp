@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2002, Valve LLC, All rights reserved. ============
+//========= Copyright ï¿½ 1996-2002, Valve LLC, All rights reserved. ============
 //
 // Purpose: 4-Wheel Vehicle attempt at a jetski/waverunner!
 //
@@ -486,7 +486,7 @@ void IVP_Controller_Raycast_Fake_Jetski::ApplySteeringForces( IVP_Raycast_Fake_J
 		IVP_FLOAT flQuadSumForce = flFrForce * flFrForce + flForceRotational * flForceRotational;
 		if ( flQuadSumForce > flMaxForce * flMaxForce )
 		{
-			//printf("clipping of fr_force %f %f %f\n", force_straight, fr_force, max_force);
+			//Log_Warning(LOG_HAVOK, "clipping of fr_force %f %f %f\n", force_straight, fr_force, max_force);
 			
 			IVP_FLOAT flFactor = IVP_Inline_Math::ivp_sqrtf( flMaxForce * flMaxForce / flQuadSumForce );
 			flFrForce *= flFactor;

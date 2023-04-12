@@ -266,7 +266,7 @@ public:
     inline IVP_U_Point(const IVP_U_Float_Point &p);
     IVP_U_Point(IVP_DOUBLE x, IVP_DOUBLE y,IVP_DOUBLE z){ k[0] = x; k[1] = y; k[2] = z;};
 
-	inline void byte_swap() { IVP_ASSERT( 0 && "No byte swap for doubles yet"); CORE; }
+	inline void byte_swap() { Assert( 0 && "No byte swap for doubles yet"); AssertMsg(false, "Havok fatal error"); }
 
 } IVP_ALIGN_16;
 
@@ -628,7 +628,7 @@ public:
 		ivp_byte_swap4( (uint&) z);
 		ivp_byte_swap4( (uint&) w);
 	#else
-		IVP_ASSERT( 0 && "No byte swap for double yet");
+		Assert( 0 && "No byte swap for double yet");
 	#endif
 	}
 

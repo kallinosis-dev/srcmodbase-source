@@ -217,15 +217,15 @@ void IVP_U_Float_Point::inline_set_vert_to_area_defined_by_three_points(const IV
 
 	adress=(unsigned int)tp0;
 	ali_adress=(adress & 0xfffffff0);
-	IVP_ASSERT(adress==ali_adress);
+	Assert(adress==ali_adress);
 
 	adress=(unsigned int)tp1;
 	ali_adress=(adress & 0xfffffff0);
-	IVP_ASSERT(adress==ali_adress);
+	Assert(adress==ali_adress);
 
 	adress=(unsigned int)tp2;
 	ali_adress=(adress & 0xfffffff0);
-	IVP_ASSERT(adress==ali_adress);
+	Assert(adress==ali_adress);
 #endif
 
 	IVP_DOUBLE a0, a1, a2, b0, b1, b2;

@@ -150,12 +150,18 @@ public:
 		return m_strings.String(name);
 	}
 
+	ISaveRestoreOps* GetMaterialIndexDataOps() const override
+	{
+		return MaterialIndexDataOps();
+	}
+
 private:
 	const CSurface	*GetInternalSurface( int materialIndex ) const;
 	CSurface	*GetInternalSurface( int materialIndex );
 	
 	void			CopyPhysicsProperties( CSurface *pOut, int baseIndex );
 	bool			AddFileToDatabase( const char *pFilename );
+
 
 private:
 	CUtlSymbolTableMT			m_strings;
@@ -198,7 +204,7 @@ CPhysicsSurfaceProps::~CPhysicsSurfaceProps( void )
 
 int CPhysicsSurfaceProps::SurfacePropCount( void ) const
 {
-	return m_props.Size();
+	return m_props.Count();
 }
 
 // Add the filename to a list to make sure each file is only processed once
@@ -206,7 +212,7 @@ bool CPhysicsSurfaceProps::AddFileToDatabase( const char *pFilename )
 {
 	CUtlSymbol id = m_strings.AddString( pFilename );
 
-	for ( int i = 0; i < m_fileList.Size(); i++ )
+	for ( int i = 0; i < m_fileList.Count(); i++ )
 	{
 		if ( m_fileList[i] == id )
 			return false;
@@ -229,7 +235,7 @@ int CPhysicsSurfaceProps::GetSurfaceIndex( const char *pPropertyName ) const
 	if ( id.IsValid() )
 	{
 		// BUGBUG: Linear search is slow!!!
-		for ( int i = 0; i < m_props.Size(); i++ )
+		for ( int i = 0; i < m_props.Count(); i++ )
 		{
 			// NOTE: Just comparing strings by index is pretty fast though
 			if ( m_props[i].m_name == id )
@@ -260,7 +266,7 @@ CSurface *CPhysicsSurfaceProps::GetInternalSurface( int materialIndex )
 	{
 		materialIndex = GetReservedFallBack( materialIndex );
 	}
-	if ( materialIndex < 0 || materialIndex > m_props.Size()-1 )
+	if ( materialIndex < 0 || materialIndex > m_props.Count()-1 )
 	{
 		return nullptr;
 	}
@@ -382,7 +388,7 @@ int	CPhysicsSurfaceProps::GetReservedFallBack( int materialIndex ) const
 int CPhysicsSurfaceProps::GetIVPMaterialIndex( const IVP_Material *pIVP ) const
 {
 	int index = (const CSurface *)pIVP - m_props.Base();
-	if ( index >= 0 && index < m_props.Size() )
+	if ( index >= 0 && index < m_props.Count() )
 		return index;
 
 	return -1;
@@ -581,7 +587,7 @@ int CPhysicsSurfaceProps::ParseSurfaceData( const char *pFileName, const char *p
 		prop.data.physics.friction = 0.8f;
 		m_shadowFallback = m_props.AddToTail( prop );
 	}
-	return m_props.Size();
+	return m_props.Count();
 }
 
 

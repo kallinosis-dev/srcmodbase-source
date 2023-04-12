@@ -127,7 +127,7 @@ bool IVP_Controller_Raycast_Car::DoSimulationWheels( IVP_Ray_Solver_Template *pR
 
 				// Set the wheel's distance to move along the ray to reach the impact surface.
 				pWheel->raycast_dist = pRayHit->hit_distance;
-				// IVP_ASSERT( wheel->raycast_dist <= wheel->spring_len + wheel->wheel_radius);
+				// Assert( wheel->raycast_dist <= wheel->spring_len + wheel->wheel_radius);
 
 				// Get the inverse portion of the surface normal in the direction of the ray cast (shock - used in the shock simulation code for the sign
 				// and percentage of force applied to the shock).
@@ -160,9 +160,9 @@ bool IVP_Controller_Raycast_Car::DoSimulationWheels( IVP_Ray_Solver_Template *pR
 		pTempWheel->projected_axis_direction_ws.set_orthogonal_part( &pTempWheel->axis_direction_ws, &pTempWheel->ground_normal_ws );
 		if ( pTempWheel->projected_axis_direction_ws.normize() == IVP_FAULT )
 		{
-			IVP_IF( 1 )
+			IVP_IFDEBUG( 1 )
 			{
-				printf( "IVP_Controller_Raycast_Car::do_simulation_controller projected_axis_direction_ws.normize failed\n" );
+				Log_Warning(LOG_HAVOK,  "IVP_Controller_Raycast_Car::do_simulation_controller projected_axis_direction_ws.normize failed\n" );
 			}
 
 			return false;
@@ -465,7 +465,7 @@ void IVP_Controller_Raycast_Car::ApplySteeringForces( IVP_Raycast_Car_Wheel_Temp
 		IVP_FLOAT flQuadSumForce = flFrForce * flFrForce + flForceStraight * flForceStraight;
 		if ( flQuadSumForce > flMaxForce * flMaxForce)
 		{
-			//printf("clipping of fr_force %f %f %f\n", force_straight, fr_force, max_force);
+			//Log_Warning(LOG_HAVOK, "clipping of fr_force %f %f %f\n", force_straight, fr_force, max_force);
 			
 			IVP_FLOAT flFactor = IVP_Inline_Math::ivp_sqrtf( flMaxForce * flMaxForce / flQuadSumForce );
 			flFrForce *= flFactor;

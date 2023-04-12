@@ -144,13 +144,13 @@ IVP_DOUBLE IVP_Core::calc_virt_mass_worst_case(const IVP_U_Float_Point *core_poi
 	}
 
     IVP_DOUBLE ret = 1.0f/dv;
-    IVP_ASSERT(ret < 1e31f); // OG test for NaN
+    Assert(ret < 1e31f); // OG test for NaN
     return ret;
 }
 
 // also calculates some material dependent redundants
 void IVP_Core::revive_adjacent_to_unmoveable() {
-        IVP_ASSERT( this->physical_unmoveable );
+        Assert( this->physical_unmoveable );
 
 	this->environment->get_sim_unit_mem()->start_memory_transaction();
 
@@ -173,7 +173,7 @@ void IVP_Core::revive_adjacent_to_unmoveable() {
 		    other_core=fr_mindist->get_synapse(1)->l_obj->get_core();
 		}
 		if( other_core->physical_unmoveable ) {
-		    //printf("found_unnecassary_fmd\n");
+		    //Log_Warning(LOG_HAVOK, "found_unnecassary_fmd\n");
 		    P_DELETE( fr_mindist );
 		} else {
 		    other_core->ensure_all_core_objs_in_simulation();
@@ -594,7 +594,7 @@ void IVP_Core::commit_all_async_pushes(){
     this->speed.add(&this->speed_change);
     this->speed_change.set_to_zero(); 
     this->rot_speed_change.set_to_zero();
-    IVP_IF(1){
+    IVP_IFDEBUG(1){
     	core_plausible_check();
     }
 }
@@ -611,7 +611,7 @@ void IVP_Core::calc_next_PSI_matrix_zero_speed(IVP_Event_Sim *es){
     this->max_surface_rot_speed = 0.0f;
     this->rotation_axis_world_space.set(1.0f,0.0f,0.0f);
 
-    //IVP_ASSERT( current_sim_man_slot <= 0 );
+    //Assert( current_sim_man_slot <= 0 );
 }
 
 void IVP_Core::reset_time( IVP_Time offset){
@@ -623,9 +623,9 @@ void IVP_Core::reset_time( IVP_Time offset){
 }
 
 void IVP_Core::core_add_link_to_obj(IVP_Real_Object *add_obj) {
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    for (int j = objects.len()-1; j>=0;j--){
-		IVP_ASSERT(objects.element_at(j) != add_obj);
+		Assert(objects.element_at(j) != add_obj);
 	    }
 	}
 	this->objects.add(add_obj);
@@ -647,7 +647,7 @@ void IVP_Core::unlink_obj_from_core_and_maybe_destroy(IVP_Real_Object *remove_ob
 }
 
 void IVP_Core::stop_movement_without_collision_recheck() {
-    //IVP_ASSERT(IVP_MTIS_SIMULATED(movement_state));
+    //Assert(IVP_MTIS_SIMULATED(movement_state));
     this->movement_state=IVP_MT_NOT_SIM;
     this->speed.set_to_zero();
     this->rot_speed.set_to_zero();
@@ -666,7 +666,7 @@ void IVP_Core::stop_physical_movement()
     IVP_Time time = environment->get_current_time();
     for(int c = objects.len()-1;c>=0;c--){
 	IVP_Real_Object *r_obj=this->objects.element_at(c);
-	IVP_ASSERT(r_obj->get_movement_state()!=IVP_MT_STATIC);
+	Assert(r_obj->get_movement_state()!=IVP_MT_STATIC);
 	r_obj->set_movement_state(IVP_MT_NOT_SIM);
 	environment->get_mindist_manager()->recheck_ov_element(r_obj);
 	IVP_Hull_Manager *h_manager = r_obj->get_hull_manager(); 
@@ -685,7 +685,7 @@ void IVP_Core::reset_freeze_check_values() {
 
 // init core for calc_next_PSI_matrix
 void IVP_Core::init_core_for_simulation(){
-    IVP_ASSERT(movement_state == IVP_MT_NOT_SIM);
+    Assert(movement_state == IVP_MT_NOT_SIM);
     movement_state = IVP_MT_MOVING;
 
     //speed_change.set_to_zero();
@@ -701,7 +701,7 @@ void IVP_Core::init_core_for_simulation(){
     this->time_of_last_psi = time;
     for(int c = objects.len()-1;c>=0;c--){
 	IVP_Real_Object *r_obj=this->objects.element_at(c);
-	IVP_ASSERT(r_obj->get_movement_state()!=IVP_MT_STATIC);
+	Assert(r_obj->get_movement_state()!=IVP_MT_STATIC);
 	r_obj->set_movement_state(IVP_MT_MOVING);
 	IVP_Hull_Manager *h_manager = r_obj->get_hull_manager(); 
 	h_manager->init_hull_for_simulation();
@@ -713,7 +713,7 @@ void IVP_Core::init_core_for_simulation(){
  *  ensure that calc_next_PSI_matrix is called prior to this method
  *  does not call calc_next_PSI_matrix */
 void IVP_Core::synchronize_with_rot_z(){
-    IVP_ASSERT(tmp_null.old_sync_info == NULL); 
+    Assert(tmp_null.old_sync_info == NULL); 
 
     IVP_U_Memory *mem=environment->sim_unit_mem;
     void *p=mem->get_mem_transaction(sizeof(IVP_Old_Sync_Rot_Z));
@@ -723,7 +723,7 @@ void IVP_Core::synchronize_with_rot_z(){
     
     IVP_Time current_time = environment->get_current_time();
 
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
         IVP_Debug_Manager *dm=environment->get_debug_manager();
 	if(dm->file_out_impacts) {
 	    fprintf(dm->out_deb_file,"doing_synchronize %lx at %f\n",0x0000ffff&(long)this,current_time.get_time());
@@ -754,7 +754,7 @@ void IVP_Core::synchronize_with_rot_z(){
  * undos synchronize_with_rot_z (only if not calc_next_PSI_matrix is not called
  **************************/
 void IVP_Core::undo_synchronize_rot_z() {    
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
         IVP_Debug_Manager *dm=environment->get_debug_manager();
 	if(dm->file_out_impacts) {
 	    fprintf(dm->out_deb_file,"undoing_synchro %x at %f\n",0x0000ffff&(IVP_INT32)this,environment->get_current_time().get_time());
@@ -774,7 +774,7 @@ IVP_Vec_PCore::IVP_Vec_PCore(const IVP_Core *pc,const IVP_U_Float_Point *p){
 }
 
 void IVP_Core::calc_calc(){
-    IVP_ASSERT(get_rot_inertia()->real_length() > P_DOUBLE_EPS);
+    Assert(get_rot_inertia()->real_length() > P_DOUBLE_EPS);
     IVP_U_Float_Hesse *iri = (IVP_U_Float_Hesse *)get_inv_rot_inertia();
 
     const IVP_U_Float_Point *ri = get_rot_inertia();
@@ -937,7 +937,7 @@ IVP_Movement_Type IVP_Core::calc_movement_state(IVP_Time psi_time) {
 
 // create a new collision core
 void IVP_Core::create_collision_merged_core_with(IVP_Core *other_core){
-    IVP_ASSERT( other_core != this);
+    Assert( other_core != this);
     return;
     IVP_Core_Collision *ccore = new IVP_Core_Collision(this,other_core);
 
@@ -999,14 +999,14 @@ void IVP_Core_Collision::split_collision_merged_core_next_PSI(){
     {
 	for(int c = objects.len()-1;c>=0;c--){
 		IVP_Real_Object *obj=this->objects.element_at(c);
-		IVP_USE(obj);
+		
 	}
     }
     //this is old unused code
     
     IVP_Core_Sim_Manager *sim_man = environment->get_core_sim_manager();
     sim_man->remove_sim_core(this);
-    CORE
+    AssertMsg(false, "Havok fatal error")
     IVP_Core *old_core = NULL;
     for (obj_search = this->first_object; obj_search; obj_search = next_obj){
 	next_obj = obj_search->next_in_core;
@@ -1049,7 +1049,7 @@ void IVP_Core::set_matrizes_and_speed(IVP_Core_Merged *template_core, IVP_U_Matr
     /************** for all old cores do: ***********/
     // Note: Convention: all matrixnames for current time are in capitel letters
     
-    IVP_ASSERT( template_core->merged_core_which_replace_this_core == NULL);
+    Assert( template_core->merged_core_which_replace_this_core == NULL);
     
     ///// sum up m_world_now_f_world_when_merged
     IVP_U_Matrix m_WORLD_f_world;
@@ -1124,25 +1124,25 @@ void IVP_Core::core_plausible_check() {
     IVP_DOUBLE rot_change_len,trans_change_len;
     rot_change_len=rot_speed_change.real_length();
     trans_change_len=speed_change.real_length();
-    IVP_ASSERT(rot_change_len<MAX_PLAUSIBLE_LEN);
-    IVP_ASSERT(trans_change_len<MAX_PLAUSIBLE_LEN);
-    IVP_ASSERT(rot_change_len>-MAX_PLAUSIBLE_LEN);
-    IVP_ASSERT(trans_change_len>-MAX_PLAUSIBLE_LEN);
+    Assert(rot_change_len<MAX_PLAUSIBLE_LEN);
+    Assert(trans_change_len<MAX_PLAUSIBLE_LEN);
+    Assert(rot_change_len>-MAX_PLAUSIBLE_LEN);
+    Assert(trans_change_len>-MAX_PLAUSIBLE_LEN);
 
     IVP_DOUBLE rot_len,trans_len;
     rot_len=rot_speed.real_length();
     trans_len=speed.real_length();
-    IVP_ASSERT(rot_len<MAX_PLAUSIBLE_LEN);
-    IVP_ASSERT(trans_len<MAX_PLAUSIBLE_LEN);    
-    IVP_ASSERT(rot_len>-MAX_PLAUSIBLE_LEN);
-    IVP_ASSERT(trans_len>-MAX_PLAUSIBLE_LEN);    
+    Assert(rot_len<MAX_PLAUSIBLE_LEN);
+    Assert(trans_len<MAX_PLAUSIBLE_LEN);    
+    Assert(rot_len>-MAX_PLAUSIBLE_LEN);
+    Assert(trans_len>-MAX_PLAUSIBLE_LEN);    
 }
 
 void IVP_Core::rot_speed_plausible_check(const IVP_U_Float_Point *rot_speed_test){
     IVP_DOUBLE rot_len;
     rot_len = rot_speed_test->real_length();
-    IVP_ASSERT(rot_len<MAX_PLAUSIBLE_LEN);
-    IVP_ASSERT(rot_len>-MAX_PLAUSIBLE_LEN);
+    Assert(rot_len<MAX_PLAUSIBLE_LEN);
+    Assert(rot_len>-MAX_PLAUSIBLE_LEN);
 }
 
 
@@ -1155,7 +1155,7 @@ IVP_Friction_Info_For_Core *IVP_Core::get_friction_info(IVP_Friction_System *my_
 	    IVP_Friction_Info_For_Core *fr_info;
 	    fr_info=my_hash->find_friction_info( my_fr_system );
 #ifdef DEBUG_FRICTION_CONSISTENCY
-	    IVP_IF( my_fr_system->l_environment->get_debug_manager()->check_fs ) {
+	    IVP_IFDEBUG( my_fr_system->l_environment->get_debug_manager()->check_fs ) {
 	    IVP_Friction_Info_For_Core *test_info;
 		test_info=NULL;
 		int i;
@@ -1167,7 +1167,7 @@ IVP_Friction_Info_For_Core *IVP_Core::get_friction_info(IVP_Friction_System *my_
 			break;
 		    }
 		}
-		IVP_ASSERT( test_info == fr_info );
+		Assert( test_info == fr_info );
 	    }
 #endif
 	    return fr_info;
@@ -1187,7 +1187,7 @@ IVP_Friction_Info_For_Core *IVP_Core::get_friction_info(IVP_Friction_System *my_
 
 
 IVP_Friction_Info_For_Core *IVP_Core::moveable_core_has_friction_info() {
-    IVP_ASSERT( this->physical_unmoveable == IVP_FALSE );
+    Assert( this->physical_unmoveable == IVP_FALSE );
     return this->core_friction_info.for_moveables.moveable_core_friction_info;
 }
 
@@ -1197,17 +1197,17 @@ void IVP_Core::add_friction_info(IVP_Friction_Info_For_Core *my_fr_info)
 	if( this->core_friction_info.for_unmoveables.l_friction_info_hash == nullptr) {
 	    this->core_friction_info.for_unmoveables.l_friction_info_hash = new IVP_Friction_Hash(2);
 	}
-	IVP_IF(1) {
-	    IVP_ASSERT( get_friction_info(my_fr_info->l_friction_system) == NULL );
+	IVP_IFDEBUG(1) {
+	    Assert( get_friction_info(my_fr_info->l_friction_system) == NULL );
 	}
 	this->core_friction_info.for_unmoveables.l_friction_info_hash->add_friction_info( my_fr_info );
 #ifdef DEBUG_FRICTION_CONSISTENCY
-	IVP_IF(environment->get_debug_manager()->check_fs) {
+	IVP_IFDEBUG(environment->get_debug_manager()->check_fs) {
 	    this->list_debug_hash.add( my_fr_info );
 	}
 #endif
     } else {
-	IVP_ASSERT( this->core_friction_info.for_moveables.moveable_core_friction_info == NULL );
+	Assert( this->core_friction_info.for_moveables.moveable_core_friction_info == NULL );
 	this->core_friction_info.for_moveables.moveable_core_friction_info = my_fr_info;
     }    
 }
@@ -1222,10 +1222,10 @@ void IVP_Core::unmovable_core_debug_friction_hash() {
       IVP_Friction_System *fr_sys = fr_mindist->l_friction_system;
       fr_sys = fr_sys;
 
-      IVP_ASSERT( get_friction_info(fr_sys)->l_friction_system == fr_sys ); //error after deleting hash entry
+      Assert( get_friction_info(fr_sys)->l_friction_system == fr_sys ); //error after deleting hash entry
     }
   }
-  //printf("debug_friction_hash_ok\n");
+  //Log_Warning(LOG_HAVOK, "debug_friction_hash_ok\n");
 }
 
 void IVP_Core::unlink_friction_info(IVP_Friction_Info_For_Core *my_fr_info)
@@ -1233,13 +1233,13 @@ void IVP_Core::unlink_friction_info(IVP_Friction_Info_For_Core *my_fr_info)
     IVP_Friction_Info_For_Core *my_info;
     if( this->physical_unmoveable == IVP_TRUE ) {
 	my_info = this->core_friction_info.for_unmoveables.l_friction_info_hash->remove_friction_info( my_fr_info );
-	IVP_ASSERT( my_info );
+	Assert( my_info );
 #ifdef DEBUG_FRICTION_CONSISTENCY
-	IVP_IF( environment->get_debug_manager()->check_fs ) {
+	IVP_IFDEBUG( environment->get_debug_manager()->check_fs ) {
 	    int i=0;
 	    IVP_Friction_Info_For_Core*my_test_info=NULL;
 	    while(my_info!=NULL) {
-		IVP_ASSERT(i<list_debug_hash.len());
+		Assert(i<list_debug_hash.len());
 		if(list_debug_hash.element_at(i)==my_fr_info) {
 		    my_test_info=my_fr_info;
 		    list_debug_hash.remove_at(i);
@@ -1247,11 +1247,11 @@ void IVP_Core::unlink_friction_info(IVP_Friction_Info_For_Core *my_fr_info)
 		}
 		i++;
 	    }
-	    IVP_ASSERT( my_info==my_test_info );
+	    Assert( my_info==my_test_info );
 	}
 #endif
     } else {
-	IVP_ASSERT( this->core_friction_info.for_moveables.moveable_core_friction_info == my_fr_info );
+	Assert( this->core_friction_info.for_moveables.moveable_core_friction_info == my_fr_info );
 	this->core_friction_info.for_moveables.moveable_core_friction_info = nullptr;
     }    
 }
@@ -1270,7 +1270,7 @@ void IVP_Core::ensure_core_to_be_in_simulation() {
     if((this->movement_state==IVP_MT_NOT_SIM))
     {
 	IVP_Environment *env=this->environment;
-	//IVP_ASSERT( env->state==IVP_ES_AT );
+	//Assert( env->state==IVP_ES_AT );
 	this->sim_unit_of_core->sim_unit_revive_for_simulation(env);
     } else {
 	this->sim_unit_of_core->sim_unit_ensure_cores_movement();
@@ -1281,7 +1281,7 @@ void IVP_Core::ensure_core_to_be_in_simulation() {
 // TL: is this needed any longer ???
 void IVP_Core::ensure_all_core_objs_in_simulation()
 {
-    IVP_ASSERT( !this->physical_unmoveable );
+    Assert( !this->physical_unmoveable );
     for(int c = objects.len()-1;c>=0;c--){
 	IVP_Real_Object *obj=this->objects.element_at(c);
 	obj->ensure_in_simulation();
@@ -1291,7 +1291,7 @@ void IVP_Core::ensure_all_core_objs_in_simulation()
 // TL: is this needed any longer ???
 void IVP_Core::ensure_all_core_objs_in_simulation_now()
 {
-    IVP_ASSERT( !this->physical_unmoveable );
+    Assert( !this->physical_unmoveable );
     for(int c = objects.len()-1;c>=0;c--){
 	IVP_Real_Object *obj=this->objects.element_at(c);
 	obj->ensure_in_simulation_now();

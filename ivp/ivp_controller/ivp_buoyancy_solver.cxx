@@ -46,12 +46,12 @@ void ivp_core_get_surface_speed_os(IVP_Core *pc,IVP_Real_Object *object, const I
     IVP_U_Float_Point float_speed_out_ws;    float_speed_out_ws.set(&speed_out_ws);
     cache_object->transform_vector_to_object_coords(&float_speed_out_ws, speed_out_os);
 	
-    IVP_IF(0) {
+    IVP_IFDEBUG(0) {
 	//template_polygon_current_values->sum_impulse.print("");
 	if ((IVP_Inline_Math::fabsd(speed_out_os->k[0]) > 1E1f) ||
 	    (IVP_Inline_Math::fabsd(speed_out_os->k[1]) > 1E1f) ||
 	    (IVP_Inline_Math::fabsd(speed_out_os->k[2]) > 1E1f)) {
-	    CORE;
+	    AssertMsg(false, "Havok fatal error");
 	}
     }
 }
@@ -108,8 +108,8 @@ IVP_BOOL IVP_Buoyancy_Solver::compute_forces( const IVP_U_Float_Point *rel_speed
     case IVP_BALL: {
 			
 	//ensure that surface_ws is normized
-	IVP_IF(1){
-	    IVP_ASSERT( IVP_Inline_Math::fabsd( surface_os->real_length() - 1.0f) < 0.01f);
+	IVP_IFDEBUG(1){
+	    Assert( IVP_Inline_Math::fabsd( surface_os->real_length() - 1.0f) < 0.01f);
 	}
 			
 	//compute buoyancy and dampening values for this ball
@@ -211,7 +211,7 @@ void IVP_Buoyancy_Solver::compute_dampening_values_for_one_ball(const int &decis
     speed_plane_os.hesse_val = speed_plane_os_->hesse_val;
 	
     
-    //will hold the content of the projected surface that´s under the water surface
+    //will hold the content of the projected surface thatï¿½s under the water surface
     IVP_DOUBLE ball_projected_surface_content_under = 0.0f;
     
     switch (decision) {
@@ -259,7 +259,7 @@ void IVP_Buoyancy_Solver::compute_dampening_values_for_one_ball(const int &decis
 
     	//int erg =
 	compute_disection_points_with_ball(surface_os, &p1p2_hesse_os, geom_center_os, radius, &tmp_O1_os, &tmp_O2_os);
-	//IVP_ASSERT( erg == 1 );
+	//Assert( erg == 1 );
 	
 	//decide which point is the right one and project it onto speed_plane_os => point O_os
 	IVP_U_Float_Point tmp_O1O2_os;
@@ -518,7 +518,7 @@ void IVP_Buoyancy_Solver::compute_dampening_values_for_one_ball(const int &decis
 	IVP_U_Float_Point tmp_O2_os;
 	//int erg =
 	compute_disection_points_with_ball(surface_os, &p1p2_hesse_os, geom_center_os, radius, &tmp_O1_os, &tmp_O2_os);
-	//	    IVP_ASSERT( erg == 1 );
+	//	    Assert( erg == 1 );
 	//decide which point is the right one and project it onto speed_plane_os => point O_os
 	IVP_U_Float_Point tmp_O1O2_os;
 	tmp_O1O2_os.subtract(&tmp_O2_os, &tmp_O1_os);
@@ -550,7 +550,7 @@ void IVP_Buoyancy_Solver::compute_dampening_values_for_one_ball(const int &decis
 	    IVP_DOUBLE cut_off_part_above_surface = IVP_Inline_Math::fabsd(0.5f * (arc*radius - length_p1p2*(radius - h)));
 	    IVP_DOUBLE surface_content_down = IVP_Inline_Math::fabsd(IVP_PI*radius*radius - cut_off_part_above_surface);
 
-	    IVP_ASSERT(surface_content_down > buoyancy_eps);
+	    Assert(surface_content_down > buoyancy_eps);
 			
 	    IVP_U_Float_Point center_of_segment_os;  //center of part under surface
 
@@ -984,10 +984,10 @@ void IVP_Buoyancy_Solver::compute_values_for_one_polygon( IVP_Real_Object *objec
 	
     IVP_U_Float_Point s_point;  //projected center point
     {
-	IVP_IF(1){
+	IVP_IFDEBUG(1){
 	    IVP_DOUBLE leng=surface_os->real_length();
 	    IVP_DOUBLE testval=IVP_Inline_Math::fabsd(leng-1.0f);
-	    IVP_ASSERT( testval < 0.001f);
+	    Assert( testval < 0.001f);
 	}
 	s_point.set_multiple(surface_os,-surface_os->hesse_val);  //projects center onto surface_os
     }
@@ -1151,7 +1151,7 @@ void IVP_Buoyancy_Solver::compute_volumes_and_centers_for_one_pyramid(IVP_Real_O
 	//compute the second disection point on the surface
 	IVP_DOUBLE factor2 = -distance[index_neg] / (distance[index_neg+2] - distance[index_neg]);  //division by zero not possible, because distance[index_neg] < 0 and buoyancy_eps is added to each
 		
-	IVP_IF(1){
+	IVP_IFDEBUG(1){
 	    IVP_U_Float_Point sp1, sp2;
 	    IVP_U_Point sp1_ws, sp2_ws;
 	    sp1.set_interpolate(triangle_points[index_neg], triangle_points[index_neg+1], factor1);
@@ -1228,7 +1228,7 @@ void IVP_Buoyancy_Solver::compute_volumes_and_centers_for_one_pyramid(IVP_Real_O
 	IVP_DOUBLE factor2 = distance[index_positiv] / (distance[index_positiv] - distance[index_positiv+2]);  //division by zero not possible, because distance[index_positiv+2] < 0 and buoyancy_eps is added to each
 		
 		
-	IVP_IF(1){
+	IVP_IFDEBUG(1){
 	    //for debugging reasons - begin
 	    IVP_U_Float_Point sp1, sp2;
 	    IVP_U_Point sp1_ws, sp2_ws;
@@ -1430,7 +1430,7 @@ void IVP_Buoyancy_Solver::compute_rotation_and_translation_values_for_one_triang
 	    impulse_vector.set_multiple( &rel_speed_of_current_os, impulse );
 	}
 		
-	IVP_IF(0) {
+	IVP_IFDEBUG(0) {
 	    IVP_U_Point center_of_triangle_ws;
 	    IVP_U_Float_Point impulse_vector_ws;
 	    {

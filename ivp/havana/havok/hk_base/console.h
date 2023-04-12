@@ -5,9 +5,9 @@ class hk_Console
 {
 	public:
 
-		virtual void printf( const char *format_string, ...);
-		virtual void exit(int );
-		virtual void flush();
+		void Log_Warning(LOG_HAVOK,  const char *format_string, ...);
+		void exit(int );
+		void flush();
 
 		static hk_Console* get_instance();
 

@@ -30,7 +30,7 @@ void IVP_Mindist_Recursive::do_impact(){
 	if(this->get_spawned_mindist_count() > ivp_mindist_settings.max_spawned_mindist_count)
 		goto do_impact;
 
-    IVP_ASSERT( mindist_status == IVP_MD_EXACT);
+    Assert( mindist_status == IVP_MD_EXACT);
 
     switch ( syn0->get_status()){
     case IVP_ST_BALL:
@@ -47,7 +47,7 @@ void IVP_Mindist_Recursive::do_impact(){
 	    if ( !syn1->get_edge()->get_triangle()->get_is_virtual() ) goto do_impact;
 	    recursive_status = IVP_MR_SECOND_SYNAPSE_RECURSIVE;
 	    break;
-	default: CORE;
+	default: AssertMsg(false, "Havok fatal error");
 	}
 	break;
 	
@@ -85,7 +85,7 @@ void IVP_Mindist_Recursive::do_impact(){
 		}
 	    }
 	    break;
-	default: CORE;
+	default: AssertMsg(false, "Havok fatal error");
 	}
 	break;
     case IVP_ST_TRIANGLE:
@@ -93,7 +93,7 @@ void IVP_Mindist_Recursive::do_impact(){
 	recursive_status = IVP_MR_FIRST_SYNAPSE_RECURSIVE;
 	break;
     default:
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
     {
 	IVP_Mindist_Manager *mm = env->get_mindist_manager();

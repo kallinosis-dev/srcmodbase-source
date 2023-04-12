@@ -8,17 +8,17 @@ void IVP_Synapse_Real::remove_exact_synapse_from_object(){
     if (prev){
 	prev->next = next;
     }else{
-	IVP_ASSERT( l_obj->exact_synapses == this );
+	Assert( l_obj->exact_synapses == this );
 	l_obj->exact_synapses = get_next();
     }
-    IVP_IF(1){
+    IVP_IFDEBUG(1){
       next = prev = this;
     }
 }
 
 void IVP_Synapse_Real::insert_exact_synapse_in_object(){
-  IVP_ASSERT( next == this);
-  IVP_ASSERT( prev == this);
+  Assert( next == this);
+  Assert( prev == this);
     this->next = l_obj->exact_synapses;
     if (this->next){
 	this->next->prev = this;
@@ -32,10 +32,10 @@ void IVP_Synapse_Real::remove_invalid_synapse_from_object(){
     if (prev){
 	prev->next = next;
     }else{
-	IVP_ASSERT( l_obj->invalid_synapses == this );
+	Assert( l_obj->invalid_synapses == this );
 	l_obj->invalid_synapses = get_next();
     }
-    IVP_IF(1){
+    IVP_IFDEBUG(1){
       next = prev = this;
     }
 }

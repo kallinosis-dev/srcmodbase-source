@@ -116,7 +116,7 @@ L20:
     if (l > 0) {
 	if (n == 0) {
 	    this->ierr = 327;
-	    IVP_IF(1) {
+	    IVP_IFDEBUG(1) {
 		IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL1) {
 		    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL1, "*** GEOMPACK: at least one reflex edge has not been resolved by routine RESEDG\n");
 		}

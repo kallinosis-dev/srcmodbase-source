@@ -23,8 +23,8 @@ IVP_Time IVP_3D_Solver::calc_nullstelle(IVP_Time t0, IVP_Time t1, IVP_DOUBLE val
     // tests for 'value' rather than '0.0f'
     // uses 'sekantenverfahren' und modified mid point
 
-    IVP_ASSERT(v0 >= value);
-    IVP_ASSERT(v1 <= value);
+    Assert(v0 >= value);
+    Assert(v1 <= value);
     IVP_U_Matrix A,B;
 
     int counter = 0;
@@ -57,7 +57,7 @@ IVP_Time IVP_3D_Solver::calc_nullstelle(IVP_Time t0, IVP_Time t1, IVP_DOUBLE val
 	solver_a->calc_at_matrix(tt, &A);
 	solver_b->calc_at_matrix(tt, &B);
 	IVP_DOUBLE vv = get_value(&A,&B);
-	// 	printf("%i %G	%G:%G	%G:%G	%G:%G    %G\n", counter,value,  t0.get_time(),v0, tt.get_time(),vv, t1.get_time(),v1, vv-value);
+	// 	Log_Warning(LOG_HAVOK, "%i %G	%G:%G	%G:%G	%G:%G    %G\n", counter,value,  t0.get_time(),v0, tt.get_time(),vv, t1.get_time(),v1, vv-value);
 	
 	if(IVP_Inline_Math::fabsd(vv-value) < IVP_3D_SOLVER_NULLSTELLE_EPS){
 	    return tt;
@@ -92,9 +92,9 @@ IVP_BOOL IVP_3D_Solver::find_first_t_for_value_max_dev(IVP_DOUBLE value,
     if (opt_val_at_t_now) {
 	v0 = *opt_val_at_t_now;
     }else{
-	IVP_ASSERT( mc_A->base_time - t_now == 0.0f);
-	IVP_ASSERT( mc_B->base_time - t_now == 0.0f);
-	IVP_ASSERT( t_now_cache_index == 0);
+	Assert( mc_A->base_time - t_now == 0.0f);
+	Assert( mc_B->base_time - t_now == 0.0f);
+	Assert( t_now_cache_index == 0);
 	
 	IVP_U_Matrix *A = mc_A->calc_matrix_at_now( t_now, 0);
 	IVP_U_Matrix *B = mc_B->calc_matrix_at_now( t_now, 0);
@@ -111,7 +111,7 @@ IVP_BOOL IVP_3D_Solver::find_first_t_for_value_max_dev(IVP_DOUBLE value,
     // find step interval with different signs
     IVP_Time t0=t_now;
     int cache1_index = t_now_cache_index;
-    IVP_ASSERT (t_now - t_max <= 0.0f);
+    Assert (t_now - t_max <= 0.0f);
     
     while(1){
 	IVP_DOUBLE t_step = (v0 - value) * inv_max_deviation; // max_dev is >> 0.0
@@ -135,7 +135,7 @@ IVP_BOOL IVP_3D_Solver::find_first_t_for_value_max_dev(IVP_DOUBLE value,
 	}
 	cache1_index += int_t_step;
 	
-	IVP_ASSERT(cache1_index <= IVP_3D_SOLVER_MAX_STEPS_PER_PSI);
+	Assert(cache1_index <= IVP_3D_SOLVER_MAX_STEPS_PER_PSI);
 
 	IVP_DOUBLE d_tstep = int_t_step * ( 1.0f/ (IVP_3D_SOLVER_MAX_STEPS_PER_PSI * IVP_3D_SOLVER_PSIS_PER_SECOND));
 	IVP_Time t1 = t0; t1 += d_tstep;
@@ -170,7 +170,7 @@ IVP_BOOL IVP_3D_Solver::find_first_t_for_value_max_dev2(IVP_DOUBLE value,
 {
     return find_first_t_for_value_max_dev(value, t_now, t_max, t_now_cache_index,
 					  mc_A, mc_B, opt_val_at_t_now, t_out);
-    IVP_ASSERT(0==1);
+    Assert(0==1);
     return IVP_FALSE;
 }
 
@@ -192,7 +192,7 @@ IVP_BOOL IVP_3D_Solver::find_first_t_for_value_no_zero_dev(IVP_DOUBLE value,
     // first of all check right side
     if (opt_val_at_next_psi){
 	v1 = *opt_val_at_next_psi;
-	IVP_ASSERT(v1 <= value);	// right side should be checked already
+	Assert(v1 <= value);	// right side should be checked already
     }else{
 	IVP_U_Matrix *A = mc_A->m_world_f_core_next_PSI;
 	IVP_U_Matrix *B = mc_B->m_world_f_core_next_PSI;	// maximum values 
@@ -216,15 +216,15 @@ IVP_BOOL IVP_3D_Solver::find_first_t_for_value_no_zero_dev(IVP_DOUBLE value,
     if (opt_val_at_t_now) {
 	v0 = *opt_val_at_t_now;
     }else{
-	IVP_ASSERT( mc_A->base_time == t_now);
-	IVP_ASSERT( mc_B->base_time == t_now);
-	IVP_ASSERT( t_now_cache_index == 0);
+	Assert( mc_A->base_time == t_now);
+	Assert( mc_B->base_time == t_now);
+	Assert( t_now_cache_index == 0);
 	
 	IVP_U_Matrix *A = mc_A->calc_matrix_at_now( t_now, 0);
 	IVP_U_Matrix *B = mc_B->calc_matrix_at( t_now, 0);
 	v0 = get_value(A,B);
     }
-    IVP_ASSERT( v0> value);
+    Assert( v0> value);
     {
 	*t_out = calc_nullstelle(t_now, t_max, value, v0, v1, mc_A->core, mc_B->core);
 	if ( *t_out < t_max) return IVP_TRUE;
@@ -256,8 +256,8 @@ IVP_BOOL IVP_3D_Solver::find_first_t_for_value_coll(IVP_DOUBLE value, IVP_DOUBLE
     IVP_DOUBLE tnow_val;
     {
 	IVP_U_Matrix *A,*B;
-	IVP_ASSERT( mc_A->base_time - t_now == 0.0f);
-	IVP_ASSERT( mc_B->base_time - t_now == 0.0f);
+	Assert( mc_A->base_time - t_now == 0.0f);
+	Assert( mc_B->base_time - t_now == 0.0f);
 
 	A = mc_A->calc_matrix_at_now( t_now, 0);
 	B = mc_B->calc_matrix_at_now( t_now, 0);
@@ -283,7 +283,7 @@ IVP_BOOL IVP_3D_Solver::find_first_t_for_value_coll(IVP_DOUBLE value, IVP_DOUBLE
     int cache1_index = 0;
     
     while(t0 - t_max < 0.0f)    {
-//printf("coll T0=%f\n",t0);
+//Log_Warning(LOG_HAVOK, "coll T0=%f\n",t0);
 
 	IVP_DOUBLE t_step = (v0 - value2) * inv_max_dev; // max_dev is >> 0.0
 

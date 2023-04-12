@@ -120,7 +120,7 @@ void IVP_Controller_World_Friction::do_simulation_controller(IVP_Event_Sim *es, 
 
 void IVP_Controller_World_Friction::core_is_going_to_be_deleted_event(IVP_Core *core_i)
 {
-    IVP_ASSERT(real_obj->get_core() == core_i);
+    Assert(real_obj->get_core() == core_i);
     P_DELETE_THIS(this);
 }
     

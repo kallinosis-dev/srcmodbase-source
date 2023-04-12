@@ -53,7 +53,7 @@ protected:
     
     void element_removed(IVP_U_Set_Active<IVP_Core> *, IVP_Core *elem){
 	ATTACH_T *con = (ATTACH_T *) core_to_attachment_hash.find_elem(elem);
-	IVP_ASSERT(con);
+	Assert(con);
 	P_DELETE(con);
     }
     
@@ -62,7 +62,7 @@ protected:
 	while ( IVP_Core *core = all_cores.get_next_element(set) ){
 	    this->element_removed(nullptr, core );
 	}
-	IVP_ASSERT( core_to_attachment_hash.n_elems() == 0);
+	Assert( core_to_attachment_hash.n_elems() == 0);
 	P_DELETE_THIS(this);
     }
 

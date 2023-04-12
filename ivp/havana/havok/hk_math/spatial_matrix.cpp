@@ -247,7 +247,7 @@ int max_order_row_index;
 
 
 				factor = 0.0f;  // the whole row was 0.0, so fail nicely
-//				printf( "shit singular matrix\n");
+//				Log_Warning(LOG_HAVOK,  "shit singular matrix\n");
 //				exit(1);
 			}else{
 				if( hk_Math::fabs(A[elimrow][elimcol]) < MIN_REAL ){  

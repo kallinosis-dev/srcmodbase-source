@@ -50,7 +50,7 @@ public:
     IVP_U_MINLIST_INDEX add(void *elem,IVP_U_MINLIST_FIXED_POINT value); // returns an index
     
     void *find_min_elem(){
-		IVP_ASSERT( first_element != IVP_U_MINLIST_UNUSED);
+		Assert( first_element != IVP_U_MINLIST_UNUSED);
 		return elems[first_element].element;
 	};
 

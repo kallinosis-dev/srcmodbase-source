@@ -112,9 +112,9 @@ public:
      **********************************************************************/
     void print() const {
 	for (int i=0; i < nr_of_elements; i++) {
-	    printf("v[%d]=%1.3e ",i, element[i]);
+	    Log_Warning(LOG_HAVOK, "v[%d]=%1.3e ",i, element[i]);
 	}
-	printf("\n");
+	Log_Warning(LOG_HAVOK, "\n");
     }
 
     void set(const IVP_MI_Vector *v);                          //copies values of 'v' to 'this'
@@ -131,7 +131,7 @@ public:
 };
 
 void IVP_MI_Vector::set(int pos, IVP_FLOAT value) {
-    IVP_ASSERT( (pos < nr_of_elements) && (pos >= 0) );
+    Assert( (pos < nr_of_elements) && (pos >= 0) );
     element[pos] = value;
 }
 

@@ -75,7 +75,7 @@ public:
 	if (fvector_index[0] == old){
 	    fvector_index[0] = i;
 	} else {
-	    IVP_ASSERT( fvector_index[1] == old);
+	    Assert( fvector_index[1] == old);
 	    fvector_index[1] = i;
 	}
     }

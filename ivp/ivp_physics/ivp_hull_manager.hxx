@@ -63,7 +63,7 @@ public:
 
   void jump_add_hull( IVP_FLOAT delta_x, IVP_FLOAT delta_center_x){
     hull_value_last_vpsi = hull_value_next_psi = hull_value_next_psi + delta_x;
-    IVP_ASSERT(hull_value_next_psi >= 0.0f);
+    Assert(hull_value_next_psi >= 0.0f);
     hull_center_value_last_vpsi += delta_center_x;
     gradient = 0.0f;
     center_gradient = 0.0f;

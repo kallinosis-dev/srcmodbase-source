@@ -61,8 +61,8 @@ void IVP_Simulation_Unit::add_controlled_core_for_controller( IVP_Controller *cn
 	    break;
 	}
     }
-    IVP_ASSERT(i>=0);
-    //IVP_ASSERT( controller_cores.element_at(i)->l_controller == cntrl );
+    Assert(i>=0);
+    //Assert( controller_cores.element_at(i)->l_controller == cntrl );
     controller_cores.element_at(i)->cores_controlled_by.add( my_core );
 }
 
@@ -75,7 +75,7 @@ void IVP_Simulation_Unit::add_controller_unit_sim( IVP_Controller *new_cntrl ) {
 
 
 void IVP_Simulation_Unit::split_sim_unit(IVP_Core *split_father) {
-    IVP_ASSERT(split_father);
+    Assert(split_father);
     IVP_Core *my_core;
     IVP_Core *next_split_father= nullptr;
     IVP_BOOL next_split_necessary=IVP_FALSE;
@@ -108,7 +108,7 @@ void IVP_Simulation_Unit::split_sim_unit(IVP_Core *split_father) {
 
     split_new_unit->sim_unit_calc_redundants();
 #ifdef DEBUG
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
       split_new_unit->sim_unit_debug_consistency();
     }
 #endif    
@@ -237,7 +237,7 @@ void IVP_Simulation_Unit::sim_unit_remove_core( IVP_Core *del_core ) {
     for (i = del_core->controllers_of_core.len()-1; i>=0;i--){
 	IVP_Controller *my_controller= del_core->controllers_of_core.element_at(i);
 	int pos=get_pos_of_controller(my_controller);
-	IVP_ASSERT(pos>=0);
+	Assert(pos>=0);
 	IVP_Sim_Unit_Controller_Core_List *c_info=controller_cores.element_at(pos);
 	c_info->cores_controlled_by.remove(del_core);
 	if( c_info->cores_controlled_by.len() == 0 ) {
@@ -252,11 +252,11 @@ void IVP_Simulation_Unit::sim_unit_remove_core( IVP_Core *del_core ) {
 
 IVP_Simulation_Unit::~IVP_Simulation_Unit() {
     this->clean_sim_unit();
-    ;//printf("delete_simu %lx\n",(long)this&0x0000ffff);
+    ;//Log_Warning(LOG_HAVOK, "delete_simu %lx\n",(long)this&0x0000ffff);
 }
 
 IVP_Simulation_Unit::IVP_Simulation_Unit() {
-    //printf("create_simu %lx\n",(long)this&0x0000ffff);
+    //Log_Warning(LOG_HAVOK, "create_simu %lx\n",(long)this&0x0000ffff);
     union_find_needed_for_sim_unit = IVP_FALSE;
     sim_unit_movement_type = IVP_MT_NOT_SIM;
     sim_unit_just_slowed_down = IVP_FALSE;
@@ -265,7 +265,7 @@ IVP_Simulation_Unit::IVP_Simulation_Unit() {
 
 void IVP_Simulation_Unit::rem_sim_unit_controller( IVP_Controller *rem_controller ) {
     int pos=get_pos_of_controller( rem_controller );
-    IVP_ASSERT(pos>=0);
+    Assert(pos>=0);
 
     IVP_Sim_Unit_Controller_Core_List *c_info=controller_cores.element_at(pos);
     P_DELETE(c_info);
@@ -293,28 +293,28 @@ IVP_BOOL IVP_Simulation_Unit::sim_unit_core_exists(IVP_Core *core) {
 
 #ifdef DEBUG
 void IVP_Simulation_Unit::sim_unit_debug_out() {
-    printf("sim_unit_cores:\n");
+    Log_Warning(LOG_HAVOK, "sim_unit_cores:\n");
     int i;
     for(i=sim_unit_cores.len()-1;i>=0;i--) {
         IVP_Core *my_core=sim_unit_cores.element_at(i);
-        printf("%lx: ",(long)my_core);
+        Log_Warning(LOG_HAVOK, "%lx: ",(long)my_core);
 	IVP_Controller *my_cnt;
 	int j;
 	for(j=my_core->controllers_of_core.len()-1;j>=0;j--) {
 	    my_cnt=my_core->controllers_of_core.element_at(j);
-	    printf("%lx ",(long)my_cnt);
+	    Log_Warning(LOG_HAVOK, "%lx ",(long)my_cnt);
 	}
-	printf("\n");
+	Log_Warning(LOG_HAVOK, "\n");
     }
     
     for(i=controller_cores.len()-1;i>=0;i--) {
-        printf("    controlr %lx: ",(long)controller_cores.element_at(i)->l_controller);
+        Log_Warning(LOG_HAVOK, "    controlr %lx: ",(long)controller_cores.element_at(i)->l_controller);
 	int j;
 	IVP_Sim_Unit_Controller_Core_List *c_info=controller_cores.element_at(i);
 	for(j=c_info->cores_controlled_by.len()-1;j>=0;j--) {
-	    printf("%lx ",(long)c_info->cores_controlled_by.element_at(j));
+	    Log_Warning(LOG_HAVOK, "%lx ",(long)c_info->cores_controlled_by.element_at(j));
 	}
-	printf("\n");
+	Log_Warning(LOG_HAVOK, "\n");
     }    
 }
 #endif
@@ -326,28 +326,28 @@ void IVP_Simulation_Unit::sim_unit_debug_consistency() {
     for(i=sim_unit_cores.len()-1;i>=0;i--) {
         IVP_Core *search_core=sim_unit_cores.element_at(i);
 	for(j=i-1;j>=0;j--) {
-	    IVP_ASSERT( sim_unit_cores.element_at(j) != search_core );
+	    Assert( sim_unit_cores.element_at(j) != search_core );
 	}
-	IVP_ASSERT( !search_core->physical_unmoveable );
-	IVP_ASSERT( search_core->sim_unit_of_core==this );
+	Assert( !search_core->physical_unmoveable );
+	Assert( search_core->sim_unit_of_core==this );
     }
     //every controller has to occur only once
     for(i=controller_cores.len()-1;i>=0;i--) {
         IVP_Controller *search_controller=controller_cores.element_at(i)->l_controller;
 	for(j=i-1;j>=0;j--) {
-	    IVP_ASSERT( controller_cores.element_at(j)->l_controller != search_controller );
+	    Assert( controller_cores.element_at(j)->l_controller != search_controller );
 	}
     }    
     
     //sim_unit_controllers and controller_cores are associated
-    //IVP_ASSERT( sim_unit_controllers.len() == controller_cores.len() );
+    //Assert( sim_unit_controllers.len() == controller_cores.len() );
     for(i=controller_cores.len()-1;i>=0;i--) {
         IVP_Sim_Unit_Controller_Core_List *c_info=controller_cores.element_at(i);
-	//IVP_ASSERT( c_info->l_controller == sim_unit_controllers.element_at(i) );
+	//Assert( c_info->l_controller == sim_unit_controllers.element_at(i) );
 	//every core in controller list must exist
 	for(j=c_info->cores_controlled_by.len()-1;j>=0;j--) {
 	    IVP_Core *test_core=c_info->cores_controlled_by.element_at(j);
-	    IVP_ASSERT( sim_unit_core_exists(test_core)==IVP_TRUE );
+	    Assert( sim_unit_core_exists(test_core)==IVP_TRUE );
 	}
     }
     
@@ -357,14 +357,14 @@ void IVP_Simulation_Unit::sim_unit_debug_consistency() {
 	for (int i2 = my_core->controllers_of_core.len()-1;i2>=0; i2--){
 	    IVP_Controller *my_controller = my_core->controllers_of_core.element_at(i2);
 
-	    IVP_ASSERT( controller_is_known_to_sim_unit( my_controller )==IVP_TRUE );
+	    Assert( controller_is_known_to_sim_unit( my_controller )==IVP_TRUE );
 
 	    //for every core its via controllers associated cores must exist
 	    IVP_U_Vector<IVP_Core> *core_list = my_controller->get_associated_controlled_cores();
 	    for(int i4=core_list->len()-1;i4>=0;i4--) {
 		IVP_Core *test_core=core_list->element_at(i4);
-		IVP_ASSERT( !test_core->physical_unmoveable );
-		IVP_ASSERT( sim_unit_core_exists( test_core ) == IVP_TRUE );
+		Assert( !test_core->physical_unmoveable );
+		Assert( sim_unit_core_exists( test_core ) == IVP_TRUE );
 	    }
 
 	    //every core/controller pair must be represented in c_info
@@ -383,9 +383,9 @@ void IVP_Simulation_Unit::sim_unit_debug_consistency() {
 		        find_contr=1;
 		    }
 		}
-		IVP_ASSERT(find_contr==1);
+		Assert(find_contr==1);
 	    }
-	    IVP_ASSERT(found==1);
+	    Assert(found==1);
 	}
     }
 }
@@ -416,7 +416,7 @@ void IVP_Controller_Manager::remove_controller_from_environment( IVP_Controller_
 
 void IVP_Controller_Manager::ensure_controller_in_simulation(IVP_Controller_Dependent *cntrl) {
     IVP_U_Vector<IVP_Core> *controlled_cores=cntrl->get_associated_controlled_cores();
-    IVP_ASSERT( controlled_cores->len() > 0);
+    Assert( controlled_cores->len() > 0);
     if(controlled_cores->len() > 0) { // #+# is this to avoid an assert ???
         controlled_cores->element_at(0)->sim_unit_of_core->sim_unit_ensure_in_simulation();
     }
@@ -494,7 +494,7 @@ void IVP_Simulation_Unit::add_controller_of_core( IVP_Core *my_core, IVP_Control
 // e.g. a core leaves a water pool
 void IVP_Simulation_Unit::remove_controller_of_core( IVP_Core *my_core, IVP_Controller *cntrl ) {
     int pos=get_pos_of_controller(cntrl);
-    IVP_ASSERT(pos>=0);
+    Assert(pos>=0);
     IVP_Sim_Unit_Controller_Core_List *c_info=controller_cores.element_at(pos);
     c_info->cores_controlled_by.remove(my_core);
     if( c_info->cores_controlled_by.len() <= 0 ) {
@@ -524,18 +524,18 @@ void IVP_Simulation_Unit::sim_unit_sort_controllers() {
 	}
 	first=second;
     }
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	for( int i=0; i<contr_num-1; i++ ) {
-		IVP_ASSERT( !( controller_cores.element_at(i)->l_controller->get_controller_priority() > controller_cores.element_at(i+1)->l_controller->get_controller_priority() ) );
+		Assert( !( controller_cores.element_at(i)->l_controller->get_controller_priority() > controller_cores.element_at(i+1)->l_controller->get_controller_priority() ) );
 	}
     }    
 }
 
 void IVP_Simulation_Unit::sim_unit_exchange_controllers(int first,int second) {
-    IVP_ASSERT(first>=0);
-    IVP_ASSERT(second>=0);
-    IVP_ASSERT(first<controller_cores.len());
-    IVP_ASSERT(second<controller_cores.len());
+    Assert(first>=0);
+    Assert(second>=0);
+    Assert(first<controller_cores.len());
+    Assert(second<controller_cores.len());
     //sim_unit_controllers.exchange_vector_elems(first,second);
     controller_cores.swap_elems(first,second);
 }
@@ -604,7 +604,7 @@ revive_all_cores:
     {
 	for (int i = sim_unit_cores.len()-1; i>=0;i--){
 	    IVP_Core *my_core = sim_unit_cores.element_at(i);
-	    IVP_ASSERT( !my_core->physical_unmoveable );
+	    Assert( !my_core->physical_unmoveable );
 	    if(my_core->movement_state>=IVP_MT_NOT_SIM) {
 	        IVP_BOOL fusion_was_done;
 	        fusion_was_done=my_core->revive_simulation_core();
@@ -690,7 +690,7 @@ void IVP_Simulation_Unit::init_moving_core_for_psi(IVP_Core *core, const IVP_Tim
 
     //IVP_PREFETCH(this->objects.elems); // now using special vector
 
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_Friction_Info_For_Core *info=core->moveable_core_has_friction_info();
 	IVP_Friction_System *fs= nullptr;
 	if(info) {
@@ -698,9 +698,9 @@ void IVP_Simulation_Unit::init_moving_core_for_psi(IVP_Core *core, const IVP_Tim
 	}
     }
   
-    IVP_ASSERT(core->physical_unmoveable==IVP_FALSE);
+    Assert(core->physical_unmoveable==IVP_FALSE);
 
-//    IVP_ASSERT ( c_time.get_time() == 0 || IVP_Inline_Math::fabsd( core->time_of_last_psi - c_time + 1.0f / core->i_delta_time ) < 10E-4f);
+//    Assert ( c_time.get_time() == 0 || IVP_Inline_Math::fabsd( core->time_of_last_psi - c_time + 1.0f / core->i_delta_time ) < 10E-4f);
  
     IVP_DOUBLE d_time = c_time - core->time_of_last_psi;
     
@@ -713,7 +713,7 @@ void IVP_Simulation_Unit::init_moving_core_for_psi(IVP_Core *core, const IVP_Tim
 
 void IVP_Simulation_Unit::simulate_single_sim_unit_psi(IVP_Event_Sim *es, IVP_U_Vector<IVP_Core> *touched_cores) {
 #ifdef DEBUG
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
         this->sim_unit_debug_consistency();
     }
 #endif
@@ -738,8 +738,8 @@ void IVP_Simulation_Unit::simulate_single_sim_unit_psi(IVP_Event_Sim *es, IVP_U_
 
 	IVP_Core *my_core = sim_unit_cores.element_at(d);
         this->init_moving_core_for_psi(my_core, current_time);
-	IVP_IF(1) {
-	  for(int k=my_core->objects.len()-1;k>=0;k--) {	    IVP_ASSERT(my_core->objects.element_at(k)->get_movement_state()<IVP_MT_NOT_SIM);	  }	    
+	IVP_IFDEBUG(1) {
+	  for(int k=my_core->objects.len()-1;k>=0;k--) {	    Assert(my_core->objects.element_at(k)->get_movement_state()<IVP_MT_NOT_SIM);	  }	    
 	}
 	
 	my_core->commit_all_async_pushes(); // @@@OS this happens very seldomly !!!!, remove !!!!this necessary as it may happen that core was temporarily_unmovable
@@ -754,9 +754,9 @@ void IVP_Simulation_Unit::simulate_single_sim_unit_psi(IVP_Event_Sim *es, IVP_U_
     {
 	IVP_Core *my_core = sim_unit_cores.element_at(0);
         this->init_moving_core_for_psi(my_core, current_time);
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	  for(int k=my_core->objects.len()-1;k>=0;k--) {
-	    IVP_ASSERT(my_core->objects.element_at(k)->get_movement_state()<IVP_MT_NOT_SIM);
+	    Assert(my_core->objects.element_at(k)->get_movement_state()<IVP_MT_NOT_SIM);
 	  }	    
 	}
 	my_core->commit_all_async_pushes(); // @@@OS this happens very seldomly !!!!, remove !!!!this necessary as it may happen that core was temporarily_unmovable
@@ -784,11 +784,11 @@ void IVP_Simulation_Unit::simulate_single_sim_unit_psi(IVP_Event_Sim *es, IVP_U_
     for(int j=controller_num-1;j>=0;j--) {
 	IVP_CONTROLLER_PRIORITY debug_contr_prio;
         IVP_Controller *my_controller = controller_cores.element_at(j)->l_controller;
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    debug_contr_prio=my_controller->get_controller_priority();
 	}
         my_controller->do_simulation_controller(es,&controller_cores.element_at(j)->cores_controlled_by); //speed dependent, real speed
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    for (int c = sim_unit_cores.len()-1; c>=0; c--) {
 		IVP_Core *tcore=sim_unit_cores.element_at(c);
 		tcore->core_plausible_check();
@@ -799,7 +799,7 @@ void IVP_Simulation_Unit::simulate_single_sim_unit_psi(IVP_Event_Sim *es, IVP_U_
     for (int c = sim_unit_cores.len()-1; c>=0; c--) {
 	IVP_Core *core = sim_unit_cores.element_at(c);
         core->calc_next_PSI_matrix(touched_cores, es);
-	IVP_IF(0) {
+	IVP_IFDEBUG(0) {
 	    core->debug_vec_movement_state();
 	}
     }

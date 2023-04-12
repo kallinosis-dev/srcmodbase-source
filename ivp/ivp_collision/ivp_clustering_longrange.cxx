@@ -27,7 +27,7 @@ int ivp_debug_indent=0;
 void ivp_indent_output()
 {
     for (int indent_x=0; indent_x<ivp_debug_indent; indent_x++) {
-        printf(" ");
+        Log_Warning(LOG_HAVOK, " ");
     }
     return;
 }
@@ -50,14 +50,14 @@ IVP_OV_Element::~IVP_OV_Element(){
 	hull_manager = nullptr;
     }
     this->real_object->get_environment()->fire_object_is_removed_from_collision_detection(real_object);
-    IVP_ASSERT( collision_fvector.len() == 0);
+    Assert( collision_fvector.len() == 0);
     this->real_object->get_environment()->get_ov_tree_manager()->remove_ov_element(this);
 }
 
 void IVP_OV_Element::add_to_hull_manager(IVP_Hull_Manager *hm, IVP_DOUBLE hull_time){
     const IVP_Time &current_time = real_object->get_environment()->get_current_time();
     if (hull_manager){
-	IVP_ASSERT(hull_manager == hm);
+	Assert(hull_manager == hm);
 	hull_manager->update_synapse(this,current_time,hull_time);
 	return;
     }
@@ -68,12 +68,12 @@ void IVP_OV_Element::add_to_hull_manager(IVP_Hull_Manager *hm, IVP_DOUBLE hull_t
 IVP_HULL_ELEM_TYPE IVP_OV_Element::get_type(){ return IVP_HULL_ELEM_OO_CONNECTOR; };
 
 void IVP_OV_Element::hull_manager_is_going_to_be_deleted_event(IVP_Hull_Manager *hm){
-    IVP_ASSERT(hm == hull_manager );
+    Assert(hm == hull_manager );
     delete this;
 }
 
 void IVP_OV_Element::hull_limit_exceeded_event(IVP_Hull_Manager *hm, IVP_HTIME){
-    IVP_ASSERT(hm == hull_manager);
+    Assert(hm == hull_manager);
     real_object->get_environment()->get_mindist_manager()->recheck_ov_element( real_object );
 }
 
@@ -197,17 +197,17 @@ IVP_DOUBLE IVP_OV_Tree_Manager::calc_optimal_box(const IVP_OV_Element *element, 
     // have a minimum boxsize of 2^-40 meters to be used by our tree
     if ( raster_level < -40 ) {
 	raster_level = -40;
-	IVP_IF(1) {
-	    printf("IVP_OV_Tree_Manager - WARNING: Object too small! Adjusting raster size to 2^-40 meters.\n");
+	IVP_IFDEBUG(1) {
+	    Log_Warning(LOG_HAVOK, "IVP_OV_Tree_Manager - WARNING: Object too small! Adjusting raster size to 2^-40 meters.\n");
 	}
     }
     
 #ifdef DEBUG_CALCOPTIMALBOX
     DEBUG_IF {
 	ivp_indent_output();
-	printf("log2(%f) = %f\n", raster_size, this->log2(raster_size));
+	Log_Warning(LOG_HAVOK, "log2(%f) = %f\n", raster_size, this->log2(raster_size));
 	ivp_indent_output();
-	printf("initial rasterlevel: %d\n", raster_level);
+	Log_Warning(LOG_HAVOK, "initial rasterlevel: %d\n", raster_level);
     }
 #endif    
 
@@ -223,7 +223,7 @@ IVP_DOUBLE IVP_OV_Tree_Manager::calc_optimal_box(const IVP_OV_Element *element, 
 #ifdef DEBUG_CALCOPTIMALBOX
 	DEBUG_IF {
 	    ivp_indent_output();
-	    printf("raster distance: %f\n", raster_dist);
+	    Log_Warning(LOG_HAVOK, "raster distance: %f\n", raster_dist);
 	}
 #endif    
         x_min = ivp_int_floor((element->center.k[0]-min_radius) * iraster_dist);
@@ -232,7 +232,7 @@ IVP_DOUBLE IVP_OV_Tree_Manager::calc_optimal_box(const IVP_OV_Element *element, 
 #ifdef DEBUG_CALCOPTIMALBOX
 	DEBUG_IF {
 	    ivp_indent_output();
-	    printf("x: %d - %d\n", x_min, x_max);
+	    Log_Warning(LOG_HAVOK, "x: %d - %d\n", x_min, x_max);
 	}
 #endif    
         if ( x_max > x_min+2 ) continue;
@@ -243,7 +243,7 @@ IVP_DOUBLE IVP_OV_Tree_Manager::calc_optimal_box(const IVP_OV_Element *element, 
 #ifdef DEBUG_CALCOPTIMALBOX
 	DEBUG_IF {
 	    ivp_indent_output();
-	    printf("y: %d - %d\n", y_min, y_max);
+	    Log_Warning(LOG_HAVOK, "y: %d - %d\n", y_min, y_max);
 	}
 #endif    
         if ( y_max > y_min+2 )       continue;
@@ -254,7 +254,7 @@ IVP_DOUBLE IVP_OV_Tree_Manager::calc_optimal_box(const IVP_OV_Element *element, 
 #ifdef DEBUG_CALCOPTIMALBOX
 	DEBUG_IF {
 	    ivp_indent_output();
-	    printf("z: %d - %d\n", z_min, z_max);
+	    Log_Warning(LOG_HAVOK, "z: %d - %d\n", z_min, z_max);
 	}
 #endif    
         if ( z_max > z_min+2 )       continue;
@@ -287,7 +287,7 @@ IVP_DOUBLE IVP_OV_Tree_Manager::calc_optimal_box(const IVP_OV_Element *element, 
 #ifdef DEBUG_CALCOPTIMALBOX
     DEBUG_IF {
 	ivp_indent_output();
-	printf("x: %d - %d\n", x_min, x_max);
+	Log_Warning(LOG_HAVOK, "x: %d - %d\n", x_min, x_max);
     }
 #endif    
     if ( x_max > x_min+2 ) {
@@ -300,7 +300,7 @@ IVP_DOUBLE IVP_OV_Tree_Manager::calc_optimal_box(const IVP_OV_Element *element, 
 #ifdef DEBUG_CALCOPTIMALBOX
     DEBUG_IF {
 	ivp_indent_output();
-	printf("y: %d - %d\n", y_min, y_max);
+	Log_Warning(LOG_HAVOK, "y: %d - %d\n", y_min, y_max);
     }
 #endif    
     if ( y_max > y_min+2 ) {
@@ -313,7 +313,7 @@ IVP_DOUBLE IVP_OV_Tree_Manager::calc_optimal_box(const IVP_OV_Element *element, 
 #ifdef DEBUG_CALCOPTIMALBOX
     DEBUG_IF {
 	ivp_indent_output();
-	printf("z: %d - %d\n", z_min, z_max);
+	Log_Warning(LOG_HAVOK, "z: %d - %d\n", z_min, z_max);
     }
 #endif    
     if ( z_max > z_min+2 ) {
@@ -367,20 +367,20 @@ void IVP_OV_Tree_Manager::connect_boxes(IVP_OV_Node *node, IVP_OV_Node *new_node
 {
     int rasterlevel_diff = node->data.sizelevel - new_node->data.sizelevel;
 
-    IVP_ASSERT(rasterlevel_diff>0);
+    Assert(rasterlevel_diff>0);
 
     if ( rasterlevel_diff == 1 ) {
 	// new node is exactly one level below -> simply insert it as one of our children
 	new_node->parent = node;
 	node->children.add(new_node);
 #ifdef MY_DEBUG
-	if ( node->children.n_elems > 27 ) printf("*** ERROR *** Excessive amount of children: %d\n", node->children.n_elems);
+	if ( node->children.n_elems > 27 ) Log_Warning(LOG_HAVOK, "*** ERROR *** Excessive amount of children: %d\n", node->children.n_elems);
 #endif			
 
 #ifdef DEBUG_CONNECTBOXES
 	DEBUG_IF {
 	    ivp_indent_output();
-	    printf("New box found one level below. Inserting it...\n");
+	    Log_Warning(LOG_HAVOK, "New box found one level below. Inserting it...\n");
 	}
 #endif
 	return;
@@ -439,13 +439,13 @@ void IVP_OV_Tree_Manager::connect_boxes(IVP_OV_Node *node, IVP_OV_Node *new_node
     this->hash_table->add_node(new_subnode);
 
 #ifdef MY_DEBUG
-    if ( node->children.n_elems > 27 ) printf("*** ERROR *** Excessive amount of children: %d\n", node->children.n_elems);
+    if ( node->children.n_elems > 27 ) Log_Warning(LOG_HAVOK, "*** ERROR *** Excessive amount of children: %d\n", node->children.n_elems);
 #endif
 
 #ifdef DEBUG_CONNECTBOXES
     DEBUG_IF {
 	ivp_indent_output();
-	printf("Created new subbox (%+.4f/%+.4f/%+.4f [%d: %+d/%+d/%+d] +++ %d: %f)\n", \
+	Log_Warning(LOG_HAVOK, "Created new subbox (%+.4f/%+.4f/%+.4f [%d: %+d/%+d/%+d] +++ %d: %f)\n", \
 	       this->power2(new_subnode->data.rasterlevel)*new_subnode->data.x, \
 	       this->power2(new_subnode->data.rasterlevel)*new_subnode->data.y, \
 	       this->power2(new_subnode->data.rasterlevel)*new_subnode->data.z, \
@@ -469,14 +469,14 @@ void IVP_OV_Tree_Manager::expand_tree(const IVP_OV_Node *new_node)
 #ifdef DEBUG_EXPANDTREE
     DEBUG_IF {
 	ivp_indent_output();
-	printf("Expanding tree...\n");
+	Log_Warning(LOG_HAVOK, "Expanding tree...\n");
     }
 #endif
 #ifdef DEBUG_ERROR_OUTPUT
-    if ( this->root->data.sizelevel > 40 ) printf("*** ERROR *** Excessive sizelevel (%d) for element\n", this->root->data.sizelevel);
+    if ( this->root->data.sizelevel > 40 ) Log_Warning(LOG_HAVOK, "*** ERROR *** Excessive sizelevel (%d) for element\n", this->root->data.sizelevel);
 #endif
 
-    IVP_ASSERT(this->root->data.sizelevel<41);
+    Assert(this->root->data.sizelevel<41);
     
     IVP_OV_Node *old_root = this->root;
 
@@ -488,7 +488,7 @@ void IVP_OV_Tree_Manager::expand_tree(const IVP_OV_Node *new_node)
 #ifdef DEBUG_EXPANDTREE
     DEBUG_IF {
 	ivp_indent_output();
-	printf("Reste: %d %d %d\n", rest_x, rest_y, rest_z);
+	Log_Warning(LOG_HAVOK, "Reste: %d %d %d\n", rest_x, rest_y, rest_z);
     }
 #endif    
     new_root->data.x           = IVP_Inline_Math::int_div_2(old_root->data.x);
@@ -500,7 +500,7 @@ void IVP_OV_Tree_Manager::expand_tree(const IVP_OV_Node *new_node)
 #ifdef DEBUG_EXPANDTREE
     DEBUG_IF {
 	ivp_indent_output();
-	printf("Created new (larger) box...\n");
+	Log_Warning(LOG_HAVOK, "Created new (larger) box...\n");
     }
 #endif
     
@@ -515,7 +515,7 @@ void IVP_OV_Tree_Manager::expand_tree(const IVP_OV_Node *new_node)
 #ifdef DEBUG_EXPANDTREE
 	    DEBUG_IF {
 		ivp_indent_output();
-		printf("Shifting box one rasterpoint to the left (x)...\n");
+		Log_Warning(LOG_HAVOK, "Shifting box one rasterpoint to the left (x)...\n");
 	    }
 #endif
 	    new_root->data.x--;
@@ -529,7 +529,7 @@ void IVP_OV_Tree_Manager::expand_tree(const IVP_OV_Node *new_node)
 #ifdef DEBUG_EXPANDTREE
 	    DEBUG_IF {
 		ivp_indent_output();
-		printf("Shifting box one rasterpoint back (y)...\n");
+		Log_Warning(LOG_HAVOK, "Shifting box one rasterpoint back (y)...\n");
 	    }
 #endif
 	    new_root->data.y--;
@@ -543,7 +543,7 @@ void IVP_OV_Tree_Manager::expand_tree(const IVP_OV_Node *new_node)
 #ifdef DEBUG_EXPANDTREE
 	    DEBUG_IF {
 		ivp_indent_output();
-		printf("Shifting box one rasterpoint down (z)...\n");
+		Log_Warning(LOG_HAVOK, "Shifting box one rasterpoint down (z)...\n");
 	    }
 #endif
 	    new_root->data.z--;
@@ -553,12 +553,12 @@ void IVP_OV_Tree_Manager::expand_tree(const IVP_OV_Node *new_node)
 #ifdef DEBUG_EXPANDTREE
     DEBUG_IF {
 	ivp_indent_output();
-	printf("Connecting new (larger) box to existing tree...\n");
+	Log_Warning(LOG_HAVOK, "Connecting new (larger) box to existing tree...\n");
     }
 #endif
     
 #ifdef MY_DEBUG
-    if ( new_root->children.n_elems >= 27 ) printf("*** ERROR *** : Mehr als 27 Kinder *********************************\n");
+    if ( new_root->children.n_elems >= 27 ) Log_Warning(LOG_HAVOK, "*** ERROR *** : Mehr als 27 Kinder *********************************\n");
 #endif			
     new_root->children.add(old_root);
     old_root->parent = new_root;
@@ -569,7 +569,7 @@ void IVP_OV_Tree_Manager::expand_tree(const IVP_OV_Node *new_node)
 #ifdef DEBUG_EXPANDTREE    
     DEBUG_IF {
 	ivp_indent_output();
-	printf("New root (%+.4f/%+.4f/%+.4f [%d: %+d/%+d/%+d] +++ %d: %f)\n", \
+	Log_Warning(LOG_HAVOK, "New root (%+.4f/%+.4f/%+.4f [%d: %+d/%+d/%+d] +++ %d: %f)\n", \
 	       this->power2(this->root->data.rasterlevel)*this->root->data.x, \
 	       this->power2(this->root->data.rasterlevel)*this->root->data.y, \
 	       this->power2(this->root->data.rasterlevel)*this->root->data.z, \

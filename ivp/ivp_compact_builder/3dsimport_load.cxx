@@ -30,7 +30,7 @@ static FILE * InFile=0;
 static void FileRead(void * dest, int len)
 {
 	if(fread(dest, len, 1, InFile) != 1) {
-		//printf("Error reading file\n");
+		//Log_Warning(LOG_HAVOK, "Error reading file\n");
 		longjmp(EnvState, 1);
 	}
 }
@@ -38,7 +38,7 @@ static void FileRead(void * dest, int len)
 static void FileSetpos(dword pos)
 {
 	if(fseek(InFile, (long)pos, SEEK_SET) != 0) {
-		//printf("Error moving filepointer\n");
+		//Log_Warning(LOG_HAVOK, "Error moving filepointer\n");
 		longjmp(EnvState, 1);
 	}
 }
@@ -47,7 +47,7 @@ static dword FileGetpos(void)
 {
 	long pos;
 	if((pos=ftell(InFile)) == -1L) {
-		//printf("Error getting fileposition\n");
+		//Log_Warning(LOG_HAVOK, "Error getting fileposition\n");
 		longjmp(EnvState, 1);
 	}
 	return (dword) pos;
@@ -62,7 +62,7 @@ static void MemRead(void * dest, int len)
 {
 	// Never allow any reads past the membuffer.
 	if(MemBufferIndex+len > MemBufferLen) {
-		//printf("Bad memread\n");
+		//Log_Warning(LOG_HAVOK, "Bad memread\n");
 		longjmp(EnvState, 1);
 	}
 	memcpy(dest, &MemBuffer[MemBufferIndex], len);
@@ -74,7 +74,7 @@ static void MemSetpos(dword pos)
 	// It should be legal to move the position one byte
 	// past the membuffer. The mem must not be read though.
 	if(pos > MemBufferLen) {
-		//printf("Bad memsetpos\n");
+		//Log_Warning(LOG_HAVOK, "Bad memsetpos\n");
 		longjmp(EnvState, 1);
 	}
 	MemBufferIndex=pos;
@@ -95,7 +95,7 @@ H3dsMeshObj * GetMeshObj(void)
 	void * mem;
 	if((mem=p_realloc(Scene->meshobjlist,
 					sizeof(H3dsMeshObj)*(Scene->meshobjs+1))) == 0) {
-		//printf("Error reallocating mem\n");
+		//Log_Warning(LOG_HAVOK, "Error reallocating mem\n");
 		longjmp(EnvState, 1);
 	}
 	Scene->meshobjlist=(H3dsMeshObj *) mem;
@@ -108,7 +108,7 @@ static void * getmem(int size)
 {
 	void * mem;
 	if((mem=p_malloc(size))==0) {
-		//printf("Error allocating mem\n");
+		//Log_Warning(LOG_HAVOK, "Error allocating mem\n");
 		longjmp(EnvState, 1);
 	}
 	return mem;
@@ -349,7 +349,7 @@ H3dsScene * HRead3dsScene(void * ptr, int what, dword size)
 		dread(&len, sizeof(len));
 		if((int)id!=CHUNK_MAIN) {
 			HFree3dsScene(Scene);
-			//printf("Not 3ds data\n");
+			//Log_Warning(LOG_HAVOK, "Not 3ds data\n");
 			return 0;
 		}
 		ReadMainBlocks(pc+len);

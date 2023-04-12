@@ -74,9 +74,9 @@ public:
 
 
     IVP_Polygon     *to_poly(){return (IVP_Polygon *)this;};	// cast
-    IVP_Cluster     *to_cluster(){ IVP_ASSERT(get_type()==IVP_CLUSTER); return (IVP_Cluster *)this;};
-    IVP_Real_Object *to_real(){ IVP_ASSERT(get_type()!=IVP_CLUSTER); return (IVP_Real_Object *)this;};
-    IVP_Ball        *to_ball(){ IVP_ASSERT(get_type()==IVP_BALL); return (IVP_Ball *)this;};
+    IVP_Cluster     *to_cluster(){ Assert(get_type()==IVP_CLUSTER); return (IVP_Cluster *)this;};
+    IVP_Real_Object *to_real(){ Assert(get_type()!=IVP_CLUSTER); return (IVP_Real_Object *)this;};
+    IVP_Ball        *to_ball(){ Assert(get_type()==IVP_BALL); return (IVP_Ball *)this;};
 };
 
 /********************************************************************************

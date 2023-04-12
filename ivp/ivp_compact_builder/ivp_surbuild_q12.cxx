@@ -340,9 +340,9 @@ int IVP_SurfaceBuilder_Q12::load_q12bsp_file(char *filename)
 #endif
     }
 
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	if ( header->version > BSPVERSION ) {
-		printf("****** ERROR ******\n%s is version %i, not %i\n", filename, header->version, BSPVERSION);
+		Log_Warning(LOG_HAVOK, "****** ERROR ******\n%s is version %i, not %i\n", filename, header->version, BSPVERSION);
 	}
     }
 
@@ -368,8 +368,8 @@ int IVP_SurfaceBuilder_Q12::load_q12bsp_file(char *filename)
     // swap everything
     this->swap_bsp_data();
 
-    IVP_IF(1) {
-	printf("Number of models in bsp file: %d\n", n_models);
+    IVP_IFDEBUG(1) {
+	Log_Warning(LOG_HAVOK, "Number of models in bsp file: %d\n", n_models);
     }
 
     this->bsptree_loaded_from_disk = IVP_TRUE;
@@ -395,9 +395,9 @@ void IVP_SurfaceBuilder_Q12::init_q12bsp_from_memory(int version,
 						     int n_nodes_in    , dnode_t     *dnodes_in,
 						     int n_clipnodes_in, dclipnode_t *dclipnodes_in)
 {
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	if ( version > BSPVERSION ) {
-	    printf("****** ERROR ******\nSupplied bsptree is version %i, not %i\n", version, BSPVERSION);
+	    Log_Warning(LOG_HAVOK, "****** ERROR ******\nSupplied bsptree is version %i, not %i\n", version, BSPVERSION);
 	}
     }
 
@@ -431,12 +431,12 @@ void IVP_SurfaceBuilder_Q12::convert_model(int model)
 
     this->convert_node(dmodels[model].headnode[0]);
 
-    IVP_IF(1) {
-	printf("\nBSP tree conversion statistics:\n");
-	printf("  # of original solid nodes : %d\n", this->n_solid_nodes);
-	printf("  # of converted nodes      : %d\n", this->n_converted_nodes);
-	printf("  # of dropped nodes        : %d\n", this->n_solid_nodes-this->n_converted_nodes);
-	printf("\n\n");
+    IVP_IFDEBUG(1) {
+	Log_Warning(LOG_HAVOK, "\nBSP tree conversion statistics:\n");
+	Log_Warning(LOG_HAVOK, "  # of original solid nodes : %d\n", this->n_solid_nodes);
+	Log_Warning(LOG_HAVOK, "  # of converted nodes      : %d\n", this->n_converted_nodes);
+	Log_Warning(LOG_HAVOK, "  # of dropped nodes        : %d\n", this->n_solid_nodes-this->n_converted_nodes);
+	Log_Warning(LOG_HAVOK, "\n\n");
     }
 
     this->nodes.clear();
@@ -623,8 +623,8 @@ void IVP_SurfaceBuilder_Q12::clipnodes_to_planes()
 void IVP_SurfaceBuilder_Q12::create_and_insert_plane(IVP_FLOAT nx, IVP_FLOAT ny, IVP_FLOAT nz, IVP_FLOAT dist)
 {
 #ifdef CREATE_AND_INSERT_PLANE_DEBUG    
-    printf("New ivp plane         : {x:%f, y:%f, z:%f}, %f\n", nx, -nz, ny, -dist);
-    printf("  (original bsp plane : {x:%f, y:%f, z:%f}, %f)\n", nx, ny, nz, dist);
+    Log_Warning(LOG_HAVOK, "New ivp plane         : {x:%f, y:%f, z:%f}, %f\n", nx, -nz, ny, -dist);
+    Log_Warning(LOG_HAVOK, "  (original bsp plane : {x:%f, y:%f, z:%f}, %f)\n", nx, ny, nz, dist);
 #endif    
 
     IVP_U_Hesse plane;

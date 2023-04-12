@@ -16,7 +16,7 @@ public:
     int len;
     
     void insert(T *elem){
-	IVP_ASSERT(!elem->next);
+	Assert(!elem->next);
 	elem->next = this->first;
 	if(first){
 	    first->prev = elem;
@@ -29,7 +29,7 @@ public:
     void remove(T *elem){
 	T *e = elem;
 	T *h;
-	IVP_ASSERT(e->next != (T*)-1);
+	Assert(e->next != (T*)-1);
 	if ((h = e->prev)){
 	    h->next = e->next;
 	}else{

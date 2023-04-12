@@ -31,7 +31,7 @@ class IVP_U_BigVector: public IVP_U_BigVector_Base {
 protected:
     //  special vector with preallocated elems
     IVP_U_BigVector(void **ielems, int size){
-	IVP_ASSERT (ielems == (void **)(this +1));
+	Assert (ielems == (void **)(this +1));
 	elems = ielems;
 	memsize = size;
 	n_elems = 0;
@@ -87,13 +87,13 @@ public:
     
     int add(T *elem){
 	ensure_capacity();
-	IVP_ASSERT( index_of(elem) == -1);
+	Assert( index_of(elem) == -1);
 	elems[n_elems] = (void *)elem;
 	return n_elems++;
     };
 
     void remove_at(int index){
-	IVP_ASSERT((index>=0)&&(index<n_elems));
+	Assert((index>=0)&&(index<n_elems));
 	int j = index;
 	while(j<n_elems-1){
 	    elems[j] = elems[j+1];
@@ -114,7 +114,7 @@ public:
     
     void remove(T *elem){
 	int index = this->index_of(elem);
-	IVP_ASSERT(index>=0);
+	Assert(index>=0);
 	n_elems--;
 	while (index < n_elems){
 	    elems[index] = (elems+1)[index];
@@ -123,7 +123,7 @@ public:
     };
 
     T* element_at(int index) const {
-	IVP_ASSERT(index>=0 && index < n_elems);
+	Assert(index>=0 && index < n_elems);
 	return (T *)elems[index];
     };
 };

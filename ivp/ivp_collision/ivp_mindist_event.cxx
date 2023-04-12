@@ -469,7 +469,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_KK(const IVP_Compact_Edge *K,
 	    H.calc_cross_product(&k_vec_world_now, &l_vec_world_now);
 	    IVP_DOUBLE val  = -H.dot_product(&mindist->contact_plane);
 #if 0	    
-	    IVP_IF(1){
+	    IVP_IFDEBUG(1){
 		IVP_U_Point l_startp_world_now, k_startp_world_now;
 		IVP_CLS.give_world_coords_AT(L, m_cache_L,&l_startp_world_now);
 		IVP_CLS.give_world_coords_AT(K, m_cache_K,&k_startp_world_now);
@@ -477,7 +477,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_KK(const IVP_Compact_Edge *K,
 		IVP_U_Point diff_l_k;
 		diff_l_k.subtract(&l_startp_world_now, &k_startp_world_now);
 		IVP_DOUBLE val2 = diff_l_k.dot_product(&H);
-		IVP_ASSERT( val * val2 >= 0);
+		Assert( val * val2 >= 0);
 	    }
 #endif
 
@@ -573,7 +573,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_KK(const IVP_Compact_Edge *K,
 	IVP_CLS.calc_hesse_vec_object_not_normized(f, m_cache_tab[3-i]->get_compact_ledge(), &solver_KK_PF.hesse_of_area_object);
 	solver_KK_PF.hesse_of_area_object.fast_normize();
 	
-	IVP_ASSERT(m_cache_tab[3-i]->get_compact_ledge() == f->get_compact_ledge());
+	Assert(m_cache_tab[3-i]->get_compact_ledge() == f->get_compact_ledge());
 	
 	IVP_U_Matrix_Cache *cache_e = cache_tab[i];
 	IVP_U_Matrix_Cache *cache_F = cache_tab[3-i];
@@ -625,14 +625,14 @@ void IVP_Mindist_Event_Solver::calc_next_event_PP(const IVP_Compact_Edge *P,
 
 	solver_pp_coll.normized_direction_world_at_t0.set_multiple( & mindist->contact_plane, -1);
 #if 0
-	IVP_IF(1){
+	IVP_IFDEBUG(1){
 	  IVP_U_Point check_dir;
 	  const IVP_U_Point       p_world; IVP_CLS.give_world_coords_AT(P,m_cache_P,&p_world);
 	  const IVP_U_Point       p2_world;IVP_CLS.give_world_coords_AT(P2,m_cache_P2,&p2_world);
 	  check_dir.subtract(&p2_world, &p_world);
 	  check_dir.normize();
 	  IVP_DOUBLE val = -mindist->contact_plane.dot_product( &check_dir );
-	  IVP_ASSERT(  IVP_Inline_Math::fabsd(val - 1.0f) < 0.0001f );
+	  Assert(  IVP_Inline_Math::fabsd(val - 1.0f) < 0.0001f );
 	}
 #endif	
 	solver_pp_coll.set_max_deviation(this->max_coll_speed);
@@ -745,14 +745,14 @@ void IVP_Mindist_Event_Solver::calc_next_event_BP(IVP_Ball * ball,const  IVP_Com
 
 	solver_pp_coll.normized_direction_world_at_t0.set_multiple( &mindist->contact_plane, -1);
 #if 0	
-	IVP_IF(1){
+	IVP_IFDEBUG(1){
 	  IVP_U_Point check_dir;
 	  const IVP_U_Point       *p_world  =  m_cache_B->m_world_f_object.get_position();
 	  const IVP_U_Point       p2_world; IVP_CLS.give_world_coords_AT(P2,m_cache_P2,&p2_world);
 	  check_dir.subtract(&p2_world, p_world);
 	  check_dir.normize();
 	  IVP_DOUBLE val = -mindist->contact_plane.dot_product( &check_dir );
-	  IVP_ASSERT(  IVP_Inline_Math::fabsd(val - 1.0f) < 0.0001f );
+	  Assert(  IVP_Inline_Math::fabsd(val - 1.0f) < 0.0001f );
 	}
 #endif
 	
@@ -1095,7 +1095,7 @@ void IVP_Mindist_Event_Solver::calc_next_event_BK(IVP_Ball * ball,const  IVP_Com
     // both areas F0/F1
     {
 	IVP_3D_Solver_PF_COLL solver_pk_pf;
-	IVP_ASSERT( worst_case_speed > max_coll_speed );
+	Assert( worst_case_speed > max_coll_speed );
 	solver_pk_pf.set_max_deviation(this->worst_case_speed);	// when does point P move through lot area
 
 	solver_pk_pf.point_object.set(&p_object);
@@ -1162,7 +1162,7 @@ void IVP_Mindist_Event_Solver::next_event_B_POLY(IVP_Mindist_Event_Solver *mim)
 	mim->calc_next_event_BF( e1, m_cache_0, &m_cache_1);
 	break;
     default:
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     };
 
     m_cache_0->remove_reference();
@@ -1228,7 +1228,7 @@ void IVP_Mindist_Event_Solver::next_event_default_poly_poly(IVP_Mindist_Event_So
 	      break;
 	    }
 	    default:
-		CORE;
+		AssertMsg(false, "Havok fatal error");
 	  }
 	  break;
       };
@@ -1239,12 +1239,12 @@ void IVP_Mindist_Event_Solver::next_event_default_poly_poly(IVP_Mindist_Event_So
 	      break;
 	    }
 	    default:
-		CORE;
+		AssertMsg(false, "Havok fatal error");
 	  }
 	  break;
       };
     default:
-	CORE; // unknown synapse status
+	AssertMsg(false, "Havok fatal error"); // unknown synapse status
     }
     
     m_cache_0.remove_reference();
@@ -1255,7 +1255,7 @@ void IVP_Mindist_Event_Solver::next_event_default_poly_poly(IVP_Mindist_Event_So
 
 void IVP_Mindist_Event_Solver::next_event_illegal(IVP_Mindist_Event_Solver *){
     // error: inconsistency between IVP_Mindist_Event_Solver and IVP_Mindist_Minimize_Solver
-    CORE;
+    AssertMsg(false, "Havok fatal error");
 }
 
 void (*IVP_Mindist_Event_Solver::mim_function_table[IVP_ST_MAX_LEGAL][IVP_ST_MAX_LEGAL])(IVP_Mindist_Event_Solver *mim);

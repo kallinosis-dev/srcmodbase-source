@@ -54,8 +54,8 @@ private:
   unsigned int   is_virtual:1;
 public:
     // safety and interface methods (mainly internal usage)
-  inline void set_start_point_index(int val) {IVP_ASSERT(val>=0 && val< (1<<16)); start_point_index=val; }
-  inline void set_opposite_index(int val) {IVP_ASSERT(val>=-(1<<14)+1 && val< (1<<14)-1); opposite_index=val; }
+  inline void set_start_point_index(int val) {Assert(val>=0 && val< (1<<16)); start_point_index=val; }
+  inline void set_opposite_index(int val) {Assert(val>=-(1<<14)+1 && val< (1<<14)-1); opposite_index=val; }
   inline void set_is_virtual(unsigned int val){ is_virtual = val; }; 
 
     // real public 
@@ -99,9 +99,9 @@ public:
     IVP_Compact_Edge c_three_edges[3];
 
   // safety functions for creation
-  inline void set_tri_index(int val) {IVP_ASSERT(val>=0 && val< (1<<12)); tri_index=val; }
-  inline void set_pierce_index(int val) {IVP_ASSERT(val>=0 && val< (1<<12)); pierce_index=val; }
-  inline void set_material_index(int val) {IVP_ASSERT(val>=0 && val< (1<<7)); material_index=val; }
+  inline void set_tri_index(int val) {Assert(val>=0 && val< (1<<12)); tri_index=val; }
+  inline void set_pierce_index(int val) {Assert(val>=0 && val< (1<<12)); pierce_index=val; }
+  inline void set_material_index(int val) {Assert(val>=0 && val< (1<<7)); material_index=val; }
   inline void set_is_virtual(unsigned int val){ is_virtual = val; }; 
 
   inline int get_tri_index() const { return tri_index; }
@@ -132,11 +132,12 @@ class IVP_Compact_Ledge {
     friend class IVP_SurfaceBuilder_Ledge_Soup;
     friend class IVP_SurfaceBuilder_Mopp;
     friend class IVP_GridBuilder_Array;
-private:
+
+public:
     int c_point_offset; // byte offset from 'this' to (ledge) point array
     union {
-	int ledgetree_node_offset;
-	int client_data;	// if indicates a non terminal ledge
+		int ledgetree_node_offset;
+		int client_data;	// if indicates a non terminal ledge
     };
     unsigned int has_chilren_flag:2;
     IVP_BOOL is_compact_flag:2;  // if false than compact ledge uses points outside this piece of memory
@@ -145,38 +146,38 @@ private:
     short n_triangles;
     short for_future_use;
 
-	inline void set_offset_ledge_points(int offset) { 
-		IVP_ASSERT( (offset & 15) == 0 );
+    void set_offset_ledge_points(int offset) { 
+		Assert( (offset & 15) == 0 );
 		c_point_offset=offset; 
-	};
+	}
 
-    inline void set_size(int size){ IVP_ASSERT( (size > 0) && (size & 0xf) == 0); size_div_16 = size>>4; };
-    inline void set_is_compact(IVP_BOOL x){ is_compact_flag = x; };
-public:
+    void set_size(int size){ Assert( (size > 0) && (size & 0xf) == 0); size_div_16 = size>>4; };
+    void set_is_compact(IVP_BOOL x){ is_compact_flag = x; };
+
 
     void c_ledge_init();	// memclear(this)
 
-    inline const IVP_Compact_Poly_Point *get_point_array() const { return (IVP_Compact_Poly_Point *)(      ((char *)this) + c_point_offset);   };
-    inline       IVP_Compact_Poly_Point *get_point_array()       { return (IVP_Compact_Poly_Point *)(      ((char *)this) + c_point_offset);   };
+    const IVP_Compact_Poly_Point *get_point_array() const { return (IVP_Compact_Poly_Point *)(      ((char *)this) + c_point_offset);   };
+    IVP_Compact_Poly_Point *get_point_array()       { return (IVP_Compact_Poly_Point *)(      ((char *)this) + c_point_offset);   };
 
     // triangles are always placed behind the class instance
-    inline const IVP_Compact_Triangle *get_first_triangle() const { return (IVP_Compact_Triangle *)(this+1); };
-    inline       IVP_Compact_Triangle *get_first_triangle()       { return (IVP_Compact_Triangle *)(this+1); };
-    inline IVP_BOOL is_terminal() const { return (IVP_BOOL)(has_chilren_flag == 0); };
+    const IVP_Compact_Triangle *get_first_triangle() const { return (IVP_Compact_Triangle *)(this+1); };
+    IVP_Compact_Triangle *get_first_triangle()       { return (IVP_Compact_Triangle *)(this+1); };
+    IVP_BOOL is_terminal() const { return (IVP_BOOL)(has_chilren_flag == 0); };
 
     // get corresponding ledge tree node for recursive compace ledges only ( no grids )
-    inline const IVP_Compact_Ledgetree_Node *get_ledgetree_node() const { IVP_ASSERT( !is_terminal() ); return ( IVP_Compact_Ledgetree_Node *)( ((char *)this) + ledgetree_node_offset); };
-    
-    inline int get_n_triangles() const { return n_triangles; };
+    const IVP_Compact_Ledgetree_Node *get_ledgetree_node() const { Assert( !is_terminal() ); return ( IVP_Compact_Ledgetree_Node *)( ((char *)this) + ledgetree_node_offset); };
+
+    int get_n_triangles() const { return n_triangles; };
     
 #if defined(LINUX) || defined(SUN) || (defined(__MWERKS__) && defined(__POWERPC__)) || defined(GEKKO)
     inline int get_n_points() const { return  size_div_16 - n_triangles - 1; };
 #endif    
 
-    inline int get_size() const { return size_div_16 * 16; };
-    inline IVP_BOOL is_compact(){ return (IVP_BOOL)is_compact_flag; }; // returns true if vertex info is included in compact ledge
-    inline int get_client_data() const { IVP_ASSERT( is_terminal()); return client_data; };   // see IVP_Surface_Manager_Polygon for user acces
-    inline void set_client_data(unsigned int x){ IVP_ASSERT(is_terminal()); if (is_terminal()) client_data = x; };
+    int get_size() const { return size_div_16 * 16; };
+    IVP_BOOL is_compact(){ return (IVP_BOOL)is_compact_flag; }; // returns true if vertex info is included in compact ledge
+    int get_client_data() const { Assert( is_terminal()); return client_data; };   // see IVP_Surface_Manager_Polygon for user acces
+    void set_client_data(unsigned int x){ Assert(is_terminal()); if (is_terminal()) client_data = x; };
 
 	void byte_swap(); // just byte swap this data BUT WILL NOT do the point array, as may be external data or shared and so may be byte swapped > 1 times
 	void byte_swap_all(IVP_U_BigVector<IVP_Compact_Poly_Point>* pre_swapped_points); // byte_swap, and recurse too all related child data including the point and triangle data
@@ -208,19 +209,19 @@ public:
     // Methods
     // -------
     const IVP_Compact_Ledge *get_compact_ledge() const {
-	IVP_ASSERT(offset_right_node == 0);
+	Assert(offset_right_node == 0);
 	char *base = (char *)this;
 	base += this->offset_compact_ledge;
 	return (const IVP_Compact_Ledge *)base;
     }
 
     const IVP_Compact_Ledgetree_Node* left_son() const {
-	IVP_ASSERT(offset_right_node);
+	Assert(offset_right_node);
 	return this+1;
     }
     
     const IVP_Compact_Ledgetree_Node* right_son() const {
-	IVP_ASSERT(offset_right_node);
+	Assert(offset_right_node);
 	return (IVP_Compact_Ledgetree_Node *)(((char *)this) + this->offset_right_node);
     }
 
@@ -263,7 +264,7 @@ const IVP_Compact_Ledge *IVP_Compact_Edge::get_compact_ledge() const
 
 const IVP_Compact_Poly_Point *IVP_Compact_Edge::get_start_point(const IVP_Compact_Ledge *c_ledge) const
 {
-    IVP_ASSERT(c_ledge == this->get_compact_ledge());
+    Assert(c_ledge == this->get_compact_ledge());
     return &c_ledge->get_point_array()[this->get_start_point_index()];
 }
 

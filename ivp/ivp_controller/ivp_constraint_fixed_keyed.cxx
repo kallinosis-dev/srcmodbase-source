@@ -153,7 +153,7 @@ void IVP_Constraint_Fixed_Keyframed::do_simulation_controller(IVP_Event_Sim *es,
 	//// invert matrix
 	IVP_RETURN_TYPE r = tcb.invert_3x3_matrix();
 	if(r==IVP_FAULT){
-	printf("do_constraint_system: Couldn't invert rot matrix!\n");
+	Log_Warning(LOG_HAVOK, "do_constraint_system: Couldn't invert rot matrix!\n");
 	co_Ref->remove_reference();
 	co_Att->remove_reference();
 	return;
@@ -194,7 +194,7 @@ void IVP_Constraint_Fixed_Keyframed::do_simulation_controller(IVP_Event_Sim *es,
 	//// invert matrix
 	IVP_RETURN_TYPE r = tcb.invert_3x3_matrix();
 	if(r==IVP_FAULT){
-	printf("do_constraint_system: Couldn't invert rot matrix!\n");
+	Log_Warning(LOG_HAVOK, "do_constraint_system: Couldn't invert rot matrix!\n");
 	return;
 	}
 	IVP_U_Matrix3 &tpm = tcb.m_velocity_ds_f_impulse_ds;	

@@ -32,8 +32,8 @@ public:
     };
     
     virtual void get_radius_and_radius_dev_to_given_center(const IVP_U_Float_Point * /*center*/, IVP_FLOAT * /*radius*/, IVP_FLOAT * /*radius_deviation*/) const {
-	CORE;};
-    virtual void get_rotation_inertia( IVP_U_Float_Point * /*rotation_inertia_out*/ ) const { CORE;};
+	AssertMsg(false, "Havok fatal error");};
+    virtual void get_rotation_inertia( IVP_U_Float_Point * /*rotation_inertia_out*/ ) const { AssertMsg(false, "Havok fatal error");};
   
 
     /********************************************************************************
@@ -50,13 +50,13 @@ public:
     };
 
     void get_all_terminal_ledges(IVP_U_BigVector<IVP_Compact_Ledge> *resulting_ledges){
-	CORE;
+	AssertMsg(false, "Havok fatal error");
 	resulting_ledges->add(compact_ledge);	
     }
 
     virtual void insert_all_ledges_hitting_ray(IVP_Ray_Solver * /*ray_solver*/,
 					    IVP_Real_Object * /*object_to_insert*/)
-    { CORE; }; // dummy
+    { AssertMsg(false, "Havok fatal error"); }; // dummy
     
     ~IVP_SurfaceManager_Ball(){
 	P_FREE_ALIGNED( compact_ledge );

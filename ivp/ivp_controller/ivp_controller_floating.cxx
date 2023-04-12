@@ -94,7 +94,7 @@ void IVP_Controller_Floating::do_simulation_controller(IVP_Event_Sim *es, IVP_U_
 
 void IVP_Controller_Floating::core_is_going_to_be_deleted_event(IVP_Core *core_i)
 {
-    IVP_ASSERT(object->get_core() == core_i);
+    Assert(object->get_core() == core_i);
     P_DELETE_THIS(this);
 }
     

@@ -7,5 +7,5 @@
 #include <ivp_i_friction_hash.hxx>
 
 IVP_Friction_Hash::~IVP_Friction_Hash() {
-    IVP_ASSERT( this->n_elems() == 0 );
+    Assert( this->n_elems() == 0 );
 };

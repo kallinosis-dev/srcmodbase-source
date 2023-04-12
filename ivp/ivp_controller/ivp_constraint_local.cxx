@@ -217,7 +217,6 @@ IVP_Constraint_Local::~IVP_Constraint_Local() {
 }
 
 void IVP_Constraint_Local::core_is_going_to_be_deleted_event(IVP_Core *core){
-    IVP_USE(core);
     P_DELETE_THIS(this);
 }
 
@@ -245,8 +244,8 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 
     IVP_Core *coreR = m_Rfs_f_Rcs.object ? m_Rfs_f_Rcs.object->get_core() : nullptr;
     IVP_Core *coreA = m_Afs_f_Acs.object ? m_Afs_f_Acs.object->get_core() : nullptr;
-    IVP_ASSERT(!coreR || coreR->physical_unmoveable || coreR->movement_state != IVP_MT_NOT_SIM);
-    IVP_ASSERT(!coreA || coreA->physical_unmoveable || coreA->movement_state != IVP_MT_NOT_SIM);
+    Assert(!coreR || coreR->physical_unmoveable || coreR->movement_state != IVP_MT_NOT_SIM);
+    Assert(!coreA || coreA->physical_unmoveable || coreA->movement_state != IVP_MT_NOT_SIM);
 
     // fs Rfs Afs ws Rcs Acs
     IVP_U_Matrix m_identity; m_identity.init();
@@ -320,7 +319,7 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 	if (diff_axis < -IVP_PI) diff_axis += 2.0f * IVP_PI;
 	// IVP_DOUBLE qlen_rsx = rsx_Rcs.quad_length();  // 0 .. 4
 	// if (qlen_rsx > 3 ) qlen_rsx = 3;
-	drRA_now_rs.k[mapping_uRrs_f_Rrs[IVP_INDEX_X]] = diff_axis;   // hängt von known_axis ab
+	drRA_now_rs.k[mapping_uRrs_f_Rrs[IVP_INDEX_X]] = diff_axis;   // hï¿½ngt von known_axis ab
 	drRA_now_rs.k[mapping_uRrs_f_Rrs[IVP_INDEX_Y]] = 0.0f;
 	drRA_now_rs.k[mapping_uRrs_f_Rrs[IVP_INDEX_Z]] = 0.0f;
     } else {
@@ -364,7 +363,7 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
      *	Description:	calculate the translation differences
      ********************************************************************************/
     // At this point drRA_rs is virtually the same as rRA_rs
-    IVP_IF (0) {
+    IVP_IFDEBUG (0) {
 	IVP_U_Float_Point world_vec;
 	world_vec.set(0.0f,0.01f,0.0f);
 	if (coreR) coreR->environment->add_draw_vector(m_ws_f_Rcs.get_position(), &world_vec, m_Rfs_f_Rcs.object->get_name(), 3);
@@ -385,14 +384,14 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
     IVP_U_Point dvRA_fs; // desired differences of speed
     IVP_U_Point drRA_rs; // desired differences of angular velocity
     { // Calc desired velocity difference
-        // Wie siehts im nächsten PSI aus?
+        // Wie siehts im nï¿½chsten PSI aus?
 
         // Echte Kurvenberechnung ginge so:
         // aktuelle Position += coreX->speed * d_time
         // aktuelle Position += ... hmm, mueszte mit quaternions gehen, die man aufeinander addiert
         // oder indem man die Achse bestimmt, um die sich das Objekt dreht, und dann in der Rotationsebene
         // den neuen Punkt bestimmt 
-        // Statt echter Kurvenberechnung mache ich nur eine lineare Annäherung.
+        // Statt echter Kurvenberechnung mache ich nur eine lineare Annï¿½herung.
 
         // Position:
         IVP_U_Float_Point  v_pointR_ws, v_pointA_ws;
@@ -509,7 +508,7 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 	    m_fs_f_Acs.vimult3(&testimpulseA_pointR_fs, &testimpulseA_pointR_Acs);
 	    m_fs_f_ws.vimult3(&testimpulseR_pointR_fs, &testimpulseR_pointR_ws);
 	    m_fs_f_ws.vimult3(&testimpulseA_pointR_fs, &testimpulseA_pointR_ws);
-    /* So funktioniert die Berechnung unter der Annahme, daß sowohl coreR als auch coreA beweglich sind:
+    /* So funktioniert die Berechnung unter der Annahme, daï¿½ sowohl coreR als auch coreA beweglich sind:
 	    coreR->test_push_core(&pointR_Rcs, &testimpulseR_pointR_Rcs, &testimpulseR_pointR_ws, &dvR_ws, &drR_Rcs);
 	    coreR->inline_get_surface_speed_on_test(&pointR_Rcs, &dvR_ws, &drR_Rcs, &dv_pointR_ws); 
         
@@ -623,15 +622,15 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 	}
     }
     
-    // Nun hab ich Matrizen der Größe 0 bis 6.
-    // Noch nicht gemacht: Die unterschiedlichen Matrixgrößen beachten!
+    // Nun hab ich Matrizen der Grï¿½ï¿½e 0 bis 6.
+    // Noch nicht gemacht: Die unterschiedlichen Matrixgrï¿½ï¿½en beachten!
     // Matrix erschaffen und vimult3(dvRA, impulseR);
     IVP_Great_Matrix_Many_Zero mg_impulse_f_dvRA;
     mg_impulse_f_dvRA.columns = matrix_size;
     mg_impulse_f_dvRA.calc_aligned_row_len();
     int aligned_row_len = mg_impulse_f_dvRA.aligned_row_len;
     mg_impulse_f_dvRA.MATRIX_EPS = 1E-9f;
-    IVP_ASSERT( aligned_row_len <= 8 );
+    Assert( aligned_row_len <= 8 );
 #if defined(IVP_NO_ALLOCA)    
     IVP_DOUBLE matrix_values_buffer[ 6 * 8 + 3 ];
     IVP_DOUBLE result_vector_buffer[ 8 ];
@@ -675,7 +674,7 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
     ;
     // invert matrix and solve equation
     if (!mg_impulse_f_dvRA.solve_great_matrix_many_zero()){
-        //printf("Couldn't solve constraint matrix between %s and %s!\n", m_Rfs_f_Rcs.object->get_name(), m_Afs_f_Acs.object->get_name());
+        //Log_Warning(LOG_HAVOK, "Couldn't solve constraint matrix between %s and %s!\n", m_Rfs_f_Rcs.object->get_name(), m_Afs_f_Acs.object->get_name());
 	return;
     }
     // get the resulting impulse
@@ -739,7 +738,7 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 		&& IVP_Inline_Math::fabsd(impulserotR_rs.k[2]) < maxforce->halfimpulse[5];
 	    break;
 	}
-        IVP_IF (0) {
+        IVP_IFDEBUG (0) {
 	    printf("%f  %f  %f     ", IVP_Inline_Math::fabsd(impulseR_fs.k[0]) , IVP_Inline_Math::fabsd(impulseR_fs.k[1]) , IVP_Inline_Math::fabsd(impulseR_fs.k[2]));
 	    printf("%f  %f  %f\n", IVP_Inline_Math::fabsd(impulserotR_rs.k[0]) , IVP_Inline_Math::fabsd(impulserotR_rs.k[1]) , IVP_Inline_Math::fabsd(impulserotR_rs.k[2]));
 	}
@@ -784,7 +783,7 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 			//P_DELETE_THIS(this);
 			return;
 			//free_translation_axis((IVP_COORDINATE_INDEX) i);
-			IVP_IF (1) printf("Translationsachse %d ist gebrochen!\n", i);
+			IVP_IFDEBUG (1) printf("Translationsachse %d ist gebrochen!\n", i);
 			break;
 		    case IVP_CFE_BEND: // Constraint verschiebt sich in diese Richtung
                         // Maybe I should call a notify() function
@@ -806,7 +805,7 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 			//P_DELETE_THIS(this);
 			return;
 			//ee_rotation_axis((IVP_COORDINATE_INDEX) i);
-			IVP_IF (1) printf("Rotationsachse %d ist gebrochen!\n", i);
+			IVP_IFDEBUG (1) printf("Rotationsachse %d ist gebrochen!\n", i);
 			break;
 		    case IVP_CFE_BEND:
 			// NOT implemented
@@ -836,7 +835,7 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 
     
     IVP_U_Float_Point result_dvRA_fs, result_drRA_rs; // for plausible check
-    IVP_IF (0) { // check for plausible values
+    IVP_IFDEBUG (0) { // check for plausible values
 	IVP_U_Float_Point dvR_ws, dvA_ws, drR_Rcs, drA_Acs, drR_rot_Rcs, drA_rot_Acs;
         if (coreR && coreR->physical_unmoveable) {
 	    dvR_ws.set_to_zero();
@@ -862,7 +861,7 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
 	m_rs_f_Acs.vmult3(&drA_Acs, &drA_Acs);
 	result_drRA_rs.subtract(&drA_Acs, &drR_Rcs);
     }
-    IVP_IF (0) {
+    IVP_IFDEBUG (0) {
 	printf("%f [%s]-[%s]: IT=%f  IR=%f\n", coreR->environment->get_current_time().get_time(), m_Rfs_f_Rcs.object->get_name(), m_Afs_f_Acs.object->get_name(),
 	       impulseR_Rcs.real_length(), impulserotR_Rcs.real_length());
     }
@@ -870,9 +869,9 @@ void IVP_Constraint_Local::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vect
     if (coreR && !coreR->physical_unmoveable) {
 	coreR->push_core(&pointR_Rcs, &impulseR_Rcs, &impulseR_ws);
 	coreR->rot_push_core_cs(&impulserotR_Rcs);
-	IVP_IF (1) { // show lines
+	IVP_IFDEBUG (1) { // show lines
 	    impulseR_ws.mult(debugfactor * 2.0f * inv_dtime);
-	    coreR->environment->add_draw_vector(&pointR_ws, &impulseR_ws, "", 2); // grün
+	    coreR->environment->add_draw_vector(&pointR_ws, &impulseR_ws, "", 2); // grï¿½n
 	    IVP_U_Float_Point impulserotR_ws; m_ws_f_Rcs.vmult3(&impulserotR_Rcs, &impulserotR_ws);
 	    impulserotR_ws.mult(debugfactor * 2.0f * inv_dtime);
 	    coreR->environment->add_draw_vector(&pointR_ws, &impulserotR_ws, "", 5); // gelb
@@ -929,14 +928,14 @@ void IVP_Constraint_Local::change_fixing_point_Ros(const IVP_U_Point *anchor) { 
     IVP_U_Point point_Rfs_f_nRfs; m_Rfs_f_Rcs.vmult4(&point_Rcs_f_nRfs, &point_Rfs_f_nRfs); // point_nRfs_in_Rfs
     m_Rfs_f_Rcs.vv.subtract(&point_Rfs_f_nRfs);
 
-/* if I would have to translate -- wenn ich übersetzen müßte:
+/* if I would have to translate -- wenn ich ï¿½bersetzen mï¿½ï¿½te:
     IVP_U_Point point_Rcs_f_nuRfs; m_Rcs_f_Ros.vmult4(anchor, &point_Rcs_f_nuRfs);
     IVP_U_Matrix3 m_uRfs_f_Rcs; mapping_uRfs_f_Rfs.mapply((IVP_U_Matrix3 *) &m_Rfs_f_Rcs, &m_uRfs_f_Rcs);
     IVP_U_Point point_nuRfs_f_Rcs; m_uRfs_f_Rcs.vmult3(&point_Rcs_f_nuRfs, &point_nuRfs_f_Rcs);
     point_nuRfs_f_Rcs.set_negative(&point_nuRfs_f_Rcs);
     mapping_uRfs_f_Rfs.viapply(&point_nuRfs_f_Rcs, &m_Rfs_f_Rcs.vv);
 */  
-    m_Afs_f_Acs.vv.subtract(&point_Rfs_f_nRfs); // weil die Punkte so verschoben werden müssen, als lägen Rfs und Afs aufeinander.
+    m_Afs_f_Acs.vv.subtract(&point_Rfs_f_nRfs); // weil die Punkte so verschoben werden mï¿½ssen, als lï¿½gen Rfs und Afs aufeinander.
 }
 
 void IVP_Constraint_Local::change_target_fixing_point_Ros(const IVP_U_Point *anchor) { // point_Ros_f_nRfs

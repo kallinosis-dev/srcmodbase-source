@@ -5,6 +5,8 @@
 #ifndef _IVP_U_TYPES_INCLUDED
 #define _IVP_U_TYPES_INCLUDED
 
+#include "tier0/dbg.h"
+
 
 #ifdef WIN32
 //#define IVP_PIII			/* set for P3 specific code */
@@ -45,8 +47,6 @@
        Exactly DEBUG or NDEBUG has to be defined, check Makefile
 #endif
 
-#define CORE *(int *)0 = 0  /* send fatal signal */
-
 #if defined (PSXII)
 #	if defined (__MWERKS__)
 inline void BREAKPOINT()
@@ -68,52 +68,9 @@ inline void BREAKPOINT()
 #endif // PSXII
 
 #ifdef	NDEBUG
-#	define IVP_ASSERT(cond)	
-#	define IVP_USE(a) 
-#	define IVP_IF(flag)	if (0==1)
+#	define IVP_IFDEBUG(flag)	if (false)
 #else
-#	if defined (PSXII)
-#		define IVP_ASSERT(cond) \
-		{ \
-			if(!(cond)) \
-			{ \
-				::fprintf(stderr, "\nASSERTION FAILURE: %s\nFILE: %s\nLINE: %d\n\n", cond, __FILE__, __LINE__); \
-				BREAKPOINT(); \
-			} \
-		}
-#	elif defined(GEKKO)
-#		define IVP_ASSERT(cond) \
-		{ \
-			if(!(cond)) \
-			{ \
-				::fprintf(stderr, "\nASSERTION FAILURE: %s\nFILE: %s\nLINE: %d\n\n", cond, __FILE__, __LINE__); \
-				CORE; \
-			} \
-		}
-#	elif defined(__MWERKS__) && defined(__POWERPC__)
-#		include <MacTypes.h>
-#		define IVP_ASSERT(cond) \
-		{ \
-			if(!(cond)) \
-			{ \
-						char error[128]; \
-						sprintf(error, (char*)"\pASSERT FAILURE: \nFILE: %s\nLINE: %d\n\n", __FILE__, __LINE__);  \
-		 			DebugStr((unsigned char *)error); \
-			} \
-		}	
-#	else
-#		define IVP_ASSERT(cond) \
-		{ \
-			if(!(cond)) \
-			{ \
-				::fprintf(stderr, "\nASSERTION FAILURE: %s\nFILE: %s\nLINE: %d\n\n", cond, __FILE__, __LINE__); \
-				CORE; \
-			} \
-		}
-//#		define IVP_ASSERT(cond)	if (!(cond)) CORE
-#	endif // PSXII, Mac, etc.  debug assert
-#	define IVP_USE(a) a=a
-#	define IVP_IF(flag)	if (flag)
+#	define IVP_IFDEBUG(flag)	if (flag)
 #endif
 
 
@@ -315,7 +272,7 @@ IVP_FLOAT ivp_rand();		// returns [0 .. 1]
 #	else
 #		define IVP_IF_PREFETCH_ENABLED(x) if(0)
 #	endif
-#	define IVP_PREFETCH_BLOCK(a,b)  /* IVP_ASSERT(b < 128);*/
+#	define IVP_PREFETCH_BLOCK(a,b)  /* Assert(b < 128);*/
 #else
 
 #   define IVP_PREFETCH_BLOCK(pntr, size) {	\

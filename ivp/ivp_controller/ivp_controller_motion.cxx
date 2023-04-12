@@ -58,7 +58,7 @@ void IVP_Controller_Motion::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vec
     // ------------------------------------------------------------------------
     
     // Little entry checks
-    IVP_ASSERT(core_list->len() == 1); // Multiple cores don't make much sense here, do they?
+    Assert(core_list->len() == 1); // Multiple cores don't make much sense here, do they?
 
     // current situation
     const IVP_U_Matrix *m_world_f_core = core->get_m_world_f_core_PSI();
@@ -129,7 +129,7 @@ void IVP_Controller_Motion::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vec
 }
 
 void IVP_Controller_Motion::core_is_going_to_be_deleted_event(IVP_Core *core_i){
-    IVP_ASSERT(core == core_i);
+    Assert(core == core_i);
     P_DELETE_THIS(this);
 }
     
@@ -208,7 +208,7 @@ void IVP_Controller_Golem::beam_object_to_target_position(IVP_Event_Sim *es){
 
 void IVP_Controller_Golem::do_simulation_controller(IVP_Event_Sim *es,IVP_U_Vector<IVP_Core> *cores){
         // Little entry checks
-    IVP_ASSERT(cores->len() == 1); // Multiple cores don't make much sense here, do they?
+    Assert(cores->len() == 1); // Multiple cores don't make much sense here, do they?
 
     IVP_Time current_time = es->environment->get_current_time();
 

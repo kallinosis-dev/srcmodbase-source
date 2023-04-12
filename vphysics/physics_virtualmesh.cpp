@@ -75,7 +75,7 @@ public:
 	int GetRootLedges( IVP_Compact_Ledge **pLedges, int outCount ) 
 	{ 
 		int hullOffset = m_hullOffset;
-		int count = min(outCount, (int)m_hullCount);
+		int count = std::min(outCount, (int)m_hullCount);
 		for ( int i = 0; i < count; i++ )
 		{
 			pLedges[i] = (IVP_Compact_Ledge *)(m_pMemory + hullOffset);

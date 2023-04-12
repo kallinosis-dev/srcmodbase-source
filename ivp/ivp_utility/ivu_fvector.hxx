@@ -25,7 +25,7 @@ class IVP_U_FVector: public IVP_U_Vector_Base {
 protected:
     //  special vector with preallocated elems
     IVP_U_FVector(void **ielems, int size){
-	IVP_ASSERT (ielems == (void **)(this +1));
+	Assert (ielems == (void **)(this +1));
 	elems = ielems;
 	memsize = size;
 	n_elems = 0;
@@ -65,21 +65,21 @@ public:
     int index_of(T *elem){
 	int i0 = elem->get_fvector_index(0);
 	if ( i0 >=0 && i0 < n_elems && element_at(i0) == elem) return i0;
-	IVP_ASSERT ( elem->get_fvector_index(1) <0 ||  elem->get_fvector_index(1) >= n_elems || element_at(elem->get_fvector_index(1)) == elem);
+	Assert ( elem->get_fvector_index(1) <0 ||  elem->get_fvector_index(1) >= n_elems || element_at(elem->get_fvector_index(1)) == elem);
 	return elem->get_fvector_index(1);
     };
     
     int add(T *elem){
 	ensure_capacity();
-	IVP_ASSERT( index_of(elem) == -1);
+	Assert( index_of(elem) == -1);
 	elems[n_elems] = (void *)elem;
 	elem->set_fvector_index(-1, n_elems);
 	return n_elems++;
     };
 
     void swap_elems(int index1, int index2){
-	IVP_ASSERT((index1>=0)&&(index1<n_elems));
-	IVP_ASSERT((index2>=0)&&(index2<n_elems));
+	Assert((index1>=0)&&(index1<n_elems));
+	Assert((index2>=0)&&(index2<n_elems));
 	T *a = (T*)elems[index1];
 	T *b = (T*)elems[index2];
 	elems[index1] = b;
@@ -91,7 +91,7 @@ public:
 
     void remove_allow_resort(T *elem){
 	int index = this->index_of(elem);
-	IVP_ASSERT(index>=0);
+	Assert(index>=0);
 	n_elems--;
 	if ( n_elems > index){
 	    T *e = (T*) elems[n_elems];
@@ -103,7 +103,7 @@ public:
     
 
     T* element_at(int index) const {
-	IVP_ASSERT(index>=0 && index < n_elems);
+	Assert(index>=0 && index < n_elems);
 	return (T *)elems[index];
     };
 };

@@ -35,14 +35,14 @@ IVP_RETURN_TYPE IVP_Friction_Solver::test_gauss_solution_suggestion(IVP_DOUBLE *
 	    IVP_Impact_Solver_Long_Term *info = contact_info_vector.element_at(orig_index);
 
 	    IVP_DOUBLE push_val = push_results[i];
-	    //printf("gauss_value %f  ",push_val);
+	    //Log_Warning(LOG_HAVOK, "gauss_value %f  ",push_val);
 	
 	    IVP_DOUBLE allowed_negative = IVP_MAX_ADHESION_GAUSS * l_environment->gravity_scalar;
 	
-	    //printf("allowed_negative %f\n",allowed_negative);
+	    //Log_Warning(LOG_HAVOK, "allowed_negative %f\n",allowed_negative);
 	    if(allowed_negative > push_val * correct_x_factor * get_inv_virtual_mass(info) ) {
-		IVP_IF((l_environment->debug_information->debug_friction)||0){
-		    printf("gauss_fault_pull %f %f\n",allowed_negative,push_val);
+		IVP_IFDEBUG((l_environment->debug_information->debug_friction)||0){
+		    Log_Warning(LOG_HAVOK, "gauss_fault_pull %f %f\n",allowed_negative,push_val);
 		}
 		//return IVP_FAULT;
 		gauss_failed=1;
@@ -55,7 +55,7 @@ IVP_RETURN_TYPE IVP_Friction_Solver::test_gauss_solution_suggestion(IVP_DOUBLE *
 	for(int i=0 ; i < dist_change_mat.columns ; i++)   {
 	    if(was_already_tested[i]==IVP_FALSE){
 		if(dist_change_mat.matrix_check_unequation_line(i) == IVP_FAULT)	    {
-		    //printf("gauss_unequation_failed\n");
+		    //Log_Warning(LOG_HAVOK, "gauss_unequation_failed\n");
 		    gauss_failed=1;
 		    return IVP_FAULT;
 		} 
@@ -167,7 +167,7 @@ void IVP_Friction_Solver::solve_linear_equation_and_push(IVP_Friction_System *my
     {
 	if(( test_gauss_solution_suggestion(actives_matrix.result_vector,active_is_at_pos,total_actives,mem_friction) == IVP_OK))
 	{
-            IVP_IF(1) {
+            IVP_IFDEBUG(1) {
 	        this->gauss_succed++;
             }
 	    goto first_try;
@@ -188,14 +188,14 @@ first_try:
 	    my_fs->confirm_complex_pushes();
 	    goto finish_slp;
 	} else {
-	    IVP_IF(1) {
-		printf("too_much_energy_gained\n");
+	    IVP_IFDEBUG(1) {
+		Log_Warning(LOG_HAVOK, "too_much_energy_gained\n");
 	    }
 	    my_fs->undo_complex_pushes();
 	}
     } else {
-	IVP_IF(1) {
-	    printf("static_friction_unequation failed\n");
+	IVP_IFDEBUG(1) {
+	    Log_Warning(LOG_HAVOK, "static_friction_unequation failed\n");
 	}
     }
 
@@ -242,7 +242,7 @@ void IVP_Friction_System::do_pushes_distance_keepers(const IVP_Event_Sim *es_in)
 	    fr_dist->now_friction_pressure = impulse * es_in->i_delta_time;    
 	    IVP_Friction_Solver::apply_impulse( info, impulse );
 	    //IVP_DOUBLE closing_speed2 = info->get_closing_speed();
-	    //printf("%x gap %f single old %f new %f  impulse %f\n", this, gap_diff, closing_speed, closing_speed2, impulse);
+	    //Log_Warning(LOG_HAVOK, "%x gap %f single old %f new %f  impulse %f\n", this, gap_diff, closing_speed, closing_speed2, impulse);
 	} else {
 	    fr_dist->now_friction_pressure=0.0f;
 	}
@@ -339,14 +339,14 @@ void IVP_Friction_Solver::do_penalty_method(IVP_Friction_System *fs){
 	impulses[i] = 0.5f * fr_dist->now_friction_pressure * es->delta_time;
 
 	//	IVP_DOUBLE delta_velocity = info->get_closing_speed();
-	//printf("%x %i old %f pressure %f\n", fr_dist, i, delta_velocity, impulses[i]);
+	//Log_Warning(LOG_HAVOK, "%x %i old %f pressure %f\n", fr_dist, i, delta_velocity, impulses[i]);
     }
 
-    IVP_IF(0){
+    IVP_IFDEBUG(0){
 	for (int i = contact_info_vector.len()-1; i>=0;i--){
 	    IVP_Impact_Solver_Long_Term *info = contact_info_vector.element_at(i);
 	    IVP_DOUBLE delta_velocity = info->get_closing_speed();
-	    printf("%i old %f\n", i, delta_velocity);
+	    Log_Warning(LOG_HAVOK, "%i old %f\n", i, delta_velocity);
 	}
     }
     
@@ -357,24 +357,24 @@ void IVP_Friction_Solver::do_penalty_method(IVP_Friction_System *fs){
 	apply_impulse( info, push_val );
     }
 
-    IVP_IF(0){
+    IVP_IFDEBUG(0){
 	for (int i = contact_info_vector.len()-1; i>=0;i--){
 	    IVP_Impact_Solver_Long_Term *info = contact_info_vector.element_at(i);
 	    IVP_DOUBLE delta_velocity = info->get_closing_speed();
-	    printf("%i new %f\n", i, delta_velocity);
+	    Log_Warning(LOG_HAVOK, "%i new %f\n", i, delta_velocity);
 	}
     }
     
     // do the steps (max 50)
     if (1){
 	//IVP_FLOAT max_sum_qdiff = 0.01f * 0.01f;
-	printf("penalty step: ");
+	Log_Warning(LOG_HAVOK, "penalty step: ");
 	for (int s = 10; s>=0; s--){
 	    IVP_FLOAT sum_qdiff = do_penalty_step( impulses, pretension, 0.5f, 0.9f );
-	    printf("%f ",sum_qdiff);
+	    Log_Warning(LOG_HAVOK, "%f ",sum_qdiff);
 	    //if (sum_qdiff < max_sum_qdiff) break;
 	};
-	printf("\n");
+	Log_Warning(LOG_HAVOK, "\n");
     }
     
     { ; // uncompress now_friction_pressure
@@ -409,7 +409,7 @@ void IVP_Friction_Solver::do_inactives_pushes(IVP_Friction_System *fs){
 
 void IVP_Friction_Solver::debug_distance_after_push(int counter)
 {
-    IVP_USE(counter);
+    
 #if 0 /* muss noch umgeschrieben werden */   
     IVP_Core *core0,*core1;
     core0=cores_of_dist[counter*2];
@@ -431,9 +431,9 @@ void IVP_Friction_Solver::debug_distance_after_push(int counter)
 
     speed_world1.subtract(&speed_world0);
     IVP_DOUBLE new_dist_speed=speed_world1.dot_product(&dist_vector_world[counter]);
-    IVP_IF(environment->debug_information->debug_impact)
+    IVP_IFDEBUG(environment->debug_information->debug_impact)
     {
-	printf("dist_speed_d: distance %.5f  speed:  before %.5f  after %.5f dis_change %.5f\n",dist_len[counter],dist_velocity[counter],new_dist_speed,new_dist_speed-dist_velocity[counter]);
+	Log_Warning(LOG_HAVOK, "dist_speed_d: distance %.5f  speed:  before %.5f  after %.5f dis_change %.5f\n",dist_len[counter],dist_velocity[counter],new_dist_speed,new_dist_speed-dist_velocity[counter]);
     }
 #endif    
 }
@@ -512,19 +512,19 @@ int IVP_Friction_Solver::do_resulting_pushes(IVP_Friction_System *fs)
 #endif	
 	
     }
-    IVP_IF(l_environment->debug_information->debug_friction){
+    IVP_IFDEBUG(l_environment->debug_information->debug_friction){
 	for(int j=0;j<fs->friction_dist_number;j++) {
-	    IVP_IF(j>=fs->complex_not_necessary_number) {
+	    IVP_IFDEBUG(j>=fs->complex_not_necessary_number) {
 		debug_distance_after_push(j-fs->complex_not_necessary_number);
 	    }
 	}
     }
-    //printf("n active lines %i\n", active_count);
+    //Log_Warning(LOG_HAVOK, "n active lines %i\n", active_count);
     
 #ifdef DEBUG
-    IVP_IF(l_environment->debug_information->debug_friction)
+    IVP_IFDEBUG(l_environment->debug_information->debug_friction)
     {
-	printf("pushes_ok. resulting_distance_velos:\n");
+	Log_Warning(LOG_HAVOK, "pushes_ok. resulting_distance_velos:\n");
 	this->print_dist_velocity(fs);
     }
 #endif	/* DEBUG */
@@ -568,15 +568,15 @@ void IVP_Friction_Solver::print_dist_velocity(IVP_Friction_System *fs)
 	IVP_U_Float_Point rel_world_speed;
 	rel_world_speed.subtract(&w_speed1,&w_speed0);
 
-	IVP_IF(1) {
-	    printf("dvelo_ %.4f   ",rel_world_speed.dot_product(&my_dist->get_lt()->surf_normal));
+	IVP_IFDEBUG(1) {
+	    Log_Warning(LOG_HAVOK, "dvelo_ %.4f   ",rel_world_speed.dot_product(&my_dist->get_lt()->surf_normal));
 	}
        
 	dist_counter_two++;
 	my_dist=next_dist;
     }
-    IVP_IF(1) {
-	printf("\n");
+    IVP_IFDEBUG(1) {
+	Log_Warning(LOG_HAVOK, "\n");
     }
 }
 #endif
@@ -584,8 +584,8 @@ void IVP_Friction_Solver::print_dist_velocity(IVP_Friction_System *fs)
 
 void IVP_Friction_System::test_hole_fr_system_data()
 {
-    IVP_IF(1) {
-    //printf("hole_fr_test %lx \n",(long)this);
+    IVP_IFDEBUG(1) {
+    //Log_Warning(LOG_HAVOK, "hole_fr_test %lx \n",(long)this);
     IVP_Friction_System *fs=this;    
     IVP_Contact_Point *mindist=fs->get_first_friction_dist();
     if (!mindist) return;
@@ -596,8 +596,8 @@ void IVP_Friction_System::test_hole_fr_system_data()
 	startnumber=mindist->number_in_friction+1;
 	if(startnumber!=fs->friction_dist_number)
 	{
-	    printf("test_fr dist_number wrong\n");
-	    CORE;
+	    Log_Warning(LOG_HAVOK, "test_fr dist_number wrong\n");
+	    AssertMsg(false, "Havok fatal error");
 	}
     }
 #endif	
@@ -608,14 +608,14 @@ void IVP_Friction_System::test_hole_fr_system_data()
 	startnumber--;
 	if(startnumber<0)
 	{
-	    printf("test_fr number <0");
-	    CORE;
+	    Log_Warning(LOG_HAVOK, "test_fr number <0");
+	    AssertMsg(false, "Havok fatal error");
 	}
 
 	if(startnumber!=mindist->number_in_friction)
 	{
-	    printf("test_fr wrong number");
-	    CORE;
+	    Log_Warning(LOG_HAVOK, "test_fr wrong number");
+	    AssertMsg(false, "Havok fatal error");
 	}
 #endif
 	for(int i=0;i<2;i++){
@@ -626,7 +626,7 @@ void IVP_Friction_System::test_hole_fr_system_data()
 	    IVP_Friction_Info_For_Core *fr_info = r_obj->get_friction_info(fs);
 
 	    if(fr_info->l_friction_system!=this){
-		printf("test_fr l_friction_system %f %lx\n",time.get_time(),(long)obj_obj); CORE;
+		Log_Warning(LOG_HAVOK, "test_fr l_friction_system %f %lx\n",time.get_time(),(long)obj_obj); AssertMsg(false, "Havok fatal error");
 	    }
 	    
 	    int found_mine=0;
@@ -644,13 +644,13 @@ void IVP_Friction_System::test_hole_fr_system_data()
 			temp_dist=fs->get_next_friction_dist(temp_dist);
 		    }
 		    if(!is_in_collection){
-			printf("test_fr there was mindist %lx in obj which is not in system\n",(long)all_dists&0x0000ffff); CORE; 
+			Log_Warning(LOG_HAVOK, "test_fr there was mindist %lx in obj which is not in system\n",(long)all_dists&0x0000ffff); AssertMsg(false, "Havok fatal error"); 
 		    }
 		}
 	    }
 	    if(!found_mine)
 	    {
-		printf("test_fr mindist %lx missing in obj\n",(long)mindist); CORE;
+		Log_Warning(LOG_HAVOK, "test_fr mindist %lx missing in obj\n",(long)mindist); AssertMsg(false, "Havok fatal error");
 	    }
 	}
 
@@ -667,8 +667,8 @@ void IVP_Friction_System::test_hole_fr_system_data()
 		}
 	    }
 	    if(!found_mine) {
-		printf("test_fr dist %lx not found in pairs\n",(long)mindist);
-		CORE;
+		Log_Warning(LOG_HAVOK, "test_fr dist %lx not found in pairs\n",(long)mindist);
+		AssertMsg(false, "Havok fatal error");
 	    }
 	}
 	
@@ -689,8 +689,8 @@ void IVP_Friction_System::test_hole_fr_system_data()
 		    }
 		}
 		if(!found_mine)	{
-		    printf("test_fr pair %lx containing dist %lx not in system\n",(long)fr_pair,(long)fr_dist);
-		    CORE;
+		    Log_Warning(LOG_HAVOK, "test_fr pair %lx containing dist %lx not in system\n",(long)fr_pair,(long)fr_dist);
+		    AssertMsg(false, "Havok fatal error");
 		}
 	    }
 	}
@@ -709,14 +709,14 @@ void check_fr_info_mindist(IVP_Friction_Solver *fsolv,IVP_Contact_Point *my_dist
     fr_i=obj0->get_first_friction_info_of_obj();
     if(fr_i!=fsolv->friction_infos[dist_counter_two])
     {
-	printf("fr_info_damaged obj %lx\n",(long)obj0&0x0000ffff);
-	CORE;
+	Log_Warning(LOG_HAVOK, "fr_info_damaged obj %lx\n",(long)obj0&0x0000ffff);
+	AssertMsg(false, "Havok fatal error");
     }
     fr_i=obj1->get_first_friction_info_of_obj();
     if(fr_i!=fsolv->friction_infos[dist_counter_two+1])
     {
-	printf("fr_info_damaged obj %lx\n",(long)obj1&0x0000ffff);
-	CORE;
+	Log_Warning(LOG_HAVOK, "fr_info_damaged obj %lx\n",(long)obj1&0x0000ffff);
+	AssertMsg(false, "Havok fatal error");
     }
 }
 #endif
@@ -766,7 +766,7 @@ void IVP_Friction_Solver::setup_coords_mindists(IVP_Friction_System *fs)
 	frisodat->friction_infos[0]=syn0->l_obj->friction_core->get_friction_info(fs);
 	frisodat->friction_infos[1]=syn1->l_obj->friction_core->get_friction_info(fs);
 
-	IVP_IF(0) {
+	IVP_IFDEBUG(0) {
 	    IVP_U_Float_Point space_pointer;
 	    IVP_U_Point world_points_dist[2];
 	    IVP_U_Matrix *mat;
@@ -787,14 +787,14 @@ void IVP_Friction_Solver::setup_coords_mindists(IVP_Friction_System *fs)
 	frisodat->dist_len = my_dist->get_gap_length();
 	//diff_vec_world.normize();
 	//diff_vec_world.set(0.0f,1.0f,0.0f);
-	//printf("difff %f %f %f\n",diff_vec_world.k[0],diff_vec_world.k[1],diff_vec_world.k[2]);
+	//Log_Warning(LOG_HAVOK, "difff %f %f %f\n",diff_vec_world.k[0],diff_vec_world.k[1],diff_vec_world.k[2]);
 	//frisodat->dist_vector_world=diff_vec_world;
 
 	frisodat->dist_vector_world.set_multiple(&my_dist->get_lt()->surf_normal,+1.0f);
 	
-	IVP_IF(l_environment->debug_information->debug_impact)
+	IVP_IFDEBUG(l_environment->debug_information->debug_impact)
 	{
-	    //printf("dist_vec_world %.3f %.3f %.3f\n",dist_vector_world[dist_counter].k[0],dist_vector_world[dist_counter].k[1],dist_vector_world[dist_counter].k[2]);
+	    //Log_Warning(LOG_HAVOK, "dist_vec_world %.3f %.3f %.3f\n",dist_vector_world[dist_counter].k[0],dist_vector_world[dist_counter].k[1],dist_vector_world[dist_counter].k[2]);
 	}
 #endif
 
@@ -802,17 +802,17 @@ void IVP_Friction_Solver::setup_coords_mindists(IVP_Friction_System *fs)
 void out_friction_info_obj(IVP_Core *obj)
 {
     return; //absturz
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_Friction_Info_For_Core *fr_info=obj->moveable_core_has_friction_info();
 	while(fr_info)    {
-	    printf("obj %lx fs %lx obj_ma %d",(long)obj&0x0000ffff,(long)fr_info->l_friction_system&0x0000ffff,obj->physical_unmoveable);
+	    Log_Warning(LOG_HAVOK, "obj %lx fs %lx obj_ma %d",(long)obj&0x0000ffff,(long)fr_info->l_friction_system&0x0000ffff,obj->physical_unmoveable);
 	    
 	    for (int i = fr_info->friction_springs.len()-1; i>=0; i--){
 		IVP_Contact_Point *mindist = fr_info->friction_springs.element_at(i);
-		printf("  md %lx",(long)mindist&0x0000ffff);
+		Log_Warning(LOG_HAVOK, "  md %lx",(long)mindist&0x0000ffff);
 	    }
 	    fr_info= nullptr;
-	    printf("\n");
+	    Log_Warning(LOG_HAVOK, "\n");
 	}
     }
 }
@@ -831,7 +831,7 @@ void IVP_Friction_Solver::calc_distance_matrix_column(int current_contact_point_
 
     //dist_counter is number of distance that is tested. It is represented with a column of the matrix.
     
-    IVP_ASSERT(!core->physical_unmoveable);
+    Assert(!core->physical_unmoveable);
         
     for (int col = 0;col < fr_info->friction_springs.n_elems; col++){
 	IVP_Contact_Point *distance = fr_info->friction_springs.element_at(col);
@@ -869,9 +869,9 @@ void IVP_Friction_Solver::calc_distance_matrix_column(int current_contact_point_
 // main task is to fill 'dist_change_mat'
 int IVP_Friction_Solver::calc_solver_PSI(IVP_Friction_System *fs,int *active_is_at_pos){
 
-    IVP_IF((l_environment->debug_information->debug_friction)||0)    {
+    IVP_IFDEBUG((l_environment->debug_information->debug_friction)||0)    {
 	global_friction_counter++;
-	printf("\ndoing_friction_calc %d\n",global_friction_counter);
+	Log_Warning(LOG_HAVOK, "\ndoing_friction_calc %d\n",global_friction_counter);
     }
     {
 	//delete distance change matrix
@@ -893,7 +893,7 @@ int IVP_Friction_Solver::calc_solver_PSI(IVP_Friction_System *fs,int *active_is_
 
 	// mark contact point as active if positive pressure
 	{
-	    //printf("has_neg_since %d\n",my_dist->has_negative_pull_since);
+	    //Log_Warning(LOG_HAVOK, "has_neg_since %d\n",my_dist->has_negative_pull_since);
 	    if(info->friction.has_negative_pull_since != 0) {
 		*active_is_at_pos = i;
 		active_is_at_pos++;
@@ -922,7 +922,7 @@ int IVP_Friction_Solver::calc_solver_PSI(IVP_Friction_System *fs,int *active_is_
 	  k++, my_dist = fs->get_next_friction_dist(my_dist)){
 	if (my_dist->get_lt()->index_in_fs <0) continue;
 	if (my_dist->get_lt()->index_in_fs != k){
-	    CORE;
+	    AssertMsg(false, "Havok fatal error");
 	}
     }
     
@@ -944,7 +944,7 @@ void debug_out_friction_system(IVP_Friction_System *fr_sys)
 	if(syn0->get_status() !=IVP_ST_POINT){
 	    syn0=syn1;
 	}
-	CORE; // no calc_object_coords should be used
+	AssertMsg(false, "Havok fatal error"); // no calc_object_coords should be used
 	//syn0->calc_object_coords(&obj_p);
 	IVP_U_Matrix *mat;
 	mat=&syn0->get_object()->physical_core->m_world_f_core_last_psi;
@@ -955,7 +955,7 @@ void debug_out_friction_system(IVP_Friction_System *fr_sys)
 	world_push_debug.normize();
 	world_push_debug.mult(10.0f);
 
-	IVP_IF(0) {
+	IVP_IFDEBUG(0) {
 	    char *out_text=p_make_string("%ddistdd%lx",cou,my_dist);
 	    syn0->get_object()->get_environment()->add_draw_vector(&world_p,&world_push_debug,out_text,3);
 	    delete (out_text);
@@ -992,7 +992,7 @@ void IVP_Friction_System::reorder_mindists_for_complex() {
 	    IVP_BOOL allow1=core1->fast_piling_allowed();
 	    if(( (allow0) & (allow1))|0 ) {
 	        //not_in_complex++;
-		//printf("want_to_remove %lx\n",(long)my_frdist);
+		//Log_Warning(LOG_HAVOK, "want_to_remove %lx\n",(long)my_frdist);
 		this->remove_dist_from_system( my_frdist );
 		this->add_dist_to_system( my_frdist );		
 	    }
@@ -1001,7 +1001,7 @@ void IVP_Friction_System::reorder_mindists_for_complex() {
 	my_frdist=next_frdist;
     }
     this->complex_not_necessary_number=not_in_complex;
-    //printf("not_necessary_nr %ld\n",not_in_complex);
+    //Log_Warning(LOG_HAVOK, "not_necessary_nr %ld\n",not_in_complex);
 }
 
 
@@ -1030,13 +1030,13 @@ void IVP_Friction_System::exchange_friction_dists(IVP_Contact_Point *first_frd,I
 
 void IVP_Friction_System::ivp_debug_fs_pointers()
 {
-    IVP_IF(1) {
-    printf("%lx  ",(long)first_friction_dist&0x0000ffff);
+    IVP_IFDEBUG(1) {
+    Log_Warning(LOG_HAVOK, "%lx  ",(long)first_friction_dist&0x0000ffff);
     for(IVP_Contact_Point *fr_d=get_first_friction_dist();fr_d;fr_d=get_next_friction_dist(fr_d))
     {
-	printf("%lx %lx %d %lx  ",(long)fr_d->prev_dist_in_friction&0x0000ffff,(long)fr_d&0x0000ffff,fr_d->has_negative_pull_since,(long)fr_d->next_dist_in_friction&0x0000ffff);
+	Log_Warning(LOG_HAVOK, "%lx %lx %d %lx  ",(long)fr_d->prev_dist_in_friction&0x0000ffff,(long)fr_d&0x0000ffff,fr_d->has_negative_pull_since,(long)fr_d->next_dist_in_friction&0x0000ffff);
     }
-    printf("\n");
+    Log_Warning(LOG_HAVOK, "\n");
     }
 }
 
@@ -1063,11 +1063,11 @@ void IVP_Friction_System::bubble_sort_dists_importance()
 	}
 	first_dist=second_dist;
     }
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	for( first_dist=get_first_friction_dist(); first_dist; first_dist=get_next_friction_dist(first_dist) ) {
 	    second_dist=get_next_friction_dist(first_dist);
 	    if(second_dist) {
-		IVP_ASSERT( !(first_dist->has_negative_pull_since > second_dist->has_negative_pull_since ) );
+		Assert( !(first_dist->has_negative_pull_since > second_dist->has_negative_pull_since ) );
 	    }
 	}
     }
@@ -1078,7 +1078,7 @@ void IVP_Friction_System::bubble_sort_dists_importance()
 void IVP_Friction_System::bubble_sort_dists_importance()
 {
     int did_exchange=1;
-    //printf("start_bubble\n");
+    //Log_Warning(LOG_HAVOK, "start_bubble\n");
     while(did_exchange) {
 	did_exchange=0;
 	IVP_Contact_Point *moving_dist=this->get_first_friction_dist();
@@ -1086,48 +1086,48 @@ void IVP_Friction_System::bubble_sort_dists_importance()
 	    return; //degenerated system (without any mindist)
 	}
 	IVP_Contact_Point *test_dist;
-	//printf("tlp_for %lx  ",(long)moving_dist&0x0000ffff);
+	//Log_Warning(LOG_HAVOK, "tlp_for %lx  ",(long)moving_dist&0x0000ffff);
 	//ivp_debug_fs_pointers();
 	while((test_dist=this->get_next_friction_dist(moving_dist))!=NULL) {
 	    if(moving_dist->has_negative_pull_since<test_dist->has_negative_pull_since) {
 		this->exchange_friction_dists(moving_dist,test_dist);
 		did_exchange=1;
-		//printf("exchgg %lx %lx  ",(long)moving_dist&0x0000ffff,(long)test_dist&0x0000ffff);
+		//Log_Warning(LOG_HAVOK, "exchgg %lx %lx  ",(long)moving_dist&0x0000ffff,(long)test_dist&0x0000ffff);
 		//ivp_debug_fs_pointers();
 	    } else {
 		moving_dist=test_dist;
 	    }
 	}
     }
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	for(IVP_Contact_Point *fr_d=get_first_friction_dist();fr_d;fr_d=get_next_friction_dist(fr_d))
 	{
 	    IVP_Contact_Point *test_d=get_next_friction_dist(fr_d);
 	    if(test_d) {
 		if(fr_d->has_negative_pull_since<test_d->has_negative_pull_since) {
-		    printf("bubble_sort_error\n");
-		    CORE;
+		    Log_Warning(LOG_HAVOK, "bubble_sort_error\n");
+		    AssertMsg(false, "Havok fatal error");
 		}
 	    }
 	}
     }
-    //printf("after_bs  ");
+    //Log_Warning(LOG_HAVOK, "after_bs  ");
     //ivp_debug_fs_pointers();
-    IVP_IF(0)
+    IVP_IFDEBUG(0)
     {
-        printf("sort_dists ");
+        Log_Warning(LOG_HAVOK, "sort_dists ");
 	for(IVP_Contact_Point *fr_d=get_first_friction_dist();fr_d;fr_d=get_next_friction_dist(fr_d))
 	{
-	    printf("%d ",fr_d->has_negative_pull_since);
+	    Log_Warning(LOG_HAVOK, "%d ",fr_d->has_negative_pull_since);
 	}
-	printf("\n");
+	Log_Warning(LOG_HAVOK, "\n");
     }
 }
 #endif
 
 IVP_BOOL IVP_Friction_System::core_is_terminal_in_fs(IVP_Core *test_core) {
     int total_number_of_partners=0;
-    IVP_ASSERT(test_core->physical_unmoveable==IVP_FALSE);
+    Assert(test_core->physical_unmoveable==IVP_FALSE);
     for (int i = fr_pairs_of_objs.len()-1; i>=0; i--){
 	IVP_Friction_Core_Pair *fcp = fr_pairs_of_objs.element_at(i);
 	if( (fcp->objs[0]==test_core) || (fcp->objs[1]==test_core) ) {
@@ -1138,7 +1138,7 @@ IVP_BOOL IVP_Friction_System::core_is_terminal_in_fs(IVP_Core *test_core) {
 	}
     }
     if(total_number_of_partners>1) return IVP_FALSE;
-    //printf("found_terminal %lx\n",(long)test_core&0x0000ffff);
+    //Log_Warning(LOG_HAVOK, "found_terminal %lx\n",(long)test_core&0x0000ffff);
     return IVP_TRUE;
 }
 
@@ -1168,12 +1168,12 @@ void IVP_Friction_System::do_friction_system(const IVP_Event_Sim *es_in)
     my_mem->start_memory_transaction();
     
     friction_global_counter++;
-    IVP_IF(l_environment->debug_information->debug_friction)    {
-	printf("doing_friction_nr %d\n",friction_global_counter);
+    IVP_IFDEBUG(l_environment->debug_information->debug_friction)    {
+	Log_Warning(LOG_HAVOK, "doing_friction_nr %d\n",friction_global_counter);
 	if(friction_global_counter==14)	{
-	    printf("losgehts\n");
+	    Log_Warning(LOG_HAVOK, "losgehts\n");
         }
-	printf("friction_system_simulating %d distances\n",this->friction_dist_number);
+	Log_Warning(LOG_HAVOK, "friction_system_simulating %d distances\n",this->friction_dist_number);
     }    
 
     this->bubble_sort_dists_importance();   // to to put heavy pushed mindists ontop of the list
@@ -1197,7 +1197,7 @@ void IVP_Friction_System::do_friction_system(const IVP_Event_Sim *es_in)
     while(IVP_TRUE)   {
 	int num_actives = fr_solver.calc_solver_PSI(this,original_pos_of_active);
 
-	IVP_IF(l_environment->debug_information->disable_friction) {
+	IVP_IFDEBUG(l_environment->debug_information->disable_friction) {
 	    break;
 	}
 
@@ -1205,10 +1205,10 @@ void IVP_Friction_System::do_friction_system(const IVP_Event_Sim *es_in)
        	fr_solver.do_penalty_method(this);
 #endif
 	
-	IVP_IF(1==0)   {
+	IVP_IFDEBUG(1==0)   {
 	  for(int j=0;j<num_actives;j++)		{
-	    IVP_ASSERT(original_pos_of_active[j]>=0);
-	    IVP_ASSERT(original_pos_of_active[j]<friction_dist_number);
+	    Assert(original_pos_of_active[j]>=0);
+	    Assert(original_pos_of_active[j]<friction_dist_number);
 	  }
 	}
 	

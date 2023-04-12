@@ -52,8 +52,8 @@
 #include "hk_physics/constraint/pulley/pulley_constraint.h"
 #include "hk_physics/constraint/pulley/pulley_bp.h"
 
-#include "hk_physics/constraint/local_constraint_system/local_constraint_system.h"
-#include "hk_physics/constraint/local_constraint_system/local_constraint_system_bp.h"
+#include "hk_physics/constraint/local_constraint_system/local_constraint_system_ivp.h"
+//#include "hk_physics/constraint/local_constraint_system/local_constraint_system_hk_bp.h"
 
 #include "ivp_cache_object.hxx"
 #include "ivp_template_constraint.hxx"
@@ -617,8 +617,8 @@ static bool ConvertRagdollToHinge( constraint_limitedhingeparams_t *pHingeOut, c
 	// many ragdoll constraints don't set this and the ragdoll solver ignores it
 	// force it to the default
 	pHingeOut->constraint.strength = 1.0f;
-	MatrixGetColumn( constraintToWorld, 3, &pHingeOut->worldPosition );
-	MatrixGetColumn( constraintToWorld, dofIndex, &pHingeOut->worldAxisDirection );
+	MatrixGetColumn( constraintToWorld, 3, pHingeOut->worldPosition );
+	MatrixGetColumn( constraintToWorld, dofIndex, pHingeOut->worldAxisDirection );
 	pHingeOut->referencePerpAxisDirection.Init();
 	pHingeOut->referencePerpAxisDirection[(dofIndex+1)%3] = 1;
 

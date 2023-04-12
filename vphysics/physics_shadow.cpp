@@ -220,12 +220,20 @@ public:
 	virtual void event_object_revived( IVP_Event_Object *) {}
 	virtual void event_object_frozen ( IVP_Event_Object *) {}
 
+	uint32 GetContactState(uint16 nGameFlags) override
+	{
+		Assert(false);
+		return 0;
+	}
+
 private:
 	void AttachObject( void );
 	void DetachObject( void );
 	int TryTeleportObject( void );
 	void SetGround( CPhysicsObject *pGroundObject );
 
+
+private:
 	CPhysicsObject		*m_pObject;
 	IVP_U_Float_Point	m_saveRot;
 	CPhysicsObject		*m_pGround;	// Uses object listener to clear - so ok to hold over frames

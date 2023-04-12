@@ -336,9 +336,9 @@ void ivp_message(const char *templat, ...)
 #ifdef WIN32
     OutputDebugString(buffer);
 #elif defined(LINUX)
-    printf("%s",buffer);
+    Log_Warning(LOG_HAVOK, "%s",buffer);
 #else
-    printf("%s",buffer);
+    Log_Warning(LOG_HAVOK, "%s",buffer);
 #endif
 }
 

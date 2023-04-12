@@ -23,7 +23,7 @@ IVP_Hull_Manager_Base::IVP_Hull_Manager_Base(): sorted_synapses(8){
 }
 
 IVP_Hull_Manager_Base::~IVP_Hull_Manager_Base(){
-    IVP_ASSERT( ! sorted_synapses.has_elements() );
+    Assert( ! sorted_synapses.has_elements() );
 }
 
 void IVP_Hull_Manager::delete_hull_manager(){

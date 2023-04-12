@@ -107,7 +107,7 @@ public:
 
 void IVP_Simulation_Unit::sim_unit_ensure_in_simulation() {
     if(sim_unit_movement_type >= IVP_MT_NOT_SIM) {
-	IVP_ASSERT(sim_unit_cores.len() > 0);
+	Assert(sim_unit_cores.len() > 0);
 	this->sim_unit_revive_for_simulation(sim_unit_cores.element_at(0)->environment);
     } else {
 	sim_unit_ensure_cores_movement();

@@ -20,8 +20,8 @@
 void IVP_Cache_Object_Manager::invalid_cache_object(IVP_Real_Object *object)
 {
     if (object->cache_object){
-	IVP_ASSERT(object->cache_object->reference_count==0);
-	IVP_ASSERT(object->cache_object->object==object);
+	Assert(object->cache_object->reference_count==0);
+	Assert(object->cache_object->object==object);
 
 	object->cache_object->object = nullptr;
 	object->cache_object = nullptr;
@@ -54,12 +54,12 @@ IVP_Cache_Object *IVP_Cache_Object_Manager::get_cache_object(IVP_Real_Object *ob
 #ifdef DEBUG
 void IVP_Cache_Object_Manager::check()
 {
-    IVP_ASSERT( reuse_loop_index <= n_cache_objects);
+    Assert( reuse_loop_index <= n_cache_objects);
     for (int i=0;i<n_cache_objects;i++){
 		IVP_Cache_Object *co = cache_object_at(i);
-		IVP_ASSERT( co->reference_count == 0);
-		IVP_IF (co->object){
-			IVP_ASSERT( co->object->cache_object == co);
+		Assert( co->reference_count == 0);
+		IVP_IFDEBUG (co->object){
+			Assert( co->object->cache_object == co);
 		}
     }
 }

@@ -13,10 +13,10 @@
 
 
 IVP_VHash::IVP_VHash(int size_i){
-  IVP_IF(1){
+  IVP_IFDEBUG(1){
     int x = size_i;
     while ( !(x&1) ) x = x>>1;
-    IVP_ASSERT(x==1);// size must be 2**x
+    Assert(x==1);// size must be 2**x
   }
 
   size_mm = size_i-1;
@@ -26,11 +26,11 @@ IVP_VHash::IVP_VHash(int size_i){
 }
 
 void IVP_VHash::activate(int size_i){
-    IVP_ASSERT( elems == NULL);
-    IVP_IF(1){
+    Assert( elems == NULL);
+    IVP_IFDEBUG(1){
 	int x = size_i;
 	while ( !(x&1) ) x = x>>1;
-	IVP_ASSERT(x==1);// size must be 2**x
+	Assert(x==1);// size must be 2**x
     }
     size_mm = size_i-1;
     nelems = 0;
@@ -40,7 +40,7 @@ void IVP_VHash::activate(int size_i){
 
 
 void IVP_VHash::deactivate(){
-    IVP_ASSERT( nelems == 0);
+    Assert( nelems == 0);
     if (!dont_free){
 	P_FREE(elems);
     }
@@ -58,11 +58,11 @@ void IVP_VHash::garbage_collection(int preferred_size){
 }
 
 IVP_VHash::IVP_VHash(IVP_VHash_Elem *static_elems, int size_i){
-  IVP_IF(1){
+  IVP_IFDEBUG(1){
     int x = size_i;
     if (x){
 	while ( !(x&1) ) x = x>>1;
-	IVP_ASSERT(x==1);// size must be 2**x
+	Assert(x==1);// size must be 2**x
     }
   }
 
@@ -116,9 +116,9 @@ void IVP_VHash::add_elem(const void *elem, int hash_index){
   if ( int(nelems + nelems) > size_mm){
     this->rehash(size_mm+size_mm+2);
   }
-  IVP_IF(1){
+  IVP_IFDEBUG(1){
       //check();
-      IVP_ASSERT (!find_elem(elem,hash_index));
+      Assert (!find_elem(elem,hash_index));
   }
 
   int index = hash_index & size_mm;
@@ -141,7 +141,7 @@ void IVP_VHash::add_elem(const void *elem, int hash_index){
   }
   elems[pos].elem = (void *)elem;
   elems[pos].hash_index = hash_index;
-  IVP_IF(0){
+  IVP_IFDEBUG(0){
       check();
   }
 }
@@ -154,7 +154,7 @@ void *IVP_VHash::remove_elem(const void *elem, unsigned int hash_index){
   IVP_VHash_Elem *e;
   for ( ; ; pos = (pos+1)&size_mm ){
     e = &elems[pos];
-    if (e->elem == nullptr) CORE; //return 0;
+    if (e->elem == nullptr) AssertMsg(false, "Havok fatal error"); //return 0;
     if ( (e->hash_index  | IVP_VHASH_TOUCH_BIT) != hash_index) continue;
     if ( compare((void *)e->elem, (void *)elem)== IVP_TRUE ){
 	break;
@@ -197,9 +197,9 @@ void *IVP_VHash::remove_elem(const void *elem, unsigned int hash_index){
   }
   elems[last_pos].elem = nullptr;// remove elem
   elems[last_pos].hash_index = 0;// untouch elem
-  IVP_IF(0){
+  IVP_IFDEBUG(0){
       check();
-      IVP_ASSERT(!find_elem(elem,hash_index));
+      Assert(!find_elem(elem,hash_index));
   }
   
   return (void *)elem;
@@ -222,9 +222,9 @@ void IVP_VHash::check(){
 	      continue;	// skip wrapped elements
 	  }
       }
-      IVP_ASSERT(index <= pos);
+      Assert(index <= pos);
       if (index != pos){	// shifted element
-	  IVP_ASSERT(index>=last_index);
+	  Assert(index>=last_index);
       }
       last_index = index;
     }
@@ -246,13 +246,13 @@ void *IVP_VHash::find_elem(const void *elem, unsigned int hash_index)const {
   }
 
   // search by hand
-  IVP_IF(0){
+  IVP_IFDEBUG(0){
       for (pos = size_mm; pos>=0;pos--){
 	  IVP_VHash_Elem *e = &elems[pos];
 	  if (!e->elem) break;
-	  if ( (e->hash_index  | IVP_VHASH_TOUCH_BIT )== hash_index) CORE;
+	  if ( (e->hash_index  | IVP_VHASH_TOUCH_BIT )== hash_index) AssertMsg(false, "Havok fatal error");
 	  if ( compare((void *)e->elem,(void *) elem)== IVP_FALSE ) continue;
-	  CORE;
+	  AssertMsg(false, "Havok fatal error");
       }
   }
   return nullptr; // not found
@@ -276,11 +276,11 @@ void *IVP_VHash::touch_element(const void *elem, unsigned int hash_index) {
 
 void IVP_VHash::print()const{
     int i;
-    printf("%i:",len());
+    Log_Warning(LOG_HAVOK, "%i:",len());
     for (i = 0; i<= size_mm;i++){
-	printf (" %i:%X:%X  ", elems[i].hash_index & size_mm, (int)elems[i].elem, elems[i].hash_index);
+	Log_Warning(LOG_HAVOK, " %i:%X:%X  ", elems[i].hash_index & size_mm, (int)elems[i].elem, elems[i].hash_index);
     }
-    printf("\n");
+    Log_Warning(LOG_HAVOK, "\n");
 }
 
 
@@ -290,10 +290,10 @@ void IVP_VHash::print()const{
  *******************************************************************************************************************/
 
 IVP_VHash_Store::IVP_VHash_Store(int size_i){
-  IVP_IF(1){
+  IVP_IFDEBUG(1){
     int x = size_i;
     while ( !(x&1) ) x = x>>1;
-    IVP_ASSERT(x==1);// size must be 2**x
+    Assert(x==1);// size must be 2**x
   }
 
   size = size_i;
@@ -306,10 +306,10 @@ IVP_VHash_Store::IVP_VHash_Store(int size_i){
 
 
 IVP_VHash_Store::IVP_VHash_Store(IVP_VHash_Store_Elem *static_elems, int size_i){
-  IVP_IF(1){
+  IVP_IFDEBUG(1){
     int x = size_i;
     while ( !(x&1) ) x = x>>1;
-    IVP_ASSERT(x==1);// size must be 2**x
+    Assert(x==1);// size must be 2**x
   }
 
   size =  size_i;
@@ -369,9 +369,9 @@ void IVP_VHash_Store::add_elem(void *key_elem, void *elem, int hash_index){
   if ( nelems+nelems >= size){
     this->rehash(size+size);
   }
-  IVP_IF(1){
+  IVP_IFDEBUG(1){
       //check();
-      IVP_ASSERT(!find_elem(key_elem));
+      Assert(!find_elem(key_elem));
  }
 
   int index = hash_index & size_mm;
@@ -398,7 +398,7 @@ void IVP_VHash_Store::add_elem(void *key_elem, void *elem, int hash_index){
   elems_store[pos].key_elem = key_elem;
   elems_store[pos].elem = elem;
   elems_store[pos].hash_index = hash_index;
-  IVP_IF(0){
+  IVP_IFDEBUG(0){
       check();
   }
 }
@@ -416,10 +416,10 @@ void *IVP_VHash_Store::remove_elem(void *key_elem, unsigned int hash_index){
   IVP_VHash_Store_Elem *e;
   for ( ; ; pos = (pos+1)&size_mm ){
     e = &elems_store[pos];
-    IVP_ASSERT( e->elem ); //was e->key_elem
+    Assert( e->elem ); //was e->key_elem
     if ( (e->hash_index  | IVP_VHASH_TOUCH_BIT) != hash_index) continue;
     if ( compare_store_hash(e->key_elem, key_elem)== IVP_TRUE ){
-	IVP_ASSERT(e->key_elem == key_elem);
+	Assert(e->key_elem == key_elem);
 	break;
     }
     
@@ -461,9 +461,9 @@ void *IVP_VHash_Store::remove_elem(void *key_elem, unsigned int hash_index){
   }
   elems_store[last_pos].key_elem = nullptr;// remove elem
   elems_store[last_pos].hash_index = 0;// untouch elem
-  IVP_IF(0){
+  IVP_IFDEBUG(0){
       check();
-      IVP_ASSERT(!find_elem(key_elem,hash_index));
+      Assert(!find_elem(key_elem,hash_index));
   }
   
   return elem;
@@ -486,9 +486,9 @@ void IVP_VHash_Store::check(){
 	      continue;	// skip wrapped elements
 	  }
       }
-      IVP_ASSERT(index <= pos);
+      Assert(index <= pos);
       if (index != pos){	// shifted element
-	  IVP_ASSERT(index>=last_index);
+	  Assert(index>=last_index);
       }
       last_index = index;
     }
@@ -518,13 +518,13 @@ void *IVP_VHash_Store::find_elem(void *key_elem, unsigned int hash_index) {
   }
 
   // search by hand
-  IVP_IF(0){
+  IVP_IFDEBUG(0){
       for (pos = size-1; pos>=0;pos--){
 	  IVP_VHash_Store_Elem *e = &elems_store[pos];
 	  if (!e->key_elem) break;
-	  if ( (e->hash_index  | IVP_VHASH_TOUCH_BIT )== hash_index) CORE;
+	  if ( (e->hash_index  | IVP_VHASH_TOUCH_BIT )== hash_index) AssertMsg(false, "Havok fatal error");
 	  if ( compare_store_hash(e->key_elem, key_elem)== IVP_FALSE ) continue;
-	  CORE;
+	  AssertMsg(false, "Havok fatal error");
       }
   }
   return nullptr; // not found
@@ -549,7 +549,7 @@ void IVP_VHash_Store::change_elem(void *key_elem, void *new_value){
     e->elem = new_value;
     return;
   }
-  IVP_ASSERT(0==1);
+  Assert(0==1);
   return; // not found
 }
 
@@ -571,10 +571,10 @@ void *IVP_VHash_Store::touch_element(void *key_elem, unsigned int hash_index) {
 
 void IVP_VHash_Store::print(){
     int i;
-    printf("%i:",size);
+    Log_Warning(LOG_HAVOK, "%i:",size);
     for (i = 0; i< size;i++){
-	printf (" %i:%X:%X:%X  ", elems_store[i].hash_index & size_mm, (int)elems_store[i].key_elem, (int)elems_store[i].elem, elems_store[i].hash_index);
+	Log_Warning(LOG_HAVOK, " %i:%X:%X:%X  ", elems_store[i].hash_index & size_mm, (int)elems_store[i].key_elem, (int)elems_store[i].elem, elems_store[i].hash_index);
     }
-    printf("\n");
+    Log_Warning(LOG_HAVOK, "\n");
 }
 

@@ -41,14 +41,14 @@ IVP_U_Min_List::~IVP_U_Min_List()
 IVP_U_MINLIST_INDEX IVP_U_Min_List::add(void *elem, IVP_U_MINLIST_FIXED_POINT value)
 {
 	// search free element first
-	IVP_ASSERT(value <= P_FLOAT_MAX);
+	Assert(value <= P_FLOAT_MAX);
 	IVP_U_Min_List_Element *e;
 	IVP_U_MINLIST_INDEX return_index;
 	counter += 1;
 	
 	if ( free_list != IVP_U_MINLIST_UNUSED )
 	{
-		IVP_ASSERT( free_list < malloced_size );
+		Assert( free_list < malloced_size );
 
 		return_index = free_list;
 		e = &elems[free_list];
@@ -57,7 +57,7 @@ IVP_U_MINLIST_INDEX IVP_U_Min_List::add(void *elem, IVP_U_MINLIST_FIXED_POINT va
 	else
 	{
 		// If this assertion triggers, it's going to overflow...
-		IVP_ASSERT( malloced_size != IVP_U_MINLIST_MAX_ALLOCATION );
+		Assert( malloced_size != IVP_U_MINLIST_MAX_ALLOCATION );
 
 		// Clamp allocation to 65535
 		int nNewMallocSize = malloced_size * 2 + 1;
@@ -118,7 +118,7 @@ IVP_U_MINLIST_INDEX IVP_U_Min_List::add(void *elem, IVP_U_MINLIST_FIXED_POINT va
 			elems[first_element].prev = return_index;
 		}
 		first_element = return_index;
-		IVP_ASSERT( (first_element == IVP_U_MINLIST_UNUSED) || (first_element < malloced_size) );
+		Assert( (first_element == IVP_U_MINLIST_UNUSED) || (first_element < malloced_size) );
 
 		e->prev = IVP_U_MINLIST_UNUSED;
 
@@ -129,7 +129,7 @@ IVP_U_MINLIST_INDEX IVP_U_Min_List::add(void *elem, IVP_U_MINLIST_FIXED_POINT va
 		return return_index;
 	}
 	
-	IVP_ASSERT( first_element != IVP_U_MINLIST_UNUSED);
+	Assert( first_element != IVP_U_MINLIST_UNUSED);
 	// find place to insert element, we know at least one exists
 
 	int lastj = first_element;
@@ -196,7 +196,7 @@ end:
 		
 		int next_of_first = elems[firstj_after].long_next;
 		IVP_U_Min_List_Element *nl = &elems[new_long_pos];
-		IVP_ASSERT(nl->long_next == IVP_U_MINLIST_LONG_UNUSED);
+		Assert(nl->long_next == IVP_U_MINLIST_LONG_UNUSED);
 		
 		if ( next_of_first != IVP_U_MINLIST_LONG_UNUSED )
 		{ 
@@ -232,7 +232,7 @@ end:
 
 void IVP_U_Min_List::remove_minlist_elem(IVP_U_MINLIST_INDEX index)
 {
-	IVP_ASSERT( index < malloced_size );
+	Assert( index < malloced_size );
 
 	IVP_U_Min_List_Element *e = & elems[index];
 	unsigned int prev = e->prev;
@@ -249,7 +249,7 @@ void IVP_U_Min_List::remove_minlist_elem(IVP_U_MINLIST_INDEX index)
 	else
 	{
 		first_element = next;
-		IVP_ASSERT( (first_element == IVP_U_MINLIST_UNUSED) || (first_element < malloced_size) );
+		Assert( (first_element == IVP_U_MINLIST_UNUSED) || (first_element < malloced_size) );
 		if (next != IVP_U_MINLIST_UNUSED)
 		{
 			elems[next].prev = prev;
@@ -299,24 +299,24 @@ void IVP_U_Min_List::check()
 		IVP_U_MINLIST_FIXED_POINT last_val = 0;
 		for (unsigned int i = first_element; i != IVP_U_MINLIST_UNUSED; i = elems[i].next)
 		{
-			IVP_ASSERT( i < malloced_size );
+			Assert( i < malloced_size );
 
 			IVP_U_Min_List_Element *e = &elems[i];
-			IVP_ASSERT(last_val <= e->value);
+			Assert(last_val <= e->value);
 			last_val = e->value;
 			
 			if ( i == first_element ) 
 			{
-				IVP_ASSERT( e->prev == IVP_U_MINLIST_UNUSED);
+				Assert( e->prev == IVP_U_MINLIST_UNUSED);
 			}
 			else
 			{
-				IVP_ASSERT( elems[e->prev].next == i );
+				Assert( elems[e->prev].next == i );
 			}
 			
 			if ( e->next != IVP_U_MINLIST_UNUSED ) 
 			{
-				IVP_ASSERT( elems[e->next].prev == i);
+				Assert( elems[e->next].prev == i);
 			}
 		}
 	}
@@ -326,24 +326,24 @@ void IVP_U_Min_List::check()
 		IVP_U_MINLIST_FIXED_POINT last_val = 0;
 		for (unsigned int i = first_long; i != IVP_U_MINLIST_UNUSED; i = elems[i].long_next)
 		{
-			IVP_ASSERT( i < malloced_size );
+			Assert( i < malloced_size );
 
 			IVP_U_Min_List_Element *e = &elems[i];
-			IVP_ASSERT(last_val <= e->value);
+			Assert(last_val <= e->value);
 			last_val = e->value;
 			
 			if ( i == first_long ) 
 			{
-				IVP_ASSERT( e->long_prev == IVP_U_MINLIST_UNUSED);
+				Assert( e->long_prev == IVP_U_MINLIST_UNUSED);
 			}
 			else
 			{
-				IVP_ASSERT( elems[e->long_prev].long_next == i );
+				Assert( elems[e->long_prev].long_next == i );
 			}
 			
 			if ( e->long_next != IVP_U_MINLIST_UNUSED ) 
 			{
-				IVP_ASSERT( elems[e->long_next].long_prev == i);
+				Assert( elems[e->long_next].long_prev == i);
 			}
 		}
 	}

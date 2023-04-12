@@ -52,7 +52,7 @@ void IVP_Template_Real_Object::set_nocoll_group_ident(const char *id){
 	return;
     }
     if (strlen(id) > IVP_NO_COLL_GROUP_STRING_LEN){
-	CORE;
+	AssertMsg(false, "Havok fatal error");
     }
     strncpy( nocoll_group_ident, id, IVP_NO_COLL_GROUP_STRING_LEN);
 }

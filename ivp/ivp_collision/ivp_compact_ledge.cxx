@@ -198,13 +198,13 @@ static void ProcessPoint( IVP_Compact_Poly_Point& point, IVP_U_BigVector<IVP_Com
 		{
 			pre_swapped_points->add(&point);
 			point.byte_swap(); // SWAP
-		//	printf("point [ %.4f %.4f %.4f ]\n", point.k[0], point.k[1], point.k[2] );
+		//	Log_Warning(LOG_HAVOK, "point [ %.4f %.4f %.4f ]\n", point.k[0], point.k[1], point.k[2] );
 		}
 	}
 	else
 	{
 		point.byte_swap(); // SWAP
-	//	printf("point [ %.4f %.4f %.4f ]\n", point.k[0], point.k[1], point.k[2] );
+	//	Log_Warning(LOG_HAVOK, "point [ %.4f %.4f %.4f ]\n", point.k[0], point.k[1], point.k[2] );
 	}			
 }
 	
@@ -278,12 +278,12 @@ void IVP_Compact_Ledgetree_Node::byte_swap_all(IVP_U_BigVector<IVP_Compact_Poly_
 	{
 		// left:
 		const IVP_Compact_Ledgetree_Node* l = left_son(); //returns const only?!
-		IVP_ASSERT(l);
+		Assert(l);
 		const_cast<IVP_Compact_Ledgetree_Node*>(l)->byte_swap_all(pre_swapped_points);
 
 		// right:
 		const IVP_Compact_Ledgetree_Node* r = right_son(); //returns const only?!
-		IVP_ASSERT(r);
+		Assert(r);
 		const_cast<IVP_Compact_Ledgetree_Node*>(r)->byte_swap_all(pre_swapped_points);
 	}
 

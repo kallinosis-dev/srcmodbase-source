@@ -49,8 +49,8 @@ IVP_Contact_Point *IVP_Mindist::try_to_generate_managed_friction(IVP_Friction_Sy
     IVP_Real_Object *obj1 = get_sorted_synapse(1)->l_obj;
 
 
-    IVP_IF(obj0->get_environment()->debug_information->debug_friction){
-	printf("new_fri_mindist\n");
+    IVP_IFDEBUG(obj0->get_environment()->debug_information->debug_friction){
+	Log_Warning(LOG_HAVOK, "new_fri_mindist\n");
     }
 
     IVP_Friction_System *fr_sys0,*fr_sys1;
@@ -110,7 +110,7 @@ IVP_Contact_Point *IVP_Mindist::try_to_generate_managed_friction(IVP_Friction_Sy
 	}
     }
     
-    // IVP_ASSERT(my_env->get_mindist_manager()->debug_test_having_fr_mindist(friction_dist)==IVP_TRUE);
+    // Assert(my_env->get_mindist_manager()->debug_test_having_fr_mindist(friction_dist)==IVP_TRUE);
     
     *having_new=IVP_TRUE;
     
@@ -209,12 +209,12 @@ IVP_Contact_Point *IVP_Mindist::try_to_generate_managed_friction(IVP_Friction_Sy
     fr_info1->set_all_dists_of_obj_neutral();
 #endif    
 
-    //printf("add_fri_dist %lx to sys %lx\n",(long)friction_dist,(long)affected_fs); UFTEST
+    //Log_Warning(LOG_HAVOK, "add_fri_dist %lx to sys %lx\n",(long)friction_dist,(long)affected_fs); UFTEST
 
     *associated_fs=affected_fs;
     //friction_dist->l_friction_system=affected_fs;
 #ifdef DEBUG
-    IVP_IF(0) {
+    IVP_IFDEBUG(0) {
 	IVP_Friction_System *fs0,*fs1;
 	fs0= nullptr;
 	fs1= nullptr;
@@ -230,7 +230,7 @@ IVP_Contact_Point *IVP_Mindist::try_to_generate_managed_friction(IVP_Friction_Sy
 		fs1=info_for_core->l_friction_system;
 	    }
 	}
-	printf("\nmaking_new_frdist for cores %lx %d  %lx %d  fss %lx %lx  with sim_units: %lx %lx\n",
+	Log_Warning(LOG_HAVOK, "\nmaking_new_frdist for cores %lx %d  %lx %d  fss %lx %lx  with sim_units: %lx %lx\n",
 	       (long)core0,core0->physical_unmoveable,
 	       (long)core1,core1->physical_unmoveable,
 	       (long)fs0,(long)fs1,(long)core0->sim_unit_of_core,(long)core1->sim_unit_of_core);
@@ -240,7 +240,7 @@ IVP_Contact_Point *IVP_Mindist::try_to_generate_managed_friction(IVP_Friction_Sy
 #endif        
     friction_dist->calc_virtual_mass_of_mindist();
     
-    IVP_IF(obj0->get_environment()->get_debug_manager()->check_fs) {
+    IVP_IFDEBUG(obj0->get_environment()->get_debug_manager()->check_fs) {
 	affected_fs->test_hole_fr_system_data();
     }
     
@@ -260,7 +260,7 @@ IVP_Contact_Point *IVP_Mindist::try_to_generate_managed_friction(IVP_Friction_Sy
 	}
     }
 #ifdef DEBUG    
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	if(!core0->physical_unmoveable) {
 	    core0->sim_unit_of_core->sim_unit_debug_consistency();
 	}
@@ -277,13 +277,13 @@ IVP_DOUBLE IVP_Impact_Solver::get_total_energy(){
     IVP_DOUBLE ener;
     ener =  core[0]->get_energy_on_test(&trans_speed[0],&rot_speed[0])
 	+   core[1]->get_energy_on_test(&trans_speed[1],&rot_speed[1]);
-    IVP_IF(core[0]->environment->debug_information->debug_impact)	{
+    IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)	{
 	    IVP_DOUBLE trans_e=trans_speed[1].quad_length() * core[1]->get_mass();
 	    IVP_U_Float_Point hp;
 	    hp.set_pairwise_mult( &rot_speed[1], &rot_speed[1]);
 	    IVP_DOUBLE rot_e = hp.dot_product(core[1]->get_rot_inertia());
 	
-	    printf("total_energies trans %.3f rot %.3f sum %.3f\n",0.5f*trans_e,0.5f*rot_e,ener);
+	    Log_Warning(LOG_HAVOK, "total_energies trans %.3f rot %.3f sum %.3f\n",0.5f*trans_e,0.5f*rot_e,ener);
 	}
     return ener;
 }
@@ -315,16 +315,16 @@ void IVP_Impact_Solver::get_world_push_direction()
     IVP_DOUBLE angle=world_push_direction.dot_product(surf_normal); // is negativ. the greater (absolut) the steeper is angle
     //angle is cos alpha . alpha seen from surface normal
 
-    IVP_IF(core[0]->environment->debug_information->debug_impact)
+    IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)
     {
-      printf("wpd %.2f %.2f %.2f  ",world_push_direction.k[0],world_push_direction.k[1],world_push_direction.k[2]);
+      Log_Warning(LOG_HAVOK, "wpd %.2f %.2f %.2f  ",world_push_direction.k[0],world_push_direction.k[1],world_push_direction.k[2]);
     }
     if((angle>0.0f))
     {
 	//turnaround_next_time: objects may still be closing, but is only rest speed that can be neglected, as lowest energy point of impact was already traversed
-	IVP_IF(core[0]->environment->debug_information->debug_impact)
+	IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)
 	{
-	    printf(" impact_speed_now_reversed ");
+	    Log_Warning(LOG_HAVOK, " impact_speed_now_reversed ");
 	}
 	//world_push_direction.set(surf_normal);
 	//world_push_direction.mult(-1.0f);
@@ -334,8 +334,8 @@ void IVP_Impact_Solver::get_world_push_direction()
 	//world_push_direction.subtract(surf_normal); // impact direction is mirrored relative to surface
 	return;
     } else {
-      IVP_IF(core[0]->environment->debug_information->debug_impact){
-	  printf(" not_reversed ");
+      IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact){
+	  Log_Warning(LOG_HAVOK, " not_reversed ");
 	}
     }
 
@@ -361,7 +361,7 @@ void IVP_Impact_Solver::get_world_push_direction()
 		//part_in_direction_norm.set_multiple(surf_normal,-cos_friction);
 		world_push_direction.add_multiple(&part_in_direction_surf,surf_normal, -cos_friction); //recombine; vector has exactly length 1.0
 
-		//printf("recomb2 %f %f %f\n",world_push_direction.k[0],world_push_direction.k[1],world_push_direction.k[2]);
+		//Log_Warning(LOG_HAVOK, "recomb2 %f %f %f\n",world_push_direction.k[0],world_push_direction.k[1],world_push_direction.k[2]);
 	    }
     } else {
 	get_world_push_direction_two_friction(angle);
@@ -438,9 +438,9 @@ void IVP_Impact_Solver::confirm_impact(int core_nr)
 void IVP_Impact_Solver::undo_push()
 {
     // make last push undone
-    IVP_IF(core[0]->environment->debug_information->debug_impact)
+    IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)
     {
-	printf("impact_undo_push\n");
+	Log_Warning(LOG_HAVOK, "impact_undo_push\n");
     }
     if(!core[0]->physical_unmoveable)
     {
@@ -451,9 +451,9 @@ void IVP_Impact_Solver::undo_push()
     {
 	rot_speed[1].subtract(&rot_speed_change[1]);    
 	trans_speed[1].subtract(&trans_speed_change[1]);
-	IVP_IF(core[0]->environment->debug_information->debug_impact)
+	IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)
 	{
-	    printf("undoing trans %.3f %.3f %.3f\n",trans_speed_change[1].k[0],trans_speed_change[1].k[1],trans_speed_change[1].k[2]);
+	    Log_Warning(LOG_HAVOK, "undoing trans %.3f %.3f %.3f\n",trans_speed_change[1].k[0],trans_speed_change[1].k[1],trans_speed_change[1].k[2]);
 	}
     }
 }
@@ -462,7 +462,7 @@ void IVP_Impact_Solver::undo_push()
 //rescue push gives rotation free pushes when needed, to assure that objects are moving away from from each other
 void IVP_Impact_Solver::do_rescue_push(IVP_U_Float_Point *push_dir_norm,IVP_BOOL panic_mode)
 {
-    //printf("rescuepush\n\n");
+    //Log_Warning(LOG_HAVOK, "rescuepush\n\n");
         IVP_U_Point world_point_obj0,world_point_obj1;
 	m_world_f_core[0]->vmult4(obj_point[0],&world_point_obj0);
 	m_world_f_core[1]->vmult4(obj_point[1],&world_point_obj1);
@@ -508,7 +508,7 @@ void IVP_Impact_Solver::do_rescue_push(IVP_U_Float_Point *push_dir_norm,IVP_BOOL
 	}
 #if 0
 	//new version with translation only -> seems to be no good
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    if(panic_mode) {
 		core[0]->environment->impact_hard_rescue_counter++;
 	    } else {
@@ -577,7 +577,7 @@ void IVP_Impact_Solver::do_rescue_push(IVP_U_Float_Point *push_dir_norm,IVP_BOOL
 	    return;
 	}
 
-	IVP_IF(1) {
+	IVP_IFDEBUG(1) {
 	    if(panic_mode) {
 		core[0]->environment->get_statistic_manager()->impact_hard_rescue_counter++;
 	    } else {
@@ -585,9 +585,9 @@ void IVP_Impact_Solver::do_rescue_push(IVP_U_Float_Point *push_dir_norm,IVP_BOOL
 	    }
 	}
 	
-	IVP_IF(core[0]->environment->debug_information->debug_impact||0)
+	IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact||0)
 	    {
-		printf("doing_res_push %f dvc %f\n",resulting_push,desired_velo_change);
+		Log_Warning(LOG_HAVOK, "doing_res_push %f dvc %f\n",resulting_push,desired_velo_change);
 	    }
 		
 	IVP_U_Float_Point obj_push, world_push;
@@ -639,12 +639,12 @@ void IVP_Impact_Solver::do_impact(IVP_Core *pushed_cores[2],IVP_BOOL allow_delay
     // there are done several pushes with push direction changing, when desired energy level interval is reached : Stop
     // there may be situations where energy level cant be reached ( very flat impact angle). Then do a single short push to avoid (hopefully) collision: do_rescue_push
 
-    //printf("\n\n\nimpacting\n\n\n");
+    //Log_Warning(LOG_HAVOK, "\n\n\nimpacting\n\n\n");
     IVP_DOUBLE virtual_speed,give_back_speed = 0.0f,speed_before;
     IVP_DOUBLE relative_trans_speed_before;
     IVP_DOUBLE used_conservation;
 
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	core[0]->environment->get_debug_manager()->all_time_impacts += 1.0f;
     }
 
@@ -674,7 +674,7 @@ void IVP_Impact_Solver::do_impact(IVP_Core *pushed_cores[2],IVP_BOOL allow_delay
 	mass1=mass0 * 10000000.0f;
     }
 
-    IVP_IF(0){
+    IVP_IFDEBUG(0){
 	rot_speed[0]  .set( &core[0]->rot_speed );
 	trans_speed[0].set( &core[0]->speed);
 	rot_speed[1]  .set( &core[1]->rot_speed);
@@ -682,7 +682,7 @@ void IVP_Impact_Solver::do_impact(IVP_Core *pushed_cores[2],IVP_BOOL allow_delay
 
 	this->get_relative_speed_vector();
 	IVP_DOUBLE speed_parallel_mindist = relative_world_speed.dot_product(surf_normal); //normally negative value
-	printf("impact %.20G\n",speed_parallel_mindist); //@@CB
+	Log_Warning(LOG_HAVOK, "impact %.20G\n",speed_parallel_mindist); //@@CB
     }
     
     rot_speed[0]  .add( &core[0]->rot_speed, &core[0]->rot_speed_change);
@@ -690,7 +690,7 @@ void IVP_Impact_Solver::do_impact(IVP_Core *pushed_cores[2],IVP_BOOL allow_delay
     rot_speed[1]  .add( &core[1]->rot_speed, &core[1]->rot_speed_change);
     trans_speed[1].add( &core[1]->speed,     &core[1]->speed_change);
     
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	IVP_U_Float_Point trans_vec;
 	trans_vec.subtract( &trans_speed[0],&trans_speed[1] );
 	relative_trans_speed_before=trans_vec.real_length();
@@ -715,7 +715,7 @@ void IVP_Impact_Solver::do_impact(IVP_Core *pushed_cores[2],IVP_BOOL allow_delay
     if(speed_parallel_mindist > -IMPACT_EPS)
     {
 	// something went wrong, do a rescue push
-        //printf("bad_rescue_push\n");
+        //Log_Warning(LOG_HAVOK, "bad_rescue_push\n");
         IVP_U_Float_Point push_dir;	push_dir.set_negative(surf_normal);
 	do_rescue_push(&push_dir,IVP_TRUE); //panic
 	//confirm_impact(0);
@@ -732,8 +732,8 @@ void IVP_Impact_Solver::do_impact(IVP_Core *pushed_cores[2],IVP_BOOL allow_delay
 
     //maybe do an extra rescue_push when speed is very low, this time with friction
 
-    IVP_IF(core[0]->environment->debug_information->debug_impact)    {
-	printf("speed %.4f %.4f %.4f rot %.4f %.4f %.4f\n",trans_speed[1].k[0],trans_speed[1].k[1],trans_speed[1].k[2],rot_speed[1].k[0],rot_speed[1].k[1],rot_speed[1].k[2]);
+    IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)    {
+	Log_Warning(LOG_HAVOK, "speed %.4f %.4f %.4f rot %.4f %.4f %.4f\n",trans_speed[1].k[0],trans_speed[1].k[1],trans_speed[1].k[2],rot_speed[1].k[0],rot_speed[1].k[1],rot_speed[1].k[2]);
     }
     
     this->get_world_push_direction();
@@ -745,7 +745,7 @@ void IVP_Impact_Solver::do_impact(IVP_Core *pushed_cores[2],IVP_BOOL allow_delay
     integral_pushes_world.set_to_zero();
     virtual_speed=-surf_normal->dot_product(&relative_world_speed); // alternative: world_push_direction->dot_pro..
     speed_before=virtual_speed;
-    IVP_ASSERT(virtual_speed>0.0f);
+    Assert(virtual_speed>0.0f);
 
     give_back_speed = virtual_speed*IVP_Inline_Math::ivp_sqrtf(used_conservation);
     give_back_speed+=IVP_SPEED_ADDON_SYSTEM_IMPACT * IVP_Inline_Math::ivp_sqrtf((IVP_DOUBLE)pushes_while_system);
@@ -767,7 +767,7 @@ void IVP_Impact_Solver::do_impact(IVP_Core *pushed_cores[2],IVP_BOOL allow_delay
 	do_push(1); //test push @@CB
 	get_relative_speed_vector();
 	IVP_DOUBLE speed_test=surf_normal->dot_product(&relative_world_speed);
-	IVP_ASSERT(( speed_test > -virtual_speed));
+	Assert(( speed_test > -virtual_speed));
 	IVP_DOUBLE speed_diff=speed_test+virtual_speed;
                 IVP_DOUBLE target_push;
 				// was fabs, which was a sml call
@@ -782,29 +782,29 @@ void IVP_Impact_Solver::do_impact(IVP_Core *pushed_cores[2],IVP_BOOL allow_delay
 
     //energy_at_end=this->get_total_energy();
     //factor=energy_at_end / full_energy;
-    //printf("energy_change_factor_impact %f\n",factor);
+    //Log_Warning(LOG_HAVOK, "energy_change_factor_impact %f\n",factor);
       
     do_rescue_push(&world_push_direction,IVP_FALSE); //to be sure that minimal velocity is reached, not panic
 
-    IVP_IF(1==1)
+    IVP_IFDEBUG(1==1)
     {
 	IVP_U_Float_Point rel_speed_now;
 	IVP_Core::get_diff_surface_speed_of_two_cores_on_test(core[0], core[1],obj_point[0],obj_point[1],&trans_speed[0],&rot_speed[0],&trans_speed[1],&rot_speed[1],&rel_speed_now);
-	//printf("world_speed_after_imp %.3f %.3f %.3f  ",rel_speed_now.k[0],rel_speed_now.k[1],rel_speed_now.k[2]);
-	//printf("rel_sppeed %.4f\n",rel_speed_now.dot_product(surf_normal));
+	//Log_Warning(LOG_HAVOK, "world_speed_after_imp %.3f %.3f %.3f  ",rel_speed_now.k[0],rel_speed_now.k[1],rel_speed_now.k[2]);
+	//Log_Warning(LOG_HAVOK, "rel_sppeed %.4f\n",rel_speed_now.dot_product(surf_normal));
 	if(rel_speed_now.dot_product(surf_normal)>0.0f)
 	{
-	    IVP_IF(1) { printf("impact_objects_have_illegal_speed_afterwards\n"); }
-	    // CORE;
+	    IVP_IFDEBUG(1) { Log_Warning(LOG_HAVOK, "impact_objects_have_illegal_speed_afterwards\n"); }
+	    // AssertMsg(false, "Havok fatal error");
 	}
     }
     
 delaying_test:
     
-    IVP_IF(0) {
+    IVP_IFDEBUG(0) {
     	get_relative_speed_vector();
 	IVP_DOUBLE testtest=surf_normal->dot_product(&relative_world_speed);
-	IVP_USE(testtest);
+	
 	IVP_DOUBLE speed_gain=testtest-speed_before; //speed before not initialized when hard rescue
 	if(speed_gain>0.0f) {
 	    if(speed_gain > core[0]->environment->get_statistic_manager()->max_speed_gain) {
@@ -816,13 +816,13 @@ delaying_test:
     core[0]->clip_velocity(&trans_speed[0], &rot_speed[0]);
     core[1]->clip_velocity(&trans_speed[1], &rot_speed[1]);
     
-    //printf("speed_after_imp %f %f  %f %f\n",trans_speed[0].real_length(),rot_speed[0].real_length(),trans_speed[1].real_length(),rot_speed[1].real_length());
+    //Log_Warning(LOG_HAVOK, "speed_after_imp %f %f  %f %f\n",trans_speed[0].real_length(),rot_speed[0].real_length(),trans_speed[1].real_length(),rot_speed[1].real_length());
 
     delay_decision(pushed_cores);
 
     if( core[0]->temporarily_unmovable | core[1]->temporarily_unmovable ) {
-	IVP_IF(0) {
-	    printf("switched_to_temporarily_unmov %lx %lx %f\n",(long)core[0],(long)core[1],core[0]->environment->get_current_time().get_time());
+	IVP_IFDEBUG(0) {
+	    Log_Warning(LOG_HAVOK, "switched_to_temporarily_unmov %lx %lx %f\n",(long)core[0],(long)core[1],core[0]->environment->get_current_time().get_time());
 	}
 	core[0]->environment->get_statistic_manager()->impact_unmov++;
 
@@ -905,7 +905,7 @@ void IVP_Impact_Solver::delay_decision(IVP_Core *pushed_cores[2]) {
 	    pushed_cores[try_to_delay_core]= nullptr;
 	    clear_change_values_cores();
 	    confirm_impact(1-try_to_delay_core);
-	    //printf("delaying_a_push\n");
+	    //Log_Warning(LOG_HAVOK, "delaying_a_push\n");
 	    delay_of_impact(try_to_delay_core);
 	    core[try_to_delay_core]->impacts_since_last_PSI--;
 	} else {
@@ -945,19 +945,19 @@ void IVP_Impact_Solver::do_push(IVP_DOUBLE impulse_val)
 
     world_push.set(&world_push_direction);
 
-    IVP_IF(core[0]->environment->debug_information->debug_impact)    {
+    IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)    {
 	IVP_U_Float_Point surf_dir;
 	surf_dir.set(0.0f,1.0f,0.0f);
 	IVP_DOUBLE surf_cos=surf_dir.dot_product(&world_push_direction);
-	printf("push_dir_cos %f\n",surf_cos);
+	Log_Warning(LOG_HAVOK, "push_dir_cos %f\n",surf_cos);
     }
     
     world_push.mult(impulse_val); // vector gets longer with impulse_val
 
     if(!core[0]->physical_unmoveable)    {
-        IVP_IF(core[0]->environment->debug_information->debug_impact)
+        IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)
 	{
-	    //printf("p %.2f %.2f %.2f ",world_push_direction.k[0],world_push_direction.k[1],world_push_direction.k[2]);
+	    //Log_Warning(LOG_HAVOK, "p %.2f %.2f %.2f ",world_push_direction.k[0],world_push_direction.k[1],world_push_direction.k[2]);
 	}
 	m_world_f_core[0]->inline_vimult3(&world_push,&obj_push); // obj_push now in object coords
 	core[0]->test_push_core(obj_point[0],&obj_push,&world_push,&trans_speed_change[0],&rot_speed_change[0]);
@@ -967,15 +967,15 @@ void IVP_Impact_Solver::do_push(IVP_DOUBLE impulse_val)
 
     if(!core[1]->physical_unmoveable)    {
 	world_push.mult(-1.0f);
-	IVP_IF(core[0]->environment->debug_information->debug_impact)
+	IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)
 	{
-	    //printf("p %.2f %.2f %.2f ",world_push_direction.k[0],world_push_direction.k[1],world_push_direction.k[2]);
+	    //Log_Warning(LOG_HAVOK, "p %.2f %.2f %.2f ",world_push_direction.k[0],world_push_direction.k[1],world_push_direction.k[2]);
 	}
 	m_world_f_core[1]->inline_vimult3(&world_push,&obj_push);
 	core[1]->test_push_core(obj_point[1],&obj_push,&world_push,&trans_speed_change[1],&rot_speed_change[1]);
-	IVP_IF(core[0]->environment->debug_information->debug_impact)
+	IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)
 	{
-	    //printf("did_push trans %.3f %.3f %.3f add %.3f %.3f %.3f\n",trans_speed1.k[0],trans_speed1.k[1],trans_speed1.k[2],trans_speed1_change.k[0],trans_speed1_change.k[1],trans_speed1_change.k[2]);
+	    //Log_Warning(LOG_HAVOK, "did_push trans %.3f %.3f %.3f add %.3f %.3f %.3f\n",trans_speed1.k[0],trans_speed1.k[1],trans_speed1.k[2],trans_speed1_change.k[0],trans_speed1_change.k[1],trans_speed1_change.k[2]);
 	}
 	rot_speed[1].add(&rot_speed_change[1]);
 	trans_speed[1].add(&trans_speed_change[1]);
@@ -1016,7 +1016,7 @@ IVP_DOUBLE IVP_Impact_Solver::estimate_push_impulse()
     IVP_DOUBLE push_v0,push_v1;
     push_v0=0.0f;
 
-    //printf("absolute_velocity %.2f  ",relative_world_speed.real_length());
+    //Log_Warning(LOG_HAVOK, "absolute_velocity %.2f  ",relative_world_speed.real_length());
     
     push_v1= - relative_world_speed.dot_product(surf_normal);
 
@@ -1032,9 +1032,9 @@ IVP_DOUBLE IVP_Impact_Solver::estimate_push_impulse()
     IVP_DOUBLE diff_v0=u0-push_v0;
     //IVP_DOUBLE diff_v1=u1-push_v1; //difference of velocity before/after impact
 
-    IVP_IF(core[0]->environment->debug_information->debug_impact)
+    IVP_IFDEBUG(core[0]->environment->debug_information->debug_impact)
     {
-	printf("start_impulse %.2f\n",diff_v0*virt_mass[0]);	
+	Log_Warning(LOG_HAVOK, "start_impulse %.2f\n",diff_v0*virt_mass[0]);	
     }
     return(diff_v0*virt_mass[0]);    
 }
@@ -1072,7 +1072,7 @@ void IVP_Impact_Solver_Long_Term::do_impact_of_two_objects(IVP_Mindist *mindist,
 	pair->last_impact_time_pair = now_time;
 	IVP_Environment* env = mindist->get_environment();
 
-	// printf("impactt\n");
+	// Log_Warning(LOG_HAVOK, "impactt\n");
 	IVP_Core *impacteers[2];
 
 	IVP_FLOAT rescue_val_addon = my_fr_dist->get_rescue_speed_impact(obj0->get_environment());
@@ -1142,7 +1142,7 @@ void IVP_Impact_Solver_Long_Term::do_impact_of_two_objects(IVP_Mindist *mindist,
 	if(core_to_merge->physical_unmoveable){
 	    IVP_Core *h = core_to_merge; core_to_merge = other_core0; other_core0 = h;
 	}
-	IVP_ASSERT(core_to_merge->physical_unmoveable == IVP_FALSE);
+	Assert(core_to_merge->physical_unmoveable == IVP_FALSE);
 
 	IVP_Core *other_core1;
 	other_core1=IVP_Impact_Solver_Long_Term::find_second_critical_impact_core(core_to_merge,other_core0);
@@ -1164,7 +1164,7 @@ void IVP_Contact_Point::get_material_info(IVP_Material *mtl[2]) {
 	    IVP_Environment *env = get_synapse(0)->get_object()->get_environment();
 	  mtl[k] = env->get_material_manager()->get_material_by_index(nullptr,mat_index);  // @@@@@
 	}
-	IVP_ASSERT(mtl[k]);
+	Assert(mtl[k]);
     }
 }
 
@@ -1196,7 +1196,7 @@ void IVP_Contact_Point::read_materials_for_contact_situation(IVP_Impact_Solver_L
     info->compact_edges[1] = get_synapse(1)->edge;
 
 
-    IVP_ASSERT(obj0 != obj1);    
+    Assert(obj0 != obj1);    
     IVP_Material_Manager *mtlm = env->get_material_manager();
     
     info->impact.percent_energy_conservation  = mtlm->get_elasticity(info);
@@ -1216,7 +1216,7 @@ void IVP_Mindist::do_impact(){
     IVP_Environment *env;
     env=get_environment();
     
-    IVP_ASSERT( mindist_status == IVP_MD_EXACT);
+    Assert( mindist_status == IVP_MD_EXACT);
 
     // move variables too impact system
     IVP_Real_Object *objects[2];
@@ -1232,7 +1232,7 @@ void IVP_Mindist::do_impact(){
 	if (g_fDeferDeleteMindist)
 	{
 		// BUGBUG: someone changed a collision filter and didn't tell us!
-		IVP_ASSERT(0);
+		Assert(0);
 		delete this;
 		return;
 	}
@@ -1347,12 +1347,12 @@ void IVP_Impact_Solver_Long_Term::do_impact_long_term(IVP_Core *pushed_cores[2],
 		imp_solver_stack.get_world_direction_second_friction(cp);//imp_solver_stack.two_friction_values=cp->get_world_direction_second_friction(&imp_solver_stack.world_direction_second_friction,&imp_solver_stack.sin_second_friction);
 		}
 	}
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	if (contact_core[0]) contact_core[0]->core_plausible_check();
 	if (contact_core[1]) contact_core[1]->core_plausible_check();
     }
     imp_solver_stack.do_impact(pushed_cores,IVP_TRUE,impacts_while_system,rescue_speed_val);
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	if (contact_core[0]) contact_core[0]->core_plausible_check();
 	if (contact_core[1]) contact_core[1]->core_plausible_check();
     }
@@ -1369,7 +1369,7 @@ void IVP_Impact_System::impact_system_check_start_pair(IVP_Friction_Core_Pair *s
 	    my_dist->recalc_friction_s_vals();
 	    IVP_Impact_Solver_Long_Term *info=my_dist->tmp_contact_info;
 	    my_dist->read_materials_for_contact_situation(info);
-	    //printf("impact_sys_update_contact_vals %lx\n",(long)my_dist);
+	    //Log_Warning(LOG_HAVOK, "impact_sys_update_contact_vals %lx\n",(long)my_dist);
 	    if(info->friction_is_broken==IVP_TRUE) {
 	        associated_fs_system->delete_friction_distance(my_dist);
 	    }
@@ -1435,13 +1435,13 @@ void IVP_Impact_System::init_and_solve_impact_system(IVP_Mindist *mindist, IVP_F
     add_pair_to_impact_system(start_pair);
     impact_system_check_start_pair(start_pair,start_fr_dist);
     
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
         l_environment->get_debug_manager()->debug_imp_sys=IVP_FALSE;
     }
     
-    IVP_IF(l_environment->get_debug_manager()->file_out_impacts) {
+    IVP_IFDEBUG(l_environment->get_debug_manager()->file_out_impacts) {
         if(l_environment->get_current_time().get_time() > 10000.86f) {
-	    printf("critical_imp_sys\n");
+	    Log_Warning(LOG_HAVOK, "critical_imp_sys\n");
 	    l_environment->get_debug_manager()->debug_imp_sys=IVP_TRUE;
 	}
         fprintf(l_environment->get_debug_manager()->out_deb_file,"starting_impact_system at time %f\n",l_environment->get_current_time().get_time());
@@ -1452,8 +1452,8 @@ void IVP_Impact_System::init_and_solve_impact_system(IVP_Mindist *mindist, IVP_F
 	impact_sys_counter ++;
 	sum_of_pushes++;
 	if(sum_of_pushes > MAXIMUM_SYSTEM_PUSH_NUMBER) {
-	    IVP_IF(1) {
-		printf("system_push_number exceeded\n");
+	    IVP_IFDEBUG(1) {
+		Log_Warning(LOG_HAVOK, "system_push_number exceeded\n");
 	    }
 	    P_DELETE(mindist);
 	    break;
@@ -1462,29 +1462,29 @@ void IVP_Impact_System::init_and_solve_impact_system(IVP_Mindist *mindist, IVP_F
     }
     l_environment->get_statistic_manager()->impact_sum_sys+= impact_sys_counter+1;
 
-    IVP_IF(sum_of_pushes>1) {
-	//printf("did_impact_sys %d pushes at %f\n",sum_of_pushes,l_environment->get_current_time());
+    IVP_IFDEBUG(sum_of_pushes>1) {
+	//Log_Warning(LOG_HAVOK, "did_impact_sys %d pushes at %f\n",sum_of_pushes,l_environment->get_current_time());
 #if 0
 	for(IVP_Friction_Core_Pair *my_pair=get_first_impact_pair();my_pair;my_pair=get_next_impact_pair())
 	{
-	    printf(" paair %lx ",(long)my_pair&0x0000ffff);
+	    Log_Warning(LOG_HAVOK, " paair %lx ",(long)my_pair&0x0000ffff);
 	    for(IVP_Contact_Point *my_fr=my_pair->get_first_fr_dist_obj_pairs();my_fr;my_fr=my_pair->get_next_fr_dist_obj_pairs())
 	    {
-		printf("md %lx ",(long)my_fr&0x0000ffff);
+		Log_Warning(LOG_HAVOK, "md %lx ",(long)my_fr&0x0000ffff);
 	    }
 	}
-	printf("\n");
+	Log_Warning(LOG_HAVOK, "\n");
 #endif
     }
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
         debug_check_all_dists_at_end();
     }
     
     recalc_all_affected_cores();
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	associated_fs_system->debug_clean_tmp_info();
     }
-    IVP_IF(l_environment->get_debug_manager()->file_out_impacts) {
+    IVP_IFDEBUG(l_environment->get_debug_manager()->file_out_impacts) {
 	l_environment->get_debug_manager()->debug_imp_sys=IVP_FALSE;	
         fprintf(l_environment->get_debug_manager()->out_deb_file,"\n");
     }
@@ -1567,7 +1567,7 @@ void IVP_Impact_System::debug_check_all_dists_at_end() {
 		continue;
 	    }
 	    if(core_is_already_known_to_system(core0) && core_is_already_known_to_system(core1)) {
-		printf("error_in_impact_system_missed_impact\n");
+		Log_Warning(LOG_HAVOK, "error_in_impact_system_missed_impact\n");
 	    }
 	}
     }
@@ -1583,7 +1583,7 @@ IVP_BOOL IVP_Impact_System::test_loop_all_pairs()
     IVP_Friction_Core_Pair *associated_pair = nullptr;
     IVP_DOUBLE smallest_distance =  ivp_mindist_settings.minimum_friction_dist;
     IVP_DOUBLE rescue_speed_addon=0.0f;
-    IVP_IF(l_environment->get_debug_manager()->file_out_impacts) {
+    IVP_IFDEBUG(l_environment->get_debug_manager()->file_out_impacts) {
         fprintf(l_environment->get_debug_manager()->out_deb_file,"calc_new_coll_distances\n");
     }
     for (int i = i_s_pairs.len()-1; i >= 0 ; i--){
@@ -1597,8 +1597,8 @@ IVP_BOOL IVP_Impact_System::test_loop_all_pairs()
 	for (int k = my_pair->fr_dists.len()-1; k>=0; k--){
 	    IVP_Contact_Point *my_fr = my_pair->fr_dists.element_at(k);
 	    if(my_fr->tmp_contact_info->coll_time_is_valid==IVP_TRUE) {
-	      IVP_IF(l_environment->get_debug_manager()->debug_imp_sys) {
-		printf("did_not_test %lx\n",0x0000ffff&(long)my_fr);
+	      IVP_IFDEBUG(l_environment->get_debug_manager()->debug_imp_sys) {
+		Log_Warning(LOG_HAVOK, "did_not_test %lx\n",0x0000ffff&(long)my_fr);
 	      }
 	    } else {
 		l_environment->get_statistic_manager()->impact_coll_checks++;
@@ -1612,12 +1612,12 @@ IVP_BOOL IVP_Impact_System::test_loop_all_pairs()
 	    }
 	}
     }
-    IVP_IF(l_environment->get_debug_manager()->file_out_impacts) {
+    IVP_IFDEBUG(l_environment->get_debug_manager()->file_out_impacts) {
         fprintf(l_environment->get_debug_manager()->out_deb_file,"\n");
     }
     
     if(worst_impact_dist){
-	IVP_ASSERT(worst_impact_dist->tmp_contact_info->impact.distance_reached_in_time < ivp_mindist_settings.minimum_friction_dist);
+	Assert(worst_impact_dist->tmp_contact_info->impact.distance_reached_in_time < ivp_mindist_settings.minimum_friction_dist);
 	IVP_Core *core;
 	for(int i=1;i>=0;i--) {
 	    core=worst_impact_dist->tmp_contact_info->contact_core[i];
@@ -1635,7 +1635,7 @@ IVP_BOOL IVP_Impact_System::test_loop_all_pairs()
        
 	worst_impact_dist->tmp_contact_info->do_impact_long_term(impacting_cores,worst_impact_dist->tmp_contact_info->impact.rescue_speed_addon,worst_impact_dist);
 	    
-	//printf("did_sys_imp %lx\n",(long)(&worst_impact_dist->long_term_impact_info)&0x0000ffff);
+	//Log_Warning(LOG_HAVOK, "did_sys_imp %lx\n",(long)(&worst_impact_dist->long_term_impact_info)&0x0000ffff);
 	    
 	{
 	    for(int i=1;i>=0;i--) {
@@ -1722,7 +1722,7 @@ IVP_FLOAT IVP_Contact_Point::get_rot_speed_uncertainty() {
           IVP_Synapse_Friction *my_syn=this->get_synapse(i);
           if(my_syn->get_status() != IVP_ST_BALL) {
 	      //IVP_DOUBLE rota_way=my_core->rot_speed.real_length() * IVP_COLL_DETECT_MIN_TIME;
-	      //if( rota_way > IVP_PI_2) { printf("warning_pi\n"); }
+	      //if( rota_way > IVP_PI_2) { Log_Warning(LOG_HAVOK, "warning_pi\n"); }
 
 	      //IVP_DOUBLE tan_quad = tan ( rota_way );
 	      //tan_quad*=tan_quad;
@@ -1730,7 +1730,7 @@ IVP_FLOAT IVP_Contact_Point::get_rot_speed_uncertainty() {
 
 		  IVP_DOUBLE max_tan_quad = IVP_ROT_MAX_UNCERTAINTY * IVP_ROT_MAX_UNCERTAINTY;
 		  if(tan_quad > max_tan_quad) {
-		      //printf("clippingrottan %f to %f\n",sqrt(tan_quad),sqrt(max_tan_quad));
+		      //Log_Warning(LOG_HAVOK, "clippingrottan %f to %f\n",sqrt(tan_quad),sqrt(max_tan_quad));
 		      tan_quad = max_tan_quad;
 		  }
 #if 0		  
@@ -1746,7 +1746,7 @@ IVP_FLOAT IVP_Contact_Point::get_rot_speed_uncertainty() {
 		  //test only
 		  //IVP_DOUBLE alpha = my_core->rot_speed.real_length() * IVP_COLL_DETECT_MIN_TIME;
 		  //IVP_DOUBLE sina = sin(alpha);
-		  //IVP_ASSERT(alpha >= sina);
+		  //Assert(alpha >= sina);
 		  //IVP_DOUBLE uncertain_way2 = (alpha - sina) * this->long_term_impact_info.contact_point_cs[i].real_length();
 
 		  IVP_DOUBLE uncertain_speed = uncertain_way * my_core->environment->get_inv_delta_PSI_time(); //later speed is transformed back to way with get_delta_PSI_time
@@ -1761,10 +1761,10 @@ IVP_FLOAT IVP_Contact_Point::get_rot_speed_uncertainty() {
 		  //IVP_FLOAT speed_uncertainty=1.0f+rot_speed_quad;
 		  //speed_uncertainty=sqrt( speed_uncertainty ) - 1.0f;
 
-		  //printf("speed_unctnty %f\n",speed_uncertainty);
+		  //Log_Warning(LOG_HAVOK, "speed_unctnty %f\n",speed_uncertainty);
 		  //speed_uncertainty=0.0f;
 		  //IVP_FLOAT obj_length_factor=long_term_impact_info.contact_point_cs[i].real_length();
-		  //IVP_ASSERT( (obj_length_factor < my_core->upper_limit_radius + P_DOUBLE_EPS) );
+		  //Assert( (obj_length_factor < my_core->upper_limit_radius + P_DOUBLE_EPS) );
 
 		  rot_uncertainty = rot_uncertainty + uncertain_speed;
           }
@@ -1784,8 +1784,8 @@ IVP_FLOAT IVP_Contact_Point::get_rescue_speed_impact(IVP_Environment *env) {
     IVP_DOUBLE rot_uncertainty=this->get_rot_speed_uncertainty();
     resc_val+=rot_uncertainty;
 
-    IVP_ASSERT( resc_val < 1000.0f);
-    IVP_IF(resc_val > env->get_statistic_manager()->max_rescue_speed) {
+    Assert( resc_val < 1000.0f);
+    IVP_IFDEBUG(resc_val > env->get_statistic_manager()->max_rescue_speed) {
 	env->get_statistic_manager()->max_rescue_speed = resc_val;
     }
     return 2.0f*resc_val; //2.0f: use half factor when testing afterwards to assure convergence
@@ -1807,8 +1807,8 @@ void IVP_Contact_Point::calc_coll_distance(){
     info->impact.distance_reached_in_time = get_gap_length() - ( closing_speed + info->impact.rescue_speed_addon * 0.5f ) * env->get_delta_PSI_time();
     //rescue speed * 0.5f : at impact demand full rescue_speed; at testing, demand only half (to assure termination)
 
-    IVP_IF(1){
-	IVP_IF(env->get_debug_manager()->file_out_impacts) {
+    IVP_IFDEBUG(1){
+	IVP_IFDEBUG(env->get_debug_manager()->file_out_impacts) {
 	    FILE *fp=env->get_debug_manager()->out_deb_file;
 	    IVP_Core *core0,*core1;
 	    core0=get_synapse(0)->l_obj->friction_core;
@@ -1819,8 +1819,8 @@ void IVP_Contact_Point::calc_coll_distance(){
 	    fprintf(fp,"cs %.4f  ",debug_cs);
 	    fprintf(fp,"dr %.4f  ",info->impact.distance_reached_in_time);
 	}
-	IVP_IF(env->get_debug_manager()->debug_imp_sys) {
-	    printf("tested_frdist %lx di %.4f cs %.4f dr %.4f\n",
+	IVP_IFDEBUG(env->get_debug_manager()->debug_imp_sys) {
+	    Log_Warning(LOG_HAVOK, "tested_frdist %lx di %.4f cs %.4f dr %.4f\n",
 		0x0000ffff&(long)this,
 		get_gap_length(),
 		closing_speed + info->impact.rescue_speed_addon*0.5f,
@@ -1837,7 +1837,7 @@ public:
 
 void IVP_Impact_System::recalc_all_affected_cores()
 {
-    IVP_IF(1) {
+    IVP_IFDEBUG(1) {
 	for (int k = i_s_pushed_cores.len()-1; k>=0; k--){
 	    IVP_Core *my_core= i_s_pushed_cores.element_at(k);
 	    //every pushed core has to be known
@@ -1848,8 +1848,8 @@ void IVP_Impact_System::recalc_all_affected_cores()
 		    found=IVP_TRUE;
 		}
 	    }
-	    IVP_ASSERT(found==IVP_TRUE);
-	    IVP_ASSERT(my_core->tmp_null.old_sync_info->was_pushed_during_i_s==IVP_TRUE);
+	    Assert(found==IVP_TRUE);
+	    Assert(my_core->tmp_null.old_sync_info->was_pushed_during_i_s==IVP_TRUE);
 	}
     }
     {
@@ -1868,9 +1868,9 @@ void IVP_Impact_System::recalc_all_affected_cores()
 	
 	for (int k = i_s_pushed_cores.len()-1; k>=0; k--){
 	    IVP_Core *my_core= i_s_pushed_cores.element_at(k);
-	    IVP_ASSERT(!my_core->physical_unmoveable); //core merge?
+	    Assert(!my_core->physical_unmoveable); //core merge?
 	    if(!my_core->physical_unmoveable) {
-		//printf("calcing_next_psi_matrix %lx %f\n",(long)my_core&0x0000ffff,l_environment->get_current_time());
+		//Log_Warning(LOG_HAVOK, "calcing_next_psi_matrix %lx %f\n",(long)my_core&0x0000ffff,l_environment->get_current_time());
 	        //my_core->commit_all_async_pushes();
 		IVP_Event_Sim es(l_environment, delta_time_till_next_PSI);
 		IVP_Calc_Next_PSI_Solver nps(my_core);
@@ -1885,7 +1885,7 @@ void IVP_Impact_System::recalc_all_affected_cores()
 	for (int k = i_s_pushed_cores.len()-1; k>=0; k--){
 	    IVP_Core *my_core= i_s_pushed_cores.element_at(k);
 	    if(!my_core->physical_unmoveable) {
-		//printf("calcing_exactmindists %lx\n",(long)my_core&0x0000ffff);
+		//Log_Warning(LOG_HAVOK, "calcing_exactmindists %lx\n",(long)my_core&0x0000ffff);
 		my_core->update_exact_mindist_events_of_core();
 	    }
 	}

@@ -34,7 +34,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_PF(const IVP_Compact_Edge *
     
     // Checks situation (is P above E?) and takes the appropriate branch.
     
-    IVP_ASSERT(m_cache_P->tmp.synapse == mindist->get_sorted_synapse(0));    
+    Assert(m_cache_P->tmp.synapse == mindist->get_sorted_synapse(0));    
 #ifdef DEBUG_CHECK_LEN
     check_len_PF(P,F, m_cache_P, m_cache_F);
 #endif
@@ -64,7 +64,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_PF(const IVP_Compact_Edge *
 	    min_edge = e;
 	}
     }
-    IVP_ASSERT(min_edge);
+    Assert(min_edge);
     return p_minimize_PK( P, min_edge, m_cache_P, m_cache_F);   // s val in range
 }
 
@@ -130,7 +130,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_BF(IVP_Cache_Ball *m_cache_
 	    min_edge = e;
 	}
     }
-    IVP_ASSERT(min_edge);
+    Assert(min_edge);
     return p_minimize_BK( m_cache_B, min_edge, m_cache_F);
 }
 
@@ -265,7 +265,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_PF(const IVP_Compact_
 	    return p_minimize_KK(min_edge,e, m_cache_P, m_cache_F);
 	}
     }
-    IVP_ASSERT( violated_q_rs == 2);
+    Assert( violated_q_rs == 2);
     // now real checking of len
     const IVP_Compact_Edge *best_edge = nullptr;
     IVP_DOUBLE best_len = P_DOUBLE_MAX;
@@ -311,7 +311,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_KK(const IVP_Compact_Edge *
     IVP_Unscaled_KK_Result kkr;
     IVP_CLS.calc_unscaled_KK_vals(kkin, &kkr);
 
-    IVP_ASSERT(m_cache_K->tmp.synapse == mindist->get_sorted_synapse(0));
+    Assert(m_cache_K->tmp.synapse == mindist->get_sorted_synapse(0));
 #ifdef DEBUG_CHECK_LEN
     check_len_KK(K,L,m_cache_K, m_cache_L);
 #endif
@@ -539,8 +539,8 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_KK(const IVP_Compact_
 		min_plane_m_cache = cF->m_cache_F;
 		min_qr = qr;
 	    }else{
-		IVP_IF(1) {
-		    printf("negative r value in KK: %g\n",qr.checks[0]);
+		IVP_IFDEBUG(1) {
+		    Log_Warning(LOG_HAVOK, "negative r value in KK: %g\n",qr.checks[0]);
 		}
 	    }
 	}
@@ -597,7 +597,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_KK(const IVP_Compact_
 #ifdef IVP_MINDIST_BEHAVIOUR_DEBUG
 	IVP_DOUBLE dist_plane = calc_qlen_KK(min_edge, min_plane,min_edge_m_cache, min_plane_m_cache);
 	if( (dist_plane < dist_next) && (dist_plane < dist_prev) ){
-	    CORE;
+	    AssertMsg(false, "Havok fatal error");
 	    // How could this have happened?
 	    // No improvement seems possible, though grad says so...
 	    // End KL	// sk and sl are already set by master
@@ -695,8 +695,8 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_BP(IVP_Cache_Ball *m_cache_
     IVP_Unscaled_S_Result sr;
     IVP_CLS.calc_unscaled_s_val_K_space(m_cache_P->get_compact_ledge(), Kmax, &center_ball_Pmos, &sr); //
     if (sr.checks[1] <= 0){
-      IVP_IF(1){
-	printf("BP epsilon problem\n");
+      IVP_IFDEBUG(1){
+	Log_Warning(LOG_HAVOK, "BP epsilon problem\n");
       }
       goto end_BP;
     }
@@ -728,7 +728,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_PP(const IVP_Compact_Edge *
 	}
     }
     
-    IVP_ASSERT(m_cache_A->tmp.synapse == mindist->get_sorted_synapse(0));
+    Assert(m_cache_A->tmp.synapse == mindist->get_sorted_synapse(0));
 #ifdef DEBUG_CHECK_LEN
     check_len_PP(A, B, m_cache_A, m_cache_B);
 #endif
@@ -824,8 +824,8 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_PP(const IVP_Compact_Edge *
     IVP_Unscaled_S_Result sr;
     IVP_CLS.calc_unscaled_s_val_K_space(m_cache_K_max->get_compact_ledge(), Kmax, P_Pmos_max, &sr); //
     if (sr.checks[1] <= 0){
-      IVP_IF(1){
-	printf("PP epsilon problem\n");
+      IVP_IFDEBUG(1){
+	Log_Warning(LOG_HAVOK, "PP epsilon problem\n");
       }
       goto end_PP;
     }
@@ -972,7 +972,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_PK(const IVP_Compact_Edge *
 {
     // Checks wether we can switch to the case PP (vertex - vertex)
     // If not: take appropriate branch
-    IVP_ASSERT( m_cache_P->tmp.synapse == mindist->get_sorted_synapse(0));
+    Assert( m_cache_P->tmp.synapse == mindist->get_sorted_synapse(0));
 #ifdef DEBUG_CHECK_LEN
     check_len_PK(P, K, m_cache_P, m_cache_K);
 #endif
@@ -1089,7 +1089,7 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_PK(const IVP_Compact_
 	    orth.normize();
 	    mindist->contact_plane.set(&orth);
 	}
-	//IVP_ASSERT( mindist->contact_plane.real_length() < 1.001f);
+	//Assert( mindist->contact_plane.real_length() < 1.001f);
 
 #ifdef IVP_HALFSPACE_OPTIMIZATION_ENABLED	
 	IVP_U_Float_Point diff_center;
@@ -1129,8 +1129,8 @@ IVP_MRC_TYPE IVP_Mindist_Minimize_Solver::p_minimize_Leave_PK(const IVP_Compact_
 	  IVP_Unscaled_KK_Result kkr;
 	  IVP_RETURN_TYPE check = IVP_CLS.calc_unscaled_KK_vals(kkin, &kkr);
 	  if (check == IVP_FAULT || kkr.checks_L[0] < 0.0f){
-	    IVP_IF(0) {
-	      printf("PK_KK epsilon problem\n");
+	    IVP_IFDEBUG(0) {
+	      Log_Warning(LOG_HAVOK, "PK_KK epsilon problem\n");
 	    }
 	    break;
 	  }

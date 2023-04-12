@@ -73,7 +73,7 @@ void IVP_Compact_Surface::byte_swap_all(IVP_BOOL swap_points, int point_estimate
 			// recursively swap the ledgetree
 			//
 			const_cast<IVP_Compact_Ledgetree_Node*>(ltn)->byte_swap_all(&swapped_points);
-			printf("Found %d unique points\n", swapped_points.len());
+			Log_Warning(LOG_HAVOK, "Found %d unique points\n", swapped_points.len());
 		}
 		else
 			const_cast<IVP_Compact_Ledgetree_Node*>(ltn)->byte_swap_all(nullptr);

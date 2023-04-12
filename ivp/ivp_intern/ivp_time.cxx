@@ -35,7 +35,7 @@ void IVP_Event_Manager_Standard::simulate_time_events(IVP_Time_Manager *tman,IVP
       IVP_Time_Event *event = (IVP_Time_Event *)tman->min_hash->find_min_elem();
       tman->min_hash->remove_minlist_elem(event->index);
       event->index = IVP_U_MINLIST_UNUSED;
-      IVP_ASSERT(event_time - tman->last_time >= -P_FLOAT_RES);
+      Assert(event_time - tman->last_time >= -P_FLOAT_RES);
       tman->last_time = event_time;
       tman->env_set_current_time(env,tman->base_time + event_time);
       event->simulate_time_event(env);
@@ -54,7 +54,7 @@ void IVP_Event_Manager_D::simulate_time_events(IVP_Time_Manager *tman,IVP_Enviro
       IVP_Time_Event *event = (IVP_Time_Event *)tman->min_hash->find_min_elem();
       tman->min_hash->remove_minlist_elem(event->index);
       event->index = IVP_U_MINLIST_UNUSED;
-      IVP_ASSERT(event_time - tman->last_time >= -P_FLOAT_RES);
+      Assert(event_time - tman->last_time >= -P_FLOAT_RES);
       tman->last_time = event_time;
       tman->env_set_current_time(env,tman->base_time + event_time);
       event->simulate_time_event(env);
@@ -113,7 +113,7 @@ IVP_Time_Manager::~IVP_Time_Manager()
 void IVP_Time_Manager::insert_event(IVP_Time_Event *event, IVP_Time time)
 {
     IVP_FLOAT event_time = time - base_time;
-    IVP_ASSERT(event_time - last_time >= -P_FLOAT_RES);
+    Assert(event_time - last_time >= -P_FLOAT_RES);
     event->index = this->min_hash->add((void *)event, event_time);
 }
 
@@ -126,7 +126,7 @@ void IVP_Time_Manager::remove_event(IVP_Time_Event *event)
 void IVP_Time_Manager::update_event(IVP_Time_Event *event, IVP_Time time)
 {
     IVP_FLOAT event_time = time - base_time;
-    IVP_ASSERT(event_time - last_time >= -P_FLOAT_RES);
+    Assert(event_time - last_time >= -P_FLOAT_RES);
     this->min_hash->remove_minlist_elem(event->index);
     event->index = this->min_hash->add((void *)event, event_time);
 }

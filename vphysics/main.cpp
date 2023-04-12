@@ -19,15 +19,8 @@
 #include <windows.h>
 #endif	// _WIN32 && !_X360
 
-#include "vphysics_interfaceV30.h"
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
-
-static void ivu_string_print_function( const char *str )
-{
-	Msg("%s", str);
-}
 
 #if defined(_WIN32) && !defined(_XBOX)
 //HMODULE	gPhysicsDLLHandle;
@@ -38,8 +31,6 @@ BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
 {
  	if ( fdwReason == DLL_PROCESS_ATTACH )
 	{
-		ivp_set_message_print_function( ivu_string_print_function );
-
 		MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f, false, false, false, false );
 		// store out module handle
 		//gPhysicsDLLHandle = (HMODULE)hinstDLL;
@@ -56,8 +47,6 @@ BOOL WINAPI DllMain( HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved )
 void __attribute__ ((constructor)) vphysics_init(void);
 void vphysics_init(void)
 {
-	ivp_set_message_print_function( ivu_string_print_function );
-
 	MathLib_Init( 2.2f, 2.2f, 0.0f, 2.0f, false, false, false, false );
 }
 #endif

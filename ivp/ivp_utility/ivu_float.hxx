@@ -106,7 +106,7 @@ inline    static IVP_DOUBLE sqrt(IVP_DOUBLE x)
   // 3 -> 1e-16
     static double isqrt(double square, int resolution_steps){
 	p_double_ieee *ie = (p_double_ieee *)&square;
-	IVP_ASSERT(IVP_Inline_Math::fabsd(square) > 0.0f);
+	Assert(IVP_Inline_Math::fabsd(square) > 0.0f);
 	p_double_ieee h; h.val = 1.0f;
 	h.ln2.h = ((0x07ff00000 - ie->ln2.h) >>1 ) + 0x1ff00000;
 	IVP_DOUBLE squareh = square * 0.5f;
@@ -118,7 +118,7 @@ inline    static IVP_DOUBLE sqrt(IVP_DOUBLE x)
 	if (resolution_steps > 1)	inv_sqrt += inv_sqrt * (0.5f - ( inv_sqrt * inv_sqrt * squareh ));
 	if (resolution_steps > 2)	inv_sqrt += inv_sqrt * (0.5f - ( inv_sqrt * inv_sqrt * squareh ));
 
-	IVP_ASSERT( IVP_Inline_Math::fabsd( 1.0f - inv_sqrt * inv_sqrt * square) < 0.001f );
+	Assert( IVP_Inline_Math::fabsd( 1.0f - inv_sqrt * inv_sqrt * square) < 0.001f );
 	return inv_sqrt;
     }
     static IVP_DOUBLE sqrt(IVP_DOUBLE x) {

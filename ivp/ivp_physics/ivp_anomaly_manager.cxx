@@ -96,12 +96,12 @@ void IVP_Anomaly_Manager::solve_inter_penetration_simple( IVP_Real_Object *obj0,
 	obj1->async_add_rot_speed_object_cs( &rot_speed_object);
     }
 
-    IVP_IF(1){
+    IVP_IFDEBUG(1){
 	const char *name0 = obj0->get_name();
 	if (!name0) name0 = "(null)";
 	const char *name1 = obj1->get_name();
 	if (!name1) name1 = "(null)";
-	printf("Mindist rescue push between '%s' and '%s' at %f\n",
+	Log_Warning(LOG_HAVOK, "Mindist rescue push between '%s' and '%s' at %f\n",
 	       name0,name1,
 	       env->get_current_time().get_time());
     }

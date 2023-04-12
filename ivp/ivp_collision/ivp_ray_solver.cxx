@@ -30,7 +30,7 @@
 IVP_Ray_Solver::IVP_Ray_Solver(const IVP_Ray_Solver_Template *templ) 
 {
     // ray dir must be normized.
-    IVP_ASSERT( (templ->ray_normized_direction.real_length() > (1.0f - 1e-4f) ) &&
+    Assert( (templ->ray_normized_direction.real_length() > (1.0f - 1e-4f) ) &&
 	      (templ->ray_normized_direction.real_length() < (1.0f + 1e-4f) ) );
     
     this->ray_direction.set(&templ->ray_normized_direction);
@@ -54,8 +54,8 @@ void IVP_Ray_Solver_Min_Hash::add_hit_object(IVP_Real_Object *object, const IVP_
     // when ray flags allow for it.
     
     if(this->output_min_hash.counter >= IVP_MAX_NUM_RAY_HITS){
-	IVP_IF(1){
-	    printf("IVP_Ray_Solver::add_hit_object - max ray hits exceeded -> hit list truncated.\n");
+	IVP_IFDEBUG(1){
+	    Log_Warning(LOG_HAVOK, "IVP_Ray_Solver::add_hit_object - max ray hits exceeded -> hit list truncated.\n");
 	}
 	// todo: if hit_dist < current hash minimum: replace any min hash entry with this hit
 	// ...
@@ -66,8 +66,8 @@ void IVP_Ray_Solver_Min_Hash::add_hit_object(IVP_Real_Object *object, const IVP_
     ray_hit->hit_real_object = object;
     ray_hit->hit_compact_ledge = compact_ledge;
     ray_hit->hit_compact_triangle = compact_triangle;
-    IVP_IF(0){
-	printf("object inserted: %s, dist %g\n", object->get_name(), hit_dist);
+    IVP_IFDEBUG(0){
+	Log_Warning(LOG_HAVOK, "object inserted: %s, dist %g\n", object->get_name(), hit_dist);
     }
     ray_hit->hit_surface_direction_os.set(hit_sur_vec_os);
     ray_hit->hit_distance = hit_dist;
@@ -222,8 +222,8 @@ IVP_BOOL IVP_Ray_Solver::check_ray_against_cube(const IVP_U_Float_Point *luf_poi
     if((start_point_flags&IVP_FRONT) && !(end_point_flags&IVP_FRONT)){
 	IVP_FLOAT pos_dist = luf_point->k[2] - ray_start_point.k[2];
 	IVP_FLOAT pos_axis_len = ray_end_point.k[2] - ray_start_point.k[2];
-	IVP_ASSERT(pos_dist >= 0.0f);
-	IVP_ASSERT(pos_axis_len >= 0.0f);
+	Assert(pos_dist >= 0.0f);
+	Assert(pos_axis_len >= 0.0f);
 	IVP_U_Float_Point max_coords(rlb_point->k[0], rlb_point->k[1], luf_point->k[2]);
 	IVP_BOOL res = check_ray_against_square(pos_dist, pos_axis_len, luf_point, &max_coords, 0, 1);
 	if(res) return IVP_TRUE;
@@ -232,8 +232,8 @@ IVP_BOOL IVP_Ray_Solver::check_ray_against_cube(const IVP_U_Float_Point *luf_poi
     if((start_point_flags&IVP_RIGHT) && !(end_point_flags&IVP_RIGHT)){
 	IVP_FLOAT pos_dist = ray_start_point.k[0] - rlb_point->k[0];
 	IVP_FLOAT pos_axis_len = ray_start_point.k[0] - ray_end_point.k[0];
-	IVP_ASSERT(pos_dist >= 0.0f);
-	IVP_ASSERT(pos_axis_len >= 0.0f);
+	Assert(pos_dist >= 0.0f);
+	Assert(pos_axis_len >= 0.0f);
 	IVP_U_Float_Point min_coords(rlb_point->k[0], luf_point->k[1], luf_point->k[2]);
 	IVP_BOOL res = check_ray_against_square(pos_dist, pos_axis_len, &min_coords, rlb_point, 1, 2);
 	if(res) return IVP_TRUE;
@@ -242,8 +242,8 @@ IVP_BOOL IVP_Ray_Solver::check_ray_against_cube(const IVP_U_Float_Point *luf_poi
     if((start_point_flags&IVP_BEHIND) && !(end_point_flags&IVP_BEHIND)){
 	IVP_FLOAT pos_dist = ray_start_point.k[2] - rlb_point->k[2];
 	IVP_FLOAT pos_axis_len =  ray_start_point.k[2] - ray_end_point.k[2];
-	IVP_ASSERT(pos_dist >= 0.0f);
-	IVP_ASSERT(pos_axis_len >= 0.0f);
+	Assert(pos_dist >= 0.0f);
+	Assert(pos_axis_len >= 0.0f);
 	IVP_U_Float_Point min_coords(luf_point->k[0], luf_point->k[1], rlb_point->k[2]);
 	IVP_BOOL res = check_ray_against_square(pos_dist, pos_axis_len, &min_coords, rlb_point, 0, 1);
 	if(res) return IVP_TRUE;
@@ -252,8 +252,8 @@ IVP_BOOL IVP_Ray_Solver::check_ray_against_cube(const IVP_U_Float_Point *luf_poi
     if((start_point_flags&IVP_LEFT) && !(end_point_flags&IVP_LEFT)){
 	IVP_FLOAT pos_dist =  luf_point->k[0] - ray_start_point.k[0];
 	IVP_FLOAT pos_axis_len = ray_end_point.k[0] - ray_start_point.k[0];
-	IVP_ASSERT(pos_dist >= 0.0f);
-	IVP_ASSERT(pos_axis_len >= 0.0f);
+	Assert(pos_dist >= 0.0f);
+	Assert(pos_axis_len >= 0.0f);
 	IVP_U_Float_Point max_coords(luf_point->k[0], rlb_point->k[1], rlb_point->k[2]);
 	IVP_BOOL res = check_ray_against_square(pos_dist, pos_axis_len, luf_point, &max_coords, 1, 2);
 	if(res) return IVP_TRUE;
@@ -262,8 +262,8 @@ IVP_BOOL IVP_Ray_Solver::check_ray_against_cube(const IVP_U_Float_Point *luf_poi
     if((start_point_flags&IVP_ABOVE) && !(end_point_flags&IVP_ABOVE)){
 	IVP_FLOAT pos_dist = luf_point->k[1] - ray_start_point.k[1];
 	IVP_FLOAT pos_axis_len =  ray_end_point.k[1] - ray_start_point.k[1];
-	IVP_ASSERT(pos_dist >= 0.0f);
-	IVP_ASSERT(pos_axis_len >= 0.0f);
+	Assert(pos_dist >= 0.0f);
+	Assert(pos_axis_len >= 0.0f);
 	IVP_U_Float_Point max_coords(rlb_point->k[0], luf_point->k[1], rlb_point->k[2]);
 	IVP_BOOL res = check_ray_against_square(pos_dist, pos_axis_len, luf_point, &max_coords, 0, 2);
 	if(res) return IVP_TRUE;
@@ -272,8 +272,8 @@ IVP_BOOL IVP_Ray_Solver::check_ray_against_cube(const IVP_U_Float_Point *luf_poi
     if((start_point_flags&IVP_BELOW) && !(end_point_flags&IVP_BELOW)){
 	IVP_FLOAT pos_dist = ray_start_point.k[1] - rlb_point->k[1];
 	IVP_FLOAT pos_axis_len =  ray_start_point.k[1] - ray_end_point.k[1];
-	IVP_ASSERT(pos_dist >= 0.0f);
-	IVP_ASSERT(pos_axis_len >= 0.0f);
+	Assert(pos_dist >= 0.0f);
+	Assert(pos_axis_len >= 0.0f);
 	IVP_U_Float_Point min_coords(luf_point->k[0], rlb_point->k[1], luf_point->k[2]);
 	IVP_BOOL res = check_ray_against_square(pos_dist, pos_axis_len, &min_coords, rlb_point, 0, 2);
 	if(res) return IVP_TRUE;
@@ -373,8 +373,8 @@ IVP_BOOL IVP_Ray_Solver_Os::check_ray_against_compact_ledge_os(const IVP_Compact
     } // for triangles
     
     if(!take_edge){
-	IVP_IF(0){
-	    printf("IVP_Ray_Solver::check_ray_against_compact_ledge - no correct face found.\n");
+	IVP_IFDEBUG(0){
+	    Log_Warning(LOG_HAVOK, "IVP_Ray_Solver::check_ray_against_compact_ledge - no correct face found.\n");
 	}
 	return IVP_FALSE;
     }
@@ -434,8 +434,8 @@ continue_with_next_triangle:;
 	
 	// now we know that we are in an endless loop
 	// ...
-	IVP_IF(1){
-	    printf("check_ray_against_compact_ledge: endl loop.\n");
+	IVP_IFDEBUG(1){
+	    Log_Warning(LOG_HAVOK, "check_ray_against_compact_ledge: endl loop.\n");
 	}
 	return IVP_FALSE;
     }

@@ -46,14 +46,14 @@ IVP_CONTROLLER_PRIORITY IVP_Forcefield::get_controller_priority()
 
 IVP_Forcefield::~IVP_Forcefield(){
     IVP_U_Set_Enumerator<IVP_Core> all_objects(this->set_of_cores);
-    IVP_IF(1) {
-	printf("hallo1\n");
+    IVP_IFDEBUG(1) {
+	Log_Warning(LOG_HAVOK, "hallo1\n");
     }
     while ( IVP_Core *my_core = all_objects.get_next_element(this->set_of_cores) ) {
 	this->element_removed(this->set_of_cores, my_core);
     }
-    IVP_IF(1) {
-	printf("hallo2\n");
+    IVP_IFDEBUG(1) {
+	Log_Warning(LOG_HAVOK, "hallo2\n");
     }
     this->set_of_cores->remove_listener_set_active(this);
 }

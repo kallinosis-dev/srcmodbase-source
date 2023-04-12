@@ -272,7 +272,7 @@ void IVP_Constraint_Solver_Car::do_simulation_controller( IVP_Event_Sim *es,
 //	move the below stuff into - do_simulation_controller_translation( );
 
     IVP_DOUBLE *input_vec_ptr = this->co_matrix.desired_vector;
-    IVP_ASSERT( this->co_matrix.columns == wheel_objects.len() * 2 );
+    Assert( this->co_matrix.columns == wheel_objects.len() * 2 );
 
     int init_local_translation = 0;					// flag
     int invalid_count= 0;							// for plan B removal
@@ -333,10 +333,10 @@ void IVP_Constraint_Solver_Car::do_simulation_controller( IVP_Event_Sim *es,
 
 	/**** add to input vector for matrix mult ***/
 	// supercar special solution without if's!
-	IVP_ASSERT(this->constraint_is_disabled[y_idx] == IVP_TRUE);
-	IVP_ASSERT(this->constraint_is_disabled[x_idx+3] == IVP_TRUE);
-	IVP_ASSERT(this->constraint_is_disabled[y_idx+3] == IVP_TRUE);
-	IVP_ASSERT(this->constraint_is_disabled[z_idx+3] == IVP_TRUE);
+	Assert(this->constraint_is_disabled[y_idx] == IVP_TRUE);
+	Assert(this->constraint_is_disabled[x_idx+3] == IVP_TRUE);
+	Assert(this->constraint_is_disabled[y_idx+3] == IVP_TRUE);
+	Assert(this->constraint_is_disabled[z_idx+3] == IVP_TRUE);
 	(*input_vec_ptr++) = delta_speed_vec.k[x_idx];
 	(*input_vec_ptr++) = delta_speed_vec.k[z_idx];	
     }
@@ -351,15 +351,15 @@ void IVP_Constraint_Solver_Car::do_simulation_controller( IVP_Event_Sim *es,
 		this->c_local_ballsocket[app_nr] = nullptr;
 	      }
 	      this->local_translation_in_use = IVP_FALSE;
-	      IVP_IF(1){
-		printf("plan B deactivated.\n");
+	      IVP_IFDEBUG(1){
+		Log_Warning(LOG_HAVOK, "plan B deactivated.\n");
 	      }
 	}
     }
     
     if(init_local_translation==IVP_TRUE){
-	IVP_IF(1){
-	    printf("plan B activated.\n");
+	IVP_IFDEBUG(1){
+	    Log_Warning(LOG_HAVOK, "plan B activated.\n");
 	}
 
 
@@ -398,12 +398,12 @@ void IVP_Constraint_Solver_Car::do_simulation_controller( IVP_Event_Sim *es,
 #if 0
     {
 	int k;
-	printf("Inputvector:\n");
+	Log_Warning(LOG_HAVOK, "Inputvector:\n");
 	for(k=0; k<co_matrix.columns; k++){
 	    if(k%4 == 0)printf("(%d)", k);
-	    printf("%2.2f  ", co_matrix.desired_vector[k]);
+	    Log_Warning(LOG_HAVOK, "%2.2f  ", co_matrix.desired_vector[k]);
 	}
-	printf("\n");
+	Log_Warning(LOG_HAVOK, "\n");
     }
 #endif
     
@@ -413,12 +413,12 @@ void IVP_Constraint_Solver_Car::do_simulation_controller( IVP_Event_Sim *es,
 #if 0
     {
 	int k;
-	printf("Outputvector:\n");
+	Log_Warning(LOG_HAVOK, "Outputvector:\n");
 	for(k=0; k<co_matrix.columns; k++){
 	    if(k%4 == 0)printf("(%d)", k);
-	    printf("%2.2f  ", co_matrix.result_vector[k]);
+	    Log_Warning(LOG_HAVOK, "%2.2f  ", co_matrix.result_vector[k]);
 	}
-	printf("\n\n");
+	Log_Warning(LOG_HAVOK, "\n\n");
     }
 #endif    
 
@@ -487,7 +487,7 @@ IVP_Constraint_Solver_Car_Builder::IVP_Constraint_Solver_Car_Builder( IVP_Constr
 //-----------------------------------------------------------------------------
 void IVP_Constraint_Solver_Car_Builder::disable_constraint(int idx)
 {
-    IVP_ASSERT( ( idx >= 0 ) && ( idx < 6 ) );
+    Assert( ( idx >= 0 ) && ( idx < 6 ) );
 
     if( this->car_solver->constraint_is_disabled[idx] == IVP_FALSE )
 	{
@@ -504,9 +504,9 @@ void IVP_Constraint_Solver_Car_Builder::disable_constraint(int idx)
 void IVP_Constraint_Solver_Car_Builder::calc_pushing_behavior( int A_obj_idx, int push_vec_idx )
 {
 	// Verify incoming data.
-    IVP_ASSERT( A_obj_idx >= 0 && A_obj_idx < n_appends );
-    IVP_ASSERT( push_vec_idx >= 0 && push_vec_idx < 6 );
-    IVP_ASSERT( this->car_solver->constraint_is_disabled[push_vec_idx] == IVP_FALSE );
+    Assert( A_obj_idx >= 0 && A_obj_idx < n_appends );
+    Assert( push_vec_idx >= 0 && push_vec_idx < 6 );
+    Assert( this->car_solver->constraint_is_disabled[push_vec_idx] == IVP_FALSE );
 	
     IVP_Constraint_Car_Object *A_obj = car_solver->wheel_objects.element_at( A_obj_idx );
     IVP_Core *core_A = A_obj->get_core();
@@ -596,7 +596,7 @@ void IVP_Constraint_Solver_Car_Builder::calc_pushing_behavior( int A_obj_idx, in
 			pv_mat_idx++;
 		}
 	}
-    IVP_ASSERT( pv_mat_idx >= 0 ); // all constraints disabled !?
+    Assert( pv_mat_idx >= 0 ); // all constraints disabled !?
     
     /// Calc and insert deltas in great tmp matrix
     IVP_Great_Matrix_Many_Zero *g_mat = &this->tmp_matrix;
@@ -682,7 +682,7 @@ IVP_RETURN_TYPE IVP_Constraint_Solver_Car_Builder::calc_constraint_matrix()
 		}
     }
 
-//  printf( "Constraint solver: calc_pushing_behavior done.\n" );
+//  Log_Warning(LOG_HAVOK,  "Constraint solver: calc_pushing_behavior done.\n" );
 //  this->tmp_matrix.print( "Pushing behavior matrix.\n" );
     
     // Invert matrix into Solver.
@@ -691,7 +691,7 @@ IVP_RETURN_TYPE IVP_Constraint_Solver_Car_Builder::calc_constraint_matrix()
     this->car_solver->co_matrix.columns = gm_size;
 
     IVP_RETURN_TYPE ret_val = this->tmp_matrix.invert( &this->car_solver->co_matrix );
-//  printf("Constraint solver: matrix inversion done.\n");
+//  Log_Warning(LOG_HAVOK, "Constraint solver: matrix inversion done.\n");
 
 	// Free the temp data.
     P_FREE( this->tmp_matrix.matrix_values );

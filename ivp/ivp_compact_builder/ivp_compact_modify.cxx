@@ -38,7 +38,7 @@ IVP_Compact_Surface *IVP_Compact_Modify::chop(const IVP_Compact_Surface *c_surfa
     {
 	IVP_SurfaceManager_Polygon temp_surman(c_surface_in);
 	temp_surman.get_all_terminal_ledges( &ledges);
-	IVP_ASSERT( ledges.len() == 1);	// currently, we just want to chop objects that consist of just ONE convex ledge
+	Assert( ledges.len() == 1);	// currently, we just want to chop objects that consist of just ONE convex ledge
     }
 
     IVP_Compact_Ledge *the_ledge = ledges.element_at(0);
@@ -68,7 +68,7 @@ IVP_Compact_Surface *IVP_Compact_Modify::chop(const IVP_Compact_Surface *c_surfa
 	    const IVP_Compact_Edge *edge = tri->get_edge(e);
 	    const IVP_Compact_Poly_Point *start_point = edge->get_start_point(the_ledge);
 	    IVP_DOUBLE dist = test_plane.get_dist(start_point);
-	    IVP_ASSERT(dist>0.0f); // otherwise we are not far enough away
+	    Assert(dist>0.0f); // otherwise we are not far enough away
 	    if(dist<min_d || min_d<0.0f) min_d = dist;
 	}
     }

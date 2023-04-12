@@ -85,7 +85,7 @@ public:
     void init_synapse_real( IVP_Mindist_Base *min, IVP_Real_Object *object_to_link ){
 	set_synapse_mindist(min);
 	l_obj = object_to_link;
-	IVP_IF(1){      next = prev = this;    }
+	IVP_IFDEBUG(1){      next = prev = this;    }
     }
 };
 

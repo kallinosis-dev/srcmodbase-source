@@ -419,13 +419,13 @@ IVP_BOOL IVP_Core::revive_simulation_core()
 {
     IVP_Core *core=this;
   
-    IVP_ASSERT( !core->physical_unmoveable );
-    IVP_ASSERT( core->movement_state == IVP_MT_NOT_SIM);
+    Assert( !core->physical_unmoveable );
+    Assert( core->movement_state == IVP_MT_NOT_SIM);
 
     for(int c = core->objects.len()-1;c>=0;c--) {
 	IVP_Real_Object *r_obj=core->objects.element_at(c);
-	IVP_IF(1) {
-	    IVP_ASSERT( r_obj->get_movement_state() >= IVP_MT_NOT_SIM );
+	IVP_IFDEBUG(1) {
+	    Assert( r_obj->get_movement_state() >= IVP_MT_NOT_SIM );
 	}
 	r_obj->set_movement_state(IVP_MT_MOVING);
 
@@ -437,26 +437,26 @@ IVP_BOOL IVP_Core::revive_simulation_core()
 
     // @@@ hack, go back to last PSI at wakeup at PSI ( satisfy init_PSI )
     
-    IVP_IF (environment->get_env_state() == IVP_ES_PSI){
+    IVP_IFDEBUG (environment->get_env_state() == IVP_ES_PSI){
       IVP_DOUBLE d_time = environment->get_delta_PSI_time();
       core->time_of_last_psi += -d_time;
     }
 
-    IVP_IF(IVP_DEBUG_OBJECT0){
+    IVP_IFDEBUG(IVP_DEBUG_OBJECT0){
 	const char *search0 = nullptr;
 	const char *name0 = core->objects.element_at(0)->get_name();
 	if (	!P_String::string_cmp(name0, search0, IVP_FALSE)){
 	    if ( core->environment->get_current_time().get_time() >= IVP_DEBUG_TIME){
-		printf("revive object %s time:%f\n",      name0,    environment->get_current_time().get_time());
+		Log_Warning(LOG_HAVOK, "revive object %s time:%f\n",      name0,    environment->get_current_time().get_time());
 	    }
 	}
     }
-    IVP_IF(IVP_DEBUG_OBJECT1){
+    IVP_IFDEBUG(IVP_DEBUG_OBJECT1){
 	const char *search0 = nullptr;
 	const char *name0 = core->objects.element_at(0)->get_name();
 	if (	!P_String::string_cmp(name0, search0, IVP_FALSE)){
 	    if ( core->environment->get_current_time().get_time() >= IVP_DEBUG_TIME){
-		printf("revive object %s time:%f\n",      name0,    environment->get_current_time().get_time());
+		Log_Warning(LOG_HAVOK, "revive object %s time:%f\n",      name0,    environment->get_current_time().get_time());
 	    }
 	}
     }
@@ -514,21 +514,21 @@ void IVP_Core::freeze_simulation_core(){
     r_core->stop_physical_movement(); //because of Interpolations
     
     /// deactivate all mindists
-    IVP_IF(IVP_DEBUG_OBJECT0){
+    IVP_IFDEBUG(IVP_DEBUG_OBJECT0){
 	const char *search0 = nullptr;
 	const char *name0 = r_core->objects.element_at(0)->get_name();
 	if (	!P_String::string_cmp(name0, search0, IVP_FALSE)){
 	    if ( r_core->environment->get_current_time().get_time() >= IVP_DEBUG_TIME){
-		printf("freeze object %s time:%f\n",      name0,    environment->get_current_time().get_time());
+		Log_Warning(LOG_HAVOK, "freeze object %s time:%f\n",      name0,    environment->get_current_time().get_time());
 	    }
 	}
     }
-    IVP_IF(IVP_DEBUG_OBJECT1){
+    IVP_IFDEBUG(IVP_DEBUG_OBJECT1){
 	const char *search0 = nullptr;
 	const char *name0 = r_core->objects.element_at(0)->get_name();
 	if (	!P_String::string_cmp(name0, search0, IVP_FALSE)){
 	    if ( r_core->environment->get_current_time().get_time() >= IVP_DEBUG_TIME){
-		printf("freeze object %s time:%f\n",      name0,    environment->get_current_time().get_time());
+		Log_Warning(LOG_HAVOK, "freeze object %s time:%f\n",      name0,    environment->get_current_time().get_time());
 	    }
 	}
     }
@@ -538,13 +538,13 @@ void IVP_Core::freeze_simulation_core(){
 }
 
 void IVP_Core::debug_out_movement_vars() {
-    printf("core_status %lx  trans %f %f %f  rot %f %f %f\n",(long)this&0x0000ffff,speed.k[0],speed.k[1],speed.k[2],rot_speed.k[0],rot_speed.k[1],rot_speed.k[2]); 
+    Log_Warning(LOG_HAVOK, "core_status %lx  trans %f %f %f  rot %f %f %f\n",(long)this&0x0000ffff,speed.k[0],speed.k[1],speed.k[2],rot_speed.k[0],rot_speed.k[1],rot_speed.k[2]); 
 }
 
 void IVP_Core::debug_vec_movement_state() {
     IVP_Core *my_core=this;
     IVP_Core *one_object=this;
-    IVP_IF( 0 ){
+    IVP_IFDEBUG( 0 ){
 	char *out_text;
 	IVP_U_Float_Point ivp_pointer;
 	IVP_U_Point ivp_start;
@@ -580,10 +580,10 @@ void IVP_Core::debug_vec_movement_state() {
 
 IVP_Friction_System::IVP_Friction_System(IVP_Environment *env)
 {
-    IVP_IF(env->get_debug_manager()->check_fs) {
+    IVP_IFDEBUG(env->get_debug_manager()->check_fs) {
 	fprintf(env->get_debug_manager()->out_deb_file,"create_fs %f %lx\n",env->get_current_time().get_time(),(long)this);
     }
-    //printf("creating_new_fs %lx at time %f\n",(long)this,env->get_current_time());
+    //Log_Warning(LOG_HAVOK, "creating_new_fs %lx at time %f\n",(long)this,env->get_current_time());
     l_environment=env;
     //first_friction_obj=NULL;
     union_find_necessary=IVP_FALSE;
@@ -597,8 +597,8 @@ IVP_Friction_System::IVP_Friction_System(IVP_Environment *env)
 
 IVP_Friction_System::~IVP_Friction_System()
 {
-    //printf("deleting_of_fs %lx at time %f\n",(long)this,l_environment->get_current_time());
-    IVP_IF(l_environment->get_debug_manager()->check_fs) {
+    //Log_Warning(LOG_HAVOK, "deleting_of_fs %lx at time %f\n",(long)this,l_environment->get_current_time());
+    IVP_IFDEBUG(l_environment->get_debug_manager()->check_fs) {
 	fprintf(l_environment->get_debug_manager()->out_deb_file,"delete_fs %f %lx\n",l_environment->get_current_time().get_time(),(long)this);
     }
     // deleteing of real friction systems filled with information is not yet implemented (not trivial : unlink whole friction infos)
@@ -639,7 +639,7 @@ IVP_BOOL IVP_Friction_System::dist_removed_update_pair_info(IVP_Contact_Point *o
 	my_pair_info=this->get_pair_info_for_objs(core0,core1);
 	if(!my_pair_info)
 	{
-	    CORE;
+	    AssertMsg(false, "Havok fatal error");
 	}
 
 	my_pair_info->del_fr_dist_obj_pairs(old_dist);
@@ -657,7 +657,7 @@ IVP_BOOL IVP_Friction_System::dist_removed_update_pair_info(IVP_Contact_Point *o
 
 void IVP_Friction_System::remove_dist_from_system(IVP_Contact_Point *old_dist)
 {
-    IVP_IF(l_environment->get_debug_manager()->check_fs) {
+    IVP_IFDEBUG(l_environment->get_debug_manager()->check_fs) {
 	fprintf(l_environment->get_debug_manager()->out_deb_file,"rem_dist_from_fs %f %lx from %lx\n",l_environment->get_current_time().get_time(),(long)old_dist,(long)this);
     }
 
@@ -703,7 +703,7 @@ void IVP_Friction_System::dist_added_update_pair_info(IVP_Contact_Point *new_dis
 
 void IVP_Friction_System::add_dist_to_system(IVP_Contact_Point *new_dist)
 {
-    IVP_IF(l_environment->get_debug_manager()->check_fs) {
+    IVP_IFDEBUG(l_environment->get_debug_manager()->check_fs) {
 	fprintf(l_environment->get_debug_manager()->out_deb_file,"add_dist_to_fs %f %lx to %lx\n",l_environment->get_current_time().get_time(),(long)new_dist,(long)this);
     }
 
@@ -721,8 +721,8 @@ void IVP_Friction_System::add_dist_to_system(IVP_Contact_Point *new_dist)
     }
 
     //new_dist->number_in_friction = this->friction_dist_number; //dists are numbered the wrong way: last has number 0
-    IVP_IF(l_environment->debug_information->debug_mindist){
-	printf("added_dist %d\n",(int)friction_dist_number);
+    IVP_IFDEBUG(l_environment->debug_information->debug_mindist){
+	Log_Warning(LOG_HAVOK, "added_dist %d\n",(int)friction_dist_number);
     }
     friction_dist_number++;
     
@@ -731,7 +731,7 @@ void IVP_Friction_System::add_dist_to_system(IVP_Contact_Point *new_dist)
 
 void IVP_Friction_System::add_core_to_system(IVP_Core *new_obj)
 {
-    IVP_IF(l_environment->get_debug_manager()->check_fs) {
+    IVP_IFDEBUG(l_environment->get_debug_manager()->check_fs) {
 	fprintf(l_environment->get_debug_manager()->out_deb_file,"add_core_to_fs %f %lx to %lx\n",l_environment->get_current_time().get_time(),(long)new_obj,(long)this);
     }
 
@@ -751,7 +751,7 @@ void IVP_Friction_System::add_core_to_system(IVP_Core *new_obj)
  
 void IVP_Friction_System::remove_core_from_system(IVP_Core *old_obj)
 {
-    IVP_IF(l_environment->get_debug_manager()->check_fs) {
+    IVP_IFDEBUG(l_environment->get_debug_manager()->check_fs) {
 	fprintf(l_environment->get_debug_manager()->out_deb_file,"remove_core_from_fs %f %lx from %lx\n",l_environment->get_current_time().get_time(),(long)old_obj,(long)this);
     }
 
@@ -769,7 +769,7 @@ void IVP_Friction_System::remove_core_from_system(IVP_Core *old_obj)
 void IVP_Environment::remove_revive_core(IVP_Core *c) {
     int index=this->core_revive_list.index_of(c);
     if(index>=0) {
-	IVP_ASSERT(c->is_in_wakeup_vec==IVP_TRUE);
+	Assert(c->is_in_wakeup_vec==IVP_TRUE);
 	this->core_revive_list.remove_at(index);
 	c->is_in_wakeup_vec=IVP_FALSE;
     }
@@ -780,8 +780,8 @@ void IVP_Environment::add_revive_core(IVP_Core *c)
     if(c->is_in_wakeup_vec==IVP_TRUE) {
 	return;
     }
-    IVP_IF(1) {
-	IVP_ASSERT(this->core_revive_list.index_of(c)<0);
+    IVP_IFDEBUG(1) {
+	Assert(this->core_revive_list.index_of(c)<0);
     }
 	
     core_revive_list.add(c);
@@ -791,7 +791,7 @@ void IVP_Environment::add_revive_core(IVP_Core *c)
 void IVP_Environment::revive_cores_PSI(){
     for(int i=core_revive_list.len()-1;i>=0;i--) {
 	IVP_Core *my_core=core_revive_list.element_at(i);
-	IVP_ASSERT(my_core->physical_unmoveable==IVP_FALSE);
+	Assert(my_core->physical_unmoveable==IVP_FALSE);
 	my_core->ensure_core_to_be_in_simulation();
 	my_core->is_in_wakeup_vec=IVP_FALSE;
     }

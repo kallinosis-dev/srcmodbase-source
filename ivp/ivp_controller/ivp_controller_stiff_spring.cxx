@@ -96,7 +96,7 @@ void IVP_Controller_Stiff_Spring_Active::active_float_changed(IVP_U_Active_Float
 	set_damp( af->get_float_value());
 	return;
     }
-    CORE;
+    AssertMsg(false, "Havok fatal error");
 }
 
 IVP_Controller_Stiff_Spring_Active::IVP_Controller_Stiff_Spring_Active(IVP_Environment *env,

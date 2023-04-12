@@ -27,9 +27,9 @@ void ivp_memory_check(void *a) {
 		IVP_Time now_time=ivp_global_env->get_current_time();
 		IVP_DOUBLE tt=now_time.get_time();
 		if(tt>11.98) {
-		    printf("trying to free %lx time %f\n",a,tt);
+		    Log_Warning(LOG_HAVOK, "trying to free %lx time %f\n",a,tt);
 		    if ( a == (void *)0x30ca50){
-		    	printf("Crashing soon\n");
+		    	Log_Warning(LOG_HAVOK, "Crashing soon\n");
 		    }
 
 #endif
@@ -99,7 +99,7 @@ void* p_realloc(void* memblock, int size)
 #ifndef GEKKO
 	return realloc(memblock, size);
 #else	
-	IVP_ASSERT(0);
+	Assert(0);
 	return 0;
 #endif
 }
@@ -140,8 +140,8 @@ void ivp_free_aligned(void *data)
     p_free(data);
 #else    
     IVP_Aligned_Memory *am = (IVP_Aligned_Memory *)((void **)data)[-1];
-    IVP_ASSERT ( am->magic_number == IVP_MEMORY_MAGIC);
-    IVP_IF(1){
+    Assert ( am->magic_number == IVP_MEMORY_MAGIC);
+    IVP_IFDEBUG(1){
 	am->magic_number = 0;
     }
     p_free( (char *)am );
@@ -154,7 +154,7 @@ IVP_U_Memory::~IVP_U_Memory()
 }
 
 void IVP_U_Memory::init_mem_transaction_usage(char *external_mem, int size){
-    //IVP_IF(1) {
+    //IVP_IFDEBUG(1) {
 	transaction_in_use=0;
     //}
 #if defined(MEMTEST)
@@ -184,7 +184,7 @@ void IVP_U_Memory::free_mem_transaction()
     }
     mem_vector.clear();
 #else    
-        //IVP_ASSERT(first_elem!=NULL); playstation doesn't like this ...
+        //Assert(first_elem!=NULL); playstation doesn't like this ...
 	struct p_Memory_Elem	*f,*n;
 	for (f = last_elem; f; f = n){
 		n = f->next;

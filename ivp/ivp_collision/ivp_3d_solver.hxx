@@ -25,26 +25,26 @@ public:
     IVP_U_Matrix matrizes[IVP_3D_SOLVER_MAX_STEPS_PER_PSI+1];
 
     IVP_U_Matrix *calc_matrix_at( IVP_Time t, int index){
-	IVP_ASSERT(index<=IVP_3D_SOLVER_MAX_STEPS_PER_PSI);
-	IVP_ASSERT(  ((int) ((t-base_time) * (IVP_3D_SOLVER_MAX_STEPS_PER_PSI * IVP_3D_SOLVER_PSIS_PER_SECOND)   + .5f)) == index);
+	Assert(index<=IVP_3D_SOLVER_MAX_STEPS_PER_PSI);
+	Assert(  ((int) ((t-base_time) * (IVP_3D_SOLVER_MAX_STEPS_PER_PSI * IVP_3D_SOLVER_PSIS_PER_SECOND)   + .5f)) == index);
 	
 	if (!m_world_f_object[index]){
 	    m_world_f_object[index] = &matrizes[index];
 	    object->calc_at_matrix(t, m_world_f_object[index]);
-	    IVP_IF(0){ misses++;hits--;}
+	    IVP_IFDEBUG(0){ misses++;hits--;}
 	}
-	IVP_IF(0){
+	IVP_IFDEBUG(0){
 	    hits++;
 	    if (misses %1000 == 0){
-		printf("cache hit ratio %f\n", IVP_DOUBLE(hits)/IVP_DOUBLE(misses+hits));
+		Log_Warning(LOG_HAVOK, "cache hit ratio %f\n", IVP_DOUBLE(hits)/IVP_DOUBLE(misses+hits));
 	    }	
 	}
 	return m_world_f_object[index];
     }
 
     IVP_U_Matrix *calc_matrix_at_now( IVP_Time t, int index){
-	IVP_ASSERT(index == 0);
-	IVP_ASSERT(  t - base_time == 0.0f);
+	Assert(index == 0);
+	Assert(  t - base_time == 0.0f);
 	return m_world_f_object[0];
     }
 
@@ -69,7 +69,7 @@ private:
 #ifdef DEBUG
 	base_time = object->get_environment()->get_current_time();
 	if ( IVP_MTIS_SIMULATED(object->get_movement_state() )){
-	    IVP_ASSERT( base_time_code == co->valid_until_time_code );
+	    Assert( base_time_code == co->valid_until_time_code );
 	}
 #endif
     }
