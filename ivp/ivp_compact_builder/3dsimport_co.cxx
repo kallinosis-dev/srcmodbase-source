@@ -825,13 +825,13 @@ int p_graphlib_robust_convert_3dmax_object_to_compact_ledges(P_Hardware *hw, con
 
 //    P_Hardware_W95 *w95_hw = (P_Hardware_W95 *)hw;
 flags |= NORMDUP;
-    char * infn=nullptr, * name=DEFNAME;
+    char const* name=DEFNAME;
 	FILE * inf, * outf;
 	int n;
 	H3dsScene * scene;
 //    float32 xscale, yscale, zscale;
 
-	infn = (char *)filename;
+	char const* infn = filename;
 	outf = nullptr;
 
 	if(!infn) {

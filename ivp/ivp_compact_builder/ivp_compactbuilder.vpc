@@ -9,14 +9,14 @@ $Configuration
 		$PreprocessorDefinitions		"$BASE;IVP_VERSION_SDK;HAVOK_MOPP"
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\ivp\havana\havok;$SRCDIR\ivp\ivp_surface_manager;$SRCDIR\ivp\ivp_physics" \
                                         ";$SRCDIR\ivp\ivp_compact_builder;$SRCDIR\ivp\ivp_utility;$SRCDIR\ivp\ivp_collision"
-		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
-		$Create/UsePCHThroughFile		"ivp_physics.hpp"
+//		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
+//		$Create/UsePCHThroughFile		"ivp_physics.hpp"
 	}
 }
 
 $Project "ivp_compactbuilder"
 {
-	$File "ivp_compact_ledge_gen.cxx"
+	$File "ivp_compact_ledge_gen.cxx" // Was PCH file
 	$File "ivp_compact_ledge_gen.hxx"
 	$File "ivp_compact_modify.cxx"
 	$File "ivp_compact_modify.hxx"

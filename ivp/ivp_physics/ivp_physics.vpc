@@ -10,12 +10,23 @@ $Configuration
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\ivp\havana\havok;$SRCDIR\ivp\ivp_surface_manager;$SRCDIR\ivp\ivp_physics" \
                                         ";$SRCDIR\ivp\ivp_intern;$SRCDIR\ivp\ivp_utility;$SRCDIR\ivp\ivp_collision;$SRCDIR\ivp\ivp_controller"
 		$Create/UsePrecompiledHeader	"Use Precompiled Header (/Yu)"
-		$Create/UsePCHThroughFile		"ivp_physics.hpp"
+		$Create/UsePCHThroughFile		"ivp_physics.hxx"
 	}
 }
 
 $Project "ivp_physics"
 {
+	$File "stdafx.cpp"	
+	{
+		$Configuration
+		{
+			$Compiler
+			{
+				$Create/UsePrecompiledHeader	"Create Precompiled Header (/Yc)"
+			}
+		}
+	}
+
 	$File "$SRCDIR\ivp\ivp_collision\ivp_3d_solver.cxx"
 	$File "$SRCDIR\ivp\ivp_collision\ivp_3d_solver.hxx"
 	$File "$SRCDIR\ivp\ivp_collision\ivp_cache_ledge_point.hxx"
