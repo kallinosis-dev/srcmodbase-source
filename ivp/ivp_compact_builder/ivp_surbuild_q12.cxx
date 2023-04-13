@@ -39,122 +39,6 @@ public:
 
 typedef unsigned char byte;
 
-#ifdef _SGI_SOURCE
-#define	__BIG_ENDIAN__
-#endif
-
-#ifdef __BIG_ENDIAN__
-
-short   LittleShort (short l)
-{
-    byte    b1,b2;
-
-    b1 = l&255;
-    b2 = (l>>8)&255;
-
-    return (b1<<8) + b2;
-}
-
-short   BigShort (short l)
-{
-    return l;
-}
-
-
-int    LittleLong (int l)
-{
-    byte    b1,b2,b3,b4;
-
-    b1 = l&255;
-    b2 = (l>>8)&255;
-    b3 = (l>>16)&255;
-    b4 = (l>>24)&255;
-
-    return ((int)b1<<24) + ((int)b2<<16) + ((int)b3<<8) + b4;
-}
-
-int    BigLong (int l)
-{
-    return l;
-}
-
-
-IVP_FLOAT	LittleFloat (IVP_FLOAT l)
-{
-    union {byte b[4]; IVP_FLOAT f;} in, out;
-	
-    in.f = l;
-    out.b[0] = in.b[3];
-    out.b[1] = in.b[2];
-    out.b[2] = in.b[1];
-    out.b[3] = in.b[0];
-	
-    return out.f;
-}
-
-IVP_FLOAT	BigFloat (IVP_FLOAT l)
-{
-    return l;
-}
-
-
-#else
-
-
-short   BigShort (short l)
-{
-    byte    b1,b2;
-
-    b1 = l&255;
-    b2 = (l>>8)&255;
-
-    return (b1<<8) + b2;
-}
-
-short   LittleShort (short l)
-{
-    return l;
-}
-
-
-int    BigLong (int l)
-{
-    byte    b1,b2,b3,b4;
-
-    b1 = l&255;
-    b2 = (l>>8)&255;
-    b3 = (l>>16)&255;
-    b4 = (l>>24)&255;
-
-    return ((int)b1<<24) + ((int)b2<<16) + ((int)b3<<8) + b4;
-}
-
-int    LittleLong (int l)
-{
-    return l;
-}
-
-IVP_FLOAT	BigFloat (IVP_FLOAT l)
-{
-    union {byte b[4]; IVP_FLOAT f;} in, out;
-	
-    in.f = l;
-    out.b[0] = in.b[3];
-    out.b[1] = in.b[2];
-    out.b[2] = in.b[1];
-    out.b[3] = in.b[0];
-	
-    return out.f;
-}
-
-IVP_FLOAT	LittleFloat (IVP_FLOAT l)
-{
-    return l;
-}
-
-
-#endif
-
 // upper design bounds
 
 #define BSPVERSION	30
@@ -242,18 +126,18 @@ void IVP_SurfaceBuilder_Q12::swap_bsp_data()
 	d->numfaces = LittleLong (d->numfaces);
 		
 	for (j=0 ; j<3 ; j++) {
-	    d->mins[j] = LittleFloat(d->mins[j]);
-	    d->maxs[j] = LittleFloat(d->maxs[j]);
-	    d->origin[j] = LittleFloat(d->origin[j]);
+        LittleFloat(&d->mins[j], &d->mins[j]);
+        LittleFloat(&d->maxs[j], &d->maxs[j]);
+        LittleFloat(&d->origin[j], &d->origin[j]);
 	}
     }
 
     // planes
     for (i=0 ; i<this->n_planes ; i++) {
-	for (j=0 ; j<3 ; j++) {
-	    this->dplanes[i].normal[j] = LittleFloat (this->dplanes[i].normal[j]);
-	}
-	this->dplanes[i].dist = LittleFloat (this->dplanes[i].dist);
+		for (j=0 ; j<3 ; j++) {
+		     LittleFloat (&this->dplanes[i].normal[j], &this->dplanes[i].normal[j]);
+		}
+	LittleFloat (&this->dplanes[i].dist, &this->dplanes[i].dist);
 	this->dplanes[i].type = LittleLong (this->dplanes[i].type);
     }
 

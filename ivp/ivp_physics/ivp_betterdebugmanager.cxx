@@ -60,7 +60,6 @@ void IVP_BetterDebugmanager::dprint(IVP_DEBUG_CLASS class_id, const  char *forma
 void IVP_BetterDebugmanager::output_function(IVP_DEBUG_CLASS , const char *string) {
 
     Log_Warning(LOG_HAVOK, "%s", string);
-    return;
 }
 
 

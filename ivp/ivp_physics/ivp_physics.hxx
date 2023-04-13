@@ -27,6 +27,8 @@
 #	include <string.h>
 #endif
 
+#include "hk_base/console.h"
+
 #ifndef _IVP_U_TYPES_INCLUDED
 #	include "ivu_types.hxx"
 #endif

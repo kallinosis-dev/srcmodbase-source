@@ -96,18 +96,19 @@ protected:
     friend class IVP_SurfaceManager_Grid;
 	friend class IVP_SurfaceManager_Mopp;
 	friend class hkMoppLongRayVirtualMachine;
+
+    inline IVP_BOOL check_ray_against_sphere_os(const IVP_U_Float_Point *sphere_center_os,   IVP_FLOAT sphere_radius);
+public:
     IVP_U_Point ray_start_point;
     IVP_U_Float_Point ray_center_point;
     IVP_U_Point ray_end_point;
     IVP_U_Float_Point ray_direction;
 
-    IVP_Ray_Hit_Listener *hit_listener;
-    IVP_Real_Object *object;
+    IVP_Ray_Hit_Listener* hit_listener;
+    IVP_Real_Object* object;
 
     IVP_FLOAT ray_length;
 
-    inline IVP_BOOL check_ray_against_sphere_os(const IVP_U_Float_Point *sphere_center_os,   IVP_FLOAT sphere_radius);
-public:
     void check_ray_against_ledge_tree_node_os(const IVP_Compact_Ledgetree_Node *);
     void check_ray_against_compact_surface_os(const IVP_Compact_Surface *);
     IVP_BOOL check_ray_against_compact_ledge_os(const IVP_Compact_Ledge *ledge_to_compare);

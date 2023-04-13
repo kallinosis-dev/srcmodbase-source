@@ -1904,9 +1904,12 @@ void CPhysicsEnvironment::GetPerformanceSettings( physics_performanceparams_t *p
 		pOutput->maxVelocity = ConvertDistanceToHL( limits->max_velocity );
 		pOutput->maxAngularVelocity = ConvertAngleToHL(limits->max_angular_velocity_per_psi) * m_pPhysEnv->get_inv_delta_PSI_time();
 		pOutput->maxCollisionsPerObjectPerTimestep = limits->max_collisions_per_psi;
+		// TODO
+		/*
 		pOutput->maxCollisionChecksPerTimestep = limits->max_collision_checks_per_psi;
 		pOutput->minFrictionMass = limits->min_friction_mass;
 		pOutput->maxFrictionMass = limits->max_friction_mass;
+		*/
 	}
 
 	IVP_Range_Manager *range = m_pPhysEnv->get_range_manager();
@@ -1922,20 +1925,20 @@ void CPhysicsEnvironment::SetPerformanceSettings( const physics_performanceparam
 	if ( !pSettings )
 		return;
 
-	IVP_Anomaly_Limits *limits = m_pPhysEnv->get_anomaly_limits();
-	if ( limits  )
+	if ( IVP_Anomaly_Limits *limits = m_pPhysEnv->get_anomaly_limits()  )
 	{
 		// UNDONE: Expose these values for tuning
 		limits->max_velocity = ConvertDistanceToIVP( pSettings->maxVelocity );
 		limits->max_collisions_per_psi = pSettings->maxCollisionsPerObjectPerTimestep;
-		limits->max_collision_checks_per_psi = pSettings->maxCollisionChecksPerTimestep;
 		limits->max_angular_velocity_per_psi = ConvertAngleToIVP(pSettings->maxAngularVelocity) * m_pPhysEnv->get_delta_PSI_time();
+		/*
+		limits->max_collision_checks_per_psi = pSettings->maxCollisionChecksPerTimestep;
 		limits->min_friction_mass = clamp(pSettings->minFrictionMass, 1.0f, VPHYSICS_MAX_MASS );
 		limits->max_friction_mass = clamp(pSettings->maxFrictionMass, 1.0f, VPHYSICS_MAX_MASS );
+		*/
 	}
 
-	IVP_Range_Manager *range = m_pPhysEnv->get_range_manager();
-	if ( range )
+	if ( IVP_Range_Manager *range = m_pPhysEnv->get_range_manager() )
 	{
 		range->look_ahead_time_world = pSettings->lookAheadTimeObjectsVsWorld;
 		range->look_ahead_time_intra = pSettings->lookAheadTimeObjectsVsObject;

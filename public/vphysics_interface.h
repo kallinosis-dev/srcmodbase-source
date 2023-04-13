@@ -1151,7 +1151,7 @@ struct convertconvexparams_t
 	bool		bUseFastApproximateInertiaTensor;
 	bool		bBuildAABBTree;
 	float		dragAreaEpsilon;
-	CPhysConvex *pForcedOuterHull;
+	//CPhysConvex *pForcedOuterHull;
 
 	void Defaults()
 	{
@@ -1162,7 +1162,7 @@ struct convertconvexparams_t
 		checkOptimalTracing = false;
 		bUseFastApproximateInertiaTensor = false;
 		bBuildAABBTree = false;
-		pForcedOuterHull = nullptr;
+		//pForcedOuterHull = nullptr;
 	}
 };
 

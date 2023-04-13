@@ -769,12 +769,11 @@ L110:
 	i__1 = nev;
 	for (i__ = 1; i__ <= i__1; ++i__) {
 	    if (lw1 == this->g_ev[i__ - 1]) {
-		IVP_IFDEBUG(1) {
-		    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL3) {
-			ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "Rejected due to simply-connected polygon: case 1\n");
+		    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL3)
+		    {
+			    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "Rejected due to simply-connected polygon: case 1\n");
 		    }
-		}
-		return;
+		    return;
 	    }
 /* L120: */
 	}
@@ -807,11 +806,9 @@ recheck_size_2:
 		}
 /* L130: */
 	    }
-	    IVP_IFDEBUG(1) {
 		IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL3) {
 		    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "Rejected due to simply-connected polygon: case 2\n");
 		}
-	    }
 	    return;
 L140:
 	    ;
@@ -882,11 +879,9 @@ L150:
 	}
     }
     if ( (angr < this->angacc) || ang - angr < this->angacc ) {
-	IVP_IFDEBUG(1) {
 	    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL3) {
-		ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "Rejected due to small angle\n");
+			ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "Rejected due to small angle\n");
 	    }
-	}
 	return;
     }
     if (ccwfl > 0) {
@@ -954,12 +949,9 @@ L150:
 /* L160: */
     }
     if (s < 0.) {
-	IVP_IFDEBUG(1) {
-	    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL3) {
-		ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "Rejected due to inner boundary\n");
-	    }
-	}
-	return;
+	    IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL3)
+		    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "Rejected due to inner boundary\n");
+	    return;
     }
 
 /*     Move edges incident on LV (if <= this->N_ORIGINAL_VERTICES), EV(1:NEV) to end of PEDGE. */
@@ -1042,17 +1034,14 @@ L190:
 		&inout);
 
 	if (inout == 1) {
-	    IVP_IFDEBUG(1) {
 		IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL3) {
 		    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "Rejected due to hole polygon\n");
 		}
-	    }
 	    return;
 	}
 /* L200: */
     }
     *rflag = 1;
-    IVP_IFDEBUG(1) {
 	IVP_IFDEBUG(IVP_DM_GEOMPACK_LEVEL3) {
 	    ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "CEDGE(1:2), CDANG\n");
 	    i__1 = *nce;
@@ -1060,7 +1049,7 @@ L190:
 		ivp_debugmanager.dprint(IVP_DM_GEOMPACK_LEVEL3, "%d %d %d %f\n", i__, cedge[(i__ << 1) + 1], cedge[(i__ << 1) + 2], cdang[i__] * 180.0 / IVP_PI);
 	    }
   	}
-    }
+    
 
     return;
 }

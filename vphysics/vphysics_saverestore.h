@@ -54,10 +54,10 @@ public:
 extern CVPhysPtrSaveRestoreOps g_VPhysPtrSaveRestoreOps;
 
 #define DEFINE_VPHYSPTR(name) \
-	{ FIELD_CUSTOM, #name, { offsetof(classNameTypedef,name), 0 }, 1, FTYPEDESC_SAVE, NULL, &g_VPhysPtrSaveRestoreOps, NULL }
+	{ FIELD_CUSTOM, #name, offsetof(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, &g_VPhysPtrSaveRestoreOps, NULL }
 
 #define DEFINE_VPHYSPTR_ARRAY(name,count) \
-	{ FIELD_CUSTOM, #name, { offsetof(classNameTypedef,name), 0 }, count, FTYPEDESC_SAVE, NULL, &g_VPhysPtrSaveRestoreOps, NULL }
+	{ FIELD_CUSTOM, #name, offsetof(classNameTypedef,name), count, FTYPEDESC_SAVE, NULL, &g_VPhysPtrSaveRestoreOps, NULL }
 
 
 //-----------------------------------------------------------------------------
@@ -75,7 +75,7 @@ private:
 extern CVPhysPtrUtlVectorSaveRestoreOps g_VPhysPtrUtlVectorSaveRestoreOps;
 
 #define DEFINE_VPHYSPTR_UTLVECTOR(name) \
-	{ FIELD_CUSTOM, #name, { offsetof(classNameTypedef,name), 0 }, 1, FTYPEDESC_SAVE, NULL, &g_VPhysPtrUtlVectorSaveRestoreOps, NULL }
+	{ FIELD_CUSTOM, #name, offsetof(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, &g_VPhysPtrUtlVectorSaveRestoreOps, NULL }
 
 
 //-----------------------------------------------------------------------------

@@ -960,10 +960,6 @@ IVV_Sphere *IVP_SurfaceBuilder_Ledge_Soup::cluster_spheres_topdown_mediancut_rec
 
 		median /= terminals->len();
 
-		IVP_IFDEBUG(0) {
-//		    ivp_message("Median on axis %d: %f\n", axis, median);
-		}
-
 		// assign terminals to either side of splitting plane
 		// (this is a bit tricky as we have to carefully handle terminals lying on the median itself;
 		//  to avoid ending up with an empty subbox by assigning a median-terminal randomly to the
@@ -1141,8 +1137,6 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Ledge_Soup::allocate_compact_surface()
     int cs_size = cs_header_size + cs_estimated_ledglelist_size + cs_ledgetree_size;
 
     cs_size = (cs_size + 15) & ~0xf;
-
-    IVP_IFDEBUG(1){	/*printf("Compact surface size : %d\n", cs_size);*/    }
     
     this->compact_surface = (IVP_Compact_Surface *)ivp_malloc_aligned(cs_size*sizeof(char), 16);
     if ( this->compact_surface == nullptr ) {
@@ -1191,10 +1185,10 @@ IVP_Compact_Surface *IVP_SurfaceBuilder_Ledge_Soup::allocate_compact_surface()
     
    this->ledgetree_work =
 	(IVP_Compact_Ledgetree_Node *)( (char *)this->compact_surface +   this->compact_surface->offset_ledgetree_root);
-    IVP_IFDEBUG(1) {
+#ifdef DEBUG
 	this->clt_lowmem = (char *)this->ledgetree_work;
 	this->clt_highmem = (char *)compact_surface + cs_real_size;
-    }
+#endif
 
     return(compact_surface);
 }
@@ -1338,10 +1332,8 @@ IVP_Compact_Ledgetree_Node *IVP_SurfaceBuilder_Ledge_Soup::build_ledgetree(IVV_S
 void IVP_SurfaceBuilder_Ledge_Soup::ledgetree_debug_output(const IVP_Compact_Ledgetree_Node *node) const
 {
     // *** debugging START ******************************************************
-    IVP_IFDEBUG(1) {
 	Assert((int)node < (int)this->clt_highmem); // ledgetree memory overread!
 	Assert((int)node >= (int)this->clt_lowmem); // ledgetree memory underread!
-    }
     
     //for (int x=0; x<ivp_debug_sf_indent; x++) {
     //    Log_Warning(LOG_HAVOK, "  ");
@@ -1412,13 +1404,7 @@ void IVP_SurfaceBuilder_Ledge_Soup::insert_radius_in_compact_surface() {
 IVP_RETURN_TYPE IVP_SurfaceBuilder_Ledge_Soup::create_compact_ledgetree() {
 
     IVV_Sphere *cluster_node = this->spheres_cluster[this->spheres_cluster[0].next].sphere;
-
-    // *** debugging START ******************************************************
-    IVP_IFDEBUG(0) {
-	ivp_debug_sf_indent=0;
-	debug_sphere_output(this->spheres_cluster[this->spheres_cluster[0].next].sphere);
-    }
-    // *** debugging END ********************************************************
+	
 #ifdef DEBUG
     IVP_Compact_Ledgetree_Node *root =
 #endif
@@ -1427,11 +1413,11 @@ IVP_RETURN_TYPE IVP_SurfaceBuilder_Ledge_Soup::create_compact_ledgetree() {
     Assert(this->compact_surface->get_compact_ledge_tree_root()==root);
     
     // *** debugging START ******************************************************
-    IVP_IFDEBUG(1) {
+#ifdef DEBUG
 	//ivp_debug_sf_indent=0;
 	ledgetree_debug_output(this->compact_surface->get_compact_ledge_tree_root());
 	//ledgetree_array_debug_output();
-    }
+#endif
     // *** debugging END ********************************************************
 
     return(IVP_OK);

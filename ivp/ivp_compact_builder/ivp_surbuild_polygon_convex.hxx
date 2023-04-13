@@ -32,15 +32,15 @@ protected:
     IVP_point_hash *poly_point_hash;
     void init_surface_manager_polygon();
 
-    static IVP_Compact_Ledge *convert_template_to_ledge(IVP_Template_Polygon *templat);	// to be used by polygon soup
-    static IVP_Compact_Ledge *convert_templateledgepolygonsoup_to_ledge(IVP_Template_Ledge_Polygon_Soup *templat);
-    
     IVP_SurfaceBuilder_Polygon_Convex(IVP_Template_Polygon *templat);
     IVP_SurfaceBuilder_Polygon_Convex(IVP_Template_Ledge_Polygon_Soup *templat);
     
     void fill_list_with_all_triangles(IVP_U_Vector<IVP_Triangle>*tri_list);
 
 public:
+    static IVP_Compact_Ledge* convert_template_to_ledge(IVP_Template_Polygon* templat);	// to be used by polygon soup
+    static IVP_Compact_Ledge* convert_templateledgepolygonsoup_to_ledge(IVP_Template_Ledge_Polygon_Soup* templat);
+
 
     IVP_Compact_Ledge *get_and_remove_compact_ledge()
     {

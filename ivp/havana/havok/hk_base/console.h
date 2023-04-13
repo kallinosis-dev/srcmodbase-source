@@ -1,11 +1,14 @@
 #ifndef HK_BASE_CONSOLE_H
 #define HK_BASE_CONSOLE_H
+#include "tier0/logging.h"
+
+DECLARE_LOGGING_CHANNEL(LOG_HAVOK);
 
 class hk_Console 
 {
 	public:
 
-		void Log_Warning(LOG_HAVOK,  const char *format_string, ...);
+		void printf(const char* fmt, ...);
 		void exit(int );
 		void flush();
 
