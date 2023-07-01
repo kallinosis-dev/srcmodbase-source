@@ -104,8 +104,8 @@ $Configuration "Release"
 		$ExpandAttributedSource
 		$AssemblerOutput
 		$ASMListLocation					"$(IntDir)/"
-		$ObjectFileName						"$(IntDir)/"
-		$ProgramDatabaseFileName			"$(IntDir)/"
+		//$ObjectFileName						"$(IntDir)/"
+		//$ProgramDatabaseFileName			"$(IntDir)/"
 		$GenerateXMLDocumentationFiles		"No"
 		$XMLDocumentationFileName
 

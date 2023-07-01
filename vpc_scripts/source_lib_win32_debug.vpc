@@ -105,8 +105,8 @@ $Configuration "Debug"
 		$ExpandAttributedSource				"No"
 		$AssemblerOutput					"No Listing"
 		$ASMListLocation					"$(IntDir)/"
-		$ObjectFileName						"$(IntDir)/"
-		$ProgramDatabaseFileName			"$(IntDir)/"
+		//$ObjectFileName						"$(IntDir)/"
+		//$ProgramDatabaseFileName			"$(IntDir)/"
 		$GenerateXMLDocumentationFiles		"No"
 		$XMLDocumentationFileName
 
