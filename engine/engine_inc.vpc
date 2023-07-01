@@ -10,7 +10,8 @@ $Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 //$Macro PS3CELPDIR	$SRCDIR\ps3sdk\celp_pc-v0_2_1
 $Macro GENERATED_PROTO_DIR	"generated_proto"
 
-$include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$include "$SRCDIR\vpc_scripts\source_dll_base.vpc" 
+$include "$SRCDIR\vpc_scripts\protobuf_builder.vpc"
 $include "$SRCDIR\vpc_scripts\netmessages_include.vpc"
 $include "$SRCDIR\vpc_scripts\networkbasetypes_include.vpc"
 
@@ -1183,6 +1184,8 @@ $Project $EPROJ
 
 		$Lib	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dsound.lib"		[$WINDOWS]
 		$Lib	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dxguid.lib"		[$WINDOWS]
+
+		$Lib protobuf
 
 		$Libexternal	"$LIBCOMMON/libcurlssl" [$LINUXALL&&!$DEDICATED]
 		$Libexternal	"$LIBCOMMON/libssl" [$LINUXALL&&!$DEDICATED]

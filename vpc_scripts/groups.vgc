@@ -412,6 +412,8 @@ $Group "everything"
 	"zlib"
 	"fbxutils"
 	"fbx2dmx"
+	"protobuf"
+	"protoc"
 }
 
 // All projects that should be built for vpc

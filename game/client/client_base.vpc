@@ -13,6 +13,7 @@ $Macro GENERATED_PROTO_DIR	"$SRCDIR\game\client\generated_proto"
 $MacroRequired "GAMENAME"
 
 $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$include "$SRCDIR\vpc_scripts\protobuf_builder.vpc"
 $include "$SRCDIR\vpc_scripts\netmessages_include.vpc"
 $include "$SRCDIR\vpc_scripts\networkbasetypes_include.vpc"
 
@@ -1257,5 +1258,7 @@ $Project
 		$Lib "$LIBCOMMON\libpcrecpp.a" 		[$POSIX && $PANORAMA_ENABLE]
 		$Lib "$SRCDIR\lib\common\$PLATFORM\libv8.so"	[$LINUXALL && $PANORAMA_ENABLE]
 		$Lib "$SRCDIR\lib\common\$PLATFORM\libv8.dylib"	[$OSXALL && $PANORAMA_ENABLE]
+
+		$Lib protobuf
 	}
 }

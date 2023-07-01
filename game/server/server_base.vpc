@@ -12,6 +12,7 @@ $Macro GENERATED_PROTO_DIR	"generated_proto"
 $MacroRequired "GAMENAME"
 
 $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
+$include "$SRCDIR\vpc_scripts\protobuf_builder.vpc"
 $include "$SRCDIR\vpc_scripts\netmessages_include.vpc"
 $include "$SRCDIR\vpc_scripts\networkbasetypes_include.vpc"
 
@@ -1124,6 +1125,8 @@ $Project
 		$Lib	tier3
 		$Lib	vgui_controls
 		$Lib    responserules_runtime
+
+		$Lib protobuf
 
 		$ImplibExternal	steam_api					[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64					[ $WIN64 && !$NO_STEAM ]
