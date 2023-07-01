@@ -1,3 +1,5 @@
+$MacroRequired	PROTOBUF_BUILDER_INCLUDED
+
 $Project
 {
 	$Folder "Protobuf Files"

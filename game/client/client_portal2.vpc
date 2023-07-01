@@ -753,6 +753,20 @@ $Project "Client (Portal 2)"
 		}
 	}
 
+	$Folder "Protobuf Files"	[ ( $WIN32 || $OSXALL ) && !$NO_STEAM]
+	{
+		$DynamicFile "$GENERATED_PROTO_DIR\steammessages.pb.cc"
+		{
+			$Configuration
+			{
+				$Compiler 
+				{
+					$Create/UsePrecompiledHeader	"Not Using Precompiled Headers"
+				}
+			}
+		}
+	}
+
 	$Folder	"Additional Link Libraries"
 	{
 		$Lib	"meshutils"
