@@ -12,6 +12,22 @@ $Configuration
     }
 }
 
+$Project
+{
+	$Folder	"Source Files"
+	{
+		-$File	"$SRCDIR\public\tier0\memoverride.cpp"
+	}
+
+	$Folder	"Link Libraries" 
+	{
+		-$Lib	tier0
+		-$Lib	tier1
+		-$Lib	vstdlib
+		-$Lib	interfaces
+	}
+}
+
 $Project "protoc" 
 {
     $File "config.h"
