@@ -13,7 +13,6 @@ $Macro GENERATED_PROTO_DIR	"generated_proto"
 $include "$SRCDIR\vpc_scripts\source_dll_base.vpc" 
 $include "$SRCDIR\vpc_scripts\protobuf_builder.vpc"
 $include "$SRCDIR\vpc_scripts\netmessages_include.vpc"
-$include "$SRCDIR\vpc_scripts\networkbasetypes_include.vpc"
 
 $include "$SRCDIR\external\external.vpc"
 $include "$SRCDIR\external\$EXTERNALCRYPTOPP\external_cryptopp.vpc"

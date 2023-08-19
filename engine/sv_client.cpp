@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -1541,9 +1541,6 @@ bool CGameClient::ExecuteStringCommand( const char *pCommandString )
 	if ( m_numClientCommandsInQuota > cmdQuota )
 	{
 		// Disconnect player for Denial-of-service attack
-
-		// REI: Remove this define when we unify trunk/staging (trunk uses enum reasons for disconnection)
-		// REI: See network_connection.proto for where this is supposed to come from
 		#define NETWORK_DISCONNECT_SERVER_DOS "#GameUI_Disconnect_TooManyCommands"
 		Disconnect( NETWORK_DISCONNECT_SERVER_DOS );
 		return false;

@@ -15,7 +15,6 @@ $MacroRequired "GAMENAME"
 $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 $include "$SRCDIR\vpc_scripts\protobuf_builder.vpc"
 $include "$SRCDIR\vpc_scripts\netmessages_include.vpc"
-$include "$SRCDIR\vpc_scripts\networkbasetypes_include.vpc"
 
 $CustomBuildStep "nut"
 {
