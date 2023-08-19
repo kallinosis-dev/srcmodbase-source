@@ -75,7 +75,6 @@ class IConVar;
 class CJob;
 class CSVCMsg_HltvReplay;
 class INetMessage;
-class CEngineGotvSyncPacket;
 
 struct CDemoPlaybackParameters_t
 {
@@ -289,7 +288,7 @@ typedef void (*pfnDemoCustomDataCallback)( uint8 *pData, size_t iSize );
 #define VENGINE_CLIENT_RANDOM_INTERFACE_VERSION	"VEngineRandom001"
 
 // change this when the new version is incompatable with the old
-#define VENGINE_CLIENT_INTERFACE_VERSION		"VEngineClient014"
+#define VENGINE_CLIENT_INTERFACE_VERSION		"VEngineClient015"
 
 //-----------------------------------------------------------------------------
 // Purpose: Interface exposed from the engine to the client .dll
@@ -865,8 +864,6 @@ public:
 
 	virtual int GetConnectionDataProtocol() const = 0;
 
-	virtual bool EngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt ) = 0;
-
 	virtual const char* AliasToCommandString( const char* szAliasName ) = 0;
 };
 
@@ -1167,12 +1164,11 @@ public:
 	virtual void OnCommandDuringPlayback( char const *cmd ) = 0;
 
 	virtual void RetireAllPlayerDecals( bool bRenderContextValid ) = 0;
-	virtual void EngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt ) = 0; // Engine asking GC for a sync packet
 	virtual int GetInEyeEntity() const = 0;
 	virtual void OnTickPre( int tickcount ) = 0;
 };
 
-#define CLIENT_DLL_INTERFACE_VERSION		"VClient018"
+#define CLIENT_DLL_INTERFACE_VERSION		"VClient019"
 
 //-----------------------------------------------------------------------------
 // Purpose: Interface exposed from the client .dll back to the engine for specifying shared .dll IAppSystems (e.g., ISoundEmitterSystem)

@@ -33,7 +33,6 @@ public:
 	bool PrepareForStreaming( const char * pUrl );
 
 	void SendSync( int nResync = 0 );
-	bool OnEngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt );
 
 	void StopStreaming();
 	bool IsIdle()const { return m_nState == STATE_IDLE; }
@@ -222,7 +221,6 @@ protected:
 	Fragment_t &Fragment( int nFragment );
 protected:
 	CUtlString m_Url;
-	bool m_bSyncFromGc;
 	CUtlIncrementalVector< CPendingRequest > m_PendingRequests;
 	StateEnum_t m_nState;
 	

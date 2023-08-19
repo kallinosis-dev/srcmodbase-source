@@ -103,12 +103,6 @@ void CBroadcastPlayer::StartStreaming( const char *url, const char *options )
 	}
 }
 
-
-bool CBroadcastPlayer::OnEngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt )
-{
-	return m_DemoStream.OnEngineGotvSyncPacket( pPkt );
-}
-
 bool CBroadcastPlayer::StartStreamingInternal()
 {
 	SCR_BeginLoadingPlaque();

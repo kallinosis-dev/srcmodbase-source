@@ -1020,8 +1020,6 @@ public:
 
 	virtual void RetireAllPlayerDecals( bool bRenderContextValid );
 
-	virtual void EngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt ) OVERRIDE;
-
 	virtual void OnTickPre( int tickcount ) OVERRIDE;
 
 	virtual char const * GetRichPresenceStatusString();
@@ -4801,11 +4799,6 @@ void CHLClient::RetireAllPlayerDecals( bool bRenderContextValid )
 	}
 }
 
-void CHLClient::EngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt )
-{
-	#error Cut for partner depot
-}
-
 void CHLClient::OnTickPre( int tickcount )
 {
 #if defined( CSTRIKE15 ) && !defined( CSTRIKE_REL_BUILD )
@@ -4814,23 +4807,6 @@ void CHLClient::OnTickPre( int tickcount )
 	g_pFatDemoRecorder->OnTickPre( tickcount );
 #endif
 }
-
-class ClientJob_EMsgGCCStrike15_GotvSyncPacket : public GCSDK::CGCClientJob
-{
-public:
-	explicit ClientJob_EMsgGCCStrike15_GotvSyncPacket( GCSDK::CGCClient *pGCClient ) : GCSDK::CGCClientJob( pGCClient )
-	{
-	}
-
-	virtual bool BYieldingRunJobFromMsg( GCSDK::IMsgNetPacket *pNetPacket )
-	{
-		GCSDK::CProtoBufMsg<CMsgGCCStrike15_GotvSyncPacket> msg( pNetPacket );
-		return engine->EngineGotvSyncPacket( &msg.Body().data() );
-	}
-};
-GC_REG_CLIENT_JOB( ClientJob_EMsgGCCStrike15_GotvSyncPacket, k_EMsgGCCStrike15_v2_GotvSyncPacket );
-
-
 
 //-----------------------------------------------------------------------------
 // Purpose: Spew application info (primarily for log file data mining)

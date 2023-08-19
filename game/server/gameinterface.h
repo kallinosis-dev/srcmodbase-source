@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Expose things from GameInterface.cpp. Mostly the engine interfaces.
 //
@@ -193,8 +193,6 @@ public:
 
 	// Network channel notification from engine to game server code
 	virtual void OnEngineClientNetworkEvent( edict_t *edictClient, uint64 ullSteamID, int nEventType, void *pvParam ) OVERRIDE;
-	
-	virtual void EngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt ) OVERRIDE;
 
 	// GOTV client attempt redirect over SDR
 	virtual bool OnEngineClientProxiedRedirect( uint64 ullClient, const char *adrProxiedRedirect, const char *adrRegular ) OVERRIDE;

@@ -25,7 +25,6 @@ public:
 
 	void StartStreaming( const char *url, const char *options );
 	bool StartBroadcastPlayback( int nStartingTick );
-	bool OnEngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt );
 
 	virtual bool	IsPlayingBack( void ) const OVERRIDE { return m_bPlayingBack; }
 	virtual bool	IsPlaybackPaused( void ) const OVERRIDE;

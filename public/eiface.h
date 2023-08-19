@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -62,7 +62,6 @@ class CGamestatsData;
 class CSteamID;
 class ISPSharedMemory;
 class CGamestatsData;
-class CEngineGotvSyncPacket;	// forward declare protobuf message here
 
 typedef struct player_info_s player_info_t;
 
@@ -544,7 +543,7 @@ public:
 	virtual int GetLocalClientIndex( void ) = 0;
 };
 
-#define INTERFACEVERSION_SERVERGAMEDLL				"ServerGameDLL005"
+#define INTERFACEVERSION_SERVERGAMEDLL				"ServerGameDLL006"
 
 //-----------------------------------------------------------------------------
 // Purpose: These are the interfaces that the game .dll exposes to the engine
@@ -711,9 +710,6 @@ public:
 
 	// Network channel notification from engine to game server code
 	virtual void OnEngineClientNetworkEvent( edict_t *edictClient, uint64 ullSteamID, int nEventType, void *pvParam ) = 0;
-
-	// Engine notifying GC with a message
-	virtual void EngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt ) = 0;
 
 	// GOTV client attempt redirect over SDR
 	virtual bool OnEngineClientProxiedRedirect( uint64 ullClient, const char *adrProxiedRedirect, const char *adrRegular ) = 0;

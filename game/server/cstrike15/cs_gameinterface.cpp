@@ -441,12 +441,6 @@ void CServerGameDLL::OnEngineClientNetworkEvent( edict_t *edictClient, uint64 ul
 	#error Cut for partner depot
 }
 
-// Game server notifying GC with its sync packet
-void CServerGameDLL::EngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt )
-{
-	#error Cut for partner depot
-}
-
 // GOTV client attempt redirect over SDR
 bool CServerGameDLL::OnEngineClientProxiedRedirect( uint64 ullClient, const char *adrProxiedRedirect, const char *adrRegular )
 {

@@ -36,7 +36,6 @@ option cc_generic_services = false;
 //
  
 import "steammessages.proto";
-import "engine_gcmessages.proto";
 
 
 
@@ -125,7 +124,6 @@ enum ECsgoGCMsg
 	k_EMsgGCCStrike15_v2_GlobalChat_Subscribe =				9181;	// client <-> GC, chat message
 	k_EMsgGCCStrike15_v2_GlobalChat_Unsubscribe =			9182;	// client <-> GC, chat message
 	k_EMsgGCCStrike15_v2_ClientAuthKeyCode =				9183;	// client <-> GC, authkey sharing code exchange
-	k_EMsgGCCStrike15_v2_GotvSyncPacket =					9184;	// server>GC: update sync tick; client>GC: asking for sync tick; GC>client: responding with sync tick
 	k_EMsgGCCStrike15_v2_ClientPlayerDecalSign =			9185;	// client <-> GC, client requesting spray decal charge to be consumed
 	k_EMsgGCCStrike15_v2_ClientLogonFatalError =			9187;	// GC -> client, banned from logging in, no need to retry
 	k_EMsgGCCStrike15_v2_ClientPollState =					9188;	// GC <-> client: poll state, or results of the poll
@@ -1555,18 +1553,6 @@ message CMsgGCCStrike15_v2_ClientAuthKeyCode
 {
 	optional uint32 eventid = 1;		// Which event category auth key code is being generated for (0 for all)
 	optional string code = 2;			// Actual code or a special character: '?' = query, '-' = remove, '+' = create
-};
-
-//
-// k_EMsgGCCStrike15_v2_GotvSyncPacket
-//
-// server>GC: update sync tick;
-// client>GC: asking for sync tick;
-// GC>client: responding with sync tick
-//
-message CMsgGCCStrike15_GotvSyncPacket
-{
-	optional CEngineGotvSyncPacket data = 1;		// Data
 };
 
 

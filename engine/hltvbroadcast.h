@@ -1,4 +1,4 @@
-//========= Copyright © Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -20,8 +20,6 @@
 
 class CHLTVFrame;
 class CHLTVServer;
-
-class CEngineGotvSyncPacket;	// forward declare protobuf message here
 
 
 
@@ -95,8 +93,6 @@ protected:
 		virtual void Run( void *pvParam, bool bIOFailure, SteamAPICall_t hSteamAPICall ) OVERRIDE; // result; HTTPRequestCompleted_t
 		void DetachFromParent() { m_pParent = nullptr; }
 
-		void SetProtobufMsgForGCUponSuccess( const CEngineGotvSyncPacket *pProtobufMsgForGCUponSuccess );
-
 	public:
 		int m_nIncrementalVectorIndex;
 	protected:
@@ -104,7 +100,6 @@ protected:
 		CHLTVBroadcast *m_pParent;
 		HTTPRequestHandle m_hRequest;
 		CUtlString m_Resource;
-		const CEngineGotvSyncPacket *m_pProtobufMsgForGCUponSuccess;
 	};
 public:
 	CHLTVBroadcast( CHLTVServer *pHltvServer );

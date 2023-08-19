@@ -7,7 +7,6 @@
 #include "tier0/memalloc.h"
 #include "cl_demo.h"
 #include "sv_steamauth.h"
-#include "engine_gcmessages.pb.h"
 
 
 static ISteamHTTP *s_pSteamHTTP = nullptr;
@@ -21,7 +20,6 @@ CDemoStreamHttp::CDemoStreamHttp() :
 	m_nState( STATE_IDLE ),
 	m_pStreamSignup(nullptr),
 	m_pClient(nullptr),
-	m_bSyncFromGc( false ),
 	m_flBroadcastKeyframeInterval( 3 )
 {
 	V_memset( &m_SyncResponse, 0, sizeof( m_SyncResponse ) );
@@ -40,17 +38,7 @@ bool CDemoStreamHttp::PrepareForStreaming( const char * pUrl )
 {
 	StopStreaming();
 
-	if ( pUrl[ 0 ] == 'g' && pUrl[ 1 ] == 'c' && pUrl[ 2 ] == '-' )
-	{
-		m_Url = pUrl + 3;
-		m_bSyncFromGc = true;
-	}
-	else
-	{
-		m_Url = pUrl;
-		m_bSyncFromGc = false;
-	}
-
+	m_Url = pUrl;
 	m_Url.StripTrailingSlash();
 
 #ifndef DEDICATED
@@ -101,29 +89,12 @@ void CDemoStreamHttp::StartStreamingCached( const char *pUrl, int nFragment)
 void CDemoStreamHttp::SendSync( int nResync )
 {
 	Assert( m_nState == STATE_SYNC );
-#ifndef DEDICATED
-	if ( m_bSyncFromGc )
-	{
-		GotvHttpStreamId_t params = GetStreamId( m_Url );
-		DevMsg( "Requesting sync from GC, start fragment %d match id %llu instance %d\n", m_SyncParams.m_nStartFragment, params.m_nMatchId, params.m_nInstanceId );
-		CEngineGotvSyncPacket msg;
-		msg.set_match_id( params.m_nMatchId );
-		msg.set_instance_id( params.m_nInstanceId );
-		if ( m_SyncParams.m_nStartFragment > 0 )
-		{
-			msg.set_currentfragment( m_SyncParams.m_nStartFragment );
-		}
-		g_ClientDLL->EngineGotvSyncPacket( &msg );
-		m_dSyncTimeoutEnd = Plat_FloatTime() + 10;
-	}
-	else
-#endif
-	{
-		char request[ 128 ];
-		m_SyncParams.PrintSyncRequest( request, sizeof( request ) );
-		DevMsg( "Requesting sync from relay %s\n", request );
-		SendGet( request, new CSyncRequest( m_SyncParams, nResync ) );
-	}
+
+	char request[ 128 ];
+	m_SyncParams.PrintSyncRequest( request, sizeof( request ) );
+	DevMsg( "Requesting sync from relay %s\n", request );
+	SendGet( request, new CSyncRequest( m_SyncParams, nResync ) );
+
 }
 
 void CDemoStreamHttp::Resync( )
@@ -134,6 +105,7 @@ void CDemoStreamHttp::Resync( )
 
 void CDemoStreamHttp::Update()
 {
+#if 0
 	if ( m_nState == STATE_SYNC && m_bSyncFromGc && m_dSyncTimeoutEnd > 0 && m_dSyncTimeoutEnd < Plat_FloatTime() )
 	{
 		StopStreaming();
@@ -144,6 +116,7 @@ void CDemoStreamHttp::Update()
 		m_nState = STATE_SYNC;
 		SendSync( 0 );
 	}
+#endif
 }
 
 // result from "/start" request
@@ -186,47 +159,6 @@ void CDemoStreamHttp::OnFragmentRequestFailure( EHTTPStatusCode nErrorCode, int 
 	fragment.ClearStreaming( nType );
 	// TODO: Retry streaming gracefully, implement timeouts, skip fragment and download the next full frame if needed
 }
-
-bool CDemoStreamHttp::OnEngineGotvSyncPacket( const CEngineGotvSyncPacket *pPkt )
-{
-	GotvHttpStreamId_t streamId = GetStreamId( m_Url );
-
-	if ( streamId.m_nMatchId != pPkt->match_id() || streamId.m_nInstanceId != pPkt->instance_id() )
-	{
-		Warning( "Ignoring unexpected sync from gc, match %llu:%d, expected %llu:%d\n", pPkt->match_id(), pPkt->instance_id(), streamId.m_nMatchId, streamId.m_nInstanceId );
-		return false;
-	}
-
-	if ( m_nState != STATE_SYNC && m_nState != STATE_RANDOM_WAIT_AND_SYNC ) // we should be waiting for a sync in some way. In case of WAIT_AND_SYNC, maybe GC will send us a packet even though we didn't ask for it, while we're waiting to re-ask for a sync..
-	{
-		Warning( "Ignoring unexpected sync from gc, match %llu:%d\n", pPkt->match_id(), pPkt->instance_id() );
-		return false;
-	}
-
-	if ( !pPkt->has_tick() )
-	{
-		// the packet is empty, which means: wait for a few seconds
-		m_nState = STATE_RANDOM_WAIT_AND_SYNC;
-		float flDelay = pPkt->rtdelay() * RandomFloat( 0.5f, 1.5f );
-		m_dSyncTimeoutEnd = Plat_FloatTime() + flDelay;
-		DevMsg( "Waiting %.2f seconds\n", flDelay );
-		return true; // we actually successfully processed the packet
-	}
-
-	m_nDemoProtocol = 4;
-	m_SyncResponse.flTicksPerSecond = pPkt->tickrate();
-	m_SyncResponse.flKeyframeInterval = pPkt->has_keyframe_interval() ? pPkt->keyframe_interval() : 3.0f;
-	m_SyncResponse.nStartTick = pPkt->tick();
-	m_SyncResponse.flRealTimeDelay = pPkt->rtdelay();
-	m_SyncResponse.flReceiveAge = pPkt->rcvage();
-	m_SyncResponse.nFragment = pPkt->currentfragment();
-	m_SyncResponse.nSignupFragment = pPkt->signupfragment();
-	m_SyncResponse.dPlatTimeReceived = Plat_FloatTime();
-
-	return OnSync( 0 );
-}
-
-
 
 // result from "/sync" request arrived
 bool CDemoStreamHttp::OnSync( const char *pBuffer, int nBufferSize, int nResync )
