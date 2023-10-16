@@ -414,6 +414,9 @@ $Group "everything"
 	"fbx2dmx"
 	"protobuf"
 	"protoc"
+	"utf8_range"
+	"utf8_validity"
+	"abseil"
 }
 
 // All projects that should be built for vpc

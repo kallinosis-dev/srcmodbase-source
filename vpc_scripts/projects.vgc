@@ -1235,10 +1235,27 @@ $Project "zlib"
 
 $Project "protobuf"
 {
-    "thirdparty\protobuf-2.5.0\src\protobuf.vpc"
+    "thirdparty\protobuf\protobuf.vpc"
 }
 
 $Project "protoc"
 {
-    "thirdparty\protobuf-2.5.0\src\protoc.vpc"
+    "thirdparty\protobuf\protoc.vpc"
+}
+
+////
+
+$Project "utf8_range"
+{
+	"thirdparty\protobuf\third_party\utf8_range\utf8_range.vpc"
+}
+
+$Project "utf8_validity"
+{
+	"thirdparty\protobuf\third_party\utf8_range\utf8_validity.vpc"
+}
+
+$Project "abseil"
+{
+	"thirdparty\protobuf\third_party\abseil-cpp\abseil.vpc"
 }
