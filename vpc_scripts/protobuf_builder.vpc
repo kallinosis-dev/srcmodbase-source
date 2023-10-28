@@ -20,7 +20,7 @@ $Configuration
 	$Compiler
 	{
 		// General
-		$AdditionalIncludeDirectories		"$BASE;$GENERATED_PROTO_DIR;$SRCDIR\thirdparty\protobuf\src"
+		$AdditionalIncludeDirectories		"$BASE;$GENERATED_PROTO_DIR;$SRCDIR\thirdparty\protobuf\src;$SRCDIR\thirdparty\protobuf\third_party\abseil-cpp\"
 		$PreprocessorDefinitions			"$BASE;PROTOBUF"
 	}
 }

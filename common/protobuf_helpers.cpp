@@ -4,52 +4,61 @@
 //
 //===========================================================================//
 
-#include "tier0/dbg.h"
 
+#include "absl/log/globals.h"
+#include "absl/log/log_sink.h"
+#include "absl/log/log_sink_registry.h"
 #include "google/protobuf/descriptor.h"
 #include "google/protobuf/reflection_ops.h"
 #include "google/protobuf/descriptor.pb.h"
 
-using namespace google::protobuf;
-//using namespace stl;
+#include "tier0/dbg.h"
 
-class CProtobufLogHandler
+using namespace google::protobuf;
+
+
+class AbseilLogSink: public absl::LogSink
 {
 public:
-
-	CProtobufLogHandler()
+	void Send(const absl::LogEntry& entry) override
 	{
-		google::protobuf::SetLogHandler( LogHandler );
-	}
-
-	~CProtobufLogHandler()
-	{
-		google::protobuf::SetLogHandler(nullptr);
-	}
-
-	static void LogHandler( google::protobuf::LogLevel level, const char* filename, int line, const std::string& message )
-	{
-		switch ( level )
+		switch (entry.log_severity())
 		{
-		case google::protobuf::LOGLEVEL_INFO:
-		case google::protobuf::LOGLEVEL_WARNING:
-			DevMsg( "Protobuf: %s(%d): %s\n", filename, line, message.c_str() );
+		case absl::LogSeverity::kInfo:
+		case absl::LogSeverity::kWarning:
+			DevMsg("Protobuf: %s(%d): %s\n", entry.source_filename().data(), entry.source_line(), entry.text_message_with_prefix().data());
 			break;
 
-		case google::protobuf::LOGLEVEL_ERROR:
-			Warning( "Protobuf: %s(%d): %s\n", filename, line, message.c_str() );
+		case absl::LogSeverity::kError:
+			Warning("Protobuf: %s(%d): %s\n", entry.source_filename().data(), entry.source_line(), entry.text_message_with_prefix().data());
 			break;
 
-		case google::protobuf::LOGLEVEL_FATAL:
-			Warning( "Protobuf: %s(%d): %s\n", filename, line, message.c_str() );
-			Plat_ExitProcess( 100 );
+		case absl::LogSeverity::kFatal:
+			Warning("Protobuf: %s(%d): %s\n", entry.source_filename().data(), entry.source_line(), entry.text_message_with_prefix().data());
+			Plat_ExitProcess(100);
 			break;
 		}
-
 	}
-};	
+};
 
-static CProtobufLogHandler g_ProtobufLogHandler;
+class AbseilAddLogSink
+{
+	AbseilLogSink _sink;
+
+public:
+	AbseilAddLogSink()
+	{
+		absl::SetStderrThreshold(absl::LogSeverityAtLeast::kInfinity);
+		absl::AddLogSink(&_sink);
+	}
+
+	~AbseilAddLogSink()
+	{
+		absl::RemoveLogSink(&_sink);
+	}
+};
+
+static AbseilAddLogSink g_AbseilAddLogSink;
 
 /*
 
