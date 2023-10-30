@@ -61,10 +61,10 @@ class CSGOWorkshopMaps : public CAutoGameSystemPerFrame, public CBaseWorkshopMan
 public:
 	CSGOWorkshopMaps();
 
-	virtual bool Init( void ) OVERRIDE;
-	virtual void Shutdown( void ) OVERRIDE;
-	virtual void Update( float frametime ) OVERRIDE;
-	virtual const char* Name( void ) OVERRIDE { return "CSGOWorkshop"; }
+	virtual bool Init( void ) override;
+	virtual void Shutdown( void ) override;
+	virtual void Update( float frametime ) override;
+	virtual const char* Name( void ) override { return "CSGOWorkshop"; }
 
 	bool CreateThumbnailFileRequest( const PublishedFileInfo_t &info );
 	bool CreateMapFileRequest( const PublishedFileInfo_t &info );
@@ -77,13 +77,13 @@ public:
 	void Steam_OnEnumerateSubscribedMaps( RemoteStorageEnumerateUserSubscribedFilesResult_t *pResult, bool bError );
 
 	// CBaseWorkshopManagerCallbackInterface
-	virtual void OnFileRequestFinished( UGCHandle_t hFileHandle ) OVERRIDE;
-	virtual void OnFileRequestError( UGCHandle_t hFileHandle ) OVERRIDE;
+	virtual void OnFileRequestFinished( UGCHandle_t hFileHandle ) override;
+	virtual void OnFileRequestError( UGCHandle_t hFileHandle ) override;
 
 	// Published files
-	virtual void OnPublishedFileSubscribed( PublishedFileId_t nID ) OVERRIDE;
-	virtual void OnPublishedFileUnsubscribed( PublishedFileId_t nID ) OVERRIDE;
-	virtual void OnPublishedFileDeleted( PublishedFileId_t nID ) OVERRIDE;
+	virtual void OnPublishedFileSubscribed( PublishedFileId_t nID ) override;
+	virtual void OnPublishedFileUnsubscribed( PublishedFileId_t nID ) override;
+	virtual void OnPublishedFileDeleted( PublishedFileId_t nID ) override;
 
 	bool IsSubscribedMap( const char *pchMapName, bool bOnlyOnDisk );
 	bool IsFeaturedMap( const char *pchMapName, bool bOnlyOnDisk );

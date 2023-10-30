@@ -559,7 +559,7 @@ public:
 	bool							GetRootBone( matrix3x4_t &rootBone );
 	inline void						SetUseParentLightingOrigin( bool value ){ m_bUseParentLightingOrigin = value; }
 
-	virtual void					SetCustomMaterial( ICustomMaterial *pCustomMaterial, int nIndex = 0 ) OVERRIDE;
+	virtual void					SetCustomMaterial( ICustomMaterial *pCustomMaterial, int nIndex = 0 ) override;
 
 	virtual void					SetAllowFastPath( bool bAllow ) { m_bCanUseFastPath = bAllow; }
 

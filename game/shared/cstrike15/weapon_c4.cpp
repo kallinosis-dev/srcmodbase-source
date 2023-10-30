@@ -703,7 +703,7 @@ END_PREDICTION_DATA()
 				class CPlantedC4DefusedMVP : public CCSGameRules::ICalculateEndOfRoundMVPHook_t
 				{
 				public:
-					virtual CCSPlayer* CalculateEndOfRoundMVP() OVERRIDE
+					virtual CCSPlayer* CalculateEndOfRoundMVP() override
 					{
 						if( m_pBombDefuser->HasControlledBotThisRound() )
 						{ 
@@ -806,7 +806,7 @@ END_PREDICTION_DATA()
 		class CPlantedC4ExplodedMVP : public CCSGameRules::ICalculateEndOfRoundMVPHook_t
 		{
 		public:
-			virtual CCSPlayer* CalculateEndOfRoundMVP() OVERRIDE
+			virtual CCSPlayer* CalculateEndOfRoundMVP() override
 			{
 				// All alive Terrorists also get credit for bomb exploding,
 				// this intentionally may include the original planter.

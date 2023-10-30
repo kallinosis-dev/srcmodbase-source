@@ -73,7 +73,7 @@ public:
 	const wchar_t*		GetDecoratedPlayerName( int name, OUT_Z_BYTECAP(bufflen) wchar_t* buffer, int bufflen, EDecoratedPlayerNameFlag_t flags );
 
 #if CS_CONTROLLABLE_BOTS_ENABLED
-	virtual const char *GetPlayerName( int index ) OVERRIDE;
+	virtual const char *GetPlayerName( int index ) override;
 	bool			IsControllingBot( int index );
 	int				GetControlledPlayer( int index );
 	int				GetControlledByPlayer( int index );
@@ -88,7 +88,7 @@ public:
 
 protected:
 
-	virtual void	UpdatePlayerName( int slot ) OVERRIDE;
+	virtual void	UpdatePlayerName( int slot ) override;
 
 	bool	m_bDisableAssassinationTargetNameOverride;
 

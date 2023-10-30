@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -489,7 +489,7 @@ void FX_FireBullets(
 			m_bEnemyHit( false ),
 			m_bShotFiredAndOnTargetRecorded( false )
 		{}
-		virtual void OnTakeDamageListenerCallback( CCSPlayer *pVictim, CTakeDamageInfo &infoTweakable ) OVERRIDE
+		virtual void OnTakeDamageListenerCallback( CCSPlayer *pVictim, CTakeDamageInfo &infoTweakable ) override
 		{
 			if ( m_pPlayerShooting && pVictim->IsOtherEnemy( m_pPlayerShooting ) )
 			{

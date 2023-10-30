@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -91,9 +91,9 @@ public:
 	void			UpdateName( const char *pszDefault );
 
 	virtual	void	Connect(const char * szName, int nUserID, INetChannel *pNetChannel, bool bFakePlayer, CrossPlayPlatform_t clientPlatform, const CMsg_CVars *pVecCvars = nullptr);
-	virtual	void	Inactivate( void )OVERRIDE;
-	virtual	void	Reconnect( void )OVERRIDE;
-	virtual	void	Disconnect( const char *reason ) OVERRIDE;
+	virtual	void	Inactivate( void )override;
+	virtual	void	Reconnect( void )override;
+	virtual	void	Disconnect( const char *reason ) override;
 	virtual bool	CheckConnect( void );
 	virtual bool	ChangeSplitscreenUser( int nSplitScreenUserSlot );
 
@@ -182,11 +182,11 @@ public: // Message Handlers
 
 	CUtlArray< CNetMessageBinder, NETMSG_Max > m_NetMessages;
 
-	virtual void	ConnectionStart(INetChannel *chan) OVERRIDE;
-	virtual void	ConnectionStop()OVERRIDE;
+	virtual void	ConnectionStart(INetChannel *chan) override;
+	virtual void	ConnectionStop()override;
 
 public: // IGameEventListener
-	virtual void	FireGameEvent( IGameEvent *event ) OVERRIDE { FireGameEvent( event, false ); }
+	virtual void	FireGameEvent( IGameEvent *event ) override { FireGameEvent( event, false ); }
 	void FireGameEvent( IGameEvent *event, bool bPassthrough );
 	int				m_nDebugID;
 	virtual int		GetEventDebugID( void );
@@ -238,11 +238,11 @@ public:
 	virtual IClient	*GetSplitScreenOwner() { return m_pAttachedTo; }
 	
 	virtual int		GetNumPlayers();
-	virtual bool	StartHltvReplay( const HltvReplayParams_t &params ) OVERRIDE { return false; } // not implemented for most clients
-	virtual void	StopHltvReplay() OVERRIDE { }
-	virtual int		GetHltvReplayDelay() OVERRIDE { return 0; }
-	virtual bool	CanStartHltvReplay() OVERRIDE { return false; }
-	virtual void	ResetReplayRequestTime() OVERRIDE { }
+	virtual bool	StartHltvReplay( const HltvReplayParams_t &params ) override { return false; } // not implemented for most clients
+	virtual void	StopHltvReplay() override { }
+	virtual int		GetHltvReplayDelay() override { return 0; }
+	virtual bool	CanStartHltvReplay() override { return false; }
+	virtual void	ResetReplayRequestTime() override { }
 	virtual CBaseClient *GetPropCullClient() { return this; }
 	void			OverrideSignonStateTransparent( int nState ){ m_nSignonState = nState; }
 protected:

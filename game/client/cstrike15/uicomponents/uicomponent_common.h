@@ -72,7 +72,7 @@ public:
 		return InternalInstancePtr();
 	}
 
-	void Shutdown() OVERRIDE
+	void Shutdown() override
 	{
 		T *pInstance = InternalInstancePtr();
 		Assert( pInstance && (pInstance == this) );
@@ -87,9 +87,9 @@ public:
 #define UI_COMPONENT_DECLARE_GLOBAL_INSTANCE_ONLY( classname ) \
 	protected: \
 		friend class CUiComponentGlobalInstanceHelper< classname >; \
-		void InstallScaleformBindings( int iSlot ) OVERRIDE; \
-		void InstallPanoramaBindings( ) OVERRIDE; \
-		void ShutdownComponentApiDef( int iSlot ) OVERRIDE; \
+		void InstallScaleformBindings( int iSlot ) override; \
+		void InstallPanoramaBindings( ) override; \
+		void ShutdownComponentApiDef( int iSlot ) override; \
 		classname(); \
 		~classname(); \
 	private: \
@@ -519,29 +519,29 @@ void componentclass::JSRegisterFunc() \
 class CPanoramaMarshallHelper : public IUIMarshalHelper
 {
 public:
-	virtual SFVALUEARRAY Params_GetArgs( SFPARAMS params ) OVERRIDE;
-	virtual unsigned int Params_GetNumArgs( SFPARAMS params ) OVERRIDE;
-	virtual bool Params_ArgIs( SFPARAMS params, unsigned int index, _ValueType v ) OVERRIDE;
-	virtual SFVALUE Params_GetArg( SFPARAMS params, int index = 0 ) OVERRIDE;
-	virtual _ValueType Params_GetArgType( SFPARAMS params, int index = 0 ) OVERRIDE;
-	virtual double Params_GetArgAsNumber( SFPARAMS params, int index = 0 ) OVERRIDE;
-	virtual bool Params_GetArgAsBool( SFPARAMS params, int index = 0 ) OVERRIDE;
-	virtual const char* Params_GetArgAsString( SFPARAMS params, int index = 0 ) OVERRIDE;
-	virtual const wchar_t* Params_GetArgAsStringW( SFPARAMS params, int index = 0 ) OVERRIDE;
+	virtual SFVALUEARRAY Params_GetArgs( SFPARAMS params ) override;
+	virtual unsigned int Params_GetNumArgs( SFPARAMS params ) override;
+	virtual bool Params_ArgIs( SFPARAMS params, unsigned int index, _ValueType v ) override;
+	virtual SFVALUE Params_GetArg( SFPARAMS params, int index = 0 ) override;
+	virtual _ValueType Params_GetArgType( SFPARAMS params, int index = 0 ) override;
+	virtual double Params_GetArgAsNumber( SFPARAMS params, int index = 0 ) override;
+	virtual bool Params_GetArgAsBool( SFPARAMS params, int index = 0 ) override;
+	virtual const char* Params_GetArgAsString( SFPARAMS params, int index = 0 ) override;
+	virtual const wchar_t* Params_GetArgAsStringW( SFPARAMS params, int index = 0 ) override;
 
-	virtual void Params_DebugSpew( SFPARAMS params ) OVERRIDE;
+	virtual void Params_DebugSpew( SFPARAMS params ) override;
 
-	virtual void Params_SetResult( SFPARAMS params, SFVALUE value ) OVERRIDE;
-	virtual void Params_SetResult( SFPARAMS params, int value ) OVERRIDE;
-	virtual void Params_SetResult( SFPARAMS params, float value ) OVERRIDE;
-	virtual void Params_SetResult( SFPARAMS params, bool value ) OVERRIDE;
-	virtual void Params_SetResult( SFPARAMS params, const char* value, bool bMakeNewValue = true ) OVERRIDE;
-	virtual void Params_SetResult( SFPARAMS params, const wchar_t* value, bool bMakeNewValue = true ) OVERRIDE;
+	virtual void Params_SetResult( SFPARAMS params, SFVALUE value ) override;
+	virtual void Params_SetResult( SFPARAMS params, int value ) override;
+	virtual void Params_SetResult( SFPARAMS params, float value ) override;
+	virtual void Params_SetResult( SFPARAMS params, bool value ) override;
+	virtual void Params_SetResult( SFPARAMS params, const char* value, bool bMakeNewValue = true ) override;
+	virtual void Params_SetResult( SFPARAMS params, const wchar_t* value, bool bMakeNewValue = true ) override;
 
-	virtual SFVALUE Params_CreateNewObject( SFPARAMS params ) OVERRIDE;
-	virtual SFVALUE Params_CreateNewString( SFPARAMS params, const char* value ) OVERRIDE;
-	virtual SFVALUE Params_CreateNewString( SFPARAMS params, const wchar_t* value ) OVERRIDE;
-	virtual SFVALUE Params_CreateNewArray( SFPARAMS params, int size = -1 ) OVERRIDE;
+	virtual SFVALUE Params_CreateNewObject( SFPARAMS params ) override;
+	virtual SFVALUE Params_CreateNewString( SFPARAMS params, const char* value ) override;
+	virtual SFVALUE Params_CreateNewString( SFPARAMS params, const wchar_t* value ) override;
+	virtual SFVALUE Params_CreateNewArray( SFPARAMS params, int size = -1 ) override;
 private:
 	// Scratch storage for returning v8 string params. Grows to high water mark of param count. 
 	CUtlVector< CUtlString > m_vecStringStorage;

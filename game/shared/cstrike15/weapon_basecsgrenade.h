@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -62,7 +62,7 @@ public:
 	bool			GetIsThrown( void ) { return !m_bIsHeldByPlayer; }
 
 #ifdef CLIENT_DLL
-	virtual int		DrawModel( int flags, const RenderableInstance_t &instance ) OVERRIDE;
+	virtual int		DrawModel( int flags, const RenderableInstance_t &instance ) override;
 #endif
 
 #ifdef GRENADE_UNDERHAND_FEATURE_ENABLED

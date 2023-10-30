@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: "Steam" based pseudo socket support (PC only)
 //
@@ -543,18 +543,18 @@ public:
 	CSteamSocketMgr();
 	~CSteamSocketMgr();
 
-	virtual void Init() OVERRIDE;
-	virtual void Shutdown() OVERRIDE;
+	virtual void Init() override;
+	virtual void Shutdown() override;
 
 	virtual ISteamSocketMgr::ESteamCnxType GetCnxType();
 
-	virtual void OpenSocket( int s, int nModule, int nSetPort, int nDefaultPort, const char *pName, int nProtocol, bool bTryAny ) OVERRIDE;
-	virtual void CloseSocket( int s, int nModule ) OVERRIDE;
+	virtual void OpenSocket( int s, int nModule, int nSetPort, int nDefaultPort, const char *pName, int nProtocol, bool bTryAny ) override;
+	virtual void CloseSocket( int s, int nModule ) override;
 
-	virtual int sendto( int s, const char * buf, int len, int flags, const ns_address &to ) OVERRIDE;
-	virtual int recvfrom( int s, char * buf, int len, int flags, ns_address *from ) OVERRIDE;
+	virtual int sendto( int s, const char * buf, int len, int flags, const ns_address &to ) override;
+	virtual int recvfrom( int s, char * buf, int len, int flags, ns_address *from ) override;
 
-	virtual uint64 GetSteamIDForRemote( const ns_address &remote ) OVERRIDE;
+	virtual uint64 GetSteamIDForRemote( const ns_address &remote ) override;
 
 	// client connection state
 	STEAM_CALLBACK( CSteamSocketMgr, OnP2PSessionRequest, P2PSessionRequest_t, m_callbackP2PSessionRequest );
@@ -1088,7 +1088,7 @@ public:
 			g_ThreadedSocketQueue.CloseSocket( s );
 	}
 
-	virtual int sendto( int s, const char * buf, int len, int flags, const ns_address &to ) OVERRIDE
+	virtual int sendto( int s, const char * buf, int len, int flags, const ns_address &to ) override
 	{
 		if ( to.IsType<netadr_t>() )
 		{
@@ -1100,7 +1100,7 @@ public:
 		return -1;
 	}
 
-	virtual int recvfrom( int s, char * buf, int len, int flags, ns_address *from ) OVERRIDE
+	virtual int recvfrom( int s, char * buf, int len, int flags, ns_address *from ) override
 	{
 		sockaddr sadrfrom;
 		socklen_t fromlen = sizeof(sadrfrom);

@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -87,10 +87,10 @@ public:
 
 	void	WriteFileBytes( FileHandle_t fh, int length );
 
-	virtual const char* GetUrl( void ) OVERRIDE { return m_szFileName; }
-	virtual float GetTicksPerSecond() OVERRIDE;
-	virtual float GetTicksPerFrame() OVERRIDE;
-	virtual int	GetTotalTicks( void ) OVERRIDE;
+	virtual const char* GetUrl( void ) override { return m_szFileName; }
+	virtual float GetTicksPerSecond() override;
+	virtual float GetTicksPerFrame() override;
+	virtual int	GetTotalTicks( void ) override;
 public:
 	char			m_szFileName[MAX_PATH];	//name of current demo file
 	demoheader_t    m_DemoHeader;  //general demo info

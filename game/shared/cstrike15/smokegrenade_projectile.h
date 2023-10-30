@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -23,8 +23,8 @@ class C_SmokeGrenadeProjectile : public C_BaseCSGrenadeProjectile
 	C_SmokeGrenadeProjectile() {}
 	virtual ~C_SmokeGrenadeProjectile();
 
-	virtual void PostDataUpdate( DataUpdateType_t updateType ) OVERRIDE;
-	virtual void OnDataChanged( DataUpdateType_t updateType ) OVERRIDE;
+	virtual void PostDataUpdate( DataUpdateType_t updateType ) override;
+	virtual void OnDataChanged( DataUpdateType_t updateType ) override;
 
 	virtual GrenadeType_t GetGrenadeType( void ) { return GRENADE_TYPE_SMOKE; }
 	void SpawnSmokeEffect();

@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2005, Valve Corporation, All rights reserved. =====//
+//====== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. =====//
 //
 // Purpose: 
 //
@@ -152,10 +152,10 @@ public:
 	virtual int GetSetDebugTraceCounter( int value, DebugTraceCounterBehavior_t behavior );
 	virtual const char *GetDebugName( IHandleEntity *pHandleEntity ) = 0;
 
-	virtual bool IsFullyOccluded( int nOcclusionKey, const AABB_t &aabb1, const AABB_t &aabb2, const Vector &vShadow ) OVERRIDE;
-	virtual void SuspendOcclusionTests() OVERRIDE{ m_nOcclusionTestsSuspended++; }
-	virtual void ResumeOcclusionTests()OVERRIDE;
-	virtual void FlushOcclusionQueries() OVERRIDE;
+	virtual bool IsFullyOccluded( int nOcclusionKey, const AABB_t &aabb1, const AABB_t &aabb2, const Vector &vShadow ) override;
+	virtual void SuspendOcclusionTests() override{ m_nOcclusionTestsSuspended++; }
+	virtual void ResumeOcclusionTests()override;
+	virtual void FlushOcclusionQueries() override;
 private:
 	// FIXME: Different versions for client + server. Eventually we need to make these go away
 	virtual void SetTraceEntity( ICollideable *pCollideable, trace_t *pTrace ) = 0;
@@ -2405,11 +2405,11 @@ public:
 		s_occlusionStats.nJobs++;
 		s_occlusionStats.nJobsInFlight++;
 	}
-	virtual ~COcclusionQueryJob() OVERRIDE
+	virtual ~COcclusionQueryJob() override
 	{
 		s_occlusionStats.nJobs--;
 	}
-	virtual JobStatus_t	DoExecute() OVERRIDE;
+	virtual JobStatus_t	DoExecute() override;
 };
 
 static COcclusionQueryJob *s_pOcclusionQueryJob = nullptr;  // this is the job that was last queued to consume the s_occlusionQueries queue
@@ -2547,7 +2547,7 @@ public:
 		s_occlusionStats.nQueries++;
 		Init( aabb0, aabb1, vShadow );
 	}
-	virtual ~CAsyncOcclusionQuery() OVERRIDE
+	virtual ~CAsyncOcclusionQuery() override
 	{
 		if ( !m_bCompleted )
 			s_occlusionStats.nQueriesInFlight--;

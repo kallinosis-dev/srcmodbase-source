@@ -403,7 +403,7 @@ EXPOSE_MATERIAL_PROXY( CStatTrakDigitProxy, StatTrakDigit );
 class CStatTrakDigitProxyForModelWeaponPreviewPanel : public CStatTrakDigitProxy
 {
 public:
-	virtual bool HelperOnBindGetStatTrakScore( void *pC_BaseEntity, int *puiScore ) OVERRIDE
+	virtual bool HelperOnBindGetStatTrakScore( void *pC_BaseEntity, int *puiScore ) override
 	{
 		#error Cut for partner depot
 		return false;

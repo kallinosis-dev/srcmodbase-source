@@ -17,11 +17,11 @@ public:
 
 	void Reset();
 
-	virtual void FireGameEvent( IGameEvent *event ) OVERRIDE;
+	virtual void FireGameEvent( IGameEvent *event ) override;
 
-	virtual void PostInit() OVERRIDE;
-	virtual void LevelInitPreEntity() OVERRIDE;
-	virtual void LevelShutdownPostEntity() OVERRIDE;
+	virtual void PostInit() override;
+	virtual void LevelInitPreEntity() override;
+	virtual void LevelShutdownPostEntity() override;
 
 	void OnTickPre( int tickcount );
 

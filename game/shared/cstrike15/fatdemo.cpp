@@ -67,7 +67,7 @@ public:
 	{}
 
 	// IGameEventVisitor2
-	virtual bool VisitString( const char* name, const char* value ) OVERRIDE
+	virtual bool VisitString( const char* name, const char* value ) override
 	{
 		MLDict* pEntry = m_pEvent->add_data();
 		pEntry->set_key( name );
@@ -75,7 +75,7 @@ public:
 		return true;
 	}
 
-	virtual bool VisitFloat( const char* name, float value ) OVERRIDE
+	virtual bool VisitFloat( const char* name, float value ) override
 	{
 		MLDict* pEntry = m_pEvent->add_data();
 		pEntry->set_key( name );
@@ -83,7 +83,7 @@ public:
 		return true;
 	}
 
-	virtual bool VisitInt( const char* name, int value ) OVERRIDE
+	virtual bool VisitInt( const char* name, int value ) override
 	{
 		MLDict* pEntry = m_pEvent->add_data();
 		pEntry->set_key( name );
@@ -91,7 +91,7 @@ public:
 		return true;
 	}
 
-	virtual bool VisitBool( const char*name, bool value ) OVERRIDE
+	virtual bool VisitBool( const char*name, bool value ) override
 	{
 		MLDict* pEntry = m_pEvent->add_data();
 		pEntry->set_key( name );

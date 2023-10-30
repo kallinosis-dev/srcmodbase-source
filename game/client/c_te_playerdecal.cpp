@@ -217,7 +217,7 @@ public:
 	}
 
 	virtual void	PostDataUpdate( DataUpdateType_t updateType );
-	virtual void SetDestroyedOnRecreateEntities( void ) OVERRIDE;
+	virtual void SetDestroyedOnRecreateEntities( void ) override;
 	
 	bool BMakeDecalReadyToApplyToWorld();
 	void ApplyDecalDataToWorld();
@@ -990,7 +990,7 @@ public:
 	{
 		m_bInspectInModelPreviewWindow = true;
 	}
-	virtual void OnBind( void *pC_BaseEntity ) OVERRIDE
+	virtual void OnBind( void *pC_BaseEntity ) override
 	{
 		CPlayerLogoProxy::OnBind( ( void * ) ( intp ) g_nPlayerLogoProxyForPreviewKey );
 	}

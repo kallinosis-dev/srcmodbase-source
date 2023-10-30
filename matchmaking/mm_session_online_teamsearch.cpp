@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2009, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2009, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -53,7 +53,7 @@ protected:
 	// No voice
 	virtual void Voice_ProcessTalkers( KeyValues *pMachine, bool bAdd ) {}
 	virtual void Voice_CaptureAndTransmitLocalVoiceData() {}
-	virtual void Voice_Playback( KeyValues *msg, XUID xuidSrc ) OVERRIDE {}
+	virtual void Voice_Playback( KeyValues *msg, XUID xuidSrc ) override {}
 	virtual void Voice_UpdateLocalHeadsetsStatus() {}
 	virtual void Voice_UpdateMutelist() {}
 

@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -273,7 +273,7 @@ public:
 	bool	m_bCachedPlaneIsValid;
 	CBaseWeaponWorldModel *m_pClippingWeaponWorldModel;
 
-	virtual void SetSequence(int nSequence) OVERRIDE;
+	virtual void SetSequence(int nSequence) override;
 
 	virtual bool Simulate();
 	virtual	void Spawn( void );
@@ -344,7 +344,7 @@ public:
 
 	virtual void NotifyShouldTransmit( ShouldTransmitState_t state );
 	virtual void ClientThink();
-	virtual void OnTimeJump() OVERRIDE;
+	virtual void OnTimeJump() override;
 	
 	virtual void OnDataChanged( DataUpdateType_t type );
 	virtual void PostDataUpdate( DataUpdateType_t updateType );
@@ -374,13 +374,13 @@ public:
 	CUtlVector< C_BaseParticleEntity* > m_SmokeGrenades;
 
 	virtual bool ShouldDraw( void );
-	virtual bool UpdateDispatchLayer( CAnimationLayer *pLayer, CStudioHdr *pWeaponStudioHdr, int iSequence ) OVERRIDE;
+	virtual bool UpdateDispatchLayer( CAnimationLayer *pLayer, CStudioHdr *pWeaponStudioHdr, int iSequence ) override;
 	virtual void AccumulateLayers( IBoneSetup &boneSetup, BoneVector pos[], BoneQuaternion q[], float currentTime );
 	bool UpdateLayerWeaponDispatch( C_AnimationLayer *pLayer, int iSequence );
 	virtual float GetLayerSequenceCycleRate( C_AnimationLayer *pLayer, int iSequence );
 	virtual void BuildTransformations( CStudioHdr *pStudioHdr, BoneVector *pos, BoneQuaternion q[], const matrix3x4_t& cameraTransform, int boneMask, CBoneBitList &boneComputed );
 
-	virtual void DoExtraBoneProcessing( CStudioHdr *pStudioHdr, BoneVector pos[], BoneQuaternion q[], matrix3x4a_t boneToWorld[], CBoneBitList &boneComputed, CIKContext *pIKContext ) OVERRIDE;
+	virtual void DoExtraBoneProcessing( CStudioHdr *pStudioHdr, BoneVector pos[], BoneQuaternion q[], matrix3x4a_t boneToWorld[], CBoneBitList &boneComputed, CIKContext *pIKContext ) override;
 	
 	virtual bool SetupBones( matrix3x4a_t *pBoneToWorldOut, int nMaxBones, int boneMask, float currentTime );
 
@@ -398,7 +398,7 @@ public:
 
 	virtual void FireEvent( const Vector& origin, const QAngle& angles, int event, const char *options );
 
-	virtual void DropPhysicsMag( const char *options ) OVERRIDE;
+	virtual void DropPhysicsMag( const char *options ) override;
 
 	bool		 HasC4( void );
 	bool HasWeaponOfType( int nWeaponID ) const;
@@ -664,9 +664,9 @@ public:
 
 	float m_flLastSpawnTimeIndex;
 
-	virtual void NotifyOnLayerChangeSequence( const CAnimationLayer* pLayer, const int nNewSequence ) OVERRIDE;
-	virtual void NotifyOnLayerChangeWeight( const CAnimationLayer* pLayer, const float flNewWeight ) OVERRIDE;
-	virtual void NotifyOnLayerChangeCycle( const CAnimationLayer* pLayer, const float flNewCycle ) OVERRIDE;
+	virtual void NotifyOnLayerChangeSequence( const CAnimationLayer* pLayer, const int nNewSequence ) override;
+	virtual void NotifyOnLayerChangeWeight( const CAnimationLayer* pLayer, const float flNewWeight ) override;
+	virtual void NotifyOnLayerChangeCycle( const CAnimationLayer* pLayer, const float flNewCycle ) override;
 
 	bool IsInHostageRescueZone( void );
 
@@ -1025,9 +1025,9 @@ protected:
 public:
 	bool								ShouldInterpolateObserverChanges() const;
 	void								StartObserverInterpolation( const QAngle &startAngles );
-	virtual eObserverInterpState		GetObserverInterpState( void ) const OVERRIDE;
-	virtual bool						IsInObserverInterpolation( void ) const OVERRIDE { return ShouldInterpolateObserverChanges() && m_obsInterpState != OBSERVER_INTERP_NONE; }
-	virtual void						SetObserverTarget( EHANDLE hObserverTarget ) OVERRIDE;
+	virtual eObserverInterpState		GetObserverInterpState( void ) const override;
+	virtual bool						IsInObserverInterpolation( void ) const override { return ShouldInterpolateObserverChanges() && m_obsInterpState != OBSERVER_INTERP_NONE; }
+	virtual void						SetObserverTarget( EHANDLE hObserverTarget ) override;
 	void								InterpolateObserverView( Vector& vOrigin, QAngle& vAngles );
 	Vector								GetObserverInterpolatedOffsetVector( void ) { return m_vecObserverInterpolateOffset; }
 

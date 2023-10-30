@@ -171,20 +171,20 @@ const char *CClientState::GetCDKeyHash( void ) { return "123";}
 void CClientState::Clear( void ) {}
 bool CClientState::SVCMsg_UserMessage( const CSVCMsg_UserMessage& msg ) { return true; }
 bool CClientState::SVCMsg_GameEvent( const CSVCMsg_GameEvent& msg) { return true; }
-bool CClientState::SVCMsg_BSPDecal( const CSVCMsg_BSPDecal& msg ) OVERRIDE { return true; }
-bool CClientState::SVCMsg_CrosshairAngle( const CSVCMsg_CrosshairAngle& msg ) OVERRIDE { return true; }
-bool CClientState::SVCMsg_FixAngle( const CSVCMsg_FixAngle &msg ) OVERRIDE { return true; }
-bool CClientState::SVCMsg_VoiceData( const CSVCMsg_VoiceData& msg ) OVERRIDE { return true; }
-bool CClientState::SVCMsg_VoiceInit( const CSVCMsg_VoiceInit& msg ) OVERRIDE { return true; }
-bool CClientState::SVCMsg_SetPause( const CSVCMsg_SetPause& msg ) OVERRIDE { return true; } 
-bool CClientState::SVCMsg_ClassInfo( const CSVCMsg_ClassInfo& msg ) OVERRIDE { return true; }
-bool CClientState::NETMsg_StringCmd( const CNETMsg_StringCmd& msg ) OVERRIDE { return true; }
-bool CClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg ) OVERRIDE { return true; }
-bool CClientState::NETMsg_Tick( const CNETMsg_Tick& msg ) OVERRIDE { return true; }
+bool CClientState::SVCMsg_BSPDecal( const CSVCMsg_BSPDecal& msg ) override { return true; }
+bool CClientState::SVCMsg_CrosshairAngle( const CSVCMsg_CrosshairAngle& msg ) override { return true; }
+bool CClientState::SVCMsg_FixAngle( const CSVCMsg_FixAngle &msg ) override { return true; }
+bool CClientState::SVCMsg_VoiceData( const CSVCMsg_VoiceData& msg ) override { return true; }
+bool CClientState::SVCMsg_VoiceInit( const CSVCMsg_VoiceInit& msg ) override { return true; }
+bool CClientState::SVCMsg_SetPause( const CSVCMsg_SetPause& msg ) override { return true; } 
+bool CClientState::SVCMsg_ClassInfo( const CSVCMsg_ClassInfo& msg ) override { return true; }
+bool CClientState::NETMsg_StringCmd( const CNETMsg_StringCmd& msg ) override { return true; }
+bool CClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg ) override { return true; }
+bool CClientState::NETMsg_Tick( const CNETMsg_Tick& msg ) override { return true; }
 bool CClientState::SVCMsg_TempEntities( const CSVCMsg_TempEntities& msg ) { return true; }
 bool CClientState::SVCMsg_PacketEntities( const CSVCMsg_PacketEntities& msg ) { return true; }
-bool CClientState::SVCMsg_Sounds( const CSVCMsg_Sounds& msg ) OVERRIDE { return true; }
-bool CClientState::SVCMsg_Prefetch( const CSVCMsg_Prefetch& msg ) OVERRIDE { return true; }
+bool CClientState::SVCMsg_Sounds( const CSVCMsg_Sounds& msg ) override { return true; }
+bool CClientState::SVCMsg_Prefetch( const CSVCMsg_Prefetch& msg ) override { return true; }
 bool CClientState::SVCMsg_PaintmapData( const CSVCMsg_PaintmapData& msg ) { return true; }
 bool CClientState::SVCMsg_EntityMsg( const CSVCMsg_EntityMsg& msg ) { return true; }
 float CClientState::GetTime() const { return 0.0f;}

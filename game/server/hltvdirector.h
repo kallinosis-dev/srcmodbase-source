@@ -45,10 +45,10 @@ public:
 	CHLTVDirector();
 	virtual ~CHLTVDirector();
 
-	virtual void AddHLTVServer( IHLTVServer *hltv )OVERRIDE; // give the director an HLTV interface 
-	virtual void RemoveHLTVServer( IHLTVServer *hltv ) OVERRIDE;
-	virtual IHLTVServer* GetHLTVServer( int nIndex ) OVERRIDE { return m_HltvServers[ nIndex ].m_pHLTVServer; }
-	virtual int GetHLTVServerCount() OVERRIDE { return m_HltvServers.Count(); }
+	virtual void AddHLTVServer( IHLTVServer *hltv )override; // give the director an HLTV interface 
+	virtual void RemoveHLTVServer( IHLTVServer *hltv ) override;
+	virtual IHLTVServer* GetHLTVServer( int nIndex ) override { return m_HltvServers[ nIndex ].m_pHLTVServer; }
+	virtual int GetHLTVServerCount() override { return m_HltvServers.Count(); }
 	int		GetDirectorTick( void );	// get current broadcast tick from director
 	int		GetPVSEntity( void ); // get current view entity (PVS)
 	Vector	GetPVSOrigin( void ); // get current PVS origin, if PVS entity is 0

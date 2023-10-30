@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -30,7 +30,7 @@ public:
 public:
 	
 	const char *GetCDKeyHash() { return "HLTVHLTVHLTVHLTVHLTVHLTVHLTVHLTV"; }; // haha
-	bool SetSignonState ( int state, int count, const CNETMsg_SignonState *msg ) OVERRIDE;
+	bool SetSignonState ( int state, int count, const CNETMsg_SignonState *msg ) override;
 	void SendClientInfo( void );
 	void PacketEnd( void );
 	void Clear( void );
@@ -41,7 +41,7 @@ public:
 
 	void ConnectionCrashed( const char * reason );
 	void ConnectionClosing( const char * reason );
-	virtual void Disconnect( bool bShowMainMenu = true ) OVERRIDE;
+	virtual void Disconnect( bool bShowMainMenu = true ) override;
 	int GetConnectionRetryNumber() const;
 
 	void ReadEnterPVS( CEntityReadInfo &u );
@@ -57,29 +57,29 @@ public:
 
 public: // IServerMessageHandlers
 
-	virtual bool NETMsg_StringCmd( const CNETMsg_StringCmd& msg ) OVERRIDE;
-	virtual bool NETMsg_SetConVar( const CNETMsg_SetConVar& msg ) OVERRIDE;
-	virtual bool NETMsg_PlayerAvatarData( const CNETMsg_PlayerAvatarData& msg ) OVERRIDE;
-	virtual bool SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg ) OVERRIDE;
+	virtual bool NETMsg_StringCmd( const CNETMsg_StringCmd& msg ) override;
+	virtual bool NETMsg_SetConVar( const CNETMsg_SetConVar& msg ) override;
+	virtual bool NETMsg_PlayerAvatarData( const CNETMsg_PlayerAvatarData& msg ) override;
+	virtual bool SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg ) override;
 		
-	virtual bool SVCMsg_ClassInfo( const CSVCMsg_ClassInfo& msg ) OVERRIDE;
-	virtual bool SVCMsg_SetView( const CSVCMsg_SetView& msg ) OVERRIDE;
-	virtual bool SVCMsg_VoiceInit( const CSVCMsg_VoiceInit& msg ) OVERRIDE;
-	virtual bool SVCMsg_VoiceData( const CSVCMsg_VoiceData& msg ) OVERRIDE;
-	virtual bool SVCMsg_FixAngle( const CSVCMsg_FixAngle& msg ) OVERRIDE;
-	virtual bool SVCMsg_Prefetch( const CSVCMsg_Prefetch& msg ) OVERRIDE;
-	virtual bool SVCMsg_CrosshairAngle( const CSVCMsg_CrosshairAngle& msg ) OVERRIDE;
-	virtual bool SVCMsg_BSPDecal( const CSVCMsg_BSPDecal& msg ) OVERRIDE;
-	virtual bool SVCMsg_Menu( const CSVCMsg_Menu& msg ) OVERRIDE;
-	virtual bool SVCMsg_UserMessage( const CSVCMsg_UserMessage& msg ) OVERRIDE;
-	virtual bool SVCMsg_PaintmapData( const CSVCMsg_PaintmapData& msg ) OVERRIDE;
-	virtual bool SVCMsg_GameEvent( const CSVCMsg_GameEvent& msg ) OVERRIDE;
-	virtual bool SVCMsg_GameEventList( const CSVCMsg_GameEventList &msg ) OVERRIDE;
-	virtual bool SVCMsg_TempEntities( const CSVCMsg_TempEntities &msg ) OVERRIDE;
-	virtual bool SVCMsg_PacketEntities( const CSVCMsg_PacketEntities &msg ) OVERRIDE;
-	virtual bool SVCMsg_Sounds( const CSVCMsg_Sounds& msg ) OVERRIDE;
-	virtual bool SVCMsg_EntityMsg( const CSVCMsg_EntityMsg& msg) OVERRIDE;
-	virtual bool SVCMsg_EncryptedData( const CSVCMsg_EncryptedData& msg ) OVERRIDE;
+	virtual bool SVCMsg_ClassInfo( const CSVCMsg_ClassInfo& msg ) override;
+	virtual bool SVCMsg_SetView( const CSVCMsg_SetView& msg ) override;
+	virtual bool SVCMsg_VoiceInit( const CSVCMsg_VoiceInit& msg ) override;
+	virtual bool SVCMsg_VoiceData( const CSVCMsg_VoiceData& msg ) override;
+	virtual bool SVCMsg_FixAngle( const CSVCMsg_FixAngle& msg ) override;
+	virtual bool SVCMsg_Prefetch( const CSVCMsg_Prefetch& msg ) override;
+	virtual bool SVCMsg_CrosshairAngle( const CSVCMsg_CrosshairAngle& msg ) override;
+	virtual bool SVCMsg_BSPDecal( const CSVCMsg_BSPDecal& msg ) override;
+	virtual bool SVCMsg_Menu( const CSVCMsg_Menu& msg ) override;
+	virtual bool SVCMsg_UserMessage( const CSVCMsg_UserMessage& msg ) override;
+	virtual bool SVCMsg_PaintmapData( const CSVCMsg_PaintmapData& msg ) override;
+	virtual bool SVCMsg_GameEvent( const CSVCMsg_GameEvent& msg ) override;
+	virtual bool SVCMsg_GameEventList( const CSVCMsg_GameEventList &msg ) override;
+	virtual bool SVCMsg_TempEntities( const CSVCMsg_TempEntities &msg ) override;
+	virtual bool SVCMsg_PacketEntities( const CSVCMsg_PacketEntities &msg ) override;
+	virtual bool SVCMsg_Sounds( const CSVCMsg_Sounds& msg ) override;
+	virtual bool SVCMsg_EntityMsg( const CSVCMsg_EntityMsg& msg) override;
+	virtual bool SVCMsg_EncryptedData( const CSVCMsg_EncryptedData& msg ) override;
 
 public:
 	void SendPacket();

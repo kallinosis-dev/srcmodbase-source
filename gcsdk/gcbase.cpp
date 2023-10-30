@@ -693,7 +693,7 @@ public:
 		m_rbAccounts.Swap( rbAccounts );
 	}
 
-	virtual bool BYieldingRunGCJob() OVERRIDE
+	virtual bool BYieldingRunGCJob() override
 	{
 		if ( !m_rbAccounts.Count() )
 		return false;
@@ -725,7 +725,7 @@ public:
 		return true;
 	}
 
-		virtual bool BYieldingRunWorkload( int iJobSequenceCounter, bool *pbWorkloadCompleted ) OVERRIDE
+		virtual bool BYieldingRunWorkload( int iJobSequenceCounter, bool *pbWorkloadCompleted ) override
 	{
 		if ( m_rbAccounts.Count() )
 		{
@@ -1626,7 +1626,7 @@ class CProtoBufClientSendHandler : public CProtoBufMsgBase::IProtoBufSendHandler
 public:
 	CProtoBufClientSendHandler( const CSteamID & steamIDTarget ) 
 		: m_steamIDTarget( steamIDTarget ), m_cubSent( 0 ) {}
-	virtual bool BAsyncSend( MsgType_t eMsg, const uint8 *pubMsgBytes, uint32 cubSize ) OVERRIDE
+	virtual bool BAsyncSend( MsgType_t eMsg, const uint8 *pubMsgBytes, uint32 cubSize ) override
 	{	
 		m_cubSent = cubSize;
 		// !FIXME! DOTAMERGE
@@ -1652,7 +1652,7 @@ class CProtoBufSystemSendHandler : public CProtoBufMsgBase::IProtoBufSendHandler
 public:
 	CProtoBufSystemSendHandler() 
 		: m_cubSent( 0 ) {}
-	virtual bool BAsyncSend( MsgType_t eMsg, const uint8 *pubMsgBytes, uint32 cubSize ) OVERRIDE
+	virtual bool BAsyncSend( MsgType_t eMsg, const uint8 *pubMsgBytes, uint32 cubSize ) override
 	{	
 		m_cubSent = cubSize;
 		// !FIXME! DOTAMERGE

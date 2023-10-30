@@ -27,9 +27,9 @@ public:
 protected:
 
 	// Speculatively checks to see if all entities in this list can be pushed
-	virtual bool SpeculativelyCheckRotPush( const RotatingPushMove_t &rotPushMove, CBaseEntity *pRoot ) OVERRIDE;
-	virtual bool SpeculativelyCheckLinearPush( const Vector &vecAbsPush ) OVERRIDE;
-	virtual void FinishRotPushedEntity( CBaseEntity *pPushedEntity, const RotatingPushMove_t &rotPushMove ) OVERRIDE;
+	virtual bool SpeculativelyCheckRotPush( const RotatingPushMove_t &rotPushMove, CBaseEntity *pRoot ) override;
+	virtual bool SpeculativelyCheckLinearPush( const Vector &vecAbsPush ) override;
+	virtual void FinishRotPushedEntity( CBaseEntity *pPushedEntity, const RotatingPushMove_t &rotPushMove ) override;
 	
 private:
 

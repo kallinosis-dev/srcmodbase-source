@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -33,7 +33,7 @@ public:
 	void InputSetTeam_None( inputdata_t& inputdata );
 
 	// CBaseTrigger override
-	virtual void EndTouch( CBaseEntity *pOther ) OVERRIDE;
+	virtual void EndTouch( CBaseEntity *pOther ) override;
 
 public:
 	int m_LegacyTeamNum;

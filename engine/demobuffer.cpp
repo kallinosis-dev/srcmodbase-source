@@ -122,23 +122,23 @@ public:
 
 	virtual void				WriteTick( int nTick )					{ m_pBuffer->PutInt( nTick ); }
 
-	virtual char				GetChar() OVERRIDE
+	virtual char				GetChar() override
 	{
 		COnTheFlyDemoBufferReadInfo readRequest( m_pPlaybackParams, m_pBuffer, &m_bufDecoded, &m_nDecodedOffset, sizeof( char ) );
 		return readRequest.GetReadBuffer()->GetChar();
 	}
-	virtual unsigned char		GetUnsignedChar() OVERRIDE
+	virtual unsigned char		GetUnsignedChar() override
 	{
 		COnTheFlyDemoBufferReadInfo readRequest( m_pPlaybackParams, m_pBuffer, &m_bufDecoded, &m_nDecodedOffset, sizeof( unsigned char ) );
 		return readRequest.GetReadBuffer()->GetUnsignedChar();
 	}
-	virtual int					GetInt() OVERRIDE
+	virtual int					GetInt() override
 	{
 		COnTheFlyDemoBufferReadInfo readRequest( m_pPlaybackParams, m_pBuffer, &m_bufDecoded, &m_nDecodedOffset, sizeof( int ) );
 		return readRequest.GetReadBuffer()->GetInt();
 	}
 
-	virtual void				Get( void* pMem, int size )	OVERRIDE
+	virtual void				Get( void* pMem, int size )	override
 	{
 		COnTheFlyDemoBufferReadInfo readRequest( m_pPlaybackParams, m_pBuffer, &m_bufDecoded, &m_nDecodedOffset, size );
 		readRequest.GetReadBuffer()->Get( pMem, size );

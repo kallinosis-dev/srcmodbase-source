@@ -89,14 +89,14 @@ protected:
 	public:
 		CHttpCallback( CHLTVBroadcast *pParent, HTTPRequestHandle hRequest, const char *pResource );
 		~CHttpCallback();
-		virtual void Run( void *pvParam ) OVERRIDE; // success; HTTPRequestCompleted_t
-		virtual void Run( void *pvParam, bool bIOFailure, SteamAPICall_t hSteamAPICall ) OVERRIDE; // result; HTTPRequestCompleted_t
+		virtual void Run( void *pvParam ) override; // success; HTTPRequestCompleted_t
+		virtual void Run( void *pvParam, bool bIOFailure, SteamAPICall_t hSteamAPICall ) override; // result; HTTPRequestCompleted_t
 		void DetachFromParent() { m_pParent = nullptr; }
 
 	public:
 		int m_nIncrementalVectorIndex;
 	protected:
-		virtual int GetCallbackSizeBytes() OVERRIDE { return sizeof( HTTPRequestCompleted_t ); }
+		virtual int GetCallbackSizeBytes() override { return sizeof( HTTPRequestCompleted_t ); }
 		CHLTVBroadcast *m_pParent;
 		HTTPRequestHandle m_hRequest;
 		CUtlString m_Resource;

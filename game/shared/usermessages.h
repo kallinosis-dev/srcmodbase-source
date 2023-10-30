@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -123,7 +123,7 @@ private:
 			return msgType;
 		}
 
-		virtual ::google::protobuf::Message *Parse( int32 nPassthroughFlags, const void *msg, int size, bool &bSilentIgnore ) OVERRIDE
+		virtual ::google::protobuf::Message *Parse( int32 nPassthroughFlags, const void *msg, int size, bool &bSilentIgnore ) override
 		{
 			if ( size < 0 || size > NET_MAX_PAYLOAD )
 			{

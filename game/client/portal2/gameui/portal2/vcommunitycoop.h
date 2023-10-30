@@ -26,10 +26,10 @@ namespace BaseModUI
 		~CCommunityCoop( void );
 
 	protected:
-		virtual void Activate( void ) OVERRIDE;
-		virtual void ApplySchemeSettings( vgui::IScheme* pScheme ) OVERRIDE;
-		virtual void OnCommand( char const *pszCommand ) OVERRIDE;
-		virtual void OnKeyCodePressed( vgui::KeyCode code ) OVERRIDE;
+		virtual void Activate( void ) override;
+		virtual void ApplySchemeSettings( vgui::IScheme* pScheme ) override;
+		virtual void OnCommand( char const *pszCommand ) override;
+		virtual void OnKeyCodePressed( vgui::KeyCode code ) override;
 
 	private:
 		void UpdateFooter( void );

@@ -2377,7 +2377,7 @@ class CScaleformAvatarImageProviderImpl : public IScaleformAvatarImageProvider
 {
 public:
 	// Scaleform low-level image needs rgba bits of the inventory image (if it's ready)
-	virtual bool GetImageInfo( uint64 xuid, ImageInfo_t *pImageInfo ) OVERRIDE
+	virtual bool GetImageInfo( uint64 xuid, ImageInfo_t *pImageInfo ) override
 	{
 		CSteamID steamID( xuid );
 		if ( !steamID.IsValid() || !steamID.BIndividualAccount() || !steamID.GetAccountID() )

@@ -109,7 +109,7 @@ public:
 
 	// IMatchEventsSink functions
 public:
-	virtual void OnEvent( KeyValues *pEvent ) OVERRIDE;
+	virtual void OnEvent( KeyValues *pEvent ) override;
 
 private:
 	struct MedalCategoryInfo_t

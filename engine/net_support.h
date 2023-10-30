@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2009, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2009, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -61,15 +61,15 @@ public:
 	virtual void ReserveServer(
 		const ns_address &netAdrPublic, const ns_address &netAdrPrivate,
 		uint64 nServerReservationCookie, KeyValues *pKVGameSettings,
-		IMatchAsyncOperationCallback *pCallback, IMatchAsyncOperation **ppAsyncOperation ) OVERRIDE;
+		IMatchAsyncOperationCallback *pCallback, IMatchAsyncOperation **ppAsyncOperation ) override;
 
 	// Check server reservation cookie matches cookie held by client
 	virtual bool CheckServerReservation( 
 		const ns_address &netAdrPublic, uint64 nServerReservationCookie, uint32 uiReservationStage,
-		IMatchAsyncOperationCallback *pCallback, IMatchAsyncOperation **ppAsyncOperation ) OVERRIDE;
+		IMatchAsyncOperationCallback *pCallback, IMatchAsyncOperation **ppAsyncOperation ) override;
 
 	virtual bool ServerPing( const ns_address &netAdrPublic,
-		IMatchAsyncOperationCallback *pCallback, IMatchAsyncOperation **ppAsyncOperation ) OVERRIDE;
+		IMatchAsyncOperationCallback *pCallback, IMatchAsyncOperation **ppAsyncOperation ) override;
 
 	// When client event is fired
 	virtual void OnMatchEvent( KeyValues *pEvent );
@@ -84,7 +84,7 @@ public:
 		bf_write *pVoicePayload = nullptr,
 		bool bUseCompression = false );
 
-    virtual ISteamNetworkingUtils *GetSteamNetworkingUtils() OVERRIDE;
+    virtual ISteamNetworkingUtils *GetSteamNetworkingUtils() override;
 
 public:
 	CNetSupportImpl();

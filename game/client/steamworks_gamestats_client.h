@@ -19,10 +19,10 @@ class CSteamWorksGameStatsClient : public CSteamWorksGameStatsUploader
 public:
 	CSteamWorksGameStatsClient();
 
-	virtual bool Init() OVERRIDE;							// return true on success. false to abort DLL init!
-	virtual void FireGameEvent( IGameEvent *event ) OVERRIDE;
+	virtual bool Init() override;							// return true on success. false to abort DLL init!
+	virtual void FireGameEvent( IGameEvent *event ) override;
 
-	virtual void OnSteamSessionIssued( GameStatsSessionIssued_t *pResult, bool bError ) OVERRIDE; 
+	virtual void OnSteamSessionIssued( GameStatsSessionIssued_t *pResult, bool bError ) override; 
 
 	virtual void WriteSessionRow();
 
@@ -40,12 +40,12 @@ public:
 	void AddVPKLoadStats( KeyValues *pKV );
 	void AddVPKFileLoadErrorData( KeyValues *pKV );
 protected:
-	virtual EGameStatsAccountType GetGameStatsAccountType() OVERRIDE { return k_EGameStatsAccountType_Steam; }
+	virtual EGameStatsAccountType GetGameStatsAccountType() override { return k_EGameStatsAccountType_Steam; }
 
 	// called before a row is committed, allows derived classes to add sessionIDs, etc.
-	virtual void AddSessionIDsToTable( int iTableID ) OVERRIDE;
+	virtual void AddSessionIDsToTable( int iTableID ) override;
 	
-	virtual void		Reset() OVERRIDE;
+	virtual void		Reset() override;
 
 	uint64				m_ServerSessionID;	
 	int					m_HumanCntInGame;

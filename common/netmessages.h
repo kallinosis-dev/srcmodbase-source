@@ -424,7 +424,9 @@ public:
 	}
 	void AddToTail( const char * name, const char * value )
 	{
-		NetMsgSetCVarUsingDictionary( mutable_convars()->add_cvars(), name, value );
+		auto cvar = mutable_convars()->add_cvars();
+		cvar->set_name(name)
+		cvar->set_value(value);
 	}
 };
 

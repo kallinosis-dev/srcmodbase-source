@@ -1,4 +1,4 @@
-//====== Copyright © 1996-2006, Valve Corporation, All rights reserved. =======//
+//====== Copyright ï¿½ 1996-2006, Valve Corporation, All rights reserved. =======//
 //
 // Purpose: Uploads gamestats via the SteamWorks API. 
 //
@@ -60,7 +60,7 @@ public:
 
 	// called after entities think
 #if defined ( GAME_DLL )
-	virtual void FrameUpdatePostEntityThink() OVERRIDE;
+	virtual void FrameUpdatePostEntityThink() override;
 #endif
 	
 	void StartSession();
@@ -77,11 +77,11 @@ public:
 
 	// Init, shutdown
 	// return true on success. false to abort DLL init!
-	virtual bool Init() OVERRIDE;
+	virtual bool Init() override;
 
-	virtual bool IsPerFrame() OVERRIDE { return true; }
+	virtual bool IsPerFrame() override { return true; }
 
-	virtual void FireGameEvent( IGameEvent *event ) OVERRIDE;
+	virtual void FireGameEvent( IGameEvent *event ) override;
 
 	EResult		AddStatsForUpload( KeyValues *pKV, bool bSendImmediately=true );
 	time_t		GetTimeSinceEpoch();

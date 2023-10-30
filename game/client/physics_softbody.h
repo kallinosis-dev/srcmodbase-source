@@ -1,4 +1,4 @@
-//========= Copyright © Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ Valve Corporation, All rights reserved. ============//
 #ifndef PHYSICS_SOFTBODY_HDR
 #define PHYSICS_SOFTBODY_HDR
 
@@ -15,10 +15,10 @@ class CSoftbodyProcess : public CAutoGameSystemPerFrame
 {
 public:
 	CSoftbodyProcess() : CAutoGameSystemPerFrame( "SoftbodyProcess" ) {}
-	virtual void OnRestore() OVERRIDE;
-	virtual void Update( float frametime ) OVERRIDE;
+	virtual void OnRestore() override;
+	virtual void Update( float frametime ) override;
 
-	virtual void PostRender() OVERRIDE;
+	virtual void PostRender() override;
 };
 
 #endif

@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -115,9 +115,9 @@ public: // CBaseServer interface:
 	IClient *ConnectClient ( const ns_address &adr, int protocol, int challenge, int authProtocol, 
 		const char *name, const char *password, const char *hashedCDkey, int cdKeyLen,
 		CUtlVector< CCLCMsg_SplitPlayerConnect_t * > & splitScreenClients, bool isClientLowViolence, CrossPlayPlatform_t clientPlatform,
-		const byte *pbEncryptionKey, int nEncryptionKeyIndex ) OVERRIDE;
+		const byte *pbEncryptionKey, int nEncryptionKeyIndex ) override;
 
-	virtual bool GetRedirectAddressForConnectClient( const ns_address &adr, CUtlVector< CCLCMsg_SplitPlayerConnect_t* > & splitScreenClients, ns_address *pNetAdrRedirect ) OVERRIDE;
+	virtual bool GetRedirectAddressForConnectClient( const ns_address &adr, CUtlVector< CCLCMsg_SplitPlayerConnect_t* > & splitScreenClients, ns_address *pNetAdrRedirect ) override;
 
 	bool	CheckHltvPasswordMatch( const char *szPasswordProvidedByClient, const char *szServerRequiredPassword, CSteamID steamidClient );
 
@@ -162,7 +162,7 @@ public: // IDemoPlayer interface
 	int		GetPlaybackTick( void );
 
 	bool	StartPlayback( const char *filename, bool bAsTimeDemo, CDemoPlaybackParameters_t const *pPlaybackParameters, int );
-	CDemoPlaybackParameters_t const * GetDemoPlaybackParameters() OVERRIDE { return NULL; }
+	CDemoPlaybackParameters_t const * GetDemoPlaybackParameters() override { return NULL; }
 
 	bool	IsPlayingBack( void )const; // true if demo loaded and playing back
 	bool	IsPlaybackPaused( void )const; // true if playback paused
@@ -334,7 +334,7 @@ private:
 	//called to free all delta frames that are queued
 	void				FreeAllDeltaFrames( );
 
-	virtual IDemoStream *GetDemoStream() OVERRIDE { return &m_DemoFile; }
+	virtual IDemoStream *GetDemoStream() override { return &m_DemoFile; }
 public:
 
 	CGameClient		*m_MasterClient;		// if != NULL, this is the master HLTV 

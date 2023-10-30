@@ -18,56 +18,56 @@ public:
 	~CBroadcastPlayer();
 
 	virtual IDemoStream *GetDemoStream();
-	virtual int		GetPlaybackStartTick( void ) OVERRIDE;
-	virtual int		GetPlaybackTick( void ) OVERRIDE;
+	virtual int		GetPlaybackStartTick( void ) override;
+	virtual int		GetPlaybackTick( void ) override;
 	virtual int		GetPlaybackDeltaTick( void ) ;
 	virtual int		GetPacketTick( void ) ;
 
 	void StartStreaming( const char *url, const char *options );
 	bool StartBroadcastPlayback( int nStartingTick );
 
-	virtual bool	IsPlayingBack( void ) const OVERRIDE { return m_bPlayingBack; }
-	virtual bool	IsPlaybackPaused( void ) const OVERRIDE;
-	virtual bool	IsPlayingTimeDemo( void ) const OVERRIDE { return false; } // not supported
-	virtual bool	IsSkipping( void ) const OVERRIDE { return m_bPlayingBack && m_nSkipToTick != -1; } // true, if demo player skipping trough packets
-	virtual bool	CanSkipBackwards( void ) const OVERRIDE { return true;  } // true if demoplayer can skip backwards
+	virtual bool	IsPlayingBack( void ) const override { return m_bPlayingBack; }
+	virtual bool	IsPlaybackPaused( void ) const override;
+	virtual bool	IsPlayingTimeDemo( void ) const override { return false; } // not supported
+	virtual bool	IsSkipping( void ) const override { return m_bPlayingBack && m_nSkipToTick != -1; } // true, if demo player skipping trough packets
+	virtual bool	CanSkipBackwards( void ) const override { return true;  } // true if demoplayer can skip backwards
 
-	virtual void	SetPlaybackTimeScale( float timescale ) OVERRIDE; // sets playback timescale
-	virtual float	GetPlaybackTimeScale( void ) OVERRIDE; // get playback timescale
+	virtual void	SetPlaybackTimeScale( float timescale ) override; // sets playback timescale
+	virtual float	GetPlaybackTimeScale( void ) override; // get playback timescale
 
-	virtual void	PausePlayback( float seconds ) OVERRIDE; // pause playback n seconds, -1 = forever
-	virtual void	SkipToTick( int tick, bool bRelative, bool bPause ) OVERRIDE { } // goto a specific tick, 0 = start, -1 = end
-	virtual void	SkipToImportantTick( const DemoImportantTick_t *pTick ) OVERRIDE { }
-	virtual void	ResumePlayback( void ) OVERRIDE; // resume playback
-	virtual void	StopPlayback( void ) OVERRIDE;	// stop playback, close file
-	virtual void	InterpolateViewpoint() OVERRIDE { } // override viewpoint
-	virtual netpacket_t *ReadPacket( void ) OVERRIDE; // read packet from demo file
+	virtual void	PausePlayback( float seconds ) override; // pause playback n seconds, -1 = forever
+	virtual void	SkipToTick( int tick, bool bRelative, bool bPause ) override { } // goto a specific tick, 0 = start, -1 = end
+	virtual void	SkipToImportantTick( const DemoImportantTick_t *pTick ) override { }
+	virtual void	ResumePlayback( void ) override; // resume playback
+	virtual void	StopPlayback( void ) override;	// stop playback, close file
+	virtual void	InterpolateViewpoint() override { } // override viewpoint
+	virtual netpacket_t *ReadPacket( void ) override; // read packet from demo file
 
 	void SetDemoBuffer( CDemoStreamHttp::Buffer_t * pBuffer );
 	void StrideDemoPacket( int nLength );
 	void StrideDemoPacket();
 	uint GetReminingStrideLength();
 
-	virtual void ResetDemoInterpolation() OVERRIDE { }
+	virtual void ResetDemoInterpolation() override { }
 
-	virtual CDemoPlaybackParameters_t const * GetDemoPlaybackParameters() OVERRIDE;
+	virtual CDemoPlaybackParameters_t const * GetDemoPlaybackParameters() override;
 
-	virtual void SetPacketReadSuspended( bool bSuspendPacketReading ) OVERRIDE;
+	virtual void SetPacketReadSuspended( bool bSuspendPacketReading ) override;
 
-	virtual void	SetImportantEventData( const KeyValues *pData ) OVERRIDE {  }
-	virtual int		FindNextImportantTick( int nCurrentTick, const char *pEventName = nullptr) OVERRIDE { Assert( !"not implemented" ); return 0; } // -1 = no next important tick
-	virtual int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = nullptr) OVERRIDE { Assert( !"not implemented" ); return 0; } // -1 = no previous important tick
-	virtual const DemoImportantTick_t *GetImportantTick( int nIndex ) OVERRIDE { Assert( !"not implemented" );  return NULL; }
-	virtual const DemoImportantGameEvent_t *GetImportantGameEvent( const char *pszEventName ) OVERRIDE { Assert( !"not implemented" ); return NULL; }
-	virtual void	ListImportantTicks( void ) OVERRIDE { Assert( !"not implemented" ); }
-	virtual void	ListHighlightData( void ) OVERRIDE { Assert( !"not implemented" ); }
-	virtual void	SetHighlightXuid( uint64 xuid, bool bLowlights ) OVERRIDE { Assert( !"not implemented" ); }
+	virtual void	SetImportantEventData( const KeyValues *pData ) override {  }
+	virtual int		FindNextImportantTick( int nCurrentTick, const char *pEventName = nullptr) override { Assert( !"not implemented" ); return 0; } // -1 = no next important tick
+	virtual int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = nullptr) override { Assert( !"not implemented" ); return 0; } // -1 = no previous important tick
+	virtual const DemoImportantTick_t *GetImportantTick( int nIndex ) override { Assert( !"not implemented" );  return NULL; }
+	virtual const DemoImportantGameEvent_t *GetImportantGameEvent( const char *pszEventName ) override { Assert( !"not implemented" ); return NULL; }
+	virtual void	ListImportantTicks( void ) override { Assert( !"not implemented" ); }
+	virtual void	ListHighlightData( void ) override { Assert( !"not implemented" ); }
+	virtual void	SetHighlightXuid( uint64 xuid, bool bLowlights ) override { Assert( !"not implemented" ); }
 
-	virtual bool	ScanDemo( const char *filename, const char* pszMode ) OVERRIDE { Assert( !"not implemented" ); return false; }
+	virtual bool	ScanDemo( const char *filename, const char* pszMode ) override { Assert( !"not implemented" ); return false; }
 
 	virtual void OnDemoStreamStart( const DemoStreamReference_t &start, int nResync );
 	virtual bool OnDemoStreamRestarting();
-	virtual void OnDemoStreamStop() OVERRIDE;
+	virtual void OnDemoStreamStop() override;
 
 protected:
 	bool StartStreamingInternal();

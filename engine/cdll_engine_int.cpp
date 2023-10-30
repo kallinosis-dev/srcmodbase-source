@@ -504,10 +504,10 @@ public:
 	virtual int  GetDemoPlaybackStartTick( void );
 	virtual float GetDemoPlaybackTimeScale( void );
 	virtual int  GetDemoPlaybackTotalTicks( void );
-	virtual CDemoPlaybackParameters_t const * GetDemoPlaybackParameters() OVERRIDE;
-	virtual bool IsDemoSkipping( void ) OVERRIDE;
-	virtual int GetConnectionDataProtocol() const OVERRIDE;
-	virtual void SetDemoImportantEventData( const KeyValues *pData ) OVERRIDE;
+	virtual CDemoPlaybackParameters_t const * GetDemoPlaybackParameters() override;
+	virtual bool IsDemoSkipping( void ) override;
+	virtual int GetConnectionDataProtocol() const override;
+	virtual void SetDemoImportantEventData( const KeyValues *pData ) override;
 	virtual bool IsPaused( void );
 	virtual float GetTimescale( void ) const;
 	virtual bool IsTakingScreenshot( void );
@@ -641,7 +641,7 @@ public:
 	virtual void SubmitStatRecord( char const *szMapName, uint uiBlobVersion, uint uiBlobSize, const void *pvBlob );
 
 	virtual void ServerCmdKeyValues( KeyValues *pKeyValues );
-	virtual void SendMessageToServer( INetMessage *pMessage, bool bForceReliable, bool bVoice ) OVERRIDE;
+	virtual void SendMessageToServer( INetMessage *pMessage, bool bForceReliable, bool bVoice ) override;
 
 	// global sound pitch scaling
 	virtual void SetPitchScale( float flPitchScale );
@@ -721,9 +721,9 @@ public:
 
 	virtual float GetSafeZoneXMin( void ) const;
 
-	virtual bool IsVoiceRecording() const OVERRIDE;
-	virtual void ForceVoiceRecordOn() const OVERRIDE;
-	virtual const char* AliasToCommandString( const char* szAliasName ) OVERRIDE;
+	virtual bool IsVoiceRecording() const override;
+	virtual void ForceVoiceRecordOn() const override;
+	virtual const char* AliasToCommandString( const char* szAliasName ) override;
 };
 
 

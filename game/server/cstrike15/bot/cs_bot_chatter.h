@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Bot radio chatter system
 //
@@ -666,10 +666,10 @@ class BotChatterCoop : public BotChatterInterface
 	typedef BotChatterInterface BaseClass;
 public:
 	BotChatterCoop( CCSBot *me );
-	virtual void KilledMyEnemy( int nVictimID ) OVERRIDE;
-	virtual void EnemiesRemaining( void ) OVERRIDE;
-	virtual void CelebrateWin( void ) OVERRIDE;
-	virtual void EnemySpotted( void ) OVERRIDE;
+	virtual void KilledMyEnemy( int nVictimID ) override;
+	virtual void EnemiesRemaining( void ) override;
+	virtual void CelebrateWin( void ) override;
+	virtual void EnemySpotted( void ) override;
 };
 
 

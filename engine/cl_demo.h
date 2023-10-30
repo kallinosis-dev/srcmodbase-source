@@ -51,10 +51,10 @@ public: // IDemoPlayer interface implementation:
 
 	bool	StartPlayback( const char *filename, bool bAsTimeDemo, CDemoPlaybackParameters_t const *pPlaybackParameters, int nStartingTick = -1 ) ;
 	bool StartBroadcastPlayback( int nStartingTick );
-	virtual bool	IsPlayingBack( void ) const OVERRIDE; // true if demo loaded and playing back
-	virtual bool	IsPlaybackPaused( void ) const OVERRIDE; // true if playback paused
-	virtual bool	IsPlayingTimeDemo( void ) const OVERRIDE; // true if playing back in timedemo mode
-	CDemoPlaybackParameters_t const * GetDemoPlaybackParameters() OVERRIDE;
+	virtual bool	IsPlayingBack( void ) const override; // true if demo loaded and playing back
+	virtual bool	IsPlaybackPaused( void ) const override; // true if playback paused
+	virtual bool	IsPlayingTimeDemo( void ) const override; // true if playing back in timedemo mode
+	CDemoPlaybackParameters_t const * GetDemoPlaybackParameters() override;
 	void	PausePlayback( float seconds );
 	void	SkipToTick( int tick, bool bRelative, bool bPause );
 	void	SkipToImportantTick( const DemoImportantTick_t *pTick );
@@ -70,9 +70,9 @@ public: // IDemoPlayer interface implementation:
 	float	GetPlaybackTimeScale( void );
 	int		GetTotalTicks( void );
 
-	virtual bool	IsSkipping( void ) const OVERRIDE; // true, if demo player skipping trough packets
+	virtual bool	IsSkipping( void ) const override; // true, if demo player skipping trough packets
 	// true if demoplayer can skip backwards
-	virtual bool	CanSkipBackwards( void ) const OVERRIDE { return false; }
+	virtual bool	CanSkipBackwards( void ) const override { return false; }
 	
 	void	SetPlaybackTimeScale( float timescale );
 	void	InterpolateViewpoint(); // override viewpoint
@@ -82,7 +82,7 @@ public: // IDemoPlayer interface implementation:
 	void	SetPacketReadSuspended( bool bSuspendPacketReading );
 
 
-	virtual IDemoStream* GetDemoStream() OVERRIDE { return &m_DemoFile; }
+	virtual IDemoStream* GetDemoStream() override { return &m_DemoFile; }
 public:	// other public functions
 	void	MarkFrame( float flFPSVariability );
 	void	SetBenchframe( int tick, const char *filename );
@@ -92,22 +92,22 @@ public:	// other public functions
 	bool	ParseAheadForInterval( int curtick, int intervalticks );
 	void	InterpolateDemoCommand( int nSlot, int targettick, DemoCommandQueue& prev, DemoCommandQueue& next );
 
-	void	SetImportantEventData( const KeyValues *pData ) OVERRIDE;
+	void	SetImportantEventData( const KeyValues *pData ) override;
 	void	GetImportantGameEventIDs();
 	void	ScanForImportantTicks( void );
-	int		FindNextImportantTick( int nCurrentTick, const char *pEventName = nullptr) OVERRIDE; // -1 = no next important tick
-	int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = nullptr) OVERRIDE; // -1 = no previous important tick
+	int		FindNextImportantTick( int nCurrentTick, const char *pEventName = nullptr) override; // -1 = no next important tick
+	int		FindPreviousImportantTick( int nCurrentTick, const char *pEventName = nullptr) override; // -1 = no previous important tick
 	int		FindNextImportantTickByXuidAndEvent( int nCurrentTick, const CSteamID &steamID, const char *pKeyWithXuid, const char *pEventName = nullptr); // -1 = no next important tick
 	int		FindPreviousImportantTickByXuidAndEvent( int nCurrentTick, const CSteamID &steamID, const char *pKeyWithXuid, const char *pEventName = nullptr); // -1 = no next important tick
 	int		FindNextImportantTickByXuid( int nCurrentTick, const CSteamID &steamID ); // -1 = no next important tick
 
-	const DemoImportantTick_t *GetImportantTick( int nIndex ) OVERRIDE;
-	const DemoImportantGameEvent_t *GetImportantGameEvent( const char *pszEventName ) OVERRIDE;
-	void	ListImportantTicks( void ) OVERRIDE;
-	void	SetHighlightXuid( uint64 xuid, bool bLowlights ) OVERRIDE;
-	void	ListHighlightData( void ) OVERRIDE;
+	const DemoImportantTick_t *GetImportantTick( int nIndex ) override;
+	const DemoImportantGameEvent_t *GetImportantGameEvent( const char *pszEventName ) override;
+	void	ListImportantTicks( void ) override;
+	void	SetHighlightXuid( uint64 xuid, bool bLowlights ) override;
+	void	ListHighlightData( void ) override;
 
-	bool	ScanDemo( const char *filename, const char* pszMode ) OVERRIDE;
+	bool	ScanDemo( const char *filename, const char* pszMode ) override;
 
 protected:
 	bool	OverrideView( democmdinfo_t& info );

@@ -97,7 +97,7 @@ public:
 	virtual void	OnTimeJump();
 	static void OnTimeJumpAllPlayers();
 	
-	virtual void	ClientThink( ) OVERRIDE;
+	virtual void	ClientThink( ) override;
 
 	virtual void	ReceiveMessage( int classID, bf_read &msg );
 

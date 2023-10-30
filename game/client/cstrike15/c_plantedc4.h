@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -80,7 +80,7 @@ public:
 	float	m_flNextRadarFlashTime;	// next time to change flash state
 	bool	m_bRadarFlash;			// is the flash on or off
 
-	virtual void UpdateOnRemove( void ) OVERRIDE;
+	virtual void UpdateOnRemove( void ) override;
 
 private:
 	bool CreateDefuserRopes( void );

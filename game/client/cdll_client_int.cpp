@@ -1001,9 +1001,9 @@ public:
 	virtual float GetUGCFileDownloadProgress( PublishedFileId_t id );
 
 	virtual void RecordUIEvent( const char* szEvent );
-	virtual void OnHltvReplay( const CSVCMsg_HltvReplay  &msg ) OVERRIDE { g_HltvReplaySystem.OnHltvReplay( msg ); }
-	virtual void OnHltvReplayTick() OVERRIDE { g_HltvReplaySystem.OnHltvReplayTick(); }
-	virtual int GetHltvReplayDelay() OVERRIDE { return g_HltvReplaySystem.GetHltvReplayDelay(); }
+	virtual void OnHltvReplay( const CSVCMsg_HltvReplay  &msg ) override { g_HltvReplaySystem.OnHltvReplay( msg ); }
+	virtual void OnHltvReplayTick() override { g_HltvReplaySystem.OnHltvReplayTick(); }
+	virtual int GetHltvReplayDelay() override { return g_HltvReplaySystem.GetHltvReplayDelay(); }
 	virtual void OnDemoPlaybackTimeJump();
 
 	// Inventory access
@@ -1020,7 +1020,7 @@ public:
 
 	virtual void RetireAllPlayerDecals( bool bRenderContextValid );
 
-	virtual void OnTickPre( int tickcount ) OVERRIDE;
+	virtual void OnTickPre( int tickcount ) override;
 
 	virtual char const * GetRichPresenceStatusString();
 

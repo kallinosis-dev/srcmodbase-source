@@ -163,7 +163,7 @@ public:
 #ifdef CLIENT_DLL
 	void ApplyCustomMaterialsAndStickers( void );
 	virtual void	FireEvent( const Vector& origin, const QAngle& angles, int event, const char *options );
-	virtual bool	ShouldDraw( void ) OVERRIDE;
+	virtual bool	ShouldDraw( void ) override;
 	virtual void	OnDataChanged( DataUpdateType_t updateType );
 
 	float * GetRenderClipPlane( void );
@@ -175,8 +175,8 @@ public:
 
 #else
 	virtual void HandleAnimEvent( animevent_t *pEvent );
-	virtual int  ShouldTransmit( const CCheckTransmitInfo *pInfo ) OVERRIDE;
-	virtual int	UpdateTransmitState() OVERRIDE;
+	virtual int  ShouldTransmit( const CCheckTransmitInfo *pInfo ) override;
+	virtual int	UpdateTransmitState() override;
 #endif
 
 	virtual bool	IsWeaponWorldModel( void ) const { return true; };
@@ -712,7 +712,7 @@ public:
 
 	IPhysicsConstraint		*GetConstraint() { return m_pConstraint; }
 
-	virtual CStudioHdr			*OnNewModel() OVERRIDE;
+	virtual CStudioHdr			*OnNewModel() override;
 	void						ClassifyWeaponModel( void );
 	WeaponModelClassification_t	GetWeaponModelClassification( void );
 	void						VerifyAndSetContextSensitiveWeaponModel( void );

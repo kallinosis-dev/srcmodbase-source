@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ====
+//========= Copyright ï¿½ 1996-2008, Valve Corporation, All rights reserved. ====
 //
 // Purpose:		Player for HL2.
 //
@@ -40,25 +40,25 @@ public:
 	{}
 
 	// IGameEventVisitor2
-	virtual bool VisitString( const char* name, const char* value ) OVERRIDE
+	virtual bool VisitString( const char* name, const char* value ) override
 	{
 		mVM->SetValue( mTable, name, value );
 		return true;
 	}
 
-	virtual bool VisitFloat( const char* name, float value ) OVERRIDE
+	virtual bool VisitFloat( const char* name, float value ) override
 	{
 		mVM->SetValue( mTable, name, value );
 		return true;
 	}
 
-	virtual bool VisitInt( const char* name, int value ) OVERRIDE
+	virtual bool VisitInt( const char* name, int value ) override
 	{
 		mVM->SetValue( mTable, name, value );
 		return true;
 	}
 
-	virtual bool VisitBool( const char*name, bool value ) OVERRIDE
+	virtual bool VisitBool( const char*name, bool value ) override
 	{
 		mVM->SetValue( mTable, name, value );
 		return true;

@@ -1,4 +1,4 @@
-//========= Copyright © Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Forward server log lines to remote listeners. Holds all log lines
 // for this map, up to a maximum. 
@@ -17,13 +17,13 @@ public:
 	void DumpListenersToConsole( void ) const;
 
 	// base class overrides
-	virtual void Shutdown() OVERRIDE;
-	virtual void LevelInitPreEntity() OVERRIDE;
-	virtual void LevelShutdownPreEntity() OVERRIDE;
+	virtual void Shutdown() override;
+	virtual void LevelInitPreEntity() override;
+	virtual void LevelShutdownPreEntity() override;
 
 	// Dispatch to listeners that need updates
 	// Runs once per server frame, even if server is paused (ie not ticking)
-	virtual void PreClientUpdate() OVERRIDE;
+	virtual void PreClientUpdate() override;
 
 	struct LogLineStartForTick_t
 	{

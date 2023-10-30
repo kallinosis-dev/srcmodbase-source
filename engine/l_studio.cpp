@@ -765,7 +765,7 @@ public:
 	// along the ray. The material is the decal material, the radius is the
 	// radius of the decal to create.
 	virtual void AddDecal( ModelInstanceHandle_t handle, Ray_t const& ray, 
-		const Vector& decalUp, int decalIndex, int body, bool noPokethru = false, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, IMaterial *pSpecifyMaterial = nullptr, float w=1.0f, float h=1.0f, void *pvProxyUserData = nullptr, int nAdditionalDecalFlags = 0 ) OVERRIDE;
+		const Vector& decalUp, int decalIndex, int body, bool noPokethru = false, int maxLODToDecal = ADDDECAL_TO_ALL_LODS, IMaterial *pSpecifyMaterial = nullptr, float w=1.0f, float h=1.0f, void *pvProxyUserData = nullptr, int nAdditionalDecalFlags = 0 ) override;
 
 	// Removes all the decals on a model instance
 	virtual void RemoveAllDecals( ModelInstanceHandle_t handle );

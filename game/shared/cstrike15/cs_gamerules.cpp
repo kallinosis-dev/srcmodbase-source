@@ -479,7 +479,7 @@ class CCoopBonusCoin : public CDynamicProp
 	void CoinFadeOut( void );
 	//void CoinThink( void );
 	void Precache( void );
-	void Spawn( void ) OVERRIDE; 
+	void Spawn( void ) override; 
 	void StartFadeOut( float delay );
 };
 

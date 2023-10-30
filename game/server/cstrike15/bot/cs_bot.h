@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -627,8 +627,8 @@ public:
 	const char *GetTaskName( void ) const;						///< return string describing current task
 
 	// You probably never want to call these on CS bots. 
-	virtual CBaseEntity		*GetEnemy( void ) OVERRIDE { Assert( 0 ); return NULL; }
-	virtual CBaseEntity		*GetEnemy( void ) const OVERRIDE { Assert( 0 ); return NULL; }
+	virtual CBaseEntity		*GetEnemy( void ) override { Assert( 0 ); return NULL; }
+	virtual CBaseEntity		*GetEnemy( void ) const override { Assert( 0 ); return NULL; }
 
 	//- behavior modifiers ------------------------------------------------------------------------------------------
 	enum DispositionType

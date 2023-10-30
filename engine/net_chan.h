@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: net_chan.h
 //
@@ -217,11 +217,11 @@ public:	// INetChannel interface
 
 	int			IncrementSplitPacketSequence();
 
-	virtual bool	WasLastMessageReliable() const OVERRIDE; // True if the last (or currently processing) message was sent via the reliable channel
+	virtual bool	WasLastMessageReliable() const override; // True if the last (or currently processing) message was sent via the reliable channel
 
-	virtual const unsigned char * GetChannelEncryptionKey() const OVERRIDE;
+	virtual const unsigned char * GetChannelEncryptionKey() const override;
 
-	virtual bool	EnqueueVeryLargeAsyncTransfer( INetMessage &msg ) OVERRIDE;	// Enqueues a message for a large async transfer
+	virtual bool	EnqueueVeryLargeAsyncTransfer( INetMessage &msg ) override;	// Enqueues a message for a large async transfer
 
 	// For Steam sockets, returns true if the low level socket is gone (remote disconnected, etc.)
 	bool		IsRemoteDisconnected() const;

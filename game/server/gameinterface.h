@@ -40,7 +40,7 @@ public:
 	virtual void			SetCommandClient( int index );
 	virtual CPlayerState	*GetPlayerState( edict_t *player );
 	virtual void			ClientEarPosition( edict_t *pEntity, Vector *pEarOrigin );
-	virtual bool			ClientReplayEvent( edict_t *pEdict, const ClientReplayEventParams_t &params ) OVERRIDE;
+	virtual bool			ClientReplayEvent( edict_t *pEdict, const ClientReplayEventParams_t &params ) override;
 
 	virtual void			GetPlayerLimits( int& minplayers, int& maxplayers, int &defaultMaxPlayers ) const;
 	
@@ -53,7 +53,7 @@ public:
 	// A player sent a voice packet
 	virtual void			ClientVoice( edict_t *pEdict );
 
-	virtual void			NetworkIDValidated( const char *pszUserName, const char *pszNetworkID, CSteamID steamID ) OVERRIDE;
+	virtual void			NetworkIDValidated( const char *pszUserName, const char *pszNetworkID, CSteamID steamID ) override;
 	virtual int				GetMaxSplitscreenPlayers();
 	virtual int				GetMaxHumanPlayers();
 
@@ -61,9 +61,9 @@ public:
 	virtual void			ClientCommandKeyValues( edict_t *pEntity, KeyValues *pKeyValues );
 
 	// Server override for supplied client name
-	virtual const char *	ClientNameHandler( uint64 xuid, const char *pchName ) OVERRIDE;
+	virtual const char *	ClientNameHandler( uint64 xuid, const char *pchName ) override;
 
-	virtual void		ClientSvcUserMessage( edict_t *pEntity, int nType, int nPassthrough, uint32 cbSize, const void *pvBuffer ) OVERRIDE;
+	virtual void		ClientSvcUserMessage( edict_t *pEntity, int nType, int nPassthrough, uint32 cbSize, const void *pvBuffer ) override;
 };
 
 
@@ -192,13 +192,13 @@ public:
 	virtual bool ValidateAndAddActiveCaster( const CSteamID &steamID );
 
 	// Network channel notification from engine to game server code
-	virtual void OnEngineClientNetworkEvent( edict_t *edictClient, uint64 ullSteamID, int nEventType, void *pvParam ) OVERRIDE;
+	virtual void OnEngineClientNetworkEvent( edict_t *edictClient, uint64 ullSteamID, int nEventType, void *pvParam ) override;
 
 	// GOTV client attempt redirect over SDR
-	virtual bool OnEngineClientProxiedRedirect( uint64 ullClient, const char *adrProxiedRedirect, const char *adrRegular ) OVERRIDE;
+	virtual bool OnEngineClientProxiedRedirect( uint64 ullClient, const char *adrProxiedRedirect, const char *adrRegular ) override;
 
 	// Tell server about a line we will write to the log file which may be sent to remote listeners
-	bool LogForHTTPListeners( const char* szLogLine ) OVERRIDE;
+	bool LogForHTTPListeners( const char* szLogLine ) override;
 private:
 
 	// This can just be a wrapper on MapEntity_ParseAllEntities, but CS does some tricks in here

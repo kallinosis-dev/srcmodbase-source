@@ -1,4 +1,4 @@
-//====== Copyright ©, Valve Corporation, All rights reserved. =================
+//====== Copyright ï¿½, Valve Corporation, All rights reserved. =================
 //
 // Purpose: Defines the GC interface exposed to the host
 //
@@ -111,7 +111,7 @@ public:
 	{
 	}
 
-	virtual void *AssertionFailure( const char *pFormattedMsg, const tchar *pchFile, int nLine, const tchar *pchFunction, const tchar *pchRawExpression, int nInstanceReportCount, AssertionType_t nType, bool bFatal ) OVERRIDE
+	virtual void *AssertionFailure( const char *pFormattedMsg, const tchar *pchFile, int nLine, const tchar *pchFunction, const tchar *pchRawExpression, int nInstanceReportCount, AssertionType_t nType, bool bFatal ) override
 	{
 		if ( Plat_IsInDebugSession() )
 			return NULL;
@@ -122,7 +122,7 @@ public:
 		return bShouldWriteMinidump ? this : NULL;
 	}
 
-	virtual void MiniDumpHandler( const MiniDumpHandlerData_t &HandlerData, const char *pFormattedMsg, const tchar *pchFile, int nLine, const tchar *pchFunction, const tchar *pchRawExpression, int nInstanceReportCount, AssertionType_t nType, bool bFatal ) OVERRIDE
+	virtual void MiniDumpHandler( const MiniDumpHandlerData_t &HandlerData, const char *pFormattedMsg, const tchar *pchFile, int nLine, const tchar *pchFunction, const tchar *pchRawExpression, int nInstanceReportCount, AssertionType_t nType, bool bFatal ) override
 	{
 		//re-route to default minidump handler (treat it the same as a crash)
 		CFmtStr minidumpNameToken( "assert_%s_%d", V_GetFileName( pchFile ), nLine );
@@ -155,7 +155,7 @@ public:
 	void SetPath ( const char *pchBinaryPath ) { m_sBinaryPath = pchBinaryPath; }
 
 	// Implementation of IAppSystemGroup
-	virtual bool Create() OVERRIDE
+	virtual bool Create() override
 	{
 		AppModule_t cvarModule = LoadModule( VStdLib_GetICVarFactory() );
 		AddSystem( cvarModule, CVAR_INTERFACE_VERSION );
@@ -180,7 +180,7 @@ public:
 		return AddSystems( appSystems );
 	}
 
-	virtual bool PreInit() OVERRIDE
+	virtual bool PreInit() override
 	{
 		CreateInterfaceFn factory = GetFactory();
 		ConnectTier1Libraries( &factory, 1 );
@@ -197,17 +197,17 @@ public:
 		return true;
 	}
 
-	virtual void PostShutdown() OVERRIDE
+	virtual void PostShutdown() override
 	{
 		ConVar_Unregister();
 		DisconnectTier2Libraries();
 		DisconnectTier1Libraries();
 	}
 
-	virtual void Destroy() OVERRIDE {}
+	virtual void Destroy() override {}
 
 	// this should never be called
-	virtual int Main( ) OVERRIDE { return -1; }
+	virtual int Main( ) override { return -1; }
 
 private:
 	CUtlString m_sBinaryPath;

@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: The TF Game rules object
 //
@@ -597,7 +597,7 @@ public:
 	void CoopMissionRespawnDeadPlayers( void );
 	void CoopCollectBonusCoin( void );
 
-	virtual bool OnReplayPrompt( CBasePlayer *pVictim, CBasePlayer *pScorer ) OVERRIDE;
+	virtual bool OnReplayPrompt( CBasePlayer *pVictim, CBasePlayer *pScorer ) override;
 #endif
 	int GetGuardianRequiredKills( void ) const;
 	int GetGuardianKillsRemaining( void ) const;
@@ -1075,7 +1075,7 @@ public:
 	virtual const char *GetChatFormat( bool bTeamOnly, CBasePlayer *pPlayer );
 	void ClientSettingsChanged( CBasePlayer *pPlayer );
 
-	virtual bool CanClientCustomizeOwnIdentity() OVERRIDE;
+	virtual bool CanClientCustomizeOwnIdentity() override;
 	
 	bool IsCareer( void ) const		{ return false; }		// returns true if this is a CZ "career" game
 

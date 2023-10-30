@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -715,7 +715,7 @@ void CHostage::HostageRescueZoneTouch( inputdata_t &inputdata )
 		class CSimpleHostageRescueMVP : public CCSGameRules::ICalculateEndOfRoundMVPHook_t
 		{
 		public:
-			virtual CCSPlayer* CalculateEndOfRoundMVP() OVERRIDE
+			virtual CCSPlayer* CalculateEndOfRoundMVP() override
 			{
 				if( player->HasControlledBotThisRound() )
 				{ // [dkorus] if we controlled a bot this round, use standard MVP conditions

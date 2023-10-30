@@ -392,7 +392,7 @@ public:
 	// methods of IStaticPropMgrClient
 	virtual void TraceRayAgainstStaticProp( const Ray_t& ray, int staticPropIndex, trace_t& tr );
 	virtual void AddDecalToStaticProp( Vector const& rayStart, Vector const& rayEnd,
-		int staticPropIndex, int decalIndex, bool doTrace, trace_t& tr, void *pvProxyUserData = nullptr, const Vector* saxis = nullptr, int32 nAdditionalDecalFlags = 0 ) OVERRIDE;
+		int staticPropIndex, int decalIndex, bool doTrace, trace_t& tr, void *pvProxyUserData = nullptr, const Vector* saxis = nullptr, int32 nAdditionalDecalFlags = 0 ) override;
 	virtual void AddShadowToStaticProp( unsigned short shadowHandle, IClientRenderable* pRenderable );
 	virtual void RemoveAllShadowsFromStaticProp( IClientRenderable* pRenderable );
 	virtual void GetStaticPropMaterialColorAndLighting( trace_t* pTrace,

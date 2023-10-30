@@ -1,4 +1,4 @@
-//========== Copyright © Valve Corporation, All rights reserved. ========
+//========== Copyright ï¿½ Valve Corporation, All rights reserved. ========
 //
 // Dedicated server's object for managing UGC file subscriptions.
 //
@@ -111,7 +111,7 @@ public:
 	const CUtlVector<DedicatedServerUGCFileInfo_t*>& GetFileInfoList( void ) const { return m_vecFileInfos; }
 
 	HTTPRequestHandle CreateHTTPRequest( const char* szAuthKey = nullptr);
-	virtual void ProcessHTTPResponse( KeyValues *pResponseKV ) OVERRIDE;
+	virtual void ProcessHTTPResponse( KeyValues *pResponseKV ) override;
 
 protected:
 
@@ -126,7 +126,7 @@ public:
 	virtual ~CCollectionInfoHTTPRequest();
 
 	HTTPRequestHandle CreateHTTPRequest( const char* szAuthKey = nullptr);
-	virtual void ProcessHTTPResponse( KeyValues *pResponseKV ) OVERRIDE;
+	virtual void ProcessHTTPResponse( KeyValues *pResponseKV ) override;
 
 	KeyValues* GetResponseKV( void ) { return m_pResponseKV; } 
 protected:
@@ -162,10 +162,10 @@ class CDedicatedServerWorkshopManager : public CAutoGameSystem
 {
 public:
 	// Autogamesystem overrides.
-	virtual bool Init( void ) OVERRIDE;
-	virtual void LevelInitPreEntity( void ) OVERRIDE;
-	virtual const char* Name( void ) OVERRIDE { return "CDedicatedServerMapWorkshop"; }
-	virtual void Shutdown( void ) OVERRIDE;
+	virtual bool Init( void ) override;
+	virtual void LevelInitPreEntity( void ) override;
+	virtual const char* Name( void ) override { return "CDedicatedServerMapWorkshop"; }
+	virtual void Shutdown( void ) override;
 
 	// Gathers all the file IDs this server needs to stay up to date with and sends file info queries to steam.
 	// EXPENSIVE: does file io.

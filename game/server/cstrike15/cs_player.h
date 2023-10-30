@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose:		Player for HL1.
 //
@@ -293,7 +293,7 @@ public:
 	
 	void SetCSSpawnLocation( Vector position, QAngle angle );
 	
-	virtual void		ImpulseCommands() OVERRIDE;
+	virtual void		ImpulseCommands() override;
 	virtual void		CheatImpulseCommands( int iImpulse );
 	virtual void		PlayerRunCommand( CUserCmd *ucmd, IMoveHelper *moveHelper );
 	virtual void		PostThink();
@@ -316,7 +316,7 @@ public:
 	virtual void		TraceAttack( const CTakeDamageInfo &inputInfo, const Vector &vecDir, trace_t *ptr );
 
 	void FindMatchingWeaponsForTeamLoadout( const char *pchName, int nTeam, bool bMustBeTeamSpecific, CUtlVector< CEconItemView* > &matchingWeapons );
-	virtual CBaseEntity	*GiveNamedItem( const char *pchName, int iSubType = 0, CEconItemView *pScriptItem = nullptr, bool bForce = false ) OVERRIDE;
+	virtual CBaseEntity	*GiveNamedItem( const char *pchName, int iSubType = 0, CEconItemView *pScriptItem = nullptr, bool bForce = false ) override;
 
 	virtual bool		IsBeingGivenItem() const { return m_bIsBeingGivenItem; }
 	
@@ -333,7 +333,7 @@ public:
 	// from CBasePlayer
 	virtual void		SetupVisibility( CBaseEntity *pViewEntity, unsigned char *pvs, int pvssize );
 
-	virtual bool		ShouldCheckOcclusion( CBasePlayer *pOtherPlayer ) OVERRIDE;
+	virtual bool		ShouldCheckOcclusion( CBasePlayer *pOtherPlayer ) override;
 
 
 	virtual	bool		ShouldCollide( int collisionGroup, int contentsMask ) const;
@@ -344,7 +344,7 @@ public:
 
 	virtual int 		GetNextObserverSearchStartPoint( bool bReverse );
 
-	virtual bool UpdateDispatchLayer( CAnimationLayer *pLayer, CStudioHdr *pWeaponStudioHdr, int iSequence ) OVERRIDE;
+	virtual bool UpdateDispatchLayer( CAnimationLayer *pLayer, CStudioHdr *pWeaponStudioHdr, int iSequence ) override;
 
 // In shared code.
 public:
@@ -425,9 +425,9 @@ public:
 	virtual void SetAnimation( PLAYER_ANIM playerAnim );
 	void DoAnimStateEvent( PlayerAnimEvent_t evt );
 
-	virtual bool StartReplayMode( float fDelay, float fDuration, int iEntity ) OVERRIDE;
-	virtual void StopReplayMode() OVERRIDE;
-	virtual void PlayUseDenySound() OVERRIDE;
+	virtual bool StartReplayMode( float fDelay, float fDuration, int iEntity ) override;
+	virtual void StopReplayMode() override;
+	virtual void PlayUseDenySound() override;
 
 	bool IsOtherSameTeam( int nTeam );
 	bool IsOtherEnemy( CCSPlayer *pPlayer );
@@ -634,7 +634,7 @@ public:
 	virtual void PlayerForceTeamThink();
 	virtual void ResetForceTeamThink();
 
-	virtual bool StartObserverMode( int mode ) OVERRIDE;
+	virtual bool StartObserverMode( int mode ) override;
 	virtual bool SetObserverTarget( CBaseEntity *target );
 	virtual void ValidateCurrentObserverTarget( void );
 	virtual void CheckObserverSettings( void );

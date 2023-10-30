@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -247,8 +247,8 @@ public: // IConnectionlessPacketHandler interface:
 
 public: // INetMsgHandler interface:
 		
-	virtual void ConnectionStart(INetChannel *chan) OVERRIDE;
-	virtual void ConnectionStop( ) OVERRIDE;
+	virtual void ConnectionStart(INetChannel *chan) override;
+	virtual void ConnectionStop( ) override;
 	virtual void ConnectionClosing( const char *reason );
 	virtual void ConnectionCrashed(const char *reason);
 

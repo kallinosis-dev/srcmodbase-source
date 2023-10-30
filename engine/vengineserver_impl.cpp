@@ -1996,7 +1996,7 @@ private:
 		g_bNoClipEnabled = bEnabled;
 	}
 
-	virtual bool StartClientHltvReplay( int nClientIndex, const HltvReplayParams_t &params ) OVERRIDE
+	virtual bool StartClientHltvReplay( int nClientIndex, const HltvReplayParams_t &params ) override
 	{
 		if ( IClient *pClient = sv.GetClient( nClientIndex ) )
 		{
@@ -2005,7 +2005,7 @@ private:
 		return false;
 	}
 
-	virtual void StopClientHltvReplay( int nClientIndex ) OVERRIDE
+	virtual void StopClientHltvReplay( int nClientIndex ) override
 	{
 		if ( IClient *pClient = sv.GetClient( nClientIndex ) )
 		{
@@ -2013,7 +2013,7 @@ private:
 		}
 	}
 
-	virtual int GetClientHltvReplayDelay( int nClientIndex ) OVERRIDE
+	virtual int GetClientHltvReplayDelay( int nClientIndex ) override
 	{
 		if ( IClient *pClient = sv.GetClient( nClientIndex ) )
 		{
@@ -2022,7 +2022,7 @@ private:
 		return 0;
 	}
 	
-	virtual bool ClientCanStartHltvReplay( int nClientIndex ) OVERRIDE
+	virtual bool ClientCanStartHltvReplay( int nClientIndex ) override
 	{
 		if ( IClient* pClient = sv.GetClient( nClientIndex ) )
 		{
@@ -2031,14 +2031,14 @@ private:
 		return false;
 	}
 
-	virtual bool HasHltvReplay( ) OVERRIDE
+	virtual bool HasHltvReplay( ) override
 	{
 		CActiveHltvServerIterator hltv;
 
 		return hltv && hltv->GetOldestTick() > 0;
 	}
 
-	virtual void ClientResetReplayRequestTime( int nClientIndex ) OVERRIDE
+	virtual void ClientResetReplayRequestTime( int nClientIndex ) override
 	{
 		if ( IClient* pClient = sv.GetClient( nClientIndex ) )
 		{
@@ -2046,7 +2046,7 @@ private:
 		}
 	}
 
-	virtual bool AnyClientsInHltvReplayMode() OVERRIDE
+	virtual bool AnyClientsInHltvReplayMode() override
 	{
 		return sv.AnyClientsInHltvReplayMode();
 	}

@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -100,20 +100,20 @@ public:
 	virtual ~CReplayServer();
 
 public: // CBaseServer interface:
-	virtual bool	IsMultiplayer() const OVERRIDE { return true; };
-	virtual bool	IsReplay() const OVERRIDE { return true; };
-	virtual void	Init( bool bIsDedicated ) OVERRIDE;
-	virtual void	Clear() OVERRIDE;
-	virtual void	Shutdown() OVERRIDE;
-	virtual void	FillServerInfo(CSVCMsg_ServerInfo &serverinfo) OVERRIDE;
-	virtual void	GetNetStats( float &avgIn, float &avgOut ) OVERRIDE;
-	virtual int		GetChallengeType ( const ns_address &adr ) OVERRIDE;
-	virtual const char *GetName() const OVERRIDE;
-	virtual const char *GetPassword() const OVERRIDE;
+	virtual bool	IsMultiplayer() const override { return true; };
+	virtual bool	IsReplay() const override { return true; };
+	virtual void	Init( bool bIsDedicated ) override;
+	virtual void	Clear() override;
+	virtual void	Shutdown() override;
+	virtual void	FillServerInfo(CSVCMsg_ServerInfo &serverinfo) override;
+	virtual void	GetNetStats( float &avgIn, float &avgOut ) override;
+	virtual int		GetChallengeType ( const ns_address &adr ) override;
+	virtual const char *GetName() const override;
+	virtual const char *GetPassword() const override;
 	IClient *ConnectClient ( const ns_address &adr, int protocol, int challenge, int authProtocol, 
 		const char *name, const char *password, const char *hashedCDkey, int cdKeyLen,
 		CUtlVector< CCLCMsg_SplitPlayerConnect_t * > & splitScreenClients, bool isClientLowViolence, CrossPlayPlatform_t clientPlatform,
-		const byte *pbEncryptionKey, int nEncryptionKeyIndex ) OVERRIDE;
+		const byte *pbEncryptionKey, int nEncryptionKeyIndex ) override;
 
 public: // IGameEventListener2 interface:
 	void	FireGameEvent( IGameEvent *event );

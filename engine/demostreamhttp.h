@@ -39,11 +39,11 @@ public:
 	void Resync( );
 	void Update();
 
-	virtual const char* GetUrl( void ) OVERRIDE { return m_Url.Get(); }
-	virtual float GetTicksPerSecond( void )OVERRIDE { return m_SyncResponse.flTicksPerSecond; }
+	virtual const char* GetUrl( void ) override { return m_Url.Get(); }
+	virtual float GetTicksPerSecond( void )override { return m_SyncResponse.flTicksPerSecond; }
 	int GetDemoProtocol()const { return m_nDemoProtocol; }
-	virtual float GetTicksPerFrame( void ) OVERRIDE { return 1.0f; } // 1 network frame per 1 tick in broadcast - there's not much reason to do otherwise
-	virtual void Close() OVERRIDE { StopStreaming(); }
+	virtual float GetTicksPerFrame( void ) override { return 1.0f; } // 1 network frame per 1 tick in broadcast - there's not much reason to do otherwise
+	virtual void Close() override { StopStreaming(); }
 	virtual int GetTotalTicks( void ) { return 0; }
 
 	enum FragmentTypeEnum_t
@@ -126,8 +126,8 @@ protected:
 	public:
 		CPendingRequest( );
 		void Init( CDemoStreamHttp *pParent, HTTPRequestHandle hRequest, SteamAPICall_t hCall );
-		virtual void Run( void *pvParam ) OVERRIDE; // success; HTTPRequestCompleted_t
-		virtual void Run( void *pvParam, bool bIOFailure, SteamAPICall_t hSteamAPICall ) OVERRIDE; // result; HTTPRequestCompleted_t
+		virtual void Run( void *pvParam ) override; // success; HTTPRequestCompleted_t
+		virtual void Run( void *pvParam, bool bIOFailure, SteamAPICall_t hSteamAPICall ) override; // result; HTTPRequestCompleted_t
 		void Cancel();
 
 		virtual void OnSuccess( const HTTPRequestCompleted_t * pResponse ) = 0;
@@ -137,7 +137,7 @@ protected:
 
 	protected:
 		~CPendingRequest(); // only this object can delete itself
-		virtual int GetCallbackSizeBytes() OVERRIDE { return sizeof( HTTPRequestCompleted_t ); }
+		virtual int GetCallbackSizeBytes() override { return sizeof( HTTPRequestCompleted_t ); }
 		CDemoStreamHttp *m_pParent;
 		HTTPRequestHandle m_hRequest;
 		SteamAPICall_t m_hCall;
@@ -150,15 +150,15 @@ protected:
 		SyncParams_t m_SyncParams;
 	public:
 		CSyncRequest( SyncParams_t syncParams, int nResync = 0 ) : m_nResync( nResync ), m_SyncParams( syncParams ) { }
-		virtual void OnSuccess( const HTTPRequestCompleted_t * pResponse ) OVERRIDE;
-		virtual void OnFailure( const HTTPRequestCompleted_t * pResponse ) OVERRIDE;
+		virtual void OnSuccess( const HTTPRequestCompleted_t * pResponse ) override;
+		virtual void OnFailure( const HTTPRequestCompleted_t * pResponse ) override;
 	};
 
 	class CStartRequest : public CPendingRequest
 	{
 	public:
-		virtual void OnSuccess( const HTTPRequestCompleted_t * pResponse ) OVERRIDE;
-		//virtual void OnFailure( const HTTPRequestCompleted_t * pResponse ) OVERRIDE;
+		virtual void OnSuccess( const HTTPRequestCompleted_t * pResponse ) override;
+		//virtual void OnFailure( const HTTPRequestCompleted_t * pResponse ) override;
 	};
 
 
@@ -168,8 +168,8 @@ protected:
 		FragmentTypeEnum_t m_nType;
 	public:
 		CFragmentRequest( int nFragment , FragmentTypeEnum_t nType ) : m_nFragment( nFragment ), m_nType ( nType ){}
-		virtual void OnSuccess( const HTTPRequestCompleted_t * pResponse ) OVERRIDE;
-		virtual void OnFailure( const HTTPRequestCompleted_t * pResponse ) OVERRIDE;
+		virtual void OnSuccess( const HTTPRequestCompleted_t * pResponse ) override;
+		virtual void OnFailure( const HTTPRequestCompleted_t * pResponse ) override;
 	};
 
 

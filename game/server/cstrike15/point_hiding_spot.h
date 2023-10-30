@@ -1,4 +1,4 @@
-//===== Copyright © Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -14,8 +14,8 @@ public:
 	CPointHidingSpot();
 	DECLARE_DATADESC();
 
-	virtual void Activate() OVERRIDE;
-	virtual void UpdateOnRemove() OVERRIDE;
+	virtual void Activate() override;
+	virtual void UpdateOnRemove() override;
 	void PostActivateSetupThink();
 	void DetachFromHidingSpot();
 protected:

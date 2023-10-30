@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: gameeventmanager.h: interface for the CGameEventManager class.
 //
@@ -69,28 +69,28 @@ public:
 	CGameEvent( CGameEventDescriptor *descriptor, const char *name );
 	virtual ~CGameEvent();
 
-	virtual const char *GetName() const OVERRIDE;
-	virtual bool  IsEmpty(const char *keyName = nullptr) const OVERRIDE;
-	virtual bool  IsLocal() const OVERRIDE;
-	virtual bool  IsReliable() const OVERRIDE;
+	virtual const char *GetName() const override;
+	virtual bool  IsEmpty(const char *keyName = nullptr) const override;
+	virtual bool  IsLocal() const override;
+	virtual bool  IsReliable() const override;
 
-	virtual bool  GetBool( const char *keyName = nullptr, bool defaultValue = false ) const OVERRIDE;
-	virtual int   GetInt( const char *keyName = nullptr, int defaultValue = 0 ) const OVERRIDE;
-	virtual uint64 GetUint64( const char *keyName = nullptr, uint64 defaultValue = 0 ) const OVERRIDE;
-	virtual float GetFloat( const char *keyName = nullptr, float defaultValue = 0.0f ) const OVERRIDE;
-	virtual const char *GetString( const char *keyName = nullptr, const char *defaultValue = "" ) const OVERRIDE;
-	virtual const wchar_t *GetWString( const char *keyName = nullptr, const wchar_t *defaultValue = L"" ) const OVERRIDE;
-	virtual const void *GetPtr( const char *keyName = nullptr) const OVERRIDE;
+	virtual bool  GetBool( const char *keyName = nullptr, bool defaultValue = false ) const override;
+	virtual int   GetInt( const char *keyName = nullptr, int defaultValue = 0 ) const override;
+	virtual uint64 GetUint64( const char *keyName = nullptr, uint64 defaultValue = 0 ) const override;
+	virtual float GetFloat( const char *keyName = nullptr, float defaultValue = 0.0f ) const override;
+	virtual const char *GetString( const char *keyName = nullptr, const char *defaultValue = "" ) const override;
+	virtual const wchar_t *GetWString( const char *keyName = nullptr, const wchar_t *defaultValue = L"" ) const override;
+	virtual const void *GetPtr( const char *keyName = nullptr) const override;
 
-	virtual void SetBool( const char *keyName, bool value ) OVERRIDE;
-	virtual void SetInt( const char *keyName, int value ) OVERRIDE;
-	virtual void SetUint64( const char *keyName, uint64 value ) OVERRIDE;
-	virtual void SetFloat( const char *keyName, float value ) OVERRIDE;
-	virtual void SetString( const char *keyName, const char *value ) OVERRIDE;
-	virtual void SetWString( const char *keyName, const wchar_t *value ) OVERRIDE;
-	virtual void SetPtr( const char *keyName, const void * value ) OVERRIDE;
+	virtual void SetBool( const char *keyName, bool value ) override;
+	virtual void SetInt( const char *keyName, int value ) override;
+	virtual void SetUint64( const char *keyName, uint64 value ) override;
+	virtual void SetFloat( const char *keyName, float value ) override;
+	virtual void SetString( const char *keyName, const char *value ) override;
+	virtual void SetWString( const char *keyName, const wchar_t *value ) override;
+	virtual void SetPtr( const char *keyName, const void * value ) override;
 
-	virtual bool ForEventData( IGameEventVisitor2* visitor ) const OVERRIDE;
+	virtual bool ForEventData( IGameEventVisitor2* visitor ) const override;
 
 	CGameEventDescriptor	*m_pDescriptor;
 	KeyValues				*m_pDataKeys;

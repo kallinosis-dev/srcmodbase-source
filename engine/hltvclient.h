@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -40,7 +40,7 @@ public:
 	bool	ExecuteStringCommand( const char *s );
 	void	SpawnPlayer( void );
 	bool	ShouldSendMessages( void );
-	bool	SendSnapshot( CClientFrame * pFrame ) OVERRIDE;
+	bool	SendSnapshot( CClientFrame * pFrame ) override;
 	bool	SendSignonData( void );
 	
 	void	SetRate( int nRate, bool bForce );
@@ -50,22 +50,22 @@ public:
 public: // IClientMessageHandlers
 		
 	
-	virtual bool CLCMsg_RespondCvarValue( const CCLCMsg_RespondCvarValue& msg ) OVERRIDE;
-	virtual bool CLCMsg_FileCRCCheck( const CCLCMsg_FileCRCCheck& msg ) OVERRIDE;
+	virtual bool CLCMsg_RespondCvarValue( const CCLCMsg_RespondCvarValue& msg ) override;
+	virtual bool CLCMsg_FileCRCCheck( const CCLCMsg_FileCRCCheck& msg ) override;
 
-	virtual bool NETMsg_SetConVar( const CNETMsg_SetConVar& msg ) OVERRIDE;
-	virtual bool NETMsg_PlayerAvatarData( const CNETMsg_PlayerAvatarData& msg ) OVERRIDE { return true; }
+	virtual bool NETMsg_SetConVar( const CNETMsg_SetConVar& msg ) override;
+	virtual bool NETMsg_PlayerAvatarData( const CNETMsg_PlayerAvatarData& msg ) override { return true; }
 	
-	virtual bool CLCMsg_Move( const CCLCMsg_Move& msg ) OVERRIDE;
-	virtual bool CLCMsg_ClientInfo( const CCLCMsg_ClientInfo& msg ) OVERRIDE;
-	virtual bool CLCMsg_VoiceData( const CCLCMsg_VoiceData& msg ) OVERRIDE;
-	virtual bool CLCMsg_ListenEvents( const CCLCMsg_ListenEvents& msg ) OVERRIDE;
+	virtual bool CLCMsg_Move( const CCLCMsg_Move& msg ) override;
+	virtual bool CLCMsg_ClientInfo( const CCLCMsg_ClientInfo& msg ) override;
+	virtual bool CLCMsg_VoiceData( const CCLCMsg_VoiceData& msg ) override;
+	virtual bool CLCMsg_ListenEvents( const CCLCMsg_ListenEvents& msg ) override;
 
 public:
 	CClientFrame *GetDeltaFrame( int nTick );
 
 protected:
-	virtual bool	ProcessSignonStateMsg(int state, int spawncount) OVERRIDE;
+	virtual bool	ProcessSignonStateMsg(int state, int spawncount) override;
 	
 public:
 	CHLTVServer *m_pHLTV;

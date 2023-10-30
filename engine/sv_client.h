@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // CGameClient: represents a player client in a game server
 //
@@ -114,10 +114,10 @@ public:
 	bool ProcessConnectionlessPacket( netpacket_t *packet );
 
 	// IClient interface
-	void	Connect(const char * szName, int nUserID, INetChannel *pNetChannel, bool bFakePlayer, CrossPlayPlatform_t clientPlatform, const CMsg_CVars *pVecCvars ) OVERRIDE;
+	void	Connect(const char * szName, int nUserID, INetChannel *pNetChannel, bool bFakePlayer, CrossPlayPlatform_t clientPlatform, const CMsg_CVars *pVecCvars ) override;
 	void	Inactivate( void );
 	void	Reconnect( void );
-	void	Disconnect( const char *reason ) OVERRIDE;
+	void	Disconnect( const char *reason ) override;
 	bool	CheckConnect( void );
 	
 	void	SetRate( int nRate, bool bForce );
@@ -131,21 +131,21 @@ public:
 	bool	SendNetMsg( INetMessage &msg, bool bForceReliable = false, bool bVoice = false );
 	bool	ExecuteStringCommand( const char *s );
 	// IGameEventListener
-	void	FireGameEvent( IGameEvent *event ) OVERRIDE;
+	void	FireGameEvent( IGameEvent *event ) override;
 
 public: // IClientMessageHandlers
 	
-	virtual bool CLCMsg_ClientInfo( const CCLCMsg_ClientInfo& msg ) OVERRIDE;
-	virtual bool CLCMsg_Move( const CCLCMsg_Move& msg ) OVERRIDE;
-	virtual bool CLCMsg_VoiceData( const CCLCMsg_VoiceData& msg ) OVERRIDE;
+	virtual bool CLCMsg_ClientInfo( const CCLCMsg_ClientInfo& msg ) override;
+	virtual bool CLCMsg_Move( const CCLCMsg_Move& msg ) override;
+	virtual bool CLCMsg_VoiceData( const CCLCMsg_VoiceData& msg ) override;
 
-	virtual bool CLCMsg_RespondCvarValue( const CCLCMsg_RespondCvarValue& msg ) OVERRIDE;
-	virtual bool CLCMsg_FileCRCCheck( const CCLCMsg_FileCRCCheck& msg ) OVERRIDE;
-	virtual bool CLCMsg_CmdKeyValues( const CCLCMsg_CmdKeyValues& msg ) OVERRIDE;
+	virtual bool CLCMsg_RespondCvarValue( const CCLCMsg_RespondCvarValue& msg ) override;
+	virtual bool CLCMsg_FileCRCCheck( const CCLCMsg_FileCRCCheck& msg ) override;
+	virtual bool CLCMsg_CmdKeyValues( const CCLCMsg_CmdKeyValues& msg ) override;
 
-	virtual bool CLCMsg_HltvReplay( const CCLCMsg_HltvReplay &msg ) OVERRIDE;
+	virtual bool CLCMsg_HltvReplay( const CCLCMsg_HltvReplay &msg ) override;
 
-	virtual bool SVCMsg_UserMessage( const CSVCMsg_UserMessage &msg ) OVERRIDE;
+	virtual bool SVCMsg_UserMessage( const CSVCMsg_UserMessage &msg ) override;
 	
 public:
 
@@ -154,7 +154,7 @@ public:
 
 	void	WriteGameSounds( bf_write &buf, int nMaxSounds );
 	virtual bool	ProcessSignonStateMsg(int state, int spawncount);
-	bool	SendSnapshot( CClientFrame *pFrame ) OVERRIDE;
+	bool	SendSnapshot( CClientFrame *pFrame ) override;
 	bool	SendHltvReplaySnapshot( CClientFrame * pFrame );
 	bool	ShouldSendMessages( void );
 	void	SpawnPlayer( void );
@@ -173,16 +173,16 @@ public:
 	void	GetReplayData( int& ticks, int& entity);
 	bool	IgnoreTempEntity( CEventInfo *event );
 	const CCheckTransmitInfo* GetPrevPackInfo();
-	virtual bool StartHltvReplay( const HltvReplayParams_t &params ) OVERRIDE;
-	virtual bool CanStartHltvReplay() OVERRIDE;
-	virtual void ResetReplayRequestTime() OVERRIDE;
+	virtual bool StartHltvReplay( const HltvReplayParams_t &params ) override;
+	virtual bool CanStartHltvReplay() override;
+	virtual void ResetReplayRequestTime() override;
 	void StepHltvReplayStatus( int nServerTick );
-	virtual int GetHltvReplayDelay() OVERRIDE { return m_nHltvReplayDelay; }
-	virtual const char * GetHltvReplayStatus()const OVERRIDE { return m_HltvReplayStats.AsString(); }
-	virtual void StopHltvReplay() OVERRIDE;
+	virtual int GetHltvReplayDelay() override { return m_nHltvReplayDelay; }
+	virtual const char * GetHltvReplayStatus()const override { return m_HltvReplayStats.AsString(); }
+	virtual void StopHltvReplay() override;
 	bool	IsHltvReplay() { return m_nHltvReplayDelay > 0; }
 	//CHLTVServer *GetCurrentHltvReplayServerSource() { return IsHltvReplay() ? m_pHltvReplayServer : NULL; }
-	virtual CBaseClient *GetPropCullClient() OVERRIDE;
+	virtual CBaseClient *GetPropCullClient() override;
 protected:
 	virtual void	PerformDisconnection( const char *pReason );
 
