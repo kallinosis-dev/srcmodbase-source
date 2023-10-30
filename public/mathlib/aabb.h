@@ -8,7 +8,7 @@
 
 
 /// Axis-aligned 3d bounding box.
-schema struct AABB_t
+/*schema*/ struct AABB_t
 {
 public:
 	Vector				m_vMinBounds; 

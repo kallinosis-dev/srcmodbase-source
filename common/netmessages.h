@@ -40,6 +40,10 @@
 #undef TYPE_BOOL
 #endif
 
+#include "tier0/valve_off.h"
+#include "netmessages.pb.h"
+#include "tier0/valve_on.h"
+
 #if !defined( _X360 )
 #include "xbox/xboxstubs.h"
 #endif
@@ -370,9 +374,9 @@ inline void NetMsgSetCVarUsingDictionary( CMsg_CVars::CVar *convar, char const *
 {
 	convar->set_value( value );
 	
-	if ( 0 ) ( void ) 0;
-	#error Cut for partner depot
-	else
+//	if ( 0 ) ( void ) 0;
+//	#error Cut for partner depot
+//	else
 	{
 #ifdef _DEBUG
 		DevWarning( "Missing dictionary entry for cvar '%s'\n", name );
@@ -388,7 +392,7 @@ inline void NetMsgExpandCVarUsingDictionary( CMsg_CVars::CVar *convar )
 	switch ( convar->dictionary_name() )
 	{
 	case 0: return;
-	#error Cut for partner depot
+//	#error Cut for partner depot
 	default:
 		DevWarning( "Invalid dictionary entry for cvar # %d\n", convar->dictionary_name() );
 		convar->set_name( "undefined" );
@@ -403,7 +407,7 @@ inline const char * NetMsgGetCVarUsingDictionary( CMsg_CVars::CVar const &convar
 	switch ( convar.dictionary_name() )
 	{
 	case 0: return "";
-	#error Cut for partner depot
+//	#error Cut for partner depot
 default:
 	DevWarning( "Invalid dictionary entry for cvar # %d\n", convar.dictionary_name() );
 	return "undefined";

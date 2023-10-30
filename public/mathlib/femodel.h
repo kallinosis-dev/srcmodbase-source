@@ -1,4 +1,4 @@
-//========= Copyright © Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ Valve Corporation, All rights reserved. ============//
 #ifndef RUBIKON_FEM_HIERARCHY_HDR
 #define RUBIKON_FEM_HIERARCHY_HDR
 
@@ -33,7 +33,7 @@ enum FeFlagEnum_t
 	FE_FLAG_UNINERTIAL_CONSTRAINTS = 1 << 4,
 	FE_FLAG_ENABLE_FTL = 1 << 5,
 	FE_FLAG_HAS_NODE_DAMPING = 1 << 8,
-	FE_FLAG_HAS_ANIMATION_FORCE_ATTRACTION = 1 << 9,
+FE_FLAG_HAS_ANIMATION_FORCE_ATTRACTION = 1 << 9,
 	FE_FLAG_HAS_ANIMATION_VERTEX_ATTRACTION = 1 << 10,
 	FE_FLAG_HAS_CUSTOM_GRAVITY = 1 << 11,
 	FE_FLAG_HAS_STRETCH_VELOCITY_DAMPING = 1 << 12,

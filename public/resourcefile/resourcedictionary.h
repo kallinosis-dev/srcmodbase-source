@@ -25,23 +25,23 @@ struct ResourceDescription_t;
 //-----------------------------------------------------------------------------
 // Type definitions
 //-----------------------------------------------------------------------------
-schema typedef uint32 ResourceId_t;
+/*schema*/ typedef uint32 ResourceId_t;
 
 
 //-----------------------------------------------------------------------------
 // Enum definitions
 //-----------------------------------------------------------------------------
-schema enum ResourceDictionaryVersion_t
+/*schema*/ enum ResourceDictionaryVersion_t
 {
 	RESOURCE_DICT_VERSION = 1,// (explicit)
 };
 
-schema enum ResourceCompressionType_t
+/*schema*/ enum ResourceCompressionType_t
 {
 	RESOURCE_COMPRESSION_NONE = 0,
 };
 
-schema enum ResourceStandardIds_t
+/*schema*/ enum ResourceStandardIds_t
 {
 	RESOURCE_ID_INVALID = 0,
 };
@@ -52,7 +52,7 @@ schema enum ResourceStandardIds_t
 //-----------------------------------------------------------------------------
 
 //! resourceBlockType = "RESD"
-schema struct ResourceDictionary_t
+/*schema*/ struct ResourceDictionary_t
 {
 	uint32           m_nCompressionType;
 	uint32           m_nUncompressedLength;
@@ -63,7 +63,7 @@ schema struct ResourceDictionary_t
 
 DEFINE_RESOURCE_BLOCK_TYPE( ResourceDictionary_t, 'R', 'E', 'S', 'D' )
 
-schema struct ResourceDictionaryGroup_t
+/*schema*/ struct ResourceDictionaryGroup_t
 {
 	uint32           m_nResourceType;	// see ResourceType_t
 	uint16           m_nCompressionType;
@@ -71,7 +71,7 @@ schema struct ResourceDictionaryGroup_t
 	CResourceArray< ResourceDescription_t > m_Resources;
 };
 
-schema struct ResourceDescription_t
+/*schema*/ struct ResourceDescription_t
 {
 	uint32           m_nId;
 	uint32           m_nStartOffset;

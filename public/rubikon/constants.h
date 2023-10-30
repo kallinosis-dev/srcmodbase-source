@@ -169,12 +169,12 @@
 #define DEFAULT_JOINT_CFM	float( 0.0f )
 #define DEFAULT_JOINT_ERP	float( 0.1f )
 
-
+/*
 // dummy schema data: workaround for a build dependency issue
 schema struct RnDummy_t  
 {
 	int32 m_nDummy;
 };
-
+*/
 
 #endif

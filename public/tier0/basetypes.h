@@ -20,6 +20,7 @@
 
 //////////////////////////////////////////////////////////////////////////
 
+/*
 #ifndef schema
 #define schema namespace ValveSchemaMarker {}
 #endif
@@ -27,7 +28,7 @@
 #define schema_pragma( ... )
 #define META( ... )
 #define TYPEMETA( ... )
-
+*/
 
 #ifdef COMPILING_SCHEMA
 #define UNSCHEMATIZED_METHOD( x )

@@ -706,14 +706,12 @@ typedef void * HINSTANCE;
 #define  FLOAT64_MAX		DBL_MAX
 
 #ifdef GNUC
-#undef offsetof
 // Note: can't use builtin offsetof because many use cases (esp. in templates) wouldn't compile due to restrictions on the builtin offsetof
 //#define offsetof( type, var ) __builtin_offsetof( type, var ) 
-#define offsetof(s,m)	( (size_t)&(((s *)0x1000000)->m) - 0x1000000u )
+#define offsetof_valve(s,m)	( (size_t)&(((s *)0x1000000)->m) - 0x1000000u )
 #else
 #include <stddef.h>
-#undef offsetof
-#define offsetof(s,m)	(size_t)&(((s *)0)->m)
+#define offsetof_valve(s,m)	(size_t)&(((s *)0)->m)
 #endif
 
 
@@ -752,7 +750,7 @@ typedef void * HINSTANCE;
 	// a pointer type for a class that has only been forward declared
 	#define SINGLE_INHERITANCE		__single_inheritance
 	#define MULTIPLE_INHERITANCE	__multiple_inheritance
-	#define EXPLICIT				explicit
+//	#define EXPLICIT				explicit
 	#define NO_VTABLE				__declspec( novtable )
 
 	// gcc doesn't allow storage specifiers on explicit template instatiation, but visual studio needs them to avoid link errors.
@@ -833,7 +831,7 @@ typedef void * HINSTANCE;
 	#define FORCEINLINE_TEMPLATE	inline
 	#define SINGLE_INHERITANCE
 	#define MULTIPLE_INHERITANCE
-	#define EXPLICIT
+//	#define EXPLICIT
 	#define NO_VTABLE
 
 	#define NULLTERMINATED			
