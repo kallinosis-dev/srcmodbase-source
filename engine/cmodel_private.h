@@ -412,7 +412,7 @@ public:
 	int									numareaportals;
 	CRangeValidatedArray<dareaportal_t>	map_areaportals;
 	int									numclusters;
-	char								*map_nullname;
+	char const* map_nullname;
 	int									numtextures;
 	char								*map_texturenames;
 	CRangeValidatedArray<csurface_t>	map_surfaces;

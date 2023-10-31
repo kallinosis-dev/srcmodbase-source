@@ -3,6 +3,9 @@
 // Purpose: steam state machine that handles authenticating steam users
 //
 //=============================================================================//
+
+#ifndef NO_STEAM
+
 #ifdef _WIN32
 #if !defined( _X360 )
 #include "winlite.h"
@@ -179,10 +182,10 @@ void CSteam3Client::GetAuthSessionTicket( void *pTicket, int cbMaxTicket, uint32
 void CSteam3Client::CancelAuthTicket()
 {
 	m_bGSSecure = false;
+#if !defined( NO_STEAM )
 	if ( !SteamUser() )
 		return;
 
-#if !defined( NO_STEAM )
 	if ( m_hAuthTicket != k_HAuthTicketInvalid )
 		SteamUser()->CancelAuthTicket( m_hAuthTicket );
 	m_hAuthTicket = k_HAuthTicketInvalid;
@@ -332,5 +335,7 @@ void CSteam3Client::OnLowBattery( LowBatteryPower_t *pLowBat )
 void CSteam3Client::OnSteamSocketStatus( SocketStatusCallback_t *pSocketStatus )
 {
 }
+
+#endif
 
 #endif

@@ -12,6 +12,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 #define MASTERSERVERUPDATERPORT_USEGAMESOCKETSHARE	((uint16)-1)
 
 //-----------------------------------------------------------------------------
@@ -383,5 +385,7 @@ struct ComputeNewPlayerCompatibilityResult_t
 
 
 #pragma pack( pop )
+
+#endif
 
 #endif // ISTEAMGAMESERVER_H

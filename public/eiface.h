@@ -677,16 +677,20 @@ public:
 	// Marks the queue matchmaking game as starting
 	virtual void ReportGCQueuedMatchStart( int32 iReservationStage, uint32 *puiConfirmedAccounts, int numConfirmedAccounts ) = 0;
 
+#ifndef NO_STEAM
 	// Get the published file id for the community map this server is running. 0 if non-ugc map or no map is running.
 	virtual PublishedFileId_t GetUGCMapFileID( const char* szMapPath ) = 0;
-	
+#endif
+
 	// Matchmaking game data buffer to set into SteamGameServer()->SetGameData
 	virtual void			GetMatchmakingGameData( char *buf, size_t bufSize ) = 0;
 
 	// Returns true if server is in the process of updating the given map
 	virtual bool HasPendingMapDownloads( void ) const = 0;
 
+#ifndef NO_STEAM
 	virtual void UpdateUGCMap( PublishedFileId_t id ) = 0;
+#endif
 
 	// Returns which encryption key to use for messages to be encrypted for TV
 	virtual EncryptedMessageKeyType_t GetMessageEncryptionKey( INetMessage *pMessage ) = 0;

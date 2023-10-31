@@ -12,6 +12,8 @@
 
 #include "steamdatagram/steamdatagram_shared.h"
 
+#ifndef NO_STEAM
+
 //-----------------------------------------------------------------------------
 /// Interface a gameserver uses to communicate to clients through a proxy
 
@@ -51,5 +53,7 @@ ISteamDatagramTransportGameserver *SteamDatagram_GameserverListen(
 	EResult *pOutResult,
 	SteamDatagramErrMsg &errMsg
 );
+
+#endif
 
 #endif // ISTEAMDATAGRAMSERVER_H

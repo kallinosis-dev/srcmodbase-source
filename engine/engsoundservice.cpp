@@ -165,6 +165,7 @@ public:
 
 	virtual void OnChangeVoiceStatus( int entity, int iSsSlot, bool status )
 	{
+#ifndef NO_STEAM
 		// Local player changing state
 		if ( iSsSlot >= 0 )
 		{
@@ -174,6 +175,7 @@ public:
 				Steam3Client().SteamFriends()->SetInGameVoiceSpeaking( Steam3Client().SteamUser()->GetSteamID(), status );
 			}
 		}
+#endif
 		ClientDLL_VoiceStatus( entity, iSsSlot, status );
 	}
 

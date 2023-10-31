@@ -12,6 +12,8 @@
 
 #include "steam/steam_api.h"
 
+#ifndef NO_STEAM
+
 class CSteam3Client : public CSteamAPIContext
 {
 public:
@@ -58,5 +60,7 @@ inline bool IsSteam3ClientGameOverlayActive()
 	return false; // dedicated server has no overlays
 #endif	
 }
+
+#endif
 
 #endif // CL_STEAMUAUTH_H

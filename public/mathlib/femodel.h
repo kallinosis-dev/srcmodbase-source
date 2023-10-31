@@ -49,10 +49,10 @@ FE_FLAG_HAS_ANIMATION_FORCE_ATTRACTION = 1 << 9,
 
 
 class CResourceString;
-schema class FourVectors2D
+/*schema*/ class FourVectors2D
 {
 public:
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FourVectors2D );
 	FourVectors2D( ){}
 	FourVectors2D( const fltx4 &_x, const fltx4 &_y ):
@@ -91,9 +91,9 @@ inline FourVectors2D operator * ( const fltx4 &f4Scalar, const FourVectors2D & v
 
 
 
-schema struct FeEdgeDesc_t
+/*schema*/ struct FeEdgeDesc_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeEdgeDesc_t );
 	// the adjacent quads go : { nEdge[0], nEdge[1], nSide[0][0], nSide[0][1]} and { nEdge[0], nEdge[1], nSide[1][0], nSide[1][1] };
 	uint16 nEdge[ 2 ];
@@ -102,9 +102,9 @@ schema struct FeEdgeDesc_t
 };
 
 
-schema struct OldFeEdge_t
+/*schema*/ struct OldFeEdge_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( OldFeEdge_t );
 	// Indexing is following conventions in Bergou "Discrete Quadratic Curvature Energies" and "A Quadratic Bending Model for Inextensible Surfaces"
 	float m_flK[ 3 ]; // c01+c04, c01+c02, -c01-c03. THe last element, -c02-c04 can be computed and negative sum of these three
@@ -123,9 +123,9 @@ schema struct OldFeEdge_t
 };
 
 
-schema struct FeKelagerBend_t
+/*schema*/ struct FeKelagerBend_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeKelagerBend_t );
 	float flHeight0; // relaxed distance from tip (v) to centroid (c)
 	uint16 m_nNode[ 3 ]; // v, b0, b1: tip and two base ends
@@ -135,9 +135,9 @@ schema struct FeKelagerBend_t
 
 
 // the triangle has vertices (0,0), (x1,0), (x2,y2) and weights 1-w1-w2, w1, w2
-schema struct FeTri_t
+/*schema*/ struct FeTri_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeTri_t );
 	uint16 nNode[ 3 ];
 	float32 w1;
@@ -146,9 +146,9 @@ schema struct FeTri_t
 	Vector2D v2;
 };
 
-schema struct FeSimdTri_t
+/*schema*/ struct FeSimdTri_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeSimdTri_t );
 	uint nNode[ 3 ][ 4 ];
 	fltx4 w1;
@@ -158,9 +158,9 @@ schema struct FeSimdTri_t
 	void Init( const FeTri_t *pTris );
 };
 
-schema struct FeQuad_t
+/*schema*/ struct FeQuad_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeQuad_t );
 	// element has 3-4 nodes in case of thin film or cloth (tris or quads), and 4 nodes in case of softbody (tetrahedrons);
 	// there are other discretizations possible, but 4 nodes per element align nincely
@@ -180,9 +180,9 @@ schema struct FeQuad_t
 	Vector4D vShape[ 4 ];
 };
 
-schema struct FeNodeBase_t
+/*schema*/ struct FeNodeBase_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeNodeBase_t );
 	uint16 nNode; // target node to compute the basis
 	uint16 nDummy[ 3 ];
@@ -212,16 +212,16 @@ schema struct FeNodeBase_t
 };
 
 // after computing node bases (orientations), take node
-schema struct FeNodeReverseOffset_t
+/*schema*/ struct FeNodeReverseOffset_t
 {
 	uint16 nBoneCtrl;   // the node that has orientation, but doesn't have position
 	uint16 nTargetNode; // the node whose position is known in the frame of nNodeBone
 	Vector vOffset;     // the position of nNodeTarget in the frame of nNodeBone
 };
 
-schema struct FeSimdQuad_t
+/*schema*/ struct FeSimdQuad_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeSimdQuad_t );
 	uint16 nNode[ 4 ][ 4 ];
 	fltx4 f4Slack;
@@ -246,9 +246,9 @@ schema struct FeSimdQuad_t
 // Sometimes node[2]== node[3], and/or node[4]==node[5], all the math works the same except the 4-5 and/or 2-3 edge is degenerate and the corresponding quads become triangles.
 // The signed distance is maintained by crossing edge and virtual edge and making sure the projection of the vector beween the points on the edge and virtual edge is positive. If not, we must flip the angle of edge bend.
 //
-schema struct FeAxialEdgeBend_t
+/*schema*/ struct FeAxialEdgeBend_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeAxialEdgeBend_t );
 	float32 te; // barycentric coordinates of connection points on the main edge  n0-n1
 	float32 tv; // barycentric coordinates of connection points on the virtual edge (n2+n3)/2 - (n4+n5)/2
@@ -260,9 +260,9 @@ schema struct FeAxialEdgeBend_t
 
 
 // double-quad bend limit
-schema struct FeBandBendLimit_t 
+/*schema*/ struct FeBandBendLimit_t 
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeBandBendLimit_t );
 	float32 flDistMin;
 	float32 flDistMax;
@@ -271,9 +271,9 @@ schema struct FeBandBendLimit_t
 
 
 // a very simple distance limit
-schema struct FeRodConstraint_t
+/*schema*/ struct FeRodConstraint_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeRodConstraint_t );
 	uint16 nNode[ 2 ];
 	float32 flMaxDist;
@@ -288,9 +288,9 @@ schema struct FeRodConstraint_t
 	}
 };
 
-schema struct FeSimdRodConstraint_t
+/*schema*/ struct FeSimdRodConstraint_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeSimdRodConstraint_t );
 	uint16 nNode[ 2 ][ 4 ];
 	fltx4 f4MaxDist;
@@ -301,9 +301,9 @@ schema struct FeSimdRodConstraint_t
 };
 
 
-schema struct FeSimdNodeBase_t
+/*schema*/ struct FeSimdNodeBase_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeSimdNodeBase_t );
 	uint16 nNode[ 4 ]; // target node to compute the basis
 	uint16 nNodeX0[ 4 ]; //
@@ -315,9 +315,9 @@ schema struct FeSimdNodeBase_t
 	void Init( const FeNodeBase_t *pScalar );
 };
 
-schema struct FeNodeIntegrator_t
+/*schema*/ struct FeNodeIntegrator_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( FeNodeIntegrator_t );
 	float flPointDamping; // FixedPointDamping from Dota - only non-0 on static nodes; generic damping on dynamic nodes for future extensibility, but normally 0 on dynamic nodes; multiplied by dt
 	float flAnimationForceAttraction;
@@ -333,9 +333,9 @@ schema struct FeNodeIntegrator_t
 	}
 };
 
-schema struct FeSpringIntegrator_t
+/*schema*/ struct FeSpringIntegrator_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeSpringIntegrator_t );
 	uint16 nNode[ 2 ];
 	float32 flSpringRestLength;
@@ -347,9 +347,9 @@ schema struct FeSpringIntegrator_t
 
 /// 
 // Per-node effects that change velocity (and not position directly) are parametrized here 
-schema struct FeSimdSpringIntegrator_t
+/*schema*/ struct FeSimdSpringIntegrator_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeSimdSpringIntegrator_t );
 	uint16 nNode[ 2 ][ 4 ];
 	fltx4 flSpringRestLength;
@@ -366,9 +366,9 @@ schema struct FeSimdSpringIntegrator_t
 // Some Ctrl points do not correspond to any bone, but to other control points
 // vOffset is the child Ctrl in the coordinate system of the parent ctrl
 //
-schema struct FeCtrlOffset_t
+/*schema*/ struct FeCtrlOffset_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeCtrlOffset_t );
 	uint16 nCtrlParent;
 	uint16 nCtrlChild;
@@ -376,9 +376,9 @@ schema struct FeCtrlOffset_t
 };
 
 
-schema struct ALIGN4 FeCtrlOsOffset_t // the rope offset from S1, a horrible hack in S1 I need to replicate in the new cloth so that some ropes behave the way they do in S1
+/*schema*/ struct ALIGN4 FeCtrlOsOffset_t // the rope offset from S1, a horrible hack in S1 I need to replicate in the new cloth so that some ropes behave the way they do in S1
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeCtrlOsOffset_t );
 	uint16 nCtrlParent;
 	uint16 nCtrlChild;
@@ -389,9 +389,9 @@ schema struct ALIGN4 FeCtrlOsOffset_t // the rope offset from S1, a horrible hac
 // Experimental, to try to remove lots of dynamic swing from jerky animations:
 // if children of an animated node blindly derive the parent's animation,
 // there will be less random swing
-schema struct FeFollowNode_t
+/*schema*/ struct FeFollowNode_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeFollowNode_t );
 	uint16 nParentNode;
 	uint16 nChildNode;
@@ -399,9 +399,9 @@ schema struct FeFollowNode_t
 };
 
 
-schema struct FeCollisionSphere_t
+/*schema*/ struct FeCollisionSphere_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeCollisionSphere_t );
 	uint16 nCtrlParent;
 	uint16 nChildNode;
@@ -410,9 +410,9 @@ schema struct FeCollisionSphere_t
 	float flStickiness;
 };
 
-schema struct FeCollisionPlane_t
+/*schema*/ struct FeCollisionPlane_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeCollisionPlane_t );
 	uint16 nCtrlParent;
 	uint16 nChildNode;
@@ -422,9 +422,9 @@ schema struct FeCollisionPlane_t
 
 
 
-schema struct FeWorldCollisionParams_t
+/*schema*/ struct FeWorldCollisionParams_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeWorldCollisionParams_t );
 	float flWorldFriction; // this is the WorldFriction from source1. It's not exactly friction, it's just a multiplier
 	float flGroundFriction;
@@ -433,17 +433,17 @@ schema struct FeWorldCollisionParams_t
 };
 
 
-schema struct FeTreeChildren_t
+/*schema*/ struct FeTreeChildren_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeTreeChildren_t );
 	uint16 nChild[ 2 ]; // 0 = the first dynamic node; N = the first cluster
 };
 
 
-schema struct FeTaperedCapsuleRigid_t
+/*schema*/ struct FeTaperedCapsuleRigid_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeTaperedCapsuleRigid_t );
 
 	uint16 nNode;
@@ -486,9 +486,9 @@ schema struct FeTaperedCapsuleRigid_t
 	}
 };
 
-schema struct FeSphereRigid_t
+/*schema*/ struct FeSphereRigid_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeSphereRigid_t );
 
 	FeSphereRigid_t()
@@ -529,13 +529,13 @@ schema struct FeSphereRigid_t
 	}
 };
 
-schema struct FeTaperedCapsuleStretch_t
+/*schema*/ struct FeTaperedCapsuleStretch_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeTaperedCapsuleStretch_t );
 	uint16 nNode[ 2 ];
 	uint16 nCollisionMask;
-	uint16 nDummy; META( MPropertySuppressField );
+	uint16 nDummy; /*META( MPropertySuppressField );*/
 	float flRadius[ 2 ];
 	float flStickiness;
 
@@ -572,9 +572,9 @@ schema struct FeTaperedCapsuleStretch_t
 
 
 
-schema class CovMatrix3
+/*schema*/ class CovMatrix3
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( CovMatrix3 );
 public:
 	void InitForWahba( float m, const Vector &x );
@@ -600,9 +600,9 @@ public:
 };
 
 
-schema class FourCovMatrices3
+/*schema*/ class FourCovMatrices3
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FourCovMatrices3 );
 public:
 	void InitForWahba( const fltx4 &m, const FourVectors &x );
@@ -621,18 +621,18 @@ public:
 };
 
 
-schema struct FeFitWeight_t
+/*schema*/ struct FeFitWeight_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeFitWeight_t );
 	float flWeight;
 	uint16 nNode;
 	uint16 nDummy;
 };
 
-schema struct FeFitInfluence_t // helper struct
+/*schema*/ struct FeFitInfluence_t // helper struct
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeFitInfluence_t );
 	uint nVertexNode;
 	float flWeight;
@@ -651,9 +651,9 @@ schema struct FeFitInfluence_t // helper struct
 };
 
 
-schema struct FeFitMatrix_t
+/*schema*/ struct FeFitMatrix_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeFitMatrix_t );
 	CTransform bone; // the bone transform relative to the computed Apq*Aqq^-1
 /*
@@ -670,9 +670,9 @@ schema struct FeFitMatrix_t
 	//uint16 nBegin; // not really needed, here for padding only
 };
 
-schema struct FeSimdFitMatrices_t
+/*schema*/ struct FeSimdFitMatrices_t
 {
-	TYPEMETA( MNoScatter );
+	/*TYPEMETA( MNoScatter );*/
 	DECLARE_SCHEMA_DATA_CLASS( FeSimdFitMatrices_t );
 	FourVectors vCenter; // center of mass in the init pose; may be different from the init pose of the ctrl
 	uint16 nEnd[4]; // subarray end index in the index and weight arrays 

@@ -266,10 +266,10 @@ public:
 	int				m_nElements;		// Number of elements in the array (or 1 if it's not an array).
 	int				m_ElementStride;	// Pointer distance between array elements.
 
-	char *m_pExcludeDTName;			// If this is an exclude prop, then this is the name of the datatable to exclude a prop from.
-	char *m_pParentArrayPropName;
+	char const* m_pExcludeDTName;			// If this is an exclude prop, then this is the name of the datatable to exclude a prop from.
+	char const* m_pParentArrayPropName;
 
-	char			*m_pVarName;
+	char const* m_pVarName;
 	float			m_fHighLowMul;
 
 	byte			m_priority;
@@ -475,10 +475,10 @@ public:
 	typedef SendProp PropType;
 
 				SendTable();
-				SendTable( SendProp *pProps, int nProps, char *pNetTableName );
+				SendTable( SendProp *pProps, int nProps, char const* pNetTableName );
 				~SendTable();
 
-	void		Construct( SendProp *pProps, int nProps, char *pNetTableName );
+	void		Construct( SendProp *pProps, int nProps, char const* pNetTableName );
 
 	const char*	GetName() const;
 	
@@ -501,7 +501,7 @@ public:
 	SendProp	*m_pProps;
 	int			m_nProps;
 
-	char		*m_pNetTableName;	// The name matched between client and server.
+	char const* m_pNetTableName;	// The name matched between client and server.
 
 	// The engine hooks the SendTable here.
 	CSendTablePrecalc	*m_pPrecalc;
@@ -669,7 +669,7 @@ void* SendProxy_DataTablePtrToDataTable( const SendProp *pProp, const void *pStr
 // Use these functions to setup your data tables.
 // ------------------------------------------------------------------------ //
 SendProp SendPropFloat(
-	char *pVarName,		// Variable name.
+	char const* pVarName,		// Variable name.
 	int offset,					// Offset into container structure.
 	int sizeofVar=SIZEOF_IGNORE,
 	int nBits=32,				// Number of bits to use when encoding.
@@ -681,7 +681,7 @@ SendProp SendPropFloat(
 	);
 
 SendProp SendPropVector(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int sizeofVar=SIZEOF_IGNORE,
 	int nBits=32,					// Number of bits (for each floating-point component) to use when encoding.
@@ -693,7 +693,7 @@ SendProp SendPropVector(
 	);
 
 SendProp SendPropVectorXY(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int sizeofVar=SIZEOF_IGNORE,
 	int nBits=32,					// Number of bits (for each floating-point component) to use when encoding.
@@ -706,7 +706,7 @@ SendProp SendPropVectorXY(
 
 #if 0 // We can't ship this since it changes the size of DTVariant to be 20 bytes instead of 16 and that breaks MODs!!!
 SendProp SendPropQuaternion(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int sizeofVar=SIZEOF_IGNORE,
 	int nBits=32,					// Number of bits (for each floating-point component) to use when encoding.
@@ -719,7 +719,7 @@ SendProp SendPropQuaternion(
 #endif
 
 SendProp SendPropAngle(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int sizeofVar=SIZEOF_IGNORE,
 	int nBits=32,
@@ -729,7 +729,7 @@ SendProp SendPropAngle(
 	);
 
 SendProp SendPropQAngles(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int sizeofVar=SIZEOF_IGNORE,
 	int nBits=32,
@@ -739,7 +739,7 @@ SendProp SendPropQAngles(
 	);
 
 SendProp SendPropInt(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int sizeofVar=SIZEOF_IGNORE,	// Handled by SENDINFO macro.
 	int nBits=-1,					// Set to -1 to automatically pick (max) number of bits based on size of element.
@@ -750,11 +750,11 @@ SendProp SendPropInt(
 
 inline SendProp SendPropModelIndex( const char *pVarName, int offset, int sizeofVar=SIZEOF_IGNORE )
 {
-	return SendPropInt( (char *)pVarName, offset, sizeofVar, SP_MODEL_INDEX_BITS, 0 );
+	return SendPropInt( pVarName, offset, sizeofVar, SP_MODEL_INDEX_BITS, 0 );
 }
 
 SendProp SendPropString(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int bufferLen,
 	int flags=0,
@@ -764,7 +764,7 @@ SendProp SendPropString(
 
 // The data table encoder looks at DVariant::m_pData.
 SendProp SendPropDataTable(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	SendTable *pTable, 
 	SendTableProxyFn varProxy=SendProxy_DataTableToDataTable,
@@ -772,7 +772,7 @@ SendProp SendPropDataTable(
 	);
 
 SendProp SendPropArray3(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int sizeofVar,
 	int elements,
@@ -816,7 +816,7 @@ SendProp SendPropArray3(
 SendProp InternalSendPropArray(
 	const int elementCount,
 	const int elementStride,
-	char *pName,
+	char const* pName,
 	ArrayLengthSendProxyFn proxy,
 	byte priority = SENDPROP_DEFAULT_PRIORITY
 	);
@@ -868,8 +868,8 @@ SendProp InternalSendPropArray(
 // Use these to create properties that exclude other properties. This is useful if you want to use most of 
 // a base class's datatable data, but you want to override some of its variables.
 SendProp SendPropExclude(
-	char *pDataTableName,	// Data table name (given to BEGIN_SEND_TABLE and BEGIN_RECV_TABLE).
-	char *pPropName		// Name of the property to exclude.
+	char const* pDataTableName,	// Data table name (given to BEGIN_SEND_TABLE and BEGIN_RECV_TABLE).
+	char const* pPropName		// Name of the property to exclude.
 	);
 
 

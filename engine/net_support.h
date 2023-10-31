@@ -84,7 +84,9 @@ public:
 		bf_write *pVoicePayload = nullptr,
 		bool bUseCompression = false );
 
+#ifndef NO_STEAM
     virtual ISteamNetworkingUtils *GetSteamNetworkingUtils() override;
+#endif
 
 public:
 	CNetSupportImpl();

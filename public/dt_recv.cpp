@@ -14,7 +14,7 @@
 
 #if !defined(_STATIC_LINKED) || defined(CLIENT_DLL)
 
-char *s_ClientElementNames[MAX_ARRAY_ELEMENTS] =
+char const* s_ClientElementNames[MAX_ARRAY_ELEMENTS] =
 {
 	"000", "001", "002", "003", "004", "005", "006", "007", "008", "009", 
 	"010", "011", "012", "013", "014", "015", "016", "017", "018", "019",
@@ -163,7 +163,7 @@ RecvTable::RecvTable()
 	Construct(nullptr, 0, nullptr);
 }
 
-RecvTable::RecvTable(RecvProp *pProps, int nProps, char *pNetTableName)
+RecvTable::RecvTable(RecvProp *pProps, int nProps, char const* pNetTableName)
 {
 	Construct( pProps, nProps, pNetTableName );
 }
@@ -172,7 +172,7 @@ RecvTable::~RecvTable()
 {
 }
 
-void RecvTable::Construct( RecvProp *pProps, int nProps, char *pNetTableName )
+void RecvTable::Construct( RecvProp *pProps, int nProps, char const* pNetTableName )
 {
 	m_pProps = pProps;
 	m_nProps = nProps;
@@ -188,7 +188,7 @@ void RecvTable::Construct( RecvProp *pProps, int nProps, char *pNetTableName )
 // ---------------------------------------------------------------------- //
 
 RecvProp RecvPropFloat(
-	char *pVarName, 
+	char const* pVarName,
 	int offset, 
 	int sizeofVar,
 	int flags, 
@@ -214,7 +214,7 @@ RecvProp RecvPropFloat(
 }
 
 RecvProp RecvPropVector(
-	char *pVarName, 
+	char const* pVarName,
 	int offset, 
 	int sizeofVar,
 	int flags, 
@@ -240,7 +240,7 @@ RecvProp RecvPropVector(
 }
 
 RecvProp RecvPropVectorXY(
-	char *pVarName, 
+	char const* pVarName,
 	int offset, 
 	int sizeofVar,
 	int flags, 
@@ -268,7 +268,7 @@ RecvProp RecvPropVectorXY(
 #if 0 // We can't ship this since it changes the size of DTVariant to be 20 bytes instead of 16 and that breaks MODs!!!
 
 RecvProp RecvPropQuaternion(
-	char *pVarName, 
+	char const* pVarName,
 	int offset, 
 	int sizeofVar,	// Handled by RECVINFO macro, but set to SIZEOF_IGNORE if you don't want to bother.
 	int flags, 
@@ -295,7 +295,7 @@ RecvProp RecvPropQuaternion(
 #endif
 
 RecvProp RecvPropInt(
-	char *pVarName, 
+	char const* pVarName,
 	int offset, 
 	int sizeofVar,
 	int flags, 
@@ -340,7 +340,7 @@ RecvProp RecvPropInt(
 }
 
 RecvProp RecvPropString(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int bufferSize,
 	int flags,
@@ -360,7 +360,7 @@ RecvProp RecvPropString(
 }
 
 RecvProp RecvPropDataTable(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int flags,
 	RecvTable *pTable,
@@ -380,7 +380,7 @@ RecvProp RecvPropDataTable(
 }
 
 RecvProp RecvPropArray3(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int sizeofVar,
 	int elements,
@@ -419,7 +419,7 @@ RecvProp RecvPropArray3(
 RecvProp InternalRecvPropArray(
 	const int elementCount,
 	const int elementStride,
-	char *pName,
+	char const* pName,
 	ArrayLengthRecvProxyFn proxy
 	)
 {

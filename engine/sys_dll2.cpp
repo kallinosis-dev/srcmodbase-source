@@ -197,7 +197,6 @@ void EXPORT F( IEngineAPI **api )
 
 extern bool cs_initialized;
 extern int			lowshift;
-static char	*empty_string = "";
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -2134,11 +2133,13 @@ bool CModAppSystemGroup::Create()
 {
 	COM_TimestampedLog( "CModAppSystemGroup::Create() - Start" );
 
+#ifndef NO_STEAM
 	// If we're not running from Perforce check if we need to restart under Steam
 	if ( !g_bRunningFromPerforce && g_unSteamAppID != k_uAppIdInvalid && SteamAPI_RestartAppIfNecessary( g_unSteamAppID ) )
 	{
 		Plat_ExitProcess( EXIT_SUCCESS );
 	}
+#endif
 	
 #ifdef ENGINE_MANAGES_VJOBS
 	//////////////////////////////////////////////////////////////////////////
@@ -2943,8 +2944,10 @@ public:
 
 	bool IsConnectedToVACSecureServer()
 	{
+#ifndef NO_STEAM
 		if ( GetBaseLocalClient().IsConnected() )
 			return Steam3Client().BGSSecure();
+#endif
 		return false;
 	}
 };

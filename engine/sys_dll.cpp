@@ -308,7 +308,7 @@ void Sys_Shutdown( void )
 //			... - 
 // Output : void Sys_Printf
 //-----------------------------------------------------------------------------
-void Sys_Printf(char *fmt, ...)
+void Sys_Printf(char const* fmt, ...)
 {
 	va_list		argptr;
 	char		text[1024];
@@ -439,7 +439,7 @@ void Sys_Error_Internal( bool bMinidump, const char *error, va_list argsList )
 		DebuggerBreak(); 
 	}
 
-#if !defined( _X360 )
+#if !defined( _X360 ) && !defined(NO_STEAM)
 
 #if !defined(NO_STEAM) && !defined(DEDICATED) && !defined(LINUX)
 	Status_Update();

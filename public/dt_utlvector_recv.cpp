@@ -78,7 +78,7 @@ void DataTableRecvProxy_LengthProxy( const RecvProp *pProp, void **pOut, void *p
 
 
 RecvProp RecvPropUtlVector(
-	char *pVarName,		// Use RECVINFO_UTLVECTOR to generate these 4.
+	char const* pVarName,		// Use RECVINFO_UTLVECTOR to generate these 4.
 	int offset,			// Used to generate pData in the function specified in varProxy.
 	int sizeofVar,		// The size of each element in the utlvector.
 	ResizeUtlVectorFn fn,

@@ -285,6 +285,7 @@ int CNetSupportImpl::SendPacket (
 	return NET_SendPacket( chan, sock, inetAddr, ( const unsigned char * ) data, length, pVoicePayload, bUseCompression );
 }
 
+#ifndef NO_STEAM
 ISteamNetworkingUtils *CNetSupportImpl::GetSteamNetworkingUtils()
 {
 	#ifdef DEDICATED
@@ -294,3 +295,4 @@ ISteamNetworkingUtils *CNetSupportImpl::GetSteamNetworkingUtils()
 		return ::SteamNetworkingUtils();
 	#endif
 }
+#endif

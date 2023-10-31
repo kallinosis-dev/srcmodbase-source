@@ -479,7 +479,9 @@ public:
 	char		m_szLevelNameShort[ 40 ]; // removes maps/ and .bsp extension
 	char		m_szMapGroupName[ 40 ]; //the name of the map group we are currently playing in
 	char		m_szLastLevelNameShort[ 40 ]; // stores the previous value of m_szLevelNameShort when that gets cleared
+#ifndef NO_STEAM
 	PublishedFileId_t m_unUGCMapFileID; // If a community map, this is the published file id
+#endif
 
 	int			m_nMaxClients;		// max clients on server
 	int			m_nNumPlayersToConnect;	// number of clients to connect to server.

@@ -49,7 +49,7 @@
  * Since I don't want to be playing with the developer cvar in the other thread, I'll use
  * the presence of _DEBUG as my developer flag.
  */
-void Thread_DPrintf (char *fmt, ...)
+void Thread_DPrintf (char const* fmt, ...)
 {
 #ifdef _DEBUG
 	va_list		argptr;

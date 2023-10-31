@@ -160,7 +160,7 @@ void CDemoFile::WriteCmdHeader( unsigned char cmd, int tick, int nPlayerSlot )
 			nPlayerSlot < MAX_SPLITSCREEN_CLIENTS );
 	m_pBuffer->PutChar( nPlayerSlot );
 
-	char *cmdname[] = 
+	char const* cmdname[] = 
 	{
 		"dem_unknown",
 		"dem_signon",

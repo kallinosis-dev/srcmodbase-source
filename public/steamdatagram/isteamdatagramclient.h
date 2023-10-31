@@ -13,6 +13,8 @@
 #include "steamdatagram/steamdatagram_shared.h"
 #include "steam/steamuniverse.h"
 
+#ifndef NO_STEAM
+
 class CMsgSteamDatagramGameServerAuthTicket;
 class ISteamNetworkingUtils;
 
@@ -117,5 +119,7 @@ ISteamDatagramTransportClient *SteamDatagramClient_Connect( CSteamID steamID );
 
 /// Shutdown all clients and close all sockets
 void SteamDatagramClient_Kill();
+
+#endif
 
 #endif // ISTEAMDATAGRAMCLIENT_H

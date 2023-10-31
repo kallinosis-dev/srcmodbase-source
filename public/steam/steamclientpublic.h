@@ -1206,9 +1206,11 @@ private:
 		GameID_t m_gameID;
 	};
 };
+#endif
 
 #pragma pack( pop )
 
+#ifndef NO_STEAM
 const int k_cchGameExtraInfoMax = 64;
 
 

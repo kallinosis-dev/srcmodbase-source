@@ -1343,7 +1343,7 @@ void CBugUIPanel::OnDirectorySelected( char const *dir )
 	Q_FixSlashes( m_szVMFContentDirFullpath );
 	Q_StripTrailingSlash( m_szVMFContentDirFullpath );
 
-	if ( m_hDirectorySelectDialog != NULL )
+	if ( m_hDirectorySelectDialog != nullptr )
 	{
 		m_hDirectorySelectDialog->MarkForDeletion();
 	}
@@ -1385,7 +1385,7 @@ void CBugUIPanel::OnFileSelected( char const *fullpath )
 	char ext[ 10 ];
 	Q_ExtractFileExtension( relativepath, ext, sizeof( ext ) );
 
-	if ( m_hFileOpenDialog != NULL )
+	if ( m_hFileOpenDialog != nullptr )
 	{
 		m_hFileOpenDialog->MarkForDeletion();
 	}
@@ -1423,7 +1423,7 @@ void CBugUIPanel::OnIncludeFile()
 	if ( !m_hFileOpenDialog.Get() )
 	{
 		m_hFileOpenDialog = new vgui::FileOpenDialog( this, "Choose file to include", true );
-		if ( m_hFileOpenDialog != NULL )
+		if ( m_hFileOpenDialog != nullptr )
 		{
 			m_hFileOpenDialog->SetDeleteSelfOnClose( false );
 			m_hFileOpenDialog->AddFilter("*.*", "All Files (*.*)", true);
@@ -2931,11 +2931,13 @@ char const *CBugUIPanel::GetSubmitter()
 		{	
 			if ( m_bIsPublic )
 			{
+#ifndef NO_STEAM
 				if ( Steam3Client().SteamUser() )
 				{
 					pUsername = Steam3Client().SteamUser()->GetSteamID().Render();
 				}
 				else
+#endif
 				{
 					pUsername = "PublicUser";
 				}
@@ -3175,6 +3177,7 @@ bool CBugUIPanel::AutoFillToken( char const *token, bool partial )
 
 void CBugUIPanel::CheckContinueQueryingSteamForCSERList()
 {
+#ifndef NO_STEAM
 	if ( !m_bQueryingSteamForCSER || !Steam3Client().SteamUtils() )
 	{
 		return;
@@ -3188,6 +3191,7 @@ void CBugUIPanel::CheckContinueQueryingSteamForCSERList()
 		m_cserIP.SetIPAndPort( unIP, usPort );
 		m_bQueryingSteamForCSER = false;
 	}
+#endif
 }
 
 // Get the bug submission count. Called every map transition

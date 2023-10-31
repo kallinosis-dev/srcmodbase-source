@@ -135,7 +135,7 @@ public:
 
 public:
 
-	char					*m_pVarName;
+	char const*	m_pVarName;
 	SendPropType			m_RecvType;
 	int						m_Flags;
 	int						m_StringBufferSize;
@@ -174,10 +174,10 @@ public:
 	typedef RecvProp	PropType;
 
 				RecvTable();
-				RecvTable( RecvProp *pProps, int nProps, char *pNetTableName );
+				RecvTable( RecvProp *pProps, int nProps, char const* pNetTableName );
 				~RecvTable();
 
-	void		Construct( RecvProp *pProps, int nProps, char *pNetTableName );
+	void		Construct( RecvProp *pProps, int nProps, char const* pNetTableName );
 
 	int			GetNumProps();
 	RecvProp*	GetProp( int i );
@@ -203,7 +203,7 @@ public:
 	// will have their own decoders that include props for all their children).
 	CRecvDecoder	*m_pDecoder;
 
-	char			*m_pNetTableName;	// The name matched between client and server.
+	char const* m_pNetTableName;	// The name matched between client and server.
 
 
 private:
@@ -313,7 +313,7 @@ void DataTableRecvProxy_PointerDataTable(const RecvProp *pProp, void **pOut, voi
 
 	
 RecvProp RecvPropFloat(
-	char *pVarName, 
+	char const* pVarName, 
 	int offset,
 	int sizeofVar=SIZEOF_IGNORE,	// Handled by RECVINFO macro, but set to SIZEOF_IGNORE if you don't want to bother.
 	int flags=0, 
@@ -321,7 +321,7 @@ RecvProp RecvPropFloat(
 	);
 
 RecvProp RecvPropVector(
-	char *pVarName, 
+	char const* pVarName,
 	int offset, 
 	int sizeofVar=SIZEOF_IGNORE,	// Handled by RECVINFO macro, but set to SIZEOF_IGNORE if you don't want to bother.
 	int flags=0, 
@@ -329,7 +329,7 @@ RecvProp RecvPropVector(
 	);
 
 RecvProp RecvPropVectorXY(
-	char *pVarName, 
+	char const* pVarName,
 	int offset, 
 	int sizeofVar=SIZEOF_IGNORE,	// Handled by RECVINFO macro, but set to SIZEOF_IGNORE if you don't want to bother.
 	int flags=0, 
@@ -342,7 +342,7 @@ RecvProp RecvPropVectorXY(
 #if 0 // We can't ship this since it changes the size of DTVariant to be 20 bytes instead of 16 and that breaks MODs!!!
 
 RecvProp RecvPropQuaternion(
-	char *pVarName, 
+	char const* pVarName,
 	int offset, 
 	int sizeofVar=SIZEOF_IGNORE,	// Handled by RECVINFO macro, but set to SIZEOF_IGNORE if you don't want to bother.
 	int flags=0, 
@@ -351,7 +351,7 @@ RecvProp RecvPropQuaternion(
 #endif
 
 RecvProp RecvPropInt(
-	char *pVarName, 
+	char const* pVarName,
 	int offset, 
 	int sizeofVar=SIZEOF_IGNORE,	// Handled by RECVINFO macro, but set to SIZEOF_IGNORE if you don't want to bother.
 	int flags=0, 
@@ -359,7 +359,7 @@ RecvProp RecvPropInt(
 	);
 
 RecvProp RecvPropString(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int bufferSize,
 	int flags=0,
@@ -367,7 +367,7 @@ RecvProp RecvPropString(
 	);
 
 RecvProp RecvPropDataTable(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int flags,
 	RecvTable *pTable,
@@ -375,7 +375,7 @@ RecvProp RecvPropDataTable(
 	);
 
 RecvProp RecvPropArray3(
-	char *pVarName,
+	char const* pVarName,
 	int offset,
 	int sizeofVar,
 	int elements,
@@ -389,7 +389,7 @@ RecvProp RecvPropArray3(
 RecvProp InternalRecvPropArray(
 	const int elementCount,
 	const int elementStride,
-	char *pName,
+	char const* pName,
 	ArrayLengthRecvProxyFn proxy
 	);
 

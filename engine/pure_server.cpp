@@ -26,7 +26,7 @@ extern ConVar sv_pure_trace;
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"
 
-static char *g_SvPure2_ProtectedDirs[] =
+static char const* g_SvPure2_ProtectedDirs[] =
 {
 	"sound",
 	"models",

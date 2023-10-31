@@ -13,8 +13,8 @@
 
 struct SourceAppInfo_t
 {	
-	char *m_pchFullName;
-	char *m_pchModName;
+	char const* m_pchFullName;
+	char const* m_pchModName;
 	int m_nSteamAppId;
 	ESourceApp m_ESourceApp;
 };

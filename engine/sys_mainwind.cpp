@@ -1611,7 +1611,7 @@ void CGame::PlayStartupVideos( void )
 			CommandLine()->CheckParm( "-toconsole" ) ) )
 		return;
 
-	char *pszFile = "media/startupvids" PLATFORM_EXT ".txt";
+	char const* pszFile = "media/startupvids" PLATFORM_EXT ".txt";
 	if ( bEndGame )
 	{
 		// Don't go back into the map that triggered this.
