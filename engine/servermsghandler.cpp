@@ -550,12 +550,16 @@ bool CClientState::SVCMsg_VoiceData( const CSVCMsg_VoiceData &msg )
 
 		// Give the voice engine the data (it in turn gives it to the mixer for the sound engine).
 		Voice_AddIncomingData( nChannel, 
-							   &msg.voice_data()[0], 
-							   msg.voice_data().size(),
-							   msg.has_section_number() ? msg.section_number() : 0,
-							   msg.has_sequence_bytes() ? msg.sequence_bytes() : 0,
-							   msg.has_uncompressed_sample_offset() ? msg.uncompressed_sample_offset() : 0,
-							   ( msg.has_format() && ( msg.format() == VOICEDATA_FORMAT_STEAM ) ) ? VoiceFormat_Steam : VoiceFormat_Engine );
+			&msg.voice_data()[0], 
+			msg.voice_data().size(),
+			msg.has_section_number() ? msg.section_number() : 0,
+			msg.has_sequence_bytes() ? msg.sequence_bytes() : 0,
+			msg.has_uncompressed_sample_offset() ? msg.uncompressed_sample_offset() : 0,
+#ifndef NO_STEAM
+			( msg.has_format() && ( msg.format() == VOICEDATA_FORMAT_STEAM ) ) ? VoiceFormat_Steam :
+#endif
+			VoiceFormat_Engine 
+		);
 	}
 
 #endif

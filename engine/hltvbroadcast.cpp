@@ -1,10 +1,11 @@
-//========= Copyright © Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Broadcasting HLTV demo in 3-second chunks, preparing for SteamCast
 // TODO test cases: start broadcast before relay server is ready; quit the server while broadcast hasn't flushed yet, make sure broadcast is properly stopped, flush is done and sends returned at least one confirm or error before quitting.
 //
 //=============================================================================//
 
+#ifdef HAS_HLTV
 
 #include <tier1/strtools.h>
 #include <eiface.h>
@@ -739,3 +740,4 @@ void CHLTVBroadcast::CHttpCallback::Run( void *pvParam, bool bIOFailure, SteamAP
 	delete this;
 }
 
+#endif

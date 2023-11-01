@@ -158,7 +158,9 @@
 
 #include "matchmaking/mm_helpers.h"
 
+#ifndef NO_STEAM
 extern ConVar cl_cloud_settings;
+#endif
 
 #ifndef DEDICATED
 extern IVAudio *vaudio;
@@ -188,7 +190,9 @@ int host_frameticks = 0;
 int host_tickcount = 0;
 int host_currentframetick = 0;
 bool g_bLowViolence = false;
+#ifndef NO_STEAM
 static bool g_bAllowSecureServers = true;
+#endif
 
 #ifdef USE_SDL
 	#include "appframework/ilaunchermgr.h"
@@ -741,7 +745,7 @@ ConVar host_runframe_input_parcelremainder( "host_runframe_input_parcelremainder
 void CL_CheckToDisplayStartupMenus(); // in cl_main.cpp
 #endif
 
-
+#ifndef NO_STEAM
 bool GetFileFromRemoteStorage( ISteamRemoteStorage *pRemoteStorage, const char *pszRemoteFileName, const char *pszLocalFileName, char const *pathID )
 {
 	bool bSuccess = false;
@@ -774,6 +778,7 @@ bool GetFileFromRemoteStorage( ISteamRemoteStorage *pRemoteStorage, const char *
 
 	return bSuccess;
 }
+#endif
 
 
 void CCommonHostState::SetWorldModel( model_t *pModel )
@@ -1927,6 +1932,7 @@ void Host_ReadConfiguration( const int iController, const bool readDefault )
 #else
 	bool saveconfig = false;
 
+#ifndef NO_STEAM
 	ISteamRemoteStorage *pRemoteStorage = Steam3Client().SteamClient() ? (ISteamRemoteStorage *)Steam3Client().SteamClient()->GetISteamGenericInterface(
 		SteamAPI_GetHSteamUser(), SteamAPI_GetHSteamPipe(), STEAMREMOTESTORAGE_INTERFACE_VERSION ): nullptr;
 
@@ -1947,6 +1953,7 @@ void Host_ReadConfiguration( const int iController, const bool readDefault )
 			GetFileFromRemoteStorage( pRemoteStorage, "cfg/config.cfg", "cfg/config.cfg", "USRLOCAL" );
 		}
 	}
+#endif
 
 	if ( g_pFileSystem->FileExists( "//usrlocal/cfg/config.cfg" ) )
 	{
@@ -2574,7 +2581,7 @@ void Host_BuildUserInfoUpdateMessage( int nSplitScreenSlot, CMsg_CVars *rCvarLis
 	if ( count <= 0 )
 		return;
 
-#if !defined( _GAMECONSOLE ) && !defined( DEDICATED )
+#if !defined( _GAMECONSOLE ) && !defined( DEDICATED ) && !defined(NO_STEAM)
 	// Add local user SteamID
 	if ( Steam3Client().SteamUser() && Steam3Client().SteamUser()->GetSteamID().GetAccountID() )
 	{
@@ -2679,11 +2686,13 @@ void CL_SendVoicePacket(bool bFinal)
 		CCLCMsg_VoiceData_t voiceMsg;
 
 		voiceMsg.set_data( uchVoiceData, nLength );
+#ifndef NO_STEAM
 		if ( format == VoiceFormat_Steam )
 		{
 			voiceMsg.set_format( VOICEDATA_FORMAT_STEAM );
 		}
 		else
+#endif
 		{
 			voiceMsg.set_format( VOICEDATA_FORMAT_ENGINE );
 		}
@@ -3278,7 +3287,9 @@ void _Host_RunFrame_Client( bool framefinished )
 		CL_DemoCheckGameUIRevealTime();
 	}
 
+#ifndef NO_STEAM
 	Steam3Client().RunFrame();
+#endif
 
 #if defined( _DEBUG )
 	// Debug!!! FireGameEvent
@@ -3644,11 +3655,14 @@ CON_COMMAND( host_runofftime, "Run off some time without rendering/updating soun
 	SCR_UpdateScreen ();
 }
 
+#ifndef NO_STEAM
 #if !defined( _GAMECONSOLE )
 S_API int SteamGameServer_GetIPCCallCount();
 #else
 S_API int SteamGameServer_GetIPCCallCount() { return 0; }
 #endif
+#endif
+
 void Host_ShowIPCCallCount()
 {
 	// If set to 0 then get out.
@@ -4181,6 +4195,7 @@ void _Host_RunFrame (float time)
 			}
 #endif // VOICE_OVER_IP && !DEDICATED
 
+#ifdef WITH_HLTV
 			// run HLTV (both active, and not yet connected)
 			for ( CHltvServerIterator hltv; hltv; hltv.Next() )
 			{
@@ -4191,6 +4206,7 @@ void _Host_RunFrame (float time)
 			{
 				hltvtest->RunFrame();
 			}
+#endif
 
 #if defined( REPLAY_ENABLED )
 			// run replay if active
@@ -4602,7 +4618,7 @@ bool IsLowViolence_Secure()
 	return false;
 #endif
 
-#ifndef _GAMECONSOLE
+#if !defined(_GAMECONSOLE) && !defined(NO_STEAM)
 	if ( IsPC() && Steam3Client().SteamApps() )
 	{
 		// let Steam determine current violence settings 		
@@ -4752,7 +4768,7 @@ void Host_InitProcessor( void )
 	const CPUInformation& pi = GetCPUInformation();
 
 	// Compute Frequency in Mhz: 
-	char* szFrequencyDenomination = "Mhz";
+	char const* szFrequencyDenomination = "Mhz";
 	double fFrequency = pi.m_Speed / 1000000.0;
 
 	// Adjust to Ghz if nessecary:
@@ -4946,6 +4962,7 @@ void Replay_Shutdown()
 }
 #endif
 
+#ifdef WITH_HLTV
 void HLTV_Init()
 {
 	for ( int i = 0; i < HLTV_SERVER_MAX_COUNT; ++i )
@@ -4971,6 +4988,7 @@ void HLTV_Shutdown()
 		hltvtest = nullptr;
 	}
 }
+#endif
 
 void InstallConVarHook( void );
 
@@ -5045,7 +5063,7 @@ static void CreateQMSServerThread()
 #define SignatureWarning( ... ) ((void)(0))
 static bool Host_IsValidSignature( const char *pFilename, bool bAllowUnknown )
 {
-#if defined( DEDICATED ) || defined( _GAMECONSOLE )
+#if defined( DEDICATED ) || defined( _GAMECONSOLE ) || defined(NO_STEAM)
 	return true;
 #else
 	if ( Steam3Client().SteamUtils() )
@@ -5084,6 +5102,7 @@ static bool Host_IsValidSignature( const char *pFilename, bool bAllowUnknown )
 #endif
 }
 
+#ifndef NO_STEAM
 
 // Ask steam if it is ok to load this DLL.  Unsigned DLLs should not be loaded unless
 // the client is running -insecure (testing a plugin for example)
@@ -5106,7 +5125,7 @@ bool Host_AllowLoadModule( const char *pFilename, const char *pPathID, bool bAll
 
 	// check signature
 	bool bSignatureIsValid = false;
-
+	
 	if ( g_bAllowSecureServers && Steam3Client().SteamUtils() )
 	{
 		char szDllname[512];
@@ -5169,7 +5188,9 @@ bool Host_AllowLoadModule( const char *pFilename, const char *pPathID, bool bAll
 	return false;
 #endif
 }
+#endif
 
+#ifndef NO_STEAM
 bool Host_IsSecureServerAllowed()
 {
 	if ( CommandLine()->FindParm("-insecure") || CommandLine()->FindParm("-tools") )
@@ -5189,11 +5210,12 @@ void Host_DisallowSecureServers()
 	g_bAllowSecureServers = false;
 #endif
 }
+#endif
 
+
+#if !(defined( DEDICATED ) || defined( OSX ) || defined( LINUX ) || defined(NO_STEAM))
 void Host_FinishSecureSignatureChecks()
 {
-#if defined( DEDICATED ) || defined( OSX ) || defined( LINUX )
-#else
 	while ( g_PendingSignatureChecks.Count() )
 	{
 		// CSGO May 2017 checking via library loader hook
@@ -5229,8 +5251,8 @@ void Host_FinishSecureSignatureChecks()
 		g_bAllowSecureServers = false;
 		g_FailedSignatureChecks.AddToTail( new CUtlString( "" ) );
 	}
-#endif
 }
+#endif
 
 
 bool Should360EmulatePS3()
@@ -5305,6 +5327,7 @@ void Host_Init( bool bDedicated )
 	}
 #endif
 
+#ifndef NO_STEAM
 	if ( !bDedicated && Host_IsSecureServerAllowed() )
 	{
 		//
@@ -5313,6 +5336,7 @@ void Host_Init( bool bDedicated )
 
 	#error Cut for partner depot
 	}
+#endif
 
 	ThreadPoolStartParams_t startParams;
 	s_bDedicatedForPurposesOfThreadPool = bDedicated;
@@ -5444,7 +5468,9 @@ void Host_Init( bool bDedicated )
 
 	TRACEINIT( g_Log.Init(), g_Log.Shutdown() );
 
+#ifdef WITH_HLTV
 	TRACEINIT( HLTV_Init(), HLTV_Shutdown() );
+#endif
 
 #if defined( REPLAY_ENABLED )
 	TRACEINIT( Replay_Init(), Replay_Shutdown() );
@@ -5656,6 +5682,7 @@ void Host_Init( bool bDedicated )
 		Cbuf_AddText( Cbuf_GetCurrentPlayer(), "quit\n" );
 	}
 
+#ifndef NO_STEAM
 	if ( !bDedicated && Host_IsSecureServerAllowed() )
 	{
 		Host_FinishSecureSignatureChecks();
@@ -5666,6 +5693,7 @@ void Host_Init( bool bDedicated )
 	{
 		g_pMatchFramework->GetEventsSubscription()->BroadcastEvent( new KeyValues( "OnClientInsecureBlocked", "reason", "init" ) );
 	}
+#endif
 #endif
 
 	// Official valve servers must be running with a certificate
@@ -6344,13 +6372,15 @@ void Host_Shutdown(void)
 #if defined( REPLAY_ENABLED )
 	TRACESHUTDOWN( Replay_Shutdown() );
 #endif
+#ifdef WITH_HLTV
 	TRACESHUTDOWN( HLTV_Shutdown() );
+#endif
 
 	TRACESHUTDOWN( g_Log.Shutdown() );
 	
 	TRACESHUTDOWN( g_GameEventManager.Shutdown() );
 
-#if !defined( DEDICATED )
+#if !defined( DEDICATED ) && !defined(NO_STEAM)
 	if ( !sv.IsDedicated() )
 	{
 		TRACESHUTDOWN( Steam3Client().Shutdown() );
@@ -6435,7 +6465,7 @@ void Host_EnsureHostNameSet()
 	if ( host_name.GetString()[0] == 0 )
 	{
 		const char *szHostName = "";
-#ifndef DEDICATED
+#if !defined(DEDICATED) && !defined(NO_STEAM)
 		// if this is a PC listen server and there is a logged-on Steam user, use the user's Steam name as the host name
 		if ( IsPC() && !sv.IsDedicated() && Steam3Client().SteamUser() )
 		{

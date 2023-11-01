@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -174,7 +174,9 @@
 // The new S2A_INFO_SRC packet has a byte at the end that has these bits in it, telling 
 // which data follows.
 #define S2A_EXTRA_DATA_HAS_GAME_PORT				0x80		// Next 2 bytes include the game port.
+#ifdef WITH_HLTV
 #define S2A_EXTRA_DATA_HAS_SPECTATOR_DATA			0x40		// Next 2 bytes include the spectator port, then the spectator server name.
+#endif
 #define S2A_EXTRA_DATA_HAS_GAMETAG_DATA				0x20		// Next bytes are the game tag string
 #define S2A_EXTRA_DATA_HAS_STEAMID					0x10		// Next 8 bytes are the steamID
 #define S2A_EXTRA_DATA_GAMEID						0x01		// Next 8 bytes are the gameID of the server

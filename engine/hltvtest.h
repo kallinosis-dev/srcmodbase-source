@@ -15,6 +15,7 @@
 #pragma once
 #endif
 
+#ifdef WITH_HLTV
 #include "utlvector.h"
 
 class CHLTVServer;
@@ -36,5 +37,6 @@ protected:
 };
 
 extern CHLTVTestSystem *hltvtest;	// The global HLTV server/object. NULL on xbox.
+#endif
 
 #endif // HLTVSERVER_H

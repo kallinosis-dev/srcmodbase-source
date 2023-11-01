@@ -1949,7 +1949,7 @@ void CDemoSmootherPanel::Redo( void )
 	InvalidateLayout();
 }
 
-void CDemoSmootherPanel::PushUndo( char *description )
+void CDemoSmootherPanel::PushUndo( char const* description )
 {
 	Assert( !m_bRedoPending );
 	m_bRedoPending = true;
@@ -1967,7 +1967,7 @@ void CDemoSmootherPanel::PushUndo( char *description )
 	m_nUndoLevel++;
 }
 
-void CDemoSmootherPanel::PushRedo( char *description )
+void CDemoSmootherPanel::PushRedo( char const* description )
 {
 	Assert( m_bRedoPending );
 	m_bRedoPending = false;

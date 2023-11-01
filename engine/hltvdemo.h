@@ -10,6 +10,7 @@
 #pragma once
 #endif
 
+#ifdef WITH_HLTV
 #include <filesystem.h>
 
 #include "demo.h"
@@ -81,6 +82,6 @@ private:
 	CHLTVServer		*hltv;
 };
 
-
+#endif
 
 #endif // HLTVDEMO_H

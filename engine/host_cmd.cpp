@@ -110,7 +110,9 @@ ConVar host_info_show( "host_info_show", "1", FCVAR_RELEASE, "How server info ge
 ConVar host_rules_show( "host_rules_show", "1", FCVAR_RELEASE, "How server rules get disclosed in server queries: 0 - query disabled, 1 - query enabled" );
 static void HostnameChanged( IConVar *pConVar, const char *pOldValue, float flOldValue )
 {
+#ifndef NO_STEAM
 	Steam3Server().NotifyOfServerNameChange();
+#endif
 
 	if ( sv.IsActive() && host_name_store.GetBool() )
 	{
@@ -163,6 +165,7 @@ ConVar voice_inputfromfile("voice_inputfromfile", "0",FCVAR_RELEASE, "Get voice 
 
 uint GetSteamAppID()
 {
+#ifndef NO_STEAM
 #ifndef DEDICATED
 	if ( Steam3Client().SteamUtils() )
 		return Steam3Client().SteamUtils()->GetAppID();
@@ -170,12 +173,14 @@ uint GetSteamAppID()
 
 	if ( Steam3Server().SteamGameServerUtils() )
 		return Steam3Server().SteamGameServerUtils()->GetAppID();
+#endif
 
 	return 215;	// defaults to Source SDK Base (215) if no steam.inf can be found.
 }
 
 EUniverse GetSteamUniverse()
 {
+#ifndef NO_STEAM
 #ifndef DEDICATED
 	if ( Steam3Client().SteamUtils() )
 		return Steam3Client().SteamUtils()->GetConnectedUniverse();
@@ -183,6 +188,7 @@ EUniverse GetSteamUniverse()
 
 	if ( Steam3Server().SteamGameServerUtils() )
 		return Steam3Server().SteamGameServerUtils()->GetConnectedUniverse();
+#endif
 
 	return k_EUniverseInvalid;
 }
@@ -569,6 +575,7 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 
 	const char *pchSecureReasonString = "";
 	const char *pchUniverse = "";
+#ifndef NO_STEAM
 	bool bGSSecure = Steam3Server().BSecure();
 	if ( !bGSSecure && Steam3Server().BWantsSecure() )
 	{
@@ -581,6 +588,9 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 			pchSecureReasonString = "(secure mode enabled, disconnected from Steam3)";
 		}
 	}
+#else
+	constexpr bool bGSSecure = false;
+#endif
 
 	switch ( GetSteamUniverse() )
 	{
@@ -612,7 +622,11 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 			Sys_GetVersionString(), GetHostVersion(),
 			GetServerVersion(), build_number(),
 			bGSSecure ? "secure" : "insecure", pchSecureReasonString,
-			Steam3Server().GetGSSteamID().IsValid() ? Steam3Server().GetGSSteamID().Render() : "[INVALID_STEAMID]", pchUniverse );
+#ifndef NO_STEAM
+			Steam3Server().GetGSSteamID().IsValid() ? Steam3Server().GetGSSteamID().Render() :
+#endif
+			"[INVALID_STEAMID]", 
+			pchUniverse );
 	}
 	else
 	{
@@ -624,6 +638,7 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 	if ( NET_IsMultiplayer() )
 	{
 		CUtlString sPublicIPInfo;
+#ifndef NO_STEAM
 		if ( !Steam3Server().BLanOnly() )
 		{
 			uint32 unPublicIP = Steam3Server().GetPublicIP();
@@ -634,12 +649,15 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 				sPublicIPInfo.Format("  (public ip: %s)", addr.ToString( true ) );
 			}
 		}
+#endif
 		print( "udp/ip  : %s:%i%s\n", net_local_adr.ToString(true), sv.GetUDPPort(), sPublicIPInfo.String() );
+#ifndef NO_STEAM
 		static ConVarRef sv_steamdatagramtransport_port( "sv_steamdatagramtransport_port" );
 		if ( bWithAddresses && sv_steamdatagramtransport_port.GetInt() > 0 )
 		{
 			print( "sdt     : =%s on port %d\n", Steam3Server().GetGSSteamID().Render(), sv_steamdatagramtransport_port.GetInt() );
 		}
+#endif
 
 		const char *osType =
 #if defined( WIN32 )
@@ -669,6 +687,7 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 	}
 #endif
 
+#ifdef WITH_HLTV
 	if ( CanShowHostTvStatus() )
 	{
 		for ( CActiveHltvServerIterator hltv; hltv; hltv.Next() )
@@ -676,6 +695,7 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 			print( "gotv[%i]:  port %i, delay %.1fs, rate %.1f\n", hltv.GetIndex(), hltv->GetUDPPort(), hltv->GetDirector() ? hltv->GetDirector()->GetDelay() : 0.0f, hltv->GetSnapshotRate() );
 		}
 	}
+#endif
 
 #if defined( REPLAY_ENABLED )
 	if ( replay && replay->IsActive() )
@@ -2006,7 +2026,7 @@ CON_COMMAND( kickid, "Kick a player by userid or uniqueid, with a message." )
 void PerformKick( cmd_source_t commandSource, int iSearchIndex, char* szSearchString, bool bForceKick, const char* pszMessage )
 {
 	IClient		*client = nullptr;
-	char		*who = "Console";
+	char const* who = "Console";
 
 	// find this client
 	int i;
@@ -2092,7 +2112,7 @@ Kicks a user off of the server using their name
 */
 CON_COMMAND( kick, "Kick a player by name." )
 {
-	char		*who = "Console";
+	char const* who = "Console";
 	char		*pszName = nullptr;
 	IClient		*client = nullptr;
 	int			i = 0;

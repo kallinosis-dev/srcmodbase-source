@@ -4,6 +4,8 @@
 //
 //===========================================================================//
 
+#ifndef NO_STEAM
+
 #ifdef _WIN32
 #if !defined( _X360 )
 #include "winlite.h"
@@ -1165,3 +1167,5 @@ void sv_setsteamaccount_f( const CCommand &args )
 }
 
 static ConCommand sv_setsteamaccount( "sv_setsteamaccount", sv_setsteamaccount_f, "token\nSet game server account token to use for logging in to a persistent game server account", 0 );
+
+#endif

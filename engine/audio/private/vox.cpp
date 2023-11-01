@@ -638,7 +638,7 @@ char * VOX_LookupRndVirtual( char *pGroupName )
 
 // given groupname, get pointer to first word of n'th sentence in group
 
-char *VOX_LookupSentenceByIndex( char *pGroupname, int ipick, int *pipicknext )
+char *VOX_LookupSentenceByIndex( char const* pGroupname, int ipick, int *pipicknext )
 {
 	// get group index
 

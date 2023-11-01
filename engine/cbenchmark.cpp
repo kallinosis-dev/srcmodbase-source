@@ -124,7 +124,7 @@ void CBenchmarkResults::SetResultsFilename( const char *pFilename )
 //-----------------------------------------------------------------------------
 void CBenchmarkResults::Upload()
 {
-#if !defined( DEDICATED )
+#if !defined( DEDICATED ) && !defined(NO_STEAM)
 	if ( !m_szFilename[0] || !Steam3Client().SteamUtils() )
 		return;
 	uint32 cserIP = 0;

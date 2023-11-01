@@ -270,7 +270,7 @@ inline bool RecvTable::IsInMainList() const
 	template <> int ClientClassInit<tableName::ignored>(tableName::ignored *) \
 	{ \
 		typedef className currentRecvDTClass; \
-		char *pRecvTableName = #tableName; \
+		char const* pRecvTableName = #tableName; \
 		RecvTable &RecvTable = tableName::g_RecvTable; \
 		static RecvProp RecvProps[] = { \
 			RecvPropInt("should_never_see_this", 0, sizeof(int)),		// It adds a dummy property at the start so you can define "empty" SendTables.

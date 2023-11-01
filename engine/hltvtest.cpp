@@ -8,6 +8,8 @@
 // hltvtest.cpp: implementation of the CHLTVTestSystem class.
 //
 //////////////////////////////////////////////////////////////////////
+
+#ifdef WITH_HLTV
 #include "basetypes.h"
 #include "cmd.h"
 #include "convar.h"
@@ -165,5 +167,7 @@ CON_COMMAND( tv_test_stop, "Stops the GOTV test system" )
 		hltvtest->StopsTest();
 	}
 }
+
+#endif
 
 #endif

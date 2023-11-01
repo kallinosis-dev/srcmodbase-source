@@ -85,7 +85,9 @@ bool Voice_RecordStop();
 
 enum VoiceFormat_t
 {
+#ifndef NO_STEAM
 	VoiceFormat_Steam,
+#endif
 	VoiceFormat_Engine
 };
 

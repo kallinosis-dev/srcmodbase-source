@@ -4,15 +4,21 @@
 #define HLTV_BROADCAST_PLAYER_HDR
 
 
+#ifdef HAS_HLTV
+
 #include "tier1/utlincrementalvector.h"
 #include "steam/steam_api.h"
+#ifndef NO_STEAM
 #include "steam/isteamhttp.h"
+#endif
 #include "tier1/utlhashtable.h"
 #include "tier1/smartptr.h"
 #include "demostream.h"
 #include "demofile/gotvhttpstream.h"
 
+#ifndef NO_STEAM
 struct HTTPRequestCompleted_t;
+#endif
 
 class CDemoStreamHttp: public IDemoStream
 {
@@ -119,6 +125,7 @@ protected:
 
 protected:
 
+#ifndef NO_STEAM
 	typedef void( CDemoStreamHttp::*FnHttpCallback )( const HTTPRequestCompleted_t * pResponse );
 
 	class CPendingRequest : public CCallbackBase
@@ -171,6 +178,7 @@ protected:
 		virtual void OnSuccess( const HTTPRequestCompleted_t * pResponse ) override;
 		virtual void OnFailure( const HTTPRequestCompleted_t * pResponse ) override;
 	};
+#endif
 
 
 	enum StateEnum_t
@@ -244,7 +252,7 @@ protected:
 	//int m_nFragment;
 };
 
-
+#endif
 
 
 #endif // HLTV_BROADCAST_PLAYER_HDR

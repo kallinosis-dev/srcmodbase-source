@@ -2649,7 +2649,11 @@ static float SND_GetMusicVolumeGainMultiplierInOverlay()
 		// Update every 0.1 sec
 		static ConVarRef cl_embedded_stream_video_playing( "cl_embedded_stream_video_playing" );
 		bool bInClientVideoPlaying = ( cl_embedded_stream_video_playing.IsValid() && cl_embedded_stream_video_playing.GetBool() );
-		bool bCurrentlyActive = Steam3Client().IsGameOverlayActive() || bInClientVideoPlaying;
+		bool bCurrentlyActive = bInClientVideoPlaying
+#ifndef NO_STEAM
+			|| Steam3Client().IsGameOverlayActive()
+#endif
+		;
 		if ( bCurrentlyActive != s_bOverlayActiveLastKnown )
 		{
 			s_flMusicVolumeOverlayMultiplierPrevious = ( flTimeNow > s_flLastUpdateTime + 1.0 ) ? s_flMusicVolumeOverlayMultiplierTarget : ( s_flMusicVolumeOverlayMultiplierPrevious + ( flTimeNow - s_flLastUpdateTime ) * ( s_flMusicVolumeOverlayMultiplierTarget - s_flMusicVolumeOverlayMultiplierPrevious ) );
@@ -7879,7 +7883,7 @@ void S_StopAllSounds( bool bClear )
 	{
 		char nameBuf[MAX_PATH];
 		channel_t *pChannel = list.GetChannel( i );
-		char *pName = nameBuf;
+		char const* pName = nameBuf;
 		if ( pChannel->sfx )
 		{
 			pChannel->sfx->getname( nameBuf, sizeof( nameBuf ) );

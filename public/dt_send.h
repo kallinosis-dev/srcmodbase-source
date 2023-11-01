@@ -598,7 +598,7 @@ inline void SendTable::SetHasPropsEncodedAgainstTickcount( bool bState )
 	template <> int ServerClassInit<tableName::ignored>(tableName::ignored *) \
 	{ \
 		typedef className currentSendDTClass; \
-		static char *g_pSendTableName = #tableName; \
+		static char const* g_pSendTableName = #tableName; \
 		SendTable &sendTable = tableName::g_SendTable; \
 		static SendProp g_SendProps[] = { \
 			SendPropInt("should_never_see_this", 0, sizeof(int)),		// It adds a dummy property at the start so you can define "empty" SendTables.

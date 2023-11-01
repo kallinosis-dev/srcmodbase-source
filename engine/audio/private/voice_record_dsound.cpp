@@ -164,6 +164,9 @@ static bool IsRunningWindows7()
 
 bool VoiceRecord_DSound::Init(int sampleRate)
 {
+#define FAIL_AND_TERM \
+	do { Term(); return false; } while (0)
+
 	HRESULT hr;
 	DSCBUFFERDESC dscDesc;
 	DirectSoundCaptureCreateFn createFn;
@@ -171,13 +174,14 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 	
 	Term();
 
+	DWORD sampleRate_dw = sampleRate;
 
 	WAVEFORMATEX recordFormat =
 	{
 		WAVE_FORMAT_PCM,		// wFormatTag
 		1,						// nChannels
-		sampleRate,				// nSamplesPerSec
-		sampleRate*2,			// nAvgBytesPerSec
+		sampleRate_dw,				// nSamplesPerSec
+		sampleRate_dw *2,			// nAvgBytesPerSec
 		2,						// nBlockAlign
 		16,						// wBitsPerSample
 		sizeof(WAVEFORMATEX)	// cbSize
@@ -188,11 +192,11 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 	// Load the DSound DLL.
 	m_hInstDS = LoadLibrary("dsound.dll");
 	if(!m_hInstDS)
-		goto HandleError;
+		FAIL_AND_TERM;
 
 	createFn = (DirectSoundCaptureCreateFn)GetProcAddress(m_hInstDS, "DirectSoundCaptureCreate");
 	if(!createFn)
-		goto HandleError;
+		FAIL_AND_TERM;
 
 	const GUID FAR *pGuid = &DSDEVID_DefaultVoiceCapture;
 	if ( IsRunningWindows7() )
@@ -201,7 +205,7 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 	}
 	hr = createFn(pGuid, &m_pCapture, nullptr);
 	if(FAILED(hr))
-		goto HandleError;
+		FAIL_AND_TERM;
 
 	// Create the capture buffer.
 	memset(&dscDesc, 0, sizeof(dscDesc));
@@ -212,7 +216,7 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 
 	hr = m_pCapture->CreateCaptureBuffer(&dscDesc, &m_pCaptureBuffer, nullptr);
 	if(FAILED(hr))
-		goto HandleError;
+		FAIL_AND_TERM;
 
 
 	// Figure out how many bytes we got in our capture buffer.
@@ -222,7 +226,7 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 
 	hr = m_pCaptureBuffer->GetCaps(&caps);
 	if(FAILED(hr))
-		goto HandleError;
+		FAIL_AND_TERM;
 
 	m_nCaptureBufferBytes = caps.dwBufferBytes;
 
@@ -230,7 +234,7 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 	// Set it up so we get notification when the buffer wraps.
 	m_hWrapEvent = CreateEvent(nullptr, FALSE, FALSE, nullptr);
 	if(!m_hWrapEvent)
-		goto HandleError;
+		FAIL_AND_TERM;
 
 	DSBPOSITIONNOTIFY dsbNotify;
 	dsbNotify.dwOffset = dscDesc.dwBufferBytes - 1;
@@ -240,12 +244,12 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 	LPDIRECTSOUNDNOTIFY pNotify;
 	hr = m_pCaptureBuffer->QueryInterface(IID_IDirectSoundNotify, (void**)&pNotify);
 	if(FAILED(hr))
-		goto HandleError;
+		FAIL_AND_TERM;
 	
 	hr = pNotify->SetNotificationPositions(1, &dsbNotify);
 	pNotify->Release();
 	if(FAILED(hr))
-		goto HandleError;
+		FAIL_AND_TERM;
 
 	// Start capturing.
 	hr = m_pCaptureBuffer->Start(DSCBSTART_LOOPING);
@@ -254,12 +258,8 @@ bool VoiceRecord_DSound::Init(int sampleRate)
 
 	return true;
 
-
-HandleError:;
-	Term();
-	return false;
+#undef FAIL_AND_TERM
 }
-
 
 void VoiceRecord_DSound::Term()
 {

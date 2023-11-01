@@ -19,7 +19,9 @@
 #include "inetmsghandler.h"
 #include "matchmaking/imatchasync.h"
 
+#ifndef NO_STEAM
 class ISteamNetworkingUtils;
+#endif
 
 abstract_class INetSupport : public IAppSystem
 {
@@ -120,7 +122,9 @@ public:
 		bf_write *pVoicePayload = NULL,
 		bool bUseCompression = false ) = 0;
 
+#ifndef NO_STEAM
 	virtual ISteamNetworkingUtils *GetSteamNetworkingUtils() = 0;
+#endif
 };
 
 #define INETSUPPORT_VERSION_STRING "INETSUPPORT_003"

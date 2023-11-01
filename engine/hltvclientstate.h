@@ -12,6 +12,7 @@
 
 #include "baseclientstate.h"
 
+#ifdef WITH_HLTV
 class CClientFrame;
 class CHLTVServer;
 class CMsg_CVars;
@@ -95,5 +96,6 @@ public:
 	int				eventid_hltv_status;
 	int				eventid_hltv_title;
 };
+#endif
 
 #endif // HLTVCLIENTSTATE_H

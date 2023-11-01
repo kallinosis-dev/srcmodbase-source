@@ -10,6 +10,7 @@
 #pragma once
 #endif
 
+#ifndef NO_STEAM
 #include "baseclient.h"
 #include "utlvector.h"
 #include "netadr.h"
@@ -100,6 +101,6 @@ private:
 
 // singleton accessor
 CSteam3Server &Steam3Server();
-
+#endif
 
 #endif

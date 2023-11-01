@@ -52,7 +52,6 @@ class C_BaseAnimating;
 class IColorCorrectionSystem;
 class IInputSystem;
 class ISceneFileCache;
-class IXboxSystem;	// Xbox 360 only
 class IAvi;
 class IBik;
 class CSteamAPIContext;
@@ -89,7 +88,6 @@ extern CGlobalVarsBase *gpGlobals;
 extern IClientTools *clienttools;
 extern IInputSystem *inputsystem;
 extern ISceneFileCache *scenefilecache;
-extern IXboxSystem *xboxsystem;	// Xbox 360 only
 extern IAvi *avi;
 extern IBik *bik;
 extern IUploadGameStats *gamestatsuploader;

@@ -202,12 +202,15 @@ void HostState_ChangeLevelSP( char const *pNewLevel, char const *pLandmarkName )
 // change level (multiplayer style - respawn all connected clients)
 void HostState_ChangeLevelMP( char const *pNewLevel, char const *pLandmarkName )
 {
+#ifndef NO_STEAM
 	Steam3Server().NotifyOfLevelChange();
+#endif
 
 	Q_strncpy( g_HostState.m_levelName, pNewLevel, sizeof( g_HostState.m_levelName ) );
 	Q_FixSlashes( g_HostState.m_levelName, '/' ); // Store with forward slashes internally to be consistent. 
 	Q_strncpy( g_HostState.m_landmarkName, pLandmarkName, sizeof( g_HostState.m_landmarkName ) );
 
+#ifndef NO_STEAM
 	PublishedFileId_t id = serverGameDLL->GetUGCMapFileID( pNewLevel );
 	if ( sv.IsDedicated() && id != 0 )
 	{
@@ -216,6 +219,7 @@ void HostState_ChangeLevelMP( char const *pNewLevel, char const *pLandmarkName )
 		g_HostState.m_bWorkshopMapDownloadPending = true;
 	}	
 	else
+#endif
 	{
 		g_HostState.SetNextState( HS_CHANGE_LEVEL_MP );
 	}
@@ -234,7 +238,9 @@ void HostState_SetMapGroupName( char const *pMapGroupName )
 // shutdown the game as soon as possible
 void HostState_GameShutdown()
 {
+#ifndef NO_STEAM
 	Steam3Server().NotifyOfLevelChange();
+#endif
 
 	// This will get called during shutdown, ignore it.
 	if ( g_HostState.m_currentState != HS_SHUTDOWN &&
@@ -500,7 +506,9 @@ void CHostState::State_ChangeLevelMP()
 	materials->OnDebugEvent( "CHostState::State_ChangeLevelMP" );
 	if ( Host_ValidGame() )
 	{
+#ifndef NO_STEAM
 		Steam3Server().NotifyOfLevelChange();
+#endif
 
 		g_pServerPluginHandler->LevelShutdown();
 #if !defined(DEDICATED)
@@ -657,7 +665,9 @@ void CHostState::State_GameShutdown()
 	materials->OnDebugEvent( "CHostState::State_GameShutdown" );
 	if ( serverGameDLL )
 	{
+#ifndef NO_STEAM
 		Steam3Server().NotifyOfLevelChange();
+#endif
 		g_pServerPluginHandler->LevelShutdown();
 #if !defined(DEDICATED)
 		audiosourcecache->LevelShutdown();

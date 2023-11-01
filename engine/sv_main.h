@@ -125,6 +125,8 @@ void SV_FlushMemoryOnNextServer();
 
 void SV_SetSteamCrashComment();
 
+void RevertAllModifiedLocalState();
+
 #endif
 
 

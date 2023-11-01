@@ -262,7 +262,11 @@ void SCR_UpdateScreen( void )
 
 	CMatRenderContextPtr pRenderContext;
 	pRenderContext.GetFrom( materials );
-	if( EngineVGui()->IsGameUIVisible() || IsSteam3ClientGameOverlayActive() )
+	if( EngineVGui()->IsGameUIVisible()
+#ifndef NO_STEAM
+		|| IsSteam3ClientGameOverlayActive()
+#endif
+		)
 	{
 		pRenderContext->AntiAliasingHint( AA_HINT_MENU );
 	}

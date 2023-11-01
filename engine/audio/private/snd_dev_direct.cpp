@@ -8,6 +8,10 @@
 
 #if USE_AUDIO_DEVICE_V1
 
+#undef KSDATAFORMAT_SUBTYPE_WAVEFORMATEX
+#undef KSDATAFORMAT_SUBTYPE_PCM
+#undef KSDATAFORMAT_SUBTYPE_IEEE_FLOAT
+
 #include <dsound.h>
 #pragma warning(disable : 4201)		// nameless struct/union
 #include <ks.h>
@@ -49,6 +53,7 @@ COMPILE_TIME_ASSERT( DSSPEAKER_5POINT1 == 6 );
 COMPILE_TIME_ASSERT( DSSPEAKER_7POINT1 == 7 );
 #define DSSPEAKER_7POINT1_SURROUND 8
 #define DSSPEAKER_5POINT1_SURROUND 9
+
 
 HRESULT (WINAPI *pDirectSoundCreate)(GUID FAR *lpGUID, LPDIRECTSOUND FAR *lplpDS, IUnknown FAR *pUnkOuter);
 

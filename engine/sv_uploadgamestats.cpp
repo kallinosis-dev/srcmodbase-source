@@ -292,15 +292,13 @@ public:
 
 	void UpdateConnection( void )
 	{
-#ifndef DEDICATED
+#if !defined( DEDICATED ) & !defined( NO_STEAM )
 		if ( m_bConnected )
 			return;
 
 		// try getting client SteamUtils interface
-		ISteamUtils *pSteamUtils = nullptr;
-#if !defined( DEDICATED )
-		pSteamUtils = Steam3Client().SteamUtils();
-#endif
+		ISteamUtils* pSteamUtils = Steam3Client().SteamUtils();
+
 		// if that fails, try the game server SteamUtils interface
 		if ( !pSteamUtils )
 		{
@@ -403,6 +401,7 @@ public:
 		Q_memset( buf, 0, bufsize );
 		Q_strncpy( buf, "unknown", bufsize );
 #ifndef DEDICATED
+#ifndef NO_STEAM
 		// If running at Valve, copy in the users name here
 		if ( Steam3Client().SteamUtils() && ( Steam3Client().SteamUser()->BLoggedOn() ) && ( k_EUniverseBeta == Steam3Client().SteamUtils()->GetConnectedUniverse() ) )
 		{
@@ -448,6 +447,7 @@ public:
 		}
 		// customer so generate pseudo name
 		else
+#endif
 		{
 			IRegistry *temp = InstanceRegistry( "Steam" );
 			Assert( temp );

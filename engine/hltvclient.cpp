@@ -6,6 +6,8 @@
 //
 //==================================================================//
 
+#ifdef WITH_HLTV
+
 #include <tier0/vprof.h>
 #include "hltvclient.h"
 #include "netmessages.h"
@@ -613,3 +615,4 @@ bool CHLTVClient::SendSnapshot( CClientFrame * pFrame )
 	
 	return true;
 }
+#endif

@@ -14,6 +14,7 @@
 #include "../../enginetrace.h"
 #include "render.h"
 #include "engine/IEngineTrace.h"
+#include "gametrace.h"
 
 
 // memdbgon must be the last include file in a .cpp file!!!

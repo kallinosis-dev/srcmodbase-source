@@ -133,9 +133,9 @@ protected:
 	void				Redo( void );
 
 	// Do push before changes
-	void				PushUndo( char *description );
+	void				PushUndo( char const* description );
 	// Do this push after changes, must match pushundo 1for1
-	void				PushRedo( char *description );
+	void				PushRedo( char const* description );
 
 	void				WipeUndo( void );
 	void				WipeRedo( void );

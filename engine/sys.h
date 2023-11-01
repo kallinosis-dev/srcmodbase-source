@@ -34,9 +34,9 @@ void Sys_LoadHLTVDLL( void );
 void Sys_UnloadHLTVDLL( void );
 
 void Sys_Sleep ( int msec );
-void Sys_GetRegKeyValue( char *pszSubKey, char *pszElement, char *pszReturnString, int nReturnLength, char *pszDefaultValue);
-void Sys_GetRegKeyValueInt( char *pszSubKey, char *pszElement, long *pulReturnValue, long dwDefaultValue);
-void Sys_SetRegKeyValue( char *pszSubKey, char *pszElement,	const char *pszValue );
+void Sys_GetRegKeyValue( char const* pszSubKey, char const* pszElement, char *pszReturnString, int nReturnLength, char const* pszDefaultValue);
+void Sys_GetRegKeyValueInt( char const* pszSubKey, char const* pszElement, long *pulReturnValue, long dwDefaultValue);
+void Sys_SetRegKeyValue( char const* pszSubKey, char const* pszElement,	const char *pszValue );
 
 extern "C" void Sys_SetFPCW (void);
 extern "C" void Sys_TruncateFPU( void );

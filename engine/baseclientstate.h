@@ -80,7 +80,9 @@ struct DeferredConnection_t
 		m_nAuthprotocol = 0;
 		m_unGSSteamID = 0ull;;
 		m_unLobbyID = 0ull;
+#ifndef NO_STEAM
 		m_bGSSecure = false;
+#endif
 		m_bRequiresPassword = false;
 		m_bDCFriendsReqd = false;
 		m_bOfficialValveServer = false;
@@ -90,7 +92,9 @@ struct DeferredConnection_t
 	}
 
 	bool	m_bActive;
+#ifndef NO_STEAM
 	bool	m_bGSSecure;
+#endif
 	bool	m_bRequiresPassword;
 	bool	m_bDCFriendsReqd;
 	bool	m_bOfficialValveServer;

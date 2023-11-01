@@ -14,9 +14,9 @@
 //---------------------------------------------------------------------------------------
 // Sphere serialization 
 //---------------------------------------------------------------------------------------
-schema struct RnSphere_t
+/*schema*/ struct RnSphere_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnSphere_t );
 
 	AABB_t GetBbox() const;
@@ -56,9 +56,9 @@ inline RnSphere_t operator*( float flScale, const RnSphere_t& sphere )
 //---------------------------------------------------------------------------------------
 // Capsule serialization 
 //---------------------------------------------------------------------------------------
-schema struct RnCapsule_t
+/*schema*/ struct RnCapsule_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnCapsule_t );
 
 	AABB_t GetBbox() const;
@@ -126,9 +126,9 @@ struct RnRay_t
 //---------------------------------------------------------------------------------------
 // Hull serialization 
 //---------------------------------------------------------------------------------------
-schema struct RnPlane_t
+/*schema*/ struct RnPlane_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnPlane_t );
 
 	Vector m_vNormal;														// The plane normal
@@ -146,9 +146,9 @@ schema struct RnPlane_t
 	FORCEINLINE bool operator == ( const RnPlane_t &other )const			{ return m_vNormal == other.m_vNormal && m_flOffset == other.m_flOffset; }
 };
 
-schema struct RnHalfEdge_t
+/*schema*/ struct RnHalfEdge_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnHalfEdge_t );
 
 	uint8 m_nNext;															// Next edge index in CCW circular list around face
@@ -157,17 +157,17 @@ schema struct RnHalfEdge_t
 	uint8 m_nFace;															// Face index 
 };
 
-schema struct RnFace_t
+/*schema*/ struct RnFace_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnFace_t );
 
 	uint8 m_nEdge;															// Start edge index for CCW circular list around face 
 };
 
-schema struct RnHull_t
+/*schema*/ struct RnHull_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnHull_t );
 
 	Vector m_vCentroid;														// Hull centroid
@@ -376,18 +376,18 @@ struct RnHullBox_t : public RnHull_t
 #define RN_TYPE_SPLIT_Z		2
 #define RN_TYPE_LEAF		3
 
-schema struct RnTriangle_t
+/*schema*/ struct RnTriangle_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnTriangle_t );
 
 	int32 m_nIndex[ 3 ];
 };
 
 // TODO: this wants to be ALIGN32, but it's currently stored in CUtlVector and CResourceArray, which do not support this.
-schema struct ALIGN16 RnNode_t // node needs to not stride over cache line boundary and min/max vectors need to be aligned for easy SIMD loading
+/*schema*/ struct ALIGN16 RnNode_t // node needs to not stride over cache line boundary and min/max vectors need to be aligned for easy SIMD loading
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnNode_t );	
 
 	Vector m_vMin;															// The node AABB 
@@ -426,9 +426,9 @@ schema struct ALIGN16 RnNode_t // node needs to not stride over cache line bound
 
 } ALIGN16_POST;
 
-schema struct RnMesh_t
+/*schema*/ struct RnMesh_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnMesh_t );
 
 	Vector m_vMin;															// The mesh AABB 
@@ -472,42 +472,42 @@ schema struct RnMesh_t
 //--------------------------------------------------------------------------------------------------
 // Shape serialization
 //--------------------------------------------------------------------------------------------------
-schema struct RnShapeDesc_t
+/*schema*/ struct RnShapeDesc_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnShapeDesc_t );
 
 	uint32 m_nCollisionAttributeIndex;
 	uint32 m_nSurfacePropertyIndex;
 };
 
-schema struct RnSphereDesc_t : public RnShapeDesc_t
+/*schema*/ struct RnSphereDesc_t : public RnShapeDesc_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnSphereDesc_t );
 
 	RnSphere_t m_Sphere;
 };
 
-schema struct RnCapsuleDesc_t : public RnShapeDesc_t
+/*schema*/ struct RnCapsuleDesc_t : public RnShapeDesc_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnCapsuleDesc_t );
 
 	RnCapsule_t m_Capsule;
 };
 
-schema struct RnHullDesc_t : public RnShapeDesc_t
+/*schema*/ struct RnHullDesc_t : public RnShapeDesc_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnHullDesc_t );
 
 	RnHull_t m_Hull;
 };
 
-schema struct RnMeshDesc_t : public RnShapeDesc_t
+/*schema*/ struct RnMeshDesc_t : public RnShapeDesc_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnMeshDesc_t );
 
 	RnMesh_t m_Mesh;
@@ -668,24 +668,24 @@ struct rnSpringDesc_t : public RnJointDesc_t
 	float32 m_flDampingRatio;
 };
 
-schema struct RnSoftbodyParticle_t
+/*schema*/ struct RnSoftbodyParticle_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnSoftbodyParticle_t );
 	float32 m_flMassInv;
 };
 
-schema struct RnSoftbodySpring_t
+/*schema*/ struct RnSoftbodySpring_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnSoftbodySpring_t );
 	uint16 m_nParticle[2];
 	float32 m_flLength;
 };
 
-schema struct RnSoftbodyCapsule_t
+/*schema*/ struct RnSoftbodyCapsule_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnSoftbodyCapsule_t );
 	Vector m_vCenter[2];
 	float32 m_flRadius;
@@ -693,9 +693,9 @@ schema struct RnSoftbodyCapsule_t
 };
 
 
-schema struct ALIGN16 RnBlendVertex_t
+/*schema*/ struct ALIGN16 RnBlendVertex_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	DECLARE_SCHEMA_DATA_CLASS( RnBlendVertex_t );
 	uint16 m_nWeight0;
 	uint16 m_nIndex0;

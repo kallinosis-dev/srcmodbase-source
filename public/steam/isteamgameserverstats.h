@@ -12,6 +12,8 @@
 
 #include "isteamclient.h"
 
+#ifndef NO_STEAM
+
 //-----------------------------------------------------------------------------
 // Purpose: Functions for authenticating users via Steam to play on a game server
 //-----------------------------------------------------------------------------
@@ -97,5 +99,6 @@ struct GSStatsUnloaded_t
 
 #pragma pack( pop )
 
+#endif
 
 #endif // ISTEAMGAMESERVERSTATS_H

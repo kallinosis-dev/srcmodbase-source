@@ -5,6 +5,8 @@
 // $NoKeywords: $
 //
 //=============================================================================//
+
+#ifdef WITH_HLTV
 #include <netmessages.h>
 #include "hltvclientstate.h"
 #include "hltvserver.h"
@@ -1152,3 +1154,4 @@ void CHLTVClientState::UpdateStats()
 	m_NetChannel->SendNetMsg( conVars );
 }
 	
+#endif

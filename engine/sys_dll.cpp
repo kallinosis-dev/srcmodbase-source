@@ -1199,12 +1199,14 @@ static bool LoadThisDll( char *szDllFilename, bool bServerOnly )
 {
 	CSysModule *pDLL = nullptr;
 
+#ifndef NO_STEAM
 	// check signature, don't let users with modified binaries connect to secure servers, they will get VAC banned
 	if ( !bServerOnly && !Host_AllowLoadModule( szDllFilename, "GAMEBIN", false ) )
 	{
 		// not supposed to load this but we will anyway
 		Host_DisallowSecureServers();
 	}
+#endif
 
 	// Load DLL, ignore if cannot
 	// ensures that the game.dll is running under Steam
@@ -1379,6 +1381,8 @@ void LoadEntityDLLs( const char *szBaseDir, bool bServerOnly )
 // Purpose: Retrieves a string value from the registry
 //-----------------------------------------------------------------------------
 #if defined(_WIN32)
+static char* s_KeyType = V_strdup("String");
+
 void Sys_GetRegKeyValueUnderRoot( HKEY rootKey, const char *pszSubKey, const char *pszElement, char *pszReturnString, int nReturnLength, const char *pszDefaultValue )
 {
 	LONG lResult;           // Registry function result code
@@ -1396,7 +1400,7 @@ void Sys_GetRegKeyValueUnderRoot( HKEY rootKey, const char *pszSubKey, const cha
 		rootKey,	// handle of open key 
 		pszSubKey,			// address of name of subkey to open 
 		0ul,					// DWORD ulOptions,	  // reserved 
-		"String",			// Type of value
+		s_KeyType,			// Type of value
 		REG_OPTION_NON_VOLATILE, // Store permanently in reg.
 		KEY_ALL_ACCESS,		// REGSAM samDesired, // security access mask 
 		NULL,
@@ -1462,7 +1466,7 @@ void Sys_GetRegKeyValueUnderRootInt( HKEY rootKey, const char *pszSubKey, const 
 		rootKey,	// handle of open key 
 		pszSubKey,			// address of name of subkey to open 
 		0ul,					// DWORD ulOptions,	  // reserved 
-		"String",			// Type of value
+		s_KeyType,			// Type of value
 		REG_OPTION_NON_VOLATILE, // Store permanently in reg.
 		KEY_ALL_ACCESS,		// REGSAM samDesired, // security access mask 
 		NULL,
@@ -1513,7 +1517,7 @@ void Sys_SetRegKeyValueUnderRoot( HKEY rootKey, const char *pszSubKey, const cha
 		rootKey,			// handle of open key 
 		pszSubKey,			// address of name of subkey to open 
 		0ul,					// DWORD ulOptions,	  // reserved 
-		"String",			// Type of value
+		s_KeyType,			// Type of value
 		REG_OPTION_NON_VOLATILE, // Store permanently in reg.
 		KEY_ALL_ACCESS,		// REGSAM samDesired, // security access mask 
 		NULL,
@@ -1561,7 +1565,7 @@ void Sys_SetRegKeyValueUnderRoot( HKEY rootKey, const char *pszSubKey, const cha
 }
 #endif
 
-void Sys_GetRegKeyValue( char *pszSubKey, char *pszElement,	char *pszReturnString, int nReturnLength, char *pszDefaultValue )
+void Sys_GetRegKeyValue( char const* pszSubKey, char const* pszElement,	char *pszReturnString, int nReturnLength, char const* pszDefaultValue )
 {
 #if defined(_WIN32)
 	Sys_GetRegKeyValueUnderRoot( HKEY_CURRENT_USER, pszSubKey, pszElement, pszReturnString, nReturnLength, pszDefaultValue );
@@ -1571,7 +1575,7 @@ void Sys_GetRegKeyValue( char *pszSubKey, char *pszElement,	char *pszReturnStrin
 #endif
 }
 
-void Sys_GetRegKeyValueInt( char *pszSubKey, char *pszElement, long *plReturnValue, long lDefaultValue)
+void Sys_GetRegKeyValueInt( char const* pszSubKey, char const* pszElement, long *plReturnValue, long lDefaultValue)
 {
 #if defined(_WIN32)
 	Sys_GetRegKeyValueUnderRootInt( HKEY_CURRENT_USER, pszSubKey, pszElement, plReturnValue, lDefaultValue );
@@ -1581,7 +1585,7 @@ void Sys_GetRegKeyValueInt( char *pszSubKey, char *pszElement, long *plReturnVal
 #endif
 }
 
-void Sys_SetRegKeyValue( char *pszSubKey, char *pszElement,	const char *pszValue )
+void Sys_SetRegKeyValue( char const* pszSubKey, char const* pszElement,	const char *pszValue )
 {
 #if defined(_WIN32)
 	Sys_SetRegKeyValueUnderRoot( HKEY_CURRENT_USER, pszSubKey, pszElement, pszValue );

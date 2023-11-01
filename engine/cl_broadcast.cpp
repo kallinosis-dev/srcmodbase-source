@@ -6,6 +6,8 @@
 //=============================================================================//
 
 #include "client_pch.h"
+
+#ifdef WITH_HLTV
 #include "cl_demo.h"
 #include "cl_broadcast.h"
 #include "baseautocompletefilelist.h"
@@ -734,3 +736,4 @@ bool CBroadcastPlayer::IsPlaybackPaused( void ) const
 	return m_bPlayingBack && m_bPlaybackPaused;
 }
 
+#endif

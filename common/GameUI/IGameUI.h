@@ -125,7 +125,9 @@ public:
 	virtual void OnDemoTimeout( void ) = 0;
 #endif
 
+#ifdef INCLUDE_SCALEFORM
 	virtual bool LoadingProgressWantsIsolatedRender( bool bContextValid ) = 0;
+#endif
 
 	virtual bool IsPlayingFullScreenVideo() = 0;
 

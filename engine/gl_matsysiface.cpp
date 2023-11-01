@@ -1037,7 +1037,7 @@ void SaveSurfAtCrossHair()
 
 void DebugDrawLightmapAtCrossHair()
 {
-	return;
+#if 0
 	IMaterial *pMaterial;
 	int lightmapPageSize[2];
 
@@ -1050,6 +1050,7 @@ void DebugDrawLightmapAtCrossHair()
 	pMaterial = MSurf_TexInfo( s_CrossHairSurfID )->material;
 //	pMaterial->GetLowResColorSample( textureS, textureT, baseColor );
 	DrawLightmapPage( materialSortInfoArray[MSurf_MaterialSortID( s_CrossHairSurfID )].lightmapPageID );
+#endif
 
 #if 0
 	int i;

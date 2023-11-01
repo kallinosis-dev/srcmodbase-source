@@ -11,6 +11,7 @@
 #include "demostreamhttp.h"
 #include "tier1/utlbufferstrider.h"
 
+#ifdef WITH_HLTV
 class CBroadcastPlayer : public IDemoPlayer, public IDemoStreamClient
 {
 public:
@@ -121,5 +122,6 @@ protected:
 };
 
 extern CBroadcastPlayer s_ClientBroadcastPlayer;
+#endif
 
 #endif

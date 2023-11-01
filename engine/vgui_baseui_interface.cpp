@@ -1848,12 +1848,16 @@ void CEngineVGui::SetProgressBias( float bias )
 	m_ProgressBias = bias;
 }
 
+
+extern void V_RenderVGuiOnly();
+
 void CEngineVGui::UpdateProgressBar( float progress, const char *pDesc, bool showDialog )
 {
 	if ( !staticGameUIFuncs )
 		return;
 
 	bool bUpdated = staticGameUIFuncs->UpdateProgressBar( progress, pDesc ? pDesc : "", showDialog );
+#ifdef INCLUDE_SCALEFORM
 	if ( staticGameUIFuncs->LoadingProgressWantsIsolatedRender( false ) )
 	{
 		while ( staticGameUIFuncs->LoadingProgressWantsIsolatedRender( true ) )
@@ -1876,11 +1880,14 @@ void CEngineVGui::UpdateProgressBar( float progress, const char *pDesc, bool sho
 			}
 		}
 	}
-	else if ( bUpdated )
+	else
+#endif
+		if ( bUpdated )
 	{
-		g_pScaleformUI->RunFrame( 0 );
+#ifdef INCLUDE_SCALEFORM
+			g_pScaleformUI->RunFrame( 0 );
+#endif
 		// re-render vgui on screen
-		extern void V_RenderVGuiOnly();
 		V_RenderVGuiOnly();
 	}
 }
@@ -1914,6 +1921,7 @@ void CEngineVGui::UpdateSecondaryProgressBar( float progress, const wchar_t *des
 		return;
 
 	bool bUpdated = staticGameUIFuncs->UpdateSecondaryProgressBar( progress, desc ? desc : L"" );
+#ifdef INCLUDE_SCALEFORM
 	if ( staticGameUIFuncs->LoadingProgressWantsIsolatedRender( false ) )
 	{
 		while ( staticGameUIFuncs->LoadingProgressWantsIsolatedRender( true ) )
@@ -1936,11 +1944,14 @@ void CEngineVGui::UpdateSecondaryProgressBar( float progress, const wchar_t *des
 			}
 		}
 	}
-	else if ( bUpdated )
+	else
+#endif
+		if ( bUpdated )
 	{
+#ifdef INCLUDE_SCALEFORM
 		g_pScaleformUI->RunFrame( 0 );
+#endif
 		// re-render vgui on screen
-		extern void V_RenderVGuiOnly();
 		V_RenderVGuiOnly();
 	}
 }

@@ -1581,7 +1581,7 @@ void CL_RegisterResources( void )
 	videomode->InvalidateWindow();
 }
 
-#ifndef DEDICATED
+#if !defined(DEDICATED) && !defined(NO_STEAM)
 class CEngineReliableAvatarCallback_t
 {
 public:
@@ -1844,7 +1844,7 @@ void CL_FullyConnected( void )
 		engineClient->ClientCmd( "cameraman_request" );
 	}
 
-#ifndef DEDICATED
+#if !defined(DEDICATED) && !defined(NO_STEAM)
 	// Register a listener that will be uploading our own avatar data to the game server
 	static CEngineReliableAvatarCallback_t s_EngineReliableAvatarCallback;
 	s_EngineReliableAvatarCallback.UploadMyOwnAvatarToGameServer();
@@ -3488,6 +3488,7 @@ void CL_InitLanguageCvar()
 	cl_language.SetValue( language );
 }
 
+#ifndef NO_STEAM
 void CL_ChangeCloudSettingsCvar( IConVar *var, const char *pOldValue, float flOldValue )
 {
 	// !! bug do i need to do something linux-wise here.
@@ -3544,7 +3545,7 @@ void CL_InitCloudSettingsCvar()
 		cl_cloud_settings.SetValue( 0 );
 	}
 }
-
+#endif
 
 /*
 =================
@@ -3560,7 +3561,9 @@ void CL_Init( void )
 	}
 
 	CL_InitLanguageCvar();
+#ifndef NO_STEAM
 	CL_InitCloudSettingsCvar();
+#endif
 
 #if defined( REPLAY_ENABLED )
 	g_pClientReplayHistoryManager->Init();

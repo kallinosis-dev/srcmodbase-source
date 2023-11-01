@@ -450,10 +450,12 @@ void NET_CloseSocket( int hSocket, int sock = -1)
 
 		// If closing client socket, make sure we don't keep trying
 		// to talk to server
+#ifndef NO_STEAM
 		if ( sock == NS_CLIENT )
 		{
 			CloseSteamDatagramClientConnection();
 		}
+#endif
 	}
 
 	g_pSteamSocketMgr->CloseSocket( hSocket, sock );
@@ -4517,9 +4519,13 @@ void NET_TerminateConnection( int sock, const ns_address &peer )
 #define bswap_16 __bswap_16
 #define bswap_64 __bswap_64
 
+#include "memdbgoff.h"
+
 #include "cryptlib.h"
 #include "rsa.h"
 #include "osrng.h"
+
+#include "memdbgon.h"
 
 using namespace CryptoPP;
 typedef AutoSeededX917RNG<AES> CAutoSeededRNG;

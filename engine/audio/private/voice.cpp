@@ -35,8 +35,10 @@ extern IVEngineClient *engineClient;
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+#ifndef NO_STEAM
 static CSteamAPIContext g_SteamAPIContext;
 static CSteamAPIContext *steamapicontext = nullptr;
+#endif
 
 void Voice_EndChannel( int iChannel );
 void VoiceTweak_EndVoiceTweakMode();
@@ -91,7 +93,9 @@ ConVar voice_loopback( "voice_loopback", "0", FCVAR_USERINFO );
 ConVar voice_fadeouttime( "voice_fadeouttime", "0.0" );	// It fades to no sound at the tail end of your voice data when you release the key.
 ConVar voice_threshold_delay( "voice_thresold_delay", "0.5" );
 
+#ifndef NO_STEAM
 ConVar voice_record_steam( "voice_record_steam", "0", 0, "If true use Steam to record voice (not the engine codec)" );
+#endif
 
 ConVar voice_scale("voice_scale", "1.0", FCVAR_ARCHIVE | FCVAR_RELEASE, "Overall volume of voice over IP" );
 ConVar voice_caster_scale( "voice_caster_scale", "1", FCVAR_ARCHIVE );
@@ -105,8 +109,10 @@ ConVar voice_showincoming( "voice_showincoming", "0" );	// show incoming voice d
 
 int Voice_SamplesPerSec()
 {
+#ifndef NO_STEAM
 	if ( voice_record_steam.GetBool() && steamapicontext && steamapicontext->SteamUser()  )
 		return steamapicontext->SteamUser()->GetVoiceOptimalSampleRate();
+#endif
 
 	int rate = ( g_bIsSpeex ? VOICE_OUTPUT_SAMPLE_RATE_SPEEX : VOICE_OUTPUT_SAMPLE_RATE ); //g_VoiceSampleFormat.nSamplesPerSec;
 	EngineTool_OverrideSampleRate( rate );
@@ -262,12 +268,14 @@ static bool VoiceRecord_Start()
 	VoiceRecord_ForceAdvanceSampleOffsetUsingPlatTime();
 	VoiceRecord_MarkSectionBoundary();
 
+#ifndef NO_STEAM
 	if ( voice_record_steam.GetBool() && steamapicontext && steamapicontext->SteamUser() )
 	{
 		steamapicontext->SteamUser()->StartVoiceRecording();
 		return true;
 	}
-	else if ( g_pVoiceRecord )
+#endif
+	if ( g_pVoiceRecord )
 	{
 		return g_pVoiceRecord->RecordStart();
 	}
@@ -280,11 +288,14 @@ static void VoiceRecord_Stop()
 	VoiceRecord_ForceAdvanceSampleOffsetUsingPlatTime();
 	VoiceRecord_MarkSectionBoundary();
 
+#ifndef NO_STEAM
 	if ( voice_record_steam.GetBool() && steamapicontext && steamapicontext->SteamUser() )
 	{
 		steamapicontext->SteamUser()->StopVoiceRecording();
 	}
-	else if ( g_pVoiceRecord )
+	else
+#endif
+		if ( g_pVoiceRecord )
 	{
 		return g_pVoiceRecord->RecordStop();
 	}
@@ -819,11 +830,13 @@ bool Voice_Init(const char *pCodecName, int iVersion )
 		Msg( "Unable to initialize DirectSoundCapture. You won't be able to speak to other players." );
 	}
 
+#ifndef NO_STEAM
 	if ( steamapicontext == nullptr)
 	{
 		steamapicontext = &g_SteamAPIContext;
 		steamapicontext->Init();
 	}
+#endif
 	
 	EngineVGui()->UpdateProgressBar( PROGRESS_DEFAULT );
 
@@ -1273,6 +1286,7 @@ int Voice_GetCompressedData(char *pchDest, int nCount, bool bFinal, VoiceFormat_
 	if ( pnOutUncompressedSampleOffset )
 		*pnOutUncompressedSampleOffset = 0;
 
+#ifndef NO_STEAM
 	if ( voice_record_steam.GetBool() && steamapicontext && steamapicontext->SteamUser() )
 	{
 		uint32 cbCompressedWritten = 0;
@@ -1312,6 +1326,7 @@ int Voice_GetCompressedData(char *pchDest, int nCount, bool bFinal, VoiceFormat_
 
 		return cbCompressedWritten;
 	}
+#endif
 
 	IVoiceCodec *pCodec = g_pEncodeCodec;
 	if( g_pVoiceRecord && pCodec )
@@ -1668,6 +1683,7 @@ void Voice_AddIncomingData(
 
 	int samplesPerSec;
 
+#ifndef NO_STEAM
 	if ( format == VoiceFormat_Steam )
 	{
 		uint32 nBytesWritten = 0;
@@ -1685,6 +1701,7 @@ void Voice_AddIncomingData(
 		samplesPerSec = nDesiredSampleRate;
 	}
 	else
+#endif
 	{
 
 		char *decompressedDest = (char*)decompressedBuffer;

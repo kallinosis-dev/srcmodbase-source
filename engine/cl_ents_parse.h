@@ -14,7 +14,7 @@
 class CEntityReadInfo;
 class CSVCMsg_PacketEntities;
 
-void CL_DeleteDLLEntity( int iEnt, char *reason, bool bOnRecreatingAllEntities = false );
+void CL_DeleteDLLEntity( int iEnt, char const* reason, bool bOnRecreatingAllEntities = false );
 void CL_CopyExistingEntity( CEntityReadInfo &u );
 void CL_PreserveExistingEntity( int nOldEntity );
 void CL_CopyNewEntity( CEntityReadInfo &u, int iClass, int iSerialNum );

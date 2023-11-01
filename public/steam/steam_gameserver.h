@@ -14,6 +14,8 @@
 #include "isteamgameserver.h"
 #include "isteamgameserverstats.h"
 
+#ifndef NO_STEAM
+
 enum EServerMode
 {
 	eServerModeInvalid = 0, // DO NOT USE		
@@ -233,5 +235,7 @@ inline void SteamGameServer_ReleaseCurrentThreadMemory()
 {
 	SteamAPI_ReleaseCurrentThreadMemory();
 }
+
+#endif
 
 #endif // STEAM_GAMESERVER_H

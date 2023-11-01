@@ -3584,11 +3584,13 @@ void CL_PlayDemo_f( const CCommand &passed_args )
 		CSteamID steamID;
 		if ( bSteamID_self )
 		{
+#ifndef NO_STEAM
 			if ( ISteamUser* pSteamUser = Steam3Client().SteamUser() )
 			{
 				steamID = pSteamUser->GetSteamID();
 			}
 			else
+#endif
 			{
 				ConMsg( "Cannot obtain user id\n" );
 				return;

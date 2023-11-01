@@ -244,6 +244,7 @@ extern ConVar sv_stressbots;
 
 int g_CurGameServerID = 1;
 
+#ifndef NO_STEAM
 static void SetMasterServerKeyValue( ISteamGameServer *pGameServer, IConVar *pConVar )
 {
 	ConVarRef var( pConVar );
@@ -272,7 +273,9 @@ static void SetMasterServerKeyValue( ISteamGameServer *pGameServer, IConVar *pCo
 		sv.RecalculateTags();
 	}
 }
+#endif
 
+#ifndef NO_STEAM
 static KeyValues *g_pKVrulesConvars = nullptr;
 
 static void ServerNotifyVarChangeCallback( IConVar *pConVar, const char *pOldValue, float flOldValue )
@@ -293,6 +296,7 @@ static void ServerNotifyVarChangeCallback( IConVar *pConVar, const char *pOldVal
 
 	SetMasterServerKeyValue( pGameServer, pConVar );
 }
+#endif
 
 
 //////////////////////////////////////////////////////////////////////
@@ -339,9 +343,11 @@ CBaseServer::CBaseServer() :
 	m_bIsDedicatedForPS3 = false;
 	m_fCPUPercent = 0;
 	m_fLastCPUCheckTime = 0;
-	
+
 	m_bMasterServerRulesDirty = true;
+#ifndef NO_STEAM
 	m_flLastMasterServerUpdateTime = 0;
+#endif
 
 	m_nReservationCookie = 0;
 	m_pnReservationCookieSession = nullptr;
@@ -1279,7 +1285,12 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 
 						  // Password?
 						  buf.PutUnsignedChar( GetPassword() ? 1 : 0 );
-						  buf.PutUnsignedChar( Steam3Server().BSecure() ? 1 : 0 );
+						  buf.PutUnsignedChar(
+#ifndef NO_STEAM
+							  Steam3Server().BSecure() ? 1 :
+#endif
+							  0
+						  );
 						  buf.PutString( GetHostVersionString() );
 
 						  //
@@ -1293,6 +1304,7 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 						  // 				if ( GetSteamID().IsValid() )
 						  // 					nNewFlags |= S2A_EXTRA_DATA_HAS_STEAMID;
 
+#ifdef WITH_HLTV
 						  extern bool CanShowHostTvStatus();
 						  CHLTVServer *hltv = nullptr;
 						  for ( CActiveHltvServerIterator it; it; it.Next() )
@@ -1305,6 +1317,7 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 							  }
 							  break;
 						  }
+#endif
 
 						  if ( m_GameType.String()[ 0 ] != '\0' )
 							  nNewFlags |= S2A_EXTRA_DATA_HAS_GAMETAG_DATA;
@@ -1319,11 +1332,13 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 							  buf.PutShort( LittleWord( GetUDPPort() ) );
 						  }
 
+#ifdef WITH_HLTV
 						  if ( nNewFlags & S2A_EXTRA_DATA_HAS_SPECTATOR_DATA )
 						  {
 							  buf.PutShort( LittleWord( hltv->GetUDPPort() ) );
 							  buf.PutString( host_name_store.GetBool() ? GetName() : "Counter-Strike: Global Offensive" );
 						  }
+#endif
 
 						  if ( nNewFlags & S2A_EXTRA_DATA_HAS_GAMETAG_DATA )
 						  {
@@ -1399,6 +1414,7 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 
 			steam3server_oob_packet_handler:
 
+#ifndef NO_STEAM
 			// We don't understand it, let the master server updater at it.
 			if ( packet->from.IsType< netadr_t >() && Steam3Server().SteamGameServer() && Steam3Server().IsMasterServerUpdaterSharingGameSocket() )
 			{
@@ -1414,6 +1430,9 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 				// packets, so check for that immediately.
 				ForwardPacketsFromMasterServerUpdater();
 			}
+#else
+			(void)0;
+#endif
 		}
 		break;
 	}
@@ -1603,7 +1622,13 @@ void CBaseServer::FillServerInfo(CSVCMsg_ServerInfo &serverinfo)
 	
 	char szMapPath[MAX_PATH];
 	V_ComposeFileName( "maps", GetMapName(), szMapPath, sizeof(szMapPath) );
-	serverinfo.set_ugc_map_id( serverGameDLL->GetUGCMapFileID( szMapPath ) );
+	serverinfo.set_ugc_map_id(
+#ifndef NO_STEAM
+		serverGameDLL->GetUGCMapFileID( szMapPath )
+#else
+		0
+#endif
+	);
 
 #if defined( REPLAY_ENABLED )
 	serverinfo.set_is_replay( IsReplay() );
@@ -1704,6 +1729,7 @@ void CBaseServer::ReplyChallenge( const ns_address &adr, bf_read &inmsg )
 
 		if ( bAllowDC )
 		{
+#ifndef NO_STEAM
 			//
 			// Game server must be logged on with a persistent GSLT unless LAN case
 			//
@@ -1716,6 +1742,7 @@ void CBaseServer::ReplyChallenge( const ns_address &adr, bf_read &inmsg )
 			bool bPersistentGameServerAccount = !sv_lan.GetBool() && !Steam3Server().BLanOnly()
 				&& Steam3Server().GetGSSteamID().IsValid() && Steam3Server().GetGSSteamID().BPersistentGameServerAccount();
 			if ( IsDedicated() && !bWhitelistedClient && !bPersistentGameServerAccount )
+#endif
 				bAllowDC = false;	// just fail direct connect
 		}
 
@@ -2288,7 +2315,7 @@ bool UseCDKeyAuth()
 {
 #ifdef NO_STEAM
 	return true;
-#endif
+#else
 
 	// if we are physically on a 360 (360 listen server) or we are on a PC dedicated server for 360 clients, don't require Steam auth
 	if ( IsX360() || NET_IsDedicatedForXbox() )
@@ -2306,6 +2333,7 @@ bool UseCDKeyAuth()
 
 	// require Steam auth
 	return false;
+#endif
 }
 
 int CBaseServer::GetChallengeType( const ns_address &adr)
@@ -2548,8 +2576,10 @@ void CBaseServer::InactivateClients( void )
 #endif
 			)
 		{
+#ifndef NO_STEAM
 			// If we don't do this, it'll have a bunch of extra steam IDs for unauthenticated users.
 			Steam3Server().NotifyClientDisconnect( cl );
+#endif
 			cl->Clear();
 			continue;
 		}
@@ -2730,6 +2760,7 @@ bool CBaseServer::CheckChallengeType( CBaseClient * client, int nNewUserID, cons
 		return true;
 	}
 
+#ifndef NO_STEAM
 	if ( nAuthProtocol == PROTOCOL_STEAM )
 	{
 		// Dev hack to allow 360/Steam PC cross platform play
@@ -2777,6 +2808,7 @@ bool CBaseServer::CheckChallengeType( CBaseClient * client, int nNewUserID, cons
 			return false;
 		}
 	}
+#endif
 
 	return true;
 }
@@ -2792,7 +2824,9 @@ bool CBaseServer::CheckIPRestrictions( const ns_address &adr, int nAuthProtocol 
 		return true;
 
 	// allow other users if they're on the same ip range
+#ifndef NO_STEAM
 	if ( Steam3Server().BLanOnly() )
+#endif
 	{
 		if ( !adr.IsType<netadr_t>() )
 			return false;
@@ -2987,6 +3021,7 @@ void CBaseServer::Init( bool bIsDedicated )
 	
 	m_Signon.SetDebugName( "m_Signon" );
 
+#ifndef NO_STEAM
 	if ( !g_pKVrulesConvars )
 	{
 		g_pKVrulesConvars = new KeyValues( "NotifyRulesCvars" );
@@ -2997,6 +3032,7 @@ void CBaseServer::Init( bool bIsDedicated )
 	}
 	
 	g_pCVar->InstallGlobalChangeCallback( ServerNotifyVarChangeCallback );
+#endif
 	SetMasterServerRulesDirty();
 	
 	Clear();
@@ -3057,6 +3093,7 @@ bool CBaseServer::GetClassBaseline( ServerClass *pClass, SerializedEntityHandle_
 	return true;
 }
 
+#ifndef NO_STEAM
 bool CBaseServer::ShouldUpdateMasterServer()
 {
 	// If the game server itself is ever running, then it's the one who gets to update the master server.
@@ -3229,7 +3266,7 @@ void CBaseServer::ForwardPacketsFromMasterServerUpdater()
 		NET_SendPacket(nullptr, m_Socket, adr, packetData, len );
 	}
 }
-
+#endif
 
 /*
 =================
@@ -3272,13 +3309,15 @@ void CBaseServer::RunFrame( void )
 
 	CalculateCPUUsage(); // update CPU usage
 
+#ifndef NO_STEAM
 	UpdateMasterServer();
+#endif
 
 	if ( IsChildProcess() )
 	{
 		UpdateParentProcess();								// sned status to the parent process occasionally
 	}
-
+	
 	if ( m_bMasterServerRulesDirty )
 	{
 		m_bMasterServerRulesDirty = false;
@@ -3466,7 +3505,9 @@ CBaseClient *CBaseServer::CreateFakeClient(const char *name)
 
 void CBaseServer::Shutdown( void )
 {
+#ifndef NO_STEAM
 	g_pCVar->RemoveGlobalChangeCallback( ServerNotifyVarChangeCallback );
+#endif
 
 	if ( !IsActive() )
 		return;
@@ -4261,7 +4302,7 @@ void CBaseServer::AddTagString( CUtlString &dest, char const *pchString )
 	if ( !pchString || !*pchString )
 		return;
 
-	char *chDelim = ",";
+	char const* chDelim = ",";
 
 	if ( Q_strstr( pchString, chDelim ) )
 	{
@@ -4324,10 +4365,12 @@ void CBaseServer::UpdateGameType()
 // 		AddTagString( va( "*sv_search_key_%s%d", sv_search_key.GetString(), GetHostVersion() ) );
 // 	}
 
+#ifndef NO_STEAM
 	if ( Steam3Server().SteamGameServer() )
 	{
 		Steam3Server().SteamGameServer()->SetGameTags( m_GameType.String() );
 	}
+#endif
 }
 
 void CBaseServer::UpdateGameData()
@@ -4371,8 +4414,7 @@ void CBaseServer::UpdateGameData()
 	const char *pszGroupName = sv_steamgroup.GetString();
 	{
 		CUtlVector< CUtlString > list;
-		char *chDelim = ",";
-		BuildTokenList( pszGroupName, *chDelim, list );
+		BuildTokenList( pszGroupName, ',', list);
 
 		for ( int i = 0; i < list.Count(); ++i )
 		{
@@ -4400,11 +4442,13 @@ void CBaseServer::UpdateGameData()
 		utlGroups.Get(), utlGroups.Length() ? "," : "",
 		utlKey.Get() );
 
+#ifndef NO_STEAM
 	// Always update Steam
 	if ( Steam3Server().SteamGameServer() )
 	{
 		Steam3Server().SteamGameServer()->SetGameData( m_GameData.Base() );
 	}
+#endif
 
 	// Increment data version if changed
 	if ( oldGameData.Count() != m_GameData.Count() ||
@@ -4531,6 +4575,7 @@ void CBaseServer::GetMasterServerPlayerCounts( int &nHumans, int &nMaxHumanSlots
 		nMaxHumanSlots = sv_visiblemaxplayers.GetInt();
 	}
 
+#ifdef WITH_HLTV
 	extern bool CanShowHostTvStatus();
 	if ( !CanShowHostTvStatus() && ( nBots > 0 ) )
 	{
@@ -4539,6 +4584,7 @@ void CBaseServer::GetMasterServerPlayerCounts( int &nHumans, int &nMaxHumanSlots
 			nBots--; // reduce the bot count by HLTV bot
 		}
 	}
+#endif
 }
 
 void CBaseServer::ShowTags() const

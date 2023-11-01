@@ -116,7 +116,9 @@ CClientState::CClientState()
 	m_pServerStartupTable = nullptr;
 	m_pDownloadableFileTable = nullptr;
 	m_bDownloadResources = false;
+#ifndef NO_STEAM
 	m_bDownloadingUGCMap = false;
+#endif
 	insimulation = false;
 	oldtickcount = 0;
 	ishltv = false;
@@ -736,7 +738,9 @@ void CClientState::Clear( void )
 	m_bUpdateSteamResources = false;
 	m_bShownSteamResourceUpdateProgress = false;
 	m_bDownloadResources = false;
+#ifndef NO_STEAM
 	m_bDownloadingUGCMap = false;
+#endif
 	m_modelIndexLoaded = -1;
 	m_lastModelPercent = -1;
 
@@ -1637,7 +1641,9 @@ void CClientState::StartUpdatingSteamResources()
 	m_bUpdateSteamResources = true;
 	m_bShownSteamResourceUpdateProgress = false;
 	m_bDownloadResources = false;
-	m_bDownloadingUGCMap = false; 
+#ifndef NO_STEAM
+	m_bDownloadingUGCMap = false;
+#endif
 }
 
 // INFESTED_DLL
@@ -1671,7 +1677,9 @@ void CClientState::CheckUpdatingSteamResources()
 			m_hWaitForResourcesHandle = NULL;
 			m_bUpdateSteamResources = false;
 			m_bDownloadResources = false;
+#ifndef NO_STEAM
 			m_bDownloadingUGCMap = false;
+#endif
 
 			if ( m_pDownloadableFileTable )
 			{
@@ -1709,6 +1717,7 @@ void CClientState::CheckUpdatingSteamResources()
 
 						EngineVGui()->UpdateProgressBar(PROGRESS_PROCESSSERVERINFO);
 
+#ifndef NO_STEAM
 						if ( m_unUGCMapFileID != 0 )
 						{
 							int lenBufFileName = V_strlen( bufFileName );
@@ -1726,6 +1735,7 @@ void CClientState::CheckUpdatingSteamResources()
 							if ( ( lenBufFileName > 4 ) && !V_stricmp( bufFileName + lenBufFileName - 4, ".nav" ) )
 								continue; // UGC maps always have nav embedded in the bsp
 						}
+#endif
 
 						if ( demoplayer->IsPlayingBack() && ( cl_download_demoplayer.GetInt() < 2 ) )
 							continue; // demo playback doesn't need to download all the resources
@@ -1770,7 +1780,11 @@ void CClientState::CheckUpdatingSteamResources()
 					}
 				}
 
-				if ( CL_GetDownloadQueueSize() || g_bASW_Waiting_For_Map_Build || m_bDownloadingUGCMap )
+				if ( CL_GetDownloadQueueSize() || g_bASW_Waiting_For_Map_Build
+#ifndef NO_STEAM
+					|| m_bDownloadingUGCMap
+#endif
+					)
 				{
 					// make sure the loading dialog is up
 					EngineVGui()->StartCustomProgress();
@@ -1803,10 +1817,15 @@ void CClientState::CheckUpdatingSteamResources()
 		}
 	}
 
-	if ( m_bDownloadResources || m_bDownloadingUGCMap )
+	if ( m_bDownloadResources
+#ifndef NO_STEAM
+		|| m_bDownloadingUGCMap
+#endif
+		)
 	{
 		// Check on any HTTP downloads in progress
 		bool stillDownloading = CL_DownloadUpdate();
+#ifndef NO_STEAM
 		if ( m_bDownloadingUGCMap )
 		{
 			float progress = g_ClientDLL->GetUGCFileDownloadProgress( m_unUGCMapFileID );
@@ -1824,8 +1843,13 @@ void CClientState::CheckUpdatingSteamResources()
 			// change it to be updating steam resources
 			EngineVGui()->UpdateSecondaryProgressBar( progress, ( (progress > 0.0f) && (progress < 1.0f) ) ? wszWideBuff : L"" );
 		}
+#endif
 
-		if ( !stillDownloading && !g_bASW_Waiting_For_Map_Build && !m_bDownloadingUGCMap )
+		if ( !stillDownloading && !g_bASW_Waiting_For_Map_Build
+#ifndef NO_STEAM
+			&& !m_bDownloadingUGCMap
+#endif
+			)
 		{
 			m_bDownloadResources = false;
 			FinishSignonState_New();
@@ -2043,12 +2067,14 @@ void CClientState::FinishSignonState_New()
 		return;
 	}
 
+#ifndef NO_STEAM
 	// Don't load the client if we don't own the game
 	if ( NET_IsMultiplayer() && Steam3Client().SteamApps() && !Steam3Client().SteamApps()->BIsSubscribed() )
 	{
 		Host_Error( "Steam ownership check failed.\n" );
 		return;
-	} 
+	}
+#endif
 
 	COM_TimestampedLog( "CL_InstallAndInvokeClientStringTableCallbacks" );
 	CL_InstallAndInvokeClientStringTableCallbacks();

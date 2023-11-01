@@ -115,7 +115,7 @@ void SpewToFile( char const* pFmt, ... )
 // Purpose: Frees the client DLL's binding to the object.
 // Input  : iEnt - 
 //-----------------------------------------------------------------------------
-void CL_DeleteDLLEntity( int iEnt, char *reason, bool bOnRecreatingAllEntities )
+void CL_DeleteDLLEntity( int iEnt, char const* reason, bool bOnRecreatingAllEntities )
 {
 	IClientNetworkable *pNet = entitylist->GetClientNetworkable( iEnt );
 

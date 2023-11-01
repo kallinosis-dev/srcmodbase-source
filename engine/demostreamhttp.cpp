@@ -8,6 +8,7 @@
 #include "cl_demo.h"
 #include "sv_steamauth.h"
 
+#ifdef HAS_HLTV
 
 static ISteamHTTP *s_pSteamHTTP = nullptr;
 ConVar demo_debug( "demo_debug", "0", 0, "Demo debug info." );
@@ -587,3 +588,5 @@ void CDemoStreamHttp::SyncParams_t::PrintSyncRequest(char *buffer, int nBufferSi
 	else
 		V_strncpy( buffer, "/sync", nBufferSize );
 }
+
+#endif

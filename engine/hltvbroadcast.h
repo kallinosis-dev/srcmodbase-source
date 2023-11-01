@@ -10,6 +10,8 @@
 #pragma once
 #endif
 
+#ifdef HAS_HLTV
+
 #include <filesystem.h>
 //#include "demo.h"
 #include "broadcast.h"
@@ -192,7 +194,7 @@ protected:
 	float m_flBroadcastKeyframeInterval;
 };
 
-
+#endif
 
 
 #endif // HLTVBROADCAST_HDR

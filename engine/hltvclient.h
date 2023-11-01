@@ -12,6 +12,7 @@
 
 #include "baseclient.h"
 
+#ifdef WITH_HLTV
 class CHLTVServer;
 
 class CHLTVClient : public CBaseClient
@@ -76,6 +77,6 @@ public:
 	bool	m_bNoChat;			// if true don't send chat message to this client
 	char	m_szChatGroup[128];	// client password
 };
-
+#endif
 
 #endif // HLTVCLIENT_H

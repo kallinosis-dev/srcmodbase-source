@@ -352,13 +352,13 @@ void CServerMsg_CheckReservation::SendMsg( const ns_address &serverAdr, int sock
 	msg.WriteLong( token );
 	msg.WriteLong( m_uiReservationStage );
 	msg.WriteLongLong( m_reservationCookie );
-#ifndef SWDS
+#if !defined(SWDS) && !defined(NO_STEAM)
 	msg.WriteLongLong( Steam3Client().SteamUser()->GetSteamID().ConvertToUint64() );
 #else
 	msg.WriteLongLong( 0 );
 #endif
 
-	#ifndef DEDICATED
+	#if !defined(DEDICATED) && !defined(NO_STEAM)
 		if ( serverAdr.GetAddressType() == NSAT_PROXIED_GAMESERVER )
 			NET_InitSteamDatagramProxiedGameserverConnection( serverAdr );
 	#endif
@@ -424,7 +424,7 @@ void CServerMsg_Ping::SendMsg( const ns_address &serverAdr, int socket, uint32 t
 	msg.WriteLong( GetHostVersion() );
 	msg.WriteLong( token );
 
-	#ifndef DEDICATED
+	#if !defined(DEDICATED) && !defined(NO_STEAM)
 		if ( serverAdr.GetAddressType() == NSAT_PROXIED_GAMESERVER )
 			NET_InitSteamDatagramProxiedGameserverConnection( serverAdr );
 	#endif
@@ -501,7 +501,9 @@ CBaseClientState::CBaseClientState() :
 #endif
 	m_nServerReservationCookie = 0;
 	m_pKVGameSettings = nullptr;
+#ifndef NO_STEAM
 	m_unUGCMapFileID = 0;
+#endif
 	m_ulGameServerSteamID = 0;
 }
 
@@ -534,7 +536,9 @@ void CBaseClientState::Clear( void )
 	m_nSplitScreenSlot = 0;
 	m_szLevelName[0] = 0;
 	m_nMaxClients = 0;
+#ifndef NO_STEAM
 	m_unUGCMapFileID = 0;
+#endif
 	// m_nNumPlayersToConnect = 1; <-- when clearing state we need to preserve num players to properly "reconnect" to the server
 
 	// Need to cache off the name of the current map before clearing it so we can use when doing a memory flush.
@@ -812,10 +816,12 @@ void CBaseClientState::SendConnectPacket ( const ns_address &netAdrRemote, int c
 	{
 		CCLCMsg_SplitPlayerConnect_t splitMsg;
 		Host_BuildUserInfoUpdateMessage( playerCount, splitMsg.mutable_convars(), false );
+#ifdef WITH_HLTV
 		if ( CHLTVClientState *pHLTVClientState = dynamic_cast< CHLTVClientState * >( this ) )
 		{
 			pHLTVClientState->SetLocalInfoConvarsForUpstreamConnection( *splitMsg.mutable_convars(), true );
 		}
+#endif
 #ifdef _DEBUG
 		for ( int ii = 0; ii < splitMsg.convars().cvars_size(); ++ ii )
 		{
@@ -953,7 +959,7 @@ bool CBaseClientState::PrepareSteamConnectResponse( uint64 unGSSteamID, bool bGS
 	}
 #endif
 	
-#ifndef DEDICATED
+#if !defined(DEDICATED) && !defined(NO_STEAM)
 	// now append the steam3 cookie
 	char steam3Cookie[ STEAM_KEYSIZE ];	
 	uint32 steam3CookieLen;
@@ -962,6 +968,8 @@ bool CBaseClientState::PrepareSteamConnectResponse( uint64 unGSSteamID, bool bGS
 	msg.WriteShort( steam3CookieLen );
 	if ( steam3CookieLen > 0 )
 		msg.WriteBytes( steam3Cookie, steam3CookieLen );
+#elif defined(NO_STEAM)
+	msg.WriteShort(0);
 #endif
 
 	return true;
@@ -1243,7 +1251,9 @@ void CBaseClientState::Disconnect( bool bShowMainMenu )
 		NET_TerminateSteamConnection( m_Socket, m_ListenServerSteamID );
 		m_ListenServerSteamID = 0ull;
 	}
+#ifndef NO_STEAM
  	Steam3Client().CancelAuthTicket();
+#endif
 #endif
 
 	if ( m_NetChannel )
@@ -1480,8 +1490,10 @@ void CBaseClientState::CheckForResend ( bool bForceResendNow /* = false */ )
 						Assert( false );
 					#else
 
+#ifndef NO_STEAM
 						// Make sure we have a ticket, and are setup to talk to this guy
 						if ( !NET_InitSteamDatagramProxiedGameserverConnection( remote.m_adrRemote ) )
+#endif
 							continue;
 
 						pszProtocol = "SteamDatagram";
@@ -1591,12 +1603,14 @@ static void Read_S2A_INFO_SRC( const ns_address &from, bf_read *msg )
 		Msg( "Game Port    : %u\n", (unsigned short)msg->ReadShort() );
 	}
 
+#ifdef WITH_HLTV
 	if ( infoByte & S2A_EXTRA_DATA_HAS_SPECTATOR_DATA )
 	{
 		Msg( "Spectator Port: %u\n", (unsigned short)msg->ReadShort() );
 		msg->ReadString( str, sizeof( str ) );
 		Msg( "SpectatorName : %s\n", str );
 	}
+#endif
 
 	if ( infoByte & S2A_EXTRA_DATA_HAS_GAMETAG_DATA )
 	{
@@ -1665,7 +1679,9 @@ bool CBaseClientState::ProcessConnectionlessPacket( netpacket_t *packet )
 			dc.m_nChallenge = msg.ReadLong();
 			dc.m_nAuthprotocol = msg.ReadLong();
 			dc.m_unGSSteamID = 0;
+#ifndef NO_STEAM
 			dc.m_bGSSecure = false;
+#endif
 			if ( dc.m_nAuthprotocol == PROTOCOL_STEAM )
 			{
 				if ( msg.ReadShort() != 0 )
@@ -1675,7 +1691,11 @@ bool CBaseClientState::ProcessConnectionlessPacket( netpacket_t *packet )
 					return false;
 				}
 				dc.m_unGSSteamID = msg.ReadLongLong();
+#ifndef NO_STEAM
 				dc.m_bGSSecure = msg.ReadByte() ? true : false;
+#else
+				msg.ReadByte();
+#endif
 			}
 			else
 			{
@@ -1691,6 +1711,7 @@ bool CBaseClientState::ProcessConnectionlessPacket( netpacket_t *packet )
 				return false;
 			}
 
+#ifndef NO_STEAM
 			// The host can disable access to secure servers if you load unsigned code (mods, plugins, hacks)
 			if ( dc.m_bGSSecure && !Host_IsSecureServerAllowed() )
 			{
@@ -1703,7 +1724,8 @@ bool CBaseClientState::ProcessConnectionlessPacket( netpacket_t *packet )
 #endif
 				Disconnect();
 				return false;
-			}	
+			}
+#endif
 
 			char context[ 256 ] = { 0 };
 			msg.ReadString( context, sizeof( context ) );
@@ -2253,7 +2275,13 @@ void CBaseClientState::HandleDeferredConnection()
 		// If we determined that client is good to go then just follow up with a real connect packet
 		if ( bCanSendConnectPacketRightNow )
 		{
-			SendConnectPacket( dc.m_adrServerAddress, dc.m_nChallenge, dc.m_nAuthprotocol, dc.m_unGSSteamID, dc.m_bGSSecure );
+			SendConnectPacket( dc.m_adrServerAddress, dc.m_nChallenge, dc.m_nAuthprotocol, dc.m_unGSSteamID,
+#ifndef NO_STEAM
+				dc.m_bGSSecure
+#else
+				false
+#endif
+			);
 			return;
 		}
 
@@ -2292,13 +2320,25 @@ void CBaseClientState::HandleDeferredConnection()
 			}
 		}
 		else
-			SendConnectPacket( dc.m_adrServerAddress, dc.m_nChallenge, dc.m_nAuthprotocol, dc.m_unGSSteamID, dc.m_bGSSecure );
+			SendConnectPacket( dc.m_adrServerAddress, dc.m_nChallenge, dc.m_nAuthprotocol, dc.m_unGSSteamID,
+#ifndef NO_STEAM
+				dc.m_bGSSecure
+#else
+				false
+#endif
+			);
 #endif
 	}
 	else
 #endif
 	{
-		SendConnectPacket ( dc.m_adrServerAddress, dc.m_nChallenge, dc.m_nAuthprotocol, dc.m_unGSSteamID, dc.m_bGSSecure );
+		SendConnectPacket ( dc.m_adrServerAddress, dc.m_nChallenge, dc.m_nAuthprotocol, dc.m_unGSSteamID,
+#ifndef NO_STEAM
+			dc.m_bGSSecure
+#else
+			false
+#endif
+		);
 	}
 }
 
@@ -2372,7 +2412,7 @@ bool CBaseClientState::InternalProcessStringCmd( const CNETMsg_StringCmd& msg )
 }
 
 
-#ifndef DEDICATED
+#if !defined(DEDICATED) && defined(INCLUDE_SCALEFORM)
 class CScaleformAvatarImageProviderImpl : public IScaleformAvatarImageProvider
 {
 public:
@@ -2413,7 +2453,7 @@ bool CBaseClientState::NETMsg_PlayerAvatarData( const CNETMsg_PlayerAvatarData& 
 	pClientDataCopy->CopyFrom( msg );
 	m_mapPlayerAvatarData.Insert( pClientDataCopy->accountid(), pClientDataCopy );
 
-#ifndef DEDICATED
+#if !defined(DEDICATED) && defined(INCLUDE_SCALEFORM)
 	if ( g_pScaleformUI )
 		g_pScaleformUI->AvatarImageReload( uint64( pClientDataCopy->accountid() ), &g_CScaleformAvatarImageProviderImpl );
 #endif
@@ -2423,7 +2463,7 @@ bool CBaseClientState::NETMsg_PlayerAvatarData( const CNETMsg_PlayerAvatarData& 
 
 CNETMsg_PlayerAvatarData_t * CBaseClientState::AllocOwnPlayerAvatarData() const
 {
-#ifndef DEDICATED
+#if !defined(DEDICATED) && !defined(NO_STEAM)
 	// If the game server is not GOTV then upload our own avatar data
 	extern ConVar sv_reliableavatardata;
 	if ( ( this == &GetBaseLocalClient() )
@@ -2583,15 +2623,17 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 
 #ifndef DEDICATED
 	if ( !sv.IsActive() && 
-		 ( s_ClientBroadcastPlayer.IsPlayingBack() ||  // /*( demoplayer && demoplayer->IsPlayingBack() )*/
+		 (
+#ifdef WITH_HLTV
+			 s_ClientBroadcastPlayer.IsPlayingBack() ||  // /*( demoplayer && demoplayer->IsPlayingBack() )*/
+#endif
 			!( m_NetChannel->IsLoopback() || m_NetChannel->IsNull() || m_NetChannel->GetRemoteAddress().IsLocalhost() ) 
 		 )
 	)
 	{
 		// reset server enforced cvars
 		g_pCVar->RevertFlaggedConVars( FCVAR_REPLICATED );	
-
-		extern void RevertAllModifiedLocalState();
+		
 		RevertAllModifiedLocalState();
 	}
 #endif
@@ -2625,7 +2667,9 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 	Q_FixSlashes( m_szLevelName );
 	Q_strncpy( m_szLevelNameShort, msg.map_name().c_str(), sizeof( m_szLevelNameShort ) );
 	Q_strncpy( m_szMapGroupName, msg.map_group_name().c_str(), sizeof( m_szMapGroupName ) );
+#ifndef NO_STEAM
 	m_unUGCMapFileID = msg.ugc_map_id();
+#endif
 
 #if !defined(DEDICATED)
 	EngineVGui()->SetProgressLevelName( m_szLevelNameShort );
@@ -2712,6 +2756,7 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 		// CSGO custom map detection
 		bool bClientHasMap = true;
 
+#ifdef WITH_HLTV
 		bool bIsRelay = false;
 		for ( CHltvServerIterator hltv; hltv; hltv.Next() )
 		{
@@ -2722,6 +2767,7 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 			}
 		}
 		if ( !bIsRelay ) // not a single one of the hltv servers is relay
+#endif
 		{
 			char bspModelName[ MAX_PATH ];
 			Q_snprintf( bspModelName, sizeof( bspModelName ), "maps/%s.bsp", msg.map_name().c_str() );
@@ -2752,6 +2798,7 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 				}
 				else
 				{
+#ifndef NO_STEAM
 					// We are trying to playback a demo, but CRC of the client map doesn't match
 					// the CRC of the server map.
 					// There are some known official maps that we can redirect into proper version
@@ -2805,13 +2852,16 @@ bool CBaseClientState::SVCMsg_ServerInfo( const CSVCMsg_ServerInfo& msg )
 						else
 							bClientHasMap = false;
 					}
+#endif
 				}
 			}
 			else
 			{
+#ifndef NO_STEAM
 				// We are not playing a demo
 				if ( bCrcClientMapValid && msg.map_crc() && ( crcClientMap != msg.map_crc() ) && ( m_unUGCMapFileID != 0 ) )
 					bClientHasMap = false; // If the crc doesn't match servers delay map load until after downloading new version from the workshop
+#endif
 			}
 
 			if ( !bCrcClientMapValid )

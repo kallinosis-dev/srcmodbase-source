@@ -157,9 +157,11 @@ void Host_BeginThreadedSound();
 // bFinal is true when the user is done talking.
 void CL_SendVoicePacket(bool bFinal);
 
+#ifndef NO_STEAM
 bool Host_IsSecureServerAllowed();
 void Host_DisallowSecureServers();
 bool Host_AllowLoadModule( const char *pFilename, const char *pPathID, bool bAllowUnknown );
+#endif
 
 // Accumulated filtered time on machine ( i.e., host_framerate can alter host_time )
 extern float host_time;

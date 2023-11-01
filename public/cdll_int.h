@@ -32,7 +32,9 @@
 // forward declarations
 //-----------------------------------------------------------------------------
 FORWARD_DECLARE_HANDLE( InputContextHandle_t );
+#ifndef NO_STEAM
 class CSteamAPIContext;
+#endif
 struct adsp_auto_params_t;
 class ClientClass;
 struct model_t;
@@ -646,9 +648,6 @@ public:
 	virtual bool			IsSaveInProgress() = 0;
 	virtual bool			IsAutoSaveDangerousInProgress() = 0;
 
-	virtual uint			OnStorageDeviceAttached( int iController ) = 0;
-	virtual void			OnStorageDeviceDetached( int iController ) = 0;
-
 	virtual const char *	GetSaveDirName() = 0; // get a pointer to the path where saves should go (with a trailing slash already added)
 
 	// generic screenshot writing
@@ -762,7 +761,9 @@ public:
 
 	virtual void SetConnectionPassword( char const *pchCurrentPW ) = 0;
 
+#ifndef NO_STEAM
 	virtual CSteamAPIContext* GetSteamAPIContext() = 0;
+#endif
 
 	virtual void SubmitStatRecord( char const *szMapName, uint uiBlobVersion, uint uiBlobSize, const void *pvBlob ) = 0;
 
@@ -808,8 +809,6 @@ public:
 
 	//get the command_number from the most recent command the server acknowledged processing
 	virtual int GetLastAcknowledgedCommand( void ) = 0;
-
-	virtual void FinishContainerWrites( int iController ) = 0;
 
 	virtual void FinishAsyncSave() = 0;
 	

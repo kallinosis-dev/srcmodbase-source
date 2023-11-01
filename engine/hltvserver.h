@@ -20,6 +20,8 @@
 #include <ihltv.h>
 #include <convar.h>
 
+#ifdef WITH_HLTV
+
 #define HLTV_BUFFER_VOICE			0	// player voice data
 #define HLTV_BUFFER_SOUNDS			1	// unreliable sounds
 #define HLTV_BUFFER_TEMPENTS		2	// temporary/event entities
@@ -472,5 +474,6 @@ protected:
 typedef THltvServerIterator<true> CActiveHltvServerIterator;
 typedef THltvServerIterator<false> CHltvServerIterator;
 
+#endif
 
 #endif // HLTVSERVER_H

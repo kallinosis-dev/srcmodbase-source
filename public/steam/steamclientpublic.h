@@ -966,8 +966,6 @@ CSteamID ClanIDFromChatID( const CSteamID &steamIDChat );
 
 #endif // _STEAM
 
-#ifndef NO_STEAM
-
 //-----------------------------------------------------------------------------
 // Purpose: encapsulates an appID/modID pair
 //-----------------------------------------------------------------------------
@@ -1206,7 +1204,6 @@ private:
 		GameID_t m_gameID;
 	};
 };
-#endif
 
 #pragma pack( pop )
 

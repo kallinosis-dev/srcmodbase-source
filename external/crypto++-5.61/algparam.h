@@ -4,6 +4,7 @@
 #include "cryptlib.h"
 #include "smartptr.h"
 #include "secblock.h"
+#include <exception>
 
 NAMESPACE_BEGIN(CryptoPP)
 
@@ -268,7 +269,7 @@ public:
 	virtual ~AlgorithmParametersBase()
 	{
 #ifdef CRYPTOPP_UNCAUGHT_EXCEPTION_AVAILABLE
-		if (!std::uncaught_exception())
+		if (std::uncaught_exceptions() == 0)
 #else
 		try
 #endif

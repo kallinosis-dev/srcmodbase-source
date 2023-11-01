@@ -276,7 +276,9 @@ public:
 	bool m_bUpdateSteamResources;
 	bool m_bShownSteamResourceUpdateProgress;
 	bool m_bDownloadResources;
+#ifndef NO_STEAM
 	bool m_bDownloadingUGCMap;
+#endif
 	bool m_bCheckCRCsWithServer;
 	float m_flLastCRCBatchTime;
 

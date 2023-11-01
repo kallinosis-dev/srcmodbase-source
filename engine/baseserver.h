@@ -149,7 +149,7 @@ public: // IConnectionlessPacketHandler implementation
 	float	GetFinalTickTime( void ) const;
 
 	virtual bool CheckIPRestrictions( const ns_address &adr, int nAuthProtocol );
-
+	
 	void	SetMasterServerRulesDirty();
 	void	SendQueryPortToClient( netadr_t &adr );
 
@@ -213,6 +213,7 @@ protected:
 
 	virtual void	CalculateCPUUsage();
 
+#ifndef NO_STEAM
 	// Keep the master server data updated.
 	virtual bool	ShouldUpdateMasterServer();
 	
@@ -221,6 +222,7 @@ protected:
 	void			UpdateMasterServerRules();
 	virtual void	UpdateMasterServerPlayers() {}
 	void			ForwardPacketsFromMasterServerUpdater();
+#endif
 
 	void SetRestartOnLevelChange(bool state)  { m_bRestartOnLevelChange = state; }
 
@@ -321,9 +323,11 @@ protected:
 	// This is only used for Steam's master server updater to refer to this server uniquely.
 	bool		m_bRestartOnLevelChange;
 	double		m_flFlagForSteamIDReuseAfterShutdownTime;
-	
+
 	bool		m_bMasterServerRulesDirty;
+#ifndef NO_STEAM
 	double		m_flLastMasterServerUpdateTime;
+#endif
 	struct SplitDisconnect_t
 	{
 		CBaseClient *m_pUser;

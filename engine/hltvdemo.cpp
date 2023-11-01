@@ -4,6 +4,7 @@
 //
 //=============================================================================//
 
+#ifdef WITH_HLTV
 
 #include <tier1/strtools.h>
 #include <eiface.h>
@@ -515,3 +516,4 @@ void CHLTVDemoRecorder::RecordPacket()
 		m_MessageData.Reset(); // clear message buffer
 	}
 }
+#endif

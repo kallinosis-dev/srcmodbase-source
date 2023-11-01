@@ -63,6 +63,11 @@ class KeyValues;
 class CGameEvent;
 class CSVCMsg_GameEvent;
 
+
+#ifdef CreateEvent
+#undef CreateEvent
+#endif
+
 // Class for visiting every key of data on an event
 abstract_class IGameEventVisitor2
 {

@@ -9,6 +9,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
+#ifdef WITH_HLTV
+
 #include <server_class.h>
 #include <inetmessage.h>
 #include <tier0/vprof.h>
@@ -4056,4 +4058,6 @@ void EditDemo_f( const CCommand &args )
 }
 
 CON_COMMAND_AUTOCOMPLETEFILE( editdemo, EditDemo_f, "Edit a recorded demo file (.dem ).", NULL, dem );
+#endif
+
 #endif

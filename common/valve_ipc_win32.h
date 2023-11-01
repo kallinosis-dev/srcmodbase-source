@@ -13,6 +13,7 @@
 #endif
 
 #include <rpcdce.h>
+#include "strtools.h"
 
 // Fwd declarations
 class CValveIpcMgr;
@@ -82,9 +83,10 @@ private:
 	class Iterator
 	{
 	public:
-		explicit Iterator( char *m_pMemory = NULL )
+		explicit Iterator( char* m_pMemory = NULL )
 		{
-			m_szServerName = m_pMemory ? m_pMemory : "";
+			// TODO: do not allocate copies of empty string
+			m_szServerName = m_pMemory ? m_pMemory : V_strdup("");
 			if ( *m_szServerName )
 			{
 				memcpy( &m_uuid, m_szServerName + strlen( m_szServerName ) + 1, sizeof( UUID ) );
@@ -119,7 +121,7 @@ private:
 		}
 
 	public:
-		char *m_szServerName;
+		char* m_szServerName;
 		UUID m_uuid;
 	};
 };
@@ -406,7 +408,7 @@ VALVE_IPC_IMPL BOOL CValveIpcMgr::RegisterServer( char const *szServerName, RPC_
 	UuidCreate( &itNewServer.m_uuid );
 
 	// Check that there's enough memory left in the storage
-	char *pUpdateMemory = it.m_szServerName;
+	char* pUpdateMemory = it.m_szServerName;
 	if ( pUpdateMemory + strlen( szServerName ) + 1 + 32 + 2 * sizeof( UUID ) >
 		 m_pMemory + VALVE_IPC_MGR_MEMORY )
 	{
@@ -440,7 +442,7 @@ VALVE_IPC_IMPL BOOL CValveIpcMgr::UnregisterServer( RPC_CSTR szServerUID )
 		if ( UuidEqual( &it.m_uuid, &uuid, &rpcS ) )
 		{
 			// This is our server, remove it from the list
-			char *pMemoryUpdate = it.m_szServerName;
+			char* pMemoryUpdate = it.m_szServerName;
 			for ( Iterator itRemaining = it.Next(); itRemaining.IsValid(); )
 			{
 				Iterator itNext = itRemaining.Next();
