@@ -764,7 +764,7 @@ int TextureCompile_Main( int argc, char* argv[] )
 
 class CTextureCompileDLL : public ILaunchableDLL
 {
-	int main( int argc, char **argv );
+	int main( int argc, char const* const* argv );
 };
 
 int CTextureCompileDLL::main( int argc, char **argv )

@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -61,65 +61,69 @@ friend class CMaster;
 
 public:
 	CBaseServer();
-	virtual ~CBaseServer();
+~CBaseServer() override;
 
 	bool RestartOnLevelChange() { return m_bRestartOnLevelChange; }
 
 public: // IServer implementation
 
-	virtual int		GetNumClients( void ) const; // returns current number of clients
-	virtual int		GetNumProxies( void ) const; // returns number of attached HLTV proxies
-	virtual int		GetNumFakeClients() const; // returns number of fake clients/bots
-	virtual int		GetMaxClients( void ) const; // returns current client limit
-	virtual int		GetUDPPort( void ) const { return NET_GetUDPPort( m_Socket );	}
-	virtual IClient	*GetClient( int index ) { return m_Clients[index]; } // returns interface to client 
-	virtual int		GetClientCount() const { return m_Clients.Count(); } // for iteration;
-	virtual float	GetTime( void ) const;
-	virtual int		GetTick( void ) const { return m_nTickCount; }
-	virtual float	GetTickInterval( void ) const { return m_flTickInterval; }
-	virtual float	GetTimescale( void ) const { return m_flTimescale; }
-	virtual const char *GetName( void ) const;
-	virtual const char *GetMapName( void ) const { return m_szMapname; }
+int		GetNumClients( void ) const override; // returns current number of clients
+int		GetNumProxies( void ) const override; // returns number of attached HLTV proxies
+int		GetNumFakeClients() const override; // returns number of fake clients/bots
+int		GetMaxClients( void ) const override; // returns current client limit
+int		GetUDPPort( void ) const override { return NET_GetUDPPort( m_Socket );	}
+IClient	*GetClient( int index ) override { return m_Clients[index]; } // returns interface to client 
+int		GetClientCount() const override { return m_Clients.Count(); } // for iteration;
+float	GetTime( void ) const override;
+int		GetTick( void ) const override { return m_nTickCount; }
+float	GetTickInterval( void ) const override { return m_flTickInterval; }
+float	GetTimescale( void ) const override { return m_flTimescale; }
+const char *GetName( void ) const override;
+const char *GetMapName( void ) const override { return m_szMapname; }
 	virtual const char *GetBaseMapName( void ) const { return m_szBaseMapname; }
 	virtual const char *GetMapGroupName( void ) const { return m_szMapGroupName; }
-	virtual int		GetSpawnCount( void ) const { return m_nSpawnCount; }
-	virtual int		GetNumClasses( void ) const { return serverclasses; }
-	virtual int		GetClassBits( void ) const { return serverclassbits; }
-	virtual void	GetNetStats( float &avgIn, float &avgOut );
-	virtual int		GetNumPlayers();
-	virtual	bool	GetPlayerInfo( int nClientIndex, player_info_t *pinfo );
+int		GetSpawnCount( void ) const override { return m_nSpawnCount; }
+int		GetNumClasses( void ) const override { return serverclasses; }
+int		GetClassBits( void ) const override { return serverclassbits; }
+void	GetNetStats( float &avgIn, float &avgOut ) override;
+int		GetNumPlayers() override;
+bool	GetPlayerInfo( int nClientIndex, player_info_t *pinfo ) override;
 	virtual float	GetCPUUsage( void ) { return m_fCPUPercent; }
-		
-	virtual bool	IsActive( void ) const { return m_State >= ss_active; }	
-	virtual bool	IsLoading( void ) const { return m_State == ss_loading; }
-	virtual bool	IsDedicated( void ) const { return m_bIsDedicated; }
+
+bool	IsActive( void ) const override { return m_State >= ss_active; }
+bool	IsLoading( void ) const override { return m_State == ss_loading; }
+bool	IsDedicated( void ) const override { return m_bIsDedicated; }
 	FORCEINLINE bool IsDedicatedForXbox( void ) const { return m_bIsDedicatedForXbox; }
 	FORCEINLINE bool IsDedicatedForPS3( void ) const { return m_bIsDedicatedForPS3; }
-	virtual bool	IsPaused( void ) const { return m_State == ss_paused; }
-	virtual bool	IsMultiplayer( void ) const { return m_nMaxclients > 1; }
-	virtual bool	IsPausable( void ) const { return false; }
-	virtual bool	IsHLTV( void ) const { return false; }
-	virtual bool	IsReplay( void ) const { return false; }
+bool	IsPaused( void ) const override { return m_State == ss_paused; }
+bool	IsMultiplayer( void ) const override { return m_nMaxclients > 1; }
+bool	IsPausable( void ) const override { return false; }
+#ifdef WITH_HLTV
+bool	IsHLTV( void ) const override { return false; }
+#endif
+#ifdef REPLAY_ENABLED
+bool	IsReplay( void ) const override { return false; }
+#endif
 
-	virtual void	BroadcastMessage( INetMessage &msg, bool onlyActive = false, bool reliable = false );
-	virtual void	BroadcastMessage( INetMessage &msg, IRecipientFilter &filter );
+void	BroadcastMessage( INetMessage &msg, bool onlyActive = false, bool reliable = false ) override;
+void	BroadcastMessage( INetMessage &msg, IRecipientFilter &filter ) override;
 	virtual void	BroadcastPrintf ( PRINTF_FORMAT_STRING const char *fmt, ...) FMTFUNCTION( 2, 3 );
 
-	virtual const char * GetPassword() const;
+const char * GetPassword() const override;
 
 	virtual void	SetMaxClients( int number );
-	virtual void	SetPaused(bool paused);
-	virtual void	SetTimescale( float flTimescale );
-	virtual void	SetPassword(const char *password);
+void	SetPaused(bool paused) override;
+void	SetTimescale( float flTimescale ) override;
+void	SetPassword(const char *password) override;
 
-	virtual void	DisconnectClient(IClient *client, const char *reason );
+void	DisconnectClient(IClient *client, const char *reason ) override;
 	
 	virtual void 	WriteDeltaEntities( CBaseClient *client, CClientFrame *to, CClientFrame *from, CSVCMsg_PacketEntities_t &msg );
 	virtual void	WriteTempEntities( CBaseClient *client, CFrameSnapshot *to, CFrameSnapshot *from, CSVCMsg_TempEntities_t &msg, int ev_max );
 	
 public: // IConnectionlessPacketHandler implementation
 
-	virtual bool	ProcessConnectionlessPacket( netpacket_t * packet );
+bool	ProcessConnectionlessPacket( netpacket_t * packet ) override;
 
 	virtual void	Init( bool isDedicated );
 	virtual void	Clear( void );

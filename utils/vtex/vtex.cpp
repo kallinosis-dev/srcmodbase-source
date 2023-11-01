@@ -3683,10 +3683,10 @@ CVTexLoggingListener g_VTexLoggingListener;
 class CVTex : public IVTex, public ILaunchableDLL
 {
 public:
-	int VTex( int argc, char **argv );
+	int VTex( int argc, char const* const* argv );
 
 	// ILaunchableDLL, used by vtex.exe.
-	virtual int main( int argc, char **argv )
+	virtual int main( int argc, char const* const* argv )
 	{
 		g_bUsedAsLaunchableDLL = true;
 
@@ -3696,7 +3696,7 @@ public:
 		return iResult;
 	}
 
-	virtual int VTex( CreateInterfaceFn fsFactory, const char *pGameDir, int argc, char **argv )
+	virtual int VTex( CreateInterfaceFn fsFactory, const char *pGameDir, int argc, char const* const* argv )
 	{
 		g_pFileSystem = g_pFullFileSystem = (IFileSystem*)fsFactory( FILESYSTEM_INTERFACE_VERSION, nullptr);
 		if ( !g_pFileSystem )

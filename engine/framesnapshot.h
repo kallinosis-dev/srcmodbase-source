@@ -97,9 +97,13 @@ public:
 	unsigned short			*m_pValidEntities; 
 	int						m_nValidEntities;
 
+#ifdef WITH_HTLV
 	// Additional HLTV info
 	CHLTVEntityData			*m_pHLTVEntityData; // is NULL if not in HLTV mode or array of m_pValidEntities entries
+#endif
+#ifdef REPLAY_ENABLED
 	CReplayEntityData		*m_pReplayEntityData; // is NULL if not in replay mode or array of m_pValidEntities entries
+#endif
 
 	CEventInfo				**m_pTempEntities; // temp entities
 	int						m_nTempEntities;

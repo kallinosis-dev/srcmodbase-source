@@ -145,8 +145,10 @@ typedef struct player_info_s
 	char			friendsName[MAX_PLAYER_NAME_LENGTH];
 	// true, if player is a bot controlled by game.dll
 	bool			fakeplayer;
+#ifdef WITH_HLTV
 	// true if player is the HLTV proxy
 	bool			ishltv;
+#endif
 #if defined( REPLAY_ENABLED )
 	// true if player is the Replay proxy
 	bool			isreplay;
@@ -174,8 +176,10 @@ typedef struct player_info_s_version_1
 	char			friendsName[32];
 	// true, if player is a bot controlled by game.dll
 	bool			fakeplayer;
+#ifdef WITH_HLTV
 	// true if player is the HLTV proxy
 	bool			ishltv;
+#endif
 	// custom files CRC for this player
 	CRC32_t			customFiles[4];
 	// this counter increases each time the server downloaded a new file

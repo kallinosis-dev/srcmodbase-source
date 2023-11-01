@@ -66,7 +66,9 @@ public:
 	void	InitMaxClients( void );
 	bool	SpawnServer( char *mapname, char *mapGroupNmae, char *startspot );
 	void	SetMapGroupName( char const *mapGroupName );
+#ifndef NO_STEAM
 	void	SetQueryPortFromSteamServer();
+#endif
 	void	CopyPureServerWhitelistToStringTable();
 	void 	RemoveClientFromGame( CBaseClient *client );
 
@@ -84,7 +86,9 @@ public:
 	
 	inline  CGameClient *Client( int i ) { return static_cast<CGameClient*>(m_Clients[i]); };
 
+#ifdef WITH_HLTV
 	bool	AnyClientsInHltvReplayMode();
+#endif
 
 protected :
 
@@ -96,7 +100,9 @@ protected :
 	void		CopyTempEntities( CFrameSnapshot* pSnapshot );
 	void		AssignClassIds();
 
+#ifndef NO_STEAM
 	virtual void UpdateMasterServerPlayers();
+#endif
 
 	// Data
 public:

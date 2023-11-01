@@ -91,6 +91,7 @@ enum EncryptedMessageKeyType_t
 	kEncryptedMessageKeyType_Public = 2,
 };
 
+#ifdef WITH_HLTV
 struct CEngineHltvInfo_t
 {
 	bool m_bBroadcastActive;		// Whether TV broadcast is active
@@ -112,7 +113,9 @@ struct CEngineHltvInfo_t
 	uint32 m_relayAddress;			// Relay address
 	uint32 m_relayPort;				// Relay port
 };
+#endif
 
+#ifdef REPLAY_ENABLED
 struct ClientReplayEventParams_t
 {
 	ClientReplayEventParams_t( int nEventType )
@@ -131,6 +134,7 @@ struct ClientReplayEventParams_t
 	int m_nPrimaryTargetEntIndex;
 	float m_flEventTime;
 };
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Interface the engine exposes to the game DLL
@@ -518,21 +522,26 @@ public:
 	// Sets server reservation payload
 	virtual bool ReserveServerForQueuedGame( char const *szReservationPayload ) = 0;
 
+#ifdef WITH_HLTV
 	// Get the TV information
 	virtual bool GetEngineHltvInfo( CEngineHltvInfo_t &info ) = 0;
 
 	// Add HLTV proxy whitelist to bypass password and Steam Auth checks upon connection, as CIDR a.b.c.d/numbits
 	virtual void AddHltvRelayProxyWhitelist( uint32 a, uint32 b, uint32 c, uint32 d, uint32 numbits ) = 0;
+#endif
 
 	// Server version from the steam.inf, this will be compared to the GC version
 	virtual int GetServerVersion() const = 0;
 
+#ifdef WITH_HLTV
 	// On master HLTV this call updates number of external viewers and which portion of those are linked with Steam
 	virtual void UpdateHltvExternalViewers( uint32 numTotalViewers, uint32 numLinkedViewers ) = 0;
+#endif
 
 	// Check whether sv_shutdown was requested
 	virtual bool WasShutDownRequested() const = 0;
 
+#ifdef WITH_HLTV
 	virtual bool StartClientHltvReplay( int nClientIndex, const HltvReplayParams_t &params ) = 0;
 	virtual void StopClientHltvReplay( int nClientIndex ) = 0;
 	virtual int GetClientHltvReplayDelay( int nClientIndex ) = 0;
@@ -540,6 +549,7 @@ public:
 	virtual bool ClientCanStartHltvReplay( int nClientIndex ) = 0;
 	virtual void ClientResetReplayRequestTime( int nClientIndex ) = 0;
 	virtual bool AnyClientsInHltvReplayMode() = 0;
+#endif
 	virtual int GetLocalClientIndex( void ) = 0;
 };
 
@@ -645,10 +655,12 @@ public:
 	// Called after tools are initialized (i.e. when Foundry is initialized so we can get IServerFoundry).
 	virtual void			PostToolsInit() = 0;
 
+#ifndef NO_STEAM
 	// When bActive = true the function is called after the steam API has been activated post-level startup
 	// when bActive = false the function is called before the game server session will LogOff and all interfaces will shutdown
 	virtual void			GameServerSteamAPIActivated( bool bActive ) = 0;
-	
+#endif
+
 	// Called to apply lobby settings to a dedicated server
 	virtual void			ApplyGameSettings( KeyValues *pKV ) = 0;
 
@@ -671,13 +683,13 @@ public:
 	// Builds extended server info for new connecting client
 	virtual KeyValues*		GetExtendedServerInfoForNewClient() = 0;
 
+#ifndef NO_STEAM
 	// Updates GC information for this server
 	virtual void UpdateGCInformation() = 0;
 
 	// Marks the queue matchmaking game as starting
 	virtual void ReportGCQueuedMatchStart( int32 iReservationStage, uint32 *puiConfirmedAccounts, int numConfirmedAccounts ) = 0;
-
-#ifndef NO_STEAM
+	
 	// Get the published file id for the community map this server is running. 0 if non-ugc map or no map is running.
 	virtual PublishedFileId_t GetUGCMapFileID( const char* szMapPath ) = 0;
 #endif
@@ -811,10 +823,12 @@ public:
 	// Get the ear position for a specified client
 	virtual void			ClientEarPosition( edict_t *pEntity, Vector *pEarOrigin ) = 0;
 
+#ifdef REPLAY_ENABLED
 	virtual bool			ClientReplayEvent( edict_t *pEntity, const ClientReplayEventParams_t &params ) = 0;
 
 	// returns number of delay ticks if player is in Replay mode (0 = no delay)
 	virtual int				GetReplayDelay( edict_t *player, int& entity ) = 0;
+#endif
 
 	// Anything this game .dll wants to add to the bug reporter text (e.g., the entity/model under the picker crosshair)
 	//  can be added here

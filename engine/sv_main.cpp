@@ -103,7 +103,9 @@ void OnHibernateWhenEmptyChanged( IConVar *var, const char *pOldValue, float flO
 extern ConVar deathmatch;
 extern ConVar sv_sendtables;
 ConVar sv_hibernate_when_empty( "sv_hibernate_when_empty", "1", FCVAR_RELEASE, "Puts the server into extremely low CPU usage mode when no clients connected", OnHibernateWhenEmptyChanged );
+#ifdef WITH_HLTV
 ConVar sv_hibernate_punt_tv_clients( "sv_hibernate_punt_tv_clients", "0", FCVAR_RELEASE, "When enabled will punt all GOTV clients during hibernation" );
+#endif
 ConVar sv_hibernate_ms( "sv_hibernate_ms", "20", FCVAR_RELEASE, "# of milliseconds to sleep per frame while hibernating" );
 ConVar sv_hibernate_ms_vgui( "sv_hibernate_ms_vgui", "20", FCVAR_RELEASE, "# of milliseconds to sleep per frame while hibernating but running the vgui dedicated server frontend" );
 static ConVar sv_hibernate_postgame_delay( "sv_hibernate_postgame_delay", "5", FCVAR_RELEASE, "# of seconds to wait after final client leaves before hibernating.");
@@ -299,8 +301,10 @@ void OnTVEnablehanged( IConVar *pConVar, const char *pOldString, float flOldValu
     }
 }
 
+#ifdef WITH_HTLV
 ConVar tv_enable( "tv_enable", "0", FCVAR_NOTIFY | FCVAR_RELEASE, "Activates GOTV on server (0=off;1=on;2=on when reserved)", OnTVEnablehanged );
 ConVar tv_enable1( "tv_enable1", "0", FCVAR_NOTIFY | FCVAR_RELEASE, "Activates GOTV[1] on server (0=off;1=on;2=on when reserved)", OnTVEnablehanged );
+#endif
 
 extern ConVar *sv_noclipduringpause;
 
@@ -652,7 +656,9 @@ void CGameServer::CreateEngineStringTables( void )
     m_pServerStartupTable = m_StringTables->CreateStringTable( 
         SERVER_STARTUP_DATA_TABLENAME,
         4 );
+#ifndef NO_STEAM
     SetQueryPortFromSteamServer();
+#endif
     CopyPureServerWhitelistToStringTable();
 
 
@@ -685,6 +691,7 @@ void CGameServer::CreateEngineStringTables( void )
     DownloadListGenerator().SetStringTable( m_pDownloadableFileTable );
 }
 
+#ifndef NO_STEAM
 void CGameServer::SetQueryPortFromSteamServer()
 {
     if ( !m_pServerStartupTable )
@@ -693,6 +700,7 @@ void CGameServer::SetQueryPortFromSteamServer()
     int queryPort = Steam3Server().GetQueryPort();
     m_pServerStartupTable->AddString( true, "QueryPort", sizeof( queryPort ), &queryPort );
 }
+#endif
 
 void CGameServer::CopyPureServerWhitelistToStringTable()
 {
@@ -850,12 +858,9 @@ void CGameServer::InitMaxClients( void )
     m_nMaxClientsLimit = maxmaxplayers;
 
     // Check for command line override
-#if defined( CSTRIKE15 )
-    int newmaxplayers = -HLTV_SERVER_MAX_COUNT; // CStrike doesn't allow command line override for maxplayers
-#else
 	int newmaxplayers = CommandLine()->ParmValue( "-maxplayers", -1 );
-#endif
 
+#ifdef WITH_HTLV
 	for ( int nHltvServerIndex = 0; nHltvServerIndex < HLTV_SERVER_MAX_COUNT; ++nHltvServerIndex )
 	{
 #if defined( REPLAY_ENABLED )
@@ -868,6 +873,7 @@ void CGameServer::InitMaxClients( void )
 			m_nMaxClientsLimit += 1;
 		}
 	}
+#endif
 
     if ( newmaxplayers >= 1 )
     {
@@ -1017,7 +1023,9 @@ void SV_InitGameDLL( void )
 {
     COM_TimestampedLog( "SV_InitGameDLL" );
 
+#ifndef NO_STEAM
 	SV_SetSteamCrashComment();
+#endif
 
     // Clear out the command buffer.
     Cbuf_Execute();
@@ -1041,43 +1049,6 @@ void SV_InitGameDLL( void )
         Error( "The Portal demo is unable to run Mods.\n" );
         return;			
     } 
-
-    // check permissions
-
-    if ( Steam3Client().SteamApps() && g_pFileSystem->IsSteam() && !CL_IsHL2Demo() && !CL_IsPortalDemo() )
-    {
-        bool bVerifiedMod = false;
-
-        // find the game dir we're running
-        for ( int i = 0; i < ARRAYSIZE( g_ModDirPermissions ); i++ )
-        {
-            if ( !Q_stricmp( COM_GetModDirectory(), g_ModDirPermissions[i].m_pchGameDir ) )
-            {
-                // we've found the mod, make sure we own the app
-                if (  Steam3Client().SteamApps()->BIsSubscribedApp( g_ModDirPermissions[i].m_iAppID ) )
-                {
-                    bVerifiedMod = true;
-                }
-                else
-                {
-                    Error( "No permissions to run '%s'\n", COM_GetModDirectory() );
-                    return;			
-                }
-
-                break;
-            }
-        }
-
-        if ( !bVerifiedMod )
-        {
-            // make sure they can run the Source engine
-            if ( ! Steam3Client().SteamApps()->BIsSubscribedApp( 215  ) )
-            {
-                Error( "A Source engine game is required to run mods\n" );
-                return;
-            }
-        }
-    }
 #endif
 
     if ( !serverGameDLL )
@@ -1166,8 +1137,10 @@ void SV_ShutdownGameDLL( void )
 
     sv.dll_initialized = false;
 
+#ifndef NO_STEAM
     // Shutdown the steam interfaces
     Steam3Server().Shutdown();
+#endif
 }
 
 
@@ -1469,11 +1442,15 @@ void SV_DetermineMulticastRecipients( bool usepas, const Vector& origin, CPlayer
             continue;
         
         // Always add the HLTV or Replay client
-#if defined( REPLAY_ENABLED )
-        if ( pClient->IsHLTV() || pClient->IsReplay() )
-#else
-        if ( pClient->IsHLTV() )
+
+        if (
+#ifdef WITH_HLTV
+            pClient->IsHLTV() ||
 #endif
+#if defined( REPLAY_ENABLED )
+            pClient->IsReplay() ||
+#endif
+            false )
         {
             playerbits.Set( i );
             continue;
@@ -1801,10 +1778,6 @@ bool CGameServer::IsHibernating() const
     return m_bHibernating;
 }
 
-void Heartbeat_f();
-
-
-
 static ConVar sv_memlimit(  "sv_memlimit", "0", FCVAR_RELEASE, 
                             "If set, whenever a game ends, if the total memory used by the server is "
                             "greater than this # of megabytes, the server will exit."	);
@@ -1846,6 +1819,7 @@ void CGameServer::SetHibernating( bool bHibernating )
         Msg( m_bHibernating ? "Server is hibernating\n" : "Server waking up from hibernation\n" );
         if ( m_bHibernating )
         {
+#ifdef WITH_HLTV
 			// if we are hibernating we also might want to punt all GOTV clients
 			if ( sv_hibernate_punt_tv_clients.GetBool() )
 			{
@@ -1854,6 +1828,7 @@ void CGameServer::SetHibernating( bool bHibernating )
 					hltv->Shutdown();
 				}
 			}
+#endif
             // see if we have any other connected bot clients
             for ( int iClient = 0; iClient < m_Clients.Count(); iClient++ )
             {			
@@ -1932,13 +1907,17 @@ void CGameServer::SetHibernating( bool bHibernating )
 
         UpdateGameData();
 
+#ifndef NO_STEAM
         // Force a heartbeat to update the master servers
         Heartbeat_f();
+#endif
 
 		if ( serverGameDLL )
 			serverGameDLL->ServerHibernationUpdate( m_bHibernating );
 
+#ifndef NO_STEAM
 		SV_SetSteamCrashComment();
+#endif
     }
 }
 
@@ -1980,6 +1959,7 @@ void CGameServer::UpdateHibernationState()
 	}
 
 	float flMaxDirectorDelay = 0.0f;
+#ifdef WITH_HLTV
 	// if we are a relay that has an active reservation then hold off from hibernating
 	// as long as we are connected
 	for ( CActiveHltvServerIterator hltv; hltv; hltv.Next() )
@@ -1996,6 +1976,7 @@ void CGameServer::UpdateHibernationState()
 			}
 		}
 	}
+#endif
 
     bool bSufficientTimeWithoutClients = false;
 
@@ -2041,6 +2022,7 @@ void CGameServer::UpdateHibernationState()
         SetReservationCookie( 0ull, "reserved(%s), clients(%s), reservationexpires(%.2f)",
             IsReserved() ? "yes" : "no", bHaveAnyClients ? "yes" : "no", m_flReservationExpiryTime );
 
+#ifdef WITH_HLTV
 		//
 		// Automatically stop recording on Valve official servers
 		// when the server gets unreserved
@@ -2055,6 +2037,7 @@ void CGameServer::UpdateHibernationState()
 				}
 			}
 		}
+#endif
     }
     
     SetHibernating( sv_hibernate_when_empty.GetBool() && !IsReserved() && !bHaveAnyClients );
@@ -2146,6 +2129,7 @@ void CGameServer::SendClientMessages ( bool bSendSnapshots )
     // build individual updates
     int receivingClientCount = 0;
     CGameClient*	pReceivingClients[ABSOLUTE_PLAYER_LIMIT];
+#ifdef WITH_HLTV
 	bool bHLTVOnly = true; // true when there's no HLTV; which will mean there's no IsHLTV clients, so it'll get reset
 	int nHltvMaxAckCount = -1;
 	for ( CHltvServerIterator hltv; hltv; hltv.Next() )
@@ -2159,6 +2143,7 @@ void CGameServer::SendClientMessages ( bool bSendSnapshots )
 			bHLTVOnly = false;	// we have clients connected to this HLTV server, keep sending snapshots
 		}
 	}
+#endif
 
     for (int i=0; i< GetClientCount(); i++ )
     {
@@ -2177,8 +2162,10 @@ void CGameServer::SendClientMessages ( bool bSendSnapshots )
             }
             continue;
         }
-        
+
+#ifdef WITH_HLTV
 		client->StepHltvReplayStatus( m_nTickCount );
+#endif
 
         // Append the unreliable data (player updates and packet entities)
         if ( bSendSnapshots && client->IsActive() )
@@ -2186,7 +2173,9 @@ void CGameServer::SendClientMessages ( bool bSendSnapshots )
             // Add this client to the list of clients we're gonna send to.
             pReceivingClients[receivingClientCount] = client;
             ++receivingClientCount;
+#ifdef WITH_HLTV
 			bHLTVOnly = bHLTVOnly && client->IsHLTV() && client->m_pLastSnapshot.IsValid();
+#endif
         }
         else
         {
@@ -2212,8 +2201,10 @@ void CGameServer::SendClientMessages ( bool bSendSnapshots )
 
     if ( receivingClientCount )
     {
+#ifdef WITH_HLTV
 		// Don't send a snapshot if there is only 1 client and it is the HLTV client!
 		if ( !bHLTVOnly )
+#endif
 		{
 			// if any client wants an update, take new snapshot now
 			CFrameSnapshot* pSnapshot = framesnapshotmanager->TakeTickSnapshot(
@@ -2228,7 +2219,7 @@ void CGameServer::SendClientMessages ( bool bSendSnapshots )
 			// Compute the client packs
 			SV_ComputeClientPacks( receivingClientCount, pReceivingClients, pSnapshot );
 
-#ifndef SHARED_NET_STRING_TABLES
+#if !defined(SHARED_NET_STRING_TABLES) && defined(WITH_HLTV)
 			if ( nHltvMaxAckCount >= 0 )
 			{// copy string updates from server to hltv stringtable
 				networkStringTableContainerServer->DirectUpdate( nHltvMaxAckCount ); // !!!! WARNING: THIS IS NOT THREAD SAFE! MEMORY CORRUPTION GUARANTEED WITH MULTIPLE HLTV SERVERS!
@@ -2268,7 +2259,7 @@ void CGameServer::SendClientMessages ( bool bSendSnapshots )
     serverGameClients->PostClientMessagesSent();
 }
 
-
+#ifdef WITH_HLTV
 bool CGameServer::AnyClientsInHltvReplayMode()
 {
 	for ( int i = 0; i < GetClientCount(); i++ )
@@ -2282,6 +2273,7 @@ bool CGameServer::AnyClientsInHltvReplayMode()
 	}
 	return false;
 }
+#endif
 
 void CGameServer::SetMaxClients( int number )
 {
@@ -2675,17 +2667,22 @@ bool SV_ActivateServer()
 	// Steam is required for proper hltv server startup if the server is broadcasting in http
     if ( sv.IsMultiplayer() || serverGameDLL->ShouldPreferSteamAuth() )
     {
+#ifndef NO_STEAM
         // We always need to activate the Steam3Server
         // it will have different auth modes for SP and MP
         Steam3Server().Activate();
         sv.SetQueryPortFromSteamServer();
+#endif
         sv.UpdateGameData();	// Set server tags after server creation
+#ifndef NO_STEAM
         if ( serverGameDLL )
         {
             serverGameDLL->GameServerSteamAPIActivated( true );
         }
+#endif
     }
 
+#ifndef NO_STEAM
 	// HLTV setup
 	for ( int nHltvServerIndex = 0; nHltvServerIndex < HLTV_SERVER_MAX_COUNT; ++nHltvServerIndex )
 	{
@@ -2735,19 +2732,22 @@ bool SV_ActivateServer()
 				hltv->Shutdown();
 		}
 	}
+#endif
     networkStringTableContainerServer->Lock( bPrevState );
 
+	#if !defined( NO_STEAM )
     // Heartbeat the master server in case we turned SrcTV on or off.
     Steam3Server().SendUpdatedServerDetails();
-	#if !defined( NO_STEAM )
 	{
         if ( Steam3Server().SteamGameServer() )
             Steam3Server().SteamGameServer()->ForceHeartbeat();
 	}
 	#endif
 
+#ifndef NO_STEAM
 	if ( serverGameDLL && Steam3Server().GetGSSteamID().IsValid() )
 		serverGameDLL->UpdateGCInformation();
+#endif
 
     COM_TimestampedLog( "SV_ActivateServer(finished)" );
 
@@ -2901,7 +2901,9 @@ bool CGameServer::SpawnServer( char *mapname, char * mapGroupName, char *startsp
 
     Assert( serverGameClients );
 
+#ifndef NO_STEAM
 	SV_SetSteamCrashComment();
+#endif
 
     if ( CommandLine()->FindParm( "-NoLoadPluginsForClient" ) != 0 )
     {
@@ -2975,6 +2977,7 @@ bool CGameServer::SpawnServer( char *mapname, char * mapGroupName, char *startsp
 #endif // DEDICATED
     StaticPropMgr()->LevelShutdown();
 
+#ifndef NO_STEAM
     // if we have an hltv relay proxy running, stop it now
 	for ( CHltvServerIterator hltv; hltv; hltv.Next() )
 	{
@@ -2983,6 +2986,7 @@ bool CGameServer::SpawnServer( char *mapname, char * mapGroupName, char *startsp
 			hltv->Shutdown();
 		}
 	}
+#endif
 
     COM_TimestampedLog( "Host_FreeToLowMark" );
 
@@ -3256,11 +3260,13 @@ bool CGameServer::SpawnServer( char *mapname, char * mapGroupName, char *startsp
     COM_TimestampedLog( "SV_SpawnServer -- Finished" );
 
     g_pFileSystem->EndMapAccess();
+#ifndef NO_STEAM
 	SV_SetSteamCrashComment();
+#endif
     return true;
 }
 
-
+#ifndef NO_STEAM
 void CGameServer::UpdateMasterServerPlayers()
 {
     if ( !Steam3Server().SteamGameServer() )
@@ -3287,7 +3293,7 @@ void CGameServer::UpdateMasterServerPlayers()
         Steam3Server().SteamGameServer()->BUpdateUserData( client->m_SteamID, client->GetClientName(), pl->score );
     }
 }
-
+#endif
 
 //-----------------------------------------------------------------------------
 // SV_IsSimulating
@@ -3494,6 +3500,7 @@ void SV_Frame( bool finalTick )
 #endif
 }
 
+#ifndef NO_STEAM
 void SV_SetSteamCrashComment( void )
 {
 	static bool s_bSteamApiWasInitialized = false;
@@ -3533,9 +3540,7 @@ void SV_SetSteamCrashComment( void )
 			com_gamedir, build_number(), osversion, tString, CommandLine()->GetCmdLine(),
 			g_ServerGlobalVariables.network_protocol );
 
-#ifndef NO_STEAM
 		SteamAPI_SetMiniDumpComment( g_minidumpinfo );
-#endif
 	}
 }
-
+#endif

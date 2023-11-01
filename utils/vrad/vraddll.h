@@ -20,7 +20,7 @@ class CVRadDLL : public IVRadDLL, public ILaunchableDLL
 {
 // IVRadDLL overrides.
 public:
-	virtual int			main( int argc, char **argv );
+	virtual int			main( int argc, char const* const* argv );
 	virtual bool		Init( char const *pFilename );
 	virtual void		Release();
 	virtual void		GetBSPInfo( CBSPInfo *pInfo );

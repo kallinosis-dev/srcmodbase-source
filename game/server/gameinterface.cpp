@@ -1383,6 +1383,7 @@ CEG_NOINLINE void CServerGameDLL::ServerActivate( edict_t *pEdictList, int edict
 #endif
 }
 
+#ifndef NO_STEAM
 //-----------------------------------------------------------------------------
 // Purpose: Called after the steam API has been activated post-level startup
 //-----------------------------------------------------------------------------
@@ -1409,6 +1410,7 @@ void CServerGameDLL::GameServerSteamAPIActivated( bool bActive )
 #endif
 	}
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Called at the start of every game frame

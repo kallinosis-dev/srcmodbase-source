@@ -10,6 +10,8 @@
 #pragma once
 #endif
 
+#ifdef REPLAY_ENABLED
+
 #include "baseserver.h"
 #include "replayclient.h"
 #include "replaydemo.h"
@@ -212,5 +214,6 @@ public:
 };
 
 extern CReplayServer *replay;	// The global Replay server/object. NULL on xbox.
+#endif
 
 #endif // REPLAYSERVER_H

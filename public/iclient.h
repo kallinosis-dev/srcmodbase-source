@@ -129,8 +129,10 @@ public:
 	virtual bool	IsActive( void ) const = 0;
 	// returns true, if client is not a real player
 	virtual bool	IsFakeClient( void ) const = 0;
+#ifdef WITH_HLTV
 	// returns true, if client is a HLTV proxy
 	virtual bool	IsHLTV( void ) const = 0;
+#endif
 #if defined( REPLAY_ENABLED )
 	// returns true, if client is a Replay proxy
 	virtual bool	IsReplay( void ) const = 0;
@@ -158,12 +160,14 @@ public:
 
 	virtual CrossPlayPlatform_t GetClientPlatform() const = 0;
 
+#ifdef WITH_HLTV
 	virtual bool StartHltvReplay( const HltvReplayParams_t &params ) = 0;
 	virtual void StopHltvReplay() = 0;
 	virtual int GetHltvReplayDelay() = 0;
 	virtual const char * GetHltvReplayStatus()const { return ""; }
 	virtual bool CanStartHltvReplay() = 0;
 	virtual void ResetReplayRequestTime() = 0;
+#endif
 };
 
 #endif // ICLIENT_H

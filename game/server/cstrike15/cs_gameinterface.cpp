@@ -145,7 +145,7 @@ bool Helper_FillServerReservationStateAndPlayers( CMsgGCCStrike15_v2_Matchmaking
 	return true;
 }
 
-
+#ifndef NO_STEAM
 void CServerGameDLL::UpdateGCInformation()
 {
 	#error Cut for partner depot
@@ -156,6 +156,7 @@ void CServerGameDLL::ReportGCQueuedMatchStart( int32 iReservationStage, uint32 *
 {
 	#error Cut for partner depot
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: A user has had their network id setup and validated 
@@ -164,7 +165,6 @@ void CServerGameClients::NetworkIDValidated( const char *pszUserName, const char
 {
 	#error Cut for partner depot
 }
-
 
 
 //

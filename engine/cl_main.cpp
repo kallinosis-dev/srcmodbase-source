@@ -1541,7 +1541,7 @@ void CL_CheckForPureServerWhitelist()
 	}
 }
 
-
+#ifndef NO_STEAM
 int CL_GetServerQueryPort()
 {
 	// Yes, this is ugly getting this data out of a string table. Would be better to have it in our network protocol,
@@ -1560,6 +1560,7 @@ int CL_GetServerQueryPort()
 	else
 		return 0;
 }
+#endif
 
 /*
 ==================

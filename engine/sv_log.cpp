@@ -199,9 +199,11 @@ CON_COMMAND( logaddress_add_ex, "Set address and port for remote host <ip:port> 
 	if ( szCmdLine && *szCmdLine )
 		CRC64_ProcessBuffer( &crcToken, szCmdLine, V_strlen( szCmdLine ) );
 
+#ifndef NO_STEAM
 	const char *szSteamToken = Steam3Server().GetAccountToken();
 	if ( szSteamToken && *szSteamToken )
 		CRC64_ProcessBuffer( &crcToken, szSteamToken, V_strlen( szSteamToken ) );
+#endif
 
 	const char *szLocalAdr = net_local_adr.ToString();
 	if ( szLocalAdr && *szLocalAdr )

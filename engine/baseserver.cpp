@@ -185,7 +185,6 @@ static void SvGameDataChangeCallback( IConVar *pConVar, const char *pOldValue, f
 	}
 }
 
-extern ConVar	sv_search_key;
 extern ConVar	sv_lan;
 extern ConVar	cl_hideserverip;
 
@@ -232,8 +231,10 @@ ConVar			sv_steamgroup_exclusive( "sv_steamgroup_exclusive", "0", FCVAR_RELEASE,
 
 static void SvMmQueueReservationChanged( IConVar *pConVar, const char *pOldValue, float flOldValue )
 {
+#ifndef NO_STEAM
 	if ( serverGameDLL )
 		serverGameDLL->UpdateGCInformation();
+#endif
 }
 ConVar			sv_mmqueue_reservation( "sv_mmqueue_reservation", "", FCVAR_DEVELOPMENTONLY | FCVAR_DONTRECORD, "Server queue reservation", SvMmQueueReservationChanged );
 ConVar			sv_mmqueue_reservation_timeout( "sv_mmqueue_reservation_timeout", "21", FCVAR_DEVELOPMENTONLY, "Time in seconds before mmqueue reservation expires.", true, 5.0f, true, 180.0f );
@@ -606,7 +607,9 @@ IClient *CBaseServer::ConnectClient ( const ns_address &adr, int protocol, int c
 
 	// SourceTV checks password & restrictions later once we know
 	// if its a normal spectator client or a relay proxy
+#if defined(WITH_HLTV) || defined(REPLAY_ENABLED)
 	if ( !IsHLTV() && !IsReplay() )
+#endif
 	{
 #ifndef NO_STEAM
 		// LAN servers restrict to class b IP addresses
@@ -1489,9 +1492,12 @@ int CBaseServer::GetNumProxies( void ) const
 
 	for (int i=0 ; i < m_Clients.Count() ; i++ )
 	{
-		if ( m_Clients[ i ]->IsConnected() && (m_Clients[ i ]->IsHLTV()
+		if ( m_Clients[ i ]->IsConnected() && (false
+#ifdef WITH_HLTV
+			|| m_Clients[ i ]->IsHLTV()
+#endif
 #if defined( REPLAY_ENABLED )
-			|| m_Clients[ i ]->IsReplay()
+			||m_Clients[ i ]->IsReplay()
 #endif
 			) )
 		{
@@ -1617,7 +1623,13 @@ void CBaseServer::FillServerInfo(CSVCMsg_ServerInfo &serverinfo)
 	serverinfo.set_sky_name( m_szSkyname );
 	extern ConVar host_name_store;
 	serverinfo.set_host_name( host_name_store.GetBool() ? GetName() : "Counter-Strike: Global Offensive" );
-	serverinfo.set_is_hltv( IsHLTV() );
+	serverinfo.set_is_hltv(
+#ifdef WITH_HLTV
+		IsHLTV()
+#else
+		false
+#endif
+	);
 	serverinfo.set_is_redirecting_to_proxy_relay( false );
 	
 	char szMapPath[MAX_PATH];
@@ -2207,7 +2219,9 @@ void CBaseServer::ReplyReservationCheckRequest( const ns_address &adr, bf_read &
 						arrConfirmedAccounts.AddToTail( m_arrReservationPlayers[jj].m_uiAccountID );
 				}
 				DevMsg( "Match start status: %u/%u\n", uiMinReservationLevel, arrConfirmedAccounts.Count() );
+#ifndef NO_STEAM
 				serverGameDLL->ReportGCQueuedMatchStart( uiMinReservationLevel, arrConfirmedAccounts.Base(), arrConfirmedAccounts.Count() );
+#endif
 
 				if ( !uiActualAwaitingClients )
 				{
@@ -2570,7 +2584,10 @@ void CBaseServer::InactivateClients( void )
 		CBaseClient	*cl = m_Clients[ i ];
 
 		// Fake clients get killed in here (but split screen users don't)
-		if ( cl->IsFakeClient() && !cl->IsSplitScreenUser() && !cl->IsHLTV()
+		if ( cl->IsFakeClient() && !cl->IsSplitScreenUser()
+#ifdef WITH_HLTV
+			&& !cl->IsHLTV()
+#endif
 #if defined( REPLAY_ENABLED )
 			&& !cl->IsReplay()
 #endif
@@ -3816,8 +3833,10 @@ void CBaseServer::SetMaxClients( int number )
 //-----------------------------------------------------------------------------
 void CBaseServer::RecalculateTags( void )
 {
+#if defined(WITH_HLTV) || defined(REPLAY_ENABLED)
 	if ( IsHLTV() || IsReplay() )
 		return;
+#endif
 
 	// We're going to modify the sv_tags convar here, which will cause this to be called again. Prevent recursion.
 	static bool bRecalculatingTags = false;
@@ -4400,7 +4419,12 @@ void CBaseServer::UpdateGameData()
 	{
 		AddTagString( utlKey, CFmtStr( "%skey:%s%d",
 			serverGameDLL->IsValveDS() ? "v" : "c",
-			sv_search_key.GetString(), GetHostVersion() ) );
+#ifndef NO_STEAM
+			sv_search_key.GetString(),
+#else
+			"no_key",
+#endif
+			GetHostVersion() ) );
 	}
 
 	if ( utlKey.Length() > m_GameData.Count() - 3 )
@@ -4513,7 +4537,11 @@ bool CBaseServer::ShouldHideFromMasterServer() const
 {
 	// UNDONE: MATCHMAKING: Left4Dead keeps passworded, listen and cheat servers off the master server.  TF2 does not.
 	extern ConVar sv_cheats;
-	if ( !IsDedicated() && (!IsHLTV()) )
+	if ( !IsDedicated()
+#ifdef WITH_HTLV
+		&& (!IsHLTV())
+#endif
+		)
 	{
 		return true;
 	}

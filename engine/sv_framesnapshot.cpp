@@ -106,7 +106,9 @@ CFrameSnapshot*	CFrameSnapshotManager::CreateEmptySnapshot(
 	snap->m_nNumEntities = maxEntities;
 	snap->m_nValidEntities = 0;
 	snap->m_pValidEntities = nullptr;
+#ifdef WITH_HTLV
 	snap->m_pHLTVEntityData = nullptr;
+#endif
 #if defined( REPLAY_ENABLED )
 	snap->m_pReplayEntityData = NULL;
 #endif
@@ -197,11 +199,13 @@ CFrameSnapshot* CFrameSnapshotManager::TakeTickSnapshot(
 	snap->m_pValidEntities = new unsigned short[snap->m_nValidEntities];
 	Q_memcpy( snap->m_pValidEntities, nValidEntities, snap->m_nValidEntities * sizeof(unsigned short) );
 
+#ifdef WITH_HTLV
 	if ( IsHltvActive() )
 	{
 		snap->m_pHLTVEntityData = new CHLTVEntityData[snap->m_nValidEntities];
 		Q_memset( snap->m_pHLTVEntityData, 0, snap->m_nValidEntities * sizeof(CHLTVEntityData) );
 	}
+#endif
 
 #if defined( REPLAY_ENABLED )
 	if ( replay && replay->IsActive() )
@@ -532,10 +536,12 @@ CFrameSnapshot::~CFrameSnapshot()
 		delete [] m_pTempEntities;
 	}
 
+#ifdef WITH_HLTV
 	if ( m_pHLTVEntityData )
 	{
 		delete [] m_pHLTVEntityData;
 	}
+#endif
 
 #if defined( REPLAY_ENABLED )
 	if ( m_pReplayEntityData )

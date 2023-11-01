@@ -123,7 +123,9 @@ void SV_CheckForFlushMemory( const char *pCurrentMapName, const char *pDestMapNa
 bool SV_FlushMemoryIfMarked();
 void SV_FlushMemoryOnNextServer();
 
+#ifndef NO_STEAM
 void SV_SetSteamCrashComment();
+#endif
 
 void RevertAllModifiedLocalState();
 

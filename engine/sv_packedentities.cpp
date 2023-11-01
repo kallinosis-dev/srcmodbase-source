@@ -154,14 +154,19 @@ static inline CChangeFrameList * GetMergedChangeFrameList( PackedEntity* pPrevFr
 
 	if( pPrevFrame )
 	{
+#ifdef WITH_HTLV
 		CActiveHltvServerIterator hltv;
-
+#endif
 #ifndef _XBOX	
+
+		if (false
+#ifdef WITH_HLTV
+			||hltv
+#endif
 #if defined( REPLAY_ENABLED )
-		if ( hltv || (replay && replay->IsActive()) )
-#else
-		if ( hltv )
-#endif	
+			|| (replay && replay->IsActive())
+#endif
+			)
 		{
 			// in HLTV or Replay mode every PackedEntity keeps it's own ChangeFrameList
 			// we just copy the ChangeFrameList from prev frame and update it
@@ -403,7 +408,7 @@ CON_COMMAND( sv_dump_entity_pack_stats, "Show stats on entity packing." )
 	Msg("  numSlowPathEncodes=%u\n", g_PackedEntityStats.m_numSlowPathEncodes );
 }
 
-
+#ifdef WITH_HLTV
 // in HLTV mode we ALWAYS have to store position and PVS info, even if entity didnt change
 void SV_FillHLTVData( CFrameSnapshot *pSnapshot, edict_t *edict, int iValidEdict )
 {
@@ -430,6 +435,7 @@ void SV_FillHLTVData( CFrameSnapshot *pSnapshot, edict_t *edict, int iValidEdict
 		pHLTVData->origin[2] = pvsInfo->m_vCenter[2];
 	}
 }
+#endif
 
 #if defined( REPLAY_ENABLED )
 // in Replay mode we ALWAYS have to store position and PVS info, even if entity didnt change
@@ -558,9 +564,11 @@ void PackEntities_Normal(
 
 		edict_t* edict = &sv.edicts[ index ];
 
+#ifdef WITH_HLTV
 		// if HLTV is running save PVS info for each entity
 		SV_FillHLTVData( snapshot, edict, iValidEdict );
-		
+#endif
+
 #if defined( REPLAY_ENABLED )
 		// if Replay is running save PVS info for each entity
 		SV_FillReplayData( snapshot, edict, iValidEdict );
@@ -573,8 +581,10 @@ void PackEntities_Normal(
 		{
 			// entities is seen by at least this client, pack it and exit loop
 			CGameClient *client = clients[iClient];	// update variables cl, pInfo, frame for current client
+#ifdef WITH_HLTV
 			if ( client->IsHltvReplay() )
 				continue; // clients in HLTV replay use HLTV stream that has already been pre-packed for them by HLTV master client. No need to do any packing while streaming HLTV contents
+#endif
 
 			CClientFrame *frame = client->m_pCurrentFrame;
 
@@ -624,11 +634,13 @@ void SV_ComputeClientPacks(
 		{
 			TM_ZONE( TELEMETRY_LEVEL1, TMZF_NONE, "CheckTransmit:%d", iClient );
 
+#ifdef WITH_HLTV
 			if ( clients[ iClient ]->IsHltvReplay() )
 			{
 				clients[ iClient ]->SetupHltvFrame( snapshot->m_nTickCount);
 				continue; // skip all the transmit checks if we already have packs prepared by HLTV that we'll be sending anyway
 			}
+#endif
 
 			CCheckTransmitInfo *pInfo = &clients[iClient]->m_PackInfo;
 			clients[iClient]->SetupPackInfo( snapshot );

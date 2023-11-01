@@ -24,6 +24,7 @@
 #include "clientframe.h"
 #include <soundinfo.h>
 
+#ifdef WITH_HLTV
 struct HltvReplayStats_t
 {
 	enum FailEnum_t
@@ -70,6 +71,7 @@ struct HltvReplayStats_t
 	}
 	const char *AsString()const;
 };
+#endif
 
 //-----------------------------------------------------------------------------
 // Forward declarations
@@ -81,7 +83,9 @@ class	CClientMsgHandler;
 struct	edict_t;
 struct	SoundInfo_t;
 class	KeyValues;
+#ifdef WITH_HLTV
 class	CHLTVServer;
+#endif
 class	CReplayServer;
 class	CPerClientLogoInfo;
 class	CCommand;
@@ -155,13 +159,17 @@ public:
 	void	WriteGameSounds( bf_write &buf, int nMaxSounds );
 	virtual bool	ProcessSignonStateMsg(int state, int spawncount);
 	bool	SendSnapshot( CClientFrame *pFrame ) override;
+#ifdef WITH_HLTV
 	bool	SendHltvReplaySnapshot( CClientFrame * pFrame );
+#endif
 	bool	ShouldSendMessages( void );
 	void	SpawnPlayer( void );
 	bool	SendSignonData( void );
 	void	ActivatePlayer( void );
-	
+
+#ifdef WITH_HLTV
 	void	SetupHltvFrame( int nServerTick );
+#endif
 	void	SetupPackInfo( CFrameSnapshot *pSnapshot );
 	void	SetupPrevPackInfo();
 	
@@ -173,6 +181,7 @@ public:
 	void	GetReplayData( int& ticks, int& entity);
 	bool	IgnoreTempEntity( CEventInfo *event );
 	const CCheckTransmitInfo* GetPrevPackInfo();
+#ifdef WITH_HLTV
 	virtual bool StartHltvReplay( const HltvReplayParams_t &params ) override;
 	virtual bool CanStartHltvReplay() override;
 	virtual void ResetReplayRequestTime() override;
@@ -181,6 +190,7 @@ public:
 	virtual const char * GetHltvReplayStatus()const override { return m_HltvReplayStats.AsString(); }
 	virtual void StopHltvReplay() override;
 	bool	IsHltvReplay() { return m_nHltvReplayDelay > 0; }
+#endif
 	//CHLTVServer *GetCurrentHltvReplayServerSource() { return IsHltvReplay() ? m_pHltvReplayServer : NULL; }
 	virtual CBaseClient *GetPropCullClient() override;
 protected:
@@ -217,6 +227,7 @@ public:
 	double					m_flLastClientCommandQuotaStart;
 	int						m_numClientCommandsInQuota;
 
+#ifdef WITH_HLTV
 	int					m_nHltvReplayDelay;
 	CHLTVServer			*m_pHltvReplayServer;
 	int					m_nHltvReplayStopAt;
@@ -231,6 +242,7 @@ public:
 
 
 	HltvReplayStats_t	m_HltvReplayStats;
+#endif
 };
 
 #endif // SV_CLIENT_H

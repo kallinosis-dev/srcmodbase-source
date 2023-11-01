@@ -444,7 +444,7 @@ bool Filter_IsUserBanned( const USERID_t& userid )
 			g_UserFilters.Remove( i );
 			continue;
 		}
-
+		
 		// Only get here if ban is still in effect.
 		if ( Steam3Server().CompareUserID( userid, g_UserFilters[i].userid ) )
 		{

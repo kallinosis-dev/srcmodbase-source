@@ -95,7 +95,7 @@ bool CPlugin::Load( const char *fileName )
 	// Linux doesn't check signatures, so in that case disable plugins on the client completely unless -insecure is specified
 	if ( !sv.IsDedicated() && Host_IsSecureServerAllowed() )
 		return false;
-#else
+#elif !defined(NO_STEAM)
 	if ( !sv.IsDedicated() && Host_IsSecureServerAllowed() )
 	{
 		if ( CommandLine()->FindParm( "-LoadPluginsForClient" ) )
@@ -105,9 +105,11 @@ bool CPlugin::Load( const char *fileName )
 	}
 #endif
 
+#ifndef NO_STEAM
 	// Only allow unsigned plugins in -insecure mode
 	if ( !Host_AllowLoadModule( fixedFileName, "GAME", false ) )
 		return false;
+#endif
 
 	m_pPluginModule = g_pFileSystem->LoadModule( fixedFileName, "GAME", false );
 	if ( m_pPluginModule )

@@ -7,6 +7,8 @@
 // $NoKeywords: $
 //=============================================================================//
 #include "server_pch.h"
+
+#ifndef NO_STEAM
 #include "server.h"
 #include "master.h"
 #include "proto_oob.h"
@@ -58,3 +60,4 @@ void Heartbeat_f()
 
 
 static ConCommand heartbeat( "heartbeat", Heartbeat_f, "Force heartbeat of master servers", 0 );
+#endif

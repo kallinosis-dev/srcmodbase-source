@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -239,18 +239,25 @@ ConVar sv_show_cull_props( "sv_show_cull_props", "0", FCVAR_RELEASE, "Print out 
 // NOTE: to optimize this, it could store the bit offsets of each property in the packed entity.
 // It would only have to store the offsets for the entities for each frame, since it only reaches 
 // into the current frame's entities here.
-static inline void SV_WritePropsFromPackedEntity( CEntityWriteInfo &u, CalcDeltaResultsList_t &checkProps, CHLTVServer *hltv )
+static inline void SV_WritePropsFromPackedEntity( CEntityWriteInfo &u, CalcDeltaResultsList_t &checkProps
+#ifdef WITH_HLTV
+	, CHLTVServer *hltv
+#endif
+)
 {
 	const PackedEntity * pTo = u.m_pNewPack;
 	const PackedEntity * pFrom = u.m_pOldPack;
 	SendTable *pSendTable = pTo->m_pServerClass->m_pTable;
 
 	CServerDTITimer timer( pSendTable, SERVERDTI_WRITE_DELTA_PROPS );
-#if defined( REPLAY_ENABLED )
-	if ( g_bServerDTIEnabled && !u.m_pServer->IsHLTV() && !u.m_pServer->IsReplay() )
-#else
-	if ( g_bServerDTIEnabled && !u.m_pServer->IsHLTV() )
+	if ( g_bServerDTIEnabled
+#ifdef WITH_HLTV
+		&& !u.m_pServer->IsHLTV()
 #endif
+#if defined( REPLAY_ENABLED )
+		&& !u.m_pServer->IsReplay()
+#endif
+		)
 	{
 		ICollideable *pEnt = sv.edicts[pTo->m_nEntityIndex].GetCollideable();
 		ICollideable *pClientEnt = sv.edicts[u.m_nClientEntity].GetCollideable();
@@ -349,12 +356,14 @@ static inline void SV_WritePropsFromPackedEntity( CEntityWriteInfo &u, CalcDelta
 
 	if ( !u.m_bCullProps )
 	{
+#ifdef WITH_HLTV
 		if( hltv )
 		{
 			// this is a HLTV relay proxy, cache delta bits
 			int nBits = u.m_pBuf->GetNumBitsWritten() - bufStart.GetNumBitsWritten();
 			hltv->m_DeltaCache.AddDeltaBits( pTo->m_nEntityIndex, u.m_pFromSnapshot->m_nTickCount, nBits, &bufStart );
 		}
+#endif
 
 #if defined( REPLAY_ENABLED )
 		if ( replay )
@@ -456,7 +465,11 @@ static int GetPackedEntityChangedProps( const PackedEntity* pEntity, int nTick, 
 }
 
 
-static inline void SV_DetermineUpdateType( CEntityWriteInfo &u, CHLTVServer *hltv )
+static inline void SV_DetermineUpdateType( CEntityWriteInfo &u
+#ifdef WITH_HLTV
+	, CHLTVServer *hltv
+#endif
+)
 {
 	// Figure out how we want to update the entity.
 	if( u.m_nNewEntity < u.m_nOldEntity )
@@ -500,14 +513,19 @@ static inline void SV_DetermineUpdateType( CEntityWriteInfo &u, CHLTVServer *hlt
 	if ( !u.m_bCullProps )
 	{
 		int nBits = 0;
+#ifdef WITH_HLTV
 		Assert( u.m_pServer->IsHLTV() ); // because !u.m_bCullProps only happens when u.m_pServer->IsHLTV() AND sv is INactive, at least currently.So, replay should never play a role... ?
-			
-		unsigned char *pBuffer = hltv ? hltv->m_DeltaCache.FindDeltaBits( u.m_nNewEntity, u.m_pFromSnapshot->m_nTickCount, nBits ) :
-#if defined( REPLAY_ENABLED )
-									  replay ? replay->m_DeltaCache.FindDeltaBits( u.m_nNewEntity, u.m_pFromSnapshot->m_nTickCount, nBits ) :
-#else
-		nullptr;
 #endif
+
+		unsigned char *pBuffer =
+#ifdef WITH_HLTV
+			hltv ? hltv->m_DeltaCache.FindDeltaBits( u.m_nNewEntity, u.m_pFromSnapshot->m_nTickCount, nBits ) :
+#endif
+#if defined( REPLAY_ENABLED )
+			replay ? replay->m_DeltaCache.FindDeltaBits( u.m_nNewEntity, u.m_pFromSnapshot->m_nTickCount, nBits ) :
+#endif
+			nullptr;
+
 
 		if ( pBuffer )
 		{
@@ -553,7 +571,11 @@ static inline void SV_DetermineUpdateType( CEntityWriteInfo &u, CHLTVServer *hlt
 #if defined( DEBUG_NETWORKING )
 		int startBit = u.m_pBuf->GetNumBitsWritten();
 #endif
-		SV_WritePropsFromPackedEntity( u, checkProps, hltv );
+		SV_WritePropsFromPackedEntity( u, checkProps
+#ifdef WITH_HLTV
+			, hltv
+#endif
+		);
 #if defined( DEBUG_NETWORKING )
 		int endBit = u.m_pBuf->GetNumBitsWritten();
 		TRACE_PACKET( ( "    Delta Bits (%d) = %d (%d bytes)\n", u.m_nNewEntity, (endBit - startBit), ( (endBit - startBit) + 7 ) / 8 ) );
@@ -567,11 +589,13 @@ static inline void SV_DetermineUpdateType( CEntityWriteInfo &u, CHLTVServer *hlt
 #ifndef _X360
 		if ( !u.m_bCullProps )
 		{
+#ifdef WITH_HLTV
 			if ( hltv )
 			{
 				// no bits changed, PreserveEnt
 				hltv->m_DeltaCache.AddDeltaBits( u.m_nNewEntity, u.m_pFromSnapshot->m_nTickCount, 0, nullptr);
 			}
+#endif
 
 #if defined( REPLAY_ENABLED )
 			if ( replay )
@@ -836,13 +860,18 @@ static bool InternalWriteDeltaEntities( CBaseServer* pServer, CBaseClient *clien
 	u.m_pServer = pServer;
 	u.m_nClientEntity = client->GetPropCullClient()->m_nEntityIndex;
 
+#ifdef WITH_HLTV
 	CHLTVServer *hltv = pServer->IsHLTV() ? static_cast< CHLTVServer* >( pServer ) : nullptr;
-#ifndef _XBOX
-#if defined( REPLAY_ENABLED )
-	if ( hltv || pServer->IsReplay() )
-#else
-	if ( hltv )
 #endif
+#ifndef _XBOX
+	if (
+#ifdef WITH_HLTV
+		hltv ||
+#endif
+#if defined( REPLAY_ENABLED )
+		pServer->IsReplay() ||
+#endif
+		false )
 	{
 		// cull props only on master proxy
 		u.m_bCullProps = sv.IsActive();
@@ -898,7 +927,11 @@ static bool InternalWriteDeltaEntities( CBaseServer* pServer, CBaseClient *clien
 			u.m_pOldPack = (u.m_nOldEntity != ENTITY_SENTINEL) ? framesnapshotmanager->GetPackedEntity( *u.m_pFromSnapshot, u.m_nOldEntity ) : nullptr;
 
 			// Figure out how we want to write this entity.
-			SV_DetermineUpdateType( u, hltv );
+			SV_DetermineUpdateType( u
+#ifdef WITH_HLTV
+				, hltv
+#endif
+			);
 			SV_WriteEntityUpdate( u );
 		}
 

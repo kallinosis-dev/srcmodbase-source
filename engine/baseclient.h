@@ -34,7 +34,9 @@ class CFrameSnapshot;
 class CEventInfo;
 class CCommand;
 struct NetMessageCvar_t;
+#ifdef WITH_HLTV
 class CHLTVServer;
+#endif
 
 struct Spike_t
 {
@@ -72,67 +74,69 @@ class CBaseClient : public IGameEventListener2, public IClient
 
 public:
 	CBaseClient();
-	virtual ~CBaseClient();
+	~CBaseClient() override;
 
 public:
 
-	int			GetPlayerSlot() const { return m_nClientSlot; };
-	int			GetUserID() const { return m_UserID; };
-	const USERID_t	GetNetworkID() const;
-	const char		*GetClientName() const { return m_Name; };
-	INetChannel		*GetNetChannel() { return m_NetChannel; };
-	IServer			*GetServer() { return (IServer*)m_Server; };
+	int			GetPlayerSlot() const override { return m_nClientSlot; };
+	int			GetUserID() const override { return m_UserID; };
+	const USERID_t	GetNetworkID() const override;
+	const char		*GetClientName() const override { return m_Name; };
+	INetChannel		*GetNetChannel() override { return m_NetChannel; };
+	IServer			*GetServer() override { return (IServer*)m_Server; };
+#ifdef WITH_HLTV
 	CHLTVServer		*GetHltvServer();
 	CHLTVServer		*GetAnyConnectedHltvServer();
-	const char		*GetUserSetting(const char *cvar) const;
-	const char		*GetNetworkIDString() const;
+#endif
+	const char		*GetUserSetting(const char *cvar) const override;
+	const char		*GetNetworkIDString() const override;
 	uint64			GetClientXuid() const;
 	const char		*GetFriendsName() const { return m_FriendsName; }
 	void			UpdateName( const char *pszDefault );
 
-	virtual	void	Connect(const char * szName, int nUserID, INetChannel *pNetChannel, bool bFakePlayer, CrossPlayPlatform_t clientPlatform, const CMsg_CVars *pVecCvars = nullptr);
-	virtual	void	Inactivate( void )override;
-	virtual	void	Reconnect( void )override;
-	virtual	void	Disconnect( const char *reason ) override;
-	virtual bool	CheckConnect( void );
-	virtual bool	ChangeSplitscreenUser( int nSplitScreenUserSlot );
+	void	Connect(const char * szName, int nUserID, INetChannel *pNetChannel, bool bFakePlayer, CrossPlayPlatform_t clientPlatform, const CMsg_CVars *pVecCvars = nullptr) override;
+	void	Inactivate( void )override;
+	void	Reconnect( void )override;
+	void	Disconnect( const char *reason ) override;
+	bool	CheckConnect( void ) override;
+	bool	ChangeSplitscreenUser( int nSplitScreenUserSlot ) override;
 
-	virtual	void	SetRate( int nRate, bool bForce );
-	virtual	int		GetRate( void ) const;
-	
-	virtual void	SetUpdateRate( float fUpdateRate, bool bForce ); // override;
-	virtual float	GetUpdateRate( void ) const; // override;
+	void	SetRate( int nRate, bool bForce ) override;
+	int		GetRate( void ) const override;
 
-	virtual void	Clear( void );
+	void	SetUpdateRate( float fUpdateRate, bool bForce ) override; // override;
+	float	GetUpdateRate( void ) const override; // override;
+
+	void	Clear( void ) override;
 	virtual void	DemoRestart( void ); // called when client started demo recording
 
-	virtual	int		GetMaxAckTickCount() const;
+	int		GetMaxAckTickCount() const override;
 
-	virtual bool	ExecuteStringCommand( const char *s );
-	virtual bool	SendNetMsg( INetMessage &msg, bool bForceReliable = false, bool bVoice = false );
-	
-	virtual void	ClientPrintf ( PRINTF_FORMAT_STRING const char *fmt, ...) FMTFUNCTION( 2, 3 );
+	bool	ExecuteStringCommand( const char *s ) override;
+	bool	SendNetMsg( INetMessage &msg, bool bForceReliable = false, bool bVoice = false ) override;
 
-	virtual	bool	IsConnected( void ) const { return m_nSignonState >= SIGNONSTATE_CONNECTED; };	
-	virtual	bool	IsSpawned( void ) const { return m_nSignonState >= SIGNONSTATE_NEW; };	
-	virtual	bool	IsActive( void ) const { return m_nSignonState == SIGNONSTATE_FULL; };
-	virtual	bool	IsFakeClient( void ) const { return m_bFakePlayer; };
+	void	ClientPrintf ( PRINTF_FORMAT_STRING const char *fmt, ...) override FMTFUNCTION( 2, 3 );
+
+	bool	IsConnected( void ) const override { return m_nSignonState >= SIGNONSTATE_CONNECTED; };
+	bool	IsSpawned( void ) const override { return m_nSignonState >= SIGNONSTATE_NEW; };
+	bool	IsActive( void ) const override { return m_nSignonState == SIGNONSTATE_FULL; };
+	bool	IsFakeClient( void ) const override { return m_bFakePlayer; };
+#ifdef WITH_HLTV
 	virtual	bool	IsHLTV( void ) const { return m_bIsHLTV; }
+#endif
 #if defined( REPLAY_ENABLED )
 	virtual bool	IsReplay( void ) const { return m_bIsReplay; }
-#else
-	virtual bool	IsReplay( void ) const { return false; }
 #endif  // REPLAY_ENABLED
 	// Is an actual human player or splitscreen player (not a bot and not a HLTV slot)
-	virtual bool	IsHumanPlayer() const;
-	virtual	bool	IsHearingClient( int index ) const { return false; };
-	virtual	bool	IsProximityHearingClient( int index ) const { return false; };
-	virtual	bool	IsLowViolenceClient( void ) const { return m_bLowViolence; }
+	bool	IsHumanPlayer() const override;
+	bool	IsHearingClient( int index ) const override { return false; };
+	bool	IsProximityHearingClient( int index ) const override { return false; };
+	bool	IsLowViolenceClient( void ) const override { return m_bLowViolence; }
 
-	virtual void	SetMaxRoutablePayloadSize( int nMaxRoutablePayloadSize );
+	void	SetMaxRoutablePayloadSize( int nMaxRoutablePayloadSize ) override;
 
-	virtual bool	IsSplitScreenUser( void ) const { return m_bSplitScreenUser; }
-	virtual CrossPlayPlatform_t GetClientPlatform() const { return m_ClientPlatform; }
+	bool	IsSplitScreenUser( void ) const override { return m_bSplitScreenUser; }
+	CrossPlayPlatform_t GetClientPlatform() const override { return m_ClientPlatform; }
 
 public: // Message Handlers
 	
@@ -182,14 +186,14 @@ public: // Message Handlers
 
 	CUtlArray< CNetMessageBinder, NETMSG_Max > m_NetMessages;
 
-	virtual void	ConnectionStart(INetChannel *chan) override;
-	virtual void	ConnectionStop()override;
+	void	ConnectionStart(INetChannel *chan) override;
+	void	ConnectionStop()override;
 
 public: // IGameEventListener
-	virtual void	FireGameEvent( IGameEvent *event ) override { FireGameEvent( event, false ); }
+	void	FireGameEvent( IGameEvent *event ) override { FireGameEvent( event, false ); }
 	void FireGameEvent( IGameEvent *event, bool bPassthrough );
 	int				m_nDebugID;
-	virtual int		GetEventDebugID( void );
+	int		GetEventDebugID( void ) override;
 
 public:
 
@@ -235,14 +239,16 @@ public:
 	
 	void			FillSignOnFullServerInfo( class CNETMsg_SignonState_t& state );
 	bool			IsSplitScreenPartner( const CBaseClient *pOther ) const;
-	virtual IClient	*GetSplitScreenOwner() { return m_pAttachedTo; }
-	
-	virtual int		GetNumPlayers();
+	IClient	*GetSplitScreenOwner() override { return m_pAttachedTo; }
+
+	int		GetNumPlayers() override;
+#ifdef WITH_HLTV
 	virtual bool	StartHltvReplay( const HltvReplayParams_t &params ) override { return false; } // not implemented for most clients
 	virtual void	StopHltvReplay() override { }
 	virtual int		GetHltvReplayDelay() override { return 0; }
 	virtual bool	CanStartHltvReplay() override { return false; }
 	virtual void	ResetReplayRequestTime() override { }
+#endif
 	virtual CBaseClient *GetPropCullClient() { return this; }
 	void			OverrideSignonStateTransparent( int nState ){ m_nSignonState = nState; }
 protected:
@@ -285,8 +291,10 @@ public:
 	bool			m_bConVarsChanged;	// true if convars updated and not changes process yet
 	bool			m_bSendServerInfo;	// true if we need to send server info packet to start connect
 	CBaseServer		*m_Server;			// pointer to server object
+#ifdef WITH_HLTV
 	bool			m_bIsHLTV;			// if this a HLTV proxy ?
 	CHLTVServer		*m_pHltvSlaveServer;
+#endif
 #if defined( REPLAY_ENABLED )
 	bool			m_bIsReplay;		// if this is a Replay proxy ?
 #endif

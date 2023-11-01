@@ -1235,7 +1235,7 @@ int main (int argc, char **argv)
 class CVVisDLL : public ILaunchableDLL
 {
 public:
-	virtual int main( int argc, char **argv )
+	virtual int main( int argc, char const* const* argv )
 	{
 		return ::main( argc, argv );
 	}

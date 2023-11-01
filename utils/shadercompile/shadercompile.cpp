@@ -2830,7 +2830,7 @@ EXPOSE_SINGLE_INTERFACE( CShaderCompileDLL, IShaderCompileDLL, SHADER_COMPILE_IN
 
 class CLaunchableDLL : public ILaunchableDLL
 {
-	int main( int argc, char **argv )
+	int main( int argc, char const* const* argv )
 	{
 		return ShaderCompile_Main( argc, argv );
 	}

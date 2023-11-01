@@ -307,8 +307,7 @@ bool IsHltvRelayProxyWhitelisted( ns_address const &adr )
 class CVEngineServer : public IVEngineServer
 {
 public:
-
-	virtual void ChangeLevel( const char* s1, const char* s2)
+	void ChangeLevel( const char* s1, const char* s2) override
 	{
 		static	int	last_spawncount;
 		
@@ -336,19 +335,19 @@ public:
 		
 		Cbuf_AddText( CBUF_SERVER, cmd );
 	}
-	
-	
-	virtual int	IsMapValid( const char *filename )
+
+
+	int	IsMapValid( const char *filename ) override
 	{
 		return modelloader->Map_IsValid( filename );
 	}
-	
-	virtual bool IsDedicatedServer( void )
+
+	bool IsDedicatedServer( void ) override
 	{
 		return sv.IsDedicated();
 	}
 
-	virtual int GetLocalClientIndex( void )
+	int GetLocalClientIndex( void ) override
 	{
 #ifndef DEDICATED
 		if ( sv.IsDedicated() )
@@ -364,8 +363,8 @@ public:
 		return 0;
 #endif
 	}
-	
-	virtual int IsInEditMode( void )
+
+	int IsInEditMode( void ) override
 	{
 #ifdef DEDICATED
 		return false;
@@ -374,7 +373,7 @@ public:
 #endif
 	}
 
-	virtual int IsInCommentaryMode( void )
+	int IsInCommentaryMode( void ) override
 	{
 #ifdef DEDICATED
 		return false;
@@ -383,23 +382,23 @@ public:
 #endif
 	}
 
-	virtual KeyValues* GetLaunchOptions( void )
+	KeyValues* GetLaunchOptions( void ) override
 	{
 		return g_pLaunchOptions;
 	}
-	
-	virtual bool IsLevelMainMenuBackground( void )
+
+	bool IsLevelMainMenuBackground( void ) override
 	{
 		return sv.IsLevelMainMenuBackground();
 	}
-	
-	virtual void NotifyEdictFlagsChange( int iEdict )
+
+	void NotifyEdictFlagsChange( int iEdict ) override
 	{
 		if ( g_pLocalNetworkBackdoor )
 			g_pLocalNetworkBackdoor->NotifyEdictFlagsChange( iEdict );
 	}
 
-	virtual const CCheckTransmitInfo* GetPrevCheckTransmitInfo( edict_t *pPlayerEdict )
+	const CCheckTransmitInfo* GetPrevCheckTransmitInfo( edict_t *pPlayerEdict ) override
 	{
 		int entnum = NUM_FOR_EDICT( pPlayerEdict );
 		if ( entnum < 1 || entnum > sv.GetClientCount() )
@@ -411,8 +410,8 @@ public:
 		CGameClient *client = sv.Client( entnum-1 );
 		return client->GetPrevPackInfo();		
 	}
-	
-	virtual int PrecacheDecal( const char *name, bool preload /*=false*/ )
+
+	int PrecacheDecal( const char *name, bool preload /*=false*/ ) override
 	{
 		PR_CheckEmptyString( name );
 		int i = SV_FindOrAddDecal( name, preload );
@@ -424,8 +423,8 @@ public:
 		Host_Error( "CVEngineServer::PrecacheDecal: '%s' overflow, too many decals", name );
 		return 0;
 	}
-	
-	virtual int PrecacheModel( const char *s, bool preload /*= false*/ )
+
+	int PrecacheModel( const char *s, bool preload /*= false*/ ) override
 	{
 		PR_CheckEmptyString (s);
 		int i = SV_FindOrAddModel( s, preload );
@@ -437,9 +436,9 @@ public:
 		Host_Error( "CVEngineServer::PrecacheModel: '%s' overflow, too many models", s );
 		return 0;
 	}
-	
-	
-	virtual int PrecacheGeneric(const char *s, bool preload /*= false*/ )
+
+
+	int PrecacheGeneric(const char *s, bool preload /*= false*/ ) override
 	{
 		int		i;
 		
@@ -453,44 +452,44 @@ public:
 		Host_Error ("CVEngineServer::PrecacheGeneric: '%s' overflow", s);
 		return 0;
 	}
-	
-	virtual bool IsModelPrecached( char const *s ) const
+
+	bool IsModelPrecached( char const *s ) const override
 	{
 		int idx = SV_ModelIndex( s );
 		return idx != -1 ? true : false;
 	}
 
-	virtual bool IsDecalPrecached( char const *s ) const
+	bool IsDecalPrecached( char const *s ) const override
 	{
 		int idx = SV_DecalIndex( s );
 		return idx != -1 ? true : false;
 	}
 
-	virtual bool IsGenericPrecached( char const *s ) const
+	bool IsGenericPrecached( char const *s ) const override
 	{
 		int idx = SV_GenericIndex( s );
 		return idx != -1 ? true : false;
 	}
 
-	virtual void ForceExactFile( const char *s )
+	void ForceExactFile( const char *s ) override
 	{
 		PR_CheckEmptyString( s );
 		SV_ForceExactFile( s );
 	}
 
-	virtual void ForceModelBounds( const char *s, const Vector &mins, const Vector &maxs )
+	void ForceModelBounds( const char *s, const Vector &mins, const Vector &maxs ) override
 	{
 		PR_CheckEmptyString( s );
 		SV_ForceModelBounds( s, mins, maxs );
 	}
 
-	virtual void ForceSimpleMaterial( const char *s )
+	void ForceSimpleMaterial( const char *s ) override
 	{
 		PR_CheckEmptyString( s );
 		SV_ForceSimpleMaterial( s );
 	}
 
-	virtual bool IsInternalBuild( void )
+	bool IsInternalBuild( void ) override
 	{
 		return !phonehome->IsExternalBuild();
 	}
@@ -499,7 +498,7 @@ public:
 	// Purpose: Precache a sentence file (parse on server, send to client)
 	// Input  : *s - file name
 	//-----------------------------------------------------------------------------
-	virtual int PrecacheSentenceFile( const char *s, bool preload /*= false*/ )
+	int PrecacheSentenceFile( const char *s, bool preload /*= false*/ ) override
 	{
 		// UNDONE:  Set up preload flag
 		
@@ -516,12 +515,12 @@ public:
 	//			*outputpvs - If null, then return value is the needed length
 	// Output : int - length of pvs array used ( in bytes )
 	//-----------------------------------------------------------------------------
-	virtual int GetClusterForOrigin( const Vector& org )
+	int GetClusterForOrigin( const Vector& org ) override
 	{
 		return CM_LeafCluster( CM_PointLeafnum( org ) );
 	}
-	
-	virtual int GetPVSForCluster( int clusterIndex, int outputpvslength, unsigned char *outputpvs )
+
+	int GetPVSForCluster( int clusterIndex, int outputpvslength, unsigned char *outputpvs ) override
 	{
 		int length = (CM_NumClusters()+7)>>3;
 		
@@ -546,7 +545,7 @@ public:
 	//			*checkpvs - 
 	// Output : bool - true if entity is visible
 	//-----------------------------------------------------------------------------
-	virtual bool CheckOriginInPVS( const Vector& org, const unsigned char *checkpvs, int checkpvssize )
+	bool CheckOriginInPVS( const Vector& org, const unsigned char *checkpvs, int checkpvssize ) override
 	{
 		int clusterIndex = CM_LeafCluster( CM_PointLeafnum( org ) );
 		
@@ -576,7 +575,7 @@ public:
 	//			*checkpvs - 
 	// Output : bool - true if entity is visible
 	//-----------------------------------------------------------------------------
-	virtual bool CheckBoxInPVS( const Vector& mins, const Vector& maxs, const unsigned char *checkpvs, int checkpvssize )
+	bool CheckBoxInPVS( const Vector& mins, const Vector& maxs, const unsigned char *checkpvs, int checkpvssize ) override
 	{
 		if ( !CM_BoxVisible( mins, maxs, checkpvs, checkpvssize ) )
 		{
@@ -585,8 +584,8 @@ public:
 		
 		return true;
 	}
-	
-	virtual int GetPlayerUserId( const edict_t *e )
+
+	int GetPlayerUserId( const edict_t *e ) override
 	{
 		if ( !sv.IsActive() || !e)
 			return -1;
@@ -605,7 +604,7 @@ public:
 		return -1;
 	}
 
-	virtual const char *GetPlayerNetworkIDString( const edict_t *e )
+	const char *GetPlayerNetworkIDString( const edict_t *e ) override
 	{
 		if ( !sv.IsActive() || !e)
 			return nullptr;
@@ -625,7 +624,7 @@ public:
 
 	}
 
-	virtual bool IsUserIDInUse( int userID )
+	bool IsUserIDInUse( int userID ) override
 	{
 		if ( !sv.IsActive() )
 			return false;
@@ -645,7 +644,7 @@ public:
 	}
 
 
-	virtual int GetLoadingProgressForUserID( int userID )
+	int GetLoadingProgressForUserID( int userID ) override
 	{
 		if ( !sv.IsActive() )
 			return false;
@@ -664,14 +663,13 @@ public:
 		return -1;
 	}
 
-	virtual int	GetEntityCount( void )
+	int	GetEntityCount( void ) override
 	{
 		return sv.num_edicts;
 	}
-	
-	
 
-	virtual INetChannelInfo* GetPlayerNetInfo( int playerIndex )
+
+	INetChannelInfo* GetPlayerNetInfo( int playerIndex ) override
 	{
 		if ( playerIndex < 1 || playerIndex > sv.GetClientCount() )
 			return nullptr;
@@ -681,7 +679,7 @@ public:
 		return client->m_NetChannel;
 	}
 
-	virtual edict_t* CreateEdict( int iForceEdictIndex )
+	edict_t* CreateEdict( int iForceEdictIndex ) override
 	{
 		edict_t	*pedict = ED_Alloc( iForceEdictIndex );
 		if ( g_pServerPluginHandler )
@@ -690,9 +688,9 @@ public:
 		}
 		return pedict;
 	}
-	
-	
-	virtual void RemoveEdict(edict_t* ed)
+
+
+	void RemoveEdict(edict_t* ed) override
 	{
 		if ( g_pServerPluginHandler )
 		{
@@ -704,7 +702,7 @@ public:
 	//
 	// Request engine to allocate "cb" bytes on the entity's private data pointer.
 	//
-	virtual void *PvAllocEntPrivateData( long cb )
+	void *PvAllocEntPrivateData( long cb ) override
 	{
 		return calloc( 1, cb );
 	}
@@ -713,7 +711,7 @@ public:
 	//
 	// Release the private data memory, if any.
 	//
-	virtual void FreeEntPrivateData( void *pEntity )
+	void FreeEntPrivateData( void *pEntity ) override
 	{
 #if defined( _DEBUG ) && defined( WIN32 )
 		// set the memory to a known value
@@ -726,8 +724,8 @@ public:
 			free( pEntity );
 		}
 	}
-	
-	virtual void		*SaveAllocMemory( size_t num, size_t size )
+
+	void		*SaveAllocMemory( size_t num, size_t size ) override
 	{
 #ifndef DEDICATED
 		return ::SaveAllocMemory(num, size);
@@ -735,8 +733,8 @@ public:
 		return NULL;
 #endif
 	}
-	
-	virtual void		SaveFreeMemory( void *pSaveMem )
+
+	void		SaveFreeMemory( void *pSaveMem ) override
 	{
 #ifndef DEDICATED
 		::SaveFreeMemory(pSaveMem);
@@ -749,8 +747,8 @@ public:
 	
 	  =================
 	*/
-	virtual void EmitAmbientSound( int entindex, const Vector& pos, const char *samp, float vol, 
-		soundlevel_t soundlevel, int fFlags, int pitch, float soundtime /*=0.0f*/ )
+	void EmitAmbientSound( int entindex, const Vector& pos, const char *samp, float vol, 
+	                       soundlevel_t soundlevel, int fFlags, int pitch, float soundtime /*=0.0f*/ ) override
 	{
 		SoundInfo_t sound; 
 		sound.SetDefault();
@@ -825,10 +823,10 @@ public:
 			sv.BroadcastSound( sound, filter );
 		}
 	}
-	
-	
-	virtual void FadeClientVolume(const edict_t *clientent,
-		float fadePercent, float fadeOutSeconds, float holdTime, float fadeInSeconds)
+
+
+	void FadeClientVolume(const edict_t *clientent,
+	                      float fadePercent, float fadeOutSeconds, float holdTime, float fadeInSeconds) override
 	{
 		int entnum = NUM_FOR_EDICT(clientent);
 		
@@ -851,8 +849,8 @@ public:
 	// Sentence API
 	//
 	//-----------------------------------------------------------------------------
-	
-	virtual int SentenceGroupPick( int groupIndex, char *name, int nameLen )
+
+	int SentenceGroupPick( int groupIndex, char *name, int nameLen ) override
 	{
 		if ( !name )
 		{
@@ -863,9 +861,9 @@ public:
 		
 		return VOX_GroupPick( groupIndex, name, nameLen );
 	}
-	
-	
-	virtual int SentenceGroupPickSequential( int groupIndex, char *name, int nameLen, int sentenceIndex, int reset )
+
+
+	int SentenceGroupPickSequential( int groupIndex, char *name, int nameLen, int sentenceIndex, int reset ) override
 	{
 		if ( !name )
 		{
@@ -876,8 +874,8 @@ public:
 		
 		return VOX_GroupPickSequential( groupIndex, name, nameLen, sentenceIndex, reset );
 	}
-	
-	virtual int SentenceIndexFromName( const char *pSentenceName )
+
+	int SentenceIndexFromName( const char *pSentenceName ) override
 	{
 		if ( !pSentenceName )
 		{
@@ -890,14 +888,14 @@ public:
 		
 		return sentenceIndex;
 	}
-	
-	virtual const char *SentenceNameFromIndex( int sentenceIndex )
+
+	const char *SentenceNameFromIndex( int sentenceIndex ) override
 	{
 		return VOX_SentenceNameFromIndex( sentenceIndex );
 	}
-	
-	
-	virtual int SentenceGroupIndexFromName( const char *pGroupName )
+
+
+	int SentenceGroupIndexFromName( const char *pGroupName ) override
 	{
 		if ( !pGroupName )
 		{
@@ -906,20 +904,20 @@ public:
 		
 		return VOX_GroupIndexFromName( pGroupName );
 	}
-	
-	virtual const char *SentenceGroupNameFromIndex( int groupIndex )
+
+	const char *SentenceGroupNameFromIndex( int groupIndex ) override
 	{
 		return VOX_GroupNameFromIndex( groupIndex );
 	}
-	
-	
-	virtual float SentenceLength( int sentenceIndex )
+
+
+	float SentenceLength( int sentenceIndex ) override
 	{
 		return VOX_SentenceLength( sentenceIndex );
 	}
 	//-----------------------------------------------------------------------------
-	
-	virtual int			CheckHeadnodeVisible( int nodenum, const byte *visbits, int vissize )
+
+	int			CheckHeadnodeVisible( int nodenum, const byte *visbits, int vissize ) override
 	{
 		return CM_HeadnodeVisible(nodenum, visbits, vissize );
 	}
@@ -933,7 +931,7 @@ public:
 		localcmd (string)
 		=================
 	*/
-	virtual void ServerCommand( const char *str )
+	void ServerCommand( const char *str ) override
 	{
 		if ( !str )
 		{
@@ -959,7 +957,7 @@ public:
 		localcmd (string)
 		=================
 	*/
-	virtual void ServerExecute( void )
+	void ServerExecute( void ) override
 	{
 		Cbuf_Execute();
 	}
@@ -974,7 +972,7 @@ public:
 		stuffcmd (clientent, value)
 		=================
 	*/
-	virtual void ClientCommand(edict_t* pEdict, const char* szFmt, ...)
+	void ClientCommand(edict_t* pEdict, const char* szFmt, ...) override
 	{
 		va_list		argptr; 
 		static char	szOut[1024];
@@ -1005,7 +1003,7 @@ public:
 
 	// Send a client command keyvalues
 	// keyvalues are deleted inside the function
-	virtual void ClientCommandKeyValues( edict_t *pEdict, KeyValues *pCommand )
+	void ClientCommandKeyValues( edict_t *pEdict, KeyValues *pCommand ) override
 	{
 		if ( !pCommand )
 			return;
@@ -1034,7 +1032,7 @@ public:
 	  void(float style, string value) lightstyle
 	  ===============
 	*/
-	virtual void LightStyle(int style, const char* val)
+	void LightStyle(int style, const char* val) override
 	{
 		if ( !val )
 		{
@@ -1047,9 +1045,9 @@ public:
 
 		stringTable->SetStringUserData( style, Q_strlen(val)+1, val );
 	}
-		
-		
-	virtual void StaticDecal( const Vector& origin, int decalIndex, int entityIndex, int modelIndex, bool lowpriority )
+
+
+	void StaticDecal( const Vector& origin, int decalIndex, int entityIndex, int modelIndex, bool lowpriority ) override
 	{
 		CSVCMsg_BSPDecal_t decal;
 
@@ -1071,7 +1069,7 @@ public:
 		}
 	}
 
-	void Message_DetermineMulticastRecipients( bool usepas, const Vector& origin, CPlayerBitVec& playerbits )
+	void Message_DetermineMulticastRecipients( bool usepas, const Vector& origin, CPlayerBitVec& playerbits ) override
 	{
 		SV_DetermineMulticastRecipients( usepas, origin, playerbits );
 	}
@@ -1083,8 +1081,8 @@ public:
 	  
 		===============================================================================
 	*/
-	
-	virtual bf_write *EntityMessageBegin( int ent_index, ServerClass * ent_class, bool reliable )
+
+	bf_write *EntityMessageBegin( int ent_index, ServerClass * ent_class, bool reliable ) override
 	{
 		if ( s_MsgData.started )
 		{
@@ -1123,8 +1121,8 @@ public:
 			
 		return bytesWritten; // all checks passed, estimated final length
 	}
-	
-	virtual void MessageEnd( void )
+
+	void MessageEnd( void ) override
 	{
 		if ( !s_MsgData.started )
 		{
@@ -1156,8 +1154,8 @@ public:
 		
 		s_MsgData.Reset(); // clear message data
 	}
-	
-	virtual void SendUserMessage( IRecipientFilter& filter, int message, const ::google::protobuf::Message &msg )
+
+	void SendUserMessage( IRecipientFilter& filter, int message, const ::google::protobuf::Message &msg ) override
 	{
 		CSVCMsg_UserMessage_t _userMsg;
 
@@ -1187,7 +1185,7 @@ public:
 	}
 
 	/* single print to a specific client */
-	virtual void ClientPrintf( edict_t *pEdict, const char *szMsg )
+	void ClientPrintf( edict_t *pEdict, const char *szMsg ) override
 	{
 		int entnum = NUM_FOR_EDICT( pEdict );
 		
@@ -1210,7 +1208,7 @@ public:
 	}
 #else
 
-	void Con_NPrintf( int pos, const char *fmt, ... )
+	void Con_NPrintf( int pos, const char *fmt, ... ) override
 	{
 		if ( IsDedicatedServer() )
 			return;
@@ -1224,7 +1222,7 @@ public:
 		::Con_NPrintf( pos, "%s", text );
 	}
 
-	void Con_NXPrintf( const struct con_nprint_s *info, const char *fmt, ... )
+	void Con_NXPrintf( const struct con_nprint_s *info, const char *fmt, ... ) override
 	{
 		if ( IsDedicatedServer() )
 			return;
@@ -1239,7 +1237,7 @@ public:
 	}
 #endif
 
-	virtual void SetView(const edict_t *clientent, const edict_t *viewent)
+	void SetView(const edict_t *clientent, const edict_t *viewent) override
 	{
 		int clientnum = NUM_FOR_EDICT( clientent );
 		if (clientnum < 1 || clientnum > sv.GetClientCount() )
@@ -1254,8 +1252,8 @@ public:
 
 		client->SendNetMsg( view );
 	}
-	
-	virtual void CrosshairAngle(const edict_t *clientent, float pitch, float yaw)
+
+	void CrosshairAngle(const edict_t *clientent, float pitch, float yaw) override
 	{
 		int clientnum = NUM_FOR_EDICT( clientent );
 
@@ -1281,25 +1279,25 @@ public:
 
 		client->SendNetMsg( crossHairMsg );
 	}
-	
-	
-	virtual void GetGameDir( char *szGetGameDir, int maxlength )
+
+
+	void GetGameDir( char *szGetGameDir, int maxlength ) override
 	{
 		COM_GetGameDir(szGetGameDir, maxlength );
-	}		
-	
-	virtual int CompareFileTime( const char *filename1, const char *filename2, int *iCompare)
+	}
+
+	int CompareFileTime( const char *filename1, const char *filename2, int *iCompare) override
 	{
 		return COM_CompareFileTime(filename1, filename2, iCompare);
 	}
-	
-	virtual bool LockNetworkStringTables( bool lock )
+
+	bool LockNetworkStringTables( bool lock ) override
 	{
 		return networkStringTableContainerServer->Lock( lock );
 	}
 
 	// For use with FAKE CLIENTS
-	virtual edict_t* CreateFakeClient( const char *netname )
+	edict_t* CreateFakeClient( const char *netname ) override
 	{
 		CGameClient *fcl = static_cast<CGameClient*>(sv.CreateFakeClient(netname));
 		if ( !fcl )
@@ -1315,7 +1313,7 @@ public:
 	}
 	
 	// Get a keyvalue for s specified client
-	virtual const char *GetClientConVarValue( int clientIndex, const char *name )
+	const char *GetClientConVarValue( int clientIndex, const char *name ) override
 	{
 		if ( clientIndex < 1 || clientIndex > sv.GetClientCount() )
 		{
@@ -1325,38 +1323,38 @@ public:
 
 		return sv.GetClient( clientIndex - 1 )->GetUserSetting( name );
 	}
-	
-	virtual const char *ParseFile(const char *data, char *token, int maxlen)
+
+	const char *ParseFile(const char *data, char *token, int maxlen) override
 	{
 		return ::COM_ParseFile(data, token, maxlen );
 	}
 
-	virtual bool CopyFile( const char *source, const char *destination )
+	bool CopyFile( const char *source, const char *destination ) override
 	{
 		return ::COM_CopyFile( source, destination );
 	}
-	
-	virtual void AddOriginToPVS( const Vector& origin )
+
+	void AddOriginToPVS( const Vector& origin ) override
 	{
 		::SV_AddOriginToPVS(origin);
 	}
-	
-	virtual void ResetPVS( byte* pvs, int pvssize )
+
+	void ResetPVS( byte* pvs, int pvssize ) override
 	{
 		::SV_ResetPVS( pvs, pvssize );
 	}
-	
-	virtual void		SetAreaPortalState( int portalNumber, int isOpen )
+
+	void		SetAreaPortalState( int portalNumber, int isOpen ) override
 	{
 		CM_SetAreaPortalState(portalNumber, isOpen);
 	}
 
-	virtual void		SetAreaPortalStates( const int *portalNumbers, const int *isOpen, int nPortals )
+	void		SetAreaPortalStates( const int *portalNumbers, const int *isOpen, int nPortals ) override
 	{
 		CM_SetAreaPortalStates( portalNumbers, isOpen, nPortals );
 	}
 
-	virtual void		DrawMapToScratchPad( IScratchPad3D *pPad, unsigned long iFlags )
+	void		DrawMapToScratchPad( IScratchPad3D *pPad, unsigned long iFlags ) override
 	{
 		worldbrushdata_t *pData = host_state.worldmodel->brush.pShared;
 		if ( !pData )
@@ -1382,7 +1380,7 @@ public:
 		}
 	}
 
-	const CBitVec<MAX_EDICTS>* GetEntityTransmitBitsForClient( int iClientIndex )
+	const CBitVec<MAX_EDICTS>* GetEntityTransmitBitsForClient( int iClientIndex ) override
 	{
 		if ( iClientIndex < 0 || iClientIndex >= sv.GetClientCount() )
 		{
@@ -1398,18 +1396,18 @@ public:
 		return &deltaFrame->transmit_entity;
 	}
 
-	virtual bool IsPaused()
+	bool IsPaused() override
 	{
 		return sv.IsPaused();
 	}
 
-	virtual float GetTimescale( void ) const
+	float GetTimescale( void ) const override
 	{
 		extern float CL_GetHltvReplayTimeScale();
 		return sv.GetTimescale() * host_timescale.GetFloat() * CL_GetHltvReplayTimeScale();
 	}
 
-	virtual void SetFakeClientConVarValue( edict_t *pEntity, const char *cvar, const char *value )
+	void SetFakeClientConVarValue( edict_t *pEntity, const char *cvar, const char *value ) override
 	{
 		int clientnum = NUM_FOR_EDICT( pEntity );
 		if (clientnum < 1 || clientnum > sv.GetClientCount() )
@@ -1423,12 +1421,12 @@ public:
 		}
 	}
 
-	virtual CSharedEdictChangeInfo* GetSharedEdictChangeInfo()
+	CSharedEdictChangeInfo* GetSharedEdictChangeInfo() override
 	{
 		return &g_SharedEdictChangeInfo;
 	}
 
-	virtual IChangeInfoAccessor *GetChangeAccessor( const edict_t *pEdict )
+	IChangeInfoAccessor *GetChangeAccessor( const edict_t *pEdict ) override
 	{
 		extern int NUM_FOR_EDICTINFO( const edict_t * e );
 
@@ -1436,7 +1434,7 @@ public:
 		return &sv.edictchangeinfo[ idx ];
 	}
 
-	virtual QueryCvarCookie_t StartQueryCvarValue( edict_t *pPlayerEntity, const char *pCvarName )
+	QueryCvarCookie_t StartQueryCvarValue( edict_t *pPlayerEntity, const char *pCvarName ) override
 	{
 		int clientnum = NUM_FOR_EDICT( pPlayerEntity );
 		if (clientnum < 1 || clientnum > sv.GetClientCount() )
@@ -1447,7 +1445,7 @@ public:
 	}
 
 	// Name of most recently load .sav file
-	virtual char const *GetMostRecentlyLoadedFileName()
+	char const *GetMostRecentlyLoadedFileName() override
 	{
 #if !defined( DEDICATED )
 		return saverestore->GetMostRecentlyLoadedFileName();
@@ -1456,7 +1454,7 @@ public:
 #endif
 	}
 
-	virtual char const *GetSaveFileName()
+	char const *GetSaveFileName() override
 	{
 #if !defined( DEDICATED )
 		return saverestore->GetSaveFileName();
@@ -1467,29 +1465,29 @@ public:
 
 	// Tells the engine we can immdiately re-use all edict indices
 	// even though we may not have waited enough time
-	virtual void AllowImmediateEdictReuse( )
+	void AllowImmediateEdictReuse( ) override
 	{
 		ED_AllowImmediateReuse();
 	}
-			
-	virtual void SetAchievementMgr( IAchievementMgr *pAchievementMgr )
+
+	void SetAchievementMgr( IAchievementMgr *pAchievementMgr ) override
 	{
 		g_pAchievementMgr = pAchievementMgr;
 	}
-	
-	virtual IAchievementMgr *GetAchievementMgr() 
+
+	IAchievementMgr *GetAchievementMgr() override
 	{
 		return g_pAchievementMgr;
 	}
 
-	virtual int GetAppID()
+	int GetAppID() override
 	{
 		return GetSteamAppID();
 	}
-	
-	virtual bool IsLowViolence();
 
-	virtual bool IsAnyClientLowViolence();
+	bool IsLowViolence() override;
+
+	bool IsAnyClientLowViolence() override;
 
 	/*
 	=================
@@ -1500,7 +1498,7 @@ public:
 		localcmd (string)
 		=================
 	*/
-	virtual void InsertServerCommand( const char *str )
+	void InsertServerCommand( const char *str ) override
 	{
 		if ( !str )
 		{
@@ -1516,13 +1514,13 @@ public:
 		}
 	}
 
-	bool GetPlayerInfo( int ent_num, player_info_t *pinfo )
+	bool GetPlayerInfo( int ent_num, player_info_t *pinfo ) override
 	{
 		// Entity numbers are offset by 1 from the player numbers
 		return sv.GetPlayerInfo( (ent_num-1), pinfo );
 	}
 
-	bool IsClientFullyAuthenticated( edict_t *pEdict )
+	bool IsClientFullyAuthenticated( edict_t *pEdict ) override
 	{
 		int entnum = NUM_FOR_EDICT( pEdict );
 		if (entnum < 1 || entnum > sv.GetClientCount() )
@@ -1535,17 +1533,17 @@ public:
 
 		return false;
 	}
-	
-	virtual ISPSharedMemory *GetSinglePlayerSharedMemorySpace( const char *szName, int ent_num = MAX_EDICTS )
+
+	ISPSharedMemory *GetSinglePlayerSharedMemorySpace( const char *szName, int ent_num = MAX_EDICTS ) override
 	{
 		return g_pSinglePlayerSharedMemoryManager->GetSharedMemory( szName, ent_num );
 	}
 
-	virtual void *AllocLevelStaticData( size_t bytes )
+	void *AllocLevelStaticData( size_t bytes ) override
 	{
 		return Hunk_AllocName( bytes, "AllocLevelStaticData", false );
 	}
-	bool IsSplitScreenPlayer( int entnum )
+	bool IsSplitScreenPlayer( int entnum ) override
 	{
 		if (entnum < 1 || entnum > sv.GetClientCount() )
 			return false;
@@ -1554,7 +1552,7 @@ public:
 		return client->IsSplitScreenUser();
 	}
 
-	edict_t *GetSplitScreenPlayerAttachToEdict( int ent_num )
+	edict_t *GetSplitScreenPlayerAttachToEdict( int ent_num ) override
 	{
 		if (ent_num < 1 || ent_num > sv.GetClientCount() )
 			return nullptr;
@@ -1570,7 +1568,7 @@ public:
 		return static_cast< CGameClient * >( client->m_pAttachedTo )->edict;
 	}
 
-	CrossPlayPlatform_t GetClientCrossPlayPlatform( int entnum )
+	CrossPlayPlatform_t GetClientCrossPlayPlatform( int entnum ) override
 	{
 		if (entnum < 1 || entnum > sv.GetClientCount() )
 			return CROSSPLAYPLATFORM_UNKNOWN;
@@ -1579,7 +1577,7 @@ public:
 		return client->GetClientPlatform();
 	}
 
-	void EnsureInstanceBaseline( int ent_num )
+	void EnsureInstanceBaseline( int ent_num ) override
 	{
 		edict_t *pEnt = EDICT_NUM( ent_num );
 		Assert ( pEnt && pEnt->GetNetworkable() );
@@ -1597,7 +1595,7 @@ public:
 	}
 
 	// Sets server reservation payload
-	bool ReserveServerForQueuedGame( char const *szReservationPayload )
+	bool ReserveServerForQueuedGame( char const *szReservationPayload ) override
 	{
 		bool bResult = sv.ReserveServerForQueuedGame( szReservationPayload );
 		if ( bResult && szReservationPayload && ( szReservationPayload[0] != 'R' ) )
@@ -1607,6 +1605,7 @@ public:
 		return bResult;
 	}
 
+#ifdef WITH_HLTV
 	bool GetEngineHltvInfo( CEngineHltvInfo_t &info )
 	{
 		Q_memset( &info, 0, sizeof( info ) );
@@ -1671,8 +1670,9 @@ public:
 			hltv->UpdateHltvExternalViewers( numTotalViewers, numLinkedViewers );
 		}
 	}
+#endif
 
-	void SetDedicatedServerBenchmarkMode( bool bBenchmarkMode )
+	void SetDedicatedServerBenchmarkMode( bool bBenchmarkMode ) override
 	{
 		g_bDedicatedServerBenchmarkMode = bBenchmarkMode;
 		if ( bBenchmarkMode )
@@ -1683,16 +1683,17 @@ public:
 	}
 
 	// Returns the SteamID of the game server
-	const CSteamID	*GetGameServerSteamID()
+	const CSteamID	*GetGameServerSteamID() override
 	{
-		if ( !Steam3Server().GetGSSteamID().IsValid() )
-			return nullptr;
+		if ( Steam3Server().GetGSSteamID().IsValid() )
+			return &Steam3Server().GetGSSteamID();
 
-		return &Steam3Server().GetGSSteamID();
+		return nullptr;
+			
 	}
 
 
-	int	GetNumSplitScreenUsersAttachedToEdict( int ent_num )
+	int	GetNumSplitScreenUsersAttachedToEdict( int ent_num ) override
 	{
 		if (ent_num < 1 || ent_num > sv.GetClientCount() )
 			return 0;
@@ -1711,7 +1712,7 @@ public:
 		return c;
 	}
 	
-	edict_t *GetSplitScreenPlayerForEdict( int ent_num, int nSlot )
+	edict_t *GetSplitScreenPlayerForEdict( int ent_num, int nSlot ) override
 	{
 		if (ent_num < 1 || ent_num > sv.GetClientCount() )
 			return nullptr;
@@ -1730,7 +1731,7 @@ public:
 		return (( CGameClient * )cl)->edict;
 	}
 
-	virtual int GetClusterCount()
+	int GetClusterCount() override
 	{
 		CCollisionBSPData *pBSPData = GetCollisionBSPData();
 		if ( pBSPData && pBSPData->map_vis )
@@ -1738,7 +1739,7 @@ public:
 		return 0;
 	}
 
-	virtual int GetAllClusterBounds( bbox_t *pBBoxList, int maxBBox )
+	int GetAllClusterBounds( bbox_t *pBBoxList, int maxBBox ) override
 	{
 		CCollisionBSPData *pBSPData = GetCollisionBSPData();
 		if ( pBSPData && pBSPData->map_vis && host_state.worldbrush )
@@ -1773,26 +1774,27 @@ public:
 		return 0;
 	}
 
-	virtual bool IsCreatingReslist()
+	bool IsCreatingReslist() override
 	{
 		return MapReslistGenerator().IsEnabled();
 	}
-	virtual bool IsCreatingXboxReslist()
+
+	bool IsCreatingXboxReslist() override
 	{
 		return MapReslistGenerator().IsCreatingForXbox();
 	}
 
-	virtual bool IsDedicatedServerForXbox()
+	bool IsDedicatedServerForXbox() override
 	{
 		return sv.IsDedicatedForXbox();
 	}
 
-	virtual bool IsDedicatedServerForPS3( void )
+	bool IsDedicatedServerForPS3( void ) override
 	{
 		return sv.IsDedicatedForPS3();
 	}
 
-	virtual void Pause( bool bPause, bool bForce )
+	void Pause( bool bPause, bool bForce ) override
 	{
 		ConVarRef sv_pausable( "sv_pausable" );
 		int oldValue = sv_pausable.GetInt();
@@ -1809,52 +1811,52 @@ public:
 		}
 	}
 
-	virtual void SetTimescale( float flTimescale )
+	void SetTimescale( float flTimescale ) override
 	{
 		sv.SetTimescale( flTimescale );
 	}
 
-	virtual bool HasPaintmap()
+	bool HasPaintmap() override
 	{
 		return g_PaintManager.m_bShouldRegister;
 	}
 
-	virtual bool SpherePaintSurface( const model_t *pModel, const Vector& vPosition, BYTE colorIndex, float flSphereRadius, float flPaintCoatPercent )
+	bool SpherePaintSurface( const model_t *pModel, const Vector& vPosition, BYTE colorIndex, float flSphereRadius, float flPaintCoatPercent ) override
 	{
 		return ShootPaintSphere( pModel, vPosition, colorIndex, flSphereRadius, flPaintCoatPercent );
 	}
 
-	virtual void SphereTracePaintSurface( const model_t *pModel, const Vector& vPosition, const Vector& vContactNormal, float flSphereRadius, CUtlVector<BYTE>& surfColors )
+	void SphereTracePaintSurface( const model_t *pModel, const Vector& vPosition, const Vector& vContactNormal, float flSphereRadius, CUtlVector<BYTE>& surfColors ) override
 	{
 		TracePaintSphere( pModel, vPosition, vContactNormal, flSphereRadius, surfColors );
 	}
-	
-	virtual void RemoveAllPaint()
+
+	void RemoveAllPaint() override
 	{
 		g_PaintManager.RemoveAllPaint();
 	}
 
-	virtual void PaintAllSurfaces( BYTE color )
+	void PaintAllSurfaces( BYTE color ) override
 	{
 		g_PaintManager.PaintAllSurfaces( color );
 	}
 
-	virtual void GetPaintmapDataRLE( CUtlVector<uint32> &data )
+	void GetPaintmapDataRLE( CUtlVector<uint32> &data ) override
 	{
 		g_PaintManager.GetPaintmapDataRLE( data );
 	}
 
-	virtual void LoadPaintmapDataRLE( const CUtlVector<uint32> &data )
+	void LoadPaintmapDataRLE( const CUtlVector<uint32> &data ) override
 	{
 		g_PaintManager.LoadPaintmapDataRLE( data );
 	}
 
-	virtual void RemovePaint( const model_t* pModel )
+	void RemovePaint( const model_t* pModel ) override
 	{
 		g_PaintManager.RemovePaint( pModel );
 	}
 
-	virtual void SendPaintmapDataToClient( edict_t *pPlayerEdict )
+	void SendPaintmapDataToClient( edict_t *pPlayerEdict ) override
 	{
 		int entnum = NUM_FOR_EDICT( pPlayerEdict );
 		if (entnum < 1 || entnum > sv.GetClientCount() )
@@ -1887,7 +1889,7 @@ public:
 
 
 	// Returns the SteamID of the specified player. It'll be NULL if the player hasn't authenticated yet.
-	const CSteamID	*GetClientSteamID( const edict_t *pPlayerEdict, bool bRequireFullyAuthenticated )
+	const CSteamID	*GetClientSteamID( const edict_t *pPlayerEdict, bool bRequireFullyAuthenticated ) override
 	{
 		int entnum = NUM_FOR_EDICT( pPlayerEdict );
 		if (entnum < 1 || entnum > sv.GetClientCount() )
@@ -1908,7 +1910,7 @@ public:
 	}
 
 	// Returns the XUID of the specified player. It'll be NULL if the player hasn't connected yet.
-	XUID GetClientXUID( edict_t *pPlayerEdict )
+	XUID GetClientXUID( edict_t *pPlayerEdict ) override
 	{
 		int entnum = NUM_FOR_EDICT( pPlayerEdict );
 		if (entnum < 1 || entnum > sv.GetClientCount() )
@@ -1922,35 +1924,35 @@ public:
 		return client->GetClientXuid();
 	}
 
-	void SetGamestatsData( CGamestatsData *pGamestatsData )
+	void SetGamestatsData( CGamestatsData *pGamestatsData ) override
 	{
 		g_pGamestatsData = pGamestatsData;
 	}
 
-	CGamestatsData *GetGamestatsData()
+	CGamestatsData *GetGamestatsData() override
 	{
 		return g_pGamestatsData;
 	}
 
-	void HostValidateSession()
+	void HostValidateSession() override
 	{
 		extern void HostValidateSessionImpl();
 		HostValidateSessionImpl();
 	}
 
-	void RefreshScreenIfNecessary()
+	void RefreshScreenIfNecessary() override
 	{
 		::RefreshScreenIfNecessary();
 	}
 
-	float GetLatencyForChoreoSounds();
+	float GetLatencyForChoreoSounds() override;
 
-	int GetServerVersion() const
+	int GetServerVersion() const override
 	{
 		return ::GetServerVersion();
 	}
 
-	bool WasShutDownRequested() const
+	bool WasShutDownRequested() const override
 	{
 		extern bool sv_ShutDown_WasRequested();
 		return sv_ShutDown_WasRequested();
@@ -1959,38 +1961,37 @@ public:
 private:
 	
 	// Purpose: Sends a temp entity to the client ( follows the format of the original MESSAGE_BEGIN stuff from HL1
-	virtual void PlaybackTempEntity( IRecipientFilter& filter, float delay, const void *pSender, const SendTable *pST, int classID  );
-	virtual int	CheckAreasConnected( int area1, int area2 );
-	virtual int GetArea( const Vector& origin );
-	virtual void GetAreaBits( int area, unsigned char *bits, int buflen );
-	virtual bool GetAreaPortalPlane( Vector const &vViewOrigin, int portalKey, VPlane *pPlane );
-	virtual client_textmessage_t *TextMessageGet( const char *pName );
-	virtual void LogPrint(const char * msg);
-	virtual bool IsLogEnabled();
-	virtual bool LoadGameState( char const *pMapName, bool createPlayers );
-	virtual bool IsOverrideLoadGameEntsOn();
-	virtual void ForceFlushEntity( int iEntity );
-	virtual void LoadAdjacentEnts( const char *pOldLevel, const char *pLandmarkName );
-	virtual void ClearSaveDir();
-	virtual void ClearSaveDirAfterClientLoad();
+	void PlaybackTempEntity( IRecipientFilter& filter, float delay, const void *pSender, const SendTable *pST, int classID  ) override;
+	int	CheckAreasConnected( int area1, int area2 ) override;
+	int GetArea( const Vector& origin ) override;
+	void GetAreaBits( int area, unsigned char *bits, int buflen ) override;
+	bool GetAreaPortalPlane( Vector const &vViewOrigin, int portalKey, VPlane *pPlane ) override;
+	client_textmessage_t *TextMessageGet( const char *pName ) override;
+	void LogPrint(const char * msg) override;
+	bool IsLogEnabled() override;
+	bool LoadGameState( char const *pMapName, bool createPlayers ) override;
+	bool IsOverrideLoadGameEntsOn() override;
+	void ForceFlushEntity( int iEntity ) override;
+	void LoadAdjacentEnts( const char *pOldLevel, const char *pLandmarkName ) override;
+	void ClearSaveDir() override;
+	void ClearSaveDirAfterClientLoad() override;
 
-	virtual const char* GetMapEntitiesString();
-	virtual void BuildEntityClusterList( edict_t *pEdict, PVSInfo_t *pPVSInfo );
-	virtual void CleanUpEntityClusterList( PVSInfo_t *pPVSInfo );
-	virtual void SolidMoved( edict_t *pSolidEnt, ICollideable *pSolidCollide, const Vector* pPrevAbsOrigin, bool accurateBboxTriggerChecks );
-	virtual void TriggerMoved( edict_t *pTriggerEnt, bool accurateBboxTriggerChecks );
+	const char* GetMapEntitiesString() override;
+	void BuildEntityClusterList( edict_t *pEdict, PVSInfo_t *pPVSInfo ) override;
+	void CleanUpEntityClusterList( PVSInfo_t *pPVSInfo ) override;
+	void SolidMoved( edict_t *pSolidEnt, ICollideable *pSolidCollide, const Vector* pPrevAbsOrigin, bool accurateBboxTriggerChecks ) override;
+	void TriggerMoved( edict_t *pTriggerEnt, bool accurateBboxTriggerChecks ) override;
 
-	virtual ISpatialPartition *CreateSpatialPartition( const Vector& worldmin, const Vector& worldmax ) { return ::CreateSpatialPartition( worldmin, worldmax );	}
-	virtual void 		DestroySpatialPartition( ISpatialPartition *pPartition )						{ ::DestroySpatialPartition( pPartition );					}
+	ISpatialPartition *CreateSpatialPartition( const Vector& worldmin, const Vector& worldmax ) override { return ::CreateSpatialPartition( worldmin, worldmax );	}
+	void 		DestroySpatialPartition( ISpatialPartition *pPartition ) override { ::DestroySpatialPartition( pPartition );					}
 
 	public:
-
-	virtual bool IsActiveApp()
+	bool IsActiveApp() override
 	{
 		return game->IsActiveApp();
 	}
 
-	virtual void SetNoClipEnabled( bool bEnabled )
+	void SetNoClipEnabled( bool bEnabled ) override
 	{
 		extern bool g_bNoClipEnabled;
 		g_bNoClipEnabled = bEnabled;

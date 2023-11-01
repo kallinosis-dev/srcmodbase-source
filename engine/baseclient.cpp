@@ -48,8 +48,10 @@ CBaseClient::CBaseClient()
 	m_ConVars = nullptr;
 	m_Server = nullptr;
 	m_pBaseline = nullptr;
+#ifdef WITH_HLTV
 	m_bIsHLTV = false;
 	m_pHltvSlaveServer = nullptr;
+#endif
 #if defined( REPLAY_ENABLED )
 	m_bIsReplay = false;
 #endif
@@ -112,7 +114,9 @@ bool CBaseClient::FillUserInfo( player_info_s &userInfo )
 	Q_strncpy( userInfo.friendsName, m_FriendsName, sizeof(m_FriendsName) );
 	userInfo.userID = GetUserID();
 	userInfo.fakeplayer = ( IsFakeClient() && !IsSplitScreenUser() );
+#ifdef WITH_HLTV
 	userInfo.ishltv = IsHLTV();
+#endif
 #if defined( REPLAY_ENABLED )
 	userInfo.isreplay = IsReplay();
 #endif		
@@ -169,6 +173,7 @@ bool CBaseClient::SendNetMsg( INetMessage &msg, bool bForceReliable, bool bVoice
 	return bret;
 }
 
+#ifdef WITH_HLTV
 CHLTVServer	* CBaseClient::GetHltvServer()
 {
 	if ( m_Server->IsHLTV() )
@@ -192,6 +197,7 @@ CHLTVServer	* CBaseClient::GetAnyConnectedHltvServer()
 		return GetHltvServer();
 	}
 }
+#endif
 
 
 char const *CBaseClient::GetUserSetting( char const *cvar ) const
@@ -304,9 +310,11 @@ void CBaseClient::Clear()
 	m_bSplitPlayerDisconnecting = false;
 	m_nSplitScreenPlayerSlot = 0;
 	m_pAttachedTo = nullptr;
+#ifdef WITH_HLTV
 	m_bIsHLTV = false;
 	//???TODO: do we need to disconnect slave hltv server?
 	//m_pHltvSlaveServer = NULL;
+#endif
 #if defined( REPLAY_ENABLED )
 	m_bIsReplay = false;
 #endif
@@ -381,7 +389,10 @@ bool CBaseClient::ProcessSignonStateMsg(int state, int spawncount)
 											// Force load known avatars for the users when they fully connect
 											if ( ( GetServer() == &sv ) &&
 												( sv_reliableavatardata.GetInt() == 2 ) &&
-												!this->IsFakeClient() && !this->IsHLTV() &&
+												!this->IsFakeClient() &&
+#ifdef WITH_HLTV
+												!this->IsHLTV() &&
+#endif
 												m_SteamID.IsValid() )
 											{
 												//
@@ -612,10 +623,12 @@ void CBaseClient::SpawnPlayer( void )
 
 	// Set client clock to match server's
 	CNETMsg_Tick_t tick( m_Server->GetTick(), host_frameendtime_computationduration, host_frametime_stddeviation, host_framestarttime_stddeviation );
+#ifdef WITH_HLTV
 	if ( GetHltvReplayDelay() )
 	{
 		tick.set_hltv_replay_flags( 1 );
 	}
+#endif
 	SendNetMsg( tick, true );
 	
 	// Spawned into server, not fully active, though
@@ -681,10 +694,12 @@ void CBaseClient::Connect( const char *szName, int nUserID, INetChannel *pNetCha
 	}
 
 	m_bFakePlayer = bFakePlayer;
+#ifndef NO_STEAM
 	if ( bFakePlayer )
 	{
 		Steam3Server().NotifyLocalClientConnect( this );
 	}
+#endif
 	m_NetChannel = pNetChannel;
 
 	if ( m_NetChannel && m_Server && m_Server->IsMultiplayer() )
@@ -710,7 +725,9 @@ void CBaseClient::PerformDisconnection( const char *pReason )
 	SV_NotifyRPTOfDisconnect( m_nClientSlot );
 #endif
 
+#ifndef NO_STEAM
 	Steam3Server().NotifyClientDisconnect( this );
+#endif
 
 	SetSignonState( SIGNONSTATE_NONE );
 
@@ -804,7 +821,9 @@ void CBaseClient::Disconnect( const char *fmt )
 
 	NotifyDedicatedServerUI("UpdatePlayers");
 
+#ifndef NO_STEAM
 	Steam3Server().SendUpdatedServerDetails(); // Update the master server.
+#endif
 }
 
 
@@ -878,7 +897,13 @@ bool CBaseClient::SendServerInfo( void )
 		// because kvExtendedServerInfo describes the game and is cached in server.dll,
 		// but the clients can connect on SERVER port or on GOTV port and must
 		// receive appropriate server info for the port that they are using
-		kvExtendedServerInfo->SetInt( "gotv", m_Server->IsHLTV() );
+		kvExtendedServerInfo->SetInt( "gotv",
+#ifdef WITH_HLTV
+			m_Server->IsHLTV()
+#else
+			false
+#endif
+		);
 
 		CSVCMsg_CmdKeyValues_t cmdExtendedServerInfo;
 		CmdKeyValuesHelper::SVCMsg_SetKeyValues( cmdExtendedServerInfo, kvExtendedServerInfo );
@@ -896,8 +921,10 @@ bool CBaseClient::SendServerInfo( void )
 	if ( g_pMatchFramework && !sv.GetReservationCookie() )
 	{
 		KeyValues *kvUpdate = new KeyValues( "OnEngineListenServerStarted" );
+#ifndef NO_STEAM
 		if ( Steam3Server().SteamGameServer() )
 			kvUpdate->SetInt( "externalIP", Steam3Server().SteamGameServer()->GetPublicIP() );
+#endif
 		g_pMatchFramework->GetEventsSubscription()->BroadcastEvent( kvUpdate );
 	}
 
@@ -912,10 +939,12 @@ bool CBaseClient::SendServerInfo( void )
 	{
 		CNETMsg_SetConVar_t convars;
 		Host_BuildConVarUpdateMessage( convars.mutable_convars(), FCVAR_REPLICATED, true );
+#ifdef WITH_HLTV
 		if ( m_Server->IsHLTV() )
 		{
 			static_cast< CHLTVServer* >( m_Server )->FixupConvars( convars );
 		}
+#endif
 		convars.WriteToBuffer( msg );
 	}
 
@@ -1024,7 +1053,10 @@ bool CBaseClient::NETMsg_Tick( const CNETMsg_Tick& msg )
 		CNETMsg_Tick_t::FrametimeToFloat( msg.host_framestarttime_std_deviation() ) );
 	int nTick = msg.tick();
 	if ( nTick == -1 // tick == -1 is a call from client to send the full frame update, the client may be in bad state w.r.t. hltv replay
-	  || !msg.hltv_replay_flags() == !GetHltvReplayDelay() ) // the ack should be from the frame from the same timeline as we're feeding the player. Real-time-line acks shouldn't mix up with Replay-time-line acks
+#ifdef WITH_HLTV
+	  || !msg.hltv_replay_flags() == !GetHltvReplayDelay() // the ack should be from the frame from the same timeline as we're feeding the player. Real-time-line acks shouldn't mix up with Replay-time-line acks
+#endif
+		)
 	{
 		return UpdateAcknowledgedFramecount( nTick );
 	}
@@ -1069,6 +1101,7 @@ void CBaseClient::OnPlayerAvatarDataChanged()
 		if ( pClient == this )
 			continue;
 
+#ifdef WITH_HLTV
 		// If this is a GOTV thunk then forward them the raw data
 		if ( pClient->IsHLTV() )
 		{
@@ -1078,6 +1111,7 @@ void CBaseClient::OnPlayerAvatarDataChanged()
 			}
 			continue;
 		}
+#endif
 
 		if ( INetChannel *pNetChannel = pClient->GetNetChannel() )
 		{
@@ -1156,7 +1190,9 @@ bool CBaseClient::CLCMsg_ClientInfo( const CCLCMsg_ClientInfo& msg )
 {
 	m_nSendtableCRC = msg.send_table_crc();
 
+#ifdef WITH_HLTV
 	m_bIsHLTV = msg.is_hltv();
+#endif
 
 #if defined( REPLAY_ENABLED )
 	m_bIsReplay = msg.is_replay();
@@ -1816,7 +1852,12 @@ const char *GetUserIDString( const USERID_t& id )
 			TSteamGlobalUserID nullID;
 			Q_memset( &nullID, 0, sizeof( TSteamGlobalUserID ) );
 
-			if ( Steam3Server().BLanOnly() && !Q_memcmp( &id.uid.steamid, &nullID, sizeof( TSteamGlobalUserID ) ) ) 
+			if (
+#ifndef NO_STEAM
+				Steam3Server().BLanOnly() &&
+#endif
+				!Q_memcmp( &id.uid.steamid, &nullID, sizeof( TSteamGlobalUserID ) ) 
+				) 
 			{
 				strcpy( idstr, "STEAM_ID_LAN" );
 			}
@@ -2282,8 +2323,10 @@ bool CBaseClient::IsHumanPlayer() const
 	if ( !IsConnected() )
 		return false;
 
+#ifdef WITH_HLTV
 	if ( IsHLTV() )
 		return false;
+#endif
 
 	if ( IsFakeClient() && !IsSplitScreenUser() )
 		return false;

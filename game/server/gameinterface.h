@@ -168,8 +168,10 @@ public:
 	float	m_fAutoSaveDangerousMinHealthToCommit;
 	bool	m_bIsHibernating;
 
+#ifndef NO_STEAM
 	// Called after the steam API has been activated post-level startup
 	virtual void			GameServerSteamAPIActivated( bool bActive );
+#endif
 
 	// Returns which encryption key to use for messages to be encrypted for TV
 	virtual EncryptedMessageKeyType_t GetMessageEncryptionKey( INetMessage *pMessage );
