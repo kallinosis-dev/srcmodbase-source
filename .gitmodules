@@ -1,3 +1,6 @@
 [submodule "thirdparty/protobuf"]
 	path = thirdparty/protobuf
 	url = https://github.com/kallinosis-dev/protobuf.git
+[submodule "thirdparty/cryptopp"]
+	path = thirdparty/cryptopp
+	url = https://github.com/kallinosis-dev/cryptopp.git
