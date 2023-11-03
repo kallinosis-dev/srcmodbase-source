@@ -2221,8 +2221,6 @@ int NET_SendToImpl( SOCKET s, const char * buf, int len, const ns_address &to, i
 //			tolen - 
 // Output : int
 //-----------------------------------------------------------------------------
-bool CL_IsHL2Demo();
-bool CL_IsPortalDemo();
 static int NET_SendTo( bool verbose, SOCKET s, const char * buf, int len, const ns_address &to, int iGameDataLength )
 {	
 	int nSend = 0;
@@ -2234,14 +2232,6 @@ static int NET_SendTo( bool verbose, SOCKET s, const char * buf, int len, const 
 	{		
 		return len;
 	}
-
-	// Don't send anything out in VCR mode.. it just annoys other people testing in multiplayer.
-#ifndef DEDICATED
-	if ( ( CL_IsHL2Demo() || CL_IsPortalDemo() ) && !net_dedicated )
-	{
-		Error( "NET_SendTo: Error" );
-	}
-#endif // _WIN32
 
 	nSend = NET_SendToImpl
 	( 

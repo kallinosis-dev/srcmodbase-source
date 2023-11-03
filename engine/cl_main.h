@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -180,8 +180,6 @@ void CL_SetupMapName( const char* pName, char* pFixedName, int maxlen );
 bool CL_CheckCRCs( const char *pszMap );
 bool CL_ShouldLoadBackgroundLevel( const CCommand &args );
 
-bool CL_IsHL2Demo();
-bool CL_IsPortalDemo();
 void CL_SetSteamCrashComment();
 
 void CL_CheckForPureServerWhitelist();

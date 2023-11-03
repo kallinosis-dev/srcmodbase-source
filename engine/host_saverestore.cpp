@@ -971,8 +971,6 @@ bool CSaveRestore::SaveFileExists( const char *pName )
 // Input  : *pName - 
 // Output : int
 //-----------------------------------------------------------------------------
-bool CL_HL2Demo_MapCheck( const char *name ); // in host_cmd.cpp
-bool CL_PortalDemo_MapCheck( const char *name ); // in host_cmd.cpp
 bool CSaveRestore::LoadGame( const char *pName, bool bLetToolsOverrideLoadGameEnts )
 {
 	FileHandle_t	pFile;
@@ -1085,18 +1083,6 @@ bool CSaveRestore::LoadGame( const char *pName, bool bLetToolsOverrideLoadGameEn
 
 	deathmatch.SetValue( 0 );
 	coop.SetValue( 0 );
-
-	if ( !CL_HL2Demo_MapCheck( gameHeader.mapName ) )
-	{
-		Warning( "Save file %s is not valid\n", name );
-		return false;	
-	}
-	
-	if ( !CL_PortalDemo_MapCheck( gameHeader.mapName ) )
-	{
-		Warning( "Save file %s is not valid\n", name );
-		return false;	
-	}
 
 	bool bIsTransitionSave = ( gameHeader.originMapName[0] != 0 );
 

@@ -820,9 +820,6 @@ CON_COMMAND( users, "Show user info for players on server." )
 //-----------------------------------------------------------------------------
 // Purpose: Determine the value of sv.maxclients
 //-----------------------------------------------------------------------------
-bool CL_IsHL2Demo(); // from cl_main.cpp
-bool CL_IsPortalDemo(); // from cl_main.cpp
-
 void CGameServer::InitMaxClients( void )
 {
     int minmaxplayers = 1;
@@ -887,13 +884,6 @@ void CGameServer::InitMaxClients( void )
     }
 
     newmaxplayers = clamp( newmaxplayers, m_nMinClientsLimit, m_nMaxClientsLimit );
-
-    if ( ( CL_IsHL2Demo() || CL_IsPortalDemo() ) && !IsDedicated() )
-    {
-        newmaxplayers = 1;
-        m_nMinClientsLimit = 1;
-        m_nMaxClientsLimit = 1;
-    }
 
     SetMaxClients( newmaxplayers );
 }
@@ -1035,21 +1025,6 @@ void SV_InitGameDLL( void )
     {
         return;
     }
-
-#if !defined(DEDICATED) && !defined( _GAMECONSOLE )
-    bool CL_IsHL2Demo();
-    if ( CL_IsHL2Demo() && !sv.IsDedicated() && Q_stricmp( COM_GetModDirectory(), "hl2" ) )
-    {
-        Error( "The HL2 demo is unable to run Mods.\n" );
-        return;			
-    } 
-
-    if ( CL_IsPortalDemo() && !sv.IsDedicated() && Q_stricmp( COM_GetModDirectory(), "portal" ) )
-    {
-        Error( "The Portal demo is unable to run Mods.\n" );
-        return;			
-    } 
-#endif
 
     if ( !serverGameDLL )
     {

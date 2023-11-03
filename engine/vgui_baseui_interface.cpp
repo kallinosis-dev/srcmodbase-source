@@ -55,7 +55,6 @@
 #include "Steam.h" // for SteamGetUser()
 #include "ivideomode.h"
 #include "cl_pluginhelpers.h"
-#include "cl_main.h" // CL_IsHL2Demo()
 #include "cl_steamauth.h"
 #include "inputsystem/iinputstacksystem.h"
 
@@ -1164,16 +1163,6 @@ void CEngineVGui::Shutdown()
 	{
 		m_pConstantColorMaterial->DecrementReferenceCount();
 		m_pConstantColorMaterial = nullptr;
-	}
-
-	if ( IsPC() && CL_IsHL2Demo() ) // if they are playing the demo then open the storefront on shutdown
-	{
-		system()->ShellExecute("open", "steam://store_demo/220");
-	}
-
-	if ( IsPC() && CL_IsPortalDemo() ) // if they are playing the demo then open the storefront on shutdown
-	{
-		vgui::system()->ShellExecute("open", "steam://store_demo/400");
 	}
 
 	DestroyVProfPanels();

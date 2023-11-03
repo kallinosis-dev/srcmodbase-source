@@ -27,16 +27,6 @@ ClientClass *g_pClientClassHead = NULL;
 
 bool g_bReplayLoadedTools = false;
 
-bool CL_IsHL2Demo()
-{
-	return false;
-}
-
-bool CL_IsPortalDemo()
-{
-	return false;
-}
-
 bool HandleRedirectAndDebugLog( const char *msg );
 
 void BeginLoadingUpdates( MaterialNonInteractiveMode_t mode ) {}
