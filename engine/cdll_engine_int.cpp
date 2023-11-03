@@ -950,7 +950,9 @@ bool CEngineClient::GetPlayerInfo( int ent_num, player_info_t *pinfo )
 		Q_memcpy( &pinfo->friendsID, &pi_old_version_1->friendsID, sizeof( pi_old_version_1->friendsID ) );
 		Q_memcpy( pinfo->friendsName, pi_old_version_1->friendsName, sizeof( pi_old_version_1->friendsName ) );
 		Q_memcpy( &pinfo->fakeplayer, &pi_old_version_1->fakeplayer, sizeof( pi_old_version_1->fakeplayer ) );
+#ifdef WITH_HLTV
 		Q_memcpy( &pinfo->ishltv, &pi_old_version_1->ishltv, sizeof( pi_old_version_1->ishltv ) );
+#endif
 		Q_memcpy( pinfo->customFiles, pi_old_version_1->customFiles, sizeof( pi_old_version_1->customFiles ) );
 		Q_memcpy( &pinfo->filesDownloaded, &pi_old_version_1->filesDownloaded, sizeof( pi_old_version_1->filesDownloaded ) );
 	}

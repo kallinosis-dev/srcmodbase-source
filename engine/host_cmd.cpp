@@ -134,6 +134,7 @@ static void HostnameChanged( IConVar *pConVar, const char *pOldValue, float flOl
 ConVar host_name( "hostname", "", FCVAR_RELEASE, "Hostname for server.", false, 0.0f, false, 0.0f, HostnameChanged );
 ConVar host_map( "host_map", "", FCVAR_RELEASE, "Current map name." );
 
+#ifdef WITH_HLTV
 bool CanShowHostTvStatus()
 {
 	if ( !serverGameDLL )
@@ -154,6 +155,7 @@ bool CanShowHostTvStatus()
 		return s_bCanShowHostTvStatusCOMMUNITY;
 	}
 }
+#endif
 
 #ifdef _PS3
 ConVar ps3_host_quit_graceperiod( "ps3_host_quit_graceperiod", "7", FCVAR_DEVELOPMENTONLY, "Time granted for save operations to finish" );
@@ -672,7 +674,17 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 
 		print( "os      :  %s\n", osType );
 
-		char const *serverType = sv.IsHLTV() ? "hltv" : ( sv.IsDedicated() ? ( serverGameDLL->IsValveDS() ? "official dedicated" : "community dedicated" ) : "listen" );
+		char const *serverType;
+#ifdef WITH_HLTV
+		if (sv.IsHLTV())
+			serverType = "hltv";
+		else
+#endif
+			if (sv.IsDedicated())
+			serverType = serverGameDLL->IsValveDS() ? "official dedicated" : "community dedicated";
+		else
+			serverType = "listen";
+
 		print( "type    :  %s\n", serverType );
 	}
 
@@ -730,8 +742,10 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 			if ( !client->IsActive() )
 				continue;
 
+#ifdef WITH_HLTV
 			if ( !bWithAddresses && !CanShowHostTvStatus() && client->IsHLTV() )
 				continue;
+#endif
 
 			print( "#%i - %s\n" , j + 1, client->GetClientName() );
 		}
@@ -753,9 +767,11 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 		if ( !client->IsConnected() )
 			continue; // not connected yet, maybe challenging
 
+#ifdef WITH_HLTV
 		if ( !CanShowHostTvStatus() && client->IsHLTV() )
 			continue;
-		
+#endif
+
 		Host_Status_PrintClient( client, bWithAddresses, print );
 	}
 	print( "#end\n" );
@@ -797,6 +813,7 @@ CON_COMMAND( status, "Display map and connection status." )
 	Host_PrintStatus( args.Source(), print, bShort );
 }
 
+#ifdef WITH_HLTV
 CON_COMMAND( hltv_replay_status, "Show Killer Replay status and some statistics, works on listen or dedicated server." )
 {
 	HltvReplayStats_t hltvStats;
@@ -858,7 +875,7 @@ CON_COMMAND( hltv_replay_status, "Show Killer Replay status and some statistics,
 		ConMsg( "%u current clients: %s\n", hltvStats.nClients, hltvStats.AsString() );
 	}
 }
-
+#endif
 
 
 #if defined( _X360 )

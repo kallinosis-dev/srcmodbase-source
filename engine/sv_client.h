@@ -220,7 +220,9 @@ public:
 
 	CCheckTransmitInfo		m_PackInfo;
 
+#ifdef REPLAY_ENABLED
 	bool					m_bIsInReplayMode;
+#endif
 	CCheckTransmitInfo		m_PrevPackInfo;		// Used to speed up CheckTransmit.
 	CBitVec<MAX_EDICTS>		m_PrevTransmitEdict;
 	float					m_flTimeClientBecameFullyConnected;

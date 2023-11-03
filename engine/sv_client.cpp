@@ -209,7 +209,9 @@ CGameClient::CGameClient(int slot, CBaseServer *pServer )
 	m_nEntityIndex = slot+1;
 	m_Server = pServer;
 	m_pCurrentFrame = nullptr;
+#ifdef REPLAY_ENABLED
 	m_bIsInReplayMode = false;
+#endif
 
 	// NULL out data we'll never use.
 	memset( &m_PrevPackInfo, 0, sizeof( m_PrevPackInfo ) );
@@ -361,6 +363,7 @@ bool CGameClient::CLCMsg_CmdKeyValues( const CCLCMsg_CmdKeyValues& msg )
 
 bool CGameClient::CLCMsg_HltvReplay( const CCLCMsg_HltvReplay &msg )
 {
+#if defined(WITH_HLTV) || defined(REPLAY_ENABLED)
 	int nRequest = msg.request();
 	if ( nRequest == REPLAY_EVENT_STUCK_NEED_FULL_UPDATE )
 	{
@@ -386,7 +389,6 @@ bool CGameClient::CLCMsg_HltvReplay( const CCLCMsg_HltvReplay &msg )
 		params.m_flEventTime = msg.event_time();
 		serverGameClients->ClientReplayEvent( edict, params );
 	}
-#ifdef WITH_HLTV
 	else
 	{
 		if ( IsHltvReplay() )
@@ -1036,11 +1038,13 @@ void CGameClient::SendSound( SoundInfo_t &sound, bool isReliable )
 		return; // dont send sound messages to bots
 	}
 
+#ifdef WITH_HLTV
 	// don't send sound messages while client is replay mode
 	if ( m_bIsInReplayMode )
 	{
 		return;
 	}
+#endif
 
 	// reliable sounds are send as single messages
 	if ( isReliable )
@@ -1308,7 +1312,9 @@ void CGameClient::SpawnPlayer( void )
 
 	// restore default client entity and turn off replay mdoe
 	m_nEntityIndex = m_nClientSlot+1;
+#ifdef REPLAY_ENABLED
 	m_bIsInReplayMode = false;
+#endif
 
 	// set view entity
 	CSVCMsg_SetView_t setView;
@@ -1325,7 +1331,6 @@ CClientFrame *CGameClient::GetDeltaFrame( int nTick )
 #endif
 #if defined( REPLAY_ENABLED )
 	Assert ( !IsReplay() );  // has no ClientFrames
-#endif	
 
 	if ( m_bIsInReplayMode )
 	{
@@ -1340,6 +1345,7 @@ CClientFrame *CGameClient::GetDeltaFrame( int nTick )
 		if ( pFollowEntity )
 			return pFollowEntity->GetClientFrame( nTick );
 	}
+#endif
 
 	return GetClientFrame( nTick );
 }
@@ -2305,6 +2311,7 @@ CClientFrame *CGameClient::GetSendFrame()
 			
 	int followEntity;
 
+#ifdef REPLAY_ENABLED
 	int delayTicks = serverGameClients->GetReplayDelay( edict, followEntity );
 
 	bool isInReplayMode = ( delayTicks > 0 );
@@ -2326,8 +2333,11 @@ CClientFrame *CGameClient::GetSendFrame()
 		}
 	}
 
-	Assert( (m_nClientSlot+1 == m_nEntityIndex) || isInReplayMode );
+	if(!isInReplayMode)
+#endif
+		Assert( (m_nClientSlot+1 == m_nEntityIndex));
 
+#ifdef REPLAY_ENABLED
 	if ( isInReplayMode )
 	{
 		CGameClient *pFollowPlayer = sv.Client( followEntity-1 );
@@ -2343,15 +2353,18 @@ CClientFrame *CGameClient::GetSendFrame()
 		if ( m_pLastSnapshot == pFrame->GetSnapshot() )
 			return nullptr;
 	}
+#endif
 
 	return pFrame;
 }
 
 bool CGameClient::IgnoreTempEntity( CEventInfo *event )
 {
+#ifdef REPLAY_ENABLED
 	// in replay mode replay all temp entities
 	if ( m_bIsInReplayMode )
 		return false;
+#endif
 
 	return BaseClass::IgnoreTempEntity( event );
 }

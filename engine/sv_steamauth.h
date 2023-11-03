@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: steam state machine that handles authenticating steam users
 //
@@ -10,13 +10,18 @@
 #pragma once
 #endif
 
-#ifndef NO_STEAM
+
 #include "baseclient.h"
 #include "utlvector.h"
 #include "netadr.h"
 #include "utlstring.h"
 
 #include "steam/steam_gameserver.h"
+
+
+bool CompareUserID( const USERID_t & id1, const USERID_t & id2 );
+
+#ifndef NO_STEAM
 
 class CSteam3Server : public CSteamGameServerAPIContext
 {
@@ -51,7 +56,6 @@ public:
 	bool BLanOnly() const { return m_eServerMode == eServerModeNoAuthentication; }
 	bool BWantsSecure() { return m_eServerMode == eServerModeAuthenticationAndSecure; }
 	bool BLoggedOn() { return SteamGameServer() && SteamGameServer()->BLoggedOn(); }
-	bool CompareUserID( const USERID_t & id1, const USERID_t & id2 );
 	const CSteamID& GetGSSteamID() const;
 	bool BHasLogonResult() const { return m_bLogOnResult; }
 	

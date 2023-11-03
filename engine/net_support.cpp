@@ -187,8 +187,10 @@ void CNetSupportImpl::GetClientInfo( ClientInfo_t *pClientInfo )
 			player_info_t pi;
 
 			if ( engineClient->GetPlayerInfo( i + 1, &pi ) &&
-				!pi.fakeplayer &&
-				!pi.ishltv )
+#ifdef WITH_HLTV
+				!pi.ishltv &&
+#endif
+				!pi.fakeplayer)
 			{
 				++ pClientInfo->m_numHumanPlayers; // This is an actual human player
 			}

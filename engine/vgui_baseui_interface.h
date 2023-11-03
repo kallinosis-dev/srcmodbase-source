@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: Defines the interface that the GameUI dll exports
 //
@@ -109,7 +109,11 @@ public:
 	// level loading
 	virtual void OnLevelLoadingStarted( const char *levelName, bool bLocalServer ) = 0;
 	virtual void OnLevelLoadingFinished() = 0;
-	virtual void NotifyOfServerConnect(const char *game, int IP, int connectionPort, int queryPort) = 0;
+	virtual void NotifyOfServerConnect(const char *game, int IP, int connectionPort
+#ifndef NO_STEAM
+		, int queryPort
+#endif
+	) = 0;
 	virtual void NotifyOfServerDisconnect() = 0;
 	virtual void EnabledProgressBarForNextLoad() = 0;
 	virtual void UpdateProgressBar(LevelLoadingProgress_e progress, bool showDialog = true ) = 0;

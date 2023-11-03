@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -446,7 +446,7 @@ bool Filter_IsUserBanned( const USERID_t& userid )
 		}
 		
 		// Only get here if ban is still in effect.
-		if ( Steam3Server().CompareUserID( userid, g_UserFilters[i].userid ) )
+		if ( CompareUserID( userid, g_UserFilters[i].userid ) )
 		{
 			return bNegativeFilter;
 		}
@@ -710,11 +710,13 @@ CON_COMMAND( banid, "Add a user ID to the ban list." )
 	const char	*pszArg2 = nullptr;
 	CGameClient *client = nullptr;
 
+#ifndef NO_STEAM
 	if ( Steam3Server().BLanOnly() )
 	{
 		ConMsg( "Can't ban users on a LAN\n" );
 		return;
 	}
+#endif
 
 	if ( args.ArgC() < 3 || args.ArgC() > 8 )
 	{
@@ -860,7 +862,7 @@ CON_COMMAND( banid, "Add a user ID to the ban list." )
 	for ( i = 0 ; i < g_UserFilters.Count() ; i++ )
 	{
 		// We're just updating an existing id
-		if ( Steam3Server().CompareUserID( g_UserFilters[i].userid, *id ) )
+		if ( CompareUserID( g_UserFilters[i].userid, *id ) )
 			break;
 	}
 

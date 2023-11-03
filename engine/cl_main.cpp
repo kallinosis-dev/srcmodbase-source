@@ -1633,8 +1633,14 @@ void CL_FullyConnected( void )
 #endif
 	}
 
+#ifndef NO_STEAM
 	int iQueryPort = CL_GetServerQueryPort();
-	EngineVGui()->NotifyOfServerConnect(com_gamedir, ip, port, iQueryPort);
+#endif
+	EngineVGui()->NotifyOfServerConnect(com_gamedir, ip, port
+#ifndef NO_STEAM
+		, iQueryPort
+#endif
+	);
 
 	GetTestScriptMgr()->CheckPoint( "FinishedMapLoad" );
 

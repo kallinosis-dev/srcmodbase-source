@@ -387,7 +387,11 @@ public:
 	// level loading
 	virtual void OnLevelLoadingStarted( char const *levelName, bool bLocalServer );
 	virtual void OnLevelLoadingFinished();
-	virtual void NotifyOfServerConnect(const char *game, int IP, int connectionPort, int queryPort);
+	virtual void NotifyOfServerConnect(const char *game, int IP, int connectionPort
+#ifndef NO_STEAM
+		, int queryPort
+#endif
+	);
 	virtual void NotifyOfServerDisconnect();
 	virtual void UpdateProgressBar(LevelLoadingProgress_e progress, bool showDialog = true );
 	virtual void UpdateCustomProgressBar( float progress, const wchar_t *desc );
@@ -2426,12 +2430,20 @@ bool CEngineVGui::IsCtrlKeyDown( void )
 //-----------------------------------------------------------------------------
 // Purpose: notification
 //-----------------------------------------------------------------------------
-void CEngineVGui::NotifyOfServerConnect(const char *game, int IP, int connectionPort, int queryPort)
+void CEngineVGui::NotifyOfServerConnect(const char *game, int IP, int connectionPort
+#ifndef NO_STEAM
+	, int queryPort
+#endif
+)
 {
 	if (!staticGameUIFuncs)
 		return;
 
-	staticGameUIFuncs->OnConnectToServer2(game, IP, connectionPort, queryPort);
+	staticGameUIFuncs->OnConnectToServer(game, IP, connectionPort
+#ifndef NO_STEAM
+		, queryPort
+#endif
+	);
 }
 
 //-----------------------------------------------------------------------------

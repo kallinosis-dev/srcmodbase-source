@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -74,10 +74,6 @@ public:
 	virtual void OnGameUIActivated() = 0;
 	virtual void OnGameUIHidden() = 0;
 	
-	// OLD: Use OnConnectToServer2
-	virtual void OLD_OnConnectToServer(const char *game, int IP, int port) = 0; 
-	
-	virtual void OnDisconnectFromServer_OLD( uint8 eSteamLoginFailure, const char *username ) = 0;
 	virtual void OnLevelLoadingStarted( const char *levelName, bool bShowProgressDialog ) = 0;
 	virtual void OnLevelLoadingFinished(bool bError, const char *failureReason, const char *extendedReason) = 0;
 	virtual void StartLoadingScreenForCommand( const char* command ) = 0;
@@ -103,7 +99,11 @@ public:
 	// inserts specified panel as background for level load dialog
 	virtual void SetLoadingBackgroundDialog( vgui::VPANEL panel ) = 0;
 
-	virtual void OnConnectToServer2(const char *game, int IP, int connectionPort, int queryPort) = 0;
+	virtual void OnConnectToServer(const char *game, int IP, int connectionPort
+#ifndef NO_STEAM
+		, int queryPort
+#endif
+	) = 0;
 
 	virtual void SetProgressOnStart() = 0;
 	virtual void OnDisconnectFromServer( uint8 eSteamLoginFailure ) = 0;
@@ -138,6 +138,6 @@ public:
 	virtual void RestoreTopLevelMenu() = 0;
 };
 
-#define GAMEUI_INTERFACE_VERSION "GameUI011"
+#define GAMEUI_INTERFACE_VERSION "GameUI012"
 
 #endif // IGAMEUI_H

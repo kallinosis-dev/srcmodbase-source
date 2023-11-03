@@ -4,7 +4,6 @@
 //
 //===========================================================================//
 
-#ifndef NO_STEAM
 
 #ifdef _WIN32
 #if !defined( _X360 )
@@ -59,6 +58,33 @@ extern ConVar cl_hideserverip;
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
+
+
+//-----------------------------------------------------------------------------
+// Purpose: returns true if the userid's are the same
+//-----------------------------------------------------------------------------
+bool CompareUserID( const USERID_t & id1, const USERID_t & id2 )
+{
+	if ( id1.idtype != id2.idtype )
+		return false;
+
+	switch ( id1.idtype )
+	{
+	case IDTYPE_STEAM:
+	case IDTYPE_VALVE:
+		{
+			return ( id1.uid.steamid.m_SteamInstanceID==id2.uid.steamid.m_SteamInstanceID && 
+					 id1.uid.steamid.m_SteamLocalUserID.As64bits == id2.uid.steamid.m_SteamLocalUserID.As64bits);
+		}
+	default:
+		break;
+	}
+
+	return false;
+}
+
+
+#ifndef NO_STEAM
 
 #pragma warning( disable: 4355 ) // disables ' 'this' : used in base member initializer list'
 
@@ -373,31 +399,6 @@ void CSteam3Server::Shutdown()
 	Clear(); // Steam API context shutdown
 #endif
 }
-
-
-//-----------------------------------------------------------------------------
-// Purpose: returns true if the userid's are the same
-//-----------------------------------------------------------------------------
-bool CSteam3Server::CompareUserID( const USERID_t & id1, const USERID_t & id2 )
-{
-	if ( id1.idtype != id2.idtype )
-		return false;
-
-	switch ( id1.idtype )
-	{
-	case IDTYPE_STEAM:
-	case IDTYPE_VALVE:
-		{
-			return ( id1.uid.steamid.m_SteamInstanceID==id2.uid.steamid.m_SteamInstanceID && 
-					 id1.uid.steamid.m_SteamLocalUserID.As64bits == id2.uid.steamid.m_SteamLocalUserID.As64bits);
-		}
-	default:
-		break;
-	}
-
-	return false;
-}
-
 
 //-----------------------------------------------------------------------------
 // Purpose: returns true if this userid is already on this server

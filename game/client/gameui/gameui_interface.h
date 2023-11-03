@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Defines the interface that the GameUI dll exports
 //
@@ -56,12 +56,10 @@ public:
 	// notifications
 	virtual void OnGameUIActivated();
 	virtual void OnGameUIHidden();
-	virtual void OLD_OnConnectToServer( const char *game, int IP, int port );	// OLD: use OnConnectToServer2
-	virtual void OnConnectToServer2( const char *game, int IP, int connectionPort, int queryPort );
+	virtual void OnConnectToServer( const char *game, int IP, int connectionPort, int queryPort );
 	virtual void OnDisconnectFromServer( uint8 eSteamLoginFailure );
 	virtual void OnLevelLoadingStarted( const char *levelName, bool bShowProgressDialog );
 	virtual void OnLevelLoadingFinished( bool bError, const char *failureReason, const char *extendedReason );
-	virtual void OnDisconnectFromServer_OLD( uint8 eSteamLoginFailure, const char *username ) { OnDisconnectFromServer( eSteamLoginFailure ); }
 
 	// progress
 	virtual bool UpdateProgressBar(float progress, const char *statusText);

@@ -22,6 +22,7 @@
 #include "client.h"
 #endif
 
+#include "demo.h"
 #include "tier0/memdbgon.h"		// NOTE: Must go last!
 
 #ifndef DEDICATED

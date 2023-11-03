@@ -700,18 +700,7 @@ void CGameUI::RunFrame()
 //-----------------------------------------------------------------------------
 // Purpose: Called when the game connects to a server
 //-----------------------------------------------------------------------------
-void CGameUI::OLD_OnConnectToServer(const char *game, int IP, int port)
-{
-	// Nobody should use this anymore because the query port and the connection port can be different.
-	// Use OnConnectToServer2 instead.
-	Assert( false );
-	OnConnectToServer2( game, IP, port, port );
-}
-
-//-----------------------------------------------------------------------------
-// Purpose: Called when the game connects to a server
-//-----------------------------------------------------------------------------
-void CGameUI::OnConnectToServer2(const char *game, int IP, int connectionPort, int queryPort)
+void CGameUI::OnConnectToServer(const char *game, int IP, int connectionPort, int queryPort)
 {
 	m_iGameIP = IP;
 	m_iGameConnectionPort = connectionPort;

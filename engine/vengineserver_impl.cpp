@@ -1685,8 +1685,10 @@ public:
 	// Returns the SteamID of the game server
 	const CSteamID	*GetGameServerSteamID() override
 	{
+#ifndef NO_STEAM
 		if ( Steam3Server().GetGSSteamID().IsValid() )
 			return &Steam3Server().GetGSSteamID();
+#endif
 
 		return nullptr;
 			
@@ -1997,6 +1999,7 @@ private:
 		g_bNoClipEnabled = bEnabled;
 	}
 
+#ifdef WITH_HLTV
 	virtual bool StartClientHltvReplay( int nClientIndex, const HltvReplayParams_t &params ) override
 	{
 		if ( IClient *pClient = sv.GetClient( nClientIndex ) )
@@ -2051,6 +2054,7 @@ private:
 	{
 		return sv.AnyClientsInHltvReplayMode();
 	}
+#endif
 };
 
 //-----------------------------------------------------------------------------
@@ -2165,7 +2169,11 @@ void CVEngineServer::PlaybackTempEntity( IRecipientFilter& filter, float delay, 
 			if ( index < 1 || index > sv.GetClientCount() )
 				continue;
 			CGameClient *cl = sv.Client( index - 1 );
-			if ( ( cl->IsFakeClient() && !cl->IsHLTV() ) || !cl->IsActive() )
+			if ( ( cl->IsFakeClient()
+#ifdef WITH_HLTV
+				&& !cl->IsHLTV()
+#endif
+				) || !cl->IsActive() )
 				continue;
 
 			WriteReliableEvent( pST, delay, classID, handle, cl, nullptr);
