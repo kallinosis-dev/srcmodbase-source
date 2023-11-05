@@ -577,6 +577,8 @@
 				"Streaming SIMD Extensions (/arch:SSE) (/arch:SSE)"		"StreamingSIMDExtensions"
 				"Streaming SIMD Extensions 2 (/arch:SSE2)"				"StreamingSIMDExtensions2"
 				"Streaming SIMD Extensions 2 (/arch:SSE2) (/arch:SSE2)"	"StreamingSIMDExtensions2"
+				"AVX"													"AdvancedVectorExtensions"
+				"AVX2" 													"AdvancedVectorExtensions2"
 				"Not Set"												"NotSet"
 			}
 		}

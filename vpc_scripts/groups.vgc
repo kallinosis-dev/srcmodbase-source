@@ -417,6 +417,7 @@ $Group "everything"
 	"utf8_range"
 	"utf8_validity"
 	"abseil"
+	"cryptlib"
 }
 
 // All projects that should be built for vpc

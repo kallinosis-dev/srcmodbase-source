@@ -1259,3 +1259,10 @@ $Project "abseil"
 {
 	"thirdparty\protobuf\third_party\abseil-cpp\abseil.vpc"
 }
+
+////
+
+$Project "cryptlib"
+{
+	"thirdparty\cryptopp\cryptlib.vpc"
+}
