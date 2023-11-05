@@ -9,6 +9,8 @@
 // Rel branch:
 $Conditional CSTRIKE_REL_BUILD		"1"
 $Conditional NO_STEAM "1"
+$Conditional WITH_HLTV "0"
+$Conditional WITH_PHONON "0"
 
 $Configuration "Debug"
 {
@@ -32,6 +34,8 @@ $Configuration
 	{
 		$PreprocessorDefinitions		"$BASE;CSTRIKE_REL_BUILD=1"				[ $CSTRIKE_REL_BUILD ]
 		$PreprocessorDefinitions		"$BASE;NO_STEAM=1"						[ $NO_STEAM]
+		$PreprocessorDefinitions		"$BASE;WITH_PHONON" [$WITH_PHONON]
+		$PreprocessorDefinitions		"$BASE;WITH_HLTV" [$WITH_HLTV]
 	}
 }
 

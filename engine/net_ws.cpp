@@ -4877,7 +4877,7 @@ bool NET_CryptGetNetworkCertificate( ENetworkCertificate_t eType, const byte **p
 	return true;
 }
 
-#ifdef _DEBUG
+#if 0 //def _DEBUG
 CON_COMMAND( net_encrypt_key_generate, "Generate a public/private keypair" )
 {
 	if ( args.ArgC() <= 2 )

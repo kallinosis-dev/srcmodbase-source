@@ -4,6 +4,7 @@
 
 #ifndef IPL_PHONON_API_3D_H
 #define IPL_PHONON_API_3D_H
+#ifdef WITH_PHONON
 
 #include "phonon_common.h"
 
@@ -82,4 +83,5 @@ extern "C" {
 }
 #endif
 
+#endif
 #endif

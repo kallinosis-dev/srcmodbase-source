@@ -4,6 +4,7 @@
 
 #ifndef IPL_PHONON_API_COMMON_H
 #define IPL_PHONON_API_COMMON_H
+#ifdef WITH_PHONON
 
 #if (defined(_WIN32) || defined(_WIN64))
 #define IPLAPI __declspec(dllexport)
@@ -160,4 +161,5 @@ extern "C" {
 }
 #endif
 
+#endif
 #endif
