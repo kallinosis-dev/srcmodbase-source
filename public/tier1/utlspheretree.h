@@ -437,7 +437,8 @@ inline void CUtlSphereTree::Insert( const void *pData, const Sphere_t *bounds )
 	for ( int i = ( bestSibling + 1 ); i < path.Count(); i++ )
 	{
 		// Update each node's status whose descendants were modified, and rebalance it:
-		NodeRef &sibling = Ref( path[ i ] );
+
+		NodeRef sibling = Ref( path[ i ] );
 		SetNodeChildren( sibling, sibling.Deep(), sibling.Shallow() );
 		RebalanceSubtrees( sibling, true );
 	}
