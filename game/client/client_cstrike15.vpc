@@ -11,8 +11,6 @@ $Include "$SRCDIR\game\client\client_base.vpc"
 $Include "$SRCDIR\game\shared\cstrike15\cstrike15_gcmessages_include.vpc" [!$X360 && !$PS3]
 $include "$SRCDIR\game\shared\cstrike15\cstrike15_usermessages_include.vpc"
 
-$include "$SRCDIR\external\external.vpc"
-$include "$SRCDIR\external\$EXTERNALCRYPTOPP\external_cryptopp.vpc"
 
 $Configuration
 {
@@ -501,7 +499,7 @@ $Project "Client (CSGO)"
 		}
 	}
 
-	$Folder	"Additional Link Libraries"
+	$Folder	"Link Libraries"
 	{
 		$Lib	"meshutils"
 		$Lib 	"jpeglib" [$WINDOWS||$POSIX]
@@ -509,6 +507,8 @@ $Project "Client (CSGO)"
 		$Lib	"matsys_controls"
 		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX || $PS3 ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64							[ $WIN64 && !$NO_STEAM ]
+
+		$Lib cryptlib
 
 		$Lib	"tier2"
 		$Lib	"tier3"

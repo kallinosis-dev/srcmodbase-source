@@ -17,9 +17,6 @@ $Include "$SRCDIR\game\server\server_base.vpc"
 $include "$SRCDIR\game\shared\cstrike15\cstrike15_usermessages_include.vpc"
 $Include "$SRCDIR\game\shared\cstrike15\cstrike15_gcmessages_include.vpc" [!$PS3 && !$X360]
 
-$include "$SRCDIR\external\external.vpc"
-$include "$SRCDIR\external\$EXTERNALCRYPTOPP\external_cryptopp.vpc"
-
 $Configuration
 {
 	$Compiler
@@ -336,6 +333,11 @@ $Project $SPROJ
 				$File	"$SRVSRCDIR\cstrike15\cs_nav_path.h"
 			}
 		}
+	}
+
+	$Folder	"Link Libraries"
+	{
+		$Lib cryptlib
 	}
 }
 

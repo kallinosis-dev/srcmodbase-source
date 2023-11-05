@@ -14,9 +14,6 @@ $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 $include "$SRCDIR\vpc_scripts\protobuf_builder.vpc"
 $include "$SRCDIR\vpc_scripts\netmessages_include.vpc"
 
-$include "$SRCDIR\external\external.vpc"
-$include "$SRCDIR\external\$EXTERNALCRYPTOPP\external_cryptopp.vpc"
-
 $Configuration
 {
 	$Compiler
@@ -1167,6 +1164,8 @@ $Project $EPROJ
 		$Lib	"$SRCDIR\dx9sdk\Lib$PLATSUBDIR\dxguid.lib"		[$WINDOWS]
 
 		$Lib protobuf
+		$Lib cryptlib
+
 
 		$Libexternal	"$LIBCOMMON/libcurlssl" [$LINUXALL&&!$DEDICATED]
 		$Libexternal	"$LIBCOMMON/libssl" [$LINUXALL&&!$DEDICATED]
