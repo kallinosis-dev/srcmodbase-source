@@ -1140,8 +1140,8 @@ $Project $EPROJ
 	
 	$Folder	"Link libraries"
 	{
-		$ImplibExternal	steam_api							[$NO_STEAM && !$WIN64]
-		$ImplibExternal	steam_api64							[$WIN64]
+		$ImplibExternal	steam_api							[!$NO_STEAM && !$WIN64]
+		$ImplibExternal	steam_api64							[!$NO_STEAM && $WIN64]
 
 		$Lib	appframework
 		$Lib	bitmap

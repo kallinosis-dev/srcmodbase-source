@@ -82,10 +82,12 @@ extern IBik *bik;
 ConVar snd_sos_show_client_rcv("snd_sos_show_client_rcv", "0", FCVAR_CHEAT);
 ConVar snd_sos_allow_dynamic_chantype( "snd_sos_allow_dynamic_chantype", IsPlatformX360() ? "1" : "1" );
 
+#ifdef WITH_PHONON
 //Controls whether we use HRTF (phonon) audio for sounds marked to use it.
 ConVar snd_use_hrtf("snd_use_hrtf", "1", FCVAR_ARCHIVE);
 ConVar snd_hrtf_lerp_min_distance("snd_hrtf_lerp_min_distance", "0.0", FCVAR_CHEAT);
 ConVar snd_hrtf_lerp_max_distance("snd_hrtf_lerp_max_distance", "0.0", FCVAR_CHEAT);
+#endif
 
 BEGIN_DEFINE_LOGGING_CHANNEL( LOG_SOUND_OPERATOR_SYSTEM, "SoundOperatorSystem", LCF_CONSOLE_ONLY, LS_MESSAGE );
 ADD_LOGGING_CHANNEL_TAG( "SoundOperatorSystem" );
@@ -96,7 +98,9 @@ extern IPhysicsSurfaceProps	*physprops;
 extern IVEngineClient *engineClient;
 
 static void S_Play( const CCommand &args );
+#ifdef WITH_PHONON
 static void S_PlayHRTF( const CCommand & args );
+#endif
 static void S_PlayVol( const CCommand &args );
 void S_SoundList(void);
 static void S_Say ( const CCommand &args );
@@ -924,7 +928,9 @@ void S_Startup( void )
 }
 
 static ConCommand play("play", S_Play, "Play a sound.", FCVAR_SERVER_CAN_EXECUTE );
+#ifdef WITH_PHONON
 static ConCommand play_hrtf("play_hrtf", S_PlayHRTF, "Play a sound with HRTF spatialization.", FCVAR_SERVER_CAN_EXECUTE);
+#endif
 static ConCommand playflush( "playflush", S_Play, "Play a sound, reloading from disk in case of changes." );
 static ConCommand playvol( "playvol", S_PlayVol, "Play a sound at a specified volume." );
 static ConCommand speak( "speak", S_Say, "Play a constructed sentence." );
@@ -1064,7 +1070,9 @@ void S_Init( void )
 
 void DumpFilePaths(const char *filename);
 
+#ifdef WITH_PHONON
 void ShutdownPhononThread();
+#endif
 
 // =======================================================================
 // Shutdown sound engine
@@ -1121,8 +1129,10 @@ void S_Shutdown(void)
 
 		S_StopAllSounds( true );
 		S_ShutdownMixThread();
-		ShutdownPhononThread();
 
+#ifdef WITH_PHONON
+		ShutdownPhononThread();
+#endif
 
 
 		SNDDMA_Shutdown();
@@ -1473,7 +1483,15 @@ CAudioSource *S_LoadSound( CSfxTable *pSfx, channel_t *ch, SoundError &soundErro
 	// first time to load?  Create the mixer
 	if ( ch && !ch->pMixer )
 	{
-		ch->pMixer = pSfx->pSource->CreateMixer(ch->initialStreamPosition, ch->skipInitialSamples, ch->flags.m_bUpdateDelayForChoreo, soundError, ch->wavtype == CHAR_HRTF ? &ch->hrtf : nullptr);
+		ch->pMixer = pSfx->pSource->CreateMixer(
+			ch->initialStreamPosition, 
+			ch->skipInitialSamples, 
+			ch->flags.m_bUpdateDelayForChoreo, 
+			soundError
+#ifdef WITH_PHONON
+			, ch->wavtype == CHAR_HRTF ? &ch->hrtf : nullptr
+#endif
+		);
 		if ( !ch->pMixer )
 		{
 			return nullptr;
@@ -5218,7 +5236,9 @@ void SND_ActivateChannel( channel_t *pChannel, int nGUID )
 	Q_memset( pChannel, 0, sizeof(*pChannel) );
 	g_ActiveChannels.Add( pChannel );
 	pChannel->guid = nGUID;
+#ifdef WITH_PHONON
 	pChannel->hrtf.lerp = 0.0f;
+#endif
 }
 
 bool IsSoundSourceViewEntity( int soundsource )
@@ -5304,6 +5324,7 @@ void SND_Spatialize(channel_t *ch)
 {
 	VPROF( "SND_Spatialize" );
 
+#ifdef WITH_PHONON
 	if (ch->wavtype == CHAR_HRTF)
 	{
 		Vector origin;
@@ -5379,6 +5400,7 @@ void SND_Spatialize(channel_t *ch)
 			ch->hrtf.lerp = 1.0f; //snd_hrtf_ratio.GetFloat() * (fDistance - fMinDistance) / (fMaxDistance - fMinDistance);
 		}
 	}
+#endif
 
 	// process via operators only
 	if( ch->m_pStackList && ch->m_pStackList->HasStack( CSosOperatorStack::SOS_UPDATE ) )
@@ -6200,11 +6222,13 @@ void S_SetChannelWavtype( channel_t *target_chan, const char *pSndName )
 	if ( TestSoundChar( pSndName, CHAR_DIRSTEREO ) )
 		target_chan->wavtype = CHAR_DIRSTEREO;
 
+#ifdef WITH_PHONON
 	if (snd_use_hrtf.GetBool() && TestSoundChar(pSndName, CHAR_HRTF) && (!IsSoundSourceViewEntity(target_chan->soundsource) || target_chan->hrtf.debug_lock_position))
 	{
 		target_chan->wavtype = CHAR_HRTF;
 		target_chan->hrtf.lerp = 1.0; //snd_hrtf_ratio.GetFloat();
 	}
+#endif
 
 	if ( TestSoundChar( pSndName, CHAR_RADIO ) )
 		target_chan->wavtype = CHAR_RADIO;
@@ -6757,6 +6781,7 @@ static int S_StartSound_Immediate( StartSoundParams_t& params )
 	// Default save/restore to disabled
 	ch->flags.m_bShouldSaveRestore = false;
 
+#ifdef WITH_PHONON
 	ch->hrtf.follow_entity = params.m_bHRTFFollowEntity;
 	ch->hrtf.bilinear_filtering = params.m_bHRTFBilinear;
 	ch->hrtf.debug_lock_position = params.m_bHRTFLock;
@@ -6765,6 +6790,7 @@ static int S_StartSound_Immediate( StartSoundParams_t& params )
 	{
 		ch->hrtf.vec = params.origin;
 	}
+#endif
 
 	//-----------------------------------------------------------------------------
 	// initialize operators for this channel and execute start stack if possible
@@ -7427,8 +7453,10 @@ int S_StartSoundEntry( StartSoundParams_t &pStartParams, int nSeed, bool bFromPr
 		pStartParams.m_pOperatorsKV = pScriptParams.m_pOperatorsKV;
 	}
 
+#ifdef WITH_PHONON
 	pStartParams.m_bHRTFBilinear = pScriptParams.m_bHRTFBilinear;
 	pStartParams.m_bHRTFFollowEntity = pScriptParams.m_bHRTFFollowEntity;
+#endif
 
 	// ----------------------------------------------------
 	// debug sanity checking
@@ -8485,6 +8513,7 @@ void S_Update( const CAudioState *pAudioState )
 			bool bLooping = ch->sfx->pSource->IsLooped();
 			if (snd_show.GetInt())
 			{
+#ifdef WITH_PHONON
 				if (ch->wavtype == CHAR_HRTF)
 				{
 					const float hdist = sqrt(ch->hrtf.vec.x*ch->hrtf.vec.x + ch->hrtf.vec.z*ch->hrtf.vec.z);
@@ -8509,7 +8538,9 @@ void S_Update( const CAudioState *pAudioState )
 						bLooping,
 						ch->sfx->getname(nameBuf, sizeof(nameBuf)));
 				}
-				else if ( sndsurround < 4 )
+				else
+#endif
+					if ( sndsurround < 4 )
 				{
 					Con_NXPrintf( &np, "%s %02i l(%.02f) r(%.02f) vol(%03d) ent(%03d) pos(%6d %6d %6d) timeleft(%f) looped(%d) %50s",
 						nSoundEntryName,
@@ -8573,6 +8604,7 @@ void S_Update( const CAudioState *pAudioState )
 
 				if ( bPrint )
 				{
+#ifdef WITH_PHONON
 					if (ch->wavtype == CHAR_HRTF)
 					{
 						const float hdist = sqrt(ch->hrtf.vec.x*ch->hrtf.vec.x + ch->hrtf.vec.z*ch->hrtf.vec.z);
@@ -8595,7 +8627,8 @@ void S_Update( const CAudioState *pAudioState )
 							ch->sfx->getname( nameBuf, sizeof( nameBuf ) ) );
 					}
 					else
-					if ( sndsurround < 4 )
+#endif
+						if ( sndsurround < 4 )
 					{
 						Msg( "%s %02i l(%03d) r(%03d) vol(%03d) ent(%03d) pos(%6d %6d %6d) timeleft(%f) looped(%d) %50s\n",
 							nSoundEntryName,
@@ -9074,14 +9107,18 @@ void S_ShutdownMixThread()
 	}
 }
 
+#ifdef WITH_PHONON
 void StartPhononThread();
+#endif
 
 void S_Update_( float mixAheadTime )
 {
+#ifdef WITH_PHONON
 	if (snd_use_hrtf.GetBool())
 	{
 		StartPhononThread();
 	}
+#endif
 
 	if ( !snd_mix_async.GetBool() )
 	{
@@ -9205,6 +9242,7 @@ static void S_Play( const CCommand &args )
 	}
 }
 
+#ifdef WITH_PHONON
 static void S_PlayHRTF(const CCommand& args)
 {
 	if (args.ArgC() != 5)
@@ -9251,6 +9289,7 @@ static void S_PlayHRTF(const CCommand& args)
 
 	S_StartSound(params);
 }
+#endif
 
 static void S_PlayVol( const CCommand &args )
 {
@@ -9758,7 +9797,11 @@ float S_GetMono16Samples( const char *pszName, CUtlVector< short >& sampleList )
 		return 0.0f;
 
 	SoundError soundError;
-	CAudioMixer *pMixer = pWave->CreateMixer( 0, 0, false, soundError, nullptr );
+	CAudioMixer *pMixer = pWave->CreateMixer( 0, 0, false, soundError
+#ifdef WITH_PHONON
+		, nullptr
+#endif
+	);
 	if ( !pMixer )
 		return 0.0f;
 

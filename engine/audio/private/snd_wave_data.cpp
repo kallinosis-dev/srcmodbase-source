@@ -3493,6 +3493,8 @@ IWaveData *CreateWaveDataMemory( CAudioSource &source )
 	return mem;
 }
 
+
+#ifdef WITH_PHONON
 // set this to zero to revert to the previous scalar code
 #define PHONON_USE_SIMD 0
 
@@ -4153,3 +4155,4 @@ IWaveData *CreateWaveDataHRTF(IWaveData* pData, hrtf_info_t* dir)
 	CWaveDataHRTF* res = new CWaveDataHRTF(pData, dir);
 	return res;
 }
+#endif

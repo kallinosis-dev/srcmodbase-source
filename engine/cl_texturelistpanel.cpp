@@ -79,8 +79,10 @@ static ConVar mat_texture_list( "mat_texture_list", "0", FCVAR_CHEAT, "For debug
 
 static inline void MatTextureModificationRecorded()
 {
+#ifndef NO_STEAM
 	extern void Host_DisallowSecureServers();
 	Host_DisallowSecureServers();
+#endif
 }
 
 static enum TxListPanelRequest

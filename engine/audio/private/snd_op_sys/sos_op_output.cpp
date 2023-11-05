@@ -108,7 +108,9 @@ void CSosOperatorOutput::Execute( void *pVoidMem, channel_t *pChannel, CScratchP
 			pChannel->flags.m_bShouldSaveRestore = pStructMem->m_flInputFloat[0] > 0.0 ? true : false;
 			break;
 		case SOS_OUT_PHONON_XFADE: {
+#ifdef WITH_PHONON
 			pChannel->hrtf.lerp = pStructMem->m_flInputFloat[0];
+#endif
 			break;
 		}
 

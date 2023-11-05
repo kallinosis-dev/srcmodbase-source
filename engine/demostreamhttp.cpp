@@ -11,7 +11,7 @@
 #ifdef HAS_HLTV
 
 static ISteamHTTP *s_pSteamHTTP = nullptr;
-ConVar demo_debug( "demo_debug", "0", 0, "Demo debug info." );
+extern ConVar demo_debug;
 ConVar tv_playcast_origin_auth( "tv_playcast_origin_auth", "", FCVAR_RELEASE | FCVAR_HIDDEN, "Get request X-Origin-Auth string" );
 ConVar tv_playcast_max_rcvage( "tv_playcast_max_rcvage", "15", FCVAR_RELEASE | FCVAR_HIDDEN );
 ConVar tv_playcast_max_rtdelay( "tv_playcast_max_rtdelay", "55", FCVAR_RELEASE | FCVAR_HIDDEN );

@@ -73,8 +73,10 @@ static ConVar	net_showreliablesounds( "net_showreliablesounds", "0", FCVAR_CHEAT
 	   ConVar	sv_allow_legacy_cmd_execution_from_client( "sv_allow_legacy_cmd_execution_from_client", "0", FCVAR_RELEASE, "Enables old concommand execution behavior allowing remote clients to run any command not explicitly flagged as disallowed." );
 
 extern ConVar sv_maxreplay;
+#ifdef WITH_HLTV
 extern ConVar tv_snapshotrate;
 extern ConVar tv_transmitall;
+#endif
 extern ConVar sv_pure_kick_clients;
 extern ConVar sv_pure_trace;
 

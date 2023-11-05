@@ -68,7 +68,7 @@
 static ConVar demo_recordcommands( "demo_recordcommands", "1", FCVAR_CHEAT, "Record commands typed at console into .dem files." );
 static ConVar demo_quitafterplayback( "demo_quitafterplayback", "0", FCVAR_RELEASE, "Quits game after demo playback." 
 );
-extern ConVar demo_debug;
+ConVar demo_debug( "demo_debug", "0", 0, "Demo debug info." );
 static ConVar demo_interpolateview( "demo_interpolateview", "1", 0, "Do view interpolation during dem playback." );
 static ConVar demo_pauseatservertick( "demo_pauseatservertick", "0", 0, "Pauses demo playback at server tick" );
 static ConVar demo_enabledemos( "demo_enabledemos", ENABLE_DEMOS_BY_DEFAULT ? "1" : "0", 0, "Enable recording demos (must be set true before loading a map)" );

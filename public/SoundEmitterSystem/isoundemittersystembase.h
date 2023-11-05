@@ -55,9 +55,10 @@ struct CSoundParameters
 		m_pOperatorsKV = nullptr;
 		m_nRandomSeed = -1;
 
+#ifdef WITH_PHONON
 		m_bHRTFFollowEntity = false;
 		m_bHRTFBilinear = false;
-
+#endif
 	}
 
 	int				channel;
@@ -75,8 +76,10 @@ struct CSoundParameters
 	KeyValues		*m_pOperatorsKV;
 	int				m_nRandomSeed;
 
+#ifdef WITH_PHONON
 	bool			m_bHRTFFollowEntity;
 	bool			m_bHRTFBilinear;
+#endif
 };
 
 // A bit of a hack, but these are just utility function which are implemented in the SouneParametersInternal.cpp file which all users of this lib also compile

@@ -24,66 +24,70 @@ public:
 
 	CAudioSourceMP3( CSfxTable *pSfx );
 	CAudioSourceMP3( CSfxTable *pSfx, CAudioSourceCachedInfo *info );
-	virtual ~CAudioSourceMP3();
+	~CAudioSourceMP3() override;
 
 	// Create an instance (mixer) of this audio source
-	virtual CAudioMixer			*CreateMixer( int initialStreamPosition, int skipInitialSamples, bool bUpdateDelayForChoreo, SoundError &soundError, struct hrtf_info_t* pHRTFVec ) = 0;
-	
-	virtual int					GetType( void );
-	virtual void				GetCacheData( CAudioSourceCachedInfo *info );
+	CAudioMixer			*CreateMixer( int initialStreamPosition, int skipInitialSamples, bool bUpdateDelayForChoreo, SoundError &soundError
+#ifdef WITH_PHONON
+		, struct hrtf_info_t* pHRTFVec
+#endif
+	) override = 0;
+
+	int					GetType( void ) override;
+	void				GetCacheData( CAudioSourceCachedInfo *info ) override;
 
 	// Provide samples for the mixer. You can point pData at your own data, or if you prefer to copy the data,
 	// you can copy it into copyBuf and set pData to copyBuf.
-	virtual int					GetOutputData( void **pData, int64 samplePosition, int sampleCount, char copyBuf[AUDIOSOURCE_COPYBUF_SIZE] ) = 0;
-	
-	virtual int					SampleRate( void ) { return m_sampleRate; }
+	int					GetOutputData( void **pData, int64 samplePosition, int sampleCount, char copyBuf[AUDIOSOURCE_COPYBUF_SIZE] ) override = 0;
+
+	int					SampleRate( void ) override { return m_sampleRate; }
 
 	// Returns true if the source is a voice source.
 	// This affects the voice_overdrive behavior (all sounds get quieter when
 	// someone is speaking).
-	virtual bool				IsVoiceSource() { return false; }
-	virtual bool				IsPlayerVoice() { return false; }
-	virtual int					SampleSize( void ) { return 1; }
+	bool				IsVoiceSource() override { return false; }
+	bool				IsPlayerVoice() override { return false; }
+	int					SampleSize( void ) override { return 1; }
 
 	// Total number of samples in this source.  NOTE: Some sources are infinite (mic input), they should return
 	// a count equal to one second of audio at their current rate.
-	virtual int					SampleCount( void ) { return m_dataSize; }
-	
-	virtual int					Format() { return 0; }
-	virtual int					DataSize( void ) { return 0; }
-	
-	virtual bool				IsLooped( void ) { return false; }
-	virtual bool				IsStereoWav( void ) { return false; }
-	virtual bool				IsStreaming( void ) { return false; } 
-	virtual int					GetCacheStatus( void ) { return AUDIO_IS_LOADED; }
-	virtual void				CacheLoad( void ) {}
-	virtual void				CacheUnload( void ) {}
-	virtual CSentence			*GetSentence( void ) { return nullptr; }
-	virtual int					GetQuality( void ) { return 0; }
+	int					SampleCount( void ) override { return m_dataSize; }
 
-	virtual int					ZeroCrossingBefore( int sample ) { return sample; }
-	virtual int					ZeroCrossingAfter( int sample ) { return sample; }
+	int					Format() override { return 0; }
+	int					DataSize( void ) override { return 0; }
+
+	bool				IsLooped( void ) override { return false; }
+	bool				IsStereoWav( void ) override { return false; }
+	bool				IsStreaming( void ) override { return false; }
+	int					GetCacheStatus( void ) override { return AUDIO_IS_LOADED; }
+	void				CacheLoad( void ) override {}
+	void				CacheUnload( void ) override {}
+	CSentence			*GetSentence( void ) override { return nullptr; }
+	int					GetQuality( void ) override { return 0; }
+
+	int					ZeroCrossingBefore( int sample ) override { return sample; }
+	int					ZeroCrossingAfter( int sample ) override { return sample; }
 	
 	// mixer's references
-	virtual void				ReferenceAdd( CAudioMixer *pMixer );
-	virtual void				ReferenceRemove( CAudioMixer *pMixer );
+	void				ReferenceAdd( CAudioMixer *pMixer ) override;
+	void				ReferenceRemove( CAudioMixer *pMixer ) override;
 	// check reference count, return true if nothing is referencing this
-	virtual bool				CanDelete( void );
+	bool				CanDelete( void ) override;
 
-	virtual bool				IsAsyncLoad();
+	bool				IsAsyncLoad() override;
 
-	virtual void				CheckAudioSourceCache();
+	void				CheckAudioSourceCache() override;
 
-	virtual char const			*GetFileName( char *pOutBuf, size_t bufLen );
+	char const			*GetFileName( char *pOutBuf, size_t bufLen ) override;
 
-	virtual void				SetPlayOnce( bool isPlayOnce ) { m_bIsPlayOnce = isPlayOnce; }
-	virtual bool				IsPlayOnce() { return m_bIsPlayOnce; }
+	void				SetPlayOnce( bool isPlayOnce ) override { m_bIsPlayOnce = isPlayOnce; }
+	bool				IsPlayOnce() override { return m_bIsPlayOnce; }
 
-	virtual void				SetSentenceWord( bool bIsWord ) { m_bIsSentenceWord = bIsWord; }
-	virtual bool				IsSentenceWord() { return m_bIsSentenceWord; }
+	void				SetSentenceWord( bool bIsWord ) override { m_bIsSentenceWord = bIsWord; }
+	bool				IsSentenceWord() override { return m_bIsSentenceWord; }
 
-	virtual int					SampleToStreamPosition( int samplePosition ) { return 0; }
-	virtual int					StreamToSamplePosition( int streamPosition ) { return 0; }
+	int					SampleToStreamPosition( int samplePosition ) override { return 0; }
+	int					StreamToSamplePosition( int streamPosition ) override { return 0; }
 
 protected:
 
@@ -128,26 +132,31 @@ class CAudioSourceStreamMP3 : public CAudioSourceMP3, public IWaveStreamSource
 public:
 	CAudioSourceStreamMP3( CSfxTable *pSfx );
 	CAudioSourceStreamMP3( CSfxTable *pSfx, CAudioSourceCachedInfo *info );
-	~CAudioSourceStreamMP3() {}
+	~CAudioSourceStreamMP3() override {}
 
-	bool			IsStreaming( void ) { return true; }
-	bool			IsStereoWav(void) { return false; }
-	CAudioMixer		*CreateMixer(int initialStreamPosition, int skipInitialSamples, bool bUpdateDelayForChoreo, SoundError &soundError, struct hrtf_info_t* pHRTFVec);
-	int				GetOutputData( void **pData, int64 samplePosition, int sampleCount, char copyBuf[AUDIOSOURCE_COPYBUF_SIZE] );
+	bool			IsStreaming( void ) override { return true; }
+	bool			IsStereoWav(void) override { return false; }
+	CAudioMixer		*CreateMixer(int initialStreamPosition, int skipInitialSamples, bool bUpdateDelayForChoreo, SoundError &soundError
+#ifdef WITH_PHONON
+		, struct hrtf_info_t* pHRTFVec
+#endif
+	) override;
+	int				GetOutputData( void **pData, int64 samplePosition, int sampleCount, char copyBuf[AUDIOSOURCE_COPYBUF_SIZE] ) override;
 
 	// IWaveStreamSource
-	virtual int64 UpdateLoopingSamplePosition( int64 samplePosition )
+	int64 UpdateLoopingSamplePosition( int64 samplePosition ) override
 	{
 		return samplePosition;
 	}
-	virtual void UpdateSamples( char *pData, int sampleCount ) {}
 
-	virtual int	GetLoopingInfo( int *pLoopBlock, int *pNumLeadingSamples, int *pNumTrailingSamples )
+	void UpdateSamples( char *pData, int sampleCount ) override {}
+
+	int	GetLoopingInfo( int *pLoopBlock, int *pNumLeadingSamples, int *pNumTrailingSamples ) override
 	{
 		return 0;
 	}
 
-	virtual void Prefetch();
+	void Prefetch() override;
 
 private:
 	CAudioSourceStreamMP3( const CAudioSourceStreamMP3 & ); // not implemented, not accessible
@@ -158,16 +167,20 @@ class CAudioSourceMP3Cache : public CAudioSourceMP3
 public:
 	CAudioSourceMP3Cache( CSfxTable *pSfx );
 	CAudioSourceMP3Cache( CSfxTable *pSfx, CAudioSourceCachedInfo *info );
-	~CAudioSourceMP3Cache( void );
+	~CAudioSourceMP3Cache( void ) override;
 
-	int						GetCacheStatus( void );
-	void					CacheLoad( void );
-	void					CacheUnload( void );
+	int						GetCacheStatus( void ) override;
+	void					CacheLoad( void ) override;
+	void					CacheUnload( void ) override;
 	// NOTE: "samples" are bytes for MP3
-	int						GetOutputData( void **pData, int64 samplePosition, int sampleCount, char copyBuf[AUDIOSOURCE_COPYBUF_SIZE] );
-	CAudioMixer				*CreateMixer( int initialStreamPosition, int skipInitialSamples, bool bUpdateDelayForChoreo, SoundError &soundError, struct hrtf_info_t* pHRTFVec );
+	int						GetOutputData( void **pData, int64 samplePosition, int sampleCount, char copyBuf[AUDIOSOURCE_COPYBUF_SIZE] ) override;
+	CAudioMixer				*CreateMixer( int initialStreamPosition, int skipInitialSamples, bool bUpdateDelayForChoreo, SoundError &soundError
+#ifdef WITH_PHONON
+		, struct hrtf_info_t* pHRTFVec
+#endif
+	) override;
 
-	virtual void			Prefetch() {}
+	void			Prefetch() override {}
 
 protected:
 	virtual char			*GetDataPointer( void );

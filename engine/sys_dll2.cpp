@@ -1710,11 +1710,13 @@ extern "C" void __cdecl WriteMiniDump( void	);
 //-----------------------------------------------------------------------------
 int CEngineAPI::Run()
 {
+#ifndef NO_STEAM
 	if ( CommandLine()->FindParm("-insecure") )
 	{
 		extern void Host_DisallowSecureServers();
 		Host_DisallowSecureServers();
 	}
+#endif
 
 #ifdef _X360
 	return RunListenServer(); // don't handle exceptions on 360 (because if we do then minidumps won't work at all)

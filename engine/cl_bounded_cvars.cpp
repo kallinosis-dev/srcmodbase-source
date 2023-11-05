@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose:  baseclientstate.cpp: implementation of the CBaseClientState class.
 //
@@ -91,12 +91,15 @@ public:
 		float flCmdRate = GetBaseFloatValue();
 
 #ifndef DEDICATED
+#ifdef WITH_HLTV
 		if ( GetBaseLocalClient().ishltv )
 		{
 			extern ConVar tv_snapshotrate;
 			return tv_snapshotrate.GetFloat();
 		}
-		else if ( sv_mincmdrate.GetInt() != 0 && GetBaseLocalClient().m_nSignonState >= SIGNONSTATE_FULL )
+		else 
+#endif
+			if ( sv_mincmdrate.GetInt() != 0 && GetBaseLocalClient().m_nSignonState >= SIGNONSTATE_FULL )
 		{
 			// First, we make it stay within range of cl_updaterate.
 			float diff = flCmdRate - cl_updaterate->GetFloat();
@@ -148,7 +151,7 @@ public:
 		// but we have this here so they'll get the **note thing telling them the value 
 		// isn't functioning the way they set it.
 		float flValue = GetBaseFloatValue();
-#ifndef DEDICATED
+#if !defined(DEDICATED) && defined(WITH_HLTV)
 		if ( GetBaseLocalClient().ishltv )
 		{
 			extern ConVar tv_snapshotrate;

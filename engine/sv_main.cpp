@@ -2680,6 +2680,7 @@ bool SV_ActivateServer()
 				// create SourceTV object if not already there
 				if ( !hltv )
 				{
+                    #error Fixme HLTV
 					extern ConVar tv_snapshotrate;
 					hltv = new CHLTVServer( nHltvServerIndex, GetIndexedConVar( tv_snapshotrate, nHltvServerIndex ).GetFloat() );
 					hltv->Init( NET_IsDedicated() );

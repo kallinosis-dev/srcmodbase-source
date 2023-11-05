@@ -44,6 +44,7 @@ struct gain_t
 	float		ob_gain_inc;	// crossfade increment
 };
 
+#ifdef WITH_PHONON
 struct hrtf_info_t
 {
 	Vector		vec;	// Sound source relative to the listener, updated every frame for channels using HRTF.
@@ -52,6 +53,7 @@ struct hrtf_info_t
 	bool		bilinear_filtering;  // If true, we use more expensive bilinear filtering for this sound.
 	bool		debug_lock_position;   // If true, the vec will not be modified after the sound starts.
 };
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Each currently playing wave is stored in a channel
@@ -63,7 +65,9 @@ struct channel_t
 	int			guid;			// incremented each time a channel is allocated (to match with channel free in tools, etc.)
 	int			userdata;		// user specified data for syncing to tools
 
+#ifdef WITH_PHONON
 	hrtf_info_t hrtf;
+#endif
 
 	CSfxTable	*sfx;			// the actual sound
 	CAudioMixer	*pMixer;		// The sound's instance data for this channel
