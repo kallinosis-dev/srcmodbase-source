@@ -19,7 +19,7 @@ bool CBasePropertiesContainer::IsDroppable( CUtlVector< KeyValues * >& msglist )
 		return false;
 
 	KeyValues *data = msglist[ 0 ];
-	CDmElement *ptr = reinterpret_cast< CDmElement * >( g_pDataModel->GetElement( DmElementHandle_t( data->GetInt( "dmeelement", DMELEMENT_HANDLE_INVALID ) ) ) );
+	CDmElement *ptr = g_pDataModel->GetElement( DmElementHandle_t( data->GetInt( "dmeelement", DMELEMENT_HANDLE_INVALID .handle) ) );
 	if ( !ptr )
 		return false;
 
@@ -35,7 +35,7 @@ void CBasePropertiesContainer::OnPanelDropped( CUtlVector< KeyValues * >& msglis
 		return;
 
 	KeyValues *data = msglist[ 0 ];
-	CDmElement *ptr = reinterpret_cast< CDmElement * >( g_pDataModel->GetElement( DmElementHandle_t( data->GetInt( "dmeelement", DMELEMENT_HANDLE_INVALID ) ) ) );
+	CDmElement *ptr = g_pDataModel->GetElement( DmElementHandle_t( data->GetInt( "dmeelement", DMELEMENT_HANDLE_INVALID.handle ) ) );
 	if ( !ptr )
 		return;
 
