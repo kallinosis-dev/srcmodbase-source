@@ -719,10 +719,10 @@ void CDmElement::CopyAttributesTo( CDmElement *pCopy, CRefMap &refmap, Traversal
 //-----------------------------------------------------------------------------
 void CDmElement::FixupReferences( CUtlHashFast< DmElementHandle_t > &visited, const CRefMap &refmap, TraversalDepth_t depth )
 {
-	if ( visited.Find( GetHandle() ) != visited.InvalidHandle() )
+	if ( visited.Find( GetHandle().handle ) != visited.InvalidHandle() )
 		return;
 
-	visited.Insert( GetHandle(), DMELEMENT_HANDLE_INVALID ); // ignore data arguement - we're just using it as a set
+	visited.Insert( GetHandle().handle, DMELEMENT_HANDLE_INVALID ); // ignore data arguement - we're just using it as a set
 
 	// loop attrs, copying - element (and element array) attrs can be marked to always copy deep(er)
 	for ( CDmAttribute *pAttr = FirstAttribute(); pAttr != nullptr; pAttr = pAttr->NextAttribute() )
@@ -821,10 +821,10 @@ void CDmElement::SetFileId_R( CUtlHashFast< DmElementHandle_t > &visited, DmFile
 	if ( bOnlyIfMatch && match != GetFileId() )
 		return;
 
-	if ( visited.Find( GetHandle() ) != visited.InvalidHandle() )
+	if ( visited.Find( GetHandle().handle ) != visited.InvalidHandle() )
 		return;
 
-	visited.Insert( GetHandle(), DMELEMENT_HANDLE_INVALID ); // ignore data arguement - we're just using it as a set
+	visited.Insert( GetHandle().handle, DMELEMENT_HANDLE_INVALID ); // ignore data arguement - we're just using it as a set
 
 	SetFileId( fileid );
 

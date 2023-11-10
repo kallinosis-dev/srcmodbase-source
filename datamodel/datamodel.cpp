@@ -249,7 +249,7 @@ DmElementHandle_t CDataModel::FirstAllocatedElement()
 DmElementHandle_t CDataModel::NextAllocatedElement( DmElementHandle_t hElement )
 {
 	int nHandles = ( int )m_Handles.GetHandleCount();
-	for ( int i = m_Handles.GetIndexFromHandle( hElement ) + 1; i < nHandles; ++i )
+	for ( int i = m_Handles.GetIndexFromHandle( hElement.handle ) + 1; i < nHandles; ++i )
 	{
 		DmElementHandle_t hElement = ( DmElementHandle_t )m_Handles.GetHandleFromIndex( i );
 		if ( CDmElement *pElement = GetElement( hElement ) )
@@ -277,13 +277,13 @@ static bool HandleCompare( const DmElementHandle_t & a, const DmElementHandle_t 
 
 static unsigned int HandleHash( const DmElementHandle_t &h )
 {
-	return (unsigned int)h;
+	return h.handle;
 }
 
 int CDataModel::EstimateMemoryUsage( DmElementHandle_t hElement, TraversalDepth_t depth )
 {
 	CUtlHash< DmElementHandle_t > visited( 1024, 0, 0, HandleCompare, HandleHash );
-	CDmElement *pElement = m_Handles.GetHandle( hElement );
+	CDmElement *pElement = m_Handles.GetHandle( hElement.handle );
 	if ( !pElement )
 		return 0;
 
@@ -360,7 +360,7 @@ void CDataModel::BuildHistogramForHandles( CUtlMap< CUtlSymbolLarge, DmMemoryInf
 		if ( h == DMELEMENT_HANDLE_INVALID )
 			continue;
 
-		CDmElement *pElement = m_Handles.GetHandle( h );
+		CDmElement *pElement = m_Handles.GetHandle( h.handle );
 		if ( !pElement )
 			continue;
 
@@ -393,7 +393,7 @@ void CDataModel::DisplayMemoryStats( DmElementHandle_t hElement /*= DMELEMENT_HA
 		for ( int i = 0; i < c; ++i )
 		{
 			DmElementHandle_t h = (DmElementHandle_t)m_Handles.GetHandleFromIndex( i );
-			if ( !m_Handles.IsHandleValid( h ) )
+			if ( !m_Handles.IsHandleValid( h.handle ) )
 				continue;
 			handles.AddToTail( h );
 		}
@@ -401,13 +401,13 @@ void CDataModel::DisplayMemoryStats( DmElementHandle_t hElement /*= DMELEMENT_HA
 	else
 	{
 		// Do a recursive build
-		if ( !m_Handles.IsHandleValid( hElement ) )
+		if ( !m_Handles.IsHandleValid( hElement.handle ) )
 		{
-			Msg( "CDataModel::DisplayMemoryStats with invalid handle %u\n", (int)hElement );
+			Msg( "CDataModel::DisplayMemoryStats with invalid handle %u\n", hElement.handle );
 			return;
 		}
 
-		CDmElement *pElement = m_Handles.GetHandle( hElement );
+		CDmElement *pElement = m_Handles.GetHandle( hElement.handle );
 		if( pElement )
 		{
 			GatherElements_R( pElement, handles, visited );
@@ -1475,7 +1475,7 @@ DmElementHandle_t CDataModel::GetFileRoot( DmFileId_t fileid )
 {
 	FileElementSet_t *fes = m_openFiles.GetHandle( fileid );
 	Assert( fes || fileid == DMFILEID_INVALID );
-	return fes ? (DmElementHandle_t)fes->m_hRoot : DMELEMENT_HANDLE_INVALID;
+	return fes ? fes->m_hRoot.GetHandle() : DMELEMENT_HANDLE_INVALID;
 }
 
 void CDataModel::SetFileRoot( DmFileId_t fileid, DmElementHandle_t hRoot )
@@ -1673,9 +1673,9 @@ DmElementHandle_t CDataModel::ChangeElementId( DmElementHandle_t hElement, const
 	DmElementReference_t &newRef = m_unloadedIdElementMap[ newHash ].m_ref;
 	DmElementHandle_t newHandle = newRef.m_hElement;
 	Assert( newHandle != hElement ); // no two ids should have the same handle
-	Assert( !m_Handles.IsHandleValid( newHandle ) ); // unloaded elements shouldn't have valid handles
+	Assert( !m_Handles.IsHandleValid( newHandle.handle ) ); // unloaded elements shouldn't have valid handles
 
-	m_Handles.SetHandle( newHandle, GetElement( hElement ) );
+	m_Handles.SetHandle( newHandle.handle, GetElement( hElement ) );
 	CDmeElementAccessor::ChangeHandle( pElement, newHandle );
 	CDmeElementAccessor::SetReference( pElement, newRef );
 	ReleaseElementHandle( hElement );
@@ -1938,7 +1938,7 @@ void CDataModel::FindAndDeleteOrphanedElements()
 	for ( int i = 0; i < nHandles; ++i )
 	{
 		DmElementHandle_t hElement = ( DmElementHandle_t )m_Handles.GetHandleFromIndex( i );
-		CDmElement *pElement = m_Handles.GetHandle( hElement, false ); // walk through invalidated handles as well (such as deleted elements)
+		CDmElement *pElement = m_Handles.GetHandle( hElement.handle, false ); // walk through invalidated handles as well (such as deleted elements)
 		if ( !pElement )
 			continue;
 
@@ -1954,7 +1954,7 @@ void CDataModel::FindAndDeleteOrphanedElements()
 	for ( int i = 0; i < nHandles; ++i )
 	{
 		DmElementHandle_t hElement = ( DmElementHandle_t )m_Handles.GetHandleFromIndex( i );
-		CDmElement *pElement = m_Handles.GetHandle( hElement, false ); // walk through invalidated handles as well (such as deleted elements)
+		CDmElement *pElement = m_Handles.GetHandle( hElement.handle, false ); // walk through invalidated handles as well (such as deleted elements)
 		if ( !pElement )
 			continue;
 
@@ -2390,7 +2390,7 @@ CDmElement* CDataModel::CreateElement( const DmElementReference_t &ref, const ch
 		m_nMaxNumberOfElements = MAX( m_nMaxNumberOfElements, GetAllocatedElementCount() );
 
 		CDmeElementAccessor::SetReference( pElement, ref );
-		m_Handles.SetHandle( ref.m_hElement, pElement );
+		m_Handles.SetHandle( ref.m_hElement.handle, pElement );
 		m_elementIds.Insert( ref.m_hElement );
 
 		CDmeElementAccessor::PerformConstruction( pElement );
@@ -2539,7 +2539,7 @@ void CDataModel::DestroyElement( DmElementHandle_t hElement )
 	if ( hElement == DMELEMENT_HANDLE_INVALID )
 		return;
 
-	CDmElement *pElement = m_Handles.GetHandle( hElement );
+	CDmElement *pElement = m_Handles.GetHandle( hElement.handle );
 	if ( pElement == nullptr)
 		return;
 
@@ -2569,7 +2569,7 @@ void CDataModel::DeleteElement( DmElementHandle_t hElement, DmHandleReleasePolic
 	if ( hElement == DMELEMENT_HANDLE_INVALID )
 		return;
 
-	CDmElement *pElement = m_Handles.GetHandle( hElement );
+	CDmElement *pElement = m_Handles.GetHandle( hElement.handle );
 	if ( pElement == nullptr)
 		return;
 
@@ -2636,19 +2636,19 @@ DmElementHandle_t CDataModel::AcquireElementHandle()
 
 void CDataModel::ReleaseElementHandle( DmElementHandle_t hElement )
 {
-	m_Handles.RemoveHandle( hElement );
+	m_Handles.RemoveHandle( hElement.handle );
 	NotifyState( NOTIFY_CHANGE_TOPOLOGICAL );
 }
 
 void CDataModel::MarkHandleInvalid( DmElementHandle_t hElement )
 {
-	m_Handles.MarkHandleInvalid( hElement );
+	m_Handles.MarkHandleInvalid( hElement.handle );
 	NotifyState( NOTIFY_CHANGE_TOPOLOGICAL );
 }
 
 void CDataModel::MarkHandleValid( DmElementHandle_t hElement )
 {
-	m_Handles.MarkHandleValid( hElement );
+	m_Handles.MarkHandleValid( hElement.handle );
 	NotifyState( NOTIFY_CHANGE_TOPOLOGICAL );
 }
 
@@ -2658,7 +2658,7 @@ void CDataModel::GetInvalidHandles( CUtlVector< DmElementHandle_t > &handles )
 	for ( unsigned int i = 0; i < nHandles; ++i )
 	{
 		DmElementHandle_t h = ( DmElementHandle_t )m_Handles.GetHandleFromIndex( i );
-		if ( !m_Handles.IsHandleValid( h ) )
+		if ( !m_Handles.IsHandleValid( h.handle ) )
 		{
 			handles.AddToTail( h );
 		}
@@ -2670,7 +2670,7 @@ void CDataModel::MarkHandlesValid( CUtlVector< DmElementHandle_t > &handles )
 	int nHandles = handles.Count();
 	for ( int i = 0; i < nHandles; ++i )
 	{
-		m_Handles.MarkHandleValid( handles[ i ] );
+		m_Handles.MarkHandleValid( handles[ i ].handle );
 	}
 }
 
@@ -2679,19 +2679,19 @@ void CDataModel::MarkHandlesInvalid( CUtlVector< DmElementHandle_t > &handles )
 	int nHandles = handles.Count();
 	for ( int i = 0; i < nHandles; ++i )
 	{
-		m_Handles.MarkHandleInvalid( handles[ i ] );
+		m_Handles.MarkHandleInvalid( handles[ i ].handle );
 	}
 }
 
 
 CDmElement *CDataModel::GetElement( DmElementHandle_t hElement ) const
 {
-	return ( hElement != DMELEMENT_HANDLE_INVALID ) ? m_Handles.GetHandle( hElement ) : nullptr;
+	return ( hElement != DMELEMENT_HANDLE_INVALID ) ? m_Handles.GetHandle( hElement.handle ) : nullptr;
 }
 
 CUtlSymbolLarge CDataModel::GetElementType( DmElementHandle_t hElement ) const
 {
-	CDmElement *pElement = ( hElement != DMELEMENT_HANDLE_INVALID ) ? m_Handles.GetHandle( hElement ) : nullptr;
+	CDmElement *pElement = ( hElement != DMELEMENT_HANDLE_INVALID ) ? m_Handles.GetHandle( hElement.handle ) : nullptr;
 	if ( pElement == nullptr)
 		return UTL_INVAL_SYMBOL_LARGE;
 	return pElement->GetType();
@@ -2699,7 +2699,7 @@ CUtlSymbolLarge CDataModel::GetElementType( DmElementHandle_t hElement ) const
 
 const char* CDataModel::GetElementName( DmElementHandle_t hElement ) const
 {
-	CDmElement *pElement = ( hElement != DMELEMENT_HANDLE_INVALID ) ? m_Handles.GetHandle( hElement ) : nullptr;
+	CDmElement *pElement = ( hElement != DMELEMENT_HANDLE_INVALID ) ? m_Handles.GetHandle( hElement.handle ) : nullptr;
 	if ( pElement == nullptr)
 		return "";
 	return pElement->GetName();
@@ -2707,7 +2707,7 @@ const char* CDataModel::GetElementName( DmElementHandle_t hElement ) const
 
 const DmObjectId_t& CDataModel::GetElementId( DmElementHandle_t hElement ) const
 {
-	CDmElement *pElement = ( hElement != DMELEMENT_HANDLE_INVALID ) ? m_Handles.GetHandle( hElement ) : nullptr;
+	CDmElement *pElement = ( hElement != DMELEMENT_HANDLE_INVALID ) ? m_Handles.GetHandle( hElement.handle ) : nullptr;
 	if ( pElement == nullptr)
 	{
 		static DmObjectId_t s_id;

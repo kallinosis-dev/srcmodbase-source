@@ -448,7 +448,21 @@ template< class T >
 bool CDmAttributeOp<T>::SkipUnserialize( CUtlBuffer& buf )
 {
 	T dummy;
-	return ::Unserialize( buf, dummy );
+	return ::Unserialize(buf, dummy);
+}
+
+template<>
+bool CDmAttributeOp<DmUnknownAttribute_t>::SkipUnserialize(CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got DmUnknownAttribute_t");
+	return false;
+}
+
+template<>
+bool CDmAttributeOp<DmElementHandle_t>::SkipUnserialize(CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
 }
 
 template<>
@@ -464,6 +478,20 @@ bool CDmAttributeOp<T>::Serialize( const CDmAttribute *pAttribute, CUtlBuffer &b
 	// NOTE: For this to work, the class must have a function defined of type
 	// bool Serialize( CUtlBuffer &buf, T &src )
 	return ::Serialize( buf, pAttribute->GetValue<T>() );
+}
+
+template<>
+bool CDmAttributeOp<DmUnknownAttribute_t>::Serialize(const CDmAttribute* pAttribute, CUtlBuffer& buf)
+{
+	AssertMsg(false,"Got DmUnknownAttribute_t");
+	return false;
+}
+
+template<>
+bool CDmAttributeOp<DmElementHandle_t>::Serialize(const CDmAttribute* pAttribute, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
 }
 
 template< class T >
@@ -494,6 +522,19 @@ bool CDmAttributeOp< CUtlSymbolLarge >::Unserialize( CDmAttribute *pAttribute, C
 	return true;
 }
 
+template<>
+bool CDmAttributeOp< DmUnknownAttribute_t >::Unserialize(CDmAttribute* pAttribute, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got DmUnknownAttribute_t");
+	return false;
+}
+
+template<>
+bool CDmAttributeOp< DmElementHandle_t >::Unserialize(CDmAttribute* pAttribute, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
+}
 
 // Helper function to compare two DM attribute values for equality
 // Needs to be done in a separate function because we can't do templated template specialization
@@ -541,6 +582,20 @@ bool CDmAttributeOp< CUtlSymbolLarge >::IsIdenticalToSerializedValue( const CDmA
 		return false;
 
 	return true;
+}
+
+template <>
+bool CDmAttributeOp<DmUnknownAttribute_t>::IsIdenticalToSerializedValue(const CDmAttribute* pAttribute, CUtlBuffer& buf) const
+{
+	AssertMsg(false, "Got DmUnknownAttribute_t");
+	return false;
+}
+
+template <>
+bool CDmAttributeOp<DmElementHandle_t>::IsIdenticalToSerializedValue(const CDmAttribute* pAttribute, CUtlBuffer& buf) const
+{
+	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
 }
 
 template< class T >
@@ -752,20 +807,7 @@ public:
 		}
 	}
 
-	virtual const char	*GetDesc()
-	{
-		static char buf[ 128 ];
-
-		const char *base = BaseClass::GetDesc();
-		CDmAttribute *pAtt = GetAttribute();
-		CUtlBuffer serialized( 0, 0, CUtlBuffer::TEXT_BUFFER );
-		if ( pAtt && pAtt->GetType() != AT_ELEMENT )
-		{
-			::Serialize( serialized, m_Value );
-		}
-		V_sprintf_safe( buf, "%s(%s) = %s", base, m_symAttribute.String(), serialized.Base() ? (const char*)serialized.Base() : "\"\"" );
-		return buf;
-	}
+	virtual const char	*GetDesc();
 
 private:
 	CDmAttribute *GetAttribute()
@@ -1531,6 +1573,33 @@ void CDmArrayAttributeOp<T>::PerformCopyArray( const T *pArray, int nCount )
 	Data().CopyArray( pArray, nCount );
 }
 
+template <class T>
+const char* CUndoAttributeSetValueElement<T>::GetDesc()
+{
+	// TODO: remove static buffers at all
+	static char buf[ 128 ];
+
+	const char *base = BaseClass::GetDesc();
+	CDmAttribute *pAtt = GetAttribute();
+	CUtlBuffer serialized( 0, 0, CUtlBuffer::TEXT_BUFFER );
+	if ( pAtt && pAtt->GetType() != AT_ELEMENT )
+	{
+		::Serialize( serialized, m_Value );
+	}
+	V_sprintf_safe( buf, "%s(%s) = %s", base, m_symAttribute.String(), serialized.Base() ? (const char*)serialized.Base() : "\"\"" );
+	return buf;
+}
+
+template<>
+const char* CUndoAttributeSetValueElement<DmElementHandle_t>::GetDesc()
+{
+	// TODO: remove static buffers at all
+	static char buf[128];
+	V_sprintf_safe(buf, "%s(%s) = %s", BaseClass::GetDesc(), m_symAttribute.String(), "<DmElementHandle>");
+
+	return buf;
+}
+
 template<> void CDmArrayAttributeOp<DmElementHandle_t>::PerformCopyArray( const DmElementHandle_t *pArray, int nCount )
 {
 	Data().RemoveAll();
@@ -1790,6 +1859,7 @@ bool CDmArrayAttributeOp<T>::Unserialize( CDmAttribute *pAttribute, CUtlBuffer &
 
 template<> bool CDmArrayAttributeOp<DmElementHandle_t>::Unserialize( CDmAttribute *pAttribute, CUtlBuffer &buf )
 {
+#if 0
 	// Need to specialize this because element handles can't use SwapArray
 	// because it's incapable of doing type safety checks
 	if ( !CDmAttributeAccessor::MarkDirty( pAttribute ) )
@@ -1806,6 +1876,10 @@ template<> bool CDmArrayAttributeOp<DmElementHandle_t>::Unserialize( CDmAttribut
 	accessor.CopyArray( tempVal.Base(), tempVal.Count() );
 
 	return true;
+#else
+	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
+#endif
 }
 
 // Serialization of a single element
@@ -1814,6 +1888,13 @@ bool CDmArrayAttributeOp<T>::SerializeElement( const CDmAttribute *pAttribute, i
 {
 	CDmrArrayConst<T> array( pAttribute );
 	return ::Serialize( buf, array[ nElement ] );
+}
+
+template<>
+bool CDmArrayAttributeOp<DmElementHandle_t>::SerializeElement(const CDmAttribute* pAttribute, int nElement, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
 }
 
 template< class T >
@@ -1856,6 +1937,13 @@ bool CDmArrayAttributeOp< CUtlSymbolLarge >::UnserializeElement( CDmAttribute *p
 	return true;
 }
 
+template<>
+bool CDmArrayAttributeOp< DmElementHandle_t >::UnserializeElement(CDmAttribute* pAttribute, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
+}
+
 template< class T >
 bool CDmArrayAttributeOp<T>::UnserializeElement( CDmAttribute *pAttribute, int nElement, CUtlBuffer &buf )
 {
@@ -1874,6 +1962,13 @@ bool CDmArrayAttributeOp<T>::UnserializeElement( CDmAttribute *pAttribute, int n
 	pAttribute->OnChanged();
 
 	return true;
+}
+
+template<>
+bool CDmArrayAttributeOp< DmElementHandle_t >::UnserializeElement(CDmAttribute* pAttribute, int nElement, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
 }
 
 template<>
@@ -2873,7 +2968,7 @@ bool HandleCompare( const DmElementHandle_t &a, const DmElementHandle_t &b )
 
 unsigned int HandleHash( const DmElementHandle_t &h )
 {
-	return (unsigned int)h;
+	return h.handle;
 }
 
 int CDmAttribute::EstimateMemoryUsage( TraversalDepth_t depth ) const

@@ -441,7 +441,7 @@ inline bool ShouldTraverse( const CDmAttribute *pAttr, TraversalDepth_t depth )
 //-----------------------------------------------------------------------------
 // Element attributes are never directly unserialized
 //-----------------------------------------------------------------------------
-bool Serialize(CUtlBuffer& buf, DmElementHandle_t src) = delete;
+bool Serialize(CUtlBuffer& buf, const DmElementHandle_t& src) = delete;
 
 bool Unserialize(CUtlBuffer& buf, DmElementHandle_t& dest) = delete;
 
