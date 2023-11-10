@@ -5,6 +5,9 @@
 //=============================================================================
 
 #include "stdafx.h"
+
+#undef GetObject
+#include "tier1/utlobjectreference.h"
 #include "hammer.h"
 #include "EntityHelpDlg.h"
 #include "EntityReportDlg.h"
@@ -40,8 +43,6 @@
 #include "smartptr.h"
 #include "instancing_helper.h"
 
-
-#undef GetObject
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -86,9 +87,8 @@ static bool IsValidTargetName( const char *pTestName )
 {
 	CMapDoc *pDoc = CMapDoc::GetActiveMapDoc();
 	CMapWorld *pWorld = pDoc->GetMapWorld();
-	const CMapEntityList *pList = pWorld->EntityList_GetList();
 
-	for ( auto element: *pList )
+	for (auto element: *pWorld->EntityList_GetList())
 	{
 		const CMapEntity *pEntity = element.GetObject();
 
@@ -2838,7 +2838,7 @@ void COP_Entity::OnAddkeyvalue(void)
 		CString strTemp;
 		for(int i = 1; ; i++)
 		{
-			strTemp.Format("%s#%d", newkv.m_Key, i);
+			strTemp.Format("%s#%d", newkv.m_Key.GetString(), i);
 			if(!m_kv.GetValue(strTemp))
 				break;
 		}

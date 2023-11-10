@@ -71,7 +71,7 @@ typedef float (*TimeModifierFunc_t)(float);
 
 typedef struct 
 {
-	char *szName;
+	char const* szName;
 	TimeModifierFunc_t pFunc;
 
 } TimeModifier_t;
@@ -103,7 +103,7 @@ int Motion_GetNumberOfTimeModifiers( void )
 	return ARRAYSIZE(g_TimeModifiers);
 }
 
-bool Motion_GetTimeModifierDetails( int timeInterpNum, char **outName )
+bool Motion_GetTimeModifierDetails( int timeInterpNum, char const* *outName )
 {
 	if ( timeInterpNum < 0 || timeInterpNum >= Motion_GetNumberOfTimeModifiers() )
 	{
@@ -152,11 +152,11 @@ bool Motion_CalculateModifiedTime( float time, int timeModifierFuncNum, float *o
 class CPositionInterpolator_Linear : public IPositionInterpolator
 {
 public:
-	virtual void		Release();
-	virtual void		GetDetails( char **outName, int *outMinKeyReq, int *outMaxKeyReq );
-	virtual void		SetKeyPosition( int keyNum, Vector const &vPos );
-	virtual void		InterpolatePosition( float time, Vector &vOut );
-	virtual bool		ProcessKey( char const *pName, char const *pValue ) { return false; }
+	void		Release() override;
+	void		GetDetails(char const** outName, int *outMinKeyReq, int *outMaxKeyReq) override;
+	void		SetKeyPosition( int keyNum, Vector const &vPos ) override;
+	void		InterpolatePosition( float time, Vector &vOut ) override;
+	bool		ProcessKey( char const *pName, char const *pValue ) override { return false; }
 };
 
 CPositionInterpolator_Linear g_LinearInterpolator;
@@ -170,7 +170,7 @@ void CPositionInterpolator_Linear::Release()
 {
 }
 
-void CPositionInterpolator_Linear::GetDetails( char **outName, int *outMinKeyReq, int *outMaxKeyReq )
+void CPositionInterpolator_Linear::GetDetails(char const** outName, int *outMinKeyReq, int *outMaxKeyReq)
 {
 	*outName = "Linear";
 	*outMinKeyReq = 0;
@@ -199,11 +199,11 @@ void CPositionInterpolator_Linear::InterpolatePosition( float time, Vector &vOut
 class CPositionInterpolator_CatmullRom : public IPositionInterpolator
 {
 public:
-	virtual void		Release();
-	virtual void		GetDetails( char **outName, int *outMinKeyReq, int *outMaxKeyReq );
-	virtual void		SetKeyPosition( int keyNum, Vector const &vPos );
-	virtual void		InterpolatePosition( float time, Vector &vOut );
-	virtual bool		ProcessKey( char const *pName, char const *pValue ) { return false; }
+	void		Release() override;
+	void		GetDetails(char const** outName, int *outMinKeyReq, int *outMaxKeyReq) override;
+	void		SetKeyPosition( int keyNum, Vector const &vPos ) override;
+	void		InterpolatePosition( float time, Vector &vOut ) override;
+	bool		ProcessKey( char const *pName, char const *pValue ) override { return false; }
 };
 
 CPositionInterpolator_CatmullRom g_CatmullRomInterpolator;
@@ -217,7 +217,7 @@ void CPositionInterpolator_CatmullRom::Release()
 {
 }
 
-void CPositionInterpolator_CatmullRom::GetDetails( char **outName, int *outMinKeyReq, int *outMaxKeyReq )
+void CPositionInterpolator_CatmullRom::GetDetails(char const** outName, int *outMinKeyReq, int *outMaxKeyReq)
 {
 	*outName = "Catmull-Rom Spline";
 	*outMinKeyReq = -1;
@@ -251,8 +251,8 @@ void CPositionInterpolator_CatmullRom::InterpolatePosition( float time, Vector &
 class CRopeDelegate : public CSimplePhysics::IHelper
 {
 public:
-	virtual void	GetNodeForces( CSimplePhysics::CNode *pNodes, int iNode, Vector *pAccel );
-	virtual void	ApplyConstraints( CSimplePhysics::CNode *pNodes, int nNodes );
+	void	GetNodeForces( CSimplePhysics::CNode *pNodes, int iNode, Vector *pAccel ) override;
+	void	ApplyConstraints( CSimplePhysics::CNode *pNodes, int nNodes ) override;
 
 
 public:
@@ -280,11 +280,11 @@ class CPositionInterpolator_Rope : public IPositionInterpolator
 public:
 						CPositionInterpolator_Rope();
 
-	virtual void		Release();
-	virtual void		GetDetails( char **outName, int *outMinKeyReq, int *outMaxKeyReq );
-	virtual void		SetKeyPosition( int keyNum, Vector const &vPos );
-	virtual void		InterpolatePosition( float time, Vector &vOut );
-	virtual bool		ProcessKey( char const *pName, char const *pValue );
+						void		Release() override;
+						void		GetDetails(char const** outName, int *outMinKeyReq, int *outMaxKeyReq) override;
+						void		SetKeyPosition( int keyNum, Vector const &vPos ) override;
+						void		InterpolatePosition( float time, Vector &vOut ) override;
+						bool		ProcessKey( char const *pName, char const *pValue ) override;
 
 
 private:
@@ -318,7 +318,7 @@ void CPositionInterpolator_Rope::Release()
 	delete this;
 }
 
-void CPositionInterpolator_Rope::GetDetails( char **outName, int *outMinKeyReq, int *outMaxKeyReq )
+void CPositionInterpolator_Rope::GetDetails(char const** outName, int *outMinKeyReq, int *outMaxKeyReq)
 {
 	*outName = "Rope";
 	*outMinKeyReq = 0;
@@ -432,7 +432,7 @@ typedef void (*RotationInterpolatorFunc_t)(float time, Quaternion &outRot);
 
 typedef struct 
 {
-	char *szName;
+	char const* szName;
 	RotationInterpolatorFunc_t pFunc;
 
 	// defines the range of keys this interpolator needs to function
@@ -457,7 +457,7 @@ int Motion_GetNumberOfRotationInterpolators( void )
 	return ARRAYSIZE(g_RotationInterpolators);
 }
 
-bool Motion_GetRotationInterpolatorDetails( int rotInterpNum, char **outName, int *outMinKeyReq, int *outMaxKeyReq )
+bool Motion_GetRotationInterpolatorDetails(int rotInterpNum, char const** outName, int *outMinKeyReq, int *outMaxKeyReq)
 {
 	if ( rotInterpNum < 0 || rotInterpNum >= Motion_GetNumberOfRotationInterpolators() )
 	{
