@@ -345,7 +345,7 @@ void CBaseAttributePanel::OnCreateDragData( KeyValues *msg )
 {
 	if ( GetPanelElement() )
 	{
-		msg->SetInt( "root", GetPanelElement() ? GetPanelElement()->GetHandle() : DMELEMENT_HANDLE_INVALID );
+		msg->SetInt( "root", (GetPanelElement() ? GetPanelElement()->GetHandle() : DMELEMENT_HANDLE_INVALID).handle );
 		msg->SetString( "type", g_pDataModel->GetAttributeNameForType( m_AttributeType ) );
 		msg->SetString( "attributename", m_szAttributeName );
 		if ( m_nArrayIndex >= 0 )

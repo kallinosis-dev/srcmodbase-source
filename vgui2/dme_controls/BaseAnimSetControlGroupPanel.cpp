@@ -225,8 +225,8 @@ void CAnimGroupStateIconSet::OnPanelDropped( CUtlVector< KeyValues * >& msglist 
 			bool bRotation = ( ( m_StateType == STATE_ICON_SET_GROUP ) || ( m_StateType == STATE_ICON_SET_CONTROL_ROTATION ) );
 
 			KeyValues *pMsgKv = new KeyValues( "SetOverrideParent" );
-			pMsgKv->SetInt( "targetDag", m_pDag->GetHandle() );
-			pMsgKv->SetInt( "parentDag", pParentDag->GetHandle()  );
+			pMsgKv->SetInt( "targetDag", m_pDag->GetHandle().handle );
+			pMsgKv->SetInt( "parentDag", pParentDag->GetHandle().handle  );
 			pMsgKv->SetBool( "position", bPosition );
 			pMsgKv->SetBool( "rotation", bRotation );
 			PostMessage( GetParent(), pMsgKv, 0.0f );
@@ -240,7 +240,7 @@ void CAnimGroupStateIconSet::IconButtonRightClick()
 	bool bRotation = ( ( m_StateType == STATE_ICON_SET_GROUP ) || ( m_StateType == STATE_ICON_SET_CONTROL_ROTATION ) );
 
 	KeyValues *pMsgKv = new KeyValues( "OpenLockContextMenu" );
-	pMsgKv->SetInt( "targetDag", m_pDag->GetHandle() );
+	pMsgKv->SetInt( "targetDag", m_pDag->GetHandle().handle );
 	pMsgKv->SetBool( "position", bPosition );
 	pMsgKv->SetBool( "rotation", bRotation );
 
@@ -323,7 +323,7 @@ void CAnimGroupStateIconSet::OnLockDagButton()
 		bool bRotation = ( ( m_StateType == STATE_ICON_SET_GROUP ) || ( m_StateType == STATE_ICON_SET_CONTROL_ROTATION ) );
 
 		KeyValues *pMsgKv = new KeyValues( "ToggleDagLock" );
-		pMsgKv->SetInt( "targetDag", m_pDag->GetHandle() );
+		pMsgKv->SetInt( "targetDag", m_pDag->GetHandle().handle );
 		pMsgKv->SetBool( "position", bPosition );
 		pMsgKv->SetBool( "rotation", bRotation );
 		PostMessage( GetParent(), pMsgKv, 0.0f );
@@ -595,12 +595,12 @@ int CAnimGroupTree::AddItemToTree( AnimTreeItemType_t itemType, const char *labe
 
 	KeyValues *kv = new KeyValues( "item", "text", label );
 	kv->SetInt( "droppable", 1 );
-	kv->SetInt( "itemType", ( int )itemType );
-	kv->SetInt( "handle", ( int )hElement );
-	kv->SetInt( "animset", ( int )hAnimSet );
-	kv->SetInt( "controlgroup", ( int )hControlGroup );
-	kv->SetInt( "selection", ( int )selection );
-	kv->SetInt( "componentFlags", ( int )nComponentFlags );
+	kv->SetInt( "itemType", itemType );
+	kv->SetInt( "handle", hElement.handle );
+	kv->SetInt( "animset", hAnimSet.handle);
+	kv->SetInt( "controlgroup", hControlGroup.handle);
+	kv->SetInt( "selection", selection );
+	kv->SetInt( "componentFlags", nComponentFlags );
 	kv->SetInt( "Expand", bExpandable ? 1 : 0 );
 	
 	CDmeTransformControl *pTransformControl = CastElement< CDmeTransformControl >( pElement );
@@ -949,7 +949,7 @@ void CAnimGroupTree::GenerateDragDataForItem( int nItemIndex, KeyValues *msg )
 	
 	if ( ( pElement ) && ( itemType != ANIMTREE_ITEM_COMPONENT ) )
 	{
-		msg->SetInt( "dmeelement", pElement->GetHandle() );	
+		msg->SetInt( "dmeelement", pElement->GetHandle().handle );	
 	}
 }
 

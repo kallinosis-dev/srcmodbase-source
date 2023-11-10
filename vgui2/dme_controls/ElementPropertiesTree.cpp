@@ -3169,13 +3169,15 @@ void CElementPropertiesTreeInternal::UpdateTree()
 		Q_snprintf( label, sizeof( label ), "%s", m_hObject->GetValueString( "name" ) );
 		bool editableLabel = true;
 
+		auto objectHandle = m_hObject.Get() ? m_hObject.Get()->GetHandle() : DMELEMENT_HANDLE_INVALID;
+
 		KeyValues *kv = new KeyValues( "item" );
 		kv->SetString( "Text", label );
 		kv->SetInt( "Expand", 1 );
-		kv->SetInt( "dmeelement", m_hObject.Get() ? m_hObject.Get()->GetHandle() : DMELEMENT_HANDLE_INVALID );
-		kv->SetInt( "ownerelement", m_hObject.Get() ? m_hObject.Get()->GetHandle() : DMELEMENT_HANDLE_INVALID );
+		kv->SetInt( "dmeelement", objectHandle.handle);
+		kv->SetInt( "ownerelement", objectHandle.handle);
 		kv->SetString( "attributeName", "name" );
- 		kv->SetInt( "root", m_hObject.Get() ? m_hObject.Get()->GetHandle() : DMELEMENT_HANDLE_INVALID);
+ 		kv->SetInt( "root", objectHandle.handle);
 		kv->SetInt( "editablelabel", editableLabel ? 1 : 0 );
 
 		CDmElement *pElement = m_hObject.Get();
@@ -3543,7 +3545,7 @@ void CElementPropertiesTreeInternal::GenerateContextMenu( int itemIndex, int x, 
 	if ( bIsElementAttribute || bIsElementArrayAttribute || bIsElementArrayItem )
 	{
 		KeyValues *pContext = new KeyValues( "context", "command", "OnImportElement" );
-		pContext->SetInt( "owner", ( int )pOwner->GetHandle() );
+		pContext->SetInt( "owner", pOwner->GetHandle().handle );
 		pContext->SetString( "attribute", pAttributeName );
 		pContext->SetInt( "index", nArrayIndex );
 
@@ -3558,7 +3560,7 @@ void CElementPropertiesTreeInternal::GenerateContextMenu( int itemIndex, int x, 
 	if ( ( bIsElementAttribute && !bIsElementAttributeNull ) || m_pTree->GetTree()->GetRootItemIndex() == itemIndex || bIsElementArrayItem )
 	{
 		KeyValues *pContext = new KeyValues( "context", "command", "OnExportElement" );
-		pContext->SetInt( "element", pElement ? ( int )pElement->GetHandle() : DMELEMENT_HANDLE_INVALID );
+		pContext->SetInt( "element", (pElement ? pElement->GetHandle() : DMELEMENT_HANDLE_INVALID).handle );
 
 		KeyValues *kv = new KeyValues( "OnShowFileDialog", "title", "Export Element" );
 		kv->SetInt( "openOnly", 0 );

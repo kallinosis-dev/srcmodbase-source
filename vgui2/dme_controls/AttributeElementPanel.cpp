@@ -62,7 +62,7 @@ void CAttributeElementPanel::OnCreateDragData( KeyValues *msg )
 		if ( GetPanelElement()->HasAttribute( GetAttributeName() ) )
 		{
 			element = GetElement<CDmElement>( GetAttributeValue<DmElementHandle_t>( ) );
-			msg->SetInt( "dmeelement", element->GetHandle() );
+			msg->SetInt( "dmeelement", element->GetHandle().handle );
 		}
 		
 	}

@@ -86,12 +86,12 @@ void CDmePicker::Activate( const CUtlVector< DmePickerInfo_t >&vec )
 		const char *pItemName = vec[i].m_pChoiceString ? vec[i].m_pChoiceString : pElementName;
 
 		KeyValues *kv = new KeyValues( "node", "dme", pItemName );
-		kv->SetInt( "dmeHandle", vec[i].m_hElement ); 
+		kv->SetInt( "dmeHandle", vec[i].m_hElement.handle ); 
 		int nItemID = m_pDmeBrowser->AddItem( kv, 0, false, false );
 
 		KeyValues *pDrag = new KeyValues( "drag", "text", pElementName );
 		pDrag->SetString( "texttype", "dmeName" );
-		pDrag->SetInt( "dmeelement", vec[i].m_hElement );
+		pDrag->SetInt( "dmeelement", vec[i].m_hElement.handle );
 		m_pDmeBrowser->SetItemDragData( nItemID, pDrag );
 	}
 

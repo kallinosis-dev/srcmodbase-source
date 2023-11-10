@@ -10,6 +10,7 @@
 #pragma once
 #endif
 
+#include "datamodel/dmelementhandle.h"
 #include "tier1/UtlMap.h"
 #include "tier1/strtools.h"
 
@@ -18,7 +19,6 @@
 // Forward declarations
 //-----------------------------------------------------------------------------
 class CDmAttribute;
-enum DmElementHandle_t;
 
 
 //-----------------------------------------------------------------------------

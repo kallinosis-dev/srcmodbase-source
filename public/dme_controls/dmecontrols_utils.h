@@ -49,19 +49,19 @@ inline int AddCheckableMenuItem( vgui::Menu *pMenu, const char *pItemName, const
 //-----------------------------------------------------------------------------
 inline void SetElementKeyValue( KeyValues *pKeyValues, const char *pName, CDmElement *pElement )
 {
-	pKeyValues->SetInt( pName, pElement ? pElement->GetHandle() : DMELEMENT_HANDLE_INVALID );
+	pKeyValues->SetInt( pName, (pElement ? pElement->GetHandle() : DMELEMENT_HANDLE_INVALID).handle );
 }
 
 template< class T >
 T* GetElementKeyValue( KeyValues *pKeyValues, const char *pName )
 {
-	DmElementHandle_t h = (DmElementHandle_t)pKeyValues->GetInt( pName, DMELEMENT_HANDLE_INVALID );
+	DmElementHandle_t h = (DmElementHandle_t)pKeyValues->GetInt( pName, DMELEMENT_HANDLE_INVALID.handle );
 	return GetElement<T>( h );
 }
 
 inline KeyValues *CreateElementKeyValues( const char *pName, const char *pKey, CDmElement *pElement )
 {
-	return new KeyValues( pName, pKey, pElement ? ( int )pElement->GetHandle() : DMELEMENT_HANDLE_INVALID );
+	return new KeyValues( pName, pKey, (pElement ? pElement->GetHandle() : DMELEMENT_HANDLE_INVALID).handle);
 }
 
 inline void AddStandardElementKeys( KeyValues *pKeyValues, CDmElement *pElement )
