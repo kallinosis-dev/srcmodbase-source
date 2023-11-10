@@ -247,20 +247,11 @@ private:
 	typedef T StorageType_t;
 	friend class CDmxAttribute;
 
-	static DmAttributeType_t AttributeType()
-	{
-		return AT_TYPE_INVALID;
-	}
+	static DmAttributeType_t AttributeType() = delete;
 
-	static const char *AttributeTypeName()
-	{
-		return "invalid";
-	}
+	static const char* AttributeTypeName() = delete;
 
-	static void SetDefaultValue( T& value )
-	{
-		Assert(0);
-	}
+	static void SetDefaultValue(T& value) = delete;
 };
 
 
@@ -283,6 +274,30 @@ public:
 	}
 
 	static void SetDefaultValue( DmUnknownAttribute_t& value )
+	{
+		Assert(0);
+	}
+};
+
+template <>
+class CDmAttributeInfo< CUtlVector<DmUnknownAttribute_t> >
+{
+public:
+	enum { ATTRIBUTE_TYPE = AT_UNKNOWN };
+
+	typedef CUtlVector<DmUnknownAttribute_t> StorageType_t;
+
+	static DmAttributeType_t AttributeType()
+	{
+		return AT_UNKNOWN;
+	}
+
+	static const char* AttributeTypeName()
+	{
+		return "unknown_array";
+	}
+
+	static void SetDefaultValue(CUtlVector<DmUnknownAttribute_t>& value)
 	{
 		Assert(0);
 	}

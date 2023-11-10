@@ -215,7 +215,14 @@ void* CDmAttributeOp<T>::CreateAttributeData()
 template<> void* CDmAttributeOp< DmUnknownAttribute_t >::CreateAttributeData()
 {
 	// Fail if someone tries to create an AT_UNKNOWN attribute
-	Assert(0);
+	AssertMsg(false, "Got DmUnknownAttribute_t");
+	return nullptr;
+}
+
+template<> void* CDmAttributeOp<CUtlVector<DmUnknownAttribute_t>>::CreateAttributeData()
+{
+	// Fail if someone tries to create an AT_UNKNOWN attribute
+	AssertMsg(false, "Got CUtlVector<DmUnknownAttribute_t>");
 	return nullptr;
 }
 
@@ -234,7 +241,6 @@ void CDmAttributeOp<T>::SetDefaultValue( void *pData )
 {
 	CDmAttributeInfo< T >::SetDefaultValue( *reinterpret_cast<T*>( pData ) );
 }
-
 
 //-----------------------------------------------------------------------------
 // Attribute type name, data size, value size
@@ -466,6 +472,20 @@ bool CDmAttributeOp<DmElementHandle_t>::SkipUnserialize(CUtlBuffer& buf)
 }
 
 template<>
+bool CDmAttributeOp<CUtlVector<DmUnknownAttribute_t>>::SkipUnserialize(CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got CUtlVector<DmUnknownAttribute_t>");
+	return false;
+}
+
+template<>
+bool CDmAttributeOp< CUtlVector<DmElementHandle_t>>::SkipUnserialize(CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got CUtlVector<DmElementHandle_t>");
+	return false;
+}
+
+template<>
 bool CDmAttributeOp< CUtlSymbolLarge >::SkipUnserialize( CUtlBuffer& buf )
 {
 	CUtlString dummy;
@@ -493,6 +513,21 @@ bool CDmAttributeOp<DmElementHandle_t>::Serialize(const CDmAttribute* pAttribute
 	AssertMsg(false, "Got DmElementHandle_t");
 	return false;
 }
+
+template<>
+bool CDmAttributeOp<CUtlVector<DmUnknownAttribute_t>>::Serialize(const CDmAttribute* pAttribute, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got CUtlVector<DmUnknownAttribute_t>");
+	return false;
+}
+
+template<>
+bool CDmAttributeOp<CUtlVector<DmElementHandle_t>>::Serialize(const CDmAttribute* pAttribute, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got CUtlVector<DmElementHandle_t>");
+	return false;
+}
+
 
 template< class T >
 bool CDmAttributeOp<T>::Unserialize( CDmAttribute *pAttribute, CUtlBuffer &buf )
@@ -533,6 +568,20 @@ template<>
 bool CDmAttributeOp< DmElementHandle_t >::Unserialize(CDmAttribute* pAttribute, CUtlBuffer& buf)
 {
 	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
+}
+
+template<>
+bool CDmAttributeOp< CUtlVector<DmUnknownAttribute_t> >::Unserialize(CDmAttribute* pAttribute, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got CUtlVector<DmUnknownAttribute_t>");
+	return false;
+}
+
+template<>
+bool CDmAttributeOp< CUtlVector<DmElementHandle_t> >::Unserialize(CDmAttribute* pAttribute, CUtlBuffer& buf)
+{
+	AssertMsg(false, "Got CUtlVector<DmElementHandle_t>");
 	return false;
 }
 
@@ -595,6 +644,20 @@ template <>
 bool CDmAttributeOp<DmElementHandle_t>::IsIdenticalToSerializedValue(const CDmAttribute* pAttribute, CUtlBuffer& buf) const
 {
 	AssertMsg(false, "Got DmElementHandle_t");
+	return false;
+}
+
+template <>
+bool CDmAttributeOp<CUtlVector<DmUnknownAttribute_t>>::IsIdenticalToSerializedValue(const CDmAttribute* pAttribute, CUtlBuffer& buf) const
+{
+	AssertMsg(false, "Got CUtlVector<DmUnknownAttribute_t>");
+	return false;
+}
+
+template <>
+bool CDmAttributeOp< CUtlVector<DmElementHandle_t>>::IsIdenticalToSerializedValue(const CDmAttribute* pAttribute, CUtlBuffer& buf) const
+{
+	AssertMsg(false, "Got CUtlVector<DmElementHandle_t>");
 	return false;
 }
 
@@ -1598,6 +1661,20 @@ const char* CUndoAttributeSetValueElement<DmElementHandle_t>::GetDesc()
 	V_sprintf_safe(buf, "%s(%s) = %s", BaseClass::GetDesc(), m_symAttribute.String(), "<DmElementHandle>");
 
 	return buf;
+}
+
+template<>
+const char* CUndoAttributeSetValueElement<DmUnknownAttribute_t>::GetDesc()
+{
+	Assert(false, "Got DmUnknownAttribute_t");
+	return "Error: <DmUnknownAttribute_t>";
+}
+
+template<>
+const char* CUndoAttributeSetValueElement<CUtlVector<DmUnknownAttribute_t>>::GetDesc()
+{
+	Assert(false, "Got CUtlVector<DmUnknownAttribute_t>");
+	return "Error: <CUtlVector<DmUnknownAttribute_t>>";
 }
 
 template<> void CDmArrayAttributeOp<DmElementHandle_t>::PerformCopyArray( const DmElementHandle_t *pArray, int nCount )
