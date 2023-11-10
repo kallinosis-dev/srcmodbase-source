@@ -299,7 +299,7 @@ static int CALLBACK BrowseCallbackProc( HWND hwnd, UINT uMsg, LPARAM lParam, LPA
 //			*pszDirectory - 
 // Output : Returns TRUE on success, FALSE on failure.
 //-----------------------------------------------------------------------------
-BOOL COPTTextures::BrowseForFolder( char *pszTitle, char *pszDirectory )
+BOOL COPTTextures::BrowseForFolder(const char *pszTitle, char *pszDirectory )
 {
 	USES_CONVERSION;
 

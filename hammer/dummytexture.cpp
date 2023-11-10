@@ -49,8 +49,7 @@ CDummyTexture::~CDummyTexture()
 //-----------------------------------------------------------------------------
 const char *CDummyTexture::GetFileName() const
 {
-	static char *pszEmpty = "";
-	return(pszEmpty);
+	return "";
 }
 
 

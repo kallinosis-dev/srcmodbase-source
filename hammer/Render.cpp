@@ -111,7 +111,7 @@ CRender::~CRender(void)
 //			InstanceAngles - the rotation of the instance
 // Output : none
 //-----------------------------------------------------------------------------
-void CRender::PushInstanceData( CMapInstance *pInstanceClass, Vector &InstanceOrigin, QAngle &InstanceAngles )
+void CRender::PushInstanceData( CMapInstance *pInstanceClass, Vector const& InstanceOrigin, QAngle const& InstanceAngles )
 {
 	TInstanceState	InstanceState;
 	matrix3x4_t		Instance3x4Matrix;
@@ -954,7 +954,7 @@ void CRender::DrawPlane( const Vector &p0, const Vector &p1, const Vector &p2, c
 	m_pMesh->Draw();
 }
 
-void CRender::DrawFilledRect( Vector2D& ul, Vector2D& lr, unsigned char *pColor, bool bBorder )
+void CRender::DrawFilledRect( Vector2D ul, Vector2D lr, unsigned char *pColor, bool bBorder )
 {
 	static Color black(0,0,0,255);
 

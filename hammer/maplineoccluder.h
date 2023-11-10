@@ -69,7 +69,7 @@ public:
 
 	virtual const char* GetDescription() { return "FoW Line Occluder helper"; }
 
-	virtual void SetOrigin(Vector &vecOrigin);
+	virtual void SetOrigin(Vector const& vecOrigin);
 	virtual SelectionState_t SetSelectionState(SelectionState_t eSelectionState);
 
 protected:

@@ -915,7 +915,7 @@ static bool LightForString( char const *pLight, Vector& intensity )
 }
 
 // ugly code copied from vrad and munged. Should move into a lib
-static bool LightForKey (CMapEntity *ent, char *key, Vector& intensity )
+static bool LightForKey (CMapEntity *ent, char const* key, Vector& intensity )
 {
 	char const *pLight = ent->GetKeyValue( key );
 
@@ -1812,7 +1812,7 @@ void CRender3D::EndRenderFrame(void)
 }
 
 
-void CRender3D::PushInstanceData( CMapInstance *pInstanceClass, Vector &InstanceOrigin, QAngle &InstanceAngles )
+void CRender3D::PushInstanceData( CMapInstance *pInstanceClass, Vector const& InstanceOrigin, QAngle const& InstanceAngles )
 {
 	__super::PushInstanceData( pInstanceClass, InstanceOrigin, InstanceAngles );
 

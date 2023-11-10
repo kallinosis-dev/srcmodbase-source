@@ -26,12 +26,6 @@
 #include <tier0/memdbgon.h>
 
 
-//
-// An empty string returned by GetComments when we have no comments set.
-//
-char *CEditGameClass::g_pszEmpty = "";
-
-
 //-----------------------------------------------------------------------------
 // Purpose: Constructor. Initializes data members.
 //-----------------------------------------------------------------------------

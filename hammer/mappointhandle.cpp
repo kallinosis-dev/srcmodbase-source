@@ -41,15 +41,11 @@ IMPLEMENT_MAPCLASS(CMapPointHandle);
 //-----------------------------------------------------------------------------
 CMapClass *CMapPointHandle::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 {
-	static char *pszDefaultKeyName = "origin";
-
 	bool bDrawLineToParent = !stricmp(pHelperInfo->GetName(), "vecline");
 
 	const char *pszKey = pHelperInfo->GetParameter(0);
 	if (pszKey == nullptr)
-	{
-		pszKey = pszDefaultKeyName;
-	}
+		pszKey = "origin";
 
 	CMapPointHandle *pBox = new CMapPointHandle(pszKey, bDrawLineToParent);
 	pBox->SetRenderColor(255, 255, 255);

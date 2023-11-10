@@ -39,7 +39,7 @@ void CFoW_RadiusOccluder::UpdateSize( float flRadius )
 // Purpose: update the location of this occluder
 // Input  : vLocation - the new location
 //-----------------------------------------------------------------------------
-void CFoW_RadiusOccluder::UpdateLocation( Vector &vLocation )
+void CFoW_RadiusOccluder::UpdateLocation(const Vector &vLocation )
 {
 	m_vLocation = vLocation;
 }

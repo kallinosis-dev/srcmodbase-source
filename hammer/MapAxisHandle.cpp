@@ -43,13 +43,9 @@ IMPLEMENT_MAPCLASS(CMapAxisHandle);
 //-----------------------------------------------------------------------------
 CMapClass *CMapAxisHandle::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 {
-	static char *pszDefaultKeyName = "axis";
-
 	const char *pszKey = pHelperInfo->GetParameter(0);
 	if (pszKey == nullptr)
-	{
-		pszKey = pszDefaultKeyName;
-	}
+		pszKey = "axis";
 
 	CMapAxisHandle *pBox = new CMapAxisHandle(pszKey);
 	pBox->SetRenderColor(255, 255, 255);
@@ -302,7 +298,7 @@ int CMapAxisHandle::SerializeMAP(std::fstream &File, BOOL bRMF)
 //-----------------------------------------------------------------------------
 // Purpose: Overridden to chain down to our endpoints, which are not children.
 //-----------------------------------------------------------------------------
-void CMapAxisHandle::SetOrigin(Vector &vecOrigin)
+void CMapAxisHandle::SetOrigin(Vector const& vecOrigin)
 {
 	BaseClass::SetOrigin(vecOrigin);
 

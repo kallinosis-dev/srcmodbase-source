@@ -42,7 +42,7 @@ typedef CMapClass *HELPERFACTORY(CHelperInfo *, CMapEntity *);
 
 typedef struct
 {
-	char *pszName;
+	char const* pszName;
 	HELPERFACTORY *pfnFactory;
 } HelperFactoryMap_t;
 

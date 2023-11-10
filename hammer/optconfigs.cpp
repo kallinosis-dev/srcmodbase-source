@@ -725,12 +725,11 @@ BOOL COPTConfigs::OnApply(void)
 //			*pszDirectory - 
 // Output : Returns TRUE on success, FALSE on failure.
 //-----------------------------------------------------------------------------
-BOOL COPTConfigs::BrowseForFolder(char *pszTitle, char *pszDirectory)
+BOOL COPTConfigs::BrowseForFolder(const char *pszTitle, char *pszDirectory)
 {
 	char szTmp[MAX_PATH];
 
-	BROWSEINFO bi;
-	memset(&bi, 0, sizeof bi);
+	BROWSEINFO bi = {};
 	bi.hwndOwner = m_hWnd;
 	bi.pszDisplayName = szTmp;
 	bi.lpszTitle = pszTitle;

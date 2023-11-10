@@ -218,14 +218,14 @@ public:
 			{
 				this->Element( elem ).Set( this->Element( this->m_Size - 1 ).GetObject() );
 			}
-			Destruct( &Element( this->m_Size - 1 ) );
+			Destruct( &this->Element( this->m_Size - 1 ) );
 			--this->m_Size;
 		}
 	}
 
 	bool FindAndFastRemove( const CUtlReference< T >& src )
 	{
-		int elem = Find( src );
+		int elem = this->Find( src );
 		if ( elem != -1 )
 		{
 			FastRemove( elem );
@@ -239,15 +239,15 @@ private:
 	// Disallow methods of CUtlBlockVector that can cause element addresses to change, thus
 	// breaking assumptions of CUtlReference
 	//
-	void Remove( int elem );		
-	bool FindAndRemove( const T& src );	
-	void RemoveMultiple( int elem, int num );	
-	void RemoveMultipleFromHead(int num); 
-	void RemoveMultipleFromTail(int num); 
-	void Swap( CUtlReferenceVector< T > &vec );
-	void Purge();
-	void PurgeAndDeleteElements();
-	void Compact();
+	void Remove( int elem ) = delete;		
+	bool FindAndRemove( const T& src ) = delete;
+	void RemoveMultiple( int elem, int num ) = delete;
+	void RemoveMultipleFromHead(int num) = delete;
+	void RemoveMultipleFromTail(int num) = delete;
+	void Swap( CUtlReferenceVector< T > &vec ) = delete;
+	void Purge() = delete;
+	void PurgeAndDeleteElements() = delete;
+	void Compact() = delete;
 };
 
 #endif

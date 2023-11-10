@@ -44,7 +44,7 @@ class CHammerBar : public CDialogBar
 		~CHammerBar(void);
 
 		BOOL Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID );
-		BOOL Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID, char *pszName );
+		BOOL Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID, char const* pszName );
 
 		CSize m_sizeDocked;
         CSize m_sizeFloating;

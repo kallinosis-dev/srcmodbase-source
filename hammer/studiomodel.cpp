@@ -515,7 +515,8 @@ void StudioModel::SetUpBones( bool bUpdatePose, matrix3x4a_t *pBoneToWorld )
 
 	for (int i = 0; i < pStudioHdr->numbones(); i++) 
 	{
-		if ( CalcProceduralBone( pStudioHdr, i, CBoneAccessor( pBoneToWorld ) ))
+		CBoneAccessor accessor{ pBoneToWorld };
+		if ( CalcProceduralBone( pStudioHdr, i, accessor))
 			continue;
 
 		matrix3x4_t	bonematrix;

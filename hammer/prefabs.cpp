@@ -31,7 +31,7 @@ CPrefabList CPrefab::MRU;
 CPrefabLibraryList CPrefabLibrary::PrefabLibraryList;
 
 
-static char *pLibHeader = "Worldcraft Prefab Library\r\n\x1a";
+constexpr char const* pLibHeader = "Worldcraft Prefab Library\r\n\x1a";
 static float fLibVersion = 0.1f;
 
 

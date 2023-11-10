@@ -22,7 +22,7 @@
 
 
 static CEntityReportDlg *s_pDlg = nullptr;
-static char *pszIniSection = "EntityReportDlg";
+constexpr char const* pszIniSection = "EntityReportDlg";
 
 
 //-----------------------------------------------------------------------------

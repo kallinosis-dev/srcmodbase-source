@@ -155,7 +155,7 @@ BOOL CHammerBar::Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT n
 //			UINT nID - 
 // Output : BOOL - TRUE on success
 //-----------------------------------------------------------------------------
-BOOL CHammerBar::Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID, char *pszName )
+BOOL CHammerBar::Create( CWnd* pParentWnd, UINT nIDTemplate, UINT nStyle, UINT nID, char const* pszName )
 {
 	UINT nStyleFixed = nStyle;
 	if ( *pszName == 0 )

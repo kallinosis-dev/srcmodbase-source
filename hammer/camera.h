@@ -39,7 +39,7 @@ class CCamera
 		CCamera(void);
 		virtual ~CCamera(void);
 
-		void Move(Vector &vDelta);
+		void Move(const Vector &vDelta);
 		void Pitch(float fDegrees);
 		void Roll(float fDegrees);
 		void Yaw(float fDegrees);

@@ -163,14 +163,14 @@ public:
 
 	// Constructor / Destructor.
 	CRender3D(void);
-	virtual ~CRender3D(void);
+	~CRender3D(void) override;
 
 	// Initialization & shutdown functions.
 	void ShutDown(void);
 
-	float GetElapsedTime(void);
-	float GetGridDistance(void);
-	float GetGridSize(void);
+	float GetElapsedTime();
+	float GetGridDistance();
+	float GetGridSize();
 	
 	bool DeferRendering() const { return m_DeferRendering; }
 	bool IsEnabled(RenderState_t eRenderState);
@@ -184,12 +184,12 @@ public:
 	float LightPlane(Vector& Normal);
 	void UncacheAllTextures();
 
-	bool SetView( CMapView *pView );
-	virtual void StartRenderFrame( bool bRenderingOverEngine );
-	void EndRenderFrame(void);
+	bool SetView( CMapView *pView ) override;
+	void StartRenderFrame( bool bRenderingOverEngine ) override;
+	void EndRenderFrame(void) override;
 
-	virtual	void						PushInstanceData( CMapInstance *pInstanceClass, Vector &InstanceOrigin, QAngle &InstanceAngles );
-	virtual	void						PopInstanceData( void );
+	void						PushInstanceData( CMapInstance *pInstanceClass, Vector const& InstanceOrigin, QAngle const& InstanceAngles ) override;
+	void						PopInstanceData( void ) override;
 
 	void ResetFocus();
 

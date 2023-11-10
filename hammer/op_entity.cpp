@@ -40,6 +40,9 @@
 #include "smartptr.h"
 #include "instancing_helper.h"
 
+
+#undef GetObject
+
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
 
@@ -85,9 +88,9 @@ static bool IsValidTargetName( const char *pTestName )
 	CMapWorld *pWorld = pDoc->GetMapWorld();
 	const CMapEntityList *pList = pWorld->EntityList_GetList();
 
-	for ( int i=0; i < pList->Count(); i++ )
+	for ( auto element: *pList )
 	{
-		const CMapEntity *pEntity = pList->Element( i ).GetObject();
+		const CMapEntity *pEntity = element.GetObject();
 
 		if ( !pEntity )
 		{
@@ -644,7 +647,7 @@ void DumpKeyvalues(WCKeyValues &kv)
 {
 	for (int i = kv.GetFirst(); i != kv.GetInvalidIndex(); i=kv.GetNext( i ) )
 	{
-		DBG("   %d: %s\n", i, kv.GetKey(i));
+		DevMsg("   %d: %s\n", i, kv.GetKey(i));
 	}
 }
 

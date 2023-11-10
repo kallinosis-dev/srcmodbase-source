@@ -659,7 +659,7 @@ void CMapDocStatus::OnBnClickedSync()
 	}
 }
 
-void CMapDocStatus::SetControls( bool bDisable, char *pszMessage )
+void CMapDocStatus::SetControls( bool bDisable, char const* pszMessage )
 {
 	BOOL bEnable = ( bDisable ? FALSE : TRUE );
 

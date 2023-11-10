@@ -39,15 +39,11 @@ IMPLEMENT_MAPCLASS(CMapPlayerHullHandle);
 //-----------------------------------------------------------------------------
 CMapClass *CMapPlayerHullHandle::Create(CHelperInfo *pHelperInfo, CMapEntity *pParent)
 {
-	static char *pszDefaultKeyName = "origin";
-
 	bool bDrawLineToParent = !stricmp(pHelperInfo->GetName(), "vecline");
 
 	const char *pszKey = pHelperInfo->GetParameter(0);
 	if (pszKey == nullptr)
-	{
-		pszKey = pszDefaultKeyName;
-	}
+		pszKey = "origin";
 
 	CMapPlayerHullHandle *pBox = new CMapPlayerHullHandle(pszKey, bDrawLineToParent);
 	pBox->SetRenderColor(255, 255, 255);

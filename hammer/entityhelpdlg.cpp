@@ -197,156 +197,153 @@ void CEntityHelpDlg::UpdateClass(GDclass *pClass)
 //-----------------------------------------------------------------------------
 void CEntityHelpDlg::UpdateHelp(void)
 {
-	if (m_pClass != nullptr)
+	if (m_pClass == nullptr)
+		return;
+
+	m_pHelpText->SetWindowText("");
+
+	CRTFBuilder b;
+
+	b << size(24);
+	b << bold(true);
+	b << color(1);
+	b << m_pClass->GetName();
+	b << "\n\n";
+	b << write(*m_pHelpText);
+
+	b << size(22);
+	b << bold(false);
+	b << m_pClass->GetDescription();
+	b << "\n\n";
+	b << write(*m_pHelpText);
+
+	//
+	// Keys section.
+	//
+	if (int nCount = m_pClass->GetVariableCount(); nCount > 0)
 	{
-		m_pHelpText->SetWindowText("");
-
-		CRTFBuilder b;
-
+		//
+		// Keys header.
+		//
 		b << size(24);
 		b << bold(true);
 		b << color(1);
-		b << m_pClass->GetName();
+		b << "KEYS";
 		b << "\n\n";
 		b << write(*m_pHelpText);
 
-		b << size(22);
+		//
+		// Keys.
+		//
+		b << size(20);
 		b << bold(false);
-		b << m_pClass->GetDescription();
+
+		for (int i = 0; i < nCount; i++)
+		{
+			GDinputvariable *pVar = m_pClass->GetVariableAt(i);
+
+			b << bold(true);
+			b << pVar->GetLongName();
+			b << bold(false);
+			b << " ";
+
+			b << italic(true);
+			b << pVar->GetName();
+			b << italic(false);
+
+			b << " <";
+			b << pVar->GetTypeText();
+			b << "> ";
+
+			b << pVar->GetDescription();
+			b << "\n\n";
+			b << write(*m_pHelpText);
+		}
+	}
+
+	//
+	// Inputs section.
+	//
+	if (int nInputCount = m_pClass->GetInputCount(); nInputCount > 0)
+	{
+		//
+		// Inputs header.
+		//
+		b << "\n";
+		b << size(24);
+		b << bold(true);
+		b << color(1);
+		b << "INPUTS";
 		b << "\n\n";
 		b << write(*m_pHelpText);
 
 		//
-		// Keys section.
+		// Inputs.
 		//
-		int nCount = m_pClass->GetVariableCount();
-		if (nCount > 0)
-		{
-			//
-			// Keys header.
-			//
-			b << size(24);
-			b << bold(true);
-			b << color(1);
-			b << "KEYS";
-			b << "\n\n";
-			b << write(*m_pHelpText);
+		b << size(20);
 
-			//
-			// Keys.
-			//
-			b << size(20);
+		for (int i = 0; i < nInputCount; i++)
+		{
+			CClassInput *pInput = m_pClass->GetInput(i);
+
+			b << bold(true);
+			b << pInput->GetName();
 			b << bold(false);
+			b << " ";
 
-			for (int i = 0; i < nCount; i++)
+			if (pInput->GetType() != iotVoid)
 			{
-				GDinputvariable *pVar = m_pClass->GetVariableAt(i);
-
-				b << bold(true);
-				b << pVar->GetLongName();
-				b << bold(false);
-				b << " ";
-
-				b << italic(true);
-				b << pVar->GetName();
-				b << italic(false);
-
-				b << " <";
-				b << pVar->GetTypeText();
+				b << "<";
+				b << pInput->GetTypeText();
 				b << "> ";
-
-				b << pVar->GetDescription();
-				b << "\n\n";
-				b << write(*m_pHelpText);
 			}
-		}
 
-		//
-		// Inputs section.
-		//
-		int nInputCount = m_pClass->GetInputCount();
-		if (nInputCount > 0)
-		{
-			//
-			// Inputs header.
-			//
-			b << "\n";
-			b << size(24);
-			b << bold(true);
-			b << color(1);
-			b << "INPUTS";
+			b << pInput->GetDescription();
 			b << "\n\n";
 			b << write(*m_pHelpText);
-
-			//
-			// Inputs.
-			//
-			b << size(20);
-
-			for (int i = 0; i < nInputCount; i++)
-			{
-				CClassInput *pInput = m_pClass->GetInput(i);
-
-				b << bold(true);
-				b << pInput->GetName();
-				b << bold(false);
-				b << " ";
-
-				if (pInput->GetType() != iotVoid)
-				{
-					b << "<";
-					b << pInput->GetTypeText();
-					b << "> ";
-				}
-
-				b << pInput->GetDescription();
-				b << "\n\n";
-				b << write(*m_pHelpText);
-			}
 		}
+	}
 		
+	//
+	// Outputs section.
+	//
+	if (int nOutputCount = m_pClass->GetOutputCount(); nOutputCount > 0)
+	{
 		//
-		// Outputs section.
+		// Outputs header.
 		//
-		int nOutputCount = m_pClass->GetOutputCount();
-		if (nOutputCount > 0)
+		b << "\n";
+		b << size(24);
+		b << bold(true);
+		b << color(1);
+		b << "OUTPUTS";
+		b << "\n\n";
+		b << write(*m_pHelpText);
+
+		//
+		// Outputs.
+		//
+		b << size(20);
+
+		for (int i = 0; i < nOutputCount; i++)
 		{
-			//
-			// Outputs header.
-			//
-			b << "\n";
-			b << size(24);
+			CClassOutput *pOutput = m_pClass->GetOutput(i);
+
 			b << bold(true);
-			b << color(1);
-			b << "OUTPUTS";
+			b << pOutput->GetName();
+			b << bold(false);
+			b << " ";
+
+			if (pOutput->GetType() != iotVoid)
+			{
+				b << "<";
+				b << pOutput->GetTypeText();
+				b << "> ";
+			}
+
+			b << pOutput->GetDescription();
 			b << "\n\n";
 			b << write(*m_pHelpText);
-
-			//
-			// Outputs.
-			//
-			b << size(20);
-
-			for (int i = 0; i < nOutputCount; i++)
-			{
-				CClassOutput *pOutput = m_pClass->GetOutput(i);
-
-				b << bold(true);
-				b << pOutput->GetName();
-				b << bold(false);
-				b << " ";
-
-				if (pOutput->GetType() != iotVoid)
-				{
-					b << "<";
-					b << pOutput->GetTypeText();
-					b << "> ";
-				}
-
-				b << pOutput->GetDescription();
-				b << "\n\n";
-				b << write(*m_pHelpText);
-			}
 		}
 	}
 }

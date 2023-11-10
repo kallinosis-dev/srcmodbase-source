@@ -70,7 +70,7 @@ protected:
 	afx_msg void OnBrowseAutosaveDir(void);
 	//}}AFX_MSG
 
-	BOOL BrowseForFolder(char *pszTitle, char *pszDirectory);
+	BOOL BrowseForFolder(const char *pszTitle, char *pszDirectory);
 	BOOL OnApply();
 	
 	DECLARE_MESSAGE_MAP()

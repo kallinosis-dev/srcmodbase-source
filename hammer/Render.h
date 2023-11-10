@@ -206,7 +206,7 @@ public:
 			void DrawPlane( const Vector &p0, const Vector &p1, const Vector &p2, const Vector &p3, bool bFill = false );
 
 	// client space helper functions:
-			void DrawFilledRect( Vector2D& pt1, Vector2D& pt2, unsigned char *pColor, bool bBorder );
+			void DrawFilledRect( Vector2D pt1, Vector2D pt2, unsigned char *pColor, bool bBorder );
 
 	// drawing complex objects
 			void DrawModel( DrawModelInfo_t* pInfo, matrix3x4_t *pBoneToWorld, const Vector &vOrigin, float fAlpha = 1, bool bWireframe = false, const Color &color = Color( 255, 255, 255, 255 ) );
@@ -231,7 +231,7 @@ public:
 			void			SetInstanceRendering( InstanceRenderingState_t State );
 
 			void			SetInstanceRendering( bool InstanceRendering ) { m_bInstanceRendering = InstanceRendering; }
-	virtual	void			PushInstanceData( CMapInstance *pInstanceClass, Vector &InstanceOrigin, QAngle &InstanceAngles );
+	virtual	void			PushInstanceData( CMapInstance *pInstanceClass, Vector const& InstanceOrigin, QAngle const& InstanceAngles );
 	virtual	void			PopInstanceData( void );
 			bool			GetInstanceRendering( void ) { return m_bInstanceRendering; }
 			CMapInstance	*GetInstanceClass( void ) { return m_CurrentInstanceState.m_pInstanceClass; }

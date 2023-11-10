@@ -66,7 +66,7 @@ CMessageWnd::~CMessageWnd()
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void CMessageWnd::CreateMessageWindow( CMDIFrameWnd *pwndParent, CRect &rect )
+void CMessageWnd::CreateMessageWindow( CMDIFrameWnd *pwndParent, CRect const& rect )
 {
 	Create(nullptr, "Messages", WS_OVERLAPPEDWINDOW | WS_CHILD, rect, pwndParent );
 
@@ -179,7 +179,7 @@ bool CMessageWnd::IsVisible()
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void CMessageWnd::Resize( CRect &rect )
+void CMessageWnd::Resize( CRect const& rect )
 {
 	if ( m_hWnd == nullptr || bDestroyed )
 		return;

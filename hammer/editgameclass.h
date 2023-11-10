@@ -131,8 +131,6 @@ class CEditGameClass
 		char m_szClass[MAX_CLASS_NAME_LEN];
 		char *m_pszComments;		// Comments text, dynamically allocated.
 
-		static char *g_pszEmpty;
-
 		CEntityConnectionList m_Connections;
 		CEntityConnectionList m_Upstream;
 };
@@ -181,10 +179,10 @@ const char *CEditGameClass::GetComments(void)
 {
 	if (m_pszComments == nullptr)
 	{
-		return(g_pszEmpty);
+		return "";
 	}
 
-	return(m_pszComments);
+	return m_pszComments;
 }
 
 

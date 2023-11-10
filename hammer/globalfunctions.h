@@ -39,7 +39,7 @@ bool IsWorldObject(CMapAtom *pObject);
 
 BOOL AddLeavesToListCallback(CMapClass *pObject, CMapObjectList *pList);
 
-void WriteDebug(char *pszStr);
+void WriteDebug(char const*pszStr);
 LPCTSTR GetDefaultTextureName();
 void SetDefaultTextureName( const char *szTexName );
 LPCTSTR GetNullTextureName();
@@ -71,7 +71,5 @@ double I_EndTime( void );
 // noise function
 float PerlinNoise2D( float x, float y, float rockiness );
 float PerlinNoise2DScaled( float x, float y, float rockiness );
-
-void DBG(char *fmt, ...);
 
 #endif // GLOBALFUNCTIONS_H

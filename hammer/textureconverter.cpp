@@ -203,7 +203,7 @@ void CTextureConverter::ConvertFaceTexture( CMapFace * pFace )
 	const char *pTextureName = pFace->GetTexture()->GetName();
 	
 	// Check for SKY and SKIP brushes.
-	char *replacements[][2] = 
+	char const* replacements[][2] = 
 	{
 		{ "sky",		"tools/toolsskybox" },
 		{ "skip",		"tools/toolsskip" },

@@ -81,7 +81,10 @@ protected:
 
 	CRuntimeClass *m_pEditObjectRuntimeClass;	// The type of object that this page can edit.
 
-	static char *VALUE_DIFFERENT_STRING;
+	//
+	// Used to indicate multiselect of entities with different keyvalues.
+	//
+	static constexpr char const* VALUE_DIFFERENT_STRING = "(different)";
 };
 
 

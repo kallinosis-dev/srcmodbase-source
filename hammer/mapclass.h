@@ -246,7 +246,7 @@ public:
 	void PostUpdate(Notify_Dependent_t eNotifyType);
 	static void UpdateAllDependencies(CMapClass *pObject);
 
-	void SetOrigin(Vector& origin);
+	void SetOrigin(Vector const& origin);
 
 	// hierarchy
 	virtual void UpdateAnimation( float animTime ) {}
@@ -510,7 +510,7 @@ public:
 
 
 #define IMPLEMENT_MAPCLASS(class_name) \
-	char * class_name::__Type = #class_name; \
+	char const* class_name::__Type = #class_name; \
 	MAPCLASSTYPE class_name::GetType() const { return __Type; }	\
 	BOOL class_name::IsMapClass(MAPCLASSTYPE Type) const \
 		{ return (Type == __Type) ? TRUE : FALSE; } \
@@ -522,7 +522,7 @@ public:
 
 #define DECLARE_MAPCLASS(class_name,class_base) \
 	typedef class_base BaseClass; \
-	static char * __Type; \
+	static char const* __Type; \
 	virtual MAPCLASSTYPE GetType() const; \
 	virtual BOOL IsMapClass(MAPCLASSTYPE Type) const;
 

@@ -299,11 +299,15 @@ CToolHandler_SyncMesh::CToolHandler_SyncMesh()
 	AppRegisterMessageLoopFn( AppMainLoopIdle_Delegate );
 }
 
+
 //////////////////////////////////////////////////////////////////////////
 //
 // IPC Server class
 //
 //////////////////////////////////////////////////////////////////////////
+
+class CHammerIpcServer;
+extern CHammerIpcServer g_HammerIpcServer;
 
 class CHammerIpcServer : public CValveIpcServerUtl
 {
@@ -626,8 +630,7 @@ BOOL CToolHandler_SyncMesh::NotifyMaya()
 	if ( !ipc.ExecuteCommand( cmd, res ) )
 		goto comm_error;
 
-	int uCode = res.GetInt();
-	switch ( uCode )
+	switch ( res.GetInt() )
 	{
 	case 0: // Error
 		{

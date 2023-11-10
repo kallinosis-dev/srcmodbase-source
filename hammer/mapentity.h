@@ -137,7 +137,7 @@ public:
 
 	virtual bool ShouldSnapToHalfGrid();
 
-	virtual void SetOrigin(Vector& o);
+	virtual void SetOrigin(Vector const& o);
 	virtual void CalcBounds(BOOL bFullUpdate = FALSE);
 	inline void SetClass(GDclass *pClass) { CEditGameClass::SetClass(pClass); } // Works around a namespace issue.
 	virtual void SetClass(LPCTSTR pszClassname, bool bLoading = false);

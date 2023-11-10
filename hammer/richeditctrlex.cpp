@@ -98,14 +98,14 @@ CRTFBuilder &doAddColor(CRTFBuilder &r, int n)
 }
 
 
-CRTFBuilder &doFont(CRTFBuilder &r, CString &s)
+CRTFBuilder &doFont(CRTFBuilder &r, CString const& s)
 {
 	r.font(s);
 	return r;
 }
 
 
-CRTFBuilder &doAddFont(CRTFBuilder &r, CString &s)
+CRTFBuilder &doAddFont(CRTFBuilder &r, CString const& s)
 {
 	r.addFont(s);
 	return r;
@@ -183,7 +183,7 @@ CRTFBuilder &operator<<(CRTFBuilder &b, RTFSM_PFUNC f)
 }
 
 
-CRTFBuilder &operator<<(CRTFBuilder &b, CManip &f)
+CRTFBuilder &operator<<(CRTFBuilder &b, CManip const&f)
 {
 	return f.go(b);
 }
@@ -342,13 +342,15 @@ void CRTFBuilder::size(int n)
 void CRTFBuilder::font(const CString &strFont)
 {
 	int nCount =  0;
-	for (list<CString>::iterator i = m_fontList.begin(); i != m_fontList.end(); i++, nCount++)
+	for (auto& i : m_fontList)
 	{
-		if ((*i) == strFont)
+		if (i == strFont)
 		{
 			m_attr.m_nFontNumber = nCount;
 			return;
 		}
+
+		nCount++;
 	}
 
 	//not there, lets add it

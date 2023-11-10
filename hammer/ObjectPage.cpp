@@ -12,10 +12,6 @@
 #include "ObjectProperties.h"
 
 
-//
-// Used to indicate multiselect of entities with different keyvalues.
-//
-char *CObjectPage::VALUE_DIFFERENT_STRING = "(different)";
 
 //
 // Set while we are changing the page layout.

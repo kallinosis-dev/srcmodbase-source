@@ -10,6 +10,7 @@
 #include <time.h>
 #include "MapSolid.h"
 #include "mapworld.h"
+#include "tier0/dbg.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include <tier0/memdbgon.h>
@@ -84,20 +85,9 @@ int mychdir(LPCTSTR pszDir)
 }
 
 
-void WriteDebug(char *pszStr)
+void WriteDebug(char const* pszStr)
 {
-#if 0
-	static BOOL bFirst = TRUE;
-	
-	if(bFirst)
-		remove("wcdebug.txt");
-
-	bFirst = FALSE;
-
-	FILE *fp = fopen("wcdebug.txt", "ab");
-	fprintf(fp, "%s\r\n", pszStr);
-	fclose(fp);
-#endif
+	DevMsg("WriteDebug: %s", pszStr);
 }
 
 //-----------------------------------------------------------------------------

@@ -64,7 +64,7 @@ public:
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
 	void UpdateMapList( bool RedoList = false );
-	void SetControls( bool bDisable, char *pszMessage );
+	void SetControls( bool bDisable, char const* pszMessage );
 
 	bool	m_bSelectAll;
 

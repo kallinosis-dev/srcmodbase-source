@@ -135,7 +135,7 @@ public:
 								// get access to the radius occluder object
 	inline CFoW_RadiusOccluder	*GetOccluder( int nIndex ) { return m_Occluders[ nIndex ]; }
 								// update an occluder's location
-	void						UpdateOccluderLocation( int nID, Vector &vLocation );
+	void						UpdateOccluderLocation(int nID, Vector const& vLocation);
 								// update an occluder's size
 	void						UpdateOccluderSize( int nID, float flRadius );
 								// updates the occluder's height group

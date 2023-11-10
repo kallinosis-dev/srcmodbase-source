@@ -276,7 +276,7 @@ void COPTGeneral::OnBrowseAutosaveDir(void)
 	m_cAutosaveDir.SetWindowText(str);
 }
 
-BOOL COPTGeneral::BrowseForFolder(char *pszTitle, char *pszDirectory)
+BOOL COPTGeneral::BrowseForFolder(const char *pszTitle, char *pszDirectory)
 {
 	char szTmp[MAX_PATH];
 

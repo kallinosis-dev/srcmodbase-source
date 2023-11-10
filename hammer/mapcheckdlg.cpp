@@ -1016,7 +1016,7 @@ static BOOL _CheckMissingTargets(CMapEntity *pEntity, CListBox *pList)
 	if (!pClass)
 	{
 		// Unknown class -- just check for target references.
-		static char *pszTarget = "target";
+		constexpr char const* pszTarget = "target";
 		const char *pszValue = pEntity->GetKeyValue(pszTarget);
 		CheckValidTarget(pEntity, pszTarget, pszValue, pList, false);
 	}

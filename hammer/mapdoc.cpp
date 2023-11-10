@@ -6750,7 +6750,7 @@ void CMapDoc::OnFileSaveAs(void)
 			strcpy(szBaseDir, m_pGame->szMapDir);
 		}
 
-		char *pszFilter;
+		char const* pszFilter;
 		if ( m_pManifest )
 		{
 			pszFilter = "Valve Manifest Map Files (*.vmm)|*.vmm||";
@@ -6969,8 +6969,8 @@ void CMapDoc::OnFileExport(void)
 	//
 	int iIndex = strFile.Find('.');
 
-	char *pszFilter;
-	char *pszExtension;
+	char const* pszFilter;
+	char const* pszExtension;
 	if (m_pGame->mapformat == mfHalfLife2)
 	{
 		strFile.SetAt(iIndex, '\0');
@@ -7335,7 +7335,7 @@ void CMapDoc::UpdateTitle(CView *pView)
 		}
 	}
 
-	char *pViewType = nullptr;
+	char const* pViewType = nullptr;
 	CMapView2D *pView2D = dynamic_cast <CMapView2D *> (pView);
 	if (pView2D != nullptr)
 	{
@@ -8153,7 +8153,7 @@ void CMapDoc::OnEditPastespecial(void)
 	Options.SetLockingTextures(TRUE);
 
 	bool bMakeNamesUnique = (dlg.m_bMakeEntityNamesUnique == TRUE);
-	const char *pszPrefix = (dlg.m_bAddPrefix == TRUE) ? dlg.m_strPrefix : "";
+	const char *pszPrefix = (dlg.m_bAddPrefix == TRUE) ? dlg.m_strPrefix.GetString() : "";
 
 	for (int i = 0; i < dlg.m_iCopies; i++)
 	{
@@ -8264,8 +8264,8 @@ BOOL CMapDoc::OnUndoRedo(UINT nID)
 void CMapDoc::OnUpdateUndoRedo(CCmdUI *pCmdUI) 
 {
 	CHistory *pHistory = (pCmdUI->m_nID == ID_EDIT_UNDO) ? m_pUndo : m_pRedo;
-	char *pszAction = (pCmdUI->m_nID == ID_EDIT_UNDO) ? "Undo" : "Redo";
-	char *pszHotkey = (pCmdUI->m_nID == ID_EDIT_UNDO) ? "Ctrl+Z" : "Ctrl+Y";
+	char const* pszAction = (pCmdUI->m_nID == ID_EDIT_UNDO) ? "Undo" : "Redo";
+	char const* pszHotkey = (pCmdUI->m_nID == ID_EDIT_UNDO) ? "Ctrl+Z" : "Ctrl+Y";
 
 	if (pHistory->IsUndoable())
 	{

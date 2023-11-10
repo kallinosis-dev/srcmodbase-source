@@ -550,7 +550,7 @@ void CFoW::EnableOccluder( int nID, bool bEnable )
 // Input  : nID - the id of the occluder
 //			vLocation - the new location of the occluder
 //-----------------------------------------------------------------------------
-void CFoW::UpdateOccluderLocation( int nID, Vector &vLocation )
+void CFoW::UpdateOccluderLocation(int nID, Vector const& vLocation)
 {
 	Assert( m_Occluders[ nID ] );
 

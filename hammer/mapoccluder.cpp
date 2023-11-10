@@ -412,7 +412,7 @@ void CMapOccluder::Render3D(CRender3D *pRender)
 //-----------------------------------------------------------------------------
 // Purpose: Overridden to chain down to our endpoints, which are not children.
 //-----------------------------------------------------------------------------
-void CMapOccluder::SetOrigin(Vector &vecOrigin)
+void CMapOccluder::SetOrigin(Vector const& vecOrigin)
 {
 	BaseClass::SetOrigin(vecOrigin);
 

@@ -110,7 +110,7 @@ void EditorUtil_ConvertPath(CString &str, bool bSave);
 static bool bMakeLib = false;
 
 static float fSequenceVersion = 0.2f;
-static char *pszSequenceHdr = "Worldcraft Command Sequences\r\n\x1a";
+constexpr char const* pszSequenceHdr = "Worldcraft Command Sequences\r\n\x1a";
 
 
 CHammer theApp;

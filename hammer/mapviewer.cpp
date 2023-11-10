@@ -397,7 +397,7 @@ void CMapViewer::Render3D(CRender3D *pRender)
 //-----------------------------------------------------------------------------
 // Purpose: Overridden to chain down to our endpoints, which are not children.
 //-----------------------------------------------------------------------------
-void CMapViewer::SetOrigin(Vector &vecOrigin)
+void CMapViewer::SetOrigin(Vector const& vecOrigin)
 {
 	BaseClass::SetOrigin(vecOrigin);
 

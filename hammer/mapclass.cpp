@@ -1696,7 +1696,7 @@ void CMapClass::SetEditorKeyValue(const char *szKey, const char *szValue)
 //			FIXME: Should our children necessarily have the same origin as us?
 //				   Seems like we should translate our children by our origin delta
 //-----------------------------------------------------------------------------
-void CMapClass::SetOrigin( Vector &origin )
+void CMapClass::SetOrigin(Vector const& origin)
 {
 	CMapPoint::SetOrigin( origin );
  
@@ -1719,7 +1719,7 @@ void CMapClass::SetVisible(bool bVisible)
 	FOR_EACH_OBJ( m_Children, pos )
 	{
 		CMapClass *pChild = m_Children.Element(pos);
-		pChild ? pChild->SetVisible(bVisible) : NULL;;
+		if(pChild) pChild->SetVisible(bVisible);
 	}
 
 	m_bVisible = bVisible;

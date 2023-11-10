@@ -52,7 +52,7 @@ protected:
 	BOOL			m_bDeleted;
 	CGameConfig		*m_pMaterialConfig;				// copy of the current gaming config
 
-	BOOL BrowseForFolder( char *pszTitle, char *pszDirectory );
+	BOOL BrowseForFolder(const char *pszTitle, char *pszDirectory );
 	void MaterialExcludeUpdate( void );
 
 	//=========================================================================

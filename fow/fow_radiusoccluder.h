@@ -25,7 +25,7 @@ public:
 			// update the radius of this occluder
 	void	UpdateSize( float flRadius );
 			// update the location of this occluder
-	void	UpdateLocation( Vector &vLocation );
+	void	UpdateLocation(const Vector &vLocation );
 			// update the height group of this occluder
 	void	UpdateHeightGroup( uint8 nHeightGroup );
 

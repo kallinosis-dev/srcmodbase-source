@@ -26,19 +26,6 @@
 #define MIN_PITCH		-90.0f
 #define MAX_PITCH		90.0f
 
-
-static void DBG(char *fmt, ...)
-{
-    char ach[128];
-    va_list va;
-
-    va_start(va, fmt);
-    vsprintf(ach, fmt, va);
-    va_end(va);
-    OutputDebugString(ach);
-}
-
-
 //-----------------------------------------------------------------------------
 // Purpose: Constructor.
 //-----------------------------------------------------------------------------
@@ -503,7 +490,7 @@ void CCamera::SetViewTarget(const Vector &ViewTarget)
 //-----------------------------------------------------------------------------
 // Purpose: Move the camera along a worldspace vector.
 //-----------------------------------------------------------------------------
-void CCamera::Move(Vector &vDelta)
+void CCamera::Move(const Vector &vDelta)
 {
 	m_ViewPoint += vDelta;
 	BuildViewMatrix();

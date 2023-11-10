@@ -36,7 +36,7 @@ class CIntManip;
 
 
 typedef CRTFBuilder &(*RTFSM_PFUNC)	(CRTFBuilder &);
-typedef CRTFBuilder &(*RTFSM_STRINGPFUNC) (CRTFBuilder &, CString &); 
+typedef CRTFBuilder &(*RTFSM_STRINGPFUNC) (CRTFBuilder &, CString const&); 
 typedef CRTFBuilder &(*RTFSM_INTPFUNC) (CRTFBuilder &, int);
 typedef CRTFBuilder &(*RTFSM_BOOLPFUNC)	(CRTFBuilder &, bool);
 typedef CRTFBuilder &(*RTFSM_CONTROLPFUNC) (CRTFBuilder &, CRichEditCtrl &);
@@ -116,7 +116,7 @@ class CTextAttributes
 
 
 
-class CFontList : public list<CString>
+class CFontList : public std::list<CString>
 {
 	public:
 
@@ -144,7 +144,7 @@ class CFontList : public list<CString>
 };
 
 
-class CColorList : public list<COLORREF>
+class CColorList : public std::list<COLORREF>
 {
 	public:
 
@@ -202,7 +202,8 @@ class RICHED_DECL CManip
 
 	public:
 
-		virtual CRTFBuilder &go(CRTFBuilder &) = 0;
+		virtual CRTFBuilder &go(CRTFBuilder &) const = 0;
+		virtual ~CManip() = default;
 
 		CManip()
 		{ 
@@ -237,7 +238,7 @@ public:
 
 	CStringManip(RTFSM_STRINGPFUNC p, CString s = "") : CManip ((LPVOID)p, s) {};
 
-	CRTFBuilder &go(CRTFBuilder &b)
+	CRTFBuilder &go(CRTFBuilder &b) const override
 	{
 		return((RTFSM_STRINGPFUNC)m_pFunc) (b, m_strVal);
 	}
@@ -254,7 +255,7 @@ class RICHED_DECL CControlManip : public CManip
 
 		CControlManip(RTFSM_CONTROLPFUNC p, CRichEditCtrl& c) : m_control(c), CManip((LPVOID)p, (CString)"") {};
 
-		CRTFBuilder &go(CRTFBuilder &b)
+		CRTFBuilder &go(CRTFBuilder &b) const override
 		{
 			return((RTFSM_CONTROLPFUNC)m_pFunc)(b, m_control);
 		}
@@ -267,7 +268,7 @@ class RICHED_DECL CIntManip : public CManip
 
 		CIntManip(RTFSM_INTPFUNC p,	int n = 0) : CManip ((LPVOID)p, n) {};
 
-		CRTFBuilder &go(CRTFBuilder &b)
+		CRTFBuilder &go(CRTFBuilder &b) const override
 		{
 			return((RTFSM_INTPFUNC)m_pFunc)(b, m_nVal);
 		}
@@ -280,7 +281,7 @@ class RICHED_DECL CBoolManip : public CManip
 
 		CBoolManip(RTFSM_BOOLPFUNC p, bool b) : CManip((LPVOID)p, b) {};
 
-		CRTFBuilder &go(CRTFBuilder &b)
+		CRTFBuilder &go(CRTFBuilder &b) const override
 		{
 			return ((RTFSM_BOOLPFUNC	) m_pFunc)(	b, 	m_bVal);
 		}
@@ -295,7 +296,7 @@ class RICHED_DECL CRTFBuilder
 		CTextAttributes m_attr;
 		CFontList m_fontList;
 		CColorList m_colorList;
-		stack<CTextAttributes> m_attrStack;
+		std::stack<CTextAttributes> m_attrStack;
 
 	public:
 
@@ -382,7 +383,7 @@ RICHED_DECL CBoolManip		italic		(bool);
 RICHED_DECL CBoolManip		underline	(bool);
 
 RICHED_DECL CRTFBuilder & operator<<(CRTFBuilder &, RTFSM_PFUNC);
-RICHED_DECL CRTFBuilder & operator<<(CRTFBuilder &, CManip & m);
+RICHED_DECL CRTFBuilder & operator<<(CRTFBuilder &, CManip const& m);
 
 
 class RICHED_DECL CRichEditCtrlEx : public CRichEditCtrl
@@ -417,11 +418,11 @@ class RICHED_DECL CRichEditCtrlEx : public CRichEditCtrl
 		// ClassWizard generated virtual function overrides
 		//{{AFX_VIRTUAL(CRichEditCtrlEx)
 		protected:
-		virtual void PreSubclassWindow();
+		void PreSubclassWindow() override;
 		//}}AFX_VIRTUAL
 
 	public:
-		virtual ~CRichEditCtrlEx();
+		~CRichEditCtrlEx() override;
 
 	protected:
 		//{{AFX_MSG(CRichEditCtrlEx)

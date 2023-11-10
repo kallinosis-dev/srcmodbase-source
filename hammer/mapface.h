@@ -560,7 +560,7 @@ public:
 
 	inline CMapFaceList(void) {}
 	inline CMapFaceList(CMapFaceList const &other);
-	inline CMapFaceList &CMapFaceList::operator =(CMapFaceList const &other);
+	inline CMapFaceList & operator =(CMapFaceList const &other);
 
 	inline int FindFaceID(int nFaceID);
 	void Intersect(CMapFaceList &IntersectWith, CMapFaceList &In, CMapFaceList &Out);
@@ -615,7 +615,7 @@ public:
 
 	inline CMapFaceIDList(void) {}
 	inline CMapFaceIDList(CMapFaceIDList const &other);
-	inline CMapFaceIDList &CMapFaceIDList::operator =(CMapFaceIDList const &other);
+	inline CMapFaceIDList &operator =(CMapFaceIDList const &other);
 
 	void Intersect(CMapFaceIDList &IntersectWith, CMapFaceIDList &In, CMapFaceIDList &Out);
 };

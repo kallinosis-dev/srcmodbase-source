@@ -181,7 +181,7 @@ void CMapFace::GetTextureName(char *pszName) const
 	}
 }
 
-static char *InvisToolTextures[]={
+constexpr char const* InvisToolTextures[]={
 	"playerclip",
 	"occluder",
 	"areaportal",
