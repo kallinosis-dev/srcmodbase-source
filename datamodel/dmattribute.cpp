@@ -2487,6 +2487,8 @@ template<> bool CDmAttribute::IsTypeConvertable<Quaternion>() const
 	return type == AT_QUATERNION || type == AT_QANGLE;
 }
 
+template bool CDmAttribute::IsTypeConvertable<CUtlVector<DmElementHandle_t>>() const;
+
 template< class T > void CDmAttribute::CopyData( const T& value )
 {
 	*reinterpret_cast< T* >( m_pData ) = value;
@@ -2743,6 +2745,8 @@ template<> void CDmAttribute::CopyData( const DmElementHandle_t& value )
 	*reinterpret_cast< DmElementHandle_t* >( m_pData ) = value;
 	g_pDataModelImp->OnElementReferenceAdded( value, this );
 }
+
+template void CDmAttribute::CopyDataOut(CUtlVector<DmElementHandle_t>& value) const;
 
 
 //-----------------------------------------------------------------------------
