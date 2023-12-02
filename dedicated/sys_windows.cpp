@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ========//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ========//
 //
 // Purpose: 
 //
@@ -20,7 +20,6 @@
 #include "tier1/strtools.h"
 #include "tier0/icommandline.h"
 #include "inputsystem/iinputsystem.h"
-#include "SteamAppStartup.h"
 #include "console/textconsole.h"
 #include "vgui/vguihelpers.h"
 #include "appframework/appframework.h"
@@ -45,26 +44,26 @@ extern bool g_bVGui;
 class CSys : public ISys
 {
 public:
-	virtual		~CSys( void );
+	~CSys( void ) override;
 
-	virtual bool LoadModules( CDedicatedAppSystemGroup *pAppSystemGroup );
+	bool LoadModules( CDedicatedAppSystemGroup *pAppSystemGroup ) override;
 
-	void		Sleep( int msec );
-	bool		GetExecutableName( char *out );
-	void		ErrorMessage( int level, const char *msg );
+	void		Sleep( int msec ) override;
+	bool		GetExecutableName( char *out ) override;
+	void		ErrorMessage( int level, const char *msg ) override;
 
-	void		WriteStatusText( char *szText );
-	void		UpdateStatus( int force );
+	void		WriteStatusText( char *szText ) override;
+	void		UpdateStatus( int force ) override;
 
-	long		LoadLibrary( char *lib );
-	void		FreeLibrary( long library );
+	long		LoadLibrary( char *lib ) override;
+	void		FreeLibrary( long library ) override;
 
-	bool		CreateConsoleWindow( void );
-	void		DestroyConsoleWindow( void );
+	bool		CreateConsoleWindow( void ) override;
+	void		DestroyConsoleWindow( void ) override;
 
-	void		ConsoleOutput ( char *string );
-	char		*ConsoleInput (void);
-	void		Printf(const char *fmt, ...);
+	void		ConsoleOutput ( char *string ) override;
+	char		*ConsoleInput (void) override;
+	void		Printf(const char *fmt, ...) override;
 };
 
 static CSys g_Sys;

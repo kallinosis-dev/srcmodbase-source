@@ -63,7 +63,7 @@ void CTextConsole::ShutDown( void )
 }
 
 
-void CTextConsole::Print( char * pszMsg )
+void CTextConsole::Print(char const* pszMsg)
 {
 	if ( m_nConsoleTextLen )
 	{

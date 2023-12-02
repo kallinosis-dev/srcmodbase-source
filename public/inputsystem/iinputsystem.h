@@ -258,9 +258,10 @@ public:
 	virtual void SampleInputToFindCurrentDevice( bool ) = 0;  // looks for the next 'significant' button press to determine and set the current input device
 	virtual bool IsSamplingForCurrentDevice( void ) = 0;
 
+#ifndef NO_STEAM
 	virtual bool IsSteamControllerActive() const = 0;
 	virtual void SetSteamControllerMode( const char *pMode, const void *obj= nullptr) = 0;
-
+#endif
 };
 
 DECLARE_TIER2_INTERFACE( IInputSystem, g_pInputSystem );

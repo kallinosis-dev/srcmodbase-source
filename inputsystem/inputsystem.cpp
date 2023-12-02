@@ -249,8 +249,10 @@ InitReturnVal_t CInputSystem::Init()
 	initKeymap();
 #endif
 
+#ifndef NO_STEAM
     m_unNumSteamControllerConnected = 0;
     m_bSteamController = InitializeSteamControllers();
+#endif
 
 	return INIT_OK; 
 }
@@ -1113,7 +1115,9 @@ void CInputSystem::SampleDevices( void )
 		PollJoystick();
 	}
 
+#ifndef NO_STEAM
 	m_bSteamController = PollSteamControllers();
+#endif
 }
 
 

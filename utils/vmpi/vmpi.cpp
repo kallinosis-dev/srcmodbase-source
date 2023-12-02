@@ -789,7 +789,7 @@ private:
 		int m_JobID[4];
 		char m_Password[256];
 		char m_WorkerExeFilename[MAX_PATH];
-		CUtlVector<char*> m_Args;
+		CUtlVector<char const*> m_Args;
 		char m_PatchVersion[32];	// 0 if not patching.
 		bool m_bForcePatch;
 	};

@@ -197,7 +197,7 @@ char * CTextConsoleWin32::GetLine( void )
 }
 
 
-void CTextConsoleWin32::PrintRaw( char * pszMsg, int nChars )
+void CTextConsoleWin32::PrintRaw(char const* pszMsg, int nChars)
 {
 	unsigned long dummy;
 
@@ -214,7 +214,7 @@ void CTextConsoleWin32::PrintRaw( char * pszMsg, int nChars )
 	}
 }
 
-void CTextConsoleWin32::Echo( char * pszMsg, int nChars )
+void CTextConsoleWin32::Echo(char const* pszMsg, int nChars)
 {
 	PrintRaw( pszMsg, nChars );
 }
@@ -237,7 +237,7 @@ int CTextConsoleWin32::GetWidth( void )
 } 
 
 
-void CTextConsoleWin32::SetStatusLine( char * pszStatus )
+void CTextConsoleWin32::SetStatusLine(char const* pszStatus)
 {
 	strncpy( statusline, pszStatus, 80 );
 	statusline[ 79 ] = '\0';
@@ -264,7 +264,7 @@ void CTextConsoleWin32::UpdateStatus( void )
 }
 
 
-void CTextConsoleWin32::SetTitle( char * pszTitle )
+void CTextConsoleWin32::SetTitle(char const* pszTitle)
 {
 	SetConsoleTitle( pszTitle );
 }

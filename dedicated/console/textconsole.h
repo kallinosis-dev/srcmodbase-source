@@ -29,15 +29,15 @@ public:
 
 	virtual bool		Init ( /*IBaseSystem * system*/ );
 	virtual void		ShutDown( void );
-	virtual void		Print( char * pszMsg );
+	virtual void		Print(char const* pszMsg);
 
-	virtual void		SetTitle( char * pszTitle )			{ };
-	virtual void		SetStatusLine( char * pszStatus )	{ };
+	virtual void		SetTitle(char const* pszTitle)			{ };
+	virtual void		SetStatusLine(char const* pszStatus)	{ };
 	virtual void		UpdateStatus()						{ };
 
 	// Must be provided by children
-	virtual void		PrintRaw( char * pszMsg, int nChars = 0 )	= 0;
-	virtual void		Echo( char * pszMsg, int nChars = 0 )	= 0;
+	virtual void		PrintRaw(char const* pszMsg, int nChars = 0)	= 0;
+	virtual void		Echo(char const* pszMsg, int nChars = 0)	= 0;
 	virtual char *		GetLine( void )								= 0;
 	virtual int			GetWidth( void )							= 0;
 

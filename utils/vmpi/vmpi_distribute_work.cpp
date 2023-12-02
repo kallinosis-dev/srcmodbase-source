@@ -4,6 +4,8 @@
 //
 //=============================================================================//
 
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <windows.h>
 #include "vmpi.h"
 #include "vmpi_distribute_work.h"
@@ -23,6 +25,7 @@
 #include "tier0/icommandline.h"
 #include "cmdlib.h"
 #include "vmpi_distribute_tracker.h"
+
 #include "vmpi_distribute_work_internal.h"
 
 

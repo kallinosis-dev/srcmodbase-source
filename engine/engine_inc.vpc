@@ -1169,7 +1169,7 @@ $Project $EPROJ
 
 		$Libexternal	"$LIBCOMMON/libcurlssl" [$LINUXALL&&!$DEDICATED]
 		$Libexternal	"$LIBCOMMON/libssl" [$LINUXALL&&!$DEDICATED]
-		$Lib libz [$LINUXALL&&!$DEDICATED]
+		$Lib zlib [$LINUXALL&&!$DEDICATED]
 		$Lib $LIBCOMMON/libcrypto [$LINUXALL&&!$DEDICATED]
 
 		$Lib	"$SRCDIR\lib\osx32\MacOSX10.6.sdk\libcurl.dylib"	[$OSXALL]

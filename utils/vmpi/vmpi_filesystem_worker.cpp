@@ -640,6 +640,7 @@ public:
 
 	virtual CSysModule 		*LoadModule( const char *pFileName, const char *pPathID, bool bValidatedDllOnly );
 	virtual void			UnloadModule( CSysModule *pModule );
+	bool GetCurrentDirectory(char* pDirectory, int maxlen) override;
 
 private:
 	CWorkerMulticastListener m_Listener;
@@ -755,6 +756,13 @@ bool CWorkerVMPIFileSystem::SetFileWritable( char const *pFileName, bool writabl
 	Error( "GetFileTime not supported in VMPI worker filesystem." );
 	return false;
 }
+
+bool CWorkerVMPIFileSystem::GetCurrentDirectory(char* pDirectory, int maxlen)
+{
+	Error("GetCurrentDirectory not supported in VMPI worker filesystem.");
+	return false;
+}
+
 
 bool CWorkerVMPIFileSystem::HandleFileSystemPacket( MessageBuffer *pBuf, int iSource, int iPacketID )
 {

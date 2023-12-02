@@ -11,8 +11,11 @@
 #endif
 
 
-#define VMPI_DISTRIBUTE_WORK_EXTRA_SUBPACKET_BASE 50
+#ifdef min
+#error 'min' is defined as macro
+#endif
 
+#define VMPI_DISTRIBUTE_WORK_EXTRA_SUBPACKET_BASE 50
 
 typedef uint64 WUIndexType;
 class CDSInfo;
@@ -72,7 +75,7 @@ public:
 	// Resets the content and makes size "uiTotal"
 	void Reset( uint64 uiTotal ) {
 		BaseClass::RemoveAll();
-		BaseClass::EnsureCapacity( min( 100, (int)uiTotal ) );
+		BaseClass::EnsureCapacity( std::min( 100, (int)uiTotal ) );
 		m_uiBase = 0;
 		m_uiTotal = uiTotal;
 	}
@@ -116,7 +119,7 @@ public:
 		if ( idxDrop >= m_uiBase && idxDrop <= m_uiBase + BaseClass::Count() ) {
 			int iDropElements = int( idxDrop - m_uiBase ) + 1;
 			m_uiBase += iDropElements;
-			BaseClass::RemoveMultiple( 0, min( iDropElements, BaseClass::Count() ) );
+			BaseClass::RemoveMultiple( 0, std::min( iDropElements, BaseClass::Count() ) );
 		}
 	}
 

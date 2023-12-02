@@ -27,8 +27,6 @@ $Project "Dedicated_main"
 	$Folder	"Source Files"
 	{
 		$File	"main.cpp"
-		$File	"$SRCDIR\common\SteamAppStartup.cpp"
-		$File	"$SRCDIR\common\SteamAppStartup.h"
 		-$File	"$SRCDIR\public\tier0\memoverride.cpp"
 	}
 

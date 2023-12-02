@@ -314,6 +314,7 @@ private:
 		bool m_bDirty;
 	};
 
+#ifndef NO_STEAM
 	// Steam Controller
 	struct steampad_t
 	{
@@ -341,8 +342,7 @@ private:
 
 	steampad_t m_SteamControllerDevice[MAX_STEAM_CONTROLLERS];
 	uint32 m_unNumSteamControllerConnected;
-
-	bool	m_bControllerModeActive;
+#endif
 
 	int m_nControllerType[MAX_JOYSTICKS+MAX_STEAM_CONTROLLERS];
 
@@ -555,8 +555,11 @@ private:
 	CUtlFlags<unsigned short> m_JoysticksEnabled;
 	int m_nJoystickCount;
 	bool m_bXController;
+
+#ifndef NO_STEAM
 	bool m_bSteamController;
 	float m_flLastSteamControllerInput;
+#endif
 
 	float m_flLastControllerPollTime;
 public:

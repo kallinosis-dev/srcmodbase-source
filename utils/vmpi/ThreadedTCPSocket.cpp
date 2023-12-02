@@ -200,9 +200,10 @@ private:
 			SetThreadPriority( m_hSendThread, THREAD_PRIORITY_LOWEST );
 			SetThreadPriority( m_hRecvThread, THREAD_PRIORITY_LOWEST );
 		}
-		
-		ThreadSetDebugName( (ThreadId_t)dwSendThreadID, "TCPSend" );
-		ThreadSetDebugName( (ThreadId_t)dwRecvThreadID, "TCPRecv" );
+
+		// TODO: fix setting thread name
+		//ThreadSetDebugName( (ThreadId_t)dwSendThreadID, "TCPSend" );
+		//ThreadSetDebugName( (ThreadId_t)dwRecvThreadID, "TCPRecv" );
 
 		// Make sure to init the handler before the threads actually run, so it isn't handed data before initializing.
 		m_pHandler->Init( this );
@@ -368,7 +369,7 @@ private:
 
 		// Send it off!
 		SendData_t *pSendData = m_SendDatas[ m_SendDatas.Head() ];
-		WSABUF buf = { pSendData->m_Len, pSendData->m_Payload };
+		WSABUF buf = { (size_t)pSendData->m_Len, pSendData->m_Payload };
 
 		m_nBytesToTransfer = pSendData->m_Len;
 		m_bWaitingForSendCompletion = true;
@@ -555,7 +556,7 @@ private:
 
 	bool RecvThread_InternalRecv( void *pDest, int destSize, bool bContinuation, bool bWaitingForSize = false )
 	{
-		WSABUF buf = { destSize, (char*)pDest };
+		WSABUF buf = { (size_t)destSize, (char*)pDest };
 
 		if ( !bContinuation )
 		{
@@ -825,7 +826,7 @@ public:
 		fd_set readSet;
 		readSet.fd_count = 1;
 		readSet.fd_array[0] = m_Socket;
-		TIMEVAL timeVal = {0, milliseconds*1000};
+		TIMEVAL timeVal = {0, (long)milliseconds*1000};
 
 		// Wait until it connects.
 		int status = select( 0, &readSet, nullptr, nullptr, &timeVal );
@@ -987,7 +988,7 @@ public:
 		// Ok, see if we're connected now.
 		if ( !m_bConnected )
 		{
-			TIMEVAL timeVal = { 0, milliseconds*1000 };
+			TIMEVAL timeVal = { 0, (long)milliseconds*1000 };
 			
 			fd_set writeSet;
 			writeSet.fd_count = 1;

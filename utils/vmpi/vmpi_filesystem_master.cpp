@@ -1389,12 +1389,14 @@ public:
 
 	virtual CSysModule 		*LoadModule( const char *pFileName, const char *pPathID, bool bValidatedDllOnly );
 	virtual void			UnloadModule( CSysModule *pModule );
+	bool GetCurrentDirectory(char* pDirectory, int maxlen) override;
 
 
 private:
 
 	static void OnClientDisconnect( int procID, const char *pReason );
 
+public:
 
 private:
 	CMasterMulticastThread m_MasterThread;
@@ -1604,5 +1606,10 @@ CSysModule* CMasterVMPIFileSystem::LoadModule( const char *pFileName, const char
 void CMasterVMPIFileSystem::UnloadModule( CSysModule *pModule )
 {
 	m_pMasterVMPIFileSystemPassThru->UnloadModule( pModule );
+}
+
+bool CMasterVMPIFileSystem::GetCurrentDirectory(char* pDirectory, int maxlen)
+{
+	return m_pMasterVMPIFileSystemPassThru->GetCurrentDirectory(pDirectory, maxlen);
 }
 

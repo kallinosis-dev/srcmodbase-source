@@ -30,12 +30,12 @@ public:
 
 	bool		Init( /*IBaseSystem * system*/ );
 	void		ShutDown( void );
-	void		PrintRaw( char * pszMsz, int nChars = 0 );
-	void		Echo( char * pszMsz, int nChars = 0 );
+	void		PrintRaw(char const* pszMsz, int nChars = 0);
+	void		Echo(char const* pszMsz, int nChars = 0);
 	char *		GetLine( void );
 	int			GetWidth( void );
-	void		SetTitle( char * pszTitle );
-	void		SetStatusLine( char * pszStatus );
+	void		SetTitle(char const* pszTitle);
+	void		SetStatusLine(char const* pszStatus);
 	void		UpdateStatus( void );
 	void		SetColor( WORD );
 	void		SetVisible( bool visible );
