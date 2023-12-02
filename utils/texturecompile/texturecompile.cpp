@@ -185,6 +185,7 @@ void Master_ReceiveWorkUnitFn( uint64 iWorkUnit, MessageBuffer *pBuf, int iWorke
 	}
 }
 
+
 // same as "system", but doesn't pop up a window
 void MySystem( char *pCommand )
 {
@@ -198,10 +199,12 @@ void MySystem( char *pCommand )
 	ZeroMemory( &si, sizeof(si) );
 	si.cb = sizeof(si);
 	ZeroMemory( &pi, sizeof(pi) );
-	
+
+	static char COMMAND_LINE[] = "temp.bat";
+
 	// Start the child process. 
 	if( !CreateProcess( NULL, // No module name (use command line). 
-		"temp.bat", // Command line. 
+		COMMAND_LINE, // Command line. 
 		NULL,             // Process handle not inheritable. 
 		NULL,             // Thread handle not inheritable. 
 		FALSE,            // Set handle inheritance to FALSE. 
@@ -510,7 +513,7 @@ void Shared_ParseListOfCompileCommands( void )
 	DebugOut( "%d compiles\n", g_CompileCommands.Count() );
 }
 
-void SetupPaths( int argc, char **argv )
+void SetupPaths( int argc, char const* const* argv )
 {
 	GetTempPath( sizeof( g_WorkerTempPath ), g_WorkerTempPath );
 	strcat( g_WorkerTempPath, "texturecompiletemp\\" );
@@ -639,7 +642,7 @@ void TouchFile( const char *path )
 	fclose( fp );
 }
 
-int TextureCompile_Main( int argc, char* argv[] )
+int TextureCompile_Main( int argc, char const* const argv[] )
 {
 	InstallSpewFunction();
 	g_bSuppressPrintfOutput = false;
@@ -690,7 +693,7 @@ int TextureCompile_Main( int argc, char* argv[] )
 		// nWorkUnits is how many work units. . .1000 is good.
 		// The work unit number impies which combo to do.
 		DebugOut( "Before DistributeWork\n" );
-		DistributeWork( nWorkUnits, WORKUNIT_PACKETID, NULL, Master_ReceiveWorkUnitFn );
+		DistributeWork( nWorkUnits, WORKUNIT_PACKETID, nullptr, Master_ReceiveWorkUnitFn );
 	}
 	else
 	{
@@ -767,7 +770,7 @@ class CTextureCompileDLL : public ILaunchableDLL
 	int main( int argc, char const* const* argv );
 };
 
-int CTextureCompileDLL::main( int argc, char **argv )
+int CTextureCompileDLL::main( int argc, char const* const*argv )
 {
 	return TextureCompile_Main( argc, argv );
 }

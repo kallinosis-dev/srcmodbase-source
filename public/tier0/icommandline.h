@@ -20,7 +20,7 @@ abstract_class ICommandLine
 {
 public:
 	virtual void		CreateCmdLine( const char *commandline ) = 0;
-	virtual void		CreateCmdLine( int argc, char **argv ) = 0;
+	virtual void		CreateCmdLine(int argc, char const* const* argv) = 0;
 	virtual const char	*GetCmdLine( void ) const = 0;
 
 	// Check whether a particular parameter exists

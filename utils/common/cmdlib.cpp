@@ -573,7 +573,7 @@ void GetHourMinuteSecondsString( int nInputSeconds, char *pOut, int outLen )
 	int nHours = nMinutes / 60;
 	nMinutes -= nHours * 60;
 
-	char *extra[ 2 ] = { "", "s" };
+	char const* extra[ 2 ] = { "", "s" };
 	
 	if ( nHours > 0 )
 	{

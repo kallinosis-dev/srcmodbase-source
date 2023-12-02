@@ -106,14 +106,15 @@ enum VMPIFileSystemMode
 //
 // Note: runMode is only relevant for the VMPI master. The worker always connects to the master
 // the same way.
-bool VMPI_Init( 
-	int &argc, 
-	char **&argv, 
-	const char *pDependencyFilename, 
-	VMPI_Disconnect_Handler handler = nullptr, 
-	VMPIRunMode runMode = VMPI_RUN_NETWORKED, // Networked or local?,
+bool VMPI_Init(
+	int &argc,
+	char const* const*& argv,
+	const char *pDependencyFilename,
+	VMPI_Disconnect_Handler handler = nullptr,
+	VMPIRunMode runMode = VMPI_RUN_NETWORKED,
+	// Networked or local?,
 	bool bConnectingAsService = false
-	);
+);
 
 // Used when hosting a patch.
 void VMPI_Init_PatchMaster( int argc, char **argv );
@@ -194,7 +195,7 @@ void VMPI_SetJobWorkerID( int iProc, unsigned long jobWorkerID );
 // Search a command line to find arguments. Looks for pName, and if it finds it, returns the
 // argument following it. If pName is the last argument, it returns pDefault. If it doesn't
 // find pName, returns NULL.
-const char* VMPI_FindArg( int argc, char **argv, const char *pName, const char *pDefault = "" );
+const char* VMPI_FindArg(int argc, char const* const* argv, const char *pName, const char *pDefault = "");
 
 // (Threadsafe) get and set the current stage. This info winds up in the VMPI database.
 void VMPI_GetCurrentStage( char *pOut, int strLen );
@@ -218,7 +219,10 @@ bool VMPI_IsParamUsed( EVMPICmdLineParam eParam ); // Returns true if the specif
 bool VMPI_HandleAutoRestart();
 
 
-
+#if 1 // TODO: reimplement it
+#define VMPI_REGISTER_PACKET_ID( idDefine )
+#define VMPI_REGISTER_SUBPACKET_ID( idPacketIDDefine, idSubPacketIDDefine )
+#else
 // These are optional debug helpers. When VMPI_SuperSpew is enabled, VMPI can spit out messages
 // with strings for packet IDs instead of numbers.
 #define VMPI_REGISTER_PACKET_ID( idDefine ) static CVMPIPacketIDReg g_VMPIPacketIDReg_##idDefine( idDefine, -1, #idDefine );
@@ -237,6 +241,7 @@ private:
 	const char *m_pName;
 	CVMPIPacketIDReg *m_pNext;
 };
+#endif
 
 
 

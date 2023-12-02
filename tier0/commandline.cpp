@@ -40,7 +40,7 @@ public:
 
 	// Implements ICommandLine
 	void		CreateCmdLine( const char *commandline  ) override;
-	void		CreateCmdLine( int argc, char **argv ) override;
+	void		CreateCmdLine(int argc, char const* const* argv) override;
 	const char	*GetCmdLine( void ) const override;
 	const char	*CheckParm( const char *psz, const char **ppszValue = nullptr ) const override;
 	// A bool return of whether param exists, useful for just checking if param that is just a flag is set
@@ -189,7 +189,7 @@ void CCommandLine::LoadParametersFromFile( const char *&pSrc, char *&pDst, intp 
 //-----------------------------------------------------------------------------
 // Creates a command line from the arguments passed in
 //-----------------------------------------------------------------------------
-void CCommandLine::CreateCmdLine( int argc, char **argv )
+void CCommandLine::CreateCmdLine(int argc, char const* const* argv)
 {
 	char cmdline[2048];
 	cmdline[0] = 0;

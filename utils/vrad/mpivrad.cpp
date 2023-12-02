@@ -97,7 +97,7 @@ void VRAD_SetupMPI( int &argc, char **&argv )
 		"dependency_info_vrad.txt", 
 		HandleMPIDisconnect,
 		mode
-		) )
+	) )
 	{
 		Error( "MPI_Init failed." );
 	}

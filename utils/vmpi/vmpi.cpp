@@ -334,7 +334,7 @@ public:
 // Helpers.
 // ---------------------------------------------------------------------------------------- //
 
-const char* VMPI_FindArg( int argc, char **argv, const char *pName, const char *pDefault )
+const char* VMPI_FindArg(int argc, char const* const* argv, const char *pName, const char *pDefault)
 {
 	for ( int i=0; i < argc; i++ )
 	{
@@ -350,7 +350,7 @@ const char* VMPI_FindArg( int argc, char **argv, const char *pName, const char *
 }
 
 
-void ParseOptions( int argc, char **argv )
+void ParseOptions(int argc, char const* const* argv)
 {
 	if ( VMPI_FindArg( argc, argv, VMPI_GetParamString( mpi_NoTimeout ) ) )
 		ThreadedTCP_EnableTimeouts( false );
@@ -671,7 +671,7 @@ bool VMPI_InternalDispatchFn( MessageBuffer *pBuf, int iSource, int iPacketID )
 CDispatchReg g_VMPIInternalDispatchReg( VMPI_INTERNAL_PACKET_ID, VMPI_InternalDispatchFn ); // register to handle the messages we want
 
 
-void VMPI_SendCommandLine( int argc, char **argv )
+void VMPI_SendCommandLine(int argc, char const* const* argv)
 {
 	MessageBuffer mb;
 	
@@ -763,7 +763,7 @@ public:
 	CMasterBroadcaster();
 	~CMasterBroadcaster();
 
-	bool Init( int argc, char **argv, const char *pDependencyFilename, int nMaxWorkers, VMPIRunMode runMode, bool bPatchMode );
+	bool Init(int argc, char const* const* argv, const char *pDependencyFilename, int nMaxWorkers, VMPIRunMode runMode, bool bPatchMode);
 	void Term();
 
 	// What port is it listening on?
@@ -778,7 +778,7 @@ public:
 
 private:
 
-	void GetPatchWorkerList( int argc, char **argv );
+	void GetPatchWorkerList(int argc, char const* const* argv);
 
 
 private:
@@ -840,7 +840,7 @@ CMasterBroadcaster::~CMasterBroadcaster()
 }
 
 
-void CMasterBroadcaster::GetPatchWorkerList( int argc, char **argv )
+void CMasterBroadcaster::GetPatchWorkerList(int argc, char const* const* argv)
 {
 	m_PatchWorkerIPs.Purge();
 	for ( int i=0; i < argc-1; i++ )
@@ -867,13 +867,13 @@ void CMasterBroadcaster::GetPatchWorkerList( int argc, char **argv )
 	}
 }
 
-bool CMasterBroadcaster::Init( 
-	int argc, 
-	char **argv, 
-	const char *pDependencyFilename, 
-	int nMaxWorkers, 
+bool CMasterBroadcaster::Init(
+	int argc,
+	char const* const* argv,
+	const char *pDependencyFilename,
+	int nMaxWorkers,
 	VMPIRunMode runMode,
-	bool bPatchMode )
+	bool bPatchMode)
 {
 	m_RunMode = runMode;
 	m_nMaxWorkers = nMaxWorkers;
@@ -1309,7 +1309,7 @@ void VMPI_HandleTimingWait_Master()
 // Helpers.
 // ---------------------------------------------------------------------------------------- //
 
-bool MPI_Init_Worker( int &argc, char **&argv, const CIPAddr &masterAddr, bool bConnectingAsService )
+bool MPI_Init_Worker(int &argc, char const* const*& argv, const CIPAddr &masterAddr, bool bConnectingAsService)
 {
 	g_bMPIMaster = false;
 
@@ -1404,7 +1404,7 @@ Retry:;
 }
 
 
-bool SpawnLocalWorker( int argc, char **argv, int iListenPort, bool bShowConsoleWindow )
+bool SpawnLocalWorker(int argc, char const* const* argv, int iListenPort, bool bShowConsoleWindow)
 {
 	char commandLine[4096];
 	commandLine[0] = 0;
@@ -1474,7 +1474,7 @@ bool SpawnLocalWorker( int argc, char **argv, int iListenPort, bool bShowConsole
 }
 
 
-bool InitMaster( int argc, char **argv, const char *pDependencyFilename, VMPIRunMode runMode, bool bPatchMode )
+bool InitMaster(int argc, char const* const* argv, const char *pDependencyFilename, VMPIRunMode runMode, bool bPatchMode)
 {
 	int nMaxWorkers = -1;
 	const char *pProcCount = VMPI_FindArg( argc, argv, VMPI_GetParamString( mpi_WorkerCount ) );
@@ -1533,7 +1533,7 @@ bool InitMaster( int argc, char **argv, const char *pDependencyFilename, VMPIRun
 }
 
 
-void VMPI_InitGlobals( int argc, char **argv, VMPIRunMode runMode )
+void VMPI_InitGlobals(int argc, char const* const* argv, VMPIRunMode runMode)
 {
 	g_bUseMPI = true;
 	g_VMPIRunMode = runMode;
@@ -1682,7 +1682,7 @@ void VerifyValidSDKMode()
 	}
 }
 
-void VMPI_CheckSDKMode( int argc, char **argv )
+void VMPI_CheckSDKMode(int argc, char const* const* argv)
 {
 	g_bVMPISDKMode = !VMPI_CheckForNonSDKExecutables();
 	g_bVMPISDKModeSet = true;
@@ -1706,7 +1706,7 @@ void VMPI_CheckSDKMode( int argc, char **argv )
 }
 
 
-void VMPI_SetupAutoRestartParameters( int argc, char **argv )
+void VMPI_SetupAutoRestartParameters(int argc, char const* const* argv)
 {
 	if ( VMPI_FindArg( argc, argv, VMPI_GetParamString( mpi_AutoRestart ) ) )
 	{	
@@ -1770,14 +1770,14 @@ bool VMPI_HandleAutoRestart()
 }
 
 
-bool VMPI_Init( 
-	int &argc, 
-	char **&argv, 
-	const char *pDependencyFilename, 
+bool VMPI_Init(
+	int &argc,
+	char const* const*& argv,
+	const char *pDependencyFilename,
 	VMPI_Disconnect_Handler handler,
 	VMPIRunMode runMode,
 	bool bConnectingAsService
-	)
+)
 {
 	if ( handler )
 		VMPI_AddDisconnectHandler( handler );
