@@ -14,6 +14,7 @@
 #endif
 
 #include "hammer_mathlib.h"
+#include "hammer_defs.h"
 
 class Axes2
 {

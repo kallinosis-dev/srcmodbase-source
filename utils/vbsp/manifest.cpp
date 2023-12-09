@@ -266,7 +266,7 @@ ChunkFileResult_t CManifest::LoadManifestCordoningPrefsCallback( CChunkFile *pFi
 //			pValue - the value of the pair
 // Output : returns a newly created epair structure
 //-----------------------------------------------------------------------------
-epair_t *CManifest::CreateEPair( char *pKey, char *pValue )
+epair_t *CManifest::CreateEPair(char const* pKey, char const* pValue)
 {
 	epair_t *pEPair = new epair_t;
 

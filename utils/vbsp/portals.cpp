@@ -783,24 +783,20 @@ Marks all nodes that can be reached by entites
 */
 qboolean FloodEntities (tree_t *tree)
 {
-	int		i;
 	Vector	origin;
-	char	*cl;
-	qboolean	inside;
-	node_t *headnode;
 
-	headnode = tree->headnode;
+	node_t* headnode = tree->headnode;
 	qprintf ("--- FloodEntities ---\n");
-	inside = false;
+	qboolean inside = false;
 	tree->outside_node.occupied = 0;
 
-	for (i=1 ; i<num_entities ; i++)
+	for (int i = 1 ; i<num_entities ; i++)
 	{
 		GetVectorForKey (&entities[i], "origin", origin);
 		if (VectorCompare(origin, vec3_origin))
 			continue;
 
-		cl = ValueForKey (&entities[i], "classname");
+		char const* cl = ValueForKey(&entities[i], "classname");
 
 		origin[2] += 1;	// so objects on floor are ok
 

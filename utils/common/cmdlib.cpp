@@ -487,7 +487,7 @@ void ExpandWildcards( int *argc, char ***argv )
 
 // only printf if in verbose mode
 qboolean verbose = false;
-void qprintf( char *format, ... )
+void qprintf(char const* format, ... )
 {
 	if ( !verbose )
 		return;

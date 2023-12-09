@@ -279,7 +279,6 @@ public:
 	ChunkFileResult_t	LoadSideCallback(CChunkFile *pFile, LoadSide_t *pSideInfo);
 	ChunkFileResult_t	LoadConnectionsKeyCallback(const char *szKey, const char *szValue, LoadEntity_t *pLoadEntity);
 	ChunkFileResult_t	LoadSolidCallback(CChunkFile *pFile, LoadEntity_t *pLoadEntity);
-	void				TestExpandBrushes(void);
 
 	static char			m_InstancePath[ MAX_PATH ];
 	static void			SetInstancePath( const char *pszInstancePath );

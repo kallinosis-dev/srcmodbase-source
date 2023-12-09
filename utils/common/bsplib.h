@@ -76,11 +76,9 @@ extern	CUtlVector<byte> *pdlightdata;
 extern	CUtlVector<char> dentdata;
 
 extern	int			    numleafs;
-#if !defined( _X360 )
-extern	dleaf_t			dleafs[MAX_MAP_LEAFS];
-#else
+
 extern	dleaf_t			*dleafs;
-#endif
+
 extern	CUtlVector<dleafambientlighting_t> *g_pLeafAmbientLighting;
 extern	CUtlVector<dleafambientindex_t> *g_pLeafAmbientIndex;
 extern	unsigned short  g_LeafMinDistToWater[MAX_MAP_LEAFS];
@@ -203,7 +201,7 @@ IZip				*GetPakFile( void );
 IZip				*GetSwapPakFile( void );
 void				ClearPakFile( IZip *pak );
 void				AddFileToPak( IZip *pak, const char *pRelativeName, const char *fullpath );
-void				AddBufferToPak( IZip *pak, const char *pRelativeName, void *data, int length, bool bTextMode );
+void				AddBufferToPak(IZip *pak, const char *pRelativeName, void const* data, int length, bool bTextMode);
 bool				FileExistsInPak( IZip *pak, const char *pRelativeName );
 bool				ReadFileFromPak( IZip *pak, const char *pRelativeName, bool bTextMode, CUtlBuffer &buf );
 void				RemoveFileFromPak( IZip *pak, const char *pRelativeName );
@@ -315,7 +313,7 @@ void	PrintEntity (entity_t *ent);
 
 epair_t	*SetKeyValue ( entity_t *ent, const char *key, const char *value, bool bAllowDuplicates = false );
 void	RemoveKey( entity_t *pMapEnt, const char *pKey );
-char 	*ValueForKey (entity_t *ent, const char *key);
+char const* ValueForKey(entity_t* ent, const char* key);
 // will return "" if not present
 int		IntForKey (entity_t *ent, const char *key);
 vec_t	FloatForKey (entity_t *ent, const char *key);

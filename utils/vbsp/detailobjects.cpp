@@ -285,7 +285,7 @@ static const char *FindDetailVBSPName( void )
 {
 	for( int i = 0; i < num_entities; i++ )
 	{
-		char* pEntity = ValueForKey( &entities[i], "classname" );
+		char const* pEntity = ValueForKey(&entities[i], "classname");
 		if ( !strcmp( pEntity, "worldspawn" ) )
 		{
 			const char *pDetailVBSP = ValueForKey( &entities[i], "detailvbsp" );
@@ -862,7 +862,7 @@ void EmitDetailModels()
 	for( int i = 0; i < num_entities; ++i )
 	{
 		entity_t *ent = &entities[i];
-		char* classname = ValueForKey( ent, "classname" );
+		char const* classname = ValueForKey(ent, "classname");
 		if ( !strcmp( classname, "func_detail_blocker" ) )
 		{
 			g_BlockerList.AddToTail(ent);
@@ -937,12 +937,12 @@ void EmitDetailModels()
 	Vector2D tex[2];
 	for (int i = 0; i < num_entities; ++i)
 	{
-		char* pEntity = ValueForKey(&entities[i], "classname");
+		char const* pEntity = ValueForKey(&entities[i], "classname");
 		if (!strcmp(pEntity, "detail_prop") || !strcmp(pEntity, "prop_detail"))
 		{
 			GetVectorForKey( &entities[i], "origin", origin );
 			GetAnglesForKey( &entities[i], "angles", angles );
-			char* pModelName = ValueForKey( &entities[i], "model" );
+			char const* pModelName = ValueForKey(&entities[i], "model");
 			int nOrientation = IntForKey( &entities[i], "detailOrientation" );
 
 			AddDetailToLump( pModelName, origin, angles, nOrientation );

@@ -1056,7 +1056,7 @@ SetLightStyles
 void SetLightStyles (void)
 {
 	int		stylenum;
-	char	*t;
+	char const* t;
 	entity_t	*e;
 	int		i, j;
 	char	value[10];
@@ -1095,9 +1095,8 @@ void SetLightStyles (void)
 			stylenum++;
 		}
 		sprintf (value, "%i", 32 + j);
-		char *pCurrentStyle = ValueForKey( e, "style" );
 		// the designer has set a default lightstyle as well as making the light switchable
-		if ( pCurrentStyle )
+		if ( char const* pCurrentStyle = ValueForKey( e, "style" ) )
 		{
 			int oldStyle = atoi(pCurrentStyle);
 			if ( oldStyle != 0 )
@@ -1621,7 +1620,7 @@ void ComputeBoundsNoSkybox( )
 	// Add the bounds to the worldspawn data
 	for (int i = 0; i < num_entities; ++i)
 	{
-		char* pEntity = ValueForKey(&entities[i], "classname");
+		char const* pEntity = ValueForKey(&entities[i], "classname");
 		if (!strcmp(pEntity, "worldspawn"))
 		{
 			char	string[ 128 ];

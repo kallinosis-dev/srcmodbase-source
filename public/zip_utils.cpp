@@ -326,7 +326,7 @@ public:
 	void			RemoveFileFromZip( const char *relativename );
 
 	// Add buffer to zip as a file with given name
-	void			AddBufferToZip( const char *relativename, void *data, int length, bool bTextMode );
+	void			AddBufferToZip(const char *relativename, void const* data, int length, bool bTextMode);
 
 	// Check if a file already exists in the zip.
 	bool			FileExistsInZip( const char *relativename ) const;
@@ -950,7 +950,7 @@ static void CopyTextData( char *pDst, const char *pSrc, int dstSize, int srcSize
 //			*data - 
 //			length - 
 //-----------------------------------------------------------------------------
-void CZipFile::AddBufferToZip( const char *relativename, void *data, int length, bool bTextMode )
+void CZipFile::AddBufferToZip(const char *relativename, void const* data, int length, bool bTextMode)
 {
 	// Lower case only
 	char name[512];
@@ -1598,7 +1598,7 @@ public:
 	unsigned int	EstimateSize( void ) override;
 
 	// Add buffer to zip as a file with given name - uses current alignment size, default 0 (no alignment)
-	void			AddBufferToZip( const char *relativename, void *data, int length, bool bTextMode ) override;
+	void			AddBufferToZip(const char *relativename, void const* data, int length, bool bTextMode) override;
 
 	// Writes out zip file to a buffer - uses current alignment size 
 	// (set by file's previous alignment, or a call to ForceAlignment)
@@ -1710,7 +1710,7 @@ unsigned int CZip::EstimateSize( void )
 }
 
 // Add buffer to zip as a file with given name
-void CZip::AddBufferToZip( const char *relativename, void *data, int length, bool bTextMode )
+void CZip::AddBufferToZip(const char *relativename, void const* data, int length, bool bTextMode)
 {
 	m_ZipFile.AddBufferToZip( relativename, data, length, bTextMode );
 }

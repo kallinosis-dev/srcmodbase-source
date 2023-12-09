@@ -747,11 +747,8 @@ CUtlVector<byte> *pdlightdata = &dlightdataLDR;
 CUtlVector<char> dentdata;
 
 int			numleafs;
-#if !defined( BSP_USE_LESS_MEMORY )
-dleaf_t		dleafs[MAX_MAP_LEAFS];
-#else
 dleaf_t		*dleafs;
-#endif
+
 
 CUtlVector<dleafambientindex_t> g_LeafAmbientIndexLDR;
 CUtlVector<dleafambientindex_t> g_LeafAmbientIndexHDR;
@@ -1016,7 +1013,7 @@ void AddFileToPak( IZip *pak, const char *relativename, const char *fullpath )
 //			*data - 
 //			length - 
 //-----------------------------------------------------------------------------
-void AddBufferToPak( IZip *pak, const char *pRelativeName, void *data, int length, bool bTextMode )
+void AddBufferToPak(IZip *pak, const char *pRelativeName, void const* data, int length, bool bTextMode)
 {
 	pak->AddBufferToZip( pRelativeName, data, length, bTextMode );
 }
@@ -2394,9 +2391,8 @@ void Lumps_Write( void )
 
 int LoadLeafs( void )
 {
-#if defined( BSP_USE_LESS_MEMORY )
 	dleafs = (dleaf_t*)malloc( g_pBSPHeader->lumps[LUMP_LEAFS].filelen );
-#endif
+
 
 	switch ( LumpVersion( LUMP_LEAFS ) )
 	{
@@ -3274,36 +3270,36 @@ void WriteLumpToFile( char *filename, int lump )
 #define ENTRIES(a)		(sizeof(a)/sizeof(*(a)))
 #define ENTRYSIZE(a)	(sizeof(*(a)))
 
-int ArrayUsage( char *szItem, int items, int maxitems, int itemsize )
+int ArrayUsage(char const* szItem, int items, int maxitems, int itemsize)
 {
 	float	percentage = maxitems ? items * 100.0 / maxitems : 0.0;
 
     Msg("%-17.17s %8i/%-8i %8i/%-8i (%4.1f%%) ", 
 		   szItem, items, maxitems, items * itemsize, maxitems * itemsize, percentage );
-	if ( percentage > 80.0 )
+	if (percentage > 99.9)
+		Msg("SIZE OVERFLOW!!!\n");
+	else if (percentage > 95.0)
+		Msg("SIZE DANGER!\n");
+	else if ( percentage > 80.0 )
 		Msg( "VERY FULL!\n" );
-	else if ( percentage > 95.0 )
-		Msg( "SIZE DANGER!\n" );
-	else if ( percentage > 99.9 )
-		Msg( "SIZE OVERFLOW!!!\n" );
-	else
+	else  
 		Msg( "\n" );
 	return items * itemsize;
 }
 
-int GlobUsage( char *szItem, int itemstorage, int maxstorage )
+int GlobUsage(char const* szItem, int itemstorage, int maxstorage)
 {
 	float	percentage = maxstorage ? itemstorage * 100.0 / maxstorage : 0.0;
     Msg("%-17.17s     [variable]    %8i/%-8i (%4.1f%%) ", 
 		   szItem, itemstorage, maxstorage, percentage );
-	if ( percentage > 80.0 )
-		Msg( "VERY FULL!\n" );
-	else if ( percentage > 95.0 )
-		Msg( "SIZE DANGER!\n" );
-	else if ( percentage > 99.9 )
-		Msg( "SIZE OVERFLOW!!!\n" );
+	if (percentage > 99.9)
+		Msg("SIZE OVERFLOW!!!\n");
+	else if (percentage > 95.0)
+		Msg("SIZE DANGER!\n");
+	else if (percentage > 80.0)
+		Msg("VERY FULL!\n");
 	else
-		Msg( "\n" );
+		Msg("\n");
 	return itemstorage;
 }
 
@@ -3616,7 +3612,7 @@ epair_t *SetKeyValue( entity_t *ent, const char *key, const char *value, bool bA
 	return ep;
 }
 
-char 	*ValueForKey (entity_t *ent, const char *key)
+char const* ValueForKey(entity_t* ent, const char* key)
 {
 	for (epair_t *ep=ent->epairs ; ep ; ep=ep->next)
 		if (!Q_stricmp (ep->key, key) )
@@ -3626,7 +3622,7 @@ char 	*ValueForKey (entity_t *ent, const char *key)
 
 vec_t	FloatForKey (entity_t *ent, const char *key)
 {
-	char *k = ValueForKey (ent, key);
+	char const* k = ValueForKey(ent, key);
 	return atof(k);
 }
 
@@ -3642,14 +3638,13 @@ vec_t	FloatForKeyWithDefault (entity_t *ent, const char *key, float default_valu
 
 int		IntForKey (entity_t *ent, const char *key)
 {
-	char *k = ValueForKey (ent, key);
+	char const* k = ValueForKey(ent, key);
 	return atol(k);
 }
 
 void 	GetVectorForKey (entity_t *ent, const char *key, Vector& vec)
 {
-
-	char *k = ValueForKey (ent, key);
+	char const* k = ValueForKey(ent, key);
 // scanf into doubles, then assign, so it is vec_t size independent
 	double	v1, v2, v3;
 	v1 = v2 = v3 = 0;
@@ -3663,7 +3658,7 @@ void 	GetVector2DForKey (entity_t *ent, const char *key, Vector2D& vec)
 {
 	double	v1, v2;
 
-	char *k = ValueForKey (ent, key);
+	char const* k = ValueForKey(ent, key);
 // scanf into doubles, then assign, so it is vec_t size independent
 	v1 = v2 = 0;
 	sscanf (k, "%lf %lf", &v1, &v2);
@@ -3673,10 +3668,9 @@ void 	GetVector2DForKey (entity_t *ent, const char *key, Vector2D& vec)
 
 void 	GetAnglesForKey (entity_t *ent, const char *key, QAngle& angle)
 {
-	char	*k;
 	double	v1, v2, v3;
 
-	k = ValueForKey (ent, key);
+	char const* k = ValueForKey(ent, key);
 // scanf into doubles, then assign, so it is vec_t size independent
 	v1 = v2 = v3 = 0;
 	sscanf (k, "%lf %lf %lf", &v1, &v2, &v3);
@@ -4925,7 +4919,7 @@ void SwapLeafLumpToDisk( void )
 		g_pBSPHeader->lumps[LUMP_LEAFS].version = 1;
 	}
 
-#if defined( BSP_USE_LESS_MEMORY )
+#if defined( _X360 )
 	if ( dleafs )
 	{
 		free( dleafs );

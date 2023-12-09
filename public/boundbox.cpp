@@ -5,10 +5,7 @@
 // $NoKeywords: $
 //=============================================================================//
 
-#include "stdafx.h"
 #include "BoundBox.h"
-#include "hammer_mathlib.h"
-#include "MapDefs.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"

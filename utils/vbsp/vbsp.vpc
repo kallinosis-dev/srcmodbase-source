@@ -28,6 +28,7 @@ $Project "Vbsp"
 	$Folder	"Source Files"
 	{
 		$File	"$SRCDIR\public\boundbox.cpp"
+		$File	"$SRCDIR\public\hammer_defs.h"
 		$File	"$SRCDIR\public\boundbox.h"
 		$File	"brushbsp.cpp"
 		$File	"$SRCDIR\public\collisionutils.cpp"

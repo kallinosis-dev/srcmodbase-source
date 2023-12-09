@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -14,7 +14,6 @@
 #pragma once
 
 #include <WorldSize.h>
-
-#define COORD_NOTINIT	((float)(99999.0))
+#include "hammer_defs.h"
 
 

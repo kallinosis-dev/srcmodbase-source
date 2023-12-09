@@ -87,6 +87,7 @@ $Project "hammer_dll"
 				"$SRCDIR\public\simple_physics.cpp"					\
 				"$SRCDIR\public\studio.cpp"							\
 				"$SRCDIR\public\vgui_controls\vgui_controls.cpp"	\
+				"$SRCDIR\public\boundbox.cpp" \
 				"viewersettings.cpp"
 				{
 					$Configuration
@@ -105,7 +106,7 @@ $Project "hammer_dll"
 		$File	"axes2.cpp"
 		$File	"axes2.h"
 		$File	"blockarray.h"
-		$File	"$SRCDIR\public\boundbox.cpp"
+		$File	"$SRCDIR\public\hammer_defs.h"
 		$File	"$SRCDIR\public\boundbox.h"
 		$File	"brushops.cpp"
 		$File	"brushops.h"

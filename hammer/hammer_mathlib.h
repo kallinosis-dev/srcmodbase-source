@@ -20,13 +20,6 @@ typedef unsigned char byte;
 
 typedef vec_t vec5_t[5];
 
-enum
-{
-	AXIS_X = 0,
-	AXIS_Y,
-	AXIS_Z
-};
-
 //
 // Matrix functions:
 //

@@ -171,9 +171,6 @@ void CMapFile::Init( void )
 // All the brush sides referenced by info_no_dynamic_shadow entities.
 CUtlVector<int> g_NoDynamicShadowSides;
 
-
-void TestExpandBrushes (void);
-
 ChunkFileResult_t LoadDispDistancesCallback(CChunkFile *pFile, mapdispinfo_t *pMapDispInfo);
 ChunkFileResult_t LoadDispDistancesKeyCallback(const char *szKey, const char *szValue, mapdispinfo_t *pMapDispInfo);
 ChunkFileResult_t LoadDispInfoCallback(CChunkFile *pFile, mapdispinfo_t **ppMapDispInfo );
@@ -1587,9 +1584,9 @@ int CMapFile::SideIDToIndex( int brushSideID )
 // Input  : *mapent - 
 //			*key - 
 //-----------------------------------------------------------------------------
-void ConvertSideList( entity_t *mapent, char *key )
+void ConvertSideList(entity_t *mapent, char const* key)
 {
-	char *pszSideList = ValueForKey( mapent, key );
+	char const* pszSideList = ValueForKey( mapent, key );
 
 	if (pszSideList)
 	{
@@ -1637,10 +1634,11 @@ void ConvertSideList( entity_t *mapent, char *key )
 ChunkFileResult_t HandleNoDynamicShadowsEnt( entity_t *pMapEnt )
 {
 	// Get the list of the sides.
-	char *pSideList = ValueForKey( pMapEnt, "sides" );
+	char* pSideList = V_strdup(ValueForKey( pMapEnt, "sides" ));
+
 
 	// Parse the side list.
-	char *pScan = strtok( pSideList, " " );
+	char const* pScan = strtok( pSideList, " " );
 	if( pScan )
 	{
 		do
@@ -1653,7 +1651,8 @@ ChunkFileResult_t HandleNoDynamicShadowsEnt( entity_t *pMapEnt )
 			}
 		} while( ( pScan = strtok(nullptr, " " ) ) );
 	}
-	
+	free(pSideList);
+
 	// Clear out this entity.
 	pMapEnt->epairs = nullptr;
 	return ( ChunkFile_Ok );
@@ -2187,7 +2186,7 @@ void CMapFile::ForceFuncAreaPortalWindowContents()
 {
 	// Now go through all areaportal entities and force CONTENTS_WINDOW
 	// on the brushes of the bmodels they point at.
-	char *targets[] = {"target", "BackgroundBModel"};
+	char const* targets[] = {"target", "BackgroundBModel"};
 	int nTargets = sizeof(targets) / sizeof(targets[0]);
 
 	for( int i=0; i < num_entities; i++ )
@@ -2303,10 +2302,10 @@ void CMapFile::CheckForInstances( const char *pszFileName )
 	// automatically done in this processing.
 	for ( int i = 0; i < num_entities; i++ )
 	{
-		char *pEntity = ValueForKey( &entities[ i ], "classname" );
+		char const* pEntity = ValueForKey( &entities[ i ], "classname" );
 		if ( !strcmp( pEntity, "func_instance" ) )
 		{
-			char *pInstanceFile = ValueForKey( &entities[ i ], "file" );
+			char const* pInstanceFile = ValueForKey( &entities[ i ], "file" );
 			if ( pInstanceFile[ 0 ] )
 			{
 				char	InstancePath[ MAX_PATH ];
@@ -2341,7 +2340,7 @@ void CMapFile::CheckForInstances( const char *pszFileName )
 
 	for ( int i = 0; i < num_entities; i++ )
 	{
-		char *pEntity = ValueForKey( &entities[ i ], "classname" );
+		char const* pEntity = ValueForKey( &entities[ i ], "classname" );
 		if ( Q_stricmp( pEntity, "func_instance_parms" ) == 0 )
 		{	// Clear out this entity.
 			entities[ i ].numbrushes = 0;
@@ -2400,15 +2399,14 @@ void CMapFile::PreLoadInstances( GameData *pGD )
 	for( int i = 0; i < num_entities; i++ )
 	{
 		entity_t	*pEntity = &entities[ i ];
-		char		*pClassName = ValueForKey( pEntity, "classname" );
-		GDclass		*pEntClass = pGD->BeginInstanceRemap( pClassName, NameFixup, InstanceOrigin, InstanceAngle );
+		char		const* pClassName = ValueForKey( pEntity, "classname" );
 
-		if ( pEntClass )
+		if ( GDclass *pEntClass = pGD->BeginInstanceRemap( pClassName, NameFixup, InstanceOrigin, InstanceAngle ) )
 		{
 			for( int i = 0; i < pEntClass->GetVariableCount(); i++ )
 			{
 				GDinputvariable *EntVar = pEntClass->GetVariableAt( i );
-				char *pValue = ValueForKey( pEntity, ( char * )EntVar->GetName() );
+				char const* pValue = ValueForKey( pEntity, ( char * )EntVar->GetName() );
 				if ( pGD->RemapKeyValue( EntVar->GetName(), pValue, temp, FixupStyle ) )
 				{
 #ifdef MERGE_INSTANCE_DEBUG_INFO
@@ -2439,7 +2437,7 @@ void CMapFile::PostLoadInstances( )
 	for( int i = 0; i < num_entities; i++ )
 	{
 		entity_t	*pEntity = &entities[ i ];
-		char		*pClassName = ValueForKey( pEntity, "classname" );
+		char const* pClassName = ValueForKey( pEntity, "classname" );
 
 		if( !strcmp( "env_cubemap", pClassName ) )
 		{
@@ -2710,8 +2708,8 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 	entity_t				*pParmsEnt = nullptr;
 	GameData::TNameFixup	FixupStyle;
 
-	char *pTargetName = ValueForKey( pInstanceEntity, "targetname" );
-	char *pName = ValueForKey( pInstanceEntity, "name" );
+	char const* pTargetName = ValueForKey( pInstanceEntity, "targetname" );
+	char const* pName = ValueForKey( pInstanceEntity, "name" );
 	if ( pTargetName[ 0 ] )
 	{
 		sprintf( NameFixup, "%s", pTargetName );
@@ -2727,7 +2725,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 
 	for( int i = 0; i < num_entities; i++ )
 	{
-		char *pID = ValueForKey( &entities[ i ], "hammerid" );
+		char const* pID = ValueForKey( &entities[ i ], "hammerid" );
 		if ( pID[ 0 ] )
 		{
 			int value = atoi( pID );
@@ -2742,7 +2740,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 
 	for ( int i = 0; i < Instance->num_entities; i++ )
 	{
-		char *pEntity = ValueForKey( &Instance->entities[ i ], "classname" );
+		char const* pEntity = ValueForKey( &Instance->entities[ i ], "classname" );
 		if ( Q_stricmp( pEntity, "func_instance_parms" ) == 0 )
 		{
 			pParmsEnt = &Instance->entities[ i ];
@@ -2850,7 +2848,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 		entity_t *entity = &entities[ num_entities + i ];
 		entity->firstbrush += ( nummapbrushes - Instance->nummapbrushes );
 
-		char *pID = ValueForKey( entity, "hammerid" );
+		char const* pID = ValueForKey( entity, "hammerid" );
 		if ( pID[ 0 ] )
 		{
 			int value = atoi( pID );
@@ -2860,7 +2858,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 			SetKeyValue( entity, "hammerid", temp );
 		}
 
-		char *pEntity = ValueForKey( entity, "classname" );
+		char const* pEntity = ValueForKey( entity, "classname" );
 		if ( strcmpi( pEntity, "worldspawn" ) == 0 )
 		{
 			pWorldspawnEnt = entity;
@@ -2886,7 +2884,7 @@ void CMapFile::MergeEntities( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 				for( int i = 0; i < EntClass->GetVariableCount(); i++ )
 				{
 					GDinputvariable *EntVar = EntClass->GetVariableAt( i );
-					char *pValue = ValueForKey( entity, ( char * )EntVar->GetName() );
+					char const* pValue = ValueForKey( entity, ( char * )EntVar->GetName() );
 					if ( GD.RemapKeyValue( EntVar->GetName(), pValue, temp, FixupStyle ) )
 					{
 #ifdef MERGE_INSTANCE_DEBUG_INFO
@@ -3064,7 +3062,7 @@ void CMapFile::MergeOverlays( entity_t *pInstanceEntity, CMapFile *Instance, Vec
 
 void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vector &InstanceOrigin, QAngle &InstanceAngle, matrix3x4_t &InstanceMatrix )
 {
-	char *pTargetName = ValueForKey( pInstanceEntity, "targetname" );
+	char const* pTargetName = ValueForKey(pInstanceEntity, "targetname");
 
 	if ( pTargetName[ 0 ] == 0 )
 	{	// we can only do this for explicity named instances
@@ -3078,7 +3076,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 	{
 		entity_t *entity = &entities[ num_entities - Instance->num_entities + i ];
 
-		char *pEntity = ValueForKey( entity, "classname" );
+		char const* pEntity = ValueForKey(entity, "classname");
 		if ( strcmpi( pEntity, "func_instance_io_proxy" ) == 0 )
 		{
 			io_proxy_entity = entity;
@@ -3091,8 +3089,8 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 		return;
 	}
 
-	char *pProxyName = ValueForKey( io_proxy_entity, "targetname" );
-	GameData::TNameFixup FixupStyle = ( GameData::TNameFixup )( IntForKey( pInstanceEntity, "fixup_style" ) );
+	char const* pProxyName = ValueForKey(io_proxy_entity, "targetname");
+	auto FixupStyle = ( GameData::TNameFixup )( IntForKey( pInstanceEntity, "fixup_style" ) );
 	int nNumRelay = 0;
 
 	// rename existing proxy events to be uniquely numbered
@@ -3210,7 +3208,7 @@ void CMapFile::MergeIOProxy( entity_t *pInstanceEntity, CMapFile *Instance, Vect
 					{
 						entity_t *entity = &entities[ num_entities - Instance->num_entities + i ];
 
-						char *pszName = ValueForKey( entity, "targetname" );
+						char const* pszName = ValueForKey(entity, "targetname");
 						if ( strcmpi( pszName, search ) == 0 )
 						{	// the target name matches, so this is the entity to hook up
 							for ( epair_t *epTarget = entity->epairs; epTarget != nullptr; epTarget = epTarget->next )
@@ -3394,8 +3392,6 @@ bool LoadMapFile( const char *pszFileName )
 		qprintf ("size: %5.0f,%5.0f,%5.0f to %5.0f,%5.0f,%5.0f\n", g_LoadingMap->map_mins[0],g_LoadingMap->map_mins[1],g_LoadingMap->map_mins[2],
 			g_LoadingMap->map_maxs[0],g_LoadingMap->map_maxs[1],g_LoadingMap->map_maxs[2]);
 
-		//TestExpandBrushes();
-		
 		// Clear the error reporting
 		g_MapError.ClearState();
 	}
@@ -3871,62 +3867,4 @@ ChunkFileResult_t LoadSolidKeyCallback(const char *szKey, const char *szValue, m
 	}
 
 	return ChunkFile_Ok;
-}
-
-
-/*
-================
-TestExpandBrushes
-
-Expands all the brush planes and saves a new map out
-================
-*/
-void CMapFile::TestExpandBrushes (void)
-{
-	FILE	*f;
-	side_t	*s;
-	int		i, j, bn;
-	winding_t	*w;
-	char	*name = "expanded.map";
-	mapbrush_t	*brush;
-	vec_t	dist;
-
-	Msg ("writing %s\n", name);
-	f = fopen (name, "wb");
-	if (!f)
-		Error ("Can't write %s\b", name);
-
-	fprintf (f, "{\n\"classname\" \"worldspawn\"\n");
-	fprintf( f, "\"mapversion\" \"220\"\n\"sounds\" \"1\"\n\"MaxRange\" \"4096\"\n\"mapversion\" \"220\"\n\"wad\" \"vert.wad;dev.wad;generic.wad;spire.wad;urb.wad;cit.wad;water.wad\"\n" );
-
-
-	for (bn=0 ; bn<nummapbrushes ; bn++)
-	{
-		brush = &mapbrushes[bn];
-		fprintf (f, "{\n");
-		for (i=0 ; i<brush->numsides ; i++)
-		{
-			s = brush->original_sides + i;
-			dist = mapplanes[s->planenum].dist;
-			for (j=0 ; j<3 ; j++)
-				dist += fabs( 16 * mapplanes[s->planenum].normal[j] );
-
-			w = BaseWindingForPlane (mapplanes[s->planenum].normal, dist);
-
-			fprintf (f,"( %i %i %i ) ", (int)w->p[0][0], (int)w->p[0][1], (int)w->p[0][2]);
-			fprintf (f,"( %i %i %i ) ", (int)w->p[1][0], (int)w->p[1][1], (int)w->p[1][2]);
-			fprintf (f,"( %i %i %i ) ", (int)w->p[2][0], (int)w->p[2][1], (int)w->p[2][2]);
-
-			fprintf (f, "%s [ 0 0 1 -512 ] [ 0 -1 0 -256 ] 0 1 1 \n", 
-				TexDataStringTable_GetString( GetTexData( texinfo[s->texinfo].texdata )->nameStringTableID ) );
-
-			FreeWinding (w);
-		}
-		fprintf (f, "}\n");
-	}
-	fprintf (f, "}\n");
-
-	fclose (f);
-
-	Error ("can't proceed after expanding brushes");
 }

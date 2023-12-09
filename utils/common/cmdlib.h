@@ -166,7 +166,7 @@ extern	char			archivedir[1024];
 
 extern	qboolean verbose;
 
-void qprintf( char *format, ... );
+void qprintf(char const* format, ... );
 
 void ExpandWildcards (int *argc, char ***argv);
 

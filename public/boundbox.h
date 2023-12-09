@@ -13,6 +13,7 @@
 
 
 #include "mathlib/vector.h"
+#include "hammer_defs.h"
 
 
 class BoundBox
