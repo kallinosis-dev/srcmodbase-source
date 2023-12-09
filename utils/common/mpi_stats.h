@@ -44,10 +44,10 @@ public:
 // connects to the database.
 //
 // If you're a worker, this waits for the DB info, then connects to the database.
-void StatsDB_InitStatsDatabase( 
-	int argc, 
-	char **argv, 
-	const char *pDBInfoFilename );
+void StatsDB_InitStatsDatabase(
+	int argc,
+	char const* const* argv,
+	const char *pDBInfoFilename);
 
 // The database gives back a unique ID for the job.
 unsigned long StatsDB_GetUniqueJobID();

@@ -778,10 +778,10 @@ void RunJobWatchApp( char *pCmdLine )
 }
 
 
-void StatsDB_InitStatsDatabase( 
-	int argc, 
-	char **argv, 
-	const char *pDBInfoFilename )
+void StatsDB_InitStatsDatabase(
+	int argc,
+	char const* const* argv,
+	const char *pDBInfoFilename)
 {
 	// Did they disable the stats database?
 	if ( !g_bMPI_Stats && !VMPI_IsParamUsed( mpi_Job_Watch ) )

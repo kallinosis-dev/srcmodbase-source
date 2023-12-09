@@ -127,7 +127,7 @@ void VMPI_DeletePortalMCSocket()
 }
 
 
-void VVIS_SetupMPI( int &argc, char **&argv )
+void VVIS_SetupMPI(int &argc, char const* const*& argv)
 {
 	if ( !VMPI_FindArg( argc, argv, "-mpi", "" ) && !VMPI_FindArg( argc, argv, VMPI_GetParamString( mpi_Worker ), "" ) )
 		return;

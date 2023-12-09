@@ -16,7 +16,7 @@ static bool sFoundConfigArgs = false;
 //-----------------------------------------------------------------------------
 // Purpose: Parses arguments and adds them to argv and argc
 //-----------------------------------------------------------------------------
-static void AddArguments( int &argc, char **&argv, const char *str )
+static void AddArguments(int &argc, char const* const*& argv, const char *str)
 {
 	char  **args	 = nullptr;
 	char   *argList	 = nullptr;
@@ -76,7 +76,7 @@ static void AddArguments( int &argc, char **&argv, const char *str )
 // keyname: Name of the block containing the key/args pairs (ie map or model name)
 // appname: Keyname for the commandline arguments to be loaded - typically the exe name.
 //-----------------------------------------------------------------------------
-void LoadCmdLineFromFile( int &argc, char **&argv, const char *keyname, const char *appname )
+void LoadCmdLineFromFile(int &argc, char const* const*& argv, const char *keyname, const char *appname)
 {
 	sFoundConfigArgs = false;
 
@@ -113,7 +113,7 @@ void LoadCmdLineFromFile( int &argc, char **&argv, const char *keyname, const ch
 // Purpose: Cleans up any memory allocated for the new argv.  Pass in the app's
 // argc and argv - this is safe even if no extra arguments were loaded.
 //-----------------------------------------------------------------------------
-void DeleteCmdLine( int argc, char **argv )
+void DeleteCmdLine( int argc, char const* const* argv )
 {
 	if( !sFoundConfigArgs )
 		return;

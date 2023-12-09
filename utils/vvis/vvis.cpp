@@ -884,7 +884,7 @@ float DetermineVisRadius( )
 	// Check the max vis range to determine the vis radius
 	for (int i = 0; i < num_entities; ++i)
 	{
-		char* pEntity = ValueForKey(&entities[i], "classname");
+		char const* pEntity = ValueForKey(&entities[i], "classname");
 		if (!stricmp(pEntity, "env_fog_controller"))
 		{
 			flRadius = FloatForKey (&entities[i], "farz");
@@ -906,7 +906,7 @@ void MarkLeavesAsRadial()
 }
 
 
-int ParseCommandLine( int argc, char **argv )
+int ParseCommandLine(int argc, char const* const* argv)
 {
 	int i;
 	for (i=1 ; i<argc ; i++)
@@ -997,7 +997,7 @@ int ParseCommandLine( int argc, char **argv )
 }
 
 
-void PrintCommandLine( int argc, char **argv )
+void PrintCommandLine(int argc, char const* const* argv)
 {
 	Warning( "Command line: " );
 	for ( int z=0; z < argc; z++ )
@@ -1008,7 +1008,7 @@ void PrintCommandLine( int argc, char **argv )
 }
 
 
-void PrintUsage( int argc, char **argv )
+void PrintUsage(int argc, char const* const* argv)
 {
 	PrintCommandLine( argc, argv );
 
@@ -1072,7 +1072,7 @@ void PrintUsage( int argc, char **argv )
 }
 
 
-int RunVVis( int argc, char **argv )
+int RunVVis(int argc, char const* const* argv)
 {
 	char	portalfile[1024];
 	char		source[1024];
@@ -1210,7 +1210,7 @@ int RunVVis( int argc, char **argv )
 main
 ===========
 */
-int main (int argc, char **argv)
+int main (int argc, char const* const* argv)
 {
 	CommandLine()->CreateCmdLine( argc, argv );
 

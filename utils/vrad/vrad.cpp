@@ -2921,7 +2921,7 @@ int ParseCommandLine( int argc, char **argv, bool *onlydetail )
 }
 
 
-void PrintCommandLine( int argc, char **argv )
+void PrintCommandLine(int argc, char const* const* argv)
 {
 	Warning( "Command line: " );
 	for ( int z=0; z < argc; z++ )
@@ -2932,7 +2932,7 @@ void PrintCommandLine( int argc, char **argv )
 }
 
 
-void PrintUsage( int argc, char **argv )
+void PrintUsage(int argc, char const* const* argv)
 {
 	PrintCommandLine( argc, argv );
 

@@ -395,7 +395,7 @@ void PrintListStaticProps( FILE *fp )
 		printf( "%03d  %s\n", i, pName );
 	}
 }
-void PrintCommandLine( int argc, char **argv )
+void PrintCommandLine(int argc, char const* const* argv)
 {
 	Warning( "Command line: " );
 	for ( int z=0; z < argc; z++ )
