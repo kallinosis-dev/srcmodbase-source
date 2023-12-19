@@ -76,6 +76,8 @@ enum
 
 // Vertex fields must be written in well-defined order to achieve write combining, 
 // which is a perf booster
+#pragma warning(push)
+#pragma warning(disable: 5054) // Warning C5054: operator '+': deprecated between enumerations of different types
 enum WriteCombineOrdering_t
 {
 	MB_FIELD_NONE = -1,
@@ -91,6 +93,7 @@ enum WriteCombineOrdering_t
 	MB_FIELD_TANGENT_T,
 	MB_FIELD_USERDATA,
 };
+#pragma warning(pop)
 
 #define MB_FIELD_TEXCOORD( nStage ) ( MB_FIELD_TEXCOORD_FIRST + ( nStage ) )
 

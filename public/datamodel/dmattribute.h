@@ -249,7 +249,7 @@ inline CDmElement *CDmAttribute::GetOwner()
 template< class T >
 const T& CDmAttribute::GetValue( const T& defaultValue ) const
 {
-	if ( this->GetType() == CDmAttributeInfo< T >::ATTRIBUTE_TYPE )
+	if ( this->GetType() == (DmAttributeType_t) CDmAttributeInfo< T >::ATTRIBUTE_TYPE )
 		return *reinterpret_cast< const T* >( m_pData );
 
 	if ( !this->IsTypeConvertable< T >() )
