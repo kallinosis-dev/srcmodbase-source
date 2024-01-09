@@ -575,7 +575,7 @@ void main (int argc, char **argv)
 
 			for ( int e = 0; e < num_entities; ++i )
 			{
-				char* pEntity = ValueForKey(&entities[e], "classname");
+				char const* pEntity = ValueForKey(&entities[e], "classname");
 				if ( strcmp(pEntity, "worldspawn" ) )
 					continue;
 
@@ -584,9 +584,9 @@ void main (int argc, char **argv)
 				wmins.Init();
 				wmaxs.Init();
 
-				char* pchMins = ValueForKey(&entities[e], "world_mins");
+				char const* pchMins = ValueForKey(&entities[e], "world_mins");
 				sscanf( pchMins, "%f %f %f", &wmins.x, &wmins.y, &wmins.z );
-				char* pchMaxs = ValueForKey(&entities[e], "world_maxs");
+				char const* pchMaxs = ValueForKey(&entities[e], "world_maxs");
 				sscanf( pchMaxs, "%f %f %f", &wmaxs.x, &wmaxs.y, &wmaxs.z );
 
 
