@@ -48,6 +48,7 @@ $Project "hammer_dll"
 		-$File	"$SRCDIR\public\tier0\memoverride.cpp"
 		$File	"$SRCDIR\public\tier0\memoverride.cpp"
 		{
+			$BuildOrderModifier "0x00000001"
 			$Configuration
 			{
 				$Compiler
