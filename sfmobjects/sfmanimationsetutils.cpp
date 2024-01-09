@@ -22,7 +22,7 @@
 #include "vstdlib/random.h"
 #include "tier1/KeyValues.h"
 #include "filesystem.h"
-#include "movieobjects/timeutils.h"
+#include "tier1/timeutils.h"
 
 
 #define ANIMATION_SET_DEFAULT_GROUP_MAPPING_FILE	"cfg/SFM_DefaultAnimationGroups.txt"
@@ -160,7 +160,8 @@ static void CreateAnimationLogs( CDmeChannelsClip *channelsClip, CDmeGameModel *
 		}
 		else
 		{
-			flCycle = max( 0.f, min( flCycle, 0.9999f ) );
+			
+			flCycle = std::clamp(flCycle, 0.0f, 0.9999f);
 		}
 
 		if ( !created )
@@ -859,7 +860,7 @@ CDmeAnimationSet *CreateAnimationSet( CDmeFilmClip *pMovie, CDmeFilmClip *pShot,
 		int numbones = hdr->numbones;
 		for ( int b = 0; b < numbones; ++b )
 		{
-			mstudiobone_t *bone = hdr->pBone( b );
+			mstudiobone_t const* bone = hdr->pBone( b );
 			const char *name = bone->pszName();
 
 			// Add the control to the controls group

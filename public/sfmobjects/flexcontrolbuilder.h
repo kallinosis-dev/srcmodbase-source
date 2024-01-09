@@ -40,6 +40,7 @@ public:
 		CDmeGameModel *pGameModel, CDmeFilmClip *pSourceClip, CDmeChannelsClip *pDestClip, bool bUseExistingLogs );
 
 private:
+#if 0
 	enum ControlField_t
 	{
 		CONTROL_MONO = 0,
@@ -137,6 +138,7 @@ private:
 	CUtlVector< ControlInfo_t > m_ControlInfo;
 
 	CDmeFilmClip *m_pMovie;
+#endif
 };
 
 
