@@ -105,7 +105,7 @@ public:
 private:
 
 	// support functions
-	bool CheckIsLink(IHTMLElement *el, char *type);
+	bool CheckIsLink(IHTMLElement *el, char const* type);
 
 
 	char m_currentUrl[512]; // the currently opened URL

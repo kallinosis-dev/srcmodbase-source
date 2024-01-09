@@ -8,6 +8,7 @@
 #if defined( WIN32 ) && !defined( _X360 )
 #include <windows.h>
 #include <imm.h>
+#undef PostMessage
 #define DO_IME
 #endif
 
@@ -307,7 +308,7 @@ private:
 
 	HCursor _cursorOverride;
 
-	char *_keyTrans[KEY_LAST];
+	char const* _keyTrans[KEY_LAST];
 
 	InputContext_t m_DefaultInputContext; 
 	HInputContext m_hContext; // current input context
@@ -2872,7 +2873,7 @@ void CInputWin32::OnIMEComposition( int flags )
 					InternalKeyTyped( tempstr[ i ] );
 				}
 
-				IGameEvent* pEvent = g_pGameEventManager->CreateEventA( "cs_handle_ime_event" );
+				IGameEvent* pEvent = g_pGameEventManager->CreateEvent( "cs_handle_ime_event" );
 
 				if ( pEvent )
 				{
@@ -2896,7 +2897,7 @@ void CInputWin32::OnIMEComposition( int flags )
 
 				InternalSetCompositionString( tempstr );
 
-				IGameEvent* pEvent = g_pGameEventManager->CreateEventA( "cs_handle_ime_event" );
+				IGameEvent* pEvent = g_pGameEventManager->CreateEvent( "cs_handle_ime_event" );
 
 				if ( pEvent )
 				{
@@ -2922,7 +2923,7 @@ void CInputWin32::OnIMEEndComposition()
 		PostKeyMessage( new KeyValues( "DoCompositionString", "string", L"" ) );
 	}
 
-	IGameEvent* pEvent = g_pGameEventManager->CreateEventA( "cs_handle_ime_event" );
+	IGameEvent* pEvent = g_pGameEventManager->CreateEvent( "cs_handle_ime_event" );
 
 	if ( pEvent )
 	{

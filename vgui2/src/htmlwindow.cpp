@@ -1376,7 +1376,7 @@ void HtmlWindow::AddText(const char *text)
 			HRESULT hret = pHTMLDocument2->get_body(&pElement);
 			if( hret == S_OK && pElement)
 			{
-				BSTR where = L"beforeEnd";
+				BSTR where = const_cast<BSTR>(L"beforeEnd"); // TODO: this somehow worked before, but probably is wrong
 				pElement->insertAdjacentHTML(where,tmp);
 				pElement->Release();
 			}
@@ -1556,7 +1556,7 @@ void HtmlWindow::OffLink()
 //-----------------------------------------------------------------------------
 // Purpose: returns whether the HTML element is a <a href></a> element
 //-----------------------------------------------------------------------------
-bool HtmlWindow::CheckIsLink(IHTMLElement *el, char *type)
+bool HtmlWindow::CheckIsLink(IHTMLElement *el, char const* type)
 {
 	BSTR bstr;
 	bool IsLink=false;
