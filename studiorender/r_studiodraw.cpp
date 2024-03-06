@@ -1464,7 +1464,7 @@ public:
 		meshBuilder.FastAdvanceNVertices( numVertices );
 	}
 
-#ifdef SPECIAL_SSE_MESH_PROCESSOR
+#if 0 //def SPECIAL_SSE_MESH_PROCESSOR
 
 #ifdef VERIFY_SSE_LIGHTING
 	static int NotCloseEnough( float a, float b )
