@@ -7,11 +7,9 @@
 $Macro SRCDIR		".."
 $Macro OUTBINDIR	"$SRCDIR\..\game"
 
-$Macro OUTBINNAME	"srcds_win32"			[$WIN32]
-$Macro OUTBINNAME	"srcds_win64"		[$WIN64]
-$Macro OUTBINNAME	"srcds_linux" 	[$LINUX && !$CYGWIN]
-$Macro OUTBINNAME	"srcds_osx" 	[$OSX32 || $OSX64]
-$Macro OUTBINNAME	"srcds_cygwin" 	[$CYGWIN && $DEDICATED]
+$Macro OUTBINNAME	"srcds_$PLATFORM"	
+$Conditional NO_OUT_PLATSUBDIR 1
+
 $Include "$SRCDIR\vpc_scripts\source_exe_base.vpc"
 
 $Configuration
