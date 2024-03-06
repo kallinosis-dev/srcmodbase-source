@@ -48,7 +48,7 @@ $Configuration
 
 	$Linker
 	{
-			$AdditionalLibraryDirectories   "$BASE;$SRCDIR\dx9sdk\lib" [$WINDOWS && !$GL]
+			$AdditionalLibraryDirectories   "$BASE;$SRCDIR\dx9sdk\lib\$PLATFORM" [$WINDOWS && !$GL]
 			$AdditionalDependencies			"$BASE winmm.lib Ws2_32.lib imm32.lib oleaut32.lib" [$WINDOWS]
 			$AdditionalDependencies			"$BASE dxguid.lib d3d9.lib" [$WINDOWS && !$GL]
 
