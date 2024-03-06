@@ -38,11 +38,12 @@ public:
 
 	operator tGenericId() const { return m_iConcept; }
 	operator const char *() const { return GetStringConcept(); }
-	inline bool operator==(const CRR_Concept &other) // default is compare by concept ids
+	inline bool operator==(const CRR_Concept &other) const
+	// default is compare by concept ids
 	{
 		return m_iConcept == other.m_iConcept;
 	}
-	bool operator==(const char *pszConcept);
+	bool operator==(const char *pszConcept) const;
 
 protected:
 

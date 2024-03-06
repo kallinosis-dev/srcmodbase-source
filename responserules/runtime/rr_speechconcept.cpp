@@ -44,9 +44,9 @@ CRR_Concept &CRR_Concept::operator=(const char *fromString)
 	return *this;
 }
 
-bool CRR_Concept::operator==(const char *pszConcept)
+bool CRR_Concept::operator==(const char *pszConcept) const
 {
-	int otherConcept = g_pRRConceptTable->Find(pszConcept);
+	CUtlSymbol otherConcept = g_pRRConceptTable->Find(pszConcept);
 	return ( otherConcept != UTL_INVAL_SYMBOL && otherConcept == m_iConcept );
 }
 
