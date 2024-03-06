@@ -21,6 +21,9 @@
 class CFontTextureCache;
 class KeyValues;
 
+#ifdef CreateFont
+#undef CreateFont
+#endif
 
 //-----------------------------------------------------------------------------
 // This class is the interface to the font and font texture, systems.

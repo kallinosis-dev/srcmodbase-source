@@ -13,6 +13,7 @@
 
 #include "tier0/platform.h"
 #include "rendersystem/irendercontext.h"
+#include "rendersystem/schema/renderbuffer.g.h"
 
 
 //-----------------------------------------------------------------------------
