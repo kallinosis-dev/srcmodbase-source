@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "isys.h"
-#include "conproc.h"
+#include "console/conproc.h"
 #include "dedicated.h"
 #include "engine_hlds_api.h"
 #include "checksum_md5.h"

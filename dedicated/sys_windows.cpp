@@ -11,7 +11,7 @@
 #include <assert.h>
 #include <eh.h>
 #include "isys.h"
-#include "conproc.h"
+#include "console/conproc.h"
 #include "dedicated.h"
 #include "engine_hlds_api.h"
 #include "checksum_md5.h"
@@ -55,7 +55,7 @@ public:
 	void		WriteStatusText( char *szText ) override;
 	void		UpdateStatus( int force ) override;
 
-	long		LoadLibrary( char *lib ) override;
+	long		LoadLibrary( char const* lib ) override;
 	void		FreeLibrary( long library ) override;
 
 	bool		CreateConsoleWindow( void ) override;
@@ -91,7 +91,7 @@ void CSys::Sleep( int msec )
 // Input  : *lib - 
 // Output : long
 //-----------------------------------------------------------------------------
-long CSys::LoadLibrary( char *lib )
+long CSys::LoadLibrary( char const* lib )
 {
 	void *hDll = ::LoadLibrary( lib );
 
