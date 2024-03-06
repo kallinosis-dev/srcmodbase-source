@@ -767,9 +767,6 @@ public:
 	virtual void AcquireThreadOwnership() = 0;
 	virtual void ReleaseThreadOwnership() = 0;
 
-	// Only does anything on XBox360. This is useful to eliminate stalls
-	virtual void EnableBuffer2FramesAhead( bool bEnable ) = 0;
-
 	virtual void FlipCulling( bool bFlipCulling ) = 0;
 
 	virtual void SetTextureRenderingParameter(int parm_number, ITexture *pTexture) = 0;

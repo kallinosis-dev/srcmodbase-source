@@ -50,8 +50,8 @@ $Project "shaderapidx9"
 
 		$Lib	"bzip2"
 
-		$Lib	"$SRCDIR\dx9sdk\lib\d3d9" [$WINDOWS && !$GL]
-		$Lib	"$SRCDIR\dx9sdk\lib\d3dx9" [$WINDOWS && !$GL]
+		$Lib	"$SRCDIR\dx9sdk\lib\$PLATFORM\d3d9" [$WINDOWS && !$GL]
+		$Lib	"$SRCDIR\dx9sdk\lib\$PLATFORM\d3dx9" [$WINDOWS && !$GL]
 
 		$Lib	"$SRCDIR\thirdparty\nvidia\nvapi\lib\nvapi" [$WINDOWS]
 	}	

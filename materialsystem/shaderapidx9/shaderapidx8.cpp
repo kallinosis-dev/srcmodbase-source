@@ -8003,7 +8003,6 @@ void CShaderAPIDx8::SetTextureState( Sampler_t sampler, TextureBindFlags_t nBind
 
 	samplerState.m_nTextureBindFlags = nBindFlags;
 
-	TouchTexture( sampler, pTexture );
 	Dx9Device()->SetTexture( sampler, pTexture );
 
 	Texture_t &tex = GetTexture( hTexture );
@@ -9059,28 +9058,19 @@ void CShaderAPIDx8::SetRenderTargetEx( int nRenderTargetID, ShaderAPITextureHand
 	// but it doesn't appear to in practice. If this somehow changes (perhaps
 	// in a device-specific manner, we're in trouble).
 	bool bSetValidRenderTarget = false;
-	if ( IsPC() )
+
+	if ( pColorSurface == m_pBackBufferSurfaces[backBufferIdx] && nRenderTargetID > 0 )
 	{
-		if ( pColorSurface == m_pBackBufferSurfaces[backBufferIdx] && nRenderTargetID > 0 )
-		{
-			// SetRenderTargetEx is overloaded so that if you pass NULL in for anything that
-			// isn't the zeroth render target, you effectively disable that MRT index.
-			// (Passing in NULL for the zeroth render target means that you want to use the backbuffer
-			// as the render target.)
-			// hack hack hack!!!!!  If the render target id > 0 and the user passed in NULL, disable the render target
-			Dx9Device()->SetRenderTarget( nRenderTargetID, nullptr);
-		}
-		else
-		{
-			Dx9Device()->SetRenderTarget( nRenderTargetID, pColorSurface );
-			
-			bSetValidRenderTarget = true;
-		}
+		// SetRenderTargetEx is overloaded so that if you pass NULL in for anything that
+		// isn't the zeroth render target, you effectively disable that MRT index.
+		// (Passing in NULL for the zeroth render target means that you want to use the backbuffer
+		// as the render target.)
+		// hack hack hack!!!!!  If the render target id > 0 and the user passed in NULL, disable the render target
+		Dx9Device()->SetRenderTarget( nRenderTargetID, nullptr);
 	}
 	else
 	{
-		Assert( nRenderTargetID == 0 );
-		SetRenderTargetInternalXbox( colorTextureHandle );
+		Dx9Device()->SetRenderTarget( nRenderTargetID, pColorSurface );
 		
 		bSetValidRenderTarget = true;
 	}
@@ -11811,7 +11801,6 @@ void CShaderAPIDx8::CommitPerPassStateChanges( StateSnapshot_t id )
 {
 	CommitPerPassVertexShaderTransforms();
 	CommitPerPassFogMode( true );
-	CommitPerPassXboxFixups();
 	CallCommitFuncs( COMMIT_PER_PASS, false );
 }
 
