@@ -116,99 +116,106 @@ class CBugReporter : public IBugReporter
 public:
 
 	CBugReporter();
-	virtual ~CBugReporter();
+	~CBugReporter() override;
 
 	// Initialize and login with default username/password for this computer (from resource/bugreporter.res)
-	virtual bool		Init( CreateInterfaceFn engineFactory );
-	virtual void		Shutdown();
+	bool		Init( CreateInterfaceFn engineFactory ) override;
+	void		Shutdown() override;
 
-	virtual bool		IsPublicUI() { return false; }
+	bool		IsPublicUI() override { return false; }
 
-	virtual char const	*GetUserName();
-	virtual char const	*GetUserName_Display();
+	char const	*GetUserName() override;
 
-	virtual int			GetNameCount();
-	virtual char const	*GetName( int index );
+	char const	*GetUserDisplayName() override;
 
-	virtual int			GetDisplayNameCount();
-	virtual char const  *GetDisplayName( int index );
+	int			GetNameCount() override;
+	char const	*GetName( int index ) override;
+	const char* GetUserName(int index) override;
+
+	int			GetDisplayNameCount() override;
+	char const  *GetDisplayName( int index ) override;
 	virtual char const  *GetUserNameForIndex( int index );
 
-	virtual char const	*GetDisplayNameForUserName( char const *username );
-	virtual char const  *GetUserNameForDisplayName( char const *display );
+	char const	*GetDisplayNameForUserName( char const *username ) override;
+	char const  *GetUserNameForDisplayName( char const *display ) override;
 	virtual char const  *GetAreaMapForArea( char const * area);
 
-	virtual int			GetSeverityCount();
-	virtual char const	*GetSeverity( int index );
+	int			GetSeverityCount() override;
+	char const	*GetSeverity( int index ) override;
 
-	virtual int			GetPriorityCount();
-	virtual char const	*GetPriority( int index );
+	int			GetPriorityCount() override;
+	char const	*GetPriority( int index ) override;
 
-	virtual int			GetAreaCount();
-	virtual char const	*GetArea( int index );
+	int			GetAreaCount() override;
+	char const	*GetArea( int index ) override;
 
-	virtual int			GetAreaMapCount();
-	virtual char const	*GetAreaMap( int index );
+	int			GetAreaMapCount() override;
+	char const	*GetAreaMap( int index ) override;
 
-	virtual int			GetMapNumberCount();
-	virtual char const	*GetMapNumber( int index );
+	int			GetMapNumberCount() override;
+	char const	*GetMapNumber( int index ) override;
 
-	virtual int			GetReportTypeCount();
-	virtual char const	*GetReportType( int index );
+	int			GetReportTypeCount() override;
+	char const	*GetReportType( int index ) override;
 
-	virtual char const *GetRepositoryURL( void );
-	virtual char const *GetSubmissionURL( void );
+	char const *GetRepositoryURL( void ) override;
+	char const *GetSubmissionURL( void ) override;
 
-	virtual int			GetLevelCount(int area);
-	virtual char const	*GetLevel(int area, int index );
+	int			GetLevelCount(int area) override;
+	char const	*GetLevel(int area, int index ) override;
 
 // Submission API
-	virtual void		StartNewBugReport();
-	virtual void		CancelNewBugReport();
-	virtual bool		CommitBugReport( int& bugSubmissionId );
+	void		StartNewBugReport() override;
+	void		CancelNewBugReport() override;
+	bool		CommitBugReport( int& bugSubmissionId ) override;
 
-	virtual void		SetTitle( char const *title );
-	virtual void		SetDescription( char const *description );
+	void		SetTitle( char const *title ) override;
+	void		SetDescription( char const *description ) override;
 
 	// NULL for current user
-	virtual void		SetSubmitter( char const *username = nullptr );
-	virtual void		SetOwner( char const *username );
-	virtual void		SetSeverity( char const *severity );
-	virtual void		SetPriority( char const *priority );
-	virtual void		SetArea( char const *area );
-	virtual void		SetMapNumber ( char const *mapnumber );
-	virtual void		SetReportType( char const *reporttype );
+	void		SetSubmitter( char const *username = nullptr ) override;
+	void		SetOwner( char const *username ) override;
+	void		SetSeverity( char const *severity ) override;
+	void		SetPriority( char const *priority ) override;
+	void		SetArea( char const *area ) override;
+	void		SetMapNumber ( char const *mapnumber ) override;
+	void		SetReportType( char const *reporttype ) override;
 
-	virtual void		SetLevel( char const *levelnamne );
-	virtual void		SetPosition( char const *position );
-	virtual void		SetOrientation( char const *pitch_yaw_roll );
-	virtual void		SetBuildNumber( char const *build_num );
+	void		SetLevel( char const *levelnamne ) override;
+	void		SetPosition( char const *position ) override;
+	void		SetOrientation( char const *pitch_yaw_roll ) override;
+	void		SetBuildNumber( char const *build_num ) override;
 
-	virtual void		SetScreenShot( char const *screenshot_unc_address );
-	virtual void		SetSaveGame( char const *savegame_unc_address );
+	void		SetScreenShot( char const *screenshot_unc_address ) override;
+	void		SetSaveGame( char const *savegame_unc_address ) override;
 
-	virtual void		SetBSPName( char const *bsp_unc_address );
-	virtual void		SetVMFName( char const *vmf_unc_address );
+	void		SetBSPName( char const *bsp_unc_address ) override;
+	void		SetVMFName( char const *vmf_unc_address ) override;
 
-	virtual void		AddIncludedFile( char const *filename );
-	virtual void		ResetIncludedFiles();
+	void		AddIncludedFile( char const *filename ) override;
+	void		ResetIncludedFiles() override;
 
-	virtual void		SetZipAttachmentName( char const *zipfilename ) {} // only used by public bug reporter
+	void		SetZipAttachmentName( char const *zipfilename ) override {} // only used by public bug reporter
 
-	virtual void		SetDriverInfo( char const *info );
+	void		SetDriverInfo( char const *info ) override;
 
-	virtual void		SetMiscInfo( char const *info );
+	void		SetMiscInfo( char const *info ) override;
 
 	// These are stubbed here, but are used by the public version...
-	virtual void		SetCSERAddress( const struct netadr_s& adr ) {}
-	virtual void		SetExeName( char const *exename ) {}
-	virtual void		SetGameDirectory( char const *pchGamedir ) {}
-	virtual void		SetRAM( int ram ) {}
-	virtual void		SetCPU( int cpu ) {}
-	virtual void		SetProcessor( char const *processor ) {}
-	virtual void		SetDXVersion( unsigned int high, unsigned int low, unsigned int vendor, unsigned int device ) {}
-	virtual void		SetOSVersion( char const *osversion ) {}
-	virtual void		SetSteamUserID( void *steamid, int idsize ) {};
+	void		SetCSERAddress( const struct netadr_s& adr ) override {}
+	void		SetExeName( char const *exename ) override {}
+	void		SetGameDirectory( char const *pchGamedir ) override {}
+	void		SetRAM( int ram ) override {}
+	void		SetCPU( int cpu ) override {}
+	void		SetProcessor( char const *processor ) override {}
+	void		SetDXVersion( unsigned int high, unsigned int low, unsigned int vendor, unsigned int device ) override {}
+	void		SetOSVersion( char const *osversion ) override {}
+	void		SetSteamUserID( void *steamid, int idsize ) override {};
+
+	int GetLevelOwnerCount(int area) override;
+	const char* GetLevelOwner(int area, int index) override;
+	void SetConsoleHistory(const char* pchText) override;
+
 	bool				SymbolLessThan(const CUtlSymbol &sym1, const CUtlSymbol &sym2);
 
 private:
@@ -216,6 +223,9 @@ private:
 	bool				PopulateLists();
 	bool				PopulateChoiceList( char const *listname, CUtlVector< CUtlSymbol >& list );
 
+public:
+
+private:
 	CUtlSymbolTable				m_BugStrings;
 
 	CUtlVector< CUtlSymbol >	m_Severity;
@@ -377,7 +387,7 @@ char const *CBugReporter::GetUserName()
 	return m_BugStrings.String( m_UserName );
 }
 
-char const *CBugReporter::GetUserName_Display()
+char const *CBugReporter::GetUserDisplayName()
 {
 	return GetDisplayNameForUserName( GetUserName() );
 }
