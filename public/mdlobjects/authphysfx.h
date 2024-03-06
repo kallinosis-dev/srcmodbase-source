@@ -304,7 +304,7 @@ DECLARE_SCHEMA_ENUM( AuthPhysJointTypeEnum_t );
 
 struct AuthPhysRange_t
 {
-	TYPEMETA( MNoScatter )
+	/*TYPEMETA( MNoScatter )*/
 	//DECLARE_SCHEMA_DATA_CLASS( AuthPhysRange_t );
 	float32 m_flMin;
 	float32 m_flMax;
