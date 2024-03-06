@@ -274,14 +274,14 @@ static char const * V_FormatFilenameForSymlinking( char (&tempSymlinkBuffer)[MAX
 	if ( !pFileName )
 		return nullptr;
 
+#ifndef NO_STEAM
 	if ( !V_strnicmp( pFileName, "maps", 4 ) &&
 		 ( ( pFileName[4] == CORRECT_PATH_SEPARATOR ) || ( pFileName[4] == INCORRECT_PATH_SEPARATOR ) ) &&
 		 !V_strnicmp( pFileName + 5, "workshop", 8 ) &&
 		 ( ( pFileName[13] == CORRECT_PATH_SEPARATOR ) || ( pFileName[13] == INCORRECT_PATH_SEPARATOR ) ) )
 	{
 		//    maps/workshop/
-		if ( ( false
-			#error Cut for partner depot
+		if ( ( /*condition here*/ 
 			) &&
 			( ( pFileName[23] == CORRECT_PATH_SEPARATOR ) || ( pFileName[23] == INCORRECT_PATH_SEPARATOR ) ) )
 		{
@@ -289,6 +289,7 @@ static char const * V_FormatFilenameForSymlinking( char (&tempSymlinkBuffer)[MAX
 			return tempSymlinkBuffer;
 		}
 	}
+#endif
 
 	static bool bLoadBannedWords = ( !!CommandLine()->FindParm( "-usebanlist" ) ) || (!!CommandLine()->FindParm( "-perfectworld" ) );
 	if ( bLoadBannedWords )
