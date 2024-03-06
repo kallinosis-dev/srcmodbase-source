@@ -1066,7 +1066,7 @@ void CTransitionTable::UseDefaultState( )
 
 	m_CurrentState.m_nDepthTestStateAsInt = 0;
 	m_CurrentState.m_DepthTestState.m_ZEnable = D3DZB_TRUE;
-	m_CurrentState.m_DepthTestState.m_ZFunc = (ShaderUtil()->GetConfig().bReverseDepth ^ ReverseDepthOnX360()) ? D3DCMP_GREATEREQUAL : D3DCMP_LESSEQUAL;
+	m_CurrentState.m_DepthTestState.m_ZFunc = ShaderUtil()->GetConfig().bReverseDepth ? D3DCMP_GREATEREQUAL : D3DCMP_LESSEQUAL;
 	m_CurrentState.m_DepthTestState.m_ZBias = SHADER_POLYOFFSET_DISABLE;
 	SetRenderState( D3DRS_ZENABLE, D3DZB_TRUE );
 	SetRenderState( D3DRS_ZFUNC, m_CurrentState.m_DepthTestState.m_ZFunc );

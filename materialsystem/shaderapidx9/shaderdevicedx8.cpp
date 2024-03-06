@@ -355,28 +355,7 @@ void CShaderDeviceMgrDx8::CheckVendorDependentShadowMappingSupport( HardwareCaps
 		pCaps->m_NullTextureFormat = IMAGE_FORMAT_RGB565;
 	}
 
-#if defined( _X360 )
-	//pCaps->m_ShadowDepthTextureFormat = ReverseDepthOnX360() ? IMAGE_FORMAT_X360_DST24F : IMAGE_FORMAT_X360_DST24;
-	pCaps->m_ShadowDepthTextureFormat = ReverseDepthOnX360() ? IMAGE_FORMAT_D24FS8 : IMAGE_FORMAT_D24S8;
-	pCaps->m_bSupportsShadowDepthTextures = true;
-	pCaps->m_bSupportsFetch4 = false;
-	pCaps->m_HighPrecisionShadowDepthTextureFormat = pCaps->m_ShadowDepthTextureFormat;
-	return;
-#elif defined ( _PS3 )
-	pCaps->m_NullTextureFormat = IMAGE_FORMAT_ARGB8888; 
-	if ( CommandLine()->CheckParm( "-d24shadowbuffer" ) )
-	{
-		pCaps->m_ShadowDepthTextureFormat = IMAGE_FORMAT_D24S8;
-	}
-	else
-	{
-		pCaps->m_ShadowDepthTextureFormat = IMAGE_FORMAT_D16;
-	}
-	pCaps->m_bSupportsShadowDepthTextures = true;
-	pCaps->m_bSupportsFetch4 = false;
-	pCaps->m_HighPrecisionShadowDepthTextureFormat = pCaps->m_ShadowDepthTextureFormat;
-	return;
-#elif defined ( DX_TO_GL_ABSTRACTION )
+#if defined ( DX_TO_GL_ABSTRACTION )
 	// We may want to only do this on the higher-end Mac SKUs, since it's not free...
 	pCaps->m_ShadowDepthTextureFormat = IMAGE_FORMAT_D16_SHADOW; // This format shunts us down the right shader combo path
 	pCaps->m_bSupportsShadowDepthTextures = true;
@@ -1945,11 +1924,9 @@ void CShaderDeviceDx8::SetPresentParameters( void* hWnd, int nAdapter, const Sha
 		// always stencil for dx9/hdr
 		m_bUsingStencil = true;
 	}
-#if defined( _X360 )
-	D3DFORMAT nDepthFormat = ReverseDepthOnX360() ? D3DFMT_D24FS8 : D3DFMT_D24S8;
-#else
+
 	D3DFORMAT nDepthFormat = m_bUsingStencil ? D3DFMT_D24S8 : D3DFMT_D24X8;
-#endif
+
 	m_PresentParameters.AutoDepthStencilFormat = FindNearestSupportedDepthFormat( 
 		nAdapter, m_AdapterFormat, backBufferFormat, nDepthFormat );
 	m_PresentParameters.hDeviceWindow = (VD3DHWND)hWnd;
