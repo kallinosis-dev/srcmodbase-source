@@ -13,7 +13,6 @@
 
 #include "tier0/platform.h"
 #include "rendersystem/irendercontext.h"
-#include "rendersystem/schema/renderbuffer.g.h"
 
 
 //-----------------------------------------------------------------------------
@@ -315,10 +314,7 @@ inline void CIndexData<uint32>::Index2( uint32 nIndex1, uint32 nIndex2 )
 }
 
 template< class T >
-inline void CIndexData<T>::Index2( T nIndex1, T nIndex2 )
-{
-	COMPILE_TIME_ASSERT( 0 );
-}
+inline void CIndexData<T>::Index2(T nIndex1, T nIndex2) = delete;
 
 
 #if 0
@@ -492,7 +488,7 @@ inline void CDynamicIndexData<T>::Init( IRenderContext* pRenderContext,
 	this->m_hIndexBuffer = pRenderContext->CreateDynamicIndexBuffer( indexDesc, nMaxInstanceCount );
 	this->m_nBufferIndexCount = nIndexCount;
 
-	ResourceAddRef( m_hIndexBuffer );
+	ResourceAddRef( this->m_hIndexBuffer );
 }
 
 template< class T >
@@ -511,7 +507,7 @@ void CDynamicIndexData<T>::Release()
 	if ( this->m_hIndexBuffer != RENDER_BUFFER_HANDLE_INVALID )
 	{
 		this->m_pRenderContext->DestroyDynamicIndexBuffer( this->m_hIndexBuffer );
-		ResourceRelease( m_hIndexBuffer );
+		ResourceRelease( this->m_hIndexBuffer );
 		this->m_hIndexBuffer = RENDER_BUFFER_HANDLE_INVALID;
 	}
 }
