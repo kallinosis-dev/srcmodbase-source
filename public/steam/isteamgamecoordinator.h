@@ -13,6 +13,7 @@
 #include "steamtypes.h"
 #include "steamclientpublic.h"
 
+#ifndef NO_STEAM
 
 // list of possible return values from the ISteamGameCoordinator API
 enum EGCResults
@@ -71,5 +72,7 @@ struct GCMessageFailed_t
 };
 
 #pragma pack( pop )
+
+#endif
 
 #endif // ISTEAMGAMECOORDINATOR
