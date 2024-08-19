@@ -22,15 +22,11 @@
 #include "cs_player_rank_shared.h"
 #include "GameEventListener.h"
 
-#include "cstrike15_item_inventory.h"
-
 #include "cs_custom_weapon_visualsdata_processor.h"
 
 #include "cs_player_shared.h"
 
 #include "iinput.h"
-
-#include "cstrike15_item_inventory.h"
 
 #include "csgo_playeranimstate.h"
 

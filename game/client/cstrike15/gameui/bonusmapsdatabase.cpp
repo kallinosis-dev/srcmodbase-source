@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -14,7 +14,6 @@
 #include "filesystem.h"
 #include "modinfo.h"
 #include "engineinterface.h"
-#include "ixboxsystem.h"
 #include "keyvalues.h"
 #include "basepanel.h"
 #include "gameui_interface.h"
@@ -41,25 +40,11 @@ const char *COM_GetModDirectory();
 
 bool WriteBonusMapSavedData( KeyValues *data )
 {
-	if ( IsGameConsole() && ( XBX_GetStorageDeviceId(XBX_GetPrimaryUserId()) == XBX_INVALID_STORAGE_ID || XBX_GetStorageDeviceId(XBX_GetPrimaryUserId()) == XBX_STORAGE_DECLINED ) )
-		return false;
-
 	CUtlBuffer buf( 0, 0, CUtlBuffer::TEXT_BUFFER );
 
 	data->RecursiveSaveToFile( buf, 0 );
 
-	char	szFilename[_MAX_PATH];
-
-	if ( IsGameConsole() )
-		Q_snprintf( szFilename, sizeof( szFilename ), "cfg:/bonus_maps_data.bmd" );
-	else
-		Q_snprintf( szFilename, sizeof( szFilename ), "save/bonus_maps_data.bmd" );
-
-	bool bWriteSuccess = g_pFullFileSystem->WriteFile( szFilename, MOD_DIR, buf );
-
-	xboxsystem->FinishContainerWrites(XBX_GetPrimaryUserId());
-
-	return bWriteSuccess;
+	return g_pFullFileSystem->WriteFile( "save/bonus_maps_data.bmd", MOD_DIR, buf );
 }
 
 void GetBooleanStatus( KeyValues *pBonusFilesKey, BonusMapDescription_t &map )

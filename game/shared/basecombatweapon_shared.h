@@ -228,9 +228,6 @@ public:
 	// We might have to disable this code in main until we refactor all weapons to use this system, as it's a pretty good perf boost
 	virtual int GetWeaponID( void ) const		{ return 0; }
 
-	const CEconItemView*	GetEconItemView( void ) const;
-	CEconItemView*			GetEconItemView( void );
-
 	virtual bool			IsBaseCombatWeapon( void ) const { return true; }
 	virtual CBaseCombatWeapon *MyCombatWeaponPointer( void ) { return this; }
 
@@ -404,10 +401,10 @@ public:
 	virtual const char		*GetWorldModel( void ) const;
 	virtual const char		*GetWorldDroppedModel( void ) const;
 	virtual const char		*GetAnimPrefix( void ) const;
-	virtual int				GetMaxClip1( void ) const { return GetWpnData().GetPrimaryClipSize( GetEconItemView() ); }
-	virtual int				GetMaxClip2( void ) const { return GetWpnData().GetSecondaryClipSize( GetEconItemView() ); }
-	virtual int				GetDefaultClip1( void ) const { return GetWpnData().GetDefaultPrimaryClipSize( GetEconItemView() ); }
-	virtual int				GetDefaultClip2( void ) const { return GetWpnData().GetDefaultSecondaryClipSize( GetEconItemView() ); }
+	virtual int				GetMaxClip1( void ) const { return GetWpnData().GetPrimaryClipSize(); }
+	virtual int				GetMaxClip2( void ) const { return GetWpnData().GetSecondaryClipSize(); }
+	virtual int				GetDefaultClip1( void ) const { return GetWpnData().GetDefaultPrimaryClipSize(); }
+	virtual int				GetDefaultClip2( void ) const { return GetWpnData().GetDefaultSecondaryClipSize(); }
 	virtual int				GetReserveAmmoMax( AmmoPosition_t nAmmoPos ) const;
 	virtual int				GetWeight( void ) const;
 	virtual bool			AllowsAutoSwitchTo( void ) const;

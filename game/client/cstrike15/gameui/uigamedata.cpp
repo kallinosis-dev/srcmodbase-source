@@ -18,7 +18,6 @@
 #include "vgui/ISurface.h"
 #include "engineinterface.h"
 #include "tier0/dbg.h"
-#include "ixboxsystem.h"
 #include "gameui_interface.h"
 #include "game/client/IGameClientExports.h"
 #include "fmtstr.h"
@@ -399,33 +398,6 @@ void CUIGameData::RunFrame()
 		}
 	}
 }
-
-// DWenger - Pulled out temporarily
-/*
-void CUIGameData::OnSetStorageDeviceId( int iController, uint nDeviceId )
-{
-	// Check to see if there is enough room on this storage device
-	if ( nDeviceId == XBX_STORAGE_DECLINED || nDeviceId == XBX_INVALID_STORAGE_ID )
-	{
-		CloseWaitScreen( NULL, "ReportNoDeviceSelected" );
-		m_pSelectStorageClient->OnDeviceFail( ISelectStorageDeviceClient::FAIL_NOT_SELECTED );
-		m_pSelectStorageClient = NULL;
-	}
-	else if ( xboxsystem->DeviceCapacityAdequate( iController, nDeviceId, COM_GetModDirectory() ) == false )
-	{
-		CloseWaitScreen( NULL, "ReportDeviceFull" );
-		m_pSelectStorageClient->OnDeviceFail( ISelectStorageDeviceClient::FAIL_FULL );
-		m_pSelectStorageClient = NULL;
-	}
-	else
-	{
-		// Set the storage device
-		XBX_SetStorageDeviceId( iController, nDeviceId );
-		OnDeviceAttached();
-		m_pSelectStorageClient->OnDeviceSelected();
-	}
-}
-*/
 
 //=============================================================================
 void CUIGameData::OnGameUIPostInit()

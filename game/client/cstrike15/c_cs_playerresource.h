@@ -13,7 +13,6 @@
 
 #include "cs_shareddefs.h"
 #include "c_playerresource.h"
-#include "cstrike15_item_inventory.h"
 
 #define MAX_DECORATED_PLAYER_NAME_LENGTH ( ( MAX_NETWORKID_LENGTH * 10 ) + 20 )
 

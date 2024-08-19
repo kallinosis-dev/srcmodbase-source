@@ -1100,16 +1100,6 @@ public:
 
 	virtual void			GetStatus( char *buffer, int bufsize ) = 0;
 
-	// find out if the chat display is up
-#if defined ( CSTRIKE15 )
-	virtual bool			IsChatRaised( void ) = 0;
-	virtual bool			IsRadioPanelRaised( void ) = 0;
-	virtual bool			IsBindMenuRaised( void ) = 0;
-	virtual bool			IsTeamMenuRaised( void ) = 0;
-	virtual bool			IsLoadingScreenRaised( void ) = 0;
-
-#endif
-
 #if defined(_PS3)
 	virtual int				GetDrawFlags( void ) = 0;
 	virtual int				GetBuildViewID( void ) = 0;
@@ -1137,19 +1127,6 @@ public:
 	// Return download progress from 0.0 - 1.0, or -1.0 on error
 	virtual float GetUGCFileDownloadProgress( PublishedFileId_t id ) = 0;
 #endif
-
-	virtual void RecordUIEvent( const char* szEvent ) = 0;
-
-	// Inventory access
-	virtual float FindInventoryItemWithMaxAttributeValue( char const *szItemType, char const *szAttrClass ) = 0;
-
-	// Inventory access
-	virtual void DetermineSubscriptionKvToAdvertise( KeyValues *kvLocalPlayer ) = 0;
-
-	// Evidence validation
-	virtual bool ValidateSignedEvidenceHeader( char const *szKey, void const *pvHeader, CDemoPlaybackParameters_t *pPlaybackParameters ) = 0;
-	virtual void PrepareSignedEvidenceData( void *pvData, int numBytes, CDemoPlaybackParameters_t const *pPlaybackParameters ) = 0;
-	virtual bool ShouldSkipEvidencePlayback( CDemoPlaybackParameters_t const *pPlaybackParameters ) = 0;
 
 	virtual bool IsConnectedUserInfoChangeAllowed( IConVar *pCvar ) = 0;
 

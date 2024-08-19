@@ -22,8 +22,6 @@
 #include "gamevars_shared.h"
 #include "bot/bot_constants.h"
 #include "../../../common/input_device.h"
-#include "cstrike15_gcconstants.h"
-#include "cstrike15_gcmessages.pb.h"
 #include "usermessages.h"
 #if defined( GAME_DLL )
 #include "maprules.h"
@@ -250,7 +248,6 @@ static GGWeaponAliasName ggWeaponAliasNameList[] =
 	{ WEAPON_NONE, "" }
 };
 
-class CEconItemPreviewDataBlock; // forward declare item data
 class CCSUsrMsg_PlayerDecalDigitalSignature; // forward declare proto message
 
 #ifndef CLIENT_DLL
@@ -264,10 +261,6 @@ class CCSUsrMsg_PlayerDecalDigitalSignature; // forward declare proto message
 #endif
 
 #if !defined( CLIENT_DLL )
-
-// forward declare GC message
-class CMsgGCCStrike15_v2_MatchmakingServerRoundStats;
-class CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve;
 
 int ScramblePlayersSort( CCSPlayer* const *p1, CCSPlayer* const *p2 );
 
@@ -449,8 +442,6 @@ public:
 	void EndWarmup( void );
 
 	virtual bool IsTeamChangeSilent( CBasePlayer *pPlayer, int iTeamNum, bool bAutoTeam, bool bSilent ) { return bSilent || m_bForceTeamChangeSilent; }
-
-	void CheckForGiftsLeaderboardUpdate();
 #endif
 
 	bool IsConnectedUserInfoChangeAllowed( CBasePlayer *pPlayer );
@@ -472,7 +463,7 @@ public:
 	void CalculateMaxGunGameProgressiveWeaponIndex( void );
 	int GetMaxGunGameProgressiveWeaponIndex( void ) { return m_iMaxGunGameProgressiveWeaponIndex; }
 
-	AcquireResult::Type IsWeaponAllowed( const CCSWeaponInfo *pWeaponInfo, int nTeamNumber ,CEconItemView *pItem = nullptr);
+	AcquireResult::Type IsWeaponAllowed( const CCSWeaponInfo *pWeaponInfo, int nTeamNumber);
 
 	bool IsBombDefuseMap() const;
 	bool IsHostageRescueMap() const;
@@ -518,9 +509,8 @@ public:
 	bool IsPlayingCoopMission( void ) const;
 
 	bool IsQueuedMatchmaking( void ) const;
-	bool IsValveDS( void ) const;
-	bool IsQuestEligible( void ) const;
 	bool ShouldRecordMatchStats( void ) const;
+	bool IsValveDS( void ) const;
 
 	virtual bool IgnorePlayerKillCommand( void ) const { return IsQueuedMatchmaking() && !IsWarmupPeriod(); }
 	
@@ -649,7 +639,6 @@ private:
 	CNetworkVar( bool, m_bHasMatchStarted );
 	CNetworkVar( float, m_flDMBonusStartTime );
 	CNetworkVar( float, m_flDMBonusTimeLength );
-	CNetworkVar( uint16, m_unDMBonusWeaponLoadoutSlot );
 	CNetworkVar( bool, m_bDMBonusActive );
 	CNetworkVar( int, m_nNextMapInMapgroup );
 	CNetworkString( m_szTournamentEventName, MAX_PATH );
@@ -657,10 +646,6 @@ private:
 	CNetworkString( m_szMatchStatTxt, MAX_PATH );
 	CNetworkString( m_szTournamentPredictionsTxt, MAX_PATH );
 	CNetworkVar( int, m_nTournamentPredictionsPct );
-	CNetworkVar( float, m_flCMMItemDropRevealStartTime );
-	CNetworkVar( float, m_flCMMItemDropRevealEndTime );
-	CNetworkVar( bool, m_bIsDroppingItems );	 // 
-	CNetworkVar( bool, m_bIsQuestEligible );
 
 	CNetworkVar( int, m_nGuardianModeWaveNumber );
 	CNetworkVar( int, m_nGuardianModeSpecialKillsRemaining );
@@ -670,17 +655,6 @@ public:
 
 	// HACK: Low on time, don't have a better place for this. Hang some global data guardian needs to bookkeep heavy spawns.
 	int m_nNumHeaviesToSpawn;
-	//
-	// Holiday gifts global presence
-	//
-	CNetworkVar( uint32, m_numGlobalGiftsGiven );
-	CNetworkVar( uint32, m_numGlobalGifters );
-	CNetworkVar( uint32, m_numGlobalGiftsPeriodSeconds );
-	CNetworkArray( uint32, m_arrFeaturedGiftersAccounts, MAX_GIFT_GIVERS_FEATURED_COUNT );
-	CNetworkArray( uint32, m_arrFeaturedGiftersGifts, MAX_GIFT_GIVERS_FEATURED_COUNT );
-
-#define MAX_PROHIBITED_ITEMS 100
-	CNetworkArray( uint16, m_arrProhibitedItemIndices, MAX_PROHIBITED_ITEMS );
 
 	//
 	// Tournament Casters
@@ -713,11 +687,8 @@ public:
 
 	CNetworkArray( float,		m_TeamRespawnWaveTimes, MAX_TEAMS );	// Time between each team's respawn wave
 
-	CEconQuestDefinition* GetActiveAssassinationQuest( void ) const;
-	int GetActiveServerQuestID( void ) const { return m_iActiveAssassinationTargetMissionID; }
 protected:
 	CNetworkArray( float,		m_flNextRespawnWave, MAX_TEAMS );		// Minor waste, but cleaner code
-	CNetworkVar( int, m_iActiveAssassinationTargetMissionID );			// we cannot change the name of this field for networking compatibility, but in coopgametypes this means the server questid
 	bool m_bDontIncrementCoopWave;
 
 public:
@@ -725,7 +696,6 @@ public:
 	float GetCMMItemDropRevealEndTime() { return m_flCMMItemDropRevealEndTime; }
 	bool IsDroppingItems() { return m_bIsDroppingItems; }
 
-	loadout_positions_t GetDMBonusWeaponLoadoutSlot( void ) { return ( loadout_positions_t )m_unDMBonusWeaponLoadoutSlot.Get(); }
 	float GetDMBonusStartTime( void ) { return m_flDMBonusStartTime; }
 	float GetDMBonusTimeLength( void ) { return m_flDMBonusTimeLength; }
 	bool IsDMBonusActive( void ) { return m_bDMBonusActive; }
@@ -763,15 +733,6 @@ public:
 
 	// End Match Voting
 	CNetworkArray( int, m_nEndMatchMapGroupVoteOptions, MAX_ENDMATCH_VOTE_PANELS );				// For mapgroups >10 maps these will be vote options
-
-	// these functions cover recording and sending item drops for display in game modes where you don't allow drops during the match/round
-	CUtlVector< CEconItemPreviewDataBlock * > m_ItemsPtrDroppedDuringMatch;
-	const CUtlVector< CEconItemPreviewDataBlock * >& GetItemsDroppedDuringMatch( void ) const
-	{
-		return m_ItemsPtrDroppedDuringMatch;
-	}
-	void ClearItemsDroppedDuringMatch( void );
-	void RecordPlayerItemDrop( const CEconItemPreviewDataBlock &iteminfo );
 
 	static int GetMaxPlayers(); // always available
 
@@ -870,9 +831,6 @@ public:
 	bool WasHostageInjured( void ) { return m_hostageWasInjured; }
 
 	void PlayerTookDamage( CCSPlayer* player, const CTakeDamageInfo &damageInfo );
-
-	void SendKickBanToGC( CCSPlayer *pPlayer, EMsgGCCStrike15_v2_MatchmakingKickBanReason_t eReason );
-	void SendKickBanToGCforAccountId( uint32 uiAccountId, EMsgGCCStrike15_v2_MatchmakingKickBanReason_t eReason );
 
 	virtual bool PlayTextureSounds( void ) { return true; }
 	// Let the game rules specify if fall death should fade screen to black
@@ -1101,11 +1059,6 @@ public:
 	bool GameModeSupportsHealthBuffer( void );
 
 protected:
-	// these functions cover recording and sending item drops for display in game modes where you don't allow drops during the match/round
-	void SendPlayerItemDropsToClient( void );
-	bool m_bPlayerItemsHaveBeenDisplayed;
-
-	void RewardMatchEndDrops( bool bAbortedMatch );
 	virtual void GoToIntermission( bool bAbortedMatch = false );
 
 	void UpdateMatchStats( CCSPlayer* pPlayer, int winnerIndex ) ;
@@ -1200,9 +1153,6 @@ public:
 	uint32 m_numSpectatorsCountMax;
 	uint32 m_numSpectatorsCountMaxTV;
 	uint32 m_numSpectatorsCountMaxLnk;
-	CMsgGCCStrike15_v2_MatchmakingServerRoundStats *m_pQueuedMatchmakingReportedRoundStats;
-	static CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve sm_QueuedServerReservation;
-	void ReportRoundEndStatsToGC( CMsgGCCStrike15_v2_MatchmakingServerRoundStats **ppAllocateStats = nullptr);
 
 	struct CQMMPlayerData_t
 	{
@@ -1272,17 +1222,6 @@ public:
 		uint32 m_uiCustomNonPodFields;
 
 		// END RESETTABLE SECTION
-
-		CUtlMap< uint32, uint32, int, CDefLess< uint32 > > m_mapQuestEventPoints;
-
-		// TODO: If we have more attributes we want to be processed with the timed rewards job, try to generify this
-		typedef CUtlMap< itemid_t, attrib_value_t, int, CDefLess< itemid_t > > StattrakMusicKitValues_t;
-		StattrakMusicKitValues_t m_mapMusicKitUpdates;
-
-		// once the player purchases an econ item, cache it and rebuy it from the cache.
-		typedef CUtlMap< uint16, item_definition_index_t, int16, CDefLess< uint16 > > LoadoutSlotToDefIndexMap_t;
-		LoadoutSlotToDefIndexMap_t m_mapLoadoutSlotToItem[ 2 ];
-
 	};
 	typedef CUtlMap< uint32, CQMMPlayerData_t *, int32, CDefLess< uint32 > > QueuedMatchmakingPlayersDataMap_t;
 	QueuedMatchmakingPlayersDataMap_t m_mapQueuedMatchmakingPlayersData;
@@ -1293,14 +1232,6 @@ public:
 		return ( idx == m_mapQueuedMatchmakingPlayersData.InvalidIndex() ) ? nullptr : m_mapQueuedMatchmakingPlayersData.Element( idx );
 	}
 	CQMMPlayerData_t * QueuedMatchmakingPlayersDataFindOrCreate( CCSPlayer *pPlayer );
-
-	struct CGcBanInformation_t
-	{
-		uint32 m_uiReason;
-		double m_dblExpiration;
-	};
-	typedef CUtlMap< uint32, CGcBanInformation_t > GcBanInformationMap_t;
-	static GcBanInformationMap_t sm_mapGcBanInformation;
 
 	bool m_bForceTeamChangeSilent;
 	bool m_bLoadingRoundBackupData;
@@ -1510,8 +1441,6 @@ public:
 	float CheckTotalSmokedLength( float flRadius, Vector vecGrenadePos, Vector from, Vector to );
 
 protected:
-	loadout_positions_t PickRandomWeaponForDMBonus( void );
-
 	void AssignStartingMoneyToAllPlayers( void );
 
 	void InitializeGameTypeAndMode( void );
@@ -1594,11 +1523,6 @@ void PlayMusicSelection( IRecipientFilter& filter, CsMusicType_t nMusicType , in
 	bool EntityPlacementTest( CBaseEntity *pMainEnt, const Vector &vOrigin, Vector &outPos, bool bDropToGround, unsigned int mask = MASK_SOLID, ITraceFilter *pFilter = nullptr);
 
 #endif
-
-// Assassination quest helper funcs
-bool IsAssassinationQuest( const CEconQuestDefinition *pQuest );
-bool IsAssassinationQuest( uint32 questID );
-bool IsAssassinationQuestActive( const CEconQuestDefinition *pQuest );
 
 extern const float g_flWarmupToFreezetimeDelay;
 

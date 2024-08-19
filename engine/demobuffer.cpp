@@ -194,6 +194,7 @@ private:
 			{
 				// Read from the nearest 16-byte aligned location
 				int nOriginalGet = pRawData->TellGet();
+				
 				if ( ( (*pDecodedOffset) < 0 ) || // nothing decoded
 					( nOriginalGet < (*pDecodedOffset) ) || // reading earlier
 					( nOriginalGet + numBytesRequired > (*pDecodedOffset) + pDecodeCache->TellPut() ) ) // could read beyond decoded buffer

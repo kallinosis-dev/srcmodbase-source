@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -12,7 +12,6 @@
 #include "vgui_controls/Button.h"
 #include "tier1/utllinkedlist.h"
 #include "avi/ibik.h"
-#include "ixboxsystem.h"
 #include "matchmaking/imatchframework.h"
 
 namespace BaseModUI 

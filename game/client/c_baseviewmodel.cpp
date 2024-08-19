@@ -1036,12 +1036,6 @@ void C_BaseViewModel::UpdateAllViewmodelAddons( void )
 
 }
 
-C_ViewmodelAttachmentModel* C_BaseViewModel::FindArmModelForLoadoutPosition( loadout_positions_t nPosition ) const
-{
-	#error Cut for partner depot
-	return nullptr;
-}
-
 //--------------------------------------------------------------------------------------------------------
 C_ViewmodelAttachmentModel* C_BaseViewModel::AddViewmodelArmModel( const char *pszArmsModel, int nSkintoneIndex )
 {

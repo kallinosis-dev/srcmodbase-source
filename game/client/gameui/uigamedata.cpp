@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -17,7 +17,6 @@
 #include "vgui/ISurface.h"
 #include "EngineInterface.h"
 #include "tier0/dbg.h"
-#include "ixboxsystem.h"
 #include "GameUI_Interface.h"
 #include "game/client/IGameClientExports.h"
 #include "fmtstr.h"

@@ -15868,7 +15868,7 @@ void OnInventoryUpdatedForSteamID( CSteamID steamID )
 	if ( !steamID.BIndividualAccount() ) return;
 	if ( !steamID.GetAccountID() ) return;
 
-	extern CCSPlayer* FindPlayerFromAccountID( uint32 account_id );
+	//extern CCSPlayer* FindPlayerFromAccountID( uint32 account_id );
 	if ( CCSPlayer *pPlayer = FindPlayerFromAccountID( steamID.GetAccountID() ) )
 	{
 		pPlayer->UpdateEquippedCoinFromInventory();

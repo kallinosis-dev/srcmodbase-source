@@ -3,7 +3,7 @@
 // Desc: 		Manages client side stat storage, accumulation, and access
 // Author: 		Peter Freese <peter@hiddenpath.com>
 // Date: 		2009/09/11
-// Copyright:	© 2009 Hidden Path Entertainment
+// Copyright:	ï¿½ 2009 Hidden Path Entertainment
 //
 // Keywords: 	
 //-------------------------------------------------------------
@@ -26,11 +26,6 @@
 #include "platforminputdevice.h"
 #include "cs_player_rank_mgr.h"
 #include "hltvreplaysystem.h"
-
-#if defined (_X360)
-#include "ixboxsystem.h"
-#include "../common/xlast_csgo/csgo.spa.h"
-#endif
 
 #ifdef _PS3
 #include "ps3/ps3_helpers.h"

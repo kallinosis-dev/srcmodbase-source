@@ -26,7 +26,6 @@
 #include <vgui/ISurface.h>
 #include <vgui/ILocalize.h>
 #include "view.h"
-#include "ixboxsystem.h"
 #include <ctype.h>
 #include <vgui_controls/EditablePanel.h>
 #include "vgui_int.h"
@@ -682,9 +681,9 @@ CBaseEntity *CEntitySphereQuery::GetCurrentEntity()
 int UTIL_ComputeStringWidth( vgui::HFont& font, const char *str )
 {
 	float pixels = 0;
-	char *p = (char *)str;
-	char *pAfter = p + 1;
-	char *pBefore = "\0";
+	char const* p = str;
+	char const* pAfter = p + 1;
+	char const* pBefore = "\0";
 	while ( *p )
 	{
 #ifdef OSX
@@ -714,9 +713,9 @@ int UTIL_ComputeStringWidth( vgui::HFont& font, const char *str )
 int UTIL_ComputeStringWidth( vgui::HFont& font, const wchar_t *str )
 {
 	float pixels = 0;
-	wchar_t *p = (wchar_t *)str;
-	wchar_t *pAfter = p + 1;
-	wchar_t *pBefore = L"\0";
+	wchar_t const* p = str;
+	wchar_t const* pAfter = p + 1;
+	wchar_t const* pBefore = L"\0";
 	while ( *p )
 	{
 #ifdef OSX
@@ -1287,13 +1286,6 @@ void UTIL_IncrementMapKey( const char *pszCustomKey )
 
 		kvMapLoadFile->deleteThis();
 	}
-
-#ifdef _X360
-	if ( xboxsystem )
-	{
-		xboxsystem->FinishContainerWrites( iController );
-	}
-#endif
 }
 
 int UTIL_GetMapKeyCount( const char *pszCustomKey )

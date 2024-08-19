@@ -65,7 +65,6 @@ using namespace vgui;
 #include "bitbuf.h"
 #include "tier1/fmtstr.h"
 #include "inputsystem/iinputsystem.h"
-#include "ixboxsystem.h"
 #include "optionssubaudio.h"
 #if defined( _X360 )
 #include "../common/xlast_csgo/csgo.spa.h"
@@ -2666,11 +2665,6 @@ void CBaseModPanel::RunMenuCommand(const char *command)
 			engine->ClientCmd_Unrestricted( const_cast<char *>( engineCMD ) );
 		}
 	}
-	else if ( !Q_stricmp( command, "ShowSigninUI" ) )
-	{
-		m_bWaitingForUserSignIn = true;
-		xboxsystem->ShowSigninUI( 1, 0 ); // One user, no special flags
-	}
 	else if ( !Q_stricmp( command, "ShowDeviceSelector" ) )
 	{
 		OnChangeStorageDevice();
@@ -3039,31 +3033,6 @@ void CBaseModPanel::OnCompletedAsyncDeviceAttached( CAsyncCtxOnDeviceAttached *j
 //-----------------------------------------------------------------------------
 bool CBaseModPanel::ValidateStorageDevice( void )
 {
-	if ( m_bUserRefusedStorageDevice == false )
-	{
-#if defined( _GAMECONSOLE )
-#pragma message( __FILE__ "(" __LINE__AS_STRING ") : warning custom: Slamming controller for xbox storage id to 0" )
-		if ( XBX_GetStorageDeviceId( 0 ) == XBX_INVALID_STORAGE_ID )
-		{
-			// Try to discover content on the user's storage devices
-			ACTIVE_SPLITSCREEN_PLAYER_GUARD( GET_ACTIVE_SPLITSCREEN_SLOT() );
-			DWORD nFoundDevice = xboxsystem->DiscoverUserData( XBX_GetActiveUserId(), COM_GetModDirectory() );
-			if ( nFoundDevice == XBX_INVALID_STORAGE_ID )
-			{
-				// They don't have a device, so ask for one
-				ShowMessageDialog( MD_PROMPT_STORAGE_DEVICE );
-				return false;
-			}
-			else
-			{
-				// Take this device
-				XBX_SetStorageDeviceId( XBX_GetActiveUserId(), nFoundDevice );
-				OnDeviceAttached();
-			}
-			// Fall through
-		}
-#endif
-	}
 	return true;
 }
 
@@ -3913,17 +3882,6 @@ bool CBaseModPanel::IsStartScreenActive( void )
 {
 	// Overloaded in Cstrike15BasePanel for Scaleform 
 	return false;
-}
-
-
-//-----------------------------------------------------------------------------
-// Purpose: 
-//-----------------------------------------------------------------------------
-void CBaseModPanel::SignInFromStartScreen()
-{
-	m_bWaitingForUserSignIn = true;
-	m_bUserRefusedSignIn = true;
-	xboxsystem->ShowSigninUI( 1, 0 ); // One user, no special flags
 }
 
 //-----------------------------------------------------------------------------

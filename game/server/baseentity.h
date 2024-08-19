@@ -1087,7 +1087,7 @@ public:
 #if defined( _DEBUG ) 
 	void FunctionCheck( inputfunc_t pFunction, const char *name );
 
-	ENTITYFUNCPTR TouchSet( ENTITYFUNCPTR func, char *name ) 
+	ENTITYFUNCPTR TouchSet( ENTITYFUNCPTR func, char const* name ) 
 	{ 
 #if defined( __clang__ ) 
 		COMPILE_TIME_ASSERT( sizeof( func ) == sizeof( m_pfnTouch ) );
@@ -1100,7 +1100,7 @@ public:
 		FunctionCheck( reinterpret_cast<inputfunc_t>(m_pfnTouch), name ); 
 		return func;
 	}
-	USEPTR	UseSet( USEPTR func, char *name ) 
+	USEPTR	UseSet( USEPTR func, char const* name ) 
 	{ 
 #if defined( __clang__ ) 
 		COMPILE_TIME_ASSERT( sizeof( func ) == sizeof( m_pfnTouch ) );
@@ -1113,7 +1113,7 @@ public:
 		FunctionCheck( reinterpret_cast<inputfunc_t>(m_pfnUse), name ); 
 		return func;
 	}
-	ENTITYFUNCPTR	BlockedSet( ENTITYFUNCPTR func, char *name ) 
+	ENTITYFUNCPTR	BlockedSet( ENTITYFUNCPTR func, char const* name ) 
 	{ 
 #if defined( __clang__ ) 
 		COMPILE_TIME_ASSERT( sizeof( func ) == sizeof( m_pfnTouch ) );

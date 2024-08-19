@@ -1210,7 +1210,7 @@ void CDemoPlayer::StopPlayback( void )
 
 bool CDemoPlayer::IsSkipping( void )const
 {
-	return m_bPlayingBack && ( ( m_nSkipToTick != -1 ) || g_ClientDLL->ShouldSkipEvidencePlayback( m_pPlaybackParameters ) );
+	return m_bPlayingBack && ( m_nSkipToTick != -1 );
 }
 
 int CDemoPlayer::GetTotalTicks(void)
@@ -3709,64 +3709,6 @@ void CL_ScanDemoDone( const char *pszMode )
 	GetBaseLocalClient().Disconnect( false );
 }
 
-void CL_PlayOverwatchEvidence_f( const CCommand &args )
-{
-	if ( args.ArgC() != 3 )
-	{
-		DevMsg( "playoverwatchevidence syntax error.\n" );
-		return;
-	}
-
-	//
-	// Validate the header
-	//
-	char const *szCaseKey = args[1];
-	char name[ MAX_OSPATH ];
-	V_strcpy_safe( name, args[2] );
-
-	if ( !g_pFullFileSystem->FileExists( name ) )
-	{
-		DevMsg( "playoverwatchevidence no file.\n" );
-		return;
-	}
-
-	CUtlBuffer bufHeader;
-	if ( !g_pFullFileSystem->ReadFile( name, nullptr, bufHeader, 128 ) )
-	{
-		DevMsg( "playoverwatchevidence read file error.\n" );
-		return;
-	}
-	if ( bufHeader.TellMaxPut() != 128 )
-	{
-		DevMsg( "playoverwatchevidence header of invalid size.\n" );
-		return;
-	}
-
-	static CDemoPlaybackParameters_t params; // make sure these parameters are available throughout demo playback
-	V_memset( &params, 0, sizeof( params ) );
-	params.m_uiHeaderPrefixLength = 128;
-	if ( !g_ClientDLL->ValidateSignedEvidenceHeader( szCaseKey, bufHeader.Base(), &params ) )
-		return;
-
-	// set current demo player to client demo player
-	demoplayer = g_pClientDemoPlayer;
-	//
-	// open the demo file
-	//
-	if ( g_pClientDemoPlayer->StartPlayback( name, false, &params ) )
-	{
-		// Remove extension
-		char basename[ MAX_OSPATH ];
-		V_StripExtension( name, basename, sizeof( basename ) );
-		g_ClientDLL->OnDemoPlaybackStart( basename );
-	}
-	else
-	{
-		SCR_EndLoadingPlaque();
-	}
-}
-
-
 void CL_TimeDemo_Helper( const char *pDemoName, const char *pStatsFileName, const char *pVProfStatsFileName )
 {
 	V_strncpy( g_pStatsFile, pStatsFileName ? pStatsFileName : "UNKNOWN", sizeof( g_pStatsFile ) );
@@ -3890,7 +3832,6 @@ CON_COMMAND( vtune, "Controls VTune's sampling." )
 
 CON_COMMAND_AUTOCOMPLETEFILE( playdemo, CL_PlayDemo_f, "Play a recorded demo file (.dem ).", NULL, dem );
 CON_COMMAND_AUTOCOMPLETEFILE( scandemo, CL_ScanDemo_f, "Scan a recorded demo file (.dem ) for specific game events and dump data.", NULL, dem );
-CON_COMMAND_EXTERN_F( playoverwatchevidence, CL_PlayOverwatchEvidence_f, "Play evidence for an overwatch case.", FCVAR_HIDDEN );
 CON_COMMAND_AUTOCOMPLETEFILE( timedemo, CL_TimeDemo_f, "Play a demo and report performance info.", NULL, dem );
 CON_COMMAND_AUTOCOMPLETEFILE( timedemoquit, CL_TimeDemoQuit_f, "Play a demo, report performance info, and then exit", NULL, dem );
 CON_COMMAND_AUTOCOMPLETEFILE( listdemo, CL_ListDemo_f, "List demo file contents.", NULL, dem );

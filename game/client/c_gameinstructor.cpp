@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose:		Client handler implementations for instruction players how to play
 //
@@ -11,7 +11,6 @@
 #include "c_keyvalue_saver.h"
 #include "filesystem.h"
 #include "vprof.h"
-#include "ixboxsystem.h"
 #include "tier0/icommandline.h"
 #include "iclientmode.h"
 #include "isaverestore.h"

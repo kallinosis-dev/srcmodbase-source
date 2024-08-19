@@ -91,7 +91,6 @@
 #include "tier2/tier2.h"
 #include "particles/particles.h"
 #include "GameStats.h"
-#include "ixboxsystem.h"
 #include "matchmaking/imatchframework.h"
 #include "querycache.h"
 #include "particle_parse.h"
@@ -224,7 +223,6 @@ ISceneFileCache *scenefilecache = nullptr;
 #ifdef SERVER_USES_VGUI
 IGameUIFuncs *gameuifuncs = nullptr;
 #endif // SERVER_USES_VGUI
-IXboxSystem *xboxsystem = nullptr;	// Xbox 360 only
 IScriptManager *scriptmanager = nullptr;
 IBlackBox *blackboxrecorder = nullptr;
 
@@ -781,8 +779,6 @@ bool CServerGameDLL::DLLInit( CreateInterfaceFn appSystemFactory,
 	if ( (scenefilecache = (ISceneFileCache *)appSystemFactory( SCENE_FILE_CACHE_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
 	if ( (blackboxrecorder = (IBlackBox *)appSystemFactory(BLACKBOX_INTERFACE_VERSION, nullptr)) == nullptr)
-		return false;
-	if ( (xboxsystem = (IXboxSystem *)appSystemFactory( XBOXSYSTEM_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
 
 	if ( !CommandLine()->CheckParm( "-noscripting") )

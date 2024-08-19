@@ -54,7 +54,6 @@
 #include "steam/steam_api.h"
 
 #include "vguicenterprint.h"
-#include "ixboxsystem.h"
 #include "xlast_csgo/csgo.spa.h"
 
 #include "weapon_basecsgrenade.h"
@@ -6786,23 +6785,6 @@ void C_CSPlayer::TeamChange( int iNewTeam )
 		if ( CSGameRules() && CSGameRules()->IsPlayingGunGameDeathmatch())
 			m_bShouldAutobuyDMWeapons = true;
 	}
-
-#if defined( _X360 )
-	if ( C_BasePlayer::IsLocalPlayer( this ) )
-	{
-		DWORD dwValue = CONTEXT_CSS_TEAM_SPECTATOR;
-		if ( iNewTeam == TEAM_TERRORIST ) 
-			dwValue = CONTEXT_CSS_TEAM_T;
-		else if ( iNewTeam == TEAM_CT ) 
-			dwValue = CONTEXT_CSS_TEAM_CT;
-
-		DevMsg( "Setting rich presence for team to %d\n", dwValue );
-		
-		XUSER_CONTEXT xUserContext = { CONTEXT_CSS_TEAM, dwValue };
-		ACTIVE_SPLITSCREEN_PLAYER_GUARD( GET_ACTIVE_SPLITSCREEN_SLOT() );
-		xboxsystem->UserSetContext( XBX_GetActiveUserId(), xUserContext, true );
-	}
-#endif 
 
 	SplitScreenConVarRef varOption( "cl_clanid" );
 	const char *pClanID = varOption.GetString( 0 );

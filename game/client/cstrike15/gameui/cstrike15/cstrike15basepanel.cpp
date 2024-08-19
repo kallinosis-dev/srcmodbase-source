@@ -137,11 +137,6 @@ CCStrike15BasePanel::CCStrike15BasePanel() :
 	m_bGameIsShuttingDown( false )
 {
 	g_pMatchFramework->GetEventsSubscription()->Subscribe( this );
-
-#if defined ( _X360 )
-	if ( xboxsystem )
-		xboxsystem->UpdateArcadeTitleUnlockStatus();
-#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -255,12 +250,6 @@ void CCStrike15BasePanel::OnEvent( KeyValues *pEvent )
 					HandleOpenCreateStartScreen();			
 				}
 			}
-		}
-		if ( !Q_stricmp( "signin", pEvent->GetString( "action", "" ) ) )
-		{
-#if defined ( _X360 )
-			xboxsystem->UpdateArcadeTitleUnlockStatus();
-#endif
 		}
 
 		UpdateRichPresenceInfo();
@@ -1067,12 +1056,6 @@ bool CCStrike15BasePanel::OnMessageBoxEvent( MessageBoxFlags_t buttonPressed )
 				{
 					ConVarRef xbox_arcade_title_unlocked( "xbox_arcade_title_unlocked" );
 					bool bResult = xbox_arcade_title_unlocked.GetBool();
-
-#if defined( _X360 )
-					bResult = xboxsystem && xboxsystem->IsArcadeTitleUnlocked();
-#elif defined ( _PS3 )
-					//$TODO: Hook up PS3 trial mode check
-#endif
 
 					if ( bResult )
 					{

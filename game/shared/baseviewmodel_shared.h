@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -123,17 +123,9 @@ public:
 
 #if defined ( CLIENT_DLL )
 	C_ViewmodelAttachmentModel *AddViewmodelArmModel( const char *pszModel, int nSkintoneIndex = -1 );
-	C_ViewmodelAttachmentModel* FindArmModelForLoadoutPosition( loadout_positions_t nPosition ) const;
 #endif
-	void					AddViewmodelLabel( CEconItemView *pItem );
-	void					AddViewmodelStatTrak( CEconItemView *pItem, int nStatTrakType, int nWeaponID, AccountID_t holderAcctId );
-	void					AddViewmodelStickers( CEconItemView *pItem, int nWeaponID );
-	bool					ViewmodelStickersAreValid( int nWeaponID );
 
 	void					RemoveViewmodelArmModels( void );
-	void					RemoveViewmodelLabel( void );
-	void					RemoveViewmodelStatTrak( void );
-	void					RemoveViewmodelStickers( void );
 
 	CNetworkVar(bool, m_bShouldIgnoreOffsetAndAccuracy );
 	virtual void			SetShouldIgnoreOffsetAndAccuracy( bool bIgnore ) { m_bShouldIgnoreOffsetAndAccuracy = bIgnore; }

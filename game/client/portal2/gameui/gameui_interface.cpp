@@ -40,7 +40,6 @@
 #include "game/client/IGameClientExports.h"
 #include "materialsystem/imaterialsystem.h"
 #include "matchmaking/imatchframework.h"
-#include "ixboxsystem.h"
 #include "IGameUIFuncs.h"
 #include "IEngineVGUI.h"
 
@@ -237,18 +236,10 @@ void CGameUI::Initialize( CreateInterfaceFn factory )
 	enginevguifuncs = (IEngineVGui *)factory( VENGINE_VGUI_VERSION, NULL );
 	enginesurfacefuncs = (vgui::ISurface *)factory(VGUI_SURFACE_INTERFACE_VERSION, NULL);
 	gameuifuncs = (IGameUIFuncs *)factory( VENGINE_GAMEUIFUNCS_VERSION, NULL );
-	xboxsystem = (IXboxSystem *)factory( XBOXSYSTEM_INTERFACE_VERSION, NULL );
-#ifdef _X360
-	xonline = (IXOnline *)factory( XONLINE_INTERFACE_VERSION, NULL );
-#endif
 #ifdef SWARM_DLL
 	g_pMatchExt = ( IMatchExtSwarm * ) factory( IMATCHEXT_SWARM_INTERFACE, NULL );
 #endif
 	bFailed = !enginesurfacefuncs || !gameuifuncs || !enginevguifuncs ||
-		!xboxsystem ||
-#ifdef _X360
-		!xonline ||
-#endif
 #ifdef SWARM_DLL
 		!g_pMatchExt ||
 #endif

@@ -60,7 +60,6 @@ import "google/protobuf/descriptor.proto";
 
 // for CMsgVector, etc.
 import "netmessages.proto";
-import "cstrike15_gcmessages.proto";
 
 //=============================================================================
 // CStrike15 User Messages
@@ -124,14 +123,9 @@ enum ECstrike15UserMessages
 	CS_UM_MatchStatsUpdate = 58;
 	CS_UM_ItemDrop = 59;
 	CS_UM_GlowPropTurnOff = 60;
-	CS_UM_SendPlayerItemDrops  = 61;
 	CS_UM_RoundBackupFilenames = 62;
-	CS_UM_SendPlayerItemFound  = 63;
 	CS_UM_ReportHit = 64;				
-	CS_UM_XpUpdate = 65;
-	CS_UM_QuestProgress = 66;			// Send notification to user when quest progress was made.	
-	CS_UM_ScoreLeaderboardData = 67;	// Game server broadcasting match end scoreboard and leaderboard data			
-	CS_UM_PlayerDecalDigitalSignature = 68;	// Game server can ask client to provide a digital signature for decal data
+	CS_UM_QuestProgress = 66;			// Send notification to user when quest progress was made.
 }
 
 //=============================================================================
@@ -312,17 +306,6 @@ message CCSUsrMsg_ProcessSpottedEntityUpdate
 	repeated SpottedEntityUpdate entity_updates = 2;
 }
 
-message CCSUsrMsg_SendPlayerItemDrops
-{
-	repeated CEconItemPreviewDataBlock entity_updates = 1;
-}
-
-message CCSUsrMsg_SendPlayerItemFound
-{
-	optional CEconItemPreviewDataBlock iteminfo = 1;
-	optional int32 entindex = 2;
-}
-
 message CCSUsrMsg_ReloadEffect
 {
 	optional int32 entidx = 1;
@@ -415,16 +398,6 @@ message CCSUsrMsg_QuestProgress
 	optional bool	is_event_quest = 4;
 }
 
-message CCSUsrMsg_ScoreLeaderboardData
-{
-	optional ScoreLeaderboardData data = 1;
-}
-
-message CCSUsrMsg_PlayerDecalDigitalSignature
-{
-	optional PlayerDecalDigitalSignature data = 1;
-}
-
 message CCSUsrMsg_XRankGet
 {
 	optional int32 mode_idx = 1;
@@ -496,12 +469,6 @@ message CCSUsrMsg_ServerRankUpdate
 
 	repeated RankUpdate rank_update = 1;
 }
-
-message CCSUsrMsg_XpUpdate
-{
-	optional CMsgGCCstrike15_v2_GC2ServerNotifyXPRewarded data = 1;
-}
-
 
 message CCSUsrMsg_ItemPickup
 {

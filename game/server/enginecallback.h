@@ -34,7 +34,6 @@ class IVDebugOverlay;
 class IDataCache;
 class IMDLCache;
 class IServerEngineTools;
-class IXboxSystem;
 class IScriptManager;
 class IServerFoundry;
 class CSteamAPIContext;
@@ -53,7 +52,6 @@ extern IGameEventManager2		*gameeventmanager;
 extern IVDebugOverlay			*debugoverlay;
 extern IServerEngineTools		*serverenginetools;
 extern IServerFoundry			*serverfoundry;
-extern IXboxSystem				*xboxsystem; // 360 only
 extern IScriptManager			*scriptmanager;
 
 #if !defined( NO_STEAM )

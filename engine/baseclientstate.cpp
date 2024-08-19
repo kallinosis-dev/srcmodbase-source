@@ -1097,11 +1097,6 @@ void CBaseClientState::ConnectInternal( const char *pchPublicAddress, char const
 	m_nRetryMax =  cl_resend_timeout.GetFloat() / cl_resend.GetFloat();	
 
 	m_ulGameServerSteamID = 0;
-
-#if !defined ( DEDICATED )
-	if ( szJoinType && g_ClientDLL )
-		g_ClientDLL->RecordUIEvent( szJoinType );
-#endif
 }
 
 void CBaseClientState::Connect( const char *pchPublicAddress, char const *pchPrivateAddress, const char* szJoinType )

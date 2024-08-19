@@ -96,7 +96,6 @@
 #include "qlimits.h"
 #include "engine/ireplayhistorymanager.h"
 #endif
-#include "ixboxsystem.h"
 #include "matchmaking/imatchframework.h"
 #include "cdll_bounded_cvars.h"
 #include "matsys_controls/matsyscontrols.h"
@@ -150,7 +149,6 @@
 #include "engine/iblackbox.h"
 #include "c_rumble.h"
 #include "viewpostprocess.h"
-#include "cstrike15_gcmessages.pb.h"
 
 #include "achievements_and_stats_interface.h"
 
@@ -207,6 +205,9 @@ extern void ProcessPortalTeleportations( void );
 #include "bannedwords.h"
 
 // memdbgon must be the last include file in a .cpp file!!!
+#include "cs_gamerules.h"
+#include "c_cs_player.h"
+#include "fmtstr.h"
 #include "tier0/memdbgon.h"
 
 extern IClientMode *GetClientModeNormal();
@@ -240,7 +241,6 @@ IGameEventManager2 *gameeventmanager = nullptr;
 ISoundEmitterSystemBase *soundemitterbase = nullptr;
 IInputSystem *inputsystem = nullptr;
 ISceneFileCache *scenefilecache = nullptr;
-IXboxSystem *xboxsystem = nullptr;	// Xbox 360 only
 IAvi *avi = nullptr;
 IBik *bik = nullptr;
 IQuickTime *pQuicktime = nullptr;
@@ -969,14 +969,6 @@ public:
 
 	virtual void			GetStatus( char *buffer, int bufsize );
 
-#if defined ( CSTRIKE15 )
-	virtual bool			IsChatRaised( void );
-	virtual bool			IsRadioPanelRaised( void );
-	virtual bool			IsBindMenuRaised( void );
-	virtual bool			IsTeamMenuRaised( void );
-	virtual bool			IsLoadingScreenRaised( void );
-#endif
-
 #if defined(_PS3)
 	virtual int				GetDrawFlags( void );
 	virtual int				GetBuildViewID( void );
@@ -997,23 +989,15 @@ public:
 	virtual bool IsSubscribedMap( const char *pchMapName, bool bOnlyOnDisk );
 	virtual bool IsFeaturedMap( const char *pchMapName, bool bOnlyOnDisk );
 
+#ifndef NO_STEAM
 	virtual void DownloadCommunityMapFile( PublishedFileId_t id );
 	virtual float GetUGCFileDownloadProgress( PublishedFileId_t id );
+#endif
 
-	virtual void RecordUIEvent( const char* szEvent );
 	virtual void OnHltvReplay( const CSVCMsg_HltvReplay  &msg ) override { g_HltvReplaySystem.OnHltvReplay( msg ); }
 	virtual void OnHltvReplayTick() override { g_HltvReplaySystem.OnHltvReplayTick(); }
 	virtual int GetHltvReplayDelay() override { return g_HltvReplaySystem.GetHltvReplayDelay(); }
 	virtual void OnDemoPlaybackTimeJump();
-
-	// Inventory access
-	virtual float FindInventoryItemWithMaxAttributeValue( char const *szItemType, char const *szAttrClass );
-	virtual void DetermineSubscriptionKvToAdvertise( KeyValues *kvLocalPlayer );
-
-	// Overwatchsupport for engine
-	virtual bool ValidateSignedEvidenceHeader( char const *szKey, void const *pvHeader, CDemoPlaybackParameters_t *pPlaybackParameters );
-	virtual void PrepareSignedEvidenceData( void *pvData, int numBytes, CDemoPlaybackParameters_t const *pPlaybackParameters );
-	virtual bool ShouldSkipEvidencePlayback( CDemoPlaybackParameters_t const *pPlaybackParameters );
 
 	virtual bool IsConnectedUserInfoChangeAllowed( IConVar *pCvar );
 	virtual void OnCommandDuringPlayback( char const *cmd );
@@ -1498,8 +1482,6 @@ int CHLClient::Init( CreateInterfaceFn appSystemFactory, CGlobalVarsBase *pGloba
 	if ( (scenefilecache = (ISceneFileCache *)appSystemFactory( SCENE_FILE_CACHE_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
 	if ( (blackboxrecorder = (IBlackBox *)appSystemFactory(BLACKBOX_INTERFACE_VERSION, nullptr)) == nullptr)
-		return false;
-	if ( (xboxsystem = (IXboxSystem *)appSystemFactory( XBOXSYSTEM_INTERFACE_VERSION, nullptr)) == nullptr)
 		return false;
 
 	if ( (g_pRenderToRTHelper = (IRenderToRTHelper *)appSystemFactory( RENDER_TO_RT_HELPER_INTERFACE_VERSION, nullptr)) == nullptr)
@@ -3720,7 +3702,7 @@ void CHLClient::OnDemoPlaybackStart( char const* pDemoBaseName )
 
 void CHLClient::OnDemoPlaybackRestart()
 {
-	#error Cut for partner depot
+	// [Cut for partner depot]
 }
 
 void CHLClient::OnDemoPlaybackStop()
@@ -4165,64 +4147,6 @@ void CHLClient::GetStatus( char *buffer, int bufsize )
 	UTIL_GetClientStatusText( buffer, bufsize );
 }
 
-#if defined ( CSTRIKE15 )
-bool CHLClient::IsChatRaised( void )
-{
-	SFHudChat* pChat = GET_HUDELEMENT( SFHudChat );
-
-	if ( pChat == nullptr)
-	{
-		return false;
-	}
-	else
-	{
-		return pChat->ChatRaised();
-	}
-}
-
-bool CHLClient::IsRadioPanelRaised( void )
-{
-	SFHudRadio* pRadio = GET_HUDELEMENT( SFHudRadio );
-
-	if ( pRadio == nullptr)
-	{
-		return false;
-	}
-	else
-	{
-		return pRadio->PanelRaised();
-	}
-}
-
-
-bool CHLClient::IsBindMenuRaised( void )
-{
-	return COptionsScaleform::IsBindMenuRaised();
-}
-
-bool CHLClient::IsTeamMenuRaised( void )
-{
-	if ( !GetViewPortInterface() )
-	{
-		return false;
-	}
-
-	IViewPortPanel * pTeam = GetViewPortInterface()->FindPanelByName( PANEL_TEAM );
-	if ( pTeam && pTeam->IsVisible() )
-	{
-		return true;
-	}
-
-	return false;
-}
-
-bool CHLClient::IsLoadingScreenRaised( void )
-{
-	return CLoadingScreenScaleform::IsOpen();
-}
-
-#endif // CSTRIKE15
-
 #if defined(_PS3)
 
 int CHLClient::GetDrawFlags( void )
@@ -4311,6 +4235,7 @@ bool CHLClient::IsFeaturedMap( const char *pchMapName, bool bOnlyOnDisk )
 	return false;
 }
 
+#ifndef NO_STEAM
 void CHLClient::DownloadCommunityMapFile( PublishedFileId_t id )
 {
 #if !defined ( NO_STEAM ) && defined( CSTRIKE15 )
@@ -4324,12 +4249,7 @@ float CHLClient::GetUGCFileDownloadProgress( PublishedFileId_t id )
 	return g_CSGOWorkshopMaps.GetFileDownloadProgress( id );
 #endif
 }
-
-void CHLClient::RecordUIEvent( const char* szEvent )
-{
-	#error Cut for partner depot
-}
-
+#endif
 
 void CHLClient::OnDemoPlaybackTimeJump()
 {
@@ -4341,18 +4261,7 @@ void CHLClient::OnDemoPlaybackTimeJump()
 	}
 }
 
-// Inventory access
-float CHLClient::FindInventoryItemWithMaxAttributeValue( char const *szItemType, char const *szAttrClass )
-{
-	CCSPlayerInventory *pLocalInv = CSInventoryManager()->GetLocalCSInventory();
-	return pLocalInv ? pLocalInv->FindInventoryItemWithMaxAttributeValue( szItemType, szAttrClass ) : -1.0f;
-}
-
-void CHLClient::DetermineSubscriptionKvToAdvertise( KeyValues *kvLocalPlayer )
-{
-	#error Cut for partner depot
-}
-
+#ifndef NO_STEAM
 class CHLClientAutoRichPresenceUpdateOnConnect
 {
 public:
@@ -4363,17 +4272,22 @@ public:
 		( void ) clientdll->GetRichPresenceStatusString();
 	}
 };
+#endif
 
 char const * CHLClient::GetRichPresenceStatusString()
 {
+#ifndef NO_STEAM
 	ISteamFriends *pf = steamapicontext->SteamFriends();
 	if ( !pf )
 		return "";
+#endif
 
 	bool bConnectedToServer = engine->IsInGame();
 
+#ifndef NO_STEAM
 	static CHLClientAutoRichPresenceUpdateOnConnect s_RPUpdater; // construct auto RP updater upon first rich presence update
-	
+#endif
+
 	// Status string
 	static CFmtStr sRichPresence;
 	sRichPresence.Clear();
@@ -4590,24 +4504,9 @@ char const * CHLClient::GetRichPresenceStatusString()
 			{
 				szConnectAddress = pNetChanInfo->GetAddress();
 
-				if ( CSGameRules() && CSGameRules()->IsValveDS() )
-				{
-					szServerType = "kv";
-
-					// Some official game modes aren't watchable
-					if ( !CSGameRules()->IsPlayingCooperativeGametype() )
-						bCanWatch = true;
-				}
-
 				if ( !szServerType )
 				{
 					szServerType = "community";
-
-					if ( ( steamapicontext->SteamUtils()->GetConnectedUniverse() != k_EUniversePublic ) && ( cl_join_advertise.GetInt() >= 3 ) )
-					{	// cl_join_advertise 3 can override SteamBeta testing to show up as Valve servers
-						szServerType = "kv";
-						bCanWatch = true;
-					}
 				}
 
 				bCanInvite = ( CSGameRules() && !CSGameRules()->IsQueuedMatchmaking() &&	// queued official competitive
@@ -4704,6 +4603,7 @@ char const * CHLClient::GetRichPresenceStatusString()
 		sRichPresence.AppendFormat( "Playing CS:GO" );
 	}
 
+#ifndef NO_STEAM
 	pf->SetRichPresence( "status", sRichPresence.Get() );
 	pf->SetRichPresence( "version", CFmtStr( "%d", engine->GetEngineBuildNumber() ) );
 	pf->SetRichPresence( "time", CFmtStr( "%f", Plat_FloatTime() ) );	// cause RP upload in case we drop from Steam and reconnect
@@ -4743,6 +4643,7 @@ char const * CHLClient::GetRichPresenceStatusString()
 		pf->SetRichPresence( "connect", NULL );
 		pf->SetRichPresence( "connect_private", NULL );
 	}
+#endif
 
 	return sRichPresence.Get();
 }
@@ -4755,24 +4656,6 @@ int CHLClient::GetInEyeEntity() const
 		return player->entindex();
 	}
 	return -1;
-}
-
-
-bool CHLClient::ValidateSignedEvidenceHeader( char const *szKey, void const *pvHeader, CDemoPlaybackParameters_t *pPlaybackParameters )
-{
-	#error Cut for partner depot
-	return true;
-}
-
-void CHLClient::PrepareSignedEvidenceData( void *pvData, int numBytes, CDemoPlaybackParameters_t const *pPlaybackParameters )
-{
-	#error Cut for partner depot
-}
-
-bool CHLClient::ShouldSkipEvidencePlayback( CDemoPlaybackParameters_t const *pPlaybackParameters )
-{
-	#error Cut for partner depot
-	return true;
 }
 
 bool CHLClient::IsConnectedUserInfoChangeAllowed( IConVar *pCvar )

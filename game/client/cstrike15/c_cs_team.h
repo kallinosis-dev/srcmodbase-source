@@ -30,8 +30,4 @@ public:
 					C_CSTeam();
 	virtual			~C_CSTeam();
 };
-
-const char* Helper_GetLocalPlayerAssassinationQuestLocToken( const CEconQuestDefinition *pQuest );
-bool Helper_GetDecoratedAssassinationTargetName( const CEconQuestDefinition *pQuest, wchar_t* pszBuffer, size_t nBuffSizeInCharacters );
-
 #endif // C_CS_TEAM_H

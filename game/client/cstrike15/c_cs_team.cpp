@@ -30,23 +30,3 @@ C_CSTeam::C_CSTeam()
 C_CSTeam::~C_CSTeam()
 {
 }
-
-const char* Helper_GetLocalPlayerAssassinationQuestLocToken( const CEconQuestDefinition *pQuest )
-{
-	if ( !pQuest )
-		return nullptr;
-
-	KeyValues *pTargetKV = pQuest->GetStringTokens()->FindKey( "target" );
-	return pTargetKV ? pTargetKV->GetString() : nullptr;
-}
-
-bool Helper_GetDecoratedAssassinationTargetName( const CEconQuestDefinition *pQuest, wchar_t* pszBuffer, size_t nBuffSizeInCharacters )
-{
-	const char* szToken = Helper_GetLocalPlayerAssassinationQuestLocToken( pQuest );
-	if ( wchar_t *wszUndecoratedName = g_pVGuiLocalize->Find( szToken ) )
-	{
-		V_snwprintf( pszBuffer, nBuffSizeInCharacters, L"<font color = '#FF0000'><i>" PRI_WS_FOR_WS L"</i></font>", wszUndecoratedName );
-		return true;
-	}
-	return false;
-}

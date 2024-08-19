@@ -7,6 +7,7 @@
 #include "steam/steam_api.h"
 #include "utldelegate.h"
 
+#ifndef NO_STEAM
 struct SteamLoggedOnChange_t
 {
 	bool bPreviousLoggedOn;
@@ -51,5 +52,6 @@ private:
 };
 
 CClientSteamContext &ClientSteamContext();			// singleton accessor
+#endif
 
 #endif // CLIENTSTEAMCONTEXT_H

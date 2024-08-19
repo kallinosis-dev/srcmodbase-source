@@ -55,6 +55,10 @@
 #include "platforminputdevice.h"
 #include "inputsystem/iinputsystem.h"
 
+#ifdef CSTRIKE15
+#include "c_cs_player.h"
+#endif
+
 #ifdef DEMOPOLISH_ENABLED
 #include "demo_polish/demo_polish.h"
 #endif

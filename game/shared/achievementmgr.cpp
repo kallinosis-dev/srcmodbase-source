@@ -48,7 +48,6 @@
 
 #ifdef _GAMECONSOLE
 #include "gameui/igameui.h"
-#include "ixboxsystem.h"
 #include "ienginevgui.h"
 #endif  // _GAMECONSOLE
 

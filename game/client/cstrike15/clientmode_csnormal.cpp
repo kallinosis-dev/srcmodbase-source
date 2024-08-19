@@ -83,10 +83,6 @@
 #include "netmessages.h"
 #include "playerdecals_signature.h"
 
-#if defined ( _X360 )
-#include "ixboxsystem.h"
-#endif
-
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"
 
@@ -1000,27 +996,6 @@ void ClientModeCSNormal::Update()
 		flHalfTimeStart = gpGlobals->curtime;
 		bStartedHalfTimeMusic = false;
 	}
-#if defined ( _X360 )
-	if ( !xboxsystem->IsArcadeTitleUnlocked() )
-	{
-		const char *levelName = engine->GetLevelName();
-		if (levelName && levelName[0] && !engine->IsLevelMainMenuBackground())
-		{
-			// verify globals->frametime is not outrageous and subtract from arcade trial timer
-			SplitScreenConVarRef xbox_arcade_remaining_trial_time("xbox_arcade_remaining_trial_time");
-			if ( gpGlobals->frametime < 5.0f )
-			{
-				float trialTime = xbox_arcade_remaining_trial_time.GetFloat( GET_ACTIVE_SPLITSCREEN_SLOT() );
-				trialTime -= gpGlobals->frametime;
-				if ( trialTime < 0.0f )
-				{
-					trialTime = 0.0f;
-				}
-				xbox_arcade_remaining_trial_time.SetValue( GET_ACTIVE_SPLITSCREEN_SLOT(), trialTime );
-			}
-		}
-	}
-#endif
 
 	if ( HLTVCamera() )
 		HLTVCamera()->Update();
@@ -2217,31 +2192,6 @@ void ClientModeCSNormal::FireGameEvent( IGameEvent *event )
 
 		// remove any stacked up temporary effect events
 		engine->ClearEvents();
-
-#if defined ( _X360 )
-		if ( !xboxsystem->IsArcadeTitleUnlocked() )
-		{
-			int playerInt = event->GetInt( "splitscreenplayer" );
-			SplitScreenConVarRef xbox_arcade_remaining_trial_time("xbox_arcade_remaining_trial_time");
-			if ( xbox_arcade_remaining_trial_time.GetFloat( playerInt ) < 0.5f )
-			{
-				// only process this if it is the associated player
-				ACTIVE_SPLITSCREEN_PLAYER_GUARD( playerInt );
-				if ( this == GetClientModeCSNormal() )
-				{
-					IGameEvent *event = gameeventmanager->CreateEvent( "trial_time_expired" );
-					if ( event )
-					{
-						event->SetInt( "slot", playerInt );
-						gameeventmanager->FireEventClientSide( event );
-					}
-					engine->ClientCmd_Unrestricted( "disconnect" );
-				}
-			}
-			// verify they have not pulled the MU in an attempt to get past the trial mode time restriction
-			CheckTitleDataStorageConnected();
-		}
-#endif
 	}
 	if ( V_strcmp( "round_time_warning", eventname ) == 0 )
 	{

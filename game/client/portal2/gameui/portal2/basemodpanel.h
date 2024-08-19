@@ -17,7 +17,6 @@
 #include "../OptionsDialog.h"
 #include "../OptionsSubKeyboard.h"
 #include "avi/ibik.h"
-#include "ixboxsystem.h"
 #include "matchmaking/imatchframework.h"
 #include "utlmap.h"
 #include "ugc_workshop_manager.h"

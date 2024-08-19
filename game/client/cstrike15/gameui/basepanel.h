@@ -39,8 +39,6 @@ inline BaseModUI::CBaseModPanel * BasePanel() { return &BaseModUI::CBaseModPanel
 #include "tier1/commandbuffer.h"
 #include "vgui_controls/footerpanel.h"
 
-#include "ixboxsystem.h"
-
 #if !defined( _GAMECONSOLE )
 #include "xbox/xboxstubs.h"
 #endif

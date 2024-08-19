@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2008, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2008, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -24,8 +24,6 @@
 #include "matchmaking/iplayer.h"
 #include "matchmaking/iplayermanager.h"
 #include "matchmaking/iservermanager.h"
-
-#include "ixboxsystem.h"
 
 #include "basemodpanel.h"
 #include "basemodframe.h"

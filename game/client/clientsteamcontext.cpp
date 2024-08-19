@@ -4,6 +4,7 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
+#ifndef NO_STEAM
 static CClientSteamContext g_ClientSteamContext;
 CClientSteamContext  &ClientSteamContext()
 {
@@ -131,3 +132,4 @@ void CClientSteamContext::InvokeCallbacks( const SteamLoggedOnChange_t &loggedOn
 		m_LoggedOnCallbacks[i]( loggedOnStatus );
 	}
 }
+#endif

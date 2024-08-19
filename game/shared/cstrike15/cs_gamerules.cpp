@@ -711,7 +711,6 @@ BEGIN_NETWORK_TABLE_NOBASE( CCSGameRules, DT_CSGameRules )
         SendPropBool( SENDINFO( m_bMapHasBuyZone ) ),
 		SendPropBool( SENDINFO( m_bIsQueuedMatchmaking ) ),
 		SendPropBool( SENDINFO( m_bIsValveDS ) ),
-		SendPropBool( SENDINFO( m_bIsQuestEligible ) ),
         SendPropBool( SENDINFO( m_bLogoMap ) ),
         SendPropInt( SENDINFO( m_iNumGunGameProgressiveWeaponsCT ) ),
         SendPropInt( SENDINFO( m_iNumGunGameProgressiveWeaponsT ) ),
@@ -722,7 +721,6 @@ BEGIN_NETWORK_TABLE_NOBASE( CCSGameRules, DT_CSGameRules )
 		SendPropInt( SENDINFO( m_eRoundWinReason ) ),
 		SendPropFloat( SENDINFO( m_flDMBonusStartTime ) ),
 		SendPropFloat( SENDINFO( m_flDMBonusTimeLength ) ),
-		SendPropInt( SENDINFO( m_unDMBonusWeaponLoadoutSlot ) ),
 		SendPropBool( SENDINFO( m_bDMBonusActive ) ),
 		SendPropBool( SENDINFO( m_bTCantBuy ) ),
 		SendPropBool( SENDINFO( m_bCTCantBuy ) ),
@@ -742,7 +740,6 @@ BEGIN_NETWORK_TABLE_NOBASE( CCSGameRules, DT_CSGameRules )
 		SendPropInt( SENDINFO( m_nNextMapInMapgroup ) ),
 		SendPropArray3( SENDINFO_ARRAY3( m_nEndMatchMapGroupVoteOptions ), SendPropInt (SENDINFO_ARRAY( m_nEndMatchMapGroupVoteOptions ) ) ),
 		SendPropBool( SENDINFO( m_bIsDroppingItems ) ),
-		SendPropInt( SENDINFO( m_iActiveAssassinationTargetMissionID ) ),
 		SendPropFloat( SENDINFO( m_fMatchStartTime ), 32, SPROP_NOSCALE ),
 		SendPropString( SENDINFO( m_szTournamentEventName ) ),
 		SendPropString( SENDINFO( m_szTournamentEventStage ) ),
@@ -757,15 +754,6 @@ BEGIN_NETWORK_TABLE_NOBASE( CCSGameRules, DT_CSGameRules )
 
 		// Halloween	
 		SendPropInt( SENDINFO( m_nHalloweenMaskListSeed ) ),
-
-		// Gifts global info
-		SendPropInt( SENDINFO( m_numGlobalGiftsGiven ), 0, SPROP_UNSIGNED ),
-		SendPropInt( SENDINFO( m_numGlobalGifters ), 0, SPROP_UNSIGNED ),
-		SendPropInt( SENDINFO( m_numGlobalGiftsPeriodSeconds ), 0, SPROP_UNSIGNED ),
-		SendPropArray3( SENDINFO_ARRAY3( m_arrFeaturedGiftersAccounts ), SendPropInt (SENDINFO_ARRAY( m_arrFeaturedGiftersAccounts ), 0, SPROP_UNSIGNED ) ),
-		SendPropArray3( SENDINFO_ARRAY3( m_arrFeaturedGiftersGifts ), SendPropInt (SENDINFO_ARRAY( m_arrFeaturedGiftersGifts ), 0, SPROP_UNSIGNED ) ),
-
-		SendPropArray3( SENDINFO_ARRAY3( m_arrProhibitedItemIndices ), SendPropInt( SENDINFO_ARRAY( m_arrProhibitedItemIndices ), 0, SPROP_UNSIGNED ) ),
 
 		// Tournament Casters
 		SendPropInt( SENDINFO( m_numBestOfMaps ), 4, SPROP_UNSIGNED ), // supporting no more than best-of-7 (1+2+4)
@@ -816,218 +804,6 @@ ConVar mp_teammatchstat_cycletime( "mp_teammatchstat_cycletime", "45", FCVAR_REL
 #define COOPMISSION_SCORE_MULTIPLIER_TIMELEFT 40
 #define COOPMISSION_SCORE_MULTIPLIER_DAMTAKEN -10
 #define COOPMISSION_SCORE_MULTIPLIER_ROUNDSFAILED -1000
-
-static uint32 Helper_ScoreLeaderboardData_FindEntryValue( uint32 nTag, const ::google::protobuf::RepeatedPtrField< ::ScoreLeaderboardData_Entry >&arr )
-{
-	for ( int i = 0; i < arr.size(); ++ i )
-	{
-		if ( arr.Get( i ).tag() == nTag )
-			return arr.Get( i ).val();
-	}
-	return 0;
-}
-static uint32 Helper_ScoreLeaderboardData_FindEntryValueSum( uint32 nTag, const ::google::protobuf::RepeatedPtrField< ::ScoreLeaderboardData_AccountEntries >&arr )
-{
-	uint32 val = 0;
-	for ( int i = 0; i < arr.size(); ++i )
-	{
-		val += Helper_ScoreLeaderboardData_FindEntryValue( nTag, arr.Get( i ).entries() );
-	}
-	return val;
-}
-
-int32 CoopScoreGetRatingEntryFromLeaderboardData( ScoreLeaderboardData &sld, bool bBonus, int nIndex, bool bAsScore )
-{	// Note: this function should not be referencing gamerules because we can be looking at scores from Steam friends leaderboards
-	bool bGuardian = false;
-	bool bCoopMission = true;
-	if ( sld.quest_id() )
-	{
-		const CEconQuestDefinition *pQuest = GetItemSchema()->GetQuestDefinition( sld.quest_id() );
-		if ( !pQuest )
-			return 0.0f;
-		if ( !V_stricmp( pQuest->GetGameMode(), "cooperative" ) )
-		{
-			bGuardian = true;
-			bCoopMission = false;
-		}
-		// otherwise assume coopmission
-	}
-	else if ( CSGameRules() )
-	{	// keeping this around for local compatibility testing with listenservers
-		bGuardian = CSGameRules()->IsPlayingCoopGuardian();
-		bCoopMission = CSGameRules()->IsPlayingCoopMission();
-		// otherwise assume coopmission
-	}
-	else
-		return 0.0f;
-
-	int32 nResult = 0;
-
-	//
-	// Base scorechart
-	//
-	if ( !bBonus )
-	{
-
-		if ( bGuardian )
-		{
-			if ( nIndex == 0 )
-			{	// Damage to enemies ratio
-				uint32 numDmgInflicted = Helper_ScoreLeaderboardData_FindEntryValueSum( k_EScoreLeaderboardDataEntryTag_HpDmgInflicted, sld.accountentries() );
-				uint32 numDmgSuffered = Helper_ScoreLeaderboardData_FindEntryValueSum( k_EScoreLeaderboardDataEntryTag_HpDmgSuffered, sld.accountentries() );
-				if ( !numDmgInflicted )
-					nResult = 0;
-				else if ( numDmgSuffered )
-				{
-					nResult = int( 10000.0f * float( numDmgInflicted ) / float( numDmgInflicted + numDmgSuffered ) );
-					if ( numDmgInflicted && ( nResult <= 0 ) )
-						nResult = 1;
-				}
-				else
-					nResult = 10000;
-				//if ( bAsScore )
-				//{
-				//	nResult = nResult;
-				//}
-			}
-			else if ( nIndex == 3 )
-			{	// Rounds failed penalty
-				nResult = Helper_ScoreLeaderboardData_FindEntryValue( k_EScoreLeaderboardDataEntryTag_RoundsPlayed, sld.matchentries() );
-				nResult = ( nResult > 1 ) ? ( nResult - 1 ) : 0;
-				if ( bAsScore )
-				{
-					nResult = COOPMISSION_SCORE_MULTIPLIER_ROUNDSFAILED*nResult;
-				}
-			}
-		}
-		else
-		{
-			if ( nIndex == 0 )
-			{	// Time Remaining on the clock
-				nResult = Helper_ScoreLeaderboardData_FindEntryValue( k_EScoreLeaderboardDataEntryTag_TimeRemaining, sld.matchentries() );
-				if ( bAsScore )
-				{
-					nResult = COOPMISSION_SCORE_MULTIPLIER_TIMELEFT*nResult;
-				}
-			}
-			else if ( nIndex == 3 )
-			{	// Total damage taken
-				nResult = Helper_ScoreLeaderboardData_FindEntryValueSum( k_EScoreLeaderboardDataEntryTag_HpDmgSuffered, sld.accountentries() );
-				if ( bAsScore )
-				{
-					nResult = COOPMISSION_SCORE_MULTIPLIER_DAMTAKEN*nResult;
-				}
-			}
-		}
-
-		if ( bGuardian || bCoopMission )
-		{	// Shared categories for Guardian and Coop Mission
-			if ( nIndex == 1 )
-			{	// Bullets Accuracy
-				uint32 numBulletsFired = Helper_ScoreLeaderboardData_FindEntryValueSum( k_EScoreLeaderboardDataEntryTag_ShotsFired, sld.accountentries() );
-				uint32 numBulletsOnTarget = Helper_ScoreLeaderboardData_FindEntryValueSum( k_EScoreLeaderboardDataEntryTag_ShotsOnTarget, sld.accountentries() );
-				if ( !numBulletsFired )
-					nResult = 0;
-				else if ( numBulletsFired > 0 && numBulletsOnTarget < numBulletsFired )
-				{
-					nResult = int( 10000.0f * float( numBulletsOnTarget ) / float( numBulletsFired ) );
-					if ( numBulletsOnTarget && ( nResult <= 0 ) )
-						nResult = 1;
-				}
-				else
-					nResult = 10000;
-				//if ( bAsScore )
-				//{
-				//	nResult = nResult;
-				//}
-			}
-			else if ( nIndex == 2 )
-			{	// Headshots kill percentage
-				uint32 numHeadshots = Helper_ScoreLeaderboardData_FindEntryValueSum( k_EScoreLeaderboardDataEntryTag_Headshots, sld.accountentries() );
-				uint32 numKills = Helper_ScoreLeaderboardData_FindEntryValueSum( k_EScoreLeaderboardDataEntryTag_Kills, sld.accountentries() );
-				if ( !numKills )
-					nResult = 0;
-				else if ( numKills > 0 && numHeadshots < numKills )
-				{
-					nResult = int( 10000.0f * float( numHeadshots ) / float( numKills ) );
-					if ( numHeadshots && ( nResult <= 0 ) )
-						nResult = 1;
-				}
-				else
-					nResult = 10000;
-				//if ( bAsScore )
-				//{
-				//	nResult = nResult;
-				//}
-			}
-		}
-
-	}
-	//
-	// Scorechart for bonuses!
-	//
-	else
-	{
-
-		if ( bGuardian )
-		{
-			if ( nIndex == 0 )
-			{	// Under 3 rounds?
-				uint32 numRoundsPlayed = Helper_ScoreLeaderboardData_FindEntryValue( k_EScoreLeaderboardDataEntryTag_RoundsPlayed, sld.matchentries() );
-				nResult = numRoundsPlayed;
-				if ( bAsScore )
-				{
-					nResult = ( numRoundsPlayed <= 3 ) ? 5000 : 0;
-				}
-			}
-		}
-
-		if ( bCoopMission )
-		{
-			if ( nIndex == 0 )
-			{	// No Deaths?
-				uint32 numDeaths = Helper_ScoreLeaderboardData_FindEntryValueSum( k_EScoreLeaderboardDataEntryTag_Deaths, sld.accountentries() );
-				nResult = numDeaths;
-				if ( bAsScore )
-				{
-					nResult = ( numDeaths == 0 ) ? 5000 : 0;
-				}
-			}
-			else if ( nIndex == 1 )
-			{	// All Challenge Coins?
-				uint32 numChallenge = Helper_ScoreLeaderboardData_FindEntryValue( k_EScoreLeaderboardDataEntryTag_BonusChallenge, sld.matchentries() );
-				nResult = numChallenge;
-				if ( bAsScore )
-				{
-					nResult = ( numChallenge ) ? 5000 : 0;
-				}
-			}
-			else if ( nIndex == 2 )
-			{	// Pistols Only?
-				uint32 numPistolsOnly = Helper_ScoreLeaderboardData_FindEntryValue( k_EScoreLeaderboardDataEntryTag_BonusPistolOnly, sld.matchentries() );
-				nResult = numPistolsOnly;
-				if ( bAsScore )
-				{
-					nResult = ( numPistolsOnly ) ? 10000 : 0;
-				}
-			}
-			else if ( nIndex == 3 )
-			{	// Hard Mode?
-				uint32 numHardMode = Helper_ScoreLeaderboardData_FindEntryValue( k_EScoreLeaderboardDataEntryTag_BonusHardMode, sld.matchentries() );
-				nResult = numHardMode;
-				if ( bAsScore )
-				{
-					nResult = ( numHardMode ) ? 25000 : 0;
-				}
-			}
-		}
-
-	}
-
-	return nResult;
-}
-
-
 
 #ifndef CLIENT_DLL
 ConVar mp_backup_round_auto( "mp_backup_round_auto", "1", FCVAR_RELEASE, "If enabled will keep in-memory backups to handle reconnecting players even if the backup files aren't written to disk" );
@@ -1097,205 +873,6 @@ static bool Helper_ShouldBroadcastCoopScoreLeaderboardData()
 	}
 	return false;
 }
-
-static void Helper_FillScoreLeaderboardData( ScoreLeaderboardData &sld )
-{
-	//
-	// This function is used in both official and community server build
-	// In official build it will deliver the leaderboard data to GC
-	// in both official and community build this data is also replicated to clients for the end of match scoreboard
-	//
-
-	if ( !Helper_ShouldBroadcastCoopScoreLeaderboardData() )
-		return;
-
-	//
-	// Per player stats
-	//
-	FOR_EACH_MAP( CSGameRules()->m_mapQueuedMatchmakingPlayersData, i )
-	{
-		CCSGameRules::CQMMPlayerData_t const &qmm = *CSGameRules()->m_mapQueuedMatchmakingPlayersData.Element( i );
-		ScoreLeaderboardData_AccountEntries *pAcc = sld.add_accountentries();
-		pAcc->set_accountid( qmm.m_uiPlayerAccountId );
-		if ( int n = qmm.m_numEnemyKills )
-		{
-			ScoreLeaderboardData_Entry *pEnt = pAcc->add_entries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_Kills );
-			pEnt->set_val( n );
-		}
-		if ( int n = qmm.m_numEnemyKillHeadshots )
-		{
-			ScoreLeaderboardData_Entry *pEnt = pAcc->add_entries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_Headshots );
-			pEnt->set_val( n );
-		}
-		if ( int n = qmm.m_numDeaths )
-		{
-			ScoreLeaderboardData_Entry *pEnt = pAcc->add_entries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_Deaths );
-			pEnt->set_val( n );
-		}
-		if ( int n = qmm.m_numHealthPointsRemovedTotal )
-		{
-			ScoreLeaderboardData_Entry *pEnt = pAcc->add_entries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_HpDmgSuffered );
-			pEnt->set_val( n );
-		}
-		if ( int n = qmm.m_numHealthPointsDealtTotal )
-		{
-			ScoreLeaderboardData_Entry *pEnt = pAcc->add_entries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_HpDmgInflicted );
-			pEnt->set_val( n );
-		}
-		if ( int n = qmm.m_numShotsFiredTotal )
-		{
-			ScoreLeaderboardData_Entry *pEnt = pAcc->add_entries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_ShotsFired );
-			pEnt->set_val( n );
-		}
-		if ( int n = qmm.m_numShotsOnTargetTotal )
-		{
-			ScoreLeaderboardData_Entry *pEnt = pAcc->add_entries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_ShotsOnTarget );
-			pEnt->set_val( n );
-		}
-	}
-
-	//
-	// Match stats
-	//
-	if ( int n = CSGameRules()->GetTotalRoundsPlayed() )
-	{
-		ScoreLeaderboardData_Entry *pEnt = sld.add_matchentries();
-		pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_RoundsPlayed );
-		pEnt->set_val( n );
-	}
-
-	if ( CSGameRules()->IsPlayingCoopMission() )
-	{
-		int nRemainingTime = CSGameRules()->GetRoundRemainingTime();
-		if ( nRemainingTime < 0 )
-			nRemainingTime = 0;
-		if ( int n = nRemainingTime )
-		{
-			ScoreLeaderboardData_Entry *pEnt = sld.add_matchentries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_TimeRemaining );
-			pEnt->set_val( n );
-		}
-
-		static ConVarRef mp_coopmission_bot_difficulty_offset( "mp_coopmission_bot_difficulty_offset" );
-		int nHardMode = ( mp_coopmission_bot_difficulty_offset.GetInt() >= 3 ) ? 1 : 0;
-		if ( int n = nHardMode )
-		{
-			ScoreLeaderboardData_Entry *pEnt = sld.add_matchentries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_BonusHardMode );
-			pEnt->set_val( n );
-		}
-
-		if ( int n = CSGameRules()->m_coopBonusPistolsOnly ? 1 : 0 )
-		{
-			ScoreLeaderboardData_Entry *pEnt = sld.add_matchentries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_BonusPistolOnly );
-			pEnt->set_val( n );
-		}
-
-		if ( int n = ( CSGameRules()->m_coopBonusCoinsFound == 3 ) ? 1 : 0 )
-		{
-			ScoreLeaderboardData_Entry *pEnt = sld.add_matchentries();
-			pEnt->set_tag( k_EScoreLeaderboardDataEntryTag_BonusChallenge );
-			pEnt->set_val( n );
-		}
-	}
-
-
-	//
-	// Set the final score and the questid if applicable
-	//
-	int32 nTotalScore = 0;
-	for ( int nBonus = 0; nBonus <= 1; ++ nBonus )
-	{
-		int32 nScoreTier = 0;
-		for ( int iCategory = 0; iCategory < 5; ++ iCategory )
-		{
-			nScoreTier += CoopScoreGetRatingEntryFromLeaderboardData( sld, !!nBonus, iCategory, true );
-		}
-		if ( nScoreTier < 0 )
-			nScoreTier = 0;
-		nTotalScore += nScoreTier;
-	}
-	sld.set_score( nTotalScore );
-}
-
-bool IsAssassinationQuest( const CEconQuestDefinition *pQuest )
-{
-	if ( pQuest && 
-		( V_stristr( pQuest->GetQuestExpression(), "act_kill_target" ) || 
-		V_stristr( pQuest->GetQuestExpression(), "act_pick_up_trophy" ) ) )
-		return true;
-
-	return false;
-}
-
-bool IsAssassinationQuest( uint32 questID )
-{
-	const CEconQuestDefinition *pQuest = GetItemSchema()->GetQuestDefinition( questID );
-	return IsAssassinationQuest( pQuest );
-}
-
-// Checks basic conditions for a quest (mapgroup, mode, etc) to see if a quest is possible to complete
-bool Helper_CheckQuestMapAndMode( const CEconQuestDefinition *pQuest )
-{
-	const char *szMapName = nullptr;
-	const char *szMapGroupName = nullptr;
-#if defined ( CLIENT_DLL )
-	szMapName = engine->GetLevelNameShort();
-	szMapGroupName = engine->GetMapGroupName();
-#else
-	szMapName = V_UnqualifiedFileName( STRING( gpGlobals->mapname ) );
-	szMapGroupName = STRING( gpGlobals->mapGroupName );
-#endif
-	// Wrong map
-	if ( !StringIsEmpty( pQuest->GetMap() ) && V_strcmp( szMapName, pQuest->GetMap() ) )
-		return false;
-
-	// Unless the map group is named after our map (so queued for a single map) also confirm we're using the right map group
-	if ( V_strcmp( szMapGroupName, CFmtStr( "mg_%s", szMapName ) ) )
-	{
-		if ( !StringIsEmpty( pQuest->GetMapGroup() ) && V_strcmp( szMapGroupName, pQuest->GetMapGroup() ) )
-		{
-			return false;
-		}
-	}
-
-	const char *szCurrentModeAsString = g_pGameTypes->GetGameModeFromInt( g_pGameTypes->GetCurrentGameType(), g_pGameTypes->GetCurrentGameMode() );
-	// Mode doesn't match
-	if ( V_strcmp( pQuest->GetGameMode(), szCurrentModeAsString ) )
-		return false;
-
-	return true;
-}
-
-
-bool IsAssassinationQuestActive( const CEconQuestDefinition *pQuest )
-{
-	if ( CSGameRules() && CSGameRules()->IsWarmupPeriod() )
-		return false;
-
-	// We need to have an active quest with the 'act_kill_target' requirement
-	if ( !pQuest || !IsAssassinationQuest( pQuest ) )
-		return false;
-
-	// Validate target team
-	if ( pQuest->GetTargetTeam() != TEAM_TERRORIST && pQuest->GetTargetTeam() != TEAM_CT )
-		return false;
-
-	if ( !Helper_CheckQuestMapAndMode( pQuest ) )
-		return false;
-
-	return true;
-}
-
-
 
 #if BACKUPSUPPORTZEROZERO
 static char const * const g_szRoundBackupZeroZero = "0:0";
@@ -1452,7 +1029,7 @@ CON_COMMAND_F ( send_round_backup_file_list, "", FCVAR_GAMEDLL | FCVAR_RELEASE |
 
 		msg.set_filename( arrStrings[ idx ] );
 
-		// create human readable name
+		// create human-readable name
 		KeyValues *kvSaveFile = new KeyValues( "" );
 		KeyValues::AutoDelete autodelete_kvSaveFile( kvSaveFile );
 		autodelete_kvSaveFile->UsesEscapeSequences( true );
@@ -1532,8 +1109,6 @@ CON_COMMAND_F ( mp_backup_restore_load_file, "Loads player cash, KDA, scores and
 	}
 	CSGameRules()->LoadRoundDataInformation( args.Arg( 1 ) );
 }
-
-CMsgGCCStrike15_v2_MatchmakingGC2ServerReserve CCSGameRules::sm_QueuedServerReservation;
 #endif
 
 #ifdef CLIENT_DLL
@@ -2317,43 +1892,6 @@ ConVar mp_use_respawn_waves(
 	"When set to 1, and that player's team is set to respawn, they will respawn in waves. If set to 2, teams will respawn when the whole team is dead." );
 
 
-void ProhibitedItemsCallback( IConVar *var, const char *pOldValue, float flOldValue )
-{
-#ifdef GAME_DLL
-
-	if ( !CSGameRules() )
-		return;
-
-	ConVar *pCvar = static_cast<ConVar*>(var);
-
-	CUtlStringList pProhibitedWeapons( pCvar->GetString(), "," );
-
-	for( int i = 0; i < MAX_PROHIBITED_ITEMS; i++ )
-	{
-		if ( i < (pProhibitedWeapons.Count()) && ( GetItemSchema()->GetItemDefinition( i ) ) )
-		{
-			int nDefIndex = V_atoi( pProhibitedWeapons[ i ] );
-
-			CSGameRules()->m_arrProhibitedItemIndices.Set( i, nDefIndex );
-			DevMsg( "Prohibiting %s\n", GetItemSchema()->GetItemDefinition( nDefIndex )->GetDefinitionName() );
-		}
-		else
-		{
-			CSGameRules()->m_arrProhibitedItemIndices.Set( i, 0 );
-		}
-	}
-
-#endif // GAME_DLL
-}
-
-ConVar mp_items_prohibited(
-	"mp_items_prohibited",
-	"",
-	FCVAR_REPLICATED | FCVAR_RELEASE,
-	"Set this convar to a comma-delimited list of definition indices of weapons that should be prohibited from use.",
-	ProhibitedItemsCallback );
-
-
 
 void RespawnWaveTimeCTCallback( IConVar *var, const char *pOldValue, float flOldValue );
 void RespawnWaveTimeTCallback( IConVar *var, const char *pOldValue, float flOldValue );
@@ -2451,36 +1989,6 @@ ConVar snd_music_selection(
 
 extern ConVar cl_borrow_music_from_player_index;
 #endif
-
-ConVar sv_endmatch_item_drop_interval(
-	"sv_endmatch_item_drop_interval",
-	"1.0",
-	FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY,
-	"The time between drops on the end match scoreboard " );
-
-ConVar sv_endmatch_item_drop_interval_rare(
-	"sv_endmatch_item_drop_interval_rare",
-	"1.0",
-	FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY,
-	"The time between drops on the end match scoreboard for rare items " );
-
-ConVar sv_endmatch_item_drop_interval_mythical(
-	"sv_endmatch_item_drop_interval_mythical",
-	"1.25",
-	FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY,
-	"The time between drops on the end match scoreboard for mythical items " );
-
-ConVar sv_endmatch_item_drop_interval_legendary(
-	"sv_endmatch_item_drop_interval_legendary",
-	"2.0",
-	FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY,
-	"The time between drops on the end match scoreboard for legendary items " );
-
-ConVar sv_endmatch_item_drop_interval_ancient(
-	"sv_endmatch_item_drop_interval_ancient",
-	"3.5",
-	FCVAR_REPLICATED | FCVAR_DEVELOPMENTONLY,
-	"The time between drops on the end match scoreboard for ancient items " );
 
 // bot difficulty tracking per user input device
 ConVar sv_compute_per_bot_difficulty(
@@ -2956,43 +2464,6 @@ ConVar cl_autohelp(
 
 
 		//number_of_entities = gEntList.NumberOfEntities();
-
-	CON_COMMAND_F ( tv_time_remaining, "Print remaining tv broadcast time", FCVAR_RELEASE | FCVAR_GAMEDLL | FCVAR_GAMEDLL_FOR_REMOTE_CLIENTS )
-	{
-#ifdef GAME_DLL
-		if ( HLTVDirector() && HLTVDirector()->IsActive() )
-		{
-			CEngineHltvInfo_t engineHltv;
-			if ( engine->GetEngineHltvInfo( engineHltv ) &&
-				engineHltv.m_bBroadcastActive && ( engineHltv.m_numClients > 0 ) )
-			{
-				if ( CSGameRules()->GetMatch()->GetPhase() != GAMEPHASE_MATCH_ENDED )
-				{
-					ConMsg( "GOTV spectators are attached. Match is still in progress.\n" );
-				}
-				else
-				{
-					float flTimeRemaining = ( CSGameRules()->GetIntermissionStartTime() + HLTVDirector()->GetDelay() + 5.0 ) - gpGlobals->curtime;
-
-					if ( flTimeRemaining > 0 )
-					{
-						ConMsg("GOTV spectators are attached. %f seconds remaining to broadcast.\n", ( CSGameRules()->GetIntermissionStartTime() + HLTVDirector()->GetDelay() + 5.0 ) - gpGlobals->curtime );
-					}
-					else
-					{
-						ConMsg( "GOTV spectators are attached. GOTV Broadcast is complete.\n" );
-					}
-				}
-			}
-			else
-			{
-				ConMsg( "There are no GOTV spectators attached.\n" );
-			}
-		}
-		else
-#endif
-			ConMsg( "GOTV is not active.\n" );
-	}
 
     CON_COMMAND_F ( reset_expo, "Reset player scores, player controls, team scores, and end the round", FCVAR_CHEAT | FCVAR_GAMEDLL )
     {
@@ -3750,8 +3221,6 @@ ConVar cl_autohelp(
 	// --------------------------------------------------------------------------------------------------- //
 	// CCSGameRules implementation.
 	// --------------------------------------------------------------------------------------------------- //
-	CCSGameRules::GcBanInformationMap_t CCSGameRules::sm_mapGcBanInformation;
-
 	CCSGameRules::CCSGameRules()
 	{
 		m_flLastThinkTime = gpGlobals->curtime;
@@ -3810,11 +3279,9 @@ ConVar cl_autohelp(
 
 		m_flDMBonusStartTime = 0;
 		m_flDMBonusTimeLength = 0;
-		m_unDMBonusWeaponLoadoutSlot = 0;
 		m_bDMBonusActive = false;
 
 		m_bIsDroppingItems = false;
-		m_iActiveAssassinationTargetMissionID = 0;
 
 		m_flGuardianBuyUntilTime = -1;
 		m_bCTCantBuy = false;
@@ -3860,30 +3327,17 @@ ConVar cl_autohelp(
 		// Set the bestof maps state
 		m_numBestOfMaps = mp_teamscore_max.GetInt();
 
-		// Set global gifts state
-		m_numGlobalGiftsGiven = 0;
-		m_numGlobalGifters = 0;
-		m_numGlobalGiftsPeriodSeconds = 0;
-		for ( int j = 0; j < MAX_GIFT_GIVERS_FEATURED_COUNT; ++ j )
-		{
-			m_arrFeaturedGiftersAccounts.Set( j, 0 );
-			m_arrFeaturedGiftersGifts.Set( j, 0 );
-		}
-		CheckForGiftsLeaderboardUpdate();
-
 		for ( int j = 0; j < MAX_TOURNAMENT_ACTIVE_CASTER_COUNT; ++ j )
 		{
 			m_arrTournamentActiveCasterAccounts.Set( j, 0 );
 		}
 
 		// Configure QMM settings
-		m_bIsQuestEligible = IsQuestEligible();
 		m_bIsQueuedMatchmaking = IsQueuedMatchmaking();
 		m_bIsValveDS = IsValveDS();
 		m_pQueuedMatchmakingReservationString = nullptr;
 		m_eQueuedMatchmakingRematchState = k_EQueuedMatchmakingRematchState_MatchInProgress;
 		m_bNeedToAskPlayersForContinueVote = false;
-		m_pQueuedMatchmakingReportedRoundStats = nullptr;
 		m_numTotalTournamentDrops = 0;
 		m_numSpectatorsCountMax = 0;
 		m_numSpectatorsCountMaxTV = 0;
@@ -4324,9 +3778,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 	void CCSGameRules::UpdateTeamPredictions()
 	{
 		int nWantPrediction = 0;
-		if ( ( sm_QueuedServerReservation.pre_match_data().predictions_pct() >= 1 ) &&
-			( sm_QueuedServerReservation.pre_match_data().predictions_pct() <= 99 ) )
-			nWantPrediction = int( sm_QueuedServerReservation.pre_match_data().predictions_pct() ); // but convar can override
 		if ( ( mp_teamprediction_pct.GetInt() >= 1 ) &&
 			( mp_teamprediction_pct.GetInt() <= 99 ) )
 			nWantPrediction = mp_teamprediction_pct.GetInt();
@@ -4338,9 +3789,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 		if ( Q_strncmp( m_szTournamentPredictionsTxt, mp_teamprediction_txt.GetString(), MAX_PATH - 1 ) )
 			Q_strncpy( m_szTournamentPredictionsTxt.GetForModify(), mp_teamprediction_txt.GetString(), MAX_PATH );
 
-		char const *szWantMatchStatTxt = mp_teammatchstat_txt.GetString(); // can override from reservation later
-		if ( sm_QueuedServerReservation.pre_match_data().stats().size() )
-			szWantMatchStatTxt = sm_QueuedServerReservation.pre_match_data().stats( 0 ).match_info_txt().c_str(); // to ensure that it is eligible for a pick
+		char const *szWantMatchStatTxt = mp_teammatchstat_txt.GetString();
 
 		//
 		// Here we must determine which statistics we are going to be showing
@@ -4348,9 +3797,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 		if ( IsWarmupPeriod() )
 		{
 			// we are going to show the draft here
-			if ( sm_QueuedServerReservation.pre_match_data().stats().size() )
-				m_nMatchInfoShowType = 0;
-			else if ( *szWantMatchStatTxt )
+			if ( *szWantMatchStatTxt )
 				m_nMatchInfoShowType = 0;
 			else if ( nWantPrediction )
 				m_nMatchInfoShowType = k_MapMatchInfoShownCounts_Predictions;
@@ -4369,31 +3816,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 			bool bTeamsAreSwitched = AreTeamsPlayingSwitchedSides();
 			if ( nWantPrediction )
 				arrOptions.AddToTail( k_MapMatchInfoShownCounts_Predictions );
-			for ( int j = 0; j < sm_QueuedServerReservation.pre_match_data().stats().size(); ++ j )
-			{
-				if ( sm_QueuedServerReservation.pre_match_data().stats( j ).match_info_teams().size() < 2 ) continue;
-				if ( ( m_match.GetPhase() == GAMEPHASE_MATCH_ENDED ) && ( m_nMatchInfoShowType == k_MapMatchInfoShownCounts_None ) )
-				{
-					if (
-						( ( StringHasPrefix( sm_QueuedServerReservation.pre_match_data().stats( j ).match_info_teams(0).c_str(), "#CSGO_MatchInfoTeam_WinAdvan" ) ||
-						StringHasPrefix( sm_QueuedServerReservation.pre_match_data().stats( j ).match_info_teams(0).c_str(), "#CSGO_MatchInfoTeam_LossElim" ) ) &&
-						Helper_CheckFieldAppliesToTeam( sm_QueuedServerReservation.pre_match_data().stats( j ).match_info_teams(0).c_str(), bTeamsAreSwitched ? TEAM_TERRORIST : TEAM_CT ) )
-						||
-						( ( StringHasPrefix( sm_QueuedServerReservation.pre_match_data().stats( j ).match_info_teams(1).c_str(), "#CSGO_MatchInfoTeam_WinAdvan" ) ||
-						StringHasPrefix( sm_QueuedServerReservation.pre_match_data().stats( j ).match_info_teams(1).c_str(), "#CSGO_MatchInfoTeam_LossElim" ) ) &&
-						Helper_CheckFieldAppliesToTeam( sm_QueuedServerReservation.pre_match_data().stats( j ).match_info_teams(1).c_str(), bTeamsAreSwitched ? TEAM_CT : TEAM_TERRORIST ) )
-						)
-					{	// always conclude the match with advances/eliminated notification if such is applicable
-						m_nMatchInfoShowType = j;
-					}
-				}
-
-				if ( Helper_CheckFieldAppliesToTeam( sm_QueuedServerReservation.pre_match_data().stats( j ).match_info_teams(0).c_str(), bTeamsAreSwitched ? TEAM_TERRORIST : TEAM_CT ) ||
-					Helper_CheckFieldAppliesToTeam( sm_QueuedServerReservation.pre_match_data().stats( j ).match_info_teams(1).c_str(), bTeamsAreSwitched ? TEAM_CT : TEAM_TERRORIST ) )
-				{
-					arrOptions.AddToTail( j );
-				}
-			}
+			
 			if ( ( !arrOptions.Count() || !sm_QueuedServerReservation.pre_match_data().stats().size() ) && *szWantMatchStatTxt )
 				arrOptions.AddToTail( 0 );
 			if ( arrOptions.Count() && ( m_nMatchInfoShowType == k_MapMatchInfoShownCounts_None ) )
@@ -4460,17 +3883,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 		if ( nWantPrediction != m_nTournamentPredictionsPct )
 			m_nTournamentPredictionsPct = nWantPrediction;
 
-		if ( m_nMatchInfoShowType < k_MapMatchInfoShownCounts_None )
-		{
-			if ( sm_QueuedServerReservation.pre_match_data().stats().size() > m_nMatchInfoShowType )
-			{
-				int idxMatchTxt = m_nMatchInfoShowType;
-				if ( sm_QueuedServerReservation.pre_match_data().stats( m_nMatchInfoShowType ).has_match_info_idxtxt() )
-					idxMatchTxt = sm_QueuedServerReservation.pre_match_data().stats( m_nMatchInfoShowType ).match_info_idxtxt();
-				szWantMatchStatTxt = sm_QueuedServerReservation.pre_match_data().stats( idxMatchTxt ).match_info_txt().c_str();
-			}
-		}
-
 		if ( Q_strncmp( m_szMatchStatTxt, szWantMatchStatTxt, MAX_PATH - 1 ) )
 			Q_strncpy( m_szMatchStatTxt.GetForModify(), szWantMatchStatTxt, MAX_PATH );
 	}
@@ -4485,16 +3897,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 		bool bTeamsAreSwitched = AreTeamsPlayingSwitchedSides();
 
 		const char *(pTeamNames[ 2 ]) = { mp_teamname_2.GetString(), mp_teamname_1.GetString() };
-
-		// If we have a competitive reservation then override team names from it
-		if ( ( sm_QueuedServerReservation.tournament_teams().size() > 0 ) &&
-			sm_QueuedServerReservation.tournament_teams(0).has_team_name() &&
-			* sm_QueuedServerReservation.tournament_teams(0).team_name().c_str() )
-			pTeamNames[1] = sm_QueuedServerReservation.tournament_teams(0).team_name().c_str();
-		if ( ( sm_QueuedServerReservation.tournament_teams().size() > 1 ) &&
-			sm_QueuedServerReservation.tournament_teams(1).has_team_name() &&
-			* sm_QueuedServerReservation.tournament_teams(1).team_name().c_str() )
-			pTeamNames[0] = sm_QueuedServerReservation.tournament_teams(1).team_name().c_str();
 
 		int nTeamIndex = ( nTeam - TEAM_TERRORIST ); //  nTeamIndex == 0 if Terrorist, 1 if CT
 
@@ -4539,28 +3941,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 		int numMapsWon = 0;
 		int arrMapsWon[ 2 ] = { mp_teamscore_2.GetInt(), mp_teamscore_1.GetInt() };
 
-		// If we have a competitive reservation then override team flags from it
-		if ( ( sm_QueuedServerReservation.tournament_teams().size() > 0 ) &&
-			sm_QueuedServerReservation.tournament_teams(0).has_team_flag() &&
-			* sm_QueuedServerReservation.tournament_teams(0).team_flag().c_str() )
-			pTeamFlags[1] = sm_QueuedServerReservation.tournament_teams(0).team_flag().c_str();
-
-		if ( ( sm_QueuedServerReservation.tournament_teams().size() > 1 ) &&
-			sm_QueuedServerReservation.tournament_teams(1).has_team_flag() &&
-			* sm_QueuedServerReservation.tournament_teams(1).team_flag().c_str() )
-			pTeamFlags[0] = sm_QueuedServerReservation.tournament_teams(1).team_flag().c_str();
-
-		// get the logos
-		if ( ( sm_QueuedServerReservation.tournament_teams().size() > 0 ) &&
-			 sm_QueuedServerReservation.tournament_teams( 0 ).has_team_tag() &&
-			 * sm_QueuedServerReservation.tournament_teams( 0 ).team_tag().c_str() )
-			 pTeamLogos[1] = sm_QueuedServerReservation.tournament_teams( 0 ).team_tag().c_str() ;
-
-		if ( ( sm_QueuedServerReservation.tournament_teams().size() > 01 ) &&
-			 sm_QueuedServerReservation.tournament_teams( 1 ).has_team_tag() &&
-			 * sm_QueuedServerReservation.tournament_teams( 1 ).team_tag().c_str() )
-			 pTeamLogos[0] = sm_QueuedServerReservation.tournament_teams( 1 ).team_tag().c_str();
-
 		// Set the team names to the convars depending on what half phase it is.
 		if ( !bTeamsAreSwitched )
 		{
@@ -4586,18 +3966,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 		const char *(pTeamMatchStats[ 2 ]) = { mp_teammatchstat_2.GetString(), mp_teammatchstat_1.GetString() };
 
 		// If we have a competitive reservation then override team match stats from it
-		bool bUsingReservation = false;
-		if ( m_nMatchInfoShowType < k_MapMatchInfoShownCounts_None )
-		{
-			if ( ( sm_QueuedServerReservation.pre_match_data().stats().size() > m_nMatchInfoShowType ) &&
-				( sm_QueuedServerReservation.pre_match_data().stats( m_nMatchInfoShowType ).match_info_teams().size() >= 2 ) )
-			{
-				bUsingReservation = true;
-				pTeamMatchStats[1] = sm_QueuedServerReservation.pre_match_data().stats( m_nMatchInfoShowType ).match_info_teams(0).c_str();
-				pTeamMatchStats[0] = sm_QueuedServerReservation.pre_match_data().stats( m_nMatchInfoShowType ).match_info_teams(1).c_str();
-			}
-		}
-		else
+		if ( m_nMatchInfoShowType >= k_MapMatchInfoShownCounts_None )
 		{
 			pTeamMatchStats[0] = pTeamMatchStats[1] = "";
 		}
@@ -4607,9 +3976,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 			pMatchStat = pTeamMatchStats[ nTeamIndex ];
 		else
 			pMatchStat = pTeamMatchStats[ 1 - nTeamIndex ];
-
-		if ( bUsingReservation && !Helper_CheckFieldAppliesToTeam( pMatchStat, nTeam ) )
-			pMatchStat = "";
 
 		Q_strncpy( pTeam->m_szTeamMatchStat.GetForModify(), pMatchStat, MAX_PATH );
 	}
@@ -5627,18 +4993,8 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 					// If the inflictor is the killer,  then it must be their current weapon doing the damage
 					if ( pScorer->GetActiveWeapon() )
 					{
-						CEconItemView *pItem = pScorer->GetActiveWeapon()->GetEconItemView();
 
-						killer_weapon_name = ( ( pItem && pItem->IsValid() && pItem->GetItemIndex() && pItem->GetItemDefinition() )
-							? pItem->GetItemDefinition()->GetDefinitionName()
-							: pScorer->GetActiveWeapon()->GetClassname() ); //GetDeathNoticeName();
-
-						if ( pItem && pItem->IsValid() )
-						{
-							V_sprintf_safe( killer_weapon_itemid, "%llu", pItem->GetItemID() );
-
-							V_sprintf_safe( killer_weapon_fauxitemid, "%llu", CombinedItemIdMakeFromDefIndexAndPaint( pItem->GetItemDefinition()->GetDefinitionIndex(), pItem->GetCustomPaintKitIndex() ) );
-						}
+						killer_weapon_name = pScorer->GetActiveWeapon()->GetClassname(); //GetDeathNoticeName();
 
 						//the default weapon knife looks different in the kill feed depending on faction
 						if ( !V_strcmp( killer_weapon_name, "weapon_knife" ) )
@@ -5766,73 +5122,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         }
 
     }
-  
-	bool EconEntity_OnOwnerKillEaterEvent( CEconItemView *pEconItemView, CCSPlayer *pOwner, CCSPlayer *pVictim, kill_eater_event_t eEventType, int iAmount /*= 1*/, uint32 *pNewValue /* = NULL */ )
-	{
-		if ( pNewValue )
-			*pNewValue = 0;
-
-		// Kill-eater weapons.
-		if ( !pEconItemView )
-			return false;
-
-		if ( !pOwner )
-			return false;
-
-		// Ignore events where we're affecting ourself.
-		if ( pOwner == pVictim )
-			return false;
-
-		// Always require that we have at least the base kill eater attribute before sending any messages
-		// to the GC.
-		static CSchemaAttributeDefHandle pAttr_KillEater( "kill eater" );
-		if ( !pEconItemView->FindAttribute( pAttr_KillEater ) )
-			return false;
-
-		// Don't bother sending a message to the GC if either party is a bot, unless we're tracking events against
-		// bots specifically.
-		CSteamID KillerSteamID, VictimSteamID;
-		if ( !pOwner->GetSteamID( &KillerSteamID ) )
-			return false;
-
-		// comment this out to have StatTrak count bot kills
-		if ( pVictim && !pVictim->GetSteamID( &VictimSteamID ) )
-			return false;
-
-		// we don't want to increment the killeater if the weapon owner is not the killer
-		if ( pEconItemView->GetAccountID() != KillerSteamID.GetAccountID() )
-			return false;
-
-		// comment this out to have StatTrak count bot kills
- 		if ( pVictim && pVictim->IsFakeClient() )
-			return false;
-
-		// Also require that we have whatever event type we're looking for, unless we're looking for regular
-		// player kills in which case we may or may not have a field to describe that.
-		
-		AssertMsg( GetKillEaterAttrPairCount() == 1, "This function is now assuming there is only one stattrak value being updated when called. If we're adding multiple killeaters per item, this needs to be revisited." );
-		const CEconItemAttributeDefinition *pScoreAttribDef = GetKillEaterAttrPair_Score(0);
-		if ( !pScoreAttribDef )
-			return false;
-
-		// If we don't have this attribute, move on. It's possible to be missing this attribute but still
-		// have the next one in the list if we have user-customized tracking types.
-		uint32 unCurrent;
-		if ( !FindAttribute_UnsafeBitwiseCast<attrib_value_t>( pEconItemView, pScoreAttribDef, &unCurrent ) )
-			return false;
-
-		const CEconItemAttributeDefinition *pScoreTypeAttribDef = GetKillEaterAttrPair_Type(0);
-		if ( !pScoreTypeAttribDef )
-			return false;
-
-		unCurrent += iAmount;
-		pEconItemView->UpdateNetworkedDynamicAttributesForDemos( pScoreAttribDef->GetDefinitionIndex(), *(float*)&unCurrent );
-
-		if ( pNewValue ) 
-			*pNewValue = unCurrent;
-
-		return true;
-	}
 
     //=========================================================
     //=========================================================
@@ -5992,7 +5281,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
                         ClientPrint( pCSScorer, HUD_PRINTTALK, "#SFUI_Notice_Banned_For_Killing_Teammates" );
 						if ( sv_kick_ban_duration.GetInt() > 0 )
 						{
-							SendKickBanToGC( pCSScorer, k_EMsgGCCStrike15_v2_MatchmakingKickBanReason_TKLimit );
 							// don't roll the kick command into this, it will fail on a lan, where kickid will go through
 							engine->ServerCommand( CFmtStr( "banid %d %d;", sv_kick_ban_duration.GetInt(), pCSScorer->GetUserID() ) );
 						}
@@ -6022,7 +5310,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 							ClientPrint( pCSScorer, HUD_PRINTTALK, "#SFUI_Notice_Banned_For_TK_Start" );
 							if ( sv_kick_ban_duration.GetInt() > 0 )
 							{
-								SendKickBanToGC( pCSScorer, k_EMsgGCCStrike15_v2_MatchmakingKickBanReason_TKSpawn );
 								// don't roll the kick command into this, it will fail on a lan, where kickid will go through
 								engine->ServerCommand( CFmtStr( "banid %d %d;", sv_kick_ban_duration.GetInt(), pCSScorer->GetUserID() ) );
 							}
@@ -6057,11 +5344,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 					// m_DeferredCallQueue.QueueCall( pCSScorer, &CCSPlayer::AddAccountAward,  PlayerCashAward::KILLED_ENEMY );
 				}
 			}
-
-			CWeaponCSBase* pWeapon = dynamic_cast<CWeaponCSBase *>( info.GetWeapon() );
-			CEconItemView *pEconWeapon = pWeapon ? pWeapon->GetEconItemView() : nullptr;
-
-			EconEntity_OnOwnerKillEaterEvent( pEconWeapon, pCSScorer, pCSVictim, kKillEaterEvent_PlayerKill );
 
 			/* 
             if ( !(pCSScorer->m_iDisplayHistoryBits & DHF_ENEMY_KILLED) )
@@ -6115,16 +5397,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 			}
 		}
     }
-
-	void CCSGameRules::SendKickBanToGC( CCSPlayer *pPlayer, EMsgGCCStrike15_v2_MatchmakingKickBanReason_t eReason )
-	{
-		#error Cut for partner depot
-	}
-
-	void CCSGameRules::SendKickBanToGCforAccountId( uint32 uiAccountId, EMsgGCCStrike15_v2_MatchmakingKickBanReason_t eReason )
-	{
-		#error Cut for partner depot
-	}
 
     void CCSGameRules::InitDefaultAIRelationships()
     {
@@ -7645,9 +6917,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         {
             gameeventmanager->FireEvent( event );
         }
-
-		if ( m_bPlayerItemsHaveBeenDisplayed )
-			ClearItemsDroppedDuringMatch();
     }
 
     // Perform round-related processing at the point when the next round is beginning
@@ -8422,27 +7691,17 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 			}
 			else
 			{
-				char pszWeaponClassname[MAX_PATH];
-				V_sprintf_safe( pszWeaponClassname, "weapon_%s", szWepShortName );
-				CEconItemDefinition *pItemDef = GetItemSchema()->GetItemDefinitionByName( pszWeaponClassname );
-				if ( pItemDef && pItemDef->GetDefinitionIndex() != 0 )
-				{
-					m_nGuardianModeSpecialWeaponNeeded = pItemDef->GetDefinitionIndex();
-				}
-				else
-				{
-					// REI: This code-path doesn't seem to be used in the latest operation, and I'm not sure this is the behavior we want.
-					//      The quest HUD doesn't handle this path, so leave a message in chat for it in case it is used.
-					//      But I suggest that maybe in this case we should just fall back on the 'any weapon' code.
+				// REI: This code-path doesn't seem to be used in the latest operation, and I'm not sure this is the behavior we want.
+				//      The quest HUD doesn't handle this path, so leave a message in chat for it in case it is used.
+				//      But I suggest that maybe in this case we should just fall back on the 'any weapon' code.
 
-					// we didn't find the weapon specified or it was intentially left blank
-					// send a message instead that says we need to survive the round
-					CBroadcastRecipientFilter filter;
-					if ( IsHostageRescueMap() )
-						UTIL_ClientPrintFilter( filter, HUD_PRINTTALK, "#SFUI_Notice_GuardianModeSurviveRoundHostage" );
-					else
-						UTIL_ClientPrintFilter( filter, HUD_PRINTTALK, "#SFUI_Notice_GuardianModeSurviveRound" );
-				}
+				// we didn't find the weapon specified or it was intentially left blank
+				// send a message instead that says we need to survive the round
+				CBroadcastRecipientFilter filter;
+				if ( IsHostageRescueMap() )
+					UTIL_ClientPrintFilter( filter, HUD_PRINTTALK, "#SFUI_Notice_GuardianModeSurviveRoundHostage" );
+				else
+					UTIL_ClientPrintFilter( filter, HUD_PRINTTALK, "#SFUI_Notice_GuardianModeSurviveRound" );
 			}
 		}
 
@@ -8705,7 +7964,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 
 		m_flDMBonusStartTime = gpGlobals->curtime + random->RandomFloat( mp_dm_time_between_bonus_min.GetFloat(), mp_dm_time_between_bonus_max.GetFloat() );
 		m_flDMBonusTimeLength = random->RandomFloat( mp_dm_bonus_length_min.GetFloat(), mp_dm_bonus_length_max.GetFloat() );
-		m_unDMBonusWeaponLoadoutSlot = PickRandomWeaponForDMBonus();
 		m_bDMBonusActive = false;
 		m_bIsDroppingItems = false;
 
@@ -8751,18 +8009,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
             IGameEvent * event = gameeventmanager->CreateEvent( "round_announce_warmup" );
             if ( event )
                 gameeventmanager->FireEvent( event );
-
-			#ifndef CLIENT_DLL
-			CheckForGiftsLeaderboardUpdate();
-			#endif
         }
-
-		#ifndef CLIENT_DLL
-		if ( m_match.GetRoundsPlayed() <= 0 )
-		{
-			CheckForGiftsLeaderboardUpdate();
-		}
-		#endif
 
         // We need to reassign the player's pointers to entities that were killed during the map clean up but have been recreated since the round_start event was called.
         for ( int i = 1; i <= gpGlobals->maxClients; i++ )
@@ -8772,8 +8019,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
                 continue;
             pPlayer->UpdateMapEntityPointers();
         }
-
-		m_iActiveAssassinationTargetMissionID = 0;
 
         // [pfreese] I commented out this call to CreateWeaponManager, as the 
         // CGameWeaponManager object doesn't appear to be actually used by the CSS
@@ -8835,9 +8080,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         // Unfreeze all players now that the round is starting
         UnfreezeAllPlayers();
 
-		if ( m_bPlayerItemsHaveBeenDisplayed )
-			ClearItemsDroppedDuringMatch();
-
         // Perform round-related processing at the point when the next round has just restarted
         // (This line should be last in this function)
         PostRestartRound();
@@ -8894,12 +8136,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
             }
         }
     }
-
-	loadout_positions_t CCSGameRules::PickRandomWeaponForDMBonus( void )
-	{
-		return LOADOUT_POSITION_INVALID;
-	}
-
 
     void CCSGameRules::AssignStartingMoneyToAllPlayers( void )
     {
@@ -9038,79 +8274,9 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 		// Check if connected players have bans on record
 		//
 		int nCooldownMode = sv_kick_players_with_cooldown.GetInt();
-		if ( ( nCooldownMode <= 0 ) && steamgameserverapicontext && steamgameserverapicontext->SteamGameServer() && steamgameserverapicontext->SteamGameServer()->BSecure() )
-			nCooldownMode = 1; // On VAC secure servers enforce global cooldowns
-		if ( ( nCooldownMode > 0 ) && CCSGameRules::sm_mapGcBanInformation.Count() )
-		{
-			for ( int i = 1; i <= gpGlobals->maxClients; i++ )
-			{
-				CBasePlayer *pBasePlayer = UTIL_PlayerByIndex( i );
-				if ( !pBasePlayer )
-					continue;
-
-				CSteamID steamID;
-				if ( pBasePlayer->GetSteamID( &steamID ) && steamID.IsValid() &&
-					steamID.GetAccountID() )
-				{
-					CCSGameRules::GcBanInformationMap_t::IndexType_t idx = CCSGameRules::sm_mapGcBanInformation.Find( steamID.GetAccountID() );
-					if ( idx != CCSGameRules::sm_mapGcBanInformation.InvalidIndex() )
-					{
-						CCSGameRules::CGcBanInformation_t &banInfo = CCSGameRules::sm_mapGcBanInformation.Element( idx );
-						if ((banInfo.m_dblExpiration > Plat_FloatTime()) && !EMsgGCCStrike15_v2_MatchmakingKickBanReason_IsGreen(banInfo.m_uiReason) &&
-							( ( nCooldownMode > 1 ) || EMsgGCCStrike15_v2_MatchmakingKickBanReason_IsGlobal( banInfo.m_uiReason ) ) )
-						{
-							// Kick this guy
-							Msg( "Kicking user %s (sv_kick_players_with_cooldown=%d)\n", pBasePlayer->GetPlayerName(), nCooldownMode );
-
-							if ( sv_kick_ban_duration.GetInt() > 0 )
-							{
-								// don't roll the kick command into this, it will fail on a lan, where kickid will go through
-								engine->ServerCommand( CFmtStr( "banid %d %d;", sv_kick_ban_duration.GetInt(), pBasePlayer->GetUserID() ) );
-							}
-							char const *szReasonForKick = "Player has competitive matchmaking cooldown";
-							switch ( banInfo.m_uiReason )
-							{
-							case k_EMsgGCCStrike15_v2_MatchmakingKickBanReason_OfficialBan:
-							case k_EMsgGCCStrike15_v2_MatchmakingKickBanReason_ChallengeNotification:
-								szReasonForKick = "Account is Untrusted";
-								break;
-							case k_EMsgGCCStrike15_v2_MatchmakingKickBanReason_GsltViolation:
-							case k_EMsgGCCStrike15_v2_MatchmakingKickBanReason_ConvictedForBehavior:
-							case k_EMsgGCCStrike15_v2_MatchmakingKickBanReason_ConvictedForCheating:
-								szReasonForKick = "Account is Convicted";
-								break;
-							case k_EMsgGCCStrike15_v2_MatchmakingKickBanReason_NoUserSession:
-								szReasonForKick = INVALID_STEAM_TICKET;
-								break;
-							}
-							engine->ServerCommand( UTIL_VarArgs( "kickid_ex %d %d %s\n", pBasePlayer->GetUserID(), ( g_pGameRules && ((CCSGameRules *) g_pGameRules)->IsPlayingOffline() ) ? 0 : 1,
-								szReasonForKick ) );
-						}
-					}
-				}
-			}
-		}
 
 		extern void ServerThinkReplayUploader();
 		ServerThinkReplayUploader();
-
-		if ( IsQueuedMatchmaking() )
-		{
-			CEngineHltvInfo_t engineHltv;
-			if ( engine->GetEngineHltvInfo( engineHltv ) && engineHltv.m_bBroadcastActive && engineHltv.m_bMasterProxy )
-			{
-				int numCurrentSpectators = engineHltv.m_numClients - engineHltv.m_numProxies + engineHltv.m_numExternalTotalViewers;
-				int numCurrentSpectatorsTV = engineHltv.m_numClients - engineHltv.m_numProxies;
-				int numCurrentSpectatorsLnk = engineHltv.m_numExternalLinkedViewers;
-				
-				if ( numCurrentSpectators > int( m_numSpectatorsCountMax ) )
-					m_numSpectatorsCountMax = numCurrentSpectators;
-				if ( numCurrentSpectatorsTV > int( m_numSpectatorsCountMaxTV ) )
-					m_numSpectatorsCountMaxTV = numCurrentSpectatorsTV;
-				if ( numCurrentSpectatorsLnk > int( m_numSpectatorsCountMaxLnk ) )
-					m_numSpectatorsCountMaxLnk = numCurrentSpectatorsLnk;
-			}
-		}
 
 		// This fires begin_new_match once when a new match starts... there are other similar game events
 		// but they all get fired multiple times between ending and starting a new match. Since we're using
@@ -9129,9 +8295,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 			}
 			m_bHasMatchStarted = true;
 			m_fMatchStartTime = gpGlobals->curtime;
-
-			if ( m_bPlayerItemsHaveBeenDisplayed )
-				ClearItemsDroppedDuringMatch();
 
 			CCSPlayerResource *pResource = dynamic_cast< CCSPlayerResource * >( g_pPlayerResource );
 			if ( pResource )
@@ -9168,8 +8331,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 			}
 
 			m_timeUntilNextPhaseStarts = m_flRestartRoundTime - gpGlobals->curtime;
-
-			m_bIsDroppingItems = false;
 			
 			// Can also implement mp_halftime_pausematch here
         }
@@ -9177,38 +8338,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         {     
 			float flIntermissionDuration = IsQueuedMatchmaking() ? MIN( mp_competitive_endofmatch_extra_time.GetFloat(), GetIntermissionDuration() ) : GetIntermissionDuration();
 
-			if ( m_ItemsPtrDroppedDuringMatch.Count() > 0 )
-			{
-				// synch up the server's list of items recieved during this match to the ones on every client
-				if ( !m_bPlayerItemsHaveBeenDisplayed && ( m_phaseChangeAnnouncementTime > 0 && gpGlobals->curtime > m_phaseChangeAnnouncementTime ) )
-				{
-					SendPlayerItemDropsToClient();
-
-					IGameEvent * event = gameeventmanager->CreateEvent( "endmatch_cmm_start_reveal_items" );
-					if( event )
-					{
-						gameeventmanager->FireEvent( event );
-					}
-
-					//now delay the rematch/failed vote/etc stuff until we are done revealing the items dropped
-					// 1 second per drop + 2 extra seconds for looking
-					m_flCMMItemDropRevealStartTime = gpGlobals->curtime;
-				}
-
-				// make sure that the intermission time accounts for the number of items we're giving out		
-				if ( m_flIntermissionStartTime &&
-					( (m_flIntermissionStartTime + flIntermissionDuration) < m_flCMMItemDropRevealStartTime + (GetCMMItemDropRevealDuration() + 4.0f) ) )
-				{
-					m_flIntermissionStartTime = ( m_flCMMItemDropRevealStartTime + (GetCMMItemDropRevealDuration() + 4.0f) ) - flIntermissionDuration;
-				}
-			}
-
-			if (m_bIsDroppingItems && (m_flIntermissionStartTime + mp_win_panel_display_time.GetInt() + 5.0f + sv_reward_drop_delay.GetFloat()) < gpGlobals->curtime && m_flCMMItemDropRevealEndTime < gpGlobals->curtime)
-			{
-				m_bIsDroppingItems = false;
-
-				CheckSetVoteTime();
-			}
 
 			if ( IsPlayingGunGameProgressive() )
             {
@@ -9240,7 +8369,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
         {
             m_timeUntilNextPhaseStarts = 0.0f;
             m_bVoiceWonMatchBragFired = false;
-			m_bIsDroppingItems = false;
         }
 
         //Check if it is time to make the phase change announcement
@@ -9484,9 +8612,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 				{
 					UTIL_ClientPrintFilter( filter, HUD_PRINTTALK, "#SFUI_Notice_Match_Will_Start_Chat" );
 				}
-
-				if ( !m_numGlobalGiftsGiven )
-					CheckForGiftsLeaderboardUpdate();
             }
 #endif
             //bool bIsPlayingProgressive = CSGameRules() && CSGameRules()->IsPlayingGunGameProgressive();
@@ -9630,7 +8755,7 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 				// But still restart even when people are watching replay, if they've been delaying restart for over 10 seconds; we don't want a bug where someone can indefinitely delay a round by watching replays over and over
 				float flMaxRoundDelayDueToReplay = spec_replay_round_delay.GetFloat();
 
-				if ( !botSpeaking && ( gpGlobals->curtime > m_flRestartRoundTime + flMaxRoundDelayDueToReplay || !engine->AnyClientsInHltvReplayMode() ) )
+				if ( !botSpeaking )
 				{
 					m_bHasTriggeredRoundStartMusic = false;
 					m_bHasTriggeredCoopSpawnReset = false;
@@ -9811,7 +8936,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 				{
 					// bonus time ended.....
 					m_bDMBonusActive = false;
-					m_unDMBonusWeaponLoadoutSlot = PickRandomWeaponForDMBonus();
 					// pick the new one if we have enough time in the round
 					if ( GetRoundRemainingTime() > (mp_dm_time_between_bonus_max.GetFloat() + mp_dm_bonus_length_max.GetFloat()) )
 					{
@@ -9871,7 +8995,6 @@ static bool Helper_CheckFieldAppliesToTeam( char const *szField, int nTeam )
 					{
 						bonusWeaponEvent->SetInt("time", (int)m_flDMBonusTimeLength);
 //						bonusWeaponEvent->SetInt("wepID", wepID);
-						bonusWeaponEvent->SetInt("Pos", m_unDMBonusWeaponLoadoutSlot );
 						gameeventmanager->FireEvent(bonusWeaponEvent);
 					}
 				}
@@ -10777,27 +9900,12 @@ void ServerThinkReplayUploader()
         m_fGunGameBombRespawnTimer = gpGlobals->curtime + mp_ggtr_bomb_respawn_delay.GetFloat();
     }
 
-	void CCSGameRules::RewardMatchEndDrops( bool bAbortedMatch )
-	{
-	}
 
 	void CCSGameRules::GoToIntermission( bool bAbortedMatch )
 	{
 		Msg( "Going to intermission...\n" );
 
 		bool bAnnounceNextMap = true;
-		bool bDoGenericRewardMatchEndDrops = true;
-
-		// Do old style match end drops (community and official non-competitive)
-		if ( bDoGenericRewardMatchEndDrops )
-		{
-			RewardMatchEndDrops( bAbortedMatch );
-		}
-		else
-		{
-			ClearItemsDroppedDuringMatch();
-		}
-		m_bIsDroppingItems = true; // Always wait in case items drop
 
 		// generate the map list that players will be voting on
 		CreateEndMatchMapGroupVoteOptions();
@@ -10834,7 +9942,7 @@ void ServerThinkReplayUploader()
 		{
 			bAnnounceNextMap = !CheckSetVoteTime();
 		}
-		else if ( !m_bIsDroppingItems )
+		else
 		{
 			m_eEndMatchMapVoteState = k_EEndMatchMapVoteState_VoteAllDone;
 		}
@@ -11115,7 +10223,6 @@ void ServerThinkReplayUploader()
         {
 			if ( IsPlayingGunGameDeathmatch() && pPlayer->GetActiveCSWeapon() )
 			{
-				CEconItemView* pItem = pPlayer->GetActiveCSWeapon()->GetEconItemView();
 				CSWeaponID wepID =  ( pItem && pItem->IsValid() ) ? (CSWeaponID)(pItem->GetItemIndex()) :  pPlayer->GetActiveCSWeapon()->GetCSWeaponID();
 				int iWepSlot = ( pItem && pItem->GetItemDefinition() ) ? pItem->GetItemDefinition()->GetDefaultLoadoutSlot() : LOADOUT_POSITION_INVALID;
 
@@ -11140,7 +10247,6 @@ void ServerThinkReplayUploader()
         {
 			if ( IsPlayingGunGameDeathmatch() && pPlayer->GetActiveCSWeapon() )
 			{
-				CEconItemView* pItem = pPlayer->GetActiveCSWeapon()->GetEconItemView();
 				CSWeaponID wepID =  ( pItem && pItem->IsValid() ) ? (CSWeaponID)(pItem->GetItemIndex()) :  pPlayer->GetActiveCSWeapon()->GetCSWeaponID();
 				//int nScore = GetWeaponScoreForDeathmatch( wepID );
 				// we don't store what weapon the player did the assist damage with and we can't guarantee the player has a weapon 
@@ -13757,11 +12863,6 @@ void ServerThinkReplayUploader()
 			m_nEndMatchMapGroupVoteOptions.Set( iVoteOption, arrVoteCandidates.IsValidIndex( iVoteOption ) ? arrVoteCandidates[iVoteOption] : -1 );
 	}
 
-	void CCSGameRules::ReportRoundEndStatsToGC( CMsgGCCStrike15_v2_MatchmakingServerRoundStats **ppAllocateStats )
-	{
-	#error Cut for partner depot
-	}
-
     // Helper to determine if all players on a team are playing for the same clan
     bool CCSGameRules::IsClanTeam( CTeam *pTeam )
     {
@@ -15336,52 +14437,15 @@ void CCSGameRules::EndCTTimeOut( void )
 
 #endif
 
-AcquireResult::Type CCSGameRules::IsWeaponAllowed( const CCSWeaponInfo *pWeaponInfo, int nTeamNumber, CEconItemView *pItem )
+AcquireResult::Type CCSGameRules::IsWeaponAllowed( const CCSWeaponInfo *pWeaponInfo, int nTeamNumber )
 {
 	CSWeaponID	weaponId = WEAPON_NONE;
 	CSWeaponType weaponType = WEAPONTYPE_UNKNOWN;
-	if ( pItem && pItem->IsValid() )
-	{
-		weaponId = WeaponIdFromString( pItem->GetStaticData()->GetItemClass() );
-		if ( pWeaponInfo )
-			weaponType = pWeaponInfo->GetWeaponType( pItem );
-	}
-	else if ( pWeaponInfo )
+	if ( pWeaponInfo )
 	{
 		weaponId = pWeaponInfo->m_weaponId;
-		weaponType = pWeaponInfo->GetWeaponType( pItem );
+		weaponType = pWeaponInfo->GetWeaponType();
 	}
-
-	// prohibited items. currently only supports schema items
-	//
-	//
-
-	if ( ( CSGameRules()->m_arrProhibitedItemIndices[ 0 ] != 0 ) && pItem && pItem->IsValid() )
-	{
-
-		int nPosition = pItem->GetItemDefinition()->GetLoadoutSlot( nTeamNumber );
-		const CEconItemView* pBaseItem = CSInventoryManager()->GetBaseItemForTeam( nTeamNumber, nPosition );
-
-		if ( pBaseItem && pBaseItem->IsValid() )
-		{
-			for ( int j = 0; j < MAX_PROHIBITED_ITEMS; j++ )
-			{
-				// if the base item is prohibited then the slot is prohibited
-				if ( CSGameRules()->m_arrProhibitedItemIndices[ j ] == pBaseItem->GetItemDefinition()->GetDefinitionIndex() )
-				{
-					return AcquireResult::NotAllowedByProhibition;
-				}
-
-				// if the base item is not prohibited then the alternate item might still be prohibited
-				if ( CSGameRules()->m_arrProhibitedItemIndices[ j ] == pItem->GetItemDefinition()->GetDefinitionIndex() )
-				{
-					return AcquireResult::NotAllowedByProhibition;
-				}
-
-			}
-		}
-	}
-	///////////////////////////////
 
 	switch ( weaponId )
 	{
@@ -16064,79 +15128,10 @@ bool CCSGameRules::IsRoundOver() const
     return m_iRoundWinStatus != WINNER_NONE;
 }
 
-void CCSGameRules::ClearItemsDroppedDuringMatch( void )
-{ 
-#ifndef CLIENT_DLL
-	m_bPlayerItemsHaveBeenDisplayed = false; 
-#endif
-	m_ItemsPtrDroppedDuringMatch.PurgeAndDeleteElements(); 
-}
-
-void CCSGameRules::RecordPlayerItemDrop( const CEconItemPreviewDataBlock &iteminfo )
-{
-	if ( !iteminfo.accountid() )
-		return;
-
-	for ( int i = 0; i < m_ItemsPtrDroppedDuringMatch.Count(); i++ )
-	{
-		// if we've recorded this item already, don't record it again
-		if ( m_ItemsPtrDroppedDuringMatch[i]->itemid() == iteminfo.itemid() &&
-			m_ItemsPtrDroppedDuringMatch[i]->accountid() == iteminfo.accountid() )
-			return;
-	}
-
-	// on the client, we add all local player items to the top of the list
-	// server just adds them
-#if defined( CLIENT_DLL )
-	// don't put the local player's at the top anymore - matt wood
-// 	C_CSPlayer *pLocalPlayer = C_CSPlayer::GetLocalCSPlayer();
-// 	C_CS_PlayerResource *cs_PR = dynamic_cast<C_CS_PlayerResource *>( g_PR );
-// 	if ( cs_PR && pLocalPlayer )
-// 	{
-// 		XUID localXuid = cs_PR->GetXuid( pLocalPlayer->entindex() );
-// 		if (localXuid == steamOwnerID.ConvertToUint64())
-// 		{
-// 			m_ItemsPtrDroppedDuringMatch.AddToHead( event );
-// 			return;
-// 		}		
-// 	}
-
-	if ( CDemoPlaybackParameters_t const *pParams = engine->GetDemoPlaybackParameters() )
-	{	// When playing back Overwatch with anonymous player identities don't collect drops on client
-		if ( pParams->m_bAnonymousPlayerIdentity )
-			return;
-	}
-
-	// check to see if this player is still connected
-	bool bFoundPlayer = false;
-	for ( int j = 1; j <= MAX_PLAYERS; j++ )
-	{
-		CCSPlayer *pPlayer = ToCSPlayer( UTIL_PlayerByIndex( j ) );
-		if ( pPlayer )
-		{
-			CSteamID steamID;
-			pPlayer->GetSteamID( &steamID );
-			if ( steamID.GetAccountID() == iteminfo.accountid() )
-			{
-				bFoundPlayer = true;
-				break;
-			}
-		}
-	}
-	
-	// check to see if this player is still connected
-	if ( bFoundPlayer )
-		m_ItemsPtrDroppedDuringMatch.AddToTail( new CEconItemPreviewDataBlock( iteminfo ) );
-
-#else
-	m_ItemsPtrDroppedDuringMatch.AddToTail( new CEconItemPreviewDataBlock( iteminfo ) );
-#endif
-}
-
 #ifndef CLIENT_DLL
 const char *CCSGameRules::GetChatPrefix( bool bTeamOnly, CBasePlayer *pPlayer )
 {
-    char *pszPrefix = nullptr;
+    char const* pszPrefix = nullptr;
 
     if ( !pPlayer )  // dedicated server output
     {
@@ -16339,7 +15334,7 @@ void CCSGameRules::ClientSettingsChanged( CBasePlayer *pPlayer )
 
 bool CCSGameRules::CanClientCustomizeOwnIdentity()
 {
-	return !CCSGameRules::sm_QueuedServerReservation.tournament_teams().size();
+	return true;
 }
 
 bool CCSGameRules::FAllowNPCs( void )
@@ -16534,25 +15529,6 @@ void CCSGameRules::PlayerTookDamage(CCSPlayer* player, const CTakeDamageInfo &da
 CCSMatch* CCSGameRules::GetMatch( void )
 {
     return &m_match;
-}
-
-void CCSGameRules::SendPlayerItemDropsToClient()
-{
-	CReliableBroadcastRecipientFilter broadcastFilter;
-	CCSUsrMsg_SendPlayerItemDrops msg;
-
-	// first randomize the list before we send it
-	VectorShuffle( m_ItemsPtrDroppedDuringMatch );
-
-	msg.mutable_entity_updates()->Reserve( m_ItemsPtrDroppedDuringMatch.Count() );
-	for ( int i = 0; i < m_ItemsPtrDroppedDuringMatch.Count(); i++ )
-	{
-		*msg.add_entity_updates() = *m_ItemsPtrDroppedDuringMatch[i];
-	}
-
-	SendUserMessage( broadcastFilter, CS_UM_SendPlayerItemDrops, msg );
-
-	m_bPlayerItemsHaveBeenDisplayed = true;
 }
 
 void CCSGameRules::FreezePlayers( void )
@@ -16889,15 +15865,6 @@ bool CCSGameRules::IsValveDS() const
 		return false;
 #else
 	return m_bIsValveDS.Get();
-#endif
-}
-
-bool CCSGameRules::IsQuestEligible() const
-{
-#ifndef CLIENT_DLL
-		return false;
-#else
-	return m_bIsQuestEligible.Get();
 #endif
 }
 
@@ -17440,17 +16407,6 @@ void CCSGameRules::ResetCasterConvars()
 
 #endif
 
-CEconQuestDefinition* CCSGameRules::GetActiveAssassinationQuest( void ) const
-{
-	if ( IsPlayingCooperativeGametype() )
-		return nullptr;
-
-	// Skip the map lookup for invlaid quest id
-	if ( !m_iActiveAssassinationTargetMissionID )
-		return nullptr;
-	else
-		return GetItemSchema()->GetQuestDefinition( m_iActiveAssassinationTargetMissionID );
-}
 
 float CCSGameRules::GetCMMItemDropRevealDuration()
 {
@@ -17535,20 +16491,7 @@ void CCSGameRules::AddGunGameWeapon( const char* pWeaponName, int nNumKillsToUpg
     weaponName[0] = '\0';
     V_snprintf( weaponName, sizeof( weaponName ), "weapon_%s", pWeaponName );
 
-	int nWeaponID = 0;
-
-	// Try to get the ID from the item name
-	const CEconItemDefinition *pDef = GetItemSchema()->GetItemDefinitionByName( weaponName );
-	if ( pDef )
-	{
-		nWeaponID = pDef->GetDefinitionIndex();
-	}
-
-	if ( nWeaponID == 0 )
-	{
-		// Fall back to the older weapon id system for things like knifegg
-		nWeaponID = WeaponIdFromString( weaponName );
-	}
+	int nWeaponID = WeaponIdFromString( weaponName );
 
     if ( nWeaponID != WEAPON_NONE )
     {
@@ -17754,18 +16697,6 @@ void CCSGameRules::InitializeGameTypeAndMode( void )
         // Set the map convars
         ConVarRef host_map( "host_map" );
         g_pGameTypes->ApplyConvarsForMap( host_map.GetString(), engine->IsDedicatedServer() || isMultiplayer );
-
-		if ( CSGameRules()->IsPlayingCooperativeGametype() )
-		{
-			uint32 unQuestID = MatchmakingGameTypeToMapGroup(CCSGameRules::sm_QueuedServerReservation.game_type() ); 
-			const CEconQuestDefinition *pQuest = GetItemSchema()->GetQuestDefinition( unQuestID );
-			if ( pQuest && !StringIsEmpty ( pQuest->GetQuestConVars() ) )
-			{
-				m_iActiveAssassinationTargetMissionID = unQuestID;
-				engine->ServerCommand( CFmtStr( "%s\n", pQuest->GetQuestConVars() ) );
-				engine->ServerExecute();
-			}
-		}
     }
 #endif
 
@@ -18411,131 +17342,6 @@ ENABLE_COMPETITIVE_CONVAR( cl_bobcycle, 0.98, 0.98 );		// tournament standard
 //ENABLE_COMPETITIVE_CONVAR( net_graph, 0, 1 )				// tournament standard
 
 #endif
-
-
-#ifdef GAME_DLL
-    CCSPlayer* FindPlayerFromAccountID( uint32 account_id )
-    {
-        for ( int i = 1; i <= gpGlobals->maxClients; i++ )
-        {
-            CBasePlayer *pBasePlayer = UTIL_PlayerByIndex( i );
-            if ( !pBasePlayer )
-                continue;
-
-            CCSPlayer *pPlayer = dynamic_cast< CCSPlayer* >( pBasePlayer );
-            if ( !pPlayer || pPlayer->IsBot() || !pPlayer->IsConnected() )
-                continue;
-
-            CSteamID steamID;
-            pPlayer->GetSteamID( &steamID );
-
-            if ( steamID.GetAccountID() == account_id )
-                return pPlayer;
-        }
-        return nullptr;
-    }
-#endif
-
-
-#ifdef GAME_DLL
-
-	class ClientJob_EMsgGCCStrike15_v2_ServerNotificationForUserPenalty : public GCSDK::CGCClientJob
-	{
-	public:
-		ClientJob_EMsgGCCStrike15_v2_ServerNotificationForUserPenalty( GCSDK::CGCClient *pGCClient ) : GCSDK::CGCClientJob( pGCClient )
-		{
-		}
-
-		virtual bool BYieldingRunJobFromMsg( GCSDK::IMsgNetPacket *pNetPacket )
-		{
-			GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_ServerNotificationForUserPenalty> msg( pNetPacket );
-			DevMsg( "Notification about user penalty: %u/%u (%u sec)\n", msg.Body().account_id(), msg.Body().reason(), msg.Body().seconds() );
-			if ( !engine->IsDedicatedServer() || !msg.Body().account_id() )
-				return true;
-
-			if ( !CCSGameRules::sm_mapGcBanInformation.Count() )
-				SetDefLessFunc( CCSGameRules::sm_mapGcBanInformation );
-			
-			{
-				CCSGameRules::CGcBanInformation_t baninfo = { msg.Body().reason(), Plat_FloatTime() + msg.Body().seconds() };
-				CCSGameRules::sm_mapGcBanInformation.InsertOrReplace( msg.Body().account_id(), baninfo );
-			}
-
-			return true;
-		}
-	};
-	GC_REG_CLIENT_JOB( ClientJob_EMsgGCCStrike15_v2_ServerNotificationForUserPenalty, k_EMsgGCCStrike15_v2_ServerNotificationForUserPenalty );
-
-	class ClientJob_EMsgGCCStrike15_v2_MatchEndRewardDropsNotification : public GCSDK::CGCClientJob
-	{
-	public:
-		ClientJob_EMsgGCCStrike15_v2_MatchEndRewardDropsNotification( GCSDK::CGCClient *pGCClient ) : GCSDK::CGCClientJob( pGCClient )
-		{
-		}
-
-		virtual bool BYieldingRunJobFromMsg( GCSDK::IMsgNetPacket *pNetPacket )
-		{
-			GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_MatchEndRewardDropsNotification> msg( pNetPacket );
-			if ( !msg.Body().has_iteminfo() )
-				return true;
-
-			DevMsg( "Notification about user drop: %u %llu (%u-%u-%u)\n", msg.Body().iteminfo().accountid(), msg.Body().iteminfo().itemid(),
-				msg.Body().iteminfo().defindex(), msg.Body().iteminfo().paintindex(), msg.Body().iteminfo().rarity() );
-
-			if ( msg.Body().iteminfo().accountid() && msg.Body().iteminfo().itemid() && CSGameRules() )
-			{
-				CSGameRules()->RecordPlayerItemDrop( msg.Body().iteminfo() );
-			}
-
-			return true;
-		}
-	};
-	GC_REG_CLIENT_JOB( ClientJob_EMsgGCCStrike15_v2_MatchEndRewardDropsNotification, k_EMsgGCCStrike15_v2_MatchEndRewardDropsNotification );
-
-	static CMsgGCCStrike15_v2_GiftsLeaderboardResponse g_dataGiftsLeaderboard;
-	static double g_dblGiftsLeaderboardReceived = 0;
-	void CCSGameRules::CheckForGiftsLeaderboardUpdate()
-	{
-	}
-
-	class ClientJob_EMsgGCCStrike15_v2_GiftsLeaderboardResponse : public GCSDK::CGCClientJob
-	{
-	public:
-		ClientJob_EMsgGCCStrike15_v2_GiftsLeaderboardResponse( GCSDK::CGCClient *pGCClient ) : GCSDK::CGCClientJob( pGCClient )
-		{
-		}
-
-		virtual bool BYieldingRunJobFromMsg( GCSDK::IMsgNetPacket *pNetPacket )
-		{
-			GCSDK::CProtoBufMsg<CMsgGCCStrike15_v2_GiftsLeaderboardResponse> msg( pNetPacket );
-			if ( !msg.Body().has_servertime() )
-				return true;
-
-			// Set our cached structure
-			g_dataGiftsLeaderboard = msg.Body();
-			g_dblGiftsLeaderboardReceived = Plat_FloatTime();
-
-			if ( CCSGameRules *pCSGR = CSGameRules() )
-			{	// Copy gifts
-				pCSGR->m_numGlobalGiftsGiven = g_dataGiftsLeaderboard.total_gifts_given();
-				pCSGR->m_numGlobalGifters = g_dataGiftsLeaderboard.total_givers();
-				pCSGR->m_numGlobalGiftsPeriodSeconds = g_dataGiftsLeaderboard.time_period_seconds();
-
-				for ( int j = 0; j < MAX_GIFT_GIVERS_FEATURED_COUNT; ++ j )
-				{
-					pCSGR->m_arrFeaturedGiftersAccounts.Set( j, ( j < g_dataGiftsLeaderboard.entries().size() ) ? g_dataGiftsLeaderboard.entries( j ).accountid() : 0 );
-					pCSGR->m_arrFeaturedGiftersGifts.Set( j, ( j < g_dataGiftsLeaderboard.entries().size() ) ? g_dataGiftsLeaderboard.entries( j ).gifts() : 0 );
-				}
-			}
-
-			return true;
-		}
-	};
-	GC_REG_CLIENT_JOB( ClientJob_EMsgGCCStrike15_v2_GiftsLeaderboardResponse, k_EMsgGCCStrike15_v2_GiftsLeaderboardResponse );
-
-	
-
-#endif // GAME_DLL
 
 #ifndef CLIENT_DLL
 bool CCSGameRules::OnReplayPrompt( CBasePlayer *pVictim, CBasePlayer *pScorer )

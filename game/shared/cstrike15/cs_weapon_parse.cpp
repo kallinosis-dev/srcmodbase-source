@@ -12,7 +12,6 @@
 #include "weapon_csbasegun.h"
 #include "icvar.h"
 #include "cs_gamerules.h"
-#include "ihasattributes.h"
 
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"
@@ -524,208 +523,64 @@ CCSWeaponInfo::CCSWeaponInfo()
 bool CCSWeaponInfo::m_bCSWeaponInfoLookupInitialized;
 
 
-CSWeaponType CCSWeaponInfo::GetWeaponType( const CEconItemView* pWepView ) const
+CSWeaponType CCSWeaponInfo::GetWeaponType() const
 {
-	if ( pWepView && pWepView->IsValid() )
-	{
-		const char *pszString = pWepView->GetStaticData()->GetWeaponTypeString();
-		
-		if ( pszString )
-		{
-			return WeaponClassFromString( pszString );
-		}
-		else
-		{
-//			DevWarning( "Weapon %s is missing a weapontype in the item schema.\n", WeaponIdAsString( m_weaponId ) );
-			return m_WeaponType;
-		}
-	}
-
 	return m_WeaponType;
 }
 
-const char* CCSWeaponInfo::GetAddonLocation( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetAddonLocation() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetAddonLocation();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return m_szAddonLocation;
 }
 
-const char* CCSWeaponInfo::GetEjectBrassEffectName( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetEjectBrassEffectName() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetEjectBrassEffect();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return m_szEjectBrassEffectName;
 }
 
-const char* CCSWeaponInfo::GetTracerEffectName( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetTracerEffectName() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetTracerEffect();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return m_szTracerEffectName;
 }
 
-const char* CCSWeaponInfo::GetMuzzleFlashEffectName_1stPerson( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetMuzzleFlashEffectName_1stPerson() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetMuzzleFlashEffect1stPerson();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return m_szMuzzleFlashEffectName_1stPerson;
 }
 
-const char* CCSWeaponInfo::GetMuzzleFlashEffectName_1stPersonAlt( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetMuzzleFlashEffectName_1stPersonAlt() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetMuzzleFlashEffect1stPersonAlt();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return m_szMuzzleFlashEffectName_1stPerson;
 }
 
-const char* CCSWeaponInfo::GetMuzzleFlashEffectName_3rdPerson( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetMuzzleFlashEffectName_3rdPerson() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetMuzzleFlashEffect3rdPerson();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return m_szMuzzleFlashEffectName_3rdPerson;
 }
 
-const char* CCSWeaponInfo::GetMuzzleFlashEffectName_3rdPersonAlt( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetMuzzleFlashEffectName_3rdPersonAlt() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetMuzzleFlashEffect3rdPersonAlt();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return m_szMuzzleFlashEffectName_3rdPerson;
 }
 
-const char* CCSWeaponInfo::GetHeatEffectName( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetHeatEffectName() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetHeatEffect();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return m_szHeatEffectName;
 }
 
-const char* CCSWeaponInfo::GetPlayerAnimationExtension( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetPlayerAnimationExtension() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetPlayerAnimationExtension();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return m_szAnimExtension;
 }
 
-int CCSWeaponInfo::GetUsedByTeam( const CEconItemView* pWepView ) const
+int CCSWeaponInfo::GetUsedByTeam() const
 {
-	if ( pWepView && pWepView->IsValid() )
-	{
-		return pWepView->GetStaticData()->GetUsedByTeam();
-	}
-
 	return m_iTeam;
 }
 
-const char* CCSWeaponInfo::GetAddonModel( const CEconItemView* pWepView ) const
+const char* CCSWeaponInfo::GetAddonModel() const
 {
-	if ( pWepView && pWepView->IsValid() )
-	{
-		const char *pchAddon = pWepView->GetStaticData()->GetEntityOverrideModel();
-		return pchAddon ? pchAddon : m_szAddonModel;
-	}
-	else
-	{
-		return m_szAddonModel;
-	}
-}
-
-const CUtlVector< WeaponPaintableMaterial_t >* CCSWeaponInfo::GetPaintData( const CEconItemView* pWepView ) const
-{
-	if ( !pWepView || !pWepView->IsValid() )
-		return nullptr;
-
-	return pWepView->GetStaticData()->GetPaintData();
+	return m_szAddonModel;
 }
 
 void CCSWeaponInfo::Parse( KeyValues *pKeyValuesData, const char *szWeaponName )
@@ -987,21 +842,9 @@ void CCSWeaponInfo::GetRecoilOffsets( int iMode, int iIndex, float& fAngle, floa
 //	>=0: the returned int is the index into g_WeaponInfoTable that contains the desired data.
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-static bool GetAttribute_bool( const CCSWeaponInfo* pWeaponInfo, const char * iszAttrib, CSchemaAttributeDefHandle hAttrib, const CEconItemView *pWepView, float flScale = 1.0f )
+static bool GetAttribute_bool( const CCSWeaponInfo* pWeaponInfo, const char * iszAttrib, float flScale = 1.0f )
 {
-	uint32 unLocalValue = 0;
-	int index = -2;
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		if ( pWepView->FindAttribute( hAttrib, &unLocalValue ) )
-		{
-			return ( unLocalValue != 0 );
-		}
-	}
-
-	// otherwise use legacy weapon script value
-	index = pWeaponInfo->GetIndexofAttribute( AllocPooledString( iszAttrib ) );
+	int index = pWeaponInfo->GetIndexofAttribute( AllocPooledString( iszAttrib ) );
 
 	if ( index == -1 ) // we found the attribute in the item.
 	{
@@ -1022,21 +865,9 @@ static bool GetAttribute_bool( const CCSWeaponInfo* pWeaponInfo, const char * is
 	return false;
 }
 
-static int GetAttribute_int( const CCSWeaponInfo* pWeaponInfo, const char * iszAttrib, CSchemaAttributeDefHandle hAttrib, const CEconItemView *pWepView, float flScale = 1.0f )
+static int GetAttribute_int( const CCSWeaponInfo* pWeaponInfo, const char * iszAttrib, float flScale = 1.0f )
 {
-	uint32 unLocalValue = 0;
-	int index = -2;
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		if ( pWepView->FindAttribute( hAttrib, &unLocalValue ) )
-		{
-			return unLocalValue;
-		}
-	}
-
-	// otherwise use legacy weapon script value
-	index = pWeaponInfo->GetIndexofAttribute( AllocPooledString( iszAttrib ) );
+	int index = pWeaponInfo->GetIndexofAttribute( AllocPooledString( iszAttrib ) );
 
 	if ( index == -1 )
 	{
@@ -1057,25 +888,13 @@ static int GetAttribute_int( const CCSWeaponInfo* pWeaponInfo, const char * iszA
 	return 0;
 }
 
-static float GetAttribute_float( const CCSWeaponInfo* pWeaponInfo, const char * iszAttrib, CSchemaAttributeDefHandle hAttrib, const CEconItemView *pWepView, float flScale = 1.0f )
+static float GetAttribute_float( const CCSWeaponInfo* pWeaponInfo, const char * iszAttrib, float flScale = 1.0f )
 {
-	float flLocalValue = 0.0f;
-	int index = -2;
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		if ( pWepView->FindAttribute( hAttrib, &flLocalValue ) )
-		{
-			return flScale * flLocalValue;
-		}
-	}
-
-	// otherwise use legacy weapon script value
-	index = pWeaponInfo->GetIndexofAttribute( AllocPooledString( iszAttrib ) );
+	int index = pWeaponInfo->GetIndexofAttribute( AllocPooledString( iszAttrib ) );
 
 	if ( index == -1 )
 	{
-		return flLocalValue;
+		return 0;
 	}
 	else if ( index > -1 )
 	{
@@ -1128,23 +947,18 @@ static float GetAttribute_float( const CCSWeaponInfo* pWeaponInfo, const char * 
 // because generating them at every access is costly.
 //
 #define GET_WEAPON_ATTR_FUNC( type, functionname, attrname )										\
-type CCSWeaponInfo::functionname( const CEconItemView* pWepView, int nAlt, float flScale ) const	\
+type CCSWeaponInfo::functionname( int nAlt, float flScale ) const									\
 {																									\
 	const char* pszAttrib;																			\
-	static CSchemaAttributeDefHandle hAttrib( attrname );											\
-	static CSchemaAttributeDefHandle hAttribAlt( attrname " alt" );									\
-	CSchemaAttributeDefHandle * pAttrib;															\
 	if ( nAlt )																						\
 	{																								\
 		pszAttrib = attrname " alt";																\
-		pAttrib = &hAttribAlt;																		\
 	}																								\
 	else																							\
 	{																								\
 		pszAttrib = attrname;																		\
-		pAttrib = &hAttrib;																			\
 	}																								\
-	return GetAttribute_##type( this, pszAttrib, *pAttrib, pWepView, flScale );						\
+	return GetAttribute_##type( this, pszAttrib, flScale );											\
 }		
 
 
@@ -1220,23 +1034,7 @@ GET_WEAPON_ATTR_FUNC( float,	GetZoomTime2,					"zoom time 2" )
 GET_WEAPON_ATTR_FUNC( int,		GetPrimaryReserveAmmoMax,		"primary reserve ammo max" )
 GET_WEAPON_ATTR_FUNC( int,		GetSecondaryReserveAmmoMax,		"secondary reserve ammo max" )
 
-WeaponRecoilData::WeaponRecoilData()
-{
-	m_mapRecoilTables.SetLessFunc( DefLessFunc( item_definition_index_t ) );
-}
-
-WeaponRecoilData::~WeaponRecoilData()
-{
-	m_mapRecoilTables.PurgeAndDeleteElements();
-}
-
-static inline float AttrValueAsFloat( attrib_value_t val )
-{
-	float flValue;
-	Q_memcpy( &flValue, &val, sizeof( float ) );
-	return flValue;
-}
-
+#if 0
 void WeaponRecoilData::GenerateRecoilTable( RecoilData *data )
 {
 	const int iSuppressionShots = weapon_recoil_suppression_shots.GetInt();
@@ -1388,9 +1186,16 @@ void WeaponRecoilData::GenerateRecoilTable( RecoilData *data )
 		}
 	}
 }
+#endif
 
 void WeaponRecoilData::GetRecoilOffsets( CWeaponCSBase *pWeapon, int iMode, int iIndex, float& fAngle, float &fMagnitude )
 {
+	AssertMsg(false, "Unimplemented");
+
+	fAngle = 10;
+	fMagnitude = 5;
+
+#if 0
 	// Recoil offset tables are indexed by a weapon's definition index.
 	// Look for the existing table, otherwise generate it.
 
@@ -1416,26 +1221,19 @@ void WeaponRecoilData::GetRecoilOffsets( CWeaponCSBase *pWeapon, int iMode, int 
 	iIndex = iIndex % ARRAYSIZE( wepData->recoilTable[iMode] );
 	fAngle = wepData->recoilTable[iMode][iIndex].fAngle;
 	fMagnitude = wepData->recoilTable[iMode][iIndex].fMagnitude;
+#endif
 }
 
-void WeaponRecoilData::GenerateRecoilPatternForItemDefinition( item_definition_index_t idx )
+#if 0
+void WeaponRecoilData::GenerateRecoilPatternForItemDefinition(item_definition_index_t idx)
 {
-	CUtlMap< item_definition_index_t, RecoilData* >::IndexType_t iMapLocation = m_mapRecoilTables.Find( idx );
-	if ( iMapLocation == m_mapRecoilTables.InvalidIndex() )
+	CUtlMap< item_definition_index_t, RecoilData* >::IndexType_t iMapLocation = m_mapRecoilTables.Find(idx);
+	if (iMapLocation == m_mapRecoilTables.InvalidIndex())
 	{
-		RecoilData *wepData = new RecoilData;
+		RecoilData* wepData = new RecoilData;
 		wepData->iItemDefIndex = idx;
-		iMapLocation = m_mapRecoilTables.InsertOrReplace( idx, wepData );
-		GenerateRecoilTable( wepData );
+		iMapLocation = m_mapRecoilTables.InsertOrReplace(idx, wepData);
+		GenerateRecoilTable(wepData);
 	}
 }
-
-WeaponRecoilData g_WeaponRecoilData;
-
-void GenerateWeaponRecoilPatternForItemDefinition( item_definition_index_t idx )
-{
-	g_WeaponRecoilData.GenerateRecoilPatternForItemDefinition( idx );
-}
-
-
-
+#endif

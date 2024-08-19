@@ -13,7 +13,6 @@
 #include "engine/ienginesound.h"
 #include "EngineInterface.h"
 #include "tier0/dbg.h"
-#include "ixboxsystem.h"
 #include "GameUI_Interface.h"
 #include "cdll_client_int.h"
 #include "game/client/IGameClientExports.h"
