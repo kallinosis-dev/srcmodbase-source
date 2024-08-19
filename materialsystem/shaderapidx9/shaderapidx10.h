@@ -588,7 +588,6 @@ private:
 
 	virtual bool SupportsBorderColor() const { return false; }
 	virtual bool SupportsFetch4() const { return false; }
-	virtual void EnableBuffer2FramesAhead( bool bEnable ) {}
 
 	virtual void SetDepthFeatheringPixelShaderConstant( int iConstant, float fDepthBlendScale ) {}
 

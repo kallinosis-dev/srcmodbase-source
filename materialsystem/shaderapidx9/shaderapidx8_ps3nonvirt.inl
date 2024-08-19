@@ -802,11 +802,6 @@ void CPs3NonVirt_IShaderAPIDX8::ReleaseThreadOwnership()
 	g_ShaderAPIDX8.CShaderAPIDx8::ReleaseThreadOwnership();
 }
 
-void CPs3NonVirt_IShaderAPIDX8::EnableBuffer2FramesAhead( bool bEnable )
-{
-	g_ShaderAPIDX8.CShaderAPIDx8::EnableBuffer2FramesAhead(bEnable);
-}
-
 void CPs3NonVirt_IShaderAPIDX8::FlipCulling( bool bFlipCulling )
 {
 	g_ShaderAPIDX8.CShaderAPIDx8::FlipCulling(bFlipCulling);

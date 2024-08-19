@@ -347,7 +347,6 @@ struct CPs3NonVirt_IShaderAPIDX8
 	static void CreateTextures( ShaderAPITextureHandle_t *pHandles, int count, int width, int height, int depth, ImageFormat dstImageFormat, int numMipLevels, int numCopies, int flags, const char *pDebugName, const char *pTextureGroupName );
 	static void AcquireThreadOwnership();
 	static void ReleaseThreadOwnership();
-	static void EnableBuffer2FramesAhead( bool bEnable );
 	static void FlipCulling( bool bFlipCulling );
 	static void SetTextureRenderingParameter(int parm_number, ITexture *pTexture);
 	static void EnableSinglePassFlashlightMode( bool bEnable );

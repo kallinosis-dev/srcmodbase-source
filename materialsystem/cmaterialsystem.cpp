@@ -4373,7 +4373,6 @@ void CMaterialSystem::EndFrame( void )
 #endif
 
 		g_pShaderAPI->EnableShaderShaderMutex( m_ThreadMode != MATERIAL_SINGLE_THREADED ); // use mutex even for queued to allow "disalow access" to function properly
-		g_pShaderAPI->EnableBuffer2FramesAhead( true );
 
 		switch ( m_ThreadMode )
 		{

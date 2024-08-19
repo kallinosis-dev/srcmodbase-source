@@ -897,7 +897,6 @@ public:
 
 	virtual bool SupportsBorderColor() const { return false; }
 	virtual bool SupportsFetch4() const { return false; }
-	virtual void EnableBuffer2FramesAhead( bool bEnable ) {}
 	virtual float GetShadowDepthBias() const { return 0.0f; }
 	virtual float GetShadowSlopeScaleDepthBias() const { return 0.0f; }
 	virtual bool PreferZPrepass() const { return false; }
