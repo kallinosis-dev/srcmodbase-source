@@ -12,7 +12,6 @@ $Macro GAMENAME 	"csgo"
 
 $Include "$SRCDIR\game\server\server_base.vpc"
 $include "$SRCDIR\game\shared\cstrike15\cstrike15_usermessages_include.vpc"
-$Include "$SRCDIR\game\shared\cstrike15\cstrike15_gcmessages_include.vpc" [!$PS3 && !$X360]
 
 $Configuration
 {
