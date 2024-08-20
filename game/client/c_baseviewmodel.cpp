@@ -50,11 +50,6 @@ ConVar vm_debug( "vm_debug", "0", FCVAR_CHEAT );
 ConVar vm_draw_always( "vm_draw_always", "0", FCVAR_CHEAT, "1 - Always draw view models, 2 - Never draw view models.  Should be done before map launches." );
 ConVar vm_pointer_pitch_up_scale( "vm_pointer_pitch_up_scale", "0.25", FCVAR_DEVELOPMENTONLY, "Limit how much the view model follows the pointer in looking up." );
 
-#ifdef _DEBUG
-	ConVar stickers_enabled_firstperson( "stickers_enabled_firstperson", "1", FCVAR_DEVELOPMENTONLY, "Enable work-in-progress stickers on viewmodels." );
-	ConVar stickers_debug_randomize( "stickers_debug_randomize", "0", FCVAR_DEVELOPMENTONLY, "All weapons fill all slots with random stickers." );
-#endif
-
 void PostToolMessage( HTOOLHANDLE hEntity, KeyValues *msg );
 extern float g_flMuzzleFlashScale;
 extern ConVar r_drawviewmodel;
@@ -132,12 +127,6 @@ void Precache( void )
 	PrecacheParticleSystem( MOLOTOV_PARTICLE_EFFECT_NAME );
 
 //	BaseClass::Precache();
-}
-
-void C_BaseViewModel::UpdateStatTrakGlow( void )
-{
-	//approach the ideal in 2 seconds
-	m_flStatTrakGlowMultiplier = Approach( m_flStatTrakGlowMultiplierIdeal, m_flStatTrakGlowMultiplier, (gpGlobals->frametime * 0.5) );
 }
 
 void C_BaseViewModel::OnNewParticleEffect( const char *pszParticleName, CNewParticleEffect *pNewParticleEffect )
@@ -240,7 +229,6 @@ bool C_BaseViewModel::Simulate( void )
 	int nSlot = GET_ACTIVE_SPLITSCREEN_SLOT();
 	ACTIVE_SPLITSCREEN_PLAYER_GUARD_ENT( GetOwner() );
 	UpdateParticles( nSlot );
-	UpdateStatTrakGlow();
 	BaseClass::Simulate();
 	return true;
 }
@@ -783,21 +771,6 @@ int C_BaseViewModel::DrawModel( int flags, const RenderableInstance_t &instance 
 				m_vecViewmodelArmModels[i]->DrawModel( flags | STUDIO_DONOTMODIFYSTENCILSTATE, instance );
 			}
 		}
-		for ( int i=0; i < m_hStickerModelAddons.Count(); ++i )
-		{
-			if ( m_hStickerModelAddons[i] )
-			{
-				m_hStickerModelAddons[i]->DrawModel( flags, instance );
-			}
-		}
-		if ( m_viewmodelStatTrakAddon )
-		{
-			m_viewmodelStatTrakAddon->DrawModel( flags | STUDIO_DONOTMODIFYSTENCILSTATE, instance );
-		}
-		if ( m_viewmodelUidAddon )
-		{
-			m_viewmodelUidAddon->DrawModel( flags | STUDIO_DONOTMODIFYSTENCILSTATE, instance );
-		}
 	}
 	
 #ifdef IRONSIGHT
@@ -938,9 +911,6 @@ void C_BaseViewModel::UpdateAllViewmodelAddons( void )
 	if ( !pPlayer )
 	{
 		RemoveViewmodelArmModels();
-		RemoveViewmodelLabel();
-		RemoveViewmodelStatTrak();
-		RemoveViewmodelStickers();
 		return;
 	}
 
@@ -948,18 +918,12 @@ void C_BaseViewModel::UpdateAllViewmodelAddons( void )
 	if ( !pWeapon )
 	{
 		RemoveViewmodelArmModels();
-		RemoveViewmodelLabel();
-		RemoveViewmodelStatTrak();
-		RemoveViewmodelStickers();
 		return;
 	}
 	CWeaponCSBase* pCSWeapon = dynamic_cast<CWeaponCSBase*>( pWeapon );
 	if ( !pCSWeapon )
 	{
 		RemoveViewmodelArmModels();
-		RemoveViewmodelLabel();
-		RemoveViewmodelStatTrak();
-		RemoveViewmodelStickers();
 		return;
 	}
 
@@ -992,38 +956,6 @@ void C_BaseViewModel::UpdateAllViewmodelAddons( void )
 			AddViewmodelArmModel( pPlayer->m_pViewmodelArmConfig->szAssociatedSleeveModel );
 		}
 	}
-
-
-	// econ-related addons follow, so bail out if we can't get at the econitemview
-	CEconItemView *pItem = pWeapon->GetEconItemView();
-	if ( !pItem )
-	{
-		RemoveViewmodelLabel();
-		RemoveViewmodelStatTrak();
-		RemoveViewmodelStickers();
-		return;
-	}
-
-	// verify weapon label and add if necessary
-	AddViewmodelLabel( pItem );
-
-	// verify stattrak module and add if necessary
-	CUtlSortVector<uint32> vTypes;
-
-	pItem->GetKillEaterTypes( vTypes );
-	if ( (vTypes.Count() > 0) && ( pItem->GetKillEaterValueByType( vTypes[ vTypes.Count() - 1] ) >= 0 ) )
-	{
-		CSteamID HolderSteamID;
-		pPlayer->GetSteamID( &HolderSteamID );
-		AddViewmodelStatTrak( pItem, vTypes[ vTypes.Count() - 1], weaponID, HolderSteamID.GetAccountID() );
-	}
-	else
-	{
-		RemoveViewmodelStatTrak();
-	}
-	
-	// add viewmodel stickers
-	AddViewmodelStickers( pItem, weaponID );
 
 #ifdef IRONSIGHT
 	if ( m_viewmodelScopeStencilMask )
@@ -1073,102 +1005,6 @@ C_ViewmodelAttachmentModel* C_BaseViewModel::AddViewmodelArmModel( const char *p
 	return nullptr;
 }
 
-void C_BaseViewModel::AddViewmodelLabel( CEconItemView *pItem )
-{
-	if ( !pItem || !pItem->GetCustomName() )
-	{
-		RemoveViewmodelLabel();
-		return;
-	} else if ( m_viewmodelUidAddon && m_viewmodelUidAddon.Get() && m_viewmodelUidAddon->GetMoveParent() )
-	{
-		return;
-	}
-	
-	RemoveViewmodelLabel();	
-
-	C_ViewmodelAttachmentModel *pUidEnt = new class C_ViewmodelAttachmentModel;
-	if ( pUidEnt && pUidEnt->InitializeAsClientEntity( pItem->GetUidModel(), true ) )
-	{
-		m_viewmodelUidAddon = pUidEnt;
-		pUidEnt->SetParent( this );
-		pUidEnt->SetLocalOrigin( vec3_origin );
-		pUidEnt->UpdatePartitionListEntry();
-		pUidEnt->CollisionProp()->MarkPartitionHandleDirty();
-		pUidEnt->UpdateVisibility();
-		pUidEnt->SetViewmodel( this );
-		pUidEnt->SetUseParentLightingOrigin( true );
-
-		if ( !cl_righthand.GetBool() )
-		{
-			pUidEnt->SetBodygroup( 0, 1 ); // use a special mirror-image that appears correct for lefties
-		}
-	
-		RemoveEffects( EF_NODRAW );
-	}
-}
-
-void C_BaseViewModel::AddViewmodelStatTrak( CEconItemView *pItem, int nStatTrakType, int nWeaponID, AccountID_t holderAcctId )
-{
-	if ( m_viewmodelStatTrakAddon && m_viewmodelStatTrakAddon.Get() && m_viewmodelStatTrakAddon->GetMoveParent() )
-		return;
-
-	RemoveViewmodelStatTrak();
-
-	if (!pItem)
-		return;
-
-	C_ViewmodelAttachmentModel *pStatTrakEnt = new class C_ViewmodelAttachmentModel;
-	if ( pStatTrakEnt && pStatTrakEnt->InitializeAsClientEntity( pItem->GetStatTrakModelByType( nStatTrakType ), true ) )
-	{
-		m_viewmodelStatTrakAddon = pStatTrakEnt;
-		pStatTrakEnt->SetParent( this );
-		pStatTrakEnt->SetLocalOrigin( vec3_origin );
-		pStatTrakEnt->UpdatePartitionListEntry();
-		pStatTrakEnt->CollisionProp()->MarkPartitionHandleDirty();
-		pStatTrakEnt->UpdateVisibility();
-		pStatTrakEnt->SetViewmodel( this );
-		pStatTrakEnt->SetUseParentLightingOrigin( true );
-
-		if ( !cl_righthand.GetBool() )
-		{
-			pStatTrakEnt->SetBodygroup( 0, 1 ); // use a special mirror-image stattrak module that appears correct for lefties
-		}
-
-		// this stat trak weapon doesn't belong to the current holder, display error message on the digital display. This is impossible for knives
-		if ( nWeaponID != WEAPON_KNIFE && nWeaponID != WEAPON_KNIFE_GG )
-		{
-			if ( pItem->GetAccountID() != holderAcctId )
-			{
-				pStatTrakEnt->SetBodygroup( 1, cl_righthand.GetBool() ? 1 : 2 ); // show the error screen bodygroup
-			}
-		}
-
-		RemoveEffects( EF_NODRAW );
-	}
-}
-
-bool C_BaseViewModel::ViewmodelStickersAreValid( int nWeaponID )
-{
-	if ( m_hStickerModelAddons.Count() == 0 )
-	{
-		return false;
-	}
-	// returns true if all viewmodel sticker handles are non-null and appropriate for the given weapon id
-	for ( int i=0; i < m_hStickerModelAddons.Count(); ++i )
-	{
-		if ( !m_hStickerModelAddons[i] || !m_hStickerModelAddons[i].Get() || !m_hStickerModelAddons[i]->GetMoveParent() )
-		{
-			return false;
-		}
-	}
-	return true;
-}
-
-void C_BaseViewModel::AddViewmodelStickers( CEconItemView *pItem, int nWeaponID )
-{
-	#error Cut for partner depot
-}
-
 void C_BaseViewModel::RemoveViewmodelArmModels( void )
 {
 	FOR_EACH_VEC_BACK( m_vecViewmodelArmModels, i )
@@ -1180,37 +1016,6 @@ void C_BaseViewModel::RemoveViewmodelArmModels( void )
 		}
 	}
 	m_vecViewmodelArmModels.RemoveAll();
-}
-
-void C_BaseViewModel::RemoveViewmodelLabel( void )
-{
-	C_ViewmodelAttachmentModel *pUidEnt = m_viewmodelUidAddon.Get();
-	if ( pUidEnt )
-	{
-		pUidEnt->Remove();
-	}
-}
-
-void C_BaseViewModel::RemoveViewmodelStatTrak( void )
-{
-	C_ViewmodelAttachmentModel *pStatTrakEnt = m_viewmodelStatTrakAddon.Get();
-	if ( pStatTrakEnt )
-	{
-		pStatTrakEnt->Remove();
-	}
-}
-
-void C_BaseViewModel::RemoveViewmodelStickers( void )
-{
-	for ( int i=0; i < m_hStickerModelAddons.Count(); ++i )
-	{
-		C_ViewmodelAttachmentModel *pStickerAddon = m_hStickerModelAddons[i];
-		if ( pStickerAddon )
-		{
-			pStickerAddon->Remove();
-		}
-	}
-	m_hStickerModelAddons.RemoveAll();
 }
 
 #if defined (_GAMECONSOLE)

@@ -17,7 +17,6 @@
 #endif // CLIENT_DLL
 
 #include <vgui/ISystem.h>
-#include "../../src/public/vgui_controls/Controls.h"
 
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"

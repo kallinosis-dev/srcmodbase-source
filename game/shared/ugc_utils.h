@@ -20,8 +20,6 @@ void V_SafeComposeFilename( const char *pPathIn, const char *pFilenameIn, char *
 // Use paths relative to GetCurrentDirectory, or absolute paths.
 bool UnzipFile( const char* szPathToZipFile, const char* szOutputDir = nullptr);
 
-bool UGCUtil_IsOfficialMap( PublishedFileId_t id );
-
 #if !defined( NO_STEAM ) && !defined ( _PS3 )
 
 #include "steam/steam_api.h"

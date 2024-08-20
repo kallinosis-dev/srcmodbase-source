@@ -32,9 +32,9 @@ public:
 
 	// Data Handling
 	virtual char	*Get_Name( void );
-	virtual char	*Get_ClanName( void );
-	virtual char	*Get_FlagImageString( void );
-	virtual char	*Get_LogoImageString( void );
+	virtual char const* Get_ClanName(void);
+	virtual char const* Get_FlagImageString(void) const;
+	virtual char const* Get_LogoImageString(void) const;
 	int				Get_Score( void )				{ return m_scoreTotal; }
 	int				Get_Score_First_Half( void )	{ return m_scoreFirstHalf; }
 	int				Get_Score_Second_Half( void )	{ return m_scoreSecondHalf; }	

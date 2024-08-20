@@ -1028,7 +1028,7 @@ bool CBaseHudChat::MsgFunc_TextMsg( const CCSUsrMsg_TextMsg &msg )
 
 		if ( szString[0] )
 		{
-			char *tmpStr = hudtextmessage->LookupString( szString, &msg_dest );
+			char const* tmpStr = hudtextmessage->LookupString( szString, &msg_dest );
 			bool bTranslated = false;
 			if ( tmpStr[ 0 ] == '#' )	// only translate parameters intended as localization tokens
 			{
@@ -1828,7 +1828,7 @@ void	CBaseHudChat::ChatPrintfW( int iPlayerIndex, int iFilter, const wchar_t *ws
 	}
 
 	// Forward message to Scaleform for display
-#if defined( CSTRIKE15 ) 
+#if defined( CSTRIKE15 ) && defined(INCLUDE_SCALEFORM)
 
 	if ( iFilter != CHAT_FILTER_NONE )
 	{

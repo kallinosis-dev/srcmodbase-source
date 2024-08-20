@@ -258,12 +258,12 @@ void CHudHintDisplay::OnThink()
 //-----------------------------------------------------------------------------
 bool CHudHintDisplay::MsgFunc_HintText( const CCSUsrMsg_HintText &msg )
 {
-#if defined( CSTRIKE15 )
+#if defined( CSTRIKE15 ) && defined(INCLUDE_SCALEFORM)
 	// csgo handles their hint text in sfhudinfopanel
 	return true;
 #endif
 	
-	char *tmpStr = hudtextmessage->LookupString( msg.text().c_str(), nullptr);
+	char const* tmpStr = hudtextmessage->LookupString( msg.text().c_str(), nullptr);
 	LocalizeAndDisplay( tmpStr, msg.text().c_str() );
 
 	return true;
@@ -275,7 +275,7 @@ bool CHudHintDisplay::MsgFunc_HintText( const CCSUsrMsg_HintText &msg )
 void CHudHintDisplay::FireGameEvent( IGameEvent * event)
 {
 	const char *hintmessage = event->GetString( "hintmessage" );
-	char *tmpStr = hudtextmessage->LookupString( hintmessage, nullptr);
+	char const* tmpStr = hudtextmessage->LookupString( hintmessage, nullptr);
 	LocalizeAndDisplay( tmpStr, hintmessage );
 }
 

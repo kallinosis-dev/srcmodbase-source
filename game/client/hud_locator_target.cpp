@@ -35,7 +35,12 @@
 #define OFFSCREEN_ICON_POSITION_RADIUS 100
 
 #define CAPTION_FONT_HANDLE		( ( IsLocatorSplitscreen() ) ? ( m_hCaptionFont_ss ) : ( m_hCaptionFont ) )
+
+#ifndef NO_STEAM
 #define BUTTON_FONT_HANDLE		( g_pInputSystem->IsSteamControllerActive()?( m_hButtonFontSC ):( m_hButtonFont ) )
+#else
+#define BUTTON_FONT_HANDLE		m_hButtonFont 
+#endif
 
 #define ICON_DIST_TOO_FAR	(60.0f * 12.0f)
 
@@ -85,6 +90,8 @@ ConVar locator_screen_pos_y( "locator_screen_pos_y", "0.35", FCVAR_NONE, "Percen
 ConVar locator_split_maxwide_percent( "locator_split_maxwide_percent", "0.80f", FCVAR_CHEAT );
 ConVar locator_split_len( "locator_split_len", "0.5f", FCVAR_CHEAT );
 
+
+#ifndef NO_STEAM
 // This maps a controller origin to a localized string (like "GameUI_Icons_SC_L_Trigger"). That string
 // will then remap to a character (like 'L'), which will correspond to a character inside the SC button font file.
 static const char *g_SteamControllerOriginStrings[k_EControllerActionOrigin_Count] = 
@@ -128,6 +135,7 @@ static const char *g_SteamControllerOriginStrings[k_EControllerActionOrigin_Coun
 
 #ifdef DEBUG
 ConVar sc_debug_origins( "sc_debug_origins", "0", FCVAR_ARCHIVE, "Debugging" );
+#endif
 #endif
 
 bool IsLocatorSplitscreen( void )
@@ -248,7 +256,11 @@ void CLocatorTarget::Deactivate( bool bNoFade )
 		m_wszCaption.RemoveAll();
 		m_wszCaption.AddToTail( (wchar_t)0 );
 
-		m_bWasControllerLast = m_bWasSteamControllerLast = false;
+		m_bWasControllerLast = false;
+
+#ifndef NO_STEAM
+		m_bWasSteamControllerLast = false;
+#endif
 	}
 	else if ( !( m_iEffectsFlags & LOCATOR_ICON_FX_FADE_OUT ) )
 	{
@@ -553,19 +565,25 @@ void CLocatorTarget::SetBinding( const char *pszBinding )
 
 	if ( !IsGameConsole() )
 	{
+#ifndef NO_STEAM
 		// Only show joystick binds if it's enabled and non-joystick if it's disabled
 		if ( g_pInputSystem->IsSteamControllerActive() )
 			nBindingLookupFlags = BINDINGLOOKUP_STEAMCONTROLLER_ONLY;
 		else
+#endif
 			nBindingLookupFlags = input->ControllerModeActive() ? BINDINGLOOKUP_JOYSTICK_ONLY : BINDINGLOOKUP_KEYBOARD_ONLY;
 	}
 
 	bool bIsControllerNow = ( nBindingLookupFlags != 0 );
 
+#ifndef NO_STEAM
 #ifdef DEBUG
 	if ( !sc_debug_origins.GetBool() && (m_bWasControllerLast == bIsControllerNow && m_bWasSteamControllerLast == g_pInputSystem->IsSteamControllerActive()) )
 #else
 	if ( m_bWasControllerLast == bIsControllerNow || m_bWasSteamControllerLast == g_pInputSystem->IsSteamControllerActive() )
+#endif
+#else
+	if (m_bWasControllerLast == bIsControllerNow)
 #endif
 	{
 		// We haven't toggled joystick enabled recently, so if it's the same bind, bail
@@ -576,7 +594,10 @@ void CLocatorTarget::SetBinding( const char *pszBinding )
 	}
 
 	m_bWasControllerLast = bIsControllerNow;
+
+#ifndef NO_STEAM
 	m_bWasSteamControllerLast = g_pInputSystem->IsSteamControllerActive();
+#endif
 
 	m_szBinding = pszBinding;
 	m_pIcon_onscreen = nullptr; // Dirty the onscreen icon so that the Locator will look up the new icon by name.
@@ -593,6 +614,7 @@ void CLocatorTarget::SetBinding( const char *pszBinding )
 
 	pchToken = nexttoken( szToken, pchToken, ';' );
 
+#ifndef NO_STEAM
 	// Get our steam controller handles ready
 	uint64 nSteamControllerHandles[STEAM_CONTROLLER_MAX_COUNT];
 	int nSteamControllerCount = 0;
@@ -603,6 +625,7 @@ void CLocatorTarget::SetBinding( const char *pszBinding )
 			nSteamControllerCount = steamapicontext->SteamController()->GetConnectedControllers( nSteamControllerHandles );
 		}
 	}
+#endif
 
 // 	Msg("    m_bWasControllerLast     : %s\n", m_bWasControllerLast ? "TRUE" : "FALSE" );
 // 	Msg("    m_bWasSteamControllerLast: %s\n", m_bWasSteamControllerLast ? "TRUE" : "FALSE" );
@@ -610,6 +633,7 @@ void CLocatorTarget::SetBinding( const char *pszBinding )
 
 	while ( pchToken )
 	{
+#ifndef NO_STEAM
 		if ( nBindingLookupFlags == BINDINGLOOKUP_STEAMCONTROLLER_ONLY && nSteamControllerCount > 0 )
 		{
 			// What to do if they have multiple controllers connected?
@@ -645,6 +669,7 @@ void CLocatorTarget::SetBinding( const char *pszBinding )
 			}
 		}
 		else
+#endif
 		{
 			// Get the first parameter
 			int iTokenBindingCount = 0;
@@ -667,6 +692,7 @@ void CLocatorTarget::SetBinding( const char *pszBinding )
 
 	//Msg("    m_iBindingChoicesCount   : %d\n", m_iBindingChoicesCount );
 
+#ifndef NO_STEAM
 	if ( m_bWasSteamControllerLast && !m_iBindingChoicesCount )
 	{
 		// This is a hack until we can get origins in other game action sets.
@@ -674,12 +700,13 @@ void CLocatorTarget::SetBinding( const char *pszBinding )
 		// game action set has switched from the main menu controls back to the FPS Controls.
 		m_bWasSteamControllerLast = false;
 	}
+#endif
 
 	m_pulseStart = gpGlobals->curtime;
 }
 
 #ifdef DEBUG
-char *g_szControllerOrigins[] =
+char const* g_szControllerOrigins[] =
 {
 	"k_EControllerActionOrigin_None",
 	"k_EControllerActionOrigin_A",
@@ -720,6 +747,8 @@ char *g_szControllerOrigins[] =
 
 #endif
 
+
+#ifndef NO_STEAM
 //------------------------------------
 void CLocatorTarget::SetSteamControllerBindingToOrigin( EControllerActionOrigin *pOrigins, int nOriginalToken, const char *pszActionName )
 {
@@ -756,6 +785,7 @@ void CLocatorTarget::SetSteamControllerBindingToOrigin( EControllerActionOrigin 
 			break;
 	}
 }
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -790,6 +820,7 @@ const char *CLocatorTarget::UseBindingImage( char *pchIconTextureName, size_t bu
 		return pchBinding;
 	}
 
+#ifndef NO_STEAM
 	// Steam controller overrides all actions now
 	if ( g_pInputSystem->IsSteamControllerActive() )
 	{
@@ -797,6 +828,7 @@ const char *CLocatorTarget::UseBindingImage( char *pchIconTextureName, size_t bu
 		Q_strncpy( pchIconTextureName, "icon_blank", bufSize );
 		return pchBinding;
 	}
+#endif
 
 	//icon_blank_wide
 	/*

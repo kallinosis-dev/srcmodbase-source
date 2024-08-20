@@ -32,7 +32,9 @@
 
 static ConVar cl_showfps( "cl_showfps", "0", FCVAR_RELEASE, "Draw fps meter (1 = fps, 2 = smooth, 3 = server, 4 = Show+LogToFile, 5 = Thread and wait times +10 = detailed )" );
 static ConVar cl_showpos( "cl_showpos", "0", FCVAR_RELEASE, "Draw current position at top of screen" );
+#ifndef NO_STEAM
 static ConVar cl_showbattery( "cl_showbattery", "0", 0, "Draw current battery level at top of screen when on battery power" );
+#endif
 static ConVar cl_showfps5_disp_time( "cl_showfps5_disp_time", "1.0", 0, "Time interval (s) at which thread and wait times are sampled and display is updated" );
 static ConVar cl_showfps5_btlneck_disp_time( "cl_showfps5_btlneck_disp_time", "5.0", 0, "Time interval (s) for which main/render/gpu bottleneck times are displayed" );
 
@@ -149,8 +151,10 @@ private:
 	int				m_nNumFramesTotal;
 	int				m_nNumFramesBucket[PERF_HISTOGRAM_BUCKET_SIZE];
 
+#ifndef NO_STEAM
 	int				m_BatteryPercent;
 	float			m_lastBatteryPercent;
+#endif
 
 	PerfStatRecord	m_perfStats[4];
 };
@@ -171,9 +175,11 @@ CFPSPanel::CFPSPanel( vgui::VPANEL parent ) : BaseClass(nullptr, "CFPSPanel" )
 	SetPaintBackgroundEnabled( false );
 					    
 	m_hFont = 0;
-	m_nLinesNeeded = 5;		  
+	m_nLinesNeeded = 5;
+#ifndef NO_STEAM
 	m_BatteryPercent = -1;
 	m_lastBatteryPercent = -1.0f;
+#endif
 
 	ComputeSize();
 
@@ -506,7 +512,7 @@ void CFPSPanel::Paint()
 	{
 		if ( nFPSMode == 5 )
 		{
-			char *perfStatTitle[4] = 
+			char const* perfStatTitle[4] = 
 			{
 				"Current",
 				"Main    ",
@@ -705,7 +711,7 @@ void CFPSPanel::Paint()
 		static FpsSpikesTracker_t<100> s_tracker;
 		s_tracker.AddSample( apci );
 
-		struct FpsDetail_t { char *sz; float fl; };
+		struct FpsDetail_t { char const* sz; float fl; };
 		static ConVarRef mat_queue_mode( "mat_queue_mode" );
 		static ConVarRef mat_vsync( "mat_vsync" );
 		int nMSTmode = mat_queue_mode.GetInt();
@@ -895,7 +901,8 @@ void CFPSPanel::Paint()
 	}
 
 #endif
-	
+
+#ifndef NO_STEAM
 	if ( cl_showbattery.GetInt() > 0 )
 	{
 		if ( steamapicontext && steamapicontext->SteamUtils() && 
@@ -922,6 +929,7 @@ void CFPSPanel::Paint()
 			}
 		}
 	}
+#endif
 
 
 #ifdef _GAMECONSOLE

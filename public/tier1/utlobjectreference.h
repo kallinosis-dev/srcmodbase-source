@@ -141,6 +141,11 @@ public:
 		return ( o.m_pObject == m_pObject );
 	}	
 
+	FORCEINLINE bool operator==(nullptr_t) const
+	{
+		return m_pObject == nullptr;
+	}
+
 public:
 	CUtlReference *m_pNext;
 	CUtlReference *m_pPrev;

@@ -15,7 +15,9 @@
 #endif
 
 // memdbgon must be the last include file in a .cpp file!!!
+#include "fmtstr.h"
 #include "tier0/memdbgon.h"
+#include "vgui/ILocalize.h"
 
 const float PLAYER_RESOURCE_THINK_INTERVAL = 0.2f;
 #define PLAYER_DEBUG_NAME "WWWWWWWWWWWWWWW"
@@ -96,7 +98,9 @@ C_PlayerResource::C_PlayerResource()
 
 	g_PR = this;
 
+#ifdef INCLUDE_SCALEFORM
 	g_pScaleformUI->AddDeviceDependentObject( this );
+#endif
 }
 
 //-----------------------------------------------------------------------------
@@ -104,6 +108,7 @@ C_PlayerResource::C_PlayerResource()
 //-----------------------------------------------------------------------------
 C_PlayerResource::~C_PlayerResource()
 {
+#ifdef INCLUDE_SCALEFORM
 	for ( int i = 1; i <= MAX_PLAYERS; i++ )
 	{
 		if ( m_Xuids[i] != INVALID_XUID )
@@ -111,10 +116,13 @@ C_PlayerResource::~C_PlayerResource()
 			g_pScaleformUI->AvatarImageRelease( m_Xuids[i] );
 		}
 	}
+#endif
 
 	g_PR = nullptr;
 
+#ifdef INCLUDE_SCALEFORM
 	g_pScaleformUI->RemoveDeviceDependentObject( this );
+#endif
 }
 
 void C_PlayerResource::OnDataChanged(DataUpdateType_t updateType)
@@ -154,6 +162,9 @@ void C_PlayerResource::UpdateXuids( void )
 			}
 		}
 
+#ifndef INCLUDE_SCALEFORM
+		m_Xuids[i] = newXuid;
+#else
 		if ( newXuid != m_Xuids[i] )
 		{
 			bool bAddRefSuccess = false;
@@ -173,6 +184,7 @@ void C_PlayerResource::UpdateXuids( void )
 				m_Xuids[i] = newXuid;
 			}
 		}
+#endif
 	}
 }
 
@@ -513,26 +525,6 @@ bool C_PlayerResource::IsLocalPlayer(int index)
 	return ( index == pPlayer->entindex() );
 }
 
-
-bool C_PlayerResource::IsHLTV(int index)
-{
-	if ( !IsConnected( index ) )
-		return false;
-
-	// HLTV replay will not set m_bLocalPlayer flag, in a sense there's no selected local player, we're observing everyone
-	if ( g_HltvReplaySystem.GetHltvReplayDelay() && C_BasePlayer::GetLocalPlayer()->index == index )
-		return true;  // local player is always HLTV in HLTV replay mode, even though the hltv property isn't set because we are in the past and replaying everything as it was (including no hltv flag set)
-
-	player_info_t sPlayerInfo;
-	
-	if ( engine->GetPlayerInfo( index, &sPlayerInfo ) )
-	{
-		return sPlayerInfo.ishltv;
-	}
-	
-	return false;
-}
-
 #if defined( REPLAY_ENABLED )
 bool C_PlayerResource::IsReplay(int index)
 {
@@ -689,6 +681,7 @@ void C_PlayerResource::FillXuidText( int iIndex, char *buf, int bufSize )
 
 void C_PlayerResource::DeviceLost( void )
 {
+#ifdef INCLUDE_SCALEFORM
 	for ( int i = 1; i <= MAX_PLAYERS; i++ )
 	{
 		if ( m_Xuids[i] != INVALID_XUID )
@@ -697,6 +690,7 @@ void C_PlayerResource::DeviceLost( void )
 			m_Xuids[i] = INVALID_XUID;
 		}
 	}
+#endif
 }
 
 void C_PlayerResource::DeviceReset( void *pDevice, void *pPresentParameters, void *pHWnd )

@@ -40,7 +40,7 @@
 #define MAX_MATCH_STATS_ROUNDS 30
 #define MATCH_STATS_TEAM_SWAP_ROUND	15
 
-#define IRONSIGHT // Enable viewmodel ironsight feature
+//#define IRONSIGHT // Enable viewmodel ironsight feature
 #define GRENADE_UNDERHAND_FEATURE_ENABLED // Enable underhand grenade feature
 #define GRENADE_DEFAULT_SIZE 2.0
 
@@ -415,56 +415,6 @@ namespace AcquireMethod
 		PickUp,
 		Buy,
 	};
-}
-
-// Results for CSPlayer::CanProgressQuest()
-namespace QuestProgress
-{
-	enum Reason
-	{
-		// Default value: not initialized yet (game rules or inventory data not yet retrieved)
-		QUEST_NONINITIALIZED,
-
-		// Quest can make progression
-		QUEST_OK,
-
-		// Quest can make progression if more humans connect to server
-		QUEST_NOT_ENOUGH_PLAYERS,
-
-		// Quest can make progression once warmup is ended.
-		// This is only verified on client, and could be mismatched between client and server.
-		QUEST_WARMUP,
-
-		// No steam account found
-		QUEST_NOT_CONNECTED_TO_STEAM,
-
-		// Playing on community server, quests only enabled on Valve servers
-		QUEST_NONOFFICIAL_SERVER,
-
-		// Don't have the challenge coin 
-		QUEST_NO_ENTITLEMENT,
-
-		// User has no active quest
-		QUEST_NO_QUEST,
-
-		// User isn't human
-		QUEST_PLAYER_IS_BOT,
-
-		// Doesn't match state required by quest
-		QUEST_WRONG_MAP,
-		QUEST_WRONG_MODE,
-
-		// Client thinks it has quest, but the server doesn't know about it
-		QUEST_NOT_SYNCED_WITH_SERVER,
-
-		// Sentinel entry, never used except for maximum size verification
-		QUEST_REASON_MAX,
-	};
-
-	const int QuestReasonBits = 4;
-	COMPILE_TIME_ASSERT( QUEST_REASON_MAX <= ( 1 << QuestReasonBits ) );
-
-	const char* ReasonString(Reason reason); // for use by UI code, so that values stay consistent if enum changes
 }
 
 #endif // CS_SHAREDDEFS_H

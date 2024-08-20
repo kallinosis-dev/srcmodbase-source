@@ -98,7 +98,7 @@ const char* CWeaponTaser::GetMuzzleFlashEffectName_1stPerson( void )
 	}
 	else
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_1stPerson( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_1stPerson();
 	}
 }
 
@@ -110,7 +110,7 @@ const char* CWeaponTaser::GetMuzzleFlashEffectName_3rdPerson( void )
 	}
 	else
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPerson( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPerson();
 	}
 }
 

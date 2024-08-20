@@ -12,6 +12,8 @@
 
 #include "steamworks_gamestats.h"
 
+#ifndef NO_STEAM
+
 //used to drive most of the game stat event handlers as well as track basic stats under the hood of CBaseGameStats
 class CSteamWorksGameStatsClient : public CSteamWorksGameStatsUploader
 {
@@ -55,7 +57,7 @@ protected:
 };
 
 CSteamWorksGameStatsClient& GetSteamWorksGameStatsClient();
-
+#endif
 
 
 // Macros to ease the creation of SendData method for stats structs/classes
@@ -92,10 +94,16 @@ CSteamWorksGameStatsClient& GetSteamWorksGameStatsClient();
 #define AUTO_STAT_TABLE_KEY() \
 	pKV->SetInt( "TimeSubmitted", GetUniqueIDForStatTable( *this ) );
 
+#ifndef NO_STEAM
 #define END_STAT_TABLE() \
 	pKV->SetUint64( ::BaseStatData::m_bUseGlobalData ? "TimeSubmitted" : "SessionTime", ::BaseStatData::TimeSubmitted ); \
 	GetSteamWorksGameStatsClient().AddStatsForUpload( pKV ); \
 }
+#else
+#define END_STAT_TABLE() \
+	pKV->SetUint64( ::BaseStatData::m_bUseGlobalData ? "TimeSubmitted" : "SessionTime", ::BaseStatData::TimeSubmitted ); \
+}
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: Templatized class for getting unique ID's for stat tables that need
@@ -268,7 +276,12 @@ struct BaseStatData
 {
 	explicit BaseStatData( bool bUseGlobalData = true ) : m_bUseGlobalData( bUseGlobalData )
 	{
-		TimeSubmitted = GetSteamWorksGameStatsClient().GetTimeSinceEpoch();
+		TimeSubmitted =
+#ifndef NO_STEAM
+			GetSteamWorksGameStatsClient().GetTimeSinceEpoch();
+#else
+			0;
+#endif
 	}
 
 	bool	m_bUseGlobalData;

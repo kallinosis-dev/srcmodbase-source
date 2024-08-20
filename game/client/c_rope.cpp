@@ -97,10 +97,6 @@ static ConVar rope_smooth_maxalpha( "rope_smooth_maxalpha", "0.5", 0, "Alpha for
 static ConVar mat_fullbright( "mat_fullbright", "0", FCVAR_CHEAT ); // get it from the engine
 static ConVar r_drawropes( "r_drawropes", "1", FCVAR_CHEAT );
 static ConVar r_ropetranslucent( "r_ropetranslucent", "1");
-static ConVar r_rope_holiday_light_scale( "r_rope_holiday_light_scale", "0.14", FCVAR_DEVELOPMENTONLY );
-//static ConVar r_ropes_holiday_lights_allowed( "r_ropes_holiday_lights_allowed", "0", FCVAR_DEVELOPMENTONLY );
-static ConVar r_ropes_holiday_lights_type( "r_ropes_holiday_lights_type", "0", FCVAR_DEVELOPMENTONLY, "0 == sprites, 1 == models" );
-static ConVar r_ropes_holiday_max_dist_to_draw( "r_ropes_holiday_max_dist_to_draw", "700", FCVAR_DEVELOPMENTONLY, "If a ropes length (from one end to the other, not counting slack), exceeds this distance, it won't have lights." );
 
 static ConVar rope_wind_dist( "rope_wind_dist", "1000", 0, "Don't use CPU applying small wind gusts to ropes when they're past this distance." );
 static ConVar rope_averagelight( "rope_averagelight", "1", 0, "Makes ropes use average of cubemap lighting instead of max intensity." );
@@ -160,10 +156,6 @@ public:
 	void ResetRenderCache( void );
 	void AddToRenderCache( C_RopeKeyframe *pRope );
 	void DrawRenderCache( IMatRenderContext *pRenderContext, bool bShadowDepth );
-
-	void SetHolidayLightMode( bool bHoliday ) { m_bDrawHolidayLights = bHoliday; }
-	bool IsHolidayLightMode( void );
-	int GetHolidayLightStyle( void );
 	
 	enum { MAX_ROPE_RENDERCACHE	= 128 };
 
@@ -193,9 +185,6 @@ private:
 	IMaterial* m_pDepthWriteMaterial;
 	CUtlLinkedList<RopeQueuedRenderCache_t> m_RopeQueuedRenderCaches;	
 	CThreadFastMutex		m_RopeQueuedRenderCaches_Mutex; //mutex just for changing m_RopeQueuedRenderCaches
-	bool m_bDrawHolidayLights;
-	bool m_bHolidayInitialized;
-	int m_nHolidayLightsStyle;
 };
 
 static CRopeManager s_RopeManager;
@@ -213,8 +202,6 @@ CRopeManager::CRopeManager()
 {
 	m_aRenderCache.Purge();
 	m_pDepthWriteMaterial = nullptr;
-	m_bDrawHolidayLights = false;
-	m_bHolidayInitialized = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -516,32 +503,6 @@ void CRopeManager::DrawRenderCache_NonQueued( bool bShadowDepth, RopeRenderData_
 					int nSegsToRender = pRope->m_RopePhysics.NumNodes()-1;
 					Vector vecRopeStart = pNode[0].m_vPredicted;
 					Vector vecRopeEnd = pNode[nSegsToRender].m_vPredicted;
-					float flDist = (vecRopeStart - vecRopeEnd).Length();
-					if ( flDist < r_ropes_holiday_max_dist_to_draw.GetFloat() )
-					{
-						for ( int nSeg = 1; nSeg < nSegsToRender; ++nSeg )
-						{
-							CEffectData data;
-							if ( RopeManager()->IsHolidayLightMode() &&
-								 pRope->m_ropeType == ROPE_TYPE_DEFAULT &&
-								 pRope->m_iDefaultRopeMaterialModelIndex == pRope->m_iRopeMaterialModelIndex &&
-								 pRope->m_RopePhysics.NumNodes() >= 5 &&
-								 m_RopeQueuedRenderCaches.Count() == 1 &&
-								 r_rope_holiday_light_scale.GetFloat() > 0.0f )
-							{
-								int xy = ( int )( pNode[nSeg].m_vPredicted.x + pNode[nSeg].m_vPredicted.y );
-								data.m_nMaterial = xy;
-								int z = ( int )pNode[nSeg].m_vPredicted.z;
-								data.m_nHitBox = ( z << 8 );
-								data.m_flScale = r_rope_holiday_light_scale.GetFloat();
-								data.m_vOrigin = pNode[nSeg].m_vPredicted;
-								{
-									AUTO_LOCK( g_RopeDelayedEffects.m_mtx );
-									g_RopeDelayedEffects.m_arrEffects.AddToTail( data );
-								}
-							}
-						}
-					}
 
 					// output last piece
 					OUTPUT_2SPLINE_VERTS( nVertices, 1.0, flU );
@@ -692,18 +653,6 @@ void CRopeManager::DrawRenderCache( IMatRenderContext *pRenderContext, bool bSha
 	{
 		DrawRenderCache_NonQueued( bShadowDepth, m_aRenderCache.Base(), iRenderCacheCount, vForward, vOrigin, nullptr, nullptr);
 	}
-}
-
-bool CRopeManager::IsHolidayLightMode( void )
-{
-	#error Cut for partner depot
-	bool bDrawHolidayLights = false;
-	return bDrawHolidayLights;
-}
-
-int CRopeManager::GetHolidayLightStyle( void )
-{
-	return r_ropes_holiday_lights_type.GetInt();
 }
 
 void CRopeManager::RemoveRopeFromQueuedRenderCaches( C_RopeKeyframe *pRope )
@@ -1301,10 +1250,6 @@ void C_RopeKeyframe::ClientThink()
 	// Only recalculate the endpoint attachments once per frame.
 	m_bEndPointAttachmentPositionsDirty = true;
 	m_bEndPointAttachmentAnglesDirty = true;
-	
-	// update the holiday lights here even if they aren't simulated
-	if ( m_ropeType == ROPE_TYPE_DEFAULT )
-		UpdateHolidayLights();
 
 	if( !InitRopePhysics() ) // init if not already
 		return;
@@ -1773,23 +1718,6 @@ bool C_RopeKeyframe::GetEndPointAttachment( int iPt, Vector &vPos, QAngle &angle
 	vPos = m_vCachedEndPointAttachmentPos[iPt];
 	angle = m_vCachedEndPointAttachmentAngle[iPt];
 	return true;
-}
-
-void C_RopeKeyframe::UpdateHolidayLights( void )
-{
-	if ( !RopeManager()->IsHolidayLightMode() )
-		return;
-
-	if ( ( gpGlobals->curtime != g_RopeDelayedEffects.m_flTimeProcessedOnMainThread ) && g_RopeDelayedEffects.m_arrEffects.Count() )
-	{
-		g_RopeDelayedEffects.m_flTimeProcessedOnMainThread = gpGlobals->curtime;
-		AUTO_LOCK( g_RopeDelayedEffects.m_mtx );
-		FOR_EACH_VEC( g_RopeDelayedEffects.m_arrEffects, iEffect )
-		{
-			DispatchEffect( "CS_HolidayLight", g_RopeDelayedEffects.m_arrEffects[iEffect] );
-		}
-		g_RopeDelayedEffects.m_arrEffects.RemoveAll();
-	}
 }
 
 void C_RopeKeyframe::CalcLightValues()

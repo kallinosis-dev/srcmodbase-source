@@ -237,10 +237,6 @@ private:
 public:
 	float					m_fCycleOffset;
 
-	void					UpdateStatTrakGlow( void );
-	void					SetStatTrakGlowMultiplier( float flNewIdealGlow ) { m_flStatTrakGlowMultiplierIdeal = flNewIdealGlow; }
-	const float				GetStatTrakGlowMultiplier( void ){ return m_flStatTrakGlowMultiplier; }
-
 #ifdef IRONSIGHT
 	void					SetScopeStencilMaskMode( bool bEnabled ) { m_bScopeStencilMaskModeEnabled = bEnabled; }
 	bool					GetScopeStencilMaskMode( void ) { return m_bScopeStencilMaskModeEnabled; }
@@ -254,16 +250,10 @@ private:
 #endif
 
 	CUtlVector< CHandle< C_ViewmodelAttachmentModel > > m_vecViewmodelArmModels; // gloves, sleeves, etc
-	CHandle< C_ViewmodelAttachmentModel > m_viewmodelStatTrakAddon;
-	CHandle< C_ViewmodelAttachmentModel > m_viewmodelUidAddon;
+
 	int						m_iAddOnPlayerClass;
 	int						m_iAddOnWeaponID;
-	float					m_flStatTrakGlowMultiplierIdeal;
-	float					m_flStatTrakGlowMultiplier;
 
-	//stickers
-	typedef CHandle<C_ViewmodelAttachmentModel>	StickerHandle_t;
-	CUtlVector<StickerHandle_t>	m_hStickerModelAddons;
 	CBaseAnimating* m_pMaterialPreviewShape;
 
 	char					m_szLastSound[64];

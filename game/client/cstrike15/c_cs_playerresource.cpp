@@ -471,18 +471,6 @@ const char *C_CS_PlayerResource::GetPlayerName( int index )
 	if ( cl_show_playernames_max_chars_console.GetBool() )
 		return "WWWWWWWWWWWWWWWW";
 
-	CEconQuestDefinition *pQuestDef = CSGameRules()->GetActiveAssassinationQuest();
-	if ( IsAssassinationTarget( index ) && pQuestDef )
-	{
-		static char szAssassinationTargetName[ MAX_PLAYER_NAME_LENGTH ];
-		const char* szLocToken = Helper_GetLocalPlayerAssassinationQuestLocToken( pQuestDef );
-		if ( szLocToken )
-		{
-			V_UnicodeToUTF8( g_pVGuiLocalize->Find( szLocToken ), szAssassinationTargetName, MAX_PLAYER_NAME_LENGTH );
-			return szAssassinationTargetName;
-		}
-	}
-
 	return BaseClass::GetPlayerName( index );
 }
 
@@ -499,20 +487,6 @@ void C_CS_PlayerResource::UpdatePlayerName( int slot )
 	char const *pchPlayerName = nullptr;
 	player_info_t sPlayerInfo;
 
-	bool bUseTournamentContentStandards = cl_spec_use_tournament_content_standards.GetBool( ) || sv_spec_use_tournament_content_standards.GetBool( );
-	// is this spectator insisting to use official pro player names?
-
-	bool bGetProPlayerName = bUseTournamentContentStandards;
-
-	if ( IsConnected( slot ) && ( pLocalPlayer->IsSpectator( ) || pLocalPlayer->IsHLTV( ) ) && bGetProPlayerName )
-	{
-		CProPlayerData const *pProPlayerData = pProPlayerData = GEconItemSchema( ).GetProPlayerDataByAccountID( GetXuid( index ) );
-
-		if ( pProPlayerData )
-		{
-			pchPlayerName = pProPlayerData->GetName( );
-		}
-	}
 
 	// not a pro or we don't care.
 	 if ( !pchPlayerName && 

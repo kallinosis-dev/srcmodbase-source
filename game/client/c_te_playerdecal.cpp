@@ -338,80 +338,6 @@ void C_FEPlayerDecal::PostDataUpdate( DataUpdateType_t updateType )
 	m_bDecalReadyToApplyToWorld = BMakeDecalReadyToApplyToWorld();
 }
 
-DEVELOPMENT_ONLY_CONVAR( cl_playerspray_debug_pulse_force, 0 );
-
-// Checks if the local player has an equipped spray and is aiming in a sprayable area with the rosetta menu up and if cooldown is ready
-// Note: rosetta menu code is using this check to determine if we're passing all the validity checks to spray. 
-bool Helper_CanShowPreviewDecal( CEconItemView **ppOutEconItemView = nullptr, trace_t* pOutSprayTrace = nullptr, Vector *pOutVecPlayerRight = nullptr, uint32* pOutUnStickerKitID = nullptr)
-{
-	if ( !Helper_CanUseSprays() )
-		return false;
-
-	C_CSPlayer *pLocalPlayer = C_CSPlayer::GetLocalCSPlayer();
-	if ( !pLocalPlayer )
-		return false;
-
-	if ( !cl_playerspray_debug_pulse_force.GetInt() )
-	{
-		// Check if UI is visible
-		SFHudRosettaSelector* pRosetta = ( SFHudRosettaSelector* ) ( GetHud( 0 ).FindElement( "SFHudRosettaSelector" ) );
-		if ( !pRosetta || !pRosetta->Visible() || !pRosetta->ShouldDraw() )
-			return false;
-
-		// Check player spray cooldown
-		if ( pLocalPlayer->GetNextDecalTime() > gpGlobals->curtime )
-			return false;
-	}
-
-	Vector playerRight;
-	trace_t sprayTrace;
-	if ( pLocalPlayer->IsAbleToApplySpray( &sprayTrace, nullptr, &playerRight ) )
-		return false;
-
-	if ( pOutSprayTrace )
-		*pOutSprayTrace = sprayTrace;
-
-	if ( pOutVecPlayerRight )
-		*pOutVecPlayerRight = playerRight;
-
-	CCSPlayerInventory* pPlayerInv = CSInventoryManager()->GetLocalCSInventory();
-	if ( !pPlayerInv )
-		return false;
-
-	CEconItemView* pEconItem = pPlayerInv->GetItemInLoadout( 0, LOADOUT_POSITION_SPRAY0 );
-	if ( !pEconItem || !pEconItem->IsValid() )
-		return false;
-
-	if ( ppOutEconItemView )
-		*ppOutEconItemView = pEconItem;
-
-	uint32 unStickerKitID = pEconItem->GetStickerAttributeBySlotIndexInt( 0, k_EStickerAttribute_ID, 0 );
-	if ( !unStickerKitID )
-		return false;
-
-	if ( pOutUnStickerKitID )
-		*pOutUnStickerKitID = unStickerKitID;
-
-	return true;
-}
-
-void UpdatePreviewDecal()
-{
-	uint32 unStickerKitID;
-	trace_t sprayTrace;
-	Vector playerRight;
-	CEconItemView *pEconItem;
-	if ( !Helper_CanShowPreviewDecal( &pEconItem, &sprayTrace, &playerRight, &unStickerKitID ) )
-		return;
-
-	static CSchemaAttributeDefHandle hAttrSprayTintID( "spray tint id" );
-	uint32 unTintID = 0;
-	if ( !hAttrSprayTintID || !pEconItem->FindAttribute( hAttrSprayTintID, &unTintID ) )
-		unTintID = 0;
-
-	QcCreatePreviewDecal( unStickerKitID, unTintID, sprayTrace, &playerRight );
-}
-
 void OnPlayerDecalsUpdate()
 {
 	FOR_EACH_MAP( s_mapPlayerDecalsUniqueIDsToApply, i )
@@ -436,6 +362,7 @@ bool C_FEPlayerDecal::BMakeDecalReadyToApplyToWorld()
 {
 	VPROF( "C_FEPlayerDecal::BMakeDecalReadyToApplyToWorld" );
 
+#if 0
 	// Validate the signature before applying on the client
 	PlayerDecalDigitalSignature data;
 	data.set_accountid( m_unAccountID );
@@ -468,6 +395,7 @@ bool C_FEPlayerDecal::BMakeDecalReadyToApplyToWorld()
 #endif
 	if ( !BValidateClientPlayerDecalSignature( data ) )
 		return false;
+#endif
 
 	// Make the decal ready.
 	const int nKey = MakeKey( m_nUniqueID );
@@ -531,43 +459,6 @@ void QcCreatePreviewDecal( uint32 nStickerKitDefinition, uint32 nTintID, const t
 	CLocalPlayerFilter filter;
 	QcCreateDecalData( g_nPlayerLogoProxyForPreviewKey, nStickerKitDefinition, nTintID, bHasDrips, gpGlobals->curtime - PLAYERDECALS_DURATION_APPLY );
 	TE_PlayerDecal( filter, 0.0f, &trace.endpos, &startPos, pRight, g_nPlayerLogoProxyForPreviewKey, trace.GetEntityIndex(), trace.hitbox, EDF_IMMEDIATECLEANUP );
-}
-
-IMaterial * QcCreateDecalDataForModelPreviewPanel( int nStickerKitDefinition, int nTintID )
-{
-	IMaterial *pMatStickerOverride = nullptr;
-
-	CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-	ICallQueue* pCQ = pRenderContext->GetCallQueue();
-	if ( pCQ )
-		pCQ->QueueCall( DeleteDecalData, g_nPlayerLogoProxyForPreviewKey );
-	else
-		DeleteDecalData( g_nPlayerLogoProxyForPreviewKey );
-
-	if ( nStickerKitDefinition > 0 && GetItemSchema() && GetItemSchema()->GetStickerKitDefinition( nStickerKitDefinition ) )
-	{
-		char const *szDesiredPreviewMaterialPath = "decals/playerlogo01_modelpreview.vmt";
-		pMatStickerOverride = materials->FindMaterial( szDesiredPreviewMaterialPath, TEXTURE_GROUP_OTHER );
-		if ( pMatStickerOverride->IsErrorMaterial() )
-		{
-			KeyValues *pSpecificStickerMaterialKeyValues = new KeyValues( "vmt" );
-			KeyValues::AutoDelete autodelete_pSpecificStickerMaterialKeyValues( pSpecificStickerMaterialKeyValues );
-
-			if ( pSpecificStickerMaterialKeyValues->LoadFromFile( g_pFullFileSystem, szDesiredPreviewMaterialPath, "GAME" ) )
-			{
-				pMatStickerOverride = materials->CreateMaterial( szDesiredPreviewMaterialPath, pSpecificStickerMaterialKeyValues );
-			}
-
-			autodelete_pSpecificStickerMaterialKeyValues.Detach();
-		}
-	}
-
-	if ( !pMatStickerOverride || pMatStickerOverride->IsErrorMaterial() )
-		return nullptr;
-
-	QcCreateDecalData( g_nPlayerLogoProxyForPreviewKey, nStickerKitDefinition, nTintID, true, gpGlobals->curtime - PLAYERDECALS_DURATION_APPLY );
-
-	return pMatStickerOverride;
 }
 
 //-----------------------------------------------------------------------------

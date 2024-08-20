@@ -158,7 +158,7 @@ char *C_Team::Get_Name( void )
 //=================================================================================================
 // Purpose: 
 //-----------------------------------------------------------------------------
-char *C_Team::Get_ClanName( void )
+char const* C_Team::Get_ClanName(void)
 {
 	if ( CDemoPlaybackParameters_t const *pParameters = engine->GetDemoPlaybackParameters() )
 	{
@@ -174,7 +174,7 @@ char *C_Team::Get_ClanName( void )
 //=================================================================================================
 // Purpose: 
 //-----------------------------------------------------------------------------
-char *C_Team::Get_FlagImageString( void )
+char const* C_Team::Get_FlagImageString(void) const
 {
 	if ( CDemoPlaybackParameters_t const *pParameters = engine->GetDemoPlaybackParameters() )
 	{
@@ -188,7 +188,7 @@ char *C_Team::Get_FlagImageString( void )
 //=================================================================================================
 // Purpose: 
 //-----------------------------------------------------------------------------
-char *C_Team::Get_LogoImageString( void )
+char const* C_Team::Get_LogoImageString(void) const
 {
 	if ( CDemoPlaybackParameters_t const *pParameters = engine->GetDemoPlaybackParameters() )
 	{

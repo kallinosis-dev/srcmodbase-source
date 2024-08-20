@@ -1447,7 +1447,11 @@ void CInput::CreateMove ( int sequence_number, float input_sample_frametime, boo
 #ifdef SIXENSE
 	if ( g_pInputSystem->IsDeviceReadingInput( INPUT_DEVICE_GAMEPAD ) && ( in_joystick.GetInt() || g_pSixenseInput->IsEnabled() ) )
 #else
-	if ( ( g_pInputSystem->IsDeviceReadingInput( INPUT_DEVICE_GAMEPAD ) && in_joystick.GetInt() ) || g_pInputSystem->MotionControllerActive() || g_pInputSystem->IsSteamControllerActive() )
+	if ( ( g_pInputSystem->IsDeviceReadingInput( INPUT_DEVICE_GAMEPAD ) && in_joystick.GetInt() ) || g_pInputSystem->MotionControllerActive()
+#ifndef NO_STEAM
+		|| g_pInputSystem->IsSteamControllerActive()
+#endif
+		)
 #endif
 	{
 		if ( cmd->forwardmove > 0 )

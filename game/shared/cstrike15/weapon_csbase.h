@@ -159,26 +159,26 @@ public:
  	bool			IsPistol() const;
 
 
-	virtual int		GetWeaponPrice() const { return GetCSWpnData().										GetWeaponPrice( GetEconItemView() ); }
-	virtual bool	IsFullAuto() const { return GetCSWpnData().											IsFullAuto( GetEconItemView() ); }
-	virtual int		GetDamage() const { return GetCSWpnData().											GetDamage( GetEconItemView() ); }
-	virtual int		GetKillAward() const { return GetCSWpnData().										GetKillAward( GetEconItemView() ); }
-	virtual float	GetCycleTime( int mode = Primary_Mode ) const { return GetCSWpnData().				GetCycleTime( GetEconItemView(), mode ); }
-	virtual float	GetArmorRatio() const { return GetCSWpnData().										GetArmorRatio( GetEconItemView() ); }
-	virtual bool	HasTraditionalScope() const { return GetCSWpnData().								HasTraditionalScope( GetEconItemView() ); }
-	virtual float	GetInaccuracyStand( int mode = Primary_Mode ) const { return GetCSWpnData().		GetInaccuracyStand( GetEconItemView(), mode ); }
-	virtual float	GetInaccuracyCrouch( int mode = Primary_Mode ) const { return GetCSWpnData().		GetInaccuracyCrouch( GetEconItemView(), mode ); }
+	virtual int		GetWeaponPrice() const { return GetCSWpnData().										GetWeaponPrice(); }
+	virtual bool	IsFullAuto() const { return GetCSWpnData().											IsFullAuto(); }
+	virtual int		GetDamage() const { return GetCSWpnData().											GetDamage(); }
+	virtual int		GetKillAward() const { return GetCSWpnData().										GetKillAward(); }
+	virtual float	GetCycleTime( int mode = Primary_Mode ) const { return GetCSWpnData().				GetCycleTime(mode ); }
+	virtual float	GetArmorRatio() const { return GetCSWpnData().										GetArmorRatio(); }
+	virtual bool	HasTraditionalScope() const { return GetCSWpnData().								HasTraditionalScope(); }
+	virtual float	GetInaccuracyStand( int mode = Primary_Mode ) const { return GetCSWpnData().		GetInaccuracyStand( mode ); }
+	virtual float	GetInaccuracyCrouch( int mode = Primary_Mode ) const { return GetCSWpnData().		GetInaccuracyCrouch( mode ); }
 
-	virtual bool	CannotShootUnderwater() const { return GetCSWpnData().								CannotShootUnderwater( GetEconItemView() ); }
+	virtual bool	CannotShootUnderwater() const { return GetCSWpnData().								CannotShootUnderwater(); }
 
-	virtual int		GetRecoilMagnitude( int mode ) const { return GetCSWpnData().						GetRecoilMagnitude( GetEconItemView(), mode ); }
-	virtual int		GetRecoilMagnitudeVariance( int mode ) const { return GetCSWpnData().				GetRecoilMagnitudeVariance( GetEconItemView(), mode ); }
-	virtual int		GetRecoilAngle( int mode ) const { return GetCSWpnData().							GetRecoilAngle( GetEconItemView(), mode ); }
-	virtual int		GetRecoilAngleVariance( int mode ) const { return GetCSWpnData().					GetRecoilAngleVariance( GetEconItemView(), mode ); }
+	virtual int		GetRecoilMagnitude( int mode ) const { return GetCSWpnData().						GetRecoilMagnitude(  mode ); }
+	virtual int		GetRecoilMagnitudeVariance( int mode ) const { return GetCSWpnData().				GetRecoilMagnitudeVariance( mode ); }
+	virtual int		GetRecoilAngle( int mode ) const { return GetCSWpnData().							GetRecoilAngle( mode ); }
+	virtual int		GetRecoilAngleVariance( int mode ) const { return GetCSWpnData().					GetRecoilAngleVariance( mode ); }
 
-	virtual float	GetMaxSpeed() const { return GetCSWpnData().										GetMaxSpeed( GetEconItemView(), m_weaponMode ); }	// What's the player's max speed while holding this weapon.
+	virtual float	GetMaxSpeed() const { return GetCSWpnData().GetMaxSpeed( m_weaponMode ); }	// What's the player's max speed while holding this weapon.
 
-	virtual int		GetZoomLevels() const { return GetCSWpnData().										GetZoomLevels( GetEconItemView() ); }
+	virtual int		GetZoomLevels() const { return GetCSWpnData().										GetZoomLevels(); }
 
 	virtual bool		CanBeUsedWithShield() const	{ return GetCSWpnData().							CanBeUsedWithShield(); }
 	virtual const char*	GetZoomInSound() const	{ return GetCSWpnData().								GetZoomInSound(); }
@@ -195,8 +195,8 @@ public:
 	virtual float	GetZoomTime( int nZoomLevel ) const;
 
 
-	virtual CSWeaponType GetWeaponType( void ) const { return GetCSWpnData().GetWeaponType( GetEconItemView() ); }
-	virtual const char	*GetDefinitionName( void ) const { return GetEconItemView()->GetStaticData()->GetDefinitionName(); }
+	virtual CSWeaponType GetWeaponType( void ) const { return GetCSWpnData().GetWeaponType(); }
+	virtual const char	*GetDefinitionName( void ) const { return nullptr; }
 
 	CCSPlayer* GetPlayerOwner() const;
 #ifdef CLIENT_DLL
@@ -204,9 +204,6 @@ public:
 	void UpdateOutlineGlow( void );
 	CGlowObject m_GlowObject;
 #endif
-
-
-	virtual int GetRecoilSeed( void ) const;
 
 	// Get CS-specific weapon data.
 	virtual CCSWeaponInfo const	&GetCSWpnData() const;
@@ -221,9 +218,7 @@ public:
 	// return true if this weapon is a kinf of the given weapon type (ie: "IsKindOf" WEAPONTYPE_RIFLE )
 	bool IsKindOf( CSWeaponType type ) const			{ return GetCSWpnData().GetWeaponType() == type; }
 
-	const char		*GetTracerType( void ) { return GetCSWpnData().GetTracerEffectName( GetEconItemView() ); }
-
-	loadout_positions_t GetDefaultLoadoutSlot( void ) { return (loadout_positions_t)( GetEconItemView() ? GetEconItemView()->GetItemDefinition()->GetLoadoutSlot( 0 ) : 0 ); }
+	const char		*GetTracerType( void ) { return GetCSWpnData().GetTracerEffectName(); }
 
 	// return true if this weapon has a silencer equipped
 	virtual bool IsSilenced( void ) const				{ return m_bSilencerOn; }
@@ -231,7 +226,7 @@ public:
 	// TODO: allow weapons to define this in the weapon script file and have it live in WpnData
 	virtual bool HasSilencer( void ) const				
 	{ 
-		return GetCSWpnData().HasSilencer( GetEconItemView() ); 
+		return GetCSWpnData().HasSilencer(); 
 	}
 
 	virtual void SetWeaponModelIndex( const char *pName );
@@ -259,7 +254,7 @@ public:
 		virtual int		GetEjectBrassAttachmentIndex_1stPerson( C_BaseViewModel *pViewModel );
 		virtual int		GetEjectBrassAttachmentIndex_3rdPerson( void );
 
-		virtual bool	DoesHideViewModelWhenZoomed( void ) { return GetCSWpnData().					DoesHideViewModelWhenZoomed( GetEconItemView() ); }
+		virtual bool	DoesHideViewModelWhenZoomed( void ) { return GetCSWpnData().					DoesHideViewModelWhenZoomed( ); }
 
 		float			m_flCrosshairDistance;
 		int				m_iAmmoLastCheck;
@@ -304,9 +299,6 @@ public:
 	virtual bool	Deploy();
 	virtual void	Drop( const Vector &vecVelocity );
 	bool PlayEmptySound();
-	virtual const char *GetShootSound( int iIndex ) const;
-	virtual const char *GetPlayerAnimationExtension( void ) const;
-	virtual const char *GetAddonModel( void ) const;
 	virtual void	ItemPostFrame();
 	virtual void	ItemBusyFrame();
 	virtual const char *GetViewModel( int viewmodelindex = 0 ) const;
@@ -330,7 +322,7 @@ public:
 	virtual float GetAccuracyFishtail() const { return m_fAccuracyFishtail; }
 	virtual void SetAccuracyFishtail( float fFishtail ) { m_fAccuracyFishtail = fFishtail; }
 #endif
-	virtual float GetSpread() const { return GetCSWpnData().GetSpread( GetEconItemView(), m_weaponMode.Get() ); }
+	virtual float GetSpread() const { return GetCSWpnData().GetSpread(m_weaponMode.Get() ); }
 
 	virtual void UpdateAccuracyPenalty();
 
@@ -385,14 +377,10 @@ public:
 	bool WasOwnedByTeam( int teamNumber );
 	bool CanBePickedUp( void ) { return m_bCanBePickedUp; }
 
-#ifdef CLIENT_DLL
-	virtual void SaveCustomMaterialsTextures( void );
-#endif
 
 protected:
 
 	float CalculateNextAttackTime( float flCycleTime );
-	void Recoil( CSWeaponMode weaponMode );
 
 	bool m_bCanBePickedUp;
 
@@ -402,8 +390,6 @@ private:
 
 	virtual int GetWeaponID( void ) const		{ return GetCSWeaponID(); }
 #ifdef CLIENT_DLL
-	void UpdateCustomMaterial( void );
-	void CheckCustomMaterial( void );
 	bool m_bVisualsDataSet;
 	bool m_bOldFirstPersonSpectatedState;
 #endif

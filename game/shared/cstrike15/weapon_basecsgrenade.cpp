@@ -18,9 +18,9 @@
 #ifdef CLIENT_DLL
 
 	#include "c_cs_player.h"
-	#include "HUD/sfweaponselection.h"
 	#include "c_rumble.h"
 	#include "rumble_shared.h"
+	#include "weapon_selection.h"
 #else
 
 	#include "cs_player.h"
@@ -453,7 +453,7 @@ void CBaseCSGrenade::ItemPostFrame()
 			{
 				pPlayer->SwitchToNextBestWeapon( this );
 			}
-#if defined (CLIENT_DLL)
+#if defined (CLIENT_DLL) && defined(INCLUDE_SCALEFORM)
 			// when a grenade is removed, force the local player to update thier inventory screen
 			C_CSPlayer *pLocalPlayer = C_CSPlayer::GetLocalCSPlayer();
 			if ( pLocalPlayer && pLocalPlayer == pPlayer )

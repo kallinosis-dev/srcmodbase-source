@@ -580,12 +580,6 @@ void CCoopBonusCoin::CoinFadeOut( void )
 
 #endif
 
-#if defined ( CLIENT_DLL )
-	bool __MsgFunc_SendPlayerItemDrops( const CCSUsrMsg_SendPlayerItemDrops &msg );
-	bool __MsgFunc_SendPlayerItemFound( const CCSUsrMsg_SendPlayerItemFound &msg );
-#endif
-
-
 REGISTER_GAMERULES_CLASS( CCSGameRules );
 
 BEGIN_NETWORK_TABLE_NOBASE( CCSGameRules, DT_CSGameRules )
@@ -608,8 +602,6 @@ BEGIN_NETWORK_TABLE_NOBASE( CCSGameRules, DT_CSGameRules )
         RecvPropInt( RECVINFO( m_totalRoundsPlayed ) ),
 		RecvPropInt( RECVINFO( m_nOvertimePlaying ) ),
         RecvPropFloat( RECVINFO( m_timeUntilNextPhaseStarts ) ),
-		RecvPropFloat( RECVINFO( m_flCMMItemDropRevealStartTime ) ),
-		RecvPropFloat( RECVINFO( m_flCMMItemDropRevealEndTime ) ),
         RecvPropFloat( RECVINFO( m_fRoundStartTime ) ),
         RecvPropBool( RECVINFO( m_bGameRestart ) ),	
         RecvPropFloat( RECVINFO( m_flRestartRoundTime ) ),	
@@ -2121,7 +2113,7 @@ namespace SpecHear
 }
 
 // NOTE: the indices here must match TEAM_TERRORIST, TEAM_CT, TEAM_SPECTATOR, etc.
-char *sTeamNames[] =
+char const* sTeamNames[] =
 {
 	"Unassigned",
 	"Spectator",
@@ -14255,12 +14247,6 @@ bool CCSGameRules::IsWarmupPeriod() const
     return m_bWarmupPeriod;
 }
 
-bool CCSGameRules::AllowTaunts( void )
-{
-	#error Cut for partner depot
-	return false;
-}
-
 #ifdef CLIENT_DLL
 
 bool CCSGameRules::AllowThirdPersonCamera() 
@@ -14949,19 +14935,6 @@ bool CCSGameRules::IsEndMatchVotingForNextMap()
 {
 	if ( !IsEndMatchVotingForNextMapEnabled() || GetGamePhase() != GAMEPHASE_MATCH_ENDED )
 		return false;
-
-	if ( GetCMMItemDropRevealEndTime() > gpGlobals->curtime )
-		return false;
-
-	if ( m_bIsDroppingItems )
-		return false;
-
-// 	// TODO: add a check to make sure items aren't dropping
-// 	if ( IsEndMatchVotingForNextMapEnabled() && ( GetGamePhase() == GAMEPHASE_MATCH_ENDED ) && 
-// 		((gpGlobals->curtime+m_timeUntilNextPhaseStarts) >= gpGlobals->curtime+mp_win_panel_display_time.GetFloat()) && gpGlobals->curtime+GetCMMItemDropRevealEndTime() < gpGlobals->curtime )
-// 	{
-// 		return true;
-// 	}
 
 	return true;
 }
@@ -15944,53 +15917,6 @@ bool CCSGameRules::HasHalfTime( void ) const
 	return mp_halftime.GetBool();
 }
 
-int CCSGameRules::GetWeaponScoreForDeathmatch( int nPos )
-{
-	int nScore = 1;
-
-	CSWeaponID wepID = WEAPON_NONE;
-
-	for ( int i = 0; i < GetItemSchema()->GetItemDefinitionCount(); i++ )
-	{
-		CCStrike15ItemDefinition *pItemDef = ( CCStrike15ItemDefinition * )GetItemSchema()->GetItemDefinitionByMapIndex( i );
-
-		if ( pItemDef->GetDefaultLoadoutSlot() == nPos )
-		{
-			wepID = WeaponIdFromString( pItemDef->GetItemClass() );
-			break;
-		}
-	}
-
-	if ( wepID == WEAPON_NONE )
-		return 0;
-
-	const CCSWeaponInfo* pWeaponInfo = GetWeaponInfo( wepID );
-	if ( pWeaponInfo )
-	{
-		// 					float flScore1 = ((pWeaponInfo->m_flCycleTime / pWeaponInfo->m_iDamage)-0.001f) * 10;
-		// 					float flScore2 = ((pWeaponInfo->m_iKillAward / MAX( 500, pWeaponInfo->m_iWeaponPrice )) + flScore1) * 100;
-		// 					int nScore = MAX( 1, ceil(flScore2) );
-		// 					pPlayer->AddContributionScore( nScore );
-
-		if ( wepID == WEAPON_KNIFE )
-		{
-			nScore = 20;
-		}
-		else
-		{
-			int nPrice = MIN( 4500, MAX(100, pWeaponInfo->GetWeaponPrice() - (pWeaponInfo->GetKillAward()/2)) );
-			float flScore1 = MAX( 0.05f, ((1 - ((float)nPrice/4500.0f)) * 10)/5);
-			float flScore2 = flScore1 + MIN( 2.0f, (((pWeaponInfo->GetCycleTime() / pWeaponInfo->GetDamage() ) *10 ) + ( ( 2.0f-pWeaponInfo->GetArmorRatio() ) /2 ) ) / 4 );
-			float flFinal = ceil(flScore2-0.5f);//ceil((flScore2/6) * 10 );
-			nScore = MAX( 0, flFinal ) + 10;
-		}
-	}
-
-	return nScore;
-}
-
-
-
 float CCSGameRules::GetRestartRoundTime( void ) const
 {
 	return m_fRoundStartTime;
@@ -16142,16 +16068,6 @@ CCSGameRules::CCSGameRules()
 	// Set the bestof maps
 	m_numBestOfMaps = 0;
 
-	// Set global gifts state
-	m_numGlobalGiftsGiven = 0;
-	m_numGlobalGifters = 0;
-	m_numGlobalGiftsPeriodSeconds = 0;
-	for ( int j = 0; j < MAX_GIFT_GIVERS_FEATURED_COUNT; ++ j )
-	{
-		m_arrFeaturedGiftersAccounts.Set( j, 0 );
-		m_arrFeaturedGiftersGifts.Set( j, 0 );
-	}
-
 	for ( int j = 0; j < MAX_TOURNAMENT_ACTIVE_CASTER_COUNT; ++ j )
 	{
 		m_arrTournamentActiveCasterAccounts.Set( j, 0 );
@@ -16170,9 +16086,6 @@ CCSGameRules::CCSGameRules()
 	m_szTournamentPredictionsTxt.GetForModify()[0] = 0;
 	m_szMatchStatTxt.GetForModify()[ 0 ] = 0;
 	m_nTournamentPredictionsPct = 0;
-
-	HOOK_MESSAGE( SendPlayerItemDrops );
-	HOOK_MESSAGE( SendPlayerItemFound );
 	m_bMarkClientStopRecordAtRoundEnd = false;
 
 }
@@ -16185,23 +16098,6 @@ CCSGameRules::~CCSGameRules()
 	{
 		m_arrTournamentActiveCasterAccounts.Set( j, 0 );
 	}
-}
-
-// CLIENT
-bool __MsgFunc_SendPlayerItemDrops( const CCSUsrMsg_SendPlayerItemDrops &msg )
-{
-	//IViewPortPanel* panel = GetViewPortInterface()->FindPanelByName( PANEL_SCOREBOARD );
-	if ( CSGameRules() )
-	{
-		CSGameRules()->ClearItemsDroppedDuringMatch();
-		for ( int i = 0; i < msg.entity_updates_size(); i ++ )
-		{
-			const CEconItemPreviewDataBlock &update = msg.entity_updates(i);
-			CSGameRules()->RecordPlayerItemDrop( update );
-		}	
-	}
-
-	return true;
 }
 
 void CCSGameRules::MarkClientStopRecordAtRoundEnd( bool bStop )
@@ -16264,6 +16160,7 @@ const wchar_t* CCSGameRules::GetFriendlyMapName( const char* szShortName )
 	char szPath[MAX_PATH];
 	V_strcpy_safe( szPath, szShortName );
 	V_FixSlashes( szPath, '/' ); // internal path strings use forward slashes, make sure we compare like that.
+#ifndef NO_STEAM
 	if ( V_strstr( szPath, "workshop/" ) )
 	{
 		PublishedFileId_t ullId = GetMapIDFromMapPath( szPath );
@@ -16280,6 +16177,7 @@ const wchar_t* CCSGameRules::GetFriendlyMapName( const char* szShortName )
 			return wszMapName;
 		}
 	}
+#endif
 
     static wchar_t wszMapName[128];
     g_pVGuiLocalize->ConvertANSIToUnicode(szShortName, wszMapName, sizeof(wszMapName));
@@ -16406,54 +16304,6 @@ void CCSGameRules::ResetCasterConvars()
 }
 
 #endif
-
-
-float CCSGameRules::GetCMMItemDropRevealDuration()
-{
-	if ( m_flCMMItemDropRevealEndTime == 0 && m_ItemsPtrDroppedDuringMatch.Count() <= 0 )
-		return 2;
-
-	if ( m_flCMMItemDropRevealEndTime == 0 && m_flCMMItemDropRevealStartTime != 0 )
-	{
-		float flItemDropTime = 2.0f;
-		for ( int i = 0; i < m_ItemsPtrDroppedDuringMatch.Count(); i++ )
-		{
-			switch ( m_ItemsPtrDroppedDuringMatch[i]->rarity() )
-			{
-			case 6:
-			case 5:
-				{
-					flItemDropTime += sv_endmatch_item_drop_interval_ancient.GetFloat();
-					break;
-				}
-			case 4:
-				{
-					flItemDropTime += sv_endmatch_item_drop_interval_legendary.GetFloat();
-					break;
-				}						
-			case 3:
-				{
-					flItemDropTime += sv_endmatch_item_drop_interval_mythical.GetFloat();
-					break;
-				}	
-			case 2:
-				{
-					flItemDropTime += sv_endmatch_item_drop_interval_rare.GetFloat();
-					break;
-				}
-			default:
-				{
-					flItemDropTime += sv_endmatch_item_drop_interval.GetFloat();
-					break;
-				}
-			}
-		}
-
-		m_flCMMItemDropRevealEndTime = (m_flCMMItemDropRevealStartTime + flItemDropTime);
-	}
-
-	return MAX( 2, (m_flCMMItemDropRevealEndTime - m_flCMMItemDropRevealStartTime) );
-}
 
 void CCSGameRules::CreateFriendlyMapNameToken( const char* szShortName, char* szOutBuffer, int nBuffSize )
 {
@@ -17051,22 +16901,6 @@ void PlayMusicSelection( IRecipientFilter& filter, CsMusicType_t nMusicType , in
 	// otherwise use our own
 	if ( !nPlayerIndex )
 		nPlayerIndex = GetLocalPlayerIndex();
-			
-	{
-		uint32 unMusicID = 0;
-
-		if ( C_CS_PlayerResource *cs_PR = dynamic_cast< C_CS_PlayerResource * >( g_PR ) )
-		{
-			unMusicID = cs_PR->GetMusicID( nPlayerIndex );
-		}
-		if( unMusicID > 1 )
-		{
-			const CEconMusicDefinition *pMusicDef = GetItemSchema()->GetMusicDefinition(unMusicID);
-			if(pMusicDef)
-				pMusicExtension = pMusicDef->GetName();
-		}
-
-	}
 	
 	if( pEntry )
 	{

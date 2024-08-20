@@ -261,16 +261,6 @@ bool CUGCFileRequest::FileInSync( const char *lpszTargetDirectory, const char *l
 	if ( lpszTargetFilename == NULL )
 		return false;
 
-	char chCheckTargetDirectory[MAX_PATH] = {0};
-	V_strncpy( chCheckTargetDirectory, lpszTargetDirectory, sizeof( chCheckTargetDirectory ) );
-	V_FixSlashes( chCheckTargetDirectory, '/' );
-	if ( const char *pszWorkshopMapId = StringAfterPrefix( chCheckTargetDirectory, "maps/workshop/" ) )
-	{
-		PublishedFileId_t uiWorkshopMapId = Q_atoui64( pszWorkshopMapId );
-		if ( UGCUtil_IsOfficialMap( uiWorkshopMapId ) )
-			return true;
-	}
-
 #ifdef FILEREQUEST_IO_STALL
 	return false;
 #endif // FILEREQUEST_IO_STALL
@@ -1058,12 +1048,7 @@ bool UnzipFile( const char* szPathToZipFile,  const char* szOutputDir /*= NULL*/
 	return bSuccess;
 }
 
-bool UGCUtil_IsOfficialMap( PublishedFileId_t id )
-{
-	#error Cut for partner depot
-	return false;
-}
-
+#if !defined( NO_STEAM ) && !defined ( _PS3 )
 //-----------------------------------------------------------------------------
 // Purpose: Get the local file name on disk, accounting for target directories and filenames
 //-----------------------------------------------------------------------------
@@ -1093,3 +1078,4 @@ void CUGCFileRequest::GetLocalDirectory( char *pDest, size_t strSize )
 		V_strncpy( pDest, m_szTargetDirectory, strSize );
 	}
 }
+#endif

@@ -184,7 +184,9 @@ public:
 	
 		void ClientThink( void );
 		virtual void	OnDataChanged( DataUpdateType_t type );
+#ifdef INCLUDE_SCALEFORM
 		virtual void	UpdateOnRemove( void );
+#endif
 		virtual bool OnFireEvent( C_BaseViewModel *pViewModel, const Vector& origin, const QAngle& angles, int event, const char *options );
 		char *GetScreenText( void );
 		char m_szScreenText[32];

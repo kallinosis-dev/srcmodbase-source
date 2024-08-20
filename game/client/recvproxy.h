@@ -47,7 +47,7 @@ RecvProp RecvPropBool(
 	int sizeofVar );
 
 RecvProp RecvPropIntWithMinusOneFlag(
-	char *pVarName, 
+	const char *pVarName, 
 	int offset, 
 	int sizeofVar=SIZEOF_IGNORE,
 	RecvVarProxyFn proxyFn=RecvProxy_IntSubOne );

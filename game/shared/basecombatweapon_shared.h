@@ -161,7 +161,7 @@ public:
 	bool HoldsPlayerAnimations( void );
 
 #ifdef CLIENT_DLL
-	void ApplyCustomMaterialsAndStickers( void );
+	void ApplyCustomMaterials( void );
 	virtual void	FireEvent( const Vector& origin, const QAngle& angles, int event, const char *options );
 	virtual bool	ShouldDraw( void ) override;
 	virtual void	OnDataChanged( DataUpdateType_t updateType );
@@ -201,11 +201,6 @@ private:
 	int m_nRightHandAttachBoneIndex;
 	int m_nMuzzleAttachIndex;
 	int m_nMuzzleBoneIndex;
-
-#ifdef CLIENT_DLL
-	bool m_bStickersApplied;
-#endif
-
 };
 
 
@@ -372,7 +367,7 @@ public:
 
 	virtual void			AddViewKick( void );	// Add in the view kick for the weapon
 
-	virtual char			*GetDeathNoticeName( void );	// Get the string to print death notices with
+	virtual char const* GetDeathNoticeName(void);	// Get the string to print death notices with
 
 	CBaseCombatCharacter	*GetOwner() const;
 	void					SetOwner( CBaseCombatCharacter *owner );
@@ -576,9 +571,6 @@ public:
 	virtual IClientModelRenderable*	GetClientModelRenderable();
 
 	static CUtlLinkedList< CBaseCombatWeapon * >& GetWeaponList( void );
-
-
-	void					ApplyThirdPersonStickers( C_BaseAnimating *pWeaponModelTargetOverride = NULL );
 
 #endif // End client-only methods
 

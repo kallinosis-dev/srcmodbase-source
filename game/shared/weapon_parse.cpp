@@ -383,88 +383,29 @@ void FileWeaponInfo_t::Parse( KeyValues *pKeyValuesData, const char *szWeaponNam
 	}
 }
 
-const char* FileWeaponInfo_t::GetWorldModel( const CEconItemView* pWepView, int iTeam ) const
+const char* FileWeaponInfo_t::GetWorldModel( int iTeam ) const
 {
-	if ( pWepView && pWepView->IsValid() )
-	{
-		const char *pchWorldOverride = pWepView->GetStaticData()->GetEntityOverrideModel();
-		if ( pchWorldOverride )
-		{
-			return pchWorldOverride;
-		}
-
-		return pWepView->GetItemDefinition()->GetWorldDisplayModel();
-	}
-	else
-	{
-		return szWorldModel;
-	}
+	return szWorldModel;
 }
 
-const char* FileWeaponInfo_t::GetViewModel( const CEconItemView* pWepView, int iTeam ) const
+const char* FileWeaponInfo_t::GetViewModel( int iTeam ) const
 {
-	if ( pWepView && pWepView->IsValid() )
-	{
-		const char *pchViewOverride = pWepView->GetStaticData()->GetViewOverrideModel();
-		if ( pchViewOverride )
-		{
-			return pchViewOverride;
-		}
-
-		return pWepView->GetItemDefinition()->GetBasePlayerDisplayModel();
-	}
-	else
-	{
-		return szViewModel;
-	}
+	return szViewModel;
 }
 
-const char* FileWeaponInfo_t::GetWorldDroppedModel( const CEconItemView* pWepView, int iTeam ) const
+const char* FileWeaponInfo_t::GetWorldDroppedModel( int iTeam ) const
 {
-	if ( pWepView && pWepView->IsValid() )
-	{
-		const char *pchWorldDroppedModel = pWepView->GetItemDefinition()->GetWorldDroppedModel();
-		if ( pchWorldDroppedModel )
-		{
-			return pchWorldDroppedModel;
-		}
-	}
-	
 	return szWorldDroppedModel;
 }
 
-const char* FileWeaponInfo_t::GetPrimaryAmmo( const CEconItemView* pWepView ) const
+const char* FileWeaponInfo_t::GetPrimaryAmmo() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = pWepView->GetStaticData()->GetPrimaryAmmo();
-
-		if ( pszString )
-		{
-			return pszString;
-		}
-	}
-
 	return szAmmo1;
 }
 
 
-int FileWeaponInfo_t::GetPrimaryAmmoType( const CEconItemView* pWepView ) const
+int FileWeaponInfo_t::GetPrimaryAmmoType() const
 {
-
-	if ( pWepView && pWepView->IsValid() )
-	{
-		// TODO: replace visual data with attributes when attributes support strings.
-		const char *pszString = GetPrimaryAmmo( pWepView );
-
-		if ( pszString )
-		{
-			return GetAmmoDef()->Index( pszString );
-		}
-	}
-
 	return iAmmoType;
 }
 

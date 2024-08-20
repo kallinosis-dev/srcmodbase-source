@@ -1511,7 +1511,7 @@ public:
 #ifdef _DEBUG
 	void FunctionCheck( inputfunc_t pFunction, const char *name );
 
-	ENTITYFUNCPTR TouchSet( ENTITYFUNCPTR func, char *name ) 
+	ENTITYFUNCPTR TouchSet( ENTITYFUNCPTR func, char const* name ) 
 	{ 
 		//COMPILE_TIME_ASSERT( sizeof(func) == 4 ? 8 );
 		m_pfnTouch = func; 

@@ -54,8 +54,6 @@ CBaseViewModel::CBaseViewModel()
 	m_nOldAnimationParity = 0;
 	m_EntClientFlags |= ENTCLIENTFLAG_ALWAYS_INTERPOLATE;
 	RenderWithViewModels( true );
-	m_flStatTrakGlowMultiplier = 0.0f;
-	m_flStatTrakGlowMultiplierIdeal = 0.0f;
 	m_szLastSound[0] = '\0';
 	m_flLastSoundTime = 0.0f;
 

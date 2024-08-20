@@ -244,36 +244,6 @@ CBaseCombatWeapon *CBaseCombatCharacter::Weapon_GetSlot( int slot ) const
 	return nullptr;
 }
 
-
-//-----------------------------------------------------------------------------
-// Purpose: Returns the weapon (if any) in the requested loadout position
-// Input  : position - which slot to poll
-//-----------------------------------------------------------------------------
-CBaseCombatWeapon *CBaseCombatCharacter::Weapon_GetPosition( int position ) const
-{
-	// Check for that slot being occupied already
-	for ( int i = 0; i < MAX_WEAPONS; i++ )
-	{
-		if ( m_hMyWeapons[ i ].Get() != nullptr)
-		{
-			CEconItemView * pItem = m_hMyWeapons[ i ]->GetEconItemView() ;
-			if ( !pItem )
-				continue;
-
-			loadout_positions_t unItemPos = ( loadout_positions_t )pItem->GetItemDefinition()->GetLoadoutSlot( GetTeamNumber() );
-
-			// If the slots match, it's already occupied
-			if ( unItemPos == position )
-				return m_hMyWeapons[ i ];
-		}
-	}
-
-	return nullptr;
-}
-
-
-
-
 int CBaseCombatCharacter::BloodColor()
 {
 	return m_bloodColor;

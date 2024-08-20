@@ -1671,7 +1671,11 @@ void CViewRender::DrawViewModels( const CViewSetup &view, bool drawViewmodel )
 	render->PopView( pRenderContext, GetFrustum() );
 
 	// Render objects that use normal FOV
-	if ( !bDrawScopeLensMask && (opaqueNormalFOVList.Count() > 0 || translucentNormalFOVList.Count() > 0) )
+	if (
+#ifdef IRONSIGHT
+		!bDrawScopeLensMask &&
+#endif
+		(opaqueNormalFOVList.Count() > 0 || translucentNormalFOVList.Count() > 0) )
 	{
 		viewModelSetup.fov = view.fov;
 		render->Push3DView( pRenderContext, viewModelSetup, 0, nullptr, GetFrustum() );
@@ -2166,8 +2170,17 @@ static void GetFogColorTransition( fogparams_t *pFogParams, float *pColorPrimary
 	{
 		float flPercent = MAX( 0, 1.0f - (( pFogParams->lerptime - gpGlobals->curtime ) / pFogParams->duration ) );
 
-		float flPrimaryColorLerp[3] = { pFogParams->colorPrimaryLerpTo.GetR(), pFogParams->colorPrimaryLerpTo.GetG(), pFogParams->colorPrimaryLerpTo.GetB() };
-		float flSecondaryColorLerp[3] = { pFogParams->colorSecondaryLerpTo.GetR(), pFogParams->colorSecondaryLerpTo.GetG(), pFogParams->colorSecondaryLerpTo.GetB() };
+		float flPrimaryColorLerp[3] = {
+			(float)pFogParams->colorPrimaryLerpTo.GetR(),
+			(float)pFogParams->colorPrimaryLerpTo.GetG(),
+			(float)pFogParams->colorPrimaryLerpTo.GetB()
+		};
+
+		float flSecondaryColorLerp[3] = {
+			(float)pFogParams->colorSecondaryLerpTo.GetR(),
+			(float)pFogParams->colorSecondaryLerpTo.GetG(),
+			(float)pFogParams->colorSecondaryLerpTo.GetB()
+		};
 
 		CheckAndTransitionColor( flPercent, pColorPrimary, flPrimaryColorLerp );
 		CheckAndTransitionColor( flPercent, pColorSecondary, flSecondaryColorLerp );

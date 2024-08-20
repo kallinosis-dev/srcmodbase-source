@@ -22,6 +22,8 @@
 #include "steam/isteamgamestats.h"
 #endif
 
+#ifndef NO_STEAM
+
 // Container to hold all the KeyValue stats to send only if the convar "steamworks_immediate_upload" is set to 0.
 // Otherwise, the stats are uploaded as they are received.
 typedef CUtlVector< KeyValues* > KeyValueStatList;
@@ -152,6 +154,8 @@ protected:
 	CUtlString			m_sSessionConVarName;
 	ConVarRef*			m_pSessionConVar;
 };
+
+#endif
 	
 //=============================================================================
 //

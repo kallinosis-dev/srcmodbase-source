@@ -247,9 +247,6 @@ private:
 	// Update the prone state machine.
 	void		UpdateProneState();
 
-	// Get the string that's appended to animation names for the player's current weapon.
-	const char* GetWeaponSuffix();
-
 	Activity			BodyYawTranslateActivity( Activity activity );
 
 	void				EstimateYaw();

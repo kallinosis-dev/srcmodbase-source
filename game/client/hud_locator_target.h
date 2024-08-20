@@ -135,7 +135,9 @@ public:
 	void SetOnscreenIconTextureName( const char *pszTexture );
 	void SetOffscreenIconTextureName( const char *pszTexture );
 	void SetBinding( const char *pszBinding );
+#ifndef NO_STEAM
 	void SetSteamControllerBindingToOrigin( EControllerActionOrigin *pOrigins, int nOriginalToken, const char *pszActionName );
+#endif
 	const char *UseBindingImage( char *pchIconTextureName, size_t bufSize );
 	void SetIconNoTarget( bool bIconNoTarget ) { m_bIconNoTarget = bIconNoTarget; }
 
@@ -171,7 +173,9 @@ private:
 	CGameInstructorSymbol	m_szBinding;
 
 	bool		m_bWasControllerLast;
+#ifndef NO_STEAM
 	bool		m_bWasSteamControllerLast;
+#endif
 	const char	*m_pchDrawBindingName;
 	const char	*m_pchDrawBindingNameOffscreen;
 	int			m_iEffectsFlags;

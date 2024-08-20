@@ -10,6 +10,8 @@
 #pragma once
 #endif
 
+#if 0
+
 //
 // We will be using RSA 1024-bit private signing key
 // PKCS1 signature length is guaranteed to be 128 bytes
@@ -74,5 +76,7 @@ inline bool BValidateClientPlayerDecalSignature( PlayerDecalDigitalSignature con
 	// Removed for partner depot
 	return true;
 }
+
+#endif
 
 #endif // PLAYERDECALS_SIGNATURE_H

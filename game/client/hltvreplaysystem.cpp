@@ -512,6 +512,7 @@ void CHltvReplaySystem::SetDemoPlaybackHighlightXuid( uint64 xuid, bool bLowligh
 {
 	m_nDemoPlaybackXuid = xuid;
 	m_bDemoPlaybackLowLights = bLowlights;
+#ifndef NO_STEAM
 	if ( !m_nSteamSelfAccountId && steamapicontext )
 	{
 		if ( ISteamUser* pSteamUser = steamapicontext->SteamUser() )
@@ -519,6 +520,7 @@ void CHltvReplaySystem::SetDemoPlaybackHighlightXuid( uint64 xuid, bool bLowligh
 			m_nSteamSelfAccountId = pSteamUser->GetSteamID().GetAccountID();
 		}
 	}
+#endif
 }
 
 

@@ -99,7 +99,9 @@ class EditablePanel;
 class FileOpenDialog;
 class Frame;
 class GraphPanel;
+#ifndef NO_STEAM
 class HTML;
+#endif
 class ImagePanel;
 class Label;
 class ListPanel;

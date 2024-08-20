@@ -40,8 +40,7 @@ public : // IGameResources intreface
 	virtual bool	IsConnected( int index );
 	virtual bool	IsAlive( int index );
 	virtual bool	IsFakePlayer( int index );
-	virtual bool	IsLocalPlayer( int index  );
-	virtual bool	IsHLTV(int index);
+	virtual bool	IsLocalPlayer( int index );
 #if defined( REPLAY_ENABLED )
 	virtual bool	IsReplay(int index);
 #endif

@@ -278,14 +278,14 @@ float CWeaponCSBaseGun::GetFOVForAccuracy( void )
 	if ( !pPlayer )
 		return 0;
 
-	float flDefaultAccuracy = weaponInfo.GetInaccuracyStand( GetEconItemView(), m_weaponMode );
+	float flDefaultAccuracy = weaponInfo.GetInaccuracyStand( m_weaponMode );
 // 	if ( pPlayer->GetMoveType() == MOVETYPE_LADDER )
 // 	{
 // 		flDefaultAccuracy = weaponInfo.GetInaccuracyLadder( m_weaponMode, GetEconItemView() ) + weaponInfo.GetInaccuracyLadder( 0, GetEconItemView() );
 // 	}
 	if ( FBitSet( pPlayer->GetFlags(), FL_DUCKING ) )
  	{
- 		flDefaultAccuracy = weaponInfo.GetInaccuracyCrouch( GetEconItemView(), m_weaponMode );
+ 		flDefaultAccuracy = weaponInfo.GetInaccuracyCrouch( m_weaponMode );
  	}
 
 	m_fAccuracySmoothedForZoom = Approach( GetInaccuracy(), m_fAccuracySmoothedForZoom, gpGlobals->frametime * 10.0f );
@@ -320,17 +320,9 @@ void CWeaponCSBaseGun::PrimaryAttack()
 	// change a few things if we're in burst mode
 	if ( IsInBurstMode() )
 	{
-		CALL_ATTRIB_HOOK_FLOAT( flCycleTime, cycletime_when_in_burst_mode );
-
 		m_iBurstShotsRemaining = 2;
 
 		m_fNextBurstShot = gpGlobals->curtime;
-		CALL_ATTRIB_HOOK_FLOAT( m_fNextBurstShot, time_between_burst_shots );		
-	}
-
-	if ( IsZoomed() )
-	{
-		CALL_ATTRIB_HOOK_FLOAT( flCycleTime, cycletime_when_zoomed );
 	}
 																	
 	if ( !CSBaseGunFire( flCycleTime, m_weaponMode ) )								// <--	'PEW PEW' HAPPENS HERE
@@ -655,11 +647,7 @@ void CWeaponCSBaseGun::BurstFireRemaining()
 
 	--m_iBurstShotsRemaining;
 
-	if ( m_iBurstShotsRemaining > 0 )
-	{
-		CALL_ATTRIB_HOOK_FLOAT( m_fNextBurstShot, time_between_burst_shots );
-	}
-	else
+	if ( m_iBurstShotsRemaining <= 0 )
 	{
 		m_fNextBurstShot = 0.0f;
 	}
@@ -667,10 +655,10 @@ void CWeaponCSBaseGun::BurstFireRemaining()
 	const CCSWeaponInfo& weaponInfo = GetCSWpnData();
 
 	// update accuracy
-	m_fAccuracyPenalty += weaponInfo.GetInaccuracyFire( GetEconItemView(), m_weaponMode );
+	m_fAccuracyPenalty += weaponInfo.GetInaccuracyFire( m_weaponMode );
 
 	// table driven recoil
-	Recoil( Secondary_Mode );
+	//Recoil( Secondary_Mode );
 
 	++pPlayer->m_iShotsFired;
 	m_flRecoilIndex += 1.0f;
@@ -756,13 +744,13 @@ bool CWeaponCSBaseGun::CSBaseGunFire( float flCycleTime, CSWeaponMode weaponMode
 #endif
 #endif
 
-	SetWeaponIdleTime( gpGlobals->curtime + weaponInfo.GetTimeToIdleAfterFire( GetEconItemView() ) );
+	SetWeaponIdleTime( gpGlobals->curtime + weaponInfo.GetTimeToIdleAfterFire() );
 
 	// update accuracy
-	m_fAccuracyPenalty += weaponInfo.GetInaccuracyFire( GetEconItemView(), weaponMode );
+	m_fAccuracyPenalty += weaponInfo.GetInaccuracyFire(  weaponMode );
 
 	// table driven recoil
-	Recoil( weaponMode );
+	//Recoil( weaponMode );
 
 	++pPlayer->m_iShotsFired;
 	m_flRecoilIndex += 1.0f;
@@ -838,7 +826,7 @@ void CWeaponCSBaseGun::WeaponIdle()
 	// only idle if the slid isn't back
 	if ( m_iClip1 != 0 )
 	{
-		SetWeaponIdleTime( gpGlobals->curtime + GetCSWpnData().GetIdleInterval( GetEconItemView() ) );
+		SetWeaponIdleTime( gpGlobals->curtime + GetCSWpnData().GetIdleInterval() );
 
 		//silencers are bodygroups, so there is no longer a silencer-specific idle.
 		SendWeaponAnim( ACT_VM_IDLE );
@@ -912,11 +900,11 @@ const char* CWeaponCSBaseGun::GetMuzzleFlashEffectName_1stPerson( void )
 {
 	if ( HasSilencer() && IsSilenced() )
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_1stPersonAlt( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_1stPersonAlt();
 	}
 	else
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_1stPerson( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_1stPerson();
 	}
 }
 
@@ -924,11 +912,11 @@ const char* CWeaponCSBaseGun::GetMuzzleFlashEffectName_3rdPerson( void )
 {
 	if ( HasSilencer() && IsSilenced() )
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPersonAlt( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPersonAlt();
 	}
 	else
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPerson( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPerson();
 	}
 }
 #endif

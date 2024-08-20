@@ -42,17 +42,6 @@ ConVar snd_max_pitch_shift_inaccuracy("snd_max_pitch_shift_inaccuracy", "0.08", 
 		// If we have some sounds from the weapon classname.txt file, play a random one of them
 		const char *shootsound = pWeaponInfo->aShootSounds[ sound_type ];
 
-		// Get the item definition
-		const CEconItemDefinition *pDef = ( nItemDefIndex > 0 ) ? GetItemSchema()->GetItemDefinition( nItemDefIndex ) : NULL;
-		if ( pDef )
-		{
-			const char *pszTempSound = pDef->GetWeaponReplacementSound( sound_type );
-			if ( pszTempSound )
-			{
-				shootsound = pszTempSound;
-			}
-		}
-
 		if ( !shootsound || !shootsound[0] )
 			return;
 
@@ -234,11 +223,9 @@ void FX_FireBullets(
 		}
 	}
 
-	const CEconItemDefinition* pItemDef = GetItemSchema()->GetItemDefinition( nItemDefIndex );
-	if ( !pItemDef )
 	{
 		DevMsg( "FX_FireBullets: GetItemDefinition failed for defindex %d\n", nItemDefIndex );
-		return;
+//		return;
 	}
 
 #if !defined(CLIENT_DLL)
@@ -269,6 +256,8 @@ void FX_FireBullets(
 			gpGlobals->curtime, pItemDef->GetItemBaseName(), fInaccuracy, fSpread, fInaccuracy + fSpread, iMode, fVelocity, iSeed, szFlags);
 	}
 #endif
+
+
 
 	WEAPON_FILE_INFO_HANDLE	hWpnInfo = LookupWeaponInfoSlot( pItemDef->GetItemClass() );
 
@@ -334,13 +323,12 @@ void FX_FireBullets(
 	iSeed++;
 
 	CWeaponCSBase* pWeapon = pPlayer ? pPlayer->GetActiveCSWeapon() : nullptr;
-	CEconItemView* pItem = pWeapon ? pWeapon->GetEconItemView() : nullptr;
 
-	int		iDamage = pWeaponInfo->GetDamage( pItem );
-	float	flRange = pWeaponInfo->GetRange( pItem );
-	float	flPenetration = pWeaponInfo->GetPenetration( pItem );
-	float	flRangeModifier = pWeaponInfo->GetRangeModifier( pItem );
-	int		iAmmoType = pWeaponInfo->GetPrimaryAmmoType( pItem );
+	int		iDamage = pWeaponInfo->GetDamage();
+	float	flRange = pWeaponInfo->GetRange();
+	float	flPenetration = pWeaponInfo->GetPenetration();
+	float	flRangeModifier = pWeaponInfo->GetRangeModifier();
+	int		iAmmoType = pWeaponInfo->GetPrimaryAmmoType();
 
 	if ( bDoEffects)
 	{
@@ -388,7 +376,7 @@ void FX_FireBullets(
 	//=============================================================================
 
 		
-#if defined (CLIENT_DLL)
+#if defined (CLIENT_DLL) && !defined(NO_STEAM)
 	if (pPlayer && pPlayer->IsLocalPlayer() && pWeaponInfo && pWeaponInfo->GetBullets() > 0)
 	{
 		int rumbleEffect = pWeaponInfo->iRumbleEffect;
@@ -397,7 +385,7 @@ void FX_FireBullets(
 		{
 			RumbleEffect( XBX_GetUserId( pPlayer->GetSplitScreenPlayerSlot() ), rumbleEffect, 0, RUMBLE_FLAG_RESTART );
 		}
-		
+
 		if ( rumbleEffect != RUMBLE_INVALID && rumbleEffect <= 6 && steam_controller_haptics.GetBool() && g_pInputSystem->IsSteamControllerActive() && steamapicontext->SteamController() )
 		{
 			ControllerHandle_t handles[MAX_STEAM_CONTROLLERS];

@@ -18,7 +18,6 @@
 
 #if defined( CLIENT_DLL )
 	#include "c_cs_player.h"
-	#include "HUD/sfweaponselection.h"
 #else
 	#include "cs_player.h"
 	#include "explode.h"
@@ -1276,6 +1275,7 @@ void CC4::WeaponReset( void )
 		BaseClass::OnDataChanged( type );
 	}
 
+#ifdef INCLUDE_SCALEFORM
 	void CC4::UpdateOnRemove( void )
 	{
 		BaseClass::UpdateOnRemove();
@@ -1294,6 +1294,7 @@ void CC4::WeaponReset( void )
 			}
 		}
 	}
+#endif
 
 	void CC4::ClientThink( void )
 	{

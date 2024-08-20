@@ -19,6 +19,7 @@
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"
 
+#ifndef NO_STEAM
 ConVar	steamworks_sessionid_client( "steamworks_sessionid_client", "0", FCVAR_HIDDEN, "The client session ID for the new steamworks gamestats." );
 extern ConVar steamworks_sessionid_server;
 
@@ -449,3 +450,4 @@ int CSteamWorksGameStatsClient::GetFriendCountInGame()
 
 	return friendsInOurGame;
 }
+#endif

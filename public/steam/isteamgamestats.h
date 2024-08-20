@@ -10,6 +10,8 @@
 #pragma once
 #endif
 
+#ifndef NO_STEAM
+
 //-----------------------------------------------------------------------------
 // Purpose: Functions for recording game play sessions and details thereof
 //-----------------------------------------------------------------------------
@@ -73,5 +75,7 @@ struct GameStatsSessionClosed_t
 	uint64	m_ulSessionID;
 	EResult	m_eResult;
 };
+
+#endif
 
 #endif // ISTEAMGAMESTATS_H

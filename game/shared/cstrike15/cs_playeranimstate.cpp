@@ -143,7 +143,6 @@ protected:
 #endif
 	int GetOuterGrenadeThrowCounter();
 
-	const char* GetWeaponSuffix();
 	bool HandleJumping();
 
 	void UpdateLayerSequenceGeneric( CStudioHdr *pStudioHdr, int iLayer, bool &bEnabled, float &flCurCycle, int &iSequence, bool bWaitAtEnd, float flWeight = 1.0f );
@@ -1561,31 +1560,6 @@ int CCSPlayerAnimState::CalcAimLayerSequence( float *flCycle, float *flAimSequen
 		}
 		return m_iCurrentAimSequence;
 	}
-}
-
-
-const char* CCSPlayerAnimState::GetWeaponSuffix()
-{
-	VPROF( "CCSPlayerAnimState::GetWeaponSuffix" );
-
-	// Figure out the weapon suffix.
-	CWeaponCSBase *pWeapon = m_pHelpers->CSAnim_GetActiveWeapon();
-	if ( !pWeapon )
-		return nullptr;
-
-	const char *pSuffix = pWeapon->GetPlayerAnimationExtension();
-
-#ifdef CS_SHIELD_ENABLED
-	if ( m_pOuter->HasShield() == true )
-	{
-		if ( m_pOuter->IsShieldDrawn() == true )
-			pSuffix = "shield";
-		else 
-			pSuffix = "shield_undeployed";
-	}
-#endif
-
-	return pSuffix;
 }
 
 

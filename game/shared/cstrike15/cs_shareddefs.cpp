@@ -322,36 +322,3 @@ void PlayerModelInfo::AddModel( const char *modelName )
 }
 
 #endif // !CLIENT_DLL
-
-const char* QuestProgress::ReasonString(Reason reason)
-{
-	switch(reason)
-	{
-	case QUEST_OK:
-		return "ok";
-	case QUEST_NOT_ENOUGH_PLAYERS:
-		return "not_enough_players";
-	case QUEST_WARMUP:
-		return "warmup";
-	case QUEST_NOT_CONNECTED_TO_STEAM:
-		return "not_connected_to_steam";
-	case QUEST_NONOFFICIAL_SERVER:
-		return "nonofficial_server";
-	case QUEST_NO_ENTITLEMENT:
-		return "no_entitlement";
-	case QUEST_NO_QUEST:
-		return "no_quest";
-	case QUEST_PLAYER_IS_BOT:
-		return "player_is_bot";
-	case QUEST_WRONG_MAP:
-		return "wrong_map";
-	case QUEST_WRONG_MODE:
-		return "wrong_mode";
-	case QUEST_NOT_SYNCED_WITH_SERVER:
-		return "not_synced_with_server";
-	
-	case QUEST_NONINITIALIZED: // treat as 'unknown reason'.
-	default:
-		return "unknown";
-	}
-}

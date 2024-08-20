@@ -28,6 +28,8 @@
 #include "cs_hud_chat.h"
 #include "in_buttons.h"
 #include <vgui/IInput.h>
+
+#include "fmtstr.h"
 #include "vgui_controls/Controls.h"
 #include "hltvreplaysystem.h"
 
@@ -1501,7 +1503,7 @@ void C_HLTVCamera::FireGameEvent( IGameEvent * event)
 		wchar_t outputBuf[1024];
 		const char *pszText = event->GetString( "text", "" );
 		
-		char *tmpStr = hudtextmessage->LookupString( pszText );
+		char const* tmpStr = hudtextmessage->LookupString( pszText );
 		const wchar_t *pBuf = g_pVGuiLocalize->Find( tmpStr );
 		if ( pBuf )
 		{
@@ -1836,6 +1838,7 @@ CON_COMMAND_F( list_active_casters, "List currently active casters.", FCVAR_CLIE
 		{
 			nActiveCasters++;
 
+#ifndef NO_STEAM
 			if ( steamapicontext->SteamUser() && steamapicontext->SteamFriends() )
 			{
 				CSteamID steamID( CSGameRules()->m_arrTournamentActiveCasterAccounts[ i ], steamapicontext->SteamUser()->GetSteamID().GetEUniverse(), k_EAccountTypeIndividual );
@@ -1844,6 +1847,7 @@ CON_COMMAND_F( list_active_casters, "List currently active casters.", FCVAR_CLIE
 					 ( cameraManSteamID.GetAccountID() == CSGameRules()->m_arrTournamentActiveCasterAccounts[ i ] ) ? "*Camera Man*" : "" );
 			}
 			else
+#endif
 			{
 				Msg( "%d, ID: %d  %s\n", i, CSGameRules()->m_arrTournamentActiveCasterAccounts[ i ], 
 					 ( cameraManSteamID.GetAccountID() == CSGameRules()->m_arrTournamentActiveCasterAccounts[ i ] ) ? "*Camera Man*" : "" );

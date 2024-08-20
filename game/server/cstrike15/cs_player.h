@@ -253,18 +253,6 @@ enum DefuseDefenseAchivementStep
 };
 
 
-
-struct quest_data_t
-{
-public:
-	const char * m_szQuestCalcExpression;
-	const char * m_szQuestBonusCalcExpression;
-	int m_nQuestID;
-	int m_nQuestNormalPoints;
-	int m_nQuestBonusPoints;
-};
-
-
 //=============================================================================
 // >> CounterStrike player
 //=============================================================================
@@ -602,10 +590,9 @@ public:
 	bool IsBuyMenuOpen( void ) { return m_bIsBuyMenuOpen; } 
 	void SetBuyMenuOpen( bool bOpen );
 
-	AcquireResult::Type CanAcquire( CSWeaponID weaponId, AcquireMethod::Type acquireMethod, CEconItemView *pItem = nullptr);
+	AcquireResult::Type CanAcquire( CSWeaponID weaponId, AcquireMethod::Type acquireMethod );
 	int					GetCarryLimit( CSWeaponID weaponId );
-	int	GetWeaponPrice( CSWeaponID weaponId, const CEconItemView *pWepView = nullptr) const;
-	CWeaponCSBase*		CSWeapon_OwnsThisType( CEconItemView *pItem ) const;
+	int	GetWeaponPrice( CSWeaponID weaponId ) const;
 
 	void HandleMenu_Radio1( int slot );
 	void HandleMenu_Radio2( int slot );
@@ -1586,8 +1573,6 @@ public:
 	bool IsAssassinationTarget( void ) const;
 	char const * IsAbleToApplySpray( trace_t *ptr, Vector *pvecForward, Vector *pvecRight );
 
-	uint32 GetActiveQuestID( void ) const;
-	QuestProgress::Reason GetQuestProgressReason( void ) const;
 
 private:
 	CNetworkVar( bool, m_bIsAssassinationTarget );	// This player is an assassination target for an active mission
@@ -1650,60 +1635,12 @@ public:
 
 #endif // #if CS_CONTROLLABLE_BOTS_ENABLED
 
-#if !defined( NO_STEAM ) && !defined( NO_STEAM_GAMECOORDINATOR )
-
-public:
-	// IHasAttributes
-	CAttributeManager		*GetAttributeManager( void ) {
-#if defined( USE_PLAYER_ATTRIBUTE_MANAGER )
-		return &m_AttributeManager;
-#else
-		return NULL;
-#endif
-	}
-	CAttributeContainer		*GetAttributeContainer( void ) { return NULL; }
-	CBaseEntity				*GetAttributeOwner( void ) { return NULL; }
-	CAttributeList			*GetAttributeList( void ) {
-#if defined( USE_PLAYER_ATTRIBUTE_MANAGER )
-		return &m_AttributeList;
-#else
-		return NULL;
-#endif
-	}
-	virtual void			ReapplyProvision( void ) { return; }
-
-#if defined( USE_PLAYER_ATTRIBUTE_MANAGER )
-protected:
-	CNetworkVarEmbedded( CAttributeContainerPlayer, m_AttributeManager );
-#endif
-
-	//----------------------------
-	// ECONOMY INVENTORY MANAGEMENT
-public:
-	// IInventoryUpdateListener
-	virtual void InventoryUpdated( CPlayerInventory *pInventory );
-	virtual void SOCacheUnsubscribed( const CSteamID & steamIDOwner ) { /*m_Shared.SetLoadoutUnavailable( true );*/ }
-	void		VerifySOCache();
-#endif //!defined( NO_STEAM ) && !defined( NO_STEAM_GAMECOORDINATOR )
-
-	void		UpdateInventory( bool bInit );
-
-	// Inventory access
-	CCSPlayerInventory	*Inventory( void ) { return &m_Inventory; }
-	const CCSPlayerInventory	*Inventory( void ) const { return &m_Inventory; }
-	CEconItemView *GetEquippedItemInLoadoutSlot( int iLoadoutSlot ) { return Inventory()->GetInventoryItemByItemID( m_EquippedLoadoutItemIndices[iLoadoutSlot] ); }
-	CEconItemView *GetEquippedItemInLoadoutSlotOrBaseItem( int iLoadoutSlot );
-
 	uint32 RecalculateCurrentEquipmentValue( void );
 	void UpdateFreezetimeEndEquipmentValue( void );
 
 	//void UpdateAppearanceIndex( void );
 
 private:
-	CCSPlayerInventory	m_Inventory;
-	// Items that have been equipped on this player instance (the inventory loadout may have changed)
-	itemid_t				m_EquippedLoadoutItemIndices[LOADOUT_POSITION_COUNT];
-
 	//uint16 m_unAppearanceIndex;
 	CNetworkVar( uint16, m_unCurrentEquipmentValue );
 	CNetworkVar( uint16, m_unRoundStartEquipmentValue );
@@ -1717,11 +1654,6 @@ public:
 	virtual float	GetLayerSequenceCycleRate( CAnimationLayer *pLayer, int iSequence );
 
 	bool GetBulletHitLocalBoneOffset( const trace_t &tr, int &boneIndexOut, Vector &vecPositionOut, QAngle &angAngleOut );
-
-	// Quest state
-private:
-	// Can we make progress in our current quest?  If not, why not?
-	CNetworkVar( QuestProgress::Reason, m_nQuestProgressReason );
 };
 
 inline CSPlayerState CCSPlayer::State_Get() const

@@ -147,10 +147,10 @@ void CWeaponM3::PrimaryAttack()
 	m_reloadState = 0;
 
 	// update accuracy
-	m_fAccuracyPenalty += weaponInfo.GetInaccuracyFire( GetEconItemView(), Primary_Mode );
+	m_fAccuracyPenalty += weaponInfo.GetInaccuracyFire( Primary_Mode );
 
 	// table driven recoil
-	Recoil( Primary_Mode );
+	//Recoil( Primary_Mode );
 
 	++pPlayer->m_iShotsFired;
 	m_flRecoilIndex += 1.0f;

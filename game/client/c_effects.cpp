@@ -988,7 +988,7 @@ void CClient_Precipitation::CreateParticlePrecip( void )
 	{	
 		FOR_EACH_VALID_SPLITSCREEN_PLAYER( hh )
 		{
-			if ( m_pParticlePrecipOuter[hh] != NULL )
+			if ( m_pParticlePrecipOuter[hh] )
 			{
 				DestroyInnerParticlePrecip( hh );
 				DestroyOuterParticlePrecip( hh );
@@ -1130,12 +1130,12 @@ void CClient_Precipitation::UpdateParticlePrecip( C_BasePlayer *pPlayer, int nSl
 			if ( !bInside && SubFloat( FindLowestSIMD3( Result.HitDistance ), 0 ) >= m_flParticleInnerDist )
 			{
 				// Kill the inner rain if it's previously been in use
-				if ( m_pParticlePrecipInnerNear[nSlot] != NULL )
+				if ( m_pParticlePrecipInnerNear[nSlot] != nullptr )
 				{
 					DestroyInnerParticlePrecip( nSlot );
 				}
 				// Update if we've already got systems, otherwise, create them.
-				if ( m_pParticlePrecipOuter[nSlot] != NULL )
+				if ( m_pParticlePrecipOuter[nSlot] != nullptr)
 				{
 					m_pParticlePrecipOuter[nSlot]->SetControlPoint( 1,  vOffsetPos );
 					m_pParticlePrecipOuter[nSlot]->SetControlPoint( 3, vDensity );
@@ -1148,7 +1148,7 @@ void CClient_Precipitation::UpdateParticlePrecip( C_BasePlayer *pPlayer, int nSl
 			else   //We're close enough to use the near effect.
 			{
 				// Update if we've already got systems, otherwise, create them.
-				if ( m_pParticlePrecipInnerNear[nSlot] != NULL  && m_pParticlePrecipInnerFar[nSlot] != NULL  &&  m_pParticlePrecipOuter[nSlot] != NULL )
+				if ( m_pParticlePrecipInnerNear[nSlot] != nullptr && m_pParticlePrecipInnerFar[nSlot] != nullptr &&  m_pParticlePrecipOuter[nSlot] != nullptr)
 				{
 					m_pParticlePrecipOuter[nSlot]->SetControlPoint( 1, vOffsetPos );
 					m_pParticlePrecipInnerNear[nSlot]->SetControlPoint( 1, vOffsetPosNear );
@@ -1280,12 +1280,12 @@ void CClient_Precipitation::InitializeParticlePrecip( void )
 
 void CClient_Precipitation::DestroyInnerParticlePrecip( int nSlot )
 {
-	if ( m_pParticlePrecipInnerFar[nSlot] != NULL )
+	if ( m_pParticlePrecipInnerFar[nSlot] != nullptr)
 	{
 		m_pParticlePrecipInnerFar[nSlot]->StopEmission();
 		m_pParticlePrecipInnerFar[nSlot] = nullptr;
 	}
-	if ( m_pParticlePrecipInnerNear[nSlot] != NULL )
+	if ( m_pParticlePrecipInnerNear[nSlot] != nullptr)
 	{
 		m_pParticlePrecipInnerNear[nSlot]->StopEmission();
 		m_pParticlePrecipInnerNear[nSlot] = nullptr;
@@ -1294,7 +1294,7 @@ void CClient_Precipitation::DestroyInnerParticlePrecip( int nSlot )
 
 void CClient_Precipitation::DestroyOuterParticlePrecip( int nSlot )
 {
-	if ( m_pParticlePrecipOuter[nSlot] != NULL )
+	if ( m_pParticlePrecipOuter[nSlot] != nullptr)
 	{
 		m_pParticlePrecipOuter[nSlot]->StopEmission();
 		m_pParticlePrecipOuter[nSlot] = nullptr;

@@ -23,7 +23,9 @@
 namespace vgui
 {
 	class RichText;
+#ifndef NO_STEAM
 	class HTML;
+#endif
 }
 class TeamFortressViewport;
 
@@ -94,7 +96,9 @@ protected:
 
 	IViewPort	*m_pViewPort;
 	vgui::RichText *m_pMapInfo;
+#ifndef NO_STEAM
 	vgui::HTML *m_pMapInfoHTML;
+#endif
 //	int m_iNumTeams;
 	ButtonCode_t m_iJumpKey;
 	ButtonCode_t m_iScoreBoardKey;

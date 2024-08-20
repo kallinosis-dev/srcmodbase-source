@@ -29,7 +29,7 @@ class CHudTextMessage : public IHudTextMessage
 public:
 	virtual char *LocaliseTextString( const char *msg, char *dst_buffer, int buffer_size );
 	virtual char *BufferedLocaliseTextString( const char *msg );
-	virtual char *LookupString( const char *msg_name, int *msg_dest = nullptr);
+	virtual char const* LookupString(const char* msg_name, int* msg_dest = nullptr);
 };
 
 // Singleton
@@ -118,7 +118,7 @@ char *CHudTextMessage::BufferedLocaliseTextString( const char *msg )
 //			*msg_dest - 
 // Output : char
 //-----------------------------------------------------------------------------
-char *CHudTextMessage::LookupString( const char *msg, int *msg_dest )
+char const* CHudTextMessage::LookupString(const char* msg, int* msg_dest)
 {
 	if ( !msg )
 		return "";
@@ -130,7 +130,7 @@ char *CHudTextMessage::LookupString( const char *msg, int *msg_dest )
 		client_textmessage_t *clmsg = TextMessageGet( msg+1 );
 
 		if ( !clmsg || !(clmsg->pMessage) )
-			return (char*)msg; // lookup failed, so return the original string
+			return msg; // lookup failed, so return the original string
 		
 		if ( msg_dest )
 		{
@@ -140,10 +140,10 @@ char *CHudTextMessage::LookupString( const char *msg, int *msg_dest )
 				*msg_dest = -clmsg->effect;
 		}
 
-		return (char*)clmsg->pMessage;
+		return clmsg->pMessage;
 	}
 	else
 	{  // nothing special about this message, so just return the same string
-		return (char*)msg;
+		return msg;
 	}
 }

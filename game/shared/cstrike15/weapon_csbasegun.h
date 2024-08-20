@@ -67,13 +67,13 @@ public:
 	virtual bool HasZoom( void );
 	virtual bool IsZoomed( void ) const;
 
-	virtual bool WeaponHasBurst( void ) const { return GetCSWpnData().HasBurstMode( GetEconItemView() ); }
+	virtual bool WeaponHasBurst( void ) const { return GetCSWpnData().HasBurstMode(); }
 	virtual bool IsInBurstMode() const;
 
 	virtual bool IsFullAuto() const;
 
-	virtual bool IsRevolver( void ) const { return GetCSWpnData().IsRevolver( GetEconItemView() ); }
-	virtual bool DoesUnzoomAfterShot( void ) const { return GetCSWpnData().DoesUnzoomAfterShot( GetEconItemView() ); }
+	virtual bool IsRevolver( void ) const { return GetCSWpnData().IsRevolver(); }
+	virtual bool DoesUnzoomAfterShot( void ) const { return GetCSWpnData().DoesUnzoomAfterShot(); }
 
 
 	virtual bool SendWeaponAnim( int iActivity );

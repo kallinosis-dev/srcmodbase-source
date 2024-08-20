@@ -480,10 +480,9 @@ public:
 	// check autoaim
 	bool IsCursorOnAutoAimTarget();
 
-	AcquireResult::Type CanAcquire( CSWeaponID weaponId, AcquireMethod::Type acquireMethod, CEconItemView *pItem = nullptr);
+	AcquireResult::Type CanAcquire( CSWeaponID weaponId, AcquireMethod::Type acquireMethod);
 	int					GetCarryLimit( CSWeaponID weaponId );
-	int					GetWeaponPrice( CSWeaponID weaponId, const CEconItemView *pWepView = nullptr) const;
-	CWeaponCSBase*		CSWeapon_OwnsThisType( CEconItemView *pItem ) const;
+	int					GetWeaponPrice( CSWeaponID weaponId ) const;
 
 	virtual bool ShouldRegenerateOriginFromCellBits() const;
 
@@ -798,9 +797,6 @@ public:
 
 	char *GetHalloweenMaskModelAddon( C_CSPlayer *pPlayer );
 
-	uint32 GetActiveQuestID( void ) const;
-	QuestProgress::Reason GetQuestProgressReason( void ) const;
-
 	Vector m_vecLastMuzzleFlashPos;
 	QAngle m_angLastMuzzleFlashAngle;
 	EHANDLE m_hMuzzleFlashShape;
@@ -844,8 +840,6 @@ private:
 	float	m_flFreezeFrameTilt;	
 
 	bool	m_bOldIsScoped;
-	
-	CNetworkVar( QuestProgress::Reason, m_nQuestProgressReason );
 
 	CNetworkVar( uint16, m_unCurrentEquipmentValue );
 	CNetworkVar( uint16, m_unRoundStartEquipmentValue );

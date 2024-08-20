@@ -662,10 +662,6 @@ void CDedicatedServerWorkshopManager::QueueDownloadFile( const DedicatedServerUG
 
 bool CDedicatedServerWorkshopManager::IsFileLatestVersion( const DedicatedServerUGCFileInfo_t* ugcInfo )
 {
-	// never try to update an official map, they're shipped with the depot
-	if ( UGCUtil_IsOfficialMap( ugcInfo->fileId ) )
-		return true;
-
 	if ( g_pFullFileSystem->FileExists( ugcInfo->m_szFilePath ) )
 	{
 		// mtime needs to match the time last updated exactly, as we slam the file time when we download

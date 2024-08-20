@@ -24,7 +24,7 @@ void RecvProxy_ShortSubOne( const CRecvProxyData *pData, void *pStruct, void *pO
 	*pInt = pData->m_Value.m_Int - 1;
 }
 
-RecvProp RecvPropIntWithMinusOneFlag( char *pVarName, int offset, int sizeofVar, RecvVarProxyFn proxyFn )
+RecvProp RecvPropIntWithMinusOneFlag(const char *pVarName, int offset, int sizeofVar, RecvVarProxyFn proxyFn )
 {
 	return RecvPropInt( pVarName, offset, sizeofVar, 0, proxyFn );
 }

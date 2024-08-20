@@ -12,6 +12,7 @@
 
 #include "igamesystem.h"
 #include <keyvalues.h>
+#include "baseentity_shared.h"
 
 // Phys prop spawnflags
 #define SF_PHYSPROP_START_ASLEEP				0x000001

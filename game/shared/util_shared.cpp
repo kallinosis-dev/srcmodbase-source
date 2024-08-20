@@ -1471,7 +1471,7 @@ unsigned short UTIL_GetAchievementEventMask( void )
 	return ( mapCRC & 0xFFFF );
 }
 
-char* ReadAndAllocStringValue( KeyValues *pSub, const char *pName, const char *pFilename )
+char const* ReadAndAllocStringValue(KeyValues* pSub, const char* pName, const char* pFilename)
 {
 	const char *pValue = pSub->GetString( pName, nullptr);
 	if ( !pValue )

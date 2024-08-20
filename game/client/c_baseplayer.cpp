@@ -1209,6 +1209,7 @@ void C_BasePlayer::PostDataUpdate( DataUpdateType_t updateType )
 			bHideFreezePanel = true;
 			m_bWasFreezePanelExtended = false;
 		}
+#ifdef INCLUDE_SCALEFORM
 		else if ( IsAlive() )
 		{
 			SFHudFreezePanel *pPanel = GET_HUDELEMENT( SFHudFreezePanel );
@@ -1218,6 +1219,7 @@ void C_BasePlayer::PostDataUpdate( DataUpdateType_t updateType )
 				bHideFreezePanel = true;
 			}	
 		}
+#endif
 		
 		if ( bHideFreezePanel && !g_HltvReplaySystem.GetHltvReplayDelay() && !g_HltvReplaySystem.IsDelayedReplayRequestPending() )
 		{
@@ -2837,7 +2839,7 @@ Vector C_BasePlayer::GetAutoaimVector( float flScale )
 }
 
 // Stuff for prediction
-void C_BasePlayer::SetSuitUpdate(char *name, int fgroup, int iNoRepeat)
+void C_BasePlayer::SetSuitUpdate(char const* name, int fgroup, int iNoRepeat) const
 {
 	// FIXME:  Do something here?
 }

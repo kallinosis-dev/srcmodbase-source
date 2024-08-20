@@ -111,7 +111,7 @@ void RecvProxy_WeaponWorldmodelCosmetics( const CRecvProxyData *pData, void *pSt
 	CBaseWeaponWorldModel *pWeaponWorldModel = (CBaseWeaponWorldModel *) pStruct;
 	if ( pWeaponWorldModel )
 	{
-		pWeaponWorldModel->ApplyCustomMaterialsAndStickers();
+		pWeaponWorldModel->ApplyCustomMaterials();
 	}
 }
 
@@ -131,19 +131,7 @@ void CBaseWeaponWorldModel::OnDataChanged( DataUpdateType_t type )
 	{
 		if ( IsVisible() && GetCustomMaterialCount() != pWeaponParent->GetCustomMaterialCount() )
 		{
-			ApplyCustomMaterialsAndStickers();
-		}
-
-		// extra sticker application check
-		if ( IsVisible() && ShouldDraw() && !m_bStickersApplied && pWeaponParent )
-		{
-			m_bStickersApplied = true;
-			pWeaponParent->ApplyThirdPersonStickers( this );
-		}
-
-		if ( !pWeaponParent->GetOwner() )
-		{
-			pWeaponParent->ApplyThirdPersonStickers( pWeaponParent );
+			ApplyCustomMaterials();
 		}
 	}
 
@@ -239,7 +227,6 @@ CBaseWeaponWorldModel::CBaseWeaponWorldModel( void )
 	m_nMuzzleAttachIndex = -1;
 	m_nMuzzleBoneIndex = -1;
 #ifdef CLIENT_DLL
-	m_bStickersApplied = false;
 	m_bMaintainSequenceTransitions = false; // disabled for perf - world model weapons do not transition their sequences
 	RenderWithViewModels( false );
 
@@ -434,7 +421,7 @@ bool CBaseWeaponWorldModel::ShouldDraw( void )
 	return true;
 }
 
-void CBaseWeaponWorldModel::ApplyCustomMaterialsAndStickers( void )
+void CBaseWeaponWorldModel::ApplyCustomMaterials( void )
 {
 	CBaseCombatWeapon *pWeaponParent = m_hCombatWeaponParent->Get();
 	if ( !pWeaponParent )
@@ -450,9 +437,6 @@ void CBaseWeaponWorldModel::ApplyCustomMaterialsAndStickers( void )
 		}
 		SetAllowFastPath( false );
 	}
-
-	// apply stickers
-	pWeaponParent->ApplyThirdPersonStickers( this );
 }
 
 #else
@@ -761,12 +745,12 @@ void CBaseCombatWeapon::Precache( void )
 	if ( m_hWeaponFileInfo != GetInvalidWeaponInfoHandle() )
 	{
 		// Get the ammo indexes for the ammo's specified in the data file
-		if ( GetWpnData().GetPrimaryAmmo( GetEconItemView() )[0] )
+		if ( GetWpnData().GetPrimaryAmmo()[0] )
 		{
-			m_iPrimaryAmmoType = GetAmmoDef()->Index( GetWpnData().GetPrimaryAmmo( GetEconItemView() ) );
+			m_iPrimaryAmmoType = GetAmmoDef()->Index( GetWpnData().GetPrimaryAmmo() );
 			if (m_iPrimaryAmmoType == -1)
 			{
-				Msg("ERROR: Weapon (%s) using undefined primary ammo type (%s)\n",GetClassname(), GetWpnData().GetPrimaryAmmo( GetEconItemView() ) );
+				Msg("ERROR: Weapon (%s) using undefined primary ammo type (%s)\n",GetClassname(), GetWpnData().GetPrimaryAmmo() );
 			}
 		}
 		if ( GetWpnData().szAmmo2[0] )
@@ -842,9 +826,7 @@ const FileWeaponInfo_t &CBaseCombatWeapon::GetWpnData( void ) const
 //-----------------------------------------------------------------------------
 const char *CBaseCombatWeapon::GetViewModel( int /*viewmodelindex = 0 -- this is ignored in the base class here*/ ) const
 {
-	return GetWpnData().GetViewModel( GetEconItemView(), (
-		( GetOwner() != nullptr && GetOwner()->IsPlayer() ) ? GetOwner()->GetTeamNumber() : 0
-		) );
+	return GetWpnData().GetViewModel(( GetOwner() != nullptr && GetOwner()->IsPlayer() ) ? GetOwner()->GetTeamNumber() : 0 );
 }
 
 //-----------------------------------------------------------------------------
@@ -852,17 +834,13 @@ const char *CBaseCombatWeapon::GetViewModel( int /*viewmodelindex = 0 -- this is
 //-----------------------------------------------------------------------------
 const char *CBaseCombatWeapon::GetWorldModel( void ) const
 {
-	return GetWpnData().GetWorldModel( GetEconItemView(), (
-		( GetOwner() != nullptr && GetOwner()->IsPlayer() ) ? GetOwner()->GetTeamNumber() : 0 
-		) );
+	return GetWpnData().GetWorldModel( ( GetOwner() != nullptr && GetOwner()->IsPlayer() ) ? GetOwner()->GetTeamNumber() : 0 );
 }
 
 
 const char *CBaseCombatWeapon::GetWorldDroppedModel( void ) const
 {
-	const char *szWorldDroppedModel = GetWpnData().GetWorldDroppedModel( GetEconItemView(), (
-		( GetOwner() != nullptr && GetOwner()->IsPlayer() ) ? GetOwner()->GetTeamNumber() : 0 
-		) );
+	const char *szWorldDroppedModel = GetWpnData().GetWorldDroppedModel( ( GetOwner() != nullptr && GetOwner()->IsPlayer() ) ? GetOwner()->GetTeamNumber() : 0 );
 
 	// world dropped model path is optional, but always built. Make sure the model exists before returning it.
 	if ( szWorldDroppedModel )
@@ -890,10 +868,7 @@ const char *CBaseCombatWeapon::GetAnimPrefix( void ) const
 //-----------------------------------------------------------------------------
 const char *CBaseCombatWeapon::GetPrintName( void ) const
 {
-	if ( GetEconItemView( ) )
-		return GetEconItemView( )->GetItemDefinition()->GetItemBaseName();
-	else
-		return GetWpnData().szPrintName;
+	return GetWpnData().szPrintName;
 }
 
 
@@ -2568,10 +2543,10 @@ void CBaseCombatWeapon::AddViewKick( void )
 //-----------------------------------------------------------------------------
 // Purpose: Get the string to print death notices with
 //-----------------------------------------------------------------------------
-char *CBaseCombatWeapon::GetDeathNoticeName( void )
+char const* CBaseCombatWeapon::GetDeathNoticeName(void)
 {
 #if !defined( CLIENT_DLL )
-	return (char*)STRING( m_iszName );
+	return STRING( m_iszName );
 #else
 	return "GetDeathNoticeName not implemented on client yet";
 #endif
@@ -3383,16 +3358,6 @@ END_NETWORK_TABLE()
 // 	return GetWpnData().GetAttributeBool( szAttribClassName, GetEconItemView() );
 // }
 
-const CEconItemView* CBaseCombatWeapon::GetEconItemView( void ) const
-{
-	return nullptr;
-}
-
-CEconItemView* CBaseCombatWeapon::GetEconItemView( void )
-{
-	return nullptr;
-}
-
 int CBaseCombatWeapon::GetReserveAmmoCount( AmmoPosition_t nAmmoPosition, CBaseCombatCharacter * pForcedOwner/* = NULL*/  )
 {
 	// LEGACY SUPPORT HERE 
@@ -3522,8 +3487,8 @@ int CBaseCombatWeapon::GetReserveAmmoMax( AmmoPosition_t nAmmoPosition ) const
 
 	switch( nAmmoPosition )
 	{
-	case AMMO_POSITION_PRIMARY: return GetWpnData().GetPrimaryReserveAmmoMax( GetEconItemView() );
-	case AMMO_POSITION_SECONDARY: return GetWpnData().GetSecondaryReserveAmmoMax( GetEconItemView() );
+	case AMMO_POSITION_PRIMARY: return GetWpnData().GetPrimaryReserveAmmoMax();
+	case AMMO_POSITION_SECONDARY: return GetWpnData().GetSecondaryReserveAmmoMax();
 	default: Assert(0); return 0;
 	}
 }

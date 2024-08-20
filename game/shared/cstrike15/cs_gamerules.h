@@ -413,7 +413,6 @@ public:
 	bool IsWarmupPeriodPaused();
 	void SetWarmupPeriodStartTime( float fl )	{ m_fWarmupPeriodStart = fl; }
 	float GetWarmupPeriodStartTime( void )	{ return m_fWarmupPeriodStart; }
-	bool AllowTaunts( void );
 
 	bool IsTimeOutActive() const { return ( IsTerroristTimeOutActive() || IsCTTimeOutActive() ); }
 	bool IsTerroristTimeOutActive() const { return m_bTerroristTimeOutActive; }
@@ -569,8 +568,6 @@ public:
 
 	bool HasMatchStarted()	{ return m_bHasMatchStarted; }
 
-	int GetWeaponScoreForDeathmatch( int nPos );
-
 	float GetRestartRoundTime( void ) const;
 
 #if !defined( CLIENT_DLL )
@@ -692,10 +689,6 @@ protected:
 	bool m_bDontIncrementCoopWave;
 
 public:
-	float GetCMMItemDropRevealDuration();
-	float GetCMMItemDropRevealEndTime() { return m_flCMMItemDropRevealEndTime; }
-	bool IsDroppingItems() { return m_bIsDroppingItems; }
-
 	float GetDMBonusStartTime( void ) { return m_flDMBonusStartTime; }
 	float GetDMBonusTimeLength( void ) { return m_flDMBonusTimeLength; }
 	bool IsDMBonusActive( void ) { return m_bDMBonusActive; }
@@ -1466,8 +1459,6 @@ private:
 
 	CUtlVector< CHandle<CWeaponCSBase> > m_weaponsDroppedInWorld;
 };
-
-bool EconEntity_OnOwnerKillEaterEvent( CEconItemView *pEconItemView, CCSPlayer *pOwner, CCSPlayer *pVictim, kill_eater_event_t eEventType, int iAmount = 1, uint32 *pNewValue = nullptr);
 
 //-----------------------------------------------------------------------------
 // Gets us at the team fortress game rules

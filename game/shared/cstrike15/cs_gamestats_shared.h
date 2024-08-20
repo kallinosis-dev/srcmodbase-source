@@ -630,7 +630,7 @@ struct WeaponName_StatId
 
 struct MapName_MapStatId
 {
-	char* szMapName;
+	char const* szMapName;
 	CSStatType_t statWinsId;
 	CSStatType_t statRoundsId;
 	CSStatType_t matchesWonId;

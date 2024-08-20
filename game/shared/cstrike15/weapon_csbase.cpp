@@ -12,6 +12,7 @@
 #include "ammodef.h"
 #include "cs_gamerules.h"
 #include "basegrenade_shared.h"
+#include "fmtstr.h"
 #include "weapon_basecsgrenade.h"
 #include "platforminputdevice.h"
 #include "inputsystem/iinputsystem.h"
@@ -46,7 +47,9 @@
 	#include "cs_custom_material_swap.h"
 	#include "cs_custom_weapon_visualsdata_processor.h"
 	//#include "glow_outline_effect.h"
+#ifdef INCLUDE_SCALEFORM
 	#include "HUD/sfhudreticle.h"
+#endif
 
 	extern IVModelInfoClient* modelinfo;
 
@@ -135,8 +138,8 @@ void TE_DynamicLight( IRecipientFilter& filter, float delay,
 
 struct WeaponAliasTranslationInfoStruct
 {
-	char* alias;
-	char* translatedAlias;
+	char const* alias;
+	char const* translatedAlias;
 };
 
 static const WeaponAliasTranslationInfoStruct s_WeaponAliasTranslationInfo[] = 
@@ -599,43 +602,6 @@ bool CWeaponCSBase::PlayEmptySound()
 	return 0;
 }
 
-const char *CWeaponCSBase::GetShootSound( int iIndex ) const
-{
-	CEconItemView *pItem = ( (CWeaponCSBase *)this )->GetEconItemView();
-	if ( pItem && pItem->IsValid() )
-	{
-		const char *pszSound = pItem->GetStaticData()->GetWeaponReplacementSound( (WeaponSound_t)iIndex );
-		if ( pszSound )
-		{
-			return pszSound;
-		}
-	}
-
-	return BaseClass::GetShootSound(iIndex);
-}
-
-const char *CWeaponCSBase::GetPlayerAnimationExtension( void ) const
-{
-	CEconItemView *pItem = ( (CWeaponCSBase *)this )->GetEconItemView();
-	if ( pItem && pItem->IsValid() )
-	{
-		return GetCSWpnData().GetPlayerAnimationExtension( pItem );
-	}
-
-	return GetCSWpnData().GetPlayerAnimationExtension();
-}
-
-const char *CWeaponCSBase::GetAddonModel( void ) const
-{
-	CEconItemView *pItem = ( (CWeaponCSBase *)this )->GetEconItemView();
-	if ( pItem && pItem->IsValid() )
-	{
-		return GetCSWpnData().GetAddonModel( pItem );
-	}
-
-	return GetCSWpnData().GetAddonModel();
-}
-
 CCSPlayer* CWeaponCSBase::GetPlayerOwner() const
 {
 	return dynamic_cast< CCSPlayer* >( GetOwner() );
@@ -801,27 +767,6 @@ void CWeaponCSBase::SendViewModelAnim( int nSequence )
 	CCSPlayer *pPlayer = GetPlayerOwner();
 	if ( !pPlayer || pPlayer->IsTaunting() || pPlayer->IsLookingAtWeapon() )
 		return;
-
-	CBaseViewModel *vm = pPlayer->GetViewModel( m_nViewModelIndex );
-	if (vm)
-	{
-		bool bIsLookingAt = ( vm->GetSequence() != ACT_INVALID && V_stristr( vm->GetSequenceName(vm->GetSequence()), "lookat" ) );
-
-		if ( vm->GetCycle() < 0.98f && bIsLookingAt && V_stristr( vm->GetSequenceName( nSequence ), "idle" ) )
-		{
-			// Don't switch from taunt to idle
-			return;
-		}
-
-#ifdef CLIENT_DLL
-		if ( !bIsLookingAt )
-		{
-			//Fade down stat trak glow if we're doing anything other than inspecting
-			vm->SetStatTrakGlowMultiplier( 0.0f );
-		}
-#endif
-
-	}	
 
 	BaseClass::SendViewModelAnim( nSequence );
 }
@@ -1218,7 +1163,7 @@ float CWeaponCSBase::GetInaccuracy() const
 
 	float fMaxSpeed = GetMaxSpeed();
 	if ( fMaxSpeed == 0.0f )
-		fMaxSpeed = GetCSWpnData().GetMaxSpeed( GetEconItemView(), 0 );
+		fMaxSpeed = GetCSWpnData().GetMaxSpeed( 0 );
 
 	float fAccuracy = m_fAccuracyPenalty;
 
@@ -1246,13 +1191,13 @@ float CWeaponCSBase::GetInaccuracy() const
 		}
 
 
-		fAccuracy += flMovementInaccuracyScale * weaponInfo.GetInaccuracyMove( GetEconItemView(), m_weaponMode );
+		fAccuracy += flMovementInaccuracyScale * weaponInfo.GetInaccuracyMove( m_weaponMode );
 	}
 
 	// If we are in the air/on ladder, add inaccuracy based on vertical speed (maximum accuracy at apex of jump)
 	if ( pPlayer->GetGroundEntity() == nullptr )
 	{
-		float flInaccuracyJumpInitial = weaponInfo.GetInaccuracyJumpInitial( GetEconItemView() ) * weapon_air_spread_scale.GetFloat();
+		float flInaccuracyJumpInitial = weaponInfo.GetInaccuracyJumpInitial() * weapon_air_spread_scale.GetFloat();
 		static const float kMaxFallingPenalty = 2.0f;	// Accuracy is never worse than 2x starting penalty
 
 		// Use sqrt here to make the curve more "sudden" around the accurate point at the apex of the jump
@@ -1282,19 +1227,6 @@ float CWeaponCSBase::GetInaccuracy() const
 
 	return fAccuracy;
 }
-
-
-int CWeaponCSBase::GetRecoilSeed( void ) const
-{
-	CEconItemView *pItem = ( (CWeaponCSBase *)this )->GetEconItemView();
-	if ( pItem->IsValid() )
-	{
-		return GetCSWpnData().GetRecoilSeed( pItem );
-	}
-
-	return GetCSWpnData().GetRecoilSeed();
-}
-
 
 
 
@@ -1367,37 +1299,37 @@ void CWeaponCSBase::Precache( void )
 		PrecacheScriptSound( GetZoomOutSound() );
 	}
 
-	const char *pMuzzleFlashEffectName_1stPerson = GetCSWpnData().GetMuzzleFlashEffectName_1stPerson( GetEconItemView() );
+	const char *pMuzzleFlashEffectName_1stPerson = GetCSWpnData().GetMuzzleFlashEffectName_1stPerson();
 	if ( pMuzzleFlashEffectName_1stPerson && pMuzzleFlashEffectName_1stPerson[0] )
 	{
 		PrecacheEffect( pMuzzleFlashEffectName_1stPerson );
 	}
 
-	const char *pMuzzleFlashEffectName_1stPersonAlt = GetCSWpnData().GetMuzzleFlashEffectName_1stPersonAlt( GetEconItemView() );
+	const char *pMuzzleFlashEffectName_1stPersonAlt = GetCSWpnData().GetMuzzleFlashEffectName_1stPersonAlt();
 	if ( pMuzzleFlashEffectName_1stPersonAlt && pMuzzleFlashEffectName_1stPersonAlt[0] )
 	{
 		PrecacheEffect( pMuzzleFlashEffectName_1stPersonAlt );
 	}
 
-	const char *pMuzzleFlashEffectName_3rdPerson = GetCSWpnData().GetMuzzleFlashEffectName_3rdPerson( GetEconItemView() );
+	const char *pMuzzleFlashEffectName_3rdPerson = GetCSWpnData().GetMuzzleFlashEffectName_3rdPerson();
 	if ( pMuzzleFlashEffectName_3rdPerson && pMuzzleFlashEffectName_3rdPerson[0] )
 	{
 		PrecacheEffect( pMuzzleFlashEffectName_3rdPerson );
 	}
 
-	const char *pMuzzleFlashEffectName_3rdPersonAlt = GetCSWpnData().GetMuzzleFlashEffectName_3rdPersonAlt( GetEconItemView() );
+	const char *pMuzzleFlashEffectName_3rdPersonAlt = GetCSWpnData().GetMuzzleFlashEffectName_3rdPersonAlt();
 	if ( pMuzzleFlashEffectName_3rdPersonAlt && pMuzzleFlashEffectName_3rdPersonAlt[0] )
 	{
 		PrecacheEffect( pMuzzleFlashEffectName_3rdPersonAlt );
 	}
 
-	const char *pEjectBrassEffectName = GetCSWpnData().GetEjectBrassEffectName( GetEconItemView() );
+	const char *pEjectBrassEffectName = GetCSWpnData().GetEjectBrassEffectName();
 	if ( pEjectBrassEffectName && pEjectBrassEffectName[0] )
 	{
 		PrecacheEffect( pEjectBrassEffectName );
 	}
 
-	const char *pHeatEffectName = GetCSWpnData().GetHeatEffectName( GetEconItemView() );
+	const char *pHeatEffectName = GetCSWpnData().GetHeatEffectName();
 	if ( pHeatEffectName && pHeatEffectName[0] )
 	{
 		PrecacheEffect( pHeatEffectName );
@@ -1977,8 +1909,8 @@ void CWeaponCSBase::DrawCrosshair()
 		
 #endif
 
-	int iDeltaDistance = GetCSWpnData().GetCrosshairDeltaDistance( GetEconItemView() ); // Amount by which the crosshair expands when shooting ( per frame )
-	float fCrosshairDistanceGoal = cl_crosshairgap_useweaponvalue.GetBool() ? GetCSWpnData().GetCrosshairMinDistance( GetEconItemView() ) : 4; // The minimum distance the crosshair can achieve...
+	int iDeltaDistance = GetCSWpnData().GetCrosshairDeltaDistance(); // Amount by which the crosshair expands when shooting ( per frame )
+	float fCrosshairDistanceGoal = cl_crosshairgap_useweaponvalue.GetBool() ? GetCSWpnData().GetCrosshairMinDistance() : 4; // The minimum distance the crosshair can achieve...
 
 	//0 = default
 	//1 = default static
@@ -2106,6 +2038,8 @@ void CWeaponCSBase::DrawCrosshair()
 				QAngle angCamDriver = vm->m_flCamDriverWeight * vm->m_angCamDriverLastAng * clamp( cl_cam_driver_compensation_scale.GetFloat(), -10.0f, 10.0f );
 				if ( angCamDriver.x != 0 || angCamDriver.y != 0  )
 				{
+#define VIEWPUNCH_COMPENSATE_MAGIC_SCALAR 0.65 // cl_flinch_scale.GetFloat()
+
 					flAngleToScreenPixel = VIEWPUNCH_COMPENSATE_MAGIC_SCALAR * 2 * ( ScreenHeight() / ( 2.0f * tanf(DEG2RAD( pPlayer->GetFOV() ) / 2.0f) ) );
 					iCenterY -= ( flAngleToScreenPixel * sinf( DEG2RAD( angCamDriver.x ) ) ) ;
 					iCenterX += ( flAngleToScreenPixel * sinf( DEG2RAD( angCamDriver.y ) ) ) ;
@@ -2306,14 +2240,10 @@ void CWeaponCSBase::OnDataChanged( DataUpdateType_t type )
 
 	if ( type == DATA_UPDATE_CREATED )
 	{
-		// this will trigger the custom material to start making itself (if needed) the weapon will render with 
-		// the original material for a few frames, then switch to the custom material when it's ready
-		UpdateCustomMaterial();
 		UpdateOutlineGlow();
 	}
 	else if ( bChangedCarryState )
 	{
-		CheckCustomMaterial();
 		UpdateOutlineGlow();
 	}
 #endif
@@ -2444,11 +2374,6 @@ bool CWeaponCSBase::OnFireEvent( C_BaseViewModel *pViewModel, const Vector& orig
 
 		return true;
 	}
-	else if ( event == AE_CL_SET_STATTRAK_GLOW )
-	{
-		pViewModel->SetStatTrakGlowMultiplier( atof( options ) );
-		return true;
-	}
 	else if ( event == AE_WPN_NEXTCLIP_TO_POSEPARAM )
 	{
 		// sets the given pose param to a 0..1 value representing the clip amount after an impending reload
@@ -2500,34 +2425,34 @@ const char* CWeaponCSBase::GetMuzzleFlashEffectName_1stPerson( void )
 {
 	if ( HasSilencer() && IsSilenced() )
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_1stPersonAlt( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_1stPersonAlt();
 	}
 	else
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_1stPerson( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_1stPerson();
 	}
 }
 
 const char* CWeaponCSBase::GetHeatEffectName( void )
 {
-	return GetCSWpnData().GetHeatEffectName( GetEconItemView() );
+	return GetCSWpnData().GetHeatEffectName();
 }
 
 const char* CWeaponCSBase::GetMuzzleFlashEffectName_3rdPerson( void )
 {
 	if ( HasSilencer() && IsSilenced() )
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPersonAlt( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPersonAlt();
 	}
 	else
 	{
-		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPerson( GetEconItemView() );
+		return GetCSWpnData().GetMuzzleFlashEffectName_3rdPerson();
 	}
 }
 
 const char* CWeaponCSBase::GetEjectBrassEffectName( void )
 {
-	return GetCSWpnData().GetEjectBrassEffectName( GetEconItemView() );
+	return GetCSWpnData().GetEjectBrassEffectName();
 }
 
 int CWeaponCSBase::GetMuzzleAttachmentIndex_1stPerson( C_BaseViewModel *pViewModel )
@@ -3705,27 +3630,27 @@ void CWeaponCSBase::UpdateAccuracyPenalty( )
 	// on ladder?
 	if ( pPlayer->GetMoveType( ) == MOVETYPE_LADDER )
 	{
-		fNewPenalty += weaponInfo.GetInaccuracyLadder( GetEconItemView( ), m_weaponMode ) + weaponInfo.GetInaccuracyLadder( GetEconItemView( ), Primary_Mode );
+		fNewPenalty += weaponInfo.GetInaccuracyLadder( m_weaponMode ) + weaponInfo.GetInaccuracyLadder(Primary_Mode );
 	}
 	// in the air?
 	else if ( pPlayer->GetGroundEntity() == nullptr )
 	// 	else if ( !FBitSet( pPlayer->GetFlags(), FL_ONGROUND ) )
 	{
-		fNewPenalty += weaponInfo.GetInaccuracyStand( GetEconItemView(), m_weaponMode );
-		fNewPenalty += weaponInfo.GetInaccuracyJump( GetEconItemView(), m_weaponMode ) * weapon_air_spread_scale.GetFloat();
+		fNewPenalty += weaponInfo.GetInaccuracyStand( m_weaponMode );
+		fNewPenalty += weaponInfo.GetInaccuracyJump( m_weaponMode ) * weapon_air_spread_scale.GetFloat();
 	}
 	else if ( FBitSet( pPlayer->GetFlags( ), FL_DUCKING ) )
 	{
-		fNewPenalty += weaponInfo.GetInaccuracyCrouch( GetEconItemView( ), m_weaponMode );
+		fNewPenalty += weaponInfo.GetInaccuracyCrouch( m_weaponMode );
 	}
 	else
 	{
-		fNewPenalty += weaponInfo.GetInaccuracyStand( GetEconItemView( ), m_weaponMode );
+		fNewPenalty += weaponInfo.GetInaccuracyStand( m_weaponMode );
 	}
 
 	if ( m_bInReload )
 	{
-		fNewPenalty += weaponInfo.GetInaccuracyReload( GetEconItemView( ) );
+		fNewPenalty += weaponInfo.GetInaccuracyReload();
 	}
 
 	if ( fNewPenalty > m_fAccuracyPenalty )
@@ -3761,39 +3686,43 @@ float CWeaponCSBase::GetRecoveryTime( void )
 
 	if ( pPlayer->GetMoveType( ) == MOVETYPE_LADDER )
 	{
-		return weaponInfo.GetRecoveryTimeStand( GetEconItemView( ) );
+		return weaponInfo.GetRecoveryTimeStand();
 	}
 	else if ( !FBitSet( pPlayer->GetFlags( ), FL_ONGROUND ) )	// in air
 	{
 		// enforce a large recovery speed penalty (400%) for players in the air; this helps to provide
 		// comparable in-air accuracy to the old weapon model
 		
-		return weaponInfo.GetRecoveryTimeCrouch( GetEconItemView( ) ) * 4.0f;
+		return weaponInfo.GetRecoveryTimeCrouch() * 4.0f;
 	}
 	else if ( FBitSet( pPlayer->GetFlags( ), FL_DUCKING ) )
 	{
-		float flRecoveryTime = weaponInfo.GetRecoveryTimeCrouch( GetEconItemView( ) );
-		float flRecoveryTimeFinal = weaponInfo.GetRecoveryTimeCrouchFinal( GetEconItemView( ) );
+		float flRecoveryTime = weaponInfo.GetRecoveryTimeCrouch();
+		float flRecoveryTimeFinal = weaponInfo.GetRecoveryTimeCrouchFinal();
 
 		if ( flRecoveryTimeFinal != -1.0f )	// uninitialized final recovery values are set to -1.0 from the weapon_base prefab in schema
 		{
 			int nRecoilIndex = m_flRecoilIndex;
 
-			flRecoveryTime = RemapValClamped( nRecoilIndex, weaponInfo.GetRecoveryTransitionStartBullet( GetEconItemView( ) ), weaponInfo.GetRecoveryTransitionEndBullet( GetEconItemView( ) ), flRecoveryTime, flRecoveryTimeFinal );
+			flRecoveryTime = RemapValClamped( nRecoilIndex, 
+				weaponInfo.GetRecoveryTransitionStartBullet( ), weaponInfo.GetRecoveryTransitionEndBullet(), 
+				flRecoveryTime, flRecoveryTimeFinal );
 		}
 
 		return flRecoveryTime;
 	}
 	else
 	{
-		float flRecoveryTime = weaponInfo.GetRecoveryTimeStand( GetEconItemView( ) );
-		float flRecoveryTimeFinal = weaponInfo.GetRecoveryTimeStandFinal( GetEconItemView( ) );
+		float flRecoveryTime = weaponInfo.GetRecoveryTimeStand();
+		float flRecoveryTimeFinal = weaponInfo.GetRecoveryTimeStandFinal();
 
 		if ( flRecoveryTimeFinal != -1.0f )	// uninitialized final recovery values are set to -1.0 from the weapon_base prefab in schema
 		{
 			int nRecoilIndex = m_flRecoilIndex;
 
-			flRecoveryTime = RemapValClamped( nRecoilIndex, weaponInfo.GetRecoveryTransitionStartBullet( GetEconItemView( ) ), weaponInfo.GetRecoveryTransitionEndBullet( GetEconItemView( ) ), flRecoveryTime, flRecoveryTimeFinal );
+			flRecoveryTime = RemapValClamped( nRecoilIndex, 
+				weaponInfo.GetRecoveryTransitionStartBullet( ), weaponInfo.GetRecoveryTransitionEndBullet( ), 
+				flRecoveryTime, flRecoveryTimeFinal );
 		}
 
 		return flRecoveryTime;
@@ -3809,7 +3738,7 @@ void CWeaponCSBase::OnJump( float fImpulse )
 
 void CWeaponCSBase::OnLand( float fVelocity )
 {
-	float fPenalty = GetCSWpnData().GetInaccuracyLand( GetEconItemView(), m_weaponMode ) * fVelocity;
+	float fPenalty = GetCSWpnData().GetInaccuracyLand(m_weaponMode ) * fVelocity;
 	m_fAccuracyPenalty += fPenalty;
 	fPenalty = clamp( fPenalty, -1.0f, 1.0f );
 
@@ -3828,42 +3757,6 @@ void CWeaponCSBase::OnLand( float fVelocity )
 
 	pPlayer->SetAimPunchAngle( angle );
 }
-
-
-void CWeaponCSBase::Recoil( CSWeaponMode weaponMode )
-{
-	#error Cut for partner depot
-}
-
-#ifdef CLIENT_DLL
-
-void WeaponSaveCustomTextures( void )
-{
-	C_BasePlayer *local = C_BasePlayer::GetLocalPlayer();
-	if ( local )
-	{
-		CWeaponCSBase *pWeapon = ( CWeaponCSBase* )local->GetActiveWeapon();
-		pWeapon->SaveCustomMaterialsTextures();
-	}
-}
-ConCommand cl_saveweaponcustomtextures( "cl_saveweaponcustomtextures", WeaponSaveCustomTextures, "Save custom textures of current weapon." );
-
-void CWeaponCSBase::SaveCustomMaterialsTextures( )
-{
-	#error Cut for partner depot
-}
-
-void CWeaponCSBase::UpdateCustomMaterial( void )
-{
-	#error Cut for partner depot
-}
-
-void CWeaponCSBase::CheckCustomMaterial( void )
-{
-	#error Cut for partner depot
-}
-
-#endif // CLIENT_DLL
 
 #ifdef IRONSIGHT
 CIronSightController *CWeaponCSBase::GetIronSightController( void )

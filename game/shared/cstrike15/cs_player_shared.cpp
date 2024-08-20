@@ -701,116 +701,6 @@ bool CCSPlayer::IsOtherEnemy( CCSPlayer *pPlayer )
 	return nTeam != nOtherTeam;
 }
 
-uint32 CCSPlayer::GetActiveQuestID( void ) const
-{
-	uint32 unQuestID = 
-#if defined ( CLIENT_DLL )
-	 CSInventoryManager()->GetLocalCSInventory() ? CSInventoryManager()->GetLocalCSInventory()->GetActiveQuestID() : 0;
-#else
-	 m_Inventory.GetActiveQuestID(); 
-#endif
-
-	return unQuestID;
-}
-
-#if defined( CLIENT_DLL )
-static bool ClientThinksQuestIsOk(CCSGameRules* pGameRules, const CCSPlayer* pPlayer)
-{
-	if ( !pGameRules || !pPlayer )
-		return false;
-
-	// Should also be handled by QuestProgressReason set to QUEST_NONOFFICIAL_SERVER, but just to be safe, handle it here too.
-	if ( !pGameRules->IsQuestEligible() )
-		return false;
-
-	uint32 unQuestID = pPlayer->GetActiveQuestID();
-	if ( !unQuestID )
-		return false;
-
-	CEconQuestDefinition *pQuestDef = GetItemSchema()->GetQuestDefinition( unQuestID );
-	if ( !pQuestDef )
-		return false;
-
-	// This is a clone of the server logic in Helper_InitializeQuestDataFromInventory() in cs_player.cpp
-
-	//
-	// Check the game mode
-	//
-	char const *szRequireGameType = NULL;
-	if ( !g_pGameTypes->GetGameTypeFromMode( pQuestDef->GetGameMode(), szRequireGameType ) )
-		return false;
-
-	int nRequireGameType = -1;
-	int nRequireGameMode = -1;
-	if ( !g_pGameTypes->GetGameModeAndTypeIntsFromStrings( szRequireGameType, pQuestDef->GetGameMode(), nRequireGameType, nRequireGameMode ) )
-		return false;
-
-	if ( ( g_pGameTypes->GetCurrentGameType() != nRequireGameType ) || ( g_pGameTypes->GetCurrentGameMode() != nRequireGameMode ) )
-		return false;
-
-	//
-	// check the map group
-	//
-	const char* szCurMapGroup = engine->GetMapGroupName();
-	bool bHasMapGroupReq = pQuestDef->GetMapGroup() && pQuestDef->GetMapGroup()[0];
-	if ( bHasMapGroupReq && stricmp( szCurMapGroup, pQuestDef->GetMapGroup() ) != 0 )
-		return false;
-
-	// check the map
-	const char *szCurMapName = engine->GetLevelNameShort();
-	bool bHasMapReq = pQuestDef->GetMap() && pQuestDef->GetMap()[0];
-	if ( bHasMapReq && stricmp( szCurMapName, pQuestDef->GetMap() ) != 0 )
-		return false;
-
-	//
-	// mapgroup, gamemode, and/or map are valid.
-
-	// Note: We can't check the server quest here; co-op missions require the server to have been
-	// started exactly for that mission.  Assume the server is wrong here, we don't want to display
-	// a de-sync message.
-	if ( CSGameRules()->IsPlayingCooperativeGametype() )
-		return false;
-
-	// TODO: There are some longer-term things not checked here, but in quest rules, such as
-	//       cond_team_terrorist.  Ideally we'd like to put those in your quest progression
-	//       reason too, but I'm leaving that for a future update.  We should probably put
-	//       those outside of the quest evaluation expression into a separate set of state
-	//       that is easier to message failure reasons for than arbitrary conditional expressions.
-
-	// Alright, we think we are allowed to make progress!
-	return true;
-}
-#endif
-
-QuestProgress::Reason CCSPlayer::GetQuestProgressReason( void ) const
-{
-#if defined( CLIENT_DLL )
-	// On the client, we want to compare our expected quest state with the server
-
-	// Non-official server, don't bother
-	if ( m_nQuestProgressReason == QuestProgress::QUEST_NONOFFICIAL_SERVER )
-		return m_nQuestProgressReason;
-
-	// If we are OK, skip the more expensive test
-	if ( m_nQuestProgressReason == QuestProgress::QUEST_OK || m_nQuestProgressReason == QuestProgress::QUEST_NOT_ENOUGH_PLAYERS )
-		return m_nQuestProgressReason;
-
-	// If we get here, the server thinks we don't have a valid quest.  Check if we believe it by looking at the state in our inventory.
-	if ( CSGameRules() && ClientThinksQuestIsOk( CSGameRules(), this ) )
-	{
-		// The server doesn't initialize quests until after warmup, so during warmup we will trust that the client's state is valid.
-		if ( CSGameRules()->IsWarmupPeriod() )
-			return QuestProgress::QUEST_WARMUP;
-
-		// Otherwise, the client thinks the quest should be able to make progress but the server doesn't.  Notify the de-sync'd state.
-		return QuestProgress::QUEST_NOT_SYNCED_WITH_SERVER;
-	}
-#endif
-
-	return m_nQuestProgressReason;
-}
-
-
 bool CCSPlayer::IsAssassinationTarget( void ) const
 {
 	CCSPlayerResource* pCSPR =
@@ -2412,7 +2302,7 @@ void CCSPlayer::CreateWeaponTracer( Vector vecStart, Vector vecEnd )
 		TE_DynamicLight( filter, 0.0, &vecStart, 255, 192, 64, 5, 70, 0.05, 768 );
 
 		int	nBulletNumber = (pWeapon->GetMaxClip1() - pWeapon->Clip1()) + 1;
-		iTracerFreq = pWeapon->GetCSWpnData().GetTracerFrequency( pWeapon->GetEconItemView(), pWeapon->m_weaponMode );
+		iTracerFreq = pWeapon->GetCSWpnData().GetTracerFrequency( pWeapon->m_weaponMode );
 		if ( ( iTracerFreq != 0 ) && ( nBulletNumber % iTracerFreq ) == 0 )
 		{
 			const char *pszTracerEffect = GetTracerType();
@@ -2702,33 +2592,24 @@ int CCSPlayer::GetCarryLimit( CSWeaponID weaponId )
 	return 1;
 }
 
-AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::Type acquireMethod, CEconItemView *pItem )
+AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::Type acquireMethod )
 {
 	const CCSWeaponInfo *pWeaponInfo = nullptr;
-	if ( weaponId == WEAPON_NONE && (pItem == nullptr || !pItem->IsValid()) )
+	if ( weaponId == WEAPON_NONE )
 		return AcquireResult::InvalidItem;
 
-	if ( pItem && pItem->IsValid() )
-	{
-		weaponId = WeaponIdFromString( pItem->GetStaticData()->GetItemClass() );
-		if ( weaponId == WEAPON_NONE )
-			return AcquireResult::InvalidItem;
-
-		pWeaponInfo = GetWeaponInfo( weaponId );
-	}
-	else
-		pWeaponInfo = GetWeaponInfo( weaponId );
+	pWeaponInfo = GetWeaponInfo( weaponId );
 
 	if ( pWeaponInfo == nullptr)
 		return AcquireResult::InvalidItem;
 
-	AcquireResult::Type nGamerulesResult = CSGameRules()->IsWeaponAllowed( pWeaponInfo, GetTeamNumber(), pItem );
+	AcquireResult::Type nGamerulesResult = CSGameRules()->IsWeaponAllowed( pWeaponInfo, GetTeamNumber() );
 	if ( nGamerulesResult != AcquireResult::Allowed )
 	{
 		return nGamerulesResult;
 	}
 
-	int nType = pWeaponInfo->GetWeaponType( pItem );
+	int nType = pWeaponInfo->GetWeaponType();
 
 // 	if ( acquireMethod == AcquireMethod::Buy )
 // 	{
@@ -2774,7 +2655,7 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 
 		int carryLimitAllGrenades = ammo_grenade_limit_total.GetInt();
 
-		CBaseCombatWeapon* pGrenadeWeapon = ( pItem && pItem->IsValid() ) ? CSWeapon_OwnsThisType( pItem ) : Weapon_OwnsThisType( WeaponIdAsString( weaponId ) );
+		CBaseCombatWeapon* pGrenadeWeapon = Weapon_OwnsThisType( WeaponIdAsString( weaponId ) );
 		if ( pGrenadeWeapon != nullptr)
 		{
 			int nAmmoType = pGrenadeWeapon->GetPrimaryAmmoType();
@@ -2825,7 +2706,7 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 	{
 		int carryLimit = GetAmmoDef()->MaxCarry( pWeaponInfo->GetPrimaryAmmoType(), this );
 
-		CBaseCombatWeapon* pItemWeapon = ( pItem && pItem->IsValid() ) ? CSWeapon_OwnsThisType( pItem ) : Weapon_OwnsThisType( WeaponIdAsString( weaponId ) );
+		CBaseCombatWeapon* pItemWeapon = Weapon_OwnsThisType( WeaponIdAsString( weaponId ) );
 		if ( pItemWeapon != nullptr)
 		{
 			int nAmmoType = pItemWeapon->GetPrimaryAmmoType();
@@ -2890,10 +2771,6 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 		if ( acquireMethod == AcquireMethod::Buy )
 			return AcquireResult::NotAllowedForPurchase;
 	}
-	else if ( CSWeapon_OwnsThisType( pItem ) )	
-	{
-		return AcquireResult::AlreadyOwned;
-	}
 
 	extern ConVar mp_weapons_allow_zeus;
 	extern ConVar mp_weapons_allow_typecount;
@@ -2911,7 +2788,7 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 	// additional constraints for purchasing weapons
 	if ( acquireMethod == AcquireMethod::Buy )
 	{
-		if ( pWeaponInfo->GetUsedByTeam( pItem ) != TEAM_UNASSIGNED && GetTeamNumber() != pWeaponInfo->GetUsedByTeam( pItem ) )
+		if ( pWeaponInfo->GetUsedByTeam() != TEAM_UNASSIGNED && GetTeamNumber() != pWeaponInfo->GetUsedByTeam() )
 		{
 			return AcquireResult::NotAllowedByTeam;
 		}
@@ -2951,24 +2828,15 @@ AcquireResult::Type CCSPlayer::CanAcquire( CSWeaponID weaponId, AcquireMethod::T
 	return AcquireResult::Allowed;
 }
 
-//-----------------------------------------------------------------------------
-// Purpose: Returns weapon if already owns a weapon of this class
-//-----------------------------------------------------------------------------
-CWeaponCSBase* CCSPlayer::CSWeapon_OwnsThisType( CEconItemView *pItem ) const
-{
-	#error Cut for partner depot
-	return nullptr;
-}
-
 //************************************
 // Determine the current cash cost of a weapon for this particular player
 // Parameter: CSWeaponID weaponId
 //************************************
-int CCSPlayer::GetWeaponPrice( CSWeaponID weaponId, const CEconItemView *pWepView ) const
+int CCSPlayer::GetWeaponPrice( CSWeaponID weaponId ) const
 {
-	Assert( pWepView || ( weaponId != WEAPON_NONE ) );
+	Assert(weaponId != WEAPON_NONE);
 
-	if ( !pWepView && ( weaponId == WEAPON_NONE ) )
+	if ( weaponId == WEAPON_NONE )
 		return -1;
 		
 	bool bHasFullArmor = (ArmorValue() >= 100);
@@ -3008,7 +2876,7 @@ int CCSPlayer::GetWeaponPrice( CSWeaponID weaponId, const CEconItemView *pWepVie
 //	}
 
 	const CCSWeaponInfo* pWeaponInfo = GetWeaponInfo( weaponId );
-	return ( pWeaponInfo ) ? pWeaponInfo->GetWeaponPrice( pWepView ) : 0;
+	return ( pWeaponInfo ) ? pWeaponInfo->GetWeaponPrice() : 0;
 }
 
 
@@ -3026,29 +2894,6 @@ bool CCSPlayer::HasWeaponOfType( int nWeaponID ) const
 
 	return false;
 }
-
-#if defined ( GAME_DLL ) || defined ( ENABLE_CLIENT_INVENTORIES_FOR_OTHER_PLAYERS )
-CEconItemView *CCSPlayer::GetEquippedItemInLoadoutSlotOrBaseItem( int iLoadoutSlot )
-{
-	CEconItemView *pBaseItem = CSInventoryManager()->GetBaseItemForTeam( GetTeamNumber(), iLoadoutSlot );
-
-	bool bRandomCosmetics = false;
-
-	// Bots and controlled bots always return the base item unless we're randomizing
-	if ( !bRandomCosmetics && ( IsBot() || IsControllingBot() ) )
-		return pBaseItem;
-
-	CEconItemView *pResult = Inventory()->GetInventoryItemByItemID( m_EquippedLoadoutItemIndices[iLoadoutSlot] );
-	if ( !pResult || !pResult->IsValid() )
-	{
-		pResult = pBaseItem;
-	}
-
-	return pResult;
-}
-#endif
-
-
 
 bool CCSPlayer::UpdateDispatchLayer( CAnimationLayer *pLayer, CStudioHdr *pWeaponStudioHdr, int iSequence )
 {

@@ -144,7 +144,7 @@ public:
 	virtual void			Weapon_DropPrimary( void ) {}
 
 	virtual Vector			GetAutoaimVector( float flScale );
-	void					SetSuitUpdate(char *name, int fgroup, int iNoRepeat);
+	void					SetSuitUpdate(char const* name, int fgroup, int iNoRepeat) const;
 
 	// Input handling
 	virtual bool	CreateMove( float flInputSampleTime, CUserCmd *pCmd );

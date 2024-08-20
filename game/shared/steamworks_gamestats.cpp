@@ -28,6 +28,8 @@
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"
 
+#ifndef NO_STEAM
+
 // This is used to replicate our server id to the client so that client data can be associated with the server's.
 ConVar	steamworks_sessionid_server( "steamworks_sessionid_server", "0", FCVAR_REPLICATED | FCVAR_HIDDEN, "The server session ID for the new steamworks gamestats." );
 
@@ -726,6 +728,7 @@ void CSteamWorksGameStatsUploader::ServerAddressToInt()
 	}
 	m_iServerIP = (ip[0]<<24) + (ip[1]<<16) + (ip[2]<<8) + ip[3];
 }
+#endif
 
 //=============================================================================
 //
