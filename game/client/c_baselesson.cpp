@@ -998,34 +998,34 @@ void CIconLesson::UpdateLocatorTarget( CLocatorTarget *pLocatorTarget, C_BaseEnt
 #define LESSON_VARIABLE_INIT_INFO( _varEnum, _varName, _varType ) \
 	void Init_##_varEnum( void ) \
 	{ \
-		iOffset = offsetof( CScriptedIconLesson, CScriptedIconLesson::_varName ); \
+		iOffset = offsetof_valve( CScriptedIconLesson, CScriptedIconLesson::_varName ); \
 		varType = LessonParamTypeFromString( #_varType ); \
 	}
 
 #define LESSON_VARIABLE_INIT_INFO_BOOL( _varEnum, _varName, _varType ) \
 	void Init_##_varEnum( void ) \
 	{ \
-		iOffset = offsetof( CScriptedIconLesson, CScriptedIconLesson::_varName ); \
+		iOffset = offsetof_valve( CScriptedIconLesson, CScriptedIconLesson::_varName ); \
 		varType = FIELD_BOOLEAN; \
 	}
 
 #define LESSON_VARIABLE_INIT_INFO_EHANDLE( _varEnum, _varName, _varType ) \
 	void Init_##_varEnum( void ) \
 	{ \
-		iOffset = offsetof( CScriptedIconLesson, CScriptedIconLesson::_varName ); \
+		iOffset = offsetof_valve( CScriptedIconLesson, CScriptedIconLesson::_varName ); \
 		varType = FIELD_EHANDLE; \
 	}
 
 #define LESSON_VARIABLE_INIT_INFO_STRING( _varEnum, _varName, _varType ) \
 	void Init_##_varEnum( void ) \
 	{ \
-		iOffset = offsetof( CScriptedIconLesson, CScriptedIconLesson::_varName ); \
+		iOffset = offsetof_valve( CScriptedIconLesson, CScriptedIconLesson::_varName ); \
 		varType = FIELD_STRING; \
 	}
 
 // Data desc
 #define DEFINE_GAMEINSTRUCTOR_SYMBOL(name) \
-	{ FIELD_CUSTOM, #name, offsetof(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, GetGameInstructorSymbolSaveRestoreOps( ), NULL }
+	{ FIELD_CUSTOM, #name, offsetof_valve(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, GetGameInstructorSymbolSaveRestoreOps( ), NULL }
 
 #define LESSON_VARIABLE_DATADESC_INFO( _varEnum, _varName, _varType ) \
 	DEFINE_FIELD( _varName, LessonParamTypeFromString( #_varType ) ),

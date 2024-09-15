@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -132,10 +132,10 @@ struct RenderInputLayoutField_t
 };
 
 #define DEFINE_PER_VERTEX_FIELD( _slot, _name, _index, _vertexformat, _field )	\
-	{ _name, _index, ComputeColorFormat( &(((_vertexformat*)0)->_field) ), offsetof( _vertexformat, _field ), _slot, RENDER_SLOT_PER_VERTEX, 0 },
+	{ _name, _index, ComputeColorFormat( &(((_vertexformat*)0)->_field) ), offsetof_valve( _vertexformat, _field ), _slot, RENDER_SLOT_PER_VERTEX, 0 },
 
 #define DEFINE_PER_INSTANCE_FIELD( _slot, _stepRate, _name, _index, _vertexformat, _field )	\
-	{ _name, _index, ComputeColorFormat( &(((_vertexformat*)0)->_field) ), offsetof( _vertexformat, _field ), _slot, RENDER_SLOT_PER_INSTANCE, _stepRate }, 
+	{ _name, _index, ComputeColorFormat( &(((_vertexformat*)0)->_field) ), offsetof_valve( _vertexformat, _field ), _slot, RENDER_SLOT_PER_INSTANCE, _stepRate }, 
 
 
 //-----------------------------------------------------------------------------

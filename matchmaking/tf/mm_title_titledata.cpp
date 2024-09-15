@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2009, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2009, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -18,10 +18,10 @@ TitleDataFieldsDescription_t const * CMatchTitle::DescribeTitleDataStorage()
 	static TitleDataFieldsDescription_t tdfd[] =
 	{
 #if 0
-		TD_ENTRY( "TD1.Easy.Games.Total",		DB_TD1,	DT_U64,		offsetof( TitleData1, mGames[0] ) ),
-		TD_ENTRY( "TD1.Normal.Games.Total",		DB_TD1,	DT_U64,		offsetof( TitleData1, mGames[1] ) ),
-		TD_ENTRY( "TD1.Advanced.Games.Total",	DB_TD1,	DT_U64,		offsetof( TitleData1, mGames[2] ) ),
-		TD_ENTRY( "TD1.Expert.Games.Total",		DB_TD1,	DT_U64,		offsetof( TitleData1, mGames[3] ) ),
+		TD_ENTRY( "TD1.Easy.Games.Total",		DB_TD1,	DT_U64,		offsetof_valve( TitleData1, mGames[0] ) ),
+		TD_ENTRY( "TD1.Normal.Games.Total",		DB_TD1,	DT_U64,		offsetof_valve( TitleData1, mGames[1] ) ),
+		TD_ENTRY( "TD1.Advanced.Games.Total",	DB_TD1,	DT_U64,		offsetof_valve( TitleData1, mGames[2] ) ),
+		TD_ENTRY( "TD1.Expert.Games.Total",		DB_TD1,	DT_U64,		offsetof_valve( TitleData1, mGames[3] ) ),
 #endif
 		TD_ENTRY( NULL, DB_TD1, DT_U8, 0 )
 	};

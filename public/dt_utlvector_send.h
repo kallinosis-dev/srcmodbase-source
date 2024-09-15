@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose:		Player for HL1.
 //
@@ -15,7 +15,7 @@
 
 
 #define SENDINFO_UTLVECTOR( varName )	#varName, \
-										offsetof(currentSendDTClass, varName), \
+										offsetof_valve(currentSendDTClass, varName), \
 										sizeof(((currentSendDTClass*)0)->varName[0]), \
 										GetEnsureCapacityTemplate( ((currentSendDTClass*)0)->varName )
 

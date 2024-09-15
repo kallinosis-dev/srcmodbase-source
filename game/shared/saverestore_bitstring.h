@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose:
 //
@@ -89,7 +89,7 @@ ISaveRestoreOps *GetBitstringDataOps(BITSTRING *)
 //-------------------------------------
 
 #define DEFINE_BITSTRING(name) \
-	{ FIELD_CUSTOM, #name, offsetof(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, GetBitstringDataOps(&(((classNameTypedef *)0)->name)), NULL }
+	{ FIELD_CUSTOM, #name, offsetof_valve(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, GetBitstringDataOps(&(((classNameTypedef *)0)->name)), NULL }
 
 #endif // SAVERESTORE_BITSTRING_H
 

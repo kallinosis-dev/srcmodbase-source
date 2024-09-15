@@ -192,7 +192,7 @@ public:
 //-------------------------------------
 
 #define DEFINE_UTLMAP(name,keyType,fieldtype) \
-	{ FIELD_CUSTOM, #name, offsetof(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, CUtlMapDataopsInstantiator<keyType, fieldtype>::GetDataOps(&(((classNameTypedef *)0)->name)), NULL }
+	{ FIELD_CUSTOM, #name, offsetof_valve(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, CUtlMapDataopsInstantiator<keyType, fieldtype>::GetDataOps(&(((classNameTypedef *)0)->name)), NULL }
 
 
 #endif // SAVERESTORE_UTLMAP_H

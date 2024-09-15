@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose:		Player for HL1.
 //
@@ -16,7 +16,7 @@
 
 
 #define RECVINFO_UTLVECTOR( varName )	#varName, \
-										offsetof(currentRecvDTClass, varName), \
+										offsetof_valve(currentRecvDTClass, varName), \
 										sizeof(((currentRecvDTClass*)0)->varName[0]), \
 										GetResizeUtlVectorTemplate( ((currentRecvDTClass*)0)->varName ), \
 										GetEnsureCapacityTemplate( ((currentRecvDTClass*)0)->varName )
@@ -25,7 +25,7 @@
 // that gets called to make sure the size of the utlvector is correct.
 // The size function looks like this: void ResizeUtlVector( void *pVoid, int len )
 #define RECVINFO_UTLVECTOR_SIZEFN( varName, resizeFn )	#varName, \
-										offsetof(currentRecvDTClass, varName), \
+										offsetof_valve(currentRecvDTClass, varName), \
 										sizeof(((currentRecvDTClass*)0)->varName[0]), \
 										resizeFn, \
 										GetEnsureCapacityTemplate( ((currentRecvDTClass*)0)->varName )

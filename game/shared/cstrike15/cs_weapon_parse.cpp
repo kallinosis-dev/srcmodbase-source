@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -451,8 +451,8 @@ CCSWeaponInfo::CCSWeaponInfo()
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_flHeatPerShot ),				FIELD_FLOAT,	"heat per shot" ) );
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_flAddonScale ),					FIELD_FLOAT,	"addon scale" ) );
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_iTracerFequency ),				FIELD_INTEGER,	"tracer frequency" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_flMaxSpeed[0] ),				FIELD_FLOAT,	"max player speed" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_flMaxSpeed[1] ),				FIELD_FLOAT,	"max player speed alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_flMaxSpeed[0] ),				FIELD_FLOAT,	"max player speed" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_flMaxSpeed[1] ),				FIELD_FLOAT,	"max player speed alt" ) );
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_iWeaponPrice ),					FIELD_INTEGER,	"in game price" ) );
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_flArmorRatio ),					FIELD_FLOAT,	"armor ratio" ) );
 
@@ -472,32 +472,32 @@ CCSWeaponInfo::CCSWeaponInfo()
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fFlinchVelocityModifierLarge ),	FIELD_FLOAT,	"flinch velocity modifier large" ) );
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fFlinchVelocityModifierSmall ),	FIELD_FLOAT,	"flinch velocity modifier small" ) );
 
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fZoomTime[ 0 ] ),				FIELD_FLOAT,	"zoom time 0" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fZoomTime[ 1 ] ),				FIELD_FLOAT,	"zoom time 1" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fZoomTime[ 2 ] ),				FIELD_FLOAT,	"zoom time 2" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_iZoomFov[1] ),					FIELD_INTEGER,	"zoom fov 1" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_iZoomFov[2] ),					FIELD_INTEGER,	"zoom fov 2" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fZoomTime[ 0 ] ),				FIELD_FLOAT,	"zoom time 0" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fZoomTime[ 1 ] ),				FIELD_FLOAT,	"zoom time 1" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fZoomTime[ 2 ] ),				FIELD_FLOAT,	"zoom time 2" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_iZoomFov[1] ),					FIELD_INTEGER,	"zoom fov 1" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_iZoomFov[2] ),					FIELD_INTEGER,	"zoom fov 2" ) );
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_bHideViewModelZoomed ),			FIELD_BOOLEAN,	"hide view model zoomed" ) );
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_iZoomLevels ),					FIELD_INTEGER,	"zoom levels" ) );
 
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fSpread[0] ),					FIELD_FLOAT,	"spread" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyCrouch[0] ),			FIELD_FLOAT,	"inaccuracy crouch" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyStand[0] ),			FIELD_FLOAT,	"inaccuracy stand" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyJump[0] ),			FIELD_FLOAT,	"inaccuracy jump" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyLand[0] ),			FIELD_FLOAT,	"inaccuracy land" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyLadder[0] ),			FIELD_FLOAT,	"inaccuracy ladder" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyImpulseFire[0] ),	FIELD_FLOAT,	"inaccuracy fire" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyMove[0] ),			FIELD_FLOAT,	"inaccuracy move" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyReload ),			FIELD_FLOAT,	"inaccuracy reload" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fSpread[0] ),					FIELD_FLOAT,	"spread" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyCrouch[0] ),			FIELD_FLOAT,	"inaccuracy crouch" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyStand[0] ),			FIELD_FLOAT,	"inaccuracy stand" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyJump[0] ),			FIELD_FLOAT,	"inaccuracy jump" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyLand[0] ),			FIELD_FLOAT,	"inaccuracy land" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyLadder[0] ),			FIELD_FLOAT,	"inaccuracy ladder" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyImpulseFire[0] ),	FIELD_FLOAT,	"inaccuracy fire" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyMove[0] ),			FIELD_FLOAT,	"inaccuracy move" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyReload ),			FIELD_FLOAT,	"inaccuracy reload" ) );
 
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fSpread[1] ),					FIELD_FLOAT,	"spread alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyCrouch[1] ),			FIELD_FLOAT,	"inaccuracy crouch alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyStand[1] ),			FIELD_FLOAT,	"inaccuracy stand alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyJump[1] ),			FIELD_FLOAT,	"inaccuracy jump alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyLand[1] ),			FIELD_FLOAT,	"inaccuracy land alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyLadder[1] ),			FIELD_FLOAT,	"inaccuracy ladder alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyImpulseFire[1] ),	FIELD_FLOAT,	"inaccuracy fire alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fInaccuracyMove[1] ),			FIELD_FLOAT,	"inaccuracy move alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fSpread[1] ),					FIELD_FLOAT,	"spread alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyCrouch[1] ),			FIELD_FLOAT,	"inaccuracy crouch alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyStand[1] ),			FIELD_FLOAT,	"inaccuracy stand alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyJump[1] ),			FIELD_FLOAT,	"inaccuracy jump alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyLand[1] ),			FIELD_FLOAT,	"inaccuracy land alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyLadder[1] ),			FIELD_FLOAT,	"inaccuracy ladder alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyImpulseFire[1] ),	FIELD_FLOAT,	"inaccuracy fire alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fInaccuracyMove[1] ),			FIELD_FLOAT,	"inaccuracy move alt" ) );
 
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoveryTimeCrouch ),			FIELD_FLOAT,	"recovery time crouch" ) );
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoveryTimeStand ),			FIELD_FLOAT,	"recovery time stand" ) );
@@ -505,15 +505,15 @@ CCSWeaponInfo::CCSWeaponInfo()
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoveryTimeStandFinal ),		FIELD_FLOAT,	"recovery time stand final" ) );
 		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_iRecoilSeed ),					FIELD_INTEGER,	"recoil seed" ) );
 
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoilAngle[0] ),				FIELD_FLOAT,	"recoil angle" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoilAngleVariance[0] ),		FIELD_FLOAT,	"recoil angle variance" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoilMagnitude[0] ),			FIELD_FLOAT,	"recoil magnitude" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoilMagnitudeVariance[0] ),	FIELD_FLOAT,	"recoil magnitude variance" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fRecoilAngle[0] ),				FIELD_FLOAT,	"recoil angle" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fRecoilAngleVariance[0] ),		FIELD_FLOAT,	"recoil angle variance" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fRecoilMagnitude[0] ),			FIELD_FLOAT,	"recoil magnitude" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fRecoilMagnitudeVariance[0] ),	FIELD_FLOAT,	"recoil magnitude variance" ) );
 
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoilAngle[1] ),				FIELD_FLOAT,	"recoil angle alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoilAngleVariance[1] ),		FIELD_FLOAT,	"recoil angle variance alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoilMagnitude[1] ),			FIELD_FLOAT,	"recoil magnitude alt" ) );
-		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof( CCSWeaponInfo, m_fRecoilMagnitudeVariance[1] ),	FIELD_FLOAT,	"recoil magnitude variance alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fRecoilAngle[1] ),				FIELD_FLOAT,	"recoil angle alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fRecoilAngleVariance[1] ),		FIELD_FLOAT,	"recoil angle variance alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fRecoilMagnitude[1] ),			FIELD_FLOAT,	"recoil magnitude alt" ) );
+		ms_vecWeaponInfoLookup.Insert( new WeaponInfoLookup( offsetof_valve( CCSWeaponInfo, m_fRecoilMagnitudeVariance[1] ),	FIELD_FLOAT,	"recoil magnitude variance alt" ) );
 
 		m_bCSWeaponInfoLookupInitialized = true;
 	}

@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2009, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2009, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -50,7 +50,7 @@ static TitleDataFieldsDescription_t const * PrepareTitleDataStorageDescription()
 
 	// GAME INSTRUCTOR LESSONS
 #define CFG( fieldname ) \
-	TD_ENTRY( "GI.lesson." #fieldname,	DB_TD1,	DT_uint8,	offsetof( TitleData1, gameinstructor.lessoninfo[ TitleData1::GameInstructorData_t::lesson_##fieldname ] ) )
+	TD_ENTRY( "GI.lesson." #fieldname,	DB_TD1,	DT_uint8,	offsetof_valve( TitleData1, gameinstructor.lessoninfo[ TitleData1::GameInstructorData_t::lesson_##fieldname ] ) )
 #define CFG_DISABLED( fieldname )
 #include "xlast_portal2/inc_gameinstructor_lessons.inc"
 #undef CFG_DISABLED
@@ -89,7 +89,7 @@ static TitleDataFieldsDescription_t const * PrepareTitleDataStorageDescription()
 		{
 			char *pszComponentName = new char[ numAchNameChars + 10 ];
 			Q_snprintf( pszComponentName, numAchNameChars + 10, "%s[%d]", szAch, iComponent+1 );
-			TD_ENTRY( pszComponentName,	DB_TD2,	DT_uint64,	offsetof( TitleData2, ach_SpreadTheLove_FriendsHugged[iComponent] ) );
+			TD_ENTRY( pszComponentName,	DB_TD2,	DT_uint64,	offsetof_valve( TitleData2, ach_SpreadTheLove_FriendsHugged[iComponent] ) );
 		}
 	}
 	{
@@ -99,7 +99,7 @@ static TitleDataFieldsDescription_t const * PrepareTitleDataStorageDescription()
 		{
 			char *pszComponentName = new char[ numAchNameChars + 10 ];
 			Q_snprintf( pszComponentName, numAchNameChars + 10, "%s[%d]", szAch, iComponent+1 );
-			TD_ENTRY( pszComponentName,	DB_TD2,	DT_uint16,	offsetof( TitleData2, ach_SpeedRunCoop_MapsQualified[iComponent] ) );
+			TD_ENTRY( pszComponentName,	DB_TD2,	DT_uint16,	offsetof_valve( TitleData2, ach_SpeedRunCoop_MapsQualified[iComponent] ) );
 		}
 	}
 

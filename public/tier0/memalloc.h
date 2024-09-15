@@ -56,10 +56,6 @@
 #if !defined(STEAM) && !defined(NO_MALLOC_OVERRIDE)
 
 #include <stddef.h>
-#ifdef LINUX
-#undef offsetof
-#define offsetof(s,m)	(size_t)&(((s *)0)->m)
-#endif
 
 #ifdef _PS3
 #define MEMALLOC_SUPPORTS_ALIGNED_ALLOCATIONS 1

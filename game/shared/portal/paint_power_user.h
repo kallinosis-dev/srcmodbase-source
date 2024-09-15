@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2009, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2009, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Declares the base class for all paint power users.
 //
@@ -192,12 +192,12 @@ private:
 //=============================================================================
 
 //#define DEFINE_PRED_TYPEDESCRIPTION( name, fieldtype )						\
-//	{ FIELD_EMBEDDED, #name, offsetof(classNameTypedef, name), 1, FTYPEDESC_SAVE | FTYPEDESC_KEY, NULL, NULL, NULL, &fieldtype::m_PredMap }
+//	{ FIELD_EMBEDDED, #name, offsetof_valve(classNameTypedef, name), 1, FTYPEDESC_SAVE | FTYPEDESC_KEY, NULL, NULL, NULL, &fieldtype::m_PredMap }
 
 // OMFG HACK: A macro to individually add embedded types from arrays because the current macros don't handle arrays of embedded types properly
 // OMFG TODO: Write a generic macro to work with templatized classes.
 #define DEFINE_EMBEDDED_ARRAY_ELEMENT( elementType, arrayName, arrayIndex )						\
-	{ FIELD_EMBEDDED, #arrayName"["#arrayIndex"]", offsetof(classNameTypedef, arrayName[arrayIndex]), 1, FTYPEDESC_SAVE | FTYPEDESC_KEY, NULL, NULL, NULL, &elementType::m_PredMap }
+	{ FIELD_EMBEDDED, #arrayName"["#arrayIndex"]", offsetof_valve(classNameTypedef, arrayName[arrayIndex]), 1, FTYPEDESC_SAVE | FTYPEDESC_KEY, NULL, NULL, NULL, &elementType::m_PredMap }
 
 
 // OMFG HACK: Define the prediction table. The current macros don't work with templatized classes.

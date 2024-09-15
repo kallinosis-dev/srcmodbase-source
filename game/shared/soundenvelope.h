@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -99,7 +99,7 @@ class ISaveRestoreOps;
 ISaveRestoreOps *GetSoundSaveRestoreOps( );
 
 #define DEFINE_SOUNDPATCH(name) \
-	{ FIELD_CUSTOM, #name, offsetof(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, GetSoundSaveRestoreOps( ), NULL }
+	{ FIELD_CUSTOM, #name, offsetof_valve(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, GetSoundSaveRestoreOps( ), NULL }
 
 
 #endif // SOUNDENVELOPE_H

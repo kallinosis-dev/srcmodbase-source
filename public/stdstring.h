@@ -81,6 +81,6 @@ inline ISaveRestoreOps *GetStdStringDataOps()
 //-------------------------------------
 
 #define DEFINE_STDSTRING(name) \
-	{ FIELD_CUSTOM, #name, offsetof(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, GetStdStringDataOps(), NULL }
+	{ FIELD_CUSTOM, #name, offsetof_valve(classNameTypedef,name), 1, FTYPEDESC_SAVE, NULL, GetStdStringDataOps(), NULL }
 
 #endif // STDSTRING_H

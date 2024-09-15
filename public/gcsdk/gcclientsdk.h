@@ -59,12 +59,4 @@
 #include "gcclient.h"
 #include "gcclientjob.h"
 
-// this is a hack to make sure that the funny Valve override of 
-// offsetof survives the STL includes that happened because of the
-// protobuf includes above.
-#ifdef LINUX
-#undef offsetof
-#define offsetof(s,m)	(size_t)&(((s *)0)->m)
-#endif
-
 #endif // GCCLIENTSDK_H

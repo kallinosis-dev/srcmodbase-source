@@ -160,6 +160,6 @@ public:
 //-------------------------------------
 
 #define DEFINE_UTLRBTREE(name,fieldtype) \
-	{ FIELD_CUSTOM, #name, { offsetof(classNameTypedef,name), 0 }, 1, FTYPEDESC_SAVE, NULL, CUtlRBTreeDataopsInstantiator<fieldtype>::GetDataOps(&(((classNameTypedef *)0)->name)), NULL }
+	{ FIELD_CUSTOM, #name, { offsetof_valve(classNameTypedef,name), 0 }, 1, FTYPEDESC_SAVE, NULL, CUtlRBTreeDataopsInstantiator<fieldtype>::GetDataOps(&(((classNameTypedef *)0)->name)), NULL }
 
 #endif // SAVERESTORE_UTLRBTREE_H

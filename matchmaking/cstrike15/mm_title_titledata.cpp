@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2009, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2009, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: 
 //
@@ -88,20 +88,20 @@ static TitleDataFieldsDescription_t const * PrepareTitleDataStorageDescription()
 			{
 				char *loadoutName = new char[30];
 				Q_snprintf( loadoutName, 30, "%s.LOAD%.1d.EQUIP%.1d.ID", teamName, i, j );
-				TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
+				TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof_valve( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
 				loadoutName = new char[30];
 				Q_snprintf( loadoutName, 30, "%s.LOAD%.1d.EQUIP%.1d.QUANTITY", teamName, i, j );
-				TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
+				TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof_valve( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
 			}
 			char *loadoutName = new char[30];
 			Q_snprintf( loadoutName, 30, "%s.LOAD%.1d.PRIMARY", teamName, i );
-			TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
+			TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof_valve( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
 			loadoutName = new char[30];
 			Q_snprintf( loadoutName, 30, "%s.LOAD%.1d.SECONDARY", teamName, i );
-			TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
+			TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof_valve( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
 			loadoutName = new char[30];
 			Q_snprintf( loadoutName, 30, "%s.LOAD%.1d.FLAGS", teamName, i );
-			TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
+			TD_ENTRY( loadoutName, DB_TD3, DT_uint8, offsetof_valve( TitleData3, loadoutData[ loadoutDataIndex++ ] ) );
 		}
 	}
 
@@ -111,10 +111,10 @@ static TitleDataFieldsDescription_t const * PrepareTitleDataStorageDescription()
 	{ \
 		char *pAwardedName = new char[ 20 ]; \
 		Q_snprintf( pAwardedName, 20, "MEDALS.AWARDED%.3d", i ); \
-		TD_ENTRY( pAwardedName, DB_TD2, DT_uint8, offsetof( TitleData2, CSMedalsAwarded[i] ) ) \
+		TD_ENTRY( pAwardedName, DB_TD2, DT_uint8, offsetof_valve( TitleData2, CSMedalsAwarded[i] ) ) \
 		char *pMedalInfoName = new char[ 25 ]; \
 		Q_snprintf( pMedalInfoName, 25, "MEDALS.MEDALINFO%.3d", i ); \
-		TD_ENTRY( pMedalInfoName, DB_TD2, DT_uint32, offsetof( TitleData2, CSMedalsMedalInfo[i] ) ) \
+		TD_ENTRY( pMedalInfoName, DB_TD2, DT_uint32, offsetof_valve( TitleData2, CSMedalsMedalInfo[i] ) ) \
 	}
 #include "xlast_csgo/inc_medals_usr.inc"
 #undef CFG
@@ -194,7 +194,7 @@ static TitleDataFieldsDescription_t const * PrepareTitleDataStorageDescription()
 			char *pRankingName = new char[ 30 ];
 			V_snprintf( pRankingName, 30, TITLE_DATA_PREFIX "ELO.MODE%d.CTR%d", m, c );
 
-			TD_ENTRY( pRankingName, DB_TD3, DT_ELO, offsetof( TitleData3, playerRankingsData[ rankIndex ] ) );
+			TD_ENTRY( pRankingName, DB_TD3, DT_ELO, offsetof_valve( TitleData3, playerRankingsData[ rankIndex ] ) );
 
 			rankIndex++;
 		}
@@ -202,7 +202,7 @@ static TitleDataFieldsDescription_t const * PrepareTitleDataStorageDescription()
 		// Record the bracket and some info for calculating it. Only legal controllers are game console controllers.
 		char *pBracketInfoName = new char[ 30 ];
 		V_snprintf( pBracketInfoName, 30, TITLE_DATA_PREFIX"ELO.MODE%d.BRACKETINFO", m );
-		TD_ENTRY( pBracketInfoName, DB_TD3, DT_uint16, offsetof( TitleData3, EloBracketInfo[ m ] ) );
+		TD_ENTRY( pBracketInfoName, DB_TD3, DT_uint16, offsetof_valve( TitleData3, EloBracketInfo[ m ] ) );
 	}
 
 #endif // _GAMECONSOLE

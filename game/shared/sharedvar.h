@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -1155,7 +1155,7 @@ static CSharedVarSaveDataOps g_SharedVarSaveDataOps;
 
 
 #define DEFINE_SHARED_FIELD(name)	\
-	{ FIELD_CUSTOM, #name, offsetof(classNameTypedef, name), 1, FTYPEDESC_SAVE, NULL, &g_SharedVarSaveDataOps, NULL }
+	{ FIELD_CUSTOM, #name, offsetof_valve(classNameTypedef, name), 1, FTYPEDESC_SAVE, NULL, &g_SharedVarSaveDataOps, NULL }
 
 
 #endif // SHAREDVAR_H
