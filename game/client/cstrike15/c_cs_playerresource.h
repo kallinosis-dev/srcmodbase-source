@@ -23,8 +23,7 @@ enum EDecoratedPlayerNameFlag_t
 	k_EDecoratedPlayerNameFlag_AddBotToNameIfControllingBot = ( 1 << 0 ),
 	k_EDecoratedPlayerNameFlag_DontUseNameOfControllingPlayer = ( 1 << 1 ),
 	k_EDecoratedPlayerNameFlag_DontShowClanName = ( 1 << 2 ),
-	k_EDecoratedPlayerNameFlag_DontMakeStringSafe = ( 1 << 3 ),
-	k_EDecoratedPlayerNameFlag_DontUseAssassinationTargetName = ( 1 << 4 ),
+	k_EDecoratedPlayerNameFlag_DontMakeStringSafe = ( 1 << 3 )
 };
 
 class C_CS_PlayerResource : public C_PlayerResource
@@ -77,7 +76,6 @@ public:
 	int				GetControlledPlayer( int index );
 	int				GetControlledByPlayer( int index );
 #endif
-	bool			IsAssassinationTarget( int index );
 
 	int				GetBotDifficulty( int index );
 
@@ -88,8 +86,6 @@ public:
 protected:
 
 	virtual void	UpdatePlayerName( int slot ) override;
-
-	bool	m_bDisableAssassinationTargetNameOverride;
 
 	int		m_iPlayerC4;	// entity index of C4 carrier or 0
 	int		m_iPlayerVIP;	// entity index of VIP player or 0
@@ -130,7 +126,6 @@ protected:
 
 	int		m_nActiveCoinRank[ MAX_PLAYERS + 1 ];
 	int		m_nMusicID[ MAX_PLAYERS + 1 ];
-	bool	m_bIsAssassinationTarget[ MAX_PLAYERS + 1 ];
 
 	int m_nPersonaDataPublicLevel[ MAX_PLAYERS + 1 ];
 	int m_nPersonaDataPublicCommendsLeader[ MAX_PLAYERS + 1 ];

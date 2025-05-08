@@ -150,14 +150,6 @@ bool CHudChat::MsgFunc_SayText2( const CCSUsrMsg_SayText2 &msg )
 	if ( V_strcmp( msg.params( 3 ).c_str(), "auto" ) != 0 && ( GetClientVoiceMgr()->IsPlayerBlocked( client ) || GetClientVoiceMgr()->ShouldHideCommunicationFromPlayer( client ) ) )
 		bWantsToChat = false;
 
-	CEconQuestDefinition *pQuestDef = CSGameRules()->GetActiveAssassinationQuest();
-	if ( pQuestDef && GetCSResources()->IsAssassinationTarget( client ) )
-	{
-		extern const char* Helper_GetLocalPlayerAssassinationQuestLocToken( const CEconQuestDefinition *pQuest );
-		if ( const char* szToken = Helper_GetLocalPlayerAssassinationQuestLocToken( pQuestDef ) )
-			V_wcscpy_safe( szBuf[ 1 ], g_pVGuiLocalize->Find( szToken ) );
-	}
-
 	g_pVGuiLocalize->ConstructString( szBuf[5], sizeof( szBuf[5] ), msg_text, 4, szBuf[1], szBuf[2], szBuf[3], szBuf[4] );
 
 	char ansiString[512];

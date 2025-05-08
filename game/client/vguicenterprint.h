@@ -35,10 +35,10 @@ public:
 	virtual void		Destroy( void );
 	
 	virtual void		SetTextColor( int r, int g, int b, int a );
-	virtual void		Print( char *text );
-	virtual void		Print( wchar_t *text );
-	virtual void		ColorPrint( int r, int g, int b, int a, char *text );
-	virtual void		ColorPrint( int r, int g, int b, int a, wchar_t *text );
+	virtual void		Print(char const* text);
+	virtual void		Print(wchar_t const* text);
+	virtual void		ColorPrint(int r, int g, int b, int a, char const* text);
+	virtual void		ColorPrint(int r, int g, int b, int a, wchar_t const* text);
 	virtual void		Clear( void );
 };
 

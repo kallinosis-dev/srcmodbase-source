@@ -219,7 +219,7 @@ public:
 	CStartOfRoundAudioPlayback() { m_NextAvailableTime = 1.0f; m_bPlaybackEnabled = false; }
 
 	// Adds a sound event to be played at the next round restart
-	void	AddSound( CBaseEntity* pEntityPlayingSound, char* pName, float fDelayTime );
+	void	AddSound(CBaseEntity* pEntityPlayingSound, char const* pName, float fDelayTime);
 
 	// Play all the queued sounds
 	void	PlaySounds( void );
@@ -422,11 +422,6 @@ public:
 	virtual CNewParticleEffect	*GetVOIPParticleEffect( void );
 	virtual Vector				GetParticleHeadLabelOffset( void );
 	virtual bool				HasSpeechVOIPParticleIconActive( void ) { return (m_speechVOIPParticleEffect && m_speechVOIPParticleEffect.IsValid()); }
-
-	virtual void AddDecal( const Vector& rayStart, const Vector& rayEnd, const Vector& decalCenter, int hitbox, int decalIndex, bool doTrace, trace_t& tr, int maxLODToDecal );
-
-	virtual void SetRenderAlpha( byte a );
-	virtual void SetRenderMode( RenderMode_t nRenderMode, bool bForceUpdate = false );
 
 	virtual int DrawModel( int flags, const RenderableInstance_t &instance );
 
@@ -858,7 +853,7 @@ private:
 
 private:
 	
-	bool ApplyCompositeMaterialsToCustomClothingModel( C_BaseAnimating* pTargetEntity, CEconItemView *pItem, int nSlotId, bool bForceRegenerate /*= false */ ) const;
+	bool ApplyCompositeMaterialsToCustomClothingModel( C_BaseAnimating* pTargetEntity, int nSlotId, bool bForceRegenerate /*= false */ ) const;
 
 	void CreateAddonModel( int i );
 	void UpdateAddonModels( bool bForce = false );
@@ -1021,10 +1016,7 @@ public:
 	void								InterpolateObserverView( Vector& vOrigin, QAngle& vAngles );
 	Vector								GetObserverInterpolatedOffsetVector( void ) { return m_vecObserverInterpolateOffset; }
 
-	bool IsAssassinationTarget( void ) const;
-
 private:
-	CNetworkVar( bool, m_bIsAssassinationTarget );	// This player is an assassination target for an active mission
 
 #if CS_CONTROLLABLE_BOTS_ENABLED
 
@@ -1203,15 +1195,10 @@ public:
 	void ImpactTrace( trace_t *pTrace, int iDamageType, char *pCustomImpactName );
 	bool IsInitialized() { return m_bInitialized; }
 	virtual void ValidateModelIndex( void );
-
-	void SetRagdollClientSideAddon( uint32 uiAddonMask );
 	
 	int	BloodColor(){ return BLOOD_COLOR_RED; }
 
 	void ApplySemiRandomDirectionalForce( Vector vecDir, float flStrength );
-
-	void AttachWearableGibsFromPlayer( C_CSPlayer *pParentPlayer );
-	void DestroyAttachedWearableGibs( void );
 	
 	int GetDeathPose( void ) { return m_iDeathPose; }
 
@@ -1230,7 +1217,6 @@ private:
 	EHANDLE	m_hPlayer;
 	CHandle<C_BaseAnimating> m_hHolidayHatAddon;
 	CHandle<C_BaseAnimating> m_hHolidayGhostAddon;
-	CHandle<C_BaseAnimating> m_hAssassinationTargetAddon;
 	CNetworkVector( m_vecRagdollVelocity );
 	CNetworkVector( m_vecRagdollOrigin );
 	CNetworkVar(int, m_iDeathPose );

@@ -129,15 +129,6 @@ void CCSPlayerResource::UpdatePlayerData( void )
 			m_nMusicID.Set( i, pPlayer->GetMusicID() );
 
 			// UpdateAssassinationTargets();
-
-			if ( CEconPersonaDataPublic const *pPublic = pPlayer->GetPersonaDataPublic() )
-			{
-				m_nPersonaDataPublicLevel.Set( i, pPublic->Obj().player_level() );
-				m_nPersonaDataPublicCommendsLeader.Set( i, pPublic->Obj().commendation().cmd_leader() );
-				m_nPersonaDataPublicCommendsTeacher.Set( i, pPublic->Obj().commendation().cmd_teaching() );
-				m_nPersonaDataPublicCommendsFriendly.Set( i, pPublic->Obj().commendation().cmd_friendly() );
-			}
-			else
 			{
 				m_nPersonaDataPublicLevel.Set( i, -1 );
 				m_nPersonaDataPublicCommendsLeader.Set( i, -1 );
@@ -420,7 +411,6 @@ void CCSPlayerResource::Spawn( void )
 		m_szClan.Set( i, MAKE_STRING( "" ) );
 		m_nActiveCoinRank.Set( i, -1 );
 		m_nMusicID.Set( i, -1 );
-		m_bIsAssassinationTarget.Set( i, 0 );
 
 		m_nPersonaDataPublicLevel.Set( i, -1 );
 		m_nPersonaDataPublicCommendsLeader.Set( i, -1 );
@@ -637,80 +627,5 @@ void CCSPlayerResource::SetPlayerTeammateColor( int index, bool bReset )
 		}
 		else
 			m_iCompTeammateColor.Set( index, -1 );
-	}
-}
-
-bool CCSPlayerResource::IsAssassinationTarget( int index ) const
-{
-	return m_bIsAssassinationTarget[ index ];
-}
-
-
-bool Helper_DoesPlayerHaveAssassinateQuestForTeam( const CCSPlayer *pPlayer, int iTeamNum )
-{
-	// If this player has an assassination quest targeting this team, prefer not to pick them as the target
-	CEconQuestDefinition *pQuest = GetItemSchema()->GetQuestDefinition( pPlayer->Inventory()->GetActiveQuestID() );
-	return ( pQuest && IsAssassinationQuest( pQuest ) && ( ( int ) pQuest->GetTargetTeam() == iTeamNum ) );
-}
-
-
-bool Helper_ValidateAssassinationTarget( const CCSPlayer *pCurrentAssassinationTarget, int iTeamNum )
-{
-	// Validate current assassination target, pick new one if needed
-	if ( !pCurrentAssassinationTarget || !pCurrentAssassinationTarget->IsConnected() ||
-		pCurrentAssassinationTarget->GetTeamNumber() != iTeamNum || pCurrentAssassinationTarget->IsDead() ||
-		pCurrentAssassinationTarget->IsControllingBot() || Helper_DoesPlayerHaveAssassinateQuestForTeam( pCurrentAssassinationTarget, iTeamNum ) )
-	{
-		return false;
-	}
-
-	return true;
-}
-
-ConVar sv_assassination_target_ratio( "sv_assassination_target_ratio", "5" );
-void CCSPlayerResource::UpdateAssassinationTargets( const CEconQuestDefinition * pQuest )
-{
-	CCSTeam *pTeam = GetGlobalCSTeam( pQuest->GetTargetTeam() );
-	if ( !pTeam )
-		return;
-
-	// 1 out of X players is an assassination target, no less than 1 and more more than MAX_ASSASSINATION_TARGETS.
-	CUtlVector<CCSPlayer*> vecCandiates;
-	auto iTargetsNeeded = Min( Max( 1, pTeam->GetHumanMembers( &vecCandiates ) / Max( 1, sv_assassination_target_ratio.GetInt() ) ), 3 );
-
-	CUtlVector< CCSPlayer* > vecNotIdealPlayers;
-	FOR_EACH_VEC_BACK( vecCandiates, iter )
-	{
-		CCSPlayer* pCur = vecCandiates[ iter ];
-		// Validate current assassination targets, remove from candidate list
-		if ( pCur->IsAssassinationTarget() )
-		{
-			// Still valid, then reduce count of needed targets
-			if ( Helper_ValidateAssassinationTarget( pCur, pQuest->GetTargetTeam() ) )
-			{
-				iTargetsNeeded--;
-			}
-			else
-			{
-				// Prefer not to pick recently invalidated players
-				m_bIsAssassinationTarget.GetForModify( pCur->entindex() ) = false;
-				vecNotIdealPlayers.AddToHead( pCur );
-			}
-			vecCandiates.Remove( iter );
-		}
-		else if ( Helper_DoesPlayerHaveAssassinateQuestForTeam( pCur, GetTeamNumber() ) )
-		{
-			// Prefer not to pick players with this quest 
-			vecCandiates.Remove( iter );
-			vecNotIdealPlayers.AddToTail( pCur );
-		}
-	}
-
-	while ( iTargetsNeeded-- > 0 )
-	{
-		CUtlVector< CCSPlayer* > &vecBucket = vecCandiates.Count() > 0 ? vecCandiates : vecNotIdealPlayers;
-		CCSPlayer *pTarget = vecBucket[ RandomInt( 0, vecBucket.Count() - 1 ) ];
-		vecBucket.FindAndFastRemove( pTarget );
-		m_bIsAssassinationTarget.GetForModify( pTarget->entindex() ) = true;
 	}
 }

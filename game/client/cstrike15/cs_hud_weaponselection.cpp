@@ -7,7 +7,9 @@
 #include "cbase.h"
 #include "cs_hud_weaponselection.h"
 #include "iclientmode.h"
+#ifdef INCLUDE_SCALEFORM
 #include "HUD/sfweaponselection.h"
+#endif
 #include "iinput.h"
 #include "cs_gamerules.h"
 
@@ -22,6 +24,7 @@
 #include <string.h>
 
 // memdbgon must be the last include file in a .cpp file!!!
+#include "c_cs_player.h"
 #include "tier0/memdbgon.h"
 
 DECLARE_HUDELEMENT( CHudWeaponSelection );
@@ -51,12 +54,16 @@ void CHudWeaponSelection::OnWeaponPickup( C_BaseCombatWeapon *pWeapon )
 	{		
 		//const CCSWeaponInfo *pCSWeaponInfo = GetWeaponInfo( pCSWeapon->GetCSWeaponID() );
 		if ( pPlayer->State_Get() == STATE_ACTIVE )
-		{			
+		{
+#ifdef INCLUDE_SCALEFORM
 			SFWeaponSelection *pHudWS = GET_HUDELEMENT( SFWeaponSelection );
 			if ( pHudWS )
 			{
 				pHudWS->ShowAndUpdateSelection( WEPSELECT_PICKUP, pWeapon );
 			}
+#else
+			Warning(__FUNCSIG__ ": Unimplemented!");
+#endif
 		}
 	}
 }
@@ -73,11 +80,15 @@ void CHudWeaponSelection::OnWeaponDrop( C_BaseCombatWeapon *pWeapon )
 	{		
 		if ( pPlayer->State_Get() == STATE_ACTIVE )
 		{
+#ifdef INCLUDE_SCALEFORM
 			SFWeaponSelection *pHudWS = GET_HUDELEMENT( SFWeaponSelection );
 			if ( pHudWS )
 			{
 				pHudWS->ShowAndUpdateSelection( WEPSELECT_DROP, pWeapon );
-			}			
+			}
+#else
+			Warning(__FUNCSIG__ ": Unimplemented!");
+#endif
 		}
 	}
 }
@@ -93,12 +104,16 @@ void CHudWeaponSelection::OnWeaponSwitch( C_BaseCombatWeapon *pWeapon )
 	if ( pCSWeapon && pPlayer )
 	{		
 		if ( pPlayer->State_Get() == STATE_ACTIVE )
-		{			
+		{
+#ifdef INCLUDE_SCALEFORM
 			SFWeaponSelection *pHudWS = GET_HUDELEMENT( SFWeaponSelection );
 			if ( pHudWS )
 			{
 				pHudWS->ShowAndUpdateSelection( WEPSELECT_SWITCH, pWeapon );
 			}
+#else
+			Warning(__FUNCSIG__ ": Unimplemented!");
+#endif
 		}
 	}
 }
@@ -164,7 +179,7 @@ void CHudWeaponSelection::LevelInit()
 //-------------------------------------------------------------------------
 void CHudWeaponSelection::Paint()
 {
-#if !defined( CSTRIKE15 )
+#if !defined( CSTRIKE15 ) || !defined(INCLUDE_SCALEFORM)
 	if (!ShouldDraw())
 		return;
 

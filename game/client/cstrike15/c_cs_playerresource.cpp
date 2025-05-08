@@ -87,14 +87,11 @@ C_CS_PlayerResource::C_CS_PlayerResource()
 	memset( m_nEndMatchNextMapVotes, 0, sizeof( m_nEndMatchNextMapVotes ) );
 	memset( m_nActiveCoinRank, 0, sizeof( m_nActiveCoinRank ) );
 	memset( m_nMusicID, 0, sizeof( m_nMusicID ) );
-	memset( m_bIsAssassinationTarget, 0, sizeof( m_bIsAssassinationTarget ) );
 
 	memset( m_nPersonaDataPublicLevel, 0, sizeof( m_nPersonaDataPublicLevel ) );
 	memset( m_nPersonaDataPublicCommendsLeader, 0, sizeof( m_nPersonaDataPublicCommendsLeader ) );
 	memset( m_nPersonaDataPublicCommendsTeacher, 0, sizeof( m_nPersonaDataPublicCommendsTeacher ) );
 	memset( m_nPersonaDataPublicCommendsFriendly, 0, sizeof( m_nPersonaDataPublicCommendsFriendly ) );
-
-	m_bDisableAssassinationTargetNameOverride = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -452,15 +449,6 @@ int C_CS_PlayerResource::GetControlledByPlayer( int index )
 	return m_iControlledByPlayer[ index ];
 }
 
-bool C_CS_PlayerResource::IsAssassinationTarget( int index )
-{
-	if ( m_bDisableAssassinationTargetNameOverride )
-		return false;
-
-	return m_bIsAssassinationTarget[ index ];
-}
-
-
 C_CS_PlayerResource * GetCSResources( void )
 {
 	return ( C_CS_PlayerResource* ) g_PR;
@@ -540,7 +528,6 @@ const wchar_t* C_CS_PlayerResource::GetDecoratedPlayerName( int index, wchar_t* 
 		bool useNameOfControllingPlayer = !(flags & k_EDecoratedPlayerNameFlag_DontUseNameOfControllingPlayer);
 		bool bShowClanName = !(flags & k_EDecoratedPlayerNameFlag_DontShowClanName);
 		bool bMakeStringSafe = !(flags & k_EDecoratedPlayerNameFlag_DontMakeStringSafe);
-		bool bSkipAssassinationTargetName = !!(flags & k_EDecoratedPlayerNameFlag_DontUseAssassinationTargetName); 
 
 		int nameIndex = index;
 		int controlledBy = GetControlledByPlayer( index );
@@ -550,12 +537,6 @@ const wchar_t* C_CS_PlayerResource::GetDecoratedPlayerName( int index, wchar_t* 
 		{
 			nBotControlStringType = 1;// BOT ( name )
 			nameIndex = controlledBy;
-
-			// HACK: We want to have a fake name for this player if they're our target
-			// but we want to show the real player name if they're controlling a bot AND show the fake name in the scoreboard
-			// for their dead player entry. 
-			Assert( m_bDisableAssassinationTargetNameOverride == false );
-			m_bDisableAssassinationTargetNameOverride = true;
 		}
 		else if ( IsFakePlayer( index ) && !cl_show_playernames_max_chars_console.GetBool() && CSGameRules() && !CSGameRules()->IsPlayingCooperativeGametype() )
 		{
@@ -564,8 +545,6 @@ const wchar_t* C_CS_PlayerResource::GetDecoratedPlayerName( int index, wchar_t* 
 		else if ( IsControllingBot( index ) && addBotToNameIfControllingBot )
 		{
 			nBotControlStringType = 1; // BOT ( name )
-			Assert( m_bDisableAssassinationTargetNameOverride == false );
-			m_bDisableAssassinationTargetNameOverride = true;
 		}
 
 
@@ -647,14 +626,7 @@ const wchar_t* C_CS_PlayerResource::GetDecoratedPlayerName( int index, wchar_t* 
 
 		if ( !nBotControlStringType ) // normal name
 		{
-			if ( IsAssassinationTarget( index ) && !bSkipAssassinationTargetName )
-			{
-				Helper_GetDecoratedAssassinationTargetName( CSGameRules()->GetActiveAssassinationQuest(), buffer, buffsize/sizeof(wchar_t) );
-			}
-			else
-			{
-				V_wcsncpy( buffer, pSafeWideName, buffsize );
-			}
+			V_wcsncpy( buffer, pSafeWideName, buffsize );
 		}
 		else
 		{
@@ -666,8 +638,6 @@ const wchar_t* C_CS_PlayerResource::GetDecoratedPlayerName( int index, wchar_t* 
 	{
 		*buffer = L'\0';
 	}
-
-	m_bDisableAssassinationTargetNameOverride = false;
 
 	return buffer;
 }

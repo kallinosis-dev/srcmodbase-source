@@ -42,13 +42,14 @@
 #include "c_cs_hostage.h"
 #include "prediction.h"
 
+#ifdef INCLUDE_SCALEFORM
 #include "HUD/sfweaponselection.h"
 #include "HUD/sfhudreticle.h"
 #include "HUD/sfweaponselection.h"
+#endif
 #include "ragdoll_shared.h"
 #include "collisionutils.h"
 #include "engineinterface.h"
-#include "cstrike15_item_system.h"
 #include "hltvcamera.h"
 
 #include "steam/steam_api.h"
@@ -81,6 +82,8 @@
 #include "cs_custom_material_swap.h"
 #include "materialsystem/icustommaterial.h"
 
+#include <vgui/ILocalize.h>
+
 // Comment this back in if you want the cl_minmodels convar to operate as normal.
 #define CS_ALLOW_CL_MINMODELS 0
 
@@ -112,6 +115,7 @@
 #include "model_types.h"
 
 // NOTE: This has to be the last file included!
+#include "weapon_selection.h"
 #include "tier0/memdbgon.h"
 
 static Vector WALL_MIN(-WALL_OFFSET,-WALL_OFFSET,-WALL_OFFSET );
@@ -599,8 +603,6 @@ C_CSRagdoll::~C_CSRagdoll()
 	PhysCleanupFrictionSounds( this );
 
 	SetRagdollClientSideAddon( 0 );
-
-	DestroyAttachedWearableGibs();
 }
 
 
@@ -611,16 +613,6 @@ void C_CSRagdoll::DestroyGlowObject()
 		GlowObjectManager().UnregisterGlowObject( m_nGlowObjectHandle );
 		m_nGlowObjectHandle = -1;
 	}
-}
-
-void C_CSRagdoll::AttachWearableGibsFromPlayer( C_CSPlayer *pParentPlayer )
-{
-	#error Cut for partner depot
-}
-
-void C_CSRagdoll::DestroyAttachedWearableGibs( void )
-{
-	#error Cut for partner depot
 }
 
 void C_CSRagdoll::GetRagdollInitBoneArrays( matrix3x4a_t *pDeltaBones0, matrix3x4a_t *pDeltaBones1, matrix3x4a_t *pCurrentBones, float boneDt )
@@ -877,8 +869,7 @@ void C_CSRagdoll::CreateLowViolenceRagdoll( void )
 		SetAbsAngles( pPlayer->GetRenderAngles() );
 		SetNetworkAngles( pPlayer->GetRenderAngles() );
 
-		if ( pPlayer->m_bUseNewAnimstate )
-			AttachWearableGibsFromPlayer( pPlayer );
+		//if ( pPlayer->m_bUseNewAnimstate )
 			//pPlayer->CreateBoneAttachmentsFromWearables( this );
 
 		pPlayer->MoveBoneAttachments( this );
@@ -1009,8 +1000,7 @@ void C_CSRagdoll::CreateCSRagdoll()
 
 		CopySequenceTransitions( pPlayer );
 		
-		if ( pPlayer->m_bUseNewAnimstate )
-			AttachWearableGibsFromPlayer( pPlayer );
+		//if ( pPlayer->m_bUseNewAnimstate )
 			//pPlayer->CreateBoneAttachmentsFromWearables( this );
 
 		pPlayer->MoveBoneAttachments( this );
@@ -1132,35 +1122,6 @@ void C_CSRagdoll::CreateCSRagdoll()
 	m_bInitialized = true;
 }
 
-void C_CSRagdoll::SetRagdollClientSideAddon( uint32 uiAddonMask )
-{
-	#error Cut for partner depot
-	if ( ( uiAddonMask & ADDON_CLIENTSIDE_ASSASSINATION_TARGET ) && !m_hAssassinationTargetAddon.Get() )
-	{
-		C_BreakableProp *pEnt = new C_BreakableProp;
-		pEnt->InitializeAsClientEntity( g_ClientSideAddons[ 2 ].m_pModelName, false );
-		C_CSPlayer *pPlayer = dynamic_cast< C_CSPlayer* >( m_hPlayer.Get() );
-		if ( pPlayer )
-		{
-			// Create the mask
-			int nAttachIndex = LookupAttachment( "facemask" );
-			pEnt->SetParent( this, nAttachIndex );
-			pEnt->SetLocalOrigin( Vector( 0, 0, 0 ) );
-			pEnt->SetLocalAngles( QAngle( 0, 0, 0 ) );
-			pEnt->SetUseParentLightingOrigin( true );
-			pEnt->SetSolid( SOLID_NONE );
-			pEnt->RemoveEFlags( EFL_USE_PARTITION_WHEN_NOT_SOLID );
-			m_hAssassinationTargetAddon.Set( pEnt );
-		}
-	}
-
-	if ( !( uiAddonMask & ADDON_CLIENTSIDE_ASSASSINATION_TARGET ) && m_hAssassinationTargetAddon.Get() )
-	{
-		m_hAssassinationTargetAddon->Release();
-		m_hAssassinationTargetAddon.Term();
-	}
-}
-
 void C_CSRagdoll::OnDataChanged( DataUpdateType_t type )
 {
 	if ( type == DATA_UPDATE_CREATED )
@@ -1277,18 +1238,6 @@ void RecvProxy_FlashTime( const CRecvProxyData *pData, void *pStruct, void *pOut
 	{
 		pLocalCSPlayer->m_bFlashDspHasBeenCleared = false;
 	}
-}
-
-void C_CSPlayer::SetRenderAlpha( byte a )
-{
-	#error Cut for partner depot
-	BaseClass::SetRenderAlpha( a );
-}
-
-void C_CSPlayer::SetRenderMode( RenderMode_t nRenderMode, bool bForceUpdate )
-{
-	#error Cut for partner depot
-	BaseClass::SetRenderMode( nRenderMode, bForceUpdate );
 }
 
 void C_CSPlayer::UpdateFlashBangEffect( void )
@@ -1648,8 +1597,6 @@ C_CSPlayer::C_CSPlayer() :
 	m_flNextGuardianTooFarWarning = 0;
 
 	m_flLastFiredWeaponTime = -1;
-
-	m_nQuestProgressReason = QuestProgress::QUEST_NONINITIALIZED;
 
 	m_unCurrentEquipmentValue = 0;
 	m_unRoundStartEquipmentValue = 0;
@@ -2431,29 +2378,6 @@ void C_CSPlayer::FireGameEvent( IGameEvent *event )
 	{
 		m_bShouldAutobuyNow = false;
 		m_bShouldAutobuyDMWeapons = false;
-
-		if ( IsLocalPlayer() )
-		{
-			CHudElement *pElement = GetHud().FindElement( "SFHudInfoPanel" );
-			C_CS_PlayerResource *pCSRes = GetCSResources();
-			CEconQuestDefinition *pQuest = CSGameRules()->GetActiveAssassinationQuest();
-			if ( pElement && pCSRes && pQuest )
-			{
-				wchar_t szBuf[ 512 ];
-				const char *szAlertToken = nullptr;
-				if ( IsAssassinationTarget() )
-					szAlertToken = "#quest_assassination_you_are_target";
-				else if ( GetActiveQuestID() == pQuest->GetID() && (int)pQuest->GetTargetTeam() != GetTeamNumber() )
-					szAlertToken = "#quest_assassination_target_on_server_has_quest";
-				else
-					szAlertToken = "#quest_assassination_target_on_server";
-
-				g_pVGuiLocalize->ConstructString( szBuf, sizeof( szBuf ), g_pVGuiLocalize->Find( szAlertToken ), 1, g_pVGuiLocalize->Find( Helper_GetLocalPlayerAssassinationQuestLocToken( pQuest ) ) );
-
-				( ( SFHudInfoPanel * ) pElement )->SetPriorityHintText( szBuf );
-			}
-		}
-		
 	}
 	else if ( Q_strcmp( name, "cs_pre_restart" ) == 0 )
 	{
@@ -2810,24 +2734,6 @@ void C_CSPlayer::FireGameEvent( IGameEvent *event )
 
 			////  data collection for ammo remaining at death. OGS
 			RecordAmmoForRound();
-
-			if ( IsLocalPlayer() )
-			{
-				if ( CSGameRules() && CSGameRules()->GetActiveAssassinationQuest() && IsAssassinationTarget() )
-				{
-					CHudElement *pElement = GetHud().FindElement( "SFHudInfoPanel" );
-					C_CS_PlayerResource *pCSRes = GetCSResources();
-					if ( pElement && pCSRes )
-					{
-						wchar_t szBuf[ 512 ];
-						wchar_t wszName[ MAX_DECORATED_PLAYER_NAME_LENGTH ] = { };
-						pCSRes->GetDecoratedPlayerName( entindex(), wszName, sizeof( wszName ), k_EDecoratedPlayerNameFlag_Simple );
-						g_pVGuiLocalize->ConstructString( szBuf, sizeof( szBuf ), g_pVGuiLocalize->Find( "#quest_assassination_no_longer_target" ), 1, wszName );
-
-						( ( SFHudInfoPanel * )pElement )->SetPriorityHintText( szBuf );
-					}
-				}
-			}
 		}
 		if( CSGameRules()->IsPlayingAnyCompetitiveStrictRuleset() && !g_HltvReplaySystem.GetHltvReplayDelay() )
 		{
@@ -2919,22 +2825,6 @@ void C_CSPlayer::FireGameEvent( IGameEvent *event )
 			m_flLastFiredWeaponTime = gpGlobals->curtime;
 		}
 	}
-	else if ( Q_strcmp( "assassination_target_killed", name ) == 0 )
-	{
-		if ( CSGameRules() && CSGameRules()->GetActiveAssassinationQuest() && IsLocalPlayer() )
-		{
-			CHudElement *pElement = GetHud().FindElement( "SFHudInfoPanel" );
-			C_CS_PlayerResource *pCSRes = GetCSResources();
-			CEconQuestDefinition *pQuest = CSGameRules()->GetActiveAssassinationQuest();
-			wchar_t wszName[ MAX_DECORATED_PLAYER_NAME_LENGTH ] = {};
-			if ( pElement && pCSRes && Helper_GetDecoratedAssassinationTargetName( pQuest, wszName, ARRAYSIZE( wszName ) ) )
-			{
-				wchar_t szBuf[ 512 ];
-				g_pVGuiLocalize->ConstructString( szBuf, sizeof( szBuf ), g_pVGuiLocalize->Find( "#quest_assassination_target_killed" ), 1, wszName );
-				( ( SFHudInfoPanel * ) pElement )->SetPriorityHintText( szBuf );
-			}
-		}
-	}
 	else if ( Q_strcmp( "add_bullet_hit_marker", name ) == 0 )
 	{
 		//FirePerfStatsEvent( PERF_STATS_BULLET );
@@ -2992,24 +2882,6 @@ USER_MESSAGE_REGISTER( ReportHit );
 
 void C_CSPlayer::CompareClientServerBulletHits( void )
 {
-	bool bAllowVisDebug = false;
-
-	AccountID_t uiLocalAccountID = 0;
-	if ( steamapicontext && steamapicontext->SteamUser() )
-		uiLocalAccountID = steamapicontext->SteamUser()->GetSteamID().GetAccountID();
-
-	switch( uiLocalAccountID )
-	{
-	case 8186565:	// mattw
-	case 158213:	// ido
-	case 24715681:	// vitaliy
-	case 101804581:	// will
-	case 11134320:	// brianlev
-
-		bAllowVisDebug = true;
-	}
-
-	
 	// remove server hits that have matching hits on client
 	FOR_EACH_VEC_BACK( m_vecBulletVerifyListServer, s )
 	{
@@ -3908,12 +3780,6 @@ bool C_CSPlayer::DrawScreenSpaceVomitParticles( IMatRenderContext *pRenderContex
 // 	m_ARScreenGlowEffect->DrawModel( 1, instance );
 // }
 
-void C_CSPlayer::AddDecal( const Vector& rayStart, const Vector& rayEnd, const Vector& decalCenter, int hitbox, int decalIndex, bool doTrace, trace_t& tr, int maxLODToDecal )
-{
-	#error Cut for partner depot
-	BaseClass::AddDecal( rayStart, rayEnd, decalCenter, hitbox, decalIndex, doTrace, tr, maxLODToDecal );
-}
-
 float g_flFattenAmt = 4;
 void C_CSPlayer::GetShadowRenderBounds( Vector &mins, Vector &maxs, ShadowType_t shadowType )
 {
@@ -4697,9 +4563,6 @@ void C_CSPlayer::ClientThink()
 
 	BaseClass::ClientThink();
 
-	// Cheap cheat detection code to catch cheat-engine users
-	#error Cut for partner depot
-
 	// velocity music handling
 	if( GetCurrentMusic() == CSMUSIC_START &&  GetMusicStartRoundElapsed() > 0.5 )
 	{
@@ -4729,13 +4592,6 @@ void C_CSPlayer::ClientThink()
 	UpdateFlashBangEffect();
 
 	UpdateHostageCarryModels();
-
-	// Client controls this addon. Set it if we need it, but respect the below hiding rules (which set all addons to 0)
-	C_CSPlayer *pLocalPlayer = GetLocalCSPlayer();
-	if ( GetTeamNumber() == TEAM_TERRORIST && IsAssassinationTarget() && !IsControllingBot() && !m_bHasControlledBotThisRound )
-	{
-		m_iAddonBits |= ADDON_CLIENTSIDE_ASSASSINATION_TARGET;
-	}
 
 	UpdateAddonModels( m_bAddonModelsAreOutOfDate );
 
@@ -5646,13 +5502,7 @@ void C_CSPlayer::UpdateIDTarget()
 			if ( !GetIDTarget() && ( !m_iOldIDEntIndex || ( ( m_delayTargetIDTimer.GetRemainingRatio() == 0 ) && ( m_holdTargetIDTimer.GetRemainingRatio() == 0 ) ) ) )
 			{
 				// track when we first mouse over the target
-				float flDelay = mp_playerid_delay.GetFloat();
-				C_CSPlayer *pPlayer = ( C_CSPlayer* ) ToCSPlayer( pEntity );
-				if ( pPlayer && pPlayer->IsAssassinationTarget() )
-				{
-					flDelay = 0; // Show assassination target names immediately
-				}
-				m_delayTargetIDTimer.Start( flDelay );
+				m_delayTargetIDTimer.Start(mp_playerid_delay.GetFloat());
 			}
 
 			m_iIDEntIndex = pEntity->entindex();
@@ -6000,9 +5850,6 @@ void C_CSPlayer::UpdateClientSideAnimation()
 				if ( pViewModel )
 				{
 					pViewModel->RemoveViewmodelArmModels();
-					pViewModel->RemoveViewmodelLabel();
-					pViewModel->RemoveViewmodelStatTrak();
-					pViewModel->RemoveViewmodelStickers();
 				}
 			}
 		}
@@ -7691,6 +7538,7 @@ void C_CSPlayer::SetObserverTarget( EHANDLE hTarget )
 // [tj] checks if this player has another given player on their Steam friends list.
 bool C_CSPlayer::HasPlayerAsFriend( C_CSPlayer* player )
 {
+#ifndef NO_STEAM
 	if ( !steamapicontext || !steamapicontext->SteamFriends() || !steamapicontext->SteamUtils() || !player )
 	{
 		return false;
@@ -7710,6 +7558,9 @@ bool C_CSPlayer::HasPlayerAsFriend( C_CSPlayer* player )
 	// check and see if they're on the local player's friends list
 	CSteamID steamID( pi.friendsID, 1, steamapicontext->SteamUtils()->GetConnectedUniverse(), k_EAccountTypeIndividual );
 	return steamapicontext->SteamFriends()->HasFriend( steamID, k_EFriendFlagImmediate );
+#else
+	return false;
+#endif
 }
 
 // [menglish] Returns whether this player is dominating or is being dominated by the specified player
@@ -8466,7 +8317,7 @@ CCSPlayerInventory *C_CSPlayer::Inventory( void )
 
 
 // Adds a sound event to be played at the next round restart
-void CStartOfRoundAudioPlayback::AddSound( CBaseEntity* pEntityPlayingSound, char* pName, float fPlaybackDuration )
+void CStartOfRoundAudioPlayback::AddSound(CBaseEntity* pEntityPlayingSound, char const* pName, float fPlaybackDuration)
 {
 	// Ensure that the sound is not already in the playback list
 	for ( int i = 0; i < m_SoundEvents.Count(); ++i )

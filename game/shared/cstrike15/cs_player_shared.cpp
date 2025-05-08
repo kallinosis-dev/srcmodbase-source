@@ -701,23 +701,6 @@ bool CCSPlayer::IsOtherEnemy( CCSPlayer *pPlayer )
 	return nTeam != nOtherTeam;
 }
 
-bool CCSPlayer::IsAssassinationTarget( void ) const
-{
-	CCSPlayerResource* pCSPR =
-#if defined  ( CLIENT_DLL )
-		GetCSResources();
-#else
-		CSPlayerResource();
-#endif
-
-	if ( !pCSPR )
-		return false;
-	
-	return pCSPR->IsAssassinationTarget( entindex() );
-}
-
-
-
 bool CCSPlayer::IsOtherEnemy( int nEntIndex )
 {
 	CCSPlayer *pPlayer = (CCSPlayer*) UTIL_PlayerByIndex( nEntIndex );

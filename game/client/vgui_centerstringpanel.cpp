@@ -46,10 +46,10 @@ public:
 
 	// CVGuiCenterPrint
 	virtual void		SetTextColor( int r, int g, int b, int a );
-	virtual void		Print( char *text );
-	virtual void		Print( wchar_t *text );
-	virtual void		ColorPrint( int r, int g, int b, int a, char *text );
-	virtual void		ColorPrint( int r, int g, int b, int a, wchar_t *text );
+	virtual void		Print(char const* text);
+	virtual void		Print(wchar_t const* text);
+	virtual void		ColorPrint(int r, int g, int b, int a, char const* text);
+	virtual void		ColorPrint(int r, int g, int b, int a, wchar_t const* text);
 	virtual void		Clear( void );
 
 protected:
@@ -148,7 +148,7 @@ void CCenterStringLabel::SetTextColor( int r, int g, int b, int a )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CCenterStringLabel::Print( char *text )
+void CCenterStringLabel::Print(char const* text)
 {
 	SetText( text );
 	
@@ -158,7 +158,7 @@ void CCenterStringLabel::Print( char *text )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CCenterStringLabel::Print( wchar_t *text )
+void CCenterStringLabel::Print(wchar_t const* text)
 {
 	SetText( text );
 	
@@ -168,7 +168,7 @@ void CCenterStringLabel::Print( wchar_t *text )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CCenterStringLabel::ColorPrint( int r, int g, int b, int a, char *text )
+void CCenterStringLabel::ColorPrint(int r, int g, int b, int a, char const* text)
 {
 	SetTextColor( r, g, b, a );
 	Print( text );
@@ -177,7 +177,7 @@ void CCenterStringLabel::ColorPrint( int r, int g, int b, int a, char *text )
 //-----------------------------------------------------------------------------
 // Purpose: 
 //-----------------------------------------------------------------------------
-void CCenterStringLabel::ColorPrint( int r, int g, int b, int a, wchar_t *text )
+void CCenterStringLabel::ColorPrint(int r, int g, int b, int a, wchar_t const* text)
 {
 	SetTextColor( r, g, b, a );
 	Print( text );
@@ -242,7 +242,7 @@ void CCenterPrint::SetTextColor( int r, int g, int b, int a )
 	}
 }
 
-void CCenterPrint::Print( char *text )
+void CCenterPrint::Print(char const* text)
 {
 
 	if ( vguiCenterString )
@@ -251,7 +251,7 @@ void CCenterPrint::Print( char *text )
 	}
 }
 
-void CCenterPrint::Print( wchar_t *text )
+void CCenterPrint::Print(wchar_t const* text)
 {
 	if ( vguiCenterString )
 	{
@@ -259,7 +259,7 @@ void CCenterPrint::Print( wchar_t *text )
 	}
 }
 
-void CCenterPrint::ColorPrint( int r, int g, int b, int a, char *text )
+void CCenterPrint::ColorPrint(int r, int g, int b, int a, char const* text)
 {
 	if ( vguiCenterString )
 	{
@@ -267,7 +267,7 @@ void CCenterPrint::ColorPrint( int r, int g, int b, int a, char *text )
 	}
 }
 
-void CCenterPrint::ColorPrint( int r, int g, int b, int a, wchar_t *text )
+void CCenterPrint::ColorPrint(int r, int g, int b, int a, wchar_t const* text)
 {
 	if ( vguiCenterString )
 	{

@@ -19,15 +19,12 @@
 #include "utldict.h"
 #include "usermessages.h"
 
-#include "cstrike15_item_inventory.h"
 
 class CWeaponCSBase;
 class CMenu;
 class CHintMessageQueue;
 class CNavArea;
 class CCSBot;
-class CEconPersonaDataPublic;
-class CCSUsrMsg_PlayerDecalDigitalSignature;
 
 #include "matchmaking/cstrike15/imatchext_cstrike15.h"
 #include "matchmaking/iplayerrankingdata.h"
@@ -1570,13 +1567,10 @@ private:
 
 public:
 	bool IsAbleToInstantRespawn( void );
-	bool IsAssassinationTarget( void ) const;
 	char const * IsAbleToApplySpray( trace_t *ptr, Vector *pvecForward, Vector *pvecRight );
 
 
 private:
-	CNetworkVar( bool, m_bIsAssassinationTarget );	// This player is an assassination target for an active mission
-
 #if CS_CONTROLLABLE_BOTS_ENABLED
 public: 
 

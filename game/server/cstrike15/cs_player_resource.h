@@ -41,9 +41,6 @@ public:
 	void			ForcePlayersPickColors( void );
 	void			SetPlayerTeammateColor( int index, bool bReset );
 
-	bool			IsAssassinationTarget( int index ) const;
-	void			UpdateAssassinationTargets( const CEconQuestDefinition * pQuest );
-
 protected:
 
 	CNetworkVar( int, m_iPlayerC4 );  // entity index of C4 carrier or 0
@@ -80,7 +77,6 @@ protected:
 
 	CNetworkArray( int, m_nActiveCoinRank, MAX_PLAYERS + 1 );
 	CNetworkArray( int, m_nMusicID, MAX_PLAYERS + 1 );
-	CNetworkArray( bool, m_bIsAssassinationTarget, MAX_PLAYERS + 1 );
 	
 	CNetworkArray( int, m_nPersonaDataPublicLevel, MAX_PLAYERS + 1 );
 	CNetworkArray( int, m_nPersonaDataPublicCommendsLeader, MAX_PLAYERS + 1 );
