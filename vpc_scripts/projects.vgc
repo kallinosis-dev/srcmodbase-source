@@ -116,13 +116,16 @@ $Project "classcheck"
 $Project "client"
 {
 	"game/client/client_episodic.vpc"	[($WINDOWS) && $EPISODIC]
-	"game/client/client_tf.vpc"			[($WINDOWS) && $TF]
+	//"game/client/client_tf.vpc"			[($WINDOWS) && $TF]
 	"game/client/client_portal2.vpc"	[($WINDOWS || $X360 || $PS3 || $POSIX) && $PORTAL2]
-	"game/client/client_swarm.vpc"		[($WINDOWS || $X360) && $SWARM]
-	"game/client/client_dota.vpc"		[($WINDOWS) && $DOTA]
-	"game/client/client_sob.vpc"		[($WINDOWS) && $SOB]
-	"game/client/client_cstrike.vpc"	[($WINDOWS) && $CSTRIKE]
+	//"game/client/client_swarm.vpc"		[($WINDOWS || $X360) && $SWARM]
+	//"game/client/client_dota.vpc"		[($WINDOWS) && $DOTA]
+	//"game/client/client_sob.vpc"		[($WINDOWS) && $SOB]
+	//"game/client/client_cstrike.vpc"	[($WINDOWS) && $CSTRIKE]
 	"game/client/client_cstrike15.vpc"	[($OSXALL || $WINDOWS || $X360 || $PS3 || $POSIX) && $CSGO]
+
+	"game/client/client_hl2mp.vpc"	[($WINDOWS) && $HL2MP]
+	"game/client/client_hl1.vpc"	[($WINDOWS) && $HL1]
 }
 
 $Project "commedit"
@@ -456,11 +459,11 @@ $Project "materialsystem"
 $Project "matchmaking"
 {
 	"matchmaking/matchmaking_portal2.vpc" [($WINDOWS || $X360 || $PS3 || $POSIX) && $PORTAL2 && !$SOB]
-	"matchmaking/matchmaking_swarm.vpc" [($WINDOWS || $X360) && $SWARM]
-	"matchmaking/matchmaking_dota.vpc" [($WINDOWS || $X360) && $DOTA]
-	"matchmaking/matchmaking_tf.vpc" [($WINDOWS || $X360) && $TF]
+	//"matchmaking/matchmaking_swarm.vpc" [($WINDOWS || $X360) && $SWARM]
+	//"matchmaking/matchmaking_dota.vpc" [($WINDOWS || $X360) && $DOTA]
+	//"matchmaking/matchmaking_tf.vpc" [($WINDOWS || $X360) && $TF]
 	"matchmaking/matchmaking_episodic.vpc" [($WINDOWS || $X360) && $EPISODIC]
-	"matchmaking/matchmaking_cstrike.vpc" [($WINDOWS || $X360) && $CSTRIKE]
+	//"matchmaking/matchmaking_cstrike.vpc" [($WINDOWS || $X360) && $CSTRIKE]
 	"matchmaking/matchmaking_cstrike15.vpc" [($OSXALL || $WINDOWS || $X360 || $PS3 ||$POSIX)) && $CSGO]
 }
 
@@ -472,11 +475,11 @@ $Project "matchmakingbase"
 $Project "matchmaking_ds"
 {
 	"matchmaking/matchmaking_portal2_ds.vpc" [$WINDOWS && $PORTAL2 && !$SOB]
-	"matchmaking/matchmaking_swarm_ds.vpc" [$WINDOWS && $SWARM]
-	"matchmaking/matchmaking_dota_ds.vpc" [$WINDOWS && $DOTA]
-	"matchmaking/matchmaking_tf_ds.vpc" [$WINDOWS && $TF]
+	//"matchmaking/matchmaking_swarm_ds.vpc" [$WINDOWS && $SWARM]
+	//"matchmaking/matchmaking_dota_ds.vpc" [$WINDOWS && $DOTA]
+	//"matchmaking/matchmaking_tf_ds.vpc" [$WINDOWS && $TF]
 	"matchmaking/matchmaking_episodic_ds.vpc" [$WINDOWS && $EPISODIC]
-	"matchmaking/matchmaking_cstrike_ds.vpc" [$WINDOWS && $CSTRIKE]
+	//"matchmaking/matchmaking_cstrike_ds.vpc" [$WINDOWS && $CSTRIKE]
 	"matchmaking/matchmaking_cstrike15_ds.vpc" [($OSXALL || $DEDICATED || $WINDOWS||$POSIX)) && $CSGO]
 }
 
@@ -763,13 +766,16 @@ $Project "SDKLauncher"
 $Project "server"
 {
 	"game/server/server_episodic.vpc"	[($WINDOWS) && $EPISODIC]
-	"game/server/server_tf.vpc"			[($WINDOWS || $DEDICATED) && $TF]
+	//"game/server/server_tf.vpc"			[($WINDOWS || $DEDICATED) && $TF]
 	"game/server/server_portal2.vpc"	[($WINDOWS || $X360 || $PS3|| $POSIX) && $PORTAL2]
-	"game/server/server_swarm.vpc"		[($WINDOWS || $X360) && $SWARM]
-	"game/server/server_dota.vpc"		[($WINDOWS) && $DOTA]
-	"game/server/server_sob.vpc"		[($WINDOWS) && $SOB]
-	"game/server/server_cstrike.vpc"	[($WINDOWS) && $CSTRIKE]
+	//"game/server/server_swarm.vpc"		[($WINDOWS || $X360) && $SWARM]
+	//"game/server/server_dota.vpc"		[($WINDOWS) && $DOTA]
+	//"game/server/server_sob.vpc"		[($WINDOWS) && $SOB]
+	//"game/server/server_cstrike.vpc"	[($WINDOWS) && $CSTRIKE]
 	"game/server/server_cstrike15.vpc"	[($DEDICATED || $WINDOWS || $X360 || $PS3 || $OSXALL ||$POSIX)) && $CSGO]
+
+	"game/server/server_hl2mp.vpc"	[($WINDOWS) && $HL2MP]
+	"game/server/server_hl1.vpc"	[($WINDOWS) && $HL1]
 }
 
 $Project "serverbrowser"

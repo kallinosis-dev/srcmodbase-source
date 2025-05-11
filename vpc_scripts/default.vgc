@@ -13,11 +13,14 @@ $Games
 	"CSTRIKE"
 	"CSGO"
 	"EPISODIC"
-	"SDK"
-	"TF"
+	//"SDK"
+	//"TF"
 	"PORTAL2"
-	"SWARM"
-	"DOTA"
+	//"SWARM"
+	//"DOTA"
+
+	"HL2MP"
+	"HL1"
 }
 
 $Include "vpc_scripts\projects.vgc"
