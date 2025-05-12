@@ -1220,6 +1220,7 @@ int C_BaseAnimating::LookupBone( const char *szName )
 	if ( ret == -1 )
 	{
 		// Try to fix up some common old bone names to new bone names, until I can go through the code and fix all cases or write a data-driven solution.
+		// FIXME: fix the uses, at least in the code.
 		if ( Q_stristr( szName, "weapon_bone" ) )
 		{
 			ret = Studio_BoneIndexByName( GetModelPtr(), "hand_R" );
@@ -6796,6 +6797,7 @@ bool C_BaseAnimating::InitAsClientRagdoll( const matrix3x4_t *pDeltaBones0, cons
 	return InitAsClientRagdoll( pDeltaBones0, pDeltaBones1, pCurrentBonePosition, boneDt, m_vecForce, bleedOut );
 }
 
+// FIXME: REMOVE_HARDCODE
 #if defined ( CSTRIKE15 )
 
 // [msmith] We want shadows for the following entity classes.

@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -23,6 +23,7 @@
 // Global accessors for GLaDOS for lighted mouth proxy
 //
 
+// FIXME: REMOVE_HARDCODE
 CHandle<C_BaseAnimating> g_GLaDOSActor;
 
 void SetGLaDOSActor( C_BaseAnimating *pActor )
