@@ -358,8 +358,8 @@ void CScript::UpdateThisVpc()
 	
 	if ( szScriptName == nullptr )
 	{
-		g_pVPC->SetScriptMacro( "THISVPC", "" );
-		g_pVPC->SetScriptMacro( "THISVPCFILE", "" );
+		g_pVPC->macros.SetAsScript( "THISVPC", "" );
+		g_pVPC->macros.SetAsScript( "THISVPCFILE", "" );
 		return;
 	}
 
@@ -370,12 +370,12 @@ void CScript::UpdateThisVpc()
 
 	V_strcpy_safe( tempPath[0], absFile );
     V_StripFilename( tempPath[0] );
-    g_pVPC->SetScriptMacro( "THISVPC", tempPath[0] );
+    g_pVPC->macros.SetAsScript( "THISVPC", tempPath[0] );
 
 	V_strcpy_safe( tempPath[0], absFile );
 	V_MakeRelativePath( tempPath[0], g_pVPC->GetProjectPath(), tempPath[1], ARRAYSIZE( tempPath[1] ) );
 	
-	g_pVPC->SetScriptMacro( "THISVPCFILE", tempPath[1] );
+	g_pVPC->macros.SetAsScript( "THISVPCFILE", tempPath[1] );
 }
 
 void CScript::PushScript( const char *pFilename, bool bAddScriptToCRCCheck )
@@ -638,7 +638,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
             CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
             pStrBuf->Set( pToken );
             pStrBuf->ReplaceFastCaseless( "$BASE", pBaseString );
-			g_pVPC->ResolveMacrosInString(nullptr, pStrBuf );
+			g_pVPC->macros.ResolveString(nullptr, pStrBuf );
 
             pOutBuff->Append( pStrBuf->Get() );
 		}

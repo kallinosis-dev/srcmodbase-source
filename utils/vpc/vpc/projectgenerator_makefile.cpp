@@ -186,11 +186,11 @@ void CProjectGenerator_Makefile::WriteNonConfigSpecificStuff( CUtlBuffer &outBuf
 	// Record the host type that VPC was run on so that we can
 	// block attempts to compile on a different host, with
 	// possibly bizarre results.
-	outBuf.Printf( "VPC_HOST=%s\n\n", g_pVPC->GetMacroValue( "HOST_PLATSUBDIR" ) + 1 );
+	outBuf.Printf( "VPC_HOST=%s\n\n", g_pVPC->macros.GetValue( "HOST_PLATSUBDIR" ) + 1 );
 
 	// SRCDIR
 	CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
-	g_pVPC->ResolveMacrosInString( "$SRCDIR", pStrBuf );
+	g_pVPC->macros.ResolveString( "$SRCDIR", pStrBuf );
 	V_FixSlashes( pStrBuf->Access(), '/' );
 	outBuf.PutString( "SRCROOT=" );
 	outBuf.PutString( pStrBuf->Get() );
@@ -200,11 +200,11 @@ void CProjectGenerator_Makefile::WriteNonConfigSpecificStuff( CUtlBuffer &outBuf
 	{
 		outBuf.PutString( "ANDROID_MAKEFILE=1\n" );
 
-		g_pVPC->ResolveMacrosInString( "$ANDROID_NDK_DIR", pStrBuf );
+		g_pVPC->macros.ResolveString( "$ANDROID_NDK_DIR", pStrBuf );
 		V_FixSlashes( pStrBuf->Access(), '/' );
 		outBuf.Printf( "ANDROID_NDK_DIR=%s\n", pStrBuf->Get() );
 
-		g_pVPC->ResolveMacrosInString( "$ANDROID_PLATFORM", pStrBuf );
+		g_pVPC->macros.ResolveString( "$ANDROID_PLATFORM", pStrBuf );
 		outBuf.Printf( "ANDROID_PLATFORM=%s\n", pStrBuf->Get() );
 	}
 
@@ -810,25 +810,25 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 		}
     }
 		
-	const char *pMacroValue = g_pVPC->GetMacroValue( "_DLL_EXT" );
+	const char *pMacroValue = g_pVPC->macros.GetValue( "_DLL_EXT" );
 	if ( pMacroValue[0] )
 	{
 		outBuf.Printf( "DLL_EXT=%s\n", pMacroValue );
 	}
 
-	pMacroValue = g_pVPC->GetMacroValue( "_SYM_EXT" );
+	pMacroValue = g_pVPC->macros.GetValue( "_SYM_EXT" );
 	if ( pMacroValue[0] )
 	{
 		outBuf.Printf( "SYM_EXT=%s\n", pMacroValue );
 	}
 
-	pMacroValue = g_pVPC->GetMacroValue( "DEVTOOLS" );
+	pMacroValue = g_pVPC->macros.GetValue( "DEVTOOLS" );
 	if ( pMacroValue[0] )
 	{
 		outBuf.Printf( "DEVTOOLS := %s\n", UsePOSIXSlashes( pMacroValue ) );
 	}
 
-	pMacroValue = g_pVPC->GetMacroValue( "VPC_SCRIPTS" );
+	pMacroValue = g_pVPC->macros.GetValue( "VPC_SCRIPTS" );
 	if ( pMacroValue[0] )
 	{
 		outBuf.Printf( "VPC_SCRIPTS := %s\n", UsePOSIXSlashes( pMacroValue ) );

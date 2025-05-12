@@ -1,8 +1,4 @@
 //========= Copyright � 1996-2016, Valve Corporation, All rights reserved. ============//
-//
-// Purpose: VPC 
-//
-//=====================================================================================//
 
 #include "macros.h"
 
@@ -13,8 +9,6 @@ inline bool IsValidMacroNameChar( char ch )
     return ch == '_' || V_isalnum( ch );
 }
 
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
 CMacro::CMacro( const char *pMacroName, const char *pMacroValue, const char *pConfigurationName, bool bSystemMacro, bool bSetupDefine )
 {
 	SetMacroName( pMacroName );
@@ -80,72 +74,74 @@ void CMacro::SetMacroName( const char *pMacroName )
 	V_strcpy( pFullName + 1, pMacroName );
 }
 
+
+
 //-----------------------------------------------------------------------------
 // System macros are created by VPC and are expected to persist across projects.
 /// They appear as Read Only to scripts.
 //-----------------------------------------------------------------------------
-CMacro *CVPC::SetSystemMacro( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile )
+CMacro * CMacroStorage::SetAsSystem( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile )
 {
-	VPCStatus( false, "Set System Macro: $%s = %s", pMacroName, pMacroValue );
+	g_pVPC->VPCStatus( false, "Set System Macro: $%s = %s", pMacroName, pMacroValue );
 
-	CMacro *pMacro = FindMacro( pMacroName );
-	if ( pMacro )
-	{
-		// found existing macro
-		if ( pMacro->IsPropertyMacro() )
-		{
-			// duplicate macro names not allowed
-			g_pVPC->VPCError( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
-		}
-
-		if ( !pMacro->IsSystemMacro() )
-		{
-			// internal macros cannot clash with script macros
-			g_pVPC->VPCError( "$Macro '%s' already defined by script.", pMacro->GetName() );
-		}
-
-		// update value
-		pMacro->SetValue( pMacroValue );
-	}
-	else
+	CMacro *pMacro = Get( pMacroName );
+	if ( !pMacro )
 	{
 		// create a system type macro
 		pMacro = new CMacro( pMacroName, pMacroValue, nullptr, true, bSetupDefineInProjectFile );
 		m_Macros.InsertWithDupes( pMacroName, pMacro );
+		return pMacro;
 	}
+
+
+	// found existing macro
+	if ( pMacro->IsPropertyMacro() )
+	{
+		// duplicate macro names not allowed
+		g_pVPC->VPCError( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
+	}
+
+	if ( !pMacro->IsSystemMacro() )
+	{
+		// internal macros cannot clash with script macros
+		g_pVPC->VPCError( "$Macro '%s' already defined by script.", pMacro->GetName() );
+	}
+
+	// update value
+	pMacro->SetValue( pMacroValue );
 
 	return pMacro;
 }
 
-CMacro *CVPC::SetDynamicMacro( const char *pMacroName, void (*pFNResolveValue)( CMacro *pThis ) )
+CMacro * CMacroStorage::SetAsDynamic( const char *pMacroName, void (*pFNResolveValue)( CMacro *pThis ) )
 {
-	VPCStatus( false, "Set Dynamic Macro: $%s", pMacroName );
+	g_pVPC->VPCStatus( false, "Set Dynamic Macro: $%s", pMacroName );
 
-	CMacro *pMacro = FindMacro( pMacroName );
-	if ( pMacro )
-	{
-		// found existing macro
-		if ( pMacro->IsPropertyMacro() )
-		{
-			// duplicate macro names not allowed
-			g_pVPC->VPCError( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
-		}
-
-		if ( !pMacro->IsSystemMacro() )
-		{
-			// internal macros cannot clash with script macros
-			g_pVPC->VPCError( "$Macro '%s' already defined by script.", pMacro->GetName() );
-		}
-
-		// update value
-		pMacro->SetResolveFunc( pFNResolveValue );
-	}
-	else
+	CMacro *pMacro = Get( pMacroName );
+	if ( !pMacro )
 	{
 		// create a system type macro
 		pMacro = new CMacro( pMacroName, pFNResolveValue );
 		m_Macros.InsertWithDupes( pMacroName, pMacro );
+		return pMacro;
 	}
+
+
+	// found existing macro
+	if ( pMacro->IsPropertyMacro() )
+	{
+		// duplicate macro names not allowed
+		g_pVPC->VPCError( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
+	}
+
+	if ( !pMacro->IsSystemMacro() )
+	{
+		// internal macros cannot clash with script macros
+		g_pVPC->VPCError( "$Macro '%s' already defined by script.", pMacro->GetName() );
+	}
+
+	// update value
+	pMacro->SetResolveFunc( pFNResolveValue );
 
 	return pMacro;
 }
@@ -154,11 +150,11 @@ CMacro *CVPC::SetDynamicMacro( const char *pMacroName, void (*pFNResolveValue)( 
 // Script macros are created by a project script based on THEIR state. They are removed at the conclusion of that project
 // to avoid polluting the next project that gets processed.
 //-----------------------------------------------------------------------------
-CMacro *CVPC::SetScriptMacro( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile )
+CMacro * CMacroStorage::SetAsScript( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile )
 {
-	VPCStatus( false, "Set Script Macro: $%s = %s", pMacroName, pMacroValue );
+	g_pVPC->VPCStatus( false, "Set Script Macro: $%s = %s", pMacroName, pMacroValue );
 
-	CMacro *pMacro = FindMacro( pMacroName );
+	CMacro *pMacro = Get( pMacroName );
 	if ( pMacro )
 	{
 		// found existing macro
@@ -192,26 +188,26 @@ CMacro *CVPC::SetScriptMacro( const char *pMacroName, const char *pMacroValue, b
 // be used to capture the state of a property key within a configuration block. They can then
 // only be resolved with a configuration block.
 //-----------------------------------------------------------------------------
-CMacro *CVPC::SetPropertyMacro( const char *pMacroName, const char *pMacroValue, const char *pConfigurationName )
+CMacro * CMacroStorage::SetAsProperty( const char *pMacroName, const char *pMacroValue, const char *pConfigurationName )
 {
-	VPCStatus( false, "Set Property Macro (%s): $%s = %s", ( pConfigurationName && pConfigurationName[0] ? pConfigurationName : "???" ), pMacroName, pMacroValue );
+	g_pVPC->VPCStatus( false, "Set Property Macro (%s): $%s = %s", ( pConfigurationName && pConfigurationName[0] ? pConfigurationName : "???" ), pMacroName, pMacroValue );
 
 	if ( !pConfigurationName || !pConfigurationName[0] )
 	{
 		// configuration is mandatory
-		VPCError( "Missing expected configuration for property macro '%s'.", pMacroName );
+		g_pVPC->VPCError( "Missing expected configuration for property macro '%s'.", pMacroName );
 	}
 
-	CMacro *pMacro = FindMacro( pMacroName );
+	CMacro *pMacro = Get( pMacroName );
 	if ( pMacro && !pMacro->IsPropertyMacro() )
 	{
 		// duplicate macro names are not allowed
 		// found an existing non-property based macro with same name
-		VPCError( "Cannot set pre-existing macro '%s' as a property macro.", pMacroName );
+		g_pVPC->VPCError( "Cannot set pre-existing macro '%s' as a property macro.", pMacroName );
 	}
 
 	// resolve with expected configuration
-	pMacro = FindMacro( pMacroName, pConfigurationName );
+	pMacro = Get( pMacroName, pConfigurationName );
 	if ( pMacro )
 	{
 		// update the macro
@@ -229,7 +225,7 @@ CMacro *CVPC::SetPropertyMacro( const char *pMacroName, const char *pMacroValue,
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-CMacro *CVPC::FindMacro( const char *pMacroName, const char *pConfigurationName )
+CMacro * CMacroStorage::Get( const char *pMacroName, const char *pConfigurationName )
 {
 	if ( pConfigurationName && pConfigurationName[0] )
 	{
@@ -261,7 +257,7 @@ CMacro *CVPC::FindMacro( const char *pMacroName, const char *pConfigurationName 
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-int CVPC::GetMacrosMarkedForCompilerDefines( CUtlVector< CMacro* > &macroDefines )
+int CMacroStorage::GetMacrosMarkedForCompilerDefines( CUtlVector< CMacro* > &macroDefines )
 {
 	macroDefines.Purge();
 
@@ -279,7 +275,7 @@ int CVPC::GetMacrosMarkedForCompilerDefines( CUtlVector< CMacro* > &macroDefines
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void CVPC::ResolveMacrosInString( char const *pString, CUtlStringBuilder *pOutBuff, CUtlVector< CUtlString > *pMacrosReplaced )
+void CMacroStorage::ResolveString( char const *pString, CUtlStringBuilder *pOutBuff, CUtlVector< CUtlString > *pMacrosReplaced )
 {
 	// iterate and resolve user macros until all macros resolved
     if ( pString )
@@ -352,7 +348,7 @@ void CVPC::ResolveMacrosInString( char const *pString, CUtlStringBuilder *pOutBu
 
                 if ( pCheck->GetNameLength() < nTokenChars )
                 {
-                    if ( FindMacro( macroToken ) )
+                    if ( Get( macroToken ) )
                     {
                         // cannot replace this macro since it is colliding with the name of a larger macro.
                         // the iterations will converge to the correct macro.
@@ -372,23 +368,24 @@ void CVPC::ResolveMacrosInString( char const *pString, CUtlStringBuilder *pOutBu
         if ( pMacro->HasConfigurationName() )
         {
             // property macros store a unique value for multiple configurations
-            const char *configurationName = GetProjectGenerator()->GetCurrentConfigurationName();
+			// TODO: Refactoring: uncouple this
+            const char *configurationName = g_pVPC->GetProjectGenerator()->GetCurrentConfigurationName();
             if ( !configurationName || !configurationName[0] )
             {
                 // no current configuration
                 // trying to use a property macro outside a configuration block is nonsense
                 // a property macro is paired to a configuration
-                VPCError( "Cannot use property macro '%s' in an expression outside of a configuration block", pMacro->GetName() );
+				g_pVPC->VPCError( "Cannot use property macro '%s' in an expression outside of a configuration block", pMacro->GetName() );
             }
 
             if ( V_stricmp_fast( pMacro->GetConfigurationName(), configurationName ) )
             {
                 // correct macro, but wrong configuration, get correct macro
-                CMacro *pCorrectMacro = FindMacro( pMacro->GetName(), configurationName );
+                CMacro *pCorrectMacro = Get( pMacro->GetName(), configurationName );
                 if ( !pCorrectMacro )
                 {
                     // script expected macro to resolve
-                    VPCError( "Property macro '%s' does not have an expected configuration '%s'.", pMacro->GetName(), configurationName );
+					g_pVPC->VPCError( "Property macro '%s' does not have an expected configuration '%s'.", pMacro->GetName(), configurationName );
                 }
                 else
                 {
@@ -415,7 +412,7 @@ void CVPC::ResolveMacrosInString( char const *pString, CUtlStringBuilder *pOutBu
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void CVPC::RemoveScriptCreatedMacros()
+void CMacroStorage::RemoveScriptCreated()
 {
 	// remove all the script created macros
 	// this is to ensure the next project to be processed starts out with an unpolluted state
@@ -434,19 +431,16 @@ void CVPC::RemoveScriptCreatedMacros()
 	}
 }
 
-const char *CVPC::GetMacroValue( const char *pMacroName, const char *pConfigurationName )
+const char * CMacroStorage::GetValue( const char *pMacroName, const char *pConfigurationName )
 {
-	CMacro *pMacro = FindMacro( pMacroName, pConfigurationName );
-	if ( pMacro )
+	CMacro *pMacro = Get( pMacroName, pConfigurationName );
+	if ( !pMacro ) return ""; // not found
+		
+		
+	if ( pMacro->IsPropertyMacro() && ( !pConfigurationName || !pConfigurationName[0] ) )
 	{
-		if ( pMacro->IsPropertyMacro() && ( !pConfigurationName || !pConfigurationName[0] ) )
-		{
-			VPCError( "Missing required configuration to access property macro '%s'.", pMacroName );
-		}
-
-		return pMacro->GetValue();
+		g_pVPC->VPCError( "Missing required configuration to access property macro '%s'.", pMacroName );
 	}
 
-	// not found
-	return "";
+	return pMacro->GetValue();
 }

@@ -48,7 +48,7 @@
 //-----------------------------------------------------------------------------
 void VPC_VerifyQtMacrosPresent()
 {
-	if ( 0 == V_strlen( g_pVPC->GetMacroValue( "QT_MACROS_DEFINED" ) ) )
+	if ( 0 == V_strlen( g_pVPC->macros.GetValue( "QT_MACROS_DEFINED" ) ) )
 	{
 		g_pVPC->VPCError( "Cannot have Qt files without defining the Qt macros (QT_MACROS_DEFINED) - ensure you include the core Qt script (in project %s).", g_pVPC->GetProjectName() );
 	}
@@ -191,9 +191,9 @@ void VPC_Qt_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 	vpcBuffer.Printf( "$Folder \"%s\"\n{\n", g_QtFolderName );
 
 	CUtlStringBuilder qtTargetSubdir;
-	g_pVPC->ResolveMacrosInString( "$QT_TARGET_SUBDIR", &qtTargetSubdir );
+	g_pVPC->macros.ResolveString( "$QT_TARGET_SUBDIR", &qtTargetSubdir );
 	CUtlStringBuilder qtUISubdir;
-	g_pVPC->ResolveMacrosInString( "$QT_UI_SUBDIR", &qtUISubdir );
+	g_pVPC->macros.ResolveString( "$QT_UI_SUBDIR", &qtUISubdir );
 
 	for ( int i = 0; i < g_pVPC->m_QtFiles.Count(); ++i )
 	{
@@ -245,10 +245,10 @@ void VPC_Qt_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 			// Resolve the paths to the moc and fakemoc files
 			// Ensure the directory structure is there because MOC and Visual Studio will be unhappy if it's not
             CUtlStringBuilder *pStrBuf = g_pVPC->GetTempStringBuffer1();
-			g_pVPC->ResolveMacrosInString( mocFilePath.Get(), pStrBuf );
+			g_pVPC->macros.ResolveString( mocFilePath.Get(), pStrBuf );
 			Sys_CreatePath( pStrBuf->Get() );
             
-			g_pVPC->ResolveMacrosInString( fakemocFilePath.Get(), pStrBuf );
+			g_pVPC->macros.ResolveString( fakemocFilePath.Get(), pStrBuf );
 			Sys_CreatePath( pStrBuf->Get() );
 
 			// Write an empty fakemoc so IncrediBuild in VS2010 doesn't keep trying to build projects that include this file

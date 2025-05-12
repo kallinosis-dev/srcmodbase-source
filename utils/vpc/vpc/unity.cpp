@@ -469,7 +469,7 @@ bool CVPC::IsProjectUsingUnity( script_t *pProjectScript )
 		else { g_pVPC->VPCWarning( "Could not find VPC file '%s' !", vpcFilename.Get() ); }
 
 		// Set the _UNITYSUBDIR macro here, before project parsing begins:
-		SetSystemMacro( "_UNITYSUBDIR", ( m_bProjectUsesUnity && IsUnityEnabled() ) ? "\\unity" : "", false );
+		macros.SetAsSystem( "_UNITYSUBDIR", ( m_bProjectUsesUnity && IsUnityEnabled() ) ? "\\unity" : "", false );
 	}
 
 	return ( m_bProjectUsesUnity && IsUnityEnabled() );

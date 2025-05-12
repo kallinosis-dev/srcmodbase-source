@@ -1,6 +1,17 @@
 #pragma once
-#include "utlstring.h"
+#include "tier1/utlmap.h"
+#include "tier1/utlstring.h"
+#include "tier1/utlvector.h"
 
+
+class CDefCaselessCUtlStringLess
+{
+public:
+	CDefCaselessCUtlStringLess() {}
+	CDefCaselessCUtlStringLess(int i) {}
+	inline bool operator()(const CUtlString& lhs, const CUtlString& rhs) const { return (V_stricmp_fast(lhs.String(), rhs.String()) < 0); }
+	inline bool operator!() const { return false; }
+};
 
 #define MAX_MACRO_NAME 200
 struct CMacro
@@ -50,4 +61,25 @@ protected:
 
 	//when set, the macro calls the resolve function whenever HasValue() or GetValue() are called
 	void (*m_pFNResolveDynamicMacro)( CMacro *pThis );
+};
+
+class CMacroStorage
+{
+public:
+	void					ResolveString(char const* pString, CUtlStringBuilder* pOutBuff, CUtlVector< CUtlString >* pMacrosReplaced = nullptr);
+	int						GetMacrosMarkedForCompilerDefines(CUtlVector< CMacro* >& macroDefines);
+	void					RemoveScriptCreated();
+	const char* GetValue(const char* pMacroName, const char* pConfigurationName = nullptr);
+	CMacro* Get(const char* pMacroName, const char* pConfigurationName = nullptr);
+	CMacro* SetAsSystem(const char* pMacroName, const char* pMacroValue, bool bSetupDefineInProjectFile = false);
+	CMacro* SetAsDynamic(const char* pMacroName, void (*pFNResolveValue)(CMacro* pThis));
+	CMacro* SetAsScript(const char* pMacroName, const char* pMacroValue, bool bSetupDefineInProjectFile = false);
+	CMacro* SetAsProperty(const char* pMacroName, const char* pMacroValue, const char* pConfigurationName);
+
+	// TODO: iterator over defined macros, unordered and ordered
+
+
+private:
+	// using UtlMap to support duplicates
+	CUtlMap< CUtlString, CMacro*, int, CDefCaselessCUtlStringLess >	m_Macros;
 };

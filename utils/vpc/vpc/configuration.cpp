@@ -73,7 +73,7 @@ void VPC_Config_Macro()
 		return;
 	}
 
-	g_pVPC->SetPropertyMacro( macroName, pStrBuf->Get(), g_pVPC->GetProjectGenerator()->GetCurrentConfigurationName() );
+	g_pVPC->macros.SetAsProperty( macroName, pStrBuf->Get(), g_pVPC->GetProjectGenerator()->GetCurrentConfigurationName() );
 }
 
 //-----------------------------------------------------------------------------
@@ -143,7 +143,7 @@ void VPC_Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
 				}
 
 				// get the specified property key's value and set it
-				g_pVPC->SetPropertyMacro( macroName, g_pVPC->GetProjectGenerator()->GetPropertyValue( pStrBuf->Get() ), g_pVPC->GetProjectGenerator()->GetCurrentConfigurationName() );
+				g_pVPC->macros.SetAsProperty( macroName, g_pVPC->GetProjectGenerator()->GetPropertyValue( pStrBuf->Get() ), g_pVPC->GetProjectGenerator()->GetCurrentConfigurationName() );
 			}
 			else if ( !V_stricmp_fast( tempTokenName, "$Macro" ) )
 			{

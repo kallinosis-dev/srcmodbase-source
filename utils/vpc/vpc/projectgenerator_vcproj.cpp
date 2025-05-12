@@ -1279,7 +1279,7 @@ void CVCProjGenerator::EndProject( bool bSaveData )
         CUtlPathStringHolder srcDirScriptName( "$SRCDIR\\" );
         srcDirScriptName.Append( pScriptName );
         CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
-        g_pVPC->ResolveMacrosInString( srcDirScriptName.Get(), pStrBuf );
+        g_pVPC->macros.ResolveString( srcDirScriptName.Get(), pStrBuf );
         pScriptName = pStrBuf->Get();
     }
 	g_pVPC->AddScriptToParsedList( pScriptName, true, scriptCRC );
@@ -2277,7 +2277,7 @@ void CVCProjGenerator::ApplyInternalPreprocessorDefinitions()
 {
 	// prep to add in vpc generated compiler defines
 	CUtlVector< CMacro* > macroDefines;
-	g_pVPC->GetMacrosMarkedForCompilerDefines( macroDefines );
+	g_pVPC->macros.GetMacrosMarkedForCompilerDefines( macroDefines );
 
 	if ( !macroDefines.Count() )
 	{
@@ -2378,7 +2378,7 @@ void CVCProjGenerator::LogOutputFiles( const char *pConfigName )
         gameOutputFileString = GetPropertyValueAsString(nullptr, pConfigName, KEYWORD_GENERAL, g_pOption_GameOutputFile );
     }
 
-    const char *outBinDirString = g_pVPC->GetMacroValue( "OUTBINDIR" );
+    const char *outBinDirString = g_pVPC->macros.GetValue( "OUTBINDIR" );
     char pathString[MAX_FIXED_PATH];
 
     CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
@@ -2653,7 +2653,7 @@ void CVCProjGenerator::EvaluateHackMacro_HACK_DEPENDENCIES_ALLVPCSCRIPTS( void )
 	// Need to evaluate this late instead of up-front, which is pretty hacky
 
 	//ensure that the macro does not exist
-	Assert( !g_pVPC->FindMacro( "HACK_DEPENDENCIES_ALLVPCSCRIPTS" ) );
+	Assert( !g_pVPC->macros.Get( "HACK_DEPENDENCIES_ALLVPCSCRIPTS" ) );
 
 	ToolProperty_t *pToolProperty_Global = GetGeneratorDefinition()->GetProperty( KEYWORD_CUSTOMBUILDSTEP, g_pOption_AdditionalDependencies_Proj );
 	ToolProperty_t *pToolProperty_File = GetGeneratorDefinition()->GetProperty( KEYWORD_CUSTOMBUILDSTEP, g_pOption_AdditionalDependencies );
@@ -2789,17 +2789,17 @@ void CVCProjGenerator::AddIndirectCustomBuildDependencies( void )
 		//grab the VPC_TRIVIAL_DEPENDENCY_PATH and add it
 		CMacro *pTrivialDependencyPath;
 		{
-			pTrivialDependencyPath = g_pVPC->FindMacro( "VPC_TRIVIAL_DEPENDENCY_PATH", pRootConfig->m_Name );
+			pTrivialDependencyPath = g_pVPC->macros.Get( "VPC_TRIVIAL_DEPENDENCY_PATH", pRootConfig->m_Name );
 			if ( !pTrivialDependencyPath )
 			{
-				pTrivialDependencyPath = g_pVPC->FindMacro( "VPC_TRIVIAL_DEPENDENCY_PATH", nullptr );
+				pTrivialDependencyPath = g_pVPC->macros.Get( "VPC_TRIVIAL_DEPENDENCY_PATH", nullptr );
 			}
 
 			CUtlStringBuilder trivialDependencyPath;
 			trivialDependencyPath.EnsureCapacity( 2048 );
 			if ( pTrivialDependencyPath )
 			{
-				g_pVPC->ResolveMacrosInString( "$VPC_TRIVIAL_DEPENDENCY_PATH", &trivialDependencyPath );
+				g_pVPC->macros.ResolveString( "$VPC_TRIVIAL_DEPENDENCY_PATH", &trivialDependencyPath );
 			}
 		
 			if ( !trivialDependencyPath.IsEmpty() )

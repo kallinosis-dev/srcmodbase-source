@@ -501,7 +501,7 @@ void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaCon
 
 	// SRCDIR
     CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
-	g_pVPC->ResolveMacrosInString( "$SRCDIR", pStrBuf );
+	g_pVPC->macros.ResolveString( "$SRCDIR", pStrBuf );
 	V_MakeAbsolutePath( pCtx->m_pSrcDirAbsPath, sizeof(pCtx->m_pSrcDirAbsPath), pStrBuf->Get(), nullptr, k_bVPCForceLowerCase );
 	V_FixSlashes( pCtx->m_pSrcDirAbsPath, '/' );
 
@@ -521,7 +521,7 @@ void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaCon
 
 
 	// Is this a schema unity build?						
-	const char *pVal = g_pVPC->GetMacroValue( "SCHEMA_UNITY_H_BUILD" );
+	const char *pVal = g_pVPC->macros.GetValue( "SCHEMA_UNITY_H_BUILD" );
 	pCtx->m_bHeaderUnityBuild = pVal ? ( atoi( pVal ) != 0 ) : false;
 	if ( g_pVPC->IsProjectUsingUnity() )
 	{
@@ -531,7 +531,7 @@ void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaCon
 	}
 
 
-	const char *pBatchSizeVal = g_pVPC->GetMacroValue( "SCHEMACOMPILER_UNITY_BATCH_SIZE" );
+	const char *pBatchSizeVal = g_pVPC->macros.GetValue( "SCHEMACOMPILER_UNITY_BATCH_SIZE" );
 	pCtx->m_nUnityBatchSize = pBatchSizeVal ? atoi( pBatchSizeVal ) : -1;
 	if ( pCtx->m_bHeaderUnityBuild && pCtx->m_nUnityBatchSize <= 0 )
 	{
@@ -539,20 +539,20 @@ void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaCon
 	}
 
 	// path to schemacompiler 
-	g_pVPC->ResolveMacrosInString( "$SCHEMACOMPILER_EXE_PATH", &pCtx->m_schemaCompilerExePath );
+	g_pVPC->macros.ResolveString( "$SCHEMACOMPILER_EXE_PATH", &pCtx->m_schemaCompilerExePath );
 	V_FixSlashes( pCtx->m_schemaCompilerExePath.Access() );
-	g_pVPC->ResolveMacrosInString( "$SCHEMACOMPILER_EXE_DEPENDENT", &pCtx->m_schemaCompilerExeDependent );
+	g_pVPC->macros.ResolveString( "$SCHEMACOMPILER_EXE_DEPENDENT", &pCtx->m_schemaCompilerExeDependent );
 	V_FixSlashes( pCtx->m_schemaCompilerExeDependent.Access() );
 
 	// schema unity filename base
-	g_pVPC->ResolveMacrosInString( "$SCHEMACOMPILER_UNITY_FILENAME_BASE", &pCtx->m_unityFilenameBase );
+	g_pVPC->macros.ResolveString( "$SCHEMACOMPILER_UNITY_FILENAME_BASE", &pCtx->m_unityFilenameBase );
 	V_FixSlashes( pCtx->m_unityFilenameBase.Access() );
 
 	// schema unity filename tail
 	V_strcpy_safe( pCtx->m_pUnityFilenameTail, "." GENERATED_CPP_FILE_EXTENSION );
 	
 	// global root folder for all generated code
-	g_pVPC->ResolveMacrosInString( "$SCHEMACOMPILER_GENERATED_CODE_PATH", &pCtx->m_projectGenFolder );
+	g_pVPC->macros.ResolveString( "$SCHEMACOMPILER_GENERATED_CODE_PATH", &pCtx->m_projectGenFolder );
 
 	// root folder for generated code for this project
     pCtx->m_projectGenFolder.AppendChar( '/' );
@@ -569,7 +569,7 @@ void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaCon
 	pCtx->m_schprojFilename.FixSlashes( '/' );
 
 	// folder that stores the schemacompiler config (eg. schema_atomic_types.cfg)
-	g_pVPC->ResolveMacrosInString( "$SCHEMACOMPILER_CONFIG_PATH", &pCtx->m_globalConfigFolder );
+	g_pVPC->macros.ResolveString( "$SCHEMACOMPILER_CONFIG_PATH", &pCtx->m_globalConfigFolder );
 	V_FixSlashes( pCtx->m_globalConfigFolder.Access(), '/' );
 }
 
@@ -1079,8 +1079,8 @@ void CSchemaVPC::EmitSchproj( bool bStrictOutputs )
 	pOutKeyValues->SetString( "global_config_folder", m_Context.m_globalConfigFolder );
 	pOutKeyValues->SetBool( "touch_unchanged_outputs", bStrictOutputs ); //If we're using well-defined output dependencies, then we *must* update the timestamp on outputs to have any effect
 
-	const char *pBinName = g_pVPC->GetMacroValue( "OUTBINNAME" );
-	const char *pLibName = g_pVPC->GetMacroValue( "OUTLIBNAME" );
+	const char *pBinName = g_pVPC->macros.GetValue( "OUTBINNAME" );
+	const char *pLibName = g_pVPC->macros.GetValue( "OUTLIBNAME" );
 	if ( ( !pBinName[0] && !pLibName[0] ) || ( pBinName[0] && pLibName[0] ) )
 	{
 		g_pVPC->VPCError( "VPC could not determine whether this is a bin or a lib.\n" );

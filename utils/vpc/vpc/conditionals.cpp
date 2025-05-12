@@ -377,7 +377,7 @@ bool CVPC::ResolveConditionalSymbol( const char *pSymbol )
 		offset = 1;
 	}
 
-	conditional_t *pConditional = FindOrCreateConditional( (char*)pSymbol+offset, false, CONDITIONAL_NULL );
+	conditional_t *pConditional = FindOrCreateConditional( pSymbol+offset, false, CONDITIONAL_NULL );
 	if ( pConditional )
 	{
 		// game conditionals only resolve true when they are 'defined' and 'active'
@@ -402,7 +402,7 @@ bool CVPC::ResolveConditionalSymbol( const char *pSymbol )
 		// causing quiet unintended results and since macros can be arbitrary strings, there placement in a
 		// conditional expression is invalid. Restricting to conditionals ensures we are only ever evaluating
 		// is valid boolean values.
-		CMacro *pMacro = g_pVPC->FindMacro( (char*)pSymbol+offset );
+		CMacro *pMacro = g_pVPC->macros.Get( (char*)pSymbol+offset );
 		if ( pMacro )
 		{
 			// found a macro, and not allowed

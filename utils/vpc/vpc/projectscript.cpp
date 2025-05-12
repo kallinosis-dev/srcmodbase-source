@@ -259,7 +259,7 @@ void VPC_Keyword_AddFilesByPattern()
 		}
 
         CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
-		g_pVPC->ResolveMacrosInString( pToken, pStrBuf );
+		g_pVPC->macros.ResolveString( pToken, pStrBuf );
 		V_FixSlashes( pStrBuf->Access() );
 
 		CUtlVector< CUtlString > vecResults;
@@ -357,7 +357,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 		}
 
         CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
-		g_pVPC->ResolveMacrosInString( pToken, pStrBuf );
+		g_pVPC->macros.ResolveString( pToken, pStrBuf );
 		V_FixSlashes( pStrBuf->Access() );
 
 		if ( pFNNameTranslation )
@@ -613,8 +613,8 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 			int nScriptIndex = g_pVPC->m_CustomAutoScripts.Find( pScriptName );
 			if ( g_pVPC->m_CustomAutoScripts.IsValidIndex( nScriptIndex ) )
 			{
-				g_pVPC->SetSystemMacro( "AUTO_SCRIPT_FILENAME", pCleanFilename, false );
-				g_pVPC->SetSystemMacro( "AUTO_SCRIPT_BASEFILENAME", V_UnqualifiedFileName( pCleanFilename ), false );
+				g_pVPC->macros.SetAsSystem( "AUTO_SCRIPT_FILENAME", pCleanFilename, false );
+				g_pVPC->macros.SetAsSystem( "AUTO_SCRIPT_BASEFILENAME", V_UnqualifiedFileName( pCleanFilename ), false );
 
 				CUtlString scriptName;
 				scriptName.Format( "Custom Auto Script for '%s'", pScriptName );
@@ -672,8 +672,8 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 			int nAutoScriptIndex = g_pVPC->m_CustomAutoScripts.Find( pExtension );
 			if ( g_pVPC->m_CustomAutoScripts.IsValidIndex( nAutoScriptIndex ) )
 			{
-				g_pVPC->SetSystemMacro( "AUTO_SCRIPT_FILENAME", customFiles[i].Get(), false );
-				g_pVPC->SetSystemMacro( "AUTO_SCRIPT_BASEFILENAME", customFiles[i].GetBaseFilename().Get(), false );
+				g_pVPC->macros.SetAsSystem( "AUTO_SCRIPT_FILENAME", customFiles[i].Get(), false );
+				g_pVPC->macros.SetAsSystem( "AUTO_SCRIPT_BASEFILENAME", customFiles[i].GetBaseFilename().Get(), false );
 
 				CUtlString scriptName;
 				scriptName.Format( "Custom Auto Script for '%s'", pExtension );
@@ -690,8 +690,8 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 			}
 		}
 
-		g_pVPC->SetSystemMacro( "AUTO_SCRIPT_FILENAME", "", false );
-		g_pVPC->SetSystemMacro( "AUTO_SCRIPT_BASEFILENAME", "", false );
+		g_pVPC->macros.SetAsSystem( "AUTO_SCRIPT_FILENAME", "", false );
+		g_pVPC->macros.SetAsSystem( "AUTO_SCRIPT_BASEFILENAME", "", false );
 	}
 }
 
@@ -721,7 +721,7 @@ static const char *VPC_ExpandLibraryName( const char *pName, const char *pDefaul
     }
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
-    g_pVPC->ResolveMacrosInString( pFormatBuf->Get(), pStrBuf );
+    g_pVPC->macros.ResolveString( pFormatBuf->Get(), pStrBuf );
 
     pFullName->Set( pStrBuf->Get() );
     pFullName->FixSlashesAndDotSlashes();
@@ -1237,7 +1237,7 @@ void VPC_Keyword_Macro( MacroType_t eMacroType )
         pValue = value;
 	}
 
-	g_pVPC->SetScriptMacro( macroName, ( eMacroType == VPC_MACRO_VALUE ) ? pValue : "" );
+	g_pVPC->macros.SetAsScript( macroName, ( eMacroType == VPC_MACRO_VALUE ) ? pValue : "" );
 }
 
 //-----------------------------------------------------------------------------
@@ -1290,7 +1290,7 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 	}
 
 	// find macro
-	CMacro *pMacro = g_pVPC->FindMacro( macroName );
+	CMacro *pMacro = g_pVPC->macros.Get( macroName );
 	if ( pMacro && pMacro->IsPropertyMacro() )
 	{
 		// property macros which are constrained to be within a configuration are not interchangeable with normal macros
@@ -1301,7 +1301,7 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 	{
 		if ( macroDefaultValue[0] || ( eMacroRequiredType == VPC_MACRO_REQUIRED_ALLOW_EMPTY ) )
 		{
-			g_pVPC->SetScriptMacro( macroName, macroDefaultValue );
+			g_pVPC->macros.SetAsScript( macroName, macroDefaultValue );
 		}
 		else
 		{
@@ -1367,7 +1367,7 @@ void VPC_Keyword_LoadAddressMacro( void )
 			if ( !V_stricmp_fast( szProjectName, g_pVPC->GetLoadAddressName() ) )
 			{
 				// set Macro
-				g_pVPC->SetScriptMacro( szMacroName, pStrBuf->Get() );
+				g_pVPC->macros.SetAsScript( szMacroName, pStrBuf->Get() );
 			}
 		}
 	}
@@ -1419,7 +1419,7 @@ void VPC_Keyword_LoadAddressMacroAlias( void )
 			if ( !V_stricmp_fast( pToken, g_pVPC->GetProjectName() ) )
 			{
 				// set Macro and alias
-				g_pVPC->SetScriptMacro( "LOADADDRESSNAME", szAlias );
+				g_pVPC->macros.SetAsScript( "LOADADDRESSNAME", szAlias );
 				g_pVPC->SetLoadAddressName( szAlias );
 			}
 		}
@@ -1482,7 +1482,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 			
 			iSetEntryNum = iEntryNum;
 			iSetBaseAddress = baseAddress;
-			g_pVPC->SetScriptMacro( szMacroName, szMacroValue );
+			g_pVPC->macros.SetAsScript( szMacroName, szMacroValue );
 		}
 
 		if ( CharStrEq( pToken, '}' ) )
@@ -1550,7 +1550,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 			char szMacroValue[100];
 			sprintf( szMacroValue, "0x%8.8llx", iSetBaseAddress );
 	
-			g_pVPC->SetScriptMacro( szMacroName, szMacroValue );
+			g_pVPC->macros.SetAsScript( szMacroName, szMacroValue );
 		}
 	}
 }
@@ -1870,7 +1870,7 @@ void VPC_Keyword_Project( int depth, bool bQuiet )
 		}
 
         CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
-		g_pVPC->ResolveMacrosInString( pToken, pStrBuf );
+		g_pVPC->macros.ResolveString( pToken, pStrBuf );
 		projectName = pStrBuf->Get();
 
 		g_pVPC->DecorateProjectName( projectName );
@@ -2254,32 +2254,32 @@ bool CVPC::ParseProjectScript( const char *pScriptName, int depth, bool bQuiet, 
 	if ( !depth )
 	{
 		// create reserved $ROOTSCRIPT - tracks the root script
-		SetScriptMacro( "ROOTSCRIPT", szScriptName );
+		macros.SetAsScript( "ROOTSCRIPT", szScriptName );
 
 		// create reserved $PROJECTNAME - tracks the undecorated pure project name
 		// $(ProjectName) can be auto-decorated, making it unuseable by scripts expecting a pure project name
-		SetScriptMacro( "PROJECTNAME", g_pVPC->GetProjectName() );
+		macros.SetAsScript( "PROJECTNAME", g_pVPC->GetProjectName() );
 
 		// An uppercase version of the project name for preprocessor macro standardization
 		CUtlString projectNameUpper( g_pVPC->GetProjectName() );
 		projectNameUpper.ToUpper();
-		SetScriptMacro( "UPPERCASEPROJECTNAME", projectNameUpper.Get() );
+		macros.SetAsScript( "UPPERCASEPROJECTNAME", projectNameUpper.Get() );
 
 		// create reserved $LOADADDRESSNAME - defaults to project name but can be aliased with $LoadAddressMacroAlias
-		SetScriptMacro( "LOADADDRESSNAME", g_pVPC->GetLoadAddressName() );
+		macros.SetAsScript( "LOADADDRESSNAME", g_pVPC->GetLoadAddressName() );
 
 //#ifdef STEAM
 		// create reserved $PROJECTDIR
         CUtlStringBuilder *pStrBuf = g_pVPC->GetTempStringBuffer1();
 		pStrBuf->Set( g_pVPC->GetProjectPath() );
 		V_RemoveDotSlashes( pStrBuf->Access() );
-		SetScriptMacro( "PROJECTDIR", pStrBuf->Get(), true );
+		macros.SetAsScript( "PROJECTDIR", pStrBuf->Get(), true );
 //#endif
 		const CPUInformation &cpuInfo = GetCPUInformation();
-		SetScriptMacro( "PHYSICAL_PROCESSOR_COUNT", CFmtStr( "%d", cpuInfo.m_nPhysicalProcessors ).Get() );
-		SetScriptMacro( "PHYSICAL_PROCESSOR_COUNT_MINUS_ONE", CFmtStr( "%d", Max<int>( cpuInfo.m_nPhysicalProcessors - 1, 1 ) ).Get() );
-		SetScriptMacro( "LOGICAL_PROCESSOR_COUNT", CFmtStr( "%d", cpuInfo.m_nLogicalProcessors ).Get() );
-		SetScriptMacro( "LOGICAL_PROCESSOR_COUNT_MINUS_ONE", CFmtStr( "%d", Max<int>( cpuInfo.m_nLogicalProcessors - 1, 1 ) ).Get() );
+		macros.SetAsScript( "PHYSICAL_PROCESSOR_COUNT", CFmtStr( "%d", cpuInfo.m_nPhysicalProcessors ).Get() );
+		macros.SetAsScript( "PHYSICAL_PROCESSOR_COUNT_MINUS_ONE", CFmtStr( "%d", Max<int>( cpuInfo.m_nPhysicalProcessors - 1, 1 ) ).Get() );
+		macros.SetAsScript( "LOGICAL_PROCESSOR_COUNT", CFmtStr( "%d", cpuInfo.m_nLogicalProcessors ).Get() );
+		macros.SetAsScript( "LOGICAL_PROCESSOR_COUNT_MINUS_ONE", CFmtStr( "%d", Max<int>( cpuInfo.m_nLogicalProcessors - 1, 1 ) ).Get() );
 
 		g_pVPC->ResetMissingFilesCount();
 
@@ -2314,7 +2314,7 @@ bool CVPC::ParseProjectScript( const char *pScriptName, int depth, bool bQuiet, 
 		g_pVPC->m_ScriptList.Purge();
 		
 		// Remove any macros that came from the script file.
-		g_pVPC->RemoveScriptCreatedMacros(); 
+		g_pVPC->macros.RemoveScriptCreated();
 
 		// Restore the state of conditionals (don't want script modifications to affect further processing)
 		g_pVPC->RestoreConditionals();

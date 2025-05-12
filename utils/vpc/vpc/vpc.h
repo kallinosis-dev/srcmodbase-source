@@ -44,9 +44,9 @@
 #include "tier1/keyvalues.h"
 #include "generatordefinition.h"
 #include "environment_utils.h"
+#include "macros.h"
 #include "tier1/UtlStringMap.h"
 
-struct CMacro;
 
 DECLARE_LOGGING_CHANNEL(LOG_VPC);
 
@@ -223,14 +223,6 @@ public:
 	}
 };
 
-class CDefCaselessCUtlStringLess
-{
-public:
-	CDefCaselessCUtlStringLess() {}
-	CDefCaselessCUtlStringLess( int i ) {}
-	inline bool operator()( const CUtlString &lhs, const CUtlString &rhs ) const { return ( V_stricmp_fast( lhs.String(), rhs.String() ) < 0 ); }
-	inline bool operator!() const { return false; }
-};
 
 class CVPC
 {
@@ -389,15 +381,7 @@ public:
 	bool					IsConditionalDefined( const char *pName );
 
 	// Macros
-	void					ResolveMacrosInString( char const *pString, CUtlStringBuilder *pOutBuff, CUtlVector< CUtlString > *pMacrosReplaced = nullptr);
-	int						GetMacrosMarkedForCompilerDefines( CUtlVector< CMacro* > &macroDefines );
-	void					RemoveScriptCreatedMacros();
-	const char				*GetMacroValue( const char *pMacroName, const char *pConfigurationName = nullptr);
-	CMacro					*FindMacro( const char *pMacroName, const char *pConfigurationName = nullptr);
-	CMacro					*SetSystemMacro( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile = false );
-	CMacro					*SetDynamicMacro( const char *pMacroName, void (*pFNResolveValue)( CMacro *pThis ) );
-	CMacro					*SetScriptMacro( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile = false );
-	CMacro					*SetPropertyMacro( const char *pMacroName, const char *pMacroValue, const char *pConfigurationName );
+
 
 	// Iterates all the projects in the specified list, checks their conditionals, and calls pIterator->VisitProject for
 	// each one that passes the conditional tests.
@@ -594,8 +578,7 @@ private:
 public:
 	CUtlVector< conditional_t* >	m_Conditionals;
 	
-	// using UtlMap to support duplicates
-	CUtlMap< CUtlString, CMacro*, int, CDefCaselessCUtlStringLess >	m_Macros;
+
 
 	CUtlVector< scriptList_t >		m_ScriptList;
 
@@ -644,6 +627,9 @@ public:
 
 
 	CDependency_Project				*m_pDependencyProject;
+
+public:
+	CMacroStorage macros;
 };
 
 extern CVPC *g_pVPC;
