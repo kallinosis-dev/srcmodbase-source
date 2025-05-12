@@ -2,6 +2,7 @@
 //==================================================================================================
 #include "vpc.h"
 #include "bitvec.h"
+#include "misc.h"
 
 void MakeFriendlyProjectName( char *pchProject );
 

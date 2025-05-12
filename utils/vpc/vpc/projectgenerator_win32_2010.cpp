@@ -4,6 +4,7 @@
 //
 //=====================================================================================//
 
+#include "misc.h"
 #include "vpc.h"
 
 const char *GetVCProjTargetPlatformName( const char *szVPCTargetPlatformName )

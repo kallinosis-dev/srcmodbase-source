@@ -4,6 +4,7 @@
 //
 //=====================================================================================//
 
+#include "misc.h"
 #include "vpc.h"
 
 static KeywordName_t s_KeywordNameTable[] =

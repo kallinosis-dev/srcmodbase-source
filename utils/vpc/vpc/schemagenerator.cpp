@@ -8,6 +8,7 @@
 #include "tier1/utldict.h"
 #include "tier1/keyvalues.h"
 #include "baseprojectdatacollector.h"
+#include "misc.h"
 #include "tier1/fmtstr.h"
 #include "../../../public/schemasystem/schemaversionnumbers.h" // for SCHEMA_SCHPROJ_VERSION
 

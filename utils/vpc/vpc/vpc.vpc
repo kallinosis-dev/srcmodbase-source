@@ -119,6 +119,9 @@ $Project "vpc"
 
 		$File	"../vpccrccheck/crccheck_shared.cpp"
 		$File	"../vpccrccheck/crccheck_shared.h"		
+
+		$File	"misc.h" 
+		$File   "misc.cpp"
 	}
 
 	$Folder "Shared"
