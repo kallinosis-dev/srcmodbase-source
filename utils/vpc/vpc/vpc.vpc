@@ -7,7 +7,7 @@
 //$Macro NO_HARD_LINKS 1
 
 $Macro SRCDIR					"..\..\.."
-$Macro OUTBINDIR				"$SRCDIR\devtools\bin$PLATSUBDIR"
+$Macro OUTBINDIR				"$SRCDIR\devtools\bin"
 
 $Macro OUTBINNAME				"vpc"
 
