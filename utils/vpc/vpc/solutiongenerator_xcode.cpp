@@ -8,6 +8,7 @@
 #include "dependencies.h"
 #include "baseprojectdatacollector.h"
 #include "misc.h"
+#include "splitstring.h"
 #include "tier1/utlsortvector.h"
 
 #ifdef WIN32

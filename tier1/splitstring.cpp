@@ -5,7 +5,7 @@
 //==================================================================================================
 
 #include "strtools.h"
-#include "utlvector.h"
+#include "splitstring.h"
 
 CSplitString::CSplitString()
 {

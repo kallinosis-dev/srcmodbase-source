@@ -8,6 +8,7 @@
 #include "filesystem.h"
 #include "macros.h"
 #include "misc.h"
+#include "splitstring.h"
 #include "tier1/interface.h"
 #include "tier1/keyvalues.h"
 

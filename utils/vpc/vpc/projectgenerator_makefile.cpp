@@ -3,6 +3,7 @@
 #include "vpc.h"
 #include "bitvec.h"
 #include "misc.h"
+#include "splitstring.h"
 
 void MakeFriendlyProjectName( char *pchProject );
 

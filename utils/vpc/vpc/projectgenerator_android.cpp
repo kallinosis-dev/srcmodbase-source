@@ -8,6 +8,7 @@
 #include "projectgenerator_android.h"
 
 #include "misc.h"
+#include "splitstring.h"
 
 #undef PROPERTYNAME
 #define PROPERTYNAME( X, Y ) { X##_##Y, #X, #Y },
