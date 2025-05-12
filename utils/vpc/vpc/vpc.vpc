@@ -54,62 +54,79 @@ $Configuration
 
 $Project "vpc"
 {
-	$Folder	"Source Files"
+	$Folder "Main code"
 	{
+		$Folder "Project generators"
+		{
+			$File	"ibaseprojectgenerator.h"
+
+			$File	"projectgenerator_android.cpp"
+	//		$File	"projectgenerator_codelite.cpp"
+			$File	"projectgenerator_vcproj.cpp"
+			$File	"projectgenerator_makefile.cpp"
+			$File	"projectgenerator_win32_2010.cpp"
+			$File	"projectgenerator_android.h"
+			$File	"projectgenerator_android.inc"
+	//		$File	"projectgenerator_codelite.h"
+			$file	"projectgenerator_win32_2010.h"
+			$File	"projectgenerator_win32_2010.inc"
+			$File	"projectgenerator_vcproj.h"
+			$File	"projectgenerator_makefile.h"
+			
+			$File	"generatordefinition.cpp"
+			$File	"generatordefinition.h"
+		
+			$File	"$SRCDIR/vpc_scripts/definitions/win32_2010.def"
+		}
+
+		$Folder "Solution geneartors"
+		{
+			$File	"ibasesolutiongenerator.h"
+
+	//		$File	"solutiongenerator_codelite.cpp"
+			$File	"solutiongenerator_makefile.cpp"
+			$File	"solutiongenerator_xcode.cpp"
+			$File	"solutiongenerator_win32.cpp"
+		}
+
+		$File	"main.cpp"
+		$File	"vpc.h"
+
 		$File	"baseprojectdatacollector.cpp"
-		$File	"$SRCDIR/common/clang/clang_utils.cpp"
+		$File	"baseprojectdatacollector.h"
 		$File	"clanggenerator.cpp"
 		$File	"conditionals.cpp"
 		$File	"configuration.cpp"
-		$File	"../vpccrccheck/crccheck_shared.cpp"
-		$File	"dependencies.cpp"
-		$File	"$SRCDIR/common/environment_utils.cpp"
-		$File	"$SRCDIR/common/bundled_module_info.cpp"
-		$File	"generatordefinition.cpp"
+		$File	"dependencies.cpp"		
+		$File	"dependencies.h"
 		$File	"generated_files.cpp"
 		$File	"groupscript.cpp"
 		$File	"macros.cpp"
-		$File	"main.cpp"
-		$File	"p4sln.cpp"							[$WINDOWS]
 		$File	"pch_helpers.cpp"
-		$File	"projectgenerator_android.cpp"
-//		$File	"projectgenerator_codelite.cpp"
-		$File	"projectgenerator_vcproj.cpp"
-		$File	"projectgenerator_makefile.cpp"
-		$File	"projectgenerator_win32_2010.cpp"
+
+		$File	"p4sln.cpp"							[$WINDOWS]
+		$File	"p4sln.h"							[$WINDOWS]
+
 		$File	"projectscript.cpp"
 		$File	"qtgenerator.cpp"
 		$File	"schemagenerator.cpp"
 		$File	"scriptsource.cpp"
-//		$File	"solutiongenerator_codelite.cpp"
-		$File	"solutiongenerator_makefile.cpp"
-		$File	"solutiongenerator_xcode.cpp"
-		$File	"solutiongenerator_win32.cpp"
+		$File	"scriptsource.h"		
 		$File	"sys_utils.cpp"
+		$file	"sys_utils.h"
 		$File	"unity.cpp"
 		$File	"updateautoexp.cpp"					[$WINDOWS]
+
+		$File	"../vpccrccheck/crccheck_shared.cpp"
+		$File	"../vpccrccheck/crccheck_shared.h"		
 	}
 
-	$Folder	"Header Files"
+	$Folder "Shared"
 	{
-		$File	"baseprojectdatacollector.h"
+		$File	"$SRCDIR/common/clang/clang_utils.cpp"
 		$File	"$SRCDIR/common/clang/clang_utils.h"
-		$File	"dependencies.h"
+		$File	"$SRCDIR/common/environment_utils.cpp"
 		$File	"$SRCDIR/common/environment_utils.h"
-		$File	"generatordefinition.h"
-		$File	"ibaseprojectgenerator.h"
-		$File	"ibasesolutiongenerator.h"
-		$File	"p4sln.h"							[$WINDOWS]
-		$File	"projectgenerator_android.h"
-		$File	"projectgenerator_android.inc"
-//		$File	"projectgenerator_codelite.h"
-		$file	"projectgenerator_win32_2010.h"
-		$File	"projectgenerator_win32_2010.inc"
-		$File	"projectgenerator_vcproj.h"
-		$File	"projectgenerator_makefile.h"
-		$File	"scriptsource.h"		
-		$file	"sys_utils.h"
-		$File	"vpc.h"
 	}
 	
 	$Folder	"Link Libraries"
@@ -125,10 +142,5 @@ $Project "vpc"
 		$Lib	"$SRCDIR/lib/common/2015/libp4sslstub"	[$LINK_P4API && $VS2015]
 		$Lib	"$SRCDIR/lib/common/2015/librpc"	[$LINK_P4API && $VS2015]
 		$Lib	"$SRCDIR/lib/common/2015/libsupp"	[$LINK_P4API && $VS2015]
-	}
-
-	$Folder	"VPC Definitions"
-	{
-		$File	"$SRCDIR/vpc_scripts/definitions/win32_2010.def"
 	}
 }

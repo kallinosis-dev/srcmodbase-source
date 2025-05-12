@@ -5,7 +5,6 @@
 #include "dependencies.h"
 #include "p4sln.h"
 #include "ilaunchabledll.h"
-#include "bundled_module_info.h"
 #include "filesystem.h"
 #include "tier1/interface.h"
 #include "tier1/keyvalues.h"

@@ -57,7 +57,6 @@ VPC_SRC:= \
 	../vpccrccheck/crccheck_shared.cpp \
 	dependencies.cpp \
 	../../../common/environment_utils.cpp \
-	../../../common/bundled_module_info.cpp \
 	generatordefinition.cpp \
 	generated_files.cpp \
 	groupscript.cpp \
