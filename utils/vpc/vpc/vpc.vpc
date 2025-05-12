@@ -102,6 +102,8 @@ $Project "vpc"
 		$File	"generated_files.cpp"
 		$File	"groupscript.cpp"
 		$File	"macros.cpp"
+		$File 	"macros.h"
+
 		$File	"pch_helpers.cpp"
 
 		$File	"p4sln.cpp"							[$WINDOWS]

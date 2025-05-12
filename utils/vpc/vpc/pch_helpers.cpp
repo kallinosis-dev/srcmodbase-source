@@ -3,6 +3,7 @@
 //
 //=====================================================================================//
 
+#include "macros.h"
 #include "misc.h"
 #include "vpc.h"
 #include "tier1/utlvector.h"

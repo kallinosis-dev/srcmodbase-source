@@ -35,3 +35,10 @@ extern const char* g_pOption_SystemLibraries;
 extern const char* g_pOption_BuildMultiArch;
 extern const char* g_pOption_TreatWarningsAsErrors;
 extern const char* g_pOption_DisableLinkerDeadCodeElimination;
+
+bool VPC_IsPlatformWindows(const char* pPlatformName);
+bool VPC_IsPlatformLinux(const char* pPlatformName);
+bool VPC_IsPlatformOSX(const char* pPlatformName);
+bool VPC_IsPlatformAndroid(const char* pPlatformName);
+bool VPC_IsPlatform32Bits(const char* pPlatformName);
+bool VPC_IsPlatform64Bits(const char* pPlatformName);

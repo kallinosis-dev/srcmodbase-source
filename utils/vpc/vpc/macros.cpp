@@ -1,8 +1,10 @@
-//========= Copyright © 1996-2016, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2016, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: VPC 
 //
 //=====================================================================================//
+
+#include "macros.h"
 
 #include "vpc.h"
 

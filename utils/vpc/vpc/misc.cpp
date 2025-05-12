@@ -1,4 +1,7 @@
+#include "tier1/strtools.h"
+
 #include "misc.h"
+
 
 // Stuff that we might encounter in a vpc file that parts of vpc care about
 const char* g_pOption_ImportLibrary = "$ImportLibrary";
@@ -36,3 +39,59 @@ const char* g_pOption_SystemLibraries = "$SystemLibraries";
 const char* g_pOption_BuildMultiArch = "$BuildMultiArch";
 const char* g_pOption_TreatWarningsAsErrors = "$TreatWarningsAsErrors";
 const char* g_pOption_DisableLinkerDeadCodeElimination = "$DisableLinkerDeadCodeElimination";
+
+
+
+bool VPC_IsPlatformWindows(const char* pPlatformName)
+{
+	return !V_stricmp_fast(pPlatformName, "WIN32") ||
+		!V_stricmp_fast(pPlatformName, "WIN64");
+}
+
+bool VPC_IsPlatformLinux(const char* pPlatformName)
+{
+	return !V_stricmp_fast(pPlatformName, "LINUX64") ||
+		!V_stricmp_fast(pPlatformName, "LINUX32") ||
+		!V_stricmp_fast(pPlatformName, "LINUXSERVER64") ||
+		!V_stricmp_fast(pPlatformName, "LINUXSTEAMRTARM32HF") ||
+		!V_stricmp_fast(pPlatformName, "LINUXSTEAMRTARM64HF");
+}
+
+bool VPC_IsPlatformOSX(const char* pPlatformName)
+{
+	return !V_stricmp_fast(pPlatformName, "OSX32") ||
+		!V_stricmp_fast(pPlatformName, "OSX64");
+}
+
+bool VPC_IsPlatformAndroid(const char* pPlatformName)
+{
+	return !V_stricmp_fast(pPlatformName, "ANDROIDARM32") ||
+		!V_stricmp_fast(pPlatformName, "ANDROIDARM64") ||
+		!V_stricmp_fast(pPlatformName, "ANDROIDMIPS32") ||
+		!V_stricmp_fast(pPlatformName, "ANDROIDMIPS64") ||
+		!V_stricmp_fast(pPlatformName, "ANDROIDX8632") ||
+		!V_stricmp_fast(pPlatformName, "ANDROIDX8664");
+}
+
+bool VPC_IsPlatform32Bits(const char* pPlatformName)
+{
+	return !V_stricmp_fast(pPlatformName, "ANDROIDARM32") ||
+		!V_stricmp_fast(pPlatformName, "ANDROIDMIPS32") ||
+		!V_stricmp_fast(pPlatformName, "ANDROIDX8632") ||
+		!V_stricmp_fast(pPlatformName, "LINUXSTEAMRTARM32HF") ||
+		!V_stricmp_fast(pPlatformName, "LINUX32") ||
+		!V_stricmp_fast(pPlatformName, "OSX32") ||
+		!V_stricmp_fast(pPlatformName, "WIN32");
+}
+
+bool VPC_IsPlatform64Bits(const char* pPlatformName)
+{
+	return !V_stricmp_fast(pPlatformName, "ANDROIDARM64") ||
+		!V_stricmp_fast(pPlatformName, "ANDROIDMIPS64") ||
+		!V_stricmp_fast(pPlatformName, "ANDROIDX8664") ||
+		!V_stricmp_fast(pPlatformName, "LINUX64") ||
+		!V_stricmp_fast(pPlatformName, "LINUXSERVER64") ||
+		!V_stricmp_fast(pPlatformName, "LINUXSTEAMRTARM64HF") ||
+		!V_stricmp_fast(pPlatformName, "OSX64") ||
+		!V_stricmp_fast(pPlatformName, "WIN64");
+}

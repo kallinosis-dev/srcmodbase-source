@@ -7,6 +7,8 @@
 #include "vpc.h"
 #include "projectgenerator_android.h"
 
+#include "misc.h"
+
 #undef PROPERTYNAME
 #define PROPERTYNAME( X, Y ) { X##_##Y, #X, #Y },
 static PropertyName_t s_AndroidPropertyNames[] =

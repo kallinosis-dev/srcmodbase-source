@@ -8,6 +8,7 @@
 #include "tier1/utldict.h"
 #include "tier1/keyvalues.h"
 #include "baseprojectdatacollector.h"
+#include "macros.h"
 #include "tier1/fmtstr.h"
 
 char const* DefaultLibDir = "$LIBPROJECT\\";
