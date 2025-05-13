@@ -52,8 +52,6 @@ class CUtlVector : public base_vector_t
 	typedef A CAllocator;
 public:
 	typedef T ElemType_t;
-	typedef T* iterator;
-	typedef const T* const_iterator;
 
 	// Set the growth policy and initial capacity. Count will always be zero. This is different from std::vector
 	// where the constructor sets count as well as capacity.
@@ -80,6 +78,9 @@ public:
 
 	// STL compatible member functions. These allow easier use of std::sort
 	// and they are forward compatible with the C++ 11 range-based for loops.
+	typedef T* iterator;
+	typedef const T* const_iterator;
+
 	iterator begin()						{ return Base(); }
 	const_iterator begin() const			{ return Base(); }
 	iterator end()							{ return Base() + Count(); }

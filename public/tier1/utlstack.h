@@ -74,6 +74,16 @@ public:
 	// Memory deallocation
 	void Purge();
 
+	// STL compatible member functions. These allow easier use of std::sort
+	// and they are forward compatible with the C++ 11 range-based for loops.
+	typedef T* iterator;
+	typedef const T* const_iterator;
+
+	iterator begin() { return Base(); }
+	const_iterator begin() const { return Base(); }
+	iterator end() { return Base() + Count(); }
+	const_iterator end() const { return Base() + Count(); }
+
 private:
 	// Grows the stack allocation
 	void GrowStack();
