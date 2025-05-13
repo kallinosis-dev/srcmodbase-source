@@ -50,6 +50,43 @@ public:
 	typedef T ElemType_t;
 	typedef I IndexType_t;
 
+	struct Node_t
+	{
+		Node_t()
+		{
+		}
+
+		Node_t(const Node_t& from)
+			: key(from.key),
+			elem(from.elem)
+		{
+		}
+
+		KeyType_t	key;
+		ElemType_t	elem;
+	};
+
+	class CKeyLess
+	{
+	public:
+		CKeyLess(const LessFunc_t& lessFunc) : m_LessFunc(lessFunc) {}
+
+		bool operator!() const
+		{
+			return !m_LessFunc;
+		}
+
+		bool operator()(const Node_t& left, const Node_t& right) const
+		{
+			return m_LessFunc(left.key, right.key);
+		}
+
+		LessFunc_t m_LessFunc;
+	};
+
+	using CTree = CUtlRBTree<Node_t, I, CKeyLess>;
+
+
 	// constructor, destructor
 	// Left at growSize = 0, the memory will first allocate 1 element and double in size
 	// at each increment.
@@ -194,8 +231,18 @@ public:
 	IndexType_t  FirstInorder() const						{ return m_Tree.FirstInorder(); }
 	IndexType_t  NextInorder( IndexType_t i ) const			{ return m_Tree.NextInorder( i ); }
 	IndexType_t  PrevInorder( IndexType_t i ) const			{ return m_Tree.PrevInorder( i ); }
-	IndexType_t  LastInorder() const						{ return m_Tree.LastInorder(); }		
-	
+	IndexType_t  LastInorder() const						{ return m_Tree.LastInorder(); }
+
+	using iterator = typename CTree::template InorderIterator<false>;
+	using const_iterator = typename CTree::template InorderIterator<true>;
+
+	iterator begin() { return m_Tree.Inorder().begin(); }
+	iterator end() { return m_Tree.Inorder().end(); }
+
+	const_iterator begin() const { return m_Tree.Inorder().begin(); }
+	const_iterator end() const { return m_Tree.Inorder().end(); }
+
+
 	// API Matching src2 for Panorama
 	IndexType_t  NextInorderSameKey( IndexType_t i ) const
 	{
@@ -231,43 +278,6 @@ public:
 	{
 		m_Tree.Swap( that.m_Tree );
 	}
-
-
-	struct Node_t
-	{
-		Node_t()
-		{
-		}
-
-		Node_t( const Node_t &from )
-		  : key( from.key ),
-			elem( from.elem )
-		{
-		}
-
-		KeyType_t	key;
-		ElemType_t	elem;
-	};
-	
-	class CKeyLess
-	{
-	public:
-		CKeyLess( const LessFunc_t& lessFunc ) : m_LessFunc(lessFunc) {}
-
-		bool operator!() const
-		{
-			return !m_LessFunc;
-		}
-
-		bool operator()( const Node_t &left, const Node_t &right ) const
-		{
-			return m_LessFunc( left.key, right.key );
-		}
-
-		LessFunc_t m_LessFunc;
-	};
-
-	typedef CUtlRBTree<Node_t, I, CKeyLess> CTree;
 
 	CTree *AccessTree()	{ return &m_Tree; }
 

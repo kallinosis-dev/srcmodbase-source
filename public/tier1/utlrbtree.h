@@ -151,7 +151,6 @@ template < class T, class I = unsigned short, typename L = bool (*)( const T &, 
 class CUtlRBTree
 {
 public:
-
 	typedef T KeyType_t;
 	typedef T ElemType_t;
 	typedef I IndexType_t;
@@ -254,6 +253,7 @@ public:
 	I  PrevInorder( I i ) const;
 	I  LastInorder() const;
 
+
 	I  FirstPreorder() const;
 	I  NextPreorder( I i ) const;
 	I  PrevPreorder( I i ) const;
@@ -269,9 +269,183 @@ public:
 	// swap in place
 	void Swap( CUtlRBTree< T, I, L > &that );
 
+
+private: // C++ STL iterator implementation
+
+
+	template<typename TImpl, bool Const>
+	class BaseIterator
+	{
+	public:
+		using TOwner = std::conditional_t<Const, CUtlRBTree const*, CUtlRBTree*>;
+
+		using value_type = T;
+
+
+
+		BaseIterator() = default;
+		BaseIterator(BaseIterator const&) = default;
+		BaseIterator& operator=(BaseIterator const&) = default;
+
+
+		bool operator==(const TImpl& other) const { return idx == other.idx; }
+
+		T& operator*()
+		{
+			static_assert(!Const, "Can't dereference const iterator into a non-const");
+			return owner[idx];
+		}
+
+		T const& operator*() const
+		{
+			return owner[idx];
+		}
+
+		TImpl& operator++()
+		{
+			idx = TImpl::Next(owner, idx);
+			
+			return *this;
+		}
+
+		TImpl& operator--()
+		{
+			if (idx == CUtlRBTree::InvalidIndex())
+				idx = TImpl::Last(owner);
+			else
+				idx = TImpl::Prev(owner, idx);
+			return *this;
+		}
+
+		TImpl& operator++(int)
+		{
+			auto tmp = *this;
+			++*this;
+			return tmp;
+		}
+
+		TImpl& operator--(int)
+		{
+			auto tmp = *this;
+			--*this;
+			return tmp;
+		}
+
+	public:
+		I idx;
+		TOwner owner;
+
+	};
+
+	template<template<bool Const> typename TIterator, bool Const>
+	class BaseIterable
+	{
+	public:
+		using TOwner = std::conditional_t<Const, CUtlRBTree const*, CUtlRBTree*>;
+
+		using iterator = std::enable_if_t<!Const, TIterator<false>>;
+		using const_iterator = TIterator<true>;
+
+		iterator begin()
+		{
+			static_assert(!Const, "Can't get a non-const iterator from const iterable");
+			return { .idx = iterator::First(owner), .owner = owner };
+		}
+		const_iterator begin() const
+		{
+			return { .idx = const_iterator::First(owner), .owner = owner };
+		}
+
+		iterator end()
+		{
+			static_assert(!Const, "Can't get a non-const iterator from const iterable");
+			return { .idx = CUtlRBTree::InvalidIndex(), .owner = owner };
+		}
+		const_iterator end() const
+		{
+			static_assert(!Const, "Can't get a non-const iterator from const iterable");
+			return { .idx = CUtlRBTree::InvalidIndex(), .owner = owner };
+		}
+
+
+
+	public:
+		TOwner owner;
+	};
+
+
+public:
+	template<bool Const>
+	class InorderIterator: public BaseIterator<InorderIterator<Const>, Const>
+	{
+	protected:
+		static I First(CUtlRBTree const* owner)
+		{
+			return owner->FirstInorder();
+		}
+
+		static I Last(CUtlRBTree const* owner)
+		{
+			return owner->LastInorder();
+		}
+
+		static I Next(CUtlRBTree const* owner, I idx)
+		{
+			return owner->NextInorder(idx);
+		}
+
+		static I Prev(CUtlRBTree const* owner, I idx)
+		{
+			return owner->PrevInorder(idx);
+		}
+
+	};
+
+	template<bool Const>
+	using InorderIterable = BaseIterable<InorderIterator, Const>;
+
+	InorderIterable<false> Inorder() { return { .owner = this }; }
+	InorderIterable<true> Inorder() const { return { .owner = this }; }
+
+
+
+	template<bool Const>
+	class PreorderIterator : public BaseIterator<PreorderIterator<Const>, Const>
+	{
+	protected:
+		static I First(CUtlRBTree const* owner)
+		{
+			return owner->FirstPreorder();
+		}
+
+		static I Last(CUtlRBTree const* owner)
+		{
+			return owner->LastPreorder();
+		}
+
+		static I Next(CUtlRBTree const* owner, I idx)
+		{
+			return owner->NextPreorder(idx);
+		}
+
+		static I Prev(CUtlRBTree const* owner, I idx)
+		{
+			return owner->PrevPreorder(idx);
+		}
+
+	};
+
+	template<bool Const>
+	using PreorderIterable = BaseIterable<PreorderIterator, Const>;
+
+	PreorderIterable<false> Preorder() { return { .owner = this }; }
+	PreorderIterable<true> Preorder() const { return { .owner = this }; }
+
+
+
 private:
 	// Can't copy the tree this way!
-	CUtlRBTree<T, I, L, M>& operator=( const CUtlRBTree<T, I, L, M> &other );
+	CUtlRBTree<T, I, L, M>& operator=( const CUtlRBTree<T, I, L, M> &other ) = delete;
 
 protected:
 	enum NodeColor_t
@@ -311,7 +485,7 @@ protected:
 	I  InsertAt( I parent, bool leftchild );
 
 	// copy constructors not allowed
-	CUtlRBTree( CUtlRBTree<T, I, L, M> const &tree );
+	CUtlRBTree( CUtlRBTree<T, I, L, M> const &tree ) = delete;
 
 	// Inserts a node into the tree, doesn't copy the data in.
 	void FindInsertionPosition( T const &insert, I &parent, bool &leftchild );
