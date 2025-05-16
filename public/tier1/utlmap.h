@@ -233,14 +233,10 @@ public:
 	IndexType_t  PrevInorder( IndexType_t i ) const			{ return m_Tree.PrevInorder( i ); }
 	IndexType_t  LastInorder() const						{ return m_Tree.LastInorder(); }
 
-	using iterator = typename CTree::template InorderIterator<false>;
-	using const_iterator = typename CTree::template InorderIterator<true>;
+	using const_iterator = typename CTree::const_iterator;
 
-	iterator begin() { return m_Tree.Inorder().begin(); }
-	iterator end() { return m_Tree.Inorder().end(); }
-
-	const_iterator begin() const { return m_Tree.Inorder().begin(); }
-	const_iterator end() const { return m_Tree.Inorder().end(); }
+	const_iterator begin() const { return m_Tree.begin(); }
+	const_iterator end() const { return m_Tree.end(); }
 
 
 	// API Matching src2 for Panorama

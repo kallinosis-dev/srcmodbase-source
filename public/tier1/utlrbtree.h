@@ -273,112 +273,78 @@ public:
 private: // C++ STL iterator implementation
 
 
-	template<typename TImpl, bool Const>
+	template<typename TPolicy>
 	class BaseIterator
 	{
 	public:
-		using TOwner = std::conditional_t<Const, CUtlRBTree const*, CUtlRBTree*>;
-
-		using value_type = T;
-
-
-
 		BaseIterator() = default;
 		BaseIterator(BaseIterator const&) = default;
 		BaseIterator& operator=(BaseIterator const&) = default;
 
+		BaseIterator(I idx, CUtlRBTree const* owner): idx(idx), owner(owner) {  }
 
-		bool operator==(const TImpl& other) const { return idx == other.idx; }
 
-		T& operator*()
+		bool operator==(const BaseIterator& other) const { return owner == other.owner && idx == other.idx; }
+
+		using value_type = I;
+		using difference_type = ptrdiff_t;
+
+		I const& operator*() const
 		{
-			static_assert(!Const, "Can't dereference const iterator into a non-const");
-			return owner[idx];
+			return idx;
 		}
 
-		T const& operator*() const
+		BaseIterator& operator++()
 		{
-			return owner[idx];
-		}
-
-		TImpl& operator++()
-		{
-			idx = TImpl::Next(owner, idx);
+			idx = TPolicy::Next(owner, idx);
 			
 			return *this;
 		}
 
-		TImpl& operator--()
+		BaseIterator& operator--()
 		{
 			if (idx == CUtlRBTree::InvalidIndex())
-				idx = TImpl::Last(owner);
+				idx = TPolicy::Last(owner);
 			else
-				idx = TImpl::Prev(owner, idx);
+				idx = TPolicy::Prev(owner, idx);
 			return *this;
 		}
 
-		TImpl& operator++(int)
+		BaseIterator operator++(int)
 		{
 			auto tmp = *this;
 			++*this;
 			return tmp;
 		}
 
-		TImpl& operator--(int)
+		BaseIterator operator--(int)
 		{
 			auto tmp = *this;
 			--*this;
 			return tmp;
 		}
 
+
+		static BaseIterator begin(CUtlRBTree const* owner)
+		{
+			return BaseIterator { TPolicy::First(owner), owner };
+		}
+
+		static BaseIterator end(CUtlRBTree const* owner)
+		{
+			return BaseIterator { CUtlRBTree::InvalidIndex(), owner };
+		}
+
 	public:
 		I idx;
-		TOwner owner;
+		CUtlRBTree const* owner;
 
-	};
-
-	template<template<bool Const> typename TIterator, bool Const>
-	class BaseIterable
-	{
-	public:
-		using TOwner = std::conditional_t<Const, CUtlRBTree const*, CUtlRBTree*>;
-
-		using iterator = std::enable_if_t<!Const, TIterator<false>>;
-		using const_iterator = TIterator<true>;
-
-		iterator begin()
-		{
-			static_assert(!Const, "Can't get a non-const iterator from const iterable");
-			return { .idx = iterator::First(owner), .owner = owner };
-		}
-		const_iterator begin() const
-		{
-			return { .idx = const_iterator::First(owner), .owner = owner };
-		}
-
-		iterator end()
-		{
-			static_assert(!Const, "Can't get a non-const iterator from const iterable");
-			return { .idx = CUtlRBTree::InvalidIndex(), .owner = owner };
-		}
-		const_iterator end() const
-		{
-			static_assert(!Const, "Can't get a non-const iterator from const iterable");
-			return { .idx = CUtlRBTree::InvalidIndex(), .owner = owner };
-		}
-
-
-
-	public:
-		TOwner owner;
 	};
 
 
 public:
-	template<bool Const>
-	class InorderIterator: public BaseIterator<InorderIterator<Const>, Const>
+	struct InorderIterationPolicy
 	{
-	protected:
 		static I First(CUtlRBTree const* owner)
 		{
 			return owner->FirstInorder();
@@ -401,18 +367,15 @@ public:
 
 	};
 
-	template<bool Const>
-	using InorderIterable = BaseIterable<InorderIterator, Const>;
+	using const_iterator = BaseIterator<InorderIterationPolicy>;
+	static_assert(std::bidirectional_iterator<const_iterator>);
 
-	InorderIterable<false> Inorder() { return { .owner = this }; }
-	InorderIterable<true> Inorder() const { return { .owner = this }; }
+	const_iterator begin() const { return const_iterator::begin(this); }
+	const_iterator end() const { return const_iterator::end(this); }
 
 
-
-	template<bool Const>
-	class PreorderIterator : public BaseIterator<PreorderIterator<Const>, Const>
+	struct PreorderIterationPolicy
 	{
-	protected:
 		static I First(CUtlRBTree const* owner)
 		{
 			return owner->FirstPreorder();
@@ -435,13 +398,7 @@ public:
 
 	};
 
-	template<bool Const>
-	using PreorderIterable = BaseIterable<PreorderIterator, Const>;
-
-	PreorderIterable<false> Preorder() { return { .owner = this }; }
-	PreorderIterable<true> Preorder() const { return { .owner = this }; }
-
-
+	using preorder_const_iterator = BaseIterator<PreorderIterationPolicy>;
 
 private:
 	// Can't copy the tree this way!
@@ -516,6 +473,8 @@ protected:
 		m_pElements = (Node_t*)m_Elements.Base();
 	}
 };
+
+static_assert(std::bidirectional_iterator<CUtlRBTree<int>::const_iterator>);
 
 // this is kind of ugly, but until C++ gets templatized typedefs in C++0x, it's our only choice
 template < class T, class I = int, typename L = bool (*)( const T &, const T & )  >
