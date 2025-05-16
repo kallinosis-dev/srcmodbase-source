@@ -1,5 +1,8 @@
 //========= Copyright � 1996-2016, Valve Corporation, All rights reserved. ============//
 
+#include <ranges>
+#include "tier1/splitstring.h"
+
 #include "macros.h"
 
 #include "vpc.h"
@@ -42,7 +45,7 @@ CMacro::CMacro( const char *pMacroName, const char *pMacroValue, const char *pCo
 	m_pFNResolveDynamicMacro = nullptr;
 }
 
-CMacro::CMacro( const char *pMacroName, void (*pFNResolveValue)( CMacro * ) )
+CMacro::CMacro( const char *pMacroName, MacroResolveFn pFNResolveValue )
 {
 	SetMacroName( pMacroName );
 	m_pFNResolveDynamicMacro = pFNResolveValue;
@@ -89,7 +92,7 @@ CMacro * CMacroStorage::SetAsSystem( const char *pMacroName, const char *pMacroV
 	{
 		// create a system type macro
 		pMacro = new CMacro( pMacroName, pMacroValue, nullptr, true, bSetupDefineInProjectFile );
-		m_Macros.InsertWithDupes( pMacroName, pMacro );
+		_macros.InsertWithDupes( pMacroName, pMacro );
 		return pMacro;
 	}
 
@@ -113,7 +116,7 @@ CMacro * CMacroStorage::SetAsSystem( const char *pMacroName, const char *pMacroV
 	return pMacro;
 }
 
-CMacro * CMacroStorage::SetAsDynamic( const char *pMacroName, void (*pFNResolveValue)( CMacro *pThis ) )
+CMacro * CMacroStorage::SetAsDynamic( const char *pMacroName, MacroResolveFn pFNResolveValue)
 {
 	g_pVPC->VPCStatus( false, "Set Dynamic Macro: $%s", pMacroName );
 
@@ -122,7 +125,7 @@ CMacro * CMacroStorage::SetAsDynamic( const char *pMacroName, void (*pFNResolveV
 	{
 		// create a system type macro
 		pMacro = new CMacro( pMacroName, pFNResolveValue );
-		m_Macros.InsertWithDupes( pMacroName, pMacro );
+		_macros.InsertWithDupes( pMacroName, pMacro );
 		return pMacro;
 	}
 
@@ -177,7 +180,7 @@ CMacro * CMacroStorage::SetAsScript( const char *pMacroName, const char *pMacroV
 	{
 		// create a script type macro
 		pMacro = new CMacro( pMacroName, pMacroValue, nullptr, false, bSetupDefineInProjectFile );
-		m_Macros.InsertWithDupes( pMacroName, pMacro );
+		_macros.InsertWithDupes( pMacroName, pMacro );
 	}
 
 	return pMacro;
@@ -217,10 +220,36 @@ CMacro * CMacroStorage::SetAsProperty( const char *pMacroName, const char *pMacr
 	{
 		// create property macro
 		pMacro = new CMacro( pMacroName, pMacroValue, pConfigurationName, false, false );
-		m_Macros.InsertWithDupes( pMacroName, pMacro );
+		_macros.InsertWithDupes( pMacroName, pMacro );
 	}
 
 	return pMacro;
+}
+
+void CMacroStorage::GetPreprocessorDefines(char const* cfg_string, CUtlVector<CUtlString>& outDefines) const
+{
+	int nMacroCount = std::ranges::count_if(_macros, [this](MacroIdx idx)
+	{
+		return _macros[idx]->ShouldDefineInProjectFile();
+	});
+
+
+	// Add defines from $PreprocessorDefinitions
+	CSplitString outStrings(cfg_string, g_IncludeSeparators, V_ARRAYSIZE(g_IncludeSeparators));
+
+	outDefines.EnsureCapacity(outStrings.Count() + nMacroCount); // Presize to avoid realloc'ing and copying strings
+
+	for (char const* cfg_define : outStrings)
+		outDefines.AddToTail(cfg_define);
+
+
+	// Add defines from VPC macros
+	for (MacroIdx idx : _macros)
+	{
+		CMacro const* pMacro = _macros[idx];
+		if (pMacro->ShouldDefineInProjectFile())
+			outDefines.AddToTail(CFmtStrMax("%s=%s", pMacro->GetName(), pMacro->GetValue()).Get());
+	}
 }
 
 //-----------------------------------------------------------------------------
@@ -230,9 +259,9 @@ CMacro * CMacroStorage::Get( const char *pMacroName, const char *pConfigurationN
 	if ( pConfigurationName && pConfigurationName[0] )
 	{
 		// iterate to find macro (duplicated due to configuration) with matching configuration
-		for ( int nMacroIndex = m_Macros.FindFirst( pMacroName ); nMacroIndex != m_Macros.InvalidIndex(); nMacroIndex = m_Macros.NextInorderSameKey( nMacroIndex ) )
+		for ( int nMacroIndex = _macros.FindFirst( pMacroName ); nMacroIndex != _macros.InvalidIndex(); nMacroIndex = _macros.NextInorderSameKey( nMacroIndex ) )
 		{
-			CMacro *pMacro = m_Macros[nMacroIndex];
+			CMacro *pMacro = _macros[nMacroIndex];
 			if ( pMacro->IsPropertyMacro() && !V_stricmp_fast( pConfigurationName, pMacro->GetConfigurationName() ) )
 			{
 				// found matching configuration based macro
@@ -245,10 +274,10 @@ CMacro * CMacroStorage::Get( const char *pMacroName, const char *pConfigurationN
 	}
 	
 	// direct lookup
-	int nMacroIndex = m_Macros.Find( pMacroName );
-	if ( nMacroIndex != m_Macros.InvalidIndex() )
+	int nMacroIndex = _macros.Find( pMacroName );
+	if ( nMacroIndex != _macros.InvalidIndex() )
 	{
-		return m_Macros[nMacroIndex];
+		return _macros[nMacroIndex];
 	}
 
 	// not found
@@ -261,9 +290,9 @@ int CMacroStorage::GetMacrosMarkedForCompilerDefines( CUtlVector< CMacro* > &mac
 {
 	macroDefines.Purge();
 
-	for ( int nMacroIndex = m_Macros.FirstInorder(); nMacroIndex != m_Macros.InvalidIndex(); nMacroIndex = m_Macros.NextInorder( nMacroIndex ) )
+	for ( int nMacroIndex = _macros.FirstInorder(); nMacroIndex != _macros.InvalidIndex(); nMacroIndex = _macros.NextInorder( nMacroIndex ) )
 	{
-		CMacro *pMacro = m_Macros[nMacroIndex];
+		CMacro *pMacro = _macros[nMacroIndex];
 		if ( pMacro->ShouldDefineInProjectFile() )
 		{
 			macroDefines.AddToTail( pMacro );
@@ -309,9 +338,9 @@ void CMacroStorage::ResolveString( char const *pString, CUtlStringBuilder *pOutB
         int nTokenChars = 0;
 
         CMacro *pMacro = nullptr;
-		for ( int nMacroIndex = m_Macros.FirstInorder(); nMacroIndex != m_Macros.InvalidIndex(); nMacroIndex = m_Macros.NextInorder( nMacroIndex ) )
+		for ( int nMacroIndex = _macros.FirstInorder(); nMacroIndex != _macros.InvalidIndex(); nMacroIndex = _macros.NextInorder( nMacroIndex ) )
 		{
-			CMacro *pCheck = m_Macros[nMacroIndex];
+			CMacro *pCheck = _macros[nMacroIndex];
             if ( ( nTokenChars <= 0 ||
                    pCheck->GetNameLength() >= nTokenChars ) &&
                  V_strnicmp( pStartOfMacroToken, pCheck->GetName(), pCheck->GetNameLength() ) == 0 )
@@ -416,14 +445,14 @@ void CMacroStorage::RemoveScriptCreated()
 {
 	// remove all the script created macros
 	// this is to ensure the next project to be processed starts out with an unpolluted state
-	for ( int nMacroIndex = m_Macros.FirstInorder(); nMacroIndex != m_Macros.InvalidIndex(); )
+	for ( int nMacroIndex = _macros.FirstInorder(); nMacroIndex != _macros.InvalidIndex(); )
 	{
-		int nNextMacroIndex = m_Macros.NextInorder( nMacroIndex );
+		int nNextMacroIndex = _macros.NextInorder( nMacroIndex );
 
-		CMacro *pMacro = m_Macros[nMacroIndex];
+		CMacro *pMacro = _macros[nMacroIndex];
 		if ( !pMacro->IsSystemMacro() )
 		{			
-			m_Macros.RemoveAt( nMacroIndex );
+			_macros.RemoveAt( nMacroIndex );
 			delete pMacro;
 		}
 

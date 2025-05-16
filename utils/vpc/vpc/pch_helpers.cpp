@@ -356,32 +356,10 @@ void VPC_GetPreprocessorDefines( CProjectFile *pFile, CProjectConfiguration *pRo
 	if ( !VPC_GetPropertyString( KEYWORD_COMPILER, pRootConfig, pFileConfig, g_pOption_PreprocessorDefinitions, &cfgString ) )
 		return;
 
-	int nMacroCount = 0;
-	for ( int nMacroIndex = g_pVPC->m_Macros.FirstInorder(); nMacroIndex != g_pVPC->m_Macros.InvalidIndex(); nMacroIndex = g_pVPC->m_Macros.NextInorder( nMacroIndex ) )
-	{
-		nMacroCount += g_pVPC->m_Macros[nMacroIndex]->ShouldDefineInProjectFile() ? 1 : 0;
-	}
-
-	// Add defines from $PreprocessorDefinitions
-	CSplitString outStrings( cfgString.Get(), (const char**)g_IncludeSeparators, V_ARRAYSIZE(g_IncludeSeparators) );
-	defines.EnsureCapacity( outStrings.Count() + nMacroCount ); // Presize to avoid realloc'ing and copying strings
-	for ( int i=0; i < outStrings.Count(); i++ )
-	{
-		defines.AddToTail( outStrings[i] );
-	}
-
-	// Add defines from VPC macros
-	for ( int nMacroIndex = g_pVPC->m_Macros.FirstInorder(); nMacroIndex != g_pVPC->m_Macros.InvalidIndex(); nMacroIndex = g_pVPC->m_Macros.NextInorder( nMacroIndex ) )
-	{
-		CMacro *pMacro = g_pVPC->m_Macros[nMacroIndex];
-		if ( pMacro->ShouldDefineInProjectFile() )
-		{
-			defines.AddToTail( CFmtStrMax( "%s=%s", pMacro->GetName(), pMacro->GetValue() ).Get() );
-		}
-	}
+	g_pVPC->macros.GetPreprocessorDefines(cfgString.Get(), defines);
 
 	// Remove surrounding whitespace & quotes (caller can add surrounding quotes if desired):
-	CleanStrings( defines );
+	CleanStrings(defines);
 }
 
 //--------------------------------------------------------------------------------------------------

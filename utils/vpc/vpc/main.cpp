@@ -1259,18 +1259,21 @@ void CVPC::SpewUsage(void)
 		Log_Msg(LOG_VPC, "\nMacros:\n");
 		Log_Msg(LOG_VPC, "-------\n");
 		bool bHasMacro = false;
-		for (int nMacroIndex = m_Macros.FirstInorder(); nMacroIndex != m_Macros.InvalidIndex(); nMacroIndex = m_Macros.
-		     NextInorder(nMacroIndex))
+
+		auto const& macroStorage = macros.GetStorage();
+		for (auto const& idx : macroStorage)
 		{
-			CMacro* pMacro = m_Macros[nMacroIndex];
-			Log_Msg(LOG_VPC, "$%s = %s\n", pMacro->GetName(), pMacro->GetValue());
-			Log_Msg(LOG_VPC, "   Configuration: %s\n", pMacro->IsPropertyMacro() ? pMacro->GetConfigurationName() : "");
-			Log_Msg(LOG_VPC, "   Defined For Compiler: %s\n", pMacro->ShouldDefineInProjectFile() ? "Yes" : "No");
-			Log_Msg(LOG_VPC, "   Created By: %s\n", pMacro->IsSystemMacro() ? "VPC" : "Script");
+			CMacro const* macro = macroStorage[idx];
+
+			Log_Msg(LOG_VPC, "$%s = %s\n", macro->GetName(), macro->GetValue());
+			Log_Msg(LOG_VPC, "   Configuration: %s\n", macro->IsPropertyMacro() ? macro->GetConfigurationName() : "");
+			Log_Msg(LOG_VPC, "   Defined For Compiler: %s\n", macro->ShouldDefineInProjectFile() ? "Yes" : "No");
+			Log_Msg(LOG_VPC, "   Created By: %s\n", macro->IsSystemMacro() ? "VPC" : "Script");
 			Log_Msg(LOG_VPC, "\n");
 
 			bHasMacro = true;
 		}
+
 		if (!bHasMacro)
 		{
 			Log_Msg(LOG_VPC, "No Macros Set!\n");
