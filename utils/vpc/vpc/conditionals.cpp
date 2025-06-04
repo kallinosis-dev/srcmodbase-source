@@ -433,7 +433,7 @@ bool CConditionalStorage::HasAny() const
 
 
 // ---------
-
+// TODO: cut this
 
 void CVPC::SaveConditionals()
 {
@@ -442,34 +442,37 @@ void CVPC::SaveConditionals()
 
 	m_SavedConditionals.Purge();
 
-	if (!_conditionals.Count())
+	if (!conditionals.HasAny())
 		return;
 
 	// clone
-	m_SavedConditionals.SetCount(_conditionals.Count());
-	for (int i = 0; i < _conditionals.Count(); i++)
+	CConditionalStorage::Storage const& curStorage = conditionals.GetStorage();
+
+	m_SavedConditionals.SetCount(curStorage.Count());
+	for (int i = 0; i < curStorage.Count(); i++)
 	{
-		m_SavedConditionals[i] = new conditional_t(*_conditionals[i]);
+		m_SavedConditionals[i] = new conditional_t(*curStorage[i]);
 	}
 }
 
 void CVPC::RestoreConditionals()
 {
 	if (!m_SavedConditionals.Count())
-	{
 		// already restored or nothing saved
 		return;
-	}
+
+	// This function is already a hack, extra const_cast wouldn't make it worse.
+	auto curStorage = const_cast<CConditionalStorage::Storage *>(&conditionals.GetStorage());
 
 	// whatever state the conditionals were changed to is undesired
 	// these get discarded
-	_conditionals.PurgeAndDeleteElements();
+	curStorage->PurgeAndDeleteElements();
 
 	// restore the saved conditionals and purge the saved
-	_conditionals.Swap(m_SavedConditionals);
-	for (int i = 0; i < _conditionals.Count(); i++)
+	curStorage->Swap(m_SavedConditionals);
+	for (conditional_t* cond : *curStorage)
 	{
 		// Call SetConditional to update cached member bools:
-		SetConditional(_conditionals[i]->m_Name.Get(), _conditionals[i]->m_bDefined, _conditionals[i]->m_Type);
+		conditionals.Set(cond->m_Name.Get(), cond->m_bDefined, cond->m_Type);
 	}
 }
