@@ -989,7 +989,6 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "[/nofpo]:       Set Reserved $NOFPO=1\n");
 			Log_Msg(LOG_VPC, "[/lv]:          Set Reserved $LV=1\n");
 			Log_Msg(LOG_VPC, "[/demo]:        Set Reserved $DEMO=1\n");
-			Log_Msg(LOG_VPC, "[/no_steam]:    Set Reserved $NO_STEAM=1\n");
 			Log_Msg(LOG_VPC, "[/no_ceg]:      Set Reserved $NO_CEG=1\n");
 			Log_Msg(LOG_VPC, "[/upload_ceg]:  Set Reserved $UPLOAD_CEG=1\n");
 			Log_Msg(LOG_VPC, "[/no_qt]:       Set Reserved $ALLOW_QT=0\n");
@@ -1348,11 +1347,6 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		{
 			m_bDecorateProject = true;
 			m_ExtraOptionsForCRC.InsertIfNotFound("/dp");
-		}
-		else if (!V_stricmp(pArgName, "no_steam") || !V_stricmp(pArgName, "nosteam"))
-		{
-			// Disable Steam
-			conditionals.Set("NO_STEAM", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "qt"))
 		{

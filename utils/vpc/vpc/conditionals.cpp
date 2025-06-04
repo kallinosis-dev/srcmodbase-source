@@ -61,7 +61,6 @@ void CConditionalStorage::SetupDefaultConditionals()
 		CreateOrGet( "POSIX", CONDITIONAL_SYSTEM );
 		CreateOrGet( "LV", CONDITIONAL_SYSTEM );
 		CreateOrGet( "DEMO", CONDITIONAL_SYSTEM );
-		CreateOrGet( "NO_STEAM", CONDITIONAL_SYSTEM );
 		CreateOrGet( "DVDEMU", CONDITIONAL_SYSTEM );
 		CreateOrGet( "QTDEBUG", CONDITIONAL_SYSTEM );
 		CreateOrGet( "NO_CEG", CONDITIONAL_SYSTEM );
