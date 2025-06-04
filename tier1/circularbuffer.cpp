@@ -184,26 +184,25 @@ int CCircularBuffer::Advance(int nCount)
 //------------------------------------------------------------------------------
 int CCircularBuffer::Read(void *pchDestIn, int nCount)
 {
-	int nPeeked;
-	int m_nRead;
 
 	char *pchDest = (char*)pchDestIn;
 
-	nPeeked = Peek(pchDest, nCount);
+	int nPeeked = Peek(pchDest, nCount);
 
+	int readBytes;
 	if (nPeeked != 0)
 	{
-		m_nRead = Advance(nPeeked);
+		readBytes = Advance(nPeeked);
 
-		Assert(m_nRead == nPeeked);
+		Assert(readBytes == nPeeked);
 	}
 	else
 	{
-		m_nRead = 0;
+		readBytes = 0;
 	}
 
 	AssertValid();
-	return(m_nRead);
+	return(readBytes);
 }
 
 

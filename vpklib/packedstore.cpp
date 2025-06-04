@@ -2043,7 +2043,7 @@ int CPackedStore::GetFileAndDirLists( const char *pWildCard, CUtlStringList &out
 				CUtlStringList &filesInDirectory = *(m_dirContents.Element( i ));
 
 				// Use the cached list of files in this directory
-				FOR_EACH_VEC( filesInDirectory, i )
+				FOR_EACH_VEC( filesInDirectory, j )
 				{
 					bool matches = true;
 
@@ -2052,8 +2052,8 @@ int CPackedStore::GetFileAndDirLists( const char *pWildCard, CUtlStringList &out
 					char szFNameOutBase[64];
 					char szFNameOutExt[20];
 
-					V_FileBase( filesInDirectory[i], szFNameOutBase, sizeof( szFNameOutBase ) );
-					V_ExtractFileExtension( filesInDirectory[i], szFNameOutExt, sizeof( szFNameOutExt ) );
+					V_FileBase( filesInDirectory[j], szFNameOutBase, sizeof( szFNameOutBase ) );
+					V_ExtractFileExtension( filesInDirectory[j], szFNameOutExt, sizeof( szFNameOutExt ) );
 
 					// Since we have a sorted list we can optimize using the return code of the compare
 					int c = V_strnicmp( szWildCardBase, szFNameOutBase, nLenWildcardBase );
@@ -2068,9 +2068,9 @@ int CPackedStore::GetFileAndDirLists( const char *pWildCard, CUtlStringList &out
 					{	
 						bool bFound = false;
 
-						FOR_EACH_VEC( outFilenames, j )
+						FOR_EACH_VEC( outFilenames, k )
 						{
-							if ( !V_strncmp( outFilenames[j], filesInDirectory[i], V_strlen( filesInDirectory[i] ) ) )
+							if ( !V_strncmp( outFilenames[k], filesInDirectory[k], V_strlen( filesInDirectory[k] ) ) )
 							{
 								bFound = true;
 								break;
@@ -2079,7 +2079,7 @@ int CPackedStore::GetFileAndDirLists( const char *pWildCard, CUtlStringList &out
 
 						if ( !bFound )
 						{
-							outFilenames.CopyAndAddToTail( filesInDirectory[i] );
+							outFilenames.CopyAndAddToTail( filesInDirectory[j] );
 						}
 					}
 				}

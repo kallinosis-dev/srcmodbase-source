@@ -1156,24 +1156,24 @@ inline int old_bf_read::CountRunOfZeros()
 
 unsigned int old_bf_read::ReadUBitVar()
 {
-	unsigned int ret = ReadUBitLong( 6 );
-	switch( ret & ( 16 | 32 ) )
+	unsigned int result = ReadUBitLong( 6 );
+	switch( result & ( 16 | 32 ) )
 	{
 		case 16:
-			ret = ( ret & 15 ) | ( ReadUBitLong( 4 ) << 4 );
-			Assert( ret >= 16);
+			result = ( result & 15 ) | ( ReadUBitLong( 4 ) << 4 );
+			Assert( result >= 16);
 			break;
 				
 		case 32:
-			ret = ( ret & 15 ) | ( ReadUBitLong( 8 ) << 4 );
-			Assert( ret >= 256);
+			result = ( result & 15 ) | ( ReadUBitLong( 8 ) << 4 );
+			Assert( result >= 256);
 			break;
 		case 48:
-			ret = ( ret & 15 ) | ( ReadUBitLong( 32 - 4 ) << 4 );
-			Assert( ret >= 4096 );
+			result = ( result & 15 ) | ( ReadUBitLong( 32 - 4 ) << 4 );
+			Assert( result >= 4096 );
 			break;
 	}
-	return ret;
+	return result;
 }
 
 
@@ -1499,13 +1499,13 @@ int64 old_bf_read::ReadLongLong()
 
 float old_bf_read::ReadFloat()
 {
-	float ret;
-	Assert( sizeof(ret) == 4 );
-	ReadBits(&ret, 32);
+	float result;
+	Assert( sizeof(result) == 4 );
+	ReadBits(&result, 32);
 
 	// Swap the float, since ReadBits reads raw data
-	LittleFloat( &ret, &ret );
-	return ret;
+	LittleFloat( &result, &result );
+	return result;
 }
 
 bool old_bf_read::ReadBytes(void *pOut, int nBytes)

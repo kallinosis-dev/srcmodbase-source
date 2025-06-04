@@ -302,12 +302,12 @@ bool CCompiledKeyValuesReader::CreateInPlaceFromData( KeyValues& head, const Fil
 	for ( int i = 0; i < num; ++i )
 	{
 		int offset = first + i;
-		KVInfo_t& info = m_Data[ offset ];
+		KVInfo_t& kvInfo = m_Data[ offset ];
 
-		if ( info.GetParent() != -1 )
+		if ( kvInfo.GetParent() != -1 )
 		{
 			CreateHelper_t search;
-			search.index = info.GetParent();
+			search.index = kvInfo.GetParent();
 			int idx = helper.Find( search );
 			if ( idx == helper.InvalidIndex() )
 			{
@@ -317,11 +317,11 @@ bool CCompiledKeyValuesReader::CreateInPlaceFromData( KeyValues& head, const Fil
 			KeyValues *parent = helper[ idx ].kv;
 			Assert( parent );
 
-			KeyValues *sub = new KeyValues( m_StringTable.Lookup( info.key ) );
+			KeyValues *sub = new KeyValues( m_StringTable.Lookup( kvInfo.key ) );
 
-			if ( !info.IsSubTree() )
+			if ( !kvInfo.IsSubTree() )
 			{
-				sub->SetStringValue(m_StringTable.Lookup( info.value ) );
+				sub->SetStringValue(m_StringTable.Lookup( kvInfo.value ) );
 			}
 
 			if ( !parent->GetFirstSubKey() )
@@ -347,7 +347,7 @@ bool CCompiledKeyValuesReader::CreateInPlaceFromData( KeyValues& head, const Fil
 			if ( !root )
 			{
 				root = &head;
-				root->SetName( m_StringTable.Lookup( info.key ) );
+				root->SetName( m_StringTable.Lookup( kvInfo.key ) );
 				tail = root;
 
 				CreateHelper_t insert;
@@ -360,7 +360,7 @@ bool CCompiledKeyValuesReader::CreateInPlaceFromData( KeyValues& head, const Fil
 			{
 				CreateHelper_t insert;
 				insert.index = offset;
-				insert.kv = new KeyValues( m_StringTable.Lookup( info.key ) );
+				insert.kv = new KeyValues( m_StringTable.Lookup( kvInfo.key ) );
 				insert.tail = nullptr;
 				helper.Insert( insert );
 

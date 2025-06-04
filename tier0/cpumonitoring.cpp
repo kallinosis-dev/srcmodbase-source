@@ -166,9 +166,9 @@ static float GetSampledFrequency( int iterations )
 	float maxFrequency = 0.0;
 	for ( int i = 0; i < iterations; ++i )
 	{
-		float frequency = GetFrequency();
-		if ( frequency > maxFrequency )
-			maxFrequency = frequency;
+		float freq = GetFrequency();
+		if (freq > maxFrequency )
+			maxFrequency = freq;
 	}
 
 	return maxFrequency;
@@ -189,8 +189,8 @@ static DWORD WINAPI MeasureThread( LPVOID vThreadNum )
 
 		// Seven seems like a good number of times to measure the frequency -- it makes
 		// it likely that a couple of the tests will not hit any interrupts.
-		float frequency = GetSampledFrequency( 7 );
-		s_frequency[ threadNum ] = frequency;
+		float freq = GetSampledFrequency( 7 );
+		s_frequency[ threadNum ] = freq;
 
 		// Tell the heartbeat thread that one thread has completed.
 		ReleaseSemaphore( g_workCompleteSemaphore, 1, nullptr);

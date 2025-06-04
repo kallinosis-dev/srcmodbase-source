@@ -219,8 +219,6 @@ int DmeTime_t::RoundSecondsToTMS( double sec )
 
 bool Serialize( CUtlBuffer &buf, const DmeTime_t &src )
 {
-	int tms = src.GetTenthsOfMS();
-
 	if ( buf.IsText() )
 	{
 #if 1
@@ -241,6 +239,7 @@ bool Serialize( CUtlBuffer &buf, const DmeTime_t &src )
 	}
 	else
 	{
+		int tms = src.GetTenthsOfMS();
 		buf.PutInt( tms );
 	}
 	return buf.IsValid();
