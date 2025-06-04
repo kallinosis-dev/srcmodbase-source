@@ -1,6 +1,10 @@
 #pragma once
+#include <ranges>
+
+#include "conditionals.h"
 #include "tier1/utlstring.h"
 #include "tier1/utlvector.h"
+
 
 
 enum conditionalType_e
@@ -40,23 +44,52 @@ struct conditional_t
 
 class CConditionalStorage
 {
-	CUtlVector< conditional_t* >	_conditionals;
 
 public:
+	using Storage = CUtlVector< conditional_t* >;
+
 	// Returns the mask identifying what platforms should be built
 	bool					IsPlatformDefined(const char* pName);
 	bool					IsPlatformName(const char* pName);
 	const char* GetTargetPlatformName();
 	const char* GetTargetCompilerName();
 
-	conditional_t* FindOrCreateConditional(const char* pName, bool bCreate, conditionalType_e type);
+	conditional_t*			Get(char const* pName);
+	conditional_t*			CreateOrGet(const char* pName, conditionalType_e type);
 	bool					ResolveConditionalSymbol(const char* pSymbol);
 	bool					EvaluateConditionalExpression(const char* pExpression);
 	bool					ConditionHasDefinedType(const char* pCondition, conditionalType_e type);
-	void					SetConditional(const char* pName, bool bSet, conditionalType_e type);
-	bool					IsConditionalDefined(const char* pName);
+	void					Set(const char* pName, bool bSet, conditionalType_e type);
+	bool					IsDefined(const char* pName);
 
 	void					SetupDefaultConditionals();
 	CUtlString				GetCRCStringFromConditionals();
+
+
+	struct ConditionalTypePredicate
+	{
+		bool operator () (conditional_t* cond) const { return cond->m_Type == type; }
+
+		conditionalType_e type;
+	};
+
+	struct DefinedConditionalTypePredicate
+	{
+		bool operator () (conditional_t* cond) const { return cond->m_Type == type && cond->m_bDefined; }
+
+		conditionalType_e type;
+	};
+
+	using GetAllRange = std::ranges::filter_view<std::ranges::ref_view<CUtlVector<conditional_t*>>, ConditionalTypePredicate>;
+	using GetAllDefinedRange = std::ranges::filter_view<std::ranges::ref_view<CUtlVector<conditional_t*>>, DefinedConditionalTypePredicate>;
+
+	GetAllRange GetAll(conditionalType_e type);
+	GetAllDefinedRange GetAllDefined(conditionalType_e type);
+
+	Storage const& GetStorage() const;
+	bool HasAny() const;
+
+private:
+	Storage	_conditionals;
 
 };

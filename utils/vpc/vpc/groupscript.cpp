@@ -86,7 +86,7 @@ void VPC_GroupKeyword_Games()
 		}
 		else
 		{
-			g_pVPC->conditionals.FindOrCreateConditional( pToken, true, CONDITIONAL_GAME );
+			g_pVPC->conditionals.CreateOrGet( pToken, CONDITIONAL_GAME );
 		}
 	}
 }
@@ -253,7 +253,7 @@ void VPC_GroupKeyword_Conditional()
     CUtlStringHolder<100> value( pStrBuf->Get() );
 
 	// a group script (i.e. defaults.vgc) can set certain types of conditionals
-	conditional_t *pConditional = g_pVPC->conditionals.FindOrCreateConditional( name, true, CONDITIONAL_SYSTEM );
+	conditional_t *pConditional = g_pVPC->conditionals.CreateOrGet( name, CONDITIONAL_SYSTEM );
 	if ( pConditional->m_Type != CONDITIONAL_SYSTEM && pConditional->m_Type != CONDITIONAL_CUSTOM && pConditional->m_Type != CONDITIONAL_SCRIPT )
 	{
 		// group script cannot change conditionals outside of their restricted set
@@ -272,7 +272,7 @@ void VPC_GroupKeyword_Conditional()
     }
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->conditionals.SetConditional( name, bValue, pConditional->m_Type );
+	g_pVPC->conditionals.Set( name, bValue, pConditional->m_Type );
 }
 
 //-----------------------------------------------------------------------------

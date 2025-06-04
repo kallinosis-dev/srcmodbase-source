@@ -428,7 +428,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 	if ( bAddedAsLibrary )
 	{
 		bool bFailLibs = false;
-		if ( g_pVPC->conditionals.IsConditionalDefined( "COMPILING_LIB" ) && (iFileFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB)) )
+		if ( g_pVPC->conditionals.IsDefined( "COMPILING_LIB" ) && (iFileFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB)) )
 		{
 			bFailLibs = !g_pVPC->IsLibWithinLibEnabled();
 		}
@@ -1613,7 +1613,7 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
 
     CUtlStringHolder<100> value( pStrBuf->Get() );
     
-	conditional_t *pConditional = g_pVPC->conditionals.FindOrCreateConditional( name, true, CONDITIONAL_SCRIPT );
+	conditional_t *pConditional = g_pVPC->conditionals.CreateOrGet( name, CONDITIONAL_SCRIPT );
 	if ( !bOverrideReserved &&
 		 ( pConditional->m_Type != CONDITIONAL_CUSTOM && pConditional->m_Type != CONDITIONAL_SCRIPT ) )
 	{
@@ -1629,7 +1629,7 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
 	}
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->conditionals.SetConditional( name, Sys_StringToBool( pValue ), pConditional->m_Type );
+	g_pVPC->conditionals.Set( name, Sys_StringToBool( pValue ), pConditional->m_Type );
 }
 
 //-----------------------------------------------------------------------------

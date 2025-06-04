@@ -4,7 +4,13 @@
 //
 //=====================================================================================//
 
+#include <ranges>
 #include "conditionals.h"
+
+#include <ranges>
+#include <ranges>
+#include <ranges>
+#include <ranges>
 
 #include "misc.h"
 #include "vpc.h"
@@ -18,27 +24,27 @@ void CConditionalStorage::SetupDefaultConditionals()
 	// PLATFORM Conditionals
 	//
 	{
-		FindOrCreateConditional( "WIN32", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "WIN64", true, CONDITIONAL_PLATFORM );
+		CreateOrGet( "WIN32", CONDITIONAL_PLATFORM );
+		CreateOrGet( "WIN64", CONDITIONAL_PLATFORM );
 		
-		FindOrCreateConditional( "LINUX32", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "LINUX64", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "LINUXSERVER32", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "LINUXSERVER64", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "LINUXSTEAMRTARM32HF", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "LINUXSTEAMRTARM64HF", true, CONDITIONAL_PLATFORM );
+		CreateOrGet( "LINUX32", CONDITIONAL_PLATFORM );
+		CreateOrGet( "LINUX64", CONDITIONAL_PLATFORM );
+		CreateOrGet( "LINUXSERVER32", CONDITIONAL_PLATFORM );
+		CreateOrGet( "LINUXSERVER64", CONDITIONAL_PLATFORM );
+		CreateOrGet( "LINUXSTEAMRTARM32HF", CONDITIONAL_PLATFORM );
+		CreateOrGet( "LINUXSTEAMRTARM64HF", CONDITIONAL_PLATFORM );
 
-		FindOrCreateConditional( "OSX32", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "OSX64", true, CONDITIONAL_PLATFORM );
+		CreateOrGet( "OSX32", CONDITIONAL_PLATFORM );
+		CreateOrGet( "OSX64", CONDITIONAL_PLATFORM );
 
-		FindOrCreateConditional( "IOS", true, CONDITIONAL_PLATFORM );
+		CreateOrGet( "IOS", CONDITIONAL_PLATFORM );
 
-		FindOrCreateConditional( "ANDROIDARM32", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "ANDROIDARM64", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "ANDROIDMIPS32", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "ANDROIDMIPS64", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "ANDROIDX8632", true, CONDITIONAL_PLATFORM );
-		FindOrCreateConditional( "ANDROIDX8664", true, CONDITIONAL_PLATFORM );
+		CreateOrGet( "ANDROIDARM32", CONDITIONAL_PLATFORM );
+		CreateOrGet( "ANDROIDARM64", CONDITIONAL_PLATFORM );
+		CreateOrGet( "ANDROIDMIPS32", CONDITIONAL_PLATFORM );
+		CreateOrGet( "ANDROIDMIPS64", CONDITIONAL_PLATFORM );
+		CreateOrGet( "ANDROIDX8632", CONDITIONAL_PLATFORM );
+		CreateOrGet( "ANDROIDX8664", CONDITIONAL_PLATFORM );
 	}
 	
 	//
@@ -46,32 +52,32 @@ void CConditionalStorage::SetupDefaultConditionals()
 	//
 	{
 		// setup default system conditionals
-		FindOrCreateConditional( "PROFILE", true, CONDITIONAL_SYSTEM );		
-		FindOrCreateConditional( "RETAIL", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "CALLCAP", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "FASTCAP", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "MEMTEST", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "NOFPO", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "POSIX", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "LV", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "DEMO", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "NO_STEAM", false, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "DVDEMU", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "QTDEBUG", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "NO_CEG", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "UPLOAD_CEG", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "SOURCECONTROL", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "ALLOW_OS_MACRO", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "CRCCHECK_IN_PROJECT", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "MISSING_FILE_CHECK", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "MISSING_FILE_IS_ERROR", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "FILEPATTERN", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "ADD_EXE_TO_CRC_CHECK", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "P4_AUTO_ADD", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "ALLOW_QT", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "ALLOW_SCHEMA", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "ALLOW_UNITY", true, CONDITIONAL_SYSTEM );
-		FindOrCreateConditional( "ALLOW_CLANG", true, CONDITIONAL_SYSTEM );
+		CreateOrGet( "PROFILE", CONDITIONAL_SYSTEM );
+		CreateOrGet( "RETAIL", CONDITIONAL_SYSTEM );
+		CreateOrGet( "CALLCAP", CONDITIONAL_SYSTEM );
+		CreateOrGet( "FASTCAP", CONDITIONAL_SYSTEM );
+		CreateOrGet( "MEMTEST", CONDITIONAL_SYSTEM );
+		CreateOrGet( "NOFPO", CONDITIONAL_SYSTEM );
+		CreateOrGet( "POSIX", CONDITIONAL_SYSTEM );
+		CreateOrGet( "LV", CONDITIONAL_SYSTEM );
+		CreateOrGet( "DEMO", CONDITIONAL_SYSTEM );
+		CreateOrGet( "NO_STEAM", CONDITIONAL_SYSTEM );
+		CreateOrGet( "DVDEMU", CONDITIONAL_SYSTEM );
+		CreateOrGet( "QTDEBUG", CONDITIONAL_SYSTEM );
+		CreateOrGet( "NO_CEG", CONDITIONAL_SYSTEM );
+		CreateOrGet( "UPLOAD_CEG", CONDITIONAL_SYSTEM );
+		CreateOrGet( "SOURCECONTROL", CONDITIONAL_SYSTEM );
+		CreateOrGet( "ALLOW_OS_MACRO", CONDITIONAL_SYSTEM );
+		CreateOrGet( "CRCCHECK_IN_PROJECT", CONDITIONAL_SYSTEM );
+		CreateOrGet( "MISSING_FILE_CHECK", CONDITIONAL_SYSTEM );
+		CreateOrGet( "MISSING_FILE_IS_ERROR", CONDITIONAL_SYSTEM );
+		CreateOrGet( "FILEPATTERN", CONDITIONAL_SYSTEM );
+		CreateOrGet( "ADD_EXE_TO_CRC_CHECK", CONDITIONAL_SYSTEM );
+		CreateOrGet( "P4_AUTO_ADD", CONDITIONAL_SYSTEM );
+		CreateOrGet( "ALLOW_QT", CONDITIONAL_SYSTEM );
+		CreateOrGet( "ALLOW_SCHEMA", CONDITIONAL_SYSTEM );
+		CreateOrGet( "ALLOW_UNITY", CONDITIONAL_SYSTEM );
+		CreateOrGet( "ALLOW_CLANG", CONDITIONAL_SYSTEM );
 	}
 }	
 
@@ -138,22 +144,22 @@ const char * CConditionalStorage::GetTargetCompilerName()
 	if ( !V_stricmp_fast( pPlatformName, "WIN32" ) ||
 		 !V_stricmp_fast( pPlatformName, "WIN64" ))
 	{
-		if ( IsConditionalDefined( "VS2005" ) )
+		if ( IsDefined( "VS2005" ) )
 			return "VS2005";
 
-		if ( IsConditionalDefined( "VS2010" ) )
+		if ( IsDefined( "VS2010" ) )
 			return "VS2010";
 
-		if ( IsConditionalDefined( "VS2012" ) )
+		if ( IsDefined( "VS2012" ) )
 			return "VS2012";
 
-		if ( IsConditionalDefined( "VS2013" ) )
+		if ( IsDefined( "VS2013" ) )
 			return "VS2013";
 
-		if ( IsConditionalDefined( "VS2015" ) )
+		if ( IsDefined( "VS2015" ) )
 			return "VS2015";
 
-		if ( IsConditionalDefined( "VS2022" ) )
+		if ( IsDefined( "VS2022" ) )
 			return "VS2022";
 	}
     else if ( VPC_IsPlatformLinux( pPlatformName ) || VPC_IsPlatformAndroid( pPlatformName ) )
@@ -170,7 +176,6 @@ const char * CConditionalStorage::GetTargetCompilerName()
 	ExecuteOnce( g_pVPC->VPCWarning( "TODO: GetTargetCompilerName not yet implemented for platform %s!", pPlatformName ) );
 	return "UNKNOWN";
 }
-
 //-----------------------------------------------------------------------------
 //	Case Insensitive. Returns true if platform conditional has been marked
 //	as defined.
@@ -203,23 +208,29 @@ bool CConditionalStorage::IsPlatformName( const char *pName )
 	return false;
 }
 
+
+
+conditional_t* CConditionalStorage::Get(char const* pName)
+{
+	for (conditional_t* cond : _conditionals)
+	{
+		if (!V_stricmp_fast(pName, cond->m_Name.String()))
+			return cond;
+	}
+
+	return nullptr;
+}
+
+
 //-----------------------------------------------------------------------------
 //	Case Insensitive
 //-----------------------------------------------------------------------------
-conditional_t * CConditionalStorage::FindOrCreateConditional( const char *pName, bool bCreate, conditionalType_e type )
+conditional_t * CConditionalStorage::CreateOrGet( const char *pName, conditionalType_e type )
 {
-	for (int i=0; i<_conditionals.Count(); i++)
-	{
-		if ( !V_stricmp_fast( pName, _conditionals[i]->m_Name.String() ) )
-		{
-			// found
-			return _conditionals[i];
-		}
-	}
 
-	if ( !bCreate )
+	if(auto cond = Get(pName))
 	{
-		return nullptr;
+		return cond;
 	}
 
 	int index = _conditionals.AddToTail();
@@ -236,9 +247,9 @@ conditional_t * CConditionalStorage::FindOrCreateConditional( const char *pName,
 	return _conditionals[index];
 }
 
-void CConditionalStorage::SetConditional( const char *pString, bool bSet, conditionalType_e conditionalType )
+void CConditionalStorage::Set( const char *pString, bool bSet, conditionalType_e conditionalType )
 {
-	conditional_t *pConditional = FindOrCreateConditional( pString, true, conditionalType );
+	conditional_t *pConditional = CreateOrGet( pString, conditionalType );
 	if ( !pConditional )
 	{
 		g_pVPC->VPCError( "Failed to find or create $%s conditional", pString );
@@ -314,8 +325,7 @@ bool CConditionalStorage::ResolveConditionalSymbol( const char *pSymbol )
 		offset = 1;
 	}
 
-	conditional_t *pConditional = FindOrCreateConditional( pSymbol+offset, false, CONDITIONAL_NULL );
-	if ( pConditional )
+	if ( conditional_t *pConditional = Get( pSymbol+offset ) )
 	{
 		// game conditionals only resolve true when they are 'defined' and 'active'
 		// only one game conditional is expected to be active at a time
@@ -389,10 +399,36 @@ bool CConditionalStorage::EvaluateConditionalExpression( const char *pExpression
 	return bResult;
 }
 
-bool CConditionalStorage::IsConditionalDefined( const char *pName )
+bool CConditionalStorage::IsDefined( const char *pName )
 {
-	conditional_t *pConditional = FindOrCreateConditional( pName, false, CONDITIONAL_NULL );
+	conditional_t *pConditional = Get( pName );
 	return pConditional && pConditional->m_bDefined;
+}
+
+
+
+CConditionalStorage::GetAllRange CConditionalStorage::GetAll(conditionalType_e type)
+{
+	ConditionalTypePredicate pred{ type };
+
+	return _conditionals | std::ranges::views::filter(pred);
+}
+
+CConditionalStorage::GetAllDefinedRange CConditionalStorage::GetAllDefined(conditionalType_e type)
+{
+	DefinedConditionalTypePredicate pred{ type };
+
+	return _conditionals | std::ranges::views::filter(pred);
+}
+
+CConditionalStorage::Storage const& CConditionalStorage::GetStorage() const
+{
+	return _conditionals;
+}
+
+bool CConditionalStorage::HasAny() const
+{
+	return _conditionals.Count() != 0;
 }
 
 

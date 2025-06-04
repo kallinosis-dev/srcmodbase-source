@@ -53,7 +53,9 @@ void VPC_GenerateClangProject_GenerateFileOutput( CProjectFile *pFile, CProjectC
 	VPC_GetIncludeDirectories( pFile, pRootConfig, includeList );
 
 	CUtlString clangCmdLine;
-	if ( !Clang_GenerateCommandLine( clangCmdLine, pFilename, g_pVPC->GetTargetPlatformName(), g_pVPC->GetTargetCompilerName(), defineList, includeList, pchName, bShouldBuildPCH ) )
+	if ( !Clang_GenerateCommandLine( clangCmdLine, pFilename, 
+		g_pVPC->conditionals.GetTargetPlatformName(), g_pVPC->conditionals.GetTargetCompilerName(), 
+		defineList, includeList, pchName, bShouldBuildPCH ) )
 		return;
 
 	// Write out the command:
@@ -138,7 +140,8 @@ void VPC_Clang_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 		// Output file is "<Project>_<GameName>_<Platform>_<Config>.bat"
 		CUtlString gameName = g_pVPC->GetGameName();
 		gameName = CUtlString( gameName.IsEmpty() ? "" : "_" ) + gameName;
-		CUtlString baseName = CUtlString( g_pVPC->GetProjectName() ) + gameName + CUtlString( "_" ) + g_pVPC->GetTargetPlatformName() + "_" + pRootConfig->m_Name;
+		CUtlString baseName = CUtlString( g_pVPC->GetProjectName() ) + gameName + 
+			CUtlString( "_" ) + g_pVPC->conditionals.GetTargetPlatformName() + "_" + pRootConfig->m_Name;
 
 		// Write to the file via head/body/tail buffers:
 		CUtlBuffer headBuffer( 0, 0, CUtlBuffer::TEXT_BUFFER );
@@ -240,7 +243,7 @@ bool IsClangSupportedForThisTargetPlatform( void )
 	// TODO: Only implemented+tested on WIN32/WIN64 so far...
 	//       [ VPC_GenerateClangProject() depends upon CVCProjGenerator due to bugs in the makefile code,
 	//         and there's some porting work to do in clang_utils.cpp ]
-	const char *pPlatform = g_pVPC->GetTargetPlatformName();
+	const char *pPlatform = g_pVPC->conditionals.GetTargetPlatformName();
 	return ( !V_stricmp_fast( pPlatform, "WIN32" ) || !V_stricmp_fast( pPlatform, "WIN64" ) );
 }
 
@@ -250,7 +253,7 @@ bool CVPC::IsClangEnabled( void )
 		return false;	// Clang feature not enabled
 	if ( IsClangSupportedForThisTargetPlatform() )	
 		return true;	// Feature enabled & supported!
-	ExecuteOnce( VPCWarning( "Clang feature disabled, not supported for %s yet", g_pVPC->GetTargetPlatformName() ) )
+	ExecuteOnce( VPCWarning( "Clang feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
 	return false;		// Platform not supported
 }
 

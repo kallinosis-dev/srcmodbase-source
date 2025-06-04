@@ -74,7 +74,7 @@ void VPC_Qt_TrackFile( const char *pName, bool bRemove, VpcFileFlags_t iFileFlag
 			return;
 
 		// Ignore if this script opts out of the Qt feature
-		if ( g_pVPC->conditionals.IsConditionalDefined( "NOQTFOLDER" ) )
+		if ( g_pVPC->conditionals.IsDefined( "NOQTFOLDER" ) )
 		{
 			g_pVPC->VPCWarning( "Ignoring Qt file '%s', project '%s' specifies NOQTFOLDER!", pName, g_pVPC->GetProjectName() );
 			return;

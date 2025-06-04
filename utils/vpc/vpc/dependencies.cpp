@@ -786,13 +786,8 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 		{
 			// BUILDPROJDEPS_CHECK_ALL_PROJECTS forces all games which causes all the game based projects to be iterated
 			// save current state of game defines
-			for ( int j=0; j<g_pVPC->m_Conditionals.Count(); j++ )
-			{
-				if ( g_pVPC->m_Conditionals[j]->m_Type == CONDITIONAL_GAME && g_pVPC->m_Conditionals[j]->m_bDefined )
-				{
-					priorSetGames.AddToTail( g_pVPC->m_Conditionals[j]->m_Name.Get() );
-				}
-			}
+			for (conditional_t* game : g_pVPC->conditionals.GetAllDefined(CONDITIONAL_GAME))
+				priorSetGames.AddToTail(game->m_Name.Get());
 
 			// force all games
 			g_pVPC->SetupAllGames( true );
@@ -827,7 +822,7 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 			g_pVPC->SetupAllGames( false );
 			for ( int j = 0; j < priorSetGames.Count(); j++ )
 			{
-				g_pVPC->conditionals.SetConditional( priorSetGames[j].Get(), true, CONDITIONAL_GAME );
+				g_pVPC->conditionals.Set( priorSetGames[j].Get(), true, CONDITIONAL_GAME );
 			}
 		}		
 

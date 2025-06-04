@@ -331,6 +331,8 @@ public:
 	// already up-to-date with its .vpc file.
 	void					IterateTargetProjects( CUtlVector<projectIndex_t> &projectList, IProjectIterator *pIterator );
 
+	void					BuildTargetProjectScript(IProjectIterator* pIterator, int projectIdx, script_t* pProjectScript);
+
 	bool					ParseProjectScript( const char *pScriptName, int depth, bool bQuiet, bool bWriteCRCCheckFile, CDependency_Project *pDependencyProject = nullptr );
 
 	void					AddScriptToParsedList( const char *pScriptName, bool bAddToCRCCheck, CRC32_t crc = 0 );

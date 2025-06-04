@@ -41,7 +41,7 @@ CProjectGenerator_Makefile::CProjectGenerator_Makefile()
 	// write project output use a makefile serializer
 	m_pVCProjGenerator->AddProjectWriter( this );
 
-	if ( g_pVPC->conditionals.IsConditionalDefined( "GENERATE_MAKEFILE_VCXPROJ" ) )
+	if ( g_pVPC->conditionals.IsDefined( "GENERATE_MAKEFILE_VCXPROJ" ) )
 	{
 		//we've been requested to write out the vcxproj as well. Re-add it instead of not-removing it because order seems important somewhere in the guts of the code
 		m_pVCProjGenerator->AddProjectWriter( pWin32Writer );
@@ -217,7 +217,7 @@ void CProjectGenerator_Makefile::WriteNonConfigSpecificStuff( CUtlBuffer &outBuf
 	outBuf.Printf( "USE_VALVE_BINDIR=%s\n", ( g_pVPC->UseValveBinDir() ? "1" : "0" ) );
 
 	// Decide whether symbol files should be checked into Perforce or not.
-	if ( g_pVPC->conditionals.IsConditionalDefined( "SYMBOLS_IN_P4" ) )
+	if ( g_pVPC->conditionals.IsDefined( "SYMBOLS_IN_P4" ) )
 	{
 		outBuf.Printf( "P4_SYMS=1\n\n" );
 	}
@@ -712,7 +712,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 #if defined( WIN32 ) && 1
     // The cross-compiling gcc has a bug with PCH handling so
     // we can't use PCH in that case, default to it being off.
-    bool bDisableMakefilePch = g_pVPC->conditionals.FindOrCreateConditional( "ENABLE_MAKEFILE_PCH", false, CONDITIONAL_NULL ) == nullptr;
+    bool bDisableMakefilePch = g_pVPC->conditionals.Get( "ENABLE_MAKEFILE_PCH" ) == nullptr;
 #else
     bool bDisableMakefilePch = true; // g_pVPC->FindOrCreateConditional( "DISABLE_MAKEFILE_PCH", false, CONDITIONAL_NULL ) != NULL;
 #endif
@@ -835,7 +835,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 		outBuf.Printf( "VPC_SCRIPTS := %s\n", UsePOSIXSlashes( pMacroValue ) );
 	}
 
-	if ( g_pVPC->conditionals.IsConditionalDefined( "POSIX" ) )
+	if ( g_pVPC->conditionals.IsDefined( "POSIX" ) )
 	{
 		outBuf.Printf( "MAKEFILE_BASE := $(DEVTOOLS)/makefile_base_posix.mak\n" );
 		outBuf.Printf( "COMPILE_DEPENDANT_MAKEFILES := %s $(MAKEFILE_BASE)\n", GetProjectGenerator()->GetOutputFileName() );
@@ -1232,7 +1232,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 					"#\n"
 					"# Include the base makefile now.\n"
 					"#\n" );
-	if ( g_pVPC->conditionals.IsConditionalDefined( "POSIX" ) )
+	if ( g_pVPC->conditionals.IsDefined( "POSIX" ) )
 	{
 		outBuf.Printf( "include $(MAKEFILE_BASE)\n" );
 	}

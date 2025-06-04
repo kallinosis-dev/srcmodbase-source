@@ -245,7 +245,7 @@ void DoNormalSchema( CVCProjGenerator *pDataCollector, const CUtlVector< CUtlStr
 	CUtlVector<CProjectConfiguration *> rootConfigs;
 	pDataCollector->GetAllRootConfigurations( rootConfigs );
 
-	bool bStrictDependencies = g_pVPC->conditionals.IsConditionalDefined( "SchemaCompileUsesStrictDependencies" );
+	bool bStrictDependencies = g_pVPC->conditionals.IsDefined( "SchemaCompileUsesStrictDependencies" );
 
 	//If we want to avoid building when all our output contents are up to date then we have 2 options:
 	//	1. Touch every output any time any of the inputs changes. This will cause all the outputs to run through the C++ compiler. 
@@ -361,7 +361,7 @@ void VPC_Schema_TrackFile( const char *pName, bool bRemove, VpcFileFlags_t iFile
 			return;
 
 		// Ignore if this script opts out of the Schema feature
-		if ( g_pVPC->conditionals.IsConditionalDefined( "NOSCHEMACOMPILER" ) )
+		if ( g_pVPC->conditionals.IsDefined( "NOSCHEMACOMPILER" ) )
 		{
 			g_pVPC->VPCError( "ERROR: Schema file '%s' in project '%s' that specifies NOSCHEMACOMPILER!", pName, g_pVPC->GetProjectName() );
 			return;
