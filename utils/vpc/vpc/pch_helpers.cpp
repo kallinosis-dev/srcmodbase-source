@@ -187,7 +187,7 @@ const char *VPC_ResolveCompilerMacrosInString( const char *szSourceString, CUtlS
 				CUtlString objDirVal = "./obj_";
 				objDirVal += szName;
 				objDirVal += "_";
-				objDirVal += g_pVPC->GetTargetPlatformName();
+				objDirVal += g_pVPC->conditionals.GetTargetPlatformName();
 				objDirVal += g_pVPC->IsDedicatedBuild() ? "" : "_client";
 				objDirVal += "/";
 				objDirVal += pRootConfig->m_LowerCaseName.Get();

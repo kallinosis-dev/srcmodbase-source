@@ -245,7 +245,7 @@ void DoNormalSchema( CVCProjGenerator *pDataCollector, const CUtlVector< CUtlStr
 	CUtlVector<CProjectConfiguration *> rootConfigs;
 	pDataCollector->GetAllRootConfigurations( rootConfigs );
 
-	bool bStrictDependencies = g_pVPC->IsConditionalDefined( "SchemaCompileUsesStrictDependencies" );
+	bool bStrictDependencies = g_pVPC->conditionals.IsConditionalDefined( "SchemaCompileUsesStrictDependencies" );
 
 	//If we want to avoid building when all our output contents are up to date then we have 2 options:
 	//	1. Touch every output any time any of the inputs changes. This will cause all the outputs to run through the C++ compiler. 
@@ -361,7 +361,7 @@ void VPC_Schema_TrackFile( const char *pName, bool bRemove, VpcFileFlags_t iFile
 			return;
 
 		// Ignore if this script opts out of the Schema feature
-		if ( g_pVPC->IsConditionalDefined( "NOSCHEMACOMPILER" ) )
+		if ( g_pVPC->conditionals.IsConditionalDefined( "NOSCHEMACOMPILER" ) )
 		{
 			g_pVPC->VPCError( "ERROR: Schema file '%s' in project '%s' that specifies NOSCHEMACOMPILER!", pName, g_pVPC->GetProjectName() );
 			return;
@@ -489,10 +489,10 @@ void RemoveSubstring_CaseInsensitive( char *pString, const char *pSubString )
 void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaContext_t *pCtx ) const
 {
 	// eg. win32
-	pCtx->m_platformName = g_pVPC->GetTargetPlatformName();
+	pCtx->m_platformName = g_pVPC->conditionals.GetTargetPlatformName();
 	pCtx->m_platformName.ToLower();
 
-	pCtx->m_compilerName = g_pVPC->GetTargetCompilerName();
+	pCtx->m_compilerName = g_pVPC->conditionals.GetTargetCompilerName();
 	pCtx->m_compilerName.ToLower();
 
 	V_GetCurrentDirectory( pCtx->m_pProjectCodeFolder, sizeof( pCtx->m_pProjectCodeFolder ) );
@@ -1318,7 +1318,7 @@ void CollectSchemaIncludeFiles( const CUtlVector< CProjectFile * > &allSchemaRel
 
 bool IsSchemaSupportedForThisTargetPlatform( void )
 {
-	const char *pPlatformName = g_pVPC->GetTargetPlatformName();
+	const char *pPlatformName = g_pVPC->conditionals.GetTargetPlatformName();
 	bool bSupported = !V_stricmp_fast( pPlatformName, "WIN32" ) || 
 						!V_stricmp_fast( pPlatformName, "WIN64" )||
 						!V_stricmp_fast( pPlatformName, "OSX32" ) ||
@@ -1335,6 +1335,6 @@ bool CVPC::IsSchemaEnabled( void )
 		return false;	// Schema not enabled
 	if ( IsSchemaSupportedForThisTargetPlatform() )
 		return true;	// Feature enabled & supported!
-	ExecuteOnce( VPCWarning( "Schema feature disabled, not supported for %s yet", g_pVPC->GetTargetPlatformName() ) )
+	ExecuteOnce( VPCWarning( "Schema feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
 	return false;		// Platform not supported
 }

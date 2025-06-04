@@ -762,9 +762,9 @@ bool CProjectGenerator_Win32_2010::Save( const char *pOutputFilename )
 {
 	bool bValid = true;
 
-	m_bGenerateMakefileVCXProj = g_pVPC->IsConditionalDefined( "GENERATE_MAKEFILE_VCXPROJ" );
-	m_bVisualGDB = g_pVPC->IsConditionalDefined( "VISUALGDB" );
-	const char *szPlatformName = GetVCProjTargetPlatformName( g_pVPC->GetTargetPlatformName() );
+	m_bGenerateMakefileVCXProj = g_pVPC->conditionals.IsConditionalDefined( "GENERATE_MAKEFILE_VCXPROJ" );
+	m_bVisualGDB = g_pVPC->conditionals.IsConditionalDefined( "VISUALGDB" );
+	const char *szPlatformName = GetVCProjTargetPlatformName( g_pVPC->conditionals.GetTargetPlatformName() );
     
     if ( m_bGenerateMakefileVCXProj && m_bVisualGDB )
     {

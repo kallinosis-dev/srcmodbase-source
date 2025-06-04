@@ -4,6 +4,7 @@
 //
 //==================================================================================================
 
+#include "misc.h"
 #include "vpc.h"
 
 #define MAX_SCRIPT_STACK_SIZE	32
@@ -609,7 +610,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
 			// last token can be optional conditional, need to identify
 			// backup and reparse up to last token
 			// last token is an optional conditional
-			bResult = g_pVPC->EvaluateConditionalExpression( pToken );
+			bResult = g_pVPC->conditionals.EvaluateConditionalExpression( pToken );
 			break;
 		}
 		else if ( pToken[0] == '[' && pNextToken && pNextToken[0] == '[' )

@@ -1006,7 +1006,7 @@ void CSolutionGenerator_Xcode::EmitBuildSettings( const char *pszProjectName, CP
 	{
 		++m_nIndent;
 
-        if ( !V_stricmp_fast( g_pVPC->GetTargetPlatformName(), "OSX32" ) )
+        if ( !V_stricmp_fast( g_pVPC->conditionals.GetTargetPlatformName(), "OSX32" ) )
         {
             Write( "i386,\n" );
             if ( Sys_StringToBool( pProj->GetConfigStringProperty( pConfigName, KEYWORD_GENERAL, g_pOption_BuildMultiArch ) ) )
@@ -2129,7 +2129,7 @@ void CSolutionGenerator_Xcode::EmitShellScriptBuildPhaseSection()
                 // Make symbol directory writable.
                 // We only check in .dSYM dirs for some builds.
                 pScript->Append( "  if [ -d \\\"$OUTPUTFILE.dSYM\\\" ]; then\\n" );
-                if ( g_pVPC->IsConditionalDefined( "SYMBOLS_IN_P4" ) )
+                if ( g_pVPC->conditionals.IsConditionalDefined( "SYMBOLS_IN_P4" ) )
                 {
                     pScript->Append( UsePOSIXSlashes( g_pVPC->GetSourcePath() ) );
                     pScript->Append( "/vpc_scripts/valve_p4_edit.sh \\\"Xcode Auto Checkout\\\" -cname -ftype text \\\"$OUTPUTFILE.dSYM/Contents/Info.plist\\\"\\n" );

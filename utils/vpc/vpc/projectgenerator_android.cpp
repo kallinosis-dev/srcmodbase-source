@@ -120,7 +120,7 @@ bool CProjectGenerator_Android::WriteAndroidProj( CSpecificConfig *pBaseConfig, 
 	if ( !xmlWriter.Open( GetOutputFileName(), true, g_pVPC->IsForceGenerate() ) )
 		return false;
 
-	const char *szVPCPlatformName = g_pVPC->GetTargetPlatformName();
+	const char *szVPCPlatformName = g_pVPC->conditionals.GetTargetPlatformName();
 	const char *szVisualStudioPlatformName = GetTargetAndroidPlatformName( szVPCPlatformName );
 	
 
@@ -368,7 +368,7 @@ bool CProjectGenerator_Android::WriteBuildXML( CSpecificConfig *pBaseConfig, con
 	if ( !xmlWriter.Open( "build.xml", true, g_pVPC->IsForceGenerate() ) )
 		return false;
 
-	const char *szVPCPlatformName = g_pVPC->GetTargetPlatformName();
+	const char *szVPCPlatformName = g_pVPC->conditionals.GetTargetPlatformName();
 	const char *szVisualStudioPlatformName = GetTargetAndroidPlatformName( szVPCPlatformName );
 
 	xmlWriter.PushNode( "project" );
@@ -548,7 +548,7 @@ bool CProjectGenerator_Android::WriteProjectProperties( CSpecificConfig *pBaseCo
 
 void CProjectGenerator_Android::EnumerateSupportedVPCTargetPlatforms( CUtlVector<CUtlString> &output )
 {
-	output.AddToTail( g_pVPC->GetTargetPlatformName() );
+	output.AddToTail( g_pVPC->conditionals.GetTargetPlatformName() );
 }
 
 bool CProjectGenerator_Android::BuildsForTargetPlatform( const char *szVPCTargetPlatform )

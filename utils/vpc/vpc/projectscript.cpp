@@ -9,6 +9,7 @@
 #include "tier1/keyvalues.h"
 #include "baseprojectdatacollector.h"
 #include "macros.h"
+#include "misc.h"
 #include "tier1/fmtstr.h"
 
 char const* DefaultLibDir = "$LIBPROJECT\\";
@@ -166,7 +167,7 @@ static const char *ResolveFilename( const char *pszFile, CUtlPathStringHolder *p
 	if ( !bInited )
 	{
 		bInited = true;
-		const char *pszPlatform = g_pVPC->GetTargetPlatformName();
+		const char *pszPlatform = g_pVPC->conditionals.GetTargetPlatformName();
 		V_strncpy( _szPlatformStore, pszPlatform, sizeof( szPlatform ) );
 		V_strlower( _szPlatformStore );
 	}
@@ -251,7 +252,7 @@ void VPC_Keyword_AddFilesByPattern()
 				g_pVPC->VPCSyntaxError( "Conditional specified on a $FilePattern without any pattern preceding it." );
 			}
 
-			if ( !g_pVPC->EvaluateConditionalExpression( pToken ) )
+			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
 			{
 				// we did all that work for no reason, time to bail out
 				return;
@@ -318,7 +319,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 			bFoundFilename = false;
 
 			// token is an optional conditional
-			bool bResult = g_pVPC->EvaluateConditionalExpression( pToken );
+			bool bResult = g_pVPC->conditionals.EvaluateConditionalExpression( pToken );
 			if ( !bResult )	
 			{
 				// conditional evaluated false
@@ -427,7 +428,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 	if ( bAddedAsLibrary )
 	{
 		bool bFailLibs = false;
-		if ( g_pVPC->IsConditionalDefined( "COMPILING_LIB" ) && (iFileFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB)) )
+		if ( g_pVPC->conditionals.IsConditionalDefined( "COMPILING_LIB" ) && (iFileFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB)) )
 		{
 			bFailLibs = !g_pVPC->IsLibWithinLibEnabled();
 		}
@@ -1271,7 +1272,7 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 		{
 			pToken = g_pVPC->GetScript().GetToken( false );
 			// evaluate argument as conditional
-			if ( !g_pVPC->EvaluateConditionalExpression( pToken ) )
+			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
 			{
 				return;
 			}
@@ -1612,7 +1613,7 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
 
     CUtlStringHolder<100> value( pStrBuf->Get() );
     
-	conditional_t *pConditional = g_pVPC->FindOrCreateConditional( name, true, CONDITIONAL_SCRIPT );
+	conditional_t *pConditional = g_pVPC->conditionals.FindOrCreateConditional( name, true, CONDITIONAL_SCRIPT );
 	if ( !bOverrideReserved &&
 		 ( pConditional->m_Type != CONDITIONAL_CUSTOM && pConditional->m_Type != CONDITIONAL_SCRIPT ) )
 	{
@@ -1628,7 +1629,7 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
 	}
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->SetConditional( name, Sys_StringToBool( pValue ), pConditional->m_Type );
+	g_pVPC->conditionals.SetConditional( name, Sys_StringToBool( pValue ), pConditional->m_Type );
 }
 
 //-----------------------------------------------------------------------------
@@ -1951,7 +1952,7 @@ void VPC_Keyword_CustomBuildStep( void )
 				g_pVPC->VPCSyntaxError( "Conditional specified on a $CustomBuildStep without any extensions preceding it." );
 			}
 
-			if ( !g_pVPC->EvaluateConditionalExpression( pToken ) )
+			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
 			{
 				extensions.Remove( extensions.Count() - 1 );
 			}
@@ -2064,7 +2065,7 @@ void VPC_Keyword_CustomAutoScript()
 				g_pVPC->VPCSyntaxError( "Conditional specified on a $CustomAutoScript without any extensions preceding it." );
 			}
 
-			if ( !g_pVPC->EvaluateConditionalExpression( pToken ) )
+			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
 			{
 				extensions.Remove( extensions.Count() - 1 );
 			}

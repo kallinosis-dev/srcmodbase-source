@@ -4,6 +4,7 @@
 //
 //=====================================================================================//
 
+#include "misc.h"
 #include "vpc.h"
 
 //-----------------------------------------------------------------------------
@@ -85,7 +86,7 @@ void VPC_GroupKeyword_Games()
 		}
 		else
 		{
-			g_pVPC->FindOrCreateConditional( pToken, true, CONDITIONAL_GAME );
+			g_pVPC->conditionals.FindOrCreateConditional( pToken, true, CONDITIONAL_GAME );
 		}
 	}
 }
@@ -252,7 +253,7 @@ void VPC_GroupKeyword_Conditional()
     CUtlStringHolder<100> value( pStrBuf->Get() );
 
 	// a group script (i.e. defaults.vgc) can set certain types of conditionals
-	conditional_t *pConditional = g_pVPC->FindOrCreateConditional( name, true, CONDITIONAL_SYSTEM );
+	conditional_t *pConditional = g_pVPC->conditionals.FindOrCreateConditional( name, true, CONDITIONAL_SYSTEM );
 	if ( pConditional->m_Type != CONDITIONAL_SYSTEM && pConditional->m_Type != CONDITIONAL_CUSTOM && pConditional->m_Type != CONDITIONAL_SCRIPT )
 	{
 		// group script cannot change conditionals outside of their restricted set
@@ -271,7 +272,7 @@ void VPC_GroupKeyword_Conditional()
     }
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->SetConditional( name, bValue, pConditional->m_Type );
+	g_pVPC->conditionals.SetConditional( name, bValue, pConditional->m_Type );
 }
 
 //-----------------------------------------------------------------------------
@@ -396,7 +397,7 @@ void CVPC::GenerateBuildSet( CProjectDependencyGraph &dependencyGraph )
 			{
 				if ( ( ( pCommand[0] == '*' ) || ( pCommand[0] == '@' ) ) && !VPC_AreProjectDependenciesSupportedForThisTargetPlatform() )
 				{
-					g_pVPC->VPCError( "Cannot build '%s' dependencies, not supported for %s yet", pCommand, g_pVPC->GetTargetPlatformName() );
+					g_pVPC->VPCError( "Cannot build '%s' dependencies, not supported for %s yet", pCommand, g_pVPC->conditionals.GetTargetPlatformName() );
 				}
 
 				projectIndex_t targetProject = pGroup->projects[k];

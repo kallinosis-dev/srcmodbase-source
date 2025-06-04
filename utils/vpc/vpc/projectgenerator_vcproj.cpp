@@ -17,7 +17,7 @@ void IBaseProjectGenerator::SetOutputFileName( void )
 	m_OutputFileName = pProjectFileNamePrefix;
 
 	m_OutputFileName += "_";
-	m_OutputFileName += g_pVPC->GetTargetPlatformName();
+	m_OutputFileName += g_pVPC->conditionals.GetTargetPlatformName();
 
 	if ( g_pVPC->OutputName_ShouldAppendSrvToDedicated() )
 	{
@@ -1526,7 +1526,7 @@ bool CVCProjGenerator::RemoveFile( const char *pFilename )
 
 void CVCProjGenerator::EnumerateSupportedVPCTargetPlatforms( CUtlVector<CUtlString> &output )
 {
-	output.AddToTail( g_pVPC->GetTargetPlatformName() );
+	output.AddToTail( g_pVPC->conditionals.GetTargetPlatformName() );
 }
 
 bool CVCProjGenerator::BuildsForTargetPlatform( const char *szVPCTargetPlatform )
@@ -1712,7 +1712,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 		break;
 
 	case KEYWORD_MANIFEST:
-		if ( !( g_pVPC->IsPlatformDefined( "WIN32" ) || g_pVPC->IsPlatformDefined( "WIN64" ) ) )
+		if ( !( g_pVPC->conditionals.IsPlatformDefined( "WIN32" ) || g_pVPC->conditionals.IsPlatformDefined( "WIN64" ) ) )
 		{
 			// windows specific
 			break;
@@ -1732,7 +1732,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 		break;
 
 	case KEYWORD_XMLDOCGEN:
-		if ( !( g_pVPC->IsPlatformDefined( "WIN32" ) || g_pVPC->IsPlatformDefined( "WIN64" ) ) )
+		if ( !( g_pVPC->conditionals.IsPlatformDefined( "WIN32" ) || g_pVPC->conditionals.IsPlatformDefined( "WIN64" ) ) )
 		{
 			// windows specific
 			break;
@@ -1766,7 +1766,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 		break;
 
 	case KEYWORD_RESOURCES:
-		if ( !( g_pVPC->IsPlatformDefined( "WIN32" ) || g_pVPC->IsPlatformDefined( "WIN64" ) ) )
+		if ( !( g_pVPC->conditionals.IsPlatformDefined( "WIN32" ) || g_pVPC->conditionals.IsPlatformDefined( "WIN64" ) ) )
 		{
 			// windows specific
 			break;

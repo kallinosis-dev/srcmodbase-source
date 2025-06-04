@@ -46,6 +46,7 @@
 #include "environment_utils.h"
 #include "macros.h"
 #include "tier1/UtlStringMap.h"
+#include "conditionals.h"
 
 
 DECLARE_LOGGING_CHANNEL(LOG_VPC);

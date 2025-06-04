@@ -74,7 +74,7 @@ void VPC_Qt_TrackFile( const char *pName, bool bRemove, VpcFileFlags_t iFileFlag
 			return;
 
 		// Ignore if this script opts out of the Qt feature
-		if ( g_pVPC->IsConditionalDefined( "NOQTFOLDER" ) )
+		if ( g_pVPC->conditionals.IsConditionalDefined( "NOQTFOLDER" ) )
 		{
 			g_pVPC->VPCWarning( "Ignoring Qt file '%s', project '%s' specifies NOQTFOLDER!", pName, g_pVPC->GetProjectName() );
 			return;
@@ -315,7 +315,7 @@ bool IsQtSupportedForThisTargetPlatform( void )
 {
 	// TODO: Only implemented+tested on WIN32/WIN64 so far...
 	//       [ uses CBaseProjectDataCollector, so may work on other platforms, but untested ]
-	const char *pPlatform = g_pVPC->GetTargetPlatformName();
+	const char *pPlatform = g_pVPC->conditionals.GetTargetPlatformName();
 	return ( !V_stricmp_fast( pPlatform, "WIN32" ) || !V_stricmp_fast( pPlatform, "WIN64" ) );
 }
 
@@ -325,6 +325,6 @@ bool CVPC::IsQtEnabled( void )
 		return false;	// Schema not enabled
 	if ( IsQtSupportedForThisTargetPlatform() )
 		return true;	// Feature enabled & supported!
-	ExecuteOnce( VPCWarning( "Qt feature disabled, not supported for %s yet", g_pVPC->GetTargetPlatformName() ) )
+	ExecuteOnce( VPCWarning( "Qt feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
 	return false;		// Platform not supported
 }

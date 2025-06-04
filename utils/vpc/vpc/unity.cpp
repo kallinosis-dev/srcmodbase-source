@@ -424,7 +424,7 @@ CProjectFile *VPC_Unity_GetContainingUnityFile( CProjectFile *pInputFile, const 
 bool IsUnitySupportedForThisTargetPlatform( void )
 {
 	// TODO: Only tested on WIN32/WIN64 so far... in theory should work for all platforms
-	const char *pPlatform = g_pVPC->GetTargetPlatformName();
+	const char *pPlatform = g_pVPC->conditionals.GetTargetPlatformName();
 	return ( VPC_IsPlatformWindows( pPlatform ) ||
              VPC_IsPlatformOSX( pPlatform ) ||
              VPC_IsPlatformLinux( pPlatform ) ||
@@ -437,7 +437,7 @@ bool CVPC::IsUnityEnabled( void )
 		return false;	// Unity feature not enabled
 	if ( IsUnitySupportedForThisTargetPlatform() )
 		return true;	// Feature enabled & supported!
-	ExecuteOnce( VPCWarning( "$UnityProject feature disabled, not supported for %s yet", g_pVPC->GetTargetPlatformName() ) )
+	ExecuteOnce( VPCWarning( "$UnityProject feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
 	return false;		// Platform not supported
 }
 

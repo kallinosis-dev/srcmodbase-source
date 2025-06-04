@@ -201,7 +201,7 @@ public:
 	void ScanProjectFile( CProjectDependencyGraph *pGraph, const char *szScriptName, CDependency_Project *pProject )
 	{
 		if ( !VPC_AreProjectDependenciesSupportedForThisTargetPlatform() ) // Should error-out further upstream than here...
-			g_pVPC->VPCError( "Cannot build project dependencies, not supported for %s yet", g_pVPC->GetTargetPlatformName() );
+			g_pVPC->VPCError( "Cannot build project dependencies, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() );
 
 		m_ScriptName		 = szScriptName;
 		m_pDependencyGraph	 = pGraph;
@@ -500,7 +500,7 @@ public:
 		if ( m_pDependencyGraph->m_bIncludeSystemFiles )
 		{
 			CUtlVector< CUtlString > systemPaths;	
-			if ( !GetSystemIncludePaths( systemPaths, g_pVPC->GetTargetPlatformName(), g_pVPC->GetTargetCompilerName() ) )
+			if ( !GetSystemIncludePaths( systemPaths, g_pVPC->conditionals.GetTargetPlatformName(), g_pVPC->conditionals.GetTargetCompilerName() ) )
 			{
 				g_pVPC->VPCError( "CSingleProjectScanner::SetupIncludeDirectories failed to set up system include paths" );
 			}
@@ -827,7 +827,7 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 			g_pVPC->SetupAllGames( false );
 			for ( int j = 0; j < priorSetGames.Count(); j++ )
 			{
-				g_pVPC->SetConditional( priorSetGames[j].Get(), true, CONDITIONAL_GAME );
+				g_pVPC->conditionals.SetConditional( priorSetGames[j].Get(), true, CONDITIONAL_GAME );
 			}
 		}		
 
@@ -1366,7 +1366,7 @@ bool VPC_AreProjectDependenciesSupportedForThisTargetPlatform( void )
 {
 	// Only supported for platforms that use CVCProjGenerator 
 	// [ CDependencyGraph was switched to use CVCProjGenerator, due to bugs in CBaseProjectDataCollector ]
-	const char *pPlatformName = g_pVPC->GetTargetPlatformName();
+	const char *pPlatformName = g_pVPC->conditionals.GetTargetPlatformName();
 
 	bool bSupported = !V_stricmp_fast( pPlatformName, "WIN32" ) || 
 					  !V_stricmp_fast( pPlatformName, "WIN64" )||
