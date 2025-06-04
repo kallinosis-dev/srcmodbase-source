@@ -99,52 +99,8 @@ struct property_t
 	int			platformMask;
 };
 
-enum conditionalType_e
-{
-	CONDITIONAL_NULL,
-	CONDITIONAL_PLATFORM,	// reserved for each known platform
-	CONDITIONAL_GAME,		// reserved for each known game
-	CONDITIONAL_SYSTEM,		// reserved for system features that permute global state that cannot be altered per script, not changeable by user scripts.
-	CONDITIONAL_CUSTOM,		// created by user via command line, used for private or local testing
-	CONDITIONAL_SCRIPT,		// created by scripts
-};
 
 #define k_bVPCForceLowerCase false
-
-inline bool CharStrEq( const char *pStr, char ch )
-{
-    return pStr[0] == ch && pStr[1] == 0;
-}
-
-struct conditional_t
-{
-	conditional_t()
-	{
-		m_Type = CONDITIONAL_NULL;
-		m_bDefined = false;
-		m_bGameConditionActive = false;
-	}
-
-	conditional_t( const conditional_t &other )
-	{
-		m_Name = other.m_Name;
-		m_UpperCaseName = other.m_UpperCaseName;
-		m_Type = other.m_Type;
-		m_bDefined = other.m_bDefined;
-		m_bGameConditionActive = other.m_bGameConditionActive;
-	}
-
-	CUtlString			m_Name;
-	CUtlString			m_UpperCaseName;
-	conditionalType_e	m_Type;
-
-	// a conditional can be present in the table but not defined
-	// e.g. default conditionals that get set by command line args
-	bool				m_bDefined;
-
-	// only used during multiple game iterations for game conditionals as each 'defined' game becomes active
-	bool				m_bGameConditionActive;
-};
 
 
 typedef int scriptIndex_t;
@@ -361,27 +317,11 @@ public:
     
 	int			ProcessCommandLine();
 
-	// Returns the mask identifying what platforms should be built
-	bool					IsPlatformDefined( const char *pName );
-	bool					IsPlatformName( const char *pName );
-	const char				*GetTargetPlatformName();
-	const char				*GetTargetCompilerName();
 
 	IBaseProjectGenerator	*GetProjectGenerator() const { return m_pProjectGenerator; }
 	void					SetProjectGenerator( IBaseProjectGenerator *pGenerator )	{ m_pProjectGenerator = pGenerator; }
 
 	IBaseSolutionGenerator	*GetSolutionGenerator() const { return m_pSolutionGenerator; }
-
-	// Conditionals
-	conditional_t			*FindOrCreateConditional( const char *pName, bool bCreate, conditionalType_e type );
-	bool					ResolveConditionalSymbol( const char *pSymbol );
-	bool					EvaluateConditionalExpression( const char *pExpression );
-	bool					ConditionHasDefinedType( const char* pCondition, conditionalType_e type );
-	void					SetConditional( const char *pName, bool bSet, conditionalType_e type );
-	bool					IsConditionalDefined( const char *pName );
-
-	// Macros
-
 
 	// Iterates all the projects in the specified list, checks their conditionals, and calls pIterator->VisitProject for
 	// each one that passes the conditional tests.
@@ -414,6 +354,9 @@ public:
 
 	bool					BuildDependencyProjects( CUtlVector< CDependency_Project *> &projects );
 
+	// TODO: should actually be private, but used in CConditionalStorage
+	void					SetSystemConditional(char const* name, bool value);
+
 private:
 	void					SpewUsage( void );
 
@@ -426,7 +369,6 @@ private:
 	void					SetDefaultSourcePath();
 
 	void					DetermineSolutionGenerator();
-	void					SetupDefaultConditionals();
 	void					SetMacrosAndConditionals();
 
 	void					SetVerbosityFromCommandLineArgs();
@@ -453,7 +395,6 @@ private:
 
 	void					SaveConditionals();
 	void					RestoreConditionals();
-	CUtlString				GetCRCStringFromConditionals();
 
 	bool					m_bVerbose;
 	bool					m_bQuiet;
@@ -576,7 +517,6 @@ private:
     CUtlStringBuilder               m_PropertyValueBuffer;
     
 public:
-	CUtlVector< conditional_t* >	m_Conditionals;
 	
 
 
@@ -630,6 +570,7 @@ public:
 
 public:
 	CMacroStorage macros;
+	CConditionalStorage conditionals;
 };
 
 extern CVPC *g_pVPC;

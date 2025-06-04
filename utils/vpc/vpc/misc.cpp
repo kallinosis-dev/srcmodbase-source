@@ -95,3 +95,8 @@ bool VPC_IsPlatform64Bits(const char* pPlatformName)
 		!V_stricmp_fast(pPlatformName, "OSX64") ||
 		!V_stricmp_fast(pPlatformName, "WIN64");
 }
+
+bool CharStrEq(const char* pStr, char ch)
+{
+	return pStr[0] == ch && pStr[1] == 0;
+}

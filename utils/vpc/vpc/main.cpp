@@ -1,6 +1,7 @@
 //===================== Copyright (c) Valve Corporation. All Rights Reserved. ======================
 //==================================================================================================
 
+#include "conditionals.h"
 #include "vpc.h"
 #include "dependencies.h"
 #include "p4sln.h"
@@ -779,7 +780,7 @@ bool CVPC::IsProjectCurrent(const char* szScriptFileName, CUtlString& projectSta
 	KeyValues kvCache("vpc_cache");
 	LoadVPCCache(szScriptFileName, kvCache);
 
-	KeyValues* pKVTargetKey = kvCache.FindKey(GetTargetPlatformName());
+	KeyValues* pKVTargetKey = kvCache.FindKey(conditionals.GetTargetPlatformName());
 	if (!pKVTargetKey)
 		return false;
 
@@ -849,7 +850,7 @@ void CVPC::UpdateCacheFile(const char* szScriptFileName)
 	//try to load existing cache to preserve other target platforms. Not a huge deal if it fails though
 	LoadVPCCache(szScriptFileName, kvCache);
 
-	KeyValues* pKVTargetKey = kvCache.FindKey(GetTargetPlatformName(), true);
+	KeyValues* pKVTargetKey = kvCache.FindKey(conditionals.GetTargetPlatformName(), true);
 
 	//nuke the old values for this target platform
 	pKVTargetKey->Clear();
@@ -868,7 +869,7 @@ void CVPC::UpdateCacheFile(const char* szScriptFileName)
 
 		//ancillary files
 		//TODO: The project generator should probably control this
-		if (IsConditionalDefined("GENERATE_MAKEFILE_VCXPROJ"))
+		if (conditionals.IsConditionalDefined("GENERATE_MAKEFILE_VCXPROJ"))
 		{
 			// IsProjectCurrent is only called once even though
 			// we're generating twice and thus have more files to check,
@@ -1343,19 +1344,19 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		}
 		else if (!V_stricmp_fast(pArgName, "checkfiles"))
 		{
-			SetConditional("MISSING_FILE_CHECK", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("MISSING_FILE_CHECK", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "nocheckfiles"))
 		{
-			SetConditional("MISSING_FILE_CHECK", false, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("MISSING_FILE_CHECK", false, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "checkfiles_error"))
 		{
-			SetConditional("MISSING_FILE_IS_ERROR", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("MISSING_FILE_IS_ERROR", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "checkfiles_warning"))
 		{
-			SetConditional("MISSING_FILE_IS_ERROR", false, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("MISSING_FILE_IS_ERROR", false, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "disable_per_file_compile_config"))
 		{
@@ -1373,32 +1374,32 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp(pArgName, "no_steam") || !V_stricmp(pArgName, "nosteam"))
 		{
 			// Disable Steam
-			SetConditional("NO_STEAM", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("NO_STEAM", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "qt"))
 		{
 			// Enable Qt
-			SetConditional("ALLOW_QT", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ALLOW_QT", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "no_qt") || !V_stricmp_fast(pArgName, "noqt"))
 		{
 			// Disable Qt
-			SetConditional("ALLOW_QT", false, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ALLOW_QT", false, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "schema"))
 		{
 			// Enable Schema
-			SetConditional("ALLOW_SCHEMA", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ALLOW_SCHEMA", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "no_schema") || !V_stricmp_fast(pArgName, "noschema"))
 		{
 			// Disable Schema
-			SetConditional("ALLOW_SCHEMA", false, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ALLOW_SCHEMA", false, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "unity"))
 		{
 			// Enable Unity
-			SetConditional("ALLOW_UNITY", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ALLOW_UNITY", true, CONDITIONAL_SYSTEM);
 			// TEMP: until the unity feature is more widely deployed, we turn it on by default but
 			//       only for schematized header files (this mirrors the old behaviour). If you
 			//       pass '/unity', this turns it on for ALL files:
@@ -1408,7 +1409,7 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp_fast(pArgName, "forceunity"))
 		{
 			// Enable Unity on all files, even writable files.
-			SetConditional("ALLOW_UNITY", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ALLOW_UNITY", true, CONDITIONAL_SYSTEM);
 			m_bUnitySchemaHeadersOnly = false;
 			m_bUnityOnWritableFiles = true;
 			m_ExtraOptionsForCRC.InsertIfNotFound("/forceunity");
@@ -1416,7 +1417,7 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp_fast(pArgName, "no_unity") || !V_stricmp_fast(pArgName, "nounity"))
 		{
 			// Disable unity
-			SetConditional("ALLOW_UNITY", false, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ALLOW_UNITY", false, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "unity_suffix"))
 		{
@@ -1427,12 +1428,12 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp_fast(pArgName, "clang"))
 		{
 			// Enable Clang
-			SetConditional("ALLOW_CLANG", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ALLOW_CLANG", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "no_clang") || !V_stricmp_fast(pArgName, "noclang"))
 		{
 			// Disable Clang
-			SetConditional("ALLOW_CLANG", false, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ALLOW_CLANG", false, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "genmakeproj"))
 		{
@@ -1491,11 +1492,11 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		}
 		else if (!V_stricmp_fast(pArgName, "p4autoadd"))
 		{
-			SetConditional("P4_AUTO_ADD", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("P4_AUTO_ADD", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "nop4autoadd"))
 		{
-			SetConditional("P4_AUTO_ADD", false, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("P4_AUTO_ADD", false, CONDITIONAL_SYSTEM);
 		}
 		else if (
 			!V_stricmp_fast(pArgName, "2005") ||
@@ -1506,11 +1507,11 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 			!V_stricmp_fast(pArgName, "2022"))
 		{
 			// User provided CL trumps any pre-set defaults.
-			SetConditional("PREFER_VS2010", !V_stricmp_fast(pArgName, "2010"), CONDITIONAL_SYSTEM);
-			SetConditional("PREFER_VS2012", !V_stricmp_fast(pArgName, "2012"), CONDITIONAL_SYSTEM);
-			SetConditional("PREFER_VS2013", !V_stricmp_fast(pArgName, "2013"), CONDITIONAL_SYSTEM);
-			SetConditional("PREFER_VS2015", !V_stricmp_fast(pArgName, "2015"), CONDITIONAL_SYSTEM);
-			SetConditional("PREFER_VS2022", !V_stricmp_fast(pArgName, "2022"), CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("PREFER_VS2010", !V_stricmp_fast(pArgName, "2010"), CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("PREFER_VS2012", !V_stricmp_fast(pArgName, "2012"), CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("PREFER_VS2013", !V_stricmp_fast(pArgName, "2013"), CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("PREFER_VS2015", !V_stricmp_fast(pArgName, "2015"), CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("PREFER_VS2022", !V_stricmp_fast(pArgName, "2022"), CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "restart") || !V_stricmp_fast(pArgName, "noautoargs"))
 		{
@@ -1519,12 +1520,12 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp_fast(pArgName, "nosrcctl"))
 		{
 			// support terser format
-			SetConditional("SOURCECONTROL", false, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("SOURCECONTROL", false, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "srcctl"))
 		{
 			// support terser format
-			SetConditional("SOURCECONTROL", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("SOURCECONTROL", true, CONDITIONAL_SYSTEM);
 		}
 		else if (!V_stricmp_fast(pArgName, "allprojects"))
 		{
@@ -1534,20 +1535,20 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		{
 			// Define:<string> is used to explicitly inform VPC that 'string' is a conditional.
 			// Conditionals occur in various flavors. User created conditionals can be set with /define:
-			conditional_t* pConditional = FindOrCreateConditional(pActualDefineName, false, CONDITIONAL_NULL);
+			conditional_t* pConditional = conditionals.FindOrCreateConditional(pActualDefineName, false, CONDITIONAL_NULL);
 			if (!pConditional)
 			{
-				// not a recognized conditional, create a new custom conditional (likely a user's private conditional that just affects their scripts)
-				pConditional = FindOrCreateConditional(pActualDefineName, true, CONDITIONAL_CUSTOM);
+				// not a recognized conditional, create a new custom conditional (likely a user's private conditional that just affects his scripts)
+				pConditional = conditionals.FindOrCreateConditional(pActualDefineName, true, CONDITIONAL_CUSTOM);
 			}
 
 			// found as a VPC recognized conditional
-			SetConditional(pActualDefineName, true, pConditional->m_Type);
+			conditionals.SetConditional(pActualDefineName, true, pConditional->m_Type);
 		}
 		else
 		{
 			// not a recognized option, assume it's a conditional
-			conditional_t* pConditional = FindOrCreateConditional(pArgName, false, CONDITIONAL_NULL);
+			conditional_t* pConditional = conditionals.FindOrCreateConditional(pArgName, false, CONDITIONAL_NULL);
 			if (!pConditional)
 			{
 				// not a recognized conditional, assume it's a build command
@@ -1557,7 +1558,7 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 			else
 			{
 				// found as a VPC recognized conditional
-				SetConditional(pArgName, true, pConditional->m_Type);
+				conditionals.SetConditional(pArgName, true, pConditional->m_Type);
 			}
 		}
 	}
@@ -1781,7 +1782,7 @@ void CVPC::ParseBuildOptions(int argc, const char** argv)
 void CVPC::GenerateOptionsCRCString()
 {
 	m_SupplementalCRCString = "_";
-	m_SupplementalCRCString += GetCRCStringFromConditionals();
+	m_SupplementalCRCString += conditionals.GetCRCStringFromConditionals();
 
 	for (int i = 0; i < m_ExtraOptionsForCRC.Count(); i++)
 	{
@@ -1868,8 +1869,8 @@ bool CVPC::RestartFromCorrectLocation(bool* pIsChild)
 void CVPC::CreateVSAddinMetadataString(void)
 {
 	// Set up a metadata string for the VS add-in, encoding a set of unique identifiers for the associated vcxproj
-	m_VSAddinMetadata.Format("PROJECT.%s.GAME.%s.PLATFORM.%s", g_pVPC->IsTestMode() ? "test" : g_pVPC->GetProjectName(),
-	                         g_pVPC->GetGameName(), g_pVPC->GetTargetPlatformName());
+	m_VSAddinMetadata.Format("PROJECT.%s.GAME.%s.PLATFORM.%s", IsTestMode() ? "test" : GetProjectName(),
+	                         GetGameName(), conditionals.GetTargetPlatformName());
 }
 
 void CVPC::DecorateProjectName(CUtlString& undecoratedName)
@@ -1899,7 +1900,7 @@ void CVPC::UndecorateProjectName(CUtlString& decoratedName)
 		CSplitString tokens(pLastSpace + 2, pSeparators, ARRAYSIZE(pSeparators));
 		for (int i = 0; i < tokens.Count(); i++)
 		{
-			if (IsPlatformName(tokens[i]))
+			if (conditionals.IsPlatformName(tokens[i]))
 				continue;
 			if (!V_strcmp(tokens[i], "UNITY"))
 				continue;
@@ -1956,7 +1957,7 @@ const char* CVPC::CreateGeneratedSubdirPath(CUtlPathStringHolder* pBuf, const ch
 	pLens[6] = -1;
 	ppStrs[7] = CORRECT_PATH_SEPARATOR_S;
 	pLens[7] = 1;
-	ppStrs[8] = GetTargetPlatformName();
+	ppStrs[8] = conditionals.GetTargetPlatformName();
 	pLens[8] = -1;
 	ppStrs[9] = CORRECT_PATH_SEPARATOR_S;
 	pLens[9] = 1;
@@ -1989,7 +1990,7 @@ bool CVPC::BuildTargetProject(IProjectIterator* pIterator, projectIndex_t projec
                               const char* pGameName)
 {
 	// evaluate the project's script conditional which determines game/platform
-	if (!EvaluateConditionalExpression(pProjectScript->m_condition.String()))
+	if (!conditionals.EvaluateConditionalExpression(pProjectScript->m_condition.String()))
 	{
 		// conditionals prevent this project from consideration
 		return false;
@@ -2013,9 +2014,9 @@ bool CVPC::BuildTargetProject(IProjectIterator* pIterator, projectIndex_t projec
 	// win32 projects are the most prevalent, so by popular demand they have no decoration
 	// all other platforms use their platform name as a suffix
 	const char* pPlatformName = nullptr;
-	if (!IsPlatformDefined("win32"))
+	if (!conditionals.IsPlatformDefined("win32"))
 	{
-		pPlatformName = GetTargetPlatformName();
+		pPlatformName = conditionals.GetTargetPlatformName();
 	}
 
 	// each vpc script is written with paths relative to their base
@@ -2090,7 +2091,7 @@ void CVPC::IterateTargetProjects(CUtlVector<projectIndex_t>& projectList, IProje
 
 			// occurrence of game condition(s) dictates iteration behavior
 			// client/server would have multiple game conditions
-			bool bHasGameCondition = g_pVPC->ConditionHasDefinedType(pProjectScript->m_condition.String(),
+			bool bHasGameCondition = conditionals.ConditionHasDefinedType(pProjectScript->m_condition.String(),
 			                                                         CONDITIONAL_GAME);
 
 			if (!bHasGameCondition)
@@ -2235,7 +2236,7 @@ void CVPC::FindProjectFromVCPROJ(const char* pScriptNameVCProj, int nMainArgc, c
 	for (int i = 0; i < projectTokens.Count(); i++)
 	{
 		// The project name may include the platform name ('win64'), 'unity' and the game name (for client/server).
-		if (IsPlatformName(projectTokens[i]))
+		if (conditionals.IsPlatformName(projectTokens[i]))
 			continue;
 		if (!V_stricmp_fast(projectTokens[i], "unity"))
 			continue;
@@ -2315,21 +2316,21 @@ void CVPC::SetMacrosAndConditionals()
 	{
 		// no user specified platform defined, defaults to primary vpc.exe built platform
 #if defined( WIN64 )
-		pPlatformConditional = FindOrCreateConditional( "WIN64", false, CONDITIONAL_PLATFORM );
+		pPlatformConditional = conditionals.FindOrCreateConditional( "WIN64", false, CONDITIONAL_PLATFORM );
 #elif defined( WIN32 )
-		pPlatformConditional = FindOrCreateConditional("WIN32", false, CONDITIONAL_PLATFORM);
+		pPlatformConditional = conditionals.FindOrCreateConditional("WIN32", false, CONDITIONAL_PLATFORM);
 #elif defined( OSX64 )
-		pPlatformConditional = FindOrCreateConditional( "OSX64", false, CONDITIONAL_PLATFORM );
+		pPlatformConditional = conditionals.FindOrCreateConditional( "OSX64", false, CONDITIONAL_PLATFORM );
 #elif defined( OSX32 )
-		pPlatformConditional = FindOrCreateConditional( "OSX32", false, CONDITIONAL_PLATFORM );
+		pPlatformConditional = conditionals.FindOrCreateConditional( "OSX32", false, CONDITIONAL_PLATFORM );
 #elif defined( LINUXSTEAMRT64 )
-		pPlatformConditional = FindOrCreateConditional( "LINUX64", false, CONDITIONAL_PLATFORM );
+		pPlatformConditional = conditionals.FindOrCreateConditional( "LINUX64", false, CONDITIONAL_PLATFORM );
 #elif defined( LINUXSERVER64 )
-		pPlatformConditional = FindOrCreateConditional( "LINUXSERVER64", false, CONDITIONAL_PLATFORM );
+		pPlatformConditional = conditionals.FindOrCreateConditional( "LINUXSERVER64", false, CONDITIONAL_PLATFORM );
 #elif defined( LINUXSTEAMRTARM32HF )
-		pPlatformConditional = FindOrCreateConditional( "LINUXSTEAMRTARM32HF", false, CONDITIONAL_PLATFORM );
+		pPlatformConditional = conditionals.FindOrCreateConditional( "LINUXSTEAMRTARM32HF", false, CONDITIONAL_PLATFORM );
 #elif defined( LINUXSTEAMRTARM64HF )
-		pPlatformConditional = FindOrCreateConditional( "LINUXSTEAMRTARM64HF", false, CONDITIONAL_PLATFORM );
+		pPlatformConditional = conditionals.FindOrCreateConditional( "LINUXSTEAMRTARM64HF", false, CONDITIONAL_PLATFORM );
 #else
 #error "Unsupported platform."
 #endif
@@ -2387,12 +2388,12 @@ void CVPC::SetMacrosAndConditionals()
 #endif
 	if (m_bGenMakeProj)
 	{
-		SetConditional("GENERATE_MAKEFILE_VCXPROJ", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("GENERATE_MAKEFILE_VCXPROJ", true, CONDITIONAL_SYSTEM);
 
 		// We're always using newer solutions and projects in this mode.
 		// This won't override a higher version, it just makes sure
 		// we get at least VS2010, conforming to other trumps.
-		SetConditional("PREFER_VS2010", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("PREFER_VS2010", true, CONDITIONAL_SYSTEM);
 	}
 
 	bool bCrossCompileUsingVisualStudio = bHaveMakefileTarget && m_bGenMakeProj;
@@ -2425,23 +2426,23 @@ void CVPC::SetMacrosAndConditionals()
 		// For backwards compatibility with /define:vs2012 don't set this to false if m_bUse2012 isn't set.
 		if (m_bUse2022)
 		{
-			SetConditional("VS2022", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("VS2022", true, CONDITIONAL_SYSTEM);
 		}
 		else if (m_bUse2015)
 		{
-			SetConditional("VS2015", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("VS2015", true, CONDITIONAL_SYSTEM);
 		}
 		else if (m_bUse2013)
 		{
-			SetConditional("VS2013", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("VS2013", true, CONDITIONAL_SYSTEM);
 		}
 		else if (m_bUse2012)
 		{
-			SetConditional("VS2012", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("VS2012", true, CONDITIONAL_SYSTEM);
 		}
 		else if (m_bUse2010)
 		{
-			SetConditional("VS2010", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("VS2010", true, CONDITIONAL_SYSTEM);
 		}
 		else
 		{
@@ -2462,7 +2463,7 @@ void CVPC::SetMacrosAndConditionals()
 			macros.SetAsSystem("PLATSUBDIR", "\\win64", false);
 		}
 
-		SetConditional("WINDOWS", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("WINDOWS", true, CONDITIONAL_SYSTEM);
 
 		macros.SetAsSystem("_DLL_EXT", ".dll", true);
 		macros.SetAsSystem("_IMPLIB_EXT", ".lib", false);
@@ -2483,10 +2484,10 @@ void CVPC::SetMacrosAndConditionals()
 	{
 		if (VPC_IsPlatformLinux(platformName.String()))
 		{
-			SetConditional("LINUXALL", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("LINUXALL", true, CONDITIONAL_SYSTEM);
 			macros.SetAsSystem("LINUX", "1", true);
 			macros.SetAsSystem("_LINUX", "1", true);
-			SetConditional("LINUX", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("LINUX", true, CONDITIONAL_SYSTEM);
 
 			if (!V_stricmp_fast(platformName.String(), "LINUX64"))
 			{
@@ -2508,8 +2509,8 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("LINUXSTEAMRTARM32HF", "1", true);
 				macros.SetAsSystem("_LINUXSTEAMRTARM32HF", "1", true);
-				SetConditional("ARCH_ARM", true, CONDITIONAL_SYSTEM);
-				SetConditional("LINUXARM", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("ARCH_ARM", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("LINUXARM", true, CONDITIONAL_SYSTEM);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "LINUXSTEAMRTARM64HF"))
 			{
@@ -2517,8 +2518,8 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("LINUXSTEAMRTARM64HF", "1", true);
 				macros.SetAsSystem("_LINUXSTEAMRTARM64HF", "1", true);
-				SetConditional("ARCH_ARM", true, CONDITIONAL_SYSTEM);
-				SetConditional("LINUXARM", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("ARCH_ARM", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("LINUXARM", true, CONDITIONAL_SYSTEM);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "LINUXSERVER64"))
 			{
@@ -2534,7 +2535,7 @@ void CVPC::SetMacrosAndConditionals()
 		}
 		else if (VPC_IsPlatformAndroid(platformName.String()))
 		{
-			SetConditional("ANDROIDALL", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("ANDROIDALL", true, CONDITIONAL_SYSTEM);
 
 			if (!V_stricmp_fast(platformName.String(), "ANDROIDARM32"))
 			{
@@ -2542,7 +2543,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDARM32", "1", true);
 				macros.SetAsSystem("_ANDROIDARM32", "1", true);
-				SetConditional("ANDROIDARMALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("ANDROIDARMALL", true, CONDITIONAL_SYSTEM);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDARM64"))
 			{
@@ -2550,7 +2551,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDARM64", "1", true);
 				macros.SetAsSystem("_ANDROIDARM64", "1", true);
-				SetConditional("ANDROIDARMALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("ANDROIDARMALL", true, CONDITIONAL_SYSTEM);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDMIPS32"))
 			{
@@ -2558,7 +2559,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDMIPS32", "1", true);
 				macros.SetAsSystem("_ANDROIDMIPS32", "1", true);
-				SetConditional("ANDROIDMIPSALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("ANDROIDMIPSALL", true, CONDITIONAL_SYSTEM);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDMIPS64"))
 			{
@@ -2566,7 +2567,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDMIPS64", "1", true);
 				macros.SetAsSystem("_ANDROIDMIPS64", "1", true);
-				SetConditional("ANDROIDMIPSALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("ANDROIDMIPSALL", true, CONDITIONAL_SYSTEM);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDX8632"))
 			{
@@ -2574,7 +2575,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDX8632", "1", true);
 				macros.SetAsSystem("_ANDROIDX8632", "1", true);
-				SetConditional("ANDROIDX86ALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("ANDROIDX86ALL", true, CONDITIONAL_SYSTEM);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDX8664"))
 			{
@@ -2582,7 +2583,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDX8664", "1", true);
 				macros.SetAsSystem("_ANDROIDX8664", "1", true);
-				SetConditional("ANDROIDX86ALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetConditional("ANDROIDX86ALL", true, CONDITIONAL_SYSTEM);
 			}
 			else
 			{
@@ -2592,10 +2593,10 @@ void CVPC::SetMacrosAndConditionals()
 
 		if (m_bDedicatedBuild)
 		{
-			SetConditional("DEDICATED", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("DEDICATED", true, CONDITIONAL_SYSTEM);
 		}
 
-		SetConditional("POSIX", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("POSIX", true, CONDITIONAL_SYSTEM);
 
 		macros.SetAsSystem("POSIX", "1", true);
 		macros.SetAsSystem("_POSIX", "1", true);
@@ -2630,7 +2631,7 @@ void CVPC::SetMacrosAndConditionals()
 		macros.SetAsSystem("_EXE_EXT", "", false);
 		macros.SetAsSystem("_SYM_EXT", ".dbg", false);
 
-		SetConditional("GL", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("GL", true, CONDITIONAL_SYSTEM);
 	}
 	else if (!V_stricmp_fast(platformName.String(), "OSX32") ||
 		!V_stricmp_fast(platformName.String(), "OSX64"))
@@ -2644,14 +2645,14 @@ void CVPC::SetMacrosAndConditionals()
 			macros.SetAsSystem("PLATSUBDIR", "\\osx64", false);
 		}
 
-		SetConditional("OSXALL", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("OSXALL", true, CONDITIONAL_SYSTEM);
 
 		if (m_bDedicatedBuild)
 		{
-			SetConditional("DEDICATED", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("DEDICATED", true, CONDITIONAL_SYSTEM);
 		}
 
-		SetConditional("POSIX", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("POSIX", true, CONDITIONAL_SYSTEM);
 		macros.SetAsSystem("_POSIX", "1", true);
 
 		macros.SetAsSystem("_DLL_EXT", ".dylib", true);
@@ -2670,21 +2671,21 @@ void CVPC::SetMacrosAndConditionals()
 		macros.SetAsSystem("_EXTERNAL_STATICLIB_EXT", ".a", false);
 
 		// Mac defaults to GL on
-		SetConditional("GL", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("GL", true, CONDITIONAL_SYSTEM);
 	}
 	else if (!V_stricmp_fast(platformName.String(), "IOS"))
 	{
-		SetConditional("OSXALL", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("OSXALL", true, CONDITIONAL_SYSTEM);
 
 		if (m_bDedicatedBuild)
 		{
-			SetConditional("DEDICATED", true, CONDITIONAL_SYSTEM);
+			conditionals.SetConditional("DEDICATED", true, CONDITIONAL_SYSTEM);
 		}
 
-		SetConditional("POSIX", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("POSIX", true, CONDITIONAL_SYSTEM);
 		macros.SetAsSystem("_POSIX", "1", true);
 
-		SetConditional("IOS", true, CONDITIONAL_SYSTEM);
+		conditionals.SetConditional("IOS", true, CONDITIONAL_SYSTEM);
 		macros.SetAsSystem("_IOS", "1", true);
 		macros.SetAsSystem("IOS", "1", true);
 
@@ -2714,49 +2715,49 @@ void CVPC::SetMacrosAndConditionals()
 	// on the host and not the target.
 	macros.SetAsDynamic("HOST_VPC_EXE", CHostVPCMacro::ResolveHostVPCMacro);
 #if defined( WIN64 )
-    SetConditional( "HOST_WINDOWS", true, CONDITIONAL_SYSTEM );
-    SetConditional( "HOST_WIN64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_WINDOWS", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_WIN64", true, CONDITIONAL_SYSTEM );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\win64", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", ".exe", false );
 #elif defined( WIN32 )
-	SetConditional("HOST_WINDOWS", true, CONDITIONAL_SYSTEM);
-	SetConditional("HOST_WIN32", true, CONDITIONAL_SYSTEM);
+	conditionals.SetConditional("HOST_WINDOWS", true, CONDITIONAL_SYSTEM);
+	conditionals.SetConditional("HOST_WIN32", true, CONDITIONAL_SYSTEM);
 	macros.SetAsSystem("HOST_PLATSUBDIR", "\\win32", false);
 	macros.SetAsSystem("HOST_EXE_EXT", ".exe", false);
 #elif defined( OSX64 )
-    SetConditional( "HOST_OSXALL", true, CONDITIONAL_SYSTEM );
-    SetConditional( "HOST_OSX64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_OSXALL", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_OSX64", true, CONDITIONAL_SYSTEM );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\osx64", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( OSX32 )
-    SetConditional( "HOST_OSXALL", true, CONDITIONAL_SYSTEM );
-    SetConditional( "HOST_OSX32", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_OSXALL", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_OSX32", true, CONDITIONAL_SYSTEM );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\osx32", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUX )
-    SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-    SetConditional( "HOST_LINUX", true, CONDITIONAL_SYSTEM );
-    SetConditional( "HOST_LINUX64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUX", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUX64", true, CONDITIONAL_SYSTEM );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linux", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUXSTEAMRT64 )
-    SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-    SetConditional( "HOST_LINUXSTEAMRT64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUXSTEAMRT64", true, CONDITIONAL_SYSTEM );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linuxsteamrt64", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUXSERVER64 )
-    SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-    SetConditional( "HOST_LINUXSERVER64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUXSERVER64", true, CONDITIONAL_SYSTEM );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linuxserver64", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUXSTEAMRTARM32HF )
-    SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-    SetConditional( "HOST_LINUXSTEAMRTARM32HF", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUXSTEAMRTARM32HF", true, CONDITIONAL_SYSTEM );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linuxsteamrtarm32hf", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUXSTEAMRTARM64HF )
-    SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-    SetConditional( "HOST_LINUXSTEAMRTARM64HF", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
+	conditionals.SetConditional( "HOST_LINUXSTEAMRTARM64HF", true, CONDITIONAL_SYSTEM );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linuxsteamrtarm64hf", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #else
@@ -2802,6 +2803,80 @@ void CVPC::SetMacrosAndConditionals()
 	}
 }
 
+void CVPC::SetSystemConditional(char const* name, bool value)
+{
+	// system conditionals are set at specific early execution points and not mutable by scripts
+// cache off the state for any possible inner loop repetitive state queries
+	if (!V_strcmp(name, "SOURCECONTROL"))
+	{
+		m_bSourceControl = value;
+	}
+	else if (!V_strcmp(name, "ALLOW_OS_MACRO"))
+	{
+		m_bAllowOSMacro = value;
+	}
+	else if (!V_strcmp(name, "CRCCHECK_IN_PROJECT"))
+	{
+		m_bCRCCheckInProject = value;
+	}
+	else if (!V_strcmp(name, "MISSING_FILE_CHECK"))
+	{
+		m_bCheckFiles = value;
+	}
+	else if (!V_strcmp(name, "MISSING_FILE_IS_ERROR"))
+	{
+		m_bMissingFileIsError = value;
+	}
+	else if (!V_strcmp(name, "FILEPATTERN"))
+	{
+		m_bAllowFilePattern = value;
+	}
+	else if (!V_strcmp(name, "ADD_EXE_TO_CRC_CHECK"))
+	{
+		m_bAddExecuteableToCRC = value;
+	}
+	else if (!V_strcmp(name, "P4_AUTO_ADD"))
+	{
+		m_bP4AutoAdd = value;
+	}
+	else if (!V_strcmp(name, "PREFER_VS2010"))
+	{
+		m_bPreferVS2010 = value;
+	}
+	else if (!V_strcmp(name, "PREFER_VS2012"))
+	{
+		m_bPreferVS2012 = value;
+	}
+	else if (!V_strcmp(name, "PREFER_VS2013"))
+	{
+		m_bPreferVS2013 = value;
+	}
+	else if (!V_strcmp(name, "PREFER_VS2015"))
+	{
+		m_bPreferVS2015 = value;
+	}
+	else if (!V_strcmp(name, "PREFER_VS2022"))
+	{
+		m_bPreferVS2022 = value;
+	}
+	else if (!V_strcmp(name, "ALLOW_QT"))
+	{
+		m_bAllowQt = value;
+	}
+	else if (!V_strcmp(name, "ALLOW_SCHEMA"))
+	{
+		m_bAllowSchema = value;
+	}
+	else if (!V_strcmp(name, "ALLOW_UNITY"))
+	{
+		m_bAllowUnity = value;
+	}
+	else if (!V_strcmp(name, "ALLOW_CLANG"))
+	{
+		m_bAllowClang = value;
+	}
+}
+
 //-----------------------------------------------------------------------------
 // Checks for command line /params ( +/- used for projects, so ICommandLine() not suitable)
 //-----------------------------------------------------------------------------
@@ -2832,7 +2907,7 @@ bool CVPC::HandleP4SLN(IBaseSolutionGenerator* pSolutionGenerator)
 		return false;
 
 	if (!VPC_AreProjectDependenciesSupportedForThisTargetPlatform())
-		VPCError("P4SLN not supported for %s yet!", g_pVPC->GetTargetPlatformName());
+		VPCError("P4SLN not supported for %s yet!", conditionals.GetTargetPlatformName());
 
 	if (!pSolutionGenerator)
 		VPCError("No solution generator exists for this platform.");
@@ -2932,8 +3007,8 @@ void CVPC::HandleMKSLN(IBaseSolutionGenerator* pSolutionGenerator,
 {
 	if (m_MKSolutionFilename.IsEmpty())
 	{
-		if (!V_stricmp_fast(g_pVPC->GetTargetPlatformName(), "OSX32") ||
-			!V_stricmp_fast(g_pVPC->GetTargetPlatformName(), "OSX64"))
+		if (!V_stricmp_fast(conditionals.GetTargetPlatformName(), "OSX32") ||
+			!V_stricmp_fast(conditionals.GetTargetPlatformName(), "OSX64"))
 		{
 			VPCError("MKSLN required for Xcode targets");
 		}
@@ -2941,7 +3016,7 @@ void CVPC::HandleMKSLN(IBaseSolutionGenerator* pSolutionGenerator,
 	}
 
 	if (!VPC_AreProjectDependenciesSupportedForThisTargetPlatform())
-		VPCError("MKSLN not supported for %s yet!", g_pVPC->GetTargetPlatformName());
+		VPCError("MKSLN not supported for %s yet!", conditionals.GetTargetPlatformName());
 
 	if (!pSolutionGenerator)
 		VPCError("No solution generator exists for this platform.");
@@ -3000,13 +3075,13 @@ void CVPC::DetermineSolutionGenerator()
 	extern IBaseSolutionGenerator*GetMakefileSolutionGenerator();
 	extern IBaseSolutionGenerator*GetXcodeSolutionGenerator();
 
-	bool bIsLinuxPlatform = IsConditionalDefined("LINUXALL");
-	bool bIsOSXPlatform = IsConditionalDefined("OSXALL");
-	bool bIsAndroidPlatform = IsConditionalDefined("ANDROIDALL");
+	bool bIsLinuxPlatform = conditionals.IsConditionalDefined("LINUXALL");
+	bool bIsOSXPlatform = conditionals.IsConditionalDefined("OSXALL");
+	bool bIsAndroidPlatform = conditionals.IsConditionalDefined("ANDROIDALL");
 
 	// Under Windows we have the ability to generate makefiles so if they specified a linux config,
 	// or if they're building the (non-SRCDS) dedicated server, then use the makefile generator
-	bool bUseMakefile = bIsLinuxPlatform || bIsAndroidPlatform || bIsOSXPlatform || IsConditionalDefined("DEDICATED");
+	bool bUseMakefile = bIsLinuxPlatform || bIsAndroidPlatform || bIsOSXPlatform || conditionals.IsConditionalDefined("DEDICATED");
 	bool bUseXcode = false; //bIsOSXPlatform;
 
 
@@ -3016,7 +3091,7 @@ void CVPC::DetermineSolutionGenerator()
 
 		m_pSolutionGenerator = GetMakefileSolutionGenerator();
 
-		if (IsConditionalDefined("GENERATE_MAKEFILE_VCXPROJ"))
+		if (conditionals.IsConditionalDefined("GENERATE_MAKEFILE_VCXPROJ"))
 		{
 			const char* pVSName = "2010";
 			if (m_bUse2022)
@@ -3081,10 +3156,10 @@ void CVPC::DetermineProjectGenerator()
 		return; //already picked one for this project!
 
 
-	bool bIsLinuxPlatform = IsConditionalDefined("LINUXALL");
-	bool bIsOSXPlatform = IsConditionalDefined("OSXALL");
-	bool bIsAndroidPlatform = IsConditionalDefined("ANDROIDALL");
-	bool bIsAndroidProject = IsConditionalDefined("ANDROIDPROJECT");
+	bool bIsLinuxPlatform = conditionals.IsConditionalDefined("LINUXALL");
+	bool bIsOSXPlatform = conditionals.IsConditionalDefined("OSXALL");
+	bool bIsAndroidPlatform = conditionals.IsConditionalDefined("ANDROIDALL");
+	bool bIsAndroidProject = conditionals.IsConditionalDefined("ANDROIDPROJECT");
 	//android-specific project template, not just a dll/exe/lib compiled for android platform
 
 	// Under Windows we have the ability to generate makefiles so if they specified a linux config,
@@ -3223,7 +3298,7 @@ const char* CVPC::BuildTempGroupScript(const char* pVPCScriptName)
 //-----------------------------------------------------------------------------
 int CVPC::ProcessCommandLine()
 {
-	SetupDefaultConditionals();
+	conditionals.SetupDefaultConditionals();
 
 	DetermineSourcePath();
 

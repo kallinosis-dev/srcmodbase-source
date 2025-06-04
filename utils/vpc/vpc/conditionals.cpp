@@ -4,13 +4,15 @@
 //
 //=====================================================================================//
 
+#include "conditionals.h"
+
 #include "misc.h"
 #include "vpc.h"
 
 struct CMacro;
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void CVPC::SetupDefaultConditionals()
+void CConditionalStorage::SetupDefaultConditionals()
 {
 	//
 	// PLATFORM Conditionals
@@ -73,7 +75,7 @@ void CVPC::SetupDefaultConditionals()
 	}
 }	
 
-CUtlString CVPC::GetCRCStringFromConditionals()
+CUtlString CConditionalStorage::GetCRCStringFromConditionals()
 {
 	CUtlString CRCString;
 
@@ -81,12 +83,12 @@ CUtlString CVPC::GetCRCStringFromConditionals()
 
 	// Any enabled system conditional needs to make a CRC string that can be matched against for project staleness.
 	// These used to be terse abbreviations when they were passed on the CL but now not a constraint with vpccrccheck and peer crc files.
-	for ( int i = 0; i < m_Conditionals.Count(); i++ )
+	for ( conditional_t const* cond: _conditionals)
 	{
-		if ( m_Conditionals[i]->m_bDefined && 
-			( m_Conditionals[i]->m_Type == CONDITIONAL_SYSTEM || m_Conditionals[i]->m_Type == CONDITIONAL_CUSTOM || m_Conditionals[i]->m_Type == CONDITIONAL_SCRIPT ) )
+		if (cond->m_bDefined &&
+			(cond->m_Type == CONDITIONAL_SYSTEM || cond->m_Type == CONDITIONAL_CUSTOM || cond->m_Type == CONDITIONAL_SCRIPT))
 		{
-			sortRelevantConditionals.AddToTail( m_Conditionals[i]->m_UpperCaseName.Get() );
+			sortRelevantConditionals.AddToTail(cond->m_UpperCaseName.Get());
 		}
 	}
 
@@ -107,27 +109,30 @@ CUtlString CVPC::GetCRCStringFromConditionals()
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-const char *CVPC::GetTargetPlatformName()
+const char * CConditionalStorage::GetTargetPlatformName()
 {
-	for ( int i = 0; i < m_Conditionals.Count(); i++ )
-	{
-		conditional_t *pConditional = m_Conditionals[i];
-		if ( pConditional->m_Type == CONDITIONAL_PLATFORM && pConditional->m_bDefined )
+	auto platform_cond = std::ranges::find_if(
+		_conditionals, [](conditional_t const* cond)
 		{
-			return pConditional->m_Name.String();
-		}
+			return cond->m_Type == CONDITIONAL_PLATFORM && cond->m_bDefined;
+		});
+
+
+	if(platform_cond == _conditionals.end())
+	{
+		// fatal - should have already been default set
+		Assert(0);
+		g_pVPC->VPCError("Unspecified platform.");
+
+		return nullptr;
 	}
 
-	// fatal - should have already been default set
-	Assert( 0 );
-	VPCError( "Unspecified platform." );
-
-	return nullptr;
+	return (*platform_cond)->m_Name.Get();
 }
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-const char *CVPC::GetTargetCompilerName()
+const char * CConditionalStorage::GetTargetCompilerName()
 {
 	const char *pPlatformName = GetTargetPlatformName();
 	if ( !V_stricmp_fast( pPlatformName, "WIN32" ) ||
@@ -170,13 +175,13 @@ const char *CVPC::GetTargetCompilerName()
 //	Case Insensitive. Returns true if platform conditional has been marked
 //	as defined.
 //-----------------------------------------------------------------------------
-bool CVPC::IsPlatformDefined( const char *pName )
+bool CConditionalStorage::IsPlatformDefined( const char *pName )
 {
-	for ( int i = 0; i < m_Conditionals.Count(); i++ )
+	for ( int i = 0; i < _conditionals.Count(); i++ )
 	{
-		if ( m_Conditionals[i]->m_Type == CONDITIONAL_PLATFORM && !V_stricmp_fast( pName, m_Conditionals[i]->m_Name.String() ) )
+		if ( _conditionals[i]->m_Type == CONDITIONAL_PLATFORM && !V_stricmp_fast( pName, _conditionals[i]->m_Name.String() ) )
 		{
-			return m_Conditionals[i]->m_bDefined;
+			return _conditionals[i]->m_bDefined;
 		}
 	}
 
@@ -186,11 +191,11 @@ bool CVPC::IsPlatformDefined( const char *pName )
 //-----------------------------------------------------------------------------
 //	Case Insensitive. Returns true if the given string is a platform name
 //-----------------------------------------------------------------------------
-bool CVPC::IsPlatformName( const char *pName )
+bool CConditionalStorage::IsPlatformName( const char *pName )
 {
-	for ( int i=0; i<m_Conditionals.Count(); i++ )
+	for ( int i=0; i<_conditionals.Count(); i++ )
 	{
-		if ( m_Conditionals[i]->m_Type == CONDITIONAL_PLATFORM && !V_stricmp_fast( pName, m_Conditionals[i]->m_Name.String() ) )
+		if ( _conditionals[i]->m_Type == CONDITIONAL_PLATFORM && !V_stricmp_fast( pName, _conditionals[i]->m_Name.String() ) )
 		{
 			return true;
 		}
@@ -201,14 +206,14 @@ bool CVPC::IsPlatformName( const char *pName )
 //-----------------------------------------------------------------------------
 //	Case Insensitive
 //-----------------------------------------------------------------------------
-conditional_t *CVPC::FindOrCreateConditional( const char *pName, bool bCreate, conditionalType_e type )
+conditional_t * CConditionalStorage::FindOrCreateConditional( const char *pName, bool bCreate, conditionalType_e type )
 {
-	for (int i=0; i<m_Conditionals.Count(); i++)
+	for (int i=0; i<_conditionals.Count(); i++)
 	{
-		if ( !V_stricmp_fast( pName, m_Conditionals[i]->m_Name.String() ) )
+		if ( !V_stricmp_fast( pName, _conditionals[i]->m_Name.String() ) )
 		{
 			// found
-			return m_Conditionals[i];
+			return _conditionals[i];
 		}
 	}
 
@@ -217,120 +222,52 @@ conditional_t *CVPC::FindOrCreateConditional( const char *pName, bool bCreate, c
 		return nullptr;
 	}
 
-	int index = m_Conditionals.AddToTail();
-	m_Conditionals[index] = new conditional_t();
+	int index = _conditionals.AddToTail();
+	_conditionals[index] = new conditional_t();
 
 	char tempName[256];
 	V_strncpy( tempName, pName, sizeof( tempName ) );
 	
 	// primary internal use as lower case, but spewed to user as upper for style consistency
-	m_Conditionals[index]->m_Name = V_strlower( tempName );
-	m_Conditionals[index]->m_UpperCaseName = V_strupper( tempName );
-	m_Conditionals[index]->m_Type = type;
+	_conditionals[index]->m_Name = V_strlower( tempName );
+	_conditionals[index]->m_UpperCaseName = V_strupper( tempName );
+	_conditionals[index]->m_Type = type;
 
-	return m_Conditionals[index];
+	return _conditionals[index];
 }
 
-void CVPC::SetConditional( const char *pString, bool bSet, conditionalType_e conditionalType )
+void CConditionalStorage::SetConditional( const char *pString, bool bSet, conditionalType_e conditionalType )
 {
 	conditional_t *pConditional = FindOrCreateConditional( pString, true, conditionalType );
 	if ( !pConditional )
 	{
-		VPCError( "Failed to find or create $%s conditional", pString );
+		g_pVPC->VPCError( "Failed to find or create $%s conditional", pString );
 	}
 
-	VPCStatus( false, "Set Conditional: $%s = %s", pConditional->m_UpperCaseName.Get(), ( bSet ? "1" : "0" ) );
+	g_pVPC->VPCStatus( false, "Set Conditional: $%s = %s", pConditional->m_UpperCaseName.Get(), ( bSet ? "1" : "0" ) );
 
 	if ( conditionalType != pConditional->m_Type )
 	{
-		VPCSyntaxError( "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get() );
+		g_pVPC->VPCSyntaxError( "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get() );
 	}
 
 	pConditional->m_bDefined = bSet;
 
 	if ( pConditional->m_Type == CONDITIONAL_SYSTEM )
 	{
-		// system conditionals are set at specific early execution points and not mutable by scripts
-		// cache off the state for any possible inner loop repetitive state queries
-		if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "SOURCECONTROL" ) )
-		{
-			m_bSourceControl = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "ALLOW_OS_MACRO" ) )
-		{
-			m_bAllowOSMacro = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "CRCCHECK_IN_PROJECT" ) )
-		{
-			m_bCRCCheckInProject = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "MISSING_FILE_CHECK" ) )
-		{
-			m_bCheckFiles = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "MISSING_FILE_IS_ERROR" ) )
-		{
-			m_bMissingFileIsError = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "FILEPATTERN" ) )
-		{
-			m_bAllowFilePattern = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "ADD_EXE_TO_CRC_CHECK" ) )
-		{
-			m_bAddExecuteableToCRC = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "P4_AUTO_ADD" ) )
-		{
-			m_bP4AutoAdd = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "PREFER_VS2010" ) )
-		{
-			m_bPreferVS2010 = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "PREFER_VS2012" ) )
-		{
-			m_bPreferVS2012 = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "PREFER_VS2013" ) )
-		{
-			m_bPreferVS2013 = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "PREFER_VS2015" ) )
-		{
-			m_bPreferVS2015 = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "PREFER_VS2022" ) )
-		{
-			m_bPreferVS2022 = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "ALLOW_QT" ) )
-		{
-			m_bAllowQt = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "ALLOW_SCHEMA" ) )
-		{
-			m_bAllowSchema = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "ALLOW_UNITY" ) )
-		{
-			m_bAllowUnity = bSet;
-		}
-		else if ( !V_strcmp( pConditional->m_UpperCaseName.Get(), "ALLOW_CLANG" ) )
-		{
-			m_bAllowClang = bSet;
-		}
+		g_pVPC->SetSystemConditional(pConditional->m_UpperCaseName.Get(), bSet);
+
 	}
 }
 
 //-----------------------------------------------------------------------------
 //	Returns true if string has a conditional of the specified type
 //-----------------------------------------------------------------------------
-bool CVPC::ConditionHasDefinedType( const char* pCondition, conditionalType_e type )
+bool CConditionalStorage::ConditionHasDefinedType( const char* pCondition, conditionalType_e type )
 {
-	for ( int i=0; i<m_Conditionals.Count(); i++ )
+	for ( int i=0; i<_conditionals.Count(); i++ )
 	{
-		if ( m_Conditionals[i]->m_Type != type )
+		if ( _conditionals[i]->m_Type != type )
 			continue;
 
         const char *pScan = pCondition;
@@ -343,7 +280,7 @@ bool CVPC::ConditionHasDefinedType( const char* pCondition, conditionalType_e ty
             }
 
             pScan++;
-            if ( V_strnicmp( pScan, m_Conditionals[i]->m_Name, m_Conditionals[i]->m_Name.Length() ) == 0 )
+            if ( V_strnicmp( pScan, _conditionals[i]->m_Name, _conditionals[i]->m_Name.Length() ) == 0 )
             {
                 // a define of expected type occurs in the conditional expression
                 return true;
@@ -357,7 +294,7 @@ bool CVPC::ConditionHasDefinedType( const char* pCondition, conditionalType_e ty
 //-----------------------------------------------------------------------------
 //	Callback for expression evaluator.
 //-----------------------------------------------------------------------------
-bool CVPC::ResolveConditionalSymbol( const char *pSymbol )
+bool CConditionalStorage::ResolveConditionalSymbol( const char *pSymbol )
 {
 	int offset = 0;
 
@@ -414,51 +351,12 @@ bool CVPC::ResolveConditionalSymbol( const char *pSymbol )
 	return false;
 }
 
-void CVPC::SaveConditionals()
-{
-	// only expecting a single save point
-	AssertMsg( m_SavedConditionals.Count() == 0, "SaveConditionals: Unexpected processing state, conditionals already saved\n" );
-
-	m_SavedConditionals.Purge();
-
-	if ( !m_Conditionals.Count() )
-		return;
-
-	// clone
-	m_SavedConditionals.SetCount( m_Conditionals.Count() );
-	for ( int i = 0; i < m_Conditionals.Count(); i++ )
-	{
-		m_SavedConditionals[i] = new conditional_t( *m_Conditionals[i] );
-	}
-}
-
-void CVPC::RestoreConditionals()
-{
-	if ( !m_SavedConditionals.Count() )
-	{
-		// already restored or nothing saved
-		return;
-	}
-
-	// whatever state the conditionals were changed to is undesired
-	// these get discarded
-	m_Conditionals.PurgeAndDeleteElements();
-
-	// restore the saved conditionals and purge the saved
-	m_Conditionals.Swap( m_SavedConditionals );
-	for ( int i = 0; i < m_Conditionals.Count(); i++ )
-	{
-		// Call SetConditional to update cached member bools:
-		SetConditional( m_Conditionals[i]->m_Name.Get(), m_Conditionals[i]->m_bDefined, m_Conditionals[i]->m_Type );
-	}
-}
-
 //-----------------------------------------------------------------------------
 //	Callback for expression evaluator.
 //-----------------------------------------------------------------------------
 static bool ResolveSymbol( const char *pSymbol )
 {
-	return g_pVPC->ResolveConditionalSymbol( pSymbol );
+	return g_pVPC->conditionals.ResolveConditionalSymbol( pSymbol );
 }
 
 //-----------------------------------------------------------------------------
@@ -472,7 +370,7 @@ static void SymbolSyntaxError( const char *pReason )
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-bool CVPC::EvaluateConditionalExpression( const char *pExpression )
+bool CConditionalStorage::EvaluateConditionalExpression( const char *pExpression )
 {
 	if ( !pExpression || !pExpression[0] )
 	{
@@ -491,9 +389,51 @@ bool CVPC::EvaluateConditionalExpression( const char *pExpression )
 	return bResult;
 }
 
-bool CVPC::IsConditionalDefined( const char *pName )
+bool CConditionalStorage::IsConditionalDefined( const char *pName )
 {
 	conditional_t *pConditional = FindOrCreateConditional( pName, false, CONDITIONAL_NULL );
 	return pConditional && pConditional->m_bDefined;
 }
 
+
+// ---------
+
+
+void CVPC::SaveConditionals()
+{
+	// only expecting a single save point
+	AssertMsg(m_SavedConditionals.Count() == 0, "SaveConditionals: Unexpected processing state, conditionals already saved\n");
+
+	m_SavedConditionals.Purge();
+
+	if (!_conditionals.Count())
+		return;
+
+	// clone
+	m_SavedConditionals.SetCount(_conditionals.Count());
+	for (int i = 0; i < _conditionals.Count(); i++)
+	{
+		m_SavedConditionals[i] = new conditional_t(*_conditionals[i]);
+	}
+}
+
+void CVPC::RestoreConditionals()
+{
+	if (!m_SavedConditionals.Count())
+	{
+		// already restored or nothing saved
+		return;
+	}
+
+	// whatever state the conditionals were changed to is undesired
+	// these get discarded
+	_conditionals.PurgeAndDeleteElements();
+
+	// restore the saved conditionals and purge the saved
+	_conditionals.Swap(m_SavedConditionals);
+	for (int i = 0; i < _conditionals.Count(); i++)
+	{
+		// Call SetConditional to update cached member bools:
+		SetConditional(_conditionals[i]->m_Name.Get(), _conditionals[i]->m_bDefined, _conditionals[i]->m_Type);
+	}
+}

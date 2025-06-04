@@ -42,3 +42,6 @@ bool VPC_IsPlatformOSX(const char* pPlatformName);
 bool VPC_IsPlatformAndroid(const char* pPlatformName);
 bool VPC_IsPlatform32Bits(const char* pPlatformName);
 bool VPC_IsPlatform64Bits(const char* pPlatformName);
+
+
+bool CharStrEq(const char* pStr, char ch);
