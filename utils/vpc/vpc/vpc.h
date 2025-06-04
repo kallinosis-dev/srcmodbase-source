@@ -32,7 +32,6 @@
 #include "tier1/fmtstr.h"
 #include "tier1/exprevaluator.h"
 #include "tier1/interface.h"
-#include "p4lib/ip4.h"
 #include "scriptsource.h"
 #include "logging.h"
 #ifdef STEAM
@@ -187,7 +186,7 @@ public:
 	CVPC();
 	~CVPC();
 
-	bool		Init( int argc, char **argv );
+	bool		Init(int argc, char const* const* argv);
 	void		Shutdown( bool bHasError = false );
 
 	void		VPCError( PRINTF_FORMAT_STRING const char *pFormat, ... ) FMTFUNCTION( 2, 3 );
@@ -207,7 +206,6 @@ public:
 	void		UpdateCacheFile( const char *szScriptFileName );
 
 	bool		HasCommandLineParameter( const char *pParamName ) const;
-	bool		HasP4SLNCommand() const;
 
 	CScript		&GetScript()			{ return m_Script; }
 
@@ -229,7 +227,6 @@ public:
 	bool		IsMissingFileAsErrorEnabled() const { return m_bMissingFileIsError; }
 	bool		IsFilePatternEnabled() const { return m_bAllowFilePattern; }
 	bool		AddExecuteableToCRCChecks() const { return m_bAddExecuteableToCRC; }
-	bool		IsP4AutoAddEnabled() const { return m_bP4AutoAdd; }
     bool        IsPerFileCompileConfigEnabled() const { return m_bPerFileCompileConfig; }
     bool		IsLibWithinLibEnabled() const { return m_bAllowLibWithinLib; }
     
@@ -363,9 +360,6 @@ public:
 private:
 	void					SpewUsage( void );
 
-	bool					LoadPerforceInterface();
-	void					UnloadPerforceInterface();
-
 	void					InProcessCRCCheck() const;
 
 	void					DetermineSourcePath();
@@ -376,16 +370,15 @@ private:
 
 	void					SetVerbosityFromCommandLineArgs();
 	void					HandleSingleCommandLineArg( const char *pArg );
-	void					ParseBuildOptions( int argc, const char **argv );
+	void					ParseBuildOptions(int argc, char const* const* argv);
 
 	bool					CheckBinPath( char *pOutBinPath, int outBinPathSize );
 	bool					RestartFromCorrectLocation( bool *pIsChild );
 
 	void					GenerateOptionsCRCString();
-	void					FindProjectFromVCPROJ( const char *pScriptNameVCProj, int nMainArgc, const char **pMainArgv );
+	void					FindProjectFromVCPROJ(const char *pScriptNameVCProj, int nMainArgc, char const* const* pMainArgv);
 	const char				*BuildTempGroupScript( const char *pScriptName );
 
-	bool					HandleP4SLN( IBaseSolutionGenerator *pSolutionGenerator );
 	bool					AreSolutionDepenenciesActual(CUtlPathStringHolder dependenciesPath, const CUtlVector<CDependency_Project*>& referencedProjects);
 	void					WriteSolutionDependencies(CUtlPathStringHolder dependenciesPath, const CUtlVector<CDependency_Project*>& referencedProjects);
 	void					HandleMKSLN( IBaseSolutionGenerator *pSolutionGenerator,
@@ -417,7 +410,6 @@ private:
 	bool    				m_bCheckFiles;
 	bool					m_bDecorateProject;
 	bool					m_bShowDeps;
-	bool					m_bP4AutoAdd;
 	bool					m_bDedicatedBuild;
 	bool					m_bAppendSrvToDedicated;	// concat "_srv" to dedicated server .so's.
 	bool					m_bUseValveBinDir;			// On Linux, use gcc toolchain from /valve/bin/
@@ -460,12 +452,9 @@ private:
 	int						m_nTotalFilesMissing;
 
 	int						m_nArgc;
-	const char				**m_ppArgv;
+	char const* const*		m_ppArgv;
 
 	CColorizedLoggingListener	m_LoggingListener;
-
-	PlatModule_t			m_pP4Module;
-	PlatModule_t			m_pFilesystemModule;
 
 	CScript					m_Script;
 
@@ -488,9 +477,6 @@ private:
 	CUtlString				m_MKSolutionFilename;
 
 	CUtlString				m_SolutionItemsFilename;	// For /slnitems
-
-	CUtlString				m_P4SolutionFilename;		// For /p4sln
-	CUtlVector< int >		m_iP4Changelists;
 
 	CUtlString				m_ProjectName;
 	CUtlString				m_LoadAddressName;
@@ -530,8 +516,6 @@ public:
 
 	CUtlVector< group_t >			m_Groups;
 	CUtlVector< groupTag_t >		m_GroupTags;
-
-	CUtlVector< CUtlString >		m_P4GroupRestrictions;
 
 	// for script extensions
 	struct CustomBuildStepForExtension_t
@@ -647,7 +631,7 @@ extern CProjectFile *		VPC_Schema_GetGeneratedFile( CProjectFile *pInputFile, co
 // ---------------- Unity files feature -----------------
 extern void					VPC_Unity_OnParseProjectStart( void );
 extern void					VPC_Unity_OnParseProjectEnd( CVCProjGenerator *pDataCollector );
-extern bool					VPC_Unity_UpdateUnityFiles( const char **ppArgs, int nArgs );
+extern bool					VPC_Unity_UpdateUnityFiles(char const* const* ppArgs, int nArgs);
 extern CProjectFile *		VPC_Unity_GetContainingUnityFile( CProjectFile *pInputFile, const char *pConfigName, CVCProjGenerator *pDataCollector );
 // ------------------------------------------------------
 

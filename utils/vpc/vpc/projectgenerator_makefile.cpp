@@ -215,12 +215,6 @@ void CProjectGenerator_Makefile::WriteNonConfigSpecificStuff( CUtlBuffer &outBuf
 	}
 
 	outBuf.Printf( "USE_VALVE_BINDIR=%s\n", ( g_pVPC->UseValveBinDir() ? "1" : "0" ) );
-
-	// Decide whether symbol files should be checked into Perforce or not.
-	if ( g_pVPC->conditionals.IsDefined( "SYMBOLS_IN_P4" ) )
-	{
-		outBuf.Printf( "P4_SYMS=1\n\n" );
-	}
 	
 	// Select release config if no config is specified.
 	outBuf.Printf( "# If no configuration is specified, \"release\" will be used.\nCFG ?= release\n" );

@@ -7,7 +7,6 @@
 #include "vpc.h"
 #include "baseprojectdatacollector.h"
 #include "tier1/utlstack.h"
-#include "p4lib/ip4.h"
 
 
 // ------------------------------------------------------------------------------------------------ //
@@ -294,25 +293,6 @@ bool CBaseProjectDataCollector::StartFile( const char *pFilename, VpcFileFlags_t
 	V_AppendSlash( szFullPath, sizeof( szFullPath ) );
 	V_strncat( szFullPath, pFilename, sizeof( szFullPath ) );
 	V_RemoveDotSlashes( szFullPath );
-
-#if 0 // FULLY DISABLED - DOES NOT WORK CORRECTLY.
-	if ( g_pVPC->IsP4AutoAddEnabled() )
-	{
-		// Add file to Perforce if it isn't there already
-		if ( Sys_Exists( szFullPath ) )
-		{
-			if ( g_pP4 && !g_pP4->IsFileInPerforce( szFullPath ) )
-			{
-				g_pP4->OpenFileForAdd( szFullPath );
-				VPCStatus( "%s automatically opened for add in default changelist.", szFullPath );
-			}
-		}
-		else 
-		{
-			g_pVPC->Warning( "%s not found on disk at location specified in project script.", szFullPath );
-		}
-	}
-#endif
 
 	return true;
 }

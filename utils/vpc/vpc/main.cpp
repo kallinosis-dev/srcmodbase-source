@@ -4,7 +4,6 @@
 #include "conditionals.h"
 #include "vpc.h"
 #include "dependencies.h"
-#include "p4sln.h"
 #include "ilaunchabledll.h"
 #include "filesystem.h"
 #include "macros.h"
@@ -72,9 +71,6 @@ public:
 
 CVPC::CVPC()
 {
-	m_pP4Module = nullptr;
-	m_pFilesystemModule = nullptr;
-
 	m_nArgc = 0;
 	m_ppArgv = nullptr;
 
@@ -97,7 +93,6 @@ CVPC::CVPC()
 	m_bEnableVpcGameMacro = true;
 	m_bDecorateProject = false;
 	m_bShowDeps = false;
-	m_bP4AutoAdd = false;
 	m_bIsDependencyPass = false;
 	m_bPreferVS2010 = false;
 	m_bUse2010 = false;
@@ -180,11 +175,11 @@ void CVPC::SetVerbosityFromCommandLineArgs()
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-bool CVPC::Init(int argc, char** argv)
+bool CVPC::Init(int argc, char const* const* argv)
 {
 	// need to use the raw command line for early arg parsing until AFTER any potential restart
 	m_nArgc = argc;
-	m_ppArgv = (const char**)argv;
+	m_ppArgv = argv;
 
 	// early setup of verbosity for debugging
 	SetVerbosityFromCommandLineArgs();
@@ -220,8 +215,6 @@ bool CVPC::Init(int argc, char** argv)
 	// autoargs may have verbosity settings, so redo
 	SetVerbosityFromCommandLineArgs();
 
-	LoadPerforceInterface();
-
 	// Emit the Date/Time to solve errors on user's machines as running the-expected-vpc.
 	Log_Msg(LOG_VPC, "VPC - Valve Project Creator (Build: %s %s)\n", __DATE__, __TIME__);
 	Log_Msg(LOG_VPC, "Copyright (c) Valve Corporation. All Rights Reserved.\n");
@@ -246,8 +239,6 @@ void CVPC::Shutdown(bool bHasError)
 		m_TempGroupScriptFilename.Clear();
 	}
 
-	UnloadPerforceInterface();
-
 	LoggingSystem_UnregisterLoggingListener(&m_LoggingListener);
 
 	if (bHasError)
@@ -256,100 +247,6 @@ void CVPC::Shutdown(bool bHasError)
 		exit(1);
 	}
 }
-
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-bool CVPC::LoadPerforceInterface()
-{
-#if defined( POSIX )
-	return false;
-#endif
-
-	if (p4)
-	{
-		// already loaded
-		return true;
-	}
-
-
-	//
-	// Try to load p4lib.dll and the filesystem since the p4lib relies on it
-	//
-	char dllsPath[MAX_FIXED_PATH];
-	char p4libdll[MAX_FIXED_PATH];
-	char filesystemdll[MAX_FIXED_PATH];
-
-#ifdef _WIN32
-
-	// Load dll's from devtools\bin as the ones in game/bin may have vpc-breaking changes
-	char szModuleBinPath[MAX_FIXED_PATH];
-
-#define DLLSUBDIRPATH	"."
-
-	GetModuleFileName(nullptr, szModuleBinPath, sizeof(szModuleBinPath));
-	V_ExtractFilePath(szModuleBinPath, dllsPath, sizeof(dllsPath));
-	V_strncat(dllsPath, DLLSUBDIRPATH, sizeof(dllsPath));
-
-	V_strncpy(p4libdll, dllsPath, sizeof(filesystemdll));
-	V_strncat(p4libdll, "\\p4lib.dll", sizeof(p4libdll));
-
-	V_strncpy(filesystemdll, dllsPath, sizeof(filesystemdll));
-	V_strncat(filesystemdll, "\\filesystem_stdio.dll", sizeof(filesystemdll));
-
-#else
-	V_strncpy( p4libdll, "p4lib", sizeof( p4libdll ) );
-    filesystemdll[0] = 0;
-	V_strncat( filesystemdll, "\\filesystem_stdio.dll", sizeof( filesystemdll ) );
-
-#endif
-
-
-	if (!Sys_LoadInterface(p4libdll, P4_INTERFACE_VERSION, (CSysModule**)&m_pP4Module, (void**)&p4))
-	{
-		VPCWarning("Unable to get Perforce interface from p4lib.dll.");
-		return false;
-	}
-
-	// Let the P4 module get its interface to the filesystem - hate this
-
-	// This method is not available in portal2, but is in source2.
-	//	p4->SetVerbose( false );
-	m_pFilesystemModule = Sys_LoadModule(filesystemdll);
-	p4->Connect(Sys_GetFactory((CSysModule*)m_pFilesystemModule));
-
-	return true;
-}
-
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-void CVPC::UnloadPerforceInterface()
-{
-	if (p4)
-	{
-		// TODO: is this necessary? It seems to cause crashes.
-		//		p4->Shutdown();
-	}
-
-	// Unload P4 if it was loaded
-	if (m_pP4Module)
-	{
-		Sys_UnloadModule(m_pP4Module);
-		m_pP4Module = PLAT_MODULE_INVALID;
-	}
-
-	if (m_pFilesystemModule)
-	{
-		// HACK: shutdown filesystem properly
-		auto fs = (IFileSystem*)Sys_GetFactory(m_pFilesystemModule)(FILESYSTEM_INTERFACE_VERSION, nullptr);
-		Assert(fs);
-
-		fs->Shutdown();
-
-		Sys_UnloadModule(m_pFilesystemModule);
-		m_pFilesystemModule = PLAT_MODULE_INVALID;
-	}
-}
-
 
 bool VPC_Config_IgnoreOption(const char* pPropertyName)
 {
@@ -948,7 +845,6 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "  Creating Solutions:\n");
 			Log_Msg(LOG_VPC, "    vpc /mksln foo.sln *tier2 +bar <--- Builds a foo solution of all tier2 consumers and bar. Sets up solution dependencies as required.\n");
 			Log_Msg(LOG_VPC, "    vpc /mksln foo.sln @engine +bar <--- Builds a foo solution of engine and all the projects it requires and bar. Sets up solution dependencies as required.\n");
-			Log_Msg(LOG_VPC, "    vpc /p4sln checkin.sln 0 <--- Builds a checkin solution with all dependencies based on whatever is in the current p4 client's changelists.\n");
 
 			Log_Msg(LOG_VPC, "\n");
 			Log_Msg(LOG_VPC, "  Further details can be found on Valve Internal Wiki on VPC.\n");
@@ -1003,9 +899,6 @@ void CVPC::SpewUsage(void)
 
 			Log_Msg(LOG_VPC, "\n--- Solution Generation ---\n");
 			Log_Msg(LOG_VPC, "[/mksln]:        <.sln filename> - make a solution file\n");
-			Log_Msg(LOG_VPC, "[/p4sln]:        <.sln filename> <changelists...> - make a solution file based on\n");
-			Log_Msg(LOG_VPC, "                 the changelist. Changelists can be specific numbers, 0 or \"default\"\n");
-			Log_Msg(LOG_VPC, "                 for the default changelist, or \"all\" for all active changelists.\n");
 			Log_Msg(LOG_VPC, "[/slnitems]:     <filename> - adds all files listed in <filename> to generated solutions.\n");
 			Log_Msg(LOG_VPC, "[/slnfolder]:    <folder path with search pattern> - Adds a solution folder\n");
 			Log_Msg(LOG_VPC, "                 containing all the files found in the specified folder path\n");
@@ -1040,9 +933,6 @@ void CVPC::SpewUsage(void)
 #ifndef DISALLOW_UNITY_FILE_EXCLUSION
 			Log_Msg(LOG_VPC, "[/unity_update]  <unityfilelistpath>:   (Used by ValveVSAddin)\n");
 #endif
-
-			//			Log_Msg( LOG_VPC, "[/p4autoadd]:    Automatically add project files to Perforce.\n" );
-			//			Log_Msg( LOG_VPC, "[/nop4autoadd]:  Don't automatically add project files to Perforce.\n" );
 		}
 	}
 
@@ -1462,14 +1352,6 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		{
 			m_bShowDeps = true;
 		}
-		else if (!V_stricmp_fast(pArgName, "p4autoadd"))
-		{
-			conditionals.Set("P4_AUTO_ADD", true, CONDITIONAL_SYSTEM);
-		}
-		else if (!V_stricmp_fast(pArgName, "nop4autoadd"))
-		{
-			conditionals.Set("P4_AUTO_ADD", false, CONDITIONAL_SYSTEM);
-		}
 		else if (
 			!V_stricmp_fast(pArgName, "2005") ||
 			!V_stricmp_fast(pArgName, "2010") ||
@@ -1543,7 +1425,7 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 }
 
 //-----------------------------------------------------------------------------
-// Called when /allgames is passed, also implied by /p4sln
+// Called when /allgames is passed
 //-----------------------------------------------------------------------------
 void CVPC::SetupAllGames(bool bSet)
 {
@@ -1555,7 +1437,7 @@ void CVPC::SetupAllGames(bool bSet)
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void CVPC::ParseBuildOptions(int argc, const char** argv)
+void CVPC::ParseBuildOptions(int argc, char const* const* argv)
 {
 	// parse options
 	// prefer +??? or -??? prefix syntax for groups and /??? for options because less confusing for new vpc users
@@ -1566,11 +1448,6 @@ void CVPC::ParseBuildOptions(int argc, const char** argv)
 
 		if (!V_stricmp_fast(pArg, "/mksln"))
 		{
-			if (!m_P4SolutionFilename.IsEmpty())
-			{
-				VPCError("Can't use /mksln with /p4sln.");
-			}
-
 			if ((i + 1) >= argc)
 			{
 				VPCError("/mksln requires a filename after it.");
@@ -1588,92 +1465,6 @@ void CVPC::ParseBuildOptions(int argc, const char** argv)
 				m_MKSolutionFilename = argv[i + 1];
 				++i;
 			}
-		}
-		else if (!V_stricmp_fast(pArg, "/p4sln"))
-		{
-			if (!m_MKSolutionFilename.IsEmpty())
-			{
-				VPCError("Can't use /mksln with %s.", pArg);
-			}
-
-			// Get the solution filename.
-			++i;
-			if (i >= argc || argv[i][0] == '+' || argv[i][0] == '-' || argv[i][0] == '/' || argv[i][0] == '*' || argv[i]
-				[0] == '@')
-			{
-				VPCError("%s <solution filename> <changelist number> [ [restrict_to_group] ].", pArg);
-			}
-
-			m_P4SolutionFilename = argv[i];
-
-			// Get the changelist number.
-			while (1)
-			{
-				++i;
-
-				// No more args?
-				if (i >= argc)
-					break;
-
-				// Special syntax for including all changelists.
-				if (!V_stricmp_fast(argv[i], "all"))
-				{
-					m_iP4Changelists.AddToTail(-1);
-					continue;
-				}
-
-				// Special syntax for including default changelists.
-				if (!V_stricmp_fast(argv[i], "default"))
-				{
-					m_iP4Changelists.AddToTail(0);
-					continue;
-				}
-
-				if (argv[i][0] < '0' || argv[i][0] > '9')
-				{
-					// This arg isn't a changelist number
-					--i;
-					break;
-				}
-
-				// Add the changelist number.
-				m_iP4Changelists.AddToTail(atoi(argv[i]));
-			}
-
-			// Make sure at least one changelist number was specified.
-			if (m_iP4Changelists.Count() == 0)
-			{
-				VPCError(
-					"%s <solution filename> <changelist number> [additional changelist numbers] [ [restrict_to_group] ].",
-					pArg);
-			}
-
-			// Get the group restriction.
-			while (1)
-			{
-				++i;
-
-				// No more args?
-				if (i >= argc)
-					break;
-
-				if (argv[i][0] != '[' || argv[i][V_strlen(argv[i]) - 1] != ']')
-				{
-					// This arg isn't a group name
-					--i;
-					break;
-				}
-
-				CUtlString groupName = argv[i];
-				groupName.TrimLeft("[");
-				groupName.TrimRight("]");
-
-				// Add the restricted group name
-				m_P4GroupRestrictions.AddToTail(groupName);
-			}
-
-			// /p4sln implies allgames
-			SetupAllGames(true);
 		}
 		else if (!V_stricmp_fast(pArg, "/slnitems"))
 		{
@@ -2155,7 +1946,7 @@ bool CVPC::BuildTargetProjects()
 //	Find the project that corresponds to the specified vcproj and setup
 //  to build that project.
 //-----------------------------------------------------------------------------
-void CVPC::FindProjectFromVCPROJ(const char* pScriptNameVCProj, int nMainArgc, const char** ppMainArgv)
+void CVPC::FindProjectFromVCPROJ(const char* pScriptNameVCProj, int nMainArgc, char const* const* ppMainArgv)
 {
 	// caller is specifying the output vcproj, i.e. via tool shortcut from within MSDEV to re-gen
 	// use the vpc standardized output vcproj name to determine re-gen parameters
@@ -2776,10 +2567,6 @@ void CVPC::SetSystemConditional(char const* name, bool value)
 	{
 		m_bAddExecuteableToCRC = value;
 	}
-	else if (!V_strcmp(name, "P4_AUTO_ADD"))
-	{
-		m_bP4AutoAdd = value;
-	}
 	else if (!V_strcmp(name, "PREFER_VS2010"))
 	{
 		m_bPreferVS2010 = value;
@@ -2829,48 +2616,6 @@ bool CVPC::HasCommandLineParameter(const char* pParamName) const
 			return true;
 	}
 	return false;
-}
-
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-bool CVPC::HasP4SLNCommand() const
-{
-	return HasCommandLineParameter("/p4sln");
-}
-
-//-----------------------------------------------------------------------------
-//-----------------------------------------------------------------------------
-bool CVPC::HandleP4SLN(IBaseSolutionGenerator* pSolutionGenerator)
-{
-#ifdef WIN32
-	// If they want to generate a solution based on a Perforce changelist, adjust m_targetProjects and set it up like /mksln had been passed in.
-	if (m_iP4Changelists.Count() == 0)
-		return false;
-
-	if (!VPC_AreProjectDependenciesSupportedForThisTargetPlatform())
-		VPCError("P4SLN not supported for %s yet!", conditionals.GetTargetPlatformName());
-
-	if (!pSolutionGenerator)
-		VPCError("No solution generator exists for this platform.");
-
-	// Figure out where to put the solution file.
-	CUtlPathStringHolder fullSolutionPath;
-	if (V_IsAbsolutePath(m_P4SolutionFilename.Get()))
-	{
-		fullSolutionPath.Set(m_P4SolutionFilename.Get());
-	}
-	else
-	{
-		fullSolutionPath.ComposeFileName(g_pVPC->GetStartDirectory(), m_P4SolutionFilename.Get());
-	}
-
-	CProjectDependencyGraph dependencyGraph;
-	GenerateSolutionForPerforceChangelist(dependencyGraph, m_iP4Changelists, pSolutionGenerator, fullSolutionPath);
-
-	return true;
-#else
-	return false;
-#endif
 }
 
 bool CVPC::AreSolutionDepenenciesActual(CUtlPathStringHolder dependenciesPath,
@@ -3354,7 +3099,7 @@ int CVPC::ProcessCommandLine()
 	CProjectDependencyGraph dependencyGraph;
 	GenerateBuildSet(dependencyGraph);
 
-	if (!bHasBuildCommand && !HasP4SLNCommand())
+	if (!bHasBuildCommand)
 	{
 		// spew usage
 		m_bUsageOnly = true;
@@ -3367,16 +3112,13 @@ int CVPC::ProcessCommandLine()
 		return 0;
 	}
 
-	if (!HandleP4SLN(m_pSolutionGenerator))
+	// iterate and build target projects
+	if (BuildTargetProjects())
 	{
-		// iterate and build target projects
-		if (BuildTargetProjects())
-		{
-			// now that we have valid project files, can generate solution
-			HandleMKSLN(m_pSolutionGenerator,
-			            m_pSolutionGenerator2,
-			            dependencyGraph);
-		}
+		// now that we have valid project files, can generate solution
+		HandleMKSLN(m_pSolutionGenerator,
+		            m_pSolutionGenerator2,
+		            dependencyGraph);
 	}
 
 	if (g_pVPC->GetTotalMissingFilesCount() > 0)

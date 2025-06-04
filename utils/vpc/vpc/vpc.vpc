@@ -12,8 +12,6 @@ $Macro OUTBINDIR				"$SRCDIR\devtools\bin"
 $Macro OUTBINNAME				"vpc"
 
 $Conditional DISABLE_TCMALLOC 1					[$LINUXALL]
-// $Conditional LINK_P4API "true"					[$STATIC_LINK && $WINDOWS]
-$Conditional REQUIRES_ITERATOR_DEBUGGING "true" [$LINK_P4API] //or else we get linker errors against the p4api libs
 $Conditional DISABLE_MULTIPROCESSOR_COMPILATION "true"
 
 $Include "$SRCDIR\vpc_scripts\source_exe_con_base.vpc"
@@ -42,13 +40,11 @@ $Configuration
 	$PostBuildEvent [$WINDOWS && !$ANALYZE]
 	{
 		// Copy dlls over from the game bin directory, to insulate vpc from changes in those dlls
-		// tier0, vstdlib, p4lib, filesystem_stdio
+		// tier0, vstdlib
 
 		$CommandLine		"$BASE" "\n" \
 							"copy $SRCDIR\..\game\bin$PLATSUBDIR\vstdlib.dll $SRCDIR\devtools\bin$PLATSUBDIR" "\n" \
-							"copy $SRCDIR\..\game\bin$PLATSUBDIR\tier0.dll   $SRCDIR\devtools\bin$PLATSUBDIR" "\n" \
-							"copy $SRCDIR\..\game\bin$PLATSUBDIR\filesystem_stdio.dll $SRCDIR\devtools\bin$PLATSUBDIR" "\n" \
-							"copy $SRCDIR\..\game\bin$PLATSUBDIR\p4lib.dll   $SRCDIR\devtools\bin$PLATSUBDIR" "\n"
+							"copy $SRCDIR\..\game\bin$PLATSUBDIR\tier0.dll   $SRCDIR\devtools\bin$PLATSUBDIR" "\n"
 	}
 }
 
@@ -107,9 +103,6 @@ $Project "vpc"
 
 		$File	"pch_helpers.cpp"
 
-		$File	"p4sln.cpp"							[$WINDOWS]
-		$File	"p4sln.h"							[$WINDOWS]
-
 		$File	"projectscript.cpp"
 		$File	"qtgenerator.cpp"
 		$File	"schemagenerator.cpp"
@@ -133,20 +126,5 @@ $Project "vpc"
 		$File	"$SRCDIR/common/clang/clang_utils.h"
 		$File	"$SRCDIR/common/environment_utils.cpp"
 		$File	"$SRCDIR/common/environment_utils.h"
-	}
-	
-	$Folder	"Link Libraries"
-	{
-		$Lib	 "p4lib_staticlink"	[$LINK_P4API]
-
-		$Lib	"$SRCDIR/lib/common/libclient"		[$LINK_P4API && !$VS2015]
-		$Lib	"$SRCDIR/lib/common/libp4sslstub"	[$LINK_P4API && !$VS2015]
-		$Lib	"$SRCDIR/lib/common/librpc"		[$LINK_P4API && !$VS2015]
-		$Lib	"$SRCDIR/lib/common/libsupp"		[$LINK_P4API && !$VS2015]
-
-		$Lib	"$SRCDIR/lib/common/2015/libclient"	[$LINK_P4API && $VS2015]
-		$Lib	"$SRCDIR/lib/common/2015/libp4sslstub"	[$LINK_P4API && $VS2015]
-		$Lib	"$SRCDIR/lib/common/2015/librpc"	[$LINK_P4API && $VS2015]
-		$Lib	"$SRCDIR/lib/common/2015/libsupp"	[$LINK_P4API && $VS2015]
 	}
 }

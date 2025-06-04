@@ -425,11 +425,7 @@ $Group "vpc"
 	"interfaces"
 	"tier0"
 	"tier1"
-	"tier2"
-	"filesystem_stdio"
-	"vpklib"
 	"vstdlib"
-	"p4lib"
 	"vpc"
 }
 

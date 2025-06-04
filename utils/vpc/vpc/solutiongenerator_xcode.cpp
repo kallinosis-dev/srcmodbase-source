@@ -2129,19 +2129,7 @@ void CSolutionGenerator_Xcode::EmitShellScriptBuildPhaseSection()
                 // Make symbol directory writable.
                 // We only check in .dSYM dirs for some builds.
                 pScript->Append( "  if [ -d \\\"$OUTPUTFILE.dSYM\\\" ]; then\\n" );
-                if ( g_pVPC->conditionals.IsDefined( "SYMBOLS_IN_P4" ) )
-                {
-                    pScript->Append( UsePOSIXSlashes( g_pVPC->GetSourcePath() ) );
-                    pScript->Append( "/vpc_scripts/valve_p4_edit.sh \\\"Xcode Auto Checkout\\\" -cname -ftype text \\\"$OUTPUTFILE.dSYM/Contents/Info.plist\\\"\\n" );
-                    pScript->Append( UsePOSIXSlashes( g_pVPC->GetSourcePath() ) );
-                    pScript->Append( "/vpc_scripts/valve_p4_edit.sh \\\"Xcode Auto Checkout\\\" -cname -ftype binary \\\"$OUTPUTFILE.dSYM/Contents/Resources/DWARF/" );
-                    pScript->Append( V_UnqualifiedFileName( rgchReleaseFilePath.Get() ) );
-                    pScript->Append( "\\\"\\n" );
-                }
-                else
-                {
-                    pScript->Append( "    chmod -R -f +w \\\"$OUTPUTFILE.dSYM\\\"\\n" );
-                }
+                pScript->Append( "    chmod -R -f +w \\\"$OUTPUTFILE.dSYM\\\"\\n" );
                 pScript->Append( "  fi\\n" );
                 pScript->Append( "fi\\n" );
 

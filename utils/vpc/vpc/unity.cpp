@@ -97,7 +97,7 @@ bool VPC_Unity_UpdateUnityFile( const CUtlString &unityFilePath )
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-bool VPC_Unity_UpdateUnityFiles( const char **ppArgs, int nArgs )
+bool VPC_Unity_UpdateUnityFiles(char const* const* ppArgs, int nArgs)
 {
 	// Command should be of the form:  vpc /unity_update "<unityfilelistpath>"
 	if ( nArgs != 2 )
