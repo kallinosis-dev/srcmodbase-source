@@ -46,7 +46,17 @@
 #include "macros.h"
 #include "tier1/UtlStringMap.h"
 #include "conditionals.h"
+#include "projectcache.h"
 
+
+class CVCProjGenerator;
+class CProjectConfiguration;
+struct PropertyState_t;
+class CProjectDependencyGraph;
+class CDependency_Project;
+class IBaseSolutionGenerator;
+class CBaseProjectDataCollector;
+class CProjectFile;
 
 DECLARE_LOGGING_CHANNEL(LOG_VPC);
 
@@ -163,13 +173,6 @@ public:
 	CUtlString m_CRCCheckStatusSpew;
 };
 
-#include "ibasesolutiongenerator.h"
-#include "ibaseprojectgenerator.h"
-#include "baseprojectdatacollector.h"
-#include "projectgenerator_vcproj.h"
-#include "projectgenerator_win32_2010.h"
-#include "projectgenerator_makefile.h"
-
 class CUtlStringCaseLess
 {
 public:
@@ -199,11 +202,9 @@ public:
 	void		OutputPacifier();
 	void		BreakPacifier();
 
-	void		LoadVPCCache( const char *szScriptFileName, KeyValues &intoKV );
-	void		SaveVPCCache( const char *szScriptFileName, KeyValues &cacheKV );
 
-	bool		IsProjectCurrent( const char *szScriptFileName, CUtlString &statusString );
-	void		UpdateCacheFile( const char *szScriptFileName );
+
+
 
 	bool		HasCommandLineParameter( const char *pParamName ) const;
 
@@ -504,6 +505,7 @@ private:
     CUtlStringBuilder               m_TempStringBuffer2;
     CUtlStringBuilder               m_MacroReplaceBuffer;
     CUtlStringBuilder               m_PropertyValueBuffer;
+
     
 public:
 	
@@ -558,6 +560,7 @@ public:
 public:
 	CMacroStorage macros;
 	CConditionalStorage conditionals;
+	ProjectCache projectCache;
 };
 
 extern CVPC *g_pVPC;

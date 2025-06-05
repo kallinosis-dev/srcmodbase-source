@@ -101,6 +101,9 @@ $Project "vpc"
 		$File	"macros.cpp"
 		$File 	"macros.h"
 
+		$File	"projectcache.cpp"
+		$File	"projectcache.h"
+
 		$File	"pch_helpers.cpp"
 
 		$File	"projectscript.cpp"

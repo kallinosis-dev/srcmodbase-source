@@ -5,6 +5,7 @@
 //=============================================================================
 
 #pragma once
+#include "vpc.h"
 
 class IBaseProjectGenerator;
 

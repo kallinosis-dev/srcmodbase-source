@@ -7,6 +7,7 @@
 #pragma once
 #endif
 
+#include "projectgenerator_vcproj.h"
 #include "tier1/utlsymbollarge.h"
 
 class CProjectGenerator_Makefile : public IVCProjWriter

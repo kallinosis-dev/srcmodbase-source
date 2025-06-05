@@ -4,8 +4,9 @@
 //
 //=====================================================================================//
 
+#include "projectgenerator_win32_2010.h"
 #include "misc.h"
-#include "vpc.h"
+
 
 const char *GetVCProjTargetPlatformName( const char *szVPCTargetPlatformName )
 {

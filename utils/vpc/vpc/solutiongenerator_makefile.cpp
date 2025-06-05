@@ -6,6 +6,7 @@
 
 #include "vpc.h"
 #include "dependencies.h"
+#include "ibasesolutiongenerator.h"
 
 
 //--------------------------------------------------------------------------------------------------

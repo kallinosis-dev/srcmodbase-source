@@ -10,6 +10,9 @@
 #pragma once
 #endif
 
+#include "projectgenerator_vcproj.h"
+#include "vpc.h"
+
 #define PROPERTYNAME( X, Y ) X##_##Y,
 enum Win32_2010_Properties_e
 {

@@ -4,6 +4,7 @@
 //
 //=====================================================================================//
 
+#include "ibaseprojectgenerator.h"
 #include "macros.h"
 #include "misc.h"
 #include "vpc.h"

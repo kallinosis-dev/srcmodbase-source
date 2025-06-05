@@ -31,6 +31,7 @@
 //=====================================================================================//
 
 #include "misc.h"
+#include "projectgenerator_vcproj.h"
 #include "vpc.h"
 
 // Define UNITY_SPEW as true to get detailed unity-related spew

@@ -6,6 +6,8 @@
 
 #include "vpc.h"
 #include "dependencies.h"
+#include "ibaseprojectgenerator.h"
+#include "ibasesolutiongenerator.h"
 #include "tier1/checksum_md5.h"
 
 struct SolutionFolderData_t

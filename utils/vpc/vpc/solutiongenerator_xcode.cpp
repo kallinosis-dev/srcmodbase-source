@@ -7,7 +7,9 @@
 #include "vpc.h"
 #include "dependencies.h"
 #include "baseprojectdatacollector.h"
+#include "ibasesolutiongenerator.h"
 #include "misc.h"
+#include "projectgenerator_vcproj.h"
 #include "splitstring.h"
 #include "tier1/utlsortvector.h"
 
@@ -3099,7 +3101,7 @@ public:
 		// remember if we needed rebuild according to vpc
 		// and update the mod time on the file if we needed rebuild
         CUtlString statusStr;
-		if ( !g_pVPC->IsProjectCurrent( g_pVPC->GetScript().GetName(), statusStr ) )
+		if ( !g_pVPC->projectCache.IsProjectCurrent( g_pVPC->GetScript().GetName(), statusStr ) )
         {
             g_pVPC->VPCStatus( true, "  %s", statusStr.Get() );
 			Sys_Touch( pOutputFilename );

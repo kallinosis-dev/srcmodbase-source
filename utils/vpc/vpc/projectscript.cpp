@@ -8,6 +8,7 @@
 #include "tier1/utldict.h"
 #include "tier1/keyvalues.h"
 #include "baseprojectdatacollector.h"
+#include "ibasesolutiongenerator.h"
 #include "macros.h"
 #include "misc.h"
 #include "tier1/fmtstr.h"
@@ -2310,7 +2311,10 @@ bool CVPC::ParseProjectScript( const char *pScriptName, int depth, bool bQuiet, 
 			WriteCRCCheckFile( GetProjectGenerator()->GetOutputFileName() );
 		}
 
-		g_pVPC->UpdateCacheFile( szScriptName );
+		auto projectGen = g_pVPC->GetProjectGenerator();
+		Assert(projectGen);
+
+		g_pVPC->projectCache.UpdateCacheFile( szScriptName, projectGen);
 
 		g_pVPC->m_ScriptList.Purge();
 		

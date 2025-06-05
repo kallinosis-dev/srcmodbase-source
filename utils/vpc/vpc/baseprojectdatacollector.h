@@ -7,6 +7,7 @@
 
 #include "tier1/keyvalues.h"
 #include "tier1/utlstack.h"
+#include "ibaseprojectgenerator.h"
 
 class CSpecificConfig
 {

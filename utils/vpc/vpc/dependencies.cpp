@@ -8,6 +8,7 @@
 #include "dependencies.h"
 #include "baseprojectdatacollector.h"
 #include "misc.h"
+#include "projectgenerator_vcproj.h"
 #include "splitstring.h"
 #include "tier0/fasttimer.h"
 #include "tier1/utlvector.h"

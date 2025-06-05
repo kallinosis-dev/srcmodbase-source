@@ -7,6 +7,7 @@
 #include "vpc.h"
 #include "projectgenerator_android.h"
 
+#include "ibasesolutiongenerator.h"
 #include "misc.h"
 #include "splitstring.h"
 

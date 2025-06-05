@@ -5,6 +5,7 @@
 
 #include "macros.h"
 
+#include "ibaseprojectgenerator.h"
 #include "vpc.h"
 
 inline bool IsValidMacroNameChar( char ch )

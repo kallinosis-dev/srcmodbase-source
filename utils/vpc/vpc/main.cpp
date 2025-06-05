@@ -6,20 +6,21 @@
 #include "dependencies.h"
 #include "ilaunchabledll.h"
 #include "filesystem.h"
+#include "ibaseprojectgenerator.h"
+#include "ibasesolutiongenerator.h"
 #include "macros.h"
 #include "misc.h"
+#include "projectcache.h"
 #include "splitstring.h"
 #include "tier1/interface.h"
 #include "tier1/keyvalues.h"
 
+class IVCProjWriter;
+
 DEFINE_LOGGING_CHANNEL_NO_TAGS(LOG_VPC, "VPC");
 
-#define VPC_CACHE_EXTENSION			"vpc_cache"
-#define VPC_CACHE_VERSION			1
 
 CVPC* g_pVPC;
-
-
 
 const char* g_VPCGeneratedFolderName = "_vpc_";
 const char* g_QtFolderName = "GENERATED - DO NOT MODIFY OR CHECK IN";
@@ -635,156 +636,6 @@ void CVPC::DetermineSourcePath()
 void CVPC::SetDefaultSourcePath()
 {
 	V_SetCurrentDirectory(m_SourcePath.Get());
-}
-
-void CVPC::LoadVPCCache(const char* szScriptFileName, KeyValues& intoKV)
-{
-	CFmtStr cacheFileName("%s." VPC_CACHE_EXTENSION, szScriptFileName);
-	intoKV.Clear();
-
-	CUtlBuffer kvBuffer;
-	kvBuffer.SetBufferType(true, false);
-	if (!Sys_LoadFileIntoBuffer(cacheFileName.Get(), kvBuffer, true))
-		return;
-
-	//try to load existing cache to preserve other target platforms. Not a huge deal if it fails though
-	if (!intoKV.LoadFromBuffer(cacheFileName.Get(), kvBuffer))
-		return;
-
-	if (intoKV.GetInt("CacheVersion", 0) == VPC_CACHE_VERSION)
-		return;
-
-	intoKV.Clear();
-	intoKV.SetInt("CacheVersion", VPC_CACHE_VERSION);
-}
-
-void CVPC::SaveVPCCache(const char* szScriptFileName, KeyValues& cacheKV)
-{
-	CFmtStr cacheFileName("%s." VPC_CACHE_EXTENSION, szScriptFileName);
-
-	CUtlBuffer kvBuffer;
-	kvBuffer.SetBufferType(true, false);
-
-	cacheKV.RecursiveSaveToFile(kvBuffer, 0);
-	Sys_WriteFileIfChanged(cacheFileName.Get(), kvBuffer, true);
-}
-
-//-----------------------------------------------------------------------------
-// Operates quietly, caller decides fate of informative status.
-//-----------------------------------------------------------------------------
-bool CVPC::IsProjectCurrent(const char* szScriptFileName, CUtlString& projectStatusString)
-{
-	KeyValues kvCache("vpc_cache");
-	LoadVPCCache(szScriptFileName, kvCache);
-
-	KeyValues* pKVTargetKey = kvCache.FindKey(conditionals.GetTargetPlatformName());
-	if (!pKVTargetKey)
-		return false;
-
-	//generally the primary vcxproj/makefile
-	const char* szCRCFile = pKVTargetKey->GetString("CRCFile");
-
-	if (!szCRCFile || !Sys_Exists(szCRCFile))
-	{
-		return false;
-	}
-
-	// check output files for trivial existence
-	{
-		KeyValues* pKVOutputs = pKVTargetKey->FindKey("OutputFiles");
-		if (pKVOutputs)
-		{
-			for (KeyValues* pKVIter = pKVOutputs->GetFirstSubKey(); pKVIter; pKVIter = pKVIter->GetNextKey())
-			{
-				const char* szOutput = pKVIter->GetString();
-				if (szOutput && szOutput[0] && !Sys_Exists(szOutput))
-				{
-					return false;
-				}
-			}
-		}
-	}
-
-	char errorString[1024];
-	errorString[0] = '\0';
-	bool bCRCValid = VPC_CheckProjectDependencyCRCs(szCRCFile, m_SupplementalCRCString.Get(), errorString,
-	                                                sizeof(errorString));
-
-	if (!m_bVerbose)
-	{
-		// The detailed CRC error/results string is undesired, it doesn't matter why the CRC failed/succeeded.
-		// By popular request, verbosity is used as the enabler, when the CRC yields unexpected results.
-		errorString[0] = '\0';
-	}
-
-	// start with the detailed informational CRC status
-	projectStatusString = errorString;
-	if (!projectStatusString.IsEmpty())
-	{
-		// error string has varying contents, no expectation on CR/LF, ensure appended status appears exactly contiguous on next line
-		projectStatusString.TrimRight();
-		projectStatusString += "\n";
-	}
-
-	// The project status string is a terse summary.
-	// This is a utility call in varying contexts. The caller decides whether to echo.
-	if (bCRCValid)
-	{
-		projectStatusString += CFmtStrMax("Valid: '%s' Passes CRC Checks.", szScriptFileName);
-	}
-	else
-	{
-		projectStatusString += CFmtStrMax("Stale: '%s' Requires Rebuild.", szScriptFileName);
-	}
-
-	return bCRCValid;
-}
-
-void CVPC::UpdateCacheFile(const char* szScriptFileName)
-{
-	KeyValues kvCache("vpc_cache");
-
-	//try to load existing cache to preserve other target platforms. Not a huge deal if it fails though
-	LoadVPCCache(szScriptFileName, kvCache);
-
-	KeyValues* pKVTargetKey = kvCache.FindKey(conditionals.GetTargetPlatformName(), true);
-
-	//nuke the old values for this target platform
-	pKVTargetKey->Clear();
-
-	Assert(m_pProjectGenerator);
-	const char* szOutputFileName = m_pProjectGenerator->GetOutputFileName();
-	Assert(szOutputFileName);
-
-	pKVTargetKey->SetString("CRCFile", CFmtStr("%s." VPCCRCCHECK_FILE_EXTENSION, szOutputFileName));
-
-	{
-		KeyValues* pKVOutputs = pKVTargetKey->CreateKey("OutputFiles");
-
-		int nKeyName = 0;
-		pKVOutputs->SetString(CFmtStr("%d", nKeyName++).Get(), szOutputFileName);
-
-		//ancillary files
-		//TODO: The project generator should probably control this
-		if (conditionals.IsDefined("GENERATE_MAKEFILE_VCXPROJ"))
-		{
-			// IsProjectCurrent is only called once even though
-			// we're generating twice and thus have more files to check,
-			// so we special-case here to make sure all files of
-			// interest are checked.
-			CUtlPathStringHolder extraOutFile(szOutputFileName, ".vcxproj");
-			pKVOutputs->SetString(CFmtStr("%d", nKeyName++).Get(), extraOutFile.Get());
-			extraOutFile.Append(".filters");
-			pKVOutputs->SetString(CFmtStr("%d", nKeyName++).Get(), extraOutFile.Get());
-		}
-		else
-		{
-			CUtlPathStringHolder extraOutFile(szOutputFileName, ".filters");
-			pKVOutputs->SetString(CFmtStr("%d", nKeyName++).Get(), extraOutFile.Get());
-		}
-	}
-
-	SaveVPCCache(szScriptFileName, kvCache);
 }
 
 //-----------------------------------------------------------------------------
@@ -1552,6 +1403,7 @@ void CVPC::GenerateOptionsCRCString()
 	}
 
 	VPCStatus(false, "CRC String: %s\n", m_SupplementalCRCString.String());
+	projectCache.SetSupplementalString(m_SupplementalCRCString.Get());
 }
 
 //-----------------------------------------------------------------------------
@@ -1877,14 +1729,14 @@ bool IProjectIterator::VisitProject(projectIndex_t iProject, const char* pScript
 {
 	m_CRCCheckStatusSpew.Clear();
 
-	// check project's crc signature
-	if (!g_pVPC->IsForceIterate() && g_pVPC->IsProjectCurrent(pScriptPath, m_CRCCheckStatusSpew))
-	{
-		// valid, does not need to build
-		return false;
-	}
+	if (g_pVPC->IsForceIterate()) return true;
 
-	return true;
+
+	// check project's crc signature
+	bool crcPassed = g_pVPC->projectCache.IsProjectCurrent(pScriptPath, m_CRCCheckStatusSpew);
+	ProjectCache::MakeStatusString(m_CRCCheckStatusSpew, pScriptPath, crcPassed);
+
+	return !crcPassed;
 }
 
 //-----------------------------------------------------------------------------
@@ -3088,6 +2940,8 @@ int CVPC::ProcessCommandLine()
 
 	// set macros and conditionals derived from command-line options
 	SetMacrosAndConditionals();
+
+	projectCache.SetTargetPlatform(conditionals.GetTargetPlatformName());
 
 	// generate a CRC string derived from conditionals and command-line options
 	GenerateOptionsCRCString();

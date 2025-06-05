@@ -6,6 +6,8 @@
 
 #pragma once
 
+#include "baseprojectdatacollector.h"
+
 class CProjectConfiguration;
 class CVCProjGenerator;
 class CProjectTool;

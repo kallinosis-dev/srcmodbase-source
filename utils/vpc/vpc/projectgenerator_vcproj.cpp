@@ -4,6 +4,10 @@
 //
 //=====================================================================================//
 
+#include "projectgenerator_vcproj.h"
+
+#include "ibaseprojectgenerator.h"
+#include "ibasesolutiongenerator.h"
 #include "macros.h"
 #include "misc.h"
 #include "vpc.h"

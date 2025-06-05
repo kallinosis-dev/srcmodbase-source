@@ -1,5 +1,7 @@
 //===================== Copyright (c) Valve Corporation. All Rights Reserved. ======================
 //==================================================================================================
+#include "projectgenerator_makefile.h"
+
 #include "vpc.h"
 #include "bitvec.h"
 #include "misc.h"

@@ -9,6 +9,7 @@
 #include "tier1/keyvalues.h"
 #include "baseprojectdatacollector.h"
 #include "misc.h"
+#include "projectgenerator_vcproj.h"
 #include "tier1/fmtstr.h"
 #include "../../../public/schemasystem/schemaversionnumbers.h" // for SCHEMA_SCHPROJ_VERSION
 
