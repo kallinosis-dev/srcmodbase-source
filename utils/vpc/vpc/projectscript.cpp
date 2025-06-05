@@ -4,6 +4,8 @@
 //
 //=====================================================================================//
 
+#include "projectscript.h"
+
 #include "vpc.h"
 #include "tier1/utldict.h"
 #include "tier1/keyvalues.h"

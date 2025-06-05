@@ -4,6 +4,8 @@
 //
 //=====================================================================================//
 
+#include "groupscript.h"
+
 #include "dependencies.h"
 #include "misc.h"
 #include "vpc.h"

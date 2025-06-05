@@ -97,16 +97,20 @@ $Project "vpc"
 		$File	"dependencies.cpp"		
 		$File	"dependencies.h"
 		$File	"generated_files.cpp"
-		$File	"groupscript.cpp"
 		$File	"macros.cpp"
 		$File 	"macros.h"
+
+		$File	"groupscript.cpp"
+		$File	"groupscript.h"
+
+		$File	"projectscript.cpp"
+		$File	"projectscript.h"
 
 		$File	"projectcache.cpp"
 		$File	"projectcache.h"
 
 		$File	"pch_helpers.cpp"
 
-		$File	"projectscript.cpp"
 		$File	"qtgenerator.cpp"
 		$File	"schemagenerator.cpp"
 		$File	"scriptsource.cpp"
