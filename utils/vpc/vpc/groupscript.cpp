@@ -8,6 +8,7 @@
 
 #include "dependencies.h"
 #include "misc.h"
+#include "projectscript.h"
 #include "vpc.h"
 
 //-----------------------------------------------------------------------------

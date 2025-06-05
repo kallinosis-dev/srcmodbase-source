@@ -12,6 +12,7 @@
 #include "macros.h"
 #include "misc.h"
 #include "projectcache.h"
+#include "projectscript.h"
 #include "tier1/splitstring.h"
 #include "tier1/keyvalues.h"
 

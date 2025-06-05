@@ -13,6 +13,7 @@
 #include "ibasesolutiongenerator.h"
 #include "macros.h"
 #include "misc.h"
+#include "projectscript.h"
 #include "vpc.h"
 
 extern const char *GetVCProjTargetPlatformName( const char *szVPCTargetPlatformName );

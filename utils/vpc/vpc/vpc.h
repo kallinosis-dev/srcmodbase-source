@@ -35,9 +35,12 @@
 #include "macros.h"
 #include "tier1/UtlStringMap.h"
 #include "conditionals.h"
+#include "groupscript.h"
 #include "projectcache.h"
 
 
+struct project_t;
+struct scriptList_t;
 class CVCProjGenerator;
 class CProjectConfiguration;
 struct PropertyState_t;
@@ -85,68 +88,16 @@ struct KeywordName_t
 	configKeyword_e		m_Keyword;
 };
 
-typedef bool (*procptr_t)( const char *pPropertyName );
 typedef bool (*GetSymbolProc_t)( const char *pKey );
 
 #define INVALID_INDEX -1
 
-struct property_t
-{
-	const char	*pName;
-	procptr_t	handler;
-	int			platformMask;
-};
 
 
 #define k_bVPCForceLowerCase false
 
 
-typedef int scriptIndex_t;
-struct script_t
-{
-	CUtlString		name;
-	CUtlString		m_condition;
-};
 
-typedef int	projectIndex_t;
-struct project_t
-{
-	CUtlString				name;
-	CUtlVector< script_t >	scripts;
-};
-
-typedef int groupIndex_t;
-struct group_t
-{
-	CUtlVector< projectIndex_t >	projects;
-};
-
-typedef int groupTagIndex_t;
-struct groupTag_t
-{
-	groupTag_t()
-	{
-		bSameAsProject = false;
-	}
-
-	CUtlString					name;
-	CUtlVector< groupIndex_t >	groups;
-
-	// this tag is an implicit definition of the project
-	bool						bSameAsProject;
-};
-
-struct scriptList_t
-{
-	scriptList_t()
-	{
-		m_crc = 0;
-	}
-
-	CUtlString	m_scriptName;
-	CRC32_t		m_crc;
-	bool		m_bCRCCheck;
-};
 
 class IProjectIterator
 {
@@ -542,13 +493,9 @@ extern const char			*g_SchemaAnchorBase;
 extern const char			*g_IncludeSeparators[2];
 
 extern void					VPC_ParseGroupScript( const char *pScriptName );
-extern void					VPC_ParseProjectScriptParameters( const char *szScriptName, int depth, bool bQuiet );
-extern void					VPC_HandleProjectCommands( const char *pUnusedScriptName, int depth, bool bQuiet );
 extern void					VPC_GenerateProjectDependencies( CBaseProjectDataCollector *pDataCollector );
 extern bool					VPC_AreProjectDependenciesSupportedForThisTargetPlatform( void );
 
-extern groupTagIndex_t		VPC_Group_FindOrCreateGroupTag( const char *pName, bool bCreate );
-extern projectIndex_t		VPC_Group_FindOrCreateProject( const char *pName, bool bCreate );
 
 extern void					VPC_Keyword_Folder( VpcFolderFlags_t iFolderFlags = VPC_FOLDER_FLAGS_NONE );
 extern void					VPC_Keyword_Configuration();
