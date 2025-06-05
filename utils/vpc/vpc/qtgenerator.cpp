@@ -50,7 +50,7 @@ void VPC_VerifyQtMacrosPresent()
 {
 	if ( 0 == V_strlen( g_pVPC->macros.GetValue( "QT_MACROS_DEFINED" ) ) )
 	{
-		g_pVPC->VPCError( "Cannot have Qt files without defining the Qt macros (QT_MACROS_DEFINED) - ensure you include the core Qt script (in project %s).", g_pVPC->GetProjectName() );
+		logging::Error( "Cannot have Qt files without defining the Qt macros (QT_MACROS_DEFINED) - ensure you include the core Qt script (in project %s).", g_pVPC->GetProjectName() );
 	}
 }
 
@@ -76,7 +76,7 @@ void VPC_Qt_TrackFile( const char *pName, bool bRemove, VpcFileFlags_t iFileFlag
 		// Ignore if this script opts out of the Qt feature
 		if ( g_pVPC->conditionals.IsDefined( "NOQTFOLDER" ) )
 		{
-			g_pVPC->VPCWarning( "Ignoring Qt file '%s', project '%s' specifies NOQTFOLDER!", pName, g_pVPC->GetProjectName() );
+			logging::Warning( "Ignoring Qt file '%s', project '%s' specifies NOQTFOLDER!", pName, g_pVPC->GetProjectName() );
 			return;
 		}
 
@@ -271,7 +271,7 @@ void VPC_Qt_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 		}
 		else
 		{
-			g_pVPC->VPCSyntaxError( "Can only use $QtFile for cpp, header, or ui files. (%s)", pFilename );
+			logging::SyntaxError( "Can only use $QtFile for cpp, header, or ui files. (%s)", pFilename );
 			continue;
 		}
 	}
@@ -279,8 +279,8 @@ void VPC_Qt_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 	vpcBuffer.Printf( "}\n" );
 
 	// save parser
-	bool bIgnoreRedundancyWarning = g_pVPC->IsIgnoreRedundancyWarning();
-	g_pVPC->SetIgnoreRedundancyWarning( true );
+	bool bIgnoreRedundancyWarning = logging::IsIgnoreRedundancyWarning();
+	logging::SetIgnoreRedundancyWarning( true );
 	g_pVPC->GetScript().PushScript( "Internal List [Qt]", (char*)vpcBuffer.Base(), 1, false, false );
 
 	const char *pToken = g_pVPC->GetScript().GetToken( true );
@@ -291,7 +291,7 @@ void VPC_Qt_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 
 	// restore parser
 	g_pVPC->GetScript().PopScript();
-	g_pVPC->SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
+	logging::SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
 }
 
 
@@ -304,7 +304,7 @@ CProjectFile *VPC_Qt_GetGeneratedFile( CProjectFile *pInputFile, const char * /*
 	CProjectFile *pGeneratedFile = nullptr;
 	pDataCollector->FindFile( generatedFilename.Get(), &pGeneratedFile );
 	if ( !pGeneratedFile )
-		g_pVPC->VPCWarning( "VPC_Qt_GetGeneratedFile: could not find generated file for '%s'", pInputFile->m_Name.Get() );
+		logging::Warning( "VPC_Qt_GetGeneratedFile: could not find generated file for '%s'", pInputFile->m_Name.Get() );
 	return pGeneratedFile;
 }
 
@@ -325,6 +325,6 @@ bool CVPC::IsQtEnabled( void )
 		return false;	// Schema not enabled
 	if ( IsQtSupportedForThisTargetPlatform() )
 		return true;	// Feature enabled & supported!
-	ExecuteOnce( VPCWarning( "Qt feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
+	ExecuteOnce( logging::Warning( "Qt feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
 	return false;		// Platform not supported
 }

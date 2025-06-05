@@ -199,14 +199,14 @@ void CXMLWriter::AddNodeProperty( const char *pString )
 {
 	if ( m_Nodes.Count() == 0 )
 	{
-		g_pVPC->VPCError( "No nodes to add a property to" );
+		logging::Error( "No nodes to add a property to" );
 		UNREACHABLE();
 	}
 
 	Node_t &top = m_Nodes.Top();
 	if ( top.m_bHasFinishedPush )
 	{
-		g_pVPC->VPCError( "Node has already finished pushing. You must add all properties before writing child data" );
+		logging::Error( "Node has already finished pushing. You must add all properties before writing child data" );
 		UNREACHABLE();
 	}
 
@@ -282,7 +282,7 @@ CUtlString CXMLWriter::FixupXMLString( const char *pInput ) const
 
 			if ( !V_StrSubst( bigBuffer[flip], xmlFixups[i].m_pFrom, xmlFixups[i].m_pTo, bigBuffer[flip ^ 1], sizeof( bigBuffer[0] ), false ) )
 			{
-				g_pVPC->VPCError( "XML overflow - Increase big buffer" );
+				logging::Error( "XML overflow - Increase big buffer" );
 			}
 			flip ^= 1;
 		}
@@ -478,9 +478,9 @@ bool Sys_WriteFile( const char *pFilename, const CUtlBuffer &newData, bool bText
 		return true;
 	}
 #if defined( PLATFORM_WINDOWS )
-	g_pVPC->VPCWarning( "Could not write file \"%s\", GetLastError() = %d", pFilename, GetLastError() );
+	logging::Warning( "Could not write file \"%s\", GetLastError() = %d", pFilename, GetLastError() );
 #else
-	g_pVPC->VPCWarning( "Could not write file %s", pFilename );
+	logging::Warning( "Could not write file %s", pFilename );
 #endif
 
 	Assert( file );
@@ -634,7 +634,7 @@ bool Sys_StringToBool( const char *pString, bool bAssumeTrueIfAmbiguous /*= fals
 			return true;
 		}
 		// unknown boolean expression
-		g_pVPC->VPCSyntaxError( "Unknown boolean expression '%s'", pString );
+		logging::SyntaxError( "Unknown boolean expression '%s'", pString );
 	}
 
 	// assume false
@@ -662,7 +662,7 @@ bool Sys_ReplaceString( const char *pStream, const char *pSearch, const char *pR
 			if ( len > nRemainingBytes )
 			{
 				// prevent the destructive copy
-				g_pVPC->VPCError( "Sys_ReplaceString: Unexpected Buffer Overflow" );
+				logging::Error( "Sys_ReplaceString: Unexpected Buffer Overflow" );
 			}
 			V_memcpy( pOut, pStart, len );
 			pOut += len;
@@ -679,7 +679,7 @@ bool Sys_ReplaceString( const char *pStream, const char *pSearch, const char *pR
 		if ( len > nRemainingBytes )
 		{
 			// prevent the destructive copy
-			g_pVPC->VPCError( "Sys_ReplaceString: Unexpected Buffer Overflow" );
+			logging::Error( "Sys_ReplaceString: Unexpected Buffer Overflow" );
 		}
 		V_memcpy( pOut, pStart, len );
 		pOut += len;
@@ -690,7 +690,7 @@ bool Sys_ReplaceString( const char *pStream, const char *pSearch, const char *pR
 		if ( len > nRemainingBytes )
 		{
 			// prevent the destructive copy
-			g_pVPC->VPCError( "Sys_ReplaceString: Unexpected Buffer Overflow" );
+			logging::Error( "Sys_ReplaceString: Unexpected Buffer Overflow" );
 		}
 		V_memcpy( pOut, pReplace, len );
 		pOut += len;
@@ -703,7 +703,7 @@ bool Sys_ReplaceString( const char *pStream, const char *pSearch, const char *pR
 	if ( nRemainingBytes < 1 )
 	{
 		// prevent the destructive terminate
-		g_pVPC->VPCError( "Sys_ReplaceString: Unexpected Buffer Overflow" );
+		logging::Error( "Sys_ReplaceString: Unexpected Buffer Overflow" );
 	}
 	*pOut = '\0';
 
@@ -763,7 +763,7 @@ const char *Sys_EvaluateEnvironmentExpression( const char *pExpression, const ch
 	char *pLastChar = &pEnvVarName[ V_strlen( pEnvVarName ) - 1 ];
 	if ( !*pEnvVarName || *pLastChar != ')' )
 	{
-		g_pVPC->VPCSyntaxError( "%s must have a closing ')' in \"%s\"\n", bEnvDefinedMacro ? "$envdefined()" : "$env()", pExpression );
+		logging::SyntaxError( "%s must have a closing ')' in \"%s\"\n", bEnvDefinedMacro ? "$envdefined()" : "$env()", pExpression );
 	}
 
 	// get the contents of the $env( blah..blah ) expressions
@@ -927,7 +927,7 @@ bool Sys_ForceToMinimalRelativePath( const char *pBasePath, const char *pRelativ
 	bool bFixed = ( V_stricmp_fast( pRelativeFilename, newRelativeFilename ) != 0 );
 	if ( bFixed && g_pVPC->IsShowFixedPaths() )
 	{
-		g_pVPC->VPCWarning( "Fixed Redundant Pathing: %s -> %s", pRelativeFilename, newRelativeFilename );
+		logging::Warning( "Fixed Redundant Pathing: %s -> %s", pRelativeFilename, newRelativeFilename );
 	}
 
 	V_strncpy( pOutputBuffer, newRelativeFilename, nOutputBufferSize );
@@ -1062,14 +1062,14 @@ bool Sys_CopyToMirror( const char *pFilename )
 
 	if ( !Sys_Exists( absolutePathToOriginal ) )
 	{
-		g_pVPC->VPCWarning( "Cannot mirror '%s', cannot resolve to expected '%s'", pFilename, absolutePathToOriginal.Get() );
+		logging::Warning( "Cannot mirror '%s', cannot resolve to expected '%s'", pFilename, absolutePathToOriginal.Get() );
 		return false;
 	}
 
 	const char *pTargetPath = StringAfterPrefix( absolutePathToOriginal, g_pVPC->GetSourcePath() );
 	if ( !pTargetPath || !pTargetPath[0] )
 	{
-		g_pVPC->VPCWarning( "Cannot mirror '%s', missing expected prefix '%s' in '%s'", pFilename, g_pVPC->GetSourcePath(), absolutePathToOriginal.Get() );
+		logging::Warning( "Cannot mirror '%s', missing expected prefix '%s' in '%s'", pFilename, g_pVPC->GetSourcePath(), absolutePathToOriginal.Get() );
 		return false;
 	}
 
@@ -1086,12 +1086,12 @@ bool Sys_CopyToMirror( const char *pFilename )
 #ifdef _WIN32
 	if ( !CopyFile( absolutePathToOriginal, absolutePathToMirror, FALSE ) )
 	{
-		g_pVPC->VPCWarning( "Cannot mirror '%s' to '%s'", absolutePathToOriginal.Get(), absolutePathToMirror.Get() );
+		logging::Warning( "Cannot mirror '%s' to '%s'", absolutePathToOriginal.Get(), absolutePathToMirror.Get() );
 		return false;
 	}
 	else
 	{
-		g_pVPC->VPCStatus( true, "Mirror: '%s' to '%s'", absolutePathToOriginal.Get(), absolutePathToMirror.Get() );
+		logging::Status( true, "Mirror: '%s' to '%s'", absolutePathToOriginal.Get(), absolutePathToMirror.Get() );
 	}
 #endif
 

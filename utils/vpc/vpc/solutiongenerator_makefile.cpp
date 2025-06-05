@@ -58,7 +58,7 @@ public:
 		// Write the file.
 		FILE *fp = fopen( pSolutionFilename, "wt" );
 		if ( !fp )
-			g_pVPC->VPCError( "Can't open %s for writing.", pSolutionFilename );
+			logging::Error( "Can't open %s for writing.", pSolutionFilename );
 
 		fprintf( fp, "# VPC MASTER MAKEFILE\n\n\n" );
 /*
@@ -307,7 +307,7 @@ public:
 	{
 		const char *pPos = V_stristr( pFileData, pSearchFor );
 		if ( !pPos )
-			g_pVPC->VPCError( "Can't find ProjectGUID in %s.", pFilename );
+			logging::Error( "Can't find ProjectGUID in %s.", pFilename );
 
 		return pPos + V_strlen( pSearchFor );
 	}

@@ -142,13 +142,10 @@ const char *CScript::SkipToValidToken( const char *data, bool *pHasNewLines, int
 //-----------------------------------------------------------------------------
 void CScript::SkipBracedSection( const char** dataptr, int* numlines, int nInitialDepth ) 
 {
-	const char*	token;
-	int	depth;
-
-	depth = nInitialDepth;
+	int depth = nInitialDepth;
 	do 
 	{
-		token = GetToken( dataptr, true, numlines );
+		const char* token = GetToken(dataptr, true, numlines);
 		if ( token[1] == '\0' ) 
 		{
 			if ( token[0] == '{' )
@@ -164,10 +161,9 @@ void CScript::SkipBracedSection( const char** dataptr, int* numlines, int nIniti
 //-----------------------------------------------------------------------------
 void CScript::SkipRestOfLine( const char** dataptr, int* numlines ) 
 {
-	const char*	p;
-	int	c;
+	char c;
 
-	p = *dataptr;
+	const char* p = *dataptr;
 	while ( ( c = *p++ ) != '\0' ) 
 	{
 		if ( c == '\n' ) 
@@ -388,7 +384,7 @@ void CScript::PushScript( const char *pFilename, bool bAddScriptToCRCCheck )
 	// parse the text script
 	if ( !Sys_Exists( pFilename ) )
 	{
-		g_pVPC->VPCError( "Cannot open %s", pFilename );	
+		logging::Error( "Cannot open %s", pFilename );	
 	}
 
 	char *pScriptBuffer;
@@ -396,7 +392,7 @@ void CScript::PushScript( const char *pFilename, bool bAddScriptToCRCCheck )
 	if ( nScriptLength < 0 )
 	{
 		// Unexpected due to existence check
-		g_pVPC->VPCError( "Cannot open %s", pFilename );
+		logging::Error( "Cannot open %s", pFilename );
 	}
 	
 	g_pVPC->AddScriptToParsedList( pFilename, bAddScriptToCRCCheck, bAddScriptToCRCCheck ? CRC32_ProcessSingleBuffer( pScriptBuffer, nScriptLength ) : 0 );
@@ -408,7 +404,7 @@ void CScript::PushScript( const char *pScriptName, const char *pScriptData, int 
 {
 	if ( m_ScriptStack.Count() > MAX_SCRIPT_STACK_SIZE )
 	{
-		g_pVPC->VPCError( "PushScript( scriptname=%s ) - stack overflow\n", pScriptName );
+		logging::Error( "PushScript( scriptname=%s ) - stack overflow\n", pScriptName );
 	}
 
 	// Push the current state onto the stack.
@@ -452,7 +448,7 @@ void CScript::PopScript()
 {
 	if ( m_ScriptStack.Count() == 0 )
 	{
-		g_pVPC->VPCError( "PopScript(): stack is empty" );
+		logging::Error( "PopScript(): stack is empty" );
 	}
 
 	if ( m_bFreeScriptAtPop && m_pScriptData )
@@ -477,7 +473,7 @@ void CScript::EnsureScriptStackEmpty() const
 {
 	if ( m_ScriptStack.Count() != 0 )
 	{
-		g_pVPC->VPCError( "EnsureScriptStackEmpty(): script stack is not empty!" );
+		logging::Error( "EnsureScriptStackEmpty(): script stack is not empty!" );
 	}
 }
 
@@ -604,7 +600,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
 		const char *pToken = GetToken( pScriptData, bAllowNextLine, pScriptLine );
 		if ( !pToken || !pToken[0] )
 		{
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 		}
 
 		const char *pNextToken = PeekNextToken( *pScriptData, false );
@@ -619,7 +615,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
 		}
 		else if ( pToken[0] == '[' && pNextToken && pNextToken[0] == '[' )
 		{
-			g_pVPC->VPCSyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
+			logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
 		}
 		else if ( bFoundReservedEmptyTokenOnly )
         {
@@ -662,7 +658,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
 		if ( !bFoundReservedEmptyTokenOnly )
 		{
 			// error due to unexpected fully empty state
-			g_pVPC->VPCSyntaxError( "Unexpected empty value." );
+			logging::SyntaxError( "Unexpected empty value." );
 		}
 	}
 

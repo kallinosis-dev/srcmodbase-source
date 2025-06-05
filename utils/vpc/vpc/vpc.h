@@ -47,7 +47,6 @@ class IBaseSolutionGenerator;
 class CBaseProjectDataCollector;
 class CProjectFile;
 
-DECLARE_LOGGING_CHANNEL(LOG_VPC);
 
 // We try to avoid any kind of fixed path buffers
 // but we still have certain calls that fill
@@ -181,26 +180,10 @@ public:
 	bool		Init(int argc, char const* const* argv);
 	void		Shutdown( bool bHasError = false );
 
-	void		VPCError( PRINTF_FORMAT_STRING const char *pFormat, ... ) FMTFUNCTION( 2, 3 );
-	void		VPCWarning( PRINTF_FORMAT_STRING const char *pFormat, ... ) FMTFUNCTION( 2, 3 );
-	void		VPCStatus( bool bAlwaysSpew, PRINTF_FORMAT_STRING const char *pFormat, ... ) FMTFUNCTION( 3, 4 );
-	void		VPCStatusWithColor( bool bAlwaysSpew, Color messageColor, PRINTF_FORMAT_STRING const char *pFormat, ... ) FMTFUNCTION( 4, 5 );
-	void		VPCSyntaxError( PRINTF_FORMAT_STRING const char *pFormat = nullptr, ... ) FMTFUNCTION( 2, 3 );
-
-	void		ClearPacifier();
-	void		OutputPacifier();
-	void		BreakPacifier();
-
-
-
-
-
 	bool		HasCommandLineParameter( const char *pParamName ) const;
 
 	CScript		&GetScript()			{ return m_Script; }
 
-	bool		IsVerbose() const { return m_bVerbose; }
-	bool		IsQuiet() const { return m_bQuiet; }
 	bool		IsQuietValidSpew() const { return m_bQuietValidSpew; }
 	void		SetQuietValidSpew( bool bQuiet ){ m_bQuietValidSpew = bQuiet; }
 	bool		IsShowDependencies() const { return m_bShowDeps; }
@@ -250,8 +233,6 @@ public:
 	void		IncrementFileMissing()	{ ++m_nFilesMissing; ++m_nTotalFilesMissing; }
 	void		ResetMissingFilesCount() { m_nFilesMissing = 0; }
 
-	bool		IsIgnoreRedundancyWarning() const { return m_bIgnoreRedundancyWarning; }
-	void		SetIgnoreRedundancyWarning( bool bSet )		{ m_bIgnoreRedundancyWarning = bSet; }
 
 	bool UsingShallowDependencies( void ) const { return m_bShallowDepencies; }
 
@@ -382,8 +363,6 @@ private:
 	void					SaveConditionals();
 	void					RestoreConditionals();
 
-	bool					m_bVerbose;
-	bool					m_bQuiet;
 	bool					m_bQuietValidSpew;
 	bool					m_bUsageOnly;
 	bool					m_bHelp;
@@ -391,7 +370,6 @@ private:
 	bool					m_bSpewGames;
 	bool					m_bSpewGroups;
 	bool					m_bSpewProjects;
-	bool					m_bIgnoreRedundancyWarning;
 	bool					m_bSpewProperties;
 	bool					m_bTestMode;
 	bool					m_bForceGenerate;
@@ -444,7 +422,7 @@ private:
 	int						m_nArgc;
 	char const* const*		m_ppArgv;
 
-	CColorizedLoggingListener	m_LoggingListener;
+	
 
 	CScript					m_Script;
 
@@ -523,7 +501,7 @@ public:
     bool                            m_bInProjectSection;
 	bool							m_bGeneratedProject;
 	bool							m_bIsDependencyPass; // True inside CProjectDependencyGraph::BuildProjectDependencies()
-	int								m_nPacifier;
+
 
 	// Schema stuff
 	CUtlVector< CUtlStringCI >		m_SchemaFiles;		// NOTE: case-insensitive comparisons (error-tolerant w.r.t filenames in .VPCs)

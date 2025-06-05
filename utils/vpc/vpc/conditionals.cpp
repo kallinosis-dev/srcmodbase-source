@@ -122,7 +122,7 @@ const char * CConditionalStorage::GetTargetPlatformName()
 	{
 		// fatal - should have already been default set
 		Assert(0);
-		g_pVPC->VPCError("Unspecified platform.");
+		logging::Error("Unspecified platform.");
 
 		return nullptr;
 	}
@@ -167,7 +167,7 @@ const char * CConditionalStorage::GetTargetCompilerName()
     }
 
 	// TODO: support other platforms (needed by schemacompiler/clang)
-	ExecuteOnce( g_pVPC->VPCWarning( "TODO: GetTargetCompilerName not yet implemented for platform %s!", pPlatformName ) );
+	ExecuteOnce( logging::Warning( "TODO: GetTargetCompilerName not yet implemented for platform %s!", pPlatformName ) );
 	return "UNKNOWN";
 }
 //-----------------------------------------------------------------------------
@@ -246,14 +246,14 @@ void CConditionalStorage::Set( const char *pString, bool bSet, conditionalType_e
 	conditional_t *pConditional = CreateOrGet( pString, conditionalType );
 	if ( !pConditional )
 	{
-		g_pVPC->VPCError( "Failed to find or create $%s conditional", pString );
+		logging::Error( "Failed to find or create $%s conditional", pString );
 	}
 
-	g_pVPC->VPCStatus( false, "Set Conditional: $%s = %s", pConditional->m_UpperCaseName.Get(), ( bSet ? "1" : "0" ) );
+	logging::Status( false, "Set Conditional: $%s = %s", pConditional->m_UpperCaseName.Get(), ( bSet ? "1" : "0" ) );
 
 	if ( conditionalType != pConditional->m_Type )
 	{
-		g_pVPC->VPCSyntaxError( "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get() );
+		logging::SyntaxError( "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get() );
 	}
 
 	pConditional->m_bDefined = bSet;
@@ -347,7 +347,7 @@ bool CConditionalStorage::ResolveConditionalSymbol( const char *pSymbol )
 		if ( pMacro )
 		{
 			// found a macro, and not allowed
-			g_pVPC->VPCSyntaxError( "Macro '%s' detected in conditional expression and not allowed. Use \"$Conditional <name> <0/1>\"", pSymbol );
+			logging::SyntaxError( "Macro '%s' detected in conditional expression and not allowed. Use \"$Conditional <name> <0/1>\"", pSymbol );
 		}
 	}
 
@@ -369,7 +369,7 @@ static bool ResolveSymbol( const char *pSymbol )
 static void SymbolSyntaxError( const char *pReason )
 {
 	// invoke internal syntax error hndling which spews script stack as well
-	g_pVPC->VPCSyntaxError( "%s", pReason );
+	logging::SyntaxError( "%s", pReason );
 }
 
 //-----------------------------------------------------------------------------
@@ -387,7 +387,7 @@ bool CConditionalStorage::EvaluateConditionalExpression( const char *pExpression
 	bool bValid = ExpressionHandler.Evaluate( bResult, pExpression, ::ResolveSymbol, ::SymbolSyntaxError );
 	if ( !bValid )
 	{
-		g_pVPC->VPCSyntaxError( "VPC Conditional Evaluation Error" );
+		logging::SyntaxError( "VPC Conditional Evaluation Error" );
 	}
 
 	return bResult;

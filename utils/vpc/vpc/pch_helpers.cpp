@@ -83,7 +83,7 @@ bool VPC_GetPropertyBool( configKeyword_e tool, CProjectConfiguration *pRootConf
 		return false;
 
 	if ( pProperty->m_pToolProperty->m_nType != PT_BOOLEAN )
-		g_pVPC->VPCError( "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_BOOLEAN!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+		logging::Error( "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_BOOLEAN!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
 
 	*pResult = Sys_StringToBool( pProperty->m_StringValue.Get() );
 	return true;
@@ -106,7 +106,7 @@ bool VPC_GetPropertyString( configKeyword_e tool, CProjectConfiguration *pRootCo
 		// Convert from PT_LIST to string
 		*pResult = pProperty->m_OrdinalString;
 	}
-	else g_pVPC->VPCError( "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_STRING!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+	else logging::Error( "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_STRING!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
 
 	return true;
 }
@@ -250,7 +250,7 @@ bool VPC_GetGlobalPropertyString( configKeyword_e tool, CVCProjGenerator *pDataC
 			bFound = true;
 		// Validate that this property matches across all configs
 		if ( ( i > 0 ) && ( value != *pResult ) )
-			g_pVPC->VPCError( "[VPC_GetGlobalPropertyString] Found multiple conflicting values for property %s (%s) in project %s!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+			logging::Error( "[VPC_GetGlobalPropertyString] Found multiple conflicting values for property %s (%s) in project %s!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
 		*pResult = value;
 	}
 
@@ -329,7 +329,7 @@ void VPC_SetProperty_ForFiles(	const CUtlVector< CProjectFile * > &files, const 
 
 			// Parse the property value, in the context of the current file's configuration
 			if ( !VPC_SetToolProperty( tool, pFileConfig, pToolProperty, quotedPropertyValue.Get() ) )
-				g_pVPC->VPCError( "VPC_SetProperty_ForFiles: Failed to set property %s for file %s", pPropertyName, pFileConfig->m_Name.Get() );
+				logging::Error( "VPC_SetProperty_ForFiles: Failed to set property %s for file %s", pPropertyName, pFileConfig->m_Name.Get() );
 		}
 	}
 }
@@ -437,14 +437,14 @@ void VPC_GetPCHInclude( CProjectFile *pFile, CProjectConfiguration *pRootConfig,
 		if ( bCreatesPCH )
 		{
 			// Emit a warning so we can ensure VPCs provide explicit information about how each PCH file is built:
-			g_pVPC->VPCWarning( "File (%s) creates a PCH (/Yc), but has no 'UsePCHThroughFile' command, so there is no way to tell *which* PCH it creates!\n", pFilename );
+			logging::Warning( "File (%s) creates a PCH (/Yc), but has no 'UsePCHThroughFile' command, so there is no way to tell *which* PCH it creates!\n", pFilename );
 			bCreatesPCH = false;
 		}
 		else
 		{
 			// This is also an error case: it says 'use PCH' but doesn't specify *which* PCH to use!:
 			// TODO: Work out if this warning is needed.
-			//g_pVPC->VPCWarning( "File (%s) uses a PCH (/Yu), but has no 'UsePCHThroughFile' command, so there is no way to tell *which* PCH it uses!\n", pFilename );
+			//logging::Warning( "File (%s) uses a PCH (/Yu), but has no 'UsePCHThroughFile' command, so there is no way to tell *which* PCH it uses!\n", pFilename );
 		}
 		return;
 	}
@@ -529,7 +529,7 @@ void VPC_GeneratePCHInfo(	CVCProjGenerator *pDataCollector, CProjectConfiguratio
 	}
 	for ( int i = 0; i < usedPCHs.Count(); i++ )
 	{
-		g_pVPC->VPCWarning( "[VPC_GeneratePCHInfo] Could not find VPC entry which generates PCH file for PCH header %s, in project %s!\n", usedPCHs[i].Get(), pDataCollector->GetProjectName() );
+		logging::Warning( "[VPC_GeneratePCHInfo] Could not find VPC entry which generates PCH file for PCH header %s, in project %s!\n", usedPCHs[i].Get(), pDataCollector->GetProjectName() );
 		DebuggerBreakIfDebugging();
 	}
 

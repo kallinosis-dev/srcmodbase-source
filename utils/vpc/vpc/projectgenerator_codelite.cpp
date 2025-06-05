@@ -17,7 +17,7 @@ void CProjectGenerator_CodeLite::GenerateCodeLiteProject( CBaseProjectDataCollec
 	char szProjectFile[MAX_PATH];
 	sprintf( szProjectFile, "%s.project", pOutFilename );
 
-	g_pVPC->VPCStatus( true, "Saving CodeLite project for: '%s' File: '%s'", pCollector->GetProjectName().String(), szProjectFile );
+	logging::Status( true, "Saving CodeLite project for: '%s' File: '%s'", pCollector->GetProjectName().String(), szProjectFile );
 
 	m_fp = fopen( szProjectFile, "wt" );
 

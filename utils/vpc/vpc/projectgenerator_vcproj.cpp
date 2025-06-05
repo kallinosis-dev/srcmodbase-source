@@ -104,7 +104,7 @@ bool CProjectFile::GetConfiguration( const char *pConfigName, CProjectConfigurat
 {
 	if ( !pConfigName || !pConfigName[0] )
 	{
-		g_pVPC->VPCError( "Empty or bad configuration name." );
+		logging::Error( "Empty or bad configuration name." );
 	}
 
 	if ( ppConfig )
@@ -220,7 +220,7 @@ bool CProjectFolder::GetFolder( const char *pFolderName, CProjectFolder **pFolde
 
 	if ( !pFolderName || !pFolderName[0] )
 	{
-		g_pVPC->VPCError( "Empty or bad folder name." );
+		logging::Error( "Empty or bad folder name." );
 	}
 
 	for ( int iIndex = m_Folders.Head(); iIndex != m_Folders.InvalidIndex(); iIndex = m_Folders.Next( iIndex ) )
@@ -255,7 +255,7 @@ bool CProjectFolder::AddFolder( const char *pFolderName, VpcFolderFlags_t iFlags
 		// NOTE: we allow child scripts to override a base script folder from normal to $UnityFolder
 		pExistingFolder->m_iFlags = (VpcFolderFlags_t)( pExistingFolder->m_iFlags | ( iFlags & VPC_FOLDER_FLAGS_UNITY ) );
 		if ( pExistingFolder->m_iFlags != iFlags )
-			g_pVPC->VPCWarning( "Folder '%s' specified multiple times with different types!", pFolderName );
+			logging::Warning( "Folder '%s' specified multiple times with different types!", pFolderName );
 		return false;
 	}
 
@@ -294,7 +294,7 @@ void CProjectFolder::AddFile( const char *pFilename, VpcFileFlags_t iFlags, CPro
 {
 	if ( !pFilename || !pFilename[0] )
 	{
-		g_pVPC->VPCError( "Empty or bad filename." );
+		logging::Error( "Empty or bad filename." );
 	}
 
 	CProjectFile *pNewFile = new CProjectFile( m_pGenerator, pFilename, iFlags );
@@ -329,7 +329,7 @@ bool CProjectFolder::FindFile( const char *pFilename )
 {
 	if ( !pFilename || !pFilename[0] )
 	{
-		g_pVPC->VPCError( "Empty or bad filename." );
+		logging::Error( "Empty or bad filename." );
 	}
 
 	for ( int iIndex = m_Files.Head(); iIndex != m_Files.InvalidIndex(); iIndex = m_Files.Next( iIndex ) )
@@ -348,7 +348,7 @@ bool CProjectFolder::RemoveFile( const char *pFilename )
 {
 	if ( !pFilename || !pFilename[0] )
 	{
-		g_pVPC->VPCError( "Empty or bad filename." );
+		logging::Error( "Empty or bad filename." );
 	}
 
 	for ( int iIndex = m_Files.Head(); iIndex != m_Files.InvalidIndex(); iIndex = m_Files.Next( iIndex ) )
@@ -496,7 +496,7 @@ bool CPropertyStates::SetStringProperty( ToolProperty_t *pToolProperty, CProject
 
 	if ( pCurrentValue && !V_stricmp( pCurrentValue, pStrBuf->Get() ) )
 	{
-		g_pVPC->VPCWarning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
 	}
 
 	if ( pCurrentValue )
@@ -549,7 +549,7 @@ bool CPropertyStates::SetListProperty( ToolProperty_t *pToolProperty, CProjectTo
 
 	if ( !pNewOrdinalValue )
 	{
-		g_pVPC->VPCSyntaxError( "Unknown Ordinal for %s", pToolProperty->m_ParseString.Get() );
+		logging::SyntaxError( "Unknown Ordinal for %s", pToolProperty->m_ParseString.Get() );
 	}
 
 	// find possible current value
@@ -578,7 +578,7 @@ bool CPropertyStates::SetListProperty( ToolProperty_t *pToolProperty, CProjectTo
 
 	if ( pCurrentOrdinalValue && !V_stricmp_fast( pCurrentOrdinalValue, pNewOrdinalValue ) )
 	{
-		g_pVPC->VPCWarning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
 	}
 
 	if ( pCurrentOrdinalValue )
@@ -636,7 +636,7 @@ bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTo
 
 	if ( pCurrentOrdinalValue && !V_stricmp_fast( pCurrentOrdinalValue, pNewOrdinalValue ) )
 	{
-		g_pVPC->VPCWarning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
 	}
 
 	if ( pCurrentOrdinalValue )
@@ -705,7 +705,7 @@ bool CPropertyStates::SetIntegerProperty( ToolProperty_t *pToolProperty, CProjec
 
 		if ( V_stricmp_fast( compareStr, pStrBuf->Get() ) )
 		{
-			g_pVPC->VPCSyntaxError( "Unrecognized integer value: %s", pStrBuf->Get() );
+			logging::SyntaxError( "Unrecognized integer value: %s", pStrBuf->Get() );
 		}
 	}
 
@@ -735,7 +735,7 @@ bool CPropertyStates::SetIntegerProperty( ToolProperty_t *pToolProperty, CProjec
 
 	if ( pCurrentOrdinalValue && ( V_atoi64( pCurrentOrdinalValue ) == nParsedValue ) )
 	{
-		g_pVPC->VPCWarning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
 	}
 
 	if ( pCurrentOrdinalValue )
@@ -793,11 +793,11 @@ bool CPropertyStates::SetProperty( ToolProperty_t *pToolProperty, CProjectTool *
 		break;
 
 	case PT_DEPRECATED:
-		g_pVPC->VPCError( "SetProperty: Property %s has been deprecated and is no longer supported!", pToolProperty->m_ParseString.Get() );
+		logging::Error( "SetProperty: Property %s has been deprecated and is no longer supported!", pToolProperty->m_ParseString.Get() );
 		break;
 		
 	default:
-		g_pVPC->VPCError( "SetProperty: Unknown type for %s - requires implementation", pToolProperty->m_ParseString.Get() );
+		logging::Error( "SetProperty: Unknown type for %s - requires implementation", pToolProperty->m_ParseString.Get() );
 	}
 
 	return bHandled;
@@ -819,13 +819,13 @@ const char *CPropertyStates::GetPropertyValue( ToolProperty_t *pToolProperty, CP
 		break;
 
 	case PT_IGNORE:
-		g_pVPC->VPCError( "GetPropertyValue: Property %s is an 'ignored' key and has no real state associated with it and cannot be queried.", pToolProperty->m_ParseString.Get() );
+		logging::Error( "GetPropertyValue: Property %s is an 'ignored' key and has no real state associated with it and cannot be queried.", pToolProperty->m_ParseString.Get() );
 		
 	case PT_DEPRECATED:
-		g_pVPC->VPCError( "GetPropertyValue: Property %s has been deprecated and is no longer supported!", pToolProperty->m_ParseString.Get() );
+		logging::Error( "GetPropertyValue: Property %s has been deprecated and is no longer supported!", pToolProperty->m_ParseString.Get() );
 
 	default:
-		g_pVPC->VPCError( "GetPropertyValue: Unknown type for %s - requires implementation", pToolProperty->m_ParseString.Get() );
+		logging::Error( "GetPropertyValue: Unknown type for %s - requires implementation", pToolProperty->m_ParseString.Get() );
 	}
 
 	// find possible current value
@@ -1089,7 +1089,7 @@ const char *CCompilerTool::GetPropertyValue( ToolProperty_t *pToolProperty, CPro
 		CProjectConfiguration *pConfig;
 		if ( !GetGenerator()->GetRootConfiguration( m_ConfigName.Get(), &pConfig ) )
 		{
-			g_pVPC->VPCError( "CCompilerTool::GetPropertyValue: Failed to get configuration %s", m_ConfigName.Get() );
+			logging::Error( "CCompilerTool::GetPropertyValue: Failed to get configuration %s", m_ConfigName.Get() );
 		}
 
 		return CProjectTool::GetPropertyValue( pToolProperty, pConfig->GetCompilerTool() );
@@ -1119,7 +1119,7 @@ const char *CCustomBuildTool::GetPropertyValue( ToolProperty_t *pToolProperty, C
 		CProjectConfiguration *pConfig;
 		if ( !GetGenerator()->GetRootConfiguration( m_ConfigName.Get(), &pConfig ) )
 		{
-			g_pVPC->VPCError( "CCustomBuildTool::GetPropertyValue: Failed to get configuration %s", m_ConfigName.Get() );
+			logging::Error( "CCustomBuildTool::GetPropertyValue: Failed to get configuration %s", m_ConfigName.Get() );
 		}
 
 		return CProjectTool::GetPropertyValue( pToolProperty, pConfig->GetCustomBuildTool() );
@@ -1149,7 +1149,7 @@ const char *CResourcesTool::GetPropertyValue( ToolProperty_t *pToolProperty, CPr
 		CProjectConfiguration *pConfig;
 		if ( !GetGenerator()->GetRootConfiguration( m_ConfigName.Get(), &pConfig ) )
 		{
-			g_pVPC->VPCError( "CResourcesTool::GetPropertyValue: Failed to get configuration %s", m_ConfigName.Get() );
+			logging::Error( "CResourcesTool::GetPropertyValue: Failed to get configuration %s", m_ConfigName.Get() );
 		}
 
 		return CProjectTool::GetPropertyValue( pToolProperty, pConfig->GetCompilerTool() );
@@ -1266,7 +1266,7 @@ void CVCProjGenerator::StartProject()
 {
 	if ( !m_pGeneratorDefinition )
 	{
-		g_pVPC->VPCError( "Missing a properly configured generator definition" );
+		logging::Error( "Missing a properly configured generator definition" );
 	}
 
 	BaseClass::StartProject();
@@ -1323,24 +1323,24 @@ void CVCProjGenerator::EndProject( bool bSaveData )
 	{
 		if ( m_ProjectName.IsEmpty() )
 		{
-			g_pVPC->VPCError( "Invalid Empty Project Name" );
+			logging::Error( "Invalid Empty Project Name" );
 		}
 
 		const char *pOutputFileName = GetOutputFileName();
 		if ( !pOutputFileName || !pOutputFileName[0] )
 		{
-			g_pVPC->VPCError( "Invalid Empty Output Filename (project %s)", m_ProjectName.Get() );
+			logging::Error( "Invalid Empty Output Filename (project %s)", m_ProjectName.Get() );
 		}
 	
 		const char *pGUID = GetGUIDString();
 		if ( !pGUID || !pGUID[0] )
 		{
-			g_pVPC->VPCError( "Invalid Empty GUID String (project %s)", m_ProjectName.Get() );
+			logging::Error( "Invalid Empty GUID String (project %s)", m_ProjectName.Get() );
 		}
 
         if ( m_VCProjWriters.IsEmpty() )
         {
-			g_pVPC->VPCError( "No writers to save project '%s' to '%s'", m_ProjectName.Get(), pOutputFileName );
+			logging::Error( "No writers to save project '%s' to '%s'", m_ProjectName.Get(), pOutputFileName );
         }
 
         LogOutputFiles( "Release" );
@@ -1365,12 +1365,12 @@ void CVCProjGenerator::EndProject( bool bSaveData )
                 pUseFilename = UseFilenameBuf.Get();
             }
 
-            g_pVPC->VPCStatus( true, "Saving... Project: '%s' File: '%s'", m_ProjectName.Get(), pUseFilename );
+            logging::Status( true, "Saving... Project: '%s' File: '%s'", m_ProjectName.Get(), pUseFilename );
 
             // Save the output file.
             if ( !m_VCProjWriters[i]->Save( pUseFilename ) )
             {
-                g_pVPC->VPCError( "Cannot save the specified project '%s' to '%s'", m_ProjectName.Get(), pUseFilename );
+                logging::Error( "Cannot save the specified project '%s' to '%s'", m_ProjectName.Get(), pUseFilename );
             }
         }
 	}
@@ -1432,7 +1432,7 @@ void CVCProjGenerator::StartFolder( const char *pFolderName, VpcFolderFlags_t iF
 		}
 		if ( !pFolder )
 		{
-			g_pVPC->VPCError( "Cannot find expected folder %s", pFolderName );
+			logging::Error( "Cannot find expected folder %s", pFolderName );
 		}
 	}
 
@@ -1445,7 +1445,7 @@ void CVCProjGenerator::EndFolder()
 
 	if ( m_spFolderStack.Count() == 0 )
 	{
-		g_pVPC->VPCError( "EndFolder called and no folder has been started." );
+		logging::Error( "EndFolder called and no folder has been started." );
 	}
 
 	m_spFolderStack.Pop();
@@ -1567,7 +1567,7 @@ bool CVCProjGenerator::Config_GetConfigurations( const char *pszConfigName )
 	bool bValid = GetRootConfiguration( pszConfigName, &pConfig );
 	if ( !bValid )
 	{
-		g_pVPC->VPCError( "Could not get configuration '%s'", pszConfigName );
+		logging::Error( "Could not get configuration '%s'", pszConfigName );
 	}
 	m_pConfig = pConfig;
 
@@ -1588,13 +1588,13 @@ void CVCProjGenerator::StartConfigurationBlock( const char *pConfigName, bool bF
 			// must match predefined configurations, prevents misspellings
 			if ( !IsConfigurationNameValid( pConfigName ) )
 			{
-				g_pVPC->VPCError( "File %s, Unknown configuration '%s'", m_pProjectFile->m_Name.Get(), pConfigName );
+				logging::Error( "File %s, Unknown configuration '%s'", m_pProjectFile->m_Name.Get(), pConfigName );
 			}
 
 			bValid = m_pProjectFile->AddConfiguration( pConfigName, &pFileConfig );
 			if ( !bValid )
 			{
-				g_pVPC->VPCError( "File %s, Could not get file configuration '%s'", m_pProjectFile->m_Name.Get(), pConfigName );
+				logging::Error( "File %s, Could not get file configuration '%s'", m_pProjectFile->m_Name.Get(), pConfigName );
 			}
 		}
 		m_pFileConfig = pFileConfig;
@@ -1622,7 +1622,7 @@ void CVCProjGenerator::FileExcludedFromBuild( bool bExcluded )
 {
 	if ( !m_pFileConfig )
 	{ 
-		g_pVPC->VPCSyntaxError( "Cannot set %s unless in a $File configuration context", g_pOption_ExcludedFromBuild );
+		logging::SyntaxError( "Cannot set %s unless in a $File configuration context", g_pOption_ExcludedFromBuild );
 	}
 
 	BaseClass::FileExcludedFromBuild( bExcluded );
@@ -1630,7 +1630,7 @@ void CVCProjGenerator::FileExcludedFromBuild( bool bExcluded )
 	ToolProperty_t* pToolProperty = m_pGeneratorDefinition->GetProperty( KEYWORD_GENERAL, g_pOption_ExcludedFromBuild );
 	if ( !pToolProperty )
 	{
-		g_pVPC->VPCError( "Missing proper declaration for %s", g_pOption_ExcludedFromBuild );
+		logging::Error( "Missing proper declaration for %s", g_pOption_ExcludedFromBuild );
 	}
 
 	m_pFileConfig->m_PropertyStates.SetBoolProperty( pToolProperty, bExcluded );
@@ -1653,13 +1653,13 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_DEBUGGING:
 		if ( m_pFileConfig )
 		{
-			g_pVPC->VPCSyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
 		}
 
 		m_pDebuggingTool = m_pConfig->GetDebuggingTool();
 		if ( !m_pDebuggingTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1676,7 +1676,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 		}
 		if ( !m_pCompilerTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1685,7 +1685,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 		m_pIntellisenseTool = m_pConfig->GetIntellisenseTool();
 		if ( !m_pIntellisenseTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1693,13 +1693,13 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_LIBRARIAN:
 		if ( m_pFileConfig )
 		{
-			g_pVPC->VPCSyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
 		}
 
 		m_pLibrarianTool = m_pConfig->GetLibrarianTool();
 		if ( !m_pLibrarianTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1707,13 +1707,13 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_LINKER:
 		if ( m_pFileConfig )
 		{
-			g_pVPC->VPCSyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
 		}
 
 		m_pLinkerTool = m_pConfig->GetLinkerTool();
 		if ( !m_pLinkerTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1727,13 +1727,13 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 
 		if ( m_pFileConfig )
 		{
-			g_pVPC->VPCSyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
 		}
 
 		m_pManifestTool = m_pConfig->GetManifestTool();
 		if ( !m_pManifestTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1747,13 +1747,13 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 
 		if ( m_pFileConfig )
 		{
-			g_pVPC->VPCSyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
 		}
 
 		m_pXMLDocGenTool = m_pConfig->GetXMLDocGenTool();
 		if ( !m_pXMLDocGenTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1761,13 +1761,13 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_BROWSEINFO:
 		if ( m_pFileConfig )
 		{
-			g_pVPC->VPCSyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
 		}
 
 		m_pBrowseInfoTool = m_pConfig->GetBrowseInfoTool();
 		if ( !m_pBrowseInfoTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1790,7 +1790,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 		}
 		if ( !m_pResourcesTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1798,13 +1798,13 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_PREBUILDEVENT:
 		if ( m_pFileConfig )
 		{
-			g_pVPC->VPCSyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
 		}
 
 		m_pPreBuildEventTool = m_pConfig->GetPreBuildEventTool();
 		if ( !m_pPreBuildEventTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1812,13 +1812,13 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_PRELINKEVENT:
 		if ( m_pFileConfig )
 		{
-			g_pVPC->VPCSyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
 		}
 
 		m_pPreLinkEventTool = m_pConfig->GetPreLinkEventTool();
 		if ( !m_pPreLinkEventTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1826,13 +1826,13 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_POSTBUILDEVENT:
 		if ( m_pFileConfig )
 		{
-			g_pVPC->VPCSyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
 		}
 
 		m_pPostBuildEventTool = m_pConfig->GetPostBuildEventTool();
 		if ( !m_pPostBuildEventTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1849,7 +1849,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 		}
 		if ( !m_pCustomBuildTool )
 		{
-			g_pVPC->VPCError( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
+			logging::Error( "Could not get %s tool interface from configuration", g_pVPC->KeywordToName( eKeyword ) );
 		}
 		bHandled = true;
 		break;
@@ -1923,7 +1923,7 @@ void CVCProjGenerator::HandleProperty( const char *pPropertyName, const char *pC
 	if ( !pToolProperty )
 	{
 		// unknown property
-		g_pVPC->VPCSyntaxError( "Unknown property %s", pPropertyName );
+		logging::SyntaxError( "Unknown property %s", pPropertyName );
 	}
 
 	const char *pToken = g_pVPC->GetScript().PeekNextToken( false );
@@ -1999,7 +1999,7 @@ void CVCProjGenerator::HandleProperty( const char *pPropertyName, const char *pC
 		break;
 
 	default:
-		g_pVPC->VPCError( "HandleProperty: No support for Tool:%s Property:%s - requires implementation", g_pVPC->KeywordToName( m_nActivePropertySection ), pPropertyName );
+		logging::Error( "HandleProperty: No support for Tool:%s Property:%s - requires implementation", g_pVPC->KeywordToName( m_nActivePropertySection ), pPropertyName );
 	}
 
 	bool bHandled = false;
@@ -2014,7 +2014,7 @@ void CVCProjGenerator::HandleProperty( const char *pPropertyName, const char *pC
 
 	if ( !bHandled )
 	{
-		g_pVPC->VPCError( "HandleProperty: Failed to set %s", pPropertyName );
+		logging::Error( "HandleProperty: Failed to set %s", pPropertyName );
 	}
 
 	if ( pCustomScriptData )
@@ -2029,7 +2029,7 @@ const char *CVCProjGenerator::GetPropertyValue( const char *pPropertyName )
 	if ( !pToolProperty )
 	{
 		// unknown property
-		g_pVPC->VPCSyntaxError( "Unknown property %s", pPropertyName );
+		logging::SyntaxError( "Unknown property %s", pPropertyName );
 	}
 
 	CProjectConfiguration *pConfig = nullptr;
@@ -2093,7 +2093,7 @@ const char *CVCProjGenerator::GetPropertyValue( const char *pPropertyName )
 		break;
 		
 	default:
-		g_pVPC->VPCError( "GetPropertyValue: No support for Tool:%s Property:%s - requires implementation", g_pVPC->KeywordToName( m_nActivePropertySection ), pPropertyName );
+		logging::Error( "GetPropertyValue: No support for Tool:%s Property:%s - requires implementation", g_pVPC->KeywordToName( m_nActivePropertySection ), pPropertyName );
 	}
 
 	const char *propertyValue = "";
@@ -2107,7 +2107,7 @@ const char *CVCProjGenerator::GetPropertyValue( const char *pPropertyName )
 	}
 	else
 	{
-		g_pVPC->VPCError( "GetPropertyValue: Failed to get %s", pPropertyName );
+		logging::Error( "GetPropertyValue: Failed to get %s", pPropertyName );
 	}
 
 	return propertyValue;
@@ -2178,10 +2178,10 @@ void CVCProjGenerator::AddFileToFolder( const char *pFilename, CProjectFolder *p
 	{
 		// already present
 		if ( bWarnIfAlreadyExists )
-			g_pVPC->VPCWarning( "File '%s' already exists in project", pFilename );
+			logging::Warning( "File '%s' already exists in project", pFilename );
 		// check the file flags (type) is specified consistently
 		if ( (*ppFile)->m_iFlags != iFlags )
-			g_pVPC->VPCWarning( "File '%s' specified multiple times with conflicting types!", pFilename );
+			logging::Warning( "File '%s' specified multiple times with conflicting types!", pFilename );
 		return;
 	}
 
@@ -2250,7 +2250,7 @@ bool CVCProjGenerator::GetRootConfiguration( const char *pConfigName, CProjectCo
 {
 	if ( !pConfigName || !pConfigName[0] )
 	{
-		g_pVPC->VPCError( "Empty or bad configuration name." );
+		logging::Error( "Empty or bad configuration name." );
 	}
 
 	if ( ppConfig )
@@ -2394,21 +2394,21 @@ void CVCProjGenerator::LogOutputFiles( const char *pConfigName )
         CBaseProjectDataCollector::DoStandardVisualStudioReplacements( importLibraryString, pVsStr, nullptr);
         pVsStr->Replace( "$(OutDir)", outBinDirString );
         V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), nullptr, k_bVPCForceLowerCase );
-        g_pVPC->VPCStatus( false, "$ImportLibrary: %s", pathString );
+        logging::Status( false, "$ImportLibrary: %s", pathString );
     }
     if ( outputFileString[0] )
     {
         CBaseProjectDataCollector::DoStandardVisualStudioReplacements( outputFileString, pVsStr, nullptr);
         pVsStr->Replace( "$(OutDir)", outBinDirString );
         V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), nullptr, k_bVPCForceLowerCase );
-        g_pVPC->VPCStatus( false, "$OutputFile: %s", pathString );
+        logging::Status( false, "$OutputFile: %s", pathString );
     }
     if ( gameOutputFileString[0] )
     {
         CBaseProjectDataCollector::DoStandardVisualStudioReplacements( gameOutputFileString, pVsStr, nullptr);
         pVsStr->Replace( "$(OutDir)", outBinDirString );
         V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), nullptr, k_bVPCForceLowerCase );
-        g_pVPC->VPCStatus( false, "$GameOutputFile: %s", pathString );
+        logging::Status( false, "$GameOutputFile: %s", pathString );
     }
 }
 
@@ -2443,7 +2443,7 @@ bool CVCProjGenerator::HasFilePropertyValue( CProjectFile *pProjectFile, const c
 	ToolProperty_t *pToolProperty = GetGeneratorDefinition()->GetProperty( configKeyword, pPropertyName );
 	if ( !pToolProperty )
 	{
-		g_pVPC->VPCError( "Unknown property %s expected for section %s", pPropertyName, g_pVPC->KeywordToName( configKeyword ) );
+		logging::Error( "Unknown property %s expected for section %s", pPropertyName, g_pVPC->KeywordToName( configKeyword ) );
         return false;
 	}
 
@@ -2479,7 +2479,7 @@ bool CVCProjGenerator::HasFilePropertyValue( CProjectFile *pProjectFile, const c
 
 	default:
 		// add support as needed
-		g_pVPC->VPCError( "Unsupported tool expected for section %s", g_pVPC->KeywordToName( configKeyword ) );
+		logging::Error( "Unsupported tool expected for section %s", g_pVPC->KeywordToName( configKeyword ) );
         return false;
 	}
 
@@ -2501,7 +2501,7 @@ const char *CVCProjGenerator::GetPropertyValueAsString( CProjectFile *pProjectFi
 	ToolProperty_t *pToolProperty = GetGeneratorDefinition()->GetProperty( configKeyword, pPropertyName );
 	if ( !pToolProperty )
 	{
-		g_pVPC->VPCError( "Unknown property %s expected for section %s", pPropertyName, g_pVPC->KeywordToName( configKeyword ) );
+		logging::Error( "Unknown property %s expected for section %s", pPropertyName, g_pVPC->KeywordToName( configKeyword ) );
 	}
 
 	CProjectConfiguration *pRootConfiguration = nullptr; 
@@ -2564,7 +2564,7 @@ const char *CVCProjGenerator::GetPropertyValueAsString( CProjectFile *pProjectFi
 
 	default:
 		// add support as needed
-		g_pVPC->VPCError( "Unsupported tool expected for section %s", g_pVPC->KeywordToName( configKeyword ) );
+		logging::Error( "Unsupported tool expected for section %s", g_pVPC->KeywordToName( configKeyword ) );
 	}
 
 	const char *propertyValue = "";
@@ -2668,7 +2668,7 @@ void CVCProjGenerator::EvaluateHackMacro_HACK_DEPENDENCIES_ALLVPCSCRIPTS( void )
 
 	if ( !Verify( pToolProperty_Global && pToolProperty_File && pToolProperty_CommandLine ) )
 	{
-		g_pVPC->VPCError( "Unknown property %s && %s && %s expected for section %s", g_pOption_AdditionalDependencies_Proj, g_pOption_AdditionalDependencies, g_pOption_CommandLine, g_pVPC->KeywordToName( KEYWORD_CUSTOMBUILDSTEP ) );
+		logging::Error( "Unknown property %s && %s && %s expected for section %s", g_pOption_AdditionalDependencies_Proj, g_pOption_AdditionalDependencies, g_pOption_CommandLine, g_pVPC->KeywordToName( KEYWORD_CUSTOMBUILDSTEP ) );
 		return;
 	}
 
@@ -2772,7 +2772,7 @@ void CVCProjGenerator::AddIndirectCustomBuildDependencies( void )
 
 	if ( !Verify( pToolProperty_Global && pToolProperty_File && pToolProperty_CommandLine ) )
 	{
-		g_pVPC->VPCError( "Unknown property %s && %s && %s expected for section %s", g_pOption_AdditionalDependencies_Proj, g_pOption_AdditionalDependencies, g_pOption_CommandLine, g_pVPC->KeywordToName( KEYWORD_CUSTOMBUILDSTEP ) );
+		logging::Error( "Unknown property %s && %s && %s expected for section %s", g_pOption_AdditionalDependencies_Proj, g_pOption_AdditionalDependencies, g_pOption_CommandLine, g_pVPC->KeywordToName( KEYWORD_CUSTOMBUILDSTEP ) );
 		return;
 	}
 
@@ -2829,7 +2829,7 @@ void CVCProjGenerator::AddIndirectCustomBuildDependencies( void )
 
 			if ( !pTrivialDependencyPath && !bWarnedTrivial )
 			{
-				g_pVPC->VPCWarning( "$VPC_TRIVIAL_DEPENDENCY_PATH should be defined somewhere in the script if you have custom build tools.\n"
+				logging::Warning( "$VPC_TRIVIAL_DEPENDENCY_PATH should be defined somewhere in the script if you have custom build tools.\n"
 									"\tOtherwise pain and suffering are more likely at a later date\n" );
 
 				bWarnedTrivial = true;
@@ -2855,7 +2855,7 @@ void CVCProjGenerator::AddIndirectCustomBuildDependencies( void )
 
 			if ( !pTrivialDependencyPath && !bWarnedTrivial )
 			{
-				g_pVPC->VPCWarning( "$VPC_TRIVIAL_DEPENDENCY_PATH should be defined somewhere in the script if you have custom build tools.\n"
+				logging::Warning( "$VPC_TRIVIAL_DEPENDENCY_PATH should be defined somewhere in the script if you have custom build tools.\n"
 									"\tTo provide a guaranteed way of resolving compilers falsely believing the tool results are up to date\n" );
 
 				bWarnedTrivial = true;

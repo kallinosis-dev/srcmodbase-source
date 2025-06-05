@@ -105,7 +105,7 @@ bool ProjectCache::IsProjectCurrent(const char* szScriptFileName, CUtlString& pr
 
 void ProjectCache::MakeStatusString(CUtlString& statusString, char const* szScriptFileName, bool crcPassed)
 {
-	if(!g_pVPC->IsVerbose())
+	if(!logging::IsVerbose())
 	{
 		// The detailed CRC error/results string is undesired, it doesn't matter why the CRC failed/succeeded.
 		// By popular request, verbosity is used as the enabler, when the CRC yields unexpected results.

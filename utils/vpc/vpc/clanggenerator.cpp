@@ -214,7 +214,7 @@ void VPC_Clang_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 			fwrite( tailBuffer.Base(), sizeof(char), tailBuffer.TellMaxPut(), batFile );
 			fclose( batFile );
 		}
-		else { g_pVPC->VPCWarning( "Error saving Clang batch file: %s", batchFilename.Get() ); }
+		else { logging::Warning( "Error saving Clang batch file: %s", batchFilename.Get() ); }
 
 		CUtlPathStringHolder jsonFilename;
         g_pVPC->CreateGeneratedRootFilePath( &jsonFilename, baseName.Get(), "_compile_commands.json" );
@@ -232,7 +232,7 @@ void VPC_Clang_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 			fputs( "\n]\n", jsonFile );
 			fclose( jsonFile );
 		}
-		else { g_pVPC->VPCStatus( true, "Error saving Clang compile_database.json file: %s", jsonFilename.Get() ); }
+		else { logging::Status( true, "Error saving Clang compile_database.json file: %s", jsonFilename.Get() ); }
 	}
 }
 
@@ -253,7 +253,7 @@ bool CVPC::IsClangEnabled( void )
 		return false;	// Clang feature not enabled
 	if ( IsClangSupportedForThisTargetPlatform() )	
 		return true;	// Feature enabled & supported!
-	ExecuteOnce( VPCWarning( "Clang feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
+	ExecuteOnce( logging::Warning( "Clang feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
 	return false;		// Platform not supported
 }
 
@@ -263,6 +263,6 @@ bool CVPC::ShouldEmitClangProject( void )
 		return false;		// Feature not requested
 	if ( IsClangEnabled() )
 		return true;		// Feature requested & enabled & supported!
-	ExecuteOnce( VPCWarning( "Ignoring '/clangall' option, Clang feature disabled" ) )
+	ExecuteOnce( logging::Warning( "Ignoring '/clangall' option, Clang feature disabled" ) )
 	return false;			// Clang not enabled
 }

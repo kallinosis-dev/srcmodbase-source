@@ -32,7 +32,7 @@ CMacro::CMacro( const char *pMacroName, const char *pMacroValue, const char *pCo
 		if ( !pConfigurationName[0] )
 		{
 			// valid configuration name is mandatory
-			g_pVPC->VPCError( "Missing expected configuration for property macro '%s'.", pMacroName );
+			logging::Error( "Missing expected configuration for property macro '%s'.", pMacroName );
 		}
 
 		m_ConfigurationName = pConfigurationName;
@@ -62,14 +62,14 @@ void CMacro::SetMacroName( const char *pMacroName )
 	m_nBaseNameLength = V_strlen( pMacroName );
 	if ( m_nBaseNameLength >= MAX_MACRO_NAME )
 	{
-		g_pVPC->VPCError( "Macro name '%s' too long.", pMacroName );
+		logging::Error( "Macro name '%s' too long.", pMacroName );
 	}
 
 	for ( int i = 0; i < m_nBaseNameLength; i++ )
 	{
 		if ( !IsValidMacroNameChar( pMacroName[i] ) )
 		{
-			g_pVPC->VPCError( "Macro name '%s' contains illegal character '%c'.",
+			logging::Error( "Macro name '%s' contains illegal character '%c'.",
 								pMacroName, pMacroName[i] );
 		}
 	}
@@ -89,7 +89,7 @@ void CMacro::SetMacroName( const char *pMacroName )
 //-----------------------------------------------------------------------------
 CMacro * CMacroStorage::SetAsSystem( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile )
 {
-	g_pVPC->VPCStatus( false, "Set System Macro: $%s = %s", pMacroName, pMacroValue );
+	logging::Status( false, "Set System Macro: $%s = %s", pMacroName, pMacroValue );
 
 	CMacro *pMacro = Get( pMacroName );
 	if ( !pMacro )
@@ -105,13 +105,13 @@ CMacro * CMacroStorage::SetAsSystem( const char *pMacroName, const char *pMacroV
 	if ( pMacro->IsPropertyMacro() )
 	{
 		// duplicate macro names not allowed
-		g_pVPC->VPCError( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
+		logging::Error( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
 	}
 
 	if ( !pMacro->IsSystemMacro() )
 	{
 		// internal macros cannot clash with script macros
-		g_pVPC->VPCError( "$Macro '%s' already defined by script.", pMacro->GetName() );
+		logging::Error( "$Macro '%s' already defined by script.", pMacro->GetName() );
 	}
 
 	// update value
@@ -122,7 +122,7 @@ CMacro * CMacroStorage::SetAsSystem( const char *pMacroName, const char *pMacroV
 
 CMacro * CMacroStorage::SetAsDynamic( const char *pMacroName, MacroResolveFn pFNResolveValue)
 {
-	g_pVPC->VPCStatus( false, "Set Dynamic Macro: $%s", pMacroName );
+	logging::Status( false, "Set Dynamic Macro: $%s", pMacroName );
 
 	CMacro *pMacro = Get( pMacroName );
 	if ( !pMacro )
@@ -138,13 +138,13 @@ CMacro * CMacroStorage::SetAsDynamic( const char *pMacroName, MacroResolveFn pFN
 	if ( pMacro->IsPropertyMacro() )
 	{
 		// duplicate macro names not allowed
-		g_pVPC->VPCError( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
+		logging::Error( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
 	}
 
 	if ( !pMacro->IsSystemMacro() )
 	{
 		// internal macros cannot clash with script macros
-		g_pVPC->VPCError( "$Macro '%s' already defined by script.", pMacro->GetName() );
+		logging::Error( "$Macro '%s' already defined by script.", pMacro->GetName() );
 	}
 
 	// update value
@@ -159,7 +159,7 @@ CMacro * CMacroStorage::SetAsDynamic( const char *pMacroName, MacroResolveFn pFN
 //-----------------------------------------------------------------------------
 CMacro * CMacroStorage::SetAsScript( const char *pMacroName, const char *pMacroValue, bool bSetupDefineInProjectFile )
 {
-	g_pVPC->VPCStatus( false, "Set Script Macro: $%s = %s", pMacroName, pMacroValue );
+	logging::Status( false, "Set Script Macro: $%s = %s", pMacroName, pMacroValue );
 
 	CMacro *pMacro = Get( pMacroName );
 	if ( pMacro )
@@ -168,13 +168,13 @@ CMacro * CMacroStorage::SetAsScript( const char *pMacroName, const char *pMacroV
 		if ( pMacro->IsPropertyMacro() )
 		{
 			// duplicate macro names not allowed
-			g_pVPC->VPCError( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
+			logging::Error( "Macro '%s' already defined as a property macro.", pMacro->GetName() );
 		}
 		/*
 		if ( pMacro->IsSystemMacro() )
 		{
 			// scripts are not allowed to alter system macros
-			g_pVPC->VPCError( "Script not allowed to alter system macro '%s'.", pMacro->GetName() );
+			logging::Error( "Script not allowed to alter system macro '%s'.", pMacro->GetName() );
 		}*/
 
 		// update value
@@ -197,12 +197,12 @@ CMacro * CMacroStorage::SetAsScript( const char *pMacroName, const char *pMacroV
 //-----------------------------------------------------------------------------
 CMacro * CMacroStorage::SetAsProperty( const char *pMacroName, const char *pMacroValue, const char *pConfigurationName )
 {
-	g_pVPC->VPCStatus( false, "Set Property Macro (%s): $%s = %s", ( pConfigurationName && pConfigurationName[0] ? pConfigurationName : "???" ), pMacroName, pMacroValue );
+	logging::Status( false, "Set Property Macro (%s): $%s = %s", ( pConfigurationName && pConfigurationName[0] ? pConfigurationName : "???" ), pMacroName, pMacroValue );
 
 	if ( !pConfigurationName || !pConfigurationName[0] )
 	{
 		// configuration is mandatory
-		g_pVPC->VPCError( "Missing expected configuration for property macro '%s'.", pMacroName );
+		logging::Error( "Missing expected configuration for property macro '%s'.", pMacroName );
 	}
 
 	CMacro *pMacro = Get( pMacroName );
@@ -210,7 +210,7 @@ CMacro * CMacroStorage::SetAsProperty( const char *pMacroName, const char *pMacr
 	{
 		// duplicate macro names are not allowed
 		// found an existing non-property based macro with same name
-		g_pVPC->VPCError( "Cannot set pre-existing macro '%s' as a property macro.", pMacroName );
+		logging::Error( "Cannot set pre-existing macro '%s' as a property macro.", pMacroName );
 	}
 
 	// resolve with expected configuration
@@ -408,7 +408,7 @@ void CMacroStorage::ResolveString( char const *pString, CUtlStringBuilder *pOutB
                 // no current configuration
                 // trying to use a property macro outside a configuration block is nonsense
                 // a property macro is paired to a configuration
-				g_pVPC->VPCError( "Cannot use property macro '%s' in an expression outside of a configuration block", pMacro->GetName() );
+				logging::Error( "Cannot use property macro '%s' in an expression outside of a configuration block", pMacro->GetName() );
             }
 
             if ( V_stricmp_fast( pMacro->GetConfigurationName(), configurationName ) )
@@ -418,7 +418,7 @@ void CMacroStorage::ResolveString( char const *pString, CUtlStringBuilder *pOutB
                 if ( !pCorrectMacro )
                 {
                     // script expected macro to resolve
-					g_pVPC->VPCError( "Property macro '%s' does not have an expected configuration '%s'.", pMacro->GetName(), configurationName );
+					logging::Error( "Property macro '%s' does not have an expected configuration '%s'.", pMacro->GetName(), configurationName );
                 }
                 else
                 {
@@ -472,7 +472,7 @@ const char * CMacroStorage::GetValue( const char *pMacroName, const char *pConfi
 		
 	if ( pMacro->IsPropertyMacro() && ( !pConfigurationName || !pConfigurationName[0] ) )
 	{
-		g_pVPC->VPCError( "Missing required configuration to access property macro '%s'.", pMacroName );
+		logging::Error( "Missing required configuration to access property macro '%s'.", pMacroName );
 	}
 
 	return pMacro->GetValue();

@@ -65,25 +65,25 @@ void CProjectGenerator_Android::EndProject( bool bSaveData )
 
 	if ( !WriteAndroidProj( pBaseConfig, generalConfigurations ) )
 	{
-		g_pVPC->VPCError( "Unable to write \"%s\"", GetOutputFileName() );
+		logging::Error( "Unable to write \"%s\"", GetOutputFileName() );
 		UNREACHABLE();
 	}
 
 	if ( !WriteBuildXML( pBaseConfig, generalConfigurations ) )
 	{
-		g_pVPC->VPCError( "Unable to write \"%s\" build.xml", GetProjectName() );
+		logging::Error( "Unable to write \"%s\" build.xml", GetProjectName() );
 		UNREACHABLE();
 	}
 
 	if ( !WriteAndroidManifestXML( pBaseConfig, generalConfigurations ) )
 	{
-		g_pVPC->VPCError( "Unable to write \"%s\" androidmanifest.xml", GetProjectName() );
+		logging::Error( "Unable to write \"%s\" androidmanifest.xml", GetProjectName() );
 		UNREACHABLE();
 	}
 
 	if ( !WriteProjectProperties( pBaseConfig, generalConfigurations ) )
 	{
-		g_pVPC->VPCError( "Unable to write \"%s\" project.properties", GetProjectName() );
+		logging::Error( "Unable to write \"%s\" project.properties", GetProjectName() );
 		UNREACHABLE();
 	}
 
@@ -110,7 +110,7 @@ const char *CProjectGenerator_Android::GetTargetAndroidPlatformName( const char 
 	}
 	else
 	{
-		g_pVPC->VPCError( "AndroidProj does not have a Visual Studio platform mapping for VPC platform \"%s\"", szVPCPlatformName );
+		logging::Error( "AndroidProj does not have a Visual Studio platform mapping for VPC platform \"%s\"", szVPCPlatformName );
 		UNREACHABLE();
 		return nullptr;
 	}
@@ -296,13 +296,13 @@ bool CProjectGenerator_Android::WriteAndroidProj( CSpecificConfig *pBaseConfig, 
 				if ( (pCurFile->m_iFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB)) != 0 )
 				{
 					continue;
-					//g_pVPC->VPCError( "Android projects aren't set up to do anything with static or import libs \"%s\"", pCurFile->GetName() );
+					//logging::Error( "Android projects aren't set up to do anything with static or import libs \"%s\"", pCurFile->GetName() );
 					//UNREACHABLE();
 				}
 
 				if ( (pCurFile->m_iFlags & (VPC_FILE_FLAGS_QT | VPC_FILE_FLAGS_SCHEMA | VPC_FILE_FLAGS_SCHEMA_INCLUDE)) != 0 )
 				{
-					g_pVPC->VPCError( "Android projects aren't set up to do anything with Schema or Qt files \"%s\"", pCurFile->GetName() );
+					logging::Error( "Android projects aren't set up to do anything with Schema or Qt files \"%s\"", pCurFile->GetName() );
 					UNREACHABLE();
 				}
 
@@ -315,7 +315,7 @@ bool CProjectGenerator_Android::WriteAndroidProj( CSpecificConfig *pBaseConfig, 
 				const char *pExtension = V_GetFileExtension( pCurFile->GetName() );
 				if ( !pExtension )
 				{
-					g_pVPC->VPCWarning( "Don't know what to do with file \"%s\"", pCurFile->GetName() );
+					logging::Warning( "Don't know what to do with file \"%s\"", pCurFile->GetName() );
 					continue;
 				}
 
@@ -473,14 +473,14 @@ bool CProjectGenerator_Android::WriteAndroidManifestXML( CSpecificConfig *pBaseC
 			const char *pMinSDK = pBaseConfig->GetOption( "$MinAndroidAPILevel", "android-19" );
 			if ( V_strnicmp( pMinSDK, "android-", 8 ) != 0 )
 			{
-				g_pVPC->VPCError( "Expecting $MinAndroidAPILevel to being with \"android-\", was actually \"%s\"", pMinSDK );
+				logging::Error( "Expecting $MinAndroidAPILevel to being with \"android-\", was actually \"%s\"", pMinSDK );
 				UNREACHABLE();
 			}
 
 			const char *pTargetSDK = pBaseConfig->GetOption( "$AndroidAPILevel", "android-19" );
 			if ( V_strnicmp( pTargetSDK, "android-", 8 ) != 0 )
 			{
-				g_pVPC->VPCError( "Expecting $AndroidAPILevel to being with \"android-\", was actually \"%s\"", pMinSDK );
+				logging::Error( "Expecting $AndroidAPILevel to being with \"android-\", was actually \"%s\"", pMinSDK );
 				UNREACHABLE();
 			}
 

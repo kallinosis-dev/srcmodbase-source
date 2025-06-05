@@ -135,11 +135,11 @@ void CBaseProjectDataCollector::EndProject( bool bSaveData )
 	{
 		if ( g_pVPC->IsMissingFileAsErrorEnabled() )
 		{
-			g_pVPC->VPCError( "%d files missing.", g_pVPC->GetMissingFilesCount() );
+			logging::Error( "%d files missing.", g_pVPC->GetMissingFilesCount() );
 		}
 		else
 		{
-			g_pVPC->VPCWarning( "%d files missing.", g_pVPC->GetMissingFilesCount() );
+			logging::Warning( "%d files missing.", g_pVPC->GetMissingFilesCount() );
 		}
 	}
 
@@ -341,7 +341,7 @@ void CBaseProjectDataCollector::DoStandardVisualStudioReplacements( const char *
 	{
 		if ( !inputDir.ExtractFilePath( pFullInputFilename ) )
 		{
-			g_pVPC->VPCError( "DoStandardVisualStudioReplacements:: V_ExtractFilePath failed on %s.", pFullInputFilename );
+			logging::Error( "DoStandardVisualStudioReplacements:: V_ExtractFilePath failed on %s.", pFullInputFilename );
 		}
 
 		V_FileBase( pFullInputFilename, sFileBase, sizeof( sFileBase ) );

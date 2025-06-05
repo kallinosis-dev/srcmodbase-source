@@ -36,7 +36,7 @@ public:
 		// Write the file.
 		m_fp = fopen( pSolutionFilename, "wt" );
 		if ( !m_fp )
-			g_pVPC->VPCError( "Can't open %s for writing.", pSolutionFilename );
+			logging::Error( "Can't open %s for writing.", pSolutionFilename );
 
 		Write( "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" );
 		Write( "<CodeLite_Workspace Name=\"%s\" Database=\"%s.tags\">\n", szSolutionName, szSolutionFileBaseName );
@@ -96,7 +96,7 @@ public:
 		m_nIndent = 0;
 		m_fp = fopen( szProjectFileName, "wt" );
 		if ( !m_fp )
-			g_pVPC->VPCError( "Can't open %s for writing.", szProjectFileName );
+			logging::Error( "Can't open %s for writing.", szProjectFileName );
 
 		Write( "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n" );
 		Write( "<CodeLite_Project Name=\"all\" InternalType=\"\">\n" );
@@ -246,7 +246,7 @@ public:
 			}
 
 			if ( j == projects.Count() )
-				g_pVPC->VPCError( "Project %s lists '%s' in its $AdditionalProjectDependencies, but there is no project by that name.", pCurProject->GetName(), pLookingFor );
+				logging::Error( "Project %s lists '%s' in its $AdditionalProjectDependencies, but there is no project by that name.", pCurProject->GetName(), pLookingFor );
 
 			additionalProjectDependencies.AddToTail( projects[j] );
 		}
@@ -255,7 +255,7 @@ public:
 	const char* FindInFile( const char *pFilename, const char *pFileData, const char *pSearchFor ) {
 		const char *pPos = V_stristr( pFileData, pSearchFor );
 		if ( !pPos )
-			g_pVPC->VPCError( "Can't find ProjectGUID in %s.", pFilename );
+			logging::Error( "Can't find ProjectGUID in %s.", pFilename );
 
 		return pPos + V_strlen( pSearchFor );
 	}

@@ -474,21 +474,21 @@ void CSolutionGenerator_Xcode::AddProject( CVCProjGenerator *pGen )
     pProj->m_systemFrameworks.Set( pSystemFrameworks, (const char**)g_IncludeSeparators, V_ARRAYSIZE(g_IncludeSeparators) );
     if ( pProj->m_systemFrameworks.Count() >= 1000 )
     {
-        g_pVPC->VPCError( "Too many system frameworks in %s\n", pProj->GetName() );
+        logging::Error( "Too many system frameworks in %s\n", pProj->GetName() );
     }
     
     const char *pSystemLibraries = pProj->GetStringProperty( KEYWORD_LINKER, g_pOption_SystemLibraries );
     pProj->m_systemLibraries.Set( pSystemLibraries, (const char**)g_IncludeSeparators, V_ARRAYSIZE(g_IncludeSeparators) );
     if ( pProj->m_systemLibraries.Count() >= 1000 )
     {
-        g_pVPC->VPCError( "Too many system libraries in %s\n", pProj->GetName() );
+        logging::Error( "Too many system libraries in %s\n", pProj->GetName() );
     }
     
     const char *pLocalFrameworks = pProj->GetStringProperty( KEYWORD_LINKER, g_pOption_LocalFrameworks );
     pProj->m_localFrameworks.Set( pLocalFrameworks, (const char**)g_IncludeSeparators, V_ARRAYSIZE(g_IncludeSeparators) );
     if ( pProj->m_localFrameworks.Count() >= 1000 )
     {
-        g_pVPC->VPCError( "Too many local frameworks in %s\n", pProj->GetName() );
+        logging::Error( "Too many local frameworks in %s\n", pProj->GetName() );
     }
 
     // Project files and additional dependencies cannot
@@ -1283,7 +1283,7 @@ void CSolutionGenerator_Xcode::EmitBuildFileSection()
             
             if ( IsFileCompletelyExcluded( pProjectFile ) )
             {
-                g_pVPC->VPCStatus( false, "xcode: excluding File %s\n", pFileName );
+                logging::Status( false, "xcode: excluding File %s\n", pFileName );
                 continue;
             }
             
@@ -2834,7 +2834,7 @@ void CSolutionGenerator_Xcode::GenerateSolutionFile( const char *pSolutionFilena
 {
     if ( projectsUnordered.Count() != m_projects.Count() )
     {
-        g_pVPC->VPCError( "Solution project mismatch (%u vs. %u), unable to write solution",
+        logging::Error( "Solution project mismatch (%u vs. %u), unable to write solution",
                           projectsUnordered.Count(), m_projects.Count() );
         return;
     }
@@ -2852,13 +2852,13 @@ void CSolutionGenerator_Xcode::GenerateSolutionFile( const char *pSolutionFilena
         }
         if ( iMatch < 0 )
         {
-            g_pVPC->VPCError( "Solution project mismatch ('%s' not found), unable to write solution",
+            logging::Error( "Solution project mismatch ('%s' not found), unable to write solution",
                               m_projects[iProject].GetName() );
             return;
         }
         if ( m_projects[iProject].m_pDependencyProj )
         {
-            g_pVPC->VPCError( "Solution project mismatch ('%s' found twice), unable to write solution",
+            logging::Error( "Solution project mismatch ('%s' found twice), unable to write solution",
                               m_projects[iProject].GetName() );
             return;
         }
@@ -2975,7 +2975,7 @@ void CSolutionGenerator_Xcode::GenerateSolutionFile( const char *pSolutionFilena
 
 	if ( bUpToDate )
 	{
-		g_pVPC->VPCStatus( true, "Xcode Project %s.xcodeproj looks up-to-date, not generating", pSolutionFilename );
+		logging::Status( true, "Xcode Project %s.xcodeproj looks up-to-date, not generating", pSolutionFilename );
 		return;
 	}
 
@@ -3036,7 +3036,7 @@ void CSolutionGenerator_Xcode::GenerateSolutionFile( const char *pSolutionFilena
     FILE *fp = fopen( sProjProjectListFile, "wt" );
     if ( !fp )
     {
-        g_pVPC->VPCError( "Unable to open %s to write projects into.", sProjProjectListFile.Get() );
+        logging::Error( "Unable to open %s to write projects into.", sProjProjectListFile.Get() );
     }
     else
     {
@@ -3055,7 +3055,7 @@ void CSolutionGenerator_Xcode::GenerateSolutionFile( const char *pSolutionFilena
     {
         // No need for this message right now.
 #if 0
-		g_pVPC->VPCStatus( true, "Xcode Project %s.xcodeproj did not change, not rewriting file", pSolutionFilename );
+		logging::Status( true, "Xcode Project %s.xcodeproj did not change, not rewriting file", pSolutionFilename );
 #endif
     }
     else
@@ -3097,7 +3097,7 @@ public:
 		// we need the "project file" to exist for crc checking
 		if ( !Sys_Exists( pOutputFilename ) )
         {
-            g_pVPC->VPCStatus( true, "  creating project file" );
+            logging::Status( true, "  creating project file" );
 			Sys_Touch( pOutputFilename );
         }
 
@@ -3106,7 +3106,7 @@ public:
         CUtlString statusStr;
 		if ( !g_pVPC->projectCache.IsProjectCurrent( g_pVPC->GetScript().GetName(), statusStr ) )
         {
-            g_pVPC->VPCStatus( true, "  %s", statusStr.Get() );
+            logging::Status( true, "  %s", statusStr.Get() );
 			Sys_Touch( pOutputFilename );
         }
         

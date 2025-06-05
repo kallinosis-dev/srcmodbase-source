@@ -74,7 +74,7 @@ void VPC_ParseFileSection()
 		}
 		else
 		{
-			g_pVPC->VPCSyntaxError( "Unrecognized token '%s' in file section. Possibly missing a $Configuration scope?", pToken );
+			logging::SyntaxError( "Unrecognized token '%s' in file section. Possibly missing a $Configuration scope?", pToken );
 		}
 	}
 }
@@ -189,7 +189,7 @@ static const char *ResolveFilename( const char *pszFile, CUtlPathStringHolder *p
 	
 	if ( nPlatformColumn < 0 )
 	{
-		g_pVPC->VPCWarning( "Internal Error: Target Platform: '%s' unrecognized while expanding $os!", szPlatform );
+		logging::Warning( "Internal Error: Target Platform: '%s' unrecognized while expanding $os!", szPlatform );
 		return nullptr;
 	}
 
@@ -231,7 +231,7 @@ void VPC_Keyword_AddFilesByPattern()
 
 	if ( !g_pVPC->IsFilePatternEnabled() )
 	{
-		g_pVPC->VPCSyntaxError( "$FilePattern support not enabled" );
+		logging::SyntaxError( "$FilePattern support not enabled" );
 	}
 
 	// THIS FEATURE IS NOT COMPLIANT TO VPC CONDITIONAL SYNTAX.
@@ -247,12 +247,12 @@ void VPC_Keyword_AddFilesByPattern()
 			const char *pNextToken = g_pVPC->GetScript().PeekNextToken( false );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
-				g_pVPC->VPCSyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
+				logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
 			}
 
 			if ( files.Count() == 0 )
 			{
-				g_pVPC->VPCSyntaxError( "Conditional specified on a $FilePattern without any pattern preceding it." );
+				logging::SyntaxError( "Conditional specified on a $FilePattern without any pattern preceding it." );
 			}
 
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
@@ -271,7 +271,7 @@ void VPC_Keyword_AddFilesByPattern()
 
 		for ( int i=0; i < vecResults.Count(); i++ )
 		{
-			g_pVPC->VPCStatus( false, "glob: adding '%s' to project", vecResults[i].String() );
+			logging::Status( false, "glob: adding '%s' to project", vecResults[i].String() );
 			g_pVPC->GetProjectGenerator()->StartFile( vecResults[i].String(), VPC_FILE_FLAGS_NONE, true ); 
 			g_pVPC->GetProjectGenerator()->EndFile();
 		}
@@ -307,7 +307,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 	{
 		const char *pToken = g_pVPC->GetScript().GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 
 		// enforcing per-line syntax (VPC's need to stay legible), and not some continuous-same-line cryptic compound sequence
 		bAllowNextLine = false;
@@ -316,7 +316,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 		{
 			if ( !bFoundFilename )
 			{
-				g_pVPC->VPCSyntaxError( "Conditional '%s' specified on a file list without any file preceding it.", pToken );
+				logging::SyntaxError( "Conditional '%s' specified on a file list without any file preceding it.", pToken );
 			}
 
 			bFoundFilename = false;
@@ -343,7 +343,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 			}
 			else
 			{
-				g_pVPC->VPCSyntaxError( "Unexpected token '%s' after the conditional '%s'", pNextToken, pToken );
+				logging::SyntaxError( "Unexpected token '%s' after the conditional '%s'", pNextToken, pToken );
 			}
 		}
 	
@@ -352,7 +352,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 			const char *pNextToken = g_pVPC->GetScript().PeekNextToken( false );
 			if ( pNextToken && pNextToken[0] )
 			{
-				g_pVPC->VPCSyntaxError( "Unexpected token '%s' on same line after the file continuation marker", pNextToken );
+				logging::SyntaxError( "Unexpected token '%s' on same line after the file continuation marker", pNextToken );
 			}
 
 			// parse on next line
@@ -390,7 +390,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 		if ( pNextToken[0] == '[' || CharStrEq( pNextToken, '\\' ) )
 			continue;
 
-		g_pVPC->VPCSyntaxError( "Unexpected token '%s' after filename '%s'", pNextToken, pToken );
+		logging::SyntaxError( "Unexpected token '%s' after filename '%s'", pNextToken, pToken );
 	}
 }
 
@@ -446,7 +446,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 			// and it is not supported on platforms other than Windows.
 			if ( bFailLibs )
 			{
-				g_pVPC->VPCSyntaxError( "Using $Lib or $ImpLib in a static library project is prohibited (lib used '%s').\nYou can use $LibDependsOn[Imp]Lib if you need something similar, look at lib_depends_source.vpc.\n", pFilename );
+				logging::SyntaxError( "Using $Lib or $ImpLib in a static library project is prohibited (lib used '%s').\nYou can use $LibDependsOn[Imp]Lib if you need something similar, look at lib_depends_source.vpc.\n", pFilename );
 			}
 
 			VPC_AddLibraryDependencies( pFilename );
@@ -459,7 +459,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 			const char *pFilename = files[i].String();
 			if ( IsLibraryFile( pFilename ) )
 			{
-				g_pVPC->VPCError( "Cannot add library \"%s\" using $File tag. Use $Lib, $ImpLib, or $SharedLib to specify how the library is used\n", pFilename );
+				logging::Error( "Cannot add library \"%s\" using $File tag. Use $Lib, $ImpLib, or $SharedLib to specify how the library is used\n", pFilename );
 			}
 		}
 	}
@@ -479,7 +479,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 			bool bIsRelevantFile = IsSourceFile( pFilename ) || g_pVPC->m_CustomBuildSteps.HasElement( pExtension );
 			if ( bIsRelevantFile && !Sys_Exists( pFilename ) && !V_stristr( pFilename, "$os" ) )
 			{
-				g_pVPC->VPCWarning( "File '%s' does not exist for project '%s'. (Use $DynamicFile if it is created during the build process.)", pFilename, g_pVPC->GetProjectName() );
+				logging::Warning( "File '%s' does not exist for project '%s'. (Use $DynamicFile if it is created during the build process.)", pFilename, g_pVPC->GetProjectName() );
 				g_pVPC->IncrementFileMissing();
 
 				// need script stack to assist in tracking down missing file
@@ -498,7 +498,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 			char actualFilename[MAX_FIXED_PATH];
 			if ( !Sys_IsFilenameCaseConsistent( pFilename, actualFilename, sizeof( actualFilename ) ) )
 			{
-				g_pVPC->VPCWarning( "Case Consistency Issue! File '%s' specified in '%s' is inconsistent with OS version '%s'.", pFilename, g_pVPC->GetProjectName(), actualFilename );
+				logging::Warning( "Case Consistency Issue! File '%s' specified in '%s' is inconsistent with OS version '%s'.", pFilename, g_pVPC->GetProjectName(), actualFilename );
 
 				// need script stack to assist in tracking down missing file
 				g_pVPC->GetScript().SpewScriptStack( true );
@@ -518,7 +518,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 		// found optional section, parse opening brace
 		pToken = g_pVPC->GetScript().GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 	}
 
 	// Handle $OS expansion
@@ -549,11 +549,11 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 						V_strncat( rgchRejectList, ",", V_ARRAYSIZE( rgchRejectList ) );
 					}
 				}
-				g_pVPC->VPCStatus( false, "$OS: Resolved %s -> %s, rejected %s", pFilename, pResolvedFilename ? pResolvedFilename : "<nothing>", rgchRejectList );
+				logging::Status( false, "$OS: Resolved %s -> %s, rejected %s", pFilename, pResolvedFilename ? pResolvedFilename : "<nothing>", rgchRejectList );
 
 				if ( !pResolvedFilename )
 				{
-					g_pVPC->VPCWarning( "$File %s did not resolve to an existing file, skipping!", pFilename );
+					logging::Warning( "$File %s did not resolve to an existing file, skipping!", pFilename );
 					continue;
 				}
 
@@ -567,7 +567,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 					}
 					if ( pExcludedExtension && !V_stricmp_fast( pExcludedExtension, "cpp" ) )
 					{
-						g_pVPC->VPCStatus( false, "Excluding '%s' from build", pExcludedFilename );
+						logging::Status( false, "Excluding '%s' from build", pExcludedFilename );
 						g_pVPC->GetProjectGenerator()->StartFile( pExcludedFilename, iFileFlags, true ); 
 						CUtlVector< CUtlString > configurationNames;
  						g_pVPC->GetProjectGenerator()->GetAllConfigurationNames( configurationNames );
@@ -823,14 +823,14 @@ static void VPC_AddLibraryDependencies( const char *pLibPath )
 
         if ( !g_pVPC->m_bIsDependencyPass )
         {
-	        g_pVPC->VPCStatus( false, "$LibDependency: '%s' added for '%s'",
+	        logging::Status( false, "$LibDependency: '%s' added for '%s'",
 	                           pDependency, pLibPath );
         }
 
         bool bAdded = g_pVPC->GetProjectGenerator()->StartFile( pDependency, VPC_FILE_FLAGS_STATIC_LIB, true );
         if ( !bAdded )
         {
-	        g_pVPC->VPCError( "couldn't add %s", pDependency );
+	        logging::Error( "couldn't add %s", pDependency );
         }
         g_pVPC->GetProjectGenerator()->EndFile();
 
@@ -846,7 +846,7 @@ static void VPC_LibDepends( char const *pDefaultPath, char const *pFileNamePrefi
 {
     const char *pToken = g_pVPC->GetScript().GetToken( false );
     if ( !pToken || !pToken[0] )
-        g_pVPC->VPCSyntaxError();
+        logging::SyntaxError();
 
     // The lib is always a static lib.
     CUtlPathStringHolder libName;
@@ -923,7 +923,7 @@ void VPC_Keyword_RemoveFile( void (*pFNNameTranslation)( CUtlStringBuilder *pStr
 
 		if ( !bSucc )
 		{
-			g_pVPC->VPCWarning( "Failed to remove file \"%s\" from project \"%s\".",
+			logging::Warning( "Failed to remove file \"%s\" from project \"%s\".",
 				filesToRemove[i].Get(), g_pVPC->GetProjectName() );
 		}
 
@@ -965,16 +965,15 @@ void VPC_Keyword_Shaders( int depth )
 	CUtlVector< CUtlString >	pshList;
 	CUtlVector< CUtlString >	vfxList;
 	CUtlVector< CUtlString >	otherList;
-	bool						bIgnoreRedundancyWarning;
 
-    CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
+	CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
 	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;		
 	}
 
     CUtlStringHolder<100> shadersName( pStrBuf->Get() );
-	g_pVPC->VPCStatus( false, "Parsing: %s", shadersName.Get() );
+	logging::Status( false, "Parsing: %s", shadersName.Get() );
 	g_pVPC->GetScript().PushScript( shadersName, true );
 
 	// parse the shader list file into types (fxc,vsh,psh)
@@ -1022,7 +1021,7 @@ void VPC_Keyword_Shaders( int depth )
 		!vfxList.Count() &&
 		!otherList.Count() )
 	{
-		//g_pVPC->VPCWarning( "No shaders found in %s", shadersName );
+		//logging::Warning( "No shaders found in %s", shadersName );
 		return;
 	}
 
@@ -1044,8 +1043,8 @@ void VPC_Keyword_Shaders( int depth )
 	vpcBuffer.Printf( "}\n" );
 
 	// save parser
-	bIgnoreRedundancyWarning = g_pVPC->IsIgnoreRedundancyWarning();
-	g_pVPC->SetIgnoreRedundancyWarning( true );
+	bool bIgnoreRedundancyWarning = logging::IsIgnoreRedundancyWarning();
+	logging::SetIgnoreRedundancyWarning( true );
 
 	g_pVPC->GetScript().PushScript( "Internal List", (char*)vpcBuffer.Base(), 1, false, false );
 
@@ -1057,7 +1056,7 @@ void VPC_Keyword_Shaders( int depth )
 
 	// restore parser
 	g_pVPC->GetScript().PopScript();
-	g_pVPC->SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
+	logging::SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
 }
 
 //-----------------------------------------------------------------------------
@@ -1080,7 +1079,7 @@ void VPC_Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 	// Now parse all the files and subfolders..
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 
 	while ( 1 )
 	{
@@ -1205,7 +1204,7 @@ void VPC_Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 		}
 		else
 		{
-			g_pVPC->VPCSyntaxError("Unrecognized token: %s", pToken);
+			logging::SyntaxError("Unrecognized token: %s", pToken);
 		}
 	}
 
@@ -1223,7 +1222,7 @@ void VPC_Keyword_Macro( MacroType_t eMacroType )
 
 	pToken = g_pVPC->GetScript().GetToken( false );
 	if ( !pToken || !pToken[0] )
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
@@ -1263,7 +1262,7 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 	pToken = g_pVPC->GetScript().GetToken( false );
 	if ( !pToken || !pToken[0] )
 	{
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 	}
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
@@ -1298,7 +1297,7 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 	if ( pMacro && pMacro->IsPropertyMacro() )
 	{
 		// property macros which are constrained to be within a configuration are not interchangeable with normal macros
-		g_pVPC->VPCError( "Macro '%s' already defined as a property macro.", macroName.Get() );
+		logging::Error( "Macro '%s' already defined as a property macro.", macroName.Get() );
 	}
 
 	if ( !pMacro || ( eMacroRequiredType == VPC_MACRO_REQUIRED_NOT_EMPTY && !pMacro->HasValue() ) )
@@ -1310,7 +1309,7 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 		else
 		{
 			// In case we're in mksln showing a pacifier of dots. Make sure to show the error on a new line.
-			g_pVPC->VPCSyntaxError( "\n\nRequired Macro '%s', not defined or empty", macroName.Get() );
+			logging::SyntaxError( "\n\nRequired Macro '%s', not defined or empty", macroName.Get() );
 		}
 	}
 }
@@ -1342,7 +1341,7 @@ void VPC_Keyword_LoadAddressMacro( void )
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 	}
 	
     CUtlStringHolder<100> szProjectName;
@@ -1403,7 +1402,7 @@ void VPC_Keyword_LoadAddressMacroAlias( void )
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 	}
 
 	while ( 1 )
@@ -1446,7 +1445,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 	pToken = g_pVPC->GetScript().GetToken( false );
 	if ( !pToken || !pToken[0] )
 	{
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 	}
     CUtlStringHolder<MAX_MACRO_NAME> szMacroName( pToken );
 
@@ -1466,7 +1465,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 	}
 	
 	int iEntryNum = 0;
@@ -1519,7 +1518,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 
 			if ( dllLength == 0 )
 			{
-				g_pVPC->VPCSyntaxError( "$LoadAddressMacroAuto no longer supports 0 size dlls. Use $LoadAddressMacroAlias to have two orthogonal projects load in the same space" );
+				logging::SyntaxError( "$LoadAddressMacroAuto no longer supports 0 size dlls. Use $LoadAddressMacroAlias to have two orthogonal projects load in the same space" );
 			}
 
 			baseAddress += dllLength;
@@ -1599,7 +1598,7 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
 {
 	const char *pToken = g_pVPC->GetScript().GetToken( false );
 	if ( !pToken || !pToken[0] )
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 
 	if ( pToken[0] == '$' )
 	{
@@ -1622,7 +1621,7 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
 	{
 		// vpc scripts can only affect custom or script conditionals
 		// scripts cannot affect the more systemic global conditionals
-		g_pVPC->VPCSyntaxError( "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get() );
+		logging::SyntaxError( "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get() );
 	}
 
 	const char *pValue = Sys_EvaluateEnvironmentExpression( value, "0" );
@@ -1648,7 +1647,7 @@ void VPC_Keyword_IgnoreRedundancyWarning( void )
 	}
 
 	bool bVal = Sys_StringToBool( pStrBuf->Get() );
-	g_pVPC->SetIgnoreRedundancyWarning( bVal );
+	logging::SetIgnoreRedundancyWarning( bVal );
 }
 
 //-----------------------------------------------------------------------------
@@ -1675,7 +1674,7 @@ void VPC_PrepareToReadScript( const char *pInputScriptName, int depth, bool bQui
 	if ( !bQuiet )
 	{
 		bool bSpew = ( depth == 0 );
-		g_pVPC->VPCStatus( bSpew, "Parsing: %s", pFixedScriptName->Get() );
+		logging::Status( bSpew, "Parsing: %s", pFixedScriptName->Get() );
 	}
 
 	// parse the text script
@@ -1747,7 +1746,7 @@ void VPC_HandleProjectCommands( const char *pUnusedScriptName, int depth, bool b
 		}
 		else
 		{
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 		}
 	}
 }
@@ -1796,7 +1795,7 @@ void WriteCRCCheckFile( const char *pVCProjFilename )
 	FILE *fp = fopen( pFormatBuf->Get(), "wt" );
 	if ( !fp )
 	{
-		g_pVPC->VPCError( "Unable to open %s to write CRCs into.", pFormatBuf->Get() );
+		logging::Error( "Unable to open %s to write CRCs into.", pFormatBuf->Get() );
 	}
 
 	fprintf( fp, "%s\n", VPCCRCCHECK_FILE_VERSION_STRING );
@@ -1870,7 +1869,7 @@ void VPC_Keyword_Project( int depth, bool bQuiet )
 		pToken = g_pVPC->GetScript().GetToken( false );
 		if ( !pToken || !pToken[0] )
 		{
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 		}
 
         CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
@@ -1886,7 +1885,7 @@ void VPC_Keyword_Project( int depth, bool bQuiet )
 
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 
 	VPC_HandleProjectCommands(nullptr, depth, bQuiet );
 	
@@ -1947,12 +1946,12 @@ void VPC_Keyword_CustomBuildStep( void )
 			const char *pNextToken = g_pVPC->GetScript().PeekNextToken( bAllowNextLine );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
-				g_pVPC->VPCSyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
+				logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
 			}
 
 			if ( extensions.Count() == 0 )
 			{
-				g_pVPC->VPCSyntaxError( "Conditional specified on a $CustomBuildStep without any extensions preceding it." );
+				logging::SyntaxError( "Conditional specified on a $CustomBuildStep without any extensions preceding it." );
 			}
 
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
@@ -1975,7 +1974,7 @@ void VPC_Keyword_CustomBuildStep( void )
 
 		if ( VPC_IsBuiltInFileType( pToken ) )
 		{
-			g_pVPC->VPCSyntaxError( "Cannot define a $CustomBuildStep for built in file type: %s", pToken);
+			logging::SyntaxError( "Cannot define a $CustomBuildStep for built in file type: %s", pToken);
 		}
 
 		CUtlString string = pToken;
@@ -1990,7 +1989,7 @@ void VPC_Keyword_CustomBuildStep( void )
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || V_strcmp( pToken, "{" ) )
 	{
-		g_pVPC->VPCSyntaxError( "Missing section for $CustomBuildStep" );
+		logging::SyntaxError( "Missing section for $CustomBuildStep" );
 	}
 	else if ( extensions.Count() == 0 )
 	{
@@ -2030,7 +2029,7 @@ void VPC_Keyword_CustomBuildStep( void )
 			{
 				if ( g_pVPC->m_CustomBuildSteps.Find( extensions[i].Get() ) != g_pVPC->m_CustomBuildSteps.InvalidIndex() )
 				{
-					g_pVPC->VPCWarning( "Duplicate $CustomBuildStep For '%s' - Ignoring.", extensions[i].Get() );
+					logging::Warning( "Duplicate $CustomBuildStep For '%s' - Ignoring.", extensions[i].Get() );
 				}
 				else
 				{
@@ -2060,12 +2059,12 @@ void VPC_Keyword_CustomAutoScript()
 			const char *pNextToken = g_pVPC->GetScript().PeekNextToken( bAllowNextLine );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
-				g_pVPC->VPCSyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
+				logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
 			}
 
 			if ( extensions.Count() == 0 )
 			{
-				g_pVPC->VPCSyntaxError( "Conditional specified on a $CustomAutoScript without any extensions preceding it." );
+				logging::SyntaxError( "Conditional specified on a $CustomAutoScript without any extensions preceding it." );
 			}
 
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
@@ -2082,7 +2081,7 @@ void VPC_Keyword_CustomAutoScript()
 
 		if ( VPC_IsBuiltInFileType( pToken ) )
 		{
-			g_pVPC->VPCSyntaxError( "Cannot define a $CustomAutoScript for built in file type: %s", pToken);
+			logging::SyntaxError( "Cannot define a $CustomAutoScript for built in file type: %s", pToken);
 		}
 
 		CUtlString string = pToken;
@@ -2097,7 +2096,7 @@ void VPC_Keyword_CustomAutoScript()
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || V_strcmp( pToken, "{" ) )
 	{
-		g_pVPC->VPCSyntaxError( "Missing section for $CustomAutoScript" );
+		logging::SyntaxError( "Missing section for $CustomAutoScript" );
 	}
 	else if ( extensions.Count() == 0 )
 	{
@@ -2123,7 +2122,7 @@ void VPC_Keyword_CustomAutoScript()
 			{
 				if ( g_pVPC->m_CustomAutoScripts.Find( extensions[i].Get() ) != g_pVPC->m_CustomAutoScripts.InvalidIndex() )
 				{
-					g_pVPC->VPCWarning( "Duplicate $CustomAutoScript For '%s' - Ignoring.", extensions[i].Get() );
+					logging::Warning( "Duplicate $CustomAutoScript For '%s' - Ignoring.", extensions[i].Get() );
 				}
 				else
 				{
@@ -2230,7 +2229,7 @@ void VPC_ParseProjectScriptParameters( const char *szScriptName, int depth, bool
 		}
 		else
 		{
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 		}
 	}
 }
@@ -2249,7 +2248,7 @@ bool CVPC::ParseProjectScript( const char *pScriptName, int depth, bool bQuiet, 
 	if ( !depth && !bQuiet )
 	{
 		// Emit a separator from the prior project in case of errors.
-		g_pVPC->VPCStatus( true, "\n" );
+		logging::Status( true, "\n" );
 	}
 
     CUtlString szScriptName;

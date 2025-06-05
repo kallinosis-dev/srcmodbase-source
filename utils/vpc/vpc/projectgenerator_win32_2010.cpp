@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2016, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2016, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: VPC
 //
@@ -685,7 +685,7 @@ bool CProjectGenerator_Win32_2010::WriteProperty( const PropertyState_t *pProper
 			break;
 
 		default:
-			g_pVPC->VPCError( "CProjectGenerator_Win32_2010: WriteProperty, %s - not implemented", pOutputName );
+			logging::Error( "CProjectGenerator_Win32_2010: WriteProperty, %s - not implemented", pOutputName );
 		}
 	}
 
@@ -703,7 +703,7 @@ bool CProjectGenerator_Win32_2010::WriteVisualGDBSettings( const char *pConfigur
 
     CUtlPathStringHolder finalSettingsFile( g_pVPC->FormatTemp1( "%s-%s.vgdbsettings", GetProjectGenerator()->GetOutputFileName(), pConfiguration ) );
     // Print just the filename first for status output.
-    g_pVPC->VPCStatus( true, "Saving... Project: '%s' File: '%s'",
+    logging::Status( true, "Saving... Project: '%s' File: '%s'",
                        g_pVPC->GetProjectName(), finalSettingsFile.Get() );
 
     // Now create the full path.
@@ -716,7 +716,7 @@ bool CProjectGenerator_Win32_2010::WriteVisualGDBSettings( const char *pConfigur
     CUtlBuffer settingsBuf;
     if ( !Sys_LoadFileIntoBuffer( settingsPath, settingsBuf, true ) )
     {
-        g_pVPC->VPCError( "Cannot open .vgdbsettings file '%s'", settingsPath.Get() );
+        logging::Error( "Cannot open .vgdbsettings file '%s'", settingsPath.Get() );
         return false;
     }
 
@@ -753,7 +753,7 @@ bool CProjectGenerator_Win32_2010::WriteVisualGDBSettings( const char *pConfigur
 	FILE *pFile = fopen( finalSettingsFile, "wt" );
 	if ( !pFile )
 	{
-        g_pVPC->VPCError( "Cannot open '%s' for writing", finalSettingsFile.Get() );
+        logging::Error( "Cannot open '%s' for writing", finalSettingsFile.Get() );
         return false;
     }
 
@@ -795,7 +795,7 @@ bool CProjectGenerator_Win32_2010::Save( const char *pOutputFilename )
 		bValid = WriteSecondaryXML( CFmtStrMax( "%s.filters", pOutputFilename ) );
 		if ( !bValid )
 		{
-			g_pVPC->VPCError( "Cannot save to the specified project '%s'", pOutputFilename );
+			logging::Error( "Cannot save to the specified project '%s'", pOutputFilename );
 		}
 	}
 
@@ -809,7 +809,7 @@ bool CProjectGenerator_Win32_2010::GenerateToolProperty( const char *pOutputName
 	{
 		if ( !m_pVCProjGenerator->GetRootConfiguration( pConfigName, &pRootConfig ) || !pRootConfig )
 		{
-			g_pVPC->VPCError( "Could not get config \"%s\"", pConfigName );
+			logging::Error( "Could not get config \"%s\"", pConfigName );
 			UNREACHABLE();
 		}
 	}
@@ -821,7 +821,7 @@ bool CProjectGenerator_Win32_2010::GenerateToolProperty( const char *pOutputName
 		{
 			if ( !m_pVCProjGenerator->GetRootConfiguration( pConfigName, &pRootConfig ) || !pRootConfig )
 			{
-				g_pVPC->VPCError( "No configs found" );
+				logging::Error( "No configs found" );
 				UNREACHABLE();
 			}
 		}
@@ -858,7 +858,7 @@ bool CProjectGenerator_Win32_2010::GenerateToolProperty( const char *pOutputName
 	}
 	else
 	{
-		g_pVPC->VPCWarning( "No property generator defined for \"%s\"", pOutputName );
+		logging::Warning( "No property generator defined for \"%s\"", pOutputName );
 		return false;
 	}
 	UNREACHABLE();

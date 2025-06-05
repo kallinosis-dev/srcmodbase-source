@@ -63,7 +63,7 @@ void VPC_Config_Macro()
 	const char *pToken = g_pVPC->GetScript().GetToken( false );
 	if ( !pToken || !pToken[0] )
 	{
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 	}
 
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
@@ -87,20 +87,20 @@ void VPC_Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
 
 	if ( ( keyword == KEYWORD_LIBRARIAN ) && g_pVPC->IsProjectUsingUnity() )
 	{
-		g_pVPC->VPCWarning( "$UnityProject should not be used in .LIB projects! The unity build generates a few large OBJs, so due to per-OBJ linker dependency determination linking with a unity-built .LIB would thus incur many unnecessary link dependencies." );
+		logging::Warning( "$UnityProject should not be used in .LIB projects! The unity build generates a few large OBJs, so due to per-OBJ linker dependency determination linking with a unity-built .LIB would thus incur many unnecessary link dependencies." );
 	}
 
 	bool bShouldSkip = false;
 	if ( !g_pVPC->GetProjectGenerator()->StartPropertySection( keyword, &bShouldSkip ) )
 	{
-		g_pVPC->VPCSyntaxError( "Unsupported Keyword: %s for target platform", pkeywordToken );
+		logging::SyntaxError( "Unsupported Keyword: %s for target platform", pkeywordToken );
 	}
 
 	if ( bShouldSkip )
 	{
 		pToken = g_pVPC->GetScript().PeekNextToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 
 		g_pVPC->GetScript().SkipBracedSection();
 	}
@@ -108,7 +108,7 @@ void VPC_Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
 	{
 		pToken = g_pVPC->GetScript().GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 		
 		while ( 1 )
 		{
@@ -132,7 +132,7 @@ void VPC_Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
 				// Syntax: $Macro <MacroName> <PropertyName> [condition]
 				pToken = g_pVPC->GetScript().GetToken( false );
 				if ( !pToken || !pToken[0] )
-					g_pVPC->VPCSyntaxError();
+					logging::SyntaxError();
 
                 CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
@@ -205,7 +205,7 @@ void VPC_Keyword_Configuration()
 		g_pVPC->GetProjectGenerator()->GetAllConfigurationNames( configs );
 		if ( !configs.Count() )
 		{
-			g_pVPC->VPCError( "Trying to parse a configuration block and no configs have been defined yet.\n[%s line:%d]", g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+			logging::Error( "Trying to parse a configuration block and no configs have been defined yet.\n[%s line:%d]", g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
 		}
 	}
 
@@ -225,7 +225,7 @@ void VPC_Keyword_Configuration()
 		pToken = g_pVPC->GetScript().GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		{
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 		}
 
 		while ( 1 )
@@ -237,7 +237,7 @@ void VPC_Keyword_Configuration()
 			{
 				pToken = g_pVPC->GetScript().GetToken( true );
 				if ( !pToken  || !pToken[0] )
-					g_pVPC->VPCSyntaxError();
+					logging::SyntaxError();
 
 				VPC_Config_Macro();
 				continue;
@@ -259,7 +259,7 @@ void VPC_Keyword_Configuration()
 			configKeyword_e keyword = g_pVPC->NameToKeyword( pStrBuf->Get() );
 			if ( keyword == KEYWORD_UNKNOWN )
 			{
-				g_pVPC->VPCSyntaxError();
+				logging::SyntaxError();
 			}
 			else
 			{
@@ -328,7 +328,7 @@ void VPC_Keyword_FileConfiguration()
 		pToken = g_pVPC->GetScript().GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		{
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 		}
 
 		while ( 1 )
@@ -340,7 +340,7 @@ void VPC_Keyword_FileConfiguration()
 			{
 				pToken = g_pVPC->GetScript().GetToken( true );
 				if ( !pToken || !pToken[0] )
-					g_pVPC->VPCSyntaxError();
+					logging::SyntaxError();
 
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
 				if ( g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
@@ -354,7 +354,7 @@ void VPC_Keyword_FileConfiguration()
 			{
 				pToken = g_pVPC->GetScript().GetToken( true );
 				if ( !pToken || !pToken[0] )
-					g_pVPC->VPCSyntaxError();
+					logging::SyntaxError();
 
 				VPC_Config_Macro();
 				continue;
@@ -382,7 +382,7 @@ void VPC_Keyword_FileConfiguration()
                      !g_pVPC->GetScript().IsInPrivilegedScript() &&
                      g_pVPC->GetScript().GetLine() != nWarningLine )
                 {
-                    g_pVPC->VPCSyntaxError( "%s(%u): per-file compile configuration not allowed",
+                    logging::SyntaxError( "%s(%u): per-file compile configuration not allowed",
                                             g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
                     nWarningLine = g_pVPC->GetScript().GetLine();
                 }
@@ -395,7 +395,7 @@ void VPC_Keyword_FileConfiguration()
 				break;
             }
 			default:
-				g_pVPC->VPCSyntaxError();
+				logging::SyntaxError();
 			}
 		}
 		

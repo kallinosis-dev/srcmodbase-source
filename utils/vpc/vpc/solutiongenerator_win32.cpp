@@ -75,12 +75,12 @@ public:
 			}
 		}
 
-		g_pVPC->VPCStatus( true, "\nWriting solution file %s.", pSolutionFilename );
+		logging::Status( true, "\nWriting solution file %s.", pSolutionFilename );
 
 		// Write the file.
 		FILE *fp = fopen( pSolutionFilename, "wt" );
 		if ( !fp )
-			g_pVPC->VPCError( "Can't open %s for writing.", pSolutionFilename );
+			logging::Error( "Can't open %s for writing.", pSolutionFilename );
 
 		if ( g_pVPC->Is2022() )
 		{
@@ -143,7 +143,7 @@ public:
                                                                       &updatedFilename );
 			char szRelativeFilename[MAX_FIXED_PATH];
 			if ( !V_MakeRelativePath( pFullProjectFilename, g_pVPC->GetSourcePath(), szRelativeFilename, sizeof( szRelativeFilename ) ) )
-				g_pVPC->VPCError( "Can't make a relative path (to the base source directory) for %s.", pFullProjectFilename );
+				logging::Error( "Can't make a relative path (to the base source directory) for %s.", pFullProjectFilename );
 
 
 			char *pLastDot;
@@ -272,7 +272,7 @@ public:
 		const char *pPos = V_stristr( pFileData, pSearchFor );
 		if ( !pPos )
 		{
-			g_pVPC->VPCError( "Can't find %s in %s.", pSearchFor, pFilename );
+			logging::Error( "Can't find %s in %s.", pSearchFor, pFilename );
 		}
 
 		return pPos + V_strlen( pSearchFor );

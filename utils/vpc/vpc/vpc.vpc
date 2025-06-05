@@ -85,6 +85,21 @@ $Project "vpc"
 			$File	"solutiongenerator_win32.cpp"
 		}
 
+		$Folder "Script"
+		{
+			$File	"scriptsource.cpp"
+			$File	"scriptsource.h"	
+			
+			$File	"groupscript.cpp"
+			$File	"groupscript.h"
+
+			$File	"projectscript.cpp"
+			$File	"projectscript.h"
+		}
+
+		$File	"logging.cpp"
+		$File	"logging.h"
+
 		$File	"main.cpp"
 		$File	"vpc.h"
 
@@ -100,11 +115,6 @@ $Project "vpc"
 		$File	"macros.cpp"
 		$File 	"macros.h"
 
-		$File	"groupscript.cpp"
-		$File	"groupscript.h"
-
-		$File	"projectscript.cpp"
-		$File	"projectscript.h"
 
 		$File	"projectcache.cpp"
 		$File	"projectcache.h"
@@ -112,9 +122,7 @@ $Project "vpc"
 		$File	"pch_helpers.cpp"
 
 		$File	"qtgenerator.cpp"
-		$File	"schemagenerator.cpp"
-		$File	"scriptsource.cpp"
-		$File	"scriptsource.h"		
+		$File	"schemagenerator.cpp"	
 		$File	"sys_utils.cpp"
 		$file	"sys_utils.h"
 		$File	"unity.cpp"

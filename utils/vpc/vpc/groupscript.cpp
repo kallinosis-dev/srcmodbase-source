@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2016, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2016, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: VPC
 //
@@ -74,13 +74,13 @@ void VPC_GroupKeyword_Games()
 
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 
 	while ( 1 )
 	{
 		pToken = g_pVPC->GetScript().GetToken( true );
 		if ( !pToken || !pToken[0] )
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 
 		if ( CharStrEq( pToken, '}' ) )
 		{
@@ -122,7 +122,7 @@ void VPC_GroupKeyword_Group()
 
 		pToken = g_pVPC->GetScript().GetToken( false );
 		if ( !pToken || !pToken[0] )
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 
 		// specified tag now builds this group
 		groupTagIndex_t groupTagIndex = VPC_Group_FindOrCreateGroupTag( pToken, true );
@@ -131,13 +131,13 @@ void VPC_GroupKeyword_Group()
 
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 
 	while ( 1 )
 	{
 		pToken = g_pVPC->GetScript().GetToken( true );
 		if ( !pToken || !pToken[0] )
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 
 		if ( CharStrEq( pToken, '}' ) )
 		{
@@ -156,7 +156,7 @@ void VPC_GroupKeyword_Group()
 					{
 						// The error will dump the script stack with the offending line.
 						// It's not a warning so it gets fixed.
-						g_pVPC->VPCError( "Duplicate project entry '%s' found in group.", pToken );
+						logging::Error( "Duplicate project entry '%s' found in group.", pToken );
 					}
 				}
 
@@ -165,7 +165,7 @@ void VPC_GroupKeyword_Group()
 			}
 			else
 			{
-				g_pVPC->VPCWarning( "No Project %s defined, ignoring.", pToken );
+				logging::Warning( "No Project %s defined, ignoring.", pToken );
 				continue;
 			}
 		}
@@ -182,13 +182,13 @@ void VPC_GroupKeyword_Project()
 
 	pToken = g_pVPC->GetScript().GetToken( false );
 	if ( !pToken || !pToken[0] )
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 
 	if ( VPC_Group_FindOrCreateProject( pToken, false ) != INVALID_INDEX )
 	{
 		// already defined
-		g_pVPC->VPCWarning( "project %s already defined", pToken );
-		g_pVPC->VPCSyntaxError();
+		logging::Warning( "project %s already defined", pToken );
+		logging::SyntaxError();
 	}
 
 	projectIndex_t projectIndex = VPC_Group_FindOrCreateProject( pToken, true );
@@ -204,13 +204,13 @@ void VPC_GroupKeyword_Project()
 
 	pToken = g_pVPC->GetScript().GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 
 	while ( 1 )
 	{
 		pToken = g_pVPC->GetScript().GetToken( true );
 		if ( !pToken || !pToken[0] )
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 
 		if ( CharStrEq( pToken, '}' ) )
 		{
@@ -238,7 +238,7 @@ void VPC_GroupKeyword_Conditional()
 {
 	const char *pToken = g_pVPC->GetScript().GetToken( false );
 	if ( !pToken || !pToken[0] )
-		g_pVPC->VPCSyntaxError();
+		logging::SyntaxError();
 
 	if ( pToken[0] == '$' )
 	{
@@ -260,7 +260,7 @@ void VPC_GroupKeyword_Conditional()
 	if ( pConditional->m_Type != CONDITIONAL_SYSTEM && pConditional->m_Type != CONDITIONAL_CUSTOM && pConditional->m_Type != CONDITIONAL_SCRIPT )
 	{
 		// group script cannot change conditionals outside of their restricted set
-		g_pVPC->VPCSyntaxError( "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get() );
+		logging::SyntaxError( "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get() );
 	}
 
     bool bValue;
@@ -290,7 +290,7 @@ void VPC_ParseGroupScript( const char *pScriptName )
 	CUtlPathStringHolder localScriptName( pScriptName );
     localScriptName.FixSlashes();
 
-	g_pVPC->VPCStatus( false, "Parsing: %s", localScriptName.Get() );
+	logging::Status( false, "Parsing: %s", localScriptName.Get() );
 	g_pVPC->GetScript().PushScript( localScriptName );
 
 	while ( 1 )
@@ -308,7 +308,7 @@ void VPC_ParseGroupScript( const char *pScriptName )
 			if ( !pToken || !pToken[0] )
 			{
 				// end of file
-				g_pVPC->VPCSyntaxError();
+				logging::SyntaxError();
 			}
 
 			// recurse into and run
@@ -332,7 +332,7 @@ void VPC_ParseGroupScript( const char *pScriptName )
 		}
 		else
 		{
-			g_pVPC->VPCSyntaxError();
+			logging::SyntaxError();
 		}
 	}
 
@@ -400,7 +400,7 @@ void CVPC::GenerateBuildSet( CProjectDependencyGraph &dependencyGraph )
 			{
 				if ( ( ( pCommand[0] == '*' ) || ( pCommand[0] == '@' ) ) && !VPC_AreProjectDependenciesSupportedForThisTargetPlatform() )
 				{
-					g_pVPC->VPCError( "Cannot build '%s' dependencies, not supported for %s yet", pCommand, g_pVPC->conditionals.GetTargetPlatformName() );
+					logging::Error( "Cannot build '%s' dependencies, not supported for %s yet", pCommand, g_pVPC->conditionals.GetTargetPlatformName() );
 				}
 
 				projectIndex_t targetProject = pGroup->projects[k];

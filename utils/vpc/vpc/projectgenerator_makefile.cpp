@@ -184,7 +184,7 @@ void CProjectGenerator_Makefile::WriteNonConfigSpecificStuff( CUtlBuffer &outBuf
 	// TargetPlatformName
 	const char *pTargetPlatformName = g_pVPC->conditionals.GetTargetPlatformName();
 	if ( !pTargetPlatformName )
-		g_pVPC->VPCError( "GetTargetPlatformName failed." );
+		logging::Error( "GetTargetPlatformName failed." );
 	outBuf.Printf( "TARGET_PLATFORM=%s\n", pTargetPlatformName );
 	outBuf.Printf( "TARGET_PLATFORM_EXT=%s\n", g_pVPC->IsDedicatedBuild() ? "" : "_client" );
 
@@ -529,11 +529,11 @@ void CProjectGenerator_Makefile::WriteDefines( CProjectConfiguration *pConfig,
     if ( strchr( preprocessorDefinitionsString, ' ' ) != nullptr ||
          strchr( preprocessorDefinitionsString, '\t' ) != nullptr)
     {
-        g_pVPC->VPCError( "$PreprocessorDefinitions contains whitespace: '%s'", preprocessorDefinitionsString );
+        logging::Error( "$PreprocessorDefinitions contains whitespace: '%s'", preprocessorDefinitionsString );
     }
     if ( strchr( preprocessorDefinitionsString, ',' ) != nullptr)
     {
-        g_pVPC->VPCError( "$PreprocessorDefinitions contains commas, use semicolons as separators: '%s'", preprocessorDefinitionsString );
+        logging::Error( "$PreprocessorDefinitions contains commas, use semicolons as separators: '%s'", preprocessorDefinitionsString );
     }
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetTempStringBuffer1();
@@ -890,7 +890,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 	}
 	else
 	{
-		g_pVPC->VPCError( "Unknown configuration type %s.", configurationTypeString );
+		logging::Error( "Unknown configuration type %s.", configurationTypeString );
 		outBuf.Printf( "CONFTYPE=***UNKNOWN***\n" );
 	}
 
@@ -1509,7 +1509,7 @@ bool CProjectGenerator_Makefile::Save( const char *pOutputFilename )
 	bool bValid = WriteMakefile( pOutputFilename );
 	if ( !bValid )
 	{
-		g_pVPC->VPCWarning( "Error saving makefile: %s", pOutputFilename );
+		logging::Warning( "Error saving makefile: %s", pOutputFilename );
 	}
 
 	return bValid;

@@ -297,8 +297,8 @@ void EndVPCBuffer( CUtlBuffer *pOutVPCBuffer )
 void InjectVPCBuffer( const CUtlBuffer &vpcBuffer )
 {
 	// save parser
-	bool bIgnoreRedundancyWarning = g_pVPC->IsIgnoreRedundancyWarning();
-	g_pVPC->SetIgnoreRedundancyWarning( true );
+	bool bIgnoreRedundancyWarning = logging::IsIgnoreRedundancyWarning();
+	logging::SetIgnoreRedundancyWarning( true );
 	g_pVPC->GetScript().PushScript( "Internal List [Schema]", (char*)vpcBuffer.Base(), 1, false, false );
 
 	const char *pToken = g_pVPC->GetScript().GetToken( true );
@@ -308,7 +308,7 @@ void InjectVPCBuffer( const CUtlBuffer &vpcBuffer )
 
 	// restore parser
 	g_pVPC->GetScript().PopScript();
-	g_pVPC->SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
+	logging::SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
 }
 
 
@@ -364,7 +364,7 @@ void VPC_Schema_TrackFile( const char *pName, bool bRemove, VpcFileFlags_t iFile
 		// Ignore if this script opts out of the Schema feature
 		if ( g_pVPC->conditionals.IsDefined( "NOSCHEMACOMPILER" ) )
 		{
-			g_pVPC->VPCError( "ERROR: Schema file '%s' in project '%s' that specifies NOSCHEMACOMPILER!", pName, g_pVPC->GetProjectName() );
+			logging::Error( "ERROR: Schema file '%s' in project '%s' that specifies NOSCHEMACOMPILER!", pName, g_pVPC->GetProjectName() );
 			return;
 		}
 
@@ -428,7 +428,7 @@ CProjectFile * VPC_Schema_GetGeneratedFile( CProjectFile *pInputFile, const char
 		pDataCollector->FindFile( generatedFilename.Get(), &pResult );
 	}
 	//if ( !pResult )
-	//	g_pVPC->VPCWarning( "VPC_Schema_GetGeneratedFile: could not find generated file for '%s' (%s)", pInputFile->m_Name.Get(), pConfigName );
+	//	logging::Warning( "VPC_Schema_GetGeneratedFile: could not find generated file for '%s' (%s)", pInputFile->m_Name.Get(), pConfigName );
 	return pResult;
 }
 
@@ -536,7 +536,7 @@ void CSchemaVPC::BuildSchemaContext( CVCProjGenerator *pDataCollector, SchemaCon
 	pCtx->m_nUnityBatchSize = pBatchSizeVal ? atoi( pBatchSizeVal ) : -1;
 	if ( pCtx->m_bHeaderUnityBuild && pCtx->m_nUnityBatchSize <= 0 )
 	{
-		g_pVPC->VPCError( "VPC could not determine schema unity batch size (missing SCHEMACOMPILER_UNITY_BATCH_SIZE macro?)\n" );
+		logging::Error( "VPC could not determine schema unity batch size (missing SCHEMACOMPILER_UNITY_BATCH_SIZE macro?)\n" );
 	}
 
 	// path to schemacompiler 
@@ -613,7 +613,7 @@ void BuildSchemaFileInfo( SchemaFileInfo_t *pOutInfo, const SchemaContext_t &ctx
 		CProjectFile *pProjectFile = nullptr;
 		if ( !pDataCollector->FindFile( pFilename, &pProjectFile ) )
 		{
-			g_pVPC->VPCError( "Internal VPC error trying to look up file info for schema file '%s'\n", pFilename );
+			logging::Error( "Internal VPC error trying to look up file info for schema file '%s'\n", pFilename );
 		}
 
 		CUtlVector<CProjectConfiguration *> rootConfigs;
@@ -637,7 +637,7 @@ void BuildSchemaFileInfo( SchemaFileInfo_t *pOutInfo, const SchemaContext_t &ctx
 				{
 					// The PCH filename must be the same for all configurations (eg. Debug / Release)
 					// TODO: generate per-config SchemaFileInfo_t instead of making this assumption!
-					g_pVPC->VPCError( "Inconsistent PCH filenames for schema file '%s' ('%s' != '%s') - they must be the same for all configurations.\n", pFilename, configPCHName.Get(), pOutInfo->m_pchName.Get() );
+					logging::Error( "Inconsistent PCH filenames for schema file '%s' ('%s' != '%s') - they must be the same for all configurations.\n", pFilename, configPCHName.Get(), pOutInfo->m_pchName.Get() );
 				}
 				pOutInfo->m_pchName = configPCHName;
 			}
@@ -645,7 +645,7 @@ void BuildSchemaFileInfo( SchemaFileInfo_t *pOutInfo, const SchemaContext_t &ctx
 			CUtlString preIncludeFiles;
 			if ( !VPC_GetPropertyString( KEYWORD_GENERAL, pRootConfig, pFileConfig, SCHEMA_PRE_INCLUDE_FILES_PROPERTY, &preIncludeFiles ) )
 			{
-				g_pVPC->VPCError( "Unexpected %s missing for schema file '%s' (config '%s') - should at least auto-inherit a default value from base vpc.\n", SCHEMA_PRE_INCLUDE_FILES_PROPERTY, pFilename, pRootConfig->m_Name.Get() );
+				logging::Error( "Unexpected %s missing for schema file '%s' (config '%s') - should at least auto-inherit a default value from base vpc.\n", SCHEMA_PRE_INCLUDE_FILES_PROPERTY, pFilename, pRootConfig->m_Name.Get() );
 			}
 			pOutInfo->m_preIncludeFiles = preIncludeFiles.Get();
 			pOutInfo->m_preIncludeFiles.FixSlashes( '/' );
@@ -869,7 +869,7 @@ void SetProjectCustomBuild( const char *pConfigName, CProjectConfiguration *pRoo
 	if ( !pCommandLineProp || !pDescriptionProp || !pAdditionalDependenciesProp || !pOutputsProp || !pExecuteBeforeProp )
 	{
 		// if you hit this, you're probably missing $AdditionalDependencies_Proj for your target platform
-		g_pVPC->VPCError( "Internal VPC error trying to set Schema custom build for project\n" );
+		logging::Error( "Internal VPC error trying to set Schema custom build for project\n" );
 		return;
 	}
 
@@ -1084,7 +1084,7 @@ void CSchemaVPC::EmitSchproj( bool bStrictOutputs )
 	const char *pLibName = g_pVPC->macros.GetValue( "OUTLIBNAME" );
 	if ( ( !pBinName[0] && !pLibName[0] ) || ( pBinName[0] && pLibName[0] ) )
 	{
-		g_pVPC->VPCError( "VPC could not determine whether this is a bin or a lib.\n" );
+		logging::Error( "VPC could not determine whether this is a bin or a lib.\n" );
 	}
 
 	KeyValues *pOutAllConfigs = new KeyValues( "configs" );
@@ -1336,6 +1336,6 @@ bool CVPC::IsSchemaEnabled( void )
 		return false;	// Schema not enabled
 	if ( IsSchemaSupportedForThisTargetPlatform() )
 		return true;	// Feature enabled & supported!
-	ExecuteOnce( VPCWarning( "Schema feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
+	ExecuteOnce( logging::Warning( "Schema feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
 	return false;		// Platform not supported
 }

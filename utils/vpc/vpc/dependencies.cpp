@@ -162,7 +162,7 @@ const char *CDependency_Project::GetProjectFileName( void )
 {
 	if ( !m_pProjectGenerator )
 	{
-		g_pVPC->VPCError( "Could not determine project file name for \"%s\"", m_Filename.Get() );
+		logging::Error( "Could not determine project file name for \"%s\"", m_Filename.Get() );
 	}
 
 	return m_pProjectGenerator->GetOutputFileName();
@@ -172,7 +172,7 @@ const char *CDependency_Project::GetProjectGUIDString( void )
 {
 	if ( !m_pProjectGenerator )
 	{
-		g_pVPC->VPCError( "Could not determine project GUID for \"%s\"", m_Filename.Get() );
+		logging::Error( "Could not determine project GUID for \"%s\"", m_Filename.Get() );
 	}
 
 	return m_pProjectGenerator->GetGUIDString();
@@ -206,7 +206,7 @@ public:
 	void ScanProjectFile( CProjectDependencyGraph *pGraph, const char *szScriptName, CDependency_Project *pProject )
 	{
 		if ( !VPC_AreProjectDependenciesSupportedForThisTargetPlatform() ) // Should error-out further upstream than here...
-			g_pVPC->VPCError( "Cannot build project dependencies, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() );
+			logging::Error( "Cannot build project dependencies, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() );
 
 		m_ScriptName		 = szScriptName;
 		m_pDependencyGraph	 = pGraph;
@@ -356,7 +356,7 @@ public:
 		CUtlVector<CUtlString> includeDirs;
 		CUtlPathStringHolder fileDir;
 		if ( !fileDir.ExtractFilePath( pFile->GetName() ) )
-			g_pVPC->VPCError( "AddIncludesForFile: V_ExtractFilePath( %s ) failed.", pFile->GetName() );
+			logging::Error( "AddIncludesForFile: V_ExtractFilePath( %s ) failed.", pFile->GetName() );
 
 		// NOTE: for headers *in* a search path folder (e.g system headers), fileDir duplicates that folder in the search
 		//       path list, so we search the same path twice... that duplication is handled in the loop below
@@ -393,7 +393,7 @@ public:
 					searchResults.AddToTail( pIncludeFile );
 
 				if ( ( m_nDupeChecks += pFile->m_Dependencies.Count() ) > 1000000 ) // TODO: pFile->m_Dependencies.HasElement() is slow for large sets
-					ExecuteOnce( g_pVPC->VPCWarning( "PERF WARNING in CSingleProjectScanner::AddIncludesForFile..." ) );
+					ExecuteOnce( logging::Warning( "PERF WARNING in CSingleProjectScanner::AddIncludesForFile..." ) );
 
 				// Don't process duplicate dependencies! (caused by: duplicate #includes, duplicate
 				// search paths and different search paths resolving to the same absolute path)
@@ -405,16 +405,16 @@ public:
 				AddIncludesForFile( pIncludeFile );
 			}
 
-			if ( g_pVPC->IsVerbose() && ( searchResults.Count() == 0 ) )
+			if ( logging::IsVerbose() && ( searchResults.Count() == 0 ) )
 			{
 				// Could not find this include (not too uncommon, since the include parser ignores #ifdefs)
-				g_pVPC->VPCWarning( "Cannot find include file: %s (included in %s)", includes[iIncludeFile].String(), pFile->GetName() );
+				logging::Warning( "Cannot find include file: %s (included in %s)", includes[iIncludeFile].String(), pFile->GetName() );
 			}
-			else if ( g_pVPC->IsVerbose() && ( searchResults.Count() > 1 ) )
+			else if (logging::IsVerbose() && ( searchResults.Count() > 1 ) )
 			{
 				// We found multiple (ambiguous) results for this include!
-				g_pVPC->VPCWarning( "CSingleProjectScanner: Ambiguous include file %s (included in %s)", includes[iIncludeFile].String(), pFile->GetName() );
-				for ( int i = 0; i < searchResults.Count(); i++ ) g_pVPC->VPCWarning( " - Ambiguous include file could be: %s", searchResults[i]->GetName() );
+				logging::Warning( "CSingleProjectScanner: Ambiguous include file %s (included in %s)", includes[iIncludeFile].String(), pFile->GetName() );
+				for ( int i = 0; i < searchResults.Count(); i++ ) logging::Warning( " - Ambiguous include file could be: %s", searchResults[i]->GetName() );
 			}
 		}
 	}
@@ -454,9 +454,9 @@ public:
 		int ret = Sys_LoadFile( pFilename, (void**)&pFileData, false );
 		if ( ret == -1 )
 		{
-			if ( g_pVPC->IsVerbose() )
+			if ( logging::IsVerbose() )
 			{
-				g_pVPC->VPCWarning( "GetIncludeFiles( %s ) - can't open file (included by project %s).", pFilename, m_ScriptName.String() );
+				logging::Warning( "GetIncludeFiles( %s ) - can't open file (included by project %s).", pFilename, m_ScriptName.String() );
 			}
 			return;
 		}
@@ -507,7 +507,7 @@ public:
 			CUtlVector< CUtlString > systemPaths;	
 			if ( !GetSystemIncludePaths( systemPaths, g_pVPC->conditionals.GetTargetPlatformName(), g_pVPC->conditionals.GetTargetCompilerName() ) )
 			{
-				g_pVPC->VPCError( "CSingleProjectScanner::SetupIncludeDirectories failed to set up system include paths" );
+				logging::Error( "CSingleProjectScanner::SetupIncludeDirectories failed to set up system include paths" );
 			}
 			includeList.AddVectorToTail( systemPaths );
 		}
@@ -780,11 +780,11 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 		m_bFullDependencySet = ( ( nBuildProjectDepsFlags & BUILDPROJDEPS_FULL_DEPENDENCY_SET ) != 0 );
 		if ( m_bFullDependencySet )
 		{
-			g_pVPC->VPCStatus( true, "\nBuilding full dependency set (all sources and headers)..." );
+			logging::Status( true, "\nBuilding full dependency set (all sources and headers)..." );
 		}
 		else
 		{
-			g_pVPC->VPCStatus( true, "\nBuilding partial dependency set (libs only)..." );
+			logging::Status( true, "\nBuilding partial dependency set (libs only)..." );
 		}
 
 		if ( nBuildProjectDepsFlags & BUILDPROJDEPS_CHECK_ALL_PROJECTS )
@@ -801,15 +801,15 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 		if ( m_bFullDependencySet && !LoadCache() )
 		{
 			// Load any prior results so we don't have to regenerate the whole cache (which can take a couple minutes).
-			g_pVPC->VPCStatus( true, "Missing or stale dependency cache file: '%s'.\nThis will take a minute to generate dependency info from all the sources.\nNext time it will have a cache file and be faster.", GetCacheFileName() );
+			logging::Status( true, "Missing or stale dependency cache file: '%s'.\nThis will take a minute to generate dependency info from all the sources.\nNext time it will have a cache file and be faster.", GetCacheFileName() );
 		}
 
 		// iterate projects, determine dependencies
 		CFastTimer timer;
 		timer.Start();
-		g_pVPC->ClearPacifier();
+		logging::pacifier::Clear();
 		g_pVPC->IterateTargetProjects( projectList, this );
-		g_pVPC->BreakPacifier();
+		logging::pacifier::Break();
 		timer.End();
 
 		// add in explicit dependencies
@@ -833,7 +833,7 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 
 		if ( m_nFilesParsedForIncludes > 0 )
 		{
-			g_pVPC->VPCStatus( true, "%d files parsed in %.2f seconds for #includes.", m_nFilesParsedForIncludes, timer.GetDuration().GetSeconds() );
+			logging::Status( true, "%d files parsed in %.2f seconds for #includes.", m_nFilesParsedForIncludes, timer.GetDuration().GetSeconds() );
 		}
 	}
 
@@ -871,10 +871,10 @@ void CProjectDependencyGraph::ResolveAdditionalProjectDependencies()
 				}
 			}
 
-			if ( g_pVPC->IsVerbose() && ( j == m_Projects.Count() ) )
+			if ( logging::IsVerbose() && ( j == m_Projects.Count() ) )
 			{
 				// not found
-				g_pVPC->VPCWarning( "Project '%s' lists '%s' in its $AdditionalProjectDependencies, but there is no project by that name.", pMainProject->GetName(), pLookingFor );
+				logging::Warning( "Project '%s' lists '%s' in its $AdditionalProjectDependencies, but there is no project by that name.", pMainProject->GetName(), pLookingFor );
 			}
 		}
 	}
@@ -893,7 +893,7 @@ bool CProjectDependencyGraph::VisitProject( projectIndex_t iProject, const char 
 		return false;
 	}
 
-	g_pVPC->OutputPacifier();
+	logging::pacifier::Output();
 
 	// Add this project.
 	CDependency_Project *pProject = new CDependency_Project( this );
@@ -1004,7 +1004,7 @@ CDependency* CProjectDependencyGraph::FindOrCreateDependency( const char *pFilen
 	{
 		if ( (pDependency->m_Type != type) && (type != k_eDependencyType_Unknown) )
 		{
-			g_pVPC->VPCWarning( "Dependency for file \"%s\" is inconsistent. Was \"%s\", changing to \"%s\"\n", pFilename, k_DependencyTypeStrings[pDependency->m_Type], k_DependencyTypeStrings[type] );
+			logging::Warning( "Dependency for file \"%s\" is inconsistent. Was \"%s\", changing to \"%s\"\n", pFilename, k_DependencyTypeStrings[pDependency->m_Type], k_DependencyTypeStrings[type] );
 		}
 		return pDependency;
 	}
@@ -1088,7 +1088,7 @@ bool CProjectDependencyGraph::LoadCache( void )
 		// this allows us to invalidate the cache (i.e. format, features, etc). which just quietly rebuilds without everybody complaining about spew
 		if ( nVersion && nVersion != VPC_CRC_CACHE_VERSION - 1 )
 		{
-			g_pVPC->VPCWarning( "Invalid dependency cache file version (expected %d, found %d) in '%s'.", VPC_CRC_CACHE_VERSION, nVersion, pFilename );
+			logging::Warning( "Invalid dependency cache file version (expected %d, found %d) in '%s'.", VPC_CRC_CACHE_VERSION, nVersion, pFilename );
 		}
         goto ErrClose;
 	}
@@ -1109,7 +1109,7 @@ bool CProjectDependencyGraph::LoadCache( void )
 		
 		CDependency *pDep = FindOrCreateDependency( filename.String(), (EDependencyType)nType );
 		if ( pDep->m_Dependencies.Count() != 0 )
-			g_pVPC->VPCError( "Cache loading dependency %s but it already exists!", filename.String() );
+			logging::Error( "Cache loading dependency %s but it already exists!", filename.String() );
 
 		if ( fread( &pDep->m_nCacheFileSize, sizeof( pDep->m_nCacheFileSize ), 1, fp ) != 1 )
         {
@@ -1150,7 +1150,7 @@ bool CProjectDependencyGraph::LoadCache( void )
 	RemoveDirtyCacheEntries();
 	MarkAllCacheEntriesValid();
 
-	g_pVPC->VPCStatus( true, "Loaded %d valid dependency cache entries (%d were out of date).", m_AllFiles.Count(), nOriginalEntries-m_AllFiles.Count() );
+	logging::Status( true, "Loaded %d valid dependency cache entries (%d were out of date).", m_AllFiles.Count(), nOriginalEntries-m_AllFiles.Count() );
 	return true;
 
 ErrClose:
@@ -1340,7 +1340,7 @@ public:
 
 		if ( !bAdded )
 		{
-			g_pVPC->VPCWarning( "Project Dependency Iteration: Project '%s' not recognized by dependency graph, skipping.\nProject is likely not part of \"Everything\" group.", szProjectName );
+			logging::Warning( "Project Dependency Iteration: Project '%s' not recognized by dependency graph, skipping.\nProject is likely not part of \"Everything\" group.", szProjectName );
 		}
 
 		return true;

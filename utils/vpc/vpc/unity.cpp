@@ -51,7 +51,7 @@ bool VPC_Unity_UpdateUnityFile( const CUtlString &unityFilePath )
 	CUtlBuffer unityFile;
 	if ( !Sys_LoadFileIntoBuffer( unityFilePath, unityFile, true ) )
 	{
-		g_pVPC->VPCWarning( "/unity_update: cannot access unity file '%s'", unityFilePath.Get() );
+		logging::Warning( "/unity_update: cannot access unity file '%s'", unityFilePath.Get() );
 		return false;
 	}
 
@@ -70,7 +70,7 @@ bool VPC_Unity_UpdateUnityFile( const CUtlString &unityFilePath )
 		bool bIsReadOnly, bExcludeFromUnity;
 		if ( !Sys_FileInfo( filepath, nFileSize, nModifyTime, bIsReadOnly ) )
 		{
-			g_pVPC->VPCWarning( "/unity_update: cannot access source file '%s'", filepath.Get() );
+			logging::Warning( "/unity_update: cannot access source file '%s'", filepath.Get() );
 			return false;
 		}
 
@@ -110,7 +110,7 @@ bool VPC_Unity_UpdateUnityFiles(char const* const* ppArgs, int nArgs)
 	CUtlVector< CUtlString > absFilePaths;
 	if ( !Sys_LoadFileAsLines( pStrBuf->Get(), absFilePaths ) )
 	{
-		g_pVPC->VPCWarning( "/unity_update: cannot find file %s", pStrBuf->Get() );
+		logging::Warning( "/unity_update: cannot find file %s", pStrBuf->Get() );
 		return false;
 	}
 
@@ -169,7 +169,7 @@ void VPC_Unity_BuildUnityfiles( CProjectFolder *pFolder, const CUtlVector< CSour
 {
 	if ( unsortedFileList.IsEmpty() )
 	{
-		g_pVPC->VPCStatus( UNITY_SPEW, "\n$UnityFolder: skipping folder '%s' (contains no viable files)", pFolder->m_Name.Get() );
+		logging::Status( UNITY_SPEW, "\n$UnityFolder: skipping folder '%s' (contains no viable files)", pFolder->m_Name.Get() );
 		return;
 	}
 
@@ -210,7 +210,7 @@ void VPC_Unity_BuildUnityfiles( CProjectFolder *pFolder, const CUtlVector< CSour
 		if ( fileGroup.Count() < 2 )
 		{
 			if ( sortedFileList.Count() || ( unsortedFileList.Count() < 2 ) )
-				g_pVPC->VPCStatus( UNITY_SPEW, "\n$UnityFolder: skipping file '%s' (cannot group with any other files)", fileGroup[0]->m_pSourceFile->m_Name.Get() );
+				logging::Status( UNITY_SPEW, "\n$UnityFolder: skipping file '%s' (cannot group with any other files)", fileGroup[0]->m_pSourceFile->m_Name.Get() );
 			continue;
 		}
 
@@ -230,7 +230,7 @@ void VPC_Unity_BuildUnityfiles( CProjectFolder *pFolder, const CUtlVector< CSour
             }
 		}
 		g_pVPC->m_UnityFilesSeen.Insert( unityName.Get() );
-		g_pVPC->VPCStatus( UNITY_SPEW, "\n$UnityFolder: emitting '%s' in project: '%s'", unityName.Get(), g_pVPC->GetProjectName() );
+		logging::Status( UNITY_SPEW, "\n$UnityFolder: emitting '%s' in project: '%s'", unityName.Get(), g_pVPC->GetProjectName() );
 
 		// Add the unity file to the project:
 		CProjectFile *pUnityFile = nullptr;
@@ -251,12 +251,12 @@ void VPC_Unity_BuildUnityfiles( CProjectFolder *pFolder, const CUtlVector< CSour
 			if ( firstFile.m_PCHName.IsEmpty() )
 			{
 				unityFile.Printf( "// Not using a precompiled header\n\n" );
-				g_pVPC->VPCStatus( UNITY_SPEW, " -  no PCH" );
+				logging::Status( UNITY_SPEW, " -  no PCH" );
 			}
 			else
 			{
 				unityFile.Printf( "// Precompiled header:\n#include \"%s\"\n\n", firstFile.m_PCHName.Get() );
-				g_pVPC->VPCStatus( UNITY_SPEW, " -  PCH: %s", firstFile.m_PCHName.Get() );
+				logging::Status( UNITY_SPEW, " -  PCH: %s", firstFile.m_PCHName.Get() );
 			}
 
 			// Add the file includes
@@ -280,7 +280,7 @@ void VPC_Unity_BuildUnityfiles( CProjectFolder *pFolder, const CUtlVector< CSour
 				{
 					bool bIsReadOnly = true;
 					if ( !Sys_FileInfo( absSourceFilePath, nFileSize, nModifyTime, bIsReadOnly ) )
-						g_pVPC->VPCError( "VPC_Unity_BuildUnityfiles: cannot access source file '%s'", absSourceFilePath.Get() );
+						logging::Error( "VPC_Unity_BuildUnityfiles: cannot access source file '%s'", absSourceFilePath.Get() );
 					bExcludeFromUnity = !bIsReadOnly;
 				}
 
@@ -299,14 +299,14 @@ void VPC_Unity_BuildUnityfiles( CProjectFolder *pFolder, const CUtlVector< CSour
 				// Exclude unity-included files from the regular build (unless they are locally modified)
 				if ( bExcludeFromUnity )
 				{
-					g_pVPC->VPCStatus( UNITY_SPEW, " ->>EXCLUDING:FILE<<'%s'    >>> LOCALLY-EDITED FILE, WILL BUILD STANDALONE <<<", absSourceFilePath.Get() );
+					logging::Status( UNITY_SPEW, " ->>EXCLUDING:FILE<<'%s'    >>> LOCALLY-EDITED FILE, WILL BUILD STANDALONE <<<", absSourceFilePath.Get() );
 				}
 				else
 				{
 					// NOTE: we exclude the output files, since those are the ones that actually get built
 					VPC_SetProperty_ForFile( fileInfo.m_pDebugCompiledFile,   "Debug",   KEYWORD_GENERAL, g_pOption_ExcludedFromBuild, "Yes", pDataCollector );
 					VPC_SetProperty_ForFile( fileInfo.m_pReleaseCompiledFile, "Release", KEYWORD_GENERAL, g_pOption_ExcludedFromBuild, "Yes", pDataCollector );
-					g_pVPC->VPCStatus( UNITY_SPEW, " -  including file  '%s' (will build with unity)", absSourceFilePath.Get() );
+					logging::Status( UNITY_SPEW, " -  including file  '%s' (will build with unity)", absSourceFilePath.Get() );
 				}
 
 				// Record the relationship between the input/output files:
@@ -395,7 +395,7 @@ void VPC_Unity_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 
 	// Paranoid check: the unity code also assumes we have exactly 2 configurations (Debug+Release)
 	if ( ( rootConfigs.Count() != 2 ) || ( rootConfigs[0]->m_Name != "Debug" ) || ( rootConfigs[1]->m_Name != "Release" ) )
-		g_pVPC->VPCError( "$UnityFolder: unexpected configurations (expected 'Debug' and 'Release')" );
+		logging::Error( "$UnityFolder: unexpected configurations (expected 'Debug' and 'Release')" );
 
 	// Iterate the folders in the project and generate unity files for all $UnityFolder folders:
 	VPC_Unity_ProcessFolder( pDataCollector->GetRootFolder(), pDataCollector, rootConfigs );
@@ -438,7 +438,7 @@ bool CVPC::IsUnityEnabled( void )
 		return false;	// Unity feature not enabled
 	if ( IsUnitySupportedForThisTargetPlatform() )
 		return true;	// Feature enabled & supported!
-	ExecuteOnce( VPCWarning( "$UnityProject feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
+	ExecuteOnce( logging::Warning( "$UnityProject feature disabled, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() ) )
 	return false;		// Platform not supported
 }
 
@@ -467,7 +467,7 @@ bool CVPC::IsProjectUsingUnity( script_t *pProjectScript )
 				m_bProjectUsesUnity = true;
 			}
 		}
-		else { g_pVPC->VPCWarning( "Could not find VPC file '%s' !", vpcFilename.Get() ); }
+		else { logging::Warning( "Could not find VPC file '%s' !", vpcFilename.Get() ); }
 
 		// Set the _UNITYSUBDIR macro here, before project parsing begins:
 		macros.SetAsSystem( "_UNITYSUBDIR", ( m_bProjectUsesUnity && IsUnityEnabled() ) ? "\\unity" : "", false );

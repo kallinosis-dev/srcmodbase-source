@@ -77,7 +77,7 @@ bool VPC_GeneratedFiles_GetPCHInfo( CSourceFileInfo &fileInfo, const CUtlVector<
 		VPC_GetPCHInclude( pCompiledFile, rootConfigs[i], pchName, fileInfo.m_bCreatesPCH, bExcludesPCH );
 		if ( ( i > 0 ) && ( pchName != fileInfo.m_PCHName ) )
 		{
-			g_pVPC->VPCWarning( "VPC_GeneratedFiles_CreateFileConfigString: Unsupported PCH configuration for %s", pCompiledFile->m_Name.Get() );
+			logging::Warning( "VPC_GeneratedFiles_CreateFileConfigString: Unsupported PCH configuration for %s", pCompiledFile->m_Name.Get() );
 			return false;
 		}
 		fileInfo.m_PCHName = pchName;
@@ -129,7 +129,7 @@ bool VPC_GeneratedFiles_GetSourceFileInfo(	CSourceFileInfo &fileInfo, CProjectFi
 
 	if ( !fileInfo.m_pDebugCompiledFile || !fileInfo.m_pReleaseCompiledFile )
 	{
-		//g_pVPC->VPCWarning( "VPC_GeneratedFiles_GetSourceFileInfo: could not determine compileable output files for %s", pFile->m_Name.Get() );
+		//logging::Warning( "VPC_GeneratedFiles_GetSourceFileInfo: could not determine compileable output files for %s", pFile->m_Name.Get() );
 		return false;
 	}
 
@@ -219,6 +219,6 @@ void VPC_GeneratedFiles_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 	// Add the manifest file to the 'VPC Scripts' folder:
 	CProjectFolder *pVPCFolder;
 	if ( !pRootFolder->GetFolder( "VPC Scripts", &pVPCFolder ) )
-		g_pVPC->VPCError( "VPC_GeneratedFiles_OnParseProjectEnd: cannot find 'VPC Scripts' folder!" );
+		logging::Error( "VPC_GeneratedFiles_OnParseProjectEnd: cannot find 'VPC Scripts' folder!" );
 	pDataCollector->AddFileToFolder( manifestName.Get(), pVPCFolder, true, VPC_FILE_FLAGS_DYNAMIC, nullptr);
 }

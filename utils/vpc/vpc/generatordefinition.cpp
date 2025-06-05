@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2016, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2016, Valve Corporation, All rights reserved. ============//
 //
 //
 //=====================================================================================//
@@ -60,7 +60,7 @@ void CGeneratorDefinition::IterateAttributesKey( ToolProperty_t *pProperty, KeyV
 		else 
 		{
 			// unknown
-			g_pVPC->VPCError( "Unknown type '%s' in '%s'", pValue, pProperty->m_ParseString.Get() );
+			logging::Error( "Unknown type '%s' in '%s'", pValue, pProperty->m_ParseString.Get() );
 		}
 	}
 	else if ( !V_stricmp_fast( pAttributeName, "alias" ) )
@@ -120,7 +120,7 @@ void CGeneratorDefinition::IterateAttributesKey( ToolProperty_t *pProperty, KeyV
 			const char *pOrdinalValue = pKV->GetString();
 			if ( !pOrdinalValue[0] )
 			{
-				g_pVPC->VPCError( "Unknown ordinal value for name '%s' in '%s'", pOrdinalName, pProperty->m_ParseString.Get() );
+				logging::Error( "Unknown ordinal value for name '%s' in '%s'", pOrdinalName, pProperty->m_ParseString.Get() );
 			}
 
 			int iIndex = pProperty->m_Ordinals.AddToTail();
@@ -138,7 +138,7 @@ void CGeneratorDefinition::IterateAttributesKey( ToolProperty_t *pProperty, KeyV
 	}
 	else
 	{
-		g_pVPC->VPCError( "Unknown attribute '%s' in '%s'", pAttributeName, pProperty->m_ParseString.Get() );
+		logging::Error( "Unknown attribute '%s' in '%s'", pAttributeName, pProperty->m_ParseString.Get() );
 	}
 }
 
@@ -212,7 +212,7 @@ void CGeneratorDefinition::AssignIdentifiers()
 		configKeyword_e keyword = g_pVPC->NameToKeyword( pTool->m_ParseString.Get() );
 		if ( keyword == KEYWORD_UNKNOWN )
 		{
-			g_pVPC->VPCError( "Unknown Tool Keyword '%s' in '%s'", pTool->m_ParseString.Get(), m_ScriptName.Get() );
+			logging::Error( "Unknown Tool Keyword '%s' in '%s'", pTool->m_ParseString.Get(), m_ScriptName.Get() );
 		}
 		pTool->m_nKeyword = keyword;
 
@@ -259,18 +259,18 @@ void CGeneratorDefinition::AssignIdentifiers()
 			}
 			if ( !bFound )
 			{
-				g_pVPC->VPCError( "Could not find PROPERTYNAME( %s, %s ) for %s", prefixString.Get(), pPropertyName, m_ScriptName.Get() );
+				logging::Error( "Could not find PROPERTYNAME( %s, %s ) for %s", prefixString.Get(), pPropertyName, m_ScriptName.Get() );
 			}
 		}
 	}
 
-	if ( g_pVPC->IsVerbose() )
+	if ( logging::IsVerbose() )
 	{
 		for ( int i = 0; i < usedPropertyNames.Count(); i++ )
 		{
 			if ( !usedPropertyNames[i] )
 			{
-				g_pVPC->VPCWarning( "Unused PROPERTYNAME( %s, %s ) in %s", m_pPropertyNames[i].m_pPrefixName, m_pPropertyNames[i].m_pPropertyName, m_ScriptName.Get() );
+				logging::Warning( "Unused PROPERTYNAME( %s, %s ) in %s", m_pPropertyNames[i].m_pPrefixName, m_pPropertyNames[i].m_pPropertyName, m_ScriptName.Get() );
 			}
 		}
 	}
@@ -313,7 +313,7 @@ void CGeneratorDefinition::LoadDefinition( const char *pDefinitionName, Property
 	g_pVPC->GetScript().PopScript();
 	pScriptKV->deleteThis();
 
-	g_pVPC->VPCStatus( false, "Definition: '%s' Version: %s", m_NameString.Get(), m_VersionString.Get() );
+	logging::Status( false, "Definition: '%s' Version: %s", m_NameString.Get(), m_VersionString.Get() );
 
 	AssignIdentifiers();
 }
