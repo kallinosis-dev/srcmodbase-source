@@ -4,6 +4,11 @@
 //==================================================================================================
 
 #pragma once
+#include "tier1/utlstring.h"
+#include "tier1/utlvector.h"
+#include "tier1/checksum_crc.h"
+
+class KeyValues;
 
 struct PropertyName_t
 {

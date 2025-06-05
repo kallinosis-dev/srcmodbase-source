@@ -1,18 +1,18 @@
 //===================== Copyright (c) Valve Corporation. All Rights Reserved. ======================
 //==================================================================================================
 
-#include "conditionals.h"
 #include "vpc.h"
+
+#include "conditionals.h"
 #include "dependencies.h"
-#include "ilaunchabledll.h"
 #include "filesystem.h"
+#include "fmtstr.h"
 #include "ibaseprojectgenerator.h"
 #include "ibasesolutiongenerator.h"
 #include "macros.h"
 #include "misc.h"
 #include "projectcache.h"
-#include "splitstring.h"
-#include "tier1/interface.h"
+#include "tier1/splitstring.h"
 #include "tier1/keyvalues.h"
 
 class IVCProjWriter;

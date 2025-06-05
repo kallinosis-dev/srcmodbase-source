@@ -6,6 +6,9 @@
 
 #include "projectgenerator_vcproj.h"
 
+#include "tier1/fmtstr.h"
+#include "tier1/checksum_md5.h"
+
 #include "ibaseprojectgenerator.h"
 #include "ibasesolutiongenerator.h"
 #include "macros.h"

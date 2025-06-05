@@ -4,6 +4,10 @@
 //
 //==================================================================================================
 
+#include "scriptsource.h"
+
+#include "tier1/fmtstr.h"
+
 #include "misc.h"
 #include "vpc.h"
 

@@ -6,6 +6,9 @@
 
 #pragma once
 
+#include "tier1/utlstack.h"
+#include "tier1/utlstring.h"
+
 #define MAX_SYSPRINTMSG		4096
 
 class CScriptSource

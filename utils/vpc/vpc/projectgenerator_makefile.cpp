@@ -2,10 +2,12 @@
 //==================================================================================================
 #include "projectgenerator_makefile.h"
 
-#include "vpc.h"
 #include "bitvec.h"
+#include "tier1/fmtstr.h"
+#include "tier1/splitstring.h"
+
+#include "vpc.h"
 #include "misc.h"
-#include "splitstring.h"
 
 void MakeFriendlyProjectName( char *pchProject );
 

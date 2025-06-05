@@ -25,7 +25,11 @@
 	#include <sys/io.h>
 #endif
 
+#include "tier0/dbg.h"
 #include "tier0/platform.h"
+#include "tier1/utlbuffer.h"
+#include "tier1/utlstack.h"
+#include "tier1/utlstring.h"
 #include "../vpccrccheck/crccheck_shared.h"
 
 template< class T, class NullType, int nMax >

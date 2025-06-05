@@ -1,7 +1,6 @@
-#include "tier1/strtools.h"
-
 #include "misc.h"
 
+#include "tier1/strtools.h"
 
 // Stuff that we might encounter in a vpc file that parts of vpc care about
 const char* g_pOption_ImportLibrary = "$ImportLibrary";

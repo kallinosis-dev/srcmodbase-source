@@ -4,8 +4,9 @@
 //
 //=============================================================================
 
-#include "vpc.h"
 #include "baseprojectdatacollector.h"
+
+#include "vpc.h"
 #include "tier1/utlstack.h"
 
 

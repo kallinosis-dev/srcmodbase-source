@@ -4,14 +4,18 @@
 //
 //=============================================================================
 
-#include "vpc.h"
 #include "dependencies.h"
+
+
+#include "tier0/fasttimer.h"
+#include "tier1/splitstring.h"
+#include "tier1/utlvector.h"
+
+#include "vpc.h"
 #include "baseprojectdatacollector.h"
+#include "environment_utils.h"
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
-#include "splitstring.h"
-#include "tier0/fasttimer.h"
-#include "tier1/utlvector.h"
 
 #define VPC_CRC_CACHE_VERSION 8
 

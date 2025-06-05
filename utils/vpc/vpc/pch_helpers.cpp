@@ -3,12 +3,14 @@
 //
 //=====================================================================================//
 
+#include "tier1/fmtstr.h"
+#include "tier1/splitstring.h"
+#include "tier1/utlvector.h"
+
 #include "macros.h"
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
-#include "splitstring.h"
 #include "vpc.h"
-#include "tier1/utlvector.h"
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------

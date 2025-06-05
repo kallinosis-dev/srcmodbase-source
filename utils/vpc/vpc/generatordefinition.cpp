@@ -3,6 +3,10 @@
 //
 //=====================================================================================//
 
+#include "generatordefinition.h"
+
+#include "tier1/fmtstr.h"
+#include "tier1/keyvalues.h"
 #include "vpc.h"
 
 CGeneratorDefinition::CGeneratorDefinition()

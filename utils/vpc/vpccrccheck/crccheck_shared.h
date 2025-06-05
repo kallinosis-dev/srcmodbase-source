@@ -10,6 +10,8 @@
 #pragma once
 #endif
 
+#include "tier0/platform.h"
+
 
 #define VPCCRCCHECK_EXE_FILENAME	"vpc.exe"
 

@@ -4,14 +4,17 @@
 //
 //=============================================================================
 
+
+#include "tier1/fmtstr.h"
+#include "tier1/splitstring.h"
+#include "tier1/utlsortvector.h"
+
 #include "vpc.h"
 #include "dependencies.h"
 #include "baseprojectdatacollector.h"
 #include "ibasesolutiongenerator.h"
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
-#include "splitstring.h"
-#include "tier1/utlsortvector.h"
 
 #ifdef WIN32
 #define snprintf _snprintf

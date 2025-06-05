@@ -1,9 +1,12 @@
 //========= Copyright � 1996-2016, Valve Corporation, All rights reserved. ============//
 
-#include <ranges>
-#include "tier1/splitstring.h"
 
 #include "macros.h"
+
+#include <ranges>
+
+#include "tier1/fmtstr.h"
+#include "tier1/splitstring.h"
 
 #include "ibaseprojectgenerator.h"
 #include "vpc.h"

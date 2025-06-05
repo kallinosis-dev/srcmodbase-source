@@ -4,12 +4,14 @@
 //
 //=====================================================================================//
 
-#include "vpc.h"
 #include "projectgenerator_android.h"
 
+#include "tier1/fmtstr.h"
+#include "tier1/splitstring.h"
+
+#include "vpc.h"
 #include "ibasesolutiongenerator.h"
 #include "misc.h"
-#include "splitstring.h"
 
 #undef PROPERTYNAME
 #define PROPERTYNAME( X, Y ) { X##_##Y, #X, #Y },

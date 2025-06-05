@@ -5,6 +5,10 @@
 //=====================================================================================//
 
 #include "projectgenerator_win32_2010.h"
+
+#include "tier1/checksum_md5.h"
+#include "tier1/fmtstr.h"
+
 #include "misc.h"
 
 
