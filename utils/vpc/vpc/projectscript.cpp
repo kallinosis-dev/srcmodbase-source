@@ -2205,6 +2205,7 @@ void CProjectScriptParser::ParseProjectScriptParameters( const char *szScriptNam
 void CProjectScriptParser::Parse(char const* scriptName, int depth)
 {
 
+	char* pScriptBuffer;
 	CUtlString szScriptName;
 	PrepareToReadScript(scriptName, depth, pScriptBuffer, &szScriptName);
 
@@ -2291,7 +2292,6 @@ bool CVPC::ParseProjectScript( const char *pScriptName, int depth, bool bQuiet, 
 	{
 		m_pDependencyProject = pDependencyProject;
 	}
-	char	*pScriptBuffer;
 
 	if ( !depth && !bQuiet )
 	{

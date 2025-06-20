@@ -472,7 +472,6 @@ extern const char			*g_SchemaFolderName;
 extern const char			*g_SchemaAnchorBase;						
 extern const char			*g_IncludeSeparators[2];
 
-extern void					VPC_ParseGroupScript( const char *pScriptName );
 extern void					VPC_GenerateProjectDependencies( CBaseProjectDataCollector *pDataCollector );
 extern bool					VPC_AreProjectDependenciesSupportedForThisTargetPlatform( void );
 

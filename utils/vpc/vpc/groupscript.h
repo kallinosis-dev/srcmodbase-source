@@ -33,5 +33,7 @@ struct groupTag_t
 	bool						bSameAsProject;
 };
 
+
+extern void					VPC_ParseGroupScript(const char* pScriptName);
 extern groupTagIndex_t VPC_Group_FindOrCreateGroupTag(const char* pName, bool bCreate);
 extern projectIndex_t VPC_Group_FindOrCreateProject(const char* pName, bool bCreate);
