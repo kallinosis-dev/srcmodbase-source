@@ -7,6 +7,7 @@
 #include "ibaseprojectgenerator.h"
 #include "macros.h"
 #include "misc.h"
+#include "projectscript.h"
 #include "vpc.h"
 
 static KeywordName_t s_KeywordNameTable[] =
@@ -57,10 +58,10 @@ configKeyword_e CVPC::NameToKeyword( const char *pKeywordName )
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void VPC_Config_Macro()
+void CProjectScriptParser::Config_Macro()
 {
 	// Allowing macros to be created/set inside of configurations in order to construct a macro that is vectored on the configuration
-	const char *pToken = g_pVPC->GetScript().GetToken( false );
+	const char *pToken = _script->GetToken( false );
 	if ( !pToken || !pToken[0] )
 	{
 		logging::SyntaxError();
@@ -69,19 +70,19 @@ void VPC_Config_Macro()
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
 
-	g_pVPC->macros.SetAsProperty( macroName, pStrBuf->Get(), g_pVPC->GetProjectGenerator()->GetCurrentConfigurationName() );
+	g_pVPC->macros.SetAsProperty( macroName, pStrBuf->Get(), _projgen->GetCurrentConfigurationName() );
 }
 
 //-----------------------------------------------------------------------------
 //	VPC_Config_Keyword
 //
 //-----------------------------------------------------------------------------
-void VPC_Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
+void CProjectScriptParser::Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
 {
 	const char		*pToken;
 
@@ -91,28 +92,28 @@ void VPC_Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
 	}
 
 	bool bShouldSkip = false;
-	if ( !g_pVPC->GetProjectGenerator()->StartPropertySection( keyword, &bShouldSkip ) )
+	if ( !_projgen->StartPropertySection( keyword, &bShouldSkip ) )
 	{
 		logging::SyntaxError( "Unsupported Keyword: %s for target platform", pkeywordToken );
 	}
 
 	if ( bShouldSkip )
 	{
-		pToken = g_pVPC->GetScript().PeekNextToken( true );
+		pToken = _script->PeekNextToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 			logging::SyntaxError();
 
-		g_pVPC->GetScript().SkipBracedSection();
+		_script->SkipBracedSection();
 	}
 	else
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 			logging::SyntaxError();
 		
 		while ( 1 )
 		{
-			pToken = g_pVPC->GetScript().GetToken( true );
+			pToken = _script->GetToken( true );
 			if ( !pToken || !pToken[0] )
 				break;
 
@@ -130,7 +131,7 @@ void VPC_Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
 				// Allowing macros to be created/set inside of configurations in order to save off a property state into a macro.
 				// This provides a way for users to temp alter properties and then restore them.
 				// Syntax: $Macro <MacroName> <PropertyName> [condition]
-				pToken = g_pVPC->GetScript().GetToken( false );
+				pToken = _script->GetToken( false );
 				if ( !pToken || !pToken[0] )
 					logging::SyntaxError();
 
@@ -138,33 +139,33 @@ void VPC_Config_Keyword( configKeyword_e keyword, const char *pkeywordToken )
 
 				// resolve the token that should be a recognized property key
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-				if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+				if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 				{
 					continue;
 				}
 
 				// get the specified property key's value and set it
-				g_pVPC->macros.SetAsProperty( macroName, g_pVPC->GetProjectGenerator()->GetPropertyValue( pStrBuf->Get() ), g_pVPC->GetProjectGenerator()->GetCurrentConfigurationName() );
+				g_pVPC->macros.SetAsProperty( macroName, _projgen->GetPropertyValue( pStrBuf->Get() ), _projgen->GetCurrentConfigurationName() );
 			}
 			else if ( !V_stricmp_fast( tempTokenName, "$Macro" ) )
 			{
-				VPC_Config_Macro();
+				Config_Macro();
 			}
 			else
 			{
-				g_pVPC->GetProjectGenerator()->HandleProperty( tempTokenName );
+				_projgen->HandleProperty( tempTokenName );
 			}
 		}
 	}
 
-	g_pVPC->GetProjectGenerator()->EndPropertySection( keyword );
+	_projgen->EndPropertySection( keyword );
 }
 
 //-----------------------------------------------------------------------------
 //	VPC_Keyword_Configuration
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_Configuration()
+void CProjectScriptParser::Keyword_Configuration()
 {
 	//determine project generator before any generator-dependent configuration is allowed
 	g_pVPC->DetermineProjectGenerator();
@@ -176,7 +177,7 @@ void VPC_Keyword_Configuration()
 
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( bAllowNextLine );
+		pToken = _script->GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -194,7 +195,7 @@ void VPC_Keyword_Configuration()
 		configs[index] = pToken;
 
 		// check for another optional config
-		pToken = g_pVPC->GetScript().PeekNextToken( bAllowNextLine );
+		pToken = _script->PeekNextToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] || CharStrEq( pToken, '{' ) || CharStrEq( pToken, '}' ) || (pToken[0] == '$') )
 			break;
 	}
@@ -202,27 +203,27 @@ void VPC_Keyword_Configuration()
 	// no configuration specified, use all known
 	if ( !configs.Count() )
 	{
-		g_pVPC->GetProjectGenerator()->GetAllConfigurationNames( configs );
+		_projgen->GetAllConfigurationNames( configs );
 		if ( !configs.Count() )
 		{
-			logging::Error( "Trying to parse a configuration block and no configs have been defined yet.\n[%s line:%d]", g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+			logging::Error( "Trying to parse a configuration block and no configs have been defined yet.\n[%s line:%d]", _script->GetName(), _script->GetLine() );
 		}
 	}
 
 	// save parser state
-	CScriptSource scriptSource = g_pVPC->GetScript().GetCurrentScript();
+	CScriptSource scriptSource = _script->GetCurrentScript();
 
 	for ( int i = 0; i < configs.Count(); i++ )
 	{
 		// restore parser state
-		g_pVPC->GetScript().RestoreScript( scriptSource );
+		_script->RestoreScript( scriptSource );
 
         configName.Set( configs[i].String() );
 
 		// get access objects
-		g_pVPC->GetProjectGenerator()->StartConfigurationBlock( configName, false );
+		_projgen->StartConfigurationBlock( configName, false );
 
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		{
 			logging::SyntaxError();
@@ -230,23 +231,23 @@ void VPC_Keyword_Configuration()
 
 		while ( 1 )
 		{
-			g_pVPC->GetScript().SkipToValidToken();
+			_script->SkipToValidToken();
 
-			pToken = g_pVPC->GetScript().PeekNextToken( true );
+			pToken = _script->PeekNextToken( true );
 			if ( pToken && pToken[0] && !V_stricmp_fast( pToken, "$Macro" ) )
 			{
-				pToken = g_pVPC->GetScript().GetToken( true );
+				pToken = _script->GetToken( true );
 				if ( !pToken  || !pToken[0] )
 					logging::SyntaxError();
 
-				VPC_Config_Macro();
+				Config_Macro();
 				continue;
 			}
 
             CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+			if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 			{
-				g_pVPC->GetScript().SkipBracedSection();
+				_script->SkipBracedSection();
 				continue;
 			}
 
@@ -264,11 +265,11 @@ void VPC_Keyword_Configuration()
 			else
 			{
                 CUtlStringHolder<50> keywordStr( pStrBuf->Get() );
-				VPC_Config_Keyword( keyword, keywordStr );
+				Config_Keyword( keyword, keywordStr );
 			}
 		}
 
-		g_pVPC->GetProjectGenerator()->EndConfigurationBlock();
+		_projgen->EndConfigurationBlock();
 	}
 }
 
@@ -276,7 +277,7 @@ void VPC_Keyword_Configuration()
 //	VPC_Keyword_FileConfiguration
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_FileConfiguration()
+void CProjectScriptParser::Keyword_FileConfiguration()
 {
 	const char	*pToken;
 	bool		bAllowNextLine = false;
@@ -284,7 +285,7 @@ void VPC_Keyword_FileConfiguration()
 
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( bAllowNextLine );
+		pToken = _script->GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -301,7 +302,7 @@ void VPC_Keyword_FileConfiguration()
 		configurationNames.AddToTail( pToken );
 
 		// check for another optional config
-		pToken = g_pVPC->GetScript().PeekNextToken( bAllowNextLine );
+		pToken = _script->PeekNextToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] || CharStrEq( pToken, '{' ) || CharStrEq( pToken, '}' ) || (pToken[0] == '$') )
 			break;
 	}
@@ -309,23 +310,23 @@ void VPC_Keyword_FileConfiguration()
 	// no configuration specified, use all known
 	if ( configurationNames.Count() == 0 )
 	{
-		g_pVPC->GetProjectGenerator()->GetAllConfigurationNames( configurationNames );
+		_projgen->GetAllConfigurationNames( configurationNames );
 	}
 
 	// save parser state
-	CScriptSource scriptSource = g_pVPC->GetScript().GetCurrentScript();
+	CScriptSource scriptSource = _script->GetCurrentScript();
 
     int nWarningLine = -1;
 
 	for ( int i=0; i < configurationNames.Count(); i++ )
 	{
 		// restore parser state
-		g_pVPC->GetScript().RestoreScript( scriptSource );
+		_script->RestoreScript( scriptSource );
 
 		// Tell the generator we're about to feed it configuration data for this file.
-		g_pVPC->GetProjectGenerator()->StartConfigurationBlock( configurationNames[i].String(), true );
+		_projgen->StartConfigurationBlock( configurationNames[i].String(), true );
 
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		{
 			logging::SyntaxError();
@@ -333,37 +334,37 @@ void VPC_Keyword_FileConfiguration()
 
 		while ( 1 )
 		{
-			g_pVPC->GetScript().SkipToValidToken();
+			_script->SkipToValidToken();
 
-			pToken = g_pVPC->GetScript().PeekNextToken( true );
+			pToken = _script->PeekNextToken( true );
 			if ( pToken && pToken[0] && !V_stricmp_fast( pToken, g_pOption_ExcludedFromBuild ) )
 			{
-				pToken = g_pVPC->GetScript().GetToken( true );
+				pToken = _script->GetToken( true );
 				if ( !pToken || !pToken[0] )
 					logging::SyntaxError();
 
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-				if ( g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+				if ( _script->ParsePropertyValue(nullptr, pStrBuf ) )
 				{
-					g_pVPC->GetProjectGenerator()->FileExcludedFromBuild( Sys_StringToBool( pStrBuf->Get() ) );
+					_projgen->FileExcludedFromBuild( Sys_StringToBool( pStrBuf->Get() ) );
 				}
 
 				continue;
 			}
 			else if ( pToken && pToken[0] && !V_stricmp_fast( pToken, "$Macro" ) )
 			{
-				pToken = g_pVPC->GetScript().GetToken( true );
+				pToken = _script->GetToken( true );
 				if ( !pToken || !pToken[0] )
 					logging::SyntaxError();
 
-				VPC_Config_Macro();
+				Config_Macro();
 				continue;
 			}
 
             CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+			if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 			{
-				g_pVPC->GetScript().SkipBracedSection();
+				_script->SkipBracedSection();
 				continue;
 			}
 
@@ -379,19 +380,19 @@ void VPC_Keyword_FileConfiguration()
 			// these are the only tools wired to deal with file configuration overrides
 			case KEYWORD_COMPILER:
                 if ( !g_pVPC->IsPerFileCompileConfigEnabled() &&
-                     !g_pVPC->GetScript().IsInPrivilegedScript() &&
-                     g_pVPC->GetScript().GetLine() != nWarningLine )
+                     !_script->IsInPrivilegedScript() &&
+                     _script->GetLine() != nWarningLine )
                 {
                     logging::SyntaxError( "%s(%u): per-file compile configuration not allowed",
-                                            g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
-                    nWarningLine = g_pVPC->GetScript().GetLine();
+                                            _script->GetName(), _script->GetLine() );
+                    nWarningLine = _script->GetLine();
                 }
                 // Fall through
 			case KEYWORD_RESOURCES:
 			case KEYWORD_CUSTOMBUILDSTEP:
             {
                 CUtlStringHolder<50> keywordStr( pStrBuf->Get() );
-				VPC_Config_Keyword( keyword, keywordStr );
+				Config_Keyword( keyword, keywordStr );
 				break;
             }
 			default:
@@ -399,7 +400,7 @@ void VPC_Keyword_FileConfiguration()
 			}
 		}
 		
-		g_pVPC->GetProjectGenerator()->EndConfigurationBlock();
+		_projgen->EndConfigurationBlock();
 	}
 }
 

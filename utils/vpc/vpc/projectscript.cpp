@@ -8,7 +8,6 @@
 
 #include "vpc.h"
 #include "tier1/utldict.h"
-#include "tier1/keyvalues.h"
 #include "baseprojectdatacollector.h"
 #include "ibasesolutiongenerator.h"
 #include "macros.h"
@@ -18,25 +17,10 @@
 char const* DefaultLibDir = "$LIBPROJECT\\";
 
 
-void VPC_Keyword_RemoveFile( void (*pFNNameTranslation)( CUtlStringBuilder *pStrBuf ) = nullptr );
-static void VPC_AddLibraryDependencies( const char *pLibPath );
 
-#ifndef STEAM
-bool V_StrSubstInPlace( char *pchInOut, int cchInOut, const char *pMatch, const char *pReplaceWith, bool bCaseSensitive )
+void CProjectScriptParser::Keyword_FileBuildOrderModifier()
 {
-	char *pchT = (char *)stackalloc( cchInOut );
-	if ( V_StrSubst( pchInOut, pMatch, pReplaceWith, pchT, cchInOut, bCaseSensitive ) )
-	{
-		V_strncpy( pchInOut, pchT, cchInOut );
-		return true;
-	}
-	return false;
-}
-#endif
-
-void VPC_Keyword_FileBuildOrderModifier()
-{
-	const char *pToken = g_pVPC->GetScript().GetToken( true );
+	const char *pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] )
 		return;
 
@@ -46,15 +30,15 @@ void VPC_Keyword_FileBuildOrderModifier()
 		return;
 	}
 
-	g_pVPC->GetProjectGenerator()->HandleProperty( "$BuildOrderModifier", pToken );
+	_projgen->HandleProperty( "$BuildOrderModifier", pToken );
 }
 
 
-void VPC_ParseFileSection()
+void CProjectScriptParser::ParseFileSection()
 {
-	while ( 1 )
+	while ( true )
 	{
-		const char *pToken = g_pVPC->GetScript().GetToken( true );
+		const char *pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -66,11 +50,11 @@ void VPC_ParseFileSection()
 
 		if ( !V_stricmp_fast( pToken, "$Configuration" ) )
 		{
-			VPC_Keyword_FileConfiguration();
+			Keyword_FileConfiguration();
 		}
 		else if ( !V_stricmp_fast( pToken, "$BuildOrderModifier" ) )
 		{
-			VPC_Keyword_FileBuildOrderModifier();
+			Keyword_FileBuildOrderModifier();
 		}
 		else
 		{
@@ -225,7 +209,7 @@ static const char *ResolveFilename( const char *pszFile, CUtlPathStringHolder *p
 //	VPC_Keyword_AddFilesByPattern
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_AddFilesByPattern()
+void CProjectScriptParser::Keyword_AddFilesByPattern()
 {
 	CUtlVector<CUtlString>			files;
 
@@ -237,14 +221,14 @@ void VPC_Keyword_AddFilesByPattern()
 	// THIS FEATURE IS NOT COMPLIANT TO VPC CONDITIONAL SYNTAX.
 	while ( 1 )
 	{
-		const char *pToken = g_pVPC->GetScript().GetToken( false );
+		const char *pToken = _script->GetToken( false );
 		if ( !pToken || !pToken[0] )
 			break;
 
 		// Is this a conditional expression?
 		if ( pToken[0] == '[' )
 		{
-			const char *pNextToken = g_pVPC->GetScript().PeekNextToken( false );
+			const char *pNextToken = _script->PeekNextToken( false );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
 				logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
@@ -272,8 +256,8 @@ void VPC_Keyword_AddFilesByPattern()
 		for ( int i=0; i < vecResults.Count(); i++ )
 		{
 			logging::Status( false, "glob: adding '%s' to project", vecResults[i].String() );
-			g_pVPC->GetProjectGenerator()->StartFile( vecResults[i].String(), VPC_FILE_FLAGS_NONE, true ); 
-			g_pVPC->GetProjectGenerator()->EndFile();
+			_projgen->StartFile( vecResults[i].String(), VPC_FILE_FLAGS_NONE, true ); 
+			_projgen->EndFile();
 		}
 	}
 }
@@ -299,13 +283,13 @@ public:
 //						"file_d" [$CONDITION]
 //
 //-----------------------------------------------------------------------------
-static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTranslation)( CUtlStringBuilder *pStrBuf ) = nullptr )
+void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameTranslator nameTranslator)
 {
 	bool bFoundFilename = false;
 	bool bAllowNextLine = false;
 	while ( 1 )
 	{
-		const char *pToken = g_pVPC->GetScript().GetToken( bAllowNextLine );
+		const char *pToken = _script->GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			logging::SyntaxError();
 
@@ -330,7 +314,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 				files.Remove( files.Count() - 1 );
 			}
 
-			const char *pNextToken = g_pVPC->GetScript().PeekNextToken( false );
+			const char *pNextToken = _script->PeekNextToken( false );
 			if ( !pNextToken || !pNextToken[0] )
 			{
 				// end of tokens, finished
@@ -349,7 +333,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 	
 		if ( CharStrEq( pToken, '\\' ) )
 		{
-			const char *pNextToken = g_pVPC->GetScript().PeekNextToken( false );
+			const char *pNextToken = _script->PeekNextToken( false );
 			if ( pNextToken && pNextToken[0] )
 			{
 				logging::SyntaxError( "Unexpected token '%s' on same line after the file continuation marker", pNextToken );
@@ -364,9 +348,9 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 		g_pVPC->macros.ResolveString( pToken, pStrBuf );
 		V_FixSlashes( pStrBuf->Access() );
 
-		if ( pFNNameTranslation )
+		if ( nameTranslator )
 		{
-			pFNNameTranslation( pStrBuf );
+			nameTranslator( pStrBuf );
 		}
 
 		const char *pExtension = V_GetFileExtension( pStrBuf->Get() );
@@ -383,7 +367,7 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 		files.AddToTail( pStrBuf->Get() );
 
 		// check for another optional token
-		const char *pNextToken = g_pVPC->GetScript().PeekNextToken( false );
+		const char *pNextToken = _script->PeekNextToken( false );
 		if ( !pNextToken || !pNextToken[0] )
 			break;
 
@@ -398,12 +382,12 @@ static void VPC_ParseFileList( CUtlVector< CUtlString > &files, void (*pFNNameTr
 //	VPC_Keyword_AddFile
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void (*pFNNameTranslation)( CUtlStringBuilder *pStrBuf ) = nullptr )
+void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, NameTranslator nameTranslator = nullptr)
 {
 	bool bAddedAsLibrary = (iFileFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB | VPC_FILE_FLAGS_SHARED_LIB)) != 0;
 
 	CUtlVector< CUtlString > files;
-	VPC_ParseFileList( files, pFNNameTranslation );
+	ParseFileList( files, nameTranslator );
 
 	if (!bAddedAsLibrary)
 	{
@@ -421,7 +405,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 
 	// check for optional section
 	bool bHasSection = false;
-	const char *pToken = g_pVPC->GetScript().PeekNextToken( true );
+	const char *pToken = _script->PeekNextToken( true );
 	if ( pToken && pToken[0] && CharStrEq( pToken, '{' ) )
 	{
 		bHasSection = true;
@@ -449,7 +433,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 				logging::SyntaxError( "Using $Lib or $ImpLib in a static library project is prohibited (lib used '%s').\nYou can use $LibDependsOn[Imp]Lib if you need something similar, look at lib_depends_source.vpc.\n", pFilename );
 			}
 
-			VPC_AddLibraryDependencies( pFilename );
+			AddLibraryDependencies( pFilename );
 		}
 	}
 	else
@@ -483,7 +467,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 				g_pVPC->IncrementFileMissing();
 
 				// need script stack to assist in tracking down missing file
-				g_pVPC->GetScript().SpewScriptStack( false );
+				_script->SpewScriptStack( false );
 
 				files.Remove( i );
 			}
@@ -501,7 +485,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 				logging::Warning( "Case Consistency Issue! File '%s' specified in '%s' is inconsistent with OS version '%s'.", pFilename, g_pVPC->GetProjectName(), actualFilename );
 
 				// need script stack to assist in tracking down missing file
-				g_pVPC->GetScript().SpewScriptStack( true );
+				_script->SpewScriptStack( true );
 			}
 		}
 	}
@@ -509,21 +493,21 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 	if ( !files.Count() && bHasSection )
 	{
 		// optional section has been conditionally removed
-		g_pVPC->GetScript().SkipBracedSection();
+		_script->SkipBracedSection();
 		return;
 	}
 
 	if ( bHasSection )
 	{
 		// found optional section, parse opening brace
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 			logging::SyntaxError();
 	}
 
 	// Handle $OS expansion
 	// save parser state
-	CScriptSource startingScriptSource = g_pVPC->GetScript().GetCurrentScript();
+	CScriptSource startingScriptSource = _script->GetCurrentScript();
 
 	CUtlVector< CUtlString > customFiles;
 	for ( int i = 0; i < files.Count(); i++ )
@@ -568,16 +552,16 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 					if ( pExcludedExtension && !V_stricmp_fast( pExcludedExtension, "cpp" ) )
 					{
 						logging::Status( false, "Excluding '%s' from build", pExcludedFilename );
-						g_pVPC->GetProjectGenerator()->StartFile( pExcludedFilename, iFileFlags, true ); 
+						_projgen->StartFile( pExcludedFilename, iFileFlags, true ); 
 						CUtlVector< CUtlString > configurationNames;
- 						g_pVPC->GetProjectGenerator()->GetAllConfigurationNames( configurationNames );
+ 						_projgen->GetAllConfigurationNames( configurationNames );
 						for ( int j = 0; j < configurationNames.Count(); j++ )
 						{
-							g_pVPC->GetProjectGenerator()->StartConfigurationBlock( configurationNames[j].String(), true );
-							g_pVPC->GetProjectGenerator()->FileExcludedFromBuild( true );
-							g_pVPC->GetProjectGenerator()->EndConfigurationBlock();
+							_projgen->StartConfigurationBlock( configurationNames[j].String(), true );
+							_projgen->FileExcludedFromBuild( true );
+							_projgen->EndConfigurationBlock();
 						}
-						g_pVPC->GetProjectGenerator()->EndFile();
+						_projgen->EndFile();
 					}
 				}
 
@@ -585,7 +569,7 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 			}
 		}
 
-		bool bAdded = g_pVPC->GetProjectGenerator()->StartFile( pFilename, iFileFlags, !bAddedAsLibrary );
+		bool bAdded = _projgen->StartFile( pFilename, iFileFlags, !bAddedAsLibrary );
 		
 		// Lookup extension for a custom build script
 		const char *pExtension = V_GetFileExtensionSafe( pFilename );
@@ -597,17 +581,17 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 			const char *pBuffer = buildStepsForExtension.m_BuildSteps.Get();
 			
 			// save parser state
-			g_pVPC->GetScript().PushScript( buildStepsForExtension.m_DefinedInFile.Get(), pBuffer, buildStepsForExtension.m_nDefinitionStartLine, false, true );
+			_script->PushScript( buildStepsForExtension.m_DefinedInFile.Get(), pBuffer, buildStepsForExtension.m_nDefinitionStartLine, false, true );
 
 			// parse injected buildstep
-			VPC_ParseFileSection();
+			ParseFileSection();
 
 			// restore parser state
-			g_pVPC->GetScript().PopScript();
-			g_pVPC->GetScript().RestoreScript( startingScriptSource );
+			_script->PopScript();
+			_script->RestoreScript( startingScriptSource );
 		}
 
-		const char *pCleanFilename = g_pVPC->GetProjectGenerator()->GetCurrentFileName();
+		const char *pCleanFilename = _projgen->GetCurrentFileName();
 
         // Apply PCH expansions.
         if ( ( iFileFlags & ( VPC_FILE_FLAGS_CREATE_PCH |
@@ -623,17 +607,17 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 				CUtlString scriptName;
 				scriptName.Format( "Custom Auto Script for '%s'", pScriptName );
 
-				g_pVPC->GetScript().PushScript( scriptName.Get(),  g_pVPC->m_CustomAutoScripts[nScriptIndex].Get(), 1, false, false );
+				_script->PushScript( scriptName.Get(),  g_pVPC->m_CustomAutoScripts[nScriptIndex].Get(), 1, false, false );
                 // We're going to use a per-file compiler option so allow that.
                 // This will get reverted on RestoreScript.
-                g_pVPC->GetScript().EnterPrivilegedScript();
+                _script->EnterPrivilegedScript();
 
 				// parse injected steps
-				VPC_ParseFileSection();
+				ParseFileSection();
 
 				// restore parser state
-				g_pVPC->GetScript().PopScript();
-				g_pVPC->GetScript().RestoreScript( startingScriptSource );
+				_script->PopScript();
+				_script->RestoreScript( startingScriptSource );
 			}
         }
 
@@ -641,8 +625,8 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 		if ( bHasSection && bAdded )
 		{
 			// restore parser state
-			g_pVPC->GetScript().RestoreScript( startingScriptSource );
-			VPC_ParseFileSection();
+			_script->RestoreScript( startingScriptSource );
+			ParseFileSection();
 		}
 
 		if ( bAdded )
@@ -660,14 +644,14 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 
 		if ( bAdded )
 		{
-			g_pVPC->GetProjectGenerator()->EndFile();
+			_projgen->EndFile();
 		}
 	}
 
 	if ( customFiles.Count() )
 	{
 		// save parser state
-		startingScriptSource = g_pVPC->GetScript().GetCurrentScript();
+		startingScriptSource = _script->GetCurrentScript();
 
 		// emit the auto scripts
 		for ( int i = 0 ; i < customFiles.Count(); i++ )
@@ -683,14 +667,14 @@ void VPC_Keyword_AddFile( VpcFileFlags_t iFileFlags = VPC_FILE_FLAGS_NONE, void 
 				scriptName.Format( "Custom Auto Script for '%s'", pExtension );
 
 				// save parser state
-				g_pVPC->GetScript().PushScript( scriptName.Get(),  g_pVPC->m_CustomAutoScripts[nAutoScriptIndex].Get(), 1, false, false );
+				_script->PushScript( scriptName.Get(),  g_pVPC->m_CustomAutoScripts[nAutoScriptIndex].Get(), 1, false, false );
 
 				// parse injected steps
-				VPC_HandleProjectCommands(nullptr, 1, false );
+				HandleProjectCommands(1);
 
 				// restore parser state
-				g_pVPC->GetScript().PopScript();
-				g_pVPC->GetScript().RestoreScript( startingScriptSource );
+				_script->PopScript();
+				_script->RestoreScript( startingScriptSource );
 			}
 		}
 
@@ -746,17 +730,17 @@ static void nameTransformImpLibExternal( CUtlStringBuilder *pStrBuf)
 	pStrBuf->Set( szFilename1.Get() );
 }
 
-static void VPC_Keyword_ImportLibrary( bool bRemove = false, bool bExternal = false )
+void CProjectScriptParser::Keyword_ImportLibrary( bool bRemove = false, bool bExternal = false )
 {
 	auto nameTransformFunction = bExternal ? nameTransformImpLibExternal : nameTransformImpLib;
 
 	if ( !bRemove )
 	{
-		VPC_Keyword_AddFile( VPC_FILE_FLAGS_IMPORT_LIB, nameTransformFunction );
+		Keyword_AddFile( VPC_FILE_FLAGS_IMPORT_LIB, nameTransformFunction );
 	}
 	else
 	{
-		VPC_Keyword_RemoveFile( nameTransformFunction );
+		Keyword_RemoveFile( nameTransformFunction );
 	}
 }
 
@@ -774,21 +758,21 @@ static void nameTransformLinkLibExternal( CUtlStringBuilder *pStrBuf )
 	pStrBuf->Set( szFilename1.Get() );
 }
 
-static void VPC_Keyword_LinkerLibrary( bool bRemove = false, bool bExternal = false )
+void CProjectScriptParser::Keyword_LinkerLibrary( bool bRemove = false, bool bExternal = false )
 {
 	auto nameTransformFunction = bExternal ? nameTransformLinkLibExternal : nameTransformLinkLib;
 
 	if ( !bRemove )
 	{
-		VPC_Keyword_AddFile( VPC_FILE_FLAGS_STATIC_LIB, nameTransformFunction );
+		Keyword_AddFile( VPC_FILE_FLAGS_STATIC_LIB, nameTransformFunction );
 	}
 	else
 	{
-		VPC_Keyword_RemoveFile( nameTransformFunction );
+		Keyword_RemoveFile( nameTransformFunction );
 	}
 }
 
-static void VPC_Keyword_SharedLibrary( bool bRemove = false )
+void CProjectScriptParser::Keyword_SharedLibrary( bool bRemove = false )
 {
 	auto nameTransformFunction = []( CUtlStringBuilder *pStrBuf ) -> void
 		{
@@ -799,15 +783,15 @@ static void VPC_Keyword_SharedLibrary( bool bRemove = false )
 
 	if ( !bRemove )
 	{
-		VPC_Keyword_AddFile( VPC_FILE_FLAGS_SHARED_LIB, nameTransformFunction );
+		Keyword_AddFile( VPC_FILE_FLAGS_SHARED_LIB, nameTransformFunction );
 	}
 	else
 	{
-		VPC_Keyword_RemoveFile( nameTransformFunction );
+		Keyword_RemoveFile( nameTransformFunction );
 	}
 }
 
-static void VPC_AddLibraryDependencies( const char *pLibPath )
+void CProjectScriptParser::AddLibraryDependencies( const char *pLibPath )
 {
     int i = g_pVPC->m_LibraryDependencies.Find( pLibPath );
     if ( i == g_pVPC->m_LibraryDependencies.InvalidIndex() )
@@ -818,7 +802,7 @@ static void VPC_AddLibraryDependencies( const char *pLibPath )
 
 	for ( char const* pDependency: dependencies)
     {
-        if ( g_pVPC->GetProjectGenerator()->HasFile( pDependency ) )
+        if ( _projgen->HasFile( pDependency ) )
 	        continue;
 
         if ( !g_pVPC->m_bIsDependencyPass )
@@ -827,14 +811,14 @@ static void VPC_AddLibraryDependencies( const char *pLibPath )
 	                           pDependency, pLibPath );
         }
 
-        bool bAdded = g_pVPC->GetProjectGenerator()->StartFile( pDependency, VPC_FILE_FLAGS_STATIC_LIB, true );
+        bool bAdded = _projgen->StartFile( pDependency, VPC_FILE_FLAGS_STATIC_LIB, true );
         if ( !bAdded )
         {
 	        logging::Error( "couldn't add %s", pDependency );
         }
-        g_pVPC->GetProjectGenerator()->EndFile();
+        _projgen->EndFile();
 
-        VPC_AddLibraryDependencies( pDependency );
+        AddLibraryDependencies( pDependency );
     }
 }
 
@@ -842,9 +826,9 @@ static void VPC_AddLibraryDependencies( const char *pLibPath )
 //	VPC_Keyword_$LibDepends
 //-----------------------------------------------------------------------------
 
-static void VPC_LibDepends( char const *pDefaultPath, char const *pFileNamePrefix, char const *pSuffix )
+void CProjectScriptParser::LibDepends( char const *pDefaultPath, char const *pFileNamePrefix, char const *pSuffix )
 {
-    const char *pToken = g_pVPC->GetScript().GetToken( false );
+    const char *pToken = _script->GetToken( false );
     if ( !pToken || !pToken[0] )
         logging::SyntaxError();
 
@@ -861,7 +845,7 @@ static void VPC_LibDepends( char const *pDefaultPath, char const *pFileNamePrefi
     CUtlVector< CUtlString > &dependencies = g_pVPC->m_LibraryDependencies[i];
 
 	CUtlVector< CUtlString > dependents;
-	VPC_ParseFileList( dependents );
+	ParseFileList( dependents );
     if ( !dependents.Count() )
     {
         return;
@@ -887,34 +871,34 @@ static void VPC_LibDepends( char const *pDefaultPath, char const *pFileNamePrefi
     }
 }
 
-void VPC_Keyword_LibDependsOnLib()
+void CProjectScriptParser::Keyword_LibDependsOnLib()
 {
-	VPC_LibDepends( DefaultLibDir, nullptr, "$_STATICLIB_EXT" );
+	LibDepends( DefaultLibDir, nullptr, "$_STATICLIB_EXT" );
 }
 
-void VPC_Keyword_LibDependsOnImpLib()
+void CProjectScriptParser::Keyword_LibDependsOnImpLib()
 {
-	VPC_LibDepends(DefaultLibDir, "$_IMPLIB_PREFIX", "$_IMPLIB_EXT" );
+	LibDepends(DefaultLibDir, "$_IMPLIB_PREFIX", "$_IMPLIB_EXT" );
 }
 
 //-----------------------------------------------------------------------------
 //	VPC_Keyword_RemoveFile
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_RemoveFile( void (*pFNNameTranslation)( CUtlStringBuilder *pStrBuf ) /*= nullptr*/ )
+void CProjectScriptParser::Keyword_RemoveFile(NameTranslator nameTranslator /*= nullptr*/)
 {
 	CUtlVector< CUtlString > filesToRemove;
-	VPC_ParseFileList( filesToRemove, pFNNameTranslation );
+	ParseFileList( filesToRemove, nameTranslator );
 	for ( int i = 0; i < filesToRemove.Count(); i++ )
 	{
-		bool bSucc = g_pVPC->GetProjectGenerator()->RemoveFile( filesToRemove[i].Get() );
+		bool bSucc = _projgen->RemoveFile( filesToRemove[i].Get() );
 		if ( !bSucc )
 		{
 			// VPC_HandleLibraryExpansion() remove ./s so if we initially failed at
 			// killing this file, remove the ./ and retry.
 			CUtlString modifiedString = filesToRemove[i].Get();
 			V_RemoveDotSlashes( modifiedString.GetForModify() );
-			bSucc = g_pVPC->GetProjectGenerator()->RemoveFile( modifiedString.Get() );
+			bSucc = _projgen->RemoveFile( modifiedString.Get() );
 			if ( bSucc )
 			{
 				filesToRemove[i] = modifiedString;
@@ -954,7 +938,7 @@ void VPC_Write_Shader_Folder( CUtlBuffer &vpcBuffer, const CUtlVector< CUtlStrin
 //	VPC_Keyword_Shaders
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_Shaders( int depth )
+void CProjectScriptParser::Keyword_Shaders( int depth )
 {
 	// TODO: turn this into a 'feature' ala qt/schema
 
@@ -967,19 +951,19 @@ void VPC_Keyword_Shaders( int depth )
 	CUtlVector< CUtlString >	otherList;
 
 	CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;		
 	}
 
     CUtlStringHolder<100> shadersName( pStrBuf->Get() );
 	logging::Status( false, "Parsing: %s", shadersName.Get() );
-	g_pVPC->GetScript().PushScript( shadersName, true );
+	_script->PushScript( shadersName, true );
 
 	// parse the shader list file into types (fxc,vsh,psh)
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] )
 		{
 			// end of file
@@ -1013,7 +997,7 @@ void VPC_Keyword_Shaders( int depth )
 		}
 	}
 
-	g_pVPC->GetScript().PopScript();
+	_script->PopScript();
 
 	if ( !fxcList.Count() && 
 		!vshList.Count() && 
@@ -1046,16 +1030,16 @@ void VPC_Keyword_Shaders( int depth )
 	bool bIgnoreRedundancyWarning = logging::IsIgnoreRedundancyWarning();
 	logging::SetIgnoreRedundancyWarning( true );
 
-	g_pVPC->GetScript().PushScript( "Internal List", (char*)vpcBuffer.Base(), 1, false, false );
+	_script->PushScript( "Internal List", (char*)vpcBuffer.Base(), 1, false, false );
 
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = _script->GetToken( true );
 	if ( pToken && pToken[0] && !V_stricmp_fast( pToken, "$folder" ) )
 	{
-		VPC_Keyword_Folder( VPC_FOLDER_FLAGS_DYNAMIC );
+		Keyword_Folder( VPC_FOLDER_FLAGS_DYNAMIC );
 	}
 
 	// restore parser
-	g_pVPC->GetScript().PopScript();
+	_script->PopScript();
 	logging::SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
 }
 
@@ -1063,27 +1047,25 @@ void VPC_Keyword_Shaders( int depth )
 //	VPC_Keyword_Folder
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_Folder( VpcFolderFlags_t iFolderFlags )
+void CProjectScriptParser::Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 {
-	const char *pToken;
-
-    CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
+	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
-		g_pVPC->GetScript().SkipBracedSection();
+		_script->SkipBracedSection();
 		return;		
 	}
 
-	g_pVPC->GetProjectGenerator()->StartFolder( pStrBuf->Get(), iFolderFlags );
+	_projgen->StartFolder( pStrBuf->Get(), iFolderFlags );
 
 	// Now parse all the files and subfolders..
-	pToken = g_pVPC->GetScript().GetToken( true );
+	const char* pToken = _script->GetToken(true);
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		logging::SyntaxError();
 
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -1095,112 +1077,112 @@ void VPC_Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 		else if ( !V_stricmp_fast( pToken, "$file" ) )
 		{
 			// add file
-			VPC_Keyword_AddFile();
+			Keyword_AddFile();
 		}
 		else if ( !V_stricmp_fast( pToken, "$File_CreatePCH" ) )
 		{
 			// add file
-			VPC_Keyword_AddFile( VPC_FILE_FLAGS_CREATE_PCH );
+			Keyword_AddFile( VPC_FILE_FLAGS_CREATE_PCH );
 		}
 		else if ( !V_stricmp_fast( pToken, "$File_NoPCH" ) )
 		{
 			// add file
-			VPC_Keyword_AddFile( VPC_FILE_FLAGS_NO_PCH );
+			Keyword_AddFile( VPC_FILE_FLAGS_NO_PCH );
 		}
 		else if ( !V_stricmp_fast( pToken, "$DynamicFile" ) )
 		{
 			// add file
-			VPC_Keyword_AddFile( VPC_FILE_FLAGS_DYNAMIC );
+			Keyword_AddFile( VPC_FILE_FLAGS_DYNAMIC );
 		}
 		else if ( !V_stricmp_fast( pToken, "$DynamicFile_NoPCH" ) )
 		{
 			// add file
-			VPC_Keyword_AddFile( (VpcFileFlags_t)( VPC_FILE_FLAGS_DYNAMIC | VPC_FILE_FLAGS_NO_PCH ) );
+			Keyword_AddFile( (VpcFileFlags_t)( VPC_FILE_FLAGS_DYNAMIC | VPC_FILE_FLAGS_NO_PCH ) );
 		}
 		else if ( !V_stricmp_fast( pToken, "$FilePattern" ) )
 		{
 			// glob the given pattern, add all files
-			VPC_Keyword_AddFilesByPattern();
+			Keyword_AddFilesByPattern();
 		}
 		else if ( !V_stricmp_fast( pToken, "$qtfile" ) )
 		{
 			// add file
-			VPC_Keyword_AddFile( VPC_FILE_FLAGS_QT );
+			Keyword_AddFile( VPC_FILE_FLAGS_QT );
 		}
 		else if ( !V_stricmp_fast( pToken, "$qtschemafile" ) )
 		{
 			// add file
-			VPC_Keyword_AddFile( (VpcFileFlags_t)( VPC_FILE_FLAGS_QT | VPC_FILE_FLAGS_SCHEMA ) );
+			Keyword_AddFile( (VpcFileFlags_t)( VPC_FILE_FLAGS_QT | VPC_FILE_FLAGS_SCHEMA ) );
 		}
 		else if ( !V_stricmp_fast( pToken, "$schemafile" ) )
 		{
 			// add file
-			VPC_Keyword_AddFile( VPC_FILE_FLAGS_SCHEMA );
+			Keyword_AddFile( VPC_FILE_FLAGS_SCHEMA );
 		}
 		else if ( !V_stricmp_fast( pToken, "$SchemaIncludeFile" ) )
 		{
 			// add file
-			VPC_Keyword_AddFile( VPC_FILE_FLAGS_SCHEMA_INCLUDE );
+			Keyword_AddFile( VPC_FILE_FLAGS_SCHEMA_INCLUDE );
 		}
 		else if ( !V_stricmp_fast( pToken, "$implib" ) )
 		{
 			// add file
-			VPC_Keyword_ImportLibrary();
+			Keyword_ImportLibrary();
 		}
 		else if (!V_stricmp_fast(pToken, "$implibexternal"))
 		{
 			// add file
-			VPC_Keyword_ImportLibrary(false, true);
+			Keyword_ImportLibrary(false, true);
 		}
 		else if ( !V_stricmp_fast( pToken, "-$implib" ) )
 		{
 			// remove file
-			VPC_Keyword_ImportLibrary( true );
+			Keyword_ImportLibrary( true );
 		}
 		else if ( !V_stricmp_fast( pToken, "$libexternal" ) )
 		{
 			// add file
-			VPC_Keyword_LinkerLibrary(false, true);
+			Keyword_LinkerLibrary(false, true);
 		}
 		else if ( !V_stricmp_fast( pToken, "$lib" ) )
 		{
 			// add file
-			VPC_Keyword_LinkerLibrary();
+			Keyword_LinkerLibrary();
 		}
 		else if ( !V_stricmp_fast( pToken, "-$lib" ) )
 		{
 			// remove file
-			VPC_Keyword_LinkerLibrary( true );
+			Keyword_LinkerLibrary( true );
 		}
 		else if ( !V_stricmp_fast( pToken, "$SharedLib" ) )
 		{
 			// add file
-			VPC_Keyword_SharedLibrary();
+			Keyword_SharedLibrary();
 		}
 		else if ( !V_stricmp_fast( pToken, "-$SharedLib" ) )
 		{
 			// remove file
-			VPC_Keyword_SharedLibrary( true );
+			Keyword_SharedLibrary( true );
 		}
 		else if ( !V_stricmp_fast( pToken, "-$file" ) )
 		{
 			// remove file
-			VPC_Keyword_RemoveFile();
+			Keyword_RemoveFile();
 		}
 		else if ( !V_stricmp_fast( pToken, "$Shaders" ) )
 		{
 			// add contained shaders folder
-			VPC_Keyword_Shaders( 0 );
+			Keyword_Shaders( 0 );
 		}
 		else if ( !V_stricmp_fast( pToken, "$folder" ) )
 		{
 			// descend into subdirectory
-			VPC_Keyword_Folder();
+			Keyword_Folder();
 		}
 		else if ( !V_stricmp_fast( pToken, "$unityfolder" ) )
 		{
 			// descend into subdirectory (and build unity files)
-			VPC_Keyword_Folder( VPC_FOLDER_FLAGS_UNITY );
+			Keyword_Folder( VPC_FOLDER_FLAGS_UNITY );
 		}
 		else
 		{
@@ -1208,26 +1190,23 @@ void VPC_Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 		}
 	}
 
-	g_pVPC->GetProjectGenerator()->EndFolder();
+	_projgen->EndFolder();
 }
 
 //-----------------------------------------------------------------------------
 //	VPC_Keyword_Macro
 //
 //-----------------------------------------------------------------------------
-enum MacroType_t { VPC_MACRO_VALUE, VPC_MACRO_EMPTY_STRING };
-void VPC_Keyword_Macro( MacroType_t eMacroType )
+void CProjectScriptParser::Keyword_Macro( MacroType_t eMacroType )
 {
-	const char	*pToken;
-
-	pToken = g_pVPC->GetScript().GetToken( false );
+	const char* pToken = _script->GetToken(false);
 	if ( !pToken || !pToken[0] )
 		logging::SyntaxError();
 
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -1252,14 +1231,11 @@ void VPC_Keyword_Macro( MacroType_t eMacroType )
 //	This is to allow a required macro in a base script to have a concept
 //	of a default initialization value.
 //-----------------------------------------------------------------------------
-enum MacroRequiredType_t { VPC_MACRO_REQUIRED_NOT_EMPTY, VPC_MACRO_REQUIRED_ALLOW_EMPTY };
-void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
+void CProjectScriptParser::Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 {
-	const char	*pToken;
-
-    CUtlStringHolder<100> macroDefaultValue;
+	CUtlStringHolder<100> macroDefaultValue;
 	
-	pToken = g_pVPC->GetScript().GetToken( false );
+	const char* pToken = _script->GetToken(false);
 	if ( !pToken || !pToken[0] )
 	{
 		logging::SyntaxError();
@@ -1267,12 +1243,12 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
 	// optional default macro value or conditional
-	pToken = g_pVPC->GetScript().PeekNextToken( false );
+	pToken = _script->PeekNextToken( false );
 	if ( pToken && pToken[0] )
 	{
 		if ( pToken[0] == '[' )
 		{
-			pToken = g_pVPC->GetScript().GetToken( false );
+			pToken = _script->GetToken( false );
 			// evaluate argument as conditional
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
 			{
@@ -1283,7 +1259,7 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 		{
 			// argument is a default macro value
             CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+			if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 			{
 				return;
 			}
@@ -1325,20 +1301,20 @@ void VPC_Keyword_MacroRequired( MacroRequiredType_t eMacroRequiredType )
 //	Specialized instruction to populate the load address macro based on a project
 //	name.
 //-----------------------------------------------------------------------------
-void VPC_Keyword_LoadAddressMacro( void )
+void CProjectScriptParser::Keyword_LoadAddressMacro( void )
 {
 	const char	*pToken;
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
-		g_pVPC->GetScript().SkipBracedSection();
+		_script->SkipBracedSection();
 		return;		
 	}
 
     CUtlStringHolder<50> szMacroName( pStrBuf->Get() );
     
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
 		logging::SyntaxError();
@@ -1348,30 +1324,24 @@ void VPC_Keyword_LoadAddressMacro( void )
 
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] )
-		{
 			break;
-		}
 
 		if ( CharStrEq( pToken, '}' ) )
-		{
 			break;
-		}
-		else
-		{
-            szProjectName.Set( pToken );
 
-			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
-			{
-				continue;
-			}
+		szProjectName.Set( pToken );
+
+		if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+		{
+			continue;
+		}
 		
-			if ( !V_stricmp_fast( szProjectName, g_pVPC->GetLoadAddressName() ) )
-			{
-				// set Macro
-				g_pVPC->macros.SetAsScript( szMacroName, pStrBuf->Get() );
-			}
+		if ( !V_stricmp_fast( szProjectName, g_pVPC->GetLoadAddressName() ) )
+		{
+			// set Macro
+			g_pVPC->macros.SetAsScript( szMacroName, pStrBuf->Get() );
 		}
 	}
 }
@@ -1386,20 +1356,20 @@ void VPC_Keyword_LoadAddressMacro( void )
 //
 //	When evaluating $LoadAddressMacro/$LoadAddressMacroAuto, substitute all listed <ProjectName> entries with <Alias>
 //-----------------------------------------------------------------------------
-void VPC_Keyword_LoadAddressMacroAlias( void )
+void CProjectScriptParser::Keyword_LoadAddressMacroAlias( void )
 {
 	const char	*pToken;
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
-		g_pVPC->GetScript().SkipBracedSection();
+		_script->SkipBracedSection();
 		return;		
 	}
 
     CUtlStringHolder<50> szAlias( pStrBuf->Get() );
     
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
 		logging::SyntaxError();
@@ -1407,7 +1377,7 @@ void VPC_Keyword_LoadAddressMacroAlias( void )
 
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] )
 		{
 			break;
@@ -1438,11 +1408,11 @@ void VPC_Keyword_LoadAddressMacroAlias( void )
 //	Specialized instruction to populate the load address macro based on a project
 //	name.
 //-----------------------------------------------------------------------------
-void Internal_LoadAddressMacroAuto( bool bPad )
+void CProjectScriptParser::LoadAddressMacroAuto( bool bPad )
 {
 	const char	*pToken;
 
-	pToken = g_pVPC->GetScript().GetToken( false );
+	pToken = _script->GetToken( false );
 	if ( !pToken || !pToken[0] )
 	{
 		logging::SyntaxError();
@@ -1450,9 +1420,9 @@ void Internal_LoadAddressMacroAuto( bool bPad )
     CUtlStringHolder<MAX_MACRO_NAME> szMacroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
-		g_pVPC->GetScript().SkipBracedSection();
+		_script->SkipBracedSection();
 		return;		
 	}
 	uint64 baseAddress = 0;
@@ -1462,7 +1432,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 	int iSetEntryNum = 0;
 	uint64 iSetBaseAddress = 0;
 
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
 		logging::SyntaxError();
@@ -1471,7 +1441,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 	int iEntryNum = 0;
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] )
 		{
 			break;
@@ -1495,7 +1465,7 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 		else
 		{
 			unsigned int dllLength = 0;
-			if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+			if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 			{
 				continue;
 			}
@@ -1569,9 +1539,9 @@ void Internal_LoadAddressMacroAuto( bool bPad )
 //	Specialized instruction to populate the load address macro based on a project
 //	name.
 //-----------------------------------------------------------------------------
-void VPC_Keyword_LoadAddressMacroAuto( void )
+void CProjectScriptParser::Keyword_LoadAddressMacroAuto( void )
 {
-	Internal_LoadAddressMacroAuto( false );
+	LoadAddressMacroAuto( false );
 }
 
 //-----------------------------------------------------------------------------
@@ -1587,16 +1557,16 @@ void VPC_Keyword_LoadAddressMacroAuto( void )
 //	space up to the limit. Finds unused space spreads it out evenly between
 //	each project
 //-----------------------------------------------------------------------------
-void VPC_Keyword_LoadAddressMacroAuto_Padded( void )
+void CProjectScriptParser::Keyword_LoadAddressMacroAuto_Padded( void )
 {
-	Internal_LoadAddressMacroAuto( true );
+	LoadAddressMacroAuto( true );
 }
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void VPC_Keyword_Conditional( bool bOverrideReserved )
+void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 {
-	const char *pToken = g_pVPC->GetScript().GetToken( false );
+	const char *pToken = _script->GetToken( false );
 	if ( !pToken || !pToken[0] )
 		logging::SyntaxError();
 
@@ -1608,7 +1578,7 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
     CUtlStringHolder<50> name( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -1638,10 +1608,10 @@ void VPC_Keyword_Conditional( bool bOverrideReserved )
 //	VPC_Keyword_IgnoreRedundancyWarning
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_IgnoreRedundancyWarning( void )
+void CProjectScriptParser::Keyword_IgnoreRedundancyWarning( void )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -1654,59 +1624,57 @@ void VPC_Keyword_IgnoreRedundancyWarning( void )
 //	VPC_Keyword_Linux
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_Linux( void )
+void CProjectScriptParser::Keyword_Linux( void )
 {
 	// always ignore everything in this block
 	// parsed and processed by a different tool
-	g_pVPC->GetScript().SkipBracedSection();
+	_script->SkipBracedSection();
 }
 
 //-----------------------------------------------------------------------------
 //	VPC_PrepareToReadScript
 //
 //-----------------------------------------------------------------------------
-void VPC_PrepareToReadScript( const char *pInputScriptName, int depth, bool bQuiet, char* &pScriptBuffer, CUtlString *pFixedScriptName )
+void CProjectScriptParser::PrepareToReadScript( const char *pInputScriptName, int depth, char* &pScriptBuffer, CUtlString *pFixedScriptName )
 {
 	pFixedScriptName->Set( pInputScriptName );
 	pFixedScriptName->FixSlashes();
 
 	// always spew the root script
-	if ( !bQuiet )
+	if ( !GetQuiet() )
 	{
 		bool bSpew = ( depth == 0 );
 		logging::Status( bSpew, "Parsing: %s", pFixedScriptName->Get() );
 	}
 
 	// parse the text script
-    g_pVPC->GetScript().PushScript( pFixedScriptName->Get(), true );
+    _script->PushScript( pFixedScriptName->Get(), true );
 }
 
-void VPC_HandleIncludeStatement( int depth, bool bQuiet, void (*CallbackFn)( const char *pScriptName, int depth, bool bQuiet ) )
+void CProjectScriptParser::HandleIncludeStatement(int depth)
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( _script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		// recurse into and run
         CUtlString pScriptName;
 		char *pScriptBuffer;
-		VPC_PrepareToReadScript( pStrBuf->Get(), depth+1, bQuiet, pScriptBuffer, &pScriptName );
+		PrepareToReadScript( pStrBuf->Get(), depth+1, pScriptBuffer, &pScriptName);
 
 		g_pVPC->AddScriptToParsedList( pStrBuf->Get(), false );
 
-		CallbackFn( pScriptName, depth + 1, bQuiet );
+		HandleProjectCommands(depth + 1);
 		
 		// restore state
-		g_pVPC->GetScript().PopScript();
+		_script->PopScript();
 	}
 }
 
-void VPC_HandleProjectCommands( const char *pUnusedScriptName, int depth, bool bQuiet )
+void CProjectScriptParser::HandleProjectCommands(int depth)
 {
-	const char *pToken;
-
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		const char* pToken = _script->GetToken(true);
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -1716,33 +1684,33 @@ void VPC_HandleProjectCommands( const char *pUnusedScriptName, int depth, bool b
 		}
 		else if ( !V_stricmp_fast( pToken, "$include" ) )
 		{
-			VPC_HandleIncludeStatement( depth, bQuiet, VPC_HandleProjectCommands );
+			HandleIncludeStatement( depth );
 		}
 		else if ( !V_stricmp_fast( pToken, "$Folder" ) ||
                   !V_stricmp_fast( pToken, "$ProjectOrFolder" ) )
 		{
 			// root level folder
-			VPC_Keyword_Folder();
+			Keyword_Folder();
 		}
 		else if ( !V_stricmp_fast( pToken, "$UnityFolder" ) )
 		{
 			// root level folder
-			VPC_Keyword_Folder( VPC_FOLDER_FLAGS_UNITY );
+			Keyword_Folder( VPC_FOLDER_FLAGS_UNITY );
 		}
 		else if ( !V_stricmp_fast( pToken, "$File" ) )
 		{
 			// add root level file
-			VPC_Keyword_AddFile();
+			Keyword_AddFile();
 		}
 		else if ( !V_stricmp_fast( pToken, "-$File" ) )
 		{
 			// remove root level file
-			VPC_Keyword_RemoveFile();
+			Keyword_RemoveFile();
 		}
 		else if ( !V_stricmp_fast( pToken, "$Shaders" ) )
 		{
 			// add root level shaders folder
-			VPC_Keyword_Shaders( 0 );
+			Keyword_Shaders( 0 );
 		}
 		else
 		{
@@ -1851,7 +1819,7 @@ void WriteCRCCheckFile( const char *pVCProjFilename )
 //	VPC_Keyword_Project
 //
 //-----------------------------------------------------------------------------
-void VPC_Keyword_Project( int depth, bool bQuiet )
+void CProjectScriptParser::Keyword_Project( int depth )
 {
 	//determine project generator before any generator-dependent configuration is allowed
 	g_pVPC->DetermineProjectGenerator();
@@ -1861,12 +1829,12 @@ void VPC_Keyword_Project( int depth, bool bQuiet )
     g_pVPC->m_bInProjectSection = true;
     
 	// check for optional project name
-	const char *pToken = g_pVPC->GetScript().PeekNextToken( false );
+	const char *pToken = _script->PeekNextToken( false );
 
 	if ( pToken && pToken[0] && !CharStrEq( pToken, '{' ) )
 	{
 		// get optional project name
-		pToken = g_pVPC->GetScript().GetToken( false );
+		pToken = _script->GetToken( false );
 		if ( !pToken || !pToken[0] )
 		{
 			logging::SyntaxError();
@@ -1880,21 +1848,21 @@ void VPC_Keyword_Project( int depth, bool bQuiet )
 	}
 	else
 	{
-		projectName = g_pVPC->GetProjectGenerator()->GetProjectName();
+		projectName = _projgen->GetProjectName();
 	}
 
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		logging::SyntaxError();
 
-	VPC_HandleProjectCommands(nullptr, depth, bQuiet );
+	HandleProjectCommands(depth);
 	
 	// the unnamed project does not get written, once it is named it will be written on closing scope
 	if ( V_stricmp_fast( projectName.Get(), "UNNAMED" ) )
 	{
 		VPC_Schema_ForceAdditionalDependencies( projectName.Get() );
 		
-        IBaseProjectGenerator *pProjGen = g_pVPC->GetProjectGenerator();
+        IBaseProjectGenerator *pProjGen = _projgen;
 
 		//write out the "VPC Scripts" folder
 		{
@@ -1923,12 +1891,12 @@ void VPC_Keyword_Project( int depth, bool bQuiet )
     g_pVPC->m_bInProjectSection = false;
 }
 
-bool VPC_IsBuiltInFileType( const char *pExtension )
+bool CProjectScriptParser::IsBuiltInFileType( const char *pExtension )
 {
 	return ( IsCFileExtension( pExtension ) || IsHFileExtension( pExtension ) );
 }
 
-void VPC_Keyword_CustomBuildStep( void )
+void CProjectScriptParser::Keyword_CustomBuildStep( void )
 {
 	bool							bAllowNextLine = false;
 	CUtlVector<CUtlString>			extensions;
@@ -1936,14 +1904,14 @@ void VPC_Keyword_CustomBuildStep( void )
 	const char *pToken = nullptr;
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( bAllowNextLine );
+		pToken = _script->GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 
 		// Is this a conditional expression?
 		if ( pToken[0] == '[' )
 		{
-			const char *pNextToken = g_pVPC->GetScript().PeekNextToken( bAllowNextLine );
+			const char *pNextToken = _script->PeekNextToken( bAllowNextLine );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
 				logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
@@ -1972,7 +1940,7 @@ void VPC_Keyword_CustomBuildStep( void )
 			bAllowNextLine = false;
 		}
 
-		if ( VPC_IsBuiltInFileType( pToken ) )
+		if ( IsBuiltInFileType( pToken ) )
 		{
 			logging::SyntaxError( "Cannot define a $CustomBuildStep for built in file type: %s", pToken);
 		}
@@ -1981,82 +1949,81 @@ void VPC_Keyword_CustomBuildStep( void )
 		extensions.AddToTail( string );
 
 		// check for another token
-		pToken = g_pVPC->GetScript().PeekNextToken( bAllowNextLine );
+		pToken = _script->PeekNextToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 	}
 
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || V_strcmp( pToken, "{" ) )
 	{
 		logging::SyntaxError( "Missing section for $CustomBuildStep" );
 	}
-	else if ( extensions.Count() == 0 )
+	
+	if ( extensions.Count() == 0 )
 	{
-		g_pVPC->GetScript().SkipBracedSection();
+		_script->SkipBracedSection();
 		return;
 	}
-	else
+
+	int nLineSave = _script->GetLine();
+	const char *pScriptSave = _script->GetData();
+	while ( 1 )
 	{
-		int nLineSave = g_pVPC->GetScript().GetLine();
-		const char *pScriptSave = g_pVPC->GetScript().GetData();
-		while ( 1 )
-		{
-			pToken = g_pVPC->GetScript().GetToken( true );
-			if ( !pToken || !pToken[0] )
-				break;
+		pToken = _script->GetToken( true );
+		if ( !pToken || !pToken[0] )
+			break;
 
-			if ( CharStrEq( pToken, '}' ) )
+		if ( CharStrEq( pToken, '}' ) )
+		{
+			// end of section
+			break;
+		}			
+	}
+
+	CVPC::CustomBuildStepForExtension_t customBuildStep;
+
+	if ( _script->GetData() > pScriptSave )
+	{
+		CUtlString tempString;
+		tempString.SetDirect( pScriptSave, int( _script->GetData() - pScriptSave - 1 ) );
+		customBuildStep.m_BuildSteps = "$Configuration\n{\n$CustomBuildStep\n{";
+		customBuildStep.m_BuildSteps += tempString + "}\n}\n";
+	}
+
+	if ( !customBuildStep.m_BuildSteps.IsEmpty() )
+	{
+		FOR_EACH_VEC( extensions, i )
+		{
+			if ( g_pVPC->m_CustomBuildSteps.Find( extensions[i].Get() ) != g_pVPC->m_CustomBuildSteps.InvalidIndex() )
 			{
-				// end of section
-				break;
-			}			
-		}
-
-		CVPC::CustomBuildStepForExtension_t customBuildStep;
-
-		if ( g_pVPC->GetScript().GetData() > pScriptSave )
-		{
-			CUtlString tempString;
-			tempString.SetDirect( pScriptSave, int( g_pVPC->GetScript().GetData() - pScriptSave - 1 ) );
-			customBuildStep.m_BuildSteps = "$Configuration\n{\n$CustomBuildStep\n{";
-			customBuildStep.m_BuildSteps += tempString + "}\n}\n";
-		}
-
-		if ( !customBuildStep.m_BuildSteps.IsEmpty() )
-		{
-			FOR_EACH_VEC( extensions, i )
+				logging::Warning( "Duplicate $CustomBuildStep For '%s' - Ignoring.", extensions[i].Get() );
+			}
+			else
 			{
-				if ( g_pVPC->m_CustomBuildSteps.Find( extensions[i].Get() ) != g_pVPC->m_CustomBuildSteps.InvalidIndex() )
-				{
-					logging::Warning( "Duplicate $CustomBuildStep For '%s' - Ignoring.", extensions[i].Get() );
-				}
-				else
-				{
-					customBuildStep.m_DefinedInFile = g_pVPC->GetScript().GetName();
-					customBuildStep.m_nDefinitionStartLine = nLineSave - 3; //-3 because we prepend 3 lines into customBuildStep.m_BuildSteps above
-					g_pVPC->m_CustomBuildSteps.Insert( extensions[i].Get(), customBuildStep );
-				}
+				customBuildStep.m_DefinedInFile = _script->GetName();
+				customBuildStep.m_nDefinitionStartLine = nLineSave - 3; //-3 because we prepend 3 lines into customBuildStep.m_BuildSteps above
+				g_pVPC->m_CustomBuildSteps.Insert( extensions[i].Get(), customBuildStep );
 			}
 		}
 	}
 }
 
-void VPC_Keyword_CustomAutoScript()
+void CProjectScriptParser::Keyword_CustomAutoScript()
 {
 	bool bAllowNextLine = false;
 	CUtlVector<CUtlString> extensions;
 	const char *pToken = nullptr;
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( bAllowNextLine );
+		pToken = _script->GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 
 		// Is this a conditional expression?
 		if ( pToken[0] == '[' )
 		{
-			const char *pNextToken = g_pVPC->GetScript().PeekNextToken( bAllowNextLine );
+			const char *pNextToken = _script->PeekNextToken( bAllowNextLine );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
 				logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
@@ -2079,7 +2046,7 @@ void VPC_Keyword_CustomAutoScript()
 		if ( bAllowNextLine )
 			continue;
 
-		if ( VPC_IsBuiltInFileType( pToken ) )
+		if ( IsBuiltInFileType( pToken ) )
 		{
 			logging::SyntaxError( "Cannot define a $CustomAutoScript for built in file type: %s", pToken);
 		}
@@ -2088,31 +2055,31 @@ void VPC_Keyword_CustomAutoScript()
 		extensions.AddToTail( string );
 
 		// check for another token
-		pToken = g_pVPC->GetScript().PeekNextToken( bAllowNextLine );
+		pToken = _script->PeekNextToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 	}
 
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || V_strcmp( pToken, "{" ) )
 	{
 		logging::SyntaxError( "Missing section for $CustomAutoScript" );
 	}
 	else if ( extensions.Count() == 0 )
 	{
-		g_pVPC->GetScript().SkipBracedSection( 1 );
+		_script->SkipBracedSection( 1 );
 		return;
 	}
 	else
 	{
-		const char *pScriptSave = g_pVPC->GetScript().GetData();
-		g_pVPC->GetScript().SkipBracedSection( 1 );
+		const char *pScriptSave = _script->GetData();
+		_script->SkipBracedSection( 1 );
 
 		CUtlString autoScriptString;
-		if ( g_pVPC->GetScript().GetData() > pScriptSave )
+		if ( _script->GetData() > pScriptSave )
 		{
 			CUtlString tempString;
-			tempString.SetDirect( pScriptSave, int( g_pVPC->GetScript().GetData() - pScriptSave - 1 ) );
+			tempString.SetDirect( pScriptSave, int( _script->GetData() - pScriptSave - 1 ) );
 			autoScriptString = tempString;
 		}
 
@@ -2133,11 +2100,11 @@ void VPC_Keyword_CustomAutoScript()
 	}
 }
 
-void VPC_ParseProjectScriptParameters( const char *szScriptName, int depth, bool bQuiet )
+void CProjectScriptParser::ParseProjectScriptParameters( const char *szScriptName, int depth )
 {
 	while ( 1 )
 	{
-		const char *pToken = g_pVPC->GetScript().GetToken( true );
+		const char *pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] )
 		{
 			// end of file
@@ -2146,86 +2113,86 @@ void VPC_ParseProjectScriptParameters( const char *szScriptName, int depth, bool
 
 		if ( !V_stricmp_fast( pToken, "$Include" ) )
 		{
-			VPC_HandleIncludeStatement( depth, bQuiet, VPC_ParseProjectScriptParameters );
+			HandleIncludeStatement( depth);
 		}
 		else if ( !V_stricmp_fast( pToken, "$Configuration" ) )
 		{
-			VPC_Keyword_Configuration();
+			Keyword_Configuration();
 		}
 		else if ( !V_stricmp_fast( pToken, "$Project" ) )
 		{
 			Assert( depth || !g_pVPC->m_bProjectUsesUnity ); // Should already have been set up by CVPC::IsProjectUsingUnity()
-			VPC_Keyword_Project( depth, bQuiet );
+			Keyword_Project( depth );
 		}
 		else if ( !V_stricmp_fast( pToken, "$UnityProject" ) ||
                   !V_stricmp_fast( pToken, "$ProjectOrFolder" ) )
 		{
 			Assert( depth || g_pVPC->m_bProjectUsesUnity ); // Should already have been set up by CVPC::IsProjectUsingUnity()
-			VPC_Keyword_Project( depth, bQuiet );
+			Keyword_Project( depth );
 		}
 		else if ( !V_stricmp_fast( pToken, "$Macro" ) )
 		{
-			VPC_Keyword_Macro( VPC_MACRO_VALUE );
+			Keyword_Macro( VPC_MACRO_VALUE );
 		}
 		else if (!V_stricmp_fast(pToken, "$MacroEmptyString"))
 		{
-			VPC_Keyword_Macro(VPC_MACRO_EMPTY_STRING);
+			Keyword_Macro(VPC_MACRO_EMPTY_STRING);
 		}
 		else if ( !V_stricmp_fast( pToken, "$MacroRequired" ) )
 		{
-			VPC_Keyword_MacroRequired( VPC_MACRO_REQUIRED_NOT_EMPTY );
+			Keyword_MacroRequired( VPC_MACRO_REQUIRED_NOT_EMPTY );
 		}
 		else if ( !V_stricmp_fast( pToken, "$MacroRequiredAllowEmpty" ) )
 		{
-			VPC_Keyword_MacroRequired( VPC_MACRO_REQUIRED_ALLOW_EMPTY );
+			Keyword_MacroRequired( VPC_MACRO_REQUIRED_ALLOW_EMPTY );
 		}
 		else if ( !V_stricmp_fast( pToken, "$LoadAddressMacro" ) )
 		{
-			VPC_Keyword_LoadAddressMacro();
+			Keyword_LoadAddressMacro();
 		}
 		else if ( !V_stricmp_fast( pToken, "$LoadAddressMacroAlias" ) )
 		{
-			VPC_Keyword_LoadAddressMacroAlias();
+			Keyword_LoadAddressMacroAlias();
 		}
 		else if ( !V_stricmp_fast( pToken, "$LoadAddressMacroAuto" ) )
 		{
-			VPC_Keyword_LoadAddressMacroAuto();
+			Keyword_LoadAddressMacroAuto();
 		}
 		else if ( !V_stricmp_fast( pToken, "$LoadAddressMacroAuto_Padded" ) )
 		{
-			VPC_Keyword_LoadAddressMacroAuto_Padded();
+			Keyword_LoadAddressMacroAuto_Padded();
 		}
 		else if ( !V_stricmp_fast( pToken, "$IgnoreRedundancyWarning" ) )
 		{
-			VPC_Keyword_IgnoreRedundancyWarning();
+			Keyword_IgnoreRedundancyWarning();
 		}
 		else if ( !V_stricmp_fast( pToken, "$Linux" ) )
 		{
-			VPC_Keyword_Linux();
+			Keyword_Linux();
 		}
 		else if ( !V_stricmp_fast( pToken, "$CustomBuildStep" ) )
 		{
-			VPC_Keyword_CustomBuildStep();
+			Keyword_CustomBuildStep();
 		}
 		else if ( !V_stricmp_fast( pToken, "$CustomAutoScript" ) )
 		{
-			VPC_Keyword_CustomAutoScript();
+			Keyword_CustomAutoScript();
 		}
 		else if ( !V_stricmp_fast( pToken, "$Conditional" ) )
 		{
-			VPC_Keyword_Conditional( false );
+			Keyword_Conditional( false );
 		}
 		else if ( !V_stricmp_fast( pToken, "$ConditionalOverrideReserved" ) )
 		{
-			VPC_Keyword_Conditional( true );
+			Keyword_Conditional( true );
 		}
 		else if ( !V_stricmp_fast( pToken, "$LibDependsOnLib" ) )
 		{
-			VPC_Keyword_LibDependsOnLib();
+			Keyword_LibDependsOnLib();
 		}
 		else if ( !V_stricmp_fast( pToken, "$LibDependsOnImpLib" ) )
 		{
-			VPC_Keyword_LibDependsOnImpLib();
+			Keyword_LibDependsOnImpLib();
 		}
 		else
 		{
@@ -2233,6 +2200,87 @@ void VPC_ParseProjectScriptParameters( const char *szScriptName, int depth, bool
 		}
 	}
 }
+
+
+void CProjectScriptParser::Parse(char const* scriptName, int depth)
+{
+
+	CUtlString szScriptName;
+	PrepareToReadScript(scriptName, depth, pScriptBuffer, &szScriptName);
+
+	if (!depth)
+	{
+		// create reserved $ROOTSCRIPT - tracks the root script
+		g_pVPC->macros.SetAsScript("ROOTSCRIPT", szScriptName);
+
+		// create reserved $PROJECTNAME - tracks the undecorated pure project name
+		// $(ProjectName) can be auto-decorated, making it unuseable by scripts expecting a pure project name
+		g_pVPC->macros.SetAsScript("PROJECTNAME", g_pVPC->GetProjectName());
+
+		// An uppercase version of the project name for preprocessor macro standardization
+		CUtlString projectNameUpper(g_pVPC->GetProjectName());
+		projectNameUpper.ToUpper();
+		g_pVPC->macros.SetAsScript("UPPERCASEPROJECTNAME", projectNameUpper.Get());
+
+		// create reserved $LOADADDRESSNAME - defaults to project name but can be aliased with $LoadAddressMacroAlias
+		g_pVPC->macros.SetAsScript("LOADADDRESSNAME", g_pVPC->GetLoadAddressName());
+
+		// create reserved $PROJECTDIR
+		CUtlStringBuilder* pStrBuf = g_pVPC->GetTempStringBuffer1();
+		pStrBuf->Set(g_pVPC->GetProjectPath());
+		V_RemoveDotSlashes(pStrBuf->Access());
+		g_pVPC->macros.SetAsScript("PROJECTDIR", pStrBuf->Get(), true);
+
+
+		const CPUInformation& cpuInfo = GetCPUInformation();
+		g_pVPC->macros.SetAsScript("PHYSICAL_PROCESSOR_COUNT", CFmtStr("%d", cpuInfo.m_nPhysicalProcessors).Get());
+		g_pVPC->macros.SetAsScript("PHYSICAL_PROCESSOR_COUNT_MINUS_ONE", CFmtStr("%d", Max<int>(cpuInfo.m_nPhysicalProcessors - 1, 1)).Get());
+		g_pVPC->macros.SetAsScript("LOGICAL_PROCESSOR_COUNT", CFmtStr("%d", cpuInfo.m_nLogicalProcessors).Get());
+		g_pVPC->macros.SetAsScript("LOGICAL_PROCESSOR_COUNT_MINUS_ONE", CFmtStr("%d", Max<int>(cpuInfo.m_nLogicalProcessors - 1, 1)).Get());
+
+		g_pVPC->ResetMissingFilesCount();
+
+		// reset
+		g_pVPC->m_CustomBuildSteps.Purge();
+		g_pVPC->m_CustomAutoScripts.Purge();
+
+		VPC_Qt_OnParseProjectStart();
+		VPC_Schema_OnParseProjectStart();
+		VPC_Unity_OnParseProjectStart();
+
+		// save the conditional state before scripts can modify
+		g_pVPC->SaveConditionals();
+	}
+
+	ParseProjectScriptParameters(szScriptName, depth);
+
+	// for safety, force callers to restore to proper state
+	_script->PopScript();
+
+	if (!depth)
+	{
+		// at end of all processing		
+		if (bWriteCRCCheckFile)
+		{
+			// Finally write out the file with all the CRCs in it. This is referenced by the $CRCCHECK macro in the prebuild steps.
+			WriteCRCCheckFile(_projgen->GetOutputFileName());
+		}
+
+		g_pVPC->projectCache.UpdateCacheFile(szScriptName, _projgen);
+
+		g_pVPC->m_ScriptList.Purge();
+
+		// Remove any macros that came from the script file.
+		g_pVPC->macros.RemoveScriptCreated();
+
+		// Restore the state of conditionals (don't want script modifications to affect further processing)
+		g_pVPC->RestoreConditionals();
+
+		//done with this generator. We'll pick a new one the next time we parse a script's configuration or project section.
+		g_pVPC->SetProjectGenerator(nullptr);
+	}
+}
+
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
@@ -2251,83 +2299,11 @@ bool CVPC::ParseProjectScript( const char *pScriptName, int depth, bool bQuiet, 
 		logging::Status( true, "\n" );
 	}
 
-    CUtlString szScriptName;
-	VPC_PrepareToReadScript( pScriptName, depth, bQuiet, pScriptBuffer, &szScriptName );
+	CProjectScriptParser parser{ &GetScript(), GetProjectGenerator() };
+	parser.SetQuiet(bQuiet);
 
-	if ( !depth )
-	{
-		// create reserved $ROOTSCRIPT - tracks the root script
-		macros.SetAsScript( "ROOTSCRIPT", szScriptName );
+	parser.Parse(pScriptName, depth);
 
-		// create reserved $PROJECTNAME - tracks the undecorated pure project name
-		// $(ProjectName) can be auto-decorated, making it unuseable by scripts expecting a pure project name
-		macros.SetAsScript( "PROJECTNAME", g_pVPC->GetProjectName() );
-
-		// An uppercase version of the project name for preprocessor macro standardization
-		CUtlString projectNameUpper( g_pVPC->GetProjectName() );
-		projectNameUpper.ToUpper();
-		macros.SetAsScript( "UPPERCASEPROJECTNAME", projectNameUpper.Get() );
-
-		// create reserved $LOADADDRESSNAME - defaults to project name but can be aliased with $LoadAddressMacroAlias
-		macros.SetAsScript( "LOADADDRESSNAME", g_pVPC->GetLoadAddressName() );
-
-//#ifdef STEAM
-		// create reserved $PROJECTDIR
-        CUtlStringBuilder *pStrBuf = g_pVPC->GetTempStringBuffer1();
-		pStrBuf->Set( g_pVPC->GetProjectPath() );
-		V_RemoveDotSlashes( pStrBuf->Access() );
-		macros.SetAsScript( "PROJECTDIR", pStrBuf->Get(), true );
-//#endif
-		const CPUInformation &cpuInfo = GetCPUInformation();
-		macros.SetAsScript( "PHYSICAL_PROCESSOR_COUNT", CFmtStr( "%d", cpuInfo.m_nPhysicalProcessors ).Get() );
-		macros.SetAsScript( "PHYSICAL_PROCESSOR_COUNT_MINUS_ONE", CFmtStr( "%d", Max<int>( cpuInfo.m_nPhysicalProcessors - 1, 1 ) ).Get() );
-		macros.SetAsScript( "LOGICAL_PROCESSOR_COUNT", CFmtStr( "%d", cpuInfo.m_nLogicalProcessors ).Get() );
-		macros.SetAsScript( "LOGICAL_PROCESSOR_COUNT_MINUS_ONE", CFmtStr( "%d", Max<int>( cpuInfo.m_nLogicalProcessors - 1, 1 ) ).Get() );
-
-		g_pVPC->ResetMissingFilesCount();
-
-		// reset
-		g_pVPC->m_CustomBuildSteps.Purge();
-		g_pVPC->m_CustomAutoScripts.Purge();
-
-		VPC_Qt_OnParseProjectStart();
-		VPC_Schema_OnParseProjectStart();
-		VPC_Unity_OnParseProjectStart();
-
-		// save the conditional state before scripts can modify
-		g_pVPC->SaveConditionals();
-	}
-
-	VPC_ParseProjectScriptParameters( szScriptName, depth, bQuiet );
-
-	// for safety, force callers to restore to proper state
-	g_pVPC->GetScript().PopScript();
-
-	if ( !depth )
-	{
-		// at end of all processing		
-		if ( bWriteCRCCheckFile )
-		{
-			// Finally write out the file with all the CRCs in it. This is referenced by the $CRCCHECK macro in the prebuild steps.
-			WriteCRCCheckFile( GetProjectGenerator()->GetOutputFileName() );
-		}
-
-		auto projectGen = g_pVPC->GetProjectGenerator();
-		Assert(projectGen);
-
-		g_pVPC->projectCache.UpdateCacheFile( szScriptName, projectGen);
-
-		g_pVPC->m_ScriptList.Purge();
-		
-		// Remove any macros that came from the script file.
-		g_pVPC->macros.RemoveScriptCreated();
-
-		// Restore the state of conditionals (don't want script modifications to affect further processing)
-		g_pVPC->RestoreConditionals();
-
-		//done with this generator. We'll pick a new one the next time we parse a script's configuration or project section.
-        g_pVPC->SetProjectGenerator( nullptr );
-	}
 
 	if ( pDependencyProject )
 	{

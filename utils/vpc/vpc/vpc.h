@@ -37,6 +37,7 @@
 #include "conditionals.h"
 #include "groupscript.h"
 #include "projectcache.h"
+#include "projectscript.h"
 
 
 struct project_t;
@@ -60,27 +61,6 @@ class CProjectFile;
 #define MAX_BASE_FILENAME 260
 
 //#define DISALLOW_UNITY_FILE_EXCLUSION 1
-
-enum VpcFileFlags_t
-{
-	VPC_FILE_FLAGS_NONE			= 0,
-	VPC_FILE_FLAGS_SCHEMA		= 1<<0,
-	VPC_FILE_FLAGS_DYNAMIC		= 1<<1,
-	VPC_FILE_FLAGS_QT			= 1<<2,
-    VPC_FILE_FLAGS_CREATE_PCH   = 1<<3,
-    VPC_FILE_FLAGS_NO_PCH       = 1<<4,
-	VPC_FILE_FLAGS_SCHEMA_INCLUDE	= 1<<5,
-	VPC_FILE_FLAGS_STATIC_LIB		= 1<<6,
-	VPC_FILE_FLAGS_IMPORT_LIB		= 1<<7,
-	VPC_FILE_FLAGS_SHARED_LIB		= 1<<8,
-};
-
-enum VpcFolderFlags_t
-{
-	VPC_FOLDER_FLAGS_NONE		= 0,
-	VPC_FOLDER_FLAGS_DYNAMIC	= 1<<0,
-	VPC_FOLDER_FLAGS_UNITY		= 1<<1
-};
 
 struct KeywordName_t
 {
@@ -495,11 +475,6 @@ extern const char			*g_IncludeSeparators[2];
 extern void					VPC_ParseGroupScript( const char *pScriptName );
 extern void					VPC_GenerateProjectDependencies( CBaseProjectDataCollector *pDataCollector );
 extern bool					VPC_AreProjectDependenciesSupportedForThisTargetPlatform( void );
-
-
-extern void					VPC_Keyword_Folder( VpcFolderFlags_t iFolderFlags = VPC_FOLDER_FLAGS_NONE );
-extern void					VPC_Keyword_Configuration();
-extern void					VPC_Keyword_FileConfiguration();
 
 extern void					VPC_Config_SpewProperties( configKeyword_e keyword );
 extern bool					VPC_Config_IgnoreOption( const char *pPropertyName );
