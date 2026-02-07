@@ -9,6 +9,7 @@
 #include "tier1/fmtstr.h"
 
 #include "misc.h"
+#include "scriptutil.h"
 #include "vpc.h"
 
 #define MAX_SCRIPT_STACK_SIZE	32
@@ -715,4 +716,23 @@ bool CScript::ParsePropertyValueWithEnvSupport(const char* pBaseString, char con
 	pOutBuff->Set(pResolve ? pResolve : pEnvDefault);
 	return true;
 
+}
+
+bool CScript::ParsePropertyBool(const char* pBaseString, CUtlStringBuilder* pTmpBuff, bool* pOut)
+{
+	if(!ParsePropertyValue(pBaseString, pTmpBuff))
+		return false;
+
+	*pOut = Script_ParseBool(pTmpBuff->String(), this);
+	return true;
+}
+
+bool CScript::ParsePropertyBoolWithEnvSupport(const char* pBaseString, char const* pEnvDefault,
+	CUtlStringBuilder* pTmpBuff, bool* pOut)
+{
+	if(!ParsePropertyValueWithEnvSupport(pBaseString, pEnvDefault, pTmpBuff))
+		return false;
+
+	*pOut = Script_ParseBool(pTmpBuff->String(), this);
+	return true;
 }

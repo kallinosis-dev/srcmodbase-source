@@ -1573,12 +1573,12 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
     CUtlStringHolder<50> name( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script.ParsePropertyValueWithEnvSupport(nullptr, "0", pStrBuf ) )
+
+	bool condValue;
+	if ( !_script.ParsePropertyBoolWithEnvSupport(nullptr, "0", pStrBuf, &condValue ) )
 	{
 		return;
 	}
-
-    CUtlStringHolder<100> value( pStrBuf->Get() );
     
 	conditional_t *pConditional = g_pVPC->conditionals.CreateOrGet( name, CONDITIONAL_SCRIPT );
 	if ( !bOverrideReserved &&
@@ -1591,7 +1591,7 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->conditionals.Set( name, Script_ParseBool( value, &_script ), pConditional->m_Type );
+	g_pVPC->conditionals.Set( name, condValue, pConditional->m_Type );
 }
 
 //-----------------------------------------------------------------------------
@@ -1601,13 +1601,12 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 void CProjectScriptParser::Keyword_IgnoreRedundancyWarning( void )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
-	{
-		return;
-	}
 
-	bool bVal = Script_ParseBool( pStrBuf->Get(), &_script );
-	logging::SetIgnoreRedundancyWarning( bVal );
+	bool value;
+	if ( !_script.ParsePropertyBool(nullptr, pStrBuf, &value ) )
+		return;
+
+    logging::SetIgnoreRedundancyWarning( value );
 }
 
 //-----------------------------------------------------------------------------

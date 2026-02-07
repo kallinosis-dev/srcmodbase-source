@@ -250,12 +250,12 @@ void VPC_GroupKeyword_Conditional(CScript* script)
     CUtlStringHolder<50> name( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !script->ParsePropertyValueWithEnvSupport(nullptr, "0", pStrBuf ) )
+
+	bool condValue;
+	if ( !script->ParsePropertyBoolWithEnvSupport(nullptr, "0", pStrBuf, &condValue) )
 	{
 		return;
 	}
-
-    CUtlStringHolder<100> value( pStrBuf->Get() );
 
 	// a group script (i.e. defaults.vgc) can set certain types of conditionals
 	conditional_t *pConditional = g_pVPC->conditionals.CreateOrGet( name, CONDITIONAL_SYSTEM );
@@ -265,10 +265,8 @@ void VPC_GroupKeyword_Conditional(CScript* script)
 		logging::SyntaxError( script, "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get());
 	}
 
-    bool bValue = Script_ParseBool(value, script);
-
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->conditionals.Set( name, bValue, pConditional->m_Type );
+	g_pVPC->conditionals.Set( name, condValue, pConditional->m_Type );
 }
 
 //-----------------------------------------------------------------------------

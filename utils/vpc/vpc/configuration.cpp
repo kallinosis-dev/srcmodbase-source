@@ -345,9 +345,11 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 					logging::SyntaxError(&_script);
 
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-				if ( _script.ParsePropertyValue(nullptr, pStrBuf ) )
+
+				bool value;
+				if ( _script.ParsePropertyBool(nullptr, pStrBuf, &value ) )
 				{
-					_projgen->FileExcludedFromBuild( Script_ParseBool( pStrBuf->Get(), &_script ) );
+					_projgen->FileExcludedFromBuild( value );
 				}
 
 				continue;

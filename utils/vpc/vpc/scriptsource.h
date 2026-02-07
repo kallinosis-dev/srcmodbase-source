@@ -88,6 +88,9 @@ public:
 	bool			ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pOutBuff );
 	bool			ParsePropertyValueWithEnvSupport( const char *pBaseString, char const* pEnvDefault, CUtlStringBuilder *pOutBuff );
 
+	bool			ParsePropertyBool( const char* pBaseString, CUtlStringBuilder *pTmpBuff, bool* pOut);
+	bool			ParsePropertyBoolWithEnvSupport( const char *pBaseString, char const* pEnvDefault, CUtlStringBuilder *pTmpBuff, bool* pOut );
+
 private:
 	const char		*SkipWhitespace( const char *data, bool *pHasNewLines, int *pNumLines );
 	const char		*SkipToValidToken( const char *data, bool *pHasNewLines, int *pNumLines );
