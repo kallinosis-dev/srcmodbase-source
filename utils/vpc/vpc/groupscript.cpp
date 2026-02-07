@@ -69,17 +69,17 @@ groupTagIndex_t VPC_Group_FindOrCreateGroupTag( const char *pName, bool bCreate 
 //	VPC_GroupKeyword_Games
 //
 //-----------------------------------------------------------------------------
-void VPC_GroupKeyword_Games()
+void VPC_GroupKeyword_Games(CScript* script)
 {
 	const char	*pToken;
 
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		logging::SyntaxError();
 
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = script->GetToken( true );
 		if ( !pToken || !pToken[0] )
 			logging::SyntaxError();
 
@@ -99,7 +99,7 @@ void VPC_GroupKeyword_Games()
 //	VPC_GroupKeyword_Group
 //
 //-----------------------------------------------------------------------------
-void VPC_GroupKeyword_Group()
+void VPC_GroupKeyword_Group(CScript* script)
 {
 	const char			*pToken;
 	bool			bFirstToken = true;
@@ -112,7 +112,7 @@ void VPC_GroupKeyword_Group()
 	{
 		if ( !bFirstToken )
 		{
-			pToken = g_pVPC->GetScript().PeekNextToken( false );
+			pToken = script->PeekNextToken( false );
 			if ( !pToken || !pToken[0] )
 				break;
 		}
@@ -121,7 +121,7 @@ void VPC_GroupKeyword_Group()
 			bFirstToken = false;
 		}
 
-		pToken = g_pVPC->GetScript().GetToken( false );
+		pToken = script->GetToken( false );
 		if ( !pToken || !pToken[0] )
 			logging::SyntaxError();
 
@@ -130,13 +130,13 @@ void VPC_GroupKeyword_Group()
 		g_pVPC->m_GroupTags[groupTagIndex].groups.AddToTail( groupIndex );
 	}
 
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		logging::SyntaxError();
 
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = script->GetToken( true );
 		if ( !pToken || !pToken[0] )
 			logging::SyntaxError();
 
@@ -177,11 +177,11 @@ void VPC_GroupKeyword_Group()
 //	VPC_GroupKeyword_Project
 //
 //-----------------------------------------------------------------------------
-void VPC_GroupKeyword_Project()
+void VPC_GroupKeyword_Project(CScript* script)
 {
 	const char *pToken;
 
-	pToken = g_pVPC->GetScript().GetToken( false );
+	pToken = script->GetToken( false );
 	if ( !pToken || !pToken[0] )
 		logging::SyntaxError();
 
@@ -203,13 +203,13 @@ void VPC_GroupKeyword_Project()
 	g_pVPC->m_GroupTags[groupTagIndex].groups.AddToTail( groupIndex );
 	g_pVPC->m_GroupTags[groupTagIndex].bSameAsProject = true;
 
-	pToken = g_pVPC->GetScript().GetToken( true );
+	pToken = script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		logging::SyntaxError();
 
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = script->GetToken( true );
 		if ( !pToken || !pToken[0] )
 			logging::SyntaxError();
 
@@ -223,10 +223,10 @@ void VPC_GroupKeyword_Project()
 			scriptIndex_t scriptIndex = g_pVPC->m_Projects[projectIndex].scripts.AddToTail();
 			g_pVPC->m_Projects[projectIndex].scripts[scriptIndex].name = pToken;
 
-			pToken = g_pVPC->GetScript().PeekNextToken( false );
+			pToken = script->PeekNextToken( false );
 			if ( pToken && pToken[0] )
 			{
-				pToken = g_pVPC->GetScript().GetToken( false );
+				pToken = script->GetToken( false );
 				g_pVPC->m_Projects[projectIndex].scripts[scriptIndex].m_condition = pToken;
 			}
 		}
@@ -235,9 +235,9 @@ void VPC_GroupKeyword_Project()
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void VPC_GroupKeyword_Conditional()
+void VPC_GroupKeyword_Conditional(CScript* script)
 {
-	const char *pToken = g_pVPC->GetScript().GetToken( false );
+	const char *pToken = script->GetToken( false );
 	if ( !pToken || !pToken[0] )
 		logging::SyntaxError();
 
@@ -249,7 +249,7 @@ void VPC_GroupKeyword_Conditional()
     CUtlStringHolder<50> name( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !script->ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -292,11 +292,13 @@ void VPC_ParseGroupScript( const char *pScriptName )
     localScriptName.FixSlashes();
 
 	logging::Status( false, "Parsing: %s", localScriptName.Get() );
-	g_pVPC->GetScript().PushScript( localScriptName );
+
+	CScript script;
+	script.PushScript( localScriptName );
 
 	while ( 1 )
 	{
-		pToken = g_pVPC->GetScript().GetToken( true );
+		pToken = script.GetToken( true );
 		if ( !pToken || !pToken[0] )
 		{
 			// end of file
@@ -305,7 +307,7 @@ void VPC_ParseGroupScript( const char *pScriptName )
 
 		if ( !V_stricmp_fast( pToken, "$include" ) )
 		{
-			pToken = g_pVPC->GetScript().GetToken( false );
+			pToken = script.GetToken( false );
 			if ( !pToken || !pToken[0] )
 			{
 				// end of file
@@ -317,19 +319,19 @@ void VPC_ParseGroupScript( const char *pScriptName )
 		}
 		else if ( !V_stricmp_fast( pToken, "$games" ) )
 		{
-			VPC_GroupKeyword_Games();
+			VPC_GroupKeyword_Games(&script);
 		}
 		else if ( !V_stricmp_fast( pToken, "$group" ) )
 		{
-			VPC_GroupKeyword_Group();
+			VPC_GroupKeyword_Group(&script);
 		}
 		else if ( !V_stricmp_fast( pToken, "$project" ) )
 		{
-			VPC_GroupKeyword_Project();
+			VPC_GroupKeyword_Project(&script);
 		}
 		else if ( !V_stricmp_fast( pToken, "$conditional" ) )
 		{
-			VPC_GroupKeyword_Conditional();
+			VPC_GroupKeyword_Conditional(&script);
 		}
 		else
 		{
@@ -337,7 +339,8 @@ void VPC_ParseGroupScript( const char *pScriptName )
 		}
 	}
 
-	g_pVPC->GetScript().PopScript();
+	script.PopScript();
+	script.EnsureScriptStackEmpty();
 }
 
 //-----------------------------------------------------------------------------
