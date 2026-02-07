@@ -253,7 +253,7 @@ void CConditionalStorage::Set( const char *pString, bool bSet, conditionalType_e
 
 	if ( conditionalType != pConditional->m_Type )
 	{
-		logging::SyntaxError( "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get() );
+		logging::SyntaxError( TODO, "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get());
 	}
 
 	pConditional->m_bDefined = bSet;
@@ -347,7 +347,7 @@ bool CConditionalStorage::ResolveConditionalSymbol( const char *pSymbol )
 		if ( pMacro )
 		{
 			// found a macro, and not allowed
-			logging::SyntaxError( "Macro '%s' detected in conditional expression and not allowed. Use \"$Conditional <name> <0/1>\"", pSymbol );
+			logging::SyntaxError( TODO, "Macro '%s' detected in conditional expression and not allowed. Use \"$Conditional <name> <0/1>\"", pSymbol);
 		}
 	}
 
@@ -369,7 +369,7 @@ static bool ResolveSymbol( const char *pSymbol )
 static void SymbolSyntaxError( const char *pReason )
 {
 	// invoke internal syntax error hndling which spews script stack as well
-	logging::SyntaxError( "%s", pReason );
+	logging::SyntaxError( TODO, "%s", pReason);
 }
 
 //-----------------------------------------------------------------------------
@@ -387,7 +387,7 @@ bool CConditionalStorage::EvaluateConditionalExpression( const char *pExpression
 	bool bValid = ExpressionHandler.Evaluate( bResult, pExpression, ::ResolveSymbol, ::SymbolSyntaxError );
 	if ( !bValid )
 	{
-		logging::SyntaxError( "VPC Conditional Evaluation Error" );
+		logging::SyntaxError( TODO, "VPC Conditional Evaluation Error");
 	}
 
 	return bResult;

@@ -550,7 +550,7 @@ bool CPropertyStates::SetListProperty( ToolProperty_t *pToolProperty, CProjectTo
 
 	if ( !pNewOrdinalValue )
 	{
-		logging::SyntaxError( "Unknown Ordinal for %s", pToolProperty->m_ParseString.Get() );
+		logging::SyntaxError( TODO, "Unknown Ordinal for %s", pToolProperty->m_ParseString.Get());
 	}
 
 	// find possible current value
@@ -706,7 +706,7 @@ bool CPropertyStates::SetIntegerProperty( ToolProperty_t *pToolProperty, CProjec
 
 		if ( V_stricmp_fast( compareStr, pStrBuf->Get() ) )
 		{
-			logging::SyntaxError( "Unrecognized integer value: %s", pStrBuf->Get() );
+			logging::SyntaxError( TODO, "Unrecognized integer value: %s", pStrBuf->Get());
 		}
 	}
 
@@ -1623,7 +1623,7 @@ void CVCProjGenerator::FileExcludedFromBuild( bool bExcluded )
 {
 	if ( !m_pFileConfig )
 	{ 
-		logging::SyntaxError( "Cannot set %s unless in a $File configuration context", g_pOption_ExcludedFromBuild );
+		logging::SyntaxError( TODO, "Cannot set %s unless in a $File configuration context", g_pOption_ExcludedFromBuild);
 	}
 
 	BaseClass::FileExcludedFromBuild( bExcluded );
@@ -1654,7 +1654,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_DEBUGGING:
 		if ( m_pFileConfig )
 		{
-			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( TODO, "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ));
 		}
 
 		m_pDebuggingTool = m_pConfig->GetDebuggingTool();
@@ -1694,7 +1694,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_LIBRARIAN:
 		if ( m_pFileConfig )
 		{
-			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( TODO, "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ));
 		}
 
 		m_pLibrarianTool = m_pConfig->GetLibrarianTool();
@@ -1708,7 +1708,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_LINKER:
 		if ( m_pFileConfig )
 		{
-			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( TODO, "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ));
 		}
 
 		m_pLinkerTool = m_pConfig->GetLinkerTool();
@@ -1728,7 +1728,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 
 		if ( m_pFileConfig )
 		{
-			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( TODO, "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ));
 		}
 
 		m_pManifestTool = m_pConfig->GetManifestTool();
@@ -1748,7 +1748,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 
 		if ( m_pFileConfig )
 		{
-			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( TODO, "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ));
 		}
 
 		m_pXMLDocGenTool = m_pConfig->GetXMLDocGenTool();
@@ -1762,7 +1762,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_BROWSEINFO:
 		if ( m_pFileConfig )
 		{
-			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( TODO, "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ));
 		}
 
 		m_pBrowseInfoTool = m_pConfig->GetBrowseInfoTool();
@@ -1799,7 +1799,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_PREBUILDEVENT:
 		if ( m_pFileConfig )
 		{
-			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( TODO, "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ));
 		}
 
 		m_pPreBuildEventTool = m_pConfig->GetPreBuildEventTool();
@@ -1813,7 +1813,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_PRELINKEVENT:
 		if ( m_pFileConfig )
 		{
-			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( TODO, "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ));
 		}
 
 		m_pPreLinkEventTool = m_pConfig->GetPreLinkEventTool();
@@ -1827,7 +1827,7 @@ bool CVCProjGenerator::StartPropertySection( configKeyword_e eKeyword, bool *pbS
 	case KEYWORD_POSTBUILDEVENT:
 		if ( m_pFileConfig )
 		{
-			logging::SyntaxError( "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ) );
+			logging::SyntaxError( TODO, "%s tool interface for file configuration not implemented.", g_pVPC->KeywordToName( eKeyword ));
 		}
 
 		m_pPostBuildEventTool = m_pConfig->GetPostBuildEventTool();
@@ -1924,7 +1924,7 @@ void CVCProjGenerator::HandleProperty( const char *pPropertyName, const char *pC
 	if ( !pToolProperty )
 	{
 		// unknown property
-		logging::SyntaxError( "Unknown property %s", pPropertyName );
+		logging::SyntaxError( TODO, "Unknown property %s", pPropertyName);
 	}
 
 	const char *pToken = g_pVPC->GetScript().PeekNextToken( false );
@@ -2030,7 +2030,7 @@ const char *CVCProjGenerator::GetPropertyValue( const char *pPropertyName )
 	if ( !pToolProperty )
 	{
 		// unknown property
-		logging::SyntaxError( "Unknown property %s", pPropertyName );
+		logging::SyntaxError( TODO, "Unknown property %s", pPropertyName);
 	}
 
 	CProjectConfiguration *pConfig = nullptr;

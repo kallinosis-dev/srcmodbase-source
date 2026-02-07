@@ -75,13 +75,13 @@ void VPC_GroupKeyword_Games(CScript* script)
 
 	pToken = script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 
 	while ( 1 )
 	{
 		pToken = script->GetToken( true );
 		if ( !pToken || !pToken[0] )
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 
 		if ( CharStrEq( pToken, '}' ) )
 		{
@@ -123,7 +123,7 @@ void VPC_GroupKeyword_Group(CScript* script)
 
 		pToken = script->GetToken( false );
 		if ( !pToken || !pToken[0] )
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 
 		// specified tag now builds this group
 		groupTagIndex_t groupTagIndex = VPC_Group_FindOrCreateGroupTag( pToken, true );
@@ -132,13 +132,13 @@ void VPC_GroupKeyword_Group(CScript* script)
 
 	pToken = script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 
 	while ( 1 )
 	{
 		pToken = script->GetToken( true );
 		if ( !pToken || !pToken[0] )
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 
 		if ( CharStrEq( pToken, '}' ) )
 		{
@@ -183,13 +183,13 @@ void VPC_GroupKeyword_Project(CScript* script)
 
 	pToken = script->GetToken( false );
 	if ( !pToken || !pToken[0] )
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 
 	if ( VPC_Group_FindOrCreateProject( pToken, false ) != INVALID_INDEX )
 	{
 		// already defined
 		logging::Warning( "project %s already defined", pToken );
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 	}
 
 	projectIndex_t projectIndex = VPC_Group_FindOrCreateProject( pToken, true );
@@ -205,13 +205,13 @@ void VPC_GroupKeyword_Project(CScript* script)
 
 	pToken = script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 
 	while ( 1 )
 	{
 		pToken = script->GetToken( true );
 		if ( !pToken || !pToken[0] )
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 
 		if ( CharStrEq( pToken, '}' ) )
 		{
@@ -239,7 +239,7 @@ void VPC_GroupKeyword_Conditional(CScript* script)
 {
 	const char *pToken = script->GetToken( false );
 	if ( !pToken || !pToken[0] )
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 
 	if ( pToken[0] == '$' )
 	{
@@ -261,7 +261,7 @@ void VPC_GroupKeyword_Conditional(CScript* script)
 	if ( pConditional->m_Type != CONDITIONAL_SYSTEM && pConditional->m_Type != CONDITIONAL_CUSTOM && pConditional->m_Type != CONDITIONAL_SCRIPT )
 	{
 		// group script cannot change conditionals outside of their restricted set
-		logging::SyntaxError( "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get() );
+		logging::SyntaxError( TODO, "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get());
 	}
 
     bool bValue;
@@ -311,7 +311,7 @@ void VPC_ParseGroupScript( const char *pScriptName )
 			if ( !pToken || !pToken[0] )
 			{
 				// end of file
-				logging::SyntaxError();
+				logging::SyntaxError(TODO);
 			}
 
 			// recurse into and run
@@ -335,7 +335,7 @@ void VPC_ParseGroupScript( const char *pScriptName )
 		}
 		else
 		{
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 		}
 	}
 

@@ -271,7 +271,7 @@ void VPC_Qt_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 		}
 		else
 		{
-			logging::SyntaxError( "Can only use $QtFile for cpp, header, or ui files. (%s)", pFilename );
+			logging::SyntaxError( TODO, "Can only use $QtFile for cpp, header, or ui files. (%s)", pFilename);
 			continue;
 		}
 	}

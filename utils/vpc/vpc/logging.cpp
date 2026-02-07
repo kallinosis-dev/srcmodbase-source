@@ -97,7 +97,7 @@ void logging::Shutdown()
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void logging::SyntaxError(const char* pFormat, ...)
+void logging::SyntaxError(CScript const* script, const char* pFormat, ...)
 {
 	va_list argptr;
 	char msg[MAX_SYSPRINTMSG];
@@ -124,10 +124,8 @@ void logging::SyntaxError(const char* pFormat, ...)
 		Log_Warning(LOG_VPC, Color(255, 0, 0, 255), "Bad Syntax: %s\n", pMsg);
 	}
 
-	CScript const& script = g_pVPC->GetScript();
-
 	// syntax errors are fatal
-	Error("Bad Syntax in '%s' line:%d\n", script.GetName(), script.GetLine());
+	Error("Bad Syntax in '%s' line:%d\n", script->GetName(), script->GetLine());
 }
 
 void logging::Warning(const char* pFormat, ...)

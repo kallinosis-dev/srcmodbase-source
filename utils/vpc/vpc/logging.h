@@ -1,4 +1,5 @@
 #pragma once
+#include "scriptsource.h"
 #include "tier0/logging.h"
 
 
@@ -23,7 +24,7 @@ namespace logging
 
 		[[noreturn]]
 	void		Error(PRINTF_FORMAT_STRING const char* pFormat, ...) FMTFUNCTION(2, 3);
-	void		SyntaxError(PRINTF_FORMAT_STRING const char* pFormat = nullptr, ...) FMTFUNCTION(2, 3);
+	void		SyntaxError(CScript const* script,PRINTF_FORMAT_STRING const char* pFormat = nullptr, ...) FMTFUNCTION(2, 3);
 
 	void		Warning(PRINTF_FORMAT_STRING const char* pFormat, ...) FMTFUNCTION(2, 3);
 

@@ -58,7 +58,7 @@ void CProjectScriptParser::ParseFileSection()
 		}
 		else
 		{
-			logging::SyntaxError( "Unrecognized token '%s' in file section. Possibly missing a $Configuration scope?", pToken );
+			logging::SyntaxError( TODO, "Unrecognized token '%s' in file section. Possibly missing a $Configuration scope?", pToken);
 		}
 	}
 }
@@ -215,7 +215,7 @@ void CProjectScriptParser::Keyword_AddFilesByPattern()
 
 	if ( !g_pVPC->IsFilePatternEnabled() )
 	{
-		logging::SyntaxError( "$FilePattern support not enabled" );
+		logging::SyntaxError( TODO, "$FilePattern support not enabled");
 	}
 
 	// THIS FEATURE IS NOT COMPLIANT TO VPC CONDITIONAL SYNTAX.
@@ -231,12 +231,12 @@ void CProjectScriptParser::Keyword_AddFilesByPattern()
 			const char *pNextToken = _script->PeekNextToken( false );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
-				logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
+				logging::SyntaxError( TODO, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
 			}
 
 			if ( files.Count() == 0 )
 			{
-				logging::SyntaxError( "Conditional specified on a $FilePattern without any pattern preceding it." );
+				logging::SyntaxError( TODO, "Conditional specified on a $FilePattern without any pattern preceding it.");
 			}
 
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
@@ -291,7 +291,7 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 	{
 		const char *pToken = _script->GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 
 		// enforcing per-line syntax (VPC's need to stay legible), and not some continuous-same-line cryptic compound sequence
 		bAllowNextLine = false;
@@ -300,7 +300,7 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 		{
 			if ( !bFoundFilename )
 			{
-				logging::SyntaxError( "Conditional '%s' specified on a file list without any file preceding it.", pToken );
+				logging::SyntaxError( TODO, "Conditional '%s' specified on a file list without any file preceding it.", pToken);
 			}
 
 			bFoundFilename = false;
@@ -327,7 +327,7 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 			}
 			else
 			{
-				logging::SyntaxError( "Unexpected token '%s' after the conditional '%s'", pNextToken, pToken );
+				logging::SyntaxError( TODO, "Unexpected token '%s' after the conditional '%s'", pNextToken, pToken);
 			}
 		}
 	
@@ -336,7 +336,7 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 			const char *pNextToken = _script->PeekNextToken( false );
 			if ( pNextToken && pNextToken[0] )
 			{
-				logging::SyntaxError( "Unexpected token '%s' on same line after the file continuation marker", pNextToken );
+				logging::SyntaxError( TODO, "Unexpected token '%s' on same line after the file continuation marker", pNextToken);
 			}
 
 			// parse on next line
@@ -374,7 +374,7 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 		if ( pNextToken[0] == '[' || CharStrEq( pNextToken, '\\' ) )
 			continue;
 
-		logging::SyntaxError( "Unexpected token '%s' after filename '%s'", pNextToken, pToken );
+		logging::SyntaxError( TODO, "Unexpected token '%s' after filename '%s'", pNextToken, pToken);
 	}
 }
 
@@ -430,7 +430,7 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 			// and it is not supported on platforms other than Windows.
 			if ( bFailLibs )
 			{
-				logging::SyntaxError( "Using $Lib or $ImpLib in a static library project is prohibited (lib used '%s').\nYou can use $LibDependsOn[Imp]Lib if you need something similar, look at lib_depends_source.vpc.\n", pFilename );
+				logging::SyntaxError( TODO, "Using $Lib or $ImpLib in a static library project is prohibited (lib used '%s').\nYou can use $LibDependsOn[Imp]Lib if you need something similar, look at lib_depends_source.vpc.\n", pFilename);
 			}
 
 			AddLibraryDependencies( pFilename );
@@ -502,7 +502,7 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 		// found optional section, parse opening brace
 		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 	}
 
 	// Handle $OS expansion
@@ -830,7 +830,7 @@ void CProjectScriptParser::LibDepends( char const *pDefaultPath, char const *pFi
 {
     const char *pToken = _script->GetToken( false );
     if ( !pToken || !pToken[0] )
-        logging::SyntaxError();
+        logging::SyntaxError(TODO);
 
     // The lib is always a static lib.
     CUtlPathStringHolder libName;
@@ -1061,7 +1061,7 @@ void CProjectScriptParser::Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 	// Now parse all the files and subfolders..
 	const char* pToken = _script->GetToken(true);
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 
 	while ( 1 )
 	{
@@ -1186,7 +1186,7 @@ void CProjectScriptParser::Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 		}
 		else
 		{
-			logging::SyntaxError("Unrecognized token: %s", pToken);
+			logging::SyntaxError(TODO, "Unrecognized token: %s", pToken);
 		}
 	}
 
@@ -1201,7 +1201,7 @@ void CProjectScriptParser::Keyword_Macro( MacroType_t eMacroType )
 {
 	const char* pToken = _script->GetToken(false);
 	if ( !pToken || !pToken[0] )
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
@@ -1238,7 +1238,7 @@ void CProjectScriptParser::Keyword_MacroRequired( MacroRequiredType_t eMacroRequ
 	const char* pToken = _script->GetToken(false);
 	if ( !pToken || !pToken[0] )
 	{
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 	}
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
@@ -1285,7 +1285,7 @@ void CProjectScriptParser::Keyword_MacroRequired( MacroRequiredType_t eMacroRequ
 		else
 		{
 			// In case we're in mksln showing a pacifier of dots. Make sure to show the error on a new line.
-			logging::SyntaxError( "\n\nRequired Macro '%s', not defined or empty", macroName.Get() );
+			logging::SyntaxError( TODO, "\n\nRequired Macro '%s', not defined or empty", macroName.Get());
 		}
 	}
 }
@@ -1317,7 +1317,7 @@ void CProjectScriptParser::Keyword_LoadAddressMacro( void )
 	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 	}
 	
     CUtlStringHolder<100> szProjectName;
@@ -1372,7 +1372,7 @@ void CProjectScriptParser::Keyword_LoadAddressMacroAlias( void )
 	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 	}
 
 	while ( 1 )
@@ -1415,7 +1415,7 @@ void CProjectScriptParser::LoadAddressMacroAuto( bool bPad )
 	pToken = _script->GetToken( false );
 	if ( !pToken || !pToken[0] )
 	{
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 	}
     CUtlStringHolder<MAX_MACRO_NAME> szMacroName( pToken );
 
@@ -1435,7 +1435,7 @@ void CProjectScriptParser::LoadAddressMacroAuto( bool bPad )
 	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 	}
 	
 	int iEntryNum = 0;
@@ -1488,7 +1488,7 @@ void CProjectScriptParser::LoadAddressMacroAuto( bool bPad )
 
 			if ( dllLength == 0 )
 			{
-				logging::SyntaxError( "$LoadAddressMacroAuto no longer supports 0 size dlls. Use $LoadAddressMacroAlias to have two orthogonal projects load in the same space" );
+				logging::SyntaxError( TODO, "$LoadAddressMacroAuto no longer supports 0 size dlls. Use $LoadAddressMacroAlias to have two orthogonal projects load in the same space");
 			}
 
 			baseAddress += dllLength;
@@ -1568,7 +1568,7 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 {
 	const char *pToken = _script->GetToken( false );
 	if ( !pToken || !pToken[0] )
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 
 	if ( pToken[0] == '$' )
 	{
@@ -1591,7 +1591,7 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 	{
 		// vpc scripts can only affect custom or script conditionals
 		// scripts cannot affect the more systemic global conditionals
-		logging::SyntaxError( "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get() );
+		logging::SyntaxError( TODO, "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get());
 	}
 
 	const char *pValue = Sys_EvaluateEnvironmentExpression( value, "0" );
@@ -1714,7 +1714,7 @@ void CProjectScriptParser::HandleProjectCommands(int depth)
 		}
 		else
 		{
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 		}
 	}
 }
@@ -1837,7 +1837,7 @@ void CProjectScriptParser::Keyword_Project( int depth )
 		pToken = _script->GetToken( false );
 		if ( !pToken || !pToken[0] )
 		{
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 		}
 
         CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
@@ -1853,7 +1853,7 @@ void CProjectScriptParser::Keyword_Project( int depth )
 
 	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		logging::SyntaxError();
+		logging::SyntaxError(TODO);
 
 	HandleProjectCommands(depth);
 	
@@ -1914,12 +1914,12 @@ void CProjectScriptParser::Keyword_CustomBuildStep( void )
 			const char *pNextToken = _script->PeekNextToken( bAllowNextLine );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
-				logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
+				logging::SyntaxError( TODO, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
 			}
 
 			if ( extensions.Count() == 0 )
 			{
-				logging::SyntaxError( "Conditional specified on a $CustomBuildStep without any extensions preceding it." );
+				logging::SyntaxError( TODO, "Conditional specified on a $CustomBuildStep without any extensions preceding it.");
 			}
 
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
@@ -1942,7 +1942,7 @@ void CProjectScriptParser::Keyword_CustomBuildStep( void )
 
 		if ( IsBuiltInFileType( pToken ) )
 		{
-			logging::SyntaxError( "Cannot define a $CustomBuildStep for built in file type: %s", pToken);
+			logging::SyntaxError( TODO, "Cannot define a $CustomBuildStep for built in file type: %s", pToken);
 		}
 
 		CUtlString string = pToken;
@@ -1957,7 +1957,7 @@ void CProjectScriptParser::Keyword_CustomBuildStep( void )
 	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || V_strcmp( pToken, "{" ) )
 	{
-		logging::SyntaxError( "Missing section for $CustomBuildStep" );
+		logging::SyntaxError( TODO, "Missing section for $CustomBuildStep");
 	}
 	
 	if ( extensions.Count() == 0 )
@@ -2026,12 +2026,12 @@ void CProjectScriptParser::Keyword_CustomAutoScript()
 			const char *pNextToken = _script->PeekNextToken( bAllowNextLine );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
-				logging::SyntaxError( "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals." );
+				logging::SyntaxError( TODO, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
 			}
 
 			if ( extensions.Count() == 0 )
 			{
-				logging::SyntaxError( "Conditional specified on a $CustomAutoScript without any extensions preceding it." );
+				logging::SyntaxError( TODO, "Conditional specified on a $CustomAutoScript without any extensions preceding it.");
 			}
 
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
@@ -2048,7 +2048,7 @@ void CProjectScriptParser::Keyword_CustomAutoScript()
 
 		if ( IsBuiltInFileType( pToken ) )
 		{
-			logging::SyntaxError( "Cannot define a $CustomAutoScript for built in file type: %s", pToken);
+			logging::SyntaxError( TODO, "Cannot define a $CustomAutoScript for built in file type: %s", pToken);
 		}
 
 		CUtlString string = pToken;
@@ -2063,7 +2063,7 @@ void CProjectScriptParser::Keyword_CustomAutoScript()
 	pToken = _script->GetToken( true );
 	if ( !pToken || !pToken[0] || V_strcmp( pToken, "{" ) )
 	{
-		logging::SyntaxError( "Missing section for $CustomAutoScript" );
+		logging::SyntaxError( TODO, "Missing section for $CustomAutoScript");
 	}
 	else if ( extensions.Count() == 0 )
 	{
@@ -2196,7 +2196,7 @@ void CProjectScriptParser::ParseProjectScriptParameters( const char *szScriptNam
 		}
 		else
 		{
-			logging::SyntaxError();
+			logging::SyntaxError(TODO);
 		}
 	}
 }

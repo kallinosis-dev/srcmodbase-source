@@ -634,7 +634,7 @@ bool Sys_StringToBool( const char *pString, bool bAssumeTrueIfAmbiguous /*= fals
 			return true;
 		}
 		// unknown boolean expression
-		logging::SyntaxError( "Unknown boolean expression '%s'", pString );
+		logging::SyntaxError( TODO, "Unknown boolean expression '%s'", pString);
 	}
 
 	// assume false
@@ -763,7 +763,7 @@ const char *Sys_EvaluateEnvironmentExpression( const char *pExpression, const ch
 	char *pLastChar = &pEnvVarName[ V_strlen( pEnvVarName ) - 1 ];
 	if ( !*pEnvVarName || *pLastChar != ')' )
 	{
-		logging::SyntaxError( "%s must have a closing ')' in \"%s\"\n", bEnvDefinedMacro ? "$envdefined()" : "$env()", pExpression );
+		logging::SyntaxError( TODO, "%s must have a closing ')' in \"%s\"\n", bEnvDefinedMacro ? "$envdefined()" : "$env()", pExpression);
 	}
 
 	// get the contents of the $env( blah..blah ) expressions
