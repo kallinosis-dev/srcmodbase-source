@@ -86,6 +86,7 @@ public:
 	void			SkipToValidToken(); 
 
 	bool			ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pOutBuff );
+	bool			ParsePropertyValueWithEnvSupport( const char *pBaseString, char const* pEnvDefault, CUtlStringBuilder *pOutBuff );
 
 private:
 	const char		*SkipWhitespace( const char *data, bool *pHasNewLines, int *pNumLines );

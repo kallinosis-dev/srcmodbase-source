@@ -17,5 +17,3 @@ MaybeBool Script_ParseMaybeBool(char const* str);
 bool Script_ParseBool(char const* str, const CScript* src);
 
 bool	Script_IsSingleLineComment( const char *pSearchPos, const char *pFileStart );
-
-const char *Script_EvaluateEnvironmentExpression( const char *pExpression, const char *pDefault );

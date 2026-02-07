@@ -664,3 +664,55 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
 
 	return bResult;
 }
+
+bool CScript::ParsePropertyValueWithEnvSupport(const char* pBaseString, char const* pEnvDefault, CUtlStringBuilder* pOutBuff)
+{
+	if(!ParsePropertyValue(pBaseString, pOutBuff))
+		return false;
+
+	char const* pExpression = pOutBuff->String();
+
+	bool bEnvDefinedMacro = false;
+	char const* pEnvVarName = StringAfterPrefix( pExpression, "$env(" );
+	if ( !pEnvVarName )
+	{
+		
+		pEnvVarName = StringAfterPrefix( pExpression, "$envdefined(" );
+		if ( !pEnvVarName )
+		{
+			// Not an env variable
+			return true; 
+		}
+		bEnvDefinedMacro = true;
+	}
+
+	char const* pLastChar = &pEnvVarName[ V_strlen( pEnvVarName ) - 1 ];
+	if ( !*pEnvVarName || *pLastChar != ')' )
+	{
+		logging::SyntaxError( this, "%s must have a closing ')' in \"%s\"\n", bEnvDefinedMacro ? "$envdefined()" : "$env()", pExpression);
+	}
+
+	// get the contents of the $env( blah..blah ) expressions
+	// handles expresions that could have whitepsaces
+	PushScript( pExpression, pEnvVarName, 1, false, false );
+	const char *pToken = GetToken( false );
+	PopScript();
+
+	if ( !pToken || !pToken[0] )
+	{
+		pOutBuff->Set(pEnvDefault);
+		return true;
+	}
+
+	const char *pResolve = getenv( pToken );
+
+	if ( bEnvDefinedMacro )
+	{
+		pOutBuff->Set(pResolve ? "1" : "0");
+		return true;
+	}
+
+	pOutBuff->Set(pResolve ? pResolve : pEnvDefault);
+	return true;
+
+}

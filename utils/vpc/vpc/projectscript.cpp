@@ -1207,20 +1207,14 @@ void CProjectScriptParser::Keyword_Macro( MacroType_t eMacroType )
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValueWithEnvSupport(nullptr, "", pStrBuf ) )
 	{
 		return;
 	}
 
     CUtlStringHolder<100> value( pStrBuf->Get() );
-    
-	const char *pValue = Script_EvaluateEnvironmentExpression( value, "" );
-    if ( !pValue )
-	{
-        pValue = value;
-	}
 
-	g_pVPC->macros.SetAsScript( macroName, ( eMacroType == VPC_MACRO_VALUE ) ? pValue : "" );
+	g_pVPC->macros.SetAsScript( macroName, ( eMacroType == VPC_MACRO_VALUE ) ? value : "" );
 }
 
 //-----------------------------------------------------------------------------
@@ -1579,7 +1573,7 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
     CUtlStringHolder<50> name( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValueWithEnvSupport(nullptr, "0", pStrBuf ) )
 	{
 		return;
 	}
@@ -1595,14 +1589,9 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 		logging::SyntaxError( &_script, "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get());
 	}
 
-	const char *pValue = Script_EvaluateEnvironmentExpression( value, "0" );
-    if ( !pValue )
-	{
-        pValue = value;
-	}
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->conditionals.Set( name, Script_ParseBool( pValue, &_script ), pConditional->m_Type );
+	g_pVPC->conditionals.Set( name, Script_ParseBool( value, &_script ), pConditional->m_Type );
 }
 
 //-----------------------------------------------------------------------------
