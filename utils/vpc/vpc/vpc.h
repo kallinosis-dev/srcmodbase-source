@@ -113,8 +113,6 @@ public:
 
 	bool		HasCommandLineParameter( const char *pParamName ) const;
 
-	CScript		&GetScript()			{ return m_Script; }
-
 	bool		IsQuietValidSpew() const { return m_bQuietValidSpew; }
 	void		SetQuietValidSpew( bool bQuiet ){ m_bQuietValidSpew = bQuiet; }
 	bool		IsShowDependencies() const { return m_bShowDeps; }
@@ -353,9 +351,7 @@ private:
 	int						m_nArgc;
 	char const* const*		m_ppArgv;
 
-	
 
-	CScript					m_Script;
 
 	// Path where vpc was started from
 	CUtlString				m_StartDirectory;
@@ -474,9 +470,6 @@ extern const char			*g_IncludeSeparators[2];
 
 extern void					VPC_GenerateProjectDependencies( CBaseProjectDataCollector *pDataCollector );
 extern bool					VPC_AreProjectDependenciesSupportedForThisTargetPlatform( void );
-
-extern void					VPC_Config_SpewProperties( configKeyword_e keyword );
-extern bool					VPC_Config_IgnoreOption( const char *pPropertyName );
 
 
 // Convenience helpers to extract properties from project/file configs:

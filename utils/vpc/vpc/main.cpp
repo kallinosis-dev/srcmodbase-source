@@ -236,13 +236,6 @@ void CVPC::Shutdown(bool bHasError)
 	}
 }
 
-bool VPC_Config_IgnoreOption(const char* pPropertyName)
-{
-	CUtlStringBuilder* pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf);
-	return true;
-}
-
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 
@@ -651,18 +644,6 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "[+/-] %s\n", sorted[i]);
 		}
 	}
-
-#if 0
-#if defined( _WIN32 )
-	if ( m_bSpewProperties )
-	{
-		for ( int i = 0; i < KEYWORD_MAX; i++ )
-		{
-			VPC_Config_SpewProperties( (configKeyword_e)i );
-		}
-	}
-#endif
-#endif
 
 	if (!m_BuildCommands.Count())
 		return;
