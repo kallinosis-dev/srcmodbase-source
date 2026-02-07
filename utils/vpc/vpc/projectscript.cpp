@@ -1214,7 +1214,7 @@ void CProjectScriptParser::Keyword_Macro( MacroType_t eMacroType )
 
     CUtlStringHolder<100> value( pStrBuf->Get() );
 
-	g_pVPC->macros.SetAsScript( macroName, ( eMacroType == VPC_MACRO_VALUE ) ? value : "" );
+	g_pVPC->macros.SetAsScript( macroName, ( eMacroType == VPC_MACRO_VALUE ) ? value.Get() : "" );
 }
 
 //-----------------------------------------------------------------------------

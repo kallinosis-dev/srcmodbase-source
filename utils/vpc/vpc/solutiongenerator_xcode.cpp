@@ -230,6 +230,16 @@ public:
         return m_pGenerator->GetPropertyValueAsString(nullptr, pConfigName, configKeyword, pPropertyName );
     }
 
+    bool GetBoolProperty( configKeyword_e configKeyword, const char *pPropertyName ) const
+    {
+        return m_pGenerator->GetPropertyValueAsBool(nullptr, m_pConfigName, configKeyword, pPropertyName );
+    }
+    bool GetConfigBoolProperty( const char *pConfigName, configKeyword_e configKeyword, const char *pPropertyName ) const
+    {
+        return m_pGenerator->GetPropertyValueAsBool(nullptr, pConfigName, configKeyword, pPropertyName );
+    }
+
+
     bool DependsOn( CProject_Xcode *pProj ) const
     {
         if ( pProj == this )
@@ -1015,7 +1025,7 @@ void CSolutionGenerator_Xcode::EmitBuildSettings( const char *pszProjectName, CP
         if ( !V_stricmp_fast( g_pVPC->conditionals.GetTargetPlatformName(), "OSX32" ) )
         {
             Write( "i386,\n" );
-            if ( Script_ParseBool( pProj->GetConfigStringProperty( pConfigName, KEYWORD_GENERAL, g_pOption_BuildMultiArch ) ) )
+            if ( pProj->GetConfigBoolProperty( pConfigName, KEYWORD_GENERAL, g_pOption_BuildMultiArch ) )
             {
                 Write( "x86_64,\n" );
             }
@@ -1185,16 +1195,12 @@ void CSolutionGenerator_Xcode::EmitBuildSettings( const char *pszProjectName, CP
 
     if ( !IsStaticLibrary( pProj->m_pPrimaryOutputFileSafe ) )
     {
-        bool bDisableDeadCodeElimination = false;
-        const char *pDisableDeadCodeElimination = pProj->GetConfigStringProperty( pConfigName, KEYWORD_LINKER, g_pOption_DisableLinkerDeadCodeElimination );
-        if ( pDisableDeadCodeElimination[0] )
-        {
-            bDisableDeadCodeElimination = Script_ParseBool( pDisableDeadCodeElimination );
-        }
+        bool bDisableDeadCodeElimination = pProj->GetConfigBoolProperty( pConfigName, KEYWORD_LINKER, g_pOption_DisableLinkerDeadCodeElimination );
+
         Write( "DEAD_CODE_STRIPPING = %s;\n", bDisableDeadCodeElimination ? "NO" : "YES" );
     }
 
-    bool bTreatWarningsAsErrors = Script_ParseBool( pProj->GetConfigStringProperty( pConfigName, KEYWORD_COMPILER, g_pOption_TreatWarningsAsErrors ) );
+    bool bTreatWarningsAsErrors = pProj->GetConfigBoolProperty( pConfigName, KEYWORD_COMPILER, g_pOption_TreatWarningsAsErrors );
     Write( "GCC_TREAT_WARNINGS_AS_ERRORS = %s;\n", bTreatWarningsAsErrors ? "YES" : "NO" );
 
     if ( pDictFiles )

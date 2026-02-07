@@ -288,14 +288,15 @@ public:
 			fullSolutionItemsPath.Set( g_pVPC->GetSolutionItemsFilename() );
 		else
 			fullSolutionItemsPath.ComposeFileName( g_pVPC->GetStartDirectory(), g_pVPC->GetSolutionItemsFilename() );
-		
-		g_pVPC->GetScript().PushScript( fullSolutionItemsPath );
+
+		CScript script;
+		script.PushScript( fullSolutionItemsPath );
 
 		int numSolutionItems = 0;
-		while ( g_pVPC->GetScript().GetData() )
+		while ( script.GetData() )
 		{
 			// read a line
-			const char *pToken = g_pVPC->GetScript().GetToken( false );
+			const char *pToken = script.GetToken( false );
 
 			// strip out \r\n chars
 			char *end = V_strstr( pToken, "\n" );
@@ -355,7 +356,7 @@ public:
 			}
 		}
 
-		g_pVPC->GetScript().PopScript();
+		script.PopScript();
 
 		Msg( "Found %d solution files in %s\n", numSolutionItems, g_pVPC->GetSolutionItemsFilename() );
 #endif

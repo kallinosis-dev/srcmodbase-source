@@ -253,7 +253,7 @@ void CConditionalStorage::Set( const char *pString, bool bSet, conditionalType_e
 
 	if ( conditionalType != pConditional->m_Type )
 	{
-		logging::SyntaxError( TODO, "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get());
+		logging::Error( "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get());
 	}
 
 	pConditional->m_bDefined = bSet;
@@ -387,7 +387,7 @@ bool CConditionalStorage::EvaluateConditionalExpression( const char *pExpression
 	bool bValid = ExpressionHandler.Evaluate( bResult, pExpression, ::ResolveSymbol, ::SymbolSyntaxError );
 	if ( !bValid )
 	{
-		logging::SyntaxError( TODO, "VPC Conditional Evaluation Error");
+		logging::Error( "VPC Conditional Evaluation Error");
 	}
 
 	return bResult;
