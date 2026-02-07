@@ -602,44 +602,7 @@ bool Sys_FileInfo( const char *pFilename, int64 &nFileSize, int64 &nModifyTime, 
 	return true;
 }
 
-//-----------------------------------------------------------------------------
-//	Ignores allowable trailing characters.
-//-----------------------------------------------------------------------------
-bool Sys_StringToBool( const char *pString, bool bAssumeTrueIfAmbiguous /*= false*/ )
-{
-	if ( !V_strnicmp( pString, "no", 2 ) || 
-		!V_strnicmp_fast( pString, "off", 3 ) || 
-		!V_strnicmp_fast( pString, "false", 5 ) || 
-		!V_strnicmp_fast( pString, "not set", 7 ) || 
-		!V_strnicmp_fast( pString, "disabled", 8 ) || 
-		!V_strnicmp_fast( pString, "0", 1 ) )
-	{
-		// false
-		return false;
-	}
-	else if ( !V_strnicmp_fast( pString, "yes", 3 ) || 
-			!V_strnicmp_fast( pString, "on", 2 ) || 
-			!V_strnicmp_fast( pString, "true", 4  ) || 
-			!V_strnicmp_fast( pString, "set", 3 ) || 
-			!V_strnicmp_fast( pString, "enabled", 7 ) || 
-			!V_strnicmp_fast( pString, "1", 1 ) )
-	{
-		// true
-		return true;
-	}
-	else
-	{
-		if ( bAssumeTrueIfAmbiguous )
-		{
-			return true;
-		}
-		// unknown boolean expression
-		logging::SyntaxError( TODO, "Unknown boolean expression '%s'", pString);
-	}
 
-	// assume false
-	return false;
-}
 
 bool Sys_ReplaceString( const char *pStream, const char *pSearch, const char *pReplace, char *pOutBuff, int nOutBuffSize )
 {

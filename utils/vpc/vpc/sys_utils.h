@@ -571,7 +571,6 @@ bool	Sys_Exists( const char *filename );
 bool	Sys_Touch( const char *filename );
 bool	Sys_FileInfo( const char *pFilename, int64 &nFileSize, int64 &nModifyTime, bool &bIsReadOnly );
 
-bool	Sys_StringToBool( const char *pString, bool bAssumeTrueIfAmbiguous = false );
 bool	Sys_ReplaceString( const char *pStream, const char *pSearch, const char *pReplace, char *pOutBuff, int outBuffSize );
 bool	Sys_StringPatternMatch( char const *pSrcPattern, char const *pString );
 bool	Sys_IsSingleLineComment( const char *pSearchPos, const char *pFileStart );

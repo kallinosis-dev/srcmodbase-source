@@ -268,11 +268,11 @@ void VPC_GroupKeyword_Conditional(CScript* script)
 	const char *pEnvValue = Sys_EvaluateEnvironmentExpression( value, "0" );
     if ( pEnvValue )
 	{
-        bValue = Sys_StringToBool( pEnvValue );
+        bValue = Script_ParseBool( pEnvValue );
 	}
     else
     {
-        bValue = Sys_StringToBool( value );
+        bValue = Script_ParseBool( value );
     }
 
 	// conditional has been pre-qualified, set accordingly

@@ -669,7 +669,7 @@ bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTo
 	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
 		return true;
 
-	return SetBoolProperty( pToolProperty, pRootTool, Sys_StringToBool( pStrBuf->Get() ) );
+	return SetBoolProperty( pToolProperty, pRootTool, Script_ParseBool( pStrBuf->Get() ) );
 }
 
 bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, bool bEnabled )
@@ -2602,7 +2602,7 @@ const char *CVCProjGenerator::GetPropertyValueAsString( CProjectFile *pProjectFi
 bool CVCProjGenerator::GetPropertyValueAsBool( CProjectFile *pProjectFile, const char *pConfigrationName, configKeyword_e configKeyword, const char *pPropertyName, bool bDefaultValue )
 {
 	const char *valueString = GetPropertyValueAsString( pProjectFile, pConfigrationName, configKeyword, pPropertyName, bDefaultValue ? "1" : "0" );
-	return Sys_StringToBool( valueString );
+	return Script_ParseBool( valueString );
 }
 
 static void addFilesToDependenciesProperty( const char *szSemicolonSeparatedFileList, ToolProperty_t *pToolProperty_Dependencies, CCustomBuildTool *pCustomBuildTool, ToolProperty_t *pToolProperty_CommandLine )

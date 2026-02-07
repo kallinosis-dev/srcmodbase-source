@@ -90,6 +90,9 @@ $Project "vpc"
 			$File	"scriptsource.cpp"
 			$File	"scriptsource.h"	
 			
+			$File 	"scriptutil.cpp"
+			$File	"scriptutil.h"
+
 			$File	"groupscript.cpp"
 			$File	"groupscript.h"
 

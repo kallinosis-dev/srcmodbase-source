@@ -1014,7 +1014,7 @@ void CSolutionGenerator_Xcode::EmitBuildSettings( const char *pszProjectName, CP
         if ( !V_stricmp_fast( g_pVPC->conditionals.GetTargetPlatformName(), "OSX32" ) )
         {
             Write( "i386,\n" );
-            if ( Sys_StringToBool( pProj->GetConfigStringProperty( pConfigName, KEYWORD_GENERAL, g_pOption_BuildMultiArch ) ) )
+            if ( Script_ParseBool( pProj->GetConfigStringProperty( pConfigName, KEYWORD_GENERAL, g_pOption_BuildMultiArch ) ) )
             {
                 Write( "x86_64,\n" );
             }
@@ -1188,12 +1188,12 @@ void CSolutionGenerator_Xcode::EmitBuildSettings( const char *pszProjectName, CP
         const char *pDisableDeadCodeElimination = pProj->GetConfigStringProperty( pConfigName, KEYWORD_LINKER, g_pOption_DisableLinkerDeadCodeElimination );
         if ( pDisableDeadCodeElimination[0] )
         {
-            bDisableDeadCodeElimination = Sys_StringToBool( pDisableDeadCodeElimination );
+            bDisableDeadCodeElimination = Script_ParseBool( pDisableDeadCodeElimination );
         }
         Write( "DEAD_CODE_STRIPPING = %s;\n", bDisableDeadCodeElimination ? "NO" : "YES" );
     }
 
-    bool bTreatWarningsAsErrors = Sys_StringToBool( pProj->GetConfigStringProperty( pConfigName, KEYWORD_COMPILER, g_pOption_TreatWarningsAsErrors ) );
+    bool bTreatWarningsAsErrors = Script_ParseBool( pProj->GetConfigStringProperty( pConfigName, KEYWORD_COMPILER, g_pOption_TreatWarningsAsErrors ) );
     Write( "GCC_TREAT_WARNINGS_AS_ERRORS = %s;\n", bTreatWarningsAsErrors ? "YES" : "NO" );
 
     if ( pDictFiles )

@@ -1601,7 +1601,7 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 	}
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->conditionals.Set( name, Sys_StringToBool( pValue ), pConditional->m_Type );
+	g_pVPC->conditionals.Set( name, Script_ParseBool( pValue ), pConditional->m_Type );
 }
 
 //-----------------------------------------------------------------------------
@@ -1616,7 +1616,7 @@ void CProjectScriptParser::Keyword_IgnoreRedundancyWarning( void )
 		return;
 	}
 
-	bool bVal = Sys_StringToBool( pStrBuf->Get() );
+	bool bVal = Script_ParseBool( pStrBuf->Get() );
 	logging::SetIgnoreRedundancyWarning( bVal );
 }
 

@@ -655,7 +655,7 @@ bool CProjectGenerator_Win32_2010::WriteProperty( const PropertyState_t *pProper
 		{
 		case PT_BOOLEAN:
 			{
-				bool bEnabled = Sys_StringToBool( pValueStr );
+				bool bEnabled = Script_ParseBool( pValueStr );
 				if ( pPropertyState->m_pToolProperty->m_bInvertOutput )
 				{
 					bEnabled ^= 1;

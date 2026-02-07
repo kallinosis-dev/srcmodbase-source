@@ -346,7 +346,7 @@ void CProjectScriptParser::Keyword_FileConfiguration()
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
 				if ( _script->ParsePropertyValue(nullptr, pStrBuf ) )
 				{
-					_projgen->FileExcludedFromBuild( Sys_StringToBool( pStrBuf->Get() ) );
+					_projgen->FileExcludedFromBuild( Script_ParseBool( pStrBuf->Get() ) );
 				}
 
 				continue;

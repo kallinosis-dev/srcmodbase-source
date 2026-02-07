@@ -85,7 +85,7 @@ bool VPC_GetPropertyBool( configKeyword_e tool, CProjectConfiguration *pRootConf
 	if ( pProperty->m_pToolProperty->m_nType != PT_BOOLEAN )
 		logging::Error( "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_BOOLEAN!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
 
-	*pResult = Sys_StringToBool( pProperty->m_StringValue.Get() );
+	*pResult = Script_ParseBool( pProperty->m_StringValue.Get() );
 	return true;
 }
 
