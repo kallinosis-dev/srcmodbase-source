@@ -8,6 +8,7 @@
 #include "macros.h"
 #include "misc.h"
 #include "projectscript.h"
+#include "scriptutil.h"
 #include "vpc.h"
 
 static KeywordName_t s_KeywordNameTable[] =
@@ -64,7 +65,7 @@ void CProjectScriptParser::Config_Macro()
 	const char *pToken = _script->GetToken( false );
 	if ( !pToken || !pToken[0] )
 	{
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(_script);
 	}
 
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
@@ -94,14 +95,14 @@ void CProjectScriptParser::Config_Keyword( configKeyword_e keyword, const char *
 	bool bShouldSkip = false;
 	if ( !_projgen->StartPropertySection( keyword, &bShouldSkip ) )
 	{
-		logging::SyntaxError( TODO, "Unsupported Keyword: %s for target platform", pkeywordToken);
+		logging::SyntaxError( _script, "Unsupported Keyword: %s for target platform", pkeywordToken);
 	}
 
 	if ( bShouldSkip )
 	{
 		pToken = _script->PeekNextToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(_script);
 
 		_script->SkipBracedSection();
 	}
@@ -109,7 +110,7 @@ void CProjectScriptParser::Config_Keyword( configKeyword_e keyword, const char *
 	{
 		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(_script);
 		
 		while ( 1 )
 		{
@@ -133,7 +134,7 @@ void CProjectScriptParser::Config_Keyword( configKeyword_e keyword, const char *
 				// Syntax: $Macro <MacroName> <PropertyName> [condition]
 				pToken = _script->GetToken( false );
 				if ( !pToken || !pToken[0] )
-					logging::SyntaxError(TODO);
+					logging::SyntaxError(_script);
 
                 CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
@@ -226,7 +227,7 @@ void CProjectScriptParser::Keyword_Configuration()
 		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		{
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(_script);
 		}
 
 		while ( 1 )
@@ -238,7 +239,7 @@ void CProjectScriptParser::Keyword_Configuration()
 			{
 				pToken = _script->GetToken( true );
 				if ( !pToken  || !pToken[0] )
-					logging::SyntaxError(TODO);
+					logging::SyntaxError(_script);
 
 				Config_Macro();
 				continue;
@@ -260,7 +261,7 @@ void CProjectScriptParser::Keyword_Configuration()
 			configKeyword_e keyword = g_pVPC->NameToKeyword( pStrBuf->Get() );
 			if ( keyword == KEYWORD_UNKNOWN )
 			{
-				logging::SyntaxError(TODO);
+				logging::SyntaxError(_script);
 			}
 			else
 			{
@@ -329,7 +330,7 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 		pToken = _script->GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		{
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(_script);
 		}
 
 		while ( 1 )
@@ -341,12 +342,12 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 			{
 				pToken = _script->GetToken( true );
 				if ( !pToken || !pToken[0] )
-					logging::SyntaxError(TODO);
+					logging::SyntaxError(_script);
 
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
 				if ( _script->ParsePropertyValue(nullptr, pStrBuf ) )
 				{
-					_projgen->FileExcludedFromBuild( Script_ParseBool( pStrBuf->Get() ) );
+					_projgen->FileExcludedFromBuild( Script_ParseBool( pStrBuf->Get(), _script ) );
 				}
 
 				continue;
@@ -355,7 +356,7 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 			{
 				pToken = _script->GetToken( true );
 				if ( !pToken || !pToken[0] )
-					logging::SyntaxError(TODO);
+					logging::SyntaxError(_script);
 
 				Config_Macro();
 				continue;
@@ -383,8 +384,7 @@ void CProjectScriptParser::Keyword_FileConfiguration()
                      !_script->IsInPrivilegedScript() &&
                      _script->GetLine() != nWarningLine )
                 {
-                    logging::SyntaxError( TODO,
-                                          "%s(%u): per-file compile configuration not allowed", _script->GetName(), _script->GetLine());
+                    logging::SyntaxError( _script, "%s(%u): per-file compile configuration not allowed", _script->GetName(), _script->GetLine());
                     nWarningLine = _script->GetLine();
                 }
                 // Fall through
@@ -396,7 +396,7 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 				break;
             }
 			default:
-				logging::SyntaxError(TODO);
+				logging::SyntaxError(_script);
 			}
 		}
 		

@@ -287,7 +287,7 @@ public:
 	CVCProjGenerator();
 
 	const char	*GetProjectFileExtension() override;
-	void		StartProject() override;
+	void		StartProject(CScript* script) override;
 	void		EndProject( bool bSaveData ) override;
 	const char *GetProjectName() override;
 	void		SetProjectName( const char *pProjectName ) override;

@@ -12,6 +12,7 @@
 #include "ibasesolutiongenerator.h"
 #include "macros.h"
 #include "misc.h"
+#include "scriptutil.h"
 #include "tier1/fmtstr.h"
 
 char const* DefaultLibDir = "$LIBPROJECT\\";
@@ -20,7 +21,7 @@ char const* DefaultLibDir = "$LIBPROJECT\\";
 
 void CProjectScriptParser::Keyword_FileBuildOrderModifier()
 {
-	const char *pToken = _script->GetToken( true );
+	const char *pToken = _script.GetToken( true );
 	if ( !pToken || !pToken[0] )
 		return;
 
@@ -38,7 +39,7 @@ void CProjectScriptParser::ParseFileSection()
 {
 	while ( true )
 	{
-		const char *pToken = _script->GetToken( true );
+		const char *pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -58,7 +59,7 @@ void CProjectScriptParser::ParseFileSection()
 		}
 		else
 		{
-			logging::SyntaxError( TODO, "Unrecognized token '%s' in file section. Possibly missing a $Configuration scope?", pToken);
+			logging::SyntaxError( &_script, "Unrecognized token '%s' in file section. Possibly missing a $Configuration scope?", pToken);
 		}
 	}
 }
@@ -215,28 +216,28 @@ void CProjectScriptParser::Keyword_AddFilesByPattern()
 
 	if ( !g_pVPC->IsFilePatternEnabled() )
 	{
-		logging::SyntaxError( TODO, "$FilePattern support not enabled");
+		logging::SyntaxError( &_script, "$FilePattern support not enabled");
 	}
 
 	// THIS FEATURE IS NOT COMPLIANT TO VPC CONDITIONAL SYNTAX.
 	while ( 1 )
 	{
-		const char *pToken = _script->GetToken( false );
+		const char *pToken = _script.GetToken( false );
 		if ( !pToken || !pToken[0] )
 			break;
 
 		// Is this a conditional expression?
 		if ( pToken[0] == '[' )
 		{
-			const char *pNextToken = _script->PeekNextToken( false );
+			const char *pNextToken = _script.PeekNextToken( false );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
-				logging::SyntaxError( TODO, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
+				logging::SyntaxError( &_script, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
 			}
 
 			if ( files.Count() == 0 )
 			{
-				logging::SyntaxError( TODO, "Conditional specified on a $FilePattern without any pattern preceding it.");
+				logging::SyntaxError( &_script, "Conditional specified on a $FilePattern without any pattern preceding it.");
 			}
 
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
@@ -289,9 +290,9 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 	bool bAllowNextLine = false;
 	while ( 1 )
 	{
-		const char *pToken = _script->GetToken( bAllowNextLine );
+		const char *pToken = _script.GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(&_script);
 
 		// enforcing per-line syntax (VPC's need to stay legible), and not some continuous-same-line cryptic compound sequence
 		bAllowNextLine = false;
@@ -300,7 +301,7 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 		{
 			if ( !bFoundFilename )
 			{
-				logging::SyntaxError( TODO, "Conditional '%s' specified on a file list without any file preceding it.", pToken);
+				logging::SyntaxError( &_script, "Conditional '%s' specified on a file list without any file preceding it.", pToken);
 			}
 
 			bFoundFilename = false;
@@ -314,7 +315,7 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 				files.Remove( files.Count() - 1 );
 			}
 
-			const char *pNextToken = _script->PeekNextToken( false );
+			const char *pNextToken = _script.PeekNextToken( false );
 			if ( !pNextToken || !pNextToken[0] )
 			{
 				// end of tokens, finished
@@ -327,16 +328,16 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 			}
 			else
 			{
-				logging::SyntaxError( TODO, "Unexpected token '%s' after the conditional '%s'", pNextToken, pToken);
+				logging::SyntaxError( &_script, "Unexpected token '%s' after the conditional '%s'", pNextToken, pToken);
 			}
 		}
 	
 		if ( CharStrEq( pToken, '\\' ) )
 		{
-			const char *pNextToken = _script->PeekNextToken( false );
+			const char *pNextToken = _script.PeekNextToken( false );
 			if ( pNextToken && pNextToken[0] )
 			{
-				logging::SyntaxError( TODO, "Unexpected token '%s' on same line after the file continuation marker", pNextToken);
+				logging::SyntaxError( &_script, "Unexpected token '%s' on same line after the file continuation marker", pNextToken);
 			}
 
 			// parse on next line
@@ -367,14 +368,14 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 		files.AddToTail( pStrBuf->Get() );
 
 		// check for another optional token
-		const char *pNextToken = _script->PeekNextToken( false );
+		const char *pNextToken = _script.PeekNextToken( false );
 		if ( !pNextToken || !pNextToken[0] )
 			break;
 
 		if ( pNextToken[0] == '[' || CharStrEq( pNextToken, '\\' ) )
 			continue;
 
-		logging::SyntaxError( TODO, "Unexpected token '%s' after filename '%s'", pNextToken, pToken);
+		logging::SyntaxError( &_script, "Unexpected token '%s' after filename '%s'", pNextToken, pToken);
 	}
 }
 
@@ -405,7 +406,7 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 
 	// check for optional section
 	bool bHasSection = false;
-	const char *pToken = _script->PeekNextToken( true );
+	const char *pToken = _script.PeekNextToken( true );
 	if ( pToken && pToken[0] && CharStrEq( pToken, '{' ) )
 	{
 		bHasSection = true;
@@ -430,7 +431,7 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 			// and it is not supported on platforms other than Windows.
 			if ( bFailLibs )
 			{
-				logging::SyntaxError( TODO, "Using $Lib or $ImpLib in a static library project is prohibited (lib used '%s').\nYou can use $LibDependsOn[Imp]Lib if you need something similar, look at lib_depends_source.vpc.\n", pFilename);
+				logging::SyntaxError( &_script, "Using $Lib or $ImpLib in a static library project is prohibited (lib used '%s').\nYou can use $LibDependsOn[Imp]Lib if you need something similar, look at lib_depends_source.vpc.\n", pFilename);
 			}
 
 			AddLibraryDependencies( pFilename );
@@ -467,7 +468,7 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 				g_pVPC->IncrementFileMissing();
 
 				// need script stack to assist in tracking down missing file
-				_script->SpewScriptStack( false );
+				_script.SpewScriptStack( false );
 
 				files.Remove( i );
 			}
@@ -485,7 +486,7 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 				logging::Warning( "Case Consistency Issue! File '%s' specified in '%s' is inconsistent with OS version '%s'.", pFilename, g_pVPC->GetProjectName(), actualFilename );
 
 				// need script stack to assist in tracking down missing file
-				_script->SpewScriptStack( true );
+				_script.SpewScriptStack( true );
 			}
 		}
 	}
@@ -493,21 +494,21 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 	if ( !files.Count() && bHasSection )
 	{
 		// optional section has been conditionally removed
-		_script->SkipBracedSection();
+		_script.SkipBracedSection();
 		return;
 	}
 
 	if ( bHasSection )
 	{
 		// found optional section, parse opening brace
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(&_script);
 	}
 
 	// Handle $OS expansion
 	// save parser state
-	CScriptSource startingScriptSource = _script->GetCurrentScript();
+	CScriptSource startingScriptSource = _script.GetCurrentScript();
 
 	CUtlVector< CUtlString > customFiles;
 	for ( int i = 0; i < files.Count(); i++ )
@@ -581,14 +582,14 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 			const char *pBuffer = buildStepsForExtension.m_BuildSteps.Get();
 			
 			// save parser state
-			_script->PushScript( buildStepsForExtension.m_DefinedInFile.Get(), pBuffer, buildStepsForExtension.m_nDefinitionStartLine, false, true );
+			_script.PushScript( buildStepsForExtension.m_DefinedInFile.Get(), pBuffer, buildStepsForExtension.m_nDefinitionStartLine, false, true );
 
 			// parse injected buildstep
 			ParseFileSection();
 
 			// restore parser state
-			_script->PopScript();
-			_script->RestoreScript( startingScriptSource );
+			_script.PopScript();
+			_script.RestoreScript( startingScriptSource );
 		}
 
 		const char *pCleanFilename = _projgen->GetCurrentFileName();
@@ -607,17 +608,17 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 				CUtlString scriptName;
 				scriptName.Format( "Custom Auto Script for '%s'", pScriptName );
 
-				_script->PushScript( scriptName.Get(),  g_pVPC->m_CustomAutoScripts[nScriptIndex].Get(), 1, false, false );
+				_script.PushScript( scriptName.Get(),  g_pVPC->m_CustomAutoScripts[nScriptIndex].Get(), 1, false, false );
                 // We're going to use a per-file compiler option so allow that.
                 // This will get reverted on RestoreScript.
-                _script->EnterPrivilegedScript();
+                _script.EnterPrivilegedScript();
 
 				// parse injected steps
 				ParseFileSection();
 
 				// restore parser state
-				_script->PopScript();
-				_script->RestoreScript( startingScriptSource );
+				_script.PopScript();
+				_script.RestoreScript( startingScriptSource );
 			}
         }
 
@@ -625,7 +626,7 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 		if ( bHasSection && bAdded )
 		{
 			// restore parser state
-			_script->RestoreScript( startingScriptSource );
+			_script.RestoreScript( startingScriptSource );
 			ParseFileSection();
 		}
 
@@ -651,7 +652,7 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 	if ( customFiles.Count() )
 	{
 		// save parser state
-		startingScriptSource = _script->GetCurrentScript();
+		startingScriptSource = _script.GetCurrentScript();
 
 		// emit the auto scripts
 		for ( int i = 0 ; i < customFiles.Count(); i++ )
@@ -667,14 +668,14 @@ void CProjectScriptParser::Keyword_AddFile(VpcFileFlags_t iFileFlags = VPC_FILE_
 				scriptName.Format( "Custom Auto Script for '%s'", pExtension );
 
 				// save parser state
-				_script->PushScript( scriptName.Get(),  g_pVPC->m_CustomAutoScripts[nAutoScriptIndex].Get(), 1, false, false );
+				_script.PushScript( scriptName.Get(),  g_pVPC->m_CustomAutoScripts[nAutoScriptIndex].Get(), 1, false, false );
 
 				// parse injected steps
 				HandleProjectCommands(1);
 
 				// restore parser state
-				_script->PopScript();
-				_script->RestoreScript( startingScriptSource );
+				_script.PopScript();
+				_script.RestoreScript( startingScriptSource );
 			}
 		}
 
@@ -828,9 +829,9 @@ void CProjectScriptParser::AddLibraryDependencies( const char *pLibPath )
 
 void CProjectScriptParser::LibDepends( char const *pDefaultPath, char const *pFileNamePrefix, char const *pSuffix )
 {
-    const char *pToken = _script->GetToken( false );
+    const char *pToken = _script.GetToken( false );
     if ( !pToken || !pToken[0] )
-        logging::SyntaxError(TODO);
+        logging::SyntaxError(&_script);
 
     // The lib is always a static lib.
     CUtlPathStringHolder libName;
@@ -951,19 +952,19 @@ void CProjectScriptParser::Keyword_Shaders( int depth )
 	CUtlVector< CUtlString >	otherList;
 
 	CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;		
 	}
 
     CUtlStringHolder<100> shadersName( pStrBuf->Get() );
 	logging::Status( false, "Parsing: %s", shadersName.Get() );
-	_script->PushScript( shadersName, true );
+	_script.PushScript( shadersName, true );
 
 	// parse the shader list file into types (fxc,vsh,psh)
 	while ( 1 )
 	{
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] )
 		{
 			// end of file
@@ -997,7 +998,7 @@ void CProjectScriptParser::Keyword_Shaders( int depth )
 		}
 	}
 
-	_script->PopScript();
+	_script.PopScript();
 
 	if ( !fxcList.Count() && 
 		!vshList.Count() && 
@@ -1030,16 +1031,16 @@ void CProjectScriptParser::Keyword_Shaders( int depth )
 	bool bIgnoreRedundancyWarning = logging::IsIgnoreRedundancyWarning();
 	logging::SetIgnoreRedundancyWarning( true );
 
-	_script->PushScript( "Internal List", (char*)vpcBuffer.Base(), 1, false, false );
+	_script.PushScript( "Internal List", (char*)vpcBuffer.Base(), 1, false, false );
 
-	pToken = _script->GetToken( true );
+	pToken = _script.GetToken( true );
 	if ( pToken && pToken[0] && !V_stricmp_fast( pToken, "$folder" ) )
 	{
 		Keyword_Folder( VPC_FOLDER_FLAGS_DYNAMIC );
 	}
 
 	// restore parser
-	_script->PopScript();
+	_script.PopScript();
 	logging::SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
 }
 
@@ -1050,22 +1051,22 @@ void CProjectScriptParser::Keyword_Shaders( int depth )
 void CProjectScriptParser::Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 {
 	CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
-		_script->SkipBracedSection();
+		_script.SkipBracedSection();
 		return;		
 	}
 
 	_projgen->StartFolder( pStrBuf->Get(), iFolderFlags );
 
 	// Now parse all the files and subfolders..
-	const char* pToken = _script->GetToken(true);
+	const char* pToken = _script.GetToken(true);
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(&_script);
 
 	while ( 1 )
 	{
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -1186,7 +1187,7 @@ void CProjectScriptParser::Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 		}
 		else
 		{
-			logging::SyntaxError(TODO, "Unrecognized token: %s", pToken);
+			logging::SyntaxError(&_script, "Unrecognized token: %s", pToken);
 		}
 	}
 
@@ -1199,14 +1200,14 @@ void CProjectScriptParser::Keyword_Folder( VpcFolderFlags_t iFolderFlags )
 //-----------------------------------------------------------------------------
 void CProjectScriptParser::Keyword_Macro( MacroType_t eMacroType )
 {
-	const char* pToken = _script->GetToken(false);
+	const char* pToken = _script.GetToken(false);
 	if ( !pToken || !pToken[0] )
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(&_script);
 
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -1235,20 +1236,20 @@ void CProjectScriptParser::Keyword_MacroRequired( MacroRequiredType_t eMacroRequ
 {
 	CUtlStringHolder<100> macroDefaultValue;
 	
-	const char* pToken = _script->GetToken(false);
+	const char* pToken = _script.GetToken(false);
 	if ( !pToken || !pToken[0] )
 	{
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(&_script);
 	}
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
 	// optional default macro value or conditional
-	pToken = _script->PeekNextToken( false );
+	pToken = _script.PeekNextToken( false );
 	if ( pToken && pToken[0] )
 	{
 		if ( pToken[0] == '[' )
 		{
-			pToken = _script->GetToken( false );
+			pToken = _script.GetToken( false );
 			// evaluate argument as conditional
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
 			{
@@ -1259,7 +1260,7 @@ void CProjectScriptParser::Keyword_MacroRequired( MacroRequiredType_t eMacroRequ
 		{
 			// argument is a default macro value
             CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-			if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+			if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 			{
 				return;
 			}
@@ -1285,7 +1286,7 @@ void CProjectScriptParser::Keyword_MacroRequired( MacroRequiredType_t eMacroRequ
 		else
 		{
 			// In case we're in mksln showing a pacifier of dots. Make sure to show the error on a new line.
-			logging::SyntaxError( TODO, "\n\nRequired Macro '%s', not defined or empty", macroName.Get());
+			logging::SyntaxError( &_script, "\n\nRequired Macro '%s', not defined or empty", macroName.Get());
 		}
 	}
 }
@@ -1306,25 +1307,25 @@ void CProjectScriptParser::Keyword_LoadAddressMacro( void )
 	const char	*pToken;
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
-		_script->SkipBracedSection();
+		_script.SkipBracedSection();
 		return;		
 	}
 
     CUtlStringHolder<50> szMacroName( pStrBuf->Get() );
     
-	pToken = _script->GetToken( true );
+	pToken = _script.GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(&_script);
 	}
 	
     CUtlStringHolder<100> szProjectName;
 
 	while ( 1 )
 	{
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -1333,7 +1334,7 @@ void CProjectScriptParser::Keyword_LoadAddressMacro( void )
 
 		szProjectName.Set( pToken );
 
-		if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+		if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 		{
 			continue;
 		}
@@ -1361,23 +1362,23 @@ void CProjectScriptParser::Keyword_LoadAddressMacroAlias( void )
 	const char	*pToken;
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
-		_script->SkipBracedSection();
+		_script.SkipBracedSection();
 		return;		
 	}
 
     CUtlStringHolder<50> szAlias( pStrBuf->Get() );
     
-	pToken = _script->GetToken( true );
+	pToken = _script.GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(&_script);
 	}
 
 	while ( 1 )
 	{
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] )
 		{
 			break;
@@ -1412,17 +1413,17 @@ void CProjectScriptParser::LoadAddressMacroAuto( bool bPad )
 {
 	const char	*pToken;
 
-	pToken = _script->GetToken( false );
+	pToken = _script.GetToken( false );
 	if ( !pToken || !pToken[0] )
 	{
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(&_script);
 	}
     CUtlStringHolder<MAX_MACRO_NAME> szMacroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
-		_script->SkipBracedSection();
+		_script.SkipBracedSection();
 		return;		
 	}
 	uint64 baseAddress = 0;
@@ -1432,16 +1433,16 @@ void CProjectScriptParser::LoadAddressMacroAuto( bool bPad )
 	int iSetEntryNum = 0;
 	uint64 iSetBaseAddress = 0;
 
-	pToken = _script->GetToken( true );
+	pToken = _script.GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 	{
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(&_script);
 	}
 	
 	int iEntryNum = 0;
 	while ( 1 )
 	{
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] )
 		{
 			break;
@@ -1465,7 +1466,7 @@ void CProjectScriptParser::LoadAddressMacroAuto( bool bPad )
 		else
 		{
 			unsigned int dllLength = 0;
-			if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+			if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 			{
 				continue;
 			}
@@ -1488,7 +1489,7 @@ void CProjectScriptParser::LoadAddressMacroAuto( bool bPad )
 
 			if ( dllLength == 0 )
 			{
-				logging::SyntaxError( TODO, "$LoadAddressMacroAuto no longer supports 0 size dlls. Use $LoadAddressMacroAlias to have two orthogonal projects load in the same space");
+				logging::SyntaxError( &_script, "$LoadAddressMacroAuto no longer supports 0 size dlls. Use $LoadAddressMacroAlias to have two orthogonal projects load in the same space");
 			}
 
 			baseAddress += dllLength;
@@ -1566,9 +1567,9 @@ void CProjectScriptParser::Keyword_LoadAddressMacroAuto_Padded( void )
 //-----------------------------------------------------------------------------
 void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 {
-	const char *pToken = _script->GetToken( false );
+	const char *pToken = _script.GetToken( false );
 	if ( !pToken || !pToken[0] )
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(&_script);
 
 	if ( pToken[0] == '$' )
 	{
@@ -1578,7 +1579,7 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
     CUtlStringHolder<50> name( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -1591,7 +1592,7 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 	{
 		// vpc scripts can only affect custom or script conditionals
 		// scripts cannot affect the more systemic global conditionals
-		logging::SyntaxError( TODO, "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get());
+		logging::SyntaxError( &_script, "$Conditional cannot be used on the reserved '$%s'", pConditional->m_UpperCaseName.Get());
 	}
 
 	const char *pValue = Sys_EvaluateEnvironmentExpression( value, "0" );
@@ -1601,7 +1602,7 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 	}
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->conditionals.Set( name, Script_ParseBool( pValue ), pConditional->m_Type );
+	g_pVPC->conditionals.Set( name, Script_ParseBool( pValue, &_script ), pConditional->m_Type );
 }
 
 //-----------------------------------------------------------------------------
@@ -1611,12 +1612,12 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 void CProjectScriptParser::Keyword_IgnoreRedundancyWarning( void )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
 
-	bool bVal = Script_ParseBool( pStrBuf->Get() );
+	bool bVal = Script_ParseBool( pStrBuf->Get(), &_script );
 	logging::SetIgnoreRedundancyWarning( bVal );
 }
 
@@ -1628,7 +1629,7 @@ void CProjectScriptParser::Keyword_Linux( void )
 {
 	// always ignore everything in this block
 	// parsed and processed by a different tool
-	_script->SkipBracedSection();
+	_script.SkipBracedSection();
 }
 
 //-----------------------------------------------------------------------------
@@ -1648,13 +1649,13 @@ void CProjectScriptParser::PrepareToReadScript( const char *pInputScriptName, in
 	}
 
 	// parse the text script
-    _script->PushScript( pFixedScriptName->Get(), true );
+    _script.PushScript( pFixedScriptName->Get(), true );
 }
 
 void CProjectScriptParser::HandleIncludeStatement(int depth)
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( _script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( _script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		// recurse into and run
         CUtlString pScriptName;
@@ -1666,7 +1667,7 @@ void CProjectScriptParser::HandleIncludeStatement(int depth)
 		HandleProjectCommands(depth + 1);
 		
 		// restore state
-		_script->PopScript();
+		_script.PopScript();
 	}
 }
 
@@ -1674,7 +1675,7 @@ void CProjectScriptParser::HandleProjectCommands(int depth)
 {
 	while ( 1 )
 	{
-		const char* pToken = _script->GetToken(true);
+		const char* pToken = _script.GetToken(true);
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -1714,7 +1715,7 @@ void CProjectScriptParser::HandleProjectCommands(int depth)
 		}
 		else
 		{
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(&_script);
 		}
 	}
 }
@@ -1829,15 +1830,15 @@ void CProjectScriptParser::Keyword_Project( int depth )
     g_pVPC->m_bInProjectSection = true;
     
 	// check for optional project name
-	const char *pToken = _script->PeekNextToken( false );
+	const char *pToken = _script.PeekNextToken( false );
 
 	if ( pToken && pToken[0] && !CharStrEq( pToken, '{' ) )
 	{
 		// get optional project name
-		pToken = _script->GetToken( false );
+		pToken = _script.GetToken( false );
 		if ( !pToken || !pToken[0] )
 		{
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(&_script);
 		}
 
         CUtlStringBuilder *pStrBuf = g_pVPC->GetMacroReplaceBuffer();
@@ -1851,9 +1852,9 @@ void CProjectScriptParser::Keyword_Project( int depth )
 		projectName = _projgen->GetProjectName();
 	}
 
-	pToken = _script->GetToken( true );
+	pToken = _script.GetToken( true );
 	if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-		logging::SyntaxError(TODO);
+		logging::SyntaxError(&_script);
 
 	HandleProjectCommands(depth);
 	
@@ -1904,22 +1905,22 @@ void CProjectScriptParser::Keyword_CustomBuildStep( void )
 	const char *pToken = nullptr;
 	while ( 1 )
 	{
-		pToken = _script->GetToken( bAllowNextLine );
+		pToken = _script.GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 
 		// Is this a conditional expression?
 		if ( pToken[0] == '[' )
 		{
-			const char *pNextToken = _script->PeekNextToken( bAllowNextLine );
+			const char *pNextToken = _script.PeekNextToken( bAllowNextLine );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
-				logging::SyntaxError( TODO, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
+				logging::SyntaxError( &_script, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
 			}
 
 			if ( extensions.Count() == 0 )
 			{
-				logging::SyntaxError( TODO, "Conditional specified on a $CustomBuildStep without any extensions preceding it.");
+				logging::SyntaxError( &_script, "Conditional specified on a $CustomBuildStep without any extensions preceding it.");
 			}
 
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
@@ -1942,35 +1943,35 @@ void CProjectScriptParser::Keyword_CustomBuildStep( void )
 
 		if ( IsBuiltInFileType( pToken ) )
 		{
-			logging::SyntaxError( TODO, "Cannot define a $CustomBuildStep for built in file type: %s", pToken);
+			logging::SyntaxError( &_script, "Cannot define a $CustomBuildStep for built in file type: %s", pToken);
 		}
 
 		CUtlString string = pToken;
 		extensions.AddToTail( string );
 
 		// check for another token
-		pToken = _script->PeekNextToken( bAllowNextLine );
+		pToken = _script.PeekNextToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 	}
 
-	pToken = _script->GetToken( true );
+	pToken = _script.GetToken( true );
 	if ( !pToken || !pToken[0] || V_strcmp( pToken, "{" ) )
 	{
-		logging::SyntaxError( TODO, "Missing section for $CustomBuildStep");
+		logging::SyntaxError( &_script, "Missing section for $CustomBuildStep");
 	}
 	
 	if ( extensions.Count() == 0 )
 	{
-		_script->SkipBracedSection();
+		_script.SkipBracedSection();
 		return;
 	}
 
-	int nLineSave = _script->GetLine();
-	const char *pScriptSave = _script->GetData();
+	int nLineSave = _script.GetLine();
+	const char *pScriptSave = _script.GetData();
 	while ( 1 )
 	{
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -1983,10 +1984,10 @@ void CProjectScriptParser::Keyword_CustomBuildStep( void )
 
 	CVPC::CustomBuildStepForExtension_t customBuildStep;
 
-	if ( _script->GetData() > pScriptSave )
+	if ( _script.GetData() > pScriptSave )
 	{
 		CUtlString tempString;
-		tempString.SetDirect( pScriptSave, int( _script->GetData() - pScriptSave - 1 ) );
+		tempString.SetDirect( pScriptSave, int( _script.GetData() - pScriptSave - 1 ) );
 		customBuildStep.m_BuildSteps = "$Configuration\n{\n$CustomBuildStep\n{";
 		customBuildStep.m_BuildSteps += tempString + "}\n}\n";
 	}
@@ -2001,7 +2002,7 @@ void CProjectScriptParser::Keyword_CustomBuildStep( void )
 			}
 			else
 			{
-				customBuildStep.m_DefinedInFile = _script->GetName();
+				customBuildStep.m_DefinedInFile = _script.GetName();
 				customBuildStep.m_nDefinitionStartLine = nLineSave - 3; //-3 because we prepend 3 lines into customBuildStep.m_BuildSteps above
 				g_pVPC->m_CustomBuildSteps.Insert( extensions[i].Get(), customBuildStep );
 			}
@@ -2016,22 +2017,22 @@ void CProjectScriptParser::Keyword_CustomAutoScript()
 	const char *pToken = nullptr;
 	while ( 1 )
 	{
-		pToken = _script->GetToken( bAllowNextLine );
+		pToken = _script.GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 
 		// Is this a conditional expression?
 		if ( pToken[0] == '[' )
 		{
-			const char *pNextToken = _script->PeekNextToken( bAllowNextLine );
+			const char *pNextToken = _script.PeekNextToken( bAllowNextLine );
 			if ( pNextToken && pNextToken[0] == '[' )
 			{
-				logging::SyntaxError( TODO, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
+				logging::SyntaxError( &_script, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
 			}
 
 			if ( extensions.Count() == 0 )
 			{
-				logging::SyntaxError( TODO, "Conditional specified on a $CustomAutoScript without any extensions preceding it.");
+				logging::SyntaxError( &_script, "Conditional specified on a $CustomAutoScript without any extensions preceding it.");
 			}
 
 			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
@@ -2048,38 +2049,38 @@ void CProjectScriptParser::Keyword_CustomAutoScript()
 
 		if ( IsBuiltInFileType( pToken ) )
 		{
-			logging::SyntaxError( TODO, "Cannot define a $CustomAutoScript for built in file type: %s", pToken);
+			logging::SyntaxError( &_script, "Cannot define a $CustomAutoScript for built in file type: %s", pToken);
 		}
 
 		CUtlString string = pToken;
 		extensions.AddToTail( string );
 
 		// check for another token
-		pToken = _script->PeekNextToken( bAllowNextLine );
+		pToken = _script.PeekNextToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 	}
 
-	pToken = _script->GetToken( true );
+	pToken = _script.GetToken( true );
 	if ( !pToken || !pToken[0] || V_strcmp( pToken, "{" ) )
 	{
-		logging::SyntaxError( TODO, "Missing section for $CustomAutoScript");
+		logging::SyntaxError( &_script, "Missing section for $CustomAutoScript");
 	}
 	else if ( extensions.Count() == 0 )
 	{
-		_script->SkipBracedSection( 1 );
+		_script.SkipBracedSection( 1 );
 		return;
 	}
 	else
 	{
-		const char *pScriptSave = _script->GetData();
-		_script->SkipBracedSection( 1 );
+		const char *pScriptSave = _script.GetData();
+		_script.SkipBracedSection( 1 );
 
 		CUtlString autoScriptString;
-		if ( _script->GetData() > pScriptSave )
+		if ( _script.GetData() > pScriptSave )
 		{
 			CUtlString tempString;
-			tempString.SetDirect( pScriptSave, int( _script->GetData() - pScriptSave - 1 ) );
+			tempString.SetDirect( pScriptSave, int( _script.GetData() - pScriptSave - 1 ) );
 			autoScriptString = tempString;
 		}
 
@@ -2104,7 +2105,7 @@ void CProjectScriptParser::ParseProjectScriptParameters( const char *szScriptNam
 {
 	while ( 1 )
 	{
-		const char *pToken = _script->GetToken( true );
+		const char *pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] )
 		{
 			// end of file
@@ -2196,7 +2197,7 @@ void CProjectScriptParser::ParseProjectScriptParameters( const char *szScriptNam
 		}
 		else
 		{
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(&_script);
 		}
 	}
 }
@@ -2256,7 +2257,7 @@ void CProjectScriptParser::Parse(char const* scriptName, int depth)
 	ParseProjectScriptParameters(szScriptName, depth);
 
 	// for safety, force callers to restore to proper state
-	_script->PopScript();
+	_script.PopScript();
 
 	if (!depth)
 	{
@@ -2299,7 +2300,7 @@ bool CVPC::ParseProjectScript( const char *pScriptName, int depth, bool bQuiet, 
 		logging::Status( true, "\n" );
 	}
 
-	CProjectScriptParser parser{ &GetScript(), GetProjectGenerator() };
+	CProjectScriptParser parser{ GetProjectGenerator() };
 	parser.SetQuiet(bQuiet);
 
 	parser.Parse(pScriptName, depth);

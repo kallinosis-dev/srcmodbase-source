@@ -119,11 +119,12 @@ CBaseProjectDataCollector::~CBaseProjectDataCollector()
 	Term();
 }
 
-void CBaseProjectDataCollector::StartProject()
+void CBaseProjectDataCollector::StartProject(CScript* script)
 {
 	m_ProjectName = "UNNAMED";
 	m_CurFileConfig.Push( &m_BaseConfigData );
 	m_CurSpecificConfig.Push(nullptr);
+	m_Script = script;
 
 	// TODO: none of these support non-WIN32 platforms yet (this code emits the appropriate warnings)
 	g_pVPC->ShouldEmitClangProject();
@@ -131,6 +132,8 @@ void CBaseProjectDataCollector::StartProject()
 
 void CBaseProjectDataCollector::EndProject( bool bSaveData )
 {
+	m_Script->EnsureScriptStackEmpty();
+
 	if ( g_pVPC->GetMissingFilesCount() > 0 )
 	{
 		if ( g_pVPC->IsMissingFileAsErrorEnabled() )
@@ -237,17 +240,17 @@ void CBaseProjectDataCollector::HandleProperty( const char *pProperty, const cha
 
 	if ( pCustomScriptData )
 	{
-		g_pVPC->GetScript().PushScript( "HandleProperty( custom script data )", pCustomScriptData, 1, false, false );
+		m_Script->PushScript( "HandleProperty( custom script data )", pCustomScriptData, 1, false, false );
 	}
 
-	const char *pNextToken = g_pVPC->GetScript().PeekNextToken( false );
+	const char *pNextToken = m_Script->PeekNextToken( false );
 	if ( pNextToken && pNextToken[0] != 0 )
 	{
 		// Pass in the previous value so the $base substitution works.
 		CSpecificConfig *pConfig = m_CurSpecificConfig.Top();
 		const char *pBaseString = pConfig->m_pKV->GetString( pProperty );
         CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-        if ( g_pVPC->GetScript().ParsePropertyValue( pBaseString, pStrBuf ) )
+        if ( m_Script->ParsePropertyValue( pBaseString, pStrBuf ) )
 		{
 			pConfig->m_pKV->SetString( pProperty, pStrBuf->Get() );
 		}
@@ -256,7 +259,7 @@ void CBaseProjectDataCollector::HandleProperty( const char *pProperty, const cha
 	if ( pCustomScriptData )
 	{
 		// Restore prior script state
-		g_pVPC->GetScript().PopScript();
+		m_Script->PopScript();
 	}
 }
 

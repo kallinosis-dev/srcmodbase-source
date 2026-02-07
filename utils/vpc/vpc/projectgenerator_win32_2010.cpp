@@ -10,6 +10,7 @@
 #include "tier1/fmtstr.h"
 
 #include "misc.h"
+#include "scriptutil.h"
 
 
 const char *GetVCProjTargetPlatformName( const char *szVPCTargetPlatformName )

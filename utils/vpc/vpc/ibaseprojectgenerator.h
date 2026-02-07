@@ -34,7 +34,7 @@ public:
 	virtual const char* GetProjectFileExtension() = 0;
 
 	// Called before doing anything in a project (in g_pVPC->GetOutputFilename()).
-	virtual void StartProject() = 0;
+	virtual void StartProject( CScript* script ) = 0;
 	virtual void EndProject( bool bSaveData ) = 0;
 
 	// Access the project name.

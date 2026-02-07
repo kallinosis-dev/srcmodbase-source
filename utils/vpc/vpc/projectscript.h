@@ -1,11 +1,12 @@
 #pragma once
 #include "generatordefinition.h"
+#include "scriptsource.h"
 #include "tier1/checksum_crc.h"
 #include "tier1/utlvector.h"
 #include "tier1/utlstring.h"
 
 class IBaseProjectGenerator;
-class CScript;
+
 typedef int scriptIndex_t;
 struct script_t
 {
@@ -53,13 +54,13 @@ enum MacroRequiredType_t { VPC_MACRO_REQUIRED_NOT_EMPTY, VPC_MACRO_REQUIRED_ALLO
 
 class CProjectScriptParser
 {
-	CScript* _script;
+	CScript _script;
 	IBaseProjectGenerator* _projgen;
 
 	bool _quiet = false;
 
 public:
-	CProjectScriptParser(CScript* script, IBaseProjectGenerator* projgen) : _script(script), _projgen(projgen)
+	CProjectScriptParser(IBaseProjectGenerator* projgen) : _projgen(projgen)
 	{
 	}
 

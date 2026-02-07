@@ -215,11 +215,6 @@ bool CVPC::Init(int argc, char const* const* argv)
 //-----------------------------------------------------------------------------
 void CVPC::Shutdown(bool bHasError)
 {
-	if (!bHasError)
-	{
-		GetScript().EnsureScriptStackEmpty();
-	}
-
 	if (!m_TempGroupScriptFilename.IsEmpty())
 	{
 		// delete temp work file

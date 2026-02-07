@@ -108,9 +108,7 @@ struct GeneratorTool_t
 class CGeneratorDefinition
 {
 public:
-	CGeneratorDefinition();
-
-	void			LoadDefinition( const char *pDefinitionName, PropertyName_t *pPropertyNames );
+	CGeneratorDefinition( const char *pDefinitionName, PropertyName_t *pPropertyNames );
 	ToolProperty_t	*GetProperty( configKeyword_e keyword, const char *pPropertyName );
 
 	const char		*GetScriptName( CRC32_t *pCRC );
@@ -120,7 +118,6 @@ private:
 	void	IterateToolKey( KeyValues *pToolKV );
 	void	IteratePropertyKey( GeneratorTool_t *pTool, KeyValues *pPropertyKV );
 	void	IterateAttributesKey( ToolProperty_t *pProperty, KeyValues *pAttributesKV );
-	void	Clear();
 
 	PropertyName_t					*m_pPropertyNames;
 	CUtlString						m_ScriptName;

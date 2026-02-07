@@ -10,6 +10,7 @@
 #include "macros.h"
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
+#include "scriptutil.h"
 #include "vpc.h"
 
 //--------------------------------------------------------------------------------------------------

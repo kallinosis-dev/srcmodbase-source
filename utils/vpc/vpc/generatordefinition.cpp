@@ -9,21 +9,6 @@
 #include "tier1/keyvalues.h"
 #include "vpc.h"
 
-CGeneratorDefinition::CGeneratorDefinition()
-{
-	Clear();
-}
-
-void CGeneratorDefinition::Clear()
-{
-	m_pPropertyNames = nullptr;
-	m_ScriptName.Clear();
-	m_NameString.Clear();
-	m_VersionString.Clear();
-	m_Tools.Purge();
-	m_ScriptCRC = 0;
-}
-
 void CGeneratorDefinition::IterateAttributesKey( ToolProperty_t *pProperty, KeyValues *pAttributesKV )
 {
 	const char *pAttributeName = pAttributesKV->GetName();
@@ -276,23 +261,26 @@ void CGeneratorDefinition::AssignIdentifiers()
 	}
 }
 
-void CGeneratorDefinition::LoadDefinition( const char *pDefinitionName, PropertyName_t *pPropertyNames )
+CGeneratorDefinition::CGeneratorDefinition( const char *pDefinitionName, PropertyName_t *pPropertyNames )
 {
-	Clear();
+	m_VersionString.Clear();
+	m_Tools.Purge();
 
 	CUtlPathStringHolder scriptFilename( g_pVPC->GetSourcePath(), "\\vpc_scripts\\definitions\\", pDefinitionName );
 	scriptFilename.FixSlashes();
 
 	m_pPropertyNames = pPropertyNames;
-	g_pVPC->GetScript().PushScript( scriptFilename.Get() );
+
+	CScript script;
+	script.PushScript( scriptFilename.Get() );
 	
 	// project definitions are KV format
-	KeyValues *pScriptKV = new KeyValues( g_pVPC->GetScript().GetName() );
+	KeyValues *pScriptKV = new KeyValues( script.GetName() );
 
-	pScriptKV->LoadFromBuffer( g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetData() );
+	pScriptKV->LoadFromBuffer( script.GetName(), script.GetData() );
 
-	m_ScriptName = g_pVPC->GetScript().GetName();
-	m_ScriptCRC = CRC32_ProcessSingleBuffer( g_pVPC->GetScript().GetData(), V_strlen( g_pVPC->GetScript().GetData() ) );
+	m_ScriptName = script.GetName();
+	m_ScriptCRC = CRC32_ProcessSingleBuffer( script.GetData(), V_strlen( script.GetData() ) );
 
 	m_NameString = pScriptKV->GetName();
 
@@ -310,7 +298,7 @@ void CGeneratorDefinition::LoadDefinition( const char *pDefinitionName, Property
 		}
 	}
 
-	g_pVPC->GetScript().PopScript();
+	script.PopScript();
 	pScriptKV->deleteThis();
 
 	logging::Status( false, "Definition: '%s' Version: %s", m_NameString.Get(), m_VersionString.Get() );

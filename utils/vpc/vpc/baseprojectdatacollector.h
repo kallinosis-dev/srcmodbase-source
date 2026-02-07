@@ -66,7 +66,7 @@ public:
 	~CBaseProjectDataCollector() override;
 
 	// Called before doing anything in a project
-	void StartProject() override;
+	void StartProject(CScript* script) override;
 	void EndProject(bool bSaveData) override;
 
 	// Access the project name.
@@ -133,4 +133,7 @@ public:
 	CUtlStack<CSpecificConfig*> m_CurSpecificConfig; // Debug, release?
 
 	CRelevantPropertyNames m_RelevantPropertyNames;
+
+protected:
+	CScript* m_Script;
 };
