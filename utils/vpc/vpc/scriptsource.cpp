@@ -600,7 +600,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
 		const char *pToken = GetToken( pScriptData, bAllowNextLine, pScriptLine );
 		if ( !pToken || !pToken[0] )
 		{
-			logging::SyntaxError(TODO);
+			logging::SyntaxError(this);
 		}
 
 		const char *pNextToken = PeekNextToken( *pScriptData, false );
@@ -615,7 +615,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
 		}
 		else if ( pToken[0] == '[' && pNextToken && pNextToken[0] == '[' )
 		{
-			logging::SyntaxError( TODO, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
+			logging::SyntaxError( this, "Bad conditional syntax. Use C style boolean expression operators to express compound conditionals.");
 		}
 		else if ( bFoundReservedEmptyTokenOnly )
         {
@@ -658,7 +658,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
 		if ( !bFoundReservedEmptyTokenOnly )
 		{
 			// error due to unexpected fully empty state
-			logging::SyntaxError( TODO, "Unexpected empty value.");
+			logging::SyntaxError( this, "Unexpected empty value.");
 		}
 	}
 

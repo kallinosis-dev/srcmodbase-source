@@ -16,6 +16,7 @@
 #include "environment_utils.h"
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
+#include "scriptutil.h"
 
 #define VPC_CRC_CACHE_VERSION 8
 
@@ -471,7 +472,7 @@ public:
 
 			pSearchPos = pIncludeStatement + V_strlen( pLookFor );
 
-			if ( Sys_IsSingleLineComment( pIncludeStatement, pFileData ) ) // Skip single-line comments
+			if ( Script_IsSingleLineComment( pIncludeStatement, pFileData ) ) // Skip single-line comments
 				continue;
 			
 			if ( !SeekToIncludeStart( pSearchPos ) )

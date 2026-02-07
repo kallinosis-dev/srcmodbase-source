@@ -15,6 +15,7 @@
 #include "ibasesolutiongenerator.h"
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
+#include "scriptutil.h"
 
 #ifdef WIN32
 #define snprintf _snprintf

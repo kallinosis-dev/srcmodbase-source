@@ -573,9 +573,6 @@ bool	Sys_FileInfo( const char *pFilename, int64 &nFileSize, int64 &nModifyTime, 
 
 bool	Sys_ReplaceString( const char *pStream, const char *pSearch, const char *pReplace, char *pOutBuff, int outBuffSize );
 bool	Sys_StringPatternMatch( char const *pSrcPattern, char const *pString );
-bool	Sys_IsSingleLineComment( const char *pSearchPos, const char *pFileStart );
-
-const char *Sys_EvaluateEnvironmentExpression( const char *pExpression, const char *pDefault );
 
 bool	Sys_ExpandFilePattern( const char *pPattern, CUtlVector< CUtlString > &vecResults );
 bool	Sys_GetExecutablePath( char *pBuf, int cbBuf );

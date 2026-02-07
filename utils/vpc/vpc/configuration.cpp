@@ -62,16 +62,16 @@ configKeyword_e CVPC::NameToKeyword( const char *pKeywordName )
 void CProjectScriptParser::Config_Macro()
 {
 	// Allowing macros to be created/set inside of configurations in order to construct a macro that is vectored on the configuration
-	const char *pToken = _script->GetToken( false );
+	const char *pToken = _script.GetToken( false );
 	if ( !pToken || !pToken[0] )
 	{
-		logging::SyntaxError(_script);
+		logging::SyntaxError(&_script);
 	}
 
     CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 	{
 		return;
 	}
@@ -95,26 +95,26 @@ void CProjectScriptParser::Config_Keyword( configKeyword_e keyword, const char *
 	bool bShouldSkip = false;
 	if ( !_projgen->StartPropertySection( keyword, &bShouldSkip ) )
 	{
-		logging::SyntaxError( _script, "Unsupported Keyword: %s for target platform", pkeywordToken);
+		logging::SyntaxError( &_script, "Unsupported Keyword: %s for target platform", pkeywordToken);
 	}
 
 	if ( bShouldSkip )
 	{
-		pToken = _script->PeekNextToken( true );
+		pToken = _script.PeekNextToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-			logging::SyntaxError(_script);
+			logging::SyntaxError(&_script);
 
-		_script->SkipBracedSection();
+		_script.SkipBracedSection();
 	}
 	else
 	{
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
-			logging::SyntaxError(_script);
+			logging::SyntaxError(&_script);
 		
 		while ( 1 )
 		{
-			pToken = _script->GetToken( true );
+			pToken = _script.GetToken( true );
 			if ( !pToken || !pToken[0] )
 				break;
 
@@ -132,15 +132,15 @@ void CProjectScriptParser::Config_Keyword( configKeyword_e keyword, const char *
 				// Allowing macros to be created/set inside of configurations in order to save off a property state into a macro.
 				// This provides a way for users to temp alter properties and then restore them.
 				// Syntax: $Macro <MacroName> <PropertyName> [condition]
-				pToken = _script->GetToken( false );
+				pToken = _script.GetToken( false );
 				if ( !pToken || !pToken[0] )
-					logging::SyntaxError(_script);
+					logging::SyntaxError(&_script);
 
                 CUtlStringHolder<MAX_MACRO_NAME> macroName( pToken );
 
 				// resolve the token that should be a recognized property key
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-				if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+				if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 				{
 					continue;
 				}
@@ -178,7 +178,7 @@ void CProjectScriptParser::Keyword_Configuration()
 
 	while ( 1 )
 	{
-		pToken = _script->GetToken( bAllowNextLine );
+		pToken = _script.GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -196,7 +196,7 @@ void CProjectScriptParser::Keyword_Configuration()
 		configs[index] = pToken;
 
 		// check for another optional config
-		pToken = _script->PeekNextToken( bAllowNextLine );
+		pToken = _script.PeekNextToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] || CharStrEq( pToken, '{' ) || CharStrEq( pToken, '}' ) || (pToken[0] == '$') )
 			break;
 	}
@@ -207,48 +207,48 @@ void CProjectScriptParser::Keyword_Configuration()
 		_projgen->GetAllConfigurationNames( configs );
 		if ( !configs.Count() )
 		{
-			logging::Error( "Trying to parse a configuration block and no configs have been defined yet.\n[%s line:%d]", _script->GetName(), _script->GetLine() );
+			logging::Error( "Trying to parse a configuration block and no configs have been defined yet.\n[%s line:%d]", _script.GetName(), _script.GetLine() );
 		}
 	}
 
 	// save parser state
-	CScriptSource scriptSource = _script->GetCurrentScript();
+	CScriptSource scriptSource = _script.GetCurrentScript();
 
 	for ( int i = 0; i < configs.Count(); i++ )
 	{
 		// restore parser state
-		_script->RestoreScript( scriptSource );
+		_script.RestoreScript( scriptSource );
 
         configName.Set( configs[i].String() );
 
 		// get access objects
 		_projgen->StartConfigurationBlock( configName, false );
 
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		{
-			logging::SyntaxError(_script);
+			logging::SyntaxError(&_script);
 		}
 
 		while ( 1 )
 		{
-			_script->SkipToValidToken();
+			_script.SkipToValidToken();
 
-			pToken = _script->PeekNextToken( true );
+			pToken = _script.PeekNextToken( true );
 			if ( pToken && pToken[0] && !V_stricmp_fast( pToken, "$Macro" ) )
 			{
-				pToken = _script->GetToken( true );
+				pToken = _script.GetToken( true );
 				if ( !pToken  || !pToken[0] )
-					logging::SyntaxError(_script);
+					logging::SyntaxError(&_script);
 
 				Config_Macro();
 				continue;
 			}
 
             CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-			if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+			if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 			{
-				_script->SkipBracedSection();
+				_script.SkipBracedSection();
 				continue;
 			}
 
@@ -261,7 +261,7 @@ void CProjectScriptParser::Keyword_Configuration()
 			configKeyword_e keyword = g_pVPC->NameToKeyword( pStrBuf->Get() );
 			if ( keyword == KEYWORD_UNKNOWN )
 			{
-				logging::SyntaxError(_script);
+				logging::SyntaxError(&_script);
 			}
 			else
 			{
@@ -286,7 +286,7 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 
 	while ( 1 )
 	{
-		pToken = _script->GetToken( bAllowNextLine );
+		pToken = _script.GetToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] )
 			break;
 
@@ -303,7 +303,7 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 		configurationNames.AddToTail( pToken );
 
 		// check for another optional config
-		pToken = _script->PeekNextToken( bAllowNextLine );
+		pToken = _script.PeekNextToken( bAllowNextLine );
 		if ( !pToken || !pToken[0] || CharStrEq( pToken, '{' ) || CharStrEq( pToken, '}' ) || (pToken[0] == '$') )
 			break;
 	}
@@ -315,57 +315,57 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 	}
 
 	// save parser state
-	CScriptSource scriptSource = _script->GetCurrentScript();
+	CScriptSource scriptSource = _script.GetCurrentScript();
 
     int nWarningLine = -1;
 
 	for ( int i=0; i < configurationNames.Count(); i++ )
 	{
 		// restore parser state
-		_script->RestoreScript( scriptSource );
+		_script.RestoreScript( scriptSource );
 
 		// Tell the generator we're about to feed it configuration data for this file.
 		_projgen->StartConfigurationBlock( configurationNames[i].String(), true );
 
-		pToken = _script->GetToken( true );
+		pToken = _script.GetToken( true );
 		if ( !pToken || !pToken[0] || !CharStrEq( pToken, '{' ) )
 		{
-			logging::SyntaxError(_script);
+			logging::SyntaxError(&_script);
 		}
 
 		while ( 1 )
 		{
-			_script->SkipToValidToken();
+			_script.SkipToValidToken();
 
-			pToken = _script->PeekNextToken( true );
+			pToken = _script.PeekNextToken( true );
 			if ( pToken && pToken[0] && !V_stricmp_fast( pToken, g_pOption_ExcludedFromBuild ) )
 			{
-				pToken = _script->GetToken( true );
+				pToken = _script.GetToken( true );
 				if ( !pToken || !pToken[0] )
-					logging::SyntaxError(_script);
+					logging::SyntaxError(&_script);
 
                 CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-				if ( _script->ParsePropertyValue(nullptr, pStrBuf ) )
+				if ( _script.ParsePropertyValue(nullptr, pStrBuf ) )
 				{
-					_projgen->FileExcludedFromBuild( Script_ParseBool( pStrBuf->Get(), _script ) );
+					_projgen->FileExcludedFromBuild( Script_ParseBool( pStrBuf->Get(), &_script ) );
 				}
 
 				continue;
 			}
 			else if ( pToken && pToken[0] && !V_stricmp_fast( pToken, "$Macro" ) )
 			{
-				pToken = _script->GetToken( true );
+				pToken = _script.GetToken( true );
 				if ( !pToken || !pToken[0] )
-					logging::SyntaxError(_script);
+					logging::SyntaxError(&_script);
 
 				Config_Macro();
 				continue;
 			}
 
             CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-			if ( !_script->ParsePropertyValue(nullptr, pStrBuf ) )
+			if ( !_script.ParsePropertyValue(nullptr, pStrBuf ) )
 			{
-				_script->SkipBracedSection();
+				_script.SkipBracedSection();
 				continue;
 			}
 
@@ -381,11 +381,11 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 			// these are the only tools wired to deal with file configuration overrides
 			case KEYWORD_COMPILER:
                 if ( !g_pVPC->IsPerFileCompileConfigEnabled() &&
-                     !_script->IsInPrivilegedScript() &&
-                     _script->GetLine() != nWarningLine )
+                     !_script.IsInPrivilegedScript() &&
+                     _script.GetLine() != nWarningLine )
                 {
-                    logging::SyntaxError( _script, "%s(%u): per-file compile configuration not allowed", _script->GetName(), _script->GetLine());
-                    nWarningLine = _script->GetLine();
+                    logging::SyntaxError( &_script, "%s(%u): per-file compile configuration not allowed", _script.GetName(), _script.GetLine());
+                    nWarningLine = _script.GetLine();
                 }
                 // Fall through
 			case KEYWORD_RESOURCES:
@@ -396,7 +396,7 @@ void CProjectScriptParser::Keyword_FileConfiguration()
 				break;
             }
 			default:
-				logging::SyntaxError(_script);
+				logging::SyntaxError(&_script);
 			}
 		}
 		

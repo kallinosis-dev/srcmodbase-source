@@ -266,7 +266,7 @@ void VPC_GroupKeyword_Conditional(CScript* script)
 	}
 
     bool bValue;
-	const char *pEnvValue = Sys_EvaluateEnvironmentExpression( value, "0" );
+	const char *pEnvValue = Script_EvaluateEnvironmentExpression( value, "0" );
     if ( pEnvValue )
 	{
         bValue = Script_ParseBool( pEnvValue, script );

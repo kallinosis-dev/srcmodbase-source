@@ -33,6 +33,7 @@
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
 #include "projectscript.h"
+#include "scriptutil.h"
 #include "vpc.h"
 
 // Define UNITY_SPEW as true to get detailed unity-related spew
@@ -463,7 +464,7 @@ bool CVPC::IsProjectUsingUnity( script_t *pProjectScript )
 		{
 			const char *pFileStart = (const char *)file.Base();
 			const char *pKeyword   = V_stristr( pFileStart, "$UnityProject" );
-			if ( pKeyword && !Sys_IsSingleLineComment( pKeyword, pFileStart ))
+			if ( pKeyword && !Script_IsSingleLineComment( pKeyword, pFileStart ))
 			{
 				m_bProjectUsesUnity = true;
 			}

@@ -37,12 +37,11 @@ IBaseProjectGenerator* GetAndroidProjectGenerator()
 }
 
 CProjectGenerator_Android::CProjectGenerator_Android()
-	: CBaseProjectDataCollector( &s_RelevantPropertyNames )
+	: CBaseProjectDataCollector( &s_RelevantPropertyNames ),
+	m_GeneratorDefinition("android.def", s_AndroidPropertyNames)
 {
 	m_BaseConfigData.GetOrCreateConfig( "Debug", nullptr );
 	m_BaseConfigData.GetOrCreateConfig( "Release", nullptr );
-
-	m_GeneratorDefinition.LoadDefinition( "android.def", s_AndroidPropertyNames );
 }
 
 void CProjectGenerator_Android::EndProject( bool bSaveData )
