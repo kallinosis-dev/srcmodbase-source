@@ -472,23 +472,11 @@ extern void					VPC_GenerateProjectDependencies( CBaseProjectDataCollector *pDat
 extern bool					VPC_AreProjectDependenciesSupportedForThisTargetPlatform( void );
 
 
-// Convenience helpers to extract properties from project/file configs:
-//  - if the pFileConfig has the property, it trumps the pRootConfig
-//  - at least one of pRootConfig and pFileConfig must be non-NULL
-extern PropertyState_t *	VPC_GetProperty(       configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, const char *pPropertyName );
-extern bool					VPC_GetPropertyBool(   configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, const char *pPropertyName, bool *pResult );
-extern bool					VPC_GetPropertyString( configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, const char *pPropertyName, CUtlString *pResult );
 
 //resolves common MSVC properties found in a string $(IntDir), $(TargetFile), ...
 // returns the input string if no replacements are made, returns outputScratchSpace.Get() if replacements are performed.
 extern const char *			VPC_ResolveCompilerMacrosInString( const char *szSourceString, CUtlString &outputScratchSpace, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig );
 
-// These variants extract 'global' properties from the root config(s)
-//  - it requires+checks that they match across all root configs
-extern bool					VPC_GetGlobalPropertyString( configKeyword_e tool, CVCProjGenerator *pDataCollector, const char *pPropertyName, CUtlString *pResult );
-
-extern void					VPC_SetProperty_ForFile(	CProjectFile *pFile, const char *pConfigName, configKeyword_e tool,
-														const char *pPropertyName, const char *pPropertyValue, CVCProjGenerator *pDataCollector );
 // Get a list of preprocessor defines or include directories
 // [NOTE: quotes are stripped before returning - the caller may need to add quotes depending on usage]
 extern void					VPC_GetPreprocessorDefines( CProjectFile *pFile, CProjectConfiguration *pRootConfig, CUtlVector< CUtlString > &defines );

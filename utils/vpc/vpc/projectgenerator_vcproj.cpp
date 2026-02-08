@@ -375,7 +375,7 @@ bool CPropertyStateLessFunc::Less( const int& lhs, const int& rhs, void *pContex
 	return lhsPropertyId < rhsPropertyId;
 }
 
-CPropertyStates::CPropertyStates()
+CPropertyStates::CPropertyStates(CScript* vpcScript): m_VpcScript(vpcScript)
 {
 	m_PropertiesInOutputOrder.SetLessContext( this );
 }
@@ -458,7 +458,7 @@ bool CPropertyStates::SetStringProperty( ToolProperty_t *pToolProperty, CProject
 	// feed in current value to resolve $BASE
 	// possibly culled or tokenized new value
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue( pCurrentValue, pStrBuf ) )
+	if ( !m_VpcScript->ParsePropertyValue( pCurrentValue, pStrBuf ) )
 		return true;
 
 	if ( pToolProperty->m_bFixSlashes )
@@ -498,7 +498,7 @@ bool CPropertyStates::SetStringProperty( ToolProperty_t *pToolProperty, CProject
 
 	if ( pCurrentValue && !V_stricmp( pCurrentValue, pStrBuf->Get() ) )
 	{
-		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), m_VpcScript->GetName(), m_VpcScript->GetLine() );
 	}
 
 	if ( pCurrentValue )
@@ -528,7 +528,7 @@ bool CPropertyStates::SetStringProperty( ToolProperty_t *pToolProperty, CProject
 bool CPropertyStates::SetListProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !m_VpcScript->ParsePropertyValue(nullptr, pStrBuf ) )
 		return true;
 
 	// resolve the parsed token to an expected ordinal
@@ -551,7 +551,7 @@ bool CPropertyStates::SetListProperty( ToolProperty_t *pToolProperty, CProjectTo
 
 	if ( !pNewOrdinalValue )
 	{
-		logging::SyntaxError( TODO, "Unknown Ordinal for %s", pToolProperty->m_ParseString.Get());
+		logging::SyntaxError( m_VpcScript, "Unknown Ordinal for %s", pToolProperty->m_ParseString.Get());
 	}
 
 	// find possible current value
@@ -580,7 +580,7 @@ bool CPropertyStates::SetListProperty( ToolProperty_t *pToolProperty, CProjectTo
 
 	if ( pCurrentOrdinalValue && !V_stricmp_fast( pCurrentOrdinalValue, pNewOrdinalValue ) )
 	{
-		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), m_VpcScript->GetName(), m_VpcScript->GetLine() );
 	}
 
 	if ( pCurrentOrdinalValue )
@@ -638,7 +638,7 @@ bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTo
 
 	if ( pCurrentOrdinalValue && !V_stricmp_fast( pCurrentOrdinalValue, pNewOrdinalValue ) )
 	{
-		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), m_VpcScript->GetName(), m_VpcScript->GetLine() );
 	}
 
 	if ( pCurrentOrdinalValue )
@@ -667,10 +667,12 @@ bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTo
 bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+
+	bool value;
+	if ( !m_VpcScript->ParsePropertyBool(nullptr, pStrBuf, &value ) )
 		return true;
 
-	return SetBoolProperty( pToolProperty, pRootTool, Script_ParseBool( pStrBuf->Get() ) );
+	return SetBoolProperty( pToolProperty, pRootTool, value );
 }
 
 bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, bool bEnabled )
@@ -681,7 +683,7 @@ bool CPropertyStates::SetBoolProperty( ToolProperty_t *pToolProperty, bool bEnab
 bool CPropertyStates::SetIntegerProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool )
 {
     CUtlStringBuilder *pStrBuf = g_pVPC->GetPropertyValueBuffer();
-	if ( !g_pVPC->GetScript().ParsePropertyValue(nullptr, pStrBuf ) )
+	if ( !m_VpcScript->ParsePropertyValue(nullptr, pStrBuf ) )
 		return true;
 
 	// ensure the parsed token is a real integer and not just quietly mapped to 0
@@ -707,7 +709,7 @@ bool CPropertyStates::SetIntegerProperty( ToolProperty_t *pToolProperty, CProjec
 
 		if ( V_stricmp_fast( compareStr, pStrBuf->Get() ) )
 		{
-			logging::SyntaxError( TODO, "Unrecognized integer value: %s", pStrBuf->Get());
+			logging::SyntaxError( m_VpcScript, "Unrecognized integer value: %s", pStrBuf->Get());
 		}
 	}
 
@@ -737,7 +739,7 @@ bool CPropertyStates::SetIntegerProperty( ToolProperty_t *pToolProperty, CProjec
 
 	if ( pCurrentOrdinalValue && ( V_atoi64( pCurrentOrdinalValue ) == nParsedValue ) )
 	{
-		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), g_pVPC->GetScript().GetName(), g_pVPC->GetScript().GetLine() );
+		logging::Warning( "%s matches default setting, [%s line:%d]", pToolProperty->m_ParseString.Get(), m_VpcScript->GetName(), m_VpcScript->GetLine() );
 	}
 
 	if ( pCurrentOrdinalValue )
@@ -762,6 +764,7 @@ bool CPropertyStates::SetIntegerProperty( ToolProperty_t *pToolProperty, CProjec
 
 	return true;
 }
+
 
 bool CPropertyStates::SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool )
 {
@@ -791,7 +794,7 @@ bool CPropertyStates::SetProperty( ToolProperty_t *pToolProperty, CProjectTool *
 
 	case PT_IGNORE:
 		bHandled = true;
-		g_pVPC->GetScript().SkipRestOfLine();
+		m_VpcScript->SkipRestOfLine();
 		break;
 
 	case PT_DEPRECATED:
@@ -883,7 +886,8 @@ static bool FilesSortLessFunc( CProjectFile* const &pLHS, CProjectFile* const &p
 	return pLHS->m_nInsertOrder < pRHS->m_nInsertOrder;
 }
 
-CProjectConfiguration::CProjectConfiguration( CVCProjGenerator *pGenerator, const char *pConfigName, const char *pFilename )
+CProjectConfiguration::CProjectConfiguration( CVCProjGenerator *pGenerator, const char *pConfigName, const char *pFilename ):
+	m_PropertyStates(pGenerator->m_Script)
 {
 	m_pGenerator = pGenerator;
 	m_bIsFileConfig = ( pFilename != nullptr);
@@ -1057,6 +1061,11 @@ bool CProjectConfiguration::SetProperty( ToolProperty_t *pToolProperty )
 const char *CProjectConfiguration::GetPropertyValue( ToolProperty_t *pToolProperty )
 {
 	return m_PropertyStates.GetPropertyValue( pToolProperty );
+}
+
+CProjectTool::CProjectTool(CVCProjGenerator* pGenerator): m_PropertyStates(pGenerator->m_Script)
+{
+	m_pGenerator = pGenerator;
 }
 
 bool CProjectTool::SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool )
@@ -2865,4 +2874,206 @@ void CVCProjGenerator::AddIndirectCustomBuildDependencies( void )
 			addFilesToDependenciesProperty( addDependencies.Get(), pToolProperty_File, pCustomBuildTool, pToolProperty_CommandLine );
 		}
 	}
+}
+
+
+
+
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+PropertyState_t *VPC_GetToolProperty( configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, const char *pPropertyName )
+{
+	CProjectTool *pRootTool = nullptr, *pFileTool = nullptr;
+	switch( tool )
+	{
+	case KEYWORD_GENERAL:
+		break; // Special case, see below
+	case KEYWORD_COMPILER:
+		if ( pRootConfig ) pRootTool = pRootConfig->GetCompilerTool();
+		if ( pFileConfig ) pFileTool = pFileConfig->GetCompilerTool();
+		break;
+	case KEYWORD_LIBRARIAN:	
+		if ( pRootConfig ) pRootTool = pRootConfig->GetLibrarianTool();
+		if ( pFileConfig ) pFileTool = pFileConfig->GetLibrarianTool();
+		break;
+	case KEYWORD_LINKER:	
+		if ( pRootConfig ) pRootTool = pRootConfig->GetLinkerTool();
+		if ( pFileConfig ) pFileTool = pFileConfig->GetLinkerTool();
+		break;
+	default: Assert(0); return nullptr; // Add more tools as needed
+	}
+
+	// If there is a file config (with this property) then use that, otherwise fall back to the root config:
+	PropertyState_t *pResult = nullptr;
+	if ( tool == KEYWORD_GENERAL )
+	{
+		// In this case, the config directly contains the property, rather than a sub-tool (TODO: refactor)
+		if ( pFileConfig )
+			pResult = pFileConfig->m_PropertyStates.GetProperty( pPropertyName );
+		if ( !pResult && pRootConfig )
+			pResult = pRootConfig->m_PropertyStates.GetProperty( pPropertyName );
+	}
+	else
+	{
+		if ( pFileTool )
+			pResult = pFileTool->m_PropertyStates.GetProperty( pPropertyName );
+		if ( !pResult && pRootTool )
+			pResult = pRootTool->m_PropertyStates.GetProperty( pPropertyName );
+	}
+	return pResult;
+}
+
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+bool VPC_GetPropertyBool( configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, const char *pPropertyName, bool *pResult )
+{
+	// TODO: generalize these property helpers to more property types and usage patterns...
+	//       deduplicate functionality w/ projectgenerator_vcproj.cpp (many redundant 'GetPropertyValue/SetProperty/GetPropertyValue' methods)
+	PropertyState_t *pProperty = VPC_GetToolProperty( tool, pRootConfig, pFileConfig, pPropertyName );
+	if ( !pProperty )
+		return false;
+
+	if ( pProperty->m_pToolProperty->m_nType != PT_BOOLEAN )
+		logging::Error( "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_BOOLEAN!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+
+	*pResult = Script_ParseBool( pProperty->m_StringValue.Get() );
+	return true;
+}
+
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+bool VPC_GetPropertyString( configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, const char *pPropertyName, CUtlString *pResult )
+{
+	PropertyState_t *pProperty = VPC_GetToolProperty( tool, pRootConfig, pFileConfig, pPropertyName );
+	if ( !pProperty )
+		return false;
+
+	if ( pProperty->m_pToolProperty->m_nType == PT_STRING )
+	{
+		*pResult = pProperty->m_StringValue.Get();
+	}
+	else if ( pProperty->m_pToolProperty->m_nType == PT_LIST )
+	{
+		// Convert from PT_LIST to string
+		*pResult = pProperty->m_OrdinalString;
+	}
+	else logging::Error( "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_STRING!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+
+	return true;
+}
+
+
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+bool VPC_GetGlobalPropertyString( configKeyword_e tool, CVCProjGenerator *pDataCollector, const char *pPropertyName, CUtlString *pResult )
+{
+	// This variant assumes that this property matches across all root configs - and validates that assumption!
+	CUtlVector< CProjectConfiguration * > rootConfigs;
+	pDataCollector->GetAllRootConfigurations( rootConfigs );
+
+	pResult->Clear();
+	bool bFound = false;
+	for ( int i = 0; i < rootConfigs.Count(); i++ )
+	{
+		CUtlString value;
+		if ( VPC_GetPropertyString( tool, rootConfigs[i], nullptr, pPropertyName, &value ) )
+			bFound = true;
+		// Validate that this property matches across all configs
+		if ( ( i > 0 ) && ( value != *pResult ) )
+			logging::Error( "[VPC_GetGlobalPropertyString] Found multiple conflicting values for property %s (%s) in project %s!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+		*pResult = value;
+	}
+
+	return bFound;
+}
+
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+bool VPC_SetToolProperty( configKeyword_e tool, CProjectConfiguration *pFileConfig, ToolProperty_t *pToolProperty, const char *pPropertyValue )
+{
+	CProjectTool *pFileTool = nullptr;
+	switch( tool )
+	{
+	case KEYWORD_GENERAL:
+		break; // Special case, see below
+	case KEYWORD_COMPILER:
+		if ( pFileConfig ) pFileTool = pFileConfig->GetCompilerTool();
+		break;
+	case KEYWORD_LIBRARIAN:	
+		if ( pFileConfig ) pFileTool = pFileConfig->GetLibrarianTool();
+		break;
+	case KEYWORD_LINKER:	
+		if ( pFileConfig ) pFileTool = pFileConfig->GetLinkerTool();
+		break;
+	default: Assert(0); return false; // Add more tools as needed
+	}
+
+	CScript* projScript = pFileTool->m_PropertyStates.m_VpcScript; // A hacky way to get the script.
+
+	// If there is a file config (with this property) then use that, otherwise fall back to the root config:
+	bool bResult;
+	projScript->PushScript( 
+		CFmtStrMax( "VPC_SetCompilerPropertyString_ForFiles( %s )", pToolProperty->m_ParseString.Get() ).Get(), 
+		pPropertyValue, 1, false, false );
+
+	if ( tool == KEYWORD_GENERAL )
+	{
+		// In this case, the config directly contains the property, rather than a sub-tool (TODO: refactor)
+		bResult = pFileConfig->m_PropertyStates.SetProperty( pToolProperty );
+	}
+	else
+	{
+		bResult = pFileTool->m_PropertyStates.SetProperty( pToolProperty );
+	}
+	projScript->PopScript();
+	return bResult;
+}
+
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+void VPC_SetProperty_ForFiles(	const CUtlVector< CProjectFile * > &files, const char *pConfigName, configKeyword_e tool,
+								const char *pPropertyName, const char *pPropertyValue, CVCProjGenerator *pDataCollector )
+{
+	// TODO: refactor to a generalized SetProperty method, ala VPC_GetToolProperty/VPC_GetPropertyString
+
+	// Process one or multiple configs
+	CUtlVector<CUtlString > configNames;
+	configNames.AddToTail( pConfigName );
+	if ( configNames[0].IsEmpty() )
+		pDataCollector->GetAllConfigurationNames( configNames );
+
+	// Set up the property to update:
+	CGeneratorDefinition * pGenerator = pDataCollector->GetGeneratorDefinition();
+	ToolProperty_t *    pToolProperty = pGenerator->GetProperty( tool, pPropertyName );
+	CUtlString    quotedPropertyValue = CUtlString( "\"" ) + pPropertyValue + "\"";
+	if ( quotedPropertyValue.Length() == 2 )
+	{
+		// TODO: (BUG) CVCProjGenerator::HandleProperty discards empty strings as invalid... workaround by padding pPropertyValue with spaces:
+		quotedPropertyValue = "\" \"";
+	}
+
+	for ( int i = 0; i < files.Count(); i++ )
+	{
+		for ( int j = 0; j < configNames.Count(); j++ )
+		{
+			// Add this config to the file if absent
+			CProjectConfiguration *pFileConfig = nullptr;
+			if ( !files[i]->GetConfiguration( configNames[j].Get(), &pFileConfig ) )
+				files[i]->AddConfiguration( configNames[j].Get(), &pFileConfig );
+			Assert( pFileConfig );
+
+			// Parse the property value, in the context of the current file's configuration
+			if ( !VPC_SetToolProperty( tool, pFileConfig, pToolProperty, quotedPropertyValue.Get() ) )
+				logging::Error( "VPC_SetProperty_ForFiles: Failed to set property %s for file %s", pPropertyName, pFileConfig->m_Name.Get() );
+		}
+	}
+}
+
+//--------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+void VPC_SetProperty_ForFile(	CProjectFile *pFile, const char *pConfigName, configKeyword_e tool,
+								const char *pPropertyName, const char *pPropertyValue, CVCProjGenerator *pDataCollector )
+{
+	CUtlVector< CProjectFile * > files( &pFile, 1, 1 );
+	return VPC_SetProperty_ForFiles( files, pConfigName, tool, pPropertyName, pPropertyValue, pDataCollector );
 }

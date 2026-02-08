@@ -70,7 +70,7 @@ public:
 class CPropertyStates
 {
 public:
-	CPropertyStates();
+	CPropertyStates(CScript* vpcScript);
 
 	bool SetProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
 	bool SetBoolProperty( ToolProperty_t *pToolProperty, bool bEnabled );
@@ -81,6 +81,7 @@ public:
 
 	CUtlVector< PropertyState_t > m_Properties;
 	CUtlSortVector< int, CPropertyStateLessFunc > m_PropertiesInOutputOrder;
+	CScript* m_VpcScript;
 
 private:
 	bool SetStringProperty( ToolProperty_t *pToolProperty, CProjectTool *pRootTool = nullptr);
@@ -95,10 +96,7 @@ class CProjectTool
 public:
 	virtual ~CProjectTool() = default;
 
-	CProjectTool( CVCProjGenerator *pGenerator )
-	{
-		m_pGenerator = pGenerator;
-	}
+	CProjectTool( CVCProjGenerator *pGenerator );
 
 	CVCProjGenerator *GetGenerator() const { return m_pGenerator; }
 
@@ -281,6 +279,8 @@ public:
 
 class CVCProjGenerator : public CBaseProjectDataCollector
 {
+	friend CProjectConfiguration;
+	friend CProjectTool;
 
 public:
 	typedef CBaseProjectDataCollector BaseClass;
@@ -395,3 +395,25 @@ private:
 
 	CUtlVector< IVCProjWriter* >			m_VCProjWriters;
 };
+
+// Convenience helpers to extract properties from project/file configs:
+//  - if the pFileConfig has the property, it trumps the pRootConfig
+//  - at least one of pRootConfig and pFileConfig must be non-NULL
+extern PropertyState_t* VPC_GetToolProperty( configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, 
+	const char *pPropertyName );
+extern bool VPC_GetPropertyBool( configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, 
+	const char *pPropertyName, bool *pResult );
+extern bool VPC_GetPropertyString( configKeyword_e tool, CProjectConfiguration *pRootConfig, CProjectConfiguration *pFileConfig, 
+	const char *pPropertyName, CUtlString *pResult );
+
+extern bool VPC_SetToolProperty( configKeyword_e tool, CProjectConfiguration *pFileConfig, ToolProperty_t *pToolProperty, 
+	const char *pPropertyValue );
+extern void VPC_SetProperty_ForFile(CProjectFile *pFile, const char *pConfigName, configKeyword_e tool,const char *pPropertyName, 
+	const char *pPropertyValue, CVCProjGenerator *pDataCollector );
+extern void VPC_SetProperty_ForFiles(const CUtlVector< CProjectFile * > &files, const char *pConfigName, configKeyword_e tool, const char *pPropertyName, 
+	const char *pPropertyValue, CVCProjGenerator *pDataCollector );
+
+
+// These variants extract 'global' properties from the root config(s)
+//  - it requires+checks that they match across all root configs
+extern bool					VPC_GetGlobalPropertyString( configKeyword_e tool, CVCProjGenerator *pDataCollector, const char *pPropertyName, CUtlString *pResult );
