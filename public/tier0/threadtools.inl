@@ -259,7 +259,6 @@ INLINE_ON_PS3 bool CThread::Join( unsigned timeout ) const
 		return ThreadJoin( (ThreadHandle_t)m_hThread, timeout );
 #elif defined(POSIX)
 		bool ret = ThreadJoin(  (ThreadHandle_t)(m_threadId ? m_threadId : m_threadZombieId), timeout );
-		m_threadZombieId = 0;
 		return ret;
 #endif
 	}

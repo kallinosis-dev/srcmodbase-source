@@ -185,7 +185,7 @@ struct ThreadedLoadLibaryContext_t
 	const char *m_pLibraryName;
 	HMODULE m_hLibrary;
 	DWORD m_nError;
-	ThreadedLoadLibaryContext_t() : m_pLibraryName(nullptr), m_hLibrary(nullptr), m_nError(0) {}
+	ThreadedLoadLibaryContext_t() : m_pLibraryName(0), m_hLibrary(0), m_nError(0) {}
 };
 
 #ifdef _WIN32
@@ -399,7 +399,7 @@ CSysModule *Sys_LoadModule( const char *pModuleName )
 	// If using the Steam filesystem, either the DLL must be a minimum footprint
 	// file in the depot (MFP) or a filesystem GetLocalCopy() call must be made
 	// prior to the call to this routine.
-	HMODULE hDLL = nullptr;
+	HMODULE hDLL = 0;
 
 	char alteredFilename[ MAX_PATH ];
 	if ( IsPS3() )
