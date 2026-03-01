@@ -284,9 +284,9 @@ generated_proto_gc/
 /materialsystem/stdshaders/fxctmp9
 
 # decaloverdose: linux shit
-*.mak
-*.mak.vpc_crc
-*.xcodeproj/
-obj*/
-!devtools/*.mak
-!utils/smdlexp/smdlexp.mak
+# *.mak
+# *.mak.vpc_crc
+# *.xcodeproj/
+# obj*/
+# !devtools/*.mak
+# !utils/smdlexp/smdlexp.mak
