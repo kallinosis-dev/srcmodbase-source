@@ -1,7 +1,7 @@
 #Ignore my HL2 Install Directory
 /HL2_base/
 
-#Ignore the sapi folder. 
+#Ignore the sapi folder.
 utils/sapi51/
 
 #Not Marulu's DLL
@@ -284,5 +284,9 @@ generated_proto_gc/
 /materialsystem/stdshaders/fxctmp9
 
 # decaloverdose: linux shit
-*mak
-*.crc
+*.mak
+*.mak.vpc_crc
+*.xcodeproj/
+obj*/
+!devtools/*.mak
+!utils/smdlexp/smdlexp.mak
