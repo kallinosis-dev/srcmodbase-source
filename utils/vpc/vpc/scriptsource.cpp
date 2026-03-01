@@ -478,7 +478,7 @@ void CScript::EnsureScriptStackEmpty() const
 	}
 }
 
-void CScript::SpewScriptStack( bool bDueToError )
+void CScript::SpewScriptStack( bool bDueToError ) const
 {
 	if ( m_ScriptStack.Count() )
 	{

@@ -2933,10 +2933,14 @@ bool VPC_GetPropertyBool( configKeyword_e tool, CProjectConfiguration *pRootConf
 	if ( !pProperty )
 		return false;
 
-	if ( pProperty->m_pToolProperty->m_nType != PT_BOOLEAN )
-		logging::Error( "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_BOOLEAN!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+	CScript* script = pRootConfig->m_pGenerator->GetProjectScript();
 
-	*pResult = Script_ParseBool( pProperty->m_StringValue.Get() );
+	if ( pProperty->m_pToolProperty->m_nType != PT_BOOLEAN )
+		logging::Error( script, "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_BOOLEAN!", 
+			pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+
+
+	*pResult = Script_ParseBool( pProperty->m_StringValue.Get(), script );
 	return true;
 }
 
@@ -2948,6 +2952,8 @@ bool VPC_GetPropertyString( configKeyword_e tool, CProjectConfiguration *pRootCo
 	if ( !pProperty )
 		return false;
 
+	CScript* script = pRootConfig->m_pGenerator->GetProjectScript();
+
 	if ( pProperty->m_pToolProperty->m_nType == PT_STRING )
 	{
 		*pResult = pProperty->m_StringValue.Get();
@@ -2957,7 +2963,8 @@ bool VPC_GetPropertyString( configKeyword_e tool, CProjectConfiguration *pRootCo
 		// Convert from PT_LIST to string
 		*pResult = pProperty->m_OrdinalString;
 	}
-	else logging::Error( "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_STRING!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+	else logging::Error( script, "[VPC_GetPropertyBool] Property %s (%s) in project %s is not a PT_STRING!", 
+		pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
 
 	return true;
 }
@@ -2967,6 +2974,8 @@ bool VPC_GetPropertyString( configKeyword_e tool, CProjectConfiguration *pRootCo
 //--------------------------------------------------------------------------------------------------
 bool VPC_GetGlobalPropertyString( configKeyword_e tool, CVCProjGenerator *pDataCollector, const char *pPropertyName, CUtlString *pResult )
 {
+	CScript* script = pDataCollector->GetProjectScript();
+
 	// This variant assumes that this property matches across all root configs - and validates that assumption!
 	CUtlVector< CProjectConfiguration * > rootConfigs;
 	pDataCollector->GetAllRootConfigurations( rootConfigs );
@@ -2980,7 +2989,8 @@ bool VPC_GetGlobalPropertyString( configKeyword_e tool, CVCProjGenerator *pDataC
 			bFound = true;
 		// Validate that this property matches across all configs
 		if ( ( i > 0 ) && ( value != *pResult ) )
-			logging::Error( "[VPC_GetGlobalPropertyString] Found multiple conflicting values for property %s (%s) in project %s!", pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
+			logging::Error( script, "[VPC_GetGlobalPropertyString] Found multiple conflicting values for property %s (%s) in project %s!", 
+				pPropertyName, g_pVPC->KeywordToName( tool ), g_pVPC->GetProjectName() );
 		*pResult = value;
 	}
 
@@ -3035,6 +3045,7 @@ void VPC_SetProperty_ForFiles(	const CUtlVector< CProjectFile * > &files, const 
 								const char *pPropertyName, const char *pPropertyValue, CVCProjGenerator *pDataCollector )
 {
 	// TODO: refactor to a generalized SetProperty method, ala VPC_GetToolProperty/VPC_GetPropertyString
+	CScript* script = pDataCollector->GetProjectScript();
 
 	// Process one or multiple configs
 	CUtlVector<CUtlString > configNames;
@@ -3064,7 +3075,7 @@ void VPC_SetProperty_ForFiles(	const CUtlVector< CProjectFile * > &files, const 
 
 			// Parse the property value, in the context of the current file's configuration
 			if ( !VPC_SetToolProperty( tool, pFileConfig, pToolProperty, quotedPropertyValue.Get() ) )
-				logging::Error( "VPC_SetProperty_ForFiles: Failed to set property %s for file %s", pPropertyName, pFileConfig->m_Name.Get() );
+				logging::Error(script, "VPC_SetProperty_ForFiles: Failed to set property %s for file %s", pPropertyName, pFileConfig->m_Name.Get() );
 		}
 	}
 }

@@ -95,9 +95,45 @@ void logging::Shutdown()
 	UNREACHABLE();
 }
 
+[[noreturn]] void logging::Error(CScript const* script, const char* pFormat, ...)
+{
+	va_list argptr;
+	char msg[MAX_SYSPRINTMSG];
+
+	va_start(argptr, pFormat);
+	vsprintf(msg, pFormat, argptr);
+	va_end(argptr);
+
+	pacifier::Break();
+
+	// since we are going to prefix want caller provided prefixed CR to be handled first to keep message intact
+	const char* pMsg = msg;
+	while (*pMsg == '\n')
+	{
+		Log_Warning(LOG_VPC, Color(255, 0, 0, 255), "\n");
+		pMsg++;
+	}
+
+	// spew in red
+	Log_Warning(LOG_VPC, Color(255, 0, 0, 255), "ERROR: %s\n", msg);
+
+	// dump the script stack to assist in user understanding of the include chain
+	script->SpewScriptStack(true);
+
+	// stop here if debugging
+	DebuggerBreakIfDebugging();
+
+	// do proper shutdown in an error context
+	// errors are expected to be fatal by all calling code
+	// otherwise it would have been a warning
+	g_pVPC->Shutdown(true);
+
+	UNREACHABLE();
+}
+
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-void logging::SyntaxError(CScript const* script, const char* pFormat, ...)
+[[noreturn]] void logging::SyntaxError(CScript const* script, const char* pFormat, ...)
 {
 	va_list argptr;
 	char msg[MAX_SYSPRINTMSG];

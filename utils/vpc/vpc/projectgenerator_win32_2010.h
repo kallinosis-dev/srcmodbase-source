@@ -27,6 +27,9 @@ public:
 	CProjectGenerator_Win32_2010();
 	CVCProjGenerator *GetProjectGenerator() override { return m_pVCProjGenerator; }
 
+	CScript* GetScript() { return m_pVCProjGenerator->GetProjectScript(); }
+	CScript const* GetScript() const { return m_pVCProjGenerator->GetProjectScript(); }
+
 	bool Save( const char *pOutputFilename ) override;
 	const char *GetProjectFileExtension() override { return "vcxproj"; }
 

@@ -62,7 +62,7 @@ public:
 	CScriptSource	GetCurrentScript();
 	void			RestoreScript( const CScriptSource &scriptSource );
 	void			EnsureScriptStackEmpty() const;
-	void			SpewScriptStack( bool bDueToError );
+	void			SpewScriptStack( bool bDueToError ) const;
 
 	const char		*GetName() const		{ return m_ScriptName.Get(); }
 	const char		*GetData() const 		{ return m_pScriptData; }

@@ -656,7 +656,7 @@ bool CProjectGenerator_Win32_2010::WriteProperty( const PropertyState_t *pProper
 		{
 		case PT_BOOLEAN:
 			{
-				bool bEnabled = Script_ParseBool( pValueStr );
+				bool bEnabled = Script_ParseBool( pValueStr, GetScript() );
 				if ( pPropertyState->m_pToolProperty->m_bInvertOutput )
 				{
 					bEnabled ^= 1;
@@ -686,7 +686,7 @@ bool CProjectGenerator_Win32_2010::WriteProperty( const PropertyState_t *pProper
 			break;
 
 		default:
-			logging::Error( "CProjectGenerator_Win32_2010: WriteProperty, %s - not implemented", pOutputName );
+			logging::Error(GetScript(),  "CProjectGenerator_Win32_2010: WriteProperty, %s - not implemented", pOutputName );
 		}
 	}
 
@@ -810,7 +810,7 @@ bool CProjectGenerator_Win32_2010::GenerateToolProperty( const char *pOutputName
 	{
 		if ( !m_pVCProjGenerator->GetRootConfiguration( pConfigName, &pRootConfig ) || !pRootConfig )
 		{
-			logging::Error( "Could not get config \"%s\"", pConfigName );
+			logging::Error( GetScript(), "Could not get config \"%s\"", pConfigName );
 			UNREACHABLE();
 		}
 	}
@@ -822,7 +822,7 @@ bool CProjectGenerator_Win32_2010::GenerateToolProperty( const char *pOutputName
 		{
 			if ( !m_pVCProjGenerator->GetRootConfiguration( pConfigName, &pRootConfig ) || !pRootConfig )
 			{
-				logging::Error( "No configs found" );
+				logging::Error( GetScript(), "No configs found" );
 				UNREACHABLE();
 			}
 		}

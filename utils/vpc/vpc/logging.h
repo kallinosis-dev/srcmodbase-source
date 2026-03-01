@@ -22,9 +22,9 @@ namespace logging
 	bool		IsIgnoreRedundancyWarning();
 
 
-		[[noreturn]]
-	void		Error(PRINTF_FORMAT_STRING const char* pFormat, ...) FMTFUNCTION(2, 3);
-	void		SyntaxError(CScript const* script,PRINTF_FORMAT_STRING const char* pFormat = nullptr, ...) FMTFUNCTION(2, 3);
+	[[noreturn]] void Error(PRINTF_FORMAT_STRING const char* pFormat, ...) FMTFUNCTION(2, 3);
+	[[noreturn]] void Error(CScript const* script, PRINTF_FORMAT_STRING const char* pFormat, ...) FMTFUNCTION(3, 4);
+	[[noreturn]] void SyntaxError(CScript const* script, PRINTF_FORMAT_STRING const char* pFormat = nullptr, ...) FMTFUNCTION(2, 3);
 
 	void		Warning(PRINTF_FORMAT_STRING const char* pFormat, ...) FMTFUNCTION(2, 3);
 
