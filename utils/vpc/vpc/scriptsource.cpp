@@ -548,6 +548,11 @@ void CScript::SpewScriptStack( bool bDueToError ) const
 	}
 }
 
+void CScript::SpewAllScriptStacks(bool bDueToError, CScript const* thisScript)
+{
+	static_assert(false);
+}
+
 const char *CScript::GetToken( bool bAllowLineBreaks )
 {
 	return GetToken( &m_pScriptData, bAllowLineBreaks, m_pScriptLine );
@@ -611,7 +616,7 @@ bool CScript::ParsePropertyValue( const char *pBaseString, CUtlStringBuilder *pO
 			// last token can be optional conditional, need to identify
 			// backup and reparse up to last token
 			// last token is an optional conditional
-			bResult = g_pVPC->conditionals.EvaluateConditionalExpression( pToken );
+			bResult = g_pVPC->conditionals.EvaluateConditionalExpression( pToken, this );
 			break;
 		}
 		else if ( pToken[0] == '[' && pNextToken && pNextToken[0] == '[' )

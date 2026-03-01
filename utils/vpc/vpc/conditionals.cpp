@@ -241,19 +241,19 @@ conditional_t * CConditionalStorage::CreateOrGet( const char *pName, conditional
 	return _conditionals[index];
 }
 
-void CConditionalStorage::Set( const char *pString, bool bSet, conditionalType_e conditionalType )
+void CConditionalStorage::Set(const char* pName, bool bSet, conditionalType_e type, CScript const* script)
 {
-	conditional_t *pConditional = CreateOrGet( pString, conditionalType );
+	conditional_t *pConditional = CreateOrGet( pName, type );
 	if ( !pConditional )
 	{
-		logging::Error( "Failed to find or create $%s conditional", pString );
+		logging::Error( script, "Failed to find or create $%s conditional", pName );
 	}
 
 	logging::Status( false, "Set Conditional: $%s = %s", pConditional->m_UpperCaseName.Get(), ( bSet ? "1" : "0" ) );
 
-	if ( conditionalType != pConditional->m_Type )
+	if ( type != pConditional->m_Type )
 	{
-		logging::Error( "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get());
+		logging::Error( script, "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get());
 	}
 
 	pConditional->m_bDefined = bSet;
@@ -299,7 +299,7 @@ bool CConditionalStorage::ConditionHasDefinedType( const char* pCondition, condi
 //-----------------------------------------------------------------------------
 //	Callback for expression evaluator.
 //-----------------------------------------------------------------------------
-bool CConditionalStorage::ResolveConditionalSymbol( const char *pSymbol )
+bool CConditionalStorage::ResolveConditionalSymbol(const char* pSymbol, CScript const* script)
 {
 	int offset = 0;
 
@@ -347,7 +347,7 @@ bool CConditionalStorage::ResolveConditionalSymbol( const char *pSymbol )
 		if ( pMacro )
 		{
 			// found a macro, and not allowed
-			logging::SyntaxError( TODO, "Macro '%s' detected in conditional expression and not allowed. Use \"$Conditional <name> <0/1>\"", pSymbol);
+			logging::SyntaxError( script, "Macro '%s' detected in conditional expression and not allowed. Use \"$Conditional <name> <0/1>\"", pSymbol);
 		}
 	}
 
@@ -358,23 +358,23 @@ bool CConditionalStorage::ResolveConditionalSymbol( const char *pSymbol )
 //-----------------------------------------------------------------------------
 //	Callback for expression evaluator.
 //-----------------------------------------------------------------------------
-static bool ResolveSymbol( const char *pSymbol )
+static bool ResolveSymbol( const char *pSymbol, void* ctx )
 {
-	return g_pVPC->conditionals.ResolveConditionalSymbol( pSymbol );
+	return g_pVPC->conditionals.ResolveConditionalSymbol( pSymbol, (CScript const*) ctx);
 }
 
 //-----------------------------------------------------------------------------
 //	Callback for expression evaluator.
 //-----------------------------------------------------------------------------
-static void SymbolSyntaxError( const char *pReason )
+static void SymbolSyntaxError( const char *pReason, void* ctx )
 {
 	// invoke internal syntax error hndling which spews script stack as well
-	logging::SyntaxError( TODO, "%s", pReason);
+	logging::SyntaxError( (CScript const*) ctx, "%s", pReason);
 }
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-bool CConditionalStorage::EvaluateConditionalExpression( const char *pExpression )
+bool CConditionalStorage::EvaluateConditionalExpression(const char* pExpression, CScript const* script)
 {
 	if ( !pExpression || !pExpression[0] )
 	{
@@ -384,7 +384,7 @@ bool CConditionalStorage::EvaluateConditionalExpression( const char *pExpression
 
 	bool bResult = false;
 	CExpressionEvaluator ExpressionHandler;
-	bool bValid = ExpressionHandler.Evaluate( bResult, pExpression, ::ResolveSymbol, ::SymbolSyntaxError );
+	bool bValid = ExpressionHandler.Evaluate( bResult, pExpression, ::ResolveSymbol, ::SymbolSyntaxError, (void*) script );
 	if ( !bValid )
 	{
 		logging::Error( "VPC Conditional Evaluation Error");
@@ -467,6 +467,6 @@ void CVPC::RestoreConditionals()
 	for (conditional_t* cond : *curStorage)
 	{
 		// Call SetConditional to update cached member bools:
-		conditionals.Set(cond->m_Name.Get(), cond->m_bDefined, cond->m_Type);
+		conditionals.Set(cond->m_Name.Get(), cond->m_bDefined, cond->m_Type, nullptr);
 	}
 }

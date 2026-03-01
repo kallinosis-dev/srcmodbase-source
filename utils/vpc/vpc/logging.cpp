@@ -82,7 +82,7 @@ void logging::Shutdown()
 	Log_Warning(LOG_VPC, Color(255, 0, 0, 255), "ERROR: %s\n", msg);
 
 	// dump the script stack to assist in user understanding of the include chain
-	g_pVPC->GetScript().SpewScriptStack(true);
+	CScript::SpewAllScriptStacks(true);
 
 	// stop here if debugging
 	DebuggerBreakIfDebugging();
@@ -116,9 +116,13 @@ void logging::Shutdown()
 
 	// spew in red
 	Log_Warning(LOG_VPC, Color(255, 0, 0, 255), "ERROR: %s\n", msg);
-
+	
 	// dump the script stack to assist in user understanding of the include chain
-	script->SpewScriptStack(true);
+	CScript::SpewAllScriptStacks(true, script);
+
+	if(script) {
+		script->SpewScriptStack(true);
+	}
 
 	// stop here if debugging
 	DebuggerBreakIfDebugging();
@@ -160,8 +164,14 @@ void logging::Shutdown()
 		Log_Warning(LOG_VPC, Color(255, 0, 0, 255), "Bad Syntax: %s\n", pMsg);
 	}
 
-	// syntax errors are fatal
-	Error("Bad Syntax in '%s' line:%d\n", script->GetName(), script->GetLine());
+	if(script)
+	{
+		Error(script, "Bad Syntax in '%s' line:%d\n", script->GetName(), script->GetLine());
+	}
+	else
+	{
+		Error("Bad Syntax <somewhere, no script info provided>");
+	}
 }
 
 void logging::Warning(const char* pFormat, ...)

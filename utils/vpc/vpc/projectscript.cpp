@@ -240,7 +240,7 @@ void CProjectScriptParser::Keyword_AddFilesByPattern()
 				logging::SyntaxError( &_script, "Conditional specified on a $FilePattern without any pattern preceding it.");
 			}
 
-			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
+			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken, &_script ) )
 			{
 				// we did all that work for no reason, time to bail out
 				return;
@@ -307,7 +307,7 @@ void CProjectScriptParser::ParseFileList( CUtlVector< CUtlString > &files, NameT
 			bFoundFilename = false;
 
 			// token is an optional conditional
-			bool bResult = g_pVPC->conditionals.EvaluateConditionalExpression( pToken );
+			bool bResult = g_pVPC->conditionals.EvaluateConditionalExpression( pToken, &_script );
 			if ( !bResult )	
 			{
 				// conditional evaluated false
@@ -1245,7 +1245,7 @@ void CProjectScriptParser::Keyword_MacroRequired( MacroRequiredType_t eMacroRequ
 		{
 			pToken = _script.GetToken( false );
 			// evaluate argument as conditional
-			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
+			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken, &_script ) )
 			{
 				return;
 			}
@@ -1591,7 +1591,7 @@ void CProjectScriptParser::Keyword_Conditional( bool bOverrideReserved )
 
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->conditionals.Set( name, condValue, pConditional->m_Type );
+	g_pVPC->conditionals.Set( name, condValue, pConditional->m_Type, &_script );
 }
 
 //-----------------------------------------------------------------------------
@@ -1911,7 +1911,7 @@ void CProjectScriptParser::Keyword_CustomBuildStep( void )
 				logging::SyntaxError( &_script, "Conditional specified on a $CustomBuildStep without any extensions preceding it.");
 			}
 
-			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
+			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken, &_script ) )
 			{
 				extensions.Remove( extensions.Count() - 1 );
 			}
@@ -2023,7 +2023,7 @@ void CProjectScriptParser::Keyword_CustomAutoScript()
 				logging::SyntaxError( &_script, "Conditional specified on a $CustomAutoScript without any extensions preceding it.");
 			}
 
-			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken ) )
+			if ( !g_pVPC->conditionals.EvaluateConditionalExpression( pToken, &_script ) )
 			{
 				extensions.Remove( extensions.Count() - 1 );
 			}

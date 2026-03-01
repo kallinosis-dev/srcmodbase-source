@@ -828,7 +828,7 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 			g_pVPC->SetupAllGames( false );
 			for ( int j = 0; j < priorSetGames.Count(); j++ )
 			{
-				g_pVPC->conditionals.Set( priorSetGames[j].Get(), true, CONDITIONAL_GAME );
+				g_pVPC->conditionals.Set( priorSetGames[j].Get(), true, CONDITIONAL_GAME, nullptr );
 			}
 		}		
 

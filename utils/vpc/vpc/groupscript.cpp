@@ -266,7 +266,7 @@ void VPC_GroupKeyword_Conditional(CScript* script)
 	}
 
 	// conditional has been pre-qualified, set accordingly
-	g_pVPC->conditionals.Set( name, condValue, pConditional->m_Type );
+	g_pVPC->conditionals.Set( name, condValue, pConditional->m_Type, script );
 }
 
 //-----------------------------------------------------------------------------

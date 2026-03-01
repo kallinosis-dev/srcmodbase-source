@@ -68,8 +68,6 @@ struct KeywordName_t
 	configKeyword_e		m_Keyword;
 };
 
-typedef bool (*GetSymbolProc_t)( const char *pKey );
-
 #define INVALID_INDEX -1
 
 

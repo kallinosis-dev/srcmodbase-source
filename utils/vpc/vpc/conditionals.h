@@ -6,6 +6,7 @@
 #include "tier1/utlvector.h"
 
 
+class CScript;
 
 enum conditionalType_e
 {
@@ -56,10 +57,10 @@ public:
 
 	conditional_t*			Get(char const* pName);
 	conditional_t*			CreateOrGet(const char* pName, conditionalType_e type);
-	bool					ResolveConditionalSymbol(const char* pSymbol);
-	bool					EvaluateConditionalExpression(const char* pExpression);
+	bool					ResolveConditionalSymbol(const char* pSymbol, /*nullable*/ CScript const* script);
+	bool					EvaluateConditionalExpression(const char* pExpression,  /*nullable*/ CScript const* script);
 	bool					ConditionHasDefinedType(const char* pCondition, conditionalType_e type);
-	void					Set(const char* pName, bool bSet, conditionalType_e type);
+	void					Set(const char* pName, bool bSet, conditionalType_e type, /*nullable*/ CScript const* script);
 	bool					IsDefined(const char* pName);
 
 	void					SetupDefaultConditionals();
