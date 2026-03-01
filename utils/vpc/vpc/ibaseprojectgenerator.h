@@ -108,6 +108,9 @@ public:
 	virtual bool DeploysForVPCTargetPlatform( const char *szVPCTargetPlatform ) = 0;
 	virtual CUtlString GetSolutionPlatformAlias( const char *szVPCTargetPlatform, IBaseSolutionGenerator *pSolutionGenerator ) = 0;
 
+	virtual CScript* GetProjectScript() = 0;
+	virtual CScript const* GetProjectScript() const = 0;
+
 protected:
 	CUtlString		m_OutputFileName;
 	CUtlString		m_GUIDString;

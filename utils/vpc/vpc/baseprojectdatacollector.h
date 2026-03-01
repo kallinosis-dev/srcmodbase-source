@@ -116,6 +116,9 @@ public:
 
 	const char* GetCurrentFileName() override;
 
+	CScript* GetProjectScript() override;
+	CScript const* GetProjectScript() const override;
+
 public:
 	void Term();
 	static void DoStandardVisualStudioReplacements(const char* pInitStr, CUtlStringBuilder* pStr,

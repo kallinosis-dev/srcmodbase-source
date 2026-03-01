@@ -435,3 +435,13 @@ const char *CBaseProjectDataCollector::GetCurrentFileName()
 	else
 		return m_CurFileConfig.Top()->GetName();
 }
+
+CScript* CBaseProjectDataCollector::GetProjectScript()
+{
+	return m_Script;
+}
+
+CScript const* CBaseProjectDataCollector::GetProjectScript() const
+{
+	return m_Script;
+}

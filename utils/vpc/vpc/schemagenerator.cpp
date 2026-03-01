@@ -294,20 +294,20 @@ void EndVPCBuffer( CUtlBuffer *pOutVPCBuffer )
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
-void InjectVPCBuffer( const CUtlBuffer &vpcBuffer )
+void InjectVPCBuffer( CScript* script, const CUtlBuffer &vpcBuffer )
 {
 	// save parser
 	bool bIgnoreRedundancyWarning = logging::IsIgnoreRedundancyWarning();
 	logging::SetIgnoreRedundancyWarning( true );
-	g_pVPC->GetScript().PushScript( "Internal List [Schema]", (char*)vpcBuffer.Base(), 1, false, false );
+	script->PushScript( "Internal List [Schema]", (char*)vpcBuffer.Base(), 1, false, false );
 
-	const char *pToken = g_pVPC->GetScript().GetToken( true );
+	const char *pToken = script->GetToken( true );
 	NOTE_UNUSED( pToken );
 	Assert( pToken && pToken[0] && !V_stricmp_fast( pToken, "$folder" ) );
 	VPC_Keyword_Folder( VPC_FOLDER_FLAGS_DYNAMIC );
 
 	// restore parser
-	g_pVPC->GetScript().PopScript();
+	script->PopScript();
 	logging::SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
 }
 
@@ -468,7 +468,7 @@ void VPC_Schema_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 	//--------------------------------------------------------------------------------------------------
 	// inject the generated VPC script
 	EndVPCBuffer( &vpcBuffer );
-	InjectVPCBuffer( vpcBuffer );
+	InjectVPCBuffer( pDataCollector->GetProjectScript(), vpcBuffer );
 }
 
 //--------------------------------------------------------------------------------------------------
@@ -878,25 +878,27 @@ void SetProjectCustomBuild( const char *pConfigName, CProjectConfiguration *pRoo
 	CCustomBuildTool *pTool = pRootConfiguration->GetCustomBuildTool();
 	Assert( pTool );
 
-	g_pVPC->GetScript().PushScript( "ProjectCustomBuild( CommandLine )", pCmdLine, 1, false, false );
+	CScript* script = pVCProjGenerator->GetProjectScript();
+
+	script->PushScript( "ProjectCustomBuild( CommandLine )", pCmdLine, 1, false, false );
 	pTool->SetProperty( pCommandLineProp );
-	g_pVPC->GetScript().PopScript();
+	script->PopScript();
 
-	g_pVPC->GetScript().PushScript( "ProjectCustomBuild( Description )", pDesc, 1, false, false );
+	script->PushScript( "ProjectCustomBuild( Description )", pDesc, 1, false, false );
 	pTool->SetProperty( pDescriptionProp );
-	g_pVPC->GetScript().PopScript();
+	script->PopScript();
 
-	g_pVPC->GetScript().PushScript( "ProjectCustomBuild( AdditionalDependencies_Proj )", pAdditionalDeps, 1, false, false );
+	script->PushScript( "ProjectCustomBuild( AdditionalDependencies_Proj )", pAdditionalDeps, 1, false, false );
 	pTool->SetProperty( pAdditionalDependenciesProp );
-	g_pVPC->GetScript().PopScript();
+	script->PopScript();
 
-	g_pVPC->GetScript().PushScript( "ProjectCustomBuild( Outputs )", pOutputs, 1, false, false );
+	script->PushScript( "ProjectCustomBuild( Outputs )", pOutputs, 1, false, false );
 	pTool->SetProperty( pOutputsProp );
-	g_pVPC->GetScript().PopScript();
+	script->PopScript();
 
-	g_pVPC->GetScript().PushScript( "ProjectCustomBuild( ExecuteBefore )", pExecuteBeforeValue, 1, false, false );
+	script->PushScript( "ProjectCustomBuild( ExecuteBefore )", pExecuteBeforeValue, 1, false, false );
 	pTool->SetProperty( pExecuteBeforeProp );
-	g_pVPC->GetScript().PopScript();
+	script->PopScript();
 }
 
 

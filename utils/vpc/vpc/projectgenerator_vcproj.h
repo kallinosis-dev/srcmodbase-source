@@ -279,9 +279,6 @@ public:
 
 class CVCProjGenerator : public CBaseProjectDataCollector
 {
-	friend CProjectConfiguration;
-	friend CProjectTool;
-
 public:
 	typedef CBaseProjectDataCollector BaseClass;
 	CVCProjGenerator();

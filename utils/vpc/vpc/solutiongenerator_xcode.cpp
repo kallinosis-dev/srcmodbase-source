@@ -3108,10 +3108,11 @@ public:
 			Sys_Touch( pOutputFilename );
         }
 
+
 		// remember if we needed rebuild according to vpc
 		// and update the mod time on the file if we needed rebuild
         CUtlString statusStr;
-		if ( !g_pVPC->projectCache.IsProjectCurrent( g_pVPC->GetScript().GetName(), statusStr ) )
+		if ( !g_pVPC->projectCache.IsProjectCurrent( m_pVCProjGenerator->GetProjectScript()->GetName(), statusStr ) )
         {
             logging::Status( true, "  %s", statusStr.Get() );
 			Sys_Touch( pOutputFilename );

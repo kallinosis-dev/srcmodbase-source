@@ -887,7 +887,7 @@ static bool FilesSortLessFunc( CProjectFile* const &pLHS, CProjectFile* const &p
 }
 
 CProjectConfiguration::CProjectConfiguration( CVCProjGenerator *pGenerator, const char *pConfigName, const char *pFilename ):
-	m_PropertyStates(pGenerator->m_Script)
+	m_PropertyStates(pGenerator->GetProjectScript())
 {
 	m_pGenerator = pGenerator;
 	m_bIsFileConfig = ( pFilename != nullptr);
@@ -1063,7 +1063,7 @@ const char *CProjectConfiguration::GetPropertyValue( ToolProperty_t *pToolProper
 	return m_PropertyStates.GetPropertyValue( pToolProperty );
 }
 
-CProjectTool::CProjectTool(CVCProjGenerator* pGenerator): m_PropertyStates(pGenerator->m_Script)
+CProjectTool::CProjectTool(CVCProjGenerator* pGenerator): m_PropertyStates(pGenerator->GetProjectScript())
 {
 	m_pGenerator = pGenerator;
 }

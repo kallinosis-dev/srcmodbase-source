@@ -185,6 +185,8 @@ void VPC_Qt_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 	if ( g_pVPC->m_QtFiles.Count() == 0 )
 		return;
 
+	CScript* script = pDataCollector->GetProjectScript();
+
 
 	CUtlBuffer vpcBuffer;
 	vpcBuffer.SetBufferType( true, true );
@@ -271,7 +273,7 @@ void VPC_Qt_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 		}
 		else
 		{
-			logging::SyntaxError( TODO, "Can only use $QtFile for cpp, header, or ui files. (%s)", pFilename);
+			logging::SyntaxError( script, "Can only use $QtFile for cpp, header, or ui files. (%s)", pFilename);
 			continue;
 		}
 	}
@@ -281,16 +283,16 @@ void VPC_Qt_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 	// save parser
 	bool bIgnoreRedundancyWarning = logging::IsIgnoreRedundancyWarning();
 	logging::SetIgnoreRedundancyWarning( true );
-	g_pVPC->GetScript().PushScript( "Internal List [Qt]", (char*)vpcBuffer.Base(), 1, false, false );
+	script->PushScript( "Internal List [Qt]", (char*)vpcBuffer.Base(), 1, false, false );
 
-	const char *pToken = g_pVPC->GetScript().GetToken( true );
+	const char *pToken = script->GetToken( true );
 	if ( pToken && pToken[0] && !V_stricmp_fast( pToken, "$folder" ) )
 	{
 		VPC_Keyword_Folder( VPC_FOLDER_FLAGS_DYNAMIC );
 	}
 
 	// restore parser
-	g_pVPC->GetScript().PopScript();
+	script->PopScript();
 	logging::SetIgnoreRedundancyWarning( bIgnoreRedundancyWarning );
 }
 
