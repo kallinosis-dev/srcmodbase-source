@@ -1,0 +1,16 @@
+[vpc crc file version 3]
+_.GL.HOST_LINUX.HOST_LINUX64.HOST_LINUXALL.LINUX.LINUXALL.POSIX_/vpcgame:csgo_
+PROJECT.stdshader_dx9.GAME..PLATFORM.linux64
+889b810c stdshader_dx9.vpc
+ae7c8ab7 ../../vpc_scripts/source_dll_base.vpc
+1b629e97 ../../vpc_scripts/source_base.vpc
+1961f65a ../../vpc_scripts/definitions/win32_2010.def
+07324ef9 ../../vpc_scripts/source_dll_posix_base.vpc
+486b766d ../../vpc_scripts/version.vpc
+62ac6d47 ../../vpc_scripts/source_posix_base.vpc
+12020bcc ../../vpc_scripts/source_lowest_base.vpc
+26e35886 ../../vpc_scripts/source_video_base.vpc
+2ac74cf1 stdshader_dx9_inc.vpc
+cc902d2d stdshader_dx9_20b.txt
+3b6d49fc stdshader_dx9_20b_new.txt
+c16d5841 stdshader_dx9_30.txt

@@ -153,10 +153,10 @@ ifeq ($(OS),Linux)
 	ifneq ($(USE_STEAM_RUNTIME),1)
 		# dedicated server flags
 		ifeq ($(TARGET_PLATFORM),linux64)
-			VALVE_BINDIR = /valve/bin64/
+			VALVE_BINDIR =
 			MARCH_TARGET = nocona
 		else
-			VALVE_BINDIR = /valve/bin/
+			VALVE_BINDIR =
 			MARCH_TARGET = pentium4
 		endif
 		STRIP_FLAGS = -x
@@ -172,7 +172,7 @@ ifeq ($(OS),Linux)
 			# The steam-runtime is incompatible with clang at this point, so disable it
 			# if clang is enabled.
 			ifneq ($(CXX),clang++)
-				VALVE_BINDIR = /valve/steam-runtime/bin/
+				VALVE_BINDIR =
 			endif
 		endif
 		GCC_VER =
@@ -223,13 +223,13 @@ ifeq ($(OS),Linux)
 	GCC_VER=-4.6
 	endif
 	ifeq ($(origin AR), default)
-		AR = $(VALVE_BINDIR)ar crs
+		AR = ar crs
 	endif
 	ifeq ($(origin CC),default)
-		CC = $(CCACHE) $(VALVE_BINDIR)gcc$(GCC_VER)	
+		CC = $(CCACHE) gcc
 	endif
 	ifeq ($(origin CXX), default)
-		CXX = $(CCACHE) $(VALVE_BINDIR)g++$(GCC_VER)
+		CXX = $(CCACHE) g++
 	endif
 	# Support ccache with clang. Add -Qunused-arguments to avoid excessive warnings due to
 	# a ccache quirk. Could also upgrade ccache.

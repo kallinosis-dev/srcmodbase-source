@@ -67,11 +67,7 @@ VPC_SRC:= \
 	projectgenerator_android.cpp \
 	projectgenerator_vcproj.cpp \
 	projectgenerator_makefile.cpp \
-	projectgenerator_win32.cpp \
 	projectgenerator_win32_2010.cpp \
-	projectgenerator_ps3.cpp \
-	projectgenerator_xbox360.cpp \
-	projectgenerator_xbox360_2010.cpp \
 	projectscript.cpp \
 	qtgenerator.cpp \
 	schemagenerator.cpp \

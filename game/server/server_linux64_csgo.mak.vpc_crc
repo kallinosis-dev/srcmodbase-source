@@ -1,0 +1,16 @@
+[vpc crc file version 3]
+_.GL.HOST_LINUX.HOST_LINUX64.HOST_LINUXALL.LINUX.LINUXALL.POSIX_/vpcgame:csgo_
+PROJECT.server.GAME.csgo.PLATFORM.linux64
+7b70cc6a server_cstrike15.vpc
+78b96cb2 ../../game/server/server_base.vpc
+ae7c8ab7 ../../vpc_scripts/source_dll_base.vpc
+1b629e97 ../../vpc_scripts/source_base.vpc
+1961f65a ../../vpc_scripts/definitions/win32_2010.def
+07324ef9 ../../vpc_scripts/source_dll_posix_base.vpc
+486b766d ../../vpc_scripts/version.vpc
+62ac6d47 ../../vpc_scripts/source_posix_base.vpc
+12020bcc ../../vpc_scripts/source_lowest_base.vpc
+26e35886 ../../vpc_scripts/source_video_base.vpc
+ce714193 ../../vpc_scripts/protobuf_builder.vpc
+adcc9b09 ../../vpc_scripts/netmessages_include.vpc
+c0c4922b ../../game/shared/cstrike15/cstrike15_usermessages_include.vpc

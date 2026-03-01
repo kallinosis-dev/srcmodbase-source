@@ -2994,6 +2994,7 @@ bool CVPC::AreSolutionDepenenciesActual(CUtlPathStringHolder dependenciesPath,
 void CVPC::WriteSolutionDependencies(CUtlPathStringHolder dependenciesPath,
                                      const CUtlVector<CDependency_Project*>& referencedProjects)
 {
+#if defined(_WIN32)
 	FILE* file;
 	if (fopen_s(&file, dependenciesPath, "wt") != 0)
 	{
@@ -3005,6 +3006,7 @@ void CVPC::WriteSolutionDependencies(CUtlPathStringHolder dependenciesPath,
 		fprintf_s(file, "%s\n", refproj->GetProjectFileName());
 
 	fclose(file);
+#endif // _WIN32
 }
 
 //-----------------------------------------------------------------------------
