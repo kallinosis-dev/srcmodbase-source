@@ -185,7 +185,11 @@ struct ThreadedLoadLibaryContext_t
 	const char *m_pLibraryName;
 	HMODULE m_hLibrary;
 	DWORD m_nError;
+#ifndef _WIN32
 	ThreadedLoadLibaryContext_t() : m_pLibraryName(0), m_hLibrary(0), m_nError(0) {}
+#else
+	ThreadedLoadLibaryContext_t() : m_pLibraryName(nullptr), m_hLibrary(nullptr), m_nError(nullptr) {}
+#endif // _WIN32
 };
 
 #ifdef _WIN32
