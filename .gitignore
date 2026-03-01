@@ -282,3 +282,7 @@ generated_proto_gc/
 
 # Shaders
 /materialsystem/stdshaders/fxctmp9
+
+# decaloverdose: linux shit
+*mak
+*.crc

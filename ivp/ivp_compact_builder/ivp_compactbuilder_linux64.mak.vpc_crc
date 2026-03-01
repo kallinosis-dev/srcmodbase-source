@@ -1,0 +1,12 @@
+[vpc crc file version 3]
+_.GL.HOST_LINUX.HOST_LINUX64.HOST_LINUXALL.LINUX.LINUXALL.POSIX_/vpcgame:csgo_
+PROJECT.ivp_compactbuilder.GAME..PLATFORM.linux64
+57f94582 ivp_compactbuilder.vpc
+d012cb84 ../../vpc_scripts/source_lib_base.vpc
+1b629e97 ../../vpc_scripts/source_base.vpc
+1961f65a ../../vpc_scripts/definitions/win32_2010.def
+3a750823 ../../vpc_scripts/source_lib_posix_base.vpc
+62ac6d47 ../../vpc_scripts/source_posix_base.vpc
+486b766d ../../vpc_scripts/version.vpc
+12020bcc ../../vpc_scripts/source_lowest_base.vpc
+26e35886 ../../vpc_scripts/source_video_base.vpc
