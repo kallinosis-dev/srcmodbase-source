@@ -61,6 +61,7 @@ public:
 	bool					EvaluateConditionalExpression(const char* pExpression,  /*nullable*/ CScript const* script);
 	bool					ConditionHasDefinedType(const char* pCondition, conditionalType_e type);
 	void					Set(const char* pName, bool bSet, conditionalType_e type, /*nullable*/ CScript const* script);
+	void					SetSystem(char const* pName, bool bSet);
 	bool					IsDefined(const char* pName);
 
 	void					SetupDefaultConditionals();
@@ -89,6 +90,9 @@ public:
 
 	Storage const& GetStorage() const;
 	bool HasAny() const;
+
+private:
+	conditional_t* SetImpl(const char* pName, bool bSet, conditionalType_e type, /*nullable*/ CScript const* script);
 
 private:
 	Storage	_conditionals;

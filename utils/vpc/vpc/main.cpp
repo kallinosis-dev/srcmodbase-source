@@ -840,19 +840,19 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		}
 		else if (!V_stricmp_fast(pArgName, "checkfiles"))
 		{
-			conditionals.Set("MISSING_FILE_CHECK", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("MISSING_FILE_CHECK", true);
 		}
 		else if (!V_stricmp_fast(pArgName, "nocheckfiles"))
 		{
-			conditionals.Set("MISSING_FILE_CHECK", false, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("MISSING_FILE_CHECK", false);
 		}
 		else if (!V_stricmp_fast(pArgName, "checkfiles_error"))
 		{
-			conditionals.Set("MISSING_FILE_IS_ERROR", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("MISSING_FILE_IS_ERROR", true);
 		}
 		else if (!V_stricmp_fast(pArgName, "checkfiles_warning"))
 		{
-			conditionals.Set("MISSING_FILE_IS_ERROR", false, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("MISSING_FILE_IS_ERROR", false);
 		}
 		else if (!V_stricmp_fast(pArgName, "disable_per_file_compile_config"))
 		{
@@ -870,27 +870,27 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp_fast(pArgName, "qt"))
 		{
 			// Enable Qt
-			conditionals.Set("ALLOW_QT", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ALLOW_QT", true);
 		}
 		else if (!V_stricmp_fast(pArgName, "no_qt") || !V_stricmp_fast(pArgName, "noqt"))
 		{
 			// Disable Qt
-			conditionals.Set("ALLOW_QT", false, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ALLOW_QT", false);
 		}
 		else if (!V_stricmp_fast(pArgName, "schema"))
 		{
 			// Enable Schema
-			conditionals.Set("ALLOW_SCHEMA", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ALLOW_SCHEMA", true);
 		}
 		else if (!V_stricmp_fast(pArgName, "no_schema") || !V_stricmp_fast(pArgName, "noschema"))
 		{
 			// Disable Schema
-			conditionals.Set("ALLOW_SCHEMA", false, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ALLOW_SCHEMA", false);
 		}
 		else if (!V_stricmp_fast(pArgName, "unity"))
 		{
 			// Enable Unity
-			conditionals.Set("ALLOW_UNITY", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ALLOW_UNITY", true);
 			// TEMP: until the unity feature is more widely deployed, we turn it on by default but
 			//       only for schematized header files (this mirrors the old behaviour). If you
 			//       pass '/unity', this turns it on for ALL files:
@@ -900,7 +900,7 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp_fast(pArgName, "forceunity"))
 		{
 			// Enable Unity on all files, even writable files.
-			conditionals.Set("ALLOW_UNITY", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ALLOW_UNITY", true);
 			m_bUnitySchemaHeadersOnly = false;
 			m_bUnityOnWritableFiles = true;
 			m_ExtraOptionsForCRC.InsertIfNotFound("/forceunity");
@@ -908,7 +908,7 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp_fast(pArgName, "no_unity") || !V_stricmp_fast(pArgName, "nounity"))
 		{
 			// Disable unity
-			conditionals.Set("ALLOW_UNITY", false, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ALLOW_UNITY", false);
 		}
 		else if (!V_stricmp_fast(pArgName, "unity_suffix"))
 		{
@@ -919,12 +919,12 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp_fast(pArgName, "clang"))
 		{
 			// Enable Clang
-			conditionals.Set("ALLOW_CLANG", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ALLOW_CLANG", true);
 		}
 		else if (!V_stricmp_fast(pArgName, "no_clang") || !V_stricmp_fast(pArgName, "noclang"))
 		{
 			// Disable Clang
-			conditionals.Set("ALLOW_CLANG", false, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ALLOW_CLANG", false);
 		}
 		else if (!V_stricmp_fast(pArgName, "genmakeproj"))
 		{
@@ -990,11 +990,11 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 			!V_stricmp_fast(pArgName, "2022"))
 		{
 			// User provided CL trumps any pre-set defaults.
-			conditionals.Set("PREFER_VS2010", !V_stricmp_fast(pArgName, "2010"), CONDITIONAL_SYSTEM);
-			conditionals.Set("PREFER_VS2012", !V_stricmp_fast(pArgName, "2012"), CONDITIONAL_SYSTEM);
-			conditionals.Set("PREFER_VS2013", !V_stricmp_fast(pArgName, "2013"), CONDITIONAL_SYSTEM);
-			conditionals.Set("PREFER_VS2015", !V_stricmp_fast(pArgName, "2015"), CONDITIONAL_SYSTEM);
-			conditionals.Set("PREFER_VS2022", !V_stricmp_fast(pArgName, "2022"), CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("PREFER_VS2010", !V_stricmp_fast(pArgName, "2010"));
+			conditionals.SetSystem("PREFER_VS2012", !V_stricmp_fast(pArgName, "2012"));
+			conditionals.SetSystem("PREFER_VS2013", !V_stricmp_fast(pArgName, "2013"));
+			conditionals.SetSystem("PREFER_VS2015", !V_stricmp_fast(pArgName, "2015"));
+			conditionals.SetSystem("PREFER_VS2022", !V_stricmp_fast(pArgName, "2022"));
 		}
 		else if (!V_stricmp_fast(pArgName, "restart") || !V_stricmp_fast(pArgName, "noautoargs"))
 		{
@@ -1003,12 +1003,12 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 		else if (!V_stricmp_fast(pArgName, "nosrcctl"))
 		{
 			// support terser format
-			conditionals.Set("SOURCECONTROL", false, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("SOURCECONTROL", false);
 		}
 		else if (!V_stricmp_fast(pArgName, "srcctl"))
 		{
 			// support terser format
-			conditionals.Set("SOURCECONTROL", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("SOURCECONTROL", true);
 		}
 		else if (!V_stricmp_fast(pArgName, "allprojects"))
 		{
@@ -1026,7 +1026,7 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 			}
 
 			// found as a VPC recognized conditional
-			conditionals.Set(pActualDefineName, true, pConditional->m_Type);
+			conditionals.Set(pActualDefineName, true, pConditional->m_Type, nullptr);
 		}
 		else
 		{
@@ -1041,7 +1041,7 @@ void CVPC::HandleSingleCommandLineArg(const char* pArg)
 			else
 			{
 				// found as a VPC recognized conditional
-				conditionals.Set(pArgName, true, pConditional->m_Type);
+				conditionals.Set(pArgName, true, pConditional->m_Type, nullptr);
 			}
 		}
 	}
@@ -1753,12 +1753,12 @@ void CVPC::SetMacrosAndConditionals()
 #endif
 	if (m_bGenMakeProj)
 	{
-		conditionals.Set("GENERATE_MAKEFILE_VCXPROJ", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("GENERATE_MAKEFILE_VCXPROJ", true);
 
 		// We're always using newer solutions and projects in this mode.
 		// This won't override a higher version, it just makes sure
 		// we get at least VS2010, conforming to other trumps.
-		conditionals.Set("PREFER_VS2010", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("PREFER_VS2010", true);
 	}
 
 	bool bCrossCompileUsingVisualStudio = bHaveMakefileTarget && m_bGenMakeProj;
@@ -1791,23 +1791,23 @@ void CVPC::SetMacrosAndConditionals()
 		// For backwards compatibility with /define:vs2012 don't set this to false if m_bUse2012 isn't set.
 		if (m_bUse2022)
 		{
-			conditionals.Set("VS2022", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("VS2022", true);
 		}
 		else if (m_bUse2015)
 		{
-			conditionals.Set("VS2015", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("VS2015", true);
 		}
 		else if (m_bUse2013)
 		{
-			conditionals.Set("VS2013", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("VS2013", true);
 		}
 		else if (m_bUse2012)
 		{
-			conditionals.Set("VS2012", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("VS2012", true);
 		}
 		else if (m_bUse2010)
 		{
-			conditionals.Set("VS2010", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("VS2010", true);
 		}
 		else
 		{
@@ -1828,7 +1828,7 @@ void CVPC::SetMacrosAndConditionals()
 			macros.SetAsSystem("PLATSUBDIR", "\\win64", false);
 		}
 
-		conditionals.Set("WINDOWS", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("WINDOWS", true);
 
 		macros.SetAsSystem("_DLL_EXT", ".dll", true);
 		macros.SetAsSystem("_IMPLIB_EXT", ".lib", false);
@@ -1849,10 +1849,10 @@ void CVPC::SetMacrosAndConditionals()
 	{
 		if (VPC_IsPlatformLinux(platformName.String()))
 		{
-			conditionals.Set("LINUXALL", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("LINUXALL", true);
 			macros.SetAsSystem("LINUX", "1", true);
 			macros.SetAsSystem("_LINUX", "1", true);
-			conditionals.Set("LINUX", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("LINUX", true);
 
 			if (!V_stricmp_fast(platformName.String(), "LINUX64"))
 			{
@@ -1874,8 +1874,8 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("LINUXSTEAMRTARM32HF", "1", true);
 				macros.SetAsSystem("_LINUXSTEAMRTARM32HF", "1", true);
-				conditionals.Set("ARCH_ARM", true, CONDITIONAL_SYSTEM);
-				conditionals.Set("LINUXARM", true, CONDITIONAL_SYSTEM);
+				conditionals.SetSystem("ARCH_ARM", true);
+				conditionals.SetSystem("LINUXARM", true);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "LINUXSTEAMRTARM64HF"))
 			{
@@ -1883,8 +1883,8 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("LINUXSTEAMRTARM64HF", "1", true);
 				macros.SetAsSystem("_LINUXSTEAMRTARM64HF", "1", true);
-				conditionals.Set("ARCH_ARM", true, CONDITIONAL_SYSTEM);
-				conditionals.Set("LINUXARM", true, CONDITIONAL_SYSTEM);
+				conditionals.SetSystem("ARCH_ARM", true);
+				conditionals.SetSystem("LINUXARM", true);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "LINUXSERVER64"))
 			{
@@ -1900,7 +1900,7 @@ void CVPC::SetMacrosAndConditionals()
 		}
 		else if (VPC_IsPlatformAndroid(platformName.String()))
 		{
-			conditionals.Set("ANDROIDALL", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("ANDROIDALL", true);
 
 			if (!V_stricmp_fast(platformName.String(), "ANDROIDARM32"))
 			{
@@ -1908,7 +1908,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDARM32", "1", true);
 				macros.SetAsSystem("_ANDROIDARM32", "1", true);
-				conditionals.Set("ANDROIDARMALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetSystem("ANDROIDARMALL", true);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDARM64"))
 			{
@@ -1916,7 +1916,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDARM64", "1", true);
 				macros.SetAsSystem("_ANDROIDARM64", "1", true);
-				conditionals.Set("ANDROIDARMALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetSystem("ANDROIDARMALL", true);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDMIPS32"))
 			{
@@ -1924,7 +1924,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDMIPS32", "1", true);
 				macros.SetAsSystem("_ANDROIDMIPS32", "1", true);
-				conditionals.Set("ANDROIDMIPSALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetSystem("ANDROIDMIPSALL", true);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDMIPS64"))
 			{
@@ -1932,7 +1932,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDMIPS64", "1", true);
 				macros.SetAsSystem("_ANDROIDMIPS64", "1", true);
-				conditionals.Set("ANDROIDMIPSALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetSystem("ANDROIDMIPSALL", true);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDX8632"))
 			{
@@ -1940,7 +1940,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDX8632", "1", true);
 				macros.SetAsSystem("_ANDROIDX8632", "1", true);
-				conditionals.Set("ANDROIDX86ALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetSystem("ANDROIDX86ALL", true);
 			}
 			else if (!V_stricmp_fast(platformName.String(), "ANDROIDX8664"))
 			{
@@ -1948,7 +1948,7 @@ void CVPC::SetMacrosAndConditionals()
 
 				macros.SetAsSystem("ANDROIDX8664", "1", true);
 				macros.SetAsSystem("_ANDROIDX8664", "1", true);
-				conditionals.Set("ANDROIDX86ALL", true, CONDITIONAL_SYSTEM);
+				conditionals.SetSystem("ANDROIDX86ALL", true);
 			}
 			else
 			{
@@ -1958,10 +1958,10 @@ void CVPC::SetMacrosAndConditionals()
 
 		if (m_bDedicatedBuild)
 		{
-			conditionals.Set("DEDICATED", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("DEDICATED", true);
 		}
 
-		conditionals.Set("POSIX", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("POSIX", true);
 
 		macros.SetAsSystem("POSIX", "1", true);
 		macros.SetAsSystem("_POSIX", "1", true);
@@ -1996,7 +1996,7 @@ void CVPC::SetMacrosAndConditionals()
 		macros.SetAsSystem("_EXE_EXT", "", false);
 		macros.SetAsSystem("_SYM_EXT", ".dbg", false);
 
-		conditionals.Set("GL", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("GL", true);
 	}
 	else if (!V_stricmp_fast(platformName.String(), "OSX32") ||
 		!V_stricmp_fast(platformName.String(), "OSX64"))
@@ -2010,14 +2010,14 @@ void CVPC::SetMacrosAndConditionals()
 			macros.SetAsSystem("PLATSUBDIR", "\\osx64", false);
 		}
 
-		conditionals.Set("OSXALL", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("OSXALL", true);
 
 		if (m_bDedicatedBuild)
 		{
-			conditionals.Set("DEDICATED", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("DEDICATED", true);
 		}
 
-		conditionals.Set("POSIX", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("POSIX", true);
 		macros.SetAsSystem("_POSIX", "1", true);
 
 		macros.SetAsSystem("_DLL_EXT", ".dylib", true);
@@ -2036,21 +2036,21 @@ void CVPC::SetMacrosAndConditionals()
 		macros.SetAsSystem("_EXTERNAL_STATICLIB_EXT", ".a", false);
 
 		// Mac defaults to GL on
-		conditionals.Set("GL", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("GL", true);
 	}
 	else if (!V_stricmp_fast(platformName.String(), "IOS"))
 	{
-		conditionals.Set("OSXALL", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("OSXALL", true);
 
 		if (m_bDedicatedBuild)
 		{
-			conditionals.Set("DEDICATED", true, CONDITIONAL_SYSTEM);
+			conditionals.SetSystem("DEDICATED", true);
 		}
 
-		conditionals.Set("POSIX", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("POSIX", true);
 		macros.SetAsSystem("_POSIX", "1", true);
 
-		conditionals.Set("IOS", true, CONDITIONAL_SYSTEM);
+		conditionals.SetSystem("IOS", true);
 		macros.SetAsSystem("_IOS", "1", true);
 		macros.SetAsSystem("IOS", "1", true);
 
@@ -2080,49 +2080,49 @@ void CVPC::SetMacrosAndConditionals()
 	// on the host and not the target.
 	macros.SetAsDynamic("HOST_VPC_EXE", CHostVPCMacro::ResolveHostVPCMacro);
 #if defined( WIN64 )
-	conditionals.SetConditional( "HOST_WINDOWS", true, CONDITIONAL_SYSTEM );
-	conditionals.SetConditional( "HOST_WIN64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetSystem( "HOST_WINDOWS", true );
+	conditionals.SetSystem( "HOST_WIN64", true );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\win64", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", ".exe", false );
 #elif defined( WIN32 )
-	conditionals.Set("HOST_WINDOWS", true, CONDITIONAL_SYSTEM);
-	conditionals.Set("HOST_WIN32", true, CONDITIONAL_SYSTEM);
+	conditionals.SetSystem("HOST_WINDOWS", true);
+	conditionals.SetSystem("HOST_WIN32", true);
 	macros.SetAsSystem("HOST_PLATSUBDIR", "\\win32", false);
 	macros.SetAsSystem("HOST_EXE_EXT", ".exe", false);
 #elif defined( OSX64 )
-	conditionals.SetConditional( "HOST_OSXALL", true, CONDITIONAL_SYSTEM );
-	conditionals.SetConditional( "HOST_OSX64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetSystem( "HOST_OSXALL", true );
+	conditionals.SetSystem( "HOST_OSX64", true );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\osx64", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( OSX32 )
-	conditionals.SetConditional( "HOST_OSXALL", true, CONDITIONAL_SYSTEM );
-	conditionals.SetConditional( "HOST_OSX32", true, CONDITIONAL_SYSTEM );
+	conditionals.SetSystem( "HOST_OSXALL", true );
+	conditionals.SetSystem( "HOST_OSX32", true );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\osx32", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUX )
-	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-	conditionals.SetConditional( "HOST_LINUX", true, CONDITIONAL_SYSTEM );
-	conditionals.SetConditional( "HOST_LINUX64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetSystem( "HOST_LINUXALL", true );
+	conditionals.SetSystem( "HOST_LINUX", true );
+	conditionals.SetSystem( "HOST_LINUX64", true, );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linux", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUXSTEAMRT64 )
-	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-	conditionals.SetConditional( "HOST_LINUXSTEAMRT64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetSystem( "HOST_LINUXALL", true );
+	conditionals.SetSystem( "HOST_LINUXSTEAMRT64", true );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linuxsteamrt64", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUXSERVER64 )
-	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-	conditionals.SetConditional( "HOST_LINUXSERVER64", true, CONDITIONAL_SYSTEM );
+	conditionals.SetSystem( "HOST_LINUXALL", true );
+	conditionals.SetSystem( "HOST_LINUXSERVER64", true );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linuxserver64", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUXSTEAMRTARM32HF )
-	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-	conditionals.SetConditional( "HOST_LINUXSTEAMRTARM32HF", true, CONDITIONAL_SYSTEM );
+	conditionals.SetSystem( "HOST_LINUXALL", true );
+	conditionals.SetSystem( "HOST_LINUXSTEAMRTARM32HF", true );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linuxsteamrtarm32hf", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUXSTEAMRTARM64HF )
-	conditionals.SetConditional( "HOST_LINUXALL", true, CONDITIONAL_SYSTEM );
-	conditionals.SetConditional( "HOST_LINUXSTEAMRTARM64HF", true, CONDITIONAL_SYSTEM );
+	conditionals.SetSystem( "HOST_LINUXALL", true );
+	conditionals.SetSystem( "HOST_LINUXSTEAMRTARM64HF", true );
 	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\linuxsteamrtarm64hf", false );
 	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #else

@@ -241,7 +241,7 @@ conditional_t * CConditionalStorage::CreateOrGet( const char *pName, conditional
 	return _conditionals[index];
 }
 
-void CConditionalStorage::Set(const char* pName, bool bSet, conditionalType_e type, CScript const* script)
+conditional_t* CConditionalStorage::SetImpl(const char* pName, bool bSet, conditionalType_e type, CScript const* script)
 {
 	conditional_t *pConditional = CreateOrGet( pName, type );
 	if ( !pConditional )
@@ -258,12 +258,22 @@ void CConditionalStorage::Set(const char* pName, bool bSet, conditionalType_e ty
 
 	pConditional->m_bDefined = bSet;
 
-	if ( pConditional->m_Type == CONDITIONAL_SYSTEM )
-	{
-		g_pVPC->SetSystemConditional(pConditional->m_UpperCaseName.Get(), bSet);
-
-	}
+	return pConditional;
 }
+
+void CConditionalStorage::Set(const char* pName, bool bSet, conditionalType_e type, CScript const* script)
+{
+	Assert(type != CONDITIONAL_SYSTEM);
+	SetImpl(pName, bSet, type, script);
+}
+
+void CConditionalStorage::SetSystem(char const* pName, bool bSet)
+{
+	conditional_t* cond = SetImpl(pName, bSet, CONDITIONAL_SYSTEM, nullptr);
+	g_pVPC->SetSystemConditional(cond->m_UpperCaseName.Get(), bSet);
+}
+
+
 
 //-----------------------------------------------------------------------------
 //	Returns true if string has a conditional of the specified type
@@ -466,7 +476,7 @@ void CVPC::RestoreConditionals()
 	curStorage->Swap(m_SavedConditionals);
 	for (conditional_t* cond : *curStorage)
 	{
-		// Call SetConditional to update cached member bools:
+		// Call CConditionalStorage::Set to update cached member bools:
 		conditionals.Set(cond->m_Name.Get(), cond->m_bDefined, cond->m_Type, nullptr);
 	}
 }
