@@ -21,7 +21,7 @@
 // Default conditional symbol handler callback. Symbols are the form $<name>.
 // Return true or false for the value of the symbol.
 //-----------------------------------------------------------------------------
-bool DefaultConditionalSymbolProc( const char *pKey )
+bool DefaultConditionalSymbolProc( const char *pKey, void*)
 {
 	if ( pKey[0] == '$' )
 	{
@@ -90,7 +90,7 @@ bool DefaultConditionalSymbolProc( const char *pKey )
 	return KeyValuesSystem()->GetKeyValuesExpressionSymbol( pKey );
 }
 
-void DefaultConditionalErrorProc( const char *pReason )
+void DefaultConditionalErrorProc( const char *pReason, void*)
 {
 	Warning( "Conditional Error: %s\n", pReason );
 }
@@ -158,7 +158,7 @@ bool CExpressionEvaluator::IsConditional( bool &bConditional, const char token )
 		}
 		else if ( m_pSyntaxErrorProc )
 		{
-			m_pSyntaxErrorProc( CFmtStr( "Bad expression operator: '%c%c', expected C style operator", token, nextchar ) );
+			m_pSyntaxErrorProc( CFmtStr( "Bad expression operator: '%c%c', expected C style operator", token, nextchar ), m_pCallbackCtx );
 			return false;
 		}
 	}
@@ -243,7 +243,7 @@ bool CExpressionEvaluator::MakeExprNode( ExprTree &tree, char token, Kind kind, 
 		}
 		else
 		{
-			tree->data.value = m_pGetSymbolProc( m_Identifier );
+			tree->data.value = m_pGetSymbolProc( m_Identifier, m_pCallbackCtx );
 		}
 		break;
 
@@ -254,7 +254,7 @@ bool CExpressionEvaluator::MakeExprNode( ExprTree &tree, char token, Kind kind, 
 		if ( m_pSyntaxErrorProc )
 		{
 			Assert( 0 );
-			m_pSyntaxErrorProc( CFmtStr( "Logic Error in CExpressionEvaluator" ) );
+			m_pSyntaxErrorProc( CFmtStr( "Logic Error in CExpressionEvaluator" ), m_pCallbackCtx );
 		}
 		return false;
 	}
@@ -296,7 +296,7 @@ bool CExpressionEvaluator::MakeFactor( ExprTree &tree )
 		// This must be a bad token
 		if ( m_pSyntaxErrorProc )
 		{
-			m_pSyntaxErrorProc( CFmtStr( "Bad expression token: %c", m_CurToken ) );
+			m_pSyntaxErrorProc( CFmtStr( "Bad expression token: %c", m_CurToken ), m_pCallbackCtx );
 		}
 		return false;
 	}
@@ -439,7 +439,7 @@ bool CExpressionEvaluator::SimplifyNode( ExprTree& node )
 //-----------------------------------------------------------------------------
 //	Interface to solve a conditional expression. Returns false on failure, Result is undefined.
 //-----------------------------------------------------------------------------
-bool CExpressionEvaluator::Evaluate( bool &bResult, const char *pInfixExpression, GetSymbolProc_t pGetSymbolProc, SyntaxErrorProc_t pSyntaxErrorProc )
+bool CExpressionEvaluator::Evaluate( bool &bResult, const char *pInfixExpression, GetSymbolProc_t pGetSymbolProc, SyntaxErrorProc_t pSyntaxErrorProc, void* pCallbackCtx )
 {
 	if ( !pInfixExpression )
 	{
@@ -473,6 +473,7 @@ bool CExpressionEvaluator::Evaluate( bool &bResult, const char *pInfixExpression
 	m_pExpression = pInfixExpression;
 	m_pGetSymbolProc = pGetSymbolProc ? pGetSymbolProc : DefaultConditionalSymbolProc;
 	m_pSyntaxErrorProc = pSyntaxErrorProc ? pSyntaxErrorProc : DefaultConditionalErrorProc;
+	m_pCallbackCtx = pCallbackCtx;
 	m_ExprTree = nullptr;
 	m_CurPosition = 0;
 	m_CurToken = 0;

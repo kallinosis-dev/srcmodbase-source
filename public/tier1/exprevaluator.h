@@ -34,15 +34,15 @@ struct ExprNode
 typedef ExprNode *ExprTree;
 
 // callback to evaluate a $<symbol> during evaluation, return true or false
-typedef bool (*GetSymbolProc_t)( const char *pKey );
-typedef void (*SyntaxErrorProc_t)( const char *pReason );
+typedef bool (*GetSymbolProc_t)( const char *pKey, void* ctx );
+typedef void (*SyntaxErrorProc_t)( const char *pReason, void* ctx );
 
 class CExpressionEvaluator
 {
 public:
 	CExpressionEvaluator();
 	~CExpressionEvaluator();
-	bool Evaluate( bool &result, const char *pInfixExpression, GetSymbolProc_t pGetSymbolProc = nullptr, SyntaxErrorProc_t pSyntaxErrorProc = nullptr );
+	bool Evaluate( bool &result, const char *pInfixExpression, GetSymbolProc_t pGetSymbolProc = nullptr, SyntaxErrorProc_t pSyntaxErrorProc = nullptr, void* pCallbackCtx = nullptr );
 
 private:
 	CExpressionEvaluator( CExpressionEvaluator& );	// prevent copy constructor being used
@@ -69,6 +69,7 @@ private:
 	GetSymbolProc_t		m_pGetSymbolProc;
 	SyntaxErrorProc_t	m_pSyntaxErrorProc;
 	bool				m_bSetup;
+	void*				m_pCallbackCtx;
 };
 
 #endif
