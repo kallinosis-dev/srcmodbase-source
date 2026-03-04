@@ -250,8 +250,6 @@ public:
 
 	const project_t *		GetProjectFromIndex( projectIndex_t nIndex ) const { return &m_Projects[nIndex]; }
 
-	bool					BuildDependencyProjects( CUtlVector< CDependency_Project *> &projects );
-
 	// TODO: should actually be private, but used in CConditionalStorage
 	void					SetSystemConditional(char const* name, bool value);
 

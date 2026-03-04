@@ -1430,30 +1430,6 @@ bool CVPC::BuildTargetProject(IProjectIterator* pIterator, projectIndex_t projec
 	return pIterator->VisitProject(projectIndex, szScriptName);
 }
 
-bool CVPC::BuildDependencyProjects(CUtlVector<CDependency_Project*>& projects)
-{
-	//back up target projects because I'm not fully aware of what states it could start in
-	CUtlVector<projectIndex_t> targetProjectsBackup;
-	targetProjectsBackup.AddVectorToTail(m_TargetProjects);
-
-	m_TargetProjects.RemoveAll();
-
-	//translate projects param to m_TargetProjects format
-	for (int i = 0; i < projects.Count(); ++i)
-	{
-		CDependency_Project* pCurDependency = projects[i];
-		m_TargetProjects.AddToTail(pCurDependency->m_iProjectIndex);
-	}
-
-	bool bRetVal = BuildTargetProjects();
-
-	//restore target projects to prior state
-	m_TargetProjects.RemoveAll();
-	m_TargetProjects.AddVectorToTail(targetProjectsBackup);
-
-	return bRetVal;
-}
-
 //-----------------------------------------------------------------------------
 //	Iterate and build each of the projects. Game projects can themselves be
 //	auto-iterated to apply each of their mod variant.
