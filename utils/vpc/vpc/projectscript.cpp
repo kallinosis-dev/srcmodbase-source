@@ -1811,7 +1811,7 @@ void WriteCRCCheckFile( const char *pVCProjFilename )
 void CProjectScriptParser::Keyword_Project( int depth )
 {
 	//determine project generator before any generator-dependent configuration is allowed
-	g_pVPC->DetermineProjectGenerator();
+	g_pVPC->DetermineProjectGenerator(&_script);
 
 	CUtlString projectName;
     

@@ -169,7 +169,7 @@ void CProjectScriptParser::Config_Keyword( configKeyword_e keyword, const char *
 void CProjectScriptParser::Keyword_Configuration()
 {
 	//determine project generator before any generator-dependent configuration is allowed
-	g_pVPC->DetermineProjectGenerator();
+	g_pVPC->DetermineProjectGenerator(&_script);
 
 	const char				*pToken;
 	CUtlStringHolder<50>	configName;
