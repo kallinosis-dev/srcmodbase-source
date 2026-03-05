@@ -1940,7 +1940,7 @@ void CVCProjGenerator::HandleProperty( const char *pPropertyName, const char *pC
 	if ( !pToken || !pToken[0] )
 	{
 		// quietly ignoring any property without a value (not an error)
-		// TODO: this is a problem - the user cannot deliberately clear a property to the emtpy string!
+		// TODO: this is a problem - the user cannot deliberately clear a property to the empty string!
 		if ( pCustomScriptData )
 		{
 			m_Script->PopScript();

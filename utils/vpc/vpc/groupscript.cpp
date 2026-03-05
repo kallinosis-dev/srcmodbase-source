@@ -342,9 +342,9 @@ void CVPC::GenerateBuildSet( CProjectDependencyGraph &dependencyGraph )
 	CUtlVector< projectIndex_t > forceAllowProjects;
 	if ( g_pVPC->RestrictProjectsToEverything() )
 	{
-		// Since the user is restricting the projects to everything, it's possible they are trying to build a project
+		// Since the user is restricting the projects to everything, it's possible he is trying to build a project
 		// that in not in the everything group. Accumulate all the build commands and treat them as unconditionally 'allowed'
-		// projects that the dependency generator needs to consider. i.e. They are using @foo, but foo is not in the everything group,
+		// projects that the dependency generator needs to consider. i.e. He is using @foo, but foo is not in the everything group,
 		// the dependency generator would otherwise yield nothing unless we 'allowed' foo for consideration.
 		//
 		// Generate the 'allowed' projects without considering -XXX, which is a silly undefined complexity w.r.t dependencies. If somebody really
