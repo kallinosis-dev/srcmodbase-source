@@ -18,8 +18,6 @@
 #include "projectgenerator_vcproj.h"
 #include "scriptutil.h"
 
-#define VPC_CRC_CACHE_VERSION 8
-
 // ------------------------------------------------------------------------------------------------------- //
 // CDependency functions.
 // ------------------------------------------------------------------------------------------------------- //
@@ -29,9 +27,6 @@ CDependency::CDependency( CProjectDependencyGraph *pDependencyGraph ) :
 {
 	// ensure this dependency marker is initialized unmarked by ensuring inequality
 	m_iDependencyMark = m_pDependencyGraph->m_iDependencyMark - 1;
-
-	m_bCheckedIncludes = false;
-	m_nCacheModificationTime = m_nCacheFileSize = 0;
 }
 
 CDependency::~CDependency()
@@ -238,7 +233,6 @@ public:
 				// TODO: SetupFilesList() will early-out the second time through, so any additional search paths in the Release
 				//       config will be ignored! We should combine the two sets of search paths and call SetupFilesList() ONCE
 				//       (it will warn if any ambiguities are found - which we should definitely avoid)
-				SetupIncludeDirectories( rootConfigs[i] );
 				SetupFilesList( m_pVCProjGenerator->GetRootFolder() );
 				SetupAdditionalProjectDependencies( rootConfigs[i] );
 				SetupBuildToolDependencies( rootConfigs[i] );
@@ -253,18 +247,16 @@ public:
 				char sAbsolutePath[MAX_FIXED_PATH];
 				V_MakeAbsolutePath( sAbsolutePath, sizeof( sAbsolutePath ), pFile->m_Filename.Get(), nullptr, k_bVPCForceLowerCase );
 
-				// Don't bother with source files if we're not building the full dependency set.
-				bool bIsSourceFile = IsSourceFile( sAbsolutePath );
-				if ( bIsSourceFile && !m_pDependencyGraph->m_bFullDependencySet )
-					continue;
-
-				// For source files, don't bother with files that don't exist. If we do create entries
-				// for files that don't exist, then they'll have a "cache file size"
-				if ( bIsSourceFile && !Sys_Exists( sAbsolutePath ) )
+				// Ignore source files.
+				// TODO: We are only here for project references, use !IsLibFile(sAbsolutePath) or something
+				if ( IsSourceFile( sAbsolutePath) )
 					continue;
 
 				// Add an entry to the project for this file (but only once - not twice for debug+release!)
-				CDependency *pDep = m_pDependencyGraph->FindOrCreateDependency( sAbsolutePath, (pFile->m_iFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB | VPC_FILE_FLAGS_SHARED_LIB)) ? k_eDependencyType_Library : (bIsSourceFile ? k_eDependencyType_SourceFile : k_eDependencyType_Unknown) );
+				CDependency *pDep = m_pDependencyGraph->FindOrCreateDependency( sAbsolutePath, 
+					(pFile->m_iFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB | VPC_FILE_FLAGS_SHARED_LIB)) ? 
+						k_eDependencyType_Library : k_eDependencyType_Unknown );
+
 				if ( !pDep->HasBeenMarked() && pDep != m_pDependencyProject )
 				{
 					AssertDbg( !m_pDependencyProject->m_Dependencies.HasElement( pDep ) ); // HasBeenMarked() should prevent this (slow check for large sets)
@@ -313,29 +305,19 @@ public:
 				continue;
 			}
 
-			// Don't bother with source files if we're not building the full dependency set.
-			bool bIsSourceFile = IsSourceFile( sAbsolutePath );
-			if ( bIsSourceFile && !m_pDependencyGraph->m_bFullDependencySet )
+			// Ignore source files.
+			// TODO: We are only here for project references, use !IsLibFile(sAbsolutePath) or something
+			if ( IsSourceFile( sAbsolutePath) )
 				continue;
-
-			// For source files, don't bother with files that don't exist. If we do create entries
-			// for files that don't exist, then they'll have a "cache file size"
-			if ( bIsSourceFile && !Sys_Exists( sAbsolutePath ) )
-				continue;
-
+			
 			// Add an entry to the project for this file (but only once - not twice for debug+release!)
-			CDependency *pDep = m_pDependencyGraph->FindOrCreateDependency( sAbsolutePath, (pFile->m_iFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB)) ? k_eDependencyType_Library : (bIsSourceFile ? k_eDependencyType_SourceFile : k_eDependencyType_Unknown) );
+			CDependency *pDep = m_pDependencyGraph->FindOrCreateDependency( sAbsolutePath, 
+				(pFile->m_iFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB)) ? k_eDependencyType_Library : k_eDependencyType_Unknown);
 			if ( !pDep->HasBeenMarked() && pDep != m_pDependencyProject )
 			{
 				AssertDbg( !m_pDependencyProject->m_Dependencies.HasElement( pDep ) ); // HasBeenMarked() should prevent this (slow check for large sets)
 				m_pDependencyProject->m_Dependencies.AddToTail( pDep );
 				pDep->Mark();
-			}
-
-			// Process the file's includes, recursively.
-			if ( pDep->m_Type == k_eDependencyType_SourceFile )
-			{
-				AddIncludesForFile( pDep );
 			}
 		}
 
@@ -343,182 +325,6 @@ public:
 		for ( int iIndex = pFolder->m_Folders.Head(); iIndex != pFolder->m_Folders.InvalidIndex(); iIndex = pFolder->m_Folders.Next( iIndex ) )
 		{
 			SetupFilesList( pFolder->m_Folders[iIndex] );
-		}
-	}
-
-	void AddIncludesForFile( CDependency *pFile )
-	{
-		// Have we already parsed this file for its includes?
-		if ( pFile->m_bCheckedIncludes )
-			return;
-		pFile->m_bCheckedIncludes = true;
-
-		// Setup all the include paths we want to search.
-		CUtlVector<CUtlString> includeDirs;
-		CUtlPathStringHolder fileDir;
-		if ( !fileDir.ExtractFilePath( pFile->GetName() ) )
-			logging::Error( "AddIncludesForFile: V_ExtractFilePath( %s ) failed.", pFile->GetName() );
-
-		// NOTE: for headers *in* a search path folder (e.g system headers), fileDir duplicates that folder in the search
-		//       path list, so we search the same path twice... that duplication is handled in the loop below
-		// TODO: the usage of fileDir here does not correctly emulate compiler search path behaviour (see http://msdn.microsoft.com/en-us/library/36k2cdd4.aspx)
-		includeDirs.AddToTail( fileDir.Get() );
-		includeDirs.AddMultipleToTail( m_IncludeDirectories.Count(), m_IncludeDirectories.Base() );
-
-		// Get all the #include directives.
-		CUtlVector<CUtlString> includes;
-		GetIncludeFiles( pFile->GetName(), includes );
-		++m_pDependencyGraph->m_nFilesParsedForIncludes;
-
-		// Now see which of them we can open.
-		for ( int iIncludeFile=0; iIncludeFile < includes.Count(); iIncludeFile++ )
-		{
-			CUtlVector< CDependency * > searchResults;
-
-			for ( int iIncludeDir=0; iIncludeDir < includeDirs.Count(); iIncludeDir++ )
-			{
-				CUtlPathStringHolder fullName;
-				fullName.ComposeFileName( includeDirs[iIncludeDir].String(), includes[iIncludeFile].String() );
-
-				CDependency *pIncludeFile = m_pDependencyGraph->FindDependency( fullName );
-				if ( !pIncludeFile )
-				{
-					if ( !Sys_Exists( fullName ) )
-						continue;
-
-					// Find or add the dependency (NOTE: we know it's a source file no matter what the extension, e.g <algorithm>)
-					pIncludeFile = m_pDependencyGraph->FindOrCreateDependency( fullName, k_eDependencyType_SourceFile );
-				}
-
-				if ( !searchResults.HasElement( pIncludeFile ) )
-					searchResults.AddToTail( pIncludeFile );
-
-				if ( ( m_nDupeChecks += pFile->m_Dependencies.Count() ) > 1000000 ) // TODO: pFile->m_Dependencies.HasElement() is slow for large sets
-					ExecuteOnce( logging::Warning( "PERF WARNING in CSingleProjectScanner::AddIncludesForFile..." ) );
-
-				// Don't process duplicate dependencies! (caused by: duplicate #includes, duplicate
-				// search paths and different search paths resolving to the same absolute path)
-				if ( pFile->m_Dependencies.HasElement( pIncludeFile ) )
-					continue;
-				pFile->m_Dependencies.AddToTail( pIncludeFile );
-
-				// Recurse.
-				AddIncludesForFile( pIncludeFile );
-			}
-
-			if ( logging::IsVerbose() && ( searchResults.Count() == 0 ) )
-			{
-				// Could not find this include (not too uncommon, since the include parser ignores #ifdefs)
-				logging::Warning( "Cannot find include file: %s (included in %s)", includes[iIncludeFile].String(), pFile->GetName() );
-			}
-			else if (logging::IsVerbose() && ( searchResults.Count() > 1 ) )
-			{
-				// We found multiple (ambiguous) results for this include!
-				logging::Warning( "CSingleProjectScanner: Ambiguous include file %s (included in %s)", includes[iIncludeFile].String(), pFile->GetName() );
-				for ( int i = 0; i < searchResults.Count(); i++ ) logging::Warning( " - Ambiguous include file could be: %s", searchResults[i]->GetName() );
-			}
-		}
-	}
-
-	bool SeekToIncludeStart( const char* &pSearchPos )
-	{
-		while ( 1 )
-		{
-			++pSearchPos;
-			if ( *pSearchPos == 0 || *pSearchPos == '\r' || *pSearchPos == '\n' )
-				return false;
-
-			if ( *pSearchPos == '\"' || *pSearchPos == '<' )
-			{
-				++pSearchPos;
-				return true;
-			}
-		}
-	}
-
-	bool SeekToIncludeEnd( const char* &pSearchPos )
-	{
-		while ( 1 )
-		{
-			++pSearchPos;
-			if ( *pSearchPos == 0 || *pSearchPos == '\r' || *pSearchPos == '\n' )
-				return false;
-
-			if ( *pSearchPos == '\"' || *pSearchPos == '>' )
-				return true;
-		}
-	}
-
-	void GetIncludeFiles( const char *pFilename, CUtlVector<CUtlString> &includes )
-	{
-		char *pFileData;
-		int ret = Sys_LoadFile( pFilename, (void**)&pFileData, false );
-		if ( ret == -1 )
-		{
-			if ( logging::IsVerbose() )
-			{
-				logging::Warning( "GetIncludeFiles( %s ) - can't open file (included by project %s).", pFilename, m_ScriptName.String() );
-			}
-			return;
-		}
-
-		const char *pSearchPos = pFileData;
-		while ( 1 )
-		{
-			const char *pLookFor = "#include";
-			const char *pIncludeStatement = V_strstr( pSearchPos, pLookFor );
-			if ( !pIncludeStatement )
-				break;
-
-			pSearchPos = pIncludeStatement + V_strlen( pLookFor );
-
-			if ( Script_IsSingleLineComment( pIncludeStatement, pFileData ) ) // Skip single-line comments
-				continue;
-			
-			if ( !SeekToIncludeStart( pSearchPos ) )
-				continue;
-			const char *pFilenameStart = pSearchPos;
-
-			if ( !SeekToIncludeEnd( pSearchPos ) )
-				continue;
-			const char *pFilenameEnd = pSearchPos;
-
-			CUtlPathStringHolder includeFilename( pFilenameStart, (int)( pFilenameEnd - pFilenameStart ) );
-
-			// Fixup double slashes.
-            V_FixDoubleSlashes( includeFilename.GetForModify() );
-            includeFilename.FixSlashes();
-
-			includes.AddToTail( includeFilename.Get() );
-		}
-		
-		delete [] pFileData;
-	}
-
-	void SetupIncludeDirectories( CProjectConfiguration *pRootConfig )
-	{
-		// Get includes from the config:
-		CUtlVector<CUtlString> includeList;
-		VPC_GetIncludeDirectories(nullptr, pRootConfig, includeList );
-
-		// Also add system include paths (last):
-		// TODO: the VS compiler also searches "$(FrameworkSDKDir)\include", which is missing here...
-		if ( m_pDependencyGraph->m_bIncludeSystemFiles )
-		{
-			CUtlVector< CUtlString > systemPaths;	
-			if ( !GetSystemIncludePaths( systemPaths, g_pVPC->conditionals.GetTargetPlatformName(), g_pVPC->conditionals.GetTargetCompilerName() ) )
-			{
-				logging::Error( "CSingleProjectScanner::SetupIncludeDirectories failed to set up system include paths" );
-			}
-			includeList.AddVectorToTail( systemPaths );
-		}
-
-		for ( int i=0; i < includeList.Count(); i++ )
-		{
-			char sAbsolute[MAX_FIXED_PATH], sFixed[MAX_FIXED_PATH];
-			V_MakeAbsolutePath( sAbsolute, sizeof( sAbsolute ), includeList[i].Get(), nullptr, k_bVPCForceLowerCase );
-			V_FixupPathName( sFixed, ARRAYSIZE(sFixed), sAbsolute );
-			m_IncludeDirectories.AddToTail( sFixed );
 		}
 	}
 
@@ -682,7 +488,6 @@ public:
 
 public:
 	// Project include directories. These strings are deleted when the object goes away.
-	CUtlVector<CUtlString> m_IncludeDirectories;
 	CProjectDependencyGraph *m_pDependencyGraph;
 	CDependency_Project *m_pDependencyProject;
 	CBaseProjectDataCollector *m_pDataCollector;
@@ -708,16 +513,12 @@ void VPC_GenerateProjectDependencies( CBaseProjectDataCollector *pDataCollector 
 CProjectDependencyGraph::CProjectDependencyGraph()
 {
 	m_iDependencyMark = 1;
-	m_bFullDependencySet = false;
-	m_bIncludeSystemFiles = false;
 	m_bHasGeneratedDependencies = false;
 }
 
 void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFlags, CUtlVector< projectIndex_t > *pAllowedProjects, CUtlVector< projectIndex_t > *pOverrideProjects )
 {
 	g_pVPC->m_bIsDependencyPass = true;
-
-	m_nFilesParsedForIncludes = 0;
 
 	// Have it iterate ALL projects in the list, with the current platform conditional.
 	CUtlVector< projectIndex_t > projectList;
@@ -776,17 +577,8 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 
 	if ( projectList.Count() )
 	{
-		m_bIncludeSystemFiles = ( ( nBuildProjectDepsFlags & BUILDPROJDEPS_INCLUDE_SYSTEM_FILES ) != 0 );
-
-		m_bFullDependencySet = ( ( nBuildProjectDepsFlags & BUILDPROJDEPS_FULL_DEPENDENCY_SET ) != 0 );
-		if ( m_bFullDependencySet )
-		{
-			logging::Status( true, "\nBuilding full dependency set (all sources and headers)..." );
-		}
-		else
-		{
-			logging::Status( true, "\nBuilding partial dependency set (libs only)..." );
-		}
+		
+		logging::Status( true, "\nBuilding project dependency set (libs only)..." );
 
 		if ( nBuildProjectDepsFlags & BUILDPROJDEPS_CHECK_ALL_PROJECTS )
 		{
@@ -797,12 +589,6 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 
 			// force all games
 			g_pVPC->SetupAllGames( true );
-		}
-
-		if ( m_bFullDependencySet && !LoadCache() )
-		{
-			// Load any prior results so we don't have to regenerate the whole cache (which can take a couple minutes).
-			logging::Status( true, "Missing or stale dependency cache file: '%s'.\nThis will take a minute to generate dependency info from all the sources.\nNext time it will have a cache file and be faster.", GetCacheFileName() );
 		}
 
 		// iterate projects, determine dependencies
@@ -816,12 +602,6 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 		// add in explicit dependencies
 		ResolveAdditionalProjectDependencies();
 
-		if ( m_bFullDependencySet )
-		{
-			// Save the expensive work we did into a cache file so it can be used next time.
-			SaveCache();
-		}
-
 		if ( nBuildProjectDepsFlags & BUILDPROJDEPS_CHECK_ALL_PROJECTS )
 		{
 			// Restore the old game defines state
@@ -831,11 +611,6 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 				g_pVPC->conditionals.Set( priorSetGames[j].Get(), true, CONDITIONAL_GAME, nullptr );
 			}
 		}		
-
-		if ( m_nFilesParsedForIncludes > 0 )
-		{
-			logging::Status( true, "%d files parsed in %.2f seconds for #includes.", m_nFilesParsedForIncludes, timer.GetDuration().GetSeconds() );
-		}
 	}
 
 	m_bHasGeneratedDependencies = true;
@@ -1015,19 +790,18 @@ CDependency* CProjectDependencyGraph::FindOrCreateDependency( const char *pFilen
 	pDependency->m_Filename = fixedFilename;
 	m_AllFiles.Insert( fixedFilename, pDependency );
 
-	bool bIsReadOnly;
-	Sys_FileInfo( fixedFilename, pDependency->m_nCacheFileSize, pDependency->m_nCacheModificationTime, bIsReadOnly );
-
 	pDependency->m_Type = type;
 	if ( type == k_eDependencyType_Unknown )
 	{
 		// If the caller didn't specify, figure out the type from the filename
-		if ( IsSourceFile( fixedFilename ) )
-			pDependency->m_Type = k_eDependencyType_SourceFile;
-		else if ( IsLibraryFile( fixedFilename ) )
+		if ( IsLibraryFile( fixedFilename ) )
 			pDependency->m_Type = k_eDependencyType_Library;
 		else
+		{
+			if(IsSourceFile( fixedFilename ))
+				logging::Warning("Attempting to create a dependency info for source file \"%s\". This is wrong.", pFilename);
 			pDependency->m_Type = k_eDependencyType_Unknown;
+		}
 	}
 
 	return pDependency;
@@ -1051,270 +825,6 @@ void CProjectDependencyGraph::ClearAllDependencyMarks()
 		++m_iDependencyMark;
 	}
 }
-
-const char *CProjectDependencyGraph::GetCacheFileName( void )
-{
-	static char cacheFile[MAX_FIXED_PATH] = {0};
-	if ( g_pVPC->RestrictProjectsToEverything() )
-	{
-		// narrower cache file that only has dependencies based on projects in the everything group
-		V_ComposeFileName( g_pVPC->GetSourcePath(), "vpc2.cache", cacheFile, sizeof( cacheFile ) );
-	}
-	else
-	{
-		V_ComposeFileName( g_pVPC->GetSourcePath(), "vpc.cache", cacheFile, sizeof( cacheFile ) );
-	}
-	return cacheFile;
-}
-
-bool CProjectDependencyGraph::LoadCache( void )
-{
-	if ( g_pVPC->IsForceRebuildCache() )
-		return false;
-
-	const char *pFilename = GetCacheFileName();
-	FILE *fp = fopen( pFilename, "rb" );
-	if ( !fp )
-		return false;
-
-	int nVersion;
-	if ( fread( &nVersion, sizeof( nVersion ), 1, fp ) != 1 )
-    {
-        goto ErrClose;
-    }
-    
-	if ( nVersion != VPC_CRC_CACHE_VERSION )
-	{
-		// only spew if the version number is not within one older revision
-		// this allows us to invalidate the cache (i.e. format, features, etc). which just quietly rebuilds without everybody complaining about spew
-		if ( nVersion && nVersion != VPC_CRC_CACHE_VERSION - 1 )
-		{
-			logging::Warning( "Invalid dependency cache file version (expected %d, found %d) in '%s'.", VPC_CRC_CACHE_VERSION, nVersion, pFilename );
-		}
-        goto ErrClose;
-	}
-
-	while ( 1 )
-	{
-		byte bMore;
-		if ( fread( &bMore, 1, 1, fp ) != 1 || bMore == 0 )
-			break;
-
-		CUtlString filename = ReadString( fp );
-		
-		byte nType;
-		if ( !Verify( fread( &nType, 1, 1, fp ) == 1 ) )
-		{
-			goto ErrClose;
-		}
-		
-		CDependency *pDep = FindOrCreateDependency( filename.String(), (EDependencyType)nType );
-		if ( pDep->m_Dependencies.Count() != 0 )
-			logging::Error( "Cache loading dependency %s but it already exists!", filename.String() );
-
-		if ( fread( &pDep->m_nCacheFileSize, sizeof( pDep->m_nCacheFileSize ), 1, fp ) != 1 )
-        {
-            goto ErrClose;
-        }
-		if ( fread( &pDep->m_nCacheModificationTime, sizeof( pDep->m_nCacheModificationTime ), 1, fp ) != 1 )
-        {
-            goto ErrClose;
-        }
-
-		int nDependencies;
-		if ( fread( &nDependencies, sizeof( nDependencies ), 1, fp ) != 1 )
-        {
-            goto ErrClose;
-        }
-		pDep->m_Dependencies.SetCount( nDependencies );
-
-		for ( int iDependency=0; iDependency < nDependencies; iDependency++ )
-		{
-			CUtlString childDepName = ReadString( fp );
-			byte nChildType;
-			if ( !Verify( fread( &nChildType, 1, 1, fp ) == 1 ) )
-			{
-				goto ErrClose;
-			}
-
-			CDependency *pChildDep = FindOrCreateDependency( childDepName.String(), (EDependencyType)nType );
-			pDep->m_Dependencies[iDependency] = pChildDep;
-		}
-	}
-
-	fclose( fp );
-
-	int nOriginalEntries;
-    nOriginalEntries = m_AllFiles.Count();
-
-	CheckCacheEntries();
-	RemoveDirtyCacheEntries();
-	MarkAllCacheEntriesValid();
-
-	logging::Status( true, "Loaded %d valid dependency cache entries (%d were out of date).", m_AllFiles.Count(), nOriginalEntries-m_AllFiles.Count() );
-	return true;
-
-ErrClose:
-    fclose( fp );
-    return false;
-}
-
-bool CProjectDependencyGraph::SaveCache( void )
-{
-	const char *pFilename = GetCacheFileName();
-	FILE *fp = fopen( pFilename, "wb" );
-	if ( !fp )
-		return false;
-
-	// Write the version.
-	int version = VPC_CRC_CACHE_VERSION;
-	fwrite( &version, sizeof( version ), 1, fp );
-
-	// Write each file.
-	for ( int i=m_AllFiles.First(); i != m_AllFiles.InvalidIndex(); i=m_AllFiles.Next( i ) )
-	{
-		CDependency *pDep = m_AllFiles[i];
-		
-		// We only care about source files.
-		if ( pDep->m_Type != k_eDependencyType_SourceFile )
-			continue;
-
-		// Write that there's a file here.
-		byte bYesThereIsAFileHere = 1;
-		fwrite( &bYesThereIsAFileHere, 1, 1, fp );
-
-		WriteString( fp, pDep->m_Filename );
-		byte nType = pDep->m_Type;
-		fwrite( &nType, 1, 1, fp );
-		fwrite( &pDep->m_nCacheFileSize, sizeof( pDep->m_nCacheFileSize ), 1, fp );
-		fwrite( &pDep->m_nCacheModificationTime, sizeof( pDep->m_nCacheModificationTime ), 1, fp );
-
-		int nDependencies = pDep->m_Dependencies.Count();
-		fwrite( &nDependencies, sizeof( nDependencies ), 1, fp );
-
-		for ( int iDependency=0; iDependency < pDep->m_Dependencies.Count(); iDependency++ )
-		{
-			WriteString( fp, pDep->m_Dependencies[iDependency]->m_Filename );
-			byte nChildType = pDep->m_Dependencies[iDependency]->m_Type;
-			fwrite( &nChildType, 1, 1, fp );
-		}
-	}
-
-	// Write a terminator.
-	byte bNoMore = 0;
-	fwrite( &bNoMore, 1, 1, fp );
-
-	fclose( fp );
-
-	Sys_CopyToMirror( pFilename );
-
-	return true;
-}
-
-void CProjectDependencyGraph::WriteString( FILE *fp, CUtlString &utlString )
-{
-	const char *pStr = utlString.String();
-	int len = V_strlen( pStr );
-	fwrite( &len, sizeof( len ), 1, fp );
-	fwrite( pStr, len, 1, fp );
-}
-
-CUtlString CProjectDependencyGraph::ReadString( FILE *fp )
-{
-	int len;
-	if ( fread( &len, sizeof( len ), 1, fp ) != 1 )
-    {
-        return CUtlString();
-    }
-
-	char *pTemp = new char[len+1];
-	if ( fread( pTemp, len, 1, fp ) != 1 )
-    {
-        delete [] pTemp;
-        return CUtlString();
-    }
-	pTemp[len] = 0;
-
-	CUtlString ret = pTemp;
-	delete [] pTemp;
-
-	return ret;
-}
-
-
-void CProjectDependencyGraph::CheckCacheEntries()
-{
-	for ( int i=m_AllFiles.First(); i != m_AllFiles.InvalidIndex(); i=m_AllFiles.Next( i ) )
-	{
-		CDependency *pDep = m_AllFiles[i];
-		pDep->m_bCacheDirty = false;
-
-		if ( pDep->m_Type != k_eDependencyType_SourceFile )
-			continue;
-	
-		int64 fileSize, modTime;
-		bool bIsReadOnly;
-		if ( !Sys_FileInfo( pDep->m_Filename.String(), fileSize, modTime, bIsReadOnly ) ||
-		     pDep->m_nCacheFileSize != fileSize ||
-			 pDep->m_nCacheModificationTime != modTime )
-		{
-			pDep->m_bCacheDirty = true;
-		}
-	}
-}
-
-void CProjectDependencyGraph::RemoveDirtyCacheEntries()
-{
-	// NOTE: This could be waaaay more efficient by pointing files at their parents and removing all the way
-	// up the chain rather than iterating over and over but this keeps the data structures simple.
-	bool bAnyDirty = true;
-	while ( bAnyDirty )
-	{
-		bAnyDirty = false;
-
-		for ( int i=m_AllFiles.First(); i != m_AllFiles.InvalidIndex(); i=m_AllFiles.Next( i ) )
-		{
-			CDependency *pDep = m_AllFiles[i];
-			if ( pDep->m_bCacheDirty )
-				continue;
-
-			// If any of its children are dirty, then mark this guy as dirty and make sure to remove the child.
-			for ( int iChild=0; iChild < pDep->m_Dependencies.Count(); iChild++ )
-			{
-				CDependency *pChild = pDep->m_Dependencies[iChild];
-				if ( pChild->m_bCacheDirty )
-				{
-					pDep->m_bCacheDirty = true;
-					bAnyDirty = true;
-				}
-			}
-		}
-	}
-	
-	// Now that any dirty children have flagged their parents as dirty, we can remove them.
-	int iNext;
-	for ( int i=m_AllFiles.First(); i != m_AllFiles.InvalidIndex(); i=iNext )
-	{
-		iNext = m_AllFiles.Next( i );
-
-		if ( m_AllFiles[i]->m_bCacheDirty )
-		{
-			delete m_AllFiles[ i ];
-			m_AllFiles.RemoveAt( i );
-		}
-	}
-}
-
-
-void CProjectDependencyGraph::MarkAllCacheEntriesValid()
-{
-	for ( int i=m_AllFiles.First(); i != m_AllFiles.InvalidIndex(); i=m_AllFiles.Next( i ) )
-	{
-		CDependency *pDep = m_AllFiles[i];
-		pDep->m_bCheckedIncludes = true;
-	}
-}
-
 
 // This is called so we can translate from projectIndex_t to (CDependency_Project*)
 class CProjectDependencyGraphProjectFilter : public IProjectIterator

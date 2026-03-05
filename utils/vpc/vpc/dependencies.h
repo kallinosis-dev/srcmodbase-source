@@ -11,7 +11,6 @@ class IBaseProjectGenerator;
 
 enum EDependencyType
 {
-	k_eDependencyType_SourceFile,		// .cpp, .cxx, .h, .hxx
 	k_eDependencyType_Project,			// this is a project file WITHOUT the target-specific extension (.mak, .vpj, .vcproj).
 	k_eDependencyType_Library,			// this is a library file
 	k_eDependencyType_Unknown			// Unrecognized file extension (probably .ico or .rc2 or somesuch).
@@ -19,7 +18,6 @@ enum EDependencyType
 
 SELECTANY const char *k_DependencyTypeStrings[] =
 {
-	"k_eDependencyType_SourceFile",
 	"k_eDependencyType_Project",
 	"k_eDependencyType_Library",
 	"k_eDependencyType_Unknown"
@@ -36,8 +34,6 @@ enum k_EDependsOnFlags
 
 // Flags to CProjectDependencyGraph::BuildProjectDependencies.
 #define BUILDPROJDEPS_CHECK_ALL_PROJECTS		0x01		// If set, uses the set of allowed .vpc files, otherwise restricted to the projects specified on the CL.
-#define BUILDPROJDEPS_FULL_DEPENDENCY_SET		0x02		// If set, builds a graph of all projects in the source tree including all games, otherwise libs only.
-#define BUILDPROJDEPS_INCLUDE_SYSTEM_FILES		0x04		// If set, add system files such as system includes to dependencies
 
 class CDependency
 {
@@ -77,14 +73,6 @@ private:
 
 	CProjectDependencyGraph *m_pDependencyGraph;
 	unsigned int m_iDependencyMark;
-	bool m_bCheckedIncludes;	// Set to true when we have checked all the includes for this.
-
-	// Cache info.
-	int64 m_nCacheFileSize;
-	int64 m_nCacheModificationTime;
-
-	// Used by the cache. File size or modification time don't match.
-	bool m_bCacheDirty;
 };
 
 
@@ -154,27 +142,12 @@ protected:
 bool VisitProject( projectIndex_t iProject, const char *szProjectName ) override;
 
 private:
-
-	// Functions for the vpc.cache file management.
-	bool LoadCache();
-	bool SaveCache();
-	static const char *GetCacheFileName( void );
-	void WriteString( FILE *fp, CUtlString &utlString );
-	CUtlString ReadString( FILE *fp );
-
-	void CheckCacheEntries();
-	void RemoveDirtyCacheEntries();
-	void MarkAllCacheEntriesValid();
-
 	void ResolveAdditionalProjectDependencies();
 
 public:
 	// Projects and everything they depend on.
 	CUtlVector<CDependency_Project*> m_Projects;
 	CUtlDict<CDependency*,int> m_AllFiles;	// All files go in here. They should never be duplicated. These are indexed by the full filename (except .lib files, which have that stripped off).
-	bool m_bFullDependencySet;				// See BUILDPROJDEPS_FULL_DEPENDENCY_SET flag for BuildProjectDependencies.
-	bool m_bIncludeSystemFiles;				// See BUILDPROJDEPS_INCLUDE_SYSTEM_FILES flag for BuildProjectDependencies.
-	int m_nFilesParsedForIncludes;
 
 private:
 	// Used when sweeping the dependency graph to prevent looping around forever.
