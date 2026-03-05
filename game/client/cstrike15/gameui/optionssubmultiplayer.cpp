@@ -7,14 +7,11 @@
 
 #undef fopen
 
-#if !defined( _GAMECONSOLE ) && !defined( _OSX ) && !defined (LINUX)
+#if !defined( _GAMECONSOLE ) && !defined (LINUX)
 #include <windows.h> // SRC only!!
 #endif
 
 #if defined( POSIX ) && !defined( _PS3 )
-#ifdef OSX
-#include <copyfile.h>
-#endif
 #define DeleteFile unlink
 #endif
 
@@ -66,7 +63,7 @@
 #include "ivtex.h"
 // dgoodenough - io.h doesn't exist on the PS3
 // PS3_BUILDFIX
-#if !defined( _PS3 ) && !defined( _OSX ) && !defined (LINUX)
+#if !defined( _PS3 ) && !defined (LINUX)
 #include <io.h>
 #endif
 
@@ -892,8 +889,6 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 			// copy vtf file to the final location.
 #ifdef WIN32
 			CopyFile(vtfPath, finalPath, true);
-#elif defined( OSX )
-			copyfile( vtfPath, finalPath, 0, 0 );
 #elif !defined( _PS3 )
 			engine->CopyLocalFile( vtfPath, finalPath );
 #endif
@@ -1107,8 +1102,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertBMPToTGA(const char *bmpPath,
 	if ( !IsPC() )
 		return CE_SOURCE_FILE_FORMAT_NOT_SUPPORTED;
 
-// @wge TODO FIXME - fix OSX build
-#if defined( _OSX ) || defined (LINUX)
+#if defined (LINUX)
 	return CE_SOURCE_FILE_FORMAT_NOT_SUPPORTED;
 #else
 	HBITMAP hBitmap = (HBITMAP)LoadImage(nullptr, bmpPath, IMAGE_BITMAP, 0, 0, LR_CREATEDIBSECTION | LR_LOADFROMFILE | LR_DEFAULTSIZE);
@@ -1328,7 +1322,7 @@ ConversionErrorType COptionsSubMultiplayer::ConvertBMPToTGA(const char *bmpPath,
 	}
 	DeleteObject(hBitmap);
 	return retval ? CE_SUCCESS : CE_ERROR_WRITING_OUTPUT_FILE;
-#endif // !_OSX
+#endif
 }
 
 // read a TGA header from the current point in the file stream.
@@ -2382,15 +2376,15 @@ void COptionsSubMultiplayer::OnApplyButtonEnable()
 #define PLATE_HUE_START 160
 #define PLATE_HUE_END 191
 
-// @wge this struct definition is from Portal 2 source, but didn't want to conflict with other platforms so made it OSX only.
-#if defined( _OSX ) || defined (LINUX)
+// @wge this struct definition is from Portal 2 source, but didn't want to conflict with other platforms so made it Linux-only.
+#if defined (LINUX)
 typedef struct tagRGBQUAD { 
 	uint8 rgbBlue;
 	uint8 rgbGreen;
 	uint8 rgbRed;
 	uint8 rgbReserved;
 } RGBQUAD;
-#endif // _OSX
+#endif
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -2472,7 +2466,7 @@ static void PaletteHueReplace( RGBQUAD *palSrc, int newHue, int Start, int end )
 //-----------------------------------------------------------------------------
 void COptionsSubMultiplayer::RemapPalette( char *filename, int topcolor, int bottomcolor )
 {
-#if !defined( _OSX ) && !defined( _PS3 ) && !defined (LINUX)
+#if !defined( _PS3 ) && !defined (LINUX)
 	char infile[ 256 ];
 	char outfile[ 256 ];
 
@@ -2530,7 +2524,7 @@ void COptionsSubMultiplayer::RemapPalette( char *filename, int topcolor, int bot
 		g_pFullFileSystem->Write( outbuffer.Base(), outbuffer.TellPut(), file );
 		g_pFullFileSystem->Close( file );
 	}
-#endif // !_OSX && !_PS3
+#endif // !_PS3
 }
 
 //-----------------------------------------------------------------------------

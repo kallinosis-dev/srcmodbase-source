@@ -708,8 +708,7 @@ void CTextureManager::Init( int nFlags )
 		ImageFormat fmt = IsOpenGL() ? IMAGE_FORMAT_RGBA16161616F : IMAGE_FORMAT_UVWQ8888;
 		
 		int nFlags = TEXTUREFLAGS_ENVMAP | TEXTUREFLAGS_NOMIP | TEXTUREFLAGS_NOLOD | TEXTUREFLAGS_SINGLECOPY | TEXTUREFLAGS_CLAMPS | TEXTUREFLAGS_CLAMPT | TEXTUREFLAGS_CLAMPU;
-		nFlags |= IsOSXOpenGL() ? TEXTUREFLAGS_POINTSAMPLE : 0; // JasonM - ridiculous hack around R500 lameness...we never use this texture on MacOS anyways (right?)
-		
+	
 		// Create a normalization cubemap
 		m_pSignedNormalizationCubemap = CreateProceduralTexture( "normalizesigned", TEXTURE_GROUP_CUBE_MAP,
 																NORMALIZATION_CUBEMAP_SIZE, NORMALIZATION_CUBEMAP_SIZE, 1, fmt, nFlags );

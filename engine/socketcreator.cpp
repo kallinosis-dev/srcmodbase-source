@@ -22,9 +22,6 @@
 #define closesocket close
 #define WSAGetLastError() errno
 #define ioctlsocket ioctl
-#ifdef OSX
-#define MSG_NOSIGNAL 0
-#endif
 #endif
 #include <tier0/dbg.h>
 #include "socketcreator.h"

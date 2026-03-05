@@ -686,13 +686,8 @@ int UTIL_ComputeStringWidth( vgui::HFont& font, const char *str )
 	char const* pBefore = "\0";
 	while ( *p )
 	{
-#ifdef OSX
-		float wide, abcA, abcC;
-		vgui::surface()->GetKernedCharWidth( font, *p, *pBefore, *pAfter, wide, abcA, abcC );
-		pixels += wide;
-#else
 		pixels += vgui::surface()->GetCharacterWidth( font, *p );
-#endif
+
 		pBefore = p;
 		p++;
 		if ( *p )
@@ -718,13 +713,8 @@ int UTIL_ComputeStringWidth( vgui::HFont& font, const wchar_t *str )
 	wchar_t const* pBefore = L"\0";
 	while ( *p )
 	{
-#ifdef OSX
-		float wide, abcA, abcC;
-		vgui::surface()->GetKernedCharWidth( font, *p, *pBefore, *pAfter, wide, abcA, abcC );
-		pixels += wide;
-#else
 		pixels += vgui::surface()->GetCharacterWidth( font, *p );
-#endif
+
 		pBefore = p;
 		p++;
 		if ( *p )

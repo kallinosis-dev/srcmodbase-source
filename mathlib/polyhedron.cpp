@@ -1258,12 +1258,7 @@ static FORCEINLINE GeneratePolyhedronFromPlanes_UnorderedPointLL *DestructPoint(
 }
 static FORCEINLINE GeneratePolyhedronFromPlanes_UnorderedPointLL *DestructPoint( GeneratePolyhedronFromPlanes_Point *pKillPoint, CClipLinkedGeometryDestructors &destructors )
 {
-#ifdef OSX
-	Assert( &(((GeneratePolyhedronFromPlanes_UnorderedPointLL *)pKillPoint)->point) == pKillPoint );
-#else
-	// This COMPILE_TIME_ASSERT was breaking gcc under OSX
 	COMPILE_TIME_ASSERT( offsetof(GeneratePolyhedronFromPlanes_UnorderedPointLL, point) == 0 );
-#endif
 	return DestructPoint( (GeneratePolyhedronFromPlanes_UnorderedPointLL *)pKillPoint, destructors );
 }
 
@@ -1297,12 +1292,7 @@ static FORCEINLINE GeneratePolyhedronFromPlanes_UnorderedLineLL *DestructLine( G
 }
 static FORCEINLINE GeneratePolyhedronFromPlanes_UnorderedLineLL *DestructLine( GeneratePolyhedronFromPlanes_Line *pKillLine, CClipLinkedGeometryDestructors &destructors )
 {
-#ifdef OSX
-	Assert( &(((GeneratePolyhedronFromPlanes_UnorderedLineLL *)pKillLine)->line) == pKillLine );
-#else
-	// This COMPILE_TIME_ASSERT was breaking gcc under OSX
 	COMPILE_TIME_ASSERT( offsetof(GeneratePolyhedronFromPlanes_UnorderedLineLL, line) == 0 );
-#endif
 	return DestructLine( (GeneratePolyhedronFromPlanes_UnorderedLineLL *)pKillLine, destructors );
 }
 
@@ -1361,12 +1351,7 @@ static FORCEINLINE GeneratePolyhedronFromPlanes_UnorderedPolygonLL *DestructPoly
 
 static FORCEINLINE GeneratePolyhedronFromPlanes_UnorderedPolygonLL *DestructPolygon( GeneratePolyhedronFromPlanes_Polygon *pKillPolygon, CClipLinkedGeometryDestructors &destructors )
 {
-#ifdef OSX
-	Assert( &(((GeneratePolyhedronFromPlanes_UnorderedPolygonLL *)pKillPolygon)->polygon) == pKillPolygon );
-#else
-	// This COMPILE_TIME_ASSERT was breaking gcc under OSX
 	COMPILE_TIME_ASSERT( offsetof(GeneratePolyhedronFromPlanes_UnorderedPolygonLL, polygon) == 0 );
-#endif
 	return DestructPolygon( (GeneratePolyhedronFromPlanes_UnorderedPolygonLL *)pKillPolygon, destructors );
 }
 

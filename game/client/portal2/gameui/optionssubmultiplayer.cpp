@@ -898,11 +898,7 @@ void COptionsSubMultiplayer::OnFileSelected(const char *fullpath)
 		if (!failed)
 		{
 			// copy vtf file to the final location.
-#ifdef OSX
-			copyfile( vtfPath, finalPath, 0, 0 );
-#else
 			CopyFile(vtfPath, finalPath, true);
-#endif
 
 			// refresh the logo list so the new spray shows up.
 			InitLogoList(m_pLogoList);

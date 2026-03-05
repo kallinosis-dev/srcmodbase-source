@@ -9,7 +9,7 @@
 #undef fopen
 #include <stdio.h>
 
-#if defined(OSX) || defined(LINUX) || (defined (WIN32) && defined( DX_TO_GL_ABSTRACTION ))
+#if defined(LINUX) || (defined (WIN32) && defined( DX_TO_GL_ABSTRACTION ))
 	#include "appframework/ilaunchermgr.h"
 #endif
 
@@ -19,8 +19,6 @@
 #endif
 #elif defined(LINUX)
 #elif defined( _PS3 )
-#elif defined(OSX)
-#include <Carbon/Carbon.h>
 #else
 #error
 #endif
@@ -120,7 +118,7 @@ IDedicatedExports *dedicated = nullptr;
 extern CreateInterfaceFn g_AppSystemFactory;
 IHammer *g_pHammer = nullptr;
 IPhysics *g_pPhysics = nullptr;
-#if defined(OSX) || defined(LINUX) || (defined (WIN32) && defined( DX_TO_GL_ABSTRACTION ))
+#if defined(LINUX) || (defined (WIN32) && defined( DX_TO_GL_ABSTRACTION ))
 ILauncherMgr *g_pLauncherMgr = NULL;
 #endif
 IAvi *avi = nullptr;
@@ -164,8 +162,6 @@ void EditorToggle_f();
 
 #ifdef _WIN32
 HWND *pmainwindow = nullptr;
-#elif OSX
-WindowRef pmainwindow;
 #elif LINUX
 void *pmainwindow = NULL;
 #elif defined( _PS3 )
@@ -585,8 +581,6 @@ bool CEngineAPI::Connect( CreateInterfaceFn factory )
 
 #if defined( USE_SDL )
 	g_pLauncherMgr = (ILauncherMgr *)factory( SDLMGR_INTERFACE_VERSION, NULL );
-#elif defined( OSX )
-	g_pLauncherMgr = (ILauncherMgr *)factory( COCOAMGR_INTERFACE_VERSION, NULL );
 #endif
 	
 	ConnectMDLCacheNotify();
@@ -976,7 +970,7 @@ void CEngineAPI::PumpMessages()
 		TranslateMessage( &msg );
 		DispatchMessageW( &msg );
 	}
-#elif defined( OSX ) || defined( USE_SDL )
+#elif defined( USE_SDL )
 	g_pLauncherMgr->PumpWindowsMessageLoop();
 #else
 #error
@@ -1041,31 +1035,6 @@ void CEngineAPI::PumpMessagesEditMode( bool &bIdle, long &lIdleCount )
 			bIdle = true;
 			lIdleCount = 0;
 		}
-	}
-#elif defined( OSX ) && defined( PLATFORM_64BITS )
-	// Do nothing, but let someone know we're doing nothing.
-	Assert( !"OSX-64 not implemented." );
-
-#elif defined( OSX )
-	EventRef theEvent;
-	EventTargetRef theTarget;
-	EventTime eventTimeout = kEventDurationNoWait;
-	
-	theTarget = GetEventDispatcherTarget();
-    while ( ReceiveNextEvent( 0, NULL, eventTimeout, true, &theEvent ) == noErr)		
-	{
-		OSErr ret = SendEventToEventTarget (theEvent, theTarget);
-		if ( ret != noErr )
-		{
-			EventRecord clevent;
-			ConvertEventRefToEventRecord( theEvent, &clevent);
-			if ( clevent.what==kHighLevelEvent ) 
-			{
-				AEProcessAppleEvent( &clevent );
-			}
-		}
-	 
-		ReleaseEvent(theEvent);
 	}
 #elif defined( _PS3 )
 #elif defined( LINUX )

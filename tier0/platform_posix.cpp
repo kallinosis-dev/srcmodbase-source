@@ -15,14 +15,6 @@
 #include <unistd.h>
 #include <signal.h>
 
-#ifdef OSX
-#include <mach-o/dyld.h>
-#include <sys/sysctl.h>
-#include <mach/mach.h>
-#include <mach/mach_time.h>
-#include <CoreServices/CoreServices.h>
-#endif
-
 
 static bool g_bBenchmarkMode = false;
 static double g_FakeBenchmarkTime = 0;
@@ -39,89 +31,6 @@ void Plat_SetBenchmarkMode( bool bBenchmark )
 	g_bBenchmarkMode = bBenchmark;
 }
 
-
-
-#ifdef OSX
-
-static uint64 start_time = 0;
-static mach_timebase_info_data_t    sTimebaseInfo;
-static double conversion = 0.0;
-static double conversionMS = 0.0;
-static double conversionUS = 0.0;
-
-void InitTime()
-{
-	start_time = mach_absolute_time();
-	mach_timebase_info(&sTimebaseInfo);
-	conversion = 1e-9 * (double) sTimebaseInfo.numer / (double) sTimebaseInfo.denom;
-	conversionMS = 1e-6 * (double) sTimebaseInfo.numer / (double) sTimebaseInfo.denom;
-	conversionUS = 1e-3 * (double) sTimebaseInfo.numer / (double) sTimebaseInfo.denom;
-}
-
-uint64 Plat_GetClockStart()
-{
-	if ( !start_time )
-	{
-		InitTime();
-	}
-	
-	return start_time;
-}
-
-double Plat_FloatTime()
-{
-	if ( g_bBenchmarkMode )
-	{
-		g_FakeBenchmarkTime += g_FakeBenchmarkTimeInc;
-		return g_FakeBenchmarkTime;
-	}
-	
-	if ( !start_time )
-	{
-		InitTime();
-	}
-	
-	uint64 now = mach_absolute_time();
-	
-	return ( now - start_time ) * conversion;
-}
-uint32 Plat_MSTime()
-{
-	if ( g_bBenchmarkMode )
-	{
-		g_FakeBenchmarkTime += g_FakeBenchmarkTimeInc;
-		return g_FakeBenchmarkTime;
-	}
-	
-	if ( !start_time )
-	{
-		InitTime();
-	}
-	
-	uint64 now = mach_absolute_time();
-	
-	return uint32( ( now - start_time ) * conversionMS );
-}
-
-uint64 Plat_USTime()
-{
-	if ( g_bBenchmarkMode )
-	{
-		g_FakeBenchmarkTime += g_FakeBenchmarkTimeInc;
-		return g_FakeBenchmarkTime;
-	}
-	
-	if ( !start_time )
-	{
-		InitTime();
-	}
-	
-	uint64 now = mach_absolute_time();
-	
-	return uint64( ( now - start_time ) * conversionUS );
-}
-
-#else
 
 static int      secbase = 0;
 
@@ -203,8 +112,6 @@ uint64 Plat_USTime()
 	
 	return ( uint64( tp.tv_sec - secbase )*1000000ull + tp.tv_usec );
 }
-
-#endif
 
 
 // Wraps the thread-safe versions of asctime. buf must be at least 26 bytes 
@@ -332,9 +239,7 @@ PLATFORM_INTERFACE const tchar *Plat_GetCommandLine()
 
 PLATFORM_INTERFACE bool Is64BitOS()
 {
-#if defined OSX
-	return true;
-#elif defined LINUX
+#if defined LINUX
 	FILE *pp = popen( "uname -m", "r" );
 	if ( pp != NULL )
 	{
@@ -353,20 +258,7 @@ PLATFORM_INTERFACE bool Is64BitOS()
 
 bool Plat_IsInDebugSession()
 {
-#if defined(OSX)
-	int mib[4];
-	struct kinfo_proc info;
-	size_t size;
-	mib[0] = CTL_KERN;
-	mib[1] = KERN_PROC;
-	mib[2] = KERN_PROC_PID;
-	mib[3] = getpid();
-	size = sizeof(info);
-	info.kp_proc.p_flag = 0;
-	sysctl(mib,4,&info,&size,NULL,0);
-	bool result = ((info.kp_proc.p_flag & P_TRACED) == P_TRACED);
-	return result;
-#elif defined(LINUX)
+#if defined(LINUX)
 	char s[256];
 	snprintf(s, 256, "/proc/%d/cmdline", getppid());
 	FILE * fp = fopen(s, "r");
@@ -549,12 +441,7 @@ char const * Plat_GetEnv(char const *pEnvVarName)
 
 PLATFORM_INTERFACE bool Plat_GetExecutablePath( char *pBuff, size_t nBuff )
 {
-#if defined OSX
-	uint32_t _nBuff = nBuff; 
-	bool bSuccess = _NSGetExecutablePath(pBuff, &_nBuff) == 0;
-	pBuff[nBuff-1] = '\0';
-	return bSuccess;
-#elif defined LINUX
+#if defined LINUX
 	ssize_t nRead = readlink("/proc/self/exe", pBuff, nBuff-1 );
 	if ( nRead != -1 )
 	{

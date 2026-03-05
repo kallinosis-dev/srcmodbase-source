@@ -214,14 +214,7 @@ private:
 	void *m_hFile;
 	void *m_pOverlapped;
 	void *m_pFileInfo;
-#ifdef OSX
-public:
-	struct timespec m_modTime;
-	void AddFileToChangeList( const char *pchFile );
-	CUtlString m_BaseDir;
-private:
-	void *m_WatcherStream;
-#endif
+
 	friend class CDirWatcherFriend;
 
 #ifdef LINUX

@@ -67,10 +67,6 @@ template< class T, class A > class CUtlVector;
 
 extern const char *nexttoken(char *token, const char *str, char sep);
 
-#ifdef OSX
-size_t strnlen( const char *s, size_t n );
-#endif
-
 //-----------------------------------------------------------------------------
 // Portable versions of standard string functions
 //-----------------------------------------------------------------------------

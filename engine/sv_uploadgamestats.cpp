@@ -20,9 +20,6 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#ifdef OSX
-#include <uuid/uuid.h>
-#endif
 #ifdef _PS3
 #include "basetypes.h"
 #include "ps3/ps3_core.h"
@@ -460,9 +457,6 @@ public:
 #ifdef WIN32
 				UUID newId;
 				UuidCreate( &newId );
-#elif defined(OSX)
-				uuid_t newId;
-				uuid_generate( newId );
 #else
 				char newId[32] = {0};	// TODO: add platform-specific UUID generation
 #endif

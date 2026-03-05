@@ -879,7 +879,7 @@ FORCEINLINE void ConvertStoreAsIntsSIMD(intx4 * RESTRICT pDest, const fltx4 &vSr
 
 
 // some sse2 packed integer intrinsic wrappers
-#if _MSC_VER >= 1600 || defined(LINUX) || defined(OSX)
+#if _MSC_VER >= 1600 || defined(LINUX)
 /// replicate an 16 bit integer value to all 8 16-bit positions in an fltx4
 FORCEINLINE fltx4 ReplicateWordX8( uint16 nWord )
 {

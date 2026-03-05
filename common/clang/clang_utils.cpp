@@ -119,7 +119,7 @@ bool Clang_AddPlatformOptions( CUtlVector< CUtlString > &arguments, const char *
 	//
 	// The fourth part is optional. Some of the supported values:
 	//
-	//	  [x86|x86_64|ppc|ppc64] - [pc|apple|scei|unknown] - [win32|mingw32|cygwin|macosx|lv2|linux] - [gnu|ANDROIDEABI]
+	//	  [x86|x86_64|ppc|ppc64] - [pc|apple|scei|unknown] - [win32|mingw32|cygwin|lv2|linux] - [gnu|ANDROIDEABI]
 
 	if ( !V_stricmp_fast( pPlatform, "WIN32" ) )
 	{
@@ -136,14 +136,6 @@ bool Clang_AddPlatformOptions( CUtlVector< CUtlString > &arguments, const char *
 		arguments.AddToTail( "x86_64-pc-win32" );
 		// Define away unsupported intrinsics (breaks Rubikon due to __debugbreak being declared in system header intrin.h). We can put it back any time
 		//arguments.AddToTail( "-D__debugbreak(...)=__asm { int 3 }" );
-		return true;
-	}
-	if ( !V_stricmp_fast( pPlatform, "OSX" ) )
-	{
-		// TODO: for OSX/iOS, the os string should include a version number, e.g 'macosx10.8.0'
-		AssertMsg( 0, "Untested!\n" );
-		arguments.AddToTail( "-target" );
-		arguments.AddToTail( "ppc-apple-macosx" );
 		return true;
 	}
 	if ( !V_stricmp_fast( pPlatform, "X360" ) )

@@ -2199,7 +2199,7 @@ static void DumpTGAofRenderTarget( const int width, const int height, const char
 
 	// async write to disk (this will take ownership of the memory)
 	char szPathedFileName[_MAX_PATH];
-	Q_snprintf( szPathedFileName, sizeof(szPathedFileName), "//MOD/%d_%s_%s.tga", s_nRTIndex++, pFilename, IsOSX() ? "OSX" : "PC" );
+	Q_snprintf( szPathedFileName, sizeof(szPathedFileName), "//MOD/%d_%s_%s.tga", s_nRTIndex++, pFilename, "PC" );
 
 	FileHandle_t fileTGA = filesystem->Open( szPathedFileName, "wb" );
 	filesystem->Write( buffer.Base(), buffer.TellPut(), fileTGA );

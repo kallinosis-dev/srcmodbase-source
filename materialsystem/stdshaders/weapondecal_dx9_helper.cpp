@@ -461,7 +461,7 @@ void DrawWeaponDecal(  CBaseVSShader *pShader, IMaterialVar** params, IShaderDyn
 			DECLARE_DYNAMIC_VERTEX_SHADER( weapondecal_vs30 );
 			SET_DYNAMIC_VERTEX_SHADER_COMBO( SKINNING, ( numBones > 0 ) );
 			SET_DYNAMIC_VERTEX_SHADER_COMBO( COMPRESSED_VERTS, (int)vertexCompression );
-			SET_DYNAMIC_VERTEX_SHADER_COMBO( NUM_LIGHTS, IsPlatformOSX() ? Min( 2, lightState.m_nNumLights ) : lightState.m_nNumLights );
+			SET_DYNAMIC_VERTEX_SHADER_COMBO( NUM_LIGHTS, lightState.m_nNumLights );
 			SET_DYNAMIC_VERTEX_SHADER( weapondecal_vs30 );
 		}
 		else
@@ -469,7 +469,7 @@ void DrawWeaponDecal(  CBaseVSShader *pShader, IMaterialVar** params, IShaderDyn
 			DECLARE_DYNAMIC_VERTEX_SHADER( weapondecal_vs20 );
 			SET_DYNAMIC_VERTEX_SHADER_COMBO( SKINNING, ( numBones > 0 ) );
 			SET_DYNAMIC_VERTEX_SHADER_COMBO( COMPRESSED_VERTS, (int)vertexCompression );
-			SET_DYNAMIC_VERTEX_SHADER_COMBO( NUM_LIGHTS, IsPlatformOSX() ? Min( 2, lightState.m_nNumLights ) : lightState.m_nNumLights );
+			SET_DYNAMIC_VERTEX_SHADER_COMBO( NUM_LIGHTS, lightState.m_nNumLights );
 			SET_DYNAMIC_VERTEX_SHADER( weapondecal_vs20 );
 		}
 
@@ -496,8 +496,8 @@ void DrawWeaponDecal(  CBaseVSShader *pShader, IMaterialVar** params, IShaderDyn
 		if ( g_pHardwareConfig->SupportsPixelShaders_3_0() )
 		{
 			DECLARE_DYNAMIC_PIXEL_SHADER( weapondecal_ps30 );
-			SET_DYNAMIC_PIXEL_SHADER_COMBO( NUM_LIGHTS, IsPlatformOSX() ? Min( 2, lightState.m_nNumLights ) : lightState.m_nNumLights );
-			SET_DYNAMIC_PIXEL_SHADER_COMBO( DYN_CSM_ENABLED, ( IsPlatformOSX() ? 0 : ( bCSMEnabled ? 1 : 0 ) ) );
+			SET_DYNAMIC_PIXEL_SHADER_COMBO( NUM_LIGHTS, lightState.m_nNumLights );
+			SET_DYNAMIC_PIXEL_SHADER_COMBO( DYN_CSM_ENABLED, bCSMEnabled ? 1 : 0 );
 			SET_DYNAMIC_PIXEL_SHADER_COMBO( HIGHLIGHT, bHighlight ? 2 : 0 );
 			SET_DYNAMIC_PIXEL_SHADER_COMBO( PEEL, bPeel ? 1 : 0 );
 			SET_DYNAMIC_PIXEL_SHADER( weapondecal_ps30 );
@@ -505,8 +505,8 @@ void DrawWeaponDecal(  CBaseVSShader *pShader, IMaterialVar** params, IShaderDyn
 		else
 		{
 			DECLARE_DYNAMIC_PIXEL_SHADER( weapondecal_ps20b );
-			SET_DYNAMIC_PIXEL_SHADER_COMBO( NUM_LIGHTS, IsPlatformOSX() ? Min( 2, lightState.m_nNumLights ) : lightState.m_nNumLights );
-			SET_DYNAMIC_PIXEL_SHADER_COMBO( DYN_CSM_ENABLED, ( IsPlatformOSX() ? 0 : ( bCSMEnabled ? 1 : 0 ) ) );
+			SET_DYNAMIC_PIXEL_SHADER_COMBO( NUM_LIGHTS, lightState.m_nNumLights );
+			SET_DYNAMIC_PIXEL_SHADER_COMBO( DYN_CSM_ENABLED, bCSMEnabled ? 1 : 0 );
 			SET_DYNAMIC_PIXEL_SHADER_COMBO( HIGHLIGHT, bHighlight ? 1 : 0 );
 			SET_DYNAMIC_PIXEL_SHADER_COMBO( PEEL, bPeel ? 1 : 0 );
 			SET_DYNAMIC_PIXEL_SHADER( weapondecal_ps20b );

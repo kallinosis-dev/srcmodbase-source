@@ -106,13 +106,6 @@ IMeshMgr* MeshMgr();
 //-----------------------------------------------------------------------------
 #ifdef _PS3
 #include "shaderapidx9/hardwareconfig_ps3nonvirt.h"
-#elif defined( _OSX )
-// @wge: Moved from materialsystem_global.h, since we include shaderapidx8 headers in material system
-inline IHardwareConfigInternal *HardwareConfig()
-{
-	extern IHardwareConfigInternal* g_pHWConfig;
-	return g_pHWConfig;
-}
 #else
 inline IMaterialSystemHardwareConfig* HardwareConfig()
 {	

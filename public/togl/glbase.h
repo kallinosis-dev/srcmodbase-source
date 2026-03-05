@@ -9,20 +9,13 @@
 
 #ifdef DX_TO_GL_ABSTRACTION
 
-#undef HAVE_GL_ARB_SYNC
-
-#ifndef OSX
 #define HAVE_GL_ARB_SYNC 1
-#endif
 
 #ifdef USE_SDL
 #include "SDL_opengl.h"
 #endif
 
-#ifdef OSX
-	#include <OpenGL/CGLCurrent.h>
-	#include <ApplicationServices/ApplicationServices.h>
-#elif defined(DX_TO_GL_ABSTRACTION)
+#if defined(DX_TO_GL_ABSTRACTION)
 	#include <GL/gl.h>
 	#include <GL/glext.h>
 #else
@@ -41,16 +34,7 @@
 #endif
 
 //===============================================================================
-// glue to call out to Obj-C land (these are in glmgrcocoa.mm)
-#ifdef OSX
-	typedef void _PseudoNSGLContext;					// aka NSOpenGLContext
-	typedef _PseudoNSGLContext	*PseudoNSGLContextPtr;
-	
-	#define LIBGL_SONAME "/System/Library/Frameworks/OpenGL.framework/Libraries/libGL.dylib"
-	bool			NewNSGLContext( unsigned long *attribs, PseudoNSGLContextPtr nsglShareCtx, PseudoNSGLContextPtr *nsglCtxOut, CGLContextObj *cglCtxOut );
-	CGLContextObj	GetCGLContextFromNSGL( PseudoNSGLContextPtr nsglCtx );
-	void			DelNSGLContext( PseudoNSGLContextPtr nsglCtx );
-#elif LINUX
+#if LINUX
 #define LIBGL_SONAME "libGL.so.1"
 #elif WIN32
 #define LIBGL_SONAME "OpenGL32.dll"

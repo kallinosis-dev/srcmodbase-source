@@ -1,4 +1,4 @@
-//===== Copyright © 2009, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 2009, Valve Corporation, All rights reserved. ======//
 // filesyste_newasync.h
 //
 // Purpose: 
@@ -21,10 +21,6 @@
 
 #ifdef _WIN32
 	#pragma once
-#endif
-
-#ifdef OSX
-#pragma GCC diagnostic ignored "-Wreturn-type"			// control reaches end of non-void function, for unsupported assignment operators below
 #endif
 
 class CAsyncGroupRequest;

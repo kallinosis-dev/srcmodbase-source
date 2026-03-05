@@ -666,8 +666,6 @@ void Host_PrintStatus( cmd_source_t commandSource, void ( *print )(const char *f
 			"Windows";
 #elif defined( _LINUX )
 		"Linux";
-#elif defined( PLATFORM_OSX )
-		"OSX";
 #else
 		"Unknown";
 #endif
@@ -2086,10 +2084,6 @@ void Host_PrintMemoryStatus( const char *mapname )
 	struct mallinfo memstats = mallinfo( );
 	Msg( "[MEMORYSTATUS] [%s] Operating system reports sbrk size: %.2f MB, Used: %.2f MB, #mallocs = %d\n",
 		mapname, MB*memstats.arena, MB*memstats.uordblks, memstats.hblks );
-#elif defined(PLATFORM_OSX)
-	struct mstats stats = mstats();
-	Msg( "[MEMORYSTATUS] [%s] Operating system reports  Used: %.2f MB, Free: %.2f Total: %.2f\n",
-		mapname, MB*stats.bytes_used, MB*stats.bytes_free, MB*stats.bytes_total );
 #elif defined( _PS3 )
 
 	// NOTE: for PS3 nFreeMemory can be negative (on a devkit, we can use more memory than a retail kit has)

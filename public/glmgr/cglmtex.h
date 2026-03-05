@@ -10,9 +10,6 @@
 
 #pragma once
 
-#ifdef OSX
-#include "glmgr/glmgrbasics.h"
-#endif
 #include "tier1/utlhash.h"
 #include "tier1/utlmap.h"
 

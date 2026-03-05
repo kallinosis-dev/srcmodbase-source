@@ -37,18 +37,6 @@ static inline uint64 diff(uint64 v1, uint64 v2)
 	return (v1 >= v2 ? v1 - v2 : v2 - v1);
 }
 
-#ifdef OSX
-uint64 GetCPUFreqFromPROC()
-{
-        int mib[2] = {CTL_HW, HW_CPU_FREQ};
-        uint64 frequency = 0;
-        size_t len = sizeof(frequency);
-
-        if (sysctl(mib, 2, &frequency, &len, NULL, 0) == -1)
-                return 0;
-        return frequency;
-}
-#else
 uint64 GetCPUFreqFromPROC()
 {
 	double mhz = 0;
@@ -80,7 +68,6 @@ uint64 GetCPUFreqFromPROC()
 
 	return (uint64)(mhz*1000000);
 }
-#endif
 
 
 uint64 CalculateCPUFreq()

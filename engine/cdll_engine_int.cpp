@@ -662,7 +662,7 @@ public:
 	// is this client running inside the same process as an active server?
 	bool IsClientLocalToActiveServer() override;
 	
-#if defined( USE_SDL ) || defined ( OSX )
+#if defined( USE_SDL )
 	virtual void GetMouseDelta( int &x, int &y, bool bIgnoreNextMouseDelta );
 #endif	
 
@@ -803,7 +803,7 @@ Vector CEngineClient::GetLightForPointFast(const Vector &pos, bool bClamp)
 	return vRet;
 }
 
-#if defined( OSX ) || defined( USE_SDL )
+#if defined( USE_SDL )
 
 void CEngineClient::GetMouseDelta( int &x, int &y, bool bIgnoreNextMouseDelta )
 {
@@ -2730,8 +2730,7 @@ void ClientDLL_Init( void )
 			bool bFailed = false;
 		
 			// We only run on hardware that supports shader model 3.0 (dxlevel 95) or later
-			// @wge: HACK FIXME - Not doing this on MacOSX for now...
-			if ( ( g_pMaterialSystemHardwareConfig->GetDXSupportLevel() < 95 ) && IsPC() && !IsOSX() && !IsOpenGL() ) // TODO: Need to remove the IsPC() before shipping once the Mac work is complete (mac is 92 right now)
+			if ( ( g_pMaterialSystemHardwareConfig->GetDXSupportLevel() < 95 ) && IsPC() && !IsOpenGL() ) // TODO: Need to remove the IsPC() before shipping once the Mac work is complete (mac is 92 right now)
 			{
 				wchar_t wcMessage[512];
 				g_pVGuiLocalize->ConstructString( wcMessage, sizeof( wcMessage ), g_pVGuiLocalize->Find( "#Valve_MinShaderModel3" ), 0 );

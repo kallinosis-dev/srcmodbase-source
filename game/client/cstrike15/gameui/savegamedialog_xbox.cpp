@@ -171,8 +171,7 @@ void CSaveGameDialogXbox::InitiateSaving()
 		// dgoodenough - Stub out generation of a unique file name for now
 		// PS3_BUILDFIX
 		// FIXME - this will need a workover
-		// @wge Same for OSX
-#if defined ( _PS3 ) || defined( _OSX ) || defined (LINUX)
+#if defined ( _PS3 ) || defined (LINUX)
 		unsigned currentTime = 0;
 #else
 		// Create a new save game (name is created from the current time, which should be pretty unique)

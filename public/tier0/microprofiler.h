@@ -27,7 +27,7 @@ PLATFORM_INTERFACE int64 GetHardwareClockReliably();
 #endif
 
 
-#if defined(_LINUX) || defined( OSX )
+#if defined(_LINUX)
 inline unsigned long long GetTimebaseRegister( void )
 {
 #ifdef PLATFORM_64BITS
@@ -51,8 +51,6 @@ inline int64 GetTimebaseRegister()
 	// The timebase frequency on PS/3 is 79.8 MHz, see sys_time_get_timebase_frequency()
 	// this works out to 40.10025 clock ticks per timebase tick
 	return __mftb();
-#elif defined( OSX )
-	return GetTimebaseRegister();
 #else
 	return __rdtsc();
 #endif

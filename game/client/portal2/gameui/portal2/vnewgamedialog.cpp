@@ -132,8 +132,6 @@ protected:
 		int x = 0;
 		x += DrawText( x, 0, chapterNumberString, m_hChapterNumberFont, Color( 0, 0, 0, 255 ) );
 		int yTitleOffset = 0;
-		if ( IsOSX() )
-			yTitleOffset -=  (( surface()->GetFontTall(m_hChapterNameFont) - surface()->GetFontTall(m_hChapterNumberFont) )/2 + 1) ;
 		x += DrawText( x, yTitleOffset, pChapterTitle, m_hChapterNameFont, Color( 0, 0, 0, 255 ) );
 	}
 

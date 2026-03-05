@@ -31,7 +31,7 @@
 #error
 #endif
 
-#if defined( USE_SDL ) || defined(OSX) 
+#if defined( USE_SDL )
 	#include "appframework/ilaunchermgr.h"
 	ILauncherMgr *g_pLauncherMgr = NULL;
 #endif
@@ -120,9 +120,6 @@ void *VoidFnPtrLookup_GlMgr( const char *libname, const char *fn, bool &okay, co
 		//printf("CDynamicFunctionOpenGL: Using fallback %p for \"%s\"\n", fallback, fn);
 		retval = fallback;
 	}
-#elif defined OSX
-	// there's no glXGetProcAddress() equivalent for Mac OS X...it's just dlopen(), basically. Let tier0 handle that.
-    retval = VoidFnPtrLookup_Tier0( libname, fn, (void *) fallback);
 #endif
 
 	// Note that a non-NULL response doesn't mean it's safe to call the function!
@@ -170,8 +167,6 @@ COpenGLEntryPoints *ToGLConnectLibraries( CreateInterfaceFn factory )
 
 	#if defined( USE_SDL )
 		g_pLauncherMgr = (ILauncherMgr *)factory( SDLMGR_INTERFACE_VERSION, NULL );		
-	#elif defined( OSX )
-		g_pLauncherMgr = (ILauncherMgr *)factory( COCOAMGR_INTERFACE_VERSION, NULL );
 	#endif
 
 	return gGL;
@@ -279,9 +274,6 @@ static bool CheckOpenGLExtension_internal(const char *libname, const char *ext, 
 				return false;
 			}
 		}
-#elif defined (OSX)
-		if (!ptr)
-			return false;  // definitely not there.
 #else
 		if (!ptr)
 		{
@@ -411,10 +403,6 @@ COpenGLEntryPoints::COpenGLEntryPoints(const char *libname)
 #undef GL_EXT
 #endif
 
-#ifdef OSX
-    m_bHave_GL_NV_bindless_texture = false;
-    m_bHave_GL_AMD_pinned_memory = false;
-#else
 	if ( ( m_bHave_GL_NV_bindless_texture ) && ( !CommandLine()->CheckParm( "-gl_nv_bindless_texturing" ) ) )
 	{
 		m_bHave_GL_NV_bindless_texture = false;
@@ -433,7 +421,6 @@ COpenGLEntryPoints::COpenGLEntryPoints(const char *libname)
 	{
 		m_bHave_GL_AMD_pinned_memory = false;
 	}
-#endif
 
 	if ( ( m_bHave_GL_ARB_buffer_storage ) && ( CommandLine()->CheckParm( "-gl_disable_arb_buffer_storage" ) ) )
 	{
@@ -459,12 +446,10 @@ COpenGLEntryPoints::COpenGLEntryPoints(const char *libname)
 		Error( "This application requires either the GL_EXT_texture_compression_s3tc or the GL_EXT_texture_compression_dxt1 + GL_ANGLE_texture_compression_dxt3 + GL_ANGLE_texture_compression_dxt5 OpenGL extensions. Please install S3TC texture support.\n" );
 	}
 
-#ifndef OSX
 	if ( !m_bHave_GL_EXT_texture_sRGB_decode )
  	{
  		Error( "Required OpenGL extension \"GL_EXT_texture_sRGB_decode\" is not supported. Please update your OpenGL driver.\n" );
  	}
-#endif
 }
 
 COpenGLEntryPoints::~COpenGLEntryPoints()

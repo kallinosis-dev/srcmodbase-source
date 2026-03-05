@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -164,10 +164,6 @@ bool CVGuiSystemModuleLoader::LoadPlatformModules(CreateInterfaceFn *factorylist
 
 		// get copy out of steam cache
 		const char *dllPath = nullptr;
-		if ( IsOSX() )
-		{
-			dllPath = it->GetString("dll_osx");
-		}
 		else if ( IsLinux() )
 		{
 			dllPath = it->GetString("dll_linux");

@@ -30,22 +30,6 @@ ConVar r_dopixelvisibility( "r_dopixelvisibility", "1" );
 ConVar r_drawpixelvisibility( "r_drawpixelvisibility", "0", 0, "Show the occlusion proxies", PixelvisDrawChanged );
 ConVar r_pixelvisibility_spew( "r_pixelvisibility_spew", "0" );
 
-#ifdef OSX
-	// GLMgr will set this one to "1" if it senses the new post-10.6.4 driver (m_hasPerfPackage1)
-	ConVar gl_can_query_fast( "gl_can_query_fast", "0" );
-	
-	static bool	HasFastQueries( void )
-	{
-		return gl_can_query_fast.GetBool();
-	}
-#else
-	// non OSX path
-	static bool	HasFastQueries( void )
-	{
-		return true;
-	}
-#endif
-
 extern ConVar building_cubemaps;
 
 #ifndef _GAMECONSOLE

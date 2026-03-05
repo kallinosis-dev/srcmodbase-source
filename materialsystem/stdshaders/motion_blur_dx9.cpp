@@ -36,24 +36,20 @@ BEGIN_VS_SHADER_FLAGS( MotionBlur_dx9, "Motion Blur", SHADER_NOT_EDITABLE )
 	{
 		if ( params[BASETEXTURE]->IsDefined() )
 		{
-			LoadTexture( BASETEXTURE, IsOSX() && g_pHardwareConfig->CanDoSRGBReadFromRTs() ? TEXTUREFLAGS_SRGB : 0 );
+			LoadTexture( BASETEXTURE );
 		}
 	}
 
 	SHADER_DRAW
 	{
-		bool bForceSRGBReadsAndWrites = IsOSXOpenGL() && g_pHardwareConfig->CanDoSRGBReadFromRTs();
 		SHADOW_STATE
 		{
 			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
-
-			// On OSX OpenGL, we must do sRGB reads and writes since these render targets are tagged as such
-			bool bForceSRGBReadsAndWrites = IsOSX() && g_pHardwareConfig->CanDoSRGBReadFromRTs();
 			
 			// NOTE: sRGB is disabled because of the NV8800 brokenness
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
-			pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, bForceSRGBReadsAndWrites );
-			pShaderShadow->EnableSRGBWrite( bForceSRGBReadsAndWrites );
+			pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, false );
+			pShaderShadow->EnableSRGBWrite( false );
 
 			DECLARE_STATIC_VERTEX_SHADER( motion_blur_vs20 );
 			SET_STATIC_VERTEX_SHADER( motion_blur_vs20 );
@@ -79,7 +75,7 @@ BEGIN_VS_SHADER_FLAGS( MotionBlur_dx9, "Motion Blur", SHADER_NOT_EDITABLE )
 			SET_DYNAMIC_VERTEX_SHADER( motion_blur_vs20 );
 
 			// Bind textures
-			BindTexture( SHADER_SAMPLER0, bForceSRGBReadsAndWrites ? TEXTURE_BINDFLAGS_SRGBREAD : TEXTURE_BINDFLAGS_NONE, BASETEXTURE );
+			BindTexture( SHADER_SAMPLER0, TEXTURE_BINDFLAGS_NONE, BASETEXTURE );
 
 			// Get texture dimensions
 			ITexture *src_texture = params[BASETEXTURE]->GetTextureValue();

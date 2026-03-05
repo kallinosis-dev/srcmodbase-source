@@ -35,10 +35,7 @@ extern IMaterialSystem *materials;
 //-----------------------------------------------------------------------------
 #if defined( QUICKTIME_VIDEO )
 
-  #if defined ( OSX )
-	#include <quicktime/QTML.h>
-	#include <quicktime/Movies.h>
-  #elif defined ( WIN32 )
+  #if defined ( WIN32 )
 	#include <QTML.h>
 	#include <Movies.h>
 	#include <windows.h>

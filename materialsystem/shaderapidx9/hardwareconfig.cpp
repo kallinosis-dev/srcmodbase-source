@@ -106,14 +106,8 @@ void CHardwareConfig::ForceCapsToDXLevel( HardwareCaps_t *pCaps, int nDxLevel, c
 		pCaps->m_SupportsShaderModel_3_0 = false;
 		if ( IsOpenGL() )
 		{
-            if ( IsOSX() )
-            {
-                pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm( "-glslcontrolflow" ) != nullptr;
-            }
-            else
-            {
-                pCaps->m_bSupportsStaticControlFlow = !CommandLine()->CheckParm( "-noglslcontrolflow" );
-            }
+            pCaps->m_bSupportsStaticControlFlow = !CommandLine()->CheckParm( "-noglslcontrolflow" );
+            
             
 			pCaps->m_MaxUserClipPlanes = 2;
 			pCaps->m_UseFastClipping = false;
@@ -143,15 +137,7 @@ void CHardwareConfig::ForceCapsToDXLevel( HardwareCaps_t *pCaps, int nDxLevel, c
             
         if ( IsOpenGL() )
         {
-            if ( IsOSX() )
-            {
-                pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm( "-glslcontrolflow" ) != nullptr;
-            }
-            else
-            {
-                pCaps->m_bSupportsStaticControlFlow = !CommandLine()->CheckParm( "-noglslcontrolflow" );
-            }
-                
+            pCaps->m_bSupportsStaticControlFlow = !CommandLine()->CheckParm( "-noglslcontrolflow" );
             pCaps->m_MaxUserClipPlanes = 2;
             pCaps->m_UseFastClipping = false;
             pCaps->m_MaxNumLights = pCaps->m_bSupportsStaticControlFlow ? 4 : 2;
@@ -166,15 +152,7 @@ void CHardwareConfig::ForceCapsToDXLevel( HardwareCaps_t *pCaps, int nDxLevel, c
 	case 100:
         if ( IsOpenGL() )
         {
-            if ( IsOSX() )
-            {
-                pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm( "-glslcontrolflow" ) != nullptr;
-            }
-            else
-            {
-                pCaps->m_bSupportsStaticControlFlow = !CommandLine()->CheckParm( "-noglslcontrolflow" );
-            }
-                
+            pCaps->m_bSupportsStaticControlFlow = !CommandLine()->CheckParm( "-noglslcontrolflow" );
             pCaps->m_MaxUserClipPlanes = 2;
             pCaps->m_UseFastClipping = false;
             pCaps->m_MaxNumLights = pCaps->m_bSupportsStaticControlFlow ? 4 : 2;
@@ -415,12 +393,6 @@ ShadowFilterMode_t CHardwareConfig::GetShadowFilterMode( bool bForceLowQualitySh
 	// Currently Mac or PS3
 	if ( !m_Caps.m_bSupportsShadowDepthTextures )
 		return SHADOWFILTERMODE_DEFAULT;
-
-    if ( IsOSXOpenGL() &&
-         ( bUseLowQualityShadows || ( m_Caps.m_VendorID == VENDORID_INTEL ) ) )
-    {
-        return NVIDIA_PCF_CHEAP;
-    }
 
 	if( IsPS3() )
 	{

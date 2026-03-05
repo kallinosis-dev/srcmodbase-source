@@ -861,15 +861,11 @@ void CMatSystemTexture::SetMaterial( IMaterial *pMaterial )
 	float flPixelCenterX = 0.0f;
 	float flPixelCenterY = 0.0f;
 
-	// TOGL Linux/Win now automatically accounts for the half pixel offset between D3D9 vs. GL, but OSX's version of togl doesn't
-	if ( !IsOSX() && !IsX360() )
+	// only do texel fudges on D3D
+	if ( m_iWide > 0.0f && m_iTall > 0.0f)
 	{
-		// only do texel fudges on D3D
-		if ( m_iWide > 0.0f && m_iTall > 0.0f)
-		{
-			flPixelCenterX = 0.5f / m_iWide;
-			flPixelCenterY = 0.5f / m_iTall;
-		}
+		flPixelCenterX = 0.5f / m_iWide;
+		flPixelCenterY = 0.5f / m_iTall;
 	}
 
 	m_s0 = flPixelCenterX;
@@ -959,10 +955,6 @@ void CMatSystemTexture::SetMaterial( const char *pFileName )
 
 	if ( IsErrorMaterial( pMaterial ) && !s_bTextMode )
 	{
-		if (IsOSX())
-		{
-			printf( "\n ##### Missing Vgui material %s\n", pFileName );
-		}
 		Msg( "--- Missing Vgui material %s\n", pFileName );
 	}
 

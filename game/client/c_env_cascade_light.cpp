@@ -59,31 +59,31 @@ ConVar cl_csm_shadows( "cl_csm_shadows", "1", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_entity_shadows( "cl_csm_entity_shadows", "1", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_static_prop_shadows( "cl_csm_static_prop_shadows", "1", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_world_shadows( "cl_csm_world_shadows", "1", FCVAR_DEVELOPMENTONLY );
-ConVar cl_csm_world_shadows_in_viewmodelcascade( "cl_csm_world_shadows_in_viewmodelcascade", ( IsGameConsole() || IsPlatformOSX() ) ? "0" : "1", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_world_shadows_in_viewmodelcascade( "cl_csm_world_shadows_in_viewmodelcascade", IsGameConsole() ? "0" : "1", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_sprite_shadows( "cl_csm_sprite_shadows", "1", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_rope_shadows( "cl_csm_rope_shadows", "1", FCVAR_DEVELOPMENTONLY );
-ConVar cl_csm_translucent_shadows( "cl_csm_translucent_shadows", ( IsGameConsole() || IsPlatformOSX()  )? "0" : "1", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_translucent_shadows( "cl_csm_translucent_shadows", IsGameConsole() ? "0" : "1", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_translucent_shadows_using_opaque_path( "cl_csm_translucent_shadows_using_opaque_path", "1", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_ignore_disable_shadow_depth_rendering( "cl_csm_ignore_disable_shadow_depth_rendering", "0", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_optimize_static_props( "cl_csm_optimize_static_props", "1", FCVAR_DEVELOPMENTONLY, "Enable/Disable optimal static prop rendering into CSM's (cull static props that make no visual contribution to shadows)" );
 
 ConVar cl_csm_viewmodel_shadows( "cl_csm_viewmodel_shadows", "1", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_viewmodel_max_shadow_dist( "cl_csm_viewmodel_max_shadow_dist", "21", FCVAR_DEVELOPMENTONLY );
-ConVar cl_csm_viewmodel_farz( "cl_csm_viewmodel_farz", ( IsGameConsole() || IsPlatformOSX() ) ? "15" : "30", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_viewmodel_farz( "cl_csm_viewmodel_farz", IsGameConsole() ? "15" : "30", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_viewmodel_max_visible_dist( "cl_csm_viewmodel_max_visible_dist", "1000", FCVAR_DEVELOPMENTONLY );
 
-ConVar cl_csm_slopescaledepthbias_c0( "cl_csm_slopescaledepthbias_c0", ( IsGameConsole() || IsPlatformOSX() ) ? "2" : "1.3", FCVAR_DEVELOPMENTONLY );
-ConVar cl_csm_slopescaledepthbias_c1( "cl_csm_slopescaledepthbias_c1", IsPlatformOSX() ? "4" : "2", FCVAR_DEVELOPMENTONLY );
-ConVar cl_csm_slopescaledepthbias_c2( "cl_csm_slopescaledepthbias_c2", IsPlatformOSX() ? "4" : "2", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_slopescaledepthbias_c0( "cl_csm_slopescaledepthbias_c0", IsGameConsole() ? "2" : "1.3", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_slopescaledepthbias_c1( "cl_csm_slopescaledepthbias_c1", "2", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_slopescaledepthbias_c2( "cl_csm_slopescaledepthbias_c2", "2", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_slopescaledepthbias_c3( "cl_csm_slopescaledepthbias_c3", "2", FCVAR_DEVELOPMENTONLY );
 
-ConVar cl_csm_depthbias_c0(	"cl_csm_depthbias_c0", ( IsGameConsole() || IsPlatformOSX() ) ? ".000005" : ".000025", FCVAR_DEVELOPMENTONLY );
-ConVar cl_csm_depthbias_c1(	"cl_csm_depthbias_c1", IsPlatformOSX() ? "2" : ".000025", FCVAR_DEVELOPMENTONLY );
-ConVar cl_csm_depthbias_c2(	"cl_csm_depthbias_c2", IsPlatformOSX() ? "2" : ".000025", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_depthbias_c0(	"cl_csm_depthbias_c0", IsGameConsole() ? ".000005" : ".000025", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_depthbias_c1(	"cl_csm_depthbias_c1", ".000025", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_depthbias_c2(	"cl_csm_depthbias_c2", ".000025", FCVAR_DEVELOPMENTONLY );
 ConVar cl_csm_depthbias_c3(	"cl_csm_depthbias_c3", ".000025", FCVAR_DEVELOPMENTONLY );
 
-ConVar cl_csm_viewmodel_slopescaledepthbias( "cl_csm_viewmodel_slopescaledepthbias", ( IsGameConsole() || IsPlatformOSX() ) ? "2" : "1.5", FCVAR_DEVELOPMENTONLY );
-ConVar cl_csm_viewmodel_depthbias( "cl_csm_viewmodel_depthbias", ( IsGameConsole() || IsPlatformOSX() ) ? ".000005" : ".00005", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_viewmodel_slopescaledepthbias( "cl_csm_viewmodel_slopescaledepthbias", IsGameConsole() ? "2" : "1.5", FCVAR_DEVELOPMENTONLY );
+ConVar cl_csm_viewmodel_depthbias( "cl_csm_viewmodel_depthbias", IsGameConsole() ? ".000005" : ".00005", FCVAR_DEVELOPMENTONLY );
 
 ConVar cl_csm_hack_proj_matrices_for_cull_debugging( "cl_csm_hack_proj_matrices_for_cull_debugging", "0", FCVAR_DEVELOPMENTONLY );
 
@@ -657,66 +657,6 @@ CCascadeLightManager::~CCascadeLightManager()
 {
 }
 
-#ifdef OSX
-
-static ConVar mat_osx_force_csm_enabled( "mat_osx_force_csm_enabled", "0", FCVAR_RELEASE );
-
-static bool OSX_HardwareGoodEnoughForCSMs()
-{
-	if ( IsPlatformOSX() )
-	{
-		// Historically, CS:GO did not have CSMs or multicore rendering on Mac. Both features are
-		// available on Mac post the Sep 2014 Linux port integration, but multicore is not enough
-		// to absorb the perf hit of CSMs on low end Macs. This function identifies the Macs on
-		// which we do not want to enable CSMs, those that satisfy the following properties:
-		// 1. lowend GPU identified in CShaderDeviceMgrBase::ReadHardwareCaps by setting 
-		//    the convar mat_osx_csm_enabled to false;
-		// 2. CPU has four or less logical processors (and less than 2.6GHz recorded clock speed)
-
-		if ( mat_osx_force_csm_enabled.GetBool() )
-		{
-			return true;
-		}
-
-		bool bGoodEnough = true;
-
-		// Check GPU
-		static ConVarRef mat_osx_csm_enabled( "mat_osx_csm_enabled" );
-		if ( !mat_osx_csm_enabled.GetBool() )
-		{
-			// GPU not good enough
-			//printf("CSM: GPU matched string \"%s\", not good enough\n");
-			bGoodEnough = false;
-		}
-
-		// Check CPU
-		CPUInformation const& cpuInfo = GetCPUInformation();
-
-		//printf( "CSM: CPU has %d logical processors\n", cpuInfo.m_nLogicalProcessors );
-
-		if ( cpuInfo.m_nLogicalProcessors <= 4 )
-		{
-			// allow if clock speed is >= 2.6GHz, observing the list of Mac CPU's since Jan '08, this will now enable CSM's
-			// on most Mac Pro's and iMacs (those that have the ability for GPU's to pass the test above, but would have been excluded due to logical processor count).
-			if ( ( (double)cpuInfo.m_Speed / 1000000000.0 ) < 2.6 )
-			{
-				//printf("CSM: CPU cores not enough\n");
-				bGoodEnough = false;
-			}
-		}
-
-		return bGoodEnough;
-	}
-	else
-	{
-		// Platform other than OSX
-		Assert( 0 );
-		return true;
-	}
-}
-
-#endif
-
 bool CCascadeLightManager::InitRenderTargets()
 {
 	VPROF_BUDGET( "CCascadeLightManager::InitRenderTargets", VPROF_BUDGETGROUP_SHADOW_DEPTH_TEXTURING );
@@ -724,9 +664,6 @@ bool CCascadeLightManager::InitRenderTargets()
 	CsmDbgMsg( "C_CascadeLight::InitRenderTargets\n" );
 
 	if (
-#ifdef OSX
-		!OSX_HardwareGoodEnoughForCSMs() ||
-#endif
 		!cl_csm_enabled.GetBool() ||
 		!g_pMaterialSystemHardwareConfig->SupportsCascadedShadowMapping() ||
 		!g_pMaterialSystemHardwareConfig->SupportsShadowDepthTextures()
@@ -1517,9 +1454,6 @@ void CCascadeLightManager::ComputeShadowDepthTextures( const CViewSetup &viewSet
 	m_bCSMIsActive = false;
 	
 	if (
-#ifdef OSX
-		!OSX_HardwareGoodEnoughForCSMs() ||
-#endif
 		!cl_csm_enabled.GetBool() ||
 		!g_pMaterialSystemHardwareConfig->SupportsCascadedShadowMapping() ||
 		!g_pMaterialSystemHardwareConfig->SupportsShadowDepthTextures()
@@ -1574,24 +1508,6 @@ void CCascadeLightManager::ComputeShadowDepthTextures( const CViewSetup &viewSet
 		if ( flMaxShadowDist <= 0.0f )
 		{
 			flMaxShadowDist = C_CascadeLight::Get()->GetMaxShadowDist();
-#ifdef OSX
-			if ( GetCSMQualityMode() == CSMQUALITY_HIGH )
-			{
-				// At the highest CSM quality level boost the max shadow distance (match Windows on high end Macs)
-				// This seems OK from a CS fairness perspective (it can be argued either way whether this gives a player an advantage, or disadvantage).
-				flMaxShadowDist *= 1.4f;
-			}
-            else if ( GetCSMQualityMode() == CSMQUALITY_LOW )
-            {
-                // match PS3 distance for lowest performing Macs
-				flMaxShadowDist *= 0.8f;
-            }
-            else if ( GetCSMQualityMode() == CSMQUALITY_VERY_LOW )
-            {
-                // match PS3 distance for lowest performing Macs
-				flMaxShadowDist *= 0.6f;
-            }
-#else
 			if ( ( !IsGameConsole() ) &&
                  ( GetCSMQualityMode() == CSMQUALITY_HIGH ) )
 			{
@@ -1599,7 +1515,6 @@ void CCascadeLightManager::ComputeShadowDepthTextures( const CViewSetup &viewSet
 				// This seems OK from a CS fairness perspective (it can be argued either way whether this gives a player an advantage, or disadvantage).
 				flMaxShadowDist *= 1.4f;
 			}
-#endif
 		}
 		if ( flMaxShadowDist <= 0.0f )
 			flMaxShadowDist = 400.0f;

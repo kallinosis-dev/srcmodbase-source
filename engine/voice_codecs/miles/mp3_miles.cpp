@@ -17,28 +17,7 @@ static S32 AILCALLBACK AudioStreamEventCB( UINTa user, void *dest, S32 bytes_req
 {
 	IAudioStreamEvent *pThis = static_cast<IAudioStreamEvent*>( (void *)user);
 	
-#if defined( OSX ) && !defined( PLATFORM_64BITS )
-	// save of the args to local stack vars before we screw with ESP
-	volatile void *newDest = dest;
-	volatile S32 newBytes = bytes_requested;
-	volatile S32 newOffset = offset;
-	volatile void *oldESP;
-	
-	// now move ESP to be aligned to 16-bytes
-	asm volatile(
-	 "movl    %%esp,%0\n"
-	"subl    $16,%%esp\n"
-	"andl    $-0x10,%%esp\n"
-	:  "=m" (oldESP) : : "%esp");
-	int val = pThis->StreamRequestData( (void *)newDest, newBytes, newOffset );
-
-	// undo the alignment
-	asm( "movl    %0,%%esp\n" ::"m" (oldESP) );
-
-	return val;
-#else
 	return pThis->StreamRequestData( dest, bytes_requested, offset );
-#endif	
 }
 
 class CMilesMP3 : public IAudioStream

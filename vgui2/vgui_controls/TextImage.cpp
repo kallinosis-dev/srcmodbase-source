@@ -568,11 +568,6 @@ void TextImage::GetTextSize(int &wide, int &tall)
 		}
 		
 	}
-#ifdef PLATFORM_OSX
-	wide += 2;
-	if ( textLen < 3 )
-		wide += 3;
-#endif
 	if (wide < maxWide)
 	{ 
 		// maxWide only gets set if a newline is in the label

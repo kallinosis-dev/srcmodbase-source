@@ -18,10 +18,6 @@
 #include <cell/keyboard.h>
 #endif // WIN32
 
-#if defined( _OSX )
-#include "posix_stubs.h"
-#endif
-
 #include "key_translation.h"
 #include "tier1/convar.h"
 #include "tier1/strtools.h"
@@ -34,7 +30,7 @@ static ButtonCode_t s_pVirtualKeyToButtonCode[256];
 
 static ButtonCode_t s_pSKeytoButtonCode[SK_MAX_KEYS];
 
-#if defined( PLATFORM_WINDOWS ) || defined( _GAMECONSOLE ) || defined( _OSX )
+#if defined( PLATFORM_WINDOWS ) || defined( _GAMECONSOLE )
 static ButtonCode_t s_pXKeyTrans[XK_MAX_KEYS];
 #endif
 
@@ -441,13 +437,8 @@ static const char *s_pButtonCodeName[ ] =
 	"RALT",			// KEY_RALT,
 	"CTRL",			// KEY_LCONTROL,
 	"RCTRL",		// KEY_RCONTROL,
-#if defined(OSX)
-    "COMMAND",      // KEY_LWIN
-    "COMMAND",      // KEY_RWIN
-#else
 	"LWIN",			// KEY_LWIN,
 	"RWIN",			// KEY_RWIN,
-#endif
 	"APP",			// KEY_APP,
 	"UPARROW",		// KEY_UP,
 	"LEFTARROW",	// KEY_LEFT,
@@ -958,7 +949,7 @@ void ButtonCode_InitKeyTranslationTable()
 #endif
 
 	// init the xkey translation table
-#if !defined( PLATFORM_POSIX ) || defined( _GAMECONSOLE ) || defined( _OSX )
+#if !defined( PLATFORM_POSIX ) || defined( _GAMECONSOLE )
 	s_pXKeyTrans[XK_NULL]					= KEY_NONE;
 	s_pXKeyTrans[XK_BUTTON_UP]				= KEY_XBUTTON_UP;
 	s_pXKeyTrans[XK_BUTTON_DOWN]			= KEY_XBUTTON_DOWN;
@@ -1054,7 +1045,7 @@ int ButtonCode_ButtonCodeToVirtualKey( ButtonCode_t code )
 
 ButtonCode_t ButtonCode_XKeyToButtonCode( int nPort, int keyCode )
 {
-#if !defined( PLATFORM_POSIX ) || defined( _GAMECONSOLE ) || defined( _OSX )
+#if !defined( PLATFORM_POSIX ) || defined( _GAMECONSOLE )
 	if ( keyCode < 0 || keyCode >= sizeof( s_pXKeyTrans ) / sizeof( s_pXKeyTrans[0] ) )
 	{
 		Assert( false );
@@ -1173,13 +1164,8 @@ ButtonCode_t ButtonCode_StringToButtonCode( const char *pString, bool bXControll
 		return BUTTON_CODE_INVALID;
 	}
 
-#if defined(OSX)
-  // map "l_win" to the LWIN key on OSX (it appears in the table as "command" )
-  if ( !Q_stricmp( pString, "lwin" ) )
-#else
   // map "COMMAND" to the LWIN key on non-OSX
   if ( !Q_stricmp( pString, "command" ) )
-#endif
   {
     return KEY_LWIN;
   }

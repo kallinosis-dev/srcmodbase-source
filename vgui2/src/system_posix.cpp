@@ -28,9 +28,7 @@
 #include "vgui_key_translation.h"
 #include "filesystem.h"
 
-#ifdef OSX
-#include <Carbon/Carbon.h>
-#elif defined(LINUX)
+#if defined(LINUX)
 #include <sys/vfs.h>
 #endif
 
@@ -133,10 +131,6 @@ private:
 	bool m_bRegistryDirty;
 	
 	char m_szRegistryPath[ MAX_PATH ];
-#ifdef OSX
-	PasteboardRef m_PasteBoardRef;
-#endif
-	
 };
 
 
@@ -161,9 +155,6 @@ CSystem::CSystem()
 	m_flRegistrySaveTime = 0.0;
 	m_bRegistryDirty = false;
 	m_pUserConfigData = NULL;
-#ifdef OSX
-	PasteboardCreate( kPasteboardClipboard, &m_PasteBoardRef );
-#endif
 	
 //	char *pchHome = getenv( "HOME" );
 	Q_snprintf( m_szRegistryPath, sizeof(m_szRegistryPath), "%s", REGISTRY_NAME );
@@ -178,9 +169,6 @@ CSystem::CSystem()
 CSystem::~CSystem()
 {
 	SaveRegistryToFile( true );
-#ifdef OSX
-	CFRelease( m_PasteBoardRef );
-#endif
 }
 							
 void CSystem::SaveRegistryToFile( bool bForce )
@@ -271,14 +259,10 @@ long CSystem::GetTimeMillis()
 //-----------------------------------------------------------------------------
 void CSystem::ShellExecute(const char *command, const char *file)
 {
-#ifdef OSX
-	command = "open ";
-	char const *szSuffix = "";
-#else
 #define ESCAPE_STEAM_RUNTIME "STEAM_RUNTIME=0 LD_LIBRARY_PATH=\"$SYSTEM_LD_LIBRARY_PATH\" PATH=\"$SYSTEM_PATH\" "
 	command = ESCAPE_STEAM_RUNTIME "xdg-open '";
 	char const *szSuffix = "'";
-#endif
+
 	char szRealCommand[ 1024 ];
 	Q_snprintf( szRealCommand, sizeof( szRealCommand ), "%s%s%s", command, file, szSuffix );
 	system( szRealCommand );
@@ -307,12 +291,6 @@ void CSystem::SetClipboardText(const char *text, int textLen)
 			free( ClipText );
 		}
 	}
-#elif defined( OSX )
-	PasteboardSynchronize( m_PasteBoardRef );
-	PasteboardClear( m_PasteBoardRef );
-	CFDataRef theData = CFDataCreate( kCFAllocatorDefault, (const UInt8*)text, textLen );
-	PasteboardPutItemFlavor( m_PasteBoardRef, (PasteboardItemID)1, CFSTR("public.utf8-plain-text"), theData, 0 );
-	CFRelease( theData );
 #endif
 }
 
@@ -334,13 +312,6 @@ void CSystem::SetClipboardText(const wchar_t *text, int textLen)
 
 #if defined( USE_SDL )
 	SetClipboardText( charStr, Q_strlen( charStr ) );
-#elif defined( OSX )
-	PasteboardSynchronize( m_PasteBoardRef );
-	PasteboardClear( m_PasteBoardRef );
-
-	CFDataRef theData = CFDataCreate( kCFAllocatorDefault, (const UInt8*)charStr, Q_strlen(charStr) );
-	PasteboardPutItemFlavor( m_PasteBoardRef, (PasteboardItemID)1, CFSTR("public.utf8-plain-text"), theData, 0 );
-	CFRelease( theData );
 #endif
 
 	free( charStr );
@@ -364,30 +335,6 @@ int CSystem::GetClipboardTextCount()
 	}
 
 	return Count;
-#elif defined( OSX )
-	ItemCount count;
-	PasteboardSynchronize( m_PasteBoardRef );
-	
-	OSStatus err = PasteboardGetItemCount( m_PasteBoardRef, &count );
-	if ( err != noErr )
-		return 0;
-	
-	if ( count <= 0 )
-		return 0;
-	
-	PasteboardItemID ItemID;
-	// always use the last item on the clipboard for any cut and paste data
-	err = PasteboardGetItemIdentifier( m_PasteBoardRef, count, &ItemID );
-	if ( err != noErr )
-		return 0;
-	CFDataRef outData;
-	err = PasteboardCopyItemFlavorData ( m_PasteBoardRef, ItemID, CFSTR ("public.utf8-plain-text"), &outData);
-	if ( err != noErr )
-		return 0;
-	
-	int copyLen = CFDataGetLength( outData );
-	CFRelease( outData );
-	return (int)copyLen + 1;
 #else
 	return 0;
 #endif
@@ -412,30 +359,6 @@ int CSystem::GetClipboardText(int offset, char *buf, int bufLen)
 	}
 
 	return 0;
-#elif defined( OSX )
-	ItemCount count;
-	PasteboardSynchronize( m_PasteBoardRef );
-	
-	OSStatus err = PasteboardGetItemCount( m_PasteBoardRef, &count );
-	if ( err != noErr )
-		return 0;
-	
-	char *pchOutData;
-	PasteboardItemID ItemID;
-	// pull the last item from the clipboard
-	err = PasteboardGetItemIdentifier( m_PasteBoardRef, count, &ItemID );
-	if ( err != noErr )
-		return 0;
-	CFDataRef outData;
-	err = PasteboardCopyItemFlavorData ( m_PasteBoardRef, ItemID, CFSTR ("public.utf8-plain-text"), &outData);
-	if ( err != noErr )
-		return 0;
-	pchOutData = (char *)CFDataGetBytePtr(outData );
-	int copyLen = MIN( CFDataGetLength( outData ), bufLen ) ;
-	if ( pchOutData )
-		memcpy( buf, pchOutData, copyLen );
-	CFRelease( outData );
-	return copyLen;
 #else
 	return 0;
 #endif

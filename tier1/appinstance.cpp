@@ -41,12 +41,6 @@
 #ifdef PLATFORM_WINDOWS_PC 
 #include <windows.h>
 #endif
-#ifdef PLATFORM_OSX
-#include <fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include "tier1/checksum_crc.h"
-#endif
 
 
 
@@ -92,8 +86,9 @@ CSingleAppInstance::CSingleAppInstance( tchar* InstanceName, bool exitOnNotUniqu
 		
 		CheckForOtherRunningInstances( exitOnNotUnique, displayMsgIfNotUnique );
 	}
-#elif defined(OSX)
-	
+#elif defined(LINUX)
+	#error "Check me!"	
+
 	m_hMutex = -1; // 0 in theory is a valid fd, so set the sentinal to -1 for checking in the destructor
 	
 	// Under OSX use flock in /tmp/source_engine_<game>.lock, create the file if it doesn't exist
@@ -138,7 +133,9 @@ CSingleAppInstance::~CSingleAppInstance()
 		::CloseHandle( m_hMutex );
 		m_hMutex = nullptr;
 	}
-#elif defined(OSX)
+#elif defined(LINUX)
+	#error "Check me!"
+
 	if ( m_hMutex != -1 )
 	{
 		close( m_hMutex );
@@ -152,6 +149,7 @@ CSingleAppInstance::~CSingleAppInstance()
 
 bool CSingleAppInstance::CheckForOtherRunningInstances( bool exitOnNotUnique, bool displayMsgIfNotUnique ) const
 {
+	#error "Remove me altogether?"
 
 	if ( IsPlatformWindows() || IsOSX() )
 	{

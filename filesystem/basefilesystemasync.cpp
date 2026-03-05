@@ -670,7 +670,7 @@ void CBaseFileSystem::InitAsync()
 	Assert( !m_pThreadPool );
 	if ( m_pThreadPool )
 		return;
-#ifndef OSX
+
 	if ( IsX360() && Plat_IsInDebugSession() )
 	{
 		class CBreakThread : public CThread
@@ -698,7 +698,6 @@ void CBaseFileSystem::InitAsync()
 		breakThread.SetName( "DebugBreakThread" );
 		breakThread.Start( 1024 );
 	}
-#endif
 
 	if ( CommandLine()->FindParm( "-noasync" ) )
 	{
@@ -1470,7 +1469,7 @@ void CBaseFileSystem::DoAsyncCallback( const FileAsyncRequest_t &request, void *
 	if ( pDataToFree  )
 	{
 		Assert( !request.pfnAlloc );
-#if defined( OSX ) || defined( _PS3 ) || defined( LINUX )
+#if defined( _PS3 ) || defined( LINUX )
 		// The ugly delete[] (void*) method generates a compile warning on osx, as it should.
 		free( pDataToFree );
 #else

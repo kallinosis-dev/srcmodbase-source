@@ -21,8 +21,6 @@
 
 #if defined( _WIN32 )
 #include <sys/utime.h>
-#elif defined(OSX)
-#include <utime.h>
 #else
 #include <sys/types.h>
 #include <utime.h>

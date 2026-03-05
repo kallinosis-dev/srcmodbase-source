@@ -17,8 +17,6 @@
 #include <winsock.h>
 #elif defined(_X360)
 // nothing to include for 360
-#elif defined(OSX)
-#include <Carbon/Carbon.h>
 #elif defined(LINUX)
 	#include "tier0/dynfunction.h"
 #elif defined(_WIN32)
@@ -205,8 +203,6 @@ private:
 	WNDPROC			m_ChainedWindowProc;
 
 	RECT			m_rcLastRestoredClientRect;
-#elif OSX
-	WindowRef		m_hWindow;
 #else
 #error
 #endif
@@ -333,13 +329,6 @@ void CGame::AppActivate( bool fActive )
 			videomode->ReleaseVideo();
 		}
 	}
-#ifdef OSX
-	// make sure the mouse cursor is in a sane location, force it to screen middle
-	if ( fActive )
-	{
-		g_pLauncherMgr->SetCursorPosition( m_width/2, m_height/2 );
-	}
-#endif
 
 	if ( host_initialized )
 	{
@@ -1139,8 +1128,6 @@ int CGame::WindowProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
     // return 0 if handled message, 1 if not
     return lRet;
 }
-#elif defined(OSX)
-
 #elif defined( LINUX )
 
 #elif defined(_WIN32)
@@ -1370,27 +1357,6 @@ bool CGame::CreateGameWindow( void )
 #else
 	return true;
 #endif
-#elif defined(OSX)
-	modinfo->deleteThis();
-	modinfo = NULL;
-
-	if ( !g_pLauncherMgr->CreateGameWindow( windowName, true, 640, 480 ) )
-	{
-		Error( "Fatal Error:  Unable to create game window!" );
-		return false;
-	}
-	
-	char localPath[ MAX_PATH ];
-	if ( g_pFileSystem->GetLocalPath( "resource/game.icns", localPath, sizeof(localPath) ) )
-	{
-		g_pFileSystem->GetLocalCopy( localPath );
-		g_pLauncherMgr->SetApplicationIcon( localPath );
-	}
-	
-	SetMainWindow( g_pLauncherMgr->GetWindowRef() );
-
-	AttachToWindow( );
-	return true;
 #else
 #error
 #endif
@@ -1430,8 +1396,6 @@ void CGame::DestroyGameWindow()
 	}
 
 #endif // !DEDICATED 
-#elif defined( OSX )
-	g_pLauncherMgr->DestroyGameWindow();
 #elif defined (_PS3)
 #else
 #error
@@ -1449,10 +1413,6 @@ void CGame::SetGameWindow( void *hWnd )
 	SDL_RaiseWindow( (SDL_Window *)hWnd );
 #elif defined( WIN32 ) 
 	SetMainWindow( (HWND)hWnd );
-#elif defined( OSX ) && defined( PLATFORM_64BITS )
-	Assert( !"unimpl OSX-64" );
-#elif defined( OSX )
-	SetUserFocusWindow( (WindowRef)hWnd );
 #else
 #error
 #endif
@@ -1539,9 +1499,6 @@ bool CGame::InputAttachToGameWindow()
 #if defined( WIN32 ) && !defined( USE_SDL )
 	// Capture + hide the mouse
     g_pInputStackSystem->SetMouseCapture( m_hInputContext, true );
-#elif defined(OSX)
-	Assert( !"Impl me" );
-	return false;
 #elif defined( LINUX )
 	Assert( !"Impl me" );
 	return false;
@@ -1567,8 +1524,6 @@ void CGame::InputDetachFromGameWindow()
 
 	// Release + show the mouse
 	ReleaseCapture();
-#elif defined(OSX)
-	Assert( !"Impl me" );
 #elif defined( LINUX )
 	Assert( !"Impl me" );
 #elif defined(_WIN32)
@@ -2046,9 +2001,6 @@ void CGame::PlayVideoListAndWait( const char *szVideoFileList, bool bNeedHealthW
 	// hide cursor while playing videos
 	::ShowCursor(FALSE);
 #endif
-#if defined( OSX ) && !defined( USE_SDL )
-    CGDisplayHideCursor( kCGDirectMainDisplay );
-#endif
 	
 #ifdef _X360
 	// TCR024
@@ -2127,9 +2079,6 @@ void CGame::PlayVideoListAndWait( const char *szVideoFileList, bool bNeedHealthW
 	// show cursor again
 	::ShowCursor(TRUE);
 #endif
-#ifdef OSX
-    CGDisplayShowCursor( kCGDirectMainDisplay );
-#endif
 #endif // DEDICATED
 }
 
@@ -2140,7 +2089,7 @@ void CGame::PlayVideoAndWait( const char *filename, bool bNeedHealthWarning )
 {
 #if defined( BINK_VIDEO )
 
-#if defined( IS_WINDOWS_PC ) || defined( OSX ) || defined( _GAMECONSOLE )
+#if defined( IS_WINDOWS_PC ) || defined( _GAMECONSOLE )
 	if ( !filename || !filename[0] )
 		return;
 
@@ -2507,12 +2456,6 @@ void** CGame::GetMainWindowAddress( void )
 {
 	return (void**)&m_hWindow;
 }
-#elif defined(OSX)
-void** CGame::GetMainWindowAddress( void )
-{
-	m_hWindow = (WindowRef)g_pLauncherMgr->GetWindowRef();
-	return (void**)&m_hWindow;
-}
 #else
 #error
 #endif
@@ -2556,18 +2499,6 @@ void CGame::GetDesktopInfo( int &width, int &height, int &refreshrate )
 	width = m_iDesktopWidth;
 	height = m_iDesktopHeight;
 	refreshrate = m_iDesktopRefreshRate;
-#elif defined(OSX)
-	if ( m_iDesktopWidth == 0 )
-			{
-		CGDirectDisplayID mainDisplay = CGMainDisplayID();
-		CGDisplayModeRef displayMode = CGDisplayCopyDisplayMode(mainDisplay);
-		width = (int)CGDisplayModeGetWidth(displayMode);
-		height = (int)CGDisplayModeGetHeight(displayMode);
-		refreshrate = (int)CGDisplayModeGetRefreshRate(displayMode);
-	}
-	width = m_iDesktopWidth;
-	height = m_iDesktopHeight;
-	refreshrate = m_iDesktopRefreshRate;
 #else
 #error
 #endif
@@ -2592,12 +2523,6 @@ void CGame::UpdateDesktopInformation( HWND hWnd )
 	m_iDesktopHeight = ::GetDeviceCaps(dc, VERTRES);
 	m_iDesktopRefreshRate = ::GetDeviceCaps(dc, VREFRESH);
 	::ReleaseDC( hWnd, dc );
-#elif defined(OSX)
-	CGDirectDisplayID mainDisplay = CGMainDisplayID();
-	CGDisplayModeRef displayMode = CGDisplayCopyDisplayMode(mainDisplay);
-	m_iDesktopWidth = (int)CGDisplayModeGetWidth(displayMode);
-	m_iDesktopHeight = (int)CGDisplayModeGetHeight(displayMode);;
-	m_iDesktopRefreshRate = (int)CGDisplayModeGetRefreshRate(displayMode);
 #else
 #error
 #endif
@@ -2617,8 +2542,6 @@ void CGame::SetMainWindow( HWND window )
 	m_hWindow = (SDL_Window*)window;
 #elif defined( WIN32 ) && !defined( USE_SDL )
 	m_hWindow = window;
-#elif OSX
-	m_hWindow = (WindowRef)window;
 #else
 #error
 #endif

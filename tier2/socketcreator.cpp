@@ -19,9 +19,7 @@
 #include <netinet/in.h>
 #include <netinet/tcp.h>
 #include <errno.h>
-#ifdef OSX
-#define MSG_NOSIGNAL 0
-#endif
+
 #ifdef _PS3
 // NOTE: this socket creator doesn't work on PS3
 // here's a compile-hack:

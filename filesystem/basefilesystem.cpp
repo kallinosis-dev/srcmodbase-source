@@ -7297,8 +7297,6 @@ CSysModule *CBaseFileSystem::LoadModule( const char *pFileName, const char *pPat
 		{
 #if defined(LINUX)
 			const char* plat_dir = "linux64";
-#else
-			const char* plat_dir = "osx64";
 #endif
 			Q_snprintf( tempPathID, sizeof( tempPathID ), "%s%s%s%s", m_SearchPaths[ i ].GetPathString(), plat_dir, CORRECT_PATH_SEPARATOR_S, pFileName ); // append the path to this dir.
 			pModule = Sys_LoadModule( tempPathID );

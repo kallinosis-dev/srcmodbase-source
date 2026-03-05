@@ -385,26 +385,6 @@ bool CQuickTimeMaterial::Update( void )
 		AssertMsg( false, "writeBMP::GetDIB error" );
 		return false;
 	}
-	
-  #elif defined ( OSX )	
-
-	PixMapHandle thePixMap = GetGWorldPixMap( m_MovieGWorld );
-	if ( LockPixels( thePixMap ) )
-	{
-		void *pPixels = GetPixBaseAddr( thePixMap );
-		long rowStride = GetPixRowBytes( thePixMap );
-		int rowBytes = m_VideoFrameWidth * 4;
-		
-		for (int y = 0; y < m_VideoFrameHeight; y++ )
-		{
-			BYTE *src = (BYTE*) pPixels + ( y * rowStride );
-			BYTE *dst = (BYTE*) m_BitMapData + ( y * rowBytes );
-			memcpy( dst, src, rowBytes );
-		}
-		
-		UnlockPixels( thePixMap );
-	}
-	
   #endif
 
 	// Regenerate our texture
@@ -650,31 +630,11 @@ void CQuickTimeMaterial::OpenQTMovie( const char* theQTMovieFileName )
     // Set graphics port 
   #if defined ( WIN32 )
 	SetGWorld ( (CGrafPtr) GetNativeWindowPort( nil ), nil ); 
-  #elif defined ( OSX		)
-	SetGWorld( nil, nil );
   #endif
 	
 	SetQTFileName( theQTMovieFileName );
 
-  #if defined ( OSX )
-
-	FSRef dirRef;
-	Boolean isDir;
-
-	status = FSPathMakeRef( (UInt8 *)theQTMovieFileName, &dirRef, &isDir );
-	if ( status == noErr )
-	{
-		status = FSGetCatalogInfo( &dirRef, kFSCatInfoNone, NULL, NULL, &sfFile, NULL );
-		Assert( status == noErr );
-	}
-	
-	if ( status != noErr )
-	{
-		Reset();
-		return;
-	}
-		
-  #elif defined ( WIN32 ) 
+  #if defined ( WIN32 ) 
     strcpy ( fullPath, theQTMovieFileName);         // Copy full pathname  
     c2pstr ( fullPath );                            // Convert to Pascal string  
 	
@@ -755,12 +715,8 @@ void CQuickTimeMaterial::OpenQTMovie( const char* theQTMovieFileName )
 	//   kQTCCIR601VideoGammaLevel     = 0x00023333 /* 2.2, standard television video gamma.*/
 	//   Fixed cGamma1_8 = 0x0001CCCC;		// Gamma 1.8
 	//   Fixed cGamma2_5 = 0x00028000;      // Gamma 2.5
-	//
-	//  On OSX it appears we need to set a gamma of 1.0 or 0x0001000 - the values are interpreted differently?
 
-  #if defined ( OSX )	
-	Fixed decodeGamma = 0x00012000;
-  #elif defined ( WIN32 )
+  #if defined ( WIN32 )
 	Fixed decodeGamma = 0x00023333;
   #endif
 
@@ -788,10 +744,6 @@ void CQuickTimeMaterial::OpenQTMovie( const char* theQTMovieFileName )
                                                     (CFIndex) (numBytes -1) );
 
     OSStatus result = QTAudioContextCreateForAudioDevice( NULL, deviceNameStrRef, NULL, &m_AudioContext );
-  #elif defined ( OSX )
-	
-    OSStatus result = QTAudioContextCreateForAudioDevice( NULL, NULL, NULL, &m_AudioContext );
-	
   #endif
 	
 	AssertExit( result == noErr );

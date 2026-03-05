@@ -35,14 +35,6 @@
 #include <sys/timer.h>
 #endif
 
-#ifdef OSX
-// Add some missing defines
-#define PTHREAD_MUTEX_TIMED_NP         PTHREAD_MUTEX_NORMAL
-#define PTHREAD_MUTEX_RECURSIVE_NP     PTHREAD_MUTEX_RECURSIVE
-#define PTHREAD_MUTEX_ERRORCHECK_NP    PTHREAD_MUTEX_ERRORCHECK
-#define PTHREAD_MUTEX_ADAPTIVE_NP      3
-#endif
-
 #ifdef _PS3
 #define PS3_SYS_PPU_THREAD_COMMON_STACK_SIZE ( 256 * 1024 )
 #endif
@@ -288,7 +280,7 @@ PLATFORM_INTERFACE void ThreadSetAffinity( ThreadHandle_t hThread, int nAffinity
 #error Every platform needs to define ThreadMemoryBarrier to at least prevent compiler reordering
 #endif
 
-#if defined( _LINUX ) || defined( _OSX )
+#if defined( _LINUX )
 #define USE_INTRINSIC_INTERLOCKED
 // linux implementation
 inline int32 ThreadInterlockedIncrement( int32 volatile *p )
@@ -498,7 +490,7 @@ PLATFORM_INTERFACE void ThreadNotifySyncReleasing(void *p);
 #ifndef NO_THREAD_LOCAL
 
 
-#if ( defined(_LINUX) && defined(DEDICATED) ) && !defined(OSX)
+#if ( defined(_LINUX) && defined(DEDICATED) )
 // linux totally supports compiler thread locals, even across dll's.
 #define PLAT_COMPILER_SUPPORTED_THREADLOCALS 1
 #define CTHREADLOCALINTEGER( typ ) __thread int
@@ -512,7 +504,7 @@ DLL_IMPORT __thread int g_nThreadID;
 #endif
 
 
-#if defined(WIN32) || defined(OSX) ||  defined( _PS3 ) || ( defined (_LINUX) && !defined(DEDICATED) )
+#if defined(WIN32) || defined( _PS3 ) || ( defined (_LINUX) && !defined(DEDICATED) )
 #ifndef __AFXTLS_H__ // not compatible with some Windows headers
 
 #if defined(_PS3)
@@ -677,17 +669,9 @@ private:
 }
 #endif
 
-#ifdef _OSX
-PLATFORM_INTERFACE GenericThreadLocals::CThreadLocalInt<int> g_nThreadID;
-#else // _OSX
 #ifndef TIER0_DLL_EXPORT
-
-#ifndef _PS3
 DLL_GLOBAL_IMPORT CTHREADLOCALINT g_nThreadID;
-#endif // !_PS3
-
 #endif // TIER0_DLL_EXPORT
-#endif // _OSX
 
 #endif /// afx32
 #endif //__win32

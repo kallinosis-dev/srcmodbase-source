@@ -315,12 +315,6 @@ CON_COMMAND( bind, "Bind a key." )
 	BindHelper( args );
 }
 
-CON_COMMAND( bind_osx, "Bind a key for OSX only." )
-{
-	if ( IsOSX() )
-		BindHelper( args );
-}
-
 
 /*
 ============

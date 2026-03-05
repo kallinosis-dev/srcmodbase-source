@@ -135,9 +135,7 @@ typedef unsigned __int64 ULONGLONG;
 # endif
 #endif
 
-#if defined( OSX )
-typedef DWORD COLORREF;
-#elif defined( POSIX ) && !defined( _PS3 )
+#if defined( POSIX ) && !defined( _PS3 )
 typedef DWORD COLORREF;
 #endif
 

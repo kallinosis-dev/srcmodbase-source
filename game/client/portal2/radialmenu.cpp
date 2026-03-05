@@ -959,13 +959,6 @@ void CRadialMenu::SetArmedButtonDir( ButtonDir dir )
 	{
 		if ( m_buttons[m_armedButtonDir] )
 		{
-#ifdef OSX
-			if ( !m_buttons[m_armedButtonDir]->IsFakeArmed() )
-			{
-				m_buttons[m_armedButtonDir]->SetArmed( true );	
-				OnCursorEnteredButton( m_cursorX, m_cursorY, m_buttons[m_armedButtonDir] );
-			}
-#endif
 			m_buttons[m_armedButtonDir]->SetFakeArmed( true );
 		}
 	}
@@ -1172,15 +1165,8 @@ void CRadialMenu::OnThink( void )
 		ClearGlowEntity();
 	}
 
-#if defined(OSX)
-	int dx, dy;
-	engine->GetMouseDelta( dx, dy );
-	m_cursorX += dx;
-	m_cursorY += dy;
-#else
 	vgui::surface()->SurfaceGetCursorPos( m_cursorX, m_cursorY );
 	ScreenToLocal( m_cursorX, m_cursorY );
-#endif
 
 	if ( engine->IsRecordingDemo() )
 	{
@@ -1204,10 +1190,9 @@ void CRadialMenu::OnThink( void )
 
 	if ( m_bFirstCentering )
 	{
-#ifndef OSX
 		LocalToScreen( centerx, centery );
 		vgui::surface()->SurfaceSetCursorPos( centerx, centery );
-#endif
+
 		m_cursorX = centerx;
 		m_cursorY = centery;
 		SetArmedButtonDir( CENTER );
@@ -1235,7 +1220,6 @@ void CRadialMenu::OnThink( void )
 				m_cursorY = centery + cursorDistY;
 			}
 
-#ifndef OSX
 			LocalToScreen( m_cursorX, m_cursorY );
 			if ( RadialMenuDebug.GetBool() )
 			{
@@ -1243,7 +1227,6 @@ void CRadialMenu::OnThink( void )
 			}
 			
 			vgui::surface()->SurfaceSetCursorPos( m_cursorX, m_cursorY );
-#endif
 		}
 
 		float fJoyForward, fJoySide, fJoyPitch, fJoyYaw = 0.0f;

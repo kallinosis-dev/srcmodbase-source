@@ -1,4 +1,4 @@
-//===== Copyright © 2010, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 2010, Valve Corporation, All rights reserved. ======//
 //
 // Purpose: Virtual memory sections management!
 //
@@ -22,10 +22,6 @@
 #undef WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <crtdbg.h>
-#endif
-#ifdef OSX
-#include <malloc/malloc.h>
-#include <stdlib.h>
 #endif
 
 #include <map>

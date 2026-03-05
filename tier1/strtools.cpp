@@ -143,14 +143,6 @@ int	_V_strlen(const char *str)
 	return ( int )strlen( str );
 }
 
-#ifdef OSX
-size_t strnlen( const char *s, size_t n )
-{
-	const char *p = (const char *)memchr( s, 0, n );
-	return (p ? p - s : n);
-}
-#endif
-
 int	_V_strnlen(const char *str, int count )
 {
 #ifdef POSIX
@@ -3755,10 +3747,12 @@ extern "C" void qsort_s( void *base, size_t num, size_t width, int (*compare )(v
 
 void V_qsort_s( void *base, size_t num, size_t width, int ( __cdecl *compare )(void *, const void *, const void *), void * context ) 
 {
-#if defined OSX
+//#if defined OSX
 	// the arguments are swapped 'round on the mac - awesome, huh?
-	return qsort_r( base, num, width, context, compare );
-#elif defined LINUX
+//	return qsort_r( base, num, width, context, compare );
+//#elif defined LINUX
+#if defined LINUX
+	#error "This is bullshit! Make qsort work!"
 	// FIXME: still not finding qsort_s, even though it's defined in qsort_s.cpp
 	// What's up with that?
 	return;

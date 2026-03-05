@@ -309,31 +309,6 @@ void DisplaySystemVersion( char *osversion, int maxlen )
 		Q_strncat ( osversion, "Win32s ", maxlen, COPY_ALL_CHARACTERS );
 		break;
 	}
-#elif defined(OSX)
-	FILE *fpVersionInfo = popen( "/usr/bin/sw_vers", "r" );
-	const char *pszSearchString = "ProductVersion:\t";
-	const int cchSearchString = Q_strlen( pszSearchString );
-	char rgchVersionLine[1024];
-		
-	if ( !fpVersionInfo )
-		Q_strncpy ( osversion, "OSXU ", maxlen );
-	else
-	{
-		Q_strncpy ( osversion, "OSX10", maxlen );
-
-		while ( fgets( rgchVersionLine, sizeof(rgchVersionLine), fpVersionInfo ) )
-		{
-			if ( !Q_strnicmp( rgchVersionLine, pszSearchString, cchSearchString ) )
-			{
-				const char *pchVersion = rgchVersionLine + cchSearchString;
-				int ccVersion = Q_strlen(pchVersion); // trim the \n
-				Q_strncpy ( osversion, pchVersion, ccVersion );
-				osversion[ ccVersion ] = 0;
-				break;
-			}
-		}
-		pclose( fpVersionInfo );
-	}
 #elif defined(LINUX)
 	FILE *fpKernelVer = fopen( "/proc/version_signature", "r" );
 
@@ -3378,7 +3353,8 @@ void CEngineBugReporter::InstallBugReportingUI( vgui::Panel *parent, IEngineBugR
 		return;
 
 	char fn[ 512 ];
-#ifdef OSX
+#ifdef LINUX
+	#error "Check me"
 	Q_snprintf( fn, sizeof( fn ), "%s.dylib", GetInternalBugReporterDLL() );
 #else
 	Q_snprintf( fn, sizeof( fn ), "%s.dll", GetInternalBugReporterDLL() );

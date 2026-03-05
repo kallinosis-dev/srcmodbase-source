@@ -119,11 +119,7 @@ void CResourceStreamVM::ReserveVirtualMemory( uint nAddressSize )
 #if defined( PLATFORM_WINDOWS )
 		m_pData = ( uint8* )VirtualAlloc(nullptr, m_nReserved, MEM_RESERVE, PAGE_READWRITE );
 #else
-#ifdef PLATFORM_OSX
-		int nFlags = MAP_ANON | MAP_PRIVATE;
-#else
 		int nFlags = MAP_ANONYMOUS | MAP_PRIVATE;
-#endif
 		m_pData = ( uint8* )::mmap( NULL, m_nReserved, PROT_WRITE | PROT_READ, nFlags, -1, 0 );
 #endif
 		if ( !m_pData )

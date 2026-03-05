@@ -817,13 +817,7 @@ bool Voice_Init(const char *pCodecName, int iVersion )
 
 	EngineVGui()->UpdateProgressBar( PROGRESS_DEFAULT );
 
-#ifdef OSX
-	IVoiceRecord* CreateVoiceRecord_AudioQueue(int sampleRate);
-	g_pVoiceRecord = CreateVoiceRecord_AudioQueue( Voice_SamplesPerSec() );
-	//g_pVoiceRecord = NULL;
-	if ( !g_pVoiceRecord )
-#endif
-		// Get the voice input device.
+	// Get the voice input device.
 	g_pVoiceRecord = CreateVoiceRecord_DSound( Voice_SamplesPerSec() );
 	if( !g_pVoiceRecord )
 	{

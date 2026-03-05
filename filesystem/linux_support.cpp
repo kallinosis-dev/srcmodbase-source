@@ -11,17 +11,9 @@
 #include "tier0/memdbgoff.h"
 #include "linux_support.h"
 
-#ifdef OSX
-#include <AvailabilityMacros.h>
-#endif
-
 char selectBuf[PATH_MAX];
 
-#if defined(OSX) && !defined(MAC_OS_X_VERSION_10_9)
-int FileSelect(struct dirent *ent)
-#else
 int FileSelect(const struct dirent *ent)
-#endif
 {
 	const char *mask=selectBuf;
 	const char *name=ent->d_name;
@@ -195,11 +187,7 @@ bool FindClose(HANDLE handle)
 
 static char fileName[MAX_PATH];
 
-#if defined(OSX) && !defined(MAC_OS_X_VERSION_10_9)
-int CheckName(struct dirent *dir)
-#else
 int CheckName(const struct dirent *dir)
-#endif
 {
 	return !strcasecmp( dir->d_name, fileName );
 }

@@ -26,9 +26,6 @@ typedef CWin32Font font_t;
 #elif defined(_PS3)
 #include "ps3font.h"
 typedef CPS3Font font_t;
-#elif defined(OSX)
-#include "osxfont.h"
-typedef COSXFont font_t;
 #elif defined(LINUX)
 #include "linuxfont.h"
 typedef CLinuxFont font_t;

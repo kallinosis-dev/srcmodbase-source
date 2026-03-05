@@ -100,12 +100,9 @@ void GLMRendererInfo::Init( GLMRendererInfoFields *info )
         //-------------------------------------------------------------------
         // "can'ts "
 
-#if defined( OSX )
-        m_info.m_cantBlitReliably = m_info.m_intel;             //FIXME X3100&10.6.3 has problems blitting.. adjust this if bug fixed in 10.6.4
-#else
-    // m_cantBlitReliably path doesn't work right now, and the Intel path is different for us on Linux/Win7 anyway
+
+        // m_cantBlitReliably path doesn't work right now, and the Intel path is different for us on Linux/Win7 anyway
         m_info.m_cantBlitReliably = false;
-#endif
                 
         if (CommandLine()->FindParm("-glmenabletrustblit"))
         {
@@ -120,9 +117,6 @@ void GLMRendererInfo::Init( GLMRendererInfoFields *info )
         m_info.m_cantResolveFlipped     = false;
         
 
-#if defined( OSX )
-        m_info.m_cantResolveScaled = true;                                                              // generally true until new extension ships     
-#else
         // DON'T just slam this to false and run without first testing with -gl_debug enabled on NVidia/AMD/etc.
         // This path needs the m_bHave_GL_EXT_framebuffer_multisample_blit_scaled extension.
         m_info.m_cantResolveScaled = true;
@@ -131,7 +125,6 @@ void GLMRendererInfo::Init( GLMRendererInfoFields *info )
         {
                 m_info.m_cantResolveScaled = false;
         }
-#endif
         
         // gamma decode impacting shader codegen
         m_info.m_costlyGammaFlips = false;

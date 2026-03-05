@@ -53,18 +53,6 @@ BEGIN_VS_SHADER_FLAGS( DepthWrite, "Help for Depth Write", SHADER_NOT_EDITABLE )
 	SHADER_INIT_PARAMS()
 	{
 		SET_FLAGS2( MATERIAL_VAR2_SUPPORTS_HW_SKINNING );
-
-#if !defined( CSTRIKE15 )
-		if ( IsGameConsole() )
-		{
-			params[TREESWAY]->SetIntValue( 0 );
-		}
-#else
-		if ( IsPlatformOSX() || IsPS3() )
-		{
-			params[TREESWAY]->SetIntValue( 0 );
-		}
-#endif
 	}
 
 	SHADER_FALLBACK

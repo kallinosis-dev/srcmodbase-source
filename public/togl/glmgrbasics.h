@@ -10,21 +10,7 @@
 
 #pragma once
 
-#ifdef OSX
-	#include <OpenGL/OpenGL.h>
-	#include <OpenGL/gl.h>
-	#include <OpenGL/glext.h>
-	#include <OpenGL/CGLTypes.h>
-	#include <OpenGL/CGLRenderers.h>
-	#include <OpenGL/CGLCurrent.h>
-	#include <AvailabilityMacros.h>
-
-#ifndef MAC_OS_X_VERSION_10_9
-	#include <OpenGL/CGLProfiler.h>
-	#include <ApplicationServices/ApplicationServices.h>
-#endif
-
-#elif defined(DX_TO_GL_ABSTRACTION)
+#if defined(DX_TO_GL_ABSTRACTION)
 	#include <GL/gl.h>
 	#include <GL/glext.h>
 #else
@@ -306,10 +292,8 @@ public:
 	CUtlVector< GLMTextSection >	m_sectionTable;
 };
 
-#ifndef OSX
 void GLMGPUTimestampManagerInit();
 void GLMGPUTimestampManagerDeinit();
 void GLMGPUTimestampManagerTick();
-#endif
 
 #endif // GLMBASICS_H

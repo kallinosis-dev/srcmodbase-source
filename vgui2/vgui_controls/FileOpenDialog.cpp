@@ -324,9 +324,7 @@ void FileOpenDialog::Init( const char *title, KeyValues *pContextKeyValues )
 	m_pNewFolderButton = new Button( this, "NewFolderButton", "", this );
 	m_pNewFolderButton->GetTooltip()->SetText( "#FileOpenDialog_ToolTip_NewFolder" );
 	m_pOpenInExplorerButton = new Button( this, "OpenInExplorerButton", "", this );
-#if defined ( OSX )	
-	m_pOpenInExplorerButton->GetTooltip()->SetText( "#FileOpenDialog_ToolTip_OpenInFinderButton" );
-#elif defined ( POSIX )
+#if defined ( POSIX )
 	m_pOpenInExplorerButton->GetTooltip()->SetText( "#FileOpenDialog_ToolTip_OpenInDesktopManagerButton" );
 #else // Assume Windows / Explorer
 	m_pOpenInExplorerButton->GetTooltip()->SetText( "#FileOpenDialog_ToolTip_OpenInExplorerButton" );
@@ -594,11 +592,8 @@ void FileOpenDialog::OnOpenInExplorer()
 #if !defined( _GAMECONSOLE )
 	ShellExecute(nullptr, nullptr, pCurrentDirectory, nullptr, nullptr, SW_SHOWNORMAL );
 #endif
-#elif defined( OSX )
-	char szCmd[ MAX_PATH ];
-	Q_snprintf( szCmd, sizeof(szCmd), "/usr/bin/open \"%s\"", pCurrentDirectory );
-	::system( szCmd );
 #elif defined( LINUX )
+	#error "Check me!"
 	DevMsg( "FileOpenDialog::OnOpenInExplorer unimplemented under LINUX\n" );
 #endif
 }

@@ -47,16 +47,12 @@ BEGIN_VS_SHADER_FLAGS( IntroScreenSpaceEffect, "Help for IntroScreenSpaceEffect"
 			pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );
 			pShaderShadow->EnableTexture( SHADER_SAMPLER1, true );
 
-			// On OSX OpenGL, we MUST do sRGB reads from the bloom and full framebuffer textures AND sRGB writes on the way out to the framebuffer.
-			if ( params[ENABLESRGB]->GetIntValue() || IsOSX() )
+			if ( params[ENABLESRGB]->GetIntValue() )
 			{
 				pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, true );
 				pShaderShadow->EnableSRGBRead( SHADER_SAMPLER1, true );
 				pShaderShadow->EnableSRGBWrite( true );
 			}
-
-			// Only need the adapter if the shader expects sRGB values and we're forced to do an sRGB read by the API/Hardware
-			bool bNeedsSRGBAdapter = ( params[ENABLESRGB]->GetIntValue() == 0 ) && IsOSX() && !g_pHardwareConfig->FakeSRGBWrite() && g_pHardwareConfig->CanDoSRGBReadFromRTs();
 
 			pShaderShadow->VertexShaderVertexFormat( VERTEX_POSITION, 1, nullptr, 0 );
 
@@ -66,7 +62,7 @@ BEGIN_VS_SHADER_FLAGS( IntroScreenSpaceEffect, "Help for IntroScreenSpaceEffect"
 			if ( g_pHardwareConfig->SupportsPixelShaders_2_b() || g_pHardwareConfig->ShouldAlwaysUseShaderModel2bShaders() ) // GL always goes the ps2b way for this shader, even on "ps20" parts
 			{
 				DECLARE_STATIC_PIXEL_SHADER( introscreenspaceeffect_ps20b );
-				SET_STATIC_PIXEL_SHADER_COMBO( LINEAR_TO_SRGB, bNeedsSRGBAdapter );
+				SET_STATIC_PIXEL_SHADER_COMBO( LINEAR_TO_SRGB, false );
 				SET_STATIC_PIXEL_SHADER( introscreenspaceeffect_ps20b );
 			}
 			else

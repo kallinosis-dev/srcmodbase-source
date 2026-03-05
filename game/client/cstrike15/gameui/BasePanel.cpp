@@ -585,8 +585,7 @@ CBaseModPanel::CBaseModPanel( const char *panelName ) : Panel(nullptr, panelName
 	// any platforms that go straight to main menu, no start screen, should set this flag:
 	if ( CommandLine()->FindParm( "-nostartscreen" ) || 
 		 IsPC() ||
-		 IsLinux() ||
-		 IsOSX() )
+		 IsLinux() )
 	{
 		m_bBypassStartScreen = true;
 	}
@@ -2725,8 +2724,7 @@ void CBaseModPanel::RunMenuCommand(const char *command)
 			V_strcpy(szSteamURL, "steam://run/");
 // dgoodenough - use Q_snprintf on PS3
 // PS3_BUILDFIX
-// @wge Fix for OSX too.
-#if defined( _PS3 ) || defined( _OSX ) || defined (LINUX)
+#if defined( _PS3 ) || defined (LINUX)
 			Q_snprintf( szAppId, 50, "%d", engine->GetAppID() );
 			szAppId[49] = 0;
 #else
@@ -2738,7 +2736,7 @@ void CBaseModPanel::RunMenuCommand(const char *command)
 
 			// Set Steam URL for re-launch in registry. Launcher will check this registry key and exec it in order to re-load the game in the proper language
 			// @wge HACK FIXME - Windows specific registry code.
-#if !defined( _GAMECONSOLE ) && !defined( _OSX ) && !defined (LINUX)
+#if !defined( _GAMECONSOLE ) && !defined (LINUX)
 			HKEY hKey;
 
 			if ( IsPC() && RegOpenKeyEx( HKEY_CURRENT_USER, "Software\\Valve\\Source", NULL, KEY_WRITE, &hKey) == ERROR_SUCCESS )

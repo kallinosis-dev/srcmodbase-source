@@ -5103,16 +5103,16 @@ static bool Host_IsValidSignature( const char *pFilename, bool bAllowUnknown )
 // Ask steam if it is ok to load this DLL.  Unsigned DLLs should not be loaded unless
 // the client is running -insecure (testing a plugin for example)
 // This keeps legitimate users with modified binaries from getting VAC banned because of them
-#if defined( DEDICATED ) || defined( OSX ) || defined( LINUX )
+#if defined( DEDICATED ) || defined( LINUX )
 #else
 static CUtlVector< CUtlString * > g_PendingSignatureChecks;
 static CUtlVector< CUtlString * > g_FailedSignatureChecks;
 #endif
 bool Host_AllowLoadModule( const char *pFilename, const char *pPathID, bool bAllowUnknown )
 {
-#if defined( DEDICATED ) || defined( OSX ) || defined( LINUX )
+#if defined( DEDICATED ) || defined( LINUX )
 	// dedicated servers don't check signatures
-	// OSX and Linux have no ability to check signatures
+	// Linux has no ability to check signatures
 	return true;
 #else
 	// Allow loading plugins
@@ -5209,7 +5209,7 @@ void Host_DisallowSecureServers()
 #endif
 
 
-#if !(defined( DEDICATED ) || defined( OSX ) || defined( LINUX ) || defined(NO_STEAM))
+#if !(defined( DEDICATED ) || defined( LINUX ) || defined(NO_STEAM))
 void Host_FinishSecureSignatureChecks()
 {
 	while ( g_PendingSignatureChecks.Count() )
@@ -5556,7 +5556,7 @@ void Host_Init( bool bDedicated )
 	IEngineVoice *pIEngineVoice = nullptr;
 #ifdef _GAMECONSOLE
 	pIEngineVoice = Audio_GetXVoice();
-#elif ( defined( _WIN32 ) || defined( OSX ) || defined( LINUX ) ) && !defined( NO_STEAM )
+#elif ( defined( _WIN32 ) || defined( LINUX ) ) && !defined( NO_STEAM )
 	pIEngineVoice = Audio_GetEngineVoiceSteam();
 #else
 	pIEngineVoice = Audio_GetEngineVoiceStub();

@@ -5,7 +5,7 @@
 // $NoKeywords: $
 //===========================================================================//
 
-#if !defined( _GAMECONSOLE ) && !defined( _OSX ) & !defined (LINUX)
+#if !defined( _GAMECONSOLE ) & !defined (LINUX)
 #include <windows.h>
 #endif
 #include "cbase.h"
@@ -14,13 +14,11 @@
 #include <stdio.h>
 // dgoodenough - io.h and direct.h don't exist on PS3
 // PS3_BUILDFIX
-// @wge Fix for OSX too.
-#if !defined( _PS3 ) && !defined( _OSX ) && !defined (LINUX)
+#if !defined( _PS3 ) && !defined (LINUX)
 #include <io.h>
 #endif
 #include <tier0/dbg.h>
-// @wge Fix for OSX too.
-#if !defined( _PS3 ) && !defined( _OSX ) && !defined (LINUX)
+#if !defined( _PS3 ) && !defined (LINUX)
 #include <direct.h>
 #endif
 
@@ -455,8 +453,7 @@ void CGameUI::PlayGameStartupSound()
 // dgoodenough - SystemTime is absent on PS3, just select first file for now
 // PS3_BUILDFIX
 // FIXME - we need to find some sort of entropy here and select based on that.
-// @wge Fix for OSX too.
-#if defined( _PS3 ) || defined( _OSX ) || defined (LINUX)
+#if defined( _PS3 ) || defined (LINUX)
 		int index = 0;
 #else
 		SYSTEMTIME SystemTime;

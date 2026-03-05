@@ -2351,7 +2351,7 @@ void ComputeTimedemoResultsFilename( CFmtStr &fileName, CFmtStr &dateString )
 
 	// Get the destination path (default to the gamedir)
 	CUtlString benchmarkPath = CommandLine()->ParmValue( "-benchmark_path" );
-	if ( benchmarkPath.Length() && !IsOSX() )  // Don't bother on Mac, we can't write to an smb share trivially
+	if ( benchmarkPath.Length() )  // ~~Don't bother on Mac~~, we can't write to an smb share trivially
 	{
 		benchmarkPath.StripTrailingSlash();
 		V_FixSlashes( benchmarkPath.Get() );

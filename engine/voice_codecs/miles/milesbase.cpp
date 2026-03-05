@@ -20,8 +20,6 @@ void IncrementRefMiles()
 	{
 #ifdef WIN32
 		AIL_set_redist_directory( "." );
-#elif defined( OSX )
-		AIL_set_redist_directory( "osx32" );
 #elif defined( LINUX )
 #ifdef PLATFORM_64BITS
 		AIL_set_redist_directory( "bin/linux64" );

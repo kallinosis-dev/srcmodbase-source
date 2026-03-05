@@ -342,7 +342,7 @@ void FastSinCos( float x, float* s, float* c )  // any x
 	}
 }
 #endif
-#elif defined( _OSX ) || defined (LINUX) || defined( _WIN64 )
+#elif defined (LINUX) || defined( _WIN64 )
 // [will] - Note: could use optimization.
 void FastSinCos( float x, float* s, float* c )  // any x
 {

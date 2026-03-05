@@ -138,7 +138,7 @@
 	#include <float.h>
 	#include <stdlib.h>
 	#include <string.h>
-#if defined( OSX ) || defined ( _LINUX )
+#if defined ( _LINUX )
 	#include <signal.h>
 	#include <stdarg.h>
 #endif
@@ -248,8 +248,6 @@
 #ifdef _WIN32
 	#define IsPlatformLinux()	0
 	#define IsPlatformPosix()	0
-	#define IsPlatformOSX()		0
-	#define IsOSXOpenGL()		0
 	#define IsPlatformPS3()		0
 	#define IsPlatformPS3_PPU()	0
 	#define IsPlatformPS3_SPU()	0
@@ -306,8 +304,6 @@
 #define PLATFORM_OPENGL 0
 
 #define IsPlatformLinux() 0
-#define IsPlatformOSX() 0
-#define IsOSXOpenGL() 0
 
 	
 #elif defined(POSIX)
@@ -321,22 +317,12 @@
 	#define IsPlatformPosix()		1
 	#define PLATFORM_POSIX 1
 
-	#if defined( LINUX ) && !defined( OSX ) // for havok we define both symbols, so don't let the osx build wander down here
+	#if defined( LINUX )
 		#define IsPlatformLinux() 1
-		#define IsPlatformOSX() 0
-		#define IsOSXOpenGL() 0
 		#define PLATFORM_OPENGL 0
 		#define PLATFORM_LINUX 1
-	#elif defined ( OSX )
-		#define IsPlatformLinux() 0
-		#define IsPlatformOSX() 1
-		#define IsOSXOpenGL() 1
-		#define PLATFORM_OSX 1
-	    #define PLATFORM_OPENGL 1
 	#else
 		#define IsPlatformLinux() 0
-		#define IsPlatformOSX() 0
-		#define IsOSXOpenGL() 0
 		#define PLATFORM_OPENGL 0
 	#endif
 
@@ -384,7 +370,6 @@
 #if CROSS_PLATFORM_VERSION < 2
 
 #define IsLinux()	IsPlatformLinux() 
-#define IsOSX()		IsPlatformOSX()
 #define IsPosix()	IsPlatformPosix()
 #define IsX360()	IsPlatformX360()
 #define IsPS3()		IsPlatformPS3()
@@ -657,9 +642,6 @@ typedef void * HINSTANCE;
 // you might typically want to use RAND_MAX
 #define VALVE_RAND_MAX 0x7fff
 
-// Maximum and minimum representable values
-#ifndef PLATFORM_OSX
-
 #if _MSC_VER >= 1800 // VS 2013 or higher
 	// Copied from stdint.h
 	#define INT8_MIN         (-127i8 - 1)
@@ -695,8 +677,6 @@ typedef void * HINSTANCE;
 #define  UINT16_MIN			0
 #define  UINT32_MIN			0
 #define  UINT64_MIN			0
-
-#endif // PLATFORM_OSX
 
 #ifndef  UINT_MIN
 #define  UINT_MIN			UINT32_MIN
@@ -1039,19 +1019,6 @@ typedef void * HINSTANCE;
 #pragma GCC diagnostic ignored "-Wparentheses"				// using the result of an assignment as a condition without parentheses
 #endif
 
-#ifdef OSX
-#pragma GCC diagnostic ignored "-Wconversion-null"			// passing NULL to non-pointer argument 1
-#pragma GCC diagnostic ignored "-Wnull-arithmetic"			// NULL used in arithmetic. Ie, vpanel == NULL where VPANEL is uint.
-#pragma GCC diagnostic ignored "-Wlogical-op-parentheses"	// '&&' within '||' (wants parenthesis)
-#pragma GCC diagnostic ignored "-Wconstant-conversion"		// implicit truncation from x to y (where y is smaller size than x) changes value
-#pragma GCC diagnostic ignored "-Wformat-security"			// format string is not a string literal (potentially insecure)
-#pragma GCC diagnostic ignored "-Wreturn-type-c-linkage"	// C-linkage specified, but returns user-defined type
-#pragma GCC diagnostic ignored "-Wswitch"					// enumeration values not handled in switch
-#pragma GCC diagnostic ignored "-Wdelete-non-virtual-dtor"	// virtual functions but non-virtual destructor
-#pragma GCC diagnostic ignored "-Wformat"					// type conversion, format/argument conflict
-#pragma GCC diagnostic ignored "-Wbool-conversions"			// type conversion
-#endif
-
 //-----------------------------------------------------------------------------
 // Convert int<-->pointer, avoiding 32/64-bit compiler warnings:
 //-----------------------------------------------------------------------------
@@ -1065,12 +1032,7 @@ typedef void * HINSTANCE;
 #if defined( COMPILER_GCC ) || defined( COMPILER_SNC )
 
 	#define stackalloc( _size )		alloca( ALIGN_VALUE( _size, 16 ) )
-
-	#ifdef PLATFORM_OSX
-		#define mallocsize( _p )	( malloc_size( _p ) )
-	#else
-		#define mallocsize( _p )	( malloc_usable_size( _p ) )
-	#endif
+	#define mallocsize( _p )	( malloc_usable_size( _p ) )
 
 #elif defined ( COMPILER_MSVC )
 
@@ -1102,8 +1064,6 @@ typedef void * HINSTANCE;
 		#else
 		#define DebuggerBreak() {  __asm volatile ("tw 31,1,1"); } 
 		#endif
-	#elif defined( OSX )
-		#define DebuggerBreak()  if ( Plat_IsInDebugSession() ) asm( "int3" ); else { raise(SIGTRAP); }
 	#elif defined( PLATFORM_CYGWIN ) || defined( PLATFORM_POSIX )
 		#define DebuggerBreak()		__asm__( "int $0x3;")
 	#else
@@ -1761,12 +1721,9 @@ typedef bool (*ExitProcessWithErrorCBFn)( int nCode );
 PLATFORM_INTERFACE void				Plat_SetExitProcessWithErrorCB( ExitProcessWithErrorCBFn pfnCB );
 
 // If OSX or Linux have 2GB of address space for 32-bit apps, then return true here when that case is detected
-#if defined( OSX )
-// make memory tradeoffs for low-fragmentation (compact memory, use different patterns, etc)
+// true = make memory tradeoffs for low-fragmentation (compact memory, use different patterns, etc)
 inline bool			Plat_NeedsLowFragmentation() { return true; }
-#else
 inline bool			Plat_NeedsLowFragmentation() { return false; }
-#endif
 
 PLATFORM_INTERFACE int Plat_chmod(const char *filename, int pmode);
 PLATFORM_INTERFACE bool Plat_FileExists(const char *pFileName);
@@ -2010,7 +1967,7 @@ class CReuseVaList
 public:
 	CReuseVaList( va_list List )
 	{
-#if defined(LINUX) || defined(OSX)
+#if defined(LINUX)
 		va_copy( m_ReuseList, List );
 #else
 		m_ReuseList = List;
@@ -2018,7 +1975,7 @@ public:
 	}
 	~CReuseVaList()
 	{
-#if defined(LINUX) || defined(OSX)
+#if defined(LINUX)
 		va_end( m_ReuseList );
 #endif
 	}

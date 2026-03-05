@@ -2925,8 +2925,7 @@ void CViewRender::RenderView( const CViewSetup &view, const CViewSetup &hudViewS
 	VPROF( "CViewRender::RenderView" );
 
 	// Don't want CS:GO running less than SM3
-	// @wge: HACK FIXME - Not doing this on MacOSX for now...
-	if ( !IsGameConsole() && !IsOSX() && !IsOpenGL() && ( g_pMaterialSystemHardwareConfig->GetDXSupportLevel() < 95 ) )
+	if ( !IsGameConsole() && !IsOpenGL() && ( g_pMaterialSystemHardwareConfig->GetDXSupportLevel() < 95 ) )
 	{
 		// We know they were running at least 9.0 when the game started...we check the 
 		// value in ClientDLL_Init()...so they must be messing with their DirectX settings.

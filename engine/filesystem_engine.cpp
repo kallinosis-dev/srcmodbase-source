@@ -174,7 +174,7 @@ bool LoadAddonListFile( const char *pDirectoryName, KeyValues *&pAddons )
 //---------------------------------------------------------------------------------------------------------------------
 void CopyStagedAddons( IFileSystem *pFileSystem, const char *pModPath )
 {
-#if (defined( PLATFORM_WINDOWS ) && !defined( _X360 )  ) || defined( PLATFORM_OSX )
+#if (defined( PLATFORM_WINDOWS ) && !defined( _X360 )  )
 
 #ifdef IS_WINDOWS_PC
 	HKEY hKey;

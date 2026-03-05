@@ -2,7 +2,7 @@
 #ifndef _SHADERAPIFAST_H_
 #define _SHADERAPIFAST_H_
 
-#if defined( _PS3 ) || defined( _OSX )
+#if defined( _PS3 ) || defined( _ )
 #include "shaderapidx9/shaderapidx8.h"
 #include "shaderapidx9/shaderapidx8_global.h"
 #define ShaderApiFast( pShaderAPI ) ShaderAPI()

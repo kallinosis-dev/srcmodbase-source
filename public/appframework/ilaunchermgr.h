@@ -10,15 +10,7 @@
 #pragma once
 #endif
 
-#if defined( USE_SDL ) || defined( OSX ) || defined( LINUX ) 
-
-// Purpose: The overlay doesn't properly work on OS X 64-bit because a bunch of 
-// Cocoa functions that we hook were never ported to 64-bit. Until that is fixed,
-// we basically have to work around this by making sure the cursor is visible 
-// and set to something that is reasonable for usage in the overlay. 
-#if ( defined( OSX ) && defined( PLATFORM_64BITS ) && !defined( NO_STEAM ) )
-#define WITH_OVERLAY_CURSOR_VISIBILITY_WORKAROUND 1 
-#endif
+#if defined( USE_SDL ) || defined( LINUX ) 
 
 #include "tier0/threadtools.h"
 #include "appframework/iappsystem.h"
@@ -30,8 +22,6 @@
 // if you rev this version also update materialsystem/cmaterialsystem.cpp CMaterialSystem::Connect as it defines the string directly
 #if defined( USE_SDL )
     #define  SDLMGR_INTERFACE_VERSION "SDLMgrInterface001"
-#elif defined( OSX )
-	#define  COCOAMGR_INTERFACE_VERSION "CocoaMgrInterface006"
 #endif
 
 
@@ -115,10 +105,7 @@ public:
 	virtual void SetForbidMouseGrab( bool bForbidMouseGrab ) = 0;
 	virtual void OnFrameRendered() = 0;
 #endif		
-
-#ifndef OSX
     virtual void SetGammaRamp( const uint16 *pRed, const uint16 *pGreen, const uint16 *pBlue ) = 0;
-#endif
 
 #if WITH_OVERLAY_CURSOR_VISIBILITY_WORKAROUND
 	virtual void ForceSystemCursorVisible() = 0;
@@ -177,7 +164,7 @@ public:
 	int m_MouseButton; // which of the CocoaMouseButton_t buttons this is for from above
 };
 
-#endif // defined( USE_SDL ) || defined( OSX ) || defined( LINUX) 
+#endif // defined( USE_SDL ) || defined( LINUX) 
 
 #endif // ILAUNCHERMGR_H
 

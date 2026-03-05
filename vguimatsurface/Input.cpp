@@ -171,7 +171,7 @@ bool InputHandleInputEvent( InputContextHandle_t hContext, const InputEvent_t &e
 
 	case IE_Quit:
 		g_pVGui->Stop();
-#if defined( USE_SDL ) || defined( OSX ) 
+#if defined( USE_SDL )
 		return false; // also let higher layers consume it
 #else
 		return true;

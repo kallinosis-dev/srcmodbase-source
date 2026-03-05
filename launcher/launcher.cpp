@@ -12,8 +12,6 @@
 #include "shlwapi.h" // registry stuff
 #include <direct.h>
 #endif
-#elif defined ( OSX ) 
-#include <Carbon/Carbon.h>
 #elif defined ( LINUX )
 #define O_EXLOCK 0
 #include <sys/types.h>
@@ -94,10 +92,6 @@
 int MessageBox( HWND hWnd, const char *message, const char *header, unsigned uType );
 #endif
 
-#ifdef OSX
-#define RELAUNCH_FILE "/tmp/hl2_relaunch"
-#endif
-
 #define ALLOW_MULTI_CLIENTS_PER_MACHINE 1
 
 // memdbgon must be the last include file in a .cpp file!!!
@@ -117,8 +111,6 @@ int MessageBox( HWND hWnd, const char *message, const char *header, unsigned uTy
 DEFINE_LOGGING_CHANNEL_NO_TAGS( LOG_EngineInitialization, "EngineInitialization" );
 #if defined( USE_SDL )
 extern void* CreateSDLMgr();
-#elif defined( OSX )
-extern void* CreateCCocoaMgr();
 #endif
 
 
@@ -198,24 +190,6 @@ public:
 		{
 			::MessageBox(nullptr, pMessage, "Error!", MB_OK | MB_SYSTEMMODAL | MB_ICONERROR );
 		}
-#elif defined(OSX)
-		CFOptionFlags responseFlags;
-		CFStringRef message;
-		message = CFStringCreateWithCString(NULL, pMessage, CFStringGetSystemEncoding() ) ;
-		
-		if ( pContext->m_Severity == LS_WARNING && pContext->m_ChannelID == LOG_EngineInitialization )
-		{
-			CFUserNotificationDisplayAlert(0, kCFUserNotificationCautionAlertLevel, 0, 0, 0, CFSTR( "Warning" ), message, NULL, NULL, NULL, &responseFlags);
-		}
-		else if ( pContext->m_Severity == LS_ASSERT && !ShouldUseNewAssertDialog() )
-		{
-			CFUserNotificationDisplayAlert(0, kCFUserNotificationNoteAlertLevel, 0, 0, 0, CFSTR( "Assert" ), message, NULL, NULL, NULL, &responseFlags);
-		}
-		else if ( pContext->m_Severity == LS_ERROR )
-		{
-			CFUserNotificationDisplayAlert(0,  kCFUserNotificationStopAlertLevel, 0, 0, 0, CFSTR( "Error" ), message, NULL, NULL, NULL, &responseFlags);
-		}	
-		CFRelease(message);
 #else
 #warning "Popup a dialog here"
 #endif
@@ -769,8 +743,6 @@ bool CSourceAppSystemGroup::Create()
 
 #if defined( USE_SDL )
     AddSystem( (IAppSystem *)CreateSDLMgr(),	SDLMGR_INTERFACE_VERSION );
-#elif defined( OSX )
-	AddSystem( (IAppSystem *)CreateCCocoaMgr(), COCOAMGR_INTERFACE_VERSION );
 #endif
 
 	if ( !AddSystems( appSystems ) ) 
@@ -990,46 +962,9 @@ const char *CSourceAppSystemGroup::DetermineDefaultGame()
 }
 
 //-----------------------------------------------------------------------------
-// MessageBox for OSX
+// MessageBox for Linux
 //-----------------------------------------------------------------------------
-#if defined(OSX)
-#include "CoreFoundation/CoreFoundation.h"
-
-int MessageBox( HWND hWnd, const char *message, const char *header, unsigned uType )
-{
-    //convert the strings from char* to CFStringRef
-    CFStringRef header_ref      = CFStringCreateWithCString( NULL, header,     strlen(header)    );
-    CFStringRef message_ref  = CFStringCreateWithCString( NULL, message,  strlen(message) );
-
-    CFOptionFlags result;  //result code from the message box
-  
-    //launch the message box
-    CFUserNotificationDisplayAlert( 0, // no timeout
-                                    kCFUserNotificationNoteAlertLevel, //change it depending message_type flags ( MB_ICONASTERISK.... etc.)
-									NULL, //icon url, use default, you can change it depending message_type flags
-									NULL, //not used
-									NULL, //localization of strings
-									header_ref, //header text 
-									message_ref, //message text
-									NULL, //default "ok" text in button
-									NULL,
-									NULL, //other button title, null--> no other button
-									&result //response flags
-									);
-
-    //Clean up the strings
-    CFRelease( header_ref );
-    CFRelease( message_ref );
-
-    //Convert the result
-    if( result == kCFUserNotificationDefaultResponse )
-        return 0;
-    else
-        return 1;
-
-}
-
-#elif defined( LINUX )
+#if defined( LINUX )
 
 int MessageBox( HWND hWnd, const char *message, const char *header, unsigned uType )
 {
@@ -1075,7 +1010,7 @@ bool GrabSourceMutex()
 
 		return false;
 	}
-#elif defined( POSIX )
+#elif defined( LINUX )
 	// Under OSX use flock in /tmp/source_engine_<game>.lock, create the file if it doesn't exist
 	const char *pchGameParam = CommandLine()->ParmValue( "-game", DEFAULT_HL2_GAMEDIR );
 	CRC32_t gameCRC;
@@ -1083,11 +1018,6 @@ bool GrabSourceMutex()
 	CRC32_ProcessBuffer( &gameCRC, (void *)pchGameParam, Q_strlen( pchGameParam ) );
 	CRC32_Final( &gameCRC );
 	
-#ifdef LINUX
-	/*
-	 * Linux
-	 */
-
 	// Check TMPDIR environment variable for temp directory.
 	char *tmpdir = getenv( "TMPDIR" );
 
@@ -1123,35 +1053,6 @@ bool GrabSourceMutex()
 	}
 
 	return true;
-#else
-	/*
-	 * OSX
-	 */
-
-	V_snprintf( g_lockFilename, sizeof(g_lockFilename), "/tmp/source_engine_%lu.lock", gameCRC );
-	g_lockfd = open( g_lockFilename, O_CREAT | O_WRONLY | O_EXLOCK | O_NONBLOCK | O_TRUNC, 0777 );
-	if (g_lockfd >= 0)
-	{
-		// make sure we give full perms to the file, we only one instance per machine
-		fchmod( g_lockfd, 0777 );
-
-		// we leave the file open, under unix rules when we die we'll automatically close and remove the locks
-		return true;
-	}
-
-	// We were unable to open the file, it should be because we are unable to retain a lock
-	if ( errno != EWOULDBLOCK)
-	{
-		fprintf( stderr, "unexpected error %d trying to exclusively lock %s\n", errno, g_lockFilename );
-
-		// Let them launch because we don't know what's going on and wouldn't want
-		// to stop them launching.
-		return true;
-	}
-
-	return false;
-#endif	// LINUX
-
 #endif	// POSIX
 	return true;
 }
@@ -1491,7 +1392,7 @@ extern "C" DLL_EXPORT int LauncherMain( int argc, char **argv )
 	CommandLine()->CreateCmdLine( argc, argv );
 #endif
 
-#if defined (PLATFORM_OSX) || defined (WIN32)
+#if defined (WIN32)
 	// No -dxlevel or +mat_hdr_level allowed in CSGO
 	CommandLine()->RemoveParm( "-dxlevel" );
 	CommandLine()->RemoveParm( "+mat_hdr_level" );
@@ -1617,16 +1518,6 @@ extern "C" DLL_EXPORT int LauncherMain( int argc, char **argv )
 			XBX_SetUserIsGuest( k, slot2guest[k] );
 		}
 	}
-
-#ifdef PLATFORM_OSX
-	{
-		struct stat st;
-		if ( stat( RELAUNCH_FILE, &st ) == 0 ) 
-		{
-			unlink( RELAUNCH_FILE );
-		}
-	}
-#endif
 
 	DevMsg( "[X360 LAUNCH] Started with the following payload:\n" );
 	DevMsg( "              Num Game Users   = %d\n", XBX_GetNumGameUsers() );
@@ -1839,12 +1730,8 @@ extern "C" DLL_EXPORT int LauncherMain( int argc, char **argv )
 
 		CSourceAppSystemGroup sourceSystems;
 		CSteamApplication steamApplication( &sourceSystems );
-#if defined( OSX ) && !defined( USE_SDL )
-		extern int ValveCocoaMain( CAppSystemGroup *pApp );
-		int nRetval = ValveCocoaMain( &steamApplication ); 
-#else
 		int nRetval = steamApplication.Run();
-#endif		
+	
 #if ENABLE_HARDWARE_PROFILER 
 		// Hack fix, causes memory leak, but prevents crash due to bad coding not doing proper teardown
 		// need to ensure these list anchors don't anchor stale pointers
@@ -1918,7 +1805,9 @@ extern "C" DLL_EXPORT int LauncherMain( int argc, char **argv )
 
 		RegCloseKey(hKey);
 	}
-#elif defined( OSX )
+#elif defined( LINUX ) // ( OSX )
+	#error "Check me!"
+
 	struct stat st;
 	if ( stat( RELAUNCH_FILE, &st ) == 0 ) 
 	{

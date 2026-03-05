@@ -670,7 +670,7 @@ void CAppSystemGroup::ShutdownSystems()
 //-----------------------------------------------------------------------------
 void* CAppSystemGroup::CreateAppWindow( void *hInstance, const char *pTitle, bool bWindowed, int w, int h, bool bResizing )
 {
-#if defined( PLATFORM_WINDOWS ) || defined( PLATFORM_OSX )
+#if defined( PLATFORM_WINDOWS )
 	int nFlags = 0;
 	if ( !bWindowed )
 	{
@@ -696,10 +696,6 @@ void* CAppSystemGroup::CreateAppWindow( void *hInstance, const char *pTitle, boo
 	Plat_SetWindowPos( hWnd, CenterX, CenterY );
 
 	return hWnd;
-#elif defined( PLATFORM_OSX )
-	extern ICocoaMgr *g_pCocoaMgr;
-	g_pCocoaMgr->CreateGameWindow( pTitle, bWindowed, w, h );
-	return (void*)Sys_GetFactoryThis();	// Other stuff will query for ICocoaBridge out of this.
 #elif defined( PLATFORM_LINUX )
 #ifndef DEDICATED
 

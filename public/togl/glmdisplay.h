@@ -10,15 +10,7 @@
 
 #pragma once
 
-#ifdef OSX
-#include <OpenGL/OpenGL.h>
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
-#include <OpenGL/CGLTypes.h>
-#include <OpenGL/CGLRenderers.h>
-#include <OpenGL/CGLCurrent.h>
-#include <ApplicationServices/ApplicationServices.h>
-#elif defined(DX_TO_GL_ABSTRACTION)
+#if defined(DX_TO_GL_ABSTRACTION)
 #include <GL/gl.h>
 #include <GL/glext.h>
 #include "tier0/platform.h"
@@ -39,10 +31,6 @@ struct GLMDisplayModeInfoFields
 
 struct GLMDisplayInfoFields
 {
-#ifdef OSX
-	CGDirectDisplayID				m_cgDisplayID;
-	CGOpenGLDisplayMask				m_glDisplayMask;		// result of CGDisplayIDToOpenGLDisplayMask on the cg_displayID.
-#endif
 	uint							m_displayPixelWidth;
 	uint							m_displayPixelHeight;	
 };

@@ -16,7 +16,7 @@
 
 #include "platform.h"
 
-#if !defined(OSX) && !defined(POSIX)
+#if !defined(POSIX)
 extern "C"
 {
 #endif
@@ -29,7 +29,7 @@ extern "C"
 #include "lobject.h"
 #include "lstate.h"
 #include "ldo.h"
-#if !defined(OSX) && !defined(POSIX)
+#if !defined(POSIX)
 }
 #endif
 

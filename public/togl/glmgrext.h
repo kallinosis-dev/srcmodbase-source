@@ -7,10 +7,7 @@
 
 #pragma once
 
-#ifdef OSX
-#include <OpenGL/gl.h>
-#include <OpenGL/glext.h>
-#elif defined(DX_TO_GL_ABSTRACTION)
+#if defined(DX_TO_GL_ABSTRACTION)
 #include <GL/gl.h>
 #include <GL/glext.h>
 #else

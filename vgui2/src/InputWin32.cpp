@@ -33,12 +33,6 @@
 #include "utllinkedlist.h"
 #include "tier0/icommandline.h"
 
-#if defined( _X360 )
-#include "xbox/xbox_win32stubs.h"
-#elif defined( OSX )
-#include <Carbon/Carbon.h>
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 

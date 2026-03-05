@@ -94,7 +94,7 @@ bool CCSBaseAchievement::GetAwardTime( int& year, int& month, int& day, int& hou
 {
 	if ( GetUnlockTime() )
 	{
-#if defined( _PS3 ) || defined( _OSX ) || defined (LINUX)
+#if defined( _PS3 ) || defined (LINUX)
 		time_t timeOfDay = (time_t) GetUnlockTime( );
 
 		// [dkorus] note, structuredTime is a pointer to a static structure that will last until another time structure function is called.

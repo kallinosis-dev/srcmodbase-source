@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2006, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2006, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -406,16 +406,7 @@ BEGIN_VS_SHADER( VertexLitGeneric, "Help for VertexLitGeneric" )
 		bool bDisableTreeSway = false; 
 		
 		// Disable tree swaying on consoles, or on "cheap" shadow filter modes (which are too pixelated).
-		if ( IsGameConsole() || IsPlatformOSX() )
-#if defined( CSTRIKE15 ) 
-			if( IsPlatformOSX() || IsPS3() )
-			{
-				bDisableTreeSway = true;
-			}
-#else
-			bDisableTreeSway = true;
-#endif
-		else if ( g_pHardwareConfig->GetShadowFilterMode( false /* bForceLowQuality */, g_pHardwareConfig->SupportsPixelShaders_3_0() /* bPS30 */ ) >= SHADOWFILTERMODE_FIRST_CHEAP_MODE )
+		if ( g_pHardwareConfig->GetShadowFilterMode( false /* bForceLowQuality */, g_pHardwareConfig->SupportsPixelShaders_3_0() /* bPS30 */ ) >= SHADOWFILTERMODE_FIRST_CHEAP_MODE )
 		{
 			bDisableTreeSway = true;
 		}

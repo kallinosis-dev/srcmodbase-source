@@ -107,7 +107,7 @@ static ConVar mat_forcedynamic( "mat_forcedynamic", "0", FCVAR_CHEAT );
 // Turn this on to record frames that are longer than what CERT requires on the 360.
 ConVar mat_spew_long_frames( "mat_spew_long_frames", "0", 0, "warn about frames that go over 66ms for CERT purposes." );
 
-#if defined( _PS3 ) || defined( _OSX )
+#if defined( _PS3 )
 extern ConVar mat_debugalttab;
 #else
 // this is hooked into the engines convar
@@ -141,10 +141,6 @@ CShaderDeviceMgrDx8::CShaderDeviceMgrDx8()
 CShaderDeviceMgrDx8::~CShaderDeviceMgrDx8()
 {
 }
-
-#ifdef OSX
-#include <Carbon/Carbon.h>
-#endif
 
 //-----------------------------------------------------------------------------
 // Connect, disconnect
@@ -645,9 +641,6 @@ bool CShaderDeviceMgrDx8::ComputeCapsFromD3D( HardwareCaps_t *pCaps, int nAdapte
 		}
 	}
 
-	// Make sure mac users do not fake their graphic cards and bypass the mandatory
-	// CSMs for high end GPUs
-#ifndef OSX
 	// Intended for debugging only
 	if ( CommandLine()->CheckParm( "-force_device_id" ) )
 	{
@@ -675,7 +668,6 @@ bool CShaderDeviceMgrDx8::ComputeCapsFromD3D( HardwareCaps_t *pCaps, int nAdapte
 			}
 		}
 	}
-#endif
 
 	Q_strncpy( pCaps->m_pDriverName, ident.Description, MATERIAL_ADAPTER_NAME_LENGTH );
 	pCaps->m_VendorID = ident.VendorId;
@@ -755,15 +747,7 @@ bool CShaderDeviceMgrDx8::ComputeCapsFromD3D( HardwareCaps_t *pCaps, int nAdapte
 #ifdef _PS3
 	pCaps->m_bSupportsStaticControlFlow = true;
 #elif defined DX_TO_GL_ABSTRACTION
-    // On OSX, we can force ourselves down a static control flow path, but this only works with GLSL
-    if ( IsOSX() )
-    {
-        pCaps->m_bSupportsStaticControlFlow = CommandLine()->CheckParm("-glslcontrolflow") != NULL;
-    }
-    else
-    {
-        pCaps->m_bSupportsStaticControlFlow = !CommandLine()->CheckParm("-noglslcontrolflow");
-    }
+    pCaps->m_bSupportsStaticControlFlow = !CommandLine()->CheckParm("-noglslcontrolflow");
 #else
 	pCaps->m_bSupportsStaticControlFlow = true;
 #endif
@@ -2088,12 +2072,6 @@ bool CShaderDeviceDx8::InitDevice( void* hwnd, int nAdapter, const ShaderDeviceI
 	//Debugger();
 	
 	// good place to run some self tests.
-	//#if OSX
-	//{
-	//	extern void GLMgrSelfTests( void );
-	//	GLMgrSelfTests();
-	//}
-	//#endif
 	
 	// windowed
 	if ( !CreateD3DDevice( (VD3DHWND)hwnd, nAdapter, info ) )
@@ -2605,9 +2583,6 @@ bool CShaderDeviceDx8::CreateD3DDevice( void* pHWnd, int nAdapter, const ShaderD
 //-----------------------------------------------------------------------------
 void CShaderDeviceDx8::AllocFrameSyncTextureObject()
 {
-	if ( IsGameConsole() || IsOSX() )
-		return;
-
 	FreeFrameSyncTextureObject();
 
 	// Create a tiny managed texture.
@@ -2627,9 +2602,6 @@ void CShaderDeviceDx8::AllocFrameSyncTextureObject()
 
 void CShaderDeviceDx8::FreeFrameSyncTextureObject()
 {
-	if ( IsGameConsole() || IsOSX() )
-		return;
-
 	if ( m_pFrameSyncTexture )
 	{
 		m_pFrameSyncTexture->Release();
@@ -2638,9 +2610,6 @@ void CShaderDeviceDx8::FreeFrameSyncTextureObject()
 }
 void CShaderDeviceDx8::AllocFrameSyncObjects( void )
 {
-	if ( IsGameConsole() || IsOSX() )
-		return;
-
 	if ( mat_debugalttab.GetBool() )
 	{
 		Warning( "mat_debugalttab: CShaderAPIDX8::AllocFrameSyncObjects\n" );
@@ -2680,9 +2649,6 @@ void CShaderDeviceDx8::AllocFrameSyncObjects( void )
 
 void CShaderDeviceDx8::FreeFrameSyncObjects( void )
 {
-	if ( IsX360() || IsOSX() )
-		return;
-
 	if ( mat_debugalttab.GetBool() )
 	{
 		Warning( "mat_debugalttab: CShaderAPIDX8::FreeFrameSyncObjects\n" );

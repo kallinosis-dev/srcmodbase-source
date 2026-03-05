@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -40,10 +40,6 @@
 #elif defined( _PS3 )
 #pragma ms_struct on
 #pragma reverse_bitfields on
-#endif
-
-#ifdef OSX
-#pragma GCC diagnostic ignored "-Wtautological-compare"
 #endif
 
 class Quaternion48;

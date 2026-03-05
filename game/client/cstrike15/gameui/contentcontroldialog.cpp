@@ -12,7 +12,7 @@
 #if !defined( _PS3 )
 #include <memory.h>
 #endif
-#if !defined( _GAMECONSOLE ) && !defined( _OSX ) && !defined (LINUX)
+#if !defined( _GAMECONSOLE ) && !defined (LINUX)
 #include <windows.h>
 #endif
 
@@ -106,7 +106,7 @@ void CContentControlDialog::Activate()
 //-----------------------------------------------------------------------------
 void CContentControlDialog::ResetPassword()
 {
-#if !defined( _OSX ) && !defined (LINUX)
+#if !defined (LINUX)
 	// Set initial value
 	HKEY key;
 	if ( ERROR_SUCCESS == RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\Valve\\Half-Life\\Settings", 0, KEY_READ, &key))
@@ -215,7 +215,7 @@ void CContentControlDialog::OnClose()
 //-----------------------------------------------------------------------------
 void CContentControlDialog::WriteToken( const char *str )
 {
-#if !defined( _OSX ) && !defined (LINUX)
+#if !defined (LINUX)
 	// Set initial value
 	HKEY key;
 	if ( ERROR_SUCCESS == RegOpenKeyEx(HKEY_CURRENT_USER, "Software\\Valve\\Half-Life\\Settings", 0, KEY_WRITE, &key))

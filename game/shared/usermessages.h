@@ -18,11 +18,6 @@
 
 #include "networksystem/inetworksystem.h"
 
-// eliminates a conflict with TYPE_BOOL in OSX
-#ifdef TYPE_BOOL
-#undef TYPE_BOOL
-#endif
-
 #include "cstrike15_usermessages.pb.h"
 
 //-----------------------------------------------------------------------------

@@ -14,14 +14,11 @@
 #if defined( WIN32) && !defined( _X360 )
 #include <windows.h>
 #endif
-#ifdef OSX
-#include <Carbon/Carbon.h>
-#endif
 #ifdef LINUX
 #include <fontconfig/fontconfig.h>
 #endif
 
-#if defined( USE_SDL ) || defined(OSX) 
+#if defined( USE_SDL )
 #include <appframework/ilaunchermgr.h>
 ILauncherMgr *g_pLauncherMgr = NULL;
 #endif
@@ -286,8 +283,6 @@ bool CMatSystemSurface::Connect( CreateInterfaceFn factory )
 
 #if defined( USE_SDL )
     g_pLauncherMgr = (ILauncherMgr *)factory(  SDLMGR_INTERFACE_VERSION, NULL );
-#elif defined( OSX )
-    g_pLauncherMgr = (ILauncherMgr *)factory(  COCOAMGR_INTERFACE_VERSION, NULL );
 #endif
 
 	return true;	
@@ -449,10 +444,6 @@ InitReturnVal_t CMatSystemSurface::Init( void )
 		{    
 #ifdef PLATFORM_WINDOWS
           bValid = system()->GetRegistryString( "HKEY_CURRENT_USER\\Software\\Valve\\Steam\\Language", language, sizeof(language)-1 );
-#elif defined(OSX)
-          static ConVarRef cl_language("cl_language");
-          Q_strncpy( language, cl_language.GetString(), sizeof( language ) );
-          bValid = true;
 #endif
         }
 	}
@@ -797,7 +788,6 @@ void CMatSystemSurface::StartDrawingIn3DSpace( const VMatrix &screenToWorld, int
 // so in theory we shouldn't need to do any adjustments for setting up the screen
 // HOWEVER, we must do the offset, else the driver will think the text is something that should
 // be antialiased, so the text will look broken if antialiasing is turned on (usually forced on in the driver)
-// TOGL Linux/Win now automatically accounts for the half pixel offset between D3D9 vs. GL, if we are using the old OSX togl lib then we need pixel offsets to be 0.0f
 float g_flPixelOffsetX = 0.5f;
 float g_flPixelOffsetY = 0.5f;
 
@@ -889,11 +879,6 @@ void CMatSystemSurface::FinishDrawing( void )
 //-----------------------------------------------------------------------------
 void CMatSystemSurface::RunFrame()
 {
-#ifdef OSX
-	void CursorRunFrame();
-	CursorRunFrame();
-#endif
-
 	int nPollCount = g_pInputSystem->GetPollCount();
 	if ( m_nLastInputPollCount == nPollCount )
 		return;

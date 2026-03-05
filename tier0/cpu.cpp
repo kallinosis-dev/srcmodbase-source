@@ -10,8 +10,6 @@
 #define WINDOWS_LEAN_AND_MEAN
 #include <windows.h>
 #include "cputopology.h"
-#elif defined( PLATFORM_OSX )
-#include <sys/sysctl.h>
 #endif
 
 #ifndef _PS3
@@ -798,16 +796,6 @@ const CPUInformation& GetCPUInformation()
 		pi.m_nPhysicalProcessors = 1;
 		Assert( !"couldn't read cpu information from /proc/cpuinfo" );
 	}
-
-#elif defined(OSX)
-
-	int num_phys_cpu = 1, num_log_cpu = 1;
-	size_t len = sizeof(num_phys_cpu);
-	sysctlbyname( "hw.physicalcpu", &num_phys_cpu, &len, NULL, 0 );
-	sysctlbyname( "hw.logicalcpu", &num_log_cpu, &len, NULL, 0 );
-	pi.m_nPhysicalProcessors = num_phys_cpu;
-	pi.m_nLogicalProcessors  = num_log_cpu;
-
 #endif
 
 	CpuIdResult_t cpuid0 = cpuid( 0 );

@@ -268,10 +268,6 @@ private:
 	GLMDisplayDB *m_displayDB;
 #endif
 
-#if defined( OSX )
-	bool					m_force_vsync;				// true if 10.6.4 + bad NV driver
-#endif
-
 	SDL_Window *m_Window;
 
 
@@ -547,13 +543,8 @@ InitReturnVal_t CSDLMgr::Init()
 	SET_GL_ATTR(SDL_GL_ALPHA_SIZE, 8);
 	SET_GL_ATTR(SDL_GL_DOUBLEBUFFER, 1);
 
-#ifdef OSX
-	// no explicit depth buffer is needed since FBO RT's are made for that
-	SET_GL_ATTR(SDL_GL_DEPTH_SIZE, 0);
-#else
 	SET_GL_ATTR(SDL_GL_DEPTH_SIZE, 24);
 	SET_GL_ATTR(SDL_GL_STENCIL_SIZE, 8);
-#endif
 
 	SET_GL_ATTR(SDL_GL_ACCELERATED_VISUAL, 1);
 
@@ -716,29 +707,6 @@ bool CSDLMgr::CreateHiddenGameWindow( const char *pTitle, bool bWindowed, int wi
 
 #if defined( LINUX )
 	SetAssertDialogParent( m_Window );
-#endif
-
-#ifdef OSX
-	GLMRendererInfoFields rendererInfo;
-	GetDisplayDB()->GetRendererInfo( 0, &rendererInfo );
-	//-----------------------------------------------------------------------------------------
-	//- enforce minimum system requirements : OS X 10.6.7, Snow Leopard Graphics Update, and no GMA950, X3100, ATI X1600/X1900, or NV G7x.
-	
-	if (!CommandLine()->FindParm("-glmnosystemcheck"))	// escape hatch
-	{
-		if ( rendererInfo.m_osComboVersion < 0x0A0607 )
-		{
-			Error( "This game requires OS X version 10.6.7 or higher" );
-			exit(1);
-		}
-		
-		// forbidden chipsets
-		if ( rendererInfo.m_atiR5xx || rendererInfo.m_intel95x || rendererInfo.m_intel3100 || rendererInfo.m_nvG7x )
-		{
-			Error( "This game does not support this type of graphics processor" );
-			exit(1);
-		}
-	}
 #endif
 	
 	if (m_bFullScreen)
@@ -1108,20 +1076,11 @@ void CSDLMgr::ShowPixels( CShowPixelsParams *params )
 		swapInterval	= params->m_vsyncEnable ? 1 : 0;
 		swapLimit		= 1; // params->m_vsyncEnable ? 1 : 0;	// no good reason to turn off swap limit in normal user mode
 
-#ifdef OSX
-		// only do the funky forced vsync for NV on 10.6.4 and only if the bypass is not turned on
-		if (m_force_vsync && (gl_disable_forced_vsync.GetInt()==0))
-		{
-			swapInterval	= 1;
-			swapLimit		= 1;
-		}
-#else
 		if (gl_swaptear.GetInt() && gGL->HasSwapTearExtension())
 		{
 			// For 0, do nothing. For 1, make it -1.
 			swapInterval = -swapInterval;
 		}
-#endif
 	}
 		
 	// only touch them on changes, or right after a change in windowed/FS state
@@ -1140,151 +1099,6 @@ void CSDLMgr::ShowPixels( CShowPixelsParams *params )
 		fflush(stdout);
 
 	}
-
-#ifdef OSX
-	if (!params->m_noBlit)
-	{
-		if ( params->m_useBlit ) // FBO blit path - which is what we *should* be using.  But if the params say no, then don't do it because the ext is not there.
-		{
-			// bind a quickie FBO to enclose the source texture
-			GLint	myreadfb = 1000;
-			
-			glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, myreadfb);
-			CheckGLError( __LINE__ );
-			
-			glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, 0);		// to the default FB/backbuffer
-			CheckGLError( __LINE__ );
-			
-			// attach source tex to source FB
-			glFramebufferTexture2DEXT( GL_READ_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, params->m_srcTexName, 0);
-			CheckGLError( __LINE__ );
-			
-			// blit
-			
-			int srcxmin = 0;
-			int srcymin = 0;
-			int srcxmax = params->m_width;
-			int srcymax = params->m_height;
-			
-			// normal blit
-			int dstxmin = 0;
-			int dstymin = 0;
-			int dstxmax = 0;
-			int dstymax = 0;
-
-			SDL_GetWindowSize(m_Window, &dstxmax, &dstymax);
-			if (gl_blit_halfx.GetInt())
-			{
-				// blit right half
-				srcxmin += srcxmax/2;
-				dstxmin += dstxmax/2;
-			}
-			
-			if (gl_blit_halfy.GetInt())
-			{
-				// blit top half
-				// er, but top on screen is bottom of GL y coord range
-				srcymax /= 2;
-				dstymin += dstymax/2;
-			}
-			
-			// go NEAREST if sizes match
-			GLenum filter = ( ((srcxmax-srcxmin)==(dstxmax-dstxmin)) && ((srcymax-srcymin)==(dstymax-dstymin)) ) ? GL_NEAREST : GL_LINEAR;
-			
-			glBlitFramebufferEXT(
-					     /* src min and maxes xy xy */ srcxmin, srcymin,				srcxmax,srcymax,
-					     /* dst min and maxes xy xy */ dstxmin, dstymax,				dstxmax,dstymin,		// note yflip here
-					     GL_COLOR_BUFFER_BIT, filter );
-			CheckGLError( __LINE__ );
-			
-			// detach source tex
-			glFramebufferTexture2DEXT( GL_READ_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, 0, 0);
-			CheckGLError( __LINE__ );
-			
-			glBindFramebufferEXT( GL_READ_FRAMEBUFFER_EXT, 0);
-			CheckGLError( __LINE__ );
-			
-			glBindFramebufferEXT( GL_DRAW_FRAMEBUFFER_EXT, 0);		// to the default FB/backbuffer
-			CheckGLError( __LINE__ );
-			
-		}
-		else
-		{
-			// old blit - gets very dark output with sRGB sources... not good
-			bool texing = true;
-			
-			glUseProgram(NULL);
-			
-			glDisable( GL_DEPTH_TEST );
-			glDepthMask( GL_FALSE );
-			
-			glActiveTexture( GL_TEXTURE0 );
-			
-			if (texing)
-			{
-				Assert( glIsTexture (params->m_srcTexName) );
-				
-				glEnable(GL_TEXTURE_2D);
-				glBindTexture( GL_TEXTURE_2D, params->m_srcTexName );
-				CheckGLError( __LINE__ );
-				
-				GLint width;
-				glGetTexLevelParameteriv(	GL_TEXTURE_2D,			//target
-							 0,						//level,
-							 GL_TEXTURE_WIDTH,		//pname
-							 &width
-							 );
-				CheckGLError( __LINE__ );
-			}
-			else
-			{
-				glBindTexture( GL_TEXTURE_2D, 0 );
-				CheckGLError( __LINE__ );
-				
-				glDisable( GL_TEXTURE_2D );
-				glColor4f( 1.0, 0.0, 0.0, 1.0 );
-			}
-			
-			
-			// immediate mode is fine for a simple textured quad
-			// later if we switch the Valve side to render into an RBO, then this would turn into an FBO blit
-			// note, do not check glGetError in between glBegin/glEnd, lol
-			
-			// flipped
-			float topv = 0.0;
-			float botv = 1.0;
-			
-			glBegin(GL_QUADS);
-			
-			if (texing)
-				glTexCoord2f( 0.0, botv );
-			glVertex3f		( -1.0, -1.0, 0.0 );
-			
-			if (texing)
-				glTexCoord2f( 1.0, botv );
-			glVertex3f		( 1.0, -1.0, 0.0 );
-			
-			if (texing)
-				glTexCoord2f( 1.0, topv );
-			glVertex3f		( 1.0, 1.0, 0.0 );
-			
-			if (texing)
-				glTexCoord2f( 0.0, topv );
-			glVertex3f		( -1.0, 1.0, 0.0 );
-			glEnd();
-			CheckGLError( __LINE__ );
-			
-			if (texing)
-			{
-				glBindTexture( GL_TEXTURE_2D, 0 );
-				CheckGLError( __LINE__ );
-				
-				glDisable(GL_TEXTURE_2D);
-			}
-			
-		}
-	}
-#endif
 
 	//glFlush();
 	//glFinish();
@@ -1328,16 +1142,7 @@ void CSDLMgr::SetWindowFullScreen( bool bFullScreen, int nWidth, int nHeight, bo
 
 	if ( bFullScreen )
 	{
-
 		mode.format = (Uint32)SDL_PIXELFORMAT_RGBX8888;
-
-#ifdef OSX
-		if ( iFullscreenMode == SDL_WINDOW_FULLSCREEN )
-		{
-			mode.w = nWidth;
-			mode.h = nHeight;
-		}
-#endif
 
 		m_flMouseXScale = ( float )nWidth / ( float )mode.w;
 		m_flMouseYScale = ( float )nHeight / ( float )mode.h;
@@ -1423,16 +1228,6 @@ void CSDLMgr::handleKeyInput( const SDL_Event &event )
 	SDLAPP_FUNC;
 
 	Assert( ( event.type == SDL_KEYDOWN ) || ( event.type == SDL_KEYUP ) );
-
-#ifdef OSX
-	if ( event.type == SDL_KEYDOWN && event.key.keysym.sym == SDLK_TAB &&
-	     SDL_GetModState()&KMOD_GUI && !CommandLine()->FindParm( "-noexclusivefs" ) )
-	{
-		// If we're in exclusive fullscreen mode, and they command-tab, handle
-		// that by forcing minimization of the window.
-		SDL_MinimizeWindow( m_Window );
-	}
-#endif
 
 	const bool bPressed = ( event.type == SDL_KEYDOWN );
 
@@ -1670,13 +1465,6 @@ void CSDLMgr::PumpWindowsMessageLoop()
 			case SDL_MOUSEWHEEL:
 			{
 				int scroll = event.wheel.y;
-
-#ifdef OSX
-				if ( scroll == 0 && ( SDL_GetModState()&KMOD_SHIFT ) )
-				{
-					scroll = -event.wheel.x;
-				}
-#endif
 
 				if ( scroll )
 				{
@@ -2058,11 +1846,7 @@ void CSDLMgr::GetDesiredPixelFormatAttribsAndRendererInfo( uint **ptrOut, uint *
 	if (rendInfoOut)
 	{
 		GLMDisplayDB *db = GetDisplayDB();
-#ifdef OSX
-		*rendInfoOut = db->m_renderers->Head()->m_info;
-#else
 		*rendInfoOut = db->m_renderer.m_info;
-#endif
 	}
 }
 
@@ -2106,23 +1890,9 @@ GLMDisplayDB *CSDLMgr::GetDisplayDB( void )
 	{
 		m_displayDB = new GLMDisplayDB;		// creating the DB object does not do much other than init it to a good state.
 		m_displayDB->Populate();			// populate the tree
-#if defined( OSX )
-		// side effect: we fill in m_force_vsync..
-		{
-			GLMRendererInfoFields	info;
-			m_displayDB->GetRendererInfo( 0, &info );
-
-			m_force_vsync = info.m_badDriver1064NV;		// just force it if it's the bum NV driver
-		}
-#endif
 	}
 	return m_displayDB;
 }
-
-#ifndef OSX
-#include "glmdisplaydb_linuxwin.inl"
-#endif
-
 
 #endif // DX_TO_GL_ABSTRACTION
 

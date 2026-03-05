@@ -2333,12 +2333,7 @@ void *CStdMemAlloc::RegionAlloc( int region, size_t nSize, const char *pFileName
 
 #if defined (LINUX)
 #include <malloc.h>
-#elif defined (OSX)
-#define malloc_usable_size( ptr ) malloc_size( ptr )
-extern "C" {
-	extern size_t malloc_size( const void *ptr );
-}
-#endif // LINUX/OSX
+#endif // LINUX
 
 //-----------------------------------------------------------------------------
 // Returns the size of a particular allocation (NOTE: may be larger than the size requested!)

@@ -57,11 +57,11 @@ BEGIN_VS_SHADER( LightmappedReflective_DX90, "Help for Lightmapped Reflective" )
 	{
 		if ( params[REFRACTTEXTURE]->IsDefined() )
 		{
-			LoadTexture( REFRACTTEXTURE, g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER || IsOSX() ? TEXTUREFLAGS_SRGB : 0 );
+			LoadTexture( REFRACTTEXTURE, g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER ? TEXTUREFLAGS_SRGB : 0 );
 		}
 		if ( params[REFLECTTEXTURE]->IsDefined() )
 		{
-			LoadTexture( REFLECTTEXTURE, g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER || IsOSX() ? TEXTUREFLAGS_SRGB : 0 );
+			LoadTexture( REFLECTTEXTURE, g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER ? TEXTUREFLAGS_SRGB : 0 );
 		}
 		if ( params[NORMALMAP]->IsDefined() )
 		{
@@ -94,7 +94,7 @@ BEGIN_VS_SHADER( LightmappedReflective_DX90, "Help for Lightmapped Reflective" )
 			if( bRefraction )
 			{
 				pShaderShadow->EnableTexture( SHADER_SAMPLER0, true );	// Refract
-				pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER || IsOSX() );
+				pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER );
 				
 				pShaderShadow->EnableTexture( SHADER_SAMPLER1, true );	// Base
 				pShaderShadow->EnableSRGBRead( SHADER_SAMPLER1, true );
@@ -103,7 +103,7 @@ BEGIN_VS_SHADER( LightmappedReflective_DX90, "Help for Lightmapped Reflective" )
 			if( bReflection )
 			{
 				pShaderShadow->EnableTexture( SHADER_SAMPLER2, true );	// Reflect
-				pShaderShadow->EnableSRGBRead( SHADER_SAMPLER2, g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER || IsOSX() );
+				pShaderShadow->EnableSRGBRead( SHADER_SAMPLER2, g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER );
 				
 				pShaderShadow->EnableTexture( SHADER_SAMPLER3, true );	// Lightmap
 				pShaderShadow->EnableSRGBRead( SHADER_SAMPLER3, g_pHardwareConfig->GetHDRType() == HDR_TYPE_NONE );
@@ -180,7 +180,8 @@ BEGIN_VS_SHADER( LightmappedReflective_DX90, "Help for Lightmapped Reflective" )
 		}
 		DYNAMIC_STATE
 		{
-			TextureBindFlags_t nBindFlags = ( g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER || IsOSXOpenGL() ) ? TEXTURE_BINDFLAGS_SRGBREAD : TEXTURE_BINDFLAGS_NONE;
+			TextureBindFlags_t nBindFlags = g_pHardwareConfig->GetHDRType() == HDR_TYPE_INTEGER 
+				? TEXTURE_BINDFLAGS_SRGBREAD : TEXTURE_BINDFLAGS_NONE;
 
 
 			if ( bRefraction )

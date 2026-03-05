@@ -11,10 +11,6 @@
 // Must be last
 #include "tier0/memdbgon.h"
 
-#ifdef OSX
-#pragma GCC diagnostic ignored "-Wbool-conversions"			
-#endif
-
 //-----------------------------------------------------------------------------
 // Does this resource file contain a particular block?
 //-----------------------------------------------------------------------------

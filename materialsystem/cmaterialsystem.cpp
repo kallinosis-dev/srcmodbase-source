@@ -193,7 +193,7 @@ IShaderUtil *g_pShaderUtil = &g_MaterialSystem;
 #endif
 IVJobs * g_pVJobs = nullptr;
 
-#if defined( USE_SDL ) || defined( OSX )
+#if defined( USE_SDL )
 
 #include "appframework/ilaunchermgr.h"
 ILauncherMgr *g_pLauncherMgr = NULL;	// set in CMaterialSystem::Connect
@@ -229,11 +229,6 @@ void *ShaderFactory( const char *pName, int *pReturnCode )
 
 #if defined( USE_SDL )
     if ( !Q_stricmp( pName, "SDLMgrInterface001" /*SDLMGR_INTERFACE_VERSION*/ ))
-		return g_pLauncherMgr;
-#endif
-
-#if PLATFORM_OSX
-	if ( !Q_stricmp( pName, "CocoaMgrInterface006" /*COCOAMGR_INTERFACE_VERSION*/ ))
 		return g_pLauncherMgr;
 #endif
 
@@ -740,7 +735,7 @@ void CMaterialSystem::DestroyShaderAPI()
 //-----------------------------------------------------------------------------
 void CMaterialSystem::SetShaderAPI( char const *pShaderAPIDLL )
 {
-#if defined( _PS3 ) || defined( _OSX )
+#if defined( _PS3 )
 	return;
 #endif
 
@@ -789,15 +784,12 @@ bool CMaterialSystem::Connect( CreateInterfaceFn factory )
 	g_pVJobs = ( IVJobs* )factory( VJOBS_INTERFACE_VERSION, nullptr);
 
 	// Get at the interfaces exported by the shader DLL
-
-#ifndef _OSX
 	g_pShaderDeviceMgr = (IShaderDeviceMgr*)m_ShaderAPIFactory( SHADER_DEVICE_MGR_INTERFACE_VERSION, nullptr );
 	if ( !g_pShaderDeviceMgr )
 		return false;
 	g_pHWConfig = (IHardwareConfigInternal*)m_ShaderAPIFactory( MATERIALSYSTEM_HARDWARECONFIG_INTERFACE_VERSION, nullptr );
 	if ( !g_pHWConfig )
 		return false;
-#endif
 
 #ifndef DEDICATED
 
@@ -812,19 +804,6 @@ bool CMaterialSystem::Connect( CreateInterfaceFn factory )
 
 #elif defined( _PS3 )
 	g_pHWConfig = g_pHardwareConfig;
-#elif defined( _OSX )
-	g_pHWConfig = g_pHardwareConfig;
-
-	// write a link to the Cocoa manager into the config record so the shader subsystem can get to it.
-	// alas we can't include icocoamgr.h due to a header conflict in the SDK, so the interface name here is hardwired for now
-	// /System/Library/Frameworks/CoreServices.framework/Frameworks/CarbonCore.framework/Headers/Threads.h:520:
-	// error: declaration of C function ‘OSErr CreateThreadPool(ThreadStyle, SInt16, Size)’
-#define  COCOAMGR_INTERFACE_VERSION "CocoaMgrInterface006"
-
-	g_pLauncherMgr = (ILauncherMgr *)factory( COCOAMGR_INTERFACE_VERSION, NULL );		
-	if ( !g_pLauncherMgr )
-		return false;
-
 #elif defined(_WIN32)
 
 #else
@@ -835,7 +814,6 @@ bool CMaterialSystem::Connect( CreateInterfaceFn factory )
 
 #endif // !DEDICATED
 
-#ifndef _OSX
 	// FIXME: ShaderAPI, ShaderDevice, and ShaderShadow should only come in after setting mode
 	g_pShaderAPI = (IShaderAPI*)m_ShaderAPIFactory( SHADERAPI_INTERFACE_VERSION, nullptr );
 	if ( !g_pShaderAPI )
@@ -846,7 +824,6 @@ bool CMaterialSystem::Connect( CreateInterfaceFn factory )
 	g_pShaderShadow = (IShaderShadow*)m_ShaderAPIFactory( SHADERSHADOW_INTERFACE_VERSION, nullptr );
 	if ( !g_pShaderShadow )
 		return false;
-#endif
 
 	// Remember the factory for connect
 	g_fnMatSystemConnectCreateInterface = factory;
@@ -867,7 +844,7 @@ void CMaterialSystem::Disconnect()
 		// Unload the DLL
 		DestroyShaderAPI();
 	}
-#if !defined( _PS3 ) && !defined( _OSX )
+#if !defined( _PS3 )
 	g_pShaderAPI = nullptr;
 	g_pHWConfig = nullptr;
 	g_pShaderShadow = nullptr;
@@ -1856,7 +1833,7 @@ void CMaterialSystem::ReleaseShaderObjects( int nChangeFlags )
 
 void CMaterialSystem::RestoreShaderObjects( CreateInterfaceFn shaderFactory, int nChangeFlags )
 {
-#if !defined( _PS3 ) && !defined( _OSX )
+#if !defined( _PS3 )
 	if ( shaderFactory )
 	{
 		g_pShaderAPI = (IShaderAPI*)shaderFactory( SHADERAPI_INTERFACE_VERSION, nullptr);
@@ -4037,39 +4014,6 @@ void CMaterialSystem::DestroyMatQueueThreadPool()
 static double s_flMainThreadBeginTimestampSec = 0.0f;
 #endif
 
-//
-// On OSX, Forced Single Threaded needs to last for more frames than windows that the window resizing/switch to 
-// and from fullscreen don't force GL calls at the same time as the render thread.
-//
-
-#if defined ( OSX )
-
-static void CheckOsxForcedNextThreadMode( MaterialThreadMode_t* pNextThreadMode, bool* pbForcedSingleThreaded )
-{
-	const int nOsxFramesAtSingleThreaded = 2;
-	static int nOsxFrames = nOsxFramesAtSingleThreaded;
-	if ( *pbForcedSingleThreaded )
-	{
-		*pNextThreadMode = MATERIAL_SINGLE_THREADED;
-
-		if ( nOsxFrames == 0 )
-		{
-			*pbForcedSingleThreaded = false;
-			nOsxFrames = nOsxFramesAtSingleThreaded;
-		}
-		else
-		{
-			nOsxFrames--;
-		}
-	}
-	else
-	{
-		nOsxFrames = nOsxFramesAtSingleThreaded;
-	}
-}
-
-#endif 
-
 void CMaterialSystem::EndFrame( void )
 {
 
@@ -4098,15 +4042,11 @@ void CMaterialSystem::EndFrame( void )
 		nextThreadMode = MATERIAL_SINGLE_THREADED;
 	}
 
-#if !defined ( OSX )
 	if ( m_bForcedSingleThreaded )
 	{
 		nextThreadMode = MATERIAL_SINGLE_THREADED;
 		m_bForcedSingleThreaded = false;
 	}
-#else
-	CheckOsxForcedNextThreadMode(&nextThreadMode, &m_bForcedSingleThreaded );
-#endif
 
 #if GCM_ALLOW_TIMESTAMPS || X360_ALLOW_TIMESTAMPS
 	{

@@ -29,7 +29,7 @@
 // NOTE: This must be the last file included!
 #include "tier0/memdbgon.h"
 
-#if defined( _PS3 ) || defined( _OSX )
+#if defined( _PS3 )
 #define g_pShaderAPI ShaderAPI()
 #define ShaderApiParam( x ) g_pShaderAPIDX8
 #else
@@ -312,9 +312,9 @@ void CShaderSystem::LoadAllShaderDLLs( )
 	// Add the shaders to the dictionary of shaders...
 	SetupShaderDictionary( i );
 
-#if defined( _PS3 ) || defined( _OSX )
+#if defined( _PS3 )
 	LoadShaderDLL( "stdshader_dx9" DLL_EXT_STRING );
-#else // _PS3 || _OSX
+#else // _PS3
 
 	// 360 has the the debug shaders in its dx9 dll
 	if ( IsPC() || !IsX360() )
@@ -362,9 +362,7 @@ void CShaderSystem::LoadAllShaderDLLs( )
 
 void CShaderSystem::LoadModShaderDLLs( int dxSupportLevel )
 {
-	// @wge: Not so sure about this OSX addition, may break modding support!
-	return;	// no more support for custom game shaders to control which DLLs we allow loading
-
+	#error "Check me!"
 	const char *pModShaderPathID = "GAMEBIN";
 
 	// First load the ones with dx_ prefix.
@@ -417,7 +415,7 @@ bool CShaderSystem::LoadShaderDLL( const char *pFullPath )
 //-----------------------------------------------------------------------------
 bool CShaderSystem::LoadShaderDLL( const char *pFullPath, const char *pPathID, bool bModShaderDLL )
 {
-#if !defined( _PS3 ) && !defined( _OSX )
+#if !defined( _PS3 )
 	if ( !pFullPath && !pFullPath[0] )
 		return true;
 
@@ -458,7 +456,7 @@ bool CShaderSystem::LoadShaderDLL( const char *pFullPath, const char *pPathID, b
 	IShaderDLLInternal *pShaderDLL = GetShaderDLLInternal();
 	pShaderDLL->Connect( Sys_GetFactoryThis(), false );
 
-#endif // !_PS3 && !_OSX
+#endif // !_PS3
 
 	// FIXME: We need to do some sort of shader validation here for anticheat.
 
@@ -1397,9 +1395,8 @@ void CShaderSystem::DrawElements( IShader *pShader, IMaterialVar **params,
 	int materialVarFlags = params[FLAGS]->GetIntValue();
 
 	// FIXME: need one conditional that we calculate once a frame for debug or not with everything debug under that.
-	if ( !IsOSXOpenGL() &&
-		 ( ( g_config.bMeasureFillRate || g_config.bVisualizeFillRate ) &&
-		 ( ( materialVarFlags & MATERIAL_VAR_USE_IN_FILLRATE_MODE ) == 0 ) ) )
+	if (( g_config.bMeasureFillRate || g_config.bVisualizeFillRate ) &&
+		 ( ( materialVarFlags & MATERIAL_VAR_USE_IN_FILLRATE_MODE ) == 0 ) )
 	{
 		DrawMeasureFillRate( pRenderState, mod, vertexCompression );
 	}

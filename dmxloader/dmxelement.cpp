@@ -13,10 +13,6 @@
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
-#ifdef OSX
-#pragma GCC diagnostic ignored "-Wtautological-compare"
-#endif
-
 //-----------------------------------------------------------------------------
 // globals
 //-----------------------------------------------------------------------------

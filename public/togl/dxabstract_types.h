@@ -76,7 +76,7 @@ typedef void* VD3DHANDLE;
 	typedef unsigned char BYTE;
 	#define CONST const
 
-#if !defined( OSX ) || defined( PLATFORM_64BITS )
+#if defined( PLATFORM_64BITS )
 	typedef unsigned int ULONG;
 	typedef int LONG;
 	typedef int HRESULT;

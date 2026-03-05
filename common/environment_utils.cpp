@@ -113,32 +113,9 @@ bool GetX360IncludePaths( CUtlVector<CUtlString> &paths )
 
 //--------------------------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------------------------
-bool GetOSXIncludePaths( CUtlVector<CUtlString> &paths )
-{
-	const char *pPath = Plat_GetEnv( "SDKROOT" );
-	if ( !pPath )
-	{
-		pPath = Plat_GetEnv( "OSX_SDK_PATH" );
-		if ( !pPath )
-		{
-			Warning( "ERROR: %s failed to read SDK location from environment variable 'SDKROOT' or 'OSX_SDK_PATH'\n",
-					__FUNCTION__ );
-			return false;
-		}
-	}
-
-	char pIncludePath[MAX_PATH];
-	V_MakeAbsolutePath( pIncludePath, sizeof(pIncludePath), "usr/include", pPath, false );
-	paths.AddToTail( pIncludePath );
-
-	return true;
-}
-
-//--------------------------------------------------------------------------------------------------
-//--------------------------------------------------------------------------------------------------
 bool GetSystemIncludePaths( CUtlVector<CUtlString> &paths, const char *pPlatform, const char *pCompiler )
 {
-#if !defined( PLATFORM_WINDOWS ) && !defined( PLATFORM_POSIX ) && !defined( PLATFORM_OSX )
+#if !defined( PLATFORM_WINDOWS ) && !defined( PLATFORM_POSIX )
 	Warning( "ERROR: GetSystemIncludePaths not implemented for this platform!\n" );
 	return false;
 #endif
@@ -182,11 +159,6 @@ bool GetSystemIncludePaths( CUtlVector<CUtlString> &paths, const char *pPlatform
         paths.AddToTail( "/usr/include" );
         return true;
     }
-	else if ( !V_stricmp_fast( pPlatform, "OSX32" ) ||
-              !V_stricmp_fast( pPlatform, "OSX64" ) )
-	{
-		return GetOSXIncludePaths( paths );
-	}
     
 	AssertMsg1( false, "ERROR: GetSystemIncludePaths not implemented for this platform yet! (%s)\n", pPlatform );
 	return false;

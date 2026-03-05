@@ -35,16 +35,10 @@
 #ifdef WIN32
 #define BUGSUB_CONFIG "\\\\bugbait\\bugsub\\config.txt"
 #else
-#ifdef OSX
-#define BUGSUB_CONFIG "/Volumes/bugsub/config.txt"
-#define BUGSUB_MOUNT "/Volumes/bugsub"
-#define BUGSUB_MOUNT_COMMAND "mount_smbfs //guest:@bugbait.valvesoftware.com/bugsub "  BUGSUB_MOUNT
-#else
 // We can't do sudo here, so we rely on /etc/fstab being setup for '/mnt/bugsub'. See comment in CBugReporter::Init().
 #define BUGSUB_CONFIG "/mnt/bugsub/config.txt"
 #define BUGSUB_MOUNT "/mnt/bugsub"
 #define BUGSUB_MOUNT_COMMAND "mount /mnt/bugsub"
-#endif
 #define BUGSUB_UNMOUNT_COMMAND "umount "  BUGSUB_MOUNT
 #endif
 
@@ -351,8 +345,6 @@ bool CBugReporter::Init( CreateInterfaceFn engineFactory )
 	}
 #ifdef WIN32
 	V_strncpy( m_BugRootDirectory, m_OptionsFile->GetString( "bug_directory", "." ), sizeof(m_BugRootDirectory) );
-#elif defined(OSX)
-	V_strncpy( m_BugRootDirectory, m_OptionsFile->GetString( "bug_directory_osx", BUGSUB_MOUNT ), sizeof(m_BugRootDirectory) );
 #elif defined(LINUX)
 	V_strncpy( m_BugRootDirectory, m_OptionsFile->GetString( "bug_directory_linux", BUGSUB_MOUNT ), sizeof(m_BugRootDirectory) );
 #else

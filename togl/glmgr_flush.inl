@@ -12,7 +12,6 @@ FORCEINLINE uint32 bitmix32(uint32 a)
 	return a;
 }
 
-#ifndef OSX
 FORCEINLINE GLuint GLMContext::FindSamplerObject( const GLMTexSamplingParams &desiredParams )
 {
 	int h = bitmix32( desiredParams.m_bits + desiredParams.m_borderColor ) & ( cSamplerObjectHashSize - 1 );
@@ -38,7 +37,6 @@ FORCEINLINE GLuint GLMContext::FindSamplerObject( const GLMTexSamplingParams &de
 
 	return m_samplerObjectHash[h].m_samplerObject;
 }
-#endif
 
 // BE VERY CAREFUL WHAT YOU DO IN HERE. This is called on every batch, even seemingly simple changes can kill perf.
 FORCEINLINE void GLMContext::FlushDrawStates( uint nStartIndex, uint nEndIndex, uint nBaseVertex )	// shadersOn = true for draw calls, false for clear calls
@@ -253,7 +251,6 @@ FORCEINLINE void GLMContext::FlushDrawStates( uint nStartIndex, uint nEndIndex, 
 	
 	GL_BATCH_PERF( m_FlushStats.m_nNumChangedSamplers += m_nNumDirtySamplers );
 
-#if !defined( OSX ) // no support for sampler objects in OSX 10.6 (GL 2.1 profile)
 	if ( m_bUseSamplerObjects)
 	{
 		while ( m_nNumDirtySamplers )
@@ -266,26 +263,9 @@ FORCEINLINE void GLMContext::FlushDrawStates( uint nStartIndex, uint nEndIndex, 
 			gGL->glBindSampler( nSamplerIndex, FindSamplerObject( m_samplers[nSamplerIndex].m_samp ) );
 
 			GL_BATCH_PERF( m_FlushStats.m_nNumSamplingParamsChanged++ );
-
-#if defined( OSX ) // valid for OSX only if using GL 3.3 context 
-			CGLMTex *pTex = m_samplers[nSamplerIndex].m_pBoundTex;
-
-			if( pTex && !( gGL->m_bHave_GL_EXT_texture_sRGB_decode ) )
-			{
-				// see if requested SRGB state differs from the known one
-				bool texSRGB = ( pTex->m_layout->m_key.m_texFlags & kGLMTexSRGB ) != 0;
-				bool glSampSRGB  = m_samplers[nSamplerIndex].m_samp.m_packed.m_srgb;
-
-				if ( texSRGB != glSampSRGB ) // mismatch
-				{
-					pTex->HandleSRGBMismatch( glSampSRGB, pTex->m_srgbFlipCount );
-				}
-			}
-#endif
 		}
 	}
 	else
-#endif // if !defined( OSX )
 	{
 		while ( m_nNumDirtySamplers )
 		{
@@ -303,20 +283,6 @@ FORCEINLINE void GLMContext::FlushDrawStates( uint nStartIndex, uint nEndIndex, 
 				m_samplers[nSamplerIndex].m_samp.DeltaSetToTarget( pTex->m_texGLTarget, pTex->m_SamplingParams );
 
 				pTex->m_SamplingParams = m_samplers[nSamplerIndex].m_samp;
-
-#if defined( OSX )
-				if( pTex && !( gGL->m_bHave_GL_EXT_texture_sRGB_decode ) )
-				{
-					// see if requested SRGB state differs from the known one
-					bool texSRGB = ( pTex->m_layout->m_key.m_texFlags & kGLMTexSRGB ) != 0;
-					bool glSampSRGB  = m_samplers[nSamplerIndex].m_samp.m_packed.m_srgb;
-
-					if ( texSRGB != glSampSRGB ) // mismatch
-					{
-						pTex->HandleSRGBMismatch( glSampSRGB, pTex->m_srgbFlipCount );
-					}	
-				}
-#endif
 			}
 		}
 	}

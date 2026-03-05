@@ -2923,13 +2923,6 @@ void CHLClient::PrecacheMaterial( const char *pMaterialName )
 			m_CachedMaterials.Insert( pMaterial );
 		}
 	}
-	else
-	{
-		if (IsOSX())
-		{
-			printf("\n ##### CHLClient::PrecacheMaterial could not find material %s (%s)", pMaterialName, pTempBuf );
-		}
-	}
 }
 
 void CHLClient::UncacheAllMaterials()

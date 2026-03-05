@@ -24,10 +24,6 @@
 #include <errno.h>
 #include <io.h>
 #endif
-#ifdef OSX
-#include <malloc/malloc.h>
-#include <stdlib.h>
-#endif
 
 #include <map>
 #include <set>
@@ -360,8 +356,6 @@ void LMDValidateBlock( DbgMemHeader_t *pHeader, bool bFreeList )
 
 #if defined( _DEBUG ) && !defined( POSIX )
 #define GetCrtDbgMemHeader( pMem ) ((CrtDbgMemHeader_t*)((DbgMemHeader_t*)pMem - 1) - 1)
-#elif defined( OSX )
-DbgMemHeader_t *GetCrtDbgMemHeader( void *pMem );
 #else
 #define GetCrtDbgMemHeader( pMem ) ((DbgMemHeader_t*)(pMem) - 1)
 #endif
@@ -370,30 +364,11 @@ DbgMemHeader_t *GetCrtDbgMemHeader( void *pMem );
 #define GetAllocationStatIndex_Internal( pMem ) ( ((DbgMemHeader_t*)pMem - 1)->nStatIndex )
 #endif
 
-#ifdef OSX
-DbgMemHeader_t *GetCrtDbgMemHeader( void *pMem )
-{
-	size_t msize = malloc_size( pMem );
-	return (DbgMemHeader_t *)( (char *)pMem + msize - sizeof(DbgMemHeader_t) );
-}
-#endif
-
-
 inline void *InternalMalloc( size_t nSize, const char *pFileName, int nLine )
 {
 #if defined( POSIX ) || defined( _PS3 )
-	void *pAllocedMem = NULL;
-#ifdef OSX
-	pAllocedMem = malloc_zone_malloc( malloc_default_zone(), nSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );	
-	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( pAllocedMem );
-#elif defined( _PS3 )
-	pAllocedMem = (g_pMemOverrideRawCrtFns->pfn_malloc)( nSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
+	void *pAllocedMem = malloc( nSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
 	DbgMemHeader_t *pInternalMem = (DbgMemHeader_t *)pAllocedMem;
-	*((void**)pInternalMem->m_Reserved2) = pAllocedMem;
-#else
-	pAllocedMem = malloc( nSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
-	DbgMemHeader_t *pInternalMem = (DbgMemHeader_t *)pAllocedMem;
-#endif
 	
 	pInternalMem->m_pFileName = pFileName;
 	pInternalMem->m_nLineNumber = nLine;
@@ -404,11 +379,7 @@ inline void *InternalMalloc( size_t nSize, const char *pFileName, int nLine )
 	*( (Sentinal_t *)( ((byte*)pInternalMem) + sizeof( DbgMemHeader_t ) + nSize ) ) = g_TailSentinel;
 	LMDValidateBlock( pInternalMem, false );
 
-#ifdef OSX
-	return pAllocedMem;
-#else
 	return pInternalMem + 1;	
-#endif
 	
 #else // WIN32
 	DbgMemHeader_t *pInternalMem;
@@ -428,23 +399,9 @@ inline void *InternalMalloc( size_t nSize, const char *pFileName, int nLine )
 #ifdef MEMALLOC_SUPPORTS_ALIGNED_ALLOCATIONS
 inline void *InternalMallocAligned( size_t nSize, size_t align, const char *pFileName, int nLine )
 {
-#if defined( POSIX ) || defined( _PS3 )
-	void *pAllocedMem = NULL;
-#ifdef OSX
-	pAllocedMem = malloc_zone_malloc( malloc_default_zone(), nSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );	
-	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( pAllocedMem );
-#elif defined( _PS3 )
-	size_t numWastedAlignPages = ( sizeof( DbgMemHeader_t ) / align );
-	if ( align * numWastedAlignPages < sizeof( DbgMemHeader_t ) )
-		++ numWastedAlignPages;
-	size_t nSizeRequired = nSize + numWastedAlignPages*align + sizeof( Sentinal_t );
-	pAllocedMem = (g_pMemOverrideRawCrtFns->pfn_memalign)( align, nSizeRequired );
-	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( ((char*)pAllocedMem) + numWastedAlignPages*align );
-	*((void**)pInternalMem->m_Reserved2) = pAllocedMem;
-#else
-	pAllocedMem = malloc( nSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
+#if defined( POSIX )
+	void *pAllocedMem = malloc( nSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
 	DbgMemHeader_t *pInternalMem = (DbgMemHeader_t *)pAllocedMem;
-#endif
 	
 	pInternalMem->m_pFileName = pFileName;
 	pInternalMem->m_nLineNumber = nLine;
@@ -455,11 +412,7 @@ inline void *InternalMallocAligned( size_t nSize, size_t align, const char *pFil
 	*( (Sentinal_t *)( ((byte*)pInternalMem) + sizeof( DbgMemHeader_t ) + nSize ) ) = g_TailSentinel;
 	LMDValidateBlock( pInternalMem, false );
 
-#ifdef OSX
-	return pAllocedMem;
-#else
 	return pInternalMem + 1;	
-#endif
 	
 #else // WIN32
 	DbgMemHeader_t *pInternalMem;
@@ -484,19 +437,9 @@ inline void *InternalRealloc( void *pMem, size_t nNewSize, const char *pFileName
 
 #ifdef POSIX
 	void *pNewAllocedMem = NULL;
-#ifdef OSX
-	pNewAllocedMem = (DbgMemHeader_t *)malloc_zone_realloc( malloc_default_zone(), pMem, nNewSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
-	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( pNewAllocedMem );
-#elif defined( _PS3 )
-	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( pMem );
-	pNewAllocedMem = (DbgMemHeader_t *)(g_pMemOverrideRawCrtFns->pfn_realloc)( *((void**)pInternalMem->m_Reserved2), nNewSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
-	pInternalMem = (DbgMemHeader_t *)pNewAllocedMem;
-	*((void**)pInternalMem->m_Reserved2) = pNewAllocedMem;
-#else
 	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( pMem );
 	pNewAllocedMem = (DbgMemHeader_t *)realloc( pInternalMem, nNewSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
 	pInternalMem = (DbgMemHeader_t *)pNewAllocedMem;
-#endif
 	
 	pInternalMem->m_pFileName = pFileName;
 	pInternalMem->m_nLineNumber = nLine;
@@ -507,9 +450,6 @@ inline void *InternalRealloc( void *pMem, size_t nNewSize, const char *pFileName
 	*( (Sentinal_t *)( ((byte*)pInternalMem) + sizeof( DbgMemHeader_t ) + nNewSize ) ) = g_TailSentinel;
 	LMDValidateBlock( pInternalMem, false );
 	
-#ifdef OSX
-	return pNewAllocedMem;
-#else
 	return pInternalMem + 1;
 #endif
 	
@@ -536,24 +476,9 @@ inline void *InternalReallocAligned( void *pMem, size_t nNewSize, size_t align, 
 
 #ifdef POSIX
 	void *pNewAllocedMem = NULL;
-#ifdef OSX
-	pNewAllocedMem = (DbgMemHeader_t *)malloc_zone_realloc( malloc_default_zone(), pMem, nNewSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
-	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( pNewAllocedMem );
-#elif defined( _PS3 )
-	size_t numWastedAlignPages = ( sizeof( DbgMemHeader_t ) / align );
-	if ( align * numWastedAlignPages < sizeof( DbgMemHeader_t ) )
-		++ numWastedAlignPages;
-	size_t nSizeRequired = nNewSize + numWastedAlignPages*align + sizeof( Sentinal_t );
-	
-	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( pMem );
-	pNewAllocedMem = (DbgMemHeader_t *)(g_pMemOverrideRawCrtFns->pfn_reallocalign)( *((void**)pInternalMem->m_Reserved2), nSizeRequired, align );
-	pInternalMem = GetCrtDbgMemHeader( ((char*)pNewAllocedMem) + numWastedAlignPages*align );
-	*((void**)pInternalMem->m_Reserved2) = pNewAllocedMem;
-#else
 	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( pMem );
 	pNewAllocedMem = (DbgMemHeader_t *)realloc( pInternalMem, nNewSize + sizeof(DbgMemHeader_t) + sizeof( Sentinal_t ) );
 	pInternalMem = (DbgMemHeader_t *)pNewAllocedMem;
-#endif
 	
 	pInternalMem->m_pFileName = pFileName;
 	pInternalMem->m_nLineNumber = nLine;
@@ -564,11 +489,7 @@ inline void *InternalReallocAligned( void *pMem, size_t nNewSize, size_t align, 
 	*( (Sentinal_t *)( ((byte*)pInternalMem) + sizeof( DbgMemHeader_t ) + nNewSize ) ) = g_TailSentinel;
 	LMDValidateBlock( pInternalMem, false );
 	
-#ifdef OSX
-	return pNewAllocedMem;
-#else
 	return pInternalMem + 1;
-#endif
 	
 #else // WIN32
 	DbgMemHeader_t *pInternalMem = (DbgMemHeader_t *)pMem - 1;
@@ -636,11 +557,7 @@ inline void InternalFree( void *pMem )
 	if ( !pToFree )
 		return;
 
-#ifdef OSX
-	malloc_zone_free( malloc_default_zone(), pToFree );
-#elif defined( _PS3 )
-	(g_pMemOverrideRawCrtFns->pfn_free)( *((void**)pToFree->m_Reserved2) );
-#elif LINUX
+#if LINUX
 	free( pToFree );
 #else
 	free( pToFree );	
@@ -2593,200 +2510,7 @@ static void override_init_hook(void)
  */
 void (*__malloc_initialize_hook)(void) __attribute__((visibility("default")))= override_init_hook;
 
-#elif defined( OSX )
-//
-// pointers to the osx versions of these functions
-static void *osx_malloc_hook = NULL;
-static void *osx_realloc_hook = NULL;
-static void *osx_free_hook = NULL;
-
-// convenience functions for setting the hooks... 
-static inline void save_osx_hooks(void);
-static inline void set_osx_hooks(void);
-static inline void set_override_hooks(void);
-
-CThreadMutex g_HookMutex;
-//
-// Our overriding hooks...they call through to the original C runtime
-//  implementations and report to the monitoring daemon.
-//
-
-static void *override_malloc_hook(struct _malloc_zone_t *zone, size_t s)
-{
-    void *retval;
-    set_osx_hooks(); 
-    retval = InternalMalloc( s, NULL, 0 );
-    set_override_hooks(); 
-	
-    return(retval);
-} 
-
-
-static void *override_realloc_hook(struct _malloc_zone_t *zone, void *ptr, size_t s)
-{
-    void *retval;
-	
-    set_osx_hooks();  
-    retval = InternalRealloc(ptr, s, NULL, 0);	
-    set_override_hooks(); 
-	
-    return(retval);
-} 
-
-
-static void override_free_hook(struct _malloc_zone_t *zone, void *ptr)
-{
-	// sometime they pass in a null pointer from higher level calls, just ignore it
-	if ( !ptr )
-		return;
-	
-    set_osx_hooks(); 
-	
-	DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( ptr );
-	if ( *((int*)pInternalMem->m_Reserved) == 0xf00df00d )
-	{
-		InternalFree( ptr );
-	}
-    
-    set_override_hooks(); 
-} 
-
-
-/*
- 
- These are func's we could optionally override right now on OSX but don't need to
- 
- static size_t override_size_hook(struct _malloc_zone_t *zone, const void *ptr)
- {
- set_osx_hooks();  
- DbgMemHeader_t *pInternalMem = GetCrtDbgMemHeader( (void *)ptr );
- set_override_hooks(); 
- if ( *((int*)pInternalMem->m_Reserved) == 0xf00df00d )
- {
- return pInternalMem->nLogicalSize;
- }
- return 0;
- } 
- 
- 
- static void *override_calloc_hook(struct _malloc_zone_t *zone, size_t num_items, size_t size )
- {
- void *ans = override_malloc_hook( zone, num_items*size );
- if ( !ans )
- return 0;
- memset( ans, 0x0, num_items*size );
- return ans;
- }
- 
- static void *override_valloc_hook(struct _malloc_zone_t *zone, size_t size )
- {
- return override_calloc_hook( zone, 1, size );
- }
- 
- static void override_destroy_hook(struct _malloc_zone_t *zone)
- {
- }
- */
-
-
-
-//
-//  Save a copy of the original allocation hooks, so we can call into them
-//   from our overriding functions. It's possible that osx might change
-//   these hooks under various conditions (so the manual's examples seem
-//   to suggest), so we update them whenever we finish calling into the
-//   the originals.
-//
-static inline void save_osx_hooks(void)
-{ 
-	malloc_zone_t *malloc_zone = malloc_default_zone();
-	
-    osx_malloc_hook = (void *)malloc_zone->malloc;
-    osx_realloc_hook = (void *)malloc_zone->realloc;
-    osx_free_hook = (void *)malloc_zone->free;
-	
-	// These are func's we could optionally override right now on OSX but don't need to
-	// osx_size_hook = (void *)malloc_zone->size;
-	// osx_calloc_hook = (void *)malloc_zone->calloc;
-	// osx_valloc_hook = (void *)malloc_zone->valloc;
-	// osx_destroy_hook = (void *)malloc_zone->destroy;
-} 
-
-//
-//  Restore the hooks to the osx versions. This is needed since, say,
-//   their realloc() might call malloc() or free() under the hood, etc, so
-//   it's safer to let them have complete control over the subsystem, which
-//   also makes our logging saner, too.
-// 
-static inline void set_osx_hooks(void)
-{
-	malloc_zone_t *malloc_zone = malloc_default_zone();
-	malloc_zone->malloc = (void* (*)(_malloc_zone_t*, size_t))osx_malloc_hook;
-    malloc_zone->realloc = (void* (*)(_malloc_zone_t*, void*, size_t))osx_realloc_hook;
-    malloc_zone->free = (void (*)(_malloc_zone_t*, void*))osx_free_hook;
-	
-	// These are func's we could optionally override right now on OSX but don't need to
-	
-	//malloc_zone->size = (size_t (*)(_malloc_zone_t*, const void *))osx_size_hook;
-    //malloc_zone->calloc = (void* (*)(_malloc_zone_t*, size_t, size_t))osx_calloc_hook;
-    //malloc_zone->valloc = (void* (*)(_malloc_zone_t*, size_t))osx_valloc_hook;
-    //malloc_zone->destroy = (void (*)(_malloc_zone_t*))osx_destroy_hook;
-} 
-
-
-/*
- * Put our hooks back in place. This should be done after the original
- *  osx version has been called and we've finished any logging (which
- *  may call osx functions, too). This sets us up for the next calls from
- *  the application.
- */
-static inline void set_override_hooks(void)
-{
-	malloc_zone_t *malloc_zone = malloc_default_zone();
-	
-	malloc_zone->malloc = override_malloc_hook;
-    malloc_zone->realloc = override_realloc_hook;
-    malloc_zone->free = override_free_hook;
-	
-	// These are func's we could optionally override right now on OSX but don't need to
-	//malloc_zone->size = override_size_hook;
-    //malloc_zone->calloc = override_calloc_hook;
-	// malloc_zone->valloc = override_valloc_hook;
-    //malloc_zone->destroy = override_destroy_hook;
-} 
-
-
-//
-// The Hook Of All Hooks...how we get in there in the first place.
-//
-// osx will call this when the malloc subsystem is initializing, giving
-// us a chance to install hooks that override the functions.
-//
-
-void __attribute__ ((constructor)) mem_init(void)
-{
-    AUTO_LOCK( g_HookMutex );
-	save_osx_hooks();
-    set_override_hooks();
-}
-
-void *operator new( size_t nSize, int nBlockUse, const char *pFileName, int nLine )
-{
-	set_osx_hooks(); 
-	void *pMem = g_pMemAlloc->Alloc(nSize, pFileName, nLine);
-	set_override_hooks(); 
-	return pMem;
-}
-
-void *operator new[] ( size_t nSize, int nBlockUse, const char *pFileName, int nLine )
-{
-	set_osx_hooks(); 
-	void *pMem = g_pMemAlloc->Alloc(nSize, pFileName, nLine);
-	set_override_hooks(); 
-	return pMem;
-}
-
-#endif // OSX
+#endif
 
 int GetAllocationCallStack( void *mem, void **pCallStackOut, int iMaxEntriesOut )
 {

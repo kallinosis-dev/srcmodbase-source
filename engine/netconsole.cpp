@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2005, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: 
 //
@@ -21,10 +21,6 @@
 #define MSG_NOSIGNAL 0
 
 #elif POSIX
-
-#ifdef OSX
-#define MSG_NOSIGNAL 0 // doesn't exist on OSX, use SO_NOSIGPIPE socket option instead
-#endif
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -134,10 +130,6 @@ void CNetConsoleMgr::Execute( CConnectedNetConsoleData *pData )
 		else
 		{
 			SocketHandle_t hSocket = pData->m_hSocket;
-#ifdef OSX
-			int val = 1;
-			setsockopt( hSocket, SOL_SOCKET, SO_NOSIGPIPE, &val, sizeof(val));
-#endif	
 			send( hSocket, s_pszPasswordMessage, strlen( s_pszPasswordMessage ), MSG_NOSIGNAL );
 		}
 	}
@@ -165,11 +157,7 @@ void CNetConsoleMgr::SendStringToNetConsoles( char const *pString )
 		{
 			CConnectedNetConsoleData *pData = GetConnection( i );
 			if ( pData->m_bAuthorized && ( ! pData->m_bInputOnly ) ) // no output to un-authed net consoles
-			{
-#ifdef OSX
-				int val = 1;
-				setsockopt( pData->m_hSocket, SOL_SOCKET, SO_NOSIGPIPE, &val, sizeof(val));
-#endif			
+			{	
 				send( pData->m_hSocket, pTmp, oString - pTmp - 1, MSG_NOSIGNAL );
 			}
 		}

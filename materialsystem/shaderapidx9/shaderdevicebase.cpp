@@ -38,7 +38,7 @@ CShaderDeviceBase *g_pShaderDevice;
 CShaderAPIBase *g_pShaderAPI;
 CShaderDeviceMgrBase *g_pShaderDeviceMgr;
 IShaderShadow *g_pShaderShadow;
-#if !defined( _PS3 ) && !defined( _OSX )
+#if !defined( _PS3 )
 IShaderUtil* g_pShaderUtil;		// The main shader utility interface
 IVJobs * g_pVJobs;
 #else
@@ -99,7 +99,7 @@ static void InitShaderAPICVars( )
 CShaderDeviceMgrBase::CShaderDeviceMgrBase()
 {
 	m_pDXSupport = nullptr;
-#if defined( _PS3 ) || defined( _OSX )
+#if defined( _PS3 )
 	g_pShaderDeviceMgr = this;
 #endif
 }
@@ -142,7 +142,7 @@ bool CShaderDeviceMgrBase::Connect( CreateInterfaceFn factory )
 {
 	LOCK_SHADERAPI();
 
-	Assert( IsPS3() || IsOSX() || !g_pShaderDeviceMgr );
+	Assert( IsPS3() || !g_pShaderDeviceMgr );
 
 	s_TempFactory = factory;
 
@@ -151,7 +151,7 @@ bool CShaderDeviceMgrBase::Connect( CreateInterfaceFn factory )
 	ConnectTier1Libraries( &actualFactory, 1 );
 	InitShaderAPICVars();
 	ConnectTier2Libraries( &actualFactory, 1 );
-#if !defined( _PS3 ) && !defined( _OSX )
+#if !defined( _PS3 )
 	if ( !g_pShaderUtil )
 		g_pShaderUtil = (IShaderUtil*)ShaderDeviceFactory( SHADER_UTIL_INTERFACE_VERSION, nullptr);
 #endif
@@ -177,7 +177,7 @@ void CShaderDeviceMgrBase::Disconnect()
 {
 	LOCK_SHADERAPI();
 
-#if !defined( _PS3 ) && !defined( _OSX )
+#if !defined( _PS3 )
 	g_pShaderDeviceMgr = nullptr;
 	g_pShaderUtil = nullptr;
 #endif
@@ -516,11 +516,6 @@ void CShaderDeviceMgrBase::ReadDXSupportLevels( HardwareCaps_t &caps )
 //-----------------------------------------------------------------------------
 // Loads the hardware caps, for cases in which the D3D caps lie or where we need to augment the caps
 //-----------------------------------------------------------------------------
-
-#ifdef OSX
-ConVar mat_osx_csm_enabled( "mat_osx_csm_enabled", "1", FCVAR_DEVELOPMENTONLY, "" );
-#endif
-
 void CShaderDeviceMgrBase::LoadHardwareCaps( KeyValues *pGroup, HardwareCaps_t &caps )
 {
 	if( !pGroup )
@@ -550,13 +545,7 @@ void CShaderDeviceMgrBase::LoadHardwareCaps( KeyValues *pGroup, HardwareCaps_t &
 	// dxsupport can only kill CSM support, not forcefully enable it.
 	if ( !ReadBool( pGroup, "setting.SupportsCascadedShadowMapping", true ) )
 	{
-#ifdef OSX
-		// Set convar mat_osx_csm_enabled to 0 and do not touch caps.m_bSupportsCascadedShadowMapping (as CS:GO always had
-		// the caps set to true, therefore code path where the caps is false haven't been tested and might not be safe)
-		mat_osx_csm_enabled.SetValue( 0 );
-#else
 		caps.m_bSupportsCascadedShadowMapping = false;
-#endif
 	}
 	
 	int nCSMQuality = CSMQUALITY_VERY_LOW;
@@ -712,9 +701,7 @@ bool CShaderDeviceMgrBase::GetRecommendedConfigurationInfo( int nAdapter, int nD
 	LOCK_SHADERAPI();
 
 	VidMatConfigData_t configData;
-#ifdef OSX
-	V_strcpy_safe( configData.szFileName, "../bin/dxsupport_mac.cfg" );
-#elif LINUX
+#ifdef LINUX
 	V_strcpy_safe( configData.szFileName, "../bin/dxsupport.cfg" );
 #else
 	V_strcpy_safe( configData.szFileName, "..\\bin\\dxsupport.cfg" );

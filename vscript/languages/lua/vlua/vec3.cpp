@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#if !defined(OSX) && !defined (LINUX)
+#if !defined (LINUX)
 extern "C"
 {
 #endif
@@ -8,7 +8,7 @@ extern "C"
 #include "lua.h"
 #include "lauxlib.h"
 
-#if !defined(OSX) && !defined (LINUX)
+#if !defined (LINUX)
 }
 #endif
 

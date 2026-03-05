@@ -2264,12 +2264,6 @@ void CMaterial::ReloadFromWhitelistIfMarked()
 		// says to get it out of Steam but it's not in Steam. So just setup a wireframe thingy
 		// to draw the material with.
 		m_Flags |= MATERIAL_IS_PRECACHED | MATERIAL_VARS_IS_PRECACHED;
-		#if DEBUG
-		if (IsOSX())
-		{
-			printf("\n ##### CMaterial::ReloadFromWhitelistIfMarked: GetShader failed on %s, calling SetupErrorShader", m_pDebugName );
-		}
-		#endif
 		
 		SetupErrorShader();
 	}

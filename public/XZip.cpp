@@ -133,10 +133,6 @@
 #define _stricmp strcasecmp
 #endif
 
-#ifdef OSX
-#define MAP_ANONYMOUS MAP_ANON
-#endif
-
 #ifdef XZIP_NOT_THREAD_SAFE
 static ZRESULT lasterrorZ=ZR_OK;
 #elif defined( _PS3 )

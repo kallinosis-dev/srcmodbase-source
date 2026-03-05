@@ -7,7 +7,7 @@
 
 #include "audio/public/voice.h"
 
-#if !defined( DEDICATED ) && ( defined( OSX ) || defined( _WIN32 ) || defined( LINUX ) ) && !defined( NO_STEAM )
+#if !defined( DEDICATED ) && ( defined( _WIN32 ) || defined( LINUX ) ) && !defined( NO_STEAM )
 #include "cl_steamauth.h"
 #include "client.h"
 #if defined( PS3SDK_INSTALLED ) 
@@ -32,7 +32,7 @@ CEngineVoiceStub *Audio_GetEngineVoiceStub()
 }
 
 
-#if !defined( DEDICATED ) && ( defined( OSX ) || defined( _WIN32 ) || defined( LINUX ) ) && !defined( NO_STEAM )
+#if !defined( DEDICATED ) && ( defined( _WIN32 ) || defined( LINUX ) ) && !defined( NO_STEAM )
 
 ConVar snd_voice_echo( "snd_voice_echo", "0", FCVAR_DEVELOPMENTONLY );
 

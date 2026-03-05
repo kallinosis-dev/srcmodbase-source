@@ -14,11 +14,6 @@
 #include "gcmsg.h"
 #include "tier0/tslist.h"
 
-// eliminates a conflict with TYPE_BOOL in OSX
-#ifdef TYPE_BOOL
-#undef TYPE_BOOL
-#endif
-
 #pragma warning(push)
 #pragma warning( disable:4512 )
 #include <tier0/valve_minmax_off.h>

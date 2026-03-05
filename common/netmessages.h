@@ -35,11 +35,6 @@
 #include "tier1/tokenset.h"
 #include "netmessages_signon.h"
 
-// eliminates a conflict with TYPE_BOOL in OSX
-#ifdef TYPE_BOOL
-#undef TYPE_BOOL
-#endif
-
 #include "tier0/valve_off.h"
 #include "netmessages.pb.h"
 #include "tier0/valve_on.h"

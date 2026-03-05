@@ -616,9 +616,6 @@ bool CBIKMaterial::Init( const char *pMaterialName, const char *pFileName, const
 		//	Track ID 4 - A stereo track containing the side left and side right channels.
 		U32 TrackIDsToPlay[ 5 ] = { 0, 1, 2, 3, 4 };
 		BinkSetSoundTrack( 5, TrackIDsToPlay );
-#elif defined(OSX)
-		U32 TrackIDsToPlay[ 2 ] = { 0, 1 };
-		BinkSetSoundTrack( 2, TrackIDsToPlay );
 #else
 		// Setting 8 channels may not seem to make the X360 implementation of Bink happy. Use 4 tracks for the 6 channels.
 		U32 TrackIDsToPlay[ 4 ] = { 0, 1, 2, 3 };
@@ -828,29 +825,6 @@ void CBIKMaterial::SetTracks()
 	bins[ 4 ] = 4;
 	bins[ 5 ] = 5;
 	BinkSetMixBinVolumes( m_pHBINK, 3, bins, volumes, 6 ); 
-}
-#elif defined(OSX)
-void CBIKMaterial::SetTracks()
-{
-	S32 volumes[ 3 ]; // 2 channels for stero + mix in the center channel to left and right
-	U32 bins[ 3 ];
-	
-	// turn on the front left and right for the first Bink track
-	memset( volumes, 0, sizeof( volumes ) );
-	memset( bins, 0, sizeof( bins ) );
-	volumes[ 0 ] = 32768;
-	volumes[ 1 ] = 32768;
-	bins[ 0 ] = 0;
-	bins[ 1 ] = 1;
-	BinkSetMixBinVolumes( m_pHBINK, 0, bins, volumes, 3 ); 
-
-	// turn on the center for the second Bink track
-	memset( volumes, 0, sizeof( volumes ) );
-	memset( bins, 0, sizeof( bins ) );
-	volumes[ 0 ] = 16535;
-	volumes[ 1 ] = 16535;
-	bins[ 2 ] = 2;
-	BinkSetMixBinVolumes( m_pHBINK, 1, bins, volumes, 3 ); 
 }
 #else
 void CBIKMaterial::SetTracks()

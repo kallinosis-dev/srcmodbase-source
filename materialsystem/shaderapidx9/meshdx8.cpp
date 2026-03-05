@@ -3731,8 +3731,7 @@ void CMeshDX8::SetVertexStreamState( int nVertOffsetInBytes, bool bIsRenderingIn
 	// MESHFIXME: Make sure this jives between the mesh/ib/vb version.
 	if( !bUsingPreTessPatches )
 	{
-		// [will] - Added defined( OSX ) because Scaleform renderer circumvents the MeshMgr and changes internal vertex buffer, so we can't rely on caching it.
-#if defined( _GAMECONSOLE ) || defined( OSX )
+#if defined( _GAMECONSOLE )
 		if ( ( g_pLastVertex != m_pVertexBuffer ) || m_pVertexBuffer->IsDynamic() || m_pVertexBuffer->IsExternal() || ( g_nLastVertOffsetInBytes != nVertOffsetInBytes ) )
 #else
 		if ( ( g_pLastVertex != m_pVertexBuffer ) || ( g_nLastVertOffsetInBytes != nVertOffsetInBytes ) )

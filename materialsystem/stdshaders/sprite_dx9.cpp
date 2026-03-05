@@ -121,9 +121,6 @@ BEGIN_VS_SHADER( Sprite_DX9,
 		bool bSRGB = s_ppParams[NOSRGB]->GetIntValue() == 0;
 		pShaderShadow->EnableSRGBRead( SHADER_SAMPLER0, bSRGB );
 
-		// Only enabling this on OSX() - it causes GL mode's light glow sprites to be much darker vs. D3D9 under Linux/Win GL.
-		bool bSRGBOutputAdapter = false;
-
 		unsigned int flags = VERTEX_POSITION;
 		if( shaderFlags & SHADER_USE_VERTEX_COLOR )
 		{
@@ -144,7 +141,7 @@ BEGIN_VS_SHADER( Sprite_DX9,
 			SET_STATIC_PIXEL_SHADER_COMBO( CONSTANTCOLOR,  ( shaderFlags & SHADER_USE_CONSTANT_COLOR ) ? true : false );
 			SET_STATIC_PIXEL_SHADER_COMBO( HDRTYPE,  g_pHardwareConfig->GetHDRType() );
 			SET_STATIC_PIXEL_SHADER_COMBO( SRGB, bSRGB );
-			SET_STATIC_PIXEL_SHADER_COMBO( SRGB_OUTPUT_ADAPTER, bSRGBOutputAdapter );
+			SET_STATIC_PIXEL_SHADER_COMBO( SRGB_OUTPUT_ADAPTER, false );
 			SET_STATIC_PIXEL_SHADER( sprite_ps20b );
 		}
 		else
@@ -157,7 +154,6 @@ BEGIN_VS_SHADER( Sprite_DX9,
 			SET_STATIC_PIXEL_SHADER( sprite_ps20 );
 		}
 
-		// OSX always has to sRGB write (don't do this on Linux/Win GL - it causes glow sprites to be way too dark)
 		s_pShaderShadow->EnableSRGBWrite( false );
 	}
 

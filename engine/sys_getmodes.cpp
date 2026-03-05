@@ -13,9 +13,6 @@
 #if defined( _WIN32 ) && !defined( _X360 )
 #include "winlite.h"
 #elif defined(POSIX)
-	#ifdef OSX
-		#include <Carbon/Carbon.h>
-	#endif
 typedef void *HDC;
 #endif
 
@@ -237,16 +234,8 @@ CVideoMode_Common::CVideoMode_Common( void )
     m_nNumModes    = 0;
     m_bInitialized = false;
 
-	if ( IsOSX() )
-	{
-		DefaultVideoMode().width  = 1024;
-		DefaultVideoMode().height = 768;
-	}
-	else 
-	{
-		DefaultVideoMode().width  = 640;
-		DefaultVideoMode().height = 480;
-	}
+    DefaultVideoMode().width  = 640;
+    DefaultVideoMode().height = 480;
 
     DefaultVideoMode().bpp    = 32;
     DefaultVideoMode().refreshRate = 0;
@@ -963,14 +952,6 @@ void CVideoMode_Common::InvalidateWindow()
         SDL_PushEvent(&fake);
 #elif defined( WIN32 ) 
         InvalidateRect( (HWND)game->GetMainWindow(), nullptr, FALSE );
-#elif defined( OSX ) && defined( PLATFORM_64BITS )
-	// Do nothing, we'll move to SDL or we'll port the below.
-	Assert( !"OSX-64 unimpl" );
-#elif OSX
-        int x,y,w,t;
-        game->GetWindowRect( &x,&y,&w,&t);
-        Rect bounds = { 0,0,w,t}; // inval is in local co-ords
-        InvalWindowRect( (WindowRef)game->GetMainWindow(), &bounds );
 #elif defined( _PS3 )
 #else
 #error
@@ -1046,6 +1027,7 @@ void CVideoMode_Common::DrawNullBackground( void *hHDC, int w, int h )
 
 typedef unsigned char BYTE;
 
+#error "This is bullshit! (c) Viktor Antonov. Why is this code defining 'well-known' typedefs?"
 #if !defined( OSX ) || defined( PLATFORM_64BITS )
         typedef unsigned int ULONG;
         typedef int LONG;
@@ -1379,37 +1361,6 @@ void CVideoMode_Common::AdjustWindow( int nWidth, int nHeight, int nBPP, bool bW
 
 	MaterialVideoMode_t vidMode;
 
-	// Mid-2015 MBP with Intel and AMD GPUs can fail to set the resolution correctly the first time when
-	// transitioning to fullscreen. The low level driver seems to throw an error but moves past it. Terrifying.
-	// In the meantime, we workaround this by trying again--because trying a second time generally seems to 
-	// be successful. If it isn't, then we punt on exclusive fullscreen mode and do non-exclusive fs instead.
-	// We can't fix this in sdlmgr.cpp (which would be less ugly) because SDL caches window and display
-	// information, and so it thinks everything worked great. We need to get the resolution of the desktop
-	// back from the firehose, and calling into the material system from sdlmgr would insert a dependency
-	// on materialsystem into every dll we build (since sdlmgr lives in appframework).
-	if ( IsOSX() && !bWindowed && !bNoWindowBorder )
-	{
-		// Did we set the size correctly?
-		materials->GetDisplayMode( vidMode );
-		if ( vidMode.m_Width != nWidth || vidMode.m_Height != nHeight )
-		{
-			Msg( "Requested full screen window of %dx%d, but got %dx%d. Trying again.\n", nWidth, nHeight, vidMode.m_Width, vidMode.m_Height );
-			g_pLauncherMgr->SetWindowFullScreen( false, nWidth, nHeight, bNoWindowBorder );
-			g_pLauncherMgr->SetWindowFullScreen( true, nWidth, nHeight, bNoWindowBorder );
-		}
-
-		// If still not, then force non-exclusive mode. 
-		materials->GetDisplayMode( vidMode );
-		if ( vidMode.m_Width != nWidth || vidMode.m_Height != nHeight )
-		{
-			Msg( "Requested full screen window of %dx%d, but got %dx%d. Disabling exclusive mode and trying again.\n", nWidth, nHeight, vidMode.m_Width, vidMode.m_Height );
-			CommandLine()->RemoveParm( "-exclusivefs" );
-			CommandLine()->AppendParm( "-noexclusivefs", nullptr );
-			g_pLauncherMgr->SetWindowFullScreen( false, nWidth, nHeight, bNoWindowBorder );
-			g_pLauncherMgr->SetWindowFullScreen( true, nWidth, nHeight, bNoWindowBorder );
-		}
-	}
-
 	CenterEngineWindow( game->GetMainWindow(),
 		WindowRect.right - WindowRect.left,
 		WindowRect.bottom - WindowRect.top );
@@ -1417,10 +1368,6 @@ void CVideoMode_Common::AdjustWindow( int nWidth, int nHeight, int nBPP, bool bW
 	g_pLauncherMgr->SizeWindow( WindowRect.right - WindowRect.left, WindowRect.bottom - WindowRect.top );
 
 #elif defined( WIN32 )
-#elif defined(OSX)
-
-	g_pLauncherMgr->SizeWindow( WindowRect.right - WindowRect.left, WindowRect.bottom - WindowRect.top );
-
 #ifdef LINUX
 	if( bWindowed )
 	{
@@ -1597,44 +1544,6 @@ void CVideoMode_Common::CenterEngineWindow( void *hWndCenter, int width, int hei
 
     SetWindowPos ( (HWND)hWndCenter, nullptr, CenterX, CenterY, 0, 0,
                   SWP_NOSIZE | SWP_NOZORDER | SWP_SHOWWINDOW | SWP_DRAWFRAME);
-#elif defined(OSX)
-	CGDisplayCount maxDisplays = 1;
-	CGDirectDisplayID activeDspys[1];
-	CGDisplayErr error;
-	short i;
-	CGDisplayCount newDspyCnt = 0;
-	
-	error = CGGetActiveDisplayList(maxDisplays, activeDspys, &newDspyCnt);
-	if (error || newDspyCnt < 1) 
-		return;
-	
-	CGRect displayRect = CGDisplayBounds (activeDspys[0]);
-	int wide = displayRect.size.width;
-	int tall = displayRect.size.height;
-	
-	CenterX = (wide - width) / 2;
-	CenterY = (tall - height) / 2;
-	CenterX = (CenterX < 0) ? 0: CenterX;
-	CenterY = (CenterY < 0) ? 0: CenterY;
-
-	// tweak the x and w positions if the user species them on the command-line
-    CenterX = CommandLine()->ParmValue( "-x", CenterX );
-    CenterY = CommandLine()->ParmValue( "-y", CenterY );
-	
-	// also check for the negated form (since it is hard to say "-x -1000")
-	int negx = CommandLine()->ParmValue( "-negx", 0 ); 
-	if (negx > 0)
-	{
-		CenterX = -negx;
-	}
-	int negy = CommandLine()->ParmValue( "-negy", 0 ); 
-	if (negy > 0)
-	{
-		CenterY = -negy;
-	}
-	
-	game->SetWindowXY( CenterX, CenterY );
-	g_pLauncherMgr->MoveWindow( CenterX, CenterY );
 #else
 	Assert( !"Impl me" );
 #endif
@@ -2540,11 +2449,6 @@ void CVideoMode_MaterialSystem::RestoreVideo( void )
 
 #if defined( WIN32 ) && !defined( USE_SDL )
     ShowWindow( (HWND)game->GetMainWindow(), SW_SHOWNORMAL );
-#elif defined( OSX ) && defined( PLATFORM_64BITS )
-    Assert( !"OSX-64 unimpl" );
-#elif OSX
-    ShowWindow( (WindowRef)game->GetMainWindow() );
-    CollapseWindow( (WindowRef)game->GetMainWindow(), false );
 #elif LINUX
 // 	XMapWindow( g_pLauncherMgr->GetDisplay(), (Window)game->GetMainWindow() );
 // !!! FIXME: Mapping isn't really what we want here.
@@ -2571,16 +2475,6 @@ void CVideoMode_MaterialSystem::ReleaseFullScreen( void )
     // Hide the main window
     ChangeDisplaySettings(nullptr, 0 );
     ShowWindow( (HWND)game->GetMainWindow(), SW_MINIMIZE );
-#elif defined( OSX ) && defined( PLATFORM_64BITS )
-    Assert( !"OSX-64 unimpl" );
-#elif OSX
-    CollapseWindow( (WindowRef)game->GetMainWindow(), true );
-
-	if (!CommandLine()->FindParm("-keepmousehooked"))
-	{
-		 //CGAssociateMouseAndMouseCursorPosition (TRUE);
-	}
-	CGDisplayShowCursor (kCGDirectMainDisplay);
 #elif LINUX
 //	XUnmapWindow( g_pLauncherMgr->GetDisplay(), (Window)game->GetMainWindow() );
 // !!! FIXME: Unmapping isn't really what we want here.

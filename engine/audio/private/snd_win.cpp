@@ -10,11 +10,6 @@
 #include "snd_dev_sdl.h"
 #endif
 
-#if defined(OSX)
-#include "snd_dev_openal.h"
-#include "snd_dev_mac_audioqueue.h"
-#endif
-
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
 
@@ -91,7 +86,8 @@ IAudioDevice *IAudioDevice::AutoDetectInit()
 			}
 		}
 
-#elif defined(OSX)
+#elif defined(LINUX)
+		#error "Check me!"
 		if ( !CommandLine()->CheckParm( "-snd_openal" ) )
 		{
 			DevMsg( "Using AudioQueue Interface\n" );

@@ -1,4 +1,4 @@
-//===== Copyright © 1996-2005, Valve Corporation, All rights reserved. ======//
+//===== Copyright ï¿½ 1996-2005, Valve Corporation, All rights reserved. ======//
 //
 // Purpose:
 //
@@ -28,10 +28,6 @@
 
 // memdbgon must be the last include file in a .cpp file!!!
 #include "tier0/memdbgon.h"
-
-#if defined( OSX )
-#pragma GCC diagnostic ignored "-Wenum-compare"					// comparison of two values with different enumeration types (Capability_t and RouteBuildFlags_e)
-#endif
 
 #define NUM_NPC_DEBUG_OVERLAYS	  50
 

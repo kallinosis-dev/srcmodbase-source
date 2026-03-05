@@ -533,14 +533,6 @@ MAX_RELEASE_CHECK_RATE   default: 255 unless not HAVE_MMAP
 #define HAVE_MORECORE 0
 #endif
 
-#if defined(DARWIN) || defined(_DARWIN)
-/* Mac OSX docs advise not to use sbrk; it seems better to use mmap */
-#ifndef HAVE_MORECORE
-#define HAVE_MORECORE 0
-#define HAVE_MMAP 1
-#endif  /* HAVE_MORECORE */
-#endif  /* DARWIN */
-
 #ifndef LACKS_SYS_TYPES_H
 #include <sys/types.h>  /* for size_t */
 #endif  /* LACKS_SYS_TYPES_H */

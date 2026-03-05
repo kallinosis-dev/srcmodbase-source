@@ -1660,11 +1660,9 @@ void RichText::OnKeyCodeTyped(KeyCode code)
 	bool shift = (input()->IsKeyDown(KEY_LSHIFT) || input()->IsKeyDown(KEY_RSHIFT));
 	bool ctrl = (input()->IsKeyDown(KEY_LCONTROL) || input()->IsKeyDown(KEY_RCONTROL));
 	bool alt = (input()->IsKeyDown(KEY_LALT) || input()->IsKeyDown(KEY_RALT));
-	bool winkey = (input()->IsKeyDown(KEY_LWIN) || input()->IsKeyDown(KEY_RWIN));
 	bool fallThrough = false;
-	REFERENCE( winkey );
 		
-	if ( ctrl || ( IsOSX() && winkey ) )
+	if ( ctrl )
 	{
 		switch(code)
 		{

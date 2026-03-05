@@ -10,9 +10,6 @@
 #define _WIN32_WINNT 0x0502
 #include <windows.h>
 #endif
-#ifdef OSX
-#include <Carbon/Carbon.h>
-#endif
 #include "hud.h"
 #include "cdll_int.h"
 #include "kbutton.h"
@@ -160,7 +157,7 @@ void CInput::ActivateMouse (void)
 			g_pInputSystem->ResetCursorIcon();
 
 		g_pInputStackSystem->SetCursorIcon( m_hInputContext, INPUT_CURSOR_HANDLE_INVALID );
-#if defined( USE_SDL ) || defined( OSX )
+#if defined( USE_SDL )
         int dx, dy;
 		engine->GetMouseDelta( dx, dy, true );
 #endif
@@ -188,7 +185,7 @@ void CInput::DeactivateMouse (void)
 		}
 		m_fMouseActive = false;
 		g_pInputStackSystem->SetCursorIcon( m_hInputContext, g_pInputSystem->GetStandardCursor( INPUT_CURSOR_ARROW ) );
-#if defined( USE_SDL ) || defined( OSX )
+#if defined( USE_SDL )
         // now put the mouse back in the middle of the screen
 		ResetMouse();
 #endif
@@ -641,7 +638,7 @@ void CInput::AccumulateMouse( int nSlot )
 	if ( !user.m_fCameraInterceptingMouse && vgui::surface()->IsCursorLocked() )
 	{
 		//Assert( !vgui::surface()->IsCursorVisible() );
-#if defined( USE_SDL ) || defined( OSX )
+#if defined( USE_SDL )
 		int dx, dy;
 		engine->GetMouseDelta( dx, dy );
 		user.m_flAccumulatedMouseXMovement += dx;

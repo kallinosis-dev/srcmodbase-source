@@ -13,15 +13,8 @@
 
 #include <sys/stat.h>
 
-#if defined(OSX)
-#include <CoreServices/CoreServices.h>
-#include <sys/types.h>
-#include <dirent.h>
-#include <sys/time.h>
-#endif
-
 #define ASYNC_FILEIO
-#if defined( LINUX ) || defined ( OSX )
+#if defined( LINUX )
 // Linux hasn't got a good AIO library that we have found yet, so lets punt for now
 #undef ASYNC_FILEIO
 #endif
@@ -53,31 +46,6 @@
 #include <sched.h>
 #define int64 int64_t
 
-// On OSX the native API file offset is always 64-bit
-// and things like stat64 are deprecated.
-// PS3 doesn't have anything other than the native API.
-#if defined(OSX) || defined(_PS3)
-typedef off_t offBig_t;
-typedef struct stat statBig_t;
-typedef struct statvfs statvfsBig_t;
-typedef struct dirent direntBig_t;
-#define openBig open
-#define lseekBig lseek
-#define preadBig pread
-#define pwriteBig pwrite
-#define statBig stat
-#define lstatBig lstat
-#define readdirBig readdir
-#define scandirBig scandir
-#define alphasortBig alphasort
-#define fopenBig fopen
-#define fseekBig fseeko
-#define ftellBig ftello
-#define ftruncateBig ftruncate
-#define fstatBig fstat
-#define statvfsBig statvfs
-#define mmapBig mmap
-#else
 // Use the 64-bit file I/O API.
 typedef off64_t offBig_t;
 typedef struct stat64 statBig_t;
@@ -99,7 +67,6 @@ typedef struct dirent64 direntBig_t;
 #define fstatBig fstat64
 #define statvfsBig statvfs64
 #define mmapBig mmap64
-#endif
 
 struct _finddata_t
 {   
@@ -1207,9 +1174,6 @@ CDirWatcher::CDirWatcher()
 	m_hFile = nullptr;
 	m_pOverlapped = nullptr;
 	m_pFileInfo = nullptr;
-#ifdef OSX
-	m_WatcherStream = 0;
-#endif
 }
 
 
@@ -1233,14 +1197,6 @@ CDirWatcher::~CDirWatcher()
 		::SleepEx( 0, TRUE );
 		// close the handle
 		::CloseHandle( m_hFile );
-	}
-#elif defined(OSX)
-	if ( m_WatcherStream )
-	{
-		FSEventStreamStop( (FSEventStreamRef)m_WatcherStream );
-		FSEventStreamInvalidate( (FSEventStreamRef)m_WatcherStream );
-		FSEventStreamRelease( (FSEventStreamRef)m_WatcherStream );		
-		m_WatcherStream = 0;
 	}
 #endif
 	if ( m_pFileInfo )
@@ -1299,80 +1255,6 @@ public:
 		pDirWatcherOverlapped->m_pDirWatcher->PostDirWatch();
 	}
 };
-#elif defined(OSX)
-void CheckDirectoryForChanges( const char *path_buff, CDirWatcher *pDirWatch, bool bRecurse )
-{
-	DIR *dir = opendir(path_buff);
-	char fullpath[MAX_PATH];
-	struct dirent *dirent;
-	struct timespec ts = { 0, 0 };
-	bool bTimeSet = false;
-	
-	while ( (dirent = readdir(dir)) != NULL ) 
-	{
-		if (strcmp(dirent->d_name, ".") == 0 || strcmp(dirent->d_name, "..") == 0)
-			continue;
-		
-		snprintf( fullpath, PATH_MAX, "%s/%s", path_buff, dirent->d_name );
-		
-		struct stat    st;
-		if (lstat(fullpath, &st) != 0)
-			continue;
-		
-		if ( S_ISDIR(st.st_mode) && bRecurse )
-		{
-			CheckDirectoryForChanges( fullpath, pDirWatch, bRecurse );
-		}
-		else if ( st.st_mtimespec.tv_sec > pDirWatch->m_modTime.tv_sec ||
-				 ( st.st_mtimespec.tv_sec == pDirWatch->m_modTime.tv_sec && st.st_mtimespec.tv_nsec > pDirWatch->m_modTime.tv_nsec ) )
-		{
-			ts = st.st_mtimespec;
-			bTimeSet = true;
-			// the win32 size only sends up the dir relative to the watching dir, so replicate that here
-			pDirWatch->AddFileToChangeList( fullpath + pDirWatch->m_BaseDir.Length() + 1 );
-		}
-	}
-
-	if ( bTimeSet )
-		pDirWatch->m_modTime = ts;
-	closedir(dir);	
-}
-
-static void fsevents_callback( ConstFSEventStreamRef streamRef, void *clientCallBackInfo, size_t numEvents,void *eventPaths, 
-							  const FSEventStreamEventFlags eventMasks[], const FSEventStreamEventId eventIDs[] )
-{
-    char  path_buff[PATH_MAX];
-	for (int i=0; i < numEvents; i++) 
-	{
-		char **paths = (char **)eventPaths;
-		
-        strcpy(path_buff, paths[i]);
-        int len = strlen(path_buff);
-        if (path_buff[len-1] == '/') 
-		{
-            // chop off a trailing slash
-            path_buff[--len] = '\0';
-        }
-		
-		bool bRecurse = false;
-		
-        if (eventMasks[i] & kFSEventStreamEventFlagMustScanSubDirs
-			|| eventMasks[i] & kFSEventStreamEventFlagUserDropped
-			|| eventMasks[i] & kFSEventStreamEventFlagKernelDropped) 
-		{
-            bRecurse = true;
-        } 
-		
-		CDirWatcher *pDirWatch = (CDirWatcher *)clientCallBackInfo;
-		// make sure its in our subdir
-		if ( !V_strnicmp( path_buff, pDirWatch->m_BaseDir.String(), pDirWatch->m_BaseDir.Length() ) )
-			CheckDirectoryForChanges( path_buff, pDirWatch, bRecurse );
-    }
-}
-
-
-
-
 #endif
 
 //-----------------------------------------------------------------------------
@@ -1394,41 +1276,6 @@ void CDirWatcher::SetDirToWatch( const char *pchDir )
 
 	// post a watch
 	PostDirWatch();
-#elif defined(OSX)
-	CFStringRef mypath = CFStringCreateWithCString( NULL, strPath.GetUTF8Path(), kCFStringEncodingMacRoman );
-	if ( !mypath )
-	{
-		Assert( !"Failed to CFStringCreateWithCString watcher path" );
-		return;
-	}
-	
-    CFArrayRef pathsToWatch = CFArrayCreate(NULL, (const void **)&mypath, 1, NULL);
-    FSEventStreamContext callbackInfo = {0, this, NULL, NULL, NULL};
-    CFAbsoluteTime latency = 1.0; // Latency in seconds
-
-    m_WatcherStream = (void *)FSEventStreamCreate(NULL,
-								 &fsevents_callback,
-								 &callbackInfo,
-								 pathsToWatch,
-								 kFSEventStreamEventIdSinceNow, 
-								 latency,
-								 kFSEventStreamCreateFlagNoDefer
-								 );
-	
-    FSEventStreamScheduleWithRunLoop( (FSEventStreamRef)m_WatcherStream, CFRunLoopGetCurrent(), kCFRunLoopDefaultMode);
-	CFRelease(pathsToWatch );
-	CFRelease( mypath );
-	
-	FSEventStreamStart( (FSEventStreamRef)m_WatcherStream );
-
-	char szFullPath[MAX_PATH];
-	Q_MakeAbsolutePath( szFullPath, sizeof(szFullPath), pchDir );
-	m_BaseDir = szFullPath;
-	
-	struct timeval tv;
-	gettimeofday( &tv, NULL );
-	TIMEVAL_TO_TIMESPEC( &tv, &m_modTime );
-		
 #else
 	Assert( !"Impl me" );
 #endif
@@ -1729,9 +1576,7 @@ bool BRemoveDirectoryRecursive( const char *pchPathIn )
 
 static char selectBuf[PATH_MAX];
 
-#if defined(OSX) && !defined(__MAC_10_8)
-static int FileSelect( direntBig_t *ent )
-#elif defined(LINUX) || defined(OSX)
+#if defined(LINUX)
 static int FileSelect( const direntBig_t *ent )
 #else
 #error

@@ -10,10 +10,6 @@
 #if defined(_WIN32) && !defined(_X360)
 #include "winlite.h"
 #endif
-#ifdef OSX
-#include <Carbon/Carbon.h>
-#include <sys/sysctl.h>
-#endif
 #if defined(LINUX)
 #include <unistd.h>
 #include <fcntl.h>
@@ -471,16 +467,9 @@ void Sys_Error_Internal( bool bMinidump, const char *error, va_list argsList )
 			
 			// We always get here because the above filter evaluates to EXCEPTION_EXECUTE_HANDLER
 		}
-#elif defined( OSX )
-	// Doing this doesn't quite work the way we want because there is no "crashing" thread
-	// and we see "No thread was identified as the cause of the crash; No signature could be created because we do not know which thread crashed" on the back end
-	//SteamAPI_WriteMiniDump( 0, NULL, build_number() );
-	printf("\n ##### Sys_Error: %s", text );
-	fflush(stdout );
-	
-	int *p = 0;
-	*p = 0xdeadbeef;
 #elif defined( LINUX )
+	#error "This is bullshit! (c) Viktor Antonov. Pls crash without causing UB"
+
 	// Doing this doesn't quite work the way we want because there is no "crashing" thread
 	// and we see "No thread was identified as the cause of the crash; No signature could be created because we do not know which thread crashed" on the back end
 	//SteamAPI_WriteMiniDump( 0, NULL, build_number() );
@@ -680,15 +669,6 @@ void Sys_InitMemory( void )
 #elif defined(POSIX)
 	uint64_t memsize = ONE_HUNDRED_TWENTY_EIGHT_MB;
 
-#if defined(OSX)
-	int mib[2] = { CTL_HW, HW_MEMSIZE };
-	u_int namelen = sizeof(mib) / sizeof(mib[0]);
-	size_t len = sizeof(memsize);
-
-	if (sysctl(mib, namelen, &memsize, &len, NULL, 0) < 0) 
-	{
-		memsize = ONE_HUNDRED_TWENTY_EIGHT_MB;
-	}
 #elif defined(LINUX)
 	const int fd = open("/proc/meminfo", O_RDONLY);
 	if (fd < 0)
@@ -1692,10 +1672,6 @@ CON_COMMAND( star_memory, "Dump memory stats" )
 	struct mallinfo memstats = mallinfo( );
 	Msg( "sbrk size: %.2f MB, Used: %.2f MB, #mallocs = %d\n",
 		 memstats.arena / ( 1024.0 * 1024.0), memstats.uordblks / ( 1024.0 * 1024.0 ), memstats.hblks );
-#elif OSX
-	struct mstats memstats = mstats( );
-	Msg( "Available %.2f MB, Used: %.2f MB, #mallocs = %d\n",
-		 memstats.bytes_free / ( 1024.0 * 1024.0), memstats.bytes_used / ( 1024.0 * 1024.0 ), memstats.chunks_used );
 #elif defined( _PS3 )
 	Msg( "Memory info on PS3: not implemented.\n" );
 #else

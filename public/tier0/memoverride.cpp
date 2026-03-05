@@ -359,7 +359,7 @@ inline void __cdecl VPurecallHandler()
 // set Windows pure virtual handler
 _purecall_handler OldPurecallHandler = _set_purecall_handler( VPurecallHandler );
 #elif defined( POSIX ) && !defined( _PS3 )
-// set OSX/Linux pure virtual handler
+// set Linux pure virtual handler
 extern "C" void __cxa_pure_virtual() { VPurecallHandler(); }
 #endif
 
@@ -742,8 +742,6 @@ extern "C"
 // ensures they are here even when linking against debug or release static libs
 //-----------------------------------------------------------------------------
 #ifndef NO_MEMOVERRIDE_NEW_DELETE
-#if !defined( _OSX )
-
 void *__cdecl operator new( size_t nSize )
 {
 	return AllocUnattributed( nSize );
@@ -763,29 +761,6 @@ void *__cdecl operator new[] ( size_t nSize, int nBlockUse, const char *pFileNam
 {
 	return MemAlloc_Alloc(nSize, pFileName, nLine);
 }
-
-#else
-
-void *__cdecl operator new( size_t nSize ) throw (std::bad_alloc)
-{
-	return AllocUnattributed( nSize );
-}
-
-void *__cdecl operator new( size_t nSize, int nBlockUse, const char *pFileName, int nLine )
-{
-	return MemAlloc_Alloc(nSize, pFileName, nLine );
-}
-
-void *__cdecl operator new[] ( size_t nSize ) throw (std::bad_alloc)
-{
-	return AllocUnattributed( nSize );
-}
-
-void *__cdecl operator new[] ( size_t nSize, int nBlockUse, const char *pFileName, int nLine )
-{
-	return MemAlloc_Alloc(nSize, pFileName, nLine);
-}
-#endif // !_OSX
 
 void __cdecl operator delete( void *pMem ) throw()
 {

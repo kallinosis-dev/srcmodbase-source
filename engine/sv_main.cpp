@@ -3221,8 +3221,6 @@ bool CGameServer::SpawnServer( char *mapname, char * mapGroupName, char *startsp
         event->SetString( "os", "WIN32" );
 #elif defined ( LINUX )
         event->SetString( "os", "LINUX" );
-#elif defined ( OSX )
-        event->SetString( "os", "OSX" );
 #elif defined ( _PS3 )
         event->SetString( "os", "PS3" );
 #else

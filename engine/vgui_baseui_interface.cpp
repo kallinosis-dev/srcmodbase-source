@@ -12,10 +12,8 @@
 
 #ifdef IS_WINDOWS_PC
 #include "winlite.h"
-
-#elif OSX
-	#include <Carbon/Carbon.h>
 #endif
+
 #include "appframework/ilaunchermgr.h"
 #include <vgui_controls/Panel.h>
 #include <vgui_controls/EditablePanel.h>
@@ -755,16 +753,6 @@ void CEngineVGui::Init()
 
 	VGui_InitMatSysInterfacesList( "BaseUI", &g_AppSystemFactory, 1 );
 	
-#ifdef OSX
-	if ( Steam3Client().SteamApps() )
-	{
-		// just follow the language steam wants you to be
-		const char *lang = Steam3Client().SteamApps()->GetCurrentGameLanguage();
-		if ( lang && Q_strlen(lang) )
-			vgui::system()->SetRegistryString( "HKEY_CURRENT_USER\\Software\\Valve\\Steam\\Language", lang );
-	}
-#endif
-	
 	COM_TimestampedLog( "AttachToWindow" );
 
 	// Need to be able to play sounds through vgui
@@ -1076,9 +1064,6 @@ void CEngineVGui::Connect()
 	m_pInputInternal = (IInputInternal *)g_GameSystemFactory( VGUI_INPUTINTERNAL_INTERFACE_VERSION, nullptr);
 	staticGameUIFuncs->Connect( g_GameSystemFactory );
 
-	#if OSX
-//		g_pLauncherMgr = (ILauncherMgr *)g_GameSystemFactory(  COCOAMGR_INTERFACE_VERSION, NULL );	
-	#endif
 	#if LINUX
 //		g_pLauncherMgr = (ILauncherMgr *)g_GameSystemFactory(  LINUXMGR_INTERFACE_VERSION, NULL );	
 	#endif
@@ -2072,7 +2057,7 @@ void CEngineVGui::Simulate()
 		GetAnimationController()->UpdateAnimations( Sys_FloatTime() );
 
 		int w, h;
-#if defined( USE_SDL ) || defined( OSX )
+#if defined( USE_SDL )
 		uint width,height;
 		g_pLauncherMgr->RenderedSize( width, height, false );	// false = get
 		w = width;
@@ -2236,7 +2221,7 @@ void CEngineVGui::Paint( PaintMode_t mode )
 	}
 
 	int w, h;
-#if defined( USE_SDL ) || defined ( OSX )
+#if defined( USE_SDL )
 	uint width,height;
 	g_pLauncherMgr->RenderedSize( width, height, false );	// false = get
 	w = width;

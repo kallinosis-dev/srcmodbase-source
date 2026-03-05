@@ -3313,22 +3313,6 @@ void CL_InitLanguageCvar()
 			{
 				Q_strncpy( language, "english", sizeof( language ) );
 			}
-#elif defined(OSX)
-			if ( Steam3Client().SteamApps() )
-			{
-				// just follow the language steam wants you to be
-				const char *lang = Steam3Client().SteamApps()->GetCurrentGameLanguage();
-				if ( lang && Q_strlen(lang) )
-				{
-					Q_strncpy( language, lang, sizeof( language ) );
-				}
-				else 
-					Q_strncpy( language, "english", sizeof( language ) );
-			}
-			else 
-			{
-				Q_strncpy( language, "english", sizeof( language ) );
-			}
 #endif			
 		}
 #endif

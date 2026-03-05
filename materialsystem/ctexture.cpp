@@ -2419,26 +2419,6 @@ int CTexture::ComputeActualSize( bool bIgnorePicmip, IVTFTexture *pVTFTexture )
 			nDimensionLimit = s_nMaxDimensionLimit;
 		}
 	}
-	else if ( IsPlatformOSX() )
-	{
-		// limiting large textures on OSX to 1024, override with -allow2048 on cl
-		static int s_nMaxDimensionLimit = 0;
-
-		if (!s_nMaxDimensionLimit)
-		{
-			bool bAllow2048 = !!CommandLine()->FindParm( "-allow2048" );
-
-			if ( !bAllow2048 && !( m_nFlags & (TEXTUREFLAGS_NOLOD | TEXTUREFLAGS_NOMIP | TEXTUREFLAGS_PROCEDURAL | TEXTUREFLAGS_RENDERTARGET | TEXTUREFLAGS_DEPTHRENDERTARGET) ) )
-			{
-				s_nMaxDimensionLimit = 1024;
-			}
-		}
-
-		if ( !( m_nFlags & (TEXTUREFLAGS_NOLOD | TEXTUREFLAGS_NOMIP | TEXTUREFLAGS_PROCEDURAL | TEXTUREFLAGS_RENDERTARGET | TEXTUREFLAGS_DEPTHRENDERTARGET) ) )
-		{
-			nDimensionLimit = s_nMaxDimensionLimit;
-		}
-	}
 
 	// Special case: If the top mipmap level is <= 128KB, and the width is really wide (2048), and its height is <= 64, and we know it's mipmapped, then allow one axis to be > 1024, otherwise just restrict to 1024.
 	// This purposely convoluted logic is useful on things like the confetti particle effect's texture (used in sp_a2_column_blocker), which is 2048x64, and is very noticeable when it's cut down to 1024x32.
@@ -3734,13 +3714,7 @@ bool CTexture::ConvertToActualFormat( IVTFTexture *pVTFTexture )
 
 	ImageFormat fmt = m_ImageFormat;
 	ImageFormat dstFormat = ComputeActualFormat( pVTFTexture->Format() );
-#ifdef PLATFORM_OSX
-	if ( IsVolumeTexture() && ImageLoader::IsCompressed( dstFormat ) )
-	{
-		// OSX does not support compressed 3d textures
-		dstFormat = IMAGE_FORMAT_RGBA8888;
-	}
-#endif
+
 	if ( fmt != dstFormat )
 	{
 		Assert( !IsGameConsole() );
@@ -3900,10 +3874,6 @@ IVTFTexture *CTexture::LoadTextureBitsFromFile( char *pCacheFileName, char **ppR
 		{
 			if ( !StringHasPrefix( m_Name.String(), "env_cubemap" ) )
 			{
-				if ( IsOSX() )
-				{
-					printf("\n ##### CTexture::LoadTextureBitsFromFile couldn't find %s",pCacheFileName );
-				}
 				DevWarning( "\"%s\": can't be found on disk\n", pCacheFileName );
 			}
 			return HandleFileLoadFailedTexture( pVTFTexture );

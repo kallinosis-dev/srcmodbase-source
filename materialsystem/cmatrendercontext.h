@@ -276,7 +276,7 @@ protected:
 //-----------------------------------------------------------------------------
 //
 //-----------------------------------------------------------------------------
-#if defined( _PS3 ) || defined( _OSX )
+#if defined( _PS3 )
 #define g_pShaderAPI ShaderAPI()
 #endif
 
@@ -798,7 +798,7 @@ inline IMesh* CMatRenderContext::CreateStaticMesh( VertexFormat_t vertexFormat, 
 
 inline void CMatRenderContext::SyncToken( const char *pToken )
 {
-#if !defined( _PS3 ) && !defined( _OSX )
+#if !defined( _PS3 )
 	if ( g_pShaderAPI )
 #endif
 	{
@@ -821,7 +821,7 @@ inline CMaterialSystem *CMatRenderContext::GetMaterialSystem() const
 	return m_pMaterialSystem;
 }
 
-#if defined( _PS3 ) || defined( _OSX )
+#if defined( _PS3 )
 #undef g_pShaderAPI
 #endif
 

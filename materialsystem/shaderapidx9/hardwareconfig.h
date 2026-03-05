@@ -40,12 +40,8 @@ enum
 {
 #if defined( DX_TO_GL_ABSTRACTION )
 	MAXUSERCLIPPLANES = 2,
-    
-#if defined( OSX )
-    MAX_NUM_LIGHTS = 2,
-#else
+
     MAX_NUM_LIGHTS = 4,
-#endif
 
 #else
 	MAXUSERCLIPPLANES = 6,

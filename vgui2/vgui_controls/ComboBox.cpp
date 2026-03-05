@@ -42,11 +42,7 @@ void ComboBoxButton::ApplySchemeSettings(IScheme *pScheme)
 	
 	SetFont(pScheme->GetFont("Marlett", IsProportional()));
 	SetContentAlignment(Label::a_west);
-#ifdef PLATFORM_OSX
-	SetTextInset(-3, 0);
-#else
 	SetTextInset(3, 0);
-#endif
 	SetDefaultBorder(pScheme->GetBorder("ScrollBarButtonBorder"));
 	
 	// arrow changes color but the background doesnt.

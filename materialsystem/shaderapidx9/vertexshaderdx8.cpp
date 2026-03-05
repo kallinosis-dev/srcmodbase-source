@@ -438,11 +438,7 @@ static HardwareShader_t CreateD3DPixelShader( DWORD *pByteCode, unsigned int nCe
 
 	HardwareShader_t shader;
 	#if defined( DX_TO_GL_ABSTRACTION ) 
-		#if defined( OSX ) 
-			HRESULT hr = Dx9Device()->CreatePixelShader( pByteCode, ( IDirect3DPixelShader ** )&shader, pShaderName, debugLabel );
-		#else
-			HRESULT hr = Dx9Device()->CreatePixelShader( pByteCode, ( IDirect3DPixelShader ** )&shader, pShaderName, debugLabel, &nCentroidMask );
-		#endif
+		HRESULT hr = Dx9Device()->CreatePixelShader( pByteCode, ( IDirect3DPixelShader ** )&shader, pShaderName, debugLabel, &nCentroidMask );
 	#else
 #if defined(_X360)
 		HRESULT hr = Dx9Device()->CreatePixelShader( pByteCode, ( IDirect3DPixelShader ** )&shader );
@@ -751,7 +747,7 @@ private:
 	void					DisassembleShader( ShaderLookup_t *pLookup, int dynamicCombo, uint8 *pByteCode );
 	void					WriteTranslatedFile( ShaderLookup_t *pLookup, int dynamicCombo, char *pFileContents, char *pFileExtension );
 
-	// OSX only, no-op otherwise
+	// DX_TO_GL_ABSTRACTION only, no-op otherwise
 	void					SaveShaderCache( char *cacheName );	// query GLM pair cache for all active shader pairs and write them to disk in named file
 	bool					LoadShaderCache( char *cacheName );	// read named file, establish compiled shader sets for each vertex+static and pixel+static, then link pairs as listed in table
 
@@ -984,11 +980,7 @@ void CShaderManager::Shutdown()
 #ifdef DX_TO_GL_ABSTRACTION
 	if (mat_autosave_glshaders.GetInt())
 	{
-#if defined( OSX )
-		SaveShaderCache("glshaders_OSX.cfg");
-#else
 		SaveShaderCache("glshaders.cfg");
-#endif
 	}
 #endif
 
@@ -4025,11 +4017,7 @@ void CShaderManager::PurgeUnusedVertexAndPixelShaders()
 	#ifdef DX_TO_GL_ABSTRACTION
 		if (mat_autosave_glshaders.GetInt())
 		{
-#if defined( OSX )
-			SaveShaderCache("glshaders_OSX.cfg");
-#else
 			SaveShaderCache("glshaders.cfg");
-#endif
 		}
 		return;	// don't purge shaders, it's too costly to put them back
 	#endif
@@ -4680,18 +4668,6 @@ void	CShaderManager::DoStartupShaderPreloading()
 {
 	if (mat_autoload_glshaders.GetInt())
 	{
-#if defined( OSX )
-		// try base file
-		if ( !LoadShaderCache( "glbaseshaders_OSX.cfg" ) )		// factory cache
-		{
-			DevWarning( "Could not find base GL shader cache file (OSX)\n" );
-		}
-
-		if ( !LoadShaderCache( "glshaders_OSX.cfg" ) )			// user mutable cache
-		{
-			DevWarning( "Could not find user GL shader cache file (OSX)\n" );
-		}
-#else
 		// try base file
 		if ( !LoadShaderCache( "glbaseshaders.cfg" ) )		// factory cache
 		{
@@ -4702,7 +4678,6 @@ void	CShaderManager::DoStartupShaderPreloading()
 		{
 			DevWarning( "Could not find user GL shader cache file\n" );
 		}
-#endif
 	}
 }
 #endif

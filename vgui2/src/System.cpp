@@ -797,15 +797,11 @@ double CSystem::GetTimeSinceLastUse()
 }
 
 //-----------------------------------------------------------------------------
-// Purpose: Get the drives a user has available on their system
+// Purpose: Get the drives a user has available on his system
 //-----------------------------------------------------------------------------
 int CSystem::GetAvailableDrives(char *buf, int bufLen)
 {
-#if ( defined( _GAMECONSOLE ) || defined ( OSX ) )
-	return 0;
-#else // Windows
 	return GetLogicalDriveStrings(bufLen, buf);
-#endif
 }
 
 //-----------------------------------------------------------------------------

@@ -13,7 +13,7 @@
 
 #if defined(_WIN32) && !defined(_X360)
 #include "winlite.h"		// FILETIME
-#elif defined(OSX) || defined(CYGWIN)
+#elif defined(CYGWIN)
 #include <time.h>                  
 #include <sys/time.h>                  
 #include <sys/resource.h>                  
@@ -1280,8 +1280,6 @@ bool CBaseServer::ProcessConnectionlessPacket(netpacket_t * packet)
 
 #if defined(_WIN32)
 						  buf.PutUnsignedChar( 'w' );
-#elif defined(OSX)
-						  buf.PutUnsignedChar( 'm' );
 #else // LINUX?
 						  buf.PutUnsignedChar( 'l' );
 #endif

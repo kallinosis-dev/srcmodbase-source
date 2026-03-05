@@ -88,13 +88,6 @@ void CSosOperatorPlatform::ParseKV( CSosOperatorStack *pStack, void *pVoidMem, K
 						pStructMem->m_flOutput[0] = 1.0;
 					}
 				}
-				else if ( !V_strcasecmp( pParamString, "osx" ) )
-				{
-					if( IsOSX( ) )
-					{
-						pStructMem->m_flOutput[0] = 1.0;
-					}
-				}
 				else
 				{
 					Log_Warning( LOG_SND_OPERATORS, "Error: Operator %s, unknown sound operator attribute %s\n",  pStack->m_pCurrentOperatorName, pParamString );

@@ -18,10 +18,6 @@
 #include "vguimatsurface.h"
 #include "filesystem.h"
 
-#if defined( PLATFORM_OSX )
-#include <Carbon/Carbon.h>
-#endif
-
 #include <appframework/ilaunchermgr.h>
 
 #if (USE_SDL)
@@ -181,21 +177,6 @@ void Cursor_ClearUserCursors()
 {
 }
 
-#ifdef OSX
-static HCursor s_hCursor = dc_arrow;
-
-#if defined( PLATFORM_64BITS )
-
-// MCCLEANUP
-OSStatus SetThemeCursor(ThemeCursor inCursor) 
-{ 
-	return OSStatus(0); 
-}
-
-#endif
-
-#endif
-
 //-----------------------------------------------------------------------------
 // Selects a cursor
 //-----------------------------------------------------------------------------
@@ -298,107 +279,6 @@ void CursorSelect( InputContextHandle_t hContext, HCursor hCursor )
 	ActivateCurrentCursor( hContext );
 
 	g_pInputSystem->SetMouseCursorVisible( s_bCursorVisible );
-#elif defined( PLATFORM_OSX )
-	// @wge: Copied from window's section above
-	// [jason] When the console window is raised, keep the cursor active even if the mouse focus is not on the console window.
-	//	This makes it easier track where the cursor is on-screen when the user moves off of the console.
-	if ( cv_vguipanel_active.GetBool() == true && hCursor == dc_none )
-	{
-		if (!CommandLine()->FindParm("-keepmousehooked"))
-		{
-			CGAssociateMouseAndMouseCursorPosition( false );
-			if ( CGCursorIsVisible() )
-			{
-				CGDisplayHideCursor(kCGDirectMainDisplay);
-
-				CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-				int rx, ry, width, height;
-				pRenderContext->GetViewport( rx, ry, width, height );
-				CursorSetPos( NULL, width/2, height/2 ); // we are hiding the cursor so move it to the middle of our window
-				
-			}
-		}
-		s_bCursorVisible = false;
-	}
-	else
-	{
-		if (!CommandLine()->FindParm("-keepmousehooked"))
-		{
-			CGAssociateMouseAndMouseCursorPosition( true );
-			if ( !CGCursorIsVisible() )
-			{
-			  CGDisplayShowCursor(kCGDirectMainDisplay);
-			}
-		}
-		s_bCursorVisible = true;
-	}
-	
-	s_hCursor = hCursor;
-	s_bCursorVisible = true;
-	switch (hCursor)
-	{
-		case dc_none:  
-		case dc_user:
-		case dc_blank: 
-			s_bCursorVisible = false;
-
-			break;
-		case dc_arrow:
-
-			SetThemeCursor( kThemeArrowCursor );
-			break;
-		case dc_ibeam:
-
-			SetThemeCursor( kThemeIBeamCursor );
-			break;
-		case dc_hourglass:
-
-			SetThemeCursor( kThemeSpinningCursor );
-			break;
-		case dc_waitarrow:
-
-			SetThemeCursor( kThemeSpinningCursor );
-			break;
-		case dc_crosshair:
-
-			SetThemeCursor( kThemeCrossCursor );
-			break;
-		case dc_up:
-
-			SetThemeCursor( kThemeResizeUpCursor );
-			break;
-		case dc_sizenwse:
-
-			SetThemeCursor( kThemeCountingUpAndDownHandCursor );
-			break;
-		case dc_sizenesw:
-
-			SetThemeCursor( kThemeResizeUpDownCursor );
-			break;
-		case dc_sizewe:
-
-			SetThemeCursor( kThemeResizeLeftRightCursor );
-			break;
-		case dc_sizens:
-
-			SetThemeCursor( kThemeResizeUpDownCursor );
-			break;
-		case dc_sizeall:
-
-			SetThemeCursor( kThemeContextualMenuArrowCursor );
-			break;
-		case dc_no:
-
-			SetThemeCursor( kThemeNotAllowedCursor );
-			break;
-		case dc_hand:
-
-			SetThemeCursor( kThemePointingHandCursor );
-			break;
-	};
-	
-	g_pInputSystem->SetMouseCursorVisible( s_bCursorVisible );
-#elif defined( _PS3 )
 #elif defined( LINUX )
 #error
 #else
@@ -424,11 +304,6 @@ void ActivateCurrentCursor( InputContextHandle_t hContext )
 
 #elif defined( WIN32 )
 		g_pInputStackSystem->SetCursorIcon( hContext, s_hCurrentCursor );
-#elif defined( OSX )
-		if ( !CGCursorIsVisible() && !CommandLine()->FindParm("-keepmousehooked") )
-		{
-			CGDisplayShowCursor(kCGDirectMainDisplay);
-		}
 #else
 #error
 #endif
@@ -444,11 +319,6 @@ void ActivateCurrentCursor( InputContextHandle_t hContext )
 		}
 #elif defined( WIN32 )
 		g_pInputStackSystem->SetCursorIcon( hContext, INPUT_CURSOR_HANDLE_INVALID );
-#elif defined( OSX )
-		if ( CGCursorIsVisible() && !CommandLine()->FindParm("-keepmousehooked") )
-		{
-			CGDisplayHideCursor(kCGDirectMainDisplay);
-		}
 #else
 #error
 #endif
@@ -494,51 +364,3 @@ void CursorGetPos( InputContextHandle_t hContext, int &x, int &y )
 	Assert( hContext != INPUT_CONTEXT_HANDLE_INVALID );
 	g_pInputSystem->GetCursorPosition( &x, &y );
 }
-
-
-#ifdef OSX
-void CursorRunFrame()
-{
-	static HCursor hCursorLast = dc_none;
-	
-	if ( hCursorLast == s_hCursor )
-		return;
-	
-	hCursorLast = s_hCursor;
-	
-	if ( s_hCursor == dc_none || s_hCursor == dc_user || s_hCursor == dc_blank )
-	{
-		if (!CommandLine()->FindParm("-keepmousehooked"))
-		{
-			// @wge Removed. After this is called, all mouse coordinates will be locked (returning only delta). We need coordinates for Scaleform.
-			//CGAssociateMouseAndMouseCursorPosition( false );
-			if ( CGCursorIsVisible() )
-				CGDisplayHideCursor(kCGDirectMainDisplay);
-			
-			CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-			int rx, ry, width, height;
-			pRenderContext->GetViewport( rx, ry, width, height );
-			// we are hiding the cursor so move it to the middle of our window
-			g_pInputSystem->SetCursorPosition( width/2, height/2 );
-		}
-		s_bCursorVisible = false;
-	}
-	else
-	{
-		if (!CommandLine()->FindParm("-keepmousehooked"))
-		{
-			// @wge Removed, see above comment.
-			//CGAssociateMouseAndMouseCursorPosition( true );
-			if ( !CGCursorIsVisible() )
-			{
-				CGDisplayShowCursor( kCGDirectMainDisplay );
-			}
-		}
-		s_bCursorVisible = true;
-	}	
-}
-#endif
-
-
-
-

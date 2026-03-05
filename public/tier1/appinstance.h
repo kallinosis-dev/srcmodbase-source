@@ -57,12 +57,7 @@ class CSingleAppInstance
 	private:
 		CSingleAppInstance();		// Hidden for a reason.  You must specify the instance name
 
-#ifdef OSX
-		char m_szLockPath[ MAX_PATH ];
-		int	m_hMutex;
-#else
 		HANDLE	m_hMutex;
-#endif
 		bool	m_isUniqueInstance;
 };
 

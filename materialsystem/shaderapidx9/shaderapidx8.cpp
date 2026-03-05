@@ -156,15 +156,6 @@ ConVar mat_depthwrite_new_path( "mat_depthwrite_new_path", "0", FCVAR_DEVELOPMEN
 
 #endif
 
-// On OSX, this does 
-#ifdef _OSX
-ConVar r_frameratesmoothing( "r_frameratesmoothing", "1", FCVAR_ARCHIVE, "Enable frame rate smoothing, which significantly reduces stutters but at the expense of overall frame rate." );
-#else
-// This convar only does something on OSX, but is referenced from Windows and Linux. Just leave a dummy here for them to find.
-ConVar r_frameratesmoothing( "r_frameratesmoothing", "0", FCVAR_NONE, "", true, 0, true, 0 );
-#endif
-
-
 // If you need to debug refcounting issues, enable this. As of this writing, only Z side is 
 // instrumented.
 // #define SPEW_REFCOUNTS 1
@@ -2387,11 +2378,6 @@ CShaderAPIDx8::CShaderAPIDx8() :
 	V_memset( &m_CascadedShadowMappingState_LightMapScaled, 0, sizeof( m_CascadedShadowMappingState_LightMapScaled ) );
 	m_pCascadedShadowMappingDepthTexture = nullptr;
 
-#if defined( _OSX )
-	g_pShaderAPI = this;
-	g_pShaderDevice = this;
-#endif
-
 	m_bGeneratingCSMs = false;
     m_bVtxLitMesh = false;
 	m_bLmapMesh = false;
@@ -4529,7 +4515,7 @@ void CShaderAPIDx8::DiscardVertexBuffers()
 
 void CShaderAPIDx8::ForceHardwareSync_WithManagedTexture()
 {
-	if ( IsOSX() || !m_pFrameSyncTexture )
+	if ( !m_pFrameSyncTexture )
 		return;
 	// Set the default state for everything so we don't get more than we ask for here!
 	SetDefaultState();
@@ -4585,9 +4571,6 @@ void CShaderAPIDx8::ForceHardwareSync_WithManagedTexture()
 
 void CShaderAPIDx8::UpdateFrameSyncQuery( int queryIndex, bool bIssue )
 {	
-	if ( IsOSX() )
-		return;
-	
 	Assert(queryIndex < NUM_FRAME_SYNC_QUERIES);
 	// wait if already issued
 	if ( m_bQueryIssued[queryIndex] )
@@ -5340,17 +5323,10 @@ static void OnDepthBiasChanged( IConVar *var, const char *pOldValue, float flOld
 	g_ShaderAPIDX8.UpdateDepthBiasState();
 }
 
-#ifdef OSX
-static ConVar mat_slopescaledepthbias_decal( "mat_slopescaledepthbias_decal", "-4", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "", OnDepthBiasChanged );
-static ConVar mat_depthbias_decal( "mat_depthbias_decal", "-0.25", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "", OnDepthBiasChanged );
-static ConVar mat_slopescaledepthbias_normal( "mat_slopescaledepthbias_normal", "0.0f", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "", OnDepthBiasChanged );
-static ConVar mat_depthbias_normal( "mat_depthbias_normal", "0.0f", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "", OnDepthBiasChanged );
-#else
 static ConVar mat_slopescaledepthbias_decal( "mat_slopescaledepthbias_decal", "-2", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "", OnDepthBiasChanged );
 static ConVar mat_depthbias_decal( "mat_depthbias_decal", "-0.0000038", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "", OnDepthBiasChanged );
 static ConVar mat_slopescaledepthbias_normal( "mat_slopescaledepthbias_normal", "0.0f", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "", OnDepthBiasChanged );
 static ConVar mat_depthbias_normal( "mat_depthbias_normal", "0.0f", FCVAR_CHEAT | FCVAR_DEVELOPMENTONLY, "", OnDepthBiasChanged );
-#endif
 
 void CShaderAPIDx8::UpdateDepthBiasState()
 {

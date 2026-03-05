@@ -48,11 +48,6 @@ bool DefaultConditionalSymbolProc( const char *pKey, void*)
 		return IsPS3();
 	}
 
-	if ( !V_stricmp( pKey, "OSX" ) )
-	{
-		return IsPlatformOSX();
-	}
-
 	if ( !V_stricmp( pKey, "LINUX" ) )
 	{
 		return IsPlatformLinux();

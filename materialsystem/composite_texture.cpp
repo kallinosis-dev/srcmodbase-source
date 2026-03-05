@@ -1,4 +1,4 @@
-//========= Copyright © 1996-2013, Valve Corporation, All rights reserved. ============//
+//========= Copyright ï¿½ 1996-2013, Valve Corporation, All rights reserved. ============//
 //
 // Purpose: Provide custom texture generation (compositing) 
 //
@@ -49,9 +49,7 @@ int GetMatPicMip()
 static SCompositeTextureRTData_t s_compositeTextureRTData[COMPOSITE_TEXTURE_RT_COUNT] =
 {
 	// these should be sorted in descending size order
-#if !defined( PLATFORM_OSX )
 	{ "_rt_CustomMaterial2048", 2048, true,  false, nullptr},
-#endif
 	{ "_rt_CustomMaterial1024", 1024, true,  false, nullptr},
 	{ "_rt_CustomMaterial512",   512, true,  false, nullptr},
 	{ "_rt_CustomMaterial256",   256, false, false, nullptr},

@@ -17,11 +17,6 @@
 
 #include "glmgr_flush.inl"
 
-#ifdef OSX
-#include <OpenGL/OpenGL.h>
-#include "intelglmallocworkaround.h"
-#endif
-
 // memdbgon -must- be the last include file in a .cpp file.
 #include "tier0/memdbgon.h"
 
@@ -327,13 +322,6 @@ inline void GetDesiredPixelFormatAttribsAndRendererInfo( uint **ptrOut, uint *co
 	g_pLauncherMgr->GetDesiredPixelFormatAttribsAndRendererInfo( ptrOut, countOut, rendInfoOut );
 }
 
-#ifdef OSX
-inline PseudoNSGLContextPtr GetNSGLContextForWindow( void* windowref )
-{
-	return g_pLauncherMgr->GetGLContextForWindow( windowref );
-}
-#endif
-
 inline void GetStackCrawl( CStackCrawlParams *params )
 {
 	g_pLauncherMgr->GetStackCrawl(params);
@@ -522,18 +510,11 @@ void GLMgr::SetCurrentContext( GLMContext *context )
 		// give up
 		GLMStop();
 	}
+
+	#error "Check me!"
 	// Why is there an Assert( 0 ) here? Seems like it's for once we're in game, but we should
 	// hit this on startup so wat?
 	Assert( 0 );
-#elif defined( OSX )
-	context->m_nCurOwnerThreadId = ThreadGetCurrentId();
-	CGLError	cgl_err;
-	cgl_err = CGLSetCurrentContext( context->m_ctx );
-	if (cgl_err)
-	{
-		// give up
-		GLMStop();
-	}
 #endif
 }
 
@@ -543,22 +524,6 @@ GLMContext *GLMgr::GetCurrentContext( void )
 #if defined( USE_SDL )
 	PseudoGLContextPtr context = GetMainContext();
 	return (GLMContext*) context;
-#elif defined( OSX )
-	CGLContextObj ctx = CGLGetCurrentContext();
-	
-	// Docs say this is always a pointer-sized parameter, even though the API takes an int*
-	intp	glm_context_link = 0;
-	
-	CGLGetParameter( ctx, kCGLCPClientStorage, (int*) &glm_context_link );
-	
-	if ( glm_context_link )
-	{
-		return (GLMContext*) glm_context_link;
-	}
-	else
-	{
-		return NULL;
-	}
 #else
 	Assert( 0 );
 	return NULL;
@@ -612,12 +577,7 @@ void GLMContext::MakeCurrent( bool bRenderThread )
 	}
 #endif
 
-#elif defined( OSX )
-	m_nCurOwnerThreadId = ThreadGetCurrentId();
-	CGLSetCurrentContext( m_ctx );
-#else
 	Assert( 0 );
-#endif
 }
 
 
@@ -646,12 +606,7 @@ void GLMContext::ReleaseCurrent( bool bRenderThread )
 	}
 #endif
 
-#elif defined( OSX )
-	m_nCurOwnerThreadId = 0;
-	CGLSetCurrentContext( NULL );
-#else
 	Assert( 0 );
-#endif
 }
 
 
@@ -732,12 +687,10 @@ void GLMContext::ForceFlushStates()
 	gGL->glBindBufferARB( GL_ELEMENT_ARRAY_BUFFER_ARB, m_nBoundGLBuffer[ kGLMIndexBuffer] );
 	gGL->glBindBufferARB( GL_ARRAY_BUFFER_ARB, m_nBoundGLBuffer[ kGLMVertexBuffer] );
 
-#ifndef OSX
 	if ( gGL->m_bHave_GL_AMD_pinned_memory )
 	{
 		gGL->glBindBufferARB( GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD, m_PinnedMemoryBuffers[m_nCurPinnedMemoryBuffer].GetHandle() );
 	}
-#endif
 }
 
 const GLMRendererInfoFields& GLMContext::Caps( void )
@@ -1890,12 +1843,11 @@ void GLMContext::PreloadTex( CGLMTex *tex, bool force )
 	// bind texture and sampling params
 	CGLMTex *pPrevTex = m_samplers[15].m_pBoundTex;
 
-#ifndef OSX // 10.6
 	if ( m_bUseSamplerObjects )
 	{
 		gGL->glBindSampler( 15, 0 );
 	}
-#endif    
+
 	BindTexToTMU( tex, 15 );
 	
 	// unbind vertex/index buffers
@@ -2237,109 +2189,6 @@ void GLMContext::Clear( bool color, unsigned long colorValue, bool depth, float 
 #endif
 }
 
-#ifdef _OSX
-void GLMContext::UpdateSwapchainVariables( bool bForce )
-{
-	static ConVarRef r_frameratesmoothing( "r_frameratesmoothing" );
-	const bool cbUpdateFramerateSmoothing = bForce || r_frameratesmoothing.GetBool() != m_bFramerateSmoothing;
-	const bool cbUpdateSwapLimit = bForce || gl_swap_limit.GetBool() != m_bSwapLimit;
-
-	
-	// Bail if no work to do.
-	if ( !cbUpdateFramerateSmoothing && !cbUpdateSwapLimit )
-		return;
-#ifdef USE_SDL
-	CGLContextObj context = GetCGLContextFromNSGL( m_ctx );
-#else
-	auto context = m_ctx;
-#endif
-
-	if ( cbUpdateFramerateSmoothing )
-	{
-		bool new_mtgl = m_caps.m_hasPerfPackage1;	// i.e. 10.6.4 plus new driver
-
-
-		if ( CommandLine()->FindParm( "-glmenablemtgl2" ) )
-		{
-			new_mtgl = true;
-		}
-
-		if ( CommandLine()->FindParm( "-glmdisablemtgl2" ) )
-		{
-			new_mtgl = false;
-		}
-
-		// Enable if we can and we haven't been told not to.
-		bool mtgl_on = m_displayParams.m_mtgl && !r_frameratesmoothing.GetBool();
-
-		if ( CommandLine()->FindParm( "-glmenablemtgl" ) )
-		{
-			mtgl_on = true;
-		}
-
-		if ( CommandLine()->FindParm( "-glmdisablemtgl" ) )
-		{
-			mtgl_on = false;
-		}
-
-		CGLError result = ( CGLError ) 0;
-		bool ready = false;
-		if ( new_mtgl )
-		{
-			// afterburner
-			CGLContextEnable kCGLCPGCDMPEngine = ( ( CGLContextEnable ) 1314 );
-			result = mtgl_on ? CGLEnable(  context, kCGLCPGCDMPEngine )
-			                 : CGLDisable( context, kCGLCPGCDMPEngine );
-
-			if ( !result )
-			{
-				ready = true;	// succeeded - no need to try non-MTGL
-				printf( "\nMTGL2 %s.\n", mtgl_on ? "enabled" : "disabled" );
-			}
-			else
-			{
-				printf( "\nMTGL2 *not* enabled, falling back.\n" );
-			}
-		}
-
-		if ( !ready )
-		{
-			// try old MTGL
-			result = mtgl_on ? CGLEnable(  context, kCGLCEMPEngine )
-			                 : CGLDisable( context, kCGLCEMPEngine );
-			if ( !result )
-			{
-				printf( "\nMTGL %s.\n", mtgl_on ? "enabled" : "disabled" );
-				ready = true;
-			}
-		}
-
-		// Make sure we can detect edges on this properly.
-		m_bFramerateSmoothing = r_frameratesmoothing.GetBool();
-	}
-
-	if ( cbUpdateSwapLimit )
-	{
-
-		if ( gl_swap_limit.GetBool() )
-		{
-			// Limit the number of frames in flight to 1.
-			CGLEnable( context, kCGLCESwapLimit );
-			printf( "Swap Limit Enabled\n" );
-		}
-		else
-		{
-			CGLDisable( context, kCGLCESwapLimit );
-			printf( "Swap Limit Disabled\n" );
-		}
-
-		// Make sure we can detect edges on this properly.
-		m_bSwapLimit = gl_swap_limit.GetBool();
-	}
-}
-#endif
-
-
 
 // stolen from glmgrbasics.cpp
 extern "C" uint GetCurrentKeyModifiers( void );
@@ -2557,23 +2406,6 @@ void GLMContext::Present( CGLMTex *tex )
 		showparams.m_onlySyncView = false;
 	
 		bool refresh = true;
-	#ifdef OSX
-		if ( (glm_nullrefresh_capslock.GetInt()) && (GetCurrentKeyModifiers() & EalphaLock) )
-		{
-			refresh = false;
-		}
-	#endif	
-		static int counter;
-		counter ++;
-
-	#ifdef OSX
-		if ( (glm_literefresh_capslock.GetInt()) && (GetCurrentKeyModifiers() & EalphaLock) && (counter & 127) )
-		{
-			// just show every 128th frame
-			refresh = false;
-		}
-	#endif
-
 		if (refresh)
 		{
 			if (newRefreshMode)
@@ -2649,12 +2481,7 @@ void GLMContext::Present( CGLMTex *tex )
 	m_nTotalVSUniformCalls = 0, m_nTotalVSUniformBoneCalls = 0, m_nTotalVSUniformsSet = 0, m_nTotalVSUniformsBoneSet = 0, m_nTotalPSUniformCalls = 0, m_nTotalPSUniformsSet = 0;
 #endif
 
-#ifdef _OSX
-	// Give ourselves a chance to update the swapchain parameters on OSX.
-	UpdateSwapchainVariables( false );
-#else
 	GLMGPUTimestampManagerTick();
-#endif
 }
 
 //===============================================================================
@@ -2743,7 +2570,6 @@ GLMContext::GLMContext( IDirect3DDevice9 *pDevice, GLMDisplayParams *params )
 
 	ClearCurAttribs();
     
-#ifndef OSX
 	m_nCurPinnedMemoryBuffer = 0;
 	if ( gGL->m_bHave_GL_AMD_pinned_memory )
 	{
@@ -2754,7 +2580,6 @@ GLMContext::GLMContext( IDirect3DDevice9 *pDevice, GLMDisplayParams *params )
 
 		gGL->glBindBufferARB( GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD, m_PinnedMemoryBuffers[m_nCurPinnedMemoryBuffer].GetHandle() );
 	}
-#endif // OSX
 
 	m_nCurPersistentBuffer = 0;
 	if ( gGL->m_bHave_GL_ARB_buffer_storage )
@@ -2807,10 +2632,7 @@ GLMContext::GLMContext( IDirect3DDevice9 *pDevice, GLMDisplayParams *params )
 	m_nsctx	= NULL;
 	m_ctx	= NULL;
 	
-#ifdef OSX
-	// call Cocoa manager, ask for the attrib list (also naming the specific renderer ID) and use that to make our context
-	CGLPixelFormatAttribute *selAttribs	=	NULL;
-#elif defined(LINUX)
+#if defined(LINUX)
 	int *selAttribs	=	NULL;
 #elif defined(_WIN32 )
 	int *selAttribs	=	NULL;
@@ -2827,40 +2649,6 @@ GLMContext::GLMContext( IDirect3DDevice9 *pDevice, GLMDisplayParams *params )
 	m_ctx = (SDL_GLContext)GetGLContextForWindow( params ? (void*)params->m_focusWindow : NULL );
 	MakeCurrent( true );
 	m_oneCtxEnable = true;
-#elif defined( OSX )
-	// call Cocoa manager, ask it about the window we're targeting, get the NSGLContext back, share against that	
-	PseudoNSGLContextPtr shareNsCtx = GetNSGLContextForWindow( (void*)params->m_focusWindow );
-
-	// decide if we're going to try single context mode.
-	m_oneCtxEnable = (m_caps.m_osComboVersion >= 0x000A0603) && (gl_singlecontext.GetInt() );
-
-	bool success = false;	//NewNSGLContext( (unsigned long*)selAttribs, shareNsCtx, &m_nsctx, &m_ctx );
-	if(m_oneCtxEnable)
-	{
-		// just steal the window's context
-		m_nsctx	= shareNsCtx;
-		m_ctx	= GetCGLContextFromNSGL( shareNsCtx );
-		
-		success	= (m_nsctx != NULL) && (m_ctx != NULL);
-	}
-	else
-	{
-		success = NewNSGLContext( (unsigned long*)selAttribs, shareNsCtx, &m_nsctx, &m_ctx );
-	}
-	
-	if (success)
-	{
-		//write a cookie into the CGL context leading back to the GLM context object
-		intp	glm_context_link = (intp) this;
-		CGLSetParameter( m_ctx, kCGLCPClientStorage, (int*) &glm_context_link );
-		
-		// save off the pixel format attributes we used		
-		memcpy(m_pixelFormatAttribs, selAttribs, selBytes );
-	}
-	else
-	{
-		DebuggerBreak(); //FIXME #PMB# bad news, maybe exit to shell if this happens
-	}
 #else
 #error
 #endif
@@ -2905,7 +2693,6 @@ GLMContext::GLMContext( IDirect3DDevice9 *pDevice, GLMDisplayParams *params )
 
 	m_texLayoutTable = new CGLMTexLayoutTable;
 
-#ifndef OSX
 	if ( m_bUseSamplerObjects )
     {
         memset( m_samplerObjectHash, 0, sizeof( m_samplerObjectHash ) );
@@ -2916,7 +2703,6 @@ GLMContext::GLMContext( IDirect3DDevice9 *pDevice, GLMDisplayParams *params )
             gGL->glGenSamplers( 1, &m_samplerObjectHash[i].m_samplerObject );
         }
 	}
-#endif
     
 	memset( m_samplers, 0, sizeof( m_samplers ) );
 	for( int i=0; i< GLM_SAMPLER_COUNT; i++)
@@ -3036,19 +2822,6 @@ GLMContext::GLMContext( IDirect3DDevice9 *pDevice, GLMDisplayParams *params )
 		m_scratchFBO[i] = NewFBO();
 	}
 
-#ifdef OSX
-	UpdateSwapchainVariables( true );
-	if ( m_caps.m_badDriver108Intel )
-	{
-		// this way we have something to look for in terminal spew if users report issues related to this in the future.
-		printf( "\nEnabling GLSL compiler `malloc' workaround.\n" );
-		if ( !IntelGLMallocWorkaround::Get()->Enable() )
-		{
-			Warning( "Unable to enable OSX 10.8 / Intel HD4000 workaround, there might be crashes.\n" );
-		}
-	}
-
-#endif
 	// also, set the remote convar "gl_can_query_fast" to 1 if perf package present, else 0.
 	gl_can_query_fast.SetValue( m_caps.m_hasPerfPackage1?1:0 );
 
@@ -3068,7 +2841,6 @@ void GLMContext::Reset()
 
 GLMContext::~GLMContext	()
 {
-#ifndef OSX
 	GLMGPUTimestampManagerDeinit();
 
 	for ( uint t = 0; t < cNumPinnedMemoryBuffers; t++ )
@@ -3100,7 +2872,6 @@ GLMContext::~GLMContext	()
             m_samplerObjectHash[i].m_samplerObject = 0;
         }
     }
-#endif
     
 	if (m_debugFontTex)
 	{
@@ -3133,15 +2904,6 @@ GLMContext::~GLMContext	()
 	// we need a m_texTable I think..
 
 	// m_texLayoutTable can be scrubbed once we know that all the tex are freed
-
-#ifdef OSX
-	if (m_nsctx && (!m_oneCtxEnable) )
-	{
-		DelNSGLContext( m_nsctx );
-		m_nsctx	= NULL;
-		m_ctx	= NULL;	
-	}
-#endif
 
 	DecrementWindowRefCount();
 }
@@ -3266,12 +3028,6 @@ void GLMContext::BindBufferToCtx( EGLMBufferType type, CGLMBuffer *pBuff, bool b
 	m_nBoundGLBuffer[type] = nGLName;
 	gGL->glBindBufferARB( target, nGLName );
 }
-
-#ifdef OSX
-// As far as I can tell this stuff is only useful under OSX.
-ConVar	gl_can_mix_shader_gammas( "gl_can_mix_shader_gammas", 0 );
-ConVar	gl_cannot_mix_shader_gammas( "gl_cannot_mix_shader_gammas", 0 );
-#endif
 
 // ConVar param_write_mode("param_write_mode", "0");
 
@@ -4628,35 +4384,6 @@ void GLMContext::CheckNative( void )
 {
 	// note that this is available in release.  We don't use GLMPRINTF for that reason.
 	// note we do not get called unless either slow-batch asserting or logging is enabled.
-#ifdef OSX	
-	bool gpuProcessing;
-	GLint fragmentGPUProcessing, vertexGPUProcessing;
-	
-	CGLGetParameter (CGLGetCurrentContext(), kCGLCPGPUFragmentProcessing, &fragmentGPUProcessing);
-	CGLGetParameter(CGLGetCurrentContext(), kCGLCPGPUVertexProcessing, &vertexGPUProcessing);
-
-	// spews then asserts.
-	// that way you can enable both, get log output on a pair if it's slow, and then the debugger will pop.
-	if(m_slowSpewEnable)
-	{
-		if ( !vertexGPUProcessing )
-		{
-			m_drawingProgram[ kGLMVertexProgram ]->LogSlow( m_drawingLang );
-		}
-		if ( !fragmentGPUProcessing )
-		{
-			m_drawingProgram[ kGLMFragmentProgram ]->LogSlow( m_drawingLang );
-		}
-	}
-
-	if(m_slowAssertEnable)
-	{
-		if ( !vertexGPUProcessing || !fragmentGPUProcessing)
-		{
-			Assert( !"slow batch" );
-		}
-	}
-#else
 	//Assert( !"impl GLMContext::CheckNative()" );
 
 	if (m_checkglErrorsAfterEveryBatch)
@@ -4680,8 +4407,6 @@ void GLMContext::CheckNative( void )
 #endif
 		}
 	}
-
-#endif
 
 }
 
@@ -5155,8 +4880,6 @@ static inline uint GetDataTypeSizeInBytes( GLenum dataType )
 	return 0;
 }
 
-#ifndef OSX
-
 void GLMContext::DrawRangeElementsNonInline( GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid *indices, uint baseVertex, CGLMBuffer *pIndexBuf )
 {
 #if GLMDEBUG
@@ -5267,108 +4990,6 @@ void GLMContext::DrawRangeElementsNonInline( GLenum mode, GLuint start, GLuint e
 #endif
 	}
 }
-#else
-
-// support for OSX 10.6 (no support for glDrawRangeElementsBaseVertex)
-// legacy path that we're re-enabling for all OSX users as a result of perf regressions
-
-void GLMContext::DrawRangeElements(GLenum mode, GLuint start, GLuint end, GLsizei count, GLenum type, const GLvoid *indices, CGLMBuffer *pIndexBuf)
-{
-    GLM_FUNC;
-    
-    //	CheckCurrent();
-    ++m_nBatchCounter;				// batch index increments unconditionally on entry
-    
-    SetIndexBuffer( pIndexBuf );
-    void *indicesActual = (void*)indices;
-    if ( pIndexBuf->m_bPseudo )
-    {
-        // you have to pass actual address, not offset
-        indicesActual = (void*)( (intp)indicesActual + (intp)pIndexBuf->m_pPseudoBuf );
-    }
-    if (pIndexBuf->m_bUsingPersistentBuffer)
-    {
-        indicesActual = (void*)( (intp)indicesActual + (intp)pIndexBuf->m_nPersistentBufferStartOffset );
-    }
-    
-#if GLMDEBUG
-    // init debug hook information
-    GLMDebugHookInfo info;
-    memset(&info, 0, sizeof(info));
-    info.m_caller = eDrawElements;
-    
-    // relay parameters we're operating under
-    info.m_drawMode = mode;
-    info.m_drawStart = start;
-    info.m_drawEnd = end;
-    info.m_drawCount = count;
-    info.m_drawType = type;
-    info.m_drawIndices = indices;
-    
-    do
-    {
-        // obey global options re pre-draw clear
-        if (m_autoClearColor || m_autoClearDepth || m_autoClearStencil)
-        {
-            GLMPRINTF(("-- DrawRangeElements auto clear"));
-            this->DebugClear();
-        }
-        
-        // always sync with editable shader text prior to draw
-#if GLMDEBUG
-        // TODO - fixup OSX 10.6 m_boundProg not used in this version togl (m_pBoundPair)
-        //FIXME disengage this path if context is in GLSL mode..
-        // it will need fixes to get the shader pair re-linked etc if edits happen anyway.
-        
-        if (m_boundProgram[kGLMVertexProgram])
-        {
-            m_boundProgram[kGLMVertexProgram]->SyncWithEditable();
-        }
-        else
-        {
-            AssertOnce(!"drawing with no vertex program bound");
-        }
-        
-        if (m_boundProgram[kGLMFragmentProgram])
-        {
-            m_boundProgram[kGLMFragmentProgram]->SyncWithEditable();
-        }
-        else
-        {
-            AssertOnce(!"drawing with no fragment program bound");
-        }
-#endif
-        
-        // do the drawing
-        if ( m_pBoundPair )
-        {
-            gGL->glDrawRangeElements(mode, start, end, count, type, indicesActual);
-            GLMCheckError();
-            
-            if (m_slowCheckEnable)
-            {
-                CheckNative();
-            }
-        }
-        this->DebugHook(&info);
-    } while (info.m_loop);
-#else
-    if ( m_pBoundPair )
-    {
-        gGL->glDrawRangeElements(mode, start, end, count, type, indicesActual);
-        
-#if GLMDEBUG
-        if ( m_slowCheckEnable )
-        {
-            CheckNative();
-        }
-#endif
-    }
-#endif
-}
-
-#endif // #ifndef OSX
-
 
 #if 0
 // helper function to do enable or disable in one step

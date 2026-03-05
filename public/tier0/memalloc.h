@@ -16,8 +16,7 @@
 
 // These memory debugging switches aren't relevant under Linux builds since memoverride.cpp
 // isn't built into Linux projects
-// [will] - Temporarily disabling for OSX until I can fix memory issues.
-#if !defined( LINUX ) && !defined( _OSX )
+#if !defined( LINUX )
 // Define this in release to get memory tracking even in release builds
 //#define USE_MEM_DEBUG 1
 
@@ -643,10 +642,6 @@ struct MemAllocFileLine_t
 
 #elif defined( POSIX )
 
-#if defined( OSX )
-inline void *memalign(size_t alignment, size_t size) {void *pTmp=NULL; posix_memalign(&pTmp, alignment, size); return pTmp;}
-#endif
-
 inline void *_aligned_malloc( size_t nSize, size_t align )															{ return memalign( align, nSize ); }
 inline void _aligned_free( void *ptr )																				{ free( ptr ); }
 
@@ -657,11 +652,7 @@ inline void *MemAlloc_AllocAligned( size_t size, size_t align )														{ r
 inline void *MemAlloc_AllocAlignedFileLine( size_t size, size_t align, const char *pszFile = NULL, int nLine = 0 )	{ return memalign( align, size ); }
 inline void MemAlloc_FreeAligned( void *pMemBlock, const char *pszFile = NULL, int nLine = 0 ) 						{ free( pMemBlock ); }
 
-#if defined( OSX )
-inline size_t _msize( void *ptr )																					{ return malloc_size( ptr ); }
-#else
 inline size_t _msize( void *ptr )																					{ return malloc_usable_size( ptr ); }
-#endif
 
 inline void *MemAlloc_ReallocAligned( void *ptr, size_t size, size_t align )
 {

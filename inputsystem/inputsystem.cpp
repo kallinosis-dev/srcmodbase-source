@@ -17,11 +17,6 @@
 #include <vjobs_interface.h>
 #endif
 
-#ifdef PLATFORM_OSX
-#include <Carbon/Carbon.h>
-#include "materialsystem/imaterialsystem.h"
-#endif
-
 // NOTE: This has to be the last file included!
 #include "tier0/memdbgon.h"
 
@@ -267,8 +262,6 @@ bool CInputSystem::Connect( CreateInterfaceFn factory )
 
 #if defined( USE_SDL )
 	m_pLauncherMgr = (ILauncherMgr *)factory(  SDLMGR_INTERFACE_VERSION, NULL );
-#elif defined( OSX )
-	m_pLauncherMgr = (ILauncherMgr *)factory(  COCOAMGR_INTERFACE_VERSION, NULL );
 #endif
 
 return true;
@@ -319,7 +312,7 @@ void CInputSystem::Shutdown()
 //-----------------------------------------------------------------------------
 void CInputSystem::SleepUntilInput( int nMaxSleepTimeMS )
 {
-#if defined( USE_SDL ) || defined( OSX )
+#if defined( USE_SDL )
 	m_pLauncherMgr->WaitUntilUserInput( nMaxSleepTimeMS );
 #elif defined( _WIN32 ) 
 	if ( nMaxSleepTimeMS < 0 )
@@ -383,7 +376,6 @@ void CInputSystem::AttachToWindow( void* hWnd )
 	}
 
 #if defined ( USE_SDL )
-#elif defined( PLATFORM_OSX )
 #elif defined( PLATFORM_WINDOWS )
 #if defined( PLATFORM_X360 ) //GetWindowLongPtrW/SetWindowLongPtrW don't exist on the 360
 	m_ChainedWndProc = (WNDPROC)GetWindowLongPtr( (HWND)hWnd, GWLP_WNDPROC );
@@ -704,8 +696,6 @@ void CInputSystem::PollInputState_Windows()
 
 
 
-#if defined(OSX) || defined( USE_SDL )
-
 #if defined( USE_SDL )
 static BYTE        scantokey[SDL_NUM_SCANCODES];
 
@@ -771,29 +761,6 @@ static void initKeymap(void)
     scantokey[SDL_SCANCODE_RGUI] = KEY_RWIN;
 }
 
-#elif defined(OSX)
-static BYTE        scantokey[128] = 
-{ 
-	KEY_A, KEY_S, KEY_D, KEY_F, KEY_H, KEY_G, KEY_Z, KEY_X,
-	KEY_C, KEY_V,  KEY_BACKQUOTE /*german backquote char*/ , KEY_B, KEY_Q, KEY_W, KEY_E, KEY_R,  //15
-	KEY_Y, KEY_T, KEY_1, KEY_2, KEY_3, KEY_4, KEY_6, KEY_5, // 23
-	KEY_EQUAL, KEY_9, KEY_7, KEY_MINUS, KEY_8, KEY_0, KEY_RBRACKET, KEY_O, //31
-	KEY_U, KEY_LBRACKET, KEY_I, KEY_P, KEY_ENTER , KEY_L, KEY_J, KEY_APOSTROPHE, //39
-	KEY_K, KEY_SEMICOLON, KEY_BACKSLASH, KEY_COMMA,KEY_SLASH, KEY_N, KEY_M, KEY_PERIOD, // 47
-	KEY_TAB, KEY_SPACE, KEY_BACKQUOTE, KEY_BACKSPACE, 0, KEY_ESCAPE, KEY_RWIN, KEY_LWIN, //55
-	KEY_LSHIFT, KEY_CAPSLOCK, KEY_LALT, KEY_LCONTROL, KEY_LSHIFT, 0, KEY_RCONTROL, 0, //63
-	0, KEY_PAD_DECIMAL,    0  ,    KEY_PAD_MULTIPLY,    0  ,  KEY_PAD_PLUS,    0  , KEY_NUMLOCK , // 71
-	0, 0  ,    0  , KEY_PAD_DIVIDE, KEY_PAD_ENTER,    0  ,    KEY_PAD_MINUS,    0  ,  // 79
-	0, KEY_PAD_DIVIDE, KEY_PAD_0, KEY_PAD_1, KEY_PAD_2, KEY_PAD_3, KEY_PAD_4, KEY_PAD_5,  // 87
-	KEY_PAD_6, KEY_PAD_7, 0, KEY_PAD_8, KEY_PAD_9,  0,    0  ,    0  , // 95
-	KEY_F5, KEY_F6, KEY_F7, KEY_F3, KEY_F8, KEY_F9, 0, KEY_F11, // 103
-	0, 0  ,    0  ,    0  , 0, KEY_F10,    KEY_APP  , KEY_F12, // 111
-	0  ,    0, KEY_INSERT, KEY_HOME, KEY_PAGEUP, KEY_DELETE, KEY_F4, KEY_END,  // 119
-	KEY_F2, KEY_PAGEDOWN, KEY_F1, KEY_LEFT, KEY_RIGHT, KEY_DOWN, KEY_UP,  0,  // 127
-}; 
-#else 
-#error
-#endif
 
 
 bool MapCocoaVirtualKeyToButtonCode( int nCocoaVirtualKeyCode, ButtonCode_t *pOut )
@@ -802,16 +769,7 @@ bool MapCocoaVirtualKeyToButtonCode( int nCocoaVirtualKeyCode, ButtonCode_t *pOu
 		*pOut = (ButtonCode_t)(-1 * nCocoaVirtualKeyCode);
 	else 
 	{
-#ifdef OSX
-		int modified = nCocoaVirtualKeyCode & 255;
-	
-		if ( modified > 127)
-		{
-			return false;
-		}
-#else
 		nCocoaVirtualKeyCode &= 0x000000ff;
-#endif
 	
 		*pOut = (ButtonCode_t)scantokey[nCocoaVirtualKeyCode];
 	}
@@ -823,8 +781,6 @@ bool MapCocoaVirtualKeyToButtonCode( int nCocoaVirtualKeyCode, ButtonCode_t *pOu
 
 #ifdef LINUX
 void CInputSystem::PollInputState_Linux()
-#elif defined( OSX )
-void CInputSystem::PollInputState_OSX()
 #elif defined( _WIN32 )
 void CInputSystem::PollInputState_Windows()
 #endif
@@ -877,7 +833,7 @@ void CInputSystem::PollInputState_Windows()
 						event.m_nData = scanCode;
 						g_pInputSystem->PostUserEvent( event );
 						
-#if defined( LINUX ) || (defined( OSX ) && defined( USE_SDL ) )
+#if defined( LINUX )
 						if ( scanCode == KEY_BACKSPACE )
 						{
 							// On Linux (and OS X, when using SDL), we need to fire this event to have backspace keypresses picked up by scaleform.
@@ -1046,9 +1002,7 @@ void CInputSystem::PollInputState( bool bIsInGame )
 	// the LastPollTick not updated (not 100% sure though)
 	m_nLastPollTick = m_nLastSampleTick;
 
-#if defined( PLATFORM_OSX )
-	PollInputState_OSX();
-#elif defined( LINUX )
+#if defined( LINUX )
 	PollInputState_Linux();
 #elif defined( WIN32 )
 	PollInputState_Windows();
@@ -1269,7 +1223,7 @@ uint64 CInputSystem::GetMotionControllerDeviceStatusFlags( ) const
 	return m_nMotionControllerStatusFlags;
 }
 
-#if defined( _OSX ) || defined (LINUX)
+#if defined (LINUX)
 // this is defined in xcontroller.cpp, but that file isn't included
 // in posix builds
 void CInputSystem::SetMotionControllerCalibrationInvalid( void )
@@ -1286,7 +1240,7 @@ void CInputSystem::ResetMotionControllerScreenCalibration( void )
 
 }
 
-#endif // _OSX
+#endif // LINUX
 
 //-----------------------------------------------------------------------------
 // Returns the input events since the last poll
@@ -1436,8 +1390,6 @@ void CInputSystem::SetCursorPosition( int x, int y )
 
 #if defined( USE_SDL )
 	m_pLauncherMgr->SetCursorPosition( x, y );
-#elif defined( OSX )
-	m_pLauncherMgr->SetCursorPosition( x, y );
 #elif defined( WIN32 ) 
 	POINT pt;
 	pt.x = x; pt.y = y;
@@ -1485,43 +1437,6 @@ void CInputSystem::GetCursorPosition( int *pX, int *pY )
 #if defined( USE_SDL )
 	*pX = m_InputState[INPUT_STATE_CURRENT].m_pAnalogValue[MOUSE_X];
 	*pY = m_InputState[INPUT_STATE_CURRENT].m_pAnalogValue[MOUSE_Y];
-#elif defined( PLATFORM_OSX )
-	if ( m_bCursorVisible )
-	{
-		CGEventRef event = CGEventCreate( NULL );
-		CGPoint pnt = CGEventGetLocation( event );
-
-		// [will] - QuickDraw functions removed in 10.7, so using using CocoaMgr for window info instead.
-		unsigned int displayWidth, displayHeight;
-		m_pLauncherMgr->DisplayedSize( displayWidth, displayHeight );
-
-		*pX = pnt.x;
-		*pY = pnt.y;
-		CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-		int rx, ry, width, height;
-		pRenderContext->GetViewport( rx, ry, width, height );
-		
-		int windowHeight = (int)displayWidth;
-		int windowWidth = (int)displayHeight;
-		if ( width != windowWidth || abs( height - windowHeight ) > 22 )
-		{
-			// scale the x/y back into the co-ords of the back buffer, not the scaled up window 
-			//DevMsg( "Mouse x:%d y:%d %d %d %d %d\n", x, y, width, windowWidth, height, abs( height - windowHeight ) );
-			*pX = *pX * (float)width/windowWidth;
-			*pY = *pY * (float)height/windowHeight;
-		}
-
-		CFRelease( event );
-	}
-	else
-	{
-		// cursor is invisible, just say the center of the screen
-		CMatRenderContextPtr pRenderContext( g_pMaterialSystem );
-		int rx, ry, width, height;
-		pRenderContext->GetViewport( rx, ry, width, height );
-		*pX = width/2;
-		*pY = height/2;
-	}
 #elif !defined( PLATFORM_POSIX )
 	POINT pt;
 	::GetCursorPos( &pt );
@@ -2160,8 +2075,6 @@ void  CInputSystem::InitPlatfromInputDeviceInfo( void )
 
 #if defined( PLATFORM_WINDOWS_PC )
 	m_currentlyConnectedInputDevices = INPUT_DEVICE_KEYBOARD_MOUSE;
-#elif defined( PLATFORM_OSX )
-	m_currentlyConnectedInputDevices = INPUT_DEVICE_KEYBOARD_MOUSE;
 #elif defined( PLATFORM_LINUX )
 	m_currentlyConnectedInputDevices = INPUT_DEVICE_KEYBOARD_MOUSE;
 #elif defined( PLATFORM_X360 )
@@ -2187,8 +2100,6 @@ void CInputSystem::ResetCurrentInputDevice( void )
 	}
 
 #if defined( PLATFORM_WINDOWS_PC )
-	m_currentInputDevice = INPUT_DEVICE_KEYBOARD_MOUSE;
-#elif defined( PLATFORM_OSX )
 	m_currentInputDevice = INPUT_DEVICE_KEYBOARD_MOUSE;
 #elif defined( PLATFORM_LINUX )
 	m_currentInputDevice = INPUT_DEVICE_KEYBOARD_MOUSE;

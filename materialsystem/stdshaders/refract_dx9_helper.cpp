@@ -225,9 +225,6 @@ void DrawRefract_DX9( CBaseVSShader *pShader, IMaterialVar** params, IShaderDyna
 		SET_STATIC_VERTEX_SHADER_COMBO( COLORMODULATE, bColorModulate );
 		SET_STATIC_VERTEX_SHADER( refract_vs20 );
 
-		// We have to do this in the shader on R500 or Leopard
-		bool bShaderSRGBConvert = IsOSX() && ( g_pHardwareConfig->FakeSRGBWrite() || !g_pHardwareConfig->CanDoSRGBReadFromRTs() );
-
 		if ( g_pHardwareConfig->SupportsPixelShaders_2_b() || g_pHardwareConfig->ShouldAlwaysUseShaderModel2bShaders() ) // always send OpenGL down the ps2b path
 		{
 			DECLARE_STATIC_PIXEL_SHADER( refract_ps20b );
@@ -240,7 +237,7 @@ void DrawRefract_DX9( CBaseVSShader *pShader, IMaterialVar** params, IShaderDyna
 			SET_STATIC_PIXEL_SHADER_COMBO( SECONDARY_NORMAL, bSecondaryNormal );
 			SET_STATIC_PIXEL_SHADER_COMBO( MIRRORABOUTVIEWPORTEDGES, bMirrorAboutViewportEdges );
 			SET_STATIC_PIXEL_SHADER_COMBO( MAGNIFY, bUseMagnification );
-			SET_STATIC_PIXEL_SHADER_COMBO( SHADER_SRGB_READ, bShaderSRGBConvert );
+			SET_STATIC_PIXEL_SHADER_COMBO( SHADER_SRGB_READ );
 			SET_STATIC_PIXEL_SHADER_COMBO( LOCALREFRACT, ( params[info.m_nLocalRefract]->GetIntValue() != 0 ) );
 			SET_STATIC_PIXEL_SHADER( refract_ps20b );
 		}

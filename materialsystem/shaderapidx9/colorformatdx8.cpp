@@ -389,12 +389,6 @@ D3DFORMAT GetNearestD3DColorFormat( ImageFormat fmt,
 		break;
 
 	case IMAGE_FORMAT_D24X8_SHADOW:
-	
-		if ( IsOSXOpenGL() )
-		{
-			return D3DFMT_D24X8;
-		}
-		
 		// Only try ATIFMT_D24S8 on non-DX10 capable ATI cards (where we use fetch4). On DX10 capable ATI cards we use hardware PCF.
 		if ( g_pHardwareConfig->Caps().m_VendorID == VENDORID_ATI && ( CommandLine()->CheckParm( "-forceatifetch4" ) || !g_pHardwareConfig->Caps().m_bDX10Card ) )
 		{

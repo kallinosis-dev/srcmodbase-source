@@ -428,14 +428,8 @@ void Audio::DiscoverAudioLanguages()
 	if ( steamapicontext->SteamApps() )
 	{
 		V_strncpy( szCurrentGameLanguage, steamapicontext->SteamApps()->GetCurrentGameLanguage(), sizeof( szCurrentGameLanguage ) );
-        if ( IsPlatformOSX() )
-        {
-            V_strncpy(szAvailableGameLanguages, "english,german,french,spanish,russian", sizeof(szAvailableGameLanguages) );
-        }
-        else
-        {
-            V_strncpy( szAvailableGameLanguages, steamapicontext->SteamApps()->GetAvailableGameLanguages(), sizeof( szAvailableGameLanguages ) );
-        }
+        V_strncpy( szAvailableGameLanguages, steamapicontext->SteamApps()->GetAvailableGameLanguages(), sizeof( szAvailableGameLanguages ) );
+        
 	}
 #endif
 

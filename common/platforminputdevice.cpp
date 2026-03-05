@@ -101,8 +101,6 @@ InputDevice_t	PlatformInputDevice::s_AllInputDevices = INPUT_DEVICE_NONE;
 const InputDevicePlatform_t PlatformInputDevice::s_LocalInputPlatform = 
 	#if defined( PLATFORM_WINDOWS_PC )
 		INPUT_DEVICE_PLATFORM_WINDOWS;
-	#elif defined( PLATFORM_OSX )
-		INPUT_DEVICE_PLATFORM_OSX;
 	#elif defined( PLATFORM_X360 )
 		INPUT_DEVICE_PLATFORM_XBOX360;
 	#elif defined( PLATFORM_PS3 )
@@ -129,11 +127,6 @@ void PlatformInputDevice::InitPlatfromInputDeviceInfo( void )
 		INPUT_DEVICE_KEYBOARD_MOUSE | 
 		INPUT_DEVICE_GAMEPAD | 
 		INPUT_DEVICE_HYDRA |
-		INPUT_DEVICE_STEAM_CONTROLLER;
-
-	// Mac OSX
-	s_validPlatformInputDevices[INPUT_DEVICE_PLATFORM_OSX] =
-		INPUT_DEVICE_KEYBOARD_MOUSE |
 		INPUT_DEVICE_STEAM_CONTROLLER;
 
 	// Xbox 360
@@ -288,7 +281,6 @@ const char *PlatformInputDevice::GetInputDevicePlatformName( InputDevicePlatform
 	{
 		case INPUT_DEVICE_PLATFORM_NONE:		return "NONE (Not Set)";
 		case INPUT_DEVICE_PLATFORM_WINDOWS:		return "Windows PC";
-		case INPUT_DEVICE_PLATFORM_OSX:			return "Mac OS X";
 		case INPUT_DEVICE_PLATFORM_XBOX360:		return "Xbox 360";
 		case INPUT_DEVICE_PLATFORM_PS3:			return "Playstation 3";
 		case INPUT_DEVICE_PLATFORM_LINUX:		return "Linux PC";
@@ -319,7 +311,6 @@ InputDevice_t PlatformInputDevice::GetDefaultInputDeviceForPlatform( InputDevice
 	{
 		case INPUT_DEVICE_PLATFORM_NONE:		return INPUT_DEVICE_NONE;
 		case INPUT_DEVICE_PLATFORM_WINDOWS:		return INPUT_DEVICE_KEYBOARD_MOUSE;
-		case INPUT_DEVICE_PLATFORM_OSX:			return INPUT_DEVICE_KEYBOARD_MOUSE;
 		case INPUT_DEVICE_PLATFORM_XBOX360:		return INPUT_DEVICE_GAMEPAD;
 		case INPUT_DEVICE_PLATFORM_PS3:			return INPUT_DEVICE_GAMEPAD;
 		case INPUT_DEVICE_PLATFORM_LINUX:		return INPUT_DEVICE_KEYBOARD_MOUSE;

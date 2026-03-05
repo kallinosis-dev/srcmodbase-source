@@ -22,7 +22,7 @@ char *GetCommandLine();
 #include "tier0/threadtools.h"
 #include "tier0/icommandline.h"
 
-#if defined( LINUX ) || defined( OSX )
+#if defined( LINUX )
 #include <dlfcn.h>
 #endif
 
@@ -384,7 +384,7 @@ PLATFORM_INTERFACE void SetAssertDialogDisabled( bool bAssertDialogDisabled )
 	g_bAssertDialogEnabled = !bAssertDialogDisabled;
 }
 
-#if defined( LINUX ) || ( defined( USE_SDL ) && defined( OSX ) )
+#if defined( LINUX )
 SDL_Window *g_SDLWindow = NULL;
 
 PLATFORM_INTERFACE void SetAssertDialogParent( struct SDL_Window *window )
@@ -615,11 +615,7 @@ else
         pfnSDLGetKeyboardFocus = ( FUNC_SDL_GetKeyboardFocus * )GetProcAddress( ret, "SDL_GetKeyboardFocus" );
 #else
 
-#if defined( OSX )
-        void *ret = dlopen( "libSDL2-2.0.0.dylib", RTLD_LAZY );
-#else
         void *ret = dlopen( "libSDL2-2.0.so.0", RTLD_LAZY );
-#endif
 
         pfnSDLShowMessageBox = ( FUNC_SDL_ShowMessageBox * )dlsym( ret, "SDL_ShowMessageBox" );
         pfnSDLGetKeyboardFocus = ( FUNC_SDL_GetKeyboardFocus * )dlsym( ret, "SDL_GetKeyboardFocus" );
