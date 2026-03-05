@@ -1378,7 +1378,7 @@ bool CVPC::BuildTargetProject(IProjectIterator* pIterator, projectIndex_t projec
                               const char* pGameName)
 {
 	// evaluate the project's script conditional which determines game/platform
-	if (!conditionals.EvaluateConditionalExpression(pProjectScript->m_condition.String()))
+	if (!conditionals.EvaluateConditionalExpression(pProjectScript->m_condition.String(), nullptr))
 	{
 		// conditionals prevent this project from consideration
 		return false;
