@@ -2441,7 +2441,7 @@ extern IBaseProjectGenerator* GetXcodeProjectGenerator();
 extern IBaseProjectGenerator* GetAndroidProjectGenerator();
 extern IVCProjWriter* GetWin32ProjectGenerator_VCProjWriter_2010();
 
-void CVPC::DetermineProjectGenerator()
+void CVPC::DetermineProjectGenerator(CScript* projScript)
 {
 	if (m_pProjectGenerator)
 		return; //already picked one for this project!
@@ -2502,7 +2502,7 @@ void CVPC::DetermineProjectGenerator()
 		m_pProjectGenerator = GetWin32ProjectGenerator_2010();
 	}
 
-	m_pProjectGenerator->StartProject();
+	m_pProjectGenerator->StartProject(projScript);
 	if (m_pDependencyProject)
 	{
 		m_pDependencyProject->m_pProjectGenerator = m_pProjectGenerator;

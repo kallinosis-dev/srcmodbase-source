@@ -241,7 +241,7 @@ public:
 
 	void					CreateVSAddinMetadataString( void );
 
-	void					DetermineProjectGenerator();
+	void					DetermineProjectGenerator(CScript* projScript);
 
 	bool					IsTestMode( void ) const { return m_bTestMode; }
 	bool					OutputName_ShouldAppendSrvToDedicated( void ) const { return m_bAppendSrvToDedicated; }
