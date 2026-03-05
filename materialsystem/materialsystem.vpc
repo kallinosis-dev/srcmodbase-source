@@ -87,15 +87,6 @@ $Configuration "Release"
 	}
 }
 
-$Configuration
-{
-	$Linker [$OSXALL]
-	{
-		$SystemFrameworks				"Carbon;OpenGL;Quartz;Cocoa;IOKit" 
-		$SystemLibraries				"iconv;z"		
-	}
-}
-
 ///////////////////////////////////////////////
 //
 // PS3 conglomerates all shader modules here

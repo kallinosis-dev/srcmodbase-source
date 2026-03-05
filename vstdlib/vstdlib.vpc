@@ -21,9 +21,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalDependencies		"$BASE odbc32.lib odbccp32.lib"			[$WINDOWS]
-		
-		$SystemFrameworks			"CoreServices"
-		$SystemLibraries			"iconv" [$OSXALL]
 	}
 }
 

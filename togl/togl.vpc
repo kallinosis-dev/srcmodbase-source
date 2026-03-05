@@ -23,11 +23,6 @@ $Configuration
         $PreprocessorDefinitions	"$BASE;TOGL_DLL_EXPORT" [$OSXALL]
 	}
     
-	$Linker [$OSXALL]
-	{
-		$SystemFrameworks "Carbon;OpenGL;Quartz;Cocoa;IOKit"
-	}
-	
 	//$Linker [$LINUXALL]
 	//{
 	//	$GCC_ExtraLinkerFlags                   "-L$SRCDIR/thirdparty/sdl/build/.libs"

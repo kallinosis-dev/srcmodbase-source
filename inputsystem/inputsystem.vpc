@@ -21,7 +21,6 @@ $Configuration
 		$AdditionalDependencies			"$BASE Winmm.lib" [$WINDOWS]
 		$AdditionalDependencies			"$BASE imm32.lib" [$WINDOWS]
 		$SystemLibraries                "iconv" [$OSXALL]
-		$SystemFrameworks 				"Carbon;ForceFeedback;IOKit"
 		$SystemLibraries                "SDL2" [$LINUXALL]
 	}
 }

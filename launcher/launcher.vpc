@@ -23,8 +23,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalDependencies		"$BASE shlwapi.lib winmm.lib wsock32.lib odbc32.lib odbccp32.lib" [$WINDOWS]
-		$SystemFrameworks                                "Carbon;AppKit;OpenGL;IOKit"
-		$SystemFrameworks								"Carbon;AppKit;OpenGL;IOKit"
 		$SystemLibraries                                "iconv" [$OSXALL]
 		$SystemLibraries                                "SDL2"  [$LINUXALL]
 		// We run from the ./game dir, but want to look in the ./game/bin directory when loading libraries.

@@ -28,7 +28,6 @@ $Configuration
 		$IgnoreImportLibrary				"Yes" [$WINDOWS]
 		$AdditionalDependencies				"$BASE vfw32.lib" [$WINDOWS]
 		$SystemLibraries                    "iconv" [$OSXALL]
-		$SystemFrameworks					"Quicktime;Carbon"
 		$AdditionalLibraryDirectories		"$BASE;$SRCDIR\dx9sdk\lib$PLATSUBDIR"	[$WINDOWS]
 		$GCC_ExtraLinkerFlags				"-z muldefs -L$SRCDIR/thirdparty/sdl/build/.libs" [$LINUXALL]
 		$SystemLibraries					"SDL2" [$LINUXALL]

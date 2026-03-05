@@ -21,8 +21,6 @@ $Configuration
 
 	$Linker
 	{
-		$SystemLibraries                	"iconv" [$OSXALL]
-		$SystemFrameworks			"Carbon" [$OSXALL]
 		$GCC_ExtraLinkerFlags                   "-L/usr/lib32 -L/usr/lib -L/usr/lib/i386-linux-gnu" [$LINUXALL]
 		$SystemLibraries                        "fontconfig;freetype;SDL2"			[$LINUXALL]
 	}

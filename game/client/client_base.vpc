@@ -62,7 +62,6 @@ $Configuration
 	$Linker
 	{
 		$SystemLibraries				"iconv"     [$OSXALL]
-		$SystemFrameworks				"Carbon"
 		$SystemLibraries				"rt" [$LINUXALL]
 		$IgnoreImportLibrary			"TRUE"
 		$AdditionalDependencies			"$BASE winmm.lib"	[$WINDOWS]

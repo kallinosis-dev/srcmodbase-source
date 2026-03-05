@@ -18,11 +18,6 @@ $Configuration
 	{
 		$PreprocessorDefinitions	"$BASE;VERSION_SAFE_STEAM_API_INTERFACES"	[($WINDOWS && $GL) || $LINUXALL]
 	}
-	
-	$Linker [$OSXALL && !$IS_LIB_PROJECT]
-	{
-		$SystemFrameworks "Carbon;OpenGL;Quartz;Cocoa;IOKit"
-	}
 }
 
 $Project "appframework"
