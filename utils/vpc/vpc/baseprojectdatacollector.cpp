@@ -121,6 +121,8 @@ CBaseProjectDataCollector::~CBaseProjectDataCollector()
 
 void CBaseProjectDataCollector::StartProject(CScript* script)
 {
+	Assert(m_Script == nullptr);
+
 	m_ProjectName = "UNNAMED";
 	m_CurFileConfig.Push( &m_BaseConfigData );
 	m_CurSpecificConfig.Push(nullptr);
@@ -147,6 +149,8 @@ void CBaseProjectDataCollector::EndProject( bool bSaveData )
 	}
 
 	VPC_GenerateProjectDependencies( this );
+
+	m_Script = nullptr;
 }
 
 void CBaseProjectDataCollector::Term()

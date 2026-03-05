@@ -138,5 +138,5 @@ public:
 	CRelevantPropertyNames m_RelevantPropertyNames;
 
 protected:
-	CScript* m_Script;
+	CScript* m_Script = nullptr;
 };
