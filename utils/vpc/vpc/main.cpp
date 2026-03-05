@@ -1969,34 +1969,6 @@ void CVPC::SetMacrosAndConditionals()
 
 		conditionals.SetSystem("GL", true);
 	}
-	else if (!V_stricmp_fast(platformName.String(), "IOS"))
-	{
-		if (m_bDedicatedBuild)
-		{
-			conditionals.SetSystem("DEDICATED", true);
-		}
-
-		conditionals.SetSystem("POSIX", true);
-		macros.SetAsSystem("_POSIX", "1", true);
-
-		conditionals.SetSystem("IOS", true);
-		macros.SetAsSystem("_IOS", "1", true);
-		macros.SetAsSystem("IOS", "1", true);
-
-		macros.SetAsSystem("_DLL_EXT", "_ios.dylib", true);
-		macros.SetAsSystem("_IMPLIB_EXT", "_ios.dylib", false);
-
-		macros.SetAsSystem("_DLL_PREFIX", "lib", true);
-		macros.SetAsSystem("_IMPLIB_PREFIX", "lib", false);
-		macros.SetAsSystem("_IMPLIB_DLL_PREFIX", "lib", false);
-
-		macros.SetAsSystem("_STATICLIB_EXT", "_ios.a", false);
-		macros.SetAsSystem("_EXE_EXT", "", false);
-
-		macros.SetAsSystem("_EXTERNAL_DLL_EXT", "_ios.dylib", true);
-		macros.SetAsSystem("_EXTERNAL_IMPLIB_EXT", "_ios.dylib", false);
-		macros.SetAsSystem("_EXTERNAL_STATICLIB_EXT", "_ios.a", false);
-	}
 	else
 	{
 		UNREACHABLE();
