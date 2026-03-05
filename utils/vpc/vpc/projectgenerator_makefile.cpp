@@ -23,8 +23,8 @@ IBaseProjectGenerator* GetMakefileProjectGenerator()
 
 CProjectGenerator_Makefile::ScriptHelpers_t CProjectGenerator_Makefile::s_ScriptHelpers[ST_COUNT] = 
 	{ 
-		{ ".sh", "set -e\n\n", CBaseProjectDataCollector::DoShellScriptReplacements },
-		{ ".bat", "", CBaseProjectDataCollector::DoBatchScriptReplacements }
+		{ ".sh", "set -e\n\n", CBaseProjectGenerator::DoShellScriptReplacements },
+		{ ".bat", "", CBaseProjectGenerator::DoBatchScriptReplacements }
 	};
 
 //--------------------------------------------------------------------------------------------------
@@ -250,7 +250,7 @@ void CProjectGenerator_Makefile::CollectDependencies( const char *pDependencies,
 	}
 
 	CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
-	CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pDependencies, pVsStr, pFullFileNameForVisualStudioReplacements );
+	CBaseProjectGenerator::DoStandardVisualStudioReplacements( pDependencies, pVsStr, pFullFileNameForVisualStudioReplacements );
 
 	const char *szProjectPath = g_pVPC->GetProjectPath();
 
@@ -283,7 +283,7 @@ void CProjectGenerator_Makefile::WriteCustomDependencies( const char *pDependenc
     }
 
     CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
-    CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pDependencies, pVsStr, nullptr);
+    CBaseProjectGenerator::DoStandardVisualStudioReplacements( pDependencies, pVsStr, nullptr);
 
     CSplitStringInPlace splitDeps( pVsStr->Access(), ';' );
     while ( splitDeps.HasNext() )
@@ -379,7 +379,7 @@ bool CProjectGenerator_Makefile::WriteCustomBuildTool(	CProjectConfiguration *pC
 
 	CUtlString buildToolName;
 
-	CBaseProjectDataCollector::DoStandardVisualStudioReplacements( descriptionString, pVsStr, pFixedProjectFileName );
+	CBaseProjectGenerator::DoStandardVisualStudioReplacements( descriptionString, pVsStr, pFixedProjectFileName );
 	if ( pRelativeFilePath )
 	{
 		outBuf.Printf(	"#\n"
@@ -407,7 +407,7 @@ bool CProjectGenerator_Makefile::WriteCustomBuildTool(	CProjectConfiguration *pC
 		shellScriptFileName.Format( "%s/custom_build_tools/%s", szVPCGeneratedScriptsBasePath, buildToolName.Get() );
 		shellScriptFileName += s_ScriptHelpers[scriptType].szExtension;
 
-		CBaseProjectDataCollector::DoStandardVisualStudioReplacements( commandLineString, pVsStr, pFixedProjectFileName );
+		CBaseProjectGenerator::DoStandardVisualStudioReplacements( commandLineString, pVsStr, pFixedProjectFileName );
 		WriteScriptFile( shellScriptFileName.Get(), pVsStr, scriptType );
 	}
 
@@ -449,7 +449,7 @@ bool CProjectGenerator_Makefile::WriteCustomBuildTool(	CProjectConfiguration *pC
 	generatedScriptsOut.AddString( shellScriptFileName.Get() );
 
 	//load the description into pVsStr
-	CBaseProjectDataCollector::DoStandardVisualStudioReplacements( m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_Description ), pVsStr, pFixedProjectFileName );
+	CBaseProjectGenerator::DoStandardVisualStudioReplacements( m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_Description ), pVsStr, pFixedProjectFileName );
 	
 	outBuf.Printf(	"\n"
 													"CUSTOM_BUILD_TOOL_ACTION_%s = \\\n"
@@ -903,7 +903,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 		const char *fixedOutputFile = UsePOSIXSlashes( outputFileString );
 
 		V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), fixedOutputFile, nullptr, k_bVPCForceLowerCase );
-		CBaseProjectDataCollector::DoStandardVisualStudioReplacements( fixedOutputFile, pVsStr, szAbsPath );
+		CBaseProjectGenerator::DoStandardVisualStudioReplacements( fixedOutputFile, pVsStr, szAbsPath );
 
 		outBuf.Printf( "OUTPUTFILE=%s\n", pVsStr->String() );
 
@@ -917,7 +917,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 		const char *fixedGameOutputFile = UsePOSIXSlashes( gameOutputFileString );
 
 		V_MakeAbsolutePath( szAbsPath, sizeof( szAbsPath ), fixedGameOutputFile, nullptr, k_bVPCForceLowerCase );
-		CBaseProjectDataCollector::DoStandardVisualStudioReplacements( fixedGameOutputFile, pVsStr, szAbsPath );
+		CBaseProjectGenerator::DoStandardVisualStudioReplacements( fixedGameOutputFile, pVsStr, szAbsPath );
 
 		outBuf.Printf( "GAMEOUTPUTFILE=%s\n", pVsStr->String() );
 	}
@@ -1262,7 +1262,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 			outBuf.Printf( "PREBUILD_EVENT_ACTION = { $(SHELL) %s $(PROCESS_COMPILER_OUTPUT); }\n", scriptFileName.Get() );
 			outBuf.PutString( "unexport PREBUILD_EVENT_ACTION\n" );
 						
-			CBaseProjectDataCollector::DoStandardVisualStudioReplacements( szPreBuildEvent, pVsStr, "" );
+			CBaseProjectGenerator::DoStandardVisualStudioReplacements( szPreBuildEvent, pVsStr, "" );
 			WriteScriptFile( scriptFileName, pVsStr, scriptType );
 		}
 	}
@@ -1280,7 +1280,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 			CUtlString scriptFileName;
 			scriptFileName.Format( "%s/build_events/pre_link_event%s", vpcGeneratedScriptsBasePath.Get(), s_ScriptHelpers[scriptType].szExtension );
 			
-			CBaseProjectDataCollector::DoStandardVisualStudioReplacements( szPreLinkEvent, pVsStr, "" );
+			CBaseProjectGenerator::DoStandardVisualStudioReplacements( szPreLinkEvent, pVsStr, "" );
 			WriteScriptFile( scriptFileName, pVsStr, scriptType );
 
 			outBuf.Printf( "PRELINK_EVENT_ACTION = { $(SHELL) %s $(PROCESS_COMPILER_OUTPUT); }\n", scriptFileName.Get() );
@@ -1302,7 +1302,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
 			CFmtStr scriptFileName;
 			scriptFileName.Format( "%s/build_events/post_build_event%s", vpcGeneratedScriptsBasePath.Get(), s_ScriptHelpers[scriptType].szExtension );
 			
-			CBaseProjectDataCollector::DoStandardVisualStudioReplacements( szPostBuildEvent, pVsStr, "" );
+			CBaseProjectGenerator::DoStandardVisualStudioReplacements( szPostBuildEvent, pVsStr, "" );
 			WriteScriptFile( scriptFileName, pVsStr, scriptType );
 			
 			outBuf.Printf( "POSTBUILD_EVENT_ACTION = { $(SHELL) %s $(PROCESS_COMPILER_OUTPUT); }\n", scriptFileName.Get() );

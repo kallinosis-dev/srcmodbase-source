@@ -50,7 +50,7 @@ endif
 # ---------------------------------------------------------------- #
 
 VPC_SRC:= \
-	baseprojectdatacollector.cpp \
+	baseprojectgenerator.cpp \
 	clanggenerator.cpp \
 	conditionals.cpp \
 	configuration.cpp \

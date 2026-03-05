@@ -56,6 +56,10 @@ $Project "vpc"
 		{
 			$File	"ibaseprojectgenerator.h"
 
+			
+			$File	"baseprojectgenerator.cpp"
+			$File	"baseprojectgenerator.h"
+
 			$File	"projectgenerator_android.cpp"
 			$File	"projectgenerator_vcproj.cpp"
 			$File	"projectgenerator_makefile.cpp"
@@ -103,8 +107,6 @@ $Project "vpc"
 		$File	"main.cpp"
 		$File	"vpc.h"
 
-		$File	"baseprojectdatacollector.cpp"
-		$File	"baseprojectdatacollector.h"
 		$File	"clanggenerator.cpp"
 		$File	"conditionals.cpp"
 		$File 	"conditionals.h"

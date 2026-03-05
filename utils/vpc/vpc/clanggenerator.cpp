@@ -6,7 +6,7 @@
 
 #include "vpc.h"
 
-#include "baseprojectdatacollector.h"
+#include "baseprojectgenerator.h"
 #include "projectgenerator_vcproj.h"
 
 #include "tier1/fmtstr.h"

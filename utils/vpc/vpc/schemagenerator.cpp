@@ -7,7 +7,7 @@
 #include "vpc.h"
 #include "tier1/utldict.h"
 #include "tier1/keyvalues.h"
-#include "baseprojectdatacollector.h"
+#include "baseprojectgenerator.h"
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
 #include "tier1/fmtstr.h"

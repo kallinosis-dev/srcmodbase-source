@@ -5,7 +5,7 @@
 //=====================================================================================//
 
 #include "vpc.h"
-#include "baseprojectdatacollector.h"
+#include "baseprojectgenerator.h"
 #include "projectgenerator_vcproj.h"
 
 
@@ -316,7 +316,7 @@ CProjectFile *VPC_Qt_GetGeneratedFile( CProjectFile *pInputFile, const char * /*
 bool IsQtSupportedForThisTargetPlatform( void )
 {
 	// TODO: Only implemented+tested on WIN32/WIN64 so far...
-	//       [ uses CBaseProjectDataCollector, so may work on other platforms, but untested ]
+	//       [ uses CBaseProjectGenerator, so may work on other platforms, but untested ]
 	const char *pPlatform = g_pVPC->conditionals.GetTargetPlatformName();
 	return ( !V_stricmp_fast( pPlatform, "WIN32" ) || !V_stricmp_fast( pPlatform, "WIN64" ) );
 }

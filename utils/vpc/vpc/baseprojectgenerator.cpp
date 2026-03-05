@@ -4,7 +4,7 @@
 //
 //=============================================================================
 
-#include "baseprojectdatacollector.h"
+#include "baseprojectgenerator.h"
 
 #include "vpc.h"
 #include "tier1/utlstack.h"
@@ -98,10 +98,10 @@ bool CFileConfig::IsExcludedFrom( const char *pConfigName )
 
 
 // ------------------------------------------------------------------------------------------------ //
-// CBaseProjectDataCollector implementation.
+// CBaseProjectGenerator implementation.
 // ------------------------------------------------------------------------------------------------ //
 
-CBaseProjectDataCollector::CBaseProjectDataCollector( CRelevantPropertyNames *pNames )
+CBaseProjectGenerator::CBaseProjectGenerator( CRelevantPropertyNames *pNames )
  :	m_BaseConfigData( "", VPC_FILE_FLAGS_NONE ),
 	m_Files( k_eDictCompareTypeFilenames )
 {
@@ -114,12 +114,12 @@ CBaseProjectDataCollector::CBaseProjectDataCollector( CRelevantPropertyNames *pN
 	}
 }
 
-CBaseProjectDataCollector::~CBaseProjectDataCollector()
+CBaseProjectGenerator::~CBaseProjectGenerator()
 {
 	Term();
 }
 
-void CBaseProjectDataCollector::StartProject(CScript* script)
+void CBaseProjectGenerator::StartProject(CScript* script)
 {
 	Assert(m_Script == nullptr);
 
@@ -132,7 +132,7 @@ void CBaseProjectDataCollector::StartProject(CScript* script)
 	g_pVPC->ShouldEmitClangProject();
 }
 
-void CBaseProjectDataCollector::EndProject( bool bSaveData )
+void CBaseProjectGenerator::EndProject( bool bSaveData )
 {
 	m_Script->EnsureScriptStackEmpty();
 
@@ -153,7 +153,7 @@ void CBaseProjectDataCollector::EndProject( bool bSaveData )
 	m_Script = nullptr;
 }
 
-void CBaseProjectDataCollector::Term()
+void CBaseProjectGenerator::Term()
 {
 	m_BaseConfigData.Term();
 	m_Files.PurgeAndDeleteElements();
@@ -161,12 +161,12 @@ void CBaseProjectDataCollector::Term()
 	m_CurSpecificConfig.Purge();
 }
 
-const char *CBaseProjectDataCollector::GetProjectName()
+const char *CBaseProjectGenerator::GetProjectName()
 {
 	return m_ProjectName;
 }
 
-void CBaseProjectDataCollector::SetProjectName( const char *pProjectName )
+void CBaseProjectGenerator::SetProjectName( const char *pProjectName )
 {
 	CUtlPathStringHolder tmpBuf( pProjectName );
 	V_strlower( tmpBuf.GetForModify() );
@@ -174,7 +174,7 @@ void CBaseProjectDataCollector::SetProjectName( const char *pProjectName )
 }
 
 // Get a list of all configurations.
-void CBaseProjectDataCollector::GetAllConfigurationNames( CUtlVector< CUtlString > &configurationNames )
+void CBaseProjectGenerator::GetAllConfigurationNames( CUtlVector< CUtlString > &configurationNames )
 {
 	configurationNames.Purge();
 	for ( int i=m_BaseConfigData.m_Configurations.First(); i != m_BaseConfigData.m_Configurations.InvalidIndex(); i=m_BaseConfigData.m_Configurations.Next(i) )
@@ -183,7 +183,7 @@ void CBaseProjectDataCollector::GetAllConfigurationNames( CUtlVector< CUtlString
 	}
 }
 
-void CBaseProjectDataCollector::StartConfigurationBlock( const char *pConfigName, bool bFileSpecific )
+void CBaseProjectGenerator::StartConfigurationBlock( const char *pConfigName, bool bFileSpecific )
 {
 	CFileConfig *pFileConfig = m_CurFileConfig.Top();
 
@@ -206,12 +206,12 @@ void CBaseProjectDataCollector::StartConfigurationBlock( const char *pConfigName
 	m_CurSpecificConfig.Push( pFileConfig->m_Configurations[index] );
 }
 
-void CBaseProjectDataCollector::EndConfigurationBlock()
+void CBaseProjectGenerator::EndConfigurationBlock()
 {
 	m_CurSpecificConfig.Pop();
 }
 
-const char *CBaseProjectDataCollector::GetCurrentConfigurationName()
+const char *CBaseProjectGenerator::GetCurrentConfigurationName()
 {
     const char *configName = "";
     CSpecificConfig *pConfig = m_CurSpecificConfig.Top();
@@ -223,12 +223,12 @@ const char *CBaseProjectDataCollector::GetCurrentConfigurationName()
     return configName;
 }
 
-bool CBaseProjectDataCollector::StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip )
+bool CBaseProjectGenerator::StartPropertySection( configKeyword_e keyword, bool *pbShouldSkip )
 {
 	return true;
 }
 
-void CBaseProjectDataCollector::HandleProperty( const char *pProperty, const char *pCustomScriptData )
+void CBaseProjectGenerator::HandleProperty( const char *pProperty, const char *pCustomScriptData )
 {
 	int i;
 	for ( i=0; i < m_RelevantPropertyNames.m_nNames; i++ )
@@ -267,23 +267,23 @@ void CBaseProjectDataCollector::HandleProperty( const char *pProperty, const cha
 	}
 }
 
-const char *CBaseProjectDataCollector::GetPropertyValue( const char *pProperty )
+const char *CBaseProjectGenerator::GetPropertyValue( const char *pProperty )
 {
 	return "";
 }
 
-void CBaseProjectDataCollector::EndPropertySection( configKeyword_e keyword )
+void CBaseProjectGenerator::EndPropertySection( configKeyword_e keyword )
 {
 }
 
-void CBaseProjectDataCollector::StartFolder( const char *pFolderName, VpcFolderFlags_t iFlags )
+void CBaseProjectGenerator::StartFolder( const char *pFolderName, VpcFolderFlags_t iFlags )
 {
 }
-void CBaseProjectDataCollector::EndFolder()
+void CBaseProjectGenerator::EndFolder()
 {
 }
 
-bool CBaseProjectDataCollector::StartFile( const char *pFilename, VpcFileFlags_t iFlags, bool bWarnIfAlreadyExists )
+bool CBaseProjectGenerator::StartFile( const char *pFilename, VpcFileFlags_t iFlags, bool bWarnIfAlreadyExists )
 {
 	CFileConfig *pFileConfig = new CFileConfig( pFilename, iFlags );
 
@@ -305,20 +305,20 @@ bool CBaseProjectDataCollector::StartFile( const char *pFilename, VpcFileFlags_t
 	return true;
 }
 
-void CBaseProjectDataCollector::EndFile()
+void CBaseProjectGenerator::EndFile()
 {
 	m_CurFileConfig.Pop();
 	m_CurSpecificConfig.Pop();
 }
 
 // This is actually just per-file configuration data.
-void CBaseProjectDataCollector::FileExcludedFromBuild( bool bExcluded )
+void CBaseProjectGenerator::FileExcludedFromBuild( bool bExcluded )
 {
 	CSpecificConfig *pConfig = m_CurSpecificConfig.Top();
 	pConfig->m_bFileExcluded = bExcluded;
 }
 
-bool CBaseProjectDataCollector::RemoveFile( const char *pFilename )
+bool CBaseProjectGenerator::RemoveFile( const char *pFilename )
 {
 	bool bRet = false;
 	int i = m_Files.Find( pFilename );
@@ -331,7 +331,7 @@ bool CBaseProjectDataCollector::RemoveFile( const char *pFilename )
 	return bRet;
 }
 
-void CBaseProjectDataCollector::DoStandardVisualStudioReplacements( const char *pInitStr, CUtlStringBuilder *pStr, const char *pFullInputFilename )
+void CBaseProjectGenerator::DoStandardVisualStudioReplacements( const char *pInitStr, CUtlStringBuilder *pStr, const char *pFullInputFilename )
 {	
 	CUtlPathStringHolder inputDir;
 
@@ -383,7 +383,7 @@ void CBaseProjectDataCollector::DoStandardVisualStudioReplacements( const char *
 }
 
 //the input is expected to use makefile variable usage
-void CBaseProjectDataCollector::DoShellScriptReplacements( CUtlStringBuilder *pStr )
+void CBaseProjectGenerator::DoShellScriptReplacements( CUtlStringBuilder *pStr )
 {
 	char *pParse = pStr->AccessNoAssert();
 	if ( !pParse )
@@ -393,7 +393,7 @@ void CBaseProjectDataCollector::DoShellScriptReplacements( CUtlStringBuilder *pS
 }
 
 //the input is expected to use /bin/sh variable style
-void CBaseProjectDataCollector::DoBatchScriptReplacements( CUtlStringBuilder *pStr )
+void CBaseProjectGenerator::DoBatchScriptReplacements( CUtlStringBuilder *pStr )
 {
 	DoShellScriptReplacements( pStr );
 
@@ -432,7 +432,7 @@ void CBaseProjectDataCollector::DoBatchScriptReplacements( CUtlStringBuilder *pS
 	}
 }
 
-const char *CBaseProjectDataCollector::GetCurrentFileName()
+const char *CBaseProjectGenerator::GetCurrentFileName()
 {
 	if ( m_CurFileConfig.Count() == 0 )
 		return "";
@@ -440,12 +440,12 @@ const char *CBaseProjectDataCollector::GetCurrentFileName()
 		return m_CurFileConfig.Top()->GetName();
 }
 
-CScript* CBaseProjectDataCollector::GetProjectScript()
+CScript* CBaseProjectGenerator::GetProjectScript()
 {
 	return m_Script;
 }
 
-CScript const* CBaseProjectDataCollector::GetProjectScript() const
+CScript const* CBaseProjectGenerator::GetProjectScript() const
 {
 	return m_Script;
 }

@@ -58,12 +58,12 @@ public:
 // It just collects interesting file properties into KeyValues and then the project file generator
 // is responsible for using that data to write out a project file.
 //
-class CBaseProjectDataCollector : public IBaseProjectGenerator
+class CBaseProjectGenerator : public IBaseProjectGenerator
 {
 	// IBaseProjectGenerator implementation.
 public:
-	CBaseProjectDataCollector(CRelevantPropertyNames* pNames);
-	~CBaseProjectDataCollector() override;
+	CBaseProjectGenerator(CRelevantPropertyNames* pNames);
+	~CBaseProjectGenerator() override;
 
 	// Called before doing anything in a project
 	void StartProject(CScript* script) override;

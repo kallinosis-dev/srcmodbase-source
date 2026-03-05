@@ -12,7 +12,7 @@
 #include "tier1/utlvector.h"
 
 #include "vpc.h"
-#include "baseprojectdatacollector.h"
+#include "baseprojectgenerator.h"
 #include "environment_utils.h"
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
@@ -208,7 +208,7 @@ public:
 		g_pVPC->ParseProjectScript( szScriptName, 0, true, false, pProject );
 	}
 
-	void OnEndProject( CBaseProjectDataCollector *pDataCollector )
+	void OnEndProject( CBaseProjectGenerator *pDataCollector )
 	{
 		m_pDataCollector = pDataCollector;
 		m_pVCProjGenerator = dynamic_cast<CVCProjGenerator *>(pDataCollector);
@@ -477,7 +477,7 @@ public:
 	// Project include directories. These strings are deleted when the object goes away.
 	CProjectDependencyGraph *m_pDependencyGraph;
 	CDependency_Project *m_pDependencyProject;
-	CBaseProjectDataCollector *m_pDataCollector;
+	CBaseProjectGenerator *m_pDataCollector;
 	CVCProjGenerator *m_pVCProjGenerator;
 	CUtlVector<CUtlString> m_ProjectOutputs;
 	CUtlString m_ScriptName;
@@ -488,7 +488,7 @@ public:
 };
 
 CSingleProjectScanner *CSingleProjectScanner::s_pSingleton = nullptr;
-void VPC_GenerateProjectDependencies( CBaseProjectDataCollector *pDataCollector )
+void VPC_GenerateProjectDependencies( CBaseProjectGenerator *pDataCollector )
 {
 	// This hooks into CVCProjGenerator::EndProject for dependency-extraction 
 	// (instantiating CSingleProjectScanner sets up CSingleProjectScanner::s_pSingleton)
@@ -847,7 +847,7 @@ void CProjectDependencyGraph::TranslateProjectIndicesToDependencyProjects( CUtlV
 bool VPC_AreProjectDependenciesSupportedForThisTargetPlatform( void )
 {
 	// Only supported for platforms that use CVCProjGenerator 
-	// [ CDependencyGraph was switched to use CVCProjGenerator, due to bugs in CBaseProjectDataCollector ]
+	// [ CDependencyGraph was switched to use CVCProjGenerator, due to bugs in CBaseProjectGenerator ]
 	const char *pPlatformName = g_pVPC->conditionals.GetTargetPlatformName();
 
 	bool bSupported = !V_stricmp_fast( pPlatformName, "WIN32" ) || 

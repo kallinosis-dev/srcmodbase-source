@@ -11,7 +11,7 @@
 
 #include "vpc.h"
 #include "dependencies.h"
-#include "baseprojectdatacollector.h"
+#include "baseprojectgenerator.h"
 #include "ibasesolutiongenerator.h"
 #include "misc.h"
 #include "projectgenerator_vcproj.h"
@@ -265,7 +265,7 @@ public:
     bool IsCustomBuildOutputFileFromBuildRule( const char *pFileName ) const
     {
         CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pFileName, pVsStr, nullptr);
+        CBaseProjectGenerator::DoStandardVisualStudioReplacements( pFileName, pVsStr, nullptr);
 		// We aren't given the usual OBJECT_FILE_DIR_normal and it would be specific
 		// to our fake target anway so locate the true project's objdir.
 		CUtlStringHolder<80> sObjDir( "$CONFIGURATION_TEMP_DIR/", GetName(), ".build/Objects-normal" );
@@ -783,7 +783,7 @@ bool CSolutionGenerator_Xcode::EmitCustomBuildStep( CProject_Xcode *pProj, CProj
         const char *pCustomDescription = pProj->m_pGenerator->GetPropertyValueAsString( pProjectFile, pConfigName, KEYWORD_CUSTOMBUILDSTEP, g_pOption_Description );
         if ( pCustomDescription[0] )
         {
-            CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pCustomDescription, pVsStr, pFileName );
+            CBaseProjectGenerator::DoStandardVisualStudioReplacements( pCustomDescription, pVsStr, pFileName );
             sDescription.Set( pVsStr->String() );
         }
         else if ( pFileName )
@@ -813,7 +813,7 @@ bool CSolutionGenerator_Xcode::EmitCustomBuildStep( CProject_Xcode *pProj, CProj
             CSplitString outFiles( pOutputFiles, ";" );
             for ( int i = 0; i < outFiles.Count(); i++ )
             {
-                CBaseProjectDataCollector::DoStandardVisualStudioReplacements( outFiles[i], pVsStr, pFileName );
+                CBaseProjectGenerator::DoStandardVisualStudioReplacements( outFiles[i], pVsStr, pFileName );
                 pVsStr->ReplaceFastCaseless( "$(OBJ_DIR)", "${OBJECT_FILE_DIR_normal}" );
                 
                 CUtlPathStringHolder sOutputPath;
@@ -831,7 +831,7 @@ bool CSolutionGenerator_Xcode::EmitCustomBuildStep( CProject_Xcode *pProj, CProj
         // it affects build perf.
         Write( "showEnvVarsInLog = 0;\n" );
 
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pCustomBuildCommandLine, pVsStr, pFileName );
+        CBaseProjectGenerator::DoStandardVisualStudioReplacements( pCustomBuildCommandLine, pVsStr, pFileName );
         pVsStr->ReplaceFastCaseless( "$(OBJ_DIR)", "\"${OBJECT_FILE_DIR_normal}\"" );
         pVsStr->Replace( ";", ";\\n" );
         pVsStr->Replace( "\"", "\\\"" );
@@ -931,7 +931,7 @@ void CSolutionGenerator_Xcode::AddCustomBuildOutputFiles( CProject_Xcode *pProj,
         {
             pOutFile++;
         }
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pOutFile, pVsStr2, pFileName );
+        CBaseProjectGenerator::DoStandardVisualStudioReplacements( pOutFile, pVsStr2, pFileName );
 		// We aren't given the usual OBJECT_FILE_DIR_normal and it would be specific
 		// to our fake target anway so locate the true project's objdir.
 		CUtlStringHolder<80> sObjDir( "$CONFIGURATION_TEMP_DIR/", pProj->GetName(), ".build/Objects-normal" );
@@ -1139,7 +1139,7 @@ void CSolutionGenerator_Xcode::EmitBuildSettings( const char *pszProjectName, CP
         {
             CUtlStringBuilder *pExpandedStr = g_pVPC->GetTempStringBuffer1();
 
-			CBaseProjectDataCollector::DoStandardVisualStudioReplacements( outStrings[i], pExpandedStr, CFmtStrMax( "%s/dummy.txt", pProj->m_projectDir.String() ).Access() );
+			CBaseProjectGenerator::DoStandardVisualStudioReplacements( outStrings[i], pExpandedStr, CFmtStrMax( "%s/dummy.txt", pProj->m_projectDir.String() ).Access() );
             pExpandedStr->ReplaceFastCaseless( "$(OBJ_DIR)", "${OBJECT_FILE_DIR_normal}" );
 
             pProj->GetAbsolutePath( pExpandedStr->Get(), &sIncludeDir, outStrings[i] );
@@ -1469,7 +1469,7 @@ void CSolutionGenerator_Xcode::EmitBuildRuleSection()
                 {
                     for ( int i = 0; i < outFiles.Count(); i++ )
                     {
-                        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( outFiles[i], pVsStr, sInputFile );
+                        CBaseProjectGenerator::DoStandardVisualStudioReplacements( outFiles[i], pVsStr, sInputFile );
                         pVsStr->ReplaceFastCaseless( "$(OBJ_DIR)", "${OBJECT_FILE_DIR_normal}" );
                         
                         CUtlPathStringHolder sOutputPath;
@@ -1491,7 +1491,7 @@ void CSolutionGenerator_Xcode::EmitBuildRuleSection()
                 --m_nIndent;
                 Write( ");\n");
 
-                CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pCustomBuildCommandLine, pVsStr, sInputFile );
+                CBaseProjectGenerator::DoStandardVisualStudioReplacements( pCustomBuildCommandLine, pVsStr, sInputFile );
                 pVsStr->ReplaceFastCaseless( "$(OBJ_DIR)", "\"${OBJECT_FILE_DIR_normal}\"" );
                 pVsStr->ReplaceFastCaseless( ";", ";\\n" );
                 pVsStr->ReplaceFastCaseless( "\"", "\\\"" );
@@ -2033,7 +2033,7 @@ void CSolutionGenerator_Xcode::EmitShellScriptBuildPhaseSection()
                 CUtlPathStringHolder absImportLibrary( pProjectDir, "/", pImportLibraryRaw );
                 absImportLibrary.FixSlashesAndDotSlashes( '/' );
                 CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
-                CBaseProjectDataCollector::DoStandardVisualStudioReplacements( absImportLibrary.Get(), pVsStr, absImportLibrary.Get() );
+                CBaseProjectGenerator::DoStandardVisualStudioReplacements( absImportLibrary.Get(), pVsStr, absImportLibrary.Get() );
                 importLibrary = pVsStr->Get();
             }
 
@@ -2061,13 +2061,13 @@ void CSolutionGenerator_Xcode::EmitShellScriptBuildPhaseSection()
                     pPathStr->ReplaceFastCaseless( "/lib/osx32/debug/", "/lib/osx32/${CONFIGURATION}/" );
                     pPathStr->ReplaceFastCaseless( "/lib/osx64/debug/", "/lib/osx64/${CONFIGURATION}/" );
                     CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
-                    CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pPathStr->Get(), pVsStr, pPathStr->Get() );
+                    CBaseProjectGenerator::DoStandardVisualStudioReplacements( pPathStr->Get(), pVsStr, pPathStr->Get() );
                     rgchDebugFilePath.Set( pVsStr->String() );
                     
                     pPathStr->Set( rgchReleaseFilePath );
                     pPathStr->ReplaceFastCaseless( "/lib/osx32/release/", "/lib/osx32/${CONFIGURATION}/" );
                     pPathStr->ReplaceFastCaseless( "/lib/osx64/release/", "/lib/osx64/${CONFIGURATION}/" );
-                    CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pPathStr->Get(), pVsStr, pPathStr->Get() );
+                    CBaseProjectGenerator::DoStandardVisualStudioReplacements( pPathStr->Get(), pVsStr, pPathStr->Get() );
                     rgchReleaseFilePath.Set( pVsStr->String() );
 
                     Write( "\"%s\",\n", rgchDebugFilePath.Get() );
@@ -2094,7 +2094,7 @@ void CSolutionGenerator_Xcode::EmitShellScriptBuildPhaseSection()
                 }
 
                 CUtlStringBuilder *pVsStr2 = g_pVPC->GetTempStringBuffer2();
-                CBaseProjectDataCollector::DoStandardVisualStudioReplacements( pProj->GetStringProperty( KEYWORD_POSTBUILDEVENT, g_pOption_CommandLine ), pVsStr2, nullptr);
+                CBaseProjectGenerator::DoStandardVisualStudioReplacements( pProj->GetStringProperty( KEYWORD_POSTBUILDEVENT, g_pOption_CommandLine ), pVsStr2, nullptr);
                 pVsStr2->ReplaceFastCaseless( "$(OBJ_DIR)", "${OBJECT_FILE_DIR_normal}" );
                 CUtlString sCommandLine = UsePOSIXSlashes( pVsStr2->Get() );
 

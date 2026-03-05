@@ -37,7 +37,7 @@ IBaseProjectGenerator* GetAndroidProjectGenerator()
 }
 
 CProjectGenerator_Android::CProjectGenerator_Android()
-	: CBaseProjectDataCollector( &s_RelevantPropertyNames ),
+	: CBaseProjectGenerator( &s_RelevantPropertyNames ),
 	m_GeneratorDefinition("android.def", s_AndroidPropertyNames)
 {
 	m_BaseConfigData.GetOrCreateConfig( "Debug", nullptr );

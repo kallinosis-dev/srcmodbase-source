@@ -6,7 +6,7 @@
 
 #pragma once
 
-#include "baseprojectdatacollector.h"
+#include "baseprojectgenerator.h"
 
 class CProjectConfiguration;
 class CVCProjGenerator;
@@ -277,10 +277,10 @@ public:
 	virtual CVCProjGenerator *GetProjectGenerator() = 0;
 };
 
-class CVCProjGenerator : public CBaseProjectDataCollector
+class CVCProjGenerator : public CBaseProjectGenerator
 {
 public:
-	typedef CBaseProjectDataCollector BaseClass;
+	typedef CBaseProjectGenerator BaseClass;
 	CVCProjGenerator();
 
 	const char	*GetProjectFileExtension() override;

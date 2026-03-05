@@ -11,7 +11,7 @@
 		976DE7BA1239423E00E8D60A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 976DE7B91239423E00E8D60A /* Foundation.framework */; };
 		976DE7BC1239424500E8D60A /* CoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 976DE7BB1239424500E8D60A /* CoreServices.framework */; };
 		976DE7BE1239424E00E8D60A /* libiconv.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 976DE7BD1239424E00E8D60A /* libiconv.dylib */; };
-		977F706212393A2A008D8433 /* baseprojectdatacollector.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 977F705012393A2A008D8433 /* baseprojectdatacollector.cpp */; };
+		977F706212393A2A008D8433 /* baseprojectgenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 977F705012393A2A008D8433 /* baseprojectgenerator.cpp */; };
 		977F706312393A2A008D8433 /* configuration.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 977F705212393A2A008D8433 /* configuration.cpp */; };
 		977F706412393A2A008D8433 /* dependencies.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 977F705312393A2A008D8433 /* dependencies.cpp */; };
 		977F706512393A2A008D8433 /* ExprSimplifier.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 977F705512393A2A008D8433 /* ExprSimplifier.cpp */; };
@@ -87,8 +87,8 @@
 		976DE7BB1239424500E8D60A /* CoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreServices.framework; path = Xcode4/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/CoreServices.framework; sourceTree = SDKROOT; };
 		976DE7BD1239424E00E8D60A /* libiconv.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libiconv.dylib; path = Xcode4/SDKs/MacOSX10.5.sdk/usr/lib/libiconv.dylib; sourceTree = SDKROOT; };
 		977F704012393174008D8433 /* vpc_osx */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = vpc_osx; sourceTree = BUILT_PRODUCTS_DIR; };
-		977F705012393A2A008D8433 /* baseprojectdatacollector.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = baseprojectdatacollector.cpp; path = /Users/dberger/P4Clients/steam3_main/src/utils/vpc/baseprojectdatacollector.cpp; sourceTree = "<absolute>"; };
-		977F705112393A2A008D8433 /* baseprojectdatacollector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = baseprojectdatacollector.h; path = /Users/dberger/P4Clients/steam3_main/src/utils/vpc/baseprojectdatacollector.h; sourceTree = "<absolute>"; };
+		977F705012393A2A008D8433 /* baseprojectgenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = baseprojectgenerator.cpp; path = /Users/dberger/P4Clients/steam3_main/src/utils/vpc/baseprojectgenerator.cpp; sourceTree = "<absolute>"; };
+		977F705112393A2A008D8433 /* baseprojectgenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = baseprojectgenerator.h; path = /Users/dberger/P4Clients/steam3_main/src/utils/vpc/baseprojectgenerator.h; sourceTree = "<absolute>"; };
 		977F705212393A2A008D8433 /* configuration.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = configuration.cpp; path = /Users/dberger/P4Clients/steam3_main/src/utils/vpc/configuration.cpp; sourceTree = "<absolute>"; };
 		977F705312393A2A008D8433 /* dependencies.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = dependencies.cpp; path = /Users/dberger/P4Clients/steam3_main/src/utils/vpc/dependencies.cpp; sourceTree = "<absolute>"; };
 		977F705412393A2A008D8433 /* dependencies.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = dependencies.h; path = /Users/dberger/P4Clients/steam3_main/src/utils/vpc/dependencies.h; sourceTree = "<absolute>"; };
@@ -215,8 +215,8 @@
 		977F706E12393A3D008D8433 /* vpc */ = {
 			isa = PBXGroup;
 			children = (
-				977F705012393A2A008D8433 /* baseprojectdatacollector.cpp */,
-				977F705112393A2A008D8433 /* baseprojectdatacollector.h */,
+				977F705012393A2A008D8433 /* baseprojectgenerator.cpp */,
+				977F705112393A2A008D8433 /* baseprojectgenerator.h */,
 				977F705212393A2A008D8433 /* configuration.cpp */,
 				977F705312393A2A008D8433 /* dependencies.cpp */,
 				977F705412393A2A008D8433 /* dependencies.h */,
@@ -347,7 +347,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				977F706212393A2A008D8433 /* baseprojectdatacollector.cpp in Sources */,
+				977F706212393A2A008D8433 /* baseprojectgenerator.cpp in Sources */,
 				977F706312393A2A008D8433 /* configuration.cpp in Sources */,
 				977F706412393A2A008D8433 /* dependencies.cpp in Sources */,
 				977F706512393A2A008D8433 /* ExprSimplifier.cpp in Sources */,

@@ -19,10 +19,10 @@ enum AndroidProperties_e
 	#include "projectgenerator_android.inc"
 };
 
-class CProjectGenerator_Android : public CBaseProjectDataCollector
+class CProjectGenerator_Android : public CBaseProjectGenerator
 {
 public:
-	typedef CBaseProjectDataCollector BaseClass;
+	typedef CBaseProjectGenerator BaseClass;
 	CProjectGenerator_Android();
 
 	const char* GetProjectFileExtension() override { return "androidproj"; }

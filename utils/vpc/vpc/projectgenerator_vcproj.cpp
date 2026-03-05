@@ -2401,21 +2401,21 @@ void CVCProjGenerator::LogOutputFiles( const char *pConfigName )
     CUtlStringBuilder *pVsStr = g_pVPC->GetTempStringBuffer1();
     if ( importLibraryString[0] )
     {
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( importLibraryString, pVsStr, nullptr);
+        CBaseProjectGenerator::DoStandardVisualStudioReplacements( importLibraryString, pVsStr, nullptr);
         pVsStr->Replace( "$(OutDir)", outBinDirString );
         V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), nullptr, k_bVPCForceLowerCase );
         logging::Status( false, "$ImportLibrary: %s", pathString );
     }
     if ( outputFileString[0] )
     {
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( outputFileString, pVsStr, nullptr);
+        CBaseProjectGenerator::DoStandardVisualStudioReplacements( outputFileString, pVsStr, nullptr);
         pVsStr->Replace( "$(OutDir)", outBinDirString );
         V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), nullptr, k_bVPCForceLowerCase );
         logging::Status( false, "$OutputFile: %s", pathString );
     }
     if ( gameOutputFileString[0] )
     {
-        CBaseProjectDataCollector::DoStandardVisualStudioReplacements( gameOutputFileString, pVsStr, nullptr);
+        CBaseProjectGenerator::DoStandardVisualStudioReplacements( gameOutputFileString, pVsStr, nullptr);
         pVsStr->Replace( "$(OutDir)", outBinDirString );
         V_MakeAbsolutePath( pathString, ARRAYSIZE( pathString ), pVsStr->Get(), nullptr, k_bVPCForceLowerCase );
         logging::Status( false, "$GameOutputFile: %s", pathString );

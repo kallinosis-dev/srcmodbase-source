@@ -8,7 +8,7 @@
 
 #include "vpc.h"
 #include "tier1/utldict.h"
-#include "baseprojectdatacollector.h"
+#include "baseprojectgenerator.h"
 #include "ibasesolutiongenerator.h"
 #include "macros.h"
 #include "misc.h"

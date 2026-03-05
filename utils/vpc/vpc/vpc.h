@@ -48,7 +48,7 @@ struct PropertyState_t;
 class CProjectDependencyGraph;
 class CDependency_Project;
 class IBaseSolutionGenerator;
-class CBaseProjectDataCollector;
+class CBaseProjectGenerator;
 class CProjectFile;
 
 
@@ -463,7 +463,7 @@ extern const char			*g_SchemaFolderName;
 extern const char			*g_SchemaAnchorBase;						
 extern const char			*g_IncludeSeparators[2];
 
-extern void					VPC_GenerateProjectDependencies( CBaseProjectDataCollector *pDataCollector );
+extern void					VPC_GenerateProjectDependencies( CBaseProjectGenerator *pDataCollector );
 extern bool					VPC_AreProjectDependenciesSupportedForThisTargetPlatform( void );
 
 
