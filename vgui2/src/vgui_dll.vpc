@@ -23,7 +23,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalDependencies			"$BASE Imm32.lib Shlwapi.lib odbc32.lib odbccp32.lib winmm.lib" [$WINDOWS]
-		$SystemLibraries				"iconv" [$OSXALL]
 		$SystemLibraries				"SDL2" [$LINUXALL]
 	}
 }
@@ -41,7 +40,6 @@ $Project "vgui2"
 		$File	"$SRCDIR\public\filesystem_init.cpp"
 		$File	"htmlwindow.cpp"				[$WINDOWS]
 		$File	"InputWin32.cpp"				[$WINDOWS||$LINUXALL]
-		$File	"inputosx.cpp" 					[$OSXALL]
 		$File	"MemoryBitmap.cpp"
 		$File	"Memorybitmap.h"
 		$File	"MessageListener.cpp"
@@ -92,7 +90,6 @@ $Project "vgui2"
 		$File	"$SRCDIR\public\vgui\vgui.h"
 		$File	"$SRCDIR\public\vstdlib\vstdlib.h"
 		$File	"$SRCDIR\common\vgui_surfacelib\Win32Font.h"	[$WINDOWS||$POSIX]
-		$File	"$SRCDIR\common\vgui_surfacelib\OSXFont.h"		[$OSXALL]		
 		$File	"$SRCDIR\public\vgui\keyrepeat.h"
 	}
 

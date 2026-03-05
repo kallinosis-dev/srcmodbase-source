@@ -47,7 +47,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalDependencies			"$BASE version.lib winmm.lib"	[$WINDOWS]
-		$SystemLibraries                                                        "iconv" [$OSXALL]
 	}
 }
 

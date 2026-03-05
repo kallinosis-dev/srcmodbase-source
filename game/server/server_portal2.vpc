@@ -15,7 +15,7 @@ $Configuration
 	{
 		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\game\shared\hl2;$SRCDIR\game\shared\episodic;.\hl2;.\episodic;$SRCDIR\game\shared\portal;.\portal;$SRCDIR\game\shared\multiplayer;$SRCDIR\game\shared\portal2;.\portal2;$SRCDIR\public\meshutils;"
 		$PreprocessorDefinitions		"$BASE;USES_SAVERESTORE;PORTAL2;PORTAL"
-		$PreprocessorDefinitions		"$BASE;PORTAL2_PUZZLEMAKER"					[ $WIN32 ||  $OSXALL ]
+		$PreprocessorDefinitions		"$BASE;PORTAL2_PUZZLEMAKER"					[ $WIN32 ]
 		$PreprocessorDefinitions		"$BASE;USE_CEG"								[ $WIN32 && !$NO_CEG ]
 	}
 
@@ -311,7 +311,7 @@ $Project "Server (Portal 2)"
 			}
 		}
 
-		$Folder "Protobuf Files"	[ ( $WIN32 || $OSXALL ) && !$NO_STEAM ]
+		$Folder "Protobuf Files"	[ $WIN32 && !$NO_STEAM ]
 		{
 			$DynamicFile "$GENERATED_PROTO_DIR\steammessages.pb.cc"
 			{

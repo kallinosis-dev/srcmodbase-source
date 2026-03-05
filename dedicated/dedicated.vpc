@@ -20,7 +20,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalDependencies				"$BASE wsock32.lib odbc32.lib odbccp32.lib winmm.lib" [$WINDOWS]
-		$SystemLibraries                     "iconv" [$OSXALL]
 	}
 }
 
@@ -118,6 +117,6 @@ $Project "Dedicated"
 		$Lib 	tier2
 		$Lib	tier3
 		$Lib 	vpklib
-		$Lib	vgui_controls [$WINDOWS||$OSXALL]
+		$Lib	vgui_controls [$WINDOWS]
 	}
 }

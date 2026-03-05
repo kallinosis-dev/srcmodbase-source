@@ -20,7 +20,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalLibraryDirectories		"$BASE;$(XEDK)\lib\win32\vs2010"
-		$SystemLibraries					"iconv" [$OSXALL]
 	}
 
 }

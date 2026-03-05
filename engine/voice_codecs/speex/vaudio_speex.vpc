@@ -16,10 +16,6 @@ $Configuration
 		$AdditionalIncludeDirectories		"$BASE,..\frame_encoder,..\..\..\public,..\..\..\public\tier1,..\..,..\..\..\common,.\source\libspeex,..\..\audio\public"
 		$PreprocessorDefinitions			"$BASE;SPEEX_EXPORTS"
 	}
-	$Linker
-	{
-			$SystemLibraries                                                        "iconv" [$OSXALL]
-	}
 }
 
 $Project "vaudio_speex"

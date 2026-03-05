@@ -20,7 +20,6 @@ $Configuration
 	{
 		$AdditionalDependencies			"$BASE Winmm.lib" [$WINDOWS]
 		$AdditionalDependencies			"$BASE imm32.lib" [$WINDOWS]
-		$SystemLibraries                "iconv" [$OSXALL]
 		$SystemLibraries                "SDL2" [$LINUXALL]
 	}
 }
@@ -33,7 +32,6 @@ $Project "inputsystem"
 		$File	"inputsystem.cpp"
 		$File	"inputsystem.h"
 		$File	"joystick.cpp"			[!$POSIX]
-		$File	"joystick_osx.cpp"		[$OSXALL]
 		$File	"joystick_linux.cpp"	[$LINUXALL]
 		$File	"steamcontroller.cpp"	[!$NO_STEAM]
 		$File	"key_translation.cpp"

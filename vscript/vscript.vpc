@@ -18,12 +18,6 @@ $Configuration
 		$AdditionalIncludeDirectories	"$BASE;.\languages\squirrel\include;.\languages\squirrel\sqplus;.\languages\lua\lua-5.1.4\src"
 
 	}
-
-	$Linker [$OSXALL]
-	{
-		$SystemLibraries                    "iconv"
-	}
-
 }
 
 $Configuration "Release"

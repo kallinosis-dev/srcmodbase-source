@@ -16,10 +16,6 @@ $Configuration
 		$AdditionalIncludeDirectories		"$BASE;..\common"
 		$PreprocessorDefinitions			"$BASE;BUGREPORTER_EXPORTS"
 	}
-	$Linker
-	{
-			$SystemLibraries                    "iconv" [$OSXALL]
-	}
 }
 
 $Project "bugreporter_filequeue"

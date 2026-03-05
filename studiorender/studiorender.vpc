@@ -11,11 +11,6 @@ $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
-	$Linker
-	{
-			$SystemLibraries                                                        "iconv" [$OSXALL]
-	}
-
 	$Compiler
 	{
 		$PreprocessorDefinitions	"$BASE;STUDIORENDER_EXPORTS;PROTECTED_THINGS_ENABLE"

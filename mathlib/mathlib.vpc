@@ -46,7 +46,7 @@ $Project "mathlib"
 		$File	"almostequal.cpp"
 		$File   "simplex.cpp"
 		$File   "eigen.cpp"
-		$File   "box_buoyancy.cpp" [!$OSX32] // doesn't compile in debug under GCC 4.2.X
+		$File   "box_buoyancy.cpp"
 		$File   "camera.cpp"
 		$File   "planefit.cpp"
 		$File	"polygon.cpp"

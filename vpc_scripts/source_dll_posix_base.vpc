@@ -6,7 +6,7 @@ $Include "$SRCDIR\vpc_scripts\source_posix_base.vpc"
 $MacroRequired	 "OUTBINNAME"	"$PROJECTNAME"
 $MacroRequired	 "OUTBINDIR"
 
-$Macro "OUTBINDIR"  "$OUTBINDIR$PLATSUBDIR"	[$LINUX64 || $OSX64]
+$Macro "OUTBINDIR"  "$OUTBINDIR$PLATSUBDIR"	[$LINUX64]
 
 // General configuration info.
 $Configuration

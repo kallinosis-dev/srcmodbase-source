@@ -31,8 +31,6 @@ $Project "appframework"
 		$File	"WinApp.cpp"		[$WINDOWS]
 		$File	"posixapp.cpp"		[$POSIX]
 		$File	"sdlmgr.cpp"		[$SDL]
-		$File	"cocoamgr.mm"		[!$SDL && $OSXALL]
-		$File	"glmrendererinfo_osx.mm"	[$SDL && $OSXALL]
 	}
 
 	$Folder	"Interface"

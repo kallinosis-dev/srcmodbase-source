@@ -11,10 +11,6 @@ $Include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
-	$Linker
-	{
-			$SystemLibraries                                                        "iconv" [$OSXALL]
-	}
 	$Compiler
 	{
 		$AdditionalIncludeDirectories	".\;$BASE;$SRCDIR\game\shared"

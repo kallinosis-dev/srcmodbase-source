@@ -15,7 +15,6 @@ $Configuration "Debug"
 	$Compiler
 	{
 		$PreprocessorDefinitions			"$BASE;DEBUG;_DEBUG"
-		$OptimizerLevel					"-gdwarf-2 -g2 $(OptimizerLevel_CompilerSpecific)" [$OSXALL]
 		$OptimizerLevel					"-gdwarf-4 -g2 $(OptimizerLevel_CompilerSpecific)" [$LINUX]
 	}
 }
@@ -25,7 +24,6 @@ $Configuration "Release"
 	$Compiler
 	{
 		$PreprocessorDefinitions		"$BASE;NDEBUG"
-		$OptimizerLevel					"-gdwarf-2 -g2 $(OptimizerLevel_CompilerSpecific)" [$OSXALL]
 		$OptimizerLevel					"-gdwarf-4 -g2 $(OptimizerLevel_CompilerSpecific)" [$LINUX]
 	}
 }
@@ -42,21 +40,11 @@ $Configuration
 		$AdditionalIncludeDirectories		"$SRCDIR\common;$SRCDIR\public;$SRCDIR\public\tier0;$SRCDIR\public\tier1"
 		$PreprocessorDefinitions		"$BASE;GNUC;POSIX;COMPILER_GCC;MEMOVERRIDE_MODULE=$PROJECTNAME;_DLL_EXT=$_DLL_EXT"
 		$PreprocessorDefinitions		"$BASE;DEDICATED" [$DEDICATED]
-		// the 10240 in the following line is the output of `sysctl -n kern.maxfilesperproc`
-		$PreprocessorDefinitions		"$BASE;_OSX;OSX;_DARWIN_UNLIMITED_SELECT;FD_SETSIZE=10240;" [$OSXALL]
 		$PreprocessorDefinitions		"$BASE;_LINUX;LINUX;" [$LINUX]
 		$SymbolVisibility				"hidden" 					[$POSIX]
 		$PreprocessorDefinitions		"$BASE;POSIX;_POSIX"		[$POSIX]
 
-		$PreprocessorDefinitions		"$BASE;PLATFORM_64BITS"		[$OSX64]
-		$GCC_ExtraCompilerFlags			"$BASE -arch x86_64"		[$OSX64]
-
 		$Create/UsePCHThroughFile	"stdafx.h"
-	}
-	
-	$Linker [!$IS_LIB_PROJECT]
-	{
-		$GCC_ExtraLinkerFlags			"$BASE -arch x86_64"		[$OSX64]
 	}
 }
 

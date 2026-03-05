@@ -27,7 +27,6 @@ $Configuration
 	{
 		$IgnoreImportLibrary				"Yes" [$WINDOWS]
 		$AdditionalDependencies				"$BASE vfw32.lib" [$WINDOWS]
-		$SystemLibraries                    "iconv" [$OSXALL]
 		$AdditionalLibraryDirectories		"$BASE;$SRCDIR\dx9sdk\lib$PLATSUBDIR"	[$WINDOWS]
 		$GCC_ExtraLinkerFlags				"-z muldefs -L$SRCDIR/thirdparty/sdl/build/.libs" [$LINUXALL]
 		$SystemLibraries					"SDL2" [$LINUXALL]
@@ -39,8 +38,7 @@ $Project "valve_avi"
 	$Folder	"Source Files"
 	{
 		$File	"avi.cpp" [$WINDOWS]
-		$File	"avi_osx.cpp" [$OSXALL]
-		$File	"bink.cpp" [!$OSXALL]
+		$File	"bink.cpp"
 		$file   "quicktime.cpp" [$QUICKTIME_VIDEO||$QUICKTIME_WINDOWS]
 	}
 

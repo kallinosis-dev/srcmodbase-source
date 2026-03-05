@@ -17,7 +17,6 @@ $Configuration
 	}
 	$Linker
 	{
-		$SystemLibraries					"iconv" [$OSXALL]
 		$SystemLibraries					"openal" [$LINUXALL]
 	}
 }

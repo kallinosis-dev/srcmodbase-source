@@ -53,22 +53,6 @@ $Configuration
 			$AdditionalDependencies			"$BASE dxguid.lib d3d9.lib" [$WINDOWS && !$GL]
 
 	}
-
-	// Since other shader modules are conglomerated here,
-	// need to set project settings for those modules too:
-	$Compiler [$OSXALL]
-	{
-		$AdditionalIncludeDirectories	"$BASE;..\"
-		// shaderapidx9
-		$PreprocessorDefinitions		"$BASE;SHADERAPIDX9;SHADER_DLL_EXPORT;"
-		// shaderlib
-		$PreprocessorDefinitions		"$BASE;FAST_MATERIALVAR_ACCESS;"
-		// stdshader
-		$AdditionalIncludeDirectories	"$BASE;$SRCDIR\materialsystem\stdshaders\fxctmp9;$SRCDIR\materialsystem\stdshaders\vshtmp9" [$OSXALL]
-		$PreprocessorDefinitions		"$BASE;STDSHADER_DX9_DLL_EXPORT;FAST_MATERIALVAR_ACCESS"
-		// platform override
-		$PreprocessorDefinitions		"$BASE;PLATFORM_OVERRIDE_MATERIALSYSTEM"
-	}
 }
 
 $Configuration "Debug"
@@ -86,17 +70,6 @@ $Configuration "Release"
 		$AdditionalDependencies			"$BASE d3dx9.lib"			[!$GL]
 	}
 }
-
-///////////////////////////////////////////////
-//
-// PS3 conglomerates all shader modules here
-//
-$include "shaderapidx9/shaderapidx9_inc.vpc" [$OSXALL]
-$include "shaderlib/shaderlib_inc.vpc" [$OSXALL]
-$include "stdshaders/stdshader_dx9_inc.vpc" [$OSXALL]
-//
-//
-///////////////////////////////////////////////
 
 $Project "materialsystem"
 {
@@ -127,7 +100,7 @@ $Project "materialsystem"
 		{
 			$Configuration
 			{
-				$Compiler [!$LINUX && !$OSXALL]
+				$Compiler [!$LINUX]
 				{
 					$Create/UsePrecompiledHeader	"Create Precompiled Header (/Yc)"
 				}
@@ -227,11 +200,10 @@ $Project "materialsystem"
 	{
 		$Lib "bitmap"
 		$Lib "mathlib"
-		$Lib "shaderlib" [!$OSXALL]
+		$Lib "shaderlib"
 		$Lib "tier2"
 		$Lib "tier3"
 		$Lib "vtf"
-		$Lib "videocfg" [$OSXALL]
 		$ImplibExternal	steam_api							[ ( $WIN32 || $POSIX ) && !$NO_STEAM ]
 		$ImplibExternal	steam_api64							[ $WIN64 && !$NO_STEAM ]
 

@@ -19,8 +19,7 @@ $Configuration
 	$Compiler
 	{
 		$AdditionalIncludeDirectories  	"$BASE;..\"
-    $PreprocessorDefinitions	"$BASE;TOGL_DLL_EXPORT;PROTECTED_THINGS_ENABLE;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead" [!$OSXALL]
-        $PreprocessorDefinitions	"$BASE;TOGL_DLL_EXPORT" [$OSXALL]
+    	$PreprocessorDefinitions	"$BASE;TOGL_DLL_EXPORT;PROTECTED_THINGS_ENABLE;strncpy=use_Q_strncpy_instead;_snprintf=use_Q_snprintf_instead"
 	}
     
 	//$Linker [$LINUXALL]
@@ -38,10 +37,7 @@ $Project "togl"
 		$File	"$TOGL_SRCDIR/dxabstract.cpp"
 		$File	"$TOGL_SRCDIR/glentrypoints.cpp"	
 		$File	"$TOGL_SRCDIR/glmgr.cpp"			
-		$File	"$TOGL_SRCDIR/glmgrbasics.cpp"	
-		$File	"$TOGL_SRCDIR/glmgrcocoa.mm"					[$OSXALL]
-		$File	"$TOGL_SRCDIR/intelglmallocworkaround.cpp"		[$OSXALL]
-		$File	"$TOGL_SRCDIR/mach_override.c"					[$OSXALL]
+		$File	"$TOGL_SRCDIR/glmgrbasics.cpp"
 		$File	"$TOGL_SRCDIR/cglmtex.cpp"		
 		$File	"$TOGL_SRCDIR/cglmfbo.cpp"		
 		$File	"$TOGL_SRCDIR/cglmprogram.cpp"	
@@ -56,9 +52,7 @@ $Project "togl"
 	$Folder	"Header Files" [$GL]
 	{
 		$File	"$TOGL_SRCDIR/dx9asmtogl2.h"
-		$File	"$TOGL_SRCDIR/glmgr_flush.inl"	
-		$File	"$TOGL_SRCDIR/intelglmallocworkaround.h"		[$OSXALL]
-		$File	"$TOGL_SRCDIR/mach_override.h"					[$OSXALL]
+		$File	"$TOGL_SRCDIR/glmgr_flush.inl"
 	}
 	
 	$Folder	"Public Header Files" [$GL]

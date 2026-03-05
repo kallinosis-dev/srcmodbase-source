@@ -8,6 +8,6 @@ $Project
 {
 	$Folder	"Link Libraries"
 	{
-		-$Implib vstdlib [!$IS_LIB_PROJECT || $OSXALL]
+		-$Implib vstdlib [!$IS_LIB_PROJECT]
 	}
 }

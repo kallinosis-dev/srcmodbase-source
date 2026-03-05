@@ -7,14 +7,6 @@ $Macro OUTBINDIR	"$SRCDIR\..\game\bin"
 
 $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
-$Configuration
-{
-	$Linker [$POSIX]
-	{
-		$SystemLibraries                                                        "iconv" [$OSXALL]
-	}
-}
-
 $Project "localize"
 {
 	$Folder	"Public Header Files"

@@ -11,10 +11,6 @@ $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
-	$General
-	{
-		$AdditionalProjectDependencies	"$BASE;togl" [$OSXALL && $SDL]
-	}
 	$Compiler
 	{
 		$PreprocessorDefinitions	"$BASE;LAUNCHERONLY"
@@ -23,7 +19,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalDependencies		"$BASE shlwapi.lib winmm.lib wsock32.lib odbc32.lib odbccp32.lib" [$WINDOWS]
-		$SystemLibraries                                "iconv" [$OSXALL]
 		$SystemLibraries                                "SDL2"  [$LINUXALL]
 		// We run from the ./game dir, but want to look in the ./game/bin directory when loading libraries.
 		//   To dump rpath/runpath of a library, use "chrpath --list blah.so" or "objdump -x blah.so" or "readelf -d bin/launcher.so"

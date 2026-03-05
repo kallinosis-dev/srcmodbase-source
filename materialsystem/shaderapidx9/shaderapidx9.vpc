@@ -28,7 +28,6 @@ $Configuration
     
 	$Linker
 	{
-		$SystemLibraries				"iconv" [$OSXALL]
 		$AdditionalDependencies			"$BASE ws2_32.lib" [$WINDOWS]
 	}
 }

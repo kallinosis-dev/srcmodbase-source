@@ -18,10 +18,6 @@ $Configuration
 		$PreprocessorDefinitions		"$BASE;WIN_ERROR;_USRDLL;BSP_USE_LESS_MEMORY"
 		$AdditionalIncludeDirectories	"..\common;$BASE"
 	}
-	$Linker
-	{
-			$SystemLibraries                                                        "iconv" [$OSXALL]
-	}
 }
 
 $Project "bsppack"

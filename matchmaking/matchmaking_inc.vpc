@@ -13,7 +13,6 @@ $Configuration
 	$Linker
 	{
 		$AdditionalLibraryDirectories	"$BASE;$(XEDK)\lib\win32\vs2010"		[$XDKINSTALLED]
-		$SystemLibraries				"iconv"									[$OSXALL]
 	}		
 }
 

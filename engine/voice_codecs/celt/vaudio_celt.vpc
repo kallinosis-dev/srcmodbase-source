@@ -16,11 +16,6 @@ $Configuration
 		$AdditionalIncludeDirectories		"$BASE,..\frame_encoder,..\celt,..\..\..\public,..\..\..\public\tier1,..\..,..\..\..\common,.\source\libcelt,..\..\audio\public"
 		$PreprocessorDefinitions			"$BASE;CELT_EXPORTS"
 	}
-	$Linker
-	{
-		$AdditionalLibraryDirectories		"$BASE,source\osx"
-		$SystemLibraries                    "iconv" [$OSXALL]
-	}
 }
 
 $Project "vaudio_celt"
@@ -41,8 +36,6 @@ $Project "vaudio_celt"
 	$Folder	"Link Libraries"
 	{
 		$Lib "source/libcelt$PLATSUBDIR/libcelt.lib" [$WINDOWS]
-		$Lib "source/osx/libcelt.a" [$OSX32]
-		$Lib "source/osx/libcelt64.a" [$OSX64]
 		$Lib "source/linux/libcelt.a" [$LINUX32]
 		$Lib "source/linux/libcelt64.a" [$LINUX64]
 	}

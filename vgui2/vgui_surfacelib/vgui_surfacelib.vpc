@@ -20,7 +20,6 @@ $Project "vgui_surfacelib"
 		$File	"fonttexturecache.cpp"
 		$File	"texturedictionary.cpp"
 		$File	"Win32Font.cpp"			[$WINDOWS]
-		$File	"osxfont.cpp"			[$OSXALL]
 		$File	"linuxfont.cpp"			[$LINUXALL]
 	}
 
@@ -43,6 +42,5 @@ $Project "vgui_surfacelib"
 		$File	"$SRCDIR\public\vstdlib\vstdlib.h"
 		$File	"$SRCDIR\common\vgui_surfacelib\vguifont.h"
 		$File	"$SRCDIR\common\vgui_surfacelib\Win32Font.h" [$WINDOWS]
-		$File	"$SRCDIR\common\vgui_surfacelib\osxfont.h" [$OSXALL]
 	}
 }

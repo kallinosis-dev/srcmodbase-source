@@ -14,7 +14,6 @@ $Configuration
 	$Compiler
 	{
 		$PreprocessorDefinitions	"$BASE;VSTDLIB_DLL_EXPORT"
-		$GCC_ExtraCompilerFlags		"-fno-stack-protector" [$OSXALL]
 		$GCC_ExtraCompilerFlags		"-U_FORTIFY_SOURCE -fno-stack-protector" [$LINUXALL]
 	}
 

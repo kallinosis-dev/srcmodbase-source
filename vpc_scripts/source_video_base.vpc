@@ -26,14 +26,12 @@
 
 // $macro QUICKTIME_WINDOWS 1	[ $WINDOWS ]
 
-$Conditional SDL "1" [ $GL && !$OSX32 ]
+$Conditional SDL "1" [ $GL ]
 
 $Configuration
 {
 	$Compiler
 	{
-		$PreprocessorDefinitions		"$BASE"							[$OSXALL]				
-
 		$PreprocessorDefinitions		"$BASE;AVI_VIDEO;WMV_VIDEO"										[   $WINDOWS && !$QUICKTIME_WINDOWS ]
 		$PreprocessorDefinitions		"$BASE;AVI_VIDEO;WMV_VIDEO;QUICKTIME_VIDEO;FORCE_QUICKTIME"		[   $WINDOWS &&  $QUICKTIME_WINDOWS ]
 

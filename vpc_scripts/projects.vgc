@@ -122,7 +122,7 @@ $Project "client"
 	"game/client/client_dota.vpc"		[($WINDOWS) && $DOTA]
 	"game/client/client_sob.vpc"		[($WINDOWS) && $SOB]
 	"game/client/client_cstrike.vpc"	[($WINDOWS) && $CSTRIKE]
-	"game/client/client_cstrike15.vpc"	[($OSXALL || $WINDOWS || $X360 || $PS3 || $POSIX) && $CSGO]
+	"game/client/client_cstrike15.vpc"	[($WINDOWS || $X360 || $PS3 || $POSIX) && $CSGO]
 }
 
 $Project "commedit"
@@ -461,12 +461,12 @@ $Project "matchmaking"
 	"matchmaking/matchmaking_tf.vpc" [($WINDOWS || $X360) && $TF]
 	"matchmaking/matchmaking_episodic.vpc" [($WINDOWS || $X360) && $EPISODIC]
 	"matchmaking/matchmaking_cstrike.vpc" [($WINDOWS || $X360) && $CSTRIKE]
-	"matchmaking/matchmaking_cstrike15.vpc" [($OSXALL || $WINDOWS || $X360 || $PS3 ||$POSIX)) && $CSGO]
+	"matchmaking/matchmaking_cstrike15.vpc" [($WINDOWS || $X360 || $PS3 ||$POSIX)) && $CSGO]
 }
 
 $Project "matchmakingbase"
 {
-	"matchmaking/matchmaking_base.vpc" [($OSXALL || $WINDOWS || $X360 || $PS3 ||$POSIX)]
+	"matchmaking/matchmaking_base.vpc" [($WINDOWS || $X360 || $PS3 ||$POSIX)]
 }
 
 $Project "matchmaking_ds"
@@ -477,12 +477,12 @@ $Project "matchmaking_ds"
 	"matchmaking/matchmaking_tf_ds.vpc" [$WINDOWS && $TF]
 	"matchmaking/matchmaking_episodic_ds.vpc" [$WINDOWS && $EPISODIC]
 	"matchmaking/matchmaking_cstrike_ds.vpc" [$WINDOWS && $CSTRIKE]
-	"matchmaking/matchmaking_cstrike15_ds.vpc" [($OSXALL || $DEDICATED || $WINDOWS||$POSIX)) && $CSGO]
+	"matchmaking/matchmaking_cstrike15_ds.vpc" [($DEDICATED || $WINDOWS||$POSIX)) && $CSGO]
 }
 
 $Project "matchmakingbase_ds"
 {
-	"matchmaking/matchmaking_base_ds.vpc" [($OSXALL || $DEDICATED || $WINDOWS||$POSIX))]
+	"matchmaking/matchmaking_base_ds.vpc" [($DEDICATED || $WINDOWS||$POSIX))]
 }
 
 $Project "materialsystemtest"
@@ -627,12 +627,12 @@ $Project "particle_import"
 
 $Project "particles"
 {
-	"particles/particles.vpc" [$WINDOWS || $X360 || $DEDICATED || $OSX32 || $OSX64 || $LINUX || $PS3]
+	"particles/particles.vpc" [$WINDOWS || $X360 || $DEDICATED || $LINUX || $PS3]
 }
 
 $Project "vpklib"
 {
-	"vpklib/vpklib.vpc" [$WINDOWS || $OSX32 || $OSX64 || $LINUX]
+	"vpklib/vpklib.vpc" [$WINDOWS || $LINUX]
 }
 
 $Project "vpk"
@@ -712,12 +712,12 @@ $Project "raytrace"
 
 $Project "responserules_runtime"
 {
-	"responserules/runtime/responserules_runtime.vpc" [$WINDOWS||$WIN64||$X360||$OSX32||$OSX64||$LINUX||$PS3]
+	"responserules/runtime/responserules_runtime.vpc" [$WINDOWS||$WIN64||$X360||$LINUX||$PS3]
 }
 
 $Project "resourcefile"
 {
-	"resourcefile/resourcefile.vpc" [$WINDOWS||$X360||$OSX32||$OSX64||$LINUX]
+	"resourcefile/resourcefile.vpc" [$WINDOWS||$X360||$LINUX]
 }
 
 $Project "rt_test"
@@ -769,7 +769,7 @@ $Project "server"
 	"game/server/server_dota.vpc"		[($WINDOWS) && $DOTA]
 	"game/server/server_sob.vpc"		[($WINDOWS) && $SOB]
 	"game/server/server_cstrike.vpc"	[($WINDOWS) && $CSTRIKE]
-	"game/server/server_cstrike15.vpc"	[($DEDICATED || $WINDOWS || $X360 || $PS3 || $OSXALL ||$POSIX)) && $CSGO]
+	"game/server/server_cstrike15.vpc"	[($DEDICATED || $WINDOWS || $X360 || $PS3 ||$POSIX)) && $CSGO]
 }
 
 $Project "serverbrowser"
@@ -814,12 +814,12 @@ $Project "shaderapidx9"
 
 $Project "togl"
 {
-	"togl/togl.vpc" [$GL||$OSXALL||($LINUX&&!$DEDICATED)]
+	"togl/togl.vpc" [$GL||($LINUX&&!$DEDICATED)]
 }
 
 $Project "shaderapiempty"
 {
-	"materialsystem/shaderapiempty/shaderapiempty.vpc" [($WINDOWS || $DEDICATED||$POSIX) && !$OSXALL]
+	"materialsystem/shaderapiempty/shaderapiempty.vpc" [$WINDOWS || $DEDICATED||$POSIX]
 }
 
 $Project "shaderapitest"
@@ -829,7 +829,7 @@ $Project "shaderapitest"
 
 $Project "shaderlib"
 {
-	"materialsystem/shaderlib/shaderlib.vpc" [($WINDOWS || $X360 || $DEDICATED||$POSIX) && !$OSXALL]
+	"materialsystem/shaderlib/shaderlib.vpc" [$WINDOWS || $X360 || $DEDICATED||$POSIX]
 }
 
 $Project "soundemittersystem"
@@ -864,7 +864,7 @@ $Project "stdshader_dbg"
 
 $Project "stdshader_dx9"
 {
-	"materialsystem/stdshaders/stdshader_dx9.vpc" [($WINDOWS||$X360||$POSIX) && !$OSXALL]
+	"materialsystem/stdshaders/stdshader_dx9.vpc" [$WINDOWS||$X360||$POSIX]
 }
 
 $Project "steamdatagramlib"
@@ -1054,7 +1054,7 @@ $Project "vice"
 
 $Project "videocfg"
 {
-	"videocfg/videocfg.vpc" 	[$WINDOWS||$X360||$LINUX||$OSX32||$OSX64||$PS3]
+	"videocfg/videocfg.vpc" 	[$WINDOWS||$X360||$LINUX||$PS3]
 }
 
 $Project "viper"
@@ -1160,7 +1160,7 @@ $Project "vstdlib"
 
 $Project "vtex_dll"
 {
-	"utils/vtex/vtex_dll.vpc" [$WINDOWS||$OSXALL]
+	"utils/vtex/vtex_dll.vpc" [$WINDOWS]
 }
 
 $Project "vtex_launcher"

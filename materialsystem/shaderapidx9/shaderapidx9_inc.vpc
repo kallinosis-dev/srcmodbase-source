@@ -6,7 +6,7 @@ $Project
 		{
 			$File	"$SHADERAPIDX9DIR\colorformatdx8.cpp"
 			$File	"$SHADERAPIDX9DIR\d3d_async.cpp"								
-			$File	"$SRCDIR\public\filesystem_helpers.cpp"  [!$OSXALL]
+			$File	"$SRCDIR\public\filesystem_helpers.cpp"
 			$File	"$SHADERAPIDX9DIR\hardwareconfig.cpp"
 			$File	"$SHADERAPIDX9DIR\meshbase.cpp"
 			$File	"$SHADERAPIDX9DIR\meshdx8.cpp"

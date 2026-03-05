@@ -21,7 +21,7 @@ $Configuration
 		// The PuzzleMaker is loaded as a DLL during development (on WIN32), but for public builds it is linked as a static LIB:
 		// Always link as a static library in this branch
 		// $PreprocessorDefinitions		"$BASE;PUZZLEMAKER_DLL_IMPORT"				[ $WIN32 ]
-		$PreprocessorDefinitions		"$BASE;PORTAL2_PUZZLEMAKER"					[ $WIN32 ||  $OSXALL ]
+		$PreprocessorDefinitions		"$BASE;PORTAL2_PUZZLEMAKER"					[ $WIN32 ]
 	}
 
 	$Linker
@@ -753,7 +753,7 @@ $Project "Client (Portal 2)"
 		}
 	}
 
-	$Folder "Protobuf Files"	[ ( $WIN32 || $OSXALL ) && !$NO_STEAM]
+	$Folder "Protobuf Files"	[ $WIN32 && !$NO_STEAM]
 	{
 		$DynamicFile "$GENERATED_PROTO_DIR\steammessages.pb.cc"
 		{
@@ -778,6 +778,6 @@ $Project "Client (Portal 2)"
 
 		// The PuzzleMaker is loaded as a DLL during development (on WIN32), but for public builds it is linked as a static LIB:
 		// $Lib	"puzzlemaker_dll"		[  $WIN32 ]
-		$Lib	"puzzlemaker_lib"		[ $WIN32 || $OSXALL ]
+		$Lib	"puzzlemaker_lib"		[ $WIN32 ]
 	}
 }

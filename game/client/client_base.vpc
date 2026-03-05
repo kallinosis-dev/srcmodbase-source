@@ -61,7 +61,6 @@ $Configuration
 
 	$Linker
 	{
-		$SystemLibraries				"iconv"     [$OSXALL]
 		$SystemLibraries				"rt" [$LINUXALL]
 		$IgnoreImportLibrary			"TRUE"
 		$AdditionalDependencies			"$BASE winmm.lib"	[$WINDOWS]
@@ -1250,12 +1249,10 @@ $Project
 		$Lib "$LIBCOMMON\win32\2015\pcre" 	[$WIN32 && $PANORAMA_ENABLE && $VS2015]
 		$Lib "$LIBCOMMON\win32\pcrecpp" 	[$WIN32 && $PANORAMA_ENABLE]
 		$ImplibExternal "video" [$LINUXALL && $PANORAMA_ENABLE]
-		$Lib "$SRCDIR\lib\common\$PLATFORM\libvideo.dylib" [$OSXALL && $PANORAMA_ENABLE]
 		$Lib "$LIBCOMMON\libpcre.a" 			[$POSIX && $PANORAMA_ENABLE]
 		$Lib "$LIBCOMMON\libpcreposix.a" 		[$POSIX && $PANORAMA_ENABLE]
 		$Lib "$LIBCOMMON\libpcrecpp.a" 		[$POSIX && $PANORAMA_ENABLE]
 		$Lib "$SRCDIR\lib\common\$PLATFORM\libv8.so"	[$LINUXALL && $PANORAMA_ENABLE]
-		$Lib "$SRCDIR\lib\common\$PLATFORM\libv8.dylib"	[$OSXALL && $PANORAMA_ENABLE]
 
 		$Lib protobuf
 	}

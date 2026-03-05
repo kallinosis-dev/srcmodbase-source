@@ -11,10 +11,6 @@ $include "$SRCDIR\vpc_scripts\source_dll_base.vpc"
 
 $Configuration
 {
-	$Linker
-	{
-		$SystemLibraries		"iconv" [$OSXALL]
-	}
 	$Compiler
 	{
 		$PreprocessorDefinitions		"$BASE;MDLCACHE_DLL_EXPORT"
