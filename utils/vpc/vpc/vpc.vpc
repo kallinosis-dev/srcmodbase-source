@@ -32,8 +32,6 @@ $Configuration
 	{
 		$AdditionalDependencies			"$BASE ws2_32.lib" [$WINDOWS]
 		$StackReserveSize				"2097152"
-        $SystemLibraries                "$BASE;iconv" [$OSXALL]
-		$SystemFrameworks 				"$BASE;Foundation;CoreServices" [$OSXALL]
 		$SystemLibraries				"$BASE;rt"						[$LINUXALL]
 	}
 
@@ -82,7 +80,6 @@ $Project "vpc"
 			$File	"ibasesolutiongenerator.h"
 
 			$File	"solutiongenerator_makefile.cpp"
-			$File	"solutiongenerator_xcode.cpp"
 			$File	"solutiongenerator_win32.cpp"
 		}
 

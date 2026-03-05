@@ -17,7 +17,6 @@ enum SolutionType_t
 {
 	ST_VISUALSTUDIO,
 	ST_MAKEFILE,
-	ST_XCODE,
 };
 
 class IBaseSolutionGenerator

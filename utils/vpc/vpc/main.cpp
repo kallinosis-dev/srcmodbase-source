@@ -2364,7 +2364,6 @@ void CVPC::DetermineSolutionGenerator()
 {
 	extern IBaseSolutionGenerator*GetSolutionGenerator_Win32();
 	extern IBaseSolutionGenerator*GetMakefileSolutionGenerator();
-	extern IBaseSolutionGenerator*GetXcodeSolutionGenerator();
 
 	bool bIsLinuxPlatform = conditionals.IsDefined("LINUXALL");
 	bool bIsOSXPlatform = conditionals.IsDefined("OSXALL");
