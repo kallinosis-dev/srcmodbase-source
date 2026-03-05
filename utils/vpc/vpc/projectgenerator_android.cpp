@@ -571,7 +571,6 @@ CUtlString CProjectGenerator_Android::GetSolutionPlatformAlias( const char *szVP
 		return GetTargetAndroidPlatformName( szVPCTargetPlatform );
 
 	case ST_MAKEFILE:
-	case ST_XCODE:
 		return szVPCTargetPlatform;
 
 	NO_DEFAULT;

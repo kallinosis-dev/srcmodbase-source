@@ -2361,7 +2361,6 @@ void CVPC::DetermineSolutionGenerator()
 
 extern IBaseProjectGenerator* GetWin32ProjectGenerator_2010();
 extern IBaseProjectGenerator* GetMakefileProjectGenerator();
-extern IBaseProjectGenerator* GetXcodeProjectGenerator();
 extern IBaseProjectGenerator* GetAndroidProjectGenerator();
 extern IVCProjWriter* GetWin32ProjectGenerator_VCProjWriter_2010();
 

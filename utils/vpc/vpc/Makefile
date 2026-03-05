@@ -69,7 +69,6 @@ VPC_SRC:= \
 	schemagenerator.cpp \
 	scriptsource.cpp \
 	solutiongenerator_makefile.cpp \
-	solutiongenerator_xcode.cpp \
 	solutiongenerator_win32.cpp \
 	sys_utils.cpp \
 	../../../common/clang/clang_utils.cpp \

@@ -37,9 +37,6 @@ public:
 	CUtlVector< CProjectConfiguration* > m_Configs;
 	uint32	m_nInsertOrder;
 	int64 m_nBuildOrderModifier;
-    // Arbitrary ID assigned by the generator for its own uses.
-    // For example the Xcode generator uses this to track per-file OID values.
-    uint64 m_nGeneratorId;
 };
 
 class CProjectFolder

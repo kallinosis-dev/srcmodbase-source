@@ -253,7 +253,6 @@ void DoNormalSchema( CVCProjGenerator *pDataCollector, const CUtlVector< CUtlStr
 	//		Potentially very long for game projects with hundreds of outputs
 	//	2. Avoid officially listing the C++ outputs and ensure that our C++ outputs are correct by the time the C++ compiler evaluates them
 	//		This is possible in MSVC because custom build tools are guaranteed to run before the C++ compiler step
-	//		For Xcode we emit all custom build tools as buildPhases that run before the "Sources" phase (containing general C++ files)
 	//		For Makefiles we add an order-only dependency on all the custom build tools to each C++ file to ensure ordering
 	const bool bStrictOutputs = false;
 
@@ -1008,7 +1007,7 @@ void CSchemaVPC::GetCustomBuildStrings( bool bIsGlobalBuildStep, CConfig *pCfg, 
 			}
 		}
 
-		//Indirectly depend on the output .mak/.vcxproj/.xcodeproj to plug holes in dependency checking
+		//Indirectly depend on the output .mak/.vcxproj to plug holes in dependency checking
 		{
 			if ( !additionalDependencies.IsEmpty() )
 			{

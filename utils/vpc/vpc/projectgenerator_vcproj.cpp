@@ -92,8 +92,7 @@ CProjectFile::CProjectFile( CVCProjGenerator *pGenerator, const char *pFilename,
 	m_Name( pFilename ),
 	m_iFlags( iFlags ),
 	m_nInsertOrder( 0 ),
-	m_nBuildOrderModifier( 0 ),
-    m_nGeneratorId( 0 )
+	m_nBuildOrderModifier( 0 )
 {
 }
 
@@ -1564,7 +1563,6 @@ CUtlString CVCProjGenerator::GetSolutionPlatformAlias( const char *szVPCTargetPl
 		return GetVCProjTargetPlatformName( szVPCTargetPlatform );
 
 	case ST_MAKEFILE:
-	case ST_XCODE:
 		return szVPCTargetPlatform;
 
 	NO_DEFAULT;
@@ -2800,7 +2798,7 @@ void CVCProjGenerator::AddIndirectCustomBuildDependencies( void )
 		CProjectConfiguration *pRootConfig = ppRootConfigurations[nConfigIter];
 		CUtlString addDependencies;
 
-		//depending on the output .mak/.vcxproj/.xcodeproj file would be the easiest setup, but may cause overbuilding
+		//depending on the output .mak/.vcxproj file would be the easiest setup, but may cause overbuilding
 		//addDependencies = g_pVPC->GetOutputFilename();
 				
 		//grab the VPC_TRIVIAL_DEPENDENCY_PATH and add it
