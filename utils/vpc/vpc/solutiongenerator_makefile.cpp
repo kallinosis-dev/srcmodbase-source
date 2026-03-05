@@ -156,8 +156,8 @@ public:
 					continue;
 
 				CDependency_Project *pTestProject = projects[iTestProject];
-				int dependsOnFlags = k_EDependsOnFlagTraversePastLibs | k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagRecurse;
-				if ( pCurProject->DependsOn( pTestProject, dependsOnFlags ) || additionalProjectDependencies.Find( pTestProject ) != additionalProjectDependencies.InvalidIndex() )
+				if ( pCurProject->DependsOn( pTestProject, k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagRecurse ) || 
+					additionalProjectDependencies.Find( pTestProject ) != additionalProjectDependencies.InvalidIndex() )
 				{
 					fprintf( fp, "%s ", projNames[iTestProject].String() );
 				}

@@ -247,7 +247,7 @@ public:
             return false;
         }
         
-        int dependsOnFlags = k_EDependsOnFlagTraversePastLibs | k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagRecurse;
+        int dependsOnFlags = k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagRecurse;
         return m_additionalDependencies.HasElement( pProj ) ||
             m_pDependencyProj->DependsOn( pProj->m_pDependencyProj, dependsOnFlags );
     }

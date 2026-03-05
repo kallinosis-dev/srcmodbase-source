@@ -171,7 +171,7 @@ public:
 
 					// do I depend on anyone?
 					CDependency_Project *pTestProject = projects[iTestProject];
-					int dependsOnFlags = k_EDependsOnFlagTraversePastLibs | k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagRecurse;
+					int dependsOnFlags = k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagRecurse;
 					if ( pCurProject->DependsOn( pTestProject, dependsOnFlags ) || additionalProjectDependencies.Find( pTestProject ) != additionalProjectDependencies.InvalidIndex() ) {
 						// add an edge from this project to the one it depends on
 						dependencyGraph.AddEdge( i, iTestProject, 1 );

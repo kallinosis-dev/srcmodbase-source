@@ -169,8 +169,8 @@ public:
 					continue;
 
 				CDependency_Project *pTestProject = projects[iTestProject];
-				if ( pCurProject->DependsOn( pTestProject, k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagTraversePastLibs | k_EDependsOnFlagRecurse ) ||
-					pCurProject->DependsOn( pTestProject, k_EDependsOnFlagCheckAdditionalDependencies | k_EDependsOnFlagTraversePastLibs ) )
+				if ( pCurProject->DependsOn( pTestProject, k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagRecurse ) ||
+					pCurProject->DependsOn( pTestProject, k_EDependsOnFlagCheckAdditionalDependencies ) )
 				{
 					if ( !bHasDependencies )
 					{

@@ -82,10 +82,6 @@ bool CDependency::FindDependency_Internal( CUtlVector<CUtlBuffer> &callTreeOutpu
 	if ( depth > 1 && !(flags & k_EDependsOnFlagRecurse) )
 		return false;
 
-	// Don't go into the children of libs if they don't want.
-	if ( !(flags & k_EDependsOnFlagTraversePastLibs) && m_Type == k_eDependencyType_Library )
-		return false;
-
 	// Go through everything I depend on. If any of those things 
 	for ( int iDepList=0; iDepList < 2; iDepList++ )
 	{
@@ -119,7 +115,7 @@ bool CDependency::FindDependency_Internal( CUtlVector<CUtlBuffer> &callTreeOutpu
 	return false;
 }
 
-bool CDependency::GetDirectDependenciesByType( EDependencyType type, CUtlVector< CDependency * > &result ) const
+bool CDependency::GetDirectDependencies( CUtlVector< CDependency * > &result ) const
 {
 	for ( int iDepList = 0; iDepList < 2; iDepList++ )
 	{
@@ -127,11 +123,9 @@ bool CDependency::GetDirectDependenciesByType( EDependencyType type, CUtlVector<
 		for ( int i = 0; i < depList.Count(); i++ )
 		{
 			CDependency *pChild = depList[i];
-			if ( pChild->m_Type == type )
-			{
-				AssertDbg( !result.HasElement( pChild ) ); // Should be no dupes (slow check for large sets)
-				result.AddToTail( pChild );
-			}
+
+			AssertDbg(!result.HasElement( pChild )); // Should be no dupes (slow check for large sets)
+			result.AddToTail( pChild );
 		}
 	}
 	return !!result.Count();
@@ -247,15 +241,12 @@ public:
 				char sAbsolutePath[MAX_FIXED_PATH];
 				V_MakeAbsolutePath( sAbsolutePath, sizeof( sAbsolutePath ), pFile->m_Filename.Get(), nullptr, k_bVPCForceLowerCase );
 
-				// Ignore source files.
-				// TODO: We are only here for project references, use !IsLibFile(sAbsolutePath) or something
-				if ( IsSourceFile( sAbsolutePath) )
+				// Only consider library references
+				if ( (pFile->m_iFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB | VPC_FILE_FLAGS_SHARED_LIB)) == 0)
 					continue;
 
 				// Add an entry to the project for this file (but only once - not twice for debug+release!)
-				CDependency *pDep = m_pDependencyGraph->FindOrCreateDependency( sAbsolutePath, 
-					(pFile->m_iFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB | VPC_FILE_FLAGS_SHARED_LIB)) ? 
-						k_eDependencyType_Library : k_eDependencyType_Unknown );
+				CDependency *pDep = m_pDependencyGraph->FindOrCreateDependency( sAbsolutePath );
 
 				if ( !pDep->HasBeenMarked() && pDep != m_pDependencyProject )
 				{
@@ -271,11 +262,18 @@ public:
 	{
 		for ( int iIndex = pFolder->m_Files.Head(); iIndex != pFolder->m_Files.InvalidIndex(); iIndex = pFolder->m_Files.Next( iIndex ) )
 		{
+
+			CProjectFile *pFile = pFolder->m_Files[iIndex];
+			// Only consider library references
+			if ( (pFile->m_iFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB)) == 0 )
+				continue;
+
 			// Don't bother with dynamic files; prefer keeping the dependency behaviour simple and predictable
 			// (the code which generates the dynamic files can inject additional dependencies explicitly)
-			CProjectFile *pFile = pFolder->m_Files[iIndex];
 			if ( pFile->m_iFlags & VPC_FILE_FLAGS_DYNAMIC )
 				continue;
+
+
 
 			// If this file is excluded from all configs, skip it.
 			// NOTE: Schema files are always excluded from the build (see VPC_Schema_TrackFile), 
@@ -285,7 +283,8 @@ public:
 				bool bExcluded, bIncluded = false;
 				for ( int iConfig = 0; iConfig < pFile->m_Configs.Count(); iConfig++ )
 				{
-					if ( !VPC_GetPropertyBool( KEYWORD_GENERAL, nullptr, pFile->m_Configs[ iConfig ], g_pOption_ExcludedFromBuild, &bExcluded ) || !bExcluded )
+					if ( !VPC_GetPropertyBool( KEYWORD_GENERAL, nullptr, pFile->m_Configs[ iConfig ], g_pOption_ExcludedFromBuild, &bExcluded ) 
+						|| !bExcluded )
 						bIncluded = true; // Marked as NOT excluded (or not marked at all) -> included
 				}
 				if ( !bIncluded )
@@ -295,24 +294,9 @@ public:
 			// Make this an absolute path.
 			char sAbsolutePath[MAX_FIXED_PATH];
 			V_MakeAbsolutePath( sAbsolutePath, sizeof( sAbsolutePath ), pFile->m_Name.Get(), nullptr, k_bVPCForceLowerCase );
-
-			if ( !V_stricmp_fast( V_GetFileExtensionSafe( sAbsolutePath ), "vpc" ) )
-			{
-				// The vpc script file chain is auto-added into the "VPC Scripts" the project as a nicety.
-				// This can create an incorrect dependency, when the vpc chain just happens to include a vpc that maps to another project,
-				// since the FindOrCreateDependency() is name based. This pattern occurs with VPC's that have an outer script that use a common
-				// inner script, but then have another project that uses the inner script directly. Prefer to fix here than do script renames.
-				continue;
-			}
-
-			// Ignore source files.
-			// TODO: We are only here for project references, use !IsLibFile(sAbsolutePath) or something
-			if ( IsSourceFile( sAbsolutePath) )
-				continue;
 			
 			// Add an entry to the project for this file (but only once - not twice for debug+release!)
-			CDependency *pDep = m_pDependencyGraph->FindOrCreateDependency( sAbsolutePath, 
-				(pFile->m_iFlags & (VPC_FILE_FLAGS_STATIC_LIB | VPC_FILE_FLAGS_IMPORT_LIB)) ? k_eDependencyType_Library : k_eDependencyType_Unknown);
+			CDependency *pDep = m_pDependencyGraph->FindOrCreateDependency( sAbsolutePath );
 			if ( !pDep->HasBeenMarked() && pDep != m_pDependencyProject )
 			{
 				AssertDbg( !m_pDependencyProject->m_Dependencies.HasElement( pDep ) ); // HasBeenMarked() should prevent this (slow check for large sets)
@@ -423,19 +407,15 @@ public:
 
 				for ( int nSplitIter = 0; nSplitIter < splitStrings.Count(); ++nSplitIter )
 				{
-					if ( splitStrings[nSplitIter].IsEmpty() )
+					CUtlString const& filename = splitStrings[nSplitIter];
+
+					if ( filename.IsEmpty() || !IsLibraryFile(filename.Get()) )
 						continue;
 				
 					char szDependencyAbsolutePath[MAX_FIXED_PATH];
-					V_MakeAbsolutePath( szDependencyAbsolutePath, sizeof( szDependencyAbsolutePath ), splitStrings[nSplitIter], g_pVPC->GetProjectPath(), k_bVPCForceLowerCase );
+					V_MakeAbsolutePath( szDependencyAbsolutePath, sizeof( szDependencyAbsolutePath ), filename, g_pVPC->GetProjectPath(), k_bVPCForceLowerCase );
 
-					//copy vpc file anti-dependency from SetupFilesList()
-					if ( !V_stricmp_fast( V_GetFileExtensionSafe( szDependencyAbsolutePath ), "vpc" ) )
-					{
-						continue;
-					}
-
-					CDependency *pOODependency = m_pDependencyGraph->FindOrCreateDependency( szDependencyAbsolutePath, k_eDependencyType_Unknown );
+					CDependency *pOODependency = m_pDependencyGraph->FindOrCreateDependency( szDependencyAbsolutePath );
 					if ( !m_pDependencyProject->m_Dependencies.IsValidIndex( m_pDependencyProject->m_Dependencies.Find( pOODependency ) ) )
 					{
 						m_pDependencyProject->m_Dependencies.AddToTail( pOODependency );
@@ -451,21 +431,28 @@ public:
 			CProjectFile *pProjectFile = allFiles[nFileIter];
 
 			//additional dependencies
-			if ( m_pVCProjGenerator->HasFilePropertyValue( pProjectFile, pRootConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_AdditionalDependencies ) )
+			if ( m_pVCProjGenerator->HasFilePropertyValue( pProjectFile, pRootConfig->m_Name.Get(), 
+				KEYWORD_CUSTOMBUILDSTEP, g_pOption_AdditionalDependencies ) )
 			{
-				addFileDependencies( m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pRootConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_AdditionalDependencies ) );
+				addFileDependencies( m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pRootConfig->m_Name.Get(), 
+					KEYWORD_CUSTOMBUILDSTEP, g_pOption_AdditionalDependencies ) );
 			}
 
 			//order only file dependencies
-			if ( m_pVCProjGenerator->HasFilePropertyValue( pProjectFile, pRootConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_OrderOnlyFileDependencies ) )
+			if ( m_pVCProjGenerator->HasFilePropertyValue( pProjectFile, pRootConfig->m_Name.Get(), 
+				KEYWORD_CUSTOMBUILDSTEP, g_pOption_OrderOnlyFileDependencies ) )
 			{
-				addFileDependencies( m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pRootConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_OrderOnlyFileDependencies ) );
+				addFileDependencies( m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pRootConfig->m_Name.Get(), 
+					KEYWORD_CUSTOMBUILDSTEP, g_pOption_OrderOnlyFileDependencies ) );
 			}
 
 			//order only project dependencies
-			if ( m_pVCProjGenerator->HasFilePropertyValue( pProjectFile, pRootConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_OrderOnlyProjectDependencies ) )
+			if ( m_pVCProjGenerator->HasFilePropertyValue( pProjectFile, pRootConfig->m_Name.Get(), 
+				KEYWORD_CUSTOMBUILDSTEP, g_pOption_OrderOnlyProjectDependencies ) )
 			{
-				const char *szProjectDependencies = m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pRootConfig->m_Name.Get(), KEYWORD_CUSTOMBUILDSTEP, g_pOption_OrderOnlyProjectDependencies );
+				const char *szProjectDependencies = m_pVCProjGenerator->GetPropertyValueAsString( pProjectFile, pRootConfig->m_Name.Get(), 
+					KEYWORD_CUSTOMBUILDSTEP, g_pOption_OrderOnlyProjectDependencies );
+
 				if ( szProjectDependencies && szProjectDependencies[0] )
 				{
 					splitStrings.RemoveAll();
@@ -678,7 +665,6 @@ bool CProjectDependencyGraph::VisitProject( projectIndex_t iProject, const char 
 	V_MakeAbsolutePath( szAbsolute, sizeof( szAbsolute ), szProjectName, nullptr, k_bVPCForceLowerCase );
 	pProject->m_Filename = szAbsolute;
 
-	pProject->m_Type = k_eDependencyType_Project;
 	pProject->m_iProjectIndex = iProject;
 	m_Projects.AddToTail( pProject );
 	m_AllFiles.Insert( szAbsolute, pProject );
@@ -695,11 +681,14 @@ bool CProjectDependencyGraph::VisitProject( projectIndex_t iProject, const char 
 		{
 			const char *pFilename = scanner.m_ProjectOutputs[i].Get();
 
+			if(!IsLibraryFile(pFilename))
+				continue;
+
 			// fixup the path and add it
 			char szOutputAbsPath[MAX_FIXED_PATH];
 			V_MakeAbsolutePath( szOutputAbsPath, sizeof( szOutputAbsPath ), pFilename, g_pVPC->GetProjectPath(), k_bVPCForceLowerCase );
 
-			CDependency *pOutputDependency = FindOrCreateDependency( szOutputAbsPath, k_eDependencyType_Unknown );
+			CDependency *pOutputDependency = FindOrCreateDependency( szOutputAbsPath );
 			pOutputDependency->m_Dependencies.AddToTail( pProject );
 			//Msg( " - ADDING DEPENDENCY: %s (%s)\n", szOutputAbsPath, pProject->m_ProjectName.Get() );
 		}
@@ -734,11 +723,13 @@ void CProjectDependencyGraph::GetProjectDependencyTree( projectIndex_t iProject,
 			bool bThereIsADependency;
 			if ( bDownwards )
 			{
-				bThereIsADependency = pProject->DependsOn( pOther, k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagCheckAdditionalDependencies | k_EDependsOnFlagRecurse | k_EDependsOnFlagTraversePastLibs );
+				bThereIsADependency = pProject->DependsOn( pOther, 
+					k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagCheckAdditionalDependencies | k_EDependsOnFlagRecurse );
 			}
 			else
 			{
-				bThereIsADependency = pOther->DependsOn( pProject, k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagCheckAdditionalDependencies | k_EDependsOnFlagRecurse | k_EDependsOnFlagTraversePastLibs );
+				bThereIsADependency = pOther->DependsOn( pProject, 
+					k_EDependsOnFlagCheckNormalDependencies | k_EDependsOnFlagCheckAdditionalDependencies | k_EDependsOnFlagRecurse );
 			}
 
 			if ( bThereIsADependency )
@@ -772,37 +763,17 @@ CDependency* CProjectDependencyGraph::FindDependency( const char *pFilename, CUt
 }
 
 
-CDependency* CProjectDependencyGraph::FindOrCreateDependency( const char *pFilename, EDependencyType type )
+CDependency* CProjectDependencyGraph::FindOrCreateDependency( const char *pFilename )
 {
     CUtlPathStringHolder fixedFilename;
 	CDependency *pDependency = FindDependency( pFilename, &fixedFilename );
 	if ( pDependency )
-	{
-		if ( (pDependency->m_Type != type) && (type != k_eDependencyType_Unknown) )
-		{
-			logging::Warning( "Dependency for file \"%s\" is inconsistent. Was \"%s\", changing to \"%s\"\n", pFilename, k_DependencyTypeStrings[pDependency->m_Type], k_DependencyTypeStrings[type] );
-		}
 		return pDependency;
-	}
 
-	// Couldn't find it. Create one (using the fixed-up filename).
+    // Couldn't find it. Create one (using the fixed-up filename).
 	pDependency = new CDependency( this );
 	pDependency->m_Filename = fixedFilename;
 	m_AllFiles.Insert( fixedFilename, pDependency );
-
-	pDependency->m_Type = type;
-	if ( type == k_eDependencyType_Unknown )
-	{
-		// If the caller didn't specify, figure out the type from the filename
-		if ( IsLibraryFile( fixedFilename ) )
-			pDependency->m_Type = k_eDependencyType_Library;
-		else
-		{
-			if(IsSourceFile( fixedFilename ))
-				logging::Warning("Attempting to create a dependency info for source file \"%s\". This is wrong.", pFilename);
-			pDependency->m_Type = k_eDependencyType_Unknown;
-		}
-	}
 
 	return pDependency;
 }

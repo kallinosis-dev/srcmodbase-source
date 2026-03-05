@@ -9,31 +9,18 @@
 
 class IBaseProjectGenerator;
 
-enum EDependencyType
-{
-	k_eDependencyType_Project,			// this is a project file WITHOUT the target-specific extension (.mak, .vpj, .vcproj).
-	k_eDependencyType_Library,			// this is a library file
-	k_eDependencyType_Unknown			// Unrecognized file extension (probably .ico or .rc2 or somesuch).
-};
-
-SELECTANY const char *k_DependencyTypeStrings[] =
-{
-	"k_eDependencyType_Project",
-	"k_eDependencyType_Library",
-	"k_eDependencyType_Unknown"
-};
-
 class CProjectDependencyGraph;
 enum k_EDependsOnFlags
 { 
 	k_EDependsOnFlagCheckNormalDependencies		= 0x01,
 	k_EDependsOnFlagCheckAdditionalDependencies	= 0x02,
-	k_EDependsOnFlagRecurse						= 0x04,
-	k_EDependsOnFlagTraversePastLibs			= 0x08
+	k_EDependsOnFlagRecurse						= 0x04
 };
 
 // Flags to CProjectDependencyGraph::BuildProjectDependencies.
 #define BUILDPROJDEPS_CHECK_ALL_PROJECTS		0x01		// If set, uses the set of allowed .vpc files, otherwise restricted to the projects specified on the CL.
+
+class CDependency_Project;
 
 class CDependency
 {
@@ -51,13 +38,15 @@ public:
 	// Returns true if the absolute filename of this thing (CDependency::m_Filename) matches the absolute path specified.
 	bool CompareAbsoluteFilename( const char *pAbsPath ) const;
 
-	// Returns true if any direct dependencies of the given type are found:
-	bool GetDirectDependenciesByType( EDependencyType type, CUtlVector< CDependency * > &result ) const;
+	// Returns true if any direct dependencies of are found:
+	bool GetDirectDependencies( CUtlVector< CDependency * > &result ) const;
+
+	virtual CDependency_Project* GetDependencyProject() { return nullptr; }
+	virtual CDependency_Project const* GetDependencyProject() const { return nullptr; }
+
 
 	// This is full path to the VPC filename for a project (use CDependency_Project::GetProjectFileName() for the VCPROJ/VPJ filename).
 	CUtlString m_Filename;
-									
-	EDependencyType	m_Type;
 
 	// Files that this depends on.
 	CUtlVector<CDependency*> m_Dependencies;
@@ -78,7 +67,6 @@ private:
 
 // This represents a project (.vcproj) file, NOT a project like a projectIndex_t.
 // There can be separate .vcproj files (and thus separate CDependency_Project) for each game and platform of a projectIndex_t.
-// If m_Type == k_eDependencyType_Project, then you can cast to this.
 class CDependency_Project : public CDependency
 {
 public:
@@ -86,6 +74,8 @@ public:
 
 	CDependency_Project( CProjectDependencyGraph *pDependencyGraph );
 
+	CDependency_Project* GetDependencyProject() override { return this; }
+	CDependency_Project const* GetDependencyProject() const override { return this; }
 
 public:
 	// Straight out of the $AdditionalProjectDependencies key (split on semicolons).
@@ -118,7 +108,7 @@ public:
 	bool HasGeneratedDependencies() const;
 
 	CDependency* FindDependency( const char *pFilename, CUtlPathStringHolder *pFixedFilename = nullptr);
-	CDependency* FindOrCreateDependency( const char *pFilename, EDependencyType type );
+	CDependency* FindOrCreateDependency( const char *pFilename );
 
 	// Look for all projects (that we've scanned during BuildProjectDependencies) that depend on the specified project.
 	// If bDownwards is true,  then it adds iProject and all projects that _it depends on_.
