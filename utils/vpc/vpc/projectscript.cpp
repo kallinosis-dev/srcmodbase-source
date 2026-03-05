@@ -1814,8 +1814,6 @@ void CProjectScriptParser::Keyword_Project( int depth )
 	g_pVPC->DetermineProjectGenerator();
 
 	CUtlString projectName;
-
-    g_pVPC->m_bInProjectSection = true;
     
 	// check for optional project name
 	const char *pToken = _script.PeekNextToken( false );
@@ -1876,8 +1874,6 @@ void CProjectScriptParser::Keyword_Project( int depth )
 
 		g_pVPC->m_bGeneratedProject = true;
 	}
-
-    g_pVPC->m_bInProjectSection = false;
 }
 
 bool CProjectScriptParser::IsBuiltInFileType( const char *pExtension )

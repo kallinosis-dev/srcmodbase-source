@@ -81,7 +81,6 @@ CVPC::CVPC()
 	m_bSpewProjects = false;
 	m_bSpewProperties = false;
 	m_bTestMode = false;
-	m_bInProjectSection = false;
 	m_bGeneratedProject = false;
 	m_bAnyProjectQualified = false;
 	m_bForceGenerate = false;

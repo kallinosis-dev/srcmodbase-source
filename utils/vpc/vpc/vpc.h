@@ -421,7 +421,6 @@ public:
 
     CUtlDict< CCopyableUtlVector< CUtlString >, int >     m_LibraryDependencies;
 
-    bool                            m_bInProjectSection;
 	bool							m_bGeneratedProject;
 	bool							m_bIsDependencyPass; // True inside CProjectDependencyGraph::BuildProjectDependencies()
 
