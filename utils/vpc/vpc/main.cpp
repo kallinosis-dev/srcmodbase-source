@@ -467,7 +467,7 @@ void CVPC::SpewUsage(void)
 			Log_Msg(LOG_VPC, "\n");
 			Log_Msg(LOG_VPC, "  Single .vcxproj generation:\n");
 			Log_Msg(LOG_VPC, "    vpc +client /hl2     <-- Creates a Win32 .vcxproj for the HL2 client.\n");
-			// TODO: OSX or Linux example
+			// TODO: Linux example
 			//Log_Msg(LOG_VPC, "    vpc +shaderapi /x360 <-- Creates a Xbox360 .vcxproj for the shaderapi.\n");
 
 			Log_Msg(LOG_VPC, "\n");
@@ -1659,10 +1659,6 @@ void CVPC::SetMacrosAndConditionals()
 		pPlatformConditional = conditionals.Get("WIN64");
 #elif defined( WIN32 )
 		pPlatformConditional = conditionals.Get("WIN32");
-#elif defined( OSX64 )
-		pPlatformConditional = conditionals.Get("OSX64");
-#elif defined( OSX32 )
-		pPlatformConditional = conditionals.Get("OSX32");
 #elif defined( LINUXSTEAMRT64 )
 		pPlatformConditional = conditionals.Get("LINUX64");
 #elif defined( LINUXSERVER64 )
@@ -1973,50 +1969,8 @@ void CVPC::SetMacrosAndConditionals()
 
 		conditionals.SetSystem("GL", true);
 	}
-	else if (!V_stricmp_fast(platformName.String(), "OSX32") ||
-		!V_stricmp_fast(platformName.String(), "OSX64"))
-	{
-		if (!V_stricmp_fast(platformName.String(), "OSX32"))
-		{
-			macros.SetAsSystem("PLATSUBDIR", "\\osx32", false);
-		}
-		else
-		{
-			macros.SetAsSystem("PLATSUBDIR", "\\osx64", false);
-		}
-
-		conditionals.SetSystem("OSXALL", true);
-
-		if (m_bDedicatedBuild)
-		{
-			conditionals.SetSystem("DEDICATED", true);
-		}
-
-		conditionals.SetSystem("POSIX", true);
-		macros.SetAsSystem("_POSIX", "1", true);
-
-		macros.SetAsSystem("_DLL_EXT", ".dylib", true);
-		macros.SetAsSystem("_IMPLIB_EXT", ".dylib", false);
-
-		macros.SetAsSystem("_DLL_PREFIX", "lib", true);
-		macros.SetAsSystem("_IMPLIB_PREFIX", "lib", false);
-		macros.SetAsSystem("_IMPLIB_DLL_PREFIX", "lib", false);
-
-		macros.SetAsSystem("_STATICLIB_EXT", ".a", false);
-		macros.SetAsSystem("_EXE_EXT", "", false);
-		macros.SetAsSystem("_SYM_EXT", ".dSYM", false);
-
-		macros.SetAsSystem("_EXTERNAL_DLL_EXT", ".dylib", true);
-		macros.SetAsSystem("_EXTERNAL_IMPLIB_EXT", ".dylib", false);
-		macros.SetAsSystem("_EXTERNAL_STATICLIB_EXT", ".a", false);
-
-		// Mac defaults to GL on
-		conditionals.SetSystem("GL", true);
-	}
 	else if (!V_stricmp_fast(platformName.String(), "IOS"))
 	{
-		conditionals.SetSystem("OSXALL", true);
-
 		if (m_bDedicatedBuild)
 		{
 			conditionals.SetSystem("DEDICATED", true);
@@ -2064,16 +2018,6 @@ void CVPC::SetMacrosAndConditionals()
 	conditionals.SetSystem("HOST_WIN32", true);
 	macros.SetAsSystem("HOST_PLATSUBDIR", "\\win32", false);
 	macros.SetAsSystem("HOST_EXE_EXT", ".exe", false);
-#elif defined( OSX64 )
-	conditionals.SetSystem( "HOST_OSXALL", true );
-	conditionals.SetSystem( "HOST_OSX64", true );
-	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\osx64", false );
-	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
-#elif defined( OSX32 )
-	conditionals.SetSystem( "HOST_OSXALL", true );
-	conditionals.SetSystem( "HOST_OSX32", true );
-	macros.SetAsSystem( "HOST_PLATSUBDIR", "\\osx32", false );
-	macros.SetAsSystem( "HOST_EXE_EXT", "", false );
 #elif defined( LINUX )
 	conditionals.SetSystem( "HOST_LINUXALL", true );
 	conditionals.SetSystem( "HOST_LINUX", true );
@@ -2296,16 +2240,6 @@ void CVPC::HandleMKSLN(IBaseSolutionGenerator* pSolutionGenerator,
                        IBaseSolutionGenerator* pSolutionGenerator2,
                        CProjectDependencyGraph& dependencyGraph)
 {
-	if (m_MKSolutionFilename.IsEmpty())
-	{
-		if (!V_stricmp_fast(conditionals.GetTargetPlatformName(), "OSX32") ||
-			!V_stricmp_fast(conditionals.GetTargetPlatformName(), "OSX64"))
-		{
-			logging::Error("MKSLN required for Xcode targets");
-		}
-		return;
-	}
-
 	if (!VPC_AreProjectDependenciesSupportedForThisTargetPlatform())
 		logging::Error("MKSLN not supported for %s yet!", conditionals.GetTargetPlatformName());
 
@@ -2366,13 +2300,11 @@ void CVPC::DetermineSolutionGenerator()
 	extern IBaseSolutionGenerator*GetMakefileSolutionGenerator();
 
 	bool bIsLinuxPlatform = conditionals.IsDefined("LINUXALL");
-	bool bIsOSXPlatform = conditionals.IsDefined("OSXALL");
 	bool bIsAndroidPlatform = conditionals.IsDefined("ANDROIDALL");
 
 	// Under Windows we have the ability to generate makefiles so if they specified a linux config,
 	// or if they're building the (non-SRCDS) dedicated server, then use the makefile generator
-	bool bUseMakefile = bIsLinuxPlatform || bIsAndroidPlatform || bIsOSXPlatform || conditionals.IsDefined("DEDICATED");
-	bool bUseXcode = false; //bIsOSXPlatform;
+	bool bUseMakefile = bIsLinuxPlatform || bIsAndroidPlatform || conditionals.IsDefined("DEDICATED");
 
 
 	if (bUseMakefile)
@@ -2396,13 +2328,6 @@ void CVPC::DetermineSolutionGenerator()
 			logging::StatusWithColor(true, Color(0, 255, 255, 255), "Generating Makefile for Visual Studio %s", pVSName);
 			m_pSolutionGenerator2 = GetSolutionGenerator_Win32();
 		}
-	}
-	else if (bUseXcode)
-	{
-		logging::StatusWithColor(true, Color(0, 255, 255, 255), "Using Xcode generator.");
-
-		m_pSolutionGenerator = GetXcodeSolutionGenerator();
-		m_bForceIterate = true;
 	}
 	else
 	{
@@ -2447,7 +2372,6 @@ void CVPC::DetermineProjectGenerator(CScript* projScript)
 
 
 	bool bIsLinuxPlatform = conditionals.IsDefined("LINUXALL");
-	bool bIsOSXPlatform = conditionals.IsDefined("OSXALL");
 	bool bIsAndroidPlatform = conditionals.IsDefined("ANDROIDALL");
 	bool bIsAndroidProject = conditionals.IsDefined("ANDROIDPROJECT");
 	//android-specific project template, not just a dll/exe/lib compiled for android platform
@@ -2455,10 +2379,8 @@ void CVPC::DetermineProjectGenerator(CScript* projScript)
 	// Under Windows we have the ability to generate makefiles so if they specified a linux config,
 	// or if they're building the (non-SRCDS) dedicated server, then use the makefile generator
 	bool bUseAndroid = bIsAndroidProject && bIsAndroidPlatform;
-	bool bUseMakefile = (bIsLinuxPlatform || bIsAndroidPlatform || bIsOSXPlatform
+	bool bUseMakefile = (bIsLinuxPlatform || bIsAndroidPlatform
 		/* || IsConditionalDefined( "DEDICATED" )*/) && !bUseAndroid;
-	bool bUseXcode = false; //bIsOSXPlatform;
-
 
 	if (bUseMakefile)
 	{
@@ -2472,15 +2394,6 @@ void CVPC::DetermineProjectGenerator(CScript* projScript)
 		m_bPerFileCompileConfig = true;
 
 		// We do not support lib-within-lib for makefiles.
-		m_bAllowLibWithinLib = false;
-	}
-	else if (bUseXcode)
-	{
-		m_pProjectGenerator = GetXcodeProjectGenerator();
-		// We do not support any kind of per-file
-		// compile options for Xcode projects.
-		m_bPerFileCompileConfig = false;
-		// We do not support lib-within-lib for Xcode.
 		m_bAllowLibWithinLib = false;
 	}
 	else if (bUseAndroid)
@@ -2742,7 +2655,7 @@ int CVPC::ProcessCommandLine()
 void UpdateAutoExpDat();
 
 // VPC is a DLL in Source.
-#if defined( STEAM ) || defined( OSX ) || defined( LINUX ) || defined( STATIC_LINK )
+#if defined( STEAM ) || defined( LINUX ) || defined( STATIC_LINK )
 int main(int argc, char** argv)
 #else
 int vpcmain( int argc, char **argv )
@@ -2772,7 +2685,7 @@ int vpcmain( int argc, char **argv )
 }
 
 // VPC is a DLL in Source.
-#if !( defined( STEAM ) || defined( OSX ) || defined( LINUX ) || defined( STATIC_LINK ) )
+#if !( defined( STEAM ) || defined( LINUX ) || defined( STATIC_LINK ) )
 #include "ilaunchabledll.h"
 
 // VPC is launched by vpc.exe, which is a copy of binlaunch.exe.

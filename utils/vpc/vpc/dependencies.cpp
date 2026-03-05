@@ -853,8 +853,6 @@ bool VPC_AreProjectDependenciesSupportedForThisTargetPlatform( void )
 	bool bSupported = !V_stricmp_fast( pPlatformName, "WIN32" ) || 
 					  !V_stricmp_fast( pPlatformName, "WIN64" )||
 					  VPC_IsPlatformLinux( pPlatformName ) ||
-					  VPC_IsPlatformAndroid( pPlatformName ) ||
-					  !V_stricmp_fast( pPlatformName, "OSX32" ) ||
-                      !V_stricmp_fast( pPlatformName, "OSX64" );
+					  VPC_IsPlatformAndroid( pPlatformName );
 	return bSupported;
 }

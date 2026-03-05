@@ -90,8 +90,8 @@ const char *g_szArrPlatforms[] =
 	// raw platforms...
 	"win32",				//  0
 	"win64",				//  1
-	"osx32",				//  2
-	"osx64",				//  3
+	"",						//  2
+	"",						//  3
 	"linux64",				//  4
 	"linuxserver64",		//  5
 	"linuxsteamrtarm32hf",	//  6
@@ -108,7 +108,7 @@ const char *g_szArrPlatforms[] =
 
 	// fallbacks...
 	"win",					// 17
-	"osx",					// 18
+	"",						// 18
 	"linux",				// 19
 	"posix",				// 20
 	"any",					// 21
@@ -119,7 +119,7 @@ const char *g_szArrPlatforms[] =
 enum FallBacks_t
 {
 	FB_WIN = 17,
-	FB_OSX = 18,
+	//FB_OSX = 18,
 	FB_LIN = 19,
 	FB_POS = 20,
 	FB_ANY = 21
@@ -140,8 +140,8 @@ static const char *ResolveFilename( const char *pszFile, CUtlPathStringHolder *p
 	static const int arrPlatformChains[][k_lastRealPlatform + 1] =
 	{
 		{	0,		1,		2,		3,		4,		5,		6,		7,		8,		9,		10,		11,		12,		13,		14,		15,		16 }, // the raw platforms
-		{ FB_WIN, FB_WIN, FB_OSX, FB_OSX, FB_LIN, FB_LIN, FB_LIN, FB_LIN, FB_ANY, FB_POS, FB_WIN, FB_LIN, FB_LIN, FB_LIN, FB_LIN, FB_LIN, FB_LIN }, // first fallback
-		{ FB_ANY, FB_ANY, FB_POS, FB_POS, FB_POS, FB_POS, FB_POS, FB_POS, FB_ANY, FB_ANY, FB_ANY, FB_POS, FB_POS, FB_POS, FB_POS, FB_POS, FB_POS }, // 2nd fallback
+		{ FB_WIN, FB_WIN, FB_ANY, FB_ANY, FB_LIN, FB_LIN, FB_LIN, FB_LIN, FB_ANY, FB_POS, FB_WIN, FB_LIN, FB_LIN, FB_LIN, FB_LIN, FB_LIN, FB_LIN }, // first fallback
+		{ FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_POS, FB_POS, FB_POS, FB_POS, FB_ANY, FB_ANY, FB_ANY, FB_POS, FB_POS, FB_POS, FB_POS, FB_POS, FB_POS }, // 2nd fallback
 		{ FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY, FB_ANY }, // 3rd fallback
 	};
 

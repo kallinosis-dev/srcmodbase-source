@@ -21,13 +21,6 @@ SRCROOT:=../../../
 CC:=gcc
 CXX:=g++
 
-ifeq ($(OS),Darwin)
-SDKROOT:=$(shell xcodebuild -sdk macosx -version Path)
-CC:=clang -m32
-CXX:=clang++ -m32
-EXE_POSTFIX:=_osx
-endif
-
 ifeq ($(OS),Linux)
 ifeq ($(wildcard /valve/bin/gcc),)
 CC:=gcc
@@ -180,13 +173,6 @@ ifeq "$(STEAM_BRANCH)" "1"
 CFLAGS+= -DSTEAM
 endif
 
-
-ifeq "$(OS)" "Darwin"
-CFLAGS+=-I$(SDKROOT)/usr/include/malloc
-CFLAGS+= -DOSX -D_OSX -DOSX64
-CFLAGS+= -arch i386 -fasm-blocks
-endif
-
 ifeq "$(OS)" "Linux"
 CFLAGS+= -DPLATFORM_LINUX -D_LINUX -DLINUX -DLINUXSTEAMRT64
 endif
@@ -202,14 +188,6 @@ CFLAGS+= -DCOMPILER_GCC
 MAKEDEPEND=$(CXX) -M -MT $@ -MM $(CFLAGS) $< | sed -e 's@^\(.*\)\.o:@\1.d \1.o:@' > $(@:.o=.d)
 COMPILE=$(CXX) -c $(CFLAGS) -o $@ $<
 LINK=$(CXX) $(CONFIG_DEPENDENT_FLAGS)  -o "$(OUTFILE)" $(OBJS) -ldl -lpthread
-
-ifeq "$(OS)" "Darwin"
-LINK+=-liconv -framework Foundation
-endif
-
-ifeq "$(OS)" "Darwin"
-LINK+= -arch i386
-endif
 
 
 # Build rules

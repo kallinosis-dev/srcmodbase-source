@@ -1324,8 +1324,6 @@ bool IsSchemaSupportedForThisTargetPlatform( void )
 	const char *pPlatformName = g_pVPC->conditionals.GetTargetPlatformName();
 	bool bSupported = !V_stricmp_fast( pPlatformName, "WIN32" ) || 
 						!V_stricmp_fast( pPlatformName, "WIN64" )||
-						!V_stricmp_fast( pPlatformName, "OSX32" ) ||
-						!V_stricmp_fast( pPlatformName, "OSX64" ) ||
 						VPC_IsPlatformLinux( pPlatformName ) ||
 						VPC_IsPlatformAndroid( pPlatformName );
 

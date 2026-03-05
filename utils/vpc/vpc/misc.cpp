@@ -26,14 +26,12 @@ const char* g_pOption_GCC_ExtraCxxCompilerFlags = "$GCC_ExtraCxxCompilerFlags";
 const char* g_pOption_GCC_ExtraLinkerFlags = "$GCC_ExtraLinkerFlags";
 const char* g_pOption_POSIX_RPaths = "$POSIX_RPaths";
 const char* g_pOption_GameOutputFile = "$GameOutputFile";
-const char* g_pOption_LocalFrameworks = "$LocalFrameworks";
 const char* g_pOption_OptimizerLevel = "$OptimizerLevel";
 const char* g_pOption_Outputs = "$Outputs";
 const char* g_pOption_PotentialOutputs = "$PotentialOutputs";
 //outputs that don't contribute to timestamp triggers, but might be output by the tool (Makefiles needs to know their timestamp *might* change)
 const char* g_pOption_PostBuildEvent = "$PostBuildEvent";
 const char* g_pOption_SymbolVisibility = "$SymbolVisibility";
-const char* g_pOption_SystemFrameworks = "$SystemFrameworks";
 const char* g_pOption_SystemLibraries = "$SystemLibraries";
 const char* g_pOption_BuildMultiArch = "$BuildMultiArch";
 const char* g_pOption_TreatWarningsAsErrors = "$TreatWarningsAsErrors";
@@ -56,12 +54,6 @@ bool VPC_IsPlatformLinux(const char* pPlatformName)
 		!V_stricmp_fast(pPlatformName, "LINUXSTEAMRTARM64HF");
 }
 
-bool VPC_IsPlatformOSX(const char* pPlatformName)
-{
-	return !V_stricmp_fast(pPlatformName, "OSX32") ||
-		!V_stricmp_fast(pPlatformName, "OSX64");
-}
-
 bool VPC_IsPlatformAndroid(const char* pPlatformName)
 {
 	return !V_stricmp_fast(pPlatformName, "ANDROIDARM32") ||
@@ -79,7 +71,6 @@ bool VPC_IsPlatform32Bits(const char* pPlatformName)
 		!V_stricmp_fast(pPlatformName, "ANDROIDX8632") ||
 		!V_stricmp_fast(pPlatformName, "LINUXSTEAMRTARM32HF") ||
 		!V_stricmp_fast(pPlatformName, "LINUX32") ||
-		!V_stricmp_fast(pPlatformName, "OSX32") ||
 		!V_stricmp_fast(pPlatformName, "WIN32");
 }
 
@@ -91,7 +82,6 @@ bool VPC_IsPlatform64Bits(const char* pPlatformName)
 		!V_stricmp_fast(pPlatformName, "LINUX64") ||
 		!V_stricmp_fast(pPlatformName, "LINUXSERVER64") ||
 		!V_stricmp_fast(pPlatformName, "LINUXSTEAMRTARM64HF") ||
-		!V_stricmp_fast(pPlatformName, "OSX64") ||
 		!V_stricmp_fast(pPlatformName, "WIN64");
 }
 

@@ -771,42 +771,7 @@ void CProjectGenerator_Makefile::WriteConfigSpecificStuff( CProjectConfiguration
             }
         }
 
-        if ( VPC_IsPlatformOSX( g_pVPC->conditionals.GetTargetPlatformName() ) )
-        {
-            CUtlString rgchFrameworkCompilerFlags;
-
-			const char *systemFrameworksString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_SystemFrameworks );
-            CSplitString systemFrameworks( systemFrameworksString, (const char**)g_IncludeSeparators, V_ARRAYSIZE( g_IncludeSeparators ) );
-            for ( int i = 0; i < systemFrameworks.Count(); i++ )
-            {
-                outBuf.Printf( "-framework %s ", systemFrameworks[i] );
-            }
-
-			const char *localFrameworksString = m_pVCProjGenerator->GetPropertyValueAsString(nullptr, pConfig->m_Name.Get(), KEYWORD_LINKER, g_pOption_LocalFrameworks );
-            CSplitString localFrameworks( localFrameworksString, (const char**)g_IncludeSeparators, V_ARRAYSIZE( g_IncludeSeparators ) );
-            for ( int i = 0; i < localFrameworks.Count(); i++ )
-            {
-                char rgchFrameworkName[MAX_BASE_FILENAME];
-                V_StripExtension( V_UnqualifiedFileName( localFrameworks[i] ), rgchFrameworkName, sizeof( rgchFrameworkName ) );
-                V_StripFilename( localFrameworks[i] );
-                outBuf.Printf( "-F%s ", localFrameworks[i] );
-                outBuf.Printf( "-framework %s ", rgchFrameworkName );
-                rgchFrameworkCompilerFlags.Append( "-F" );
-                rgchFrameworkCompilerFlags.Append( localFrameworks[i] );
-            }
-            outBuf.Printf( "\n" );
-
-            if ( !rgchFrameworkCompilerFlags.IsEmpty() )
-			{
-                // the colon here is important - and should probably get percolated to more places in our generated
-                // makefiles - it means to perform the assignment once, rather than at evaluation time
-                outBuf.Printf( "GCC_ExtraCompilerFlags:=$(GCC_ExtraCompilerFlags) %s\n", rgchFrameworkCompilerFlags.Get() );
-			}
-        }
-        else
-		{
-            outBuf.Printf( "\n" );
-		}
+        outBuf.Printf( "\n" );
     }
 		
 	const char *pMacroValue = g_pVPC->macros.GetValue( "_DLL_EXT" );

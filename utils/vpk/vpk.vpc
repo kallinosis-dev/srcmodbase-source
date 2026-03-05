@@ -11,16 +11,6 @@ $Macro OUTBINNAME   "bin\vpk_$PLATFORM"  [$LINUXALL||$OSXALL]
 $Include "$SRCDIR\vpc_scripts\source_exe_con_base.vpc"
 //$include "$SRCDIR\vpc_scripts\source_cryptlib_include.vpc"
 
-$Configuration
-{
-	$Linker
-	{
-		$SystemLibraries                    "iconv" [$OSXALL]
-		$SystemFrameworks					"Carbon" [$OSXALL]
-    }
-
-}
-
 $Configuration	"Debug"
 {
 	$Compiler

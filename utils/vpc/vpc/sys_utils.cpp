@@ -29,10 +29,6 @@
 #include <ShellAPI.h>
 #endif
 
-#ifdef OSX
-#include <mach-o/dyld.h>
-#endif
-
 CXMLWriter::CXMLWriter()
 {
 	m_WriteBuffer.SetBufferType( true, false );
@@ -731,11 +727,6 @@ bool Sys_GetExecutablePath( char *pBuf, int cbBuf )
 {
 #if defined( _WIN32 )
 	return ( 0 != GetModuleFileNameA(nullptr, pBuf, cbBuf ) );
-#elif defined(OSX)
-	uint32_t _nBuff = cbBuf;
-	bool bSuccess = _NSGetExecutablePath(pBuf, &_nBuff) == 0;
-	pBuf[cbBuf-1] = '\0';
-	return bSuccess;
 #elif defined LINUX
 	ssize_t nRead = readlink("/proc/self/exe", pBuf, cbBuf-1 );
 	if ( nRead != -1 )

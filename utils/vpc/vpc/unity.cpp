@@ -429,7 +429,6 @@ bool IsUnitySupportedForThisTargetPlatform( void )
 	// TODO: Only tested on WIN32/WIN64 so far... in theory should work for all platforms
 	const char *pPlatform = g_pVPC->conditionals.GetTargetPlatformName();
 	return ( VPC_IsPlatformWindows( pPlatform ) ||
-             VPC_IsPlatformOSX( pPlatform ) ||
              VPC_IsPlatformLinux( pPlatform ) ||
 			 VPC_IsPlatformAndroid( pPlatform ) );
 }

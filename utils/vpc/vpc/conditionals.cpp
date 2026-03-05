@@ -30,9 +30,6 @@ void CConditionalStorage::SetupDefaultConditionals()
 		CreateOrGet( "LINUXSTEAMRTARM32HF", CONDITIONAL_PLATFORM );
 		CreateOrGet( "LINUXSTEAMRTARM64HF", CONDITIONAL_PLATFORM );
 
-		CreateOrGet( "OSX32", CONDITIONAL_PLATFORM );
-		CreateOrGet( "OSX64", CONDITIONAL_PLATFORM );
-
 		CreateOrGet( "IOS", CONDITIONAL_PLATFORM );
 
 		CreateOrGet( "ANDROIDARM32", CONDITIONAL_PLATFORM );
@@ -160,11 +157,10 @@ const char * CConditionalStorage::GetTargetCompilerName()
     {
         return "GCC";
     }
-	else if ( !V_stricmp_fast( pPlatformName, "OSX32" ) ||
-              !V_stricmp_fast( pPlatformName, "OSX64" ) )
-	{
-        return "Clang";
-    }
+	//else if ( <<...>> )
+	//{
+    //    return "Clang";
+    //}
 
 	// TODO: support other platforms (needed by schemacompiler/clang)
 	ExecuteOnce( logging::Warning( "TODO: GetTargetCompilerName not yet implemented for platform %s!", pPlatformName ) );

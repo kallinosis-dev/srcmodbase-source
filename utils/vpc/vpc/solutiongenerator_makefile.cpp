@@ -111,9 +111,6 @@ public:
 		
 		fprintf( fp, "# to control parallelism, set the MAKE_JOBS environment variable\n" );
 		fprintf( fp, "ifeq ($(strip $(MAKE_JOBS)),)\n");
-		fprintf( fp, "    ifeq ($(shell $(UNAME)),Darwin)\n" );
-		fprintf( fp, "        CPUS := $(shell /usr/sbin/sysctl -n hw.ncpu)\n" );
-		fprintf( fp, "    endif\n" );
 		fprintf( fp, "    ifeq ($(shell $(UNAME)),Linux)\n" );
 		fprintf( fp, "        CPUS := $(shell $(TOOL_PATH)grep processor /proc/cpuinfo | $(TOOL_PATH)wc -l)\n" );
 		fprintf( fp, "    endif\n" );
