@@ -4696,64 +4696,6 @@ void GLMContext::DrawDebugText( float x, float y, float z, float drawCharWidth, 
 
 //===============================================================================
 
-void GLMgrSelfTests( void )	
-{
-	return;	// until such time as the tests are revised or axed
-	
-	GLMDisplayParams	glmParams;	
-	glmParams.m_fsEnable					=	false;
-
-	glmParams.m_vsyncEnable				=	false;	// "The runtime updates the window client area immediately and might do so more 
-	glmParams.m_backBufferWidth				=	1024;
-	glmParams.m_backBufferHeight			=	768;
-	glmParams.m_backBufferFormat			=	D3DFMT_A8R8G8B8;
-	glmParams.m_multiSampleCount			=	2;
-
-	glmParams.m_enableAutoDepthStencil		=	true;
-	glmParams.m_autoDepthStencilFormat		=	D3DFMT_D24S8;
-
-	glmParams.m_fsRefreshHz					=	60;
-
-	glmParams.m_mtgl						=	true;
-	glmParams.m_focusWindow					=	0;
-
-	// make a new context on renderer 0.
-	GLMContext *ctx = GLMgr::aGLMgr()->NewContext( NULL, &glmParams );	////FIXME you can't make contexts this way any more.
-	if (!ctx)
-	{
-		DebuggerBreak();		// no go
-		return;
-	}
-
-	// make a test object based on that context.
-	//int alltests[] = {0,1,2,3,   -1};
-	//int newtests[] = {3, -1};
-	int twotests[] = {2, -1};
-	//int notests[] = {-1};
-	
-	int *testlist = twotests;
-
-	GLMTestParams	params;
-	memset( &params, 0, sizeof(params) );
-
-	params.m_ctx = ctx;
-	params.m_testList = testlist;
-
-	params.m_glErrToDebugger = true;
-	params.m_glErrToConsole = true;
-	
-	params.m_intlErrToDebugger = true;
-	params.m_intlErrToConsole = true;
-	
-	params.m_frameCount = 1000;
-
-	GLMTester testobj( &params );
-
-	testobj.RunTests( );
-	
-	GLMgr::aGLMgr()->DelContext( ctx );
-}
-
 void GLMContext::SetDefaultStates( void )
 {
 	GLM_FUNC;

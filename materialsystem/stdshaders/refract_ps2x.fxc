@@ -10,7 +10,6 @@
 // STATIC: "SECONDARY_NORMAL"				"0..1"
 // STATIC: "MIRRORABOUTVIEWPORTEDGES"		"0..1"	[CONSOLE]
 // STATIC: "MIRRORABOUTVIEWPORTEDGES"		"0..0"	[PC]
-// STATIC: "SHADER_SRGB_READ"				"0..1"	[ps20b]
 // STATIC: "LOCALREFRACT"					"0..1"
 
 #include "common_fog_ps_fxc.h"
@@ -23,13 +22,6 @@
 
 #if defined( SHADER_MODEL_PS_2_0 )
 	#define WRITE_DEPTH_TO_DESTALPHA 0
-#endif
-
-#ifdef _X360
-	#ifdef SHADER_SRGB_READ
-		#undef SHADER_SRGB_READ
-	#endif
-	#define SHADER_SRGB_READ 1
 #endif
 
 #include "common_ps_fxc.h"
@@ -235,25 +227,6 @@ float4_color_return_type main( PS_INPUT i ) : COLOR
 		vResult.rgb += tex2D( RefractSampler, lower_2x1_loc ).rgb * 0.2222222;
 		vResult.rgb += tex2D( RefractSampler, singleton_loc ).rgb * 0.1111111;
 
-		#if ( SHADER_SRGB_READ )
-		{
-			// Just do this once rather than after every blur step, which is wrong, but much more efficient
-			if ( IsX360() )
-			{
-				#if defined( CSTRIKE15 )
-					// [mariod] - RT's are all 2.2 gamma in CSTRIKE15
-					vResult.rgb = GammaToLinear( vResult.rgb );
-				#else
-					vResult.rgb = X360GammaToLinear( vResult.rgb );
-				#endif
-			}
-			else
-			{
-				vResult.rgb = SrgbGammaToLinear( vResult.rgb );
-			}
-		}
-		#endif
-
 		float3 vUnblurredColor = tex2Dsrgb( RefractSampler, vRefractTexCoordNoWarp.xy ).rgb;
 		vResult.rgb = lerp( vUnblurredColor.rgb, vResult.rgb * vRefractTintColor.rgb, flBlend );
 	}
@@ -269,25 +242,6 @@ float4_color_return_type main( PS_INPUT i ) : COLOR
 				vResult.rgb += tex2D( RefractSampler, vRefractTexCoord.xy + float2( g_BlurFraction * x, g_BlurFraction * y ) ).rgb;
 			}
 		}
-
-		#if ( SHADER_SRGB_READ )
-		{
-			// Just do this once rather than after every blur step, which is wrong, but much more efficient
-			if ( IsX360() )
-			{
-				#if defined( CSTRIKE15 )
-					// [mariod] - RT's are all 2.2 gamma in CSTRIKE15
-					vResult.rgb = GammaToLinear( vResult.rgb );
-				#else
-					vResult.rgb = X360GammaToLinear( vResult.rgb );
-				#endif
-			}
-			else
-			{
-				vResult.rgb = SrgbGammaToLinear( vResult.rgb );
-			}
-		}
-		#endif
 
 		int nWidth = g_BlurCount * 2 + 1;
 		vResult.rgb *= 1.0f / ( nWidth * nWidth );

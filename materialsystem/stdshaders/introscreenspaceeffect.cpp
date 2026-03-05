@@ -62,7 +62,6 @@ BEGIN_VS_SHADER_FLAGS( IntroScreenSpaceEffect, "Help for IntroScreenSpaceEffect"
 			if ( g_pHardwareConfig->SupportsPixelShaders_2_b() || g_pHardwareConfig->ShouldAlwaysUseShaderModel2bShaders() ) // GL always goes the ps2b way for this shader, even on "ps20" parts
 			{
 				DECLARE_STATIC_PIXEL_SHADER( introscreenspaceeffect_ps20b );
-				SET_STATIC_PIXEL_SHADER_COMBO( LINEAR_TO_SRGB, false );
 				SET_STATIC_PIXEL_SHADER( introscreenspaceeffect_ps20b );
 			}
 			else

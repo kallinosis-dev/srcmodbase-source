@@ -237,7 +237,6 @@ void DrawRefract_DX9( CBaseVSShader *pShader, IMaterialVar** params, IShaderDyna
 			SET_STATIC_PIXEL_SHADER_COMBO( SECONDARY_NORMAL, bSecondaryNormal );
 			SET_STATIC_PIXEL_SHADER_COMBO( MIRRORABOUTVIEWPORTEDGES, bMirrorAboutViewportEdges );
 			SET_STATIC_PIXEL_SHADER_COMBO( MAGNIFY, bUseMagnification );
-			SET_STATIC_PIXEL_SHADER_COMBO( SHADER_SRGB_READ );
 			SET_STATIC_PIXEL_SHADER_COMBO( LOCALREFRACT, ( params[info.m_nLocalRefract]->GetIntValue() != 0 ) );
 			SET_STATIC_PIXEL_SHADER( refract_ps20b );
 		}
