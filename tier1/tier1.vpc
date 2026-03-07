@@ -133,8 +133,6 @@ $Project "tier1"
 			$File	"$SRCDIR\public\tier1\utltscache.h"
 		}
 
-		$file   "appinstance.cpp"
-
 		$File	"checksum_crc.cpp"
 		$File	"checksum_md5.cpp"
 		$File	"checksum_sha1.cpp"
@@ -175,7 +173,6 @@ $Project "tier1"
 		$File   "memoverride_dummy.cpp"
 		$File	"pathmatch.cpp" [$LINUXALL]
 
-		$File	"$SRCDIR\public\tier1\appinstance.h"
 		$File	"$SRCDIR\public\tier1\commandbuffer.h"
 		$File	"$SRCDIR\public\tier1\convar.h"
 		$File	"$SRCDIR\public\tier1\datamanager.h"
