@@ -451,7 +451,6 @@ inline void *InternalRealloc( void *pMem, size_t nNewSize, const char *pFileName
 	LMDValidateBlock( pInternalMem, false );
 	
 	return pInternalMem + 1;
-#endif
 	
 #else // WIN32
 	DbgMemHeader_t *pInternalMem = (DbgMemHeader_t *)pMem - 1;

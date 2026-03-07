@@ -1722,7 +1722,6 @@ PLATFORM_INTERFACE void				Plat_SetExitProcessWithErrorCB( ExitProcessWithErrorC
 
 // If OSX or Linux have 2GB of address space for 32-bit apps, then return true here when that case is detected
 // true = make memory tradeoffs for low-fragmentation (compact memory, use different patterns, etc)
-inline bool			Plat_NeedsLowFragmentation() { return true; }
 inline bool			Plat_NeedsLowFragmentation() { return false; }
 
 PLATFORM_INTERFACE int Plat_chmod(const char *filename, int pmode);
