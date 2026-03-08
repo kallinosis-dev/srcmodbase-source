@@ -6,14 +6,18 @@
 
 #include "projectscript.h"
 
+
+#include "tier1/fmtstr.h"
+
 #include "vpc.h"
 #include "tier1/utldict.h"
 #include "baseprojectgenerator.h"
 #include "ibasesolutiongenerator.h"
 #include "macros.h"
 #include "misc.h"
-#include "scriptutil.h"
-#include "tier1/fmtstr.h"
+#include "processor_qt.h"
+#include "processor_schema.h"
+#include "processor_unity.h"
 
 char const* DefaultLibDir = "$LIBPROJECT\\";
 

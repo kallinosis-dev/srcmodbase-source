@@ -4,6 +4,8 @@
 //
 //=====================================================================================//
 
+#include "processor_clang.h"
+
 #include "vpc.h"
 
 #include "baseprojectgenerator.h"

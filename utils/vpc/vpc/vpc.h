@@ -478,31 +478,6 @@ extern void					VPC_GetPreprocessorDefines( CProjectFile *pFile, CProjectConfigu
 extern void					VPC_GetIncludeDirectories(  CProjectFile *pFile, CProjectConfiguration *pRootConfig, CUtlVector< CUtlString > &includes );
 
 
-// ---------------- Qt feature --------------------------
-extern void					VPC_Qt_OnParseProjectStart( void );
-extern void					VPC_Qt_OnParseProjectEnd( class CVCProjGenerator *pDataCollector );
-extern void					VPC_Qt_TrackFile( const char *pName, bool bRemove, VpcFileFlags_t iFileFlags );
-extern CProjectFile *		VPC_Qt_GetGeneratedFile( CProjectFile *pInputFile, const char *pConfigName, CVCProjGenerator *pDataCollector );
-// ------------------------------------------------------
-
-
-// ---------------- Schema feature ----------------------
-extern void					VPC_Schema_OnParseProjectStart( void );
-extern void					VPC_Schema_OnParseProjectEnd( CVCProjGenerator *pDataCollector );
-extern void					VPC_Schema_TrackFile( const char *pName, bool bRemove, VpcFileFlags_t iFileFlags );
-extern void					VPC_Schema_ForceAdditionalDependencies( const char *pProjectName );
-extern CProjectFile *		VPC_Schema_GetGeneratedFile( CProjectFile *pInputFile, const char *pConfigName, CVCProjGenerator *pDataCollector );
-// ------------------------------------------------------
-
-
-// ---------------- Unity files feature -----------------
-extern void					VPC_Unity_OnParseProjectStart( void );
-extern void					VPC_Unity_OnParseProjectEnd( CVCProjGenerator *pDataCollector );
-extern bool					VPC_Unity_UpdateUnityFiles(char const* const* ppArgs, int nArgs);
-extern CProjectFile *		VPC_Unity_GetContainingUnityFile( CProjectFile *pInputFile, const char *pConfigName, CVCProjGenerator *pDataCollector );
-// ------------------------------------------------------
-
-
 // Get the included PCH file (returns "" if none)
 //  - sets 'bCreatesPCH'  to true if this file *creates* the PCH file
 //  - sets 'bExcludesPCH' to true if this file is specifically configured to *not* use a PCH file
@@ -517,10 +492,6 @@ extern void					VPC_GeneratePCHInfo(	CVCProjGenerator *pDataCollector, CProjectC
 													CUtlVector< CUtlString > &pchIncludeNames, CUtlVector< CUtlString > &pchCreatorNames,
 													CUtlVector< CUtlString > const *pRequiredPCHs = nullptr,
 													CUtlVector< CProjectFile * > *pFilesExcludingPCH = nullptr);
-
-// ---------------- Clang feature -----------------------
-extern void					VPC_Clang_OnParseProjectEnd( CVCProjGenerator *pDataCollector );
-// ------------------------------------------------------
 
 
 // -------------- Build-generated files -----------------

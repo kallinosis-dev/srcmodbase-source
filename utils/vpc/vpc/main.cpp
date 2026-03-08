@@ -1,6 +1,10 @@
 //===================== Copyright (c) Valve Corporation. All Rights Reserved. ======================
 //==================================================================================================
 
+
+#include "tier1/splitstring.h"
+#include "tier1/keyvalues.h"
+
 #include "vpc.h"
 
 #include "conditionals.h"
@@ -11,10 +15,9 @@
 #include "ibasesolutiongenerator.h"
 #include "macros.h"
 #include "misc.h"
+#include "processor_unity.h"
 #include "projectcache.h"
 #include "projectscript.h"
-#include "tier1/splitstring.h"
-#include "tier1/keyvalues.h"
 
 class IVCProjWriter;
 

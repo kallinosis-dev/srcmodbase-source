@@ -50,52 +50,89 @@ $Project "vpc"
 {
 	$Folder "Main code"
 	{
-		$Folder "Project generators"
+		$Folder "Input"
 		{
-			$File	"ibaseprojectgenerator.h"
 
-			
-			$File	"baseprojectgenerator.cpp"
-			$File	"baseprojectgenerator.h"
-
-			$File	"projectgenerator_android.cpp"
-			$File	"projectgenerator_vcproj.cpp"
-			$File	"projectgenerator_makefile.cpp"
-			$File	"projectgenerator_win32_2010.cpp"
-			$File	"projectgenerator_android.h"
-			$File	"projectgenerator_android.inc"
-			$file	"projectgenerator_win32_2010.h"
-			$File	"projectgenerator_win32_2010.inc"
-			$File	"projectgenerator_vcproj.h"
-			$File	"projectgenerator_makefile.h"
-			
-			$File	"generatordefinition.cpp"
-			$File	"generatordefinition.h"
-		
-			$File	"$SRCDIR/vpc_scripts/definitions/win32_2010.def"
 		}
 
-		$Folder "Solution geneartors"
+		$Folder "Group"
 		{
-			$File	"ibasesolutiongenerator.h"
-
-			$File	"solutiongenerator_makefile.cpp"
-			$File	"solutiongenerator_win32.cpp"
-		}
-
-		$Folder "Script"
-		{
-			$File	"scriptsource.cpp"
-			$File	"scriptsource.h"	
-			
-			$File 	"scriptutil.cpp"
-			$File	"scriptutil.h"
-
 			$File	"groupscript.cpp"
 			$File	"groupscript.h"
 
+			$File	"dependencies.cpp"		
+			$File	"dependencies.h"
+		}
+
+		$Folder "Project"
+		{
 			$File	"projectscript.cpp"
-			$File	"projectscript.h"
+			$File	"projectscript.h"		
+
+			$File	"projectconfiguration.cpp"
+
+			$File	"projectcache.cpp"
+			$File	"projectcache.h"
+
+			$Folder "Project generators"
+			{
+				$File	"ibaseprojectgenerator.h"
+
+				
+				$File	"baseprojectgenerator.cpp"
+				$File	"baseprojectgenerator.h"
+
+				$File	"projectgenerator_android.cpp"
+				$File	"projectgenerator_vcproj.cpp"
+				$File	"projectgenerator_makefile.cpp"
+				$File	"projectgenerator_win32_2010.cpp"
+				$File	"projectgenerator_android.h"
+				$File	"projectgenerator_android.inc"
+				$file	"projectgenerator_win32_2010.h"
+				$File	"projectgenerator_win32_2010.inc"
+				$File	"projectgenerator_vcproj.h"
+				$File	"projectgenerator_makefile.h"
+				
+				$File	"generatordefinition.cpp"
+				$File	"generatordefinition.h"
+			
+				$File	"$SRCDIR/vpc_scripts/definitions/win32_2010.def"
+			}
+		}
+
+		$Folder "Processors"
+		{
+			$File "processor_schema.h"
+			$File "processor_schema.cpp"
+
+			$File "processor_qt.h"
+			$File "processor_qt.cpp"
+
+			$File "processor_unity.h"
+			$File "processor_unity.cpp"
+
+			$File "processor_clang.h"
+			$File "processor_clang.cpp"
+		}
+
+		$Folder "Solution"
+		{
+			$Folder "Solution geneartors"
+			{
+				$File	"ibasesolutiongenerator.h"
+
+				$File	"solutiongenerator_makefile.cpp"
+				$File	"solutiongenerator_win32.cpp"
+			}
+		}
+
+		$Folder "Scope"
+		{
+
+			$File	"macros.cpp"
+			$File 	"macros.h"
+			$File	"conditionals.cpp"
+			$File 	"conditionals.h"
 		}
 
 		$File	"logging.cpp"
@@ -104,27 +141,18 @@ $Project "vpc"
 		$File	"main.cpp"
 		$File	"vpc.h"
 
-		$File	"clanggenerator.cpp"
-		$File	"conditionals.cpp"
-		$File 	"conditionals.h"
-		$File	"configuration.cpp"
-		$File	"dependencies.cpp"		
-		$File	"dependencies.h"
 		$File	"generated_files.cpp"
-		$File	"macros.cpp"
-		$File 	"macros.h"
 
-
-		$File	"projectcache.cpp"
-		$File	"projectcache.h"
+		$File	"scriptsource.cpp"
+		$File	"scriptsource.h"	
+		
+		$File 	"scriptutil.cpp"
+		$File	"scriptutil.h"
 
 		$File	"pch_helpers.cpp"
 
-		$File	"qtgenerator.cpp"
-		$File	"schemagenerator.cpp"	
 		$File	"sys_utils.cpp"
 		$file	"sys_utils.h"
-		$File	"unity.cpp"
 		$File	"updateautoexp.cpp"					[$WINDOWS]
 
 		$File	"../vpccrccheck/crccheck_shared.cpp"

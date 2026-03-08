@@ -4,6 +4,9 @@
 //
 //=====================================================================================//
 
+#include "processor_qt.h"
+#include "processor_schema.h"
+#include "processor_unity.h"
 #include "projectgenerator_vcproj.h"
 #include "vpc.h"
 
