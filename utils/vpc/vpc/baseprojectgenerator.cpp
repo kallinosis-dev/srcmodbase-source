@@ -103,7 +103,8 @@ bool CFileConfig::IsExcludedFrom( const char *pConfigName )
 
 CBaseProjectGenerator::CBaseProjectGenerator( CRelevantPropertyNames *pNames )
  :	m_BaseConfigData( "", VPC_FILE_FLAGS_NONE ),
-	m_Files( k_eDictCompareTypeFilenames )
+	m_Files( k_eDictCompareTypeFilenames ),
+	_debugCtx{ .name = "Project generator" }
 {
 	m_RelevantPropertyNames.m_nNames = 0;
 	m_RelevantPropertyNames.m_pNames = nullptr;
@@ -126,7 +127,7 @@ void CBaseProjectGenerator::StartProject(CScript* script)
 	m_ProjectName = "UNNAMED";
 	m_CurFileConfig.Push( &m_BaseConfigData );
 	m_CurSpecificConfig.Push(nullptr);
-	m_Script = script;
+	_debugCtx.script = m_Script = script;
 
 	// TODO: none of these support non-WIN32 platforms yet (this code emits the appropriate warnings)
 	g_pVPC->ShouldEmitClangProject();
@@ -134,23 +135,25 @@ void CBaseProjectGenerator::StartProject(CScript* script)
 
 void CBaseProjectGenerator::EndProject( bool bSaveData )
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	m_Script->EnsureScriptStackEmpty();
 
 	if ( g_pVPC->GetMissingFilesCount() > 0 )
 	{
 		if ( g_pVPC->IsMissingFileAsErrorEnabled() )
 		{
-			logging::Error( "%d files missing.", g_pVPC->GetMissingFilesCount() );
+			log.Error( "%d files missing.", g_pVPC->GetMissingFilesCount() );
 		}
 		else
 		{
-			logging::Warning( "%d files missing.", g_pVPC->GetMissingFilesCount() );
+			log.Warning( "%d files missing.", g_pVPC->GetMissingFilesCount() );
 		}
 	}
 
 	VPC_GenerateProjectDependencies( this );
 
-	m_Script = nullptr;
+	_debugCtx.script = m_Script = nullptr;
 }
 
 void CBaseProjectGenerator::Term()
@@ -332,7 +335,9 @@ bool CBaseProjectGenerator::RemoveFile( const char *pFilename )
 }
 
 void CBaseProjectGenerator::DoStandardVisualStudioReplacements( const char *pInitStr, CUtlStringBuilder *pStr, const char *pFullInputFilename )
-{	
+{
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	CUtlPathStringHolder inputDir;
 
 	char sFileBase[MAX_BASE_FILENAME];
@@ -348,7 +353,7 @@ void CBaseProjectGenerator::DoStandardVisualStudioReplacements( const char *pIni
 	{
 		if ( !inputDir.ExtractFilePath( pFullInputFilename ) )
 		{
-			logging::Error( "DoStandardVisualStudioReplacements:: V_ExtractFilePath failed on %s.", pFullInputFilename );
+			log.Error( "DoStandardVisualStudioReplacements:: V_ExtractFilePath failed on %s.", pFullInputFilename );
 		}
 
 		V_FileBase( pFullInputFilename, sFileBase, sizeof( sFileBase ) );

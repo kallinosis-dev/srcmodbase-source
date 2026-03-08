@@ -396,9 +396,10 @@ private:
     CUtlStringBuilder               m_MacroReplaceBuffer;
     CUtlStringBuilder               m_PropertyValueBuffer;
 
-    
+
+
 public:
-	
+	CDebugContext _debugCtx;
 
 
 	CUtlVector< scriptList_t >		m_ScriptList;

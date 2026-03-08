@@ -39,22 +39,24 @@ private:
 public:
 	static void ResolveHostVPCMacro(CMacro* pThis)
 	{
+		MAKE_CONTEXTUAL_LOGGER(&g_pVPC->_debugCtx);
+
 		const char* pProjectPath = g_pVPC->GetProjectPath();
 		if (!pProjectPath)
 		{
-			logging::Error("$HOST_VPC_EXE only evaluates relative to a project");
+			log.Error("$HOST_VPC_EXE only evaluates relative to a project");
 		}
 
 		char szExecutablePath[MAX_PATH * 2];
 		if (!Plat_GetExecutablePath(szExecutablePath, ARRAYSIZE(szExecutablePath)))
 		{
-			logging::Error("$HOST_VPC_EXE could not determine the path of the vpc executable");
+			log.Error("$HOST_VPC_EXE could not determine the path of the vpc executable");
 		}
 
 		char szRelative[MAX_PATH * 2];
 		if (!V_MakeRelativePath(szExecutablePath, pProjectPath, szRelative, ARRAYSIZE(szRelative)))
 		{
-			logging::Warning("$HOST_VPC_EXE could not turn the absolute path to a relative one");
+			log.Warning("$HOST_VPC_EXE could not turn the absolute path to a relative one");
 			V_strncpy(szRelative, szExecutablePath, ARRAYSIZE(szRelative));
 		}
 
@@ -70,8 +72,10 @@ public:
 #define _mktemp mktemp
 #endif
 
-CVPC::CVPC()
+CVPC::CVPC():
+	_debugCtx{.name = "VPC"}
 {
+
 	m_nArgc = 0;
 	m_ppArgv = nullptr;
 
@@ -266,6 +270,8 @@ int CVPC::GetProjectsInGroup(CUtlVector<projectIndex_t>& projectList, const char
 #if !defined( POSIX )
 bool CVPC::CheckBinPath(char* pOutBinPath, int outBinPathSize)
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	char szScriptPath[MAX_FIXED_PATH];
 	char szDirectory[MAX_FIXED_PATH];
 	char szLastDirectory[MAX_FIXED_PATH];
@@ -303,7 +309,7 @@ bool CVPC::CheckBinPath(char* pOutBinPath, int outBinPathSize)
 
 	if (!bFound)
 	{
-		logging::Error("Failed to determine source directory from current path. Expecting 'vpc_scripts' in source path.");
+		log.Error("Failed to determine source directory from current path. Expecting 'vpc_scripts' in source path.");
 	}
 
 	char szSourcePath[MAX_FIXED_PATH];
@@ -339,7 +345,7 @@ bool CVPC::CheckBinPath(char* pOutBinPath, int outBinPathSize)
 	}
 	else
 	{
-		logging::Error("Executable not running from 'devtools/bin' but from unexpected directory '%s'", szModuleBinPath);
+		log.Error("Executable not running from 'devtools/bin' but from unexpected directory '%s'", szModuleBinPath);
 	}
 
 	// mismatched, wierd bin patch could have been a result of user's environment path
@@ -353,7 +359,7 @@ bool CVPC::CheckBinPath(char* pOutBinPath, int outBinPathSize)
 
 	if (!Plat_FileExists(pOutBinPath))
 	{
-		logging::Error("Correct executeable missing, should be at '%s'", pOutBinPath);
+		log.Error("Correct executeable missing, should be at '%s'", pOutBinPath);
 	}
 
 	// yikes, wrong executeable was started, agreed behavior was to restart based on user's cwd
@@ -373,6 +379,8 @@ bool CVPC::CheckBinPath(char* pOutBinPath, int outBinPathSize)
 //-----------------------------------------------------------------------------
 void CVPC::DetermineSourcePath()
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	char szSourcePath[MAX_FIXED_PATH];
 	char szLastDirectory[MAX_FIXED_PATH];
 
@@ -409,7 +417,7 @@ void CVPC::DetermineSourcePath()
 
 	if (!bFound)
 	{
-		logging::Error("Failed to determine source directory from current path. Expecting 'vpc_scripts' in source path.");
+		log.Error("Failed to determine source directory from current path. Expecting 'vpc_scripts' in source path.");
 	}
 
 	// Remember the source path and restore the path to where it was.
@@ -418,7 +426,7 @@ void CVPC::DetermineSourcePath()
 
 	// emit source path, identifies MANY redundant user problems
 	// users can easily run from an unintended place due to botched path, mangled directories, etc
-	logging::StatusWithColor(true, Color(0, 255, 255, 255), "Source Path: %s", m_SourcePath.Get());
+	log.Status(Color(0, 255, 255, 255), "Source Path: %s", m_SourcePath.Get());
 }
 
 //-----------------------------------------------------------------------------
@@ -1070,6 +1078,8 @@ void CVPC::SetupAllGames(bool bSet)
 //-----------------------------------------------------------------------------
 void CVPC::ParseBuildOptions(int argc, char const* const* argv)
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	// parse options
 	// prefer +??? or -??? prefix syntax for groups and /??? for options because less confusing for new vpc users
 	// for ease we will support -??? prefix syntax for matched options as well
@@ -1081,7 +1091,7 @@ void CVPC::ParseBuildOptions(int argc, char const* const* argv)
 		{
 			if ((i + 1) >= argc)
 			{
-				logging::Error("/mksln requires a filename after it.");
+				log.Error("/mksln requires a filename after it.");
 			}
 
 			// If the next parameter is a standard + or - or / or * parameter, then we take that to be the name of the solution file.
@@ -1104,7 +1114,7 @@ void CVPC::ParseBuildOptions(int argc, char const* const* argv)
 			if (i >= argc || argv[i][0] == '+' || argv[i][0] == '-' || argv[i][0] == '/' || argv[i][0] == '*' || argv[i]
 				[0] == '@')
 			{
-				logging::Error("/slnitems <solution items filename>.");
+				log.Error("/slnitems <solution items filename>.");
 			}
 
 			m_SolutionItemsFilename = argv[i];
@@ -1113,7 +1123,7 @@ void CVPC::ParseBuildOptions(int argc, char const* const* argv)
 		{
 			if ((i + 1) >= argc)
 			{
-				logging::Error("/slnfolder <folder path with search pattern>.");
+				log.Error("/slnfolder <folder path with search pattern>.");
 			}
 
 			m_SolutionFolderNames.AddToTail(CUtlString(argv[i + 1]));
@@ -1125,7 +1135,7 @@ void CVPC::ParseBuildOptions(int argc, char const* const* argv)
 			if (i >= argc || argv[i][0] == '+' || argv[i][0] == '-' || argv[i][0] == '/' || argv[i][0] == '*' || argv[i]
 				[0] == '@')
 			{
-				logging::Error("/projsuffix <suffix>.");
+				log.Error("/projsuffix <suffix>.");
 			}
 
 			m_ProjectSuffixString = argv[i];
@@ -1137,13 +1147,13 @@ void CVPC::ParseBuildOptions(int argc, char const* const* argv)
 			if (i >= argc || argv[i][0] == '+' || argv[i][0] == '-' || argv[i][0] == '/' || argv[i][0] == '*' || argv[i]
 				[0] == '@')
 			{
-				logging::Error("/mirror <absolute path>.");
+				log.Error("/mirror <absolute path>.");
 			}
 
 			m_OutputMirrorString = argv[i];
 			if (!m_OutputMirrorString.IsEmpty() && !V_IsAbsolutePath(m_OutputMirrorString.Get()))
 			{
-				logging::Error("/mirror <path> requires an absolute path specification.");
+				log.Error("/mirror <path> requires an absolute path specification.");
 			}
 		}
 		else if (!V_stricmp_fast(pArg, "/source_file_config_filter"))
@@ -1153,7 +1163,7 @@ void CVPC::ParseBuildOptions(int argc, char const* const* argv)
 			if (i >= argc || argv[i][0] == '+' || argv[i][0] == '-' || argv[i][0] == '/' || argv[i][0] == '*' || argv[i]
 				[0] == '@')
 			{
-				logging::Error("/source_file_config_filter <filter string>.");
+				log.Error("/source_file_config_filter <filter string>.");
 			}
 
 			m_sourceFileConfigFilter = argv[i];
@@ -1171,6 +1181,8 @@ void CVPC::ParseBuildOptions(int argc, char const* const* argv)
 //-----------------------------------------------------------------------------
 void CVPC::GenerateOptionsCRCString()
 {
+	CContextualLogger log{&_debugCtx};
+
 	m_SupplementalCRCString = "_";
 	m_SupplementalCRCString += conditionals.GetCRCStringFromConditionals();
 
@@ -1182,7 +1194,7 @@ void CVPC::GenerateOptionsCRCString()
 		}
 	}
 
-	logging::Status(false, "CRC String: %s\n", m_SupplementalCRCString.String());
+	log.VerboseStatus("CRC String: %s\n", m_SupplementalCRCString.String());
 	projectCache.SetSupplementalString(m_SupplementalCRCString.Get());
 }
 
@@ -1192,6 +1204,8 @@ void CVPC::GenerateOptionsCRCString()
 //-----------------------------------------------------------------------------
 bool CVPC::RestartFromCorrectLocation(bool* pIsChild)
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 #if defined( POSIX )
 	return false;
 #else
@@ -1218,14 +1232,14 @@ bool CVPC::RestartFromCorrectLocation(bool* pIsChild)
 	{
 		if (bIsRestart)
 		{
-			logging::Error("Cyclical Restart: Tell A Programmer!, Aborting.");
+			log.Error("Cyclical Restart: Tell A Programmer!, Aborting.");
 		}
 
 		// replicate arguments, add /restart as a recursion guard for the new process
 		const char* newArgs[128];
 		if (m_nArgc >= V_ARRAYSIZE(newArgs) - 2)
 		{
-			logging::Error("Excessive Arguments: Tell A Programmer!, Aborting.");
+			log.Error("Excessive Arguments: Tell A Programmer!, Aborting.");
 		}
 		int i;
 		for (i = 0; i < m_nArgc; i++)
@@ -1249,7 +1263,7 @@ bool CVPC::RestartFromCorrectLocation(bool* pIsChild)
 		}
 
 		// called process could not be started
-		logging::Error("Restart of '%s' failed\n", szBinPath);
+		log.Error("Restart of '%s' failed\n", szBinPath);
 	}
 
 	// process is running from correct location
@@ -1362,9 +1376,10 @@ public:
 
 	static void ResolveValue(CMacro* pThis)
 	{
+		MAKE_CONTEXTUAL_LOGGER(&g_pVPC->_debugCtx);
 		if (!g_pVPC->GetProjectGenerator())
 		{
-			logging::Error("%s used before the project type has been determined", pThis->GetFullName());
+			log.Error("%s used before the project type has been determined", pThis->GetFullName());
 			((COutputFileMacro*)pThis)->m_Value = "";
 			return;
 		}
@@ -1500,16 +1515,22 @@ bool IProjectIterator::VisitProject(projectIndex_t iProject, const char* pScript
 //-----------------------------------------------------------------------------
 bool CVPC::BuildTargetProjects()
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	class CDefaultProjectIterator : public IProjectIterator
 	{
 	public:
 		bool VisitProject(projectIndex_t iProject, const char* pScriptPath) override
 		{
+			MAKE_CONTEXTUAL_LOGGER(&g_pVPC->_debugCtx);
+
 			bool bProjectDirty = IProjectIterator::VisitProject(iProject, pScriptPath);
 			if (!m_CRCCheckStatusSpew.IsEmpty())
 			{
-				bool bSpewCRCStatus = !g_pVPC->IsQuietValidSpew() || bProjectDirty;
-				logging::Status(bSpewCRCStatus, "%s", m_CRCCheckStatusSpew.Get());
+				if(!g_pVPC->IsQuietValidSpew() || bProjectDirty)
+					log.Status("%s", m_CRCCheckStatusSpew.Get());
+				else
+					log.VerboseStatus("%s", m_CRCCheckStatusSpew.Get());
 			}
 
 			if (!bProjectDirty)
@@ -1524,7 +1545,7 @@ bool CVPC::BuildTargetProjects()
 
 	if (!m_TargetProjects.Count())
 	{
-		logging::Error("No recognized project(s) to build.  Use /h or /projects or /groups to spew more info.");
+		log.Error("No recognized project(s) to build.  Use /h or /projects or /groups to spew more info.");
 	}
 
 	// Build the target projects:
@@ -1556,6 +1577,8 @@ bool CVPC::BuildTargetProjects()
 //-----------------------------------------------------------------------------
 void CVPC::FindProjectFromVCPROJ(const char* pScriptNameVCProj, int nMainArgc, char const* const* ppMainArgv)
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	// caller is specifying the output vcproj, i.e. via tool shortcut from within MSDEV to re-gen
 	// use the vpc standardized output vcproj name to determine re-gen parameters
 	// mod and platform will be seperated by '_' after the project name
@@ -1571,7 +1594,7 @@ void CVPC::FindProjectFromVCPROJ(const char* pScriptNameVCProj, int nMainArgc, c
 	}
 	if (projectName.Length() == 0)
 	{
-		logging::Error("Could not resolve '%s' to any known projects", pScriptNameVCProj);
+		log.Error("Could not resolve '%s' to any known projects", pScriptNameVCProj);
 	}
 
 	CUtlString projectSuffix = CUtlString(pScriptNameVCProj).StripExtension().Get() + projectName.Length();
@@ -1634,6 +1657,8 @@ void CVPC::FindProjectFromVCPROJ(const char* pScriptNameVCProj, int nMainArgc, c
 //-----------------------------------------------------------------------------
 void CVPC::SetMacrosAndConditionals()
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	// Find the target platform.
 	conditional_t* pPlatformConditional = nullptr;
 
@@ -1651,7 +1676,7 @@ void CVPC::SetMacrosAndConditionals()
 
 		// no no no, the user is not allowed to build multiple platforms simultaneously
 		// this prior feature really confused/crapped up the code, so absolutely not supporting that
-		logging::Warning("Detected multiple target platforms...Disabling '%s'", cnd->m_Name.String());
+		log.Warning("Detected multiple target platforms...Disabling '%s'", cnd->m_Name.String());
 		cnd->m_bDefined = false;
 	}
 
@@ -1676,14 +1701,14 @@ void CVPC::SetMacrosAndConditionals()
 		if (!pPlatformConditional)
 		{
 			// should never happen, likely a new platform that got setup incorrectly
-			logging::Error("Failed to determine target platform.");
+			log.Error("Failed to determine target platform.");
 		}
 
 		pPlatformConditional->m_bDefined = true;
 	}
 
 	CUtlString platformName = pPlatformConditional->m_Name;
-	logging::StatusWithColor(true, Color(0, 255, 255, 255), "Target Platform: %s", platformName.String());
+	log.Status(Color(0, 255, 255, 255), "Target Platform: %s", platformName.String());
 
 	// src_main doesn't want this #define because it conflicts with Python's SDK.
 	// It really should be called something else that won't conflict with the rest of the world.
@@ -1713,7 +1738,7 @@ void CVPC::SetMacrosAndConditionals()
 	if (m_bGenMakeProj &&
 		!bHaveMakefileTarget)
 	{
-		logging::Error("/genmakeproj can only be used with make targets like /linuxsteamrt64");
+		log.Error("/genmakeproj can only be used with make targets like /linuxsteamrt64");
 	}
 
 	// If we're running on Windows we default to generating
@@ -2145,6 +2170,8 @@ bool CVPC::HasCommandLineParameter(const char* pParamName) const
 bool CVPC::AreSolutionDepenenciesActual(CUtlPathStringHolder dependenciesPath,
                                         const CUtlVector<CDependency_Project*>& referencedProjects)
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	if (!Sys_Exists(dependenciesPath))
 		return false;
 
@@ -2152,7 +2179,7 @@ bool CVPC::AreSolutionDepenenciesActual(CUtlPathStringHolder dependenciesPath,
 
 	if (!Sys_LoadFileIntoBuffer(dependenciesPath, dependsFileTemp, true))
 	{
-		logging::Warning("Error reading dependencies file %s", dependenciesPath.Get());
+		log.Warning("Error reading dependencies file %s", dependenciesPath.Get());
 		return false;
 	}
 
@@ -2196,10 +2223,12 @@ bool CVPC::AreSolutionDepenenciesActual(CUtlPathStringHolder dependenciesPath,
 void CVPC::WriteSolutionDependencies(CUtlPathStringHolder dependenciesPath,
                                      const CUtlVector<CDependency_Project*>& referencedProjects)
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	FILE* file;
 	if (fopen_s(&file, dependenciesPath, "wt") != 0)
 	{
-		logging::Warning("Error opening solution dependencies file (%s) for write", dependenciesPath.Get());
+		log.Warning("Error opening solution dependencies file (%s) for write", dependenciesPath.Get());
 		return;
 	}
 
@@ -2215,11 +2244,13 @@ void CVPC::HandleMKSLN(IBaseSolutionGenerator* pSolutionGenerator,
                        IBaseSolutionGenerator* pSolutionGenerator2,
                        CProjectDependencyGraph& dependencyGraph)
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	if (!VPC_AreProjectDependenciesSupportedForThisTargetPlatform())
-		logging::Error("MKSLN not supported for %s yet!", conditionals.GetTargetPlatformName());
+		log.Error("MKSLN not supported for %s yet!", conditionals.GetTargetPlatformName());
 
 	if (!pSolutionGenerator)
-		logging::Error("No solution generator exists for this platform.");
+		log.Error("No solution generator exists for this platform.");
 
 	// can be called on behalf of /mksln (and thus have dependencies) or /p4sln (and need to create them based on CL #)
 	if (!dependencyGraph.HasGeneratedDependencies())
@@ -2252,7 +2283,7 @@ void CVPC::HandleMKSLN(IBaseSolutionGenerator* pSolutionGenerator,
 
 	if (!m_bForceGenerate && AreSolutionDepenenciesActual(dependenciesPath, referencedProjects))
 	{
-		logging::Status(true, "Keeping current solution.");
+		log.Status("Keeping current solution.");
 		return;
 	}
 	
@@ -2263,7 +2294,7 @@ void CVPC::HandleMKSLN(IBaseSolutionGenerator* pSolutionGenerator,
 		pSolutionGenerator2->GenerateSolutionFile(fullSolutionPath, referencedProjects);
 	}
 
-	logging::Status(true, "Updating solution dependencies file...");
+	log.Status("Updating solution dependencies file...");
 	WriteSolutionDependencies(dependenciesPath, referencedProjects);
 }
 
@@ -2271,6 +2302,8 @@ void CVPC::HandleMKSLN(IBaseSolutionGenerator* pSolutionGenerator,
 //-----------------------------------------------------------------------------
 void CVPC::DetermineSolutionGenerator()
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	extern IBaseSolutionGenerator*GetSolutionGenerator_Win32();
 	extern IBaseSolutionGenerator*GetMakefileSolutionGenerator();
 
@@ -2284,7 +2317,7 @@ void CVPC::DetermineSolutionGenerator()
 
 	if (bUseMakefile)
 	{
-		logging::StatusWithColor(true, Color(0, 255, 255, 255), "Using Makefile generator.");
+		log.Status(Color(0, 255, 255, 255), "Using Makefile generator.");
 
 		m_pSolutionGenerator = GetMakefileSolutionGenerator();
 
@@ -2300,7 +2333,7 @@ void CVPC::DetermineSolutionGenerator()
 			else if (m_bUse2012)
 				pVSName = "2012";
 
-			logging::StatusWithColor(true, Color(0, 255, 255, 255), "Generating Makefile for Visual Studio %s", pVSName);
+			log.Status(Color(0, 255, 255, 255), "Generating Makefile for Visual Studio %s", pVSName);
 			m_pSolutionGenerator2 = GetSolutionGenerator_Win32();
 		}
 	}
@@ -2309,28 +2342,28 @@ void CVPC::DetermineSolutionGenerator()
 		{
 			if (m_bUse2022)
 			{
-				logging::StatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2022.");
+				log.Status(Color(0, 255, 255, 255), "Generating for Visual Studio 2022.");
 			}
 			else if (m_bUse2015)
 			{
-				logging::StatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2015.");
+				log.Status(Color(0, 255, 255, 255), "Generating for Visual Studio 2015.");
 			}
 			else if (m_bUse2013)
 			{
-				logging::StatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2013.");
+				log.Status(Color(0, 255, 255, 255), "Generating for Visual Studio 2013.");
 			}
 			else if (m_bUse2012)
 			{
-				logging::StatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2012.");
+				log.Status(Color(0, 255, 255, 255), "Generating for Visual Studio 2012.");
 			}
 			else
 			{
-				logging::StatusWithColor(true, Color(0, 255, 255, 255), "Generating for Visual Studio 2010.");
+				log.Status(Color(0, 255, 255, 255), "Generating for Visual Studio 2010.");
 			}
 			m_pSolutionGenerator = GetSolutionGenerator_Win32();
 		}
 
-		logging::Status(true, "\n");
+		log.Status("\n");
 	}
 }
 
@@ -2416,6 +2449,8 @@ void CVPC::InProcessCRCCheck() const
 //-----------------------------------------------------------------------------
 const char* CVPC::BuildTempGroupScript(const char* pVPCScriptName)
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	CUtlPathStringHolder projectName(V_UnqualifiedFileName(pVPCScriptName));
 	projectName.StripExtension();
 
@@ -2428,7 +2463,7 @@ const char* CVPC::BuildTempGroupScript(const char* pVPCScriptName)
 	strcpy(tmpName, "vpcXXXXXX");
 	if (!_mktemp(tmpName))
 	{
-		logging::Error("Could not generate temp name. Tell a Programmer.\n");
+		log.Error("Could not generate temp name. Tell a Programmer.\n");
 	}
 
 	CUtlPathStringHolder tempGroupScriptFilename(tmpName, "vgc.tmp");
@@ -2438,7 +2473,7 @@ const char* CVPC::BuildTempGroupScript(const char* pVPCScriptName)
 	FILE* fp = fopen(m_TempGroupScriptFilename.Get(), "w+t");
 	if (!fp)
 	{
-		logging::Error("Could not open temp file '%s'. Tell a Programmer.\n", m_TempGroupScriptFilename.Get());
+		log.Error("Could not open temp file '%s'. Tell a Programmer.\n", m_TempGroupScriptFilename.Get());
 	}
 
 	CUtlPathStringHolder vpcScriptFilename;
@@ -2448,7 +2483,7 @@ const char* CVPC::BuildTempGroupScript(const char* pVPCScriptName)
 	const char* pVPCFilename = StringAfterPrefix(vpcScriptFilename, m_SourcePath.Get());
 	if (!pVPCFilename)
 	{
-		logging::Error("Script %s is not in source path %s\n", vpcScriptFilename.Get(), m_SourcePath.Get());
+		log.Error("Script %s is not in source path %s\n", vpcScriptFilename.Get(), m_SourcePath.Get());
 	}
 
 	if (pVPCFilename[0] == '\\')
@@ -2475,6 +2510,8 @@ const char* CVPC::BuildTempGroupScript(const char* pVPCScriptName)
 //-----------------------------------------------------------------------------
 int CVPC::ProcessCommandLine()
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	conditionals.SetupDefaultConditionals();
 
 	DetermineSourcePath();
@@ -2539,7 +2576,7 @@ int CVPC::ProcessCommandLine()
 
 	if (bScriptIsVPC)
 	{
-		logging::Warning("*** Using Explicit Local VPC Specification Override ***");
+		log.Warning("*** Using Explicit Local VPC Specification Override ***");
 
 		pScriptName = BuildTempGroupScript(pScriptName);
 		bScriptIsVPC = false;
@@ -2616,7 +2653,7 @@ int CVPC::ProcessCommandLine()
 
 	if (g_pVPC->GetTotalMissingFilesCount() > 0)
 	{
-		logging::Warning("\n%d Total Files Missing.", g_pVPC->GetTotalMissingFilesCount());
+		log.Warning("\n%d Total Files Missing.", g_pVPC->GetTotalMissingFilesCount());
 	}
 
 	return 0;

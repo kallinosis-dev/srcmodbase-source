@@ -70,6 +70,8 @@ bool VPC_GeneratedFiles_CreateFileConfigString( CSourceFileInfo &fileInfo, const
 //-----------------------------------------------------------------------------
 bool VPC_GeneratedFiles_GetPCHInfo( CSourceFileInfo &fileInfo, const CUtlVector< CProjectConfiguration *> &rootConfigs )
 {
+	MAKE_CONTEXTUAL_LOGGER(&g_pVPC->_debugCtx); // TODO: personal debug ctx
+
 	for ( int i = 0; i < rootConfigs.Count(); i++ )
 	{
 		CProjectFile *pCompiledFile = ( rootConfigs[i]->m_Name == "Debug" ) ? fileInfo.m_pDebugCompiledFile : fileInfo.m_pReleaseCompiledFile;
@@ -80,7 +82,7 @@ bool VPC_GeneratedFiles_GetPCHInfo( CSourceFileInfo &fileInfo, const CUtlVector<
 		VPC_GetPCHInclude( pCompiledFile, rootConfigs[i], pchName, fileInfo.m_bCreatesPCH, bExcludesPCH );
 		if ( ( i > 0 ) && ( pchName != fileInfo.m_PCHName ) )
 		{
-			logging::Warning( "VPC_GeneratedFiles_CreateFileConfigString: Unsupported PCH configuration for %s", pCompiledFile->m_Name.Get() );
+			log.Warning( "VPC_GeneratedFiles_CreateFileConfigString: Unsupported PCH configuration for %s", pCompiledFile->m_Name.Get() );
 			return false;
 		}
 		fileInfo.m_PCHName = pchName;
@@ -192,6 +194,8 @@ void VPC_GeneratedFiles_ProcessFolder( CProjectFolder *pFolder, CVCProjGenerator
 //-----------------------------------------------------------------------------
 void VPC_GeneratedFiles_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 {
+	MAKE_CONTEXTUAL_LOGGER(&g_pVPC->_debugCtx); // TODO: personal debug ctx
+
 	// This generates a build manifest file, which provides data for ValveVSAddin.
 
 	// Skip building the manifest during dependency-generation (we need to see all
@@ -222,6 +226,6 @@ void VPC_GeneratedFiles_OnParseProjectEnd( CVCProjGenerator *pDataCollector )
 	// Add the manifest file to the 'VPC Scripts' folder:
 	CProjectFolder *pVPCFolder;
 	if ( !pRootFolder->GetFolder( "VPC Scripts", &pVPCFolder ) )
-		logging::Error( "VPC_GeneratedFiles_OnParseProjectEnd: cannot find 'VPC Scripts' folder!" );
+		log.Error( "VPC_GeneratedFiles_OnParseProjectEnd: cannot find 'VPC Scripts' folder!" );
 	pDataCollector->AddFileToFolder( manifestName.Get(), pVPCFolder, true, VPC_FILE_FLAGS_DYNAMIC, nullptr);
 }

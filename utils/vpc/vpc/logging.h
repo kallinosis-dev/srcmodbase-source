@@ -36,10 +36,13 @@ struct CDebugContext {
 	IScope /*nullable*/ const* scope;
 };
 
+extern CDebugContext g_DefaultDebugContext;
+
+
 // Use a-la RAII wrapper, there isn't much reason to save it into fields.
 //
 // void SomethingWithACtx::DoStuff() {
-//      CContextualLogger log { this->GetDebugCtx() };
+//		MAKE_CONTEXTUAL_LOGGER_AUTO // Expects _debugCtx member of type CDebugContext
 //
 // 
 //      log.Status("Something happened");
@@ -48,7 +51,7 @@ struct CDebugContext {
 // }
 class CContextualLogger {
 public:
-	CContextualLogger(CDebugContext const* ctx);
+	CContextualLogger(CDebugContext /*nullable*/ const* ctx);
 	
 	void SetWriteScriptPosition(bool value);
 	bool GetWriteScriptPosition() const;
@@ -57,10 +60,10 @@ public:
 	bool GetWriteName() const;
 	
 	void VerboseStatus(PRINTF_FORMAT_STRING char const* fmt, ...) const FMTFUNCTION(2, 3);
-	void VerboseStatusColored(Color color, PRINTF_FORMAT_STRING char const* fmt, ...) const FMTFUNCTION(3, 4);
+	void VerboseStatus(Color color, PRINTF_FORMAT_STRING char const* fmt, ...) const FMTFUNCTION(3, 4);
 	
 	void Status(PRINTF_FORMAT_STRING char const* fmt, ...) const FMTFUNCTION(2, 3);
-	void StatusColored(Color color, PRINTF_FORMAT_STRING char const* fmt, ...) const FMTFUNCTION(3, 4);
+	void Status(Color color, PRINTF_FORMAT_STRING char const* fmt, ...) const FMTFUNCTION(3, 4);
 	
 	void Warning(PRINTF_FORMAT_STRING char const* fmt, ...) const FMTFUNCTION(2, 3);
 
@@ -79,3 +82,9 @@ private:
 	bool _writeScriptPosition = false;
 	bool _writeName = true;
 };
+
+#define MAKE_CONTEXTUAL_LOGGER_AUTO \
+	CContextualLogger log{&this->_debugCtx}
+
+#define MAKE_CONTEXTUAL_LOGGER(ctx) \
+	CContextualLogger log{(ctx)}

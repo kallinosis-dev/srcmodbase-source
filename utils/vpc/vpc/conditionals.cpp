@@ -12,6 +12,12 @@
 #include "vpc.h"
 
 struct CMacro;
+
+
+CConditionalStorage::CConditionalStorage(): _globalDebugCtx{"Conditionals"}
+{
+}
+
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
 void CConditionalStorage::SetupDefaultConditionals()
@@ -106,6 +112,8 @@ CUtlString CConditionalStorage::GetCRCStringFromConditionals()
 //-----------------------------------------------------------------------------
 const char * CConditionalStorage::GetTargetPlatformName()
 {
+	MAKE_CONTEXTUAL_LOGGER(&_globalDebugCtx);
+
 	auto platform_cond = std::ranges::find_if(
 		_conditionals, [](conditional_t const* cond)
 		{
@@ -117,7 +125,7 @@ const char * CConditionalStorage::GetTargetPlatformName()
 	{
 		// fatal - should have already been default set
 		Assert(0);
-		logging::Error("Unspecified platform.");
+		log.Error("Unspecified platform.");
 
 		return nullptr;
 	}
@@ -129,6 +137,8 @@ const char * CConditionalStorage::GetTargetPlatformName()
 //-----------------------------------------------------------------------------
 const char * CConditionalStorage::GetTargetCompilerName()
 {
+	MAKE_CONTEXTUAL_LOGGER(&_globalDebugCtx);
+
 	const char *pPlatformName = GetTargetPlatformName();
 	if ( !V_stricmp_fast( pPlatformName, "WIN32" ) ||
 		 !V_stricmp_fast( pPlatformName, "WIN64" ))
@@ -161,9 +171,10 @@ const char * CConditionalStorage::GetTargetCompilerName()
     //}
 
 	// TODO: support other platforms (needed by schemacompiler/clang)
-	ExecuteOnce( logging::Warning( "TODO: GetTargetCompilerName not yet implemented for platform %s!", pPlatformName ) );
+	ExecuteOnce( log.Warning( "TODO: GetTargetCompilerName not yet implemented for platform %s!", pPlatformName ) );
 	return "UNKNOWN";
 }
+
 //-----------------------------------------------------------------------------
 //	Case Insensitive. Returns true if platform conditional has been marked
 //	as defined.
@@ -235,19 +246,21 @@ conditional_t * CConditionalStorage::CreateOrGet( const char *pName, conditional
 	return _conditionals[index];
 }
 
-conditional_t* CConditionalStorage::SetImpl(const char* pName, bool bSet, conditionalType_e type, CScript const* script)
+conditional_t* CConditionalStorage::SetImpl(const char* pName, bool bSet, conditionalType_e type, CDebugContext const* dbgctx)
 {
+	MAKE_CONTEXTUAL_LOGGER(dbgctx);
+
 	conditional_t *pConditional = CreateOrGet( pName, type );
 	if ( !pConditional )
 	{
-		logging::Error( script, "Failed to find or create $%s conditional", pName );
+		log.Error( "Failed to find or create $%s conditional", pName );
 	}
 
-	logging::Status( false, "Set Conditional: $%s = %s", pConditional->m_UpperCaseName.Get(), ( bSet ? "1" : "0" ) );
+	log.VerboseStatus( "Set Conditional: $%s = %s", pConditional->m_UpperCaseName.Get(), ( bSet ? "1" : "0" ) );
 
 	if ( type != pConditional->m_Type )
 	{
-		logging::Error( script, "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get());
+		log.Error( "Cannot set reserved conditional '$%s'", pConditional->m_UpperCaseName.Get());
 	}
 
 	pConditional->m_bDefined = bSet;
@@ -255,10 +268,10 @@ conditional_t* CConditionalStorage::SetImpl(const char* pName, bool bSet, condit
 	return pConditional;
 }
 
-void CConditionalStorage::Set(const char* pName, bool bSet, conditionalType_e type, CScript const* script)
+void CConditionalStorage::Set(const char* pName, bool bSet, conditionalType_e type, CDebugContext const* dbgctx)
 {
 	Assert(type != CONDITIONAL_SYSTEM);
-	SetImpl(pName, bSet, type, script);
+	SetImpl(pName, bSet, type, dbgctx);
 }
 
 void CConditionalStorage::SetSystem(char const* pName, bool bSet)
@@ -303,8 +316,9 @@ bool CConditionalStorage::ConditionHasDefinedType( const char* pCondition, condi
 //-----------------------------------------------------------------------------
 //	Callback for expression evaluator.
 //-----------------------------------------------------------------------------
-bool CConditionalStorage::ResolveConditionalSymbol(const char* pSymbol, CScript const* script)
+bool CConditionalStorage::ResolveConditionalSymbol(const char* pSymbol, CDebugContext const* dbgctx)
 {
+	MAKE_CONTEXTUAL_LOGGER(dbgctx);
 	int offset = 0;
 
 	if ( ( pSymbol[0] == '$' && pSymbol[1] == '0' && pSymbol[2] == 0 ) ||
@@ -351,7 +365,7 @@ bool CConditionalStorage::ResolveConditionalSymbol(const char* pSymbol, CScript 
 		if ( pMacro )
 		{
 			// found a macro, and not allowed
-			logging::SyntaxError( script, "Macro '%s' detected in conditional expression and not allowed. Use \"$Conditional <name> <0/1>\"", pSymbol);
+			log.Error( "Macro '%s' detected in conditional expression and not allowed. Use \"$Conditional <name> <0/1>\"", pSymbol);
 		}
 	}
 
@@ -364,7 +378,7 @@ bool CConditionalStorage::ResolveConditionalSymbol(const char* pSymbol, CScript 
 //-----------------------------------------------------------------------------
 static bool ResolveSymbol( const char *pSymbol, void* ctx )
 {
-	return g_pVPC->conditionals.ResolveConditionalSymbol( pSymbol, (CScript const*) ctx);
+	return g_pVPC->conditionals.ResolveConditionalSymbol( pSymbol, (CDebugContext const*)ctx);
 }
 
 //-----------------------------------------------------------------------------
@@ -372,14 +386,18 @@ static bool ResolveSymbol( const char *pSymbol, void* ctx )
 //-----------------------------------------------------------------------------
 static void SymbolSyntaxError( const char *pReason, void* ctx )
 {
+	MAKE_CONTEXTUAL_LOGGER((CDebugContext const*) ctx);
+
 	// invoke internal syntax error hndling which spews script stack as well
-	logging::SyntaxError( (CScript const*) ctx, "%s", pReason);
+	log.Error( "Conditional syntax error: %s", pReason);
 }
 
 //-----------------------------------------------------------------------------
 //-----------------------------------------------------------------------------
-bool CConditionalStorage::EvaluateConditionalExpression(const char* pExpression, CScript const* script)
+bool CConditionalStorage::EvaluateConditionalExpression(const char* pExpression, CDebugContext const* dbgctx)
 {
+	MAKE_CONTEXTUAL_LOGGER(dbgctx);
+
 	if ( !pExpression || !pExpression[0] )
 	{
 		// empty string, same as not having a conditional
@@ -388,10 +406,10 @@ bool CConditionalStorage::EvaluateConditionalExpression(const char* pExpression,
 
 	bool bResult = false;
 	CExpressionEvaluator ExpressionHandler;
-	bool bValid = ExpressionHandler.Evaluate( bResult, pExpression, ::ResolveSymbol, ::SymbolSyntaxError, (void*) script );
+	bool bValid = ExpressionHandler.Evaluate( bResult, pExpression, ::ResolveSymbol, ::SymbolSyntaxError, (void*) dbgctx );
 	if ( !bValid )
 	{
-		logging::Error( "VPC Conditional Evaluation Error");
+		log.Error( "VPC Conditional Evaluation Error");
 	}
 
 	return bResult;
@@ -471,6 +489,6 @@ void CVPC::RestoreConditionals()
 	for (conditional_t* cond : *curStorage)
 	{
 		// Call CConditionalStorage::Set to update cached member bools:
-		conditionals.Set(cond->m_Name.Get(), cond->m_bDefined, cond->m_Type, nullptr);
+		conditionals.Set(cond->m_Name.Get(), cond->m_bDefined, cond->m_Type, &_debugCtx);
 	}
 }

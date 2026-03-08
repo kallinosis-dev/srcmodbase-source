@@ -150,9 +150,11 @@ CDependency_Project::CDependency_Project( CProjectDependencyGraph *pDependencyGr
 
 const char *CDependency_Project::GetProjectFileName( void )
 {
+	MAKE_CONTEXTUAL_LOGGER(&m_pDependencyGraph->_debugCtx);
+
 	if ( !m_pProjectGenerator )
 	{
-		logging::Error( "Could not determine project file name for \"%s\"", m_Filename.Get() );
+		log.Error( "Could not determine project file name for \"%s\"", m_Filename.Get() );
 	}
 
 	return m_pProjectGenerator->GetOutputFileName();
@@ -160,9 +162,11 @@ const char *CDependency_Project::GetProjectFileName( void )
 
 const char *CDependency_Project::GetProjectGUIDString( void )
 {
+	MAKE_CONTEXTUAL_LOGGER(&m_pDependencyGraph->_debugCtx);
+
 	if ( !m_pProjectGenerator )
 	{
-		logging::Error( "Could not determine project GUID for \"%s\"", m_Filename.Get() );
+		log.Error( "Could not determine project GUID for \"%s\"", m_Filename.Get() );
 	}
 
 	return m_pProjectGenerator->GetGUIDString();
@@ -195,9 +199,6 @@ public:
 	
 	void ScanProjectFile( CProjectDependencyGraph *pGraph, const char *szScriptName, CDependency_Project *pProject )
 	{
-		if ( !VPC_AreProjectDependenciesSupportedForThisTargetPlatform() ) // Should error-out further upstream than here...
-			logging::Error( "Cannot build project dependencies, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() );
-
 		m_ScriptName		 = szScriptName;
 		m_pDependencyGraph	 = pGraph;
 		m_pDependencyProject = pProject;
@@ -497,7 +498,7 @@ void VPC_GenerateProjectDependencies( CBaseProjectGenerator *pDataCollector )
 	CSingleProjectScanner::s_pSingleton->OnEndProject( pDataCollector );
 }
 
-CProjectDependencyGraph::CProjectDependencyGraph()
+CProjectDependencyGraph::CProjectDependencyGraph(): _debugCtx{"Project dependencies"}
 {
 	m_iDependencyMark = 1;
 	m_bHasGeneratedDependencies = false;
@@ -505,6 +506,8 @@ CProjectDependencyGraph::CProjectDependencyGraph()
 
 void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFlags, CUtlVector< projectIndex_t > *pAllowedProjects, CUtlVector< projectIndex_t > *pOverrideProjects )
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	g_pVPC->m_bIsDependencyPass = true;
 
 	// Have it iterate ALL projects in the list, with the current platform conditional.
@@ -565,7 +568,7 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 	if ( projectList.Count() )
 	{
 		
-		logging::Status( true, "\nBuilding project dependency set (libs only)..." );
+		log.Status( "\nBuilding project dependency set (libs only)..." );
 
 		if ( nBuildProjectDepsFlags & BUILDPROJDEPS_CHECK_ALL_PROJECTS )
 		{
@@ -579,12 +582,12 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 		}
 
 		// iterate projects, determine dependencies
-		CFastTimer timer;
-		timer.Start();
+		//CFastTimer timer;
+		//timer.Start();
 		logging::pacifier::Clear();
 		g_pVPC->IterateTargetProjects( projectList, this );
 		logging::pacifier::Break();
-		timer.End();
+		//timer.End();
 
 		// add in explicit dependencies
 		ResolveAdditionalProjectDependencies();
@@ -607,6 +610,8 @@ void CProjectDependencyGraph::BuildProjectDependencies( int nBuildProjectDepsFla
 
 void CProjectDependencyGraph::ResolveAdditionalProjectDependencies()
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	// projects support an explicit list of dependencies that need to be accounted for
 	for ( int iMainProject=0; iMainProject < m_Projects.Count(); iMainProject++ )
 	{
@@ -637,7 +642,7 @@ void CProjectDependencyGraph::ResolveAdditionalProjectDependencies()
 			if ( logging::IsVerbose() && ( j == m_Projects.Count() ) )
 			{
 				// not found
-				logging::Warning( "Project '%s' lists '%s' in its $AdditionalProjectDependencies, but there is no project by that name.", pMainProject->GetName(), pLookingFor );
+				log.Warning( "Project '%s' lists '%s' in its $AdditionalProjectDependencies, but there is no project by that name.", pMainProject->GetName(), pLookingFor );
 			}
 		}
 	}
@@ -650,6 +655,11 @@ bool CProjectDependencyGraph::HasGeneratedDependencies() const
 
 bool CProjectDependencyGraph::VisitProject( projectIndex_t iProject, const char *szProjectName )
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
+	if ( !VPC_AreProjectDependenciesSupportedForThisTargetPlatform() ) // Should error-out further upstream than here...
+		log.Error( "Cannot build project dependencies, not supported for %s yet", g_pVPC->conditionals.GetTargetPlatformName() );
+
 	// Read in the project.
 	if ( !Sys_Exists( szProjectName ) )
 	{
@@ -801,8 +811,12 @@ void CProjectDependencyGraph::ClearAllDependencyMarks()
 class CProjectDependencyGraphProjectFilter : public IProjectIterator
 {
 public:
+	explicit CProjectDependencyGraphProjectFilter(CDebugContext const* debugCtx): _debugCtx(debugCtx) {}
+
 	bool VisitProject( projectIndex_t iProject, const char *szProjectName ) override
 	{
+		MAKE_CONTEXTUAL_LOGGER(_debugCtx);
+
 		char szAbsolute[MAX_FIXED_PATH];
 		V_MakeAbsolutePath( szAbsolute, sizeof( szAbsolute ), szProjectName, nullptr, k_bVPCForceLowerCase );
 		
@@ -822,20 +836,23 @@ public:
 
 		if ( !bAdded )
 		{
-			logging::Warning( "Project Dependency Iteration: Project '%s' not recognized by dependency graph, skipping.\nProject is likely not part of \"Everything\" group.", szProjectName );
+			log.Warning( "Project Dependency Iteration: Project '%s' not recognized by dependency graph, skipping.\n"
+				"Project is likely not part of \"Everything\" group.", szProjectName );
 		}
 
 		return true;
 	}
 
 public:
+	CDebugContext const* _debugCtx;
+
 	const CUtlVector<CDependency_Project*> *m_pAllProjectsList;
 	CUtlVector<CDependency_Project*> *m_pOutProjectsList;
 };
 
 void CProjectDependencyGraph::TranslateProjectIndicesToDependencyProjects( CUtlVector<projectIndex_t> &projectList, CUtlVector<CDependency_Project*> &out ) const
 {
-	CProjectDependencyGraphProjectFilter iterator;
+	CProjectDependencyGraphProjectFilter iterator { &_debugCtx };
 	iterator.m_pAllProjectsList = &m_Projects;
 	iterator.m_pOutProjectsList = &out;
 

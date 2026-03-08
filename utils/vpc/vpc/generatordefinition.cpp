@@ -11,6 +11,8 @@
 
 void CGeneratorDefinition::IterateAttributesKey( ToolProperty_t *pProperty, KeyValues *pAttributesKV )
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	const char *pAttributeName = pAttributesKV->GetName();
 	const char *pValue = pAttributesKV->GetString( "" );
 
@@ -45,7 +47,7 @@ void CGeneratorDefinition::IterateAttributesKey( ToolProperty_t *pProperty, KeyV
 		else 
 		{
 			// unknown
-			logging::Error( "Unknown type '%s' in '%s'", pValue, pProperty->m_ParseString.Get() );
+			log.Error( "Unknown type '%s' in '%s'", pValue, pProperty->m_ParseString.Get() );
 		}
 	}
 	else if ( !V_stricmp_fast( pAttributeName, "alias" ) )
@@ -105,7 +107,7 @@ void CGeneratorDefinition::IterateAttributesKey( ToolProperty_t *pProperty, KeyV
 			const char *pOrdinalValue = pKV->GetString();
 			if ( !pOrdinalValue[0] )
 			{
-				logging::Error( "Unknown ordinal value for name '%s' in '%s'", pOrdinalName, pProperty->m_ParseString.Get() );
+				log.Error( "Unknown ordinal value for name '%s' in '%s'", pOrdinalName, pProperty->m_ParseString.Get() );
 			}
 
 			int iIndex = pProperty->m_Ordinals.AddToTail();
@@ -123,7 +125,7 @@ void CGeneratorDefinition::IterateAttributesKey( ToolProperty_t *pProperty, KeyV
 	}
 	else
 	{
-		logging::Error( "Unknown attribute '%s' in '%s'", pAttributeName, pProperty->m_ParseString.Get() );
+		log.Error( "Unknown attribute '%s' in '%s'", pAttributeName, pProperty->m_ParseString.Get() );
 	}
 }
 
@@ -180,6 +182,8 @@ void CGeneratorDefinition::IterateToolKey( KeyValues *pToolKV )
 
 void CGeneratorDefinition::AssignIdentifiers()
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	CUtlVector< bool > usedPropertyNames;
 	int nTotalPropertyNames = 0;
 	while ( m_pPropertyNames[nTotalPropertyNames].m_nPropertyId >= 0 )
@@ -197,7 +201,7 @@ void CGeneratorDefinition::AssignIdentifiers()
 		configKeyword_e keyword = g_pVPC->NameToKeyword( pTool->m_ParseString.Get() );
 		if ( keyword == KEYWORD_UNKNOWN )
 		{
-			logging::Error( "Unknown Tool Keyword '%s' in '%s'", pTool->m_ParseString.Get(), m_ScriptName.Get() );
+			log.Error( "Unknown Tool Keyword '%s' in '%s'", pTool->m_ParseString.Get(), m_ScriptName.Get() );
 		}
 		pTool->m_nKeyword = keyword;
 
@@ -244,7 +248,7 @@ void CGeneratorDefinition::AssignIdentifiers()
 			}
 			if ( !bFound )
 			{
-				logging::Error( "Could not find PROPERTYNAME( %s, %s ) for %s", prefixString.Get(), pPropertyName, m_ScriptName.Get() );
+				log.Error( "Could not find PROPERTYNAME( %s, %s ) for %s", prefixString.Get(), pPropertyName, m_ScriptName.Get() );
 			}
 		}
 	}
@@ -255,14 +259,17 @@ void CGeneratorDefinition::AssignIdentifiers()
 		{
 			if ( !usedPropertyNames[i] )
 			{
-				logging::Warning( "Unused PROPERTYNAME( %s, %s ) in %s", m_pPropertyNames[i].m_pPrefixName, m_pPropertyNames[i].m_pPropertyName, m_ScriptName.Get() );
+				log.Warning( "Unused PROPERTYNAME( %s, %s ) in %s", m_pPropertyNames[i].m_pPrefixName, m_pPropertyNames[i].m_pPropertyName, m_ScriptName.Get() );
 			}
 		}
 	}
 }
 
-CGeneratorDefinition::CGeneratorDefinition( const char *pDefinitionName, PropertyName_t *pPropertyNames )
+CGeneratorDefinition::CGeneratorDefinition( const char *pDefinitionName, PropertyName_t *pPropertyNames ):
+	_debugCtx{"Generator definition"}
 {
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
 	m_VersionString.Clear();
 	m_Tools.Purge();
 
@@ -301,7 +308,7 @@ CGeneratorDefinition::CGeneratorDefinition( const char *pDefinitionName, Propert
 	script.PopScript();
 	pScriptKV->deleteThis();
 
-	logging::Status( false, "Definition: '%s' Version: %s", m_NameString.Get(), m_VersionString.Get() );
+	log.VerboseStatus( "Definition: '%s' Version: %s", m_NameString.Get(), m_VersionString.Get() );
 
 	AssignIdentifiers();
 }

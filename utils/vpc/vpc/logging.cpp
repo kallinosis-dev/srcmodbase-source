@@ -89,6 +89,8 @@ void logging::pacifier::Break()
 
 //--------------------------------------------------------------------------------
 
+CDebugContext g_DefaultDebugContext { .name = nullptr };
+
 static Color clr_status = Color(255, 255, 255, 255);
 static Color clr_warn = Color(255, 255, 0, 255);
 static Color clr_err = Color(255, 0, 0, 255);
@@ -113,7 +115,7 @@ void CContextualLogger::VerboseStatus(char const* fmt, ...) const
 	Log_Msg(LOG_VPC, clr_status, "%s\n", finalMsg);
 }
 
-void CContextualLogger::VerboseStatusColored(Color color, char const* fmt, ...) const
+void CContextualLogger::VerboseStatus(Color color, char const* fmt, ...) const
 {
 	if(g_quiet || !g_verbose) return;
 
@@ -151,7 +153,7 @@ void CContextualLogger::Status(char const* fmt, ...) const
 	Log_Msg(LOG_VPC, clr_status, "%s\n", finalMsg);
 }
 
-void CContextualLogger::StatusColored(Color color, char const* fmt, ...) const
+void CContextualLogger::Status(Color color, char const* fmt, ...) const
 {
 	if(g_quiet) return;
 
@@ -226,7 +228,7 @@ void CContextualLogger::Error(char const* fmt, ...) const
 
 //--------------------------------------------------------------------------------
 
-CContextualLogger::CContextualLogger(CDebugContext const* ctx): _ctx(ctx)
+CContextualLogger::CContextualLogger(CDebugContext const* ctx): _ctx(ctx ? ctx : &g_DefaultDebugContext)
 {}
 
 void CContextualLogger::SetWriteScriptPosition(bool value)

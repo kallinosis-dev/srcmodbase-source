@@ -8,6 +8,8 @@
 #include "tier1/utlvector.h"
 #include "tier1/checksum_crc.h"
 
+#include "logging.h"
+
 class KeyValues;
 
 struct PropertyName_t
@@ -125,4 +127,6 @@ private:
 	CUtlString						m_VersionString;
 	CUtlVector< GeneratorTool_t >	m_Tools;
 	CRC32_t							m_ScriptCRC;
+
+	CDebugContext _debugCtx;
 };

@@ -60,8 +60,10 @@ private:
 	void Mark();
 	bool HasBeenMarked() const;
 
-	CProjectDependencyGraph *m_pDependencyGraph;
 	unsigned int m_iDependencyMark;
+
+protected:
+	CProjectDependencyGraph *m_pDependencyGraph;
 };
 
 
@@ -96,7 +98,8 @@ public:
 // This class builds a graph of all dependencies, starting at the projects.
 class CProjectDependencyGraph : public IProjectIterator
 {
-friend class CDependency;
+	friend class CDependency;
+	friend class CDependency_Project;
 
 public:
 	CProjectDependencyGraph();
@@ -140,6 +143,8 @@ public:
 	CUtlDict<CDependency*,int> m_AllFiles;	// All files go in here. They should never be duplicated. These are indexed by the full filename (except .lib files, which have that stripped off).
 
 private:
+	CDebugContext _debugCtx;
+
 	// Used when sweeping the dependency graph to prevent looping around forever.
 	unsigned int		m_iDependencyMark;
 	bool m_bHasGeneratedDependencies;	// Set to true after finishing BuildProjectDependencies.

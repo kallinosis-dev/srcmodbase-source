@@ -121,7 +121,7 @@ public:
 
 public:
 	void Term();
-	static void DoStandardVisualStudioReplacements(const char* pInitStr, CUtlStringBuilder* pStr,
+	void DoStandardVisualStudioReplacements(const char* pInitStr, CUtlStringBuilder* pStr,
 	                                               const char* pFullInputFilename);
 	static void DoShellScriptReplacements(CUtlStringBuilder* pStr);
 	static void DoBatchScriptReplacements(CUtlStringBuilder* pStr);
@@ -139,4 +139,6 @@ public:
 
 protected:
 	CScript* m_Script = nullptr;
+
+	CDebugContext _debugCtx;
 };

@@ -1,9 +1,11 @@
 #pragma once
 #include <ranges>
 
-#include "conditionals.h"
 #include "tier1/utlstring.h"
 #include "tier1/utlvector.h"
+
+#include "conditionals.h"
+#include "logging.h"
 
 
 class CScript;
@@ -47,6 +49,8 @@ class CConditionalStorage
 {
 
 public:
+	CConditionalStorage();
+
 	using Storage = CUtlVector< conditional_t* >;
 
 	// Returns the mask identifying what platforms should be built
@@ -57,10 +61,10 @@ public:
 
 	conditional_t*			Get(char const* pName);
 	conditional_t*			CreateOrGet(const char* pName, conditionalType_e type);
-	bool					ResolveConditionalSymbol(const char* pSymbol, /*nullable*/ CScript const* script);
-	bool					EvaluateConditionalExpression(const char* pExpression,  /*nullable*/ CScript const* script);
+	bool					ResolveConditionalSymbol(const char* pSymbol, /*nullable*/ CDebugContext const* dbgctx);
+	bool					EvaluateConditionalExpression(const char* pExpression,  /*nullable*/ CDebugContext const* dbgctx);
 	bool					ConditionHasDefinedType(const char* pCondition, conditionalType_e type);
-	void					Set(const char* pName, bool bSet, conditionalType_e type, /*nullable*/ CScript const* script);
+	void					Set(const char* pName, bool bSet, conditionalType_e type, /*nullable*/ CDebugContext const* dbgctx);
 	void					SetSystem(char const* pName, bool bSet);
 	bool					IsDefined(const char* pName);
 
@@ -92,9 +96,9 @@ public:
 	bool HasAny() const;
 
 private:
-	conditional_t* SetImpl(const char* pName, bool bSet, conditionalType_e type, /*nullable*/ CScript const* script);
+	conditional_t* SetImpl(const char* pName, bool bSet, conditionalType_e type, /*nullable*/ CDebugContext const* dbgctx);
 
 private:
 	Storage	_conditionals;
-
+	CDebugContext _globalDebugCtx;
 };
