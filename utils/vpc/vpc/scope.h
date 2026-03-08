@@ -1,20 +1,75 @@
+//
+// Purpose: Scope - a (usually hierarchical) container of conditionals and macros.
+//
+
 #pragma once
 #include "utlstring.h"
 #include "utlvector.h"
 
-class CDebugContext;
+#include "logging.h"
 
-struct CConditional2 {
-	CUtlString name;
-	CUtlString name_uppercase;
-	bool value;
+
+class CConditional2 {
+public:
+	enum EValue: byte
+	{
+		v_false = 0,
+		v_true = 1,
+		v_undefined = 2 // Forcibly undefine conditional in this scope
+	};
+
+	static char const* EValueToString(EValue val);
+
+
+public:
+	CConditional2(char const* name, EValue value = v_undefined);
+
+	char const* GetName() const;
+	char const* GetNameUppercase() const;
+
+	EValue GetValue() const;
+	char const* GetStringValue() const;
+	bool IsSet() const;
+	bool IsDefined() const;
+
+private:
+	void SetValue(EValue value);
+
+private:
+	CUtlString _name;
+	CUtlString _name_uppercase;
+	EValue _value = v_undefined;
 };
 
+constexpr size_t MAX_MACRO_NAME = 200; // Including \0
+
 struct CMacro2 {
-	CUtlString name; // Prefixed with $
-	CUtlString value;
-	
-	bool make_define;
+public:
+	// 'fullname' should start with $
+	CMacro2(char const* fullname, char /*nullable*/ const* value);
+
+	char const* GetFullName() const; // Name, prefixed with $
+	char const* GetName() const; // Name without $ prefix
+
+	size_t GetFullNameLength() const;
+	size_t getNameLength() const;
+
+	char /*nullable*/ const* GetValue() const;
+	size_t GetValueLength() const;
+	bool IsDefined() const;
+
+	bool GetMakePreprocessorDefine() const;
+
+private:
+	void SetValue(char /*nullable*/ const* value);
+	void SetMakePreprocessorDefine(bool value);
+
+private:
+	CUtlString _name; // Prefixed with $
+	CUtlString _value;
+
+	bool _defined = false;
+	bool _makePreprocessorDefine = false;
 };
 
 class IScope {
@@ -45,11 +100,12 @@ public:
 	
 	virtual CConditional2* SetConditional(char const* name, bool value = true) = 0;
 	virtual void UndefineConditional(char const* name) = 0;
-	
-	// IDK if extraCtx is actually needed
-	virtual bool EvaluateConditionalExpression(char const* expr, CDebugContext const* extraCtx = nullptr) = 0;
-	
-// Macros (the VPC macros, different from the MSBuild macros)
+
+	// If 'errorIfUndefined' is true and undefined conditional is found, output a fancy fatal error message (which terminates the program).
+	// If it is false, assume undefined conditionals are false.
+	virtual bool EvaluateConditionalExpression(char const* expr, bool errorIfUndefined = false) = 0;
+
+// Macros
 	virtual CMacro2 /*nullable*/ const* GetMacro(char const* name) const = 0;
 	
 	virtual CMacro2 /*nullable*/ const* GetLocalMacro(char const* name) const = 0;
@@ -64,11 +120,59 @@ public:
 	virtual CMacro2* SetMacro(char const* name, char const* value) = 0;
 	virtual void UndefineMacro(char const* name) = 0;
 	
-	// If 'expr' contains undefined macro references, it is considered to be an error.
-	// If 'errorOnUndefinedMacro' is true, this funciton will output a fancy fatal error message (which terminates the program).
-	// If it is false, the function just returns nullptr.
+	// 'panicOnError': if true, on errors outputs fatal error message and terminates the program.
+	// If false, returns false.
 	//
-	// Successfull evaluation never returns nullptr.
-	virtual char /*maybe nullable*/ const* EvaluateMacroExpression(
-		char const* expr, bool errorOnUndefinedMacro = true, CDebugContext const* extraCtx = nullptr) = 0;
+	// Successful evaluation returns true.
+	virtual bool EvaluateMacroExpression(char const* expr, CUtlStringBuilder& out, bool panicOnError = true)  = 0;
+};
+
+//----------------------------------------------------
+
+class CBaseScope : public IScope
+{
+public:
+	// Both script and name are used for debug/logging info
+	CBaseScope(CScript /*nullable*/ const* script, char const* name);
+
+	CDebugContext const* GetDebugCtx() const override;
+	char const* GetName() const override;
+
+	void DumpLocalState() const override;
+	void DumpState() const override = 0; // To stop DumpState(DumpStateInfo const&) hiding the virtual function.
+	void SetDumpOverwrites(bool value = true) override;
+
+
+
+// Conditionals
+	bool EvaluateConditionalExpression(char const* expr, bool errorIfUndefined = false) override;
+
+// Macros
+	bool EvaluateMacroExpression(char const* expr, CUtlStringBuilder& out, bool panicOnError = true) override;
+
+private:
+	bool ResolveConditionalSymbol(char const* symbol, bool errorIfUndefined) const;
+
+	CMacro2 const* FindLongestMatchingMacro(char const* start) const;
+
+protected:
+	struct DumpStateInfo
+	{
+		char const* Name;
+		CUtlVector<CConditional2 const*> Conditionals;
+		CUtlVector<CMacro2 const*> Macros;
+	};
+
+	bool GetDumpOverwrites() const;
+	void DumpConditionalOverwrite(CConditional2 const* newState) const;
+	void DumpMacroOverwrite(CMacro2 const* newState) const;
+	void DumpStateHierarchy(CUtlVector<DumpStateInfo> const& states) const;
+	void DumpState(DumpStateInfo const& state) const;
+
+private:
+	CUtlString _name;
+	bool _dumpOverwrites = false;
+
+protected:
+	CDebugContext _debugCtx;
 };
