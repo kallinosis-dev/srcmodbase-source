@@ -52,11 +52,15 @@ $Project "vpc"
 	{
 		$Folder "Input"
 		{
-
+			$File	"input.cpp"
+			$File	"input.h"
 		}
 
 		$Folder "Group"
 		{
+			$File	"group.cpp"
+			$File	"group.h"
+
 			$File	"groupscript.cpp"
 			$File	"groupscript.h"
 
@@ -66,6 +70,9 @@ $Project "vpc"
 
 		$Folder "Project"
 		{
+			$File	"project.cpp"
+			$File	"project.h"
+
 			$File	"projectscript.cpp"
 			$File	"projectscript.h"		
 
@@ -128,6 +135,8 @@ $Project "vpc"
 
 		$Folder "Scope"
 		{
+			$File	"scope.h"
+			$File	"scope.cpp"
 
 			$File	"macros.cpp"
 			$File 	"macros.h"
