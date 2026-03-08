@@ -548,11 +548,6 @@ void CScript::SpewScriptStack( bool bDueToError ) const
 	}
 }
 
-void CScript::SpewAllScriptStacks(bool bDueToError, CScript const* thisScript)
-{
-	static_assert(false);
-}
-
 const char *CScript::GetToken( bool bAllowLineBreaks )
 {
 	return GetToken( &m_pScriptData, bAllowLineBreaks, m_pScriptLine );

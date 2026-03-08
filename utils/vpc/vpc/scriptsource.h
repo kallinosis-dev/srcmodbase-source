@@ -64,7 +64,6 @@ public:
 	void			EnsureScriptStackEmpty() const;
 
 	void			SpewScriptStack( bool bDueToError ) const;
-	static void     SpewAllScriptStacks( bool bDueToError, CScript const* thisScript = nullptr);
 
 	const char		*GetName() const		{ return m_ScriptName.Get(); }
 	const char		*GetData() const 		{ return m_pScriptData; }
