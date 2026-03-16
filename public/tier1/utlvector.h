@@ -1429,6 +1429,10 @@ public:
 		AddToTail( pNewStr );
 	}
 
+	// copying directly will cause double-release of the same strings; maybe we need to do a deep copy,
+	// but unless and until such need arises, this will guard against double-release
+	CUtlStringList( const CUtlStringList &other ) = delete; 
+
 	static int __cdecl SortFunc( char * const * sz1, char * const * sz2 )
 	{
 		return strcmp( *sz1, *sz2 );
@@ -1455,8 +1459,6 @@ public:
 	{
 		V_SplitString2( pString, pSeparators, nSeparators, *this );
 	}
-private:
-	CUtlStringList( const CUtlStringList &other ); // copying directly will cause double-release of the same strings; maybe we need to do a deep copy, but unless and until such need arises, this will guard against double-release
 };
 
 
