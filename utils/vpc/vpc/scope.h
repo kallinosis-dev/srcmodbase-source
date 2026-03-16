@@ -7,16 +7,21 @@
 #include "utlvector.h"
 
 #include "logging.h"
+#include "utlmap.h"
 
+class IScope;
 
 class CConditional2 {
+	friend IScope;
+
 public:
-	enum EValue: byte
+	enum class EValue: byte
 	{
 		v_false = 0,
 		v_true = 1,
 		v_undefined = 2 // Forcibly undefine conditional in this scope
 	};
+	using enum EValue;
 
 	static char const* EValueToString(EValue val);
 
@@ -44,6 +49,8 @@ private:
 constexpr size_t MAX_MACRO_NAME = 200; // Including \0
 
 struct CMacro2 {
+	friend IScope;
+
 public:
 	// 'fullname' should start with $
 	CMacro2(char const* fullname, char /*nullable*/ const* value);
@@ -96,9 +103,10 @@ public:
 	virtual void GetConditionals(CUtlVector<CConditional2 const*>& out) const = 0;
 	virtual void GetLocalConditionals(CUtlVector<CConditional2 const*>& out) const = 0;
 	
-	virtual CConditional2* GetOrCreateLocalConditional(char const* name, bool defaultValue) const = 0;
-	
-	virtual CConditional2* SetConditional(char const* name, bool value = true) = 0;
+	virtual CConditional2* GetOrCreateLocalConditional(char const* name, CConditional2::EValue defaultValue, bool* outCreated = nullptr) = 0;
+
+	// Returns null if nothing changed.
+	virtual CConditional2 /*nullable*/* SetConditional(char const* name, bool value = true) = 0;
 	virtual void UndefineConditional(char const* name) = 0;
 
 	// If 'errorIfUndefined' is true and undefined conditional is found, output a fancy fatal error message (which terminates the program).
@@ -114,10 +122,11 @@ public:
 	virtual void GetMacros(CUtlVector<CMacro2 const*>& out) const = 0;
 	virtual void GetLocalMacros(CUtlVector<CMacro2 const*>& out) const = 0;
 	
-	virtual CMacro2* GetOrCreateLocalMacro(char const* name, char const* defaultValue) = 0;
+	virtual CMacro2* GetOrCreateLocalMacro(char const* name, char const* defaultValue, bool* outCreated = nullptr) = 0;
 	
 	// If value has macro expressions (value = "Example $OUTBINNAME"), they will not be evaluated.
-	virtual CMacro2* SetMacro(char const* name, char const* value) = 0;
+	// Returns null if nothing changed.
+	virtual CMacro2 /*nullable*/* SetMacro(char const* name, char const* value) = 0;
 	virtual void UndefineMacro(char const* name) = 0;
 	
 	// 'panicOnError': if true, on errors outputs fatal error message and terminates the program.
@@ -125,6 +134,14 @@ public:
 	//
 	// Successful evaluation returns true.
 	virtual bool EvaluateMacroExpression(char const* expr, CUtlStringBuilder& out, bool panicOnError = true)  = 0;
+
+protected:
+	// A way to access otherwise-private value setters.
+
+	static void SetValue(CConditional2* conditional, CConditional2::EValue value);
+
+	static void SetValue(CMacro2* macro, char /*nullable*/ const* value);
+	static void SetMakePreprocessorDefine(CMacro2* macro, bool value);
 };
 
 //----------------------------------------------------
@@ -139,7 +156,6 @@ public:
 	char const* GetName() const override;
 
 	void DumpLocalState() const override;
-	void DumpState() const override = 0; // To stop DumpState(DumpStateInfo const&) hiding the virtual function.
 	void SetDumpOverwrites(bool value = true) override;
 
 
@@ -164,10 +180,14 @@ protected:
 	};
 
 	bool GetDumpOverwrites() const;
+
+	// Call this when conditional defined in *local* scope is overwritten. 
 	void DumpConditionalOverwrite(CConditional2 const* newState) const;
+	// Call this when macro defined in *local* scope is overwritten.
 	void DumpMacroOverwrite(CMacro2 const* newState) const;
+
 	void DumpStateHierarchy(CUtlVector<DumpStateInfo> const& states) const;
-	void DumpState(DumpStateInfo const& state) const;
+	void DumpState_Impl(DumpStateInfo const& state) const;
 
 private:
 	CUtlString _name;
@@ -175,4 +195,65 @@ private:
 
 protected:
 	CDebugContext _debugCtx;
+};
+
+//----------------------------------------------------
+
+class CSimpleScope: public CBaseScope
+{
+public:
+	CSimpleScope(CScript const* script, char const* name);
+	~CSimpleScope();
+
+	// !! Override me if you are adding parent scopes !!
+	void DumpState() const override;
+
+	// Conditionals
+
+	// !! Override me if you are adding parent scopes !!
+	CConditional2 /*nullable*/ const* GetConditional(char const* name) const override;
+
+	CConditional2 /*nullable*/ const* GetLocalConditional(char const* name) const override;
+	CConditional2 /*nullable*/ * GetLocalConditional(char const* name) override;
+
+	// !! Override me if you are adding parent scopes !!
+	void GetConditionals(CUtlVector<CConditional2 const*>& out) const override;
+	void GetLocalConditionals(CUtlVector<CConditional2 const*>& out) const override;
+
+	CConditional2* GetOrCreateLocalConditional(char const* name, CConditional2::EValue defaultValue, bool* outCreated = nullptr) override;
+
+private:
+	// Returns null if nothing changed
+	CConditional2 /*maybe nullable*/ * SetConditionalImpl(char const* name, CConditional2::EValue value);
+
+public:
+	// Returns null if nothing changed.
+	CConditional2 /*nullable*/* SetConditional(char const* name, bool value = true) override;
+	void UndefineConditional(char const* name) override;
+
+// Macros
+	// !! Override me if you are adding parent scopes !!
+	CMacro2 /*nullable*/ const* GetMacro(char const* name) const override;
+
+	CMacro2 /*nullable*/ const* GetLocalMacro(char const* name) const override;
+	CMacro2 /*nullable*/ * GetLocalMacro(char const* name) override;
+
+	// !! Override me if you are adding parent scopes !!
+	void GetMacros(CUtlVector<CMacro2 const*>& out) const override;
+	void GetLocalMacros(CUtlVector<CMacro2 const*>& out) const override;
+
+	CMacro2* GetOrCreateLocalMacro(char const* name, char const* defaultValue, bool* outCreated = nullptr) override;
+
+private:
+	// Returns null if nothing changed.
+	CMacro2 /*nullable*/ * SetMacroImpl(char const* name, char /*nullable*/ const* value);
+
+public:
+	// Returns null if nothing changed.
+	CMacro2 /*nullable*/ * SetMacro(char const* name, char const* value) override;
+	void UndefineMacro(char const* name) override;
+
+private:
+	CUtlMap<CUtlString, CMacro2*> _macros;
+	CUtlMap<CUtlString, CConditional2*> _conditionals;
 };

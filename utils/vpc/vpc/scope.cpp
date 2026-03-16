@@ -1,7 +1,12 @@
 #include "scope.h"
 
+#include <ranges>
+
 #include "exprevaluator.h"
 #include "scriptutil.h"
+
+//--------------------------------------------------------------------------------
+// CConditional2
 
 char const* CConditional2::EValueToString(EValue val)
 {
@@ -48,6 +53,13 @@ void CConditional2::SetValue(EValue value)
 	_value = value;
 }
 
+
+void IScope::SetValue(CConditional2* conditional, CConditional2::EValue value)
+{
+	conditional->SetValue(value);
+}
+
+
 char const* CConditional2::GetStringValue() const
 {
 	return EValueToString(_value);
@@ -65,6 +77,7 @@ bool CConditional2::IsDefined() const
 
 
 //--------------------------------------------------------------------------------
+// CMacro2
 
 static bool IsValidMacroNameChar( char ch )
 {
@@ -131,6 +144,12 @@ void CMacro2::SetValue(char const* value)
 	}
 }
 
+
+void IScope::SetValue(CMacro2* macro, char const* value)
+{
+	macro->SetValue(value);
+}
+
 bool CMacro2::GetMakePreprocessorDefine() const
 {
 	return _makePreprocessorDefine;
@@ -143,7 +162,14 @@ void CMacro2::SetMakePreprocessorDefine(bool value)
 }
 
 
+void IScope::SetMakePreprocessorDefine(CMacro2* macro, bool value)
+{
+	macro->SetMakePreprocessorDefine(value);
+}
+
+
 //--------------------------------------------------------------------------------
+// CBaseScope
 
 CBaseScope::CBaseScope(CScript const* script, char const* name):
 	_name(name),
@@ -171,7 +197,7 @@ void CBaseScope::DumpLocalState() const
 	GetLocalMacros(ds.Macros);
 	
 	log.Status("Local scope dump:");
-	DumpState(ds);
+	DumpState_Impl(ds);
 }
 
 void CBaseScope::SetDumpOverwrites(bool value)
@@ -213,11 +239,11 @@ void CBaseScope::DumpStateHierarchy(CUtlVector<DumpStateInfo> const& states) con
 {
 	for (DumpStateInfo const& state : states)
 	{
-		DumpState(state);
+		DumpState_Impl(state);
 	}
 }
 
-void CBaseScope::DumpState(DumpStateInfo const& state) const
+void CBaseScope::DumpState_Impl(DumpStateInfo const& state) const
 {
 	MAKE_CONTEXTUAL_LOGGER_AUTO;
 
@@ -261,6 +287,7 @@ void CBaseScope::DumpState(DumpStateInfo const& state) const
 }
 
 //--------------------------------------------------------------------------------
+// CBaseScope conditional evaluation
 
 struct EvaluateCondExprCtx
 {
@@ -338,6 +365,7 @@ bool CBaseScope::ResolveConditionalSymbol(char const* symbol, bool errorIfUndefi
 
 
 //--------------------------------------------------------------------------------
+// CBaseScope macro evaluation
 
 bool CBaseScope::EvaluateMacroExpression(char const* expr, CUtlStringBuilder& out, bool panicOnError)
 {
@@ -426,4 +454,240 @@ CMacro2 const* CBaseScope::FindLongestMatchingMacro(char const* start) const
 	while (len != 0);
 
 	return nullptr;
+}
+
+//--------------------------------------------------------------------------------
+
+
+CSimpleScope::CSimpleScope(CScript const* script, char const* name): CBaseScope(script, name)
+{
+}
+
+CSimpleScope::~CSimpleScope()
+{
+	_conditionals.PurgeAndDeleteElements();
+	_macros.PurgeAndDeleteElements();
+}
+
+void CSimpleScope::DumpState() const
+{
+	MAKE_CONTEXTUAL_LOGGER_AUTO;
+
+	DumpStateInfo ds;
+	ds.Name = GetName();
+	GetLocalConditionals(ds.Conditionals);
+	GetLocalMacros(ds.Macros);
+	
+	log.Status("Scope dump:");
+	DumpState_Impl(ds);
+}
+
+
+//--------------------------------------------------------------------------------
+// CSimpleScope conditionals
+
+CConditional2 const* CSimpleScope::GetLocalConditional(char const* name) const
+{
+	if(auto i =  _conditionals.Find(name); _conditionals.IsValidIndex(i))
+	{
+		return _conditionals.Element(i);
+	}
+
+	return nullptr;
+}
+
+CConditional2* CSimpleScope::GetLocalConditional(char const* name)
+{
+	if(auto i =  _conditionals.Find(name); _conditionals.IsValidIndex(i))
+	{
+		return _conditionals.Element(i);
+	}
+
+	return nullptr;
+}
+
+CConditional2 const* CSimpleScope::GetConditional(char const* name) const
+{
+	return GetLocalConditional(name);
+}
+
+
+void CSimpleScope::GetLocalConditionals(CUtlVector<CConditional2 const*>& out) const
+{
+	out.EnsureCapacity( out.Count() + _conditionals.Count());
+
+	for (CConditional2* cond : 
+		_conditionals | std::ranges::views::transform([this](auto i) { return _conditionals.Element(i); }))
+	{
+		out.AddToTail(cond);
+	}
+}
+
+void CSimpleScope::GetConditionals(CUtlVector<CConditional2 const*>& out) const
+{
+	GetLocalConditionals(out);
+}
+
+
+CConditional2* CSimpleScope::GetOrCreateLocalConditional(char const* name, CConditional2::EValue defaultValue, bool* outCreated)
+{
+	if(CConditional2* cnd = GetLocalConditional(name))
+	{
+		if(outCreated)
+			*outCreated = false;
+
+		return cnd;
+	}
+
+	CConditional2* cnd = new CConditional2(name, defaultValue);
+
+	_conditionals.Insert(name, cnd);
+
+	if(outCreated)
+		*outCreated = true;
+
+	return cnd;
+}
+
+CConditional2* CSimpleScope::SetConditionalImpl(char const* name, CConditional2::EValue value)
+{
+	CConditional2 const* cndGlobal = GetConditional(name);
+	CConditional2::EValue valGlobal = cndGlobal ? cndGlobal->GetValue() : CConditional2::v_undefined;
+
+	if(valGlobal == value)
+		return nullptr;
+
+	bool created;
+	CConditional2* cnd = GetOrCreateLocalConditional(name, value, &created);
+
+	if(cnd->GetValue() != value)
+	{
+		SetValue(cnd, value);
+
+		if(!created)
+		{
+			DumpConditionalOverwrite(cnd);
+		}
+	}
+
+	return cnd;
+}
+
+CConditional2* CSimpleScope::SetConditional(char const* name, bool value)
+{
+	return SetConditionalImpl(name, value ? CConditional2::v_true : CConditional2::v_false);
+}
+
+void CSimpleScope::UndefineConditional(char const* name)
+{
+	SetConditionalImpl(name, CConditional2::v_undefined);
+}
+
+
+//--------------------------------------------------------------------------------
+// CSimpleScope macros
+
+
+CMacro2 const* CSimpleScope::GetLocalMacro(char const* name) const
+{
+	if(auto i =  _conditionals.Find(name); _conditionals.IsValidIndex(i))
+	{
+		return _macros.Element(i);
+	}
+
+	return nullptr;
+}
+
+CMacro2* CSimpleScope::GetLocalMacro(char const* name)
+{
+	if(auto i =  _conditionals.Find(name); _conditionals.IsValidIndex(i))
+	{
+		return _macros.Element(i);
+	}
+
+	return nullptr;
+}
+
+CMacro2 const* CSimpleScope::GetMacro(char const* name) const
+{
+	return GetLocalMacro(name);
+}
+
+void CSimpleScope::GetLocalMacros(CUtlVector<CMacro2 const*>& out) const
+{
+	out.EnsureCapacity( out.Count() + _macros.Count());
+
+	for (CMacro2* cond : 
+		_macros | std::ranges::views::transform([this](auto i) { return _macros.Element(i); }))
+	{
+		out.AddToTail(cond);
+	}
+}
+
+void CSimpleScope::GetMacros(CUtlVector<CMacro2 const*>& out) const
+{
+	GetLocalMacros(out);
+}
+
+
+CMacro2* CSimpleScope::GetOrCreateLocalMacro(char const* name, char const* defaultValue, bool* outCreated)
+{
+	if(CMacro2* macro = GetLocalMacro(name))
+	{
+		if(outCreated)
+			*outCreated = false;
+
+		return macro;
+	}
+
+	CMacro2* macro = new CMacro2 (name, defaultValue);
+
+	_macros.Insert(name, macro);
+
+	if(outCreated)
+		*outCreated = true;
+
+	return macro;
+}
+
+static bool streq_nullable(char const* s1, char const* s2)
+{
+	if(s1 == s2) 
+		return true;
+
+	return s1 && s2 && V_strcmp(s1, s2) == 0;
+}
+
+CMacro2* CSimpleScope::SetMacroImpl(char const* name, char const* value)
+{
+	CMacro2 const* macroGlobal = GetMacro(name);
+	char const* valGlobal = macroGlobal ? macroGlobal->GetValue() : nullptr;
+
+	if(streq_nullable(valGlobal, value))
+		return nullptr;
+
+	bool created;
+	CMacro2* macro = GetOrCreateLocalMacro(name, value, &created);
+
+	if(!streq_nullable(macro->GetValue(),value))
+	{
+		SetValue(macro, value);
+
+		if(!created)
+		{
+			DumpMacroOverwrite(macro);
+		}
+	}
+
+	return macro;
+}
+
+CMacro2* CSimpleScope::SetMacro(char const* name, char const* value)
+{
+	return SetMacroImpl(name, value);
+}
+
+void CSimpleScope::UndefineMacro(char const* name)
+{
+	SetMacroImpl(name, nullptr);
 }
