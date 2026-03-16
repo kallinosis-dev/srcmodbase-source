@@ -30,7 +30,7 @@ public:
 	CConditional2(char const* name, EValue value = v_undefined);
 
 	char const* GetName() const;
-	char const* GetNameUppercase() const;
+	size_t GetNameLength() const;
 
 	EValue GetValue() const;
 	char const* GetStringValue() const;
@@ -42,7 +42,6 @@ private:
 
 private:
 	CUtlString _name;
-	CUtlString _name_uppercase;
 	EValue _value = v_undefined;
 };
 
@@ -59,7 +58,7 @@ public:
 	char const* GetName() const; // Name without $ prefix
 
 	size_t GetFullNameLength() const;
-	size_t getNameLength() const;
+	size_t GetNameLength() const;
 
 	char /*nullable*/ const* GetValue() const;
 	size_t GetValueLength() const;
@@ -99,7 +98,8 @@ public:
 	
 	virtual CConditional2 /*nullable*/ const* GetLocalConditional(char const* name) const = 0;
 	virtual CConditional2 /*nullable*/ * GetLocalConditional(char const* name) = 0;
-	
+
+	// May contain multiple conditionals with the same name (i.e. from inheritance), first one has max priority. See DeduplicateConditionals.
 	virtual void GetConditionals(CUtlVector<CConditional2 const*>& out) const = 0;
 	virtual void GetLocalConditionals(CUtlVector<CConditional2 const*>& out) const = 0;
 	
@@ -118,7 +118,8 @@ public:
 	
 	virtual CMacro2 /*nullable*/ const* GetLocalMacro(char const* name) const = 0;
 	virtual CMacro2 /*nullable*/ * GetLocalMacro(char const* name) = 0;
-	
+
+	// May contain multiple macros with the same name (i.e. from inheritance), first one has max priority. See DeduplicateMacros.
 	virtual void GetMacros(CUtlVector<CMacro2 const*>& out) const = 0;
 	virtual void GetLocalMacros(CUtlVector<CMacro2 const*>& out) const = 0;
 	
@@ -143,6 +144,9 @@ protected:
 	static void SetValue(CMacro2* macro, char /*nullable*/ const* value);
 	static void SetMakePreprocessorDefine(CMacro2* macro, bool value);
 };
+
+void DeduplicateMacros(CUtlVector<CMacro2 const*>& macros, bool removeUndefined);
+void DeduplicateConditionals(CUtlVector<CConditional2 const*>& conds, bool removeUndefined);
 
 //----------------------------------------------------
 
@@ -172,22 +176,12 @@ private:
 	CMacro2 const* FindLongestMatchingMacro(char const* start) const;
 
 protected:
-	struct DumpStateInfo
-	{
-		char const* Name;
-		CUtlVector<CConditional2 const*> Conditionals;
-		CUtlVector<CMacro2 const*> Macros;
-	};
-
 	bool GetDumpOverwrites() const;
 
 	// Call this when conditional defined in *local* scope is overwritten. 
 	void DumpConditionalOverwrite(CConditional2 const* newState) const;
 	// Call this when macro defined in *local* scope is overwritten.
 	void DumpMacroOverwrite(CMacro2 const* newState) const;
-
-	void DumpStateHierarchy(CUtlVector<DumpStateInfo> const& states) const;
-	void DumpState_Impl(DumpStateInfo const& state) const;
 
 private:
 	CUtlString _name;
@@ -203,7 +197,7 @@ class CSimpleScope: public CBaseScope
 {
 public:
 	CSimpleScope(CScript const* script, char const* name);
-	~CSimpleScope();
+	~CSimpleScope() override;
 
 	// !! Override me if you are adding parent scopes !!
 	void DumpState() const override;
@@ -256,4 +250,23 @@ public:
 private:
 	CUtlMap<CUtlString, CMacro2*> _macros;
 	CUtlMap<CUtlString, CConditional2*> _conditionals;
+};
+
+//----------------------------------------------------
+
+class CInheritedScope: public CSimpleScope
+{
+public:
+	CInheritedScope(IScope const* parent, CScript const* script, char const* name);
+
+	void DumpState() const override;
+
+	CConditional2 const /*nullable*/ * GetConditional(char const* name) const override;
+	void GetConditionals(CUtlVector<CConditional2 const*>& out) const override;
+
+	CMacro2 /*nullable*/ const* GetMacro(char const* name) const override;
+	void GetMacros(CUtlVector<CMacro2 const*>& out) const override;
+
+private:
+	IScope const* _parent;
 };

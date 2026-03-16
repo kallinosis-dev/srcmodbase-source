@@ -27,8 +27,6 @@ char const* CConditional2::EValueToString(EValue val)
 CConditional2::CConditional2(char const* name, EValue value)
 {
 	_name = name;
-	_name_uppercase = _name;
-	_name_uppercase.ToUpper();
 
 	SetValue(value);
 }
@@ -38,9 +36,9 @@ char const* CConditional2::GetName() const
 	return _name.Get();
 }
 
-char const* CConditional2::GetNameUppercase() const
+size_t CConditional2::GetNameLength() const
 {
-	return _name_uppercase.Get();
+	return _name.Length();
 }
 
 CConditional2::EValue CConditional2::GetValue() const
@@ -108,7 +106,7 @@ size_t CMacro2::GetFullNameLength() const
 	return _name.Length() + 1;
 }
 
-size_t CMacro2::getNameLength() const
+size_t CMacro2::GetNameLength() const
 {
 	return _name.Length();
 }
@@ -167,7 +165,6 @@ void IScope::SetMakePreprocessorDefine(CMacro2* macro, bool value)
 	macro->SetMakePreprocessorDefine(value);
 }
 
-
 //--------------------------------------------------------------------------------
 // CBaseScope
 
@@ -191,13 +188,48 @@ void CBaseScope::DumpLocalState() const
 {
 	MAKE_CONTEXTUAL_LOGGER_AUTO;
 
-	DumpStateInfo ds;
-	ds.Name = _name.Get();
-	GetLocalConditionals(ds.Conditionals);
-	GetLocalMacros(ds.Macros);
-	
-	log.Status("Local scope dump:");
-	DumpState_Impl(ds);
+	CUtlVector<CConditional2 const*> conds;
+	GetLocalConditionals(conds);
+
+	CUtlVector<CMacro2 const*> macros;
+	GetLocalMacros(macros);
+
+	log.Status("Scope '%s'\n", _name.Get());
+	log.SetWriteName(false);
+
+	if(conds.IsEmpty())
+		log.Status("No conditionals defined/forcibly undefined");
+	else
+	{
+		log.Status("Conditionals:");
+		for( CConditional2 const* cond: conds)
+		{
+			log.Status("  %s %s%s", 
+				cond->GetName(), 
+				cond->IsDefined() ? "= " : "", 
+				cond->GetStringValue());
+		}
+
+		log.Status(""); // Just a newline
+	}
+
+	if(macros.IsEmpty())
+		log.Status("No macros defined/forcibly undefined");
+	else
+	{
+		log.Status("Macros:");
+		for ( CMacro2 const* macro: macros)
+		{
+			char const* define_postfix = macro->GetMakePreprocessorDefine() ? " (#define)" : "";
+
+			if(macro->IsDefined())
+				log.Status("  %s = \"%s\"%s", macro->GetName(), macro->GetValue(), define_postfix);
+			else
+				log.Status("  %s undefined%s", macro->GetName(), define_postfix);
+		}
+
+		log.Status(""); // Another newline
+	}
 }
 
 void CBaseScope::SetDumpOverwrites(bool value)
@@ -233,57 +265,6 @@ void CBaseScope::DumpMacroOverwrite(CMacro2 const* newState) const
 		log.Status("Macro '%s' overwritten to '%s'", newState->GetName(), newState->GetValue());
 	else
 		log.Status("Macro '%s' forcibly undefined", newState->GetName());
-}
-
-void CBaseScope::DumpStateHierarchy(CUtlVector<DumpStateInfo> const& states) const
-{
-	for (DumpStateInfo const& state : states)
-	{
-		DumpState_Impl(state);
-	}
-}
-
-void CBaseScope::DumpState_Impl(DumpStateInfo const& state) const
-{
-	MAKE_CONTEXTUAL_LOGGER_AUTO;
-
-	log.Status("Scope '%s'\n", state.Name);
-	log.SetWriteName(false);
-
-	if(state.Conditionals.IsEmpty())
-		log.Status("No conditionals defined/forcibly undefined");
-	else
-	{
-		log.Status("Conditionals:");
-		for( CConditional2 const* cond: state.Conditionals)
-		{
-			log.Status("  %s %s%s", 
-				cond->GetName(), 
-				cond->IsDefined() ? "= " : "", 
-				cond->GetStringValue());
-		}
-
-		log.Status(""); // Just a newline
-	}
-
-	if(state.Macros.IsEmpty())
-		log.Status("No macros defined/forcibly undefined");
-	else
-	{
-		log.Status("Macros:");
-		for ( CMacro2 const* macro: state.Macros)
-		{
-			char const* define_postfix = macro->GetMakePreprocessorDefine() ? " (#define)" : "";
-
-			if(macro->IsDefined())
-				log.Status("  %s = \"%s\"%s", macro->GetName(), macro->GetValue(), define_postfix);
-			else
-				log.Status("  %s undefined%s", macro->GetName(), define_postfix);
-		}
-
-		log.Status(""); // Another newline
-	}
-
 }
 
 //--------------------------------------------------------------------------------
@@ -457,6 +438,7 @@ CMacro2 const* CBaseScope::FindLongestMatchingMacro(char const* start) const
 }
 
 //--------------------------------------------------------------------------------
+// CSimpleScope
 
 
 CSimpleScope::CSimpleScope(CScript const* script, char const* name): CBaseScope(script, name)
@@ -471,15 +453,7 @@ CSimpleScope::~CSimpleScope()
 
 void CSimpleScope::DumpState() const
 {
-	MAKE_CONTEXTUAL_LOGGER_AUTO;
-
-	DumpStateInfo ds;
-	ds.Name = GetName();
-	GetLocalConditionals(ds.Conditionals);
-	GetLocalMacros(ds.Macros);
-	
-	log.Status("Scope dump:");
-	DumpState_Impl(ds);
+	DumpLocalState();
 }
 
 
@@ -690,4 +664,96 @@ CMacro2* CSimpleScope::SetMacro(char const* name, char const* value)
 void CSimpleScope::UndefineMacro(char const* name)
 {
 	SetMacroImpl(name, nullptr);
+}
+
+//--------------------------------------------------------------------------------
+// CInheritedScope
+
+CInheritedScope::CInheritedScope(IScope const* parent, CScript const* script, char const* name):
+	CSimpleScope(script, name), _parent(parent)
+{
+}
+
+CConditional2 const* CInheritedScope::GetConditional(char const* name) const
+{
+	if(CConditional2 const* cnd = GetLocalConditional(name))
+		return cnd;
+
+	return _parent->GetConditional(name);
+}
+
+void CInheritedScope::GetConditionals(CUtlVector<CConditional2 const*>& out) const
+{
+	GetLocalConditionals(out);
+	_parent->GetConditionals(out);
+
+}
+
+CMacro2 const* CInheritedScope::GetMacro(char const* name) const
+{
+	if(CMacro2 const* macro = GetLocalMacro(name))
+		return macro;
+
+	return _parent->GetMacro(name);
+}
+
+
+void CInheritedScope::GetMacros(CUtlVector<CMacro2 const*>& out) const
+{
+	GetLocalMacros(out);
+	_parent->GetMacros(out);
+}
+
+
+// ----
+// Related utility functions
+
+// O(things.Count() ^ 2) comparasions, each comparasion is O(name_length)
+template<typename T>
+void DedupliateThing(CUtlVector<T const*>& things, bool removeUndefined)
+{
+	CUtlVector<T const*> result(0, things.Count());
+
+	for (int i = things.Count() - 1; i >= 0; --i)
+	{
+		T const* ithing = things[i];
+		if(!ithing->IsDefined() && removeUndefined)
+		{
+			continue;
+		}
+
+		auto thingEqualName = [ithing](T const* findmac) -> bool
+		{
+			if(ithing->GetNameLength() != findmac->GetNameLength()) 
+				return false;
+			return streq_nullable(findmac->GetName(), ithing->GetName());
+		};
+
+		if(!std::ranges::none_of(result, thingEqualName))
+		{
+			result.AddToTail(ithing);
+		}
+	}
+
+	things = result;
+}
+
+
+void DeduplicateMacros(CUtlVector<CMacro2 const*>& macros, bool removeUndefined)
+{
+	DedupliateThing<CMacro2>(macros, removeUndefined);
+}
+
+void DeduplicateConditionals(CUtlVector<CConditional2 const*>& conds, bool removeUndefined)
+{
+	DedupliateThing<CConditional2>(conds, removeUndefined);
+}
+
+// End related utility functions
+// ----
+
+void CInheritedScope::DumpState() const
+{
+	DumpLocalState();
+	_parent->DumpState();
 }
